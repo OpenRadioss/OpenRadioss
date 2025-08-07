@@ -418,7 +418,7 @@ C XREM(111): KSFI(1)
 C XREM(112): KSFI(2)
 
       LOGICAL, DIMENSION(:), ALLOCATABLE :: TO_TRIM, FIRST_TEST
-C Pointeur dans XREM vers le debut des valeurs de l interface 24 & 25
+C Pointer in XREM to the beginning of interface 24 & 25 values
 C On utlise PANE_OLD
       INTEGER I24XREMP,IGAPXREMP,I24IREMP,I24IREMPNSNE
        
@@ -426,7 +426,7 @@ C On utlise PANE_OLD
       INTEGER, DIMENSION(:), ALLOCATABLE :: CURRENT_FI_SIZE
 
 C buffer envoi/reception forces interfaces
-C tableau de pointeurs NSVFI de taille NINTER
+C pointer array NSVFI of size NINTER
 C indiquant liste noeuds remote a recevoir du "proc main"
       TYPE(int_pointer), DIMENSION(:), ALLOCATABLE :: NSVFI
 
@@ -434,9 +434,9 @@ C Proc main of the secnd node. Assumes that only the main processor sends
 C secnds nodes
       TYPE(int_pointer), DIMENSION(:), ALLOCATABLE :: PMAINFI
 
-C tableau de pointeurs NSNFI de taille NINTER
-C indiquant pour chaque interface type7 le nb de noeuds secnd dans NSVFI
-C par processeur
+C pointer array NSNFI of size NINTER
+C indicating for each interface type7 the number of secondary nodes in NSVFI
+C per processor
       TYPE(int_pointer), DIMENSION(:), ALLOCATABLE :: 
      .  NSNFI, NSNFI_SAV, ITAFI, KINFI, MATSFI,IPARTFRICSFI,IF_ADHFI,
      .  IPARTFRIC_FIE,
@@ -455,7 +455,7 @@ C tableau i20 partie edge
      .  DIAG_SMSFIE,
 C tableau I18 Kine
      .  MTFI_PENE,MTFI_PENEMIN
-C tableaux frontieres interfaces pour X, V A ou FSKY
+C interface boundary arrays for X, V A or FSKY
       TYPE(real_pointer2), DIMENSION(:), ALLOCATABLE :: 
      .  XFI, VFI, AFI, FSKYFI, PENFI, PENFIA,MTFI_V,MTFI_A,
      .  I18KAFI,MTFI_N,DAANCFI,
@@ -475,36 +475,36 @@ C tableaux frontieres interfaces 20 pour DXANC,DVANC
 C tableaux frontieres interfaces 20 pour DAANC6
       TYPE(r8_pointer3), DIMENSION(:), ALLOCATABLE :: 
      .  DAANC6FI, DAANC6FIE
-C tableau de pointeurs ISKYFI de taille NINTER indiquant pour chaque interface
-C la liste des noeuds remote associe a une force dans FSKYI
+C pointer array ISKYFI of size NINTER indicating for each interface
+C the list of remote nodes associated with a force in FSKYI
       TYPE(int_pointer), DIMENSION(:), ALLOCATABLE :: ISKYFI,
 C tableau i20 partie edge
      .  ISKYFIE
-C tableau de pointeurs NSVSI de taille NINTER
+C pointer array NSVSI of size NINTER
 C indiquant liste noeuds remote a envoyer au "proc secnd"
       TYPE(int_pointer), DIMENSION(:), ALLOCATABLE :: NSVSI,
 C tableau i20 partie edge
      .  NSVSIE
-C tableau de pointeurs NSNSI de taille NINTER
-C indiquant pour chaque interface type7, 10, 11 le nb de noeuds secnd dans NSVSI
-C par processeur
+C pointer array NSNSI of size NINTER
+C indicating for each interface type7, 10, 11 the number of secondary nodes in NSVSI
+C per processor
       TYPE(int_pointer), DIMENSION(:), ALLOCATABLE :: NSNSI,
 C tableau i20 partie edge
      .  NSNSIE
-C tableau de pointeurs NISUBSFI de taille NINTER
-C indiquant pour chaque interface type7, 10 le nbre d elt dans LISUBSFI
-C par processeur
+C pointer array NISUBSFI of size NINTER
+C indicating for each interface type7, 10 the number of elements in LISUBSFI
+C per processor
       TYPE(int_pointer), DIMENSION(:), ALLOCATABLE :: NISUBSFI
-C tableau de pointeurs LISUBSFI de taille NINTER
-C indiquant pour chaque interface type7, 10, 24, 25 et pour chaque noeud remote de cette interface
-C la liste des sous interfaces
+C pointer array LISUBSFI of size NINTER
+C indicating for each interface type7, 10, 24, 25 and for each remote node of this interface
+C the list of sub-interfaces
       TYPE(int_pointer), DIMENSION(:), ALLOCATABLE :: LISUBSFI
-C tableau de pointeurs INFLG_SUBSFI de taille NINTER
-C indiquant pour chaque interface type25 et pour chaque noeud remote de cette interface
+C pointer array INFLG_SUBSFI of size NINTER
+C indicating for each interface type25 and for each remote node of this interface
 C l appartenance a S1, S2, ou GRNOD
       TYPE(int_pointer), DIMENSION(:), ALLOCATABLE :: INFLG_SUBSFI ,TAGNCONTFI
-C tableau de pointeurs ADDSUBSFI de taille NINTER
-C indiquant pour chaque interface type7, 10, 24, 25, et pour chaque noeud remote de cette interface
+C pointer array ADDSUBSFI of size NINTER
+C indicating for each interface type7, 10, 24, 25, and for each remote node of this interface
 C son adresse de depart dans LISUBSFI et INFLG_SUBSFI (tableau dimensionne a NSNR+1 (noeud remote + 1)
       TYPE(int_pointer), DIMENSION(:), ALLOCATABLE :: ADDSUBSFI
       TYPE(real_pointer2), DIMENSION(:), ALLOCATABLE :: FNCONTI, FTCONTI

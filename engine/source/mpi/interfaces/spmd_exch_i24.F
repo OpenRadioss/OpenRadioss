@@ -170,12 +170,12 @@ C-------------------------------------------------------------------------------
 C--------------------------------------------------------
 
 C Comm sur l'interface type 24
-C 1ere partie, on ramene sur le proc qui a les neouds slv les valeurs de IRTLM_FI + TIME_SFI & traitements
-C 2eme partie on les traite sur le proc  qui a les neouds slv les valeurs
+C First part, we bring back to the proc that has the slave nodes the values of IRTLM_FI + TIME_SFI & treatments
+C Second part, we process them on the proc that has the slave nodes the values
 C 3eme partie on renvoie sur les procs remotes lesvaleurs globalisees
 
 C--------------------------------------------------------
-C 1ere partie, on ramene sur le proc qui a les neouds slv les valeurs de IRTLM_FI + TIME_SFI
+C First part, we bring back to the proc that has the slave nodes the values of IRTLM_FI + TIME_SFI
 C--------------------------------------------------------
 
       LOC_PROC = ISPMD+1
@@ -187,7 +187,7 @@ C--------------------------------------------------------
       ALEN=10
 
 
-C Comptage des tailles de buffer  Reception et envoi
+C counting buffer sizes for reception and sending
       DO P=1,NSPMD
          IADR(P)=LENRV+1
          DO NI=1,NBINTC
@@ -201,7 +201,7 @@ C Comptage des tailles de buffer  Reception et envoi
       ENDDO
       IADR(NSPMD+1)=LENRV+1
 
-C Preparation du send
+C preparation of send
       IF(LENSD>0)THEN
           ALLOCATE(BBUFS(LENSD),STAT=IERROR)
           IF(IERROR/=0) THEN
@@ -211,7 +211,7 @@ C Preparation du send
       ENDIF
 
 C ---------------------------------------------
-C Preparation du recieve
+C preparation of receive
       IF(LENRV>0)THEN
           ALLOCATE(BBUFR(LENRV),STAT=IERROR)
           IF(IERROR/=0) THEN
@@ -417,7 +417,7 @@ cc                   ENDIF
           L=L+SIZ
       ENDDO        ! DO P=1, NSPMD
 
-C Fin du send
+C end of send
       DO P = 1, NSPMD
           IF (P==NSPMD)THEN
              SIZ=LENSD-IADS(P)
@@ -470,8 +470,8 @@ C Basic case : Secnd node is not part of an Edge
           ENDDO
       ENDIF
 C-----------------------------------------------------------
-C 2eme partie - echanges sur les noeuds seconds frontieres
-C               pour toutes les interface type 24.
+C Second part - exchanges on the secondary boundary nodes
+C               for all interface type 24.
 C-----------------------------------------------------------
       LEN=3
       IADS(1:NSPMD+1)=0
@@ -480,7 +480,7 @@ C-----------------------------------------------------------
         IADS(I)=IAD_I24(1,I)
       ENDDO
       IADS(NSPMD+1)=SFR_I24+1
-C Preparation du send
+C preparation of send
       ILEN=4
       RLEN=8
       ALLOCATE(ISENDBUF(4,SFR_I24))
@@ -605,12 +605,12 @@ C Traitements
 C Rien    faire
 
                    ELSEIF (TIME_S==0 .AND.SURF==0)THEN
-C On impose la valeur du nd candidat
+C We impose the value of the candidate node
                      INTBUF_TAB(NIN)%TIME_S(SN) = TIME_SR
                      INTBUF_TAB(NIN)%IRTLM(2*(SN-1)+1)   = IRECBUF(2+(IDB-1)*ILEN)
                      INTBUF_TAB(NIN)%IRTLM(2*(SN-1)+2) = IRECBUF(3+(IDB-1)*ILEN)
 
-C maintenant la maj vient bien d un candidat
+C now the update comes from a candidate
 
                    ELSEIF( TIME_S == -EP20 .AND. SURF == 0)THEN
 C Rien    faire
@@ -659,7 +659,7 @@ c rien a faire
                         ENDIF
                     ENDIF
                  
-C Max pour les SECND_FR
+C Max for SECND_FR
               IF (ABS(RRECBUF(2+(IDB-1)*RLEN)) > 
      *                 (ABS(INTBUF_TAB(NIN)%SECND_FR(6*(SN-1)+1)) ) )
      *                   INTBUF_TAB(NIN)%SECND_FR(6*(SN-1)+1) = RRECBUF(2+(IDB-1)*RLEN)
@@ -745,7 +745,7 @@ C Treat PENE_OLD(5
       IF(ALLOCATED(RRECBUF))DEALLOCATE(RRECBUF)
 
 C ------------------------------------------------------------------
-C 3e partie on renvoie les valeurs globalisees sur les procs remote
+C Third part we send back the globalized values to the remote procs
 C ------------------------------------------------------------------
       LEN=6
       LOC_PROC = ISPMD+1
@@ -755,7 +755,7 @@ C ------------------------------------------------------------------
       LENRV = 0
 
       ALEN=11
-C Comptage des tailles de buffer  Receeption et envoi
+C counting buffer sizes for reception and sending
       DO P=1,NSPMD
          IADR(P)=LENRV+1
          DO NIN=1,NINTER
@@ -776,7 +776,7 @@ C Comptage des tailles de buffer  Receeption et envoi
           ENDIF
       ENDIF
 
-C Preparation du recieve
+C preparation of receive
       IF(LENRV>0)THEN
           ALLOCATE(BBUFR(LENRV),STAT=IERROR)
           IF(IERROR/=0) THEN
@@ -807,7 +807,7 @@ C Send
            IF(NTY==24)THEN
                IEDG4 = IPARI(59,NIN)
                NB = NSNSI(NIN)%P(P)
-C Preparation du send
+C preparation of send
                DO NN=1,NB
                  ND = NSVSI(NIN)%P(IDEB(NIN)+NN)
                  NOD=INTBUF_TAB(NIN)%NSV(ND)
@@ -933,7 +933,7 @@ C           copy SECND_FRFI(1,2,3) into SECND_FRFI(4,5,6) & Flush SECND_FRFI to 
           ENDIF
       ENDDO
 
-C Fin du send
+C end of send
       DO P = 1, NSPMD
           IF (P==NSPMD)THEN
              SIZ=LENSD-IADS(P)

@@ -402,12 +402,12 @@ C--------------------------------------------------------
 C   ISTEP
 c      0 : rien  faire (>STIF=0...)
 c      1 : calcul Hi,pene... si ancien contact
-c                             si change de segment ou soustrianle st => ISTEP=3
+c                             if segment changes or subtract st => istep=3
 c                             sinon (ISTEP=0) plus rien  faire
 c      2 : algo d'intersection si pas de contact prcdent
 c                             si intersection => ISTEP=3
 c                             sinon plus rien  faire
-c      3 : algo de glissement
+c      3: sliding algorithm
 c                             si ne glisse pas                => ISTEP=5 
 c                             si glisse mais pas hors surface => ISTEP=4 
 c                             si glisse hors surface          => ISTEP=0 plus rien  faire
@@ -415,7 +415,7 @@ c      4 : algo de glissement !!!! not used
 c                             si ne glisse pas hors surface => ISTEP=5 
 c                             si glisse mais pas hors surface => ISTEP=4 
 c                             si glisse hors surface          => ISTEP=0 plus rien  faire
-c      5 : calcul Hi,pene ... pour nouveau contact ou ancien avec glissement
+c      5: compute hi, pene ... for new contact or previous with sliding
 c      
 c      6 : special shell plane/shell plance case: treated by node/edge(line) with Iedge=1
 C--------------------------------------------------------
@@ -1294,8 +1294,8 @@ c             convex
             LB(I) = LB(I)/AAA
         ENDIF
 
-c interpolation des normales si impact dans la zone
-c   +/- extension de surface
+c normal interpolation if impact in the zone
+c   +/- surface extension
         IF(IZLIM==1 .OR. ISPT2(I)>0)THEN
 C--------------- Use for calculate consisting Dpene in i24forc3       
             NM1(I) = N1(I)
@@ -1651,7 +1651,7 @@ C----- due to different algorithms used in starter/engine, it's more assurant to
         END IF!(IKEEP == 1)THEN
 C
       ENDDO
-!                numerotation des sous-triangles
+! numbering of sub-triangles
 !
 !                                      
 !                 6o------o5           
@@ -1816,8 +1816,8 @@ c     .         +GAP_NM(9,CAND_E(I))+GAP_NM(10,CAND_E(I))
 c     .        +GAP_NM(11,CAND_E(I))+GAP_NM(12,CAND_E(I)) /= ZERO)THEN
         IF(ISHEL(I)>0) THEN
 
-c        la normale sur les point 6 a 17 est approche
-c        pour la correction du gap (utilise pendant un seul cycle)
+c        the normal on points 6 to 17 is approximated
+c        for gap correction (used for only one cycle)
 
          BBB = SQRT(SX21140(I)*SX21140(I)
      +             +SY21140(I)*SY21140(I)
@@ -2278,7 +2278,7 @@ c a vrifier          4,IF(MVOISIN(4,CAND_E(I))==0)IT( 3, 1,I) = 0
         NY(I) = NQY
         NZ(I) = NQZ
 
-c       calcul des plans bisecteurs
+c       calculation of bisector planes
         NQRX = NRX + NQX
         NQRY = NRY + NQY
         NQRZ = NRZ + NQZ
@@ -2572,9 +2572,9 @@ c         scharp angle bound nodal normal to 45 from segment normal
         LC(I) = ONE - LA(I) - LB(I)
 
         IF(LA(I)>=ZERO.and.LB(I)>=ZERO.and.LC(I)>=ZERO)THEN
-c interpolation des normales
-c avec surponderation du point central (quadrangles)
-c avec surponderation de la facette (triangles)
+c normal interpolation
+c with overweighting of the central point (quadrangles)
+c with overweighting of the facet (triangles)
 c        goto 2345
 c          add ici
  2345     continue
@@ -2733,7 +2733,7 @@ c          ELSEIF(IX3(I) == IX4(I))THEN impossible
           N3(I) = N3(I)*S2
  3456     continue
         ENDIF
-c interpolation des normales seulement en glissement et en option avec implicite
+c normal interpolation only in sliding and optionally with implicit
 C------issue w/ sp too small value of S2----
         IF ((IMPL_S>0 .AND. ITTOFF>0))  THEN
 C        IF (ISPT2(I)>0.OR.(IMPL_S>0 .AND. ITTOFF>0))  THEN

@@ -47,7 +47,7 @@ C-----------------------------------------------
      .        X0,Y0,Z0,X1,Y1,Z1,X2,Y2,Z2,XR,YR,ZR,XM,YM,ZM,NORM
 C-----------------------------------------------
 C        NC : nombre de condition cinematique 
-C        IC : numero de la condition cinematique (1,NC)
+C        ic: number of the kinematic condition (1,nc)
 C        IK : 
 C        I  : numero global du noeud (1,NUMNOD)
 C        J  : direction 1,2,3,4,5,6

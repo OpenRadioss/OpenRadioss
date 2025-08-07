@@ -126,7 +126,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N, J, K
 C--------------------------------------
-C     ECRITURE DES DIMENSIONS
+C     WRITING DIMENSIONS
 C--------------------------------------
       DO N=1,NINTSTAMP
         INTSTAMP(N)%NOINTER=0
@@ -199,7 +199,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER LEN, N, J, NCOND
 C--------------------------------------
-C     ECRITURE DES DIMENSIONS
+C     WRITING DIMENSIONS
 C--------------------------------------
       DO N=1,NINTSTAMP
         LEN    =1
@@ -300,7 +300,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER LEN, N, NCOND, J, STAT
 C--------------------------------------
-C     ECRITURE DES DIMENSIONS
+C     WRITING DIMENSIONS
 C--------------------------------------
       DO N=1,NINTSTAMP
         LEN    =1

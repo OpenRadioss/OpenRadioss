@@ -109,7 +109,7 @@ C         Dir 2
           VZ = VZ*SUMA                 
 C         Orthogonalisation: 
 C         Dir1' = Dir1,  Dir3 = Dir1 x Dir2, Dir2' = Dir3 x Dir1
-C ON VEUT LA 3EME DIRECTION DE GAMA (ELEM -> ORTHO)
+C WE WANT THE 3RD DIRECTION OF GAMA (ELEM -> ORTHO)
           D1 = GAMA(I,2) * VZ - GAMA(I,3) * VY
           D2 = GAMA(I,3) * VX - GAMA(I,1) * VZ
           D3 = GAMA(I,1) * VY - GAMA(I,2) * VX
@@ -162,7 +162,7 @@ C         Dir 1 = Dir2 x Dir3
 c          UX = VY*WZ - VZ*WY
 c          UY = VZ*WX - VX*WZ
 c          UZ = VX*WY - VY*WX
-C         Orthogonalisation de la base dir2/dir3 : 
+C         Orthogonalization of the dir2/dir3 base :
 C         Dir2'/Dir3' = dir2/dir3 orthogonalize symmetriquement, Dir1=Dir3xDir2
 c          SUMA   = SQRT(S2/S3)                
 c          D1 = VX + (WY*UZ-WZ*UY)*SUMA

@@ -326,7 +326,7 @@ C-----------------------------------------------
       this%MUMPS_PAR%ICNTL(5) = 0
 !     matrice distribuee
       this%MUMPS_PAR%ICNTL(18) = 3
-!     taille de la matrice
+! matrix size
       this%MUMPS_PAR%N = MAT_DIM
 !     matrice sym  trique d  finie positive
       this%MUMPS_PAR%SYM = 1
@@ -334,7 +334,7 @@ C-----------------------------------------------
       this%MUMPS_PAR%ICNTL(20) = 10
 !     distributed solution
       !mumps_par%icntl(21) = 1
-!     un-distributed solution
+! un-distributed solution
       this%MUMPS_PAR%ICNTL(21) = 0
 !     info on solution
       this%MUMPS_PAR%ICNTL(11) = 1
@@ -625,7 +625,7 @@ C-----------------------------------------------
 
       DO IRHS = 1, this%NRHS
          this%SOL_VEC%VAL(1:SYSTEM_SIZE) = ZERO     
-!     initialisation du solver
+! solver initialization
          CALL PROD_VEC(this%MAT, this%SOL_VEC, this%TEMP)
          this%R%VAL(1:SYSTEM_SIZE) = this%RHS%VAL(SYSTEM_SIZE * (IRHS - 1) + 1 : SYSTEM_SIZE * (IRHS - 1) + SYSTEM_SIZE) - 
      .        this%TEMP%VAL(1:SYSTEM_SIZE)

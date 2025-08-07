@@ -292,7 +292,7 @@ c
 c
       !=======================================================================
       ! - COMPUTATION OF THE GLOBAL INCREMENTAL STIFFNESS MATRIX
-      ! (Vérifier si effet de Poisson purement numérique)
+      ! (Check if Poisson's effect is purely numerical)
       !=======================================================================
       CIJKL = ZERO
       CALL CONVERSION(ZXXMID  ,ZYYMID  ,ZZZMID  ,ZXYMID  ,ZYZMID  ,ZZXMID  ,  

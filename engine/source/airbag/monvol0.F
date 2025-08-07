@@ -102,7 +102,7 @@ C-----------------------------------------------
       TYPE(PYTHON_), INTENT(IN) :: PYTHON     
 C-----------------------------------------------
 C     N(3,*)  NORMALE STOCKEE DANS WA
-C     PORO(*) STOCKE DANS WA
+C     PORO(*) STORED IN WA
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

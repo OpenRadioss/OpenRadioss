@@ -698,7 +698,7 @@ C
 C       Cone
         IF(FAR(I,IT)==1 .OR. BB(I,IT) <= ZERO) THEN
 C
-C        tjrs regarder si l'on est dans le cone (permet de determiner dans quel cone on se trouve) 
+C        always check if you are in the cone (allows to determine in which cone you are)
 C
            X12(I)=XX(I,I2)-XX(I,I1)
            Y12(I)=YY(I,I2)-YY(I,I1)

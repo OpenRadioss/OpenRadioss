@@ -164,7 +164,7 @@ C
             YWL=RWBUF(5,N)
             ZWL=RWBUF(6,N)
           ELSE
-C verifier que ce noeud est sur proc0 !
+C check that this node is on proc0!
             XWL=X(1,MSR)
             YWL=X(2,MSR)
             ZWL=X(3,MSR)

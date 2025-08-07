@@ -357,7 +357,7 @@ C    ----sans frottement d'abord---
        KL11(2,3,I)=KN(4,I)*Q23
        KL11(3,3,I)=KN(4,I)*Q33
       ENDDO
-C    ----avec frottement --- 
+C    ----with friction ---
        DO J=1,3 
         DO K=J,3 
          DO I=1,JLT
@@ -408,7 +408,7 @@ C
          IF(NSVG(I)<0) THEN
             NN=-NSVG(I)
             NS=IND_INT(NIN)%P(NN)
-C---------pour diag_ss---
+C---------for diag_ss---
             FFI(1,NS)=ZERO
             FFI(2,NS)=ZERO
             FFI(3,NS)=ZERO
@@ -433,7 +433,7 @@ C---------pour diag_ss---
             N_E(1,NE)=NX(I)
             N_E(2,NE)=NY(I)
             N_E(3,NE)=NZ(I)
-C---------pour temporairement diag_ss---
+C---------temporarily for diag_ss---
             FFI(1,NS)=ZERO
             FFI(2,NS)=ZERO
             FFI(3,NS)=ZERO
@@ -692,7 +692,7 @@ C
         IF (PENE2<=ZERO) STIF(I) = ZERO
        ENDDO
 C--------------------------------------------------------
-C  CAS DES PAQUETS MIXTES
+C  CASE OF MIXED PACKETS
 C--------------------------------------------------------
        DO I=1,JLT
         D1 = SQRT(P1(I))

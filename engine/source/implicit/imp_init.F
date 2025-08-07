@@ -217,7 +217,7 @@ c-------------------------------------------------
       CALL  GRPREORDER(IPARG, IGROUC)
       DO IG = 1,NGROUP
         NG = IGROUC(IG)
-        MLW     = IPARG(1,NG)     ! type de loi mat
+        MLW     = IPARG(1,NG)     ! type of material law
         NEL     = IPARG(2,NG)
         NFT     = IPARG(3,NG)
         NPT     = IPARG(6,NG)
@@ -293,7 +293,7 @@ C------resulting model is not available
          END IF !(MLW==2.OR.MLW==36) THEN
        ENDIF   ! el type
 c -------------------------------------------------
-c       allocation des sub-structures de l'element buffer
+c       allocation of sub-structures of the element buffer
 c-------------------------------------------------
         IF (ITY /=1 .AND.ITY /=3 .AND.ITY /=7 ) CYCLE
         ALLOCATE (KTBUF_STR(NG)%MLAW_TAG(0:MAXLAW) ,STAT=ERR)
@@ -414,7 +414,7 @@ C=======================================================================
       CALL  GRPREORDER(IPARG, IGROUC)
       DO IG = 1,NGROUP
         NG = IGROUC(IG)
-        MLW     = IPARG(1,NG)     ! type de loi mat
+        MLW     = IPARG(1,NG)     ! type of material law
         NEL     = IPARG(2,NG)
         OFF     = IPARG(8,NG)
         ITY     = IPARG(5,NG)
@@ -436,7 +436,7 @@ C---- shell 3n,4n
         IF (MLW==2.OR.MLW==36.OR.MLW==78) L_ETFAC=1
        ENDIF   ! el type
 c -------------------------------------------------
-c       allocation des sub-structures de l'element buffer
+c       allocation of sub-structures of the element buffer
 c-------------------------------------------------
         IF (ITY /=1 .AND.ITY /=3 .AND.ITY /=7 ) CYCLE
         IF (L_ETFAC>0) THEN

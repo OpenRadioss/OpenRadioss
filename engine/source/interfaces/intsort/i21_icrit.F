@@ -139,7 +139,7 @@ C
                END IF
               END IF
 C
-C      Prepare test sur pas de temps sur l'interface
+C      prepare test on timestep on the interface
 C
               VX(KK) = MAX(VSLV(1,I)-VMSR(4,I),
      .                 VMSR(1,I)-VSLV(4,I),ZERO)
@@ -153,7 +153,7 @@ C
         END IF
       END DO
 C
-C test sur pas de temps sur l'interface (parith on spmd)
+C test on timestep on the interface (parith on spmd)
       IF(NSPMD>1) THEN
        CALL SPMD_I21CRIT(CRITERL,VX,VY,VZ,DIST0)
        IF(NBINTC21>0) THEN

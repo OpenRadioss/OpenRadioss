@@ -84,7 +84,7 @@ C
         F(3,NC)=F(3,NC)-F33(I)
         STIFN(NC)=STIFN(NC)+STI(I)
        ENDDO
-C---------avec voisins----------------------
+C---------with neighbors----------------------
        DO EP=JFT,NVS
         I =IVS(EP)
         NCJ = IXTG1(1,I)

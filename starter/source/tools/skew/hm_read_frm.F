@@ -244,7 +244,7 @@ C
         ENDIF
         ISKN(4,JJ)=ID
 C----------------
-C     FRAME MOBILE (CALCUL DE LA POSITION INITIALE)
+C     moving frame (initial position calculation)
 C----------------
         IF(IMOV==1)THEN
           N1=USR2SYS(N1,ITABM1,MESSF,ID)
@@ -257,7 +257,7 @@ C----------------
           ISKN(2,JJ)=N2
           ISKN(5,JJ)=IMOV
 C-----------------
-C     CALCUL DE X' et Y0'
+C     calculation of x' and y0'
 C-----------------
           IF(N2D==0)THEN
 c
@@ -311,7 +311,7 @@ C
              P(12)=X(3,N1)
           ENDIF
 C----------------
-C     TESTS DE CONSISTANCE
+C     consistency checks
 C----------------
           IF (IDIR == 1) PNOR1=SQRT(P(1)*P(1)+P(2)*P(2)+P(3)*P(3))
           IF (IDIR == 2) PNOR1=SQRT(P(4)*P(4)+P(5)*P(5)+P(6)*P(6))
@@ -325,7 +325,7 @@ C----------------
      .                  I3=ITAB(N2))
             RETURN
           ENDIF
-C     CALCUL DE COLINEARITE DES VECTEURS N1N2 ET N1N3
+C     calculation of collinearity of vectors n1n2 and n1n3
           IF (IDIR == 1) THEN
             PNOR2=SQRT(P(4)*P(4)+P(5)*P(5)+P(6)*P(6))
             IF(PNOR2>EM20) THEN
@@ -394,7 +394,7 @@ C     CALCUL DE COLINEARITE DES VECTEURS N1N2 ET N1N3
             ENDIF
           ENDIF
 C-----------------
-C     CALCUL DE Z'
+C     calculation of z'
 C-----------------
           IF (IDIR == 1) THEN
             P(7)=P(2)*P(6)-P(3)*P(5)
@@ -410,7 +410,7 @@ C-----------------
             P(6)=P(7)*P(2)-P(8)*P(1)
           ENDIF
 C-----------------
-C     CALCUL DE Y'
+C     calculation of y'
 C-----------------
           IF (IDIR == 1) THEN
             P(4)=P(8)*P(3)-P(9)*P(2)
@@ -467,7 +467,7 @@ C-----------------
           P(11)=X(2,N1)
           P(12)=X(3,N1)
 C----------------
-C       TESTS DE CONSISTANCE
+C       consistency checks
 C----------------
           PNOR1=SQRT(P(7)*P(7)+P(8)*P(8)+P(9)*P(9))
           IF (PNOR1 < EM20) THEN
@@ -478,7 +478,7 @@ C----------------
      .                  I1=ID,C1=TITR,
      .                  I3=ITAB(N2))
           ENDIF
-C       CALCUL DE COLINEARITE DES VECTEURS N1N2 ET N1N3
+C       calculation of collinearity of vectors n1n2 and n1n3
           PNOR2=SQRT(P(1)*P(1)+P(2)*P(2)+P(3)*P(3))
           IF (PNOR2 > EM20) THEN
             PNORM1=ONE/(PNOR1*PNOR2)
@@ -527,7 +527,7 @@ C----------------
           ISKN(3,JJ)=0
           IF (INOD==1) THEN
 C         defined with 3 nodes
-C---      CALCUL DE X' et Y0'
+Ccalculation of x' and y0'
             IF(N2D==0)THEN
               P(1)=X(1,N2)-X(1,N1)
               P(2)=X(2,N2)-X(2,N1)
@@ -554,7 +554,7 @@ C---      CALCUL DE X' et Y0'
               P(11)=X(2,N1)
               P(12)=X(3,N1)
             ENDIF
-C---      TESTS DE CONSISTANCE
+Cconsistency checks
             PNOR1=SQRT(P(1)*P(1)+P(2)*P(2)+P(3)*P(3))
             IF(PNOR1<EM20) THEN
               CALL ANCMSG(MSGID=162,
@@ -565,7 +565,7 @@ C---      TESTS DE CONSISTANCE
      .                    I3=ITAB(N2))
               RETURN
             ENDIF
-C---      CALCUL DE COLINEARITE DES VECTEURS N1N2 ET N1N3
+Ccalculation of collinearity of vectors n1n2 and n1n3
             PNOR2=SQRT(P(4)*P(4)+P(5)*P(5)+P(6)*P(6))
             IF(PNOR2>EM20) THEN
               PNORM1=1./(PNOR1*PNOR2)
@@ -587,24 +587,24 @@ C---      CALCUL DE COLINEARITE DES VECTEURS N1N2 ET N1N3
                 P(5)=TEN
               ENDIF
             ENDIF
-C---      CALCUL DE Z'
+Ccalculation of z'
             P(7)=P(2)*P(6)-P(3)*P(5)
             P(8)=P(3)*P(4)-P(1)*P(6)
             P(9)=P(1)*P(5)-P(2)*P(4)
-C---      CALCUL DE Y'
+Ccalculation of y'
             P(4)=P(8)*P(3)-P(9)*P(2)
             P(5)=P(9)*P(1)-P(7)*P(3)
             P(6)=P(7)*P(2)-P(8)*P(1)
           ELSE
 C         defined with 1 node and 2 vectors
-C---      CALCUL DE X'
+Ccalculation of x'
             P(10)=X(1,N1)
             P(11)=X(2,N1)
             P(12)=X(3,N1)
             P(1)=P(5)*P(9)-P(6)*P(8)
             P(2)=P(6)*P(7)-P(4)*P(9)
             P(3)=P(4)*P(8)-P(5)*P(7)
-C---      CALCUL DE Y'
+Ccalculation of y'
             P(4)=P(8)*P(3)-P(9)*P(2)
             P(5)=P(9)*P(1)-P(7)*P(3)
             P(6)=P(7)*P(2)-P(8)*P(1)
@@ -618,13 +618,13 @@ C----------------
           ISKN(3,JJ)=0
           ISKN(5,JJ)=0
 C-----------------
-C     CALCUL DE X'
+C     calculation of x'
 C-----------------
           P(1)=P(5)*P(9)-P(6)*P(8)
           P(2)=P(6)*P(7)-P(4)*P(9)
           P(3)=P(4)*P(8)-P(5)*P(7)
 C-----------------
-C     CALCUL DE Y'
+C     calculation of y'
 C-----------------
           P(4)=P(8)*P(3)-P(9)*P(2)
           P(5)=P(9)*P(1)-P(7)*P(3)
@@ -691,7 +691,7 @@ C
 C-----
  900  CONTINUE
 C-------------------------------------
-C Recherche des ID doubles
+C search for duplicate ids
 C-------------------------------------
       IF (NUMFRAM+NUMSKW/=0)
      .   CALL UDOUBLE(ISKN(4,1),LISKN,

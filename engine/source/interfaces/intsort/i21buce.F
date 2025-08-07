@@ -129,7 +129,7 @@ C--------------------------------------------------
       IF (INIT==1) THEN
 C premier appel a i21buce
 C--------------------------------------------------
-C      CAS RECALCUL DU TRI PAR BUCKETS
+C      case of recalculation of sorting by buckets
 C--------------------------------------------------
         IF (DEBUG(3)>=1) THEN
 #include "lockon.inc"
@@ -141,7 +141,7 @@ C--------------------------------------------------
         ENDIF
 C
 C--------------------------------
-C     CALCUL DES BORNES DU DOMAINE
+C     calculation of the domain bounds
 C--------------------------------
         XMIN=EP30
         XMAX=-EP30
@@ -215,11 +215,11 @@ C
 C Fin initialisation
 C-----------------------------------------------
 C
-C-----2- TRI PAR BOITES DES ELEMENTS ET DES NOEUDS
+C2- sorting by boxes of elements and nodes
 C
 C-----------------------------------------------
-C SI ON A PAS ASSEZ DE MEMOIRE POUR LES PILES ON RECOMMENCE LE TRI
-C EN INCREMENTANT LE NB_N_B (NOMBRE DE NOEUDS PAR BOITE FINIE)
+C if there is not enough memory for the stacks, the sorting is restarted
+C by increasing nb_n_b (number of nodes per finished box)
 C     POINTEUR  NOM                 TAILLE
 C     P0........                    NSN + 3
 C     P1........Elt Bas Pile        NRTM
@@ -232,7 +232,7 @@ C
       IP0 = 1
       IP1 = IP0 + NSN  + 3
 C
-C-----INITIALISATION DES ADRESSES ET X,Y,Z
+Cinitialization of addresses and x, y, z
 C
 C     ADDE     ADDN     X      Y      Z
 C     1        1        XMIN   YMIN   ZMIN
@@ -251,11 +251,11 @@ C
       XYZM(6,I_ADD) = ZMAX
       I_MEM = 0
 C
-C-----DEBUT DE LA PHASE DE TRI 
+Cstart of the sorting phase
 C
 C       SEPARER B ET N EN TWO
 C
-C     MARGE plus importante que dans le critere de tri.
+C     margin larger than in the sorting criterion
       MARGE = TZINF - MAX(DEPTH,GAP + DGAPLOAD,DRAD)
       CALL I21TRI(
      1   ADD      ,NSN      ,IRECT   ,XLOC      ,STF_L    ,

@@ -100,24 +100,24 @@ C              Ignore initial penetrations
                IRTLM(3,J)   = 0
                PENE_OLD(5,J)= ZERO
              ELSEIF(INACTI==1) THEN
-C              DESACTIVATION DES NOEUDS
+C              DEACTIVATION OF NODES
                WRITE(IOUT,'(A)')'NODE STIFFNESS IS SET TO ZERO'
                STFN(J) = ZERO
                ICONT_I(J)=-IRTLM(1,J)
 C            ELSE IF(INACTI==2) THEN
-C              DESACTIVATION DES ELEMENTS
+C              DEACTIVATION OF ELEMENTS
 C              WRITE(IOUT,'(A)')
 C    .           'INACTI=2 IS NOT AVAILABLE FOR INTERFACE TYPE25'
 C            ELSE IF(INACTI==3) THEN
-C              CHANGE LES COORDONNEES DES NOEUDS SECND
+C              CHANGE THE COORDINATES OF SECONDARY NODES
 C              WRITE(IOUT,'(A)')
 C    .           'INACTI=3 IS NOT AVAILABLE FOR INTERFACE TYPE25'
 C            ELSE IF(INACTI==4) THEN
-C              CHANGE LES COORDONNEES DES NOEUDS MAIN
+C              CHANGE THE COORDINATES OF MAIN NODES
 C              WRITE(IOUT,'(A)')
 C    .           'INACTI=4 IS NOT AVAILABLE FOR INTERFACE TYPE25'
              ELSE IF(INACTI==5) THEN
-C              REDUCTION DU GAP
+C              GAP REDUCTION
              ELSE IF(INACTI==-1) THEN
 C              Initial penetrations <=> Initial forces
                PENE_OLD(5,J)= ZERO

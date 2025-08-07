@@ -87,7 +87,7 @@ c
          ENDIF
       ENDDO
 c
-c     ROTATION de DEPS_IJ DANS LES DIRECTIONS D'ENDOMMAGEMENT
+c     rotation of deps_ij in the damage directions
 c
       IF (NBDAMA > 0) THEN
         CALL RDAM24(NEL   ,NBDAMA,DAMAI ,ANG   ,DEPS1 ,
@@ -98,7 +98,7 @@ c     DAMAGED ELEMENT GROUP => modified Hook matrix
 c-----------------------------------------------------------
       DO K=1,NBDAMA
         I = DAMAI(K)
-c       cumul de deformation endommagee
+c       accumulation of damaged strain
         CRAK(I,1) = CRAK(I,1) + DEPS1(I)
         CRAK(I,2) = CRAK(I,2) + DEPS2(I)
         CRAK(I,3) = CRAK(I,3) + DEPS3(I)

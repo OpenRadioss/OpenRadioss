@@ -281,7 +281,7 @@ c------------------------------------------
         F(I)= Q(I) - MAX(ZERO, P(I)*TANB + YLD(I))
       ENDDO
 c------------------------------------------
-c     ITERATION POUR TROUVER LE PT D'INTERSECTION AVEC LE CRITERE
+c     ITERATION TO FIND THE INTERSECTION POINT WITH THE CRITERION
 c------------------------------------------
       DO I=1,NEL
         IF (F(I) > TOL) THEN

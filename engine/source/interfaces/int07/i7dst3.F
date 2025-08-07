@@ -124,7 +124,7 @@ C
      .     RPERM
       LOGICAL ITERATE
 C--------------------------------------------------------
-C  CAS DES PAQUETS MIXTES
+C  case of mixed packets
 C--------------------------------------------------------
        DO I=1,JLT
         IF(IX3(I)/=IX4(I))THEN
@@ -139,10 +139,10 @@ C--------------------------------------------------------
        ENDDO
 C  
 C--------------------------------------------------------
-C  UNIQUEMENT POUR PAQUET DE TRIANGLE
+C  only for triangle packet
 C--------------------------------------------------------
 C--------------------------------------------------------
-C  CAS DES PAQUETS MIXTES OU QUADRANGLE
+C  case of mixed packets or quadrangle
 C--------------------------------------------------------
 C
        DO I=1,JLT

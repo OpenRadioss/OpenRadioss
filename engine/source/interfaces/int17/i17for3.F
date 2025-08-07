@@ -95,7 +95,7 @@ C-----------------------------------------------
      .   XXS(MVSIZ,16),YYS(MVSIZ,16),ZZS(MVSIZ,16),
      .   VIT_MIN
 C-----------------------------------------------------------------------
-C     boucle sur les candidats au contact   
+C     loop over contact candidates
 C-----------------------------------------------------------------------
       VIT_MIN = ZERO
       IE_MIN  = 99999999
@@ -135,7 +135,7 @@ C-----------------------------------------------------------------------
         IF(LES<=NSE)THEN      ! candidat interne en SPMD
          IES = NELES(LES)
 C-----------------------------------------------------------------------
-C       test si dans la boite   
+C       test if inside the box
 C-----------------------------------------------------------------------
          IF(LE >0.AND.LES>0.AND.
      .           EMINXS(4,LES)>EMINXM(1,LE).AND.
@@ -173,7 +173,7 @@ C IIIS 1,2,3,4,9,10,11,12, 5,6,7,8,13,14,15,16
         ELSE        !    complement frontiere SPMD
          IES = LES-NSE
 C-----------------------------------------------------------------------
-C       test si dans la boite   
+C       test if inside the box
 C-----------------------------------------------------------------------
          IF(LE >0.AND.LES>0.AND.
      .           EMINXFI(NINT)%P(4,IES)>EMINXM(1,LE).AND.
@@ -205,7 +205,7 @@ C IIIS 1,2,3,4,9,10,11,12, 5,6,7,8,13,14,15,16
             XX(LLT,K)=X(1,I)
             YY(LLT,K)=X(2,I)
             ZZ(LLT,K)=X(3,I)
-            I = IIIS(LLT,K)                ! I indique le no de noeud de 1 a 16
+            I = IIIS(LLT,K)                ! I indicates the node number from 1 to 16
             XXS(LLT,K)=XFI17(NINT)%P(1,I,IES)
             YYS(LLT,K)=XFI17(NINT)%P(2,I,IES)
             ZZS(LLT,K)=XFI17(NINT)%P(3,I,IES)
@@ -213,7 +213,7 @@ C IIIS 1,2,3,4,9,10,11,12, 5,6,7,8,13,14,15,16
          END IF
         END IF
 C-----------------------------------------------------------------------
-C     calcul de  F par paquet de mvsiz   
+C     calculation of F by mvsiz packet
 C-----------------------------------------------------------------------
           IF(LLT==MVSIZ-1)THEN
             CALL I17LLL_PENA(
@@ -229,7 +229,7 @@ C-----------------------------------------------------------------------
           ENDIF
       ENDDO
 C-----------------------------------------------------------------------
-C     calcul de  F pour dernier paquet   
+C     calculation of F for last packet
 C-----------------------------------------------------------------------        
       IF(LLT/=0) CALL I17LLL_PENA(
      1       LLT     ,V         ,STIFN     ,XX        ,FRIC    ,
@@ -409,7 +409,7 @@ C
       ENDDO
 C-----------------------------------------------
 C      calcul de SI_S=s(relatif element main) 
-c      des 8 noeuds de la face de l'element second
+c      the 8 nodes of the face of the second element
 C-----------------------------------------------
       DO J=1,8
         DO I=1,LLT
@@ -421,17 +421,17 @@ C-----------------------------------------------
      2              XX    ,YY    ,ZZ    )
       ENDDO
 C-----------------------------------------------
-C      calcul du point de distance min
+C      calculation of the minimum distance point
 C      dSI_S/dr = 0 dSI_S/dt = 0     (r,t de l'element second) 
 C-----------------------------------------------
 c                                                                                                                                                                           
-c   il est possible de calculer la surface effective 
-c   de contact pour ponderer la force
-c   => pas de discontinuit    si contact sur 2 elements
+c   it is possible to calculate the effective surface
+c   of contact to weight the force
+c   => no discontinuity if contact on 2 elements
 c
-c   a faire dans I17MINI
+c   to be done in I17MINI
 c
-c   possible aussi de calculer la pression de Hertz
+c   possible also to calculate Hertz pressure
 c                                                                                                                                                                           
       CALL I17MINI_PENA(
      1             LLT   ,R_CS  ,S_CS  ,T_CS  ,RI_S  ,SI_S   ,
@@ -468,7 +468,7 @@ C         face 5 6 7 8
      3             ICONT(1,1),R_CM   ,T_CM   ,R_CS   ,T_CS   ,S_CM   ,
      4             LES       )
 C-----------------------------------------------------------------------
-C     calcul du contact
+C     contact calculation
 C-----------------------------------------------------------------------
       CALL I17LLL4_PENA(
      1      LLT       ,ITIED     ,NINT    ,V       ,A       ,FRIC    ,
@@ -770,7 +770,7 @@ c          dfdt = B1 + B2 * r + B3 * t + B4 * r * t + B5 * r * r
         ENDDO
       ENDDO
 C-----------------------------------------------------------------------
-C     calcul de 4 points de l'iso S_M = +- 1
+C     calculation of 4 points of the iso S_M = +- 1
 C 
 C          second.           main
 C     1: <R_1S , T_CS>    <R_1M , T_1M>
@@ -810,13 +810,13 @@ C  f = C1 + C2 t + C3 t^2
 C
       CALL I17RACINE_PENA(LLT,C3,C2,C1,T_1S,T_2S)
 C-----------------------------------------------
-C     calcul de la surface totale second
+C     calculation of the total surface of the second
 C-----------------------------------------------
       CALL I17SURF(LLT   ,R_1S  ,R_2S  ,R_CS  ,R_CS    ,
      2             T_CS  ,T_CS  ,T_1S  ,T_2S  ,AREA_TOT,
      3             XXS   ,YYS   ,ZZS   ,AZERO )
 c-----------------------------------------------------------------------
-c      borne surface totale     la surface de l'second
+c      bound total surface     the surface of the second
 c-----------------------------------------------------------------------
       DO I=1,LLT
           XA = XXS(I,7)-XXS(I,5)
@@ -890,7 +890,7 @@ c-----------------------------------------------------------------------
         ENDIF
       ENDDO
 c-----------------------------------------------------------------------
-c      borne surface totale     la surface du main
+c      bound total surface     the surface of the main
 c-----------------------------------------------------------------------
       DO I=1,LLT
         IF(S_CM(I) < ZERO)THEN
@@ -1040,10 +1040,10 @@ C-----------------------------------------------
       my_real
      +   CC(MVSIZ),R1(MVSIZ),R2(MVSIZ),RS1,RS2,UNPEPS
 c-----------------------------------------------------------------------
-c  1: borne r(ou s au 2eme appel) a +-1 sur le main
+c  1: bound r (or s on the 2nd call) at +-1 on the main
 c-----------------------------------------------------------------------
 c-----------------------------------------------------------------------
-c  1.1: borne <r1,t> et <r,t1> a +-1 sur le main
+c  1.1: bound <r1,t> and <r,t1> at +-1 on the main
 c-----------------------------------------------------------------------
         UNPEPS = ONE + EM4
         DO I=1,LLT
@@ -1143,7 +1143,7 @@ C
         ENDIF
       ENDDO
 c-----------------------------------------------------------------------
-c      borne r (ou t) a +-1 sur l'second
+c      bound r (or t) at +-1 on the second
 c-----------------------------------------------------------------------
       RETURN
       END
@@ -1184,7 +1184,7 @@ C-----------------------------------------------
      .  A,B,R05,S05,T05,R,T,NI(8),
      .  X1,X2,X3,Y1,Y2,Y3,Z1,Z2,Z3,PIS4
 C-----------------------------------------------------------------------
-C     calcul de la surface
+C     calculation of the surface
 C-----------------------------------------------------------------------
       DO I=1,LLT
 C
@@ -1218,7 +1218,7 @@ C
         Z2 = ZERO
 C------------------------------------
         IF(SM(I) == ZERO)THEN
-c         secondary 1234 ou 5678
+c         secondary 1234 or 5678
           DO K=1,8
             X1 = X1-NI(K)*XX(I,K)
             Y1 = Y1-NI(K)*YY(I,K)
@@ -1264,7 +1264,7 @@ C
         NI(7) = B * U_P_R
 C------------------------------------
         IF(SM(I) == ZERO)THEN
-c         secondary 1234 ou 5678
+c         secondary 1234 or 5678
           DO K=1,8
             X1 = X1+NI(K)*XX(I,K)
             Y1 = Y1+NI(K)*YY(I,K)
@@ -1310,7 +1310,7 @@ C
         NI(7) = B * U_P_R
 C------------------------------------
         IF(SM(I) == ZERO)THEN
-c         secondary 1234 ou 5678
+c         secondary 1234 or 5678
           DO K=1,8
             X2 = X2-NI(K)*XX(I,K)
             Y2 = Y2-NI(K)*YY(I,K)
@@ -1356,7 +1356,7 @@ C
         NI(7) = B * U_P_R
 C------------------------------------
         IF(SM(I) == ZERO)THEN
-c         secondary 1234 ou 5678
+c         secondary 1234 or 5678
           DO K=1,8
             X2 = X2+NI(K)*XX(I,K)
             Y2 = Y2+NI(K)*YY(I,K)
@@ -1378,7 +1378,7 @@ c         main 5678
           ENDDO
         ENDIF
 C------------------------------------
-C       Surface de l'ellipse
+C       surface of the ellipse
 C------------------------------------
         X3 = Y1*Z2 - Z1*Y2
         Y3 = Z1*X2 - X1*Z2
@@ -1433,15 +1433,15 @@ C-----------------------------------------------
       my_real
      .   VX,VY,VZ,VN,AA
 C-----------------------------------------------------------------------
-C     calcul de Ni sur face  1 2 3 4 ou 5 6 7 8 du main (s=+-1)
+C     calculation of Ni on face 1 2 3 4 or 5 6 7 8 of the main (s=+-1)
 C-----------------------------------------------------------------------
       CALL I17NI(LLT,RM ,TM ,NI_M )
 C-----------------------------------------------------------------------
-C     calcul de Ni sur face  1 2 3 4 ou 5 6 7 8 de l'second (s=+-1)
+C     calculation of Ni on face 1 2 3 4 or 5 6 7 8 of the second (s=+-1)
 C-----------------------------------------------------------------------
       CALL I17NI(LLT,RS ,TS ,NI_S )
 C-----------------------------------------------
-C      calcul de [L]
+C      calculation of [L]
 C-----------------------------------------------
       DO I=1,LLT
 C-----------------------------------------------
@@ -1451,7 +1451,7 @@ C-----------------------------------------------
           VX = ZERO
           VY = ZERO
           VZ = ZERO
-          IF(LES(I)>0)THEN      ! test pour SPMD
+          IF(LES(I)>0)THEN      ! test for SPMD
            DO IK=1,8
             VX = VX - (V(1,III(I,IK)))*NI_M(I,IK)
             VY = VY - (V(2,III(I,IK)))*NI_M(I,IK)
@@ -1571,7 +1571,7 @@ c
 c Fti = min[(Fti + Ki * Vti * dt) , mu*Fni]
 c
 c => limitation en cas de roulement glissement ou roulement adh   rence:
-c    si Fti est m   moris   e sur l'   l   ment main ou second, Fti est perdue
+c    if Fti is stored on the main or second element, Fti is lost
 c    quand on passe d'un    l   ment sur son voisin
 c
 c1- on consid   re une facette main contact   e par plusieurs seconds
@@ -1614,7 +1614,7 @@ C-----------------------------------------------
         LEM = LE(I)
         IF(ICONT(I)/=0 )THEN
 c---------------------------------------------
-c       contact de Hertz
+c       hertz contact
 c---------------------------------------------
 c
 c ellipse de contact 2a x 2b   => surface A = a b pi
@@ -1789,8 +1789,8 @@ c          VY = VY - VN*NY(I)
 c          VZ = VZ - VN*NZ(I)
 C-----------------------------------------------
 C       frottement
-C         calcul avec vitesse totale 
-C         et projection de la force 
+C         calculation with total velocity
+C         and projection of the force
 C-----------------------------------------------          
           AA = HALF*AREA(I)
           BB = STIF*DT1
@@ -1823,8 +1823,8 @@ C-----------------------------------------------
           MUF  = FRIC(1)*MAX(ZERO,F)
           MUF2 = MUF*MUF
           IF(FF2 > MUF2)THEN
-c reduction de la contrainte visqueuse 
-c puis de la contrainte elastique (si necessaire)
+c reduction of viscous stress
+c then of elastic stress (if necessary)
             AA = MUF/SQRT(FF2)
             FFTX = FFTX*AA
             FFTY = FFTY*AA

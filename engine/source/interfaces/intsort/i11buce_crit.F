@@ -113,7 +113,7 @@ C
 !$OMP END DO NOWAIT
       END IF
 C
-C     0- CALCUL DU CRITERE POUR SAVOIR SI ON DOIT TRIER OU NON
+C     0- calculation of the criterion to know whether we should sort or not
 C
       XSLV(1) = -EP30
       XSLV(2) = -EP30

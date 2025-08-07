@@ -107,12 +107,12 @@ C--------------------------
         ELSEIF(KEY3(1:4)=='FOPT')THEN
           ANIM_V(7) = 1
           ANIM_V(8) = 1
-C         vitesses de rotations
+C         rotation speeds
         ELSEIF(KEY3(1:4)=='VROT')THEN
           ANIM_V(9) = 1
-C         vitesses fluides pour alebag et /bem/flow
+C         fluid velocities for alebag and /bem/flow
         ELSEIF(KEY3(1:4)=='FVEL'.OR.KEY3(1:4)=='VFLU')THEN
-C         vitesses fluides pour alebag et /bem/flow
+C         fluid velocities for alebag and /bem/flow
           ANIM_V(10) = 1
         ELSEIF(KEY3(1:5)=='FRES')THEN
           IF ((ANIM_V(5)/=1.OR.ANIM_V(6)/=1).AND.IDTMINS==0.AND.IDTMINS_INT==0)THEN

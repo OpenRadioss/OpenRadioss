@@ -752,7 +752,7 @@ C
         K = K + NSL
       ENDDO
 C
-C comptage des mains
+C counting of hands
 C
       DO P = 1, NSPMD
         DD_P(P) = 0
@@ -857,7 +857,7 @@ C   tag DD_RBY(3) a negatif pour reperage des r material sans echange.
         K = K + NSL
       ENDDO
 C
-C comptage des mains
+C counting of hands
 C
       DO P = 1, NSPMD
         DD_P(P) = 0
@@ -1006,14 +1006,14 @@ C
         DO J = 1, NSN
           M = LJOINT(K+J)
           IF(PROC/=1) THEN
-C proc <> 0, frontiere si noeud sur le proc
+C proc <> 0, boundary if node on proc
             IF(NLOCAL(M,PROC)==1)THEN       
               NBCJ = NBCJ + 1
               DD_CJ(NAD+NBCJ-1) = M
               PROC_REM_CYL_JOINT(NBCJ) = 1
             END IF
           ELSE
-C proc = 0, recherche des autres procs ayant le noeud
+C proc = 0, search for other procs having the node
             DO P = 2, NSPMD
               IF(NLOCAL(M,P)==1) THEN         
                 NBCJ = NBCJ + 1
@@ -1147,7 +1147,7 @@ C
         K = K + NSL
       ENDDO
 C
-C comptage des mains
+C counting of hands
 C
       DO P = 1, NSPMD
         DD_P(P) = 0
@@ -1377,7 +1377,7 @@ C noeuds N1, N2, N3 NNODE a echanger
           IAD_SEC(1,PMAIN) = IAD_SEC(1,PMAIN) + DD_SEC(PROC,I)
         END IF
       END DO
-C renvoi des X  N1, N2, N3 NNODE aux procs possedant des elements de sections
+C return of X  N1, N2, N3 NNODE to procs possessing section elements
       DO P = 1, NSPMD
         DD_P(P) = 0
       ENDDO
@@ -1400,7 +1400,7 @@ C
         IP = IP + 30 + NSINT_S + NNOD_S
         IP0 = IP
         PMAIN = DD_SEC(NSPMD+1,I)
-C determination du nombre de noeuds a echange
+C determination of the number of nodes to exchange
         DD_P(PMAIN) = DD_P(PMAIN) + 1
         IF(PROC==PMAIN) THEN
           DO P = 1, NSPMD
@@ -1457,7 +1457,7 @@ C determination du nombre de noeuds a echange
               END DO
               IP = IP + 2*NSELTG_S
  3000         CONTINUE
-C si element de la section present sur le proc
+C if section element present on the proc
 c              IF(IMAX==1) THEN
               IF(IMAX==1.OR.ISECUT==1) THEN
 c                IAD_SEC(3,P) = IAD_SEC(3,P) + NN
@@ -1517,7 +1517,7 @@ c                IAD_SEC(3,P) = IAD_SEC(3,P) + NN
           END DO
           IP = IP + 2*NSELTG_S
  4000     CONTINUE
-C si element de la section present sur le proc
+C if an element of the section is present on the processor
           IF(IMAX==1.OR.ISECUT==1) THEN
             IAD_SEC(4,PMAIN) = IAD_SEC(4,PMAIN) + 1
 
@@ -2192,7 +2192,7 @@ C   TAGE flag servant pour inacti
               END DO
  1300         CONTINUE
             END DO
-C nb total de segments
+C total number of segments
             DD_I18(NSPMD+1,NN) = NRTM
 C PMAIN
             PMAIN = 1

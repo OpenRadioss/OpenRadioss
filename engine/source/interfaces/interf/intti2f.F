@@ -132,7 +132,7 @@ C       FORMULATION SANS MOMENT SUR MAIN
      6   FNCONT    ,H3D_DATA  ,FNCONTP   ,FTCONTP   )
 
        ELSEIF(ILEV == 2)THEN
-C       FORMULATION AVEC MOMENT SUR MAIN
+C       formulation with moment on main
         CALL I2FOR3(
      1   NSN       ,NMN       ,A         ,INTBUF_TAB%IRECTM,INTBUF_TAB%CSTS,
      2   INTBUF_TAB%MSR,INTBUF_TAB%NSV,INTBUF_TAB%IRTLM,MS        ,WEIGHT    ,
@@ -155,7 +155,7 @@ C       FORMULATION decouplant les ddl rot
      5   FNCONT    ,INTBUF_TAB%CSTS_BIS,H3D_DATA ,FNCONTP,FTCONTP)
        ELSEIF (ILEV == 10 .OR. ILEV == 11 .OR. ILEV == 12 .OR. 
      .         ILEV == 20 .OR. ILEV == 21 .OR. ILEV == 22) THEN       
-C        FORMULATION AVEC RUPTURE
+C        formulation with rupture
          CALL I2FOR10(                                               
      1       A         ,MS        ,STIFN     ,WEIGHT    ,INTBUF_TAB%IRECTM,
      2       INTBUF_TAB%NSV,INTBUF_TAB%MSR,INTBUF_TAB%IRTLM,INTBUF_TAB%IRUPT,INTBUF_TAB%CSTS,
@@ -233,7 +233,7 @@ c
      .   H3D_DATA ,FNCONTP   ,FTCONTP   )                                                                                     
 C
        ELSEIF (ILEV == 30 .AND. IRODDL /= 0) THEN  
-c        formulation avec la courbure du main                   
+c        formulation with main curvature
          CALL I2CURVF(
      .        MS        ,IN        ,X         ,V         ,VR        ,       
      .        A         ,AR        ,STIFN     ,STIFR     ,WEIGHT    ,       
@@ -243,7 +243,7 @@ c        formulation avec la courbure du main
      .        FTCONTP)
 C  
        ELSEIF(ILEV == 0 .OR. IRODDL == 0)THEN
-C       FORMULATION AVEC MOMENT SUR MAIN
+C       formulation with moment on main
         CALL I2FOR3N(
      1   NSN       ,NMN       ,A         ,INTBUF_TAB%IRECTM,INTBUF_TAB%CSTS,
      2   INTBUF_TAB%MSR,INTBUF_TAB%NSV,INTBUF_TAB%IRTLM,MS   ,WEIGHT    ,
@@ -277,7 +277,7 @@ C       FORMULATION SANS MOMENT SUR MAIN
      6   INTBUF_TAB%SMAS,INTBUF_TAB%SINER,V         ,INTBUF_TAB%CSTS,FSAV   ,
      7   FNCONT    ,H3D_DATA   ,FNCONTP   ,FTCONTP  )
        ELSEIF(ILEV == 2)THEN
-C       FORMULATION AVEC MOMENT SUR MAIN
+C       formulation with moment on main
         I0BASE = I0
         CALL I2FOR3P(
      1   NSN       ,NMN       ,A         ,INTBUF_TAB%CSTS,INTBUF_TAB%MSR,
@@ -312,7 +312,7 @@ C       FORMULATION decouplant les ddl rot
         ENDIF
        ELSEIF (ILEV == 10 .OR. ILEV == 11 .OR. ILEV == 12 .OR. 
      .         ILEV == 20 .OR. ILEV == 21 .OR. ILEV == 22) THEN       
-C        FORMULATION AVEC RUPTURE
+C        formulation with rupture
          I0BASE = I0
          CALL I2FOR10P(
      1       A         ,MS        ,STIFN     ,WEIGHT    ,IADI2     ,
@@ -391,7 +391,7 @@ c        formulation en cinematique - penalite
      .       INTBUF_TAB%NMAS,DMAST,ADM,H3D_DATA,FNCONTP   ,FTCONTP   ) 
 c
        ELSEIF (ILEV == 30 .AND. IRODDL /= 0) THEN  
-c        formulation avec la courbure du main  
+c        formulation with main curvature
          CALL I2CURVFP(
      .        MS        ,IN        ,X         ,V         ,VR        ,   
      .        A         ,AR        ,STIFN     ,STIFR     ,WEIGHT    ,   
@@ -401,7 +401,7 @@ c        formulation avec la courbure du main
      .        FSAV      ,FNCONT    ,H3D_DATA  ,FNCONTP   ,FTCONTP)
 C
        ELSEIF(ILEV == 0.OR.IRODDL == 0)THEN
-C       FORMULATION AVEC MOMENT SUR MAIN
+C       formulation with moment on main
           I0BASE = I0
          CALL I2FOR3PN(
      1   NSN       ,NMN       ,A         ,INTBUF_TAB%CSTS,INTBUF_TAB%NSV,

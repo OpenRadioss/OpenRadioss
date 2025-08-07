@@ -59,8 +59,8 @@ C-----------------------------------------------
 C            A R G U M E N T S
 C-----------------------------------------------
 C     IXTG(NIXTG,NUMELTG)TABLEAU CONECS+PID+MID+NOS TRIANGLES       E
-C     PM(NPROPM,NUMMAT)  TABLEAU DES CARACS DES MATERIAUX           E
-C     GEO(NPROPG,NUMGEO) TABLEAU DES CARACS DES PID                 E
+C     PM(NPROPM,NUMMAT)  ARRAY OF MATERIAL CHARACTERISTICS           E
+C     GEO(NPROPG,NUMGEO) ARRAY OF PID CHARACTERISTICS                 E
 C     INUM(9,NUMELTG)     TABLEAU DE TRAVAIL                         E/S
 C     ISEL(NSELTG)        TABLEAU DES TRI CHOISIES POUR TH          E/S
 C     ITR1(NSELTG)        TABLEAU DE TRAVAIL                         E/S
@@ -130,7 +130,7 @@ C-----------------------------------------------
      .   II5,JJ5,II6,JJ6,ISUBSTACK,IIGEO,IADI,IPPID,
      .   NB_LAW58,IPMAT,IPERT,STAT,IALEL, MT,NSLICE,KK,NPT_DRP,IE,
      .   IE0
-C     REAL OU REAL*8
+C     REAL OR REAL*8
       CHARACTER(LEN=NCHARTITLE) :: TITR
 C
       INTEGER, DIMENSION(:), ALLOCATABLE :: INDEX2, INUM_PTSH3N
@@ -197,7 +197,7 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
         ENDIF 
 C
 C----------------------------------------------------------
-C   TRI GLOBAL SUR TOUS LES CRITERES POUR TOUS LES ELEMENTS
+C   GLOBAL SORTING ON ALL CRITERIA FOR ALL ELEMENTS
 C----------------------------------------------------------
 C
       IF (NPERTURB > 0) THEN
@@ -316,7 +316,7 @@ C
           ITRI(1,I)=0
         ELSE
 C
-C       ILEV doit etre de poids fort sur 1ere clef
+C       ILEV must have a strong weight on the first key
           PRT = IPARTTG(II)
           IADM= IPART(10,PRT)
           IF(IADM==0)THEN
@@ -459,9 +459,9 @@ C
         ISTRAIN = NINT(GEO(11,PID))
         IF(MLN==19.OR.MLN>=25.OR.MLN==15)ISTRAIN = 1
         ISSN = IABS(NINT(GEO(3,PID)))
-C tri sur elem delete des rigidbody
+C sorting on elem deletes rigidbody
 C IRB = 0 : elem actif
-C IRB = 1 : elem inactif et optimise pour en SPMD
+C IRB = 1 : inactive elem and optimized for SPMD
 C IRB = 2 : elem inactif mais optimise pour etre actif en SPMD
         IRB = ITRIOFF(I)
 C
@@ -487,7 +487,7 @@ C
         IGTYP  = MY_SHIFTL(IGTYP,9)
         MLN    = MY_SHIFTL(MLN,18)    
 C     attention cle pleine ;
-C       ICO doit rester en poids le plus fort dans cette cle.
+C       ICO must remain the heaviest weight in this key.
         ICO   = MY_SHIFTL(ICO,29) 
         ITRI(3,I)=IPLA+ISTRAIN+ISSN+IGTYP+MLN+ICO 
 C
@@ -628,12 +628,12 @@ C
         END IF
       END IF
 C     
-C INVERSION DE INDEX (DANS ITR1)
+C INDEX INVERSION (IN ITR1)
 C
       DO I=1,NUMELTG
         ITR1(INDEX(I))=I
       ENDDO
-C RENUMEROTATION DE L'ARBRE
+C RENAMING OF THE TREE
       IF(NADMESH/=0)THEN
         DO  I=1,NUMELTG
           IF(SH3TREE(1,I)/=0)
@@ -643,7 +643,7 @@ C RENUMEROTATION DE L'ARBRE
         ENDDO
       END IF
 C
-C RENUMEROTATION POUR SURFACES
+C RENAMING FOR SURFACES
 C
       DO I=1,NSURF
         NN=IGRSURF(I)%NSEG
@@ -653,7 +653,7 @@ C
         ENDDO
       ENDDO
 C
-C RENUMEROTATION POUR GROUPES DE SHELL3N
+C RENAMING FOR SHELL3N GROUPS
 C
       DO I=1,NGRSH3N
         NN=IGRSH3N(I)%NENTITY
@@ -668,7 +668,7 @@ C
         IF(NOD2ELTG(I) /= 0)NOD2ELTG(I)=ITR1(NOD2ELTG(I))
       END DO
 C--------------------------------------------------------------
-C         DETERMINATION DES SUPER_GROUPES
+C         DETERMINATION OF SUPER_GROUPS
 C--------------------------------------------------------------
       ND=1
       DO I=2,NUMELTG

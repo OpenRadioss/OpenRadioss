@@ -80,18 +80,18 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
-C-----2- TRI PAR BOITES DES ELEMENTS ET DES NOEUDS
+Csorting elements and nodes by boxes
 C
 C-----------------------------------------------
-C     nouvelle phase de tri
+C     new sorting phase
 C-----------------------------------------------
       CONT = 1
 C-----------------------------------------------
-C     Boucle sur les retris
+C     loop over re-sorts
 C-----------------------------------------------
       DO WHILE (CONT/=0)
 C -------------------------------------------------------------
-C      CALCUL DES BORNES DU DOMAINE
+C      calculation of domain bounds
 C      avant I17TRI pour detection candidats remote et allocation en SPMD
 C -------------------------------------------------------------
 C   
@@ -102,8 +102,8 @@ C
         XYZM(4,I_ADD) = BMINMA(4)
         XYZM(5,I_ADD) = BMINMA(5)
         XYZM(6,I_ADD) = BMINMA(6)
-C SI ON A PAS ASSEZ DE MEMOIRE POUR LES PILES ON RECOMMENCE LE TRI
-C EN INCREMENTANT LE NB_N_B (NOMBRE DE NOEUDS PAR BOITE FINIE)
+C if there is not enough memory for the stacks, restart the sorting
+C by incrementing NB_N_B (number of nodes per finished box)
 C     POINTEUR  NOM                 TAILLE
 C     P1........Elt Bas Pile        NME+100
 C     P2........Elt PILE            3*(NME+100)
@@ -111,7 +111,7 @@ C     P21.......BPN                 NMES+100
 C     P22.......PN                  3*(NMES+100)
         MAXSIZ = 3*(NME+100) 
         MAXSIZS = 3*(NMES+NMESR+100) 
-C      Allocation directement dans i17tri pour tenir compte de NMESR
+C      allocation directly in i17tri to account for NMESR
 C      IP1 = 1
 C      IP2 = IP1+NME+100
 C      IP21= IP2+MAXSIZ
@@ -228,7 +228,7 @@ C
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-c fait dans ICOMCRIT
+c done in ICOMCRIT
 c      IF (DEBUG(3)>=1) THEN
 c#include "lockon.inc"
 c          WRITE(ISTDO,*)'** NEW SORT FOR INTERFACE NUMBER ',NOINT,
@@ -270,18 +270,18 @@ C-----------------------------------------------
 C Fin initialisation
 C-----------------------------------------------
 C
-C-----2- TRI PAR BOITES DES ELEMENTS ET DES NOEUDS
+Csorting elements and nodes by boxes
 C
 C-----------------------------------------------
-C     nouvelle phase de tri
+C     new sorting phase
 C-----------------------------------------------
       CONT = 1
 C-----------------------------------------------
-C     Boucle sur les retris
+C     loop over re-sorts
 C-----------------------------------------------
       DO WHILE (CONT/=0)
 C -------------------------------------------------------------
-C      CALCUL DES BORNES DU DOMAINE
+C      calculation of domain bounds
 C      avant I17TRI pour detection candidats remote et allocation en SPMD
 C -------------------------------------------------------------
         XMIN = EP30
@@ -325,14 +325,14 @@ C
         NMESR = 0
         IF(NSPMD>1)THEN
 C
-C recuperation des noeuds remote NMESR stockes dans XREM
+C retrieval of remote NMESR nodes stored in XREM
 C
           CALL SPMD_TRI17BOX(NELES   ,NMES    ,X       ,VCOM ,FROTS  ,
      2                       KS      ,XYZM    ,WEIGHT  ,NIN  ,ISENDTO,
      3                       IRCVFROM,NMESR   ,IXS     ,IXS16,EMINXS )
         END IF
-C SI ON A PAS ASSEZ DE MEMOIRE POUR LES PILES ON RECOMMENCE LE TRI
-C EN INCREMENTANT LE NB_N_B (NOMBRE DE NOEUDS PAR BOITE FINIE)
+C if there is not enough memory for the stacks, restart the sorting
+C by incrementing NB_N_B (number of nodes per finished box)
 C     POINTEUR  NOM                 TAILLE
 C     P1........Elt Bas Pile        NME+100
 C     P2........Elt PILE            3*(NME+100)
@@ -340,7 +340,7 @@ C     P21.......BPN                 NMES+100
 C     P22.......PN                  3*(NMES+100)
         MAXSIZ = 3*(NME+100) 
         MAXSIZS = 3*(NMES+NMESR+100) 
-C      Allocation directement dans i17tri pour tenir compte de NMESR
+C      allocation directly in i17tri to account for NMESR
 C      IP1 = 1
 C      IP2 = IP1+NME+100
 C      IP21= IP2+MAXSIZ

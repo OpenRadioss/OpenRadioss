@@ -167,7 +167,7 @@ C           looks for an elt sharing the face.
             DO K=KNOD2ELS(NI(1))+1,KNOD2ELS(NI(1)+1)
               KS=NOD2ELS(K)
               IF(KS==JS .OR. KS > NUMELS8+NUMELS10)CYCLE
-              IF (KEY(1:6)=='GRBRIC'.AND.TAGBUF(KS)==0.AND.IFRE==0)CYCLE ! if IFRE=0 on cherche la connectivite uniquement avec les elements du marques du groupe (cycle), sinon si IFRE=1 on cherche la connectivit� avec tout le monde
+              IF (KEY(1:6)=='GRBRIC'.AND.TAGBUF(KS)==0.AND.IFRE==0)CYCLE ! if IFRE=0 we only look for connectivity with the elements marked by the group (cycle), otherwise if IFRE=1 we look for connectivity with everyone
               IF (KEY(1:6)/='GRBRIC'.AND.TAGBUF(IPARTS(KS))==0)CYCLE     
               DO II=1,NF
                 NODTAG(NI(II))=0

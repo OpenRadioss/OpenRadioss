@@ -263,8 +263,8 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C--A(M,N), a la sortie,Qi=1-uu^t/tau est stocke dans triag inf de A
-C----------R est stoke dans triag sup,+ diag dans D-------
+C--A(M,N), at the output, Qi=1-uu^t/tau is stored in the lower triangular part of A
+C----------R is stored in the upper triangular part, + diagonal in D-------
       INTEGER I,J,K,L
       my_real
      .  S,NORM2,SCAL
@@ -349,8 +349,8 @@ C-------------Rx=b ---------------------------------
 !||    imp_saic   ../engine/source/implicit/imp_pc_inv.F
 !||====================================================================
       SUBROUTINE LT_SOLV(N     ,A      ,MAXC   ,D_R   ,B      )
-C----------R est stoke dans triag_sup de A,+ diag dans D_R-------
-C----------X est sortie dans B-------
+C----------R is stored in the upper triangular part of A, + diagonal in D_R-------
+C----------X is output in B-------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

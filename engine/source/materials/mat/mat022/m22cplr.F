@@ -115,7 +115,7 @@ C-------------------
      .        + THREE*SIGNXY(I)*SIGNXY(I))
       ENDDO
 C----------------------------
-C     VITESSE DE DEFORMATION
+C     strain rate
 C----------------------------
       DO I=JFT,JLT
         EPSP  = MAX( ABS(DEPSXX(I)), ABS(DEPSYY(I)), HALF*ABS(DEPSXY(I)))
@@ -143,7 +143,7 @@ C projection radiale
 C------------------------------------------------------------------------
       ELSEIF (IPLA == 1) THEN
 C-------------------------
-C     CRITERE DE VON MISES
+C     von mises criterion
 C-------------------------
 #include "vectorize.inc"
         DO  I=JFT,JLT
@@ -223,10 +223,10 @@ C------------------------------------------
       ENDDO
       ELSEIF (IPLA == 2) THEN
 C---
-C projection radial sur le deviateur sur un critere reduit
+C radial projection on the deviator on a reduced criterion
 C projection elastique en z => sig33 = 0
-C le coef. de reduction du critere est tel que 
-C l'on se trouve sur le critere apres les 2 projections
+C the criterion reduction coefficient is such that
+C one is on the criterion after the 2 projections
 C---
 #include "vectorize.inc"
         DO I=JFT,JLT

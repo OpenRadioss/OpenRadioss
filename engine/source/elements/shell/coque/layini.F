@@ -167,7 +167,7 @@ C=======================================================================
       ENDIF 
 c
 c---------------------------------------------------------
-      IF (IXFEM == 1 .and. IXLAY > 0) THEN  ! traitement des elements fantomes
+      IF (IXFEM == 1 .and. IXLAY > 0) THEN  ! ghost element handling
 c                                           ! layer = ixlay  
 c---------------------------------------------------------
         SELECT CASE (IGTYP)

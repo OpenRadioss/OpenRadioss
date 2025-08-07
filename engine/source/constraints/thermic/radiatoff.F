@@ -59,7 +59,7 @@ C-----------------------------------------------
       INTEGER N, JJ, NG, NEL, MLW
       my_real, DIMENSION(:), POINTER :: OFFG
 C======================================================================|
-C   ACTIVATION/DESACTIVATION DE LA RADIATION
+C   activation/deactivation of radiation
 C------------------------------------------------
       DO N=1,GLOB_THERM%NUMRADIA
          IF(IBCR(7,N) == 1) THEN

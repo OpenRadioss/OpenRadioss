@@ -75,7 +75,7 @@ C
       ENDIF
 
       IF (FVSPMD(IFV)%RANK == 0) THEN
-C Reception des longueurs
+C reception of lengths
          II=0
          DO I=1,FVSPMD(IFV)%NSPMD-1
             II=II+1

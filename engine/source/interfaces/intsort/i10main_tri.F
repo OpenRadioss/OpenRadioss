@@ -155,7 +155,7 @@ C
       BMINMA(5)=EP30
       BMINMA(6)=EP30
 C -------------------------------------------------------------
-C     TRI SUR N DES ANCIENS CANDIDATS 
+C     sort on N of old candidates
 C -------------------------------------------------------------
 C
       CALL MY_BARRIER
@@ -185,7 +185,7 @@ C sauvegarde de XSAV (tableau BUFIN(JD(19)))
       BMINMA(6) = MIN(BMINMA(6),ZMINL)
 #include "lockoff.inc"
       RESULT = 0
-C BARRIER II_STOK et RESULT
+C barrier ii_stok and result
       CALL MY_BARRIER
 C -------------------------------------------------------------
       IF(ITASK==0)THEN
@@ -204,7 +204,7 @@ C
         BMINMA(5)=BMINMA(5)-TZINF
         BMINMA(6)=BMINMA(6)-TZINF
 C
-C recuperation des noeuds remote NSNR stockes dans XREM
+C recovery of remote nodes nsnr stored in xrem
 C
         NSNR = 0
         IF(NSPMD>1) THEN
@@ -225,7 +225,7 @@ C
 C
       CAND_N_OLD = INTBUF_TAB%I_STOK(1)
  40   CONTINUE
-C eshift : decalage sur cand_e
+C eshift: offset on cand_e
       ILD = 0
       NB_N_B = 1
 C
@@ -295,7 +295,7 @@ C--------------------------------------------------------------
         TZINF  = INTBUF_TAB%VARIABLES(8)         
         GOTO 50
       ENDIF
-C mise a - de dist temporairement pour reperage dans partie frontiere
+C set dist to negative temporarily for identification in boundary part
       IF(NSPMD>1)THEN
 
 C mono tache
@@ -311,7 +311,7 @@ c     2    IPARI(21),NSNR,MULTIMP      ,NTY,IBID)
         CALL SPMD_TRI10GAT(
      1    RESULT   ,NSN ,INTBUF_TAB%CAND_N,INTBUF_TAB%I_STOK(1),NIN,
      2    IPARI(21),NSNR,MULTIMP      ,NTY,IBID,H3D_DATA)
-C sauvegarde des candidats additionnels dans IPARI(24)
+C save additional candidates in ipari(24)
         IPARI(24) = NSNR
         IF (NUM_IMP>0) 
      .    CALL IMP_RNUMCD(INTBUF_TAB%CAND_N,NIN,NSN,NUM_IMP,IND_IMP )

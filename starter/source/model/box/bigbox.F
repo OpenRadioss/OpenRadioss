@@ -91,7 +91,7 @@ C-------
       READ(IIN,REC=JREC,ERR=999,FMT='(A)')LINE
       READ(LINE,ERR=999,FMT=FMT_I) IDB
 C-------
-C get box de box ID'S dans grnod:
+C get box from box ID'S in grnod:
 C-------
       ISU = 0
       DO I=1,NBBOX
@@ -113,7 +113,7 @@ C super box activated:
        END IF
       END IF
 C---
-C   simple box dans grnod:
+C   simple box in grnod:
 C---
       BOOL = .FALSE.
       IF(ISU>0)THEN
@@ -256,7 +256,7 @@ C
             CALL CHECKSPHERE(XP1, YP1, ZP1, NODINB, DIAM, OK)
           END IF
 C
-C tag nodes dans box:
+C tag nodes in box:
 C
           IF(OK == 1)THEN
             IF(TAGN(I) == 0)THEN
@@ -1308,7 +1308,7 @@ C-------
         BOXTYPE = 2
       END IF
 C-------
-C get box de box ID'S dans grshel:
+C get box from box ID'S in grshel:
 C-------
       ISU = 0
       DO I=1,NBBOX
@@ -1333,7 +1333,7 @@ C super box activated:
        END IF
       END IF
 C---
-C   simple box dans grshel:
+C   simple box in grshel:
 C---
       BOOL = .FALSE.
       IF(ISU>0)THEN
@@ -1675,7 +1675,7 @@ C-------
         BOXTYPE = 2
       END IF
 C-------
-C get box de box ID'S dans LINE :
+C get box from box ID'S in LINE :
 C-------
       ISU = 0
       DO I=1,NBBOX
@@ -1706,7 +1706,7 @@ C super box activated:
        END IF
       END IF
 C---
-C   simple box dans /LINE :
+C   simple box in /LINE :
 C---
       BOOL=.FALSE.
       IF(ISU>0)THEN
@@ -2011,7 +2011,7 @@ C-------
         BOXTYPE = 2
       END IF
 C-------
-C get box de box ID'S dans SURF:
+C get box from box ID'S in SURF:
 C-------
       ISU = 0
       DO I=1,NBBOX

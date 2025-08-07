@@ -248,15 +248,15 @@ C-----------------------------------------------
      9 0.350000000000000,0.450000000000000,0.550000000000000,
      9 0.650000000000000,0.750000000000000,0.850000000000000/
 C-----------------------------------------------
-C       calcul des densites et taux de deformations.
+C       calculation of densities and strain rates
 C       charge WA(1:14*NUMSPH), qui ne doit pas etre ecrase 
-C       avt SPSTRES (pour redescente vers les buffers d'elements).
+C       before SPSTRES (for transfer to element buffers)
 C
 C         DIVV=WA(13,1:NUMSPH) et ROTV=WA(14,1:NUMSPH) ne doivent pas etre
-C         ecrases avt le calcul des forces (SPFORC).
+C         overwritten before the calculation of forces (SPFORC)
 C
 C         DIVV=WA(13,1:NUMSPH) ne doit pas etre ecrase avt SPADAH 
-C         (adaptation du diametre des particules).
+C         (adaptation of the particle diameter)
 C-----------------------------------------------
         IBID = 0
 C
@@ -772,12 +772,12 @@ C-----------------------------------------------
      2      GEO     ,IPART   ,IPARTSP ,WASPACT ,ITASK         )
 C
 C-----------------------------------------------
-C       Assemblage des forces sur les particules.
+C       assembly of forces on the particles
 C-----------------------------------------------
 C      /---------------/
         CALL MY_BARRIER
 C      /---------------/
-C       initialisation sur task i
+C       initialization on task i
         DO NS=ITASK+1,NSPHACT,NTHREAD
           N    =WASPACT(NS)
 C         (re)used for storage of FX, FY, FZ, STIF :
@@ -1171,7 +1171,7 @@ C
          END IF
         END IF
 C--------
-C       pour travail des forces de visc. artificielle (par cellule).
+C       for artificial viscosity force work (per cell).
         DT05=HALF*DT1
         DO NS=ITASK+1,NSPHACT,NTHREAD
           N=WASPACT(NS)
@@ -1282,7 +1282,7 @@ C        /---------------/
 C
         ENDIF
 C-----------------------------------------------
-C       distances de recherche variables 
+C       variable search distances
 C       apres calcul des forces (optimisation cpu si CSPH).
 C-----------------------------------------------
         CALL SPADAH(

@@ -70,8 +70,8 @@ C-----------------------------------------------
       NIR=2
       IF(N2D==0)NIR=4
 C
-C   spmd pre-traitement sur noeuds main + sauvegarde de la masse
-C   sauvegarde de la masse initiale
+C   spmd pre-processing on main nodes + saving the mass
+C   saving the initial mass
 C
       IF(IMPL_S>0) THEN
         DO II=1,NSN
@@ -344,8 +344,8 @@ C=======================================================================
       NIR=2
       IF(N2D==0)NIR=4
 C
-C   spmd pre-traitement sur noeuds main + sauvegarde de la masse
-C   sauvegarde de la masse initiale
+C   spmd pre-processing on main nodes + saving the mass
+C   saving the initial mass
       DO II=1,NMN
         J=MSR(II)
         MMASS(II)=MS(J)
@@ -548,7 +548,7 @@ C-----------------------------------------------
       NIR=2
       IF(N2D==0)NIR=4
 C
-C   spmd pre-traitement sur noeuds main + sauvegarde de la masse
+C   spmd pre-processing on main nodes + saving the mass
 C
       IF(IMPL_S>0) THEN
         DO II=1,NSN
@@ -1039,7 +1039,7 @@ C
 C
       ENDIF
 C
-C Traitement specifique pour ADI
+C specific processing for adi
 C
       IF(ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER >0) THEN
 #include "vectorize.inc"
@@ -1331,7 +1331,7 @@ C     REAL
 C=======================================================================
       NIR=4
 C
-C Traitement specifique pour DMAS
+C specific processing for dmas
 C
       IF(ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS >0.AND.ILEV==1) THEN
         DO II=1,NMN
@@ -1341,13 +1341,13 @@ C
       ENDIF
 
 C------------------------------
-C     FORCES ET MOMENTS DES NOEUDS SECONDS
+C     forces and moments of secondary nodes
 C     TRANSMIS AUX NOEUDS MAINS SOUS
-C     FORME DE FORCES
+C     force shape
 C
-C     MASSES ET INERTIES DES NOEUDS SECONDS
+C     masses and inertias of secondary nodes
 C     TRANSMISES AUX NOEUDS MAINS SOUS
-C     FORME DE MASSES
+C     mass shape
 C------------------------------
       IF(IMPL_S>0) THEN
         DO II=1,NSN
@@ -1382,7 +1382,7 @@ C
             ENDIF
             FACM = ONE / NIR
 C----------------------------------------------------
-C       VITESSE DE ROTATION MOYENNE DU SEGMENT MAIN
+C       average rotation speed of the main segment
 C----------------------------------------------------
             X0=FACM*(XM(1)+XM(2)+XM(3)+XM(4))
             Y0=FACM*(YM(1)+YM(2)+YM(3)+YM(4))
@@ -1704,7 +1704,7 @@ C----
       ENDIF
 C
 C
-C Traitement specifique pour ADM
+C specific processing for adm
 C
       IF(ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS >0.AND.ILEV==1) THEN
 #include "vectorize.inc"

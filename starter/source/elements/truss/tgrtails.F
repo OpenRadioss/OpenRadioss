@@ -48,9 +48,9 @@ C            A R G U M E N T S
 C-----------------------------------------------
 C     IXT(5,NUMELT)      TABLEAU CONECS+PID+MID+NOS TRUSSES         E
 C     IPARG(NPARG,NGROUP)TABLEAU DES CARACTERISTIQUES DES GROUPES   E/S
-C     GEO(NPROPG,NUMGEO) TABLEAU DES CARACS DES PID                 E
+C     geo(npropg,numgeo) array of pid characteristics
 C     EADD(NUMELT)       TABLEAU DES ADRESEES DANS IDAM CHGT DAMIER E
-C     DD_IAD             TABLEAU DE LA DD EN SUPER GROUPES          S
+C     dd_iad array of dd in super groups
 C     INDEX(NUMELT)      TABLEAU DE TRAVAIL                         E/S
 C     INUM(NUMELT)       TABLEAU DE TRAVAIL                         E/S
 C     CEP(NUMELT)        TABLEAU DE TRAVAIL                         E/S
@@ -179,7 +179,7 @@ C
         NFT = NFT + NEL
       ENDDO
 C
-C RENUMEROTATION POUR SURFACES
+C renumbering for surfaces
 C
       DO I=1,NSURF
         NN=IGRSURF(I)%NSEG
@@ -189,7 +189,7 @@ C
         ENDDO
       ENDDO
 C
-C RENUMEROTATION POUR GROUPES DE SHELL
+C renumbering for shell groups
 C
       DO I=1,NGRTRUS
         NN=IGRTRUSS(I)%NENTITY
@@ -212,7 +212,7 @@ C
 C
 C-------------------------------------------------------------------------
 C phase 2 : bornage en groupe de mvsiz
-C ngroup est global, iparg est global mais organise en fonction de dd
+C ngroup is global, iparg is global but organized according to dd
 C
 
       DO 300 N=1,ND

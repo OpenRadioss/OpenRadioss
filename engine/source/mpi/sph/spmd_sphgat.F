@@ -87,7 +87,7 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
       LOC_PROC = ISPMD+1
 
-C Compactage des structures
+C compaction of structures
 C
       IDEB = 0
       NN = 0
@@ -129,7 +129,7 @@ C
 C
       IERROR = 0
       IF(ALLOCATED(XSPHR))DEALLOCATE(XSPHR)
-C reallocation avec nouveau NSPHR sur la taille totale
+C reallocation with new nsphr on the total size
       ALLOCATE(XSPHR(SIZSPC,NSPHR),STAT=IERROR1)
       IERROR = IERROR + IERROR1
       IF(ALLOCATED(WACOMPR))DEALLOCATE(WACOMPR)
@@ -142,7 +142,7 @@ C reallocation des tags cellule active a recevoir
       ALLOCATE(ISPHR(NSPHR),STAT=IERROR1)
       IERROR = IERROR + IERROR1
       IF(NSPCOND>0) THEN
-C reallocation du tableau gerant les particules symetrisees
+C reallocation of the array managing the symmetrized particles
         IF(ALLOCATED(ISPSYMR))DEALLOCATE(ISPSYMR)
         ALLOCATE(ISPSYMR(NSPCOND,NSPHR),STAT=IERROR1)
         IERROR = IERROR + IERROR1
@@ -181,7 +181,7 @@ C
           IF(IXSP(NN,N)<ZERO) THEN
 C renumerotation
             IXSP(NN,N) = -INDEX(-IXSP(NN,N))
-C flag differenciant les cellules actives des autres
+C flag distinguishing active cells from others
             ISPHR(-IXSP(NN,N)) = 1
           END IF
         END DO
@@ -204,7 +204,7 @@ C
           IF(IXSP(NN,N)<ZERO) THEN
 C renumerotation
             IXSP(NN,N) = -INDEX(-IXSP(NN,N))
-C flag differenciant les cellules actives des autres
+C flag distinguishing active cells from others
             ISPHR(-IXSP(NN,N)) = 1
           END IF
         END DO

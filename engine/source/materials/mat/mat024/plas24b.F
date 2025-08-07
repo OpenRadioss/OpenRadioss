@@ -101,7 +101,7 @@ C=======================================================================
 c
       TOL =( RT-RC)/TWENTY
 c------------------------------------------------
-C  RETOUR SUR LE CRITERE ,SIG ,CDAM,CRAK,...
+C  return to the criterion, sig, cdam, crak, ...
 c------------------------------------------------
       DO J = 1,NINDX
         I = INDX(J)
@@ -171,7 +171,7 @@ c--------------------------------
         DEPS5(I) = FAC * DEPS5(I) 
         DEPS6(I) = FAC * DEPS6(I) 
 c---------------------------------------------------------
-c ...   DEBUT DES ITERATIONS
+c ...   start of the iterations
 c---------------------------------------------------------
         DO ITER=1,NITER
 c--------------------
@@ -190,7 +190,7 @@ C CAPE
           ELSE
             VK(I) = ZERO
           ENDIF
-C ON TRONQUE PRES DE l'AXE des pressions
+C truncated near the pressure axis
 C CRITERE
           AJ3 = S1(I)*S2(I)*S3(I)
      .        - S1(I)*S5(I)*S5(I)-S2(I)*S6(I)*S6(I)-S3(I)*S4(I)*S4(I)
@@ -254,7 +254,7 @@ C
               ALPHA = ALI0
             ENDIF
 C
-c           Definition de la zone de transition
+c           definition of the transition zone
 C
 c            SEUIL = ALI0
             SEUIL = MIN(-EM01,ALI0)
@@ -291,14 +291,14 @@ c           Ecoulement non associe
             DGS4=S4(I)/AJJ
             DGS5=S5(I)/AJJ
             DGS6=S6(I)/AJJ
-c           Transition et associe
+c           transition and associated
             DGS1=FAC*DGS1+FAC1*DFS1
             DGS2=FAC*DGS2+FAC1*DFS2
             DGS3=FAC*DGS3+FAC1*DFS3
             DGS4=FAC*DGS4+FAC1*DFS4
             DGS5=FAC*DGS5+FAC1*DFS5
             DGS6=FAC*DGS6+FAC1*DFS6
-c compactance dilatance effective (!= alpha sur la cape)
+c effective compaction dilatancy (!= alpha on the cap)
 c correction erreur           ALPHA = DGS1+DGS2+DGS3
             ALPHA = THIRD*(DGS1+DGS2+DGS3)
 C ECROUISSAGE
@@ -324,7 +324,7 @@ c Contribution volumetrique
                 ECR = ECR + RF * DKDSM*HPV*ALPHA
               ENDIF
             ENDIF
-c plasticite parfaite sur le critere de rupture
+c perfect plasticity on the failure criterion
 c            ECR=ECR*(HALF-SIGN(HALF,VK(I)-ONE)) 
 c            write(993,"(A,3E12.3)")'vkvk0  ',VK(I),VK0(I),SQRT(R2/RF2)
 c            write(993,"(A,3E12.3)")'SMrobrk',sm(I),ROB(I),ROK
@@ -333,8 +333,8 @@ c            write(993,"(A,3E12.3)")'SMrobrk',sm(I),ROB(I),ROK
               ECR=ZERO
             ENDIF
 C PRODUITS TENSORIELS
-C *scal car si la fissure est ouverte pas de plasticite dans cette direction
-C les termes croises sont deja nul dans cdam 
+C *scal because if the crack is open, no plasticity in this direction
+C the cross terms are already zero in cdam
             DFS1=DFS1*SCAL1(I)
             DFS2=DFS2*SCAL2(I)
             DFS3=DFS3*SCAL3(I)
@@ -401,7 +401,7 @@ c           SIG(I,5)=SIG(I,5)+C55(I)*DEPSEL5
 c           SIG(I,6)=SIG(I,6)+C66(I)*DEPSEL6
 C
 C . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-C RECALCUL DES DEFORMATION ELASTIQUES POUR REOUVERTURE DES FISSURES
+C recalculation of elastic strains for crack reopening
 C . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 c           C11 = ONE/DE1(I)/YOUNG
 c           C12 = -NU*SCAL1(I)*SCAL2(I)/YOUNG
@@ -547,7 +547,7 @@ C
             ELSEIF(SM(I)>=ROK) THEN
               VKK=VK(I)
             ELSE
-c             si au dela de la cape, on change rob
+c             if beyond the cap, rob is changed
               VKMAX=ONE- ((SM(I)-ROK)/(ROB(I)-ROK))**2
               IF (VK(I)>VKMAX) THEN
                 ROK = SM(I) - SQRT(ONE-VK(I))*(RO0-ROK0)
@@ -601,7 +601,7 @@ c         equivalent plastic strain for output
             PLA(I,6) = PLA(I,6) + LAMBDA*DGS5
             PLA(I,7) = PLA(I,7) + LAMBDA*DGS6
 c-----------
-c         FIN DES ITERATIONS
+c         end of the iterations
         ENDDO ! ITER
 c-----------
       ENDDO ! NINDX

@@ -115,8 +115,8 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
 C=======================================================================
-C     tag des boites contenant des facettes
-C     et creation des candidats
+C     tag of boxes containing facets
+C     and creation of candidates
 C=======================================================================
       ALLOCATE( INDEX_P(NSP2SORT,NSPMD) )
       ALPHA_MARGE = SQRT(ONE +SPASORT)
@@ -162,7 +162,7 @@ C
      .                         REQUEST_CRVOX,SPMD_COMM_WORLD)
 !   -------------------------
 C
-C   envoi de XREM
+C   sending xrem
 C
 
 #if _PLMPI

@@ -255,7 +255,7 @@ C     rot matrix (eigenvectors)
         ENDDO
       ENDIF
 C-----------------------------------------------
-C  Calcul de la tempurature. (conduction ou adiabatique)
+C  calculation of the temperature (conduction or adiabatic)
 C--------------------    
       IF (JTHE == 0) THEN
         DO I=1,NEL

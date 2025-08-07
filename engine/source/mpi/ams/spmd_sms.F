@@ -853,7 +853,7 @@ c      SIZ=1
 c      CALL MPI_ALLTOALL(NNZP,SIZ,MPI_INTEGER,MNZP,SIZ,MPI_INTEGER,
 c     .      SPMD_COMM_WORLD,IERROR)
 C
-C sur dimensionne
+C over dimensioned
       DO P = 1, NSPMD
        NNZM=NNZM+MNZP(P)
       END DO

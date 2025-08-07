@@ -405,7 +405,7 @@ C---
       GEO(6)= N1+EM01  ! to be cleaned
       IGEO(4) = N1
 C--------------------------------------------------------------------
-C    LECTURE DES ANGLES,EPAISSEURS,POSITIONS DE COUCHES ET MATERIAUX
+C    READING OF ANGLES, THICKNESSES, LAYER POSITIONS AND MATERIALS
 C--------------------------------------------------------------------
 C----------------------
 C READ LINE 5 -> 5+N1
@@ -454,7 +454,7 @@ C---  calcul epaisseur & position des couches
         DO N=1,N1
           GEO(IPTHK+N)=GEO(IPTHK+N) / MAX(THICKT,EM20)
         ENDDO
-C---      calcul automatique de position des couches
+C--- automatic calculation of layer positions
         GEO(IPPOS+1) = -HALF + HALF*GEO(IPTHK+1)
         DO N=2,N1
           GEO(IPPOS+N) = GEO(IPPOS+N-1)

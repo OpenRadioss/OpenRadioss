@@ -259,7 +259,7 @@ C--------------------------------------------------------
       IF (SYM_FLAG_TYPE19 > 0) FORC_SIGN = -ONE
 C
 C--------------------------------------------------------
-C  CAS DES PAQUETS MIXTES
+C  case of mixed packets
 C--------------------------------------------------------
       IF((INTTH == 0.OR.DRAD == ZERO).AND.DGAPLOADP==ZERO) THEN ! NO HEAT EXCHANGE/No load pressure
         IF(ICURV(1) == 3) THEN
@@ -439,7 +439,7 @@ C---------------------
 C     COURBURE FIXE
 C---------------------
       IF(ICURV(1)==1)THEN
-C       spherique (que concave pour le moment)
+C       spherical (only concave for now)
         NA1 = ICURV(2)
         DO I=1,JLT-JLT_TIED
           RR = 1.E30
@@ -733,11 +733,11 @@ C      PENE INITIALE
 C---------------------
       IF(INACTI==5)THEN
         DO I=1,JLT-JLT_TIED
-C REDUCTION DE LA PENE INITIALE
+C reduction of the initial penetration
 C          CAND_P(INDEX(I))=MIN(CAND_P(INDEX(I)),PENE(I))
           CAND_P(INDEX(I))=MIN(CAND_P(INDEX(I)),
      .           ((ONE-FIVEEM2)*CAND_P(INDEX(I))+FIVEEM2*PENE(I))  )
-C SOUSTRACTION DE LA PENE INITIALE A LA PENE ET AU GAP
+C subtraction of the initial penetration from the penetration and the gap
           PENE(I)=MAX(ZERO,PENE(I)-CAND_P(INDEX(I)))
           IF( PENE(I)==ZERO )  STIF(I) = ZERO
           GAPV(I)=GAPV(I)-CAND_P(INDEX(I))
@@ -752,12 +752,12 @@ C          CAND_P does not vary during tying (IF ITIED=1, rebound occurs when PE
 
       ELSE IF(INACTI==6)THEN
         DO I=1,JLT-JLT_TIED
-C REDUCTION DE LA PENE INITIALE
+C reduction of the initial penetration
 C           CAND_P(INDEX(I))=MIN(CAND_P(INDEX(I)),PENE(I))
           CAND_P(INDEX(I))=MIN(CAND_P(INDEX(I)),
      .       ( (ONE-FIVEEM2)*CAND_P(INDEX(I))
      .         +FIVEEM2*(PENE(I)+FIVEEM2*(GAPV(I)-PENE(I))))  )
-C SOUSTRACTION DE LA PENE INITIALE A LA PENE ET AU GAP
+C subtraction of the initial penetration from the penetration and the gap
           PENE(I)=MAX(ZERO,PENE(I)-CAND_P(INDEX(I)))
           IF( PENE(I)==ZERO )  STIF(I) = ZERO
           GAPV(I)=GAPV(I)-CAND_P(INDEX(I))
@@ -1318,7 +1318,7 @@ C---------------------------------
             ELSE
             ENDIF
           ELSE
-cbb  initialisation du tableau VIS2 pour eviter des problemes
+cbb initialization of the VIS2 array to avoid problems
             VIS2(I) = ZERO
             STIF(I) = STIF(I) * GAPV(I) /
      .             MAX((GAPV(I) - PENE(I)),EM10)
@@ -3277,7 +3277,7 @@ C
 
           IE=CE_LOC(I)
 
-          KK  =ADDSUBM(IE) ! Addresse du M
+          KK  =ADDSUBM(IE) ! address of M
           DO WHILE(KK<ADDSUBM(IE+1))
 !             all sub interfaces of S
             KSUB=LISUBM(KK)
@@ -4148,7 +4148,7 @@ C-----------------------------------------------------
       IF((IBAG/=0).OR.(IADM/=0).OR.(IDAMP_RDOF/=0)) THEN
         DO I=1,JLT
 C       IF(PENE(I)/=ZERO)THEN
-C test modifie pour coherence avec communication SPMD (spmd_i7tools)
+C test modified for consistency with SPMD communication (spmd_i7tools)
           IF(FXI(I)/=ZERO.OR.FYI(I)/=ZERO.OR.FZI(I)/=ZERO)THEN
             JG = NSVG(I)
             IF(JG>0) THEN

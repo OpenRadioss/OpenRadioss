@@ -70,7 +70,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       IF (FLAGG == 0) ICOUNT=0
 C---
-C     boucle sur les boxes
+C     loop over the boxes
 C---
       DO IB=1,NBBOX
         SKIPFLAG = 0
@@ -215,7 +215,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       IF (FLAGG == 0) ICOUNT=0
 C---
-C     boucle sur les boxes
+C     loop over the boxes
 C---
       DO IB=1,NBBOX
         SKIPFLAG = 0
@@ -358,7 +358,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       IF (FLAGG == 0) ICOUNT=0
 C---
-C     boucle sur les boxes
+C     loop over the boxes
 C---
       DO IB=1,NBBOX
         SKIPFLAG = 0
@@ -507,7 +507,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       IF(FLAGG == 0)ICOUNT=0
 C---
-C     boucle sur les boxes
+C     loop over the boxes
 C---
       DO IB=1,NBBOX
         SKIPFLAG = 0

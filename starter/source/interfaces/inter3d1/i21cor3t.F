@@ -70,7 +70,7 @@ C Depth >= gap
           GAPV(I)=MAX(DEPTH+DGAPLOAD,DRAD)
         END DO
       ELSE
-C ... on pourrait utiliser le fait Depth >= max(gapv) dans le starter ...
+C ... we could use the fact Depth >= max(gapv) in the starter ...
         DO I=LFT,LLT
           GAPV(I)=GAP_S(CAND_N(I))
           GAPV(I)=MIN(GAPV(I),GAPMAX)

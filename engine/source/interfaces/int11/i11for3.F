@@ -553,7 +553,7 @@ C
         ENDDO
       ENDIF
 C
-C     impulsion normale pour les sous-interfaces
+C     normal impulse for sub-interfaces
 C
       IF (NISUB > 0) THEN
 C
@@ -1016,7 +1016,7 @@ C
       ENDIF
 C
 C
-C     impulsion tangentielle dans les sous-interfaces
+C     tangential impulse in sub-interfaces
 C
       IF (NISUB > 0) THEN
 C

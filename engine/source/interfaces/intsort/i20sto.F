@@ -94,7 +94,7 @@ C-----------------------------------------------
      .               YI    ,ZI    ,PENE  ,IX1    ,IX2  ,
      .               IX3   ,IX4   ,IGAP  ,GAP    ,GAPV )
 C-----------------------------------------------
-C SUPPRESSION DES CANDIDATS AUTOIMPACTES S1 OU S2
+C removal of self-impacted candidates s1 or s2
 C-----------------------------------------------
        IF(ISYM==1)THEN
          DO I=1,J_STOK
@@ -124,7 +124,7 @@ C-----------------------------------------------
                 N  = PROV_N(I)
                 NE = PROV_E(I)+ESHIFT
                 IF(N>NSN) THEN
-C numerotation tris precedent pour les noeuds non locaux (SPMD)
+C previous sorting numbering for non-local nodes (spmd)
                  N = OLDNUM(N-NSN)+NSN
                   IF(N==NSN) N = NSN+NSNROLD+1
                 END IF
@@ -241,11 +241,11 @@ C-----------------------------------------------
         CALL I20PEN3_EDGE(J_STOK ,PROV_S,PROV_M,TZINF ,XA    ,
      .               IXLINS,IXLINM,PENE  ,NLINSA ,NIN   )
 C-----------------------------------------------
-C il faut un lock sur toute la boucle (modification de chaine)
+C need a lock on the entire loop (chain modification)
 #include "lockon.inc"
         K_STOK = 0
 C-----------------------------------------------
-C elimination des couples deja trouves dans 1 boite precedente
+C elimination of pairs already found in 1 previous box
 C-----------------------------------------------
         I_STOK = II_STOKE
         IAD0 = 0
@@ -399,7 +399,7 @@ C
           M1=IXLINM(1,CAND_E(I))
           M2=IXLINM(2,CAND_E(I))
 
-c         calcul d'un minorant de la distance
+c         calculation of a distance lower bound
 
           XMAX1 = MAX(X11,X21)
           YMAX1 = MAX(X12,X22)
@@ -420,7 +420,7 @@ c         calcul d'un minorant de la distance
             CYCLE
           ENDIF
 
-c         calcul de la distance^2
+c         calculation of distance^2
 
           XS12 = X21-X11
           YS12 = X22-X12

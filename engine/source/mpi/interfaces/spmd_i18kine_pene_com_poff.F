@@ -96,8 +96,8 @@ C-----------------------------------------------
       DATA MSGOFF/148/
       DATA MSGOFF2/149/
 C-----------------------------------------------
-C Sur la type 18KINE, il y a 3 comm qui sont bases
-C sur le meme schemas avec des
+C On the 18KINE type, there are 3 comms that are based
+C on the same schema with
 C donn  es differentes
 C MODE =
 C   1 : PENE + PENEMIN
@@ -117,7 +117,7 @@ C   3 : Accelerations noeuds seconds
       ELSEIF(MODE==3)THEN
         ALEN=7
       ENDIF
-C Comptage des tailles de buffer  Receeption et envoi
+C Counting buffer sizes Reception and sending
       DO P=1,NSPMD
          IADR(P)=LENRV+1
          DO NIN=1,NINTER
@@ -140,7 +140,7 @@ C Comptage des tailles de buffer  Receeption et envoi
           ENDIF
       ENDIF
 
-C Preparation du recieve
+C Preparation of the receive
       IF(LENRV>0)THEN
           ALLOCATE(BBUFR(LENRV),STAT=IERROR)
           IF(IERROR/=0) THEN
@@ -159,7 +159,7 @@ C Send
            INACTI =IPARI(22,NIN)
            IF((NTY==7.and.IPARI(34,NIN)==-2.and.INACTI==7).OR.
      .        (NTY==22.and.IPARI(34,NIN)==-2.and.INACTI==7)) THEN
-C Preparation du send
+C Preparation of the send
              NB = NSNFI(NIN)%P(P)
              IF (MODE==1)THEN
                DO NN=1,NB
@@ -290,7 +290,7 @@ c                      ENDIF
           L=L+SIZ
       ENDDO
 
-C Fin du send
+C End of the send
       DO P = 1, NSPMD
           IF (P==NSPMD)THEN
              SIZ=LENSD-IADS(P)
@@ -306,7 +306,7 @@ C Fin du send
       IF (ALLOCATED(BBUFR)) DEALLOCATE(BBUFR)
 
 C--------------------------------------------------
-C 2eme partie - echanges sur les noeuds frontieres
+C 2nd part - exchanges on the boundary nodes
 C--------------------------------------------------
       IF(MODE==1)THEN
         LEN=5
@@ -337,7 +337,7 @@ C--------------------------------------------------
       END DO
 
 
-C Remplis le Buffer
+C Fill the Buffer
       L=1
       DO P=1,NSPMD
         IADS(P)=L
@@ -354,8 +354,8 @@ C Remplis le Buffer
             BBUFS(L)  =MTF(1,NOD)
             BBUFS(L+1)=MTF(2,NOD)
             BBUFS(L+2)=MTF(3,NOD)
-C MTF(4-6) ne sont pas des valeurs de cumuls initialises dans les parties
-c ou l on en a besoin. Inutile de les communiquer
+C MTF(4-6) are not initialized cumulative values in the parts
+c where they are needed. No need to communicate them
 c            BBUFS(L+3)=MTF(4,NOD)
 c            BBUFS(L+4)=MTF(5,NOD)
 c            BBUFS(L+5)=MTF(6,NOD)
@@ -412,8 +412,8 @@ C Reception
                MTF(1,NOD)=MTF(1,NOD)+BBUFR(L)
                MTF(2,NOD)=MTF(2,NOD)+BBUFR(L+1)
                MTF(3,NOD)=MTF(3,NOD)+BBUFR(L+2)
-C MTF(4-6) ne sont pas des valeurs de cumuls initialises dans les parties
-c ou l on en a besoin. Inutile de les communiquer
+C MTF(4-6) are not initialized cumulative values in the parts
+c where they are needed. No need to communicate them
 c               MTF(4,NOD)=BBUFR(L+3)
 c               MTF(5,NOD)=BBUFR(L+4)
 c               MTF(6,NOD)=BBUFR(L+5)
@@ -431,7 +431,7 @@ c               MTF(6,NOD)=BBUFR(L+5)
         ENDIF
       ENDDO
 
-C Fin du send
+C End of the send
       DO P = 1, NSPMD
           SIZ=IADS(P+1)-IADS(P)
           IF(SIZ>0) THEN

@@ -202,11 +202,11 @@ C
       BMINMAE(5)=EP30
       BMINMAE(6)=EP30
 C -------------------------------------------------------------
-C     STOCKAGE DES ANCIENS CANDIDATS AVEC PENE INITIALE
-C     OU AVEC DU FILTRAGE DE FROTTEMENT
+C     storage of old candidates with initial penetration
+C     or with friction filtering
 C -------------------------------------------------------------
 C
-C Barriere dans tous les cas pour bminma [et cur_max_max]
+C barrier in all cases for bminma [and cur_max_max]
 C
       CALL MY_BARRIER
 
@@ -249,7 +249,7 @@ ctmp          IF(I_SK_OLD==0)INACTI=0
 C -------------------------------------------------------------
 C     CALCUL BORNE DOMAINE REMONTE DANS I7XSAVE
 C -------------------------------------------------------------
-C eshift : decalage sur cand_e
+C eshift : offset on cand_e
 C sauvegarde de XSAV (tableau BUFIN(JD(19)))
       CALL I20XSAVE(
      1 ITASK      ,INTBUF_TAB%XA,NTY    ,NSN        ,
@@ -275,7 +275,7 @@ C ----------------------------------------------------------
 C     NOEUDS SURFACE
 C ----------------------------------------------------------
       RESULT = 0
-C BARRIER II_STOK et RESULT
+C barrier II_STOK and RESULT
       CALL MY_BARRIER
       INACTI = IPARI(22,NIN)
       IF(ITASK==0)THEN
@@ -297,7 +297,7 @@ C BARRIER II_STOK et RESULT
         NSNR = 0
         IF(NSPMD>1) THEN
 C
-C recuperation des noeuds remote NSNR stockes dans XREM
+C retrieval of remote nodes NSNR stored in XREM
 C
        IF(IMONM > 0) CALL STARTIME(TIMERS,25)
        CALL SPMD_TRI20BOX(
@@ -402,7 +402,7 @@ C--------------------------------------------------------------
         TZINF  = INTBUF_TAB%VARIABLES(8)
         GOTO 50
       ENDIF
-C mise a - de dist temporairement pour reperage dans partie frontiere
+C set dist to negative temporarily for marking in boundary part
       IF(NSPMD>1)THEN
 C mono tache
 !$OMP SINGLE
@@ -442,7 +442,7 @@ C
         BMINMAE(6) = MIN(BMINMAE(6),ZMINEL)
 #include "lockoff.inc"
         RESULT = 0
-C BARRIER II_STOK et RESULT
+C barrier II_STOK and RESULT
         CALL MY_BARRIER
         IF(ITASK==0)THEN
           IF(ABS(BMINMAE(6)-BMINMAE(3))>2*EP30.OR.
@@ -461,7 +461,7 @@ C BARRIER II_STOK et RESULT
           BMINMAE(5)=BMINMAE(5)-TZINF
           BMINMAE(6)=BMINMAE(6)-TZINF
 C
-C recuperation des noeuds remote NLINSR stockes dans XREM
+C retrieval of remote nodes NLINSR stored in XREM
 C
           NLINSR = 0
           IF(NSPMD>1) THEN
@@ -490,7 +490,7 @@ C
         IF(IGAP/=0)THEN
           GAP_SHIFT= GAP
           GAP   = GAP   + GAP_SHIFT
-c fait dans le starter          TZINF = TZINF + GAP_SH
+c done in the starter          TZINF = TZINF + GAP_SH
         ENDIF
         IF(NRTM_T/=0)THEN
           CALL I20BUC_EDGE(
@@ -553,7 +553,7 @@ C--------------------------------------------------------------
           GOTO 150
         ENDIF
         IF (NSPMD>1) THEN
-C mise a - de dist temporairement pour reperage dans partie frontiere
+C set dist to negative temporarily for marking in boundary part
 C mono tache
 !$OMP SINGLE
           IF (IMONM > 0) CALL STARTIME(TIMERS,26)

@@ -886,8 +886,8 @@ C--------------------------------------------
               CALL INSURF(NRTM,NMN,IRM,IRECTM,
      .                    SURF_NODES,ITAB,MSR,ID,TITR,
      .                    NTAG,S_MSR,S_IRECTM,TYPE18)
-              IPARI(6,NI)  = NMN           !nombre de main node.
-              IPARI(33,NI) = IGRSURF(ISU2)%NSEG ! nombre de facette main
+              IPARI(6,NI)  = NMN           !number of main node.
+              IPARI(33,NI) = IGRSURF(ISU2)%NSEG ! number of main facet
               IPARI(4,NI)  = IGRSURF(ISU2)%NSEG
 C--------------------------------------------
         ELSEIF( NTYP == 23) THEN

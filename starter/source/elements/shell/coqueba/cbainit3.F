@@ -665,7 +665,7 @@ C to be checked for IGTYP = 51
 c
       ENDIF  ! IHBE
 C-------------------------------------------
-c     CALCUL DES DT ELEMENTAIRES
+c     calculation of elementary dt
 C-------------------------------------------
          IF (IGTYP /= 1  .AND. IGTYP /= 7  .AND.
      .       IGTYP /= 9  .AND. IGTYP /= 10 .AND.

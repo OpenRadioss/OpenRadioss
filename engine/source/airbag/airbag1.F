@@ -295,7 +295,7 @@ C
        AMTOT=AMTOT-DGMOUT
        RVOLU(11)=GMI
 C---------------------
-C      variation de TEMPERATURE et PRESSION
+C      variation of TEMPERATURE and PRESSURE
 C---------------------
        GMI =RVOLU(11)
        CPAI=RVOLU(7)

@@ -256,7 +256,7 @@ c
 C             STRESS TENSOR IN GLOBAL SYSTEM
               DO I=1,NEL
                N = I + NFT
-C            pour JHBE=14, valeurs moyennes est dans rep. corota.
+C            for jhbe=14, average values are in the corota frame.
           IF(KCVT==2.AND.JHBE/=14)THEN
             II = 6*(I-1)
             GAMA(1)=GBUF%GAMA(JJ(1) + I)
@@ -3482,7 +3482,7 @@ c
 C            STRESS TENSOR IN GLOBAL SYSTEM
              DO I=1,NEL
               N = I + NFT
-C              pour JHBE=14, valeurs moyennes est dans rep. corota.
+C              for jhbe=14, average values are in the corota frame.
                IF(KCVT==2.AND.JHBE/=14)THEN
                  II = 6*(I-1)
                  GAMA(1)=GBUF%GAMA(JJ(1) + I)
@@ -4567,7 +4567,7 @@ C-----------------------------------------------
      .                 SOLID_TENSOR_CORNER,NEL,0,NFT,EVAR_CORNER,MAXNNOD,IS_WRITTEN_TENSOR)
 C
 c-----------
-         ISORTHG = ISORTH   ! pour precaution
+         ISORTHG = ISORTH   ! as a precaution
 C-----------------------------------------------
         ELSE
 c
@@ -5028,7 +5028,7 @@ C
         DET(I)=AJ1(I)*JAC_59_68+AJ2(I)*JAC_67_49+AJ3(I)*JAC_48_57
 C        DET(I)=ONE_OVER_64*(AJ1(I)*JAC_59_68+AJ2(I)*JAC_67_49+AJ3(I)*JAC_48_57)
         DETT=1.0/DET(I)
-C       INVERSE DE LA MATRICE JACOBIENNE
+C       inverse of the jacobian matrix
         AJI1=DETT*JAC_59_68
         AJI4=DETT*JAC_67_49
         AJI7=DETT*JAC_48_57
@@ -5132,7 +5132,7 @@ C
       DO I=1,NEL
         DETT=1.0/DET(I)
 C
-C     INVERSE DE LA MATRICE JACOBIENNE
+C     inverse of the jacobian matrix
 C
         AJI1=DETT*JAC_59_68
         AJI4=DETT*JAC_67_49

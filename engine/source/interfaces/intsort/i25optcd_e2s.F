@@ -453,7 +453,7 @@ C
          NLS=0
 C =========  REMOTE TRIM 1
          DO LS = NLF, NLT
-C   conserver LISTI et LIST pour optimiser le code genere (IA64)
+C   keep LISTI and LIST to optimize generated code (IA64)
           IS = LISTI(LS)
           I=JS+IS
           II = CAND_S(I)-NEDGE

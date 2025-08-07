@@ -441,7 +441,7 @@ c--------------------------------------------
            ENDIF
 C
 C------------------------------------------------                  
-C         composantes N/T de la forces nodale -> output
+C         n/t components of the nodal force -> output
 C------------------------------------------------                  
            FNORM = E3X*FLOCX(IR) + E3Y*FLOCY(IR) + E3Z*FLOCZ(IR)
            FN(1) = E3X*FNORM
@@ -578,7 +578,7 @@ C
            IX4(K) = IRECT(4,L)  
            STIF(K)= ZERO
            VIS(IR,K) = ZERO
-           IF (WEIGHT(-I) == 1) THEN  ! stokage ZERO pour noeuds delete par idel2
+           IF (WEIGHT(-I) == 1) THEN  ! zero storage for nodes deleted by idel2
              I0 = I0 + 1
              JJ = 1                                                       
              NM = IADI2(JJ,I0)                                            

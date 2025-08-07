@@ -57,7 +57,7 @@ C
       KK1 = 0
       DO I=1,NVOLU
        ITYP=MONVOL(K1+1)
-C communication dans resol juste avant mvoludt et envoi a proc0 des volmon
+C communication in resol just before mvoludt and sending to proc0 of volmon
 C evite difference en parallele quand processeur ne traite pas ts les airbags
 C voir formules sur min dty / max dtx
 C debranchement a part pour le proc main (proc ayant a jour p,v,s)

@@ -29,7 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      1   T,       AV1,     AV2,     AV3,
      2   UPARAM,  XK,      NEL    )
 C----------------------------------------
-C     CALCUL DE LA CONDUCTIVITE THERMIQUE
+C     calculation of thermal conductivity
 C----------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -57,7 +57,7 @@ C
 C     rigidit    (ou conductibilite thermique) equivalente 
 C
 C
-C   hyp. de distribution de la phase 1 sur le volume:
+C   hypothesis of phase 1 distribution over the volume
 C
 C
 C                  0-----+--------0  
@@ -84,7 +84,7 @@ C             al1
 C
 C
 C-----------------------------------------------
-C  pour 2 phases:
+C  for 2 phases
 C
 C                             (1-al1^2-al2^2)
 C   K = K1 al1^2 + K2 al2^2 + ---------------
@@ -92,7 +92,7 @@ C                             al1/K1 + al2/K2
 C
 C si K1=K2=KO K=K0  (al1+al2 = 1)
 C-----------------------------------------------
-C  generalisation pour 3 phases:
+C  generalization for 3 phases
 C
 C
 C                                            (1-al1^2-al2^2-al3^2)
@@ -109,7 +109,7 @@ C                                         al1/K1 + al2/K2 + al3/K3
 C
 C => si K1=K2=K3=K0 => K=KO   
 C-----------------------------------------------
-C   calcul de al a partir de av (pour chaque phase):
+C   calculation of al from av (for each phase)
 C
 C   av = 3 al^2 - 2 al^3
 C

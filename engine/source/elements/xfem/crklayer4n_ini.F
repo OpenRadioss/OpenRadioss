@@ -97,7 +97,7 @@ C=======================================================================
       NEWCRK = 0
       DO I=1,NEL
         JCT(I) = 0
-        IF (ELCRKINI(ILAY,I) == -1) THEN   ! initialisation de fissure
+        IF (ELCRKINI(ILAY,I) == -1) THEN   ! crack initialization
           NEWCRK = NEWCRK + 1
           JCT(NEWCRK) = I
         ENDIF

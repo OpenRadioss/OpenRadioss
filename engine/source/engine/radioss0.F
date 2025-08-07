@@ -63,13 +63,13 @@ C-----------------------------------------------
       INTEGER :: DYN_LIB_MODE
 C-----------------------------------------------
 C attention IBM/MPI ne supporte pas de REWIND sur STDIN !
-C     La lecture du fichier D01 pour detection de l'option /MADYMO/ON
+C     Reading the D01 file to detect the /MADYMO/ON option
 C     n'est pas autorisee en SPMD.
 C     => A modifier si cette option doit etre supportee en SPMD ../..
       INTEGER ISTDI
       CHARACTER KEYA*80
 C----------------------------------------------
-C Parametres argument de run
+C Run argument parameters
       CALL FILE_INIT()       ! Initialize C FILE buffer for IEEE writing
 
 C 

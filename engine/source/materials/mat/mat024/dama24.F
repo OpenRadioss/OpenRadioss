@@ -142,7 +142,7 @@ c
            CYCLE
         ENDIF
 c
-c       SAUVE LES DIRECTIONS DE DOMMAGE
+c       saves the damage directions
 c
         IF (IDIR == 1) THEN
           ANG(I,1:6) = DIR(1:6)
@@ -150,7 +150,7 @@ c
           ANG(I,4:6) = DIR(4:6)
         ENDIF
 c
-c       CALCULE LE DOMMAGE
+c       computes the damage
 c
         DO K=1,3
           CRAK(I,K) = EPSTOT(K)
@@ -188,7 +188,7 @@ c            SCAL(K)= ZERO
           ENDIF
         ENDDO   ! next K
 c
-c       CALCULE LA MATRICE DE HOOKE ET LES CONTRAINTES (rotation repere !)
+c       computes the hooke matrix and the stresses (rotation of the frame!)
 c
         DEN = ONE - NU**2
      .      * (SCAL(1)*SCAL(2) + SCAL(2)*SCAL(3) + SCAL(3)*SCAL(1)

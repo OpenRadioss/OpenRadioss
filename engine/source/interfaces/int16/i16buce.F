@@ -130,11 +130,11 @@ C-----------------------------------------------
 C Fin initialisation
 C-----------------------------------------------
 C
-C-----2- TRI PAR BOITES DES ELEMENTS ET DES NOEUDS
+C-----2- sorting by boxes of elements and nodes
 C
 C-----------------------------------------------
-C SI ON A PAS ASSEZ DE MEMOIRE POUR LES PILES ON RECOMMENCE LE TRI
-C EN INCREMENTANT LE NB_N_B (NOMBRE DE NOEUDS PAR BOITE FINIE)
+C if there is not enough memory for the stacks, we restart the sorting
+C by incrementing nb_n_b (number of nodes per finished box)
 C     POINTEUR  NOM                 TAILLE
 C     P0........                    NSN + 3
 C     P1........Elt Bas Pile        NME
@@ -148,11 +148,11 @@ C     P22.......PN                  NSN
       IP22= IP21+NSN
       IP31= IP22+NSN
 C-----------------------------------------------
-C     nouvelle phase de tri
+C     new sorting phase
 C-----------------------------------------------
       CONT = 1
 C-----------------------------------------------
-C     Boucle sur les retris
+C     loop over retris
 C-----------------------------------------------
       DO WHILE (CONT/=0)
         CALL I16TRI(

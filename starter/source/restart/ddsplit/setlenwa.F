@@ -93,7 +93,7 @@ C lenwa parallele
       LWAMP_L    = MAX(NAIRWA,NINTWA,NFLUWA+NBHOLWA,NASSMP,NXELWA,NSPHWA,
      +               NIDELWA,LENVOISWA)
 C
-C MSPR utilise dans le starter
+C MSPR used in the starter
       MSPR    = MAX(4*NUMELR0,NPARG*NGROUP)
 C
       LENWA0  = MAX(LWAMP_L,LWANMP_L,MSPR)

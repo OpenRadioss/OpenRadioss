@@ -437,7 +437,7 @@ C------------------------------------------------
           FINI(2,II) = FLY
           FINI(3,II) = FLZ
 C------------------------------------------------
-C         composantes N/T de la forces nodale -> output
+C         n/t components of the nodal forces -> output
 C------------------------------------------------
           HL(1:4) = H(1:4,K)
           CALL I2FORCES(X       ,FS     ,FX     ,FY      ,FZ     ,

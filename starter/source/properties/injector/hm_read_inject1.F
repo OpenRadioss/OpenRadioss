@@ -217,7 +217,7 @@ C ---   Fonctions
 C Conversion d unites ----------------------
       IF(ASTIME == ZERO)ASTIME=ONE*FAC_TIME
       R_IGC1=PM(27,MAT_ID(2,1))
-C     Verification de la croissance des fonctions de masse
+C     Verification of the growth of mass function
       DO I=1,NGASES
         IFUN_TMP=0
         IFUN_TMP_USR=0
@@ -261,7 +261,7 @@ C     Verification de la croissance des fonctions de masse
         END IF
       END DO
 
-C Calcul des caracteristiques initiales du melange
+C Calculation of initial characteristics of the mixture
       MWI_MIXTURE=ZERO
       CPAI_MIX=ZERO
       CPBI_MIX=ZERO
@@ -275,16 +275,16 @@ C Calcul des caracteristiques initiales du melange
       MOL_TOT=ZERO
       INIT_MASS=ZERO
 
-C Calcul de la masse totale
+C Calculation of total mass
       DO I=1,NGASES
          IF (F_IDMASS(2,I) > 0) THEN
             MASS_TOT = MASS_TOT + PLD(NPC(F_IDMASS(2,I))+3)*FSMASS(I)
          ENDIF
       END DO
       DO I=1,NGASES
-C Moyenne simple dans le cas d une masse nulle
-C on considere que chaque gaz arrive avec la meme masse
-C attention dans ce cas la moyenne faite pour mw est :
+C Simple average in the case of a null mass
+C it is assumed that each gas arrives with the same mass
+C note that in this case the average made for mw is:
 C  mw = somme (moles) / somme (masses)
 C  mw = somme (1/masse_molaire) / somme (masses=1)=ngases
        IF (MASS_TOT == ZERO .OR. F_IDMASS(2,I) == 0) THEN

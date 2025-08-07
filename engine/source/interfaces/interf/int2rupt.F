@@ -396,7 +396,7 @@ C            rupture partielle = spring main/secnd
              FY  = STIFN(I)*DY              
              FZ  = STIFN(I)*DZ              
            ENDIF
-C          composantes N/T de la forces nodale                 
+C          n/t components of the nodal forces
            FNORM = VNX*FX + VNY*FY + VNZ*FZ                    
            FTANG = VTX*FX + VTY*FY + VTZ*FZ                    
            FTAN2 = VUX*FX + VUY*FY + VUZ*FZ                    

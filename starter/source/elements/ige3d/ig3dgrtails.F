@@ -167,7 +167,7 @@ C
         NFT = NFT + NEL
       ENDDO  
 C phase 2 : bornage en groupe de mvsiz
-C ngroup est global, iparg est global mais organise en fonction de dd
+C ngroup is global, iparg is global but organized according to dd
 C
       DO 300 N=1,ND
        NFT = 0
@@ -271,9 +271,9 @@ C
 C
       NSPGROUP = NSPGROUP + ND
 C
-C RENUMEROTATION POUR SURFACES
+C renumbering for surfaces
 C
-      DO I=1,NSURF ! mettre un if pour ne pas changer les faces EF classiques
+      DO I=1,NSURF ! add an if to not change the classic ef faces
         NN=IGRSURF(I)%NSEG_IGE
         DO J=1,NN
           IF(IGRSURF(I)%ELTYP_IGE(J) == 101)

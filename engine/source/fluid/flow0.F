@@ -77,7 +77,7 @@ C Description des tableaux ITYP=1
 C     II1  -> IFLOW   : parametres entiers
 C     II2  -> IBUF    : correspondances local-global noeuds surface
 C     II3  -> ELEM    : connectivite locale des triangles
-C     II4  -> IINOUT  : variables entieres pour les surfaces entrees-sorties
+C     II4  -> IINOUT  : integer variables for inlet-outlet surfaces
 C     II5  -> IBUFI   : correspondance local-global noeuds internes
 C     II6  -> ITAGEL  : tag des elements des surfaces d'entrees-sorties
 C----- tableaux SPMD
@@ -94,7 +94,7 @@ C     IR1  -> RFLOW  : parametres reels
 C     IR2  -> PHI    : potentiel
 C     IR3  -> PRES   : pression
 C     IR4  -> U      : vitesse
-C     IR5  -> RINOUT : variables reelles pour les surfaces entrees-sorties
+C     IR5  -> RINOUT : real variables for inlet-outlet surfaces
 C-----------------------------------------------------------------------------------
 C Description des tableaux ITYP=3
 C     II1  -> IFLOW   : parametres entiers
@@ -102,7 +102,7 @@ C     II2  -> IBUF    : correspondances local-global noeuds surface
 C     II3  -> ELEM    : connectivite locale des triangles/quadrangles+flag
 C     II4  -> IBUF_L  : correspondances local-global noeuds surface (a supprimer en SPMD)
 C     II5  -> SHELL_GA: correspondances local shell-gauge
-C     II6  -> CNP     : SPMD nombre de processeur pour chaque noeud
+C     II6  -> CNP     : SPMD number of processors for each node
 C engine
 C     II7  -> IPIV    : lapack resolution nel > nelmax
 C     II8  -> IBUFELR : SPMD

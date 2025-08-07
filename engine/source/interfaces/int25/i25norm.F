@@ -135,7 +135,7 @@ c
                 DO J=1,4
                   NOR=ADMSR(J,L)
 C
-C             considerer L ET tous les segments voisins (cf glissement)
+C             consider l and all neighboring segments (see sliding)
                   DO NL=KNOR2MSR(NOR)+1,KNOR2MSR(NOR+1)
                     LVOIS= NOR2MSR(NL)
                     IF(TAGMSR(LVOIS)==0.AND.STFM(LVOIS) > ZERO) THEN
@@ -163,7 +163,7 @@ C                                  IRTLM(4,N) is INTERCEP
                 ACTNOR(L)=1
                 DO J=1,4
                   NOR=ADMSR(J,L)
-C             considerer L ET tous les segments voisins (cf glissement)
+C             consider l and all neighboring segments (see sliding)
                   DO NL=KNOR2MSR(NOR)+1,KNOR2MSR(NOR+1)
                     LVOIS= NOR2MSR(NL)
                     IF(STFM(LVOIS) > ZERO) THEN
@@ -201,7 +201,7 @@ C
               DO J=1,4
                 NOR=ADMSR(J,L)
 C
-C             considerer L ET tous les segments voisins (cf glissement)
+C             consider l and all neighboring segments (see sliding)
                 DO NL=KNOR2MSR(NOR)+1,KNOR2MSR(NOR+1)
                   LVOIS= NOR2MSR(NL)
                   IF(TAGMSR(LVOIS)==0.AND.STFM(LVOIS) > ZERO) THEN
@@ -234,7 +234,7 @@ C
               DO J=1,4
                 NOR=ADMSR(J,L)
 C
-C             considerer L ET tous les segments voisins (cf glissement)
+C             consider l and all neighboring segments (see sliding)
                 DO NL=KNOR2MSR(NOR)+1,KNOR2MSR(NOR+1)
                   LVOIS= NOR2MSR(NL)
                   IF(STFM(LVOIS) > ZERO) THEN
@@ -255,7 +255,7 @@ C             considerer L ET tous les segments voisins (cf glissement)
         END DO
       ENDIF
 C
-C     Calcul des candidats optimises
+C     calculation of optimized candidates
       FIRST = I_STOK_RTLM + 1 + (I_STOK_GLO-I_STOK_RTLM)*(JTASK-1) / NTHREAD
       LAST  = I_STOK_RTLM +     (I_STOK_GLO-I_STOK_RTLM)*JTASK / NTHREAD
       DO I=FIRST,LAST
@@ -274,7 +274,7 @@ C     Calcul des candidats optimises
         END IF
       END DO
 C
-C     Force le calcul le long des free edges necessaire a vtx_bisector
+C     force calculation along free edges needed for vtx_bisector
       NRTMFT_FREE= 1+(JTASK-1)*NRTM_FREE/NTHREAD
       NRTMLT_FREE= JTASK*NRTM_FREE/NTHREAD
       DO I=NRTMFT_FREE,NRTMLT_FREE
@@ -390,7 +390,7 @@ C
       ENDIF
 
 C
-C     force le calcul des normales vs noeuds frontieres
+C     force calculation of normals vs boundary nodes
       CALL MY_BARRIER()
 
       IF(NSPMD > 1 .AND. JTASK == 1)THEN
@@ -546,7 +546,7 @@ C
         LLT=MIN(NRTMLT-N+1,MVSIZ)
 C
         TAGE(N:LLT+N-1)=0
-CLe nofusion est important 
+Cnofusion is important
 #include  "vectorize.inc"
 CDIR$ NOFUSION
         DO I=1,LLT
@@ -995,7 +995,7 @@ C            CYCLE
           ENDIF
 
            IF(ACTNOR(IRM)==0) THEN
-CC pas besoin de calculer les bis. sur ce irm
+Cno need to calculate the bisectors on this irm
 C             WNOD_NORMAL(1:3,1:4,IRM) = RZERO
               CYCLE
            ENDIF

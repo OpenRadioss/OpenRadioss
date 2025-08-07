@@ -122,7 +122,7 @@ C   N o t e s  F o r  L a t e r
 C-----------------------------------------------
 C -1- Reset tag22 only for brick in previous buffer (check performances)
 C -2- remove pointers
-C -3- mettre les allocatables dans un module
+C -3- put the allocatables in a module
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -761,7 +761,7 @@ c      ALLOCATE (Ntarget(NBF:NBL))
          NCELL                =  BRICK_LIST(NIN,IB)%NBCUT
          Cod1                 =  IABS(BRICK_LIST(NIN,IB)%SecID_CELL(1))
          Cod2                 =  IABS(BRICK_LIST(NIN,IB)%SecID_CELL(2))         
-         IF(NCELL/=0)THEN                                   !si decoupage de brique.
+         IF(NCELL/=0)THEN                                   !if brick cutting.
            !---VOLUME AND CONNECTIVITY                       
            BRICK_LIST(NIN,IB)%POLY(9)%FACE(1)%Surf      = F(1,IB)-SUM( (/ (BRICK_LIST(NIN,IB)%POLY(K)%FACE(1)%Surf,K=1,NCELL)/) )
            BRICK_LIST(NIN,IB)%POLY(9)%FACE(2)%Surf      = F(2,IB)-SUM( (/ (BRICK_LIST(NIN,IB)%POLY(K)%FACE(2)%Surf,K=1,NCELL)/) ) 
@@ -1052,7 +1052,7 @@ c      ALLOCATE (Ntarget(NBF:NBL))
                 NBCUTv                                             = BRICK_LIST(NIN,IBv)%NBCUT                 
                 IF(NBCUTv == 0)THEN
                   !PAS DE VOISIN HYPOTHESE SURFACE FERMEE
-                  !le polyedre voisin est le polyedre 9
+                  !the neighboring polyhedron is polyhedron 9
                   !    +--------+--+-----------+
                   !    |         \1|           !
                   !    |           |           |
@@ -1070,7 +1070,7 @@ C                  pNAdjCell(ICELL,J)  = 0
 C                  pAdjCELL(J,ICELL,1) = 0 !necessarily ICELLv=1                                                         
 C  non sinon cell trapped error et aussi on ne peut pas trouver de pression voisin poru le contact
                 ELSE
-                  !le polyedre voisin utilise le point d'intersection le plus proche du noeud sommet => le polyedre voisin deveint systematiquement le polyedre 9. (faire dessins)
+                  !the neighboring polyhedron uses the intersection point closest to the vertex node => the neighboring polyhedron systematically becomes polyhedron 9. (drawings required)
                   !    +--------+--+-----------+       +--------+--+-----------+     
                   !    |         \1|           !       |         \1|       1   !     
                   !    |           +           !       |           +-----------+     
@@ -1086,7 +1086,7 @@ C  non sinon cell trapped error et aussi on ne peut pas trouver de pression vois
                   BRICK_LIST(NIN,IB)%Poly9woNodes(J,2)             = 9                                                      
                 ENDIF
               ELSEIF(Poly9woNodesV/=0)THEN
-                  !le polyedre voisin est le polyedre 9
+                  !the neighboring polyhedron is polyhedron 9
                   !    +--------+--+-----------+
                   !    |         \1|       2   !
                   !    |           +-----------+
@@ -1154,14 +1154,14 @@ C  non sinon cell trapped error et aussi on ne peut pas trouver de pression vois
             ICODE = IBSET(ICODE,ICELL)
           ENDDO
           
-          !ON EN PROFITE POUR MARQUER LES CAS DE FERMETURE (CLOSURE HYPOTHESIS)
+          !THIS IS USED TO MARK CLOSURE CASES (CLOSURE HYPOTHESIS)
           IF(ICODE == 518 .OR. ICODE == 6) THEN
             FACE9 = BRICK_LIST(NIN,IB)%POLY(9)%FACE(J)%Surf
             IBV   = BRICK_LIST(NIN,IB)%Adjacent_Brick(J,4)
-            !necessairement IBV>0 sinon on ne peut pas avoir ICODE=518 (autrement dit : la brique IB est intersectee donc la voisine est dans le buffer)
+            !necessarily IBV>0 otherwise we cannot have ICODE=518 (in other words: brick IB is intersected so the neighbor is in the buffer)
             NBCUTv = BRICK_LIST(NIN,IBv)%NBCUT
             IF(NBCUTv == 0 .AND. FACE9>ZERO) THEN
-              !DISTINCITON IMPORTANTE CAR ON A BESOIN DU VOISIN POUR LES FORCES DE COTNACT MAIS SINON IL DOIT ETRE IGNORE POUR FINT ET CONVECTION
+              !IMPORTANT DISTINCTION BECAUSE WE NEED THE NEIGHBOR FOR CONTACT FORCES BUT OTHERWISE IT MUST BE IGNORED FOR FINT AND CONVECTION
               BRICK_LIST(NIN,IB)%ClosedSurf(J) = 1
 C              print *, "brick_id=",ixs(11,iv),"    face=",J, "  has a closed surface"
 C              print *, "sinit22_fvm marked closure hypothesis."
@@ -1348,7 +1348,7 @@ C              print *, "sinit22_fvm marked closure hypothesis."
             VOL    =  BRICK_LIST(NIN,IB)%UncutVol
             NCELL  =  BRICK_LIST(NIN,IB)%NBCUT
             ICELL  =  0
-            !tag les potentiel mains
+            !tag the potential mains
             DO WHILE (ICELL<=NCELL) ! loop on polyhedron {1:NCELL} U {9}
               ICELL = ICELL +1
               IF (ICELL>NCELL .AND. NCELL/=0)ICELL=9          
@@ -1531,7 +1531,7 @@ c              print *, "**Warning inter22 : no main cell to link with cell from
       ! @21. INDIRECT LINKING                                      !
       !      TAG RELATED CELL AND STORE ITS INDIRECT LINK          !
       !------------------------------------------------------------!
-      !CREER LES LIAISON DANS LE BUFFER CUT CELL
+      !CREATE THE LINKS IN THE CUT CELL BUFFER
       DO IUNLINK=1,N_UNLINKED_L(ITASK)
         IB              =  UNLINKED_CELLS_L(ITASK,1,IUNLINK)
         ICELL           =  UNLINKED_CELLS_L(ITASK,2,IUNLINK)
@@ -1593,7 +1593,7 @@ c              print *, "**Warning inter22 : no main cell to link with cell from
         CALL MY_BARRIER()
       !-------------------!
   
-      !MERGE DES VOLUMES ET MISE A JOUR BUFFER main (main secnd peut etre sur un autre thread : traitement OpenMP)
+      !MERGE VOLUMES AND UPDATE MAIN BUFFER (secondary main may be on another thread: OpenMP processing)
       DO IT=0,NTHREAD-1
         DO IUNLINK=1,N_UNLINKED_L(IT)
           IB     = UNLINKED_CELLS_L(IT,1,IUNLINK)
@@ -1635,7 +1635,7 @@ c              print *, "**Warning inter22 : no main cell to link with cell from
         ENDDO!next IUNLINK
       ENDDO!next IT      
 
-      !augmenter le volume main 
+      !increase the main volume
       !done later
 
 
@@ -1678,7 +1678,7 @@ c              print *, "**Warning inter22 : no main cell to link with cell from
           MNOD                    =  BRICK_LIST(NIN,IB)%POLY(ICELL)%NumNOD
           CALL weighting_Cell_Nodes(NIN,IB,ICELL,INod_W, IDEMERGE)
           IF(SUM(pNodWasMain(pListNodID(ICELL)%p(1:MNOD))%NodWasMain)==0)CYCLE  !if none of the polyhedra nodes is based on a former main cell node : nothing to do
-          IF(pNodWasMain(INod_W)%NodWasMain<=0) CYCLE                          !(negatif en debug si IB nouveau dans le buffer)
+          IF(pNodWasMain(INod_W)%NodWasMain<=0) CYCLE                          !(negative in debug if IB new in the buffer)
           !ICELL has at least one node from the previous main cell
           ! lets get its main cell
           
@@ -1696,7 +1696,7 @@ c              print *, "**Warning inter22 : no main cell to link with cell from
           IBM                     = BRICK_LISt(NIN,IB)%POLY(ICELL)%WhereIsMain(4)
           NTAG                    = NTAG + 1  !number of secnd cells wet by former main cell
 c          TARGET_DATA(IB,NTAG,1)  = IPOS      !facette localisant le plus grand main
-c          TARGET_DATA(IB,NTAG,2)  = ICV       !numero de cellule de ce main
+c          TARGET_DATA(IB,NTAG,2)  = ICV       !cell number of this main
           BRICK_LIST(NIN,IB)%MergeTarget(1,NTAG) = IPOS
           BRICK_LIST(NIN,IB)%MergeTarget(2,NTAG) = ICV
           BRICK_LIST(NIN,IB)%MergeTarget(3,NTAG) = IBM         
@@ -1742,7 +1742,7 @@ c        Ntarget(IB)                = NTAG ! number of secnd cell whose nodes we
           !pSUBVOL(MCELL)                =  pSUBVOL(MCELL) + VOLv !no longer cumulated here
           BRICK_LIST(NIN,IB)%Vnew_SCell = BRICK_LIST(NIN,IB)%Vnew_SCell + VOLv
         ENDDO!next IC
-        !initialisation de V1OLD
+        !initialization of V1OLD
         IF(DT1==ZERO)THEN
         !---MULTI-MATERIAL----!                                                                                                         
         MTN_ = IPARG(1,NGB(IB))                                                                                                         
@@ -2235,7 +2235,7 @@ ccc        print *, "    INOD_W_old==0 : CYCLE", INOD_W_old==0
         IF(BRICK_LIST(NIN,IB)%NODE(INod_W_old)%WhichCell == MCELL) IDEMERGE = 0  
 ccc        print *, "    IDEMERGE= : ", IDEMERGE
         
-        IF( IDEMERGE==1 ) THEN           !(negatif en debug si IB nouveau dans le buffer)        
+        IF( IDEMERGE==1 ) THEN           !(negative in debug if IB new in the buffer)
 !        IF(pNodWasMain(INod_W)<=0 ) THEN           !(negatif en debug si IB nouveau dans le buffer)       
 !        IF(SUM(NewMnod)>=MNOD/2 .AND. MNOD/=0)THEN         !DEMERGE criteria : all main nodes were secndo ones
         !get related main cell location (through its face)
@@ -2474,7 +2474,7 @@ ccc        print *, "    IDEMERGE= : ", IDEMERGE
               !FV          = FV/10
               !NORM_S(1:3) = BRICK_LIST(NIN,IB)%N(FV,1:3)
                      !IL Y A PLUSIEURS FACETTES POSSIBLE POUR LES VOISINS INDIRECT. IL FAUDRAIT SAUVEGARGER J>10 pour chaque chemin, puis advection            
-                     !ou alors changer la normale en prenant le vecteur centroid_M-centroid_S
+                     !or change the normal by taking the vector centroid_M-centroid_S
               ZM(1:3)     = BRICK_LIST(NIN,IBo)%SCellCenter(1:3)
               ZS(1:3)     = BRICK_LIST(NIN,IB)%POLY(MCELL)%CellCenter(1:3)
               NORM_S(1)   = ZM(1)-ZS(1)
@@ -2901,7 +2901,7 @@ c            pause
          ENDDO!next INOD
          IF(NBCUT>2 .AND. M(9,9)==ZERO)M(9,9) = BRICK_LIST(NIN,IB)%POLY(JJ)%Vnew
          !cas particulier cellule 9 et cellule i (sigma_col>1)
-         !les 2 ne peuvent etre liees car pas le meme cote de la surface.
+         !the 2 cannot be linked because they are not on the same side of the surface.
          ICELL = 9                     
          JJ    = ICELL                 
          VAR   = ZERO                  
@@ -2918,7 +2918,7 @@ c            pause
            IF(VAR>TWO  )THEN       
              M(1:8,JJ) = ZERO    !plusieurs polyedres disparraissent, on ne les compte plus.      
            ELSEIF(VAR==TWO   )THEN  
-             !garder le volume le plus gros                                                       
+             !keep the largest volume
 cc             DO II=1,8    ! 1st value is between 1,8 ; last one is at index 9            
 cc               VAR = BRICK_LIST(NIN,IB)%POLY(II)%OLD_Vnew                                         
 cc               IF(VAR>ZERO)EXIT     
@@ -3028,7 +3028,7 @@ c            elseif (var_ == ONE .AND. var__==ONE)then
 c              write(*,FMT=('(A,I8)'))               "          cell is stable (same number as previous cycle)", Icelltag(1)               
 c            elseif (var__ >= TWO)then         
 c              K = MAXLOC(icellTag,1)
-c              write(*,FMT=('(A,I8)'))               "          cell is a fragment of a previous polyhedron   ",K             !1seul dans la colonne (var_) et sur la ligne (var__)
+c              write(*,FMT=('(A,I8)'))               "          cell is a fragment of a previous polyhedron   ",K             !only one in the column (var_) and on the line (var__)
 c            endif
 c          ENDIF   
  
@@ -3136,12 +3136,12 @@ c        print *, "check switch in brickID=", ixs(11,brick_list(nin,ib)%id)
               FV2      = OLD_SecndList(NIN,IBmo)%FV(IC2)
               ICELLv2  = OLD_SecndList(NIN,IBmo)%ICELLv(IC2)              
               IBv2     = OLD_SecndList(NIN,IBmo)%IBv(IC2) 
-              !Si la cellule escalve etait liee par une autre face que FV_old alors ce n'etait pas la bonne cellule main et on passe outres
+              !If the slave cell was linked by a face other than FV_old then it was not the correct main cell and we pass over
               IF(FV2 /= FV_old )CYCLE
-              !la cellule second. est attachee a la cellule main qui nous interesse IBmo
-              !si on arrive ici c'est que la cellule second. (0, en partie, ou en totalite) change de liaison
-              !on verifie si un de ses noeuds correspond au noeud INOD de la nouvelle cellule escalve dans IBv
-              !on boucle sur les noeuds sommets de l'ancienne  cellule pour voir quel noeud sommet a commute
+              !the secondary cell is attached to the main cell that interests us IBmo
+              !if we arrive here, it means that the secondary cell (0, in part, or in whole) is changing its link
+              !we check if one of its nodes corresponds to the INOD node of the new slave cell in IBv
+              !we loop over the vertex nodes of the old cell to see which vertex node has switched
               VolCELL  = ZERO
               VolSECND = ZERO
               NNODES2  = OLD_SecndList(NIN,IBmo)%NumNOD_Cell(IC2)
@@ -3157,7 +3157,7 @@ c        print *, "check switch in brickID=", ixs(11,brick_list(nin,ib)%id)
               !print *, ""
               !print *, "VolCell                          =", VolCell
               !print *, "VolSECND                         =", VolSECND
-              RATIO =  VolSECND/VolCELL !est le ratio de prelevement dans le volume de l'ancienne cellule second.            
+              RATIO =  VolSECND/VolCELL !is the extraction ratio in the volume of the old secondary cell.
               !here IC2(cycle-1) corresponds to IC(cycle+0)
               VOLcell =  RATIO * OLD_SecndList(NIN,IBmo)%VOL(IC2)
               VOLD    =  BRICK_LIST(NIN,IBm)%Vold_SCell
@@ -3430,7 +3430,7 @@ ccc          endif
         NCELL          =  NBCUT
         ICELL          =  0  
         IE             =  BRICK_LIST(NIN,IB)%ID
-        !on traite les cellules mains pour eviter les lockon/lockoff (en evitant boucle sur les escalves)
+        !we handle the main cells to avoid lockon/lockoff (by avoiding loops on the slaves)
         MCELL          = pMainID
         IF(MCELL == 0)CYCLE ! next hexahedron cell
         BRICK_LIST(NIN,IB)%ADJ_ELEMS%Num  = 0      
@@ -3452,8 +3452,8 @@ ccc          endif
               JV              =  BRICK_LIST(NIN,IBv)%POLY(ICELLv)%WhereIsMain(1) !   pWhereIsMainV(ICELLv,1)           
               IDM             =  BRICK_LIST(NIN,IBv)%POLY(ICELLv)%WhereIsMain(3)  !   pWhereIsMainV(ICELLv,3)  
               IF(IE/=IDM)THEN !secnd cell merged to the main IB
-               !prendre tous les voisins main de la cellule salve sauf face JV
-               !ajouter un seul voisin celui au quel la secnd cell est mergee
+               !take all main neighbors of the slave cell except JV face
+               !add only one neighbor the one with which the secondary cell is merged
                 BRICK_LIST(NIN,IB)%ADJ_ELEMS%Num          = BRICK_LIST(NIN,IB)%ADJ_ELEMS%Num + 1
                 K                                         = BRICK_LIST(NIN,IB)%ADJ_ELEMS%Num
                 BRICK_LIST(NIN,IB)%ADJ_ELEMS%IV(K)        = IDM

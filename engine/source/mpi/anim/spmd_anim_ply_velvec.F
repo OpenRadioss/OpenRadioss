@@ -81,7 +81,7 @@ C
         PLYSIZ  = PLYNOD (IPLY)%PLYNUMNODS
         ALLOCATE(WRTBUF(3,PLYSIZG(IPLY)))
 
-C Les plynods du proc 0
+C the plynods of processor 0
         DO ND=1,PLYSIZ
              I = PLYNOD(IPLY)%NODES(ND)
              N = NOD_PXFEM(I)
@@ -107,7 +107,7 @@ C Les plynods du proc 0
                 WRTBUF(3,EMPL)= ZERO
              ENDIF
         END DO
-C Les plynods des autres procs
+C the plynods of other processors
            DO P=2,NSPMD
              IF (PLYIADNOD(IPLY,P)>0)THEN
               ALLOCATE(IRECBUF(PLYIADNOD(IPLY,P)))

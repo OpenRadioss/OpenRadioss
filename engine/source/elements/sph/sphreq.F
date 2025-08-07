@@ -398,9 +398,9 @@ C       detection if the particle is crossing the surface
              IF (DPS_OLD*DPS(NP)<ZERO) THEN
 C       pur outlet/silent boundaries on permute le sens de comptage
                IF (ITYPE/=4) DPS_OLD = -DPS_OLD
-C       la particule a traverse la surface dans le sens +
+C       the particle has crossed the surface in the + direction
                IF (DPS_OLD>ZERO) MASS_CUM = MASS_CUM-SPBUF(12,N)
-C       la particule a traverse la surface dans le sens -
+C       the particle has crossed the surface in the - direction
                IF (DPS_OLD<ZERO) MASS_CUM = MASS_CUM+SPBUF(12,N)
              ENDIF
           ENDIF   

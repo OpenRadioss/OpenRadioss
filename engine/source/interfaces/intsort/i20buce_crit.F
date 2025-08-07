@@ -95,7 +95,7 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
-C     0- CALCUL DU CRITERE POUR SAVOIR SI ON DOIT TRIER OU NON
+C     0- calculate criterion to know if we should sort or not
 C
       XSLV(1) = -EP30
       XSLV(2) = -EP30
@@ -311,7 +311,7 @@ C=======================================================================
 C     maj pene a verifier !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 C=======================================================================
       IF(INACTI==5.OR.INACTI==6)THEN
-        IF(NSPMD > 1 .AND. TT > ZERO) THEN     ! a tt=0. les frontieres ne sont que partiellement baties
+        IF(NSPMD > 1 .AND. TT > ZERO) THEN     ! at tt=0, boundaries are only partially built
 C
 C Partie non parallele smt
 C
@@ -412,7 +412,7 @@ C
             VMSR(6)=MIN(VMSR(6),VA(3,IL))
           ENDIF
       END DO
-C dist calcule une fois pour toutes les interfaces dans SMP_CRIT (ci-dessous) ou SPMD_CRIT
+C dist calculated once for all interfaces in SMP_CRIT (below) or SPMD_CRIT
 C
 C     EDGES
 C

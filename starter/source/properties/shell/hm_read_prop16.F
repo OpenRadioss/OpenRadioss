@@ -406,7 +406,7 @@ C---  calcul epaIGEO(5)eur & position des couches
         DO N=1,NLY
           GEO(IPTHK+N)=GEO(IPTHK+N) / MAX(THICKT,EM20)
         ENDDO
-C---      calcul automatique de position des couches
+C--- automatic calculation of layer positions
         GEO(IPPOS+1) = -HALF + HALF*GEO(IPTHK+1)
         DO N=2,NLY
           GEO(IPPOS+N) = GEO(IPPOS+N-1)

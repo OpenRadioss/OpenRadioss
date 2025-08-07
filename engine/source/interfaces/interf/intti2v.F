@@ -97,7 +97,7 @@ C
      5 X         ,WEIGHT)
       ELSEIF(ILEV == 2)THEN
 C
-C       FORMULATION AVEC MOMENT SUR MAIN
+C       formulation with moment on main
 C
         CALL I2VIT3(NSN       ,NMN       ,
      2 A         ,INTBUF_TAB%IRECTM,
@@ -122,7 +122,7 @@ C
      4 V         ,MS        ,WEIGHT    ,INTBUF_TAB%NMAS)
 C
       ELSEIF (ILEV >= 10 .AND. ILEV < 23) THEN       
-C       FORMULATION AVEC RUPTURE
+C       formulation with rupture
 C
          CALL I2VIT10(                                                  
      1       NSN       ,NMN       ,MS        ,V         ,A         ,     
@@ -135,14 +135,14 @@ C
      3        INTBUF_TAB%MSR,INTBUF_TAB%IRTLM,INTBUF_TAB%CSTS,INTBUF_TAB%IRUPT,WEIGHT ) 
          ENDIF                                                         
       ELSEIF (ILEV == 30 .AND. IRODDL /= 0) THEN       
-C       Formulation avec courbure du main 
+C       formulation with curvature of the main
          CALL I2CURVV(                                                  
      1       NSN       ,NMN       ,MS        ,V         ,A         ,     
      2       AR        ,VR        ,X         ,INTBUF_TAB%IRECTM,INTBUF_TAB%NSV,     
      3       INTBUF_TAB%MSR,INTBUF_TAB%IRTLM,INTBUF_TAB%CSTS,WEIGHT    )   
 C
       ELSEIF(ILEV == 0.OR.IRODDL == 0)THEN
-C       FORMULATION AVEC MOMENT SUR MAIN
+C       formulation with moment on main
 C
         CALL I2VIT3N(NSN       ,NMN       ,
      2 A         ,INTBUF_TAB%IRECTM,

@@ -266,7 +266,7 @@ C        GAP n'est pas utilise pour Igap > 0 ; Gapmin peut etre egal a 0.
        ENDIF
 C------------------------------------
 C
-C Calcul du gap reel a utiliser lors du critere de retri
+C Calculation of the real gap to use during the retri criterion
 C
       BGAPSMX = ZERO
       IF (IGAP==0) THEN
@@ -289,7 +289,7 @@ C------------------------------------
         STF(I)=ONE
       END DO
 C---------------------------------------------
-C     MISE A ONE DU MULTIPLICATEUR NODALE DES RIGIDITES 
+C     SETTING TO ONE OF THE NODAL STIFFNESS MULTIPLIER
 C---------------------------------------------
       DO I=1,NSN
         STFN(I) = ONE

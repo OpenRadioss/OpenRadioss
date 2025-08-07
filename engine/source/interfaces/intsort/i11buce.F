@@ -104,11 +104,11 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
-C----- TRI PAR BOITES 
+C----- sorting by boxes
 C
 C-----------------------------------------------
-C SI ON A PAS ASSEZ DE MEMOIRE POUR LES PILES ON RECOMMENCE LE TRI
-C EN INCREMENTANT LE NB_N_B (NOMBRE DE NOEUDS PAR BOITE FINIE)
+C if we don't have enough memory for the stacks we restart the sorting
+C by incrementing nb_n_b (number of nodes per finished box)
 C
 C     POINTEUR  NOM                 TAILLE
 C     P1........Elt Bas Pile        NRTM
@@ -117,7 +117,7 @@ C     P21.......Elt Bas Pile        NRTS
 C     P22.......Elt PILE            3*NRTS
       MAXSIZ = 3*(MAX(NRTM,NRTS+NRTSR)+100)
 C
-C-----INITIALISATION DES ADRESSES ET X,Y,Z
+C-----initialization of addresses and x,y,z
 C
 C     ADDE     ADDN     X      Y      Z
 C     1        1        XMIN   YMIN   ZMIN
@@ -146,7 +146,7 @@ C
       ENDIF    
 C
 C
-C-----DEBUT DE LA PHASE DE TRI 
+C-----start of sorting phase
    
       MARGE = TZINF - MAX(MAXGAP+DGAPLOAD,DRAD)
 
@@ -264,7 +264,7 @@ c     ENDIF
 #include "lockoff.inc"
         ENDIF
         TZINF = THREE_OVER_4*TZINF
-C ne pas dimunuer la taille des boite
+C do not decrease the box size
 C        MINBOX= THREE_OVER_4*MINBOX
 C        MAXBOX= THREE_OVER_4*MAXBOX
         IF( TZINF<=MAX(MAXGAP+DGAPLOAD,DRAD) ) THEN
@@ -372,11 +372,11 @@ C --- --- --- C   S o u r c e  L i n e s
 C --- --- --- C-----------------------------------------------
 C --- --- --- C-----------------------------------------------
 C --- --- --- C
-C --- --- --- C----- TRI PAR BOITES 
+C --- --- --- C----- SORTING BY BOXES
 C --- --- --- C
 C --- --- --- C-----------------------------------------------
-C --- --- --- C SI ON A PAS ASSEZ DE MEMOIRE POUR LES PILES ON RECOMMENCE LE TRI
-C --- --- --- C EN INCREMENTANT LE NB_N_B (NOMBRE DE NOEUDS PAR BOITE FINIE)
+C --- --- --- C if we don't have enough memory for the stacks we restart the sorting
+C --- --- --- C by incrementing nb_n_b (number of nodes per finished box)
 C --- --- --- C
 C --- --- --- C     POINTEUR  NOM                 TAILLE
 C --- --- --- C     P1........Elt Bas Pile        NRTM
@@ -385,7 +385,7 @@ C --- --- --- C     P21.......Elt Bas Pile        NRTS
 C --- --- --- C     P22.......Elt PILE            3*NRTS
 C --- --- ---       MAXSIZ = 3*(MAX(NRTM,NRTS+NRTSR)+100)
 C --- --- --- C
-C --- --- --- C-----INITIALISATION DES ADRESSES ET X,Y,Z
+C --- --- --- C-----initialization of addresses and x,y,z
 C --- --- --- C
 C --- --- --- C     ADDE     ADDN     X      Y      Z
 C --- --- --- C     1        1        XMIN   YMIN   ZMIN
@@ -414,9 +414,9 @@ C --- --- ---         ISZNSNR = NRTSR
 C --- --- ---       ENDIF    
 C --- --- --- C
 C --- --- --- C
-C --- --- --- C-----DEBUT DE LA PHASE DE TRI 
+C --- --- --- C-----beginning of the sorting phase
 C --- --- --- C 
-C --- --- ---       GOTO 50 !commenter pour debtrancher le tri voxel
+C --- --- ---       GOTO 50 !comment to disable the voxel sorting
 C --- --- ---       print *, "bucket search"
 C --- --- ---       CALL I11TRI(
 C --- --- ---      1   ADD     ,
@@ -428,7 +428,7 @@ C --- --- ---      6   ADDCM   ,CHAINE  ,NRTS     ,ITAB     ,NB_OLD ,
 C --- --- ---      7   STIFS   ,STIFM   ,IAUTO    ,NIN      ,IFPEN  ,
 C --- --- ---      8   IFORM) 
 C --- --- --- 
-C --- --- ---       !cts on debranche la routine de tri par voxel pour le moment
+C --- --- ---       !cts we disable the voxel sorting routine for now
 C --- --- ---       GOTO 100    
 C --- --- ---        
 C --- --- ---    50 CONTINUE
@@ -520,7 +520,7 @@ C --- --- ---           WRITE(IOUT,*)'       MULTIPLIED BY 0.75'
 C --- --- --- #include "lockoff.inc"
 C --- --- ---         ENDIF
 C --- --- ---         TZINF = THREE_OVER_4*TZINF
-C --- --- --- C ne pas dimunuer la taille des boite
+C --- --- --- C do not decrease the box size
 C --- --- --- C        MINBOX= THREE_OVER_4*MINBOX
 C --- --- --- C        MAXBOX= THREE_OVER_4*MAXBOX
 C --- --- ---         IF( TZINF<=MAX(GAP,DRAD) ) THEN

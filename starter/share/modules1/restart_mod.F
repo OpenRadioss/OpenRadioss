@@ -225,7 +225,7 @@ C
 !||====================================================================
       MODULE INTBUFMOD
 #include "my_real.inc"
-! module a cleaner dans le code
+! module to be cleaned in the code
 c        INTEGER , DIMENSION(:), ALLOCATABLE :: INBUF
 c        TARGET :: INBUF
 c       my_real,

@@ -135,7 +135,7 @@ C      INTEGER :: TAG_EL(NBCUT_MAX)
      .     NNZ1(MVSIZ), NNZ2(MVSIZ), NNZ3(MVSIZ), NNZ4(MVSIZ)
       my_real
      .     VAL1,VAL2,VAL3, V1(3), V2(3), V3(3), M(3,3,NBCUT_MAX),VEC(3), ! basis vector for each intersectionp plane
-     .     POSj, POS, VAL,        !position sur le segment : produit scalaire non normalise
+     .     POSj, POS, VAL,        !position on the segment: unnormalized dot product
      .     InterP(2), WET_RATIO(0:4), Z(3), Stria(4),  Dsum, NumGrav, Pgrav(3),
      .     Cumul_VAL1, Cumul_VAL2
 
@@ -157,7 +157,7 @@ C      INTEGER :: TAG_EL(NBCUT_MAX)
       
 !      INTEGER IDX(7,6)
       INTEGER IAD1,ILAG0,ISCUT0,ILAGk,ISCUTk,IIB,NTRIA,
-     .        JPOS(6) !index des poitsions non nulles sur IADD(id_lagrangian_edge,:)
+     .        JPOS(6) !index of nonzero positions on iadd(id_lagrangian_edge,:)
     
       TYPE(POLYGON) :: PolySCUT, PolyTria(4), POLYresult
      
@@ -279,7 +279,7 @@ C--------------------------------------------------------
         ENDIF
        ENDDO
 C--------------------------------------------------------
-C  CALCUL DES NORMALES SUR LES FACETTES LAGRANGIENNE
+C  calculation of normals on lagrangian facets
 C--------------------------------------------------------
 C
        DO I=1,JLT
@@ -427,7 +427,7 @@ c      ENDDO
 !          IFT = BRICK_LIST(NIN,IB)%Seg_add_LFT
 !          ILT = BRICK_LIST(NIN,IB)%Seg_add_LLT
 !          ILT = MIN(ILT, JLT) !boucle MVSIZ
-!!          IF(ILT<IFT)CYCLE  !on boucle ici sur les brique pas sur les candidats ne devrait pas arriver
+!if(ilt<ift)cycle  !looping here on bricks not on candidates, should not happen
 !          
 !          !IFT : [1,NBRIC] |-> 1st    :si =I_stok alors pas candidate
 !          !ILT : [1,NBRIC] |-> last   :si =0      alors idem
@@ -472,7 +472,7 @@ c      ENDDO
 
       DO I=1,JLT 
 C--------------------------------------------------------
-       !PROJECTION DES NOEUDS SUR LE PLAN DE COUPE
+       !projection of nodes onto the cutting plane
 C--------------------------------------------------------      
         IB                      = CB_LOC(I)                                       
         IFT                     = BRICK_LIST(NIN,IB)%Seg_add_LFT                                                  
@@ -596,7 +596,7 @@ C            ENDDO!next ICUT
 C          ENDDO !next J                            
 C        ENDIF!(NBCUT_ADD > 0)
 
-        !TAG DES ELEMENTS LAGRANGIENS                                                                           
+        !tag of lagrangian elements
 C        TAG_EL(1:NBCUT_MAX) = 0  
 C        IF(NBCUT>0)THEN                                                                                  
 C          DO ICUT=1,NBCUT                                                                                                                                                     
@@ -616,7 +616,7 @@ C       ENDIF
                                                                              
        
 C--------------------------------------------------------
-       !INJECTION DANS LESPACE PROPRE DU PLAN DE PROJECTION (IE PLAN DINTERSECTION) 
+       !injection into the proper space of the projection plane (i.e. intersection plane)
 C-------------------------------------------------------- 
 
         !DIM = 2
@@ -659,7 +659,7 @@ C          if(TAG_EL(ICUT)==0)CYCLE
           V3                 = NORMAL / SQRT(SUM(NORMAL*NORMAL)) 
           !BASIS SWITCH
           !third direction is Pcut normal
-          !matrice de changement de base
+          !change of basis matrix
           M(1:3,1,ICUT)      = V1
           M(1:3,2,ICUT)      = V2
           M(1:3,3,ICUT)      = V3
@@ -669,8 +669,8 @@ C          if(TAG_EL(ICUT)==0)CYCLE
             write (*,FMT='(A,F20.10,A1,F20.10,A1,F20.10)')"     V2=", V2(1),",",V2(2),",",V2(3)
             write (*,FMT='(A,F20.10,A1,F20.10,A1,F20.10)')"     V3=", V3(1),",",V3(2),",",V3(3)        
           endif  
-          !nouvelles coordonnees dans le plan de projection (dim=2)
-          !Inutile dinverser la matrice car elle est orthogonale
+          !new coordinates in the projection plane (dim=2)
+          !no need to invert the matrix because it is orthogonal
           DO J=1,4
             VAL1             = M(1,1,ICUT)*Ph(1,ICUT,J) + M(2,1,ICUT)*Ph(2,ICUT,J) + M(3,1,ICUT)*Ph(3,ICUT,J)
             VAL2             = M(1,2,ICUT)*Ph(1,ICUT,J) + M(2,2,ICUT)*Ph(2,ICUT,J) + M(3,2,ICUT)*Ph(3,ICUT,J)
@@ -731,7 +731,7 @@ C            if(TAG_EL(ICUT)==0)CYCLE
             V3                 = NORMAL / SQRT(SUM(NORMAL*NORMAL)) 
             !BASIS SWITCH
             !third direction is Pcut normal
-            !matrice de changement de base
+            !change of basis matrix
             M(1:3,1,ICUT)      = V1
             M(1:3,2,ICUT)      = V2
             M(1:3,3,ICUT)      = V3
@@ -741,8 +741,8 @@ C            if(TAG_EL(ICUT)==0)CYCLE
               write (*,FMT='(A,F20.10,A1,F20.10,A1,F20.10)')"     V2=", V2(1),",",V2(2),",",V2(3)
               write (*,FMT='(A,F20.10,A1,F20.10,A1,F20.10)')"     V3=", V3(1),",",V3(2),",",V3(3)        
             endif  
-            !nouvelles coordonnees dans le plan de projection (dim=2)
-            !Inutile dinverser la matrice car elle est orthogonale
+            !new coordinates in the projection plane (dim=2)
+            !no need to invert the matrix because it is orthogonal
             DO J=1,4
               VAL1             = M(1,1,ICUT)*Ph(1,ICUT,J) + M(2,1,ICUT)*Ph(2,ICUT,J) + M(3,1,ICUT)*Ph(3,ICUT,J)
               VAL2             = M(1,2,ICUT)*Ph(1,ICUT,J) + M(2,2,ICUT)*Ph(2,ICUT,J) + M(3,2,ICUT)*Ph(3,ICUT,J)
@@ -1359,8 +1359,8 @@ C           write (*,FMT='(A,4E30.16,A,I2,A,I6)')  "delta= ", delta(1:4,ICUT,I),
                      
 C--------------------------------------------------------     
 C COMMENTAIRES
-C  -2- Dans le cas ou NBCUT > 1 (SCUT non connexe) il faut traiter les elements qui nont pas de projection directed mais sont dans la continuite de la surface.(celle ci a en general une partie connexe dans lelement voisin)
-C      Solution : etendre SCUT par continuite en fermant la facette
+C  -2- in the case where nbcut > 1 (scut not connected) need to handle elements that do not have a directed projection but are in the continuity of the surface (generally there is a connected part in the neighboring element)
+C      solution: extend scut by continuity by closing the facet
 C      (Inutile si taille de maille similaire entre lagrane et euler : example SMAES ciculaire)
 C--------------------------------------------------------     
       

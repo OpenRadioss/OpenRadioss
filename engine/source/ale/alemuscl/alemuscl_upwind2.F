@@ -149,7 +149,7 @@ C-----------------------------------------------
       ENDDO  ! I = LFT, LLT
 
 C-----------------------------------------------
-C         flux entrant par EBCS
+C         incoming flux by EBCS
 C-----------------------------------------------
       IF(NSEGFLU > 0)THEN
         DO I = LFT, LLT

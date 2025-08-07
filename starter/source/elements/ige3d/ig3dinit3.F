@@ -131,7 +131,7 @@ C-----------------------------------------------
      .   KNOTLOCELX(2,MVSIZ),
      .   KNOTLOCELY(2,MVSIZ),KNOTLOCELZ(2,MVSIZ)
       my_real
-     .   TBID(MVSIZ), TBID2(8,MVSIZ)   ! SUREMENT A CHANGER LA FORME ET LE NOM
+     .   TBID(MVSIZ), TBID2(8,MVSIZ)   ! probably need to change the shape and the name
 C-----------------------------------------------    
       TYPE(G_BUFEL_) ,POINTER :: GBUF 
       TYPE(L_BUFEL_) ,POINTER :: LBUF
@@ -324,7 +324,7 @@ c     6      PY-1      ,PZ-1          ,1)
           ENDIF
 
 C----------------------------------------
-C     INITIALISATION DES MASSES   
+C     initialization of the masses
 C----------------------------------------
 
           CALL IG3DMASS3(
@@ -348,7 +348,7 @@ C----------------------------------------
      7               TBID    ,TBID   ,TBID  )
 
 C------------------------------------------
-C       CALCUL DES DT ELEMENTAIRES
+C       calculation of the elementary dt
 C------------------------------------------
         CALL DTMAIN(GEO       ,PM        ,IPM         ,IPROP   ,IMAT    ,FV    ,
      .              LBUF%EINT ,LBUF%TEMP ,LBUF%DELTAX ,LBUF%RK ,LBUF%RE ,BUFMAT,
@@ -377,8 +377,8 @@ C------------------------------------------
       ENDIF
 
 C------------------------------------------
-C     assemblage des Volumes nodaux et Modules nodaux
-C     (pour rigidites d'interface)
+C     assembly of nodal volumes and nodal modules
+C     (for interface stiffnesses)
 C------------------------------------------
       IF(I7STIFS/=0)THEN
         CALL BULKIGE3(GBUF%VOL ,NCTRL     ,IMAT      ,PM     ,

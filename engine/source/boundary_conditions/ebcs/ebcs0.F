@@ -35,7 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                 VO,PO,P0,
      .                 LA,FV,MS,STIFN,IPARG,ELBUF_TAB,EBCS)
 C-----------------------------------------------
-C   Gradient de pression
+C   pressure gradient
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -173,7 +173,7 @@ C
         DMF=DMF-FLUXO*ROOU-FLUXI*RHO
         DEF=DEF-FLUXO*ENOU-FLUXI*ENER
 C
-C stockage densit  et  nergie entrante dans buffer facette
+C storage of density and incoming energy in facet buffer
 C
         SEGVAR%RHO(KSEG)=RHO
         SEGVAR%EINT(KSEG)=ENER

@@ -164,7 +164,7 @@ C
      .         IMERGE0(NUMCNOD))
       IMERGE0(1:NUMCNOD) = 0
 C--------------------------------------------------
-C     CLASSEMENT DES BUCKETS X
+C     BUCKETS X SORTING
 C--------------------------------------------------
 C 
 C---      bande NBX uniquement. 
@@ -284,7 +284,7 @@ C       bande NBY uniquement.
                   ENDIF
              ENDDO
 C        
-C -- les boites suivantes z
+C -- the following boxes z
 C 
              DO IBY=1,NBY+1   
                 IBOITE = 0   
@@ -497,7 +497,7 @@ C-----------------------------------------------
         RETURN
       ENDIF
       IF((IU-ITABM1(J))==0)THEN
-C     >CAS IU=TABM FIN DE LA RECHERCHE
+C     >CASE IU=TABM END OF SEARCH
          USRTOSC=ITABM1(J+NUMNOD0)
          RETURN
       ELSE IF (IU-ITABM1(J)<0) THEN

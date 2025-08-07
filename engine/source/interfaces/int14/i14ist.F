@@ -66,11 +66,11 @@ C-----------------------------------------------
           NRTM   = IPARI(4,N)
           ISRF   = INTBUF_TAB(N)%KSURF(1)
           ADRBUF = IGRSURF(ISRF)%IAD_BUFR
-          !Forces exercees sur l'ellipsoide (somme des ... / interfaces).
+          !forces applied to the ellipsoid (sum of ... / interfaces)
           BUFSF(ADRBUF+25)=ZERO
           BUFSF(ADRBUF+26)=ZERO
           BUFSF(ADRBUF+27)=ZERO   
-          !Moments exerces sur l'ellipsoide (somme des ... / interfaces).
+          !moments applied to the ellipsoid (sum of ... / interfaces)
           BUFSF(ADRBUF+28)=ZERO
           BUFSF(ADRBUF+29)=ZERO
           BUFSF(ADRBUF+30)=ZERO   

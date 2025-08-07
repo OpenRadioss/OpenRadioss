@@ -282,7 +282,7 @@ C
         EL2FA(I)=0
       ENDDO
 C-----------------------------------------------
-C   COUPES DANS LES SOLIDES
+C   SECTIONS IN SOLIDS
 C-----------------------------------------------
       NODCUT=0
       NELCUT=0
@@ -547,7 +547,7 @@ C
                      INOD(3)=FVOFF(1,I)+FVDATA(I)%IFVTRI_ANIM(3,NN)-1
                      INOD(4)=INOD(3)
                      II=II+1
-C Nombre de noeuds distincts de la coque (apres fusion dans FVMESH)
+C Number of distinct nodes of the shell (after merging in FVMESH)
                      NND=1
                      IF (INOD(2)/=INOD(1)) NND=NND+1
                      IF (INOD(3)/=INOD(1).AND.
@@ -1523,7 +1523,7 @@ C-----------------------------------------------
       ENDIF
       CALL WRITE_I_C(NFE_ANI,1)
       CALL WRITE_I_C(NFT_ANI,1)
-C FLAG POUR SKEW
+C FLAG FOR SKEW
       CALL WRITE_I_C(1,1)
 
 C-----------------------------------------------
@@ -2053,7 +2053,7 @@ C #PARTS FILLES
                N3=N3+1
             ENDIF
           ENDDO
-C CUTS DANS LE SUBSET GLOBAL
+C CUTS IN THE GLOBAL SUBSET
           N1=N1+NCUTS
 C PARTS FILLES 2D
           CALL WRITE_I_C(N1,1)
@@ -2061,7 +2061,7 @@ C PARTS FILLES 2D
             IF(MATER(K)>0.AND.MATER(K)<=M01)
      .         CALL WRITE_I_C(MATER(K)-1,1)
           ENDDO
-C CUTS DANS LE SUBSET GLOBAL
+C CUTS IN THE GLOBAL SUBSET
           DO J=1,NCUTS
               CALL WRITE_I_C(M1-NRWALL-NSECT-NSURG-NSMAD-J,1)
           ENDDO
@@ -2364,7 +2364,7 @@ C #PARTS FILLES
                N3=N3+1
             ENDIF
           ENDDO
-C CUTS DANS LE SUBSET GLOBAL
+C CUTS IN THE GLOBAL SUBSET
           N1=N1+NCUTS
 C PARTS FILLES 2D
           CALL WRITE_I_C(N1,1)

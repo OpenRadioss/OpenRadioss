@@ -76,7 +76,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,ILAW,IRATE,DTYPE,DFLAG,IREG,IDEL
-C     REAL ou REAL*8
+C     REAL or REAL*8
       my_real
      .   RHO0,YOUNG,NU,A,G,G2,LAM,BULK,FCUT,FC,FT,GFT,
      .   AH,BH,CH,DH,HP,AS,QH0,ECC,M0,WF,WF1,FT1,DF,BS,

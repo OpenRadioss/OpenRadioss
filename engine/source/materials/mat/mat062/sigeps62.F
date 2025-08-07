@@ -143,7 +143,7 @@ C       GMAX = GMAX + AL(I)*MU(I)
 !!      IF(IVISC == 1 .AND.  ITYPE >= 2 ) IVISC = 2 
 C   +1
        GMAX = TWO*GMAX      
-C iniialisation des variabesl users 
+C initialization of user variables
       IF(TIME==ZERO)THEN
        DO J = 1,NUVAR
         DO  I = 1, NEL
@@ -235,7 +235,7 @@ C----  RV = RHO0/RHO = RELATIVE VOLUME = DET A (A = GRADIENT OF DEFORMATION)
 C----THERM STRESS COMPUTATION-----
       IF(IEXPAN > 0.AND.(ISMSTR==10.OR.ISMSTR==11.OR.ISMSTR==12)) RV(1:NEL)= RV(1:NEL)-EPSTH3(1:NEL)
 C
-C calcul de la pression
+C calculation of pressure
       P(1:NEL) = ZERO     
       DO II = 1,NORDRE
         FAC = TWO*MU(II)/(AL(II))
@@ -379,7 +379,7 @@ C
      .              + DIRPRV(I,3,2)*HG(I,3)
              A33 =    DIRPRV(I,1,3)*HG(I,6) + DIRPRV(I,2,3)*HG(I,5)
      .              + DIRPRV(I,3,3)*HG(I,3)
-C H dans la direction H               
+C H in the H direction
              H(I,1,II) = DIRPRV(I,1,1)*A11  + DIRPRV(I,2,1)*A21
      .                                      + DIRPRV(I,3,1)*A31 
              H(I,2,II) = DIRPRV(I,1,2)*A12  + DIRPRV(I,2,2)*A22
@@ -389,7 +389,7 @@ C H dans la direction H
            ENDDO
            DO J=1,3
             DO I=1,NEL 
-C calcul de la partie deviatorique        
+C calculation of the deviatoric part
              FAC = THIRD*(H(I,1,II)*EC(I,1) + H(I,2,II)*EC(I,2) 
      .                                      + H(I,3,II)*EC(I,3))
               HD(I,J,II) = H(I,J,II) - FAC/MAX(EM20,EC(I,J))
@@ -397,7 +397,7 @@ C calcul de la partie deviatorique
            ENDDO
         ENDDO            
       ENDIF  
-C calcul du tenseur de piola kirchoff   
+C calculation of the piola-kirchoff tensor
       IF(IVISC == 1) THEN ! viscosity is deviatoric
          DO I =1,NEL                                               
             ! FAC= GAMAINF*RV(I)**(-TWO_THIRD) = GAMAINF * PUI        
@@ -504,7 +504,7 @@ C TRANSFORM PRINCIPAL PIOLA KIRCHOFF STRESSES TO GLOBAL DIRECTIONS
      .            + DIRPRV(I,3,1)*DIRPRV(I,1,1)*S(I,1)
      .            + DIRPRV(I,3,2)*DIRPRV(I,1,2)*S(I,2)
 C
-C calcul des contraintes visqueuse ----
+C calculation of viscous stresses ----
 C     
 * SET SOUND SPEED
         SOUNDSP(I)=SQRT(CIMAX(I)/RHO(I))

@@ -57,7 +57,7 @@ C=======================================================================
       ENDDO
       IF (NEWCRK == 0) RETURN
 c------------------------------------------
-c     crack directions dans le repere coque
+c     crack directions in the shell reference frame
 c------------------------------------------
       IF (IROT > 0) THEN
         DO IR=1,NEWCRK

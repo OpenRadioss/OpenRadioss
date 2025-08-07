@@ -613,7 +613,7 @@ C
       VMSTK=-1
       CALL MAP_MEMORY(VMPEAK, VMSIZE,VMRSS,VMHWM, VMSTK)
       NPROC = NSPMD
-C nproc = nombre de domaines, toutes les taches SMP comptent pour un seul proc
+C nproc = number of domains, all SMP tasks count as one proc
 CC      NPROC = MAX(NTHREAD,NSPMD)
 CC smp nproc = ntask, spmd nproc = NSPMD
 
@@ -638,7 +638,7 @@ CC smp nproc = ntask, spmd nproc = NSPMD
 
 
       IF (NSPMD > 1) THEN
-C gather des cpu et sys time pour spmd
+C gather cpu and sys time for spmd
         MSGTAG = 1000
         IF (ISPMD/=0) THEN
           CALL RAD_SPMD_SEND(T%CPUTIME,MAX_NB_TIMER*IRSIZE,0,IT_SPMD,
@@ -658,7 +658,7 @@ C gather des cpu et sys time pour spmd
           ENDDO
         ENDIF
 
-C Gather de la m  moire utilis  e
+C Gather memory used
         MSGTAG = 1100
         MEMUSE=0
         MEM_L=0
@@ -723,7 +723,7 @@ c       MEMSTAT(5,ISPMD+1) = VMSTK
         ENDIF
       ELSE
 C Monoproc run
-C Gestion de la m  moire utilisee
+C Management of used memory
         IF(VMHWM/=-1) THEN
             MEM_L = VMHWM
         ELSEIF(VMPEAK/=-1) THEN
@@ -739,7 +739,7 @@ C Gestion de la m  moire utilisee
         MAVR = MEM_L
       ENDIF
 C
-C Gather de la taille des fichiers restart
+C Gather the size of restart files
       IF(NSPMD > 1)CALL SPMD_GLOB_ISUM9(RESTARTFILESIZE,1)
 C Gather taille des fichiers multiple restart
       IF(NSPMD > 1)CALL SPMD_GLOB_ISUM9(MULTIRESTS,26)
@@ -1616,14 +1616,14 @@ C
       TPSTHTOT = 0.
       BATOZMULT = 4
       TIMMAT = 0.
-C   ouverture du fichier DDW
+C   opening of the DDW file
       WRITE(PROCNAM,'(I4.4)')ISPMD+1
       FILNAM=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_'//PROCNAM//'.ddw2'
       OPEN(UNIT=66,FILE=FILNAM,ACCESS='SEQUENTIAL',
      .                  FORM='FORMATTED',STATUS='UNKNOWN')
       FILEN=ROOTLEN+14 
 C  
-C   preparation de la ponderation
+C   preparation of the weighting
 C  
       IF (TPSENG==ZERO) THEN
          TPPOND = ONE
@@ -1640,7 +1640,7 @@ C
 c      WRITE(66,1100) NCYCLE
 
 
-C   Comptage des groupes
+C   counting of groups
       NUMSOLG = 0
       NUMSHG = 0
       NUMTRIG = 0
@@ -1665,7 +1665,7 @@ C   Comptage des groupes
         ENDIF
       ENDDO
 
-C   Calcul du temps theorique de chaque groupe
+C   calculation of the theoretical time for each group
       DO NG=1,NGROUP
          ITY = IPARG(5,NG)
          MTN = IPARG(1,NG)
@@ -2621,7 +2621,7 @@ C-----------------------------------------------
         SECS = CLOCK1-CLOCK0         ! diff temps courant - temps initial (qui peut ne pas etre 0 !)
         IF(SECS<ZERO) SECS = SECS + NBMAX   ! cas depassement nb de periode maximum
         SECS = SECS/CLOCKRATE
-        CLOCK0 = CLOCK1              ! recuperation du temps courant dans clock0
+        Cretrieval of the current time in clock0
         ELAPSED = ELAPSED + SECS
         ETIME = ELAPSED
       ENDIF
@@ -3068,7 +3068,7 @@ C ro ouverture du fichier DDW proc = 0
        WRITE (ISTDO,1300) FILNAM(1:FILEN)
       ENDIF
 
-C ro ouverture du fichier DDW par proc
+C opening of the DDW file by proc
       IF(IDDWSTAT/=0) THEN
        WRITE(PROCNAM,'(I4.4)')ISPMD+1
        FILNAM=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_'//PROCNAM//'.ddw'

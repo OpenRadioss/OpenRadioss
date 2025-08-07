@@ -520,7 +520,7 @@ C
          WA(11,N)=WA(11,N)+FY
          WA(12,N)=WA(12,N)+FZ
 C
-C         pour travail des forces de visc. artificielle (par cellule).
+C         for work of artificial viscosity forces (per cell).
          WVIS = MIN(ZERO,
      .          HALF*(FVX*(VXI-VXJ)+FVY*(VYI-VYJ)+FVZ*(VZI-VZJ)))
          SPBUF(11,N)=SPBUF(11,N)+WVIS
@@ -711,7 +711,7 @@ C            K*=FV divise par DL (C=FV divise par V)
            WA(11,N)=WA(11,N)+FY
            WA(12,N)=WA(12,N)+FZ
 C 
-C          pour travail des forces de visc. artificielle (par cellule).
+C          for work of artificial viscosity forces (per cell).
            WVIS = MIN(ZERO,
      .            HALF*(FVX*(VXI-VXJ)+FVY*(VYI-VYJ)+FVZ*(VZI-VZJ)))
            SPBUF(11,N)=SPBUF(11,N)+WVIS
@@ -899,7 +899,7 @@ C            K*=FV divise par DL (C=FV divise par V)
            WA(11,N)=WA(11,N)+FY
            WA(12,N)=WA(12,N)+FZ
 C 
-C          pour travail des forces de visc. artificielle (par cellule).
+C          for work of artificial viscosity forces (per cell).
            WVIS = MIN(ZERO,
      .            HALF*(FVX*(VXI-VXJ)+FVY*(VYI-VYJ)+FVZ*(VZI-VZJ)))
            SPBUF(11,N)=SPBUF(11,N)+WVIS

@@ -65,7 +65,7 @@ C RHO0    | NEL     | F | R | INITIAL DENSITY
 C RHO     | NEL     | F | R | DENSITY
 C VOLUME  | NEL     | F | R | VOLUME
 C EINT    | NEL     | F | R | TOTAL INTERNAL ENERGY
-C FR_WAV  | NEL     | F | RW| INPUT:cet element ou un de ses voisins est
+C FR_WAV  | NEL     | F | RW| INPUT:this element or one of its neighbors is
 C         |         |   |   |       completement flambe
 C         |         |   |   | OUTPUT:cet element est completement flambe
 C EPSPXX  | NEL     | F | R | STRAIN RATE XX

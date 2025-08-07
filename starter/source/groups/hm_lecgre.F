@@ -199,7 +199,7 @@ C-------------------------
             IGRELEM(IGS)%TITLE=TITR
 C
             IF(KEY(1:6) == STARTKEY(2:7))THEN
-C             groupes de groupes
+C             groups of groups
               IGRELEM(IGS)%NENTITY=-1
               IGRELEM(IGS)%GRPGRP=2
               IGRELEM(IGS)%LEVEL=0
@@ -212,7 +212,7 @@ C             groupe d'elements
                 IGRELEM(IGS)%GRPGRP=1
               ENDIF
             ELSEIF(KEY(1:4) == 'PART' .OR. KEY(1:6) == 'SUBSET' .OR. KEY(1:3) == 'MAT' .OR. KEY(1:4) == 'PROP') THEN
-C             groupe de SUBSET PART MAT OU PROP
+C             group of SUBSET PART MAT OR PROP
               IT2=IT2+1
               IF (FLAG == 0) THEN
                 IGRELEM(IGS)%NENTITY=0
@@ -227,7 +227,7 @@ C             groupe d'elements dans un box (old/obsolete/not supported with new
                 IGRELEM(IGS)%GRPGRP=4
               ENDIF
             ELSEIF(KEY(1:6) == 'SUBMOD')THEN
-C             groupe d'elements dans un submodel
+C             group of elements in a submodel
               IT4=IT4+1
               IF (FLAG  == 0) THEN
                 IGRELEM(IGS)%NENTITY=0
@@ -236,7 +236,7 @@ C             groupe d'elements dans un submodel
             ELSEIF(KEY(1:3) == 'BOX'.AND.(KEY2(1:5) == 'RECTA'.OR.
      .        KEY2(1:5) == 'CYLIN'.OR.KEY2(1:5) == 'SPHER'))THEN
 C             old /grnod/box (not /BOX/BOX)
-C             groupe de noeuds dans un box (clasical box, parallelepiped,
+C             group of nodes in a box (classical box, parallelepiped,
 C                              cylindrical, spherical)
               IT5=IT5+1
               IF (FLAG == 0) THEN
@@ -259,7 +259,7 @@ C
       ENDDO !next I
 
 C-------------------------------------
-C Recherche des ID doubles
+C Search for double IDs
 C-------------------------------------
       IF (FLAG == 0) THEN
         DO IGS=1,NGRELE
@@ -269,7 +269,7 @@ C-------------------------------------
       ENDIF
 
 C-------------------------------------
-C Remplacement des n0 d'elements user par systeme
+C Replacement of user element n0 by system n0
 C-------------------------------------
 
       IGS=0
@@ -397,7 +397,7 @@ C-------------------------
                   CALL HM_GET_INT_ARRAY_INDEX        ('Ifirst'    ,N1    ,KK,IS_AVAILABLE,LSUBMODEL)    
                   CALL HM_GET_INT_ARRAY_INDEX        ('Ilast'     ,N2    ,KK,IS_AVAILABLE,LSUBMODEL)    
                   IF(N2>N1)THEN                                         
-                   !tag des elements                                                                 
+                   !tag of elements
                    DO K=1,NUMEL                                                                      
                      IF (IX(NIX,K) >= N1 .AND. IX(NIX,K) <= N2) BUFTMP(K)=1                            
                    ENDDO!next K                                                                           
@@ -604,7 +604,7 @@ C---
         ENDDO
       ENDIF
 C-------------------------
-C groupes de SUBMODELS
+C groups of SUBMODELS
 C-------------------------
 
       IGS=0

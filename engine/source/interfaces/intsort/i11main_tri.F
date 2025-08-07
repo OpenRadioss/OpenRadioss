@@ -157,7 +157,7 @@ C
       BMINMA(4)=EP30
       BMINMA(5)=EP30
       BMINMA(6)=EP30
-C pas de modification de INACTI : donc pas de comm
+C no modification of INACTI: so no comm
 C
       CALL MY_BARRIER
       IF (ITASK == 0) THEN
@@ -212,10 +212,10 @@ C sauvegarde de XSAV (tableau BUFIN(JD(19)))
       BMINMA(6) = MIN(BMINMA(6),ZMINL)
 #include "lockoff.inc"
       RESULT = 0
-C BARRIER II_STOK et RESULT
+C barrier II_STOK and RESULT
       CALL MY_BARRIER
 C -------------------------------------------------------------
-C a conserver pour cas inacti est modifie sur p0
+C to keep for case where inacti is modified on p0
       INACTI=IPARI(22,NIN)
       IF(ITASK==0)THEN
         IF(ABS(BMINMA(6)-BMINMA(3))>2*EP30.OR.
@@ -260,7 +260,7 @@ C
         IF (IMONM > 0 .AND. ITASK == 0) CALL STOPTIME(TIMERS,26)
         IF(ITASK==0)THEN
 C
-C recuperation des noeuds remote NSNR stockes dans XREM
+C recovery of remote nodes NSNR stored in XREM
 C    
         IF (IMONM > 0 .AND. ITASK == 0) CALL STARTIME(TIMERS,25)
           CALL SPMD_TRI11VOX(
@@ -421,7 +421,7 @@ C
      2    IPARI(22,NIN),NRTSR,MULTIMP          ,IPARI(21,NIN),IPARI(47,NIN),
      2    IPARI(36,NIN),IPARI(72,NIN),NODADT_THERM)
 
-C sauvegarde des candidats additionnels dans IPARI(24)
+C save additional candidates in IPARI(24)
         IPARI(24,NIN) = NRTSR
 C
         IF (IMONM > 0) CALL STOPTIME(TIMERS,26)

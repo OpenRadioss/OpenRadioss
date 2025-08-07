@@ -36,9 +36,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-C   ROLE DE LA ROUTINE:
+C   ROLE OF THE ROUTINE:
 C   ===================
-C   Remise a 0 de IFPEN si le nd n'est plus candidat
+C   Reset IFPEN to 0 if the node is no longer a candidate
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------

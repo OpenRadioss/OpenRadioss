@@ -82,13 +82,13 @@ C-----------------------------------------------
       LSKYFI = 0
       NODFI = 0
 C
-C Test succes du tri ?
+C Test success of the sort?
 C
 
 
       IF(RESULT==0) THEN
 C
-C Reperage des candidats
+C locating candidates
 C
         NEDGE_KEPT = 0
         DO I = 1, I_STOK_E2E
@@ -115,11 +115,11 @@ C         WRITE(6,*) "CAND(",I,")=",N,NN
         ENDDO
 
 C
-C Allocation des tableaux de frontieres interfaces
+C allocation of interface boundary arrays
 C
         NODFI = NEDGE_KEPT * 2
 C       IF(NEDGE_KEPT > ???) THEN
-C  On pourrait eviter de faire des trous dans la memoire
+C  We could avoid making holes in the memory
           IF(ASSOCIATED(NSVFIE(NIN)%P)) DEALLOCATE(NSVFIE(NIN)%P)
 C         WRITE(6,*) __FILE__,"NSVFIE allocated size:",NEDGE_KEPT
           ALLOCATE(NSVFIE(NIN)%P(NEDGE_KEPT))
@@ -189,7 +189,7 @@ C       ENDIF
 
         ALLOCATE(INDEX(NEDGE_REMOTE))
 C
-C Compactage des candidats
+C compacting candidates
 C
         IDEB = 0
         NN = 0
@@ -312,7 +312,7 @@ C      WRITE(6,*) ISPMD,"EDGE REMOTE kept=",NEDGE_REMOTE
       NEDGE_REMOTE_OLD = NEDGE_REMOTE
 
 C
-C Deallocation de XREM IREM
+C Deallocation of XREM IREM
 C
       IF(ALLOCATED(IREM_EDGE)) DEALLOCATE(IREM_EDGE)
       IF(ALLOCATED(XREM_EDGE)) DEALLOCATE(XREM_EDGE)
@@ -370,7 +370,7 @@ c           ENDIF
       ENDIF
 
 C
-C Renumerotation des candidats
+C Renumbering of candidates
 C
       DO I = 1, I_STOK_E2E
         N = CANDS_E2E(I)
@@ -380,7 +380,7 @@ C
         ENDIF
       ENDDO
 C
-C Renumerotation des candidats
+C Renumbering of candidates
 C
       DO I = 1, I_STOK_E2S
         N = CANDS_E2S(I)

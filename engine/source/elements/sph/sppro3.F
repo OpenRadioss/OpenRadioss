@@ -71,8 +71,8 @@ C     REAL
 
         IF(IL <= NUMSPH.AND.IL > 0)THEN 
 C-----------------
-C       TRI DE LA LISTE, GARDE LES KVOISPH PREMIERS 
-C       (COEF DE SECURITE CROISSANT).
+C       SORT THE LIST, KEEP THE FIRST KVOISPH
+C       (INCREASING SAFETY COEFFICIENT).
 
 C-----------------
             NVOIS=KXSP(5,IL)
@@ -92,7 +92,7 @@ C-----------------
                 DK=DVOIS(KVOISPH)
                 TAB_DK(IL) = DK
 C-----------------
-C Choix des cellules a conserver tq distance < DK pour eviter pb de parith/on
+C Choice of cells to keep such that distance < DK to avoid parallelization problems
                       NVOIS=0
                       DO K=1,KXSP(5,IL)
                           IF(DVOIS(K)<DK)THEN
@@ -121,8 +121,8 @@ C-----------------------------------------------------------
 C-----------------
             XSPHR(1,IL-NUMSPH) = -ABS(XSPHR(1,IL-NUMSPH)) ! reperage cell remote utile
 C
-C       TRI DE LA LISTE, GARDE LES KVOISPH PREMIERS 
-C       (COEF DE SECURITE CROISSANT).
+C       SORT THE LIST, KEEP THE FIRST KVOISPH
+C       (INCREASING SAFETY COEFFICIENT).
 C-----------------
 ! Get the DK of the original cell
             DK = DKR(IL - NUMSPH) 
@@ -130,7 +130,7 @@ C-----------------
             IF(DK>=ZERO) THEN
                 IF(NVOIS>KVOISPH) THEN
 C-----------------
-C Choix des cellules a conserver tq distance < DK pour eviter pb de parith/on
+C Choice of cells to keep such that distance < DK to avoid parallelization problems
                     NVOIS=KXSPR(IL-NUMSPH)
                     CALL MYQSORT(NVOIS,DVOIS,JPERM,IERROR)
                     DO K=1,NVOIS
@@ -178,8 +178,8 @@ C
 Cf gauges IL=-NUMSPH-...
             IL=ABS(IL)
 C-----------------
-C       TRI DE LA LISTE, GARDE LES KVOISPH PREMIERS 
-C       (COEF DE SECURITE CROISSANT).
+C       SORT THE LIST, KEEP THE FIRST KVOISPH
+C       (INCREASING SAFETY COEFFICIENT).
 
 C-----------------
             NVOIS=KXSP(5,IL)
@@ -194,7 +194,7 @@ C-----------------
                 ENDDO
                 DK=DVOIS(KVOISPH)
 C-----------------
-C Choix des cellules a conserver tq distance < DK pour eviter pb de parith/on
+C Choice of cells to keep such that distance < DK to avoid parallelization problems
                       NVOIS=0
                       DO K=1,KXSP(5,IL)
                           IF(DVOIS(K)<DK)THEN

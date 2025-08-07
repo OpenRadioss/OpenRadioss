@@ -454,9 +454,9 @@ C------
             IF (DPS _OLD*DPS<ZERO) THEN
 C       pur outlet/silent boundaries on permute le sens de comptage
               IF (ISPHIO(1,I)/=4) DPS_OLD = -DPS_OLD
-C       la particule a traverse la surface dans le sens +
+C       the particle crossed the surface in the + direction
               IF (DPS_OLD>ZERO) VSPHIO(IVAD+13) = VSPHIO(IVAD+13)-SPBUF(12,N)
-C       la particule a traverse la surface dans le sens -
+C       the particle crossed the surface in the - direction
               IF (DPS_OLD<ZERO) VSPHIO(IVAD+13) = VSPHIO(IVAD+13)+SPBUF(12,N)
             ENDIF        
           ENDIF
@@ -728,7 +728,7 @@ C           chainage:
             LPRTSPH(1,IPRT)    =ILASTON
 
 C           mise a jour des voisinages:
-c 1) ON NE TRAITE QUE LES VOISINS LOCAUX
+c 1) WE ONLY PROCESS LOCAL NEIGHBORS
 
             DO J=1,KXSP(5,N)
 

@@ -162,8 +162,8 @@ C-----------------------------------------------
         UVAR(I,5+KK)  = ZERO                                            
         UVAR(I,6+KK)  = ZERO                                            
         UVAR(I,7+KK)  = ZERO                                            
-        UVAR(I,8+KK)  = E0_(IMAT)   ! rho.e pour ACONVE                 
-        UVAR(I,9+KK)  = RHO0_(IMAT)  ! rho pour ACONVE                   
+        UVAR(I,8+KK)  = E0_(IMAT)   ! rho.e for ACONVE
+        UVAR(I,9+KK)  = RHO0_(IMAT)  ! rho for ACONVE
         UVAR(I,10+KK) = ZERO                                            
         UVAR(I,11+KK) = VOLD                                           
         UVAR(I,12+KK) = RHO0_(IMAT)          ! rho_old IN rho OUT        

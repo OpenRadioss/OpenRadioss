@@ -95,7 +95,7 @@ C   S o u r c e   L i n e s
 C-----------------------------------------------
 
 c      0. Domaine d'integration : supercell = main u (U secnd)
-c      1. Calcul de Pf
+c      1. Calculation of Pf
 c      2. Calcul de Ff(1:3) = -Pf.S.n
 c      3. Assemblge de FINT(1:3) = Sum Ff(1:3)
 
@@ -269,7 +269,7 @@ c      3. Assemblge de FINT(1:3) = Sum Ff(1:3)
           !---Face-0                                                                                                               
           !----------------------------------- 
           
-          !non ne pas sommer sur les plans de coupes il ne sont pas forcemment tous voisins :
+          !no, do not sum over the cutting planes, they are not necessarily all neighbors:
           !example : inter22/1D_EXPANSION/9ELEMS/LAW51/PerfectGas/EULER/SMALL_MAIN/0.FVM/MAT51
           !print *, "pause" ; pause
           

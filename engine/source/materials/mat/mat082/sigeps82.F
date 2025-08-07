@@ -124,7 +124,7 @@ cc      NU      = UPARAM(1)
 
 cc      RBULK   = TWO/D(1) + TWO*GMAX*THIRD
       RBULK   = TWO/D(1)
-C iniialisation des variabesl users 
+C initialization of user variables
       IF(TIME==ZERO)THEN
        DO J = 1,NUVAR
         DO  I = 1, NEL

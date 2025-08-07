@@ -163,7 +163,7 @@ C CNP nombre de processeurs possedant chaque noeud
                   IF (NLOCAL(JJ,P)==1) IFLOW(IADL+J)=IFLOW(IADL+J)+1
                ENDDO
             ENDDO
-C IBUFELR ligne des elements dans la Process Grid
+C IBUFELR line of elements in the Process Grid
             IADL=IADL+NNO+NEL
             PP=1
             JJ=0
@@ -176,7 +176,7 @@ C IBUFELR ligne des elements dans la Process Grid
                ENDIF
                IFLOW(IADL+J)=PP   !IBUFELR
             ENDDO
-C IBUFELC colonne des elements dans la Process Grid
+C IBUFELC column of elements in the Process Grid
             IADL=IADL+NEL
             PP=1
             JJ=0

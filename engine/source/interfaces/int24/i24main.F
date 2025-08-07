@@ -372,7 +372,7 @@ c----------------------------------------------------
       IF(ICURV==3)THEN
       ENDIF!(ICURV==3)
 c----------------------------------------------------
-c   Rayon de courbure : calcul des normales nodales (normees)
+c   curvature radius: calculation of nodal normals (normalized)
 C   IADM!=0 + Icurv!=0 non available (starter error).
 c----------------------------------------------------
       IF(IADM/=0)THEN
@@ -394,7 +394,7 @@ C decoupage statique
 
       I_STOK = 0
 C
-C recalcul du istok
+C recalculation of istok
 C
       DO I = JTASK, I_STOK_GLO, NTHREAD
         IF(INTBUF_TAB%CAND_N(I)<0) THEN
@@ -448,7 +448,7 @@ C preparation candidats retenus
             CALL I24CDCOR3(
      1     JLT,INDEX2(NFT+1),INTBUF_TAB%CAND_E,INTBUF_TAB%CAND_N,INTBUF_TAB%CAND_T,
      2     CAND_E_N,CAND_N_N,CAND_T_N    ,IEDGE  )
-C cand_n et cand_e remplace par cand_n_n et cand_e_n
+C cand_n and cand_e replaced by cand_n_n and cand_e_n
 C-------ISPT2 change    dimension NSN, initialis   au Starter
           CALL I24COR3(
      1  JLT       ,X          ,INTBUF_TAB%IRECTM,INTBUF_TAB%NSV  ,CAND_E_N  ,

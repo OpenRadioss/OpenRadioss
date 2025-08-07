@@ -210,7 +210,7 @@ c
      .         RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,NSIGI,SIGSP,NSIGS,
      .         SIGI ,IXS  ,X    ,JHBE ,PTSOL,NEL  ,IPARG(28))
 C----------------------------------------
-C     INITIALISATION DE LA THERMIQUE 
+C     INITIALIZATION OF THERMAL CONDITIONS
 C----------------------------------------
       IF(JTHE < 0) THEN
        DO I=LFT,LLT
@@ -258,21 +258,21 @@ C
      .              GBUF     ,LBUF     ,MBUF     ,ELBUF_STR  ,ILOADP ,
      .              FACLOAD, DELTAX    ,TEMPEL   )
 C------------------------------------------
-C       CALCUL DES DT ELEMENTAIRES
+C       CALCULATION OF ELEMENTARY TIMESTEPS
 C------------------------------------------
       AIRE(:) = ZERO
       CALL DTMAIN(GEO       ,PM        ,IPM         ,PID     ,MAT     ,FV    ,
      .     LBUF%EINT ,LBUF%TEMP ,LBUF%DELTAX ,LBUF%RK ,LBUF%RE ,BUFMAT, DELTAX, AIRE, 
      .     VOLU, DTX , IGEO,IGTYP)
 C----------------------------------------
-C     INITIALISATION DES MASSES
+C     INITIALIZATION OF MASSES
 C----------------------------------------
         CALL S10MSI(LBUF%RHO,MASS,VOLU,DTELEM(NFT+1),STI,
      .   LBUF%OFF,LBUF%SIG ,LBUF%EINT ,
      .   GBUF%OFF,GBUF%SIG,GBUF%EINT,GBUF%RHO,WIP(NPT,IP),
      .   MASSCP  ,RHOCP   ,GBUF%FILL,NEL, DTX)
 C---------------------------------------------------------
-C  INITIALATION DES CONTRAINTES
+C  INITIALIZATION OF STRESSES
 C---------------------------------------------------------
 
          IF(MTN>=28)THEN
@@ -323,7 +323,7 @@ C
      1                 GBUF%BPRELD,NEL  ,IXS  ,NIXS ,VPRELOAD, IFLAG_BPRELOAD)
         ENDIF
 C----------------------------------------
-C     INITIALISATION DES MASSES
+C     [TO
 C----------------------------------------
       CALL S10MASS3(MASS,MAS,PARTSAV,IPARTS(NF1),MSS(1,NF1),VOLU,
      .              XX  ,YY ,ZZ     ,VX         ,VY         ,VZ  ,
@@ -339,7 +339,7 @@ C----------------------------------------
      .             RNOISE,PERTURB,MAT_PARAM)
 C------------------------------------------
 C     assemblage des Volumes nodaux et Modules nodaux
-C     (pour rigidites d'interface)
+C     (for interface stiffnesses)
 C------------------------------------------
       IF(I7STIFS/=0)THEN
         NCC=10

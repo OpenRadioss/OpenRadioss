@@ -142,7 +142,7 @@ C-----------------------------------------------
 
       INTEGER MODE,WORK(70000)
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: ISTOR,INUM_WORKSH
-C     REAL OU REAL*8
+C     real or real*8
       INTEGER ID
       CHARACTER(LEN=NCHARTITLE)::TITR,TITR1,TITR2
       my_real, DIMENSION(:,:), ALLOCATABLE :: XNUM_RNOISE

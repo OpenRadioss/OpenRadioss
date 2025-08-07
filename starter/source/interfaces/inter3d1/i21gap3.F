@@ -190,7 +190,7 @@ C                                 =====
          GAPMIN = GAP
          GAPMAX = GAP
        ELSE
-C SUP DES GAPS VARIABLES
+C UPPER SIDE OF VARIABLE GAPS
          IF(GAP>ZERO)GAPMIN=GAP
          IF (RESORT==0) WRITE(IOUT,1000)GAPMIN
 C
@@ -201,11 +201,11 @@ C        GAP n'est pas utilise pour Igap > 0 ; Gapmin peut etre egal a 0.
        ENDIF
 C---------------------------------------------
 C---------------------------------------------
-C SUP DES GAPS VARIABLES
+C UPPER SIDE OF VARIABLE GAPS
        GAP = MIN(GAPMAX,MAX(GAPS2,GAPMIN))    
 C---------------------------------------------
 C
-C Calcul du gap reel a utiliser lors du critere de retri
+C Calculation of the real gap to be used during the retri criterion
 C
       IF (IGAP==0) THEN
         CRITER=GAP 
@@ -220,9 +220,9 @@ C
        IF(DGAPLOAD > ZERO) CRITER=MAX(CRITER,EM01*(GAP + DGAPLOAD))
 C
       IF(DEPTH==ZERO)THEN
-C Valeur par defaut de Depth = max( sup des gaps , largeur des elts )
+C Default value of Depth = max( upper side of gaps , width of elts )
         DEPTH=MAX(GAP,GAPMX)
-C cest encore necessaire au tri dans le starter
+C this is still necessary for sorting in the starter
       ELSEIF(DEPTH<GAP)THEN
 C Depth est tjrs superieur au gap (sup des gaps si variable)
         DEPTH=GAP
@@ -270,7 +270,7 @@ C------------------------------------
         STF(I)=ONE
       END DO
 C---------------------------------------------
-C     MISE A ONE DU MULTIPLICATEUR NODALE DES RIGIDITES 
+C     SETTING TO ONE OF THE NODAL RIGIDITY MULTIPLIER
 C---------------------------------------------
       DO I=1,NSN
         STFN(I) = ONE

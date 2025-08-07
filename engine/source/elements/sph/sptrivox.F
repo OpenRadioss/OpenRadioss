@@ -65,11 +65,11 @@ C-----------------------------------------------
 #include      "task_c.inc"
 #include      "sphcom.inc"
 C-----------------------------------------------
-C   ROLE DE LA ROUTINE:
+C   ROLE OF THE ROUTINE:
 C   ===================
-C   CLASSE LES NOEUDS DANS DES BOITES
-C   RECHERCHE POUR CHAQUE FACETTE DES BOITES CONCERNES
-C   RECHERCHE DES CANDIDATS
+C   CLASSIFY NODES IN BOXES
+C   SEARCH FOR EACH FACET THE CONCERNED BOXES
+C   SEARCH FOR CANDIDATES
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C
@@ -79,11 +79,11 @@ C     X(3,*)       COORDONNEES NODALES               E
 C     XMAX         plus grande abcisse existante     E
 C     XMAX         plus grande ordonn. existante     E
 C     XMAX         plus grande cote    existante     E
-C     VOXEL(ix,iy,iz) contient le numero local du premier noeud de
-C                  la boite
+C     VOXEL(ix,iy,iz) contains the local number of the first node of
+C                  the box
 C     NEXT_NOD(i)  noeud suivant dans la meme boite (si /= 0)
 C     LAST_NOD(i)  dernier noeud dans la meme boite (si /= 0)
-C                  utilise uniquement pour aller directement du premier
+C                  used only to go directly from the first
 C                       noeud au dernier
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -134,7 +134,7 @@ C-----------------------------------------------
       END IF
 C Barrier to wait init voxel and allocation NEX_NOD
       CALL MY_BARRIER
-C Phase initiale de construction de BPE et BPN deplacee de I7BUCE => I7TRI
+C Initial construction phase of BPE and BPN moved from I7BUCE => I7TRI
 C
       ALPHA_MARGE = SQRT(ONE +SPASORT)
 
@@ -153,7 +153,7 @@ C
       ZMAXB = BMINMA(9)
 
 C=======================================================================
-C 1   mise des noeuds dans les boites
+C 1   placing nodes in boxes
 C=======================================================================
       IF(ITASK == 0)THEN
 
@@ -168,8 +168,8 @@ C=======================================================================
           NN = KXSP(3,J)
 
           DISTMAX = MAX(DISTMAX,SPBUF(1,J))
-C Optimisation // recherche les noeuds compris dans xmin xmax des
-C elements du processeur
+C Optimization // search for nodes within xmin xmax of
+C processor elements
           IF(X(1,NN) < XMIN)  CYCLE
           IF(X(1,NN) > XMAX)  CYCLE
           IF(X(2,NN) < YMIN)  CYCLE
@@ -209,7 +209,7 @@ c         jump to the last node of the cell
         VOXEL_LOCAL(1:NBX+2,1:NBY+2,1:NBZ+2) = VOXEL(1:NBX+2,1:NBY+2,1:NBZ+2)
         NEXT_NOD_LOCAL(1:NSN) = NEXT_NOD(1:NSN)
 C=======================================================================
-C 2   mise des noeuds dans les boites
+C 2   placing nodes in boxes
 C     candidats non locaux en SPMD
 C=======================================================================
         DO J = 1, NSNR
@@ -256,7 +256,7 @@ C ==============================================================
 
 C=======================================================================
 C 3   recherche des boites concernant chaque facette
-C     et creation des candidats
+C     and creation of candidates
 C=======================================================================
       DO NE = NSP2SORTF,NSP2SORTL
 C on ne retient pas les facettes detruites
@@ -268,7 +268,7 @@ c        IF(STF(NE) == ZERO)CYCLE
 c a revoir !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         AAA = TWO*SPBUF(1,J)* ALPHA_MARGE
 
-c        indice des voxels occupes par la facette
+c        index of voxels occupied by the facet
 
         IX1=INT(NBX*(X(1,NN)-AAA-XMINB)/(XMAXB-XMINB))
         IY1=INT(NBY*(X(2,NN)-AAA-YMINB)/(YMAXB-YMINB))
@@ -383,7 +383,7 @@ C ==============================================================
 
 C=======================================================================
 C 3   recherche des boites concernant chaque facette
-C     et creation des candidats wrt particules remote (sym  trie)
+C     and creation of candidates with respect to remote particles (symmetry)
 C=======================================================================
       DO J = ITASK+1, NSNR, NTHREAD
 
@@ -392,7 +392,7 @@ C=======================================================================
 
         AAA = TWO * XSPHR(2,N) * ALPHA_MARGE
 
-c        indice des voxels occupes par la facette
+c        index of voxels occupied by the facet
 
         IX1=INT(NBX*(XSPHR(3,N)-AAA-XMINB)/(XMAXB-XMINB))
         IY1=INT(NBY*(XSPHR(4,N)-AAA-YMINB)/(YMAXB-YMINB))
@@ -503,7 +503,7 @@ C-------------------------------------------------------------------------
 c a revoir !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         AAA = (TWO*DISTMAX)* ALPHA_MARGE
 
-c        indice des voxels occupes par la facette
+c        index of voxels occupied by the facet
 
         IX1=INT(NBX*(XN-AAA-XMINB)/(XMAXB-XMINB))
         IY1=INT(NBY*(YN-AAA-YMINB)/(YMAXB-YMINB))
@@ -599,10 +599,10 @@ cc             nnr0pelg = nnr0pelg + nnr0pelem
 !$OMP END DO
 
 C-------------------------------------------------------------------------
-C     FIN DU TRI
+C     END OF SORTING
 C-------------------------------------------------------------------------
 C=======================================================================
-C 4   remise a zero des noeuds dans les boites
+C 4   reset nodes in boxes to zero
 C=======================================================================
   100 CONTINUE
 
@@ -615,7 +615,7 @@ C Barrier to avoid reinitialization before end of sorting
         ENDIF
       ENDDO
 C=======================================================================
-C 5   remise a zero des noeuds dans les boites
+C 5   reset nodes in boxes to zero
 C     candidats non locaux en SPMD
 C================================================================
       NSNF = 1 + ITASK*NSNR / NTHREAD

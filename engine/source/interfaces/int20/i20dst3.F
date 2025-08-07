@@ -124,7 +124,7 @@ C-----------------------------------------------
       INTEGER BITUNSET,BITGET,BITSET
       EXTERNAL BITUNSET,BITGET,BITSET
 C--------------------------------------------------------
-C  SHIFT DU GAP POUR SOLIDES AVEC GAP NUL
+C  gap shift for solids with zero gap
 C--------------------------------------------------------
        IF(IGAP /= 0)THEN 
          UNSSQR3 = ONE/SQR3
@@ -265,7 +265,7 @@ c shift nodales
              Z4(I) = Z4(I) - SZ4
 
            ELSEIF(I3 == I4)THEN
-c            bord de coque3N
+c            shell3n edge
              X10 = X1(I)
              Y10 = Y1(I)
              Z10 = Z1(I)
@@ -318,7 +318,7 @@ c            bord de coque3N
              Y4(I)=Y3(I)
              Z4(I)=Z3(I)
            ELSE
-c            bord de coque
+c            shell edge
              X10 = X1(I)
              Y10 = Y1(I)
              Z10 = Z1(I)
@@ -387,7 +387,7 @@ c            bord de coque
          ENDDO                           
        ENDIF
 C--------------------------------------------------------
-C  CAS DES PAQUETS MIXTES
+C  case of mixed packets
 C--------------------------------------------------------
        DO I=1,JLT
         IF(IX3(I)/=IX4(I))THEN
@@ -401,10 +401,10 @@ C--------------------------------------------------------
         ENDIF
        ENDDO
 C--------------------------------------------------------
-C  UNIQUEMENT POUR PAQUET DE TRIANGLE
+C  only for triangle packet
 C--------------------------------------------------------
 C--------------------------------------------------------
-C  CAS DES PAQUETS MIXTES OU QUADRANGLE
+C  mixed or quadrangle packet cases
 C--------------------------------------------------------
 C
        DO I=1,JLT

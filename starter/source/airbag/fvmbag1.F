@@ -139,13 +139,13 @@ C
           END IF
           IF(J == 0) CYCLE
           IADC = IADCH(J)
-C boucle sur les elts connecte au noeud k+1 du 1er elt
+C loop on the elements connected to node k+1 of the 1st element
           DO WHILE (IADC /= 0)
             NC=0
             NB=0
             JAD1=CHAIN(1,IADC)
             IF(JAD1 /= IAD1) THEN
-C Denombrement des tags des noeuds du 2eme elt
+C Counting of the tags of the nodes of the 2nd element
               DO KK = 0,3
                 J = NODESURF(JAD1+KK)
                 IF(KK == 3) THEN
@@ -159,16 +159,16 @@ C Denombrement des tags des noeuds du 2eme elt
               NC2 = NC
               NC = NC / 100
               NC2 = NC2 - 100*NC
-C test pour 2 triangles ou 2 quadrangles avec ts les noeuds communs
+C test for 2 triangles or 2 quadrangles with all common nodes
               IF(NC == NA .and. NA == NB)THEN
                 TAGE(I)=5
-C test pour 2 elts (2 quadrangles ou 1 triangle et 1 quadrangle) avec 3 noeuds communs
+C test for 2 elements (2 quadrangles or 1 triangle and 1 quadrangle) with 3 common nodes
               ELSEIF(NC == 3)THEN
                 IF(NA == 4)THEN
-C le 1er est un quadrangle
+C the 1st is a quadrangle
                   TAGE(I)=INVP2(NC2) ! tag numero noeud libre
                 ELSE
-C le 1er est un triangle
+C the 1st is a triangle
                   TAGE(I)=5
                 ENDIF
               ENDIF
@@ -335,7 +335,7 @@ C-----------------------------------------------
       VX2=VY3*VZ1-VZ3*VY1
       VY2=VZ3*VX1-VX3*VZ1
       VZ2=VX3*VY1-VY3*VX1
-C Limites de l'airbag dans les directions de decoupage
+C Limits of the airbag in the cutting directions
       DO I=1,NUMNOD
         ITAG(I)=0
       ENDDO

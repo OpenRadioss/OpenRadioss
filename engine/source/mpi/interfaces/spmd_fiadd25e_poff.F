@@ -133,7 +133,7 @@ C
                ENDIF
             ENDDO
 C     
-C     suite traitement i7for3 et i10for3 sur noeud secnd
+C     continuation of i7for3 and i10for3 processing on secondary node
 C     
          IF (INCONV == 1) THEN
             IF((ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0.AND.

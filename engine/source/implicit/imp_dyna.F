@@ -1240,7 +1240,7 @@ C-----------------
       M=NBY(1)
       IF(M<0) RETURN
       NSN=NBY(2)
-C petit traitement pour le spmd ou M est replique sur les processeurs
+C small treatment for spmd where M is replicated on processors
       IF (NSPMD>1) THEN
         AM(1,M)  = AM(1,M)  * WEIGHT(M)
         AM(2,M)  = AM(2,M)  * WEIGHT(M)
@@ -1253,7 +1253,7 @@ C------annule in const-----
       DO I = 1, 25
        RBY(I) = RBY0(I)
       ENDDO
-C CORRECTION DE L'INERTIE DU RIGID BODY POUR DT NODAL
+C CORRECTION OF THE INERTIA OF THE RIGID BODY FOR NODAL DT
       RBY(10) = MAX(RBY(10),IN(M))
       RBY(11) = MAX(RBY(11),IN(M))
       RBY(12) = MAX(RBY(12),IN(M))
@@ -1261,7 +1261,7 @@ C
       ISK =ISKEW(M)
       LCOD=ICODR(M)
       IF(LCOD/=0)THEN
-C       rotation de la matrice d'orientation (directions principales)
+C       rotation of the orientation matrix (principal directions)
         VI(1)=RBY(1)*VR(1,M)+RBY(2)*VR(2,M)+RBY(3)*VR(3,M)
         VI(2)=RBY(4)*VR(1,M)+RBY(5)*VR(2,M)+RBY(6)*VR(3,M)
         VI(3)=RBY(7)*VR(1,M)+RBY(8)*VR(2,M)+RBY(9)*VR(3,M)
@@ -1307,7 +1307,7 @@ C           | Izx Izy Izz | {   0   }   { Mz + DMz }  DMz inconnue
 C       equivaut a
 C           | Ixx Ixy | { gamax }   { Mx }
 C           | Iyx Iyy | { gamay } = { My }
-C           et gamaz=0
+C           and gamaz=0
 C------------------
         IF(LCOD==1)THEN
           DET=ONE/(RBY(17)*RBY(21)-RBY(18)*RBY(20))
@@ -1352,7 +1352,7 @@ C-------------------
 C       REPERE OBLIQUE
 C------------------
 C
-C       Passage dans le skew : (vitesse), moments, matrice d'inertie.
+C       Passage into the skew: (velocity), moments, inertia matrix.
 C
 C
         WA1=-DY_AR(1,M)
@@ -1373,7 +1373,7 @@ C           | IL1 IL2 IL3 | { gama1 }   { M1 }          | IL1 IL2 IL3 | { 0 }
 C           | IL4 IL5 IL6 | { gama2 } = { M2 }        + | IL4 IL5 IL6 | { 0 }
 C           | IL7 IL8 IL9 | { 0     }   { M3 + DM3  }   | IL7 IL8 IL9 | { v3/dt12 }
 C
-C       pas de solution => gama3=0, v'3=0 (reimpose dans la condition limite)
+C       no solution => gama3=0, v'3=0 (reimposed in the boundary condition)
 C
 C           | IL1 IL2 IL3 | { gama1 }   { M1 }            | IL1 IL2 IL3 | { gama1 }   { M1 }
 C           | IL4 IL5 IL6 | { gama2 } = { M2 }       <==> | IL4 IL5 IL6 | { gama2 } = { M2 }
@@ -1484,7 +1484,7 @@ C repere globale -> repere d'inertie principale
        AM(1,M)=RBY(1)*WA1+RBY(2)*WA2+RBY(3)*WA3
        AM(2,M)=RBY(4)*WA1+RBY(5)*WA2+RBY(6)*WA3
        AM(3,M)=RBY(7)*WA1+RBY(8)*WA2+RBY(9)*WA3
-C les contributions des vr ne sont ajoutees que sur le processeur main
+C vr contributions are only added on the main processor
        VI(1)=RBY(1)*VR(1,M)+RBY(2)*VR(2,M)+RBY(3)*VR(3,M)
        VI(2)=RBY(4)*VR(1,M)+RBY(5)*VR(2,M)+RBY(6)*VR(3,M)
        VI(3)=RBY(7)*VR(1,M)+RBY(8)*VR(2,M)+RBY(9)*VR(3,M)
@@ -1498,7 +1498,7 @@ C
        AM(3,M) = AM(3,M) - (RBY(10)-RBY(11))*VI(1)*VI(2)*WEIGHT(M)
 C
 C CALCUL D'ONE PSEUDO MOMENT:
-C EN FAIT L'ACCELERATION DE ROTATION * INERTIE DU NOEUD MAIN (IMIN DU RB)
+C IN FACT THE ROTATION ACCELERATION * INERTIA OF THE MAIN NODE (IMIN OF THE RB)
 C--------
         WA1 = AM(1,M)*RBY(10)
         WA2 = AM(2,M)*RBY(11)

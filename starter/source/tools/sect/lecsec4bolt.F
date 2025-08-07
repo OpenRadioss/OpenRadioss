@@ -300,10 +300,10 @@ C numero interne      NSTRF(K1-1+J) = L
          ENDDO  
         ENDDO   
 C
-C Noeuds concernes par la section (si NFRAM /= 0)
+C nodes concerned by the section (if nfram /= 0)
 C Noeuds concerns :
-C au dessus du plan N2N3 du frame (suivant la direction +Z)
-C & dans le plan N2N3 du frame
+C above the n2n3 plane of the frame (along the +z direction)
+C & in the n2n3 plane of the frame
 C
         IF (ISTYP >= 1 .OR. NFRAM > 0) THEN                              
           IF(ISTYP == 0) THEN                                            

@@ -72,7 +72,7 @@ C   m y _ r e a l
 C-----------------------------------------------
 #include      "my_real.inc"
 C------------------------
-C tableau de travail 
+C work array
 C------------------------
 C-----------------------------------------------
 C   D e r i v e d   T y p e   D e f i n i t i o n s

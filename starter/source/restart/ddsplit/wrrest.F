@@ -70,7 +70,7 @@ C-----------------------------------------------
       CHARACTER(LEN=256) :: SCR_FILE_NAME,SCR_FILE_NAME2
       CHARACTER(LEN=4) :: CIT
 C--------------------------------------
-C     ECRITURE DES ENTIERS
+C     writing of integers
 C--------------------------------------
       LEN_IPM=NBIPM*NFXBODY
       IF (IRFORM/5<=1) THEN
@@ -89,7 +89,7 @@ C--------------------------------------
         IF (LENGRVI_L>0) LEN_AM = LEN_AM + LENGRVI_L
       ENDIF
 C--------------------------------------
-C     ECRITURE DES REELS
+C     writing of reals
 C--------------------------------------
       LEN_MOD=LENMOD_L*6
       IF (IRFORM/5<=1) THEN
@@ -149,7 +149,7 @@ C--------------------------------------
             LEN_AM = LEN_AM + LENGRVR_L
         ENDIF
       ENDIF
-C Ecriture des fichiers de modes et de contraintes
+C writing of mode and constraint files
       NRECM=0
       NRECS=0
       DO I=1,NFXBODY
@@ -224,7 +224,7 @@ C-----------------------------------------------
       my_real
      .        VV(6)
 C--------------------------------------
-C     ECRITURE DES ENTIERS
+C     writing of integers
 C--------------------------------------
       IF (IRFORM/5<=1) THEN
         CALL WRTSQI (EIGIPM,NEIG*NEIPM,IRFORM)
@@ -234,14 +234,14 @@ C--------------------------------------
         CALL WRITE_I_C(EIGIBUF,LEIBUF)
       ENDIF
 C--------------------------------------
-C     ECRITURE DES REELS
+C     writing of reals
 C--------------------------------------
       IF (IRFORM/5<=1) THEN
         CALL WRTSQR (EIGRPM,NEIG*NERPM,IRFORM)
       ELSE
         CALL WRITE_DB(EIGRPM,NEIG*NERPM)
       ENDIF
-C Ecriture du fichier des modes additionnels
+C writing of the additional modes file
       NRECM=0
       IAD=1
       DO I=1,NEIG
@@ -288,12 +288,12 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C--------------------------------------
-C     ECRITURE DES ENTIERS
+C     writing of integers
 C--------------------------------------
       CALL WRITE_I_C(EIGIPM,NEIG*NEIPM)
       CALL WRITE_I_C(EIGIBUF,LEIBUF_L)
 C--------------------------------------
-C     ECRITURE DES REELS
+C     writing of reals
 C--------------------------------------
       CALL WRITE_DB(EIGRPM,NEIG*NERPM)
       LEN_AM = LEN_AM + NEIG*NEIPM + LEIBUF_L + NEIG*NERPM
@@ -336,7 +336,7 @@ C-----------------------------------------------
 C
       DO I=1,NSPROC
 C--------------------------------------
-C Ecriture des parametres entiers
+C writing of integer parameters
 C--------------------------------------
          DSNDDL=GRAPHE(I)%NDDL
          DSLEN=GRAPHE(I)%NSUPEL
@@ -355,7 +355,7 @@ C--------------------------------------
             CALL WRITE_I_C(TN, N)
          ENDIF
 C--------------------------------------
-C Ecriture des parametres reels
+C writing of real parameters
 C--------------------------------------
          N=1
          CUTFREQ=GRAPHE(I)%CUTFREQ
@@ -365,7 +365,7 @@ C--------------------------------------
             CALL WRITE_DB(CUTFREQ, N)
          ENDIF
 C--------------------------------------
-C Ecriture du tableau des ddls
+C writing of the dof array
 C--------------------------------------
          DO J=1,2
             IF (IRFORM/5<=1) THEN
@@ -382,7 +382,7 @@ C--------------------------------------
          ENDIF
          DEALLOCATE(GRAPHE(I)%LSDDL_GLOB)
 C--------------------------------------
-C Ecriture des superelements
+C writing of superelements
 C--------------------------------------
          DO J=1,DSLEN
             TN(1)=GRAPHE(I)%DGRAPH(J)%NDDL_I
@@ -451,7 +451,7 @@ C-----------------------------------------------
       my_real
      .        CUTFREQ
 C--------------------------------------
-C Ecriture des parametres entiers
+C writing of integer parameters
 C--------------------------------------
       DSNDDL=PGRAPH%NDDL
       DSLEN=PGRAPH%NSUPEL
@@ -467,14 +467,14 @@ C--------------------------------------
       CALL WRITE_I_C(TN, N)
       LEN_IA = LEN_IA + N
 C--------------------------------------
-C Ecriture des parametres reels
+C writing of real parameters
 C--------------------------------------
       N=1
       CUTFREQ=PGRAPH%CUTFREQ
       CALL WRITE_DB(CUTFREQ, N)
       LEN_AM = LEN_AM + N
 C--------------------------------------
-C Ecriture du tableau des ddls
+C writing of the dof array
 C--------------------------------------
       DO J=1,2
          CALL WRITE_I_C(PGRAPH%LSDDL(J,:), DSNDDL)
@@ -485,7 +485,7 @@ C--------------------------------------
       LEN_IA = LEN_IA + DSNDDL
       DEALLOCATE(PGRAPH%LSDDL_GLOB)
 C--------------------------------------
-C Ecriture des superelements
+C writing of superelements
 C--------------------------------------
       DO J=1,DSLEN
          TN(1)=PGRAPH%DGRAPH(J)%NDDL_I
@@ -541,7 +541,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C--------------------------------------
-C     ECRITURE DES ENTIERS
+C     writing of integers
 C--------------------------------------
       IF (IRFORM/5<=1) THEN
         CALL WRTSQI (IFLOW,LIFLOW,IRFORM)
@@ -549,7 +549,7 @@ C--------------------------------------
         CALL WRITE_I_C(IFLOW,LIFLOW)
       ENDIF
 C--------------------------------------
-C     ECRITURE DES REELS
+C     writing of reals
 C--------------------------------------
       IF (IRFORM/5<=1) THEN
         CALL WRTSQR (RFLOW,LRFLOW,IRFORM)
@@ -584,12 +584,12 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C--------------------------------------
-C     ECRITURE DES ENTIERS
+C     writing of integers
 C--------------------------------------
       CALL WRITE_I_C(IFLOW,LIFLOW)
       LEN_IA = LEN_IA + LIFLOW
 C--------------------------------------
-C     ECRITURE DES REELS
+C     writing of reals
 C--------------------------------------
       CALL WRITE_DB(RFLOW,LRFLOW)
       LEN_AM = LEN_AM + LRFLOW
@@ -623,7 +623,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C--------------------------------------
-C     ECRITURE DES REELS
+C     writing of reals
 C--------------------------------------
       IF (IRFORM/5 <= 1) THEN
         CALL WRTSQR (MCP,NUMNOD,IRFORM)
@@ -662,7 +662,7 @@ C-----------------------------------------------
       INTEGER :: IBCV(*)
       my_real :: FCONV(*)
 C--------------------------------------
-C     ECRITURE DES REELS
+C     writing of reals
 C--------------------------------------
       IF (IRFORM/5 <= 1) THEN
         CALL WRTSQR (FCONV,LFACTHER*NUMCONV,IRFORM)
@@ -701,7 +701,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C--------------------------------------
-C     ECRITURE DES REELS
+C     writing of reals
 C--------------------------------------
       IF (IRFORM/5 <= 1) THEN
         CALL WRTSQR (RBYM,NFRBYM*NRBYM,IRFORM)
@@ -747,7 +747,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C--------------------------------------
-C     ECRITURE DES REELS
+C     writing of reals
 C--------------------------------------
        IF(IPLYXFEM > 0 ) THEN
            IF (IRFORM/5 <= 1) THEN

@@ -189,7 +189,7 @@ C      /---------------/
             ENDIF
           ENDDO
         ELSE
-C         Traitement des INLETS.
+C         Processing of INLETS.
           CALL SPONOF1(X ,V       ,D       ,MS      ,SPBUF   ,
      2           ITAB    ,KXSP    ,IXSP    ,NOD2SP  ,NPC     ,
      3           PLD     ,IPARG   ,ELBUF_TAB,ISPHIO  ,VSPHIO  ,
@@ -460,7 +460,7 @@ C
      1      CALL SPHTRI(X       ,SPBUF   ,KXSP   ,IXSP  ,NOD2SP,
      2                  IREDUCE ,WSP2SORT ,BMINMA ,NSP2SORTF,NSP2SORTL,
      3                  ITASK   ,SPH_WORK%WREDUCE ,LGAUGE ,GAUGE    )
-C barriere a la fin de sptrivox (necessaire pour IREDUCE global)
+C barrier at the end of sptrivox (necessary for global IREDUCE)
 
 #include "lockon.inc"
           ISPHRED=MAX(ISPHRED,IREDUCE)
@@ -575,7 +575,7 @@ C      /---------------/
 C
         IREDUCE  =ISPHRED
         MYSPATRUE=SPATRUE
-C       re-tri voisins (voisins vrais, voisins dans la zone de securite).
+C       re-sort neighbors (true neighbors, neighbors in the safety zone).
         CALL SPCLASV(X     ,SPBUF ,KXSP    ,IXSP   ,NOD2SP   ,
      1               ISPSYM,XSPSYM%BUF,WSP2SORT ,ITASK  ,MYSPATRUE,
      2               IREDUCE,SPH_WORK%WREDUCE,LGAUGE ,GAUGE ,ISORTSP)
@@ -645,7 +645,7 @@ C
 C
             CALL STOPTIME(TIMERS,92)
           END IF 
-C Synchro sur echange SPMD
+C Synchronization on SPMD exchange
 C         /---------------/
           CALL MY_BARRIER
 C         /---------------/
@@ -673,11 +673,11 @@ C
      1             X       ,V       ,MS      ,SPBUF   ,ITAB    ,
      2             KXSP    ,IXSP    ,NOD2SP  ,ISPCOND ,ISPSYM  ,
      3             XFRAME  ,XSPSYM%BUF  ,WSP2SORT ,ITASK   )
-C Synchro sur XSPSYM
+C Synchronization on XSPSYM
 C      /---------------/
         CALL MY_BARRIER
 C      /---------------/
-C       re-tri voisins (voisins vrais, voisins dans la zone de securite).
+C       re-sort neighbors (true neighbors, neighbors in the safety zone).
         IREDUCE  =0
         MYSPATRUE=ZERO
         CALL SPCLASV(X     ,SPBUF ,KXSP    ,IXSP   ,NOD2SP  ,
@@ -718,7 +718,7 @@ C
       ENDIF
 C
 C-----------------------------------------------
-C       Traitement des OUTLETS.
+C       Processing of OUTLETS.
 C-----------------------------------------------
       IF(ITASK==0)THEN
         IF(NSPHIO/=0)THEN
@@ -776,7 +776,7 @@ C    /---------------/
 C    /---------------/
 C
 C-----------------------------------------------
-C     CORRECTION DES NOYAUX.
+C     KERNEL CORRECTION.
 C-----------------------------------------------
       CALL SPCOMPL(
      1    X       ,V       ,MS       ,SPBUF  ,ITAB    ,

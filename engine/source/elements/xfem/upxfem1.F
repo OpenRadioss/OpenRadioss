@@ -92,7 +92,7 @@ C---
           JFT=LFT
           JLT=LLT
 c
-C---      connection des fissures sur une arrete (enrichissements) : iecut=3
+C---      crack connection on an edge (enrs) : iecut=3
           IF (ITY == 3) THEN
             CALL UPENRIC1_N4(IPARG  ,IXC     ,NFT     ,JFT     ,JLT    ,
      .                       ELCUTC ,IADC_CRK,IEL_CRK,INOD_CRK ,NXLAY  ,

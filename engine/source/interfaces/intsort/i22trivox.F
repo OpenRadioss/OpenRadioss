@@ -74,7 +74,7 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "task_c.inc"
 C-----------------------------------------------
-C   ROLE DE LA ROUTINE:
+C   role of the routine:
 C   ===================
 C   RECHERCHE DE CANDIDATS AU CALCUL D'INTERSECTION : (BRIQUE, FACETTE)
 C
@@ -103,19 +103,19 @@ C     NSV            : NOS SYSTEMES DES NOEUDS           E
 C     XMAX           : plus grande abcisse existante     E
 C     YMAX           : plus grande ordonn. existante     E
 C     ZMAX           : plus grande cote    existante     E
-C     I_STOK         : niveau de stockage des couples
+C     I_STOK         : storage level of pairs
 C                                candidats impact    E/S
 C     CAND_B         : boites resultats bricks
 C     CAND_E         : adresses des boites resultat facettes
-C                      MULNSN = MULTIMP*NSN TAILLE MAX ADMISE MAINTENANT POUR LES
+C                      MULNSN = MULTIMP*NSN maximum size allowed now for the
 C                      COUPLES NOEUDS,ELT CANDIDATS
 C     NOINT          : NUMERO USER DE L'INTERFACE
 C     TZINF          : TAILLE ZONE INFLUENCE
 C
-C     VOXEL(ix,iy,iz): contient l'adresse du premier chainon dans le tableau chaine pour le voxel concerne.
-C     LCHAIN_LAST     : contient l'adresse du dernier chainon dans le tableau chaine pour le voxel concerne.
+C     VOXEL(ix,iy,iz): contains the address of the first link in the chain array for the concerned voxel.
+C     LCHAIN_LAST     : contains the address of the last link in the chain array for the concerned voxel.
 C     LCHAIN_NEXT(*)  : (*,1) id entite, (*,2) adresse suivante.
-C     LCHAIN_ELEM(*)  : stockage des id des briques pour chaque voxel (necessite l'adresse de debut via VOXEL(ix,iy,iz) )
+C     LCHAIN_ELEM(*)  : storage of brick IDs for each voxel (requires start address via VOXEL(ix,iy,iz))
 C
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -170,7 +170,7 @@ C-----------------------------------------------
       INTEGER NBCUT, DEJA, ISONSHELL, ISONSH3N
       INTEGER :: COUNTER, NEDGE, NFACE, NODES8(8), COUNTER_BRICK(NBRIC)
 
-c      INTEGER, DIMENSION(2,24)  :: iEDGE  !12 sans les diagonales, 24 avec les diagonales
+c      INTEGER, DIMENSION(2,24)  :: iEDGE  !12 without diagonals, 24 with diagonals
 c      INTEGER, DIMENSION(2,2,6) :: iFACE
       INTEGER :: iN1, iN2, iN1a, iN2a, iN1b, iN2b , iN3, iN4
       INTEGER :: POS, IAD, IB     , NBF, NBL
@@ -271,13 +271,13 @@ C=======================================================================
         MAX_IX = 0
         MAX_IY = 0
         MAX_IZ = 0
-        CURRENT_ADD = 1 ! premiere adresse dans le tableau chaine commun
+        CCURRENT_ADD = 1 ! first address in the common chain array
       END IF
       IF(ITASK==NTHREAD-1)THEN
         ALLOCATE(EIX1(NIRECT_L),EIY1(NIRECT_L),EIZ1(NIRECT_L))
         ALLOCATE(EIX2(NIRECT_L),EIY2(NIRECT_L),EIZ2(NIRECT_L))
         EIX1=NBX+2  !a initialiser car si pas de candidat et ftrapuv alors min/max globaux erratics
-        EIY1=NBX+2  !mettre sur nthread -1
+        EIY1=NBX+2  !set to nthread -1
         EIZ1=NBX+2
         EIX2=0
         EIY2=0
@@ -299,7 +299,7 @@ C=======================================================================
       YMAXB = BMINMA(2)
       ZMAXB = BMINMA(3)
       AAA   = TZINF !MARGE TO EXTEND SEARCH. MUST BE LARGE ENOUGH TO INCLUDE ADJACENT UNCUT CELLS
-      !deja fait dans i22main_tri pour les domaines lagrangiens
+      !already done in i22main_tri for lagrangian domains
       XMINB = XMINB - AAA
       YMINB = YMINB - AAA
       ZMINB = ZMINB - AAA
@@ -320,7 +320,7 @@ C=======================================================================
       IF(DYB/DMAX<EM06)DYB=DAAA
       IF(DZB/DMAX<EM06)DZB=DAAA
 
-      !On partitionne le balayage du tableau global des noeuds de coques (IRECT_L(1:NIRECT_L) sur les differents threads (multithreading)
+      !we partition the sweep of the global shell node array (IRECT_L(1:NIRECT_L)) over different threads (multithreading)
       NBF = 1+ITASK*NIRECT_L/NTHREAD
       NBL = (ITASK+1)*NIRECT_L/NTHREAD
 
@@ -357,7 +357,7 @@ c     .        "  Remplissage Voxel avec shell suivantes :"
       !-------------------------------------------!
       !  VOXEL INDEX RANGE FOR VOXEL RESETTING     !
       !-------------------------------------------!
-      !pour reset des voxel
+      !for voxel reset
       MIN_IX_LOC = MIN(MIN_IX,MINVAL(EIX1(NBF:NBL)))
       MIN_IY_LOC = MIN(MIN_IY,MINVAL(EIY1(NBF:NBL)))
       MIN_IZ_LOC = MIN(MIN_IZ,MINVAL(EIZ1(NBF:NBL)))
@@ -377,7 +377,7 @@ c     .        "  Remplissage Voxel avec shell suivantes :"
 #include "lockoff.inc"
       CALL MY_BARRIER ! waiting for EIX1, ...,EIZ2
 
-      !OPTIM : SI PAS DE CANDIDAT : LES VALEUR PAR DEFAUTS DES MIN MAX DE SINDICES DE VOXELS POUR CE THREAD SONT CONTRAIGNANTE POUR LA REINITIALISATION.
+      !optimization: if no candidate: the default values of min max voxel indices for this thread are constraining for reinitialization.
 
 C=======================================================================
 C 1   VOXEL FILLING with faces data below
@@ -432,17 +432,17 @@ C                           +------------+-----------+
                 FIRST_ADD = VOXEL(IX,IY,IZ)
                 IF(FIRST_ADD == 0)THEN
                   !empty cell
-                  VOXEL(IX,IY,IZ)          = CURRENT_ADD           ! adresse dans le tableau chaine
+                  VOXEL(IX,IY,IZ)          = CURRENT_ADD           ! address in the chain array
                   LCHAIN_LAST(CURRENT_ADD) = CURRENT_ADD           ! dernier=courant
                   LCHAIN_ELEM(CURRENT_ADD) = NE                    ! coque ID
-                  LCHAIN_NEXT(CURRENT_ADD) = 0                     ! pas de suivant car dernier de la liste   !
+                  LCHAIN_NEXT(CURRENT_ADD) = 0                     ! no next because last in the list   !
                 ELSE
                   !boite contenant plusieurs elements, jump to the last node of the cell
                   PREV_ADD                 = LCHAIN_LAST(FIRST_ADD)! devient l'avant-dernier
-                  LCHAIN_LAST(FIRST_ADD)   = CURRENT_ADD           ! maj du dernier
+                  LCHAIN_LAST(FIRST_ADD)   = CURRENT_ADD           ! update of the last
                   LCHAIN_ELEM(CURRENT_ADD) = NE                    ! coque ID
                   LCHAIN_NEXT(PREV_ADD)    = CURRENT_ADD           ! maj du suivant 0 -> CURRENT_ADD
-                  LCHAIN_NEXT(CURRENT_ADD) = 0                     ! pas de suivant car dernier de la liste
+                  LCHAIN_NEXT(CURRENT_ADD) = 0                     ! no next because last in the list
                 ENDIF
                 CURRENT_ADD = CURRENT_ADD+1
                 IF( CURRENT_ADD>=MAX_ADD)THEN
@@ -467,8 +467,8 @@ C                           +------------+-----------+
 !------post----debug
 
 C=======================================================================
-C 2   A partir des voxels occupes par une brique, on est en mesure
-C     de connaitre toutes les coques dans son voisinage.
+C 2   from the voxels occupied by a brick, we are able
+C     to know all the shells in its neighborhood.
 C     On creer alors les couples candidats.
 C=======================================================================
       NC      = 0
@@ -503,14 +503,14 @@ c     .     "  i22trivox : BOUCLE BRIQUE, I=",IXS(11,BUFBRIC(I))
         !-------------------------------------------!
         !  NEIGHBORS SEARCH                         !
         !-------------------------------------------!
-        ! une brique peut occuper plusieurs voxel, en regardant dans les voxel
+        ! a brick can occupy several voxels, by looking in the voxels
         ! occupees on peut donc trouver plusieurs fois la meme facette. On evite les repetition
-        !avec un TAG BOOL(I).
+        !with a BOOL(I) tag.
         DO IZ = BIZ1(I),BIZ2(I)
           DO IY = BIY1(I),BIY2(I)
             DO IX = BIX1(I),BIX2(I)
               LCHAIN_ADD = VOXEL(IX,IY,IZ)
-              DO WHILE(LCHAIN_ADD /= 0)             ! BOUCLE SUR LES COQUES DU VOXEL COURANT
+              DO WHILE(LCHAIN_ADD /= 0)             ! loop on shells of current voxel
                 NE = LCHAIN_ELEM(LCHAIN_ADD)        ! ID COQUE DU VOXEL COURANT
                 BOOL(NE)=.FALSE.
                 LCHAIN_ADD = LCHAIN_NEXT(LCHAIN_ADD)
@@ -519,16 +519,16 @@ c     .     "  i22trivox : BOUCLE BRIQUE, I=",IXS(11,BUFBRIC(I))
           ENDDO  !nby
         ENDDO   !nbx
 
-        IsSTO = .FALSE.                     ! Si I22sto est appelle alors on bascule sur true. C'est le signal pour executer le lockoff et autoriser le traitement d'une autre brique sur les autres threads
+        IsSTO = .FALSE.                     ! if I22sto is called then we switch to true. this is the signal to execute lockoff and allow processing of another brick on other threads
 
         DO IZ = BIZ1(I),BIZ2(I)
           DO IY = BIY1(I),BIY2(I)
             DO IX = BIX1(I),BIX2(I)
-              LCHAIN_ADD = VOXEL(IX,IY,IZ)        ! ADRESSE DE L'ID DE LA PREMIERE BRICK DANS LE VOXEL
-              DO WHILE(LCHAIN_ADD /= 0)           ! BOUCLE SUR LES BRICKS DU VOXEL COURANT
+              LCHAIN_ADD = VOXEL(IX,IY,IZ)        ! address of the ID of the first brick in the voxel
+              DO WHILE(LCHAIN_ADD /= 0)           ! loop on bricks of current voxel
                 NE = LCHAIN_ELEM(LCHAIN_ADD)      ! ID BRICK DU VOXEL COURANT
-                ! CRITERE DE NON INTERSECTION
-                ! Les deux volumes englobants cartesiens sont disjoints.
+                ! non-intersection criterion
+                ! the two cartesian bounding volumes are disjoint.
                 IF(BOOL(NE))THEN
                   LCHAIN_ADD = LCHAIN_NEXT(LCHAIN_ADD)
                   CYCLE
@@ -544,7 +544,7 @@ c     .     "  i22trivox : BOUCLE BRIQUE, I=",IXS(11,BUFBRIC(I))
                 DIAG(4) = SQRT((XX(4)-XX(6))**2 + (YY(4)-YY(6))**2 + (ZZ(4)-ZZ(6))**2)
                 AAA     = 1.2D00*MAXVAL(DIAG(1:4),1)
 
-                ! ON IGNORE L'ELEMENT SI L'INTERSECTION AVEC LA BRIQUE EST NULLE : MARGE ASSURE DE PRENDRE LES BRIQUES VOISINES POUR EXTENSION DU BUFFER CUT CELL
+                ! we ignore the element if intersection with brick is null: margin ensures taking neighboring bricks for cut cell buffer extension
                 IF( (IRECT_L(17,NE)-AAA>XMAXS(I)).OR.    !XMINE-AAA > XMAXS
      .              (IRECT_L(20,NE)+AAA<XMINS(I)).OR.    !XMAXE+AAA < XMINS
      .              (IRECT_L(18,NE)-AAA>YMAXS(I)).OR.    !YMINE-AAA > YMAXS                !Optimization : +/-AAA deja calculee, stoquer et reprendre (gain 6 operations par iteration)
@@ -554,7 +554,7 @@ c     .     "  i22trivox : BOUCLE BRIQUE, I=",IXS(11,BUFBRIC(I))
                   LCHAIN_ADD = LCHAIN_NEXT(LCHAIN_ADD)
                   CYCLE
                 END IF
-                BOOL(NE)       =.TRUE.  ! a partir d'ici on considere que la coque a deja ete traitee avec la brique courante. Si on la retrouve dans un autre voxel on ne considerera pas le couple une deuxi me fois.
+                BOOL(NE)       =.TRUE.  ! from here we consider that the shell has already been processed with the current brick. if we find it in another voxel we will not consider the pair a second time.
                 I_STOK         = I_STOK + 1
                 PROV_B(I_STOK) = I  !brique
                 PROV_E(I_STOK) = NE !facette
@@ -624,13 +624,13 @@ c            end if
 c          if(ibug22_trivox==1)print *, "  i22trivox.F:lockoff", ITASK,
 c     .                     "bric:",    I, "IsSTO=", IsSTO
 #include "lockoff.inc"
-        !Cela permet davoir une connexite dans le tableau (/CAND_B(I),CAND_E(I)/) des couples pour une brique donnee. (pour le multi-threading des calcules dintersection ulterieur)
+        !this allows having connectivity in the array (/CAND_B(I),CAND_E(I)/) of pairs for a given brick. (for multi-threading of subsequent intersection calculations)
         END IF
         !-------------------------------------------!
       END DO !next I (1,NBRIC)
 
 C-------------------------------------------------------------------------
-C     FIN DE LA RECHERCHE
+C     end of search
 C-------------------------------------------------------------------------
 
 
@@ -667,7 +667,7 @@ C=======================================================================
       ENDIF
 
 !------post----debug
-      if(ibug22_trivox==1)CALL MY_BARRIER !(tous les threads doivent reinit avant de tester)
+      if(ibug22_trivox==1)CALL MY_BARRIER !(all threads must reinit before testing)
       if(itask==0.AND.ibug22_trivox==1)then
         DO ix=1,(nbx+2)
           DO iy=1,(nby+2)

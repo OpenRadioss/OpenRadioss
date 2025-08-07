@@ -404,10 +404,10 @@ C-----------------------------------------------
       LSKYFI= 0
       NB_SLID_TOT = 0
       NSNR_TOT = 0
-C Reperage des candidats
+C locating candidates
 
 C
-C Allocation des tableaux de frontieres interfaces
+C allocation of interface boundary arrays
 C
       DO P = 1,NSPMD
          NODFI =  NODFI + NSNFI(NIN)%P(P) + NB_SLID(P)
@@ -427,7 +427,7 @@ C
       CALL REALLOCATE_FI1(NODFI,TMP,NIN,INTTH,IGAP,ILEV,INTFRIC,FLAGREMN,IVIS2,ISTIF_MSDT,IFSUB_CAREA)
       NSNFI(NIN)%P(1:NSPMD) = TMP%NSNFI%P(1:NSPMD)
 C
-C Compactage des candidats
+C compacting candidates
 C
       IDEB = 0
       IDEB_NEW = 0  
@@ -474,7 +474,7 @@ C
       ENDIF
       DO P = 1, NSPMD
       ! Pour l'instant on garde l'iteration P = LOC_PROC
-      ! voir avec  ce qu'il faut faire dans ce cas
+      ! see with what to do in this case
         NN = 0
         NSNR_OLD = NSNFI(NIN)%P(P)
         NSNR_NEW = SINDEX(P) ! NSNR from XREM, we don't know yet if they are already known
@@ -1091,7 +1091,7 @@ C ================================================================
 
 
 C
-C Deallocation de XREM IREM
+C Deallocation of XREM IREM
 C
       IF(ALLOCATED(XREM)) DEALLOCATE(XREM)
       IF(ALLOCATED(IREM)) DEALLOCATE(IREM)

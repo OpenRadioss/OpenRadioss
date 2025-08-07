@@ -211,7 +211,7 @@ C   test si msg necessaire a envoyer a completer par test interface
                   IN(NOD)= RBUF(L+7)            
                 ENDIF
                 L = L + SIZE                               
-C calcul du travail localement                
+C local computation of work
                 IF(WEIGHT(NOD)==1)THEN
                   WF = WF + (DF1*V(1,NOD)+DF2*V(2,NOD)+
      .                 DF3*V(3,NOD))/TWO
@@ -239,7 +239,7 @@ C calcul du travail localement
                    MS(NOD)= RBUF(L+3)           
                  ENDIF                 
                  L = L + SIZE 
-C calcul du travail localement                
+C local computation of work
                  IF(WEIGHT(NOD)==1)THEN
                    WF = WF + (DF1*V(1,NOD)+DF2*V(2,NOD)+
      .                 DF3*V(3,NOD))/TWO

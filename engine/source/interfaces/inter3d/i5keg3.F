@@ -102,7 +102,7 @@ C
        KL11(2,3,I)=KN(4,I)*Q23
        KL11(3,3,I)=KN(4,I)*Q33
       ENDDO
-C    ----avec frottement --- 
+C    with friction
       IF (FRIC>ZERO) THEN
 C    ----tangent vector --- 
        FAC= FRIC*SCALK

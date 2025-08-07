@@ -201,7 +201,7 @@ C-----------------------------------------------
         ENDIF
         IF(HAS_SEARCH_FAILED) THEN
           IF ((NSUBDOM>0).AND.(FLG_SPLIT==1)) THEN
-C-----  -------Multidomaines -> On check dans la liste des noeuds suprimes-----
+C-----  -------Multidomains -> We check in the list of deleted nodes-----
             NN=R2R_SYS(IU,ITABM1,MESS)
             IF (NN==0) THEN
               CALL ANCMSG(MSGID=895,
@@ -222,7 +222,7 @@ C-----  ------------------------------------------------------
           RETURN
         ENDIF
         IF((IU-ITABM1(J))==0)THEN
-C       >CAS IU=TABM FIN DE LA RECHERCHE
+C       >CASE IU=TABM END OF RESEARCH
            USR2SYS=ITABM1(J+NUMNOD)
            RETURN
         ELSE IF (IU-ITABM1(J)<0) THEN
@@ -289,7 +289,7 @@ C-----------------------------------------------
         RETURN
       ENDIF
       IF((IU-ITABM1(J))==0)THEN
-C     >CAS IU=TABM FIN DE LA RECHERCHE
+C     >CASE IU=TABM END OF SEARCH
          USRTOS=ITABM1(J+NUMNOD)
          RETURN
       ELSE IF (IU-ITABM1(J)<0) THEN
@@ -348,7 +348,7 @@ C-----------------------------------------------
         RETURN
       ENDIF
       IF((IU-ITABM1(J))==0)THEN
-C     >CAS IU=TABM FIN DE LA RECHERCHE
+C     >CASE IU=TABM END OF SEARCH
          ITABM1_SEARCH=J
          RETURN
       ELSE IF (IU-ITABM1(J)<0) THEN
@@ -586,7 +586,7 @@ C
 !||    udoubl2               ../starter/source/system/sysfus.F
 !||====================================================================
       SUBROUTINE UDOUBLE(LIST,ILIST,NLIST,MESS,IR,RLIST)
-C      TEST LES N0 DOUBLES
+C      TEST FOR DUPLICATE NODES
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -594,7 +594,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C remonte la declaration des entiers pour la compile sur Compaq
+C moves the declaration of integers up for compilation on Compaq
       INTEGER ILIST,NLIST,LIST(ILIST,NLIST),IR
       my_real
      .    RLIST(ILIST,NLIST)     
@@ -636,7 +636,7 @@ C
 !||--- calls      -----------------------------------------------------
 !||====================================================================
       SUBROUTINE UDOUBLEX(NLIST,ILIST,IXX,KXX)
-C      TEST LES N0 DOUBLES
+C      TEST FOR DUPLICATE NODES
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -644,7 +644,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C remonte la declaration des entiers pour la compile sur Compaq
+C moves the declaration of integers up for compilation on Compaq
       INTEGER ILIST,NLIST,IXX(*),N,KXX(ILIST,*),
      .    IAD,nnod
 
@@ -698,7 +698,7 @@ C
 !||====================================================================
       SUBROUTINE UDOUBL2(INDEX,NLIST,MESS,LIST,ILIST,IR,RLIST)
       USE MESSAGE_MOD
-C      TEST LES N0 DOUBLES
+C      TEST FOR DUPLICATE NODES
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -755,7 +755,7 @@ C
 !||    newdbl2         ../starter/source/system/sysfus.F
 !||====================================================================
       SUBROUTINE NEWDBL(LIST,ILIST,NLIST,TAB,ERRID,STATUS,NOM_OPT)
-C      TEST LES N0 DOUBLES SUR DES LISTES D'ID de noeuds ou elt ou ...
+C      TEST FOR DUPLICATE NODES IN LISTS OF NODE OR ELEMENT IDs, ETC.
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -810,7 +810,7 @@ C
      .                   NOM_OPT)
       USE MESSAGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
-C      TEST LES N0 DOUBLES
+C      TEST FOR DUPLICATE NODES
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -986,7 +986,7 @@ C-----------------------
 !||    udoubl2_wo_title   ../starter/source/system/sysfus.F
 !||====================================================================
       SUBROUTINE UDOUBLE_WO_TITLE(LIST,ILIST,NLIST,MESS,IR,RLIST)
-C      TEST LES N0 DOUBLES
+C      TEST FOR DUPLICATE NODES
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -994,7 +994,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C remonte la declaration des entiers pour la compile sur Compaq
+C moves the declaration of integers up for compilation on Compaq
       INTEGER ILIST,NLIST,LIST(ILIST,NLIST),IR
       my_real
      .    RLIST(ILIST,NLIST)     
@@ -1041,7 +1041,7 @@ C
 !||====================================================================
       SUBROUTINE UDOUBL2_WO_TITLE(INDEX,NLIST,MESS,LIST,ILIST,IR,RLIST)
       USE MESSAGE_MOD
-C      TEST LES N0 DOUBLES
+C      TEST FOR DUPLICATE NODES
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1097,7 +1097,7 @@ C-----------------------
 !||    udoubl3         ../starter/source/system/sysfus.F
 !||====================================================================
       SUBROUTINE UDOUBLE3(LIST,ILIST,NLIST,MESS,MESS2,IR,RLIST)
-C      TEST LES N0 DOUBLES
+C      TEST FOR DUPLICATE NODES
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1105,7 +1105,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C remonte la declaration des entiers pour la compile sur Compaq
+C moves the declaration of integers up for compilation on Compaq
       INTEGER ILIST,NLIST,LIST(ILIST,NLIST),IR
       my_real
      .    RLIST(ILIST,NLIST)     
@@ -1152,7 +1152,7 @@ C
 !||====================================================================
       SUBROUTINE UDOUBL3(INDEX,NLIST,MESS,MESS2,LIST,ILIST,IR,RLIST)
       USE MESSAGE_MOD
-C      TEST LES N0 DOUBLES
+C      TEST FOR DUPLICATE NODES
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1217,7 +1217,7 @@ C-----------------------
 !||    udoubl2_igr        ../starter/source/system/sysfus.F
 !||====================================================================
       SUBROUTINE UDOUBLE_IGR(LIST,NLIST,MESS,IR,RLIST)
-C      TEST LES N0 DOUBLES
+C      TEST FOR DUPLICATE NODES
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1225,7 +1225,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C remonte la declaration des entiers pour la compile sur Compaq
+C moves the declaration of integers up for compilation on Compaq
       INTEGER NLIST,LIST(NLIST),IR
       my_real
      .    RLIST(NLIST)     
@@ -1267,7 +1267,7 @@ C
 !||    udoubl2_set   ../starter/source/system/sysfus.F
 !||====================================================================
       SUBROUTINE UDOUBLE_SET(LIST,NLIST,MESS,IR,RLIST)
-C      TEST LES N0 DOUBLES
+C      TEST FOR DUPLICATE NODES
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1275,7 +1275,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C remonte la declaration des entiers pour la compile sur Compaq
+C moves the declaration of integers up for compilation on Compaq
       INTEGER NLIST,LIST(NLIST),IR
       my_real
      .    RLIST(NLIST)     
@@ -1322,7 +1322,7 @@ C
 !||====================================================================
       SUBROUTINE UDOUBL2_IGR(INDEX,NLIST,MESS,LIST,IR,RLIST)
       USE MESSAGE_MOD
-C      TEST LES N0 DOUBLES
+C      TEST FOR DUPLICATE NODES
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1380,7 +1380,7 @@ C-----------------------
 !||====================================================================
       SUBROUTINE UDOUBL2_SET(INDEX,NLIST,MESS,LIST,IR,RLIST)
       USE MESSAGE_MOD
-C      TEST LES N0 DOUBLES
+C      TEST FOR DUPLICATE NODES
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

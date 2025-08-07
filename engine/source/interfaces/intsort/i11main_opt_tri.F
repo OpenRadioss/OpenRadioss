@@ -68,12 +68,12 @@ C     REAL
      .   STARTT, GAP, STOPT, DRAD, DGAPLOADP
       INTEGER :: NRTS
 C-----------------------------------------------
-C  Calcul des adresses des buffers d'interfaces. 
-C  Les adresses des buffers J10-JFI et K10-KFI 
-C  sont remplaces systematiquement par des tableaux
+C  calculation of interface buffer addresses.
+C  the addresses of buffers J10-JFI and K10-KFI
+C  are systematically replaced by arrays
 C  JD(i) et KD(i), en gardant les memes numeros d'indexes.
-C  Les anciens adresses directs Jn, Kn sont modifies
-C  dans la routine sans commentaires additionnels habituels
+C  the old direct addresses Jn, Kn are modified
+C  in the routine without usual additional comments
 C----------------------------------------------------
 C
       STARTT=INTBUF_TAB%VARIABLES(3)

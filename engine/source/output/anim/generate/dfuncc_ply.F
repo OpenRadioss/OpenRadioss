@@ -185,7 +185,7 @@ c---------
           ENDDO
 c---------
 C          
-C test sur un seul element du groupe          
+C test on a single element of the group
 C
           N = 1 + NFT
           DO  I=LFT,LLT
@@ -921,7 +921,7 @@ C-------------------
           ENDIF
         ENDIF
 C-----------------------------------------------
-C       FIN DE BOUCLE SUR LES OFFSET
+C       end of loop over offsets
 C-----------------------------------------------
        END DO
  900  CONTINUE

@@ -76,7 +76,7 @@ C
         ENDDO
         IBVTMP(3,I) = NSNL
         M = IBVEL(4,I)
-Coptimisation pour ne pas traiter les rb mous sans main et sans noeud secnd
+Coptimization not to process soft rebars without a main and without a second node
         IF(NLOCAL(M,PROC+1)==0.AND.NSNL==0)THEN
           IBVTMP(4,I) = -M
         ELSE

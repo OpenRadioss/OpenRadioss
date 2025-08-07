@@ -131,8 +131,8 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
 C================================================================
-C     tag des boites contenant des facettes
-C     et creation des candidats
+C     tag of the boxes containing facets
+C     and creation of candidates
 C================================================================
       LOC_PROC = ISPMD + 1
       ! save the old NSNFI values

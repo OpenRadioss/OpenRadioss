@@ -97,13 +97,13 @@ C-----------------------------------------------
           L_SUB = L_SUB+1
 !!        ISUB(L_SUB+1) = TH_FLAG
 !!          L_SUB = L_SUB+1
-! NOMBRE DE SUBSETS FILS
+! number of child subsets
         DO J=1,NCHILD
           ICHILD = SUBSET(ISU)%CHILD(J)
           ISUB(L_SUB+1) = ICHILD
           L_SUB = L_SUB+1
         ENDDO
-! NOMBRE DE PARTS FILLES
+! number of child parts
         DO J=1,NBPART
           IPART = SUBSET(ISU)%PART(J)
           ISUB(L_SUB+1) = IPART

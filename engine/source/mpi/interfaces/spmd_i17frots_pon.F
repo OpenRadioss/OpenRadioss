@@ -115,7 +115,7 @@ C
         IF(NRSKYI17>0) THEN
           CALL SORTI20(NRSKYI17,IRSKYI17,FRSKYI17,4)
         END IF
-C precomptage du nombre de contacts par processeur+calcul nsnfi total
+C precomputation of the number of contacts per processor + total nsnfi calculation
         CALL INTCONTP(
      +    NRSKYI17,IRSKYI17,NSNFI(NIN)%P(1),ISIZENV,NSNFITOT,LEN)
 C
@@ -193,7 +193,7 @@ C
         DO P = 1, NSPMD
           IF(NSNSITOT(P)>0)THEN
             CALL MPI_WAIT(REQ_R(P),STATUS,IERROR)
-            IALLOCR = MAX(IALLOCR,ISIZRCV(1,P))   ! pour comm bloquantes
+            IALLOCR = MAX(IALLOCR,ISIZRCV(1,P))   ! for blocking comm
           END IF
         END DO
 C
@@ -205,7 +205,7 @@ C
           CALL ARRET(2)
         ENDIF
 C
-C Reception buffer et decompactage
+C Reception buffer and decompression
 C
         DO P = 1, NSPMD
           IF(ISIZRCV(1,P)>0) THEN

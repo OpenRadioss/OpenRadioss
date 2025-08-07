@@ -2623,9 +2623,9 @@ C--------------------------------------------
      .           ITAB    ,IPART   ,IPARTIG3D  ,IPM     ,IGEO    ,
      .           KXIG3D  ,IXIG3D  ,ITABM1     ,NCTRLMAX,TABCONPATCH)
 
-       SKNOTLOCPC = DEG_MAX*3*(NUMNOD+L_TAB_NEWFCT)*NUMGEO  ! IL FAUDRAIT AVOIR ONE NOMBRE DE POINT IGE ET DES INDICES
-cc Sknotlocpc est un peu surdimmensionne car il prend en compte les points de travail temporaire
-       IF(SKNOTLOCPC > INTMAX .OR. SKNOTLOCPC < ZERO) THEN ! L_TAB_NEWFCT pour se laisser la taille de travail
+       SKNOTLOCPC = DEG_MAX*3*(NUMNOD+L_TAB_NEWFCT)*NUMGEO  ! THERE SHOULD BE A NUMBER OF IGE POINTS AND INDICES
+cSknotlocpc is slightly oversized as it takes into account temporary work points
+       IF(SKNOTLOCPC > INTMAX .OR. SKNOTLOCPC < ZERO) THEN ! L_TAB_NEWFCT to allow for workspace size
          SKNOTLOCPC = INTMAX
        ELSE
          SKNOTLOCPC = INT(SKNOTLOCPC)
@@ -4049,7 +4049,7 @@ C---  Check multidomains datas
       IF(NR2RLNK/=0) THEN
          CALL R2R_CHECK(IEXLNK,IGRNOD,IPART)
       ENDIF
-C---  Allocation de FRONTB_R2R
+C--- Allocation of FRONTB_R2R
       ALLOCATE(FRONTB_R2R(SFRONTB_R2R,NSPMD),STAT=stat)
       IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
@@ -4057,7 +4057,7 @@ C---  Allocation de FRONTB_R2R
       FRONTB_R2R = 0
 
 C ------------------------------------------------
-C Tri des surfaces pour les Airbags et Modif files
+C Sorting of surfaces for airbags and modification files
 C ------------------------------------------------
       CALL SORT_SURF(IGRSURF,IXS,IXC,IXTG,IXQ,IXP,IXR,IXT, KXX,NIXX)
 C--------------------------------------------
@@ -5396,7 +5396,7 @@ C---------------------------
 C---------------------------
 C DOMAIN DECOMPOSITION ON COMPLETE MODEL
 C CEP array giving the associated processor for each element.
-C allocation de taille NELEM
+C Allocation of size NELEM
 C---------------------------
 C IDDLEVEL indicates the domdec level :
 C 0 == level 1) interfaces not taken into account (input v31)
@@ -5813,9 +5813,9 @@ c reset with savec IENTRY2
              CALL IFRONTPLUS(I,1)
            ENDIF
          ENDDO
-C        Remise a jour de FRONT pour les procs differents de 0
+C        Update of FRONT for processors different from 0
 C        IL faut prendre en compte les options ou front(i,p) = 1, p<>1
-C        les sensors de type 2 modifient front sur p<>1
+C        Type 2 sensors modify front on p<>1
       ELSEIF(IDDLEVEL==0) THEN
          IF(NELEM+NCONLD+GLOB_THERM%NUMCONV+GLOB_THERM%NUMRADIA+GLOB_THERM%NFXFLUX+SLCFIELD>0) THEN
            SCEP = NELEM+NCONLD+GLOB_THERM%NUMCONV+GLOB_THERM%NUMRADIA+GLOB_THERM%NFXFLUX+SLLOADP+NUMBER_LOAD_CYL
@@ -5953,11 +5953,11 @@ C---------------------------
      .              ANMODE=ANSTOP,
      .              C1='IPARG')
       ENDIF
-C     REMPLACEMENT DES NOS EXTERNES DES SS-MATERIAUX PAR LES NOS SYSTEMES
+C     REPLACEMENT OF OUR EXTERNALS OF SS-MATERIAUX BY OUR SYSTEMS
       IF(IDDLEVEL == 0) CALL M20DCOD(MLAW_TAG,IPM, PM, MAT_ELEM%MAT_PARAM)
 C
-C adresse temporaire de DD_IAD
-C nombre de super groupes
+C Temporary address of DD_IAD
+C Number of super groups
       NSPGROUP = 0
 C buffer max (super groupe)
       LB_MAX = 0
@@ -6826,7 +6826,7 @@ c      CALL PRELECGRAV(NUMGRAV ,IGRNOD)
      .                 ITAGND  ,LSUBMODEL)
       CALL TRACE_OUT1()
 C----------------------------------
-C     LECTURE DES CARTES INIGRAV
+C     READING OF INIGRAV MAPS
 C----------------------------------
       ERR_MSG='INIGRAV'
       ERR_CATEGORY='GRAVITY'
@@ -6853,7 +6853,7 @@ C----------------------------------
       ENDIF
       CALL TRACE_OUT1()
 C----------------------------------
-C     LECTURE DES CARTES INIMAP1D
+C     READING OF INIMAP1D MAPS
 C----------------------------------
       ERR_MSG = 'INIMAP1D'
       ERR_CATEGORY= 'INITIALIZATION'
@@ -6876,7 +6876,7 @@ C----------------------------------
       ENDIF
       CALL TRACE_OUT1()
 C----------------------------------
-C     LECTURE DES CARTES INIMAP2D
+C     Reading INIMAP2D cards
 C----------------------------------
       ERR_MSG = 'INIMAP2D'
       ERR_CATEGORY= 'INITIALIZATION'
@@ -6989,7 +6989,7 @@ C        PFLUID & PBLAST & LOAD PRESSURE
       ENDIF
       CALL TRACE_OUT1()
 C--------------------------------------------
-C     LECTURE DES RBE2 Constraints
+C     Reading RBE2 constraints
 C--------------------------------------------
       ERR_MSG='RBE2'
       ERR_CATEGORY='RBE2'
@@ -7073,7 +7073,7 @@ C-------------------------------------------
       ISTR_24 = 0
       IF(NUMELC/=0) CALL CHECK_QEPH_STRA(ISTR_24)
 C--------------------------------------------
-C     LECTURE DES ELEMENTS DESACTIVABLES
+C     Reading deactivatable elements
 C--------------------------------------------
       ERR_MSG='ELEMENTS DEACTIVATION'
       ERR_CATEGORY='ELEMENTS DEACTIVATION'
@@ -7379,7 +7379,7 @@ C--------------------------------------------
       END IF
 C
 C--------------------------------------------
-C     LECTURE DES INTERFACES
+C     Reading interfaces
 C--------------------------------------------
       ERR_MSG='INTERFACES'
       ERR_CATEGORY='INTERFACES'
@@ -7717,7 +7717,7 @@ C
 
 
 C--------------------------------------------
-C     LECTURE DES MURS RIGIDES
+C     Reading rigid walls
 C--------------------------------------------
         ERR_MSG='RIGID WALLS'
         ERR_CATEGORY='RIGID WALLS'
@@ -7772,7 +7772,7 @@ C
         CALL TRACE_OUT1()
 C
 C--------------------------------------------
-C     LECTURE DES MASSES AJOUTEES
+C     Reading added masses
 C--------------------------------------------
         ERR_MSG='ADDED MASSES'
         ERR_CATEGORY='ADDED MASSES'
@@ -7811,7 +7811,7 @@ C---
         ENDIF
         CALL TRACE_OUT1()
 C--------------------------------------------
-C     LECTURE DES STRUCTURES RIGIDES
+C     Reading rigid structures
 C--------------------------------------------
         ERR_MSG='RIGID ENTITIES'
         ERR_CATEGORY='RIGID BODY'
@@ -7868,7 +7868,7 @@ C
      6       LCFIELD   )
         ENDIF
 C--------------------------------------------
-C     LECTURE DES FUSIONS DE RIGID BODY
+C     Reading rigid body merges
 C--------------------------------------------
       IF(NRBMERGE > 0) THEN
         CALL HM_READ_MERGE(
@@ -7878,7 +7878,7 @@ C--------------------------------------------
      .      LSUBMODEL)
       ENDIF
 C--------------------------------------------
-C     CHECK DES STRUCTURES RIGIDES
+C     Checking rigid structures
 C--------------------------------------------
       IF(NRBYKIN > 0) THEN
         CALL CHECKRBY(
@@ -7996,7 +7996,7 @@ C--------------------------------------------
       IF(.NOT. ALLOCATED(ICONX)) ALLOCATE(ICONX(0))
 #endif
 C---------------------------------------------
-C     LECTURE DES CORPS FLEXIBLES
+C     Reading flexible bodies
 C---------------------------------------------
       ERR_MSG='FLEXIBLE BODIES'
       ERR_CATEGORY='FLEXIBLE BODIES'
@@ -9000,8 +9000,8 @@ c------------------------------
 c
       INDX_CRK = 0  ! For Anim
       NCRKPART = 0  ! Nombre des parts xfem  (local proc)
-      NCRKXFE  = 0  ! Nombre des noeuds xfem
-      ECRKXFE  = 0  ! Nombre des elements xfem
+      NCRKXFE  = 0  ! number of xfem nodes
+      ECRKXFE  = 0  ! number of xfem elements
       ECRKXFEC = 0  ! Nombre des shells 4N xfem
       ECRKXFETG= 0  ! Nombre des shells 3N xfem
 c------------------------------
@@ -9015,7 +9015,7 @@ c-----
           WRITE(ISTDO,'(A)')' .. XFEM MIXED MONO/MULTI-LAYER SHELL'
         ENDIF
 c-----
-c       numerotation locale des noeuds et elems fantomes des parts xfem
+c       local numbering of ghost nodes and elements of xfem parts
 c       IEL_CRKXFEM  : local system numerotation of Xfem shells
 c       INOD_CRKXFEM : local system numerotation of Xfem nodes
 c--------------------------------------------------
@@ -9054,7 +9054,7 @@ c--------------------------------------------------
 C       NODGLOBXFE
         SNODGLOBXFE = 4*ECRKXFE*NLEVMAX  ! nb max de noeuds phant, tous les plis. faux si mixte
 C
-        NUMEDGES = 0   ! nb des edges glob (pareil tous les plis)
+        NUMEDGES = 0   ! number of global edges (same for all plies)
         SIEDGESH = 4*ECRKXFEC + 3*ECRKXFETG
 c
         ALLOCATE(IEDGESH(SIEDGESH),STAT=stat)
@@ -9168,7 +9168,7 @@ C----------------------------------
      3              ITRUOFF,IPOUOFF,IRESOFF,ITRIOFF,IGRNRB2,
      4               IGRNOD ,IRBE2  )
 C----------------------------------
-C     RBODY Desactivation des elements des rigid body (on par defaut)
+C     rbody deactivation of rigid body elements (on by default)
 C----------------------------------
       CALL SETELOFF(IXS    ,IXC    ,IXT    ,IXP    ,IXR    ,
      2              IXTG   ,IPARG  ,        ISOLOFF,ISHEOFF,
@@ -9268,7 +9268,7 @@ C---------------------------
         ENDIF
       CALL TRACE_OUT1()
 C----------------------------------
-C     LECTURE DES RIVETS
+C     reading rivets
 C----------------------------------
       ERR_MSG='RIVETS'
       ERR_CATEGORY='RIVETS'
@@ -9327,7 +9327,7 @@ c
           SEATBELT_SHELL_TO_SPRING(1,2) = 0
         ENDIF
 C----------------------------------
-C     LECTURE DES SECTIONS
+C     reading sections
 C----------------------------------
       ERR_MSG='SECTIONS'
       ERR_CATEGORY='SECTIONS'
@@ -9369,7 +9369,7 @@ c
      .            NSECT   ,NINTER ,NINTSUB ,NRWALL   ,NRBODY  )
 c
 C----------------------------------
-C     LECTURE DES JOINTS
+C     reading joints
 C----------------------------------
       ERR_MSG='JOINTS'
       ERR_CATEGORY='JOINTS'
@@ -9464,7 +9464,7 @@ C
       ERR_CATEGORY='BEM FLOW'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
 C----------------------------------
-C     LECTURE DES ECOULEMENTS (FLUIDE INCOMPRESSIBLE OU THERMIQUE)
+C     reading flows (incompressible fluid or thermal)
 C----------------------------------
       IF(NFLOW>0) THEN
          CALL HM_PREREAD_BEM(IGRSURF, IGRNOD , NNFT  ,
@@ -9502,7 +9502,7 @@ c
       ENDIF
       CALL TRACE_OUT1()
 C--------------------------------------------
-C     MULTIPLICATEURS DE LAGRANGE
+C     lagrange multipliers
 C--------------------------------------------
       ERR_MSG='LAGRANGE MULTIPLIERS'
       ERR_CATEGORY='LAGRANGE MULTIPLIERS'
@@ -10120,7 +10120,7 @@ C -------------------------------------------------
      .                           NSURF    ,NUMNOD   )
 C
 C------------------------- CHECK -------------------
-C-- La variable NSMAT (nb de Material ds TH),
+Cthe nsmat variable (number of materials in th)
 C     est disponible uniquement apres THGROU en version block
 c      CALL ANCHECK(4)
 C
@@ -10165,7 +10165,7 @@ C
 c      CALL ANCHECK(80)
 C
 C
-C affectation du numero de processeur (spmd)
+C assignment of processor number (spmd)
 C
       CALL THPINIT(OUTPUT%TH%ITHGRP,OUTPUT%TH%ITHBUF,IPARG  ,DD_IAD ,LRIVET ,
      .             0       ,NTHGRP )
@@ -10198,7 +10198,7 @@ C
      .               I      ,NTHGRP1(9)   )
       CALL TRACE_OUT1()
 C--------------------------------------------
-C     Multidomains -> deallocation des tableaux.
+C     multidomains -> deallocation of arrays
 C--------------------------------------------
       IF(NSUBDOM>0) THEN
         DEALLOCATE(TAG_PART,TAGMON,TAGRBY,TAGINT,TAGCYL,TAGLNK)
@@ -10221,10 +10221,10 @@ C---------------------------------------------------------------------
       ENDIF
 C--------------------------------------------
 C     TABLEAU DE TRAVAIL WA(LENWA)
-C     PARTIE NON SAUVEGARDEE SUR LE FICHIER DE RESTART
+C     part not saved in the restart file
 C--------------------------------------------
       NRCVVOIS0 = 0
-C appel a routine generique ici et dans ddsplit
+C call to generic routine here and in ddsplit
       CALL SETLENWA(
      1      LENWA ,NTHWA  ,NAIRWA    ,NUMELS   ,NUMELQ,
      2      NUMELC,NUMELTG,NUMELT    ,NUMELP   ,NUMELR,
@@ -10277,12 +10277,12 @@ C--------------------------------------------
       IF(NDAMP>0) CALL DAMPDTNODA(MS_B,IN_B,STIFFN,STIFFN(NUMNOD+1),
      1                            IGRNOD,DAMPR )
 C--------------------------------------------
-C     TRI ET IMPRESSION DES DT ELEM
+C     sorting and printing of element dt
 C--------------------------------------------
       CALL OUTRI(DTELEM,IXS,IXQ,IXC,IXT,IXP,IXR,IXTG,
      .           KXX,KXSP,KXIG3D,IGEO,NUMEL)
 C--------------------------------------------
-C     TRI ET IMPRESSION DES DT NODAUX
+C     sorting and printing of nodal dt
 C--------------------------------------------
       CALL OUTRIN(MS_B,IN_B,STIFFN,STIFFN(NUMNOD+1),ITAB,DTNODA)
 C---------------------------------------------
@@ -10335,9 +10335,9 @@ C--------------------------------------------
        CALL BCSCYCMODIF_ND(IBCSCYC,LBCSCYC,ITAGND,ITAB)
       END IF
 C--------------------------------------------
-C     CHECK DE CONDITIONS CINEMATIQUES
+C     checking kinematic conditions
 C--------------------------------------------
-C D(3,NUMNOD) UTILISE DANS LE STARTER COMME FLAG
+C d(3,numnod) used in the starter as a flag
 C DE CONDITION CINEMATIQUE IKINE(NUMNOD)
 C--------------------------------------------
       CALL KINCHK(D       ,RWBUF   ,ITAB   ,NPRW   ,LPRW    ,KINET  ,
@@ -10440,7 +10440,7 @@ C
      J    SENSOR_USER_STRUCT)
 
 C      ELSE
-C       mise a 1 de front i.e. tous les noeuds sur Proc1, poids 1
+C       set front to 1 i.e. all nodes on proc1, weight 1
 C en SMP FRONT => WEIGHT a la meme addresse initialise a 1
 C        SFR_IAD = 0
 C        SDD_FRONT = 0
@@ -10467,7 +10467,7 @@ C--------------------------------------------
         END IF
        END IF
       END IF
-C   Preparation traitement SPMD des ecoulements par BEM
+C   preparation of spmd processing of flows by bem
       CALL TRACE_OUT1()
       ERR_MSG='PROCESS BEM FOR SPMD'
       ERR_CATEGORY='PROCESS BEM FOR SPMD'
@@ -10688,7 +10688,7 @@ C--------------------------------------------
           IF(RESTART_FILE==1) WRITE(ISTDO,'(A)')TITRE(50)
           IF(RESTART_FILE==0) WRITE(ISTDO,'(A)')CHECK_MESSAGE(1)( 1:len_trim(CHECK_MESSAGE(1)) )
 C--------------------------------------------
-C Matrice de connectivite globale
+C global connectivity matrix
 C--------------------------------------------
           ILEN = MAX(NUMELS,NUMELQ,NUMELC,NUMELT,NUMELP,NUMELR,NUMELTG)
           IF(LCNE>0) ALLOCATE(CNE(LCNE),STAT=stat)
@@ -10718,7 +10718,7 @@ C
 
           LENTHG = OUTPUT%TH%SITHBUF
           LENTHGR = SRTHBUF
-Clongueur BUFMAT et BUFGEO
+Clength of bufmat and bufgeo
           LBUFMAT = SBUFMAT
           LBUFGEO = SBUFGEO
           LBUFSF  = SBUFSF
@@ -10740,7 +10740,7 @@ C----------------------------------------------------------------------
             CALL BUILD_CNEL_SUB(NLOC_DMG%CNE,NLOC_DMG%ADDCNE,CNE,ADDCNE,NLOC_DMG%INDX,NLOC_DMG%NNOD)
           ENDIF
 C--------------------------------------------
-C     Multidomains -> transfert de la domdec
+C     multidomains -> transfer of domdec
 C--------------------------------------------
           IF((NSUBDOM>0).AND.(FLG_R2R_ERR==0)) THEN
             CALL R2R_CLEAN_INTER(IPARI,INTBUF_TAB,IPARTC,IPARTG,IPARTS,ISOLNOD)

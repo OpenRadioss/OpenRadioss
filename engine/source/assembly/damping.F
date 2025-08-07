@@ -193,7 +193,7 @@ C
                     DO N=1,IGRNOD(IGR)%NENTITY
                         I=IGRNOD(IGR)%ENTITY(N)
                         IF(TAGSLV_RBY(I)==0) THEN
-C----- Damping seulement pour les noeuds en contact avec temporisation -----
+C----- Damping only for nodes in contact with time delay -----
                             NEED_COMPUTE = .TRUE.
                             IF (DAMPR(19,ND)/=0) THEN
                                 IF (ICONTACT(I)/=0) I_DAMP_RDOF_TAB(I) = DAMPR(19,ND)
@@ -415,7 +415,7 @@ C-------------------------------------------------
                     DO N=1,IGRNOD(IGR)%NENTITY
                         I=IGRNOD(IGR)%ENTITY(N)
                         IF(TAGSLV_RBY(I)==0) THEN
-C----- Damping seulement pour les noeuds en contact avec temporisation -----
+C----- Damping only for nodes in contact with time delay -----
                             NEED_COMPUTE = .TRUE.
                             IF (DAMPR(19,ND)/=0) THEN
                                 IF (ICONTACT(I)/=0) I_DAMP_RDOF_TAB(I) = DAMPR(19,ND)
@@ -581,7 +581,7 @@ C-------------------------------------------------
            DO N=1,IGRNOD(IGR)%NENTITY
             I=IGRNOD(IGR)%ENTITY(N)
             IF(TAGSLV_RBY(I)/=0) CYCLE
-C----- Damping seulement pour les noeuds en contact avec temporisation -----
+C----- Damping only for nodes in contact with time delay -----
             IF (DAMPR(19,ND)/=0) THEN
               IF (ICONTACT(I)/=0) I_DAMP_RDOF_TAB(I) = DAMPR(19,ND)
               IF (I_DAMP_RDOF_TAB(I)==0) GOTO 351
@@ -603,7 +603,7 @@ C--------------------------------------------------------
            DO N=1,IGRNOD(IGR)%NENTITY
             I=IGRNOD(IGR)%ENTITY(N)
             IF(TAGSLV_RBY(I)/=0) CYCLE
-C----- Damping seulement pour les noeuds en contact avec temporisation -----
+C----- Damping only for nodes in contact with time delay -----
             IF (DAMPR(19,ND)/=0) THEN
               IF (I_DAMP_RDOF_TAB(I)==0) GOTO 451
             ENDIF
@@ -624,7 +624,7 @@ C--------------------------------------------------------
            DO N=1,IGRNOD(IGR)%NENTITY
             I=IGRNOD(IGR)%ENTITY(N)
             IF(TAGSLV_RBY(I)/=0) CYCLE
-C----- Damping seulement pour les noeuds en contact avec temporisation -----
+C----- Damping only for nodes in contact with time delay -----
             IF (DAMPR(19,ND)/=0) THEN
               IF (I_DAMP_RDOF_TAB(I)==0) GOTO 551
               I_DAMP_RDOF_TAB(I)=I_DAMP_RDOF_TAB(I)-1
@@ -680,7 +680,7 @@ C--------------------------------------------------------
            DO N=1,IGRNOD(IGR)%NENTITY
             I=IGRNOD(IGR)%ENTITY(N)
             IF(TAGSLV_RBY(I)/=0) CYCLE
-C----- Damping seulement pour les noeuds en contact avec temporisation -----
+C----- Damping only for nodes in contact with time delay -----
             IF (DAMPR(19,ND)/=0) THEN
               IF (ICONTACT(I)/=0) I_DAMP_RDOF_TAB(I) = DAMPR(19,ND)    
               IF (I_DAMP_RDOF_TAB(I)==0) GOTO 751
@@ -703,7 +703,7 @@ C--------------------------------------------------------
            DO N=1,IGRNOD(IGR)%NENTITY
             I=IGRNOD(IGR)%ENTITY(N)
             IF(TAGSLV_RBY(I)/=0) CYCLE
-C----- Damping seulement pour les noeuds en contact avec temporisation -----
+C----- Damping only for nodes in contact with time delay -----
             IF (DAMPR(19,ND)/=0) THEN   
               IF (I_DAMP_RDOF_TAB(I)==0) GOTO 851       
             ENDIF
@@ -725,7 +725,7 @@ C--------------------------------------------------------
            DO N=1,IGRNOD(IGR)%NENTITY
             I=IGRNOD(IGR)%ENTITY(N)
             IF(TAGSLV_RBY(I)/=0) CYCLE
-C----- Damping seulement pour les noeuds en contact avec temporisation -----
+C----- Damping only for nodes in contact with time delay -----
             IF (DAMPR(19,ND)/=0) THEN
               IF (I_DAMP_RDOF_TAB(I)==0) GOTO 951
               I_DAMP_RDOF_TAB(I)=I_DAMP_RDOF_TAB(I)-1      

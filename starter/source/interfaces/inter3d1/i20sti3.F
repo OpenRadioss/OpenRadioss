@@ -111,10 +111,10 @@ C     REAL
       INTEGER BITUNSET,BITGET,BITSET
       EXTERNAL BITUNSET,BITGET,BITSET
 C--------------------------------------------------------------
-C     CALCUL DES RIGIDITES DES SEGMENTS 
-C     V16 : DANS LE CAS OU ONE SEGMENT APPARTIENT A LA FOIS
-C           A UNE BRIQUE ET A UNE COQUE ON CHOISIT LA RIGIDITE
-C           DE LA COQUE SAUF SI LE MATERIAU COQUE EST NUL.
+C     CALCULATION OF SEGMENT STIFFNESSES
+C     V16 : IN THE CASE WHERE ONE SEGMENT BELONGS BOTH
+C           TO A BRICK AND A SHELL, THE SHELL STIFFNESS IS CHOSEN
+C           OF THE SHELL UNLESS THE SHELL MATERIAL IS NULL.
 C---------------------------------------------------------------
 
 C---------------------------------------------------------------
@@ -202,7 +202,7 @@ C------------------------------------
        ENDDO
       ENDIF
 C
-C calcul du surface second. ---
+C calculation of the second surface. ---
       IF(INTTH > 0 ) THEN
        DO I = 1,NSN    
           AREAS(I) = ZERO
@@ -283,7 +283,7 @@ c       ENDDO
       ENDIF
 
 C------------------------------------
-C     SURFACE DE COQUE OU SOLIDE
+C     SHELL OR SOLID SURFACE
 C------------------------------------
 C------------------------------------
 C     STIF FACES MAIN
@@ -500,7 +500,7 @@ c          NBINFLG(IRECT(4,INRT))=BITUNSET(NBINFLG(IRECT(4,INRT)),7)
         END IF
       END IF
 C----------------------
-C     SURFACE DE SEGMENTS
+C     SEGMENT SURFACE
 C----------------------
 C----------------------
 C     ELEMENTS SOLIDES
@@ -763,7 +763,7 @@ c           WRITE(IOUT,1300)GAPMIN
          ELSE
            GAPMIN = GAP
          ENDIF
-C SUP DES GAPS VARIABLES
+C ABOVE VARIABLE GAPS
          GAP = MAX(GAPS1+GAPS2,GAPMIN)
          GAP=MIN(GAP,GAPMAX)
          IF(INACTI/=7.AND.GAP>HALF*GAPMX)THEN
@@ -777,27 +777,27 @@ C SUP DES GAPS VARIABLES
          ENDIF
        ENDIF
 C---------------------------------------------
-C     MISE A ONE DU MULTIPLICATEUR NODALE DES RIGIDITES 
+C     SETTING TO ONE OF THE NODAL STIFFNESS MULTIPLIER
 C---------------------------------------------
-c     STFN est temporairement de 1 a NSN au lien de 1 a NLN
+c     STFN is temporarily from 1 to NSN instead of 1 to NLN
       DO L=1,NSN
          STFN(L) = 1.
       ENDDO
 C---------------------------------------------
-C     LIMITATION DU GAP DES SOLIDES
+C     LIMITATION OF THE GAP OF SOLIDS
 C---------------------------------------------
       IF (IGAP/=0) THEN
         DO I = 1, NRT
           IF(GAP_M(I) == ZERO)THEN
             GAP_SH(I) = MIN(GAPSOLIDMAX,GAP_SH(I))
             GAP_SH(I) = MAX(GAPSOL,GAP_SH(I))
-c GAP_M pour tri
+c GAP_M for sorting
             GAP_M(I)=GAP_M(I)+TWO*GAP_SH(I)
           ENDIF
         ENDDO
       ENDIF
 C
-C Calcul du gap reel a utiliser lors du critere de retri
+C Calculation of the real gap to be used during the retri criterion
 C
       GAPSHMAX = ZERO
       IF (IGAP==0) THEN
@@ -905,10 +905,10 @@ C     REAL
 C-----------------------------------------------
       EXTERNAL GET_U_GEO
 C--------------------------------------------------------------
-C     CALCUL DES RIGIDITES DES SEGMENTS 
-C     V16 : DANS LE CAS OU ONE SEGMENT APPARTIENT A LA FOIS
-C           A UNE BRIQUE ET A UNE COQUE ON CHOISIT LA RIGIDITE
-C           DE LA COQUE SAUF SI LE MATERIAU COQUE EST NUL.
+C     CALCULATION OF SEGMENT STIFFNESSES
+C     V16 : IN THE CASE WHERE ONE SEGMENT BELONGS BOTH
+C           TO A BRICK AND A SHELL, THE SHELL STIFFNESS IS CHOSEN
+C           OF THE SHELL UNLESS THE SHELL MATERIAL IS NULL.
 C---------------------------------------------------------------
       DXM=ZERO
       NDX=0      
@@ -1311,7 +1311,7 @@ C---------------------------
           ENDIF
           IF(NINTR<0)WRITE(IOUT,1300)HALF*(GAPMIN+GAP1)
         ENDIF
-C GAP MINI ET SUP DES GAPS VARIABLES
+C MINI GAP AND ABOVE VARIABLE GAPS
         IF(NINTR>0)THEN
           GAPMIN = GAP1
           GAPMAX = GAPS1
@@ -1341,10 +1341,10 @@ C---------------------------
       ENDIF
 C---------------------------------------------
 C
-C Calcul du gap reel a utiliser lors du critere de retri
+C Calculation of the real gap to be used during the retri criterion
 C
       IF (IGAP==0) THEN
-        GAPINF=GAPMAX/TWO ! remultiplie par 2 dans i20ini3
+        GAPINF=GAPMAX/TWO ! multiplied by 2 in i20ini3
       ELSE
         DO I = 1, NRT
           GAPINF = MIN(GAPINF,GAP_SM(I))

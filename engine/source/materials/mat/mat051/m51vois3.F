@@ -178,7 +178,7 @@ C-----------------------------------------------
          IF(VN(I) >= ZERO)VEL(I)=ZERO
 
         IF(IVOI <= NUMELS)THEN
-          !element du processeur
+          !processor element
             DO N=1,NGROUP
                KTY = IPARG(5,N)
                KLT = IPARG(2,N)
@@ -243,7 +243,7 @@ C-----------------------------------------------
 
         ELSE !(IVOI>NUMELS)
 
-          !cas SPMD et voisin remote : aller chercher dans BUFVOIS
+          !spmd case and remote neighbor: fetch from bufvois
           !BUFVOIS rempli dans ALEMAIN (spmf_cfd.F : SPMD_L51VOIS)
 
                   IS               = IVOI-NUMELS

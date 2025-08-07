@@ -9057,7 +9057,7 @@ C--- //  ----------------
 C========================================================================================
 C                                   DOMAIN 0
 C========================================================================================
-                  IF(ISPMD==0) THEN    ! traitement int14 sur p0
+                  IF(ISPMD==0) THEN    ! int14 processing on p0
                     CALL SRFVIT(NODES%X,NODES%V,NODES%VR,NODES%A,NODES%AR,
      .                  NPBY  ,RBY  ,NODES%MS  ,NODES%IN   ,
      .                  IGRSURF ,BUFSF)

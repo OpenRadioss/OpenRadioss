@@ -187,7 +187,7 @@ c
              IXR(4,I)=USR2SYS(IXR(4,I),ITABM1,MESS,IXR(NIXR,I))
              CALL ANODSET(IXR(4,I), CHECK_USED)
           ENDIF
-C         Noeuds additionels pour joints    
+C         Additional nodes for joints
             IF (FLAG_KJ(I)>0) THEN
             DO J=1,3
              IF(IXR_KJ(J,I)/=0) THEN
@@ -219,7 +219,7 @@ C-----------
      .            ANMODE=ANINFO_BLIND_1,    
      .            PRMOD=MSG_PRINT) 
 C-------------------------------------
-C Recherche des ID doubles
+C Search for double IDs
 C-------------------------------------
       IDS = 79
       I = 0
@@ -279,7 +279,7 @@ C
 C
  200  CONTINUE
 C--------------------------------------------------
-C Reorganisation du tableau additionel pour kjoints
+C Reorganization of the additional table for kjoints
 C--------------------------------------------------
 
       IF (NUMEL_KJ>0) THEN

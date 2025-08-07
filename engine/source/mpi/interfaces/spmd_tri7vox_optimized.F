@@ -134,8 +134,8 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
 C=======================================================================
-C     tag des boites contenant des facettes
-C     et creation des candidats
+C     tag of the boxes containing facets
+C     and creation of candidates
 C=======================================================================
       LOC_PROC = ISPMD + 1
 
@@ -153,7 +153,7 @@ C
          END DO
       END IF
 C
-C   boite minmax pour le tri provenant de i7buce BMINMA
+C   minmax box for sorting coming from i7buce BMINMA
 C
       IF(IRCVFROM(NIN,LOC_PROC)==0.AND.
      .   ISENDTO(NIN,LOC_PROC)==0) RETURN
@@ -231,7 +231,7 @@ C   envoi voxel + boite min/max
 C
 
 C
-C   envoi de XREM
+C   sending of XREM
 C
 C computation of real and integer sending buffers sizes
 c general case
@@ -313,10 +313,10 @@ C-----for   NBINFLG
 
         DO KK = 1, NBIRECV
            P=IRINDEXI(KK)
-C Traitement special sur d.d. ne consever que les noeuds internes
+C Special treatment on d.d. only keep internal nodes
           DO J = IAD_ELEM(1,P), IAD_ELEM(1,P+1)-1
             NOD = FR_ELEM(J)
-C weight < 0 temporairement pour ne conserver que les noeuds non frontiere
+C weight < 0 temporarily to keep only non-boundary nodes
             WEIGHT(NOD) = WEIGHT(NOD)*(-1)
           ENDDO
 C
@@ -373,7 +373,7 @@ C
 C
           DO J = IAD_ELEM(1,P), IAD_ELEM(1,P+1)-1
             NOD = FR_ELEM(J)
-C remise de weight > 0
+C resetting weight > 0
             WEIGHT(NOD) = WEIGHT(NOD)*(-1)
           ENDDO
 C old tag
@@ -661,7 +661,7 @@ C reset old tag for next P
 C
       IF(ITYP==25) DEALLOCATE(ITAGNSNFI)
 C
-C   reception  des donnees XREM
+C   reception of XREM data
 C
       IF(IRCVFROM(NIN,LOC_PROC)/=0) THEN
         NSNR = 0

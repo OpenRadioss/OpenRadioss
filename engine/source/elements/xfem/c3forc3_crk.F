@@ -483,7 +483,7 @@ C--------------------------
 C--------------------------
         IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STOPTIME(TIMERS,35)
 C--------------------------
-C       PAS DE TEMPS
+C       TIME STEP
 C--------------------------
         IF (ISMSTR /= 3) CALL C3DT3(
      1          JFT      ,JLT       ,PM      ,OFF    ,DT2T    ,
@@ -496,7 +496,7 @@ C--------------------------
      8          ZOFFSET)
 
 C--------------------------
-C     BILANS PAR MATERIAU
+C     BALANCES BY MATERIAL
 C--------------------------
 c        IFLAG = MOD(NCYCLE,NCPRI)
         IF (IPRI>0)
@@ -528,7 +528,7 @@ C----------------------------
      6                  OFF       ,VOL0 ,NEL  )
         ENDIF
 C-------------------------
-c     Thermique des coques 
+c     Shell thermal
 C--------------------------
         IF (JTHE > 0) THEN
           IF (MAT_ELEM%MAT_PARAM(IMAT)%HEAT_FLAG == 1) THEN

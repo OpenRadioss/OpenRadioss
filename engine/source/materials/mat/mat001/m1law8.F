@@ -129,14 +129,14 @@ C-----------------------
         EINC(I)=ZERO   
       ENDDO
 C------------------------------
-C     DP/DRHO ET VITESSE DU SON
+C     DP/DRHO AND SPEED OF SOUND
 C------------------------------
       DO I=1,NEL
         DPDM(I)=ONEP333*G(I)+C1
         SSP(I)=SQRT(ABS(DPDM(I))/RHO0(I))
       ENDDO
 C--------------------------------------------------
-C     VISCOSITE VOLUMETRIQUE ET PAS DE TEMPS
+C     volumetric viscosity and timestep
 C--------------------------------------------------
       CALL MQVISC8(
      1   PM,      OFF,     RHO,     VIS,
@@ -155,7 +155,7 @@ C--------------------------------------------------
         PNEW(I)=C1*AMU(I)
       ENDDO
 C--------------------------------------------------
-C     BOUCLE SUR LES POINTS DE GAUSS
+C     loop over gauss points
 C--------------------------------------------------
       DO IPT=1,NPT
         LBUF => BUFLY%LBUF(1,1,IPT)

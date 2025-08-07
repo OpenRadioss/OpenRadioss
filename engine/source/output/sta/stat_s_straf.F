@@ -202,7 +202,7 @@ c---
                 ENDDO                                                    
                ENDDO
               IE=IE+1                                                       
-C             pointeur de fin de zone dans WA                                 
+C             end-of-zone pointer in wa
               PTWA(IE)=JJ                                                   
             ENDDO 
           ELSEIF (ISOLNOD == 20) THEN
@@ -267,7 +267,7 @@ c---
                 ENDDO                                                    
                ENDDO
               IE=IE+1                                                       
-C             pointeur de fin de zone dans WA                                 
+C             end-of-zone pointer in wa
               PTWA(IE)=JJ                                                   
             ENDDO 
   
@@ -334,7 +334,7 @@ c---
                 ENDDO                                                    
                ENDDO
               IE=IE+1                                                       
-C             pointeur de fin de zone dans WA                                 
+C             end-of-zone pointer in wa
               PTWA(IE)=JJ                                                   
             ENDDO                                                           
           ELSEIF (IGTYP == 43) THEN
@@ -382,7 +382,7 @@ c---
                 JJ = JJ + 6                                                   
               ENDDO
               IE=IE+1                                                       
-C             pointeur de fin de zone dans WA                                 
+C             end-of-zone pointer in wa
               PTWA(IE)=JJ                                                   
             ENDDO                                                           
           ELSEIF (ISTRAIN == 0) THEN
@@ -413,7 +413,7 @@ C             pointeur de fin de zone dans WA
                 JJ = JJ + 6                     
               ENDDO                             
               IE=IE+1                                                       
-C             pointeur de fin de zone dans WA                                 
+C             end-of-zone pointer in wa
               PTWA(IE)=JJ                                                   
             ENDDO                                                           
 c
@@ -481,7 +481,7 @@ c---
                 ENDDO                                                                   
                ENDDO                                                                    
               IE=IE+1                                                                   
-C             pointeur de fin de zone dans WA                                           
+C             end-of-zone pointer in wa
               PTWA(IE)=JJ                                                               
             ENDDO                                                                       
 c
@@ -553,7 +553,7 @@ c
                ENDDO                                                                    
               ENDDO                                                                     
               IE=IE+1                                                                   
-c             pointeur de fin de zone dans WA                                           
+c             end-of-zone pointer in wa
               PTWA(IE)=JJ                                                               
             ENDDO                                                                       
 c
@@ -622,7 +622,7 @@ c---
                 ENDDO                                                                   
                ENDDO                                                                    
               IE=IE+1                                                                   
-C             pointeur de fin de zone dans WA                                           
+C             end-of-zone pointer in wa
               PTWA(IE)=JJ                                                               
             ENDDO                                                                       
           ENDIF  ! ISOLNOD, JHBE                                                        
@@ -632,7 +632,7 @@ C
  200  CONTINUE
 c-----------------------------------------------------------
       IF(NSPMD == 1)THEN
-C       recopies inutiles pour simplification du code.
+C       unnecessary copies for code simplification
         PTWA_P0(0)=0
         DO N=1,STAT_NUMELS
           PTWA_P0(N)=PTWA(N)
@@ -642,7 +642,7 @@ C       recopies inutiles pour simplification du code.
           WAP0(J)=WA(J)
         END DO
       ELSE
-C       construit les pointeurs dans le tableau global WAP0
+C       builds the pointers in the global array wap0
         CALL SPMD_STAT_PGATHER(PTWA,STAT_NUMELS,PTWA_P0,STAT_NUMELS_G)
         LEN = 0
         CALL SPMD_RGATHER9_DP(WA,JJ,WAP0,SIZP0,LEN)

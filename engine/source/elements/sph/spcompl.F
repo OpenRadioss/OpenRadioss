@@ -970,7 +970,7 @@ C       COFAC23= -LI11*LI32+LI31*LI12
 C       COFAC31=  LI12*LI23-LI22*LI13
 C       COFAC32= -LI11*LI23+LI21*LI13
 C       COFAC33=  LI11*LI22-LI21*LI12
-C      Transposee des cofacteurs.
+C      Transpose of cofactors.
 C       TCOFA11=  LI22*LI33-LI32*LI23
 C       TCOFA21= -LI21*LI33+LI31*LI23
 C       TCOFA31=  LI21*LI32-LI31*LI22
@@ -1166,7 +1166,7 @@ C------
 C------
 !      ENDDO
 C-----------------------------------------------
-C       Prepare les corrections sur les particules symetriques.
+C       Prepare corrections on symmetric particles.
 C-----------------------------------------------
 C-------------------------------------------
       RETURN

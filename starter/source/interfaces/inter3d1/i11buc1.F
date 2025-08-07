@@ -111,11 +111,11 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
-C----- TRI PAR BOITES 
+C----- SORTING BY BOXES
 C
 C-----------------------------------------------
-C SI ON A PAS ASSEZ DE MEMOIRE POUR LES PILES ON RECOMMENCE LE TRI
-C EN INCREMENTANT LE NB_N_B (NOMBRE DE NOEUDS PAR BOITE FINIE)
+C IF NOT ENOUGH MEMORY FOR STACKS, RESUME SORTING
+C BY INCREMENTING NB_N_B (NUMBER OF NODES PER FINAL BOX)
 C
 C     POINTEUR  NOM                 TAILLE
 C     P1........Elt Bas Pile        NRTM
@@ -124,7 +124,7 @@ C     P21.......Elt Bas Pile        NRTS
 C     P22.......Elt PILE            3*NRTS
       MAXSIZ = 3*(MAX(NRTM,NRTS)+100)
 C
-C-----INITIALISATION DES ADRESSES ET X,Y,Z
+C-----INITIALIZATION OF ADDRESSES AND X,Y,Z
 C
 C     ADDE     ADDN     X      Y      Z
 C     1        1        XMIN   YMIN   ZMIN
@@ -140,7 +140,7 @@ C
 
 C
 C
-C     CALCULER LES BMINMA ICI
+C     CALCULATE BMINMA HERE
 C
 C
 
@@ -164,7 +164,7 @@ c     IF (IFORM /= 2) THEN
 c     ELSE
 c     ENDIF    
  
-C-----DEBUT DE LA PHASE DE TRI 
+C-----BEGINNING OF THE SORTING PHASE
 
       DD=ZERO
       DO L=1,NRTS
@@ -196,7 +196,7 @@ C     DD = MAX(DD/(NRTS+NRTM),1.251*MAXGAP)
 C      TZINF = BUMULT*DD
       MARGE = BUMULT*DD
       TZINF = MARGE + MAX(MAXGAP+DGAPLOAD,DRAD)
-C MARGE_ST : marge independante du BUMULT en input pour trouver les memes pene initiales
+C MARGE_ST: independent margin of BUMULT as input to find the same initial penetrations
       MARGE_ST = BMUL0*DD
 C 1er passage avec marge x2 pour trouver plus de candidats (revient a prendre bmul0=0.4 au lieu de 0.2)
 C      IF(IDDLEVEL==0) MARGE_ST = 2*MARGE_ST
@@ -392,7 +392,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C============================================================================
-C  cette routine est appelee par : ININT3(/inter3d1/inint3.F)
+C  this routine is called by: ININT3(/inter3d1/inint3.F)
 C----------------------------------------------------------------------------
 C  cette routine appelle : I11TRI(/inter3d1/i11tri.F)
 C                          I11STO(/inter3d1/i1chk3.F)
@@ -447,7 +447,7 @@ C
 C
 C
 C     1-CALCUL TAILLE DES ZONES INFLUENCES
-C     DD EST LA LONGEUR MOYENNE ELEMENT
+C     DD IS THE AVERAGE ELEMENT LENGTH
       DD=ZERO
       DO L=1,NRTS
 C      CONNECIVITES ELEMENT
@@ -478,7 +478,7 @@ C     DD = MAX(DD/(NRTS+NRTM),1.251*GAP)
 C      TZINF = BUMULT*DD
       MARGE = BUMULT*DD
       TZINF = MARGE + MAX(GAP,DRAD)
-C MARGE_ST : marge independante du BUMULT en input pour trouver les memes pene initiales
+C MARGE_ST: independent margin of BUMULT as input to find the same initial penetrations
       MARGE_ST = BMUL0*DD
 C 1er passage avec marge x2 pour trouver plus de candidats (revient a prendre bmul0=0.4 au lieu de 0.2)
 C      IF(IDDLEVEL==0) MARGE_ST = 2*MARGE_ST
@@ -500,7 +500,7 @@ C
 C     MIS A ZERO POUR FAIRE SEARCH COMPLET CYCLE 0 ENGINE
       DIST = ZERO
 C--------------------------------
-C     CALCUL DES BORNES DU DOMAINE
+C     CALCULATION OF DOMAIN BOUNDS
 C--------------------------------
       XMIN=EP30
       XMAX=-EP30
@@ -546,13 +546,13 @@ c     WRITE(6,*) "Z",ZMIN,ZMAX
 
 C
 C
-C-----2- TRI PAR BOITES DES ELEMENTS ET DES NOEUDS
+C-----2- SORTING BY BOXES OF ELEMENTS AND NODES
 C
       NB_N_B = 1
       I_MEM = 0
       II_STOK = 0
-C SI ON A PAS ASSEZ DE MEMOIRE POUR LES PILES ON RECOMMENCE LE TRI
-C EN INCREMENTANT LE NB_N_B (NOMBRE DE NOEUDS PAR BOITE FINIE)
+C SI NOT ENOUGH MEMORY FOR STACKS, RESUME SORTING
+C BY INCREMENTING NB_N_B (NUMBER OF NODES PER FINAL BOX)
  100  CONTINUE
 C     POINTEUR  NOM                 TAILLE
 C     P1........Elt Bas Pile        NRTM
@@ -567,7 +567,7 @@ C
       IP21= IP2+MAXSIZ
       IP22= IP21+NRTS+100
 
-C-----INITIALISATION DES ADRESSES ET X,Y,Z
+C-----INITIALIZATION OF ADDRESSES AND X,Y,Z
 C
 C     ADDE     ADDN     X      Y      Z
 C     1        1        XMIN   YMIN   ZMIN
@@ -595,7 +595,7 @@ C
       ISTOP = 0
       IADFIN = 0
 C
-C-----COPIE DES NOS DE SEGMENTS ET DE NOEUDS DANS MWA(IP1) ET IP21
+C-----COPY OF SEGMENT AND NODE NUMBERS INTO MWA(IP1) AND IP21
 C
       DO 120 I=1,NB_EC
         ADDCM(I)=0
@@ -605,9 +605,9 @@ C
         MWA(IP21+I-1) = I
   140 CONTINUE
 C
-C-----DEBUT DE LA PHASE DE TRI 
+C-----BEGINNING OF THE SORTING PHASE
 C 
-C     TANT QUE IL RESTE UNE ADRESSE A TRIER
+C     AS LONG AS THERE IS AN ADDRESS TO SORT
 C------------------
   200 CONTINUE
 c       WRITE(6,*) __FILE__,__LINE__
@@ -631,10 +631,10 @@ C     I_MEM = 2 ==> PAS ASSEZ DE MEMOIRE CANDIDATS
         GO TO 100
       ENDIF
       IF(I_ADD/=0) GO TO 200
-C     FIN BOUCLE TANT QUE
+C     END OF WHILE LOOP
 C---------------------------------
 C-------------------------------------------------------------------------
-C     FIN DU TRI
+C     END OF SORTING
 C-------------------------------------------------------------------------
       I_STOK=II_STOK
       IF(J_STOK/=0)CALL I11STO(

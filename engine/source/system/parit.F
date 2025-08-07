@@ -74,7 +74,7 @@ C-----------------------------------------------
       DOUBLE PRECISION F6(N,6)
 C-----------------------------------------------
 c
-c      r=26 (foat_to_6_float): nombre de bits pour la retenu
+c      r=26 (foat_to_6_float): number of bits for the carry
 c         autorise  faire 2^r + ~= 67,000,000.
 c
 c      m1: masque 1
@@ -96,7 +96,7 @@ c       d = b - f2
 c      f3 = (d + 2^m3) - 2^m3
 c      f4 = ((d - f3) + 2^m4) - 2^m4
 c      ...
-c--------- calcul de fmax, fmin 
+c--------- calculation of fmax, fmin
 c      fmax avec r bits  zero = 2^(m1-r)
 c
 c      fmin avec 53 bits significatif = 2^m6
@@ -131,7 +131,7 @@ C-----------------------------------------------
 C
 C Attention - Attention - Attention - Attention - Attention - Attention
 C
-C Commun pour casser l optimisation et thread private pour multithread
+C Common to break the optimization and thread private for multithread
 C
       COMMON /PARIT_VAR/TEMP1,TEMP2,TEMP3,TEMP4,TEMP5,TEMP6,TEMP7,
      .                  TEMP11,TEMP12,TEMP13,TEMP14,TEMP15,TEMP16,
@@ -236,7 +236,7 @@ C     REAL
       DOUBLE PRECISION F6(6,*)
 C-----------------------------------------------
 c
-c      r=26 (foat_to_6_float): nombre de bits pour la retenu
+c      r=26 (foat_to_6_float): number of bits for the carry
 c         autorise  faire 2^r + ~= 67,000,000.
 c
 c      m1: masque 1
@@ -258,7 +258,7 @@ c       d = b - f2
 c      f3 = (d + 2^m3) - 2^m3
 c      f4 = ((d - f3) + 2^m4) - 2^m4
 c      ...
-c--------- calcul de fmax, fmin 
+c--------- calculation of fmax, fmin
 c      fmax avec r bits  zero = 2^(m1-r)
 c
 c      fmin avec 53 bits significatif = 2^m6
@@ -293,7 +293,7 @@ C-----------------------------------------------
 C
 C Attention - Attention - Attention - Attention - Attention - Attention
 C
-C Commun pour casser l optimisation et thread private pour multithread
+C Common to break the optimization and thread private for multithread
 C
       COMMON /PARIT_VAR/TEMP1,TEMP2,TEMP3,TEMP4,TEMP5,TEMP6,TEMP7,
      .                  TEMP11,TEMP12,TEMP13,TEMP14,TEMP15,TEMP16,
@@ -364,7 +364,7 @@ C-----------------------------------------------
        DOUBLE PRECISION F,F7(7)
 C-----------------------------------------------
 c
-c      r=29 (foat_to_7_float): nombre de bits pour la retenu
+c      r=29 (foat_to_7_float): number of bits for the carry
 c         autorise  faire 2^r + ~= 537,000,000.
 c
 c      m1: masque 1
@@ -387,7 +387,7 @@ c       d = b - f2
 c      f3 = (d + 2^m3) - 2^m3
 c      f4 = ((d - f3) + 2^m4) - 2^m4
 c      ...
-c--------- calcul de fmax, fmin 
+c--------- calculation of fmax, fmin
 c          calcul 
 c      fmax avec 0 bits  zero = 2^m1
 c      fmax avec r bits  zero = 2^(m1-r)
@@ -417,7 +417,7 @@ C-----------------------------------------------
 C
 C Attention - Attention - Attention - Attention - Attention - Attention
 C
-C Commun pour casser l optimisation et thread private pour multithread
+C Common to break the optimization and thread private for multithread
 C
       COMMON /PARIT_VAR/TEMP1,TEMP2,TEMP3,TEMP4,TEMP5,TEMP6,TEMP7,
      .                  TEMP11,TEMP12,TEMP13,TEMP14,TEMP15,TEMP16,
@@ -555,7 +555,7 @@ C     REAL
       DOUBLE PRECISION F6(D,E,G)
 C-----------------------------------------------
 c
-c      r=26 (foat_to_6_float): nombre de bits pour la retenu
+c      r=26 (foat_to_6_float): number of bits for the carry
 c         autorise  faire 2^r + ~= 67,000,000.
 c
 c      m1: masque 1
@@ -577,7 +577,7 @@ c       d = b - f2
 c      f3 = (d + 2^m3) - 2^m3
 c      f4 = ((d - f3) + 2^m4) - 2^m4
 c      ...
-c--------- calcul de fmax, fmin 
+c--------- calculation of fmax, fmin
 c      fmax avec r bits  zero = 2^(m1-r)
 c
 c      fmin avec 53 bits significatif = 2^m6
@@ -612,7 +612,7 @@ C-----------------------------------------------
 C
 C Attention - Attention - Attention - Attention - Attention - Attention
 C
-C Commun pour casser l optimisation et thread private pour multithread
+C Common to break the optimization and thread private for multithread
 C
       COMMON /PARIT_VAR/TEMP1,TEMP2,TEMP3,TEMP4,TEMP5,TEMP6,TEMP7,
      .                  TEMP11,TEMP12,TEMP13,TEMP14,TEMP15,TEMP16,
@@ -712,7 +712,7 @@ C-----------------------------------------------
       DOUBLE PRECISION F6(D,E)
 C-----------------------------------------------
 c
-c      r=26 (foat_to_6_float): nombre de bits pour la retenu
+c      r=26 (foat_to_6_float): number of bits for the carry
 c         autorise  faire 2^r + ~= 67,000,000.
 c
 c      m1: masque 1
@@ -734,7 +734,7 @@ c       d = b - f2
 c      f3 = (d + 2^m3) - 2^m3
 c      f4 = ((d - f3) + 2^m4) - 2^m4
 c      ...
-c--------- calcul de fmax, fmin 
+c--------- calculation of fmax, fmin
 c      fmax avec r bits  zero = 2^(m1-r)
 c
 c      fmin avec 53 bits significatif = 2^m6
@@ -769,7 +769,7 @@ C-----------------------------------------------
 C
 C Attention - Attention - Attention - Attention - Attention - Attention
 C
-C Commun pour casser l optimisation et thread private pour multithread
+C Common to break the optimization and thread private for multithread
 C
       COMMON /PARIT_VAR/TEMP1,TEMP2,TEMP3,TEMP4,TEMP5,TEMP6,TEMP7,
      .                  TEMP11,TEMP12,TEMP13,TEMP14,TEMP15,TEMP16,

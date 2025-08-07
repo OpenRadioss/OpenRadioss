@@ -440,7 +440,7 @@ c--------------------------------------------
            ENDIF
 C
 C------------------------------------------------                  
-C         composantes N/T de la forces nodale -> output
+C         n/t components of the nodal force -> output
 C------------------------------------------------                  
            FNORM = E3X*FLOCX(IR) + E3Y*FLOCY(IR) + E3Z*FLOCZ(IR)
            FN(1) = E3X*FNORM

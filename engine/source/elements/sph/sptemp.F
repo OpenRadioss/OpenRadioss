@@ -82,7 +82,7 @@ C-------------------------------------------
        WGRADT(3,N)=ZERO
       ENDDO
 C-----------------------------------------------
-C     Calcul du gradient de temperature.
+C     Calculation of temperature gradient.
 C-----------------------------------------------
       DO 10 I=LFT,LLT
        N    =NFT+I
@@ -297,7 +297,7 @@ C-------------------------------------------
        WLAPLT(N)=ZERO
       ENDDO
 C-----------------------------------------------
-C     Calcul du Laplacien(T).
+C     Calculation of Laplacian(T).
 C-----------------------------------------------
       DO 10 I=LFT,LLT
        N    =NFT+I
@@ -690,7 +690,7 @@ C-----------------------------------------------
      .       NX,NY,NZ,TX,TY,TZ,NN,
      .       OX,OY,OZ,UX,UY,UZ,VX,VY,VZ,WX,WY,WZ
 C-----------------------------------------------
-C       Prepare le gradient de temperature sur les particules symetriques.
+C       Prepare temperature gradient on symmetric particles.
 C-----------------------------------------------
       OX = ZERO
       OY = ZERO

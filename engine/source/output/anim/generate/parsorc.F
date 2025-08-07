@@ -229,7 +229,7 @@ C-----------------------------------------------
  500  CONTINUE
 c      ENDIF
       IF (NSPMD > 1) THEN
-C   construction tableau global des parts sur p0
+C   build global part array on proc 0
 
         IF (ISPMD == 0) THEN
 

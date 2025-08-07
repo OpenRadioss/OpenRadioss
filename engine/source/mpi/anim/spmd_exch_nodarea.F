@@ -37,7 +37,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE SPMD_EXCH_NODAREA(
      .           NODAREA,IAD_ELEM,FR_ELEM,LENR,WEIGHT)
-C realise la sommation des aires aux noeuds frontieres
+C performs the summation of areas at boundary nodes
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -82,7 +82,7 @@ C-----------------------------------------------
       L = 1
       IAD_RECV(1)=1
 
-C   Mise en place des buffers de reception
+C   setting up reception buffers
       DO I=1,NSPMD
          SIZ = IAD_ELEM(1,I+1)-IAD_ELEM(1,I)
          IF(SIZ/=0) THEN
@@ -95,7 +95,7 @@ C   Mise en place des buffers de reception
          IAD_RECV(I+1) = L
       END DO
 
-C   Remplissage des buffers d'envoi et envoi des donnees
+C   filling send buffers and sending data
 C
       L=1
       IAD_SEND(1)=1
@@ -122,7 +122,7 @@ C
      G      SPMD_COMM_WORLD,REQ_S(I),IERROR)
        ENDIF                
       END DO
-C   Reception et traitement
+C   reception and processing
       DO I = 1, NSPMD
 C
         NB_NOD = IAD_ELEM(1,I+1)-IAD_ELEM(1,I)
@@ -145,7 +145,7 @@ C
         ENDIF
       ENDDO
 C
-C Mise a 0 de adm sur noeud non main
+C resetting adm on non-main node
 C
 C      DO I = 1, NUMNOD
 C        IF(WEIGHT(I)==0) ADM(I) = ZERO

@@ -145,7 +145,7 @@ C
 #else
       TOLE=EM5
 #endif
-C Creation de la liste des noeuds
+C Creation of the node list
       NN=0
       LMAX=ZERO
       KSMIN = 0
@@ -174,7 +174,7 @@ C Creation de la liste des noeuds
          LMAX=MAX(LMAX,LL)
       ENDDO
 *      TOLE=TOLE*LMAX
-C Elimination des noeuds doubles
+C Elimination of double nodes
       DO I=1,2*NEDGE
          REDIR1(I)=0
          REDIR2(I)=0
@@ -209,7 +209,7 @@ C
          TSEG(1,I)=REDIR2(N1)
          TSEG(2,I)=REDIR2(N2)
       ENDDO
-C Elimination des segments de longueur nulle
+C Elimination of zero-length segments
       NEDGE_OLD=NEDGE
       NEDGE=0
       DO I=1,NEDGE_OLD
@@ -237,7 +237,7 @@ C Mise des segments internes en tete
          J=J+1
          REDIR(J)=I
       ENDDO
-C Construction des polygones
+C Construction of polygons
       DO I=1,NN
          ITAG(I)=0
          JTAG(I)=0
@@ -326,7 +326,7 @@ C
          ENDIF
       ENDDO
       NPOLY=NPOLY-1
-C Creation des tableaux de sortie
+C Creation of output tables
       DO I=1,NPOLY
          IPOLY(1,I)=2
          IPOLY(2,I)=LENPOLY(I)
@@ -353,7 +353,7 @@ C
          IZ(3,I)=INZ+1
       ENDDO
 C---------------------------------------
-C Recherche des trous dans les polygones
+C Searching for holes in polygons
 C---------------------------------------
       DO I=1,NPOLY
 C
@@ -415,7 +415,7 @@ C
 C
             IF (ABS(ALPHA)>=TWO*PI) THEN
 C---------------------------------------------------------------
-C Le premier point du polygone j est a l'interieur du polygone i
+C The first point of polygon j is inside polygon i
 C On teste tous les autres
 C---------------------------------------------------------------
                IPOUT=0
@@ -473,7 +473,7 @@ C---------------------------------------------------------------
 C
                IF (IPOUT==1) CYCLE
 C---------------------------------------------
-C Le polygone j est un trou dans le polygone i
+C Polygon j is a hole in polygon i
 C---------------------------------------------
                IPOLY(1,J)=-1
                NHOL=NHOL+1

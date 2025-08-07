@@ -444,7 +444,7 @@ C             Privilegier secteur dans lequel on se trouve.
               IF(LBX >= ZERO .AND. LCX >= ZERO)THEN
                 LX=ZERO
               ELSE
-                ! point le plus proche dans le secteur angulaire == centre
+                ! closest point in the angular sector == center
                 LX  = MAX(ZERO,DD(I,JJ)-BB(I,JJ)*BB(I,JJ))
               END IF
 
@@ -613,10 +613,10 @@ C         Cone
 
             IF(INGAP(I,IT)  == 1 .OR.  (KSLIDE(I,I1)/=0.OR.KSLIDE(I,I2)/=0))THEN
 C
-C               INGAP = 1 => tjrs regarder si l'on est dans le cone (permet de determiner dans quel cone on se trouve) 
+C               INGAP = 1 => always check if we are in the cone (allows to determine which cone we are in)
 C
-C               Glissement => utiliser le cone pour choisir entre les segments voisins
-C                             mais garder le contact si le nd a glisse de plus d'un elt (cf supersonic)
+C               sliding => use the cone to choose between neighboring segments
+C                             but keep the contact if the node has slipped more than one element (see supersonic)
 C            
               X12(I)=XX(I,I2)-XX(I,I1)
               Y12(I)=YY(I,I2)-YY(I,I1)
@@ -706,10 +706,10 @@ C
 
             IF(MVOISN(I,1) /= 0 .AND. (INGAP(I,IT)  == 1 .OR. (KSLIDE(I,1)/=0.OR.KSLIDE(I,2)/=0)))THEN
 C
-C             INGAP = 1 => tjrs regarder si l'on est dans le cone (permet de determiner dans quel cone on se trouve) 
+C             INGAP = 1 => always check if we are in the cone (allows to determine which cone we are in)
 C
-C             Glissement => utiliser le cone pour choisir entre les segments voisins
-C                           mais garder le contact si le nd a glisse de plus d'un elt (cf supersonic)
+C             sliding => use the cone to choose between neighboring segments
+C                           but keep the contact if the node has slipped more than one element (see supersonic)
 C          
               X12(I)=XX(I,2)-XX(I,1)
               Y12(I)=YY(I,2)-YY(I,1)
@@ -730,10 +730,10 @@ C
 
             IF(MVOISN(I,2) /= 0 .AND. (INGAP(I,IT)  == 1 .OR. (KSLIDE(I,2)/=0.OR.KSLIDE(I,3)/=0)))THEN
 C
-C             INGAP = 1 => tjrs regarder si l'on est dans le cone (permet de determiner dans quel cone on se trouve) 
+C             INGAP = 1 => always check if we are in the cone (allows to determine which cone we are in)
 C
-C             Glissement => utiliser le cone pour choisir entre les segments voisins
-C                           mais garder le contact si le nd a glisse de plus d'un elt (cf supersonic)
+C             sliding => use the cone to choose between neighboring segments
+C                           but keep the contact if the node has slipped more than one element (see supersonic)
 C            
               X12(I)=XX(I,3)-XX(I,2)
               Y12(I)=YY(I,3)-YY(I,2)
@@ -754,10 +754,10 @@ C
 
             IF(MVOISN(I,4) /= 0 .AND. (INGAP(I,IT)  == 1 .OR. (KSLIDE(I,3)/=0.OR.KSLIDE(I,1)/=0)))THEN
 C
-C               INGAP = 1 => tjrs regarder si l'on est dans le cone (permet de determiner dans quel cone on se trouve) 
+C               INGAP = 1 => always check if we are in the cone (allows to determine which cone we are in)
 C
-C               Glissement => utiliser le cone pour choisir entre les segments voisins
-C                             mais garder le contact si le nd a glisse de plus d'un elt (cf supersonic)
+C               sliding => use the cone to choose between neighboring segments
+C                             but keep the contact if the node has slipped more than one element (see supersonic)
 C            
               X12(I)=XX(I,1)-XX(I,3)
               Y12(I)=YY(I,1)-YY(I,3)

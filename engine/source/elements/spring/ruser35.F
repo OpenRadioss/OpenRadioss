@@ -56,7 +56,7 @@ C The user routine does not need to return elements mass in vector MASS :
 C this vector is not used by RADIOSS since version 4.1E.
 C The mass which is used by RADIOSS for time step (and output) is the 
 C initial mass which was returned by user routine RINI29 into starter.
-C utilisation de la version 4.1d ==> on recupere la masse
+C use of version 4.1d ==> we recover the mass
 C-------------------------------------------------------------------------
 C FUNCTION 
 C-------------------------------------------------------------------------
@@ -168,7 +168,7 @@ c
 c
         IF (UVAR(3,I) >= ONE) THEN
           FR_WAVE(I)=ONE
-c  UVAR(2,I) = endommagement sur fonction yield et stiffness 
+c  UVAR(2,I) = damage on yield function and stiffness
 c              par facteur 0 <= D1 < 1.              
           IF (ILOAD == 0 .OR. DX > ZERO) UVAR(2,I)=UVAR(2,I)*(ONE-D1)
         ELSEIF (FR_WAVE(I) == ONE) THEN

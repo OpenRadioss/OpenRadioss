@@ -253,7 +253,7 @@ C=======================================================================
         PRDEN=THREE*SHEAR(I)+CYU*AYU(I)+MYU*BYU
         CASTA=CYU*SQRT(AYU(I)/ASTA(I))
         DO K=1,NITER     
-c       THA et THB pour semi implicite---------------------------------
+c       THA and THB for semi-implicit---------------------------------
         THA=ONE-CASTA*DEP(I)
         THB=ONE-MYU*DEP(I)
 C       sum of Tetaa alpha* + Tetab Beta=STHAB
@@ -331,7 +331,7 @@ C=======================================================================
         DTCA=TWO*THIRD*CYU*AYU(I)
         DTBM=TWO*THIRD*BYU*MYU
         DO J=1,6
-C         Actualisation de alpha* et beta avec Epsilon_n+1^p
+C         Update of alpha* and beta with Epsilon_n+1^p
           AST(J,I)=THA*AST(J,I)+DTCA*EP(J,I)
           BETA(J,I)=THB*BETA(J,I)+DTBM*EP(J,I)
         ENDDO

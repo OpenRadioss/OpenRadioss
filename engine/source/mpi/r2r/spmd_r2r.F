@@ -358,7 +358,7 @@ C-----------------------------------------------
       DATA  MSGOFF/5004/
 C-----------------------------------------------
 C
-C --- Recolte des infos sur les procs : nb d'elements a envoyer, noeuds doubles, etc ...
+C --- gathering information on the processors: number of elements to send, double nodes, etc ...
 C
       LOC_PROC = ISPMD+1
       L(1) = 0
@@ -568,7 +568,7 @@ C
      S        IBUF(L+1),BUFSIZ,MPI_INTEGER,IT_SPMD(P),MSGTYP,
      G        SPMD_COMM_WORLD,STATUS,IERROR)
   
-C--------------OFFSET de la numerotation des elements----     
+C--------------offset of the element numbering----
             IF ((FLAG==1).OR.(FLAG>2)) THEN
                 DO I=1,BUFSIZ
                   IBUF(L+I)=IBUF(L+I)+OFFSET(P)
@@ -1114,7 +1114,7 @@ C
           A(1,N) = MS(N)*BUFR(1,L)
           A(2,N) = MS(N)*BUFR(2,L)
           A(3,N) = MS(N)*BUFR(3,L)
-C calcul du travail localement
+C local computation of work
           WF = WF + (DF1*V(1,N)+DF2*V(2,N)+DF3*V(3,N))/TWO
           WF2= WF2+ (DF1*A(1,N)+DF2*A(2,N)+DF3*A(3,N))/(TWO*MS(N))        
           ELSE
@@ -1128,7 +1128,7 @@ C calcul du travail localement
         ENDIF    
       END DO
       
-C Sommation sur les procs de WF
+C summation over the processors of wf
       IF(LOC_PROC==1) THEN
         DO P = 2, NSPMD
             MSGTYP = MSGOFF 
@@ -1144,7 +1144,7 @@ C Sommation sur les procs de WF
      G     SPMD_COMM_WORLD,IERROR)     
       END IF
       
-C Sommation sur les procs de WF2
+C summation over the processors of wf2
 
       IF(LOC_PROC==1) THEN
         DO P = 2, NSPMD
@@ -1502,7 +1502,7 @@ C   test si msg necessaire a envoyer a completer par test interface
                   IN(NOD)= RBUF(L+7)            
                 ENDIF                                 
                 L = L + SIZE
-C calcul du travail localement                
+C local computation of work
                 IF(WEIGHT(NOD)==1)THEN
                   WF = WF + (DF1*V(1,NOD)+DF2*V(2,NOD)+
      .                 DF3*V(3,NOD))/TWO
@@ -1530,7 +1530,7 @@ C calcul du travail localement
                    MS(NOD)= RBUF(L+3)           
                  ENDIF                 
                  L = L + SIZE
-C calcul du travail localement                
+C local computation of work
                  IF(WEIGHT(NOD)==1)THEN
                    WF = WF + (DF1*V(1,NOD)+DF2*V(2,NOD)+
      .                 DF3*V(3,NOD))/TWO
@@ -1762,7 +1762,7 @@ C-----------------------------------------------
 C
       LOC_PROC = ISPMD+1
       
-C Sommation sur les procs de WF
+C summation over the processors of wf
       IF(LOC_PROC==1) THEN
         DO P = 2, NSPMD
             MSGTYP = MSGOFF 
@@ -1778,7 +1778,7 @@ C Sommation sur les procs de WF
      G     SPMD_COMM_WORLD,IERROR)     
       END IF
       
-C Sommation sur les procs de WF2
+C summation over the processors of wf2
 
       IF(LOC_PROC==1) THEN
         DO P = 2, NSPMD

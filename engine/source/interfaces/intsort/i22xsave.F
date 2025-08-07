@@ -30,7 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2       ITASK ,XSAV ,XMIN  ,YMIN  ,ZMIN    ,
      3       XMAX  ,YMAX ,ZMAX  ,C_MAX ,CURV_MAX,
      4       ICURV ,IRECT,NRTM_T)
-C sauvegarde des XSAV et calcul borne domaine
+C saving xsav and computing the domain bounds
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -59,7 +59,7 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
-C Description : Calcul des dimensions du domaine lagrangien du domaine local.
+C description: calculation of the dimensions of the lagrangian domain of the local domain.
 C Chaque Thread calcul ses dimensions, on en d duit la dimension du domaine dans i22main_tri.
 
 

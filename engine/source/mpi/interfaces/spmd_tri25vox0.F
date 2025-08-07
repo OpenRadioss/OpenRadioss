@@ -86,8 +86,8 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
 C=======================================================================
-C     tag des boites contenant des facettes
-C     et creation des candidats
+C     tag of boxes containing facets
+C     and creation of candidates
 C=======================================================================
 
       SOL_EDGE =IEDGE/10 ! solids
@@ -113,7 +113,7 @@ C on ne retient pas les facettes detruites
      +       + MAX(MAX(PMAX_GAP,BGAPSMX+GAP_M(NE))+DGAPLOAD,DRAD)
 
 
-C verifier avec 
+C verify with
          IF(SOL_EDGE > 0) AAA = MAX(AAA,MARGE+BGAPEMX+DGAPLOAD)
 
 c     il est possible d'ameliorer l'algo en decoupant la facette
@@ -157,7 +157,7 @@ c     en 2(4,3,6,9...) si la facette est grande devant AAA et inclinee
            ZMINE=ZMINE-DZ
          ENDIF
 
-c        indice des voxels occupes par la facette
+c        index of voxels occupied by the facet
 
          IX1=INT(NBX*(XMINE-AAA-XMINB)/(XMAXB-XMINB))
          IY1=INT(NBY*(YMINE-AAA-YMINB)/(YMAXB-YMINB))
@@ -255,8 +255,8 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
 C=======================================================================
-C     tag des boites contenant des facettes
-C     et creation des candidats
+C     tag of boxes containing facets
+C     and creation of candidates
 C=======================================================================
 
       SOL_EDGE =IEDGE/10 ! solids

@@ -1681,7 +1681,7 @@ C             Penalty node
         END IF
       END DO
 C------------
-C     Recalcule NNZ_SMS de la matrice compactee
+C     Recalculate NNZ_SMS of the compressed matrix
 C------------
       NNZ_SMS=0
       DO I=1,NUMNOD
@@ -1809,7 +1809,7 @@ C
           J =JDI_SMS(KJ)
 cc        IF(I < J)THEN
 C
-C         dichotomie (recherche parmi les voisins ordonnes de J)
+C         dichotomy (search among the ordered neighbors of J)
           K1=JAD_SMS(J)
           K2=JAD_SMS(J)+LAD_SMS(J)-1
  100      CONTINUE
@@ -2412,7 +2412,7 @@ C-----------------------------------------------
         IF(NOD2ADD(N)/=0)NODNX_SMS(N)=1
       END DO
 C-----------------------------------------------
-C liste des noeuds sms du mur dans NRWL_SMS (memoire non optimisee).
+C list of sms nodes of the wall in NRWL_SMS (non-optimized memory).
       IF(NRWALL/=0)THEN
         K = 1
         DO N=1,NRWALL
@@ -2430,7 +2430,7 @@ C liste des noeuds sms du mur dans NRWL_SMS (memoire non optimisee).
               END IF
             END DO
           END IF
-C nb de noeuds sms dans le mur.
+C number of sms nodes in the wall.
           NPRW(6*NRWALL+N)=ICOUNT-K
 C for sms_fixvel, etc
           IF(IMOV /= 0)THEN

@@ -79,7 +79,7 @@ C-----------------------------------------------
 C
       TOLE=EPSILON(ZERO)*0.5*LMIN*LMIN
 C--------------------------------
-C Triangularisation des polygones
+C Triangulation of polygons
 C--------------------------------
       DO II=1,NPOLB
          I=POLB(II)
@@ -88,7 +88,7 @@ C--------------------------------
          ALLOCATE(PNODES(2,NNP), PSEG(2,NNP),PTRI(3,2*NNP),PHOLES(2,1))
          PTRI(1:3,1:2*NNP) = 0
 C
-C Coordonnees des sommets dans le plan du polygone
+C Coordinates of vertices in the polygon's plane
          NX=RPOLY(2,I)
          NY=RPOLY(3,I)
          NZ=RPOLY(4,I)
@@ -136,7 +136,7 @@ CFA               WRITE(IOUT,'(4I5)') J,PTRI(1,J),PTRI(2,J),PTRI(3,J)
 CFA            ENDDO
 CFA         ENDIF
 C--------------------------------------------------------------------------------
-C Calcul pour chaque arete du 3eme noeud du triangle associe, stockage dans NTRI3
+C Calculation for each edge of the 3rd node of the associated triangle, stored in NTRI3
 C--------------------------------------------------------------------------------
          DO J=1,NNP
            N1=J
@@ -163,7 +163,7 @@ C
 C--------------------------------------------------------------
 C Construction polygone-arete
 C POLEDG(i,1) donne le nombre d'aretes connectees au polygone i
-C POLEDG(i,j+1) donne le numero de la jeme arete
+C POLEDG(i,j+1) gives the number of the j-th edge
 C EDGVER(i,1) numero du premier sommet de l'arete i
 C EDGVER(i,2) numero du deuxieme sommet de l'arete i
 C--------------------------------------------------------------
@@ -231,7 +231,7 @@ C---------------------------------------------------------------
 C Construction arete-polygone
 C EDGPOL(i,1) donne le nombre de polygones connectes a l'arete i
 C EDGPOL(i,j+1) donne le numero du jeme polygone
-C EDGLOC(i,k) donne la position de l'arete i dans POLEDG
+C EDGLOC(i,k) gives the position of edge i in POLEDG
 C---------------------------------------------------------------
       ALLOCATE(EDGPOL(NEDGE,5))
       ALLOCATE(EDGLOC(NEDGE,4))
@@ -369,9 +369,9 @@ C---------------------------------------------------
             ENDDO
       ENDDO ! J=1,NEDGE
 C--------------------------------------------------------------------
-C Construction des polyedres
-C   ITAG(1,i) le polyedre est du cote oppose a la normale au polygone
-C   ITAG(2,i) le polyedre est du cote de la normale au polygone
+C Construction of polyhedra
+C   ITAG(1,i) the polyhedron is on the side opposite to the polygon's normal
+C   ITAG(2,i) the polyhedron is on the side of the polygon's normal
 C--------------------------------------------------------------------
       ICMAX=0
 C------------------------------
@@ -517,7 +517,7 @@ C---------------------------------------
           X1=XX(N1)
           Y1=YY(N1)
           Z1=ZZ(N1)
-C Position du polygone I2 par rapport au polygone I1
+C Position of polygon I2 relative to polygon I1
           II=POLB(I1)
           NX=RPOLY(2,II)
           NY=RPOLY(3,II)
@@ -536,7 +536,7 @@ C Position du polygone I2 par rapport au polygone I1
              K1=2
              K2=1
           ENDIF
-C Position du polygone I1 par rapport au polygone I2
+C Position of polygon I1 relative to polygon I2
           II=POLB(I2)
           NX=RPOLY(2,II)
           NY=RPOLY(3,II)
@@ -555,7 +555,7 @@ C Position du polygone I1 par rapport au polygone I2
              L1=2
              L2=1
           ENDIF
-C Position du polygone I2 par rapport au polygone I3
+C Position of polygon I2 relative to polygon I3
           II=POLB(I3)
           NX=RPOLY(2,II)
           NY=RPOLY(3,II)
@@ -826,7 +826,7 @@ C
                ENDIF
             ENDDO
 C-------------------------------------------------------
-C Tri de POLH par ordre croissant de numero de polygones
+C Sorting POLH in ascending order of polygon number
 C-------------------------------------------------------
             DO J=1,POLH(1,NPOLH)
                JMIN=J

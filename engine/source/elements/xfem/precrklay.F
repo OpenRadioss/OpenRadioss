@@ -62,8 +62,8 @@ c           tag uncut layer for advancing
             DO K=1,4   ! edges
               IEDGE = XEDGE4N(K,ELCRK)    ! N  local de l'arrete (elem sys xfem)
               ICUT  = CRKEDGE(ILAY)%ICUTEDGE(IEDGE)    ! flag arrete coupe/non
-              IF (ICUT == 1) THEN        ! tag elements avec un crack sur le bord
-                ELCRKINI(ILAY,I) = 2    ! avancement de fissure dans l'element possible
+              IF (ICUT == 1) THEN        ! tag elements with a crack on the edge
+                ELCRKINI(ILAY,I) = 2    ! crack propagation in the element possible
                 EXIT
               ENDIF
             ENDDO
@@ -170,8 +170,8 @@ C-----------------------------------------------
       INTEGER I,K,ILAY,ELCRK,IFAC,ILAYCRK,IEDGE,IXEL
       TYPE(G_BUFEL_) ,POINTER :: GBUF
 C-----------------------
-c     tag bord libre d'un element std efface dans une loi
-c     on delete les phantomes 
+c     tag free edge of a std element deleted in a law
+c     delete the phantoms
 C=======================================================================
       GBUF => ELBUF_STR%GBUF
 C---

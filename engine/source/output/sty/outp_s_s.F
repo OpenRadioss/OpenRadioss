@@ -478,7 +478,7 @@ C-----------------------------------------------
                JJ = JJ + (NUVAR+4)*NEL      
              ENDIF               
             ELSE
-cc  pour d'autres type de lois materiaux
+cfor other types of material laws
                JJ = JJ + 4 * NEL
             ENDIF 
 

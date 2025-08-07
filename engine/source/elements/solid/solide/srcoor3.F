@@ -225,7 +225,7 @@ C-----------
        VZ8(I)=V(3,NC8(I))
       ENDDO
 C-----------
-C     Prepare les sorties par part.
+C     prepares outputs by part.
 C-----------
       IF (IOUTPRT /= 0) THEN
        DO I=LFT,LLT
@@ -665,7 +665,7 @@ c copy and cast XD (DP) to C(SP) to assure coherence between XD et X
         Z8(I)= ZD8(I) 
       ENDDO          
 C-----------
-C     PASSAGE DES VITESSES AU REPERE CONVECTE (OU ORTHOTROPE).
+C     transfer of velocities to the convected (or orthotropic) frame.
 C-----------
       CALL SRROTA3(
      1   R11,     R12,     R13,     R21,

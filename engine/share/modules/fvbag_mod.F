@@ -131,7 +131,7 @@ C-----------------------------------------------
         INTEGER, DIMENSION(:,:), POINTER :: IFVTRI_ANIM
         my_real, DIMENSION(:,:), POINTER :: NOD_ANIM
         !------------------------
-        ! Polygones et polyhedres
+        ! Polygons and polyhedra
         !------------------------
         INTEGER, DIMENSION(:), POINTER :: IFVPOLY, IFVTADR,
      .                                    IFVPOLH, IFVPADR, IDPOLH,

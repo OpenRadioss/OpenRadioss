@@ -392,7 +392,7 @@ C
         ENDIF
       ENDDO
 C
-C Reception BUFR dans BUFS2
+C Reception BUFR in BUFS2
 C
       ALLOCATE(BUFS2(LINDEX))
       IF(LINDEX>0) THEN

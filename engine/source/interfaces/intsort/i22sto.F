@@ -36,7 +36,7 @@ C============================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE I22TRI_MOD !pour le debug uniquement
+      USE I22TRI_MOD !for debugging only
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -81,7 +81,7 @@ c        if(ibug22_trivox==1)print *, "   lockoff", ITASK
 
       DO I=1,J_STOK         
         I_STOK = I_STOK + 1                         
-        CAND_B(I_STOK) = PROV_B(I) !numero de la brique dans le groupe local
+        CCAND_B(I_STOK) = PROV_B(I) !brick number in the local group
         CAND_E(I_STOK) = PROV_E(I) !est deja un numero global (1:NIRECT_L) pas besoin ESHIFT    
 c        if(ibug22_trivox==1)WRITE(*,FMT='(A,I8,A,I8,I8)')
 c     .   "   I22sto : ecriture Bric=", 

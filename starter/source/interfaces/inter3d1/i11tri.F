@@ -42,7 +42,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       USE MESSAGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C============================================================================
-C  cette routine est appelee par : I11BUC1(/inter3d1/i11buc1.F)
+C  this routine is called by : I11BUC1(/inter3d1/i11buc1.F)
 C----------------------------------------------------------------------------
 C  cette routine appelle : I11STO(/inter3d1/i11sto.F)
 C                          I7DSTK(/inter3d1/i7dstk.F)
@@ -90,22 +90,22 @@ CC      data idb2/-1/
 CC      data idb3/-1/
 CC      data idb4/-1/
 C-----------------------------------------------
-C   ROLE DE LA ROUTINE:
+C   ROLE OF THE ROUTINE:
 C   ===================
-C   CLASSE LES ELETS DE BPE ET LES NOEUDS DE BPN EN TWO ZONES
-C   > OU < A UNE FRONTIERE ICI DETERMINEE ET SORT LE TOUT
-C   DANS bpe,hpe, et bpn,hpn
+C   CLASSIFIES BPE ELEMENTS AND BPN NODES INTO TWO ZONES
+C   > OR < TO A BORDER HERE DETERMINED AND OUTPUTS EVERYTHING
+C   IN bpe,hpe, and bpn,hpn
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C
 C     NOM          DESCRIPTION                       E/S
 C
 C     BPE          TABLEAU DES FACETTES A TRIER      E/S
-C                  ET DU RESULTAT COTE MAX            
+C                  AND OF THE RESULT ON THE MAX SIDE
 C     PE           TABLEAU DES FACETTES              S
 C                  RESULTAT COTE MIN
 C     BPN          TABLEAU DES NOEUDS A TRIER        E/S
-C                  ET DU RESULTAT COTE MAX            
+C                  AND OF THE RESULT ON THE MAX SIDE
 C     PN           TABLEAU DES NOEUDS                S
 C                  RESULTAT COTE MIN
 C     ADD(2,*)     TABLEAU DES ADRESSES              E/S 
@@ -122,16 +122,16 @@ C     IRECT(4,*)   TABLEAU DES CONEC FACETTES        E
 C     X(3,*)       COORDONNEES NODALES               E
 C     NB_SC        NOMBRE DE NOEUDS CANDIDATS        E/S
 C     NB_MC        NOMBRE D'ELTS CANDIDATS           E/S
-C     I_ADD        POSITION DANS LE TAB DES ADRESSES E/S
+C     I_ADD        POSITION IN THE E/S ADDRESS TAB
 C     XMAX         plus grande abcisse existante     E
 C     XMAX         plus grande ordonn. existante     E
 C     XMAX         plus grande cote    existante     E
 C     MAXSIZ       TAILLE MEMOIRE MAX POSSIBLE       E
-C     I_STOK       niveau de stockage des couples
+C     I_STOK       storage level of the couples
 C                                candidats impact    E/S
 C     CAND_S       boites resultats noeuds
 C     CAND_M       adresses des boites resultat elements
-C     NSN          4*NSN TAILLE MAX ADMISE MAINTENANT POUR LES
+C     NSN          4*NSN MAX SIZE NOW ALLOWED FOR
 C                  COUPLES NOEUDS,ELT CANDIDATS
 C     NOINT        NUMERO USER DE L'INTERFACE
 C     TZINF        TAILLE ZONE INFLUENCE
@@ -143,7 +143,7 @@ C
 C    1- TEST ARRET = BOITE VIDE
 C                    BOITE TROP PETITE 
 C                    BOITE NE CONTENANT QU'ONE NOEUD
-C                    PLUS DE MEMOIRE DISPONIBLE
+C                    NOT ENOUGH MEMORY AVAILABLE
 C
 C-----------------------------------------------------------
 C
@@ -153,18 +153,18 @@ C        MEMX=-1
 C      ELSEIF(MEMX/=-1)THEN
 C        MEMX=ADD(2,1)+NB_MC
 C      ENDIF
-C--------------------TEST SUR BOITE VIDES-------------- 
+C--------------------TEST ON EMPTY BOXES--------------
 C
       IF(NB_MC==0.OR.NB_SC==0) THEN
 C       write(6,*)" BOITE VIDE"
-C       IL FAUT COPIER LES BAS DES PILES DANS BAS_DE_PILE CORRESPONDANTS
-C       AVANT DE REDESCENDRE DANS LA BRANCHE MITOYENNE
+C       THE BASES OF THE STACKS MUST BE COPIED TO THE CORRESPONDING BAS_DE_PILE
+C       BEFORE DESCENDING AGAIN INTO THE INTERMEDIATE BRANCH
 C  006        CALL I7DSTK(I_ADD,NB_SC,NB_MC,ADD,BPN,PN,BPE,PE)
         CALL I7DSTK(I_ADD,NB_SC,NB_MC,ADD(1,I_ADD-1),BPN,PN,BPE,PE)
         RETURN
       ENDIF
 C
-C-------------------TEST SUR FIN DE BRANCHE / MEMOIRE DEPASSEE------------
+C-------------------TEST ON END OF BRANCH / EXCEEDED MEMORY------------
 C
       DX = XYZM(4,I_ADD) - XYZM(1,I_ADD)
       DY = XYZM(5,I_ADD) - XYZM(2,I_ADD)
@@ -174,7 +174,7 @@ C
 C  006      IF(ADD(1,I_ADD)+NB_SC>=MAXSIZ.OR.ADD(2,1)+NB_MC>=MAXSIZ) THEN
       IF(ADD(1,I_ADD)+NB_SC>=MAXSIZ.OR.
      .   ADD(2,I_ADD)+NB_MC>=MAXSIZ) THEN
-C       PLUS DE PLACE DANS LA PILE DES ELEMENTS BOITES TROP PETITES
+C       NO MORE SPACE IN THE STACK OF BOX ELEMENTS TOO SMALL
         IF ( NB_N_B == MAXSIZ/3) THEN
 C          WRITE(IOUT,*)'***ERROR INFINITE LOOP DETECTED '
 C          WRITE(ISTDO,*)'***ERROR INFINITE LOOP DETECTED '
@@ -197,8 +197,8 @@ C          CALL ARRET(2)
           ISTOP = 0
 C
 C       write(6,*)" NOUVELLE BOITE "
-C       1- STOCKAGE DU OU DES  NOEUD CANDIDAT ET DES ELTS CORRESP.
-C       VIRER LES INUTILES
+C       1- STORAGE OF THE CANDIDATE NODE OR NODES AND CORRESPONDING ELEMENTS.
+C       REMOVE THE USELESS ONES
           DO K=1,NCAND_PROV,NVSIZ
             DO L=K,MIN(K-1+NVSIZ,NCAND_PROV)
               I = 1+(L-1)/NB_SC
@@ -234,8 +234,8 @@ CC       endif
               ENDDO
             ENDIF
           ENDDO 
-C       IL FAUT COPIER LES BAS DES PILES DANS BAS_DE_PILE CORRESPONDANTS
-C       AVANT DE REDESCENDRE DANS LA BRANCHE MITOYENNE
+C       THE BASES OF THE STACKS MUST BE COPIED TO THE CORRESPONDING BAS_DE_PILE
+C       BEFORE DESCENDING INTO THE ADJACENT BRANCH
 C  006        CALL I7DSTK(I_ADD,NB_SC,NB_MC,ADD,BPN,PN,BPE,PE)
         CALL I7DSTK(I_ADD,NB_SC,NB_MC,ADD(1,I_ADD-1),BPN,
      .              PN,BPE,PE)
@@ -245,7 +245,7 @@ C
 C-----------------------------------------------------------
 C
 C
-C    2- PHASE DE TRI SUR LA MEDIANE SELON LA + GDE DIRECTION
+C    2- SORTING PHASE ON THE MEDIAN ACCORDING TO THE LARGEST DIRECTION
 C                    
 C                   
 C-----------------------------------------------------------
@@ -280,7 +280,7 @@ CC        endif
         XMAX=MAX(XX1,XX2)+TZINF
         XMIN=MIN(XX1,XX2)-TZINF
         IF(XMIN<SEUIL) THEN
-C         ON STOCKE DANS LE BAS DE LA PILE BP
+C         WE STORE AT THE BOTTOM OF THE BP STACK
           NB_SCN1 = NB_SCN1 + 1
           ADDNN = ADDNN + 1
           PN(ADDNN) = BPN(I)
@@ -318,7 +318,7 @@ CC            idb4=-1
 CC          endif
 CC        endif
         IF(XMIN<SEUIL.AND.INF==1) THEN
-C         ON STOCKE DANS LE BAS DE LA PILE BP
+C         WE STORE AT THE BOTTOM OF THE BP STACK
           NB_MCN1 = NB_MCN1 + 1
           ADDNE = ADDNE + 1
           PE(ADDNE) = BPE(I)
@@ -346,12 +346,12 @@ C  006      ADD(1,2) = ADDNN
 C  006      ADD(2,2) = ADDNE
       ADD(1,I_ADD+1) = ADDNN
       ADD(2,I_ADD+1) = ADDNE
-C-----on remplit les min de la boite suivante et les max de la courante
-C     (i.e. seuil est un max pour la courante)
+C-----we fill the mins of the next box and the maxs of the current one
+C     (i.e. threshold is a max for the current one)
 C     on va redescendre et donc on definit une nouvelle boite
-C     on remplit les max de la nouvelle boite
+C     we fill the maxs of the new box
 C     initialises dans i7buc1 a 1.E30 comme ca on recupere
-C     soit XMAX soit le max de la boite
+C     either XMAX or the max of the box
       XYZM(1,I_ADD+1) = XYZM(1,I_ADD) 
       XYZM(2,I_ADD+1) = XYZM(2,I_ADD)
       XYZM(3,I_ADD+1) = XYZM(3,I_ADD)
@@ -368,7 +368,7 @@ C
 C
       NB_SC = NB_SCN
       NB_MC = NB_MCN
-C     on incremente le niveau de descente avant de sortir
+C     we increment the descent level before exiting
       I_ADD = I_ADD + 1
       IF(I_ADD>=1000) THEN
 C       TROP NIVEAUX PILE ON VAS LES PRENDRE PLUS GRANDES...
@@ -386,6 +386,6 @@ C          CALL ARRET(2)
         RETURN
       ENDIF
 C
-C     ce return n'est atteint que dans le cas ok = 0
+C     this return is only reached in the case ok = 0
       RETURN
       END

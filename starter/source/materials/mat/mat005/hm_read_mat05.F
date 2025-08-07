@@ -204,7 +204,7 @@ C-----------------------------------------------
           REACTION_RATE = ZERO   
       END SELECT     
       
-      !========C1: MODULE EQUIVALENT POUR LES RIGIDITES D'INTERFACES
+      !========C1: EQUIVALENT MODULE FOR INTERFACE RIGIDITIES
       IF(BULK>ZERO)THEN
         C1 = BULK      
       ELSE

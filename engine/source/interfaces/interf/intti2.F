@@ -64,7 +64,7 @@ C-----------------------------------------------
       INTEGER N, NTY, JI, JB, NMN, NINT,K,ITIED,ILAGM
       INTEGER :: ILEV,II,J
 C-----------------------------------------------
-C LES WA NE SONT PLUS UTILISES !!! 
+C wa are no longer used!!!
 C=======================================================================
       DO N=NINTER,1,-1
         NTY   = IPARI(7,N)                                             

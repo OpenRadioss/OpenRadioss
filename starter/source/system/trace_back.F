@@ -525,7 +525,7 @@ C------------------------------------------------------------------------
         CHECK_PILE(NIVEAU_PILE) = NS_SIGNAL
       ELSEIF(IW==-1) THEN
 C------------------------------------------
-C       remonte de pile 
+C       remonte de pile
 C------------------------------------------
         IF(NS_SIGNAL==CHECK_PILE(NIVEAU_PILE))THEN
           TEXT(NIVEAU_PILE+1)=BLANC

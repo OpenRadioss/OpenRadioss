@@ -74,7 +74,7 @@ C   Tableau utilise par proc 0
 
           DO I=2,NSPMD
 
-C   Reception du buffer entier des adresses NODGLOB
+C   Reception of the entire buffer of NODGLOB addresses
             MSGTYP = MSGOFF 
 
             CALL MPI_PROBE(IT_SPMD(I),MSGTYP,

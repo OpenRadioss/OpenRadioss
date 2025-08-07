@@ -499,8 +499,8 @@ C-------------------------------------
 C     tri des sous-interfaces par interface
 C-------------------------------------
 C-------------------------------------
-C     recherche si la ss-interface est ecrite sur TH (tag) 
-C     (sinon la ss-interface est inutile)
+C     check if the sub-interface is written on TH (tag)
+C     otherwise the sub-interface is useless
 C-------------------------------------
 
       CALL HM_OPTION_COUNT('/TH/INTER' ,NTHINTER  )

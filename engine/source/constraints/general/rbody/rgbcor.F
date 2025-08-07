@@ -234,7 +234,7 @@ C
 C
         ENDIF
        ELSE
-C       RBY AVEC SENSOR : PAS DE MASSES OU INERTIE AJOUTEE
+C       rby with sensor: no added masses or inertia
         IF(N2D==0) THEN
           MAS=MS(M)*WEIGHT_MD(M)
         ELSE
@@ -420,7 +420,7 @@ C
 C
        ENDIF
       ELSE
-C       RBY AVEC SENSOR : PAS DE MASSES OU INERTIE AJOUTEE
+C       rby with sensor: no added masses or inertia
         DT05 = HALF*DT1
         IF(IDYNA>0) DT05=(DY_G-ONE)*DT1
         VG(1)=VR(1,M)+AR(1,M)*DT05

@@ -65,7 +65,7 @@ C-----------------------------------------------
       ISK=NUMSKW-1
 C   spmd
         II = 0
-C   pb sur ISK : incremente par pour ts les elem !
+C   problem on ISK: incremented by for all elements!
         MSGTAG = 1000
         IF (NSPMD > 1 .AND. ISPMD/=0) THEN
 

@@ -38,10 +38,10 @@ C elasto-plastic hourglass stresses+linear damping
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 C        CALCUL VF(3,4),VM(2,4) : FORCES INTERNES GENERALISEES
 C        ENTREES : THK,1/AREA,PME,X13,X24,Y13,Y24,MX13,MX34,MY13,MY34
-C                  DHG(6)  : INCREMENT DE LA DEF HOURGLASS GENERALISEE    
+C                  dhg(6): increment of the generalized hourglass deformation
 C                  VGLAS(12): DEF HOURGLASS GENERALISEE 
 C                  VGLAS(1-6)->ETA; VGLAS(7-12)->KSI;
-C                  FAC=Et/E    
+C                  fac=et/e
 C        SORTIES : VF,VM
 C                  VF(3,4),VM(2,4) : 
 C                  J=1,2 STOCK LA PARTIE ANTISYM (F(1)=-F(3),F(2)=-F(4))                                  
@@ -288,7 +288,7 @@ C      ---------elstic increament----------
         VGLAS(I,8) =VGLAS(I,8) +DGLAS(I,8)
         VGLAS(I,9) =VGLAS(I,9) +DGLAS(I,9)
         VGLAS(I,10)=VGLAS(I,10)+DGLAS(I,10)
-C  -----------/4 par rapport formulation-------    
+C  -----------/4 compared to formulation-------
         VGLAS(I,5) =VGLAS(I,5) +DGLAS(I,5)
         VGLAS(I,6) =VGLAS(I,6) +DGLAS(I,6)
         VGLAS(I,11)=VGLAS(I,11)+DGLAS(I,11)
@@ -574,12 +574,12 @@ C elasto-plastic hourglass stresses+linear damping
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 C        CALCUL VF(3,4),VM(2,4) : FORCES INTERNES GENERALISEES
 C        ENTREES : THK,1/AREA,PME,X13,X24,Y13,Y24,MX13,MX34,MY13,MY34
-C                  DHG(6)  : INCREMENT DE LA DEF HOURGLASS GENERALISEE    
+C                  dhg(6): increment of the generalized hourglass deformation
 C                  VGLAS(12): DEF HOURGLASS GENERALISEE 
 C                  VGLAS(1-6)->ETA; VGLAS(7-12)->KSI;
 C                  -shear: VGLAS(13-14)->ETA; VGLAS(15-16)->KSI; 
 C                  -Sig_rz: VGLAS(17)->ETA; VGLAS(18)->KSI; VGLAS(19)->const
-C                  FAC=Et/E    
+C                  fac=et/e
 C        SORTIES : VF,VM
 C                  VF(3,4),VM(2,4) : 
 C                  J=1,2 STOCK LA PARTIE ANTISYM (F(1)=-F(3),F(2)=-F(4))                                  
@@ -1024,10 +1024,10 @@ C orthotropic elasto-plastic hourglass stresses+linear damping
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 C        CALCUL VF(3,4),VM(2,4) : FORCES INTERNES GENERALISEES
 C        ENTREES : THK,1/AREA,PME,X13,X24,Y13,Y24,MX13,MX34,MY13,MY34
-C                  DHG(6)  : INCREMENT DE LA DEF HOURGLASS GENERALISEE    
+C                  dhg(6): increment of the generalized hourglass deformation
 C                  VGLAS(12): DEF HOURGLASS GENERALISEE 
 C                  VGLAS(1-6)->ETA; VGLAS(7-12)->KSI;
-C                  FAC=Et/E    
+C                  fac=et/e
 C        SORTIES : VF,VM
 C                  VF(3,4),VM(2,4) : 
 C                  J=1,2 STOCK LA PARTIE ANTISYM (F(1)=-F(3),F(2)=-F(4))                                  
@@ -1463,12 +1463,12 @@ C orthotropic elasto-plastic hourglass stresses+linear damping with drilling dof
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 C        CALCUL VF(3,4),VM(2,4) : FORCES INTERNES GENERALISEES
 C        ENTREES : THK,1/AREA,PME,X13,X24,Y13,Y24,MX13,MX34,MY13,MY34
-C                  DHG(6)  : INCREMENT DE LA DEF HOURGLASS GENERALISEE    
+C                  dhg(6): increment of the generalized hourglass deformation
 C                  VGLAS(12): DEF HOURGLASS GENERALISEE 
 C                  VGLAS(1-6)->ETA; VGLAS(7-12)->KSI;
 C                  -shear: VGLAS(13-14)->ETA; VGLAS(15-16)->KSI; 
 C                  -Sig_rz: VGLAS(17)->ETA; VGLAS(18)->KSI; VGLAS(19)->const
-C                  FAC=Et/E    
+C                  fac=et/e
 C        SORTIES : VF,VM
 C                  VF(3,4),VM(2,4) : 
 C                  J=1,2 STOCK LA PARTIE ANTISYM (F(1)=-F(3),F(2)=-F(4))                                  

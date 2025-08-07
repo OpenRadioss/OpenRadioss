@@ -161,7 +161,7 @@ C-----------------------------------------------
          IF(VN(I) >= ZERO)VEL(I)=ZERO
 
         IF(IVOI <= NUMELQ)THEN
-          !element du processeur
+          !processor element
             DO N=1,NGROUP
                KTY = IPARG(5,N)
                KLT = IPARG(2,N)

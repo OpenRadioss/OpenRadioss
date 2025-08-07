@@ -226,7 +226,7 @@ c on passe IBUFSSG_IO en local
           IBUFSSG_IO_L(I) = NODLOCAL(IBUFSSG_IO(I))
         ENDDO    
 
-c on passe ISPHIO en local pour les outlet definies par noeuds
+c ISPHIO is set locally for outlets defined by nodes
         DO I = 1, NSPHIO
           DO N=1,NISPHIO
             ISPHIO_L(NISPHIO*(I-1)+N) = ISPHIO(NISPHIO*(I-1)+N)

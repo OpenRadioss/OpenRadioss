@@ -68,7 +68,7 @@ C
 C
           K1=1
 
-C boucle parallele sur les threads SMP
+C parallel loop over SMP threads
 !$OMP DO SCHEDULE(DYNAMIC,1)
           DO N=1,NRLINK
             K1=4*N-3
@@ -102,7 +102,7 @@ C routine de calcul Parith/ON de A AR MS IN rigid link
 !$OMP END SINGLE
           END IF
 
-C boucle parallele sur les threads SMP
+C parallel loop over SMP threads
 !$OMP DO SCHEDULE(DYNAMIC,1)
           DO N=1,NRLINK
             K1=4*N-3
@@ -178,7 +178,7 @@ C
 C
           K1=1
 
-C boucle parallele sur les threads SMP
+C parallel loop over SMP threads
 !$OMP DO SCHEDULE(DYNAMIC,1)
           DO N=1,NLINK
 c            K = 1
@@ -222,7 +222,7 @@ C routine de calcul Parith/ON de A AR MS IN rigid link
 !$OMP END SINGLE
           END IF
 
-C boucle parallele sur les threads SMP
+C parallel loop over SMP threads
 !$OMP DO SCHEDULE(DYNAMIC,1)
           DO N=1,NLINK
             ISK=NNLINK(5,N)
@@ -396,7 +396,7 @@ C
         CALL SUM_6_FLOAT(1  ,NSN  ,F3, FRL6(3,1), 15)
        
 C-----------------------------------------------------------------------
-C       masse quantite de mouvement
+C       mass momentum
 C-----------------------------------------------------------------------
         AX  =ZERO
         AY  =ZERO
@@ -429,11 +429,11 @@ C
         CALL SUM_6_FLOAT(1  ,NSN  ,F5, FRL6(8,1), 15)
        ENDIF
 C-----------------------------------------------------------------------
-C     DDL de rotation
+C     rotational DOF
 C-----------------------------------------------------------------------
        IF(IRODDL/=0.AND.ICR/=0)THEN
 C-----------------------------------------------------------------------
-C       inertie quantite de mouvement
+C       inertia momentum
 C-----------------------------------------------------------------------
 c        AX  =ZERO
 c        AY  =ZERO
@@ -525,7 +525,7 @@ C
          ENDDO
        END IF
 C-----------------------------------------------------------------------
-C     DDL de rotation
+C     rotational DOF
 C-----------------------------------------------------------------------
        IF(IRODDL/=0.AND.ICR/=0)THEN
          IC1=ICR/4

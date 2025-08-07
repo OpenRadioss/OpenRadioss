@@ -1189,7 +1189,7 @@ C
           END DO
         END DO
 C-----------------------------------------------
-C   CALCUL DES ADRESSES DU VECTEUR SKYLINE
+C   CALCULATION OF SKYLINE VECTOR ADDRESSES
 C-----------------------------------------------
 C------remove zero value nodes at the beginning---
        IF (ADSKYCND(1)>0) THEN
@@ -1277,7 +1277,7 @@ C-----------------------------------------------
       INTEGER I, J, L, K, N, OFF, NTY, NRTS, NRTM, NSN, NMN,
      .        KK, NIR,ADSKY(NUMNOD+1)
 C-----------------------------------------------
-C   CALCUL DE CNE ADDCNE
+C   CALCULATION OF CNE ADDCNE
 C-----------------------------------------------
       DO I = 1, NUMNOD+1
         ADSKY(I) = ADDCNCND(I)

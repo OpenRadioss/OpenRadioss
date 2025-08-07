@@ -71,7 +71,7 @@ C--------------------------------------------------------------------
       LENRV = (IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1))*9
       ALLOCATE (BBUFS(LENRV),BBUFR(LENRV))
       LOC_PROC=ISPMD+1
-C Preparation du recv
+C Preparation of recv
       IADR(1) = 1
       L=1
       DO P=1,NSPMD
@@ -143,7 +143,7 @@ C   test si msg necessaire a envoyer a completer par test interface
           ENDDO
         ENDIF
       ENDDO
-C Fin du send
+C End of send
       DO P = 1, NSPMD
           SIZ=IADS(P+1)-IADS(P)
           IF(SIZ>0) THEN

@@ -84,7 +84,7 @@ C
          IBOX(I)%BOXIAD = 0
        END DO
 C-------
-C get box de box ID'S dans grnod:
+C get box from box ID'S in grnod:
 C-------
       ISU = 0
       DO I=1,NBBOX
@@ -109,7 +109,7 @@ C super box activated:
        END IF
       END IF
 C---
-C   simple box dans grnod:
+C   simple box in grnod:
 C---
       BOOL = .FALSE.
       IF(ISU>0)THEN

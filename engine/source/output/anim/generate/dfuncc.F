@@ -225,11 +225,11 @@ C
                 DO I=LFT,LLT
                   FUNC(EL2FA(NN3+NFT+I)) = LBUF%EPSQ(I)
                 ENDDO
-              ELSEIF (MLW == 24) THEN   ! et autres a ajouter
+              ELSEIF (MLW == 24) THEN   ! and others to add
                 DO I=LFT,LLT
                   FUNC(EL2FA(NN3+NFT+I)) = LBUF%VK(I)
                 ENDDO
-              ELSEIF (MLW == 6 .OR. MLW == 17 .OR. MLW == 11) THEN   ! et autres a ajouter
+              ELSEIF (MLW == 6 .OR. MLW == 17 .OR. MLW == 11) THEN   ! and others to add
                 DO I=LFT,LLT
                   FUNC(EL2FA(NN3+NFT+I)) = LBUF%RK(I)
                 ENDDO

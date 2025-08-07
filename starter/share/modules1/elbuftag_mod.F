@@ -333,7 +333,7 @@ c
         INTEGER ::  L_XST      
         INTEGER ::  L_SSP      
         INTEGER ::  L_Z
-        INTEGER ::  L_FRAC        !    pourcentage de phase (multimat) 
+        INTEGER ::  L_FRAC        ! percentage of phase (multimat)
         INTEGER ::  L_BFRAC
         INTEGER ::  L_DMG
         INTEGER ::  L_ABURN
@@ -425,7 +425,7 @@ C    - 1D - elem buffer (TRUSS, BEAM, SPRING, NSTRAND)
         INTEGER ::  G_POSZZ
         INTEGER ::  G_YIELD
         INTEGER ::  G_LENGTH_ERR
-        INTEGER ::  G_DV  ! filtrage des vitesses
+        INTEGER ::  G_DV  ! filtering of speeds
         INTEGER ::  G_DFS   ! dF = E*dF + F*dE
         INTEGER ::  G_SKEW_ERR
         INTEGER ::  G_E6

@@ -537,12 +537,12 @@ C-----------------------------------------------
 C     DATA FTPI,TTPI / 4.188790205, 2.094395102 /
 C     FTPI=(4/3)*PI, TTPI=(2/3)*PI
 C
-C     DEVIATEUR PRINCIPAL DE CONTRAINTE
+C     PRINCIPAL STRESS DEVIATOR
 C . . . . . . . . . . . . . . . . . . .
       MDEMI = -HALF
       TTPI = ACOS(MDEMI)
       FTPI = TWO*TTPI
-C precision minimum dependant du type REAL ou DOUBLE
+C minimum precision depending on REAL or DOUBLE type
       CALL FLOATMIN(CS(1),CS(2),FLMIN)
       FLM = TWO*SQRT(FLMIN)
       NINDEX3=0  

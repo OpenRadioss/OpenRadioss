@@ -98,7 +98,7 @@ C=======================================================================
 c
       TOL   = (RT - RC)/TWENTY
 c------------------------------------------------
-C  RETOUR SUR LE CRITERE ,SIG ,CDAM,CRAK,...
+C  return to the criterion, sig, cdam, crak, ...
 c------------------------------------------------
       DO J = 1,NINDX
         I = INDX(J)
@@ -173,7 +173,7 @@ c------------------------------------------------
         E5(I) = FAC * E5(I)
         E6(I) = FAC * E6(I)
 c---------------------------------------------------------
-c ...   DEBUT DES ITERATIONS
+c ...   start of the iterations
 c---------------------------------------------------------
         DO ITER=1,NITER
 c--------------------
@@ -432,7 +432,7 @@ c           PURE TRIAXIAL TO SOLVE UNDETERMINATION
            SIG(I,3)=SIG(I,3)+DP
           ENDIF
 C . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-C RECALCUL DES DEFORMATION ELASTIQUES POUR REOUVERTURE DES FISSURES
+C recalculation of elastic strains for crack reopening
 C . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
           C11 = ONE/DE1(I)/YOUNG
           C12 = -NU*SCAL1(I)*SCAL2(I)/YOUNG
@@ -513,7 +513,7 @@ C
           VK(I) = RR/MAX(RF,EM20)
           VKMAX=ONE
 C
-c         CORRECTION SI EN DEHORS DU CRITERE DE RUPTURE
+c         correction if outside the failure criterion
           IF (VK(I) > VKMAX)THEN
             FAC = VKMAX/VK(I)
             IF(SCAL1(I) > ZEP9) SIG(I,1) =  S1(I)*FAC+SM(I)
@@ -581,7 +581,7 @@ C
           VK(I) = MIN(VK(I),ONE)
           VK0(I)= MAX(VK(I),VK0(I))
 c-----------
-c         FIN DES ITERATIONS
+c         end of the iterations
         ENDDO ! ITER
 c-----------
       ENDDO ! NINDX

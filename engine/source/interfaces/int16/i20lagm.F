@@ -69,7 +69,7 @@ C
 C
 C       | M | Lt| | a    | M ao
 C       |---+---| |    = |
-C       | L | 0 | | la   | bo
+C       | l | 0 | | la   | bo
 C
 C        [M] a + [L]t la = [M] ao
 C        [L] a = bo
@@ -81,12 +81,12 @@ C on pose:
 C        [H] = [L][M]-1[L]t
 C        b  = [L] ao - bo
 C
-C        [H] la = b
+C        [h] la = b
 C
 C        a = ao - [M]-1[L]t la
 C-----------------------------------------------
 C
-C        la              : LAMBDA(NC)
+C        la              : lambda(nc)
 C        ao              : A(NUMNOD)
 C        L               : XLL(NK,NC)
 C        M               : MAS(NUMNOD)
@@ -94,7 +94,7 @@ C        [L][M]-1[L]t la : HLA(NC)
 C        [L] ao - b      : B(NC)
 C        [M]-1[L]t la    : LTLA(NUMNOD)
 C
-C        NC : nombre de contact 
+C        nc: number of contacts
 C        NK : nombre de noeud pour un contact (8+1,16+1,8+8,16+16)
 C
 C        IC : numero du contact (1,NC)
@@ -104,7 +104,7 @@ C
 C        IADLL(NC)        : IAD = IADLL(IC)
 C        LLL(NC*(21,63))  : I  = LLL(IAD+1,2...IADNEXT-1)
 C-----------------------------------------------
-C  evaluation de b:
+C  evaluation of b:
 C
 C         Vs = Somme(Ni Vi)
 C         Vs_ + dt As = Somme(Ni Vi_) + Somme(dt Ni Ai)
@@ -117,7 +117,7 @@ C-----------------------------------------------
 C                 b  = [L] vo+/dt   +   vout
 C-----------------------------------------------
 C-----------------------------------------------------------------------
-C     boucle sur les candidats au contact   
+C     loop over contact candidates
 C-----------------------------------------------------------------------
       FIRST = 1 + I_STOK * ITASK / NTHREAD
       LAST = I_STOK*(ITASK+1) / NTHREAD
@@ -141,7 +141,7 @@ C-----------------------------------------------------------------------
      .             X(3,IS)+DT2*(V(3,IS)+DT12*A(3,IS))-EMINX(6,LE),DIST)
 c        IF (DIST<0.) CANDN(I) = -CANDN(I)
 C-----------------------------------------------------------------------
-C       test si dans la boite   
+C       test if inside the box
 C-----------------------------------------------------------------------
         IF(DIST.LE .ZERO)THEN
 c
@@ -228,7 +228,7 @@ c
               ENDIF
           ENDDO
 C-----------------------------------------------------------------------
-C     calcul de  [L] par paquet de mvsiz   
+C     calculation of [l] by mvsiz packet
 C-----------------------------------------------------------------------
           IF(LLT==MVSIZ-1)THEN
             CALL I20LLL(
@@ -246,7 +246,7 @@ c debug
        ENDIF
       ENDDO
 C-----------------------------------------------------------------------
-C     calcul de  [L] pour dernier paquet   
+C     calculation of [l] for the last packet
 C-----------------------------------------------------------------------
       IF(LLT/=0) CALL I20LLL(
      1       LLT ,LLL       ,JLL       ,SLL       ,XLL     ,V       ,
@@ -328,7 +328,7 @@ c
      2            NSX   ,NSY   ,NSZ   ,NX    ,NY    ,NZ    ,
      3            XX    ,YY    ,ZZ    )
 C-----------------------------------------------
-C      calcul de [L]
+C      calculation of [l]
 C-----------------------------------------------
       IF(ITIED==0)THEN
        DO I=1,LLT
@@ -781,7 +781,7 @@ C-----------------------------------------------
 C            calcul de Ni(-1<r<1 , -1<s<1 , -1<t<1)
 C-----------------------------------------------
              CALL I20NI(LLT,RR ,SS ,TT ,NI  )
-C  pb de parith on si conv fonction de mvsiz !!!!!!!
+C  parith on problem if conv function of mvsiz !!!!!!
 C             IF(CONV/=0)RETURN
 C
            ENDDO
@@ -858,7 +858,7 @@ C-----------------------------------------------
      .  UMT_UMR,UMT_UPR,UPT_UMR,UPT_UPR,
      .  A,R05,S05,T05
 C-----------------------------------------------------------------------
-C     calcul de Ni
+C     calculation of ni
 C-----------------------------------------------------------------------
       DO I=1,LLT
 C
@@ -1371,7 +1371,7 @@ C
      +    + DNIDT(18)*ZZ(I,18) + DNIDT(19)*ZZ(I,19) + DNIDT(20)*ZZ(I,20) 
 C-----------------------------------------------------------------------
 C          -1
-C       [J]          Inversion du jacobien
+C       [j]          jacobian inversion
 C-----------------------------------------------------------------------
         DRDX(I)=DYDS(I)*DZDT(I)-DZDS(I)*DYDT(I)
         DRDY(I)=DZDS(I)*DXDT(I)-DXDS(I)*DZDT(I)

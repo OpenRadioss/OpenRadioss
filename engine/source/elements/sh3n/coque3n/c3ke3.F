@@ -82,7 +82,7 @@ C
       INTEGER IXTG(NIXTG,*) ,IGEO(NPROPGI,*),IPM(*),IPARG(*)
       INTEGER INDXOF(MVSIZ),
      .         ETAG(*),IDDL(*)  ,NDOF(*)  ,IADK(*) ,JDIK(*)
-C     REAL OU REAL*8
+C     REAL OR REAL*8
       my_real
      .   PM(NPROPM,*),GEO(NPROPG,*),BUFMAT(*),   X(3,*),THKE(*)
       my_real    

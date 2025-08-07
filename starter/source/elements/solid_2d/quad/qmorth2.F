@@ -89,7 +89,7 @@ c
         IF (JCVT == 0) THEN 
 c ------------------------------
 c Angle d'orthotropie defini par rapport
-c a la premiere direction du repere isoparametrique
+c in the first direction of the isoparametric frame
 c ------------------------------
           IF(IPNUM==11) THEN
             SUM=SQRT(RY(I)**2+RZ(I)**2)
@@ -202,7 +202,7 @@ c ATTENTION !
 c Angle d'orthotropie est desormais toujours donne par l'utilisateur 
 c par rapport au repere isoparametrique
 c Puis transforme en interne en angle par rapport au repere corrotationnel
-c (pour plus de simplicite cote utilisateur)
+c (for user-side simplicity)
 c (anciennement donne directement par rapport au repere corot)
 c ------------------------------          
             SUM=SQRT(RY(I)**2+RZ(I)**2)

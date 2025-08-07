@@ -282,7 +282,7 @@ C------for QEPH
           END IF
       END DO 
 C-------------------------------------------------------------------
-C     RETOUR DANS LE REPERE COQUE
+C     return to shell reference frame
 C-----------------------------
 !! temporary replaced by (the same) ROTO_SIG() in order to do not affect
 !! the other multidimensional buffer ARRAYS which are still not modified

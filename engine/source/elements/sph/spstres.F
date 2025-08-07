@@ -152,7 +152,7 @@ C-----
      . VDX(MVSIZ), VDY(MVSIZ), VDZ(MVSIZ) ,SSP_EQ(MVSIZ),AIRE(MVSIZ),
      . TEMPEL(MVSIZ)
 C-----
-C Variables utilisees en argument par les materiaux.
+C Variables used as arguments by the materials.
       my_real
      .   STI(MVSIZ),
      .   WXX(MVSIZ) , WYY(MVSIZ) , WZZ(MVSIZ), BID(MVSIZ)
@@ -160,7 +160,7 @@ C Variables utilisees en argument par les materiaux si SPH uniquement.
       my_real
      .   MUMAX(MVSIZ)
 C-----
-C Variables utilisees (en arguments) dans les routines solides (uniquement).
+C Variables used (as arguments) in solid routines (only).
       INTEGER NC1(MVSIZ),NGEO(MVSIZ)
       my_real
      .   OFF(MVSIZ) , RHOO(MVSIZ),

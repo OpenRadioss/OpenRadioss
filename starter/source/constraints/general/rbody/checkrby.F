@@ -145,7 +145,7 @@ C
       ENDDO
       NUMSL_TMP=KK
 C-------------------------------------
-C Bilan secnd nodes doubles (sans les XTRA_NODES qui sont teste avant)
+C Report of secondary double nodes (excluding XTRA_NODES which are tested beforehand)
 C-------------------------------------
       IF (NRBYKIN > 1) THEN
       IWORK=0

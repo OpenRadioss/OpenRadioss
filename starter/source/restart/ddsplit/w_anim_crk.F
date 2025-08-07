@@ -119,7 +119,7 @@ c
         ENDIF
       ENDDO
 C=======================================================================
-c     Stockage par ILEV 
+c     storage by ILEV
 C=======================================================================
       ALLOCATE (ELCUT(NUMELC_L+NUMELTG_L))
 c
@@ -154,7 +154,7 @@ c
           END IF
         END DO ! I=1,CRKSHELL(K)%CRKNUMSHELL
 C------------------------------
-        ELSZC_L  = SH4N_L                      ! nb elements par ply
+        ELSZC_L  = SH4N_L                      ! number of elements per ply
         ELSZTG_L = SH3N_L
         ELSZ_L   = ELSZC_L + ELSZTG_L
 C
@@ -163,7 +163,7 @@ C
           IF (NODTAG(I) > 0) NDSZ_L=NDSZ_L+1    ! nb noeuds par ply  (image std)
         ENDDO
 C
-        IDIM = CRKSIZN_L(K)  ! nb noeuds phantomes par ply par proc
+        IDIM = CRKSIZN_L(K)  ! number of phantom nodes per ply per processor
 C
         ALLOCATE(ELEMXFEMID(ELSZ_L))
         ALLOCATE(ELTYPE(ELSZ_L))
@@ -193,7 +193,7 @@ C---
         NCOUNT = 0
         ELPL = 0
         NEXT = 0
-        DO I=1,NELXFE_L    ! elements loc par ply par proc
+        DO I=1,NELXFE_L    ! local elements per ply per processor
           IF (ELEMTAG(I) > 0) THEN
              ELPL = ELPL+1
              ND   = ELEMTAG(I)   ! N element global par ply
@@ -294,7 +294,7 @@ c
       DEALLOCATE(ELEMLOC_C)
       DEALLOCATE(ELEMLOC_TG)
 C=======================================================================
-c     Stockage par layer
+c     storage by layer
 C=======================================================================
       NLAY = INT(NLEVMAX/NXEL)
       NENR = INT(IENRNOD/NLEVMAX)
@@ -337,10 +337,10 @@ c
         K = (ILAY-1)*NXEL + 1
         DO IED=1,NUMEDGES_L
           IED_GL = EDGEGLOBAL(IED)
-          EDGEICRK(IED)  = CRKEDGE(ILAY)%EDGEICRK(IED_GL)    ! Id fissure sur un edge
-          EDGEIFI(1,IED) = CRKEDGE(ILAY)%EDGEIFI(1,IED_GL)   ! signe lvset sur un edge (+/- ICRK)
+          EDGEICRK(IED)  = CRKEDGE(ILAY)%EDGEICRK(IED_GL)    ! crack id on an edge
+          EDGEIFI(1,IED) = CRKEDGE(ILAY)%EDGEIFI(1,IED_GL)   ! lvset sign on an edge (+/- ICRK)
           EDGEIFI(2,IED) = CRKEDGE(ILAY)%EDGEIFI(2,IED_GL)  
-          EDGEENR(1,IED) = CRKEDGE(ILAY)%EDGEENR(1,IED_GL)   ! enrich lvset sur un edge
+          EDGEENR(1,IED) = CRKEDGE(ILAY)%EDGEENR(1,IED_GL)   ! enrich lvset on an edge
           EDGEENR(2,IED) = CRKEDGE(ILAY)%EDGEENR(2,IED_GL)   
           EDGETIP(1,IED) = CRKEDGE(ILAY)%EDGETIP(1,IED_GL)   ! flag d'edge interne/ext
           EDGETIP(2,IED) = CRKEDGE(ILAY)%EDGETIP(2,IED_GL)

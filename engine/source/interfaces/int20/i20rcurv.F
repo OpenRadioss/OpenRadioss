@@ -208,7 +208,7 @@ C
      .                      ISDSIZ,IRCSIZ,ITAG  ,LENR    ,LENS   )
       END IF
 C
-C     tri par packet des normales
+C     sorting by packet of normals
 C
       DO N1 = 1, NUMNOD
         N2 = ADSKYT(N1-1)

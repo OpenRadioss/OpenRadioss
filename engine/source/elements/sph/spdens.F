@@ -95,7 +95,7 @@ C      characteristic length = diameter.
        WA(12,N)=ZERO
       ENDDO
 C-----------------------------------------------
-C     Calcul des densites et tenseurs de deformations.
+C     Calculation of densities and strain tensors.
 C-----------------------------------------------
       DT1D2=0.5*DT1
       DO 10 I=LFT,LLT

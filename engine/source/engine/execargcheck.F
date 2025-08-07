@@ -224,7 +224,7 @@ C -NORST : no restart file command
           CASE ( '-NORST')
              RESTART_FILE = 0
 C------------------------------------------------
-C Lignes de commande qui ne sont pas definies
+C Command lines that are not defined
           CASE DEFAULT
              ERR = 0
              IF (I == 1)THEN

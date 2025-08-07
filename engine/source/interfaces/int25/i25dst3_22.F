@@ -204,7 +204,7 @@ C--------------------------------------------------------
 C
 C--------------------------------------------------------
 C
-C normales aux triangles (recalculees ici pour pas les stocker).
+C normals to triangles (recomputed here to avoid storing them)
       DO I=1,JLT
 C
 C      IF(STIF(I) == ZERO)CYCLE
@@ -736,7 +736,7 @@ C             Privilegier secteur dans lequel on se trouve.
               IF(LBX >= ZERO .AND. LCX >= ZERO)THEN
                 LX=ZERO
               ELSE
-                ! point le plus proche dans le secteur angulaire == centre
+                ! closest point in the angular sector == center
                 LX  = MAX(ZERO,DD(I,IT)-BB(I,IT)*BB(I,IT))
               END IF
 
@@ -771,7 +771,7 @@ C
 C
       END DO
 C--------------------------------------------------------
-C     Calcul de la penetration
+C     calculation of penetration
 C--------------------------------------------------------
 #include  "vectorize.inc"
       DO I =1,JLT
@@ -880,7 +880,7 @@ C
 C
 C         Cone
           IF(INGAPA(I,IT)  == 1 .AND. (FARA(I,IT)==1 .OR. BB(I,IT) <= ZERO))THEN
-C             INGAP = 1 => tjrs regarder si l'on est dans le cone (permet de determiner dans quel cone on se trouve) 
+C             ingap = 1 => always check if inside the cone (allows to determine which cone we are in)
 C
             X12=XX(I,I2)-XX(I,I1)
             Y12=YY(I,I2)-YY(I,I1)
@@ -964,7 +964,7 @@ C
 C
           IF(INGAPA(I,IT)  == 1 .AND. (FARA(I,IT)==1 .OR. BB(I,IT) <= ZERO))THEN
 C
-C            INGAP = 1 => tjrs regarder si l'on est dans le cone (permet de determiner dans quel cone on se trouve) 
+C            ingap = 1 => always check if inside the cone (allows to determine which cone we are in)
 C          
             IF( MVOISA(I,1) /= 0 )THEN
 C
@@ -987,7 +987,7 @@ C
 
             IF( MVOISA(I,2) /= 0 )THEN
             
-C             INGAP = 1 => tjrs regarder si l'on est dans le cone (permet de determiner dans quel cone on se trouve) 
+C             ingap = 1 => always check if inside the cone (allows to determine which cone we are in)
 C          
               X12=XX(I,3)-XX(I,2)
               Y12=YY(I,3)-YY(I,2)
@@ -1007,7 +1007,7 @@ C
             END IF
 
             IF( MVOISA(I,4) /= 0 )THEN
-C             INGAP = 1 => tjrs regarder si l'on est dans le cone (permet de determiner dans quel cone on se trouve) 
+C             ingap = 1 => always check if inside the cone (allows to determine which cone we are in)
 C          
               X12=XX(I,1)-XX(I,3)
               Y12=YY(I,1)-YY(I,3)
@@ -1033,7 +1033,7 @@ C
 C
       ENDDO
 C--------------------------------------------------------
-C     Calcul de la penetration
+C     calculation of penetration
 C--------------------------------------------------------
 #include  "vectorize.inc"
       DO I =1,JLT
@@ -1131,7 +1131,7 @@ C
 C
           IF(INGAPB(I,IT)  == 1 .AND. (FARB(I,IT)==1 .OR. BB(I,IT) >= ZERO))THEN
 C
-C             INGAP = 1 => tjrs regarder si l'on est dans le cone (permet de determiner dans quel cone on se trouve) 
+C             ingap = 1 => always check if inside the cone (allows to determine which cone we are in)
 C
             X12=XX(I,I2)-XX(I,I1)
             Y12=YY(I,I2)-YY(I,I1)
@@ -1215,7 +1215,7 @@ C
 C
           IF(INGAPB(I,IT)  == 1 .AND. (FARB(I,IT)==1 .OR. BB(I,IT) >= ZERO))THEN
 C
-C           INGAP = 1 => tjrs regarder si l'on est dans le cone (permet de determiner dans quel cone on se trouve) 
+C           ingap = 1 => always check if inside the cone (allows to determine which cone we are in)
 C          
             IF( MVOISB(I,1) /= 0 )THEN
 C          

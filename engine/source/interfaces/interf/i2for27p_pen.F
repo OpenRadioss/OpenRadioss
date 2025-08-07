@@ -412,7 +412,7 @@ C-------------  DX == deplacement relatif
           DR(3,II) = DR(3,II) + DRZ
 C
 C------------------------------------------------                  
-C         Calcul de la force
+C         force calculation
 C------------------------------------------------
 C                           
           FLX = DX(1,II) * STFN(II)
@@ -463,7 +463,7 @@ C
           STIFM(K)=ZERO
 C
 C------------------------------------------------                  
-C         Calcul du Moment
+C         moment calculation
 C------------------------------------------------
 C
           IF (IROT > ZERO) THEN
@@ -653,7 +653,7 @@ C------------------------------------------------
             FINI(6,II) = MLZ
           ENDIF
 C------------------------------------------------                  
-C         composantes N/T de la forces nodale -> output
+C         n/t components of the nodal forces -> output
 C------------------------------------------------                  
           HL(1:4) = H(1:4,K)
           CALL I2FORCES(X       ,FS     ,FX     ,FY      ,FZ     ,
@@ -688,7 +688,7 @@ C
           IX4(K) = IRECT(4,L)  
           STIF(K)= ZERO
           VIS(K) = ZERO
-          IF (WEIGHT(-I) == 1) THEN  ! stokage ZERO pour noeuds delete par idel2
+          IF (WEIGHT(-I) == 1) THEN  ! zero storage for nodes deleted by idel2
             I0 = I0BASE + IADX(II)
             JJ = 1                                                       
             NN = IADI2(JJ,I0)                                            

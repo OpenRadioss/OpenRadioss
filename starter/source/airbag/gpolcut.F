@@ -68,7 +68,7 @@ C-----------------------------------------------
 C
       TOLE=EPSILON(ZERO)*0.5
 C
-C Liste des segments
+C List of segments
       IF (NHOL==0) THEN
          NN1=NN
       ELSE
@@ -90,7 +90,7 @@ C
          ITAGN(I)=0
          ITAGS(I)=0
       ENDDO
-C Segments du contour exterieur
+C Segments of the outer contour
       DO I=1,NN1
          II=I+1
          IF (I==NN1) II=1
@@ -184,7 +184,7 @@ C Segments du contour exterieur
          ENDIF
       ENDDO
       TSEG(3,NSEG)=1
-C Segments des trous
+C Segments of the holes
       NHOL_OLD=NHOL
       NHOL=0
       DO I=1,NHOL_OLD
@@ -289,7 +289,7 @@ C Segments des trous
          TSEG(3,NSEG)=NSEG_INI+1
 C
          IF (ICUT==0) THEN
-C Le trou n'est pas coupe
+C The hole is not cut
             NHOL=NHOL+1
             DO J=NSEG_INI+1,NSEG
                ITAG(J)=-NHOL
@@ -302,7 +302,7 @@ C
         RETURN
       ENDIF
       NSEG1=NSEG
-C Creation des nouvelles aretes dans le plan horizontal
+C Creation of new edges in the horizontal plane
       NPX=RPOLY_OLD(2)
       NPY=RPOLY_OLD(3)
       NPZ=RPOLY_OLD(4)
@@ -418,7 +418,7 @@ C
          ENDDO
       ENDDO
       NPOLY=NPOLY-1
-C Attribution des trous
+C Attribution of holes
       DO I=1,NHOL
          J=1
          DO WHILE (ITAG(J)/=-I)
@@ -482,7 +482,7 @@ C
             IF (ABS(ALPHA)>=ONE) THOL(I)=J
          ENDDO
       ENDDO
-C Creation des tableaux de sortie
+C Creation of output tables
       DO I=1,NS
          RNS(2,I)=XNS(1,I)
          RNS(3,I)=XNS(2,I)

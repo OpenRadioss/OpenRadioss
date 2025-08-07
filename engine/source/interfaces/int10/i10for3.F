@@ -160,7 +160,7 @@ C
       IBID = 0
       BID = ZERO
 C-----------------------------------------------
-C     CALCUL DE LA PENE REELLE
+C     CALCULATION OF THE REAL PENALTY
 C-----------------------------------------------
       DO I=1,JLT
 C
@@ -371,7 +371,7 @@ C       no second order correction :
           FNI(I) = FNI(I) + VN(I)  * VIS
           FT1(I) = FT1(I) + VT1(I) * VIS
           FT2(I) = FT2(I) + VT2(I) * VIS
-C   2*C dans modsti
+C   2*C in modsti
           C(I) = VIS
 C       no second order correction :
           ECONTDT = ECONTDT
@@ -810,7 +810,7 @@ C---------------------------------
                 IF(ISECUT/=0)THEN
 #include "lockon.inc"
                   DO K=1,JLT
-C   attention aux signes pour le cumul des efforts
+C   attention to the signs for the accumulation of efforts
 C   a rendre conforme avec CFORC3
                     IF(SECFCUM(4,IX1(K),I)==1.)THEN
                       SECFCUM(1,IX1(K),I)=SECFCUM(1,IX1(K),I)-FX1(K)
@@ -856,7 +856,7 @@ C-----------------------------------------------------
       IF (IDAMP_RDOF/=0) THEN
         DO I=1,JLT
 C       IF(PENE(I)/=ZERO)THEN
-C test modifie pour coherence avec communication SPMD (spmd_i7tools)
+C modified test for coherence with SPMD communication (spmd_i7tools)
           IF(FXI(I)/=ZERO.OR.FYI(I)/=ZERO.OR.FZI(I)/=ZERO)THEN
             JG = NSVG(I)
             IF(JG>0) THEN

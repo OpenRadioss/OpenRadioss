@@ -175,7 +175,7 @@ C
       ENDDO
 
       IF (NSPMD > 1) THEN
-C   construction tableau global des parts sur p0
+C   build global part array on proc 0
 
         IF (ISPMD==0) THEN
          CALL SPMD_IGLOB_PARTN(IADPLY,NPLYPART,IADPLYG,NPLYPART)

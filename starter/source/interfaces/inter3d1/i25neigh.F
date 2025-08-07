@@ -542,8 +542,8 @@ C       5: I1 = numero local du noeud 1 dans NSV(1:NSN)
 C       6: I2 = numero local du noeud 1 dans NSV(1:NSN)
 C       7: Type of the edge :
 C             < 0 <=> l'arete est uniquement main, pas second
-C             +/-1 arete de solide
-C             +/-2 arete de coque
+C             +/-1 edge of solid
+C             +/-2 edge of shell
 C for engine:
 C       8: Global ID (id in starter)
 C       9: Weight = 1 => secondary secnd handled by current domain
@@ -905,7 +905,7 @@ C
 
         ALLOCATE(ADDSUBN_TMP(NMN+1), ADDSUBN(NMN+1))
 C-----------------------------------------
-C       Calcul de ADDSUBN, LISUBN, INFLG_SUBN pour les noeuds mains
+C       Calculation of ADDSUBN, LISUBN, INFLG_SUBN for the main nodes
 C-----------------------------------------
         ADDSUBN_TMP(1:NMN+1)=0
         DO I=1,NRTM
@@ -946,7 +946,7 @@ C       utilise KAD(1:NMN) pour remplir LISUBN, INFLG_SUBN
           END DO
         END DO
 C-----------------------------------------
-C       Compactage de LISUBN ET Combinaison des flags INFLG_SUBN
+C       Compacting LISUBN AND Combining INFLG_SUBN flags
 C-----------------------------------------
         MAXADD = 0
         DO N=1,NMN

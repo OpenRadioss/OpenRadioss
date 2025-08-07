@@ -175,7 +175,7 @@ C preparation envoi  partie fixe (elem) a proc I
               L = L + SIZE
             END DO
           ENDIF
-C cas 2D la masse est recalculee a chaque cycle, il faut la cumuler
+C 2D case the mass is recalculated at each cycle, it must be accumulated
         ELSEIF(N2D/=0.AND.IFSUBM==1)THEN
           IF(IRODDL/=0) THEN
 #include      "vectorize.inc"
@@ -267,7 +267,7 @@ C cas 2D la masse est recalculee a chaque cycle, il faut la cumuler
           ENDIF
         ENDIF
 C
-C -- plus la thermique
+C -- more the thermal
 C
       ELSE
          IF (N2D==0.AND.IFSUBM==0) THEN
@@ -318,7 +318,7 @@ C
               END DO
             ENDIF
           ENDIF
-C cas 2D la masse est recalculee a chaque cycle, il faut la cumuler
+C 2D case the mass is recalculated at each cycle, it must be accumulated
         ELSEIF(N2D/=0.AND.IFSUBM==1)THEN
           IF(IRODDL/=0) THEN
 #include      "vectorize.inc"
@@ -628,7 +628,7 @@ C cas 2D
               ENDIF
             ENDIF
 C
-C ----plus la thermique
+C ----more the thermal
 C
          ELSE
           IF (N2D==0.AND.IFSUBM==0) THEN

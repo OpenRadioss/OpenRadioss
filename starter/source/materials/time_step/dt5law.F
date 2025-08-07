@@ -30,7 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE DT5LAW(PM,GEO,PID,MAT, DELTAX, AIRE, VOL, DTX)
 C
-C     CALCUL DES DT ELEMENTAIRES POUR LA LOI 5
+C     CALCULATION OF ELEMENTARY DT FOR LAW 5
 C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -61,7 +61,7 @@ C     REAL
 C-----------------------------------------------
 C=======================================================================
 C
-C   SSP(I) EST ICI EGAL QUND T=0 A LA VDET STOCKEE DANS PM
+C   SSP(I) IS HERE EQUAL WHEN T=0 TO THE VDET STORED IN PM
 C
       DO I=LFT,LLT
          SSP(I)=PM(38,MAT(I))

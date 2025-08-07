@@ -649,7 +649,7 @@ C
         EPST(5,I)= GSTR(I,5)*HALF
       ENDDO
 C-------------------------------------------------
-C     ROTATIONS DANS LE REPERE D ORTHOTROPIE EPST
+C     rotations in the orthotropy frame epst
 C-------------------------------------------------
       CALL ROTO(JFT,JLT,EPST,5,DIR,NEL)
 C-------------------------------------------------
@@ -698,7 +698,7 @@ C-----------------------------------------------------------
         ENDIF
       ENDDO
 C--------------------------------
-C     RETOUR DANS LE REPERE COQUE
+C     return to shell reference frame
 C--------------------------------
       CALL UROTO(JFT,JLT,FOR,5,DIR,NEL)
 C

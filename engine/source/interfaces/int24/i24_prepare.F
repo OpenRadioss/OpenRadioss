@@ -63,7 +63,7 @@ C-----------------------------------------------
       INTEGER ITAG(NUMNOD),SZFRI24,IAFR24
       INTEGER P,I,J,NI,NIN,NOD,NTY,NSN,SN,NSNE
 C-----------------------------------------------
-C Partie 1, calcul des tailles de FR_I24
+C part 1, calculation of fr_i24 sizes
 C-----------------------------------------------
       ITAG(1:NUMNOD)=0
       IF (MODE==1)THEN

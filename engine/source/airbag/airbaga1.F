@@ -150,7 +150,7 @@ C-------------------------
 c         PVOIS  =RVOLUV(12,II)
 c           afin d'eviter probleme de meme adressage memoire
 c           de RVOLU(12) et RVOLUV(12) on utilise RVOLU(31)
-c           qui etait dispo
+c           who was available
          PVOIS  =RVOLUV(31,II)
          IF(IDEF==0.AND.POLD>PDEF+PVOIS)
      .      RCBAG(5,I)=DTPDEFC+DT1
@@ -237,7 +237,7 @@ C--------------------------
 C
       IF (IS/=0)THEN
 C-----------------------------
-C     MASSE MOLAIRE DU MELANGE
+C     MOLECULAR MASS OF THE MIXTURE
 C-----------------------------
        DO IJ=1,NJET
          I_INJ    = IBAGJET(13,IJ)
@@ -384,10 +384,10 @@ C
          RBAGJET(KK+1,IJ) = GMTOT
          RBAGJET(KK+2,IJ) = GMASS
          AMTOT = AMTOT + DGMASS
-        ENDDO      !fin de boucle gaz
-       ENDDO       !fin de boucle injecteurs
+        ENDDO      !end of gas loop
+       ENDDO       !end of injectors loop
 C-------------------------
-C FUITES ET COMMUNICATIONS
+C LEAKS AND COMMUNICATIONS
 C-------------------------
        DO IJ=1,NJET
          I_INJ    = IABS(IBAGJET(13,IJ))
@@ -432,10 +432,10 @@ C
 
            RBAGJET(KK+1,IJ) = GMTOT
            AMTOT = AMTOT - DGMOUT
-         ENDDO     !fin de boucle gaz
-       ENDDO       !fin de boucle injecteurs
+         ENDDO     !end of gas loop
+       ENDDO       !end of injectors loop
 C------------------------------------
-C      CONTRIBUTION DU GAZ INITIAL...
+C      CONTRIBUTION OF THE INITIAL GAS...
 C------------------------------------
        DGMOUT=RVOLU(24)*DT1
        DGMIN =RVOLU(64)*DT1
@@ -471,7 +471,7 @@ C
        AMTOT = AMTOT-DGMOUT+DGMIN
        RVOLU(11)=GMI
 C------------------------------------------
-C      VARIATION DE TEMPERATURE et PRESSION
+C      VARIATION OF TEMPERATURE and PRESSURE
 C------------------------------------------
        GMI =RVOLU(11)
        RNM =GMI*RMWI

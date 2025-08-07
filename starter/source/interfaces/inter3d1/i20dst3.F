@@ -104,7 +104,7 @@ C-----------------------------------------------
       EXTERNAL BITUNSET,BITGET,BITSET
 C
 C--------------------------------------------------------
-C  SHIFT DU GAP POUR SOLIDES AVEC GAP NUL
+C  GAP SHIFT FOR SOLIDS WITH NULL GAP
 C--------------------------------------------------------
 c                                    
 c         --------------------------           
@@ -285,7 +285,7 @@ C
              Z4(I) = Z4(I) - SZ4
             ENDIF
            ELSEIF(I3 == I4)THEN
-c            bord de coque3N
+c            edge of hull3N
              X10 = X1(I)
              Y10 = Y1(I)
              Z10 = Z1(I)
@@ -338,7 +338,7 @@ c            bord de coque3N
              Y4(I)=Y3(I)
              Z4(I)=Z3(I)
            ELSE
-c            bord de coque
+c            edge of hull
              X10 = X1(I)
              Y10 = Y1(I)
              Z10 = Z1(I)
@@ -822,7 +822,7 @@ C=======================================================================
       DO I=1,NRTM
         GAP_M(I) = GAP_M(I)-TWO*GAP_SH(I)
       ENDDO
-c mise a zero du gap secnd sur le bord des coques
+c zeroing of the second gap on the edge of the hulls
 c ici NVS donne encore le noeud global, NSV sera modifie dans I20NLG 
       DO I=1,NLN
         J = NLG(I)
@@ -872,7 +872,7 @@ c          N1 = NLG(MSR(I))
       END DO
 
       DO I=1,NRTM
-c test pour ne prendre en compte que les solides 
+c test to consider only the solids
         IF(GAP_SH(I)/=ZERO)THEN
 c          N1 = NLG(IRECT(1,I))
 c          N2 = NLG(IRECT(2,I))

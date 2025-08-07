@@ -48,7 +48,7 @@ C-----------------------------------------------
       INTEGER ISRG, N1, II(4),
      .        I,J,K
 C-----------------------------------------------
-C seul le proc 0 effectue le traitement
+C only processor 0 performs the processing
       IF (ISPMD/=0) GOTO 100
 C-----------------------------------------------
       N1 = NUMNODG + NODCUT + NSECT + NRWALL + NNWL

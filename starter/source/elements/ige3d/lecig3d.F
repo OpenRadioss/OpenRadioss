@@ -49,9 +49,9 @@ C----------------------------------------------------------
 C     LECTURE ELEMENT ISO GEOMETRIQUE
 C-----------------------------------------------
 C     KXIG3D(1,*):IMID :   ID DU MATERIAU
-C     KXIG3D(2,*):IPID :   ID DE LA PROPRIETE
-C     KXIG3D(3,*):NNOD :   NOMBRE DE POINTS DE CONTROLE DE L ELEMENT
-C     KXIG3D(4,*):IAD  :   ADRESSE DE LA ZONE DES NOS DE NOEUDS DANS IXIG3D
+C     kxig3d(2,*):ipid: property id
+C     kxig3d(3,*):nnod: number of control points of the element
+C     KXIG3D(4,*):IAD  :   address of the node numbers area in IXIG3D
 C                                     IXIG3D(IAD) A IXIG3D(IAD+NNOD-1)
 C     KXIG3D(5,*):ID   :   ID DE L'ELEMENT.
 C     KXIG3D(6,*):ID   :   index of 1st knot in the Xknot vector corresponding to the element
@@ -112,7 +112,7 @@ c
         READ(IIN,REC=IREC,ERR=999,FMT='(A)')LINE
         DO WHILE( LINE(1:1) /= '/' .OR. LINE(1:6) == '/IGE3D')
         
-         IF (LINE(1:1) == '/')THEN  ! CHANGEMENT DE PART
+         IF (LINE(1:1) == '/')THEN  ! change of part
           IREC=IREC+1
           READ(IIN,REC=IREC,ERR=999,FMT='(A)')LINE
          ENDIF
@@ -204,7 +204,7 @@ C
 C-----------
       CALL ANCMSG(MSGID=402,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_1,PRMOD=MSG_PRINT)
 C-------------------------------------
-C Recherche des ID doubles
+C search for duplicate IDs
 C-------------------------------------
       DO I=1,NUMELIG3D0
          TABIDS(I)= KXIG3D(5,I)

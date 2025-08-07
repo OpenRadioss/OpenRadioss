@@ -345,7 +345,7 @@ C--------------------------------------------------
 c--------------------------------------------------
       IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STARTIME(TIMERS,35)
 c--------------------------------------------------
-c     BOUCLE SUR LES POINTS DE GAUSS
+c     loop over gauss points
 c--------------------------------------------------
       DO IPG = 1,NPG
         LBUF => ELBUF_STR%BUFLY(1)%LBUF(IPG,1,1)
@@ -630,7 +630,7 @@ c
 C----
       ENDDO   ! IPG=1,NPG                                                               
 c--------------------------------------------------
-c     FIN BOUCLE SUR LES POINTS DE GAUSS
+c     end of loop over gauss points
 c--------------------------------------------------
 c     element suppression
 c--------------------------------------------------

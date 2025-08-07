@@ -42,7 +42,7 @@ C list is updated taken into account : Volume,
 C Faces, and Ajdacent Cell data
 C What needs to be update in cut cell buffer :
 C      TYPE BRICK_ENTITY 
-C        INTEGER                         :: NBCUT                   !nombre de plans de coupe
+C        INTEGER                         :: NBCUT                   !number of cutting planes
 C        INTEGER                         :: SECID_Cell(8)           !cut local id in [1,8] -> [1,52] = sec type. Each possible cut is numbered from 1 to 52 ; 8 nodes => 8 possible cut cells
 C        INTEGER                         :: WhichCell_Node(8)       !node local id in[1,8] -> [1,8] = local cut cell id.
 C        INTEGER                         :: %POLY()%NumNOD(9)          !noeuds sommets

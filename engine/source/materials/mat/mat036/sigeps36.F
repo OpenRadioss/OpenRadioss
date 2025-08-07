@@ -355,7 +355,7 @@ c           yp= 3 x^2 + c
           E62 = E6*E6
           C = - HALF *(E1*E1 + E2*E2 + E3*E3) - E42 - E52 - E62
           EPST = SQRT(-C*THIRD)
-c         2*EPST est un majorant de la solution
+c         2*EPST is an upper bound of the solution
           EPSR1DAV = EPSR1F - DAV
           IF(EPST+EPST < EPSR1DAV)CYCLE
           D = - E1*E2*E3 + E1*E52 + E2*E62 + E3*E42
@@ -368,7 +368,7 @@ c         2*EPST est un majorant de la solution
             Y = (EPST2 + C)* EPST + D
             YP = THREE*EPST2 + C
             EPST = EPST - Y/YP
-c           EPST est un majorant de la solution
+c           EPST is an upper bound of the solution
             IF(EPST < EPSR1DAV)CYCLE
             EPST2 = EPST * EPST
             Y = (EPST2 + C)* EPST + D
@@ -656,7 +656,7 @@ C
          JJ(I) = 1                                                 
         ENDDO
 C-------------------------
-C       CRITERE DE VON MISES
+C       VON MISES CRITERION
 C-------------------------
         DO I=1,NEL
           SVM2(I) = THREE*(HALF*(SIGNXX(I)**2+SIGNYY(I)**2+SIGNZZ(I)**2)

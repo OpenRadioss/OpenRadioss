@@ -222,7 +222,7 @@ C
           SOUNDSP(I) = SQRT(SOUNDSP(I)**2 + G1/RHO0(I))
         ENDDO        
 
-C transformation dans le rep re d'orthotropie
+C transformation in the orthotropy reference frame
         LL = 1
         CALL ROTO_SIG(LL,NEL,SIGV, DIR,NEL)
 C

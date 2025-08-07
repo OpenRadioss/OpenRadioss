@@ -244,7 +244,7 @@ C
 C
         CALL MY_BARRIER()
 C
-        IF(ITASK==0) THEN   ! comm sur 1er thread
+        IF(ITASK==0) THEN   ! communication on the first thread
           CALL SPMD_MIJ_SMS(
      1           ISKYI_SMS,FR_SMS,FR_RMS,LIST_RMS,MSKYI_SMS,
      2           MSKYI_FI_SMS)
@@ -407,7 +407,7 @@ C-----------------------------------
           D_TSTOP  = DAMPR(18,ND)
           IF (TT>=D_TSTART .AND. TT<=D_TSTOP) THEN
             IF(ISK<=1)THEN
-C----- Damping sur dof rotation et seulement -----
+C----- Damping on rotation dof and only -----
              IF (DAMPR(19,ND)>0) CYCLE
              DAMPA = DAMPR(3,ND)
              DAMPB = DAMPR(4,ND)
@@ -665,7 +665,7 @@ C
 C
 C-----------------------------------
 C
-C     PREC_SMS utilise pour stocker la diagonale vraie (cf rbodies)
+C     PREC_SMS used to store the true diagonal (cf rbodies)
       PREC_SMS(NODFT:NODLT)=DIAG_SMS(NODFT:NODLT)
 C
       CALL MY_BARRIER()

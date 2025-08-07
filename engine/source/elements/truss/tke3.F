@@ -85,7 +85,7 @@ c      NB5 =NB4  + NEL
 c      NB6 =NB5  + NEL
 c      NB10=NB6
 c      NB11=NB10 + NEL
-c      !offsetting des super-groupes
+c      !offsetting of super-groups
 c      NB1 =NB1 + OFFSET
 c      NB2 =NB2 + OFFSET
 c      NB3 =NB3 + OFFSET
@@ -100,7 +100,7 @@ C
       CALL TMAT3(JFT    ,JLT    ,PM    ,MAT    ,GBUF%AREA,
      .           AL     ,KX     )
 C-------------------------
-C     MATRICE de RIGIDITE
+C     STIFFNESS MATRIX
 C-------------------------
       CALL R4SUMG3(JFT    ,JLT    ,AL      ,KX      ,EX     ,
      1             EY     ,EZ     ,KE11    ,KE12    ,KE22   )

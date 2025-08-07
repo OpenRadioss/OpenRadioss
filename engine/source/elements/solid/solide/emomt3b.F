@@ -114,7 +114,7 @@ C-----------------------------------------------
       IF(ALE%UPWIND%UPWM==0.AND.IPARG1(64)==1)RETURN   !silent boundary
              
 C-----------------------------------------------
-C     Forces de transports calcul es par volume fini
+C     Transport forces calculated by finite volume
 C-----------------------------------------------
 C   DMi = 0.5*DT1*QMV(i,I)  masse entrant par la face i
       IF(MTN==51 .AND. ALE%UPWIND%UPWM/=3 .AND. IPARG1(64)==0)THEN

@@ -540,7 +540,7 @@ C          END IF
                       !print *, "second points point",CUTCOOR,OLD_CUTCOOR
                     ELSE
                       !print *, "point deja trouve", CUTCOOR
-                      NBCUT=1 ! le point est le meme, inutile de l'enregistrer.
+                      NBCUT=1 ! the point is the same, no need to record it
                     END IF
                   END IF              
                 ELSEIF(DEJA==2)THEN ! already 2 intersections, no more expected (hypothesis)
@@ -716,7 +716,7 @@ C================================================================
           print *, "  |           EDGES               |"
           print *, "  |-------------------------------|"
           print *, 12*NB , "  edges (12*NBRIC)" 
-        DO I=1, NB ! 1,NB fractionne sur les differents threads 
+        DO I=1, NB ! 1,nb split across different threads
           if(ibug22_intersect/=-1 .and. ibug22_intersect/=ixs(11,brick_list(nin,i)%id))cycle           
           print *, "  ** CELL **", IXS(11,BRICK_LIST(NIN,I)%ID)
           DO J=1,12

@@ -183,7 +183,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
          INTEGER IVAR, I
 C--------------------------------------
-C     PREPARATION DES VARIABLES ENTIERES POUR ECRITURE SUR RFILE.
+C     preparation of integer variables for writing to RFILE
 C=======================================================================
 C-----
       DO IVAR=1,LMXVINT
@@ -226,7 +226,7 @@ C-----
       TABVINT(34) =IRESMD
       TABVINT(35) =IFRWV
 C
-C -------- Tailles des tableaux entiers --------
+C -------- sizes of integer arrays --------
 C taille locale inutile
       TABVINT(36) = 0
       TABVINT(37) = NUMNOD_L
@@ -414,7 +414,7 @@ c SNBRCVOIS
       ENDIF
 C
 
-C -------- Tailles des tableaux flottants --------
+C -------- sizes of floating-point arrays --------
       TABVINT(162) = 3*(NUMNOD_L+NRCVVOIS_L)
       TABVINT(163) = 3*(NUMNOD_L+NRCVVOIS_L)
       TABVINT(164) = 3*(NUMNOD_L+NRCVVOIS_L)
@@ -826,7 +826,7 @@ C
       TABVINT(LVARINT)=NUMELS8A
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=NUMELTG6_L
-C espace memoire reserv pour les checks points restarts.
+C memory space reserved for checkpoint restarts
       DO I=1,58                          
         TABVINT(LVARINT+I)=0             
       ENDDO                              
@@ -1294,10 +1294,10 @@ C Madymo Restart Array is missing
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=NTHPART
 C
-C ecriture sur restart de tableaux de masse elementaires
+C writing of elementary mass arrays to restart
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=IREST_MSELT
-C ecriture sur restart nthread
+C writing nthread to restart
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=NTHREAD
 C   ----for output of rotational dof -----
@@ -1589,7 +1589,7 @@ C /LOAD/PBLAST
 C /LOAD/PCYL
       LVARINT=LVARINT+1
       TABVINT(LVARINT) = NLOAD_CYL           
-C espace memoire reserv pour les checks points restarts.
+C memory space reserved for checkpoint restarts
 C     IDTMIN(51)
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=0

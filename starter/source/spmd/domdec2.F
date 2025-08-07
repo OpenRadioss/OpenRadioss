@@ -2100,7 +2100,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-C   CALCUL DE CNE ADDCNE
+C   CALCULATION OF CNE ADDCNE
 C-----------------------------------------------
       ALLOCATE(ADSKY(0:NUMNOD+1))
       ALLOCATE(ITRI(ILEN))
@@ -2854,14 +2854,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-C   CALCUL DE CNE ADDCNE
+C   CALCULATION OF CNE ADDCNE
 C-----------------------------------------------
       ALLOCATE(ADSKYI2(0:NUMNOD+1))
       DO I = 0, NUMNOD+1
         ADSKYI2(I) = ADDCNI2(I)
       ENDDO
 C
-C ordre => ordre des elements dans l'interface type 2
+C order => order of elements in type 2 interface
 C
 C
       OFF = 0
@@ -2932,8 +2932,8 @@ C 10: NUMELTG_L
 C 11: NUMELX_L
 C 12: NBDDPROC :  nb de proc frontiere
 C 13: NBDDBOUN :  nb de noeud frontiere
-C 14: NBDDNOD :   taille des comm en nb de noeuds
-C 15: NBDDNRB :   taille des comm en nb de noeuds main de rby
+C 14: NBDDNOD :   size of comm in number of nodes
+C 15: NBDDNRB :   size of comm in number of main rby nodes
 C 16: NRBYKIN_L : nombre de rigid body MAIN locaux
 C 17: NUMSPH_L : nombre de particules SPH locales
 C 18: MEMI : taille memoire locale entier MA

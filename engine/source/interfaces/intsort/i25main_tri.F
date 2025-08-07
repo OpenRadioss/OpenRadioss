@@ -290,7 +290,7 @@ C
 C BARRIER II_STOK, II_STOK_E et RESULT
       CALL MY_BARRIER
 
-C a conserver pour cas inacti est modifie sur p0
+C to keep for inacti case is modified on p0
       IF(ITASK==0)THEN
         BSAV(1:6)=BMINMA(1:6) ! pour boite edge to edge
         IF(ABS(BMINMA(6)-BMINMA(3))>2*EP30.OR.

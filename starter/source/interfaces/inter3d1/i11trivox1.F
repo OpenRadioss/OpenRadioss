@@ -94,17 +94,17 @@ C     IRECTS(2,*)  TABLEAU DES CONEC                 E
 C          1.........NODE 1 SECND EDGE
 C          2.........NODE 2 SECND EDGE
 C     X(3,*)       COORDONNEES NODALES               E
-C     II_STOK       niveau de stockage des couples
+C     ii_stok storage level of the pairs
 C                                candidats impact    E/S
 C     CAND_S       boites resultats noeuds
 C     CAND_M       adresses des boites resultat elements
 C     NOINT        NUMERO USER DE L'INTERFACE
 C     TZINF        TAILLE ZONE INFLUENCE
 C     VOXEL(*,*,*) VOXEL PARTIONNEMENT DE l'ESPACE (NBX+2,NBY+2,NBZ+2) 
-C                  Stocke dans chaque voxel les edge secnd.
+C                  stores in each voxel the secondary edges
 C                  En pratique designe la premier arrete d'une liste chainee
-C     MAX_ADD      adresse maximum pour les tableaux chaines
-C     NSN         NSN TAILLE MAX ADMISE MAINTENANT POUR LES
+C     max_add maximum address for the chain arrays
+C     nsn current maximum allowed size for the
 C                  COUPLES NOEUDS,ELT CANDIDATS
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -133,7 +133,7 @@ C-----------------------------------------------
      .        IX1,IY1,IZ1,IX2,IY2,IZ2, 
      .        IX,IY,IZ, FIRST_ADD,
      .        I_STOK, I_STOK_BAK, IEDG,
-     .        PREV_ADD, CHAIN_ADD, CURRENT_ADD,   !pour le balayage des tableaux chaines
+     .        PREV_ADD, CHAIN_ADD, CURRENT_ADD,   !for scanning the chain arrays
      .        NEDG, DEJA , MAX_ADD ,II_STOK0, M
       my_real
      .        XX1, XX2,
@@ -165,7 +165,7 @@ C
       MAX_IZ=1      
       
       !---------------------------------------------------------!
-      ! Allocation des tableaux chaines                         !
+      ! allocation of the chain arrays
       !---------------------------------------------------------!
       MAX_ADD = max(1,4*(NRTS))
       ALLOCATE(LCHAIN_ELEM(1:MAX_ADD))
@@ -181,7 +181,7 @@ C
       END IF
 
       !---------------------------------------------------------!
-      ! recuperation des bornes du domaine                      !
+      ! retrieving the domain boundaries
       !---------------------------------------------------------!
       XMIN = XYZM(1,1)
       YMIN = XYZM(2,1)
@@ -198,12 +198,12 @@ c     dev future: xminb plus grand que xmin...
       ZMAXB = ZMAX  
 
 C=======================================================================
-C 1   Pour chaque edge, on marque les voxels occupes.
-C     Le nombre d edge dans un voxels etant variable, on
-C     utilise un tableau chaine.
-C     Ces voxels representent le voisinage de l edge.
+C 1   for each edge, mark the occupied voxels.
+C     the number of edges in a voxel being variable,
+C     a chain array is used.
+C     these voxels represent the neighborhood of the edge.
 C     On cherchera ensuite toutes les entites interfacees
-C     dans ce voisinage.
+C     in this neighborhood.
 C=======================================================================
         
         CURRENT_ADD=1 ! premiere adresse
@@ -219,8 +219,8 @@ c           IF(STFS(I)==ZERO)CYCLE !on ne retient pas les facettes detruites
             N2=IRECTS(2,I)             
             !-------------------------------------------!
             ! Coordinates of the two nodes              !
-            !  +Optimisation // recherche les noeuds    !
-            !compris dans xmin xmax des elements du proc!           
+            ! +optimization // search for the nodes
+            !included in xmin xmax of the elements of the processor!
             !-------------------------------------------!
             XX1=X(1,N1)
             XX2=X(1,N2)
@@ -253,7 +253,7 @@ c           IF(STFS(I)==ZERO)CYCLE !on ne retient pas les facettes detruites
             IY2=MAX(1,2+MIN(NBY,IY2))
             IZ2=MAX(1,2+MIN(NBZ,IZ2))
           
-            !pour reset des voxel
+            !for voxel reset
             MIN_IX = MIN(MIN_IX,IX1)
             MIN_IY = MIN(MIN_IY,IY1)
             MIN_IZ = MIN(MIN_IZ,IZ1)          
@@ -289,7 +289,7 @@ C                            +------------+-----------+
 C                              |            |              |  MAX_ADD
 C                              +------------+-----------+
 C 
-            !Pour tous les voxels qu'occupe la brique
+            !for all voxels occupied by the brick
             DO IZ = IZ1,IZ2
              DO IY = IY1,IY2
               DO IX = IX1,IX2
@@ -298,17 +298,17 @@ C
 
                 IF(FIRST_ADD == 0)THEN
                 !voxel encore vide
-                 VOXEL(IX,IY,IZ)          = CURRENT_ADD ! adresse dans le tableau chaine de la premiere eddge trouvee occupant le voxel
+                 VOXEL(IX,IY,IZ)          = CURRENT_ADD ! address in the chain array of the first edge found occupying the voxel
                  LCHAIN_LAST(CURRENT_ADD) = CURRENT_ADD ! dernier=adresse pour l edge courante
                  LCHAIN_ELEM(CURRENT_ADD) = I               ! edge ID
-                 LCHAIN_NEXT(CURRENT_ADD) = 0               ! pas de suivant car dernier de la liste   ! 
+                 LCHAIN_NEXT(CURRENT_ADD) = 0               ! no next one because last in the list
                 ELSE
                  !voxel contenant deja une edge
                  PREV_ADD                 = LCHAIN_LAST(FIRST_ADD) ! devient l'avant-dernier
-                 LCHAIN_LAST(FIRST_ADD)         = CURRENT_ADD                  ! maj du dernier
+                 LCHAIN_LAST(FIRST_ADD)         = CURRENT_ADD                  ! update of the last one
                  LCHAIN_ELEM(CURRENT_ADD) = I                          ! edge ID
                  LCHAIN_NEXT(PREV_ADD)         = CURRENT_ADD                  ! maj du suivant 0 -> CURRENT_ADD
-                 LCHAIN_NEXT(CURRENT_ADD) = 0                          ! pas de suivant car dernier de la liste
+                 LCHAIN_NEXT(CURRENT_ADD) = 0                          ! no next one because last in the list
                 ENDIF
 
                 CURRENT_ADD = CURRENT_ADD+1 
@@ -331,10 +331,10 @@ C
 
 
 C=======================================================================
-C 3   A partir des voxels occupes par une edge main, on est en
-C     mesure de connaitre toutes les edges escalves dans ce voisinage.
-C     Ce qui permet de creer des couples cancidats pour le contact
-C     Si la penetration est positive.
+C 3   from the voxels occupied by a main edge, we are able
+C     to know all the slave edges in this neighborhood.
+C     this makes it possible to create candidate pairs for contact
+C     if the penetration is positive.
 C=======================================================================
       NEDG   = 0 
       I_STOK = 0
@@ -397,16 +397,16 @@ C--- IREMGAP - tag of deactivated lines
           ENDDO
         ENDIF
 C
-        !ON PARCOURS A NOUVEAU LES EDGES SECND DANS LE VOISINAGE DE L EDGE main IEDG
+        !we go through again the secondary edges in the neighborhood of the main edge iedg
         !ON CONSTITUE ICI ONE COUPLE
 
         DO IZ = IZ1,IZ2
          DO IY = IY1,IY2
           DO IX = IX1,IX2        
           
-            CHAIN_ADD = VOXEL(IX,IY,IZ)       ! adresse dans le tableau chaine de la premiere edge stoquee dans le voxel
-            DO WHILE(CHAIN_ADD /= 0)          ! BOUCLE SUR LES EDGES DU VOXEL COURANT
-              I = LCHAIN_ELEM(CHAIN_ADD)       ! numeros des edge_id balayes dans le voxel courant
+            Caddress in the chain array of the first edge stored in the voxel
+            DO WHILE(CHAIN_ADD /= 0)          ! loop on the edges of the current voxel
+              I = LCHAIN_ELEM(CHAIN_ADD)       ! numbers of edge_id swept in the current voxel
 
               !secnd edge nodes, exclure couples avec noeud commun
               SS1=ITAB(IRECTS(1,I))
@@ -418,7 +418,7 @@ C
                 CYCLE
               END IF
               
-              !unicite des couples        
+              !uniqueness of pairs
               IF(IAUTO==1 .AND. MM1<SS1 )THEN
                 CHAIN_ADD = LCHAIN_NEXT(CHAIN_ADD)
                 CYCLE
@@ -479,7 +479,7 @@ C--- IREMGAP - clean of tagremline
 
 
 C-------------------------------------------------------------------------
-C     FIN DU TRI
+C     end of sorting
 C-------------------------------------------------------------------------
  
       IF(I_STOK/=0)CALL I11STO_VOX1(
@@ -492,7 +492,7 @@ C-------------------------------------------------------------------------
     
 c      WRITE(6,*) __FILE__,__LINE__,I_STOK,II_STOK
 C=======================================================================
-C 4   remise a zero des noeuds dans les boites et desallocation
+C 4   resetting nodes in boxes and deallocation
 C=======================================================================
 
  1000 CONTINUE            

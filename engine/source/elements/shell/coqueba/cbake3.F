@@ -83,7 +83,7 @@ C-----------------------------------------------
       INTEGER INDXOF(MVSIZ),ISUBSTACK,
      .         ETAG(*),IDDL(*)  ,NDOF(*)  ,IADK(*) ,JDIK(*)
       INTEGER, DIMENSION(SEDRAPE) :: INDX_DRAPE
-C     REAL OU REAL*8
+C     REAL OR REAL*8
       my_real
      .   PM(NPROPM,*),GEO(NPROPG,*),BUFMAT(*),   X(3,*),THKE(*)
       my_real    
@@ -216,7 +216,7 @@ C
         CALL CBABEC3(JFT ,JLT ,X13  ,X24  ,Y13  ,Y24 ,BM, NPLAT, IPLAT)
       END IF
 C-----------------------------------------------
-C     BOUCLE SUR POINTS D'INTEGRATION DE GAUSS
+C     LOOP OVER GAUSS INTEGRATION POINTS
 C-----------------------------------------------
       LENF = NEL*GBUF%G_FORPG/NPG
       LENM = NEL*GBUF%G_MOMPG/NPG
@@ -272,7 +272,7 @@ C----------------------------
           END IF
         ENDDO
        ENDDO
-C---------FIN DE BOUCLE DE 4 POINTS DE GAUSS------------
+C---------END OF LOOP OF 4 GAUSS POINTS------------
 C-------------membrane shear traitement--------------------
         IF (IDRIL==0) THEN
          CALL CBALKEC3(JFT,JLT,VOLG  ,X13  ,X24  ,Y13  ,Y24, HM,

@@ -159,7 +159,7 @@ C
 C
       IPTUN = 1
 C--------------------------------------------------------------
-C         BORNAGE DES GROUPES DE MVSIZ
+C         bounding of MVSIZ groups
 C--------------------------------------------------------------
       NGR1 = NGROUP + 1
 C
@@ -462,7 +462,7 @@ C
 
 
 C     
-C RENUMEROTATION DE L'ARBRE
+C renumbering of the tree
 C
       IF(NADMESH/=0)THEN
         DO  I=1,NUMELTG
@@ -473,7 +473,7 @@ C
         ENDDO
       END IF
 C
-C RENUMEROTATION POUR SURFACES
+C renumbering for surfaces
 C
       DO I=1,NSURF
         NN=IGRSURF(I)%NSEG
@@ -483,7 +483,7 @@ C
         ENDDO
       ENDDO
 C
-C RENUMEROTATION POUR GROUPES DE SHELL
+C renumbering for shell groups
 C
       DO I=1,NGRSH3N
         NN=IGRSH3N(I)%NENTITY
@@ -499,7 +499,7 @@ C
       END DO
 C
 C phase 2 : bornage en groupe de mvsiz
-C ngroup est global, iparg est global mais organise en fonction de dd
+C ngroup is global, iparg is global but organized based on dd
 C
       DO 300 N=1,ND
        NFT = 0

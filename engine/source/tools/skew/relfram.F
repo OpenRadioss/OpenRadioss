@@ -249,7 +249,7 @@ C-----------
        AE(3)=AO(3)+DWDT(1)*OM(2)-DWDT(2)*OM(1)
      .            +W(1)*WOM(2)-W(2)*WOM(1)
 C-----------
-C      acceleration de Coriolis.
+C      Coriolis acceleration.
 C-----------
 C      second order correction.
 C      vitesse d'entrainement (T).

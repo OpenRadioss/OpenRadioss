@@ -156,7 +156,7 @@ C
             IF (DT1==ZERO) DTEPS=EM15
 C
             IF (I_TYPINJ==1) THEN
-C --- calcul masse  Cette boucle devrait etre faite en dehors de la boucle IK
+C --- mass calculation This loop should be done outside the IK loop
               DO IL=1,NGASES
 C
                I_GAS1=IGEO(100+(IL-1)*3+1,I_INJ)
@@ -183,7 +183,7 @@ C
                 DMASS_MIX=DMASS_MIX+(GMASS_DT-GMASS)
                 DMOL_MIX=DMOL_MIX+(GMASS_DT-GMASS)/MW1
                END IF
-              END DO ! end boucle sur IL
+              END DO ! end of the loop on IL
 C
               IF(IMASS>0) THEN
                 GMASS=FMASS*FINTER_MIXED(python,nfunct,IMASS,TSG,NPC,TF)
@@ -201,10 +201,10 @@ C
               END IF
             ELSE IF (I_TYPINJ==2) THEN
 C --- MASS_MIX correspond sert uniquement au calcul de GMASS
-C --- c est un cumul pour retrouver la fonction d input de masse
+C --- it is a cumulative sum to find the mass input function
 C
 C --- MASS_MIX ne peut etre nulle car somme des fractions molaire = 1
-C --- et les MWs sont strictement positifs
+C --- and the MWs are strictly positive
 C
 C --- DMASS_MIX qui sert uniquement au calcul de CP[A-F]
               MASS_MIX=ZERO
@@ -243,8 +243,8 @@ C
      .                     *FINTER_MIXED(python,nfunct,IMOL1,TSG+DTEPS,NPC,TF)
      .                     *MW1
                  END IF
-C --- la fraction molaire n est pas un debit
-C --- pas de recalcul de DMASS_MIX avec DTEPS
+C --- the molar fraction is not a flow rate
+C --- no recalculation of DMASS_MIX with DTEPS
                  DMASS_MIX=DMASS_MIX+GMASS
                  DMOL_MIX=DMOL_MIX+GMASS/MW1
                  MASS_MIX=MASS_MIX+GMASS
@@ -277,8 +277,8 @@ C --- Somme de masse (masse x masse_molaire)/masse_mixture
      .                         *FINTER_MIXED(python,nfunct,IMOL,TSG+DTEPS,NPC,TF)
      .                         *MW
                END IF
-C --- la fraction molaire n est pas un debit
-C --- pas de recalcul de DMASSG_MIX avec DTEPS
+C --- the molar fraction is not a flow rate
+C --- no recalculation of DMASSG_MIX with DTEPS
                GMASS_DT=GMASS_DT*FINTER_MIXED(python,nfunct,IMASS,TSG+DTEPS,NPC,TF)/MASS_MIX_DT
               END IF
             END IF
@@ -314,7 +314,7 @@ C
          ENDIF
 C
         END DO
-C Fin de boucle sur les gas inject s
+C End of loop on injected gases
 C
         IF (DT1>ZERO) THEN
            DATAINJ(2,IJ)=DGMASSI/DT1
@@ -352,7 +352,7 @@ C
         RBAGJET(7,IJ)=RBAGJET(7,IJ)+DGMASSI
         RBAGJET(20,IJ)=DMOL_MIX
        ENDDO
-C fin de boucle sur injecteurs
+C end of loop on injectors
 C------
         RETURN
         END

@@ -519,7 +519,7 @@ c
       IUSC1=30
       TSUB =31
       TSUB_TMP =32
-C     IUSC2=9 ou 10
+C     iusc2=9 or 10
       IUSC3=50
 
 C new composite shell pid max nbs 200

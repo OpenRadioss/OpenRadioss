@@ -236,13 +236,13 @@ C
      1                 GBUF%BPRELD,NEL  ,IXS  ,NIXS ,VPRELOAD, IFLAG_BPRELOAD)
       ENDIF
 C----------------------------------------
-C     INITIALISATION DE LA THERMIQUE ET TURBULENCE
+C     initialization of thermal and turbulence
 C----------------------------------------
       IF(JTHE /=0) CALL ATHERI(MAT ,PM ,GBUF%TEMP)
       IF(JTUR /=0) CALL ATURI3(IPARG   ,GBUF%RHO,PM  ,IXS  ,X     ,
      .                         GBUF%RK ,GBUF%RE ,VOLU   )
 C----------------------------------------
-C     INITIALISATION DES MASSES
+C     initialization of masses
 C----------------------------------------
       IF(JLAG+JALE+JEUL/=0) THEN
 C-------- case /INIBRIS/STRS_FGLO missed         
@@ -287,8 +287,8 @@ c
      4      MSSA       ,IX1       ,IX2     ,IX3     ,IX4    ,
      5      GBUF%FILL, VOLU       ,IMAS_DS ,NINTEMP )
 C------------------------------------------
-C       assemblage des Volumes nodaux et Modules nodaux
-C       (pour rigidites d'interface)
+C       assembly of nodal volumes and nodal modules
+C       (for interface stiffnesses)
 C------------------------------------------
 C       attention : IX1, IX2 ... IX4 sont sous la forme NC(MVSIZ,4)
         IF(I7STIFS/=0)THEN
@@ -321,7 +321,7 @@ C----------------------------------------
          CALL S4JACI3(GBUF%SMSTR,GBUF%JAC_I, GBUF%VOL,NEL  ) 
       END IF
 C------------------------------------------
-C     CALCUL DES DT ELEMENTAIRES
+C     calculation of elementary timesteps
 c
       AIRE(:) = ZERO
       CALL DTMAIN(GEO       ,PM        ,IPM         ,PID     ,MAT     ,FV    ,

@@ -89,8 +89,8 @@ C     REAL
      .     G13TA, G23TA, G14TA, G24TA, G31TA, G32TA, G33TA, G34TA,
      .     M1A,M2A,M3A,TEMP1,TEMP2,TEMP3
 C=======================================================================
-C               POUR ISIGI = 5 OU -5
-C     CHANGEMENT DE REPERE DE FZERO POUR TT=DT1
+C               FOR ISIGI = 5 OR -5
+C     COORDINATE SYSTEM CHANGE OF FZERO FOR TT=DT1
 C          REPERE GLOBAL ---> REPERE LOCAL
 C-----------------------------------------------
       IF(IABS(ISIGI)==5.AND.NCYCLE==1.AND.IRUN==1) THEN
@@ -106,9 +106,9 @@ C-----------------------------------------------
         ENDDO
       ENDIF
 C-----------------------------------------------
-C               POUR ISIGI = 5 OU -5
+C               FOR ISIGI = 5 OR -5
 C     PRISE EN COMPTE DES FORCES D EQUILIBRAGE
-C      DANS L EVALUATION DES EFFORTS INTERNES
+C      IN THE EVALUATION OF INTERNAL FORCES
 C-----------------------------------------------
       IF((IABS(ISIGI)==5.AND.NCYCLE>=1.AND.IRUN==1).OR.
      .     (IABS(ISIGI)==5.AND.IRUN>1)) THEN

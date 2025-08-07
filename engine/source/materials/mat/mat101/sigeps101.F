@@ -1782,7 +1782,7 @@ C
 !||====================================================================
       SUBROUTINE EMOD_TPU(AREF,A0  ,C   ,C0    ,DE1  ,DE2, D1,DREF,RES)
 !        CALL EMOD_TPU  (DEREF,DE0,THETA,THETA0,DVE1,DVE2,
-!     &                                                  EM04,DEDOT_REF,DE)
+! &                                                  EM04,DEDOT_REF,DE)
 
 #include "implicit_f.inc"
 
@@ -2015,7 +2015,7 @@ C
         CALL INV_TPU(FVM, FVM_INV, DET)
         CALL AXB_TPU(F, FVM_INV, FE, 3)
         CALL ATXB_TPU(FE, FE, CE, 3)
-        CALL AXB_TPU(CE, CE, CE2, 3)
+        CCALL AXB_TPU(CE, CE, CE2, 3)
 C
 C        WRITE(0 , *) 'FE IN SUBROUTINE'
 C        WRITE(0 , *) FE(1,1),' ',FE(1,2),' ',FE(1,3)
@@ -2033,7 +2033,7 @@ C
         CALL TR_TPU(CE, INV1, 3)
         CALL TR_TPU(CE2, TR_CE2, 3)
         INV2 = (ONE/TWO)*(INV1**TWO - TR_CE2)
-        CALL DET_TPU(CE, INV3)
+        CCALL DET_TPU(CE, INV3)
 C
         B    = INV2 - (INV1**TWO)/THREE
         C    = -(TWO/27.D0)*(INV1**THREE) + INV1*INV2/THREE - INV3

@@ -103,7 +103,7 @@ C
             NTGI=MONVOL(K1-1+69)
             KI1 =K2+MONVOL(K1-1+31)
             KIA1=K2+MONVOL(K1-1+20)-1
-C Noeuds de l'enveloppe
+C Envelope nodes
             ALLOCATE(IBUF(NN+NNI), IBUFA(NNA))
             DO J=1,NN+NNI
                IBUF(J)=MONVOL(KI1-1+J)
@@ -111,7 +111,7 @@ C Noeuds de l'enveloppe
             DO J=1,NNA
                IBUFA(J)=MONVOL(KIA1-1+J)
             ENDDO
-C Identification du PMAIN
+C Identification of PMAIN
             NMAX=0
             PMAIN=1
             DO P=1,NSPMD

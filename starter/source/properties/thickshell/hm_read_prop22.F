@@ -403,7 +403,7 @@ C--------------
      .              I1=IG,
      .              C1=TITR)
        ENDIF
-C---  Position des couches-----------
+C---  Position of the layers-----------
        IF (IPOS>0)THEN
         TMIN = EM20
         TMAX =-EM20
@@ -441,7 +441,7 @@ C      TEST MATERIAUX: NON incompability---------
             GO TO 100
           ENDIF
         ENDDO
-C          ERREUR NO DE LOI DE COMP. ERRONEE
+C          ERROR NO DEFINITION OF COMP. ERRONEOUS
          CALL ANCMSG(MSGID=676,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_1,

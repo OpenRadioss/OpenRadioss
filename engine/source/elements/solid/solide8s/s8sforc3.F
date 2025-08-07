@@ -203,7 +203,7 @@ C-----------------------------------------------
      . VDX(MVSIZ) , VDY(MVSIZ) , VDZ(MVSIZ),SSP_EQ(MVSIZ),AIRE(MVSIZ),
      . E0(MVSIZ),C1,FAC(MVSIZ) ,PR(8,8),PS(8,8),PT(8,8)
 C-----
-C   Variables utilisees en argument par les materiaux.
+C   variables used as arguments by the materials.
       my_real
      .   STI(MVSIZ),STIN(MVSIZ),GAMA(MVSIZ,6),
      .   WXX(MVSIZ) , WYY(MVSIZ) , WZZ(MVSIZ),
@@ -217,7 +217,7 @@ C   Variables utilisees en argument par les materiaux si SPH uniquement.
      .   OFFS(MVSIZ),DSV(MVSIZ),SDV(MVSIZ)
       INTEGER SZ_R1_FREE
 C-----
-C   Variables utilisees dans les routines solides uniquement (en arguments).
+C   variables used only in solid routines (as arguments).
       INTEGER NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ), 
      .        NC5(MVSIZ), NC6(MVSIZ), NC7(MVSIZ), NC8(MVSIZ),
      .        MAT(MVSIZ)
@@ -351,9 +351,9 @@ C
      .   BB(6,24,MVSIZ),AMU(MVSIZ)
       DOUBLE PRECISION
      .   VOLP(MVSIZ,NNPT)
-C----- Variables utilisees pour le calcul de puissance iteree
+C----- Variables used for iterative power calculation
 C-----
-C     Variables utilis  es pour le non-local
+C     variables used for the non-local
       my_real,
      .  DIMENSION(:,:), ALLOCATABLE :: VAR_REG
       INTEGER :: INLOC, L_NLOC, INOD(8), IPOS(8), IMAT
@@ -1008,7 +1008,7 @@ C-----------------------------
        END IF
 
 C--------------------------
-C       BILANS PAR MATERIAU
+C       balances by material
 C--------------------------
       IFLAG=MOD(NCYCLE,NCPRI)
       IF(IOUTPRT>0)THEN

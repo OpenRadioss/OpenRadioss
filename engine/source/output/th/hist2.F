@@ -726,14 +726,14 @@ C--------------------------------------------
 C      PRE-TREATMENT ACCELEROMETERS (SPMD ONLY)
 C--------------------------------------------
        IF(NACCELM>0 .AND. NSPMD > 1)THEN
-C gather sur p0 des valeurs a jour pour les accelerometres
+C gather on proc 0 of up-to-date values for the accelerometers
          CALL SPMD_SD_ACC(ACCELM,IACCP,NACCP)
        END IF
 C--------------------------------------------
 C      PRE-TREATMENT GAUGES (SPMD ONLY)
 C--------------------------------------------
        IF(NBGAUGE>0 .AND. NSPMD > 1)THEN
-C gather sur p0 des valeurs a jour pour les gauges
+C gather on proc 0 of up-to-date values for the gauges
          CALL SPMD_SD_GAU(GAUGE,IGAUP,NGAUP)
        END IF
 C--------------------------------------------

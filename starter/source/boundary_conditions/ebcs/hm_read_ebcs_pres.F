@@ -178,7 +178,7 @@ C-----------------------------------------------
               EXIT
            ENDIF
         ENDDO
-        !initialise la liste des noeuds de la surface
+        !initializes the list of surface node
 !        K1=2*NSEG+1
 !        CALL EBCNODE(IEBCS(K1),NSEG,IGRSURF(ISU)%NODES,NOD)
 !        K2=K1+NOD

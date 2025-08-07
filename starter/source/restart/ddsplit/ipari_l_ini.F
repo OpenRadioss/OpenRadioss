@@ -208,13 +208,13 @@ C calcul nombre total secnd penalty
               ENDIF
             END DO
           END IF
-C calcul des mains independant des facettes pour resolution pb de cumul p/off
+C calculation of hands independent of facets to solve p/off accumulation problem
           DO K = 1, NMN
             MY_NODE = INTBUF_TAB(NI)%MSR(K)
             IF( NODLOCAL(MY_NODE)/=0.AND.NODLOCAL(MY_NODE)<=NUMNOD_L ) THEN
               NMN_L = NMN_L + 1
               IF(TAGI2(INTBUF_TAB(NI)%MSR(K))==0) THEN
-C decompte des frontieres de main nodes
+C counting of the boundaries of main nodes
                 DO P = 1, NSPMD
                   IF(NLOCAL(INTBUF_TAB(NI)%MSR(K),P)==1)THEN
                     NBDDI2M = NBDDI2M + 1
@@ -427,7 +427,7 @@ C     Interface type 18 for law151
         ENDDO
         NINDEX0= 0
 C
-C candidats initiaux pour inacti=5 ou restart type 10
+C initial candidates for inacti=5 or restart type 10
           II_STOK = INTBUF_TAB(NI)%I_STOK(1)
           II_STOK_L = 0
           IF(ITY==23.OR.
@@ -453,7 +453,7 @@ C traitement pour eviter bug si ts les noeuds secnd stfn == zero
               ENDIF
             ENDDO
 C
-C Reperage des candidats se trouvant sur des procs distants
+C Detection of candidates located on distant procs
 C
 
             NSNR = 0
@@ -1197,7 +1197,7 @@ C
             ENDIF
           END DO
 C
-C candidats initiaux pour inacti=5 ou restart type 10
+C initial candidates for inacti=5 or restart type 10
           I_STOK_L = 0
           I_STOK = INTBUF_TAB(NI)%I_STOK(1)
           IF(INACTI==5.OR.INACTI==6.OR.INACTI==7) THEN
@@ -1360,7 +1360,7 @@ c          ENDIF
 C
           DEALLOCATE(TAGE2)
 C
-C Calcul de NCONT en prenant le max des edge et non edge
+C Calculation of NCONT by taking the max of edge and non-edge
 C
           NCONT1 = 0
           IF(NMN/=0) THEN

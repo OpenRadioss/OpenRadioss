@@ -55,22 +55,22 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
 C-----------------------------------------------
-C   ROLE DE LA ROUTINE:
+C   role of the routine:
 C   ===================
-C   CLASSE LES ELETS DE BPE ET LES NOEUDS DE BPN EN TWO ZONES
-C   > OU < A UNE FRONTIERE ICI DETERMINEE ET SORT LE TOUT
-C   DANS bpe,hpe, et bpn,hpn
+C   sorts the elements of bpe and the nodes of bpn into two zones
+C   > or < to a boundary here determined and sorts everything
+C   in bpe, hpe, and bpn, hpn
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C
 C     NOM          DESCRIPTION                       E/S
 C
 C     BPE          TABLEAU DES FACETTES A TRIER      => Local
-C                  ET DU RESULTAT COTE MAX            
+C                  and of the result on the max side
 C     PE           TABLEAU DES FACETTES              => Local
 C                  RESULTAT COTE MIN
 C     BPN          TABLEAU DES NOEUDS A TRIER        => Local
-C                  ET DU RESULTAT COTE MAX            
+C                  and of the result on the max side
 C     PN           TABLEAU DES NOEUDS                => Local
 C                  RESULTAT COTE MIN
 C     ADD(2,*)     TABLEAU DES ADRESSES              E/S 
@@ -88,18 +88,18 @@ C     IRECTS(2,*)   TABLEAU DES CONEC         E
 C     X(3,*)       COORDONNEES NODALES               E
 C     NB_NC        NOMBRE DE NOEUDS CANDIDATS        => Local
 C     NB_EC        NOMBRE D'ELTS CANDIDATS           => Local
-C     I_ADD        POSITION DANS LE TAB DES ADRESSES E/S
+C     i_add position in the input/output address table
 C     XMAX         plus grande abcisse existante     E
 C     XMAX         plus grande ordonn. existante     E
 C     XMAX         plus grande cote    existante     E
 C     MAXSIZ       TAILLE MEMOIRE MAX POSSIBLE       E
-C     I_STOK       niveau de stockage des couples
+C     i_stok storage level of the pairs
 C                                candidats impact    E/S
-C     ADNSTK       adresse courante dans la boite des noeuds
+C     adnstk current address in the node box
 C     CAND_S       boites resultats noeuds
-C     ADESTK       adresse courante dans la boite des elements
+C     adestk current address in the element box
 C     CAND_M       adresses des boites resultat elements
-C     NSN4         4*NSN TAILLE MAX ADMISE MAINTENANT POUR LES
+C     nsn4 4*nsn current maximum allowed size for
 C                  COUPLES NOEUDS,ELT CANDIDATS
 C     NOINT        NUMERO USER DE L'INTERFACE
 C     TZINF        TAILLE ZONE INFLUENCE
@@ -127,8 +127,8 @@ C-----------------------------------------------
      .        N1,N2,N3,N4,NN,NE,K_STOK,K,L,NCAND_PROV,J_STOK,NI,
      .        ISTOP,NB_ECN1,PROV_S(2*MVSIZ),PROV_M(2*MVSIZ),
      .        NB_NC_OLD, NB_EC_OLD, NB_NC, NB_EC,JJ,KK,
-C BPE : utilise sur NRTM et non NRTM + 100
-C BPN : utilise sur NRTS et non NRTS + 100
+C bpe: used on nrtm and not nrtm + 100
+C bpn: used on nrts and not nrts + 100
      .        BPE(NRTM+100),PE(MAXSIZ),BPN(NRTS+NRTSR+100),PN(MAXSIZ)
 C     REAL
       my_real
@@ -143,9 +143,9 @@ C     REAL
       LOGICAL I11INSID
 C-----------------------------------------------
 C
-C Phase initiale de construction de BPE et BPN deplacee de I11BUCE => I11TRI
+C initial phase of construction of bpe and bpn moved from i11buce => i11tri
 C
-C recuperation des bornes du domaine
+C retrieving the domain bounds
 C
       XMIN = XYZM(1,I_ADD)
       YMIN = XYZM(2,I_ADD)
@@ -153,7 +153,7 @@ C
       XMAX = XYZM(4,I_ADD)
       YMAX = XYZM(5,I_ADD)
       ZMAX = XYZM(6,I_ADD)
-C Copie des nos de segments et de noeuds dans BPE et BPN
+C copying the segment and node numbers into bpe and bpn
 C
       NB_EC = 0
       DO I=1,NRTM
@@ -164,8 +164,8 @@ C on ne retient plus les facettes detruites
         END IF
       ENDDO
 C
-C Optimisation // recherche les noeuds compris dans xmin xmax des 
-C elements du processeur
+C optimization // searches for nodes included in xmin xmax of
+C processor elements
 C
       NB_NC = 0
       DO I=1,NRTS
@@ -217,7 +217,7 @@ C=======================================================================
 C-----------------------------------------------------------
 C
 C
-C    1- PHASE DE TRI SUR LA MEDIANE SELON LA + GDE DIRECTION
+C    1- sorting phase on the median according to the largest direction
 C                    
 C                   
 C-----------------------------------------------------------
@@ -251,9 +251,9 @@ C
         ZMAX=MAX(ZMAX,ZZ1,ZZ2)
       ENDDO
 
-c     reduction de la taille de boite:
-c     on garde une marge de TZINF quand on reduit la taille de boite
-c     pour eviter d'oublier des seconds
+c     reduction of the box size:
+c     a margin of tzinf is kept when reducing the box size
+c     to avoid missing the secondary
 c
 c      |      Tzinf Tzinf                 |Tzinf
 c      |     <-----x----->                |<---->
@@ -264,12 +264,12 @@ c      |     .           #////////////////|/////./#          |
 c -----+----------------------------------+---------Ymax=    v
 c      |     .     |\\\\\#///  espace   //|/////./# Ymax_old
 c      |     .     |\\\\\#/// occupe par//|/////./#
-c      |     .     |\\\\\#///les mains//|/////./#
+c      main
 c      |     .     |\\\\\#////////////////|/////./#
 c      |     .     |\\\\\#////////////////|/////./#
 c      |     .     |\\\\\#################|#####.##          ^
 c      |     .     |\\\  espace retenu  \\|     .            |
-c      |     .     |\\\pour les seconds\\|     .            | Tzinf
+c      Secondary
 c      |     .     |\\\(nouvelle boite) \\|     .            |
 c      |     .     +----------------------|     ....Ymin     x
 c      |     .                            |     .            |
@@ -288,14 +288,14 @@ c Xmin_old   .     .                 Xmax_old   .
 c            .   Xmin                        Txmax
 c          Txmin
 c
-c       si la boite est reduite du cote de Xmin on pourrait utiliser:
+c       if the box is reduced on the xmin side, one could use:
 c           Txmin = Xmin  avec Xmin = min(Xmain)-Tzinf > Xmin_old
 c       
 c       mais en utilisant:
 c           Txmin = Xmin-Tzinf (= min(Xmain) - 2*Tzinf) 
 c       on ne penalise pas I11INSIND 
-c       (il n'y a pas de main dans la zone surestimee)
-c       et le calcul de Xmin, Txmin ... est plus simple
+c       (there is no main in the overestimated area)
+c       and the calculation of xmin, txmin ... is simpler
 
 
       XMIN = MAX(XMIN - TZINF , XYZM(1,I_ADD))
@@ -416,7 +416,7 @@ c
         IF(XMIN<SEUIL.AND.XMAX>=XIMIN) THEN
          IF(I11INSID(XX1,XX2,XY1,XY2,XZ1,XZ2,
      .        XIMIN,SEUIL,XJMIN,XJMAX,XKMIN,XKMAX)) THEN
-C         ON STOCKE DANS LE BAS DE LA PILE BP
+C         we store at the bottom of the bp stack
           NB_NCN1 = NB_NCN1 + 1
           ADDNN = ADDNN + 1
           PN(ADDNN) = NN
@@ -453,7 +453,7 @@ C         ON STOCKE EN ECRASANT PROGRESSIVEMENT BPN
         ENDIF
       ENDDO
 C
-C    3- DIVISER LES MAINS
+C    3- divide the mains
 C
 
 c        Tzinf       Tzinf Tzinf      Tzinf
@@ -475,7 +475,7 @@ c        |  Ximin    |  Seuil  |    Ximax  |
 c      Timin       Tsmin     Tsmax       Timax
 c
 c        si la boite a ete reduite(Cf 1)
-c        il est possible que Timin=Ximin ... 
+c        it is possible that timin = ximin ...
 
 
       NB_ECN= 0
@@ -511,7 +511,7 @@ C         ON STOCKE EN ECRASANT PROGRESSIVEMENT BPE
          XZ2=X(KK, IRECTM(2,NE))
          IF(I11INSID(XX1,XX2,XY1,XY2,XZ1,XZ2,
      .        TIMIN,TSMAX,TJMIN,TJMAX,TKMIN,TKMAX)) THEN
-C         ON STOCKE DANS LE BAS DE LA PILE BP
+C         we store at the bottom of the bp stack
           ADDNE = ADDNE + 1
           NB_ECN1= NB_ECN1 + 1
           PE(ADDNE) = NE
@@ -530,7 +530,7 @@ C         ON STOCKE DANS LE BAS DE LA PILE BP
          XZ2=X(KK, IRECTM(2,NE))
          IF(I11INSID(XX1,XX2,XY1,XY2,XZ1,XZ2,
      .        TIMIN,TSMAX,TJMIN,TJMAX,TKMIN,TKMAX)) THEN
-C         ON STOCKE DANS LE BAS DE LA PILE BP
+C         we store at the bottom of the bp stack
           ADDNE = ADDNE + 1
           NB_ECN1= NB_ECN1 + 1
           PE(ADDNE) = NE
@@ -560,12 +560,12 @@ C    4- REMPLIR LES TABLEAUX D'ADRESSES
 C
       ADD(1,I_ADD+1) = ADDNN
       ADD(2,I_ADD+1) = ADDNE
-C-----on remplit les min de la boite suivante et les max de la courante
-C     (i.e. seuil est un max pour la courante)
+Cwe fill the min of the next box and the max of the current one
+C     i.e. treshold is a max for the current
 C     on va redescendre et donc on definit une nouvelle boite
 C     on remplit les max de la nouvelle boite
 C     initialises dans i7buc1 a 1.E30 comme ca on recupere
-c     soit XMAX soit le max de la boite
+c     either xmax or the maximum of the box
       XYZM(1,I_ADD+1) = XYZM(1,I_ADD) 
       XYZM(2,I_ADD+1) = XYZM(2,I_ADD)
       XYZM(3,I_ADD+1) = XYZM(3,I_ADD)
@@ -585,7 +585,7 @@ C
 C
       NB_NC = NB_NCN
       NB_EC = NB_ECN
-C     on incremente le niveau de descente avant de sortir
+C     increment the descent level before exiting
       I_ADD = I_ADD + 1
       IF(I_ADD+1>=I_ADD_MAX) THEN
         I_MEM = 3
@@ -600,23 +600,23 @@ C
 C    2- TEST ARRET = BOITE VIDE
 C                    BOITE TROP PETITE 
 C                    BOITE NE CONTENANT QU'ONE NOEUD
-C                    PLUS DE MEMOIRE DISPONIBLE
-C                    LE DECOUPAGE NE REDUIT PAS LES CANDIDATS
+C                    no more memory available
+C                    splitting does not reduce the candidates
 C
-C-------------------TEST SUR MEMOIRE DEPASSEE------------
+C-------------------test for exceeded memory------------
 C
       IF(ADD(1,I_ADD)+NB_NC>MAXSIZ) THEN
-C       PLUS DE PLACE DANS LA PILE DES COTES SECONDS BOITES TROP PETITES
+C       no more space in the stack of secondary sides, boxes too small
         I_MEM = 1
         RETURN
       ENDIF
       IF(ADD(2,I_ADD)+NB_EC>MAXSIZ) THEN
-C       PLUS DE PLACE DANS LA PILE DES COTES MAINS BOITES TROP PETITES
+C       no more space in the stack of main sides, boxes too small
         I_MEM = 1
         RETURN
       ENDIF
 C
-C--------------------TEST SUR BOITE VIDES-------------- 
+C--------------------test for empty boxes--------------
 C
       IF(NB_EC/=0.AND.NB_NC/=0) THEN
 C
@@ -625,9 +625,9 @@ C
         DZ = XYZM(6,I_ADD) - XYZM(3,I_ADD)
         DSUP= MAX(DX,DY,DZ)
 C
-C-------------------TEST SUR FIN DE BRANCHE ------------
-C       1- STOCKAGE DU OU DES  NOEUD CANDIDAT ET DES ELTS CORRESP.
-C          VIRER LES INUTILES
+C-------------------test for end of branch ------------
+C       1- storage of the candidate node(s) and corresponding elements
+C          remove the unnecessary ones
 C
         IF(NB_EC+NB_NC<=128) THEN
           NCAND_PROV = NB_EC*NB_NC
@@ -701,15 +701,15 @@ C=======================================================================
         ENDIF
       ENDIF
 C-------------------------------------------------------------------------
-C       BOITE VIDE OU
-C       FIN DE BRANCHE 
-C       on decremente le niveau de descente avant de recommencer
+C       empty box or
+C       end of branch
+C       decrement the descent level before starting again
 C-------------------------------------------------------------------------
       I_ADD = I_ADD - 1
       IF (I_ADD/=0) THEN
 C-------------------------------------------------------------------------
-C         IL FAUT COPIER LES BAS DES PILES DANS BAS_DE_PILE CORRESPONDANTS
-C         AVANT DE REDESCENDRE DANS LA BRANCHE MITOYENNE
+C         the bottoms of the stacks must be copied into the corresponding bas_de_pile
+C         before descending again into the neighboring branch
 C-------------------------------------------------------------------------
           CALL I7DSTK(NB_NC,NB_EC,ADD(1,I_ADD),BPN,PN,BPE,PE)
 C=======================================================================
@@ -717,7 +717,7 @@ C=======================================================================
 C=======================================================================
       ENDIF
 C-------------------------------------------------------------------------
-C     FIN DU TRI
+C     end of sorting
 C-------------------------------------------------------------------------
       IF(J_STOK/=0)CALL I11STO(
      1              J_STOK,IRECTS,IRECTM,X     ,II_STOK,
@@ -751,7 +751,7 @@ c     elimination segments externes a la boite
 c
 
 c
-c 1- conservation: au moins un noeud dans la boite
+c 1- conservation: at least one node in the box
 c
 c              Xmin        Xmax  
 c                |           |   
@@ -770,7 +770,7 @@ c                        O
       I11INSID = .true.
 
 
-c     test si N1 ou N2  dans la boite                   
+c     test if n1 or n2 is in the box
 
       IF(X1>=XMIN.and.X1<=XMAX.and.                     
      .   Y1>=YMIN.and.Y1<=YMAX.and.                     
@@ -801,7 +801,7 @@ c                | O
 
       I11INSID = .false.
 
-c     projection de N1 sur XMIN ou XMAX                 
+c     projection of n1 onto xmin or xmax
 
       XX = MIN(MAX(X1,XMIN),XMAX)                       
 
@@ -834,7 +834,7 @@ c     projection de N1 sur XMIN ou XMAX
         ENDIF                                           
       ENDIF                                             
 
-c     projection de N1 sur YMIN ou YMAX               
+c     projection of n1 onto ymin or ymax
 
       YY = MIN(MAX(Y1,YMIN),YMAX)                     
 
@@ -867,7 +867,7 @@ c     projection de N1 sur YMIN ou YMAX
         ENDIF                                         
       ENDIF                                           
 
-c     projection de N1 sur ZMIN ou ZMAX                    
+c     projection of n1 onto zmin or zmax
 
       ZZ = MIN(MAX(Z1,ZMIN),ZMAX)                          
 

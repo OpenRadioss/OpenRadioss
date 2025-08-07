@@ -68,7 +68,7 @@ C  045      J=NUMNOD/2
         RETURN
       ENDIF
       IF((IU-ITABM1(J))==0)THEN
-C     >CAS IU=TABM FIN DE LA RECHERCHE
+C     >CASE IU=TABM END OF SEARCH
          SYSFUS=ITABM1(J+NUMNOD)+0.1
          RETURN
       ELSE IF (IU-ITABM1(J)<0) THEN
@@ -96,7 +96,7 @@ C     REAL
 !||    lecnoise      ../engine/source/general_controls/computation/lecnoise.F
 !||====================================================================
       INTEGER FUNCTION SYSFUS2(IU,ITABM1,NUMNOD)
-C cette fonction retourne le no interne correspondant a un no user ou 0
+C this function returns the internal number corresponding to a user number or 0
 C si le noeud n'existe pas
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -137,7 +137,7 @@ C     >CAS NOEUD non trouve
         RETURN
       ENDIF
       IF((IU-ITABM1(J))==0)THEN
-C     >CAS IU=TABM FIN DE LA RECHERCHE
+C     >CASE IU=TABM END OF SEARCH
          SYSFUS2=ITABM1(J+NUMNOD)
          RETURN
       ELSE IF (IU-ITABM1(J)<0) THEN

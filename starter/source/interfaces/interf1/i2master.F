@@ -89,7 +89,7 @@ C mise a jour de MSR
       ENDDO
 C mise a jour de irectm
 C---------------------------------------------------------------
-C     LE NOEUD LOCAL EST REMPLACE PAR LE NOEUD GLOBAL DANS IRECT
+C     THE LOCAL NODE IS REPLACED BY THE GLOBAL NODE IN IRECT
 C---------------------------------------------------------------
       DO I = 1, NRTM
         DO K = 1, NIR
@@ -103,7 +103,7 @@ CGW            IRECTM(K,I) = NM
           ENDIF
         ENDDO
       ENDDO 
-C mise a jour de IPARI et offset de IRTLM
+C update of IPARI and offset of IRTLM
       IPARI(6) = NMNU
 C
       RETURN

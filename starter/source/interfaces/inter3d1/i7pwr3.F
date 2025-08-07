@@ -193,20 +193,20 @@ C-----------------------------------------------
           PENMAX = FPENMAX*GAPV(I)                                                                                           
           IF(.NOT.((INACTI==5.OR.INACTI==6).AND.(FPENMAX /= ZERO .AND. PENE(I) > PENMAX)))ISTOK=ISTOK+1                      
           IF(FPENMAX /= ZERO .AND. PENE(I) > PENMAX) THEN                                                                    
-              !DESACTIVATION DES NOEUDS                                                                                      
+              !DEACTIVATION OF NODES
               WRITE(IOUT,'(A,1PG20.13,A)')' MAX INITIAL PENETRATION ',PENMAX,' IS REACHED'                                   
               WRITE(IOUT,'(A)')'NODE STIFFNESS IS SET TO ZERO'                                                               
               STFN(CAND_N(I)) = ZERO                                                                                         
           ELSE IF(INACTI==1) THEN                                                                                          
-              !DESACTIVATION DES NOEUDS                                                                                      
+              !deactivation of nodes
               WRITE(IOUT,'(A)')'NODE STIFFNESS IS SET TO ZERO'                                                               
               STFN(CAND_N(I)) = ZERO                                                                                         
           ELSE IF(INACTI==2) THEN                                                                                          
-            !DESACTIVATION DES ELEMENTS                                                                                      
+            !deactivation of elements
             WRITE(IOUT,'(A)')'ELEMENT STIFFNESS IS SET TO ZERO'                                                              
             STF(CAND_E(I)) = ZERO                                                                                            
           ELSE IF(INACTI==3) THEN                                                                                          
-            !CHANGE LES COORDONNEES DES NOEUDS SECONDARY                                                                         
+            !changes the coordinates of the secondary nodes
             WRITE(IOUT,'(A)')'NODE COORD IS CHANGED AS PROPOSED'                                                             
             PENEOLD = SQRT( (X(1,NSV(CAND_N(I)))-XI(I))**2 +(X(2,NSV(CAND_N(I)))-YI(I))**2 +(X(3,NSV(CAND_N(I)))-ZI(I))**2   )
             IF(PENE(I)>PENEOLD) THEN                                                                                      
@@ -215,7 +215,7 @@ C-----------------------------------------------
               X(3,NSV(CAND_N(I))) = ZI(I)+PENE(I)*N3(I)                                                                      
             ENDIF                                                                                                            
           ELSE IF(INACTI==4) THEN                                                                                          
-            !CHANGE LES COORDONNEES DES NOEUDS MAIN                                                                        
+            !changes the coordinates of the main nodes
             WRITE(IOUT,'(A)')'SEG. COORD IS CHANGED AS PROPOSED'                                                             
             PENEOLD = SQRT( (X(1,IX1(I))-X1(I))**2 +(X(2,IX1(I))-Y1(I))**2 +(X(3,IX1(I))-Z1(I))**2 )                         
             IF(PENE(I)>PENEOLD) THEN                                                                                      
@@ -242,14 +242,14 @@ C-----------------------------------------------
               X(3,IX4(I)) = Z4(I)-PENE(I)*N3(I)                                                                              
             ENDIF                                                                                                            
           ELSE IF(INACTI==5) THEN                                                                                          
-             !REDUCTION DU GAP                                                                                               
+             !gap reduction
              JWARN = 1                                                                                                       
              CAND_P(ISTOK) = PENE(I)                                                                                         
              CAND_NN(ISTOK) = CAND_N(I)                                                                                      
              CAND_EN(ISTOK) = CAND_E(I)                                                                                      
            ELSE IF(INACTI==6) THEN                                                                                         
              !INACTI==6                                                                                                    
-             !REDUCTION DU GAP                                                                                               
+             !gap reduction
              JWARN = 1                                                                                                       
              PENE(I)=PENE(I)+ZEP05*(GAPV(I)-PENE(I))                                                                         
              CAND_P(ISTOK) = PENE(I)                                                                                         

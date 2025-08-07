@@ -273,7 +273,7 @@ C
           UVAR(29,I) = EX(8)
           UVAR(30,I) = EX(9)
 C            
-C-------  stockage des raideurs
+C-------  storage of stiffness
           KR = KNN*MAX(SCF,LEN2)
           UVAR(17,I)= KNN
           UVAR(18,I)= KR
@@ -380,7 +380,7 @@ C
       N4 = 0
       NUMEL_KJ = IXR_KJ(1,NUMELR+1)      
       IELUSR = IXR(NIXR,IEL)
-C---- Nb de noeuds min par type de joint
+C---- Min number of nodes per type of joint
       NNOD_REQ(1) = 2
       NNOD_REQ(2) = 3
       NNOD_REQ(3) = 3
@@ -390,14 +390,14 @@ C---- Nb de noeuds min par type de joint
       NNOD_REQ(7) = 3
       NNOD_REQ(8) = 2
       NNOD_REQ(9) = 4                                   
-C---- Check des vrais noeuds      
+C---- Check of real nodes
       DO J=1,3
         IF (IXR(1+J,IEL)/=0) THEN    
               NNOD = NNOD + 1
               NN(NNOD) = IXR(1+J,IEL)
           ENDIF   
       END DO
-C---- Check des noeuds additionnels
+C---- Check of additional nodes
       DO J=1,NUMEL_KJ
         IF (IXR_KJ(4,J)==IELUSR) ID_KJ = J
       END DO

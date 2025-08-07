@@ -58,9 +58,9 @@ c      NBTABIGE=0
       IADTABIGE = 0
 c
       DO IGS=1,NSURF
-        IF(IGRSURF(IGS)%NSEG_IGE>0) THEN !! on est sur une surface o   on a des elements isogeometriques
-c          NBTABIGE=NBTABIGE+16*IGRSURF(IGS)%NSEG_IGE ! nombre de points non tries de cette surface
-          NBTABIGE=16*IGRSURF(IGS)%NSEG_IGE/9 ! nombre de points non tries de cette surface
+        IF(IGRSURF(IGS)%NSEG_IGE>0) THEN !we are on a surface where there are isogeometric elements
+c          NBTABIGE=NBTABIGE+16*IGRSURF(IGS)%NSEG_IGE ! number of unsorted points on this surface
+          NBTABIGE=16*IGRSURF(IGS)%NSEG_IGE/9 ! number of unsorted points on this surface
 
           CALL MYQSORT3D(NBTABIGE,XIGETMP(3*(IADTABIGE)+1),PERMIGE(IADTABIGE+1))
 
@@ -124,17 +124,17 @@ c
       IADTABIGE=0      
       DO ITSURF=1,NSURF
       
-        IF(IGRSURF(ITSURF)%NSEG_IGE>0) THEN !! on est sur une surface o   on a des elements isogeometriques
+        IF(IGRSURF(ITSURF)%NSEG_IGE>0) THEN !we are on a surface where there are isogeometric elements
        
           IGRSURF(ITSURF)%IAD_IGE = I-1
           DECALSURF=I+NDOUBLONSTOT-1
-          NBTABIGE=16*IGRSURF(ITSURF)%NSEG_IGE/9 ! nombre de points non tries de cette surface
+          NBTABIGE=16*IGRSURF(ITSURF)%NSEG_IGE/9 ! number of unsorted points on this surface
           IADTABIGE = IADTABIGE + NBTABIGE
           NDOUBLONS=0
 
           DO WHILE(I+NDOUBLONSTOT+NDOUBLONS<=IADTABIGE)
             NVALEURS = 0
-            NIGE(I)   = NIGETMP(PERM(I+NDOUBLONSTOT+NDOUBLONS)+DECALSURF) ! + decalage dans le perm
+            NIGE(I)   = NIGETMP(PERM(I+NDOUBLONSTOT+NDOUBLONS)+DECALSURF) ! + offset in the perm
             RIGE(:,I) = RIGETMP(:,PERM(I+NDOUBLONSTOT+NDOUBLONS)+DECALSURF)
             XIGE(:,I) = XIGETMP(:,I+NDOUBLONSTOT+NDOUBLONS)
             VIGE(:,I) = VIGETMP(:,PERM(I+NDOUBLONSTOT+NDOUBLONS)+DECALSURF)
@@ -217,13 +217,13 @@ c
 
         DECALSURF=I+NDOUBLONSTOT-1
 
-        IF(IGRSURF(ITSURF)%NSEG_IGE>0) THEN !! on est sur une surface o   on a des elements isogeometriques
-          NBTABIGE=16*IGRSURF(ITSURF)%NSEG_IGE/9! nombre de points non tries de cette surface
+        IF(IGRSURF(ITSURF)%NSEG_IGE>0) THEN !we are on a surface where there are isogeometric elements
+          NBTABIGE=16*IGRSURF(ITSURF)%NSEG_IGE/9! number of unsorted points on this surface
           NDOUBLONS=0
 
           DO WHILE(I+NDOUBLONSTOT+NDOUBLONS<=DECALSURF+NBTABIGE)
             NVALEURS = 0
-            NIGE(I)   = NIGETMP(PERM(I+NDOUBLONSTOT+NDOUBLONS)+DECALSURF) ! + decalage dans le perm
+            NIGE(I)   = NIGETMP(PERM(I+NDOUBLONSTOT+NDOUBLONS)+DECALSURF) ! + offset in the perm
             RIGE(:,I) = RIGETMP(:,PERM(I+NDOUBLONSTOT+NDOUBLONS)+DECALSURF)
             XIGE(:,I) = XIGETMP(:,I+NDOUBLONSTOT+NDOUBLONS)
             VIGE(:,I) = VIGETMP(:,PERM(I+NDOUBLONSTOT+NDOUBLONS)+DECALSURF)
@@ -248,13 +248,13 @@ c
 c
       IADTABIGE=0
       DO ITSURF=1,NSURF
-        IF(IGRSURF(ITSURF)%NSEG_IGE>0) THEN !! on est sur une surface o   on a des elements isogeometriques
+        IF(IGRSURF(ITSURF)%NSEG_IGE>0) THEN !we are on a surface where there are isogeometric elements
           DO I=1,IGRSURF(ITSURF)%NSEG_IGE!NSEGIGE
            DO J=1,4
             IGRSURF(ITSURF)%NODES_IGE(I,J)=PERMUTE(IGRSURF(ITSURF)%NODES_IGE(I,J)-NUMNOD)+NUMNOD
            ENDDO
           ENDDO
-          NBTABIGE=16*IGRSURF(ITSURF)%NSEG_IGE/9 ! nombre de points non tries de cette surface
+          NBTABIGE=16*IGRSURF(ITSURF)%NSEG_IGE/9 ! number of unsorted points on this surface
           IADTABIGE = IADTABIGE + NBTABIGE
         ENDIF
         
@@ -325,20 +325,20 @@ c
         DECAL = DECAL+NBTABIGE
         I=1
 
-c on attaque ici les groupes de surface mais on a aussi les tableaux NIGE RIGE ET XIGE qui sont globaux
+c here we start the surface groups but we also have the NIGE, RIGE and XIGE arrays which are global
 
-        IF(IGRSURF(ITSURF)%NSEG_IGE>0) THEN !! on est sur une surface o   on a des elements isogeometriques
-          NBTABIGE=16*IGRSURF(ITSURF)%NSEG_IGE/9! nombre de points non tries de cette surface
+        IF(IGRSURF(ITSURF)%NSEG_IGE>0) THEN !we are on a surface where there are isogeometric elements
+          NBTABIGE=16*IGRSURF(ITSURF)%NSEG_IGE/9! number of unsorted points on this surface
 
-c          NBTABIGE=16*IGRSURF(ITSURF)%NSEG_IGE ! nombre de points non tries de cette surface
-c          IADTABIGE=ISURF(13,ITSURF) ! adresse des points non tries de cette surface dans NIGE
-c          ISURF(13,ITSURF)=I ! nouvelle adresse des points tries de cette surface dans NIGE
+c          NBTABIGE=16*IGRSURF(ITSURF)%NSEG_IGE ! number of unsorted points on this surface
+c          IADTABIGE=ISURF(13,ITSURF) ! address of the unsorted points of this surface in NIGE
+c          ISURF(13,ITSURF)=I ! new address of the sorted points of this surface in NIGE
           NDOUBLONS=0
 
           DO WHILE(I+NDOUBLONS<=NBTABIGE) !   a devrait etre tout les points, pas qu'une seule surface
 c          DO WHILE(I+NDOUBLONSTOT+NDOUBLONS<=IADTABIGE+NBTABIGE-1)
             NVALEURS = 0
-            NIGE(I+DECALSURF)   = NIGETMP(PERM(I+NDOUBLONS+DECAL)) ! + decalage dans le perm
+            NIGE(I+DECALSURF)   = NIGETMP(PERM(I+NDOUBLONS+DECAL)) ! + offset in the perm
             RIGE(:,I+DECALSURF) = RIGETMP(:,PERM(I+NDOUBLONS+DECAL))
             XIGE(:,I+DECALSURF) = XIGETMP(:,I+DECALSURF+NDOUBLONS)
             VIGE(:,I+DECALSURF) = VIGETMP(:,PERM(I+NDOUBLONS+DECAL))
@@ -365,7 +365,7 @@ c              PERMUTE(PERM(I+NDOUBLONSTOT+NDOUBLONS+NVALEURS)+DECALSURF) = I-IS
       ENDDO
 c
       DO ITSURF=1,NSURF
-        IF(IGRSURF(ITSURF)%NSEG_IGE>0) THEN !! on est sur une surface o   on a des elements isogeometriques
+        IF(IGRSURF(ITSURF)%NSEG_IGE>0) THEN !we are on a surface where there are isogeometric elements
           DO I=1,IGRSURF(ITSURF)%NSEG_IGE!NSEGIGE
            DO J=1,4
             IGRSURF(ITSURF)%NODES_IGE(I,J)=PERMUTE(IGRSURF(ITSURF)%NODES_IGE(I,J)-NUMNOD)+NUMNOD
@@ -430,7 +430,7 @@ c
 
       DO WHILE(I+NDOUBLONS<=IADTABIGE)
         NVALEURS = 0
-        NIGE(I)   = NIGETMP(PERM(I+NDOUBLONS)) ! + decalage dans le perm
+        NIGE(I)   = NIGETMP(PERM(I+NDOUBLONS)) ! + offset in the perm
         RIGE(:,I) = RIGETMP(:,PERM(I+NDOUBLONS))
         XIGE(:,I) = XIGETMP(:,I+NDOUBLONS)
         VIGE(:,I) = VIGETMP(:,PERM(I+NDOUBLONS))
@@ -453,7 +453,7 @@ c     .                XIGETMP(3,I+NDOUBLONS+NVALEURS+1)) <= TOL))
       ENDDO
 
       DO ITSURF=1,NSURF
-        IF(IGRSURF(ITSURF)%NSEG_IGE>0) THEN !! on est sur une surface o   on a des elements isogeometriques
+        IF(IGRSURF(ITSURF)%NSEG_IGE>0) THEN !we are on a surface where there are isogeometric elements
           DO I=1,IGRSURF(ITSURF)%NSEG_IGE
            DO J=1,4
             IGRSURF(ITSURF)%NODES_IGE(I,J)=PERMUTE(IGRSURF(ITSURF)%NODES_IGE(I,J)-NUMNOD)+NUMNOD

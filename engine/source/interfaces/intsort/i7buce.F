@@ -115,13 +115,13 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
-C----- TRI PAR BOITES DES ELEMENTS ET DES NOEUDS
+C----- sorting of elements and nodes by boxes
 C
 C-----------------------------------------------
-C SI ON A PAS ASSEZ DE MEMOIRE POUR LES PILES ON RECOMMENCE LE TRI
-C EN INCREMENTANT LE NB_N_B (NOMBRE DE NOEUDS PAR BOITE FINIE)
+C if there is not enough memory for the stacks, the sorting is restarted
+C by increasing nb_n_b (number of nodes per finished box)
 C     POINTEUR  NOM                 TAILLE
-C     P0........                    NSN + 3 [+ NSNROLD dans le cas SPMD]
+C     p0........                    nsn + 3 [+ nsnrold in the case of spmd]
 C     P1........Elt Bas Pile        NRTM
 C     P2........Elt PILE            2*NRTM
 
@@ -140,7 +140,7 @@ C
       XYZM(4,I_ADD) = BMINMA(1)
       XYZM(5,I_ADD) = BMINMA(2)
       XYZM(6,I_ADD) = BMINMA(3)
-C boite de tri
+C sorting box
       I_MEM = 0
 C
       IF(INACTI==5.OR.INACTI==6.OR.INACTI==7.OR.
@@ -267,13 +267,13 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
-C----- TRI PAR BOITES DES ELEMENTS ET DES NOEUDS
+C----- sorting of elements and nodes by boxes
 C
 C-----------------------------------------------
-C SI ON A PAS ASSEZ DE MEMOIRE POUR LES PILES ON RECOMMENCE LE TRI
-C EN INCREMENTANT LE NB_N_B (NOMBRE DE NOEUDS PAR BOITE FINIE)
+C if there is not enough memory for the stacks, the sorting is restarted
+C by increasing nb_n_b (number of nodes per finished box)
 C     POINTEUR  NOM                 TAILLE
-C     P0........                    NSN + 3 [+ NSNROLD dans le cas SPMD]
+C     p0........                    nsn + 3 [+ nsnrold in the case of spmd]
 C     P1........Elt Bas Pile        NRTM
 C     P2........Elt PILE            2*NRTM
 
@@ -291,7 +291,7 @@ C
       XYZM(4,1) = BMINMA(1)
       XYZM(5,1) = BMINMA(2)
       XYZM(6,1) = BMINMA(3)
-C boite de tri
+C sorting box
       XYZM(1,2) = BMINMA(10)
       XYZM(2,2) = BMINMA(11)
       XYZM(3,2) = BMINMA(12)
@@ -307,9 +307,9 @@ C
         ISZNSNR = 0
       END IF
 C
-C-----DEBUT DE LA PHASE DE TRI 
+Cstart of the sorting phase
 C
-      MARGE = TZINF-MAX(GAP+DGAPLOAD,DRAD)  ! il s agit bien de la marge
+      MARGE = TZINF-MAX(GAP+DGAPLOAD,DRAD)  ! it is indeed the margin
 
 c      AAA = SQRT(NMN /
 c     .           ((BMINMA(1)-BMINMA(4))*(BMINMA(2)-BMINMA(5))
@@ -372,7 +372,7 @@ C
         NBZ = MIN(100,MAX(NBZ8,1))
       ENDIF
 
-C     initialisation complete de VOXEL
+C     complete initialization of VOXEL
 C (en // SMP il y a possibilite de redondance de traitement mais no pb)
       DO I=INIVOXEL,(NBX+2)*(NBY+2)*(NBZ+2)
         VOXEL1(I)=0

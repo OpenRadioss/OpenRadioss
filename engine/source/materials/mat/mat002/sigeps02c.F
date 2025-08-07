@@ -196,13 +196,13 @@ C-----------------------------------------------
         SIGY(I) = SIGY(I) + YLD(I)/NPTT
       ENDDO
 !----------------------------
-!     TEST DE DUCTILE RUPTURE
+! ductile rupture test
 !----------------------------
         DO I=JFT,JLT
           IF (OFF(I) == OFF_OLD(I) .and. OFF(I) > ZERO) THEN
             IF (OFF(I) == ONE .and. EPCHK(I) >= EPMX) THEN
               OFF(I)= FOUR_OVER_5
-              IOFF_DUCT(I) = 1    ! debut de la rupture progressive
+              IOFF_DUCT(I) = 1    ! start of progressive rupture
             ELSE IF (OFF(I) < ONE ) THEN
               OFF(I) = OFF(I)*FOUR_OVER_5
             ENDIF

@@ -658,10 +658,10 @@ C
 
             IF(MVOISN(I,1) /= 0)THEN
 C
-C             INGAP = 1 => tjrs regarder si l'on est dans le cone (permet de determiner dans quel cone on se trouve) 
+C             INGAP = 1 => always check if we are in the cone (allows to determine in which cone we are)
 C
-C             Glissement => utiliser le cone pour choisir entre les segments voisins
-C                           mais garder le contact si le nd a glisse de plus d'un elt (cf supersonic)
+C             Sliding => use the cone to choose between neighboring segments
+C                           but maintain contact if the node has slipped more than one elt (cf supersonic)
 C          
               X12(I)=XX(I,2)-XX(I,1)
               Y12(I)=YY(I,2)-YY(I,1)
@@ -682,10 +682,10 @@ C
 
             IF(MVOISN(I,2) /= 0)THEN
 C
-C             INGAP = 1 => tjrs regarder si l'on est dans le cone (permet de determiner dans quel cone on se trouve) 
+C             INGAP = 1 => always check if we are in the cone (allows to determine in which cone we are)
 C
-C             Glissement => utiliser le cone pour choisir entre les segments voisins
-C                           mais garder le contact si le nd a glisse de plus d'un elt (cf supersonic)
+C             Sliding => use the cone to choose between neighboring segments
+C                           but maintain contact if the node has slipped more than one elt (cf supersonic)
 C            
               X12(I)=XX(I,3)-XX(I,2)
               Y12(I)=YY(I,3)-YY(I,2)
@@ -706,10 +706,10 @@ C
 
             IF(MVOISN(I,4) /= 0)THEN
 C
-C               INGAP = 1 => tjrs regarder si l'on est dans le cone (permet de determiner dans quel cone on se trouve) 
+C               INGAP = 1 => always check if we are in the cone (allows to determine in which cone we are)
 C
-C               Glissement => utiliser le cone pour choisir entre les segments voisins
-C                             mais garder le contact si le nd a glisse de plus d'un elt (cf supersonic)
+C               Sliding => use the cone to choose between neighboring segments
+C                             but maintain contact if the node has slipped more than one elt (cf supersonic)
 C            
               X12(I)=XX(I,1)-XX(I,3)
               Y12(I)=YY(I,1)-YY(I,3)
@@ -856,7 +856,7 @@ C
           IB2=IBOUND(2,I)
           IB3=IBOUND(3,I)
 C
-C         Projection sur le plan et Distance signee au plan
+C         Projection on the plane and Signed distance to the plane
           XH(I)=XI(I)+BB(I,IT)*XN(I,IT)
           YH(I)=YI(I)+BB(I,IT)*YN(I,IT)
           ZH(I)=ZI(I)+BB(I,IT)*ZN(I,IT)

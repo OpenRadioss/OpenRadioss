@@ -173,12 +173,12 @@ C
         DO J = 1, NSN
           M = LJOINT(K+J)
           IF(PROC/=1) THEN
-C proc <> 0, frontiere si noeud sur le proc
+C proc <> 0, boundary if node is on the processor
              IF(NODLOCAL(M)/=0.AND.NODLOCAL(M)<=NUMNOD_L)THEN
               NBDDNCJ = NBDDNCJ + 1
             END IF
           ELSE
-C proc = 0, recherche des autres procs ayant le noeud
+C proc = 0, search for other processors having the node
             DO P = 2, NSPMD
               IF(NLOCAL(M,P)==1) THEN
                 NBDDNCJ = NBDDNCJ + 1

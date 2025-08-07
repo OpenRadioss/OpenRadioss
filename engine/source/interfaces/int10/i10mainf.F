@@ -48,7 +48,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      B                    ICONTACT,INTBUF_TAB,FBSAV6,ISENSINT,DIMFB,
      C                    H3D_DATA,NODADT_THERM )  
 C============================================================================
-C  cette routine est appelee par : INTFOP2(/interf/intfop2.F)
+C  this routine is called by : INTFOP2(/interf/intfop2.F)
 C----------------------------------------------------------------------------
 C  cette routine appelle : I7CDCOR3(int7/i7cdcor3.F)
 C                          I7COR3(int7/i7cor3.F)
@@ -174,7 +174,7 @@ C
          NUM_IMP = 0
           VISC  =ZERO
         ENDIF
-C  cette partie est effectuee en // apres le calcul des forces des elem.
+C  this part is executed in // after the calculation of the forces of the elements.
 C decoupage statique
         NB_LOC = I_STOK / NTHREAD
         IF (JTASK==NTHREAD) THEN
@@ -184,7 +184,7 @@ C decoupage statique
         ENDIF
         DEBUT = (JTASK-1)*NB_LOC
         I_STOK = 0
-C recalcul du istok
+C recalculation of istok
         DO I = DEBUT+1, DEBUT+I_STOK_LOC
           IF(INTBUF_TAB%CAND_N(I)<0) THEN
             I_STOK = I_STOK + 1
@@ -195,7 +195,7 @@ C inbuf == cand_n
             I_STOK = I_STOK + 1
             INDEX2(I_STOK) = I
           ELSE
-C   remise a 0 de cand_f de 1, 2, 3    
+C   reset of cand_f of 1, 2, 3
             INTBUF_TAB%CAND_F(6*(I-1)+1) = ZERO
             INTBUF_TAB%CAND_F(6*(I-1)+2) = ZERO
             INTBUF_TAB%CAND_F(6*(I-1)+3) = ZERO    

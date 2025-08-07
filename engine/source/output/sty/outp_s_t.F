@@ -623,7 +623,7 @@ C
 c--------------------------------
         IF (JJ_OLD > 1) THEN
 C       ICAS_OLD sert a connaitre le "type" du dernier groupe traite
-C       on ajoute un commentaire de format a chaque changement
+C       a format comment is added at each change
          ICAS_OLD = 0
          J = 1
          DO WHILE (J < JJ_OLD)
@@ -877,7 +877,7 @@ c
                  WRITE(IUGEO,'(1P1E20.13)')WAP0(J)
                  J = J + 1
                ENDIF
-C           le test remis coherent par rapport a SMP
+C           the test made consistent with respect to SMP
 c
            ELSEIF (ISOLNOD == 10) THEN
              IF(ICAS_OLD /= 7) THEN

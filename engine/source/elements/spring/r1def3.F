@@ -260,7 +260,7 @@ C       XC(I)=(XC(I)+GEO(141,MGN(I)))/XL0(I)
           XC(I)=(XC(I)+MAX_SLOPE(I))/XL0(I)
 
 
-! sinon derivée au point courrant 
+! otherwise derivative at current point
       ENDDO
 C
  1000 FORMAT(1X,'-- RUPTURE OF SPRING ELEMENT NUMBER ',I10)

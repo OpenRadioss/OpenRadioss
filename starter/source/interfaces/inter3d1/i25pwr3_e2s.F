@@ -86,7 +86,7 @@ C            True initial penetration
              IF(INACTI==0)THEN
 C              Ignore initial penetrations
 C            ELSEIF(INACTI==1) THEN
-C              DESACTIVATION DES NOEUDS
+C              DEACTIVATION OF NODES
 C              WRITE(IOUT,'(A)')'NODE STIFFNESS IS SET TO ZERO'
 C              STFN(J) = ZERO
              ELSE IF(INACTI==5) THEN

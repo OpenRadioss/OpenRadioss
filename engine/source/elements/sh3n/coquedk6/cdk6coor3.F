@@ -142,7 +142,7 @@ C----------------------------
        VZ3(I)=V(3,NC3)
       ENDDO 
 C----------------------------
-C     vectoriser elements avec ou sans voisins
+C     vectorize elements with or without neighbors
 C-----------------------------------------------
       NVS=JFT-1
       SVS= NVS

@@ -110,7 +110,7 @@ C-----------------------------------------------
       
       IF(RES8 > LVOXEL8) stop 678  
 
-C     initialisation complete de VOXEL
+C     complete initialization of VOXEL
 C (en // SMP il y a possibilite de redondance de traitement mais no pb)
       DO I=INIVOXEL,(NBX+2)*(NBY+2)*(NBZ+2)
         VOXEL1(I)=0
@@ -174,8 +174,8 @@ C     REAL
 
 
 C-----------------
-C     TRI DE LA LISTE, GARDE LES KVOISPH PREMIERS 
-C     (COEF DE SECURITE CROISSANT).
+C     SORTING OF THE LIST, KEEPING THE FIRST KVOISPH
+C     (INCREASING SAFETY COEFFICIENT).
 C-----------------
       NVOIS=KXSP(5,IL)
       IF(NVOIS>KVOISPH)THEN
@@ -193,7 +193,7 @@ C-----------------
         DK=DVOIS(KVOISPH)
 
 C-----------------
-C Choix des cellules a conserver tq distance < DK pour eviter pb de parith/on
+C Selection of cells to keep such that distance < DK to avoid parity/on problems
         NVOIS=0
         DO K=1,KXSP(5,IL)
           IF(DVOIS(K)<DK)THEN

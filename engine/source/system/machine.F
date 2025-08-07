@@ -356,11 +356,11 @@ C=======================================================================
       END
 #endif
 C=======================================================================
-C  ROUTINE DE SYNCHRO POUR LE CRAY EN SMP
+C  synchronization routine for the CRAY in SMP
 C=======================================================================
-C cette routine doit etre appelee pour eviter certaines
+C this routine must be called to avoid certain
 C optimisations super-scalaire incompatible avec notion
-C de var. partagee.
+C shared variable.
 !||====================================================================
 !||    sync_data      ../engine/source/system/machine.F
 !||--- called by ------------------------------------------------------
@@ -445,7 +445,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C call a rendre specifique machine en cas de pb de compilation
 #if CPP_mach == CPP_pwr4 || CPP_mach == CPP_pwr4_spmd
-C   pas de routine FLUSH sur AIX
+C   no FLUSH routine on AIX
 #elif 1
       CALL FLUSH(IUNIT)
 #endif

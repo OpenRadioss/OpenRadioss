@@ -31,11 +31,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                            TAB_COINKNOT,L_TAB_COINKNOT,
      .                            TAB_FCTCUT,L_TAB_FCTCUT,DECALGEO,FLAG)
 C----------------------------------------------------------------------
-C   ROUTINE QUI PERMET DE METTRE DE COTE TOUTES LES FONCTIONS D'ONE 
+C   ------------------------>   case of quads  <-----------------------c
 C   ENSEMBLE D'ELEMENTS DU PATCH QUI VONT POTENTIELLEMENT ETRE MODIFIEES 
-C   EN INSERANT LE KNOT DE LA MESHSURF
-C   CETTE ROUTINE UTILISE ONE ALGORITHME DE DETECTION D'INCLUSION
-C   DE SEGMENTS DANS UNE SURFACE (LEGEREMENT MODIFIE)
+C   by inserting the knot of the meshsurf
+C   this routine uses an inclusion detection algorithm
+C   of segments in a surface (slightly modified)
 C----------------------------------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -82,7 +82,7 @@ c
       ENDIF
 c
 C----------------------------------------------------------------------
-c  on liste toutes les fonctions a traiter et les trier pour
+c  all functions to be processed are listed and sorted for
 c  ne pas traiter deux fois la meme fonction
 C----------------------------------------------------------------------
 c
@@ -123,7 +123,7 @@ c
         IOUT=0
 c
 C----------------------------------------------------------------------
-c  CREATION DES VARIABLES DE TRAVAIL : COIN DES ETENDUES KNOT DE LA FONCTION
+c  creation of working variables: corner of the knot extents of the function
 c  A TESTER
 C----------------------------------------------------------------------
 c
@@ -140,19 +140,19 @@ c
         YA(5) = YA(1)
 c
 C----------------------------------------------------------------------
-c  1er test : test des 4 points en fonction des 4 coins convexes de la meshsurf
+c  1st test: test of the 4 points according to the 4 convex corners of the meshsurf
 C----------------------------------------------------------------------
 c
         IF(XA(1)<COIN(1,1).OR.YA(1)<COIN(2,1)) CYCLE
         IF(XA(3)>COIN(1,2).OR.YA(3)>COIN(2,2)) CYCLE
 c
 C----------------------------------------------------------------------
-cc 2eme test : test si le segment forme avec un point eloigne intersecte un cote du polygone
+c2nd test: test if the segment formed with a distant point intersects a side of the polygon
 C----------------------------------------------------------------------
 c
-        XB=COIN(1,1)-1000  !  ON PREND LE POINT SUFFISAMMENT ELOIGNE DE LA MESHSURF
+        XB=COIN(1,1)-1000  ! a point far enough from the meshsurf is taken
         YB=COIN(2,1)-2000
-        DO J=1,4  ! BOUCLE SUR LES 4 COINS DE L'ETENDUE
+        DO J=1,4  ! loop over the 4 corners of the extent
           INTERSEC=0
           DO K=1,L_TAB_COINKNOT-1
             XC=TAB_COINKNOT(1,K)
@@ -161,7 +161,7 @@ c
             YD=TAB_COINKNOT(2,K+1)
             DET = (XB-XA(J))*(YC-YD) - (XC-XD)*(YB-YA(J))
             IF(DET==0) THEN
-c             segments paralleles ou colineaires
+c             parallel or collinear segments
             ELSE
               T1 = ((XC-XA(J))*(YC-YD)-(XC-XD)*(YC-YA(J)))/DET
               T2 = ((XB-XA(J))*(YC-YA(J))-(XC-XA(J))*(YB-YA(J)))/DET
@@ -169,20 +169,20 @@ c             segments paralleles ou colineaires
 c                ! pas d'intersection
               ELSE
                 INTERSEC = INTERSEC + 1 
-c                ! intersection : incrementer le compteur de 1
+c                intersection: increment the counter by 1
               ENDIF
             ENDIF
           ENDDO
-          IF(MOD(INTERSEC,2)==0) IOUT=1 ! NOMBRE PAIRE D'INTERSECTION, LE POINT EST EN DEHORS DE LA MESHSURF
+          IF(MOD(INTERSEC,2)==0) IOUT=1 ! even number of intersections, the point is outside the meshsurf
         ENDDO
 c
         IF(IOUT==1) CYCLE
 c
 C----------------------------------------------------------------------
-c  3eme test : Pour traiter les polygones concaves, il faut tester les segments forme par les etendus 
+c  3rd test: to handle concave polygons, the segments formed by the extents must be tested
 C----------------------------------------------------------------------
 c
-        DO J=1,4  ! BOUCLE SUR LES 4 COINS DE L'ETENDUE        
+        DO J=1,4  ! loop over the 4 corners of the extent
           DO K=1,L_TAB_COINKNOT-1
             XC=TAB_COINKNOT(1,K)
             YC=TAB_COINKNOT(2,K)
@@ -190,7 +190,7 @@ c
             YD=TAB_COINKNOT(2,K+1)
             DET = (XA(J+1)-XA(J))*(YC-YD) - (XC-XD)*(YA(J+1)-YA(J))
             IF(DET==0) THEN
-c             segments paralleles ou colineaires donc boucler sur un autre segment du polygone
+c             parallel or collinear segments, so loop over another segment of the polygon
             ELSE
               T1 = ((XC-XA(J))*(YC-YD)-(XC-XD)*(YC-YA(J)))/DET
               T2 = ((XA(J+1)-XA(J))*(YC-YA(J))-(XC-XA(J))*(YA(J+1)-YA(J)))/DET
@@ -205,7 +205,7 @@ c                ! pas d'intersection
         ENDDO
 C
 C----------------------------------------------------------------------
-C  DIMENSIONNEMENT ET STOCKAGE DU TABLEAU DES FONCTIONS A RAFFINER
+C  sizing and storage of the array of functions to be refined
 C----------------------------------------------------------------------
 C
         IF(IOUT==0) THEN

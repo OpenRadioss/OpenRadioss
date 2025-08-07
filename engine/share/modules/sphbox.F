@@ -81,20 +81,20 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       END TYPE real_pointer5
 C nombre de particules sph remote totale a recevoir et a envoyer
       INTEGER NSPHR, NSPHS
-C dimension vecteur de stockage partie tri , calcul et wacomp
+C dimension of storage vector for sorting, computation and wacomp
       INTEGER, PARAMETER :: SIZSPT = 6, SIZSPC = 14, SIZSPW = 16
 C flags particule active cote recu et envoyee
       INTEGER, DIMENSION(:), ALLOCATABLE :: ISPHR, ISPHS
-C nombre de cellule a recevoir/envoyer par processeur
+C number of cells to receive/send per processor
       INTEGER, DIMENSION(:), ALLOCATABLE :: PSPHR, PSPHS
 C liste triee par processeur des cellules locales a renvoyer aux autres processeurs
       INTEGER, DIMENSION(:), ALLOCATABLE :: LSPHS
-C tableau particules symetrique par plan de symetrie
+C symmetric particles array by symmetry plane
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: ISPSYMR
 C tableau cell remote pour sph
       my_real       ,DIMENSION(:,:), ALLOCATABLE :: XSPHR
-C DVOIS(KVOISPH) des particules remote, dans le cas ou elles ont subit
-C une reduction 
+C DVOIS(KVOISPH) of remote particles, in case they have undergone
+C a reduction
       my_real       ,DIMENSION(:), ALLOCATABLE :: DKR, DKS 
 C XSPHR(1) :  no local N sur proc remote
 C XSPHR(2) :  h
@@ -113,7 +113,7 @@ C XSPHR(14) : IPARTSP(N)
 C tableau additionnel cell remote pour sph (wacomp)
       my_real       ,DIMENSION(:,:), ALLOCATABLE :: WACOMPR
 C tableau additionnel cell remote pour sph (DSPHR)
-c utilise pour traitement IPPV remotes dans sponfv
+c used for remote IPPV processing in sponfv
 c      my_real       ,DIMENSION(:,:), ALLOCATABLE :: DSPHR
 c DSPHR(1) : DXX
 c DSPHR(2) : DXY

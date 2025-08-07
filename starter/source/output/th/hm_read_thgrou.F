@@ -2556,7 +2556,7 @@ C
      4      NVARN ,VARN  ,0     ,VARNG   ,NVARNG   ,       
      5      IVARNG,NSNOD ,NVALL ,IMERGE  ,ITHVAR   ,ITHERM_FE,       
      6      FLAGABF,NVARABF,RFI,LSUBMODEL,IBID,IBID)                          
-C         decode les numeros de skews.                               
+C         decode les numeros de skews.
           NNE =ITHGRP(4,IGS)                                         
           IAD2=ITHGRP(5,IGS)+NNE                                     
           DO K=1,NNE                                                 
@@ -2567,7 +2567,7 @@ C         decode les numeros de skews.
              GO TO 110                                               
             ENDIF                                                    
  100       CONTINUE                                                  
-C          decode les numeros de frames.                             
+C          decode les numeros de frames.
            DO 101 J=(NUMSKW+1)+MIN(IUN,NSPCOND)*NUMSPH+1+NSUBMOD,    
      .              (NUMSKW+1)+MIN(IUN,NSPCOND)*NUMSPH+NSUBMOD+      
      .               (NUMFRAM+1)                                     
@@ -2610,7 +2610,7 @@ C          decode les numeros de frames.
      4      NVARC ,VARC  ,NUMELC,VARCG ,NVARCG   ,
      5      IVARCG,NSELC,NVALL,IMERGE,ITHVAR   ,ITHERM_FE,
      6      FLAGABF,NVARABF,RFI,LSUBMODEL,MAP_TABLES%ISH4NM, NUMELC)                           
-C         decode les numeros de skews.                                  
+C         decode les numeros de skews.
           NNE =ITHGRP(4,IGS)                                            
           IAD2=ITHGRP(5,IGS)+3*NNE                                      
           DO K=1,NNE                                                    

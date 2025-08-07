@@ -88,7 +88,7 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
       LOC_PROC = ISPMD + 1
 C
-C   boite minmax pour le tri provenant de i7buce BMINMA
+C   minmax box for sorting coming from i7buce BMINMA
 C
       IF(IRCVFROM(NIN,LOC_PROC)==0.AND.
      .   ISENDTO(NIN,LOC_PROC)==0) RETURN
@@ -132,7 +132,7 @@ C
         ENDDO
       ENDIF
 C
-C   envoi de XREM
+C   sending of XREM
 C
       SIZ = 112
       IF(ISENDTO(NIN,LOC_PROC)/=0) THEN
@@ -317,7 +317,7 @@ C
         ENDDO
       ENDIF
 C
-C   reception  des donnees XREM
+C   reception of XREM data
 C
       IF(IRCVFROM(NIN,LOC_PROC)/=0) THEN
         NMESR = 0

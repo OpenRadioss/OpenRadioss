@@ -129,8 +129,8 @@ C       Not used :: MVOISN(1,*)-> MTYPE(solid),MVOISN(2,*)-> E_id
 C
 C
 C     1-CALCUL TAILLE DES ZONES INFLUENCES
-C     DD EST LA LONGEUR MOYENNE ELEMENT
-C     DD_ST EST LA LONGEUR MAX ELEMENT
+C     dd is the average element length
+C     dd_st is the max element length
       DD=ZERO
       DD_ST=ZERO
       PENSOL=EP30
@@ -181,12 +181,12 @@ C     TAILLE BUCKET MIN = TZINF  * BUMULT
       DD=DD0
 C     TZINF = BUMULT*DD
       MARGE = BUMULT*DD
-C calcul de TZINF en fct de la marge et non le contraire
+C calculation of tzinf based on the margin and not the other way around
       TZINF = MARGE + MAX(GAP+DGAPLOAD,DRAD)
-C MARGE_ST : marge independante du BUMULT en input pour trouver les memes pene initiales (cas delete ou chgt coord.)
+C marge_st: margin independent of bumult as input to find the same initial penalties (delete or coordinate change cases)
       MARGE_ST = BMUL0*DD
 
-C Si IDDLEVEL = 0, alors 1er passage ici, avec la MARGE de l'ENGINE pour trouver les memes candidats
+C if iddlevel = 0, then 1st pass here, with the engine's margin to find the same candidates
       IF(IDDLEVEL==0) MARGE_ST = MARGE
       TZINF_ST = MARGE_ST + MAX(GAP+DGAPLOAD,DRAD)
       BID = FOUR_OVER_5*DD
@@ -205,7 +205,7 @@ C     MIS A ZERO POUR FAIRE SEARCH COMPLET CYCLE 0 ENGINE
       DIST = ZERO     
 
 C--------------------------------
-C     CALCUL DES BORNES DU DOMAINE
+C     calculation of the domain boundaries
 C--------------------------------
       BMINMA(1)=-EP30
       BMINMA(2)=-EP30
@@ -449,7 +449,7 @@ c        END IF
       END IF
 C
 
-C     initialisation complete de VOXEL
+C     complete initialization of voxel
       DO I=INIVOXEL,(NBX+2)*(NBY+2)*(NBZ+2)
         VOXEL1(I)=0
       ENDDO

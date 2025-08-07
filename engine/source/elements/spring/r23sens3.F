@@ -74,7 +74,7 @@ C       __________/         \_________/   \______
 C
 C  OFF    -10.         1.       -10.       1.        
 C                        \_  rupture eventuelle du ressort => 0. 
-C                            (pas de reactivation possible)
+C                            (no reactivation possible)
 C
           IF (TT > SENSOR_TAB(ISENS)%TSTART .AND. OFF(I) == -TEN) THEN
             OFF(I) = ONE
@@ -97,7 +97,7 @@ C       __________/
 C
 C  OFF    -10.         1.       
 C                        \_  rupture eventuelle du ressort => 0. 
-C                            (pas de reactivation possible)
+C                            (no reactivation possible)
 C
             IF (TT > SENSOR_TAB(ISENS)%TSTART .AND. OFF(I) == -TEN)
      .          OFF(I) = ONE

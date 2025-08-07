@@ -167,7 +167,7 @@ C
       IPCZ(NUMCNOD+NBAND) = 0
       IMERGETMP(1:NUMCNOD) = 0
 C--------------------------------------------------
-C     CLASSEMENT DES BUCKETS X
+C     BUCKETS X SORTING
 C--------------------------------------------------
 C 
 C---      bande NBX uniquement. 
@@ -289,7 +289,7 @@ C       bande NBY uniquement.
                   ENDIF
              ENDDO
 C        
-C -- les boites suivantes z
+C -- the following boxes z
 C 
              DO IBY=1,NBY+1   
                 IBOITE = 0   

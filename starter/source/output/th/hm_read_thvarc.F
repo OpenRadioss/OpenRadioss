@@ -124,7 +124,7 @@ c
                 ENDIF
                 TAG(I)=1                             
                 OK=1                                 
-C---------Multidomaines : pour les subsets, on stocke des infos en plus dans le th pour merge---------                      
+C---------Multidomaines : pour les subsets, on stocke des infos en plus dans le th pour merge---------
                     IF ((NSUBDOM>0).AND.(SUB_FLAG==1002)) THEN                                        
                     IF (I>=9) THEN                                                                     
                       TAG(3) = 1                                                                         

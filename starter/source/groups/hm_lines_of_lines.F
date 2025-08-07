@@ -84,11 +84,11 @@ C-----------------------------------------------
 !   2. Split lines accordingly
 !
 C-----------------------------------------------
-C     LIGNES DES LIGNES ...
+C     LINES OF LINES ...
 C=======================================================================
       IF (FLAG == 0) ICOUNT=0
 
-C     boucle sur les lignes  
+C     loop over the lines
       CALL HM_OPTION_START('/LINE')
       DO IGS=1,NSLIN
         CALL HM_OPTION_READ_KEY(LSUBMODEL,

@@ -206,7 +206,7 @@ C
       ENDDO
 C
 C-----------------------------------------------
-C  Calcul de la tempurature. (conduction ou adiabatique)
+C  calculation of the temperature (conduction or adiabatic)
 C--------------------    
         DO I=1,NEL    
           COEF(I) = ONE
@@ -481,7 +481,7 @@ C
       ENDDO
 C
 C-----------------------------------------------
-C  Calcul de la tempurature. (conduction ou adiabatique)
+C  calculation of the temperature (conduction or adiabatic)
 C--------------------    
         DO I=1,NEL    
           COEF(I) = ONE

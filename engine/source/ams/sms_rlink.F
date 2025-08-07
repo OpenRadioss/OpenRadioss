@@ -69,7 +69,7 @@ C
             K = K + NLINK(4*I-3)
           ENDDO
 C
-C boucle parallele sur les threads SMP
+C parallel loop on SMP threads
 !$OMP DO SCHEDULE(DYNAMIC,1)
           DO N=1,NRLINK
             FRL(1,N)=ZERO
@@ -104,7 +104,7 @@ C boucle parallele sur les threads SMP
 C routine appelee rlink par rlink a optimiser si besoin
             DO N=1,NRLINK
               IF(TAG_LNK_SMS(N)==0)CYCLE
-C routine de calcul Parith/ON de A rigid link
+C calculation routine Parith/ON of A rigid link
               IF(FR_RL(ISPMD+1,N)/=0)
      +          CALL SPMD_EXCH_FR6(FR_RL(1,N),FRL6(1,1,N),4*6)
             END DO
@@ -113,7 +113,7 @@ C routine de calcul Parith/ON de A rigid link
           END IF
 
  100      CONTINUE
-C boucle parallele sur les threads SMP
+C parallel loop on SMP threads
 !$OMP DO SCHEDULE(DYNAMIC,1)
           DO N=1,NRLINK
             IF(TAG_LNK_SMS(N) < 0)CYCLE
@@ -191,7 +191,7 @@ C
             KIND(I) = K
             K = K + NNLINK(1,I)
           ENDDO
-C boucle parallele sur les threads SMP
+C parallel loop on SMP threads
 !$OMP DO SCHEDULE(DYNAMIC,1)
           DO N=1,NLINK
             FRL(1,N)=ZERO
@@ -233,7 +233,7 @@ C routine appelee rlink par rlink a optimiser si besoin
 
             DO N=1,NLINK
               IF(TAG_LNK_SMS(NRLINK+N) < 0)CYCLE
-C routine de calcul Parith/ON de A rigid link
+C calculation routine Parith/ON of A rigid link
               IF(FR_LL(ISPMD+1,N)/=0)
      +          CALL SPMD_EXCH_FR6(FR_LL(1,N),FRL6(1,1,N),4*6)
             END DO
@@ -242,7 +242,7 @@ C routine de calcul Parith/ON de A rigid link
           END IF
 
  100      CONTINUE
-C boucle parallele sur les threads SMP
+C parallel loop on SMP threads
 !$OMP DO SCHEDULE(DYNAMIC,1)
           DO N=1,NLINK
             IF(TAG_LNK_SMS(NRLINK+N) < 0)CYCLE
@@ -357,7 +357,7 @@ C
        DO I=1,NSN
          N = NOD(I)
 C
-C transmet force dans la dion au nd
+C transmits force in the dion to the nd
          IF(IC==1.OR.IC==3.OR.IC==5.OR.IC==7)THEN
            A(3,N) =AZ
          ENDIF
@@ -528,7 +528,7 @@ C
        DO I=1,NSN
          N = NOD(I)
 C
-C transmet force dans la dion au nd
+C transmits force in the dion to the nd
          DAX  =A(1,N)-AX
          DAY  =A(2,N)-AY
          DAZ  =A(3,N)-AZ
@@ -737,7 +737,7 @@ C
         CALL SUM_6_FLOAT(1  ,NSN  ,F2, FRL6(2,1),5)
 
 C-----------------------------------------------------------------------
-C       masse quantite de mouvement
+C       mass quantity of motion
 C-----------------------------------------------------------------------
         AX  =ZERO
         AY  =ZERO
@@ -778,7 +778,7 @@ C
          DO I=1,NSN
            N = NOD(I)
 C
-C transmet force dans la dion au nd 1
+C transmits force in the dion to nd 1
            A(1,N) =A(1,N)-IC1*(A(1,N)-AX)
            A(2,N) =A(2,N)-IC2*(A(2,N)-AY)
            A(3,N) =A(3,N)-IC3*(A(3,N)-AZ)
@@ -891,7 +891,7 @@ C
         CALL SUM_6_FLOAT(1  ,NSN  ,F2, FRL6(2,1),5)
 
 C-----------------------------------------------------------------------
-C       masse quantite de mouvement
+C       mass quantity of motion
 C-----------------------------------------------------------------------
         AX  =ZERO
         AY  =ZERO

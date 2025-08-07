@@ -71,7 +71,7 @@ C-----------------------------------------------
       INTEGER IVAR,J,RVARINT,P
       TYPE (PARAMETERS_) ,INTENT(IN):: INTER_PARAMETERS
 C--------------------------------------
-C     PREPARATION DES VARIABLES REELLES POUR ECRITURE SUR RFILE.
+C     PREPARATION OF REAL VARIABLES FOR WRITING TO RFILE.
 C--------------------------------------
 C-----
       DO IVAR=1,LMXVREA

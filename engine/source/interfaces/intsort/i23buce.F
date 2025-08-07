@@ -104,13 +104,13 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
-C----- TRI PAR BOITES DES ELEMENTS ET DES NOEUDS
+C----- sorting of elements and nodes by boxes
 C
 C-----------------------------------------------
-C SI ON A PAS ASSEZ DE MEMOIRE POUR LES PILES ON RECOMMENCE LE TRI
-C EN INCREMENTANT LE NB_N_B (NOMBRE DE NOEUDS PAR BOITE FINIE)
+C if there is not enough memory for the stacks, the sorting is restarted
+C by increasing nb_n_b (number of nodes per finished box)
 C     POINTEUR  NOM                 TAILLE
-C     P0........                    NSN + 3 [+ NSNROLD dans le cas SPMD]
+C     p0........                    nsn + 3 [+ nsnrold in the case of spmd]
 C     P1........Elt Bas Pile        NRTM
 C     P2........Elt PILE            2*NRTM
 C     P21.......BPN                 NSN
@@ -121,7 +121,7 @@ C
       IP0 = 1
       IP1 = IP0 + NSN + NSNROLD + 3
 C
-C-----INITIALISATION DES ADRESSES ET X,Y,Z
+C-----initialization of addresses and x, y, z
 C
 C     ADDE     ADDN     X      Y      Z
 C     1        1        XMIN   YMIN   ZMIN
@@ -145,7 +145,7 @@ C
 C
       ISZNSNR = NSNR
 C
-C-----DEBUT DE LA PHASE DE TRI 
+C-----start of the sorting phase
 C
 C       SEPARER B ET N EN TWO
 C
@@ -205,7 +205,7 @@ c     9   IFPEN    ,CAND_P   ,NSV      ,ITAGP    ,IRECTG   )
         NBZ = MIN(100,MAX(NBZ8,1))
       ENDIF
 
-C     initialisation complete de VOXEL
+C     complete initialization of voxel
 C (en // SMP il y a possibilite de redondance de traitement mais no pb)
       DO I=INIVOXEL,(NBX+2)*(NBY+2)*(NBZ+2)
         VOXEL1(I)=0

@@ -66,7 +66,7 @@ C-----------------------------------------------
      .       ENER,DPDV
       CLASS(t_ebcs), POINTER :: EBCS
 C-----------------------------------------------
-C Presssion et densite imposes
+C imposed pressure and density
       EBCS => EBCS_TAB%tab(IEBCS)%poly
       C = zero
       LCAR = zero
@@ -224,7 +224,7 @@ C
         DMF=DMF-FLUXO*ROOU-FLUXI*RHO
         DEF=DEF-FLUXO*ENOU-FLUXI*ENER
 C
-C stockage densite et energie entrante dans buffer facette
+C storage of density and incoming energy in facet buffer
 C
         SEGVAR%RHO(KSEG)=RHO
         SEGVAR%EINT(KSEG)=ENER
@@ -260,7 +260,7 @@ c
         A(1,N)=A(1,N)-P*LA(1,I)
         A(2,N)=A(2,N)-P*LA(2,I)
         A(3,N)=A(3,N)-P*LA(3,I)
-C contribution des forces a la perte d'energie globale
+C contribution of forces to the global energy loss
         DEF=DEF-HALF*(PO(I)+P)*DT1*VN*S
         PO(I)=P
         STIFN(N)=STIFN(N)+(TWO*(S*DPDV)**2)/MS(N)

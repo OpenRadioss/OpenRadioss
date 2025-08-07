@@ -87,7 +87,7 @@ C        Additional shape functions for distribution of mass / inertia - to avoi
           H2(4)=TP*SM       
 c
           IF (IRUPT(II) == 0) THEN
-C---------- pas de rupture                   
+Cno failure
 c
             XMSI= MS(I)*W
             STFN= STIFN(I)*W

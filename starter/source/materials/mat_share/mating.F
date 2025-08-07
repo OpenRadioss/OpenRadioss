@@ -142,10 +142,10 @@ C-----------
             ELSEIF (JLAG/=0.AND.JSPH == 0) THEN
               VOL(I) = VOL(I) * RHO(I) / PM(1,MA)
             ENDIF
-C           EPSP NON UTILISE DANS MAT TYPE 1 ET ECRASE PAR EINT
+C           EPSP NOT USED IN MAT TYPE 1 AND OVERWRITTEN BY EINT
             IF (SIGI(10,JJ)/=ZERO) EPSP(I) = SIGI(10,JJ)
             IF (SIGI( 9,JJ)/=ZERO) EINT(I) = SIGI(9,JJ)
-C           TAUX DE REMPLISSAGE
+C           FILLING RATE
             IF(SIGI(11,JJ)/=ZERO) FILL(I)=SIGI(11,JJ)
           ENDIF
         ENDIF

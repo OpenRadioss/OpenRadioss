@@ -79,14 +79,14 @@ C-----------------------------------------------
      .        NBPATCH_IG3D,FLAG_DEBUG
       my_real, DIMENSION(:), ALLOCATABLE :: GAMA
 C-----------------------------------------------
-C   TABLEAUX DE REPRESENTATION DE LA STRUCTURE ELEMENTAIRE DES PATCHS
+C   arrays representing the elementary structure of the patches
 C-----------------------------------------------
       INTEGER, DIMENSION(:,:,:), POINTER :: MESHIGE
       INTEGER, DIMENSION(:,:,:), ALLOCATABLE, TARGET :: MESHIGEX,MESHIGEY,MESHIGEZ
       INTEGER, DIMENSION(:), ALLOCATABLE, TARGET :: IDXEL,IDYEL,IDZEL
       INTEGER, DIMENSION(:), POINTER :: IDDIR,IDTANG1,IDTANG2
 C-----------------------------------------------
-C   TABLEAUX DE TRAVAIL
+C   working arrays
 C-----------------------------------------------
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: IDFILS,TAB_INITIAL_CUT
       INTEGER, DIMENSION(:), ALLOCATABLE :: TAB_REMOVE,TAB_STAY,TAB_NEWFCT,
@@ -98,23 +98,23 @@ C-----------------------------------------------
 C=======================================================================
       FLAG_DEBUG=0
 c ------------------------------------------------------------------------------------------
-C  DEFINITION DES TAILLES DES TABLEAUX DE TRAVAIL EN FONCTION DU NOMBRE D'ELEMENTS
-C  AJOUTES, DU NOMBRE ESTIME DE FONCTION AJOUTES DANS ONE PREMIER TEMPS
+C  definition of the sizes of the working arrays according to the number of elements
+C  added, the estimated number of functions added at first
 C  PUIS AUX TAILLES EXACTES NECESSAIRES DANS ONE SECOND TEMPS
 c ------------------------------------------------------------------------------------------
 c
       IF(FLAG_PRE==0) THEN
-        NBNEWX_TMP = ADDELIG3D*20 ! nombre de points qu'on s'accord en decalage pour le travail (pour le multipatch) ! le definir en fonction du nombre total de point
+        NBNEWX_TMP = ADDELIG3D*20 ! number of points allowed as offset for the work (for multipatch) ! set according to the total number of points
 c
         ALLOCATE (TAB_INITIAL_CUT(3,NUMELIG3D0))
         ALLOCATE (IDFILS(NBFILSMAX,NUMELIG3D0))
-        ALLOCATE (TAB_REMOVE(ADDELIG3D*27)) ! DEVRAIT TENIR EN COMPTE DU NOMBRE D'ELEMENT DE BASE ET DU NOMBRE D'ELEMENT AJOUTES
-        ALLOCATE (TAB_STAY(NINT(ADDELIG3D*27*0.5))) ! DEVRAIT TENIR EN COMPTE DU NOMBRE D'ELEMENT DE BASE ET DU NOMBRE D'ELEMENT AJOUTES
+        ALLOCATE (TAB_REMOVE(ADDELIG3D*27)) ! should take into account the number of base elements and the number of added elements
+        ALLOCATE (TAB_STAY(NINT(ADDELIG3D*27*0.5))) ! should take into account the number of base elements and the number of added elements
         ALLOCATE (TAB_NEWFCT(NINT(ADDELIG3D*27*1.2))) ! POURRAIENT   TRE MIEUX DIMENSIONNES
         ALLOCATE (MESHSURF(NBMESHSURF))
         ALLOCATE (GAMA(NUMNODIGE0+2*ADDELIG3D*27))
       ELSE
-        NBNEWX_TMP = L_TAB_NEWFCT ! pour la longueur de travail et le calcul de decalgeo_tmp
+        NBNEWX_TMP = L_TAB_NEWFCT ! for the working length and the calculation of decalgeo_tmp
         ALLOCATE (TAB_INITIAL_CUT(3,NUMELIG3D))
         ALLOCATE (IDFILS(NBFILSMAX,NUMELIG3D))
         ALLOCATE (TAB_REMOVE(L_TAB_REMOVE))
@@ -146,14 +146,14 @@ c
           WIGE_TMP(I) = 0
         ENDDO
       ENDIF
-      ALLOCATE (EL_CONNECT(NUMELIG3D0+ADDELIG3D)) ! TABLEAU QUI CONTIENT ONE FLAG POUR LES ELEMENTS QUI ONT ETE MODIFIES
+      ALLOCATE (EL_CONNECT(NUMELIG3D0+ADDELIG3D)) ! array containing a flag for the elements that have been modified
       EL_CONNECT(:)=0
 
 ccc ATTENTION, S'IL Y A DES ELEMENTS CLASSIQUES ET DES ELEMENT ISOGEOMETRIQUES, IL VA Y AVOIR ONE SOUCIS
-CC  IL FAUT DONC FAIRE ONE EL_CONNECT DANS LA STRUCTURE TABCONPATCH ET REFAIRE LES TABLES DE CONNECTIVITE PAR PATCH
+Cso an EL_CONNECT must be made in the TABCONPATCH structure and the connectivity tables must be redone by patch
 c
 c ------------------------------------------------------------------------------------------
-C  INITIALISATION DES TAILLES REELLES DES TABLEAUX ET DES VARIABLES DE TRAVAIL
+C  initialization of the actual sizes of the arrays and working variables
 c ------------------------------------------------------------------------------------------
 C
       NBMESHSURF = 0
@@ -169,8 +169,8 @@ C
       OFFSET_NEWFCT = 0
 c
 c ------------------------------------------------------------------------------------------
-C CONSTRUCTION DES ETENDUES KNOT LOCALES POUR CHAQUE POINT DE CONTROLE, POUR TOUT LES PATCHS
-c DES CONNECTIVITES DES ELEMENTS, ET DES PATCHS
+C construction of local knot spans for each control point, for all patches
+c of the connectivities of the elements, and of the patches
 C NB : OPTIMISER CES STRUCTURES PAR PATCH POUR KNOTLOCP SANS CASES VIDES
 c ------------------------------------------------------------------------------------------
 c
@@ -234,7 +234,7 @@ c
           KNOTLOCEL(2,3,IEL) = KNOT(IAD_KNOT+NKNOT1+NKNOT2+KXIG3D(11,IEL))
 c
 c ------------------------------------------------------------------------------------------
-C  MISE EN MEMOIRE DU NOMBRE DE RAFFINEMENT INITIAL, PERMETTANT LE RAFFINEMENT PROGRESSIF
+C  storing the number of initial refinements, allowing for progressive refinement
 C  NB : TABLEAU GLOBAL ICI, MAIS SERAIT MIEUX PAR PATCH (ATTENTION AU ID DES ELEMENTS)
 c ------------------------------------------------------------------------------------------
 c
@@ -250,7 +250,7 @@ c
       ENDDO
 c
 c ------------------------------------------------------------------------------------------
-C  PROCEDURE DE RAFFINEMENT DES ELEMENTS, QUI FONCTIONNE PAR PATCH
+C  element refinement procedure, which operates by patch
 c ------------------------------------------------------------------------------------------
 c
 c! vectorize possible with some modifications
@@ -296,7 +296,7 @@ c
         ENDDO
 c
 c ------------------------------------------------------------------------------------------
-C  CONSTRUCTION DES TABLEAUX PERMETTANT LA LOCALISATION LE PATCH
+C  building the arrays allowing the location of the patch
 c ------------------------------------------------------------------------------------------
 c
         ALLOCATE(MESHIGEX(NELY,NELZ,NELX))
@@ -314,7 +314,7 @@ c
         ENDDO
 c
 c ------------------------------------------------------------------------------------------
-c   DEFINITION DES VARIABLES EN FONCTION DE LA DIRECTION DE COUPE
+c   definition of variables according to the cutting direction
 c ------------------------------------------------------------------------------------------
 c
         GAMA=1
@@ -383,7 +383,7 @@ c
           END SELECT
 c
 c ------------------------------------------------------------------------------------------
-c   DECOUPAGE DES ELEMENTS DU PATCH
+c   splitting the elements of the patch
 c ------------------------------------------------------------------------------------------
 c
           DO L=1,TABCONPATCH(P)%L_TAB_IG3D
@@ -516,18 +516,18 @@ C
      .                            TAB_REMOVE,TAB_NEWFCT,EL_CONNECT,TABCONPATCH(P),
      .                            IDFILS,FLAG_PRE,FLAG_DEBUG)
 
-                OFFSET_NEWFCT = OFFSET_NEWFCT + NEWFCT  ! "SNEW REDEVIENT S" les nouvelles fonctions ne le sont plus
+                OFFSET_NEWFCT = OFFSET_NEWFCT + NEWFCT  ! "snew becomes s again" the new functions are no longer new
 
-              ENDDO ! boucle sur le nombre de coupe de l'element
+              ENDDO ! loop over the number of cuts of the element
             ENDIF
-          ENDDO ! boucle sur les elements du patch
-        ENDDO ! boucle sur les direction
+          ENDDO ! loop over the elements of the patch
+        ENDDO ! loop over the directions
         DEALLOCATE(IDXEL,IDYEL,IDZEL)
         DEALLOCATE(MESHIGEX,MESHIGEY,MESHIGEZ)
-      ENDDO ! boucle sur les patchs
+      ENDDO ! loop over the patches
 c
 CC----------------------------------------------------------------------------------------------
-CC    DEALLOCATION DES STRUCTURES DEFINISSANT LES COUPES
+Cdeallocation of the structures defining the cuts
 CC----------------------------------------------------------------------------------------------
 c
       DO I=1,NBMESHSURF
@@ -541,7 +541,7 @@ c
 c
 CC----------------------------------------------------------------------------------------------
 CC     TEST A POSTERIORI DES FONCTIONS ET DES ELEMENTS. NE TESTE PAS DIRECTEMENT S'IL EXISTE
-CC     DES ELEMENTS AVEC TROP DE FONCTIONS, MAIS PERMET DE VOIR S'IL Y A ONE QUELCONQUE SOUCI
+Celements with too many functions, but allows to see if there is any issue
 CC----------------------------------------------------------------------------------------------
 c
       IF(FLAG_DEBUG==1) THEN
@@ -573,7 +573,7 @@ c
       IF(NBMESHSURF/=0) THEN
 c
 c ------------------------------------------------------------------------------------------
-c   REORGANISATION DES TABLEAUX ELEMENTAIRES ET DES CONNECTIVITES AVEC LE RECOMPACTAGE DES POINTS
+c   reorganization of the elementary arrays and connectivities with the repacking of the points
 c ------------------------------------------------------------------------------------------
 c
         CALL REORDER_IG3D(IXIG3D, KXIG3D,KNOTLOCPC,KNOTLOCEL,
@@ -582,7 +582,7 @@ c
      .                    IPARTIG3D,IGEO,TAB_STAY,FLAG_PRE,FLAG_DEBUG)
 c
 c ------------------------------------------------------------------------------------------
-c   ON RAMENE NOS TABLEAUX TEMPORAIRES DANS LES TABLEAUX FINAUX
+c   temporary arrays are brought back into the final arrays
 c ------------------------------------------------------------------------------------------
 c
         IF(FLAG_PRE==1) THEN

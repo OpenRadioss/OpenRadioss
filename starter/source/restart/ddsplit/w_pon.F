@@ -475,7 +475,7 @@ C
       ENDIF
       ! --------------------------
 C-----------------------------------------------
-C ADDCNE_L et IADS
+C ADDCNE_L and IADS
 C-----------------------------------------------
 C
 C-----------------------------------------------
@@ -1009,7 +1009,7 @@ C
 Cply xfem
 C
 C
-C ADDCNEPXFEM_L et IADC_PXFE
+C ADDCNEPXFEM_L and IADC_PXFE
 C
       IF(IPLYXFEM > 0) THEN
          ADDCNEPXFEM_L(1) = 1
@@ -1059,7 +1059,7 @@ C
        ENDIF
 C------------------------------
 C     crack xfem for layered shell
-C     ADDCNECRKXFEM_L et IADC_CRKXFE
+C     ADDCNECRKXFEM_L and IADC_CRKXFE
 C------------------------------
       IF (ICRACK3D > 0) THEN
         IADC_CRKXFEM = 0
@@ -1186,7 +1186,7 @@ C
               ENDDO
               main = 1
  300          IF(MAIN==1) THEN
-C numerotation fonction du pmain des rby precedents
+C numbering function of the pmain of previous rby
                 IADRBK(NSL_L) = KK+IDEBRBK(PMAIN)
               ELSE
                 IADRBK(NSL_L) = 0
@@ -1225,7 +1225,7 @@ C
               ENDDO
               main = 1
  333          IF(MAIN==1) THEN
-C numerotation fonction du pmain des rigid material precedents
+C numbering function of the pmain of previous rigid materials
                 IADRBMK(NSL_L) = KK+IDEBRBK(PMAIN)
               ELSE
                 IADRBMK(NSL_L) = 0
@@ -1345,7 +1345,7 @@ C
               ENDDO
               main = 1
  3000         IF(MAIN==1) THEN
-C numerotation fonction du pmain des rby precedents
+C numbering function of the pmain of previous rby
                 IADRBM(NSL_L) = KK+IDEBRBK(PMAIN)
               ELSE
                 IADRBM(NSL_L) = 0
@@ -1432,7 +1432,7 @@ C
         DO N=1,NINTER
           ITY = IPARI(7,N)
           INACTI = IPARI(22,N)
-          IF((ITY==7.OR.ITY==22).AND.INACTI==7)THEN  ! interface 18   ! ON PASSE PAR PAR LA (INTER 18 ou 22)
+          IF((ITY==7.OR.ITY==22).AND.INACTI==7)THEN  ! interface 18 ! WE GO THROUGH HERE (INTER 18 or 22)
             NRTS  = IPARI(3,N)
             NRTM  = IPARI(4,N)
             DO K=1,NRTM

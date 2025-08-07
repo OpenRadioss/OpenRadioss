@@ -64,7 +64,7 @@ C-----------------------------------------------
       INTEGER P,I,J,NI,NIN,NOD,NTY,NSN,SN
       INTEGER, DIMENSION(:), ALLOCATABLE :: ITAG
 C-----------------------------------------------
-C Partie 1, calcul des tailles de FR_I25
+C part 1, calculation of the sizes of fr_i25
 C-----------------------------------------------
       ALLOCATE(ITAG(NUMNOD))
       ITAG(1:NUMNOD)=0

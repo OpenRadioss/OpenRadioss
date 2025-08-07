@@ -37,10 +37,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      7                   V       ,PENE_OLD,GAPVE ,EDGE_L2,IEDGE ,
      8                   DGAPLOAD)
 C============================================================================
-C  cette routine est appelee par : I10STO(/int10/i10sto.F)
+C  this routine is called by: I10STO(/int10/i10sto.F)
 C                                  I7STO(/int7/i7sto.F)
 C----------------------------------------------------------------------------
-C  cette routine appelle : -
+C  this routine calls: -
 C============================================================================
 C-----------------------------------------------
 C   M o d u l e s

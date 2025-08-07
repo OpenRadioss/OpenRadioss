@@ -508,7 +508,7 @@ C decoupage statique
 C
         NUM_IMP = 0
 C
-C recalcul du istok
+C recalculation of istok
 C
         IF (INACTI==5.OR.INACTI==6.OR.INACTI==7)THEN
           DO I = DEBUT+1, DEBUT+I_STOK_LOC
@@ -783,7 +783,7 @@ C--------------------------------------------------------
          IF(NI > NSN)THEN
           NN = NI - NSN
           NS=IND_INT(NIN)%P(NN)
-C---------pour diag_ss---
+Cfor diag_ss
           FFI(1,NS)=ZERO
           FFI(2,NS)=ZERO
           FFI(3,NS)=ZERO

@@ -132,7 +132,7 @@ C---
             INOD_L(I) = NL_L
             INDEX(NL_L) = INOD_CRKXFEM(NOD)
             INOD_CRK = INOD_CRKXFEM(NOD)
-            NODLEVXF_L(NL_L) = NODLEVXF(INOD_CRK) ! nb des copies d'un nooeuds std xfem
+            NODLEVXF_L(NL_L) = NODLEVXF(INOD_CRK) ! number of copies of a standard xfem node
           ENDIF
         ENDIF
       ENDDO

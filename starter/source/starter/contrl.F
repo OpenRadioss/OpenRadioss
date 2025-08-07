@@ -987,7 +987,7 @@ C---------------------------------------------------
       !********
       CALL HM_READ_UPWIND(JUPW, ALE%UPWIND%UPWMG, ALE%UPWIND%UPWOG, ALE%UPWIND%UPWSM, LSUBMODEL, UNITAB)
 C---------------------------------------------------
-C   OPTIONS DE L'ENGINE LUES DANS LE STARTER
+C   ENGINE OPTIONS READ IN THE STARTER
 C---------------------------------------------------
       CALL HM_OPTION_COUNT('/RUN',NRUN_ENG)
       CALL HM_OPTION_COUNT('/ANIM',NANIM_ENG)
@@ -1716,7 +1716,7 @@ C-----------------------------------------------
       IO_ERR1=0
       IDTTSH=0
 C-----------------------------------------------
-C     Lecture des donnees dans le fichier engine
+C     Reading data from the engine file
 C-----------------------------------------------   
       FILNAM=ROOTNAM(1:ROOTLEN)//'_0001.rad'
 
@@ -1831,7 +1831,7 @@ C-----------------------------------------------
       LMAX_NSTRA = 0
       NKPART(1:NPART+1,1:NKEYMAX+1) = 0
 C-----------------------------------------------
-C     Lecture des donnees dans le fichier engine
+C     Reading data from the engine file
 C-----------------------------------------------
       IH3D=1
       K_LEN = 19 
@@ -2026,7 +2026,7 @@ C-----------------------------------------------
       IO_ERR1 = 0
       NPRT = 0
 C-----------------------------------------------
-C     Lecture des donnees dans le fichier engine
+C     Reading data from the engine file
 C-----------------------------------------------   
       FILNAM=ROOTNAM(1:ROOTLEN)//'_0001.rad'
 

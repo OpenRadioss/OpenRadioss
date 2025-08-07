@@ -95,7 +95,7 @@ C
      G    SPMD_COMM_WORLD,IERROR)
 C
         IF(ISPMD==0)THEN
-C         construit les pointeurs globaux de fin de zone
+C         builds the global pointers for the end of the zone
           PTV_P0(0)=0
           DO I=2,NSPMD
             IDEB = DISP(I)
@@ -126,7 +126,7 @@ C         construit les pointeurs globaux de fin de zone
       SUBROUTINE SPMD_IGET_PARTN_STA(
      .             SIZE,STAT_NUMEL,STAT_LENELG,LENG,NP,
      .             IADG,NPGLOB,STAT_INDX)
-C gather sur p0 du tableau wa en fonction des parts (IADG)
+C gather on p0 of the wa array according to the parts (iadg)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -258,7 +258,7 @@ C   Tableau utilise par proc 0
 
 C   a cause de la version simple precision, on ne peux pas metre l'entier
 C   dans le buffer flottant car on n a que 2puiss 24 bits dispo ~ 16 Million
-C   de noeuds au max
+C   maximum number of nodes
 
          MSGTYP = MSGOFF2 
          CALL MPI_SEND(IBUF,SIZ,MPI_INTEGER,IT_SPMD(1),MSGTYP,
@@ -285,7 +285,7 @@ C   de noeuds au max
 
           DO I=2,NSPMD
 
-C   Reception du buffer entier des adresses NODGLOB
+C   reception of the integer buffer of nodglob addresses
             MSGTYP = MSGOFF2 
 
             CALL MPI_PROBE(IT_SPMD(I),MSGTYP,
@@ -295,7 +295,7 @@ C   Reception du buffer entier des adresses NODGLOB
             CALL MPI_RECV(IBUF,SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
      .                  SPMD_COMM_WORLD,STATUS,ierror)
 
-C   Reception du buffer flottant double des adresses NODGLOB
+C   reception of the double floating buffer of nodglob addresses
 
             MSGTYP = MSGOFF 
             CALL MPI_RECV(BUFSR,3*SIZ,REAL,IT_SPMD(I),MSGTYP,
@@ -374,7 +374,7 @@ C   Tableau utilise par proc 0
 
 C   a cause de la version simple precision, on ne peux pas metre l'entier
 C   dans le buffer flottant car on n a que 2puiss 24 bits dispo ~ 16 Million
-C   de noeuds au max
+C   maximum number of nodes
 
          MSGTYP = MSGOFF2
          CALL MPI_SEND(IBUF,SIZ,MPI_INTEGER,IT_SPMD(1),MSGTYP,
@@ -399,7 +399,7 @@ C   de noeuds au max
 
           DO I=2,NSPMD
 
-C   Reception du buffer entier des adresses NODGLOB
+C   reception of the integer buffer of nodglob addresses
             MSGTYP = MSGOFF2
 
             CALL MPI_PROBE(IT_SPMD(I),MSGTYP,
@@ -409,7 +409,7 @@ C   Reception du buffer entier des adresses NODGLOB
             CALL MPI_RECV(IBUF,SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
      .                  SPMD_COMM_WORLD,STATUS,ierror)
 
-C   Reception du buffer flottant double des adresses NODGLOB
+C   reception of the double floating buffer of nodglob addresses
 
             MSGTYP = MSGOFF
             CALL MPI_RECV(BUFSR,SIZ,REAL,IT_SPMD(I),MSGTYP,
@@ -498,7 +498,7 @@ C
 
           DO I=2,NSPMD
 
-C Reception du buffer entier des adresses NODGLOB
+C reception of the integer buffer of nodglob addresses
             MSGTYP = MSGOFF
 
             CALL MPI_PROBE(IT_SPMD(I),MSGTYP,

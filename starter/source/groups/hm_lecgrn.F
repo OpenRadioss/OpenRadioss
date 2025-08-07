@@ -221,7 +221,7 @@ C
         !-----------------------------------------------------------------
         ! GRNOD from GRNODNS
         IF(KEY(1:7) == 'GRNODNS')THEN
-C          tag des groupes de groupes
+C          tag of groups of groups
            IGRNOD(IGS)%NENTITY=-1
 c          non sorted nodes
              IGRNOD(IGS)%SORTED=1
@@ -266,7 +266,7 @@ c          non sorted nodes
         !-----------------------------------------------------------------
         ! GRNOD from NODE
         ELSEIF(KEY(1:4) == 'NODE' .OR. KEY(1:5) == 'CNODE') THEN
-C         groupe de noeuds
+C         group of nodes
           IT1=IT1+1
           IF (FLAG == 0) THEN
             CALL HM_GET_INTV('idsmax' ,NENTITY,IS_AVAILABLE,LSUBMODEL)
@@ -321,7 +321,7 @@ c           sorted nodes
         ELSEIF(KEY(1:3) == 'BOX'.AND.(KEY2(1:5) == 'RECTA'.OR.
      .         KEY2(1:5) == 'CYLIN'.OR.KEY2(1:5) == 'SPHER'))THEN
 C             old /grnod/box (not /BOX/BOX)
-C             groupe de noeuds dans un box (classical box, parallelepiped,
+C             group of nodes in a box (classical box, parallelepiped,
 C                         cylindrical, spherical)
           IT7=IT7+1
           IF (FLAG == 0) IGRNOD(IGS)%NENTITY=0
@@ -350,7 +350,7 @@ C-------------------------------------
         CALL UDOUBLE_IGR(LIST_IGR,NGRNOD,MESS,0,BID)
       ENDIF
 C=======================================================================
-C Remplacement des n0 de noeuds user par systeme (type NODE)
+C Replacement of user node n0 by system n0 (NODE type)
 C=======================================================================
       IF (IT1 /= 0 .AND. FLAG == 1)THEN
 !
@@ -369,7 +369,7 @@ C=======================================================================
             NTRI=IGRNOD(I)%SORTED
             IF (NNOD > 0 .AND. NTRI == 0)THEN
               IF(NNOD == 1) THEN
-C pas de tri necessaire et dichotomie
+C no sorting necessary and dichotomy
                 NN = IGRNOD(I)%ENTITY(NNOD)
                 IGRNOD(I)%ENTITY(NNOD)=USR2SYS(NN,ITABM1,MESS,ID)
                 IGRNOD(I)%NENTITY=1
@@ -536,11 +536,11 @@ C
           IGS=IGS+1
           NN = 0
           IF (KEY(1:4) == 'PART'.OR.KEY(1:6) == 'SUBSET'.OR.KEY(1:3) == 'MAT' .OR.KEY(1:4) == 'PROP') THEN
-C             tag les PARTs
+C             tag the PARTs
             BUFTMP = 0
             CALL HM_TAGPART(BUFTMP ,IPART ,KEY  ,IGRNOD(IGS)%ID,TITR  ,TITR1 ,FLAG  ,SUBSET, LSUBMODEL)
 C-------------------------
-C             tag les noeuds
+C             tag the nodes
             CALL TAGNODS(IXS,IXS10,IXS20,IXS16,IPARTS,BUFTMP,IGRNOD(IGS)%ID,TITR)
             CALL TAGNOD(IXQ,NIXQ,2,5,NUMELQ,IPARTQ,BUFTMP,NPART)
             CALL TAGNOD(IXC,NIXC,2,5,NUMELC,IPARTC,BUFTMP,NPART)
@@ -572,7 +572,7 @@ C---
         ENDDO
       ENDIF
 C=======================================================================
-C groupes de SUBMODELS
+C groups of SUBMODELS
 C=======================================================================
       IGS=0
       IF (IT5 > 0)THEN

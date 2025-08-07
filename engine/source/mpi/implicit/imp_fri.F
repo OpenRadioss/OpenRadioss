@@ -2562,7 +2562,7 @@ C----independent nodes first-----
         DO J=1,MIN(3,NDOF(N))
          ND = IDDSL(J,I)
          IF (ND>0) D(J,N)=LX(ND)
-C--------pour com avec FFI----
+C--------for communication with FFI----
          A(J,N)=ZERO
         ENDDO
       ENDDO
@@ -3607,7 +3607,7 @@ C--------recupere fr_nrow --
         ENDDO
        ENDIF
       ENDIF  ! (N_FR>0)
-C------ind_ [k] de FR.------
+C------ind_ [k] of FR.------
        CALL IND_FR_K0(
      1    NDOF      ,NROW      ,NNMAX     ,ICOL      ,FR_ELEM   ,
      2    IAD_ELEM  ,N_FR      )
@@ -5550,7 +5550,7 @@ C-------modifie FDSI du au [Ksm] ,Ud(mi)-----
         ENDIF
        ENDIF
        LSI = LSI + ISI + LSI0
-C-------actualise [Ksm] et stock dans LT_SI----
+C-------updates [Ksm] and stores in LT_SI----
        CALL IMP_FRKM(
      1    NSREM     ,LSI       ,IKCSI   ,IKC     ,NDOF    ,
      2    IDDL      ,IDDLM     ,ILOCP   ,IAD_M   ,KSI_FR  ,
@@ -5650,7 +5650,7 @@ C   -----renvoie Ksl,Ksm et recevoie Kss,Kslm a condenser
         SSIZE = 0
         DO I = 1, NSREM
          IF (IKC_SI(I)>0) THEN
-C   -----nb de [K}3x3--------
+C   -----number of [K}3x3--------
           IKC_SI(I) = IAD_SINR(I+1)-IAD_SINR(I)
           SSIZE = SSIZE + IKC_SI(I)
          ENDIF
@@ -6028,7 +6028,7 @@ C----------Ksm ------------------------------
        DO N=1,NSL
         IAD_M1(N+1) = IAD_M1(N)+IKC_SL(N)
        ENDDO
-C------cp KSL_FR dans KSI_FR-(pour des kin sans modif-----
+C------copy KSL_FR to KSI_FR-(for kin without modification-----
        DO I = 1,NSL
          NS = ISL(I)
          DO J = 1,IKC_SL(I)
@@ -7252,7 +7252,7 @@ C----------NF_SL : new nm times of [K]3x3- of dependant-------------------------
      .      NFAC = NFAC +1
            ENDIF
           ENDDO
-Ctmp cas particulier d_imp dans tous les directions
+Ctmp special case of d_imp in all directions
           IF (NDOF(N)>0.AND.IAD_SLNR(I)==IAD_SLNR(I+1))NFAC = 1
          ELSE
           NFAC = 1
@@ -7356,7 +7356,7 @@ C
             IADI=IADI+1
            ENDIF
           ENDDO
-Ctmp cas particulier d_imp dans tous les directions
+Ctmp special case of d_imp in all directions
          IF (NODOF) THEN
            IF (NDOF(N)>0.AND.IAD_SLNR(I)==IAD_SLNR(I+1))THEN
             NB = SIZE

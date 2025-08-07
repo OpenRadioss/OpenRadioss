@@ -423,7 +423,7 @@ C ROTATE STORED VALUES IN GLOBAL DIRECTIONS INTO NEW PRINCIPAL DIRECTIONS
                 UVAR(I,N+3*(M-1)) = SN(N,N)
               ENDDO
             ENDDO
-C           pour la partie decay et hysteresis
+C           for the decay and hysteresis part
             IF (BETA>TINY.AND.KRECOVER/=2) THEN
               DO M=1,2
                 DO  N=1,3

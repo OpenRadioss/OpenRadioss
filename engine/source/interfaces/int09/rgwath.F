@@ -107,7 +107,7 @@ C
        ZWL=X(M3)+VZW*DT2
       ENDIF
 C-----------------------
-C     VITESSE DE MATIERE ET GRILLE
+C     material and grid velocity
 C-----------------------
 C
       DO 10 N=1,NUMNOD
@@ -219,7 +219,7 @@ C
         CALL SUM_6_FLOAT(1, NSN, F6, FRWL6(6,1), 6)
         
         IF(NSPMD > 1) THEN
-C   si proc concerne par le rgwall
+C   if processor is concerned by rgwall
           IF(FR_WALL(ISPMD+1)/=0) THEN
             CALL SPMD_EXCH_FR6(FR_WALL,FRWL6,6*6)
           ENDIF

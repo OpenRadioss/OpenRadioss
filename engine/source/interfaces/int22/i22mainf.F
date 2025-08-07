@@ -235,7 +235,7 @@ C
         I_STOK = 0
       
       !-------------------------------!
-      !RECALCULATE DU I_STOK          !
+      !recalculate du i_stok
       !-------------------------------!
           DO I = DEBUT+1, DEBUT+I_STOK_LOC
             IF(INTBUF_TAB%CAND_N(I)/=0) THEN

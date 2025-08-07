@@ -149,7 +149,7 @@ C-----------------------------------------------
       NSNL = (ITASK+1)*NSN / NTHREAD
 C
       DO I = NSNF, NSNL
-C si tag nul sur noeuds secnds alors stifn = 0. des le cycle courant
+C if tag is zero on secondary nodes then stifn = 0 from the current cycle
         IF (ITAG(NSV(I)) == 0) THEN
           STFN(I) = ZERO
         END IF
@@ -286,7 +286,7 @@ C-----------------------------------------------
      .        OFQ, OFC, OFT, OFP, OFR, OFTG, OFUR, NG
 CC-----------------------------------------------
 C
-C Pre construction de ADDCNEL
+C pre-construction of addcnel
 C    
       DO I=0,NUMNOD+1
         ADDCNEL(I) = 0
@@ -379,10 +379,10 @@ C
         ADDCNEL(I) = ADDCNEL(I) + ADDCNEL(I-1)
       END DO
 C
-C Construction de la matrice CNEL
+C construction of the cnel matrix
 C
-C CNEL est contruite de maniere analogue a ce qui est fait dans chkstfn3n (traitement idel)
-C la numerotation dans CNEL est globale de 1 a NUMELS+NUMELQ+...+NUMELR
+C cnel is built in a similar way as in chkstfn3n (idel processing)
+C numbering in cnel is global from 1 to numels+numelq+...+numelr
 C
       ADSKY(0) = 0
       DO I = 1, NUMNOD
@@ -1110,7 +1110,7 @@ C
      .            LOCAL_ELEM_INDEX(1:GLOBAL_NB_ELEM_OFF(ITASK+1))
 
 
-C      CALL MY_BARRIER() => remplace par barriere implicite sur do //
+C      call my_barrier() => replaced by implicit barrier on do //
 C
 C SPMD SPECIFIQUE : ECHANGE ITAG NOEUDS FRONTIERES
 C
@@ -1136,7 +1136,7 @@ C Partie non parallele
 !$OMP SINGLE
       IF (R2R_SIU == 1.AND.IDEL7NOK==1) THEN
 C-----------------------------------------------------------------
-C       Envoi de ITAG et TAGEL pour multidomaines
+C       sending itag and tagel for multidomains
 C-----------------------------------------------------------------
         IF (IDEL7NOK_SAV > 0) THEN
 C       communication partie nodale ITAGq
@@ -1169,7 +1169,7 @@ C-----------------------------------------------------------------
            CALL GET_IBUF_C(LENR,1)
         ENDIF
 C-----------------------------------------------------------------
-C       Assemblage ITAG pour multidomaines
+C       assembling itag for multidomains
 C-----------------------------------------------------------------
         CALL R2R_EXCH_ITAG(IEXLNK,IGRNOD,ITAG,1)
         IF (SDD_R2R_ELEM > 0) THEN
@@ -1177,7 +1177,7 @@ C-----------------------------------------------------------------
           CALL SPMD_EXCH_R2R_ITAG(ITAG,IAD_ELEM,FR_ELEM,DD_R2R,DD_R2R_ELEM,LENR)
         ENDIF
 C-----------------------------------------------------------------
-C       Reception TAGEL pour multidomaines
+C       receiving tagel for multidomains
 C-----------------------------------------------------------------
         IF (IDEL7NOK_R2R > 0) THEN
           CALL GET_SHMBUF_C(NTAGEL_R2R_RECV,4)
@@ -1216,7 +1216,7 @@ C
               ENDDO
             ENDIF   
           ENDDO
-C       RAZ de IDEL7NOK_R2R et NTAGEL_R2R_RECV
+C       reset of idel7nok_r2r and ntagel_r2r_recv
           IDEL7NOK_R2R = 0
           NTAGEL_R2R_RECV = 0
           CALL SEND_SHMBUF_C(IDEL7NOK_R2R,2)
@@ -1782,7 +1782,7 @@ C
       IF(NSPMD > 1) THEN
 
 C
-C Traitement supplementaires en SPMD avec un seul point de communication
+C additional processing in spmd with a single communication point
 C
 
 C Partie non parallele
@@ -1799,7 +1799,7 @@ C Partie non parallele
      6         TAGEL  ,IAD_ELEM)
 
 C
-C Finalisation de la partie MAJ STIF
+C finalization of the update stif part
 C
        IF(INT24USE==1.OR.NINTER25/=0)THEN
          ALLOCATE(INDSEGLO_SAV(NINTER+1))
@@ -1900,7 +1900,7 @@ C Fin Partie non parallele
 
       END IF  ! specifique NSPMD > 1    
 C
-C barrier et remise a 0 de idel7nok effectuees dans resol
+C barrier and reset of idel7nok performed in resol
 C
       RETURN
       END
@@ -2059,7 +2059,7 @@ C
          END IF
        END DO
 C
-C   on a rien trouve, il faut voir sur les autres procs en SPMD (cas elt double ou facette avec nds frontiere sur 2 cpus)
+C   nothing found, need to check on other procs in spmd (case of double element or facet with boundary nodes on 2 cpus)
        IF(NSPMD > 1) THEN
 #include "lockon.inc"
          ICOMP = ICOMP + 1
@@ -2422,7 +2422,7 @@ C
          END IF
        END DO
 C
-C   on a rien trouver, il faut voir sur les autres procs en SPMD (cas elt double ou facette avec nds frontiere sur 2 cpus)
+C   nothing found, need to check on other procs in spmd (case of double element or facet with boundary nodes on 2 cpus)
        IF(NSPMD > 1) THEN
 #include "lockon.inc"
          ICOMP = ICOMP + 1
@@ -3434,7 +3434,7 @@ C
         IS=NSV(I)
         IF(IS > 0) THEN
 C
-C       la facette detruite est eventuellement sur un autre processeur
+C       the destroyed facet is possibly on another processor
 C
           L  =IRTL(I)
           N1 = IRECT(1,L)
@@ -3602,7 +3602,7 @@ C
          END IF
        END DO
 C
-C   on a rien trouver, il faut voir sur les autres procs en SPMD (cas elt double ou facette avec nds frontiere sur 2 cpus)
+C   nothing found, need to check on other procs in spmd (case of double element or facet with boundary nodes on 2 cpus)
        IF(NSPMD > 1) THEN
 #include "lockon.inc"
          ICOMP = ICOMP + 1

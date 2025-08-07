@@ -99,7 +99,7 @@ C     IF(INACTI==5)THEN
             NE = PROV_M(I)
 
             IF(N>NEDGE) THEN
-C numerotation tris precedent pour les noeuds non locaux (SPMD)
+C numbering of previous sorts for non-local nodes (spmd)
               N = OLDNUM_EDGE(N-NEDGE)+NEDGE
               IF(N <= NEDGE) N = NEDGE+NEDGE_REMOTE_OLD+1
             END IF

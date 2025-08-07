@@ -779,7 +779,7 @@ C--------------------------------------------------
 C--------------------------------------------------
               ELSEIF(KEYWORD == 'WPLA' .AND. MLW == 25) THEN
 C--------------------------------------------------
-C               WPLA par couche pour loi 25
+C               wpla by layer for law 25
                 IOK = 0
                 DO I=1,NEL
                   EVAR(I) = ZERO
@@ -811,7 +811,7 @@ C               WPLA par couche pour loi 25
 C--------------------------------------------------
               ELSEIF (KEYWORD == 'FLAY' .AND. MLW == 25) THEN
 C--------------------------------------------------
-C---            FAILED LAYERS par elem pour loi 25
+C---            failed layers per element for law 25
                 DO I=1,NEL
                   EVAR(I) = ZERO
                 ENDDO
@@ -1013,7 +1013,7 @@ c ILAYER=NULL NPT=NULL
                     DO I=1,NEL
                       N = I + NFT
                       IF(ISORTH ==1) THEN
-C                      pour JHBE=14, valeurs moyennes est dans rep. corota.
+C                      for jhbe=14, average values are in the corota frame.
                         IF(IGTYP == 21 .OR. IGTYP == 22) THEN
                           GAMA(1)= LBUF%GAMA(JJ(1)+I)
                           GAMA(2)= LBUF%GAMA(JJ(2)+I)
@@ -1069,7 +1069,7 @@ c ILAYER=NULL NPT=NULL
                     DO I=1,NEL
                       N = I + NFT
                       IF(ISORTH ==1) THEN
-C                      pour JHBE=14, valeurs moyennes est dans rep. corota.
+C                      for jhbe=14, average values are in the corota frame.
                         IF(IGTYP == 21 .OR. IGTYP == 22) THEN
                           GAMA(1)= LBUF%GAMA(JJ(1)+I)
                           GAMA(2)= LBUF%GAMA(JJ(2)+I)
@@ -1124,7 +1124,7 @@ c ILAYER=NULL NPT=NULL
                     DO I=1,NEL
                       N = I + NFT
                       IF(ISORTH ==1) THEN
-C                      pour JHBE=14, valeurs moyennes est dans rep. corota.
+C                      for jhbe=14, average values are in the corota frame.
                         IF(IGTYP == 21 .OR. IGTYP == 22) THEN
                           GAMA(1)= LBUF%GAMA(JJ(1)+I)
                           GAMA(2)= LBUF%GAMA(JJ(2)+I)

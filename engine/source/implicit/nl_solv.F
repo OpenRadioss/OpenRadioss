@@ -151,7 +151,7 @@ c     insolv=4,5 =>  elastoplastic
 C------------------------------------------
 C------------------------------------------
 C------------------------------------------
-C     [K]:matrice de rigidite [M]:matrice de preconditionnement
+C     [K]:stiffness matrix [M]:preconditioning matrix
 c        F_DDL=1+ITASK*NDDL/NTHREAD
 c        L_DDL=(ITASK+1)*NDDL/NTHREAD
 C
@@ -357,7 +357,7 @@ citask0       IF (ITASK == 0) THEN
          ENDIF
                CALL IMP_STOP(-1)
         ENDIF
-C--------pour idtc>=2-----
+C--------for idtc>=2-----
         U02=U2
         IF(INPRINT/=0)THEN
          RU=SQRT(U2)

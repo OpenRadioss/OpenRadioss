@@ -374,7 +374,7 @@ C--------
       END IF
 
 C-----------------------------------------------
-C Comm H et A sur cellules remotes
+C Communication H and A on remote cells
 C-----------------------------------------------
       IF(NSPMD>1)THEN
         IF(ITASK==0) THEN
@@ -661,12 +661,12 @@ C         BETAZJ=WACOMPR(4,SM)
       END DO
 C-----
 
-C barrier sur A & ASPHR
+C barrier on A & ASPHR
 C    /---------------/
       CALL MY_BARRIER
 C    /---------------/
 
-C     Assemblage des forces dans A
+C     Force assembly in A
       IF(NSPHSOL==0)THEN
         DO NS=ITASK+1,NSPHACT,NTHREAD
           N=WASPACT(NS)

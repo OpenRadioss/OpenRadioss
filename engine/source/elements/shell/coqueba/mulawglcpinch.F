@@ -115,7 +115,7 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
 C
       LBUF => ELBUF_STR%BUFLY(1)%LBUF(IR,IS,1)
 C
-C     pour les lois user pid(i)=pid(1)
+C     for user laws pid(i)=pid(1)
       IGTYP = IGEO(11,PID(1))
       NUVAR = ELBUF_STR%BUFLY(1)%NVAR_MAT
       UVAR  =>ELBUF_STR%BUFLY(1)%MAT(IR,IS,1)%VAR
@@ -256,7 +256,7 @@ C
      H                 NGL     ,EZZAVG  ,AREAPINCH)
       ENDIF
 C-----------------------
-C      FORCES ET MOMENTS
+C      forces and moments
 C-----------------------
       DO I=JFT,JLT
         FOR(I,1) = SIGNXX(I)
@@ -297,8 +297,8 @@ C
         EINT(I,2) = EINT(I,2) + DEGFX(I)*THK0(I)*VOL2
       ENDDO
 C----------------------------
-C     TEST DE RUPTURE DUCTILE
-C     INDX utilise dans IELOF
+C     ductile failure test
+C     indx used in ielof
 C----------------------------
       NINDX=0
       DO I=JFT,JLT

@@ -173,7 +173,7 @@ C     HEXA CASE
                      F16(:) = ZERO ; F26(:) = ZERO ; F36(:) = ZERO
                      F17(:) = ZERO ; F27(:) = ZERO ; F37(:) = ZERO
                      F18(:) = ZERO ; F28(:) = ZERO ; F38(:) = ZERO
-C     Assemblage des forces nodales
+C     Assembly of nodal forces
                      DO II = LFT, LLT
                         I = II + NFT
                         NC1(II) = IXS(2, I)
@@ -245,7 +245,7 @@ C     Node 8
                      ENDDO
                      
 C--------------------------
-C     UPDATE DES MASSES
+C     UPDATE OF MASSES
 C----------------------------
                      IF(IPARIT == 0)THEN
                         CALL AMASS3(
@@ -321,7 +321,7 @@ C-----------------------------------------------
                      F14(:) = ZERO ; F24(:) = ZERO ; F34(:) = ZERO
                      DMASS1(:) = ZERO ; DMASS2(:) = ZERO ; DMASS3(:) = ZERO ; DMASS4(:) = ZERO
 
-C     Assemblage des forces nodales
+C     Assembly of nodal forces
                         DO II = LFT, LLT
                            I = II + NFT
                            NC1(II) = IXS(2, I)
@@ -360,7 +360,7 @@ C     Node 4
      .                          (NORM(3, 4, II) * SURF(4, II) + NORM(3, 2, II) * SURF(2, II) + NORM(3, 6, II) * SURF(6, II))
                      ENDDO
 C--------------------------
-C     UPDATE DES MASSES
+C     UPDATE OF MASSES
 C----------------------------
                      IF (IPARIT == 0) THEN
                         CALL A4MASS3(

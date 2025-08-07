@@ -340,7 +340,7 @@ C-----------------------------------------------
      .         'S','T','U','V','W','X','Y','Z','A','B',
      .         'C','D','E','F','G','H'/
 C--------------------------------------
-C     PREPARATION DES VARIABLES ENTIERES ET REELLES.
+C     preparation of integer and real variables.
 C--------------------------------------
       IPARI0 = IPARIT
       SFR_ELEM = SIZE(NODES%BOUNDARY,1)
@@ -445,7 +445,7 @@ C--------------------------------------
       ENDDO
       CALL WRITE_I_C(ITITLE,LTITLE)
 C--------------------------------------
-C     ECRITURE DU HEADER.
+C     writing the header.
 C--------------------------------------
 C     RADIOSS FILE R/W
       TABHEAD(1) =IRADIOS
@@ -480,7 +480,7 @@ C
       CALL WRITE_I_C(LHEADER, 1)
       CALL WRITE_I_C(TABHEAD, LHEADER)
 C--------------------------------------
-C     ECRITURE DES VARIABLES ENTIERES
+C     writing integer variables
 C--------------------------------------
       CALL WRITE_I_C(TABVINT,LVARINT)
 C--------------------------------------
@@ -488,7 +488,7 @@ C     WRITE CHECKSUM DIGEST
 C--------------------------------------
       CALL checksum_restart_write(OUTPUT%CHECKSUM)
 C--------------------------------------
-C     ECRITURE DES ENTIERS
+C     writing integers
 C--------------------------------------
       LEN_G = NPROPGI*NUMGEO
       LEN_M = NPROPMI*NUMMAT
@@ -973,7 +973,7 @@ C  ply xfem
 C
         IF(IPLYXFEM > 0) THEN
             CALL WRITE_I_C(ADSKY_PXFEM,NPLYXFE+1 )
-C lecture directe de PROCNE
+C direct reading of PROCNE
             CALL WRITE_I_C(PROCNE_PXFEM,LCNEPXFEM)
             CALL WRITE_I_C(IADC_PXFEM,4*EPLYXFE)
         ENDIF
@@ -1094,11 +1094,11 @@ C--------------------------------------
         ENDDO
       ENDIF
 C--------------------------------------
-C     ECRITURE DES VARIABLES REELLES
+C     writing real variables
 C--------------------------------------
       CALL WRITE_DB(TABVREA, LVARREA)
 C--------------------------------------
-C     ECRITURE DES REELS
+C     writing reals
 C--------------------------------------
          CALL WRITE_DB(NODES%X,SX)
 
@@ -1277,7 +1277,7 @@ C--------------------------------------
 C     ECRITURES FACULTATIVES
 C--------------------------------------
       IF (IRESMD==0.AND.NPSAV>=25) THEN
-C   on ramene PARTSAV sur le proc et on met a zero les autres
+C   bring PARTSAV back to the proc and set the others to zero
           IF(NSPMD > 1)
      .      CALL SPMD_GLOB_DSUM9(PARTSAV,NPSAV*NPART)
           IF (ISPMD/=0)THEN
@@ -1304,8 +1304,8 @@ C
         CALL WRITE_DPDB(NODES%XDP,3*NUMNOD)
         CALL WRITE_DPDB(NODES%DDP,3*NUMNOD)
       ENDIF
-C besoin pour les check restart
-C on a besoin car les restart sont les memes des check restart
+C needed for check restart
+C needed because the restarts are the same as the check restart
         MY_ILEN = 4*NRLINK+NRLINK*(NSPMD+2)
      .           +LLLINK+LLLINK*MIN(1,IPARIT)
      .           +NSFLSW+8*NTFLSW+44*NCUTS !+LLINAL

@@ -459,7 +459,7 @@ C             goes to sleep
 C
           IDEL7NOK=1
 C
-C         compactage de LSH4ACT
+C         compaction of LSH4ACT
           NTMP   =NSH4ACT
           NSH4ACT=0
           DO NN=1,NTMP
@@ -594,7 +594,7 @@ C         goes to sleep
 
       IF(KINILEV/=0)THEN
 C
-C     compactage de LSH4ACT
+C     compaction of LSH4ACT
         NTMP   =NSH4ACT
         NSH4ACT=0
         DO NN=1,NTMP
@@ -760,7 +760,7 @@ C             goes to sleep
 C
           IDEL7NOK=1
 C
-C         compactage de LSH4ACT
+C         compaction of LSH4ACT
           NTMP   =NSH3ACT
           NSH3ACT=0
           DO NN=1,NTMP
@@ -877,7 +877,7 @@ C         goes to sleep
 
       IF(KINILEV/=0)THEN
 C
-C     compactage de LSH4ACT
+C     compaction of LSH4ACT
         NTMP   =NSH3ACT
         NSH3ACT=0
         DO NN=1,NTMP
@@ -987,7 +987,7 @@ c            ELSEIF (LEVEL==(-LEVELMAX-1)) THEN
        ENDIF 
       ENDIF
 C
-C     tableaux de travail.
+C     working arrays.
       ALLOCATE(TAGNOD(NUMNOD),STAT=IERR)
       IF (IERR /= 0) CALL ARRET(2)
 

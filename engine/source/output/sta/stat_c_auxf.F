@@ -312,7 +312,7 @@ C
             ENDIF
 c--------------------
             IE=IE+1
-C         pointeur de fin de zone dans WA
+C         end-of-zone pointer in wa
             PTWA(IE)=JJ
           ENDDO  !  DO I=LFT,LLT
         ENDIF  !  IF (ITY == 3)
@@ -330,7 +330,7 @@ C
           WAP0(J)=WA(J)
         ENDDO
       ELSE
-C       construit les pointeurs dans le tableau global WAP0
+C       builds the pointers in the global wap0 array
         CALL SPMD_STAT_PGATHER(PTWA,STAT_NUMELC,PTWA_P0,STAT_NUMELC_G)
         LEN = 0
         CALL SPMD_RGATHER9_DP(WA,JJ,WAP0,SIZP0,LEN)
@@ -618,7 +618,7 @@ c
             ENDIF
 c--------------------
             IE=IE+1
-C         pointeur de fin de zone
+C         end-of-zone pointer
             PTWA(IE)=JJ
           ENDDO  !  DO I=LFT,LLT
         ENDIF  !  IF (ITY == 7) THEN
@@ -636,7 +636,7 @@ C
           PTWA_P0(N)=PTWA(N)
         ENDDO
       ELSE
-C       construit les pointeurs dans le tableau global WAP0
+C       builds the pointers in the global wap0 array
         CALL SPMD_STAT_PGATHER(PTWA,STAT_NUMELTG,PTWA_P0,STAT_NUMELTG_G)
         LEN = 0
         CALL SPMD_RGATHER9_DP(WA,JJ,WAP0,SIZP0,LEN)

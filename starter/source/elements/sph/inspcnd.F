@@ -89,7 +89,7 @@ C-----------------------------------------------
          ISPTAG(I)=1
         ENDDO
 C-----------------------------------------------
-C       creation des skews (prepare l'addition des conditions cinematiques).
+C       creation of skews (prepares the addition of kinematic conditions).
         DO I=1,NUMSPH
          J =NUMSKW+1+I
          INOD=KXSP(3,I)

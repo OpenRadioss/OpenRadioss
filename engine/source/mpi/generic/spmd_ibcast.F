@@ -84,7 +84,7 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
 
 C     si FROM = 0 ADD = 2 broadcast depuis 0 sur les autres
-C     si FROM = NSPMD  ADD = 1 de NSPMD sur les autres
+C     if FROM = NSPMD ADD = 1 from NSPMD on others
 
       IF(ISPMD==FROM)THEN
        call MPI_BCAST(TABI,N1*N2,MPI_INTEGER,FROM,

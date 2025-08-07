@@ -231,7 +231,7 @@ C
                   ENDIF
                 ENDDO
               ENDIF
-C + la t hermique
+C + the thermal
             ELSE
               IF(GLOB_THERM%NODADT_THERM == 1) THEN
                 IF(NFSKYI==4) THEN
@@ -330,7 +330,7 @@ C
                   ENDIF
                 ENDDO
               ENDIF
-C + la t hermique
+C + the thermal
             ELSE
               IF(GLOB_THERM%NODADT_THERM == 1) THEN
                 IF(NFSKYI==4) THEN
@@ -496,7 +496,7 @@ C
             ISKYF(I) = ISKYFT(I)
           ENDDO
         ELSE
-C tag a 0 de itagx sur noeud frontiere
+C tag set to 0 of itagx on frontiere node
           DO I = 1, NSPMD
             IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)>0) THEN
               DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
@@ -570,7 +570,7 @@ C   cas   3D seul possible
                   ENDIF
                 ELSE
 C
-C code A  LE-CFD Avec Parit/ON MASSE
+C code A LE-CFD With Parit/ON MASSE
 C
 C
 C prepar  ation envoi partie fixe (elem) a proc I
@@ -609,7 +609,7 @@ C   cas   3D seul possible
                   ENDIF
                 ENDIF
 C
-C --- plus la thermque
+C --- more the thermque
 C
               ELSE
                 IF(IFSUBM==0)THEN
@@ -678,7 +678,7 @@ C prepar  ation envoi a proc I partie fixe (elem)
                   ENDIF
                 ELSE
 C
-C code A  LE-CFD Avec Parit/ON MASSE
+C code A LE-CFD With Parit/ON MASSE
 C
 C
 C prepar  ation envoi partie fixe (elem) a proc I
@@ -800,7 +800,7 @@ C
                   ENDIF
                 ELSE
 C
-C code A  LE-CFD Avec Parit/ON MASSE
+C code A LE-CFD With Parit/ON MASSE
 C
 C
 C prepar  ation envoi partie fixe (elem) a proc I
@@ -847,7 +847,7 @@ C
                   ENDIF
                 ENDIF
 C
-C --- plus la thermque
+C --- more the thermque
 C
               ELSE
                 IF(IFSUBM==0)THEN
@@ -938,7 +938,7 @@ C
                   ENDIF
                 ELSE
 C
-C code A  LE-CFD Avec Parit/ON MASSE
+C code a le-cfd with parity/on mass
 C
 C
 C prepar  ation envoi partie fixe (elem) a proc I
@@ -1118,7 +1118,7 @@ C --- /PCONT/MAX output
               END DO
             ENDIF
 
-C partie interface : calcul et envoi du nb de noeuds a envoyer
+C interface part: calculation and sending of the number of nodes to send
             nbi = 0
             IF(NISKYF/=0) THEN
 #include "vectorize.inc"
@@ -1246,7 +1246,7 @@ C cas 3D    seul possible
                 ENDIF
               ENDIF
 C
-C--- plus la thermique
+C--- plus thermal
 C
             ELSE
               IF(IFSUBM==0)THEN
@@ -1470,7 +1470,7 @@ C
                 ENDIF
               ENDIF
 C
-C--- plus la thermique
+C--- plus thermal
 C
             ELSE
               IF(IFSUBM==0)THEN
@@ -1736,7 +1736,7 @@ C --- /PCONT/MAX output
             END DO
           ENDIF
 
-C partie interface : recupere le nb de noeuds a recevoir
+C interface part: retrieves the number of nodes to receive
           NBI = NINT(RBUF(L))
 C       L = L + 1
           NBIRCT = NBIRCT + NBI

@@ -102,7 +102,7 @@ C
 C
       IF(IHBE<=1)THEN
         DO I=JFT,JLT
-C z2 mis a zero pour non equilibre des foreces et moments d'hourglass
+C z2 set to zero for imbalance of hourglass forces and moments
           Z2(I) = ZERO
           DT1V4 = FOURTH*DT1C(I)
           IF(IMPL_S>0) DT1V4=ZERO

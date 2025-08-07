@@ -97,7 +97,7 @@ C-----------------------------------------------
      .         GET_U_GEO
       EXTERNAL GET_U_GEO
 C--------------------------------------------------------------
-C         BORNAGE DES GROUPES DE MVSIZ
+C         bounding of MVSIZ groups
 C--------------------------------------------------------------
       CALL MY_ALLOC(INUM,13,NUMSPH)
       CALL MY_ALLOC(INDEX,2*NUMSPH)
@@ -250,7 +250,7 @@ C ne pas oublier renumeroter selection th et surface si concerne
 C
 C
 C phase 2 : bornage en groupe de mvsiz
-C ngroup est global, iparg est global mais organise en fonction de dd
+C ngroup is global, iparg is global but organized based on dd
 C
       JALE=0
       JEUL=0

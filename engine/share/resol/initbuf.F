@@ -275,10 +275,10 @@ C-----------------------------------------------
      .   IREP,IINT,IGTYP,JCVT,ISROT,ISRAT,ISORTH,ISORTHG,ICSEN,IFAILURE,
      .   JSMS
 C-----------------------------------------------
-C    Comment : Initialisation des variables de vect01_c.inc
-C              dans les boucles sur les groupes.
-C              Necessaire pour routines telles que sbufad qui dimensionnent
-C              le buffeur elementaire.
+C    Comment: Initialization of vect01_c.inc variables
+C              in the loops over groups.
+C              Necessary for routines such as sbufad which dimension
+C              the elementary buffer.
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C=======================================================================

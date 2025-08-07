@@ -185,7 +185,7 @@ C-----------------------------------------------
      . VDX(MVSIZ),VDY(MVSIZ),VDZ(MVSIZ),SSP_EQ(MVSIZ),
      . AIRE(MVSIZ),CONDE(MVSIZ),CONDEG(MVSIZ,NPE),DIVDE(MVSIZ)
 
-      ! Variables utilisees en argument par les materiaux.
+      ! variables used as arguments by the materials.
       my_real
      .   STI(MVSIZ), WXX(MVSIZ) , WYY(MVSIZ) , WZZ(MVSIZ)
       ! Variables utilisees en argument par les materiaux si SPH uniquement.
@@ -199,7 +199,7 @@ C-----------------------------------------------
      . TEMPEL(MVSIZ),DIE(MVSIZ),THEM(MVSIZ,NPE),AREA(MVSIZ),LLSH(MVSIZ)
       my_real, dimension(mvsiz) :: fheat
      
-      ! Variables utilisees dans les routines solides uniquement (en arguments).
+      ! variables used only in solid routines (as arguments).
       INTEGER NC(MVSIZ,NPE),NN_DEL,IPRES,SZ_IX
       my_real
      .  OFF(MVSIZ) , RHOO(MVSIZ),NI(NPE,NIPMAX),
@@ -494,7 +494,7 @@ C-----------
      9   IT,                VOLDP(1,IP),       NEL)
             ENDIF
             !--------------------------
-            ! SOUS INTEGRATION DE SIGS
+            ! SUB-INTEGRATION OF SIGS
             !-------------------------
             DO I=1,NEL
               AA         = ONE / SQRT(SX(I,IP)*SX(I,IP) + SY(I,IP)*SY(I,IP) +SZ(I,IP)*SZ(I,IP))
@@ -720,7 +720,7 @@ C
      .                  LLSH,GEO(1,PID),NN_DEL,DT ,NEL )
       ENDIF
       !--------------------------
-      !     BILANS PAR MATERIAU
+      ! balances by material
       !--------------------------
       IFLAG=MOD(NCYCLE,NCPRI)
       IF(IOUTPRT>0)THEN

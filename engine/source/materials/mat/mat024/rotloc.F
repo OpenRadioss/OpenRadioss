@@ -90,7 +90,7 @@ C=======================================================================
             ENDDO
           ELSE
 C---------------------------------------------
-C            EN 2D LES CONTRAINTES SONT :
+C            in 2d the stresses are:
 C            1=YY 2=ZZ 3=TT 4=YZ 5=0 6=0
 C            EN CONTRADICTION AVEC X=T
 C            ATTENTION DGAMAER!

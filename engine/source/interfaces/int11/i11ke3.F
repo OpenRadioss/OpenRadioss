@@ -115,7 +115,7 @@ C
       GAPMIN=INTBUF_TAB%VARIABLES(13)
       KMIN =INTBUF_TAB%VARIABLES(17)
       KMAX =INTBUF_TAB%VARIABLES(18)
-C------pour evider la desactivation des noeuds secnds------
+Cto avoid deactivation of secondary nodes
       GAP_IMP=MIN(GAP_IMP,ZEP9*GAPMIN)
       IDESAC = 0
 C
@@ -393,7 +393,7 @@ C decoupage statique
         I_STOK = 0
 C
         NUM_IMP = 0
-C recalcul du istok
+C recalculation of istok
         DO I = DEBUT+1, DEBUT+I_STOK_LOC
           IF(INTBUF_TAB%CAND_N(I)<0) THEN
             I_STOK = I_STOK + 1

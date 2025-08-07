@@ -77,7 +77,7 @@ C
             IF(NLOCAL(MSR,PROC+1)==1) THEN
               NPRW_L(N3) = NODLOCAL(MSR)
             ELSE
-C noeud non present sur le proc, MSR a 0 pour eviter les comms.
+C node not present on the proc, MSR set to 0 to avoid comms.
               NPRW_L(N3) = 0
             ENDIF
           ENDIF

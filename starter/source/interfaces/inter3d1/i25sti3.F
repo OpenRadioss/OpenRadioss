@@ -127,10 +127,10 @@ C     REAL
       DATA JPERM/2,3,4,1/
       INTEGER, DIMENSION(:),ALLOCATABLE ::INRTIE
 C--------------------------------------------------------------
-C     CALCUL DES RIGIDITES DES SEGMENTS
-C     V16 : DANS LE CAS OU ONE SEGMENT APPARTIENT A LA FOIS
-C           A UNE BRIQUE ET A UNE COQUE ON CHOISIT LA RIGIDITE
-C           DE LA COQUE SAUF SI LE MATERIAU COQUE EST NUL.
+C     CALCULATION OF SEGMENT STIFFNESSES
+C     V16: IN CASE A SEGMENT BELONGS TO BOTH
+C           A BRICK AND A SHELL, WE CHOOSE THE STIFFNESS OF THE SHELL
+C           OF THE SHELL UNLESS THE SHELL MATERIAL IS NULL.
 C---------------------------------------------------------------
 C      NRT->NRT0
       ALLOCATE(TAGB(NUMNOD))
@@ -463,7 +463,7 @@ C------recalculate GAP_MIN,MAX
         END IF
       END IF!(IPRI>=1) THEN
 C
-C SUP DES GAPS VARIABLES
+C ABOVE VARIABLE GAPS
       IF( IGAP == 3) THEN
         GAP = MIN(GAPS_MX+GAPM_MX,GAPS_L_MX+GAPM_L_MX)
       ELSE
@@ -506,7 +506,7 @@ C-------supposing only small segments (sub-triangles) for 10 nodes tetras ------
         CALL I24NORMNS(
      1  X     ,IRECT ,NRT   ,NSN   ,NSV   ,PEN_OLD,STF )
       END IF
-C calcul du surface second. ---
+C calculation of the second surface. ---
       IF(INTTH > 0 .OR. IVIS2==-1) THEN
 
         IF(NUMELC/=0) THEN
@@ -1228,7 +1228,7 @@ C=======================================================================
       ALLOCATE (LINEIX(2,NLMAX)    ,STAT=stat)
       ALLOCATE (INDEX(2*NLMAX)     ,STAT=stat)
 c---------------------------------------
-c       recherche de toutes les lignes dans la surface
+c       search for all lines on the surface
 c---------------------------------------
       IS = 0
       LL = 0
@@ -1268,7 +1268,7 @@ C
       CALL MY_ORDERS(0,IWORK,LINEIX,INDEX,LL,2)
 
 c---------------------------------------
-c       suppression des lignes doubles
+c       removal of double lines
 c---------------------------------------
       I1M = LINEIX(1,INDEX(1))
       I2M = LINEIX(2,INDEX(1))
@@ -1278,11 +1278,11 @@ c---------------------------------------
         I1 = LINEIX(1,INDEX(L))
         I2 = LINEIX(2,INDEX(L))
         IF(I2 == I2M .and. I1 == I1M)THEN
-C nest pas sur le bord
+C is not on the edge
           BORD=0
           BOLD=0
         ELSEIF(BOLD == 0)THEN
-C on vient de recoller, on repart avec cette nouvelle arete.
+C just reattached, we proceed with this new edge.
 C           BORD=0
           BOLD=1
         ELSE
@@ -1296,7 +1296,7 @@ C           BORD=0
       ENDDO
 
       IF(BORD==1)THEN
-c         derniere arrete est un bord
+c         last edge is an edge
         TAGB(I1) = 1
         TAGB(I2) = 1
       ENDIF

@@ -111,7 +111,7 @@ C-----------------------------------------------
        ROT(I)=BUFSF(ADRBUF+7+I-1)
       END DO
 C-----------------------------------------------
-C     Noeud main dans le repere de l'ellipsoide :
+C     main node in the ellipsoid coordinate system
 C-----------------------------------------------
       X1=BUFSF(ADRBUF+16)-BUFSF(ADRBUF+4)
       X2=BUFSF(ADRBUF+17)-BUFSF(ADRBUF+5)
@@ -129,7 +129,7 @@ C-----------------------------------------------
       VYM=ROT(4)*V1+ROT(5)*V2+ROT(6)*V3
       VZM=ROT(7)*V1+ROT(8)*V2+ROT(9)*V3
 C-----------------------------------------------
-C     Vitesse  de rotation du noeud main en local.
+C     rotation speed of the main node in local coordinates
 C-----------------------------------------------
       V1=BUFSF(ADRBUF+22)
       V2=BUFSF(ADRBUF+23)
@@ -219,7 +219,7 @@ C------------------------------
       FYT(1,I)=ZERO
       FZT(1,I)=ZERO      
 C-------------------------------
-C     TOURNER DELTA(T-1) DANS LE PLAN TANGENT.
+C     rotate delta(t-1) in the tangent plane
 C-------------------------------
       IF (IACTIV(1,IL)>2) THEN
        DELTX=DOLD(1,4*(IL-1)+1)
@@ -322,7 +322,7 @@ C----------------------------------------------------------
       FYT(2,I)=ZERO
       FZT(2,I)=ZERO    
 C-------------------------------
-C     TOURNER DELTA(T-1) DANS LE PLAN TANGENT.
+C     rotate delta(t-1) in the tangent plane
 C-------------------------------
       IF (IACTIV(2,IL)>2) THEN
        DELTX=DOLD(1,4*(IL-1)+2)
@@ -426,7 +426,7 @@ C------------------------------
       FYT(3,I)=ZERO
       FZT(3,I)=ZERO    
 C-------------------------------
-C     TOURNER DELTA(T-1) DANS LE PLAN TANGENT.
+C     rotate delta(t-1) in the tangent plane
 C-------------------------------
       IF (IACTIV(3,IL)>2) THEN
        DELTX=DOLD(1,4*(IL-1)+3)
@@ -530,7 +530,7 @@ C------------------------------
       FYT(4,I)=ZERO
       FZT(4,I)=ZERO    
 C-------------------------------
-C     TOURNER DELTA(T-1) DANS LE PLAN TANGENT.
+C     rotate delta(t-1) in the tangent plane
 C-------------------------------
       IF (IACTIV(4,IL)>2) THEN
        DELTX=DOLD(1,4*(IL-1)+4)

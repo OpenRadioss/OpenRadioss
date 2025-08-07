@@ -207,7 +207,7 @@ C
            CALL STOPTIME(TIMERS,95)
          END IF
          CALL STARTIME(TIMERS,91)
-C Recuperation des cellules SPH remotes NSPHR stockees dans XSPHR
+C Recovery of remote SPH cells NSPHR stored in XSPHR
 C 
          CALL SPMD_SPHVOX(KXSP ,SPBUF,WSP2SORT,BMINMA,X)
          CALL SPMD_ALL_DMAX(DMAX,1)

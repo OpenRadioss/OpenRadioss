@@ -340,7 +340,7 @@ C!!!!!!!!!!!!!!!!!!!!!!!!
 C
        ENDDO
 C---------------------
-C      MAJ CAND_F sur PENE et STIF et recompactage
+C      UPDATE CAND_F on PENE and STIF and recompaction
 C---------------------
 C 
       IF(IDTMINS < 2)THEN

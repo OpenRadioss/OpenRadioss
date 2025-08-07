@@ -103,7 +103,7 @@ C----------------------------
 C     REPERE ISO
 C----------------------------
       DO I=1,NEL 
-        ! P milieu des aretes
+        ! p at the middle of edges
         P1X(I)=(X1(I)+X5(I))*HALF
         P1Y(I)=(Y1(I)+Y5(I))*HALF
         P1Z(I)=(Z1(I)+Z5(I))*HALF
@@ -177,7 +177,7 @@ C----------------------------
         AREA(I) = FOURTH*DET(I)
       ENDDO
 C-----------
-C     Prepare les sorties par part.
+C     prepares outputs by part
 C-----------
       IF (IOUTPRT == 1) THEN
        DO I=1,NEL
@@ -383,7 +383,7 @@ C
         Q(I,8) = E3Y(I)
         Q(I,9) = E3Z(I)
 C--------------------   
-C       Vecteur de la  rotation instantanee
+C       vector of instantaneous rotation
 C
         CS = HALF * (MROT(1)+MROT(5)+MROT(9)-ONE)
         IF (CS >= ONE) THEN

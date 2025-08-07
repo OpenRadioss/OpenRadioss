@@ -141,7 +141,7 @@ C-----------------------------------------------
                 ENDIF ! IF (MLW == 36)
 !---
                 IE=IE+1
-!               pointeur de fin de zone dans WA
+! end-of-zone pointer in wa
                 PTWA(IE)=JJ
               ENDIF ! IF (IPART_STATE(IPRT) /= 0)
             ENDDO  ! DO I=LFT,LLT
@@ -152,7 +152,7 @@ C-----------------------------------------------
 !     BEAM - WRITE
 !-----------------------------------------------------------------------
       IF (NSPMD == 1) THEN
-!       recopies inutiles pour simplification du code.
+! unnecessary copies for code simplification
         PTWA_P0(0)=0
         DO N=1,STAT_NUMELP
           PTWA_P0(N)=PTWA(N)
@@ -162,7 +162,7 @@ C-----------------------------------------------
           WAP0(J)=WA(J)
         ENDDO
       ELSE
-!       construit les pointeurs dans le tableau global WAP0
+! builds the pointers in the global wap0 array
         CALL SPMD_STAT_PGATHER(PTWA,STAT_NUMELP,PTWA_P0,STAT_NUMELP_G)
         LEN = 0
         CALL SPMD_RGATHER9_DP(WA,JJ,WAP0,SIZP0,LEN)

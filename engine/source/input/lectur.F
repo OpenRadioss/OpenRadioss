@@ -1948,7 +1948,7 @@ C-----------------------
                IXS(1,II)=-IXS(1,II)
                IF (MLW /= 0) THEN
                  OFFG(I)=ZERO
-               ELSE     ! loi0, pas de off
+               ELSE     ! loi0, no off
                  CALL ANCMSG(MSGID=238,ANMODE=ANINFO_BLIND,I1=IXS(NIXS,II),C1='BRICK',C2='BRICK')
                ENDIF
               ELSE
@@ -1980,7 +1980,7 @@ C-----------------------
                IXC(1,II)=-IXC(1,II)
                IF (MLW /= 0) THEN
                  OFFG(I) = ZERO
-               ELSE     ! loi0, pas de off
+               ELSE     ! loi0, no off
                 CALL ANCMSG(MSGID=238,ANMODE=ANINFO_BLIND,I1=IXC(NIXC,II), C1='SHELL',C2='SHELL')
                ENDIF
              ELSE
@@ -1992,7 +1992,7 @@ C     4. ROD ELEMS
 C-----------------------
          ELSEIF(ITY == 4.AND.NELTOF /= 0)THEN
 C          IGOF=1
-C suppression du groupe incompatible avec option gap truss
+C removal of the group incompatible with gap truss option
            IGOF=0
            DO I=1,NEL
              II=I+NFT
@@ -2040,7 +2040,7 @@ C-----------------------
              IXTG(1,II)=-IXTG(1,II)
              IF(MLW /= 0) THEN
                OFFG(I) = ZERO
-             ELSE     ! loi0, pas de off
+             ELSE     ! loi0, no off
               CALL ANCMSG(MSGID=238,ANMODE=ANINFO_BLIND,I1=IXTG(NIXTG,II), C1='SH_3N',C2='SH_3N')
              ENDIF
             ELSE
@@ -2586,7 +2586,7 @@ C-------------------------------------------
       IF(NUBCSN /= 0)THEN
         CALL LCBCSF(ICODE,ISKEW,NUBCSN,ITAB,ITABM1,NPBY ,ISKWN,WEIGHT)
         IF(NSPMD > 1) THEN
-C traitement necessaire pour recuperer les noeuds cond limites
+C necessary processing to recover limit cond nodes
           IWIOUT = 0
           IF (ISPMD /= 0) CALL SPMD_CHKW(IWIOUT,IOUT)
           CALL SPMD_GLOB_ISUM9(IWIOUT,1)
@@ -2598,7 +2598,7 @@ C traitement necessaire pour recuperer les noeuds cond limites
         END IF
       END IF
 C-------------------------------------------
-C     MODIFICATION DES INTERFACES
+C     INTERFACE MODIFICATION
 C-------------------------------------------
       IF(NINTCH /= 0)THEN
         DO I=1,NINTCH

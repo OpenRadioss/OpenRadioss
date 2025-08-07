@@ -109,7 +109,7 @@ C-----------------------------------------------
       ENDIF
       FORCE_COMPUTATION(1:NINTER) = .FALSE.
 C
-C Precalcul des interfaces utiles
+C precalculation of useful interfaces
 C
       NBNEW = 0
       DO KK=1,NBINTC
@@ -223,7 +223,7 @@ C=======================================================================
         IF(NTY == 17)THEN
 C=======================================================================
          IF(IPARI(33,I) == 0)THEN
-C penser a faire le cumul des SIZE_T
+C remember to accumulate SIZE_T
 C
           IGN = IPARI(36,I)
           IGE = IPARI(34,I)
@@ -243,7 +243,7 @@ C
           XZ = MAX(XSLV(3,I)-XMSR(6,I),XMSR(3,I)-XSLV(6,I),ZERO)
           DIST0 = XX**2 + XY**2 + XZ**2
 C
-C      Te st sur pas de temps sur l'interface
+C      test on timestep on the interface
 C
           IF(DIST0>=TZINF(KK)**2.OR.KFORSMS/=0) THEN
 C           DIST = -1
@@ -483,7 +483,7 @@ C
 C
          DIST0 = INTBUF_TAB(I)%VARIABLES(5) - SQRT(XX**2+XY**2+XZ**2)
 C
-C Test sur pas de temps sur l'interface
+C test on timestep on the interface
 C
          IF (VV/=ZERO) THEN
              GAPINF =INTBUF_TAB(I)%VARIABLES(6)

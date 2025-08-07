@@ -69,10 +69,10 @@ C     KXSP(1,*)              :INUTILISE
 C     KXSP(2,*)              :NG     :   +/- NO DU GROUPE
 C     KXSP(3,*)              :IPRC   :   NO SYSTEME DU NOEUD ASSOCIE
 C     KXSP(4,*)              :NVOIS  :   NOMBRE DE VOISINS.
-C     KXSP(5,*)              :NVOIS  :   NOMBRE DE CANDIDATS RETENUS PAR LE BUCKET.
-C     KXSP(6,*)              :NVOISS :   NOMBRE DE VOISINS DANS LA PARTIE SYMETRIQUE.
-C     KXSP(7,*)              :NVOISS :   NOMBRE DE CANDIDATS RETENUS DANS LA PARTIE SYMETRIQUE.
-C     KXSP(NISP,*)           :ID     :   ID DE LA CELLULE.
+C     KXSP(5,*)              :NVOIS  :   NUMBER OF CANDIDATES RETAINED BY THE BUCKET.
+C     KXSP(6,*)              :NVOISS :   NUMBER OF NEIGHBORS IN THE SYMMETRICAL PART.
+C     KXSP(7,*)              :NVOISS :   NUMBER OF CANDIDATES RETAINED IN THE SYMMETRICAL PART.
+C     KXSP(NISP,*)           :ID     :   CELL ID.
 C     UNITAB          UNIT ARRAY 
 C     IPRI            PRINT FLAG (in 0.out file)
 C-----------------------------------------------
@@ -246,7 +246,7 @@ C--------------------------------------------------
         NCELL=NCELL+1
         IPARTSP(NCELL)=INDEX_PART
         NOD2SP(INOD) =NCELL
-C         meme identifiant que le noeud.
+C         same identifier as the node.
         KXSP(NISP,NCELL)=IDNOD
         IDMAX=MAX(IDMAX,IDNOD)
 C--------------------------------------------------
@@ -439,7 +439,7 @@ C-- Hexa + degenerated penta6
             ENDDO
        ENDIF
 C-------------------------------------
-C Recherche des ID doubles
+C Search for double IDs
 C-------------------------------------
       CALL UDOUBLE(KXSP(NISP,1),NISP,NUMSPH,MESS,0,BID)
 C-------------------------------------

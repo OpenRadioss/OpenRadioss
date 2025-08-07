@@ -137,18 +137,18 @@ C-----------------------------------------------
 C------------------------------------------
 c     isolv=1 => P.G.C.  
 C------------------------------------------
-C-------------avec LIN_SOLV0-----------------------------
+C-------------with LIN_SOLV0-----------------------------
 c     iprec=1 => [I] (sans precon)
-C-------------avec LIN_SOLV1 (2-10)-----------------------------
+C-------------with LIN_SOLV1 (2-10)-----------------------------
 c     iprec=2 => jacobien 
 c     iprec=3 => I.C.(0)       supprimed
 c     iprec=4 => I.C.(0)_Stab  supprimed
 c     iprec=5 => fsai .r
-C---------avec LIN_SOLV2 NPAT>1: 
+C---------with LIN_SOLV2 NPAT>1:
 c-----(iprec>10)variable dimension(D_TOL) pour LT_M : supprimed------
 C------------------------------------------
 C------------------------------------------
-C     [K]:matrice de rigidite [M]:matrice de preconditionnement
+C     [K]:stiffness matrix [M]:preconditioning matrix
 C------------------------------------------
 C----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -396,7 +396,7 @@ citask0        IF (ITASK == 0) THEN
 citask0        END IF !(ITASK == 0) THEN
        ENDIF
       ENDIF
-C--------POUR F*X--------
+C--------FOR F*X--------
        CALL PRODUT_HP(NDDL,L_U,L_F0,W_DDL,F_U)
 citask0      IF (ITASK == 0) THEN
 C---------
@@ -477,7 +477,7 @@ C-----------------------------------------------
       my_real
      .        RBID
 C------------------------------------------
-C     [K]:matrice de rigidite [KI]:matrice de contact
+C     [K]:stiffness matrix [KI]:contact matrix
 C------------------------------------------
 C       IF (IMON>0) CALL STARTIME(33,ITASK+1)
 C      IF (ISOLV==3) THEN
@@ -579,8 +579,8 @@ C
 C
       ELSEIF (ISOLV==4) THEN
          NF=1
-C Division des forces exterieures sur les ddls de la frontiere par le nombre 
-C de processeurs auxquels ils appartiennent (elles sont reassemblees dans DSRESOL)
+C Division of external forces on the boundary degrees of freedom by the number
+C of processors to which they belong (they are reassembled in DSRESOL)
          CALL IMP_DSFEXT(GRAPHE , NF, F, NDDL, IAD_ELEM,
      .                   FR_ELEM)
 C
@@ -938,7 +938,7 @@ C------------------------------------------
 c     iprec=2 => jacobien 
 c     iprec=5 => fsai static same pattern of [K}
 C------------------------------------------
-C     [K]:matrice de rigidite [M]:matrice de preconditionnement
+C     [K]:stiffness matrix [M]:preconditioning matrix
        NNE = 0
        NNZM = NNZ
        ISTOP = INEGA
@@ -968,7 +968,7 @@ C-------------to add //
        ELSEIF (IPREC==3) THEN
        ELSEIF (IPREC==5) THEN
 C     ----- approx. (by each colonne of L_T) inverse ---------
-C     ----- utilise d'abord la place de [M] pour la matrice assemblee ---------
+C     ----- first uses the space of [M] for the assembled matrix ---------
          IF (NSPMD==1) THEN
              IDLFT0=0
              IDLFT1=0
@@ -1239,14 +1239,14 @@ c     iprec=2 => jacobien
 c     iprec=5 => fsai static same pattern of [K}
 C------------------------------------------
 C------------------------------------------
-C     [K]:matrice de rigidite [M]:matrice de preconditionnement
+C     [K]:stiffness matrix [M]:preconditioning matrix
       ISTOP = INEGA
 C
 !     IF (IMON>0.AND.ITASK==0) CALL STARTIME(TIMERS,32)
       IF (ICPREC==1) THEN
        IF (IPREC==5) THEN
 C     ----- approx. (by each colonne of L_T) inverse ---------
-C     ----- utilise d'abord la place de [M] pour la matrice assemblee ---------
+C     ----- first uses the space of [M] for the assembled matrix ---------
         IF (NSPMD==1) THEN
              IDLFT0=0
              IDLFT1=0
@@ -1569,7 +1569,7 @@ C---------------------
          END IF 
 !        IF (IMON>0) CALL STOPTIME(TIMERS,32)
 citask0        END IF !(ITASK==0) THEN
-Cas --imcompabilite avec MONVOL-----
+Cas --incompatibility with MONVOL-----
         IF (NMONV>0)THEN
          IF (ILINE==0.OR.(ILINE>0.AND.ILINTF==0) )THEN
 citask0         IF (ITASK==0) THEN

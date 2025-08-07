@@ -170,8 +170,8 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
 C=======================================================================
-C     tag des boites contenant des facettes
-C     et creation des candidats
+C     tag of boxes containing facets
+C     and creation of candidates
 C=======================================================================
       LOC_PROC = ISPMD + 1
       NBX = LRVOXEL
@@ -191,7 +191,7 @@ C
          END DO
       END IF
 C
-C   boite minmax pour le tri provenant de i7buce BMINMA
+C   minmax box for sorting from i7buce bminma
 C
       NEDGE_REMOTE = 0
       DO P = 1, NSPMD
@@ -251,7 +251,7 @@ C
         ENDDO
       ENDIF
 C
-C   envoi de XREM
+C   sending xrem
 C
 C computation of real and integer sending buffers sizes
 c general case
@@ -340,10 +340,10 @@ C-----for   NBINFLG
           CALL SPMD_WAITANY(NBIRECV,REQ_RB,INDEXI)
           P=IRINDEXI(INDEXI)
           CALL SPMD_WAIT(REQ_RC(INDEXI))
-C Traitement special sur d.d. ne consever que les noeuds internes
+C special processing on d.d. keep only the internal nodes
           DO J = IAD_ELEM(1,P), IAD_ELEM(1,P+1)-1
             NOD = FR_ELEM(J)
-C weight < 0 temporairement pour ne conserver que les noeuds non frontiere
+C weight < 0 temporarily to keep only the non-boundary nodes
             WEIGHT(NOD) = WEIGHT(NOD)*(-1)
           ENDDO
 C
@@ -394,7 +394,7 @@ C ==================== Secnd nodes =============================
           NBOX(1,P) = NB
           DO J = IAD_ELEM(1,P), IAD_ELEM(1,P+1)-1
             NOD = FR_ELEM(J)
-C remise de weight > 0
+C reset of weight > 0
             WEIGHT(NOD) = WEIGHT(NOD)*(-1)
           ENDDO
 
@@ -974,7 +974,7 @@ C
         DEALLOCATE(INDEX_EDGE) 
       ENDIF
 C
-C   reception  des donnees XREM
+C   reception of xrem data
 C
       NEDGE_REMOTE = 0
       IF(IRCVFROM(NIN,LOC_PROC)/=0) THEN

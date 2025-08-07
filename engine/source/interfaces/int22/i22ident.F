@@ -483,7 +483,7 @@ C=======================================================================
             IAD          = (I-1)*12+J
             NBCUT        = EDGE_LIST(NIN,IAD)%NBCUT
             DO K=1,NBCUT
-              !on ecrit les coordonnees des intersections aux edges
+              !write intersection coordinates at the edges
               CUTCOOR = EDGE_LIST(NIN,IAD)%CUTCOOR(K) 
               POINT(1:3) = X(1:3, EDGE_LIST(NIN,IAD)%NODE(1) ) + CUTCOOR * (EDGE_LIST(NIN,IAD)%VECTOR(1:3))                          
             END DO ! (DO K=1,NBCUT <=> NBCUT>0)
@@ -533,7 +533,7 @@ C=======================================================================
 C=======================================================================
 C 5 DEBUG
 C=======================================================================
-      CALL MY_BARRIER  !pour affichage complet dans lordre par itask 0
+      Ccall my_barrier  !for complete display in order by itask 0
 
       if(debug_outp)then
       if(ibug22_ident==-1 .or. ibug22_ident==ixs(11,brick_list(nin,ib)%id))then

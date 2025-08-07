@@ -134,7 +134,7 @@ C=======================================================================
 C
 c      CALL ANCHECK(71)
 C----------------------------------------------------------
-C - no-autorised hierarchy :Check des noeuds mains des RBE3 sont SECONDARY de RBE2,or INT2
+C - unauthorized hierarchy: check that the main nodes of rbe3 are secondary to rbe2 or int2
 C----------------------------------------------------------
 ! look at compatibility w/ BCS,RBODY and compute nrbe3_gp, ini penealty
       NUN=0
@@ -189,7 +189,7 @@ C----------------------------------------------------------
         ENDDO
       ENDDO
 C----------------------------------------------------------
-C - no-autorised hierarchy :Check des noeuds mains des RBE2 SECONDARY de INT2
+C - unauthorized hierarchy: check that the main nodes of rbe2 are secondary to int2
 C----------------------------------------------------------
       DO I=1,NRBE2
                M = IRBE2(3,I)
@@ -207,7 +207,7 @@ C----------------------------------------------------------
           ENDIF
       ENDDO
 C----------------------------------------------------------
-C - no-autorised hierarchy :Check des noeuds mains des RBODY sont SECONDARY de RBE2
+C - unauthorized hierarchy: check that the main nodes of rbody are secondary to rbe2
 C----------------------------------------------------------
       DO I=1,NRBODY
         M=NPBY(1,I)
@@ -227,7 +227,7 @@ C           NUN=NUN+1
          ENDIF
       ENDDO
 C----------------------------------------------------------
-C - no-autorised hierarchy :Check des noeuds mains des RBODY sont SECONDARY de RBE3
+C - unauthorized hierarchy: check that the main nodes of rbody are secondary to rbe3
 C----------------------------------------------------------
       DO I=1,NRBODY          
         M=NPBY(1,I)
@@ -265,7 +265,7 @@ C----------------------------------------------------------
           END IF 
       ENDDO
 C----------------------------------------------------------
-C - Check des noeuds mains des RBE2 sont mains de RBODY
+C - Check that the main nodes of rbe2 are hands of rbody
 C----------------------------------------------------------
       DO I=1,NRBE2
                M = IRBE2(3,I)
@@ -386,14 +386,14 @@ C=======================================================================
 C
 C---------------------------------------------------------------
 C LISTE CONDITIONS INCOMPATIBLES PAR TYPE
-C LISTE DES NOEUDS CONCERNES
+C LIST OF AFFECTED NODES
 C
 C NKIN(I) >= 2     => POSSIBLE CONDITIONS INCOMPATIBLES SUR LE NOEUD I
-C FLAG_IKCOND = 1  => CONDITIONS INCOMPATIBLES DANS LE MODELE
+C FLAG_IKCOND = 1  => INCOMPATIBLE CONDITIONS IN THE MODEL
 C MARQUEURDOUBLE(I) = 1 => CONDITIONS INCOMPATIBLES ENTRE CONDITIONS
-C                         DE MEME TYPE SUR LE NOEUD I
+C                         OF THE SAME TYPE ON NODE I
 C MARQUEUR(I) != 0 => CONDITIONS INCOMPATIBLES ENTRE CONDITIONS
-C                         DE TYPES DIFFERENTS SUR LE NOEUD I
+C                         OF DIFFERENT TYPES ON NODE I
 C MARQUEUR(I) = 2 => CAS RBODY + RWALL
 C MARQUEUR(I) =-2 => CAS INTERFACES TYPE 1,2,9  + RWALL
 C MARQUEUR(I) = 3 => CAS INTERFACES TYPE 1,2,9 + RBODY + RWALL
@@ -1235,7 +1235,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, K, L, N, KK, IKK, ITYP, NE, NSL
 C-----------------------------------------------------------------
-C  Recopie dans tableau de travail
+C  Copy to work table
       DO N=1,NUMNOD
         IKINEW(N)=IKINE(N)
       END DO

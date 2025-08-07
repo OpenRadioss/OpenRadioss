@@ -52,7 +52,7 @@ C-----------------------------------------------
       USE DRAPE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C----------------------------------------------
-C     INITIALISATION DES MASSES ET INERTIES NODALES
+C     INITIALIZATION OF NODAL MASSES AND INERTIAS
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -999,7 +999,7 @@ C---        Compatibilite avec coques 4 noeuds:
         ENDDO        
       ENDIF
 C---------------------------------------------------
-C     INITIALISATION DES MASSES ET INERTIES NODALES
+C     INITIALIZATION OF NODAL MASSES AND INERTIAS
 C---------------------------------------------------
 C   mass and inertia spmd parith/on + adaptive meshing
       IF(JTHE == 0 ) THEN
@@ -1413,7 +1413,7 @@ C-----
          ENDIF
        ENDIF  
 C----------------------------------------------
-C     INITIALISATION DES RIGIDITES NODALES POUR INTERFACES
+C     INITIALIZATION OF NODAL RIGIDITIES FOR INTERFACES
 C----------------------------------------------
       IF (IGTYP == 52 .OR. ((IGTYP == 17 .OR. IGTYP == 51) .AND. IGMAT > 0))THEN     
            IF(I7STIFS/=0)THEN

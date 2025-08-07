@@ -152,7 +152,7 @@ C
 CCC       IF(I==1)WRITE(*,*)'D_LAMBDA =',XSI
 C
 C     .. ENFORCING SOME CUT-OFFS, LEFT UNCHANGED
-C  ----!!!cette partie devrait etre   interieure de boucle ---  tester
+C  ----!!!this part should be inside the loop --- test
        AK(I)=AK(I)*EPD(I)
        IF(SIGMX(I)<AK(I))THEN
         AK(I)=SIGMX(I)

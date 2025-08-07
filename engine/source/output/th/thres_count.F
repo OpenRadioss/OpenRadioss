@@ -137,7 +137,7 @@ C
                             IF (K == N) THEN
                                 IH=IH+1
 C   traitement specifique spmd
-C recherche du ii correct
+C search for the correct ii
                                 II = ((IH-1) - IAD)*NVAR
                                 DO WHILE (ITHBUF(IH+NN) /= ISPMD .AND. IH < IAD+NN)
                                     IH = IH + 1
@@ -155,7 +155,7 @@ C
 C
                             IF (K == N) THEN
                                 IH=IH+1
-C recherche du ii correct
+C search for the correct ii
                                 II = ((IH-1) - IAD)*NVAR
                                 DO WHILE (ITHBUF(IH+NN) /= ISPMD .AND. IH < IAD+NN)
                                     IH = IH + 1
@@ -173,7 +173,7 @@ C
 C
                             IF (K == N) THEN
                                 IH=IH+1
-C recherche du ii correct
+C search for the correct ii
                                 II = ((IH-1) - IAD)*NVAR
                                 DO WHILE (ITHBUF(IH+NN) /= ISPMD .AND. IH < IAD+NN)
                                     IH = IH + 1
@@ -212,7 +212,7 @@ C
                             IF (K == N) THEN
                                 IH=IH+1
 C   traitement specifique spmd
-C recherche du ii correct
+C search for the correct ii
                                 II = ((IH-1) - IAD)*NVAR
                                 DO WHILE (ITHBUF(IH+NN) /= ISPMD .AND. IH < IAD+NN)
                                     IH = IH + 1
@@ -233,7 +233,7 @@ C
                                     IF (K == N) THEN
                                         IH=IH+1
 C   traitement specifique spmd
-C recherche du ii correct
+C search for the correct ii
                                         II = ((IH-1) - IAD)*NVAR
                                         DO WHILE (ITHBUF(IH+NN) /= ISPMD .AND. IH<IAD+NN)
                                             IH = IH + 1
@@ -251,7 +251,7 @@ C
                                     IF (K == N) THEN
                                         IH=IH+1
 C   traitement specifique spmd
-C recherche du ii correct
+C search for the correct ii
                                         II = ((IH-1) - IAD)*NVAR
                                         DO WHILE (ITHBUF(IH+NN) /= ISPMD .AND. IH < IAD+NN)
                                             IH = IH + 1
@@ -270,7 +270,7 @@ C
                                     IF (K == N) THEN
                                         IH=IH+1
 C   traitement specifique spmd
-C recherche du ii correct
+C search for the correct ii
                                         II = ((IH-1) - IAD)*NVAR
                                         DO WHILE (ITHBUF(IH+NN) /= ISPMD .AND. IH < IAD+NN)
                                             IH = IH + 1

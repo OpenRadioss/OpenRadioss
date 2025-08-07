@@ -151,7 +151,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
           INTEGER LWASPH44C, I, NEXT,IDUM1,ISUSED,SENS_NSTOP,SENS_NSTAT,SENS_NOUTP,SENS_NANIM
 C-----------------------------------------------
-C     LECTURE DES VARIABLES ENTIERES.
+C     reading of integer variables.
 C-----------------------------------------------
       N2D     =TABVINT(1)
       NCPRI   =TABVINT(2)
@@ -538,7 +538,7 @@ C     from version 4.4c :
 C-----
       NUMELS16  =TABVINT(436)
       NUMELS8   =TABVINT(437)
-C test pour compatibilite avec anciens restarts
+C test for compatibility with old restarts
       IF(NUMELS8==0)NUMELS8 =
      .             NUMELS - (NUMELS10+NUMELS20+NUMELS16)
       NRIVF = TABVINT(438)

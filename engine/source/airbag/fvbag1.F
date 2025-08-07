@@ -646,7 +646,7 @@ C---------------------------------------------------
 
 
 C---------------------------------------------------
-C Calcul des quantites dans les polyhedres
+C Calculation of quantities in the polyhedra
 C---------------------------------------------------
       IF (DT1 == ZERO) THEN
         GAMAI=RVOLU(1)
@@ -763,8 +763,8 @@ C
       SCALS=RVOLU(28)
       TTF  =RVOLU(60)
 C-----------------------------------------------------------
-C Surface de fuite effective des triangles de l'airbag
-C Correction des scale factors sur la surface des vent holes
+C Effective leakage area of the airbag triangles
+C Correction of scale factors on the surface of the vent holes
 C-----------------------------------------------------------
       CALL FVVENT0(
      1             ELSOUT  ,AOUTOT  ,NVENT    ,NELT    ,ITTF    ,
@@ -824,7 +824,7 @@ C----------------------
             JEL=IFVTRI(4,KK)
             AREA=PAREA(KK)
             IF(JEL == 0) THEN
-C Permeabilite du triangle interne
+C Permeability of the inner triangle
               N1=IFVTRI(1,KK)
               N2=IFVTRI(2,KK)
               N3=IFVTRI(3,KK)
@@ -857,7 +857,7 @@ C Permeabilite du triangle interne
       ENDDO
 !$OMP END PARALLEL
 C----------------
-C Calcul des flux
+C Calculation of fluxes
 C----------------
       DO I=1,NPOLH
         DO J=IFVPADR(I),IFVPADR(I+1)-1
@@ -904,7 +904,7 @@ C--------------------------------------------
 C Injector
                 IINJ=ITAGEL(IEL)
                 DMI=DATAINJ(2,IINJ)*AREA/DATAINJ(1,IINJ)
-                IF (NV == I .AND. JEL < 0) DMI=DMI*HALF    ! le triangle est traite deux fois
+                IF (NV == I .AND. JEL < 0) DMI=DMI*HALF    ! the triangle is processed twice
                 DQI(1)=-DMI*DATAINJ(3,IINJ)*NRX
                 DQI(2)=-DMI*DATAINJ(3,IINJ)*NRY
                 DQI(3)=-DMI*DATAINJ(3,IINJ)*NRZ
@@ -1104,7 +1104,7 @@ C
               VFY=HALF*(UY1+UY2)
               VFZ=HALF*(UZ1+UZ2)
               IF(JEL == 0) THEN
-C Permeabilite du triangle interne
+C Permeability of the inner triangle
                 HM1=HMIN(KK)
                 H1 = ONE-RVOLU(51)/HM1
                 IF(H1 > 0) THEN
@@ -1115,7 +1115,7 @@ C Permeabilite du triangle interne
 
 C                   AREA=AREA*MAX(ZERO,ONE-RVOLU(51)/HM1)
               ELSE
-C Triangle appuy sur structure interne => flux fonction de la porosite
+C Triangle supported on internal structure => flux as a function of porosity
                 IF(POROSITY(IEL-NEL) == ZERO) GOTO 50
                 AREA=AREA*POROSITY(IEL-NEL)
               ENDIF

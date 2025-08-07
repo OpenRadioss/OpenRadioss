@@ -63,7 +63,7 @@ C-----------------------------------------------
      .   VX, VY, VZ, UX, UY, UZ, XC, YC, ZC, DP0, DP, DV
 C-----------------------------------------------
 C        NC : nombre de condition cinematique 
-C        IC : numero de la condition cinematique (1,NC)
+C        ic: number of the kinematic condition (1,nc)
 C        IK : 
 C        I  : numero global du noeud (1,NUMNOD)
 C        J  : direction 1,2,3,4,5,6
@@ -117,7 +117,7 @@ ctmp        VZ=V(N3)+A(N3)*DT12
         DP=XC*RWL(1)+YC*RWL(2)+ZC*RWL(3)
         IF(DP>ZERO) GOTO 20
         ICONT=1
-C---    test pour noeuds penetres
+C--- test for penetrated nodes
         XC=X(N1)-XWL
         YC=X(N2)-YWL
         ZC=X(N3)-ZWL

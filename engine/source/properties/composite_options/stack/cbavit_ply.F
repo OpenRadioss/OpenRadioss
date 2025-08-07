@@ -245,7 +245,7 @@ C
         ENDDO
       ENDDO
 C----------------------------
-C---------Facteur pour longueur caracteristique---
+C---------Factor for characteristic length---
 C----------------------------
       OFF_L = 0.
       DO EP=JFT,JLT
@@ -273,7 +273,7 @@ C----------------------------
        ENDDO  
       ENDIF
 C ---
-C  les deplacements nodaux dans le rep re local
+C  the nodal displacements in the local frame
       DO J=1, NPT
        DO EP=JFT,JLT
          IP = ISTACK(EP,J)

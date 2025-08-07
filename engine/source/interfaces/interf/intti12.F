@@ -185,7 +185,7 @@ C-----------------------------------------------
      F   ZN1,     ZN2,     ZN3,     ZN4,
      G   AREA,    LFT,     LLT)
           !-----------------------------------------------------------!
-          ! VERIFIE QUE LE NOEUD EST SUR LA FACETTE ET STOCKE S & T   !
+          ! checks that the node is on the facet and stores s & t
           !-----------------------------------------------------------!
         CALL I12DIS3(
      1   INTBUF_TAB%CSTS,  INTBUF_TAB%NSV,   ITAB,             GAP,
@@ -208,7 +208,7 @@ C-----------------------------------------------
         L5=L4+NMN*ALE%GLOBAL%NVCONV
         L6=L5+NMN
         !-----------------------------------------------------------------!
-        !   ECHANGE DES INFORMATIONS ENTRE LES TWO FACES DE l'INTERFACE  !
+        ! exchange of information between the two faces of the interface
         !-----------------------------------------------------------------!
         ! 1- Transforme Valeurs elementaires en valeurs nodales cote second.     
         !-----------------------------------------------------------------!      
@@ -288,7 +288,7 @@ C-----------------------------------------------
       ITIED=INT(INTBUF_TAB%VARIABLES(1))
       !-----------------------------------------------------------------!
       ! CONDITIONS PERIODIQUES                                          !
-      ! TRANSFORMATIONS DES ACCELERATIONS SECONDARYS                        !
+      ! transformations of secondary accelerations
       !-----------------------------------------------------------------!
       IF(ITIED==2)CALL IN12R(A,INTBUF_TAB%VARIABLES(1),INTBUF_TAB%NSV,
      .                         NSN,1,INTBUF_TAB%FCOUNT)
@@ -357,7 +357,7 @@ C-----------------------------------------------
 
       ITIED=INT(INTBUF_TAB%VARIABLES(1))
       !-----------------------------------------------------------------!
-      ! BC MAIN ET IMPOSE VITESSE ET ACC COTE SECONDARY                   !
+      ! main bc and imposes velocity and acceleration on secondary side
       ! VITESSE DE GRILLE (CAS TIED) FAIT DS INTERF 1                   !
       !-----------------------------------------------------------------!
       CALL I12VIT3(NSN       ,NMN        ,

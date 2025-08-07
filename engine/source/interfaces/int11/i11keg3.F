@@ -300,7 +300,7 @@ c        write(iout,*)'FAC-,VN(I)=',FAC,VN(I),I
        K2J11(2,3,I)=KN(4,I)*Q23
        K2J11(3,3,I)=KN(4,I)*Q33
       ENDDO
-C    ----avec frottement --- 
+C    with friction
        DO J=1,3 
         DO K=J,3 
          DO I=1,JLT
@@ -352,7 +352,7 @@ C
          IF(CS_LOC(I)>NRTS) THEN
             NN=CS_LOC(I)-NRTS
             NS=IND_INT(NIN)%P(NN)
-C---------pour temporairement diag_ss---
+Cfor temporary diag_ss
           NN1 = NS
             FFI(1,NN1)=ZERO
             FFI(2,NN1)=ZERO
@@ -385,7 +385,7 @@ C---------pour temporairement diag_ss---
             N_E(1,NE)=NX(I)
             N_E(2,NE)=NY(I)
             N_E(3,NE)=NZ(I)
-C---------pour temporairement diag_ss---
+Cfor temporary diag_ss
           NN1 = NS
             FFI(1,NN1)=ZERO
             FFI(2,NN1)=ZERO
@@ -863,7 +863,7 @@ C--------secnd part-------
            ELSE
             NN=CS_LOC(I)-NRTS
             NS=IND_INT(NIN)%P(NN)
-C---------pour temporairement diag_ss---
+Cfor temporary diag_ss
           NN1 = NS
             FFI(1,NN1)=FFI(1,NN1)-FXI(I)*HS1(I)
             FFI(2,NN1)=FFI(2,NN1)-FYI(I)*HS1(I)

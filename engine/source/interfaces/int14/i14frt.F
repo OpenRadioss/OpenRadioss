@@ -160,7 +160,7 @@ C---------------------------------
 C---------------------------------
       ENDDO
 C----------------------------------------------------------
-C     MOMENTS ET STABILITE.
+C     moments and stability
 C----------------------------------------------------------
       IF(KDTINT==0)THEN
        DO I=1,MIN(MVSIZ,NREST)
@@ -189,7 +189,7 @@ C----------------------------------------------------------
       IN=KSI(IL)
 C---------------------------------
 C     CALCUL DES MOMENTS MS ^ F (REP. GLOBAL).
-C     les forces sont transmises au (meme) point 
+C     the forces are transmitted to the (same) point
 C     que l'on a recu !!!
 C---------------------------------
       X1=X(1,IN)-BUFSF(ADRBUF+16)
@@ -199,7 +199,7 @@ C---------------------------------
       AM2=X3*FV(1,I)-X1*FV(3,I)
       AM3=X1*FV(2,I)-X2*FV(1,I)
 C---------------------------------
-C     Assemblage des FORCES, moments et rigidites d'interface
+C     assembly of interface forces, moments and stiffnesses
 C     au nd main.
 C---------------------------------
       BUFSF(ADRBUF+25)=BUFSF(ADRBUF+25)-FV(1,I)
@@ -210,7 +210,7 @@ C---------------------------------
       BUFSF(ADRBUF+30)=BUFSF(ADRBUF+30)-AM3
       BUFSF(ADRBUF+31)=BUFSF(ADRBUF+31)+ST(I)
 C        STIFRM += [ ST2 * |(CIMP-M)^N|**2 ] + [ ST1 * |(CIMP-M)^T|**2 ]
-C        est majore par :
+C        is increased by:
       DD = X1**2+X2**2+X3**2
       BUFSF(ADRBUF+32)=BUFSF(ADRBUF+32)+DD*ST(I)
 C---------------------------------
@@ -277,7 +277,7 @@ C 2C dans modsti        FSKYI(NISKYL,5)=2.*WST(IN)
 
       ENDIF
 C------------------------------------------------------------
-C     ANIM (FORCES DE CONTACT).
+C     anim (contact forces)
 C------------------------------------------------------------
       IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0.AND.
      .    ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP) .OR.
@@ -294,7 +294,7 @@ C------------------------------------------------------------
 #include "lockoff.inc"
       ENDIF
 C---------------------------------
-C     Pour Travail des forces sur noeuds seconds
+C     for work of forces on secondary nodes
 C     1ere partie : ici
 C     2eme partie : apres calcul de DT2.
 C---------------------------------
@@ -342,7 +342,7 @@ C-------------------------------
       NV(3,I) =NIMP(3,IL)
       ENDDO
 C----------------------------------------------------------
-C     Coefficient de Frottement :
+C     friction coefficient:
 C     MU=F(FORCE NORMALE LOCALE).
 C----------------------------------------------------------
       IF (NFRIC==0) THEN
@@ -391,13 +391,13 @@ C-----------------------------------------------
       TV(2,I)=TV(2,I)/TN
       TV(3,I)=TV(3,I)/TN
 C-----------------------------------------------
-C     Force de Frottement.
+C     friction force
       FTPA=MIN(TN,FMAX)
       FXT=TV(1,I)*FTPA
       FYT=TV(2,I)*FTPA
       FZT=TV(3,I)*FTPA
 C-------------------------------
-C     proj. sur tangente.
+C     proj. on tangent
       COST =(XPV(1,I)-XI)*TV(1,I)
      .     +(XPV(2,I)-YI)*TV(2,I)
      .     +(XPV(3,I)-ZI)*TV(3,I)
@@ -405,7 +405,7 @@ C     proj. sur tangente.
       XQ(2,I) =YI+COST*TV(2,I)
       XQ(3,I) =ZI+COST*TV(3,I)
 C-------------------------------
-C     glissement du point sur la tgte.
+C     sliding of the point on the tangent
       XQ(1,I) =XQ(1,I)+FTPA*TV(1,I)/MAX(EM20,STF)
       XQ(2,I) =XQ(2,I)+FTPA*TV(2,I)/MAX(EM20,STF)
       XQ(3,I) =XQ(3,I)+FTPA*TV(3,I)/MAX(EM20,STF)
@@ -441,7 +441,7 @@ C-------------------------------
       N  =SQRT(N)
 C-------------------------------
 C     nouveau point d'impact : projection hors ellips.
-C     la position de l'impact et le calcul de la normale s'affinent
+C     the impact position and normal calculation are refined
 C     en l'absence de glissement.
 C-------------------------------
       E =N1*XQ(1,I)+N2*XQ(2,I)+N3*XQ(3,I)
@@ -453,7 +453,7 @@ C-------------------------------
       CIMP(1,IL)=XQ(1,I)-DIST*N1
       CIMP(2,IL)=XQ(2,I)-DIST*N2
       CIMP(3,IL)=XQ(3,I)-DIST*N3
-C     memorisation des composantes de la normale.
+C     storing the normal components
       NIMP(1,IL)=N1
       NIMP(2,IL)=N2
       NIMP(3,IL)=N3
@@ -477,7 +477,7 @@ C-------------------------------
       FX=PSCA/DIST*(XI-XPV(1,I))
       FY=PSCA/DIST*(YI-XPV(2,I))
       FZ=PSCA/DIST*(ZI-XPV(3,I))
-C     decomposition pour sorties :
+C     decomposition for outputs:
       PSCA=FX*NV(1,I)+FY*NV(2,I)+FZ*NV(3,I)
       FXN =PSCA*NV(1,I)
       FYN =PSCA*NV(2,I)
@@ -508,7 +508,7 @@ C---------------------------------
 C---------------------------------
       ENDDO
 C----------------------------------------------------------
-C     MOMENTS ET STABILITE.
+C     moments and stability
 C----------------------------------------------------------
       IF(KDTINT==0)THEN
        DO I=1,MIN(MVSIZ,NREST)
@@ -529,7 +529,7 @@ C----------------------------------------------------------
       IN=KSI(IL)
 C---------------------------------
 C     CALCUL DES MOMENTS MS ^ F (REP. GLOBAL).
-C     les forces sont transmises au (meme) point 
+C     the forces are transmitted to the (same) point
 C     que l'on a recu !!!
 C---------------------------------
       X1=X(1,IN)-BUFSF(ADRBUF+16)
@@ -539,7 +539,7 @@ C---------------------------------
       AM2=X3*FV(1,I)-X1*FV(3,I)
       AM3=X1*FV(2,I)-X2*FV(1,I)
 C---------------------------------
-C     Assemblage des FORCES, moments et rigidites d'interface
+C     assembly of forces, moments, and interface stiffnesses
 C     au nd main.
 C---------------------------------
       BUFSF(ADRBUF+25)=BUFSF(ADRBUF+25)-FV(1,I)
@@ -550,7 +550,7 @@ C---------------------------------
       BUFSF(ADRBUF+30)=BUFSF(ADRBUF+30)-AM3
       BUFSF(ADRBUF+31)=BUFSF(ADRBUF+31)+ST(I)
 C        STIFRM += [ ST2 * |(CIMP-M)^N|**2 ] + [ ST1 * |(CIMP-M)^T|**2 ]
-C        est majore par :
+C        is bounded by:
       DD = X1**2+X2**2+X3**2
       BUFSF(ADRBUF+32)=BUFSF(ADRBUF+32)+DD*ST(I)
 C---------------------------------
@@ -605,7 +605,7 @@ C 2C dans modsti        FSKYI(NISKYL,5)=2.*WST(IN)
 
       ENDIF
 C------------------------------------------------------------
-C     ANIM (FORCES DE CONTACT).
+C     anim (contact forces).
 C------------------------------------------------------------
       IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT>0.AND.
      .    (TT>=TANIM .AND. TT<=TANIM_STOP.OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
@@ -622,7 +622,7 @@ C------------------------------------------------------------
 #include "lockoff.inc"
       ENDIF
 C---------------------------------
-C     Pour Travail des forces sur noeuds seconds
+C     for work of forces on secondary nodes
 C     1ere partie : ici
 C     2eme partie : apres calcul de DT2.
 C---------------------------------

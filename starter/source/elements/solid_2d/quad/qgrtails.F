@@ -53,11 +53,11 @@ C-----------------------------------------------
 C            A R G U M E N T S
 C-----------------------------------------------
 C     IXQ(7,NUMELQ)      TABLEAU CONECS+PID+MID+NOS SOLIDES 4N      E
-C     PM(NPROPM,NUMMAT)  TABLEAU DES CARACS DES MATERIAUX           E
+C     PM(NPROPM,NUMMAT)  ARRAY OF MATERIAL PROPERTIES           E
 C     IPARG(NPARG,NGROUP)TABLEAU DES CARACTERISTIQUES DES GROUPES   E/S
-C     GEO(NPROPG,NUMGEO) TABLEAU DES CARACS DES PID                 E
+C     GEO(NPROPG,NUMGEO) ARRAY OF PID CHARACTERISTICS                 E
 C     EADD(NUMELQ)       TABLEAU DES ADRESEES DANS IDAM CHGT DAMIER E 
-C     DD_IAD             TABLEAU DE LA DD EN SUPER GROUPES          S
+C     DD_IAD             ARRAY OF DD IN SUPER GROUPS          S
 C     INUM(8,NUMELQ)     TABLEAU DE TRAVAIL                         E/S
 C     INDEX(NUMELQ)      TABLEAU DE TRAVAIL                         E/S
 C     CEP(NUMELQ)        TABLEAU DE TRAVAIL                         E/S
@@ -107,7 +107,7 @@ C-----------------------------------------------
       CHARACTER(LEN=NCHARTITLE)::TITR
       LOGICAL lFOUND
 C--------------------------------------------------------------
-C         BORNAGE DES GROUPES DE MVSIZ
+C         bounding of MVSIZ groups
 C--------------------------------------------------------------
       NGR1 = NGROUP + 1
 C
@@ -125,7 +125,7 @@ C initialisation dd_iad
       ENDDO
 C
 C phase 2 : bornage en groupe de mvsiz
-C ngroup est global, iparg est global mais organise en fonction de dd
+C ngroup is global, iparg is global but organized based on dd
 C
       DO N=1,ND
         NEL = EADD(N+1)-EADD(N)
@@ -192,7 +192,7 @@ C
       ENDDO
 
 C
-C RENUMEROTATION POUR SURFACES
+C renumbering for surfaces
 C
       DO I=1,NSURF
         NN=IGRSURF(I)%NSEG
@@ -202,7 +202,7 @@ C
         ENDDO
       ENDDO
 C
-C RENUMEROTATION POUR GROUPES DE SHELL
+C renumbering for shell groups
 C
       DO I=1,NGRQUAD
         NN=IGRQUAD(I)%NENTITY
@@ -453,7 +453,7 @@ C
   300 CONTINUE
 C                                      
       NSPGROUP = NSPGROUP + ND
-C Traitement CFD sur MID negatif sur tous les solides si ineg=1
+C CFD treatment on MID negative on all solids if ineg=1
       IF (INEG==1) THEN
         DO I = 1, NUMELQ
           IXQ(1,I) = ABS(IXQ(1,I))

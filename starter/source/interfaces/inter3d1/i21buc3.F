@@ -121,7 +121,7 @@ C     REAL
 C-----------------------------------------------
 C
 C     1-CALCUL TAILLE DES ZONES INFLUENCES
-C     DD EST LA LONGEUR MOYENNE ELEMENT
+C     DD IS THE AVERAGE ELEMENT LENGTH
       DD=ZERO
       DO 10 L=1,NRTS
 C      CONNECIVITES ELEMENT
@@ -160,11 +160,11 @@ C     DD = MAX(DD0,ONEP251*GAP)
       DD = MAX(DD ,ONEP251*DRAD)
 C     TZINF = BUMULT*DD
       MARGEREF = BUMULT*DD
-C calcul de TZINF en fct de la marge et non le contraire
+C calculation of TZINF based on the margin and not the other way around
 C   peut etre ameliore pour engine (debut de run) : TZINF = MARGEREF + Sup(gap) !!!
       TZINF = MARGEREF + MAX(DEPTH,DRAD,(GAP+DGAPLOAD))
-C     Depth >= max(Gapv) dans le starter
-C MARGE_ST : marge independante du BUMULT en input pour trouver les memes pene initiales (cas delete ou chgt coord.)
+C     Depth >= max(Gapv) in the starter
+C MARGE_ST: margin independent of BUMULT as input to find the same initial penetrations (delete or coordinate change cases)
       MARGE_ST = BMUL0*DD
       TZINF_ST = MARGE_ST + MAX(DEPTH,DRAD,(GAP+DGAPLOAD))
 C     MAXBOX= ZEP9*(DD - TZINF)
@@ -176,7 +176,7 @@ C DD + 2*TZINF : taille element augmentee de zone influence
 C     MIS A ZERO POUR FAIRE SEARCH COMPLET CYCLE 0 ENGINE
       DIST = ZERO     
 C--------------------------------
-C     CALCUL DES BORNES DU DOMAINE
+C     CALCULATION OF THE DOMAIN BOUNDS
 C--------------------------------
       XMIN=EP30
       XMAX=-EP30
@@ -211,12 +211,12 @@ C
  25   CONTINUE
 C
 C
-C-----2- TRI PAR BOITES DES ELEMENTS ET DES NOEUDS
+C-----2- SORTING BY BOXES OF ELEMENTS AND NODES
 C
       NB_N_B = 1
       I_MEM = 0
-C SI ON A PAS ASSEZ DE MEMOIRE POUR LES PILES ON RECOMMENCE LE TRI
-C EN INCREMENTANT LE NB_N_B (NOMBRE DE NOEUDS PAR BOITE FINIE)
+C IF THERE IS NOT ENOUGH MEMORY FOR THE STACKS, WE START THE SORTING AGAIN
+C BY INCREMENTING NB_N_B (NUMBER OF NODES PER FINISHED BOX)
  100  CONTINUE
 C     POINTEUR  NOM                 TAILLE
 C     P1........Elt Bas Pile        NRTM
@@ -225,7 +225,7 @@ C     P21.......BPN                 NSN
 C     P22.......PN                  NSN
 C     P31.......ADDI                2000
 C
-C  POUR ONE MAILLAGE DE TOPOLOGIE CARRE LA TAILLE DE P2 PEUT ETRE ESTIMEE A:
+C  FOR A SQUARE TOPOLOGY MESH, THE SIZE OF P2 CAN BE ESTIMATED AT:
 C 4n:     NUMELC + 6*SQRT(NUMELC) + 8*LOG2(NUMELC) 
 C 3n:     NUMELTG + 6*SQRT(2*NUMELTG) + 8*LOG2(NUMELTG)
 C 
@@ -234,7 +234,7 @@ C 3n:     NUMELTG + 6*SQRT(2*NUMELTG) + 12*LOG(NUMELTG)
 C 
 C NUMELC + NUMELTG + 6*SQRT(NUMELC+2*NUMELTG) + 12*LOG(NUMELC+NUMELTG)
 C 
-C  POUR ONE MAILLAGE DE TOPOLOGIE LINEAIRE LA TAILLE DE P2 PEUT ETRE ESTIMEE A:
+C  FOR A LINEAR TOPOLOGY MESH, THE SIZE OF P2 CAN BE ESTIMATED AT:
 C NUMELC + NUMELTG + (NUMELC+NUMELTG)*(1 + 1/2 + 1/4 +...) + LOG2(NUMELC+NUMELTG)
 C 3*(NUMELC+NUMELTG) + LOG2(NUMELC+NUMELTG)
 C 3*(NUMELC+NUMELTG) + 300
@@ -248,7 +248,7 @@ C      IP21= IP2+2*MAXSIZ
       IP31= IP22+NUMNOD
 C     IFIN= IP22+2000
 C
-C-----INITIALISATION DES ADRESSES ET X,Y,Z
+C-----INITIALIZATION OF ADDRESSES AND X,Y,Z
 C
 C     ADDE     ADDN     X      Y      Z
 C     1        1        XMIN   YMIN   ZMIN
@@ -273,7 +273,7 @@ C
       NB_NC = NSN
       NB_EC = NRTM
 C
-C-----COPIE DES NOS DE SEGMENTS ET DE NOEUDS DANS MWA(IP1) ET IP21
+C-----COPY OF SEGMENT AND NODE NUMBERS INTO MWA(IP1) AND IP21
 C
       DO 120 I=1,NB_EC
         MWA(IP1+I-1) = I
@@ -282,9 +282,9 @@ C
         MWA(IP21+I-1) = I
   140 CONTINUE
 C
-C-----DEBUT DE LA PHASE DE TRI 
+C-----START OF THE SORTING PHASE
 C 
-C     TANT QUE IL RESTE UNE ADRESSE A TRIER
+C     AS LONG AS THERE IS AN ADDRESS LEFT TO SORT
 C------------------
   200 CONTINUE
 C------------------
@@ -348,7 +348,7 @@ C             CALL ARRET(2)
         GO TO 100
       ENDIF
       IF(I_ADD/=0) GO TO 200
-C     FIN BOUCLE TANT QUE
+C     END OF WHILE LOOP
 C---------------------------------
       IF(J_STOK/=0)THEN
          LFT = 1
@@ -423,7 +423,7 @@ C             CALL ARRET(2)
      .             C1=TITR)
       ENDIF
 C
-C     MISE A ZERO DE TAG POUR I21PWR3
+C     ZEROING OF TAG FOR I21PWR3
 C
       DO I=1,NUMNOD
         MWA(I)=0

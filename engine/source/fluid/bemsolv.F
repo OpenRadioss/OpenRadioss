@@ -374,12 +374,12 @@ C
      .            .17561526,.17561526,
      .           -.14957004/
 C
-C DISTANCE A LA SOURCE
+C DISTANCE TO SOURCE
       XS=X(1,NNJ)
       YS=X(2,NNJ)
       ZS=X(3,NNJ)
       R2=(X0-XS)**2+(Y0-YS)**2+(Z0-ZS)**2
-C NOMBRE DE POINTS DE GAUSS
+C NUMBER OF GAUSS POINTS
       IF (R2>HUNDRED*D2) THEN
          NPG=1
          IAD=1
@@ -423,8 +423,8 @@ C INTEGRATION
            RVAL(3)=RVAL(3)+HALF*W*VAL3*VALPHI
          ENDIF
 C Remarque : la normale (NRX,NRY,NRZ) n'est pas normalisee
-C         il faudrait la diviser par JAC et comme on doit multiplier
-C         par JAC a la ligne d'en dessous...
+C         it should be divided by JAC and as we must multiply
+C         by JAC in the line below...
       ENDDO
 C
       RETURN
@@ -533,12 +533,12 @@ C
       WPG4(14)=.652145154862546 * .347854845137454
       WPG4(15)=.652145154862546 * .347854845137454
       WPG4(16)=.652145154862546 * .652145154862546
-C DISTANCE A LA SOURCE
+C DISTANCE TO SOURCE
       XS=X(1,NNJ)
       YS=X(2,NNJ)
       ZS=X(3,NNJ)
       R2=(X0-XS)**2+(Y0-YS)**2+(Z0-ZS)**2
-C NOMBRE DE POINTS DE GAUSS
+C NUMBER OF GAUSS POINTS
       IF (R2>HUNDRED*D2) THEN
          NPG=1
          IAD=1

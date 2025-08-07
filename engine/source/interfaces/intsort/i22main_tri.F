@@ -130,13 +130,13 @@ C-----------------------------------------------
      .        ADD1, NB_N_B, NOINT, INACTI, MULTIMP, IGAP, IFQ,
      .        IAD, J, NF, NL, I1, I2, REM_P(NSPMD-1)
       INTEGER ::
-     .        NBRIC_G,  !Nombre de brique dans tout le modele
-     .        NBRIC_L,  !Nombre de brique du domaine (non fragmentate sur les thread)
-     .        NSHEL_G,  !Nombre de facettes dans tout le modele
-     .        NSHEL_L,  !Nombre de facettes du domaine
-     .        NSHEL_T,  !Nombre de facettes du domaine associe au THREAD concerne
-     .        NSHELR_L !Nombre de facettes remote du domaine 
-!     .        NSHELR_T  !Nombre de facettes remote du domaine (pour le thread courant)
+     .        NBRIC_G,  !number of bricks in the whole model
+     .        NBRIC_L,  !number of bricks in the domain (not split across threads)
+     .        NSHEL_G,  !number of facets in the whole model
+     .        NSHEL_L,  !number of facets in the domain
+     .        NSHEL_T,  !number of facets in the domain associated with the relevant thread
+     .        NSHELR_L !number of remote facets in the domain
+! number of remote facets in the domain (for the current thread)
       INTEGER 
      .        ILD, NCONT, NCONTACT, INACTII, INACIMP, INTTH,
      .        I_MEM,CAND_N_OLD,IDUM1(1),
@@ -167,7 +167,7 @@ C-----------------------------------------------
       IS_CONTACT=.FALSE.
 
 C -------------------------------------------------------------
-C     CRITERE DE RETRI
+C     retri criterion
 C -------------------------------------------------------------
       RETRI = 1
 C
@@ -190,7 +190,7 @@ C -------------------------------------------------------------
       GAP =INTBUF_TAB%VARIABLES(2)
       GAPMIN=INTBUF_TAB%VARIABLES(13)
       GAPMAX=INTBUF_TAB%VARIABLES(16)
-      INTBUF_TAB%I_STOK(1)=0     !initialisation du nombre de condidat (II_STOK = INTBUF_TAB%I_STOK(1) )
+      INTBUF_TAB%I_STOK(1)=0     !initialization of the number of candidates (II_STOK = INTBUF_TAB%I_STOK(1))
 
       !nombre d elements pour l interface (total, domaine, thread)
       !---BRIQUES---!
@@ -209,7 +209,7 @@ C -------------------------------------------------------------
       NSHELR_L = 0
       !NSHELR_T = NSNR
   
-      NIRECT_L = NSHEL_G !est un majorant de NSHEL_L+NSHELR_L
+      NIRECT_L = NSHEL_G !is an upper bound of NSHEL_L+NSHELR_L
 
 C -------------------------------------------------------------
 C     ALLOCATIONS
@@ -257,9 +257,9 @@ C -------------------------------------------------------------
       TZINF  = INTBUF_TAB%VARIABLES(8)
 
 C -------------------------------------------------------------
-C     CALCUL BORNE DU DOMAINE LAGRANGIEN DU THREAD
+C     calculation of the lagrangian domain bounds of the thread
 C -------------------------------------------------------------
-C eshift : decalage du groupe de facette, passage de NSHEL_T(thread)  NSHEL_L(local)
+C eshift: shift of the facet group, from NSHEL_T (thread) to NSHEL_L (local)
       CALL I22XSAVE(
      1       X             ,INTBUF_TAB%NSV                ,INTBUF_TAB%MSR ,NSN    ,NMN      ,
      2       ITASK         ,INTBUF_TAB%XSAV               ,XMINL          ,YMINL  ,ZMINL    ,
@@ -275,11 +275,11 @@ C eshift : decalage du groupe de facette, passage de NSHEL_T(thread)  NSHEL_L(lo
       BMINMA_LAG(6) = MIN(BMINMA_LAG(6),ZMINL)
 #include "lockoff.inc"
       RESULT = 0
-C BARRIER II_STOK et RESULT
-      CALL MY_BARRIER  !les bornes BMINMA doivent etre dans SPMD_TRI22VOX0 CELLE DU DOMAIN ET NON CELLE DU THREAD
-                       !attendre les contributions de chaque thread
+C barrier II_STOK and RESULT
+      Ccall MY_BARRIER: the BMINMA bounds must be in SPMD_TRI22VOX0, those of the domain and not those of the thread
+                       !wait for the contributions of each thread
 
-C a conserver pour cas inacti est modifie sur p0
+C to keep for the case where inacti is modified on p0
       INACTI=IPARI(22,NIN)
       IF(ITASK==0)THEN
         IF(ABS(BMINMA_LAG(6)-BMINMA_LAG(3))>2*EP30.OR.
@@ -290,7 +290,7 @@ C a conserver pour cas inacti est modifie sur p0
           CALL ARRET(2)
         END IF
 
-        !extension du domaine lagrangien avec TZINF (verifier calcul de TZINF)
+        !extension of the lagrangian domain with TZINF (check calculation of TZINF)
         if(itask==0.and.ibug22_tri==1)print *, 
      .         "applying TZINF extension to lag domain", TZINF
 
@@ -326,7 +326,7 @@ C -------------------------------------------------------------
           J=1
           !listing all remote proc in REM_P(1:NSPMD-1)
 C -------------------------------------------------------------
-C     CALCUL DES DIMENSIONS DES DOMAINES  :
+C     calculation of the domain dimensions
 C       + LAGRANGIENS REMOTES : BMINMA_LAG_R
 C       + LAGRANGIEN GLOBAL   : BMINMA_LAG_G
 C -------------------------------------------------------------
@@ -380,9 +380,9 @@ C -------------------------------------------------------------
       END IF
 
 C -------------------------------------------------------------
-C     CALCUL DES DIMENSIONS DU DOMAINE FLUIDE LOCAL (multi-threading)
+C     calculation of the local fluid domain dimensions (multi-threading)
 C -------------------------------------------------------------
-      !Initialisation des bornes du domaine Fluide
+      !initialization of the fluid domain bounds
       BMINMA_FLU(1) = -EP30
       BMINMA_FLU(2) = -EP30
       BMINMA_FLU(3) = -EP30
@@ -399,7 +399,7 @@ C -------------------------------------------------------------
 
       CALL MY_BARRIER        
 
-      !Calcul des bornes du domaine Fluide
+      !calculation of the fluid domain bounds
 #include "lockon.inc"
       BMINMA_FLU(1) = MAX(BMINMA_FLU(1),MAXVAL(XMAXS))
       BMINMA_FLU(2) = MAX(BMINMA_FLU(2),MAXVAL(YMAXS))
@@ -429,7 +429,7 @@ C -------------------------------------------------------------
       END IF
 
 C -------------------------------------------------------------
-C     CALCUL DES MIN/MAX DES FACETTES DE CHAQUE THREAD DU DOMAINE
+C     calculation of the min/max of the facets of each thread in the domain
 C -------------------------------------------------------------
 
       !computing MIN/MAX for 2D elems
@@ -441,8 +441,8 @@ C -------------------------------------------------------------
 
 
 C -------------------------------------------------------------
-C     RECHERCHE DANS LES AUTRES DOMAINES DES FACETTES A PROXIMITE
-C     DU DOMAINE FLUIDE LOCAL (REMOTE). ALLOCATION DE XREM
+C     search in the other domains for nearby facets
+C     of the local fluid domain (remote). allocation of XREM
 C -------------------------------------------------------------
  
       IF(NSPMD > 1) THEN
@@ -464,7 +464,7 @@ C -------------------------------------------------------------
           IF (IMONM > 0 ) CALL STARTIME(TIMERS,25)
         !CONTACT=TRUE si intersection non nulle entre domaine FLUIDE LOCAL / LAG DISTANTS    
         IF(IS_CONTACT) CALL SPMD_TRI22VOX(
-     1      INTBUF_TAB%IRECTM ,NSHEL_L ,X        ,V          ,BMINMA_AND_R,  !envoyer les shell du domaine.
+     1      INTBUF_TAB%IRECTM ,NSHEL_L ,X        ,V          ,BMINMA_AND_R,  !send the shells of the domain
      2      INTBUF_TAB%STFM   ,NIN     ,ISENDTO  ,IRCVFROM   ,IAD_ELEM  , 
      3      FR_ELEM           ,NSNR    ,ITAB     ,ITASK      )
            
@@ -473,11 +473,11 @@ C -------------------------------------------------------------
         NIRECT_L = NSHEL_L + NSNR !on avait un majorant de NSHEL_L+NSHELR_L, on connait mainteannt la taille exacte car NSHELR_L=NSNR (nb candidat remote)
 
        ELSE 
-       !verifier si contact avec intersection des domaines
+       !check if there is contact with the intersection of the domains
 
       END IF
 
-        CALL MY_BARRIER ! attendre l'allocation et le remplissage de XREM pour remplir IRECT_L
+        Ccall MY_BARRIER: wait for the allocation and filling of XREM to fill IRECT_L
         NSHELR_L = NSNR
         !NSHELR_T = NSNR
 
@@ -485,7 +485,7 @@ C -------------------------------------------------------------
 
 
 C -------------------------------------------------------------
-C     DEFINITION DU TABLEAU GLOBAL DE COQUES (LOCAL + REMOTES)
+C     definition of the global shell array (local + remotes)
 C -------------------------------------------------------------
 C      IRECT_L( 1: 4, :)                         : Four Node ITAB( ID) : numero glolocal pour unicit avec XREM
 C      IRECT_L( 5: 8, :)                         : X-coordinates
@@ -502,7 +502,7 @@ C      IRECT_L(    :,NRTM+1:NRTM + NSNR)         : remotes elements data
       DO I=0,NSHEL_T-1
         IP1=I+1
         J = ESHIFT + IP1      !numero global (local+remote)
-        STFE = INTBUF_TAB%STFM(1+ESHIFT+I) ! rigidite dans le groupe de shell du thread
+        STFE = INTBUF_TAB%STFM(1+ESHIFT+I) ! stiffness in the shell group of the thread
         IRECT_L(23   , J) = STFE                               ! Stiffness
         !IF(STFE==ZERO) CYCLE  
         I1 = 1+4*ESHIFT+4*I
@@ -580,7 +580,7 @@ C -------------------------------------------------------------
       
       if(itask==0.and.ibug22_tri==1)print *, 
      .  "Faire test si dimension negative ",
-     .  "=>candidat=0 ! ici ou dans i22trivox"
+     .  "=>candidat=0 ! here or in i22trivox
 
        
  50   CALL MY_BARRIER
@@ -592,7 +592,7 @@ C -------------------------------------------------------------
       ISKIP22 = 0
 
 C -------------------------------------------------------------
-C     RECHERCHE DES COUPLES CANDIDATS POUR L'INTERACTION
+C     search for candidate pairs for the interaction
 C -------------------------------------------------------------
  
       IF (IMONM > 0) CALL STARTIME(TIMERS,30)
@@ -628,7 +628,7 @@ C New barrier needed for Dynamic MultiMP
         INTBUF_TAB%i_STOK(1) = CAND_N_OLD
         MULTIMP              = IPARI(23,NIN)
         NCONTACT             = MULTIMP*NCONT
-C eshift : decalage sur cand_e
+C eshift: shift on cand_e
         GOTO 40
       ENDIF
 
@@ -665,7 +665,7 @@ C utile si on revient
         TZINF  = INTBUF_TAB%VARIABLES(8)
         GOTO 50
       ENDIF
-C mise a - de dist temporairement pour reperage dans partie frontiere
+C temporarily set dist to - for identification in the boundary part
       IF(NSPMD>1)THEN
 C mono tache
 !$OMP SINGLE
@@ -877,7 +877,7 @@ C-----------------------------------------------
 !      print *, "  ...write OK"
 !---------------debug---------------
 
-      ! On verifie au passage que les face locales sont a proximit (marge) du domaine local fluide (bminma)
+      ! we check in passing that the local faces are near (margin) the local fluid domain (bminma)
       XMIN = BMINMA(4)-MARGE
       YMIN = BMINMA(5)-MARGE
       ZMIN = BMINMA(6)-MARGE

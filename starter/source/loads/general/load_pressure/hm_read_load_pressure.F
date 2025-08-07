@@ -384,7 +384,7 @@ C--------------
 
             FACLOADP( 1,K+NIDXLOAD) = FCY
             FACLOADP( 2,K+NIDXLOAD) = ONE/FCX
-            !Multidomaines -> on decompte les seg communs, on ne les compte qu'une foi---
+            !multidomains -> shared segments are counted only once
             IF (IDDOM>0) NN = NN-ISURF_R2R(1,IS)
           ENDIF
 

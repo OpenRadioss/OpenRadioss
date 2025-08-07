@@ -85,7 +85,7 @@ C----------------
           my_real
      .           , DIMENSION(:,:), POINTER :: NOD_ANIM
 C------------------------
-C Polygones et polyhedres
+C Polygons and polyhedra
 C------------------------
           INTEGER, DIMENSION(:), POINTER :: IFVPOLY, IFVTADR,
      .                                      IFVPOLH, IFVPADR, IDPOLH,

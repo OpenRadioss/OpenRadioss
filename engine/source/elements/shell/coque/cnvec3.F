@@ -111,7 +111,7 @@ C=======================================================================
         ENDDO
       ENDIF
 C
-C---  orthogonalisation du repere local
+C---  orthogonalization of local coordinate system
 C
       IF (ISHFRAM == 0 .OR. IGTYP == 16 ) THEN
 C---    Repere convecte symetrique - version 5 (default)

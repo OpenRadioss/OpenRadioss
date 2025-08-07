@@ -32,7 +32,7 @@ C
 !||====================================================================
       SUBROUTINE SPMD_SD_CJ_1(A,LJOINT,FR_CJ,IADCJ,ICSIZE,
      .                        TAG_LNK_SMS)
-C envoi de p0 vers les autres procs de A
+C sending p0 to the other processors for a
 C apres traitement des joints cylindriques
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

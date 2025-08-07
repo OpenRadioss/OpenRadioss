@@ -249,7 +249,7 @@ C Critere pour test d'interiorite
 C---------------------------------------------------
 C Preliminaires
 C---------------------------------------------------
-C Coordonnees des noeuds 
+C Coordinates of the nodes
       DO I=1,NNS0
          IF (IFVNOD0(1,I)==1) THEN
             IEL=IFVNOD0(2,I)
@@ -340,7 +340,7 @@ c            ENDIF
          ENDIF
       ENDDO
       DEALLOCATE(XXXSA)
-C Normale et aire des triangles
+C Normal and area of the triangles
       DO I=1,NNTR0
          N1=IFVTRI0(1,I)
          N2=IFVTRI0(2,I)
@@ -410,13 +410,13 @@ C
             NORM1(3,I)=ZERO
          ENDIF
       ENDDO
-C Volume des polyhedres
+C Volume of polyhedra
       DO I=1,NPOLH0
          VOLU0(I)=ZERO
-C Boucle sur les polygones du polyhedre
+C Loop over the polygons of the polyhedron
          DO J=IFVPADR0(I),IFVPADR0(I+1)-1
             JJ=IFVPOLH0(J)
-C Boucle sur les triangles du polygone
+C Loop over the triangles of the polygon
             DO K=IFVTADR0(JJ), IFVTADR0(JJ+1)-1
                KK=IFVPOLY0(K)
                AREA=TAREA0(KK)
@@ -447,10 +447,10 @@ C Boucle sur les triangles du polygone
 C
       DO I=1,NPOLH1
          VOLU1(I)=ZERO
-C Boucle sur les polygones du polyhedre
+C Loop over the polygons of the polyhedron
          DO J=IFVPADR1(I),IFVPADR1(I+1)-1
             JJ=IFVPOLH1(J)
-C Boucle sur les triangles du polygone
+C Loop over the triangles of the polygon
             DO K=IFVTADR1(JJ), IFVTADR1(JJ+1)-1
                KK=IFVPOLY1(K)
                AREA=TAREA1(KK)
@@ -478,7 +478,7 @@ C Boucle sur les triangles du polygone
             ENDDO
          ENDDO
       ENDDO   
-C Bounding box pour les polyhedres
+C Bounding box for polyhedra
       DO I=1,NPOLH0
          XMIN=EP30
          XMAX=-EP30

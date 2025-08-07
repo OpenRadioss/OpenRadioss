@@ -138,7 +138,7 @@ C-----------------------------------------------
      .        IPARG(*),IXFEM,INOD_CRK(*),IEL_CRK(*),IADC_CRK(4,*),
      .        ELCUTC(2,*),NODEDGE(2,*),INDX_DRAPE(SCDRAPE)
       INTEGER, INTENT(IN) :: IGRE, NCYCLE
-C     REAL OU REAL*8
+C     REAL OR REAL*8
       my_real
      .   F11(MVSIZ),F12(MVSIZ),F13(MVSIZ),F14(MVSIZ),
      .   F21(MVSIZ),F22(MVSIZ),F23(MVSIZ),F24(MVSIZ),
@@ -289,7 +289,7 @@ C
       NXLAY  = XFEM_STR%NLAY
       NLAYER = 1    ! only one current xfem layer passes to the cmain3 & mulawc
 C-----------------------------------------
-      IXFEM2 = 1               ! flag pour CZCORC1 et BILAN
+      IXFEM2 = 1               ! flag for CZCORC1 and BALANCE
 C
       ALLOCATE(ELCRKINI(NXLAY*NEL))
       ALLOCATE(DIR1_CRK(NXLAY*NEL))
@@ -438,7 +438,7 @@ C
      4                 DRAPE_SH4N ,NFT  ,NEL    ,INDX_DRAPE , THKE,
      5                 SEDRAPE,NUMEL_DRAPE , MAT_ELEM)           
 C----------------------------------
-C     CALCUL VITESSE DE DEFORMATION 
+C     STRAIN RATE CALCULATION
 C----------------------------------
         CALL CZDEF(JFT     ,JLT  ,AREA ,A_I  ,VL13   ,VL24  ,
      2             VLHI    ,RLXYZ,VDEF ,DHG  ,X13    ,
@@ -454,7 +454,7 @@ C----------------------------------
      5                 VRLZ )
         ENDIF
 C----------------------------------
-C     CALCUL DES DEFORMATIONS 
+C     STRAIN CALCULATION
 C----------------------------------
         CALL CZSTRA3(JFT    ,JLT    ,NFT, VDEF,STRAG    ,
      2               EXX    ,EYY    ,EXY, EXZ ,EYZ      ,  
@@ -507,7 +507,7 @@ C-----------------------------
 C-----------------------------
         IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STOPTIME(TIMERS,35)
 C--------------------------
-C     BILANS PAR MATERIAU
+C     BALANCES BY MATERIAL
 C--------------------------
         IF (IPRI == 1)
      1    CALL CBILAN(
@@ -595,7 +595,7 @@ C
      8               Z1     ,LXYZ   ,DD     ,DB     ,LXYZ ,
      9               ISROT  ,DIZ    ,VMZ    )
 C-------------------------
-c     Thermique des coques 
+c     Shell thermal
 C--------------------------
 C
         IF (JTHE /= 0) THEN
@@ -611,7 +611,7 @@ C
         ENDIF 
 C
 C--------------------------
-C     ASSEMBLAGE des forces dans les adresses sky des noeuds phantomes
+C     FORCE ASSEMBLY in the sky addresses of phantom nodes
 C--------------------------
         IF (IPARIT == 1)
      .    CALL CUPDTN3_CRK(

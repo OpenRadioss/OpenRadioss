@@ -185,7 +185,7 @@ C initialisation
        
 C-------------------------------
 C      
-C     OFF = 0. si la matrice ou la fibre a rompu
+C     OFF = 0. if the matrix or fiber has broken
 C-------------------------------
 C           
        IF(IUNIDIR > 0)THEN   
@@ -485,7 +485,7 @@ c
         ENDIF 
 C ----------------------------------------------      
 C     fabric layer model
-C     OFF = 0. si la matrice ou la fibre a rompu
+C     OFF = 0. if the matrix or fiber has broken
 C-------------------------------  
       IF(IFABRIC > 0)THEN
         INDX = 0 

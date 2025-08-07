@@ -79,7 +79,7 @@ C
         ENDDO
       ENDIF      
 C
-C ADRESSE PAR NOEUD DANS LE TABLEAU DES ELEMENTS A SAUVER DANS NOEUDS
+C address per node in the array of elements to be saved in nodes
 C
       NOIADD(1)=1
       DO I=2,NNOISE+1
@@ -126,7 +126,7 @@ C-----------------------------------------------
         KN(I)=0
       ENDDO
 C
-C REMPLISSAGE DE ELNOI PAR LES ADRESSES DANS ELBUF
+C filling elnoi with the addresses from elbuf
 C
       DO NG=1,NGROUP
         ITY   =IPARG(5,NG)

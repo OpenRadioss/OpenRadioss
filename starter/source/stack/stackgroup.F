@@ -650,7 +650,7 @@ C to be  clarified later IPOS > 0
                ENDDO
 C                
                IF(IPOS == 2 )ZSHIFT = ZSHIFT /MAX(THICKT,EM20)                  
-C---             calcul automatique de position des couches             
+C--- Automatic calculation of layer positions
                  IWORKS%GEO(IPPOS+1,IS) = ZSHIFT + HALF*IWORKS%GEO(IPTHK+1,IS)
                  DO J=2,NPT                                               
                    IWORKS%GEO(IPPOS+J,IS) = IWORKS%GEO(IPPOS+J-1,IS)            
@@ -676,7 +676,7 @@ C---
 C   - various nb of integration points through each layer
 C---
 C
-C---  TEST de calcul automatique de position des NPTT dans les couches
+C--- TEST of automatic calculation of NPTT positions in the layers
 C
 cc            IPPID = 2
 cc            DO ILAY=1,NLAY
@@ -1171,7 +1171,7 @@ C to be  clarified later IPOS > 0
                ENDDO
 C                
               IF (IPOS == 2 ) ZSHIFT = ZSHIFT /MAX(THICKT,EM20)     
-C---             calcul automatique de position des couches             
+C--- Automatic calculation of layer positions
                  STACK%GEO(IPPOS+1,IIS) = ZSHIFT +
      .                          HALF*STACK%GEO(IPTHK+1,IIS)
                  DO J=2,NPT                                               
@@ -1200,7 +1200,7 @@ C---
 C   - various nb of integration points through each layer
 C---
 C
-C---  TEST de calcul automatique de position des NPTT dans les couches
+C--- TEST of automatic calculation of NPTT positions in the layers
 C
 cc            IPPID = 2
 cc            DO ILAY=1,NLAY

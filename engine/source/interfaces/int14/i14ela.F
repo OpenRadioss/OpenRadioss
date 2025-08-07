@@ -112,7 +112,7 @@ C-------------------------------
       XPV(3,I)=ROT(7)*X1+ROT(8)*X2+ROT(9)*X3
       ENDDO
 C-------------------------------
-C     Normale et penetration.
+C     normal and penetration
 C-------------------------------
 #include "vectorize.inc"
       DO I=1,MIN(MVSIZ,NREST)
@@ -145,7 +145,7 @@ C     Hyper-Ellipsoide ::
       ANS=(EP-EXP((DGR-1)*LOG(MAX(EP,EM20))/DGR))
      .      / MAX(EXP((DGR-1)*LOG(EM20)/DGR),N)
 C-------------------------------
-C     projection du point impacte :
+C     projection of the impacted point:
 C     projection sur tangente / hors ellips.
 C-------------------------------
       IF (GAPMIN<ANS) THEN
@@ -237,7 +237,7 @@ C-----------------------------------------------
         ENDIF
       ENDIF
 C-----------------------------------------------
-C     RAIDEUR DE L'INTERFACE
+C     interface stiffness
 C     TQ | SOMME DES FORCES | = F(PENETRATION MAX.)
 C-----------------------------------------------
       IF (NLO/=0) THEN

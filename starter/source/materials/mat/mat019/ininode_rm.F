@@ -58,7 +58,7 @@ C     REAL
      .                             IRN,INDX,INDX0,ITAG,IRE,
      .                             INDXE, INDXE0, ITAGE
 C
-C  construction des materiaux rigides
+C  construction of rigid materials
 C
       ALLOCATE (IRN(NUMNOD))  
       IRN = 0
@@ -71,7 +71,7 @@ C
          ENDIF
       ENDDO 
 C     
-C  allocation de tableau de travail
+C  allocation of work array
 C 
       ALLOCATE (INDX(NR),INDX0(NR),ITAG(NUMNOD))
       ALLOCATE (INDXE(NER),INDXE0(NER),ITAGE(NER)) 
@@ -220,7 +220,7 @@ C
              ENDIF
            ENDDO 
 C
-C   creation des corps rigide
+C   creation of rigid bodies
 C
       KK = 0
       DO IR =1,NRB

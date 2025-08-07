@@ -311,7 +311,7 @@ C Solid 8 nodes brick
          TEMP0(I) = ZERO 
         ENDDO
 C
-C Creation de la dependance au mat_rigid
+C Creation of the dependency on mat_rigid
         DO I=1,NEL
           N = I + NFT
           NINDX = NINDX + 1

@@ -340,7 +340,7 @@ C----------------------------------------------------------------------
       ENDDO
       MFI = MFITMP
 C-------------------------------------
-C Recherche des ID doubles
+C search for duplicate ids
 C-------------------------------------
       CALL UDOUBLE(ISPHIO(NISPHIO,1),NISPHIO,NSPHIO,MESS,0,BID)
 C-------------------------------------

@@ -61,7 +61,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       USE MESSAGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C============================================================================
-C  cette routine est appelee par : ININT3(/inter3d1/inint3.F)
+C  this routine is called by: inint3(/inter3d1/inint3.f)
 C----------------------------------------------------------------------------
 C  cette routine appelle : I2TRI(/inter3d1/i2tri.F)
 C                          I2DST3(/inter3d1/i2dst3.F)
@@ -137,7 +137,7 @@ c
       IF (IGNORE >= 2) THEN
          THKSECND = ZERO
          THKMAIN = ZERO
-C        DD EST LA LONGEUR MAX DIAGONALES
+C        dd is the maximum diagonal length
         DO 5 L=1,NRTM
 C        CONNECTIVITES ELEMENT
          N1=IRECT(1,L)
@@ -234,7 +234,7 @@ C       TAILLE BUCKET MIN = TZINF05
         MINBOX= HALF*MAXBOX
         TZINFMIN = TZINF05
       ELSE
-C     DD EST LA LONGEUR MOYENNE ELEMENT
+C     dd is the average length of the element
         DO 10 L=1,NRTM
 C        CONNECTIVITES ELEMENT
          N1=IRECT(1,L)
@@ -271,7 +271,7 @@ C       TAILLE BUCKET MIN = TZINF05
         TZINFMIN = TZINF05*EM01
       ENDIF
 C--------------------------------
-C     CALCUL DES BORNES DU DOMAINE
+C     calculation of the domain bounds
 C--------------------------------
       XMIN=EP30
       XMAX=-EP30
@@ -306,12 +306,12 @@ C
  25   CONTINUE
 C
 C
-C-----2- TRI PAR BOITES DES ELEMENTS ET DES NOEUDS
+C-----2- SORTING ELEMENTS AND NODES INTO BOXES
 C
       NB_N_B = 1
       I_MEM = 0
-C SI ON A PAS ASSEZ DE MEMOIRE POUR LES PILES ON RECOMMENCE LE TRI
-C EN INCREMENTANT LE NB_N_B (NOMBRE DE NOEUDS PAR BOITE FINIE)
+C IF THERE IS NOT ENOUGH MEMORY FOR THE STACKS, RESTART THE SORT
+C BY INCREMENTING NB_N_B (NUMBER OF NODES PER FINISHED BOX)
  100  CONTINUE
 C     POINTEUR  NOM                 TAILLE
 C     P1........Elt Bas Pile        NRTM
@@ -320,7 +320,7 @@ C     P21.......BPN                 NSN
 C     P22.......PN                  NSN
 C     P31.......ADDI                2000
 C
-C  POUR ONE MAILLAGE DE TOPOLOGIE CARRE LA TAILLE DE P2 PEUT ETRE ESTIMEE A:
+C  FOR A SQUARE TOPOLOGY MESH, P2 SIZE CAN BE ESTIMATED AS:
 C 4n:     NUMELC + 6*SQRT(NUMELC) + 8*LOG2(NUMELC) 
 C 3n:     NUMELTG + 6*SQRT(2*NUMELTG) + 8*LOG2(NUMELTG)
 C 
@@ -329,7 +329,7 @@ C 3n:     NUMELTG + 6*SQRT(2*NUMELTG) + 12*LOG(NUMELTG)
 C 
 C NUMELC + NUMELTG + 6*SQRT(NUMELC+2*NUMELTG) + 12*LOG(NUMELC+NUMELTG)
 C 
-C  POUR ONE MAILLAGE DE TOPOLOGIE LINEAIRE LA TAILLE DE P2 PEUT ETRE ESTIMEE A:
+C  FOR A LINEAR TOPOLOGY MESH, P2 SIZE CAN BE ESTIMATED AS:
 C NUMELC + NUMELTG + (NUMELC+NUMELTG)*(1 + 1/2 + 1/4 +...) + LOG2(NUMELC+NUMELTG)
 C 3*(NUMELC+NUMELTG) + LOG2(NUMELC+NUMELTG)
 C 3*(NUMELC+NUMELTG) + 300
@@ -343,7 +343,7 @@ C      IP21= IP2+2*MAXSIZ
       IP31= IP22+NUMNOD
 C     IFIN= IP22+2000
 C
-C-----INITIALISATION DES ADRESSES ET X,Y,Z
+C-----INITIALIZATION OF ADDRESSES AND X,Y,Z
 C
 C     ADDE     ADDN     X      Y      Z
 C     1        1        XMIN   YMIN   ZMIN
@@ -367,7 +367,7 @@ C
       NB_NC = NSN
       NB_EC = NRTM
 C
-C-----COPIE DES NOS DE SEGMENTS ET DE NOEUDS DANS MWA(IP1) ET IP21
+C-----COPYING SEGMENT AND NODE NUMBERS INTO MWA(IP1) AND IP21
 C
       DO 120 I=1,NB_EC
         MWA(IP1+I-1) = I
@@ -376,9 +376,9 @@ C
         MWA(IP21+I-1) = I
   140 CONTINUE
 C
-C-----DEBUT DE LA PHASE DE TRI 
+C-----START OF THE SORTING PHASE
 C 
-C     TANT QUE IL RESTE UNE ADRESSE A TRIER
+C     WHILE THERE IS STILL AN ADDRESS TO SORT
 C------------------
   200 CONTINUE
 C------------------
@@ -417,7 +417,7 @@ C     I_MEM = 2 ==> PAS ASSEZ DE MEMOIRE CANDIDATS
         GO TO 100
       ELSE IF(I_MEM==2) THEN
         TZINF05 = THREE_OVER_4*TZINF05
-C        ne pas dimunuer la taille des boite
+C        do not decrease the box size
 C        MINBOX= THREE_OVER_4*MINBOX
 C        MAXBOX= THREE_OVER_4*MAXBOX
         I_MEM = 0
@@ -431,7 +431,7 @@ C        MAXBOX= THREE_OVER_4*MAXBOX
         GO TO 100
       ENDIF
       IF(I_ADD/=0) GO TO 200
-C     FIN BOUCLE TANT QUE
+C     END OF WHILE LOOP
 C---------------------------------
       IF(J_STOK/=0)THEN
          LFT = 1

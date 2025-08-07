@@ -194,10 +194,10 @@ C
       KMAX  =INTBUF_TAB%VARIABLES(18)
 C
 C -------------------------------------------------------------
-C     STOCKAGE DES ANCIENS CANDIDATS 
+C     STORAGE OF OLD CANDIDATES
 C -------------------------------------------------------------
 C
-C Barriere dans tous les cas pour bminma [et cur_max_max]
+C Barrier in all cases for bminma [and cur_max_max]
 C
       CALL MY_BARRIER
 C
@@ -301,7 +301,7 @@ C preparation candidats retenus
           CALL I7CDCOR3(
      1         JLT,INDEX2(NFT+1),INTBUF_TAB%CAND_E,INTBUF_TAB%CAND_N,
      2         CAND_E_N,CAND_N_N)
-C cand_n et cand_e remplace par cand_n_n et cand_e_n
+C cand_n and cand_e replaced by cand_n_n and cand_e_n
             CALL I23COR3(
      1  JLT    ,NIN       ,X   ,INTBUF_TAB%IRECTM,NSN   ,
      2  INTBUF_TAB%NSV,CAND_E_N ,CAND_N_N ,INTBUF_TAB%STFM,

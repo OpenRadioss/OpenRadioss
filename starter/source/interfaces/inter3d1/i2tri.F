@@ -61,7 +61,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       USE MESSAGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C============================================================================
-C  cette routine est appelee par : I2BUC1(/inter3d1/i2buc1.F)
+C  this routine is called by: I2BUC1(/inter3d1/i2buc1.F)
 C----------------------------------------------------------------------------
 C  cette routine appelle : I7DSTK(/inter3d1/i7dstk.F)
 C                          I2DST3(/inter3d1/i2dst3.F)
@@ -125,22 +125,22 @@ C-----------------------------------------------
 C-----------------------------------------------
       DATA MEMX/0/
 C-----------------------------------------------
-C   ROLE DE LA ROUTINE:
+C   ROLE OF THE ROUTINE:
 C   ===================
-C   CLASSE LES ELETS DE BPE ET LES NOEUDS DE BPN EN TWO ZONES
-C   > OU < A UNE FRONTIERE ICI DETERMINEE ET SORT LE TOUT
-C   DANS bpe,hpe, et bpn,hpn
+C   CLASSIFIES THE BPE ELEMENTS AND BPN NODES INTO TWO ZONES
+C   > OR < TO A BORDER HERE DETERMINED AND OUTPUTS EVERYTHING
+C   INTO bpe,hpe, and bpn,hpn
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C
 C     NOM          DESCRIPTION                       E/S
 C
 C     BPE          TABLEAU DES FACETTES A TRIER      E/S
-C                  ET DU RESULTAT COTE MAX            
+C                  AND THE RESULT ON THE MAX SIDE
 C     PE           TABLEAU DES FACETTES              S
 C                  RESULTAT COTE MIN
 C     BPN          TABLEAU DES NOEUDS A TRIER        E/S
-C                  ET DU RESULTAT COTE MAX            
+C                  AND THE RESULT ON THE MAX SIDE
 C     PN           TABLEAU DES NOEUDS                S
 C                  RESULTAT COTE MIN
 C     ADD(2,*)     TABLEAU DES ADRESSES              E/S 
@@ -157,7 +157,7 @@ C     IRECT(4,*)   TABLEAU DES CONEC FACETTES        E
 C     X(3,*)       COORDONNEES NODALES               E
 C     NB_NC        NOMBRE DE NOEUDS CANDIDATS        E/S
 C     NB_EC        NOMBRE D'ELTS CANDIDATS           E/S
-C     I_ADD        POSITION DANS LE TAB DES ADRESSES E/S
+C     I_ADD        POSITION IN THE TABLE OF I/O ADDRESSES
 C     NSV          NOS SYSTEMES DES NOEUDS           E
 C     XMAX         plus grande abcisse existante     E
 C     XMAX         plus grande ordonn. existante     E
@@ -173,7 +173,7 @@ C
 C    1- TEST ARRET = BOITE VIDE
 C                    BOITE TROP PETITE 
 C                    BOITE NE CONTENANT QU'ONE NOEUD
-C                    PLUS DE MEMOIRE DISPONIBLE
+C                    NO MORE MEMORY AVAILABLE
 C
 C-----------------------------------------------------------
 C
@@ -183,17 +183,17 @@ C        MEMX=-1
 C      ELSEIF(MEMX/=-1)THEN
 C        MEMX=ADD(2,1)+NB_EC
 C      ENDIF
-C--------------------TEST SUR BOITE VIDES-------------- 
+C--------------------TEST ON EMPTY BOXES--------------
 C
       IF(NB_EC==0.OR.NB_NC==0) THEN
 C       write(6,*)" BOITE VIDE"
-C       IL FAUT COPIER LES BAS DES PILES DANS BAS_DE_PILE CORRESPONDANTS
-C       AVANT DE REDESCENDRE DANS LA BRANCHE MITOYENNE
+C       THE BOTTOMS OF THE STACKS MUST BE COPIED INTO THE CORRESPONDING BAS_DE_PILE
+C       BEFORE DESCENDING INTO THE ADJACENT BRANCH
         CALL I7DSTK(I_ADD,NB_NC,NB_EC,ADD,BPN,PN,BPE,PE)
         RETURN
       ENDIF
 C
-C-------------------TEST SUR FIN DE BRANCHE / MEMOIRE DEPASSEE------------
+C-------------------TEST ON END OF BRANCH / MEMORY EXCEEDED------------
 C
       DX = XYZM(4,I_ADD) - XYZM(1,I_ADD)
       DY = XYZM(5,I_ADD) - XYZM(2,I_ADD)
@@ -201,7 +201,7 @@ C
       DSUP= MAX(DX,DY,DZ)
 C
       IF(ADD(2,1)+NB_EC>=MAXSIZ) THEN
-C       PLUS DE PLACE DANS LA PILE DES ELEMENTS BOITES TROP PETITES
+C       NO MORE SPACE IN THE STACK OF ELEMENTS FOR BOXES TOO SMALL
         IF ( NB_N_B == NUMNOD) THEN
            CALL ANCMSG(MSGID=83,
      .                 MSGTYPE=MSGERROR,
@@ -217,8 +217,8 @@ C       PLUS DE PLACE DANS LA PILE DES ELEMENTS BOITES TROP PETITES
      .   NB_NC<=NB_N_B.AND.NB_EC==1) THEN
 C
 C       write(6,*)" NOUVELLE BOITE "
-C       1- STOCKAGE DU OU DES  NOEUD CANDIDAT ET DES ELTS CORRESP.
-C       VIRER LES INUTILES
+C       1- STORAGE OF THE CANDIDATE NODE(S) AND THE CORRESPONDING ELEMENTS
+C       REMOVE THE USELESS ONES
         DO 20 I=1,NB_EC
             NE = BPE(I)
             N1=IRECT(1,NE) 
@@ -286,8 +286,8 @@ C               write(6,*)"Noeud candidat",BPN(J)
 C               write(6,*)"Element  candidat",NE
               ENDIF  
    20   CONTINUE 
-C       IL FAUT COPIER LES BAS DES PILES DANS BAS_DE_PILE CORRESPONDANTS
-C       AVANT DE REDESCENDRE DANS LA BRANCHE MITOYENNE
+C       THE BOTTOMS OF THE STACKS MUST BE COPIED INTO THE CORRESPONDING BAS_DE_PILE
+C       BEFORE DESCENDING INTO THE ADJACENT BRANCH
         CALL I7DSTK(I_ADD,NB_NC,NB_EC,ADD,BPN,PN,BPE,PE)
         RETURN
       ENDIF
@@ -295,7 +295,7 @@ C
 C-----------------------------------------------------------
 C
 C
-C    2- PHASE DE TRI SUR LA MEDIANE SELON LA + GDE DIRECTION
+C    2- SORTING PHASE ON THE MEDIAN ACCORDING TO THE LARGEST DIRECTION
 C                    
 C                   
 C-----------------------------------------------------------
@@ -319,7 +319,7 @@ C
       SUP = 0
       DO 70 I=1,NB_NC
         IF(X(DIR,NSV(BPN(I)))<SEUIL) THEN
-C         ON STOCKE DANS LE BAS DE LA PILE BP
+C         STORED IN THE BOTTOM OF THE BP STACK
           ADDNN = ADDNN + 1
           PN(ADDNN) = BPN(I)
           INF = 1
@@ -348,7 +348,7 @@ C
      .            X(DIR,IRECT(3,BPE(I))),X(DIR,IRECT(4,BPE(I))))
      .      - TZINF
         IF(XMN<SEUIL.AND.INF==1) THEN
-C         ON STOCKE DANS LE BAS DE LA PILE BP
+C         STORED IN THE BOTTOM OF THE BP STACK
           ADDNE = ADDNE + 1
           PE(ADDNE) = BPE(I)
         ENDIF
@@ -363,12 +363,12 @@ C    4- REMPLIR LES TABLEAUX D'ADRESSES
 C
       ADD(1,2) = ADDNN
       ADD(2,2) = ADDNE
-C-----on remplit les min de la boite suivante et les max de la courante
-C     (i.e. seuil est un max pour la courante)
+C-----fill the mins of the next box and the maxes of the current one
+C     (i.e. threshold is a max for the current one)
 C     on va redescendre et donc on definit une nouvelle boite
-C     on remplit les max de la nouvelle boite
+C     fill the maxes of the new box
 C     initialises dans i7buc1 a 1.E30 comme ca on recupere
-C     soit XMAX soit le max de la boite
+C     either XMAX or the max of the box
       XYZM(1,I_ADD+1) = XYZM(1,I_ADD) 
       XYZM(2,I_ADD+1) = XYZM(2,I_ADD)
       XYZM(3,I_ADD+1) = XYZM(3,I_ADD)
@@ -380,7 +380,7 @@ C     soit XMAX soit le max de la boite
 C
       NB_NC = NB_NCN
       NB_EC = NB_ECN
-C     on incremente le niveau de descente avant de sortir
+C     increment the descent level before exiting
       I_ADD = I_ADD + 1
       IF(I_ADD>=1000) THEN
 C       TROP NIVEAUX PILE ON VAS LES PRENDRE PLUS GRANDES...
@@ -395,6 +395,6 @@ C       TROP NIVEAUX PILE ON VAS LES PRENDRE PLUS GRANDES...
         RETURN
       ENDIF
 C
-C     ce return n'est atteint que dans le cas ok = 0
+C     this return is only reached if ok = 0
       RETURN
       END

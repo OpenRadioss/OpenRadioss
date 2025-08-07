@@ -135,7 +135,7 @@ C---------------------------------------------------------------------
         CALL  CALC_UNIAX_2(EC(I),XCFIB,YCFIB,LENC,DC0,HC0,
      .                   YFAC(1),FLEX1,FLEX2,EMBC ,SIGC(I))   !SIGC = SIGMA CALCULATED
         A1 = (FCU(I) - SIGC(I))/MAX(EM20,FCU(I))
-        FMINC = FMINC + A1**2   !somme de la difference des carres
+        FMINC = FMINC + A1**2   !sum of the difference of squares
       ENDDO
       !DIRECTION TRAME = FMINT
       PN1  = NPC(IFUNC(2))
@@ -148,7 +148,7 @@ C---------------------------------------------------------------------
         CALL  CALC_UNIAX_2(ET(I),XTFIB,YTFIB,LENT,DT0,HT0,
      .                   YFAC(2),FLEX1,FLEX2,EMBT,SIGT(I))   !SIGT = SIGMA CALCULATED
         A2 = (FTU(I) - SIGT(I))/MAX(EM20,FTU(I))
-        FMINT = FMINT + A2**2   !somme de la difference des carres
+        FMINT = FMINT + A2**2   !sum of the difference of squares
       ENDDO
 C----------------------------------------------------------- 
       IF (IGOTO == 5 .or. IGOTO == 8) FUN =  (FMINC + FMINT )/TWO                                   
@@ -170,7 +170,7 @@ C----------------------------------------------------------
      .                     YFAC(1),FLEX1,FLEX2,EMBCP,SIGC(I))
 c
            A1 = (FCU(I) - SIGC(I))/MAX(EM20,FCU(I))
-           FMINS = FMINS + A1**2 !somme de la difference des carres
+           FMINS = FMINS + A1**2 !sum of the squared differences
          ENDDO  !LENC    
 c        FMINS   = SQRT(FMINS)                                        
          DFUN(1) = (FMINS - FMINC) / DEMBC 
@@ -193,7 +193,7 @@ C----------------------------------------------------------
 c
            A1 = (FCU(I) - SIGC(I))/MAX(EM20,FCU(I))
            !A1 = FCU(I) - SIGC(I)
-           FMINF1 = FMINF1 + A1**2 !somme de la difference des carres
+           FMINF1 = FMINF1 + A1**2 !sum of the squared differences
          ENDDO !LENC  
 
          DT0 = ONE + EMBT
@@ -206,7 +206,7 @@ c
      .                     YFAC(2),FLEXP,FLEX2,EMBT,SIGT(I))
 c
            A1 = (FTU(I) - SIGT(I))/MAX(EM20,FTU(I))
-           FMINF2 = FMINF2 + A1**2 !somme de la difference des carres
+           FMINF2 = FMINF2 + A1**2 !sum of the squared differences
          ENDDO !LENT   
 c        FMINF   = SQRT(FMINF)                                        
          DFUN(2) = (FMINF1 + FMINF2 - FMINC - FMINT) / DFLEX                                     
@@ -230,7 +230,7 @@ C----------------------------------------------------------
      .                     YFAC(2),FLEX1,FLEX2,EMBTP,SIGT(I))
 c
            A1 = (FTU(I) - SIGT(I))/MAX(EM20,FTU(I))
-           FMINS2 = FMINS2 + A1**2 !somme de la difference des carres
+           FMINS2 = FMINS2 + A1**2 !sum of the squared differences
          ENDDO  !LENT    
 c        FMINS   = SQRT(FMINS)                                        
          DFUN(3) = (FMINS2 - FMINT) / DEMBT      
@@ -253,7 +253,7 @@ C----------------------------------------------------------
 c
            A1 = (FCU(I) - SIGC(I))/MAX(EM20,FCU(I))
            !A1 = FCU(I) - SIGC(I)
-           FMINF1 = FMINF1 + A1**2 !somme de la difference des carres
+           FMINF1 = FMINF1 + A1**2 !sum of the squared differences
          ENDDO !LENC  
          DT0 = ONE + EMBT
          HT0 = SQRT(DT0*DT0 - ONE)
@@ -266,7 +266,7 @@ c
 c
            A1 = (FTU(I) - SIGT(I))/MAX(EM20,FTU(I))
            !A1 = FCU(I) - SIGC(I)
-           FMINF2 = FMINF2 + A1**2 !somme de la difference des carres
+           FMINF2 = FMINF2 + A1**2 !sum of the squared differences
          ENDDO !LENT   
          DFUN(4) = (FMINF1 + FMINF2 - FMINC - FMINT) / DFLEX                                     
       ENDIF !IGOTO
@@ -293,7 +293,7 @@ C----------------------------------------------------------
 
       DT0 = ONE+EMBT 
       HT0 = SQRT(DT0*DT0 - ONE)
-      ! IL FAUT PRENDRE LA LONGUEUR DE LA FONCTION CR  EE
+      ! THE LENGTH OF THE CREATED FUNCTION MUST BE TAKEN
       PN1 = NPC(IFUNC(7))
       PN2 = NPC(IFUNC(7)+1)
       SIZEPN = HALF*(PN2 - PN1) ! 
@@ -313,7 +313,7 @@ C----------------------------------------------------------
         CALL  CALC_UNIAX(EC(I),XFIB,YFIB,SIZEPN,DC0,HC0,
      .                  YFAC(1),FLEX1,EMBC,SIGC(I)) !SIGC = SIGMA CALCULATED
         A1 = (FCU(I) - SIGC(I))/MAX(EM20,FCU(I))
-        FMINC = FMINC + A1**2   !somme de la difference des carres
+        FMINC = FMINC + A1**2   !sum of the squared differences
       ENDDO
       !STOP
       IF (IGOTO == 5 .or. IGOTO == 8) FUN =  FMINC                                      
@@ -335,7 +335,7 @@ C----------------------------------------------------------
            CALL  CALC_UNIAX(EC(I),XFIB,YFIB,SIZEPN,DC0,HC0,
      .                     YFAC(1),FLEX1,EMBCP,SIGC(I))
            A1 = (FCU(I) - SIGC(I))/MAX(EM20,FCU(I))
-           FMINS = FMINS + A1**2 !somme de la difference des carres
+           FMINS = FMINS + A1**2 !sum of the squared differences
          ENDDO  !SIZEPN    
 c        FMINS   = SQRT(FMINS)                                        
          DFUN(1) = (FMINS - FMINC) / DEMBC      
@@ -356,7 +356,7 @@ C----------------------------------------------------------
 c
            A1 = (FCU(I) - SIGC(I))/MAX(EM20,FCU(I))
            !A1 = FCU(I) - SIGC(I)
-           FMINF = FMINF + A1**2 !somme de la difference des carres
+           FMINF = FMINF + A1**2 !sum of the squared differences
          ENDDO !SIZEPN                                                 
 c        FMINF   = SQRT(FMINF)                                        
          DFUN(2) = (FMINF - FMINC) / DFLEX                                     

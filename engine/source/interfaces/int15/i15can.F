@@ -86,7 +86,7 @@ C       CN=1./CN
         ROT(I)=BUFSF(ADRBUF+7+I-1)
        END DO
 C----------------------------------
-C      Boite englobante de l'ellipsoide dans le repere global.
+C      bounding box of the ellipsoid in the global coordinate system
        XLMIN=-A
        XLMAX= A
        YLMIN=-B

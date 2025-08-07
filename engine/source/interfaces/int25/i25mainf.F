@@ -387,7 +387,7 @@ C
       DGAPLOADPMAX = INTBUF_TAB%VARIABLES(46)
 C
 c----------------------------------------------------
-c   Rayon de courbure : calcul des normales nodales (normees)
+c   radius of curvature: calculation of nodal normals (normalized)
 C   IADM!=0 + Icurv!=0 non available (starter error).
 c----------------------------------------------------
 C-----Press-fit 
@@ -527,7 +527,7 @@ C
         ENDIF
       END DO
 C
-C     filtrer => ne garder que les contacts vrais 
+C     filter => keep only true contacts
       CALL I25KEEPF(
      1  I_STOK   ,INDEX2 ,INTBUF_TAB%CAND_OPT_N,INTBUF_TAB%CAND_OPT_E,NIN    ,
      2  NSN      ,NSNR   ,INACTI ,INTBUF_TAB%MSEGLO ,INTBUF_TAB%IRTLM ,
@@ -553,7 +553,7 @@ C
 
       I_STOK = 0
 C
-C recalcul du istok
+C recalculation of istok
 C
       DO I = JTASK, I_STOK_GLO, NTHREAD
         IF(INTBUF_TAB%CAND_OPT_N(I)>0) THEN
@@ -593,7 +593,7 @@ C preparation candidats retenus
           CALL I25CDCOR3(
      1     JLT,INDEX2(NFT+1),INTBUF_TAB%CAND_OPT_E,INTBUF_TAB%CAND_OPT_N,
      2     CAND_E_N,CAND_N_N )
-C cand_n et cand_e remplace par cand_n_n et cand_e_n
+C cand_n and cand_e replaced by cand_n_n and cand_e_n
 C         Extraction of global data to local arrays
           CALL I25COR3_3(
      1  JLT       ,X          ,INTBUF_TAB%IRECTM,INTBUF_TAB%NSV  ,CAND_E_N  ,
@@ -795,7 +795,7 @@ C
       CALL MY_BARRIER
 C
       I_STOK = INTBUF_TAB%I_STOK_E(1)
-C  cette partie est effectuee en // apres le calcul des forces des elem.
+C  this part is done in parallel after the calculation of the forces of the elements
 C decoupage statique
       NB_LOC = I_STOK / NTHREAD
       IF (JTASK==NTHREAD) THEN
@@ -805,7 +805,7 @@ C decoupage statique
       ENDIF
       DEBUT = (JTASK-1)*NB_LOC
       I_STOK = 0
-C recalcul du istok
+C recalculation of istok
 C     WRITE(6,*) "NEDGE=",NEDGE
       DO I = DEBUT+1, DEBUT+I_STOK_LOC
 
@@ -979,7 +979,7 @@ C
       CALL MY_BARRIER
 C
       I_STOK = INTBUF_TAB%I_STOK_E(2)
-C  cette partie est effectuee en // apres le calcul des forces des elem.
+C  this part is done in parallel after the calculation of the forces of the elements
 C decoupage statique
       NB_LOC = I_STOK / NTHREAD
       IF (JTASK==NTHREAD) THEN
@@ -990,7 +990,7 @@ C decoupage statique
 C     WRITE(6,*) "I_STOK_LOC=",I_STOK_LOC
       DEBUT = (JTASK-1)*NB_LOC
       I_STOK = 0
-C recalcul du istok
+C recalculation of istok
       DO I = DEBUT+1, DEBUT+I_STOK_LOC
 C  =========== DEBUG
 #ifdef D_EM

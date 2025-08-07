@@ -259,7 +259,7 @@ C-------------------------------------
 C----   mean skew is calculated  -----
 C-------------------------------------
               
-C----- Initialisation de EXPREC
+C----- Initialization of EXPREC
             IF ((NCYCLE==0).AND.(TT==0).AND.(IGTYP==33)) THEN
                CALL PROD_AB(U,A0,A)        
                DO J=1,9
@@ -271,7 +271,7 @@ C----- Initialisation de EXPREC
                  END DO         
               ENDIF
                 
-C----- Calcul de DEX
+C----- Calculation of DEX
             X21(I) = HALF*(VR(1,NC2(I))+VR(1,NC1(I)))*DT1
             Y21(I) = HALF*(VR(2,NC2(I))+VR(2,NC1(I)))*DT1
             Z21(I) = HALF*(VR(3,NC2(I))+VR(3,NC1(I)))*DT1
@@ -289,7 +289,7 @@ C-----
               SI = SIN(NR)
             CALL QROT33(DEX, DT, CO, SI)
             
-C----- Calcul du nouveau EX    
+C----- Calculation of new EX
             CALL PROD_AB(EXPREC,DEX,EX)
 
 C-------------------------------    

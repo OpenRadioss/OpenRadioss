@@ -164,7 +164,7 @@ C-----------------------------------------------
         IF(OFF(I)==ZERO) CYCLE
         STI(I) = TWO*RHO(I) * VOL(I) / (DTX(I)*DTX(I))
         DTX(I)= DTFAC1(ITY)*DTX(I)
-        !dt2 remplace par dt2t
+        !dt2 replaced by dt2t
         IF(NODADT==0)DT2T= MIN(DTX(I),DT2T)
       ENDDO
       
@@ -209,7 +209,7 @@ C-----------------------------------------------
        
        DO I=1,NEL
          IF(DTX(I)>DT2T.OR.OFF(I)==ZERO) CYCLE
-         !nelts et itypts remplaces par neltst et itypst
+         !nelts and itypts replaced by neltst and itypst
          NELTST =NGL(I)
          ITYPTST=ITY
        ENDDO

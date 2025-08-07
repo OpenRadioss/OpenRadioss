@@ -92,7 +92,7 @@ C-----------------------------------------------
        NSC=0
        NSP=0
 C-----------------------------------------------
-C      Calcul de EG (coefs de l'equation de l'ellipse
+C      calculation of eg (coefficients of the ellipse equation)
 C      dans rep. global centre en G).
 C      Warning : Xloc = [ROT] Xglo
 C      EG(1)=ROT(1)*ROT(1)*A2+ROT(4)*ROT(4)*B2+ROT(7)*ROT(7)*C2

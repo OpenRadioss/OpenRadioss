@@ -493,7 +493,7 @@ C---
         FM23(2,3,EP)=BCYY2*PY3DY
        ENDDO
 C
-C------ Mzz  pour tous-------
+C------ Mzz  for all-------
         DO EP=JFT,JLT
          M11(3,3,EP)=M11(3,3,EP)+DHZ(EP)*(PX1PX1(EP)+PY1PY1(EP))
          M12(3,3,EP)=M12(3,3,EP)+DHZ(EP)*(PY1PY2(EP)-PX1PX1(EP))

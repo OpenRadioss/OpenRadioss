@@ -140,7 +140,7 @@ C
       IF(KDTINT/=0) LEN = LEN+1
       IF(NODADT_THERM == 1) LEN = LEN+1
 
-C type11 => 2 impacts pour une facette
+C type11 => 2 impacts for a facet
       LEN11 = 2*(LEN-1)+1
       LEN11T = 2*LEN+1
 C  type 7 + heat
@@ -273,7 +273,7 @@ c
                  IF(KDTINT==0)THEN
                    DO N = 1, NB
                     IF(NSVFI(NIN)%P(IDEB+N)<0)THEN
-C noeud generant une force
+C node generating a force
                       NSVFI(NIN)%P(IDEB+N)=-NSVFI(NIN)%P(IDEB+N)
                       BBUFS(L+1) = NSVFI(NIN)%P(IDEB+N)
                       BBUFS(L+2) = AFI(NIN)%P(1,IDEB+N)
@@ -290,7 +290,7 @@ C noeud generant une force
                  ELSE
                    DO N = 1, NB
                     IF(NSVFI(NIN)%P(IDEB+N)<0)THEN
-C noeud generant une force
+C node generating a force
                       NSVFI(NIN)%P(IDEB+N)=-NSVFI(NIN)%P(IDEB+N)
                       BBUFS(L+1) = NSVFI(NIN)%P(IDEB+N)
                       BBUFS(L+2) = AFI(NIN)%P(1,IDEB+N)
@@ -308,7 +308,7 @@ C noeud generant une force
                    ENDDO
                  ENDIF
 C
-C--- interface 7 + la thermique
+C--- interface 7 + thermal
 C
                 ELSE
 c
@@ -317,7 +317,7 @@ c
                   IF(KDTINT==0)THEN
                    DO N = 1, NB
                     IF(NSVFI(NIN)%P(IDEB+N)<0)THEN
-C noeud generant une force
+C node generating a force
                       NSVFI(NIN)%P(IDEB+N)=-NSVFI(NIN)%P(IDEB+N)
                       BBUFS(L+1) = NSVFI(NIN)%P(IDEB+N)
                       BBUFS(L+2) = AFI(NIN)%P(1,IDEB+N)
@@ -338,7 +338,7 @@ C noeud generant une force
                  ELSE
                    DO N = 1, NB
                     IF(NSVFI(NIN)%P(IDEB+N)<0)THEN
-C noeud generant une force
+C node generating a force
                       NSVFI(NIN)%P(IDEB+N)=-NSVFI(NIN)%P(IDEB+N)
                       BBUFS(L+1) = NSVFI(NIN)%P(IDEB+N)
                       BBUFS(L+2) = AFI(NIN)%P(1,IDEB+N)
@@ -366,7 +366,7 @@ c
                   IF(KDTINT==0)THEN
                    DO N = 1, NB
                     IF(NSVFI(NIN)%P(IDEB+N)<0)THEN
-C noeud generant une force
+C node generating a force
                       NSVFI(NIN)%P(IDEB+N)=-NSVFI(NIN)%P(IDEB+N)
                       BBUFS(L+1) = NSVFI(NIN)%P(IDEB+N)
                       BBUFS(L+2) = AFI(NIN)%P(1,IDEB+N)
@@ -385,7 +385,7 @@ C noeud generant une force
                  ELSE
                    DO N = 1, NB
                     IF(NSVFI(NIN)%P(IDEB+N)<0)THEN
-C noeud generant une force
+C node generating a force
                       NSVFI(NIN)%P(IDEB+N)=-NSVFI(NIN)%P(IDEB+N)
                       BBUFS(L+1) = NSVFI(NIN)%P(IDEB+N)
                       BBUFS(L+2) = AFI(NIN)%P(1,IDEB+N)
@@ -423,7 +423,7 @@ c
                  IF(KDTINT==0)THEN
                   DO N = 1, NB
                     IF(NSVFI(NIN)%P(IDEB+N)<0)THEN
-C noeud generant une force
+C node generating a force
                       NSVFI(NIN)%P(IDEB+N)=-NSVFI(NIN)%P(IDEB+N)
                       BBUFS(L+1) = NSVFI(NIN)%P(IDEB+N)
                       N1 = 2*(IDEB+N-1)+1
@@ -450,7 +450,7 @@ C noeud generant une force
                  ELSE
                   DO N = 1, NB
                     IF(NSVFI(NIN)%P(IDEB+N)<0)THEN
-C noeud generant une force
+C node generating a force
                       NSVFI(NIN)%P(IDEB+N)=-NSVFI(NIN)%P(IDEB+N)
                       N1 = 2*(IDEB+N-1)+1
                       N2 = 2*(IDEB+N)
@@ -491,7 +491,7 @@ c
                   IF(KDTINT==0)THEN
                    DO N = 1, NB
                     IF(NSVFI(NIN)%P(IDEB+N)<0)THEN
-C noeud generant une force
+C node generating a force
                       NSVFI(NIN)%P(IDEB+N)=-NSVFI(NIN)%P(IDEB+N)
                       BBUFS(L+1) = NSVFI(NIN)%P(IDEB+N)
                       N1 = 2*(IDEB+N-1)+1
@@ -527,7 +527,7 @@ C noeud generant une force
 C KINDT /= 0 Broken LENI should be 16
                    DO N = 1, NB
                     IF(NSVFI(NIN)%P(IDEB+N)<0)THEN
-C noeud generant une force
+C node generating a force
                       NSVFI(NIN)%P(IDEB+N)=-NSVFI(NIN)%P(IDEB+N)
                       N1 = 2*(IDEB+N-1)+1
                       N2 = 2*(IDEB+N)
@@ -572,7 +572,7 @@ c
                   IF(KDTINT==0)THEN
                    DO N = 1, NB
                     IF(NSVFI(NIN)%P(IDEB+N)<0)THEN
-C noeud generant une force
+C node generating a force
                       NSVFI(NIN)%P(IDEB+N)=-NSVFI(NIN)%P(IDEB+N)
                       BBUFS(L+1) = NSVFI(NIN)%P(IDEB+N)
                       N1 = 2*(IDEB+N-1)+1
@@ -604,7 +604,7 @@ C noeud generant une force
 C KINDT /= 0 Broken LENI should be 14
                    DO N = 1, NB
                     IF(NSVFI(NIN)%P(IDEB+N)<0)THEN
-C noeud generant une force
+C node generating a force
                       NSVFI(NIN)%P(IDEB+N)=-NSVFI(NIN)%P(IDEB+N)
                       N1 = 2*(IDEB+N-1)+1
                       N2 = 2*(IDEB+N)
@@ -653,7 +653,7 @@ C type 17
                   L = L + 1
                   DO N = 1, NB
                     IF(NSVFI(NIN)%P(IDEB+N)<0)THEN
-C noeud generant une force
+C node generating a force
                       NSVFI(NIN)%P(IDEB+N)=-NSVFI(NIN)%P(IDEB+N)
                       BBUFS(L+1) = NSVFI(NIN)%P(IDEB+N)
                       BBUFS(L+2) = AFI17(NIN)%P(1,1,IDEB+N)
@@ -826,7 +826,7 @@ C type20
                  IF(KDTINT==0)THEN
                    DO N = 1, NB
                     IF(NSVFI(NIN)%P(IDEB+N)<0)THEN
-C noeud generant une force
+C node generating a force
                       NSVFI(NIN)%P(IDEB+N)=-NSVFI(NIN)%P(IDEB+N)
                       BBUFS(L+1) = NSVFI(NIN)%P(IDEB+N)
                       BBUFS(L+2) = AFI(NIN)%P(1,IDEB+N)
@@ -851,7 +851,7 @@ C
                  ELSE
                    DO N = 1, NB
                     IF(NSVFI(NIN)%P(IDEB+N)<0)THEN
-C noeud generant une force
+C node generating a force
                       NSVFI(NIN)%P(IDEB+N)=-NSVFI(NIN)%P(IDEB+N)
                       BBUFS(L+1) = NSVFI(NIN)%P(IDEB+N)
                       BBUFS(L+2) = AFI(NIN)%P(1,IDEB+N)
@@ -876,14 +876,14 @@ C
                    ENDDO
                  ENDIF
 C
-C--- interface 20 + la thermique
+C--- interface 20 + the thermal
 C
                 ELSE
                  LENI = LEN20T
                  IF(KDTINT==0)THEN
                    DO N = 1, NB
                     IF(NSVFI(NIN)%P(IDEB+N)<0)THEN
-C noeud generant une force
+C node generating a force
                       NSVFI(NIN)%P(IDEB+N)=-NSVFI(NIN)%P(IDEB+N)
                       BBUFS(L+1) = NSVFI(NIN)%P(IDEB+N)
                       BBUFS(L+2) = AFI(NIN)%P(1,IDEB+N)
@@ -909,7 +909,7 @@ C
                  ELSE
                    DO N = 1, NB
                     IF(NSVFI(NIN)%P(IDEB+N)<0)THEN
-C noeud generant une force
+C node generating a force
                       NSVFI(NIN)%P(IDEB+N)=-NSVFI(NIN)%P(IDEB+N)
                       BBUFS(L+1) = NSVFI(NIN)%P(IDEB+N)
                       BBUFS(L+2) = AFI(NIN)%P(1,IDEB+N)
@@ -955,7 +955,7 @@ C
                   IF(KDTINT==0)THEN
                     DO N = 1, NB
                       IF(NSVFIE(NIN)%P(IDEB+N)<0)THEN
-C noeud generant une force
+C node generating a force
                         NSVFIE(NIN)%P(IDEB+N)=-NSVFIE(NIN)%P(IDEB+N)
                         N1 = 2*(N+IDEB-1)+1
                         N2 = 2*(N+IDEB)
@@ -995,7 +995,7 @@ C
                   ELSE  ! KDTIN /= 0
                     DO N = 1, NB
                       IF(NSVFIE(NIN)%P(IDEB+N)<0)THEN
-C noeud generant une force
+C node generating a force
                         NSVFIE(NIN)%P(IDEB+N)=-NSVFIE(NIN)%P(IDEB+N)
                         N1 = 2*(N+IDEB-1)+1
                         N2 = 2*(N+IDEB)

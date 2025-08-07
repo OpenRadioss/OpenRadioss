@@ -89,7 +89,7 @@ cc          CALL WRITE_I_C(XGLOB(NG),1)
         ENDDO
 C all the rest procs
         DO I=2,NSPMD
-C   Reception du buffer entier des adresses NODGLOB
+C   reception of the entire buffer of NODGLOB addresses
           MSGTYP = MSGOFF 
           CALL MPI_PROBE(IT_SPMD(I),MSGTYP,
      .                   SPMD_COMM_WORLD,STATUS,ierror)

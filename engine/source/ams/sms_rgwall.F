@@ -106,7 +106,7 @@ C
             RWSAV(K+3) = ZERO
             GOTO 20
           ENDIF
-C---      test pour noeuds penetres
+C--- test for penetrated nodes
           IF((VX-VXW)*RWL(1)+(VY-VYW)*RWL(2)+(VZ-VZW)*RWL(3)>ZERO)
      .      GOTO 20
           NIMPACT = NIMPACT+1
@@ -130,7 +130,7 @@ C---      test pour noeuds penetres
           ZC=UZ-ZWL
           DP=XC*RWL(1)+YC*RWL(2)+ZC*RWL(3)
           IF(DP>ZERO) GOTO 21
-C---      test pour noeuds penetres
+C--- test for penetrated nodes
           IF((VX-VXW)*RWL(1)+(VY-VYW)*RWL(2)+(VZ-VZW)*RWL(3)>ZERO)
      .      GOTO 21
           NIMPACT = NIMPACT+1

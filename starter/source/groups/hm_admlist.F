@@ -74,7 +74,7 @@ C-----------------------------------------------
      .        LELTMP, NELTMP(NSONTREE**(LEVELMAX+1))
       LOGICAL IS_AVAILABLE, IS_ENCRYPTED
 C-----------------------------------------------
-C CONSTITUTION DE LIST
+C CONSTITUTION OF LIST
 C-----------------------------------------------
       IL   =0
 
@@ -90,7 +90,7 @@ C-----------------------------------------------
       
 C-----------------------
 C TRI DE LIST EN ORDRE CROISSANT
-C AVEC SUPPRESSION DES No DOUBLES
+C WITH REMOVAL OF DOUBLE Nos
 C-----------------------
       CALL MY_ORDERS(0,IWORK,LIST,INDEX,NLIST,1)
       DO I=1,NLIST
@@ -120,7 +120,7 @@ C-----------------------
         ENDDO
       ENDIF
 C-----------------------
-C RECHERCHE DES ELEMENTS DE LIST() DANS IX()
+C SEARCH FOR ELEMENTS OF LIST() IN IX()
 C  ALGO < NLIST+NUMEL
 C-----------------------
       I=1

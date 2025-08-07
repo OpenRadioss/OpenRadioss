@@ -62,7 +62,7 @@ C-----------------------------------------------
      .  IXS(NIXS,*),IGEO(NPROPGI,NUMGEO),ISOLNOD(*),
      .  IPM(NPROPMI,*),TABMP_L,NPART
       INTEGER, INTENT(IN) :: SIZE_IRUP
-C     REAL OU REAL*8
+C     REAL OR REAL*8
       my_real
      .    PM(NPROPM,*), GEO(NPROPG,*),BUFMAT(*)
       REAL WD(*)

@@ -87,7 +87,7 @@ C-----------------------------------------------
      .         ETAG(*),IDDL(*)  ,NDOF(*)  ,IADK(*) ,JDIK(*)
       INTEGER, DIMENSION(SEDRAPE) :: INDX_DRAPE
      
-C     REAL OU REAL*8
+C     real or real*8
       my_real
      .   PM(NPROPM,*),GEO(NPROPG,*),BUFMAT(*),X(3,*),THKE(*),
      .   OFF(MVSIZ),K_DIAG(*) ,K_LT(*)

@@ -106,7 +106,7 @@ C-----------------------------------------------
 C
         STARTT=INTBUF_TAB%VARIABLES(3)
         STOPT =INTBUF_TAB%VARIABLES(11)
-        IF(STARTT>TT) RETURN ! dont look for sliding
+        IF(STARTT>TT) RETURN ! don't look for sliding
         IF(TT>STOPT)  RETURN
 C
 C       Look if interface is activated 

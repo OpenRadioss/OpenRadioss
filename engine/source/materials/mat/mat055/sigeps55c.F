@@ -194,7 +194,7 @@ C-----------------------------------------------
 C------------------------------------------------------------------------------
 C    
 c------------------------------------------------------------------------------
-C   Pour le moment on fait qu'une projection radial
+C   for the moment, we only perform a radial projection
        IFLAG(1) = 2
        MX = MAT(1)       
        NFUNC  = IPM(10,MX)
@@ -251,7 +251,7 @@ C
      .                         + VISC(I))*C11
          C2(I) = TWO*VISCV(I)*(THREE*VISC(I) 
      .                      - TWO*VISCV(I))*C11
-C la partie visqueuse 
+C the viscous part
          DTINV = TIMESTEP(I)**2/MAX(EM20, TIMESTEP(I))
            
          SIGVXX(I)= C2(I)*(EPSPXX(I)+EPSPYY(I))
@@ -264,7 +264,7 @@ C la partie visqueuse
 C  
          SOUNDSP(I) = SQRT(A1(I)/RHO0(I))
          C11 = C2(I) + 2*VISCV(I)
-C a verefier cette formule    
+C to verify this formula
           VISCMAX(I) = MAX(C2(I), C11)
             VISCMAX(I) = VISCMAX(I)/
      .          (ONEP414*RHO0(I)*SOUNDSP(I)*SQRT(AREA(I)))                   
@@ -352,7 +352,7 @@ C
          CALL VINTER(TF,IAD1,IPOS1,ILEN1,NEL0,EPST,DYDX1,Y1)     
 C
 
-C   remplacer par les sous cas :
+C   replace with the subcases:
 
         DO I=1,NEL0
          J1 = JJ(I) +1
@@ -434,7 +434,7 @@ CCCACTUALISATION
      .             +SIGEYY(I)*SIGEYY(I)
      .             -SIGEXX(I)*SIGEYY(I)
      .          + THREE*SIGEXY(I)*SIGEXY(I))
-C calcul des contraintes visquenses                
+C calculation of viscous stresses
             IF(R/=1.) THEN              
              SIGVXX(I)=SIGEXX(I) - SIGNXX(I)
              SIGVYY(I)=SIGEYY(I) - SIGNYY(I)
@@ -463,7 +463,7 @@ C contrainte elastique ..
 C
        ELSEIF(IFLAG(1)==1)THEN
 C-------------------------
-C     CRITERE DE VON MISES
+C     von mises criterion
 C-------------------------
 
 C-------------------------------------------

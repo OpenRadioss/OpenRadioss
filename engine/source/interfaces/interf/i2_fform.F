@@ -69,7 +69,7 @@ C
       SP2 = SLP*SLP                                                    
       TM2 = TLM*TLM                                                    
       TP2 = TLP*TLP                                                    
-C---- fonctions de forme lineaires
+Clinear shape functions
       H(1)  = SLM*TLM                                                    
       H(2)  = SLP*TLM                                                    
       H(3)  = SLP*TLP                                                    

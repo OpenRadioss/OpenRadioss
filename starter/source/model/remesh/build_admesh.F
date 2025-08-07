@@ -705,7 +705,7 @@ C      END DO
 C-------------------------------------
       NUMNOD=NUMNOD_NEW
 C--------------------------------------------------
-C     RE-CONSTITUTION DU TABLEAU INVERSE DES NOEUDS
+C     rebuilding the inverse node table
       CALL CONSTIT(ITAB,ITABM1,NUMNOD)
       RETURN
 C-------------------------------------

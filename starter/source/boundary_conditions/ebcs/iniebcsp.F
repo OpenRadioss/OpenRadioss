@@ -54,7 +54,7 @@ C-----------------------------------------------
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
 C-----------------------------------------------
       GBUF => ELBUF_STR%GBUF
-C   Initialisation de la surface nodale
+C   Initialization of the nodal surface
           DO I=1,NOD
             LA(1,I)=ZERO
             LA(2,I)=ZERO

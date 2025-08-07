@@ -116,7 +116,7 @@ C
           ENDIF
 C---------------------------------
 C         DISTANCE ENTRE LE NOEUD SECOND. 
-C             ET  LA  SURFACE(SURFFACE NODALE)
+C             and the surface (nodal surface)
 C---------------------------------
 C-------------------------------------
 C         Conduction : close distance
@@ -125,7 +125,7 @@ C-------------------------------------
 C Dist = Gapv - Penetration wrt Gapv
             DIST = PENRAD(I)+ GAPV(I)
 C---------------------------------
-C           CALCUL DE LA CONDUCTIBILITE
+C           calculation of the conductivity
 C---------------------------------
             COND = ASI(I)+BSI(I)*TS
             TSTIFM =   MAX(DIST,ZERO) / COND
@@ -212,7 +212,7 @@ C
           ENDIF
 C---------------------------------
 C         DISTANCE ENTRE LE NOEUD SECOND. 
-C             ET  LA  SURFACE(SURFFACE NODALE)
+C             and the surface (nodal surface)
 C---------------------------------
 C-------------------------------------
 C         Conduction : close distance
@@ -221,7 +221,7 @@ C-------------------------------------
 C Dist = Gapv - Penetration wrt Gapv
             DIST = PENRAD(I) +GAPV(I)
 C---------------------------------
-C           CALCUL DE LA CONDUCTIBILITE
+C           calculation of the conductivity
 C---------------------------------
             P      = XTHE * ABS(FNI(I)) / AREAS(I)
             RSTIF  = ONE / MAX(EM30,KTHE * FINTER(IFUNCTK,P,NPC,TF,DYDX))

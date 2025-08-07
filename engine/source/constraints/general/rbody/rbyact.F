@@ -96,8 +96,8 @@ c        MASRB=MASRB*WEIGHT(M)
 c        XMG=XMG*WEIGHT(M)
 c      ENDIF
 C---------------------------------
-C     RECHERCHE DES NOEUDS SECONDS
-C     DE SOUS RBY (NOEUD MAIN PARMI LES SECONDS)
+C     search for secondary nodes
+C     of sub rby (main node among the secondary nodes)
 C---------------------------------
       DO I=1,NSL
          N=LSN(I)
@@ -115,8 +115,8 @@ C---------------------------------
          ENDIF
       ENDDO
 C---------------------------------
-C     CORRECTION DE LA MASSE ET DU
-C     CENTRE DE GRAVITE DU MAIN
+C     correction of the mass and of the
+C     center of gravity of the main node
 C---------------------------------
       DO J=1,3
          XG(J)=X(J,M)
@@ -195,7 +195,7 @@ C
       ENDDO
 
 C--------------------------------------
-C     CORRECTION DE L'INERTIE DU MAIN
+C     correction of the inertia of the main node
 C--------------------------------------
       RBY(1)=RBY(1)+INERT
       RBY(5)=RBY(5)+INERT
@@ -239,7 +239,7 @@ C
            F8(I)=-YZ*MS(N)
            F9(I)=(XX+YY)*MS(N)
          ELSEIF(NI>0.AND.WEIGHT(N)==1)THEN
-C main DE SOUS RBY
+C main node of sub rby
            RBY(1)=RBY(1)-IN(N)
            RBY(5)=RBY(5)-IN(N)
            RBY(9)=RBY(9)-IN(N)
@@ -323,7 +323,7 @@ C
            F8(I)=-YZ*MS(N)
            F9(I)=YY*MS(N)
          ELSEIF(NI>0.AND.WEIGHT(N)==1)THEN
-C main DE SOUS RBY
+C main node of sub rby
            RBY(1)=RBY(1)-IN(N)
            RBY(5)=RBY(5)-IN(N)
            RBY(9)=RBY(9)-IN(N)

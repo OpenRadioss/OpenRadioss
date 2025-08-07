@@ -213,10 +213,10 @@ C-----------------------------------------------
         IX4G(I) = NLG(IX4L(I))
       ENDDO
 C--------------------------------------------------------
-C  UNIQUEMENT POUR PAQUET DE QUADRANGLE
+C  only for quadrilateral packet
 C--------------------------------------------------------
 C--------------------------------------------------------
-C  CAS DES PAQUETS MIXTES
+C  case of mixed packets
 C--------------------------------------------------------
       IF(ICURV(1) == 3) THEN
         DO I=1,JLT
@@ -305,7 +305,7 @@ C---------------------
 C     COURBURE FIXE
 C---------------------
       IF(ICURV(1)==1)THEN
-C       spherique (que concave pour le moment)
+C       spherical (only concave for now)
         NA1 = ICURV(2)
         DO I=1,JLT
           RR = 1.E30
@@ -347,7 +347,7 @@ C
           N3(I) = -RZ
         ENDDO
       ELSEIF(ICURV(1)==2)THEN
-C       cylindrique (que concave pour le moment)
+C       cylindrical (only concave for now)
         NA1 = ICURV(2)
         NA2 = ICURV(3)
         DO I=1,JLT
@@ -520,12 +520,12 @@ C      PENE INITIALE
 C---------------------
       IF(INACTI==5.or.INACTI==6)THEN
 c         DO I=1,JLT
-cC REDUCTION DE LA PENE INITIALE
+creduction of initial penetration
 cC           CAND_P(INDEX(I))=MIN(CAND_P(INDEX(I)),PENE(I))
 c           CAND_P(INDEX(I))=MIN(CAND_P(INDEX(I)),
 c     .        ( (ONE-FIVEEM2)*CAND_P(INDEX(I))
 c     .          +FIVEEM2*(PENE(I)+FIVEEM2*(GAPV(I)-PENE(I))))  )
-cC SOUSTRACTION DE LA PENE INITIALE A LA PENE ET AU GAP
+csubtraction of initial penetration from penetration and gap
 c           PENE(I)=MAX(ZERO,PENE(I)-CAND_P(INDEX(I)))
 c           IF( PENE(I)==ZERO )  STIF(I) = ZERO
 c           GAPV(I)=GAPV(I)-CAND_P(INDEX(I))
@@ -1789,7 +1789,7 @@ C
         ENDIF
       ENDIF
 C=======================================================================
-C     FORCES sur noeuds mains
+C     forces on main nodes
 C=======================================================================
       DO I=1,JLT
         FX1(I)=FXI(I)*H1(I)
@@ -1891,7 +1891,7 @@ c     noeuds matre
 #include "lockoff.inc"
 C=======================================================================
 C=======================================================================
-C     mise a ZERO des FORCES sur noeuds mains et second
+C     set forces to zero on main and secondary nodes
 C     si PENE (sur noeud second) < GAPR (gap reel)
 C=======================================================================
       DO I = 1,JLT
@@ -1959,7 +1959,7 @@ C             IFPEN(INDEX(I)) = 0
         ENDIF
       ENDDO
 C=======================================================================
-C     FORCES sur noeuds maites et second
+C     forces on master and secondary nodes
 C=======================================================================
 C---------------------------------
       IF(INTTH == 0 .OR. IFORM == 0) THEN
@@ -2131,7 +2131,7 @@ C-----------------------------------------------------
                 IF(ISECUT/=0)THEN
 #include "lockon.inc"
                   DO K=1,JLT
-C attention aux signes pour le cumul des efforts
+C beware of signs for force accumulation
 C a rendre conforme avec CFORC3
                     IF(SECFCUM(4,IX1G(K),I)==1.)THEN
                       SECFCUM(1,IX1G(K),I)=SECFCUM(1,IX1G(K),I)-FX1(K)
@@ -2181,7 +2181,7 @@ C-----------------------------------------------------
         DO I=1,JLT
 
 C       IF(PENE(I)/=ZERO)THEN
-C test modifie pour coherence avec communication SPMD (spmd_i7tools)
+C modified test for consistency with spmd communication (spmd_i7tools)
           IF(FXI(I)/=ZERO.OR.FYI(I)/=ZERO.OR.FZI(I)/=ZERO)THEN
 
             JG = NSVG(I)
@@ -2310,8 +2310,8 @@ C----------------------------------------------------------------------
 C     penetration initiale
 C
 C     PENIA(1:3,I) vecteur directeur normee
-C     PENIA(4,I) module de la penetration initiale
-C     PENIA(4,I) module corrigee pour le cycle suivant
+C     penia(4,i) magnitude of initial penetration
+C     penia(4,i) corrected magnitude for next cycle
 C----------------------------------------------------------------------
       IF(INACTI >= 5)THEN
         DO I = 1,NLN
@@ -3131,11 +3131,11 @@ C=======================================================================
       ENDDO
 #include "lockoff.inc"
 C=======================================================================
-C     mise a ZERO des FORCES sur noeuds maites et second
+C     set forces to zero on master and secondary nodes
 C     si PENE (su noeud second) < GAPR (gap reel)
 C=======================================================================
 C=======================================================================
-C     FORCES sur noeuds maites et second
+C     forces on master and secondary nodes
 C=======================================================================
 C---------------------------------
       IF(IPARIT==0)THEN

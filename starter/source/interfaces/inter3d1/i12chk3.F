@@ -126,7 +126,7 @@ C-----------------------------------------------
       END IF !(ITIED/=3)
       
       !------------------------------------------------------------------------!
-      !     LE NOEUD GLOBAL EST REMPLACE PAR LE NOEUD LOCAL DANS IRECT         !
+      ! !     THE GLOBAL NODE IS REPLACED BY THE LOCAL NODE IN IRECT         !
       !------------------------------------------------------------------------!
       DO I=1,NRT
         DO J=1,4
@@ -136,7 +136,7 @@ C-----------------------------------------------
         ENDDO
       ENDDO
       !------------------------------------------------------------------------!
-      !     COMPTAGE DU NOMBRE DE FACETTES CONNECTEES PAR NOEUD (SECONDARY ONLY!)  !
+      ! !     COUNTING THE NUMBER OF FACETS CONNECTED BY NODE (SECONDARY ONLY!)  !
       !------------------------------------------------------------------------!
       IF(NINT>0)THEN
          DO  I=1,NSN

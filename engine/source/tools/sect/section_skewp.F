@@ -141,7 +141,7 @@ C
 C
       ENDIF
 C
-C     CALCUL DE L'ORIGINE DU REPERE
+C     CALCULATION OF THE ORIGIN OF THE REFERENCE FRAME
 C
       IF(IFRAM==0)THEN
         D13=(XX3-XX1)*XX4+(YY3-YY1)*YY4+(ZZ3-ZZ1)*ZZ4
@@ -172,7 +172,7 @@ C             XXC=XXC+X(1,N)
 C             YYC=YYC+X(2,N)
 C             ZZC=ZZC+X(3,N)
 C        ENDDO
-C Deja fait dans spmd_exch_sec
+C Already done in spmd_exch_sec
         XXC=XSEC(4,1)
         YYC=XSEC(4,2)
         ZZC=XSEC(4,3)
@@ -188,7 +188,7 @@ C             YYC=YYC+X(2,N)*MS(N)
 C             ZZC=ZZC+X(3,N)*MS(N)
 C             MAS=MAS+MS(N)
 C        ENDDO
-C Deja fait dans spmd_exch_sec
+C Already done in spmd_exch_sec
         XXC=XSEC(4,1)
         YYC=XSEC(4,2)
         ZZC=XSEC(4,3)

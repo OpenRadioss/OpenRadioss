@@ -493,7 +493,7 @@ C-----------------------------------------------------------------
      .               GEO(16),GEO(13),GEO(38),PTHK,FAIL_SHELL,ISHEAR,ITHK,
      .               IPLAST,IREP,GEO(7),GEO(8),GEO(9),IGEO(14)
          ELSE
-          WRITE(IOUT,2110)PROP_ID,ISTRAIN,GEO(1),ISS,IHBE, ! nly de moins
+          WRITE(IOUT,2110)PROP_ID,ISTRAIN,GEO(1),ISS,IHBE, ! nly of less
      .               ISH3N,
      .               GEO(13),GEO(14),GEO(15),GEO(16),
      .               GEO(38),PTHK,FAIL_SHELL,ISHEAR,ITHK,IPLAST,IREP,

@@ -262,7 +262,7 @@ C
 C-------------------
 C     INCREMENTAL FORMULATION FOR TANGENTIAL FORCE
 C-------------------
-      ! A Reecrire pour le parallele
+      ! to be rewritten for parallel
       DO I=LFT,LLT
         IL=I+NFT
         IG=NSV(IL)

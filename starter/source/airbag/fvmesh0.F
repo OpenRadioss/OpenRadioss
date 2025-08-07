@@ -370,7 +370,7 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
             NTGT = NTG + NTGI
 
 C----------------------------------------------
-C Parametres de decoupage automatique du volume
+C Parameters for automatic volume splitting
 C----------------------------------------------
 C           PERMUTATION ELTG
             IF (NTG > 0) THEN

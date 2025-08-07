@@ -140,7 +140,7 @@ C
       ALLOCATE(INDEX2(LINDMAX))
 
 c----------------------------------------------------
-c   Rayon de courbure : calcul des normales nodales (normees)
+c   radius of curvature: calculation of nodal normals (normalized)
 C   IADM!=0 + Icurv!=0 non available (starter error).
 c----------------------------------------------------
       IF(IADM/=0)THEN
@@ -192,7 +192,7 @@ C preparation candidats retenus
             CALL I25CDCOR3(
      1     JLT,INDEX2(NFT+1),INTBUF_TAB%CAND_OPT_E,INTBUF_TAB%CAND_OPT_N,
      2     CAND_E_N,CAND_N_N )
-C cand_n et cand_e remplace par cand_n_n et cand_e_n
+C cand_n and cand_e replaced by cand_n_n and cand_e_n
           CALL I25COR3_21(
      1  JLT       ,X          ,INTBUF_TAB%IRECTM,INTBUF_TAB%NSV  ,CAND_E_N  ,
      2  CAND_N_N  ,INTBUF_TAB%STFM  ,INTBUF_TAB%STFNS,STIF      ,IGAP       ,
@@ -263,7 +263,7 @@ C preparation candidats retenus
           CALL I25CDCOR3(
      1     JLT,INDEX2(NFT+1),INTBUF_TAB%CAND_OPT_E,INTBUF_TAB%CAND_OPT_N,
      2     CAND_E_N,CAND_N_N )
-C cand_n et cand_e remplace par cand_n_n et cand_e_n
+C cand_n and cand_e replaced by cand_n_n and cand_e_n
           CALL I25COR3_22(
      1  JLT       ,X          ,INTBUF_TAB%IRECTM,INTBUF_TAB%NSV  ,CAND_E_N  ,
      2  CAND_N_N  ,INTBUF_TAB%STFM  ,INTBUF_TAB%STFNS,STIF      ,IGAP,

@@ -111,7 +111,7 @@ C
              RXBUF(4,KK) = X(2,N1)
              RXBUF(5,KK) = X(3,N1)
             ELSE
-C stockage directe sur p0
+C direct storage on p0
              XSENS(1,K) = X(1,N1)
              XSENS(2,K) = X(2,N1)
              XSENS(3,K) = X(3,N1)
@@ -127,7 +127,7 @@ C stockage directe sur p0
              RXBUF(4,KK) = X(2,N2)
              RXBUF(5,KK) = X(3,N2)
             ELSE
-C stockage directe sur p0
+C direct storage on p0
              XSENS(4,K) = X(1,N2)
              XSENS(5,K) = X(2,N2)
              XSENS(6,K) = X(3,N2)
@@ -158,7 +158,7 @@ c-------------------------------
                RXBUF(3,KK) = X(1,N1)
                RXBUF(4,KK) = X(2,N1)
                RXBUF(5,KK) = X(3,N1)
-             ELSE    ! stockage directe sur p0
+             ELSE    ! direct storage on p0
                XSENS(1,K) = X(1,N1)
                XSENS(2,K) = X(2,N1)
                XSENS(3,K) = X(3,N1)
@@ -174,7 +174,7 @@ c-------------------------------
                  RXBUF(3,KK) = X(1,N2)
                  RXBUF(4,KK) = X(2,N2)
                  RXBUF(5,KK) = X(3,N2)
-               ELSE                    ! stockage directe sur p0
+               ELSE                    ! direct storage on p0
                  XSENS(4,K) = X(1,N2)
                  XSENS(5,K) = X(2,N2)
                  XSENS(6,K) = X(3,N2)
@@ -187,7 +187,7 @@ c-------------------------------
                  RXBUF(3,KK) = ZERO
                  RXBUF(4,KK) = ZERO
                  RXBUF(5,KK) = ZERO
-               ELSE                    ! stockage directe sur p0
+               ELSE                    ! direct storage on p0
                  XSENS(4,K) = ZERO
                  XSENS(5,K) = ZERO
                  XSENS(6,K) = ZERO

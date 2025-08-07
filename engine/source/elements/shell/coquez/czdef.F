@@ -96,7 +96,7 @@ C--------
         VDEF(I,4)=Y24(I)*BCX-Y13(I)*BCY+BCXY*RSOM(2)
         VDEF(I,5)=X13(I)*BCY-X24(I)*BCX-BCXY*RSOM(1)
 C----------------------------------
-C  VITESSE DE DEFORMATION HOURGLASS
+C  hourglass strain rate
 C----------------------------------
         VHG(I,1)=VHI(I,1)-MX13(I)*VDEF(I,1)-MY13(I)*BYV1     
         VHG(I,2)=VHI(I,2)-MX13(I)*BXV2     -MY13(I)*VDEF(I,2)
@@ -149,7 +149,7 @@ C--------
         VDEF(I,4)=Y24(I)*BCX-Y13(I)*BCY+BCXY*RSOM(2)
         VDEF(I,5)=X13(I)*BCY-X24(I)*BCX-BCXY*RSOM(1)
 C----------------------------------
-C  VITESSE DE DEFORMATION HOURGLASS
+C  hourglass strain rate
 C----------------------------------
         VHG(I,1)=VHI(I,1)-MX13(I)*VDEF(I,1)-MY13(I)*BYV1     
         VHG(I,2)=VHI(I,2)-MX13(I)*BXV2     -MY13(I)*VDEF(I,2)

@@ -142,7 +142,7 @@ C
                END IF
              END DO
             END IF
-C + la th  ermique
+C + the thermal
            ELSE
             IF(NFSKYI==4)THEN
              IF(NODADT_THERM == 1) THEN
@@ -259,7 +259,7 @@ C
                END IF
              END DO
             END IF
-C + la th  ermique
+C + the thermal
            ELSE
             IF(NFSKYI==4)THEN
              IF(NODADT_THERM == 1) THEN
@@ -403,7 +403,7 @@ C
               L = L + SIZI
             ENDDO
            ENDIF
-C + la thermique
+C + the thermal
           ELSE
            IF(NFSKYI==4)THEN
             IF(NODADT_THERM == 1) THEN
@@ -508,7 +508,7 @@ C
               L = L + SIZI
             ENDDO
            ENDIF
-C + la thermique
+C + the thermal
           ELSE
            IF(NFSKYI==4)THEN
             IF(NODADT_THERM == 1) THEN

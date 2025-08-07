@@ -108,9 +108,9 @@ C-----------------------------------------------
       ATSCAL=UNITAB%FAC_T_WORK
 C----------------------------------------------------------------
 C Passage des unites table Sesame type 301-306 aux unites
-C utilisateur passer obligatoirement avant l'appel de cette
-C routine par la routine TB2SI1
-C coefficients de passage des unites SI aux unites utilisateur
+C user must necessarily pass before calling this
+C routine through the TB2SI1 routine
+C conversion coefficients from SI units to user units
 C M --> masse
 C L --> longueur
 C T --> temps
@@ -118,7 +118,7 @@ C masse volumique : M.L^-3
 C pression        : M.l^-1.T^-2
 C energie         : L^2.T^-2
 C L'energy array est en fait equivalent a la chaleur specifique 
-C de transition de phase. Cf Aide Memoire de Physique, B. YAVORSKI
+C phase transition. See Physics Handbook, B. YAVORSKI
 C ET A.DETLAF, p 927.
 C
       DSCAL = (ALSCAL**3)/AMSCAL

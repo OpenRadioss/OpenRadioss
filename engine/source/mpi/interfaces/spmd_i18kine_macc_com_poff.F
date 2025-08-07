@@ -75,7 +75,7 @@ C--------------------------------------------------------------------
       LOC_PROC=ISPMD+1
 C
       BBUFR=-1.
-C Preparation du recv
+C preparation of recv
       IADR(1) = 1
       L=1
       DO P=1,NSPMD
@@ -138,7 +138,7 @@ C   test si msg necessaire a envoyer a completer par test interface
         ENDIF
       ENDDO
 
-C Fin du send
+C end of send
       DO P = 1, NSPMD
           SIZ=IADS(P+1)-IADS(P)
           IF(SIZ>0) THEN

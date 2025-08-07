@@ -2035,8 +2035,8 @@ c                       ASSERT(.FALSE.)
 c                     ENDIF
 
 CC C verifier la portabilite:
-CC C LONG = TRANSFER(court) => les deriners bits de LONG pas specifies dans
-CC C la norme
+CLONG = TRANSFER(short) => the last bits of LONG not specified in
+Cthe standard
 CC                       BBUFS(L+16) = 0
 CC                       BBUFS(L+17) = 0
 CC                       BBUFS(L+18) = 0
@@ -3475,7 +3475,7 @@ C cas interface inactive
 C
 C Attente ISEND
 C
-C flag 3 utile pour restart en cours de run
+C flag 3 useful for restart during run
        IF(IFLAG/=3) THEN
          DO P = 1, NSPMD
            IF(ADDS(P+1)-ADDS(P)>0) THEN

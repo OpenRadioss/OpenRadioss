@@ -131,7 +131,7 @@ C
   230  CONTINUE
        IF (NUSERM==-1) RETURN
 C-----------------------------------------------
-C     VERIFICATION DE L'ORIENTATION DES SEGMENTS
+C     Verification of segment orientation
 C-----------------------------------------------
        XS1=ZERO
        YS1=ZERO
@@ -553,7 +553,7 @@ C
        ENDIF
        
 C-----------------------------------------------
-C     VERIFICATION DE L'ORIENTATION DES SEGMENTS
+C     Verification of segment orientation
 C-----------------------------------------------
        XS1=ZERO
        YS1=ZERO

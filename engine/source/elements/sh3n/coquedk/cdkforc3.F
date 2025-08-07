@@ -205,7 +205,7 @@ c  indx utilise localement contrairement aux coques 4n
 !     variables for heat transfer
       my_real, dimension(mvsiz) :: fheat
 !
-C--- Variables pour le non-local
+C--- Variables for non-local
       INTEGER :: NDDL, INOD(3),NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), L_NLOC, IPOS(3),INLOC
       my_real, DIMENSION(:,:), ALLOCATABLE :: VAR_REG
       my_real, DIMENSION(:), POINTER :: DNL,UNL
@@ -353,7 +353,7 @@ C
       CALL CDKDEFO3(JFT,JLT,VLX,VLY,PX2,PY2,PX3,PY3,EXX,EYY,EXY,
      1              EXZ, EYZ,DT1,EPSDOT,NFT,ISTRAIN,GBUF%STRA,VDEF,NEL)
 C-----------------------------------------------
-C     BOUCLE SUR POINTS D'INTEGRATION DE GAUSS
+C     LOOP OVER GAUSS INTEGRATION POINTS
 C-----------------------------------------------
       LENF = NEL*GBUF%G_FORPG/NPG
       LENM = NEL*GBUF%G_MOMPG/NPG
@@ -496,7 +496,7 @@ c-------------------------------
       ENDDO  !  NG = 1,NPG
 C----
 C----------------------------------------------------------------------------
-C     FIN DE BOUCLE DE 3 POINTS DE INTEGRATION------------
+C     END OF LOOP OF 3 INTEGRATION POINTS------------
 C----------------------------------------------------------------------------
 !     global element strain rate filtering for output
 
@@ -536,7 +536,7 @@ C-------------------------
      3              M11,M12,M13,M21,M22,M23,M31,M32,M33)
 C 
 C--------------------------
-C     PAS DE TEMPS
+C     TIME STEP
 C--------------------------
       CALL CNDT3(
      1        JFT    ,JLT    ,OFF      ,DT2T    ,AMU     ,
@@ -563,7 +563,7 @@ C     NON-LOCAL TIME STEP
       ENDIF 
 C--------------------------
 C--------------------------
-C     BILANS PAR MATERIAU
+C     BALANCES BY MATERIAL
 C--------------------------
 c      IFLAG=MOD(NCYCLE,NCPRI)
       IF(IPRI>0) 

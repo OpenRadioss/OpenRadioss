@@ -233,7 +233,7 @@ C
 C
         CALL MY_BARRIER()
 C
-        IF(ITASK==0) THEN   ! comm sur 1er thread
+        IF(ITASK==0) THEN   ! communication on the first thread
           CALL SPMD_MIJ_SMS(
      1           ISKYI_SMS,FR_SMS,FR_RMS,LIST_RMS,MSKYI_SMS,
      2           MSKYI_FI_SMS)

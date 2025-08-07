@@ -69,8 +69,8 @@ C-----------------------------------------------
         ELEMTAG=0
 
         PLYSIZNG(K)=PLYNOD(K)%PLYNUMNODS
-C Premiere partie, sur 1 pli on tag les elements et
-C les noeuds du proc
+C First part, on 1 fold we tag the elements and
+C the nodes of the proc
         DO I=1,PLYSHELL(K)%PLYNUMSHELL
            ELEM = PLYSHELL(K)%SHID(I)
            IF (CEP(ELEM)==PROC)THEN
@@ -85,7 +85,7 @@ C les noeuds du proc
              NODTAG(NODLOCAL(ND))=ND
            ENDIF
         ENDDO
-C On les compte pour preparer les tableaux a envoyer a
+C They are counted to prepare the tables to be sent to
 C L engine
         ELSZ_L=0
         NDSZ_L =0
@@ -124,7 +124,7 @@ C
             NODEXTN(NCOUNT) = PLYNOD(K)%PLYNODID(EMPL)
           ENDIF
         ENDDO
-C Ecriture par ply des tableaux
+C Writing by fold of the tables
 C Coques ply
         CALL WRITE_I_C(ELSZ_L    , 1     )
         CALL WRITE_I_C(ELNUM     , ELSZ_L)

@@ -93,10 +93,10 @@ C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
 
 C--------------------------------------------------------------
-C     CALCUL DES RIGIDITES DES SEGMENTS ET DES NOEUDS
-C     V16 : DANS LE CAS OU ONE SEGMENT APPARTIENT A LA FOIS
-C           A UNE BRIQUE ET A UNE COQUE ON CHOISIT LA RIGIDITE
-C           DE LA COQUE SAUF SI LE MATERIAU COQUE EST NUL.
+C     CALCULATION OF THE STIFFNESSES OF THE SEGMENTS AND NODES
+C     V16: IN CASE A SEGMENT BELONGS TO BOTH
+C           A BRICK AND A SHELL, THE STIFFNESS OF THE SHELL IS CHOSEN
+C           OF THE SHELL UNLESS THE SHELL MATERIAL IS NULL.
 C---------------------------------------------------------------
       DXM=ZERO
       NDX=0
@@ -445,7 +445,7 @@ C---------------------------
         ENDIF
       ENDIF
 C---------------------------------------------
-C     CALCUL DES RIGIDITES NODALES
+C     CALCULATION OF NODE STIFFNESSES
 C---------------------------------------------
       DO J=1,NSN
         NUM=NSEG(J+1)-NSEG(J)

@@ -3196,13 +3196,13 @@ C
               IRECVF = LAST
             END IF
           END IF
-          IF(MY_RANK==NSPMD)THEN         ! DERNIER PROC DU RING
+          IF(MY_RANK==NSPMD)THEN         ! LAST PROC OF THE RING
             IF(IRECVF/=0) ISENDT = -1      ! -1 : ENVOI A TS LE MONDE (SI COMM NECESSAIRE)
-          ELSE ! PROCESSEUR DANS LE RING
+          ELSE ! PROCESSOR IN THE RING
             ISENDT = INDP(MY_RANK+1)
           END IF
           IF(NSPMD>1) THEN
-            IF(NNP(INDP(NSPMD-1))>0)IRING= INDP(NSPMD) ! IRING = NO DU DERNIER PROCESSEUR DS LE RING (OU 0 SI PAS DE RING NECESSAIRE) 
+            IF(NNP(INDP(NSPMD-1))>0)IRING= INDP(NSPMD) ! IRING = NO OF THE LAST PROCESSOR IN THE RING (OR 0 IF NO RING NECESSARY)
           END IF
         END IF
 C
@@ -3253,7 +3253,7 @@ C
           NIN = INTLIST(I)
           ITYP = IPARI(7,NIN)
           INTTH = IPARI(47,NIN)
-C type 7 ou 10
+C type 7 or 10
           IF(ITYP==7 .OR.ITYP==10.OR.
      .       ITYP==23.OR.ITYP==22.OR.ITYP==24.OR.
      .       ITYP==25)THEN
@@ -5686,7 +5686,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-C   test sur n=0
+C   test on n=0
       IF (N==0) RETURN
       L=N/2+1
       IR=N
@@ -5758,7 +5758,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-C   test sur n=0
+C   test on n=0
       IF (N==0) RETURN
       L=N/2+1
       IR=N
@@ -5920,7 +5920,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-C   test sur n=0
+C   test on n=0
       IF (N==0) RETURN
       L=N/2+1
       IR=N
@@ -6095,7 +6095,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-C   test sur n=0
+C   test on n=0
       IF (N==0) RETURN
       L=N/2+1
       IR=N
@@ -6347,7 +6347,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-C   test sur n=0
+C   test on n=0
       IF (N==0) RETURN
       L=N/2+1
       IR=N
@@ -6556,7 +6556,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-C   test sur n=0
+C   test on n=0
       IF (N==0) RETURN
       L=N/2+1
       IR=N
@@ -6777,7 +6777,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-C   test sur n=0
+C   test on n=0
       IF (N==0) RETURN
       L=N/2+1
       IR=N

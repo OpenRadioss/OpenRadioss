@@ -124,7 +124,7 @@ C------------------------------------------------
         VNY = VNY * SUM
         VNZ = VNZ * SUM
 C   
-C       composantes N/T de la forces nodale
+C       n/t components of the nodal force
 C
         FNORM = VNX*FS(1) + VNY*FS(2) + VNZ*FS(3)
         FN(1) = VNX*FNORM

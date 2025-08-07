@@ -268,7 +268,7 @@ C-----------------------------------------------------
                 IF(ISECUT/=0)THEN
 #include "lockon.inc"
                   DO K=1,JLT
-C attention aux signes pour le cumul des efforts
+C pay attention to the signs for the accumulation of forces
 C a rendre conforme avec CFORC3
                     IF(SECFCUM(4,IX1(K),I)==1.)THEN
                       SECFCUM(1,IX1(K),I)=SECFCUM(1,IX1(K),I)-FX1(K)
@@ -1628,7 +1628,7 @@ Cs
             ISKYFI(NIN)%P(NISKYFIL) = IG
           ENDIF
         ENDDO
-C + la thermique
+C + thermal
       ELSE
         IF(NODADT_THERM == 1 .AND.IFORM > 0) THEN
           DO I=1,JLT

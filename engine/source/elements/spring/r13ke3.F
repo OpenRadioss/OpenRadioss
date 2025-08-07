@@ -225,7 +225,7 @@ C    RLOC           -> NB14
      6             GBUF%POSX,GBUF%POSY,GBUF%POSZ,GBUF%POSXX,GBUF%POSYY,
      7             GBUF%POSZZ,IGEO  )
 C-------------------------
-C     MATRICE de RIGIDITE
+C     STIFFNESS MATRIX
 C-------------------------
       CALL R13SUMG3(JFT    ,JLT    ,AL      ,KX      ,KY     ,
      2              KZ     ,MX     ,MY      ,MZ      ,R11    ,

@@ -751,7 +751,7 @@ C
           ENDIF
 C-----------------------
 C  COQUE STANDARD
-C  IHBE different de 11
+C  IHBE different from 11
 C-----------------------
          IF(NPG == 0)THEN
           IF(NIP == 0)THEN

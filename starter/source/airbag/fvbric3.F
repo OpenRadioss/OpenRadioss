@@ -140,7 +140,7 @@ C
         IF(JTAG(J)==1) NCONA(2,I)=1
       ENDDO
 C
-C  Noeuds voisins pour calcul de la vitesse de grille
+C  Neighboring nodes for grid velocity calculation
 C
       NNAI=0
       DO I=1,NNA

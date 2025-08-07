@@ -190,7 +190,7 @@ C
 C
         IF(N <= NSN)THEN
 C
-C          pas de glisst !
+C          no sliding!
           IF(IRTLM(2,N) > 0) CYCLE
 C
           IF(IRECT(3,L)/=IRECT(4,L))THEN
@@ -200,7 +200,7 @@ C
             IT=-IRTLM(2,N)/5
             IF(FARM(IT,J)==2)THEN
 C
-C              quitte le contact
+C              leaves the contact
               DO JT=1,4
                 IF(FARM(JT,J)==2)THEN ! Hors cone vs normales cote no JT & (FAR/=0 .OR. BBB <= ZERO)
                   ITAG(ITRIA(1,JT))=1
@@ -651,7 +651,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, K, L, N, IKEEP
 C--------------------------------------------------------
-C      Ne garder que les couples candidats rellement impacts
+C      keep only candidate pairs that are actually impacted
 C--------------------------------------------------------
       DO I=1,I_STOK
         J=INDEX(I)
@@ -1014,7 +1014,7 @@ C
 C
             NSEND = SIZBUFS(P)
 C
-C             Pointeurs sur la zone vs cette interface et ce processeur
+C             pointers to the zone vs this interface and this processor
             LR = 0
             LI = 0
 C
@@ -1322,7 +1322,7 @@ C
               ISHIFT = ISHIFT + 5
 
               IF (ILEV==2) THEN
-C             Voir avec
+C             see with
                 LI = 0
 C include      "vectorize.inc"
                 DO J = 1, NSEND

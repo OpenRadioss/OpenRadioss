@@ -95,7 +95,7 @@ C           S = SQRT(XNORM(1,I)**2 + XNORM(2,I)**2 + XNORM(3,I)**2)
 C
 C   a cause de la version simple precision, on ne peux pas metre l'entier
 C   dans le buffer flottant car on n a que 2puiss 24 bits dispo ~ 16 Million
-C   de noeuds au max
+C   maximum number of nodes
 
          MSGTYP = MSGOFF2
          CALL MPI_SEND(IBUF,4*SIZ,MPI_INTEGER,IT_SPMD(1),MSGTYP,

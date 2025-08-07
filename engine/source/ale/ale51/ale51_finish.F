@@ -98,7 +98,7 @@ C     ALE ON / OFF
      6     IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,   
      7     ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
         !------------------------------!
-        ! CONDITIONS DE DEBRANCHEMENT  !
+        ! DEBRANCHING CONDITIONS  !
         !------------------------------!
         IF(JALE+JEUL == 0)    CYCLE
         IF(IPARG(8,NG) == 1)  CYCLE

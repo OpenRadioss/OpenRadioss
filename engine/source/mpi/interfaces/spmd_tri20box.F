@@ -108,7 +108,7 @@ C
       END IF
       LOC_PROC = ISPMD + 1
 C
-C   boite minmax pour le tri provenant de i20buce BMINMA
+C   minmax box for sorting from i20buce BMINMA
 C
       IF(IRCVFROM(NIN,LOC_PROC)==0.AND.
      .   ISENDTO(NIN,LOC_PROC)==0) RETURN
@@ -152,7 +152,7 @@ C
         ENDDO
       ENDIF
 C
-C   envoi de XREM
+C   sending XREM
 C
       IF(IGAP==0) THEN
         SIZ = 18
@@ -172,10 +172,10 @@ C
         DO KK = 1, NBIRECV
           CALL MPI_WAITANY(NBIRECV,REQ_RB,INDEXI,STATUS,IERROR)
           P=IRINDEXI(INDEXI)
-C Traitement special sur d.d. ne consever que les noeuds internes
+C Special treatment on d.d. only keep internal nodes
           DO J = IAD_ELEM(1,P), IAD_ELEM(1,P+1)-1
             NOD = FR_ELEM(J)
-C weight < 0 temporairement pour ne conserver que les noeuds non frontiere
+C weight < 0 temporarily to keep only non-boundary nodes
             WEIGHT(NOD) = WEIGHT(NOD)*(-1)
           ENDDO
 C
@@ -208,7 +208,7 @@ C
 C
           DO J = IAD_ELEM(1,P), IAD_ELEM(1,P+1)-1
             NOD = FR_ELEM(J)
-C remise de weight > 0
+C restore weight > 0
             WEIGHT(NOD) = WEIGHT(NOD)*(-1)
           ENDDO
 C
@@ -344,7 +344,7 @@ C /DT/NODA/AMS
                 END IF
 C fin /DT/NODA/AMS
               ENDIF
-C + la thermique
+C + the thermal
              ELSE
               IF(IGAP==0) THEN
                IF(IDTMINS==0)THEN
@@ -615,7 +615,7 @@ C /DT/NODA/AMS
                 END IF
 C fin /DT/NODA/AMS
                ENDIF
-C + la thermique
+C + the thermal
              ELSE
                IF(IGAP==0) THEN
                 IF(IDTMINS==0)THEN
@@ -834,7 +834,7 @@ C /DT/AMS
                    L = L + SIZ
                  END DO
               ENDIF
-C + la thermique
+C + the thermal
              ELSE
               IF(IGAP==0) THEN
                  DO J = 1, NB
@@ -975,7 +975,7 @@ C + la thermique
                    L = L + SIZ
                  END DO
                ENDIF
-C + la thermique
+C + the thermal
              ELSE
                IF(IGAP==0) THEN
                  DO J = 1, NB
@@ -1117,7 +1117,7 @@ C /DT/INTER/AMS
                    L = L + SIZ
                  END DO
               ENDIF
-C + la thermique
+C + the thermal
              ELSE
               IF(IGAP==0) THEN
                  DO J = 1, NB
@@ -1254,7 +1254,7 @@ C + la thermique
                    L = L + SIZ
                  END DO
                ENDIF
-C + la thermique
+C + the thermal
              ELSE
                IF(IGAP==0) THEN
                  DO J = 1, NB
@@ -1344,7 +1344,7 @@ C
         ENDDO
       ENDIF
 C
-C   reception  des donnees XREM
+C   reception of XREM data
 C
       IF(IRCVFROM(NIN,LOC_PROC)/=0) THEN
         NSNR = 0

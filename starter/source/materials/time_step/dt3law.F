@@ -31,7 +31,7 @@ C
 !||====================================================================
       SUBROUTINE DT3LAW(PM,EINT,GEO,PID,MAT, DELTAX, AIRE, VOL, DTX)
 C
-C     CALCUL DES DT ELEM. DES LOIS 3,4,23
+C     CALCULATION OF DT ELEM. OF LAWS 3,4,23
 C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -75,7 +75,7 @@ C=======================================================================
       END DO
 
 C-----------------------
-C     CALCUL DE DP/DRHO
+C     CALCULATION OF DP/DRHO
 C-----------------------
       DO I=LFT,LLT
          DPDM(I)=ONEP333*G(I)+C2(I)+C6(I)*ESPE(I)
@@ -83,7 +83,7 @@ C-----------------------
          SSP(I)=SQRT(ABS(DPDM(I))/RHO0(I))
       END DO
 C----------------------------------
-C     CALCUL DES DT ELEMENTAIRES
+C     CALCULATION OF ELEMENTARY DT
 C----------------------------------
       IF(JSPH==0)THEN
          CALL DTEL(SSP,PM,GEO,PID,MAT, RHO0, VIS, DELTAX, AIRE, VOL, DTX)

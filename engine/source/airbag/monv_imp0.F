@@ -73,7 +73,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, NTYP,NN,K1,IAD,IS,J,N,NOD,NUMN,ID,NMT,IROT,
      .        IERR1,IERR2,IERR3,IERR4,IERR5,IERR6
-C-------IMONV(NMONV)--nb de noeuds dans chaque mv.----------------------
+C-------IMONV(NMONV)--number of nodes in each mv.----------------------
       NMONV = 0
       IF(NVOLU>0.AND.IMPMV>0) THEN
        DO N=1,NUMNOD
@@ -2056,7 +2056,7 @@ C------Rigid bodies-------
           ENDIF
          ENDDO
        ENDDO
-C------esperons le hierachic est dans l'ordre
+C------hope the hierarchy is in order
        DO I=NRB,1,-1
         M=IRB(1,I)
          DO J = 1 , MIN(3,NDOF(M))
@@ -2216,7 +2216,7 @@ C-------si noeud main est dependant aussi-----
         ENDIF
        ENDDO
 C
-C------Actuallise-X(*) dans X_IMP-----
+Cupdate-x(*) in x_imp
        DO I = 1, NUMN
         N = INL(I)
         DO J = 1, 3
@@ -2274,7 +2274,7 @@ C
       IF(IDEF==1)THEN
         PRES  = PEXT
       ELSE
-C       CALCUL DE L ENERGIE PUIS DE LA PRESSION
+C       calculation of energy and then pressure
         FAC  = HALF*(GAMA-ONE)*DV
         ENERGY= ((ONE-FAC/(VOLD-VINC))*ENERG_OLD-DEOUT*DT1 ) /
      .                             (ONE+FAC/(VOL-VINC))

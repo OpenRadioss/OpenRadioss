@@ -106,7 +106,7 @@ C
 
       IF(RESULT==0) THEN
 C
-C Reperage des candidats
+C identification of candidates
 C
         DO NI = 1, NSNROLD
 C         STIFI a ete mis a jour dans SPMD_GET_STIF !
@@ -131,7 +131,7 @@ C
           ENDIF
         ENDDO
 C
-C Allocation des tableaux de frontieres interfaces
+C allocation of interface boundary arrays
 C
         IERROR1 = 0
         IERROR2 = 0

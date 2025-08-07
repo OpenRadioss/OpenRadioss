@@ -831,7 +831,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C----longueur de ELBUF,BUFMAT--------
+C----length of ELBUF,BUFMAT--------
       L1=SELBUF
       L2=SBUFMAT
       L3=SFSAV
@@ -989,7 +989,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  L2,L3,L4,L5,L6
-C----longueur de ELBUF,BUFMAT--------
+C----length of ELBUF,BUFMAT--------
       L1=SELBUF
       L2=SBUFMAT
       L3=SFSAV

@@ -180,7 +180,7 @@ C-----------------------------------------------
        M11=M10+1
        M12=M11+NPARIR
        M21=M12+2*NSN1
-C------supposant ILEV est le meme pour NI,NJ---
+Cassuming ilev is the same for ni, nj
        ILEV  =IPARI(20,N1)
        IF (NDOF(NI)>0.AND.NDOF(NJ)>0) THEN
         CALL GET_KIJ(NI,NJ,IDDL,IADK,JDIK,LT_K,KDD,NDOF(NI),NDOF(NJ),IR)
@@ -248,10 +248,10 @@ C     REAL
      .   KII(6,6),BI(6),XS0(NSN),YS0(NSN),ZS0(NSN),
      .   XS,YS,ZS,XS1,YS1,ZS1,FACM,NUN
 C------------------------------------
-C     VITESSES DES NOEUDS SECONDS
+C     velocities of secondary nodes
 C------------------------------------
 C-------pour simplement etre coherent avec INTTI2, on ne distinque pas 3n,4n
-C-------on est oblige de distinque quand meme, sinon la matrice n'est plus positive
+Cwe still have to distinguish, otherwise the matrix is no longer positive
 C      FACM = ONE / NIR
       NUN=-ONE 
       J1=0 
@@ -647,7 +647,7 @@ C     REAL
       my_real
      .   KDD(6,6),BD(6),KII(6,6),BI(6),XS,YS,ZS,XS1,YS1,ZS1
 C------------------------------------
-C     VITESSES DES NOEUDS SECONDS
+C     velocities of secondary nodes
 C------------------------------------
       CALL I2MATC(NSN,IRECT,DPARA,NSV,IRTL,X,NIR,RJ ,RJT  )
       J1=0 
@@ -1219,7 +1219,7 @@ C     REAL
       my_real
      .   XS,YS,ZS
 C------------------------------------
-C     MATRICE DE JACOBIEN [C]
+C     jacobian matrix [c]
 C------------------------------------
       DO II=1,NSN
         I=NSV(II)
@@ -1239,7 +1239,7 @@ C------------------------------------
        ENDIF
        FACM = ONE / NIR
 C----------------------------------------------------
-C       VITESSE DE ROTATION MOYENNE DU SEGMENT MAIN
+C       average rotation speed of the main segment
 C----------------------------------------------------
         X0=FACM*(XM(1)+XM(2)+XM(3)+XM(4))
         Y0=FACM*(YM(1)+YM(2)+YM(3)+YM(4))
@@ -1252,7 +1252,7 @@ C----------------------------------------------------
         XS=X(1,I)-X0
         YS=X(2,I)-Y0
         ZS=X(3,I)-Z0
-C--------cette partie est une double travail que INTTI1
+Cthis part is a double work as intti1
         XX=0 
         YY=0 
         ZZ=0 
@@ -1408,7 +1408,7 @@ C     REAL
       my_real
      .   XS,YS,ZS
 C------------------------------------
-C     MATRICE DE JACOBIEN [C]
+C     jacobian matrix [c]
 C------------------------------------
        I=NSV(II)
        L=IRTL(II)
@@ -1427,7 +1427,7 @@ C------------------------------------
        ENDIF
        FACM = ONE / NIR
 C----------------------------------------------------
-C       VITESSE DE ROTATION MOYENNE DU SEGMENT MAIN
+C       average rotation speed of the main segment
 C----------------------------------------------------
         X0=FACM*(XM(1)+XM(2)+XM(3)+XM(4))
         Y0=FACM*(YM(1)+YM(2)+YM(3)+YM(4))
@@ -1440,7 +1440,7 @@ C----------------------------------------------------
         XS=X(1,I)-X0
         YS=X(2,I)-Y0
         ZS=X(3,I)-Z0
-C--------cette partie est une double travail que INTTI1
+Cthis part is a double work as intti1
         XX=0 
         YY=0 
         ZZ=0 
@@ -1831,7 +1831,7 @@ C
        ENDIF
        FACM = ONE / NIR
 C----------------------------------------------------
-C       VITESSE DE ROTATION MOYENNE DU SEGMENT MAIN
+C       average rotation speed of the main segment
 C----------------------------------------------------
         X0=FACM*(XM(1)+XM(2)+XM(3)+XM(4))
         Y0=FACM*(YM(1)+YM(2)+YM(3)+YM(4))
@@ -1988,10 +1988,10 @@ C     REAL
      .   H(4),SS, TT, SP,SM,TP,TM,BD(6),
      .   BI(6),XS0,YS0,ZS0,XS,YS,ZS,NUN
 C------------------------------------
-C     VITESSES DES NOEUDS SECONDS
+C     velocities of secondary nodes
 C------------------------------------
 C-------pour simplement etre coherent avec INTTI2, on ne distinque pas 3n,4n
-C-------on est oblige de distinque quand meme, sinon la matrice n'est plus positive
+Cwe still have to distinguish, otherwise the matrix is no longer positive
       NUN=-ONE 
       J1=0 
       DO II=1,NSN
@@ -2098,7 +2098,7 @@ C     REAL
       my_real
      .   BD(6),BI(6),XS,YS,ZS
 C------------------------------------
-C     VITESSES DES NOEUDS SECONDS
+C     velocities of secondary nodes
 C------------------------------------
       CALL I2MATC(NSN,IRECT,DPARA,NSV,IRTL,X,NIR,RJ ,RJT  )
       ND = 3
@@ -2274,10 +2274,10 @@ C     REAL
      .   H(4),SS, TT, SP,SM,TP,TM,BD(6),
      .   BI(6),XS0,YS0,ZS0,XS,YS,ZS,NUN
 C------------------------------------
-C     VITESSES DES NOEUDS SECONDS
+C     velocities of secondary nodes
 C------------------------------------
 C-------pour simplement etre coherent avec INTTI2, on ne distinque pas 3n,4n
-C-------on est oblige de distinque quand meme, sinon la matrice n'est plus positive
+Cwe still have to distinguish, otherwise the matrix is no longer positive
       NUN=-ONE 
       J1=0 
       IF (IRODDL/=0) THEN
@@ -2403,7 +2403,7 @@ C     REAL
       my_real
      .   BD(6),BI(6),XS,YS,ZS
 C------------------------------------
-C     VITESSES DES NOEUDS SECONDS
+C     velocities of secondary nodes
 C------------------------------------
       CALL I2MATC(NSN,IRECT,DPARA,NSV,IRTL,X,NIR,RJ ,RJT  )
       IF (IRODDL/=0) THEN
@@ -2492,7 +2492,7 @@ C     REAL
      .   H(4),H2(4), SS, TT, SP,SM,TP,TM,KDD(6,6),BD(6),
      .   KII(6,6),BI(6),XS0,YS0,ZS0,XS,YS,ZS,XS1,YS1,ZS1,NUN
 C------------------------------------
-C     VITESSES DES NOEUDS SECONDS
+C     velocities of secondary nodes
 C------------------------------------
       NUN=-ONE 
         I=NSV(II)
@@ -2654,7 +2654,7 @@ C     REAL
      .   KII(6,6),BI(6),X0,Y0,Z0,XS,YS,ZS,XS1,YS1,ZS1,NUN,
      .   RJ(3,3,4),RJT(3,3,4)
 C------------------------------------
-C     VITESSES DES NOEUDS SECONDS
+C     velocities of secondary nodes
 C------------------------------------
         I=NSV(II)
         L=IRTL(II)
@@ -2685,7 +2685,7 @@ C
         XS=X(1,I)-X0
         YS=X(2,I)-Y0
         ZS=X(3,I)-Z0
-C--------cette partie est une double travail que INTTI1
+Cthis part is a double work as intti1
         XX=0 
         YY=0 
         ZZ=0 

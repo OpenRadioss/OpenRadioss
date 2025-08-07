@@ -562,7 +562,7 @@ C
         FXI(I)=FXI(I) + ANSX*STF
         FYI(I)=FYI(I) + ANSY*STF
         FZI(I)=FZI(I) + ANSZ*STF
-C----        Filtrage du frottement
+Cfriction filtering
         IF (CODVERS>=44) THEN
           IFQ = IPARI(31)
           IF (IFQ>0) THEN

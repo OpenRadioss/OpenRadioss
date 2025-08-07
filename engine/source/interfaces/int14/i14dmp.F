@@ -96,11 +96,11 @@ C-----------------------------------------------
        ROT(I)=BUFSF(ADRBUF+7+I-1)
       END DO
 C-----------------------------------------------
-C     Noeud main dans le repere de l'ellipsoide :
-C     pour calcul de l'amortissement.
-C     la position (el les vitesses) du noeud main sont transmises 
-C     par l'objet qui utilise la surface (Rigid Body)
-C     - dans le Starter au Temps TT=0.
+C     main node in the ellipsoid frame:
+C     for damping calculation
+C     the position (and velocities) of the main node are transmitted
+C     by the object using the surface (rigid body)
+C     - in the starter at time tt=0.
 C-----------------------------------------------
       X1=BUFSF(ADRBUF+16)-BUFSF(ADRBUF+4)
       X2=BUFSF(ADRBUF+17)-BUFSF(ADRBUF+5)
@@ -118,7 +118,7 @@ C-----------------------------------------------
       VYM=ROT(4)*V1+ROT(5)*V2+ROT(6)*V3
       VZM=ROT(7)*V1+ROT(8)*V2+ROT(9)*V3
 C-----------------------------------------------
-C     Vitesse  de rotation du noeud main en local.
+C     rotation speed of the main node in local coordinates
 C-----------------------------------------------
       V1=BUFSF(ADRBUF+22)
       V2=BUFSF(ADRBUF+23)

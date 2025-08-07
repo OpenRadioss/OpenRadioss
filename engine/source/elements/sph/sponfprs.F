@@ -208,7 +208,7 @@ C
      .           +GBUF%SIG(KK(2)+K)
      .           +GBUF%SIG(KK(3)+K))*THIRD
 
-          ELSEIF(IPPV<0)THEN !cas IPPV negatif on se sert des infos recuperes ds la routine de com
+          ELSEIF(IPPV<0)THEN !negative IPPV case, we use info recovered in the communication routine
 
             PN=-( WAR(1,-IPPV)
      .           +WAR(2,-IPPV)

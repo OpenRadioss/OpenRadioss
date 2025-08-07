@@ -84,7 +84,7 @@ c      write(6,*)'ebcs5 V rho e',VIMP,RHO,ENER
       C=EBCS%c
       ROC=RHO*C
 C
-C     INITIALISATION DES DENSITES ET ENERGIES INITIALES
+C     initialization of initial densities and energies
 C
 C SURFACE NORMALE NODALES
       DO I=1,NOD
@@ -155,7 +155,7 @@ c
         DMF=DMF-FLUXO*ROOU-FLUXI*RHO
         DEF=DEF-FLUXO*ENOU-FLUXI*ENER
 C
-C stockage densit  et  nergie entrante dans buffer facette
+C storage of density and incoming energy in facet buffer
 C
         SEGVAR%RHO(KSEG)=RHO
         SEGVAR%EINT(KSEG)=ENER

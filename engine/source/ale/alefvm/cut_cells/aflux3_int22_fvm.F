@@ -460,7 +460,7 @@ C                 endif
               ENDDO
               Face                          = BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%Surf
               IF(IBv==0)THEN
-                !calcul de facette
+                !calculation of facet
                 FaceV                       = Face
                 NUMNOD_v                    = 8
                 Kv                          = 1
@@ -474,8 +474,8 @@ C                 endif
                 ENDDO   
               ENDIF
               Face                          = min(Face,FaceV)
-              If(K==0 .OR. Kv==0) Face = ZERO !facette non communicante si pas de noeud de brique.
-              IF(IBv/=0 .AND. IBm==IBvm) Face=ZERO         !blocage flux entre le main et son escalve
+              If(K==0 .OR. Kv==0) Face = ZERO !non-communicating facet if no brick node.
+              IF(IBv/=0 .AND. IBm==IBvm) Face=ZERO         !blockage of flow between the master and its slave
               cellFLUX(J,ICELL,IB,IADj)     = Face * cellFLUX(J,ICELL,IB,IADj)
               brick_list(nin,ib)%POLY(icell)%FACE(j)%Adjacent_FLUX(iadj) = cellFLUX(J,ICELL,IB,IADj)
             ENDDO!next IADj
@@ -552,7 +552,7 @@ C                 endif
           DDVOL     = ZERO
           DO J=1,6
             NADJ   = BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%NAdjCell
-            ICLOSE = BRICK_LIST(NIN,IB)%ClosedSurf(J)   !pour l'hypothese de surface fermee : double coupe sur la facette et pas de partitionnement de l'autre cote => ON FERME.
+            ICLOSE = BRICK_LIST(NIN,IB)%ClosedSurf(J)   !for the hypothesis of closed surface: double cut on the facet and no partitioning on the other side => CLOSED.
             IF(ICLOSE==1) NADJ=0
             DO IADJ = 1,NADJ
               IDV    = BRICK_LIST(NIN,IB)%Adjacent_Brick(J,1)

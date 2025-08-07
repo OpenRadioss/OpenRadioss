@@ -183,7 +183,7 @@ C
      .                      ISDSIZ,IRCSIZ,ITAG  ,LENR    ,LENS   )
       END IF
 C
-C     tri par packet des normales
+C     sorting normals by packet
 C
       DO N1 = 1, NUMNOD
         N2 = ADSKYT(N1-1)
@@ -490,8 +490,8 @@ C-----------------------------------------------
      .   NX,NY,NZ,DIST,EPS,XP,YP,ZP,XX,YY,ZZ,XXP,YYP,ZZP,A,B
 C-----------------------------------------------
 C     Interpolation bicubique
-c     avec continuit  des coordonn s,
-c     des d riv s tagente et normale sur les bords
+c     with continuity of coordinates
+c     of tangent and normal derivatives on the edges
 C-----------------------------------------------
 
       DO I=1,JLT
@@ -512,7 +512,7 @@ C-----------------------------------------------
         NNZ4(I)=NOD_NORMAL(3,IX4(I))  
 
 C-----------------------------------------------
-c       calcul de r,s   partir des Hi
+c       calculation of r,s from the Hi
 C-----------------------------------------------
         RM = (H2(I)-H1(I))/MAX(EM20,H2(I)+H1(I))
         RP = (H3(I)-H4(I))/MAX(EM20,H3(I)+H4(I))
@@ -570,7 +570,7 @@ c ligne r
 
 C-----------------------------------------------
 c       normale   la surface cubique en r,s 
-c       produit vectoriel des vecteurs directeurs cr et cs
+c       cross product of the direction vectors cr and cs
 C-----------------------------------------------
         NX = CRY(I)*CSZ(I)-CRZ(I)*CSY(I)
         NY = CRZ(I)*CSX(I)-CRX(I)*CSZ(I)
@@ -581,7 +581,7 @@ C-----------------------------------------------
         NZ = NZ*AAA
 
 C-----------------------------------------------
-c       point calcul  sur la surface cubique (r,s)
+c       point calculated on the cubic surface (r,s)
 C-----------------------------------------------
         XA(I) = HALF*(XA(I)+XB(I))
         YA(I) = HALF*(YA(I)+YB(I))
@@ -599,7 +599,7 @@ C-----------------------------------------------
         DIST = NX*XD + NY*YD + NZ*ZD
 
 C-----------------------------------------------
-c       projection du noeud second. sur la surface cubique
+c       projection of the secondary node on the cubic surface
 C-----------------------------------------------
         XP = XI(I) - DIST*NX
         YP = YI(I) - DIST*NY
@@ -618,7 +618,7 @@ C-----------------------------------------------
 C        IF(BBB<ZERO.OR.BBB>CCC)THEN
 C-----------------------------------------------
 c         s<-1 ou s>1
-c         on conserve la normale et la p n tration ancienne 
+c         keep the normal and the previous penetration
 C-----------------------------------------------
 C        ELSE
           XX = X23(I) - X14(I)
@@ -634,7 +634,7 @@ C        ELSE
 C          IF(DDD<ZERO.OR.DDD>EEE)THEN
 C-----------------------------------------------
 c           r<-1 ou r>1
-c           on conserve la normale et la p n tration ancienne 
+c           keep the normal and the previous penetration
 C-----------------------------------------------
 C          ELSE
 C-----------------------------------------------
@@ -775,8 +775,8 @@ c---------------------------------------------------
         DTDR2 = -(NNX2(I)*ERX+NNY2(I)*ERY+NNZ2(I)*ERZ) 
      .        /  (NNX2(I)*ETX+NNY2(I)*ETY+NNZ2(I)*ETZ)
 c---------------------------------------------------
-c       la d riv  est born e   +- 1 pour limiter la taille
-c       des boites dans i7tri
+c       the derivative is limited to +- 1 to restrict the size
+c       of the boxes in i7tri
 c---------------------------------------------------
         DTDR1 = DTDR1/MAX(ONE,ABS(DTDR1))
         DTDR2 = DTDR2/MAX(ONE,ABS(DTDR2))

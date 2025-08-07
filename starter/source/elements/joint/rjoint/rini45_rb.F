@@ -167,7 +167,7 @@ C
 C-->
       ENDDO
 
-C---> Print de l'output pour kjoint2--------------------
+C---> Print of the output for kjoint2--------------------
       DO IEL=1,NEL
         IELUSR = IXR(NIXR,NFT+IEL)
         RB1 = 0

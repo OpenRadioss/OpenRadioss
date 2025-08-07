@@ -95,20 +95,20 @@ C     TYPE(real_pointer),   DIMENSION(:), ALLOCATABLE :: MAIN_FIE
       INTEGER, DIMENSION(:), ALLOCATABLE :: NSNFIEOLD ! old number of edges per SPMD
       INTEGER :: NEDGE_REMOTE_OLD ! total number of old edges
 
-C tableau de pointeurs NISUBSFIE de taille NINTER
-C indiquant pour chaque interface type7, 10 le nbre d elt dans LISUBSFIE
-C par processeur
+C pointer array NISUBSFIE of size NINTER
+C indicating for each interface type7, 10 the number of elements in LISUBSFIE
+C per processor
       TYPE(int_pointer), DIMENSION(:), ALLOCATABLE :: NISUBSFIE
-C tableau de pointeurs LISUBSFIE de taille NINTER
-C indiquant pour chaque interface type7, 10, 24, 25 et pour chaque noeud remote de cette interface
-C la liste des sous interfaces
+C pointer array LISUBSFIE of size NINTER
+C indicating for each interface type7, 10, 24, 25 and for each remote node of this interface
+C the list of sub-interfaces
       TYPE(int_pointer), DIMENSION(:), ALLOCATABLE :: LISUBSFIE
-C tableau de pointeurs INFLG_SUBSFIE de taille NINTER
-C indiquant pour chaque interface type25 et pour chaque noeud remote de cette interface
+C pointer array INFLG_SUBSFIE of size NINTER
+C indicating for each interface type25 and for each remote node of this interface
 C l appartenance a S1, S2, ou GRNOD
       TYPE(int_pointer), DIMENSION(:), ALLOCATABLE :: INFLG_SUBSFIE
-C tableau de pointeurs ADDSUBSFIE de taille NINTER
-C indiquant pour chaque interface type7, 10, 24, 25, et pour chaque noeud remote de cette interface
+C pointer array ADDSUBSFIE of size NINTER
+C indicating for each interface type7, 10, 24, 25, and for each remote node of this interface
 C son adresse de depart dans LISUBSFIE et INFLG_SUBSFIE (tableau dimensionne a NSNR+1 (noeud remote + 1)
       TYPE(int_pointer), DIMENSION(:), ALLOCATABLE :: ADDSUBSFIE
 

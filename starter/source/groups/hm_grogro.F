@@ -36,7 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE HM_GROGRO(NUMEN   ,NGRELN  ,IGRELEM ,ICOUNT,
      .                  FLAG    ,ITER    ,ELKEY  ,LSUBMODEL )
 !---
-!   group des group des elements + parts
+! group of elements + parts
 !---
 C-----------------------------------------------
 C   M o d u l e s
@@ -86,7 +86,7 @@ C=======================================================================
       CALL MY_ALLOC(BUFTMP,NUMEN*2)
       IF (FLAG == 0) ICOUNT=0
       IGS = 0
-C     boucle sur les groupes
+C     loop over the groups
       DO I=1,NGRELN
         CALL HM_OPTION_READ_KEY(LSUBMODEL,
      .                          OPTION_ID   = GROUP_ID,
@@ -137,7 +137,7 @@ C-----------
                          !sorted group, tag les noeuds
                          DO L=1,IGRELEM(IGRS)%NENTITY
                            IF (JJ < 0) THEN
-                             !retire les noeuds du group si JJ < 0
+                             !removes nodes from the group if JJ < 0
                               BUFTMP(IGRELEM(IGRS)%ENTITY(L))=-1
                            ELSEIF (BUFTMP(IGRELEM(IGRS)%ENTITY(L)) == 0) THEN
                               !ajoute les noeuds au group si JJ > 0 et noeud non rire
@@ -189,10 +189,10 @@ C-----------
                       CYCLE                                            
                     ELSE                                                 
                       IF (NONTRI == 0) THEN                                                       
-C                       tag les noeuds                                                            
+C                       tag the nodes
                         DO L=1,IGRELEM(IGRS)%NENTITY
                           IF (JJ < 0) THEN                                                    
-C                           retire les noeuds du group si JJ < 0                                 
+C                           removes nodes from the group if JJ < 0
                             BUFTMP(IGRELEM(IGRS)%ENTITY(L))=-1
                           ELSEIF (BUFTMP(IGRELEM(IGRS)%ENTITY(L)) == 0) THEN
 C                           ajoute les noeuds au group si JJ > 0 et noeud non retire            

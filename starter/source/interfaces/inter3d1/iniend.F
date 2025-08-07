@@ -100,7 +100,7 @@ C=======================================================================
       ICOR  =IPARI(58)
 C
       IF (NSPMD > 1) THEN
-C      les interfaces type 7 sont distribuees, les autres centralisees sur P0
+C      interfaces of type 7 are distributed, the others centralized on P0
        INCREM = 1
 C pas de NSN defini en type 16 et interface non spmd compatible
        IF(NTY==16.OR.NTY==17) RETURN
@@ -394,7 +394,7 @@ C=======================================================================
       NOINT =IPARI(15)
 C
       IF(NSPMD>1) THEN
-C      les interfaces type 7 sont distribuees, les autres centralisees sur P0
+C      interfaces of type 7 are distributed, the others centralized on P0
        INCREM = 1
        IF(NTY==7.OR.NTY==10.OR.NTY==11.OR.NTY==22) INCREM = 100
 C

@@ -213,7 +213,7 @@ c
      .                      C2='BOLT PRELOAD',
      .                      I2=ISEC,I1=ID,C3=TITR)
               ELSE
-                ! Calcul de l'aire de la section
+                ! calculation of section area
                 CALL SECTAREA(IXS,IXS10,X,NSTRF(K3),NS,ISOLNOD,AREA(I),ITAB)    !
                 IF (ITYPE == 1) THEN  
                   IF (AREA(I) > 1.E-30) LOADVAL = LOADVAL/AREA(I)
@@ -225,13 +225,13 @@ c
                   IPRELOAD(2,K)  = ISENS                 ! Sensor
                   IPRELOAD(3,K)  = IXS(11,NSTRF(II))     ! User Id.
                   !IFLAG_BPRELOAD(NSTRF(II)) = 1          ! Flag sur element precontraint
-                  IFLAG_BPRELOAD(NSTRF(II)) = I          ! Flag sur element precontraint
+                  IFLAG_BPRELOAD(NSTRF(II)) = I          ! flag on prestressed element
 
  
-                  PRELOAD(1,K) = TDEB                    ! Temps debut de pretension                       
-                  PRELOAD(2,K) = TFIN                    ! Temps fin de pretension
-                  PRELOAD(3,K) = LOADVAL                 ! Contrainte de pretension
-                  PRELOAD(4,K) = X3                      ! Direction de pretension
+                  PRELOAD(1,K) = TDEB                    ! pretension start time
+                  PRELOAD(2,K) = TFIN                    ! pretension end time
+                  PRELOAD(3,K) = LOADVAL                 ! pretension stress
+                  PRELOAD(4,K) = X3                      ! pretension direction
                   PRELOAD(5,K) = Y3
                   PRELOAD(6,K) = Z3
                 ENDDO

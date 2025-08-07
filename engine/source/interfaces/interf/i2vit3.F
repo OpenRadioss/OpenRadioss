@@ -195,7 +195,7 @@ C       MS(J)=MS(J)-XMSI*H(JJ)
 C
  70   CONTINUE
 C
-C   restitution de la masse initiale sur noeuds main
+C   initial mass restitution on main nodes
       DO II=1,NMN
         J=MSR(II)
         MS(J)=MMASS(II)
@@ -372,7 +372,7 @@ C         MS(J)=MS(J)-XMSI*H(JJ)
 C        ENDDO
 C      ENDDO
 C------------------------------------
-C     VITESSES DES NOEUDS SECONDS
+C     velocities of secondary nodes
 C------------------------------------
       DO II=1,NSN
        I=NSV(II)
@@ -396,7 +396,7 @@ C----------------------------------------
         AMY=FOURTH*(A(2,J1)+A(2,J2)+A(2,J3)+A(2,J4))
         AMZ=FOURTH*(A(3,J1)+A(3,J2)+A(3,J3)+A(3,J4))
 C----------------------------------------------------
-C       VITESSE DE ROTATION MOYENNE DU SEGMENT MAIN
+C       average rotation speed of the main segment
 C----------------------------------------------------
         X1=X(1,J1)
         Y1=X(2,J1)
@@ -494,7 +494,7 @@ C
         ARZ=DET*(MRZ*B3+MRX*C2+MRY*C1)
 C
 C----------------------------------------------------
-C       VITESSE DE ROTATION DU NOEUD SECOND
+C       rotation speed of the secondary node
 C----------------------------------------------------
         IF (IRODDL == 1) THEN
           VR(1,I)=VRX
@@ -505,7 +505,7 @@ C----------------------------------------------------
           AR(3,I)=ARZ
         ENDIF
 C----------------------------------------------------
-C       VITESSE DU NOEUD SECOND
+C       speed of the secondary node
 C----------------------------------------------------
         V(1,I)=VMX + VRY*ZS - VRZ*YS
         V(2,I)=VMY + VRZ*XS - VRX*ZS

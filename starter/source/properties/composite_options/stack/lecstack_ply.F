@@ -350,7 +350,7 @@ C
        ENDIF 
       ENDDO ! DO I = 1, NUMSTACK
 C-------------------------------------
-C Recherche des ID doubles
+C Search for double IDs
 C-------------------------------------
       IDS = 79
       I = 0

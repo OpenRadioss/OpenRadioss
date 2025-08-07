@@ -200,7 +200,7 @@ C
 C MARGE : marge engine dependante du BUMULT en input (ajustable pour performance)
       MARGE = BUMULT*DD
       TZINF = MARGE + MAX(GAP+DGAPLOAD,DRAD)
-C MARGE_ST : marge independante du BUMULT en input necessaire pour trouver les pene initiales de maniere parith/on
+C marge_st: margin independent of bumult as input necessary to find the initial penalties in a parith/on manner
       MARGE_ST = BMUL0*DD
 C 1er passage avec marge x2 pour trouver plus de candidats (revient a prendre bmul0=0.4 au lieu de 0.2)
 C      IF(IDDLEVEL==0) MARGE_ST = 2*MARGE_ST
@@ -210,7 +210,7 @@ C     MIS A ZERO POUR FAIRE SEARCH COMPLET CYCLE 0 ENGINE
       DIST = ZERO     
 C     TEST TO BY-PASS SECOND SEARCH
 C     IF(IDDLEVEL==1 .AND. MARGE >= MARGE_ST) GOTO 999 !
-C----- BORNES DU DOMAINE
+C----- DOMAIN BOUNDARIES
       XMAX_M=-EP30
       YMAX_M=-EP30
       ZMAX_M=-EP30 
@@ -332,7 +332,7 @@ C     STD DEVIATION & CRVOXEL
           DEV_Z=DEV_Z+(ZZ1-MEAN_Z)**2+(ZZ2-MEAN_Z)**2
      .               +(ZZ3-MEAN_Z)**2+(ZZ4-MEAN_Z)**2
 
-C        indice des voxels occupes par la facette
+C        index of voxels occupied by the facet
 
           IX1=INT(NBX*(XMINE-TZINF_ST-XMIN)/(XMAX-XMIN))
           IY1=INT(NBY*(YMINE-TZINF_ST-YMIN)/(YMAX-YMIN))
@@ -435,7 +435,7 @@ C
           NBZ = MIN(IHUNDRED,MAX(NBZ8,IONE))
         ENDIF
 
-C     initialisation complete de VOXEL
+C     complete initialization of voxel
         DO I=INIVOXEL,(NBX+2)*(NBY+2)*(NBZ+2)
           VOXEL1(I)=0
         ENDDO

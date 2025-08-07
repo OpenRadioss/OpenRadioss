@@ -29,7 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE I18TRI(INDEX,I_STOK,CAND_N,ITAB, NSN ,
      2                  NSV  ,NIN   )
-C Tri des candidats suivant le numero de noeud user
+C sorting candidates according to the user node number
 C=======================================================================
 C   M o d u l e s
 C-----------------------------------------------

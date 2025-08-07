@@ -262,7 +262,7 @@ C
           VEUL(12,I)= PZ4(I)
           VEUL(13,I)= DELTAX(I)
 C------------------------------------------
-C     CALCUL DE LA NORMALE A CHAQUE FACE
+C     calculation of the normal to each face
 C------------------------------------------
           VEUL(14,I) = ZERO
           VEUL(15,I) = HALF*B1(I)

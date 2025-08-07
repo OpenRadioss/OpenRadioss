@@ -52,7 +52,7 @@ C-----------------------------------------------
       my_real, POINTER, DIMENSION(:) :: 
      .  VEL,VEL0,FNL
 C-----------------------------------------------
-c     calcul vitesse de la variable non locale
+c     calculation of velocity of the non-local variable
 c=======================================================================c=======================================================================
       ! Recovering velocities and forces
       VEL  => NLOC_DMG%VNL(1:NLOC_DMG%L_NLOC)

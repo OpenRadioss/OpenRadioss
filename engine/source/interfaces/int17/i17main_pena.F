@@ -262,7 +262,7 @@ C -------------------------------------------------------------
          TZINF  = INTBUF_TAB%VARIABLES(8)
          MINBOX = INTBUF_TAB%VARIABLES(12)
          INTBUF_TAB%VARIABLES(5) = ABS(INTBUF_TAB%VARIABLES(5))
-C BMINMA inverse par rapport aux autres interfaces de contact
+C bminma reversed compared to other contact interfaces
          BMINMA(1)=EP30
          BMINMA(2)=EP30
          BMINMA(3)=EP30
@@ -310,7 +310,7 @@ C BARRIER BMINMA
            NMESR = 0
            IF(NSPMD>1)THEN
 C -------------------------------------------------------------
-C recuperation des noeuds remote NMESR stockes dans XREM
+C retrieval of remote nodes nmesr stored in xrem
 C -------------------------------------------------------------
              CALL SPMD_TRI17BOX(
      1         IGRBRIC(IGN)%ENTITY  ,NMES    ,X    ,V    ,INTBUF_TAB%FROTS ,
@@ -342,7 +342,7 @@ C comm SPMD apres tri (compactage)
           CALL SPMD_TRI17GAT(
      1      RESULT ,NMES ,INTBUF_TAB%CAND_N,IPARI(35,NIN),NIN,
      2      NMESR  )
-C sauvegarde des candidats additionnels dans IPARI(24)  pas besoin car pas de inacti
+C saving of additional candidates in ipari(24), not needed as there is no inacti
 c          IPARI(24,NIN) = NMESR
           IF (IMONM > 0) CALL STOPTIME(TIMERS,26)
 !$OMP END SINGLE

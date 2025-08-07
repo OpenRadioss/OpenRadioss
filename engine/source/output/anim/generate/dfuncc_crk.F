@@ -612,7 +612,7 @@ C-------------------
                   ENDDO
                 ENDIF  ! IFUNC
 C-----------------------------------------------
-C       FIN DE BOUCLE SUR LES OFFSET
+C       end of loop over offsets
 C-----------------------------------------------
               ENDDO  !  DO ILAY=1,NLAY
             ENDDO  !  DO IXEL=1,NXEL

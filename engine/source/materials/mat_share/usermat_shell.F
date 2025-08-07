@@ -510,7 +510,7 @@ C
             WMC(1:NEL) = ZZ(1:NEL)*THLY(1:NEL)
           ENDIF
 C-------------------------------
-C         INCREMENT DE DEFORMATIONS 
+C         increment of deformations
 C-------------------------------
           SIGNXX(1:MVSIZ) = ZERO
           SIGNYY(1:MVSIZ) = ZERO
@@ -863,7 +863,7 @@ C------------------------------------------
 c---------------------------------
           ELSEIF (ILAW == 99) THEN
 c---------------------------------         
-C          chrgt de la structure
+C          structure charge
           
 C
 ! copie EINT (du buffer) en local (EINT_LOC) + COPY_PLA
@@ -1970,7 +1970,7 @@ C-------------------------------------
         IPT_ALL = IPT_ALL + NPTT
       ENDDO  !  DO ILAY =1,NLAY
 c--------------------------------------------------
-c     FIN DE BOUCLE SUR POINTS INTEGRATION (LAYERS)
+c     end of loop on integration points (layers)
 c--------------------------------------------------
 c     TEST OF ELEMENT FAILURE 
 c--------------------------------------------------
@@ -2032,7 +2032,7 @@ c--------------------------------------------------------
         ENDIF
       ENDDO 
 c------------------------------------------------------------------
-C     VISCOSITE DE MEMBRANE
+C     membrane viscosity
 C---------------------------                                              
       IF (IGTYP == 11 .AND. IGMAT > 0) THEN
         IPGMAT = 700

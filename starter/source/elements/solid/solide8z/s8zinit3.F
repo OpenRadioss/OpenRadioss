@@ -469,7 +469,7 @@ C
      1                GBUF%BPRELD,NEL  ,IXS  ,NIXS ,VPRELOAD, IFLAG_BPRELOAD)
       ENDIF
 C----------------------------------------
-C     INITIALISATION DE LA THERMIQUE 
+C     initialization of thermal
 C----------------------------------------
       IF(JTHE /=0) CALL ATHERI(MAT,PM,GBUF%TEMP)
 C
@@ -585,7 +585,7 @@ c
        ENDDO
       ENDDO
 C----------------------------------------
-C     INITIALISATION DES MASSES
+C     initialization of masses
 C----------------------------------------
       CALL SMASS3(
      .     GBUF%RHO,MAS,PARTSAV,X,V,
@@ -601,8 +601,8 @@ C----------------------------------------
      .             IPM,SIGSP,NSIGI,FAIL_INI ,
      .             SIGI,NSIGS,IXS,NIXS,PTSOL,RNOISE,PERTURB,MAT_PARAM)
 C------------------------------------------
-C     assemblage des Volumes nodaux et Modules nodaux
-C     (pour rigidites d'interface)
+C     assembly of nodal volumes and nodal modules
+C     (for interface stiffnesses)
 C------------------------------------------
 C     attention : IX1, IX2 ... IX8 sont sous la forme NC(MVSIZ,8)
       IF(I7STIFS/=0)THEN
@@ -612,7 +612,7 @@ C     attention : IX1, IX2 ... IX8 sont sous la forme NC(MVSIZ,8)
      3              BID(1)   ,GBUF%FILL)
       ENDIF
 C------------------------------------------
-C       CALCUL DES DT ELEMENTAIRES
+C       calculation of elementary timesteps
 C------------------------------------------
         AIRE(:) = ZERO
         CALL DTMAIN(GEO       ,PM        ,IPM         ,PID     ,MAT     ,FV    ,

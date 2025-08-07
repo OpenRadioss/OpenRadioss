@@ -101,7 +101,7 @@ C
         DZY(I)=PY1(I)*VZ13(I)+PY2(I)*VZ24(I)
       ENDDO
 C-----------------------------------------------
-C     CALCUL PAR NOEUD DE V MATIERE - V MAILLAGE
+C     CALCULATION PER NODE OF V MATERIAL - V MESH
 C-----------------------------------------------
       DO I=1,NEL
         VDY1(I)=V(2,NC1(I)) - W(2,NC1(I))

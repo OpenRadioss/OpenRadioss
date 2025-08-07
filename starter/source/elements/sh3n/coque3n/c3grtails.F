@@ -63,9 +63,9 @@ C-----------------------------------------------
 C            A R G U M E N T S
 C-----------------------------------------------
 C     IXTG(NIXTG,NUMELTG)TABLEAU CONECS+PID+MID+NOS TRIANGLES       E
-C     PM(NPROPM,NUMMAT)  TABLEAU DES CARACS DES MATERIAUX           E
+C     PM(NPROPM,NUMMAT)  ARRAY OF MATERIAL CHARACTERISTICS           E
 C     IPARG(NPARG,NGROUP)TABLEAU DES CARACTERISTIQUES DES GROUPES   E/S
-C     GEO(NPROPG,NUMGEO) TABLEAU DES CARACS DES PID                 E
+C     GEO(NPROPG,NUMGEO) ARRAY OF PID CHARACTERISTICS                 E
 C     EADD(NUMELTG)      TABLEAU DES ADRESSES DANS IDAM CHGT DAMIER E
 C     IPARTTG(NUMELTG)                                              E/S
 C     INUM(8,NUMELTG)     TABLEAU DE TRAVAIL                         E/S
@@ -160,7 +160,7 @@ C
       IPTUN = 1
       IXFEM_ERR = 0
 C--------------------------------------------------------------
-C         BORNAGE DES GROUPES DE MVSIZ
+C         LIMITING OF MVSIZ GROUPS
 C--------------------------------------------------------------
       NGR1 = NGROUP + 1
 C
@@ -465,7 +465,7 @@ C
         DEALLOCATE(INUM_WORKSH)     
       ENDDO   ! ND
 C     
-C RENUMEROTATION DE L'ARBRE
+C RENAMING OF THE TREE
 C
       IF(NADMESH/=0)THEN
         DO  I=1,NUMELTG
@@ -476,7 +476,7 @@ C
         ENDDO
       END IF
 C
-C RENUMEROTATION POUR SURFACES
+C RENAMING FOR SURFACES
 C
       DO I=1,NSURF
         NN=IGRSURF(I)%NSEG
@@ -486,7 +486,7 @@ C
         ENDDO
       ENDDO
 C
-C RENUMEROTATION POUR GROUPES DE SHELL
+C RENAMING FOR SHELL GROUPS
 C
       DO I=1,NGRSH3N
         NN=IGRSH3N(I)%NENTITY
@@ -502,7 +502,7 @@ C
       END DO
 C
 C phase 2 : bornage en groupe de mvsiz
-C ngroup est global, iparg est global mais organise en fonction de dd
+C ngroup is global, iparg is global but organized according to dd
 C
       DO 300 N=1,ND
        NFT = 0

@@ -90,7 +90,7 @@ C
 CC            JCRK = IELC_L(IEL_L1)
             JCRK = IEL_CRK(I)
             DO K=1,4  ! edges
-              IED_GL = IEDGESH4(K,JCRK)   ! Id global des edges dans element xfem
+              IED_GL = IEDGESH4(K,JCRK)   ! global id of edges in xfem element
               IF (IED_GL > 0) THEN
                 IF (ITAG_EDGE(IED_GL) == 0) THEN
                   IED_L = IED_L + 1
@@ -173,7 +173,7 @@ cc       IF(EDGELOCAL(IED_GL) > 0.AND.IEDGE_TMP(1,IED_GL) > 1)THEN
        IF (IEDGE_TMP(3,IED_GL) < 0) THEN   ! edge interieur
         IC1 = NODEDGE(1,IED_GL)
         IC2 = NODEDGE(2,IED_GL)
-c       NLOCAL = 1 => noeud sur frontiere entre des procs
+c       NLOCAL = 1 => node on the boundary between processors
         IF((NLOCAL(IC1,PROC)==1).AND.
      .     (NLOCAL(IC2,PROC)==1))THEN
           DO I = 1,NSPMD
@@ -185,8 +185,8 @@ c       NLOCAL = 1 => noeud sur frontiere entre des procs
 C---
                  IF(IEDGE_TMP(2,IED_GL) == 0)THEN
                    EDGEPROC = EDGEPROC + 1
-                   IEDGE_TMP(1,IED_GL) = EDGEPROC   ! num local de l'arrete sur chaque proc
-                   IEDGE_TMP(2,IED_GL) = 1          ! flag pour ne pas repasser cette arrete
+                   IEDGE_TMP(1,IED_GL) = EDGEPROC   ! local number of the edge on each processor
+                   IEDGE_TMP(2,IED_GL) = 1          ! flag to avoid reprocessing this edge
 c                  IEDGE_TMP(3,I) = IEDGE_TMP0(I)   ! flag bord libre / interieur
                  ENDIF
 C---

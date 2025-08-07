@@ -343,7 +343,7 @@ C
             FMAX  = MIN(FMAX,ABS(DFS(I)))
             DFS(I)= SIGN(FMAX,DFS(I))
             DF(I) = DFS(I)
-C         df=dfs pour compatibilite des restarts si fric=0 
+C         df=dfs for restart compatibility if fric=0
 C         et dfs=ev(nb9) non existant avant 23f et ancien 23f
           ELSE
             DF(I)= ZERO

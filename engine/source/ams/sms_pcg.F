@@ -799,7 +799,7 @@ C
             G0_SMS  =G6SMS(1)+G6SMS(2)+G6SMS(3)+
      .               G6SMS(4)+G6SMS(5)+G6SMS(6)
           END IF
-        ELSEIF(ITASK==0)THEN     ! communication sur un seul thread
+        ELSEIF(ITASK==0)THEN     ! communication on a single thread
           IF(IPARIT==0)THEN
             IF(IMONM>0) CALL STARTIME(TIMERS,63)
             RBUF(1)=RES0_SMS
@@ -1102,7 +1102,7 @@ C
             S_SMS=S6SMS(1)+S6SMS(2)+S6SMS(3)+
      .            S6SMS(4)+S6SMS(5)+S6SMS(6)
           END IF
-        ELSEIF(ITASK==0)THEN     ! communication sur un seul thread
+        ELSEIF(ITASK==0)THEN     ! communication on a single thread
           IF(IPARIT==0)THEN
             IF(IMONM>0.AND.ITASK==0)CALL STARTIME(TIMERS,63)
             CALL SPMD_GLOB_DSUM9(S_SMS,1)
@@ -1270,7 +1270,7 @@ C
             G1_SMS =G6SMS(1)+G6SMS(2)+G6SMS(3)+
      .              G6SMS(4)+G6SMS(5)+G6SMS(6)
           END IF
-        ELSEIF(ITASK==0)THEN     ! communication sur un seul thread
+        ELSEIF(ITASK==0)THEN     ! communication on a single thread
           IF(IPARIT==0)THEN
             IF(IMONM>0) CALL STARTIME(TIMERS,63)
             RBUF(1)=RES1_SMS
@@ -1763,7 +1763,7 @@ C
 C
             CALL MY_BARRIER
 C
-            IF(ITASK==0)THEN   ! comm sur 1er thread
+            IF(ITASK==0)THEN   ! communication on the first thread
 C
               SIZE = 3
               IF(IMONM>0) CALL STARTIME(TIMERS,65)
@@ -1893,7 +1893,7 @@ c           W(K1) = W(K1) +L_K*V(I1)
 C
           IF(NSPMD>1) THEN
 C
-            IF(ITASK==0)THEN   ! comm sur 1er thread
+            IF(ITASK==0)THEN   ! communication on the first thread
               IF(IMONM>0)CALL STOPTIME(TIMERS,64)
 C
               SIZE = 3
@@ -1962,7 +1962,7 @@ C
 C
               CALL MY_BARRIER
 C
-              IF(ITASK==0)THEN   ! comm sur 1er thread
+              IF(ITASK==0)THEN   ! communication on the first thread
                 IF(IMONM>0)CALL STOPTIME(TIMERS,64)
 C
                 SIZE = 3
@@ -2101,7 +2101,7 @@ C
 C
               CALL MY_BARRIER
 C
-              IF(ITASK==0)THEN   ! comm sur 1er thread
+              IF(ITASK==0)THEN   ! communication on the first thread
                 IF(IMONM>0)CALL STOPTIME(TIMERS,64)
 C
                 SIZE = 3
@@ -2224,7 +2224,7 @@ C
 C
               CALL MY_BARRIER
 C
-              IF(ITASK==0)THEN   ! comm sur 1er thread
+              IF(ITASK==0)THEN   ! communication on the first thread
                 IF(IMONM>0)CALL STOPTIME(TIMERS,64)
 C
                 SIZE = 3
@@ -2265,7 +2265,7 @@ C
 C
           CALL MY_BARRIER
 C
-          IF(ITASK==0)THEN   ! comm sur 1er thread
+          IF(ITASK==0)THEN   ! communication on the first thread
             IF(IMONM>0)CALL STOPTIME(TIMERS,64)
 C
             IF(NSPMD > 1)THEN
@@ -2607,7 +2607,7 @@ C
 C
             CALL MY_BARRIER
 C
-            IF(ITASK==0)THEN   ! comm sur 1er thread
+            IF(ITASK==0)THEN   ! communication on the first thread
 C
               SIZE = 1
               IF(IMONM>0) CALL STARTIME(TIMERS,65)
@@ -2733,7 +2733,7 @@ C
 C
           CALL MY_BARRIER
 C
-          IF(ITASK==0)THEN   ! comm sur 1er thread
+          IF(ITASK==0)THEN   ! communication on the first thread
 C
             SIZE = 1
             LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)

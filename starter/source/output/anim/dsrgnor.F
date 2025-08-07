@@ -80,7 +80,7 @@ C
        IF (IGRSURF(N)%TYPE/=101) GOTO 200
        ADRBUF=IGRSURF(N)%IAD_BUFR
 C-------------------------------------------------------                
-c      Parametres de l'ellipsoide.                                      
+c      Parametres de l'ellipsoide.
 C-------------------------------------------------------                
        DGR=BUFSF(ADRBUF+36)                                             
        XG=BUFSF(ADRBUF+4)                                               
@@ -93,7 +93,7 @@ C-------------------------------------------------------
         ROT(I)=BUFSF(ADRBUF+7+I-1)                                      
        END DO                                                           
 C-------------------------------------------------------                
-C      - Calcul des noeuds sur le cube A,B,C.                           
+C      - Calcul des noeuds sur le cube A,B,C.
 C-------------------------------------------------------                
        INOE=0                                                           
        DO I = 1,6                                                       
@@ -119,7 +119,7 @@ C-------------------------------------------------------
         ENDDO                                                           
        ENDDO                                                            
 C-------------------------------------------------------                
-C      - Calcul de la normale : projection radiale.                     
+C      - Calcul de la normale : projection radiale.
 C-------------------------------------------------------                
        AN=A**DGR                                                        
        BN=B**DGR                                                        

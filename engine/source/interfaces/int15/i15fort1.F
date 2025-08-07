@@ -107,7 +107,7 @@ C-----------------------------------------------
        ROT(I)=BUFSF(ADRBUF+7+I-1)
       END DO
 C-----------------------------------------------
-C     Noeud main dans le repere de l'ellipsoide :
+C     main node in the ellipsoid frame
 C-----------------------------------------------
       X1=BUFSF(ADRBUF+16)-BUFSF(ADRBUF+4)
       X2=BUFSF(ADRBUF+17)-BUFSF(ADRBUF+5)
@@ -125,7 +125,7 @@ C-----------------------------------------------
       VYM=ROT(4)*V1+ROT(5)*V2+ROT(6)*V3
       VZM=ROT(7)*V1+ROT(8)*V2+ROT(9)*V3
 C-----------------------------------------------
-C     Vitesse  de rotation du noeud main en local.
+C     rotation speed of the main node in local
 C-----------------------------------------------
       V1=BUFSF(ADRBUF+22)
       V2=BUFSF(ADRBUF+23)
@@ -180,7 +180,7 @@ C       STF(I)=STFAC*DEPTH(I)/MAX(DEPTH(I)-PENET(I),EM20)
       FZN(I)=STF(I)*PENET(I)*NZI(I)
  200  CONTINUE
 C-------------------------------
-C     Extraction du pt de contact au cycle precedent.
+C     extraction of the contact point at the previous cycle
 C-------------------------------
       DO 250 NLS=NDEB+1,MIN(NDEB+MVSIZ,NTC)
       IL =KTC(NLS)
@@ -204,7 +204,7 @@ C------------------------------
       FYT(I)=ZERO
       FZT(I)=ZERO     
 C-------------------------------
-C     TOURNER DELTA(T-1) DANS LE PLAN TANGENT.
+C     rotate delta(t-1) in the tangent plane
 C-------------------------------
       IF (IACTIV(1,IL)>2) THEN
        DELTX=DOLD(1,4*(IL-1)+1)

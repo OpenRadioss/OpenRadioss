@@ -399,10 +399,10 @@ C-----------AMU for SP is not really implemented
          LBUF%VOL0DP(LFT:LLT) = LBUF%VOL(LFT:LLT)
         ENDDO
        ENDDO
-       ENDDO ! FIN BOUCLE SUR LES POINTS D'INTEGRATION
+       ENDDO ! END OF LOOP OVER INTEGRATION POINTS
       END IF
 C------------------------------------------------------
-C     INITIALISATION DES VARIABLES
+C     INITIALIZATION OF VARIABLES
 C------------------------------------------------------
 
       DELTAX=EP20
@@ -439,7 +439,7 @@ C------------------------------------------------------
          LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(I,J,K)
 
 C------------------------------------------------------
-C     CALCUL DES FONCTIONS DE FORME ET DES DERIVEES
+C     CALCULATION OF SHAPE FUNCTIONS AND DERIVATIVES
 C------------------------------------------------------
 
          DO ITEL=LFT,LLT
@@ -472,7 +472,7 @@ c     .       KNOT(IAD_KNOT+NKNOT1+NKNOT2+1), PX-1, PY-1, PZ-1, 1)
           ENDIF
 
 C------------------------------------------------------
-C     ASSEMBLAGE DE LA MATRICE MATB, MATN, MATDET
+C     ASSEMBLY OF THE MATB, MATN, MATDET MATRIX
 C------------------------------------------------------
          
           CALL IG3DDERISHAP(
@@ -494,7 +494,7 @@ C------------------------------------------------------
      6   BA,      Aloc,    NEL)
  
 C------------------------------------------------------
-C     ROTATION DE CORPS RIGIDE DES CONTRAINTES PASSEES 
+C     RIGID BODY ROTATION OF PAST STRESSES
 C------------------------------------------------------
 
          CALL SROTA3(
@@ -504,7 +504,7 @@ C------------------------------------------------------
      4   IPARG(9,NG))
 
 C------------------------------------------------------
-C     CALCUL DE LA MASSE VOLUMIQUE COURANTE
+C     CALCULATION OF CURRENT DENSITY
 C------------------------------------------------------
          VOLDP(LFT:LLT) = VOLN(LFT:LLT)
          DIVDE(1:NEL) = DT1*(DXX(1:NEL)+ DYY(1:NEL)+ DZZ(1:NEL))   
@@ -522,7 +522,7 @@ c     .            WZZ,DXX,DYY,DZZ,GBUF%RHO,RHO0,
 c     .            DVOL,VOLN)
 
 C------------------------------------------------------
-C     CALCUL DES CONTRAINTES 
+C     CALCULATION OF STRESSES
 C------------------------------------------------------
 
       IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STARTIME(TIMERS,35)
@@ -583,7 +583,7 @@ C------------------------------------------------------
 
            ENDDO
          ENDDO
-       ENDDO ! FIN BOUCLE SUR LES POINTS D'INTEGRATION
+       ENDDO ! END OF LOOP OVER INTEGRATION POINTS
 
 C-----------------------------
 C     SMALL STRAIN 
@@ -611,10 +611,10 @@ c
 
         ENDDO
        ENDDO
-      ENDDO ! FIN BOUCLE SUR LES POINTS D'INTEGRATION
+      ENDDO ! END OF LOOP OVER INTEGRATION POINTS
 c
 C------------------------------------------------------
-C     BILANS PAR MATERIAU
+C     BALANCES BY MATERIAL
 C------------------------------------------------------
       IFLAG=MOD(NCYCLE,NCPRI)
       IF (IOUTPRT>0)THEN
@@ -638,7 +638,7 @@ C--------------------------------------------
 
 
 C------------------------------------------------------
-C     PAS DE TEMPS ELEMENTAIRE : PULSATION PROPRE PAR ELEMENT
+C     ELEMENT TIME STEP : NATURAL FREQUENCY PER ELEMENT
 C------------------------------------------------------
 
       IF(IDTMIN(101)==1)THEN
@@ -658,7 +658,7 @@ C------------------------------------------------------
        ENDDO
 
 C------------------------------------------------------
-C     CALCUL DES AIRES DES FACES DES ELEMENTS
+C     CALCULATION OF ELEMENT FACE AREAS
 C------------------------------------------------------
 
       ELSEIF(IDTMIN(101)==2)THEN

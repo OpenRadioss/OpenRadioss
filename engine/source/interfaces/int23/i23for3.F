@@ -170,20 +170,20 @@ C     PENE INITIALE
 C---------------------
       IF(INACTI==6)THEN
         DO I=1,JLT
-C REDUCTION DE LA PENE INITIALE
+C REDUCTION OF THE INITIAL PENALTY
           CAND_P(INDEX(I))=MIN(CAND_P(INDEX(I)),
      .      ( (ONE-FIVEEM2)*CAND_P(INDEX(I))
      .        +FIVEEM2*(PENE(I)+FIVEEM2*MAX(GAPV(I)-PENE(I),ZERO)))  )
-C SOUSTRACTION DE LA PENE INITIALE A LA PENE ET AU GAP
+C SUBTRACTION OF THE INITIAL PENALTY FROM THE PENALTY AND GAP
           PENE(I)=MAX(ZERO,PENE(I)-CAND_P(INDEX(I)))
           IF( PENE(I)==ZERO )  STIF(I) = ZERO
         ENDDO
        ELSE
         DO I=1,JLT
-C REDUCTION DE LA PENE INITIALE
+C REDUCTION OF THE INITIAL PENALTY
           CAND_P(INDEX(I))=MIN(CAND_P(INDEX(I)),
      .           ((ONE-FIVEEM2)*CAND_P(INDEX(I))+FIVEEM2*PENE(I))  )
-C SOUSTRACTION DE LA PENE INITIALE A LA PENE ET AU GAP
+C SUBTRACTION OF THE INITIAL PENALTY FROM THE PENALTY AND GAP
           PENE(I)=MAX(ZERO,PENE(I)-CAND_P(INDEX(I)))
           IF( PENE(I)==ZERO ) STIF(I) = ZERO
         ENDDO
@@ -242,7 +242,7 @@ C inutile          KT(I)= TWO*STIF(I)
         ENDDO
       END IF
 C---------------------------------
-C     CALCUL DE LA FORCE NORMALE
+C     CALCULATION OF THE NORMAL FORCE
 C---------------------------------
       DO I=1,JLT
        FXN(I)=FNI(I)*NX(I)
@@ -796,7 +796,7 @@ C-----------------------------------------------------
               IF(ISECUT/=0)THEN
 #include "lockon.inc"
                 DO K=1,JLT
-C attention aux signes pour le cumul des efforts
+C attention to the signs for the accumulation of efforts
 C a rendre conforme avec CFORC3
                  IF(SECFCUM(4,IX1(K),I)==1.)THEN
                   SECFCUM(1,IX1(K),I)=SECFCUM(1,IX1(K),I)-FX1(K)
@@ -842,7 +842,7 @@ C-----------------------------------------------------
       IF((IBAG/=0).OR.(IDAMP_RDOF/=0)) THEN
        DO I=1,JLT
 C       IF(PENE(I)/=ZERO)THEN
-C test modifie pour coherence avec communication SPMD (spmd_i7tools)
+C modified test for coherence with SPMD communication (spmd_i7tools)
         IF(FXI(I)/=ZERO.OR.FYI(I)/=ZERO.OR.FZI(I)/=ZERO)THEN
           JG = NSVG(I)
           IF(JG>0) THEN

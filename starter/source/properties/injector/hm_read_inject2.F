@@ -239,7 +239,7 @@ C ---     Fonctions
 C Conversion d unites ----------------------
       IF(ASTIME == ZERO)ASTIME=ONE*FAC_T
       R_IGC1=PM(27,MAT_ID(2,1))
-C     Verification de la croissance des fonctions de masse
+C     Verification of the growth of mass function
       DO I=1,NGASES
         IFUN_TMP=0
         IFUN_TMP_USR=0
@@ -285,7 +285,7 @@ C     Verification de la croissance des fonctions de masse
 
       MW_MIXTURE=ZERO                                                     
       MW_MIXTURE_OK=0                                                     
-C     Verification du nombre de points des fonctions de fraction molaire  
+C     Verification of the number of points of molar fraction functions
       NB_POINTS_1=-1                                                      
       DO I=1,NGASES                                                       
         IF (F_IDMF(2,I)/=0) THEN                                        
@@ -301,7 +301,7 @@ C     Verification du nombre de points des fonctions de fraction molaire
           END IF                                                          
         END IF                                                            
       END DO                                                              
-C     Verification des abscisses des fonctions de fraction molaire        
+C     Verification of the abscissas of molar fraction functions
       IFUN_REF=-1                                                         
       DO I=1,NGASES                                                       
         IF (F_IDMF(2,I)/=0) THEN                                        
@@ -321,7 +321,7 @@ C     Verification des abscisses des fonctions de fraction molaire
       END DO                                                              
 C     Verification somme des fractions molaires egale a 1                 
       IF (IFUN_REF/=-1) THEN                                            
-C     Dans le cas ou il y a au moins une fonction                         
+C     In the case where there is at least one function
         DO J=NPC(IFUN_REF),NPC(IFUN_REF+1)-1,2                            
           ICURPT=J-NPC(IFUN_REF)                                          
           MF_TOT=ZERO                                                     
@@ -359,12 +359,12 @@ C     Dans le cas ou il y a au moins une fonction
           END IF                                                          
         END DO  
       ELSE
-      !Dans le cas ou il n y a que des fractions molaires
+      !In the case where there are only molar fractions
         MF_TOT=ZERO
         DO I=1,NGASES
           MF_TOT=MF_TOT+MOLFR(I)
         END DO
-      !Si la somme est zero on ne peut rien faire, MF_TOT est positif
+      !If the sum is zero, nothing can be done, MF_TOT is positive
         IF (MF_TOT<EM03) THEN
           CALL ANCMSG(MSGID=717,
      .                MSGTYPE=MSGERROR,
@@ -372,7 +372,7 @@ C     Dans le cas ou il y a au moins une fonction
      .                I1=PROP_ID,
      .                C1=IDTITL)
         ELSE IF (ABS(MF_TOT-ONE)>EM03) THEN
-      !Sinon on normalise par rapport a la somme
+      !Otherwise, we normalize with respect to the sum
           DO I=1,NGASES
             MOLFR(I)=MOLFR(I)/MF_TOT
           END DO
@@ -384,7 +384,7 @@ C     Dans le cas ou il y a au moins une fonction
         END IF    
       END IF                                                          
           
-C Calcul des caracteristiques initiales du melange
+C Calculation of initial characteristics of the mixture
       MWI_MIXTURE=ZERO
       CPAI_MIX=ZERO
       CPBI_MIX=ZERO

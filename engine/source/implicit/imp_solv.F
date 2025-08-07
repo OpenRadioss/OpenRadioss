@@ -512,7 +512,7 @@ C----------use reduced Dn_1 instead of resolution:
           ENDIF
           CALL ZEROR_HP(D_IMP,NUMNOD)
           IF (IRODDL/=0) CALL ZEROR_HP(DR_IMP,NUMNOD)
-C         permet aussi de faire linear avec 'initial state'
+C         also allows linear with 'initial state'
           CALL ZEROR_HP(AC,NUMNOD)
           IF (IRODDL/=0) CALL ZEROR_HP(ACR,NUMNOD)
 C
@@ -611,7 +611,7 @@ C-------------dU_d---------------------------------
           IF (IMON>0) CALL STOPTIME(TIMERS,4)
         ENDIF
 C-------------RGWAL0_IMP peut suivre-ISETK=1, mais il faut changer-FV_IMP1
-C-------------(IKC(I)=4->IMCONV=1 pour eviter le rebond-------
+C-------------(IKC(I)=4->IMCONV=1 to avoid rebound-------
         NT_RW=0
         IF (NRWALL>0) THEN
           IF (IMON>0) CALL STARTIME(TIMERS,4)
@@ -698,7 +698,7 @@ C    /---------------/
 c      CALL MY_BARRIER
 C    /---------------/
 C----------------------------------
-C       MATRICE DE RIGIDITE
+C       STIFFNESS MATRIX
 C----------------------------------
         IF (ISETK ==1 ) THEN
           IF (IMON>0 .AND. ITASK ==0) CALL STARTIME(TIMERS,31)
@@ -3438,7 +3438,7 @@ C----------------------------------
 
 
 C----------------------------------
-C       MATRICE DE RIGIDITE
+C       STIFFNESS MATRIX
 C----------------------------------
         IF (ISETK==1) THEN
           IF (ISPMD==0) THEN
@@ -4215,7 +4215,7 @@ C
           ELSEIF (NTY>0) THEN
             IWAR = IWAR +1
             ICOMP = ICOMP + 1
-C---------------- espere que ca ne arrive pas le contraire -----
+C---------------- hopes that the opposite does not happen -----
             IF (IV<=NUMNOD) THEN
               IV = IV + 1
               VI(1,IV) = NTY
@@ -6913,7 +6913,7 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
-C     Initialisation des variables pour // SMP
+C     Initialization of variables for // SMP
 C
         ITSK = OMP_GET_THREAD_NUM()
         N1FTSK = 1+ITSK*N1/ NTHREAD
@@ -8333,7 +8333,7 @@ C     REAL
         my_real
      .     XS,YS,ZS
 C------------------------------------
-C     MATRICE DE JACOBIEN [C]
+C     JACOBIAN MATRIX [C]
 C------------------------------------
         NIR=N_SEG
         DO J=1,NIR
@@ -8349,7 +8349,7 @@ C        NJ=IRECT(J)
         ENDIF
         FACM = ONE / NIR
 C----------------------------------------------------
-C       VITESSE DE ROTATION MOYENNE DU SEGMENT MAIN
+C       AVERAGE ROTATION SPEED OF THE MAIN SEGMENT
 C----------------------------------------------------
         X0=FACM*(XM(1)+XM(2)+XM(3)+XM(4))
         Y0=FACM*(YM(1)+YM(2)+YM(3)+YM(4))

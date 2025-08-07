@@ -298,7 +298,7 @@ C
       YCDG=ZERO
       ZCDG=ZERO      
 C----------------------------
-C     CALCUL DU CDG + MASSE
+C     calculation of the center of gravity and mass
 C----------------------------
       DO 100 I=1,NSN
       N = NOD(I)
@@ -458,7 +458,7 @@ C
 C
       CJWORK(18)=DMASSE
 C----------------------------
-C     CALCUL ACCELERATIONS DE ROTATION
+C     calculation of rotational accelerations
 C----------------------------
       VG(1)=VXX+AXX*DT12
       VG(2)=VYY+AYY*DT12

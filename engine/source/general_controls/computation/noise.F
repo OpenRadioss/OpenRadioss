@@ -77,7 +77,7 @@ C-----------------------------------------------
       DATA IFIRST/0/
       my_real WA(NNOISE)
 C-----------------------------------------------
-C INITIALIALISATION DES COEFFICIENTS DU FILTRE
+C initialization of the filter coefficients
 C-----------------------------------------------
       NE = 0 
       TOL=EM01
@@ -98,7 +98,7 @@ C NE : NOMBRE D'ECHANTILLON ENTRE CHAQUE SORTIE
          NE=J(7)
         ENDIF
 C
-C INITIALISATION DES TABLEAUX D'ELEMENTS PAR NOEUDS SAUVES
+C initialization of the arrays of elements by saved nodes
 C
         IF(NOISEP/=0)THEN
           ALLOCATE (NOIADD(NNOISE+1))
@@ -107,10 +107,10 @@ C
           ALLOCATE(ELG(LENGTH))
           CALL INITNOISE2(IN,ELNOI,ELG,NOIADD,IXS,ITAG(1),IPARG,IXQ)
         ENDIF
-C TC PERIODE DE COUPURE
+C tc cutoff period
         DTNOISE=FLOAT(NE)*TE
         TC=2.*DTNOISE
-C NOMBRE DE COEFFICIENTS ET ALLOCATION ; TO DEPHASAGE
+C number of coefficients and allocation; phase shift
         NC=6*NE
         FAC=ONE/FLOAT(NE)
         DEC=FLOAT(3*NE) - HALF
@@ -119,7 +119,7 @@ C NOMBRE DE COEFFICIENTS ET ALLOCATION ; TO DEPHASAGE
           ALLOCATE(C(NC))
         ENDIF
 C
-C COEFF. DU FILTRE PARFAIT AVEC FENETRE DE HAMMING 
+C perfect filter coefficients with hamming window
 C
         PI2 = TWO*PI
         TRANS=0
@@ -213,7 +213,7 @@ C
         CALL SPMD_GLOB_DSUM9(BUF,LEN)
       ENDIF
 C-----------------------------------------------------
-C INCREMENTATION DES INDICES ET ECRITURE DES RESULTATS
+C incrementing indices and writing results
 C-----------------------------------------------------
       DO K=1,6
         IF(J(K)==NC)THEN

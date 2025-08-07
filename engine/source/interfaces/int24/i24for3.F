@@ -953,7 +953,7 @@ C---------------------------------
 
 
           ELSE
-cbb  initialisation du tableau VIS2 pour eviter des problemes
+cbb initialization of the vis2 array to avoid problems
             VIS2(I) = ZERO
           ENDIF
         ENDDO
@@ -2931,7 +2931,7 @@ C
           ENDIF
           IF(IE > NRTM) IE=IE-NRTM
 
-          KK  =ADDSUBM(IE) ! Addresse du M
+          KK  =ADDSUBM(IE) ! address of m
           DO WHILE(KK<ADDSUBM(IE+1))
 !             all sub interfaces of S
             KSUB=LISUBM(KK)
@@ -3657,7 +3657,7 @@ C-----------------------------------------------------
 #include "lockon.inc"
                   DO K=1,JLT
                     IF(PENE(K) == ZERO)CYCLE
-C attention aux signes pour le cumul des efforts
+C pay attention to the signs for the accumulation of forces
 C a rendre conforme avec CFORC3
                     IF(SECFCUM(4,IX1(K),I)==1.)THEN
                       SECFCUM(1,IX1(K),I)=SECFCUM(1,IX1(K),I)-FX1(K)
@@ -3728,7 +3728,7 @@ C-----------------------------------------------------
       IF(IBAG/=0.OR.IADM/=0)THEN
         DO I=1,JLT
           IF(PENE(I) == ZERO)CYCLE
-C test modifie pour coherence avec communication SPMD (spmd_i7tools)
+C test modified for consistency with spmd communication (spmd_i7tools)
 c        IF(FXI(I)/=ZERO.OR.FYI(I)/=ZERO.OR.FZI(I)/=ZERO)THEN
           JG = NSVG(I)
           IF(JG>0) THEN

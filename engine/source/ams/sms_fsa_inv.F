@@ -118,7 +118,7 @@ C
         CALL MY_ALLOC(AMS_WORK%CHECK%INVND,NUMNOD)
       ENDIF 
 C     ----- approx. (by each colonne of L_T) inverse ---------
-C     ----- utilise d'abord la place de [M] pour la matrice assemblee ---------
+C     ----- first uses the space of [M] for the assembled matrix ---------
       IF (NSPMD==1) THEN
         AMS_WORK%check%NNDFT0=0
         AMS_WORK%check%NNDFT1=NUMNOD
@@ -413,7 +413,7 @@ C
      .                 MAX_L ,MJ    )
 C
         ENDIF 
-C------------filtrage----Diagonal est dans LT_M (last one)--
+C------------filtering----Diagonal is in LT_M (last one)--
         DIAG_INV(I)=MJ(NC)
        ENDDO
 
@@ -553,7 +553,7 @@ C------X(I)=ZERO--------
       R2 =R02
       IF (R02==ZERO) GOTO 200
       TOLN=R02*TOLS2
-C-------pour etre coherent avec lanzos for linear
+C-------to be consistent with lanzos for linear
        IT=1
        DO I=1,NDDL
          X(I) = X(I) + ALPHA*P(I)

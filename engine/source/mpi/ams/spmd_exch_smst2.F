@@ -288,7 +288,7 @@ C     REAL
             ENDDO   ! DO P=1, NSPMD
 
             ! -----------------
-            ! Fin du send
+            ! End of send
             DO P = 1, NSPMD
               IF (P==NSPMD)THEN
                 SIZ=LENSD_0-IADS(P)
@@ -452,7 +452,7 @@ C     REAL
               ENDIF !  IF (NB > 0)
             ENDDO ! DO P=1, NSPMD
             ! -----------------
-            ! Fin du send
+            ! End of send
             DO P = 1, NSPMD
               IF (P==NSPMD)THEN
                 SIZ=LENSD-IADS(P)

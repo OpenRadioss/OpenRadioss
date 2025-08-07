@@ -157,7 +157,7 @@ C
          PENE(I)=ZERO
        END DO
 C--------------------------------------------------------
-C  CAS DES PAQUETS MIXTES
+C  CASE OF MIXED PACKAGES
 C--------------------------------------------------------
        DO I=1,JLT
         IF(IX3(I)/=IX4(I))THEN
@@ -605,7 +605,7 @@ C---------------------
           CYCLE
          END IF
 C
-C attention a la traversee de la coque => 1E20..., 
+C beware of crossing the shell => 1E20...,
 C prendre normale = normale au triangle
          NN=ONE/
      .      MAX(EM20,SQRT(N1(I)*N1(I)+N2(I)*N2(I)+N3(I)*N3(I)))

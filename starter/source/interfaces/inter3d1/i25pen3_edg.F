@@ -155,7 +155,7 @@ C--------------------------------------------------------
       END DO
 C
 C--------------------------------------------------------
-C     calcul d'un minorant de la distance
+C     calculation of a lower bound of the distance
 C--------------------------------------------------------
         DO I=1,JLT
           XMAX1 = MAX(XXS1(I),XXS2(I))
@@ -177,7 +177,7 @@ C--------------------------------------------------------
             CYCLE
           ENDIF
 
-c         calcul de la distance^2
+c         calculation of distance^2
 
           XM12 = XXM2(I)-XXM1(I)
           YM12 = XYM2(I)-XYM1(I)

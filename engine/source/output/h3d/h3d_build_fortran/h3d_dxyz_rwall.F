@@ -85,7 +85,7 @@ C
             YWL(N)=RWBUF(5,N)
             ZWL(N)=RWBUF(6,N)
           ELSE
-C verifier que ce noeud est sur proc0 !
+C check that this node is on processor 0!
             XWL(N)=X(1,MSR)
             YWL(N)=X(2,MSR)
             ZWL(N)=X(3,MSR)

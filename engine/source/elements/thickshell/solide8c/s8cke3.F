@@ -423,7 +423,7 @@ C
      3   G33,     DM,      GM,      DGM,
      4   IKORTH,  LBUF%SIG,IR,      IS,
      5   IL,      NEL,     JHBE,    MTN)
-C-----------  check MPT sont memes entre KE et forc3----     
+C-----------  check mpt are the same between ke and forc3----
        CALL S8ZLKE3(
      1   PX1,     PX2,     PX3,     PX4,
      2   PY1,     PY2,     PY3,     PY4,

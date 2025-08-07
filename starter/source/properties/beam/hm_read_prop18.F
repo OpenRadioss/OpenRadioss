@@ -265,7 +265,7 @@ c
      .              I2=NIP)
         ENDIF
         
-C---  coord isoparametriques et surfaces relatives des pts d'integration
+C---  isoparametric coordinates and relative surfaces of integration points
         IF (ISECT == 0.AND.IREF == 0) THEN
           Y0 = ZERO      
           Z0 = ZERO      
@@ -807,7 +807,7 @@ c---------------
              NIP = INTR
              R1 = 0.4472136*L(1) ! rayon petit cercle
              R2 = 0.774597 *L(1) !rayon cercle moyen
-             R3 = L(1)   ! rayon de la section
+             R3 = L(1)   ! radius of the section
              D2 = HALF*L(1) !distance au point d'integ
              AI = PI * (R3*R3 - R2*R2)/EIGHT
              PHI = ZERO

@@ -328,7 +328,7 @@ C
        CALL ZEROR(V,NUMNOD)
        CALL ZEROR(A,NUMNOD)
       ENDIF
-C Calcul de la matrice de rigidite geometrique
+C calculation of the geometric stiffness matrix
       ALLOCATE(DIAG_KG(NDDL0), LT_KG(NNZK0))
        DIAG_KG=ZERO
        LT_KG  =ZERO
@@ -511,7 +511,7 @@ C
          WRITE(6,*) "/IMPL/GRAPH is deprecated"
          CALL ARRET(5)
       ENDIF
-C Calcul des charges critiques et des modes de flambement
+C calculation of critical loads and buckling modes
       NM=BINCV
       NMMAX=BMAXNCV
       MAXITR=BNITER
@@ -682,7 +682,7 @@ C
          WRITE(6,*) "/IMPL/GRAPH is deprecated"
          CALL ARRET(5)
       ENDIF
-C Sortie des charges critiques dans le listing pour les solveur 1 et 2
+C output of critical loads in the listing for solvers 1 and 2
       IF ((NSPMD==1.OR.ISPMD==0).AND.BISOLV==1) THEN
          WRITE(IOUT,'(A6,1PG11.4,A35,I10)')
      .    'SHIFT ',SHIFT,' NUMBER OF BUCKLING CRITICAL LOADS ',NBUCK
@@ -693,7 +693,7 @@ C Sortie des charges critiques dans le listing pour les solveur 1 et 2
          ENDDO
          WRITE(IOUT,*)
       ENDIF
-C Sortie des modes de flambement sur l'ANIM et/ou sur OUTP
+C output of buckling modes on ANIM and/or OUTP
       CMAX=ZERO
       DO I=1,NUMNOD
          X0(1,I)=X(1,I)
@@ -951,7 +951,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, INDCOL(N), J, JJ, IAD
-C 1ER PASSAGE : CALCUL DES INDICES DANS COLPTR
+C 1ST PASSAGE: CALCULATION OF INDICES IN COLPTR
       DO I=1,N
          INDCOL(I)=0
       ENDDO
@@ -968,7 +968,7 @@ C 1ER PASSAGE : CALCUL DES INDICES DANS COLPTR
          COLPTR(I+1)=COLPTR(I)+INDCOL(I)
          INDCOL(I)=COLPTR(I)-1
       ENDDO
-C 2EME PASSAGE : REMPLISSAGE DE ROWIND, VALUE_OP ET VALUE_K
+C 2ND PASSAGE: FILLING OF ROWIND, VALUE_OP AND VALUE_K
       DO I=1,N
          INDCOL(I)=INDCOL(I)+1
          IAD=INDCOL(I)

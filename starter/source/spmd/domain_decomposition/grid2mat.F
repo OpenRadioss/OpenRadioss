@@ -1353,7 +1353,7 @@ C----------------------------------------------
 !     allocation IDDCONNECT % PDOM et % IENTRYDOM
       ALLOCATE(IDDCONNECT%PDOM(2,SIDDCONNECT),STAT=IERR1)
       ALLOCATE(IDDCONNECT%IENTRYDOM(2,NELEM),STAT=IERR1)    
-!     initialisation de IDDCONNECT%IENTRYDOM
+! initialization of IDDCONNECT%IENTRYDOM
       CALL INI_IDDCONNECT(NELEM)
 C
       NEDGES_OLD = NEDGES
@@ -1492,7 +1492,7 @@ C-----------------------------------------------
 C CONNECTIVITES INTERFACES
 C-----------------------------------------------
 C
-C seulement rajouter une connectivite entre noeud et facette
+C only add a connectivity between node and facet
 C
 C eviter conflit entre type 2 et type 7
 C
@@ -1791,7 +1791,7 @@ C    .                        " refused_cep0: ",refused_cep0,
 C    .                        " switch_tried: ",switch_tried,
 C    .                        " switch_done: ",switch_done
 C
-!       nombre de edge 
+! number of edge
         NEDGES = 0
         NEDGES_8 = 0
         DO I=1,NELEM
@@ -1888,9 +1888,9 @@ C
         ALLOCATE(XADJ(NELEM+1),STAT=IERR1)
 !       init XADJ
         XADJ(1:NELEM+1)=0
-!       deallocation de CNE
+! deallocation of CNE
         DEALLOCATE(CNE)
-!       Nombre de edges
+! Number of edges
         NEDGES = 0
         DO I=1,NELEM
           CALL C_IDDCONNECT(I,TAILLE_LOCAL)
@@ -1908,7 +1908,7 @@ C
            CALL PLIST_IDDCONNECT(ADJNCY,XADJ,I)
           ENDIF
         ENDDO
-!       deallocation de IDDCONNECT % PDOM et % IENTRYDOM
+! deallocation of IDDCONNECT % PDOM and % IENTRYDOM
         DEALLOCATE(IDDCONNECT%PDOM)
         DEALLOCATE(IDDCONNECT%IENTRYDOM)
 
@@ -2576,7 +2576,7 @@ C
      .    NINT(DMIN(12)),NINT(DMAX(12)),
      .    NINT(AVERAGE(12)),NINT(DEVIATION(12))
       ELSE
-C   un seul element ou elements non connectes ou un seul proc
+C   a single element or unconnected elements or a single processor
         DEALLOCATE(CNE)
         DEALLOCATE(IDDCONNECT%PDOM)
         DEALLOCATE(IDDCONNECT%IENTRYDOM) 
@@ -3222,7 +3222,7 @@ C-----------------------------------------------
 
       IF(MARQUEUR3) THEN
          TEST_POIDS = 1
-C        Nombre de lignes
+C        Number of lines
          OPEN(UNIT=30,FILE=FILNAM(1:LEN_FILNAM),FORM='FORMATTED')
          DO WHILE(LINE(1:12) /= '     POINTER')
           MARQUEUR2=MARQUEUR2+1
@@ -3332,7 +3332,7 @@ C Dynamical User Library
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------   
-C     Lecture du pointer
+C     Reading the pointer
       OPEN(UNIT=30,FILE=FILNAM(1:LEN_FILNAM),FORM='FORMATTED')
          LINE = ' '
          DO WHILE(LINE(1:12) /= '     POINTER')
@@ -3376,7 +3376,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------   
       INTEGER I
 C-----------------------------------------------   
-C     Lecture du pointer 
+C     Reading the pointer
       OPEN(UNIT=30,FILE=FILNAM(1:LEN_FILNAM),FORM='FORMATTED')
          LINE = ' '
          DO WHILE(LINE(1:12) /= '     POINTER')

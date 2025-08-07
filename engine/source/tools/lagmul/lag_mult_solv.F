@@ -106,7 +106,7 @@ C        j  = 1,2,3      : J  = JLL(IK)
 C        i  = 1..numnod  : I  = LLL(IK)
 C
 C
-C        NC : nombre de contact 
+C        NC : number of contacts
 C
 C        IC : numero du contact (1,NC)
 C        IK : index de XLL,LLL,JLL
@@ -134,7 +134,7 @@ C            Q(IC) = Q(IC) - HH(IH)*P(JCIH(IH))
 C          ENDDO
 C        ENDDO
 C-----------------------------------------------
-C  evaluation de b:
+C  evaluation of b:
 C
 C         Vs = Somme(Ni Vi) + vout
 C         Vs_ + dt As = Somme(Ni Vi_) + Somme(dt Ni Ai) + vout
@@ -146,10 +146,10 @@ C         b  = [L] ao + [L]/dt v_  + vout
 C         b  = [L]/dt vo+  + vout
 C-----------------------------------------------------------------------
 C
-C     calcul de [H] la = b par gradient conjugue
+C     calculation of [H] la = b by conjugate gradient
 C
 C-----------------------------------------------------------------------
-C      Gradient conjugue [H] la = b avec preconditionnement [N]
+C      conjugate gradient [H] la = b with preconditioning [N]
 C      [H]-1 = Somme([I-H]^i),i=0,1...inf    si |I-H|<1
 C      [N]-1 = [2I-H]
 C-----------------------------------------------------------------------
@@ -174,14 +174,14 @@ C======================================================================|
       R2NEW = ZERO      
       LAG_NC= NC
 C---
-C---  Calcul de la matrice H
+C--- Calculation of the H matrix
       CALL LAG_MULT_H(NC     ,LENH   ,NH     ,MAS    ,IN     ,
      2                DIAG_H ,HH     ,IADLL  ,LLL    ,JLL    ,
      3                XLL    ,LTSM   ,IADHF  ,JCIHF  ,IADH   ,
      4                JCIH   ,RBYL   ,NPBYL  ,ICFTAG ,JCFTAG ,
      5                NCF_S  ,NCF_E  ,NCR    )
 C------------------------------------------
-C     Normalisation du systeme
+C     Normalization of the system
 c     lagopt=0 => sans norme
 c     lagopt=1 => norme L1 (diagonal)
 c     lagopt=2 => norme L2 (columns)
@@ -219,7 +219,7 @@ C---      normalisation [H]        Somme([H](ic,i)^2)=1   i=1...nc
             HH(IH) = HH(IH)*Z(IC)*Z(JCIH(IH))
           ENDDO
         ENDDO
-C---      normalisation [LLL] et {R}
+C--- normalization [LLL] and {R}
         DO IC=1,NC
           DO IK=IADLL(IC),IADLL(IC+1)-1
             XLL(IK)  = XLL(IK)*Z(IC)
@@ -278,7 +278,7 @@ C=======================================================================
           ENDIF
         ENDDO
       ENDDO
-C---  Initialisation du vecteur solution
+C--- Initialization of the solution vector
       RNORM = ZERO
       DO IC=1,NC
         RNORM = RNORM + R(IC)*R(IC)
@@ -306,7 +306,7 @@ C--------------------
 C       preconditionnement  z = inv(H) r
 C--------------------
         IF (LAGMOD==1) THEN
-C---    preconditionnement de Cholesky
+C--- Cholesky preconditioning
           CALL PRECHOL(Z,DIAG_L,HL,R,NC,IADH,JCIH)
         ELSEIF(LAGMOD==2) THEN
 C---    preconditionnement polynomial :  H=I-B,  z = [I+B] r    
@@ -487,7 +487,7 @@ C        j  = 1,2,3      : J  = JLL(IK)
 C        i  = 1..numnod  : I  = LLL(IK)
 C
 C
-C        NC : nombre de contact 
+C        NC : number of contacts
 C
 C        IC : numero du contact (1,NC)
 C        IK : index de XLL,LLL,JLL
@@ -515,7 +515,7 @@ C            Q(IC) = Q(IC) - HH(IH)*P(JCIH(IH))
 C          ENDDO
 C        ENDDO
 C-----------------------------------------------
-C  evaluation de b:
+C  evaluation of b:
 C
 C         Vs = Somme(Ni Vi) + vout
 C         Vs_ + dt As = Somme(Ni Vi_) + Somme(dt Ni Ai) + vout
@@ -527,10 +527,10 @@ C         b  = [L] ao + [L]/dt v_  + vout
 C         b  = [L]/dt vo+  + vout
 C-----------------------------------------------------------------------
 C
-C     calcul de [H] la = b par gradient conjugue
+C     calculation of [H] la = b using conjugate gradient
 C
 C-----------------------------------------------------------------------
-C      Gradient conjugue [H] la = b avec preconditionnement [N]
+C      conjugate gradient [H] la = b with preconditioning [N]
 C      [H]-1 = Somme([I-H]^i),i=0,1...inf    si |I-H|<1
 C      [N]-1 = [2I-H]
 C-----------------------------------------------------------------------
@@ -555,14 +555,14 @@ C======================================================================|
       R2NEW = ZERO      
       LAG_NC= NC
 C---
-C---  Calcul de la matrice H
+C---  calculation of matrix H
       CALL LAG_MULT_HP(NC     ,LENH   ,NH     ,MAS     ,IN     ,
      2                 DIAG_H ,HH     ,IADLL  ,LLL     ,JLL    ,
      3                 XLL    ,LTSM   ,IADHF  ,JCIHF   ,IADH   ,
      4                 JCIH   ,RBYL   ,NPBYL  ,ICFTAG  ,JCFTAG ,
      5                 NCF_S  ,NCF_E  ,NCR    ,INDEXLAG)
 C------------------------------------------
-C     Normalisation du systeme
+C     normalization of the system
 c     lagopt=0 => sans norme
 c     lagopt=1 => norme L1 (diagonal)
 c     lagopt=2 => norme L2 (columns)
@@ -600,7 +600,7 @@ C---      normalisation [H]        Somme([H](ic,i)^2)=1   i=1...nc
             HH(IH) = HH(IH)*Z(IC)*Z(JCIH(IH))
           ENDDO
         ENDDO
-C---      normalisation [LLL] et {R}
+C---      normalization [LLL] and {R}
         DO IC=1,NC
           DO IK=IADLL(IC),IADLL(IC+1)-1
             XLL(IK)  = XLL(IK)*Z(IC)
@@ -659,7 +659,7 @@ C=======================================================================
           ENDIF
         ENDDO
       ENDDO
-C---  Initialisation du vecteur solution
+C---  initialization of the solution vector
       RNORM = ZERO
       DO IC=1,NC
         RNORM = RNORM + R(IC)*R(IC)
@@ -686,7 +686,7 @@ C--------------------
 C       preconditionnement  z = inv(H) r
 C--------------------
         IF (LAGMOD==1) THEN
-C---    preconditionnement de Cholesky
+C---    Cholesky preconditioning
           CALL PRECHOL(Z,DIAG_L,HL,R,NC,IADH,JCIH)
         ELSEIF(LAGMOD==2) THEN
 C---    preconditionnement polynomial :  H=I-B,  z = [I+B] r    
@@ -872,7 +872,7 @@ C        j  = 1,2,3      : J  = JLL(IK)
 C        i  = 1..numnod  : I  = LLL(IK)
 C
 C
-C        NC : nombre de contact 
+C        NC : number of contacts
 C
 C        IC : numero du contact (1,NC)
 C        IK : index de XLL,LLL,JLL
@@ -900,7 +900,7 @@ C            Q(IC) = Q(IC) - HH(IH)*P(JCIH(IH))
 C          ENDDO
 C        ENDDO
 C-----------------------------------------------
-C  evaluation de b:
+C  evaluation of b:
 C
 C         Vs = Somme(Ni Vi) + vout
 C         Vs_ + dt As = Somme(Ni Vi_) + Somme(dt Ni Ai) + vout
@@ -912,10 +912,10 @@ C         b  = [L] ao + [L]/dt v_  + vout
 C         b  = [L]/dt vo+  + vout
 C-----------------------------------------------------------------------
 C
-C     calcul de [H] la = b par gradient conjugue
+C     calculation of [H] la = b using conjugate gradient
 C
 C-----------------------------------------------------------------------
-C      Gradient conjugue [H] la = b avec preconditionnement [N]
+C      conjugate gradient [H] la = b with preconditioning [N]
 C      [H]-1 = Somme([I-H]^i),i=0,1...inf    si |I-H|<1
 C      [N]-1 = [2I-H]
 C-----------------------------------------------------------------------
@@ -942,14 +942,14 @@ C======================================================================|
        R2NEW = ZERO      
        LAG_NC= NC
 C---
-C---  Calcul de la matrice H
+C---  calculation of matrix H
        CALL LAG_MULT_HP(NC     ,LENH   ,NH     ,MAS     ,IN     ,
      2                  DIAG_H ,HH     ,IADLL  ,LLL     ,JLL    ,
      3                  XLL    ,LTSM   ,IADHF  ,JCIHF   ,IADH   ,
      4                  JCIH   ,RBYL   ,NPBYL  ,ICFTAG  ,JCFTAG ,
      5                  NCF_S  ,NCF_E  ,NCR    ,INDEXLAG)
 C------------------------------------------
-C     Normalisation du systeme
+C     normalization of the system
 c     lagopt=0 => sans norme
 c     lagopt=1 => norme L1 (diagonal)
 c     lagopt=2 => norme L2 (columns)
@@ -987,7 +987,7 @@ C---      normalisation [H]        Somme([H](ic,i)^2)=1   i=1...nc
             HH(IH) = HH(IH)*Z(IC)*Z(JCIH(IH))
           ENDDO
         ENDDO
-C---      normalisation [LLL] et {R}
+C---      normalization [LLL] and {R}
         DO IC=1,NC
           DO IK=IADLL(IC),IADLL(IC+1)-1
             XLL(IK)  = XLL(IK)*Z(IC)
@@ -1039,12 +1039,12 @@ C
 C Init structure
 C
       CALL SPMD_MUMPS_INI(MUMPS_PAR,1)
-      MUMPS_PAR%ICNTL(18) = 0            ! donnees centralisees sur p0
+      MUMPS_PAR%ICNTL(18) = 0            ! centralized data on p0
 C flag output
-      MUMPS_PAR%ICNTL(3)=-1              ! ou iout par exemple si sorties voulues
-      IF(ISPMD==0) THEN ! structure de stockage sur p0
-        MUMPS_PAR%N         = NC               ! valid sur proc0 uniquement
-        MUMPS_PAR%NZ        = NC+IADH(NC+1)-1     ! valid sur proc0 uniquement
+      MUMPS_PAR%ICNTL(3)=-1              ! or iout for example if desired outputs
+      IF(ISPMD==0) THEN ! storage structure on p0
+        MUMPS_PAR%N         = NC               ! valid only on proc0
+        MUMPS_PAR%NZ        = NC+IADH(NC+1)-1     ! valid only on proc0
         ALLOCATE(MUMPS_PAR%A(MUMPS_PAR%NZ))
         ALLOCATE(MUMPS_PAR%IRN(MUMPS_PAR%NZ))
         ALLOCATE(MUMPS_PAR%JCN(MUMPS_PAR%NZ))
@@ -1090,7 +1090,7 @@ C
 C
       CALL SPMD_MUMPS_EXEC(MUMPS_PAR,2)     ! resolution  
 C
-C Resultat sur p0
+C Result on p0
 C 
       IF(ISPMD==0) THEN 
         DO IC=1,NC
@@ -1098,7 +1098,7 @@ C
         ENDDO
       END IF
 C
-C Liberation de la memoire
+C Memory release
 C
       CALL SPMD_MUMPS_DEAL(MUMPS_PAR)
 CC  ---  Initialisation du vecteur solution
@@ -1128,7 +1128,7 @@ CC--------------------
 CC       preconditionnement  z = inv(H) r
 CC--------------------
 C        IF (LAGMOD==1) THEN
-CC---    preconditionnement de Cholesky
+CC---    Cholesky preconditioning
 C          CALL PRECHOL(Z,DIAG_L,HL,R,NC,IADH,JCIH)
 C        ELSEIF(LAGMOD==2) THEN
 CC---    preconditionnement polynomial :  H=I-B,  z = [I+B] r    

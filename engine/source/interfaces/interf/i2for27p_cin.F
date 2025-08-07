@@ -362,7 +362,7 @@ C
            A(3,I)=ZERO                                       
          ENDIF                                          
 C                                            
-C        stokage ZERO pour noeuds delete par idel2         
+C        zero storage for nodes deleted by idel2
         ELSEIF (WEIGHT(-I) == 1) THEN                       
           I0 = I0BASE + IADX(K)                                
           NN = IADI2(1,I0)                                 

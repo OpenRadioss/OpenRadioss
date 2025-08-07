@@ -133,7 +133,7 @@ C
         T(I) = TREF + CP*(EINT(I,1)+EINT(I,2))/VOL(I)
       ENDDO   
 C-------------------------------------
-C     DEBUT DE BOUCLE SUR POINTS INTEGRATION
+C     start of loop over integration points
 C--------------------------------------
 C        
       DO IPT= 1,NPT
@@ -262,7 +262,7 @@ c            IF (R < ONE) ETSE(I)= H(I)/(H(I)+E(I))
         
 C  failure criteria 
 C--------------------------------
-C     TEST DE RUPTURE DUCTILE
+C     ductile failure test
 C--------------------------------
 C      
         DO  I=JFT,JLT
@@ -278,7 +278,7 @@ C
           LBUF%SIG(II(3)+I) = SIGNXZ(I)
         ENDDO                                                       
 C-------------------------------------
-C       FIN DE BOUCLE SUR POINT INTEGRATION
+C       end of loop over integration point
 C-------------------------------------
        ENDDO   
 C-----------

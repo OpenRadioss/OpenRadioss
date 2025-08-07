@@ -164,7 +164,7 @@ C
 CC positionnement des faces crees ici verifiees : ok 
 
           DO JJ=1,6
-            DO II=1,4 ! on va chercher les 4 coins de chaque face
+            DO II=1,4 ! we are going to look for the 4 corners of each face
               NS(II)=IXIG3D(KXIG3D(4,JS)+FACEIGEO(II,JJ)-1) 
             END DO
 C
@@ -187,7 +187,7 @@ C           looks for an elt sharing the face.
             DO K=KNOD2ELIG3D(NI(1))+1,KNOD2ELIG3D(NI(1)+1)
               KS=NOD2ELIG3D(K)
               IF(KS==JS)CYCLE
-              IF (KEY(1:6)=='GRBRIC'.AND.TAGBUF(KS)==0.AND.IFRE==0)CYCLE ! if IFRE=0 on cherche la connectivite uniquement avec les elements du marques du groupe (cycle), sinon si IFRE=1 on cherche la connectivite avec tout le monde
+              IF (KEY(1:6)=='GRBRIC'.AND.TAGBUF(KS)==0.AND.IFRE==0)CYCLE ! if IFRE=0 we only look for connectivity with the elements marked by the group (cycle), otherwise if IFRE=1 we look for connectivity with everyone
               IF (KEY(1:6)/='GRBRIC'.AND.TAGBUF(IPARTIG3D(KS))==0)CYCLE     
               DO II=1,NF
                 NODTAG(NI(II))=0
@@ -200,7 +200,7 @@ C           looks for an elt sharing the face.
               DO II=1,NF
                 NN=NN+NODTAG(NI(II))
               END DO
-              IF(NN==NF)THEN ! il faut que la face ait 4 points en commun avec uen autre pour eventuellement etre exclue
+              IF(NN==NF)THEN ! the face must have 4 points in common with another to be potentially excluded
                 DO KK=1,6
             DO II=1,4
               MS(II)=IXIG3D(KXIG3D(4,KS)+FACEIGEO(II,KK)-1) 
@@ -842,11 +842,11 @@ C
 C
       DO I=1,NUMELIG3D
         DO J=1,NCTRLMAX
-          MASSELIG3D(I)=MASSELIG3D(I)+MSIG3D(I,J) !! num locale ici et pas globale I a la place de kxigi3D(I)
+          MASSELIG3D(I)=MASSELIG3D(I)+MSIG3D(I,J) !! local number here and not global I instead of kxigi3D(I)
         ENDDO
       ENDDO
 C
-      DO N=1,NINTER  !!! regarder la repartition de la masse sur les points fictifs (masse + importante sur les coins et les arretes)
+      DO N=1,NINTER  !!! look at the distribution of mass on the fictitious points (more mass on the corners and edges)
        DO I=1,INTBUF_TAB(N)%S_NIGE
          NUMEL = INTBUF_TAB(N)%NIGE(I)
          INTBUF_TAB(N)%MASSIGE(I)=INTBUF_TAB(N)%MASSIGE(I)+

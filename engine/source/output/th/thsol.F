@@ -2167,7 +2167,7 @@ c
                          WWA(72+IPT)=WWA(72+IPT) + LBUF%VISC(KK(5)+I)
                          WWA(80+IPT)=WWA(80+IPT) + LBUF%VISC(KK(6)+I)
                         ENDIF
-                        !tenseur de contrainte sur chaque points de gauss
+                        !stress tensor on each gauss point
                         IPWWA = (IT-1)*3*9*7 + (IS-1)*3*7 + (IR-1)*7
                         IUWWA = (IT-1)*3*9*9 + (IS-1)*3*9 + (IR-1)*9
                         DO ITENS = 1,6

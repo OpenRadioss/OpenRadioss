@@ -119,12 +119,12 @@ C     REAL
       INTEGER, DIMENSION(:),ALLOCATABLE :: TAG_S,TAG_M
       INTEGER :: NSN, NMN
 C---------------------------------------------------- 
-C  Calcul des adresses des buffers d'interfaces. 
-C  Les adresses des buffers J10-JFI et K10-KFI 
-C  sont remplaces systematiquement par des tableaux
+C  calculation of interface buffer addresses
+C  the addresses of the j10-jfi and k10-kfi buffers
+C  are systematically replaced by arrays
 C  JD(i) et KD(i), en gardant les memes numeros d'indexes.
-C  Les anciens adresses directs Jn, Kn sont modifies
-C  dans la routine sans commentaires additionnels habituels
+C  the old direct addresses jn, kn are modified
+C  in the routine without the usual additional comments
 C----------------------------------------------------
 C
       NSN   =IPARI(5,NIN)
@@ -175,7 +175,7 @@ c----------------------------------------------------
       IF(ICURV==3)THEN
       ENDIF!(ICURV==3)
 c----------------------------------------------------
-c   Rayon de courbure : calcul des normales nodales (normees)
+c   curvature radius: calculation of nodal normals (normalized)
 C   IADM!=0 + Icurv!=0 non available (starter error).
 c----------------------------------------------------
 c      IF(IADM/=0)THEN
@@ -456,7 +456,7 @@ C    ----sans frottement d'abord---
        KL11(2,3,I)=KN(4,I)*Q23
        KL11(3,3,I)=KN(4,I)*Q33
       ENDDO
-C    ----avec frottement --- 
+C    ----with friction---
        DO J=1,3 
         DO K=J,3 
          DO I=1,JLT
@@ -509,7 +509,7 @@ C
          IF(NSVG(I)<0) THEN
                 NN=-NSVG(I)
                 NS=IND_INT(NIN)%P(NN)
-C---------pour diag_ss---
+C---------for diag_ss---
                 FFI(1,NS)=ZERO
                 FFI(2,NS)=ZERO
                 FFI(3,NS)=ZERO
@@ -535,7 +535,7 @@ C---  general case----
           N_E(1,NE)=N1(I)
           N_E(2,NE)=N2(I)
           N_E(3,NE)=N3(I)
-C----pour temporairement diag_ss---
+C----for temporary diag_ss---
           FFI(1,NS)=ZERO
           FFI(2,NS)=ZERO
           FFI(3,NS)=ZERO

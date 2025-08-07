@@ -114,7 +114,7 @@ C--------------------------------------------------------
           GAPV(I)=GAP
         END DO
       ELSE
-C ... on pourrait utiliser le fait Depth >= max(gapv) dans le starter ...
+C ... we could use the fact Depth >= max(gapv) in the starter ...
         DO I=1,JLT
           GAPV(I)=GAP_S(CAND_N(I))
           GAPV(I)=MIN(GAPV(I),GAPMAX)
@@ -162,7 +162,7 @@ C
          CSTS_L(2,I) =-ONE
        END DO
 C--------------------------------------------------------
-C  CAS DES PAQUETS MIXTES
+C  CASE OF MIXED PACKETS
 C--------------------------------------------------------
        DO I=1,JLT
         IF(IX3(I)/=IX4(I))THEN
@@ -247,7 +247,7 @@ C
 C
        ENDDO
 C
-C normales aux triangles (recalculees ici pour pas les stocker).
+C normals to the triangles (recalculated here so as not to be stored).
        DO I=1,JLT
 
         XN1(I) = Y01(I)*Z02(I) - Z01(I)*Y02(I)
@@ -331,7 +331,7 @@ C
 C
         ENDDO
 C
-C coordonnees locale dans le triangle //
+C local coordinates in the triangle //
         DO I=1,JLT
 C
           FAR(I)=0
@@ -389,12 +389,12 @@ C  necessaire au calcul de distance // normale
 C
          IF(FAR(I)==1)CYCLE
 C
-C normale interpolee dans le triangle //
+C interpolated normal in the triangle //
          NX(I)=(ONE-LB1(I)-LC1(I))*NNX0(I)+LB1(I)*NNX1(I)+LC1(I)*NNX2(I)
          NY(I)=(ONE-LB1(I)-LC1(I))*NNY0(I)+LB1(I)*NNY1(I)+LC1(I)*NNY2(I)
          NZ(I)=(ONE-LB1(I)-LC1(I))*NNZ0(I)+LB1(I)*NNZ1(I)+LC1(I)*NNZ2(I)
 C
-C projection sur triangle 1
+C projection on triangle 1
          NN = NX(I)*XN1(I)+ NY(I)*YN1(I)+ NZ(I)*ZN1(I)
          IF(NN <= ZERO) THEN
 C cas limite
@@ -609,7 +609,7 @@ C
 C
        ENDDO
 C
-C coordonnees locale dans le triangle //
+C local coordinates in the triangle //
        DO N=1,N4N
 C
          I=I4N(N)
@@ -670,12 +670,12 @@ C
 C
          IF(FAR(I)==1)CYCLE
 C
-C normale interpolee dans le triangle //
+C interpolated normal in the triangle //
          NX(I)=(1-LB2(I)-LC2(I))*NNX0(I)+LB2(I)*NNX2(I)+LC2(I)*NNX3(I)
          NY(I)=(1-LB2(I)-LC2(I))*NNY0(I)+LB2(I)*NNY2(I)+LC2(I)*NNY3(I)
          NZ(I)=(1-LB2(I)-LC2(I))*NNZ0(I)+LB2(I)*NNZ2(I)+LC2(I)*NNZ3(I)
 C
-C projection sur triangle 2
+C projection on triangle 2
          NN = NX(I)*XN2(I)+ NY(I)*YN2(I)+ NZ(I)*ZN2(I)
          IF(NN <= ZERO) THEN
 C cas limite
@@ -883,7 +883,7 @@ C
 C
        ENDDO
 C
-C coordonnees locale dans le triangle //
+C local coordinates in the triangle //
        DO N=1,N4N
 C
          I=I4N(N)
@@ -944,12 +944,12 @@ C
 C
          IF(FAR(I)==1)CYCLE
 C
-C normale interpolee dans le triangle //
+C interpolated normal in the triangle //
          NX(I)=(1-LB3(I)-LC3(I))*NNX0(I)+LB3(I)*NNX3(I)+LC3(I)*NNX4(I)
          NY(I)=(1-LB3(I)-LC3(I))*NNY0(I)+LB3(I)*NNY3(I)+LC3(I)*NNY4(I)
          NZ(I)=(1-LB3(I)-LC3(I))*NNZ0(I)+LB3(I)*NNZ3(I)+LC3(I)*NNZ4(I)
 C
-C projection sur triangle 3
+C projection on triangle 3
          NN = NX(I)*XN3(I)+ NY(I)*YN3(I)+ NZ(I)*ZN3(I)
          IF(NN <= ZERO) THEN
 C cas limite
@@ -1157,7 +1157,7 @@ C
 C
        ENDDO
 C
-C coordonnees locale dans le triangle //
+C local coordinates in the triangle //
        DO N=1,N4N
 C
          I=I4N(N)
@@ -1218,12 +1218,12 @@ C
 C
          IF(FAR(I)==1)CYCLE
 C
-C normale interpolee dans le triangle //
+C interpolated normal in the triangle //
          NX(I)=(1-LB4(I)-LC4(I))*NNX0(I)+LB4(I)*NNX4(I)+LC4(I)*NNX1(I)
          NY(I)=(1-LB4(I)-LC4(I))*NNY0(I)+LB4(I)*NNY4(I)+LC4(I)*NNY1(I)
          NZ(I)=(1-LB4(I)-LC4(I))*NNZ0(I)+LB4(I)*NNZ4(I)+LC4(I)*NNZ1(I)
 C
-C projection sur triangle 4
+C projection on triangle 4
          NN = NX(I)*XN4(I)+ NY(I)*YN4(I)+ NZ(I)*ZN4(I)
          IF(NN <= ZERO) THEN
 C cas limite

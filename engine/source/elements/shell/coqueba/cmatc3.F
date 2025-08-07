@@ -244,7 +244,7 @@ C----this will do only for QEPH and change also in CNCOEF!!!look at starter firs
          ENDDO
         ELSEIF(IGTYP == 10.OR.IGTYP == 11.OR.IGTYP == 17.OR.
      .         IGTYP==51 .OR. IGTYP == 52)THEN
-C         INTEGRATION PAR COUCHES
+C         INTEGRATION BY LAYERS
           CALL LAYINI(ELBUF_STR,JFT      ,JLT      ,GEO      ,IGEO    ,  
      .                MAT      ,PID      ,THKLY    ,MATLY    ,POSLY   ,  
      .                IGTYP    ,0        ,0        ,NLAY     ,NPT     ,  

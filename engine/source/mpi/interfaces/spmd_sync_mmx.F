@@ -55,7 +55,7 @@ C commun local a spmd_init et spmd_ring_mmx
 C irecvf : proc precedent dans l'anneau si <> 0
 C isendt : proc suivant dans l'anneau si <> 0 et <> -1
 C isendt = -1 indique un broadcast a faire (dernier proc de l'anneau)
-C iring : no du proc effectuant le broadcast si besoin sur le proc
+C iring: proc number performing the broadcast if needed on the proc
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -120,7 +120,7 @@ C
               IF(IPARI(7,NIN)/=17)THEN
 C NEWFRONT
                 SBUF(L+1) = NEWFRONT(NIN)
-              ELSE     ! interface 17 avec courbure
+              ELSE     ! interface 17 with curvature
 C SIZE
                 SBUF(L+1) = SIZE_T(NIN)
               END IF
@@ -168,7 +168,7 @@ C T25 main gap changes with thickness change
              L = L + 6
              IF(IPARI(7,NIN)/=17)THEN
                NEWFRONT(NIN) = SBUF(L+1)
-             ELSE     ! interface 17 avec courbure
+             ELSE     ! interface 17 with curvature
                SIZE_T(NIN) = SBUF(L+1)
              END IF
              L = L + 1
@@ -267,7 +267,7 @@ C
               IF(IPARI(7,NIN)/=17)THEN
 C NEWFRONT
                 NEWFRONT(NIN) = NEWFRONT(NIN)+NINT(SBUF(L))
-              ELSE     ! interface 17 avec courbure
+              ELSE     ! interface 17 with curvature
 C SIZE
                 SIZE_T(NIN) = SIZE_T(NIN)+SBUF(L)
               END IF
@@ -312,7 +312,7 @@ C
               L = L + 6
               IF(IPARI(7,NIN)/=17)THEN
                 SBUF(L+1) = NEWFRONT(NIN)
-              ELSE     ! interface 17 avec courbure
+              ELSE     ! interface 17 with curvature
                 SBUF(L+1) = SIZE_T(NIN)
               END IF
               L = L + 1

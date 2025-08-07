@@ -75,7 +75,7 @@ C
         GBUF => ELBUF_TAB(NG)%GBUF
           IF (ITYP == 6) THEN
 C
-C--------> Boucle sur les elements ressort -------
+C--------> Loop over spring elements -------
           DO I=JFT,JLT
               J = I + NFT    
             IG = IPART(2,IPARTR(J))
@@ -108,7 +108,7 @@ C--------> Calcul pas de temps nodal RB2 -------
                   DTRB2 = MIN(DTRB2,DTFAC1(11)*SQRT(TWO*IN(M2)/MAX(EM20,STIFR(M2))))
               ENDIF
 C
-C--------> Calcul pas de temps du Joint ------- 
+C--------> Calculation of Joint time step -------
                 DT = MIN(DTRB1,DTRB2)                
               IF(DT<DT2T) THEN
                 DT2T=DT

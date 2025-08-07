@@ -449,7 +449,7 @@ C
       IPRI = IPRINT
       IF (ISPMD/=0) IPRI = 0
 C--------
-C routine speciale pour sauvegarder les input
+C special routine to save inputs
       IF(ISAVE==1)CALL IMP_ISAVE(
      1   NDDL,X,R,DIAG_K,DIAG_M,
      2   NNZ,LT_K,LT_K0,LT_M,LT_M0,
@@ -565,7 +565,7 @@ C        L_B2=R02
         IF(IPRI<0) WRITE(ISTDO,1000)IT,RR
         WRITE(IOUT,1000)IT,RR
        ENDIF
-C-------pour etre coherent avec lanzos for linear
+C-------to be consistent with Lanczos for linear
 C----------------------
        CALL MY_BARRIER
 C---------------------
@@ -820,7 +820,7 @@ C Code MIC simple precision
 C debut code specifique MIC double precision
 CAD
 CAD
-CAD  DIRECTIVES POUR MIC
+CAD DIRECTIVES FOR MIC
 CAD
 C init MIC
         CALL MIC_INIT(
@@ -1217,7 +1217,7 @@ C          L_B2=R02
            IF(IPRI<0) WRITE(ISTDO,1000)IT,RR
            WRITE(IOUT,1000)IT,RR
          ENDIF
-C-------pour etre coherent avec lanzos for linear
+C-------to be consistent with Lanczos for linear
 C----------------------
 c       CALL MY_BARRIER
 C---------------------
@@ -1855,7 +1855,7 @@ c+1
          ENDIF
 c+1
 !$OMP END SINGLE
-C-------pour etre coherent avec lanzos for linear
+C-------to be consistent with Lanczos for linear
 C----------------------
 c       CALL MY_BARRIER
 C---------------------
@@ -2304,7 +2304,7 @@ c      END IF
 C fin code specifique MIC double precision
 #endif
 C fin code specifique GPU
-C routine speciale pour sauvegarder les resultats
+C special routine to save results
       IF(ISAVE==1)CALL IMP_RSAVE(NDDL,X,R)
       
 C
@@ -3202,7 +3202,7 @@ C        L_B2=R02
         IF(IPRI<0) WRITE(ISTDO,1000)IT,RR
         WRITE(IOUT,1000)IT,RR
        ENDIF
-C-------pour etre coherent avec lanzos for linear
+C-------to be consistent with Lanczos for linear
 C----------------------
        CALL MY_BARRIER
 C---------------------

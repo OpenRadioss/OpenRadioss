@@ -77,7 +77,7 @@ C-----------------------------------------------
       INTEGER ITSK,NODFTSK,NODLTSK,OMP_GET_THREAD_NUM
       my_real OFF
 C=======================================================================
-      NUMELCRK2 = NUMELCRK    !  pour check si crack avance dans le cycle (anim)
+      NUMELCRK2 = NUMELCRK    ! to check if crack advances in the cycle (animation)
       ITG1 = 1+NUMELC
       ITG2 = 1+4*ECRKXFEC
 C---

@@ -337,7 +337,7 @@ c         print *,'dx y z/dt='
 c         print *,DXDT(1),DYDT(1),DZDT(1)
 C-----------------------------------------------------------------------
 C          -1
-C       [J]          Inversion du jacobien
+C       [j] jacobian inversion
 C-----------------------------------------------------------------------
         DRDX(I)=DYDS(I)*DZDT(I)-DZDS(I)*DYDT(I)
         DRDY(I)=DZDS(I)*DXDT(I)-DXDS(I)*DZDT(I)

@@ -783,7 +783,7 @@ C code NSPMD > 1 a traiter de maniere specifique (IXi non present localement)
               IF(ISECUT/=0)THEN
 #include "lockon.inc"
                 DO K=1,JLT
-C attention aux signes pour le cumul des efforts
+C pay attention to the signs when summing the forces
 C a rendre conforme avec CFORC3
                  IF(SECFCUM(4,IX1(K),I)==1.)THEN
                   SECFCUM(1,IX1(K),I)=SECFCUM(1,IX1(K),I)-FX1(K)

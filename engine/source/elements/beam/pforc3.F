@@ -322,7 +322,7 @@ C
         ENDDO
       ENDIF            
 C--------------------------
-C     BILANS PAR MATERIAU
+C     BALANCES BY MATERIAL
 C--------------------------
       IFLAG = MOD(NCYCLE,NCPRI)
       IF (IOUTPRT > 0)     

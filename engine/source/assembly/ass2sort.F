@@ -33,8 +33,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE ASS2SORT(FSKYI,JJ1,JJ2,FSKYT,NFSK)
 C  FSKYI : IN/OUT : TABLEAU DE FORCES A TRIER EN ENTREE,
 C                   TABLEAU DE FORCES TRIE EN SORTIE
-C  JJ1   : IN     : INDICE DE DEBUT DANS FSKYI
-C  JJ2   : IN     : INDICE DE FIN DANS FSKYI
+C  JJ1   : IN     : START INDEX IN FSKYI
+C  JJ2   : IN     : END INDEX IN FSKYI
 C  FSKYT : IN/OUT : TABLEAU TEMPORAIRE
 C  NFSK : IN      : Dimension de FSKYI
 C-----------------------------------------------
@@ -87,8 +87,8 @@ C
       SUBROUTINE ASS2SORT_PXFEM(FSKYI,JJ1,JJ2,FSKYT,NFSK)
 C  FSKYI : IN/OUT : TABLEAU DE FORCES A TRIER EN ENTREE,
 C                   TABLEAU DE FORCES TRIE EN SORTIE
-C  JJ1   : IN     : INDICE DE DEBUT DANS FSKYI
-C  JJ2   : IN     : INDICE DE FIN DANS FSKYI
+C  JJ1   : IN     : START INDEX IN FSKYI
+C  JJ2   : IN     : END INDEX IN FSKYI
 C  FSKYT : IN/OUT : TABLEAU TEMPORAIRE
 C  NFSK : IN      : Dimension de FSKYI
 C-----------------------------------------------

@@ -71,11 +71,11 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
-C   ROLE DE LA ROUTINE:
+C   ROLE OF THE ROUTINE:
 C   ===================
-C   CLASSE LES NOEUDS DANS DES BOITES
-C   RECHERCHE POUR CHAQUE FACETTE DES BOITES CONCERNES
-C   RECHERCHE DES CANDIDATS
+C   CLASSIFIES NODES INTO BOXES
+C   SEARCHES FOR EACH FACETTE OF CONCERNED BOXES
+C   SEARCH FOR CANDIDATES
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C
@@ -87,11 +87,11 @@ C     NSV          NOS SYSTEMES DES NOEUDS           E
 C     XMAX         plus grande abcisse existante     E
 C     XMAX         plus grande ordonn. existante     E
 C     XMAX         plus grande cote    existante     E
-C     I_STOK       niveau de stockage des couples
+C     I_STOK storage level of couples
 C                                candidats impact    E/S
 C     CAND_N       boites resultats noeuds
 C     CAND_E       adresses des boites resultat elements
-C                  MULNSN = MULTIMP*NSN TAILLE MAX ADMISE MAINTENANT POUR LES
+C                  MULNSN = MULTIMP*NSN MAX SIZE NOW ALLOWED FOR
 C                  COUPLES NOEUDS,ELT CANDIDATS
 C     NOINT        NUMERO USER DE L'INTERFACE
 C     TZINF        TAILLE ZONE INFLUENCE
@@ -99,11 +99,11 @@ C
 C     PROV_N       CAND_N provisoire (variable static dans i7tri)
 C     PROV_E       CAND_E provisoire (variable static dans i7tri)
 
-C     VOXEL(ix,iy,iz) contient le numero local du premier noeud de
-C                  la boite
+C     VOXEL(ix,iy,iz) contains the local number of the first node of
+C                  the box
 C     LOCAL_NEXT_NOD(i)  noeud suivant dans la meme boite (si /= 0)
 C     LAST_NOD(i)  dernier noeud dans la meme boite (si /= 0)
-C                  utilise uniquement pour aller directement du premier
+C                  used only to go directly from the first
 C                       noeud au dernier
 C     INDEX        index of IRECTM active for this domain
 C     NRTM_L         number of active segments for this domain
@@ -212,7 +212,7 @@ C-----------------------------------------------
       ZMAXB = XYZM(6,2)
 
 C=======================================================================
-C 1   mise des noeuds dans les boites
+C 1 placing nodes in boxes
 C=======================================================================
 
 !$OMP MASTER
@@ -288,7 +288,7 @@ c         jump to the last node of the cell
 !$OMP BARRIER
 C=======================================================================
 C 3   recherche des boites concernant chaque facette
-C     et creation des candidats
+C     and creation of candidates
 C=======================================================================
 
       STAGNOD = NUMNOD+NUMFAKENODIGEO
@@ -343,14 +343,14 @@ C=======================================================================
         ZMINE=MIN(ZZ1,ZZ2,ZZ3,ZZ4)
 
 
-c        calcul de la surface (pour elimination future de candidats)
+c        calculation of the surface (for future elimination of candidates)
 
         SX = (YY3-YY1)*(ZZ4-ZZ2) - (ZZ3-ZZ1)*(YY4-YY2)
         SY = (ZZ3-ZZ1)*(XX4-XX2) - (XX3-XX1)*(ZZ4-ZZ2)
         SZ = (XX3-XX1)*(YY4-YY2) - (YY3-YY1)*(XX4-XX2)
         S2 = SX*SX + SY*SY + SZ*SZ
 
-c        indice des voxels occupes par la facette
+c        index of voxels occupied by the facet
         IF( (XMINE - AAA - XMINB)/(XMAXB-XMINB) > ONE ) THEN
           IX1 = NBX
         ELSE
@@ -419,7 +419,7 @@ c        indice des voxels occupes par la facette
                 IF(ZS<=ZMINE-AAA)GOTO 300
                 IF(ZS>=ZMAXE+AAA)GOTO 300
 
-c    sousestimation de la distance**2 pour elimination de candidats
+c    underestimation of the distance**2 for candidate elimination
 
                 D1X = XS - XX1
                 D1Y = YS - YY1

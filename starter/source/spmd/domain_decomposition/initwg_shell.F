@@ -61,7 +61,7 @@ C-----------------------------------------------
      .  IGEO(NPROPGI,NUMGEO),IPM(NPROPMI,NUMMAT),TABMP_L
       INTEGER, INTENT(IN) :: SIZE_IRUP ! maximum number of rupture criteria
 
-C     REAL OU REAL*8
+C     REAL OR REAL*8
       my_real
      .    PM(NPROPM,NUMMAT), GEO(NPROPG,NUMGEO),BUFMAT(*)
       REAL WD(*)

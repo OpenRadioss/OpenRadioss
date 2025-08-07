@@ -85,11 +85,11 @@ C-----------------------------------------------
 #include      "assert.inc"
 #include      "i25edge_c.inc"
 C-----------------------------------------------
-C   ROLE DE LA ROUTINE:
+C   role of the routine:
 C   ===================
-C   CLASSE LES EDGES DANS DES BOITES
-C   RECHERCHE POUR CHAQUE FACETTE DES BOITES CONCERNES
-C   RECHERCHE DES CANDIDATS
+C   classifies edges in boxes
+C   search for each facet of the concerned boxes
+C   search for candidates
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -134,7 +134,7 @@ c provisoire
       INTEGER, DIMENSION(3) :: TMIN,TMAX
       my_real
      .   XMINB,YMINB,ZMINB,XMAXB,YMAXB,ZMAXB,AAA,
-     .   XMAX_EDGS, XMIN_EDGS,   !cotes min/max des aretes seconds et mains
+     .   XMAX_EDGS, XMIN_EDGS,   !min/max coordinates of secondary and main edges
      .   YMAX_EDGS, YMIN_EDGS,
      .   ZMAX_EDGS, ZMIN_EDGS,
      .   XMAX_EDGM, XMIN_EDGM,
@@ -176,7 +176,7 @@ C
       MAX_IZ=1
 
       !---------------------------------------------------------!
-      ! Allocation des tableaux chaines                         !
+      ! allocation of chain arrays                         !
       !---------------------------------------------------------!
       MAX_ADD = MAX(1,4*(NEDGE+NEDGE_REMOTE))
       IF(ITASK==0)THEN
@@ -207,7 +207,7 @@ c     IF( NSPMD > 1) THEN
 c       CALL SPMD_OLDNUMCD(RENUM,OLDNUM,ISZNSNR,NSNROLD)
 c     ENDIF
 C=======================================================================
-C 1   mise des edges dans les boites
+C 1   placing edges in boxes
 C=======================================================================
       IF(ITASK == 0)THEN
 
@@ -320,7 +320,7 @@ C         PRINTIF((STFE(I) == 0 .AND.LEDGE(6,I) == D_ES),STFE(I))
           IY2=MAX(1,2+MIN(NBY,IY2))
           IZ2=MAX(1,2+MIN(NBZ,IZ2))
 
-          !pour reset des voxel
+          !for voxel reset
           MIN_IX = MIN(MIN_IX,IX1)
           MIN_IY = MIN(MIN_IY,IY1)
           MIN_IZ = MIN(MIN_IZ,IZ1)
@@ -363,17 +363,17 @@ C                          +------------+-----------+
 
                 IF(FIRST_ADD == 0)THEN
                   !voxel encore vide
-                  VOXEL(IX,IY,IZ)          = CURRENT_ADD ! adresse dans le tableau chaine de la premiere eddge trouvee occupant le voxel
+                  VOXEL(IX,IY,IZ)          = CURRENT_ADD ! address in the chain array of the first edge found occupying the voxel
                   LCHAIN_LAST(CURRENT_ADD) = CURRENT_ADD ! dernier=adresse pour l edge courante
                   LCHAIN_ELEM(CURRENT_ADD) = I               ! edge ID
-                  LCHAIN_NEXT(CURRENT_ADD) = 0               ! pas de suivant car dernier de la liste   !
+                  LCHAIN_NEXT(CURRENT_ADD) = 0               ! no next because it's the last in the list   !
                 ELSE
                   !voxel contenant deja une edge
                   PREV_ADD                 = LCHAIN_LAST(FIRST_ADD) ! devient l'avant-dernier
-                  LCHAIN_LAST(FIRST_ADD)   = CURRENT_ADD                ! maj du dernier
+                  LCHAIN_LAST(FIRST_ADD)   = CURRENT_ADD                ! update of the last one
                   LCHAIN_ELEM(CURRENT_ADD) = I                          ! edge ID
                   LCHAIN_NEXT(PREV_ADD)    = CURRENT_ADD                ! maj du suivant 0 -> CURRENT_ADD
-                  LCHAIN_NEXT(CURRENT_ADD) = 0                          ! pas de suivant car dernier de la liste
+                  LCHAIN_NEXT(CURRENT_ADD) = 0                          ! no next because it's the last in the list
                 ENDIF
 
                 CURRENT_ADD = CURRENT_ADD+1
@@ -406,10 +406,10 @@ C     Sorting vs main shell edges
 C=======================================================================
       IF(SH_EDGE==0) GOTO 300
 C=======================================================================
-C 3   A partir des voxels occupes par une edge main, on est en
-C     mesure de connaitre toutes les edges escalves dans ce voisinage.
-C     Ce qui permet de creer des couples cancidats pour le contact
-C     Si la penetration est positive.
+C 3   from voxels occupied by a main edge, we are able
+C     to know all the slave edges in this neighborhood.
+C     this allows creating candidate pairs for contact
+C     if the penetration is positive.
 C=======================================================================
 
       J_STOK = 0
@@ -488,9 +488,9 @@ C--- IREMGAP - tag of deactivated lines
           DO IY = IY1,IY2
             DO IX = IX1,IX2
 
-              CHAIN_ADD = VOXEL(IX,IY,IZ)       ! adresse dans le tableau chaine de la premiere edge stoquee dans le voxel
-              DO WHILE(CHAIN_ADD /= 0)          ! BOUCLE SUR LES EDGES DU VOXEL COURANT
-                JJ = LCHAIN_ELEM(CHAIN_ADD)       ! numeros des edge_id balayes dans le voxel courant
+              CCHAIN_ADD = VOXEL(IX,IY,IZ)       ! address in the chain array of the first edge stored in the voxel
+              DO WHILE(CHAIN_ADD /= 0)          ! loop over edges of the current voxel
+                JJ = LCHAIN_ELEM(CHAIN_ADD)       ! numbers of edge_id swept in the current voxel
 
                 IF(TAGEDG(JJ)/=0)THEN ! edge deja traitee vs cette arete main
 
@@ -540,11 +540,11 @@ C                 double-check
                 ENDIF
 
                 IF(IABS(LEDGE(7,IEDG))/=1 .AND. EDGE_TYPE /= 1 )THEN
-                  ! attention les traitements de i25dst3e pour les solides
+                  ! warning the i25dst3e processing for solids
                   ! ne sont pas symetriques main second.
                   AS1 = MIN(SS1,SS2)
                   AS2 = MAX(SS1,SS2)
-                  ! unicite des couples
+                  ! uniqueness of pairs
                   IF(AM1 < AS1 .OR. (AM1 == AS1 .AND. AM2 < AS2))THEN
                     CHAIN_ADD = LCHAIN_NEXT(CHAIN_ADD)
                     CYCLE
@@ -625,9 +625,9 @@ C       Reset TAGEDG
             DO IX = IX1,IX2
 
               CHAIN_ADD = VOXEL(IX,IY,IZ)
-              DO WHILE(CHAIN_ADD /= 0)          ! BOUCLE SUR LES EDGES DU VOXEL COURANT
+              DO WHILE(CHAIN_ADD /= 0)          ! loop on edges of the current voxel
 
-                JJ = LCHAIN_ELEM(CHAIN_ADD)       ! numeros des edge_id balayes dans le voxel courant
+                JJ = LCHAIN_ELEM(CHAIN_ADD)       ! numbers of edge_id swept in the current voxel
                 TAGEDG(JJ)=0
 
                 CHAIN_ADD = LCHAIN_NEXT(CHAIN_ADD)
@@ -669,10 +669,10 @@ C     Sorting vs main solid edges
 C=======================================================================
       IF(SOL_EDGE==0) GOTO 400
 C=======================================================================
-C 3bis A partir des voxels occupes par une edge main, on est en
-C     mesure de connaitre toutes les edges escalves dans ce voisinage.
-C     Ce qui permet de creer des couples cancidats pour le contact
-C     Si la penetration est positive.
+C 3bis from voxels occupied by a main edge, we are able
+C     to know all slave edges in this neighborhood.
+C     which allows creating candidate pairs for contact
+C     if the penetration is positive.
 C=======================================================================
 
       J_STOK = 0
@@ -776,9 +776,9 @@ C--- IREMGAP - tag of deactivated lines
           DO IY = IY1,IY2
             DO IX = IX1,IX2
 
-              CHAIN_ADD = VOXEL(IX,IY,IZ)       ! adresse dans le tableau chaine de la premiere edge stoquee dans le voxel
-              DO WHILE(CHAIN_ADD /= 0)          ! BOUCLE SUR LES EDGES DU VOXEL COURANT
-                JJ = LCHAIN_ELEM(CHAIN_ADD)       ! numeros des edge_id balayes dans le voxel courant
+              Caddress in the chain array of the first edge stored in the voxel
+              DO WHILE(CHAIN_ADD /= 0)          ! loop on edges of the current voxel
+                JJ = LCHAIN_ELEM(CHAIN_ADD)       ! numbers of edge_id swept in the current voxel
 
 
                 IF (JJ<=NEDGE)THEN
@@ -905,9 +905,9 @@ C       Reset TAGEDG
             DO IX = IX1,IX2
 
               CHAIN_ADD = VOXEL(IX,IY,IZ)
-              DO WHILE(CHAIN_ADD /= 0)          ! BOUCLE SUR LES EDGES DU VOXEL COURANT
+              DO WHILE(CHAIN_ADD /= 0)          ! loop on edges of the current voxel
 
-                JJ = LCHAIN_ELEM(CHAIN_ADD)       ! numeros des edge_id balayes dans le voxel courant
+                JJ = LCHAIN_ELEM(CHAIN_ADD)       ! numbers of edge_id swept in the current voxel
                 TAGEDG(JJ)=0
 
                 CHAIN_ADD = LCHAIN_NEXT(CHAIN_ADD)
@@ -942,7 +942,7 @@ C-------------------------------------------------------------------------
      8                 DGAPLOAD)
 
 C=======================================================================
-C 4   remise a zero des noeuds dans les boites
+C 4   reset nodes to zero in the boxes
 C=======================================================================
 
 CC=============== DEBUG

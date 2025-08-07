@@ -370,7 +370,7 @@ C preparation candidats retenus
             CALL I7CDCOR3(
      1         JLT,INDEX2(NFT+1),INTBUF_TAB%CAND_E,INTBUF_TAB%CAND_N,
      2         CAND_E_N,CAND_N_N)
-C cand_n et cand_e remplace par cand_n_n et cand_e_n
+C cand_n and cand_e replaced by cand_n_n and cand_e_n
             CALL I21COR3(
      1  JLT    ,NIN       ,X   ,INTBUF_TAB%IRECTM,NSN   ,
      2  INTBUF_TAB%NSV,CAND_E_N ,CAND_N_N ,INTBUF_TAB%STF,

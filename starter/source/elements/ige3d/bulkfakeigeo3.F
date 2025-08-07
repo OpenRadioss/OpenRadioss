@@ -79,7 +79,7 @@ c
       BNIGE = 0
 c
       DO ITSURF=1,NSURF
-        IF(IGRSURF(ITSURF)%NSEG_IGE>0) THEN !! on est sur une surface isogeometrique
+        IF(IGRSURF(ITSURF)%NSEG_IGE>0) THEN !we are on an isogeometric surface
           DO J=1,IGRSURF(ITSURF)%NSEG_IGE
             IEL=IGRSURF(ITSURF)%ELEM_IGE(J)
             AV1 = VOL(IEL)/56
@@ -98,11 +98,11 @@ c
         STIFINT(NUMNOD+N)=STIFINT(NUMNOD+N)+BNIGE(N)*(2.*VNIGE(N))**THIRD
       ENDDO
 
-CC NB : on peut repartir le volume differemment selon si les points sont dans les coins, au milieu
-cC      ou sur une arrete, avec PX,PY,PZ on peut retrouver la place de chacun
+Cnote: the volume can be distributed differently depending on whether the points are at the corners, in the middle
+cor on an edge, with px, py, pz you can find the place of each one
 Cc pour les elements 20 neouds, il y a 3/192 * vol aux coins et 14/192 * vol aux points milieux
 C
-CC  NB: il me semble que numfakenodigeo est trop grand ici et donc les tableaux sont trop grands et se terminent par 0
+Cnote: it seems that numfakenodigeo is too large here and so the arrays are too large and end with 0
 
       RETURN
       END

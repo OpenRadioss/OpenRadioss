@@ -70,7 +70,7 @@ c        print *,ST(1,I),ST(2,I),ST(3,I)
 C-----------GT->u-------- 
       DO I=LFT,LLT
 c .....(R(I) is the alpha parameter of the radial return ..
-c         print *,'[Ce]='
+c         print *,'[ce]='
 c         print *,DD(1,1,I),DD(1,2,I),GT(1,1,I)
        IF (R(I)/=ONE) THEN
         DO J=1,3

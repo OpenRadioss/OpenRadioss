@@ -97,7 +97,7 @@ C-------------------------------------------------------------------------------
       
       DERS(1) = ANDU(1,PXI+1) 
 
-CCC ERREUR A PARTIR DE LA
+Cerror from here
 
       DO K=1,NDERS
         DO J=1,K+1

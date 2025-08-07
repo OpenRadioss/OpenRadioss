@@ -165,7 +165,7 @@ C-----------------------
          SIGY(I) = SIGY(I) + YLD(I)/NPT
        ENDDO
 C----------------------------
-C     TEST DE RUPTURE DUCTILE
+C     ductile rupture test
 C---------------------------
       DO I=JFT,JLT
         IF ( OFF(I) == OFF_OLD(I) .and. OFF_OLD(I) < EM01 ) OFF(I)=ZERO

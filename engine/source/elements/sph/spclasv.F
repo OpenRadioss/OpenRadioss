@@ -231,7 +231,7 @@ C
            ZI=X(3,INOD)
            DI=SPBUF(1,N)
 C
-C          on est forcement plus proche de la particule vraie que de la particule fantome
+C          we are necessarily closer to the real particle than to the phantom particle
            JNOD = IXSP(NVOIS,N)
            IF(JNOD>0)THEN
              M =NOD2SP(JNOD)
@@ -258,7 +258,7 @@ C-------------------------------------------
  100    CONTINUE
         IF(NSPCOND==0) THEN
           DO N = ITASK+1,NSPHR,NTHREAD
-C remise a zero du flag de reperage des cellules actives en spmd multiprocesseurs
+C reset flag for locating active cells in spmd multiprocessors
             ISPHR(N) = 0
           END DO
         ELSE
@@ -433,7 +433,7 @@ cc              DVOIS(K) = KXSP(8,nod2sp(M))          ! ID particule stoke ds DV
            MWA(K) = JSTOR(JPERM(K))
           END DO
           IF(NSPCOND>1) THEN
-C Tri des particules symetriques suivant NSPCOND pour un meme no particule pour conservation Parith/ON
+C Sort symmetric particles according to NSPCOND for same particle number for Parith/ON conservation
             M = NINT(DVOIS(1))
             NB = 1
             DO K = 2, NVOISS1

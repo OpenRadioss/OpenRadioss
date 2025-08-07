@@ -84,7 +84,7 @@ C
           FZI=A(3,I)                              
 C
           IF (IRUPT(II) == 0) THEN                
-C---------  pas de rupture                      - 
+Cno rupture
 C
             IF (WEIGHT(I) == 1) THEN              
               XMSI = MS(I)                        
@@ -254,7 +254,7 @@ C
         IF (I > 0) THEN
 C
           IF (IRUPT(II) == 0) THEN
-C---------  pas de rupture                      - 
+Cno rupture
 C
             IF (WEIGHT(I) == 1) THEN
               L=IRTL(II)
@@ -358,7 +358,7 @@ C
             A(3,I)=ZERO
 C
           ELSEIF (WEIGHT(I) == 1) THEN
-C---------  rupture partielle ou totale                      - 
+Cpartial or total rupture
 C
             I0 = I0 + 1          
             NN = IADI2(1,I0)     

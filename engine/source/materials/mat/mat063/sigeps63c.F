@@ -308,7 +308,7 @@ Ctmp           DPLA(I) = OFF(I)*SVM(I)*UMR/(G3(I)+H(I))
          ENDDO
        ELSEIF(IFLAG(1)==1)THEN
 C-------------------------
-C     CRITERE DE VON MISES
+C     von mises criterion
 C-------------------------  
          DO  I=1,NEL0
            H(I) = MAX(ZERO,H(I))
@@ -392,10 +392,10 @@ C------------------------------------------
          ENDIF
 C------------------------------------------
        ELSEIF(IFLAG(1)==2)THEN
-C projection radial sur le deviateur sur un critere reduit
+C radial projection on the deviator on a reduced criterion
 C projection elastique en z => sig33 = 0
-C le coef. de reduction du critere est tel que 
-C l'on se trouve sur le critere apres les 2 projections   
+C the criterion reduction coefficient is such that
+C one is on the criterion after the 2 projections
          DO I=1,NEL0
            P   = -(SIGNXX(I)+SIGNYY(I))*THIRD
            S11 = SIGNXX(I)+P
@@ -445,7 +445,7 @@ C calcul de l'effet martensite ----
          IF(DPLA(I)/=ZERO) UVAR(I,3) =  DVM
          VM(I) = VM(I) + MAX(DVM*DPLA(I),ZERO)
          VM(I) = MIN(VM(I), ONE)
-C la chaleur latente dans le terme source.
+C the latent heat in the source term.
          IF(JTHE > 0 ) DIE(I) = (VM(I) - UVAR(I,2))*HL
          UVAR(I,2) = VM(I)
          UVAR(I,4) = TEMP(I)

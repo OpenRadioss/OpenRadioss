@@ -66,7 +66,7 @@ C=======================================================================
       IIX = 0
       IIY = 0
       IIZ = 0
-C----- BORNES DU DOMAINE
+C----- BOUNDS OF THE DOMAIN
       XMAX_M=-EP30
       YMAX_M=-EP30
       ZMAX_M=-EP30
@@ -122,7 +122,7 @@ C
       NBY = MAX(NBY,1)
       NBZ = MAX(NBZ,1)
 C=======================================================================
-C 1   mise des noeuds dans les boites
+C 1   placing of nodes in boxes
 C=======================================================================
       ALLOCATE(VOXEL(NBX,NBY,NBZ))
       VOXEL=0

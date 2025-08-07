@@ -62,8 +62,8 @@ C-----------------------------------------------
       my_real, DIMENSION(:), ALLOCATABLE :: F1, F2
       DOUBLE PRECISION FRMV6(2,6)
 C--------------------------------------------------------------
-C CALCUL DU VOLUME (variable locale dans MONVOL0)
-C CALCUL DE LA SURFACE (stockee dans RVOLU(18))
+C CALCULATION OF THE VOLUME (local variable in MONVOL0)
+C CALCULATION OF THE SURFACE (stored in RVOLU(18))
 C PORO(*) : PORO=0 aucun noeud en contact
 C           PORO=1 tous les noeuds en contact ...
 C--------------------------------------------------------------

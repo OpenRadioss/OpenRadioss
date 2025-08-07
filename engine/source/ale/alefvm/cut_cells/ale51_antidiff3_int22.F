@@ -177,8 +177,8 @@ C-----------------------------------------------
           UALPHI   = ZERO 
           PHI0     = ZERO              
           !-----------------------------------------------
-          !       face voisine du voisin  
-          !       et flux total sortant 
+          ! neighboring face of the neighbor
+          ! and total outgoing flux
           !-----------------------------------------------
           DO K=1,NV46
             NADJ = BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(K)%NAdjCell
@@ -210,7 +210,7 @@ C-----------------------------------------------
           !vide sortant estime
           UALPHI = PHI0 - ALPHI 
           !-----------------------------------------------
-          !       flux sortant par face
+          ! outgoing flux by face
           !-----------------------------------------------
           IF(ALPHI>AV0.AND.AV0>ZERO)THEN
             !-----------------------------------------------
@@ -276,7 +276,7 @@ C-----------------------------------------------
                 
                 !adjacent flux is also updated to be consistent and conservative
                 IF(ICELLv>0)THEN
-                  !recherche du flux voisin 
+                  !search for neighboring flux
                   !OPTIM PLUS TARD : si deja calcule dans sinit, stocker pour economiser acces memoires
                   IF(IBv>0)THEN
                     !--IN CUT CELL BUFFER

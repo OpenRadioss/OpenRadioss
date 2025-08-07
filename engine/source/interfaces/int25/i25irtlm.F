@@ -101,7 +101,7 @@ C
 C
                 ELSE
 C
-C                 N impacte sur mon domaine SPMD, sur le segment n  IRTLM(3,N)
+C                 n impacts on my spmd domain, on segment n irtlm(3,n)
                   I_STOK_RTLM=I_STOK_RTLM+1
                   INTBUF_TAB%CAND_OPT_N(I_STOK_RTLM)= N
                   INTBUF_TAB%CAND_OPT_E(I_STOK_RTLM)= L
@@ -121,7 +121,7 @@ C                 se prepare a quitter le contact
                 END IF
               ELSE ! IF(INTBUF_TAB%IRTLM(4*(N-1)+4) == ISPMD+1)THEN
 C
-C               Seul le processeur qui a l ancien impact garde les informations correspondantes
+C               only the processor with the previous impact keeps the corresponding information
                 INTBUF_TAB%SECND_FR(6*(N-1)+1:6*N) =ZERO
                 INTBUF_TAB%STIF_OLD(2*(N-1)+1:2*N)=ZERO
                 INTBUF_TAB%PENE_OLD(5*(N-1)+1)  =ZERO
@@ -195,7 +195,7 @@ C                 se prepare a quitter le contact
                 END IF
               ELSE ! IF(IRTLM_FI(NIN)%P(4,N) == ISPMD+1)THEN
 C
-C               Seul le processeur qui a l ancien impact garde les informations correspondantes
+C               only the processor with the previous impact keeps the corresponding information
                 SECND_FRFI(NIN)%P(1:6,N) =ZERO
                 STIF_OLDFI(NIN)%P(1:2,N)=ZERO
                 PENE_OLDFI(NIN)%P(1,N)  =ZERO
@@ -254,7 +254,7 @@ C
 C
                 ELSE
 C
-C                 N impacte sur mon domaine SPMD, sur le segment n  IRTLM(3,N)
+C                 n impacts on my spmd domain, on segment n irtlm(3,n)
                   I_STOK_RTLM=I_STOK_RTLM+1
                   INTBUF_TAB%CAND_OPT_N(I_STOK_RTLM)= N
                   INTBUF_TAB%CAND_OPT_E(I_STOK_RTLM)= L
@@ -274,7 +274,7 @@ C                 se prepare a quitter le contact
                 END IF
               ELSE ! IF(INTBUF_TAB%IRTLM(4*(N-1)+4) == ISPMD+1)THEN
 C
-C               Seul le processeur qui a l ancien impact garde les informations correspondantes
+C               only the processor with the previous impact keeps the corresponding information
                 INTBUF_TAB%SECND_FR(6*(N-1)+1:6*N) =ZERO
                 INTBUF_TAB%STIF_OLD(2*(N-1)+1:2*N)=ZERO
                 INTBUF_TAB%PENE_OLD(5*(N-1)+1)  =ZERO
@@ -348,7 +348,7 @@ C                 se prepare a quitter le contact
                 END IF
               ELSE ! IF(IRTLM_FI(NIN)%P(4,N) == ISPMD+1)THEN
 C
-C               Seul le processeur qui a l ancien impact garde les informations correspondantes
+C               only the processor with the previous impact keeps the corresponding information
                 SECND_FRFI(NIN)%P(1:6,N) =ZERO
                 STIF_OLDFI(NIN)%P(1:2,N)=ZERO
                 PENE_OLDFI(NIN)%P(1,N)  =ZERO

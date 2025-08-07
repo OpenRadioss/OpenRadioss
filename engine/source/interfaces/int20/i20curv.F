@@ -77,7 +77,7 @@ C-----------------------------------------------
       END IF
 
       DO I=1,NRTM
-c test pour ne prendre en compte que les solides 
+c test to consider only solids
         IF(GAP_SH(I)/=ZERO)THEN
           N1 = NLG(IRECT(1,I))
           N2 = NLG(IRECT(2,I))
@@ -214,7 +214,7 @@ C-----------------------------------------------
         N2 = NLG(IRECT(2,I))
         N3 = NLG(IRECT(3,I))
         N4 = NLG(IRECT(4,I))
-c test pour ne prendre en compte que les solides 
+c test to consider only solids
         IF(GAP_SH(I)/=ZERO)THEN
 
 c          X13 = X(1,N3) - X(1,N1)
@@ -355,7 +355,7 @@ C
      .                      ISDSIZ,IRCSIZ,ITAG  ,LENR    ,LENS   )
       END IF
 C
-C     tri par packet des normales
+C     sorting by packet of normals
 C
       DO N1 = 1, NUMNOD
         N2 = ADSKYT(N1-1)
@@ -564,7 +564,7 @@ C
      .                      ISDSIZ,IRCSIZ,ITAG  ,LENR    ,LENS   )
       END IF
 C
-C     tri par packet des normales
+C     sorting by packet of normals
 C
       DO N1 = 1, NUMNOD
         N2 = ADSKYT(N1-1)

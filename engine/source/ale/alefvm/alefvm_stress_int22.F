@@ -112,9 +112,9 @@ C-----------------------------------------------
       !inter22
       NIN = 1
       
-      ! attention : il faut que mmain soit traite pour chacun des groupes 
-      ! afin de connaitre les tenseurs voisins (SIG,SVIS,QVIS) !
-      ! l'assemblage est ensuite realise apres tous les appel de 
+      ! attention: mmain must be processed for each group
+      ! in order to know the neighboring tensors (SIG,SVIS,QVIS) !
+      ! the assembly is then carried out after all calls to
       ! ALEMAIN>SFORC3() pour chaque groupe.
 
       !-------------------------------------------------------------!

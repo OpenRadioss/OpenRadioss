@@ -152,7 +152,7 @@ C
               N6=N5+NRWALL
               IF(NPRW(N3) /= 0) THEN
                 IF(NSPMD > 1) THEN
-C   si proc concerne par le rgwall
+C   if processor concerned by the rgwall
                   IF(FR_WALL(ISPMD+1,N) /= 0) THEN
                     CALL SPMD_EXCH_FR6(FR_WALL(1,N),FRWL6(1,1,N),7*6)
                   ENDIF
@@ -333,7 +333,7 @@ C
               N6=N5+NRWALL
               IF(NPRW(N3) /= 0) THEN
                 IF(NSPMD > 1) THEN
-C   si proc concerne par le rgwall
+C   if processor concerned by the rgwall
                   IF(FR_WALL(ISPMD+1,N) /= 0) THEN
                     CALL SPMD_EXCH_FR6(FR_WALL(1,N),FRWL6(1,1,N),7*6)
                   ENDIF
@@ -493,12 +493,12 @@ C
       ENDIF
 C
       IF(IDTMINS==0.AND.IDTMINS_INT==0)THEN
-C   changement formulation F et XMT stockoques dans RWL et appliques debut cycle suivant
+C   change of formulation for F and XMT stored in RWL and applied at the beginning of the next cycle
          RWL(17)=(FXN+FXT)*DIVDT12
          RWL(18)=(FYN+FYT)*DIVDT12
          RWL(19)=(FZN+FZT)*DIVDT12
          RWL(20)=XMT
-C test  pour ne cummuler qu'une fois en multiprocessors dans le cas moving
+C test to accumulate only once in multiprocessor mode in the moving case
         IF(ISPMD+1 == PMAIN.OR. MSR == 0) THEN
           FSAV(1)=FSAV(1)+FXN
           FSAV(2)=FSAV(2)+FYN
@@ -515,7 +515,7 @@ C test  pour ne cummuler qu'une fois en multiprocessors dans le cas moving
         RWL(18)=RWL(18)+(FYN+FYT)*DIVDT12
         RWL(19)=RWL(19)+(FZN+FZT)*DIVDT12
         RWL(20)=RWL(20)+XMT
-C test pour ne cummuler qu'une fois en multiprocessors dans le cas moving
+C test to accumulate only once in multiprocessor mode in the moving case
         IF(ISPMD+1 == PMAIN.OR. MSR == 0) THEN
          FSAV(1)=FSAV(1)+FXN
          FSAV(2)=FSAV(2)+FYN

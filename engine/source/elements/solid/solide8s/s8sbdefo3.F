@@ -127,7 +127,7 @@ C-----------------------------------------------
           B(3,JJ+3) =  A33(I)*DN_S(J)
         ENDDO
 
-! sortir cette partie car independante du PG
+! remove this part as it is independent of the PG
         A1A1 = (X2(I)+X3(I)-X1(I)-X4(I))*FOURTH
         A1A2 = (Y2(I)+Y3(I)-Y1(I)-Y4(I))*FOURTH
         A1A3 = (Z2(I)+Z3(I)-Z1(I)-Z4(I))*FOURTH
@@ -168,7 +168,7 @@ C-----------------------------------------------
         B(4,23) = UP*(A1B2-A2B2)
         B(4,24) = UP*(A1B3-A2B3)
 
-! sortir cette partie car independante du PG
+! remove this part as it is independent of the PG
         B1A1 = (X2(I)+X6(I)-X1(I)-X5(I))*FOURTH
         B1A2 = (Y2(I)+Y6(I)-Y1(I)-Y5(I))*FOURTH
         B1A3 = (Z2(I)+Z6(I)-Z1(I)-Z5(I))*FOURTH
@@ -209,7 +209,7 @@ C-----------------------------------------------
         B(5,23)=  UP*(B1B2-B2B2)
         B(5,24)=  UP*(B1B3-B2B3)
 
-! sortir cette partie car independante du PG
+! remove this part as it is independent of the PG
         C1A1 = (X4(I)+X8(I)-X1(I)-X5(I))*FOURTH
         C1A2 = (Y4(I)+Y8(I)-Y1(I)-Y5(I))*FOURTH
         C1A3 = (Z4(I)+Z8(I)-Z1(I)-Z5(I))*FOURTH

@@ -818,10 +818,10 @@ C
 C
 C Partie Parith/ON lue en SPM dans tous les cas
 C
-C lecture directe de ADDCNE
+C direct reading of ADDCNE
         IF(IPARIT==1) THEN
           CALL READ_I_C(ELEMENT%PON%ADSKY,NUMNOD+1)
-C lecture directe de PROCNE
+C direct reading of PROCNE
           CALL READ_I_C(ELEMENT%PON%PROCNE,LCNE0)
 C lecture directe structure interface type2
           IF (I2NSNT > 0) THEN
@@ -877,7 +877,7 @@ C  ply xfem
 C
           IF(IPLYXFEM > 0) THEN
             CALL READ_I_C(ADSKY_PXFEM,NPLYXFE+1 )
-C lecture directe de PROCNE
+C direct reading of PROCNE
             CALL READ_I_C(PROCNE_PXFEM,LCNEPXFEM)
             CALL READ_I_C(IADC_PXFEM,4*EPLYXFE)
           ENDIF
@@ -893,7 +893,7 @@ C
           ENDIF
 C
         ELSEIF(IPARI0==1)THEN
-C saut de lecture
+C skip reading
           LEN = NUMNOD+1+LCNE0+(NUMNOD+1)*MIN(1,I2NSNT)+LCNI2
      +        + NISKY0+NSKYRW0+NSKYRBK0+NISKYI2+NSKYMV0+NSKYMVC0
      +        + NSKYLL0+NSKYRBM0+NSKYI18+NSKYRBE30+NSKYRBMK0
@@ -1012,7 +1012,7 @@ C----------------------------------
         CALL READ_BCS_WALL()
       ENDIF
 C----------------------------------
-C     LECTURE DES VARIABLES REELLES
+C     reading real variables
 C--------------------------------------
 C      warning to radioss developers :
 C      IF(LVARREA>LMXVREA)THEN
@@ -1224,7 +1224,7 @@ C Read DDP
        ENDIF
        NPSAV = 29
 C   ----------------------------------------------------------------------
-C     Utilise pour les checks point restart.
+C     used for checkpoint restarts.
        IF(MCHECK/=0)THEN
         CALL READ_I_C(MY_ILEN,1)
         CALL READ_I_C(MY_RLEN,1)
@@ -1744,7 +1744,7 @@ C--------------------------------------
         IF (LENSIG>0) CALL READ_DB(FXBSIG,LENSIG)
         IF (LENGRVR>0) CALL READ_DB(FXBGRVR,LENGRVR)
       ENDIF
-C Lecture des fichiers de modes et de contraintes
+C reading mode and constraint files
       INQUIRE(IOLENGTH=RCLEN) VV
 
       TLEN=4096
@@ -1851,7 +1851,7 @@ C--------------------------------------
       ELSE
         CALL READ_DB(EIGRPM,NEIG*NERPM)
       ENDIF
-C Lecture du fichier de modes additionnels
+C reading the additional modes file
       INQUIRE(IOLENGTH=RCLEN) VV
 
       CALL MY_GETPID(MY_PID)
@@ -1919,7 +1919,7 @@ C-----------------------------------------------
 C
       DO I=1,NSPROC
 C--------------------------------------
-C Lecture des parametres entiers
+C reading integer parameters
 C--------------------------------------
          N=7
          IF (IRFORM/5<=1) THEN

@@ -386,7 +386,7 @@ C utile si on revient
             TZINF  = INTBUF_TAB%VARIABLES(tzinf_index)
             GOTO 50
         ENDIF
-C mise a - de dist temporairement pour reperage dans partie frontiere
+C temporarily set dist to - for identification in the boundary part
         IF(NSPMD>1)THEN
 C mono tache
 !$OMP SINGLE

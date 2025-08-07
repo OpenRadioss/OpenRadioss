@@ -163,7 +163,7 @@ C
                 Z3=X(3,NN3)
                 Z4=X(3,NN4)
                 AREA=AF(JEL)
-C  Position de la source Q
+C  Position of source Q
                 XQ=WI(1,JN)*X1+WI(2,JN)*X2+WI(3,JN)*X3+WI(4,JN)*X4
                 YQ=WI(1,JN)*Y1+WI(2,JN)*Y2+WI(3,JN)*Y3+WI(4,JN)*Y4
                 ZQ=WI(1,JN)*Z1+WI(2,JN)*Z2+WI(3,JN)*Z3+WI(4,JN)*Z4

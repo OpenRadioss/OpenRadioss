@@ -126,13 +126,13 @@ cow51d1      END TYPE int_pointer
 C
       INTEGER NI2_FR,NRB_FR,NI2_FRS,NRB_FRS,NML,NBC_FR,NFX_FR,
      .        NRBE3_FR,NRBE3_FRS,NSPC_FR,NRBE2_FR,NRBE2_FRS
-C tableau de int de taille NSREM :noeuds secnds remotes dans l'order proc croissant
+C integer array of size NSREM: remote secondary nodes in ascending processor order
 C indiquant liste noeuds remote a recevoir du "proc main"
       INTEGER, DIMENSION(:), ALLOCATABLE :: FR_SREM
-C tableau de pointeurs IND_INT de taille NINTER :index de structure interface a FR_SREM
+C pointer array IND_INT of size NINTER: interface structure index to FR_SREM
       TYPE(int_pointer2), DIMENSION(:), ALLOCATABLE :: IND_INT
 C  51d1      TYPE(int_pointer), DIMENSION(:), ALLOCATABLE :: IND_INT
-C tableau de int SHF_INT de taille NINTER :nb de SREM des precedent interfaces
+C integer array SHF_INT of size NINTER: number of SREM from previous interfaces
       INTEGER, DIMENSION(:), ALLOCATABLE :: SHF_INT
 C tableau de int de taille NSL :noeuds secnds locales  (apres upd)
       INTEGER, DIMENSION(:), ALLOCATABLE :: ISL
@@ -144,29 +144,29 @@ C tableau de int de taille (NBINTC,NSPMD) :nb noeuds secnds locales (tempo)
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: INBSL
       INTEGER, DIMENSION(:), ALLOCATABLE :: IAD_SREM,IAD_SL
       my_real, DIMENSION(:),ALLOCATABLE :: STIFS
-C tableau de divers reels de taille (,NSREM),H_E(4,):fonction de form, 
+C miscellaneous real array of size (,NSREM),H_E(4,): shape function,
 C---N_E(3,) :direction de impact, DFI(3,) :deplacement,FFI(3,) forces.
       my_real, DIMENSION(:,:),ALLOCATABLE :: H_E,N_E,DFI,FFI
-C tableau de K_DIAG reels de taille (3,NSL) 
+C K_DIAG real array of size (3,NSL)
       my_real, DIMENSION(:,:),ALLOCATABLE :: DIAG_S
-C tableau de int de taille NI2_FR,NRB_FR :noeuds front avec kine------
+C integer array of size NI2_FR,NRB_FR: front nodes with kinematic------
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: IFRSR,IFRS2,IFRS4
       INTEGER, DIMENSION(:), ALLOCATABLE :: IFRS3
 C tableau de int IDDL de taille 3*(NSL,NML )6*(NRB_FR ,4*NI2_FR)
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: IDDSL,IDDML,IDDMR
       INTEGER, DIMENSION(:,:,:), ALLOCATABLE :: IDDMI2,IDDMI3
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: IDDMR2
-C tableau de int de taille NI2_FRS,NRB_FRS :la part de NSL------
+C integer array of size NI2_FRS,NRB_FRS: the part of NSL------
       INTEGER, DIMENSION(:), ALLOCATABLE :: IFRSR_S,IFRS2_S,IFRS3_S
       INTEGER, DIMENSION(:), ALLOCATABLE :: IFRS4_S
-C tableau de K_DIAG reels de taille (6,IFRSRS) 
+C K_DIAG real array of size (6,IFRSRS)
       my_real, DIMENSION(:,:),ALLOCATABLE :: DIAG_MR,DIAG_MR2
-C tableau de K_DIAG reels de taille (6,4,NI2_FRS) 
+C K_DIAG real array of size (6,4,NI2_FRS)
       my_real, DIMENSION(:,:,:),ALLOCATABLE :: DIAG_M2,DIAG_M3
 C de taille (3,NBC_FR),(2,NFX_FR):imposed velocity
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: IBC_FR,IFX_FR
       INTEGER, DIMENSION(:), ALLOCATABLE :: ISPC_FR
-C int de taille (NRW_FR)
+C integer of size (NRW_FR)
       INTEGER NRW_FR
       INTEGER, DIMENSION(:), ALLOCATABLE :: IRW_FR
 C quand INTP_D>0 la matrice de rigidite M.C.R.S.-----

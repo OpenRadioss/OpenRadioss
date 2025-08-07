@@ -89,8 +89,8 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
 C=======================================================================
-C     tag des boites contenant des facettes
-C     et creation des candidats
+C     tag of boxes containing facets
+C     and creation of candidates
 C=======================================================================
 
       LOC_PROC = ISPMD + 1
@@ -99,9 +99,9 @@ C=======================================================================
       NBY = LRVOXEL
       NBZ = LRVOXEL
 
-      ! Pour chercher les facettes candidats distante,
-      ! On regarde dans l intersection du domaine fluide local avec les domaines lagrangien remote
-      ! Cest ce domaine que l on voxelise pour rechercher les facettes remotes
+      ! to search for distant candidate facets,
+      ! we look at the intersection of the local fluid domain with the remote lagrangian domains
+      ! this is the domain that we voxelize to search for the remote facets
       XMAXB = MIN ( BMINMA_FLU_L(1), BMINMA_LAG_R(1) )
       YMAXB = MIN ( BMINMA_FLU_L(2), BMINMA_LAG_R(2) )
       ZMAXB = MIN ( BMINMA_FLU_L(3), BMINMA_LAG_R(3) )

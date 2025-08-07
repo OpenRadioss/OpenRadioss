@@ -82,7 +82,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     1ere etape - envoyer au proc 0 un tableau avec nombre
 C                  noeuds secnds locaux par RBE2 a envoyer
-C                  et preparation du buffer d envoi
+C                  and preparation of the send buffer
 C                  (taille)
       NERBE2T = 0
       SNRBE2 = 0
@@ -102,7 +102,7 @@ C                  (taille)
 
       ENDDO
 
-C Envoi vers le proc 0 du tableau des tailles
+C Sending to proc 0 of the size table
 
       IF (ISPMD == 0) THEN
 C Proc zero reception des tailles
@@ -126,7 +126,7 @@ C Procs autres envoi
       ENDIF
 
 C --------------------------------------------------------------
-C Envoi vers le proc 0 des noeuds des RBE2 &   criture sur disque
+C Sending to proc 0 of the nodes of RBE2 & writing to disk
 C --------------------------------------------------------------
       IF (ISPMD /= 0) THEN
 C ------------------------
@@ -152,7 +152,7 @@ C ------------------------
          ENDIF
          DEALLOCATE(SENDBUF)
 
-C Envoi des noeuds secnds
+C Sending of secondary nodes
         MAINNODS = 0
         DO I=1,NRBE2
           MN = IRBE2(3,I)
@@ -170,7 +170,7 @@ C Envoi des noeuds secnds
 C --------------------------------------------------------------------
 C PROC 0
 C --------------------------------------------------------------------
-C P0RBE2BUF tableau de reception (tableau de reception = LRBE2 Global)
+C P0RBE2BUF reception table (reception table = LRBE2 Global)
 C IADRBE2 pointeurs vers P0RBE2BUF global
          ALLOCATE(IADRBE2(NRBE2G+1))
          ALLOCATE(P0RBE2BUF(NERBE2Y))
@@ -185,7 +185,7 @@ C preparation IADRBE2
            IADRBE2(I+1)=IADRBE2(I)+SNRBE2
          ENDDO
 
-C preparation P0RECRBE2 pour le proc0
+C preparation P0RECRBE2 for proc0
          DO I=1,NRBE2G
               PGLOBRBE2(I)=IADRBE2(I)
          ENDDO
@@ -206,9 +206,9 @@ C preparation P0RECRBE2 pour le proc0
            PGLOBRBE2(NGRBE)=PGLOBRBE2(NGRBE) + SNRBE2
          ENDDO
 
-C Reception des RBE2 des autres procs
+C Reception of RBE2 from other procs
          DO P=2,NSPMD
-C Taille du buffer de reception
+C Size of the reception buffer
            SIZRBE2 = 0
            DO I=1,NRBE2G
              SIZRBE2 = SIZRBE2 + P0RECRBE2(I,P)
@@ -232,7 +232,7 @@ C Taille du buffer de reception
              DEALLOCATE(RECBUF)
            ENDIF
          ENDDO
-C  Reception des Noeuds mains
+C  Reception of main Nodes
          MAINNODS=0
          DO I=1,NRBE2
            MN = IRBE2(3,I)
@@ -243,7 +243,7 @@ C  Reception des Noeuds mains
          ENDDO
          CALL SPMD_GLOB_ISUM9(MAINNODS,NRBE2G)
 
-C Ecriture sur disque
+C Writing to disk
          DO I=1,NRBE2G
            NSN = IADRBE2(I+1) - IADRBE2(I)
            IADG =IADRBE2(I)

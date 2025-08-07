@@ -32,7 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      1   A    ,AR     ,MS    ,IN     ,STIFN,
      2   STIFR,FR_M   ,IAD_M ,LCOMM  ,ISIZE,
      3   IROT  )
-C realise le cumul des acc et masses aux noeuds main d'Rbe3
+C performs the accumulation of accelerations and masses at the main nodes of rbe3
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

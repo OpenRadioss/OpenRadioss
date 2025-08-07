@@ -1143,7 +1143,7 @@ C
 !||    spmd_mod         ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
       SUBROUTINE SPMD_ALL_DMAX(V,LEN)
-C max tableau V de taille LEN de type my_real
+C max array V of size LEN of type my_real
       USE SPMD_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -2078,7 +2078,7 @@ C         plus proche voisin en amont de l'outlet => IPPV.
             !Indice IPPV negatif (global)
             IPPVR=IPPVR+1
             TMP_IPPV(1,IPPVR) = -IPPV
-            ! recherche sur quel proc il est
+            ! searching on which proc it is
             NBIS = 0
             DO P=1,NSPMD
              IF(P/=LOC_PROC) THEN
@@ -2173,7 +2173,7 @@ C
           END IF
         END DO
 C
-C Envoi  sur cellules 
+C Sending on cells
 C
         IDEB = 0
         IDEB2 = 0
@@ -2457,8 +2457,8 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
 C=======================================================================
-C     tag des boites contenant des facettes
-C     et creation des candidats
+C     tag of the boxes containing facets
+C     and creation of candidates
 C=======================================================================
 
       ALPHA_MARGE = SQRT(ONE +SPASORT)
@@ -2484,7 +2484,7 @@ c      MARGE = TZINF-GAP
 c a revoir !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
          AAA = SPBUF(1,J)* ALPHA_MARGE
 
-c        indice des voxels occupes par la facette
+c        index of the voxels occupied by the facet
 
          IX1=INT(NBX*(X(1,NN)-AAA-XMINB)/(XMAXB-XMINB))
          IY1=INT(NBY*(X(2,NN)-AAA-YMINB)/(YMAXB-YMINB))

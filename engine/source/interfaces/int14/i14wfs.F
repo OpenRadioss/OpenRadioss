@@ -69,7 +69,7 @@ C-----------------------------------------------
          NTY=IPARI(7,N)
          IF (NTY/=14.AND.NTY/=15) GOTO 100
 C        Interface Stifnesses at nodes ...
-C        J11+8 : Sauve DE pour calcul Travail des Forces Secnds.
+C        j11+8: saves de for computing work of secondary forces
          DE=INTBUF_TAB(N)%VARIABLES(9)
          FSAV(7,N)=FSAV(7,N)+DE*DT2*HALF
 C
@@ -78,7 +78,7 @@ C        Warning : DE doit etre stocke Surface / Surface, dans l'Interface
 C                  actuellement, NRTM == 1.
          KSURF=INTBUF_TAB(N)%KSURF(1)
          IF (IGRSURF(KSURF)%TYPE==100) THEN
-C          Travail des interfaces avec Madymo.
+C          work of interfaces with madymo
            WFEXT=WFEXT+DE*DT2*HALF
          ENDIF
 C-----------------------------------------------

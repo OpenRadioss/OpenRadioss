@@ -76,7 +76,7 @@ C MPI variables
 C-----------------------------------------------
 C     1ere etape - envoyer au proc 0 un tableau avec nombre
 C                  noeuds secnds locaux par RBE3 a envoyer
-C                  et preparation du buffer d envoi
+C                  and preparation of the send buffer
 C                  (taille)
       NERBE3T = 0
       SNRBE3 = 0
@@ -96,7 +96,7 @@ C                  (taille)
 
       ENDDO
 
-C Envoi vers le proc 0 du tableau des tailles
+C sending the size array to processor 0
 
       IF (ISPMD == 0) THEN
 C Proc zero reception des tailles
@@ -120,7 +120,7 @@ C Procs autres envoi
       ENDIF
 
 C --------------------------------------------------------------
-C Envoi vers le proc 0 des noeuds des RBE3 & ecriture sur disque
+C sending the rbe3 nodes to processor 0 and writing to disk
 C --------------------------------------------------------------
       IF (ISPMD /= 0) THEN
 C ------------------------
@@ -146,7 +146,7 @@ C ------------------------
          ENDIF
          DEALLOCATE(SENDBUF)
 
-C Envoi des noeuds secnds
+C sending secondary nodes
         SECNDNODS = 0
         DO I=1,NRBE3
           MN = IRBE3(3,I)
@@ -159,7 +159,7 @@ C Envoi des noeuds secnds
         ENDDO
         CALL SPMD_GLOB_ISUM9(SECNDNODS,NRBE3G)
 
-C Envoi des Ids
+C sending ids
         ID_RBE3 = 0
         DO I=1,NRBE3
           ID = IRBE3(2,I)
@@ -177,7 +177,7 @@ C Envoi des Ids
 C --------------------------------------------------------------------
 C PROC 0
 C --------------------------------------------------------------------
-C P0RBE3BUF tableau de reception (tableau de reception = LRBE3 Global)
+C p0rbe3buf receive array (receive array = lrbe3 global)
 C IADRBE3 pointeurs vers P0RBE3BUF global
          ALLOCATE(IADRBE3(NRBE3G+1))
          ALLOCATE(P0RBE3BUF(NERBE3Y))
@@ -192,7 +192,7 @@ C preparation IADRBE3
            IADRBE3(I+1)=IADRBE3(I)+SNRBE3
          ENDDO
 
-C preparation P0RECRBE3 pour le proc0
+C preparation of p0recrbe3 for processor 0
          DO I=1,NRBE3G
               PGLOBRBE3(I)=IADRBE3(I)
          ENDDO
@@ -214,9 +214,9 @@ C preparation P0RECRBE3 pour le proc0
          ENDDO
 
 
-C Reception des RBE3 des autres procs
+C receiving rbe3 from other processors
          DO P=2,NSPMD
-C Taille du buffer de reception
+C size of the receive buffer
            SIZRBE3 = 0
            DO I=1,NRBE3G
              SIZRBE3 = SIZRBE3 + P0RECRBE3(I,P)
@@ -240,7 +240,7 @@ C Taille du buffer de reception
              DEALLOCATE(RECBUF)
            ENDIF
          ENDDO
-C  Reception des Noeuds secnds
+C  receiving secondary nodes
          SECNDNODS=0
          DO I=1,NRBE3
            MN = IRBE3(3,I)
@@ -251,7 +251,7 @@ C  Reception des Noeuds secnds
          ENDDO
          CALL SPMD_GLOB_ISUM9(SECNDNODS,NRBE3G)
 
-C Reception des Ids
+C receiving ids
         ID_RBE3 = 0
         DO I=1,NRBE3
           ID = IRBE3(2,I)

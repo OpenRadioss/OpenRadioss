@@ -132,7 +132,7 @@ c
      B   R23,       R31,       R32,       R33,
      C   JCVT,      JSPH)
 C----------------------------------------
-C     CRACKS DANS REPERE GLOBAL POUR ANIM
+C     cracks in the global frame for animation
 C----------------------------------------
       IF (PM(56,MAT(1)) == ONE) 
      .  CALL M24ANIM(LBUF%DAM,LBUF%ANG,LBUF%DGLO,NEL,

@@ -62,7 +62,7 @@ C-----------------------------------------------
       CHARACTER(LEN=NCHARTITLE) :: TITR
       CHARACTER MESS*40
       DATA MESS/'DRAPE DEFINITION                        '/
-c      REAL ou REAL*8
+c      REAL or REAL*8
       my_real
      .    BID
 C======================================================================|
@@ -1116,7 +1116,7 @@ C---
       ! End reading /DRAPE
       !====================================================================================
 C-------------------------------------
-C Recherche des ID doubles (parmis les options /DRAPE)
+C Search for double IDs (among /DRAPE options)
 C-------------------------------------
       CALL UDOUBLE(DRAPE_ID,1,NDRAPE,MESS,0,BID)
 C---

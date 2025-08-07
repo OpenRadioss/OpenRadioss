@@ -152,26 +152,26 @@ C-------------------------
             IGRPART(IGS)%TITLE=TITR
 C
             IF(KEY(1:6) == 'GRPART')THEN
-C             groupes de groupes
+C             groups of groups
               IGRPART(IGS)%NENTITY=-1
               IGRPART(IGS)%GRPGRP=2
               IT0=IT0+1
             ELSEIF(KEY(1:4) == 'PART' .OR. KEY(1:6) == 'SUBSET' .OR. KEY(1:3) == 'MAT' .OR. KEY(1:4) == 'PROP') THEN
-C             groupe de SUBSET PART MAT OU PROP
+C             group of SUBSET PART MAT OR PROP
               IT2=IT2+1
               IF (FLAG == 0) THEN
                 IGRPART(IGS)%NENTITY=0
                 IGRPART(IGS)%GRPGRP=3
               ENDIF
             ELSEIF(KEY(1:4) == 'GENE' )THEN
-C            groupe d'elements dans un box
+C            group of elements in a box
              IT3=IT3+1
              IF (FLAG == 0) THEN
                IGRPART(IGS)%NENTITY=0
                IGRPART(IGS)%GRPGRP=4
              ENDIF
             ELSEIF(KEY(1:6) == 'SUBMOD')THEN
-C             groupe de parts dans un submodel
+C             group of parts in a submodel
               IT4=IT4+1
               IF (FLAG  == 0) THEN
                 IGRPART(IGS)%NENTITY=0
@@ -189,7 +189,7 @@ C
       ENDDO
 
 C-------------------------------------
-C Recherche des ID doubles
+C Search for double IDs
 C-------------------------------------
       IF (FLAG == 0) THEN
         DO IGS=1,NGRPRT
@@ -280,7 +280,7 @@ C-------------------------
       ENDIF
       
 C-------------------------
-C groupes de SUBMODELS
+C groups of SUBMODELS
 C-------------------------
       IF (IT4 > 0) THEN   
         CALL HM_OPTION_START('/GRPART')                                               

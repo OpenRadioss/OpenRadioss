@@ -23,7 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
  
 c TWO SOLUTIONS : 
 C - mettre l'user ID dans ITHBUF(J)
-C - rajouter CLUSTER(ILOC)%ID_GLOB dans le cluster (*)
+C add CLUSTER(ILOC)%ID_GLOB in the cluster (*)
 !||====================================================================
 !||    thcluster         ../engine/source/output/th/thcluster.F
 !||--- called by ------------------------------------------------------

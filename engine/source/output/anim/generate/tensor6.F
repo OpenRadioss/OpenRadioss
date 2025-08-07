@@ -3255,7 +3255,7 @@ c-----------
               ENDIF
              ENDDO
           ENDIF
-         ISORTHG = ISORTH   ! pour precaution
+         ISORTHG = ISORTH   ! for precaution
 C-----------------------------------------------
         ELSEIF (ISPH3D == 1.AND.ITY == 51) THEN
 C-----------------------------------------------

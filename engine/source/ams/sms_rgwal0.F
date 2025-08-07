@@ -348,7 +348,7 @@ C
               N6=N5+NRWALL
               IF(NPRW(N3) /= 0) THEN
                 IF(NSPMD > 1) THEN
-C   si proc concerne par le rgwall
+C   if proc concerned by the rgwall
                   IF(FR_WALL(ISPMD+1,N)/=0) THEN
                     CALL SPMD_EXCH_FR6(FR_WALL(1,N),FRWL6(1,1,N),7*6)
                   ENDIF
@@ -419,12 +419,12 @@ C-----------------------------------------------
      .      FRWL6(6,4)+FRWL6(6,5)+FRWL6(6,6)
       FZT = FRWL6(7,1)+FRWL6(7,2)+FRWL6(7,3)+
      .      FRWL6(7,4)+FRWL6(7,5)+FRWL6(7,6)
-C F et XMT stockoques dans RWL et appliques debut cycle suivant
+C F and XMT stored in RWL and applied at the beginning of the following cycle
       RWL(17)=FXN+FXT
       RWL(18)=FYN+FYT
       RWL(19)=FZN+FZT
       RWL(20)=XMT
-C test pour ne cummuler qu'une fois en multiprocessors dans le cas moving
+C test to accumulate only once in multiprocessors in the moving case
       IF(ISPMD+1 == PMAIN.OR. MSR == 0) THEN
         DT15=HALF*DT1
         DT25=HALF*DT2

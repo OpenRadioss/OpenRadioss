@@ -326,7 +326,7 @@ C Single region
         SIZE_T(N)=ZERO  
         DELTA_PMAX_DGAP(N)=ZERO    
       END DO
-      ! idem pour interface 21
+      ! same for interface 21
       DO KK=1,NINTSTAMP
         N = INTSTAMP(KK)%NOINTER
         XSLV(1,N)= -EP30
@@ -435,7 +435,7 @@ C       Cyle 1 : update secondary and main nodal masses
           ENDDO   
        ENDIF  
 C
-C Critere de retri interface
+C interface resorting criterion
 C
       IF(ITASK==0)CALL STARTIME(TIMERS,120)
       DO KK=1,NBINTC
@@ -642,7 +642,7 @@ C
         CALL STARTIME(TIMERS,16)
        ENDIF 
 C
-C Communication critere de tri
+C communication sorting criterion
 C
       CALL INTCRIT(TIMERS,
      1    ERRORS, IPARI   ,NEWFRONT ,ISENDTO  ,NSENSOR  , 
@@ -653,7 +653,7 @@ C
 
 
 C
-C (barriere par interface)
+C (barrier per interface)
       IF(NINTSTAMP/=0)THEN
         CALL I21_ICRIT(
      1    INTBUF_TAB       ,IPARI   ,DT2T ,NELTST ,NSENSOR ,
@@ -1250,7 +1250,7 @@ C-----------------------------------------------------------------------
         ENDDO     
 C=======================================================================
 C
-C       Calcul // des normales
+C       parallel calculation of normals
 C
 C       il FAUT garder une barriere avant i25main_norm !!!
         CALL MY_BARRIER

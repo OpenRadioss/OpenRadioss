@@ -501,7 +501,7 @@ c         projection radiale
 C
         ELSEIF (IPLAS(1) == 1) THEN    ! implicit scheme, 3 Newton iterations
 C-------------------------
-C         CRITERE DE VON MISES
+C         VON MISES CRITERION
 C-------------------------
           DO I=1,NEL
             H(I) = MAX(ZERO,H(I))
@@ -593,7 +593,7 @@ C-----       for kin hardening
 c-------------------------------------------
         ELSEIF (IPLAS(1) == 2) THEN
 c-------------------------------------------
-C         CRITERE DE VON MISES
+C         VON MISES CRITERION
 C-------------------------
           DO I=1,NEL
             H(I) = MAX(ZERO,H(I))
@@ -618,7 +618,7 @@ C-------------------------
 C
           IF (NINDX > 0) THEN
 C-------------
-C           PROJ NORMALE AU CRITERE AVEC CALCUL APPROCHE DE LA NORMALE + RETOUR RADIAL
+C           NORMAL PROJECTION ON THE CRITERION WITH APPROXIMATE NORMAL CALCULATION + RADIAL RETURN
 C-------------
             NU3 = ONE-NU_MNU
 #include "vectorize.inc"
@@ -831,7 +831,7 @@ c-------------------------------
 C-------------------
 C       PROJECTION
 C-------------------
-C       CRITERE DE VON MISES
+C       VON MISES CRITERION
 C-------------------------
         DO I=1,NEL
           H(I) = MAX(ZERO,H(I))

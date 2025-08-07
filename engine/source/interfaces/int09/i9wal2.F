@@ -94,7 +94,7 @@ c
       DATA IPERM/ 2, 1/,JPERM/ 1, -1/
 C-----------------------------------------------
 C
-C Phase de Preparation pour SPMD
+C preparation phase for spmd
 C
       IF(INTTH/=ZERO) THEN
        IF(ISPMD==0) THEN
@@ -193,7 +193,7 @@ C
 C
        IF (NSPMD > 1) THEN
 C
-C gather des valeurs
+C gather values
 C
                  CALL SPMD_GLOB_DSUM9(COMAREA,ILEN)
                  CALL SPMD_GLOB_DSUM9(COMSTF,ILEN)
@@ -205,7 +205,7 @@ C
 C   partie noeud sur P0 uniquement
               IF(ISPMD/=0) GOTO 900
        END IF
-C   interface traitee par p0
+C   interface processed by p0
       ELSE
        IF(ISPMD/=0) RETURN
       ENDIF
@@ -226,7 +226,7 @@ C
         H(1) = HALF*(ONE - CRST(1,II))
         H(2) = HALF*(ONE + CRST(1,II))
 C---------------------------------
-C       VITESSE DE MAILLAGE
+C       mesh velocity
 C---------------------------------
         VMY=ZERO
         VMZ=ZERO
@@ -283,7 +283,7 @@ C
         NNY = ZERO
         NNZ = ZERO
 C------------------------------------------------------
-C       BOUCLE SUR LES FACETTES CONNECTEES AU NOEUD II
+C       loop over facets connected to node ii
 C------------------------------------------------------
         DO 300 LL=LL1,LL2
          LG=LMSR(LL)
@@ -292,7 +292,7 @@ C------------------------------------------------------
  200     IF(IRECTS(KK,LG)==II) GO TO 250
  250     CONTINUE
 C------------------------------------------------------
-C         CALCUL DE LA NORMALE AVEC UPWIND SUR L'AMONT
+C         calculation of the normal with upwind on the upstream side
 C------------------------------------------------------
           K1 = IPERM(KK)
           I1 = NSV(IRECTS(K1,LG))
@@ -309,7 +309,7 @@ C          FAC = P / MAX(EM30,SQRT(NY**2+NZ**2))
           NNY = NNY + NY*FAC
           NNZ = NNZ + NZ*FAC
 C-------------------------------------
-C       TENSION DE SURFACE
+C       surface tension
 C-------------------------------------
           STENSY = STENS * TY / TTT
           STENSZ = STENS * TZ / TTT
@@ -320,7 +320,7 @@ C-------------------------------------
         NNY = NNY/FAC
         NNZ = NNZ/FAC
 C---------------------------------
-C       BCS DE GRILLE
+C       grid boundary conditions
 C---------------------------------
         IF(ICODE(N)/=0)THEN
 C---------------------------------
@@ -361,7 +361,7 @@ C---------------------------------
 C
   800 CONTINUE
 C
-C Phase de Finalisation pour SPMD
+C finalization phase for spmd
 C
   900 CONTINUE
       IF(INTTH/=ZERO) THEN

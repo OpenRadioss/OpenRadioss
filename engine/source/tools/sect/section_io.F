@@ -362,7 +362,7 @@ C-----------------------------------------------
         ENDDO
       ENDIF
 C-----------------------------------------------
-C READ FILE dans l ordre des sections lues sur le fichier
+C READ FILE in the order of the sections read from the file
 C  T = TT + DT2
 C-----------------------------------------------
        IF(NSPMD==1) THEN
@@ -377,7 +377,7 @@ C-----------------------------------------------
            END DO
          END IF
 C
-C SPMD SPECIFIC : MAJ MODIF NSTRF et SECBUF dans SECT_READP
+C SPMD SPECIFIC: UPDATE MODIFICATION NSTRF and SECBUF in SECT_READP
 C
          CALL SECTION_READP(TT+DT2,NSTRF,SECBUF,NNODT,IAD_CUT,FR_CUT)
        END IF

@@ -1733,7 +1733,7 @@ C----- rbe2 main------
       ENDDO
 C-----will be stored in ICOKM(NKMAX,*)    
       NKINM=NKINE
-C-----pour IND_GLOB_K, passer NKINM par include ou module, modifier dans IND_KINE_    
+C-----for IND_GLOB_K, pass NKINM via include or module, modify in IND_KINE_-----
 C      K=0
 C------interface 2-------------- 
       DO I=1,NINT2
@@ -2290,7 +2290,7 @@ C+++++++Knsns -> Kmns
           ENDIF 
          ENDIF 
        ENDDO 
-C+++estimation de couplage ----
+C+++coupling estimation ----
        NROW(M)=NROW(M)+1
       ENDDO
 C------RBE3-------------- 
@@ -2381,7 +2381,7 @@ C----- rigid body ------
          END IF !IF (NDOF(NS)>0)
        ENDDO 
        ENDIF 
-C+++estimation de couplage ----
+C+++coupling estimation ----
        NROW(M)=NROW(M)+NSN
       ENDDO
 C
@@ -3549,7 +3549,7 @@ C------d'abord frontieres avec precedent procs j<i
          ENDIF
         ENDDO
        ENDDO
-C------frontieres avec procs derierre a la fin j>i
+C------boundaries with procs behind at the end j>i------
        DO IP =ISPMD+2,NSPMD
         DO M=IAD_ELEM(1,IP),IAD_ELEM(1,IP+1)-1
          N=FR_ELEM(M)
@@ -3789,7 +3789,7 @@ C     NSC(NRBYAC):nombre de "secnd line": ISIJ(2,NSC,NRBYAC)--
 C     nrowk(NKINE), icok size: NNMAX*(NKINE-NRBYAC)+NKMAX*NRBYAC:icok,icokm
 C------eventuellment actualiser NDOF due au OFF d'element-
 C-----1. calcul IADK,JDIK,par each NNSIZ using INLOC.
-C-----IRK=0, calcul des tableux kinematiques est dispense-----
+C-----IRK=0, calculation of kinematic tables is skipped-----
       IF (NSPMD>1) THEN
        DO N = 1 , NUMNOD
          ILOC(N)=0
@@ -4750,7 +4750,7 @@ C
         IDDL(N)=0
        ENDIF
       ENDDO
-C-----couplage avec cond. kine ------
+C-----coupling with kinematic conditions ------
       N_IMPM=N_IMP
       CALL DIM_KINE_I(
      1    NUM_IMP   ,NS_IMP    ,NE_IMP    ,NPBY      ,LPBY      ,
@@ -4874,7 +4874,7 @@ C-----------------------------------------------
      .        NTY,NL,NJ,NIN,LENK,IAD,ILOC(N_IMPN+N_IMPM),
      .        NSN,NRTS
 C-----------------------------------------------
-C------ILOCI est ILOC dans IND_GLOB_K -------------- 
+C------ILOCI is ILOC in IND_GLOB_K --------------
 C
       IKP=IKPAT
       NDOFI=3

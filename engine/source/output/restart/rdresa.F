@@ -399,7 +399,7 @@ C Rajout numnod pour index machine vectorielle
         ELSE
            SADDCNI2 = 0
         ENDIF
-C  LCNI2 tableau de connectivite
+C  LCNI2 connectivity array
         SPROCNI2 = LCNI2
         SIADSDP  = NSPMD+1
         SIADRCP  = NSPMD+1
@@ -438,7 +438,7 @@ C
         ELSE
           SDMSPH = 0
         END IF
-C   j ai un doute sur SVISCN - et du flag KDTINT
+C   i have a doubt about SVISCN - and the KDTINT flag
         SVISCN = NUMNOD*NTHREAD 
         SSTIFR = NUMNOD*IRODDL*NTHREAD
         SPARTSAV = NPSAV*(NPART+NTHPART)*NTHREAD
@@ -558,7 +558,7 @@ C
         M16STAK = MAX(M16STAK,(10*NIPMAX+15*NPE+3*NIPMAX*NPE)*MVSIZ)
       ENDIF
       NPSAV = NPSAV_OLD
-C     NPSAV remis a la bonne valeur dans rdresb
+C     NPSAV reset to the correct value in rdresb
       IF(NUMELS8A>0)THEN
         NIPMAX = 729
         M16STAK = MAX(M16STAK,12*NIPMAX*MVSIZ)

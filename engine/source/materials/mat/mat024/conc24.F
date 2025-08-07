@@ -147,7 +147,7 @@ c
 c------
 C BETON
 c------
-C     1 - EVOLUTION DU DOMMAGE ET PREVISION ELASTIQUE
+C     1 - evolution of damage and elastic prediction
 c------
       CALL ELAS24(NEL  ,PM   ,
      .            CDAM ,SIGC ,DAM  ,ANG  ,EPS_F,CRAK ,
@@ -156,7 +156,7 @@ c------
      .            S01  ,S02  ,S03  ,S04  ,S05  ,S06  ,
      .            SCAL1,SCAL2,SCAL3)
 c------
-C     2 - EVALUATION DU CRITERE
+C     2 - evaluation of the criterion
 c------
       CALL CRIT24(NEL,PM,SIGC,VK0,VK,OFF,
      .            ROB,NGL,SEQ,
@@ -165,7 +165,7 @@ c------
      .            SCAL1,SCAL2,SCAL3,SCLE1,SCLE2,SCLE3,
      .            SM,DSM)
 c------
-C     3 - ELASTIQUE, ENDOMAGE ET/OU PLASTIQUE
+C     3 - elastic, damage and/or plastic
 c------
       I1 = 0
       I2 = 0
@@ -255,7 +255,7 @@ c-----
       DAMSUM(1:NEL) = DAM(1:NEL,1) + DAM(1:NEL,2) + DAM(1:NEL,3)
 c-----
 C . . . . . . . . . . . . . .
-C     CALCUL DU OFF
+C     calculation of off
 C . . . . . . . . . . . . .
       DO I=1,NEL
         IF(OFF(I) < EM01) OFF(I)=ZERO
@@ -311,7 +311,7 @@ c-----------------------
 c
       CALL UDAM24N(SIG,ANG,NBDAMA,DAMAI,NEL)
 c
-c     ADDITION DES FORCES ARMATURES ET RETOUR REPERE GLOBAL
+c     addition of reinforcement forces and return to global frame
       IF (ARMA > ZERO) THEN
         DO I=1,NEL
           SIG(I,1) = SIG(I,1) * (ONE - ARM1(I)) + ARM1(I)*SIGA(I,1)

@@ -163,7 +163,7 @@ C------
       ENDDO
 
 C-----------------------------------------------
-C Comm D et A sur cellules remotes
+C Comm D and A on remote cells
 C-----------------------------------------------
       IF(NSPMD>1)THEN
           ALLOCATE(SPH_WORK%ASPHR(3,NSPHR))

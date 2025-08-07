@@ -49,8 +49,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------------------------------------
 C    ZENG 15/07/97
 C    N,M SONT REMPLACES PAR N/H,M/H^2
-C    LES DIFFERENTES OPTIONS SONT SUPRIMEES 
-C    IL NE RESTE QUE : COUPLAGE M-N AVEC R (GAMA DANS LE PROGRAMME)VARIABLE
+C    THE DIFFERENT OPTIONS ARE REMOVED
+C    ONLY REMAINS: M-N COUPLING WITH R (GAMMA IN THE PROGRAM) VARIABLE
 C    MODIF POUVANT ETRE ENVISAGE: M(X) DONNE PAR USER -> CALCULER R
 C-----------------------------------------------------------------------------
 C   I M P L I C I T   T Y P E S
@@ -543,11 +543,11 @@ C
       ELSEIF(CODVERS<44)THEN
 C     IF(CODVERS<44.AND.IPLA==1) THEN
 C-------------------------
-C     CRITERE DE VON MISES
+C     von mises criterion
 C-------------------------
       DO  I=1,NEL
 C-------------------------------------------------------------------------
-C     GAMA (L'INVERSE DE GAMA DANS LA FORMULE) A ETE PRIS A 2/3 PAR DEFAUT
+C     GAMMA (THE INVERSE OF GAMMA IN THE FORMULA) HAS BEEN SET TO 2/3 BY DEFAULT
 C-------------------------------------------------------------------------
        C1 = PLA(I)*E(I)     
        GAMA(I) = THREE_HALF*(C1+YLD(I))/(THREE_HALF*C1+YLD(I)) 
@@ -601,7 +601,7 @@ C---------------------------
         ETSE(I)= H(I)/(H(I)+E(I)) 
       ENDDO
 C-------------------------------
-C     TIENT COMPTE DU COUPLAGE
+C     TAKES COUPLING INTO ACCOUNT
 C-------------------------------
       DO N=1,NMAX
 #include "vectorize.inc"
@@ -730,12 +730,12 @@ C-------------------------
 C     ITERATIVE
 C-------------------------
 C-------------------------
-C     CRITERE DE VON MISES
+C     von mises criterion
 C-------------------------
       DO  I=1,NEL
 C-------------------------------------------------------------------------
-C     GAMA (L'INVERSE DE GAMA DANS LA FORMULE) 
-C C     GAMA (L'INVERSE DE GAMA DANS LA FORMULE) A ETE PRIS A 2/3 PAR DEFAUT
+C     GAMMA (THE INVERSE OF GAMMA IN THE FORMULA)
+C C     GAMMA (THE INVERSE OF GAMMA IN THE FORMULA) HAS BEEN SET TO 2/3 BY DEFAULT
 C-------------------------------------------------------------------------
        C1 = PLA(I)*E(I)
        CCC=EXP(-TWOP6667*C1/YLD(I))
@@ -793,7 +793,7 @@ C---------------------------
         ETSE(I)= H(I)/(H(I)+E(I))
       ENDDO
 C-------------------------------
-C     TIENT COMPTE DU COUPLAGE
+C     TAKES COUPLING INTO ACCOUNT
 C-------------------------------
       DO N=1,NMAX
 #include "vectorize.inc"

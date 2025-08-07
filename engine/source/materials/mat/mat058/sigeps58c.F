@@ -313,7 +313,7 @@ c
           CVIST(I) = SQRT(MASS*KFT0)*DTINV*THIRD
         ENDDO
 
-C---  integration des deformations
+C--- integration of deformations
 #include "vectorize.inc"
         DO  J=1,NINDX
           I=INDEX(J)
@@ -358,7 +358,7 @@ c---      uncoupled model  (compression of fiber)
               FC = YFAC(1)*FINTER(KFUNC(1),DCC,NPF,TF,FPC)
               FPC = FPC *YFAC(1)
               KC = FPC
-              KFC = FLEX1*FPC*HC0/DC0  ! rigidite de flexion
+              KFC = FLEX1*FPC*HC0/DC0  ! bending stiffness
               IF(KFC == ZERO)KFC=KFC0
               FPC = FPC*HDC
             ELSEIF (DCC >= CCL ) THEN 
@@ -617,7 +617,7 @@ c
         YT(I)    = UVAR(I,8)  
         TFOLD(I) = UVAR(I,9)  
        ENDDO
-C---  integration des deformations
+C--- integration of deformations
 #include "vectorize.inc"
       DO  J=1,NINDX
         I=INDEX(J)

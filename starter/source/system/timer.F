@@ -27,7 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- calls      -----------------------------------------------------
 !||====================================================================
       SUBROUTINE INITIME()
-C     initialisation des timers
+C     TIMER INITIALIZATION
 C     timer                       signification
 C
 C     1                           translator
@@ -71,7 +71,7 @@ C-----------------------------------------------
           REALTIME(J,I) = ZERO
         ENDDO 
       ENDDO
-      CALL SYSTEM_CLOCK(CLOCK0)   ! recuperation du temps de debut dans clock0
+      CCALL SYSTEM_CLOCK(CLOCK0)   ! GETTING START TIME IN CLOCK0
       ELAPSED = ZERO  ! initialisation a zero de l'elapsed time
 
 #ifdef _OPENMP
@@ -409,7 +409,7 @@ C-----------------------------------------------
         ELAPSED = ELAPSED + SECS
 #endif
 
-        CLOCK0 = CLOCK1              ! recuperation du temps courant dans clock0
+        CCLOCK0 = CLOCK1              ! GETTING CURRENT TIME IN CLOCK0
         ETIME = ELAPSED
 
         RETURN

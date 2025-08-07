@@ -6057,7 +6057,7 @@ C
       END DO
       KNOR2MSR(1)=0
 C
-C Construction de la matrice Nod -> Shell elt
+C Construction of the Nod -> Shell elt matrix
 C
       DO I=1,NRTM
         IF(INTERCEP%P(I)==PROC+1)THEN

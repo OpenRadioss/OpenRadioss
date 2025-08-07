@@ -70,7 +70,7 @@ C     REAL
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
       REAL R4                                                           
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
-C La routine ne fonctionne que pour les IFUNC 3,6,7,14-19 (stress)      
+C La routine ne fonctionne que pour les IFUNC 3,6,7,14-19 (stress)
 C-----------------------------------------------                        
       NN1 = 1                                                           
       NN2 = 1                                                           
@@ -205,7 +205,7 @@ C-----------------------------------------------
 C                                                                       
           ENDIF                                                           
 C-----------------------------------------------                        
-C       FIN DE BOUCLE SUR LES OFFSET                                    
+C       FIN DE BOUCLE SUR LES OFFSET
 C-----------------------------------------------                        
        ENDDO                                                            
  900  CONTINUE                                                          

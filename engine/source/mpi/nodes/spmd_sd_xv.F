@@ -192,7 +192,7 @@ C
               L = L + E_LEN
             END DO
            ENDIF
-C   D est a envoyer pour sorties
+C   d is to be sent for outputs
           ELSEIF(NEW_D==1) THEN
            IF(IRODDL/=0.AND.DT_CST/=0) THEN
 #include      "vectorize.inc"

@@ -2044,7 +2044,7 @@ C--------------------------------------
         CALL W_GJOINT(GJBUFI,NGJOINT,LKJNI,NODLOCAL,LEN_IA)
       END IF
 C--------------------------------------
-C NALE et voisin ALE
+C NALE and ALE neighbor
 C--------------------------------------
       IF(IALE+IEULER+GLOB_THERM%ITHERM+IALELAG > 0) THEN
         IF(IALE+IEULER+IALELAG/=0)
@@ -2382,7 +2382,7 @@ c       stop CPU timer for INTBUF_INI
         CALL STOPTIME(6,1)
 
         IF (I22LEN_L>0)THEN
-          !init tableau de 0
+          !initialize table to 0
           CALL W_BUFBRIC_22()
         ENDIF
 
@@ -2404,7 +2404,7 @@ c       stop CPU timer for SPLIT_INTERFACES
       ENDIF
 
 C--------------------------------------
-C RW et RW ALE
+C RW and RW ALE
 C--------------------------------------
       IF(NRWALL > 0)
      +  CALL W_RWALL(NPRW    ,LPRW    ,RWL   ,
@@ -2760,7 +2760,7 @@ C--------------------------------------------
         ENDIF  
       ENDIF
 C--------------------------------------------
-C Mass et Inertia
+C Mass and Inertia
 C--------------------------------------------
       CALL W_RNLOC(MS,NODGLOB,NUMNOD_L,LEN_AM)
 
@@ -2797,7 +2797,7 @@ C--------------------------------------
       CALL WRITE_ELGROUP_PARAM(GROUP_PARAM_TAB,IPARG,P-1,NGROUP_L,LEN)
       LEN_AM = LEN_AM + LEN
 C--------------------------------------------
-C Skew et Frames
+C Skew and Frames
 C--------------------------------------------
       CALL WRITE_DB(SKEW,LSKEW*(NUMSKW+1))
       LEN_AM = LEN_AM + LSKEW*(NUMSKW+1)
@@ -3062,7 +3062,7 @@ C--------------------------------------------
      .                                 NUMLOCGROUP,
      .                                 LEN_IA,LEN_AM)
 C--------------------------------------------
-C RWALL et RWALL ALE
+C RWALL and RWALL ALE
 C--------------------------------------------
       CALL W_RWAR(NPRW,LPRW ,RWL, RWSAV,
      +            LWSAV_L,CEP,P-1,LEN_AM)
@@ -3329,7 +3329,7 @@ C ALEBAG
 C-----------------------------------------------
       CALL FVWRESTP(P)
 C-----------------------------------------------
-C thermique des coques + solides
+C thermal of shells + solids
 C-----------------------------------------------
         IF(GLOB_THERM%ITHERM_FE > 0  ) THEN
           CALL W_RNLOC(MCP,NODGLOB,NUMNOD_L,LEN_AM)

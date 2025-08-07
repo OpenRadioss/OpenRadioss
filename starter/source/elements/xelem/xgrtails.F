@@ -160,7 +160,7 @@ C
         NFT = NFT + NEL
       ENDDO
 C
-C RENUMEROTATION POUR SURFACE voir pour 100==ITYP
+C RENAMING FOR SURFACE see for 100==ITYP
 C
       DO I=1,NSURF
         NN=IGRSURF(I)%NSEG
@@ -171,7 +171,7 @@ C
       ENDDO
 
 C phase 2 : bornage en groupe de mvsiz
-C ngroup est global, iparg est global mais organise en fonction de dd
+C ngroup is global, iparg is global but organized according to dd
 C
       DO 300 N=1,ND
         NFT = 0

@@ -122,7 +122,7 @@ C     REAL
      .   H(4), SS, TT, SP,SM,TP,TM,DR1(3),XS,YS,ZS,XS0,YS0,ZS0,NUN,
      .   DS(3), LSM(3)
 C------------------------------------
-C     VITESSES DES NOEUDS SECONDS
+C     velocities of secondary nodes
 C------------------------------------
 C-------pour simplement etre coherent avec INTTI2, on ne distinque pas 3n,4n
       NUN=-ONE
@@ -242,7 +242,7 @@ C     REAL
       my_real
      .   RJ(3,3,4,NSN),RJT(3,3,4,NSN)
 C------------------------------------
-C     VITESSES DES NOEUDS SECONDS
+C     velocities of secondary nodes
 C------------------------------------
       CALL I2MATC(NSN,IRECT,DPARA,NSV,IRTL,X  ,
      1                            NIR,RJ ,RJT  )
@@ -308,7 +308,7 @@ C     REAL
      .   RJ(3,3,4,NSN),RJT(3,3,4,NSN),FACM,X0,Y0,Z0,
      .   LSM(3),DR2(3),DS(3),XM(4),YM(4),ZM(4),DT(3)
 C------------------------------------
-C     VITESSES DES NOEUDS SECONDS
+C     velocities of secondary nodes
 C------------------------------------
       CALL I2MATC(NSN,IRECT,DPARA,NSV,IRTL,X  ,
      1                            NIR,RJ ,RJT  )
@@ -330,7 +330,7 @@ C------------------------------------
        ENDIF
        FACM = ONE / NIRI
 C----------------------------------------------------
-C       VITESSE DE ROTATION MOYENNE DU SEGMENT MAIN
+C       average rotation speed of the main segment
 C----------------------------------------------------
         X0=FACM*(XM(1)+XM(2)+XM(3)+XM(4))
         Y0=FACM*(YM(1)+YM(2)+YM(3)+YM(4))
