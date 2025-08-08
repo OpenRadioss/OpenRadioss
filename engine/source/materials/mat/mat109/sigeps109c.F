@@ -98,6 +98,8 @@ c
       INTEGER, DIMENSION(NEL,3) :: IPOS_ETA
       INTEGER, DIMENSION(NEL,2) :: IPOS
 !-------------------------------------------------------------------------------
+      ! UVAR(1)     EPSD - plastic strain rate saved for filtering
+!
       ! VARTMP(1)   latest position of PLAS in TAB_YLD function 
       ! VARTMP(2)   latest position of PLAS in TAB_TEMP function 
       ! VARTMP(3)   latest position of TEMP in TAB_TEMP function 
@@ -140,6 +142,8 @@ c
       IF (FUNC_ETA  > 0) THEN
         NDIM_ETA   = TABLE(FUNC_ETA)%NDIM
       ENDIF
+      
+      epsd(1:nel) = uvar(1:nel,1)
 !
       !< Recovering internal variables and initializations of local variables
       DO I = 1,NEL
@@ -418,7 +422,8 @@ c
         !< Yield stress
         SIGY(I) = YLD(I)
         !< Plastic strain rate
-        EPSD(I) = ALPHA*DPLA(I)*DTINV + ALPHI*EPSD(I)
+        EPSD(I)   = ALPHA*DPLA(I)*DTINV + ALPHI*EPSD(I)
+        UVAR(I,1) = EPSD(I) 
         !< Thickness variation
         IF (INLOC > 0) THEN
           IF (LOFF(I) == ONE) THEN 

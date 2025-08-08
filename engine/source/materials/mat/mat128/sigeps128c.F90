@@ -50,7 +50,8 @@
                  signxx   ,signyy   ,signxy   ,signyz   ,signzx   ,          &
                  soundsp  ,thk      ,pla      ,dpla     ,epsd     ,          &
                  off      ,et       ,thkly    ,shf      ,yld      ,          &
-                 hardm    ,sighl    ,l_sigb   ,sigb     )
+                 hardm    ,sighl    ,l_sigb   ,sigb     ,nuvar    ,          &
+                 uvar     )
 !
 ! ======================================================================================================================
 ! \brief orthotropic hill material with plastic strain rate dependency for shells
@@ -71,6 +72,7 @@
 !                                                   arguments 
 ! ----------------------------------------------------------------------------------------------------------------------
       integer ,intent(in) :: nel                           !< element group size
+      integer ,intent(in) :: nuvar                         !< number internal variables
       integer ,intent(in) :: nvartmp                       !< number of temporary internal variables
       integer ,intent(in) :: l_sigb                        !< size of backstress tensor
       real(kind=WP) ,intent(in) :: timestep                      !< time step
@@ -101,6 +103,7 @@
       real(kind=WP) ,dimension(nel)     ,intent(out)   :: hardm  !< tangent module
       real(kind=WP) ,dimension(nel)     ,intent(out)   :: epsd   !< local plastic strain rate
       real(kind=WP) ,dimension(nel)     ,intent(out)   :: et     !< hourglass stiness factor
+      real(kind=WP) ,dimension(nel,nuvar)   ,intent(inout) :: uvar      !< state variables
       real(kind=WP) ,dimension(nel,l_sigb)  ,intent(inout) :: sigb      !< backstress tensor
       integer ,dimension(nel,nvartmp) ,intent(inout) :: vartmp    !< temporary internal variables
       type (matparam_struct_) ,intent(in) :: mat_param !< material parameter structure
@@ -165,6 +168,7 @@
       et(1:nel)     = one
       yld0(1:nel)   = sigy
       soundsp(1:nel)= sqrt(a11/rho0)
+      epsd(1:nel)   = uvar(1:nel,1)  ! previous filtered plastic strain rate
 ! ----------------------------------------------------------------------------------------------------------------------
       !< element deletion condition
       do i=1,nel
@@ -415,6 +419,7 @@
         dpdt    = dpla(i) / dtime
         epsd(i) = asrate * dpdt + (one - asrate) * epsd(i)
         epsd(i) = max(cc, epsd(i))  ! strain rate effect below static limit is ignored
+        uvar(i,1) = epsd(i)
       enddo 
 ! ----------------------------------------------------------------------------------------------------------------------
       return 
