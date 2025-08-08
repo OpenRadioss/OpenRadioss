@@ -129,13 +129,13 @@ C-------------------------------------
         IF (NPBY(4,N)/=0) THEN
           IF(NPBY(7,N)>0) THEN
            N2 = NINTER+NRWALL+N
-C          Cumul des Forces / Moments sur la surface :
-C          A chaque instant (et a TT=0. dans le Starter),
-C          le Rigid Body transmet la position du noeud main
-C          a la surface
+C          sum of forces / moments on the surface:
+C          at each time step (and at TT=0. in the starter),
+C          the rigid body transmits the position of the main node
+C          to the surface
 C          ET
-C          Dans l'Interface TYPE 14, Les forces, moments (et rigidites)
-C          sont calcules en ce point !!!
+C          in interface type 14, the forces, moments (and stiffnesses)
+C          are computed at this point!!!
            ISU=NPBY(8,N)
            IF(ISPMD==0.AND.ISU/=0) THEN
             IM=NPBY(1,N)
@@ -148,7 +148,7 @@ C          sont calcules en ce point !!!
             AR(3,IM)=AR(3,IM)+BUFSF(ADRSRF+30)
             STIFN(IM)=STIFN(IM)+BUFSF(ADRSRF+31)
             STIFR(IM)=STIFR(IM)+BUFSF(ADRSRF+32)
-C           Sortie sur TH des forces d'interface.
+C           output to th of interface forces.
             FSAV(10,N2)=FSAV(10,N2)+BUFSF(ADRSRF+25)*DT1
             FSAV(11,N2)=FSAV(11,N2)+BUFSF(ADRSRF+26)*DT1
             FSAV(12,N2)=FSAV(12,N2)+BUFSF(ADRSRF+27)*DT1
@@ -201,13 +201,13 @@ C-------------------------------------
         IF (NPBY(4,N)==0) THEN
           IF(NPBY(7,N)>0) THEN
            N2 = NINTER+NRWALL+N
-C          Cumul des Forces / Moments sur la surface :
-C          A chaque instant (et a TT=0. dans le Starter),
-C          le Rigid Body transmet la position du noeud main
-C          a la surface
+C          sum of forces / moments on the surface:
+C          at each time step (and at tt=0. in the starter),
+C          the rigid body transmits the position of the main node
+C          to the surface
 C          ET
-C          Dans l'Interface TYPE 14, Les forces, moments (et rigidites)
-C          sont calcules en ce point !!!
+C          in interface type 14, the forces, moments (and stiffnesses)
+C          are computed at this point!!!
            ISU=NPBY(8,N)
            IF(ISPMD==0.AND.ISU/=0) THEN
             IM=NPBY(1,N)
@@ -220,7 +220,7 @@ C          sont calcules en ce point !!!
             AR(3,IM)=AR(3,IM)+BUFSF(ADRSRF+30)
             STIFN(IM)=STIFN(IM)+BUFSF(ADRSRF+31)
             STIFR(IM)=STIFR(IM)+BUFSF(ADRSRF+32)
-C           Sortie sur TH des forces d'interface.
+C           output to th of interface forces.
             FSAV(10,N2)=FSAV(10,N2)+BUFSF(ADRSRF+25)*DT1
             FSAV(11,N2)=FSAV(11,N2)+BUFSF(ADRSRF+26)*DT1
             FSAV(12,N2)=FSAV(12,N2)+BUFSF(ADRSRF+27)*DT1

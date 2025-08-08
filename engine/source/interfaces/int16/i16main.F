@@ -141,7 +141,7 @@ C -------------------------------------------------------------
 C -------------------------------------------------------------
        CALL MY_BARRIER
 C=======================================================================
-C      TEST pour savoir s'il faut retrier + initialisation
+C      Test to know whether to retriate + initialization
 C=======================================================================
        CALL I16CRIT(
      1   X    ,IGRNOD(IGN)%ENTITY,IGRBRIC(IGE)%ENTITY ,NSN  ,EMINX      ,

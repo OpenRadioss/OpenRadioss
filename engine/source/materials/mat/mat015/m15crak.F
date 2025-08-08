@@ -90,7 +90,7 @@ C
         ENDDO
 C
 C.....STRESS IN ORTHOTROPIC DIRECTIONS
-C.....MODELE DE CHANG_CHANG>
+C.....chang_chang model>
 C
       FAILURE(1:MVSIZ) = 0
       DO  I=JFT,JLT

@@ -33,7 +33,7 @@ C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
         !compute SPLINE length with third order method (SIMPSON)
-        !  INPUT  - LOCAL_PT : 4 control points P0,P1,P2,P3
+        !  INPUT - Local_pt: 4 control points P0, P1, P2, P3
         !  INPUT  - ALPHA : CCR SPLINE PARAMETER
         !  INPUT  - T : position [0,1] on SPLINE [T1,T2].  1.0 means full spline length
         !  OUTPUT - LEN : length of the curve parametrised with t in [0,T]  T<=1.0
@@ -64,12 +64,12 @@ C-----------------------------------------------
           CALL CR_SPLINE_INTERPOL(LOCAL_PT,KNOTS,T_,C,C_D,C_DD)
           VAL(1)=SQRT(DOT_PRODUCT(C_D(1:3),C_D(1:3)))
           K(1)=KNOTS(2)+T_*(KNOTS(3)-KNOTS(2))
-          !middle point
+          !Middle Point
           T_=(1.*ITER-1.)/(1.*NITER-1.) + 0.5*1./(NITER-1.)
           T_=T_*T
           CALL CR_SPLINE_INTERPOL(LOCAL_PT,KNOTS,T_,C,C_D,C_DD)
           VAL(2)=SQRT(DOT_PRODUCT(C_D(1:3),C_D(1:3)))
-          !last point
+          !Last point
           T_=T*(1.*ITER)/(NITER-1.)
           CALL CR_SPLINE_INTERPOL(LOCAL_PT,KNOTS,T_,C,C_D,C_DD)
           VAL(3)=SQRT(DOT_PRODUCT(C_D(1:3),C_D(1:3)))

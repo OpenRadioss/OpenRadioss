@@ -162,7 +162,7 @@ C
       IF (SCODVER >= 101) THEN
         IF (TT == ZERO) THEN
           DO I=1,NEL
-            AL0_ERR(I)=ALDP(I)-AL0(I)        ! difference entre double et My_real
+            AL0_ERR(I)=ALDP(I)-AL0(I)        ! difference between double and my_real
           ENDDO
         ENDIF
       ENDIF
@@ -179,7 +179,7 @@ C
 !
       IF (SCODVER >= 101) THEN
         DO I=1,NEL
-          AL0DP(I) = AL0DP(I) + AL0_ERR(I)   ! AL_DP doit   tre recalcul   ainsi afin de garantir la coh  rence absolue entre AL0_DP et AL_DP
+          AL0DP(I) = AL0DP(I) + AL0_ERR(I)   ! Al_dp must be recalculated as well in order to guarantee the absolute coh rence between al0_dp and al_dp
         ENDDO
       ENDIF
 C
@@ -260,7 +260,7 @@ C       XC(I)=(XC(I)+GEO(141,MGN(I)))/XL0(I)
           XC(I)=(XC(I)+MAX_SLOPE(I))/XL0(I)
 
 
-! sinon derivée au point courrant 
+! otherwise derivative at current point
       ENDDO
 C
  1000 FORMAT(1X,'-- RUPTURE OF SPRING ELEMENT NUMBER ',I10)

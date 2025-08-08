@@ -520,7 +520,7 @@ C               ELSE
 C                 WRITE(6,*) "IM=",IM 
 C                 CALL FLUSH(6)
 C                 ASSERT(.FALSE.)
-C C               STOP
+C c'estop
 C               END IF
 C C====================================================
 

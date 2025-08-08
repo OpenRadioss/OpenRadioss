@@ -204,7 +204,7 @@ C--------------------------------------------------------
 C
 C--------------------------------------------------------
 C
-C normales aux triangles (recalculees ici pour pas les stocker).
+C normals to triangles (recomputed here to avoid storing them)
       DO I=1,JLT
 C
 C      IF(STIF(I) == ZERO)CYCLE
@@ -504,7 +504,7 @@ C
       END DO
 C--------------------------------------------------------
       DO I=1,JLT
-C       Projection en dehors du triangle
+C       Projection outside the triangle
         IF(LB(I,1) < -EM03 .OR. LC(I,1) < -EM03 .OR.
      .      LB(I,1)+LC(I,1) > ONE+EM03) THEN
            FARA(I,1)=1
@@ -532,7 +532,7 @@ C       Projection en dehors du triangle
          LCP(I,1) = ZERO
          LBP(I,1) = AL(I,1)
         ENDIF
-C       Projection en dehors du triangle
+C       Projection outside the triangle
         IF(LB(I,2) < -EM03 .OR. LC(I,2) < -EM03 .OR.
      .      LB(I,2)+LC(I,2) > ONE+EM03) THEN
            FARA(I,2)=1
@@ -560,7 +560,7 @@ C       Projection en dehors du triangle
          LCP(I,2) = ZERO
          LBP(I,2) = AL(I,2)
         END IF
-C       Projection en dehors du triangle
+C       Projection outside the triangle
         IF(LB(I,3) < -EM03 .OR. LC(I,3) < -EM03 .OR.
      .      LB(I,3)+LC(I,3) > ONE+EM03) THEN
            FARA(I,3)=1
@@ -588,7 +588,7 @@ C       Projection en dehors du triangle
          LCP(I,3) = ZERO
          LBP(I,3) = AL(I,3)
         ENDIF
-C       Projection en dehors du triangle
+C       Projection outside the triangle
         IF(LB(I,4) < -EM03 .OR. LC(I,4) < -EM03 .OR.
      .      LB(I,4)+LC(I,4) > ONE+EM03) THEN
            FARA(I,4)=1
@@ -713,7 +713,7 @@ C
 
         END DO
 C--------------------------------------------------------
-C     La determination du sous-triangle tq son cone contient le nd ne necessite pas FAR !
+C     Determination of the TQ sub-triangle its cone contains the ND does not require Far!
 C--------------------------------------------------------
       SUBTRIA(1:JLT)=0
       SUBTRIB(1:JLT)=0
@@ -732,11 +732,11 @@ C
               LCX = LC(I,IT)
               LAX = ONE-LB(I,IT)-LC(I,IT)
 C
-C             Privilegier secteur dans lequel on se trouve.
+C             Privilegier sector in which we are.
               IF(LBX >= ZERO .AND. LCX >= ZERO)THEN
                 LX=ZERO
               ELSE
-                ! point le plus proche dans le secteur angulaire == centre
+                ! closest point in the angular sector == center
                 LX  = MAX(ZERO,DD(I,IT)-BB(I,IT)*BB(I,IT))
               END IF
 
@@ -771,7 +771,7 @@ C
 C
       END DO
 C--------------------------------------------------------
-C     Calcul de la penetration
+C     calculation of penetration
 C--------------------------------------------------------
 #include  "vectorize.inc"
       DO I =1,JLT
@@ -880,7 +880,7 @@ C
 C
 C         Cone
           IF(INGAPA(I,IT)  == 1 .AND. (FARA(I,IT)==1 .OR. BB(I,IT) <= ZERO))THEN
-C             INGAP = 1 => tjrs regarder si l'on est dans le cone (permet de determiner dans quel cone on se trouve) 
+C             ingap = 1 => always check if inside the cone (allows to determine which cone we are in)
 C
             X12=XX(I,I2)-XX(I,I1)
             Y12=YY(I,I2)-YY(I,I1)
@@ -964,7 +964,7 @@ C
 C
           IF(INGAPA(I,IT)  == 1 .AND. (FARA(I,IT)==1 .OR. BB(I,IT) <= ZERO))THEN
 C
-C            INGAP = 1 => tjrs regarder si l'on est dans le cone (permet de determiner dans quel cone on se trouve) 
+C            ingap = 1 => always check if inside the cone (allows to determine which cone we are in)
 C          
             IF( MVOISA(I,1) /= 0 )THEN
 C
@@ -987,7 +987,7 @@ C
 
             IF( MVOISA(I,2) /= 0 )THEN
             
-C             INGAP = 1 => tjrs regarder si l'on est dans le cone (permet de determiner dans quel cone on se trouve) 
+C             ingap = 1 => always check if inside the cone (allows to determine which cone we are in)
 C          
               X12=XX(I,3)-XX(I,2)
               Y12=YY(I,3)-YY(I,2)
@@ -1007,7 +1007,7 @@ C
             END IF
 
             IF( MVOISA(I,4) /= 0 )THEN
-C             INGAP = 1 => tjrs regarder si l'on est dans le cone (permet de determiner dans quel cone on se trouve) 
+C             ingap = 1 => always check if inside the cone (allows to determine which cone we are in)
 C          
               X12=XX(I,1)-XX(I,3)
               Y12=YY(I,1)-YY(I,3)
@@ -1033,7 +1033,7 @@ C
 C
       ENDDO
 C--------------------------------------------------------
-C     Calcul de la penetration
+C     calculation of penetration
 C--------------------------------------------------------
 #include  "vectorize.inc"
       DO I =1,JLT
@@ -1131,7 +1131,7 @@ C
 C
           IF(INGAPB(I,IT)  == 1 .AND. (FARB(I,IT)==1 .OR. BB(I,IT) >= ZERO))THEN
 C
-C             INGAP = 1 => tjrs regarder si l'on est dans le cone (permet de determiner dans quel cone on se trouve) 
+C             ingap = 1 => always check if inside the cone (allows to determine which cone we are in)
 C
             X12=XX(I,I2)-XX(I,I1)
             Y12=YY(I,I2)-YY(I,I1)
@@ -1215,7 +1215,7 @@ C
 C
           IF(INGAPB(I,IT)  == 1 .AND. (FARB(I,IT)==1 .OR. BB(I,IT) >= ZERO))THEN
 C
-C           INGAP = 1 => tjrs regarder si l'on est dans le cone (permet de determiner dans quel cone on se trouve) 
+C           ingap = 1 => always check if inside the cone (allows to determine which cone we are in)
 C          
             IF( MVOISB(I,1) /= 0 )THEN
 C          

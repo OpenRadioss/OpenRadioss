@@ -131,7 +131,7 @@ C--------------------------------------------------
 C
         GEO(3)=ISMSTR
         IF (ISMSTR==3) GEO(5)=EP06
-C  double stockage temporaire - supprimer GEO(12)=IGTYP apres tests
+C  Temporary double storage - Delete GEO (12) = Igtyp after tests
         IGEO( 1)=IG
         IGEO(10)=ISECT
         IGEO(11)=IGTYP
@@ -265,7 +265,7 @@ c
      .              I2=NIP)
         ENDIF
         
-C---  coord isoparametriques et surfaces relatives des pts d'integration
+C---  isoparametric coordinates and relative surfaces of integration points
         IF (ISECT == 0.AND.IREF == 0) THEN
           Y0 = ZERO      
           Z0 = ZERO      
@@ -593,7 +593,7 @@ c           write error message
             GEO(IPY+1) = ZERO                                                 
             GEO(IPZ+1) = ZERO                                                 
             GEO(IPA+1) = AREA                                                 
-          ELSEIF (INTR == 2) THEN ! cercle divise en 4                                              
+          ELSEIF (INTR == 2) THEN ! Circle divides into 4                                              
             NIP = INTR*INTR                                                   
             AI  = AREA/NIP                                                    
             R1 = L(1)/SQR3                                                      
@@ -805,10 +805,10 @@ c---------------
             ENDDO  
           ELSEIF (INTR == 17) THEN   ! POINTS RADIALS NON ALIGNES  
              NIP = INTR
-             R1 = 0.4472136*L(1) ! rayon petit cercle
-             R2 = 0.774597 *L(1) !rayon cercle moyen
-             R3 = L(1)   ! rayon de la section
-             D2 = HALF*L(1) !distance au point d'integ
+             R1 = 0.4472136*L(1) ! Small circle department
+             R2 = 0.774597 *L(1) !Middle circle department
+             R3 = L(1)   ! radius of the section
+             D2 = HALF*L(1) !Distance to Integ point
              AI = PI * (R3*R3 - R2*R2)/EIGHT
              PHI = ZERO
              DPHI= PI * FOURTH

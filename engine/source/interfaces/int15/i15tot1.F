@@ -115,7 +115,7 @@ C-----------------------------------------------
        ROT(I)=BUFSF(ADRBUF+7+I-1)
       END DO
 C-------------------------------
-C     Passage au repere local :
+C     Passage to the local frame:
 C-------------------------------
       DO 75 NLS=NDEB+1,MIN(NDEB+MVSIZ,NSC)
       IL =KSC(NLS)
@@ -124,7 +124,7 @@ C-------------------------------
       IN2=KSI(2,IL)
       IN3=KSI(3,IL)
       IN4=KSI(4,IL)
-C     Passage au repere local.
+C     Passage to the local frame.
       XG=X(1,IN1)-BUFSF(ADRBUF+4)
       YG=X(2,IN1)-BUFSF(ADRBUF+5)
       ZG=X(3,IN1)-BUFSF(ADRBUF+6)
@@ -189,7 +189,7 @@ C-----
       Z23(I)=Z3(I)-Z2(I)
  100  CONTINUE
 C-------------------------------
-C     POINTS K,H SUR E,L / LA DISTANCE D(K,H) EST LOCALEMENT MAXIMUM
+C     points k, h on e, l / the distance d(k, h) is locally maximum
 C-------------------------------
       DO 125 NLS=NDEB+1,MIN(NDEB+MVSIZ,NSC)
       IL =KSC(NLS)
@@ -197,7 +197,7 @@ C-------------------------------
       EH  =(ABS(NTX(1,I)/(DGR*AN))**EXPN)*AN
      .    +(ABS(NTY(1,I)/(DGR*BN))**EXPN)*BN
      .    +(ABS(NTZ(1,I)/(DGR*CN))**EXPN)*CN
-C     X EST DU SIGNE DE LAMBDA*NTX, IDEM EN Y ET Z.
+C     x has the sign of lambda*ntx, same for y and z
 C     LAMBDA1=EXP(LOG(1./EH)/EXPN)
       LAMBDA1=(MAX(EM20,EH))**(-ONE/EXPN)
       XH1=ABS(LAMBDA1*NTX(1,I)/(DGR*AN))**(ONE/(DGR-ONE))
@@ -207,7 +207,7 @@ C     LAMBDA1=EXP(LOG(1./EH)/EXPN)
       ZH1=ABS(LAMBDA1*NTZ(1,I)/(DGR*CN))**(ONE/(DGR-ONE))
       IF (NTZ(1,I)<ZERO) ZH1=-ZH1
       MU1   =-NTX(1,I)*XH1-NTY(1,I)*YH1-NTZ(1,I)*ZH1-D(I)
-C     LAMBDA2=-LAMBDA1
+C     Lambda2 = -Lambda1
       XH2 =-XH1
       YH2 =-YH1
       ZH2 =-ZH1
@@ -221,7 +221,7 @@ C     MU2   =-NTX(1,I)*XH2-NTY(1,I)*YH2-NTZ(1,I)*ZH2-D(I)
       ZTK2(I)  =ZH2+MU2*NTZ(1,I)
  125  CONTINUE
 C-------------------------------
-C     RAMENER LE PT PK SUR LE TRIANGLE.
+C     bring point pk back onto the triangle
 C-------------------------------
       DO 150 NLS=NDEB+1,MIN(NDEB+MVSIZ,NSC)
       IL =KSC(NLS)
@@ -237,7 +237,7 @@ C-----
      .     +(DZ1*DX2-DZ2*DX1)*NTY(1,I)
      .     +(DX1*DY2-DY1*DX2)*NTZ(1,I)
       IF (OUT<0.) THEN
-C       PROJECTION SUR 1,2
+C       projection onto 1,2
         PS =DX1*X12(I)+DY1*Y12(I)+DZ1*Z12(I)
         NR =X12(I)*X12(I)+Y12(I)*Y12(I)+Z12(I)*Z12(I)
         BET=PS/MAX(EM20,NR)
@@ -255,7 +255,7 @@ C       PROJECTION SUR 1,2
      .     +(DZ2*DX3-DZ3*DX2)*NTY(1,I)
      .     +(DX2*DY3-DY2*DX3)*NTZ(1,I)
       IF (OUT<ZERO) THEN
-C       PROJECTION SUR 2,3
+C       projection onto 2,3
         PS =DX2*X23(I)+DY2*Y23(I)+DZ2*Z23(I)
         NR =X23(I)*X23(I)+Y23(I)*Y23(I)+Z23(I)*Z23(I)
         BET=PS/MAX(EM20,NR)
@@ -270,7 +270,7 @@ C       PROJECTION SUR 2,3
      .     +(DZ3*DX1-DZ1*DX3)*NTY(1,I)
      .     +(DX3*DY1-DY3*DX1)*NTZ(1,I)
       IF (OUT<ZERO) THEN
-C       PROJECTION SUR 3,1
+C       projection onto 3,1
         PS =-DX3*X13(I)-DY3*Y13(I)-DZ3*Z13(I)
         NR =X13(I)*X13(I)+Y13(I)*Y13(I)+Z13(I)*Z13(I)
         BET=PS/MAX(EM20,NR)
@@ -292,7 +292,7 @@ C-----
      .      +(DZ1*DX2-DZ2*DX1)*NTY(1,I)
      .      +(DX1*DY2-DY1*DX2)*NTZ(1,I)
       IF (OUT<ZERO) THEN
-C       PROJECTION SUR 1,2
+C       projection onto 1,2
         PS =DX1*X12(I)+DY1*Y12(I)+DZ1*Z12(I)
         NR =X12(I)*X12(I)+Y12(I)*Y12(I)+Z12(I)*Z12(I)
         BET=PS/MAX(EM20,NR)
@@ -310,7 +310,7 @@ C       PROJECTION SUR 1,2
      .      +(DZ2*DX3-DZ3*DX2)*NTY(1,I)
      .      +(DX2*DY3-DY2*DX3)*NTZ(1,I)
       IF (OUT<ZERO) THEN
-C       PROJECTION SUR 2,3
+C       projection onto 2,3
         PS =DX2*X23(I)+DY2*Y23(I)+DZ2*Z23(I)
         NR =X23(I)*X23(I)+Y23(I)*Y23(I)+Z23(I)*Z23(I)
         BET=PS/MAX(EM20,NR)
@@ -325,7 +325,7 @@ C       PROJECTION SUR 2,3
      .      +(DZ3*DX1-DZ1*DX3)*NTY(1,I)
      .      +(DX3*DY1-DY3*DX1)*NTZ(1,I)
       IF (OUT<ZERO) THEN
-C       PROJECTION SUR 3,1
+C       projection onto 3,1
         PS =-DX3*X13(I)-DY3*Y13(I)-DZ3*Z13(I)
         NR =X13(I)*X13(I)+Y13(I)*Y13(I)+Z13(I)*Z13(I)
         BET=PS/MAX(EM20,NR)
@@ -339,7 +339,7 @@ C       PROJECTION SUR 3,1
 C-------------------------------
  150  CONTINUE
 C-------------------------------
-C     PROJECTION DE PK SUR L ET PENETRATION.
+C     projection of pk onto l and penetration
 C-------------------------------
       DO 175 NLS=NDEB+1,MIN(NDEB+MVSIZ,NSC)
       IL =KSC(NLS)
@@ -519,7 +519,7 @@ C-----
 C-----
       IF (IACTIV(1,IL)<=0) GOTO 200
 C-----
-C      projection radiale de M.
+C      radial projection of m
         XKN1 =XM(I)**(IDG-1)
         SGNXKN=-ONE
         IF (XKN1*XM(I)>=ZERO) SGNXKN=ONE        
@@ -634,7 +634,7 @@ C-----
       Z23(I)=Z3(I)-Z2(I)
  225  CONTINUE
 C-------------------------------
-C     POINTS K,H SUR E,L / LA DISTANCE D(K,H) EST LOCALEMENT MAXIMUM
+C     points k, h on e, l / the distance d(k, h) is locally maximum
 C-------------------------------
       DO 250 NLS=NDEB+1,MIN(NDEB+MVSIZ,NSC)
       IL =KSC(NLS)
@@ -643,7 +643,7 @@ C-----
       EH  =(ABS(NTX(2,I)/(DGR*AN))**EXPN)*AN
      .    +(ABS(NTY(2,I)/(DGR*BN))**EXPN)*BN
      .    +(ABS(NTZ(2,I)/(DGR*CN))**EXPN)*CN
-C     X EST DU SIGNE DE LAMBDA*NTX, IDEM EN Y ET Z.
+C     x has the sign of lambda*ntx, same for y and z
 C     LAMBDA1=EXP(LOG(1./EH)/EXPN)
       LAMBDA1=(MAX(EM20,EH))**(-ONE/EXPN)
       XH1   =ABS(LAMBDA1*NTX(2,I)/(DGR*AN))**(ONE/(DGR-ONE))
@@ -653,7 +653,7 @@ C     LAMBDA1=EXP(LOG(1./EH)/EXPN)
       ZH1   =ABS(LAMBDA1*NTZ(2,I)/(DGR*CN))**(ONE/(DGR-ONE))
       IF (NTZ(2,I)<ZERO) ZH1=-ZH1
       MU1   =-NTX(2,I)*XH1-NTY(2,I)*YH1-NTZ(2,I)*ZH1-D(I)
-C     LAMBDA2=-LAMBDA1
+C     Lambda2 = -Lambda1
       XH2   =-XH1
       YH2   =-YH1
       ZH2   =-ZH1
@@ -668,7 +668,7 @@ C      MU2   =-NTX(2,I)*XH2-NTY(2,I)*YH2-NTZ(2,I)*ZH2-D(I)
 C-------------------------------
  250  CONTINUE
 C-------------------------------
-C     RAMENER LE PT PK SUR LE TRIANGLE.
+C     bring point pk back onto the triangle
 C-------------------------------
       DO 275 NLS=NDEB+1,MIN(NDEB+MVSIZ,NSC)
       IL =KSC(NLS)
@@ -684,7 +684,7 @@ C-----
      .     +(DZ1*DX2-DZ2*DX1)*NTY(2,I)
      .     +(DX1*DY2-DY1*DX2)*NTZ(2,I)
       IF (OUT<ZERO) THEN
-C       PROJECTION SUR 1,2
+C       projection onto 1,2
         PS =DX1*X12(I)+DY1*Y12(I)+DZ1*Z12(I)
         NR =X12(I)*X12(I)+Y12(I)*Y12(I)+Z12(I)*Z12(I)
         BET=PS/MAX(EM20,NR)
@@ -702,7 +702,7 @@ C       PROJECTION SUR 1,2
      .     +(DZ2*DX3-DZ3*DX2)*NTY(2,I)
      .     +(DX2*DY3-DY2*DX3)*NTZ(2,I)
       IF (OUT<ZERO) THEN
-C       PROJECTION SUR 2,3
+C       projection onto 2,3
         PS =DX2*X23(I)+DY2*Y23(I)+DZ2*Z23(I)
         NR =X23(I)*X23(I)+Y23(I)*Y23(I)+Z23(I)*Z23(I)
         BET=PS/MAX(EM20,NR)
@@ -717,7 +717,7 @@ C       PROJECTION SUR 2,3
      .     +(DZ3*DX1-DZ1*DX3)*NTY(2,I)
      .     +(DX3*DY1-DY3*DX1)*NTZ(2,I)
       IF (OUT<ZERO) THEN
-C       PROJECTION SUR 3,1
+C       projection onto 3,1
         PS =-DX3*X13(I)-DY3*Y13(I)-DZ3*Z13(I)
         NR =X13(I)*X13(I)+Y13(I)*Y13(I)+Z13(I)*Z13(I)
         BET=PS/MAX(EM20,NR)
@@ -739,7 +739,7 @@ C-----
      .      +(DZ1*DX2-DZ2*DX1)*NTY(2,I)
      .      +(DX1*DY2-DY1*DX2)*NTZ(2,I)
       IF (OUT<ZERO) THEN
-C       PROJECTION SUR 1,2
+C       projection onto 1,2
         PS =DX1*X12(I)+DY1*Y12(I)+DZ1*Z12(I)
         NR =X12(I)*X12(I)+Y12(I)*Y12(I)+Z12(I)*Z12(I)
         BET=PS/MAX(EM20,NR)
@@ -757,7 +757,7 @@ C       PROJECTION SUR 1,2
      .      +(DZ2*DX3-DZ3*DX2)*NTY(2,I)
      .      +(DX2*DY3-DY2*DX3)*NTZ(2,I)
       IF (OUT<ZERO) THEN
-C       PROJECTION SUR 2,3
+C       projection onto 2,3
         PS =DX2*X23(I)+DY2*Y23(I)+DZ2*Z23(I)
         NR =X23(I)*X23(I)+Y23(I)*Y23(I)+Z23(I)*Z23(I)
         BET=PS/MAX(EM20,NR)
@@ -772,7 +772,7 @@ C       PROJECTION SUR 2,3
      .      +(DZ3*DX1-DZ1*DX3)*NTY(2,I)
      .      +(DX3*DY1-DY3*DX1)*NTZ(2,I)
       IF (OUT<ZERO) THEN
-C       PROJECTION SUR 3,1
+C       projection onto 3,1
         PS =-DX3*X13(I)-DY3*Y13(I)-DZ3*Z13(I)
         NR =X13(I)*X13(I)+Y13(I)*Y13(I)+Z13(I)*Z13(I)
         BET=PS/MAX(EM20,NR)
@@ -786,7 +786,7 @@ C       PROJECTION SUR 3,1
 C-------------------------------
  275  CONTINUE
 C-------------------------------
-C     PROJECTION DE PK SUR L ET PENETRATION.
+C     projection of pk onto l and penetration
 C-------------------------------
       DO 300 NLS=NDEB+1,MIN(NDEB+MVSIZ,NSC)
       IL =KSC(NLS)
@@ -965,7 +965,7 @@ C-----
 C-----
       IF (IACTIV(2,IL)<=0) GOTO 325
 C-----
-C      projection radiale de M.
+C      radial projection of m
         XKN1 =XM(I)**(IDG-1)
         SGNXKN=-ONE
         IF (XKN1*XM(I)>=ZERO) SGNXKN=ONE        
@@ -1081,7 +1081,7 @@ C-----
       Z23(I)=Z3(I)-Z2(I)
  350  CONTINUE
 C-------------------------------
-C     POINTS K,H SUR E,L / LA DISTANCE D(K,H) EST LOCALEMENT MAXIMUM
+C     points k, h on e, l / the distance d(k, h) is locally maximum
 C-------------------------------
       DO 375 NLS=NDEB+1,MIN(NDEB+MVSIZ,NSC)
       IL =KSC(NLS)
@@ -1090,7 +1090,7 @@ C-----
       EH  =(ABS(NTX(3,I)/(DGR*AN))**EXPN)*AN
      .    +(ABS(NTY(3,I)/(DGR*BN))**EXPN)*BN
      .    +(ABS(NTZ(3,I)/(DGR*CN))**EXPN)*CN
-C     X EST DU SIGNE DE LAMBDA*NTX, IDEM EN Y ET Z.
+C     x has the sign of lambda*ntx, same for y and z
 C     LAMBDA1=EXP(LOG(1./EH)/EXPN)
       LAMBDA1=(MAX(EM20,EH))**(-ONE/EXPN)
       XH1   =ABS(LAMBDA1*NTX(3,I)/(DGR*AN))**(ONE/(DGR-ONE))
@@ -1100,7 +1100,7 @@ C     LAMBDA1=EXP(LOG(1./EH)/EXPN)
       ZH1   =ABS(LAMBDA1*NTZ(3,I)/(DGR*CN))**(ONE/(DGR-ONE))
       IF (NTZ(3,I)<ZERO) ZH1=-ZH1
       MU1   =-NTX(3,I)*XH1-NTY(3,I)*YH1-NTZ(3,I)*ZH1-D(I)
-C     LAMBDA2=-LAMBDA1
+C     Lambda2 = -Lambda1
       XH2   =-XH1
       YH2   =-YH1
       ZH2   =-ZH1
@@ -1115,7 +1115,7 @@ C      MU2   =-NTX(3,I)*XH2-NTY(3,I)*YH2-NTZ(3,I)*ZH2-D(I)
 C-------------------------------
  375  CONTINUE
 C-------------------------------
-C     RAMENER LE PT PK SUR LE TRIANGLE.
+C     bring point pk back onto the triangle
 C-------------------------------
       DO 400 NLS=NDEB+1,MIN(NDEB+MVSIZ,NSC)
       IL =KSC(NLS)
@@ -1131,7 +1131,7 @@ C-----
      .     +(DZ1*DX2-DZ2*DX1)*NTY(3,I)
      .     +(DX1*DY2-DY1*DX2)*NTZ(3,I)
       IF (OUT<ZERO) THEN
-C       PROJECTION SUR 1,2
+C       projection onto 1,2
         PS =DX1*X12(I)+DY1*Y12(I)+DZ1*Z12(I)
         NR =X12(I)*X12(I)+Y12(I)*Y12(I)+Z12(I)*Z12(I)
         BET=PS/MAX(EM20,NR)
@@ -1149,7 +1149,7 @@ C       PROJECTION SUR 1,2
      .     +(DZ2*DX3-DZ3*DX2)*NTY(3,I)
      .     +(DX2*DY3-DY2*DX3)*NTZ(3,I)
       IF (OUT<ZERO) THEN
-C       PROJECTION SUR 2,3
+C       projection onto 2,3
         PS =DX2*X23(I)+DY2*Y23(I)+DZ2*Z23(I)
         NR =X23(I)*X23(I)+Y23(I)*Y23(I)+Z23(I)*Z23(I)
         BET=PS/MAX(EM20,NR)
@@ -1164,7 +1164,7 @@ C       PROJECTION SUR 2,3
      .     +(DZ3*DX1-DZ1*DX3)*NTY(3,I)
      .     +(DX3*DY1-DY3*DX1)*NTZ(3,I)
       IF (OUT<0.) THEN
-C       PROJECTION SUR 3,1
+C       projection onto 3,1
         PS =-DX3*X13(I)-DY3*Y13(I)-DZ3*Z13(I)
         NR =X13(I)*X13(I)+Y13(I)*Y13(I)+Z13(I)*Z13(I)
         BET=PS/MAX(EM20,NR)
@@ -1186,7 +1186,7 @@ C-----
      .      +(DZ1*DX2-DZ2*DX1)*NTY(3,I)
      .      +(DX1*DY2-DY1*DX2)*NTZ(3,I)
       IF (OUT<ZERO) THEN
-C       PROJECTION SUR 1,2
+C       projection onto 1,2
         PS =DX1*X12(I)+DY1*Y12(I)+DZ1*Z12(I)
         NR =X12(I)*X12(I)+Y12(I)*Y12(I)+Z12(I)*Z12(I)
         BET=PS/MAX(EM20,NR)
@@ -1204,7 +1204,7 @@ C       PROJECTION SUR 1,2
      .      +(DZ2*DX3-DZ3*DX2)*NTY(3,I)
      .      +(DX2*DY3-DY2*DX3)*NTZ(3,I)
       IF (OUT<ZERO) THEN
-C       PROJECTION SUR 2,3
+C       projection onto 2,3
         PS =DX2*X23(I)+DY2*Y23(I)+DZ2*Z23(I)
         NR =X23(I)*X23(I)+Y23(I)*Y23(I)+Z23(I)*Z23(I)
         BET=PS/MAX(EM20,NR)
@@ -1219,7 +1219,7 @@ C       PROJECTION SUR 2,3
      .      +(DZ3*DX1-DZ1*DX3)*NTY(3,I)
      .      +(DX3*DY1-DY3*DX1)*NTZ(3,I)
       IF (OUT<ZERO) THEN
-C       PROJECTION SUR 3,1
+C       projection onto 3,1
         PS =-DX3*X13(I)-DY3*Y13(I)-DZ3*Z13(I)
         NR =X13(I)*X13(I)+Y13(I)*Y13(I)+Z13(I)*Z13(I)
         BET=PS/MAX(EM20,NR)
@@ -1233,7 +1233,7 @@ C       PROJECTION SUR 3,1
 C-------------------------------
  400  CONTINUE
 C-------------------------------
-C     PROJECTION DE PK SUR L ET PENETRATION.
+C     projection of pk onto l and penetration
 C-------------------------------
       DO 425 NLS=NDEB+1,MIN(NDEB+MVSIZ,NSC)
       IL =KSC(NLS)
@@ -1413,7 +1413,7 @@ C-----
 C-----
       IF (IACTIV(3,IL)<=0) GOTO 450
 C-----
-C      projection radiale de M.
+C      radial projection of m
         XKN1 =XM(I)**(IDG-1)
         SGNXKN=-ONE
         IF (XKN1*XM(I)>=ZERO) SGNXKN=ONE        
@@ -1529,7 +1529,7 @@ C-----
       Z23(I)=Z3(I)-Z2(I)
  475  CONTINUE
 C-------------------------------
-C     POINTS K,H SUR E,L / LA DISTANCE D(K,H) EST LOCALEMENT MAXIMUM
+C     points k, h on e, l / the distance d(k, h) is locally maximum
 C-------------------------------
       DO 500 NLS=NDEB+1,MIN(NDEB+MVSIZ,NSC)
       IL =KSC(NLS)
@@ -1538,7 +1538,7 @@ C-----
       EH  =(ABS(NTX(4,I)/(DGR*AN))**EXPN)*AN
      .    +(ABS(NTY(4,I)/(DGR*BN))**EXPN)*BN
      .    +(ABS(NTZ(4,I)/(DGR*CN))**EXPN)*CN
-C     X EST DU SIGNE DE LAMBDA*NTX, IDEM EN Y ET Z.
+C     x has the sign of lambda*ntx, same for y and z
 C     LAMBDA1=EXP(LOG(1./EH)/EXPN)
       LAMBDA1=(MAX(EM20,EH))**(-ONE/EXPN)
       XH1   =ABS(LAMBDA1*NTX(4,I)/(DGR*AN))**(ONE/(DGR-ONE))
@@ -1548,7 +1548,7 @@ C     LAMBDA1=EXP(LOG(1./EH)/EXPN)
       ZH1   =ABS(LAMBDA1*NTZ(4,I)/(DGR*CN))**(ONE/(DGR-ONE))
       IF (NTZ(4,I)<ZERO) ZH1=-ZH1
       MU1   =-NTX(4,I)*XH1-NTY(4,I)*YH1-NTZ(4,I)*ZH1-D(I)
-C     LAMBDA2=-LAMBDA1
+C     Lambda2 = -Lambda1
       XH2   =-XH1
       YH2   =-YH1
       ZH2   =-ZH1
@@ -1563,7 +1563,7 @@ C      MU2   =-NTX(4,I)*XH2-NTY(4,I)*YH2-NTZ(4,I)*ZH2-D(I)
 C-------------------------------
  500  CONTINUE
 C-------------------------------
-C     RAMENER LE PT PK SUR LE TRIANGLE.
+C     bring point pk back onto the triangle
 C-------------------------------
       DO 525 NLS=NDEB+1,MIN(NDEB+MVSIZ,NSC)
       IL =KSC(NLS)
@@ -1579,7 +1579,7 @@ C-----
      .     +(DZ1*DX2-DZ2*DX1)*NTY(4,I)
      .     +(DX1*DY2-DY1*DX2)*NTZ(4,I)
       IF (OUT<ZERO) THEN
-C       PROJECTION SUR 1,2
+C       projection onto 1,2
         PS =DX1*X12(I)+DY1*Y12(I)+DZ1*Z12(I)
         NR =X12(I)*X12(I)+Y12(I)*Y12(I)+Z12(I)*Z12(I)
         BET=PS/MAX(EM20,NR)
@@ -1597,7 +1597,7 @@ C       PROJECTION SUR 1,2
      .     +(DZ2*DX3-DZ3*DX2)*NTY(4,I)
      .     +(DX2*DY3-DY2*DX3)*NTZ(4,I)
       IF (OUT<0.) THEN
-C       PROJECTION SUR 2,3
+C       projection onto 2,3
         PS =DX2*X23(I)+DY2*Y23(I)+DZ2*Z23(I)
         NR =X23(I)*X23(I)+Y23(I)*Y23(I)+Z23(I)*Z23(I)
         BET=PS/MAX(EM20,NR)
@@ -1612,7 +1612,7 @@ C       PROJECTION SUR 2,3
      .     +(DZ3*DX1-DZ1*DX3)*NTY(4,I)
      .     +(DX3*DY1-DY3*DX1)*NTZ(4,I)
       IF (OUT<0.) THEN
-C       PROJECTION SUR 3,1
+C       projection onto 3,1
         PS =-DX3*X13(I)-DY3*Y13(I)-DZ3*Z13(I)
         NR =X13(I)*X13(I)+Y13(I)*Y13(I)+Z13(I)*Z13(I)
         BET=PS/MAX(EM20,NR)
@@ -1634,7 +1634,7 @@ C-----
      .      +(DZ1*DX2-DZ2*DX1)*NTY(4,I)
      .      +(DX1*DY2-DY1*DX2)*NTZ(4,I)
       IF (OUT<ZERO) THEN
-C       PROJECTION SUR 1,2
+C       projection onto 1,2
         PS =DX1*X12(I)+DY1*Y12(I)+DZ1*Z12(I)
         NR =X12(I)*X12(I)+Y12(I)*Y12(I)+Z12(I)*Z12(I)
         BET=PS/MAX(EM20,NR)
@@ -1652,7 +1652,7 @@ C       PROJECTION SUR 1,2
      .      +(DZ2*DX3-DZ3*DX2)*NTY(4,I)
      .      +(DX2*DY3-DY2*DX3)*NTZ(4,I)
       IF (OUT<ZERO) THEN
-C       PROJECTION SUR 2,3
+C       projection onto 2,3
         PS =DX2*X23(I)+DY2*Y23(I)+DZ2*Z23(I)
         NR =X23(I)*X23(I)+Y23(I)*Y23(I)+Z23(I)*Z23(I)
         BET=PS/MAX(EM20,NR)
@@ -1667,7 +1667,7 @@ C       PROJECTION SUR 2,3
      .      +(DZ3*DX1-DZ1*DX3)*NTY(4,I)
      .      +(DX3*DY1-DY3*DX1)*NTZ(4,I)
       IF (OUT<ZERO) THEN
-C       PROJECTION SUR 3,1
+C       projection onto 3,1
         PS =-DX3*X13(I)-DY3*Y13(I)-DZ3*Z13(I)
         NR =X13(I)*X13(I)+Y13(I)*Y13(I)+Z13(I)*Z13(I)
         BET=PS/MAX(EM20,NR)
@@ -1681,7 +1681,7 @@ C       PROJECTION SUR 3,1
 C-------------------------------
  525  CONTINUE
 C-------------------------------
-C     PROJECTION DE PK SUR L ET PENETRATION.
+C     projection of pk onto l and penetration
 C-------------------------------
       DO 550 NLS=NDEB+1,MIN(NDEB+MVSIZ,NSC)
       IL =KSC(NLS)
@@ -1861,7 +1861,7 @@ C-----
 C-----
       IF (IACTIV(4,IL)<=0) GOTO 575
 C-----
-C      projection radiale de M.
+C      radial projection of m
         XKN1 =XM(I)**(IDG-1)
         SGNXKN=-ONE
         IF (XKN1*XM(I)>=ZERO) SGNXKN=ONE

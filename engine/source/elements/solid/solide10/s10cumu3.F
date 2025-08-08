@@ -75,9 +75,9 @@ C-----------------------------------------------
       my_real
      .   OFF_L,XM,YM,ZM,XX,YY,ZZ,FACIROT,FACIROT2
 C-----------------------------------------------
-c     FACIROT  = (7./48.) / (1./32/)  ! rapport des masses
+c     FACIROT = (7./48.)/(1./32/)!masses report
       FACIROT  = (NINE + THIRD) 
-c     FACIROT2 = TWO * (7./48.) / (1./32/)  ! 2 * rapport des masses
+c     FACIROT2 = Two * (7./48.)/(1./32/)!2 * Masses report
 c     FACIROT2 = NINE + THIRD
       FACIROT2 = TWO * (NINE + THIRD)
 

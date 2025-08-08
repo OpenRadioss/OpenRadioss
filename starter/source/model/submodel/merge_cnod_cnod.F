@@ -167,10 +167,10 @@ C
       IPCZ(NUMCNOD+NBAND) = 0
       IMERGETMP(1:NUMCNOD) = 0
 C--------------------------------------------------
-C     CLASSEMENT DES BUCKETS X
+C     BUCKETS X SORTING
 C--------------------------------------------------
 C 
-C---      bande NBX uniquement. 
+C--- NBX strip only. 
 C 
       DO IB=0,NBX+1
        NPX(IB)=0
@@ -191,7 +191,7 @@ C
 !
       DO N=1,NUMCNOD
         NBOX=NOBX(N)+1
-C      bande NBX uniquement.
+C      NBX strip only.
         IF(NBOX >= 1.AND.NBOX <= NBX+1)THEN
            NPX(NBOX)=NPX(NBOX)+1
            IPX(NPX(NBOX))=N       
@@ -217,7 +217,7 @@ C
       ENDDO
       DO N=1,NUMCNOD
          NBOX=NOBCX(N)+1
-C      bande NBX uniquement.
+C      NBX strip only.
          IF(NBOX >= 1.AND.NBOX <= NBX+1)THEN
            NPCX(NBOX)=NPCX(NBOX)+1
            IPCX(NPCX(NBOX))=N               
@@ -237,7 +237,7 @@ C
               DO KS=NPX(MAX(IBX-2,0))+1,NPX(MIN(IBX+1,NBX+1))
                  N  =IPX(KS)
                  NBOY=NOBY(N)+1           
-C       bande NBY uniquement.
+C       NBY band only.
                  IF(NBOY >= 1 .AND. NBOY <= NBY+1)THEN
                      NPY(NBOY)=NPY(NBOY)+1
                  ENDIF
@@ -251,7 +251,7 @@ C       bande NBY uniquement.
              DO KS=NPX(MAX(IBX-2,0))+1,NPX(MIN(IBX+1,NBX+1))
                   N  =IPX(KS)      
                   NBOY=NOBY(N)+1
-C       bande NBY uniquement.
+C       NBY band only.
                   IF(NBOY >= 1 .AND. NBOY <= NBY+1)THEN
                        NPY(NBOY)=NPY(NBOY)+1
                        IPY(NPY(NBOY))=N 
@@ -266,7 +266,7 @@ C
              DO KS=NPCX(IBX-1)+1,NPCX(IBX)
                  N  =IPCX(KS)      
                  NBOY=NOBCY(N)+1
-C       bande NBY uniquement.
+C       NBY band only.
                  IF(NBOY >= 1.AND.NBOY <= NBY+1)THEN
                      NPCY(NBOY)=NPCY(NBOY)+1
                  ENDIF
@@ -282,14 +282,14 @@ C
              DO KS=NPCX(IBX-1)+1,NPCX(IBX)
                   N  =IPCX(KS)      
                   NBOY=NOBCY(N)+1
-C       bande NBY uniquement.
+C       NBY band only.
                   IF(NBOY >= 1.AND. NBOY <= NBY+1)THEN
                      NPCY(NBOY)=NPCY(NBOY)+1
                      IPCY(NPCY(NBOY))=N         
                   ENDIF
              ENDDO
 C        
-C -- les boites suivantes z
+C -- the following boxes z
 C 
              DO IBY=1,NBY+1   
                 IBOITE = 0   
@@ -304,7 +304,7 @@ C
                   DO KS=NPY(MAX(IBY-2,0))+1,NPY(MIN(IBY+1, NBY+1))
                       N  =IPY(KS) 
                       NBOZ=NOBZ(N)+1
-C        bande NBZ uniquement.
+C        NBZ band only.
                       IF(NBOZ >= 1.AND.NBOZ <= NBZ+1)THEN
                            NPZ(NBOZ)=NPZ(NBOZ)+1
                       ENDIF
@@ -318,7 +318,7 @@ C        bande NBZ uniquement.
                   DO KS=NPY(MAX(IBY-2,0))+1,NPY(MIN(IBY+1, NBY+1))
                       N  =IPY(KS)
                       NBOZ=NOBZ(N)+1
-C        bande NBZ uniquement.
+C        NBZ band only.
                       IF(NBOZ >= 1 .AND. NBOZ <= NBZ+1)THEN
                            NPZ(NBOZ)=NPZ(NBOZ)+1
                            IPZ(NPZ(NBOZ))=N   

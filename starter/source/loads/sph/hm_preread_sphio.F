@@ -79,7 +79,7 @@ C
       I = 0
       DO N = 1,NSPHIO
         SKIP = 0        
-CC----------Multidomaines --> on ignore les inlets non tages------------
+CC --------- Multidomatic-> We do not know the inlets non-tages ------------------------------------
         IF (NSUBDOM > 0) THEN
          IF(TAGSPHIO(N) == 0) SKIP = 1
         ENDIF

@@ -57,7 +57,7 @@ C-----------------------------------------------
       my_real VOL,V0,AREA,VEPS,VINC,POLD,PEXT,VOLD,PRES,Q,QOLD,DV,SCALE,XFUN
 C-----------------------------------------------
 C
-C CALCUL DE LA PRESSION
+C CALCULATION OF PRESSURE
 C
       ITFUN  =IVOLU(7)
       ITYPFUN=IVOLU(19)

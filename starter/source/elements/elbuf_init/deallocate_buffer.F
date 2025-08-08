@@ -87,7 +87,7 @@ C   S o u r c e   L i n e s
 C-----------------------------------------------
       DO NG = 1,NGROUP 
 c
-        MLW     = IPARG(1,NG)     ! type de loi mat
+        MLW     = IPARG(1,NG)     ! material law type
         NEL     = IPARG(2,NG)                                             
         NFT     = IPARG(3,NG)                                             
         ITY     = IPARG(5,NG)                                                        
@@ -337,7 +337,7 @@ c------------------------------------------------------
           ELSEIF (ITY==7 .and. JHBE == 30) THEN
             NPTR = 3
             NPTS = 1
-          ELSE   ! one Gauss point on surface
+          ELSE   ! One Gauss Point We Surface
             NPTR = 1
             NPTS = 1
           ENDIF
@@ -361,7 +361,7 @@ c-------------------------------------------------
             NPT = NPG*NLAY*NPTT
           ENDIF
 c-----------------------------------------------------
-c deallocation des sub-structures de l'element buffer
+c deallocation of the sub-structures of the element buffer
 c-----------------------------------------------------
           CALL DEALLOCATE_ONE_ELEMENT_GROUP(ELBUF_TAB,NLAY,NPTR,NPTS,NPTT,NINTLAY,NEL,NPT,NG,NGROUP,ITY,IGTYP)
 

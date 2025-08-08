@@ -517,7 +517,7 @@ C-----------------------------------------------
 C
       IF(IW==0) THEN
 C------------------------------------------------------------------------
-C       Ajout d'une ligne a TEXT (1 ou plusieurs X par descente de pile)
+C       Addition of a text line (1 or more x by battery descent)
 C------------------------------------------------------------------------
         TEXT(NIVEAU_PILE)(1:NIVEAU_PILE)=BLANC(1:NIVEAU_PILE)
         TEXT(NIVEAU_PILE)(NIVEAU_PILE+1:ncharline)=
@@ -525,7 +525,7 @@ C------------------------------------------------------------------------
         CHECK_PILE(NIVEAU_PILE) = NS_SIGNAL
       ELSEIF(IW==-1) THEN
 C------------------------------------------
-C       remonte de pile 
+C       pile
 C------------------------------------------
         IF(NS_SIGNAL==CHECK_PILE(NIVEAU_PILE))THEN
           TEXT(NIVEAU_PILE+1)=BLANC
@@ -537,7 +537,7 @@ C------------------------------------------
 C
       IF(IW>0) THEN
 C------------------------------------------
-C       Ecriture du Trace Back et Arret
+C       Writing the trace back and stop
 C------------------------------------------
         IF(NIVEAU_PILE<=0)CALL MY_EXIT(3)
 C

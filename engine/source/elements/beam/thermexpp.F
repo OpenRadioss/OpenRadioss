@@ -74,7 +74,7 @@ C=======================================================================
 !   
    
 C-------------------------------------
-C     DEBUT DE BOUCLE SUR POINTS INTEGRATION
+C     START OF LOOP OVER INTEGRATION POINTS
 C--------------------------------------
 C             
       IPA  = 400  
@@ -95,13 +95,13 @@ C
           ENDDO
         ENDIF        
 C
-C---    Contraintes elastiques
+C--- Elastic constraints
 C
         DO I =1 ,NEL             
           MX = MAT(I)                            
           E    = PM(20,MX)                         
           SIGNXX =  -E*ETH(I)  
-C       FORCES ET MOMENTS
+C       FORCES AND MOMENTS
           APT = GEO(IPA+IPT,PID(I)) 
           DFXX = APT*SIGNXX
           FOR(I,1) = FOR(I,1) + DFXX     
@@ -109,7 +109,7 @@ C
           LBUF%SIG(II(1)+I) = LBUF%SIG(II(1)+I) + SIGNXX
         ENDDO                                                       
 C-------------------------------------
-C       FIN DE BOUCLE SUR POINT INTEGRATION
+C       END OF LOOP OVER INTEGRATION POINTS
 C-------------------------------------
        ENDDO   
 C-----------

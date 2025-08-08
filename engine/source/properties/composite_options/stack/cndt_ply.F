@@ -71,7 +71,7 @@ C
 C    sti = vol*E/lc*lc
 C    lc = (vol)**0.3333
 C    here we take lc = hi 
-C  la rigidit  est surestim , dans le cas ou hi<lc 
+C  stiffness is overestimated, in the case where hi<lc
 cc           FAC = OFF(I)*ONE_OVER_8*AREA(I)/THK_IPLY(I,J)
 cc           FAC = OFFI(I,J)*AREA(I)/THK_IPLY(I,J)
            IF(OFF(I)/=ZERO)THEN

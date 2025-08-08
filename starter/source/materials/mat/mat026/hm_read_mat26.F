@@ -306,7 +306,7 @@ C
 !----------------------
 !
 c
-C---- Definition des variables internes (stockage elementaire)
+C---- Definition of internal variables (Elementary storage)
 c
       MTAG%G_PLA   = 1    
       MTAG%G_TEMP  = 1    
@@ -316,7 +316,7 @@ c
       MTAG%L_TEMP  = 1
       MTAG%L_EPSD  = 1
       MTAG%L_SSP   = 1
-      MTAG%L_Z     = 1    ! taux ionisation
+      MTAG%L_Z     = 1    ! ionization rate
 c
       ! MATPARAM keywords
       CALL INIT_MAT_KEYWORD(MATPARAM,"INCOMPRESSIBLE")

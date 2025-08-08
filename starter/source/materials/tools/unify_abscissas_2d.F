@@ -50,7 +50,7 @@ C-----------------------------------------------
       INTEGER ,INTENT(INOUT)                      :: NPT   ! length of X vector
       INTEGER ,DIMENSION(NFUNC)      ,INTENT(IN)  :: LEN   ! NPTS by function
       my_real ,DIMENSION(LMAX,NFUNC) ,INTENT(IN)  :: XI    ! initial abscissa coordinates
-      my_real ,DIMENSION(NPT)        ,INTENT(OUT) :: XF    ! output abscissa vector
+      my_real ,DIMENSION(NPT)        ,INTENT(OUT) :: XF    ! Output Abscissa Vector
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

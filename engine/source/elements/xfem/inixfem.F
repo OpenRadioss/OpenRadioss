@@ -77,7 +77,7 @@ C-----------------------------------------------
       INTEGER ITSK,NODFTSK,NODLTSK,OMP_GET_THREAD_NUM
       my_real OFF
 C=======================================================================
-      NUMELCRK2 = NUMELCRK    !  pour check si crack avance dans le cycle (anim)
+      NUMELCRK2 = NUMELCRK    ! to check if crack advances in the cycle (animation)
       ITG1 = 1+NUMELC
       ITG2 = 1+4*ECRKXFEC
 C---
@@ -85,7 +85,7 @@ C---
       NODLTSK   = NUMNOD
       CALL CRK_COORD_INI(ADDCNE_CRK,INOD_CRK,NODFTSK,NODLTSK,X,NODLEVXF)
 c
-      ! save nb elements connectes au noeud
+      ! Save nb elements connected to the node
       DO I=NODFTSK,NODLTSK
          N = INOD_CRK(I)
          IF (N > 0) THEN

@@ -125,7 +125,7 @@ C
 C
       ENDDO
 C--------------------------------------------------------
-C normales aux triangles (recalculees ici pour pas les stocker).
+C normals to triangles (recalculated here so as not to store them)
 C--------------------------------------------------------
       DO I=1,JLT
 C    
@@ -208,7 +208,7 @@ c               scharp angle bound nodal normal to 45 from segment normal
 C
               S   = LA(I)/EPSEG
 C
-C continuite de la normale a la frontiere de la zone limite d'interpolation
+C continuity of the normal at the boundary of the interpolation limit zone
               NN1(I)=(ONE-S)*NN1(I)+S*NX(I)
               NN2(I)=(ONE-S)*NN2(I)+S*NY(I)
               NN3(I)=(ONE-S)*NN3(I)+S*NZ(I)
@@ -309,7 +309,7 @@ c             scharp angle bound nodal normal to 45 from segment normal
             NN2(I)=NN2(I)*NN
             NN3(I)=NN3(I)*NN
 C
-C continuite de la normale a la frontiere de la zone limite d'interpolation
+C continuity of the normal at the boundary of the interpolation limit zone
             NN1(I)=(ONE-S)*NN1(I)+S*NX(I)
             NN2(I)=(ONE-S)*NN2(I)+S*NY(I)
             NN3(I)=(ONE-S)*NN3(I)+S*NZ(I)
@@ -370,7 +370,7 @@ C
           IB1=IBOUND(I1,I)
           IB2=IBOUND(I2,I)
 C
-C         Projection sur le plan et Distance signee au plan
+C         projection onto the plane and signed distance to the plane
           XH(I)=XI(I)+BB(I)*NX(I)
           YH(I)=YI(I)+BB(I)*NY(I)
           ZH(I)=ZI(I)+BB(I)*NZ(I)
@@ -510,7 +510,7 @@ C
           IB2=IBOUND(2,I)
           IB3=IBOUND(3,I)
 C
-C         Projection sur le plan et Distance signee au plan
+C         projection onto the plane and signed distance to the plane
           XH(I)=XI(I)+BB(I)*NX(I)
           YH(I)=YI(I)+BB(I)*NY(I)
           ZH(I)=ZI(I)+BB(I)*NZ(I)
@@ -860,7 +860,7 @@ C-------------------------------------------
         ENDDO
       END IF
 C--------------------------------------------------------
-C      Calculer PENE et Hi
+C      calculate pene and hi
 C--------------------------------------------------------
       DO I=1,JLT
 C

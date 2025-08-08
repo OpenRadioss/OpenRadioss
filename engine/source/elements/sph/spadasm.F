@@ -92,7 +92,7 @@ C
          ENDIF
         ENDDO
 C
-C Particules symetriques de particules remotes
+C Symmetrical particles of remote particles
 C
         DO NS = 1+ITASK, NSPHR,NTHREAD
          JS=ISPSYMR(NC,NS)
@@ -159,7 +159,7 @@ C-----------------------------------------------
      .       NX,NY,NZ,
      .       VXS,VYS,VZS,VN
 C-----------------------------------------------
-C   routine simplifiee (traitement sur XSPSYM effectue ds SPADASM0)
+C   Simplified routine (treatment on XSP Sym performs spadas M0)
       DO NC=1,NSPCOND
         IS=ISPCOND(3,NC)
         IC=ISPCOND(2,NC)
@@ -192,7 +192,7 @@ C
          ENDIF
         ENDDO
 C
-C Particules symetriques de particules remotes
+C Symmetrical particles of remote particles
 C
         DO NS = 1+ITASK,NSPHR,NTHREAD
          JS=ISPSYMR(NC,NS)

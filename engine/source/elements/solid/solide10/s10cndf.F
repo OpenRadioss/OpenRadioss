@@ -264,7 +264,7 @@ C----pass2 : all excepting N1,N2 are secnd nodes of Int2
 !$OMP SINGLE
 #include "vectorize.inc"
          DO I=1,IAD_CNDM(NSPMD+1)-1
-          J = FR_CNDM(I) ! noeud sommet sur la frontiere SPMD (CoNDensation Main node)
+          J = FR_CNDM(I) ! main node at the boundary for spmd (condensation main node)
            A(1,J) = A(1,J) * WEIGHT(J) 
            A(2,J) = A(2,J) * WEIGHT(J) 
            A(3,J) = A(3,J) * WEIGHT(J)
@@ -1292,7 +1292,7 @@ C=======================================================================
         D_TSTART = DAMPR(17,ND)
         D_TSTOP  = DAMPR(18,ND)
        IF (TT>=D_TSTART .AND. TT<=D_TSTOP) THEN
-C----- Damping sur dof rotation et seulement -----
+Cdamping only on rotational dof
           IF (DAMPR(19,ND)>0) CYCLE
 C-------------------------------------------------
           DAMP_A(1) = DAMPR(3,ND)
@@ -1410,7 +1410,7 @@ C-------P/ON
         D_TSTART = DAMPR(17,ND)
         D_TSTOP  = DAMPR(18,ND)
        IF (TT>=D_TSTART .AND. TT<=D_TSTOP) THEN
-C----- Damping sur dof rotation et seulement -----
+Cdamping only on rotational dof
           IF (DAMPR(19,ND)>0) CYCLE
 C-------------------------------------------------
           DAMP_A(1) = DAMPR(3,ND)

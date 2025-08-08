@@ -83,7 +83,7 @@ C
             YWL(N)= ZERO
             ZWL(N)= ZERO
           ELSE
-C verifier que ce noeud est sur proc0 !
+C check that this node is on processor 0!
             XWL(N)=DISP(1,MSR)
             YWL(N)=DISP(2,MSR)
             ZWL(N)=DISP(3,MSR)

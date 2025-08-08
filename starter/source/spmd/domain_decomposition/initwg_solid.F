@@ -62,7 +62,7 @@ C-----------------------------------------------
      .  IXS(NIXS,*),IGEO(NPROPGI,NUMGEO),ISOLNOD(*),
      .  IPM(NPROPMI,*),TABMP_L,NPART
       INTEGER, INTENT(IN) :: SIZE_IRUP
-C     REAL OU REAL*8
+C     REAL OR REAL*8
       my_real
      .    PM(NPROPM,*), GEO(NPROPG,*),BUFMAT(*)
       REAL WD(*)
@@ -590,7 +590,7 @@ C -------------------------------
               TELT = TMAT + SOLTELT(3) + TRUP + MULT_SPE*NLOCAL_OPTION(SPE_I_3) + ADD_OVER_COST + VISC_PRONY
 C
             ELSEIF (JHBE==12) THEN
-!           Solides ISOLD12 - std 8 node integ point
+!           Solids Insd12 - STD 8 NODE INTEG Point
               IF( DDWEIGHTS(1,1,IABS(MID))/=0)THEN
                 TMAT = DDWEIGHTS(1,1,IABS(MID)) * TPSREF
               ELSE
@@ -662,9 +662,9 @@ C
                     !   ICPR = ijk = rst ( i=r / j=s / k=t)
                     IF(ICPR==100) THEN  !   r direction
                         OVERCOST_ELM = NPTS*NPTT
-                    ELSEIF(ICPR==10) THEN  !   s direction
+                    ELSEIF(ICPR==10) THEN  !   Sharp
                         OVERCOST_ELM = NPTT*NPTR
-                    ELSE                !   t direction
+                    ELSE                !   Directorate
                         OVERCOST_ELM = NPTS*NPTR
                     ENDIF
                 ELSE
@@ -675,10 +675,10 @@ C
                     IF(ICPR==100) THEN  !   r direction
                         NUMBER_LAYER = NPTR
                         OVERCOST_ELM = NPTS*NPTT
-                    ELSEIF(ICPR==10) THEN  !   s direction
+                    ELSEIF(ICPR==10) THEN  !   Sharp
                         NUMBER_LAYER = NPTS
                         OVERCOST_ELM = NPTT*NPTR
-                    ELSE                !   t direction
+                    ELSE                !   Directorate
                         NUMBER_LAYER = NPTT
                         OVERCOST_ELM = NPTS*NPTR
                     ENDIF          

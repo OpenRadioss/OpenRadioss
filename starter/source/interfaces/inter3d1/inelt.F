@@ -74,7 +74,7 @@ C
 C
       NEL=SURF_ELEM(I)
 C-----------------------------------------------
-C     VERIFICATION DE L'ORIENTATION DES SEGMENTS
+C     VERIFICATION OF THE ORIENTATION OF THE SEGMENTS
 C-----------------------------------------------
        XS1=0.
        YS1=0.
@@ -204,7 +204,7 @@ C
 C
       NEL=SURF_ELEM(I)
 C-----------------------------------------------
-C     VERIFICATION DE L'ORIENTATION DES SEGMENTS
+C     VERIFICATION OF THE ORIENTATION OF THE SEGMENTS
 C-----------------------------------------------
        XS1=0.
        YS1=0.
@@ -297,7 +297,7 @@ C
       NELIG3D=SURF_ELEM_IGE(I)
 
 C-----------------------------------------------
-C     VERIFICATION DE L'ORIENTATION DES SEGMENTS
+C     VERIFICATION OF THE ORIENTATION OF THE SEGMENTS
 C-----------------------------------------------
        XS1=0.
        YS1=0.

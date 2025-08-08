@@ -27,7 +27,7 @@ C
 C=======================================================================
 C-------------------------------------------
 C
-C     ROUTINES DE CODAGE ET DECODAGE
+C     CODING AND DECODING ROUTINES
 C
 C-------------------------------------------
       CHARACTER*8 FUNCTION STRR(Y)

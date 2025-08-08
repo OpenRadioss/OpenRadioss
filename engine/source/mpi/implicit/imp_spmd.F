@@ -199,7 +199,7 @@ C
      .        ' MUMPS    DIM : NNZ =',NNZT,' NNZFR =',NKF_TOT
          ENDIF
 C
-C Affectation des termes de frontieres aux processeurs
+C assignment of boundary terms to processors
          NKFMAX=NKFRONT
          DO I=1,NSPMD-1
             NKFMAX=MAX(NKFMAX,NKFP(I))
@@ -642,7 +642,7 @@ C
 C
          IF (ISENS==1) THEN
             ALLOCATE(VP(NDDLG,NSPMD-1))
-C Gather des forces
+C gather of forces
             DO I=1,NDDLG
                RHS(I)=ZERO
             ENDDO
@@ -666,7 +666,7 @@ C
             DEALLOCATE(VP)
 C
          ELSEIF (ISENS==2) THEN
-C Scatter des deplacements
+C scatter of displacements
             DO I=1,NDDL
                II=CDDLP(I)
                V(I)=RHS(II)
@@ -1836,7 +1836,7 @@ C
         ENDIF
       ENDDO
 C
-C Compactage VSCAT sur CPU
+C VSCAT compacting on CPU
 C
       DO I = 1, LCOM
         L=INDEX(I)
@@ -2031,7 +2031,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-C----creer IAD_R (taille de recevoir)a partir de IAD_S------
+C----create IAD_R (receive size) from IAD_S------
       LOC_PROC = ISPMD + 1
 C------recive--
         DO I=1,NSPMD
@@ -2121,7 +2121,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-C----creer IAD_R (taille de recevoir)a partir de IAD_S------
+C----create IAD_R (receive size) from IAD_S------
       LOC_PROC = ISPMD + 1
       SIZ = NBINTC 
 C------recive--
@@ -2228,8 +2228,8 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
       LOC_PROC = ISPMD + 1
-C ------com. de numero nodes SECONDARYs et diag_Kss-----
-C au l appel, SSIZE=IAD_SREM(NSPMD+1)-1 
+C ------com. of node numbers SECONDARYs and diag_Kss-----
+C At the call, SSIZE = IAD_SREM (NSPMD+1) -1 
 C             RSIZE=IAD_SL(NSPMD+1)-1 
 C------recive--
         SIZE=7
@@ -3308,7 +3308,7 @@ C-----------------------------------------------
 
 C
       IF (IS==1) THEN
-C Passage de la decomposition DOMDEC a la process grid PARPACK
+C Transition from DOMDEC decomposition to PARPACK process grid
          IF (ISPMD==0) THEN
             DO I=1,NDDL
                VV(I)=ZERO
@@ -3330,13 +3330,13 @@ C
                CALL MPI_RECV(VP, NVP, REAL, IT_SPMD(I+1),
      .                       ITAG, SPMD_COMM_WORLD, ISTAT, IERR)
                IF (ISUM==1) THEN
-C Pas de sommation des contributions : valable pour des deplacements
+C No summation of contributions: valid for displacements
                   DO J=1,NVP
                      JJ=IVP(J)
                      VV(JJ)=VP(J)
                   ENDDO
                ELSEIF (ISUM==2) THEN
-C Sommation des contributions : valable pour des forces
+C Summation of contributions: valid for forces
                   DO J=1,NVP
                      JJ=IVP(J)
                      VV(JJ)=VV(JJ)+VP(J)
@@ -3372,7 +3372,7 @@ C
      .                    ITAG, SPMD_COMM_WORLD, ISTAT, IERR)
          ENDIF
       ELSEIF (IS==2) THEN
-C Passage de la process grid PARPACK a la decomposition DOMDEC
+C Transition from PARPACK process grid to DOMDEC decomposition
          IF (ISPMD==0) THEN
             NN=MIN(NBLOC,NDDL)
             DO I=1,NN
@@ -3472,7 +3472,7 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
       LOC_PROC = ISPMD + 1
 C ------com. de numero nodes SECONDARYs -----
-C au l appel, RSIZE=IAD_R(NSPMD+1)-1 
+C At the call, rsize = iAd_R (nspmd+1) -1 
 C             SSIZE=IAD_S(NSPMD+1)-1 
 C------recive--
         L=1
@@ -3587,7 +3587,7 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
       LOC_PROC = ISPMD + 1
 C ------com. de numero nodes SECONDARYs -----
-C au l appel, RSIZE=IAD_R(NSPMD+1)-1 
+C At the call, rsize = iAd_R (nspmd+1) -1 
 C             SSIZE=IAD_S(NSPMD+1)-1 
 C------recive--
         L=1

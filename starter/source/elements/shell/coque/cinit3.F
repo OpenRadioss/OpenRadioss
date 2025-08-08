@@ -467,7 +467,7 @@ C
         ENDIF 
       ENDIF
 C-----------------------------------------------------------------------
-C     CALCUL DES CONTRAINTES INITIALES
+C     calculation of initial constraints
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
       IF (ISIGSH/=0 .OR. ITHKSHEL == 2) THEN
 C to be checked for IGTYP = 51 : ok
@@ -586,7 +586,7 @@ C to be checked for IGTYP = 51
      .              NPTT     ,NLAY     ,SIGSH   ,NSIGSH  ,PTSHEL  ,
      .              RNOISE   ,PERTURB  ,ALDT    ,THK     )
 C-------------------------------------------
-C    CALCUL DES DT ELEMENTAIRES
+C    calculation of elementary dt
 C-------------------------------------------
 c        IGTYP=GEO(12,IXC(6,I+NFT))
         IF (IGTYP /= 0  .AND. IGTYP /= 1  .AND.

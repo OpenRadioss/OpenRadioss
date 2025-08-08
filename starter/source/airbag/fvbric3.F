@@ -64,7 +64,7 @@ C
          ENDDO
       ENDDO
 C
-C Solides connectes au noeud N
+C Solid connects to node n
 C
       DO I=1,NBRIC
          NTYPE=TBRIC(2,I)
@@ -127,7 +127,7 @@ C
         ENDDO
       ENDIF
 C
-C  Noeud solide appartenant a des coques airbag ou internes => lagrangien
+C  Solid node belonging to airbag or internal shells => Lagrangian
 C
       DO I=1,NB_NODE
         JTAG(I)=0
@@ -140,7 +140,7 @@ C
         IF(JTAG(J)==1) NCONA(2,I)=1
       ENDDO
 C
-C  Noeuds voisins pour calcul de la vitesse de grille
+C  Neighboring nodes for grid velocity calculation
 C
       NNAI=0
       DO I=1,NNA
@@ -194,7 +194,7 @@ C
          DO N=1,NNA
          IF(N==I) CYCLE
          IF(ITAG(N)>=IMAX) THEN
-C  Le noeud N appartient a au moins IMAX solides voisins
+C  The node does not belong to at least Imax Solid Voisins
            NN=NCONA(1,I)
            NN=NN+1
            IF(NN>14) GO TO 100

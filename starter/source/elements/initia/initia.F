@@ -785,13 +785,13 @@ C--------------------------------------------
      .                     NGROUP,NPARG,IPARG,IPRI)
       ENDIF
 C---------------------------------------------------------
-C     Tri du vecteur de bolt Preloading
+C     Sorting of the bolt preloading vector
 C---------------------------------------------------------
       IF (NPRELOAD > 0) THEN
         CALL INIBOLTPREL(IXS,IPRELOAD ,PRELOAD  ,VPRELOAD, IFLAG_BPRELOAD)
       ENDIF
 C-----------------------------------------------------
-C     PREPARATION DU CALCUL DES MASSES PAR PARTICULE SI CONDITION(S) DE
+C     PREPARATION OF THE CALCULATION OF MASSES BY PARTICLE IF CONDITION(S) OF
 C     SYMETRIE
 C-----------------------------------------------------
       IF (NUMSPH/=0.AND.NSPCOND/=0)
@@ -806,8 +806,8 @@ C--------------------------------------------
      .                                      X,ITAB,IPM,ALEA,KNOD2ELC,
      .                                      NOD2ELC,IXC)
 C-----------------------------------------------------
-C     INITIALISATION DES BUFFERS DES ELEMENTS
-C     INITIALISATION DES MASSES ET DES INERTIES
+C     INITIALIZATION OF ELEMENT BUFFERS
+C     INITIALIZATION OF MASSES AND INERTIAS
 C-----------------------------------------------------
 C
 C  for heat transfer
@@ -959,7 +959,7 @@ C
      E        GROUP_PARAM_TAB(NG)    ,IGTYP      ,DEFAULTS  ,GLOB_THERM)
 C
        ELSE
-C Element types
+C Type element
         LFT=1
         LLT=NEL
         OFFSET=0

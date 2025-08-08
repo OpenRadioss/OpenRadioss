@@ -129,7 +129,7 @@ C
          YFAC(J) = UPARAM(9 + 2*J )
        ENDDO
        YFAC_UNL = UPARAM(9 + 2*NLOAD + 2 )
-C iniialisation des variabesl users 
+C initialization of user variables
       IF(TIME == ZERO)THEN
        DO J = 1,NUVAR
         DO  I = 1, NEL

@@ -909,7 +909,7 @@ C-----------------------------------------------
       INTEGER I, J, K,ID,NL,NI,NJ,NDOFI,ND,IR,IDM
       my_real KDD(6,6),BD(6),XS,YS,ZS
 C------------------------------------
-C     VITESSES DES NOEUDS SECONDS
+C     velocities of the secondary nodes
 C------------------------------------
         I=NS
         NDOFI = 3

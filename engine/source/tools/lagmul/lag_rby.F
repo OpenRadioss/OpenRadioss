@@ -56,11 +56,11 @@ C-----------------------------------------------
       INTEGER I,J,JF,N,NN,M,IK,IC,IAD,IFX,IFR,MSL,TNSL,NFIX,NFRE
       my_real RX,RY,RZ,R1,R2,R3,MMAS,XG(3),VG(3)
 C-----------------------------------------------
-C        NC : nombre de condition cinematique 
-C        IC : numero de la condition cinematique (1,NC)
+C        NC: number of cinematic condition 
+C        IC : number of the kinematic condition (1,NC)
 C        IK : 
 C        I  : numero global du noeud (1,NUMNOD)
-C        J  : direction 1,2,3,4,5,6
+C        J ': direction 1,2,3,4,5,6
 C------
 C        IADLL(NC)        : IAD = IADLL(IC)
 C        IK = IAD,IAD+1,IAD+2,...

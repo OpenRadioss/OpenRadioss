@@ -164,7 +164,7 @@ C-----------------------------------------------
                IF(TAG(NI)>-1) THEN
                  CAND_N_LOC(L) = INTBUF_TAB%CAND_N(K)
                  CAND_E_LOC(L) = INTBUF_TAB%CAND_E(K)
-                 IF(NTY==24.OR.NTY==25)THEN ! rien a faire (a TT=0)
+                 IF(NTY==24.OR.NTY==25)THEN ! Nothing to do (a tt = 0)
                  ELSE
                    IF((NTY==7.OR.NTY==20).AND.(INACTI==5.OR.INACTI==6.OR.INACTI==7)) 
      .              CAND_P_LOC(L) = INTBUF_TAB%CAND_P(K)
@@ -189,7 +189,7 @@ C-----------------------------------------------
               ! Local
                  CAND_N_LOC(L) = INTBUF_TAB%CAND_N(K)
                  CAND_E_LOC(L) = INTBUF_TAB%CAND_E(K)
-                 IF(NTY==24.OR.NTY==25)THEN ! rien a faire (a TT=0) 
+                 IF(NTY==24.OR.NTY==25)THEN ! Nothing to do (a tt = 0) 
                  ELSE
                    IF((NTY==7.OR.NTY==20).AND.(INACTI==5.OR.INACTI==6.OR.INACTI==7))
      .              CAND_P_LOC(L) = INTBUF_TAB%CAND_P(K)
@@ -213,7 +213,7 @@ C-----------------------------------------------
             ENDDO
             INTBUF_TAB%CAND_N(1:I_STOK) = 0
             INTBUF_TAB%CAND_E(1:I_STOK) = 0
-            IF(NTY==24.OR.NTY==25)THEN ! rien a faire (a TT=0) 
+            IF(NTY==24.OR.NTY==25)THEN ! Nothing to do (a tt = 0) 
             ELSE
               IF((NTY==7.OR.NTY==20).AND.(INACTI==5.OR.INACTI==6.OR.INACTI==7))
      .           INTBUF_TAB%CAND_P(1:I_STOK) = 0
@@ -236,7 +236,7 @@ C-----------------------------------------------
             IF(I_STOK>0) THEN
              INTBUF_TAB%CAND_N(1:I_STOK) = CAND_N_LOC(1:I_STOK)
              INTBUF_TAB%CAND_E(1:I_STOK) = CAND_E_LOC(1:I_STOK)
-             IF(NTY==24.OR.NTY==25)THEN ! rien a faire 
+             IF(NTY==24.OR.NTY==25)THEN ! nothing to do 
              ELSE
                IF((NTY==7.OR.NTY==20).AND.(INACTI==5.OR.INACTI==6.OR.INACTI==7)) 
      .            INTBUF_TAB%CAND_P(1:I_STOK) = CAND_P_LOC(1:I_STOK)
@@ -258,7 +258,7 @@ C-----------------------------------------------
             ENDIF
             DEALLOCATE( CAND_N_LOC )
             DEALLOCATE( CAND_E_LOC )
-            IF(NTY==24.OR.NTY==25)THEN ! rien a faire 
+            IF(NTY==24.OR.NTY==25)THEN ! nothing to do 
             ELSE
               IF((NTY==7.OR.NTY==20).AND.(INACTI==5.OR.INACTI==6.OR.INACTI==7))
      .          DEALLOCATE( CAND_P_LOC )

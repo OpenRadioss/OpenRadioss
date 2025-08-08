@@ -325,7 +325,7 @@ C------------------------------------------------------------
         !gap output 
         WRITE(IOUT,3014)  
         ! USER          INTERNAL
-        ! IGAP=0,1000 ->  0      (constant gap : defaut = auto)
+        ! IGAP = 0.1000 -> 0 (Constant Gap: DEFAUT = AUTO)
         ! IGAP=1      ->  1      (variable gap)      
         IF(IGAP == 0)THEN                                  
           !CONSTANT GAP  

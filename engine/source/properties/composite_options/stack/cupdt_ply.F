@@ -84,7 +84,7 @@ C-----------------------------------------------
      .   MPLY33,MPLY14,MPLY24,MPLY34
 C-----------------------------------------------
 C
-C cumul de l'energie des elements deletes AU moment du delete
+C accumulation of the energy of deleted elements at the time of deletion
 C
       OFF_L = ZERO
       DO I=JFT,JLT

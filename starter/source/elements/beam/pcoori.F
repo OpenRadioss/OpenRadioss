@@ -67,7 +67,7 @@ C-----------------------------------------------
       my_real XP1, XP2, XP3, XNOR1, XP4, XP5, XP6,
      .        XNOR2, XNORM, DET1, DET2, DET3, DET, XX,YY,ZZ,TOL
 C=======================================================================
-C     CONNECTIVITES ET MATERIEL                   |
+C     connectivities and material
 C--------------------------------------------------
       TOL=TWO*EM06
       DO I=LFT,LLT

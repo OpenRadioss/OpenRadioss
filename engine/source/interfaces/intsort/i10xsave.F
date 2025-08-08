@@ -31,7 +31,7 @@ C  |         I10MAIN_TRI                       /intsort/i10main_tri.F
      1       X     ,NSV  ,MSR   ,NSN   ,NMN     ,
      2       ITASK ,XSAV ,XMIN  ,YMIN  ,ZMIN    ,
      3       XMAX  ,YMAX ,ZMAX  )
-C sauvegarde des XSAV et calcul borne domaine
+C save XSAV values and calculate domain bounds
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

@@ -503,7 +503,7 @@ C-----------------------
         ENDDO
       ENDIF ! IF (IGTYP /= 1)
 C-----------------------
-C      FORCES ET MOMENTS
+C      forces and moments
 C-----------------------
       DO I=JFT,JLT
         FOR_G(I,1) = SIGNXX(I)+SIGVXX(I)
@@ -539,7 +539,7 @@ C---------------------------
         ENDDO
       ENDIF
 C---------------------------
-C     VISCOSITE DE MEMBRANE
+C     membrane viscosity
 C---------------------------
       IF (DM > ZERO) THEN
         DO I=JFT,JLT                                                   
@@ -572,8 +572,8 @@ C
         EINT(I,2) = EINT(I,2) + DEGFX(I)*THK0(I)*VOL2
       ENDDO
 C----------------------------
-C     TEST DE RUPTURE DUCTILE
-C     INDX utilise dans IELOF
+C     Ductile rupture test
+C     INDX used in IELOF
 C----------------------------
       NINDX=0
       DO I=JFT,JLT

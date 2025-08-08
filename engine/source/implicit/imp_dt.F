@@ -223,7 +223,7 @@ C------last step-------
         DLA_RIKS = FACT*DT2
        ENDIF
       ENDIF
-C----------reput old dt du to fix_p ------
+C--------- Old DT MADE OF TO FIX_P -------
       IFIX0 = IDTFIX
       IF (IFIX0>0) THEN
        IDTFIX = 0

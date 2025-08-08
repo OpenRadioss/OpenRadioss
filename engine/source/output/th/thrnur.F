@@ -57,7 +57,7 @@ C-----------------------------------------------
      .   WWA(100),XFN
       II=0
       IH=IAD
-C   specifique spmd
+C   SPECIFIC SPMD
       LWA = NN*NVAR
       DO I = 1, LWA
         WA(I) = ZERO
@@ -88,9 +88,9 @@ C
 C
             IF (K==N)THEN
               IH=IH+1
-C   traitement specifique spmd
+C   SPECT SPMD treatment
 
-C recherche du ii correct
+C search for the correct ii
               II = ((IH-1) - IAD)*NVAR
               DO WHILE((ITHBUF(IH+NN)/=ISPMD).AND.(IH<IAD+NN))
                 IH = IH + 1

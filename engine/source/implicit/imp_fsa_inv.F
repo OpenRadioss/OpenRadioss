@@ -74,7 +74,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C--IP:0 standard; unpaire:avec pre-filtre; 2,3 level 2; >4 fsai(ip-4 : 6,7:level 2)
+C--IP: 0 standard;Apaire: with pre-filter;2.3 Level 2;> 4 FSAI (IP-4: 6.7: Level 2)
       INTEGER  NDDL  ,MAXC,IADK(*)  ,JDIK(*)
       INTEGER  NNZM,IADM(*) ,JDIM(*),NC(*),JM(MAXC,*),IP
 C     REAL
@@ -127,7 +127,7 @@ C
 C
       IF (IOPT>1) THEN
        DO I=1,NDDL
-C------------avec diag----
+C------------with diag----
         NC(I) = NC(I)+1
         JM(NC(I),I)=I
         DO K =IADM(I),IADM(I+1)-1
@@ -518,7 +518,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J
-C----6-----IC est deja en ordre croissante---------------------------7---------8
+C---- 6 ----- IC is already in an increasing order ----------------------------------- 7 -------- 8
       INTAB0=0
       IF (N<IC(1).OR.N>IC(NIC)) RETURN
       IF (N<NIC/2) THEN
@@ -625,7 +625,7 @@ C-----------------------------
      .                C1='FOR IMPLICIT PRECONDITION')
           CALL ARRET(2)
         ENDIF 
-C--------------copy la partie utile------
+C--------------copy the useful part------
        I_CHK = NNE
        NNE = 0
        K=IADK(IDLFT1+1)-1
@@ -656,7 +656,7 @@ C--------------copy la partie utile------
         CALL IMP_FSAI(NC    ,IADA  ,JDIA  ,DIAG_A ,LT_A  ,
      .               MAX_L ,MJ    )
         ENDIF 
-C------------filtrage----Diagonal est dans LT_M (last one)--
+C------------filtering----Diagonal is in LT_M (last one)--
          DIAG_M(I)=MJ(NC)
          IF (DIAG_M(I)<EM20) THEN
           IF (NNE==0.AND.I_CHK==0) NNE = I
@@ -781,7 +781,7 @@ C        L_B2=R02
        ENDIF
        IF (R02==ZERO) GOTO 200
        TOLN=R02*TOLS2
-C-------pour etre coherent avec lanzos for linear
+C-------to be consistent with lanzos for linear
        IT=1
        DO I=1,NDDL
          X(I) = X(I) + ALPHA*P(I)
@@ -1058,7 +1058,7 @@ C-----------------------------
      .                 C1='FOR IMPLICIT PRECONDITION')
           CALL ARRET(2)
         ENDIF 
-C--------------copy la partie utile------
+C--------------copy the useful part------
        I_CHK = NNE
        NNE = 0
        K=IADK(IDLFT1+1)-1
@@ -1089,7 +1089,7 @@ C--------------copy la partie utile------
          CALL IMP_FSAI(NC    ,IADA  ,JDIA  ,DIAG_A ,LT_A  ,
      .               MAX_L ,MJ    )
         ENDIF 
-C------------Diagonal est dans LT_M (last one)--
+C------------Diagonal is in LT_M (last one)--
          DIAG_M(I)=MJ(NC)
          IF (DIAG_M(I)<EM20) THEN
           IF (NNE==0.AND.I_CHK==0) NNE = I
@@ -1392,7 +1392,7 @@ C
          END IF !(ITASK == 0 ) THEN
         ENDIF 
 
-C--------------copy la partie utile------
+C--------------copy the useful part------
        K=IADK(IDLFT1+1)-1
        DO I=IDLFT1+1,NDDL
          DIAG_C(I-IDLFT1) = DIAG_M(I)
@@ -1404,7 +1404,7 @@ C----------------------
       CALL MY_BARRIER
 C---------------------
 C
-C Boucle parallele dynamique SMP
+C SMP dynamic parallel loop
 C
 !$OMP DO SCHEDULE(DYNAMIC,1)
       DO I=IDLFT0+1,NDDL
@@ -1432,7 +1432,7 @@ C
      .                 MAX_L ,MJ    )
 C
         ENDIF 
-C------------filtrage----Diagonal est dans LT_M (last one)--
+C------------filtering----Diagonal is in LT_M (last one)--
          DIAG_M(I)=MJ(NC)
          IF (DIAG_M(I)<EM20) THEN
           IF (NNE==0.AND.I_CHK==0) NNE = I
@@ -1514,7 +1514,7 @@ C--------
            CALL ARRET(2)
          END IF !(ITASK == 0 ) THEN
         ENDIF 
-C--------------copy la partie utile------
+C--------------copy the useful part------
        K=IADK(IDLFT1+1)-1
        DO I=IDLFT1+1,NDDL
          DIAG_C(I-IDLFT1) = DIAG_M(I)
@@ -1525,7 +1525,7 @@ C--------------copy la partie utile------
 C----------------------
       CALL MY_BARRIER
 C---------------------
-C Boucle parallele dynamique SMP
+C SMP dynamic parallel loop
 C
 !$OMP DO SCHEDULE(DYNAMIC,1)
        DO I=IDLFT0+1,NDDL
@@ -1549,7 +1549,7 @@ C
          CALL IMP_FSAI(NC    ,IADA  ,JDIA  ,DIAG_A ,LT_A  ,
      .                MAX_L ,MJ    )
         ENDIF 
-C------------Diagonal est dans LT_M (last one)--
+C------------Diagonal is in LT_M (last one)--
          DIAG_M(I)=MJ(NC)
          IF (DIAG_M(I)<EM20) THEN
           IF (NNE==0.AND.I_CHK==0) NNE = I
@@ -1686,7 +1686,7 @@ C
      .                 MAX_L ,MJ    )
 C
         ENDIF 
-C------------filtrage----Diagonal est dans LT_M (last one)--
+C------------filtering----Diagonal is in LT_M (last one)--
          DIAG_M(I)=MJ(NC)
          IF (DIAG_M(I)<EM20) THEN
           IF (NNE==0.AND.I_CHK==0) NNE = I
@@ -1755,7 +1755,7 @@ C-----------------------------
        NNE = 0
        IF ((IDLFT0+1)>NDDL) RETURN
 C
-C--------------copy la partie utile------
+C--------------copy the useful part------
        K=IADK(IDLFT1+1)-1
 !$OMP PARALLEL PRIVATE(ITSK,F_DDL,L_DDL,NC,MAX_L,I,J,N1)
         ITSK = OMP_GET_THREAD_NUM()
@@ -1776,7 +1776,7 @@ C----------------------
       CALL MY_BARRIER
 C---------------------
 C
-C Boucle parallele dynamique SMP
+C SMP dynamic parallel loop
 C
 !$OMP DO SCHEDULE(DYNAMIC,1)
       DO I=IDLFT0+1,NDDL
@@ -1846,7 +1846,7 @@ C-----------------------------
        NNE = 0
        IF ((IDLFT0+1)>NDDL) RETURN
 C       
-C--------------copy la partie utile------
+C--------------copy the useful part------
        K=IADK(IDLFT1+1)-1
 !$OMP PARALLEL PRIVATE(ITSK,F_DDL,L_DDL,NC,MAX_L,N1,J,I)
         ITSK = OMP_GET_THREAD_NUM()
@@ -1862,7 +1862,7 @@ C--------------copy la partie utile------
 C----------------------
       CALL MY_BARRIER
 C---------------------
-C Boucle parallele dynamique SMP
+C SMP dynamic parallel loop
 C
 !$OMP DO SCHEDULE(DYNAMIC,1)
        DO I=IDLFT0+1,NDDL

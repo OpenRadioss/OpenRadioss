@@ -92,7 +92,7 @@ C     REAL
       DATA IPERM1/0,0,0,0,1,2,3,1,2,3/
       DATA IPERM2/0,0,0,0,2,3,1,4,4,4/
 C-----------------------------------------------
-      FLAG = IPARG(80) ! Flag pour sorties additionnelles
+      FLAG = IPARG(80) ! flag for additional outputs
 C-----------------------------------------------
 C     CALCUL BILAN SORTIES DEF 
 C-----------------------------------------------

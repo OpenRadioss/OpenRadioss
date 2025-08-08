@@ -45,7 +45,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
 C
-C compatibilisation des options non supportees si NSPMD > 1
+C Accounting of non -supported options if NSPPD> 1
       DO I = 1, NINTER
         IF(IPARI(33,I)/=0)LAG_SEC=1
       END DO

@@ -143,7 +143,7 @@ C
            IF(NI<=NSN)THEN
              IG = NSV(NI)
              NSVG(I) = IG
-C---------------voir KINET(IG) est initi   quand    
+C-------------- see Kinet (IG) is initial when    
             IF (IG <= NUMNOD) THEN         
              KINI(I) = KINET(IG)
              XI(I) = X(1,IG)

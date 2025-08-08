@@ -509,7 +509,7 @@ C-----------
 C-------------------------------------
       IF (ALLOCATED(SUB_SOL)) DEALLOCATE(SUB_SOL)
 C-------------------------------------
-C Recherche des ID doubles
+C Search for double IDs
 C-------------------------------------
       CALL UDOUBLE(IXS(NIXS,1),NIXS,NUMELS,MESS,0,BID)
       RETURN
@@ -574,7 +574,7 @@ C
 C----------------------------------------------------
 C     DETECTION DES ELEMENTS LOIS 6 PAROI---->LOI 17
 C----------------------------------------------------
-C      LOI 17 SI LA BCS EST  111 (3D)
+C      LAW 17 IF THE BCS IS  111 (3D)
       DO I=1,NUMELS8
         MT=IXS(1,I)
         MLAW=NINT(PM(19,MT))
@@ -591,12 +591,12 @@ C      LOI 17 SI LA BCS EST  111 (3D)
         ENDDO
       ENDDO
 C----------------------------------------------------
-C     CLASSEMENT DES ELEMENTS PAR LOI DE MATERIAU
+C     CLASSIFICATION OF ELEMENTS BY MATERIAL LAW
 C----------------------------------------------------
       CALL REORDR(IXS   ,NIXS   ,NUMELS8,PM      ,IPOINT ,
      .            IPARTS,NGRBRIC,IGRBRIC,NUMMAT)
 C------------------------------------------
-C RENUMEROTATION POUR SURFACES
+C RENAMING FOR SURFACES
 C------------------------------------------
       DO I=1,NSURF
         NN =IGRSURF(I)%NSEG
@@ -608,7 +608,7 @@ C------------------------------------------
         ENDDO
       ENDDO
 C------------------------------------------
-C     RENUMEROTATION DES PARTICULES SPH 
+C     RENAMING OF SPH PARTICLES
 C------------------------------------------
       IF(NSPHSOL/=0)THEN
         DO I=1,NUMSPH
@@ -634,7 +634,7 @@ C Rebuild SOL2SPH, SOL2SPH(1,N)+1<=I<=SOLSPH(2,N) <=> N==SPH2SOL(I)
         END DO          
       END IF
 C------------------------------------------
-C     PERMUTATION DE ISOLNOD
+C     PERMUTATION OF ISOLNOD
 C------------------------------------------
       DO I=1,NUMELS8
         IPOINT(2,I)=ISOLNOD(I)
@@ -643,7 +643,7 @@ C------------------------------------------
         ISOLNOD(IPOINT(1,I))=IPOINT(2,I)
       ENDDO
 C------------------------------------------
-C Reconstruction de la matrice Nod -> Solid elt
+C Reconstruction of the matrix Nod -> Solid elt
 C------------------------------------------
       DO  K=2,9
         DO  I=1,NUMELS
@@ -838,7 +838,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     DETECTION DES ELEMENTS LOIS 6 PAROI---->LOI 17
 C----------------------------------------------------
-C     LOI 17 SI LA BCS EST  111 (3D)
+C     LAW 17 IF THE BCS IS  111 (3D)
       DO I=1,NUMELS8
         MT=IXS(1,I)
         IF(MT < 1)CYCLE

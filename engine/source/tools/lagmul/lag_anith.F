@@ -97,7 +97,7 @@ C---
       RETURN
       END
 
-C routine SPMD
+C SPMD routine
 !||====================================================================
 !||    lag_anithp     ../engine/source/tools/lagmul/lag_anith.F
 !||--- called by ------------------------------------------------------

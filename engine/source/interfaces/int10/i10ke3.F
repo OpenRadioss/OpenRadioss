@@ -523,7 +523,7 @@ C
 C
         NUM_IMP = 0
 C
-C recalcul du istok
+C recalculation of istok
 C
         DO I = DEBUT+1, DEBUT+I_STOK_LOC
           IF(INTBUF_TAB%CAND_N(I)<0) THEN

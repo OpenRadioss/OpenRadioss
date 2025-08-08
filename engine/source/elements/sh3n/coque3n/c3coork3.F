@@ -163,7 +163,7 @@ C----------------------------
         ENDDO
       ENDIF
 C----------------------------
-C     ORTHOTROPY plus tard
+C     Orthotropy later
 C----------------------------
       IF (IREP > 0) THEN
        CALL CORTDIR3(ELBUF_STR,DIR_A,DIR_B ,JFT    ,JLT    ,

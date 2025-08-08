@@ -582,7 +582,7 @@ c-----------------------------------------------------------
         ENDDO
       ENDIF
 C
-C     transformation en valeurs relatives par rapport aux unites globales
+C     transformation into relative values compared to global units
 C
       DO N=1,NUNITS
         IF (N >= 2) THEN

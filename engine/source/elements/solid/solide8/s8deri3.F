@@ -151,7 +151,7 @@ C
 C
       DO 100 IPT=1,8
 C
-C     VALEUR DES FONCTIONS DE FORMES AU POINT D 'INTEGRATION
+C     value of shape functions at the integration point
 C
       CALL BASISF (H,P1,P2,P3,IPT)
 C

@@ -208,7 +208,7 @@ C-----------------------------------------------
       IF(GAM*C1<EM30)THEN
        DO I=1,NEL
         IF(UVAR(I,3)/RHO10<HALF)THEN
-         UVAR(I,1) = ZERO !massic percentage of liquid
+         UVAR(I,1) = ZERO !Massic Percentage of Liquid
          RHO(I)    = UVAR(I,3)*RHOSCALE
          UVAR(I,2) = RHO(I)
          UVAR(I,4) = ZERO  ! no mass of liquid then no volume

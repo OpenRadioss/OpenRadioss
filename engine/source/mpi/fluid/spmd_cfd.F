@@ -2063,7 +2063,7 @@ C-----------------------------------------------
       TYPE(BUF_MAT_)  ,POINTER :: MBUF               
 C-----------------------------------------------
 
-      ! X on remote nodes
+      ! X We Remote Nodes
       LOC_PROC             = ISPMD+1
       IDEB                 = 0
       IDEB2                = 0

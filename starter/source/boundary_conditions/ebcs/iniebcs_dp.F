@@ -38,7 +38,7 @@ C OUTPUT : EBCS%DP0 : static hydropressure increment due to gravity loading if d
 C pre-condition : /EBCS/NRF defined (already check from parent subroutine)
 C                 NSEG >0 : LOOP is from 1 to NSEG ;  NSEG=0 : subroutine does nothing
 C
-C comments : DP0 = rho0 * grav0 * dist
+C Comments: DP0 = Rho0 * Grav0 * Dist
 C                    rho0 is retrieved from adjacent cell, initialized possibly by /INIGRAV, so it is in GBUF%RHO and not PM( )
 C                    grav0 is stored during INIGRAV procedure
 C                    dist is computed here, it is 2*dh  where h=distance(cell_centroid, cell_face). It corresponds to distance to the centroid of a ghost cell

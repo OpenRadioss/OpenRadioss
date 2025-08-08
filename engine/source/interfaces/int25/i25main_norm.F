@@ -86,7 +86,7 @@ C     REAL
 C-----------------------------------------------
       RZERO = 0.
 C
-C Calcul // des normales
+C parallel calculation of normals
 C
       IF(JTASK==1) THEN
         DO I=1,NINTER25

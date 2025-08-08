@@ -29,7 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE I18TRI(INDEX,I_STOK,CAND_N,ITAB, NSN ,
      2                  NSV  ,NIN   )
-C Tri des candidats suivant le numero de noeud user
+C sorting candidates according to the user node number
 C=======================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -51,11 +51,11 @@ C-----------------------------------------------
      .         ITRI(I_STOK),INDTRI(2*I_STOK),WORK(70000)
 C-----------------------------------------------
       DO I = 1, I_STOK
-        NI = CAND_N(INDEX(I))                  ! l ordre des facette n importe plus a nouveau P/on
+        NI = CAND_N(INDEX(I))                  ! the face order any more again p/we
          IF(NI<=NSN) THEN
             ITRI(I) = ITAB(NSV(NI)) ! 1 seul critere : noeud (user)
         ELSE
-          ITRI(I) = ITAFI(NIN)%P(NI-NSN)       ! attention au noeud frontiere
+          ITRI(I) = ITAFI(NIN)%P(NI-NSN)       ! Watch out for the boundary node
         END IF
       END DO
 C

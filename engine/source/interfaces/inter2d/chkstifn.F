@@ -72,7 +72,7 @@ C interface type 5 non // en spmd
            CALL CHKSLV(NSN,INTBUF_TAB(N)%NSV,INTBUF_TAB(N)%STFNS,MS)
          ENDIF
        ELSE
-C autres types d'interfaces
+C Other types of interfaces
        ENDIF
       ENDDO
 C
@@ -104,7 +104,7 @@ C-----------------------------------------------
 C     REAL
 C-----------------------------------------------
       DO I = 1, NSN
-C si somme masse nulle sur noeuds secnds alors stifn = -1
+C If zero mass sum on send nodes then Stifn = -1
         IF (MS(NSV(I))==ZERO) THEN
           STIFN(I) = -ONE
         ENDIF

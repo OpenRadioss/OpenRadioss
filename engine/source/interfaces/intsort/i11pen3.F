@@ -149,7 +149,7 @@ C
           M2=IRECTM(2,CAND_M(I))
 
 
-c         calcul d'un minorant de la distance
+c         calculation of a distance lower bound
 
           XMAX1 = MAX(X11,X21)
           YMAX1 = MAX(X12,X22)
@@ -170,7 +170,7 @@ c         calcul d'un minorant de la distance
             CYCLE
           ENDIF
 
-c         calcul de la distance^2
+c         calculation of distance squared
 
           XS12 = X21-X11
           YS12 = X22-X12
@@ -313,7 +313,7 @@ C
           M2=IRECTM(2,CAND_M(I))
 
 
-c         calcul d'un minorant de la distance
+c         calculation of a distance lower bound
 
           XMAX1 = MAX(X11,X21)
           YMAX1 = MAX(X12,X22)
@@ -334,7 +334,7 @@ c         calcul d'un minorant de la distance
             CYCLE
           ENDIF
 
-c         calcul de la distance^2
+c         calculation of distance squared
 
           XS12 = X21-X11
           YS12 = X22-X12

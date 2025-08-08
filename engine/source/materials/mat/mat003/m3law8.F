@@ -109,7 +109,7 @@ C
         JJ(J) = NEL*(J-1)
       ENDDO
 C--------------------------------------------------
-C     BOUCLE 1 SUR LES POINTS DE GAUSS
+C     LOOP 1 OVER GAUSS POINTS
 C--------------------------------------------------
       DO IPT=1,NPT
         LBUF => BUFLY%LBUF(1,1,IPT)
@@ -233,7 +233,7 @@ C
       ENDDO ! DO IPT=1,NPT
 C FIN BOUCLE 1 PT DE GAUSS
 C----------------------------
-C     TEST DE RUPTURE DUCTILE
+C     ductile failure test
 C---------------------------
       DO I=1,NEL
         IF(OFF(I)<EM01) OFF(I)=ZERO
@@ -260,7 +260,7 @@ C
       ENDIF
       DTA=HALF*DT1
 C--------------------------------------------------
-C     BOUCLE 2 SUR LES POINTS DE GAUSS
+C     LOOP 2 OVER GAUSS POINTS
 C--------------------------------------------------
       DO IPT=1,NPT
         LBUF => BUFLY%LBUF(1,1,IPT)

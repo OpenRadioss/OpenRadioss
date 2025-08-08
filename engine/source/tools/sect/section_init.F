@@ -311,11 +311,11 @@ C
          TMP(4) = SECBUF(3)
          TMP(5) = SECBUF(4)
          LEN = 5
-C   2*LEN necessaire pour communication !!!
+C   2*Len necessary for communication !!!
          CALL SPMD_RBCAST(TMP,TMP,LEN,1,0,2)
        ELSE
          LEN = 5
-C   2*LEN necessaire pour communication !!!
+C   2*Len necessary for communication !!!
          CALL SPMD_RBCAST(TMP,TMP,LEN,1,0,2)
          NSTRF(4) = TMP(1)
          NSTRF(5) = TMP(2)

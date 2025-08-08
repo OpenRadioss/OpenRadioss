@@ -189,7 +189,7 @@ C
           KPINCH=NN+1
           DO J=1,NN
               IF (IDDOM/=0) THEN    
-C-----------Multidomaines -> on elimine les seg communs, on ne les traite qu'une foi---
+Cmultidomains -> shared segments are processed only once
                  CAPT=0 
                DO H=1,4
                    IF (TAGNO(NPART+IGRSURF(IS)%NODES(J,H))==1) CAPT = 1
@@ -238,7 +238,7 @@ C               true triangles (not segments built from 3 nodes).
 C                                  
   150        CONTINUE
           ENDDO
-C-----------Multidomaines -> on decompte les seg communs, on ne les compte qu'une foi---    
+Cmultidomains -> shared segments are counted only once
             IF (IDDOM>0) NN = NN-ISURF_R2R(1,IS)                                                  
           NPRELD=NPRELD+NN                                       
         ELSE                                                     

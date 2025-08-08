@@ -190,7 +190,7 @@ c---------------------------------------------------------------------------
           h2 = hash(i)
           i1 = perml(i-1)
           i2 = perml(i)
-          if (h1 == h2) then  ! skip double function line
+          if (h1 == h2) then  ! Double Function Line skip
             call ancmsg(MSGID=3101, MSGTYPE=MSGWARNING, ANMODE=ANINFO_BLIND_1,
      .                  I1=mat_id,C1=titr, I2=ifunc(i1))
           else

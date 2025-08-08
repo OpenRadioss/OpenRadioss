@@ -71,8 +71,8 @@ C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
       INTEGER GRSIZEN
 C=======================================================================
-C Comptage du nombre de ligne dans les options /MERGE/RBODY
-C Augmente la taille de LPBY en fonction des merge de NODE et GRNOD
+C Counting the number of lines in the /MERGE/RBODY options
+C Increases the size of LPBY based on the merges of NODE and GRNOD
 C=======================================================================
       SMGRBY = 0
       NXTRA_NODE = 0

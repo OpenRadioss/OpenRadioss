@@ -249,7 +249,7 @@ C-----------
         X6(I)=XL
         Y6(I)=YL
         Z6(I)=-Z3(I)
-C       SAV dans rep. local.
+C       sav in local frame.
 C       SAV(I,1)=X1(I)-X6(I)
 C       SAV(I,2)=Y1(I)-Y6(I)
 C       SAV(I,3)=Z1(I)-Z6(I)

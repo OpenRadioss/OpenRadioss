@@ -328,7 +328,7 @@ C
 C
             STIJ=TWO*(STII+STIJ)
 C
-C           K*=FV divise par DL (C=FV divise par V)
+C           K*= fv divided by dl (c = fv divided by v)
             WNORM=SQRT(WGRDX*WGRDX+WGRDY*WGRDY+WGRDZ*WGRDZ)
             CIJ  =MM*ABS(PIJ)*WNORM/DLDT
             DZETA=CIJ/MAX(EM20,SQRT(TWO*STIJ*SPBUF(12,N)))
@@ -503,7 +503,7 @@ C WA(9) <=> WAR(8)
 C
             STIJ=TWO*(STII+STIJ)
 C
-C           K*=FV divise par DL (C=FV divise par V)
+C           K*= fv divided by dl (c = fv divided by v)
             WNORM=SQRT(WGRDX*WGRDX+WGRDY*WGRDY+WGRDZ*WGRDZ)
             CIJ  =MM*ABS(PIJ)*WNORM/DLDT
             DZETA=CIJ/MAX(EM20,SQRT(TWO*STIJ*SPBUF(12,N)))
@@ -520,7 +520,7 @@ C
          WA(11,N)=WA(11,N)+FY
          WA(12,N)=WA(12,N)+FZ
 C
-C         pour travail des forces de visc. artificielle (par cellule).
+C         for work of artificial viscosity forces (per cell).
          WVIS = MIN(ZERO,
      .          HALF*(FVX*(VXI-VXJ)+FVY*(VYI-VYJ)+FVZ*(VZI-VZJ)))
          SPBUF(11,N)=SPBUF(11,N)+WVIS
@@ -576,7 +576,7 @@ C
 !     .      +WGHT*(ALPHAZI*BETAX+ALPHAI*
 !     .       (BETAXZI*(XI-XJ)+BETAYZI*(YI-YJ)+BETAZZI*(ZI-ZJ)+BETAZI))
 C----------
-C          noyau conjugue.
+C          nucleus combines.
            ALPHAJ=WACOMP(1,SM)
 C          BETAXJ=WACOMP(2,SM)
 C          BETAYJ=WACOMP(3,SM)
@@ -696,7 +696,7 @@ C
 C   
              STIJ=TWO*(STII+STIJ)
 C   
-C            K*=FV divise par DL (C=FV divise par V)
+C            K*= fv divided by dl (c = fv divided by v)
              WNORM=SQRT(WGRDX*WGRDX+WGRDY*WGRDY+WGRDZ*WGRDZ)
              CIJ  =MM*ABS(PIJ)*WNORM/DLDT
              DZETA=CIJ/MAX(EM20,SQRT(TWO*STIJ*SPBUF(12,N)))
@@ -711,11 +711,11 @@ C            K*=FV divise par DL (C=FV divise par V)
            WA(11,N)=WA(11,N)+FY
            WA(12,N)=WA(12,N)+FZ
 C 
-C          pour travail des forces de visc. artificielle (par cellule).
+C          for work of artificial viscosity forces (per cell).
            WVIS = MIN(ZERO,
      .            HALF*(FVX*(VXI-VXJ)+FVY*(VYI-VYJ)+FVZ*(VZI-VZJ)))
            SPBUF(11,N)=SPBUF(11,N)+WVIS
-          ELSE                      ! particule symetrique de particule remote
+          ELSE                      ! Symmetrical particle particle Remote
            SM=-JS/(NSPCOND+1)
 C
 C Solids to SPH, no interaction if both particles are inactive
@@ -760,7 +760,7 @@ C
 !     .      +WGHT*(ALPHAZI*BETAX+ALPHAI*
 !     .       (BETAXZI*(XI-XJ)+BETAYZI*(YI-YJ)+BETAZZI*(ZI-ZJ)+BETAZI))
 C----------
-C          noyau conjugue.
+C          nucleus combines.
            ALPHAJ=WACOMPR(1,SM)
 C          BETAXJ=WACOMPR(2,SM)
 C          BETAYJ=WACOMPR(3,SM)
@@ -884,7 +884,7 @@ C WA(9) <=> WAR(8)
 C   
              STIJ=TWO*(STII+STIJ)
 C   
-C            K*=FV divise par DL (C=FV divise par V)
+C            K*= fv divided by dl (c = fv divided by v)
              WNORM=SQRT(WGRDX*WGRDX+WGRDY*WGRDY+WGRDZ*WGRDZ)
              CIJ  =MM*ABS(PIJ)*WNORM/DLDT
              DZETA=CIJ/MAX(EM20,SQRT(TWO*STIJ*SPBUF(12,N)))
@@ -899,7 +899,7 @@ C            K*=FV divise par DL (C=FV divise par V)
            WA(11,N)=WA(11,N)+FY
            WA(12,N)=WA(12,N)+FZ
 C 
-C          pour travail des forces de visc. artificielle (par cellule).
+C          for work of artificial viscosity forces (per cell).
            WVIS = MIN(ZERO,
      .            HALF*(FVX*(VXI-VXJ)+FVY*(VYI-VYJ)+FVZ*(VZI-VZJ)))
            SPBUF(11,N)=SPBUF(11,N)+WVIS

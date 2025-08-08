@@ -163,7 +163,7 @@ C------
       ENDDO
 
 C-----------------------------------------------
-C Comm D et A sur cellules remotes
+C Comm D and A on remote cells
 C-----------------------------------------------
       IF(NSPMD>1)THEN
           ALLOCATE(SPH_WORK%ASPHR(3,NSPHR))
@@ -189,7 +189,7 @@ C-------------------------------------------
           YI=X(2,INOD)
           ZI=X(3,INOD)
 C-------
-C         plus proche voisin en amont de l'outlet => IPPV.
+C         closer neighbor upstream of the outlet => IPPV.
           IPPV=0
           DMIN=1.E+20
           DO  K=1,KXSP(4,N)  
@@ -235,7 +235,7 @@ C         plus proche voisin en amont de l'outlet => IPPV.
            ENDIF
           ENDDO
 C-------
-C         calcule grad.v en IPPV (approximation sph corrigee en amont de IPPV).
+C         Calculated Grad.V in IPPV (approximation SPH corrected upstream of IPPV).
           IF(IPPV>0)THEN
             NP=NOD2SP(IPPV)
             XP=X(1,IPPV)
@@ -254,7 +254,7 @@ C         calcule grad.v en IPPV (approximation sph corrigee en amont de IPPV).
           DO J=1,KXSP(4,NP)
            JNOD=IXSP(J,NP)
 
-c partie JNOD > 0
+c Jnod part> 0
            IF(JNOD>0)THEN          ! particule locale
              M=NOD2SP(JNOD)
              JMPOSE=KXSP(2,M)/(NGROUP+1)
@@ -401,8 +401,8 @@ C------
            ENDIF
           ENDDO
 C------           
-          ELSEIF(IPPV<0)THEN! fin traitement IPPV > 0
-c traitement IPPV negatif on utilise infos recuperres ds routine comm  
+          ELSEIF(IPPV<0)THEN! End IPPV treatment> 0
+c NEGATIF IPPV Treatment We use information in Routine Comm Routine  
            DXX = DSPHR(1,-IPPV)
            DXY = DSPHR(2,-IPPV)
            DXZ = DSPHR(3,-IPPV)
@@ -420,7 +420,7 @@ c traitement IPPV negatif on utilise infos recuperres ds routine comm
            ZP=XSPHR(5,-IPPV)               
 c          ELSE ! cas IPPV=0 error
 c            print*,'IPPV nul ERROR'
-          ENDIF! fin traitement IPPV < 0
+          ENDIF! End treatment IPPV <0
 
           VX=VX+(DXX*(XI-XP)+DXY*(YI-YP)+DXZ*(ZI-ZP))
           VY=VY+(DYX*(XI-XP)+DYY*(YI-YP)+DYZ*(ZI-ZP))
@@ -429,7 +429,7 @@ c            print*,'IPPV nul ERROR'
           PS=VX*VNORMAL(1,N)+VY*VNORMAL(2,N)+VZ*VNORMAL(3,N)
 
           IF(PS<0.)THEN
-C          impose une vitesse sortante uniquement.
+C          requires outgoing velocity only.
            VX=VX-PS*VNORMAL(1,N)
            VY=VY-PS*VNORMAL(2,N)
            VZ=VZ-PS*VNORMAL(3,N)

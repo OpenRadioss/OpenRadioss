@@ -125,7 +125,7 @@ C
                ENDIF
                IFLOW(IADL+NEL+J)=PP  !IBUFELC
             ENDDO
-C CNP nombre de processeurs possedant chaque noeud
+C CNP Number of processors posing each node
             IADL=IADI+NIFLOW+NNO+3*NEL+NINOUT*NIIOFLOW+NNN+NEL+3*NNO
             DO J=1,NNO
                IFLOW(IADL+J)=0
@@ -136,7 +136,7 @@ C CNP nombre de processeurs possedant chaque noeud
                   IF (NLOCAL(JJ,P)==1) IFLOW(IADL+J)=IFLOW(IADL+J)+1
                ENDDO
             ENDDO
-C CNPI nombre de processeurs possedant chaque noeud auxiliaire
+C CNPI Number of processors posing each auxiliary node
             IADL=IADL+NNO+NNN
             DO J=1,NNN
                IFLOW(IADL+J)=0
@@ -150,7 +150,7 @@ C CNPI nombre de processeurs possedant chaque noeud auxiliaire
 C            
          ELSEIF(ITYP == 3) THEN
             JFORM=IFLOW(IADI+4)
-C CNP nombre de processeurs possedant chaque noeud
+C CNP Number of processors posing each node
             IADL = 0 
             IF(JFORM==1) IADL=IADI+NIFLOW+NNO+3*NEL+NNO
             IF(JFORM==2) IADL=IADI+NIFLOW+NNO+5*NEL+NNO+NBGAUGE
@@ -163,7 +163,7 @@ C CNP nombre de processeurs possedant chaque noeud
                   IF (NLOCAL(JJ,P)==1) IFLOW(IADL+J)=IFLOW(IADL+J)+1
                ENDDO
             ENDDO
-C IBUFELR ligne des elements dans la Process Grid
+C IBUFELR line of elements in the Process Grid
             IADL=IADL+NNO+NEL
             PP=1
             JJ=0
@@ -176,7 +176,7 @@ C IBUFELR ligne des elements dans la Process Grid
                ENDIF
                IFLOW(IADL+J)=PP   !IBUFELR
             ENDDO
-C IBUFELC colonne des elements dans la Process Grid
+C IBUFELC column of elements in the Process Grid
             IADL=IADL+NEL
             PP=1
             JJ=0

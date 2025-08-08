@@ -40,7 +40,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       my_real, INTENT(IN) ::  mat(3, 3)  ! matrix
       my_real, INTENT(IN) :: rhs(3)  ! right hand side
-      my_real, INTENT(OUT) :: sol(3)  ! solution vector
+      my_real, INTENT(OUT) :: sol(3)  ! Vector solution
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------      

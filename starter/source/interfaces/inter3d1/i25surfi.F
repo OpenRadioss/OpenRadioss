@@ -152,7 +152,7 @@ c-----------------------------------------------------------------
       IRECTMP(1:6,1:NRTM)=0
 C
 c---------------------------------------
-c     copie des surfaces (IALLO == 2)
+c     Copy of surfaces (Iallo == 2)
 c---------------------------------------
       L = 0
       IF(ISU1 /= 0)THEN
@@ -243,7 +243,7 @@ C
      .       IRECTMP(2,I2)/=IRECTMP(2,I1).OR.
      .       IRECTMP(3,I2)/=IRECTMP(3,I1).OR.
      .       IRECTMP(4,I2)/=IRECTMP(4,I1).OR.
-     .       IRECTMP(5,I2)/=IRECTMP(5,I1))THEN ! Teste MSEGTYP pq ya un risque si renumerotation entre les 2 phases
+     .       IRECTMP(5,I2)/=IRECTMP(5,I1))THEN ! Teste msegtyp pq has a risk if renumeration between the 2 phases
                                                  ! A regler
             NRTM=NRTM+1
             IF(IRECTMP(5,I2)/=0 .AND. IRECTMP(5,I2)/=1) NRTM_SH=NRTM_SH+1
@@ -274,7 +274,7 @@ C
      .       IRECTMP(2,I2)/=IRECTMP(2,I1).OR.
      .       IRECTMP(3,I2)/=IRECTMP(3,I1).OR.
      .       IRECTMP(4,I2)/=IRECTMP(4,I1).OR.
-     .       IRECTMP(5,I2)/=IRECTMP(5,I1))THEN ! Teste MSEGTYP pq ya un risque si renumerotation entre les 2 phases
+     .       IRECTMP(5,I2)/=IRECTMP(5,I1))THEN ! Teste msegtyp pq has a risk if renumeration between the 2 phases
                                                  ! A regler
             NRTM=NRTM+1
             IRECT(1,NRTM)=IRECTMP_SAV(1,I2)
@@ -284,7 +284,7 @@ C
             MSEGTYP(NRTM)=IRECTMP_SAV(5,I2)
             IF(IMBIN/=0) MBINFLG(NRTM)=IRECTMP_SAV(6,I2)
 
-          ELSEIF(IRECTMP(6,I1)/=IRECTMP(6,I2))THEN ! le segment appartient aux 2 surfaces
+          ELSEIF(IRECTMP(6,I1)/=IRECTMP(6,I2))THEN ! The segment belongs to the 2 surfaces
             IF(IMBIN/=0) MBINFLG(NRTM)=1+2
           END IF
         END DO
@@ -347,7 +347,7 @@ C for inteply activation needed for Plyxfem + Type24
          ENDIF 
       ENDIF
 c-----------------------------------------------------------------
-c     noeuds de la surface S2 : build TAGS,set NSV,MSR if IALLO= 2
+c     Surface nodes S2: Build Tags, Set NSV, Msr If Iallo = 2
 c-----------------------------------------------------------------
       IF(ISU2 /= 0)THEN
         DO J=1,IGRSURF(ISU2)%NSEG
@@ -373,7 +373,7 @@ c     taged nodes on S2 -> negative value
         ENDDO
       ENDIF
 c-----------------------------------------------------------------
-c     noeuds de la surface S1: build TAGS,set NSV,MSR if IALLO= 2
+c     Surface nodes S1: Build Tags, Set NSV, Msr If Iallo = 2
 c-----------------------------------------------------------------
       IF(ISU1 /= 0)THEN
         DO J=1,IGRSURF(ISU1)%NSEG
@@ -402,7 +402,7 @@ c     taged nodes on S1 -> negative value, ->+3 for nodes on both
         ENDDO
       ENDIF
 c-----------------------------------------------------------------
-c     noeuds du groupe de noeud NOD1: build TAGS,set NSV if IALLO= 2
+c     nodes of the nod1 nod group: build tags, set nsv if iallo = 2
 c-----------------------------------------------------------------
       IF(NOD1 /= 0)THEN
         DO J=1,IGRNOD(NOD1)%NENTITY
@@ -425,7 +425,7 @@ c-----------------------------------------------------------------
 C=======================================================================
 C=======================================================================
 c-----------------------------------------------------------------
-c     nombre de noeuds dans l'interface(SECONDARY+MAIN)
+c     number of nodes in the interface (secondary+main)
 c-----------------------------------------------------------------
       IF(IALLO == 2) THEN 
        NLN   = IPARI(35)

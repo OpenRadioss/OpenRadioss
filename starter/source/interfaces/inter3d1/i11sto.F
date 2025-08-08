@@ -71,7 +71,7 @@ C-----------------------------------------------
         K_STOK = 0
         I_STOK = II_STOK
 C-----------------------------------------------
-C elimination des couples deja trouves dans 1 boite precedente
+C elimination of pairs already found in a previous box
 C-----------------------------------------------
         DO I=1,J_STOK
           IF(PENE(I)/=0.0)THEN
@@ -109,7 +109,7 @@ C
 C
         II_STOK   = I_STOK + K_STOK
 C-----------------------------------------------
-C stockage des couples candidats
+C storage of candidate pairs
 C-----------------------------------------------
         DO I=1,J_STOK
           IF(PENE(I)/=ZERO)THEN
@@ -135,7 +135,7 @@ C-----------------------------------------------
      5      I_MEM ,PROV_N,PROV_E,MULTIMP,ADDCM,
      4      CHAINE,IADFIN)
 C============================================================================
-C  cette routine est appelee par : I11TRI(/inter3d1/i11tri.F)
+C  this routine is called by: I11TRI(/inter3d1/i11tri.F)
 C----------------------------------------------------------------------------
 C  cette routine appelle : I11PEN3(/inter3d1/i11pen3.F)
 C============================================================================
@@ -170,7 +170,7 @@ C-----------------------------------------------
         K_STOK = 0
         I_STOK = II_STOK
 C-----------------------------------------------
-C elimination des couples deja trouves dans 1 boite precedente
+C elimination of pairs already found in a previous box
 C-----------------------------------------------
         DO I=1,J_STOK
           IF(PENE(I)/=0.0)THEN
@@ -208,7 +208,7 @@ C
 C
         II_STOK   = I_STOK + K_STOK
 C-----------------------------------------------
-C stockage des couples candidats
+C storage of candidate pairs
 C-----------------------------------------------
         DO I=1,J_STOK
           IF(PENE(I)/=ZERO)THEN

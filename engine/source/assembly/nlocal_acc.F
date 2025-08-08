@@ -51,7 +51,7 @@ C-----------------------------------------------
      .  F,M
       LOGICAL :: MY_ISNAN
 C-----------------------------------------------
-c     calcul acceleration de la variable non locale
+c     calculation of acceleration of the non-local variable
 c=======================================================================
       ! Recovering forces and masses
       F => NLOC_DMG%FNL(1:NLOC_DMG%L_NLOC,1)

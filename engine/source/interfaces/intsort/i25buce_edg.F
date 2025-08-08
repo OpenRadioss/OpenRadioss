@@ -104,7 +104,7 @@ C-----------------------------------------------
       DRAD2 = ZERO
 C-----------------------------------------------
 C
-C----- TRI DES ELEMENTS ET DES NOEUDS
+C----- sorting of elements and nodes
 C
 C-----------------------------------------------
 C
@@ -162,7 +162,7 @@ c      END DO
 c#include      "lockon.inc"
 c      LX=LX+MY_LX
 c      LY=LY+MY_LY
-c      LZ=LZ+MY_LZ
+c      Lz = lz+my_lz
 c#include      "lockoff.inc"
 c
 c      CALL MY_BARRIER      
@@ -207,7 +207,7 @@ c      NBZ = NINT((BMINMA(3)-BMINMA(6))/LZ)
       IF(RES8 > LVOXEL8) stop 678
 c      IF(MAX(NBX,NBY,NBZ) > 100) stop 678
 
-C     pas d'initialisation de VOXEL <=> remise a 0 dans i25trivox.
+C     No initialization of Voxel <=> Discount a 0 in i25trivox.
 C
       CALL I25TRIVOX_EDG(
      1   I_MEM   ,VMAXDT   ,INACTI  ,IRECT   ,

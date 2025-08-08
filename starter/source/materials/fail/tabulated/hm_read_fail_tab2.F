@@ -233,7 +233,7 @@ c-----------------------------------------------------------------------
       ELSE 
         ! Title 
         WRITE(IOUT,1000)
-        ! Failure definition
+        ! Failure Definition
         IF (ITAB_EPSF > 0) THEN 
           WRITE(IOUT,1001) ITAB_EPSF,FCRIT
         ELSE
@@ -283,7 +283,7 @@ c-----------------------------------------------------------------------
           WRITE(IOUT,1017)
           WRITE(IOUT,1018) IFUN_DLIM,FSCALE_DLIM
         ENDIF 
-        ! Element deletion control parameters
+        ! element deletion control parameters
         WRITE(IOUT,1019) FAILIP,PTHKFAIL,VOLFRAC
         WRITE(IOUT,1022)
       ENDIF  ! IS_ENCRYPTED             

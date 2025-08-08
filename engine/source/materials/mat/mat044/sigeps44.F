@@ -133,7 +133,7 @@ C-----------------------------------------------
       my_real, DIMENSION(NEL), INTENT(INOUT) :: 
      .    ET
 C-------------------------
-C    variables non utilisees (fonctions utilisateur)
+C    Variables not used (user functions)
 C-------------------------
       INTEGER NPF(*),MFUNC,KFUNC(MFUNC)
       my_real

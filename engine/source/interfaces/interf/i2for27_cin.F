@@ -258,7 +258,7 @@ C---- update main forces (moment balance) - local coordinates RX
               MYS = MXI*E2X + MYI*E2Y + MZI*E2Z
               MZS = MXI*E3X + MYI*E3Y + MZI*E3Z
               
-C--           moment balance + moment transfer
+C- Balance time + Transfer moment
               CALL I2LOCEQ_27(NIR    ,RS     ,RX     ,RY     ,RZ      ,    
      .                        FMX    ,FMY    ,FMZ    ,H      ,STIFM   ,
      .                        MXS    ,MYS    ,MZS    ,STIFMR ,BETAX   ,
@@ -268,7 +268,7 @@ C--           moment balance + moment transfer
               MYS = ZERO
               MZS = ZERO
 
-C--           moment balance
+C- Balance moment
               CALL I2LOCEQ_27(NIR    ,RS     ,RX     ,RY     ,RZ      ,    
      .                        FMX    ,FMY    ,FMZ    ,H      ,STIFM   ,
      .                        MXS    ,MYS    ,MZS    ,STIFMR ,BETAX   ,
@@ -520,7 +520,7 @@ C---- update main forces (moment balance)
               MYS = MXI*E2X + MYI*E2Y + MZI*E2Z
               MZS = MXI*E3X + MYI*E3Y + MZI*E3Z
               
-C--           moment balance + moment transfer
+C- Balance time + Transfer moment
               CALL I2LOCEQ_27(NIR    ,RS     ,RX     ,RY     ,RZ      ,    
      .                        FMX    ,FMY    ,FMZ    ,H      ,STIFM   ,
      .                        MXS    ,MYS    ,MZS    ,STIFMR ,BETAX   ,
@@ -530,7 +530,7 @@ C--           moment balance + moment transfer
               MYS = ZERO
               MZS = ZERO
 
-C--           moment balance
+C- Balance moment
               CALL I2LOCEQ_27(NIR    ,RS     ,RX     ,RY     ,RZ      ,    
      .                        FMX    ,FMY    ,FMZ    ,H      ,STIFM   ,
      .                        MXS    ,MYS    ,MZS    ,STIFMR ,BETAX   ,

@@ -387,7 +387,7 @@ c
       CALL SENSOR_ENERGY_TOTAL(SENSORS ,ENINTOT  ,EKINTOT)  
 c
 C---------------------------------------
-C       CALCUL DU FLUX ET DE LA ROTATION
+C       calculation of flux and rotation
 C---------------------------------------
         IF(TT>=OUTPUT%TH%THIS .AND. NSFLSW/=0)
      .  CALL FLUXSW(NSFLSW,NEFLSW,  NNFLSW,  CRFLSW,  FLSW  ,
@@ -947,7 +947,7 @@ C
       END IF
 
 C----------------------
-C       FICHIERS G ET T
+C       g and t files
 C----------------------
         IF(NABFILE /= 0) THEN
           TABFWR0(1) = TABFWR(1)
@@ -990,7 +990,7 @@ C----------------------
         ENDIF
 
         N1 = 1
-C second tableau temporaire de taille ngroup pour le spmd
+C second temporary array of size ngroup for spmd
         N2 = 1
 C
       IF (TH_VERS < 40)THEN
@@ -1017,7 +1017,7 @@ c in this case set flag to 1
         ENDIF
 
         IF (ILASTANIM/=1.AND.ILASTANIM/=2) THEN
-C         to avoid double points
+C         To have double points
           IF (NTHGRP01(1)/=0)THEN
             IUNIT = IUHI(1)
             IFIL = IUNIT
@@ -1935,7 +1935,7 @@ C-------------------------------------------------------
 C     TRAITEMENT SUR FSAV NON CUMULE
 C-------------------------------------------------------
       IF(ISPMD == 0 .AND. THUPDT == 1) THEN
-C en SPMD il faut remettre FSAV a 0 sur P0, la ou FSAV n est pas cumule
+C in spmd, fsav must be reset to 0 on p0, where fsav is not accumulated
         IF(NVOLU>0)THEN
          IAD = NINTER+NRWALL+NRBODY+NSECT+NJOINT
           DO I=1,NVOLU

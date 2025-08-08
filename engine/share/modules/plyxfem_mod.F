@@ -72,7 +72,7 @@ C   m y _ r e a l
 C-----------------------------------------------
 #include      "my_real.inc"
 C------------------------
-C tableau de travail 
+C work array
 C------------------------
 C-----------------------------------------------
 C   D e r i v e d   T y p e   D e f i n i t i o n s
@@ -80,7 +80,7 @@ C-----------------------------------------------
 CC         my_real,
 CC     .            DIMENSION(:,:,:),ALLOCATABLE :: PLYA,PLYV,PLYU,PLYFSKY
 C-------------------------------
-C Donnees briques intersectantes
+C Interesting brick data
 C-------------------------------
         TYPE PLY_DATA
            my_real,
@@ -122,7 +122,7 @@ C NPLYPART & IND_PLY are global values shared by all processors
       INTEGER NPLYPART
       INTEGER, DIMENSION(:), ALLOCATABLE :: INDX_PLY,PLYSIZG,IDPID_PLY
 C-------------------------------
-C Donnees briques intersectantes
+C Interesting brick data
 C-------------------------------
 cc        my_real,
 cc    .            DIMENSION(:,:), POINTER :: FSKY

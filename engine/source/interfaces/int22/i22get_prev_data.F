@@ -191,9 +191,9 @@ ccc            print *, "new in buffer, IB=", ib, ixs(11,idx)
         ENDDO
         DO J=1,9;BRICK_LIST(NIN,1:NBOLD(NIN))%POLY(J)%Vnew = -EP30;ENDDO
         DO IB=1,NBOLD(NIN)
-          IDX = LIST_B_OLD(NIN,IB)                             !doit etre alloue dans resol en meme temps que brick_list
-          IF(TAG_INDEX(IDX)>0)THEN                          !la brick BUFBBRIC(IDX) est toujours dans le buffer
-            IDX = TAG_INDEX(IDX)                               !position dans le nouveau buffer
+          IDX = LIST_B_OLD(NIN,IB)                             !must be allocated in resol at the same time as brick_list
+          IF(TAG_INDEX(IDX)>0)THEN                          !the brick bufbbric(idx) is always in the buffer
+            IDX = TAG_INDEX(IDX)                               !position in the new buffer
             BRICK_LIST(NIN,IDX)%POLY(1:9)%OLD_Vnew = R9(1:9,IB)
           ENDIF
         ENDDO!next IB
@@ -234,7 +234,7 @@ ccc            print *, "new in buffer, IB=", ib, ixs(11,idx)
         ENDDO!next IB
         !---OldMainStrongNode----!
         DO IB=1,NBOLD(NIN)
-          I8(1,IB) = BRICK_LIST(NIN,IB)%OldMainStrongNode !sauvegarder avant de faire la modification ci-dessous
+          I8(1,IB) = BRICK_LIST(NIN,IB)%OldMainStrongNode !save before making the modification below
         ENDDO
         DO IB=1,NBOLD(NIN)
           IDX = LIST_B_OLD(NIN,IB) 

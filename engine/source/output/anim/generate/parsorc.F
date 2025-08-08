@@ -229,7 +229,7 @@ C-----------------------------------------------
  500  CONTINUE
 c      ENDIF
       IF (NSPMD > 1) THEN
-C   construction tableau global des parts sur p0
+C   build global part array on proc 0
 
         IF (ISPMD == 0) THEN
 
@@ -244,7 +244,7 @@ C   construction tableau global des parts sur p0
            CALL SPMD_IGET_PARTN(4,JJ,NP,NPAR,IADG,BUF,1)
 
         ENDIF
-      ELSE ! remplissage IADG pour compatibilite mono/multi
+      ELSE ! IADG filling for mono/multi compatibility
         DO I = 1, NPART
           IADG(1,I) = IADD(I)
         END DO

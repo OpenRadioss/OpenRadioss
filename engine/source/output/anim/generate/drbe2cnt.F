@@ -50,7 +50,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,N,NSN
 C-----------------------------------------------
-C seul le proc 0 effectue le traitement
+C only processor 0 performs the processing
         DO I=1,NRBE2
           NSN = IRBE2(5,I)
           DO N=1,NSN

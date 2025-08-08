@@ -125,7 +125,7 @@ C-----------------------------------------------
         ENDDO
       ENDIF            
 C-----------------------------------------------
-C     MULTIMATERIAUX TAUX DE REMPLISSAGE
+C     MULTIMATERIALS FILLING RATES
 C-----------------------------------------------
        DO I=1,NEL
          ALPH1N(I)=ZERO      

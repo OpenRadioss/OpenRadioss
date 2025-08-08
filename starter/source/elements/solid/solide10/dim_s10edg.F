@@ -1189,7 +1189,7 @@ C
           END DO
         END DO
 C-----------------------------------------------
-C   CALCUL DES ADRESSES DU VECTEUR SKYLINE
+C   CALCULATION OF SKYLINE VECTOR ADDRESSES
 C-----------------------------------------------
 C------remove zero value nodes at the beginning---
        IF (ADSKYCND(1)>0) THEN
@@ -1218,7 +1218,7 @@ C-----------first activate node should begin from 1
         ENDDO
         ADSKYCND(1:NI) = 1
 C-----------------------------------------------
-C Remplissage de CEPCND : connection Element/Local
+C Filling of Cepcnd: Element/Local Connection
 C-----------------------------------------------
            ICOMP(1:NSPMD)=0
             DO I=1,NS10E
@@ -1235,7 +1235,7 @@ C-----------------------------------------------
  200        CONTINUE
             ENDDO
 C-----------------------------------------------
-C Remplissage de CEL : connection Element/Local
+C CEL filling: Element/Local Connection
 C-----------------------------------------------
 c        DO P = 1, NSPMD
 c          NL_L = 0
@@ -1277,7 +1277,7 @@ C-----------------------------------------------
       INTEGER I, J, L, K, N, OFF, NTY, NRTS, NRTM, NSN, NMN,
      .        KK, NIR,ADSKY(NUMNOD+1)
 C-----------------------------------------------
-C   CALCUL DE CNE ADDCNE
+C   CALCULATION OF CNE ADDCNE
 C-----------------------------------------------
       DO I = 1, NUMNOD+1
         ADSKY(I) = ADDCNCND(I)

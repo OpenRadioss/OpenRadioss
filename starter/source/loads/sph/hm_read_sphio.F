@@ -164,7 +164,7 @@ C
       I = 0
       DO N = 1,NSPHIO
         SKIP = 0
-CC----------Multidomaines --> on ignore les inlets non tages------------
+CC --------- Multidomatic-> We do not know the inlets non-tages ------------------------------------
         IF (NSUBDOM > 0) THEN
           IF (TAGSPHIO(N) == 0) SKIP = 1
         ENDIF
@@ -340,7 +340,7 @@ C----------------------------------------------------------------------
       ENDDO
       MFI = MFITMP
 C-------------------------------------
-C Recherche des ID doubles
+C search for duplicate ids
 C-------------------------------------
       CALL UDOUBLE(ISPHIO(NISPHIO,1),NISPHIO,NSPHIO,MESS,0,BID)
 C-------------------------------------

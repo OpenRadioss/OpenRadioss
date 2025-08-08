@@ -77,7 +77,7 @@ C=======================================================================
             DO LL=1,IGRSURF(ISU)%NSEG
               DO K=1,4
                 N=IGRSURF(ISU)%NODES(LL,K)
-C                 tag les noeuds DU SEGMENT 
+C                 tag the NODES OF THE SEGMENT
                 IF (N /= 0) TAGBUF(N)=1
               ENDDO
             ENDDO

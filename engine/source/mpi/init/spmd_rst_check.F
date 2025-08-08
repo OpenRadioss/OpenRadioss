@@ -81,7 +81,7 @@ C   ENVOI DE TT AU PROC 0
      .               SPMD_COMM_WORLD,ierror)
        ELSE
          DO I=2,NSPMD
-C   Check sur TT
+C   Check on TT
            MSGTYP = MSGOFF
            CALL MPI_RECV(TTREC,1,REAL,IT_SPMD(I),
      .                         MSGTYP,SPMD_COMM_WORLD,STATUS,ierror)

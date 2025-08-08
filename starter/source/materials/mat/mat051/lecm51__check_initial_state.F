@@ -98,7 +98,7 @@ C===============================================|
       TEST3=0    !Rho not defined
       TEST4=0    !Unbalanced Pressure  t=0              
       TEST5=0    !Global density = mean(rho_i)
-      TEST6=0    !C1,C4,C5 >=0,  C1>0 phase 4
+      TEST6=0    !C1, C4, C5> = 0, C1> 0 Phase 4
 
       IF(IFLG==6)THEN
         SUM=0
@@ -114,7 +114,7 @@ C===============================================|
         ENDIF        
         RETURN
       ENDIF
-      !TEST1 (quel que soit iflg)
+      !Test1 (whatever iflg)
       ! Initial Volume fraction checked : must be between 0 and 1
       ! Otherwise : error
       DO I=1,IMAX
@@ -129,7 +129,7 @@ C===============================================|
       END DO
 
 
-      !TEST2 (quel que soit iflg)
+      !Test2 (whatever iflg)
       ! Initial Volume fraction : Sum must be 1
       ! Otherwise : warning
       ! if TEST1/=0 it is useless to do this test)

@@ -150,7 +150,7 @@ C--------------------------------------------------
         CALL CPP_NODE_SUB_TAG(TAGNODSUB)
       ENDIF
 C-------------------------------------
-C Recherche des ID doubles
+C Search for double IDs
 C-------------------------------------
 c      CALL UDOUBLE(ISUBMOD,LSUBMOD,NSUBMOD,MESS,0,BID)
 C-------------------------

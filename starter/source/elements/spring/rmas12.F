@@ -28,7 +28,7 @@ C
 !||====================================================================
       SUBROUTINE RMAS12(IXR,GEO,PARTSAV,X  ,V  ,IPART,XL ,MSR    ,INR,MSRT)
 C----------------------------------------------
-C     INITIALISATION DES MASSES NODALES
+C     initialization of nodal masses
 C----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -61,7 +61,7 @@ C----------------------------------------------
 C     MASSE ELEMENT /2
 C----------------------------------------------
 C----------------------------------------------
-C     INITIALISATION DES MASSES NODALES
+C     initialization of nodal masses
 C----------------------------------------------
 
        DO I=LFT,LLT

@@ -94,7 +94,7 @@ C-----------------------------------------------
       ELSE                                                                                    
         NCELL = STATE_INIMAP_BUF(1)%NUM_CENTROIDS                                             
         DO I=2,NSPMD                                                                          
-          ! Reception du buffer flottant double des adresses DATA_I                           
+          ! reception of the double-precision floating buffer of data_i addresses
           MSGTYP = MSGOFF                                                                     
           NCELL = STATE_INIMAP_BUF(I)%NUM_CENTROIDS                                           
           NBMAT = STATE_INIMAP_BUF(I)%NSUBMAT                                                 
@@ -159,7 +159,7 @@ C-----------------------------------------------
           STATE_INIMAP_BUF(1)%POS_NODES(I)=STATE_INIMAP_BUF(1)%POS_NODES(I)
         ENDDO                                             
         DO I=2,NSPMD                                                
-          ! Reception du buffer flottant double des adresses DATA_I                        
+          ! reception of the double-precision floating buffer of data_i addresses
           MSGTYP = MSGOFF                                                
           NPTS = STATE_INIMAP_BUF(I)%NUM_POINTS                                            
           SIZ = 2*NPTS                                         

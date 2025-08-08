@@ -115,8 +115,8 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
 C=======================================================================
-C     tag des boites contenant des facettes
-C     et creation des candidats
+C     tag of boxes containing facets
+C     and creation of candidates
 C=======================================================================
       ALLOCATE( INDEX_P(NSP2SORT,NSPMD) )
       ALPHA_MARGE = SQRT(ONE +SPASORT)
@@ -135,7 +135,7 @@ C
       BMINMA(5,LOC_PROC) = BMINMAL(5)
       BMINMA(6,LOC_PROC) = BMINMAL(6)
 C
-C   envoi voxel + boite min/max
+C   Voxel shipment + min/max box
 C
       SEND_SIZE_BMINMA = 6
       RCV_SIZE_BMINMA = 6
@@ -162,7 +162,7 @@ C
      .                         REQUEST_CRVOX,SPMD_COMM_WORLD)
 !   -------------------------
 C
-C   envoi de XREM
+C   sending xrem
 C
 
 #if _PLMPI
@@ -172,7 +172,7 @@ C
 #else
 !   -------------------------
 !   wait the previous comms : BMINMAL --> BMINMAL
-!                             CRVOXEL_LOC --> CRVOXEL
+!                             CRVOXEL_LOC -> CRVOXEL
       CALL MPI_WAIT(REQUEST_BMINMA,STATUS,IERROR)
       CALL MPI_WAIT(REQUEST_CRVOX,STATUS,IERROR)
 !   -------------------------

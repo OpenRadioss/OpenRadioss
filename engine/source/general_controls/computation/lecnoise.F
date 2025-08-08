@@ -88,8 +88,8 @@ C-----------------------------------------------
       DATA EOR/'ZZZZZEOR'/
 C-----------------------------------------------
 CFP Modif format @T + ajout acceleration et pression
-c si on de demande pas explicitement une reinitialisation 
-c et qu'il existe un sauvegarde anterieure alors on continue
+c if a reset is not explicitly requested
+c and that there is a previous backup so we continue
       IF(RNOI==0 .AND. NNOISER/=0)RNOI=1
 c reinitialisation demandee
       IF(RNOI==2)RNOI=0
@@ -109,7 +109,7 @@ C
          INOITMP(I)=SYSFUS2(INOISE(I+NNOISE),ITABM1,NUMNOD)
        END DO
        DO I=1,NNOISE
-         INOISE(I)= INOITMP(I)   ! INOISE = 0 si noeud non present sur le proc
+         INOISE(I)= INOITMP(I)   ! inoise = 0 if node is not present on the processor
        END DO
        IF(NSPMD > 1) CALL SPMD_GLOB_ISUM9(INOITMP,NNOISE)
        IF(ISPMD==0) THEN

@@ -23,7 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C   |============================================================
 C   |  CBABE3                          /coqueba/cbabe3.F
 C   |------------------------------------------------------------
-C   |-- appelee par -----------
+C   |-- called by -----------
 C   |         CBAKE3                         /coqueba/cbake3.F
 C   |============================================================
 !||====================================================================
@@ -177,7 +177,7 @@ C
        DO I=NPLAT+1,JLT 
         EP=IPLAT(I)
 C---------------------------------------------------
-C  CALCUL DE [FN] 
+C  calculation of [fn]
 C---------------------------------------------------
           TFN(1,1)=VKSI(1,NG)*VQN(EP,7,1)+VKSI(2,NG)*VQN(EP,7,2)
      1            +VKSI(3,NG)*VQN(EP,7,3)+VKSI(4,NG)*VQN(EP,7,4)
@@ -615,7 +615,7 @@ C--------TERMES <ASI>-------
           BC(I,28)=V11(4)*VASTN(EP,15)
           BC(I,30)=V11(4)*VASTN(EP,16)
        ENDDO 
-C--------pour rigidite en rzz-------
+C--------for rzz stiffness-------
        IF (ISROT==0) THEN
 #include "vectorize.inc"
        DO I=NPLAT+1,JLT 

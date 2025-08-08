@@ -401,7 +401,7 @@ C
         END IF
       END DO   !  IB=1,4
 c---------------------------------------------
-c     reset source element variables
+c     Reset Source Variable elements
 c---------------------------------------------
       GBUFS%OFF(I)    =-ABS(GBUFS%OFF(I))
 !

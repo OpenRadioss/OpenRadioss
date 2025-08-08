@@ -314,7 +314,7 @@ C----
       ENDIF
 C
 !-----------------
-      ! Cisaillement
+      ! Shear
 !-----------------
 C--------------------------------------------------
 C EXTRACT DATAS (INTEGER VALUES)

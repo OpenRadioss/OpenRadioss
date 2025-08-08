@@ -63,7 +63,7 @@ C     REAL
      .   SY(MVSIZ) ,SZ(MVSIZ) ,
      .   TY(MVSIZ) ,TZ(MVSIZ), SUMA,CS,CT
 C--------------------------------------------------
-C     CONNECTIVITES ET MATERIEL
+C     connectivities and material
 C--------------------------------------------------
       DO I=LFT,LLT
         MXT(I)=IXQ(1,I)

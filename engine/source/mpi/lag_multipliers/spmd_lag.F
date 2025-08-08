@@ -78,7 +78,7 @@ C-----------------------------------------------
          DO N = 1, N_MULT
            IADLL(N+1) = IADLL(N)+NINT(LAGCOMC(1,N))
            BLL(N)   = LAGCOMC(2,N)
-C   ICTAG et JCFTAG : id (pas de cond. autre que fixe pour le moment !)
+C   ictag and jcftag: id (no condition other than fixed for now!)
            ICFTAG(N) = N
            JCFTAG(N) = N
          END DO
@@ -87,7 +87,7 @@ C   ICTAG et JCFTAG : id (pas de cond. autre que fixe pour le moment !)
            JLL(N) = NINT(LAGCOMK(2,N))
            SLL(N) = NINT(LAGCOMK(3,N))
            XLL(N) = LAGCOMK(4,N)
-C   mise a jour du flag directement ici et non dans LTAG_FXV
+C   update of the flag directly here and not in ltag_fxv
            COMNTAG(LLL(N)) = COMNTAG(LLL(N))+1
          END DO     
 C
@@ -104,7 +104,7 @@ C
                IADLL(N_MULT+N+1) = IADLL(N_MULT+N)
      +                            +NINT(LAGCOMC(1,N_MULT+N))
                BLL(N_MULT+N)     = LAGCOMC(2,N_MULT+N)
-C   ICTAG et JCFTAG : id (pas de cond. autre que fixe pour le moment !)
+C   ictag and jcftag: id (no condition other than fixed for now!)
                ICFTAG(N_MULT+N) = N_MULT+N
                JCFTAG(N_MULT+N) = N_MULT+N
              END DO
@@ -120,7 +120,7 @@ C
                JLL(N_IK+N) = NINT(LAGCOMK(2,N_IK+N))
                SLL(N_IK+N) = NINT(LAGCOMK(3,N_IK+N))
                XLL(N_IK+N) = LAGCOMK(4,N_IK+N)
-C   mise a jour du flag directement ici et non dans LTAG_FXV
+C   update of the flag directly here and not in ltag_fxv
                COMNTAG(LLL(N_IK+N)) = COMNTAG(LLL(N_IK+N))+1
              END DO
              N_IK = N_IK + IKL
@@ -221,7 +221,7 @@ C
      1     BUFCOM        ,ISIZ*NLAGF_L,REAL  ,IT_SPMD(1),MSGTYP,
      2     SPMD_COMM_WORLD,IERROR)
         END IF
-Code processeur0 
+COde processor0 
        ELSE
          IF(IRODDL/=0)THEN
            DO I = 1, NLAGF_L
@@ -375,7 +375,7 @@ C
            END DO
          END IF
         END IF
-Code processeur0 
+COde processor0 
        ELSE
          IF(IRODDL/=0)THEN
            DO I = 1, NLAGF_L
@@ -482,7 +482,7 @@ C
              FANI(3,N)  = BUFCOM(3,I)
            END DO
         END IF
-Code processeur0 
+COde processor0 
        ELSE
          DO I = 1, NLAGF_L
            N = LLAGF(I)
@@ -569,7 +569,7 @@ C
         ITAG(N) = 1
       END DO
 C
-C Echange aux frontieres
+C Exchange at boundary
 C
       L = 1
       IAD_RECV(1) = 1
@@ -598,7 +598,7 @@ C
            NOD = FR_ELEM(J)
            IF(ITAG(NOD)==1)THEN
             RBUF(L)   = J-ISHIFT
-C J-ISHIFT donne l'adresse relative du noeud
+C J-ISHIFT gives the relating address of the node
             RBUF(L+1) = A(1,NOD)
             RBUF(L+2) = A(2,NOD)
             RBUF(L+3) = A(3,NOD)
@@ -612,7 +612,7 @@ C J-ISHIFT donne l'adresse relative du noeud
            NOD = FR_ELEM(J)
            IF(ITAG(NOD)==1)THEN
             RBUF(L)   = J-ISHIFT
-C J-ISHIFT donne l'adresse relative du noeud
+C J-ISHIFT gives the relating address of the node
             RBUF(L+1) = A(1,NOD)
             RBUF(L+2) = A(2,NOD)
             RBUF(L+3) = A(3,NOD)
@@ -656,7 +656,7 @@ C
 #include      "vectorize.inc"
            DO J=1,NB_NOD
              NOD = FR_ELEM(NINT(RBUF(L))+ISHIFT)
-C on recupere le bon noeud en fct de sa position relative dans fr_elem, liste triee
+C We recover the right node in FCT of its relative position in Fr_elem, list sorted
              A(1,NOD) = RBUF(L+1)
              A(2,NOD) = RBUF(L+2)
              A(3,NOD) = RBUF(L+3)
@@ -666,7 +666,7 @@ C on recupere le bon noeud en fct de sa position relative dans fr_elem, liste tr
 #include      "vectorize.inc"
            DO J=1,NB_NOD
              NOD = FR_ELEM(NINT(RBUF(L))+ISHIFT)
-C on recupere le bon noeud en fct de sa position relative dans fr_elem, liste triee
+C We recover the right node in FCT of its relative position in Fr_elem, list sorted
              A(1,NOD) = RBUF(L+1)
              A(2,NOD) = RBUF(L+2)
              A(3,NOD) = RBUF(L+3)
@@ -710,7 +710,7 @@ C-----------------------------------------------
      .        RDUM1, RDUM2, RDUM3, RDUM4, RDUM5
       RETURN
       END
-C routine simplifiee pour SMP
+C simplified routine for smp
 !||====================================================================
 !||    spmd_get_mult         ../engine/source/mpi/lag_multipliers/spmd_lag.F
 !||--- called by ------------------------------------------------------
@@ -743,7 +743,7 @@ C-----------------------------------------------
       DO N = 1, N_MULT
         IADLL(N+1) = IADLL(N)+NINT(LAGCOMC(1,N))
         BLL(N)   = LAGCOMC(2,N)
-C   ICTAG et JCFTAG : id (pas de cond. autre que fixe pour le moment !)
+C   ictag and jcftag: id (no condition other than fixed for now!)
         ICFTAG(N) = N
         JCFTAG(N) = N
       END DO
@@ -752,7 +752,7 @@ C   ICTAG et JCFTAG : id (pas de cond. autre que fixe pour le moment !)
         JLL(N) = NINT(LAGCOMK(2,N))
         SLL(N) = NINT(LAGCOMK(3,N))
         XLL(N) = LAGCOMK(4,N)
-C   mise a jour du flag directement ici et non dans LTAG_FXV
+C   update of the flag directly here and not in ltag_fxv
         COMNTAG(LLL(N)) = COMNTAG(LLL(N))+1
       END DO     
 C

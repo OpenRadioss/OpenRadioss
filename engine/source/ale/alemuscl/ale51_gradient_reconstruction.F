@@ -116,7 +116,7 @@ C     ALE ON / OFF
             DO I=LFT,LLT 
                II     = I+NFT    
                
-               !!! Element centroid
+               !!!centroid element
                ALEMUSCL_Buffer%ELCENTER(II,1) = ZERO ;
                ALEMUSCL_Buffer%ELCENTER(II,2) = ZERO ;
                ALEMUSCL_Buffer%ELCENTER(II,3) = ZERO
@@ -287,7 +287,7 @@ C     ALE ON / OFF
       CALL MY_BARRIER
 
       IF (NSPMD   >  1) THEN
-C     Communication MPI pour les gradients
+C     MPI Communication for gradients
 !$OMP SINGLE
          DO ITRIMAT = 1, TRIMAT
             CALL SPMD_EXCHANGE_GRAD(3, NUMELS + NSVOIS + NUMELQ + NQVOIS,3,ALEMUSCL_Buffer%GRAD(1,1,ITRIMAT), 

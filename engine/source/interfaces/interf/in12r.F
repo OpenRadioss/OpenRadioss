@@ -49,7 +49,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-C TRANSFORMATION TEMPORAIRE DANS LE REPERE MAIN
+C temporary transformation in the main reference frame
         S11=FRIGAP(5)
         S21=FRIGAP(6)
         S31=FRIGAP(7)

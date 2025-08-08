@@ -544,7 +544,7 @@ C
            ENDIF
           ELSEIF ( SVM(I) <  SIGFC(I))THEN   !cas elastique,pente E => depss = 0                    
            DPLA (I) = ZERO    
-           IF (FLAG(I) == -1 .AND. WORK(I) < ZERO.AND.EPSS(I)>PLA(I))THEN !passage cote negatif,faux svm 
+           IF (FLAG(I) == -1 .AND. WORK(I) < ZERO.AND.EPSS(I)>PLA(I))THEN !Negative side passage, false SVM 
              FLAG(I) = -1
              YIELD(I)=SVM(I)+SIGFD(I)
              DEPSS(I) = -(YIELD(I)) / (E(I) + HD(I)) 

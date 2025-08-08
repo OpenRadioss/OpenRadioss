@@ -62,7 +62,7 @@ C-----------------------------------------------
      .       UXX,UXY,UXZ,UYX,UYY,UYZ,UZX,UZY,UZZ,
      .       VXX,VXY,VXZ,VYY,VYZ,VZZ
 C-----------------------------------------------
-C       Prepare les contraintes sur les particules symetriques.
+C       Prepare stresses on symmetric particles.
 C-----------------------------------------------
       DO NC=1,NSPCOND
         IC=ISPCOND(2,NC)
@@ -128,7 +128,7 @@ C----------
            WASIGSM(6,JS)=TXZ
           ELSE
 C----------
-C          Changmnt de repere.
+C          Change of reference frame.
            UXX=TXX*UX+TXY*UY+TXZ*UZ
            UXY=TXX*VX+TXY*VY+TXZ*VZ
            UXZ=TXX*WX+TXY*WY+TXZ*WZ
@@ -176,7 +176,7 @@ C
          ENDIF
         ENDDO
 C
-C Particules symetriques de particules remotes
+C Symmetrical particles of remote particles
 C
         DO SS=1,NSPHR
          JS=ISPSYMR(NC,SS)
@@ -197,7 +197,7 @@ C----------
            WASIGSM(6,JS)=TXZ
           ELSE
 C----------
-C          Changmnt de repere.
+C          Change of reference frame.
            UXX=TXX*UX+TXY*UY+TXZ*UZ
            UXY=TXX*VX+TXY*VY+TXZ*VZ
            UXZ=TXX*WX+TXY*WY+TXZ*WZ

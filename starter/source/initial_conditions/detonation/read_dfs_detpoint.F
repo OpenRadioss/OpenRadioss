@@ -277,7 +277,7 @@ C-----------------------------------------------
         ELSE
           ! VALID MATERIAL ID
           DETONATORS%POINT(IDET)%IS_MAT_VALID = .TRUE.
-          ! STARTER LISTING FILEetpoint
+          ! Starter Listing FileetPoint
           IF(IS_ENCRYPTED)THEN
             WRITE(IOUT,1001)
           ELSEIF(IS_NODE_DEFINED)THEN

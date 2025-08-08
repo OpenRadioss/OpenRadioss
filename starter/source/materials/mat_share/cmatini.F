@@ -63,7 +63,7 @@ C-----------------------------------------------
      .   DIMENSION(:), POINTER :: FACYLD 
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
 C=======================================================================
-       !print*, ' dans cmatini ' 
+       !print*, ' in cmatini '
       DO I=JFT,JLT
         IF (ABS(ISIGI) /=3 .AND. ABS(ISIGI)/=4 .AND. ABS(ISIGI)/=5)THEN
           II = I+NFT

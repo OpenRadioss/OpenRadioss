@@ -243,7 +243,7 @@ C
         ENDDO
       ENDIF
 C--------------------
-C     CALCUL DES FLUX
+C     CALCULATION OF FLUXES
 C--------------------
       DO  I=LFT,LLT
         FLUX1(I)=(VX1(I)*N1X(I)+VY1(I)*N1Y(I)+VZ1(I)*N1Z(I))

@@ -111,7 +111,7 @@ C
          S23=S23/BN
          S33=S33/BN
 C
-C TRANSFORMATION TEMPORAIRE POUR TROUVER LES RELATIONS main SECND
+C Temporary transformation to find main-secondary relationships
         DO II=1,NSN
          I=NSV(II)
          XX=X(1,I)-XC

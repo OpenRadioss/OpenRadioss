@@ -340,7 +340,7 @@ C------bending behaviours :
 c         DP = THIRD*(ONE+NU(I))*(DH_XE3+DH_YK3)
          DP = ZERO
          IF (FACM>ZERO) THEN
-         !-----------Membrane terms-----------
+         !---------- Membrane Terms ------------
           FHOUR(I,1) = FHOUR(I,1) - FACM*DH_XE1*A3(I)
           FHOUR(I,3) = FHOUR(I,3) - FACM*DH_YK2*A3(I)
           FHOUR(I,5) = FHOUR(I,5) - FACM*(DH_XE3-DP)

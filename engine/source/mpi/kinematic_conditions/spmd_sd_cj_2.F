@@ -32,8 +32,8 @@ C
 !||====================================================================
       SUBROUTINE SPMD_SD_CJ_2(NOD2ADD,LJOINT,FR_CJ,IADCJ,ICSIZE,
      2                      TAG_LNK_SMS,NODNX_SMS,INDX1_SMS)
-C envoi de p0 vers les autres procs de A, AR, V, VR
-C apres traitement des joints cylindriques
+C sending P0 to other A, AR, V, VR procs
+C After treatment of cylindrical joints
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

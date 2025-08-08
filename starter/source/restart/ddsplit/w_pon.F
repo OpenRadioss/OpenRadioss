@@ -298,7 +298,7 @@ C-----------------------------------------------
 
 C-----------------------------------------------
 C
-C Pre-traitement ploads
+C PLOADS PRE-TRAINING
 C
       CLOAD = 0
       DO I = 1, NCONLD
@@ -309,7 +309,7 @@ C
           ITAGIB(I) = 0
         ENDIF
       ENDDO
-C Pre-traitement loads
+C Pre-treatment LOADS
 C
       K=0
       DO I = 1, NLOADP
@@ -319,7 +319,7 @@ C
         ENDDO
       ENDDO
 C
-C Pre-traitement mv
+C PRE-TRAINING MV
 C
       IF (NVOLU>0) THEN
         DO I = 1, NUMELC
@@ -369,7 +369,7 @@ C sauvegarde du no local J correspondant a I
             ENDIF
           ENDDO
 C
-C Traitement vent hole et volume communicant
+C Hole wind treatment and communicating volume
 C
           IF(ITYP==3.OR.ITYP==4.OR.ITYP==5.OR.ITYP==7.OR.ITYP==9) THEN
             DO IV = 1, NVENT
@@ -382,13 +382,13 @@ C
                   IF (ITY==3) THEN
                     IF(CEP(I+OFFC)==PROC-1) THEN
                       K0 = K0 + 1
-C restitution du no local J (surface) correspondant a I
+C restitution of the local no (surface) corresponding to i
                       IADMV3(K0) = ITAGC(I)
                     END IF
                   ELSEIF (ITY==7) THEN
                     IF(CEP(I+OFFTG)==PROC-1) THEN
                       K0 = K0 + 1
-C restitution du no local J (surface) correspondant a I
+C restitution of the local no (surface) corresponding to i
                       IADMV3(K0) = ITAGTG(I)
                     END IF
                   END IF
@@ -407,13 +407,13 @@ C restitution du no local J (surface) correspondant a I
                   IF (ITY==3) THEN
                     IF(CEP(I+OFFC)==PROC-1) THEN
                       K0 = K0 + 1
-C restitution du no local J (surface) correspondant a I
+C restitution of the local no (surface) corresponding to i
                       IADMV3(K0) = ITAGC(I)
                     END IF
                   ELSEIF (ITY==7) THEN
                     IF(CEP(I+OFFTG)==PROC-1) THEN
                       K0 = K0 + 1
-C restitution du no local J (surface) correspondant a I
+C restitution of the local no (surface) corresponding to i
                       IADMV3(K0) = ITAGTG(I)
                     END IF
                   END IF
@@ -475,7 +475,7 @@ C
       ENDIF
       ! --------------------------
 C-----------------------------------------------
-C ADDCNE_L et IADS
+C ADDCNE_L and IADS
 C-----------------------------------------------
 C
 C-----------------------------------------------
@@ -1009,7 +1009,7 @@ C
 Cply xfem
 C
 C
-C ADDCNEPXFEM_L et IADC_PXFE
+C ADDCNEPXFEM_L and IADC_PXFE
 C
       IF(IPLYXFEM > 0) THEN
          ADDCNEPXFEM_L(1) = 1
@@ -1059,7 +1059,7 @@ C
        ENDIF
 C------------------------------
 C     crack xfem for layered shell
-C     ADDCNECRKXFEM_L et IADC_CRKXFE
+C     ADDCNECRKXFEM_L and IADC_CRKXFE
 C------------------------------
       IF (ICRACK3D > 0) THEN
         IADC_CRKXFEM = 0
@@ -1075,7 +1075,7 @@ cc          IF(N > 0)THEN
             N  = INOD_CRKXFEM(NG)    ! Num noeud systeme xfem global   
             N1 = ADDCNE_CRKXFEM(N)   ! adresse global                  
             N2 = ADDCNE_CRKXFEM(N+1)                                   
-            ! N2 - N1 = nb d'elements std connectes au noeud N
+            ! N2 - N1 = NB of std elements connects to the node n
             NL_L = NL_L + 1
             ADDCNECRKXFEM_L(NL_L+1) = ADDCNECRKXFEM_L(NL_L) + N2 - N1
 c
@@ -1085,7 +1085,7 @@ c
               NUML  = CEL_CRKXFEM(N0)    ! -> proc local       (N element xfem local/proc)
 cc              NUMG = NUMG0 + NUMELS + NUMELQ
 cc              PROC_L = CEP(NUMG)+1
-              PROC_L = CEP_CRKXFEM(N0) + 1   ! proc de l'element sys_xfem
+              PROC_L = CEP_CRKXFEM(N0) + 1   ! Proc of the SYS_XFEM element
 C
               CC_L = CC_L + 1
               PROCNE_CRKXFEM(CC_L) = PROC_L
@@ -1100,7 +1100,7 @@ C
                     TESTVAL = IAND(SHTAG(NUMG),SHFT)
                      IF (IXC(K+1,NUMG) == NG .AND. TESTVAL /= 0) THEN
                        IADC_CRKXFEM(K,NUML) = CC_L
-c                       CNE_CRKXFEM_L(CC_L)  = CNE_CRKXFEM(CC)  ! contient NUMG0
+c                       CNE_CRKXFEM_L (CC_L) = CNE_CRKXFEM (CC)!Contains NUMG0
                        CNE_CRKXFEM_L(CC_L)  = NUML   ! Num sys xfem local par proc (ELCRK)
                        CRKNODIAD_L(CC_L)    = CRKNODIAD(CC)
                        SHTAG(NUMG) = SHTAG(NUMG)-SHFT
@@ -1126,7 +1126,7 @@ c                      CNE_CRKXFEM_L(CC_L)   = CNE_CRKXFEM(CC)
         ENDDO        ! I = 1,NUMNOD_L
       ENDIF
 C
-C RWALL specifique type sliding
+C SPECIFIC RWALL Type SLIDING
 C
       K = 0
       K_L = 0
@@ -1161,7 +1161,7 @@ C
         K = K + NSL
       ENDDO
 C
-C RBY specifique
+C SPECIFIC RBY
 C
       IF(NSKYRBK_L>0)THEN
        DO P = 1, NSPMD
@@ -1186,7 +1186,7 @@ C
               ENDDO
               main = 1
  300          IF(MAIN==1) THEN
-C numerotation fonction du pmain des rby precedents
+C numbering function of the pmain of previous rby
                 IADRBK(NSL_L) = KK+IDEBRBK(PMAIN)
               ELSE
                 IADRBK(NSL_L) = 0
@@ -1225,7 +1225,7 @@ C
               ENDDO
               main = 1
  333          IF(MAIN==1) THEN
-C numerotation fonction du pmain des rigid material precedents
+C numbering function of the pmain of previous rigid materials
                 IADRBMK(NSL_L) = KK+IDEBRBK(PMAIN)
               ELSE
                 IADRBMK(NSL_L) = 0
@@ -1240,7 +1240,7 @@ C numerotation fonction du pmain des rigid material precedents
 
 CC
 C
-C Int 2 specifique
+C Int 2 Specific
 C
 Cpseudo elt type 2
       IF(I2NSNT>0) THEN
@@ -1302,7 +1302,7 @@ C
         END DO
       ENDIF
 C
-C RLink specifique
+C SPECIFIC RLINK
 C
       K = 0
       K_L = 0
@@ -1345,7 +1345,7 @@ C
               ENDDO
               main = 1
  3000         IF(MAIN==1) THEN
-C numerotation fonction du pmain des rby precedents
+C numbering function of the pmain of previous rby
                 IADRBM(NSL_L) = KK+IDEBRBK(PMAIN)
               ELSE
                 IADRBM(NSL_L) = 0
@@ -1358,7 +1358,7 @@ C numerotation fonction du pmain des rby precedents
        ENDDO
       ENDIF
 C
-C RBE3 specifique----plus tard---
+C SPECIFIC RBE3 --- later ---
 C
       IF(NSKYRBE3_L>0)THEN
       ENDIF
@@ -1432,11 +1432,11 @@ C
         DO N=1,NINTER
           ITY = IPARI(7,N)
           INACTI = IPARI(22,N)
-          IF((ITY==7.OR.ITY==22).AND.INACTI==7)THEN  ! interface 18   ! ON PASSE PAR PAR LA (INTER 18 ou 22)
+          IF((ITY==7.OR.ITY==22).AND.INACTI==7)THEN  ! interface 18 ! WE GO THROUGH HERE (INTER 18 or 22)
             NRTS  = IPARI(3,N)
             NRTM  = IPARI(4,N)
             DO K=1,NRTM
-C   TAGE flag servant pour inacti
+C   Flag tage used for inactive
               N1 = INTBUF_TAB(N)%IRECTM(4*(K-1)+1)
               N2 = INTBUF_TAB(N)%IRECTM(4*(K-1)+2)
               N3 = INTBUF_TAB(N)%IRECTM(4*(K-1)+3)
@@ -1462,7 +1462,7 @@ C   TAGE flag servant pour inacti
         END DO
       END IF
 C-----------------------------------------------
-C Ecriture tableaux P/ON propre au SPMD
+C Writing P/ON SPMD Tables
 C-----------------------------------------------
 C
 C elements
@@ -1519,7 +1519,7 @@ C adresses elements
       LEN_IA = LEN_IA + 4*NFXFLUX_L 
       CALL WRITE_I_C(IADLOAD,LLLOADP_L)
       LEN_IA = LEN_IA + LLLOADP_L   
-C adresses RW
+C RW addresses
       CALL WRITE_I_C(IADWAL,NSKYRW_L)
       LEN_IA = LEN_IA + NSKYRW_L
 C adresses RB Kin
@@ -1528,16 +1528,16 @@ C adresses RB Kin
 C adresses int 2
       CALL WRITE_I_C(IADI2,NISKYI2_L)
       LEN_IA = LEN_IA + NISKYI2_L
-C adresses itet2 S10
+C Itet2 S10 addresses
       CALL WRITE_I_C(IADCND,2*NS10E_L)
       LEN_IA = LEN_IA + 2*NS10E_L
-C adresses MV partie force normale
+C Normal Force MV Addresses
       CALL WRITE_I_C(IADMV2,NNMV_L)
       LEN_IA = LEN_IA + NNMV_L
-C adresses MV partie fuite et mv communicant
+C MV Addresses Left and Communicating MV
       CALL WRITE_I_C(IADMV3,NNMVC_L)
       LEN_IA = LEN_IA + NNMVC_L
-C adresses RL starter
+C RL Starter addresses
       CALL WRITE_I_C(IADLL,NSKYLL_L)
       LEN_IA = LEN_IA + NSKYLL_L
 C adresses RBM starter

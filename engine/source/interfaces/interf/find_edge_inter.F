@@ -319,7 +319,7 @@ C-----------------------------------------------
                 POINTER_EDGE => EDGES_SHELL(1:2,1:4)
                 SHIFT_ELM = OFFSET_SHELL
             ELSEIF(ELEM_ID<=OFFSET_BEAM) THEN
-                ! truss element
+                ! truss
                 ! 2 nodes / 1 edges
                 !   o----o 
                 EDGE_NUMBER = 1 ! number of edges

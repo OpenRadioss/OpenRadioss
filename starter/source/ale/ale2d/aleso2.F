@@ -32,7 +32,7 @@ C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
 C This subroutine is displaying in Starter listing file
-C  element/element connectivities (ALE)
+C  Connectivities element/element (ALE)
 C  specific case of quads (4-node-solid-elems in 2D) : buffer is IXQ contrary to IXTG for triangles
 C Precondition : IPRI >= 3 (/IOFLAG Starter option)
 C-----------------------------------------------

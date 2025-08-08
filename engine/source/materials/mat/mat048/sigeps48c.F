@@ -139,7 +139,7 @@ C-----------------------------------------------
       my_real
      . UVAR(NEL0,NUVAR), OFF(NEL0),THK(NEL0),YLD(NEL0)
 C-------------------------
-C    variables non utilisees (Fonctions utilisateur)
+C    Variables not used (user functions)
 C-------------------------
       INTEGER NPF(*),MFUNC,KFUNC(MFUNC)
       my_real
@@ -345,7 +345,7 @@ C-------------------------
 C
        ELSEIF(IFLAG(1)==1)THEN
 C
-C---     CRITERE DE VON MISES
+C---     von mises criterion
 C
          DO I=1,NEL0
            S1=SIGNXX(I)+SIGNYY(I)
@@ -425,10 +425,10 @@ C
 C-------------------------
 C      PROJECTION IFLAG = 2
 C-------------------------
-C projection radial sur le deviateur sur un critere reduit
-C projection elastique en z => sig33 = 0
-C le coef. de reduction du critere est tel que 
-C l'on se trouve sur le critere apres les 2 projections
+C radial projection on the deviator on a reduced criterion
+C Elastic projection in z => sig33 = 0
+C the criterion reduction coefficient is such that
+C one is on the criterion after the 2 projections
 C
        ELSEIF(IFLAG(1)==2)THEN
 C

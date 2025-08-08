@@ -86,13 +86,13 @@ C-----------------------------------------------
 
           DO I=2,NSPMD
 
-           !Reception du buffer entier des adresses DATA_I
+           !reception of the integer buffer of data_i addresses
             MSGTYP = MSGOFF2 
             CALL MPI_PROBE(IT_SPMD(I),MSGTYP,SPMD_COMM_WORLD,STATUS,ierror)
             CALL MPI_GET_COUNT(STATUS,MPI_INTEGER,SIZ,ierror)
             CALL MPI_RECV(BUFF_I,4,MPI_INTEGER,IT_SPMD(I),MSGTYP,SPMD_COMM_WORLD,STATUS,ierror)
             
-            ! Reception du buffer flottant double des adresses DATA_I
+            ! reception of the double-precision floating buffer of data_i addresses
             MSGTYP = MSGOFF 
             CALL MPI_RECV(BUFF_R,5,REAL,IT_SPMD(I),MSGTYP,SPMD_COMM_WORLD,STATUS,ierror)
             

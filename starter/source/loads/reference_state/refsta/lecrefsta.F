@@ -79,7 +79,7 @@ C-----------------------------------------------
       INTEGER USR2SYS,R2R_SYS
 C=======================================================================
 C--------------------------------------                              
-C  LECTURE DES NOEUDS ETAT DE REFERENCE
+C  READING OF REFERENCE STATE NODES
 C--------------------------------------
       IF(IDDLEVEL == 0) THEN
         WRITE(IOUT,1000)

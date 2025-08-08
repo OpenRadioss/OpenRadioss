@@ -407,7 +407,7 @@ C
        B2212H(I)=FAC*(Y54(I)*Y64(I)-Y21(I)*Y31(I))
        B1121H(I)=B2212H(I)
       ENDDO
-C Non constant part
+C Non -constant part
       DO I=1,NEL
        JAC1(I)=-X21(I)+X54(I)
        JAC2(I)=-Y21(I)+Y54(I)

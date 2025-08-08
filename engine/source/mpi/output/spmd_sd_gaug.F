@@ -30,7 +30,7 @@ C
 !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
 !||====================================================================
       SUBROUTINE SPMD_SD_GAUG(LGAUGE,GAUGE,IGAUP,NGAUP)
-C envoi vers p0 du tableau GAUGE calcule sur chaque proc
+C Sending to P0 of the gauge table calculated on each proc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -98,7 +98,7 @@ C
                 DO J = 30, 33
                   GAUGE(J,K) = BUF(J+1,N)
                 END DO
-C a voir plus tard  si (ALPHA == ALPHA0)
+C To see later if (alpha == alpha0)
               ENDIF
              ENDIF
           END DO

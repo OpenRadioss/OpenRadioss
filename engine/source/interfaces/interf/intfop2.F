@@ -198,7 +198,7 @@ C-----------------------------------------------
       BID = ZERO
 C-----------------------------------------------
 C
-C statistique interface
+C Interface Statistics
       IF (DEBUG(3)>=1.AND.NCYCLE==0) THEN
         NB_JLT(JTASK) = 0
         NB_JLT_NEW(JTASK) = 0

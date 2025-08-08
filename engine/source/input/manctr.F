@@ -329,18 +329,18 @@ C---------------------------------
        
        IF (IRAD2R==1) THEN
          IF (ISPMD==0) THEN
-C *** traitement flag mstop ***       
+C *** FLAG MSTOP treatment ***       
              MSTOP = R2R_MSTOP
            R2R_MSTOP = MSTOP0
              MSTOP0 = MSTOP         
              IF (R2R_MFILR == 1) THEN      
-C *** stockage des flags pour envoi     rad2rad ***
+C *** storage of flags for sending rad2rad ***
              TMAN_R2R = TMAN             
              R2R_CTR(1) = MREST0
              R2R_CTR(2) = MANIM0
              R2R_CTR(3) = WMCHECK0     
              ELSEIF (R2R_MFILR == 2) THEN
-C *** on applique les flags recus de rad2rad ***
+C *** applying the flags received from rad2rad ***
              MFILR = 1
                R2R_MFILR = 0
              TMAN = TMAN_R2R
