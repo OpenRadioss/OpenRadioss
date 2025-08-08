@@ -225,9 +225,9 @@ c---------------------------
       NFUNC       = 0
       NUPARAM     = 40
       IF (FLAGNICE == 1) THEN 
-        NUVAR = 1
+        NUVAR = 2
       ELSE
-        NUVAR = 0
+        NUVAR = 1
       ENDIF
       MTAG%G_PLA  = 1
       MTAG%L_PLA  = 1

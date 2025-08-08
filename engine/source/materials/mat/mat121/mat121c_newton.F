@@ -135,7 +135,7 @@ c
         DYOUNDEPSD(I) = ZERO ! Initialization of the derivative of YOUN
         DTANGDEPSD(I) = ZERO ! Initialization of the derivative of TANG
       ENDDO
-c      
+!      
       ! Filling the strain rate vector
       IF (Ivisc == 0) THEN 
         ! Compute effective strain-rate
@@ -147,7 +147,8 @@ c
           DEPSDT    = TWO_THIRD*(DEVEPSPXX**2 + DEVEPSPYY**2 + DEVEPSPZZ**2 +
      .                        TWO*(EPSPXY(I)**2))
           DEPSDT    = SQRT(DEPSDT)
-          EPSD(I)   = AFILTR * DEPSDT + (ONE - AFILTR) * EPSD(I)
+          EPSD(I)   = AFILTR * DEPSDT + (ONE - AFILTR) * UVAR(I,1)
+          UVAR(I,1) = EPSD(I)
         ENDDO
       ELSE
         ! Reset plastic strain-rate

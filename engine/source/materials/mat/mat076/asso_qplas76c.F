@@ -38,7 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .     DEPSXX  ,DEPSYY  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
      .     SIGOXX  ,SIGOYY  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
      .     SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
-     .     PLA     ,DPLA    ,EPSD    ,OFF     ,GS      ,
+     .     PLA     ,DPLA    ,OFF     ,GS      ,
      .     YLD     ,SOUNDSP ,DEZZ    ,INLOC   ,DPLANL  ,
      .     NVARTMP, VARTMP  ,LOFF    )
 C-----------------------------------------------
@@ -77,7 +77,7 @@ C   I N P U T   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, DIMENSION(NEL,NVARTMP), INTENT(INOUT) :: VARTMP
       my_real, DIMENSION(NEL,NUVAR),   INTENT(INOUT) :: UVAR
-      my_real, DIMENSION(NEL), INTENT(INOUT) :: OFF,YLD,PLA,EPSD,SOUNDSP
+      my_real, DIMENSION(NEL), INTENT(INOUT) :: OFF,YLD,PLA,SOUNDSP
 C-----------------------------------------------
 C   VARIABLES FOR FUNCTION INTERPOLATION 
 C-----------------------------------------------
@@ -467,6 +467,5 @@ c
       UVAR(1:NEL,4) = ALPHA*DPLAT(1:NEL)*DTINV + ALPHI*EPDT_F(1:NEL)
       UVAR(1:NEL,5) = ALPHA*DPLAC(1:NEL)*DTINV + ALPHI*EPDC_F(1:NEL)
       UVAR(1:NEL,6) = ALPHA*DPLAS(1:NEL)*DTINV + ALPHI*EPDS_F(1:NEL)
-      EPSD(1:NEL)   = ALPHA*DPLA(1:NEL)*DTINV + ALPHI*EPSD(1:NEL)
 c
       END

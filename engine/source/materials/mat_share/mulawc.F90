@@ -1569,16 +1569,16 @@
               elseif (ilaw == 76) then
 
                 call sigeps76c(&
-                &jlt      ,nuparam0  ,nuvar    ,nfunc    ,ifunc    ,&
-                &npf      ,tf        ,matparam ,tt       ,dt1      ,&
-                &uparam0  ,uvar      ,rho      ,off      ,ngl      ,&
-                &depsxx   ,depsyy    ,depsxy   ,depsyz   ,depszx   ,&
-                &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
-                &signxx   ,signyy   ,signxy   ,signyz   ,signzx    ,&
-                &ssp      ,thkn     ,thklyl   ,lbuf%pla ,lbuf%epsd ,&
-                &etse     ,gs       ,sigy     ,inloc    ,bufly%l_planl,&
-                &lbuf%planl,varnl(1,it),lbuf%dmg,&
-                &nvartmp  ,vartmp   ,lbuf%off)
+                 jlt      ,nuparam0 ,nuvar    ,nfunc    ,ifunc    ,&
+                 npf      ,tf       ,matparam ,tt       ,dt1      ,&
+                 uparam0  ,uvar     ,rho      ,off      ,ngl      ,&
+                 depsxx   ,depsyy   ,depsxy   ,depsyz   ,depszx   ,&
+                 sigoxx   ,sigoyy   ,sigoxy   ,sigoyz   ,sigozx   ,&
+                 signxx   ,signyy   ,signxy   ,signyz   ,signzx   ,&
+                 ssp      ,thkn     ,thklyl   ,lbuf%pla ,          &
+                 etse     ,gs       ,sigy     ,inloc    ,bufly%l_planl,&
+                 lbuf%planl,varnl(1,it),lbuf%dmg,&
+                 nvartmp  ,vartmp   ,lbuf%off)
 !
               elseif (ilaw == 78) then
                 call sigeps78c(&
@@ -1843,7 +1843,8 @@
                   signxx   ,signyy   ,signxy   ,signyz   ,signzx   ,       &
                   ssp      ,thkn     ,lbuf%pla ,dpla     ,lbuf%epsd,       &
                   off      ,etse     ,thklyl   ,shf      ,sigy     ,       &
-                  hardm    ,lbuf%seq ,l_sigb   ,lbuf%sigb)
+                  hardm    ,lbuf%seq ,l_sigb   ,lbuf%sigb,nuvar    ,       &
+                  uvar     )
 !
               elseif (ilaw == 158) then
                 call sigeps158c(&
