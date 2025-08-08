@@ -59,7 +59,7 @@ C-----------------------------------------------
       my_real, DIMENSION(:), POINTER :: OFFG
 C======================================================================|
 C------------------------------------------------
-C   ACTIVATION/DESACTIVATION DE LA CONVECTION
+C   activation/deactivation of convection
 C------------------------------------------------
       DO N=1,GLOB_THERM%NUMCONV
          IF (IBCV(7,N) == 1) THEN

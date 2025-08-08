@@ -55,7 +55,7 @@ C-----------------------------------------------
 C
       F = MIN(FF,ZEP4/DT2)
 C-----------------------------------------------
-C INITIALIALISATION DES COEFFICIENTS DU FILTRE
+C initialization of the filter coefficients
 C-----------------------------------------------
       PI1   = TWO*ATAN2(ONE,ZERO)
       PI8  = PI1*ONE_OVER_8

@@ -98,7 +98,7 @@ C======================================================================|
         IF (IACTIV(10,N) == 1) THEN
          IF (ISENS > 0) THEN
 C----------------------------------------------------------------------
-C   DESACTIVATION DES ELEMENTS
+C   ELEMENT DEACTIVATION
 C----------------------------------------------------------------------
           IF (IFLAG == 1 .AND. TT > SENSOR_TAB(ISENS)%TSTART) THEN
             CALL ELOFF(IXS     ,IXQ     ,IXC      ,IXP     ,IXT      ,
@@ -116,7 +116,7 @@ C----------------------------------------------------------------------
               ENDDO
             ENDIF
 C----------------------------------------------------------------------
-C   ACTIVATION DES ELEMENTS
+C   ELEMENT ACTIVATION
 C----------------------------------------------------------------------
           ELSEIF (IFLAG == 0 .AND. TT <= SENSOR_TAB(ISENS)%TSTART) THEN
             CALL ELOFF(IXS     ,IXQ     ,IXC      ,IXP     ,IXT      ,
@@ -147,7 +147,7 @@ C----------------------------------------------------------------------
             OFFCHANGE=1
           ENDIF
 C----------------------------------------------------------------------
-C   ACTIVATION DES ELEMENTS
+C   ELEMENT ACTIVATION
 C----------------------------------------------------------------------
           STARTT = FACTIV(1,N)
           STOPT  = FACTIV(2,N)
@@ -167,7 +167,7 @@ C----------------------------------------------------------------------
             OFFCHANGE=1
           ENDIF
 C----------------------------------------------------------------------
-C   DESACTIVATION DES ELEMENTS
+C   ELEMENT DEACTIVATION
 C----------------------------------------------------------------------
           IF(IFLAG == 1 .AND. TT > STOPT) THEN
             CALL ELOFF(IXS     ,IXQ     ,IXC      ,IXP     ,IXT      ,

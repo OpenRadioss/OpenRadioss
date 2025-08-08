@@ -122,7 +122,7 @@ C     TRIANGLES
 C     UPDATE
          DO II = 1, NEL
             I = II + NFT
-C     Fluxes sum
+C     SUM Flow
             IF (MULTI_FVM%SYM == 0 .AND. ISOLNOD /= 4) THEN
 C     Volume flux
                SUMFLUX(1) = MULTI_FVM%SUBVOL_FLUXES(IMAT, 1, I) + MULTI_FVM%SUBVOL_FLUXES(IMAT, 2, I) + 

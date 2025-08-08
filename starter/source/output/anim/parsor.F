@@ -88,7 +88,7 @@ C
         P     =IPARG(32,NG)+1
         LFT=1
         LLT=NEL
-C  test si proc doit traiter ce groupe
+C  test if proc must process this group
         IF (P/=PROC) GOTO 790
 C-----------------------------------------------
 C       SOLID 8N
@@ -285,11 +285,11 @@ C-----------------------------------------------
 C       SPH Particules
 C-----------------------------------------------
         ELSEIF(ITY==51)THEN
-C idem poutre pour visualisation domdec SPH
+C Ditto beam for visualization of Domdec Sph
           DO I=LFT,LLT
              N = I + NFT
              N1 = KXSP(3,N)
-C on prend les 12 premieres cellules voisines
+C We take the first 12 neighboring cells
              DO JJ = 1,MIN(12,KXSP(4,N))
                N2 = IXSP(JJ,N) 
                IF(N1<N2)THEN

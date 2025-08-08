@@ -43,13 +43,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      7                  Y4     ,Z1     ,Z2  ,Z3      ,Z4    ,
      8                  XI     ,YI     ,ZI  ,STIF    ,IFLAG )
 C============================================================================
-C  cette routine est appelee par : I7BUC1(/inter3d1/i7buc1.F)
+C  this routine is called by: I7BUC1(/inter3d1/i7buc1.F)
 C                                  I7TRI(/inter3d1/i7tri.F)
 C                                  I2TRI(/inter3d1/i2tri.F)
 C                                  I2BUC1(/inter3d1/i2buc1.F)
 C                                  ININT3(/inter3d1/inint3.F)
 C----------------------------------------------------------------------------
-C  cette routine appelle : -
+C  this routine calls: -
 C============================================================================
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -135,7 +135,7 @@ C
               THKSECND = GEO(1,MG)
               ENDIF
           ENDDO 
-C--         Cooques 3n
+C- 3N coats
           DO IAD = KNOD2ELTG(NSVG(I))+1,KNOD2ELTG(NSVG(I)+1)
             IEL  = NOD2ELTG(IAD) 
             MG=IXTG(5,IEL)

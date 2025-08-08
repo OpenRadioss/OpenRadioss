@@ -74,7 +74,7 @@ C-----------------------------------------------
        ALLOCATE(VTOTAL(3,NUMPOG))
 
        IF (ISPMD/=0) THEN
-C   on envoie le nodglob
+C   sending the nodglob
          MSGTYP = MSGOFF
 
          CALL MPI_SEND(NODGLOB,NUMNOD,MPI_INTEGER,IT_SPMD(1),MSGTYP,
@@ -99,7 +99,7 @@ C   on envoie le nodglob
           ENDDO
           DO I=2,NSPMD
 
-C   Reception du buffer entier des adresses NODGLOB
+C   reception of the entire buffer of NODGLOB addresses
             MSGTYP = MSGOFF 
 
             CALL MPI_PROBE(IT_SPMD(I),MSGTYP,

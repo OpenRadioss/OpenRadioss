@@ -140,7 +140,7 @@ C
 !||    sigeps96            ../engine/source/materials/mat/mat096/sigeps96.F
 !||====================================================================
       SUBROUTINE VINTER2(TF,IAD,IPOS ,ILEN,NEL0,X,DYDX,Y)
-C IDEM VINTER AVEC POSSIBILITE DE FAIRE DECROITRE X
+C same as vinter with possibility to decrease x
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -211,7 +211,7 @@ C
 !||    sigeps68        ../engine/source/materials/mat/mat068/sigeps68.F
 !||====================================================================
       SUBROUTINE VINTER2DP(TF,IAD,IPOS ,ILEN,NEL0,X,DYDX,Y)
-C IDEM VINTER AVEC POSSIBILITE DE FAIRE DECROITRE X
+C same as vinter with possibility to decrease x
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

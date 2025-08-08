@@ -48,7 +48,7 @@ C-----------------------------------------------
       INTEGER I, N,
      .   NMN, II(2)
 C-----------------------------------------------
-C seul le proc 0 effectue le traitement
+C only processor 0 performs the processing
       IF (ISPMD/=0) GOTO 100
 C
       DO I=1,NRBE3

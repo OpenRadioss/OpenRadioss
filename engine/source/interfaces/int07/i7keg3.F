@@ -112,7 +112,7 @@ C  dev021
            PREC = EM10
       ENDIF
 C--------------------------------------------------------
-C  CAS DES PAQUETS MIXTES
+C  case of mixed packets
 C--------------------------------------------------------
       IF (IMP_INT7==3) THEN
        DO I=1,JLT
@@ -193,7 +193,7 @@ C---------------------
 C     COURBURE FIXE
 C---------------------
       IF(ICURV(1)==1)THEN
-C       spherique (que concave pour le moment)
+C       spherical (only concave for now)
         NA1 = ICURV(2)
         DO I=1,JLT
           RR = 1.E30
@@ -235,7 +235,7 @@ C
           N3(I) = -RZ 
         ENDDO
       ELSEIF(ICURV(1)==2)THEN
-C       cylindrique (que concave pour le moment)
+C       cylindrical (only concave for now)
         NA1 = ICURV(2)
         NA2 = ICURV(3)
         DO I=1,JLT
@@ -388,7 +388,7 @@ C
       ENDDO
       ENDIF
 C---------------------------------
-C    ----sans frottement d'abord--- 
+C    ---- Without friction first --- 
       DO I=1,JLT
         VTX = VX(I) -VN(I)*N1(I)
         VTY = VY(I) -VN(I)*N2(I)
@@ -473,7 +473,7 @@ C    ----sans frottement d'abord---
        KL11(2,3,I)=KN(4,I)*Q23
        KL11(3,3,I)=KN(4,I)*Q33
       ENDDO
-C    ----avec frottement --- 
+C    with friction
        DO J=1,3 
         DO K=J,3 
          DO I=1,JLT
@@ -658,7 +658,7 @@ C-------------------------------------------
         FACT(I)=FACN(I)*FACT(I)
        ENDDO
       ENDIF
-C--------partie NML-------
+C-------- part nml --------
       DO I=1,JLT
         FN = -FACN(I)*DNI(I)
         FX=FN*N1(I)
@@ -683,7 +683,7 @@ C--------partie NML-------
         A(3,IX3(I))=A(3,IX3(I))+FZ*H3(I)
         A(3,IX4(I))=A(3,IX4(I))+FZ*H4(I)
       ENDDO
-C--------partie NSL-------
+C-------- part nsl --------
       DO I=1,JLT
         FNI = FACN(I)*DN(I)
         NI = INDEX(I)
@@ -816,7 +816,7 @@ C
         IF (PENE2<=ZERO) STIF(I) = ZERO
        ENDDO
 C--------------------------------------------------------
-C  CAS DES PAQUETS MIXTES
+C  case of mixed packets
 C--------------------------------------------------------
        DO I=1,JLT
         D1 = SQRT(P1(I))
@@ -876,7 +876,7 @@ C---------------------
 C     COURBURE FIXE
 C---------------------
       IF(ICURV(1)==1)THEN
-C       spherique (que concave pour le moment)
+C       spherical (only concave for now)
         NA1 = ICURV(2)
         DO I=1,JLT
           RR = 1.E30
@@ -918,7 +918,7 @@ C
           N3(I) = -RZ 
         ENDDO
       ELSEIF(ICURV(1)==2)THEN
-C       cylindrique (que concave pour le moment)
+C       cylindrical (only concave for now)
         NA1 = ICURV(2)
         NA2 = ICURV(3)
         DO I=1,JLT
@@ -1028,22 +1028,22 @@ C      PENE INITIALE
 C---------------------
       IF(INACTI==5)THEN
          DO I=1,JLT
-C REDUCTION DE LA PENE INITIALE
+C reduction of the initial penetration
            CAND_P(INDEX(I))=MIN(CAND_P(INDEX(I)),
      .            ((ONE-FIVEEM2)*CAND_P(INDEX(I))+FIVEEM2*PENE(I))  )
-C SOUSTRACTION DE LA PENE INITIALE A LA PENE ET AU GAP
+C subtraction of the initial penetration from the penetration and the gap
            PENE(I)=MAX(ZERO,PENE(I)-CAND_P(INDEX(I)))
            IF( PENE(I)==ZERO )  STIF(I) = ZERO
            GAPV(I)=GAPV(I)-CAND_P(INDEX(I))
          ENDDO
       ELSE IF(INACTI==6)THEN
          DO I=1,JLT
-C REDUCTION DE LA PENE INITIALE
+C reduction of the initial penetration
 C           CAND_P(INDEX(I))=MIN(CAND_P(INDEX(I)),PENE(I))
            CAND_P(INDEX(I))=MIN(CAND_P(INDEX(I)),
      .        ( (ONE-FIVEEM2)*CAND_P(INDEX(I))
      .          +FIVEEM2*(PENE(I)+FIVEEM2*(GAPV(I)-PENE(I))))  )
-C SOUSTRACTION DE LA PENE INITIALE A LA PENE ET AU GAP
+C subtraction of the initial penetration from the penetration and the gap
            PENE(I)=MAX(ZERO,PENE(I)-CAND_P(INDEX(I)))
            IF( PENE(I)==ZERO )  STIF(I) = ZERO
            GAPV(I)=GAPV(I)-CAND_P(INDEX(I))
@@ -1261,7 +1261,7 @@ c
         A(3,IX3(I))=A(3,IX3(I))+FZ*H3(I)
         A(3,IX4(I))=A(3,IX4(I))+FZ*H4(I)
        ENDDO
-C--------secnd part-------
+C------- Secondary part --------
 
        DO I=1,JLT
          IG=NSVG(I)

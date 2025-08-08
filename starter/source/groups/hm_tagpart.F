@@ -87,7 +87,7 @@ C=======================================================================
       NENTITY = 0
       IF (KEY(1:6) == 'SUBSET') THEN
 C-------------------------
-C groupes de SUBSETS
+C Subset Groups
 C-------------------------
            CALL GROUPS_GET_ELEM_LIST(LIST_ENTITY, NENTITY, LSUBMODEL)                  
            DO KK=1,NENTITY                                                              
@@ -98,14 +98,14 @@ C-------------------------
                    IF (JJ == SUBSET(K)%ID) THEN                                         
                      ISU=K                                                              
                      DO L=1,SUBSET(ISU)%NTPART                                          
-                       !tag les parts                                                    
+                       !tag the parts
                        BUFFTMP(SUBSET(ISU)%TPART(L)) = 1                                
                      ENDDO                                                              
                      EXIT                                                               
                    ELSEIF (JJ == -SUBSET(K)%ID) THEN                                    
                      ISU=K                                                              
                      DO L=1,SUBSET(ISU)%NTPART                                          
-                       !tag les parts                                                    
+                       !tag the parts
                        BUFFTMP(SUBSET(ISU)%TPART(L)) = -1                               
                      ENDDO                                                              
                      EXIT                                                               
@@ -127,7 +127,7 @@ C-------------------------
                                               
       ELSEIF (KEY(1:4) == 'PART' .OR. KEY(1:3) == 'MAT' .OR. KEY(1:4) == 'PROP') THEN
 C-------------------------
-C groupes de PART,MAT,PROP
+C Part groups, mat, prop
 C-------------------------
               IF(KEY(1:4) == 'PART')THEN
                 MOT='PART'
@@ -153,11 +153,11 @@ C-------------------------
 C-------------------------------------------------------------------------------------------------------------        
                             IF(JJ == NUMA)THEN
                               ISU=K
-C                             !tag les parts
+C                             !tag the parts
                               BUFFTMP(ISU)=1
                             ELSEIF(-JJ == NUMA)THEN
                               ISU=K
-C                             !tag les parts 
+C                             !tag the parts
                               BUFFTMP(ISU)=-1
                             ENDIF
                           ENDDO

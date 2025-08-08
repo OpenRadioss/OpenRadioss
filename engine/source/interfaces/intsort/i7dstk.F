@@ -32,32 +32,32 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
         SUBROUTINE I7DSTK(NB_NC,NB_EC,ADD,BPN,PN,BPE,PE)
 C============================================================================
-C  cette routine est appelee par : I7TRI(/int7/i7tri.F)
+C  this routine is called by: I7TRI(/int7/i7tri.F)
 C                                  I10TRI(/int10/i10tri.F)
 C                                  I11TRI(/int11/i11tri.F)
 C----------------------------------------------------------------------------
-C  cette routine appelle : -
+C  this routine calls: -
 C============================================================================
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   ROLE DE LA ROUTINE:
+C   role of the routine:
 C   ===================
-C   RECHAGE LES VECTEURS BAS DE PILE BPN ET BPE AVEC LES BAS DES
-C   PILES PN ET PE
+C   reload the stack bottom vectors BPN and BPE with the bottoms of
+C   stacks PN and PE
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C
 C     NOM          DESCRIPTION                       E/S
 C
 C     BPE          TABLEAU DES FACETTES A TRIER      S
-C                  ET DU RESULTAT COTE MAX            
+C                  and result on max side
 C     PE           TABLEAU DES FACETTES              E
 C                  RESULTAT COTE MIN
 C     BPN          TABLEAU DES NOEUDS A TRIER        S
-C                  ET DU RESULTAT COTE MAX            
+C                  and result on max side
 C     PN           TABLEAU DES NOEUDS                E
 C                  RESULTAT COTE MIN
 C     ADD(2,*)     TABLEAU DES ADRESSES              E  
@@ -75,14 +75,14 @@ C-----------------------------------------------
       INTEGER I
 C
 C
-C     1- PILE DES NOEUDS
+C     1- nodes stack
 C
       NB_NC = ADD(1,1) - ADD(1,0)
       DO 10 I=1,NB_NC
         BPN(I) = PN(ADD(1,0)+I)
    10 CONTINUE
 C
-C     2- PILE DES ELEMENTS
+C     2- elements stack
 C
       NB_EC = ADD(2,1) - ADD(2,0)
       DO 20 I=1,NB_EC

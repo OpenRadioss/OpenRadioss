@@ -49,7 +49,7 @@ C     REAL
      .     XI(3), NXI(3), LMAX, DD, 
      .     X0, Y0, Z0, X1, Y1, Z1, XXX, YYY, ZZZ
 C------------------------------------
-C     Coordonnees initiales cote main : passage en coord locales.
+C     Initial contact details on the main side: Passage in local coordinates.
 C------------------------------------
       IF(IROT==0)THEN
 C--------------------------------------

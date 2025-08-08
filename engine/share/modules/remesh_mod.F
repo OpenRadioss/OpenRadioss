@@ -56,8 +56,8 @@ C-----------------------------------------------
       INTEGER
      .       , DIMENSION(:), ALLOCATABLE :: MSH4SKY,MSH3SKY
 C-----------------------------------------------
-C     Liste des coques actives dans les parts 
-C          ou l'on fait de l'adaptive meshing.
+C     List of active shells in the parts
+C          where we perform adaptive meshing.
 C-----------------------------------------------
       INTEGER, DIMENSION(:),ALLOCATABLE :: LSH4ACT,LSH4KIN,
      .                                     PSH4ACT,PSH4KIN,
@@ -65,8 +65,8 @@ C-----------------------------------------------
      .                                     PSH3ACT,PSH3KIN
       INTEGER NSH4ACT,NSH4OLD,NSH3ACT,NSH3OLD
 C-----------------------------------------------
-C     Liste des coques aux niveaux superieurs dans les parts 
-C          ou l'on fait de l'adaptive meshing.
+C     List of shells at higher levels in the parts
+C          where we perform adaptive meshing.
 C-----------------------------------------------
       INTEGER, DIMENSION(:),ALLOCATABLE :: LSH4UPL,LSH3UPL,
      .                                     PSH4UPL,PSH3UPL
@@ -82,7 +82,7 @@ C-----------------------------------------------
       my_real, 
      .         DIMENSION(:),ALLOCATABLE :: STCND,STRCND
 C-----------------------------------------------
-C     Liste des neouds kinematiques pour implicite 
+C     List of kinematic nodes for implicit
 C     ISH_NS(NSH_KIN),ISH_MS(2,NSH_KIN),IAD_NJ(NSH_KIN+1),JDI_NJ(IAD_NJ(NSH_KIN+1)-1)
 C-----------------------------------------------
       INTEGER, DIMENSION(:),ALLOCATABLE :: ISH_NS,

@@ -38,7 +38,7 @@ C-----------------------------------------------
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE FORMAT_MOD , ONLY : FMW_4I
 C-----------------------------------------------
-C     LECTURE DES SURFACES ET DECOMPTE DES SEGMENTS
+C     READING SURFACES AND COUNTING SEGMENTS
 C           ENTREE : 
 C                    NRT NOMBRE DE RENSEIGNEMENTS A LIRE
 C           SORTIE : 

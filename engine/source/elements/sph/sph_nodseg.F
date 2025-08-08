@@ -121,7 +121,7 @@ C          triangle 1,2,C
            NZH=X31*Y1H-Y31*X1H
            IF(NXH*NX1+NYH*NY1+NZH*NZ1>=ZERO)K=K+1
            IF(K==3)THEN
-C           XH interieur a 1,2,C
+C           Xh inner at 1.2, c
             IF(ABS(D1)<ABS(DPS(NP)))THEN
               DPS(NP)=D1
               NORMSEG=1
@@ -178,7 +178,7 @@ C          triangle 2,3,C
            NZH=X31*Y1H-Y31*X1H
            IF(NXH*NX2+NYH*NY2+NZH*NZ2>=ZERO)K=K+1
            IF(K==3)THEN
-C           XH interieur a 2,3,C
+C           Xh inner at 2.3, c
             IF(ABS(D2)<ABS(DPS(NP)))THEN
               DPS(NP)=D2
               NORMSEG=1
@@ -233,7 +233,7 @@ C          triangle 3,4,C
            NZH=X31*Y1H-Y31*X1H
            IF(NXH*NX3+NYH*NY3+NZH*NZ3>=ZERO)K=K+1
            IF(K==3)THEN
-C           XH interieur a 3,4,C
+C           Xh inner A 3.4, C
             IF(ABS(D3)<ABS(DPS(NP)))THEN
               DPS(NP)=D3
               NORMSEG=1
@@ -288,7 +288,7 @@ C          triangle 4,1,C
            NZH=X31*Y1H-Y31*X1H
            IF(NXH*NX4+NYH*NY4+NZH*NZ4>=ZERO)K=K+1
            IF(K==3)THEN
-C           XH interieur a 4,1,C
+C           Xh inner A 4.1, C
             IF(ABS(D4)<ABS(DPS(NP)))THEN
               DPS(NP)=D4
               NORMSEG=1
@@ -301,7 +301,7 @@ C             WPROJ(3,LONFSPH(IXP(NP)))=ZH
 C
            ENDIF
 C----------
-C          distances aux cotes.
+C          Distances to the odds.
            X12=X2-X1
            Y12=Y2-Y1
            Z12=Z2-Z1
@@ -457,7 +457,7 @@ C            WPROJ(3,LONFSPH(IXP(NP)))=ZI-Z1H
            ENDIF
  101       CONTINUE
            IF(NORMSEG==1)THEN
-C             normale sortante au segment.
+C             normal outgoing in the segment.
               X12=HALF*(X2+X3-X1-X4)
               Y12=HALF*(Y2+Y3-Y1-Y4)
               Z12=HALF*(Z2+Z3-Z1-Z4)

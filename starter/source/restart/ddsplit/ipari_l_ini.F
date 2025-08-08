@@ -124,11 +124,11 @@ C-----------------------------------------------
       ALLOCATE(TAGI2(NUMNOD))
       ALLOCATE(TAGG(NUMNOD))
 C-----------------------------------------------
-C Construction de IPARI_L - recopie initiale
+C Construction of iPari_L - Initial copy
 C-----------------------------------------------
       IPARI_L(1:NPARI,1:NINTER)=IPARI(1:NPARI,1:NINTER)
 C-----------------------------------------------
-C decompte nb total main nodes et noeuds main int 2 frontieres
+C Decount nb total main nodes and nodes int 2 boundarys
       NBDDI2M = 0
       I2NSN_L = 0
 C decompte nb total noeuds secnd int 2 penalty
@@ -208,21 +208,21 @@ C calcul nombre total secnd penalty
               ENDIF
             END DO
           END IF
-C calcul des mains independant des facettes pour resolution pb de cumul p/off
+C calculation of mains independent of facets to solve p/off accumulation problem
           DO K = 1, NMN
             MY_NODE = INTBUF_TAB(NI)%MSR(K)
             IF( NODLOCAL(MY_NODE)/=0.AND.NODLOCAL(MY_NODE)<=NUMNOD_L ) THEN
               NMN_L = NMN_L + 1
               IF(TAGI2(INTBUF_TAB(NI)%MSR(K))==0) THEN
-C decompte des frontieres de main nodes
+C counting of the boundaries of main nodes
                 DO P = 1, NSPMD
                   IF(NLOCAL(INTBUF_TAB(NI)%MSR(K),P)==1)THEN
                     NBDDI2M = NBDDI2M + 1
                   END IF
                 END DO
-C on ne se compte pas soi-meme
+C We do not count ourselves
                 NBDDI2M = NBDDI2M - 1
-C pour ne pas prendre en compte 2 fois des noeuds main d'interfaces differentes ds les frontieres
+C In order not to take into account twice of the mainstream interface nodes in the boundarys
                 TAGI2(INTBUF_TAB(NI)%MSR(K)) = 1
               END IF
             ENDIF
@@ -239,7 +239,7 @@ C
 C
           NSNT2_L = NSNT2_L + NSN_L
           NMNT2_L = NMNT2_L + NMN_L
-C Idel2 : allocation j23 et j24
+C Idel2: allowance J23 and D24
           ILEV = IPARI(20,NI)
           IF (ILEV==10 .OR. ILEV==11 .OR. ILEV==12) THEN
             NUVAR = IPARI(35,NI)
@@ -317,7 +317,7 @@ C
           ALLOCATE(TAGE(NRTM))
 C
           DO K=1,NRTM
-C TAGE flag servant pour inacti
+C Flag tage used for inactive
             TAGE(K) = 0
             IF(INTERCEP(1,NI)%P(K)==PROC+1)THEN
               N1 = INTBUF_TAB(NI)%IRECTM(4*(K-1)+1)
@@ -410,7 +410,7 @@ C     Interface type 18 for law151
                  ENDIF
                 ENDIF
              END DO
-             DO K=NSN0+1,NSN0 + NSN_IGE ! specifique aux surfaces IGEO
+             DO K=NSN0+1,NSN0 + NSN_IGE ! SPECIFIC with IGEO surfaces
                 N = INTBUF_TAB(NI)%NSV(K)
                 IF(TAG(N)==0) THEN
                   NSN_L = NSN_L + 1
@@ -427,14 +427,14 @@ C     Interface type 18 for law151
         ENDDO
         NINDEX0= 0
 C
-C candidats initiaux pour inacti=5 ou restart type 10
+C initial candidates for inacti=5 or restart type 10
           II_STOK = INTBUF_TAB(NI)%I_STOK(1)
           II_STOK_L = 0
           IF(ITY==23.OR.
      *       INACTI==5.OR.INACTI==6.OR.INACTI==7.OR.IFQ/=0.OR.
      *       (ITY==24.AND.INACTI==-1).OR.
      *       (ITY==25.AND.(INACTI==-1.OR.INACTI==5))) THEN
-C traitement pour eviter bug si ts les noeuds secnd stfn == zero
+C Treatment to avoid bug if all the nodes second STFN == Zero
             IOK=0
             DO K = 1, II_STOK
               N = INTBUF_TAB(NI)%CAND_N(K)
@@ -453,7 +453,7 @@ C traitement pour eviter bug si ts les noeuds secnd stfn == zero
               ENDIF
             ENDDO
 C
-C Reperage des candidats se trouvant sur des procs distants
+C Detection of candidates located on distant procs
 C
 
             NSNR = 0
@@ -582,7 +582,7 @@ C
           ELSEIF(ITY==24)THEN
 C
 C----NLS1_L,NLS2_L, NLN_L will be calculated after MBINFLG in w_ipari
-C  s a jour dans w_ipari          
+C  Take day in w_ipari          
 c          IPARI_L(35,NI) = NLN_L
 c          IPARI_L(51,NI) = NLINS_L
 c          IPARI_L(52,NI) = NLINM_L
@@ -885,7 +885,7 @@ c INT 22
               IE = IGRBRIC(ISU1)%ENTITY(K)
               IF(CEP(IE)==PROC) NBRIC_L = NBRIC_L + 1
               !balayer le grbric, si bric \in spmd_id then nbric ++
-              !CEP contient les Brique en premiere section                  
+              !CEP contains bricks in the first section                  
               !CEP : id_elem |-> spmd_id ;  id_elem \in (|---brique---|---coque---|---...)              
             END DO 
             I22LEN1  = MAX(100     ,NINT(82*NBRIC_L**HALF))
@@ -926,7 +926,7 @@ C
           ALLOCATE(TAGE(NRTM))
 C
           DO K=1,NRTM
-C TAGE flag servant pour inacti
+C Flag tage used for inactive
             TAGE(K) = 0
             IF(INTERCEP(1,NI)%P(K)==PROC+1)THEN
               N1 = INTBUF_TAB(NI)%IRECTM(1+2*(K-1))
@@ -991,7 +991,7 @@ C
                 TAG(INDEX0(K)) = 0
           ENDDO
 C
-C candidats initiaux pour inacti=5
+C Initial candidates for Inacti = 5
           I_STOK_L = 0
           I_STOK = INTBUF_TAB(NI)%I_STOK(1)
           IF (INACTI==5.OR.INACTI==6.OR.INACTI==7) THEN
@@ -1077,14 +1077,14 @@ C cote main
           NMN_L = 0
           DO K = 1, NMN
             IE = IGRBRIC(IGE)%ENTITY(K)
-C pas d'offset car solide
+C No offset because solid
             IF(CEP(IE)==PROC) NMN_L = NMN_L + 1
           END DO
 C cote secnd
           NSN_L = 0
           DO K = 1, NSN
             IE = IGRBRIC(IGN)%ENTITY(K)
-C pas d'offset car solide
+C No offset because solid
             IF(CEP(IE)==PROC) NSN_L = NSN_L + 1
           END DO
           IF(NMN/=0) THEN
@@ -1197,7 +1197,7 @@ C
             ENDIF
           END DO
 C
-C candidats initiaux pour inacti=5 ou restart type 10
+C initial candidates for inacti=5 or restart type 10
           I_STOK_L = 0
           I_STOK = INTBUF_TAB(NI)%I_STOK(1)
           IF(INACTI==5.OR.INACTI==6.OR.INACTI==7) THEN
@@ -1240,7 +1240,7 @@ c          ELSE
 c            NCONT = 0
 c          ENDIF
 C
-C Partie ligne
+C Line part
 C
           NLINS_L = 0
           NLINM_L = 0
@@ -1261,7 +1261,7 @@ C
             N2 = INTBUF_TAB(NI)%NLG(N2L)
             IF(INTERCEP(3,NI)%P(K)==PROC+1) THEN
               NLINS_L = NLINS_L + 1
-C comptage ligne active
+C Active line count
               IF(K<=NLINSA)NLINSA_L = NLINSA_L + 1
               IF (TAG(N1)==0) THEN
                 NSNE_L = NSNE_L + 1
@@ -1298,7 +1298,7 @@ C
           NLINMA_L= 0
           NINDEX0 = 0
           DO K=1,NLINM
-C TAGE flag servant pour inacti
+C Flag tage used for inactive
             TAGE2(K) = 0
             N1L = INTBUF_TAB(NI)%IXLINM(2*(K-1)+1)
             N2L = INTBUF_TAB(NI)%IXLINM(2*(K-1)+2) 
@@ -1306,7 +1306,7 @@ C TAGE flag servant pour inacti
             N2 = INTBUF_TAB(NI)%NLG(N2L)
             IF(INTERCEP(2,NI)%P(K)==PROC+1) THEN
                NLINM_L = NLINM_L + 1
-C comptage ligne active
+C Active line count
               IF(K<=NLINMA)NLINMA_L = NLINMA_L + 1
                TAGE2(K) = NLINM_L
                IF (TAG(N1)==0) THEN
@@ -1345,7 +1345,7 @@ c              NSNE_L = NSNE_L + 1
 c            END IF
 c          END DO
 C
-C candidats initiaux pour inacti=5 A REVOIR si besoin !!!
+C Initial candidates for inactive = 5 to review if necessary !!!
 c          I_STOK = INTBUF_TAB(NI)%i_STOK(1)
 c          IF (INACTI==5.OR.INACTI==6.OR.INACTI==7) THEN
 c            I_STOK_L = 0
@@ -1360,7 +1360,7 @@ c          ENDIF
 C
           DEALLOCATE(TAGE2)
 C
-C Calcul de NCONT en prenant le max des edge et non edge
+C Calculation of NCONT by taking the max of edge and non-edge
 C
           NCONT1 = 0
           IF(NMN/=0) THEN
@@ -1411,18 +1411,18 @@ C-----------------
           IPARI_L(18,NI) = NCONT
           IPARI_L(23,NI)= MULTIMP
           IPARI_L(24,NI) = 0
-C  s a jour dans w_ipari          IF(INACTI==5.OR.INACTI==6.OR.INACTI==7)
-C  s a jour dans w_ipari     .      IPARI_L(24,NI)= NSNR
-C  s a jour dans w_ipari          IPARI_L(25,NI) = 0
+C  Take day in w_ipari if (inacti == 5.or.inacti == 6.or.inacti == 7)
+C  Take light in w_ipari.IPari_l (24, ni) = nsnr
+C  Take day in w_ipari iPari_l (25, ni) = 0
           IPARI_L(35,NI) = NLN_L
           IPARI_L(51,NI) = NLINS_L
           IPARI_L(52,NI) = NLINM_L
-C  s a jour dans w_ipari          IPARI_L(53,NI) = NLINSA_L
-C  s a jour dans w_ipari          IPARI_L(54,NI) = NLINMA_L
+C  Take day in w_ipari iPari_l (53, ni) = nlinsa_l
+C  Take day in w_ipari iPari_l (54, ni) = nllinma_l
           IPARI_L(55,NI) = NSNE_L
           IPARI_L(56,NI) = NMNE_L
-C  s a jour dans w_ipari          IF(INACTI==5.OR.INACTI==6.OR.INACTI==7)
-C  s a jour dans w_ipari     .      IPARI_L(57,NI)= NLINSR
+C  Take day in w_ipari if (inacti == 5.or.inacti == 6.or.inacti == 7)
+C  Take light in w_ipari.IPari_l (57, ni) = nlinsr
           IF(NISUB>0) THEN
             IPARI_L(37,NI)= NISUBS_L
             IPARI_L(38,NI)= NISUBM_L

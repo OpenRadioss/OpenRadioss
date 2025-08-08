@@ -275,10 +275,10 @@ C-----------------------------------------------
      .   IREP,IINT,IGTYP,JCVT,ISROT,ISRAT,ISORTH,ISORTHG,ICSEN,IFAILURE,
      .   JSMS
 C-----------------------------------------------
-C    Comment : Initialisation des variables de vect01_c.inc
-C              dans les boucles sur les groupes.
-C              Necessaire pour routines telles que sbufad qui dimensionnent
-C              le buffeur elementaire.
+C    Comment: Initialization of vect01_c.inc variables
+C              in the loops over groups.
+C              Necessary for routines such as sbufad which dimension
+C              the elementary buffer.
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C=======================================================================
@@ -295,7 +295,7 @@ C=======================================================================
          JEUL    = IPARG(11,NG) 
       ELSEIF (MTN == 151 .AND. ITY == 7) THEN
          JEUL    = IPARG(11,NG) 
-      ELSE             ! attention dkt9_s3 utilise ce flag
+      ELSE             ! Attention dkt9_s3 uses this flag
          JEUL    = 0
       END IF 
 

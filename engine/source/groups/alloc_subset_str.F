@@ -110,13 +110,13 @@ C-----------------------------------------------
        ALLOCATE(SUBSET(ISU)%TPART(NBTPART))
        ALLOCATE(SUBSET(ISU)%NVARTH(10))  !  /iTH (9) + /TH (1) -> SUBSET(I)%NVARTH(ITHFLAG)
 !---
-! NOMBRE DE SUBSETS FILS
+! NUMBER OF CHILD SUBSETS
         DO J=1,NCHILD
           ICHILD = ISUB(L_SUB+1)
             L_SUB = L_SUB+1
           SUBSET(ISU)%CHILD(J) = ICHILD
         ENDDO
-! NOMBRE DE PARTS FILLES
+! NUMBER OF CHILD PARTS
         DO J=1,NBPART
           IPART = ISUB(L_SUB+1)
             L_SUB = L_SUB+1

@@ -29,7 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2                 X    ,V    ,IPART,XL  ,MSR    ,
      3                 INR  ,MSRT ,EMS  )
 C----------------------------------------------
-C     INITIALISATION DES MASSES NODALES
+C     initialization of nodal masses
 C----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -67,7 +67,7 @@ C
        ENDDO
       END IF
 C----------------------------------------------
-C     INITIALISATION DES MASSES NODALES
+C     initialization of nodal masses
 C----------------------------------------------
 
        DO I=LFT,LLT
@@ -120,7 +120,7 @@ C----------------------------------------------
      2                 X    ,V    ,IPART,XL  ,MSR    ,
      3                 INR  ,MSRT ,EMS , MASS ,UINER,MTYP)
 C----------------------------------------------
-C     INITIALISATION DES MASSES NODALES
+C     initialization of nodal masses
 C----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -159,7 +159,7 @@ C
        ENDDO
       END IF
 C----------------------------------------------
-C     INITIALISATION DES MASSES NODALES
+C     initialization of nodal masses
 C----------------------------------------------
 
        DO I=LFT,LLT

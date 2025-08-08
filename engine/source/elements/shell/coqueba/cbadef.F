@@ -30,7 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2                  HX,HY,VETA,VKSI,BM,BMF,BF,BC,TC,NPLAT,IPLAT,
      3                  ISROT,BRZ )
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
-C        CALCUL DES DEFORMATIONS GENERALISEES AUX POINTS DE GAUSS ET [B]
+C        CALCULATION OF GENERALIZED DEFORMATIONS AT GAUSS POINTS AND [B]
 C        ENTREES :  NEL,NG,VCORE,VQN,VXYZ,RXYZ,VNRM,VASM,VASTN
 C        SORTIES : VDEF,BM (MEMBRANE),BMF(COUPLAGE MEM-FLEXION),BF (FLEXION),BC(C.T)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
@@ -176,7 +176,7 @@ C------------ELEMENT GAUCH-------------------
        DO 150 I=NPLAT+1,JLT 
         EP=IPLAT(I)
 C---------------------------------------------------
-C  CALCUL DE [FN] 
+C  CALCULATION OF [FN]
 C---------------------------------------------------
           TFN(1,1)=VKSI(1,NG)*VQN(EP,7,1)+VKSI(2,NG)*VQN(EP,7,2)
      1            +VKSI(3,NG)*VQN(EP,7,3)+VKSI(4,NG)*VQN(EP,7,4)
@@ -225,7 +225,7 @@ C------------------------------
           TBC(1,2)=TBI(1,1)*TC(EP,1,2)+TBI(1,2)*TC(EP,2,2)
           TBC(2,2)=TBI(2,1)*TC(EP,1,2)+TBI(2,2)*TC(EP,2,2)
 C--------------------------
-C     CONSTRUIRE LA MATRICE [B] ET DEFORMATION
+C     BUILD [B] MATRIX AND DEFORMATION
 C--------------------------
 C--------------------------
 C     DEFORMATION IN-PLANE
@@ -234,7 +234,7 @@ C      [BM](3,3*NPG),[BMF](3,3*NPG),
 C      [BF](3,2*NPG),VDEF(8), 
 C--------------------------
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
-C---------- BOUCLE SUR LES NOEUDS---
+C---------- LOOP OVER NODES---
 C--------J=1         II =0 KK = 0
 C----------VT1=<T1>*VXYZ AU CHAQUE NOEUD---------
          VT1=VQ(EP,1,1,NG)*VXYZ(EP,1)+VQ(EP,2,1,NG)*VXYZ(EP,2)
@@ -560,7 +560,7 @@ C---------DEF MEMBRANE------
           VDEF(EP,1)= VDEF(EP,1)+ C1*VT1
           VDEF(EP,2)= VDEF(EP,2)+ C2*VT2
 C---------DEF DE FLEXION ASSOCIEE AUX U,V,W ([BMF]=2H[B0]+[B01])------
-C----------SEULEMENT LA PARTIE DE [B01]---------
+C----------ONLY THE [B01] PART---------
           VDEF(EP,6)= VDEF(EP,6)+ BC1*VT1
           VDEF(EP,7)= VDEF(EP,7)+ BC2*VT2
           VDEF(EP,8)= VDEF(EP,8)+ BC1*VT2+BC2*VT1
@@ -1220,7 +1220,7 @@ C
       SUBROUTINE CBADEF1(JFT,JLT,NG,VCORE,VXYZ,VDEF,
      1                  HX,HY,BM,NPLAT,IPLAT,ISROT)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
-C        CALCUL DES DEFORMATIONS GENERALISEES AUX POINTS DE GAUSS ET [B] (MEMBRANE ONLY)
+C        CALCULATION OF GENERALIZED DEFORMATIONS AT GAUSS POINTS AND [B] (MEMBRANE ONLY)
 C        ENTREES :  NEL,NG,VCORE,VXYZ
 C        SORTIES : VDEF,BM (MEMBRANE)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
@@ -1544,7 +1544,7 @@ C
      2                  HX,HY,VETA,VKSI,BM,NPLAT,IPLAT,
      3                  ISROT)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
-C        CALCUL DES DEFORMATIONS GENERALISEES AUX POINTS DE GAUSS ET [B]
+C        CALCULATION OF GENERALIZED DEFORMATIONS AT GAUSS POINTS AND [B]
 C        ENTREES :  NEL,NG,VCORE,VQN,VXYZ,RXYZ,VNRM,VASM,VASTN
 C        SORTIES : VDEF,BM (MEMBRANE),BMF(COUPLAGE MEM-FLEXION),BF (FLEXION),BC(C.T)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
@@ -1612,7 +1612,7 @@ C---------------------------
           TC(EP,2,2)=VJFI(EP,1,2,NG)*VQ(EP,1,2,NG)+VJFI(EP,2,2,NG)
      +             *VQ(EP,2,2,NG)+ VJFI(EP,3,2,NG)*VQ(EP,3,2,NG)
 C--------------------------
-C     CONSTRUIRE LA MATRICE [B] ET DEFORMATION
+C     BUILD [B] MATRIX AND DEFORMATION
 C--------------------------
 C--------------------------
 C     DEFORMATION IN-PLANE
@@ -1729,7 +1729,7 @@ C
 !||====================================================================
       SUBROUTINE CBADERIRZT(JFT,JLT,NG,BM0RZ,BMKRZ,BMERZ,BMRZ)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
-C        CALCUL DES DEFORMATIONS GENERALISEES AUX POINTS DE GAUSS ET [B]
+C        CALCULATION OF GENERALIZED DEFORMATIONS AT GAUSS POINTS AND [B]
 C        ENTREES :  JFT,JLT,NG,BM0RZ,BMKRZ,BMERZ
 C        SORTIES : BMRZ
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8

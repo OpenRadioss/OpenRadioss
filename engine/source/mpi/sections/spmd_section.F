@@ -703,7 +703,7 @@ C
         CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
       END DO
 C
-C Calcul des valeurs nodales sur proc main si besoin (test global ?)
+C Calculation of nodal values on Proc Main if necessary (global test?)
 C     
       K0=NSTRF(25)
       DO N = 1, NSECT
@@ -736,7 +736,7 @@ C
           IDEBR = IDEBR + SIZ
         ENDIF
       ENDDO
-C reste a coder l'envoi des noeuds vers les procs concernes
+C It remains to cod the sending of the nodes to the procs concerned
       NBISEND = 0
       IF(IAD_SEC(3,NSPMD+1)>0) THEN
         L = 0
@@ -1225,7 +1225,7 @@ C
 !||====================================================================
       SUBROUTINE SPMD_EXCH_CUT(NSTRF,SECFCUM,IAD_ELEM,FR_ELEM,SIZE,
      2                         LENR ,NNOD,WEIGHT)
-C cumul de secfcum au noeuds frontieres puis mise a 0 sur procs additionnels
+C Cumulation of SECFCUM at the boundary nodes then put on 0 on additional procs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1349,7 +1349,7 @@ C
         END IF
       END DO
 C
-C Remise a 0 de SECFCUM si P non main
+C Specific back to 0 if p not main
 C
       IF(SIZE==6) THEN
 #include "vectorize.inc"
@@ -1433,7 +1433,7 @@ C
       IF(LOC_PROC==1) THEN
         N0 = 0
         OFFG = 6*NNODG
-C Traitement P0
+C P0 Treatment
         IF(IAD_CUT(1)/=0) THEN
           NN = IAD_CUT(1)
           IF(IFLG==2) THEN
@@ -1465,7 +1465,7 @@ C Traitement P0
           END IF
           N0 = N0 + NN
         END IF
-C Traitement autres procs
+C Treatment Other procs
         DO P = 2, NSPMD
           IF(IAD_CUT(P)/=0) THEN
             L = 0

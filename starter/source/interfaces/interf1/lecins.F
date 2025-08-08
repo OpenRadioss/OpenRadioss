@@ -522,7 +522,7 @@ C-------
             INTBUF_TAB(NI)%XFILTR(1) = XFILTR(NI)
           ENDIF
           LIXINT = LIXINT+MULTIMP*NSN
-          IALLO = 2  ! initialisation des tableaux
+          IALLO = 2  ! initialization of arrays
           CALL I20SURFI(
      1      IALLO        ,IPARI(1,NI)  ,IGRNOD     ,IGRSURF  ,
      2      IGRSLIN      ,INTBUF_TAB(NI)%IRECTM,FRIGAP(1,NI) ,
@@ -588,7 +588,7 @@ C-------
           ENDIF
           LIXINT = LIXINT+MULTIMP*NSN
 C-----------inside I24SURFI NRTM=NRTM0          
-          IALLO = 2  ! initialisation des tableaux
+          IALLO = 2  ! initialization of arrays
           CALL I24SURFI(
      1      IALLO                  , IPARI(1,NI)            ,IGRNOD                   ,IGRSURF              ,
      2      INTBUF_TAB(NI)%IRECTM  ,FRIGAP(1,NI)            ,
@@ -615,9 +615,9 @@ C-------
           ENDIF
           LIXINT = LIXINT+MULTIMP*NSN
 C-----------inside I24SURFI NRTM=NRTM0          
-          IALLO = 2  ! initialisation des tableaux
+          IALLO = 2  ! initialization of arrays
           IF(ILEV==2)THEN
-C           necessaire au 2eme passage (cf IDDLEVEL)
+C           necessary in the 2nd passage (see iddlevel)
             INTBUF_TAB(NI)%NBINFLG(1:INTBUF_TAB(NI)%S_NBINFLG)=0
             INTBUF_TAB(NI)%MBINFLG(1:INTBUF_TAB(NI)%S_MBINFLG)=0
           END IF

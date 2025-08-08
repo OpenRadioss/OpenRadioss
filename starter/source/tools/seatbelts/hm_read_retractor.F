@@ -355,7 +355,7 @@ C
       ENDIF                       
 C                         
 C-------------------------------------
-C     Recherche des ID doubles
+C     search for duplicate ids
 C-------------------------------------
       CALL UDOUBLE(RET_ID,1,NRETRACTOR,MESS,0,BID)
       RETURN

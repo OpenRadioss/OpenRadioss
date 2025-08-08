@@ -179,7 +179,7 @@ C-----------------------------------------------
         WRITE(unit=IUNIT,  fmt='(A,01I10)    ')"   ", pPLANE%NP
         ENDDO
         
-        !SECND CELL LIST
+        !Second Cell List
         pSECND => BRICK_LIST(NIN,IB)%SecndList        
         WRITE(unit=IUNIT,  fmt='(A,01F20.14)' )"   ", pSECND%VOL_Unmerged         
         WRITE(unit=IUNIT,  fmt='(A,01I10)' )   "   ", pSECND%Num                 

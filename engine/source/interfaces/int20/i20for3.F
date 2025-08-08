@@ -213,10 +213,10 @@ C-----------------------------------------------
         IX4G(I) = NLG(IX4L(I))
       ENDDO
 C--------------------------------------------------------
-C  UNIQUEMENT POUR PAQUET DE QUADRANGLE
+C  only for quadrilateral packet
 C--------------------------------------------------------
 C--------------------------------------------------------
-C  CAS DES PAQUETS MIXTES
+C  case of mixed packets
 C--------------------------------------------------------
       IF(ICURV(1) == 3) THEN
         DO I=1,JLT
@@ -305,7 +305,7 @@ C---------------------
 C     COURBURE FIXE
 C---------------------
       IF(ICURV(1)==1)THEN
-C       spherique (que concave pour le moment)
+C       spherical (only concave for now)
         NA1 = ICURV(2)
         DO I=1,JLT
           RR = 1.E30
@@ -347,7 +347,7 @@ C
           N3(I) = -RZ
         ENDDO
       ELSEIF(ICURV(1)==2)THEN
-C       cylindrique (que concave pour le moment)
+C       cylindrical (only concave for now)
         NA1 = ICURV(2)
         NA2 = ICURV(3)
         DO I=1,JLT
@@ -520,12 +520,12 @@ C      PENE INITIALE
 C---------------------
       IF(INACTI==5.or.INACTI==6)THEN
 c         DO I=1,JLT
-cC REDUCTION DE LA PENE INITIALE
+creduction of initial penetration
 cC           CAND_P(INDEX(I))=MIN(CAND_P(INDEX(I)),PENE(I))
 c           CAND_P(INDEX(I))=MIN(CAND_P(INDEX(I)),
 c     .        ( (ONE-FIVEEM2)*CAND_P(INDEX(I))
 c     .          +FIVEEM2*(PENE(I)+FIVEEM2*(GAPV(I)-PENE(I))))  )
-cC SOUSTRACTION DE LA PENE INITIALE A LA PENE ET AU GAP
+csubtraction of initial penetration from penetration and gap
 c           PENE(I)=MAX(ZERO,PENE(I)-CAND_P(INDEX(I)))
 c           IF( PENE(I)==ZERO )  STIF(I) = ZERO
 c           GAPV(I)=GAPV(I)-CAND_P(INDEX(I))
@@ -906,9 +906,9 @@ C---------------------------------
           ENDDO
         ELSEIF(IVIS2==5)THEN
 C---------------------------------
-C         VISC = 2M/dt    => pour visc < 1 , stable : dt < 2M/visc = dt
-C         M=M1*M2/M1+M2      pour visc = 1 , choc elastique
-C                            pour visc = 0.5 , choc mou
+C         Visc = 2m/dt => For visc <1, stable: Dt <2m/visc = Dt
+C         M = m1*m2/m1+m2 for visc = 1, elastic shock
+C                            For visc = 0.5, elastic collision
 C---------------------------------
           DO I=1,JLT
             MAS2  = MS(IX1G(I))*H1(I)
@@ -1030,7 +1030,7 @@ c
           FNCONT(3,IX4G(I)) =FNCONT(3,IX4G(I)) + FZI(I)*H4(I)
           JG = NSVG(I)
           IF(JG>0) THEN
-C en SPMD : traitement a refaire apres reception noeud remote si JG < 0
+C In SPMD: Treatment to be redone after reception node Remote if JG <0
             FNCONT(1,JG)=FNCONT(1,JG)- FXI(I)
             FNCONT(2,JG)=FNCONT(2,JG)- FYI(I)
             FNCONT(3,JG)=FNCONT(3,JG)- FZI(I)
@@ -1372,7 +1372,7 @@ C---------------------------------
           FTCONT(3,IX4G(I)) =FTCONT(3,IX4G(I)) + FZT(I)*H4(I)
           JG = NSVG(I)
           IF(JG>0) THEN
-C en SPMD : traitement a refaire apres reception noeud remote si JG < 0
+C In SPMD: Treatment to be redone after reception node Remote if JG <0
             FTCONT(1,JG)=FTCONT(1,JG)- FXT(I)
             FTCONT(2,JG)=FTCONT(2,JG)- FYT(I)
             FTCONT(3,JG)=FTCONT(3,JG)- FZT(I)
@@ -1535,7 +1535,7 @@ C---------------------------------
         IF(    (VISC/=ZERO.OR.VISCF/=ZERO)
      .    .AND.(IVIS2==0.OR.IVIS2==1))THEN
           DO I=1,JLT
-C        C(I)=2.*C(I)
+C        C (i) = 2.*C (i)
             IF(MSI(I)==ZERO)THEN
               KS(I) =ZERO
               CS(I) =ZERO
@@ -1789,7 +1789,7 @@ C
         ENDIF
       ENDIF
 C=======================================================================
-C     FORCES sur noeuds mains
+C     forces on main nodes
 C=======================================================================
       DO I=1,JLT
         FX1(I)=FXI(I)*H1(I)
@@ -1810,13 +1810,13 @@ C
       ENDDO
 
 C=======================================================================
-C     FORCES PARITH ON sur noeud d'ancrage SECONDARY
+C     Forces Parith on on secondary anchor node
 C=======================================================================
       CALL FOAT_TO_6_FLOAT(1  ,JLT  ,FXI, FX6)
       CALL FOAT_TO_6_FLOAT(1  ,JLT  ,FYI, FY6)
       CALL FOAT_TO_6_FLOAT(1  ,JLT  ,FZI, FZ6)
 #include "lockon.inc"
-c     noeuds second
+c     Second nodes
       DO I = 1,JLT
         IG = NSVG(I)
         IF(IG > 0)THEN
@@ -1891,8 +1891,8 @@ c     noeuds matre
 #include "lockoff.inc"
 C=======================================================================
 C=======================================================================
-C     mise a ZERO des FORCES sur noeuds mains et second
-C     si PENE (sur noeud second) < GAPR (gap reel)
+C     set forces to zero on main and secondary nodes
+C     If Pene (on second node) <gapr (gap real)
 C=======================================================================
       DO I = 1,JLT
         IF(GAPV(I) > GAPR(I))THEN
@@ -1915,7 +1915,7 @@ C=======================================================================
 C
 C      SPMD remote SECONDARYs
 C
-C      ********  ATTENTION DXANCFI a communiquer dans TRI20BOX ************
+C      ******** Attention DXANCFI to communicate in TRI20BOX ***************
 C
             IL = - IG
             XSA = N1(I)*(DXANCFI(NIN)%P(1,IL)-H1(I)*DXANC(1,IX1L(I))
@@ -1959,7 +1959,7 @@ C             IFPEN(INDEX(I)) = 0
         ENDIF
       ENDDO
 C=======================================================================
-C     FORCES sur noeuds maites et second
+C     forces on master and secondary nodes
 C=======================================================================
 C---------------------------------
       IF(INTTH == 0 .OR. IFORM == 0) THEN
@@ -1996,14 +1996,14 @@ C
           PHI4(I) = -PHI(I) *H4(I)
         ENDDO
       ENDIF
-C spmd : identification des noeuds interf. utiles a envoyer
+C SPMD: Identification of interf nodes.useful to send
       IF (NSPMD>1) THEN
 Ctmp+1 mic only
 #include "mic_lockon.inc"
         DO I = 1,JLT
           NN = NSVG(I)
           IF(NN<0)THEN
-C tag temporaire de NSVFI a -
+C temporary tag of nsvfi a -
             NSVFI(NIN)%P(-NN) = -ABS(NSVFI(NIN)%P(-NN))
           ENDIF
         ENDDO
@@ -2110,7 +2110,7 @@ c         goto 1234
           FCONT(3,IX4G(I)) =FCONT(3,IX4G(I)) + FZ4(I)
           JG = NSVG(I)
           IF(JG>0) THEN
-C en SPMD : traitement a refaire apres reception noeud remote si JG < 0
+C In SPMD: Treatment to be redone after reception node Remote if JG <0
             FCONT(1,JG)=FCONT(1,JG)- FXI(I)
             FCONT(2,JG)=FCONT(2,JG)- FYI(I)
             FCONT(3,JG)=FCONT(3,JG)- FZI(I)
@@ -2131,8 +2131,8 @@ C-----------------------------------------------------
                 IF(ISECUT/=0)THEN
 #include "lockon.inc"
                   DO K=1,JLT
-C attention aux signes pour le cumul des efforts
-C a rendre conforme avec CFORC3
+C beware of signs for force accumulation
+C To make it conform with CFORC3
                     IF(SECFCUM(4,IX1G(K),I)==1.)THEN
                       SECFCUM(1,IX1G(K),I)=SECFCUM(1,IX1G(K),I)-FX1(K)
                       SECFCUM(2,IX1G(K),I)=SECFCUM(2,IX1G(K),I)-FY1(K)
@@ -2156,7 +2156,7 @@ C a rendre conforme avec CFORC3
 
                     JG = NSVG(K)
                     IF(JG>0) THEN
-C en SPMD : traitement a refaire apres reception noeud remote si JG < 0
+C In SPMD: Treatment to be redone after reception node Remote if JG <0
                       IF(SECFCUM(4,JG,I)==1.)THEN
                         SECFCUM(1,JG,I)=SECFCUM(1,JG,I)+FXI(K)
                         SECFCUM(2,JG,I)=SECFCUM(2,JG,I)+FYI(K)
@@ -2181,12 +2181,12 @@ C-----------------------------------------------------
         DO I=1,JLT
 
 C       IF(PENE(I)/=ZERO)THEN
-C test modifie pour coherence avec communication SPMD (spmd_i7tools)
+C modified test for consistency with spmd communication (spmd_i7tools)
           IF(FXI(I)/=ZERO.OR.FYI(I)/=ZERO.OR.FZI(I)/=ZERO)THEN
 
             JG = NSVG(I)
             IF(JG>0) THEN
-C en SPMD : traitement a refaire apres reception noeud remote si JG < 0
+C In SPMD: Treatment to be redone after reception node Remote if JG <0
               ICONTACT(JG)=1
             ENDIF
 
@@ -2203,7 +2203,7 @@ C en SPMD : traitement a refaire apres reception noeud remote si JG < 0
           JG = NSVG(I)
 #include "lockon.inc"
           IF(JG>0) THEN
-C en SPMD : traitement a refaire apres reception noeud remote si JG < 0
+C In SPMD: Treatment to be redone after reception node Remote if JG <0
             RCONTACT(JG)=MIN(RCONTACT(JG),RCURVI(I))
           END IF
           RCONTACT(IX1G(I))=MIN(RCONTACT(IX1G(I)),RCURVI(I))
@@ -2218,7 +2218,7 @@ C en SPMD : traitement a refaire apres reception noeud remote si JG < 0
           JG = NSVG(I)
 #include "lockon.inc"
           IF(JG>0) THEN
-C en SPMD : traitement a refaire apres reception noeud remote si JG < 0
+C In SPMD: Treatment to be redone after reception node Remote if JG <0
             PCONTACT(JG)=MAX(PCONTACT(JG),PENE(I)/(PADM*GAPV(I)))
             ACONTACT(JG)=MIN(ACONTACT(JG),ANGLMI(I))
           END IF
@@ -2236,7 +2236,7 @@ C
         IF(IBCS>0) THEN
           IG=NSVG(I)
           IF(IG>0) THEN
-C en SPMD : traitement a refaire apres reception noeud remote si JG < 0
+C In SPMD: Treatment to be redone after reception node Remote if JG <0
             CALL IBCOFF(IBCS,ICODT(IG))
           ENDIF
         ENDIF
@@ -2309,9 +2309,9 @@ C-----------------------------------------------
 C----------------------------------------------------------------------
 C     penetration initiale
 C
-C     PENIA(1:3,I) vecteur directeur normee
-C     PENIA(4,I) module de la penetration initiale
-C     PENIA(4,I) module corrigee pour le cycle suivant
+C     Penia (1: 3, i) Normally director vector
+C     penia(4,i) magnitude of initial penetration
+C     penia(4,i) corrected magnitude for next cycle
 C----------------------------------------------------------------------
       IF(INACTI >= 5)THEN
         DO I = 1,NLN
@@ -2321,7 +2321,7 @@ C----------------------------------------------------------------------
           DDX = DX(I)*PENIA(1,I) + DY(I)*PENIA(2,I) + DZ(I)*PENIA(3,I)
           DDX = HALF*MIN(DDX,ZERO)
           PENIA(5,I) = MAX(ZERO,PENIA(5,I),PENIA(4,I)+DDX)
-c a faire ici ou dans I20BUCE_CRIT IF(PENIA(5,I) /= ZERO)NACTI=NACTI+1
+c To be done here or in i20buce_cript if (Penia (5, i) /= zero) nacti = nacti+1
         ENDDO
       ELSE
         DO I = 1,NLN
@@ -2346,7 +2346,7 @@ c            STFR = HALF * STFAC * ABS(STFA(I))
 c            STFR = HALF * ABS(STFAC)
           STFR = HALF * ABS(STFAC) * ALPHAK(1,I)
         ENDIF
-c essai viscosite critique
+c Critical viscosite test
 c          VISR = 0.1 * TWO * SQRT(STFR * MS(J))
         VISR = TWO * SQRT(STFR * MS(J))
 
@@ -2769,9 +2769,9 @@ C---------------------------------
           ENDDO
         ELSEIF(IVIS2==5)THEN
 C---------------------------------
-C         VISC = 2M/dt    => pour visc < 1 , stable : dt < 2M/visc = dt
-C         M=M1*M2/M1+M2      pour visc = 1 , choc elastique
-C                            pour visc = 0.5 , choc mou
+C         Visc = 2m/dt => For visc <1, stable: Dt <2m/visc = Dt
+C         M = m1*m2/m1+m2 for visc = 1, elastic shock
+C                            For visc = 0.5, elastic collision
 C---------------------------------
           DO I=1,JLT
             MAS2  = MS1(I)*HS1(I)
@@ -2936,7 +2936,7 @@ Ctmp+1 mic only
         DO I = 1,JLT
           IF(CS_LOC(I)>NLINSA)THEN
             NI = CS_LOC(I)-NLINSA
-C tag temporaire de NSVFI a -
+C temporary tag of nsvfi a -
             NSVFIE(NIN)%P(NI) = -ABS(NSVFIE(NIN)%P(NI))
           ENDIF
         ENDDO
@@ -3041,7 +3041,7 @@ C
         ENDIF
       ENDIF
 C=======================================================================
-C     FORCES PARITH ON sur noeud d'ancrage SECOND
+C     Forces Parith on on second anchoring node
 C=======================================================================
       CALL FOAT_TO_6_FLOAT(1  ,JLT  ,FX1, FX6)
       CALL FOAT_TO_6_FLOAT(1  ,JLT  ,FY1, FY6)
@@ -3102,7 +3102,7 @@ C          IL = - IG
       ENDDO
 #include "lockoff.inc"
 C=======================================================================
-C     FORCES PARITH ON sur noeud d'ancrage MAIN
+C     Forces Parith on on main anchor node
 C=======================================================================
       CALL FOAT_TO_6_FLOAT(1  ,JLT  ,FX3, FX6)
       CALL FOAT_TO_6_FLOAT(1  ,JLT  ,FY3, FY6)
@@ -3131,11 +3131,11 @@ C=======================================================================
       ENDDO
 #include "lockoff.inc"
 C=======================================================================
-C     mise a ZERO des FORCES sur noeuds maites et second
+C     set forces to zero on master and secondary nodes
 C     si PENE (su noeud second) < GAPR (gap reel)
 C=======================================================================
 C=======================================================================
-C     FORCES sur noeuds maites et second
+C     forces on master and secondary nodes
 C=======================================================================
 C---------------------------------
       IF(IPARIT==0)THEN

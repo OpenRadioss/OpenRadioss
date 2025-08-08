@@ -72,7 +72,7 @@ C-----------------------------------------------
       LCAR=EBCS%lcar
       ALP=ZERO 
       IF (LCAR > 0) ALP=C*DT1/LCAR
-C Sauve densite et energie initiale
+C Save densite and initial energy
       IF(TT == 0)THEN
         DO IS=1,NSEG
           KSEG=ABS(ISEG(IS))
@@ -150,7 +150,7 @@ C
         DMF=DMF-FLUXO*ROOU-FLUXI*RO0(IS)
         DEF=DEF-FLUXO*ENOU-FLUXI*EN0(IS)
 C
-C stockage densit  et  nergie entrante dans buffer facette
+C storage of density and incoming energy in facet buffer
 C
         SEGVAR%RHO(KSEG)=RO0(IS)
         SEGVAR%EINT(KSEG)=EN0(IS)
@@ -164,7 +164,7 @@ C
           N=LISTE(I)
           S=LA(1,I)**2+LA(2,I)**2+LA(3,I)**2
           VN=(V(1,N)*LA(1,I)+V(2,N)*LA(2,I)+V(3,N)*LA(3,I))/SQRT(S)
-c on memorise la pression d'arret
+c We memorize the stop pressure
           P0(I)=P0(I)/S
           IF(VN<ZERO)P0(I)=P0(I)+HALF*RHO*VN**2
 c          write(6,*)'P nodale', P0(I) 
@@ -184,7 +184,7 @@ c condition darret
           PN=P0(I)-HALF*RHO*VN**2
           DPDV=DPDV-RHO*VN
         ENDIF
-c frontiere silencieuse
+c silent boundary
         DU=ROC*(VN-VO(I))
         DP=ALP*(PN-PO(I))
         P=PO(I)+DP+DU

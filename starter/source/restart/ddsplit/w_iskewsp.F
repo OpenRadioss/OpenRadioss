@@ -65,7 +65,7 @@ C
 C
       DO I = 1, NUMNOD_L
         ISK = ISKEW(NODGLOB(I))
-        IF(ISK<=NUMSKW+1)THEN     ! no skew classique
+        IF(ISK<=NUMSKW+1)THEN     ! Classic no skew
           ITMP(I) = ISK
         ELSEIF(ISK <= NUMSKW+NUMSPH+1 .AND.NSPCOND > 0 .AND. NUMSPH > 0 )THEN                      ! no skew sph
           NG = ISK-NUMSKW-1

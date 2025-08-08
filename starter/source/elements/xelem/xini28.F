@@ -337,10 +337,10 @@ C       RETURN ELEMENT TIME STEP.
         DO K=1,NX-1
           XM   = RHO*UVARN(MB3+K-1)
 C         rigidite tangente
-C tous les brins ont la meme longueur correspond a :
+C all strands have the same length corresponds to :
 C         XKM  = STIF*(XN-1.)/L0
           XKM  = STIF/UVARN(MB3+K-1)
-C tous les brins ont la meme longueur correspond a :
+C all strands have the same length corresponds to :
 C         XCM  = (F*DGDX+XC)*(XN-1.)/L0
           XCM  = (F*DGDX+XC)/UVARN(MB3+K-1)
           IF(XCM+XKM<EM15)XM  =ONE

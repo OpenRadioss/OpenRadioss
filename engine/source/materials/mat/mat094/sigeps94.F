@@ -116,7 +116,7 @@ C
         D(3)     = UPARAM(9)  
 
         
-C iniialisation des variabesl users 
+C initialization of user variables
 
       IF(TIME==ZERO)THEN
        DO J = 1,NUVAR

@@ -390,7 +390,7 @@ c        IF(NBCUT==0) print *, "     C Y C L E"
           FFO   = DP(I) * Swet(ICUT,I)
           IF(Q<ZERO) FFO = -FFO   !sign change to adjust normal direction (non oriented surface)
 
-          !force au CoG
+          !force at cog
           FF(:) = FFO * N_SURF(:,iabs(CAND_E(I)))
           !rint *, "F_cog=", FF(:)
           
@@ -542,7 +542,7 @@ C              endif
           FFO          = DP(I) * Swet(8+J,I)
           IF(Q<ZERO) FFO = -FFO   !sign change to adjust normal direction (non oriented surface)
 
-          !force au CoG
+          !force at cog
           FF(:)        = FFO * N_SURF(:,iabs(CAND_E(I)))
           !rint *, "F_cog=", FF(:)
 

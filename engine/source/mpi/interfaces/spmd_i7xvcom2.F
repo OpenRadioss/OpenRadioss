@@ -171,7 +171,7 @@ C  type 20
 C  type 20 + heat
       LEN20T = LEN20 + 1
 C type 20 edge
-      LEN20E = 2 * (3 + 3 + DT_CST + 18*(1+IRESP) + 6 + 3 +1) + 3  ! base sur 2 fois taille int11 + specifique type 20
+      LEN20E = 2 * (3 + 3 + DT_CST + 18*(1+IRESP) + 6 + 3 +1) + 3  ! Base on 2 times int11 + specific size 20
       IF(IDTMINS > 0 .OR. IDTMINS_INT /= 0 ) LEN20E = LEN20E + 2
 
 C type 25
@@ -295,12 +295,12 @@ c              IF(NTY == 24 .AND. INTNITSCHE > 0 ) LENI = LENI + 3
                   ENDIF
               ENDIF
 
-C ajout partie edge pour type 20
+C Add part of Edge for Type 20
               IF(NTY==20)THEN
                 NB = NSNFIE(NIN)%P(P)
                 IF(NB>0) L = L + NB*LEN20E
               END IF
-C ajout partie edge pour type 25
+C Add part of Edge for Type 25
               IF(NTY==25 .AND. IEDGE /= 0)THEN
                 NB = NSNFIE(NIN)%P(P)
                 IF(NB>0) L = L + NB*LEN25E
@@ -310,7 +310,7 @@ C ajout partie edge pour type 25
             SIZ = L+1-ADD 
             IF(SIZ>0)THEN
               MSGTYP = MSGOFF
-C BUFS : envoi partie force et reception partie vitesse
+C BUFS: Shipping Part Force and Reception Speed Party
               CALL MPI_IRECV(
      .          BBUFR(ADD),SIZ,REAL     ,IT_SPMD(P),MSGTYP,
      .          SPMD_COMM_WORLD,REQ_RI(P),IERROR    )
@@ -1168,7 +1168,7 @@ C Alphak(2)
                         BBUFS(L+17) = INTBUF_TAB(NIN)%ALPHAK((IL-1)*3+2)
 C
 C DA
-C adresse dans INBUF entier => buffer double precision de taille 18*2
+C Address in integer inbuf => double precision buffer 18*2
                         CALL PUTDPDAANC(
      .                    INTBUF_TAB(NIN)%DAANC6(1+(IL-1)*3*6*2),BBUFS(L+18),IRESP,
      .                         INC)
@@ -1223,7 +1223,7 @@ C Alphak(2)
                         BBUFS(L+17) = INTBUF_TAB(NIN)%ALPHAK((IL-1)*3+2)
 C
 C DA
-C adresse dans INBUF entier => buffer double precision de taille 18*2
+C Address in integer inbuf => double precision buffer 18*2
                         CALL PUTDPDAANC(
      .                    INTBUF_TAB(NIN)%DAANC6(1+(IL-1)*3*6*2),BBUFS(L+18),IRESP,
      .                         INC)
@@ -1281,7 +1281,7 @@ C Alphak(2)
                         BBUFS(L+16) = INTBUF_TAB(NIN)%ALPHAK((IL-1)*3+2)
 
 C DA
-C adresse dans INBUF entier => buffer double precision de taille 18*2
+C Address in integer inbuf => double precision buffer 18*2
                         CALL PUTDPDAANC(
      .                    INTBUF_TAB(NIN)%DAANC6(1+(IL-1)*3*6*2),BBUFS(L+17),IRESP,
      .                         INC)
@@ -1333,7 +1333,7 @@ C DAANC
 C Alphak(2)
                         BBUFS(L+16) = INTBUF_TAB(NIN)%ALPHAK((IL-1)*3+2)
 
-C adresse dans INBUF entier => buffer double precision de taille 18*2
+C Address in integer inbuf => double precision buffer 18*2
                         CALL PUTDPDAANC(
      .                    INTBUF_TAB(NIN)%DAANC6(1+(IL-1)*3*6*2),BBUFS(L+17),IRESP,
      .                         INC)
@@ -1395,7 +1395,7 @@ C DAANC
 C Alphak(2)
                         BBUFS(L+18) = INTBUF_TAB(NIN)%ALPHAK((IL-1)*3+2)
 C DA
-C adresse dans INBUF entier => buffer double precision de taille 18*2
+C Address in integer inbuf => double precision buffer 18*2
                         CALL PUTDPDAANC(
      .                    INTBUF_TAB(NIN)%DAANC6(1+(IL-1)*3*6*2),BBUFS(L+19),IRESP,
      .                    INC)
@@ -1449,7 +1449,7 @@ C DAANC
 C Alphak(2)
                         BBUFS(L+18) = INTBUF_TAB(NIN)%ALPHAK((IL-1)*3+2)
 C DA
-C adresse dans INBUF entier => buffer double precision de taille 18*2
+C Address in integer inbuf => double precision buffer 18*2
                         CALL PUTDPDAANC(
      .                    INTBUF_TAB(NIN)%DAANC6(1+(IL-1)*3*6*2),BBUFS(L+19),IRESP,
      .                         INC)
@@ -1506,7 +1506,7 @@ C DAANC
 C Alphak(2)
                         BBUFS(L+17) = INTBUF_TAB(NIN)%ALPHAK((IL-1)*3+2)
 C DA
-C adresse dans INBUF entier => buffer double precision de taille 18*2
+C Address in integer inbuf => double precision buffer 18*2
                         CALL PUTDPDAANC(
      .                    INTBUF_TAB(NIN)%DAANC6(1+(IL-1)*3*6*2),BBUFS(L+18),IRESP,
      .                         INC)
@@ -1559,7 +1559,7 @@ C DAANC
 C Alphak(2)
                         BBUFS(L+17)  = INTBUF_TAB(NIN)%ALPHAK((IL-1)*3+2)
 C DA
-C adresse dans INBUF entier => buffer double precision de taille 18*2
+C Address in integer inbuf => double precision buffer 18*2
                         CALL PUTDPDAANC(
      .                    INTBUF_TAB(NIN)%DAANC6(1+(IL-1)*3*6*2),BBUFS(L+18),IRESP,
      .                         INC)
@@ -1591,7 +1591,7 @@ C
                 NB = NSNSIE(NIN)%P(P)
                 IDEB = DEBUTE(NIN)
                 IF(NB>0) THEN
-C besoin si partie non edge pas traite
+C Needed if edge part not processed 
                   NTY   =IPARI(7,NIN)
                   NLN = IPARI(35,NIN)
                   IF(DT_CST/=0)THEN
@@ -2035,12 +2035,12 @@ c                       ASSERT(.FALSE.)
 c                     ENDIF
 
 CC C verifier la portabilite:
-CC C LONG = TRANSFER(court) => les deriners bits de LONG pas specifies dans
-CC C la norme
-CC                       BBUFS(L+16) = 0
-CC                       BBUFS(L+17) = 0
-CC                       BBUFS(L+18) = 0
-CC                       BBUFS(L+19) = 0
+CLONG = TRANSFER(short) => the last bits of LONG not specified in
+Cthe standard
+Cc'bbufs (l+16) = 0
+Cc'bbufs (l+17) = 0
+Cc'bbufs (l+18) = 0
+Cc'bbufs (l+19) = 0
 CC                       BBUFS(L+16) = TRANSFER(INTBUF_TAB(NIN)%LEDGE((N-1)*NLEDGE+1),ONE)
 CC                       BBUFS(L+17) = TRANSFER(INTBUF_TAB(NIN)%LEDGE((N-1)*NLEDGE+2),ONE)
 CC                       BBUFS(L+18) = TRANSFER(INTBUF_TAB(NIN)%LEDGE((N-1)*NLEDGE+3),ONE)
@@ -2076,7 +2076,7 @@ C                     BBUFS(L+27) = 1 ! main of the edge
             SIZ = L+1-ADD
             IF(SIZ>0)THEN
               MSGTYP = MSGOFF
-C BUFR : reception partie force et envoi partie vitesse
+C Bufr: Reception Part Force and Shipping Party Speed
               CALL MPI_ISEND(
      .          BBUFS(ADD),SIZ,REAL     ,IT_SPMD(P),MSGTYP,
      .          SPMD_COMM_WORLD,REQ_SI(P),IERROR    )
@@ -2085,7 +2085,7 @@ C BUFR : reception partie force et envoi partie vitesse
         ENDDO
         ADDS(NSPMD+1)=ADDS(NSPMD)+SIZ
 C
-C Attente reception buffer et decompactage
+C Buffer reception and decompacting
 C
       ELSEIF(IFLAG==2.OR.IFLAG==3)THEN
        IF(ISTOCOM==1)THEN
@@ -3475,7 +3475,7 @@ C cas interface inactive
 C
 C Attente ISEND
 C
-C flag 3 utile pour restart en cours de run
+C flag 3 useful for restart during run
        IF(IFLAG/=3) THEN
          DO P = 1, NSPMD
            IF(ADDS(P+1)-ADDS(P)>0) THEN

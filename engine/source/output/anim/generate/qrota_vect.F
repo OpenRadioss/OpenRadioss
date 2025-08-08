@@ -107,7 +107,7 @@ C-----------
 c
       DO I=1,NEL
 C-----------
-C       CHANGEMENT DE REPERE
+C       change of reference frame
 C-----------
         S1=VECT(1,I)
         S2=VECT(2,I)

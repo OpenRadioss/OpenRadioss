@@ -158,7 +158,7 @@ C
 
       ENDDO
 C-------------------------------------
-C Recherche des ID doubles
+C Searching for duplicate IDs
 C-------------------------------------
       CALL UDOUBLE(NOM_OPT,LNOPT1,NJOINT,MESS,0,BID)
 C

@@ -93,7 +93,7 @@ cc        IF (NOD > 0 .and. INOD_CRKXFEM(NOD) > 0) THEN
 c
 c   or even:
 c
-c        NL_L = INCRKXFEM_L(I)
+c        Nl_l = incrkxfem_l (i)
 c        IF(NL_L > 0)THEN
 c          NOD_CRK = INDEX_CRKXFEM(NL_L)
 c          NODENR_L(NL_L) = NODENR(NOD_CRK)

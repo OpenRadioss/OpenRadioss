@@ -139,7 +139,7 @@ C-----------------------------------------------
         TYPE(XFEM_PHANTOM_), DIMENSION(:), ALLOCATABLE :: XFEM_PHANTOM    ! (NXLAYMAX)
 C-----------------------------------------------
       TYPE XFEM_LVSET_
-           INTEGER, DIMENSION(:,:) ,ALLOCATABLE :: ENR0       ! phantom enrichment
+           INTEGER, DIMENSION(:,:) ,ALLOCATABLE :: ENR0       ! Phantom Enrichment
            my_real, DIMENSION(:)   ,ALLOCATABLE :: AREA       ! phantom area ratio
       END TYPE XFEM_LVSET_
 
@@ -164,10 +164,10 @@ c-------------------------------
 c---------------------------------------------
       TYPE XFEM_EDGE_
          INTEGER, DIMENSION(:)  , ALLOCATABLE :: LAYCUT    ! cut xfem element flag => move to XFEM_PHANTOM%ELCUT
-         INTEGER, DIMENSION(:)  , ALLOCATABLE :: EDGEICRK  ! Id fissure sur un edge  
+         INTEGER, DIMENSION(:)  , ALLOCATABLE :: EDGEICRK  ! Crack ID on an edge
          INTEGER, DIMENSION(:,:) ,ALLOCATABLE :: IEDGEC    ! local cut edge N within element 
          INTEGER, DIMENSION(:,:) ,ALLOCATABLE :: IEDGETG   ! local cut edge N within element 
-         INTEGER, DIMENSION(:,:), ALLOCATABLE :: EDGEIFI   ! signe lvset sur un edge (+/- ICRK)  
+         INTEGER, DIMENSION(:,:), ALLOCATABLE :: EDGEIFI   ! lvset sign on an edge (+/- ICRK)
          INTEGER, DIMENSION(:,:), ALLOCATABLE :: EDGEENR   ! edge enrichment
          INTEGER, DIMENSION(:,:), ALLOCATABLE :: EDGETIP   ! flag d'edge interne/ext  
          INTEGER, DIMENSION(:)   ,ALLOCATABLE :: IBORDEDGE ! flag of border edge 

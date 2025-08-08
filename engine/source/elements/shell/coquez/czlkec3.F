@@ -79,10 +79,10 @@ C-----------------------------------------------
      .    DF6_2(MVSIZ),DMF(3,3,MVSIZ),
      .    BXIBXJ(2,2,MVSIZ),BXIBYJ(2,2,MVSIZ),BYIBXJ(2,2,MVSIZ),
      .    BYIBYJ(2,2,MVSIZ),FAC2Z   
-C-----------Attention Matrice sym Kii ne calcul que la moitie---------72
+C----------- CAPTE Matrix Sym KII only calculates half ---------- 72
        NF=NPLAT+1
 #include "vectorize.inc"
-C--------Constante parts---------------
+C------- Constant Parts --------------
        DO M=JFT,JLT 
         EP=IPLAT(M)
         C2=VOL(EP)
@@ -682,9 +682,9 @@ C-----------------------------------------------
      .    KZ11(2,2,MVSIZ),KZ12(2,2,MVSIZ),KZ22(2,2,MVSIZ),
      .    DMF(3,3,MVSIZ),PCX1(MVSIZ),PCX2(MVSIZ),PCY1(MVSIZ),
      .    PCY2(MVSIZ),FACZ(MVSIZ)
-C-----------Attention Matrice sym Kii ne calcul que la moitie---------72
+C----------- CAPTE Matrix Sym KII only calculates half ---------- 72
 #include "vectorize.inc"
-C--------Constante parts---------------
+C------- Constant Parts --------------
        DO M=JFT,JLT 
         EP=IPLAT(M)
         C2=VOL(EP)

@@ -184,7 +184,7 @@ C     /RWALL/THERM
       ENDIF
 C
 C-------------------------------------
-C Recherche des ID doubles
+C Search for double IDs
 C-------------------------------------
       CALL UDOUBLE(NOM_OPT,LNOPT1,NRWALL,MESS,0,BID)
       DEALLOCATE(IKINE1)

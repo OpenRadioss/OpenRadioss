@@ -68,13 +68,13 @@ C=======================================================================
          VIS(I) = ZERO
       END DO
 C------------------------------------
-C     VITESSE DU SON
+C     SOUND VELOCITY
 C------------------------------------
       DO I=LFT,LLT
          SSP(I)=SQRT(C(I)**2 + ONEP333*G(I)/RHO0(I))
       END DO
 C------------------------------------
-C     CALCUL DES DT ELEM
+C     CALCULATION OF DT ELEM
 C------------------------------------
       CALL DTEL(SSP,PM,GEO,PID,MAT, RHO0, VIS, DELTAX, AIRE, VOL, DTX)
 C-----------

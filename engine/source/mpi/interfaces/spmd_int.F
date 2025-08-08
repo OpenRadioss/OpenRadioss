@@ -38,7 +38,7 @@ C 7000  -> 7999  => spmd_anim.F
 C 8000  -> 8999  => spmd_th.F
 C 9000  -> 9999  => spmd_outp.F
 C 10000 -> 10999 => spmd_stat.F
-C 11000 -> 11999 => spmd_rest.F
+C 11000 -> 11999 => SPMD_REST.F
 C 12000 -> 12999 => spmd_lag.F
 C 13000 -> 13999 => spmd_dsreso.F
 
@@ -99,8 +99,8 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
 C=======================================================================
-C     tag des boites contenant des facettes
-C     et creation des candidats
+C     tag of the boxes containing facets
+C     and creation of candidates
 C=======================================================================
 
       LOC_PROC = ISPMD + 1
@@ -118,7 +118,7 @@ C=======================================================================
       ZMINB = BMINMAL(6)
 
       DO NE=1,NRTM
-C on ne retient pas les facettes detruites
+C We do not retain the Destruit facets
         IF(STF(NE) == ZERO)CYCLE
 
          IF(IGAP == 0)THEN
@@ -128,8 +128,8 @@ C on ne retient pas les facettes detruites
      .           MAX(MIN(GAPMAX,MAX(GAPMIN,BGAPSMX+GAP_M(NE)))+DGAPLOAD,DRAD)
          ENDIF
 
-c     il est possible d'ameliorer l'algo en decoupant la facette
-c     en 2(4,3,6,9...) si la facette est grande devant AAA et inclinee
+c     It is possible to improve the algo by cutting the facet
+c     in 2 (4,3,6,9 ...) if the facet is large in front of AAA and inclinee
 
          M1 = IRECT(1,NE)
          M2 = IRECT(2,NE)
@@ -157,7 +157,7 @@ c     en 2(4,3,6,9...) si la facette est grande devant AAA et inclinee
          ZMAXE=MAX(ZZ1,ZZ2,ZZ3,ZZ4)
          ZMINE=MIN(ZZ1,ZZ2,ZZ3,ZZ4)
 
-c        indice des voxels occupes par la facette
+c        index of the voxels occupied by the facet
 
          IX1=INT(NBX*(XMINE-AAA-XMINB)/(XMAXB-XMINB))
          IY1=INT(NBY*(YMINE-AAA-YMINB)/(YMAXB-YMINB))
@@ -288,8 +288,8 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
 C=======================================================================
-C     tag des boites contenant des facettes
-C     et creation des candidats
+C     tag of the boxes containing facets
+C     and creation of candidates
 C=======================================================================
       LOC_PROC = ISPMD + 1
 
@@ -297,7 +297,7 @@ C=======================================================================
       NBY = LRVOXEL
       NBZ = LRVOXEL
 C
-C Sauvegarde valeur ancienne des nsn frontieres
+C Old value backup of the NSN Frontieres
 C
       IF(INACTI==5.OR.INACTI==6.OR.INACTI==7.OR.IFQ>0
      .   .OR.NUM_IMP>0.OR.ITIED/=0.OR.ITYP==23.OR.ITYP==24   
@@ -307,7 +307,7 @@ C
          END DO
       END IF
 C
-C   boite minmax pour le tri provenant de i7buce BMINMA
+C   minmax box for sorting coming from i7buce BMINMA
 C
       IF(IRCVFROM(NIN,LOC_PROC)==0.AND.
      .   ISENDTO(NIN,LOC_PROC)==0) RETURN
@@ -318,7 +318,7 @@ C
       BMINMA(5,LOC_PROC) = BMINMAL(5)
       BMINMA(6,LOC_PROC) = BMINMAL(6)
 C
-C   envoi voxel + boite min/max
+C   Voxel shipment + min/max box
 C
       IF(IRCVFROM(NIN,LOC_PROC)/=0) THEN
         DO P = 1, NSPMD
@@ -339,7 +339,7 @@ C
         ENDDO
       ENDIF
 C
-C   reception voxel + boites min-max
+C   Voxel reception + min-max boxes
 C
       IF(ISENDTO(NIN,LOC_PROC)/=0) THEN
         NBIRECV=0
@@ -362,7 +362,7 @@ C
         ENDDO
       ENDIF
 C
-C   envoi de XREM
+C   sending XREM
 C
 C computation of real and integer sending buffers sizes
 c general case
@@ -433,10 +433,10 @@ C-----for   NBINFLG
           CALL SPMD_WAITANY(NBIRECV,REQ_RB,INDEXI)
           P=IRINDEXI(INDEXI)
           CALL SPMD_WAIT(REQ_RC(INDEXI))
-C Traitement special sur d.d. ne consever que les noeuds internes
+C Special treatment on d.d. keep only internal nodes
           DO J = IAD_ELEM(1,P), IAD_ELEM(1,P+1)-1
             NOD = FR_ELEM(J)
-C weight < 0 temporairement pour ne conserver que les noeuds non frontiere
+C weight < 0 temporarily to keep only non-border nodes
             WEIGHT(NOD) = WEIGHT(NOD)*(-1)
           ENDDO
 C
@@ -486,7 +486,7 @@ C
 C
           DO J = IAD_ELEM(1,P), IAD_ELEM(1,P+1)-1
             NOD = FR_ELEM(J)
-C remise de weight > 0
+C resumption of weight > 0
             WEIGHT(NOD) = WEIGHT(NOD)*(-1)
           ENDDO
 C old tag
@@ -770,7 +770,7 @@ C reset old tag for next P
 C
       IF(ITYP==25) DEALLOCATE(ITAGNSNFI)
 C
-C   reception  des donnees XREM
+C   reception of XREM data
 C
       IF(IRCVFROM(NIN,LOC_PROC)/=0) THEN
         NSNR = 0
@@ -964,8 +964,8 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
 C=======================================================================
-C     tag des boites contenant des facettes
-C     et creation des candidats
+C     tag of the boxes containing facets
+C     and creation of candidates
 C=======================================================================
       LOC_PROC = ISPMD + 1
 
@@ -973,7 +973,7 @@ C=======================================================================
       NBY = LRVOXEL
       NBZ = LRVOXEL
 C
-C Sauvegarde valeur ancienne des nsn frontieres
+C Old value backup of the NSN Frontieres
 C
       IF(INACTI==5.OR.INACTI==6.OR.INACTI==7.OR.IFQ>0
      .   .OR.NUM_IMP>0.OR.ITYP==23.OR.ITYP==24   
@@ -983,7 +983,7 @@ C
          END DO
       END IF
 C
-C   boite minmax pour le tri provenant de i7buce BMINMA
+C   minmax box for sorting coming from i7buce BMINMA
 C
       IF(IRCVFROM(NIN,LOC_PROC)==0.AND.
      .   ISENDTO(NIN,LOC_PROC)==0) RETURN
@@ -994,7 +994,7 @@ C
       BMINMA(5,LOC_PROC) = BMINMAL(5)
       BMINMA(6,LOC_PROC) = BMINMAL(6)
 C
-C   envoi voxel + boite min/max
+C   Voxel shipment + min/max box
 C
       IF(IRCVFROM(NIN,LOC_PROC)/=0) THEN
         DO P = 1, NSPMD
@@ -1015,7 +1015,7 @@ C
         ENDDO
       ENDIF
 C
-C   reception voxel + boites min-max
+C   Voxel reception + min-max boxes
 C
       IF(ISENDTO(NIN,LOC_PROC)/=0) THEN
         NBIRECV=0
@@ -1038,7 +1038,7 @@ C
         ENDDO
       ENDIF
 C
-C   envoi de XREM
+C   sending XREM
 C
 C computation of real and integer sending buffers sizes
 c general case
@@ -1271,7 +1271,7 @@ C
       ENDIF       
 C
 C
-C   reception  des donnees XREM
+C   reception of XREM data
 C
       IF(IRCVFROM(NIN,LOC_PROC)/=0) THEN
         NSNR = 0
@@ -1474,8 +1474,8 @@ C
            ALLOCATE(NSV_INV(0))
       ENDIF
 C=======================================================================
-C     tag des boites contenant des facettes
-C     et creation des candidats
+C     tag of the boxes containing facets
+C     and creation of candidates
 C=======================================================================
       LOC_PROC = ISPMD + 1
 
@@ -1483,7 +1483,7 @@ C=======================================================================
       NBY = LRVOXEL
       NBZ = LRVOXEL
 C
-C Sauvegarde valeur ancienne des nsn frontieres
+C Old value backup of the NSN Frontieres
 C
       IF(INACTI==5.OR.INACTI==6.OR.INACTI==7.OR.IFQ>0
      .   .OR.NUM_IMP>0.OR.ITYP==23.OR.ITYP==24) THEN
@@ -1492,7 +1492,7 @@ C
          END DO
       END IF
 C
-C   boite minmax pour le tri provenant de i7buce BMINMA
+C   minmax box for sorting coming from i7buce BMINMA
 C
       IF(IRCVFROM(NIN,LOC_PROC)==0.AND.
      .   ISENDTO(NIN,LOC_PROC)==0) RETURN
@@ -1503,7 +1503,7 @@ C
       BMINMA(5,LOC_PROC) = BMINMAL(5)
       BMINMA(6,LOC_PROC) = BMINMAL(6)
 C
-C   envoi voxel + boite min/max
+C   Voxel shipment + min/max box
 C
       IF(IRCVFROM(NIN,LOC_PROC)/=0) THEN
         DO P = 1, NSPMD
@@ -1527,7 +1527,7 @@ C
         ENDDO
       ENDIF
 C
-C   reception voxel + boites min-max
+C   Voxel reception + min-max boxes
 C
       IF(ISENDTO(NIN,LOC_PROC)/=0) THEN
         NBIRECV=0
@@ -1551,7 +1551,7 @@ C
         ENDDO
       ENDIF
 C
-C   envoi de XREM
+C   sending XREM
 C
 C computation of real and integer sending buffers sizes
 c general case
@@ -1602,7 +1602,7 @@ C
 C---Stiffness based on mass and time step
       IF(ISTIF_MSDT > 0) RSIZ = RSIZ + 1
 
-C---CAREA ouptu
+C--- Carea output
       IF(IFSUB_CAREA > 0) RSIZ = RSIZ + 1
 
       IDEB = 1
@@ -1612,10 +1612,10 @@ C---CAREA ouptu
           CALL SPMD_WAITANY(NBIRECV,REQ_RB,INDEXI)
           P=IRINDEXI(INDEXI)
           CALL SPMD_WAIT(REQ_RC(INDEXI))
-C Traitement special sur d.d. ne consever que les noeuds internes
+C Special treatment on d.d. keep only internal nodes
           DO J = IAD_ELEM(1,P), IAD_ELEM(1,P+1)-1
             NOD = FR_ELEM(J)
-C weight < 0 temporairement pour ne conserver que les noeuds non frontiere
+C weight < 0 temporarily to keep only non-border nodes
             WEIGHT(NOD) = WEIGHT(NOD)*(-1)
           ENDDO
 C
@@ -1737,7 +1737,7 @@ C
 
           DO J = IAD_ELEM(1,P), IAD_ELEM(1,P+1)-1
             NOD = FR_ELEM(J)
-C remise de weight > 0
+C resumption of weight > 0
             WEIGHT(NOD) = WEIGHT(NOD)*(-1)
           ENDDO
 C
@@ -2083,7 +2083,7 @@ C NITSCHE
         ENDDO
       ENDIF       
 C
-C   reception  des donnees XREM
+C   reception of XREM data
 C
       IF(IRCVFROM(NIN,LOC_PROC)/=0) THEN
         NSNR = 0
@@ -2273,7 +2273,7 @@ C
       LSKYFI= 0
       IF(RESULT==0) THEN
 C
-C Reperage des candidats
+C identification of candidates
 C
         NODFI = 0    
         DO I = 1, I_STOK
@@ -2371,7 +2371,7 @@ cccc        ENDIF
 
 
 C
-C Allocation des tableaux de frontieres interfaces
+C allocation of interface boundary arrays
 C
         IERROR1 = 0
         IERROR2 = 0
@@ -2515,7 +2515,7 @@ C
           CALL ARRET(2)
         ENDIF
 C
-C Compactage des candidats
+C compaction of candidates
 C
         IDEB = 0
         NN2 = 0  
@@ -2771,11 +2771,11 @@ C NITSCHE
         ENDDO  ! end do NSPMD        
 
         LSKYFI = NN2*MULTIMAX
-C   nsnr nouveau utile pour inacti
+C   NSNR New useful for inactive
         NSNR = NN2
       ENDIF
 C
-C Deallocation de XREM IREM
+C deallocation of XREM IREM
 C
       IF(ALLOCATED(XREM)) DEALLOCATE(XREM)
       IF(ALLOCATED(IREM)) DEALLOCATE(IREM)
@@ -2913,7 +2913,7 @@ C
         CALL ARRET(2)
       ENDIF
 C
-C allocations conditionnelles output pression / friction energy
+C Output Pressure / Friction Energy conditional allowances
 C
       IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT >0)THEN
         IF(ASSOCIATED(FNCONTI(NIN)%P)) DEALLOCATE(FNCONTI(NIN)%P)
@@ -2963,7 +2963,7 @@ C
       END IF
 C
 C
-C Renumerotation des candidats
+C renumbering of candidates
 C
       DO I = 1, I_STOK
         N = CAND_N(I)
@@ -3060,7 +3060,7 @@ C
 
       IF(RESULT==0) THEN
 C
-C Reperage des candidats
+C identification of candidates
 C
         DO I = 1, I_STOK
           N = CAND_N(I)
@@ -3073,7 +3073,7 @@ C
           ENDIF
         ENDDO
 C
-C Allocation des tableaux de frontieres interfaces
+C allocation of interface boundary arrays
 C
         IERROR1 = 0
         IERROR2 = 0
@@ -3191,7 +3191,7 @@ C
           CALL ARRET(2)
         ENDIF
 C
-C Compactage des candidats
+C compaction of candidates
 C
         IDEB = 0
         NN2 = 0  
@@ -3354,11 +3354,11 @@ C We Store PENE_OLD(3 in PENE_OLD(4 during sorting
         ENDDO  ! end do NSPMD        
 
         LSKYFI = NN2*MULTIMAX
-C   nsnr nouveau utile pour inacti
+C   NSNR New useful for inactive
         NSNR = NN2
       ENDIF
 C
-C Deallocation de XREM IREM
+C deallocation of XREM IREM
 C
       IF(ALLOCATED(XREM)) DEALLOCATE(XREM)
       IF(ALLOCATED(IREM)) DEALLOCATE(IREM)
@@ -3465,7 +3465,7 @@ C
         CALL ARRET(2)
       ENDIF
 C
-C allocations conditionnelles output pression
+C Output Pressure conditional allowances
 C
       IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT >0)THEN
         IF(ASSOCIATED(FNCONTI(NIN)%P)) DEALLOCATE(FNCONTI(NIN)%P)
@@ -3515,7 +3515,7 @@ C
       END IF
 C
 C
-C Renumerotation des candidats
+C renumbering of candidates
 C
       DO I = 1, I_STOK
         N = CAND_N(I)
@@ -3605,7 +3605,7 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
-C Sauvegarde valeur ancienne des nsn frontieres
+C Old value backup of the NSN Frontieres
 C
       !WRITE(6,*) __FILE__,__LINE__
       DO P = 1, NSPMD
@@ -3614,7 +3614,7 @@ C
 C
       LOC_PROC = ISPMD + 1
 C
-C   boite minmax pour le tri provenant de i10buce BMINMA
+C   minmax box for sorting from i10buce BMINMA
 C
       IF(IRCVFROM(NIN,LOC_PROC)==0.AND.
      .   ISENDTO(NIN,LOC_PROC)==0) RETURN
@@ -3625,7 +3625,7 @@ C
       BMINMA(5,LOC_PROC) = BMINMAL(5)
       BMINMA(6,LOC_PROC) = BMINMAL(6)
 C
-C   envoi boite
+C   Box sending
 C
       IF(IRCVFROM(NIN,LOC_PROC)/=0) THEN
         DO P = 1, NSPMD
@@ -3640,7 +3640,7 @@ C
         ENDDO
       ENDIF
 C
-C   reception des boites min-max
+C   Reception of Min-Max boxes
 C
       IF(ISENDTO(NIN,LOC_PROC)/=0) THEN
         NBIRECV=0
@@ -3658,7 +3658,7 @@ C
         ENDDO
       ENDIF
 C
-C   envoi de XREM
+C   sending of XREM
 C
 c general case
       RSIZ = 8    
@@ -3682,10 +3682,10 @@ c IDTMINS_INT /= 0
         DO KK = 1, NBIRECV
           CALL SPMD_WAITANY(NBIRECV,REQ_RB,INDEXI)
           P=IRINDEXI(INDEXI)
-C Traitement special sur d.d. ne consever que les noeuds internes
+C special treatment on d.d. to keep only internal nodes
           DO J = IAD_ELEM(1,P), IAD_ELEM(1,P+1)-1
             NOD = FR_ELEM(J)
-C weight < 0 temporairement pour ne conserver que les noeuds non frontiere
+C weight < 0 temporarily to keep only non-border nodes
             WEIGHT(NOD) = WEIGHT(NOD)*(-1)
           ENDDO
 C
@@ -3723,7 +3723,7 @@ C
 C
           DO J = IAD_ELEM(1,P), IAD_ELEM(1,P+1)-1
             NOD = FR_ELEM(J)
-C remise de weight > 0
+C reset of weight > 0
             WEIGHT(NOD) = WEIGHT(NOD)*(-1)
           ENDDO
 C
@@ -3818,7 +3818,7 @@ C -- IDTMINS_INT /= 0
         ENDDO
       ENDIF
 C
-C   reception  des donnees XREM
+C   reception of XREM data
 C
       IF(IRCVFROM(NIN,LOC_PROC)/=0) THEN
         NSNR = 0
@@ -3975,7 +3975,7 @@ C
       LSKYFI= 0
       IF(RESULT==0) THEN
 C
-C Reperage des candidats
+C identification of candidates
 C
         NODFI = 0
         DO I = 1, I_STOK
@@ -3989,7 +3989,7 @@ C
           ENDIF
         ENDDO
 C
-C Allocation des tableaux de frontieres interfaces
+C allocation of interface boundary arrays
 C
         IERROR1 = 0
         IERROR2 = 0
@@ -4046,7 +4046,7 @@ C
           CALL ARRET(2)
         ENDIF
 C
-C Compactage des candidats
+C compaction of candidates
 C
         IDEB = 0
         NN2 = 0      
@@ -4135,11 +4135,11 @@ C -- IDTMINS_INT /= 0
           ENDDO  ! fin do NSPMD   
 
         LSKYFI = NN2*MULTIMAX
-C   nsnr nouveau utile pour inacti
+C   NSNR New useful for inactive
         NSNR = NN2
       ENDIF
 C
-C Deallocation de XREM
+C deallocation of XREM
 C
       IF(ALLOCATED(XREM)) DEALLOCATE(XREM)
       IF(ALLOCATED(IREM)) DEALLOCATE(IREM)
@@ -4197,7 +4197,7 @@ C
         CALL ARRET(2)
       ENDIF
 C
-C allocations conditionnelles output pression
+C Output Pressure conditional allowances
 C
       IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT >0)THEN
         IF(ASSOCIATED(FNCONTI(NIN)%P)) DEALLOCATE(FNCONTI(NIN)%P)
@@ -4219,7 +4219,7 @@ C
         END IF            
       END IF
 C
-C Renumerotation des candidats
+C renumbering of candidates
 C
       DO I = 1, I_STOK
         N = CAND_N(I)
@@ -4286,8 +4286,8 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
 C=======================================================================
-C     tag des boites contenant des facettes
-C     et creation des candidats
+C     tag of boxes containing facets
+C     and creation of candidates
 C=======================================================================
 
       LOC_PROC = ISPMD + 1
@@ -4308,7 +4308,7 @@ C=======================================================================
 
       AAA = 0
       DO NEDG=1,NRTM
-C on ne retient pas les facettes detruites
+C We do not retain the Destruit facets
         IF(STF(NEDG) == ZERO)CYCLE
 
           AAA = TZINF
@@ -4340,7 +4340,7 @@ c            AAA = ZERO
          ZMAXE=MAX(ZZ1,ZZ2)
          ZMINE=MIN(ZZ1,ZZ2)
 
-c        indice des voxels occupes par la facette
+c        index of voxels occupied by the facet
 
          IX1=INT(NBX*(XMINE-AAA-XMINB)/(XMAXB-XMINB))
          IY1=INT(NBY*(YMINE-AAA-YMINB)/(YMAXB-YMINB))
@@ -4463,8 +4463,8 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
 C=======================================================================
-C     tag des boites contenant des facettes
-C     et creation des candidats
+C     tag of boxes containing facets
+C     and creation of candidates
 C=======================================================================
       LOC_PROC = ISPMD + 1
 
@@ -4472,7 +4472,7 @@ C=======================================================================
       NBY = LRVOXEL
       NBZ = LRVOXEL
 
-C Sauvegarde valeur ancienne des nsn frontieres
+C Old value backup of the NSN Frontieres
 C
       IF(IFORM == 2) THEN
          DO P = 1, NSPMD
@@ -4482,7 +4482,7 @@ C
 C
 C
 C
-C   boite minmax pour le tri provenant de i11uce BMINMA
+C   minmax box for sorting from i11uce BMINMA
 C
       IF(IRCVFROM(NIN,LOC_PROC)==0.AND.
      .   ISENDTO(NIN,LOC_PROC)==0) RETURN
@@ -4493,7 +4493,7 @@ C
       BMINMA(5,LOC_PROC) = BMINMAL(5)
       BMINMA(6,LOC_PROC) = BMINMAL(6)
 C
-C   envoi voxel + boite min/max
+C   Voxel shipment + min/max box
 C
       IF(IRCVFROM(NIN,LOC_PROC)/=0) THEN
         DO P = 1, NSPMD
@@ -4511,7 +4511,7 @@ C
         ENDDO
       ENDIF
 C
-C   reception voxel + boites min-max
+C   Voxel reception + min-max boxes
 C
       IF(ISENDTO(NIN,LOC_PROC)/=0) THEN
         NBIRECV=0
@@ -4534,7 +4534,7 @@ C
         ENDDO
       ENDIF
 C
-C   envoi de XREM
+C   sending of XREM
 C
 c general case
       RSIZ = 15
@@ -4583,10 +4583,10 @@ C
 
 
           CALL SPMD_WAIT(REQ_RC(INDEXI))
-C Traitement special sur d.d. ne consever que les noeuds internes
+C special treatment on d.d. to keep only internal nodes
 !          DO J = IAD_ELEM(1,P), IAD_ELEM(1,P+1)-1
 !            NOD = FR_ELEM(J)
-!C weight < 0 temporairement pour ne conserver que les noeuds non frontiere
+!C weight < 0 temporarily to keep only non-border nodes
 !            WEIGHT(NOD) = WEIGHT(NOD)*(-1)
 !          ENDDO
 C
@@ -4823,7 +4823,7 @@ C
       ENDIF !ENDIF SENDTO(NIN,LOC_PROC)/=0
 C
 C
-C   reception  des donnees XREM
+C   reception of XREM data
 C
       IF(IRCVFROM(NIN,LOC_PROC)/=0) THEN
         NRTSR = 0
@@ -4971,7 +4971,7 @@ C
       NODFI = 0
       IF(RESULT==0) THEN
 C
-C Reperage des candidats
+C identification of candidates
 C
         SEGFI = 0
         DO I = 1, I_STOK
@@ -4984,10 +4984,10 @@ C
             ENDIF
           ENDIF
         ENDDO
-C non optimal car noeuds dupliques potentiellement
+C not optimal because duplicate nodes potentially
         NODFI = 2*SEGFI
 C
-C Allocation des tableaux de frontieres interfaces
+C allocation of interface boundary arrays
 C
         IERROR1 = 0
         IERROR2 = 0
@@ -5076,7 +5076,7 @@ C
           CALL ARRET(2)
         ENDIF
 C
-C Compactage des candidats
+C compaction of candidates
 C
 C
         IDEB = 0
@@ -5262,13 +5262,13 @@ C
 
         ENDDO ! end do NSPMD 
 
-C   facteur 2 car 2 noeuds par segement => pris en compte au niveau
-C   de la 1ere dimension allouee
+C   factor 2 because 2 nodes by segment => taken into account at the level
+C   of the 1st allocated dimension
         LSKYFI = NN2*MULTIMAX
         NRTSR = NN2
       ENDIF
 C
-C Deallocation de XREM IREM
+C deallocation of XREM IREM
 C
       IF(ALLOCATED(XREM)) DEALLOCATE(XREM)
       IF(ALLOCATED(IREM)) DEALLOCATE(IREM)
@@ -5361,7 +5361,7 @@ C
             CALL ARRET(2)
           ENDIF
 C
-C Renumerotation des candidats
+C renumbering of candidates
 C
       DO I = 1, I_STOK
         N = CAND_S(I)
@@ -5430,8 +5430,8 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
 C=======================================================================
-C     tag des boites contenant des facettes
-C     et creation des candidats
+C     tag of boxes containing facets
+C     and creation of candidates
 C=======================================================================
 
       LOC_PROC = ISPMD + 1
@@ -5449,7 +5449,7 @@ C=======================================================================
       ZMINB = BMINMAL(6)
 
       DO NE=1,NRTM
-C on ne retient pas les facettes detruites
+C We do not retain the Destruit facets
         IF(STF(NE) == ZERO)CYCLE
 
          IF(IGAP == 0)THEN
@@ -5459,8 +5459,8 @@ C on ne retient pas les facettes detruites
      .           MIN(GAPMAX,MAX(GAPMIN,BGAPSMX+GAP_M(NE))))
          ENDIF
 
-c     il est possible d'ameliorer l'algo en decoupant la facette
-c     en 2(4,3,6,9...) si la facette est grande devant AAA et inclinee
+c     It is possible to improve the algo by cutting the facet
+c     in 2 (4,3,6,9 ...) if the facet is large in front of AAA and inclinee
 
          M1 = IRECT(1,NE)
          M2 = IRECT(2,NE)
@@ -5488,7 +5488,7 @@ c     en 2(4,3,6,9...) si la facette est grande devant AAA et inclinee
          ZMAXE=MAX(ZZ1,ZZ2,ZZ3,ZZ4)
          ZMINE=MIN(ZZ1,ZZ2,ZZ3,ZZ4)
 
-c        indice des voxels occupes par la facette
+c        index of voxels occupied by the facet
 
          IX1=INT(NBX*(XMINE-AAA-XMINB)/(XMAXB-XMINB))
          IY1=INT(NBY*(YMINE-AAA-YMINB)/(YMAXB-YMINB))
@@ -5578,8 +5578,8 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
 C=======================================================================
-C     tag des boites contenant des facettes
-C     et creation des candidats
+C     tag of boxes containing facets
+C     and creation of candidates
 C=======================================================================
 
       LOC_PROC = ISPMD + 1
@@ -5596,13 +5596,13 @@ C=======================================================================
       ZMINB = BMINMAL(6)
 
       DO NE=1,NRTM
-C on ne retient pas les facettes detruites
+C We do not retain the Destruit facets
         IF(STF(NE) == ZERO)CYCLE
          AAA = MARGE+CURV_MAX(NE)+VMAXDT
      +       + MAX(PMAX_GAP,BGAPSMX+GAP_M(NE))+DGAPLOAD
 
-c     il est possible d'ameliorer l'algo en decoupant la facette
-c     en 2(4,3,6,9...) si la facette est grande devant AAA et inclinee
+c     It is possible to improve the algo by cutting the facet
+c     in 2 (4,3,6,9 ...) if the facet is large in front of AAA and inclinee
 
          M1 = IRECT(1,NE)
          M2 = IRECT(2,NE)
@@ -5630,7 +5630,7 @@ c     en 2(4,3,6,9...) si la facette est grande devant AAA et inclinee
          ZMAXE=MAX(ZZ1,ZZ2,ZZ3,ZZ4)
          ZMINE=MIN(ZZ1,ZZ2,ZZ3,ZZ4)
 
-c        indice des voxels occupes par la facette
+c        index of voxels occupied by the facet
 
          IX1=INT(NBX*(XMINE-AAA-XMINB)/(XMAXB-XMINB))
          IY1=INT(NBY*(YMINE-AAA-YMINB)/(YMAXB-YMINB))

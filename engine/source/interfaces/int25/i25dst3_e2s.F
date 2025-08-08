@@ -336,7 +336,7 @@ C Computing cross product :
 
            PENE2(EJ,I) = NN(EJ,I)
 
-C Exclusions :
+C Exclusions:
 
            NM(1:3)=H1M(EJ,I)*NORMALM1(1:3,EJ,I)+H2M(EJ,I)*NORMALM2(1:3,EJ,I)
            NS(1:3)=H1S(EJ,I)*NORMALN1(1:3,I)+H2S(EJ,I)*NORMALN2(1:3,I)
@@ -362,13 +362,13 @@ C Exclusions :
       END IF
 
 
-      IF(SOL_EDGE/=0)THEN !  provisoire pour solides
+      IF(SOL_EDGE/=0)THEN ! temporary for solids
 C-----------Keep this condition for the moment (need?) : increase tolerance ( missing contacts )
 
-        LBA(1:JLT,1:4) = -ONE ! cf test LBA, LCA
+        LBA(1:JLT,1:4) = -ONE ! See test LBA, LCA
         LCA(1:JLT,1:4) = ZERO
 C---------------------------------------
-C       Extraction des coordonnees et pre-filtrage des candidats vs diedre main
+C       extraction of coordinates and pre-filtering of candidates vs main dihedral
 C---------------------------------------
         DO I=1,JLT
 
@@ -530,7 +530,7 @@ C
           ENDDO
         ENDDO
 C---------------------------------------
-C       Calculer uniquement candidats filtres par la suite...
+C       only filter candidates will be calculated afterwards...
 C---------------------------------------
         NJNDX = 0
         N4A   = 0
@@ -562,8 +562,8 @@ C
           DA1 = (XXS1(1,I)-XA(5,I))*XNA(I,1)+(XYS1(1,I)-YA(5,I))*YNA(I,1)+(XZS1(1,I)-ZA(5,I))*ZNA(I,1)
           DA2 = (XXS2(1,I)-XA(5,I))*XNA(I,1)+(XYS2(1,I)-YA(5,I))*YNA(I,1)+(XZS2(1,I)-ZA(5,I))*ZNA(I,1)
 C
-C         On traite y-compris le cas ou S1 ou S2 sont exactement sur la surface 
-C         (en dehors du 3eme point du triangle, que l'on peut rater)
+C         also handles the case where s1 or s2 are exactly on the surface
+C         (except for the third point of the triangle, which can be missed)
           IF(DA1*DA2 <= ZERO)THEN
             ALP=-DA2/SIGN(MAX(EM20,ABS(DA1-DA2)),DA1-DA2)
             XXS=ALP*XXS1(1,I)+(ONE-ALP)*XXS2(1,I)
@@ -608,8 +608,8 @@ C
           DA1 = (XXS1(1,I)-XA(5,I))*XNA(I,2)+(XYS1(1,I)-YA(5,I))*YNA(I,2)+(XZS1(1,I)-ZA(5,I))*ZNA(I,2)
           DA2 = (XXS2(1,I)-XA(5,I))*XNA(I,2)+(XYS2(1,I)-YA(5,I))*YNA(I,2)+(XZS2(1,I)-ZA(5,I))*ZNA(I,2)
 C
-C         On traite y-compris le cas ou S1 ou S2 sont exactement sur la surface 
-C         (en dehors du 3eme point du triangle, que l'on peut rater)
+C         also handles the case where s1 or s2 are exactly on the surface
+C         (outside the third point of the triangle, which can be missed)
           IF(DA1*DA2 <= ZERO)THEN
             ALP=-DA2/SIGN(MAX(EM20,ABS(DA1-DA2)),DA1-DA2)
             XXS=ALP*XXS1(1,I)+(ONE-ALP)*XXS2(1,I)
@@ -654,8 +654,8 @@ C
           DA1 = (XXS1(1,I)-XA(5,I))*XNA(I,3)+(XYS1(1,I)-YA(5,I))*YNA(I,3)+(XZS1(1,I)-ZA(5,I))*ZNA(I,3)
           DA2 = (XXS2(1,I)-XA(5,I))*XNA(I,3)+(XYS2(1,I)-YA(5,I))*YNA(I,3)+(XZS2(1,I)-ZA(5,I))*ZNA(I,3)
 C
-C         On traite y-compris le cas ou S1 ou S2 sont exactement sur la surface 
-C         (en dehors du 3eme point du triangle, que l'on peut rater)
+C         we also handle the case where s1 or s2 are exactly on the surface
+C         (outside the third point of the triangle, which can be missed)
           IF(DA1*DA2 <= ZERO)THEN
             ALP=-DA2/SIGN(MAX(EM20,ABS(DA1-DA2)),DA1-DA2)
             XXS=ALP*XXS1(1,I)+(ONE-ALP)*XXS2(1,I)
@@ -700,8 +700,8 @@ C
           DA1 = (XXS1(1,I)-XA(5,I))*XNA(I,4)+(XYS1(1,I)-YA(5,I))*YNA(I,4)+(XZS1(1,I)-ZA(5,I))*ZNA(I,4)
           DA2 = (XXS2(1,I)-XA(5,I))*XNA(I,4)+(XYS2(1,I)-YA(5,I))*YNA(I,4)+(XZS2(1,I)-ZA(5,I))*ZNA(I,4)
 C
-C         On traite y-compris le cas ou S1 ou S2 sont exactement sur la surface 
-C         (en dehors du 3eme point du triangle, que l'on peut rater)
+C         we also handle the case where s1 or s2 are exactly on the surface
+C         (outside the third point of the triangle, which can be missed)
           IF(DA1*DA2 <= ZERO)THEN
             ALP=-DA2/SIGN(MAX(EM20,ABS(DA1-DA2)),DA1-DA2)
             XXS=ALP*XXS1(1,I)+(ONE-ALP)*XXS2(1,I)

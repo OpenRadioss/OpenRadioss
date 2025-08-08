@@ -770,7 +770,7 @@ C
       ENDIF
 
 C-----------------------------------------------
-C code NSPMD > 1 a traiter de maniere specifique (IXi non present localement)
+C NSPMD Code> 1 To deal with a specific way (IXI not present locally)
       IF(NSPMD == 1)THEN
         IF(ISECIN>0)THEN
          K0=NSTRF(25)
@@ -783,8 +783,8 @@ C code NSPMD > 1 a traiter de maniere specifique (IXi non present localement)
               IF(ISECUT/=0)THEN
 #include "lockon.inc"
                 DO K=1,JLT
-C attention aux signes pour le cumul des efforts
-C a rendre conforme avec CFORC3
+C pay attention to the signs when summing the forces
+C To make it conform with CFORC3
                  IF(SECFCUM(4,IX1(K),I)==1.)THEN
                   SECFCUM(1,IX1(K),I)=SECFCUM(1,IX1(K),I)-FX1(K)
                   SECFCUM(2,IX1(K),I)=SECFCUM(2,IX1(K),I)-FY1(K)

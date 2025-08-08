@@ -212,7 +212,7 @@ C
       IF(IDESAC>0) RETURN
 C
 C---------------------------------
-C    ----sans frottement d'abord--- 
+C    ---- Without friction first --- 
 C---------------------------------
       DO I=1,JLT
         VTX = VX(I) -VN(I)*NX(I)
@@ -300,7 +300,7 @@ c        write(iout,*)'FAC-,VN(I)=',FAC,VN(I),I
        K2J11(2,3,I)=KN(4,I)*Q23
        K2J11(3,3,I)=KN(4,I)*Q33
       ENDDO
-C    ----avec frottement --- 
+C    with friction
        DO J=1,3 
         DO K=J,3 
          DO I=1,JLT
@@ -352,7 +352,7 @@ C
          IF(CS_LOC(I)>NRTS) THEN
             NN=CS_LOC(I)-NRTS
             NS=IND_INT(NIN)%P(NN)
-C---------pour temporairement diag_ss---
+Cfor temporary diag_ss
           NN1 = NS
             FFI(1,NN1)=ZERO
             FFI(2,NN1)=ZERO
@@ -385,7 +385,7 @@ C---------pour temporairement diag_ss---
             N_E(1,NE)=NX(I)
             N_E(2,NE)=NY(I)
             N_E(3,NE)=NZ(I)
-C---------pour temporairement diag_ss---
+Cfor temporary diag_ss
           NN1 = NS
             FFI(1,NN1)=ZERO
             FFI(2,NN1)=ZERO
@@ -533,7 +533,7 @@ C-------------------------------------------
         FACT(I)=FACN(I)*FACT(I)
        ENDDO
       ENDIF
-C--------partie NML-------
+C-------- part nml --------
       DO I=1,JLT
         FN = -FACN(I)*DNI(I)
         FX=FN*NX(I)
@@ -552,7 +552,7 @@ C--------partie NML-------
         A(2,M2(I))=A(2,M2(I))+FY*HM2(I)
         A(3,M2(I))=A(3,M2(I))+FZ*HM2(I)
       ENDDO
-C--------partie NSL-------
+C-------- part nsl --------
       DO I=1,JLT
         FNI = FACN(I)*DN(I)
         FX=FNI*NX(I)
@@ -849,7 +849,7 @@ c
         A(2,NM2)=A(2,NM2)+FYI(I)*HM2(I)
         A(3,NM2)=A(3,NM2)+FZI(I)*HM2(I)
        ENDDO
-C--------secnd part-------
+C------- Secondary part --------
        DO I=1,JLT
          IF(CS_LOC(I)<=NRTS) THEN
             NN1 = N1(I)
@@ -863,7 +863,7 @@ C--------secnd part-------
            ELSE
             NN=CS_LOC(I)-NRTS
             NS=IND_INT(NIN)%P(NN)
-C---------pour temporairement diag_ss---
+Cfor temporary diag_ss
           NN1 = NS
             FFI(1,NN1)=FFI(1,NN1)-FXI(I)*HS1(I)
             FFI(2,NN1)=FFI(2,NN1)-FYI(I)*HS1(I)

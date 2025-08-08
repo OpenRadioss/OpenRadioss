@@ -384,7 +384,7 @@ c
         ENDIF 
         WI = HALF*WS(IR,NPTR)*HALF*WS(IS,NPTS)*HALF*WS(K,NLAY)
 c
-        ! Shape functions value  
+        ! Shape Functions Value  
         CALL BASIS8 (ZR,ZS,ZT,H,PR,PS,PT)
 c
         ! Integration point number

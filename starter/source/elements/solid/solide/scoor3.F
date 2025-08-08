@@ -102,7 +102,7 @@ C-----------------------------------------------
       my_real
      .    CHECKVOLUME_8N
 C=======================================================================
-C     CONNECTIVITES ET NUMERO DE MATERIAU ET PID
+C     CONNECTIVITIES AND MATERIAL NUMBER AND PID
 C--------------------------------------------------
       DO I=LFT,LLT
         MXT(I)=IXS(1,I)
@@ -298,7 +298,7 @@ C
         SY(I)  = Y5(I)+Y6(I)+Y7(I)+Y8(I)-Y1(I)-Y2(I)-Y3(I)-Y4(I) 
         SZ(I)  = Z5(I)+Z6(I)+Z7(I)+Z8(I)-Z1(I)-Z2(I)-Z3(I)-Z4(I) 
       ENDDO
-C     Orthogonalisation du repere
+C     Orthogonalization of the reference frame
 C       E1=R, E3=R^S, E2=E3^E1                            
 C
       DO I=LFT,LLT                                      

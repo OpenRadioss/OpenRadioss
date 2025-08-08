@@ -223,7 +223,7 @@ c --------------------------
       PARMAT(4)  = ISRATE
       PARMAT(5)  = ZERO ! FCUT
 c
-c---- Definition des variables internes (stockage elementaire)
+c---- Definition of internal variables (Elementary storage)
 c
       MTAG%G_SIGI = 3
 c

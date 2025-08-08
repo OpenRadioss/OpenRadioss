@@ -522,7 +522,7 @@ c
         UVAR(I,5) = EPSP(I)
         IF (PLA(I) > EPSMAX(I) .and. OFF(I) == ONE) OFF(I)=FOUR_OVER_5         
 c        EPSEFF=sqrt((EPSXX(I)*EPSXX(I)+EPSYY(I) *EPSYY(I)+EPSXY(I)
-c     .        *EPSXY(I))/(un+deux*NU(I)*NU(I)))         
+c     .*Epsxy (i))/(one+two*naked (i)*naked (i)))         
 C
       ENDDO                                                            
 C------------------------------------------

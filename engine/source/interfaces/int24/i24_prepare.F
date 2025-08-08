@@ -63,7 +63,7 @@ C-----------------------------------------------
       INTEGER ITAG(NUMNOD),SZFRI24,IAFR24
       INTEGER P,I,J,NI,NIN,NOD,NTY,NSN,SN,NSNE
 C-----------------------------------------------
-C Partie 1, calcul des tailles de FR_I24
+C part 1, calculation of fr_i24 sizes
 C-----------------------------------------------
       ITAG(1:NUMNOD)=0
       IF (MODE==1)THEN
@@ -102,7 +102,7 @@ C Flush ITAG to zero again for next CPU
         ENDDO
         SFR_I24=SZFRI24
 C-----------------------------------------------
-C Partie 2, on remplis FR_I24 et IAD_I24
+C Part 2, we fill out Fr_i24 and IAD_I24
 C-----------------------------------------------
       ELSEIF(MODE==2)THEN
         IAD_I24(1,1)=1

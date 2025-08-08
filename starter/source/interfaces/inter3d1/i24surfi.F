@@ -143,7 +143,7 @@ C-----attention: ISU2=ISU1 /=0
       END SELECT
 c      ISYM = IPARI(43)
 c---------------------------------------
-c     copie des surfaces (IALLO == 2)
+c     Copy of surfaces (Iallo == 2)
 c---------------------------------------
        IF(IALLO == 2)THEN
         DO I=1,NRTM
@@ -237,7 +237,7 @@ C for inteply activation needed for Plyxfem + Type24
          ENDIF 
       ENDIF
 c-----------------------------------------------------------------
-c     noeuds de la surface S2 : build TAGS,set NSV,MSR if IALLO= 2
+c     Surface nodes S2: Build Tags, Set NSV, Msr If Iallo = 2
 c-----------------------------------------------------------------
       IF(ISU2 /= 0)THEN
         DO J=1,IGRSURF(ISU2)%NSEG
@@ -264,7 +264,7 @@ c     tagged nodes on S2 -> negative value
         ENDDO
       ENDIF
 c-----------------------------------------------------------------
-c     noeuds de la surface S1: build TAGS,set NSV,MSR if IALLO= 2
+c     Surface nodes S1: Build Tags, Set NSV, Msr If Iallo = 2
 c-----------------------------------------------------------------
       IF(ISU1 /= 0)THEN
         DO J=1,IGRSURF(ISU1)%NSEG
@@ -288,7 +288,7 @@ c     tagged nodes on S1 -> negative value, ->+3 for nodes on both
         ENDDO
       ENDIF
 c-----------------------------------------------------------------
-c     noeuds du groupe de noeud NOD1: build TAGS,set NSV if IALLO= 2
+c     nodes of the nod1 nod group: build tags, set nsv if iallo = 2
 c-----------------------------------------------------------------
       IF(NOD1 /= 0)THEN
         DO J=1,IGRNOD(NOD1)%NENTITY
@@ -349,7 +349,7 @@ C-----new subsuf/suf on edge-----
 C=======================================================================
 C=======================================================================
 c-----------------------------------------------------------------
-c     nombre de noeuds dans l'interface(SECONDARY+MAIN+edge)
+c     number of nodes in the interface (SECONDARY + MAIN + edge)
 c-----------------------------------------------------------------
       IF(IALLO == 2) THEN 
        NLN   = IPARI(35)
@@ -501,7 +501,7 @@ c      ALLOCATE (TAG(NUMNOD)        ,STAT=stat)
 #endif
 
 c---------------------------------------
-c       recherche de toutes les lignes dans la surface
+c       search for all lines on the surface
 c---------------------------------------
 C initialize IXWORK to zero
       IXWORK(4,1:NLMAX)=0
@@ -554,8 +554,8 @@ C
         CALL MY_ORDERS(0,IWORK,LINEIX,INDEX,LL,2)
 
 c---------------------------------------
-c       suppression des lignes doubles
-c       + calcul des angles(sin) inter-facettes
+c       removal of duplicate lines
+c       + Calculation of angles (sin) inter-facet
 c---------------------------------------
         LI = INDEX(1)
         I1M = LINEIX(1,LI)
@@ -625,7 +625,7 @@ c           second segment
           MZ = NZ
         ENDDO
 c---------------------------------------
-c       suppression des lignes internes (IEDGE == 1)
+c       Deletion of internal lines (iedge == 1)
 c       dimension first
 c---------------------------------------
         LL = NL
@@ -659,14 +659,14 @@ c         keep only border edges (IXWORK(5,L) == 1)
             ENDIF
           ENDDO
         ELSEIF(IEDGE == 2)THEN
-c         toutes les lignes sont conserves ET actives
+c         all lines are kept AND active
           DO L=1,LL
             NL = NL + 1
             IF(IXWORK(5,L) == 0)IXWORK(5,L)=-1 ! all on +-1
           ENDDO
         ELSEIF(IEDGE == 3)THEN
-c         les bords sont conservs
-c         les artes vives sont conservs (EDG_COS)
+c         the edges are preserved
+c         the live edges are preserved (EDG_COS)
           DO L=1,LL
             IF(IABS(IXWORK(5,L)) == 1)THEN
               NL = NL + 1
@@ -1240,7 +1240,7 @@ c---------------------------------------
       END IF
 #endif
 c---------------------------------------
-c       recherche de toutes les lignes dans la surface
+c       search for all lines on the surface
 c---------------------------------------
 C initialize IXWORK to zero
       IXWORK(4,1:NLMAX)=0
@@ -1293,8 +1293,8 @@ C-----------means I1,I2 has been exchanged
 C
         CALL MY_ORDERS(0,IWORK,LINEIX,INDEX,LL,2)
 c---------------------------------------
-c       suppression des lignes doubles
-c       + calcul des angles(sin) inter-facettes
+c       removal of duplicate lines
+c       + Calculation of angles (sin) inter-facet
 c---------------------------------------
         LI = INDEX(1)
         I1M = LINEIX(1,LI)
@@ -1364,13 +1364,13 @@ c           second segment
           MZ = NZ
         ENDDO
 c---------------------------------------
-c       suppression des lignes internes (IEDGE == 1)
+c       Deletion of internal lines (iedge == 1)
 c       dimension first
 c---------------------------------------
         LL = NL
         NL = 0
-c         les bords sont conservs
-c         les artes vives sont conservs (EDG_COS)
+c         the edges are preserved
+c         the live edges are preserved (EDG_COS)
           DO L=1,LL
             IF(IABS(IXWORK(5,L)) == 1)THEN
               NL = NL + 1
@@ -1400,7 +1400,7 @@ C             IXWORK(5,NL)=+-1 ! bord on
           ENDDO
 C
       ELSE
-C       pas de surfaces
+C       no surfaces
         NL = 0
       ENDIF
 c---------------------------------------

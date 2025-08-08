@@ -73,7 +73,7 @@ C-----------------------------------------------
      .        X12, Y12, Z12, X23, Y23, Z23, X31, Y31, Z31, 
      .        L12, L23, L31, DL0, DL1, DL2, DLL, DLBR1, DLBR2, DLBR3
 C---------------------------------------------------
-C Noeuds des volumes finis
+C Nodes of the finite volumes
 C---------------------------------------------------
       X12 = ZERO
       Y12 = ZERO
@@ -161,7 +161,7 @@ C
          ENDIF
       ENDDO
 C----------------------------
-C Normale, aire des triangles
+C Normal, area of the triangles
 C----------------------------
       DO I=1,NNTR
          N1=IFVTRI(1,I)
@@ -181,7 +181,7 @@ C----------------------------
          ENDIF
       ENDDO
 C------------------------------------------
-C Volume des polyhedres et longueur minimum
+C Volume of the polyhedra and minimum length
 C------------------------------------------
       DL0=DLH
       DL1=EP30
@@ -193,11 +193,11 @@ C------------------------------------------
       DO I=1,NPOLH
          PVOLU(I)=ZERO
          AREAPOLYMAX=ZERO
-C Boucle sur les polygones du polyhedre
+C Loop over the polygons of the polyhedra
          DO J=IFVPADR(I),IFVPADR(I+1)-1
             JJ=IFVPOLH(J)
             AREAPOLY=ZERO
-C Boucle sur les triangles du polygone
+C Loop over the triangles of the polygon
             DO K=IFVTADR(JJ), IFVTADR(JJ+1)-1
                KK=IFVPOLY(K)
                AREA=PAREA(KK)

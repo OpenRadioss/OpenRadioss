@@ -290,7 +290,7 @@ C
 C BARRIER II_STOK, II_STOK_E et RESULT
       CALL MY_BARRIER
 
-C a conserver pour cas inacti est modifie sur p0
+C to keep for inacti case is modified on p0
       IF(ITASK==0)THEN
         BSAV(1:6)=BMINMA(1:6) ! pour boite edge to edge
         IF(ABS(BMINMA(6)-BMINMA(3))>2*EP30.OR.
@@ -358,7 +358,7 @@ C
         IF(ITASK==0)THEN
 
 C
-C Get remote nodes in XREM/IREM
+C Get Remote Nodes in Xrem/Irem
 C
           INACTI=0
           NEDGE_LOCAL = INTBUF_TAB%NB_INTERNAL_EDGES + INTBUF_TAB%NB_BOUNDARY_EDGES_LOCAL
@@ -399,7 +399,7 @@ C
       CAND_N_OLD = INTBUF_TAB%I_STOK(1)
  40   continue
 C
-C Barrier comm spmd_tri7vox + BMINMA + Retour I7BUCE
+C Barrier comm spmd_tri7vox + bminma + return i7buce
 C      
       CALL MY_BARRIER
 C
@@ -477,7 +477,7 @@ C
 C
  140  continue
 C
-C Barrier comm spmd_tri7vox + BMINMA + Retour I7BUCE
+C Barrier comm spmd_tri7vox + bminma + return i7buce
 C      
       CALL MY_BARRIER
 C

@@ -95,7 +95,7 @@ C     #######################################################
       IDEB=0
       DO WHILE(IDEB<NRTM)
 C
-       !NRTM : nombre de faces mains
+       !NRTM: Number of main faces
        DO I=1,MIN(MVSIZ,NRTM-IDEB)
         J=IDEB+I
         IX1(I)=IRECT(1,J)
@@ -117,7 +117,7 @@ C
        ENDDO
 C
        DO I=1,MIN(MVSIZ,NRTM-IDEB)
-        !Calcul du centre de gravit   
+        !calculation of the center of gravity
         X0(I) = FOURTH*(X1(I)+X2(I)+X3(I)+X4(I))
         Y0(I) = FOURTH*(Y1(I)+Y2(I)+Y3(I)+Y4(I))
         Z0(I) = FOURTH*(Z1(I)+Z2(I)+Z3(I)+Z4(I))
@@ -137,9 +137,9 @@ C
         ZZ4(I) = Z4(I)-Z0(I)
        ENDDO
 C
-       !Decomposition de la coque en 4 triangles et calculs des aires
-       !Si l'aire de deux tirangles ayant en commun uniquement un sommet
-       ! (A12 et A34 par exemple) est nulle alors A_total=0 => dim=1
+       !decomposition of the shell into 4 triangles and calculation of areas
+       !If the area of two triangles having in common only a summit
+       ! (A12 and A34 for example) is zero then A_total=0 => dim=1
        DO I=1,MIN(MVSIZ,NRTM-IDEB)
         XN1(I) = YY1(I)*ZZ2(I) - YY2(I)*ZZ1(I)
         YN1(I) = ZZ1(I)*XX2(I) - ZZ2(I)*XX1(I)

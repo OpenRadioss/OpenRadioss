@@ -31,7 +31,7 @@ C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
 C This subroutine is displaying in Starter listing file
-C  element/element connectivities (ALE)
+C  Connectivities element/element (ALE)
 C  specific case of hexahedra (8-node-solid-elems in 3D) : buffer is IXS 
 C Precondition : IPRI >= 3 (/IOFLAG Starter option)
 C-----------------------------------------------

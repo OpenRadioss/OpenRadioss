@@ -75,7 +75,7 @@ C
             ILP = ILP + 1
           ENDIF
        ENDDO
-C--------------pour exchange,meme sans node secnd----
+C------------- For Exchange, even without node second ----
        IF (NLOCAL(M,PROC+1)==1.OR.ILP>0)THEN
         NRBE3_L = NRBE3_L+1
         IF (IPEN>0) NRBE3PEN_L = NRBE3PEN_L+1
@@ -84,7 +84,7 @@ C--------------pour exchange,meme sans node secnd----
       ENDDO
 C
       IF(IPARI0/=0) NSKYRBE3_L = SLMN_L*0
-C-------------pour main nodes---------
+C-------------for main nodes---------
       DO I = 1, NUMNOD
         TAGI(I) = 0
       END DO
@@ -92,15 +92,15 @@ C-------------pour main nodes---------
           N = LRBE3(I)
             IF(NLOCAL(N,PROC+1)==1) THEN
               IF(TAGI(N)==0) THEN
-C decompte des frontieres de main nodes
+C counting boundaries of main nodes
                 DO P = 1, NSPMD
                   IF(NLOCAL(N,P)==1)THEN
                     NBDDRBE3M = NBDDRBE3M + 1
                   END IF
                 END DO
-C on ne se compte pas soi-meme
+C We do not count ourselves
                 NBDDRBE3M = NBDDRBE3M - 1
-C pour ne pas prendre en compte 2 fois des noeuds main de RBE3 differentes ds les frontieres
+C to avoid counting main nodes of different RBE3s in the boundaries twice
                 TAGI(N) = 1
               END IF
             ENDIF

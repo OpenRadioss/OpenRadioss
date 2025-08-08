@@ -42,7 +42,7 @@ C-----------------------------------------------
 C            A R G U M E N T S
 C-----------------------------------------------
 C     KXIG3D(NIXIG3D,NUMELIG3D)  TABLEAU CONECS+PID+No ElEMENTS         E
-C     GEO(NPROPG,NUMGEO)TABLEAU DES CARACS DES PID                      E
+C     GEO(NPROPG,NUMGEO) array of the characteristics of the PID
 C     INUM(8,NUMELIG3D)    TABLEAU DE TRAVAIL                         E/S
 C     ITR1(NSELR)       TABLEAU DE TRAVAIL                            E/S
 C     EADD(NUMELIG3D)      TABLEAU DES ADRESSES DANS IDAM CHGT DAMIER   S
@@ -87,7 +87,7 @@ C-----------------------------------------------
 C
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
 C----------------------------------------------------------
-C   TRI GLOBAL SUR TOUS LES CRITERES POUR TOUS LES ELEMENTS
+C   global sort on all criteria for all elements
 C----------------------------------------------------------
 C
       DO I=1,NUMELIG3D
@@ -148,13 +148,13 @@ C
         ENDDO
       ENDDO
 C
-C INVERSION DE INDEX (DANS ITR1)
+C inversion of INDEX (in ITR1)
 C
       DO I=1,NUMELIG3D
         ITR1(INDEX(I))=I
       ENDDO
 C
-C RENUMEROTATION POUR SURFACES
+C renumbering for surfaces
 C
       DO I=1,NSURF
         NN=IGRSURF(I)%NSEG_IGE
@@ -169,7 +169,7 @@ C
       ENDDO
 C
 C--------------------------------------------------------------
-C         DETERMINATION DES SUPER_GROUPES
+C         determination of super_groups
 C--------------------------------------------------------------
       ND=1
       DO I=2,NUMELIG3D

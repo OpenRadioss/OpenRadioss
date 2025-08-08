@@ -47,7 +47,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
 C---------------------------------------------------------------------
 C     CHECK ELEMENT FOR TYPE 2 (ISEARCH=2)
-C     LE NOEUD GLOBAL N'EST PAS REMPLACE PAR LE NOEUD LOCAL DANS IRECT
+C     THE GLOBAL NODE IS NOT REPLACED BY THE LOCAL NODE IN IRECT
 C---------------------------------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

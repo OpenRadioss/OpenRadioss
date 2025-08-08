@@ -75,7 +75,7 @@ C
       ENDIF
 
       IF (FVSPMD(IFV)%RANK == 0) THEN
-C Reception des longueurs
+C reception of lengths
          II=0
          DO I=1,FVSPMD(IFV)%NSPMD-1
             II=II+1
@@ -88,7 +88,7 @@ C Reception des longueurs
 
       ELSE IF(FVSPMD(IFV)%RANK > 0) THEN
          ITABL(1)=FVSPMD(IFV)%NN_L
-C ajout noeuds internes
+C Addition Internal nodes
          ITABL(2)=FVSPMD(IFV)%NNA_L
          ITABL(3)=FVSPMD(IFV)%NNSA_L
          ITABL(4)=FVSPMD(IFV)%NNI_L

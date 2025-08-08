@@ -124,7 +124,7 @@ c
 c
       END DO
       IF (N < NITER) GOTO 111
-c     norme et orthogonalisation
+c     norm and orthogonalization
 c~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       DO I=1,NEL
       IF (OFF(I) <= ONE ) CYCLE 

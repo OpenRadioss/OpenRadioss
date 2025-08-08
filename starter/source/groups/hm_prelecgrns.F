@@ -100,7 +100,7 @@ C    IGRNOD(IGS)%R2R_SHARE ! shared on boundary subdomain
 C-----------------------------------------------
       IS_AVAILABLE = .FALSE.
 C=======================================================================
-C groupes de noeuds(type NODE,NODENS) + init IGRNOD(IGS)%ID
+C nodes groups (type node, nodens) + INIT igrnod (IGS)%ID
 C=======================================================================
       IGS=0
       TITR1='NODENS GROUP'
@@ -133,7 +133,7 @@ C
         !-----------------------------------------------------------------
         ! GRNOD from NODENS        
         IF(KEY(1:6) == 'NODENS') THEN
-!         groupe de noeuds (non sorted)
+!         group of nodes (no sorted)
           CALL HM_GET_INTV('idsmax' ,NENTITY,IS_AVAILABLE,LSUBMODEL)
           DO KK = 1,NENTITY
             CALL HM_GET_INT_ARRAY_INDEX ('ids',JJ  ,KK,IS_AVAILABLE,LSUBMODEL)

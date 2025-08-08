@@ -155,7 +155,7 @@ C-----------
         OFF_L  = MIN(OFF_L,OFFG(I))
       ENDDO
 C  
-C     Prepare les sorties par PART.
+C     prepares outputs by part
 C-----------
       IF(IOUTPRT/=0)THEN
        DO I=1,NEL

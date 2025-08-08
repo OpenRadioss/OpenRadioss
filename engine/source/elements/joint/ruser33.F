@@ -218,7 +218,7 @@ C- simple precision - extended sple precsion only for translational dof
           X0DP(2) = X0DP(2) + X0_ERR(2,I)
           X0DP(3) = X0DP(3) + X0_ERR(3,I)         
         ELSE
-C-- double precision
+C- Double precision
           X0DP(1) = UVAR(1,I)
           X0DP(2) = UVAR(2,I)
           X0DP(3) = UVAR(3,I)

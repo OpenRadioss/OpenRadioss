@@ -178,7 +178,7 @@ C
 C     initialization / see corrections rbodies...
       EAMS=ENCIN 
 C
-C GLOBAL VAR INITIALISES DANS RESOL ET MODIFIE DANS RGBCOR + passage en DOUBLE pour cumul
+C global var initialized in resol and modified in rgbcor + switched to double for accumulation
       ENCIND  = ZERO
       ENROTD  = ZERO
       ENINTD  = ZERO
@@ -391,8 +391,8 @@ C        IF (NSPMD>1) CALL SPMD_SUM_S(DY_EDAMP)
       ENDIF
 C
       IF (NSPMD > 1) THEN
-C.....envoyer la contribution au proc 0
-C.....sommer les contributions puis standard
+C..... Send the contribution to Pro 0
+C..... summon the contributions then standard
         ENTMP(1) = ENCIN
         ENTMP(2) = ENROT
         ENTMP(3) = ENINT
@@ -422,7 +422,7 @@ C.....sommer les contributions puis standard
         ENDIF
 C
         IF (ISTAT==2) THEN
-C istat=2 => relaxation : broadcast de encin et enrot
+C istat=2 => relaxation: broadcast of encin and enrot
           CALL SPMD_RBCAST(ENTMP,ENTMP,1,2,0,2)
           IF (ISPMD/=0) THEN
             ENCIN = ENTMP(1)
@@ -431,7 +431,7 @@ C istat=2 => relaxation : broadcast de encin et enrot
             ENROT2 = ENTMP(11)            
           ENDIF
         ELSEIF (ISTAT==3) THEN
-C istat=3 => ADYREL : broadcast de encin et enrot ENINT
+C istat=3 => adyrel: broadcast of encin and enrot enint
           CALL SPMD_RBCAST(ENTMP,ENTMP,1,3,0,3)
           IF (ISPMD/=0) THEN
             ENCIN = ENTMP(1)

@@ -310,7 +310,7 @@ C=======================================================================
 c
       !C
       
-      !c               (utilisateurs pour la rupture
+      !users for failure
        BIDON1 = ZERO
        BIDON2 = ZERO
        BIDON3 = ZERO
@@ -319,7 +319,7 @@ c
        BID1 = ZERO
        BID3 = ZERO
       
-      !               (utilisateurs pour la rupture
+      ! users for failure
       IBID    = 0
       IBIDON1 = 0
       IBIDON2 = 0
@@ -409,7 +409,7 @@ c
 
       IF (JCVT > 0) THEN
 C---------------------------
-C       ISOTROPE ET ORTHOTROPE CONVECTE
+C       isotropic and convected orthotropic
 C---------------------------
         DO I=LFT,LLT
          DE1(I) = EP1(I)*DT1

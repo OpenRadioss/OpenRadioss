@@ -447,7 +447,7 @@ c
           endif
         ENDIF
 c
-      ELSEIF (IXEL > 0) THEN       ! phantom element                                      
+      ELSEIF (IXEL > 0) THEN       ! Phantom element                                      
         DO I = 1,NEL                                                 
           IF (OFF(I) == ONE) THEN                                     
             IF (ELCRKINI(ILAY,I) == 2) THEN  ! second crack arrived => delete phantom element 

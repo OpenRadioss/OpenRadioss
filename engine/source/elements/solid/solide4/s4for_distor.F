@@ -86,7 +86,7 @@ C   S o u r c e   C o d e
 C-----------------------------------------------
          TOL_C= ZEP2
          TOL_V = EIGHT
-C---- element center
+C---- Element center
          DO I=1,NEL
            VC(I,1) = FOURTH*(VX1(I)+VX2(I)+VX3(I)+VX4(I))
            VC(I,2) = FOURTH*(VY1(I)+VY2(I)+VY3(I)+VY4(I))
@@ -109,7 +109,7 @@ C
      .               IFCTL, STIF  ,  MU    ,   NEL  ,
      .               E_DISTOR,DT1 )
          NCTL = NCTL + IFCTL
-C---- element center
+C---- Element center
          DO I=1,NEL
            XC(I) = FOURTH*(X1(I)+X2(I)+X3(I)+X4(I))
            YC(I) = FOURTH*(Y1(I)+Y2(I)+Y3(I)+Y4(I))

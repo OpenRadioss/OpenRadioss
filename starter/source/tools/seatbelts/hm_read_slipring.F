@@ -728,7 +728,7 @@ C
       ENDIF
 C                         
 C-------------------------------------
-C     Recherche des ID doubles
+C     search for duplicate ids
 C-------------------------------------
       CALL UDOUBLE(SLIP_ID,1,NSLIPRING,MESS,0,BID)
       RETURN

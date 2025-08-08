@@ -527,7 +527,7 @@ C overwrite
         DEALLOCATE(CONTRIB_KEY,CONTRIB_VALUE)
       ENDIF
 
-C -----Friction model  secnd nodes parts------
+C ---- FRICTION MODEL DRAD NODES PARTS ------
       IF(INTFRIC > 0) THEN
         IF(NUMELS  /= 0)THEN
           DO I = 1,NSN   

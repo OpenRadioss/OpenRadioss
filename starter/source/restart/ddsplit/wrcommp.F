@@ -183,7 +183,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
          INTEGER IVAR, I
 C--------------------------------------
-C     PREPARATION DES VARIABLES ENTIERES POUR ECRITURE SUR RFILE.
+C     preparation of integer variables for writing to RFILE
 C=======================================================================
 C-----
       DO IVAR=1,LMXVINT
@@ -226,8 +226,8 @@ C-----
       TABVINT(34) =IRESMD
       TABVINT(35) =IFRWV
 C
-C -------- Tailles des tableaux entiers --------
-C taille locale inutile
+C -------- sizes of integer arrays --------
+C Useless local size
       TABVINT(36) = 0
       TABVINT(37) = NUMNOD_L
       TABVINT(38) = 0 ! no longer used
@@ -280,8 +280,8 @@ C taille locale inutile
       END IF
       TABVINT(74) = NUMSPH_L*NSPCOND
       TABVINT(75) = NISPCOND*NSPCOND
-C 3 tableau pour inlet outlet passe en mono domaine
-c si cas Inl Outl on passe LPRTSPH_L et LONFSPH_L en tableaux locaux
+C 3 Table for inlet outlet goes to Mono Domaine
+c If case inl outl we pass lprsph_l and longfsph_l in local paintings
       TABVINT(76) = SISPHIO
       IF(NSPHIO>0)THEN
         TABVINT(77) = SLPRTSPH_L
@@ -414,7 +414,7 @@ c SNBRCVOIS
       ENDIF
 C
 
-C -------- Tailles des tableaux flottants --------
+C -------- sizes of floating-point arrays --------
       TABVINT(162) = 3*(NUMNOD_L+NRCVVOIS_L)
       TABVINT(163) = 3*(NUMNOD_L+NRCVVOIS_L)
       TABVINT(164) = 3*(NUMNOD_L+NRCVVOIS_L)
@@ -467,7 +467,7 @@ C
       ELSE
         TABVINT(184) = IEULER*(NUMELS_L*LVEUL+NUMELQ_L*10)
       ENDIF
-C 3 tableaux multi mat spmd mono
+C 3 SPMD Mono multi matte tables
       TABVINT(185) = SFILL
       TABVINT(186) = SDFILL
       TABVINT(187) = SALPH
@@ -505,9 +505,9 @@ C 3 tableaux multi mat spmd mono
       TABVINT(197) = 0
       TABVINT(198) = 0
       TABVINT(199) = 0
-C tableaux utilises en mono domaine pour inlet/outlet
+C Tables used in mono domain for inlet/outlet
       TABVINT(200) = SVSPHIO
-c si cas Inl Outl on passe SSPHVELN en tableau local
+c If case inl outl we pass ssphveln in local board
       IF(NSPHIO>0)THEN
         TABVINT(201) = SSPHVELN_L
       ELSE
@@ -571,7 +571,7 @@ C      TABVINT(235)=M07
 C      TABVINT(236)=M08
 C      TABVINT(237)=M09
 C
-C Taille dernier = taille locale du proc
+C Last size = local proc size
 C
 C-----
       TABVINT(238)=NUMMAT
@@ -772,7 +772,7 @@ C
       LVARINT=493
       
 C
-C-----  debut chk pt restart
+C---- Debut chk pt restart
 C
       !OUTP_V, ...OUTP_RT,ANIM_V,...,ANIM_FT
       DO I=1,19
@@ -826,7 +826,7 @@ C
       TABVINT(LVARINT)=NUMELS8A
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=NUMELTG6_L
-C espace memoire reserv pour les checks points restarts.
+C memory space reserved for checkpoint restarts
       DO I=1,58                          
         TABVINT(LVARINT+I)=0             
       ENDDO                              
@@ -974,7 +974,7 @@ c
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=IROOTYY
 C
-C-----  debut chk pt restart
+C---- Debut chk pt restart
 C
       LVARINT=LVARINT+1
       TABVINT(LVARINT)= 0
@@ -1007,7 +1007,7 @@ C
       TABVINT(LVARINT)= NBI18_L
       LVARINT=LVARINT+1
       TABVINT(LVARINT)= NSKYI18_L
-C partie commun spmd cfd
+C common part SPMD CFD
       LVARINT=LVARINT+1
       TABVINT(LVARINT)= NSVOIS_L
       LVARINT=LVARINT+1
@@ -1294,10 +1294,10 @@ C Madymo Restart Array is missing
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=NTHPART
 C
-C ecriture sur restart de tableaux de masse elementaires
+C writing of elementary mass arrays to restart
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=IREST_MSELT
-C ecriture sur restart nthread
+C writing nthread to restart
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=NTHREAD
 C   ----for output of rotational dof -----
@@ -1589,7 +1589,7 @@ C /LOAD/PBLAST
 C /LOAD/PCYL
       LVARINT=LVARINT+1
       TABVINT(LVARINT) = NLOAD_CYL           
-C espace memoire reserv pour les checks points restarts.
+C memory space reserved for checkpoint restarts
 C     IDTMIN(51)
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=0
@@ -1633,10 +1633,10 @@ C
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=NRTMX25_L
 C
-C drape option
+C Drape option
       LVARINT=LVARINT+1
       TABVINT(LVARINT) = NDRAPE
-C Element activation
+C activation element
       LVARINT=LVARINT+1
       TABVINT(LVARINT) = LRACTIV
 C PLY_INFO -> animation file
@@ -1740,7 +1740,7 @@ C Friction interface
       LVARINT=LVARINT+1
       TABVINT(LVARINT) = LENISLIN_L
 C
-C-----  debut chk pt restart
+C---- Debut chk pt restart
 C
 !     IDTS6, IDT1SOL, IDT1TET10, IDT1SH <=> CHKPT
       LVARINT=LVARINT+1

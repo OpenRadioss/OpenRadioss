@@ -35,7 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 ! IGSURF_SPLIT description
 ! IGSURF_SPLIT splits the global IGSURF array into local 
 !              IGSURF_PROC arrays in order to save 
-!              CPU time in ddsplit routine (avoid NSPMD 
+!              CPU TIME IN DDSPLIT Routine (Avoid NSPMD 
 !              treatments)
 ! 
 ! IGSURF_SPLIT organization :

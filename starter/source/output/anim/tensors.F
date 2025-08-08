@@ -126,7 +126,7 @@ C             STRESS TENSOR IN GLOBAL SYSTEM
               DO I=LFT,LLT                                               
                 N = I + NFT                                              
                 IF(EL2FA(NN2+N)/=0)THEN                                
-C                 pour JHBE=14, valeurs moyennes est dans rep. corota.
+C                 For jhbe = 14, average values is in rep.Corota.
                   IF (KCVT==2.AND.JHBE/=14) THEN
                     GAMA(1)=GBUF%GAMA(JJ(1) + I)
                     GAMA(2)=GBUF%GAMA(JJ(2) + I)

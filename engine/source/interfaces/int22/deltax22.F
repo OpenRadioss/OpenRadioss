@@ -98,7 +98,7 @@ C-----------------------------------------------
            ENDIF
           
            !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-           !           CHARACTERISTIC LENGTH           !
+           !           Characteristic Length!
            !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
            NSecnds     = BRICK_LIST(NIN,IB)%SecndList%Num
            VOLsecnds   = SUM(BRICK_LIST(NIN,IB)%SecndList%VOL(1:NSecnds))

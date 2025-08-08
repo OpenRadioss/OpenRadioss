@@ -71,7 +71,7 @@ C-----------------------------------------------
       INTEGER IVAR,J,RVARINT,P
       TYPE (PARAMETERS_) ,INTENT(IN):: INTER_PARAMETERS
 C--------------------------------------
-C     PREPARATION DES VARIABLES REELLES POUR ECRITURE SUR RFILE.
+C     PREPARATION OF REAL VARIABLES FOR WRITING TO RFILE.
 C--------------------------------------
 C-----
       DO IVAR=1,LMXVREA
@@ -132,7 +132,7 @@ C-----
       TABVREA(63)=LAG_ALPHS
       LVARREA=63
 C 
-C---- debut check point restart
+C---- Debut Check Point Restart
 C
       DO I = 1, 42
        TABVREA(63+I)=ZERO
@@ -277,7 +277,7 @@ C
       RVARINT = RVARINT + 1
       TABVREA(RVARINT) = ZERO ! MSI20 Itet=2
 C      
-C---- debut check point restart      
+C---- Debut Check Point Restart      
 C
 C     DTFAC1(51) and DTMIN1(51)
       RVARINT = RVARINT + 1

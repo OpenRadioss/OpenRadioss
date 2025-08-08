@@ -493,9 +493,9 @@ C
 c         DF = -TWO*G * (DU * DF1) **2 
 c     .        -TWO*G * (DU * DF2) **2 
 c     .        -TWO*G * (DU * DF3) **2 
-c     .        -G * (DU * DF4) **2 
-c     .        -G * (DU * DF5) **2 
-c     .        -G * (DU * DF6) **2 
+c     .        -g * (du * df4) **2
+c     .        -g * (du * df5) **2
+c     .        -g * (du * df6) **2
 
          DF = DF  - YLDP
          !CALCUL PAS PLASTIQUE
@@ -510,7 +510,7 @@ c     .        -G * (DU * DF6) **2
          DEPLYZ(I)=DPLA(I)*DF5*DU
          DEPLZX(I)=DPLA(I)*DF6*DU
 
-         !ACTUALISATION DES CONTRAINTES
+         !update of the stresses
          SIGNXX(I)=SIGTRXX(I)- G2*DEPLXX(I)            
          SIGNYY(I)=SIGTRYY(I)- G2*DEPLYY(I) 
          SIGNZZ(I)=SIGTRZZ(I)- G2*DEPLZZ(I)            
@@ -766,7 +766,7 @@ C     ----------------------------------------------------
           DEPLYZ(I)=DPLA(I)*DF5*DU
           DEPLZX(I)=DPLA(I)*DF6*DU
 
-          !ACTUALISATION DES CONTRAINTES
+          !update of the stresses
           SIGNXX(I)=SIGTRXX(I)- G2*DEPLXX(I)           
           SIGNYY(I)=SIGTRYY(I)- G2*DEPLYY(I) 
           SIGNZZ(I)=SIGTRZZ(I)- G2*DEPLZZ(I)           
@@ -960,7 +960,7 @@ C=======================================================================
           DEPLYZ(I)=DPLA(I)*DF5*DU
           DEPLZX(I)=DPLA(I)*DF6*DU
 
-          !ACTUALISATION DES CONTRAINTES
+          !update of the stresses
           SIGNXX(I)=SIGTRXX(I)- G2*DEPLXX(I)           
           SIGNYY(I)=SIGTRYY(I)- G2*DEPLYY(I) 
           SIGNZZ(I)=SIGTRZZ(I)- G2*DEPLZZ(I)           

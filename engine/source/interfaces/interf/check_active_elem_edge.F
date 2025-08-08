@@ -143,7 +143,7 @@ C-----------------------------------------------
                     ENDDO
                 ELSEIF(ELEM_ID>OFFSET_TRUSS.AND.ELEM_ID<=OFFSET_BEAM) THEN
                 ! -----------------
-                ! truss element
+                ! truss
                     DO K=2,3
                         NODE_ID = IXT(K,ELEM_ID-OFFSET_TRUSS)
                         TAG_NODE(NODE_ID) = 1

@@ -118,8 +118,8 @@ C-----------------------------------------------
 C=======================================================================
 c      Element Buffer Routine (Solid) 
 c------
-c      1) taille du tableau ELBUF pour restart
-c      2) allocation de la structure ELBUF_TAB
+c      1) size of the ELBUF array for restart
+c      2) allocation of the ELBUF_TAB structure
 C=======================================================================
       DEBUG_PRINT = 0
 c      
@@ -128,7 +128,7 @@ c
       DO NG = 1,NGROUP 
 c---      read IPARG
 c
-        MLW     = IPARG(1,NG)     ! type de loi mat            
+        MLW     = IPARG(1,NG)     ! material law type
         NEL     = IPARG(2,NG)                                             
         NFT     = IPARG(3,NG)                                             
         ITY     = IPARG(5,NG)   
@@ -441,7 +441,7 @@ c
               ELBUF_TAB(NG)%BUFLY(IL)%NVARTMP_EOS = NVARTMP_EOS
               ELBUF_TAB(NG)%BUFLY(IL)%NVAR_VISC = MAT_PARAM(IMAT(IL))%VISC%NUVAR + NVAR_DAMP_FREQ_RANGE
               DO J = 1, NFAIL                                            
-                IRUPT  = MAT_PARAM(IMAT(IL))%FAIL(J)%IRUPT   ! modele de rupture
+                IRUPT  = MAT_PARAM(IMAT(IL))%FAIL(J)%IRUPT   ! rupture model
                 IDFAIL = MAT_PARAM(IMAT(IL))%FAIL(J)%FAIL_ID
                 TFAIL(IL,J)  = IRUPT 
                 FAILID(IL,J) = IDFAIL      
@@ -491,7 +491,7 @@ c---
               ELBUF_TAB(NG)%BUFLY(IL)%NVARTMP_EOS = 0
               ELBUF_TAB(NG)%BUFLY(IL)%NVAR_VISC=0
               DO J = 1,NFAIL                                              
-                IRUPT  = MAT_PARAM(MX)%FAIL(J)%IRUPT   ! modele de rupture 
+                IRUPT  = MAT_PARAM(MX)%FAIL(J)%IRUPT   ! rupture model
                 IDFAIL = MAT_PARAM(MX)%FAIL(J)%FAIL_ID
                 TFAIL(IL,J)  = IRUPT  
                 FAILID(IL,J) = IDFAIL    
@@ -522,7 +522,7 @@ c---
               ELBUF_TAB(NG)%BUFLY(IL)%IPORO= 0  
               ELBUF_TAB(NG)%BUFLY(IL)%NFAIL = NFAIL                          
               DO J = 1,NFAIL                                              
-                IRUPT  = MAT_PARAM(IMAT(IL))%FAIL(J)%IRUPT   ! modele de rupture 
+                IRUPT  = MAT_PARAM(IMAT(IL))%FAIL(J)%IRUPT   ! rupture model
                 IDFAIL = MAT_PARAM(IMAT(IL))%FAIL(J)%FAIL_ID
                 TFAIL(IL,J)  = IRUPT
                 FAILID(IL,J) = IDFAIL      
@@ -551,7 +551,7 @@ c---
               ELBUF_TAB(NG)%BUFLY(IL)%IPORO= 0  
               ELBUF_TAB(NG)%BUFLY(IL)%NFAIL = NFAIL                          
               DO J = 1,NFAIL                                              
-                IRUPT  = MAT_PARAM(IMAT(IL))%FAIL(J)%IRUPT   ! modele de rupture 
+                IRUPT  = MAT_PARAM(IMAT(IL))%FAIL(J)%IRUPT   ! rupture model
                 IDFAIL = MAT_PARAM(IMAT(IL))%FAIL(J)%FAIL_ID
                 TFAIL(IL,J)  = IRUPT 
                 FAILID(IL,J) = IDFAIL      
@@ -613,7 +613,7 @@ c---
             ELBUF_TAB(NG)%BUFLY(1)%IPORO= 0                                           
             ELBUF_TAB(NG)%BUFLY(1)%NFAIL = NFAIL                                     
             DO J = 1,NFAIL                                                             
-              IRUPT  = MAT_PARAM(IMID)%FAIL(J)%IRUPT   ! modele de rupture
+              IRUPT  = MAT_PARAM(IMID)%FAIL(J)%IRUPT   ! rupture model
               IDFAIL = MAT_PARAM(IMID)%FAIL(J)%FAIL_ID            
               TFAIL(1,J)  = IRUPT
               FAILID(1,J) = IDFAIL                                                       
@@ -826,7 +826,7 @@ c----------------------------------------------------
      .         IMID         ,MLW      ,IGTYP    ,JMULT    ,IFAIL  ,
      .         IEOS         ,EOS_TAG  ,ISNOD    )
 c-------------------------------------------------
-c       taille du tableau local ELBUF pour restart
+c       size of the local ELBUF array for restart
 c-------------------------------------------------
 c         GBUF%NVAR_GLOB ! number of element variables in GBUF 
 c         BUFLY%NVAR_LAY ! number of element variables in BUFLY
@@ -1053,7 +1053,7 @@ c           ! tags for local variables : NVAR_LOC = 51
             LLOC = LLOC + BUFLY%L_ABURN
             LLOC = LLOC + BUFLY%L_MU
             LLOC = LLOC + BUFLY%L_PIJ 
-c            LLOC = LLOC + BUFLY%L_VOL0DP 
+c            Lloc = lloc + bufly%l_Vol0dp 
             LLOC = LLOC + BUFLY%L_PLANL
             LLOC = LLOC + BUFLY%L_EPSDNL
             LLOC = LLOC + BUFLY%L_DMGSCL
@@ -1100,7 +1100,7 @@ C
           ELSEIF (ITY==7 .and. JHBE == 30) THEN
             NPTR = 3
             NPTS = 1
-          ELSE   ! one Gauss point on surface
+          ELSE   ! One Gauss Point We Surface
             NPTR = 1
             NPTS = 1
           ENDIF
@@ -1336,7 +1336,7 @@ c-----------------------------------------------
               ELBUF_TAB(NG)%BUFLY(IL)%NFAIL = NFAIL  
 
               DO J = 1, NFAIL                                            
-                IRUPT  = MAT_PARAM(IMAT(IL))%FAIL(J)%IRUPT   ! modele de rupture 
+                IRUPT  = MAT_PARAM(IMAT(IL))%FAIL(J)%IRUPT   ! rupture model
                 IDFAIL = MAT_PARAM(IMAT(IL))%FAIL(J)%FAIL_ID
                 TFAIL(IL,J)  = IRUPT  
                 FAILID(IL,J) = IDFAIL    
@@ -1462,7 +1462,7 @@ C old stack IGEO(500+IL,IPID)
             ELBUF_TAB(NG)%INTLAY(IL)%NVAR_MAT = MLAW_TAG(IMAT(IL))%NUVAR          
             ELBUF_TAB(NG)%INTLAY(IL)%NVARTMP  = MLAW_TAG(IMAT(IL))%NVARTMP          
             DO J = 1, NFAIL                                                   
-              IRUPT  = MAT_PARAM(IMAT(IL))%FAIL(J)%IRUPT   ! modele de rupture           
+              IRUPT  = MAT_PARAM(IMAT(IL))%FAIL(J)%IRUPT   ! rupture model
               IDFAIL = MAT_PARAM(IMAT(IL))%FAIL(J)%FAIL_ID
               TFAIL(IL,J)  = IRUPT 
               FAILID(IL,J) = IDFAIL                                            
@@ -1652,7 +1652,7 @@ c-------------------------------------------------
 !          ENDIF
 !---
 c-------------------------------------------------
-c       taille du tableau local ELBUF pour restart
+c       size of the local ELBUF array for restart
 c-------------------------------------------------
 c         GBUF%NVAR_GLOB ! number of element variables in GBUF 
 c         BUFLY%NVAR_LOC ! number of element variables in LBUF (defined on layer level)
@@ -2181,7 +2181,7 @@ C
 c        Bolt /PRELOAD/AXIAL
           IF (IBOLTP>0) GBUF%G_BPRELD = 2
 c-------------------------------------------------
-c       taille du tableau local ELBUF pour restart
+c       size of the local ELBUF array for restart
 c-------------------------------------------------
           GBUF%G_THK_I = GBUF%G_THK
 

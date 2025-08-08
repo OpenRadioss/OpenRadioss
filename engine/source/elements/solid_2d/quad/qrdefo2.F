@@ -185,7 +185,7 @@ C     correction due to rotation of the skew:
         EZZ(I)  = EZZ(I)
      .     -0.5*DT1*(EZZ(I)*EZZ(I)+DYZ(I)*DYZ(I))
         ETT(I)  = ETT(I)
-C   pas de rotation => pas de terme    .     -0.5*DT1*ETT(I)*ETT(I)
+C   No rotation => no term.-0.5*dt1*ett (i)*ett (i)
         WYZ(I)= ZERO
       ENDDO
 C---------------------------------------

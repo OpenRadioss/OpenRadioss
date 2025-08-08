@@ -65,26 +65,26 @@ C-----------------------------------------------
 #include      "task_c.inc"
 #include      "sphcom.inc"
 C-----------------------------------------------
-C   ROLE DE LA ROUTINE:
+C   ROLE OF THE ROUTINE:
 C   ===================
-C   CLASSE LES NOEUDS DANS DES BOITES
-C   RECHERCHE POUR CHAQUE FACETTE DES BOITES CONCERNES
-C   RECHERCHE DES CANDIDATS
+C   CLASSIFY NODES IN BOXES
+C   SEARCH FOR EACH FACET THE CONCERNED BOXES
+C   SEARCH FOR CANDIDATES
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C
 C     NOM          DESCRIPTION                       E/S
 C
 C     X(3,*)       COORDONNEES NODALES               E
-C     XMAX         plus grande abcisse existante     E
-C     XMAX         plus grande ordonn. existante     E
-C     XMAX         plus grande cote    existante     E
-C     VOXEL(ix,iy,iz) contient le numero local du premier noeud de
-C                  la boite
-C     NEXT_NOD(i)  noeud suivant dans la meme boite (si /= 0)
-C     LAST_NOD(i)  dernier noeud dans la meme boite (si /= 0)
-C                  utilise uniquement pour aller directement du premier
-C                       noeud au dernier
+C     Xmax larger abcisse existing e
+C     XMAX largest order.existing E
+C     Xmax larger existing side E
+C     VOXEL(ix,iy,iz) contains the local number of the first node of
+C                  the box
+C     Next_nod (i) Next node in the same box (if /= 0)
+C     Last_nod (i) Last node in the same box (if /= 0)
+C                  used only to go directly from the first
+C                       node at the last
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -109,7 +109,7 @@ C     REAL
      .   XMIN, XMAX,YMIN, YMAX,ZMIN, ZMAX, TZ,
      .   D1X,D1Y,D1Z,D2,A2,ALPHA_MARGE,DISTMAX
       my_real, DIMENSION(:), ALLOCATABLE :: TAB_DK
-c provisoire
+c provisional
       INTEGER  LAST_NOD(NSN+NSNR)
       INTEGER  IX,IY,IZ,NEXT,
      .         IX1,IY1,IZ1,IX2,IY2,IZ2
@@ -134,7 +134,7 @@ C-----------------------------------------------
       END IF
 C Barrier to wait init voxel and allocation NEX_NOD
       CALL MY_BARRIER
-C Phase initiale de construction de BPE et BPN deplacee de I7BUCE => I7TRI
+C Initial construction phase of BPE and BPN moved from I7BUCE => I7TRI
 C
       ALPHA_MARGE = SQRT(ONE +SPASORT)
 
@@ -153,7 +153,7 @@ C
       ZMAXB = BMINMA(9)
 
 C=======================================================================
-C 1   mise des noeuds dans les boites
+C 1   placing nodes in boxes
 C=======================================================================
       IF(ITASK == 0)THEN
 
@@ -168,8 +168,8 @@ C=======================================================================
           NN = KXSP(3,J)
 
           DISTMAX = MAX(DISTMAX,SPBUF(1,J))
-C Optimisation // recherche les noeuds compris dans xmin xmax des
-C elements du processeur
+C Optimization // search for nodes within xmin xmax of
+C processor elements
           IF(X(1,NN) < XMIN)  CYCLE
           IF(X(1,NN) > XMAX)  CYCLE
           IF(X(2,NN) < YMIN)  CYCLE
@@ -187,7 +187,7 @@ C elements du processeur
 
           FIRST = VOXEL(IIX(I),IIY(I),IIZ(I))
           IF(FIRST == 0)THEN
-c         empty cell
+c         Empty Cell
             VOXEL(IIX(I),IIY(I),IIZ(I)) = I ! first
             NEXT_NOD(I)                 = 0 ! last one
             LAST_NOD(I)                 = 0 ! no last
@@ -209,8 +209,8 @@ c         jump to the last node of the cell
         VOXEL_LOCAL(1:NBX+2,1:NBY+2,1:NBZ+2) = VOXEL(1:NBX+2,1:NBY+2,1:NBZ+2)
         NEXT_NOD_LOCAL(1:NSN) = NEXT_NOD(1:NSN)
 C=======================================================================
-C 2   mise des noeuds dans les boites
-C     candidats non locaux en SPMD
+C 2   placing nodes in boxes
+C     non -local candidates in SPMD
 C=======================================================================
         DO J = 1, NSNR
           I = J+NSN
@@ -225,7 +225,7 @@ C=======================================================================
 
           FIRST = VOXEL(IIX(I),IIY(I),IIZ(I))
           IF(FIRST == 0)THEN
-c         empty cell
+c         Empty Cell
             VOXEL(IIX(I),IIY(I),IIZ(I)) = I ! first
             NEXT_NOD(I)     = 0 ! last one
             LAST_NOD(I)     = 0 ! no last
@@ -255,11 +255,11 @@ C ==============================================================
       CALL MY_BARRIER
 
 C=======================================================================
-C 3   recherche des boites concernant chaque facette
-C     et creation des candidats
+C 3 Searching boxes concerning each facet
+C     and creation of candidates
 C=======================================================================
       DO NE = NSP2SORTF,NSP2SORTL
-C on ne retient pas les facettes detruites
+C We do not retain the Destruit facets
 c        IF(STF(NE) == ZERO)CYCLE
 
         J=NLIST(NE)
@@ -268,7 +268,7 @@ c        IF(STF(NE) == ZERO)CYCLE
 c a revoir !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         AAA = TWO*SPBUF(1,J)* ALPHA_MARGE
 
-c        indice des voxels occupes par la facette
+c        index of voxels occupied by the facet
 
         IX1=INT(NBX*(X(1,NN)-AAA-XMINB)/(XMAXB-XMINB))
         IY1=INT(NBY*(X(2,NN)-AAA-YMINB)/(YMAXB-YMINB))
@@ -287,9 +287,9 @@ c        indice des voxels occupes par la facette
         IZ2=MAX(1,2+MIN(NBZ,IZ2))
 
 cc         nbpelem = 0
-cc         nnpelem = 0
-cc         nnr0pelem = 0
-cc         nnrpelem = 0
+cc'nnpelem = 0
+cc'nnr0pelem = 0
+cc'nnrpelem = 0
 
         DO IZ = IZ1,IZ2
           DO IY = IY1,IY2
@@ -334,9 +334,9 @@ cc             nnpelem = nnpelem + 1
                 IF(ZS<=X(3,NN)-BBB)GOTO 200
                 IF(ZS>=X(3,NN)+BBB)GOTO 200
 
-cc             nnr0pelem = nnr0pelem + 1
+cc'nnr0pelem = nnr0pelem + 1
 
-C symetrie parfaite <=> XJ-XI
+C Perfect symmetry <=> XJ-XI
                 D1X = XS - X(1,NN)
                 D1Y = YS - X(2,NN)
                 D1Z = ZS - X(3,NN)
@@ -382,8 +382,8 @@ C ==============================================================
       CALL MY_BARRIER
 
 C=======================================================================
-C 3   recherche des boites concernant chaque facette
-C     et creation des candidats wrt particules remote (sym  trie)
+C 3 Searching boxes concerning each facet
+C     and creation of candidates with respect to remote particles (symmetry)
 C=======================================================================
       DO J = ITASK+1, NSNR, NTHREAD
 
@@ -392,7 +392,7 @@ C=======================================================================
 
         AAA = TWO * XSPHR(2,N) * ALPHA_MARGE
 
-c        indice des voxels occupes par la facette
+c        index of voxels occupied by the facet
 
         IX1=INT(NBX*(XSPHR(3,N)-AAA-XMINB)/(XMAXB-XMINB))
         IY1=INT(NBY*(XSPHR(4,N)-AAA-YMINB)/(YMAXB-YMINB))
@@ -411,9 +411,9 @@ c        indice des voxels occupes par la facette
         IZ2=MAX(1,2+MIN(NBZ,IZ2))
 
 cc         nbpelem = 0
-cc         nnpelem = 0
-cc         nnr0pelem = 0
-cc         nnrpelem = 0
+cc'nnpelem = 0
+cc'nnr0pelem = 0
+cc'nnrpelem = 0
 
         DO IZ = IZ1,IZ2
           DO IY = IY1,IY2
@@ -449,9 +449,9 @@ cc             nnpelem = nnpelem + 1
                   IF(ZS<=XSPHR(5,N)-BBB)GOTO 250
                   IF(ZS>=XSPHR(5,N)+BBB)GOTO 250
 
-cc               nnr0pelem = nnr0pelem + 1
+cc'nnr0pelem = nnr0pelem + 1
 
-C symetrie parfaite <=> XI-XJ
+C Perfect symmetry <=> XI-XJ
                   D1X = XSPHR(3,N) - XS
                   D1Y = XSPHR(4,N) - YS
                   D1Z = XSPHR(5,N) - ZS
@@ -503,7 +503,7 @@ C-------------------------------------------------------------------------
 c a revoir !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         AAA = (TWO*DISTMAX)* ALPHA_MARGE
 
-c        indice des voxels occupes par la facette
+c        index of voxels occupied by the facet
 
         IX1=INT(NBX*(XN-AAA-XMINB)/(XMAXB-XMINB))
         IY1=INT(NBY*(YN-AAA-YMINB)/(YMAXB-YMINB))
@@ -522,9 +522,9 @@ c        indice des voxels occupes par la facette
         IZ2=MAX(1,2+MIN(NBZ,IZ2))
 
 cc         nbpelem = 0
-cc         nnpelem = 0
-cc         nnr0pelem = 0
-cc         nnrpelem = 0
+cc'nnpelem = 0
+cc'nnr0pelem = 0
+cc'nnrpelem = 0
 
         DO IZ = IZ1,IZ2
           DO IY = IY1,IY2
@@ -559,7 +559,7 @@ cc             nnpelem = nnpelem + 1
                 IF(ZS<=ZN-BBB)GOTO 300
                 IF(ZS>=ZN+BBB)GOTO 300
 
-cc             nnr0pelem = nnr0pelem + 1
+cc'nnr0pelem = nnr0pelem + 1
 
                 D1X = XS - XN
                 D1Y = YS - YN
@@ -599,10 +599,10 @@ cc             nnr0pelg = nnr0pelg + nnr0pelem
 !$OMP END DO
 
 C-------------------------------------------------------------------------
-C     FIN DU TRI
+C     END OF SORTING
 C-------------------------------------------------------------------------
 C=======================================================================
-C 4   remise a zero des noeuds dans les boites
+C 4   reset nodes in boxes to zero
 C=======================================================================
   100 CONTINUE
 
@@ -615,8 +615,8 @@ C Barrier to avoid reinitialization before end of sorting
         ENDIF
       ENDDO
 C=======================================================================
-C 5   remise a zero des noeuds dans les boites
-C     candidats non locaux en SPMD
+C 5   reset nodes in boxes to zero
+C     non -local candidates in SPMD
 C================================================================
       NSNF = 1 + ITASK*NSNR / NTHREAD
       NSNL = (ITASK+1)*NSNR / NTHREAD

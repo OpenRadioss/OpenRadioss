@@ -44,7 +44,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE NBADIGEMESH(LSUBMODEL,NUMNUSR)
 C----------------------------------------------------------------------
 C   ROUTINE BASEE SUR NBADMESH MAIS SPECIFIQUE AUX ELEMENTS ISOGEOMETRIQUES
-C   PERMET LA LECTURE ET LA CONSTRUCTION DE TOUT LES TABLEAUX NECESSAIRES
+C   allows reading and construction of all the necessary arrays
 C   AU RAFFINEMENT DES ELEMENTS IGEO
 C   NB : PEUT ETRE ONE PEU REORGANISEE POUR UNE MEILLEURE LECTURE
 C----------------------------------------------------------------------
@@ -121,7 +121,7 @@ C------
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='SUBID_NODES')
       SUBID_NODES(1:NUMNUSR) = 0
 C--------------------------------------
-C     LECTURE DES PROP IGE
+C     reading of ige properties
 C--------------------------------------
       NUMGEO=NSLASH(KPROP)
       ALLOCATE (IGEO(NPROPGI,NUMGEO),STAT=stat)
@@ -174,7 +174,7 @@ C--------------------------------------
       IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='KNOT')
       KNOT=0
 C--------------------------------------
-C     LECUTRE DES PART
+C     reading of parts
 C--------------------------------------
       KCUR = KPART
       IREC=KOPTAD(KCUR)-1
@@ -197,7 +197,7 @@ C------
       IF(IADMSTAT /= 0) id_limit%admesh=id_limit%global
 C------
 C--------------------------------------
-C     DIMENSIONNEMENT DE KNOT
+C     sizing of knot
 C--------------------------------------
       KCUR = KPROP
       IREC=KOPTAD(KCUR)-1
@@ -271,7 +271,7 @@ C--------------------------------------
         ENDIF
       ENDDO
 C--------------------------------------
-C     PRELECTURE DES IGE3D POUR DIMMENSIONNEMENT IXIG3D ET TABCONPATCH
+C     pre-reading of ige3d for sizing ixig3d and tabconpatch
 C--------------------------------------
 c
       NBIG3D_PATCH = 0
@@ -286,7 +286,7 @@ c
       IREC=IREC+1
       READ(IIN,REC=IREC,ERR=999,FMT='(A)')LINE
       
-c  IL FAUT DIFFERENCIER LES PART IGE3D DES AUTRES
+c  it is necessary to differentiate ige3d parts from the others
    
       DO WHILE( LINE(1:1) /= '/' .OR. LINE(1:6) == '/IGE3D')
      
@@ -321,7 +321,7 @@ c
       ALLOCATE(TABCONPATCH(NBPART_IG3D),STAT=stat)
       IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='TABCON_PATCH')
 C--------------------------------------
-C     NOUVELLE PRELECTURE DES IGE3D POUR DES LISTES D'ELEMENTS DE TABCONPATCH
+C     new pre-reading of ige3d for lists of tabconpatch elements
 C--------------------------------------
 c
       NBIG3D_PATCH = 0
@@ -395,7 +395,7 @@ C--------------------------------------------------
       ENDDO
       IF(ALLOCATED(SUBID_NODES)) DEALLOCATE(SUBID_NODES)
 C--------------------------------------------------
-C     LECTURE DES CNODES
+C     reading of cnodes
 C--------------------------------------------------
       N = NUMNUSR1
       KCUR = KCNODE                                     
@@ -415,12 +415,12 @@ C--------------------------------------------------
         ENDIF                             
       ENDDO 
 C------
-C     CONSTITUTION DU TABLEAU INVERSE DES NOEUDS
+C     construction of the inverse node array
 C------
 C     NUMNUSR=NUMNUSR1+NUMCNOD !
       CALL CONSTIT(ITAB,ITABM1,NUMNUSR)
 C--------------------------------------
-C     LECTURE DES IGE3D
+C     reading of ige3d
 C--------------------------------------
 c
       ALLOCATE(KXIG3D(NIXIG3D,NUMELIG3D0+ADDELIG3D),STAT=stat)
@@ -530,7 +530,7 @@ C
       KNOD2ELIG3D(1)=0
 c
 C------
-C   LE TRAVAIL DE RAFFINEMENT COMMENCE ICI, AVANT C'EST SEULEMENT DE LA LECTURE
+C   the refinement work starts here, before this it is only reading
 C------
 
 CC ATTENTION AU DIMENSIONNEMENT DES TABLEAUX BASES SUR LES POINTS CAR IL FAUT PRENDRE EN COMPTE LEE NOMBRE DE POINTS EN PLUS

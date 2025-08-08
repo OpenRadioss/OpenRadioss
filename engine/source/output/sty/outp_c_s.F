@@ -160,7 +160,7 @@ C
      .            (MLW == 1.OR.MLW == 2.OR.MLW == 3.OR.MLW == 19.OR.
      .             MLW == 22.OR.MLW == 15.OR.MLW == 23.OR.MLW == 25.OR.
      .             MLW == 27.OR.MLW == 32)) THEN
-C Ecriture de 0. si loi non user et outp user demande
+C Writing 0. If law not user and outp user requests
                 DO I=LFT,LLT
                   JJ=JJ+1
                   WA(JJ) = ZERO

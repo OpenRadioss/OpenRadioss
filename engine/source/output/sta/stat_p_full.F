@@ -161,7 +161,7 @@ C-----------------------------------------------
                 ENDIF ! IF (IGTYP)
 !---
                 IE=IE+1
-!---            pointeur de fin de zone dans WA
+!---            end-of-zone pointer in wa
                 PTWA(IE)=JJ
               ENDIF ! IF (IPART_STATE(IPRT) /= 0)
             ENDDO  !  DO I=LFT,LLT
@@ -173,7 +173,7 @@ c------- end loop over beam elements
 !     BEAM - WRITE
 !-----------------------------------------------------------------------
       IF (NSPMD == 1) THEN
-!     recopies inutiles pour simplification du code.
+! unnecessary copies for code simplification
         PTWA_P0(0)=0
         DO N=1,STAT_NUMELP
           PTWA_P0(N)=PTWA(N)
@@ -183,7 +183,7 @@ c------- end loop over beam elements
           WAP0(J)=WA(J)
         ENDDO
       ELSE
-!       construit les pointeurs dans le tableau global WAP0
+! builds the pointers in the global wap0 array
         CALL SPMD_STAT_PGATHER(PTWA,STAT_NUMELP,PTWA_P0,STAT_NUMELP_G)
         LEN = 0
         CALL SPMD_RGATHER9_DP(WA,JJ,WAP0,SIZP0,LEN)
@@ -192,9 +192,9 @@ c------- end loop over beam elements
       IF (ISPMD == 0 .AND. LEN > 0) THEN
         IPRT0 = 0
         DO N=1,STAT_NUMELP_G
-!         retrouve le nieme elt dans l'ordre d'id croissant
+!         find the nieme elt in the order of an increasing id
           K=STAT_INDXP(N)
-!         retrouve l'adresse dans WAP0
+!         Find the address in WAP0
           J=PTWA_P0(K-1)
 !
           IOFF = NINT(WAP0(J + 1))

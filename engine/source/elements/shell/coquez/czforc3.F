@@ -167,7 +167,7 @@ C-----------------------------------------------
      .   ELCUTC(2,*),INOD_CRK(*),IEL_CRK(*),
      .   NODENR(*),IADC_CRK(4,*),NODEDGE(2,*),CRKNODIAD(*),INDX_DRAPE(SCDRAPE)
       INTEGER :: IGRE,JTUR
-C     REAL OU REAL*8
+C     real or real*8
       my_real
      .   F11(MVSIZ), F12(MVSIZ), F13(MVSIZ), F14(MVSIZ),
      .   F21(MVSIZ), F22(MVSIZ), F23(MVSIZ), F24(MVSIZ),
@@ -257,7 +257,7 @@ C--------------------------------
       my_real, dimension(nel)   :: epsd_pg
       my_real, dimension(mvsiz) :: fheat    !  variable for heat transfer
 !
-C--- Variables pour le non-local
+C--- variables for the non-local
       INTEGER :: NDDL, K, INOD(4),NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ),
      .           IPOS(4), L_NLOC, IMAT, INLOC,IINT
       my_real, DIMENSION(:,:), ALLOCATABLE :: VAR_REG
@@ -311,7 +311,7 @@ C
       ENDDO
       UVAR  => ELBUF_STR%BUFLY(1)%MAT(IR,IS,1)%VAR
 !-------------------------------------------      
-! Tableau pour la variable non-locale
+! array for the non-local variable
       NDDL = NPTTOT
       ALLOCATE(VAR_REG(NEL,NDDL)) 
 !-------------------------------------------
@@ -470,7 +470,7 @@ C
      4               DRAPE_SH4N  ,NFT  ,NEL    ,INDX_DRAPE , THKE,
      5               SEDRAPE,NUMEL_DRAPE       ,MAT_ELEM )
 C----------------------------------
-C     CALCUL VITESSE DE DEFORMATION 
+C     calculation of strain rate
 C----------------------------------
         CALL CZDEF(JFT     ,JLT   ,AREA ,A_I  ,VL13   ,VL24  ,
      2             VLHI    ,RLXYZ ,VDEF ,DHG  ,X13    ,
@@ -509,7 +509,7 @@ C
      3               Z1  ,WXY)
       END IF !(ISMSTR == 10 ) THEN
 C----------------------------------
-C     CALCUL DES DEFORMATIONS 
+C     calculation of strains
 C----------------------------------
       CALL CZSTRA3(JFT    ,JLT    ,NFT   ,VDEF ,GBUF%STRA,
      2             EXX    ,EYY    ,EXY   ,EXZ  ,EYZ      ,  
@@ -619,7 +619,7 @@ C-----------------------------------------------
 c        
       IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STOPTIME(TIMERS,35)
 C--------------------------
-C     BILANS PAR MATERIAU
+C     balances by material
 C--------------------------
        IPOUT=2
       IF (IPRI == 1)
@@ -749,7 +749,7 @@ c-------------------------------
      8            Z1     ,LXYZ   ,DD     ,DB     ,LXYZ,
      9            ISROT  ,DIZ    ,VMZ    )
 C-------------------------
-c     Thermique des coques 
+c     shell thermal
 C--------------------------
         IF (JTHE /= 0) THEN  
           IF (MAT_ELEM%MAT_PARAM(IMAT)%HEAT_FLAG == 1) THEN
@@ -808,7 +808,7 @@ C--------------------------
      C                FTHESKY  ,CONDNSKY,CONDE   ,GLOB_THERM%NODADT_THERM)
       ENDIF
 C-------------------------
-c     Fissure des coques 
+c     shell cracking
 C--------------------------
       IF (IXFEM > 0) THEN
         DO ILAY=1,NXLAY

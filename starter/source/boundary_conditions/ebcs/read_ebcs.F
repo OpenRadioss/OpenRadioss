@@ -238,7 +238,7 @@ C-----------------------------------------------
 
          EBCS_TAB%tab(II)%poly%type = TYP
          EBCS_TAB%tab(II)%poly%ebcs_id = ID
-         !     Get surface id
+         !     Get surface ID
          CALL HM_GET_INTV('entityid', SURF_ID, IS_AVAILABLE, LSUBMODEL)
          JJ = -HUGE(JJ)
          IF (SURF_ID > 0) THEN

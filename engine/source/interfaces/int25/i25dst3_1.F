@@ -286,7 +286,7 @@ C
         LBP(I,IT) = LB(I,IT)
         LCP(I,IT) = LC(I,IT)
         LAP    = ONE-LBP(I,IT)-LCP(I,IT)
-C       HLA, HLB, HLC necessaires pour triangle angle obtu
+C       HLA, HLB, HLC required for triangle sharp angle
         AAA = ONE / MAX(EM20,X12(I)*X12(I)+Y12(I)*Y12(I)+Z12(I)*Z12(I))
         HLA= LAP*ABS(LAP) * AAA
         IF(LAP<ZERO.AND.
@@ -315,7 +315,7 @@ C       HLA, HLB, HLC necessaires pour triangle angle obtu
 
       END DO
 C--------------------------------------------------------
-C     Verifie si penetre vs gap cylindrique ...
+C     Check if penetra vs cylindrical gap ...
 C--------------------------------------------------------
 #include  "vectorize.inc"
       DO I =1,JLT
@@ -345,7 +345,7 @@ C--------------------------------------------------------
 C          
         IF (STIF(I) <= ZERO)CYCLE
 C
-C       Projection en dehors du triangle
+C       Projection outside the triangle
         IF(LB(I,IT) < -EM03 .OR. LC(I,IT) < -EM03 .OR.
      .      LB(I,IT)+LC(I,IT) > ONE+EM03) FAR(I,IT)=1
 C
@@ -415,7 +415,7 @@ C
 C
             SIDE(I,IT)=-(XIJ(I,I1)*PX+YIJ(I,I1)*PY+ZIJ(I,I1)*PZ)*SQRT(ONE/MAX(EM30,LL*PP))      
 C
-C           Projette a l'exterieur et Hors secteur angulaire (cf bissectrices) <=> Glissement
+C           Projection outside and outside the cornerstone (see bisector) <=> shift
             IF(SIDE(I,IT) < -ZEP01) FAR(I,IT) =2
 C
           END IF
@@ -588,7 +588,7 @@ C
          LBP(I,IT) = LB(I,IT)
          LCP(I,IT) = LC(I,IT)
          LAP     = ONE-LBP(I,IT)-LCP(I,IT)
-C        HLA, HLB, HLC necessaires pour triangle angle obtu
+C        HLA, HLB, HLC required for triangle sharp angle
          AAA = ONE / MAX(EM20,X12(I)*X12(I)+Y12(I)*Y12(I)+Z12(I)*Z12(I))
          HLA= LAP*ABS(LAP) * AAA
          IF(LAP<ZERO.AND.
@@ -617,7 +617,7 @@ C        HLA, HLB, HLC necessaires pour triangle angle obtu
 
         END DO
 C--------------------------------------------------------
-C       Verifie si penetre vs gap cylindrique ...
+C       Check if penetra vs cylindrical gap ...
 C--------------------------------------------------------
 #include  "vectorize.inc"
         DO K=1,N4N
@@ -645,7 +645,7 @@ C--------------------------------------------------------
         DO K=1,N4N
          I=I4N(K)
 C
-C       Projection en dehors du triangle
+C       Projection outside the triangle
         IF(LB(I,IT) < -EM03 .OR. LC(I,IT) < -EM03 .OR.
      .      LB(I,IT)+LC(I,IT) > ONE+EM03) FAR(I,IT)=1
 C
@@ -698,7 +698,7 @@ C
 C       Cone
         IF(FAR(I,IT)==1 .OR. BB(I,IT) <= ZERO) THEN
 C
-C        tjrs regarder si l'on est dans le cone (permet de determiner dans quel cone on se trouve) 
+C        always check if you are in the cone (allows to determine in which cone you are)
 C
            X12(I)=XX(I,I2)-XX(I,I1)
            Y12(I)=YY(I,I2)-YY(I,I1)
@@ -739,7 +739,7 @@ C
               LCX = LC(I,JJ)
               LAX = ONE-LB(I,JJ)-LC(I,JJ)
 C
-C             Privilegier secteur dans lequel on se trouve.
+C             Privilegier sector in which we are.
               IF(LBX >= ZERO .AND. LCX >= ZERO)THEN
                 LX=ZERO
               ELSE

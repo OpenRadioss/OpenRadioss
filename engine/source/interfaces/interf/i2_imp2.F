@@ -63,7 +63,7 @@ C-----------------------------------------------
       NMN   =IPARI(6)
       ILEV  =IPARI(20)
 C
-C  version spmd avec plus d'un proc nsn = nsn_loc & nmn = nmn_loc
+C  SPMD version with more than one proc nsn = nsn_loc & nmn = nmn_loc
       IF(ILEV==1)THEN
         if( IMP_LR > 0)THEN
           CALL I2RECU2(NSN       ,NMN       ,INTBUF_TAB%IRECTM,
@@ -122,9 +122,9 @@ C     REAL
      .   H(4), SS, TT, SP,SM,TP,TM,DR1(3),XS,YS,ZS,XS0,YS0,ZS0,NUN,
      .   DS(3), LSM(3)
 C------------------------------------
-C     VITESSES DES NOEUDS SECONDS
+C     velocities of secondary nodes
 C------------------------------------
-C-------pour simplement etre coherent avec INTTI2, on ne distinque pas 3n,4n
+C------- To simply be coherent with inti2, we do not distinguish 3n, 4n
       NUN=-ONE
       DO II=1,NSN
         I=NSV(II)
@@ -242,7 +242,7 @@ C     REAL
       my_real
      .   RJ(3,3,4,NSN),RJT(3,3,4,NSN)
 C------------------------------------
-C     VITESSES DES NOEUDS SECONDS
+C     velocities of secondary nodes
 C------------------------------------
       CALL I2MATC(NSN,IRECT,DPARA,NSV,IRTL,X  ,
      1                            NIR,RJ ,RJT  )
@@ -308,7 +308,7 @@ C     REAL
      .   RJ(3,3,4,NSN),RJT(3,3,4,NSN),FACM,X0,Y0,Z0,
      .   LSM(3),DR2(3),DS(3),XM(4),YM(4),ZM(4),DT(3)
 C------------------------------------
-C     VITESSES DES NOEUDS SECONDS
+C     velocities of secondary nodes
 C------------------------------------
       CALL I2MATC(NSN,IRECT,DPARA,NSV,IRTL,X  ,
      1                            NIR,RJ ,RJT  )
@@ -330,7 +330,7 @@ C------------------------------------
        ENDIF
        FACM = ONE / NIRI
 C----------------------------------------------------
-C       VITESSE DE ROTATION MOYENNE DU SEGMENT MAIN
+C       average rotation velocity of the main segment
 C----------------------------------------------------
         X0=FACM*(XM(1)+XM(2)+XM(3)+XM(4))
         Y0=FACM*(YM(1)+YM(2)+YM(3)+YM(4))

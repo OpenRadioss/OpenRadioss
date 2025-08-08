@@ -231,8 +231,8 @@ C
         PARTSAV(8,IP) =PARTSAV(8,IP)  - DMASGP(8,I) * XY
         PARTSAV(9,IP) =PARTSAV(9,IP)  - DMASGP(8,I) * YZ
         PARTSAV(10,IP)=PARTSAV(10,IP) - DMASGP(8,I) * ZX
-C   les quantites suivantes sont calculees en tenant compte
-C   de M_element/8. et non pas des masses associees aux noeuds.
+C   the following quantities are calculated taking into account
+C   of M_element/8. and not of the masses associated with the nodes.
         PARTSAV(11,IP)=PARTSAV(11,IP) + MASS(I)*
      .       (V(1,I1)+V(1,I2)+V(1,I3)+V(1,I4)
      .       +V(1,I5)+V(1,I6)+V(1,I7)+V(1,I8))

@@ -289,7 +289,7 @@ C
           ENDIF
         END DO
 C
-C-------------neighbour segments-----------       
+C------------- Neighbour Segments --------------       
 C
         DO I=1,NRTM 
           IF(IELEM_M(1,I) <= NUMELS) THEN
@@ -538,18 +538,18 @@ C       1: "left" segment number <=> index dans IRECT(1:NRTM)
 C       2: local number of the edge within "left" segment
 C       3: "right" segment number
 C       4: local number of the edge within "right" segment     ! Squeezing T, X.. shapes wrt rupture
-C       5: I1 = numero local du noeud 1 dans NSV(1:NSN)
-C       6: I2 = numero local du noeud 1 dans NSV(1:NSN)
+C       5: I1 = Local NUE NUMB 1 in NSV (1: NSN)
+C       6: I2 = local numero of node 1 in NSV (1: nsn)
 C       7: Type of the edge :
-C             < 0 <=> l'arete est uniquement main, pas second
-C             +/-1 arete de solide
-C             +/-2 arete de coque
+C             <0 <=> the arete is only main, not second
+C             +/-1 edge of solid
+C             +/-2 edge of shell
 C for engine:
 C       8: Global ID (id in starter)
 C       9: Weight = 1 => secondary secnd handled by current domain
 C      10: orientation flag left seg
 C      11: first node of left seg
-C      12: second node left seg
+C      12: Second node left seg
 C      13: orientation flag right seg
 C      14: first node of right seg
 C      15: second node right seg
@@ -604,7 +604,7 @@ C
                   IF(MSEGTYP(I)==0.AND.MSEGTYP(K)==0)THEN ! Solid only
                     LEDGE_TMP1(7,NEDGE)=1 ! arete solide-solide
                   ELSE
-                    LEDGE_TMP1(7,NEDGE)=2 ! arete coque-coque ou coque-solide
+                    LEDGE_TMP1(7,NEDGE)=2 ! ARETE COQUE-COQUE OR SOLIDE COOL
                   END IF
                 ELSE ! Bord
                   LEDGE_TMP1(7,NEDGE)=2
@@ -872,7 +872,7 @@ c       print *,I,LEDGE(1,I),LEDGE(2,I),LEDGE(3,I),LEDGE(4,I),ITAB(LEDGE(5,I)),I
 c      END DO
 C
 C-----------------------------------------
-C     Flag d'appartenance des aretes a S1/S2
+C     Flag of belonging to the areas a S1/S2
 C-----------------------------------------
       IF(NEDGE/=0 .AND. ILEV==2)THEN
         EBINFLG(1:NEDGE)=0
@@ -905,7 +905,7 @@ C
 
         ALLOCATE(ADDSUBN_TMP(NMN+1), ADDSUBN(NMN+1))
 C-----------------------------------------
-C       Calcul de ADDSUBN, LISUBN, INFLG_SUBN pour les noeuds mains
+C       Calculation of ADDSUBN, LISUBN, INFLG_SUBN for the main nodes
 C-----------------------------------------
         ADDSUBN_TMP(1:NMN+1)=0
         DO I=1,NRTM
@@ -929,7 +929,7 @@ C
         ALLOCATE (LISUBN(NISUBN),INFLG_SUBN(NISUBN),STAT=stat)
         INFLG_SUBN(1:NISUBN)=0
 C
-C       utilise KAD(1:NMN) pour remplir LISUBN, INFLG_SUBN
+C       Use Kad (1: NMN) to fill Lisubn, inflg_subn
         DO N=1,NMN
           KAD(N)=ADDSUBN_TMP(N)
         END DO
@@ -946,7 +946,7 @@ C       utilise KAD(1:NMN) pour remplir LISUBN, INFLG_SUBN
           END DO
         END DO
 C-----------------------------------------
-C       Compactage de LISUBN ET Combinaison des flags INFLG_SUBN
+C       Compacting LISUBN AND Combining INFLG_SUBN flags
 C-----------------------------------------
         MAXADD = 0
         DO N=1,NMN
@@ -1054,7 +1054,7 @@ C
         END DO
         ADDSUBE(1+NEDGE)=CUR
 C
-C       utilise KAD(1:NEDGE) pour remplir LISUBE, INFLG_SUBE
+C       Use Kad (1: Nedge) to fill Lisube, inflg_sube
         DO NE=1,NEDGE
           KAD(NE)=ADDSUBE(NE)
         END DO
@@ -1214,7 +1214,7 @@ C
        DO I=1,NUMNOD
         WA(I)=GAPSCALE*WA(I)
        END DO
-C--------exclude lines in main surfaces
+C------- Excluded lines in main surfaces
 C       DO I=1,NUMELT
 C        MG=IXT(4,I)
 C        DX=HALF*SQRT(GEO(1,MG))
@@ -1319,7 +1319,7 @@ C      MVOISIN already filled due to symetrization ::
          NE=NE0+1
          RETURN
        END IF
-C-------------neighbour segments-----------       
+C------------- Neighbour Segments --------------       
        CALL I25NEIGH_SEG_E(N1,IED1,N2,IED2,NE,ICE,ISELF,
      .                I1,I2,IRECT,NRTM,MSEGTYP ,MVOISIN)
 C-------------treatment of multi-neighbours (T shape,shell) segments => reduce to 1----------

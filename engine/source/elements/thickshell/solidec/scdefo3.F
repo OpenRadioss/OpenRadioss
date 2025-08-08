@@ -117,7 +117,7 @@ C
           DVC(I) = ZERO
         ENDDO
       END IF
-C   +++ -----partie non constante------
+C   +++ ---- Non-constant part ------
       DO I=1,NEL
         DXX(I)=DCXX(I)+ZI*DHXX(I)
         DYY(I)=DCYY(I)+ZI*DHYY(I)

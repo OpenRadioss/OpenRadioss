@@ -229,7 +229,7 @@ ccc            print *, "=====LLVAR(II,1:SizeLLVAR) = ",LLVAR(II,1:SizeLLVAR)
             !------------------------------------------------!
             ! CHECKING FIXED LIST CONSISTENCY                !
             !------------------------------------------------!          
-            !--verifier nombre de bits
+            !check number of bits
             CountFIX   = 0
             DO I=1,SizeLLFIX
               pCODE    = IABS(LLFIX(II,I))
@@ -237,7 +237,7 @@ ccc            print *, "=====LLVAR(II,1:SizeLLVAR) = ",LLVAR(II,1:SizeLLVAR)
               CountFIX = CountFIX + C_POLYH(ITYP)
             ENDDO !next I        
             IF(CountFIX > NINTP)CYCLE
-            !--verifier les sommets isdoles dans LLFIX : doublon impossible
+            !check isolated vertices in llfix: duplicate impossible
             TAG_nod_fix(1:8) = 0
             DO I=1,SizeLLFIX
               bCOMPL           = .FALSE.
@@ -285,7 +285,7 @@ ccc            print *, "=====LLVAR(II,1:SizeLLVAR) = ",LLVAR(II,1:SizeLLVAR)
                 LLFIX(II,I) = -LLFIX(II,I)
               ENDIF
             ENDDO !next I        
-            !--verifiers les edges de LLFIX : doublon possible seuelemnt si defini dans IDBLE       
+            !check edges in llfix: duplicate possible only if defined in idble
             TAG_edg_fix(1:12) = 0
             DO I=1,SizeLLFIX
               pCODE    = IABS(LLFIX(II,I))
@@ -305,8 +305,8 @@ ccc            print *, "=====LLVAR(II,1:SizeLLVAR) = ",LLVAR(II,1:SizeLLVAR)
             !------------------------------------------------!
             ! VARIABLE LIST REDUCTION                        !
             !------------------------------------------------!
-            !--verifier les sommets isoles dans LLVAR : doublon impossible
-            !conserver les tags de LLVAR ne pas faire de reset : TAG_nod(1:8) = 0 
+            !check isolated vertices in llvar: duplicate impossible
+            !keep llvar tags, do not reset: tag_nod(1:8) = 0
             I = 1    
 ccc            print *, "LLVAR(II,1:SizeLLVAR)=", LLVAR(II,1:SizeLLVAR)      
             DO WHILE(I < SizeLLVAR)
@@ -335,8 +335,8 @@ ccc                  print *, " after removing : LLVAR(II,1:SizeLLVAR)=", LLVAR(
    51         CONTINUE
               I = I + 1
             ENDDO !next I 
-            !--verifiers les edges de LLVAR : doublon possible seuelement si defini dans IDBLE                 
-            !conserver les tags de LLFIX, ne pas faire de reset : TAG_edg(1:12) = 0
+            !check edges in llvar: duplicate possible only if defined in idble
+            !keep llfix tags, do not reset: tag_edg(1:12) = 0
             I = 1
             DO WHILE(I < SizeLLVAR)
 ccc              print *, "testing LLVAR=", LLVAR(II,I)

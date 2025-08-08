@@ -203,7 +203,7 @@ C
         FACT = ONE
         IF (IRODDL==1) THEN
         IF (IN(J1)>ZERO.AND.IN(J2)>ZERO.AND.IN(J3)>ZERO.AND.IN(J4)>ZERO) THEN
-C--       Inertie transmise sous forme d'inertie
+C- inertia transmitted in the form of inertia
           FACT = ZERO
         ENDIF
         ENDIF

@@ -27,7 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE PAROI(PM,IXS,IXQ,ICODE,NALE)
 C
-C   TAG LES ELEMENTS DE PAROI POUR LA TURBULENCE
+C   TAG THE WALL ELEMENTS FOR TURBULENCE
 C   SI NOEUD FIXE OU LAGRANGIEN
 C
 C-----------------------------------------------

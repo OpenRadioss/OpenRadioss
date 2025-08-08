@@ -20,7 +20,7 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-C polypropylene - Bouvard law 
+C Polypropylene - Bouvard Law 
 !||====================================================================
 !||    sigeps101        ../engine/source/materials/mat/mat101/sigeps101.F
 !||--- called by ------------------------------------------------------
@@ -1782,7 +1782,7 @@ C
 !||====================================================================
       SUBROUTINE EMOD_TPU(AREF,A0  ,C   ,C0    ,DE1  ,DE2, D1,DREF,RES)
 !        CALL EMOD_TPU  (DEREF,DE0,THETA,THETA0,DVE1,DVE2,
-!     &                                                  EM04,DEDOT_REF,DE)
+! &                                                  EM04,DEDOT_REF,DE)
 
 #include "implicit_f.inc"
 

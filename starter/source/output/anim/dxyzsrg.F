@@ -91,7 +91,7 @@ C-------------------------------------------------------
         ROT(I)=BUFSF(ADRBUF+7+I-1)
        END DO
 C-------------------------------------------------------
-C      - Calcul des noeuds sur le cube A,B,C
+C      - Calculation of nodes on the cube A, B, C
 C-------------------------------------------------------
        INOE=0
        DO I = 1,6
@@ -117,7 +117,7 @@ C-------------------------------------------------------
         ENDDO
        ENDDO
 C-------------------------------------------------------
-C      - Projection radiale sur l'ellipsoide.
+C      - Radial projection on the ellipsoide.
 C      - Passage au repere global.
 C-------------------------------------------------------
        AN=A**IDG
@@ -147,7 +147,7 @@ C
         NCOR(3,INOE)=ZZ+ZG
        END DO
 C-------------------------------------------------------
-C      Ecriture des noeuds.
+C      Writing nodes.
 C-------------------------------------------------------
        INOE=0
        DO I=1,384

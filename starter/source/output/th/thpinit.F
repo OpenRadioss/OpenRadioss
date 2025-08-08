@@ -68,10 +68,10 @@ C
         ENDDO
       ENDIF
 C
-C Mise a jour de PROC dans ITHBUF en fonction de la domdec
+C ITHBUF update according to Domdec
 C
       IF (NSPMD>1) THEN
-C traitement de p1 a pmaxporc-1 (p0 par defaut)
+C PMAXPORC-1 P1 treatment (P0 by default)
         DO NT = 1, NTHGRP2
           ITYP=ITHGRP(2,NT)
           NNE =ITHGRP(4,NT)

@@ -79,7 +79,7 @@ C-----------------------------------------------
         ENDIF
       ENDDO
 C-----------------------------------------------
-C     CALCUL PAR NOEUD DE V MATIERE - V MAILLAGE
+C     CALCULATION PER NODE OF V MATERIAL - V MESH
 C-----------------------------------------------
       DO I=LFT,LLT
         VDY1(I)=V(2,NC1(I)) - W(2,NC1(I))

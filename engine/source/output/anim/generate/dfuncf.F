@@ -457,7 +457,7 @@ C             XM cannot be zero (was checked in starter).
 C
         ENDIF
 C-----------------------------------------------
-C       FIN DE BOUCLE SUR LES OFFSET
+C       end of loop over offsets
 C-----------------------------------------------
        END DO
       ENDDO ! DO NG=1,NGROUP

@@ -59,7 +59,7 @@ C     REAL
      .   X , Y, Z    ,WXXG,WYYG,WZZG
 C-----------------------------------------------
 C-----------------------------
-C     ROTATION RBY DES COORDONNEES(REF)POUR SMALL STRAIN
+C     ROTATION RBY COORDINATES(REF) FOR SMALL STRAIN
 C-----------------------------
       IF(ISMSTR==11)THEN
 C------------Wxx,y,z from local system to global 

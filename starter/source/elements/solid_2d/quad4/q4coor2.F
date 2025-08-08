@@ -60,7 +60,7 @@ C-----------------------------------------------
      .   SY(MVSIZ) ,SZ(MVSIZ) ,
      .   TY(MVSIZ) ,TZ(MVSIZ), SUMA,CT,CS
 C--------------------------------------------------
-C     CONNECTIVITES ET MATERIEL
+C     connectivities and material
 C--------------------------------------------------
       DO I=LFT,LLT
         MXT(I)=IXQ(1,I)

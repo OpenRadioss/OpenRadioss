@@ -372,7 +372,7 @@ C     Alpha
                   IFUNC = INIMAP1D(KK)%FUNC_ALPHA(IMAT)
                   IF (IFUNC /= 0) THEN
                     IF(IFUNC>0)THEN
-                      !--function_identifier
+                      !--function_IDIDENTIFIFIE
                       NPT = (NPC(IFUNC + 1) - NPC(IFUNC)) / 2
                       FIRST = 1 + (NPC(IFUNC) - 1) / 2                      
                       PTRx => PLD_INV(1:NPTS/2,1)  !NPTS : 2*nb of all function points     NPT:for current function
@@ -437,7 +437,7 @@ C     RHO
                   IFUNC = INIMAP1D(KK)%FUNC_RHO(IMAT)
                   IF(IFUNC /= 0)THEN
                     IF(IFUNC > 0)THEN
-                      !--function_identifier
+                      !--function_IDIDENTIFIFIE
                       NPT = (NPC(IFUNC + 1) - NPC(IFUNC)) / 2
                       FIRST = 1 + (NPC(IFUNC) - 1) / 2                      
                       PTRx => PLD_INV(1:NPTS/2,1)  !NPTS : 2*nb of all function points     NPT:for current function
@@ -563,7 +563,7 @@ C     PRES
                      IFUNC = INIMAP1D(KK)%FUNC_PRES(IMAT)
                      IF(IFUNC /= 0)THEN
                        IF(IFUNC > 0)THEN
-                         !--function_identifier
+                         !--function_IDIDENTIFIFIE
                          NPT = (NPC(IFUNC + 1) - NPC(IFUNC)) / 2
                          FIRST = 1 + (NPC(IFUNC) - 1) / 2                      
                          PTRx => PLD_INV(1:NPTS/2,1)  !NPTS : 2*nb of all function points     NPT:for current function
@@ -702,7 +702,7 @@ C     CYLINDRICAL
                            IFUNC = INIMAP1D(KK)%FUNC_VEL
                            IF(IFUNC /= 0)THEN
                              IF(IFUNC > 0)THEN                                                                           
-                               !--function_identifier                                                                    
+                               !--function_IDIDENTIFIFIE                                                                    
                                NPT = (NPC(IFUNC + 1) - NPC(IFUNC)) / 2                                                   
                                FIRST = 1 + (NPC(IFUNC) - 1) / 2                                                          
                                PTRx => PLD_INV(1:NPTS/2,1)  !NPTS : 2*nb of all function points     NPT:for current function 
@@ -749,7 +749,7 @@ C     Initialize cell centred velocities
                   IFUNC = INIMAP1D(KK)%FUNC_VEL
                   IF(IFUNC /= 0)THEN                                                                            
                     IF(IFUNC > 0)THEN                                                                           
-                      !--function_identifier                                                                    
+                      !--function_IDIDENTIFIFIE                                                                    
                       NPT = (NPC(IFUNC + 1) - NPC(IFUNC)) / 2                                                   
                       FIRST = 1 + (NPC(IFUNC) - 1) / 2                                                          
                       PTRx => PLD_INV(1:NPTS/2,1)  !NPTS : 2*nb of all function points     NPT:for current function 

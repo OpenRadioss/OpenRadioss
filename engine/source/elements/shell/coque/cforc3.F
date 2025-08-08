@@ -254,7 +254,7 @@ C
       my_real, dimension(nel)   :: epsd_pg
       my_real, dimension(mvsiz) :: fheat        ! variables for heat transfer
 !
-C--- Variables pour le non-local
+C--- Variables for non-local
       INTEGER :: NDDL, K, INOD(4),NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ),
      .           IPOS(4), L_NLOC, INLOC
       my_real, DIMENSION(:,:), ALLOCATABLE :: VAR_REG
@@ -297,7 +297,7 @@ C
         NPTTOT = NPTTOT + ELBUF_STR%BUFLY(ILAY)%NPTT
       ENDDO
 !-------------------------------------------      
-! Tableau pour la variable non-locale 
+! Array for non-local variable
       NDDL = NPTTOT
       ALLOCATE(VAR_REG(NEL,NDDL)) 
 !-------------------------------------------
@@ -401,7 +401,7 @@ C
        IGMAT= IGEO(98,PID(1))
 C
       IF (ISHFRAM == 1) THEN
-C       repere non convecte (version 3) 
+C       non convected frame (version 3) 
         CALL CEVEC3(ELBUF_STR ,DIR_A,DIR_B,
      1    JFT ,JLT ,X1G ,X2G ,X3G ,X4G ,Y1G ,Y2G ,Y3G ,Y4G ,
      2    Z1G ,Z2G ,Z3G ,Z4G ,E1X ,E1Y ,E1Z ,E2X ,E2Y ,E2Z , 
@@ -629,7 +629,7 @@ c---------------------------------------------------
      D   IGMAT   ,A11R  ,NEL)
       ENDIF
 C--------------------------
-C     BILANS PAR MATERIAU
+C     BALANCES BY MATERIAL
 C--------------------------
 c      IFLAG=MOD(NCYCLE,NCPRI)
       IF (IPRI>0) THEN
@@ -650,7 +650,7 @@ c      IFLAG=MOD(NCYCLE,NCPRI)
      E   GBUF%G_WPLA,GBUF%WPLA )
        ENDIF
 C--------------------------
-C     PAS DE TEMPS
+C     TIME STEP
 C--------------------------
       IF (ISMSTR /= 3.AND.(NODADT == 0.OR.IDTMIN(3) /= 0))THEN
         CALL CDT3(JFT     ,JLT    ,YM        ,OFF      ,DT2T    ,
@@ -676,7 +676,7 @@ C----------------------------
      A            E1X    ,E1Y    ,E1Z     ,E2X     ,E2Y    ,E2Z    ,
      B            E3X    ,E3Y    ,E3Z     ,IHBE    ,NPTTOT ,FZERO  )
 C-------------------------
-c     Thermique des coques 
+c     Shell thermal
 C--------------------------
 C
        IF (JTHE /= 0) THEN   ! /heat/mat
@@ -749,7 +749,7 @@ c
       IF (ICSEN > 0)
      .  CALL CSENS3(JFT    ,JLT    ,PID    ,IGEO   ,EPSD_PG)
 C-------------------------
-c     Fissure des coques 
+c     Shell cracking
 C--------------------------
       IF (IXFEM > 0) THEN
         DO ILAY=1,NXLAY                                                         

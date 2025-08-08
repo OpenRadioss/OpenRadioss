@@ -80,13 +80,13 @@ C=======================================================================
       NEWCRK = 0
       DO I=1,NEL
         JCT(I) = 0
-        IF (ELCRKINI(ILAY,I) == 5) THEN       ! avancement de fissure
+        IF (ELCRKINI(ILAY,I) == 5) THEN       ! crack propagation
           NEWCRK = NEWCRK + 1
           JCT(NEWCRK) = I
-          ELCRKINI(ILAY,I) = 2                ! reset pour l avancement
-        ELSEIF (ELCRKINI(ILAY,I) == -5) THEN  ! initialisation de fissure
+          ELCRKINI(ILAY,I) = 2                ! reset for propagation
+        ELSEIF (ELCRKINI(ILAY,I) == -5) THEN  ! crack initialization
           CRKLEN(I) = ALDT(I)
-          ELCRKINI(ILAY,I) = -1               ! reset pour initialisation
+          ELCRKINI(ILAY,I) = -1               ! reset for initialization
         ENDIF
       ENDDO
       IF (NEWCRK == 0) RETURN

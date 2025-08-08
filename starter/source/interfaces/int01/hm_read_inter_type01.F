@@ -67,7 +67,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real FRIC,GAP,STARTT,STOPT !< interface parameters
-      INTEGER ISU1,ISU2 !< surface identifiers
+      INTEGER ISU1,ISU2 !<Identifiers surface
       INTEGER I,J,L, NTYP,IS1,IS2,IGSTI,ILEV,IVOID
       INTEGER, DIMENSION(:), POINTER :: INGR2USR
       LOGICAL :: IS_AVAILABLE
@@ -96,7 +96,7 @@ C-----------------------------------------------
       IF(STFAC == ZERO) STFAC = ONE_FIFTH
 
 C------------------------------------------------------------
-C  Card1 : surface identifiers
+C  Card1: identifier surface
 C------------------------------------------------------------
 
       CALL HM_GET_INTV('surf_IDA', ISU1, IS_AVAILABLE, LSUBMODEL)

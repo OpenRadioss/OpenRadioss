@@ -233,7 +233,7 @@ C-------------------------------
       ENDDO
 
 C-------------------------------
-C Numeros globaux des noeuds ply
+C Global numbers of the ply nodes
 C-------------------------------
       NCOUNT = 0
       DO K=1,NPLYMAX

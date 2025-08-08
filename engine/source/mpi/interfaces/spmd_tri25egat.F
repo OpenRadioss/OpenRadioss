@@ -82,13 +82,13 @@ C-----------------------------------------------
       LSKYFI = 0
       NODFI = 0
 C
-C Test succes du tri ?
+C Test success of the sort?
 C
 
 
       IF(RESULT==0) THEN
 C
-C Reperage des candidats
+C locating candidates
 C
         NEDGE_KEPT = 0
         DO I = 1, I_STOK_E2E
@@ -115,11 +115,11 @@ C         WRITE(6,*) "CAND(",I,")=",N,NN
         ENDDO
 
 C
-C Allocation des tableaux de frontieres interfaces
+C allocation of interface boundary arrays
 C
         NODFI = NEDGE_KEPT * 2
 C       IF(NEDGE_KEPT > ???) THEN
-C  On pourrait eviter de faire des trous dans la memoire
+C  We could avoid making holes in the memory
           IF(ASSOCIATED(NSVFIE(NIN)%P)) DEALLOCATE(NSVFIE(NIN)%P)
 C         WRITE(6,*) __FILE__,"NSVFIE allocated size:",NEDGE_KEPT
           ALLOCATE(NSVFIE(NIN)%P(NEDGE_KEPT))
@@ -189,7 +189,7 @@ C       ENDIF
 
         ALLOCATE(INDEX(NEDGE_REMOTE))
 C
-C Compactage des candidats
+C compacting candidates
 C
         IDEB = 0
         NN = 0
@@ -279,7 +279,7 @@ C=======================================================================
 C               MAIN_FIE(NIN)%P(NN) = XREM_EDGE(E_MAIN,I+IDEB)
                 
                 L2 = E_EDG_BIS 
-C Simple -> double -> simple = pb PON? 
+C SIMPLE -> Double -> Simple = pon pb? 
                 EDG_BISECTOR_FIE(NIN)%p(1:3,1,NN) = XREM_EDGE(L2:L2+2,I+IDEB)
                 L2 = E_VTX_BIS
                 VTX_BISECTOR_FIE(NIN)%p(1:3,1,NN) = XREM_EDGE(L2:L2+2,I+IDEB)
@@ -304,7 +304,7 @@ C Simple -> double -> simple = pb PON?
           NSNFIE(NIN)%P(P) = NN-NNP 
         ENDDO  ! end do NSPMD           
         LSKYFI = NN*MULTIMAX
-C   nsnr nouveau utile pour inacti
+C   NSNR New useful for inactive
         NEDGE_REMOTE = NN
 C      WRITE(6,*) ISPMD,"EDGE REMOTE kept=",NEDGE_REMOTE
 
@@ -312,7 +312,7 @@ C      WRITE(6,*) ISPMD,"EDGE REMOTE kept=",NEDGE_REMOTE
       NEDGE_REMOTE_OLD = NEDGE_REMOTE
 
 C
-C Deallocation de XREM IREM
+C Deallocation of XREM IREM
 C
       IF(ALLOCATED(IREM_EDGE)) DEALLOCATE(IREM_EDGE)
       IF(ALLOCATED(XREM_EDGE)) DEALLOCATE(XREM_EDGE)
@@ -370,7 +370,7 @@ c           ENDIF
       ENDIF
 
 C
-C Renumerotation des candidats
+C Renumbering of candidates
 C
       DO I = 1, I_STOK_E2E
         N = CANDS_E2E(I)
@@ -380,7 +380,7 @@ C
         ENDIF
       ENDDO
 C
-C Renumerotation des candidats
+C Renumbering of candidates
 C
       DO I = 1, I_STOK_E2S
         N = CANDS_E2S(I)

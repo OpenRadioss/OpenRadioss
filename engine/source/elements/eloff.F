@@ -116,7 +116,7 @@ C======================================================================|
 C      
       IF (IFLAG==0) THEN
 C------------------------------
-C       ACTIVATION DES ELEMENTS
+C       ELEMENT ACTIVATION
 C------------------------------
 
        IF (IGBR /= 0) THEN
@@ -125,7 +125,7 @@ C------------------------------
            NG = IGROUPS(II)                
            NFT= IPARG(3,NG)
            MLW=IPARG(1,NG)
-           IF (MLW == 0 .OR. MLW == 13) CYCLE  ! loi0, pas de off
+           IF (MLW == 0 .OR. MLW == 13) CYCLE  ! law0, no off
            I  = II - NFT
            INDEX2(1,NG) = INDEX2(1,NG) + 1
            NELA = INDEX2(1,NG) 
@@ -142,7 +142,7 @@ C------------------------------
          NFT=IPARG(3,NG)
          ITY=IPARG(5,NG)
          JTHE=IPARG(13,NG)    
-         IF (MLW == 0 .OR. MLW == 13) CYCLE  ! loi0, pas de off
+         IF (MLW == 0 .OR. MLW == 13) CYCLE  ! law0, no off
 C         
          IF(ITY==1)THEN       
 C---       ELEMENTS SOLIDES
@@ -396,7 +396,7 @@ C
         ENDDO
       ELSE IF (IFLAG == 1) THEN
 C-----------------------
-C     DEACTIVATION DES ELEMENTS
+C     ELEMENT DEACTIVATION
 C-----------------------
 !       Solids
         IF (IGBR /= 0) THEN
@@ -411,7 +411,7 @@ C-----------------------
           ITY=IPARG(5,NG)
           ISOLNOD=IPARG(28,NG)    
           ITETRA4=IPARG(41,NG)
-          IF (MLW == 0 .OR. MLW == 13) CYCLE  ! loi0, pas de off
+          IF (MLW == 0 .OR. MLW == 13) CYCLE  ! law0, no off
           I = II - NFT
           OFFG(I) = ZERO
           WRITE(IOUT,'(A,I10,A,G13.5)')' BRICK DEACTIVATION:',IXS(11,II),' AT TIME:',TIME
@@ -433,7 +433,7 @@ C-----------------------
          NEL=IPARG(2,NG)
          NFT=IPARG(3,NG)
          ITY=IPARG(5,NG)
-         IF (MLW == 0 .OR. MLW == 13) CYCLE  ! loi0, pas de off
+         IF (MLW == 0 .OR. MLW == 13) CYCLE  ! law0, no off
          IF(ITY==1) THEN       
 C---     ELEMENTS SOLIDES
            OFFG => ELBUF_TAB(NG)%GBUF%OFF

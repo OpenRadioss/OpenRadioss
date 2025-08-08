@@ -29,8 +29,8 @@ C
       SUBROUTINE CHBAS(A,M)
 C
 C    ENTREES A MATRICE DE PASSAGE X'=AX
-C            M MATRICE DANS LA BASE X'
-C    SORTIES M MATRICE DANS LA BASE X
+C            M MATRIX IN THE X' BASE
+C    OUTPUTS M MATRIX IN THE X BASE
 C               M=A-1*M*A=AT*M*A
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

@@ -155,7 +155,7 @@ C-----------------------------------------------
        
        LENCOM = IAD_STSH(NSPMD+1) - IAD_STSH(1) 
 
-C Allocation des Buffers           
+C Buffer allocation
        ALLOCATE(SEND_BUF(LENCOM),STAT=IERROR)
        IF(IERROR/=0) THEN
           CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
@@ -287,7 +287,7 @@ C-----------------------------------------------
        
        LENCOM = IAD_STSH(NSPMD+1) - IAD_STSH(1) 
 
-C Allocation des Buffers           
+C Buffer allocation
        ALLOCATE(SEND_BUF(3*LENCOM),STAT=IERROR)
        IF(IERROR/=0) THEN
           CALL ANCMSG(MSGID=20,ANMODE=ANINFO)

@@ -516,7 +516,7 @@ C=======================================================================
        ! Tcp : characteric time      !
        !-----------------------------!       
        M51_TCP_REF    = M51_LC0MAX/TWO/M51_SSP0MAX/LOG(TWO)
-       !Si Tcp=0 alors calcul automatique
+       !If TCP = 0 then automatic calculation
        IF(UPARAM(70)==ZERO)THEN
          UPARAM(70) = M51_TCP_REF
          lSET = 1

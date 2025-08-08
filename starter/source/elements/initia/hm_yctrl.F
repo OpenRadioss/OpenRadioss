@@ -336,7 +336,7 @@ C------------------------------------
         IF ( NB_INISHE > 0 ) THEN
         
           IF (KTRIELC == 0) THEN
-C             tri des elts du D00 par ID croissant (on ne trie qu'une fois)
+C             sorting elements of D00 by ascending id (sorted only once)
               DO IE = 1, NUMELC
           ITRI(IE) = IXC(NIXC,IE)
               END DO
@@ -656,7 +656,7 @@ C------------------------------------
         IF ( NB_INISH3 > 0 ) THEN
          !!
           IF (KTRIELTG==0) THEN
-C         tri des elts du D00 par ID croissant (on ne trie qu'une fois)
+C         sorting elements of D00 by ascending id (sorted only once)
           DO IE = 1, NUMELTG
             ITRI(IE) = IXTG(NIXTG,IE)
           END DO

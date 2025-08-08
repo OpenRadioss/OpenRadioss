@@ -55,7 +55,7 @@ C-----------------------------------------------
 C
       DATA JPERM/2,3,4,1/
 C-----------------------------------------------------------------
-C     LONGUEUR MINI DES COTES DE SEGMENT (CALCUL DU GAP MAX)
+C     MINIMUM LENGTH OF SEGMENT SIDES (CALCULATION OF MAX GAP)
 C-----------------------------------------------------------------
       DO JJ=1,4
         N1=IRECT(JJ,I)

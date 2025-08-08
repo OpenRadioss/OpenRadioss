@@ -261,7 +261,7 @@ C-----------------------------------------------
           !3-NODE-SEGMENT
           PBLAST%PBLAST_TAB(IL)%NPt(I) = THREE
           NPT = THREE
-          !Segment centroid
+          !Centroid segment
           Zx = X(1,N1)+X(1,N2)+X(1,N3)
           Zy = X(2,N1)+X(2,N2)+X(2,N3)
           Zz = X(3,N1)+X(3,N2)+X(3,N3)
@@ -278,7 +278,7 @@ C-----------------------------------------------
           !4-NODE-SEGMENT
           PBLAST%PBLAST_TAB(IL)%NPt(I) = FOUR
           NPT = FOUR
-          !Segment centroid
+          !Centroid segment
           Zx = X(1,N1)+X(1,N2)+X(1,N3)+X(1,N4)
           Zy = X(2,N1)+X(2,N2)+X(2,N3)+X(2,N4)
           Zz = X(3,N1)+X(3,N2)+X(3,N3)+X(3,N4)

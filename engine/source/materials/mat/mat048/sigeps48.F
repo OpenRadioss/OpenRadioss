@@ -125,7 +125,7 @@ C-----------------------------------------------
       my_real
      . UVAR(NEL,NUVAR), OFF(NEL)
 C-------------------------
-C    variables non utilisees (fonctions utilisateur)
+C    Variables not used (user functions)
 C-------------------------
       INTEGER NPF(*),MFUNC,KFUNC(MFUNC)
       my_real

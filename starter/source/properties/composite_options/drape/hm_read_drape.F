@@ -62,7 +62,7 @@ C-----------------------------------------------
       CHARACTER(LEN=NCHARTITLE) :: TITR
       CHARACTER MESS*40
       DATA MESS/'DRAPE DEFINITION                        '/
-c      REAL ou REAL*8
+c      REAL or REAL*8
       my_real
      .    BID
 C======================================================================|
@@ -511,7 +511,7 @@ c                      IGEO(1, JPID)       ! ply pid ID
         ! To be checked for sh3n, grsh3n
         !   - double she3n -
         CALL UDOUBLE3(ITMP_SH3N,2,IT2,MESS5,MESS3,0,BID)
-        !   - double grshel -
+        !   - Double GRSHEL -
         CALL UDOUBLE3(ITMP_GRSH3N,2,IT4,MESS5,MESS4,0,BID)
         !-------------------------------------------------------------------------
         ! Filling DRAPE data structure
@@ -1116,7 +1116,7 @@ C---
       ! End reading /DRAPE
       !====================================================================================
 C-------------------------------------
-C Recherche des ID doubles (parmis les options /DRAPE)
+C Search for double IDs (among /DRAPE options)
 C-------------------------------------
       CALL UDOUBLE(DRAPE_ID,1,NDRAPE,MESS,0,BID)
 C---

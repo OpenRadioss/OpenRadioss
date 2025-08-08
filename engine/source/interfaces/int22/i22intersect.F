@@ -111,7 +111,7 @@ C-----------------------------------------------
       LOGICAL :: IsSH3N
      
       LOGICAL, DIMENSION(NBRIC) :: COUNT
-!      LOGICAL, DIMENSION(12*NBRIC) :: LEDGE
+!      Logical, dimension (12*nbric) :: ledge
       LOGICAL :: BOOL(NIRECT_L)
       INTEGER NBCUT, NBCUT2,DEJA, ISONSHELL, ISONSH3N
       INTEGER :: COUNTER, NEDGE, NFACE, NODES8(8), COUNTER_BRICK(NBRIC)
@@ -263,7 +263,7 @@ C       Storage in vNE(1:NCANDE,1:3,TT)
 C                     -->   1st arg : candidate Face (structure)
 C                     -->   2nd arg : components x,y,z
 C                     -->   3rd arg : normal number (1shell=4tria)
-C     b.plane equation (constant value)
+C     B.PLANE EQUATION (Constant Value)
 C                      BasisCONST(TT)
 C                     -->   1st arg : normal number (1shell=4tria)
 C================================================================        
@@ -291,7 +291,7 @@ C================================================================
           ptZ(I,2)=IRECT_L(12,NE)  !M(4)
           ptZ(I,3)=IRECT_L(16,NE)  !M(4)
         END IF        
-        DO TT=1,NbSubTriangles(I)                                    !composing triangle (Z,IPA,IPB) = (Z,1,2) ou (Z,2,3) ou (Z,3,4) ou (Z,4,1)
+        DO TT=1,NbSubTriangles(I)                                    !Triangle comping (Z, IPA, IPB) = (Z, 1,2) or (Z, 2.3) or (Z, 3.4) or (Z, 4.1)
           IPA=A(TT)                                                  ! Z is centroid of 4node-shell.
           IPB=A(TT+1) !; IF(IPB==5) IPB=1,for cyclic permutation
           !IPA=IRECT_L(IPA,NE)
@@ -309,7 +309,7 @@ C================================================================
           vNE(I,2,TT) = vNE(I,2,TT) / NORM
           vNE(I,3,TT) = vNE(I,3,TT) / NORM
           ENDIF
-          BasisCONST(I,TT) = SUM(ptZ(i,1:3)*vNE(I,1:3,TT))            !basis constant (surface equation)
+          BasisCONST(I,TT) = SUM(ptZ(i,1:3)*vNE(I,1:3,TT))            !Constant basis (Equation surface)
                                                                       !basis point is Zentrum, it is common for each triangle
           !PLANE EQUATION : nx.X + nY.Y + nZ.Z + k = 0
           ! where n is vNE
@@ -505,8 +505,8 @@ C          END IF
                 IFLG_DB=0
               endif
                
-             IF(NBCUT==-1) NBCUT =ISONSH3N( ptZ(IADE,1:3),ptA(IADE,1:3,TT),vZA(IADE,1:3,TT),vZB(IADE,1:3,TT),POINT(1:3) ,IFLG_DB)                                                           ! verifie si POINT(:) appartient au triangle           
-             IF(NBCUT2==-1)NBCUT2=ISONSH3N( ptZ(IADE,1:3),ptA(IADE,1:3,TT),vZA(IADE,1:3,TT),vZB(IADE,1:3,TT),POINT2(1:3),IFLG_DB)                                                             ! verifie si POINT(:) appartient au triangle
+             IF(NBCUT==-1) NBCUT =ISONSH3N( ptZ(IADE,1:3),ptA(IADE,1:3,TT),vZA(IADE,1:3,TT),vZB(IADE,1:3,TT),POINT(1:3) ,IFLG_DB)                                                           ! Check if point (:) belongs to the triangle           
+             IF(NBCUT2==-1)NBCUT2=ISONSH3N( ptZ(IADE,1:3),ptA(IADE,1:3,TT),vZA(IADE,1:3,TT),vZB(IADE,1:3,TT),POINT2(1:3),IFLG_DB)                                                             ! Check if point (:) belongs to the triangle
              
               if (ixs(11,brick_list(nin,i)%id)==idb_ID )then
                 print *, "NBCUT, NBCUT2=", NBCUT,NBCUT2
@@ -540,7 +540,7 @@ C          END IF
                       !print *, "second points point",CUTCOOR,OLD_CUTCOOR
                     ELSE
                       !print *, "point deja trouve", CUTCOOR
-                      NBCUT=1 ! le point est le meme, inutile de l'enregistrer.
+                      NBCUT=1 ! the point is the same, no need to record it
                     END IF
                   END IF              
                 ELSEIF(DEJA==2)THEN ! already 2 intersections, no more expected (hypothesis)
@@ -716,7 +716,7 @@ C================================================================
           print *, "  |           EDGES               |"
           print *, "  |-------------------------------|"
           print *, 12*NB , "  edges (12*NBRIC)" 
-        DO I=1, NB ! 1,NB fractionne sur les differents threads 
+        DO I=1, NB ! 1,nb split across different threads
           if(ibug22_intersect/=-1 .and. ibug22_intersect/=ixs(11,brick_list(nin,i)%id))cycle           
           print *, "  ** CELL **", IXS(11,BRICK_LIST(NIN,I)%ID)
           DO J=1,12

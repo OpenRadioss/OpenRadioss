@@ -305,7 +305,7 @@ C
       IF(.NOT.(IDTMINS==2.AND.JSMS/=0))THEN
        IF(KDTSMSTR==1.AND.ISMSTR==1.OR.
      .         ((ISMSTR==2.OR.ISMSTR==12).AND.IDTMIN(1)==3))THEN
-        !   KDTSMSTR==1 en version 5, par defaut.
+        !   Kdtsmstr == 1 in version 5, by default.
         MT  = MAT(1)
         DO I=1,NEL
           RHO0(I)=PM(1,MT)
@@ -333,7 +333,7 @@ C
             TAIRE = AIRE(I) * TIDT
             STI(I) = HALF * TRHO * TAIRE
           ENDIF
-C         dt2 remplace par dt2t
+C         dt2 replaced by dt2t
   50    CONTINUE
         IF(ALE_OR_EULER==0)THEN
           DO I=1,NEL
@@ -392,7 +392,7 @@ C              [ STI(I) = FOURTH * TRHO * TVOL for 8node bricks ]
                TAIRE = AIRE(I) * TIDT
                STI(I) = HALF * TRHO * TAIRE
              ENDIF
-C            dt2 remplace par dt2t
+C            dt2 replaced by dt2t
   60       CONTINUE
          ENDIF ! ISMSTR == 11
         IF(ALE_OR_EULER==0)THEN
@@ -619,7 +619,7 @@ C
         ID_MIN=0
         DO I=1,NEL
           IF(DTX(I)>DT2T .OR. OFF(I)<=ZERO .OR. OFFG(I)<=ZERO) CYCLE
-          ! nelts et itypts remplaces par neltst et itypst
+          ! nelts and itypts replaced by neltst and itypst
           IF(VOL(I)<=ZERO)CYCLE
           DT2T     = DTX(I)
           NELTST   = NGL(I)

@@ -104,7 +104,7 @@ C
           DV0(I) = DV(I)
         ENDDO
       ENDIF
-c     filtrage des vitesses
+c     velocity filtering
       DO I=1,NEL
         DV(I)  = (ONE-ALPHA(I))*DV0(I) + ALPHA(I)*DV(I)
         DV0(I) =  DV(I)
@@ -128,7 +128,7 @@ C-------------------------------------
             FX(I) = FOLD(I) + XK(I)*DDX(I)
           ENDIF
           IAD = 100
-C calcul du y_max
+C calculation of y_max
           NFUNC(I) = IGEO(20,PID(I))  
           XFAC(I) = GEO(5,PID(I))
           J1 = 1                                                   
@@ -173,7 +173,7 @@ C
               FMAX(I) = -FMAX(I)*YFAC1(I)  
              ENDIF
           ENDIF                                                    
-C calcul du y_min  
+C calculation of y_min
           J1 = NFUNC(I) + 1                                        
           NFUND(I) = IGEO(21,PID(I))                               
           DO J=2,NFUND(I)-1                                        

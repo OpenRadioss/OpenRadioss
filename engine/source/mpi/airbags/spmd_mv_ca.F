@@ -33,7 +33,7 @@ C
      1   FR_MV ,IV    ,NAV    ,RVOLU   ,RVOLUV ,
      2   ICBAG ,NJET  ,IVOLUV ,RBAGVJET,IFLAG  ,ITYP,NGASES)
         USE SPMD_MOD
-C communication pression volume pour airbags communicants
+C Communication pressure volume for communicating airbags
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -179,7 +179,7 @@ C
           IF(ICOMSD(P)==1) CALL MPI_WAIT(REQ_S(P),STATUS,IERROR)
         END DO
       ELSE !IFLAG /= 1
-C cas renvoi des pressions du pmain du mv vers les processeurs traitant les mv voisins
+C case of sending pressures from the pmain of the mv to processors handling neighboring mvs
         IF(FR_MV(NSPMD+2,IV)==LOC_PROC)THEN
 C
           DO P = 1, NSPMD

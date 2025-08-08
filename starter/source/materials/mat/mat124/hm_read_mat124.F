@@ -76,7 +76,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,ILAW,IRATE,DTYPE,DFLAG,IREG,IDEL
-C     REAL ou REAL*8
+C     REAL or REAL*8
       my_real
      .   RHO0,YOUNG,NU,A,G,G2,LAM,BULK,FCUT,FC,FT,GFT,
      .   AH,BH,CH,DH,HP,AS,QH0,ECC,M0,WF,WF1,FT1,DF,BS,
@@ -167,7 +167,7 @@ c-----------------------------
       IF (DH == ZERO) THEN 
         DH = 1.0D-6
       ENDIF
-      ! Dilation constant
+      ! Constant dilation
       IF (DF == ZERO) THEN 
         DF = 0.85D0
       ENDIF
@@ -278,7 +278,7 @@ c
       UPARAM(33) = EPSCMAX  ! Maximum compressive strain rate threshold
       UPARAM(34) = ALPHAS   ! Compressive strain rate effect parameter 1
       UPARAM(35) = GAMMAS   ! Compressive strain rate effect parameter 2
-      !  -> Element deletion flag
+      !  -> flag deletion element
       UPARAM(36) = IDEL 
 c      
       ! PARMAT table

@@ -123,7 +123,7 @@ C
          NEL = IPARG(2,NG)
          NFT = IPARG(3,NG)
          ITY = IPARG(5,NG)
-C   voir autres types solides
+C   See other solid types
          ISOLNOD = IPARG(28,NG)
          IF(ITY==1) THEN
            DO I = 1, NEL
@@ -213,7 +213,7 @@ C
          NFT = IPARG(3,NG)
          ITY = IPARG(5,NG)
          P = IPARG(32,NG)+1
-C   voir autres types solides
+C   See other solid types
          ISOLNOD = IPARG(28,NG)
          IF(ITY==1) THEN
            DO I = 1, NEL
@@ -237,7 +237,7 @@ C IV < 0 : SEGMENT INT12
       ENDDO
 C
 C
-C Traitement supplementaire Couplage Fluide/Structure
+C Additional treatment Fluid coupling/structure
 !     because it increases cpu time
       DO I = 1, NUMELS
         IAD1 = ALE_CONNECTIVITY%ee_connect%iad_connect(I)

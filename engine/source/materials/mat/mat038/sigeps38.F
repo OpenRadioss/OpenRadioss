@@ -423,7 +423,7 @@ C ROTATE STORED VALUES IN GLOBAL DIRECTIONS INTO NEW PRINCIPAL DIRECTIONS
                 UVAR(I,N+3*(M-1)) = SN(N,N)
               ENDDO
             ENDDO
-C           pour la partie decay et hysteresis
+C           for the decay and hysteresis part
             IF (BETA>TINY.AND.KRECOVER/=2) THEN
               DO M=1,2
                 DO  N=1,3
@@ -1142,7 +1142,7 @@ C SOUNDSPEED
       ENDDO
 C
       IF (IMPL_S > 0 .OR. IHET > 1) THEN
-C-----choix entre EYN(I,j) et ESECANT(I,j) ----
+C----- Choice between Eyn (I, J) and Escant (I, J) ----
         IF(IFLAG/=0) THEN
           DO I=1,NEL
             EMAX(I)=MAX(EI(I),EYN(I,1),EYN(I,2),EYN(I,3))
