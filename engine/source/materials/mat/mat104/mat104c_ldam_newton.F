@@ -106,6 +106,7 @@ C
       !     DRUCKER - VOCE - JOHNSON-COOK MATERIAL LAW WITH GURSON DAMAGE
       !         USING LOCAL DAMAGE OR NON-LOCAL MICROMORPHIC METHOD
       !=======================================================================
+      !UVAR(1)   EPSD    PLASTIC STRAIN RATE SAVED FOR FILTERING
 c
       !=======================================================================
       ! - INITIALISATION OF COMPUTATION ON TIME STEP
@@ -177,7 +178,9 @@ c
         HARDP(I) = ZERO       ! Initialization of hardening modulus           
         DEZZ(I)  = ZERO       ! Initialization of the transverse strain
       ENDDO
-c      
+!
+      epsd(1:nel) = uvar(1:nel,1)
+!
       ! Initialization of damage, temperature and self-heating weight factor
       IF (TIME == ZERO) THEN   
         TEMP(1:NEL) = TINI 
@@ -630,6 +633,7 @@ c
         ! Plastic strain-rate (filtered)
         DPDT       = DPLA(I) / MAX(EM20,TIMESTEP)  
         EPSD(I)    = AFILTR * DPDT + (ONE - AFILTR) * EPSD(I)        
+        UVAR(I,1)  = EPSD(I)
         ! Coefficient for hourglass
         IF (DPLA(I) > ZERO) THEN 
           ET(I) = HARDP(I)*FRATE(I) / (HARDP(I)*FRATE(I) + YOUNG)  

@@ -191,7 +191,7 @@ c----------------
       CALL INIT_MAT_KEYWORD(MATPARAM,"SPH")
 c----------------
       NUPARAM = 21
-      NUVAR   = 0
+      NUVAR   = 1
       NTABL   = 3
 c
       ITABLE(1) = TAB_YLD     ! Yield function table              = f(epsp,epsdot)

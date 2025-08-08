@@ -536,7 +536,6 @@ C-------------------
 C
         XX(I,1)=PLA (I)
         XX(I,2)=EPSP(I)*XFAC
-c        print *,xx(i,2)
         XX(I,3)=TEMP(I)
       END DO      
 C

@@ -38,7 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .     DEPSXX  ,DEPSYY  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
      .     SIGOXX  ,SIGOYY  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
      .     SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
-     .     PLA     ,DPLA    ,EPSD    ,OFF     ,GS      ,
+     .     PLA     ,DPLA    ,OFF     ,GS      ,
      .     YLD     ,SOUNDSP ,DEZZ    ,INLOC   ,DPLANL  ,
      .     NVARTMP, VARTMP  ,LOFF    )
 C-----------------------------------------------
@@ -77,7 +77,7 @@ C   I N P U T   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, DIMENSION(NEL,NVARTMP), INTENT(INOUT) :: VARTMP
       my_real, DIMENSION(NEL,NUVAR)  , INTENT(INOUT) :: UVAR
-      my_real, DIMENSION(NEL), INTENT(INOUT) :: OFF,YLD,PLA,EPSD,SOUNDSP
+      my_real, DIMENSION(NEL), INTENT(INOUT) :: OFF,YLD,PLA,SOUNDSP
 C-----------------------------------------------
 C   VARIABLES FOR FUNCTION INTERPOLATION 
 C-----------------------------------------------
@@ -91,7 +91,7 @@ C-----------------------------------------------
       INTEGER ,PARAMETER :: FUNC_COMP  = 2
       INTEGER ,PARAMETER :: FUNC_SHEAR = 3
       INTEGER, DIMENSION(NEL)   :: INDX,IAD,ILEN
-      my_real :: LAM,DLAM,EPSDOT,DA0,DA1,DA2,
+      my_real :: LAM,DLAM,DA0,DA1,DA2,
      .  CA,CB,AA,BB,CC,A1S,A1C,A1T,A2S,A2C,A2T,E,NU,NU1,NUPC,XFAC,
      .  YY,DX2,DFDSIGDLAM,YLD_NORM,EPD_MIN,EPD_MAX,
      .  NORMXX,NORMYY,NORMXY,NORMZZ,NORMYZ,NORMZX,ALFA,ALFI,DTINV,
@@ -478,6 +478,5 @@ c
       UVAR(1:NEL,4) = ALFA*DPLAT(1:NEL)*DTINV + ALFI*EPDT_F(1:NEL)
       UVAR(1:NEL,5) = ALFA*DPLAC(1:NEL)*DTINV + ALFI*EPDC_F(1:NEL)
       UVAR(1:NEL,6) = ALFA*DPLAS(1:NEL)*DTINV + ALFI*EPDS_F(1:NEL)
-      EPSD(1:NEL)   = ALFA*DPLA(1:NEL)*DTINV  + ALFI*EPSD(1:NEL) ! save for strain rate output
 c
       END
