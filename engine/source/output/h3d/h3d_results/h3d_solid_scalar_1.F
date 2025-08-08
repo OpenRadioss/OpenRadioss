@@ -2110,7 +2110,12 @@ C--------------------------------------------------
 C--------------------------------------------------
                 MT          = IXS(1,NFT+1)
                 IALEFVM_FLG = IPM(251,MT)
-                IF(IALEFVM_FLG >= 2)THEN
+                IF (MLW == 151) THEN
+                  DO I = 1, NEL
+                    VALUE(I) = MULTI_FVM%VEL(1, I + NFT)
+                    IS_WRITTEN_VALUE(I) = 1
+                  ENDDO
+                ELSEIF(IALEFVM_FLG >= 2)THEN
                   IF (ISOLNOD == 8)THEN
                     DO I=1,NEL
                       VALUE(I) = GBUF%MOM(JJ(1) + I) / GBUF%RHO(I)
@@ -2123,7 +2128,12 @@ C--------------------------------------------------
 C--------------------------------------------------
                 MT          = IXS(1,NFT+1)
                 IALEFVM_FLG = IPM(251,MT)
-                IF(IALEFVM_FLG >= 2)THEN
+                IF (MLW == 151) THEN
+                  DO I = 1, NEL
+                    VALUE(I) = MULTI_FVM%VEL(2, I + NFT)
+                    IS_WRITTEN_VALUE(I) = 1
+                  ENDDO
+                ELSEIF(IALEFVM_FLG >= 2)THEN
                   IF (ISOLNOD == 8)THEN
                     DO I=1,NEL
                       VALUE(I) = GBUF%MOM(JJ(2) + I) / GBUF%RHO(I)
@@ -2136,7 +2146,12 @@ C--------------------------------------------------
 C--------------------------------------------------
                 MT          = IXS(1,NFT+1)
                 IALEFVM_FLG = IPM(251,MT)
-                IF(IALEFVM_FLG >= 2)THEN
+                IF (MLW == 151) THEN
+                  DO I = 1, NEL
+                    VALUE(I) = MULTI_FVM%VEL(3, I + NFT)
+                    IS_WRITTEN_VALUE(I) = 1
+                  ENDDO
+                ELSEIF(IALEFVM_FLG >= 2)THEN
                   IF (ISOLNOD == 8)THEN
                     DO I=1,NEL
                       VALUE(I) = GBUF%MOM(JJ(3) + I) / GBUF%RHO(I)
