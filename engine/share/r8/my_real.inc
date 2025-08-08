@@ -23,4 +23,5 @@
 #ifndef my_real
 #define my_real DOUBLE PRECISION
 #define MY_REAL DOUBLE PRECISION
+#define MY_MPI_REAL MPI_DOUBLE_PRECISION
 #endif
