@@ -122,7 +122,7 @@
       integer :: i,ii,niter,nindx,crp_law,isens,ndim
       integer ,dimension(nel) :: indx
       my_real :: dpdt 
-      my_real :: epsp0,lame,ldav,epsc,deps,dpnl,p
+      my_real :: epsp0,lame,ldav,epsc,deps,p
       my_real :: facp                           
       my_real :: asrate,dtime,tstart       
       my_real :: cr1,cr2,cx1,cx2
@@ -131,7 +131,8 @@
       my_real :: ca,n,m,cq
       my_real :: fsig,ftime
       my_real :: normxx,normyy,normzz,normxy,normyz,normzx
-      my_real :: alpha0,crpa0
+      my_real :: dcxx,dcyy,dczz,dcxy,dcyz,dczx
+      my_real :: dpxx,dpyy,dpzz,dpxy,dpyz,dpzx
       my_real ,dimension(nel)   :: crpa,crpm,crpn,crpq  !< creep parameters 
       my_real ,dimension(nel)   :: cc,cp,cowp           !< strain rate parameters
       my_real ,dimension(nel)   :: young,shear,bulk,nu  !< elastic moduli
@@ -178,9 +179,9 @@
       epsp0        = mat_param%uparam(10)
       cc(1:nel)    = epsp0
       cp(1:nel)    = mat_param%uparam(11) 
-      alpha0       = mat_param%uparam(12) 
+      alpha(1:nel) = mat_param%uparam(12) 
       tref         = mat_param%uparam(13) 
-      crpa0        = mat_param%uparam(14) 
+      crpa(1:nel)  = mat_param%uparam(14) 
       crpn(1:nel)  = mat_param%uparam(15) 
       crpm(1:nel)  = mat_param%uparam(16) 
       crpq(1:nel)  = mat_param%uparam(17) 
@@ -188,8 +189,6 @@
       time_crp     = mat_param%uparam(19) 
       asrate = min(one,mat_param%uparam(20)*dtime)
 !
-      alpha(1:nel) = alpha0
-      crpa(1:nel)  = crpa0
 ! ----------------------------------------------------------------------------------------------------------------------
       ! check material parameters dependency on temperature and apply scale factors
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -348,7 +347,7 @@
       end do ! end of the loop over the yielding elements
 ! ----------------------------------------------------------------------------------------------------------------------
       ! thermal strain increment
-      if (iexpan == 0 .and. alpha0 > zero) then
+      if (iexpan == 0) then
         depsth(1:nel) = alpha(1:nel) * (temp(1:nel) - temp0(1:nel))
       end if
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -356,69 +355,77 @@
       ! stop creep evolution if sensor is activated
 ! ----------------------------------------------------------------------------------------------------------------------
       tstart = infinity   
-      if (crpa0 > zero) then
-        if (isens > zero) then
-          tstart = sensors%sensor_tab(isens)%tstart
-        end if
-        if (time > zero .and. time < tstart) then
-          if (crp_law == 1) then           ! use transient Norton power law
-            do i=1,nel        
-              ca = crpa(i)
-              n  = crpn(i)
-              m  = crpm(i)
-              fsig  = (svm(i)/sig_crp)**n
-              ftime = (time/time_crp)**m
-              depsc(i) = ca * fsig * ftime * dtime
-            end do
-          else if (crp_law == 2) then      ! use Garfallo steady state law
-            do i=1,nel        
-              ca = crpa(i)
-              n  = crpn(i)
-              m  = crpm(i)
-              cq = crpq(i)
-              fsig  = (sinh(svm(i)/sig_crp))**n
-              ftime = exp(-cq/max(temp(i),em20))
-              depsc(i) = ca * fsig * ftime * dtime
-            end do
-          else if (crp_law == 3) then      ! use strain hardening Norton formulation
-            do i=1,nel        
-              ca = crpa(i)
-              n  = crpn(i)
-              m  = crpm(i)
-              depsc(i) = m*ca**(one/m) * (svm(i)/sig_crp)**(n/m)   &
-                       * uvar(i,2)**((m-one)/m) * dtime/time_crp
-            end do
-          end if
-          do i=1,nel
-            deps = (depsxx(i)**2 + depsyy(i)**2 + depszz(i)**2) * half     &
-                 +  depsxy(i)**2 + depsyz(i)**2 + depszx(i)**2 
-            depsc(i) = min(depsc(i) ,sqrt(two_third*deps))   ! creep strain should be lower than elastic ! 
-            epsc = uvar(i,2) + depsc(i)
-            uvar(i,2) = epsc
+      if (isens > zero) then
+        tstart = sensors%sensor_tab(isens)%tstart
+      end if
+      if (time > zero .and. time < tstart) then
+        if (crp_law == 1) then           ! use transient Norton power law
+          do i=1,nel        
+            ca = crpa(i)
+            n  = crpn(i)
+            m  = crpm(i)
+            fsig  = (svm(i)/sig_crp)**n
+            ftime = (time/time_crp)**m
+            depsc(i) = ca * fsig * ftime * dtime
+          end do
+        else if (crp_law == 2) then      ! use Garfallo steady state law
+          do i=1,nel        
+            ca = crpa(i)
+            n  = crpn(i)
+            m  = crpm(i)
+            cq = crpq(i)
+            fsig  = (sinh(svm(i)/sig_crp))**n
+            ftime = exp(-cq/temp(i))
+            depsc(i) = ca * fsig * ftime * dtime
+          end do
+        else if (crp_law == 3) then      ! use strain hardening Norton formulation
+          do i=1,nel        
+            ca = crpa(i)
+            n  = crpn(i)
+            m  = crpm(i)
+            depsc(i) = m*ca**(one/m) * (svm(i)/sig_crp)**(n/m)   &
+                     * uvar(i,2)**((m-one)/m) * dtime/time_crp
           end do
         end if
+        do i=1,nel
+          deps = (depsxx(i)**2 + depsyy(i)**2 + depszz(i)**2) * half     &
+               +  depsxy(i)**2 + depsyz(i)**2 + depszx(i)**2 
+          depsc(i) = min(depsc(i) ,sqrt(two_third*deps))   ! creep strain should be lower than elastic ! 
+          epsc = uvar(i,2) + depsc(i)
+          uvar(i,2) = epsc
+        end do
       end if
+
 ! ----------------------------------------------------------------------------------------------------------------------
       ! deviatoric stress correction with plastic ,creep and thermal strains
 ! ----------------------------------------------------------------------------------------------------------------------
       do i=1,nel
         svm(i) = max(svm(i), em20)
-        dpnl   = dpla(i) + depsc(i)
-        dpnl   = max(dpnl, zero)
-        g2     = shear(i) * two
         normxx = two_third * signxx(i) / svm(i)
         normyy = two_third * signyy(i) / svm(i)
         normzz = two_third * signzz(i) / svm(i)
         normxy = two_third * signxy(i) / svm(i)
         normyz = two_third * signyz(i) / svm(i)
         normzx = two_third * signzx(i) / svm(i)
+        dcxx = normxx * depsc(i)
+        dcyy = normyy * depsc(i)
+        dczz = normzz * depsc(i)
+        dcxy = normxy * depsc(i)
+        dcyz = normyz * depsc(i)
+        dczx = normzx * depsc(i)
+        dpxx = normxx * dpla(i)
+        dpyy = normyy * dpla(i)
+        dpzz = normzz * dpla(i)
+        dpxy = normxy * dpla(i)
+        dpyz = normyz * dpla(i)
+        dpzx = normzx * dpla(i)
 !                
-        signxx(i) = signxx(i) - (dpnl * normxx + depsth(i)) * g2
-        signyy(i) = signyy(i) - (dpnl * normyy + depsth(i)) * g2
-        signzz(i) = signzz(i) - (dpnl * normzz + depsth(i)) * g2
-        signxy(i) = signxy(i) -  dpnl * normxy * shear(i)
-        signyz(i) = signyz(i) -  dpnl * normyz * shear(i)
-        signzx(i) = signzx(i) -  dpnl * normzx * shear(i)
+        signxx(i) = signxx(i) - (dpxx + dcxx + depsth(i)) * two * shear(i)
+        signyy(i) = signyy(i) - (dpyy + dcyy + depsth(i)) * two * shear(i)
+        signzz(i) = signzz(i) - (dpzz + dczz + depsth(i)) * two * shear(i)
+        signxy(i) = signxy(i) - (dpxy + dcxy) * shear(i)
+        signyz(i) = signyz(i) - (dpyz + dcyz) * shear(i)
+        signzx(i) = signzx(i) - (dpzx + dczx) * shear(i)
       end do
 ! ----------------------------------------------------------------------------------------------------------------------
       ! add actual pressure for full stress tensor
