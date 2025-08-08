@@ -114,7 +114,7 @@ C
         IF(P/=LOC_PROC)THEN
           NB  = NSNFI(NIN)%P(P)
           L = L + NB*LEN20
-C ajout partie edge pour type 20
+C Add part of Edge for Type 20
           NB = NSNFIE(NIN)%P(P)
           L = L + NB*LEN20E
           SIZ = L+1-ADD
@@ -176,7 +176,7 @@ C end i20 edge
           SIZ = L+1-ADD
           IF(SIZ>0)THEN
             MSGTYP = MSGOFF
-C BUFR : reception partie force et envoi partie vitesse
+C Bufr: Reception Part Force and Shipping Party Speed
             CALL MPI_ISEND(
      .        BBUFS(ADD),SIZ,MPI_INTEGER,IT_SPMD(P),MSGTYP,
      .        SPMD_COMM_WORLD,REQ_SI(P),IERROR    )
@@ -185,7 +185,7 @@ C BUFR : reception partie force et envoi partie vitesse
       ENDDO
       ADDS(NSPMD+1)=ADDS(NSPMD)+SIZ
 C
-C Attente reception buffer et decompactage
+C Buffer reception and decompacting
 C
       IF(ISTOCOM==1)THEN
 C

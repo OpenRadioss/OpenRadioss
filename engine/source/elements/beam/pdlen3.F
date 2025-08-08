@@ -161,7 +161,7 @@ C----------------------------------------------
             BB  = MAX(B1,B2)
             STIR(I) = MAX(G*B3,FOUR*YOUNG*BB) / AA
             STI(I) = A1 * YOUNG / AA
-!           calcul du pourcentage d'amortissement en cisaillement
+!           Calculation of the shear depreciation percentage
             SL2I(I)= A1*AL(I)**2 / MAX(B1,B2,EM30)
             SHF    = ONE-GEO(37,PID(I))
             PHI    = TWELVE*YOUNG/(FIVE/SIX*G)/MAX(EM30,SL2I(I))

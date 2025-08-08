@@ -54,7 +54,7 @@ C-----------------------------------------------
           IF(M20_DISCRETE_FILL)THEN
             IF(F(N,M)<ZEP99.AND.F(N,M)>-ZEP99)F(N,M)=ZERO        
           ENDIF
-          !remplissage partiel autorise mais check dans l'engine de alpd=zero
+          !Partial filling authorizes but check in the alpd machine = zero
           DF(N,M)=ZERO
         END DO !N=1,NUMNOD
       END DO !M=1,NMULT

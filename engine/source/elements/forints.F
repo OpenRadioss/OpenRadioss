@@ -117,7 +117,7 @@ C
 C
             LFT=1
             LLT=MIN(NVSIZ,NEL-NELEM+1)
-C           Multi-purpose element Groups are constituted,
+C           Multi-Purpous element groups are constituted,
 C           but Multi-purpose element is not supposed to be vectorized ..
              CALL XFORC3(
      1   NFT,          NEL,          GEO,          PM,

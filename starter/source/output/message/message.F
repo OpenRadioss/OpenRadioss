@@ -2353,7 +2353,7 @@ C-----------------------------------------------
       CHARACTER*2 FUNCTION NL()
 C  |====================================================================
 C  | Routine to set Carriage return according to different OS flavours
-C  | Linux : CR - CHAR(10)
+C  |Linux: CR - Char (10)
 C  | Windows : CR/LF - CHAR(13)CHAR(10)
 C  |====================================================================
       CHARACTER*2 CR

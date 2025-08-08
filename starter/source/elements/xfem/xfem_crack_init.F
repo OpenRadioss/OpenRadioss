@@ -200,7 +200,7 @@ C
            NCOUNT = NCOUNT + 1
            NCOUNTG = NCOUNTG + 1
            CRKSHELL(ILEV)%XNODEG(J,I) = NCOUNTG ! global num de phantom nodes 
-           CRKSHELL(ILEV)%XNODEL(J,I) = NCOUNT  ! or = 4*(I -1) + J = Num nodes phantomes d'un seul ilev
+           CRKSHELL(ILEV)%XNODEL(J,I) = NCOUNT  ! Or = 4*(i -1) + J '= Num nodes phantomes of a single Ilev
          END DO
         ENDDO
       ENDDO

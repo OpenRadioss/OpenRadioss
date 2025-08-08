@@ -94,7 +94,7 @@ C-----------------------------------------------
       my_real, ALLOCATABLE :: SBUF(:), RBUF(:)
 
 #if defined(MPI) && defined(MYREAL8) && !defined(WITHOUT_LINALG)
-C Coordonnees et vitesses locales SPMD
+C SPMD contact details and velocities
       NNO_L=IFLOW(16)
       LENBUF=6*NNO
       ALLOCATE(SBUF(LENBUF), RBUF(LENBUF))
@@ -455,7 +455,7 @@ C-----------------------------------------------
         DO I=1,NEL
            VR(I)=PR(I)*COSG(I+NEL)/RHOC
         ENDDO
-      ELSE  ! pas de surface libre
+      ELSE  ! no free surface
         DO I=1,NEL
           PR(I) = ZERO
           VR(I) = ZERO
@@ -503,7 +503,7 @@ C Correction
           ENDIF
 C
         ELSE  ! resolution systeme  MFLE*X=Y
-C  Initialisation de la process grid
+C  Initialization of the process grid
           CALL SL_INIT(ICTXT, NPROW, NPCOL)
           CALL BLACS_GRIDINFO(ICTXT, NPROW, NPCOL, MYROW, MYCOL)
 C          MXLLDM = NUMROC(NEL, NBLOC, MYROW, 1, NPROW)

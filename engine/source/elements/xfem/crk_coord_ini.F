@@ -53,8 +53,8 @@ C=======================================================================
         NX = INOD_CRK(N)   ! no node systeme xfem
         IF (NX > 0) THEN
 C---
-          NCT = ADDCNE_CRK(NX)-1 ! premiere adresse sky du node NX (sys_xfem)
-          NC  = ADDCNE_CRK(NX+1)-ADDCNE_CRK(NX)  ! nb elements connectes au noeud
+          NCT = ADDCNE_CRK(NX)-1 ! First Sky address of Node NX (SYS_XFEM)
+          NC  = ADDCNE_CRK(NX+1)-ADDCNE_CRK(NX)  ! NB Elements connected to the node
 C---
 c         initialisation coord noeuds phantomes par ply
 c

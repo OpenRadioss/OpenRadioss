@@ -89,7 +89,7 @@ C-----------------------------------------------
       my_real  VECT(NEL), VECT1(NEL), VEL(NEL)
       my_real  XL(3,NNO), VL(3,NNO)
 
-C Coordonnees et vitesses locales
+C Local coordinates and velocities
       DO I=1,NNO
          II=IBUF(I)
          XL(1,I)=X(1,II)
@@ -427,7 +427,7 @@ C-----------------------------------------------
         DO I=1,NEL
            VR(I)=PR(I)*COSG(I+NEL)/RHOC
         ENDDO
-      ELSE  ! pas de surface libre
+      ELSE  ! no free surface
         DO I=1,NEL
           PR(I) = ZERO
           VR(I) = ZERO

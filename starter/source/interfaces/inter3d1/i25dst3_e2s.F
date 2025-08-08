@@ -292,7 +292,7 @@ C Computing cross product :
             NN(EJ,I)=SQRT(NX(EJ,I)**2 + NY(EJ,I)**2 + NZ(EJ,I)**2)
             PENE(EJ,I) = NN(EJ,I)
 
-C Exclusions :
+C Exclusions:
 
             IAM=CAND_M(I)
             IAS=LEDGE(1,CAND_S(I))
@@ -341,13 +341,13 @@ C Exclusions :
       ENDIF
 
 
-      IF(SOL_EDGE/=0)THEN !  provisoire pour solides
+      IF(SOL_EDGE/=0)THEN ! temporary for solids
 C-----------Keep this condition for the moment (need?) : increase tolerance ( missing contacts )
 C---------------------------------------
-        LBA(1:JLT,1:4) = -ONE ! cf test LBA, LCA
+        LBA(1:JLT,1:4) = -ONE ! See test LBA, LCA
         LCA(1:JLT,1:4) = ZERO
 C---------------------------------------
-C       Extraction des coordonnees et pre-filtrage des candidats vs diedre main
+C       extraction of coordinates and pre-filtering of candidates vs main dihedral
 C---------------------------------------
         DO I=1,JLT
 
@@ -504,7 +504,7 @@ C
           ENDDO
         ENDDO
 C---------------------------------------
-C       Calculer uniquement candidats filtres par la suite...
+C       calculate only filtered candidates later...
 C---------------------------------------
         NJNDX = 0
         N4A   = 0
@@ -529,9 +529,9 @@ C--------------------------------------
 C        Solid on main side !
 C--------------------------------------
 C
-C          vu cas ou S1 (resp S2) est egal au 3eme noeud du triangle main
+C          seen case where S1 (resp S2) is equal to the 3rd node of the main triangle
 C                       --------
-C          alors qu'il n'y a pas d'auto intersection de la part sur elle meme ::
+C          While there is no self -intersection on the part on it even ::
 C                 
 C                    
 C       M2  ---          M2
@@ -564,8 +564,8 @@ C
           DA1 = (XXS1(I)-XA(5,I))*XNA(I,1)+(XYS1(I)-YA(5,I))*YNA(I,1)+(XZS1(I)-ZA(5,I))*ZNA(I,1)
           DA2 = (XXS2(I)-XA(5,I))*XNA(I,1)+(XYS2(I)-YA(5,I))*YNA(I,1)+(XZS2(I)-ZA(5,I))*ZNA(I,1)
 C
-C         On traite y-compris le cas ou S1 ou S2 sont exactement sur la surface 
-C         (en dehors du 3eme point du triangle, que l'on peut rater)
+C         we also handle the case where S1 or S2 are exactly on the surface
+C         (outside the 3rd point of the triangle, which can be missed)
           IF(DA1*DA2 <= ZERO)THEN
             ALP=-DA2/SIGN(MAX(EM20,ABS(DA1-DA2)),DA1-DA2)
             XXS=ALP*XXS1(I)+(ONE-ALP)*XXS2(I)
@@ -610,8 +610,8 @@ C
           DA1 = (XXS1(I)-XA(5,I))*XNA(I,2)+(XYS1(I)-YA(5,I))*YNA(I,2)+(XZS1(I)-ZA(5,I))*ZNA(I,2)
           DA2 = (XXS2(I)-XA(5,I))*XNA(I,2)+(XYS2(I)-YA(5,I))*YNA(I,2)+(XZS2(I)-ZA(5,I))*ZNA(I,2)
 C
-C         On traite y-compris le cas ou S1 ou S2 sont exactement sur la surface 
-C         (en dehors du 3eme point du triangle, que l'on peut rater)
+C         we also handle the case where S1 or S2 are exactly on the surface
+C         (outside the 3rd point of the triangle, which can be missed)
           IF(DA1*DA2 <= ZERO)THEN
             ALP=-DA2/SIGN(MAX(EM20,ABS(DA1-DA2)),DA1-DA2)
             XXS=ALP*XXS1(I)+(ONE-ALP)*XXS2(I)
@@ -656,8 +656,8 @@ C
           DA1 = (XXS1(I)-XA(5,I))*XNA(I,3)+(XYS1(I)-YA(5,I))*YNA(I,3)+(XZS1(I)-ZA(5,I))*ZNA(I,3)
           DA2 = (XXS2(I)-XA(5,I))*XNA(I,3)+(XYS2(I)-YA(5,I))*YNA(I,3)+(XZS2(I)-ZA(5,I))*ZNA(I,3)
 C
-C         On traite y-compris le cas ou S1 ou S2 sont exactement sur la surface 
-C         (en dehors du 3eme point du triangle, que l'on peut rater)
+C         we also handle the case where S1 or S2 are exactly on the surface
+C         (outside the 3rd point of the triangle, which can be missed)
           IF(DA1*DA2 <= ZERO)THEN
             ALP=-DA2/SIGN(MAX(EM20,ABS(DA1-DA2)),DA1-DA2)
             XXS=ALP*XXS1(I)+(ONE-ALP)*XXS2(I)
@@ -702,8 +702,8 @@ C
           DA1 = (XXS1(I)-XA(5,I))*XNA(I,4)+(XYS1(I)-YA(5,I))*YNA(I,4)+(XZS1(I)-ZA(5,I))*ZNA(I,4)
           DA2 = (XXS2(I)-XA(5,I))*XNA(I,4)+(XYS2(I)-YA(5,I))*YNA(I,4)+(XZS2(I)-ZA(5,I))*ZNA(I,4)
 C
-C         On traite y-compris le cas ou S1 ou S2 sont exactement sur la surface 
-C         (en dehors du 3eme point du triangle, que l'on peut rater)
+C         we also handle the case where S1 or S2 are exactly on the surface
+C         (outside the 3rd point of the triangle, which can be missed)
           IF(DA1*DA2 <= ZERO)THEN
             ALP=-DA2/SIGN(MAX(EM20,ABS(DA1-DA2)),DA1-DA2)
             XXS=ALP*XXS1(I)+(ONE-ALP)*XXS2(I)

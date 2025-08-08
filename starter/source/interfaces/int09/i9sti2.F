@@ -83,7 +83,7 @@ C
      .              YE, ZE )
       ENDDO
 C-----------------------------------------------------
-C     MISE DANS IRECT DU NUMERO LOCAL DU NOEUD
+C     PLACING THE LOCAL NODE NUMBER IN IRECT
 C-----------------------------------------------------
       DO  I=1,NRT
         IG=IRECT(1,I)

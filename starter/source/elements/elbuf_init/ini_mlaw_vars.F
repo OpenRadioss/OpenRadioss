@@ -54,7 +54,7 @@ C-----------------------------------------------
 C=======================================================================
 C     Set default variables used in all matarial laws
 C=======================================================================
-c      attention, apres la lecture de mats, remtettre     zero tout pour la loi 0 (void)
+c      note, after reading mats, reset everything to zero for law 0 (void)
 
       DO IMAT = 1,NUMMAT
         MTAG => MLAW_TAG(IMAT)

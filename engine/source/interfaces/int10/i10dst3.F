@@ -340,7 +340,7 @@ C!!!!!!!!!!!!!!!!!!!!!!!!
 C
        ENDDO
 C---------------------
-C      MAJ CAND_F sur PENE et STIF et recompactage
+C      UPDATE CAND_F on PENE and STIF and recompaction
 C---------------------
 C 
       IF(IDTMINS < 2)THEN
@@ -362,7 +362,7 @@ C
           IX2(JLT_NEW)  = IX2(I)
           IX3(JLT_NEW)  = IX3(I)
           IX4(JLT_NEW)  = IX4(I)
-C   rajout specifique type 10
+C   Specific addition type 10
           X1(JLT_NEW)  = X1(I)
           X2(JLT_NEW)  = X2(I)
           X3(JLT_NEW)  = X3(I)
@@ -489,7 +489,7 @@ C ---------
           IX2(JLT_NEW)  = IX2(I)
           IX3(JLT_NEW)  = IX3(I)
           IX4(JLT_NEW)  = IX4(I)
-C   rajout specifique type 10
+C   Specific addition type 10
           X1(JLT_NEW)  = X1(I)
           X2(JLT_NEW)  = X2(I)
           X3(JLT_NEW)  = X3(I)

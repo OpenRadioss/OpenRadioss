@@ -132,7 +132,7 @@ C-----------------------------------------------
           NODSYS_4 = SET_USRTOS(NOD_4,ITABM1,NUMNOD)
         ENDIF
 
-        IF (LINE_SEG == 0) THEN! Surf SEG --> continue Node check existence
+        IF (LINE_SEG == 0) THEN! Surf seg -> continues node check existence
           IF (NODSYS_3 == 0) THEN
             ! Node was not found. Issue an error.
             CALL ANCMSG(MSGID=1903,ANMODE=ANINFO,MSGTYPE=MSGERROR,

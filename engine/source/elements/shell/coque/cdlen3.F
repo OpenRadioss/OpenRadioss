@@ -84,7 +84,7 @@ C
         ALDT(I)= MAX( DTDYN , ALMIN(I) )
       ENDDO
 C---------------------------------------------------------
-C     DT COMPATIBLE AVEC FONCTIONS DE FORMES SUR HOURGLASS
+C     DT COMPATIBLE WITH SHAPE FUNCTIONS ON HOURGLASS
 C---------------------------------------------------------
         IF(IHBE/=0)THEN
             MX = MAT(JFT)

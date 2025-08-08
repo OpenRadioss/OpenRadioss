@@ -33,7 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                 NC1,NC2,IMAT,MXG,AREA,AL,STRP ,
      .                 MCPP ,TEMP ,NINTEMP)
 C----------------------------------------------
-C     INITIALISATION DES MASSES NODALES
+C     INITIALIZATION OF NODAL MASSES
 C----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -167,7 +167,7 @@ C----------------------------------------------
         INP(I) = TIN(I)
       ENDDO
 C----------------------------------------------
-C     INITIALISATION DES RIGIDITES NODALES POUR INTERFACES
+C     INITIALIZATION OF NODAL STIFFNESSES FOR INTERFACES
 C----------------------------------------------
       IF(I7STIFS/=0)THEN
         DO I=LFT,LLT
@@ -177,7 +177,7 @@ C----------------------------------------------
         ENDDO
       ENDIF
 C----------------------------------------------
-C     INITIALISATION DES RIGIDITES NODALES
+C     INITIALIZATION OF NODAL STIFFNESSES
 C----------------------------------------------
       DO I=LFT,LLT
        E = PM (20,IMAT)

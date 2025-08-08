@@ -115,7 +115,7 @@ C------------------------------------------
      4             DEPSXX ,DEPSYY ,DEPSXY ,DEPSYZ ,DEPSZX,
      5             NEL    ,EPSD   ,ASRATE )
 C---------------------------------
-C      RETOUR DANS LE REPERE LOCAL
+C      return to the local frame
 C---------------------------------
       CALL UROTO_SIG(JFT,JLT,SIG,DIRDMG,NEL)
 !

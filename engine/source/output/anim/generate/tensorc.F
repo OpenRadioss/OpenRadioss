@@ -1464,7 +1464,7 @@ C-----------------------------------------------
             CALL WRITE_R_C(R4,3)
           ENDDO
         ELSEIF (ISPMD == 0) THEN
-C   verifier l'interet de ce qui est fait ci-dessus  !!!!!!!!!!!!!!
+C   check the usefulness of what is done above !!!!!!!!!!!!!!
           DO I=1,NELCUT
             CALL WRITE_R_C(WA(3*NBF_L-2),3)
           ENDDO

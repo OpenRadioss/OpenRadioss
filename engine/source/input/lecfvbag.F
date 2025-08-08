@@ -186,7 +186,7 @@ C
                      LY=LYMAX*ONEP01
                      WRITE(IOUT,'(A20,G11.4)') '    IT IS RESET TO ',LY
                   ENDIF
-C On autorise le decoupage horizontal d'une bande du maillage uniquement
+C only horizontal splitting of a mesh band is allowed
 C                  IF (LZMAX>LZ) THEN
 C                     WRITE(IOUT,'(A14,I8,A9)') 
 C     .                        ' ** MONVOL ID ',ID,' (ALEBAG)'
@@ -194,7 +194,7 @@ C                     WRITE(IOUT,'(A)') '    IN LOCAL FRAME DIRECTION 3'
 C                     WRITE(IOUT,'(A18,G11.4,A33,G11.4,G11.4)') 
 C     .    '    GIVEN LENGTH ',LZ,
 C     .    ' IS SMALLER THAN BOUNDING LENGTH ',LZMAX
-C                     LZ=LZMAX*ONEP01
+C                     Lz = Lzmax*ONEP01
 C                     WRITE(IOUT,'(A20,G11.4)') '    IT IS RESET TO ',LZ
 C                  ENDIF
 C

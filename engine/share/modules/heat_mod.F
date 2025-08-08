@@ -34,7 +34,7 @@ C   m y _ r e a l
 C-----------------------------------------------
 #include      "my_real.inc"
 C------------------------
-C tableau de travail 
+C work array
 C------------------------
          my_real
      .          , DIMENSION(:), ALLOCATABLE :: FTHE, FTHESKYI,FTHESKY,

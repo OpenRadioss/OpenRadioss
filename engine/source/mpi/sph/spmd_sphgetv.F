@@ -84,7 +84,7 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
       LOC_PROC = ISPMD+1
 C
-C Envoi flag cellules actives
+C FLAG sending active cells
 C      
 !   -------------------------
 !   compute the displacement, number of element
@@ -120,7 +120,7 @@ C
      .          REQUEST_ISPHR,SPMD_COMM_WORLD,NSPMD)
 !   -------------------------
 
-C Envoi V, M, RHO sur cellules actives
+C Shipping V, M, RHO on active cells
 C
 
 !   -------------------------

@@ -49,7 +49,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
-C   READ MATERIAL LAW 51
+C   Read MATERIAL LAW 51
 C
 C   DUMMY ARGUMENTS DESCRIPTION:
 C   ===================
@@ -132,7 +132,7 @@ C-----------------------------------------------
       my_real      :: tAV(4)
       my_real      :: EINF(4),Pfar,Pini(4)
       my_real      :: IE_BOUND, RATIO, SumVF,VEL
-      !---messages/output
+      !--- Messages/Output
       CHARACTER*128 :: chain,chain1
       CHARACTER*32 :: CAV(4),CRHO0(34),CE0(4),CPM(4),CC0(4),CSSP(4)
       CHARACTER*32 :: CPEXT,CTCARP,CTCAR
@@ -678,7 +678,7 @@ C-----------------------------------------------
             PSTAR(I)=-A0(I)/A1(I) 
           ELSEIF(A2(I)/=ZERO)THEN
             DELTA = A1(I)*A1(I)-FOUR*A0(I)*A2(I)
-            !Si intersection avec l'axe
+            !If intersection with the axis
             IF(DELTA  >=  ZERO)THEN
               DELTA=SQRT(DELTA)
               PSTAR(I) = (-A1(I)+DELTA)/TWO/A2(I)

@@ -416,7 +416,7 @@ c
           C8 = VOL(I) * H(8) * VAR_REG(I)      
 c
 c       Fint = Vol * (L*L * BT*B*Unl + NT*N*Unl + Damp*NT*N*Vnl - NT*Vreg  )    
-c       L    = longueur stocke ds la structure 
+c       The = length stores in the structure 
 c       Unl  = cumul nodal def
 c       vnl  = vitesse non locale
 c          

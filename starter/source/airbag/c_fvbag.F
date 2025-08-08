@@ -103,7 +103,7 @@ C
             NTGI=MONVOL(K1-1+69)
             KI1 =K2+MONVOL(K1-1+31)
             KIA1=K2+MONVOL(K1-1+20)-1
-C Noeuds de l'enveloppe
+C Nod
             ALLOCATE(IBUF(NN+NNI), IBUFA(NNA))
             DO J=1,NN+NNI
                IBUF(J)=MONVOL(KI1-1+J)
@@ -111,7 +111,7 @@ C Noeuds de l'enveloppe
             DO J=1,NNA
                IBUFA(J)=MONVOL(KIA1-1+J)
             ENDDO
-C Identification du PMAIN
+C Identification of PMAIN
             NMAX=0
             PMAIN=1
             DO P=1,NSPMD
@@ -153,7 +153,7 @@ C Identification du PMAIN
               PMAIN = FVMAIN(IFV)
             ENDIF 
             FVSPMD(IFV)%PMAIN=PMAIN
-C Noeuds locaux
+C Local nodes
             NN_L=0
             DO J=1,NN
                JJ=IBUF(J)
@@ -194,7 +194,7 @@ C Noeuds locaux
                ENDIF
             ENDDO
             DEALLOCATE(IBUF, IBUFA)
-C Solides additionnels
+C Additional solids
             FVSPMD(IFV)%NSA=NBA
             FVSPMD(IFV)%NNSA=0
             FVSPMD(IFV)%NNSA_L=0

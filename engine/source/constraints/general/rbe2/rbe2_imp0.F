@@ -203,7 +203,7 @@ C     REAL
       my_real
      .   KDD(6,6),BD(6),XS,YS,ZS,TMP
 C------------------------------------
-C     VITESSES DES NOEUDS SECONDS
+C     velocities of the secondary nodes
 C------------------------------------
         IP =5
         IMD = IDDL(M)+1
@@ -343,7 +343,7 @@ C     REAL
       my_real
      .   KDD(6,6),BD(6),XS,YS,ZS,TMP,CDT(3,3),CDTR(3,3),CDR(3,3)
 C------------------------------------
-C     VITESSES DES NOEUDS SECONDS
+C     velocities of the secondary nodes
 C------------------------------------
         IP =5
         IMD = IDDL(M)+1
@@ -532,7 +532,7 @@ C     REAL
       my_real
      .   XS,YS,ZS,BD(6)
 C------------------------------------
-C     VITESSES DES NOEUDS SECONDS
+C     velocities of the secondary nodes
 C------------------------------------
        IF (NDOF(M)<=0) RETURN
 C
@@ -615,7 +615,7 @@ C     REAL
      .   XS,YS,ZS,LXS,LYS,LZS,BD(6),BDL(6),BB(3),BM(3),
      .   CDT(3,3),CDTR(3,3),CDR(3,3)
 C------------------------------------
-C     VITESSES DES NOEUDS SECONDS
+C     velocities of the secondary nodes
 C------------------------------------
        IF (NDOF(M)<=0) RETURN
 C
@@ -1668,7 +1668,7 @@ C     REAL
      .   XS,YS,ZS,TMP,CDT(3,3),CDTR(3,3),CDR(3,3),SKEW(LSKEW),
      .   KII(6,6)
 C------------------------------------
-C     VITESSES DES NOEUDS SECONDS
+C     velocities of the secondary nodes
 C------------------------------------
         ND = NDOF(M)
         NT=JT(1)+JT(2)+JT(3)

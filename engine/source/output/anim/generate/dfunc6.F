@@ -530,7 +530,7 @@ c-------------
 c-------------   
 c-----------
               ELSEIF(IFUNC>=82.AND.IFUNC<=281.AND.MLW == 25) THEN
-C               WPLA par couche pour loi 25
+C               WPLA by layer for law 25
                 DO I=LFT,LLT
                   EVAR(I) = ZERO 
                 ENDDO               
@@ -558,7 +558,7 @@ C
                 ENDIF
 c-----------
               ELSEIF (IFUNC == 282 .AND. MLW == 25) THEN
-C---            FAILED LAYERS par elem pour loi 25
+Cfailed layers per element for law 25
                 DO I=LFT,LLT
                   EVAR(I) = ZERO
                 ENDDO
@@ -591,7 +591,7 @@ C           EULER ANGLE : rotation of ORTHOTROPIC SYSTEM wrt GLOBAL SYSTEM
                   DO I=LFT,LLT
                     N = I + NFT
                     IF(ISORTH ==1) THEN
-C                    pour JHBE=14, valeurs moyennes est dans rep. corota.
+C                    for JHBE=14, average values are in corota frame
                       IF(IGTYP == 22) THEN    
                         GAMA(1)= LBUF%GAMA(JJ(1)+I)
                         GAMA(2)= LBUF%GAMA(JJ(2)+I)
@@ -2396,7 +2396,7 @@ C
             CONTINUE
           ENDIF     ! ITY
 C-----------------------------------------------
-        ENDDO       ! FIN DE BOUCLE SUR LES OFFSET
+        ENDDO       ! end of loop over offsets
        ENDIF        ! mlw /= 13
       ENDDO !next NG
 C-----------------------------------------------

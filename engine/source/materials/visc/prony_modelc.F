@@ -126,10 +126,10 @@ C
        ENDDO
 C                
        DO I=1,NEL 
-C spherique part
+C SPHERIC PART
            DAV = THIRD*(EPSPXX(I) + EPSPYY(I) + EPSPZZ(I))
            P = -THREE*KV*DAV
-c deviatorique part           
+c Deviatori parties           
           EPXX = EPSPXX(I) - DAV
           EPYY = EPSPYY(I) - DAV
           EPZZ = EPSPZZ(I) - DAV          

@@ -193,7 +193,7 @@ C-----------
         ENDDO
       ENDIF
 C-----------
-C     Prepare les sorties par part.
+C     prepares outputs by part.
 C-----------
       IF(IOUTPRT/=0)THEN
        DO I=LFT,LLT
@@ -356,7 +356,7 @@ C          ZL=R13(I)*X6(I)+R23(I)*Y6(I)+R33(I)*Z6(I)
         X6(I)=XL
         Y6(I)=YL
         Z6(I)=-Z3(I)
-C       SAV dans rep. local.
+C       sav in local frame.
 C       SAV(I,1)=X1(I)-X6(I)
 C       SAV(I,2)=Y1(I)-Y6(I)
 C       SAV(I,3)=Z1(I)-Z6(I)
@@ -416,7 +416,7 @@ C          ZL=R13(I)*X6(I)+R23(I)*Y6(I)+R33(I)*Z6(I)
 C
        ENDIF
 C-----------
-C     PASSAGE DES VITESSES AU REPERE CONVECTE (OU ORTHOTROPE).
+C     transfer of velocities to the convected (or orthotropic) frame.
 C-----------
       CALL VRROTA3(
      1   R11,     R12,     R13,     R21,

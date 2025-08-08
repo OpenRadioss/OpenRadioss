@@ -95,13 +95,13 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
-C-----2- TRI PAR BOITES DES ELEMENTS ET DES NOEUDS
+C-----2- sorting of elements and nodes by boxes
 C
 C-----------------------------------------------
-C SI ON A PAS ASSEZ DE MEMOIRE POUR LES PILES ON RECOMMENCE LE TRI
-C EN INCREMENTANT LE NB_N_B (NOMBRE DE NOEUDS PAR BOITE FINIE)
+C if there is not enough memory for the stacks, the sorting is restarted
+C by increasing nb_n_b (number of nodes per finished box)
 C     POINTEUR  NOM                 TAILLE
-C     P0........                    NSN + 3 [+ NSNROLD dans le cas SPMD]
+C     p0........                    nsn + 3 [+ nsnrold in the case of spmd]
 C     P1........Elt Bas Pile        NRTM
 C     P2........Elt PILE            2*NRTM
 C     P21.......BPN                 NSN
@@ -113,7 +113,7 @@ C
       IP1 = IP0 + NSN + NSNROLD + 3
 
 C
-C-----INITIALISATION DES ADRESSES ET X,Y,Z
+C-----initialization of addresses and x, y, z
 C
 C     ADDE     ADDN     X      Y      Z
 C     1        1        XMIN   YMIN   ZMIN
@@ -139,11 +139,11 @@ C
         ISZNSNR = 0
       END IF
 C
-C-----DEBUT DE LA PHASE DE TRI 
+C-----start of the sorting phase
 C
 C       SEPARER B ET N EN TWO
 C
-      MARGE = TZINF-GAP  ! il s agit bien de la marge
+      MARGE = TZINF-GAP  ! it is indeed the margin
       CALL I20TRI(
      1   ADD     ,NSN     ,RENUM    ,NSNR     ,ISZNSNR ,
      2   IRECT   ,XA      ,STF      ,STFA     ,XYZM    ,
@@ -180,7 +180,7 @@ C     I_MEM = 3 ==> TROP NIVEAUX PILE
 #include "lockoff.inc"
         ENDIF
         TZINF = THREE_OVER_4*TZINF
-C ne pas dimunuer la taille des boite
+C do not decrease the size of the boxes
 C        MINBOX= THREE_OVER_4*MINBOX
 C        MAXBOX= THREE_OVER_4*MAXBOX
         IF( TZINF<=GAP ) THEN
@@ -267,11 +267,11 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C=======================================================================
 C
-C-----2- TRI PAR BOITES 
+C-----2- sorting by boxes
 C
 C-----------------------------------------------
-C SI ON A PAS ASSEZ DE MEMOIRE POUR LES PILES ON RECOMMENCE LE TRI
-C EN INCREMENTANT LE NB_N_B (NOMBRE DE NOEUDS PAR BOITE FINIE)
+C if there is not enough memory for the stacks, the sorting is restarted
+C by increasing nb_n_b (number of nodes per finished box)
 C
 C     POINTEUR  NOM                 TAILLE
 C     P1........Elt Bas Pile        NLINM
@@ -280,7 +280,7 @@ C     P21.......Elt Bas Pile        NLINS
 C     P22.......Elt PILE            3*NLINS
       MAXSIZ = 3*(MAX(NLINMA,NLINSA+NLINSR)+100)
 
-C-----INITIALISATION DES ADRESSES ET X,Y,Z
+C-----initialization of addresses and x, y, z
 C
 C     ADDE     ADDN     X      Y      Z
 C     1        1        XMIN   YMIN   ZMIN
@@ -304,7 +304,7 @@ C
       ENDDO
 C
 C
-C-----DEBUT DE LA PHASE DE TRI 
+C-----start of the sorting phase
 C 
 C       SEPARER B ET N EN TWO
       CALL I20TRI_EDGE(
@@ -341,7 +341,7 @@ C     I_MEM = 3 ==> TROP NIVEAUX PILE
         ENDIF
 
         TZINF = THREE_OVER_4*TZINF
-C ne pas dimunuer la taille des boite
+C do not decrease the size of the boxes
 C        MINBOX= THREE_OVER_4*MINBOX
 C        MAXBOX= THREE_OVER_4*MAXBOX
         IF( TZINF<=GAP ) THEN

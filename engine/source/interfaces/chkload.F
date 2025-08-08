@@ -227,7 +227,7 @@ C
            END IF
           END IF
         END DO
-C No element actif 
+C Active element 
         IF(NSPMD == 1) THEN
           IF(N <= NINDPLOAD) THEN
             IB(8,I) = 1

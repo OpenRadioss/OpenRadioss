@@ -433,7 +433,7 @@ C=======================================================================
 
       L = MIN(10,MAX(2,22/(NIVMAX+1)))
       
-c     lignes vides avant subset 
+c     Empty lines before subset 
       K = 3
       DO I=1,NIVEAU
         LIGNE(K:K+L) = BAR(I)(1:L)
@@ -478,7 +478,7 @@ c     ligne subset
       ENDDO
       WRITE(IOUT,'(A)')LIGNE(1:K)
       
-c    subset souligne + ligne vide apres subset
+c    Subset underlines + empty line after subset
       K=3
       LIGNE=' '
       DO I=1,NIVEAU

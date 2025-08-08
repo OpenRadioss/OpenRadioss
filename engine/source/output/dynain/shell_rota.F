@@ -166,7 +166,7 @@ c
 
        ENDIF
 C-----------------------------------
-C      Rotation Element > Global
+C      Rotation element> Global
 C     TENSOR ROTATION.
 C        R passage Global -> Local.
 C        R S Transpose(R)

@@ -190,7 +190,7 @@ C-----------------------------------------------
       NTY       = IPARI(7,NIN)
       NOINT     = IPARI(15,NIN)
       INACTI    = IPARI(22,NIN)    ! unused
-      IBAG      = IPARI(32,NIN)     ! Pressure correction 
+      IBAG      = IPARI(32,NIN)     ! Pressure Correction 
       NISUB     = IPARI(36,NIN)    
       ISU1      = IPARI(45,NIN)
       INTTH     = IPARI(47,NIN)
@@ -235,7 +235,7 @@ C
         I_STOK = 0
       
       !-------------------------------!
-      !RECALCULATE DU I_STOK          !
+      !recalculate du i_stok
       !-------------------------------!
           DO I = DEBUT+1, DEBUT+I_STOK_LOC
             IF(INTBUF_TAB%CAND_N(I)/=0) THEN

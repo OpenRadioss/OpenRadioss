@@ -106,7 +106,7 @@ C-----------------------------------------------
       ALLOCATE( ICONX_L(7*NCONX) )
 ! -------------------------------
 C
-C Couplage etendu
+C Show off
 C
       IF(NEXMAD/=0) THEN
 C

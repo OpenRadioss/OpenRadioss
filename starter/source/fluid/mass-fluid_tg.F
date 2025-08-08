@@ -100,7 +100,7 @@ C           IF (ILVOUT>=2) CALL PROGBAR_C(IEL,NEL)
            Z1=X(3,NN1)
            Z2=X(3,NN2)
            Z3=X(3,NN3)
-C Control point P
+C Control Point P
            XP=THIRD*(X1+X2+X3)
            YP=THIRD*(Y1+Y2+Y3)    
            ZP=THIRD*(Z1+Z2+Z3)
@@ -132,7 +132,7 @@ C Control point P
                 Z2=X(3,NN2)
                 Z3=X(3,NN3)
                 AREA=AF(JEL)
-C Point source Q
+C Source point Q
                 XQ=THIRD*(X1+X2+X3)
                 YQ=THIRD*(Y1+Y2+Y3)    
                 ZQ=THIRD*(Z1+Z2+Z3)

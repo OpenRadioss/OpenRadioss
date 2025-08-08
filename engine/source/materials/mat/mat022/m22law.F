@@ -412,7 +412,7 @@ C-----------------------------------------------
  120  CONTINUE
 
 C----------------------------
-C     TEST DE RUPTURE DUCTILE
+C     Ductile rupture test
 C---------------------------
       IF(PDAM==ONE.AND.CODVERS>=42)THEN
         DO I=1,NEL

@@ -63,7 +63,7 @@ C-----------------------------------------------
         MASS(I)=PM(89,MAT(I))*VOL(I)*FOURTH
       ENDDO
 
-C calcul mass initiale en arithmetique // pour le spmd
+C initial mass calculation in arithmetic // for spmd
         DO I=LFT,LLT
           MSQ(I)=MSQ(I)+MASS(I)
         ENDDO

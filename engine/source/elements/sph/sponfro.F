@@ -80,7 +80,7 @@ C-------------------------------------------
           YI=X(2,INOD)
           ZI=X(3,INOD)
 C-------
-C         plus proche voisin en amont de l'outlet.
+C         closer neighbor upstream of the outlet.
           IPPV=0
           DMIN=1.E+20
 

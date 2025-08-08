@@ -172,7 +172,7 @@ C Subcycling
          ENDIF 
       ENDIF  
 C---------------------------------------------------
-C 0- Preliminaires
+C 0- Preliminaries
 C---------------------------------------------------
 C coordinates and local velocities SPMD
       IF (NSPMD == 1) THEN

@@ -85,14 +85,14 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
-C----- TRI PAR BOITES DES ELEMENTS ET DES NOEUDS
+C----- sorting by boxes of elements and nodes
 C
 C-----------------------------------------------
-C SI ON A PAS ASSEZ DE MEMOIRE POUR LES PILES ON RECOMMENCE LE TRI
-C EN INCREMENTANT LE NB_N_B (NOMBRE DE NOEUDS PAR BOITE FINIE)
+C if we don't have enough memory for the stacks we restart the sorting
+C by incrementing nb_n_b (number of nodes per finished box)
 C
 C     POINTEUR  NOM                            TAILLE
-C     P0........CAND_A:Adresse de N ds CAND_N  NSN + 3[+ NSNROLD dans le cas SPMD]
+C     P0........CAND_A:address of N in CAND_N  NSN + 3[+ NSNROLD in the SPMD case]
 C     P1........Elt Bas Pile                   NRTM
 C     P2........Elt PILE                       2*NRTM
 C     P21.......BPN                            NSN
@@ -103,7 +103,7 @@ C     P31.......ADDI                           2*I_ADD_MAX
       IP1 = IP0 + NSN + NSNROLD + 3
 C
 C
-C-----INITIALISATION DES ADRESSES ET X,Y,Z
+C-----initialization of addresses and x,y,z
 C
 C     ADDE     ADDN     X      Y      Z
 C     1        1        XMIN   YMIN   ZMIN
@@ -123,10 +123,10 @@ C
       I_MEM = 0
 C
 C
-C-----DEBUT DE LA PHASE DE TRI 
+C-----beginning of the sorting phase
 C 
 C       SEPARER B ET N EN TWO
-      MARGE = TZINF-GAP  ! il s agit bien de la marge
+      MARGE = TZINF-GAP  ! it is indeed the margin
       CALL I10TRI(
      1   ADD     ,NSN     ,RENUM    ,NSNR     ,NRTM     ,    
      2   IRECT   ,X       ,XYZM     ,IGAP     ,GAP      ,
@@ -161,7 +161,7 @@ C     I_MEM = 3 ==> TROP NIVEAUX PILE
 #include "lockoff.inc"
         ENDIF
         TZINF = THREE_OVER_4*TZINF
-C ne pas dimunuer la taille des boite
+C do not decrease the box size
 C        MINBOX= THREE_OVER_4*MINBOX
 C        MAXBOX= THREE_OVER_4*MAXBOX
         IF( TZINF<=GAP ) THEN

@@ -57,16 +57,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   P r e c o n d i t i o n s
 C-----------------------------------------------          
-      !Precondition : le pointeur doit etre affecte
+      !Precondition: The pointer must be allocated 
       IF(.NOT. ASSOCIATED(ptr)) RETURN
       
-      !il reste suffisamment de memoire
+      !There remains enough memory
       ALLOCATE(IREALLOCATE(1:new_size), STAT=ierr)
       IF(ierr /= 0) STOP "memory allocation error"
 C-----------------------------------------------                                            
        old_size = MIN(SIZE(ptr), new_size)
        IREALLOCATE(1:old_size) = ptr(1:old_size)                       
-       DEALLOCATE(ptr) ! a ne surtout pas oublier    
+       DEALLOCATE(ptr) ! Do not forget    
             
       END FUNCTION IREALLOCATE
 C-----------------------------------------------
@@ -96,16 +96,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   P r e c o n d i t i o n s
 C-----------------------------------------------          
-      !Precondition : le pointeur doit etre affecte
+      !Precondition: The pointer must be allocated 
       IF(.NOT. ASSOCIATED(ptr)) RETURN
       
-      !il reste suffisamment de memoire
+      !There remains enough memory
       ALLOCATE(JREALLOCATE(1:new_size), STAT=ierr)
       IF(ierr /= 0) STOP "memory allocation error"
 C-----------------------------------------------                                            
        old_size = MIN(SIZE(ptr), new_size)
        JREALLOCATE(1:old_size) = ptr(1:old_size)                       
-       DEALLOCATE(ptr) ! a ne surtout pas oublier    
+       DEALLOCATE(ptr) ! Do not forget    
             
       END FUNCTION JREALLOCATE
 C-----------------------------------------------

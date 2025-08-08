@@ -198,7 +198,7 @@ C
         VZZ_6(1:6,ITASK+1) = ZERO  
 
 C----------------------------
-C     CALCUL DU CDG + MASSE
+C     calculation of the center of gravity and mass
 C----------------------------
 !       partial reduction of masse / XCDG / YCDG / ZCDG
 !           --> done by the processor with weight = 1

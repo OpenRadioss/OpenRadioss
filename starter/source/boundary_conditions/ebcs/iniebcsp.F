@@ -54,7 +54,7 @@ C-----------------------------------------------
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
 C-----------------------------------------------
       GBUF => ELBUF_STR%GBUF
-C   Initialisation de la surface nodale
+C   Initialization of the nodal surface
           DO I=1,NOD
             LA(1,I)=ZERO
             LA(2,I)=ZERO
@@ -124,7 +124,7 @@ C
           KSEG=ABS(ISEG(IS))
           ORIENT=ZERO
           IF(KSEG /= 0)ORIENT=FLOAT(ISEG(IS)/KSEG)
-c         pression voisin
+c         neighboring pressure
           ESEG=IELEM(IS)
           DO N=1,NGROUP
             KTY = IPARG(5,N)

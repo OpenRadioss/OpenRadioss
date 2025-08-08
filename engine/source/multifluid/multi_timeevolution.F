@@ -139,7 +139,7 @@ C-----------------------------------------------
       my_real :: VOLNEW(MVSIZ)
       TYPE(G_BUFEL_), POINTER :: GBUF
 C     ------------------------- 
-C     Deplacement des noeuds
+C     Movement of nodes
 C     -------------------------  
       IF (IALE /= 0 .AND. .NOT. PRED) THEN     ! IF CORRECTION : maillage en configuration tn+1/2 pour les flux a tn+1/2
          DO NODE_ID = 1 + ITASK, NUMNOD, NTHREAD
@@ -230,7 +230,7 @@ C     ==============================
       ENDIF
       CALL MY_BARRIER    
 
-C     Gradient communication
+C     Communication gradient
       IF (NSPMD > 1 .AND. MULTI_FVM%MUSCL > 0) THEN
 !$OMP SINGLE
          CALL STARTIME(TIMERS,TIMER_SPMDCFD)
@@ -299,7 +299,7 @@ C---------------------
          CALL MY_BARRIER
       ENDIF
 C     ------------------------- 
-C     Deplacement des noeuds
+C     Movement of nodes
 C     -------------------------  
       IF (IALE /= 0 .AND. .NOT. PRED) THEN    ! IF CORRECTION : maillage en configuration tn+1 pour les volumes
          DO NODE_ID = 1 + ITASK, NUMNOD, NTHREAD

@@ -48,7 +48,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
 C     REAL  
-C --- calcul de la tempurature au CG 
+C --- calculation of temperature at center of gravity
         DO I=JFT,JLT
           TEMPEL(I) = THIRD * ( TEMP(IXTG(2,I)) + TEMP(IXTG(3,I)) + 
      .                          TEMP(IXTG(4,I))  )

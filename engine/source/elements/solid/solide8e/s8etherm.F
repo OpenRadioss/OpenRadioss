@@ -107,7 +107,7 @@ C
         PHIY = KC*PHIY
         PHIZ = KC*PHIZ
 C  
-C force thermique nodale
+C nodal thermal force
 C
           FPHI(I,1) = FPHI(I,1) +
      .          HEAT(I)*NI(1) - (PHIX*PX1(I) + PHIY*PY1(I) + PHIZ*PZ1(I))

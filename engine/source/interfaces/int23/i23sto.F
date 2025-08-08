@@ -95,7 +95,7 @@ C-----------------------------------------------
             N  = PROV_N(I)
             NE = PROV_E(I)+ESHIFT
             IF(N>NSN) THEN
-C numerotation tris precedent pour les noeuds non locaux (SPMD)
+C numbering previous tris for non-local nodes (SPMD)
               N = OLDNUM(N-NSN)+NSN
               IF(N==NSN) N = NSN+NSNROLD+1
             END IF
@@ -156,7 +156,7 @@ c      ITAGP(N2)=1
 c      ITAGP(N3)=1
 c      ITAGP(N4)=1
 c            IF(N>NSN) THEN
-cC numerotation tris precedent pour les noeuds non locaux (SPMD)
+cThis is sorted preceding for non -local nodes (SPMD)
 c              N = OLDNUM(N-NSN)+NSN
 c              IF(N==NSN) N = NSN+NSNROLD+1
 c            END IF
@@ -179,7 +179,7 @@ c     .             (M4/=M3.AND.ITAGP(M4)/=0.AND.ITAGP(M1)/=0).OR.
 c     .             (M4==M3.AND.ITAGP(M3)/=0.AND.ITAGP(M1)/=0))THEN
 cC
 cC retains information from 1 neighbor only (1st penetrated)
-cCa doit etre refait / tri
+cIt must be redone / sort
 c                  IF(ABS(IFPEN(J)) > ABS(IFPEN(I_STOK)))THEN
 c                    IFPEN(I_STOK)  = IFPEN(J)
 c                    CAND_P(I_STOK) = CAND_P(J)

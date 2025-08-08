@@ -69,7 +69,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       IERR = 0
 C---------------------------------
-C         RECHERCHE DE L'ELEMENT DANS LE BUFFER
+C         search for the element in the buffer
 C---------------------------------
           DO 200 NG=II/NVSIZ+1,NGROUP
           CALL INITBUF(IPARG    ,NG      ,                    
@@ -119,14 +119,14 @@ C
             Y4=X(2,N4)
             Z4=X(3,N4)
 C------------------------------------------
-C         CALCUL DE LA SURFACE VECTORIELLE (*2.)
+C         calculation of the vector surface (*2.)
 C------------------------------------------
             NX=(Y1-Y3)*(Z2-Z4) - (Z1-Z3)*(Y2-Y4)
             NY=(Z1-Z3)*(X2-X4) - (X1-X3)*(Z2-Z4)
             NZ=(X1-X3)*(Y2-Y4) - (Y1-Y3)*(X2-X4)
             NORM = SQRT(NX**2 + NY**2 + NZ**2)
 C--------+---------+---------+---------+---------+---------+---------+--
-C         CALCUL DE LA DISTANCE ENTRE CENTRE ET SURFACE ( * 8. )
+C         calculation of the distance between center and surface (*8.)
 C-------------------------------------------------------------
             DX = TWO*(X1 + X2 + X3 + X4)
      .          -X(1,IXS(2))-X(1,IXS(3))
@@ -152,7 +152,7 @@ C---------------------------------
             DIST = ONE_OVER_8*(DX*NX+DY*NY+DZ*NZ) / MAX(EM15,NORM) 
             AREA = ONE_OVER_8*NORM
 C---------------------------------
-C         CALCUL DE LA CONDUCTIBILITE
+C         calculation of the conductivity
 C---------------------------------
             T = ELBUF_TAB(NG)%GBUF%TEMP(I)
             MAT  =IXS(1)

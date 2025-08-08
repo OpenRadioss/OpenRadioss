@@ -49,10 +49,10 @@ C
       DO I = 1, NC
        N = LACCELM(1,I)
        LACC(1,I) = NODLOCAL(N)
-C probleme de confusion entre les accelerometres et les gauges (meme
-C structure) LACC(1,I)=0 marqueur de gauge
-C  LACC(1,I)=0 ou negatif  marqueur de gauge
-C  LACC(1,I)=NODLOCAL ou 2*NUMNOD (global) marqueur d'accelero
+C issue of confusion between accelerometers and gauges (same)
+C structure) lacc (1, i) = 0 marker of gauge
+C  LACC(1,I)=0 or negative, gauge marker
+C  LACC (1, i) = nodlocal or 2*NUMNOD (global) Accelero marker
 C
        if (LACC(1,I)==0)LACC(1,I)=2*NUMNOD
        LACC(2,I) = LACCELM(2,I)

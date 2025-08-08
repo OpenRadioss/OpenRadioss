@@ -90,7 +90,7 @@ C-----------------------------------------------
 #include      "units_c.inc"
 #include      "task_c.inc"
 #include      "timeri_c.inc"
-C common pour variable globale en memoire partagee
+C Common for global variable in memory shared
         COMMON /I7MAINC/CURV_MAX_MAX,RESULT,NSNR,NSNROLD,I_MEMG,NMN_G
         INTEGER RESULT,NSNR,NSNROLD,I_MEMG,NMN_G
         my_real :: CURV_MAX_MAX
@@ -386,7 +386,7 @@ C utile si on revient
             TZINF  = INTBUF_TAB%VARIABLES(tzinf_index)
             GOTO 50
         ENDIF
-C mise a - de dist temporairement pour reperage dans partie frontiere
+C temporarily set dist to - for identification in the boundary part
         IF(NSPMD>1)THEN
 C mono tache
 !$OMP SINGLE

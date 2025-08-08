@@ -112,7 +112,7 @@ C
       DO I =1,HM_NINTER
 C
          NB = NB+1
-C----------Multidomaines --> on ignore les interfaces et sous-interfaces non tagees--- 
+C--------- Multidomatic-> We do not know the interfaces and non-tagged subintens --- 
          IF (NSUBDOM>0) THEN
            IF(TAGINT(NB)==0) CALL HM_SZ_R2R(TAGINT,NB,LSUBMODEL)
          ENDIF
@@ -176,7 +176,7 @@ C
       DO I =1,HM_NINTER
 C
         NB = NB+1
-C----------Multidomaines --> on ignore les interfaces et sous-interfaces non tagees--- 
+C--------- Multidomatic-> We do not know the interfaces and non-tagged subintens --- 
         IF (NSUBDOM>0) THEN
           IF(TAGINT(NB)==0) CALL HM_SZ_R2R(TAGINT,NB,LSUBMODEL)
         ENDIF
@@ -252,7 +252,7 @@ C
          ENDIF
       END DO
 C-------------------------------------
-C     decodage de INTSUB (nos internes des surfaces, groupes de noeuds).
+C     Decoding of INTSUB (our interns of surfaces, nodes groups).
 C-------------------------------------
       DO I=1,NINTSUB
 C
@@ -496,11 +496,11 @@ C
 C
       END DO
 C-------------------------------------
-C     tri des sous-interfaces par interface
+C     sorting subintens by interface
 C-------------------------------------
 C-------------------------------------
-C     recherche si la ss-interface est ecrite sur TH (tag) 
-C     (sinon la ss-interface est inutile)
+C     check if the sub-interface is written on TH (tag)
+C     otherwise the sub-interface is useless
 C-------------------------------------
 
       CALL HM_OPTION_COUNT('/TH/INTER' ,NTHINTER  )

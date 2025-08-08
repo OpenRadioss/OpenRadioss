@@ -253,7 +253,7 @@ c---------------------
       NFUNC = 0
       NUVAR = 6 + 6*NVISC  
 c
-c     NUVAR   : pour savegarder H et S (integration convolutive)        
+c     NUVAR   : to save H and S (convolutive integration)
 c              + pressure viscosity NUVAR  = 9 + 3*NVISC*2 (a developpe en cas de besoin), 
 c---------------------
       IF (NVISC > 0) THEN

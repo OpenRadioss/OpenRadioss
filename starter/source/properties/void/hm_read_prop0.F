@@ -100,7 +100,7 @@ C
       IF(ISMSTR==3.AND.IGTYP/=6.AND.IGTYP/=14)THEN
         GEO(5)=EP06
       ENDIF
-C  double stockage temporaire - supprimer GEO(12,I)=IGTYP apres tests
+C  Temporary double storage - Delete GEO (12, I) = Igtyp after tests
       IGEO( 1)=IG
       IGEO(10)=IHBE
       IGEO(11)=IGTYP

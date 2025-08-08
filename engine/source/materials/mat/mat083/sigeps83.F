@@ -142,7 +142,7 @@ c----------------------------------
           DO IEL=1,NEL
             IF (SIGOZZ(IEL) > ZERO) THEN   ! element in tension
               YOUNG(IEL)  = YOUNGT
-            ELSE                           ! element in compression
+            ELSE                           ! in compression
               YOUNG(IEL)  = YOUNGC
             ENDIF
           ENDDO
@@ -155,7 +155,7 @@ c----------------------------------
             YOUNG(IEL)  = YOUNGT
             NTRAC = NTRAC + 1
             ELTRAC(NTRAC) = IEL
-          ELSE                          ! element in compression
+          ELSE                          ! in compression
             YOUNG(IEL)  = YOUNGC
             NCOMP = NCOMP + 1
             ELCOMP(NCOMP) = IEL

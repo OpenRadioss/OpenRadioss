@@ -93,7 +93,7 @@ C-----------------------------------------------
         !        /                                     +
         !      /                                       |
         !    /                                         |
-        !   +--D2-x----+                  +---------+  x     <- main segment
+        !   +-D2-X ----++ --------+ X <-Main segment
         !  MG          K                  MG        K
         !
 
@@ -110,7 +110,7 @@ C-----------------------------------------------
           S2=X(2,I)-X(2,K)
           S3=X(3,I)-X(3,K)
           !
-          CS=C2*S2+C3*S3 ! dot product
+          CS=C2*S2+C3*S3 ! Dot Product
           D2=S2*S2+S3*S3 ! distance : lag second node -> fluid node
           IF(CS > ZERO)THEN
            CC=C2*C2+C3*C3 ! lagrange segment : length

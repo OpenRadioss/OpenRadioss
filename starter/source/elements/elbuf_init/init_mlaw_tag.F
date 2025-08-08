@@ -133,7 +133,7 @@ c
             MLAW_TAG(I)%L_XST = 0      
             MLAW_TAG(I)%L_SSP = 0      
             MLAW_TAG(I)%L_Z = 0
-            MLAW_TAG(I)%L_FRAC  = 0       !    pourcentage de phase (multimat) 
+            MLAW_TAG(I)%L_FRAC  = 0       ! phase percentage (multimat)
             MLAW_TAG(I)%L_BFRAC = 0
             MLAW_TAG(I)%L_DMG = 0
             MLAW_TAG(I)%L_ABURN = 0

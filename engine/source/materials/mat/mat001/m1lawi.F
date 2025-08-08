@@ -119,7 +119,7 @@ C
        G1(I)=DT1*G(I)
        G2(I)=TWO*G1(I)
        !-----------------------
-       !     CALCUL DE DP/DRHO 
+       ! CALCULATION OF DP/DRHO
        !-----------------------
        !     P = C1 mu, mu = rho/rho0-1
        !     d(rho)/d(mu)  = rho0

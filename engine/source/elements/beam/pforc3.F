@@ -322,7 +322,7 @@ C
         ENDDO
       ENDIF            
 C--------------------------
-C     BILANS PAR MATERIAU
+C     BALANCES BY MATERIAL
 C--------------------------
       IFLAG = MOD(NCYCLE,NCPRI)
       IF (IOUTPRT > 0)     
@@ -382,7 +382,7 @@ C
           KC = (CA + CB*TEMPEL(I))*DT2T *AREA/AL(I)   
           PHIX = KC*(TEMP(NC2(I)) - TEMP(NC1(I)))
 C
-C force thermique nodale
+C nodal thermal force
 C
           FPHI(I,1) = HALF * DIE(I) + PHIX ! 
           FPHI(I,2) = HALF * DIE(I) - PHIX

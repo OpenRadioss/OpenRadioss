@@ -119,7 +119,7 @@ C for fail of ply ! is desactivated for checking
 C                               
                 ENDIF
              ENDDO
-C corre   ction des forces par plies
+C correction of forces by plies
                DO J=1,NPLYMAX
                 IF(MS_LAYER(N,J) > ZERO) THEN  
                   BETA  =  MS(NN)/MASS_NODE 
@@ -179,7 +179,7 @@ C is desactivated for checking
 C                               
                 ENDIF
              ENDDO
-C corre   ction des forces par plies
+C correction of forces by plies
                DO J=1,NPLYMAX
                 IF(MS_LAYER(N,J) > ZERO) THEN 
                   FPLY  = MS_LAYER(N,J)/MS(NN)

@@ -409,7 +409,7 @@ C
         DEBUT = 0
         I_STOK_LOC = 0
         
-C decoupage statique
+C static decoupage
         IF(INACTI /= 7 .OR. IBAG == 0)THEN
           NB_LOC = I_STOK / NTHREAD
           IF (JTASK == NTHREAD) THEN
@@ -438,7 +438,7 @@ C
 C inbuf == cand_n
               INTBUF_TAB%CAND_N(I) = -INTBUF_TAB%CAND_N(I)
             ELSE
-C remise a 0 de cand_p
+C Discount at 0 of Cand_P
               INTBUF_TAB%CAND_P(I) = ZERO
             ENDIF
           ENDDO
@@ -465,7 +465,7 @@ C inbuf == cand_n
 C inbuf == cand_n
                 INTBUF_TAB%CAND_N(I) = -INTBUF_TAB%CAND_N(I)
               ELSE
-C remise a 0 de cand_p
+C Discount at 0 of Cand_P
                 INTBUF_TAB%CAND_P(I) = ZERO
                 INTBUF_TAB%CAND_F(8*(I-1)+1:8*(I-1)+8) = ZERO
               ENDIF

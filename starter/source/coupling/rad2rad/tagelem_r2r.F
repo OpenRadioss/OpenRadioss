@@ -218,7 +218,7 @@ C------------------------>  sh3n  <----------------------------------C
                 CALL MODIF_TAG(TAG_ELG(CUR_ID+NPART),1+CONT,MODIF)
               ENDIF
             END DO
-C------------------------>  SPH particles <--------------------------C
+C-----------------------> SPH Particles <-----------------------
             IF (NUMSPH>0) THEN
               CUR_ID = NOD2SP(NI)
               IF ((TAG_ELSP(CUR_ID+NPART)<(1+CONT)).AND.

@@ -85,7 +85,7 @@ C-----------------------------------------------
        NIND2 = 0
        DO IS = 1 , NN
         I = JS+IS 
-C test si rivet a traiter sur le proc
+C test if rivet to be processed on the processor
         IF(IXRT(2,I)>0)THEN
 C----------------------------
 C       RUPTURE
@@ -140,7 +140,7 @@ C-----------------------------------------------
          IROT=NINT(GEO(4,IG))
          DT12M1=ONE/DT12
 C----------------------------
-C        TRANSLATION DU CDG
+C        TRANSLATION OF CENTER OF GRAVITY
 C----------------------------
          MASS = MS(N1)+MS(N2)
          MASM1= ONE / MASS
@@ -211,7 +211,7 @@ C----------------------------
            A(3,N2)=A(3,N2)-AZ/MS(N2)
          ELSE
 C----------------------------
-C          ROTATION DU CDG
+C          ROTATION OF CENTER OF GRAVITY
 C----------------------------
            XX1=X(1,N1)-XCDG
            YY1=X(2,N1)-YCDG
@@ -329,7 +329,7 @@ C
            RIVET(11,I) = AR(2,N2)*I2
            RIVET(12,I) = AR(3,N2)*I2
            RIVET(13,I) = ZERO
-C          correction energie cinetique de rotation
+C          Rotation cinetic energy correction
            WW = VXX**2+VYY**2+VZZ**2
            WT = (VYY*ZN(IS)-VZZ*YN(IS))**2
      .        + (VZZ*XN(IS)-VXX*ZN(IS))**2

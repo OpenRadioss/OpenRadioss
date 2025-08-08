@@ -86,7 +86,7 @@ C
         M32(I)=M3(I)-HALF*AL(I)*F2(I)
       ENDDO
 C---------------------------------------------------
-C     LIBERATION DES ROTATIONS
+C     RELEASE OF ROTATIONS
 C---------------------------------------------------
       DO I=1,NEL
         IG=PID(I)

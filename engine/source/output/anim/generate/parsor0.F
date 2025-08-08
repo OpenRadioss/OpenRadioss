@@ -124,7 +124,7 @@ C
 
           CALL SPMD_IGLOB_PARTN(IADD,NPAR,IADG,BUFP)
           CALL SPMD_IGET_PARTN(1,JJ,NP,NPAR,IADG,BUF,1)
-      ELSE ! remplissage IADG pour compatibilite mono/multi
+      ELSE ! IADG filling for mono/multi compatibility
         DO I = 1, NPART
           IADG(1,I) = IADD(I)
         END DO

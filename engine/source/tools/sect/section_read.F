@@ -73,7 +73,7 @@ C-----------------------------------------------
       CHARACTER(len=2048) :: TMP_NAME
 
 C-----------------------------------------------
-C READ FILE dans l'ordre des sections lues sur le fichier
+C read file in the order of the sections read from the file
 C  TTT = TT ou TT + DT2
 C-----------------------------------------------
 
@@ -200,7 +200,7 @@ C-----------------------------------------------
               CALL ARRET(2)
             END IF
             IF(FOUND==0.OR.NSTRF(K0)<100)THEN
-C skip deplacements et forces
+C skip displacements and forces
               IF(TYPE>=1)THEN
                 DO I=1,6*NNODR
                   CALL READ_R_C(R4,1)
@@ -212,7 +212,7 @@ C skip deplacements et forces
                 ENDDO
               ENDIF
             ELSEIF(NSTRF(K0)==100)THEN
-C lecture deplacements
+C Reading Deplacements
               IF(TYPE>=1)THEN
                 DO I=1,NNOD
                   CALL READ_R_C(R4,1)
@@ -229,7 +229,7 @@ C lecture deplacements
                   SECBUF(KR1+6*I-1)=R4
                 ENDDO
               ELSE
-C Pb de compatibilite type_new>=100 et type_old<1
+C compatibility issue type_new>=100 and type_old<1
               ENDIF
               IF(TYPE>=2)THEN
 C skip forces
@@ -238,7 +238,7 @@ C skip forces
                 ENDDO
               ENDIF
             ELSEIF(NSTRF(K0)==101)THEN
-C lecture deplacements
+C Reading Deplacements
               IF(TYPE>=1)THEN
                 DO I=1,NNOD
                   CALL READ_R_C(R4,1)
@@ -255,10 +255,10 @@ C lecture deplacements
                   SECBUF(KR1+6*I-1)=R4
                 ENDDO
               ELSE
-C Pb de compatibilite type_new>=101 et type_old<1
+C compatibility issue type_new>=101 and type_old<1
               ENDIF
               IF(TYPE>=2)THEN
-C lecture forces
+C reading forces
                 DO I=1,NNOD
                   CALL READ_R_C(R4,1)
                   SECBUF(KR2+6*I-6)=R4
@@ -274,7 +274,7 @@ C lecture forces
                   SECBUF(KR2+6*I-1)=R4
                 ENDDO
               ELSE
-C Pb de compatibilite type_new>=101 et type_old<2
+C compatibility issue type_new>=101 and type_old<2
               ENDIF
             ELSEIF(NSTRF(K0)>=102)THEN
 C a faire

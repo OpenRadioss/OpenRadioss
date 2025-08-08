@@ -133,7 +133,7 @@ C-----------------------------------------------
                 ! --------------
                 ALLOCATE( LIST_NODE_2(LOCAL_SEG,4) )
                 LIST_NODE_2(1:LOCAL_SEG,1:4) = LIST_NODE(1:LOCAL_SEG,1:4)
-                CALL EBCS_TAB_LOC_2%tab(I)%poly%set_nodes_elems(LOCAL_SEG, NUMNOD, LIST_NODE_2) ! faces <-> nodes
+                CALL EBCS_TAB_LOC_2%tab(I)%poly%set_nodes_elems(LOCAL_SEG, NUMNOD, LIST_NODE_2) ! Faces <--> nodes
                 DEALLOCATE( LIST_NODE,LIST_NODE_2 )
             ENDIF
         ENDDO

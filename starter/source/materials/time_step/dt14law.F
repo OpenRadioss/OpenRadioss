@@ -56,7 +56,7 @@ C     REAL
       my_real
      .   SSP(MVSIZ), RHO0(MVSIZ), VIS(MVSIZ)    
 C---------------------------------
-C     RECUPERATION DE LA VITESSE DU SON
+C     RECOVERY OF SOUND VELOCITY
 C=======================================================================
       DO I=LFT,LLT
       MX      =MAT(I)
@@ -65,7 +65,7 @@ C=======================================================================
       VIS(I)  =ZERO 
       END DO
 C------------------------------
-C     CALCUL DU DT ELEM
+C     CALCULATION OF DT ELEM
 C------------------------------
       IF(JSPH==0)THEN
          CALL DTEL(SSP,PM,GEO,PID,MAT, RHO0, VIS, DELTAX, AIRE, VOL, DTX)

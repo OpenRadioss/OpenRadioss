@@ -61,7 +61,7 @@ C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
 C---------------------------------------------------- 
-C  Calcul des adresses des buffers d'interfaces. 
+C  Calculation of the addresses of the interface buffers.
 C----------------------------------------------------
 C
       NSN   =IPARI(5,NIN)

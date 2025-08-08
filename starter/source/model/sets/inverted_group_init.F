@@ -34,7 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !       initialization of INV_GROUP structure (number of elm & part)
 !       
 !       INVERTED_GROUP_INIT organization :
-!           2 different modes :
+!           2 different modes:
 !           - MODE = 0 --> first initialization
 !           - MODE = 1 --> recomputation of the inverted connectivity
 !             the size does not change, the structure was already allocated,

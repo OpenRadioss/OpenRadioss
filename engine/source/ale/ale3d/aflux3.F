@@ -270,7 +270,7 @@ C-----------------------------------------------
       !    (If at least there is one domain with closure)    ! 
       !    2S [CF].[n] = 0  => [2S*n] = 0                    !
       !    where                                             !
-      !      C: element centroid                             !
+      !      C: controid element                             !
       !      F: face centroid                                !
       !======================================================!
       IF(ICLOSE == 1) THEN
@@ -287,14 +287,14 @@ C-----------------------------------------------
           XF4(I)=FOURTH*(X1(I)+X2(I)+X6(I)+X5(I))
           XF5(I)=FOURTH*(X2(I)+X3(I)+X7(I)+X6(I))
           XF6(I)=FOURTH*(X1(I)+X4(I)+X8(I)+X5(I))
-            !   Y-Components
+            !   Y-component
           YF1(I)=FOURTH*(Y1(I)+Y2(I)+Y3(I)+Y4(I))
           YF2(I)=FOURTH*(Y3(I)+Y4(I)+Y8(I)+Y7(I))
           YF3(I)=FOURTH*(Y5(I)+Y6(I)+Y7(I)+Y8(I))
           YF4(I)=FOURTH*(Y1(I)+Y2(I)+Y6(I)+Y5(I))
           YF5(I)=FOURTH*(Y2(I)+Y3(I)+Y7(I)+Y6(I))
           YF6(I)=FOURTH*(Y1(I)+Y4(I)+Y8(I)+Y5(I))
-            !   Z-Components
+            !   Component
           ZF1(I)=FOURTH*(Z1(I)+Z2(I)+Z3(I)+Z4(I))
           ZF2(I)=FOURTH*(Z3(I)+Z4(I)+Z8(I)+Z7(I))
           ZF3(I)=FOURTH*(Z5(I)+Z6(I)+Z7(I)+Z8(I))
@@ -530,7 +530,7 @@ C-----------------------------------------------
       !     sgn  : sgn(FLUX_face)                                !
       !==========================================================!
       DO I=LFT,LLT
-        ! 6 fluxes on faces
+        ! 6 flows we faces
         FLUX(1,I)=FLUX1(I)-UPWL(1,I)*ABS(FLUX1(I))
         FLUX(2,I)=FLUX2(I)-UPWL(2,I)*ABS(FLUX2(I))
         FLUX(3,I)=FLUX3(I)-UPWL(3,I)*ABS(FLUX3(I))

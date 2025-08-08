@@ -66,7 +66,7 @@ C SIMPLIFICATION SI SOURCE LOIN DU POINT P
         RVLG=AREA/SQRT(D2)
         RVLH=AREA*(NRX*(X0-XP)+NRY*(Y0-YP)+NRZ*(Z0-ZP))/(D2**THREE_HALF)    
       ELSE
-C COORDONNEES LOCALES
+C local contact details
         VX1=X2-X1
         VY1=Y2-Y1
         VZ1=Z2-Z1

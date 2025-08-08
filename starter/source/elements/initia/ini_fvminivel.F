@@ -78,7 +78,7 @@ C     Quad groups
                   MULTI_FVM%VEL(3, NOSYS) = FVM_INIVEL(I)%VZ
                ENDDO                 
             ENDIF
-C     SH3N groups
+C     Sh3n Groups
             IF (FVM_INIVEL(I)%GRSH3NID /= -1) THEN
                IGRS = FVM_INIVEL(I)%GRSH3NID
                DO J=1,IGRSH3N(IGRS)%NENTITY

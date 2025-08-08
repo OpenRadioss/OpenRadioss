@@ -271,7 +271,7 @@ C
 
 !!        EPSD(I) = RATEEPS
       ENDDO
-C sous groupe  
+C under group  
          INDX_L(1:NEL) = 0
          INDX_UNL(1:NEL) = 0
          NE_L  = 0

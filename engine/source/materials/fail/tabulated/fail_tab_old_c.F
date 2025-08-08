@@ -150,7 +150,7 @@ c----
 #include "vectorize.inc"
         DO J=1,NINDX                           
           I = INDX(J)  
-c----   element length scale function
+c---- Length Scale Function element
           LAMBDAV(J) = UVAR(I,2) / EL_REF
           IPOSV(J) = NINT(UVAR(I,3))
           IADP (J) = NPF(IFUN_EL) / 2 + 1

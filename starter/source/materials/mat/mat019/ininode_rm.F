@@ -58,7 +58,7 @@ C     REAL
      .                             IRN,INDX,INDX0,ITAG,IRE,
      .                             INDXE, INDXE0, ITAGE
 C
-C  construction des materiaux rigides
+C  construction of rigid materials
 C
       ALLOCATE (IRN(NUMNOD))  
       IRN = 0
@@ -71,7 +71,7 @@ C
          ENDIF
       ENDDO 
 C     
-C  allocation de tableau de travail
+C  allocation of work array
 C 
       ALLOCATE (INDX(NR),INDX0(NR),ITAG(NUMNOD))
       ALLOCATE (INDXE(NER),INDXE0(NER),ITAGE(NER)) 
@@ -141,7 +141,7 @@ c      NRC = NR1
                 ENDDO
               ENDDO
               IF(NR1 > 0) THEN
-C nbre d'element restant  
+C remaining number of elements  
                  NER0 = 0
                  DO IE = 1, NER1
                    IEL = INDXE(IE) 
@@ -166,7 +166,7 @@ C noeud restant
                     INDXE0(NER0) = IEL
                   ENDIF
                 ENDDO    
-C creation d'un autre corps rigid 
+C creation of another rigid body 
                NER1 = NER0
                DO I=1,NER1
                  INDXE(I) = INDXE0(I)
@@ -189,7 +189,7 @@ C
               ENDIF          
           ELSE 
                NRB = NRB + 1
-C creation d'un autre corps rigid 
+C creation of another rigid body 
                 NER0 = 0
                 DO IE =1 , NER1
                   IEL = INDXE(IE)
@@ -198,7 +198,7 @@ C creation d'un autre corps rigid
                     INDXE0(NER0) = IEL
                   ENDIF
                 ENDDO    
-C creation d'un autre corps rigid 
+C creation of another rigid body 
                NER1 = NER0
                DO I=1,NER1
                  INDXE(I) = INDXE0(I)
@@ -220,7 +220,7 @@ C
              ENDIF
            ENDDO 
 C
-C   creation des corps rigide
+C   creation of rigid bodies
 C
       KK = 0
       DO IR =1,NRB

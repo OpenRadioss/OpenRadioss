@@ -41,7 +41,7 @@ C-----------------------------------------------
 C            A R G U M E N T S
 C-----------------------------------------------
 C     IXP(6,NUMELP)     TABLEAU CONECS+MID+PID+NOS POUTRES         E
-C     GEO(NPROPG,NUMGEO)TABLEAU DES CARACS DES PID                 E
+C     geo(npropG,numgeo)table of characteristics of pid
 C     INUM(7,NUMELP)    TABLEAU DE TRAVAIL                         E/S
 C     ITR1(NSELP)       TABLEAU DE TRAVAIL                         E/S
 C     EADD(NUMELP)      TABLEAU DES ADRESSES DANS IDAM CHGT DAMIER   S
@@ -85,7 +85,7 @@ C-----------------------------------------------
       INTEGER MY_SHIFTL,MY_SHIFTR,MY_AND,IPRLD
       EXTERNAL MY_SHIFTL,MY_SHIFTR,MY_AND
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
-C   TRI GLOBAL SUR TOUS LES CRITERES POUR TOUS LES ELEMENTS
+C   global sorting on all criteria for all elements
 C----------------------------------------------------------
 C
       DO I=1,NUMELP
@@ -170,13 +170,13 @@ C
         ENDDO
       ENDDO
 C
-C INVERSION DE INDEX (DANS ITR1)
+C inversion of index (in itr1)
 C
       DO I=1,NUMELP
         ITR1(INDEX(I))=I
       ENDDO
 C
-C RENUMEROTATION POUR SURFACES
+C renumbering for surfaces
 C
       DO I=1,NSURF
         NN=IGRSURF(I)%NSEG
@@ -186,7 +186,7 @@ C
         ENDDO
       ENDDO
 C
-C RENUMEROTATION POUR GROUPES DE POUTRES
+C renumbering for beam groups
 C
       DO I=1,NGRBEAM
         NN=IGRBEAM(I)%NENTITY
@@ -201,7 +201,7 @@ C REORDERING FOR ITAGPRLD_BEAM
       ENDDO
 C
 C--------------------------------------------------------------
-C         DETERMINATION DES SUPER_GROUPES
+C         determination of super_groups
 C--------------------------------------------------------------
       ND=1
       DO I=2,NUMELP

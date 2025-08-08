@@ -509,7 +509,7 @@ C-------R13(I)->RXYZ(I,1),R24(I)->RXYZ(I,2),RHI(I)->RXYZ(I,3),RTI(I)->RXYZ(I,4)-
         RXYZ(EP,1,4)=RR(1,1)+RR(1,2)+RR(1,3)+RR(1,4)
         RXYZ(EP,2,4)=RR(2,1)+RR(2,2)+RR(2,3)+RR(2,4)
 C-------BX0(2),BY0(2),GAMA(2),MX23,MY23,MX34,MY34,MX13,MY13
-C-------SONT STOCKE DANS VCORE---
+C-------ARE STORED IN VCORE---
         VCORE(EP,1,1)=Y24_T(EP)
         VCORE(EP,2,1)=-Y13_T(EP)
         VCORE(EP,3,1)=-X24_T(EP)
@@ -1495,7 +1495,7 @@ C
          VXYZ(EP,2,3)=VHI(EP,2)
          VXYZ(EP,3,3)=VHI(EP,3)
 C-------BX0(2),BY0(2),GAMA(2),MX23,MY23,MX34,MY34,MX13,MY13
-C-------SONT STOCKE DANS VCORE---
+C-------ARE STORED IN VCORE---
         VCORE(EP,1,1)=Y24_T(EP)
         VCORE(EP,2,1)=-Y13_T(EP)
         VCORE(EP,3,1)=-X24_T(EP)

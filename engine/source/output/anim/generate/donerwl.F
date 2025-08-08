@@ -45,7 +45,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N2, N3, N4, ITYP
 C-----------------------------------------------
-C seul le proc 0 effectue le traitement
+C only processor 0 performs the processing
       IF (ISPMD/=0) GOTO 100
 C
          N2=IRWL+NRWALL

@@ -501,7 +501,7 @@ C-----------------------------------------------
       my_real
      .        LAGCOM(2*NBNCL+4*NBIKL),
      .        AG(3,NBNODL),VG(3,NBNODL),MSG(NBNODL),
-     .        ARG(3,NBNODLR),VRG(3,NBNODLR),ING(NBNODLR)   ! NBNODLR = NBNODL ou 0 suivant iroddl
+     .        ARG(3,NBNODLR),VRG(3,NBNODLR),ING(NBNODLR)   ! Nbnodlr = nbnodl or 0 following Iroddl
 C======================================================================|
 C
       NLAGF = FR_LAGF(3,ISPMD+1)
@@ -785,7 +785,7 @@ C
      1  A      ,AR     ,AG    ,ARG     ,FR_LAGF,
      2  ISIZ   ,NBNODL ,LLAGF ,NLAGF   )
 C
-C Echange aux noeuds frontieres Pi <=> Pj A, AR, V, VR, MS, IN
+C Exchange to the nodes Frontieres Pi <=> pj a, ar, v, vr, ms, in
 C
       IF(IRODDL==0)THEN
         ISIZ = 4

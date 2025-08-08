@@ -66,7 +66,7 @@ C-----------------------------------------------
      .   ALPHA,DAMPA0          
 C----------------------------------------------------------
 
-C--------> TAG des elements
+C--------> TAG of elements
         DO ND=1,NDAMP
           IF (DAMPR(20,ND)>0) THEN
           DO I=1,NUMELC

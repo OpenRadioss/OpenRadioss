@@ -1140,7 +1140,7 @@ C---------------------------------------------------
 !$OMP END SINGLE
 
       !------------------------------!
-      ! --- CHARACTERISTIC LENGTH ---!
+      ! --- Characteristic Length ---!
       !------------------------------!
       IDT_FVMBAG = FVDATA(IFV)%ID_DT_OPTION  ! /DT/FVMBAG/[IDT_FVMBAG]
               

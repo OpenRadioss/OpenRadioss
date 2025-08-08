@@ -1954,7 +1954,7 @@ C---------
 !---
 ! to be replaced by ---  MAP_TABLES%ISH4NM ---
            IF (KTRIELC == 0) THEN
-C             tri des elts du D00 par ID croissant (on ne trie qu'une fois)
+C             sorting elements of D00 by ascending id (sorted only once)
               DO IE = 1, NUMELC
                 ITRI(IE) = IXC(NIXC,IE)
               END DO
@@ -3118,7 +3118,7 @@ C---------
 !---
 ! to be replaced by ---  MAP_TABLES%ISH3NM ---
         IF (KTRIELTG==0) THEN
-C         tri des elts du D00 par ID croissant (on ne trie qu'une fois)
+C         sorting elements of D00 by ascending id (sorted only once)
           DO IE = 1, NUMELTG
             ITRI(IE) = IXTG(NIXTG,IE)
           END DO
@@ -4220,7 +4220,7 @@ C----------
 !---
 ! to be replaced by ---  MAP_TABLES%ITRUSSM ---
            IF (KTRIELTRUSS == 0) THEN
-C             tri des elts du D00 par ID croissant (on ne trie qu'une fois)
+C             sorting elements of D00 by ascending id (sorted only once)
               DO IE = 1, NUMELT
                 ITRI(IE) = IXT(NIXT,IE)
               END DO
@@ -4321,7 +4321,7 @@ C---------
 !---
 ! to be replaced by ---  MAP_TABLES%IBEAMM ---
             IF (KTRIELBEAM == 0) THEN
-! tri local des elts du D00 par ID croissant (on ne trie qu'une fois)
+! local sorting of elements of D00 by ascending id (sorted only once)
               DO IE = 1,NUMELP
                 ITRI(IE) = IXP(NIXP,IE)
               ENDDO
@@ -4521,7 +4521,7 @@ C---------
 !---
 ! to be replaced by ---  MAP_TABLES%ISPRINGM ---
             IF (KTRIELSPR == 0) THEN
-C tri local des elts du D00 par ID croissant (on ne trie qu'une fois)
+C local sorting of elements of D00 by ascending id (sorted only once)
               DO IE = 1,NUMELR
                 ITRI(IE) = IXR(NIXR,IE)
               ENDDO
@@ -4720,7 +4720,7 @@ C------!
 !---
 ! to be replaced by ---  MAP_TABLES%IQUADM ---
            IF (KTRIELTQUAD == 0) THEN
-C             tri des elts du D00 par ID croissant (on ne trie qu'une fois)
+C             sorting elements of D00 by ascending id (sorted only once)
               DO IE = 1, NUMELQ
                 ITRIQ(IE) = IXQ(NIXQ,IE)
               END DO

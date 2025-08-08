@@ -62,7 +62,7 @@ C-----------------------------------------------
       DATA MSGOFF/205/
 C
       IF (FVSPMD(IFV)%RANK == 0) THEN
-C Reception des longueurs
+C reception of lengths
          II=0
          DO I=1,FVSPMD(IFV)%NSPMD - 1
             II=II+1
@@ -81,7 +81,7 @@ C
             LEN=LEN+2*ITAB(II)
          ENDDO
          ALLOCATE(IBUF(LEN))
-C Reception des entiers
+C reception of integers
          II=0
          DO I=1,FVSPMD(IFV)%NSPMD-1
             II=II+1
@@ -91,7 +91,7 @@ C Reception des entiers
             CALL MPI_IRECV(IBUF(IAD), LEN, MPI_INTEGER, I,
      .                     ITAG, FVSPMD(IFV)%MPI_COMM, REQ(II), IERR)
          ENDDO
-C Remplissage du tableau de sortie ITABG
+C filling of the output array itabg
          DO I=1,FVSPMD(IFV)%NN_L+FVSPMD(IFV)%NNI_L
             I1=FVSPMD(IFV)%IBUF_L(1,I)
             I2=FVSPMD(IFV)%IBUF_L(2,I)

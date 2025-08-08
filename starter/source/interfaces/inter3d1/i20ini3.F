@@ -200,7 +200,7 @@ C
      7         XN2      ,YN2    ,ZN2    ,XN3    ,YN3    ,
      8         ZN3    ,XN4      ,YN4    ,ZN4      )
 C
-C     CALCUL DES RIGIDITES ELEMENTTAIRES ET NODALES 
+C     CALCULATION OF ELEMENTARY AND NODAL STIFFNESSES
 C
       IF(ISU2 /= 0 .and. ISYM == 1)THEN
         IFS2 = 1
@@ -278,8 +278,8 @@ C Appe routine poids noeuds interfaces
         END IF
 
 c----------------------------------------------------
-c   Calcul des normales nodales
-c   Igap/=0 pour solides (GAP=0)
+c   Calculation of nodal normals
+c   IGAP/= 0 for solids (gap = 0)
 c----------------------------------------------------
 c      IF(ICURV==3.or.IGAP/=0)THEN
       IF(IGAP/=0)THEN
@@ -297,7 +297,7 @@ C-----EDGES -------
       NMNE   =IPARI(56)
       
       IF(NLINS + NLINM /= 0)THEN  
-C       CALCUL DES RIGIDITES ELEMENTTAIRES 
+C       CALCULATION OF ELEMENTARY STIFFNESSES
 C
         GAP0 = GAPINPUT
         GAPE = GAPINPUT
@@ -335,7 +335,7 @@ C
         MAXBOX  = INTBUF_TAB%VARIABLES(9)
         MINBOX  = INTBUF_TAB%VARIABLES(12)
         GAP_TRI = INTBUF_TAB%VARIABLES(2)
-c       majoration temporaire du gap pour tri (gap shift)
+c       temporary increase of the gap for sorting (gap shift)
         IF(IGAP/=0)GAP_TRI=TWO*GAP_TRI
         CALL I11BUC1(
      1X         ,INTBUF_TAB%IXLINM,INTBUF_TAB%IXLINS,INTBUF_TAB%VARIABLES(4),NLINSA,
@@ -349,8 +349,8 @@ c       majoration temporaire du gap pour tri (gap shift)
         INTBUF_TAB%VARIABLES(9)  = MAXBOX
         INTBUF_TAB%VARIABLES(12) = MINBOX
 C------------------------------------------------------
-C     CALCUL LES PENETRATIONS INITIALES 
-C     CORRECTION DE LA POSITION DES POINTS D'ANCRAGE 
+C     CALCULATE THE INITIAL PENETRATIONS
+C     CORRECTION OF THE POSITION OF ANCHOR POINTS
 C     1-EDGES
 C------------------------------------------------------
  
@@ -446,7 +446,7 @@ C
 
 C------------------------------------------------------
 C     RE-CALCUL LES PENETRATIONS INITIALES 
-C     APRES CORRECTION DE LA POSITION DES POINTS D'ANCRAGE 
+C     AFTER CORRECTING THE POSITION OF ANCHOR POINTS
 C     1-NOEUDS FACETTES
 C------------------------------------------------------
  

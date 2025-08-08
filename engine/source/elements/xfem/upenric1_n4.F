@@ -146,7 +146,7 @@ C
                 ENDIF ! IF (IECUT == 3)
               ENDDO ! DO K=1,4
             ENDDO   ! IXEL=1,NXEL
-          ENDIF   ! IF (LAYCUT /= 0)
+          ENDIF   ! If (laycut /= 0)
         ENDDO     ! DO IR=1,NELCRK
       ENDDO       ! DO ILAY=1,NXLAY
 C-----------------------------------------------

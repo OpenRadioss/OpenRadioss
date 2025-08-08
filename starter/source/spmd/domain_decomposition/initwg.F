@@ -20,7 +20,7 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-C NOUVELLE ROUTINE POUR REMPLIR LE TABLEAU DES POIDS
+C NEW ROUTINE TO FILL THE WEIGHT TABLE
 !||====================================================================
 !||    initwg               ../starter/source/spmd/domain_decomposition/initwg.F
 !||--- called by ------------------------------------------------------
@@ -93,7 +93,7 @@ C-----------------------------------------------
       TYPE(MID_PID_TYPE), DIMENSION(NUMMAT), INTENT(INOUT) :: MID_PID_SHELL,MID_PID_TRI
       TYPE(MID_PID_TYPE), DIMENSION(NUMMAT,7), INTENT(INOUT) :: MID_PID_SOL
 
-C     REAL OU REAL*8
+C     REAL OR REAL*8
       my_real
      .    PM(NPROPM,*), GEO(NPROPG,*),BUFMAT(*)
       my_real, DIMENSION(TAILLE_OLD) :: CPUTIME_MP_OLD

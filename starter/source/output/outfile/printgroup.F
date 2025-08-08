@@ -316,7 +316,7 @@ c          WRITE(ISTDO,'(2A)')' .. ',MESS
             TITR = IGRPART(I)%TITLE
             NEL =IGRPART(I)%NENTITY
               IF (NSUBDOM>0) THEN
-C-----------> Multidomaines -> on prend le nb de parts avant split-----      
+C-----------> Multidomaines -> on prend le nb de parts avant split-----
                  IF ((NEL==0).AND.(IGRPART(I)%R2R_ALL/=0)) GOTO 220
               ENDIF   
 C----------------------------------------------------------------------         
@@ -354,7 +354,7 @@ C-----------------------------------------------
             ELSE
               NSEG=IGRSURF(I)%NSEG
               NSEGIGE=IGRSURF(I)%NSEG_IGE
-C-----------> Multidomaines -> on prend le nb de segments avant split----      
+C-----------> Multidomaines -> on prend le nb de segments avant split----
                 IF (NSUBDOM>0) NSEG=ISURF_R2R(2,I)
 C----------------------------------------------------------------------          
               IF (NSEG == 0 .AND. NSEGIGE == 0 .AND. IGRSURF(I)%SET_GROUP == 0) THEN
@@ -553,7 +553,7 @@ C-----------------------------------------------
             ID = IGRNOD(I)%ID
             NNOD=IGRNOD(I)%NENTITY
               IF (NSUBDOM>0) NNOD=IGRNOD(I)%R2R_ALL
-C-----------> Multidomaines -> on prend le nb de noeuds avant split----      
+C-----------> Multidomaines -> on prend le nb de noeuds avant split----
 C----------------------------------------------------------------------      
             IF (NNOD==0) THEN
               CALL ANCMSG(MSGID=690,

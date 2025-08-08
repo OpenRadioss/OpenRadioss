@@ -210,7 +210,7 @@ C        I=3
        ENDDO
       ENDDO
 C
-C     Projection des forces d'interpli
+C     Interpli's projection
        DO J = 1 , NPT 
 #include "vectorize.inc"
         DO EP=JFT,JLT  

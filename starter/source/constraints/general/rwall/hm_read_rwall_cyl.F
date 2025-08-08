@@ -236,7 +236,7 @@ C
 C
         ! Initialization depending on the type of interface
         ! CYL  
-C       M SUR L'AXE ET MM1 AXE DU CYLINDRE
+C       M ON THE AXIS AND MM1 AXIS OF THE CYLINDER
         RWL(1,N) = XM1-RWL(4,N)
         RWL(2,N) = YM1-RWL(5,N)
         RWL(3,N) = ZM1-RWL(6,N)

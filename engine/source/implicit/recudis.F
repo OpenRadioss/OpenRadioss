@@ -46,7 +46,7 @@ C----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,NKC,ID,ND,M,N
-C----No ddl actuelle -> IDDL(NUMNOD)+J(1-6)-NKC-----
+C---- NOT DDL Actual-> IDDL (NUMNOD)+J (1-6) -NKC -------
       NKC=0
       DO N = 1,NUMNOD
        I=INLOC(N)
@@ -200,7 +200,7 @@ C----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,NKC,ID,ND,N
-C----No ddl actuelle -> IDDL(NUMNOD)+J(1-6)-NKC-----
+C---- NOT DDL Actual-> IDDL (NUMNOD)+J (1-6) -NKC -------
       NN=0
       NKC=0
       DO N = 1,NUMNOD
@@ -245,7 +245,7 @@ C----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,NKC,ID,ND,M,N
-C----No ddl actuelle -> IDDL(NUMNOD)+J(1-6)-NKC-----
+C---- NOT DDL Actual-> IDDL (NUMNOD)+J (1-6) -NKC -------
       NKC=0
       DO N = 1,NUMNOD
        I=INLOC(N)

@@ -236,7 +236,7 @@ C----------------------------------------
 C------------------------------
 C     7. 3-nodes shell elements
 C------------------------------
-       ELSEIF(ITY == 7 .and. MLW /= 0)THEN       ! loi0, pas de off
+       ELSEIF(ITY == 7 .and. MLW /= 0)THEN       ! law0, no off
          OFFG => ELBUF_STR(NG)%GBUF%OFF
          DO I=1,NEL
           II=I+NFT

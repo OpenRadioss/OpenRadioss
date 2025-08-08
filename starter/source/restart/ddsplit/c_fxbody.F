@@ -84,7 +84,7 @@ C Modes
          ELSEIF (IFILE==1) THEN
             LENMOD_L=LENMOD_L+NSNI_L*(NME+NMOD)
          ENDIF
-C Champs de contraintes
+C Constraint fields
          AELM=FXBIPM(19,NFX)
          NELS=FXBIPM(21,NFX)
          NELC=FXBIPM(22,NFX)
@@ -344,7 +344,7 @@ C Modes
          ENDIF
          FXBIPM_L(32,NFX)=IRCM_L
 C
-Champs de contrainte modaux
+CModal constraint fields
          ASIG=FXBIPM(20,NFX)
          IRCS=FXBIPM(31,NFX)
          NELS=FXBIPM(21,NFX)
@@ -695,7 +695,7 @@ C Gravite
             IADG_L=IADG_L+2+NNO_L
          ENDDO
          AGRVI_L=AGRVI_L+IADG_L
-C Identification du PMAIN
+C Identification of PMAIN
          NMAX=0
          PMAIN=1
          DO P=1,NSPMD

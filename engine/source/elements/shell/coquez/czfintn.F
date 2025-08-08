@@ -38,10 +38,10 @@ C elasto-plastic hourglass stresses+linear damping
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 C        CALCUL VF(3,4),VM(2,4) : FORCES INTERNES GENERALISEES
 C        ENTREES : THK,1/AREA,PME,X13,X24,Y13,Y24,MX13,MX34,MY13,MY34
-C                  DHG(6)  : INCREMENT DE LA DEF HOURGLASS GENERALISEE    
+C                  dhg(6): increment of the generalized hourglass deformation
 C                  VGLAS(12): DEF HOURGLASS GENERALISEE 
 C                  VGLAS(1-6)->ETA; VGLAS(7-12)->KSI;
-C                  FAC=Et/E    
+C                  fac=et/e
 C        SORTIES : VF,VM
 C                  VF(3,4),VM(2,4) : 
 C                  J=1,2 STOCK LA PARTIE ANTISYM (F(1)=-F(3),F(2)=-F(4))                                  
@@ -288,7 +288,7 @@ C      ---------elstic increament----------
         VGLAS(I,8) =VGLAS(I,8) +DGLAS(I,8)
         VGLAS(I,9) =VGLAS(I,9) +DGLAS(I,9)
         VGLAS(I,10)=VGLAS(I,10)+DGLAS(I,10)
-C  -----------/4 par rapport formulation-------    
+C  -----------/4 compared to formulation-------
         VGLAS(I,5) =VGLAS(I,5) +DGLAS(I,5)
         VGLAS(I,6) =VGLAS(I,6) +DGLAS(I,6)
         VGLAS(I,11)=VGLAS(I,11)+DGLAS(I,11)
@@ -574,12 +574,12 @@ C elasto-plastic hourglass stresses+linear damping
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 C        CALCUL VF(3,4),VM(2,4) : FORCES INTERNES GENERALISEES
 C        ENTREES : THK,1/AREA,PME,X13,X24,Y13,Y24,MX13,MX34,MY13,MY34
-C                  DHG(6)  : INCREMENT DE LA DEF HOURGLASS GENERALISEE    
+C                  dhg(6): increment of the generalized hourglass deformation
 C                  VGLAS(12): DEF HOURGLASS GENERALISEE 
 C                  VGLAS(1-6)->ETA; VGLAS(7-12)->KSI;
 C                  -shear: VGLAS(13-14)->ETA; VGLAS(15-16)->KSI; 
 C                  -Sig_rz: VGLAS(17)->ETA; VGLAS(18)->KSI; VGLAS(19)->const
-C                  FAC=Et/E    
+C                  fac=et/e
 C        SORTIES : VF,VM
 C                  VF(3,4),VM(2,4) : 
 C                  J=1,2 STOCK LA PARTIE ANTISYM (F(1)=-F(3),F(2)=-F(4))                                  
@@ -911,7 +911,7 @@ C
         C2=Z1(I)*HSURA
         VF(I,3,1)=VF(I,3,1)+C2*(SSZ1*Y24(I)-SSZ2*X24(I))
         VF(I,3,2)=VF(I,3,2)+C2*(-SSZ1*Y13(I)+SSZ2*X13(I))
-C-----------non const mz----17,18--
+C---------- No Const Mz ---- 17,18--
         C2=THK(I)*ONE_OVER_6*OFF(I)
         C3=THK(I)*THIRD*OFF(I)
 C
@@ -1024,10 +1024,10 @@ C orthotropic elasto-plastic hourglass stresses+linear damping
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 C        CALCUL VF(3,4),VM(2,4) : FORCES INTERNES GENERALISEES
 C        ENTREES : THK,1/AREA,PME,X13,X24,Y13,Y24,MX13,MX34,MY13,MY34
-C                  DHG(6)  : INCREMENT DE LA DEF HOURGLASS GENERALISEE    
+C                  dhg(6): increment of the generalized hourglass deformation
 C                  VGLAS(12): DEF HOURGLASS GENERALISEE 
 C                  VGLAS(1-6)->ETA; VGLAS(7-12)->KSI;
-C                  FAC=Et/E    
+C                  fac=et/e
 C        SORTIES : VF,VM
 C                  VF(3,4),VM(2,4) : 
 C                  J=1,2 STOCK LA PARTIE ANTISYM (F(1)=-F(3),F(2)=-F(4))                                  
@@ -1161,7 +1161,7 @@ cc         A12SR(I)=SQRT(HM(3,I))
 C    VGLAS(1-6)->ETA (x:+ y-); VGLAS(7-12)->KSI  (x:- y+);
 C-----part iso-commun
         DO I=JFT,JLT
-C----- x_ETA, signe +     
+C----- x_eta, sign +     
           DGLAS(I,1) =CM(I,1,1)*CXX(I)-CM(I,1,2)*CYY(I)
 C----- y_ETA, signe -     
           DGLAS(I,2) =CM(I,2,2)*CYY(I)-CM(I,1,2)*CXX(I)
@@ -1169,7 +1169,7 @@ C----- x_ETA, signe+ bending
           DGLAS(I,3) =CF(I,1,1)*BXX(I)-CF(I,1,2)*BYY(I)
 C----- y_ETA, signe - bending    
           DGLAS(I,4) =CF(I,2,2)*BYY(I)-CF(I,1,2)*BXX(I)
-C----- x_Ksi, signe -     
+C----- x_ksi, sign-     
           DGLAS(I,7) =CM(I,1,1)*CXX_K(I)-CM(I,1,2)*CYY_K(I)
 C----- y_Ksi, signe +     
           DGLAS(I,8) =CM(I,2,2)*CYY_K(I)-CM(I,1,2)*CXX_K(I)
@@ -1186,7 +1186,7 @@ C------------
           DGLAS(I,11)=C3*HXX_K(I)*VHG(I,6)
           DGLAS(I,12)=C3*HYY_K(I)*VHG(I,6)
         END DO
-C-----part C(1,3),C(2,3)
+C---- Part C (1,3), C (2,3)
 C-------finally after crash-box tets, constant in-plane shear strain and stress
 C--------- like QBAT is used to avoid instability     
        DO I=JFT,JLT
@@ -1463,12 +1463,12 @@ C orthotropic elasto-plastic hourglass stresses+linear damping with drilling dof
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 C        CALCUL VF(3,4),VM(2,4) : FORCES INTERNES GENERALISEES
 C        ENTREES : THK,1/AREA,PME,X13,X24,Y13,Y24,MX13,MX34,MY13,MY34
-C                  DHG(6)  : INCREMENT DE LA DEF HOURGLASS GENERALISEE    
+C                  dhg(6): increment of the generalized hourglass deformation
 C                  VGLAS(12): DEF HOURGLASS GENERALISEE 
 C                  VGLAS(1-6)->ETA; VGLAS(7-12)->KSI;
 C                  -shear: VGLAS(13-14)->ETA; VGLAS(15-16)->KSI; 
 C                  -Sig_rz: VGLAS(17)->ETA; VGLAS(18)->KSI; VGLAS(19)->const
-C                  FAC=Et/E    
+C                  fac=et/e
 C        SORTIES : VF,VM
 C                  VF(3,4),VM(2,4) : 
 C                  J=1,2 STOCK LA PARTIE ANTISYM (F(1)=-F(3),F(2)=-F(4))                                  
@@ -1625,7 +1625,7 @@ C-------Modified modulas for damping---
 C    VGLAS(1-6)->ETA (x:+ y-); VGLAS(7-12)->KSI  (x:- y+);
 C-----part iso-commun
         DO I=JFT,JLT
-C----- x_ETA, signe +     
+C----- x_eta, sign +     
           DGLAS(I,1) =CM(I,1,1)*CXX(I)-CM(I,1,2)*CYY(I)
 C----- y_ETA, signe -     
           DGLAS(I,2) =CM(I,2,2)*CYY(I)-CM(I,1,2)*CXX(I)
@@ -1633,7 +1633,7 @@ C----- x_ETA, signe + bending
           DGLAS(I,3) =CF(I,1,1)*BXX(I)-CF(I,1,2)*BYY(I)
 C----- y_ETA, signe - bending    
           DGLAS(I,4) =CF(I,2,2)*BYY(I)-CF(I,1,2)*BXX(I)
-C----- x_Ksi, signe -     
+C----- x_ksi, sign-     
           DGLAS(I,7) =CM(I,1,1)*CXX_K(I)-CM(I,1,2)*CYY_K(I)
 C----- y_Ksi, signe +     
           DGLAS(I,8) =CM(I,2,2)*CYY_K(I)-CM(I,1,2)*CXX_K(I)
@@ -1664,7 +1664,7 @@ C    --------add  srz dof--------
           DGLAS(I,17)=CRZ*VHGZE(I,5)
           DGLAS(I,18)=CRZ*VHGZK(I,5)
         END DO
-C-----part C(1,3),C(2,3)
+C---- Part C (1,3), C (2,3)
        DO I=JFT,JLT
 C    
         DGLAS(I,1) =DGLAS(I,1)-CM(I,1,3)*CMH(I)
@@ -1811,7 +1811,7 @@ C--------
          SC6(I)=SC6(I)*C2
          SS3(I)=SC5(I)+SC6(I)
       END DO !I=JFT,JLT
-C-----------non const mz----17,18--
+C---------- No Const Mz ---- 17,18--
        DO I=JFT,JLT
         C2=THK(I)*ONE_OVER_6*OFF(I)
         C3=THK(I)*THIRD*OFF(I)

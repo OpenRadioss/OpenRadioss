@@ -47,7 +47,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NUMELR,OFF,
      .  NUMMAT,NUMGEO,  IXR(NIXR,*), IGEO(NPROPGI,*),IPM(NPROPMI,*)
-C     REAL OU REAL*8
+C     REAL OR REAL*8
       my_real
      .    PM(NPROPM,*), GEO(NPROPG,*)
       REAL WD(*)

@@ -107,7 +107,7 @@ C-----------------------------------------------
         LVOIRED = 0
         IF(IREDUCE==0)GO TO 100
 C-------------------------------------------
-C       tri voisins / ne garder que LVOISPH voisins effectifs
+C       Tri neighboring / keep only lvoisph neighbors effective
 C
         DO NS=1,NSPHACT
          N=WASPACT(NS)

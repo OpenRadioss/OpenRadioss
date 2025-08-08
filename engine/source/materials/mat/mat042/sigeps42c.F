@@ -283,7 +283,7 @@ c---------
               ALMA3 = ALMA3 + AL(J)*EVMA3(I,J)                                             
             END DO        
             KT3(I) = KT3(I) + (ONE_OVER_9*(ALMA1 + ALMA2 + FOUR*(ALMA3))) * INVRV(I)*INVV3(I)                                            
-C           viscosty traitement            
+C           Viscosity Treatment            
             C30(I) = UVAR(I,5) 
 C
             SUM = THIRD*(EVM(I,1)**2 +  EVM(I,2)**2 + EVM(I,3)**2)

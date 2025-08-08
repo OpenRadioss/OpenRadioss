@@ -113,7 +113,7 @@ C     ALE ON / OFF
             !!!   Volume fraction
             DO I=LFT,LLT 
                II     = I+NFT    
-               !!! Element centroid
+               !!!centroid element
                ALEMUSCL_Buffer%ELCENTER(II,2) = FOURTH * (X(2, IXQ(2, II)) + X(2, IXQ(3, II)) + X(2, IXQ(4, II)) + X(2, IXQ(5, II)))
                ALEMUSCL_Buffer%ELCENTER(II,3) = FOURTH * (X(3, IXQ(2, II)) + X(3, IXQ(3, II)) + X(3, IXQ(4, II)) + X(3, IXQ(5, II)))
             ENDDO  

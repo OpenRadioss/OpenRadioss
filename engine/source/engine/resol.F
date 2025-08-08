@@ -3116,7 +3116,7 @@ C------------------------------------------------------
      .           CALL SPHRES44B(KXSP ,IXSP ,NOD2SP ,IPARG ,SPBUF )
               ENDIF
 C------------------------------------------------------
-C SPH pointers
+C SPH Pointers
 C------------------------------------------------------
               KSPH1 =1+3*NUMSPH
               KSPH21 =NUMSPH+1
@@ -3774,7 +3774,7 @@ C----------------------------------------
 
 
 C--------------------------------------------------------
-C INTERFACE 24 - Communication part 4 / 4
+C Interface 24 - Communication Part 4/4
 C--------------------------------------------------------
 
               IF (INT24USE == 1)THEN
@@ -4568,7 +4568,7 @@ C
                 CALL TRACE_OUT(4)
               ENDIF   ! fin NINTER > 0
 C--------------------------------------------------------
-C INTERFACE 24 - Communication part 1 / 4
+C Interface 24 - Communication Part 1/4
 C--------------------------------------------------------
               IF (INT24USE == 1)THEN
                 IF (IMON>0) CALL STARTIME(TIMERS,TIMER_CONTFOR)
@@ -9134,7 +9134,7 @@ C--- //  ----------------
 C========================================================================================
 C                                   DOMAIN 0
 C========================================================================================
-                  IF(ISPMD==0) THEN    ! traitement int14 sur p0
+                  IF(ISPMD==0) THEN    ! int14 processing on p0
                     CALL SRFVIT(NODES%X,NODES%V,NODES%VR,NODES%A,NODES%AR,
      .                  NPBY  ,RBY  ,NODES%MS  ,NODES%IN   ,
      .                  IGRSURF ,BUFSF)
@@ -9404,7 +9404,7 @@ C===============================================================================
                   ITSK = OMP_GET_THREAD_NUM()
                   NODFTSK   = 1+ITSK*NUMNOD/ NTHREAD
                   NODLTSK   = (ITSK+1)*NUMNOD/NTHREAD
-c         USE ENRTAG => set positive enrichments
+c         Use enrtag => positive set enrichments
                   CALL UPENR_CRK(ADSKY_CRK,INOD_CRK ,NODFTSK    ,NODLTSK       ,
      .                           NODENR   ,ENRTAG   ,NODLEVXF   ,PROCNE_CRK    )
 !$OMP END PARALLEL

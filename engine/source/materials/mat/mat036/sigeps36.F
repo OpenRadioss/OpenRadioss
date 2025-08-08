@@ -243,7 +243,7 @@ c          from the old stresses, thus, SIGOxx is a shifted old stress
         ENDDO            
       ENDIF 
 c------------------------------------------
-c     element length scale function
+c     Length Scale Function element
 c------------------------------------------
       IF (OPTE == 1) THEN
         IFUNCE = UPARAM( 2*NRATE + 22)
@@ -355,7 +355,7 @@ c           yp= 3 x^2 + c
           E62 = E6*E6
           C = - HALF *(E1*E1 + E2*E2 + E3*E3) - E42 - E52 - E62
           EPST = SQRT(-C*THIRD)
-c         2*EPST est un majorant de la solution
+c         2*EPST is an upper bound of the solution
           EPSR1DAV = EPSR1F - DAV
           IF(EPST+EPST < EPSR1DAV)CYCLE
           D = - E1*E2*E3 + E1*E52 + E2*E62 + E3*E42
@@ -368,7 +368,7 @@ c         2*EPST est un majorant de la solution
             Y = (EPST2 + C)* EPST + D
             YP = THREE*EPST2 + C
             EPST = EPST - Y/YP
-c           EPST est un majorant de la solution
+c           EPST is an upper bound of the solution
             IF(EPST < EPSR1DAV)CYCLE
             EPST2 = EPST * EPST
             Y = (EPST2 + C)* EPST + D
@@ -469,7 +469,7 @@ c
             VARTMP(I,J2+2) = IPOS2(I)
           ENDDO
 C
-          IF (FISOKIN == ZERO) THEN   ! ecrouissage isotrope
+          IF (FISOKIN == ZERO) THEN   ! ISOTROP
 #include "vectorize.inc"
             DO I=1,NEL
               J1 = JJ(I)
@@ -484,7 +484,7 @@ C
               H(I) = (DYDX1(I) + FAC*(DYDX2(I)-DYDX1(I))) * CC
             ENDDO
 c
-          ELSEIF (FISOKIN == ONE) THEN   ! ecrouissage cinematique
+          ELSEIF (FISOKIN == ONE) THEN   ! cinematics
 c
 #include "vectorize.inc"
             DO I=1,NEL
@@ -502,7 +502,7 @@ c
               YLD(I) = CC*(Y1(I)    + FAC*(Y2(I)-Y1(I)))            
             ENDDO
 c
-          ELSE      ! 0 < FISOKIN < 1  ecrouissage mixte
+          ELSE      ! 0 <fisokin <1 mixed collapse
 c
 #include "vectorize.inc"
             DO I=1,NEL
@@ -656,7 +656,7 @@ C
          JJ(I) = 1                                                 
         ENDDO
 C-------------------------
-C       CRITERE DE VON MISES
+C       VON MISES CRITERION
 C-------------------------
         DO I=1,NEL
           SVM2(I) = THREE*(HALF*(SIGNXX(I)**2+SIGNYY(I)**2+SIGNZZ(I)**2)
@@ -1148,7 +1148,7 @@ c------------------------------------------------
               I = INDEX(II) 
               SVM_TAB(I)       = SQRT(SVM2(I))  
               DPLA_J(I) =  UVAR(I,1) + EM09 
-              !DPLA_J(I) = (SVM-YLD(I))/(G3(I)+H(I))!converge moins bien avec estimation radial
+              !Dpla_j (i) = (svm-yld (i))/(g3 (i)+h (i))! Converges less well with radial estimate
               !-------------- 
               !update yield :
               !-------------- 
@@ -1430,7 +1430,7 @@ c          ..gets stresses from shifted stresses and back stresses
              SIGNZX(I) = SIGNZX(I) + SIGBZX(I) 
           ENDDO
 
-        ELSEIF (FISOKIN > ZERO) THEN   ! ecrouissage mixte
+        ELSEIF (FISOKIN > ZERO) THEN   ! mixed collapse
 #include "vectorize.inc"
           DO I=1,NEL
              DSXX = SIGEXX(I) - SIGNXX(I) 

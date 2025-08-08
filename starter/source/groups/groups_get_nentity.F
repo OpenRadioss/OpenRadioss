@@ -54,7 +54,7 @@ C-----------------------------------------------
       INTEGER NENTITY_POS,NENTITY_NEG,JJ,KK
       LOGICAL IS_AVAILABLE, IS_ENCRYPTED
 C-----------------------------------------------
-C CONSTITUTION DE LIST
+C CONSTITUTION OF LIST
 C-----------------------------------------------
         CALL HM_GET_INTV  ('idsmax' ,NENTITY_POS,IS_AVAILABLE,LSUBMODEL)                 
         CALL HM_GET_INTV  ('negativeIdsmax' ,NENTITY_NEG,IS_AVAILABLE,LSUBMODEL)

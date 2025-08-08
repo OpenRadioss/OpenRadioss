@@ -110,7 +110,7 @@ C
         RZ2(I)=RZ2(I)+RXAV(I)*(RY20(I)+EXZ(I))
       ENDDO
 C---------------------------------------------------
-C     LIBERATION DES ROTATIONS
+C     RELEASE OF ROTATIONS
 C---------------------------------------------------
       DO I=1,NEL
         IG=PID(I)
