@@ -66,10 +66,14 @@ C attention IBM/MPI ne supporte pas de REWIND sur STDIN !
 C     La lecture du fichier D01 pour detection de l'option /MADYMO/ON
 C     n'est pas autorisee en SPMD.
 C     => A modifier si cette option doit etre supportee en SPMD ../..
+C  { attention IBM/MPI does not support REWIND on STDIN !
+C        Reading the D01 file for detection of the /MADYMO/ON option 
+C        is not authorized in SPMD. 
+C        => To be modified if this option must be supported in SPMD ../..  }
       INTEGER ISTDI
       CHARACTER KEYA*80
 C----------------------------------------------
-C Parametres argument de run
+C Parametres argument de run  { Run argument parameters }
       CALL FILE_INIT()       ! Initialize C FILE buffer for IEEE writing
 
 C 
@@ -86,6 +90,7 @@ C
 !     ---------------------------- 
 C-----------------------------------------------
 C     allocation minimale (en cas d'absence de couplage MADYMO).
+C     { minimum allocation (in the absence of MADYMO coupling) }
       ALLOCATE(IDATA(MIDATA))
       ALLOCATE(RDATA(MRDATA))
       DO I=1,MIDATA

@@ -81,6 +81,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sensor_mod               ../common_source/modules/sensor_mod.F90
 !||    state_mod                ../common_source/modules/state_mod.F
 !||    th_mod                   ../engine/share/modules/th_mod.F
+!||    viper_mod                ../engine/source/interfaces/viper/viper_interface_mod.F
 !||====================================================================
       SUBROUTINE FREFORM(IRUNN,IRFL,IRFE,H3D_DATA,FLAG_CST_AMS,DYNAIN_DATA,
      .                   SENSORS,DT,OUTPUT,GLOB_THERM)
@@ -106,6 +107,7 @@ C-----------------------------------------------
       USE OUTPUT_MOD
       USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100,NCHARKEY
       use glob_therm_mod
+      USE VIPER_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -154,7 +156,7 @@ C-----------------------------------------------
 C   L o c a l   P a r a m e t e r s
 C-----------------------------------------------
       INTEGER NKEY, NUM_ALE_KEY2
-      PARAMETER (NKEY = 92)
+      PARAMETER (NKEY = 93)
       PARAMETER (NUM_ALE_KEY2 = 25)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -171,7 +173,7 @@ C-----------------------------------------------
      .   NFVMESH,KSTATF,KSHVER,KABF,KDTSDE,
      .   KAABF,KBABF,KCABF,KDABF,KEABF,KFABF,KGABF,KHABF,KIABF,NFVMODI,
      .   KUPWIND,KTHERMAL,KH3D,KREPORT,KNEGVOL,KADYREL,KDT1TET10,KPERF,
-     .   KDYNAIN,KDTTSH,KMASS,KSENSOR
+     .   KDYNAIN,KDTTSH,KMASS,KSENSOR,KVIPER
       INTEGER
      .   IKEY,I,II,I1,J,J1,J2,K,KK,M,N, NCT, IKOLD, NBC, K3, K4,
      .   NUBCS1,NUBCS2, IR,IDT,NELTGOF,IREC,
@@ -227,7 +229,7 @@ C-----------------------------------------------
      .     'EABF '   ,'FABF'    ,'GABF'    ,'HABF'    ,'IABF'    ,
      .     'UPWIN'   ,'THERM'   ,'H3D'     ,'REPOR'   ,'NEGVO'  ,
      .     'ADYRE'   ,'DT1TE'   ,'PERF'    ,'DYNAI'   ,'DTTSH'   ,
-     .     'MASS '   ,'SENS ' /
+     .     'MASS '   ,'SENS '   ,'VIPER' /
 
       DATA KRUN/1/    ,KTITLE/2/    ,KDT/3/       ,KTFILE/4/   ,KPRINT/5/  ,
      .     KRFILE/6/  ,KVERS/7/     ,                           KALE/10/   ,
@@ -247,7 +249,7 @@ C-----------------------------------------------
      .     KEABF/76/  ,KFABF/77/    ,KGABF/78/    ,KHABF/79/   ,KIABF/80/  ,
      .     KUPWIND/81/,KTHERMAL/82/ ,KH3D/83/     ,KREPORT/84/ ,KNEGVOL/85/,
      .     KADYREL/86/,KDT1TET10/87/,KPERF/88/    ,KDYNAIN/89/ ,KDTTSH/90/ ,
-     .     KMASS/91/  ,KSENSOR/92/
+     .     KMASS/91/  ,KSENSOR/92/  ,KVIPER/93/
 
       DATA KEYALE/
      .     'BCS  '   ,'CLOSE'   ,'GRID '   ,'LINK '   ,'MAT  '   ,
@@ -2211,6 +2213,25 @@ C--------------------
           K=K+1
         ENDDO
         IF(IKAD(IKEY)+K/=IKAD(IKEY+1)) GO TO 670
+      ENDIF
+      
+C--------------------
+C     /VIPER
+C--------------------
+      IKEY=KVIPER
+      ViperCoupling = .false.
+      IF (IKAD(IKEY)/=IKAD(IKEY+1)) THEN
+        K=0
+ 680    READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(7X,A,37X,I10)',ERR=9990) KEY2,NBC
+        IF(KEY2=='ON')THEN
+          ViperCoupling = .true.
+        ENDIF
+        K=K+1
+        DO I=1,NBC
+          READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(A)',ERR=9990) CARTE
+          K=K+1
+        ENDDO
+        IF(IKAD(IKEY)+K/=IKAD(IKEY+1)) GO TO 680
       ENDIF
       
 C--------------------------------------------------
