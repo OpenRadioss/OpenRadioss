@@ -1393,10 +1393,10 @@
 !       for user type laws (lecmuser)
 !---------------------------------------------------------
 
-            if (ilaw > 27   .and. ilaw /= 32 .and. ilaw /= 49 .and.     &
-                ilaw /= 151 .and. ilaw /= 999) then
-!
+            if (ilaw > 27 .and. ilaw /= 32 .and. ilaw /= 49&
+            &.and. ilaw /= 151 .and. ilaw /= 999) then
               mtag%l_stra = 6        ! all user type laws calculate total strain
+!
               bulk  = parmat(1)
               young = parmat(2)
               nu    = parmat(3)
@@ -1410,14 +1410,14 @@
               pm(21,i) = nu
               pm(22,i) = g
               pm(24,i) = young/(one - nu**2)
-              pm(25,i) = nu*young/(one - nu**2)
               pm(32,i) = bulk
               if (ilaw==71 ) pm(27,i)=sqrt(young/max(pm(1,i),em20))  ! sound speed
 !---------
-              !  for solid elements time step computation :
+!         for solid elements time step computation :
               ipm(252,i)= nint(parmat(16))   ! iformdt = 0,1,2
               pm(105,i) = parmat(17)         ! gfac factor
 !---------
+!-------
               ipm(7,i)   = iadbuf
               ipm(8,i)   = nuvar
               ipm(9,i)   = nuparam
@@ -1433,9 +1433,9 @@
               do j=1,numtabl
                 ipm(226+j,i) = itable(j)
               enddo
-!
-              !  fill uparam buffer
-!
+!---------------------------------------------------------
+!           fill uparam buffer
+!---------------------------------------------------------
               if (nuparam > 0) then
                 do j=1,nuparam
                   bufmat(iadbuf+j-1) = uparam(j)
@@ -1454,9 +1454,9 @@
               enddo
               iadbuf = iadbuf + nuparam
               buflen = buflen + nuparam
+!
             endif ! ilaw>=28
-!-------------------------------------------------------------------------------
-            !  high stiffness for contact
+!------- high stiffness for contact
             pm(107,i) = two*max(pm(32,i),pm(100,i))
             if (ilaw==1) pm(107,i) = thirty*pm(107,i)
             if (ilaw==62) pm(107,i) = hundred*pm(107,i)
