@@ -103,6 +103,7 @@ c
       !=======================================================================
       !UVAR(1)   PHI     YIELD FUNCTION VALUE
       !UVAR(2)   YLD     YIELD STRESS
+      !UVAR(3)   EPSD    PLASTIC STRAIN RATE SAVED FOR FILTERING
       !=======================================================================
 c
       !=======================================================================
@@ -183,7 +184,9 @@ c
         NORMYY(I)  = ZERO       ! Initialization of the y component of the normal tensor
         NORMZZ(I)  = ZERO       ! Initialization of the z component of the normal tensor
       ENDDO   
-c
+!
+      epsd(1:nel) = uvar(1:nel,3)
+!
       ! Initialization of damage, temperature and self-heating weight factor
       IF (TIME == ZERO) THEN   
         TEMP(1:NEL) = TINI 
@@ -611,6 +614,7 @@ c
         ! Plastic strain-rate (filtered)
         DPDT       = DPLA(I) / MAX(EM20,TIMESTEP)
         EPSD(I)    = AFILTR * DPDT + (ONE - AFILTR) * EPSD(I)
+        UVAR(I,3)  = EPSD(I)
         ! Computation of the sound speed
         SOUNDSP(I) = SQRT((A11)/RHO(I))
         ! Storing the yield stress
