@@ -119,13 +119,14 @@ C
 C         I AM THE FIRST ONE
           ISPMD = 0
 C
-C Calcul du nombre de threads
+C Calcul du nombre de threads  { Calculating the number of threads }
 C
 #if defined(_OPENMP)
           STR = ' '
           CALL  GETENV('OMP_NUM_THREADS',STR)
           NTHREAD1=0
 C nthread1 : nombre de threads fixe par la variable environnememt
+C {nthread1: number of threads fixed by the environment variable }
           READ(STR,'(I10)',ERR=999)NTHREAD1
           GOTO 1000
  999      CONTINUE
@@ -160,7 +161,7 @@ C nthread1 : nombre de threads fixe par la variable environnememt
           CALL MPI_BCAST(
      1      NSPMD,1,MPI_INTEGER,IT_SPMD(1),SPMD_COMM_WORLD,
      2      IERROR )
-C recuperation de NTHREAD depuis process 0
+C recuperation de NTHREAD depuis process 0   { recovery of NTHREAD from process 0 }
           CALL MPI_BCAST(
      1      NTHREAD,1,MPI_INTEGER,IT_SPMD(1),SPMD_COMM_WORLD,
      2      IERROR )
@@ -203,6 +204,7 @@ C control of nthread per MPI process
         IF(ISPMD == 0) THEN
 C
 C test cooherence NSPMD et nombre de proccesses MPI demandes (-np)
+C { NSPMD coherence test and number of MPI processes requested (-np) }
 C
           IF (NSPMD /= NNODES) THEN
             WRITE(IOUT,*)
@@ -233,9 +235,11 @@ C
           END IF
           IF(NSPMD > 1) THEN
 C envoi NSPMD de process0 vers les autres processes
+C { sending NSPMD from process0 to other processes }
             CALL MPI_BCAST(NSPMD,1,MPI_INTEGER,IT_SPMD(1),
      .                     SPMD_COMM_WORLD,IERROR)
 C envoi de NTHREAD de process0 vers les autres processes
+C { sending NTHREAD from process0 to other processes }
             CALL MPI_BCAST(NTHREAD,1,MPI_INTEGER,IT_SPMD(1),
      .                     SPMD_COMM_WORLD,IERROR)
 C

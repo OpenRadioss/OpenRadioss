@@ -1201,7 +1201,7 @@ C
         IF (H4(I)/=ZERO) NISKYL1 = NISKYL1 + 1
       ENDDO
 C
-C Precalcul impact locaux / remote
+C Precalcul impact locaux / remote   {Local/remote impact pre-calculation}
 C
       IGP = 0
       IGM = 0
@@ -1292,7 +1292,7 @@ C
             ISKYFI(NIN)%P(NISKYFIL) = IG
           ENDIF
         ENDDO
-C Thermique
+C Thermique  {Thermal}
       ELSE
         IF(NODADT_THERM == 1 .AND.IFORM > 0) THEN
           DO I=1,JLT
@@ -1532,7 +1532,7 @@ C
         IF (H4(I)/=ZERO) NISKYL1 = NISKYL1 + 1
       ENDDO
 C
-C Precalcul impact locaux / remote
+C Precalcul impact locaux / remote  {Local/remote impact pre-calculation}
 C
       IGP = 0
       IGM = 0
@@ -1628,7 +1628,7 @@ Cs
             ISKYFI(NIN)%P(NISKYFIL) = IG
           ENDIF
         ENDDO
-C + la thermique
+C + la thermique {+ the thermal}
       ELSE
         IF(NODADT_THERM == 1 .AND.IFORM > 0) THEN
           DO I=1,JLT

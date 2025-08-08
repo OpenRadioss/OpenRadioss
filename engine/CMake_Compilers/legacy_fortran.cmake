@@ -1306,6 +1306,7 @@ set_source_files_properties( ${source_directory}/source/interfaces/int17/i21lagm
 set_source_files_properties( ${source_directory}/source/interfaces/int17/i17buce.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/interfaces/int17/i17main.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/interfaces/int17/i17crit.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
+set_source_files_properties( ${source_directory}/source/interfaces/viper/viper_interface_mod.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/engine/resol_init.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/engine/radioss_title.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/engine/radioss2.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
