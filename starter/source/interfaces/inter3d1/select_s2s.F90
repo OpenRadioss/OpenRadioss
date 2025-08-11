@@ -71,11 +71,12 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i,j,k,nj(4),ii,ifound,iwork(4),nj1(4),ier,jmin,i_old,n_buck,ihuge
           integer :: n_dir(3),ix,iy,iz,nsu_1,nsu_2,jj,ndiv_min,nb_seg1(3),nb_seg2(3)
-          real(kind=WP) :: area1(nsu1),area2(nsu2),xs1(3,nsu1),xs2(3,nsu2),n1(3,nsu1),n2(3,nsu2)
+          real(kind=WP) :: area1,area2
           real(kind=WP) :: ds,dsn,dmin,xj(3,4),marge1(nsu1),marge2(nsu2),angle,angle_min
           real(kind=WP) :: marge,xmin(3),xmax(3),xmin2(3),xmax2(3),tol_d,xmin_i(3),xmax_i(3)
           real(kind=WP) :: sz_g(3),sz_max,sz_min,marge_1,marge_2,xming(3),xmaxg(3),marge_g,ll,marge_max
           integer,  dimension(:), allocatable   :: ind_1,ind_2
+          real(kind=WP),  dimension(:,:), allocatable   :: xs1,n1,dim1,xs2,n2,dim2
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -86,21 +87,28 @@
           marge_1 = zero !mean value
           marge_max = zero
           n_buck = 100
+          allocate(xs1(3,nsu1),n1(3,nsu1),dim1(3,nsu1))
+          allocate(xs2(3,nsu2),n2(3,nsu2),dim2(3,nsu2))
 !  1er surf
           do i=1,nsu1
             nj(1:4) = nodes1(i,1:4)
-            call norma4n(n1(1,i),n1(2,i),n1(3,i),area1(i),nj,x)
+            call norma4n(n1(1,i),n1(2,i),n1(3,i),area1,nj,x)
             xj(1:3,1:4) = x(1:3,nj(1:4))
-            if (nj(3)==nj(4)) then
-              xmin(1:3) =min(xmin(1:3),xj(1:3,1),xj(1:3,2),xj(1:3,3))
-              xmax(1:3) =max(xmax(1:3),xj(1:3,1),xj(1:3,2),xj(1:3,3))
+            if (nj(3)==nj(4)) then 
+              xmin_i(1:3) = min(xj(1:3,1),xj(1:3,2),xj(1:3,3))
+              xmax_i(1:3) = max(xj(1:3,1),xj(1:3,2),xj(1:3,3))
+              xmin(1:3) = min(xmin(1:3),xmin_i(1:3))
+              xmax(1:3) = max(xmax(1:3),xmax_i(1:3))
               xs1(1:3,i) = third*(xj(1:3,1)+xj(1:3,2)+xj(1:3,3))
             else
-              xmin(1:3) =min(xmin(1:3),xj(1:3,1),xj(1:3,2),xj(1:3,3),xj(1:3,4))
-              xmax(1:3) =max(xmax(1:3),xj(1:3,1),xj(1:3,2),xj(1:3,3),xj(1:3,4))
+              xmin_i(1:3) = min(xj(1:3,1),xj(1:3,2),xj(1:3,3),xj(1:3,4))
+              xmax_i(1:3) = max(xj(1:3,1),xj(1:3,2),xj(1:3,3),xj(1:3,4))
+              xmin(1:3) = min(xmin(1:3),xmin_i(1:3))
+              xmax(1:3) = max(xmax(1:3),xmax_i(1:3))
               xs1(1:3,i) = fourth*(xj(1:3,1)+xj(1:3,2)+xj(1:3,3)+xj(1:3,4))
             end if
-            ll = sqrt(area1(i))
+            dim1(1:3,i) = 0.6*(xmax_i(1:3)-xmin_i(1:3))
+            ll = sqrt(area1)
             marge1(i) = max(ds,0.2*ll)
             marge_1 = marge_1 + ll
             marge_max = max(marge_max,ll)
@@ -108,25 +116,30 @@
           if (nsu1>0) marge_1 = marge_1/nsu1
           marge_g = marge_max
           nb_seg1(1:3) = (xmax(1:3)-xmin(1:3))/(n_buck*marge_1)
-!  2nd
+!  2nd 
           xmin2(1:3) = ep20
           xmax2(1:3) = -ep20
           marge_2 = zero
-          marge_max = zero
+          marge_max = zero  
           do i=1,nsu2
             nj(1:4) = nodes2(i,1:4)
-            call norma4n(n2(1,i),n2(2,i),n2(3,i),area2(i),nj,x)
+            call norma4n(n2(1,i),n2(2,i),n2(3,i),area2,nj,x)
             xj(1:3,1:4) = x(1:3,nj(1:4))
-            if (nj(3)==nj(4)) then
-              xmin2(1:3) =min(xmin2(1:3),xj(1:3,1),xj(1:3,2),xj(1:3,3))
-              xmax2(1:3) =max(xmax2(1:3),xj(1:3,1),xj(1:3,2),xj(1:3,3))
+            if (nj(3)==nj(4)) then 
+              xmin_i(1:3) = min(xj(1:3,1),xj(1:3,2),xj(1:3,3))
+              xmax_i(1:3) = max(xj(1:3,1),xj(1:3,2),xj(1:3,3))
+              xmin2(1:3) =min(xmin2(1:3),xmin_i(1:3))
+              xmax2(1:3) =max(xmax2(1:3),xmax_i(1:3))
               xs2(1:3,i) = third*(xj(1:3,1)+xj(1:3,2)+xj(1:3,3))
             else
-              xmin2(1:3) =min(xmin2(1:3),xj(1:3,1),xj(1:3,2),xj(1:3,3),xj(1:3,4))
-              xmax2(1:3) =max(xmax2(1:3),xj(1:3,1),xj(1:3,2),xj(1:3,3),xj(1:3,4))
+              xmin_i(1:3) = min(xj(1:3,1),xj(1:3,2),xj(1:3,3),xj(1:3,4))
+              xmax_i(1:3) = max(xj(1:3,1),xj(1:3,2),xj(1:3,3),xj(1:3,4))
+              xmin2(1:3) =min(xmin2(1:3),xmin_i(1:3))
+              xmax2(1:3) =max(xmax2(1:3),xmax_i(1:3))
               xs2(1:3,i) = fourth*(xj(1:3,1)+xj(1:3,2)+xj(1:3,3)+xj(1:3,4))
             end if
-            ll = sqrt(area2(i))
+            dim2(1:3,i) = 0.6*(xmax_i(1:3)-xmin_i(1:3))
+            ll = sqrt(area2)
             marge2(i) = max(ds,0.2*ll)
             marge_2 = marge_2 + ll
             marge_max = max(marge_max,ll)
@@ -137,7 +150,8 @@
           marge_g = max(ds,marge_g)
           xming(1:3) = min(xmin(1:3),xmin2(1:3))
           xmaxg(1:3) = max(xmax(1:3),xmax2(1:3))
-          n_dir(1:3) = (nb_seg1(1:3)+nb_seg2(1:3))/2
+          n_dir(1:3) = max(nb_seg1(1:3),nb_seg2(1:3))
+!          n_dir(1:3) = (nb_seg1(1:3)+nb_seg2(1:3))/2
           ihuge = 0
           k = 0
           do j=1,3
@@ -146,12 +160,12 @@
           end do
           ndiv_min = 1
           select case (k)
-           case (1)
-            if ((nsu1+nsu2)>2000000) ihuge = 1
-           case (2)
-            if ((nsu1+nsu2)>50000) ihuge = 1
-           case (3)
-            ihuge = 1
+            case (1)
+              if ((nsu1+nsu2)>2000000) ihuge = 1
+            case (2)
+              if ((nsu1+nsu2)>50000) ihuge = 1
+            case (3)
+              ihuge = 1
           end select
           allocate(ind_1(nsu1))
           allocate(ind_2(nsu2))
@@ -234,19 +248,31 @@
                     end do
                     ifound = 0
                     dmin = marge1(i)
+                    marge = marge1(i)
                     do jj = 1,nsu_2
                       ii = ind_2(jj)
                       if (itag2(ii)==0) cycle
-                      marge = max(marge1(i),marge2(ii))
-                      xmin2(1:3) = xmin(1:3)-marge
-                      xmax2(1:3) = xmax(1:3)+marge
+!                      marge = max(marge1(i),marge2(ii))
+                      xmin2(1:3) = xmin(1:3)-marge-dim2(1:3,ii) ! increase the marge by dim2
+                      xmax2(1:3) = xmax(1:3)+marge+dim2(1:3,ii)
                       if(xs2(1,ii) < xmin2(1) .or. xs2(1,ii) > xmax2(1)) cycle
                       if(xs2(2,ii) < xmin2(2) .or. xs2(2,ii) > xmax2(2)) cycle
                       if(xs2(3,ii) < xmin2(3) .or. xs2(3,ii) > xmax2(3)) cycle
+! finer check by each node of ii                   
+                      nj(1:4) = nodes2(ii,1:4)
+                      xj(1:3,1:4) = x(1:3,nj(1:4))
+                      xmin2(1:3) = xj(1:3,1)
+                      xmax2(1:3) = xj(1:3,1)
+                      do j=2,4
+                        xmin2(1:3) = min(xmin2(1:3),xj(1:3,j))
+                        xmax2(1:3) = max(xmax2(1:3),xj(1:3,j))
+                      end do
+                      if(xmin2(1)>(xmax(1)+marge) .or. xmax2(1) < (xmin(1)-marge)) cycle
+                      if(xmin2(2)>(xmax(2)+marge) .or. xmax2(2) < (xmin(2)-marge)) cycle
+                      if(xmin2(3)>(xmax(3)+marge) .or. xmax2(3) < (xmin(3)-marge)) cycle
                       angle = n1(1,i)*n2(1,ii)+n1(2,i)*n2(2,ii)+n1(3,i)*n2(3,ii)
                       if (abs(angle) < angle_min) cycle
                       dsn = abs((xs1(1,i)-xs2(1,ii))*n1(1,i)+(xs1(2,i)-xs2(2,ii))*n1(2,i)+(xs1(3,i)-xs2(3,ii))*n1(3,i))
-!                   ds2 = (xs1(1,i)-xs2(1,ii))**2+(xs1(2,i)-xs2(2,ii))**2+(xs1(3,i)-xs2(3,ii))**2
                       tol_d=0.1*marge2(ii)
                       if (dsn < dmin) then
                         i_old = ifound
@@ -258,7 +284,7 @@
                       endif
                       if (ifound==0) ifound=ii
                     end do
-                    if (ifound==0) itag1(i) = ifound
+                    if (ifound==0) itag1(i) = 0
                   end do
 !  tag usful surf2 by nodes in surf1 found, remove surf1 by distance and angle
                   do k=1,nsu_2
@@ -274,15 +300,27 @@
                     end do
                     ifound=0
                     dmin = marge2(i)
+                    marge = marge2(i)
                     do jj = 1,nsu_1
                       ii = ind_1(jj)
                       if (itag1(ii)==0) cycle
-                      marge = max(marge1(ii),marge2(i))
-                      xmin2(1:3) = xmin(1:3)-marge
-                      xmax2(1:3) = xmax(1:3)+marge
+                      xmin2(1:3) = xmin(1:3)-marge-dim1(1:3,ii)
+                      xmax2(1:3) = xmax(1:3)+marge+dim1(1:3,ii)
                       if(xs1(1,ii) < xmin2(1) .or. xs1(1,ii) > xmax2(1)) cycle
                       if(xs1(2,ii) < xmin2(2) .or. xs1(2,ii) > xmax2(2)) cycle
                       if(xs1(3,ii) < xmin2(3) .or. xs1(3,ii) > xmax2(3)) cycle
+! finer check by each node of ii                   
+                      nj(1:4) = nodes1(ii,1:4)
+                      xj(1:3,1:4) = x(1:3,nj(1:4))
+                      xmin2(1:3) = xj(1:3,1)
+                      xmax2(1:3) = xj(1:3,1)
+                      do j=2,4 
+                         xmin2(1:3) = min(xmin2(1:3),xj(1:3,j))
+                         xmax2(1:3) = max(xmax2(1:3),xj(1:3,j))
+                      end do
+                      if(xmin2(1)>(xmax(1)+marge) .or. xmax2(1) < (xmin(1)-marge)) cycle
+                      if(xmin2(2)>(xmax(2)+marge) .or. xmax2(2) < (xmin(2)-marge)) cycle
+                      if(xmin2(3)>(xmax(3)+marge) .or. xmax2(3) < (xmin(3)-marge)) cycle
                       angle = n1(1,ii)*n2(1,i)+n1(2,ii)*n2(2,i)+n1(3,ii)*n2(3,i)
                       if (abs(angle) < angle_min) cycle
                       dsn =abs((xs1(1,ii)-xs2(1,i))*n2(1,i)+(xs1(2,ii)-xs2(2,i))*n2(2,i)+(xs1(3,ii)-xs2(3,i))*n2(3,i))
@@ -297,7 +335,7 @@
                       endif
                       if (ifound==0) ifound=ii
                     end do
-                    if (ifound==0) itag2(i) = ifound
+                    if (ifound==0) itag2(i) = 0
                   end do
                 elseif (nsu_1 > 0) then ! nsu_2 = 0
                   do ii=1,nsu_1
@@ -315,6 +353,12 @@
           end do
           deallocate(ind_1)
           deallocate(ind_2)
+          deallocate(xs1)
+          deallocate(n1)
+          deallocate(dim1)
+          deallocate(xs2)
+          deallocate(n2)
+          deallocate(dim2)
         end subroutine select_s2s
       end module select_s2s_mod
 
