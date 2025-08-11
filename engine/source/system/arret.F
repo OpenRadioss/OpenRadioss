@@ -262,7 +262,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    multi_muscl_fluxes_computation   ../engine/source/multifluid/multi_muscl_fluxes_computation.F
 !||    multi_muscl_gradients            ../engine/source/multifluid/multi_muscl_gradients.F
 !||    multi_nrf_ebcs                   ../engine/source/multifluid/multi_nrf_ebcs.F
-!||    multi_propergol_ebcs             ../engine/source/multifluid/multi_propergol_ebcs.F90
+!||    multi_propellant_ebcs             ../engine/source/multifluid/multi_propellant_ebcs.F90
 !||    multi_submatlaw                  ../engine/source/multifluid/multi_submatlaw.F
 !||    multi_timeevolution              ../engine/source/multifluid/multi_timeevolution.F
 !||    ndof_fv                          ../engine/source/implicit/ind_glob_k.F

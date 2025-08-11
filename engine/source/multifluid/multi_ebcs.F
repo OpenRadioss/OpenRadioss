@@ -27,7 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- calls      -----------------------------------------------------
 !||    multi_inlet_ebcs       ../engine/source/multifluid/multi_inlet_ebcs.F
 !||    multi_nrf_ebcs         ../engine/source/multifluid/multi_nrf_ebcs.F
-!||    multi_propergol_ebcs   ../engine/source/multifluid/multi_propergol_ebcs.F90
+!||    multi_propellant_ebcs   ../engine/source/multifluid/multi_propellant_ebcs.F90
 !||--- uses       -----------------------------------------------------
 !||    ebcs_mod               ../common_source/modules/boundary_conditions/ebcs_mod.F90
 !||    matparam_def_mod       ../common_source/modules/mat_elem/matparam_def_mod.F90
@@ -107,8 +107,8 @@ C     Inlet, outlet boundary condition
      .           twf%ielem, twf%iface, twf%fvm_inlet_data,
      .           IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM, FUNC_VALUE,
      .           twf,NPF,TF,FSAVSURF,TIMESTEP, MATPARAM)
-            TYPE IS(t_ebcs_propergol)
-              CALL MULTI_PROPERGOL_EBCS(ITASK, I, MULTI_FVM, NELEM,
+            TYPE IS(t_ebcs_propellant)
+              CALL MULTI_PROPELLANT_EBCS(ITASK, I, MULTI_FVM, NELEM,
      .           twf%ielem, twf%iface, twf%fvm_inlet_data,
      .           IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM, FUNC_VALUE,
      .           twf,NPF,TF,FSAVSURF,TIMESTEP,NIXS, NIXQ, NIXTG, NPROPMI, NPROPM, NSURF, STF, SNPC,

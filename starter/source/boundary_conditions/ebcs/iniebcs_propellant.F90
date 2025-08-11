@@ -21,11 +21,11 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    iniebcs_propergol_   ../starter/source/boundary_conditions/ebcs/iniebcs_propergol.F90
+!||    iniebcs_propellant_   ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
 !||--- called by ------------------------------------------------------
 !||    lectur               ../starter/source/starter/lectur.F
 !||====================================================================
-      module iniebcs_propergol_
+      module iniebcs_propellant_
       contains
 ! ======================================================================================================================
 !                                                   procedures
@@ -33,15 +33,15 @@
 !! \brief For option /EBCS/PROPERGOL, need to get from adjacent EoS Cv parameter
 !! \details this Cv parameter allows to determine q_combustion=Cv.T_combustion
 !||====================================================================
-!||    iniebcs_propergol          ../starter/source/boundary_conditions/ebcs/iniebcs_propergol.F90
+!||    iniebcs_propellant          ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
 !||--- called by ------------------------------------------------------
 !||    lectur                     ../starter/source/starter/lectur.F
 !||--- calls      -----------------------------------------------------
-!||    iniebcs_propergol_get_cv   ../starter/source/boundary_conditions/ebcs/iniebcs_propergol.F90
+!||    iniebcs_propellant_get_cv   ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
 !||--- uses       -----------------------------------------------------
 !||    message_mod                ../starter/share/message_module/message_mod.F
 !||====================================================================
-        subroutine iniebcs_propergol(ixs,ixq,ixtg,multi_fvm_is_used,ebcs_tab,mat_param,sixs,sixq,sixtg,nummat)
+        subroutine iniebcs_propellant(ixs,ixq,ixtg,multi_fvm_is_used,ebcs_tab,mat_param,sixs,sixq,sixtg,nummat)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -86,12 +86,12 @@
               !/EBCS/PROPERGOL (TYP=11) : retrieve Cv parameter in adjacent (sub)material
               !  warn user if adjacent elem is not matching an Ideal Gas EoS
               select type (twf => ebcs_tab%tab(ii)%poly)
-               type is (t_ebcs_propergol)
-                call iniebcs_propergol_get_cv(twf,mat_param,nummat,twf%title,ixs,ixq,ixtg,sixs,sixq,sixtg)
+               type is (t_ebcs_propellant)
+                call iniebcs_propellant_get_cv(twf,mat_param,nummat,twf%title,ixs,ixq,ixtg,sixs,sixq,sixtg)
               end select
             end if
           end do
-        end subroutine iniebcs_propergol
+        end subroutine iniebcs_propellant
 
 ! ======================================================================================================================
 !                                                   procedures
@@ -99,15 +99,15 @@
 !! \brief For option /EBCS/PROPERGOL,loop over adjacent elems and get cv parameter
 !! \details in case of different values are detected, use median one (ignition may be starter with a high density gas : few elems only)
 !||====================================================================
-!||    iniebcs_propergol_get_cv   ../starter/source/boundary_conditions/ebcs/iniebcs_propergol.F90
+!||    iniebcs_propellant_get_cv   ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
 !||--- called by ------------------------------------------------------
-!||    iniebcs_propergol          ../starter/source/boundary_conditions/ebcs/iniebcs_propergol.F90
+!||    iniebcs_propellant          ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
 !||--- calls      -----------------------------------------------------
 !||    ancmsg                     ../starter/source/output/message/message.F
 !||--- uses       -----------------------------------------------------
 !||    message_mod                ../starter/share/message_module/message_mod.F
 !||====================================================================
-        subroutine iniebcs_propergol_get_cv(ebcs,mat_param,nummat,title,ixs,ixq,ixtg,sixs,sixq,sixtg)
+        subroutine iniebcs_propellant_get_cv(ebcs,mat_param,nummat,title,ixs,ixq,ixtg,sixs,sixq,sixtg)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -129,7 +129,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-          type(t_ebcs_propergol), target, intent(inout) :: ebcs                !< ebcs propergol data structure
+          type(t_ebcs_propellant), target, intent(inout) :: ebcs                !< ebcs propellant data structure
           integer,intent(in) :: nummat                                         !< number of material law (size for mat_param data structure)
           type(matparam_struct_) ,dimension(nummat) ,intent(in) :: mat_param   !< data structure for material parameters
           character(len=nchartitle) :: title
@@ -212,9 +212,9 @@
           if (allocated(tmp)) deallocate(tmp)
           if (allocated(indx)) deallocate(indx)
 
-        end subroutine iniebcs_propergol_get_cv
+        end subroutine iniebcs_propellant_get_cv
 
 
 ! ----------------------------------------------------------------------------------------------------------------------
-      end module iniebcs_propergol_
+      end module iniebcs_propellant_
 

@@ -24,7 +24,7 @@
 !                                                   PROCEDURES
 ! ======================================================================================================================
 !||====================================================================
-!||    multi_propergol_ebcs   ../engine/source/multifluid/multi_propergol_ebcs.F90
+!||    multi_propellant_ebcs   ../engine/source/multifluid/multi_propellant_ebcs.F90
 !||--- called by ------------------------------------------------------
 !||    multi_ebcs             ../engine/source/multifluid/multi_ebcs.F
 !||--- calls      -----------------------------------------------------
@@ -39,7 +39,7 @@
 !||    precision_mod          ../common_source/modules/precision_mod.F90
 !||    th_surf_mod            ../common_source/modules/interfaces/th_surf_mod.F
 !||====================================================================
-      SUBROUTINE MULTI_PROPERGOL_EBCS(ITASK, EBCS_ID, MULTI_FVM, NELEM, ELEM_LIST, FACE_LIST, &
+      SUBROUTINE MULTI_PROPELLANT_EBCS(ITASK, EBCS_ID, MULTI_FVM, NELEM, ELEM_LIST, FACE_LIST, &
                                 FVM_INLET_DATA, IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM, FUNC_VALUE, &
                                 EBCS,NPF,TF,FSAVSURF,TIMESTEP, NIXS, NIXQ, NIXTG, NPROPMI, NPROPM, NSURF, STF, SNPC, &
                                 NUMELS, NUMELQ, NUMELTG, NUMNOD, NCYCLE, NUMMAT, MATPARAM)
@@ -464,5 +464,5 @@
 
 !-----------------------------------------------
 
-      END SUBROUTINE MULTI_PROPERGOL_EBCS
+      END SUBROUTINE MULTI_PROPELLANT_EBCS
 

@@ -53,14 +53,14 @@
 !||    hm_read_ebcs_normv         ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_normv.F
 !||    hm_read_ebcs_nrf           ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_nrf.F
 !||    hm_read_ebcs_pres          ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_pres.F
-!||    hm_read_ebcs_propergol     ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_propergol.F90
+!||    hm_read_ebcs_propellant     ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_propellant.F90
 !||    hm_read_ebcs_valvin        ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_valvin.F
 !||    hm_read_ebcs_valvout       ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_valvout.F
 !||    hm_read_ebcs_vel           ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_vel.F
 !||    iniebcs                    ../starter/source/boundary_conditions/ebcs/iniebcs.F
 !||    iniebcs_nrf_tcar           ../starter/source/boundary_conditions/ebcs/iniebcs_nrf_tcar.F
-!||    iniebcs_propergol          ../starter/source/boundary_conditions/ebcs/iniebcs_propergol.F90
-!||    iniebcs_propergol_get_cv   ../starter/source/boundary_conditions/ebcs/iniebcs_propergol.F90
+!||    iniebcs_propellant          ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
+!||    iniebcs_propellant_get_cv   ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
 !||    iniebcsp0                  ../starter/source/boundary_conditions/ebcs/iniebcsp0.F
 !||    inigrav_load               ../starter/source/initial_conditions/inigrav/inigrav_load.F
 !||    inigrav_part_list          ../starter/source/initial_conditions/inigrav/inigrav_part_list.F
@@ -68,7 +68,7 @@
 !||    lectur                     ../engine/source/input/lectur.F
 !||    multi_ebcs                 ../engine/source/multifluid/multi_ebcs.F
 !||    multi_nrf_ebcs             ../engine/source/multifluid/multi_nrf_ebcs.F
-!||    multi_propergol_ebcs       ../engine/source/multifluid/multi_propergol_ebcs.F90
+!||    multi_propellant_ebcs       ../engine/source/multifluid/multi_propellant_ebcs.F90
 !||    multi_timeevolution        ../engine/source/multifluid/multi_timeevolution.F
 !||    ns_fvm_diffusion           ../engine/source/multifluid/ns_fvm_diffusion.F
 !||    radioss2                   ../engine/source/engine/radioss2.F
@@ -306,18 +306,18 @@
           procedure, pass :: read_data => read_data_nrf
         end type t_ebcs_nrf
 
-!     type = 11 /EBCS/PROPERGOL
+!     type = 11 /EBCS/PROPELLANT
 !     ----------------------
-        type, public, extends(t_ebcs) :: t_ebcs_propergol
+        type, public, extends(t_ebcs) :: t_ebcs_propellant
           integer :: sensor_id=0, submat_id=1
           real(kind=WP) :: a = 0., n = 0., q = 0., rho0s=0.
           integer :: ffunc_id=0, gfunc_id=0, hfunc_id=0
           real(kind=WP) :: fscaleX=1.0, fscaleY=1.0, gscaleX=1.0, gscaleY=0., hscaleX=1.0, hscaleY=1.0
           type(fvm_inlet_data_struct) :: fvm_inlet_data
         contains
-          procedure, pass :: write_data => write_data_propergol
-          procedure, pass :: read_data => read_data_propergol
-        end type t_ebcs_propergol
+          procedure, pass :: write_data => write_data_propellant
+          procedure, pass :: read_data => read_data_propellant
+        end type t_ebcs_propellant
 
 !     ----------------------
 !     Polymorphic variable (points to a specific ebcs type)
@@ -334,7 +334,7 @@
           integer, dimension(:), allocatable :: my_typ
           logical, dimension(:), allocatable :: need_to_compute
           logical :: is_created = .false.
-          integer :: nebcs_loc = 0, nebcs_fvm = 0, nebcs_parallel = 0, nebcs_propergol = 0
+          integer :: nebcs_loc = 0, nebcs_fvm = 0, nebcs_parallel = 0, nebcs_propellant = 0
         contains
           procedure, pass :: create, destroy, write_type_data, create_from_types
           procedure, nopass :: read_type_data
@@ -446,8 +446,8 @@
                case (10) ! /EBCS/NRF
                 allocate (t_ebcs_nrf :: this%tab(ii)%poly)
                 this%tab(ii)%poly%type = 10
-               case (11) ! /EBCS/PROPERGOL
-                allocate (t_ebcs_propergol :: this%tab(ii)%poly)
+               case (11) ! /EBCS/PROPELLANT
+                allocate (t_ebcs_propellant :: this%tab(ii)%poly)
                 this%tab(ii)%poly%type = 11
                case default
                 print*, "EBCS type ", type, " unrecognized"
@@ -1677,18 +1677,18 @@
           endif
         end subroutine read_data_nrf
 
-!     /EBCS/PROPERGOL
+!     /EBCS/PROPELLANT
 !     -------------
 
 !||====================================================================
-!||    write_data_propergol   ../common_source/modules/boundary_conditions/ebcs_mod.F90
+!||    write_data_propellant   ../common_source/modules/boundary_conditions/ebcs_mod.F90
 !||--- calls      -----------------------------------------------------
 !||    write_db_array         ../common_source/tools/input_output/write_db.F
 !||    write_i_c              ../common_source/tools/input_output/write_routtines.c
 !||====================================================================
-        subroutine write_data_propergol(this, leni, lenr)
+        subroutine write_data_propellant(this, leni, lenr)
           implicit none
-          class (t_ebcs_propergol), intent(inout) :: this
+          class (t_ebcs_propellant), intent(inout) :: this
           integer, intent(inout) :: leni, lenr
           integer, dimension(5) :: integer_data
           real(kind=WP), dimension(10) :: real_data
@@ -1738,18 +1738,18 @@
             call write_db_array(this%fvm_inlet_data%val_pres, 21)
             lenr = lenr + 21
           endif
-        end subroutine write_data_propergol
+        end subroutine write_data_propellant
 
 !||====================================================================
-!||    read_data_propergol   ../common_source/modules/boundary_conditions/ebcs_mod.F90
+!||    read_data_propellant   ../common_source/modules/boundary_conditions/ebcs_mod.F90
 !||--- calls      -----------------------------------------------------
 !||    read_db               ../common_source/tools/input_output/read_db.F
 !||    read_db_array         ../common_source/tools/input_output/read_db.F
 !||    read_i_c              ../common_source/tools/input_output/write_routtines.c
 !||====================================================================
-        subroutine read_data_propergol(this)
+        subroutine read_data_propellant(this)
           implicit none
-          class (t_ebcs_propergol), intent(inout) :: this
+          class (t_ebcs_propellant), intent(inout) :: this
 
           call read_i_c(this%sensor_id, 1)
           call read_i_c(this%ffunc_id, 1)
@@ -1781,7 +1781,7 @@
             call read_db_array(this%fvm_inlet_data%val_rho, 21)
             call read_db_array(this%fvm_inlet_data%val_pres, 21)
           endif
-        end subroutine read_data_propergol
+        end subroutine read_data_propellant
 
 
       end module ebcs_mod

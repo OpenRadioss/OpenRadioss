@@ -202,8 +202,8 @@
 !||    imp_buck                            ../engine/source/implicit/imp_buck.F
 !||    ini_inimap1d                        ../starter/source/initial_conditions/inimap/ini_inimap1d.F
 !||    iniebcs_nrf_tcar                    ../starter/source/boundary_conditions/ebcs/iniebcs_nrf_tcar.F
-!||    iniebcs_propergol                   ../starter/source/boundary_conditions/ebcs/iniebcs_propergol.F90
-!||    iniebcs_propergol_get_cv            ../starter/source/boundary_conditions/ebcs/iniebcs_propergol.F90
+!||    iniebcs_propellant                   ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
+!||    iniebcs_propellant_get_cv            ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
 !||    iniebcsp0                           ../starter/source/boundary_conditions/ebcs/iniebcsp0.F
 !||    inigrav_eos                         ../starter/source/initial_conditions/inigrav/inigrav_eos.F
 !||    inigrav_load                        ../starter/source/initial_conditions/inigrav/inigrav_load.F
@@ -255,7 +255,7 @@
 !||    multi_muscl_fluxes_computation      ../engine/source/multifluid/multi_muscl_fluxes_computation.F
 !||    multi_nrf_ebcs                      ../engine/source/multifluid/multi_nrf_ebcs.F
 !||    multi_pressure_equilibrium          ../engine/source/multifluid/multi_pressure_equilibrium.F
-!||    multi_propergol_ebcs                ../engine/source/multifluid/multi_propergol_ebcs.F90
+!||    multi_propellant_ebcs                ../engine/source/multifluid/multi_propellant_ebcs.F90
 !||    multi_solve_eint                    ../engine/source/multifluid/multi_solve_eint.F90
 !||    multi_submatlaw                     ../engine/source/multifluid/multi_submatlaw.F
 !||    multi_timeevolution                 ../engine/source/multifluid/multi_timeevolution.F

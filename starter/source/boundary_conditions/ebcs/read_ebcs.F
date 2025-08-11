@@ -38,7 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_ebcs_normv       ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_normv.F
 !||    hm_read_ebcs_nrf         ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_nrf.F
 !||    hm_read_ebcs_pres        ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_pres.F
-!||    hm_read_ebcs_propergol   ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_propergol.F90
+!||    hm_read_ebcs_propellant   ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_propellant.F90
 !||    hm_read_ebcs_valvin      ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_valvin.F
 !||    hm_read_ebcs_valvout     ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_valvout.F
 !||    hm_read_ebcs_vel         ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_vel.F
@@ -212,13 +212,13 @@ C-----------------------------------------------
               CALL HM_READ_EBCS_NRF(IGRSURF, MULTI_FVM, UNITAB, ID, TITR, UID, LSUBMODEL, twf)
             end select
 
-         CASE ('PROPERGOL')
+         CASE ('PROPELLANT')
 
             TYP = 11
-            allocate (t_ebcs_propergol :: EBCS_TAB%tab(ii)%poly)
+            allocate (t_ebcs_propellant :: EBCS_TAB%tab(ii)%poly)
             select type (twf => EBCS_TAB%tab(ii)%poly)
-            type is (t_ebcs_propergol)
-              CALL HM_READ_EBCS_PROPERGOL(IGRSURF, MULTI_FVM, UNITAB, ID, TITR, UID, LSUBMODEL,NSURF, twf)
+            type is (t_ebcs_propellant)
+              CALL HM_READ_EBCS_PROPELLANT(IGRSURF, MULTI_FVM, UNITAB, ID, TITR, UID, LSUBMODEL,NSURF, twf)
             end select
 
          CASE ('MONVOL')

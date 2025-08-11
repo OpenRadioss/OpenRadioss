@@ -659,7 +659,7 @@ C--------------------------------------
         LENI = 0
         LENR = 0
         IF (EBCS_TAB%nebcs > 0) THEN
-            ! write the type of /EBCS ( /EBCS/NRF --> typ = 10) ( /EBCS/PROPERGOL --> typ = 11)
+            ! write the type of /EBCS ( /EBCS/NRF --> typ = 10) ( /EBCS/PROPELLANT --> typ = 11)
             CALL WRITE_I_C(EBCS_TAB%my_typ,EBCS_TAB%nebcs)
         ENDIF
         ! -------------
