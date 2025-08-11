@@ -132,7 +132,6 @@ c         NBINTC = NBINTC + 1
 c         INTLIST(NBINTC) = NIN
 c       ENDIF
 c     ENDDO 
-C Attention aux interfaces inactives
 
 C ===========================================================
       IF(MODE == 1) THEN
@@ -182,7 +181,7 @@ C
      .    ITY==22.OR.ITY==23.OR.ITY==24.OR.
      .    ITY==20.OR.ITY==11.OR.ITY==17.OR.
      .    ITY==25) THEN
-C Attention aux interfaces inactives
+C Take care if inactive interfaces                                  
 C
         INTERACT = 0
         ISENS = 0

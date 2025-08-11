@@ -61,8 +61,6 @@ C-----------------------------------------------
       INTEGER LFNAME
       INTEGER DUM_IERR
       INTEGER :: DYN_LIB_MODE
-C----------------------------------------------
-C Parametres argument de run  { Run argument parameters }
 C     Reading the D01 file to detect the /MADYMO/ON option
 C     is not allowed in SPMD.
 C     => A modify if this option should be supported in SPMD ../ ..

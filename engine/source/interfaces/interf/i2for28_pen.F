@@ -370,7 +370,7 @@ C
           VRY =  VRS(2) - VRM(2)
           VRZ =  VRS(3) - VRM(3)
 
-C-------------  vers increm en vitesses
+C-------------  vers increm en velocities
           DLX = VX*DT1
           DLY = VY*DT1
           DLZ = VZ*DT1

@@ -313,7 +313,7 @@ C---------  Vi = Vi -VR ^ MS
      .    RS   ,RM   ,V1   ,V2   ,V3   ,                        
      .    RX   ,RY   ,RZ   ,VA   ,VB   ,
      .    VC   ,VD)  
-C-------------  vers increm en vitesses
+C-------------  vers increm en velocities
           DLX = V1*DT1
           DLY = V2*DT1
           DLZ = V3*DT1

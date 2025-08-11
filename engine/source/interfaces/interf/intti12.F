@@ -358,7 +358,7 @@ C-----------------------------------------------
       ITIED=INT(INTBUF_TAB%VARIABLES(1))
       !-----------------------------------------------------------------!
       ! main bc and imposes velocity and acceleration on secondary side
-      ! VITESSE DE GRILLE (CAS TIED) FAIT DS INTERF 1                   !
+      ! VELOCITY DE GRILLE (CAS TIED) FAIT DS INTERF 1                   !
       !-----------------------------------------------------------------!
       CALL I12VIT3(NSN       ,NMN        ,
      2 A         ,INTBUF_TAB%IRECTM,

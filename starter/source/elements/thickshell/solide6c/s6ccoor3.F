@@ -167,7 +167,7 @@ C
         Z6(I)=Z6(I)-ZL
       ENDDO
 C-----------
-C     REPERE CONVECTE .
+C     convected frame .
 C-----------
       CALL S6CORTHO3(                                    
      .  X1, X2, X3, X4, X5, X6,                          

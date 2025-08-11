@@ -861,7 +861,7 @@ C
          YGT = YGT - MS(M)*X(2,M) + MASRB*X(2,M)
          ZGT = ZGT - MS(M)*X(3,M) + MASRB*X(3,M)
 C
-C Rigidite au noeud main pour estimation DT.
+C Rigidity at main node to estimate DT.
          IF (NS10E>0) THEN
            DO I=1,NSL
              N = LSN(I)
@@ -914,7 +914,7 @@ C
          YGT = YGT - MS(M)*X(2,M) + MASRB*X(2,M)
          ZGT = ZGT - MS(M)*X(3,M) + MASRB*X(3,M)
 C
-C Rigidite au noeud main pour estimation DT.
+C Rigidity at main node to estimate DT.
 
          IF (NS10E>0) THEN
            DO I=1,NSL
@@ -957,7 +957,7 @@ C MATRICE d'inertie -> repere global
          YGT = YGT - MS(M)*X(2,M) + MASRB*X(2,M)
          ZGT = ZGT - MS(M)*X(3,M) + MASRB*X(3,M)
 C
-C Rigidite au noeud main pour estimation DT.
+C Rigidity at main node to estimate DT.
          IF (NS10E>0) THEN
            DO I=1,NSL
              N = LSN(I)

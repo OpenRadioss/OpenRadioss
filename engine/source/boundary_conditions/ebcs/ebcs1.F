@@ -251,7 +251,7 @@ c silent boundary
           PO(I)=PN
         ENDIF
         DP=ALP*(PN-PO(I))
-c        write(6,*)'vitesse',vn,vo(i)
+c        write(6,*)'velocity',vn,vo(i)
         VO(I)=VN
         P=PO(I)+DP+DU
         IF(C==ZERO)P=PN

@@ -668,7 +668,7 @@ c     .                                mseglo(l),PENM(1,J)+PENM(2,J)+PENM(3,J)+P
 c              print *,'keepf natif',itab(nsv(n)),mseglo(l),PENM(1,J)+PENM(2,J)+PENM(3,J)+PENM(4,J)
             ELSE
 C
-C             attention si ici <=> pb parith/on
+C             here = pb parith/on
               print *,'i25keepf native - internal problem',itab(nsv(n)),irtlm(1,n),ispmd+1,time_s(1,n),
      .               PENM(1,J),PENM(2,J),PENM(3,J),PENM(4,J)
               IRTLM(1,N)=0
@@ -686,7 +686,7 @@ c     .                                mseglo(l),PENM(1,J)+PENM(2,J)+PENM(3,J)+P
               IKEEP=1
             ELSE
 C
-C             attention si ici <=> pb parith/on
+C             here <=> pb parith/on
               print *,'i25keepf remote - internal problem',itafi(nin)%p(n-nsn),irtlm_fi(nin)%p(1,n-nsn),
      .                             ispmd+1,time_sfi(nin)%p(2*(n-nsn-1)+1),
      .                PENM(1,J)+PENM(2,J)+PENM(3,J)+PENM(4,J)

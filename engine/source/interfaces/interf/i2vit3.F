@@ -387,7 +387,7 @@ C          J4=MSR(IRECT(4,L))
         J3=IRECT(3,L)
         J4=IRECT(4,L)
 C----------------------------------------
-C       VITESSE MOYENNE DU SEGMENT MAIN
+C       VELOCITY MOYENNE DU SEGMENT MAIN
 C----------------------------------------
         VMX=FOURTH*(V(1,J1)+V(1,J2)+V(1,J3)+V(1,J4))
         VMY=FOURTH*(V(2,J1)+V(2,J2)+V(2,J3)+V(2,J4))

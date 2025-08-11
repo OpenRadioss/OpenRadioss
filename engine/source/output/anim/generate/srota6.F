@@ -125,7 +125,7 @@ C        Corotational frame - hexa spotwelds
      .     Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,                       
      .     R11, R12, R13, R21, R22, R23, R31, R32, R33)          
        ELSEIF(KHBE/=15)THEN
-C        REPERE CONVECTE
+C        convected frame
          IF (KHBE==24.OR.KHBE==14) THEN
            CALL SORTHO31(
      .          X1, X2, X3, X4, X5, X6, X7, X8,               

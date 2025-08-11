@@ -335,7 +335,7 @@ C---    Coulomb friction
       ELSEIF (MFROT==1) THEN
 C---    Viscous friction
         DO I=1,JLT
-C attention : normale <> normale a l'elt
+C attention : normal <> elt normal
           AA = NX(I)*VX(I) + NY(I)*VY(I) + NZ(I)*VZ(I)
           V2 = (VX(I) - NX(I)*AA)**2 
      .       + (VY(I) - NY(I)*AA)**2 
@@ -359,7 +359,7 @@ C attention : normale <> normale a l'elt
       ELSEIF(MFROT==2)THEN
 C---    Loi Darmstad
         DO I=1,JLT
-C attention : normale <> normale a l'elt
+C attention : normal <> elt normal 
           AA = NX(I)*VX(I) + NY(I)*VY(I) + NZ(I)*VZ(I)
           V2 = (VX(I) - NX(I)*AA)**2 
      .       + (VY(I) - NY(I)*AA)**2 
@@ -385,7 +385,7 @@ C attention : normale <> normale a l'elt
       ELSEIF (MFROT==3) THEN
 C---    Renard 
         DO I=1,JLT
-C attention : normale <> normale a l'elt
+C attention : normal <> element normal  
           AA = NX(I)*VX(I) + NY(I)*VY(I) + NZ(I)*VZ(I)
           V2 = (VX(I) - NX(I)*AA)**2 
      .       + (VY(I) - NY(I)*AA)**2 

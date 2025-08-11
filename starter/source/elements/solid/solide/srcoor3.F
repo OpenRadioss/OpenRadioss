@@ -284,7 +284,7 @@ C     Isoparametric reference frame according to the manual for bricks
      .       RX, RY, RZ, SX, SY, SZ, TX, TY,
      .       TZ ,F1X  ,F1Y  ,F1Z  ,F2X  ,F2Y  ,F2Z   )
 C-----------
-C     REPERE CONVECTE
+C     convected frame
 C-----------
       IF (JHBE == 14 .OR. JHBE == 24) THEN
 C       HA8 / HEPH

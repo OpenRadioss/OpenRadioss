@@ -93,7 +93,7 @@ C----------------------------
         Y8=X(2,NC8)                                                     
         Z8=X(3,NC8)                                                     
 C-----------                                                            
-C     REPERE CONVECTE.                                                  
+C     convected frame.                                                  
 C-----------                                                            
       CALL SORTHO31(                                                    
      .   X1, X2, X3, X4, X5, X6, X7, X8,                                

@@ -212,7 +212,7 @@ c
           NY = N3(I)*LX - N1(I)*LZ
           NZ = N1(I)*LY - N2(I)*LX
 c
-c (vitesse SECONDARY = 0)
+c (velocity SECONDARY = 0)
           VX(I) =  V(1,IX1(I))*H1(I) + V(1,IX2(I))*H2(I)
      .         + V(1,IX3(I))*H3(I) + V(1,IX4(I))*H4(I)  
           VY(I) =  V(2,IX1(I))*H1(I) + V(2,IX2(I))*H2(I)
@@ -279,7 +279,7 @@ c
         NY = N3(I)*LX - N1(I)*LZ
         NZ = N1(I)*LY - N2(I)*LX
 c
-c (vitesse SECONDARY = 0)
+c (velocity SECONDARY = 0)
         VX(I) = V(1,IX1(I))*H1(I) + V(1,IX2(I))*H2(I)
      .        + V(1,IX3(I))*H3(I) + V(1,IX4(I))*H4(I)  
         VY(I) = V(2,IX1(I))*H1(I) + V(2,IX2(I))*H2(I)

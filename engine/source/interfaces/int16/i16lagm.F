@@ -294,7 +294,7 @@ C         Test if incoming velocity in S
 C-----------------------------------------------
           IF(S(I)*VN<=ZERO)THEN
 c
-c      print *, "vitesse entrante",vn
+c      print *, "velocity entrante",vn
 c      print *, "s = ",S(I)
 c
 c           AA = DT12/SQRT(NX(I)*NX(I)+NY(I)*NY(I)+NZ(I)*NZ(I))
@@ -369,7 +369,7 @@ C         Test if incoming velocity in S
 C-----------------------------------------------
           IF(S(I)*VN<=ZERO)THEN
 c
-c      print *, "vitesse entrante",vn
+c      print *, "velocity entrante",vn
 c      print *, "s = ",S(I)
 c
 #include "lockon.inc"

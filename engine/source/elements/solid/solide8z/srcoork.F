@@ -165,7 +165,7 @@ C----------------------------
         Z8(I)=X(3,NC8(I))
       ENDDO
 C-----------
-C     REPERE CONVECTE (ITERATIONS).
+C     convected frame (ITERATIONS).
 C-----------
       CALL SREPISOT3(
      1   X1,      X2,      X3,      X4,
@@ -231,7 +231,7 @@ C-------sauf thick shells --------------
         ENDIF
       ENDIF
 C-----------
-C     PASSAGE AU REPERE CONVECTE.
+C     Change to the convected frame.
 C-----------
 C     X=RX' <=> X'=t(R)X chgt de base.
       IF((ISMSTR==1.OR.ISMSTR==3).OR.

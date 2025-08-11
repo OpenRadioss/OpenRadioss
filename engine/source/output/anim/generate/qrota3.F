@@ -74,7 +74,7 @@ C----------------------------
         Y4=X(2,NC4)
         Z4=X(3,NC4)
 C-----------
-C       REPERE CONVECTE
+C       convected frame
 C-----------
         SY=HALF*(Y2+Y3-Y1-Y4)
         SZ=HALF*(Z2+Z3-Z1-Z4)

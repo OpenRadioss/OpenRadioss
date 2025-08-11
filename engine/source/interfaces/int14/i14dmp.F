@@ -143,7 +143,7 @@ C-------------------------------
       ENDDO
 C------------------------------------------------
 C     Depreciation coefficient:
-C     F(VITESSE NORMALE) * G(FORCE NORMALE LOCALE)
+C     F(VELOCITY NORMALE) * G(FORCE NORMALE LOCALE)
 C-----------------------------------------------
       IF (NDAMP1==0 .AND. NDAMP2==0) THEN
 C---------------------------------
@@ -244,7 +244,7 @@ C-------------------------------
       ENDDO
 C------------------------------------------------
 C     Depreciation coefficient:
-C     F(VITESSE NORMALE) * G(FORCE NORMALE LOCALE)
+C     F(VELOCITY NORMALE) * G(FORCE NORMALE LOCALE)
 C-----------------------------------------------
       IF (NDAMP1==0 .AND. NDAMP2==0) THEN
 C---------------------------------

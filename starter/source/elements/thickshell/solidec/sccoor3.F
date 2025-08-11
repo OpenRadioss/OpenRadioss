@@ -156,7 +156,7 @@ C
      .   Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8)
 C
 C-----------
-C     REPERE CONVECTE .
+C     convected frame .
 C-----------
        CALL SCORTHO3(
      .   X1, X2, X3, X4, X5, X6, X7, X8,

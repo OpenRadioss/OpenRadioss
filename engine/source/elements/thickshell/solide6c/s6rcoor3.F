@@ -252,7 +252,7 @@ C  -----------
         Z6(I)=Z6(I)-ZL
       ENDDO
 C-----------
-C     REPERE CONVECTE 
+C     convected frame 
 C-----------
        CALL S6CORTHO3(
      1   X1,      X2,      X3,      X4,
@@ -273,7 +273,7 @@ C------stocker [R] in %GAMA_R--------------
        GAMA_R(LFT:LLT,5) = R22(LFT:LLT)                             
        GAMA_R(LFT:LLT,6) = R32(LFT:LLT)                             
 C-----------
-C     PASSAGE AU REPERE CONVECTE.
+C     Change to the convected frame.
 C-----------
 C   X=RX' <=> X'=t(R)X chgt de base.
       IF(ISMSTR<=4.AND.JLAG>0) THEN

@@ -54,7 +54,7 @@ C   IPARI   NPARI,NINTER             PARAMETRES D'INTERFACE             E
 C                  
 C     X     3,NUMNOD                 COORDONNEES                        E
 C                  
-C     V     3,NUMNOD                 VITESSES                           E
+C     V     3,NUMNOD                 VELOCITIES                           E
 C                  
 C    EMINX  6*(NME+NMES)           MIN MAX DE CHAQUE ELEMENT        TMP_GLOBAL
 C                  
@@ -176,7 +176,7 @@ C   IPARI   NPARI,NINTER             PARAMETRES D'INTERFACE             E
 C                  
 C     X     3,NUMNOD                 COORDONNEES                        E
 C                  
-C     V     3,NUMNOD                 VITESSES                           E
+C     V     3,NUMNOD                 VELOCITIES                           E
 C                  
 C    EMINX  6*NME<6*NUMELS           MIN MAX DE CHAQUE ELEMENT        TMP_GLOBAL
 C                  
@@ -389,7 +389,7 @@ C   IPARI   NPARI,NINTER             PARAMETRES D'INTERFACE             E
 C                  
 C     X     3,NUMNOD                 COORDONNEES                        E
 C                  
-C     V     3,NUMNOD                 VITESSES                           E
+C     V     3,NUMNOD                 VELOCITIES                           E
 C                  
 C    EMINX  6*NME<6*NUMELS           MIN MAX DE CHAQUE ELEMENT        TMP_GLOBAL
 C                  

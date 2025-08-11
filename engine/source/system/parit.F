@@ -129,7 +129,7 @@ C-----------------------------------------------
 C   L o c a l   C o m m o n
 C-----------------------------------------------
 C
-C Attention - Attention - Attention - Attention - Attention - Attention
+C Warning - Warning - Warning - Warning - Warning - Warning
 C
 C Common to break the optimization and thread private for multithread
 C
@@ -141,7 +141,7 @@ C
      .                 TEMP11,TEMP12,TEMP13,TEMP14,TEMP15,TEMP16,
      .                 TEMP17,RESTE
 C
-C Attention - Attention - Attention - Attention - Attention - Attention
+C Warning - Warning - Warning - Warning - Warning - Warning
 C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -291,7 +291,7 @@ C-----------------------------------------------
 C   L o c a l   C o m m o n
 C-----------------------------------------------
 C
-C Attention - Attention - Attention - Attention - Attention - Attention
+C Warning - Warning - Warning - Warning - Warning - Warning
 C
 C Common to break the optimization and thread private for multithread
 C
@@ -303,7 +303,7 @@ C
      .                 TEMP11,TEMP12,TEMP13,TEMP14,TEMP15,TEMP16,
      .                 TEMP17,RESTE
 C
-C Attention - Attention - Attention - Attention - Attention - Attention
+C Warning - Warning - Warning - Warning - Warning - Warning
 C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -415,7 +415,7 @@ C-----------------------------------------------
 C   L o c a l   C o m m o n
 C-----------------------------------------------
 C
-C Attention - Attention - Attention - Attention - Attention - Attention
+C Warning - Warning - Warning - Warning - Warning - Warning
 C
 C Common to break the optimization and thread private for multithread
 C
@@ -427,7 +427,7 @@ C
      .                 TEMP11,TEMP12,TEMP13,TEMP14,TEMP15,TEMP16,
      .                 TEMP17,RESTE
 C
-C Attention - Attention - Attention - Attention - Attention - Attention
+C Warning - Warning - Warning - Warning - Warning - Warning
 C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -610,7 +610,7 @@ C-----------------------------------------------
 C   L o c a l   C o m m o n
 C-----------------------------------------------
 C
-C Attention - Attention - Attention - Attention - Attention - Attention
+C Warning - Warning - Warning - Warning - Warning - Warning
 C
 C Common to break the optimization and thread private for multithread
 C
@@ -622,7 +622,7 @@ C
      .                 TEMP11,TEMP12,TEMP13,TEMP14,TEMP15,TEMP16,
      .                 TEMP17,RESTE
 C
-C Attention - Attention - Attention - Attention - Attention - Attention
+C Warning - Warning - Warning - Warning - Warning - Warning
 C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -767,7 +767,7 @@ C-----------------------------------------------
 C   L o c a l   C o m m o n
 C-----------------------------------------------
 C
-C Attention - Attention - Attention - Attention - Attention - Attention
+C Warning - Warning - Warning - Warning - Warning - Warning
 C
 C Common to break the optimization and thread private for multithread
 C
@@ -779,7 +779,7 @@ C
      .                 TEMP11,TEMP12,TEMP13,TEMP14,TEMP15,TEMP16,
      .                 TEMP17,RESTE
 C
-C Attention - Attention - Attention - Attention - Attention - Attention
+C Warning - Warning - Warning - Warning - Warning - Warning
 C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

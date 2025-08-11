@@ -98,7 +98,7 @@ C---------------------------------------
         TZ(I)=HALF*(Z3(I)+Z4(I)-Z1(I)-Z2(I))
       END DO
 C-----------
-C     REPERE CONVECTE ORTHOGONALISE 
+C     convected frame ORTHOGONALISE 
 C     full integ: Same than the shell 
 C-----------
       DO I=LFT,LLT

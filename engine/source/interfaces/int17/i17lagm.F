@@ -559,7 +559,7 @@ C         Test if incoming velocity in S
 C-----------------------------------------------
           IF(SM(I)*VN<=VIT(I))THEN
 c
-c      print *, "vitesse entrante",vn
+c      print *, "velocity entrante",vn
 c      print *, "s = ",S(I)
 c
             VIT(I)=SM(I)*VN

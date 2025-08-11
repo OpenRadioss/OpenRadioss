@@ -144,7 +144,6 @@ C                         sorted group, tag les noeuds
 C                             remove nodes from the group if j10 < 0
                           BUFTMP(IGRNOD(IGRS)%ENTITY(L))=-1
                         ELSEIF (BUFTMP(IGRNOD(IGRS)%ENTITY(L)) == 0) THEN
-C                              ajoute les noeuds au group si j10 > 0 et noeud non rire
                           BUFTMP(IGRNOD(IGRS)%ENTITY(L))=1
                         ENDIF
                       ENDDO
@@ -196,7 +195,6 @@ C                       tag the nodes
 C                           remove nodes from the group if j10 < 0
                         BUFTMP(IGRNOD(IGRS)%ENTITY(L))=-1
                       ELSEIF (BUFTMP(IGRNOD(IGRS)%ENTITY(L)) == 0) THEN
-C                           ajoute les noeuds au group si j10 > 0 et noeud non retire            
                         BUFTMP(IGRNOD(IGRS)%ENTITY(L))=1
                       ENDIF                                                                   
                     ENDDO                                                                     

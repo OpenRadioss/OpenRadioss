@@ -113,7 +113,7 @@ C---------------------------------------
         TZ(I)=HALF*(Z3(I)+Z4(I)-Z1(I)-Z2(I))
       END DO
 C-----------
-C     REPERE CONVECTE : Same than the shell
+C     convected frame : Same than the shell
 C-----------
       DO I=1,NEL
         CT = TY(I)*TY(I)+TZ(I)*TZ(I)

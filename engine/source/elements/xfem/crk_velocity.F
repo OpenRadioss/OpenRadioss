@@ -21,13 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    crk_vitesse     ../engine/source/elements/xfem/crk_vitesse.F
+!||    crk_velocity     ../engine/source/elements/xfem/crk_velocity.F
 !||--- called by ------------------------------------------------------
 !||    resol           ../engine/source/engine/resol.F
 !||--- uses       -----------------------------------------------------
 !||    crackxfem_mod   ../engine/share/modules/crackxfem_mod.F
 !||====================================================================
-      SUBROUTINE CRK_VITESSE(
+      SUBROUTINE CRK_VELOCITY(
      .           ADDCNE_CRK,INOD_CRK ,NODLEVXF  ,NODFT     ,NODLT    ,
      .           X         ,V        ,VR        ,A         ,AR       ,
      .           ITAB      )                                              
@@ -127,7 +127,7 @@ c-----------
       END
 c
 !||====================================================================
-!||    crk_zero_accel   ../engine/source/elements/xfem/crk_vitesse.F
+!||    crk_zero_accel   ../engine/source/elements/xfem/crk_velocity.F
 !||--- called by ------------------------------------------------------
 !||    resol            ../engine/source/engine/resol.F
 !||--- uses       -----------------------------------------------------
@@ -175,7 +175,7 @@ C-----------
       RETURN
       END
 !||====================================================================
-!||    crk_zero_fsky   ../engine/source/elements/xfem/crk_vitesse.F
+!||    crk_zero_fsky   ../engine/source/elements/xfem/crk_velocity.F
 !||--- called by ------------------------------------------------------
 !||    resol           ../engine/source/engine/resol.F
 !||--- uses       -----------------------------------------------------

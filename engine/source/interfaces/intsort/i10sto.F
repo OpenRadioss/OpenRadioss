@@ -102,7 +102,7 @@ C numbering sorted previously for non-local nodes (SPMD)
               N = OLDNUM(N-NSN)+NSN
               IF(N==NSN) N = NSN+NSNROLD+1
             END IF
-C   attention au shift
+C  pay attention to shift
             NE = PROV_E(I)+ESHIFT
             DO J = CAND_A(N),CAND_A(N+1)-1
               IF (CAND_E(J)==NE) GOTO 100
@@ -133,7 +133,7 @@ C numbering sorted previously for non-local nodes (SPMD)
               N = OLDNUM(N-NSN)+NSN
               IF(N==NSN) N = NSN+NSNROLD+1
             END IF
-C   attention au shift
+C  pay attention to shift
             NE = PROV_E(I)+ESHIFT
             DO J = CAND_A(N),CAND_A(N+1)-1
               IF (CAND_E(J)==NE) GOTO 200

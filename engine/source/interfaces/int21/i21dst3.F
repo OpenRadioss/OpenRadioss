@@ -328,7 +328,7 @@ C
      .        LB1(I)+LC1(I) > ONEP01) FAR(I)=1
         ENDDO
 C
-C  necessaire au calcul de distance // normale
+C  needed for distance // normale
         DO I=1,JLT
 C
          IF(FAR(I)==1)CYCLE
@@ -600,7 +600,7 @@ C
      .        LB2(I)+LC2(I) > ONEP01) FAR(I)=1
        ENDDO
 C
-C  necessaire au calcul de distance // normale
+C  needed for distance // normale
        DO N=1,N4N
 C
          I=I4N(N)
@@ -841,7 +841,7 @@ C
      .        LB3(I)+LC3(I) > ONEP01) FAR(I)=1
        ENDDO
 C
-C  necessaire au calcul de distance // normale
+C  needed for distance // normale
        DO N=1,N4N
 C
          I=I4N(N)
@@ -1082,7 +1082,7 @@ C
      .        LB4(I)+LC4(I) > ONEP01) FAR(I)=1
        ENDDO
 C
-C  necessaire au calcul de distance // normale
+C  needed for distance // normale
        DO N=1,N4N
 C
          I=I4N(N)

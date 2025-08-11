@@ -172,7 +172,7 @@ C----------------------------
      .             RX, RY, RZ,SX, SY, SZ, 
      .             E1X,E2X,E3X,E1Y,E2Y,E3Y,E1Z,E2Z,E3Z,VOLU)
 C-----------
-C     REPERE CONVECTE
+C     convected frame
 C-----------
       DO I=LFT,LLT                                                
         XL=E1X(I)*X1(I)+E1Y(I)*Y1(I)+E1Z(I)*Z1(I)                 

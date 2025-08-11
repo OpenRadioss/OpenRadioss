@@ -368,7 +368,7 @@ C         Test if incoming velocity in S
 C-----------------------------------------------
           IF(S(I)*VN<=0.0)THEN
 c
-c      print *, "vitesse entrante",vn
+c      print *, "velocity entrante",vn
 c
 c           AA = DT12/SQRT(NX(I)*NX(I)+NY(I)*NY(I)+NZ(I)*NZ(I))
            AA = ONE/SQRT(NSX(I)*NSX(I)+NSY(I)*NSY(I)+NSZ(I)*NSZ(I))
@@ -476,7 +476,7 @@ C         test if incoming velocity in r,
 C-----------------------------------------------
           IF(VN<=ZERO)THEN
 c
-c      print *, "vitesse entrante",vn
+c      print *, "velocity entrante",vn
 c
 #include "lockon.inc"
             IF(N_MULT+3>N_MUL_MX)THEN

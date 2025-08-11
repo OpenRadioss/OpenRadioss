@@ -97,10 +97,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    cp_dm                                        ../engine/source/implicit/produt_v.F
 !||    crk_accele                                   ../engine/source/elements/xfem/accele_crk.F
 !||    crk_coord_ini                                ../engine/source/elements/xfem/crk_coord_ini.F
-!||    crk_vitesse                                  ../engine/source/elements/xfem/crk_vitesse.F
-!||    crk_vitesse2                                 ../engine/source/elements/xfem/crk_vitesse2.F
-!||    crk_zero_accel                               ../engine/source/elements/xfem/crk_vitesse.F
-!||    crk_zero_fsky                                ../engine/source/elements/xfem/crk_vitesse.F
+!||    crk_velocity                                  ../engine/source/elements/xfem/crk_velocity.F
+!||    crk_velocity2                                 ../engine/source/elements/xfem/crk_velocity2.F
+!||    crk_zero_accel                               ../engine/source/elements/xfem/crk_velocity.F
+!||    crk_zero_fsky                                ../engine/source/elements/xfem/crk_velocity.F
 !||    cumultime_mp                                 ../engine/source/system/timer.F
 !||    damping                                      ../engine/source/assembly/damping.F
 !||    damping44                                    ../engine/source/assembly/damping.F
@@ -139,7 +139,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    flow1                                        ../engine/source/fluid/flow1.F
 !||    flow_accele                                  ../engine/source/assembly/flow_accele.F
 !||    flow_depla                                   ../engine/source/assembly/flow_depla.F
-!||    flow_vitesse                                 ../engine/source/assembly/flow_vitesse.F
+!||    flow_velocity                                 ../engine/source/assembly/flow_velocity.F
 !||    forani1                                      ../engine/source/output/anim/generate/forani1.F
 !||    forani2                                      ../engine/source/output/anim/generate/forani2.F
 !||    forani3                                      ../engine/source/output/anim/generate/forani3.F
@@ -250,7 +250,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    pfluid                                       ../engine/source/loads/general/pfluid/pfluid.F
 !||    ply_accele                                   ../engine/source/assembly/ply_accele.F
 !||    ply_bcs                                      ../engine/source/constraints/general/bcs/ply_bcs.F
-!||    ply_vitesse                                  ../engine/source/assembly/ply_vitesse.F
+!||    ply_velocity                                  ../engine/source/assembly/ply_velocity.F
 !||    poro                                         ../engine/source/ale/porous/poro.F
 !||    prepare_debug                                ../engine/share/modules/debug_mod.F
 !||    prerbe3p0                                    ../engine/source/constraints/general/rbe3/rbe3f.F
@@ -423,8 +423,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    upxfem2                                      ../engine/source/elements/xfem/upxfem2.F
 !||    upxfem_tagxp                                 ../engine/source/elements/xfem/upxfem_tagxp.F
 !||    user_windows_routine                         ../engine/source/user_interface/user_windows.F
-!||    vitesse                                      ../engine/source/assembly/vitesse.F
-!||    vitessepinch                                 ../engine/source/assembly/vitessepinch.F
+!||    velocity                                      ../engine/source/assembly/velocity.F
+!||    velocitypinch                                 ../engine/source/assembly/velocitypinch.F
 !||    wrrestp                                      ../engine/source/output/restart/wrrestp.F
 !||    xfeoff                                       ../engine/source/elements/xfem/xfeoff.F
 !||    zero1                                        ../engine/source/system/zero.F
@@ -9184,9 +9184,9 @@ C===============================================================================
                 NODFTSK   = 1+ITSK*NUMNOD/ NTHREAD
                 NODLTSK   = (ITSK+1)*NUMNOD/NTHREAD
 C-----------------
-C         VITESSES
+C         VELOCITIES
 C-----------------
-                CALL VITESSE(
+                CALL VELOCITY(
      1                       NODES%A      , NODES%AR     , NODES%V   , NODES%VR   , FZERO,
      2                        NODES%ITAB,ALE_CONNECTIVITY%NALE             )
 c
@@ -9198,12 +9198,12 @@ c
                 ENDIF
 c
                 IF(IALELAG > 0) THEN
-                  CALL FLOW_VITESSE(ALE_CONNECTIVITY%NALE,AFLOW   ,VFLOW   , FZERO  ,
+                  CALL FLOW_VELOCITY(ALE_CONNECTIVITY%NALE,AFLOW   ,VFLOW   , FZERO  ,
      2                              NODFTSK,NODLTSK  ,WFLOW, NODES%V,IFOAM)
                 ENDIF
 C
                 IF(NPINCH > 0) THEN
-                  CALL VITESSEPINCH(
+                  CALL VELOCITYPINCH(
      1                              PINCH_DATA%APINCH, PINCH_DATA%VPINCH,
      2                              NODFTSK          , NODLTSK          )
                 ENDIF
@@ -9250,7 +9250,7 @@ C===============================================================================
                   NODFTSK   = 1+ITSK*NUMNOD/ NTHREAD
                   NODLTSK   = (ITSK+1)*NUMNOD/NTHREAD
 c for smp parallel is not parit on
-                  CALL PLY_VITESSE(NODFTSK,NODLTSK,NPLYMAX,INOD_PXFEM,NUMNOD)
+                  CALL PLY_VELOCITY(NODFTSK,NODLTSK,NPLYMAX,INOD_PXFEM,NUMNOD)
 !$OMP END PARALLEL
                   NTHREAD= NTHOLD
                   call omp_set_num_threads(NTHREAD)
@@ -9419,7 +9419,7 @@ c         set TAGXP after updating enrichments
                   NODFTSK   = 1+ITSK*NUMNOD/ NTHREAD
                   NODLTSK   = (ITSK+1)*NUMNOD/NTHREAD
 c         update velocities of phantom elements
-                  CALL CRK_VITESSE(ADSKY_CRK,INOD_CRK ,NODLEVXF ,NODFTSK  ,NODLTSK  ,
+                  CALL CRK_VELOCITY(ADSKY_CRK,INOD_CRK ,NODLEVXF ,NODFTSK  ,NODLTSK  ,
      .                             NODES%X        ,NODES%V        ,NODES%VR       ,NODES%A        ,NODES%AR       ,
      .                             NODES%ITAB     )
 !$OMP END PARALLEL
@@ -9428,7 +9428,7 @@ C===============================================================================
 C                                   NON PARALLEL SECTION (SMP)
 C========================================================================================
 
-                  CALL CRK_VITESSE2(IPARG    ,NGROUC   ,IGROUC   ,ELCUTC   ,CRKEDGE  ,
+                  CALL CRK_VELOCITY2(IPARG    ,NGROUC   ,IGROUC   ,ELCUTC   ,CRKEDGE  ,
      .                              NODEDGE  ,ELEMENT%SHELL%IXC      ,IXTG     ,XEDGE4N  ,XEDGE3N  ,
      .                              IADC_CRK ,IEL_CRK  ,INOD_CRK ,NODES%ITAB     )
 c----------------------------------------------------------------------

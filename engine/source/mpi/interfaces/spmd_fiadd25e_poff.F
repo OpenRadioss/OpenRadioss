@@ -204,7 +204,7 @@ C     Sections
          ENDIF
 C     
          IF((IBAG/=0.AND.INACTI/=7).OR.
-     .        (IADM/=0).OR.(IDAMP_RDOF/=0)) THEN ! Attention conflict inacti = 7 and ibag = 3
+     .        (IADM/=0).OR.(IDAMP_RDOF/=0)) THEN ! warning conflict inacti = 7 and ibag = 3
 C     Airbags IBAG
             DO I = 1, NB
                IF(BUFR(2,I)/=ZERO.OR.BUFR(3,I)/=ZERO.OR.

@@ -127,7 +127,7 @@ C
         ESPE(I)=DF(I)*EINT(I)/ MAX(EM15,VNEW(I))
       ENDDO
 C--------------------------------------------------
-C     VITESSE DU SON APPROCHEE COURANTE
+C     VELOCITY DU SON APPROCHEE COURANTE
 C--------------------------------------------------
       DO I=1,NEL
         DPDM(I)=ONEP333*G(I)

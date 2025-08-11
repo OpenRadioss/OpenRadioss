@@ -75,7 +75,7 @@ C     REAL
      .     VX1L, VY1L, VY2L, VZ1L, VZ2L,THETA , XLDEMI,XSIGN
 C-----------------------------------------------
 C--------------------------------------------
-C     VITESSES REPERE CONVECTEE
+C     VELOCITIES convected frameE
 C--------------------------------------------
       DO I=1,NEL
         RX2L(I) = EXX(I)*(RX2(I)-RX1(I))

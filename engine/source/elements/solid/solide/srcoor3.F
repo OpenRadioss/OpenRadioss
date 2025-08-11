@@ -260,7 +260,7 @@ C-----------
        ENDIF
       ENDIF
 C-----------
-C     REPERE CONVECTE (ITERATIONS).
+C     convected frame (ITERATIONS).
 C-----------
       CALL SREPISO3(
      1   XD1,     XD2,     XD3,     XD4,
@@ -324,7 +324,7 @@ C-------sauf thick shells --------------
         ENDIF
       ENDIF
 C-----------
-C     PASSAGE AU REPERE CONVECTE.
+C     Change to the convected frame.
 C-----------
 C     X=RX' <=> X'=t(R)X chgt de base.
       IF((ISMSTR<=4.OR.(ISMSTR==12.AND.IDTMIN(1)==3)).AND.JLAG>0) THEN

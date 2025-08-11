@@ -114,14 +114,14 @@ C-------VCORE(12):BX0(2),BY0(2),GAMA(2),MX23,MY23,MX34,MY34,MX13,MY13
         KSI1=VCORE(EP,12)+VCORE(EP,10)*VPG(1,NG)
        BETA2=VCORE(EP,11)+VCORE(EP,7)*VPG(2,NG)
         KSI2=VCORE(EP,11)+VCORE(EP,9)*VPG(1,NG)
-C-------NOEUD--- 1
+C-------NODE--- 1
        BC(EP,1)=-C11-C12
        BC(EP,2)=-C21-C22
        BC(EP,3)= BETA1*C11+KSI1*C12
        BC(EP,4)= BETA1*C21+KSI1*C22
        BC(EP,5)= -BETA2*C11-KSI2*C12
        BC(EP,6)= -BETA2*C21-KSI2*C22
-C-------NOEUD--- 2
+C-------NODE--- 2
        BC(EP,7)= C11-C12
        BC(EP,8)= C21-C22
        BC(EP,9)= BETA1*C11-KSI1*C12
@@ -133,15 +133,15 @@ C
         KSI1=VCORE(EP,10)+VCORE(EP,12)*VPG(1,NG)
        BETA2=VCORE(EP,7)+VCORE(EP,11)*VPG(2,NG)
         KSI2=VCORE(EP,9)+VCORE(EP,11)*VPG(1,NG)
-C-----PARTIE SYM---------
-C-------NOEUD--- 1
+C-----PART SYM---------
+C-------NODE--- 1
        BC(EP,13)=C11*VPG(2,NG)+C12*VPG(1,NG)
        BC(EP,14)=C21*VPG(2,NG)+C22*VPG(1,NG)
        BC(EP,15)=-BETA1*C11-KSI1*C12
        BC(EP,16)=-BETA1*C21-KSI1*C22
        BC(EP,17)=C11*BETA2+C12*KSI2
        BC(EP,18)=C21*BETA2+C22*KSI2
-C-------NOEUD--- 2
+C-------NODE--- 2
        BC(EP,19)=-BC(EP,13)
        BC(EP,20)=-BC(EP,14)
        BC(EP,21)=BC(EP,15)
@@ -236,10 +236,8 @@ C--------------------------
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 C---------- LOOP OVER NODES---
 C--------J=1         II =0 KK = 0
-C----------VT1=<T1>*VXYZ AU CHAQUE NOEUD---------
          VT1=VQ(EP,1,1,NG)*VXYZ(EP,1)+VQ(EP,2,1,NG)*VXYZ(EP,2)
      1        +VQ(EP,3,1,NG)*VXYZ(EP,3)
-C----------VT2=<T2>*VXYZ AU CHAQUE NOEUD---------
          VT2=VQ(EP,1,2,NG)*VXYZ(EP,1)+VQ(EP,2,2,NG)*VXYZ(EP,2)
      1        +VQ(EP,3,2,NG)*VXYZ(EP,3)
 C--------TERMES DE [B0]=<T>CI-------
@@ -308,9 +306,7 @@ C---------PRODUIT SCALAIRE <T(PG)>*<-T^2 T^1>----------
      1           +VQ(EP,3,2,NG)*VQN(EP,3,1)
          V2(1)=-(VQ(EP,1,2,NG)*VQN(EP,4,1)+VQ(EP,2,2,NG)*VQN(EP,5,1)
      1           +VQ(EP,3,2,NG)*VQN(EP,6,1))
-C----------RV1=<V1>*RXYZ AU CHAQUE NOEUD---------
           RV1=V1(1)*RXYZ(EP,1)+V1(2)*RXYZ(EP,2)
-C----------RV2=<V2>*RXYZ AU CHAQUE NOEUD---------
           RV2=V2(1)*RXYZ(EP,1)+V2(2)*RXYZ(EP,2)
 C----------TERMES ASSOCIEES AUX BETA DE [B01]--
 C           JJ = 3*II =0
@@ -326,10 +322,8 @@ C---------DEF DE FLEXION ASSOCIEE AUX THETA1,THETA2------
           VDEF(EP,8)= VDEF(EP,8)+C1*RV2+C2*RV1
 C
 C--------J=2---II=(J-1)*2 =2  KK = 3*(J-1) =3
-C----------VT1=<T1>*VXYZ AU CHAQUE NOEUD---------
          VT1=VQ(EP,1,1,NG)*VXYZ(EP,4)+VQ(EP,2,1,NG)*VXYZ(EP,5)
      1        +VQ(EP,3,1,NG)*VXYZ(EP,6)
-C----------VT2=<T2>*VXYZ AU CHAQUE NOEUD---------
          VT2=VQ(EP,1,2,NG)*VXYZ(EP,4)+VQ(EP,2,2,NG)*VXYZ(EP,5)
      1        +VQ(EP,3,2,NG)*VXYZ(EP,6)
 C--------- [B0], [B01]---------
@@ -399,9 +393,7 @@ C---------PRODUIT SCALAIRE <T(PG)>*<-T^2 T^1>----------
      1           +VQ(EP,3,2,NG)*VQN(EP,3,2)
          V2(1)=-(VQ(EP,1,2,NG)*VQN(EP,4,2)+VQ(EP,2,2,NG)*VQN(EP,5,2)
      1           +VQ(EP,3,2,NG)*VQN(EP,6,2))
-C----------RV1=<V1>*RXYZ AU CHAQUE NOEUD---------
           RV1=V1(1)*RXYZ(EP,2+1)+V1(2)*RXYZ(EP,2+2)
-C----------RV2=<V2>*RXYZ AU CHAQUE NOEUD---------
           RV2=V2(1)*RXYZ(EP,2+1)+V2(2)*RXYZ(EP,2+2)
 C----------TERMES ASSOCIEES AUX BETA DE [B01]--
 C           JJ = 3*II=6
@@ -417,10 +409,8 @@ C---------DEF DE FLEXION ASSOCIEE AUX THETA1,THETA2------
           VDEF(EP,8)= VDEF(EP,8)+C1*RV2+C2*RV1
 C
 C--------J=3---II=(J-1)*2 =4 KK = 3*(J-1)=6
-C----------VT1=<T1>*VXYZ AU CHAQUE NOEUD---------
          VT1=VQ(EP,1,1,NG)*VXYZ(EP,7)+VQ(EP,2,1,NG)*VXYZ(EP,8)
      1        +VQ(EP,3,1,NG)*VXYZ(EP,9)
-C----------VT2=<T2>*VXYZ AU CHAQUE NOEUD---------
          VT2=VQ(EP,1,2,NG)*VXYZ(EP,7)+VQ(EP,2,2,NG)*VXYZ(EP,8)
      1        +VQ(EP,3,2,NG)*VXYZ(EP,9)
 C--------- [B0], [B01]---------
@@ -477,8 +467,6 @@ C----------[B01]---------
           VDEF(EP,6)= VDEF(EP,6)+ BC1*VT1
           VDEF(EP,7)= VDEF(EP,7)+ BC2*VT2
           VDEF(EP,8)= VDEF(EP,8)+ BC1*VT2+BC2*VT1
-C---------- TERMES ASSOCIEES AU BETA ----------
-C---------PRODUIT SCALAIRE <T(PG)>*<-T^2 T^1>----------
          V1(2)=VQ(EP,1,1,NG)*VQN(EP,1,3)+VQ(EP,2,1,NG)*VQN(EP,2,3)
      1           +VQ(EP,3,1,NG)*VQN(EP,3,3)
          V1(1)=-(VQ(EP,1,1,NG)*VQN(EP,4,3)+VQ(EP,2,1,NG)*VQN(EP,5,3)
@@ -487,27 +475,20 @@ C---------PRODUIT SCALAIRE <T(PG)>*<-T^2 T^1>----------
      1           +VQ(EP,3,2,NG)*VQN(EP,3,3)
          V2(1)=-(VQ(EP,1,2,NG)*VQN(EP,4,3)+VQ(EP,2,2,NG)*VQN(EP,5,3)
      1           +VQ(EP,3,2,NG)*VQN(EP,6,3))
-C----------RV1=<V1>*RXYZ AU CHAQUE NOEUD---------
           RV1=V1(1)*RXYZ(EP,4+1)+V1(2)*RXYZ(EP,4+2)
-C----------RV2=<V2>*RXYZ AU CHAQUE NOEUD---------
           RV2=V2(1)*RXYZ(EP,4+1)+V2(2)*RXYZ(EP,4+2)
-C----------TERMES ASSOCIEES AUX BETA DE [B01]--
-C           JJ = 3*II =12
             BF(EP,13)=V1(1)*C1
             BF(EP,14)=V2(1)*C2
             BF(EP,15)=V1(1)*C2+V2(1)*C1
             BF(EP,16)=V1(2)*C1
             BF(EP,17)=V2(2)*C2
             BF(EP,18)=V1(2)*C2+V2(2)*C1
-C---------DEF DE FLEXION ASSOCIEE AUX THETA1,THETA2------
           VDEF(EP,6)= VDEF(EP,6)+C1*RV1
           VDEF(EP,7)= VDEF(EP,7)+C2*RV2
           VDEF(EP,8)= VDEF(EP,8)+C1*RV2+C2*RV1
 C--------J=4---II=(J-1)*2  =6 KK = 3*(J-1)=9
-C----------VT1=<T1>*VXYZ AU CHAQUE NOEUD---------
          VT1=VQ(EP,1,1,NG)*VXYZ(EP,10)+VQ(EP,2,1,NG)*VXYZ(EP,11)
      1        +VQ(EP,3,1,NG)*VXYZ(EP,12)
-C----------VT2=<T2>*VXYZ AU CHAQUE NOEUD---------
          VT2=VQ(EP,1,2,NG)*VXYZ(EP,10)+VQ(EP,2,2,NG)*VXYZ(EP,11)
      1        +VQ(EP,3,2,NG)*VXYZ(EP,12)
 C--------- [B0], [B01]---------
@@ -574,11 +555,8 @@ C---------PRODUIT SCALAIRE <T(PG)>*<-T^2 T^1>----------
      1           +VQ(EP,3,2,NG)*VQN(EP,3,4)
          V2(1)=-(VQ(EP,1,2,NG)*VQN(EP,4,4)+VQ(EP,2,2,NG)*VQN(EP,5,4)
      1           +VQ(EP,3,2,NG)*VQN(EP,6,4))
-C----------RV1=<V1>*RXYZ AU CHAQUE NOEUD---------
           RV1=V1(1)*RXYZ(EP,6+1)+V1(2)*RXYZ(EP,6+2)
-C----------RV2=<V2>*RXYZ AU CHAQUE NOEUD---------
           RV2=V2(1)*RXYZ(EP,6+1)+V2(2)*RXYZ(EP,6+2)
-C----------TERMES ASSOCIEES AUX BETA DE [B01]--
 C           JJ = 3*II=18
             BF(EP,19)=V1(1)*C1
             BF(EP,20)=V2(1)*C2
@@ -586,7 +564,6 @@ C           JJ = 3*II=18
             BF(EP,22)=V1(2)*C1
             BF(EP,23)=V2(2)*C2
             BF(EP,24)=V1(2)*C2+V2(2)*C1
-C---------DEF DE FLEXION ASSOCIEE AUX THETA1,THETA2------
           VDEF(EP,6)= VDEF(EP,6)+THK*VDEF(EP,1)+C1*RV1
           VDEF(EP,7)= VDEF(EP,7)+THK*VDEF(EP,2)+C2*RV2
           VDEF(EP,8)= VDEF(EP,8)+THK*VDEF(EP,3)+C1*RV2+C2*RV1
@@ -745,7 +722,7 @@ C
         SUBROUTINE CBADEFSH(JFT  ,JLT  ,X13  ,X24  ,Y13  ,Y24  ,
      1                                 BM, VDEF, VXYZ , NPLAT, IPLAT)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
-C        CALCUL 'membrane shear traitement' use only PARTIE CONSTANTE
+C        CALCUL 'membrane shear traitement' use only PART CONSTANTE
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
 C-----------------------------------------------

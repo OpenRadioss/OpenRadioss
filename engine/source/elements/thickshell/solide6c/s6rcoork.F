@@ -132,7 +132,7 @@ C----------------------------
         OFF(I) = MIN(ONE,ABS(OFFG(I)))
       ENDDO
 C-----------
-C     REPERE CONVECTE (ITERATIONS).
+C     convected frame (ITERATIONS).
 C-----------
       DO I=1,NEL
         XL=ONE_OVER_6*(X1(I)+X2(I)+X3(I)+X4(I)+X5(I)+X6(I))
@@ -169,7 +169,7 @@ C-----------
      9   SZ,      TX,      TY,      TZ,
      A   NEL)
 C-----------
-C     PASSAGE AU REPERE CONVECTE.
+C     Change to the convected frame.
 C-----------
       IF((ISMSTR==1.OR.ISMSTR==3).OR.
      .   (ISMSTR==2.AND.IDTMIN(1)==3))THEN

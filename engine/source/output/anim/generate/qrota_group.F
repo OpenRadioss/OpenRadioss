@@ -89,7 +89,7 @@ C---------------------------------------
           TZ(I)=HALF*(Z3(I)+Z4(I)-Z1(I)-Z2(I))
         ENDDO
 C-----------
-C       REPERE CONVECTE
+C       convected frame
 C-----------
         DO I=1,NEL
           CT = TY(I)*TY(I)+TZ(I)*TZ(I)

@@ -100,7 +100,7 @@ C----------------------------
         Z8=X(3,NC8)
 C-----------
        IF(KHBE/=15)THEN
-C        REPERE CONVECTE
+C        convected frame
          IF (KHBE==24.OR.KHBE==14) THEN
            CALL SORTHO31(
      .          X1, X2, X3, X4, X5, X6, X7, X8,               

@@ -149,7 +149,6 @@ c
       ALLOCATE (EL_CONNECT(NUMELIG3D0+ADDELIG3D)) ! array containing a flag for the elements that have been modified
       EL_CONNECT(:)=0
 
-ccc ATTENTION, S'IL Y A DES ELEMENTS CLASSIQUES ET DES ELEMENT ISOGEOMETRIQUES, IL VA Y AVOIR ONE SOUCIS
 Cso an EL_CONNECT must be made in the TABCONPATCH structure and the connectivity tables must be redone by patch
 c
 c ------------------------------------------------------------------------------------------

@@ -397,7 +397,7 @@ C---    Coulomb friction
       ELSEIF (MFROT==1) THEN
 C---    Viscous friction
         DO I=1,JLT
-C attention : normale <> normale a l'elt
+C attention : normal <> normal to the elt
           AA = NX(I)*VX(I) + NY(I)*VY(I) + NZ(I)*VZ(I)
           V2 = (VX(I) - NX(I)*AA)**2 
      .       + (VY(I) - NY(I)*AA)**2 
@@ -414,7 +414,6 @@ C should be the current nodal surface instead of the initial one.
       ELSEIF(MFROT==2)THEN
 C---    Darmstad LAW
         DO I=1,JLT
-C attention : normale <> normale a l'elt
           AA = NX(I)*VX(I) + NY(I)*VY(I) + NZ(I)*VZ(I)
           V2 = (VX(I) - NX(I)*AA)**2 
      .       + (VY(I) - NY(I)*AA)**2 
@@ -433,7 +432,6 @@ C should be the current nodal surface instead of the initial one.
       ELSEIF (MFROT==3) THEN
 C---    Renard LAW
         DO I=1,JLT
-C attention : normale <> normale a l'elt
           AA = NX(I)*VX(I) + NY(I)*VY(I) + NZ(I)*VZ(I)
           V2 = (VX(I) - NX(I)*AA)**2 
      .       + (VY(I) - NY(I)*AA)**2 

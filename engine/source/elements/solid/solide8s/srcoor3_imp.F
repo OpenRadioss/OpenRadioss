@@ -309,7 +309,7 @@ c       IF(IMCONV == 1) THEN              ! Debut de pas
        ENDIF   !(INCONV == 1)
 ! fin ajout qz
 C-----------
-C     REPERE CONVECTE 
+C     convected frame 
 C-----------
       IF((ISMSTR<=4.OR.(ISMSTR==12.AND.IDTMIN(1)==3)).AND.JLAG>0) THEN
         DO I=LFT,LLT
@@ -501,7 +501,7 @@ c Retrieve the current coordinates
         Z8(I)= ZD8(I) 
       ENDDO          
 !C-----------
-!C     PASSAGE AU REPERE CONVECTE.
+!C     Change to the convected frame.
 !C-----------
 !sb applies only in the case of small deformations (ismstr = 1)
 ! it is necessary to see what needs to be done in other cases

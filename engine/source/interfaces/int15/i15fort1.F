@@ -134,7 +134,7 @@ C-----------------------------------------------
       VRY=ROT(4)*V1+ROT(5)*V2+ROT(6)*V3
       VRZ=ROT(7)*V1+ROT(8)*V2+ROT(9)*V3
 C----------------------------------------------------------
-C     PASSAGE DES VITESSES EN LOCAL.
+C     PASSAGE DES VELOCITIES EN LOCAL.
 C     non optimise (plusieurs fois / noeud).
 C----------------------------------------------------------
       DO 100 NLS=NDEB+1,MIN(NDEB+MVSIZ,NTC)
@@ -227,7 +227,7 @@ C-------------------------------
        DELTZ=ZERO    
       ENDIF
 C-------------------------------
-C     INCREMENT SUR DELTA (T-1 -> T) : VITESSE RELATIVE TANGENTE DE POLD * DT
+C     INCREMENT SUR DELTA (T-1 -> T) : VELOCITY RELATIVE TANGENTE DE POLD * DT
 C-------------------------------
       XH=HOLD(1,4*(IL-1)+1)
       YH=HOLD(2,4*(IL-1)+1)

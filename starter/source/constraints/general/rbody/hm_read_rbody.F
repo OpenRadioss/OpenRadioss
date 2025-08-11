@@ -407,7 +407,7 @@ C
         WRITE(IOUT,1202) (ITAB(LPBY(I+K)),I=1,NSL)
         K=K+NSL
 C-------------------------------
-C VITESSE FIXE SUR main EN ROT
+C VELOCITY FIXE SUR main EN ROT
 C-------------------------------
         DO J=1,NFXVEL
           IF(IABS(IBFV(1,J)) == NPBY(1,NRB).AND.

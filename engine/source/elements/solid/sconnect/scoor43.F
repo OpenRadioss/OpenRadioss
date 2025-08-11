@@ -193,7 +193,7 @@ C-----------
        ENDDO
       ENDIF
 C-----------
-C     PASSAGE AU REPERE CONVECTE
+C     Change to the convected frame
 C-----------
       DO I=1,NEL                                                
         XLOC(I,1) = E1X(I)*X1(I)+E1Y(I)*Y1(I)+E1Z(I)*Z1(I)               
@@ -254,7 +254,7 @@ C
         ZLOC(I,8) = ZLOC(I,8) - Z0
       ENDDO
 C-----------
-C     PASSAGE DES VITESSES AU REPERE CONVECTE
+C     PASSAGE DES VELOCITIES AU convected frame
 C-----------
       DO I=1,NEL   
         VXLOC(I,1) = E1X(I)*VX1(I)+E1Y(I)*VY1(I)+E1Z(I)*VZ1(I)               

@@ -156,7 +156,7 @@ C--- IREMGAP - array for tag of deactivated lines
       ENDIF  
 C
       AAA = ZERO 
-      !ATTENTION A POPTIONMISER POUR NE PAS FAIRE ONE RAZ COMPLET SI NRTS ==0
+      !warning: can be optimized
       MIN_IX=NBX+2
       MIN_IY=NBY+2
       MIN_IZ=NBZ+2
