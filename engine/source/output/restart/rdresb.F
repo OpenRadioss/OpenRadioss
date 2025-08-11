@@ -529,18 +529,18 @@ C
            CALL EBCS_TAB%read_type_data(INT0, INTEGER_DATA)
            ALLOCATE(EBCS_TAB%my_typ(INT0))
            ALLOCATE(EBCS_TAB%need_to_compute(INT0))
-           ! save the type of /EBCS ( /EBCS/NRF --> typ = 10) ( /EBCS/PROPERGOL --> typ = 11)
+           ! save the type of /EBCS ( /EBCS/NRF --> typ = 10) ( /EBCS/PROPELLANT --> typ = 11)
            EBCS_TAB%my_typ(1:INT0) = INTEGER_DATA(1:INT0)
            ! -------------
            ! check if the current proc needs to compute an /EBCS
-           ! multifluid /EBCS, /EBCS/NRF, and /EBCS/PROPERGOL are parallelized, can be computed by several proc
+           ! multifluid /EBCS, /EBCS/NRF, and /EBCS/PROPELLANT are parallelized, can be computed by several proc
            ! the others are sequential, only the main proc (ispmd=0) computes the other /EBCS
            DO II=1,INT0
                 EBCS_TAB%need_to_compute(II) = .FALSE.
                 IF(ISPMD /= 0) THEN
                     IS_EBCS_PARALLEL = .FALSE.
                     IF(EBCS_TAB%my_typ(II) == 10 .or. EBCS_TAB%my_typ(II) == 11)IS_EBCS_PARALLEL = .TRUE.
-                    IF(IS_EBCS_PARALLEL) EBCS_TAB%need_to_compute(II) = .TRUE. ! /EBCS/NRF and /EBCS/PROPERGOL are //
+                    IF(IS_EBCS_PARALLEL) EBCS_TAB%need_to_compute(II) = .TRUE. ! /EBCS/NRF and /EBCS/PROPELLANT are //
                 ELSE
                     EBCS_TAB%need_to_compute(II) = .TRUE.   ! other /EBCS sequential
                 ENDIF

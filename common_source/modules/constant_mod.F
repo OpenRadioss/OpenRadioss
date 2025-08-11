@@ -119,7 +119,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    h3d_quad_scalar_1                        ../engine/source/output/h3d/h3d_results/h3d_quad_scalar_1.F90
 !||    hm_preread_inivel                        ../starter/source/initial_conditions/general/inivel/hm_preread_inivel.F90
 !||    hm_read_bcs_wall                         ../starter/source/boundary_conditions/hm_read_bcs_wall.F90
-!||    hm_read_ebcs_propergol                   ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_propergol.F90
+!||    hm_read_ebcs_propellant                   ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_propellant.F90
 !||    hm_read_eos_compaction                   ../starter/source/materials/eos/hm_read_eos_compaction.F90
 !||    hm_read_eos_compaction2                  ../starter/source/materials/eos/hm_read_eos_compaction2.F90
 !||    hm_read_eos_compaction_tab               ../starter/source/materials/eos/hm_read_eos_compaction_tab.F90
@@ -149,7 +149,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_therm_stress                     ../starter/source/materials/therm/hm_read_therm_stress.F90
 !||    i24intarea_fic                           ../engine/source/interfaces/int24/i24intarea_fic.F90
 !||    i2_surfi                                 ../starter/source/interfaces/inter3d1/i2_surfi.F90
-!||    iniebcs_propergol_get_cv                 ../starter/source/boundary_conditions/ebcs/iniebcs_propergol.F90
+!||    iniebcs_propellant_get_cv                 ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
 !||    iniphase                                 ../starter/source/initial_conditions/inivol/iniphase.F
 !||    init_inivol                              ../starter/source/initial_conditions/inivol/init_inivol.F90
 !||    init_inivol_2d_polygons                  ../starter/source/initial_conditions/inivol/init_inivol_2D_polygons.F90
@@ -197,7 +197,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    mulaw8                                   ../engine/source/materials/mat_share/mulaw8.F90
 !||    mulawc                                   ../engine/source/materials/mat_share/mulawc.F90
 !||    multi_muscl_compute_pressure             ../engine/source/multifluid/multi_muscl_compute_pressure.F90
-!||    multi_propergol_ebcs                     ../engine/source/multifluid/multi_propergol_ebcs.F90
+!||    multi_propellant_ebcs                     ../engine/source/multifluid/multi_propellant_ebcs.F90
 !||    multi_solve_eint                         ../engine/source/multifluid/multi_solve_eint.F90
 !||    multifluid_global_tdet                   ../starter/source/multifluid/multifluid_global_tdet.F
 !||    newman_raju                              ../common_source/fail/newman_raju.F90

@@ -24,7 +24,7 @@
 !                                                   PROCEDURES
 ! ======================================================================================================================
 !||====================================================================
-!||    hm_read_ebcs_propergol   ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_propergol.F90
+!||    hm_read_ebcs_propellant   ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_propellant.F90
 !||--- called by ------------------------------------------------------
 !||    read_ebcs                ../starter/source/boundary_conditions/ebcs/read_ebcs.F
 !||--- calls      -----------------------------------------------------
@@ -37,7 +37,7 @@
 !||    message_mod              ../starter/share/message_module/message_mod.F
 !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
 !||====================================================================
-      subroutine hm_read_ebcs_propergol(igrsurf, multi_fvm, unitab, id, titr, uid, lsubmodel,  nsurf, ebcs)
+      subroutine hm_read_ebcs_propellant(igrsurf, multi_fvm, unitab, id, titr, uid, lsubmodel,  nsurf, ebcs)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -69,7 +69,7 @@
         character(len=nchartitle), intent(in) :: titr
         type(submodel_data) :: lsubmodel(nsubmod)
         logical :: is_available,is_encrypted
-        type(t_ebcs_propergol), intent(inout) :: ebcs
+        type(t_ebcs_propellant), intent(inout) :: ebcs
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local Variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -101,7 +101,7 @@
         call hm_get_intv('entityid' , surf     , is_available,lsubmodel)
         call hm_get_intv('sensor_id', sensor_id, is_available,lsubmodel)
         call hm_get_intv('submat_id', submat_id, is_available,lsubmodel)
-        ! propergol properties
+        ! propellant properties
         call hm_get_floatv('rho0s', param_rho0s, is_available,lsubmodel,unitab)
         call hm_get_floatv('param_t', param_t, is_available,lsubmodel,unitab)
         ! combustion model
@@ -201,15 +201,15 @@
 !-----------
         return
 !-----------
-1001    format( //'PROPERGOL EBCS NUMBER. . . . :',I8,1X,A)
+1001    format( //'PROPELLANT EBCS NUMBER. . . . :',I8,1X,A)
 
 1118    format(&
           '    ON SURFACE  . . . . . . . . . . . . . . . ',I8,/,&
           '    SENSOR ID   . . . . . . . . . . . . . . . ',I8,/,&
           '    SUBMAT ID   . . . . . . . . . . . . . . . ',I8,/,&
           '    NUMBER OF SEGMENTS FOUND. . . . . . . . . ',I8,/,&
-          '    PROPERGOL DENSITY . . . . . . . . . . . . ',E20.12,/,&
-          '    PROPERGOL HEAT OF COMBUSTION. . . . . . . ',E20.12)
+          '    PROPELLANT DENSITY  . . . . . . . . . . . ',E20.12,/,&
+          '    PROPELLANT TEMPERATURE RISE . . . . . . . ',E20.12)
 1201    format( '      --- COMBUSTION MODEL : VIEILLE''S LAW'   ,/,&
           '      VIEILLE PARAMETER A . . . . . . . . . . ',E20.12,/,&
           '      VIEILLE PARAMETER N . . . . . . . . . . ',E20.12,/,&
@@ -223,5 +223,5 @@
           '      h X-scale . . . . . . . . . . . . . . . ',E20.12,/,&
           '      h Y-scale . . . . . . . . . . . . . . . ',E20.12)
 
-      end subroutine hm_read_ebcs_propergol
+      end subroutine hm_read_ebcs_propellant
 

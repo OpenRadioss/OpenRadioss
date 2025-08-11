@@ -24,7 +24,7 @@
 !||    array_reindex_mod          ../common_source/tools/sort/array_reindex.F90
 !||--- called by ------------------------------------------------------
 !||    clipping_weiler_atherton   ../common_source/tools/clipping/polygon_clipping_mod.F90
-!||    iniebcs_propergol_get_cv   ../starter/source/boundary_conditions/ebcs/iniebcs_propergol.F90
+!||    iniebcs_propellant_get_cv   ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
 !||====================================================================
       module array_reindex_mod
       contains
@@ -74,7 +74,7 @@
 !||====================================================================
 !||    real_array_reindex         ../common_source/tools/sort/array_reindex.F90
 !||--- called by ------------------------------------------------------
-!||    iniebcs_propergol_get_cv   ../starter/source/boundary_conditions/ebcs/iniebcs_propergol.F90
+!||    iniebcs_propellant_get_cv   ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
 !||--- uses       -----------------------------------------------------
 !||    precision_mod              ../common_source/modules/precision_mod.F90
 !||====================================================================

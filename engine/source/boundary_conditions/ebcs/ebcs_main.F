@@ -185,7 +185,7 @@ C-----------------------------------------------
              end select
          ELSE IF (TYP == 11) THEN
             select type (twf => EBCS)
-             type is (t_ebcs_propergol)
+             type is (t_ebcs_propellant)
               call ebcs11(nseg,twf%iseg,segvar,
      .                    v,w,x,
      .                    twf%node_list,nod,twf%elem_list,twf%ielem,twf%iface,

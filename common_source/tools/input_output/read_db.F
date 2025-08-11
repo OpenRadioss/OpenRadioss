@@ -58,7 +58,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    read_bcs_wall         ../engine/source/output/restart/read_bcs_wall.F90
 !||    read_cluster          ../engine/source/output/cluster/read_cluster.F
 !||    read_data_nrf         ../common_source/modules/boundary_conditions/ebcs_mod.F90
-!||    read_data_propergol   ../common_source/modules/boundary_conditions/ebcs_mod.F90
+!||    read_data_propellant   ../common_source/modules/boundary_conditions/ebcs_mod.F90
 !||    read_elgroup_param    ../engine/source/output/restart/read_elgroup_param.F
 !||    read_eosparam         ../engine/source/output/restart/read_eosparam.F90
 !||    read_failparam        ../engine/source/output/restart/read_failparam.F
@@ -164,7 +164,7 @@ C
 !||    read_data_normv       ../common_source/modules/boundary_conditions/ebcs_mod.F90
 !||    read_data_nrf         ../common_source/modules/boundary_conditions/ebcs_mod.F90
 !||    read_data_pres        ../common_source/modules/boundary_conditions/ebcs_mod.F90
-!||    read_data_propergol   ../common_source/modules/boundary_conditions/ebcs_mod.F90
+!||    read_data_propellant   ../common_source/modules/boundary_conditions/ebcs_mod.F90
 !||    read_data_valvin      ../common_source/modules/boundary_conditions/ebcs_mod.F90
 !||    read_data_valvout     ../common_source/modules/boundary_conditions/ebcs_mod.F90
 !||    read_data_vel         ../common_source/modules/boundary_conditions/ebcs_mod.F90

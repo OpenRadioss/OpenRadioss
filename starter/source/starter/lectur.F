@@ -255,7 +255,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ini_ifront                          ../starter/source/spmd/node/ddtools.F
 !||    inicrkfill                          ../starter/source/elements/xfem/inicrkfill.F
 !||    iniebcs                             ../starter/source/boundary_conditions/ebcs/iniebcs.F
-!||    iniebcs_propergol                   ../starter/source/boundary_conditions/ebcs/iniebcs_propergol.F90
+!||    iniebcs_propellant                   ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
 !||    iniebcsp0                           ../starter/source/boundary_conditions/ebcs/iniebcsp0.F
 !||    inimu2                              ../starter/source/ale/bimat/inimu2.F
 !||    inimu3                              ../starter/source/ale/bimat/inimu3.F
@@ -485,7 +485,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_preread_inivel_mod               ../starter/source/initial_conditions/general/inivel/hm_preread_inivel.F90
 !||    hm_read_inivol_mod                  ../starter/source/initial_conditions/inivol/hm_read_inivol.F90
 !||    hm_read_preload_axial_mod           ../starter/source/loads/general/preload/hm_read_preload_axial.F90
-!||    iniebcs_propergol_                  ../starter/source/boundary_conditions/ebcs/iniebcs_propergol.F90
+!||    iniebcs_propellant_                  ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
 !||    inigrav                             ../starter/share/modules1/inigrav_mod.F
 !||    inimap1d_mod                        ../starter/share/modules1/inimap1d_mod.F
 !||    inimap2d_mod                        ../starter/share/modules1/inimap2d_mod.F
@@ -629,7 +629,7 @@ C-----------------------------------------------
       use glob_therm_mod
       use hm_read_inivol_mod
       use pblast_mod
-      use iniebcs_propergol_
+      use iniebcs_propellant_
       use init_monvol_mod ,only : init_monvol
       use python_duplicate_nodes_mod
 C-----------------------------------------------
@@ -9498,7 +9498,7 @@ c
      .        PM, IGEO, X, SENSORS, MONVOl, MULTI_FVM%IS_USED, EBCS_TAB, EBCS_TAG_CELL_SPMD)
          !initialization
         CALL INIEBCSP0(X, IPARG, ELBUF_TAB, EBCS_TAB, IXS, IXQ, IXTG, IPARTS, IPARTQ, IPARTG, PM, IPM, MAT_ELEM%MAT_PARAM)
-        CALL INIEBCS_PROPERGOL(IXS,IXQ,IXTG,MULTI_FVM%IS_USED,EBCS_TAB,MAT_ELEM%MAT_PARAM,SIXS,SIXQ,SIXTG,NUMMAT)
+        CALL INIEBCS_PROPELLANT(IXS,IXQ,IXTG,MULTI_FVM%IS_USED,EBCS_TAB,MAT_ELEM%MAT_PARAM,SIXS,SIXQ,SIXTG,NUMMAT)
       ENDIF
       CALL TRACE_OUT1()
 C--------------------------------------------

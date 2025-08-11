@@ -89,7 +89,7 @@
       real(kind=WP),intent(inout) :: ms(numnod) !< nodal mass
       real(kind=WP),intent(inout) :: v(3,numnod),w(3,numnod),x(3,numnod) !< mat. velocity, grid velocity, coordinates
       real(kind=WP),intent(inout) :: la(3,nod),stifn(numnod)
-      type(t_ebcs_propergol), intent(inout) :: ebcs !< ebcs data structure
+      type(t_ebcs_propellant), intent(inout) :: ebcs !< ebcs data structure
       integer :: iparg(nparg,ngroup) !< data for all group of elems
       type(elbuf_struct_), target, dimension(ngroup) :: elbuf_tab !< element buffer
       type(t_segvar),intent(inout) :: segvar !< ghost cell data
@@ -112,10 +112,9 @@
       real(kind=WP) :: pp,ee,tt,ssp,vel_front,fac1,fac2
       real(kind=WP) :: param_a, param_n, param_q, surf,phase_alpha(21),phase_rho(21), phase_eint(21)
       real(kind=WP) :: face_force
-      real(kind=WP) :: param_rho0s  !< initial propergol density
-      real(kind=WP) :: dmass_g     !< mass increment (burnt propergol)
+      real(kind=WP) :: param_rho0s  !< initial propellant density
+      real(kind=WP) :: dmass_g     !< mass increment (burnt propellant)
       real(kind=WP) :: dvol_s      !< burnt volume
-      real(kind=WP) :: tmp(3)
       real(kind=WP) :: fscaleX, fscaleY, gscaleX, gscaleY, hscaleX, hscaleY
       real(kind=WP) :: tstart
       real(kind=WP) :: ff, gg, hh
@@ -214,8 +213,8 @@
         do ii=1,nod
           num=liste(ii)
           v0(1,ii)=v0(1,ii)-w(1,num)
-          v0(2,ii)=v0(1,ii)-w(2,num)
-          v0(3,ii)=v0(1,ii)-w(3,num)
+          v0(2,ii)=v0(2,ii)-w(2,num)
+          v0(3,ii)=v0(3,ii)-w(3,num)
         enddo
       endif
 
@@ -271,18 +270,11 @@
           zn=zn*fac2
           surf = one/fac2
         endif
-        tmp(1:3) = zero
         nn(1)=irect(1,is)
         nn(2)=irect(2,is)
         nn(3)=irect(3,is)
         nn(4)=irect(4,is)
         nng(1:4)=liste(nn(1:4))
-        do kk=1,INT(npt)
-          tmp(1) = tmp(1) + v0(nn(kk),kk)
-          tmp(2) = tmp(2) + v0(nn(kk),kk)
-          tmp(3) = tmp(3) + v0(nn(kk),kk)
-        enddo
-        vnew = fac1 * (tmp(1)*xn + tmp(2)*yn + tmp(3)*zn)
         !-- adjacent state
         bfound = .false.
         ivoi = ielem(is)
@@ -350,7 +342,7 @@
           mass = vol * phase_rho(isubmat)
         endif
         !-- formulation
-        !burnt propergol volume
+        !burnt propellant volume
         pp = padj
         ee = eadj
         tt = tadj
@@ -461,7 +453,7 @@
         !mass = mass + dmass_g
         mass_face = mass*(npt*one)/(isolnod*one)
         !vold = zero
-        if(dt1 > zero)face_force = face_force + (vel_front) * mass_face / dt1   !pp= pp+ dp to input corresponding propergol
+        if(dt1 > zero)face_force = face_force + (vel_front) * mass_face / dt1   !pp= pp+ dp to input corresponding propellant
         !expand pressure loading to segment nodes
         !face_force = pp*surf
         do kk=1,INT(npt)
@@ -496,7 +488,7 @@
 
       ! numerical staggered scheme : vitesse.F ;  v[n+1] = v[n] + int(acc, t=t[n],t[n+1] )   ;   acc = F/m
       !   to impose v[n+1] = Vel_Front
-      !           -->  v[n] is reset in velocity subroutine for nodes related to /EBCS/PROPERGOL
+      !           -->  v[n] is reset in velocity subroutine for nodes related to /EBCS/PROPELLANT
 
       ! -------------
       ! for parith/off option : update directly the acceleration array a() : no specific assembly

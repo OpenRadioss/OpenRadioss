@@ -402,6 +402,7 @@
   CRITICAL:   TYPE MISMATCH cforc3_crk->0:cmain3(a11_iply) INTEGER(KIND=4)(:) != REAL(KIND=8)
   CRITICAL:   TYPE MISMATCH czforc3_crk->0:cmain3(a11_iply) INTEGER(KIND=4)(:) != REAL(KIND=8)
   CRITICAL:   TYPE MISMATCH solve_cg->0:get_dim(this) TYPE(__class_vector_mod_T_vector_t) != TYPE(__class_matrix_mod_T_cfs_matrix_t)
+  CRITICAL:   TYPE MISMATCH multi_ebcs->0:multi_propellant_ebcs(ebcs) TYPE(t_ebcs_nrf) != TYPE(t_ebcs_propellant)
   WARNING:   ARRAY VS SCALAR imp_k_eig->0:imp_glob_k(ixs10) INTEGER(KIND=4)(:) != INTEGER(KIND=4)
   WARNING:   ARRAY VS SCALAR imp_k_eig->0:imp_glob_k(ixs20) INTEGER(KIND=4)(:) != INTEGER(KIND=4)
   WARNING:   ARRAY VS SCALAR imp_k_eig->0:imp_glob_k(ixs16) INTEGER(KIND=4)(:) != INTEGER(KIND=4)

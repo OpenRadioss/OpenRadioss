@@ -41,7 +41,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    multi_ebcs                ../engine/source/multifluid/multi_ebcs.F
 !||    multi_inlet_ebcs          ../engine/source/multifluid/multi_inlet_ebcs.F
 !||    multi_nrf_ebcs            ../engine/source/multifluid/multi_nrf_ebcs.F
-!||    multi_propergol_ebcs      ../engine/source/multifluid/multi_propergol_ebcs.F90
+!||    multi_propellant_ebcs      ../engine/source/multifluid/multi_propellant_ebcs.F90
 !||    multi_timeevolution       ../engine/source/multifluid/multi_timeevolution.F
 !||    pblast_1                  ../engine/source/loads/pblast/pblast_1.F
 !||    pblast_2                  ../engine/source/loads/pblast/pblast_2.F

@@ -132,7 +132,7 @@
 !||    hm_pre_read_preload_axial                ../starter/source/loads/general/preload/hm_read_preload_axial.F90
 !||    hm_preread_inivel                        ../starter/source/initial_conditions/general/inivel/hm_preread_inivel.F90
 !||    hm_read_bcs_wall                         ../starter/source/boundary_conditions/hm_read_bcs_wall.F90
-!||    hm_read_ebcs_propergol                   ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_propergol.F90
+!||    hm_read_ebcs_propellant                   ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_propellant.F90
 !||    hm_read_eos_compaction                   ../starter/source/materials/eos/hm_read_eos_compaction.F90
 !||    hm_read_eos_compaction2                  ../starter/source/materials/eos/hm_read_eos_compaction2.F90
 !||    hm_read_eos_compaction_tab               ../starter/source/materials/eos/hm_read_eos_compaction_tab.F90
@@ -163,8 +163,8 @@
 !||    i2_surfi                                 ../starter/source/interfaces/inter3d1/i2_surfi.F90
 !||    i2_surfi_dim                             ../starter/source/interfaces/inter3d1/i2_surfi_dim.F90
 !||    imp_intbufdef                            ../engine/share/modules/imp_mod_def.F90
-!||    iniebcs_propergol                        ../starter/source/boundary_conditions/ebcs/iniebcs_propergol.F90
-!||    iniebcs_propergol_get_cv                 ../starter/source/boundary_conditions/ebcs/iniebcs_propergol.F90
+!||    iniebcs_propellant                        ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
+!||    iniebcs_propellant_get_cv                 ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
 !||    init_global_frontier_monvol              ../engine/source/airbag/init_global_monvol_frontier.F90
 !||    init_inivol                              ../starter/source/initial_conditions/inivol/init_inivol.F90
 !||    init_inivol_2d_polygons                  ../starter/source/initial_conditions/inivol/init_inivol_2D_polygons.F90
@@ -213,7 +213,7 @@
 !||    mulaw8                                   ../engine/source/materials/mat_share/mulaw8.F90
 !||    multi_fvm_mod                            ../common_source/modules/ale/multi_fvm_mod.F90
 !||    multi_muscl_compute_pressure             ../engine/source/multifluid/multi_muscl_compute_pressure.F90
-!||    multi_propergol_ebcs                     ../engine/source/multifluid/multi_propergol_ebcs.F90
+!||    multi_propellant_ebcs                     ../engine/source/multifluid/multi_propellant_ebcs.F90
 !||    multi_solve_eint                         ../engine/source/multifluid/multi_solve_eint.F90
 !||    multimat_param_mod                       ../common_source/modules/multimat_param_mod.F90
 !||    newman_raju                              ../common_source/fail/newman_raju.F90

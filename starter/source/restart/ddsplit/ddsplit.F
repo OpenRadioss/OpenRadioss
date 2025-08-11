@@ -1058,7 +1058,7 @@ C        ALLOCATE
                   IPT = IPT + 1
                ENDDO
             ! ------------
-            ! parallel ebcs : /NRF /PROPERGOL
+            ! parallel ebcs : /NRF /PROPELLANT
             ELSEIF(IS_EBCS_PARALLEL)THEN
                NEBCS_PARALLEL = NEBCS_PARALLEL + 1
                ALLOCATE(EBCS_TAB_LOC_2%tab(NEBCS_PARALLEL)%poly, source = EBCS_TAB%tab(II)%poly)
@@ -2188,7 +2188,7 @@ C--------------------------------------
       NEBCS_FVM = 0
       CALL WRITE_I_C(NEBCS, 1) ! total number of /EBCS
       CALL WRITE_I_C(EBCS_TAB_LOC%nebcs_fvm, 1) ! multifluid ebcs number
-      CALL WRITE_I_C(NEBCS_PARALLEL, 1)  ! /NRF or /PROPERGOL ebcs number
+      CALL WRITE_I_C(NEBCS_PARALLEL, 1)  ! /NRF or /PROPELLANT ebcs number
       CALL WRITE_I_C(OTHER_NEBCS, 1) ! other ebcs
       ! ---------------
       ! common data 

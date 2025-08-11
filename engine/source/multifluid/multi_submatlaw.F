@@ -28,7 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    multi_muscl_fluxes_computation   ../engine/source/multifluid/multi_muscl_fluxes_computation.F
 !||    multi_nrf_ebcs                   ../engine/source/multifluid/multi_nrf_ebcs.F
 !||    multi_pressure_equilibrium       ../engine/source/multifluid/multi_pressure_equilibrium.F
-!||    multi_propergol_ebcs             ../engine/source/multifluid/multi_propergol_ebcs.F90
+!||    multi_propellant_ebcs             ../engine/source/multifluid/multi_propellant_ebcs.F90
 !||    multi_solve_eint                 ../engine/source/multifluid/multi_solve_eint.F90
 !||====================================================================
       MODULE MULTI_SUBMATLAW_MOD
@@ -40,7 +40,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    multi_muscl_compute_pressure   ../engine/source/multifluid/multi_muscl_compute_pressure.F90
 !||    multi_nrf_ebcs                 ../engine/source/multifluid/multi_nrf_ebcs.F
 !||    multi_pressure_equilibrium     ../engine/source/multifluid/multi_pressure_equilibrium.F
-!||    multi_propergol_ebcs           ../engine/source/multifluid/multi_propergol_ebcs.F90
+!||    multi_propellant_ebcs           ../engine/source/multifluid/multi_propellant_ebcs.F90
 !||    multi_solve_eint               ../engine/source/multifluid/multi_solve_eint.F90
 !||--- calls      -----------------------------------------------------
 !||    arret                          ../engine/source/system/arret.F

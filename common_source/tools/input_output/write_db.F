@@ -210,7 +210,7 @@ C
 !||    write_data_fluxout     ../common_source/modules/boundary_conditions/ebcs_mod.F90
 !||    write_data_inlet       ../common_source/modules/boundary_conditions/ebcs_mod.F90
 !||    write_data_nrf         ../common_source/modules/boundary_conditions/ebcs_mod.F90
-!||    write_data_propergol   ../common_source/modules/boundary_conditions/ebcs_mod.F90
+!||    write_data_propellant   ../common_source/modules/boundary_conditions/ebcs_mod.F90
 !||--- calls      -----------------------------------------------------
 !||    write_db_c             ../common_source/tools/input_output/write_routtines.c
 !||====================================================================
