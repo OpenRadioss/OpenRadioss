@@ -39,6 +39,8 @@
           module procedure spmd_send_real       !< Sends a single real number
           module procedure spmd_send_int        !< Sends a single integer
           module procedure spmd_send_double     !< Sends a single double precision number
+          module procedure spmd_send_doubles2D  !< Sends a 2D array of double precision numbers
+          module procedure spmd_send_reals2D     !< Sends a 2D array of real numbers
         end interface spmd_send
         public spmd_send
       contains
@@ -70,6 +72,35 @@
           call spmd_out(tag,ierr)
 #endif
         end subroutine spmd_send_reals
+!||====================================================================
+!||    spmd_send_reals       ../engine/source/mpi/spmd_send.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in               ../engine/source/mpi/spmd_error.F90
+!||    spmd_out              ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_error_mod        ../engine/source/mpi/spmd_error.F90
+!||====================================================================
+        subroutine spmd_send_reals2D(buf, buf_count, dest, tag,  comm)
+          use spmd_error_mod, only: spmd_in, spmd_out
+          use spmd_comm_world_mod, only: SPMD_COMM_WORLD
+          implicit none
+#include "spmd.inc"
+          integer, intent(in) :: buf_count, dest, tag
+          integer, intent(in), optional :: comm
+          real, dimension(1,buf_count), intent(in) :: buf
+          integer :: ierr
+#ifdef MPI
+          call spmd_in(tag)
+          if( present(comm) ) then
+            call MPI_Send(buf, buf_count, MPI_REAL , dest, tag, comm, ierr)
+          else
+            call MPI_Send(buf, buf_count, MPI_REAL , dest, tag, SPMD_COMM_WORLD, ierr)
+          end if
+          call spmd_out(tag,ierr)
+#endif
+        end subroutine spmd_send_reals2D
+
 !||====================================================================
 !||    spmd_send_ints        ../engine/source/mpi/spmd_send.F90
 !||--- calls      -----------------------------------------------------
@@ -212,5 +243,36 @@
           call spmd_out(tag,ierr)
 #endif
         end subroutine spmd_send_double
+!||====================================================================
+!||    spmd_send_double      ../engine/source/mpi/spmd_send.F90
+!||--- calls      -----------------------------------------------------
+!||    spmd_in               ../engine/source/mpi/spmd_error.F90
+!||    spmd_out              ../engine/source/mpi/spmd_error.F90
+!||--- uses       -----------------------------------------------------
+!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_error_mod        ../engine/source/mpi/spmd_error.F90
+!||====================================================================
+        subroutine spmd_send_doubles2D(buf, buf_count, dest, tag, comm)
+          use spmd_error_mod, only: spmd_in, spmd_out
+          use spmd_comm_world_mod, only: SPMD_COMM_WORLD
+          implicit none
+#include "spmd.inc"
+          integer, intent(in) :: buf_count, dest, tag
+          integer, intent(in), optional :: comm
+          double precision, intent(in) :: buf(1,buf_count)
+#ifdef MPI
+          integer :: ierr
+          ! the MPI datatype for double precision is MPI_DOUBLE_PRECISION
+          call spmd_in(tag)
+          if( present(comm) ) then
+            call MPI_Send(buf, buf_count, MPI_DOUBLE_PRECISION, dest, tag, comm, ierr)
+          else
+            call MPI_Send(buf, buf_count, MPI_DOUBLE_PRECISION, dest, tag, SPMD_COMM_WORLD, ierr)
+          end if
+          call spmd_out(tag,ierr)
+#endif
+        end subroutine spmd_send_doubles2D
+
+
 
       end module spmd_send_mod

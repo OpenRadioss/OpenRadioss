@@ -1246,9 +1246,7 @@ C /DAMP/VREL
               my_real DAMP_A(3)
 C----------------------------------------------------------------------------------
 C /VIPER/ON
-              INTEGER, DIMENSION(:), ALLOCATABLE :: ITABM1_Viper(:),IXEM1_Viper(:)         ! nodal & elemental arrays for coupling re-indexing
-              INTEGER :: NUMELE_Viper,NUMEL_SC,NUMEL_SCG, ioffset_3shell,ioffset_4shell    ! elemental counts
-              my_real :: TSTOP_VIPER
+              type(viper_coupling_) :: VIPER
 C----------------------------------------------------------------------------------
 C Type2 output - PCONT2
               INTEGER :: SZ_NPCONT2
@@ -3236,64 +3234,18 @@ C First: try with reduced bounding box
                 CALL COUPLING_INITIALIZE(coupling,NODES%X,NUMNOD,ISPMD,NSPMD)
                 CALL COUPLING_ONGOING(coupling,ongoing)
               ENDIF
+
+              ! Node Splitting
               CALL init_ghost_shells(nodes, element,ispmd,nspmd,nodes%boundary_add,nodes%boundary_size,nodes%boundary)
               
               ! ----------------------
-              ! Initialise coupling to Viper
+              ! Initialize coupling to Viper
               IF (ViperCoupling) THEN
-                 WRITE(ISTDO,*) 'Number of elements in Radioss:'
-                 WRITE(ISTDO,*) '  NIXS     = ',NIXS      ! This is the number of characteristics per element in the IXS array
-                 WRITE(ISTDO,*) '  NELEML   = ',NELEML    ! This is the total number of elements
-                 WRITE(ISTDO,*) '  NUMELS   = ',NUMELS    ! This is the number of SOLIDS
-                 WRITE(ISTDO,*) '  NUMELS8  = ',NUMELS8   ! This is the number of 
-                 WRITE(ISTDO,*) '  NUMELS10 = ',NUMELS10  ! This is the number of 
-                 WRITE(ISTDO,*) '  NUMELS16 = ',NUMELS16  ! This is the number of 
-                 WRITE(ISTDO,*) '  NUMELS20 = ',NUMELS20  ! This is the number of 
-                 WRITE(ISTDO,*) '  NUMELQ   = ',NUMELQ    ! This is the number of quads
-                 WRITE(ISTDO,*) '  NUMELC   = ',NUMELC    ! This is the number of 4-shells
-                 WRITE(ISTDO,*) '  NUMELT   = ',NUMELT    ! This is the number of trias (aka 3-shells)
-                 WRITE(ISTDO,*) '  NUMELP   = ',NUMELP    ! This is the number of beams / rebar
-                 WRITE(ISTDO,*) '  NUMELR   = ',NUMELR    ! This is the number of springs
-                 WRITE(ISTDO,*) '  NUMELTG  = ',NUMELTG   ! This is the number of 3-shells
-
-C                Allocate the arays for inverse index lookup
-                 NUMEL_SC       = NUMELS+NUMELC                                        ! The total number of elements used by Viper
-                 NUMEL_SCG      = NUMEL_SC+NUMELTG                                     ! The total number of elements used by Viper
-                 NUMELE_Viper   = NUMEL_SCG                                            ! The total number of elements used by Viper
-                 ioffset_4shell = NUMELS+NUMELQ                                        ! The (assumed) index offset for 4-shells (confirmed that NUMELS8,NUMELS10,NUMELS16,NUMELS20 are not in the array)  
-                 ioffset_3shell = ioffset_4shell+NUMELC+NUMELT+NUMELP+NUMELR           ! The (assumed) index offset for 3-shells
-                 WRITE(ISTDO,'(a,I18)') 'Radioss2Viper: the total number of elements used by Viper: ',NUMELE_Viper
-                 ALLOCATE(ITABM1_Viper(NUMNOD))
-                 ALLOCATE(IXEM1_Viper(NUMELE_Viper))
-
-C                Initialise node ordering & send nodal masses to Viper
-c                Based upon the ordering of the element numbers in the 0000.out & from our experimentation, 
-c                we are assuming the order of elements in ELBUF_TAB is the same as in 0000.out, therefore we are adding offsets as required
-                 numon = NUMELE_Viper
-                 ivout = 0
-                 CALL RadiossViper_InitTab(NUMNOD, NODES%ITAB,       ITABM1_Viper,                      1,    0)              ! nodes
-                 CALL RadiossViper_InitTab(NUMELS, IXS,              IXEM1_Viper(1         :NUMELS),    NIXS, 0)              ! solids
-                 CALL RadiossViper_InitTab(NUMELC, ELEMENT%SHELL%IXC,IXEM1_Viper(1+NUMELS  :NUMEL_SC),  NIXC, ioffset_4shell) ! 4-shells
-                 CALL RadiossViper_InitTab(NUMELTG,IXTG,             IXEM1_Viper(1+NUMEL_SC:NUMEL_SCG), NIXTG,ioffset_3shell) ! 3-shells
-                 CALL RadiossViper_ReceiveSendInitialTimes(DTMIN,TSTOP,DTANIM,TT)
-                 CALL RadiossViper_ReceiveSendInitialNumbers(TSTOP,NUMNOD,NUMELS,NUMELC,NUMELTG)
-                 IF (TSTOP > 0.) THEN
-                   CALL RadiossViper_SendMass(NUMNOD,NODES%MS,ITABM1_Viper)                                                 ! required only for energy calculation checks
-                   CALL RadiossViper_SendInitialStatus(numon,NELEML,NUMELE_Viper,NPARG,NGROUP,IXEM1_Viper,IPARG,ELBUF_TAB)  ! required to tell Viper of void elements
-                   TT_DOUBLE = TT
-                   TANIM     = TT
-                   IF (TT > 0.) THEN
-c                     Viper is starting from a remap; need to set animation times correctly
-                      WRITE(ISTDO,'(a,F12.6,a)') 'Radioss2Viper: the simulation is starting at ',TT,' due to Viper-remapping'
-                      DO WHILE (TANIM < TT)
-                         TANIM = TANIM + DTANIM
-                      ENDDO
-                      TANIM = TANIM - DTANIM  ! this will enforce printing the initial dump
-                    ENDIF
-                 ENDIF
-                 TSTOP_VIPER = TSTOP-1.d-8    ! TSTOP can change to facilitate an early exit; use this to send a kill-command to Viper
-                 id_ViperCoupling = 1701
-                 OPEN(unit=id_ViperCoupling,file='TimeLog.txt')
+                 call viper_coupling_initialize(VIPER, NODES, ELEMENT, NUMNOD,
+     .                                          NIXS, NUMELS, IXS, NIXC, NUMELC,NIXTG, NUMELTG,IXTG, 
+     .                                          ISTDO, NELEML, NUMELQ, NUMELT, NUMELP, NUMELR, 
+     .                                          DTMIN, TSTOP, DTANIM, TT, NPARG, NGROUP, IPARG, ELBUF_TAB, 
+     .                                          TT_DOUBLE, TANIM)
               ENDIF
             
 C===========================================================================
@@ -5573,7 +5525,7 @@ C   at every cycle except cycle 0, send the Nodes coordinates
 
               IF (ViperCoupling) THEN
 C                Viper's contribution to force
-                 CALL RadiossViper_ReceiveAccelerations(NUMNOD,NODES%A,NODA_FEXT,ITABM1_Viper)
+                 CALL RadiossViper_ReceiveAccelerations(NUMNOD,NODES%A,NODA_FEXT,VIPER%ITABM1)
               endif
 
 CFP SKIP KINEMATIC FORCES
@@ -6867,7 +6819,7 @@ C Exchange Time Step
 C-----------------------------------------------------
               IF (ViperCoupling) THEN
 C                Compare timesteps from Viper and Radioss & select the smallest
-                 CALL RadiossViper_ReceiveSendDT(id_ViperCoupling,TT,DT2)
+                 CALL RadiossViper_ReceiveSendDT(VIPER%id,TT,DT2)
               ENDIF
 C-----------------------------------------------------
 ! reducing dt2 due to /INIVEL
@@ -9382,9 +9334,9 @@ C===============================================================================
 
               IF (ViperCoupling) THEN
 C                Send positions to Viper
-                 CALL RadiossViper_SendXVE(NUMNOD,NELEML,NUMELE_Viper,NPARG,NGROUP,NUMON,ivout,
-     .                 NODES%X,NODES%V,ITABM1_Viper,IXEM1_Viper,IPARG,ELBUF_TAB)
-                 CALL RadiossViper_SendKill(MSTOP,TSTOP,TSTOP_VIPER)
+                 CALL RadiossViper_SendXVE(NUMNOD,NELEML,VIPER%NUMELE,NPARG,NGROUP,viper%NUMON,VIPER%ivout,
+     .                 NODES%X,NODES%V,VIPER%ITABM1,VIPER%IXEM1,IPARG,ELBUF_TAB)
+                 CALL RadiossViper_SendKill(MSTOP,TSTOP,VIPER%TSTOP)
               ENDIF
 
 C========================================================================================
@@ -10189,9 +10141,9 @@ C
 c-----------
               IF (ViperCoupling) THEN
 C                Deallocate indexing arrays
-                 DEALLOCATE(ITABM1_Viper)
-                 DEALLOCATE(IXEM1_Viper)
-                 CLOSE(id_ViperCoupling)
+                 IF(ALLOCATED(VIPER%ITABM1))DEALLOCATE(VIPER%ITABM1)
+                 IF(ALLOCATED(VIPER%IXEM1))DEALLOCATE(VIPER%IXEM1)
+                 CLOSE(VIPER%id)
               ENDIF
 c-----------
 
