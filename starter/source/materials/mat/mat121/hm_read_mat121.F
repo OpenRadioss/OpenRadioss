@@ -215,12 +215,12 @@ c--------------------------
       ! Number of user variables 
       IF (Ires == 1) THEN 
         IF (Ivisc == 0) THEN 
-          NUVAR = 1
+          NUVAR = 2
         ELSE
           NUVAR = 3
         ENDIF
       ELSE
-        NUVAR = 0
+        NUVAR = 1
       ENDIF
 c      
       ! Material parameters

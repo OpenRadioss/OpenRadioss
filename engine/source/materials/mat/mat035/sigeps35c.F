@@ -174,9 +174,11 @@ c-------calcul E_eq-----
      1          + EPSPYY(I)*EPSPYY(I)) +THREE_HALF* (EPSPXY(I)*EPSPXY(I)
      2          + EPSPYZ(I)*EPSPYZ(I)+EPSPZX(I)*EPSPZX(I)))
         IF (ISRATE > 0) THEN
-          EPSP = ASRATE*EPSP + (ONE - ASRATE)*EPSD(I)
+          EPSD(I)   = ASRATE*EPSP + (ONE - ASRATE)*UVAR(I,4)
+          UVAR(I,4) = EPSD(I)
+        ELSE
+          EPSD(I) = EPSP
         ENDIF
-        EPSD(I) = EPSP
 c
 c------UPDATE ELASTIC MODULUS
         RHO(I)=UVAR(I,3)*RHO0(I)/AREA(I)/THK(I)
