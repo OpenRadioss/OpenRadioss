@@ -1,6 +1,14 @@
 C This are the interface routines between Viper & Radioss
 C All reodrering of nodes & minimisation of timestep occurs in these routines rather than Viper's counterparts
 C notes: ELBUFDEF_MOD includes a call to include task_c.inc, which is required for several of the included subroutines
+!||====================================================================
+!||    viper_mod      ../engine/source/interfaces/viper/viper_interface_mod.F
+!||--- called by ------------------------------------------------------
+!||    freform        ../engine/source/input/freform.F
+!||    resol          ../engine/source/engine/resol.F
+!||--- uses       -----------------------------------------------------
+!||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||====================================================================
       MODULE VIPER_MOD
       use ELBUFDEF_MOD
       implicit none
@@ -26,6 +34,11 @@ C--------------------------------------------------------
 C The itab array is the user nodal indices.  The idabm1 array is supposed to be the inverse array, but it does not work as required for Viper Coupling
 C Creating a local of itabm1 that will work as required for Viper coupling
 C Note that (e.g) itab is a 1D array, while IXS is an 11xN array that is re-arranged to be a 1D array with node ID in every ncol'th position
+!||====================================================================
+!||    radiossviper_inittab   ../engine/source/interfaces/viper/viper_interface_mod.F
+!||--- called by ------------------------------------------------------
+!||    resol                  ../engine/source/engine/resol.F
+!||====================================================================
       subroutine RadiossViper_InitTab(numnod,itab,itabm1,ncol,ioffset)
       integer, intent(in)  :: numnod,itab(*),ncol,ioffset
       integer, intent(out) :: itabm1(numnod)
@@ -81,6 +94,12 @@ C Note that (e.g) itab is a 1D array, while IXS is an 11xN array that is re-arra
 C--------------------------------------------------------
 C This will receive the initial time, final time and output frequency from Viper (note that Viper does not always start at time = 0)
 C This will also receive the minimum timestep, select the largest value, and send the new value back to Viper
+!||====================================================================
+!||    radiossviper_receivesendinitialtimes   ../engine/source/interfaces/viper/viper_interface_mod.F
+!||--- called by ------------------------------------------------------
+!||    resol                                  ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||====================================================================
       subroutine RadiossViper_ReceiveSendInitialTimes(dt_min,t_max,dt_out,t_now)
       my_real, intent(inout) :: dt_min
       my_real, intent(out)   :: t_max,dt_out,t_now
@@ -110,6 +129,12 @@ C This will also receive the minimum timestep, select the largest value, and sen
 C--------------------------------------------------------
 C This will send the number of nodes and elements to Viper; viper will compare the values and sent back a kill-command if 
 C there is a mismatch in numbers
+!||====================================================================
+!||    radiossviper_receivesendinitialnumbers   ../engine/source/interfaces/viper/viper_interface_mod.F
+!||--- called by ------------------------------------------------------
+!||    resol                                    ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||====================================================================
       subroutine RadiossViper_ReceiveSendInitialNumbers(t_max,numnodes,numsolids,num4shells,num3shells)
       my_real, intent(inout) :: t_max
       integer, intent(in)    :: numnodes,numsolids,num4shells,num3shells
@@ -132,6 +157,12 @@ C there is a mismatch in numbers
       end subroutine RadiossViper_ReceiveSendInitialNumbers
 C--------------------------------------------------------
 C This will send nodal masses from to Viper for calculation of total energy; this needs to be done once
+!||====================================================================
+!||    radiossviper_sendmass   ../engine/source/interfaces/viper/viper_interface_mod.F
+!||--- called by ------------------------------------------------------
+!||    resol                   ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||====================================================================
       subroutine RadiossViper_SendMass(numnod,MS,itabm1)
 
       integer, intent(in) :: numnod,itabm1(numnod)
@@ -152,6 +183,12 @@ c     make new arrays where the elements are in the correct order
       end subroutine RadiossViper_SendMass
 C--------------------------------------------------------
 C This will send the initial erosion status to Viper; this is required to inform Viper of void elements that need to be excluded calculations
+!||====================================================================
+!||    radiossviper_sendinitialstatus   ../engine/source/interfaces/viper/viper_interface_mod.F
+!||--- called by ------------------------------------------------------
+!||    resol                            ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||====================================================================
       subroutine RadiossViper_SendInitialStatus(n,numele,numele_viper,nparg,ngroup,ixem1,iparg,elbuf_tab)
 
       integer, intent(in)    :: numele,numele_viper,nparg,ngroup
@@ -199,6 +236,12 @@ c     first, we put them in a contigious array; we will sort and send only if th
 C--------------------------------------------------------
 C This will send nodal positions to Viper
 C This will also send element status (i.e., eroded or still active)
+!||====================================================================
+!||    radiossviper_sendxve   ../engine/source/interfaces/viper/viper_interface_mod.F
+!||--- called by ------------------------------------------------------
+!||    resol                  ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||====================================================================
       subroutine RadiossViper_SendXVE(numnod,numele,numele_viper,nparg,ngroup,numonIO,ivoutIO,X,V,itabm1,ixem1,iparg,elbuf_tab)
 
       integer, intent(in)    :: numnod,numele,numele_viper,nparg,ngroup
@@ -280,6 +323,12 @@ C--------------------------------------------------------
 C This will receive the FORCES on the nodes from Viper
 C Despite the variable name being A, this is actually a force
 C We add this to both A and to FEXT, where the latter is used only for output
+!||====================================================================
+!||    radiossviper_receiveaccelerations   ../engine/source/interfaces/viper/viper_interface_mod.F
+!||--- called by ------------------------------------------------------
+!||    resol                               ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||====================================================================
       subroutine RadiossViper_ReceiveAccelerations(numnod,A,Fext,itabm1)
 
       integer, intent(in)    :: numnod,itabm1(numnod)
@@ -300,6 +349,12 @@ C We add this to both A and to FEXT, where the latter is used only for output
 C--------------------------------------------------------
 C This will pass Viper's timestep to OpenRadioss, compare the two, select the shortest;
 C The shortest timestep will also be passed back to Viper
+!||====================================================================
+!||    radiossviper_receivesenddt   ../engine/source/interfaces/viper/viper_interface_mod.F
+!||--- called by ------------------------------------------------------
+!||    resol                        ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||====================================================================
       subroutine RadiossViper_ReceiveSendDT(id_ViperCouplingIO,time,dt_rad)
 
       integer, intent(in)    :: id_ViperCouplingIO
@@ -329,6 +384,12 @@ C--------------------------------------------------------
 C This will send a kill-command to Viper if Radioss needs to end prematurely!
 C There are commands that will modify tstop in Radioss to permit premature termination;
 C We will compare the initial tstop with the current tstop to see if this change has been triggered
+!||====================================================================
+!||    radiossviper_sendkill   ../engine/source/interfaces/viper/viper_interface_mod.F
+!||--- called by ------------------------------------------------------
+!||    resol                   ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||====================================================================
       subroutine RadiossViper_SendKill(mstop,tstop, tstop_viper)
 
       my_real, intent(in) :: tstop,tstop_viper

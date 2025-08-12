@@ -269,6 +269,15 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    r2r_sendkine                                 ../engine/source/coupling/rad2rad/r2r_getdata.F
 !||    r2r_unlock_threads_c                         ../engine/source/coupling/rad2rad/rad2rad_c.c
 !||    radiation                                    ../engine/source/constraints/thermic/radiation.F
+!||    radiossviper_inittab                         ../engine/source/interfaces/viper/viper_interface_mod.F
+!||    radiossviper_receiveaccelerations            ../engine/source/interfaces/viper/viper_interface_mod.F
+!||    radiossviper_receivesenddt                   ../engine/source/interfaces/viper/viper_interface_mod.F
+!||    radiossviper_receivesendinitialnumbers       ../engine/source/interfaces/viper/viper_interface_mod.F
+!||    radiossviper_receivesendinitialtimes         ../engine/source/interfaces/viper/viper_interface_mod.F
+!||    radiossviper_sendinitialstatus               ../engine/source/interfaces/viper/viper_interface_mod.F
+!||    radiossviper_sendkill                        ../engine/source/interfaces/viper/viper_interface_mod.F
+!||    radiossviper_sendmass                        ../engine/source/interfaces/viper/viper_interface_mod.F
+!||    radiossviper_sendxve                         ../engine/source/interfaces/viper/viper_interface_mod.F
 !||    rbagdt                                       ../engine/source/airbag/rbagdt.F
 !||    rbe2cor                                      ../engine/source/constraints/general/rbody/rgbcor.F
 !||    rbe2t1                                       ../engine/source/constraints/general/rbe2/rbe2f.F
@@ -539,7 +548,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    unitab_mod                                   ../common_source/modules/unitab_mod.F
 !||    update_pon_mod                               ../engine/source/engine/node_spliting/update_pon.F90
 !||    user_windows_mod                             ../common_source/modules/user_windows_mod.F
-!||    viper_interface_mod                          ../engine/source/interfaces/vioer/viper_interface_mod.F
+!||    viper_mod                                    ../engine/source/interfaces/viper/viper_interface_mod.F
 !||    xfem2vars_mod                                ../engine/share/modules/xfem2vars_mod.F
 !||====================================================================
             SUBROUTINE RESOL(TIMERS, ELEMENT, NODES, coupling, AF,IAF,

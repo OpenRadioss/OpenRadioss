@@ -683,6 +683,7 @@
 !||    usermat_solid                       ../engine/source/materials/mat_share/usermat_solid.F
 !||    velvecc22                           ../engine/source/output/anim/generate/velvec.F
 !||    velvecz22                           ../engine/source/output/anim/generate/velvecz22.F
+!||    viper_mod                           ../engine/source/interfaces/viper/viper_interface_mod.F
 !||    viscmain                            ../engine/source/materials/visc/viscmain.F
 !||    voln22                              ../engine/source/interfaces/int22/voln22.F
 !||    volpvgb                             ../engine/source/airbag/volpvg.F
