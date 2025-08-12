@@ -171,14 +171,17 @@
         integer, parameter,public :: SPMD_PROD = 4
 #ifdef REAL8
         integer, parameter, public :: SPMD_REAL8 = 1
+#define MY_MPI_REAL MPI_DOUBLE_PRECISION
 #else
         integer, parameter, public :: SPMD_REAL8 = 0
+#define MY_MPI_REAL MPI_REAL
 #endif
 
 #ifndef MPI
         integer, parameter, public :: MPI_STATUS_IGNORE = 0
         integer, parameter, public :: MPI_STATUS_SIZE = 1
         integer, parameter, public :: MPI_REQUEST_NULL = 0
+        integer, parameter, public :: MPI_COMM_WORLD = 0
 #endif
         ! \brief Interface for spmd_reduce, a wrapper for MPI_REDUCE
         interface spmd_reduce
