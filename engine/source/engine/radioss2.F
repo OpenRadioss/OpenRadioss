@@ -178,7 +178,7 @@ C-----------------------------------------------
       USE ALEMUSCL_MOD , only:ALEMUSCL_Param
       USE USER_INTERFACE_MOD
       USE ALE_MOD
-      USE OUTPUT_MOD , ONLY : OUTPUT_, OUTPUT_PTR, WFEXT, WFEXT_MD
+      USE OUTPUT_MOD , ONLY : OUTPUT_, OUTPUT_PTR
       USE INTERFACES_MOD
       USE DT_MOD
       USE LOADS_MOD
@@ -398,12 +398,8 @@ C                                   IF RELEASE WAS BUILT FROM SOURCE
       ABOUT = 0
 
       !External Foce Work
-      OUTPUT%WFEXT = 0.0D0
-      OUTPUT%WFEXT_MD = 0.0D0
-      WFEXT => OUTPUT%WFEXT
-      WFEXT_MD => OUTPUT%WFEXT_MD
-      WFEXT = ZERO
-      WFEXT_MD = ZERO
+      OUTPUT%TH%WFEXT = 0.0D0
+      OUTPUT%TH%WFEXT_MD = 0.0D0
 
       OUTPUT%CHECKSUM%CHECKSUM_COUNT = 0
       output_ptr => OUTPUT

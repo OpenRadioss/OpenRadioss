@@ -31,14 +31,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    output_mod             ../common_source/modules/output/output_mod.F90
 !||    user_interface_mod     ../engine/source/modules/user_interface_mod.F90
 !||====================================================================
-      SUBROUTINE REPORT(IH3DREADER,N,IMVW)
+      SUBROUTINE REPORT(IH3DREADER,N,IMVW,WFEXT,WFEXT_MD)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INOUTFILE_MOD
       USE USER_INTERFACE_MOD
       USE NAMES_AND_TITLES_MOD, ONLY: LPATH
-      USE OUTPUT_MOD, ONLY : WFEXT, WFEXT_MD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -49,7 +48,6 @@ C-----------------------------------------------
 #include      "task_c.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-!#include      "com06_c.inc"
 #include      "com08_c.inc"
 #include      "com10_c.inc"
 #include      "commandline.inc"
@@ -63,6 +61,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IH3DREADER,N,IMVW
+      my_real WFEXT,WFEXT_MD
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

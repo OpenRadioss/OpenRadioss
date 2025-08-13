@@ -185,7 +185,7 @@
 !||    table_mod              ../engine/share/modules/table_mod.F
 !||    timer_mod              ../engine/source/system/timer_mod.F90
 !||====================================================================
-        subroutine mulaw(timers,&
+        subroutine mulaw(timers, output, &
         &nft,         mtn,         jcvt,        pm,&
         &off,         sig,         eint,        rho,&
         &qold,        vol,         strain,      sigl,&
@@ -236,6 +236,7 @@
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
           use timer_mod
+          use output_mod, only : output_
           use constant_mod
           use table_mod
           use mat_elem_mod
@@ -260,7 +261,6 @@
           use dt_mod
           use glob_therm_mod
           use sigeps51_mod , only : sigeps51
-          use output_mod , only : wfext
           use matparam_def_mod
           use fail_param_mod
           use precision_mod, only : WP
@@ -274,6 +274,7 @@
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           type(timer_),intent(inout) :: timers
+          type(output_),intent(inout) :: output
           type (buf_fail_),intent(inout), target                        :: fbuf
           type (buf_visc_),intent(inout)                                :: vbuf
           type (ttable), dimension(ntable) ,intent(in)                  :: table
@@ -1181,7 +1182,7 @@
             &sv1 ,sv2 ,sv3 ,sv4  ,sv5  ,sv6 ,&
             &ssp ,vis ,uvar,off  )
           elseif (mtn == 41) then
-            call sigeps41(nel ,npar,nuvar,&
+            call sigeps41(output,nel ,npar,nuvar,&
             &tt,dt1,uparam0,&
             &rho0,rho ,voln,eint,&
             &so1 ,so2 ,so3 ,&
@@ -1271,7 +1272,7 @@
             !facq0 = zero
             call sigeps51(nel       ,npar        ,nuvar   ,nfunc ,ifunc     ,lbuf%tb   ,&
             &             npf       ,tf          ,tt      ,dt1   ,uparam0   ,numel     ,&
-            &             rho       ,vol         ,eint    ,vk    ,wfext     ,&
+            &             rho       ,vol         ,eint    ,vk    ,output%th%wfext     ,&
             &             ep1       ,ep2         ,ep3     ,ep4   ,ep5       ,ep6       ,&
             &             de1       ,de2         ,de3     ,de4   ,de5       ,de6       ,&
             &             so1       ,so2         ,so3     ,so4   ,so5       ,so6       ,&
@@ -2925,7 +2926,7 @@
               wfextt = wfextt - dvol(i)*psh(i)
             enddo
 !$OMP ATOMIC
-            wfext = wfext + wfextt
+            output%th%wfext = output%th%wfext + wfextt
           else
             !other material laws without /eos
 #include "vectorize.inc"

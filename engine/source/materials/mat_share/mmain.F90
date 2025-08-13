@@ -175,7 +175,7 @@
 !||    table_mod              ../engine/share/modules/table_mod.F
 !||    timer_mod              ../engine/source/system/timer_mod.F90
 !||====================================================================
-        subroutine mmain(timers,&
+        subroutine mmain(timers, output,&
         &elbuf_tab,   ng,          pm,          geo,&
         &ale_connect, ix,          iparg,&
         &v,           tf,          npf,         bufmat,&
@@ -216,6 +216,7 @@
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
           use timer_mod
+          use output_mod, only : output_
           use table_mod
           use mat_elem_mod
           use matparam_def_mod
@@ -248,6 +249,7 @@
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           type(timer_), intent(inout) :: timers !< timers for /MON option
+          type(output_), intent(inout) :: output !< output structure for /TH and /STA
           integer, optional, intent(in) :: opt_mtn, opt_jcvt, opt_isorth,  opt_isorthg
           real(kind=WP), intent(in) :: dt1
           real(kind=WP), intent(in) :: tt
@@ -1047,7 +1049,7 @@
                 gbuf%g_dt,gbuf%dt,  nel,      ity,&
                 jtur,     jthe)
             endif
-            call meint(&
+            call meint(output,&
             &off,      lbuf%sig, lbuf%qvis,lbuf%eint,&
             &voln,     espe,     s1,       s2,&
             &s3,       s4,       s5,       s6,&
@@ -1092,7 +1094,7 @@
               &gbuf%g_dt,gbuf%dt,  nel,      ity,&
               &jtur,     jthe)
             endif
-            call meint(&
+            call meint(output,&
             &off,      lbuf%sig, lbuf%qvis,lbuf%eint,&
             &voln,     espe,     s1,       s2,&
             &s3,       s4,       s5,       s6,&
@@ -1284,7 +1286,7 @@
               &gbuf%g_dt,gbuf%dt,  nel,      ity,&
               &jtur,     jthe)
             endif
-            call meint(&
+            call meint(output,&
             &off,      lbuf%sig, lbuf%qvis,lbuf%eint,&
             &voln,     espe,     s1,       s2,&
             &s3,       s4,       s5,       s6,&
@@ -1339,7 +1341,7 @@
               &gbuf%g_dt,gbuf%dt,  nel,      ity,&
               &jtur,     jthe)
             endif
-            call meint(&
+            call meint(output,&
             &off,      lbuf%sig, lbuf%qvis,lbuf%eint,&
             &voln,     espe,     s1,       s2,&
             &s3,       s4,       s5,       s6,&
@@ -1540,7 +1542,7 @@
               &gbuf%g_dt,gbuf%dt,  nel,      ity,&
               &jtur,     jthe)
             endif
-            call meint(&
+            call meint(output,&
               off,      lbuf%sig, lbuf%qvis,lbuf%eint,&
               voln,     espe,     s1,       s2,&
               s3,       s4,       s5,       s6,&
@@ -1603,7 +1605,7 @@
               &jtur,     jthe)
             endif
             !no need to call eosmain since it is no energy dependant. p and psh are already calculated
-            call meint(&
+            call meint(output,&
             &off,      lbuf%sig, lbuf%qvis,lbuf%eint,&
             &voln,     espe,     s1,       s2,&
             &s3,       s4,       s5,       s6,&
@@ -1817,7 +1819,7 @@
               &gbuf%g_dt,gbuf%dt,  nel,      ity,&
               &jtur,     jthe)
             endif
-            call meint(&
+            call meint(output,&
             &off,      lbuf%sig, lbuf%qvis,lbuf%eint,&
             &voln,     espe,     s1,       s2,&
             &s3,       s4,       s5,       s6,&
@@ -1880,7 +1882,7 @@
             nvartmp = elbuf_tab(ng)%bufly(ilay)%nvartmp
             l_mulaw_called =.true.
 !
-            call mulaw(timers,&
+            call mulaw(timers, output,&
             &nft,         mtn,         jcvt,        pm,&
             &off,         lbuf%sig,    lbuf%eint,   lbuf%rho,&
             &lbuf%qvis,   lbuf%vol,    lbuf%stra,   lbuf%sigl,&

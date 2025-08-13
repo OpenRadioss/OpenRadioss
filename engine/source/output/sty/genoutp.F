@@ -191,7 +191,7 @@ C-----------------------------------------------
        WRITE(IUGEO,'(A)')'#FORMAT: (1P5E16.9)'
        WRITE(IUGEO,'(2A)')'#           TIME INTERNAL_ENERGY',
      .   '  KINETIC_ENERGY ROT_KINE_ENERGY EXTE_FORCE_WORK'
-       WRITE(IUGEO,'(1P5E16.9)') TT,ENINT,ENCIN,ENROT,OUTPUT%WFEXT
+       WRITE(IUGEO,'(1P5E16.9)') TT,ENINT,ENCIN,ENROT,OUTPUT%TH%WFEXT
       ENDIF
 C-----------------------------------------------
 C   MATER SCALARS 

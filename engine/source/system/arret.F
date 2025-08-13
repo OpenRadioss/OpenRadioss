@@ -661,7 +661,7 @@ C
                 CALL PRINT_RUNTIME( )
 
 
-                IF (IHTML == 1) CALL REPORT(IH3DREADER,N,IMVW)                ! Htlm report
+                IF (IHTML == 1) CALL REPORT(IH3DREADER,N,IMVW,OUTPUT_PTR%TH%WFEXT,OUTPUT_PTR%TH%WFEXT_MD)                ! Htlm report
                 IF (IMVW /= 0) CALL SORTIE_MVW(IMVW,IMVW_REF)               ! MVW output
                 IF ((IRAD2R==1).AND.(ISPMD==0)) CALL SEND_IBUF_C(1,1)      ! Rad2rad termination
 
@@ -719,7 +719,7 @@ C
                 WRITE(ISTDO,1250) NCYCLE
                 CALL PRINT_RUNTIME( )
 
-                IF (IHTML == 1) CALL REPORT(IH3DREADER,N,IMVW)
+                IF (IHTML == 1) CALL REPORT(IH3DREADER,N,IMVW,OUTPUT_PTR%TH%WFEXT,OUTPUT_PTR%TH%WFEXT_MD) ! Htlm report
                 IF (IMVW /= 0) CALL SORTIE_MVW(IMVW,IMVW_REF)
               ENDIF
 

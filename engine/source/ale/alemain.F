@@ -642,7 +642,7 @@ C     --------------------------------------------------
      .                 ITAB, ITABM1, TT - DT1, 
      .                 STIFN, FSKY, IADS, FSKYM, 
      .                 CONDN, CONDNSKY, BUFMAT, FV, PRED,ID_GLOBAL_VOIS,FACE_VOIS,EBCS_TAB,NPC,TF,FSAVSURF,MATPARAM,
-     .                 OUTPUT%WFEXT)
+     .                 OUTPUT%TH%WFEXT)
 
                   CALL MY_BARRIER
 C     -------------------------
@@ -664,7 +664,7 @@ C     --------------------------------------------------
      .                 ITAB, ITABM1, TT - DT1, 
      .                 STIFN, FSKY, IADS, FSKYM, 
      .                 CONDN, CONDNSKY, BUFMAT, FV, PRED,ID_GLOBAL_VOIS,FACE_VOIS,EBCS_TAB,NPC,TF,FSAVSURF,MATPARAM,
-     .                 OUTPUT%WFEXT)
+     .                 OUTPUT%TH%WFEXT)
 
                   CALL MY_BARRIER
 C     -------------------------
@@ -684,7 +684,7 @@ C     -------------------------
      .                 ITAB, ITABM1, TT - DT1, 
      .                 STIFN, FSKY, IADS, FSKYM, 
      .                 CONDN, CONDNSKY, BUFMAT, FV, .FALSE.,ID_GLOBAL_VOIS,FACE_VOIS,EBCS_TAB,NPC,TF,FSAVSURF,MATPARAM,
-     .                 OUTPUT%WFEXT)
+     .                 OUTPUT%TH%WFEXT)
                   CALL MY_BARRIER
 
                   IF (MULTI_FVM%NS_DIFF) THEN
@@ -839,7 +839,7 @@ C
                  NF1=NFT+1
 C
                  IF (ITY == 1 .AND. ISOLNOD == 4) THEN
-                  CALL S4FORC3(TIMERS,
+                  CALL S4FORC3(TIMERS,  OUTPUT,
      1                  ELBUF_TAB,       NG,              PM,              GEO,
      2                  IXS,             X,               A,               V,
      3                  MS,              W,               WA,              VAL2,
@@ -870,7 +870,7 @@ C
                   ELSE
                     pQMV => BID
                   ENDIF
-                  CALL SFORC3(TIMERS,
+                  CALL SFORC3(TIMERS,OUTPUT,
      1                  ELBUF_TAB,             NG,      PM,            GEO,
      2                  IXS,                   X,       NV46,          A,
      3                  V,                     MS,      W,             WA,
@@ -901,7 +901,7 @@ C
      S                  MAT_ELEM,              IBID,    DT,            IDEL7NOK,NSVOIS,
      T                  SZ_BUFVOIS,            SNPC,    STF,           SBUFMAT,SVIS,IDTMINS,IRESP,
      U                  IDEL7NG,               MAXFUNC, USERL_AVAIL,   GLOB_THERM,
-     V                  impl_s,                idyna,   OUTPUT%WFEXT)
+     V                  impl_s,                idyna,   OUTPUT%TH%WFEXT)
 C
                  ELSEIF (ITY == 2 .AND. JMULT == 0) THEN
                   NULLIFY(pQMV); 
@@ -910,7 +910,7 @@ C
                   ELSE
                     pQMV => BID
                   ENDIF   
-                  CALL QFORC2(TIMERS,
+                  CALL QFORC2(TIMERS, OUTPUT,
      .                  ELBUF_TAB       ,NG               ,
      1                  PM              ,GEO              ,IXQ         ,X         ,A        ,  
      2                  V               ,MS               ,W           ,WA        ,VAL2     ,  
@@ -1018,7 +1018,7 @@ C     ALE ON / OFF
                  NF1=NFT+1
 
                  IF(ITY == 1 .AND. ISOLNOD == 4)THEN
-                  CALL S4FORC3(TIMERS,
+                  CALL S4FORC3(TIMERS,  OUTPUT,
      1                  ELBUF_TAB,       NG,              PM,              GEO,
      2                  IXS,             X,               A,               V,
      3                  MS,              W,               WA,              VAL2,
@@ -1049,7 +1049,7 @@ C     ALE ON / OFF
                   ELSE
                     pQMV => BID
                   ENDIF
-                  CALL SFORC3(TIMERS,
+                  CALL SFORC3(TIMERS,     OUTPUT,
      1                  ELBUF_TAB,            NG,       PM,            GEO,
      2                  IXS,                  X,        NV46,          A,
      3                  V,                    MS,       W,             WA,
@@ -1080,7 +1080,7 @@ C     ALE ON / OFF
      S                  MAT_ELEM,             IBID,     DT,            IDEL7NOK,NSVOIS,
      T                  SZ_BUFVOIS,           SNPC,     STF,SBUFMAT,SVIS,IDTMINS,IRESP,
      U                  IDEL7NG,              MAXFUNC,  USERL_AVAIL  ,GLOB_THERM,
-     V                  impl_s,               idyna,    OUTPUT%WFEXT)
+     V                  impl_s,               idyna,    OUTPUT%TH%WFEXT)
                
                  ELSEIF (ITY == 2 .AND. JMULT == 0) THEN
                   NULLIFY(pQMV); 
@@ -1089,7 +1089,7 @@ C     ALE ON / OFF
                   ELSE
                     pQMV => BID
                   ENDIF  
-                  CALL QFORC2(TIMERS,
+                  CALL QFORC2(TIMERS, OUTPUT,
      .              ELBUF_TAB ,NG    ,
      1              PM        ,GEO              ,IXQ         ,X        ,A         ,  
      2              V         ,MS               ,W           ,WA       ,VAL2      ,      

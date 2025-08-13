@@ -63,7 +63,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    table_mod              ../engine/share/modules/table_mod.F
 !||    timer_mod              ../engine/source/system/timer_mod.F90
 !||====================================================================
-      SUBROUTINE Q4FORC2(TIMERS, PM    ,GEO    ,IC     ,X     ,A      ,
+      SUBROUTINE Q4FORC2(TIMERS, OUTPUT, PM    ,GEO    ,IC     ,X     ,A      ,
      2                   V     ,MS     ,W      ,FLUX  ,FLU1  ,
      3                   VEUL   ,FV     ,ALE_CONNECT ,IPARG  ,NLOC_DMG,
      4                   ELBUF_TAB,TF  ,NPF    ,BUFMAT,PARTSAV,
@@ -81,6 +81,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE TIMER_MOD
+      USE OUTPUT_MOD, only : OUTPUT_
       USE MMAIN_MOD
       USE TABLE_MOD
       USE MAT_ELEM_MOD            
@@ -110,6 +111,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(TIMER_), INTENT(INOUT) :: TIMERS
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT
       my_real, INTENT(IN) :: DT1
       my_real, INTENT(IN) :: TT
       INTEGER, INTENT(IN) :: SNPC
@@ -551,7 +553,7 @@ C       COPY OLD STRESS AND DO NECESSARY TREATMENT
      3   NEL,     JCVT)
 C
 C       UPDATE STRESS
-        CALL MMAIN(TIMERS,
+        CALL MMAIN(TIMERS, OUTPUT,
      1   ELBUF_TAB,   NG,          PM,          GEO,
      2                ALE_CONNECT, IC,          IPARG,
      3   V,           TF,          NPF,         BUFMAT,

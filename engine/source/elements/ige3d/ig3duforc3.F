@@ -56,7 +56,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    table_mod              ../engine/share/modules/table_mod.F
 !||    timer_mod              ../engine/source/system/timer_mod.F90
 !||====================================================================
-      SUBROUTINE IG3DUFORC3(TIMERS, 
+      SUBROUTINE IG3DUFORC3(TIMERS, OUTPUT, 
      1   ELBUF_TAB,   NG,          LFT,         LLT,
      2   NFT,         NEL,         IXS,         PM,
      3   GEO,         IPM,         IGEO,        X,
@@ -84,6 +84,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE OUTPUT_MOD, only : OUTPUT_
       USE TIMER_MOD
       USE MMAIN_MOD
       USE TABLE_MOD
@@ -119,6 +120,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(TIMER_) ,INTENT(INOUT) :: TIMERS
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT
       INTEGER, INTENT(INOUT) :: JPLASOL
       INTEGER, INTENT(INOUT) :: JSPH
       INTEGER, INTENT(IN) :: JCVT
@@ -526,7 +528,7 @@ C     CALCUL DES CONTRAINTES
 C------------------------------------------------------
 
       IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STARTIME(TIMERS,35)
-       CALL MMAIN(TIMERS,
+       CALL MMAIN(TIMERS, OUTPUT,
      1   ELBUF_TAB,   NG,          PM,          GEO,
      2                ALE_CONNECT, IXS,         IPARG,
      3   V,           TF,          NPF,         BUFMAT,
