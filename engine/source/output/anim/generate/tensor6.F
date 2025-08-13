@@ -1870,7 +1870,7 @@ c----------- ISOLNOD=16 is not available w/ TYPE22 but keep here however
                   IT = IT0
                 END IF
               ENDIF
-                IF (IR>NPTR.OR.IS>NPTS) CYCLE
+                IF (IR>NPTR.OR.IS>NPTS.OR.IT>NLAY) CYCLE
               IPT = IR + ( (IS-1) + (IT-1)*NPTS )*NPTR
               IF ( IPT <= NPT ) THEN                 
                 IF (TSHELL == 1) THEN
@@ -2570,7 +2570,7 @@ c-----------
                     IT = IT0
                   END IF
                 ENDIF
-                  IF (IR>NPTR.OR.IS>NPTS) CYCLE
+                  IF (IR>NPTR.OR.IS>NPTS.OR.IT>NLAY) CYCLE
                  IPT = IR + ( (IS-1) + (IT-1)*NPTS )*NPTR
               IF (IPT  <= NPT ) THEN
                 IF (TSHELL == 1) THEN

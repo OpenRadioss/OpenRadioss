@@ -1006,7 +1006,7 @@ C--------------------------------------------------
 C--------------------------------------------------
 C           EULER ANGLE : rotation of ORTHOTROPIC SYSTEM wrt GLOBAL SYSTEM
 c ILAYER=NULL NPT=NULL
-                IF ( (ILAY <= NLAY .AND. ILAY > 0) .OR.
+                IF ( (ILAY <= NLAY .AND. ILAY > 0) .AND.
      .              IR <= NPTR .AND. IR > 0 .AND.  IS <= NPTS .AND. IS > 0 .AND. IT <= NPTT .AND. IT > 0) THEN
                   IF ( IGTYP == 6 .OR. IGTYP == 21 .OR. IGTYP == 22 ) THEN
                     LBUF => ELBUF_TAB(NG)%BUFLY(MAX(1,ILAY))%LBUF(1,1,1)
@@ -1062,7 +1062,7 @@ C--------------------------------------------------
 C--------------------------------------------------
 C           EULER ANGLE : rotation of ORTHOTROPIC SYSTEM wrt GLOBAL SYSTEM
 c ILAYER=NULL NPT=NULL
-                IF ( (ILAY <= NLAY .AND. ILAY > 0) .OR.
+                IF ( (ILAY <= NLAY .AND. ILAY > 0) .AND.
      .              IR <= NPTR .AND. IR > 0 .AND.  IS <= NPTS .AND. IS > 0 .AND. IT <= NPTT .AND. IT > 0) THEN
                   IF ( IGTYP == 6 .OR. IGTYP == 21 .OR. IGTYP == 22 ) THEN
                     LBUF => ELBUF_TAB(NG)%BUFLY(MAX(1,ILAY))%LBUF(1,1,1)
@@ -1117,7 +1117,7 @@ C--------------------------------------------------
 C--------------------------------------------------
 C           EULER ANGLE : rotation of ORTHOTROPIC SYSTEM wrt GLOBAL SYSTEM
 c ILAYER=NULL NPT=NULL
-                IF ( (ILAY <= NLAY .AND. ILAY > 0) .OR.
+                IF ( (ILAY <= NLAY .AND. ILAY > 0) .AND.
      .              IR <= NPTR .AND. IR > 0 .AND.  IS <= NPTS .AND. IS > 0 .AND. IT <= NPTT .AND. IT > 0) THEN
                   IF ( IGTYP == 6 .OR. IGTYP == 21 .OR. IGTYP == 22 ) THEN
                     LBUF => ELBUF_TAB(NG)%BUFLY(MAX(1,ILAY))%LBUF(1,1,1)
