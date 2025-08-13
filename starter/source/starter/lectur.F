@@ -9557,9 +9557,9 @@ C---
       NHMAX = LAG_NHF + LAG_NHL
       LWAT  = 0
       IF(LAG_NCL/=0) LWAT  = MAX(6*(NUMELS16+NUMELS20),6*NUMNOD)
-      L_MUL_LAG1 = 2*NCMAX + 4*NKMAX + LWAT + NUMNOD + 2
+      L_MUL_LAG1 = 2*NCMAX + 4*NKMAX + LWAT +  2 ! not sure if always needed
       IF(NCMAX>0) THEN
-          L_MUL_LAG = MAX(L_MUL_LAG1,
+          L_MUL_LAG = MAX(L_MUL_LAG1+NUMNOD,
      .                11*NCMAX + 4*NKMAX + 3*NHMAX + 6*NUMNOD + 2)
       ENDIF
       SLAMBDA = NCMAX
@@ -10229,7 +10229,7 @@ C appel a routine generique ici et dans ddsplit
      1      LENWA ,NTHWA  ,NAIRWA    ,NUMELS   ,NUMELQ,
      2      NUMELC,NUMELTG,NUMELT    ,NUMELP   ,NUMELR,
      3      NUMNOD,NMNT   ,L_MUL_LAG1,L_MUL_LAG,MAXNX ,
-     4      LWASPH,NUMSPH    ,LWASPIO, NRCVVOIS0,
+     4      LWASPH,NUMSPH    ,LWASPIO, NRCVVOIS0,NGROUP,
      5      LWAMP_L,LWANMP_L ,GLOB_THERM%ITHERM)
       LWAMP  = LWAMP_L   !< Copy values in common
       LWANMP = LWANMP_L  !< Copy values in common

@@ -1053,12 +1053,14 @@ C-------
           IPARI(24,NI) = NSN_FE+NSN_IGE
           IPARI(25,NI) = NSN_FE+NSN_IGE+NMN_FE+NMN_IGE
           IMAXIMP = IMAXIMP + MULTIMP*(NSN_FE+NSN_IGE)
-          NMNT =MAX0(NMNT,NSN_FE+NSN_IGE + 3) 
+          NMNT =MAX0(NMNT,NSN_IGE + 3) 
+
           IF (ILAGM > 0) THEN
             LAG_NC16 = NUMNOD
             LAG_NK16 = NUMNOD*15
             NMNT = MAX(NMNT, 4*(NMN+100)+ 2*(NSN_FE+NSN_IGE) + LAG_NC16 + 4*LAG_NK16)                       
           ENDIF
+
           MAXRTM=MAX(MAXRTM,NRTM)
 C-------
         ELSEIF (NTYP == 8) THEN
@@ -1115,7 +1117,7 @@ C-------
           IPARI(24,NI) = NSN
           IPARI(25,NI) = NSN+NMN
           IMAXIMP = IMAXIMP + MULTIMP*NSN
-          NMNT =MAX0(NMNT,NSN + 3) 
+          !NMNT =MAX0(NMNT,NSN + 3) 
           MAXRTM=MAX(MAXRTM,NRTM)
 C-------
         ELSEIF (NTYP == 20) THEN
@@ -1207,7 +1209,7 @@ C
           END IF
 C
           IMAXIMP = IMAXIMP + MULTIMP*NSN + MULTIMPE*NCONTE + MULTIMPS*NCONTE
-          NMNT =MAX0(NMNT,NSN + 3) 
+          !NMNT =MAX0(NMNT,NSN + 3) 
           IF (ILAGM > 0) THEN
             LAG_NC16 = NUMNOD
             LAG_NK16 = NUMNOD*15
