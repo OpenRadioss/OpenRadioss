@@ -28,7 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ale_mod      ../common_source/modules/ale/ale_mod.F
 !||    output_mod   ../common_source/modules/output/output_mod.F90
 !||====================================================================
-      SUBROUTINE MEINT(
+      SUBROUTINE MEINT(OUTPUT,
      1   OFF,     SNEW,    QOLD,    EINT,
      2   VNEW,    ESPE,    SOLD1,   SOLD2,
      3   SOLD3,   SOLD4,   SOLD5,   SOLD6,
@@ -41,7 +41,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ALE_MOD
-      USE OUTPUT_MOD , ONLY : WFEXT
+      USE OUTPUT_MOD , ONLY : OUTPUT_ 
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -57,6 +57,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT
       INTEGER, INTENT(IN) :: JTUR
       INTEGER, INTENT(IN) :: JLAG
       INTEGER, INTENT(IN) :: JPOR
@@ -111,7 +112,7 @@ C-----------------------------------------------
         WFEXTT = WFEXTT - DVOL(I)*PSH(I)
       ENDDO
 !$OMP ATOMIC
-      WFEXT = WFEXT + WFEXTT
+      OUTPUT%TH%WFEXT = OUTPUT%TH%WFEXT + WFEXTT
 
 C
       IF(JTUR == 0 .OR. JPOR == 2)THEN

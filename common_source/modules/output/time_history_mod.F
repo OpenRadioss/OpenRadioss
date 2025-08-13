@@ -90,10 +90,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
           REAL(KIND=8), DIMENSION(9) :: DTHIS1 ! time step of TH files (aTH,bTH,...)
 
           TYPE (TH_SURF_) TH_SURF
-
-C
+          double precision :: wfext           !< external force work (global value) should be within th? 
+          double precision :: wfext_md        !< specific to r2r method
           INTEGER  DUMP_THNMS1_FILE
-C
         END TYPE TH_
 
 

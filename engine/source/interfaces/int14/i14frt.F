@@ -32,7 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    h3d_mod        ../engine/share/modules/h3d_mod.F
 !||    output_mod     ../common_source/modules/output/output_mod.F90
 !||====================================================================
-      SUBROUTINE I14FRT(AF    ,X     ,V     ,KSURF  ,IGRSURF,
+      SUBROUTINE I14FRT(OUTPUT,AF    ,X     ,V     ,KSURF  ,IGRSURF,
      2                  BUFSF ,NSC   ,KSC   ,NSP    ,KSP    ,
      3                  KSI   ,IMPACT ,CIMP ,NIMP   ,FRIC   ,
      4                  NFRIC ,NPC    ,PLD  ,GAPMIN ,STF    ,
@@ -44,7 +44,7 @@ C-----------------------------------------------
       USE H3D_MOD
       USE GROUPDEF_MOD
       USE ANIM_MOD
-      USE OUTPUT_MOD , ONLY : WFEXT
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -69,6 +69,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_) ,INTENT(INOUT) :: OUTPUT
       INTEGER NSC,NSP, KSURF, KSI(*), IMPACT(*),
      .        NFRIC, NPC(*),ISKY(*)
 C     REAL
@@ -646,7 +647,7 @@ C---------------------------------
       IF (IGRSURF(KSURF)%TYPE==100) THEN
 C     Madymo Ellipsoids.
 !$OMP ATOMIC
-          WFEXT=WFEXT+DE*DT1*HALF
+          OUTPUT%TH%WFEXT=OUTPUT%TH%WFEXT+DE*DT1*HALF
       ENDIF
 C------------------------------------------------------------
       RETURN

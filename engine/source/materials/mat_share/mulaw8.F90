@@ -85,7 +85,7 @@
 !||    table_mod             ../engine/share/modules/table_mod.F
 !||    timer_mod             ../engine/source/system/timer_mod.F90
 !||====================================================================
-        subroutine mulaw8(timers,                                    &
+        subroutine mulaw8(timers,  output,                                  &
         &                 lft,     llt,     mtn,              &
         &                 npt,     d1,      d2,      d3,      &
         &                 d4,      d5,      d6,      pm,      &
@@ -112,6 +112,7 @@
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
           use timer_mod
+          use output_mod, only : output_
           use constant_mod
           use table_mod
           use mat_elem_mod
@@ -130,6 +131,7 @@
           ! integer arguments (in)
           ! --------------------------------
           type(timer_), intent(inout) :: timers
+          type(output_), intent(inout) :: output
           integer, intent(in) :: snpc
           integer, intent(in) :: nummat
           integer, intent(in) :: ity
@@ -697,7 +699,7 @@
               &sv1      ,sv2      ,sv3      ,sv4      ,sv5      ,sv6   ,&
               &sspp     ,vis      ,uvar     ,off      )
             elseif(mtn == 41)then
-              call sigeps41(&
+              call sigeps41(output,&
               &llt      ,npar     ,nuvar    ,&
               &tt       ,dt1      ,bufmat(iadbuf),&
               &rho0     ,rho      ,voln     ,eint     ,&

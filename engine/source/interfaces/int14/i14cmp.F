@@ -34,13 +34,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    h3d_mod         ../engine/share/modules/h3d_mod.F
 !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
 !||====================================================================
-      SUBROUTINE I14CMP(IPARI ,INTBUF_TAB ,IGRSURF ,BUFSF ,
+      SUBROUTINE I14CMP(OUTPUT,IPARI ,INTBUF_TAB ,IGRSURF ,BUFSF ,
      2            A ,X ,V ,WA ,FSAV ,
      3            IN ,STIFN ,FCONT , MS ,FSKYI , 
      4            ISKY ,NPC ,PLD   ,H3D_DATA)
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
+      USE OUTPUT_MOD, ONLY : OUTPUT_
       USE INTBUFDEF_MOD
       USE H3D_MOD
       USE GROUPDEF_MOD
@@ -67,6 +68,7 @@ C     REAL
      .   PLD(*)
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
+      TYPE(OUTPUT_) :: OUTPUT
       TYPE(H3D_DATABASE) :: H3D_DATA
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
 C-----------------------------------------------
@@ -106,7 +108,7 @@ C-----------------------------------------------
      5      WA(2*NUMNOD+1) ,WA(3*NUMNOD+1) ,STF )
 C-----------------------------------------------
 C     Frottement calcule apres amortissement.
-      CALL I14FRT(A  ,X     ,V     ,INTBUF_TAB%KSURF ,IGRSURF  ,
+      CALL I14FRT(OUTPUT,A  ,X     ,V     ,INTBUF_TAB%KSURF ,IGRSURF  ,
      2      BUFSF ,NSC  ,WA(1) ,NSP   ,WA(NUMNOD+1) ,
      3      INTBUF_TAB%NSV,INTBUF_TAB%IMPACT,INTBUF_TAB%CIMP,INTBUF_TAB%NIMP,
      4      FRIC   ,NFRIC ,NPC    ,PLD  ,GAPMIN ,STF  ,

@@ -29,13 +29,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    output_mod      ../common_source/modules/output/output_mod.F90
 !||====================================================================
-      SUBROUTINE I14WFS(IPARI,INTBUF_TAB,IGRSURF,FSAV)
+      SUBROUTINE I14WFS(OUTPUT,IPARI,INTBUF_TAB,IGRSURF,FSAV)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE OUTPUT_MOD, ONLY : OUTPUT_
       USE INTBUFDEF_MOD
       USE GROUPDEF_MOD
-      USE OUTPUT_MOD , ONLY : WFEXT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -50,6 +50,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT
       INTEGER IPARI(NPARI,*)
 C     REAL
       my_real
@@ -79,7 +80,7 @@ C                  actuellement, NRTM == 1.
          KSURF=INTBUF_TAB(N)%KSURF(1)
          IF (IGRSURF(KSURF)%TYPE==100) THEN
 C          Travail des interfaces avec Madymo.
-           WFEXT=WFEXT+DE*DT2*HALF
+           OUTPUT%TH%WFEXT=OUTPUT%TH%WFEXT+DE*DT2*HALF
          ENDIF
 C-----------------------------------------------
  100  CONTINUE

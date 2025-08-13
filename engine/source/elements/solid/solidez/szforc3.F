@@ -99,7 +99,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    table_mod              ../engine/share/modules/table_mod.F
 !||    timer_mod              ../engine/source/system/timer_mod.F90
 !||====================================================================
-      SUBROUTINE SZFORC3(TIMERS,ELBUF_TAB,NG      ,
+      SUBROUTINE SZFORC3(TIMERS,  ELBUF_TAB,NG      ,
      1                   PM       ,GEO     ,IXS     ,X      ,
      2                   A        ,V       ,MS      ,W      ,FLUX   ,
      3                   FLU1     ,VEUL      ,FV      ,ALE_CONNECT    ,IPARG    ,
@@ -125,6 +125,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE TIMER_MOD
+      USE OUTPUT_MOD, only : OUTPUT_
       USE MMAIN_MOD
       USE TABLE_MOD
       USE MAT_ELEM_MOD            
@@ -712,7 +713,7 @@ C
      .                            NPT   ,SENSORS%NSENSOR,SENSORS%SENSOR_TAB)
 C
 C Compute stresses according to the material law
-      CALL MMAIN(TIMERS,
+      CALL MMAIN(TIMERS, OUTPUT,
      1   ELBUF_TAB,   NG,          PM,          GEO,
      2                ALE_CONNECT, IXS,         IPARG,
      3   V,           TF,          NPF,         BUFMAT,

@@ -305,7 +305,7 @@ C------------------------
           WA(II+6) =XMASS
           WA(II+7) =DT2
           WA(II+8) =ENROT
-          WA(II+9) =OUTPUT%WFEXT
+          WA(II+9) =OUTPUT%TH%WFEXT
           WA(II+10)=REINT
           WA(II+11)=ECONT+ECONT_CUMU+ECONTV+ECONTD   ! Global contact energy : Sum of contact energies
           WA(II+12)=EHOUR

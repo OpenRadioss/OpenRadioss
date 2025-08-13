@@ -50,7 +50,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    table_mod              ../engine/share/modules/table_mod.F
 !||    timer_mod              ../engine/source/system/timer_mod.F90
 !||====================================================================
-      SUBROUTINE S8FORC3(TIMERS,
+      SUBROUTINE S8FORC3(TIMERS, OUTPUT,
      1                   ELBUF_STR,PM       ,GEO    ,IXS      ,X      ,
      2                   A        ,V        ,MS     , 
      3                   VEUL     ,FV       ,ALE_CONNECT  ,IPARG    ,
@@ -64,6 +64,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE TIMER_MOD
+      USE OUTPUT_MOD, ONLY : OUTPUT_
       USE TABLE_MOD
       USE MAT_ELEM_MOD         
       USE ALE_CONNECTIVITY_MOD
@@ -90,6 +91,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(TIMER_), INTENT(INOUT) :: TIMERS
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT
       INTEGER,INTENT(IN) :: SNPC
       INTEGER,INTENT(IN) :: NUMGEO
       INTEGER,INTENT(IN) :: SBUFMAT
@@ -217,7 +219,7 @@ C------------------------------------------------------
 C     CALCUL DES CONTRAINTES SUIVANT LOIS CONSTITUTIVES
 C------------------------------------------------------
       IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STARTIME(TIMERS,35)
-      CALL MMAIN8(TIMERS, PM   ,GEO   ,ELBUF_STR,MAT_ELEM ,
+      CALL MMAIN8(TIMERS, OUTPUT, PM   ,GEO   ,ELBUF_STR,MAT_ELEM ,
      2            IXS  ,IPARG ,V        ,TF    ,    
      3            NPF  ,BUFMAT,STI    ,X     ,D1    ,
      4            D2   ,D3    ,D4     ,D5    ,D6    ,
