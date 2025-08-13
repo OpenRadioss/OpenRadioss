@@ -178,13 +178,13 @@ C=======================================================================
 C         VOLUME P=F(V)
 C=======================================================================
           CALL VOLPFV(MONVOL(K1),VOLMON(KK1),VOL(I),FSAV(1,I),NPC,
-     2                TF        ,PMAIN   , OUTPUT%WFEXT, PYTHON, NFUNCT) 
+     2                TF        ,PMAIN   , OUTPUT%TH%WFEXT, PYTHON, NFUNCT) 
         ELSEIF(ITYP==3)THEN
 C=======================================================================
 C         GAS PARFAIT
 C=======================================================================
           CALL VOLPVGA(MONVOL(K1),VOLMON(KK1),VOL(I),FSAV(1,I),NVENT ,
-     2            MONVOL(IADHOL) ,VOLMON(RADHOL),PMAIN, OUTPUT%WFEXT )
+     2            MONVOL(IADHOL) ,VOLMON(RADHOL),PMAIN, OUTPUT%TH%WFEXT )
         ELSEIF(ITYP==4.OR.ITYP==5)THEN
 C=======================================================================
 C         AIRBAGS
@@ -192,7 +192,7 @@ C=======================================================================
            CALL AIRBAGA(MONVOL(K1),NJET ,MONVOL(IADJET),NVENT ,MONVOL(IADHOL),
      2 MONVOL(K2),VOLMON(KK1),VOLMON(RADJET),VOLMON(RADHOL),VOLMON(KK2),
      3 VOLMON  ,NPC     ,TF      ,NSENSOR ,SENSOR_TAB ,
-     4 VOL(I)    ,PMAIN ,OUTPUT%WFEXT, PYTHON)
+     4 VOL(I)    ,PMAIN ,OUTPUT%TH%WFEXT, PYTHON)
         ELSEIF(ITYP==7.OR.ITYP==9)THEN
 C=======================================================================
 C         AIRBAGS1 (NOUVEAUX INJECTEURS)
@@ -200,7 +200,7 @@ C=======================================================================
            CALL AIRBAGA1(MONVOL(K1),NJET ,MONVOL(IADJET),NVENT ,MONVOL(IADHOL),
      2 MONVOL(K2),VOLMON(KK1),VOLMON(RADJET),VOLMON(RADHOL),VOLMON(KK2),
      3 VOLMON  ,NPC     ,TF      ,NSENSOR ,SENSOR_TAB ,
-     4 VOL(I)     ,PMAIN ,GEO     ,IGEO    ,PM, OUTPUT%WFEXT,PYTHON)
+     4 VOL(I)     ,PMAIN ,GEO     ,IGEO    ,PM, OUTPUT%TH%WFEXT,PYTHON)
         ELSEIF(ITYP==10)THEN
 C=======================================================================
 C         LINEAIRE FLUIDE
@@ -214,7 +214,7 @@ C=======================================================================
             CALL VOLPRE(MONVOL(K1),VOLMON(KK1),NJET ,MONVOL(IADJET),VOLMON(RADJET),
      2                 NSENSOR ,SENSOR_TAB ,X       ,V       ,A       ,
      3                 t_monvol(i)%normal  ,NPC     ,TF      ,NN  ,IGRSURF(IS)%NODES,
-     4                 FEXT    ,H3D_DATA,IGRSURF(IS)%ELTYP,IGRSURF(IS)%ELEM, OUTPUT%WFEXT,PYTHON)
+     4                 FEXT    ,H3D_DATA,IGRSURF(IS)%ELTYP,IGRSURF(IS)%ELEM, OUTPUT%TH%WFEXT,PYTHON)
          ELSE
             CALL VOLPREP(MONVOL(K1),VOLMON(KK1),NJET ,MONVOL(IADJET),VOLMON(RADJET),
      2                 NSENSOR ,SENSOR_TAB  ,X       ,V       ,A       ,
@@ -223,7 +223,7 @@ C=======================================================================
      5                 IGRSURF(IS)%ELTYP,IGRSURF(IS)%ELEM,
      5                 T_MONVOL(I)%OMP_OUTPUT%NODE_NUMBER,T_MONVOL(I)%OMP_OUTPUT%TOTAL_CONTRIBUTION_NUMBER, 
      6                 T_MONVOL(I)%OMP_OUTPUT%CONTRIBUTION_INDEX,T_MONVOL(I)%OMP_OUTPUT%CONTRIBUTION_NUMBER,
-     7                 T_MONVOL(I)%OMP_OUTPUT%NODE_ID,T_MONVOL(I)%OMP_OUTPUT%CONTRIBUTION,OUTPUT%WFEXT,PYTHON)
+     7                 T_MONVOL(I)%OMP_OUTPUT%NODE_ID,T_MONVOL(I)%OMP_OUTPUT%CONTRIBUTION,OUTPUT%TH%WFEXT,PYTHON)
          ENDIF
         ENDIF
         T_MONVOL(I)%UID = UID ! store the uid of the monitored volume

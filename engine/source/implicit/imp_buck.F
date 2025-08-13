@@ -379,7 +379,7 @@ C-------------
      3     FOPT        ,RWSAV    ,WEIGHT          ,
      4     FSAVD(1,NINTER+1),
      5     NT_RW       ,IDDL     ,IKC    ,IMCONV,NDOF,FRWL6,
-     6     WEIGHT_MD   ,DIMFB    , FBSAV6,STABSEN,TABSENSOR, OUTPUT%WFEXT, OUTPUT%WFEXT_MD)
+     6     WEIGHT_MD   ,DIMFB    , FBSAV6,STABSEN,TABSENSOR, OUTPUT%TH%WFEXT, OUTPUT%TH%WFEXT_MD)
          IF(NT_RW>0) THEN
           CALL FV_RW(IDDL   ,IKC   ,NDOF  ,D_IMP  ,V )
          ENDIF

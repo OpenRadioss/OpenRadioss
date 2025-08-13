@@ -30,7 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    h3d_mod        ../engine/share/modules/h3d_mod.F
 !||    output_mod     ../common_source/modules/output/output_mod.F90
 !||====================================================================
-      SUBROUTINE I15ASS(AF    ,X     ,V    ,KSURF ,IGRSURF ,
+      SUBROUTINE I15ASS(OUTPUT,AF    ,X     ,V    ,KSURF ,IGRSURF ,
      2                  BUFSF ,STIFN ,FS   ,FCONT ,FSKYI ,
      3                  ISKY  ,DE    ,WNF  ,WTF   ,WNS   ,
      4                  FNORMX ,FNORMY ,FNORMZ ,FTANGX ,FTANGY ,
@@ -41,7 +41,7 @@ C-----------------------------------------------
       USE H3D_MOD
       USE GROUPDEF_MOD
       USE ANIM_MOD
-      USE OUTPUT_MOD , ONLY : WFEXT
+      USE OUTPUT_MOD, ONLY : OUTPUT_ 
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -62,6 +62,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT
       INTEGER KSURF,ISKY(*),NNC,KNC(*)
       my_real
      .  AF(*) , X(3,*), V(3,*),BUFSF(*),
@@ -230,7 +231,7 @@ C---------------------------------
       IF (IGRSURF(KSURF)%TYPE==100) THEN
 C     Madymo Ellipsoids
 !$OMP ATOMIC
-          WFEXT=WFEXT+DE*DT1*HALF
+          OUTPUT%TH%WFEXT=OUTPUT%TH%WFEXT+DE*DT1*HALF
       ENDIF
 C----------------------------------
       RETURN
