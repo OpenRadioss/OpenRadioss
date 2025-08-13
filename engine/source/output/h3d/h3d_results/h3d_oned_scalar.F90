@@ -57,7 +57,7 @@
           use elbufdef_mod
           use names_and_titles_mod, only: ncharline100
           use precision_mod , only : WP
-          use mvsiz_mod, only : MVSIZ 
+          use mvsiz_mod, only : MVSIZ
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -194,7 +194,7 @@
 !-----------------------------------------------
 ! MASS COMPUTATION
 !-----------------------------------------------
-         if (keyword == 'MASS' .OR. keyword == 'ENER') then
+            if (keyword == 'MASS' .OR. keyword == 'ENER') then
 !-----------------------------------------------
 !       truss
 !-----------------------------------------------
@@ -579,24 +579,24 @@
 !--------------------------------------------------
               elseif (keyword == 'DAMINI' .and. ifail > 0) then
 !--------------------------------------------------
-                if (igtyp == 3) then 
+                if (igtyp == 3) then
                   do i=1,nel
-                    if (elbuf_tab(ng)%gbuf%g_dmgscl > 0) then 
+                    if (elbuf_tab(ng)%gbuf%g_dmgscl > 0) then
                       value(i) = elbuf_tab(ng)%gbuf%fail(1)%damini(i)
                       is_written_value(i) = 1
                     endif
                   enddo
                 else if (igtyp == 18) then
-                    do i=1,nel
-                      damini  = zero
-                      do k = 1,elbuf_tab(ng)%bufly(1)%nptt
-                        if (elbuf_tab(ng)%bufly(1)%fail(1,1,k)%floc(1)%lf_damini > 0) then
-                          damini = max(damini,elbuf_tab(ng)%bufly(1)%fail(1,1,k)%floc(1)%damini(i))
-                        endif
-                      enddo
-                      value(i) = damini
-                      is_written_value(i) = 1
+                  do i=1,nel
+                    damini  = zero
+                    do k = 1,elbuf_tab(ng)%bufly(1)%nptt
+                      if (elbuf_tab(ng)%bufly(1)%fail(1,1,k)%floc(1)%lf_damini > 0) then
+                        damini = max(damini,elbuf_tab(ng)%bufly(1)%fail(1,1,k)%floc(1)%damini(i))
+                      endif
                     enddo
+                    value(i) = damini
+                    is_written_value(i) = 1
+                  enddo
                 endif
 !--------------------------------------------------
               elseif (keyword == 'DAMA' .and. ifail > 0) then

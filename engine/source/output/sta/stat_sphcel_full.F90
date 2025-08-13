@@ -26,7 +26,7 @@
 !||    genstat                ../engine/source/output/sta/genstat.F
 !||====================================================================
       module stat_sphcel_full_mod
-        contains
+      contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
 ! ======================================================================================================================
@@ -43,11 +43,11 @@
 !||    precision_mod       ../common_source/modules/precision_mod.F90
 !||====================================================================
         subroutine stat_sphcel_full(numsph     ,nisp       ,ngroup         ,nparg         ,sizloc          ,  &
-                                    npart      ,sizp0      ,nspmd          ,stat_numelsph ,stat_numelsph_g ,  &
-                                    nspbuf     ,numnod     ,npropmi        ,nummat        ,lipart1         ,  &
-                                    kxsp       ,ipartsph   ,ipart_state    ,stat_indxsph  ,iparg           ,  &
-                                    elbuf_tab  ,wa         ,wap0           ,spbuf         ,itab            ,  &
-                                    ipm        ,idel       ,ipart          )
+          npart      ,sizp0      ,nspmd          ,stat_numelsph ,stat_numelsph_g ,  &
+          nspbuf     ,numnod     ,npropmi        ,nummat        ,lipart1         ,  &
+          kxsp       ,ipartsph   ,ipart_state    ,stat_indxsph  ,iparg           ,  &
+          elbuf_tab  ,wa         ,wap0           ,spbuf         ,itab            ,  &
+          ipm        ,idel       ,ipart          )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -101,9 +101,9 @@
           integer :: ptwa(stat_numelsph),ptwa_p0(0:max(1,stat_numelsph_g))
           character(len=100) :: delimit
           data delimit(1:60) &
-           /'#---1----|----2----|----3----|----4----|----5----|----6----|'/
+            /'#---1----|----2----|----3----|----4----|----5----|----6----|'/
           data delimit(61:100) &
-           /'----7----|----8----|----9----|----10---|'/
+            /'----7----|----8----|----9----|----10---|'/
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -150,7 +150,7 @@
                     jj = jj + 1
                     wa(jj) = elbuf_tab(ng)%gbuf%sig(ii(3)+i)
                     jj = jj + 1
-                    if(elbuf_tab(ng)%gbuf%g_pla == 1) then 
+                    if(elbuf_tab(ng)%gbuf%g_pla == 1) then
                       wa(jj) = elbuf_tab(ng)%gbuf%pla(i)
                     else
                       wa(jj) = 0.
@@ -170,7 +170,7 @@
                     endif
                     !---
                     ie=ie+1
-                    !--- 
+                    !---
                     ptwa(ie)=jj
                   endif ! if (ipart_state(iprt) /= 0)
                 enddo  !  do i=lft,llt
@@ -181,62 +181,62 @@
 !-----------------------------------------------------------------------
 !     sphcel - write
 !-----------------------------------------------------------------------
-            if (nspmd == 1) then
-              ptwa_p0(0)=0
-              do n=1,stat_numelsph
-                ptwa_p0(n)=ptwa(n)
-              enddo
-              len=jj
-              do j=1,len
-                wap0(j)=wa(j)
-              enddo
-            else
-              call spmd_stat_pgather(ptwa,stat_numelsph,ptwa_p0,stat_numelsph_g)
-              len = 0
-              call spmd_rgather9_dp(wa,jj,wap0,sizp0,len)
-            endif
+          if (nspmd == 1) then
+            ptwa_p0(0)=0
+            do n=1,stat_numelsph
+              ptwa_p0(n)=ptwa(n)
+            enddo
+            len=jj
+            do j=1,len
+              wap0(j)=wa(j)
+            enddo
+          else
+            call spmd_stat_pgather(ptwa,stat_numelsph,ptwa_p0,stat_numelsph_g)
+            len = 0
+            call spmd_rgather9_dp(wa,jj,wap0,sizp0,len)
+          endif
 !-------------------------------------
-            if (ispmd == 0 .and. len > 0) then
-              iprt0 = 0
-              do n=1,stat_numelsph_g
-                k=stat_indxsph(n)
-                j=ptwa_p0(k-1)
+          if (ispmd == 0 .and. len > 0) then
+            iprt0 = 0
+            do n=1,stat_numelsph_g
+              k=stat_indxsph(n)
+              j=ptwa_p0(k-1)
+              !
+              ioff=nint(wap0(j + 1))
+              if (idel==0 .or. (idel==1 .and. ioff >= 1)) then
+                iprt  = nint(wap0(j + 2))
+                id    = nint(wap0(j + 3))
+                my_nuvar = nint(wap0(j + 11))
+!--------------------------------------
+                if (iprt /= iprt0) then
+                  write(iugeo,'(a)') delimit
+                  write(iugeo,'(a)')'/INISPHCEL/FULL'
+                  write(iugeo,'(a)')&
+                    '#----------------------------------------------------------'
+                  write(iugeo,'(a)')'#SPHCEL_ID   NUVAR'
+                  write(iugeo,'(a)')'#format:(1p3e20.13) #(eint,rho,slen)'
+                  write(iugeo,'(a)')'#format:(1p3e20.13) #(sig1,sig2,sig3)'
+                  write(iugeo,'(a)')'#format:(1pe20.13) #(epsp)'
+                  write(iugeo,'(a)')'#format:(1p3e20.13) #(uvar(i) , i = 1 ,nuvar)'
+                  write(iugeo,'(a)')&
+                    '#----------------------------------------------------------'
+                  !
+                  iprt0=iprt
+                endif ! if (iprt /= iprt0)
                 !
-                ioff=nint(wap0(j + 1))
-                if (idel==0 .or. (idel==1 .and. ioff >= 1)) then
-                  iprt  = nint(wap0(j + 2)) 
-                  id    = nint(wap0(j + 3))
-                  my_nuvar = nint(wap0(j + 11))
+                write(iugeo,'(2i10)') id,my_nuvar
+                write(iugeo,'(1p3e20.13)')wap0(j+4),wap0(j+5),wap0(j+6)
+                write(iugeo,'(1p3e20.13)')wap0(j+7),wap0(j+8),wap0(j+9)
+                write(iugeo,'(1p3e20.13)')wap0(j+10)
+                if(my_nuvar > 0) write(iugeo,'(1p3e20.13)')(wap0(j + 11 + k),k=1,my_nuvar)
 !--------------------------------------
-                    if (iprt /= iprt0) then
-                      write(iugeo,'(a)') delimit
-                      write(iugeo,'(a)')'/INISPHCEL/FULL'
-                      write(iugeo,'(a)')&
-                                 '#----------------------------------------------------------'
-                      write(iugeo,'(a)')'#SPHCEL_ID   NUVAR'
-                      write(iugeo,'(a)')'#format:(1p3e20.13) #(eint,rho,slen)'
-                      write(iugeo,'(a)')'#format:(1p3e20.13) #(sig1,sig2,sig3)'
-                      write(iugeo,'(a)')'#format:(1pe20.13) #(epsp)'
-                      write(iugeo,'(a)')'#format:(1p3e20.13) #(uvar(i) , i = 1 ,nuvar)'
-                      write(iugeo,'(a)')&
-                                 '#----------------------------------------------------------'
-                      !
-                      iprt0=iprt
-                    endif ! if (iprt /= iprt0)
-                    !
-                    write(iugeo,'(2i10)') id,my_nuvar
-                    write(iugeo,'(1p3e20.13)')wap0(j+4),wap0(j+5),wap0(j+6)
-                    write(iugeo,'(1p3e20.13)')wap0(j+7),wap0(j+8),wap0(j+9)
-                    write(iugeo,'(1p3e20.13)')wap0(j+10)
-                    if(my_nuvar > 0) write(iugeo,'(1p3e20.13)')(wap0(j + 11 + k),k=1,my_nuvar)
-!--------------------------------------
-                endif  !  if (ioff >= 1)
-              enddo  !  do n=1,stat_numelsph_g
-            endif  !  if (ispmd == 0.and.len > 0)
+              endif  !  if (ioff >= 1)
+            enddo  !  do n=1,stat_numelsph_g
+          endif  !  if (ispmd == 0.and.len > 0)
 
           return
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine stat_sphcel_full
       end module stat_sphcel_full_mod
-      
-            
+
+

@@ -74,11 +74,11 @@
           USE PRECISION_MOD, ONLY : WP
           USE CONSTANT_MOD , ONLY : THREE_OVER_4
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                 implicit none 
+!                                                 implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   arguments 
+!                                                   arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           TYPE(inter_struct_type), INTENT(INOUT) :: inter_struct !< structure containing the interface sorting data
           INTEGER :: NSN !< number of secondary nodes
@@ -93,9 +93,9 @@
           INTEGER, INTENT(in) :: s_cand_a !< size of cand_a array
           INTEGER :: IRECT(4,NRTM) !< connectivity of the segments
           INTEGER :: NSV(NSN) !< global id of the secondary nodes
-          INTEGER :: CAND_A(s_cand_a) !< ? 
+          INTEGER :: CAND_A(s_cand_a) !< ?
           INTEGER :: RENUM(RENUM_SIZ) !< ?
-          INTEGER :: NUM_IMP           !< 
+          INTEGER :: NUM_IMP           !<
           INTEGER :: ITASK            !< OpenMP task id
           INTEGER :: CAND_E(NCONTACT) !< segment id of the contact candidate
           INTEGER :: CAND_N(NCONTACT) !< node id of the contact candidate
@@ -104,7 +104,7 @@
           INTEGER :: REMNOD(*) !< remnode option
           INTEGER :: NCONTACT !< number of contact candidates
           INTEGER :: ESHIFT !< OpenMP shift
-          INTEGER :: ILD      
+          INTEGER :: ILD
           INTEGER :: NB_N_B
           INTEGER :: IGAP
           INTEGER :: NCONT
@@ -138,7 +138,7 @@
           real(kind=WP) :: GAP_M_L(NRTM)
           real(kind=WP) :: CAND_F(NCONTACT)
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   local variables 
+!                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           INTEGER :: S_PREV_REMOTE_NUMBER
 !     REAL
@@ -176,14 +176,14 @@
 ! Work on the reduced box
 
 
-        if(itask == 0) then
+          if(itask == 0) then
             allocate(prev_remote_number(s_prev_remote_number))
             ! find the old id of remote candidate nodes (inactive, ifq, itied)
             if(nspmd>1.and.(inacti==5.or.inacti==6.or.inacti==7.or.ifq>0.or.itied/=0)) then
               call spmd_oldnumcd(renum,prev_remote_number,s_prev_remote_number,nsnrold, &
-                                 intheat,idt_therm,nodadt_therm)
+                intheat,idt_therm,nodadt_therm)
             end if
-        endif
+          endif
 !$OMP SINGLE
           if(nrtm>0)then
             ! finish to fill the voxel with local nondes
@@ -195,7 +195,7 @@
 !       &                    inter_struct%nbx,&
 !       &                    inter_struct%nby,&
 !       &                    inter_struct%nbz,&
-!       &                    nrtm,& 
+!       &                    nrtm,&
 !       &                    size(XREM,1),&
 !       &                    numnod,&
 !       &                    nsv,&
@@ -210,7 +210,7 @@
 !       &                    xrem,&
 !       &                    inter_struct%box_limit_main)
 
- 
+
 !            call fill_voxel(FLAG_NONE,&
 !       &                    1, &
 !       &                    nsn,&
@@ -218,7 +218,7 @@
 !       &                    inter_struct%nbx,&
 !       &                    inter_struct%nby,&
 !       &                    inter_struct%nbz,&
-!       &                    nrtm,& 
+!       &                    nrtm,&
 !       &                    size(XREM,1),&
 !       &                    numnod,&
 !       &                    nsv,&
@@ -237,61 +237,61 @@
 
 
 
-            CALL INTER7_CANDIDATE_PAIRS( &
-            & NSN, &
-            & PREV_REMOTE_NUMBER, &
-            & NSNR, &
-            & S_PREV_REMOTE_NUMBER, &
-            & I_MEM, &
-            & IRECT, &
-            & X, &
-            & STF, &
-            & XYZM, &
-            & NSV, &
-            & II_STOK, &
-            & CAND_N, &
-            & ESHIFT, &
-            & CAND_E, &
-            & NCONTACT, &
-            & TZINF, &
-            & GAP_S_L, &
-            & GAP_M_L, &
-            & inter_struct%VOXEL, &
-            & inter_struct%NBX, &
-            & inter_struct%NBY, &
-            & inter_struct%NBZ, &
-            & INACTI, &
-            & IFQ, &
-            & CAND_A, &
-            & CAND_P, &
-            & IFPEN, &
-            & NRTM, &
-            & NSNROLD, &
-            & IGAP, &
-            & GAP, &
-            & GAP_S, &
-            & GAP_M, &
-            & GAPMIN, &
-            & GAPMAX, &
-            & MARGE, &
-            & CURV_MAX, &
-            & BGAPSMX, &
-            & S_KREMNOD, &
-            & KREMNOD, &
-            & S_REMNOD, &
-            & REMNOD, &
-            & FLAGREMNODE, &
-            & DRAD, &
-            & ITIED, &
-            & CAND_F, &
-            & DGAPLOAD, &
-            & s_cand_a, &
-            & NUMNOD, &
-            & XREM, &
-            & SIZE(XREM, 1), &
-            & IREM, &
-            & SIZE(IREM, 1), &
-            & inter_struct%NEXT_NOD)
+          CALL INTER7_CANDIDATE_PAIRS( &
+          & NSN, &
+          & PREV_REMOTE_NUMBER, &
+          & NSNR, &
+          & S_PREV_REMOTE_NUMBER, &
+          & I_MEM, &
+          & IRECT, &
+          & X, &
+          & STF, &
+          & XYZM, &
+          & NSV, &
+          & II_STOK, &
+          & CAND_N, &
+          & ESHIFT, &
+          & CAND_E, &
+          & NCONTACT, &
+          & TZINF, &
+          & GAP_S_L, &
+          & GAP_M_L, &
+          & inter_struct%VOXEL, &
+          & inter_struct%NBX, &
+          & inter_struct%NBY, &
+          & inter_struct%NBZ, &
+          & INACTI, &
+          & IFQ, &
+          & CAND_A, &
+          & CAND_P, &
+          & IFPEN, &
+          & NRTM, &
+          & NSNROLD, &
+          & IGAP, &
+          & GAP, &
+          & GAP_S, &
+          & GAP_M, &
+          & GAPMIN, &
+          & GAPMAX, &
+          & MARGE, &
+          & CURV_MAX, &
+          & BGAPSMX, &
+          & S_KREMNOD, &
+          & KREMNOD, &
+          & S_REMNOD, &
+          & REMNOD, &
+          & FLAGREMNODE, &
+          & DRAD, &
+          & ITIED, &
+          & CAND_F, &
+          & DGAPLOAD, &
+          & s_cand_a, &
+          & NUMNOD, &
+          & XREM, &
+          & SIZE(XREM, 1), &
+          & IREM, &
+          & SIZE(IREM, 1), &
+          & inter_struct%NEXT_NOD)
 
           IF(ITASK==0)  THEN
 !           IF(ALLOCATED(inter_struct%NEXT_NOD)) DEALLOCATE(inter_struct%NEXT_NOD)

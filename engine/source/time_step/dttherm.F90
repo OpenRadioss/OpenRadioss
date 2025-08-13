@@ -35,7 +35,7 @@
 ! ======================================================================================================================
 !                           dttherm
 !! \brief calculates thermal time step
-!! \details 
+!! \details
 ! ======================================================================================================================
 !||====================================================================
 !||    dttherm          ../engine/source/time_step/dttherm.F90
@@ -51,9 +51,9 @@
 !||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
 !||    precision_mod    ../common_source/modules/precision_mod.F90
 !||====================================================================
-      subroutine dttherm(nel     ,pm      ,npropm  ,glob_therm,            &
-                         jtur    ,tempel  ,vol0    ,rho       ,            &
-                         lc      ,off     ,conde   ,re        ,rk      )
+        subroutine dttherm(nel     ,pm      ,npropm  ,glob_therm,            &
+          jtur    ,tempel  ,vol0    ,rho       ,            &
+          lc      ,off     ,conde   ,re        ,rk      )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                        Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -68,54 +68,54 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                       Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-      integer ,intent(in)        :: nel
-      integer ,intent(in)        :: npropm
-      integer ,intent(in)        :: jtur
-      real(kind=WP) ,dimension(nel)    :: tempel
-      real(kind=WP) ,dimension(nel)    :: lc
-      real(kind=WP) ,dimension(nel)    :: off
-      real(kind=WP) ,dimension(nel)    :: vol0
-      real(kind=WP) ,dimension(nel)    :: rho
-      real(kind=WP) ,dimension(nel)    :: rk
-      real(kind=WP) ,dimension(nel)    :: re
-      real(kind=WP) ,dimension(nel)    :: conde
-      real(kind=WP) ,dimension(npropm) :: pm
-      type (glob_therm_) ,intent(inout) :: glob_therm
+          integer ,intent(in)        :: nel
+          integer ,intent(in)        :: npropm
+          integer ,intent(in)        :: jtur
+          real(kind=WP) ,dimension(nel)    :: tempel
+          real(kind=WP) ,dimension(nel)    :: lc
+          real(kind=WP) ,dimension(nel)    :: off
+          real(kind=WP) ,dimension(nel)    :: vol0
+          real(kind=WP) ,dimension(nel)    :: rho
+          real(kind=WP) ,dimension(nel)    :: rk
+          real(kind=WP) ,dimension(nel)    :: re
+          real(kind=WP) ,dimension(nel)    :: conde
+          real(kind=WP) ,dimension(npropm) :: pm
+          type (glob_therm_) ,intent(inout) :: glob_therm
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   local variables 
+!                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-      integer :: i
-      real(kind=WP) :: rhocp,as,bs,al,bl,tmelt,akk,xmu,tmu,atu,dt,lc2,rpr
+          integer :: i
+          real(kind=WP) :: rhocp,as,bs,al,bl,tmelt,akk,xmu,tmu,atu,dt,lc2,rpr
 ! ======================================================================================================================
-      rhocp = pm(69)
-      as    = pm(75)
-      bs    = pm(76)
-      al    = pm(77)
-      bl    = pm(78)
-      tmelt = pm(80)
+          rhocp = pm(69)
+          as    = pm(75)
+          bs    = pm(76)
+          al    = pm(77)
+          bl    = pm(78)
+          tmelt = pm(80)
 !
-      do i=1,nel
-        if (tempel(i) < tmelt) then
-          akk = as + bs*tempel(i)
-        else
-          akk = al + bl*tempel(i)
-        endif
-        if (jtur /= 0) then
-          xmu = pm(24)*rho(i)
-          tmu = pm(81)
-          rpr = pm(95)
-          atu = rpr*tmu*rk(i)*rk(i) / (max(em15,re(I)*vol0(I))*xmu)
-          akk = akk*(one+atu)
-        endif
-        akk = akk*glob_therm%theaccfact
-        lc2 = lc(i)*lc(i)
-        dt  = glob_therm%dtfactherm * half*lc2*rhocp/max(akk,em20)
-        if (dt < glob_therm%dt_therm)  glob_therm%dt_therm = dt
-        conde(i) = four*vol0(i)*akk/lc2  
-        conde(i) = conde(i)*off(i)
-      enddo
+          do i=1,nel
+            if (tempel(i) < tmelt) then
+              akk = as + bs*tempel(i)
+            else
+              akk = al + bl*tempel(i)
+            endif
+            if (jtur /= 0) then
+              xmu = pm(24)*rho(i)
+              tmu = pm(81)
+              rpr = pm(95)
+              atu = rpr*tmu*rk(i)*rk(i) / (max(em15,re(I)*vol0(I))*xmu)
+              akk = akk*(one+atu)
+            endif
+            akk = akk*glob_therm%theaccfact
+            lc2 = lc(i)*lc(i)
+            dt  = glob_therm%dtfactherm * half*lc2*rhocp/max(akk,em20)
+            if (dt < glob_therm%dt_therm)  glob_therm%dt_therm = dt
+            conde(i) = four*vol0(i)*akk/lc2
+            conde(i) = conde(i)*off(i)
+          enddo
 ! ----------------------------------------------------------------------------------------------------------------------
-      return
-      end subroutine dttherm
+          return
+        end subroutine dttherm
 ! ----------------------------------------------------------------------------------------------------------------------
       end module dttherm_mod

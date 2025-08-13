@@ -60,13 +60,13 @@
 
 
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   arguments 
+!                                                   arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           type (fail_brokmann_) ,intent(inout) :: fail_brokmann !< brokmann model structure
           integer ,intent(in)                  :: numelc        !< total number of 4n shell elements
           integer ,intent(in)                  :: numeltg       !< total number of 3n shell elements
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   local variables 
+!                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i,ifail,idebug
           integer :: iel,iel_old,nix,id,nelem

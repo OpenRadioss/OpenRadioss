@@ -235,36 +235,36 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
-      use timer_mod
-      use constant_mod
-      use table_mod
-      use mat_elem_mod
-      use ale_connectivity_mod
-      use message_mod
-      use nlocal_reg_mod
-      use sigeps50s_mod
-      use sigeps81_mod
-      use sigeps100_mod
-      use sigeps125_mod
-      use sigeps126_mod
-      use sigeps127_mod
-      use sigeps128s_mod
-      use sigeps129s_mod
-      use sigeps133_mod , only : sigeps133
-      use sigeps134s_mod
-      use sigeps163_mod
-      use fail_spalling_s_mod
-      use fail_lemaitre_s_mod
-      use fail_composite_s_mod
-      use prop_param_mod
-      use dt_mod
-      use glob_therm_mod
-      use sigeps51_mod , only : sigeps51
-      use output_mod , only : wfext
-      use matparam_def_mod
-      use fail_param_mod
-      use precision_mod, only : WP
-      use sensor_mod
+          use timer_mod
+          use constant_mod
+          use table_mod
+          use mat_elem_mod
+          use ale_connectivity_mod
+          use message_mod
+          use nlocal_reg_mod
+          use sigeps50s_mod
+          use sigeps81_mod
+          use sigeps100_mod
+          use sigeps125_mod
+          use sigeps126_mod
+          use sigeps127_mod
+          use sigeps128s_mod
+          use sigeps129s_mod
+          use sigeps133_mod , only : sigeps133
+          use sigeps134s_mod
+          use sigeps163_mod
+          use fail_spalling_s_mod
+          use fail_lemaitre_s_mod
+          use fail_composite_s_mod
+          use prop_param_mod
+          use dt_mod
+          use glob_therm_mod
+          use sigeps51_mod , only : sigeps51
+          use output_mod , only : wfext
+          use matparam_def_mod
+          use fail_param_mod
+          use precision_mod, only : WP
+          use sensor_mod
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -635,7 +635,7 @@
           endif
 !
           !< Save old equivalent stress value
-          if (elbuf_tab(ng)%bufly(ilay)%l_seq > 0) then 
+          if (elbuf_tab(ng)%bufly(ilay)%l_seq > 0) then
             seq0(1:nel) = lbuf%seq(1:nel)
           endif
 !
@@ -677,14 +677,14 @@
             s6(1:mvsiz) = zero
           endif
           if (matparam%ivisc == 3) then
-              do i=1,nel
-                svo1(i) = svisc(i,1)
-                svo2(i) = svisc(i,2)
-                svo3(i) = svisc(i,3)
-                svo4(i) = svisc(i,4)
-                svo5(i) = svisc(i,5)
-                svo6(i) = svisc(i,6)
-              enddo 
+            do i=1,nel
+              svo1(i) = svisc(i,1)
+              svo2(i) = svisc(i,2)
+              svo3(i) = svisc(i,3)
+              svo4(i) = svisc(i,4)
+              svo5(i) = svisc(i,5)
+              svo6(i) = svisc(i,6)
+            enddo
           endif
           if (jcvt > 0) then
 !---------------------------
@@ -707,7 +707,7 @@
               wyy(i)=zero
               wzz(i)=zero
             enddo
-!             
+!
           elseif ( mtn==68 ) then
 !---------------------------
 ! global nonsymmetric orthotropic tensor
@@ -805,10 +805,10 @@
               wzz(i)=zero
             enddo
             if (matparam%ivisc == 3) then
-                call mrotens(1,nel,svo1,svo2,svo3,svo4,svo5,svo6,&
-            &r11,r12,r13,&
-            &r21,r22,r23,&
-            &r31,r32,r33)
+              call mrotens(1,nel,svo1,svo2,svo3,svo4,svo5,svo6,&
+              &r11,r12,r13,&
+              &r21,r22,r23,&
+              &r31,r32,r33)
             endif
           else
 !---------------------------
@@ -1247,13 +1247,13 @@
 !
           elseif (mtn == 50) then
             call sigeps50s(mat_elem%mat_param(imat),                  &
-                 nel    ,dt1    ,nuvar  ,nvartmp,uvar  ,vartmp,       &
-                 rho    ,ssp    ,off    ,amu    ,defp  ,epsd  ,       &
-                 ep1    ,ep2    ,ep3    ,ep4    ,ep5   ,ep6   ,       &
-                 de1    ,de2    ,de3    ,de4    ,de5   ,de6   ,       &
-                 es1    ,es2    ,es3    ,es4    ,es5   ,es6   ,       &
-                 so1    ,so2    ,so3    ,so4    ,so5   ,so6   ,       &
-                 s1     ,s2     ,s3     ,s4     ,s5    ,s6    )
+              nel    ,dt1    ,nuvar  ,nvartmp,uvar  ,vartmp,       &
+              rho    ,ssp    ,off    ,amu    ,defp  ,epsd  ,       &
+              ep1    ,ep2    ,ep3    ,ep4    ,ep5   ,ep6   ,       &
+              de1    ,de2    ,de3    ,de4    ,de5   ,de6   ,       &
+              es1    ,es2    ,es3    ,es4    ,es5   ,es6   ,       &
+              so1    ,so2    ,so3    ,so4    ,so5   ,so6   ,       &
+              s1     ,s2     ,s3     ,s4     ,s5    ,s6    )
 !
           elseif (mtn == 51) then
             if (n2d == 0) then
@@ -1466,15 +1466,15 @@
 !
           elseif (mtn == 71) then
             call sigeps71(nel ,npar,nuvar,tt,dt1,uparam0,  &
-                 rho0,rho ,voln,eint ,                     &
-                 ep1 ,ep2 ,ep3 ,ep4  ,ep5  ,ep6 ,          &
-                 de1 ,de2 ,de3 ,de4  ,de5  ,de6 ,          &
-                 es1 ,es2 ,es3 ,es4  ,es5  ,es6 ,          &
-                 so1 ,so2 ,so3 ,so4  ,so5  ,so6 ,          &
-                 s1  ,s2  ,s3  ,s4   ,s5   ,s6  ,          &
-                 sv1 ,sv2 ,sv3 ,sv4  ,sv5  ,sv6 ,          &
-                 ssp ,vis ,uvar,off  ,ngl  ,ipm ,          &
-                 mat ,jthe,el_temp,ismstr ,et  )
+              rho0,rho ,voln,eint ,                     &
+              ep1 ,ep2 ,ep3 ,ep4  ,ep5  ,ep6 ,          &
+              de1 ,de2 ,de3 ,de4  ,de5  ,de6 ,          &
+              es1 ,es2 ,es3 ,es4  ,es5  ,es6 ,          &
+              so1 ,so2 ,so3 ,so4  ,so5  ,so6 ,          &
+              s1  ,s2  ,s3  ,s4   ,s5   ,s6  ,          &
+              sv1 ,sv2 ,sv3 ,sv4  ,sv5  ,sv6 ,          &
+              ssp ,vis ,uvar,off  ,ngl  ,ipm ,          &
+              mat ,jthe,el_temp,ismstr ,et  )
 !
           elseif (mtn == 72) then
             call sigeps72(nel      ,npar     ,nuvar    ,&
@@ -1620,20 +1620,20 @@
 !
           elseif (mtn == 84) then
             call sigeps84(                          &
-             nel,     npar,    nuvar, jlag ,        &
-             tt,      dt1,     uparam0,  rho0, rho, &
-             voln,    eint,    el_temp,  jthe,      &
-             ep1,     ep2,     ep3,     ep4,        & 
-             ep5,     ep6,     de1,     de2,        & 
-             de3,     de4,     de5,     de6,        & 
-             es1,     es2,     es3,     es4,        & 
-             es5,     es6,     so1,     so2,        & 
-             so3,     so4,     so5,     so6,        & 
-             s1,      s2,      s3,      s4,         & 
-             s5,      s6,      sv1,     sv2,        & 
-             sv3,     sv4,     sv5,     sv6,        & 
-             ssp,     vis,     uvar,    off,        & 
-             sigy,    defp,    dpla,    et ,  fheat )
+              nel,     npar,    nuvar, jlag ,        &
+              tt,      dt1,     uparam0,  rho0, rho, &
+              voln,    eint,    el_temp,  jthe,      &
+              ep1,     ep2,     ep3,     ep4,        &
+              ep5,     ep6,     de1,     de2,        &
+              de3,     de4,     de5,     de6,        &
+              es1,     es2,     es3,     es4,        &
+              es5,     es6,     so1,     so2,        &
+              so3,     so4,     so5,     so6,        &
+              s1,      s2,      s3,      s4,         &
+              s5,      s6,      sv1,     sv2,        &
+              sv3,     sv4,     sv5,     sv6,        &
+              ssp,     vis,     uvar,    off,        &
+              sigy,    defp,    dpla,    et ,  fheat )
 !
           elseif (mtn == 88) then
             call sigeps88(nel ,npar,nuvar,nfunc,ifunc,&
@@ -1818,19 +1818,19 @@
             &upsxz  )
 !
             call sigeps101(nel ,npar,nuvar,nfunc,ifunc,&
-                 npf ,tf  ,tt,dt1,uparam0,&
-                 rho0,rho ,voln,eint,ngl,&
-                 de1 ,de2 ,de3 ,de4  ,de5  ,de6 ,&
-                 es1 ,es2 ,es3 ,es4  ,es5  ,es6 ,&
-                 so1 ,so2 ,so3 ,so4  ,so5  ,so6 ,&
-                 s1  ,s2  ,s3  ,s4   ,s5   ,s6  ,&
-                 sv1 ,sv2 ,sv3 ,sv4  ,sv5  ,sv6 ,&
-                 ssp ,vis ,uvar,off  ,ismstr,et ,&
-                 ihet,gbuf%off ,epsth,iexpan,el_temp,&
-                 fpsxx    , fpsxy  , fpsxz  , fpsyx  ,&
-                 fpsyy  ,fpsyz    , fpszx  , fpszy  , fpszz  ,&
-                 upsxx  ,upsyy    , upszz  , upsxy  , upsyz  ,&
-                 upsxz  )
+              npf ,tf  ,tt,dt1,uparam0,&
+              rho0,rho ,voln,eint,ngl,&
+              de1 ,de2 ,de3 ,de4  ,de5  ,de6 ,&
+              es1 ,es2 ,es3 ,es4  ,es5  ,es6 ,&
+              so1 ,so2 ,so3 ,so4  ,so5  ,so6 ,&
+              s1  ,s2  ,s3  ,s4   ,s5   ,s6  ,&
+              sv1 ,sv2 ,sv3 ,sv4  ,sv5  ,sv6 ,&
+              ssp ,vis ,uvar,off  ,ismstr,et ,&
+              ihet,gbuf%off ,epsth,iexpan,el_temp,&
+              fpsxx    , fpsxy  , fpsxz  , fpsyx  ,&
+              fpsyy  ,fpsyz    , fpszx  , fpszy  , fpszz  ,&
+              upsxx  ,upsyy    , upszz  , upsxy  , upsyz  ,&
+              upsxz  )
 !
           elseif (mtn == 102) then
 
@@ -1845,29 +1845,29 @@
           elseif (mtn == 103) then
             idev = 1
             call mstrain_rate(nel    ,israte ,asrate ,epsd   ,idev   ,&
-                              ep1    ,ep2    ,ep3    ,ep4    ,ep5    ,ep6)
+              ep1    ,ep2    ,ep3    ,ep4    ,ep5    ,ep6)
 !
             call sigeps103(                                                &
-                 nel     ,npar    ,nuvar   ,tt      ,uparam0 ,uvar    ,    &
-                 rho0    ,rho     ,voln    ,eint    ,epsd    ,el_temp ,    &
-                 de1     ,de2     ,de3     ,de4     ,de5     ,de6     ,    &
-                 es1     ,es2     ,es3     ,es4     ,es5     ,es6     ,    &
-                 so1     ,so2     ,so3     ,so4     ,so5     ,so6     ,    &
-                 s1      ,s2      ,s3      ,s4      ,s5      ,s6      ,    &
-                 sv1     ,sv2     ,sv3     ,sv4     ,sv5     ,sv6     ,    &
-                 ssp     ,off     ,dpdm    ,lbuf%pla,jthe    )
+              nel     ,npar    ,nuvar   ,tt      ,uparam0 ,uvar    ,    &
+              rho0    ,rho     ,voln    ,eint    ,epsd    ,el_temp ,    &
+              de1     ,de2     ,de3     ,de4     ,de5     ,de6     ,    &
+              es1     ,es2     ,es3     ,es4     ,es5     ,es6     ,    &
+              so1     ,so2     ,so3     ,so4     ,so5     ,so6     ,    &
+              s1      ,s2      ,s3      ,s4      ,s5      ,s6      ,    &
+              sv1     ,sv2     ,sv3     ,sv4     ,sv5     ,sv6     ,    &
+              ssp     ,off     ,dpdm    ,lbuf%pla,jthe    )
 !
           elseif (mtn == 104) then
 !
             call sigeps104(nel    ,ngl    ,npar   ,nuvar  ,npg    ,gbuf%uelr,&
-                           tt     ,dt1    ,uparam0,uvar   ,jthe   ,lbuf%off, &
-                           rho0   ,rho    ,defp   ,dpla   ,epsd   ,ssp    ,  &
-                           de1    ,de2    ,de3    ,de4    ,de5    ,de6    ,  &
-                           so1    ,so2    ,so3    ,so4    ,so5    ,so6    ,  &
-                           s1     ,s2     ,s3     ,s4     ,s5     ,s6     ,  &
-                           sigy   ,et     ,el_temp,varnl  ,off    ,ipg    ,  &
-                           lbuf%dmg,l_dmg ,lbuf%planl,l_planl,lbuf%epsdnl,l_epsdnl,&
-                           lbuf%seq,inloc ,jlag   ,fheat  ,voln )
+              tt     ,dt1    ,uparam0,uvar   ,jthe   ,lbuf%off, &
+              rho0   ,rho    ,defp   ,dpla   ,epsd   ,ssp    ,  &
+              de1    ,de2    ,de3    ,de4    ,de5    ,de6    ,  &
+              so1    ,so2    ,so3    ,so4    ,so5    ,so6    ,  &
+              s1     ,s2     ,s3     ,s4     ,s5     ,s6     ,  &
+              sigy   ,et     ,el_temp,varnl  ,off    ,ipg    ,  &
+              lbuf%dmg,l_dmg ,lbuf%planl,l_planl,lbuf%epsdnl,l_epsdnl,&
+              lbuf%seq,inloc ,jlag   ,fheat  ,voln )
 !
           elseif (mtn == 105) then
             call sigeps105(nel       ,npar   ,nuvar    ,nfunc      ,ifunc           ,lbuf%tb   ,&
@@ -1892,15 +1892,15 @@
             &ep1    ,ep2    ,ep3    ,ep4    ,ep5    ,ep6)
 !
             call sigeps106(nel    ,npar     ,nuvar  ,nfunc  , ifunc,   &
-                 npf    ,tf       ,tt     ,dt1    , uparam0,           &
-                 rho0   ,rho      ,voln   ,eint   ,                    &
-                 de1    ,de2      ,de3    ,de4    ,de5       ,de6  ,   &
-                 es1    ,es2      ,es3    ,es4    ,es5       ,es6  ,   &
-                 so1    ,so2      ,so3    ,so4    ,so5       ,so6  ,   &
-                 s1     ,s2       ,s3     ,s4     ,s5        ,s6   ,   &
-                 sv1    ,sv2      ,sv3    ,sv4    ,sv5       ,sv6  ,   &
-                 ssp    ,vis      ,uvar   ,off    ,lbuf%pla  ,dpla ,   &
-                 epsd   ,el_temp  ,jthe   ,jlag   ,fheat     )
+              npf    ,tf       ,tt     ,dt1    , uparam0,           &
+              rho0   ,rho      ,voln   ,eint   ,                    &
+              de1    ,de2      ,de3    ,de4    ,de5       ,de6  ,   &
+              es1    ,es2      ,es3    ,es4    ,es5       ,es6  ,   &
+              so1    ,so2      ,so3    ,so4    ,so5       ,so6  ,   &
+              s1     ,s2       ,s3     ,s4     ,s5        ,s6   ,   &
+              sv1    ,sv2      ,sv3    ,sv4    ,sv5       ,sv6  ,   &
+              ssp    ,vis      ,uvar   ,off    ,lbuf%pla  ,dpla ,   &
+              epsd   ,el_temp  ,jthe   ,jlag   ,fheat     )
 !
           elseif (mtn == 107) then
 !
@@ -2013,7 +2013,7 @@
             &s1     ,s2     ,s3     ,s4     ,s5     ,s6     ,&
             &sigy   ,et     ,lbuf%dmg,deltax)
 !
-          elseif (mtn == 125) then 
+          elseif (mtn == 125) then
             call sigeps125(&
             &nel      ,nuvar    ,uvar     ,matparam                     ,&
             &rho0                                                       ,&
@@ -2034,7 +2034,7 @@
             &epsd     ,lbuf%dmg ,ssp      ,off      ,inloc    ,          &
             &varnl    ,l_planl  ,lbuf%planl)
 !
-          elseif (mtn == 127) then 
+          elseif (mtn == 127) then
             call sigeps127(&
             &nel      ,nuvar    ,uvar     ,matparam ,rho0 , tt          ,&
             &nfunc    ,ifunc    ,snpc     ,npf      ,stf      ,tf       ,&
@@ -2043,43 +2043,43 @@
             &so1      ,so2      ,so3      ,so4      ,so5      ,so6      ,&
             &s1       ,s2       ,s3       ,s4       ,s5       ,s6       ,&
             &epsd     ,off      ,ssp      ,lbuf%dmg ,ngl )
-!            
+!
           elseif (mtn == 128) then
             call sigeps128s(mat_elem%mat_param(imat)    ,                      &
-                 nel      ,nuvar    ,nvartmp  ,uvar     ,vartmp   ,dt1      ,  &
-                 de1      ,de2      ,de3      ,de4      ,de5      ,de6      ,  &
-                 so1      ,so2      ,so3      ,so4      ,so5      ,so6      ,  &
-                 s1       ,s2       ,s3       ,s4       ,s5       ,s6       ,  &
-                 lbuf%seq ,sigy     ,et       ,defp     ,dpla     ,epsd     ,  &
-                 ssp      ,off      ,l_sigb   ,lbuf%sigb)
-!            
+              nel      ,nuvar    ,nvartmp  ,uvar     ,vartmp   ,dt1      ,  &
+              de1      ,de2      ,de3      ,de4      ,de5      ,de6      ,  &
+              so1      ,so2      ,so3      ,so4      ,so5      ,so6      ,  &
+              s1       ,s2       ,s3       ,s4       ,s5       ,s6       ,  &
+              lbuf%seq ,sigy     ,et       ,defp     ,dpla     ,epsd     ,  &
+              ssp      ,off      ,l_sigb   ,lbuf%sigb)
+!
           elseif (mtn == 129) then
             call sigeps129s(mat_elem%mat_param(imat)    ,                      &
-                 nel      ,nuvar    ,nvartmp  ,uvar     ,vartmp   ,dt1      ,  &
-                 de1      ,de2      ,de3      ,de4      ,de5      ,de6      ,  &
-                 so1      ,so2      ,so3      ,so4      ,so5      ,so6      ,  &
-                 s1       ,s2       ,s3       ,s4       ,s5       ,s6       ,  &
-                 sigy     ,et       ,defp     ,dpla     ,epsd     ,ssp      ,  &
-                 lbuf%temp,el_temp  ,off      ,tt       ,iexpan   ,amu      ,  &
-                 sensors  )
+              nel      ,nuvar    ,nvartmp  ,uvar     ,vartmp   ,dt1      ,  &
+              de1      ,de2      ,de3      ,de4      ,de5      ,de6      ,  &
+              so1      ,so2      ,so3      ,so4      ,so5      ,so6      ,  &
+              s1       ,s2       ,s3       ,s4       ,s5       ,s6       ,  &
+              sigy     ,et       ,defp     ,dpla     ,epsd     ,ssp      ,  &
+              lbuf%temp,el_temp  ,off      ,tt       ,iexpan   ,amu      ,  &
+              sensors  )
 !
           elseif (mtn == 133) then
             call sigeps133( &
-                 nel  ,matparam ,et     ,&
-                 sigy ,dpla     ,defp   ,&
-                 de1  ,de2      ,de3    ,de4      ,de5   ,de6  ,&
-                 so1  ,so2      ,so3    ,so4      ,so5   ,so6  ,&
-                 s1   ,s2       ,s3     ,s4       ,s5    ,s6   ,&
-                 ssp  ,pnew     , &
-                 dpdm ,rho      ,rho0   , nvartmp ,vartmp )
+              nel  ,matparam ,et     ,&
+              sigy ,dpla     ,defp   ,&
+              de1  ,de2      ,de3    ,de4      ,de5   ,de6  ,&
+              so1  ,so2      ,so3    ,so4      ,so5   ,so6  ,&
+              s1   ,s2       ,s3     ,s4       ,s5    ,s6   ,&
+              ssp  ,pnew     , &
+              dpdm ,rho      ,rho0   , nvartmp ,vartmp )
 !
           elseif (mtn == 134) then
             call sigeps134s(mat_elem%mat_param(imat)    ,                      &
-                 &nel      ,nuvar    ,uvar     , rho     , dt1               ,  &
-                 &de1      ,de2      ,de3      ,de4      ,de5      ,de6      ,  &
-                 &so1      ,so2      ,so3      ,so4      ,so5      ,so6      ,  &
-                 &s1       ,s2       ,s3       ,s4       ,s5       ,s6       ,  &
-                 &ssp      ,off      )
+            &nel      ,nuvar    ,uvar     , rho     , dt1               ,  &
+            &de1      ,de2      ,de3      ,de4      ,de5      ,de6      ,  &
+            &so1      ,so2      ,so3      ,so4      ,so5      ,so6      ,  &
+            &s1       ,s2       ,s3       ,s4       ,s5       ,s6       ,  &
+            &ssp      ,off      )
 !
           elseif (mtn == 163) then
             call sigeps163(                                                    &
@@ -2106,7 +2106,7 @@
             &ssp   ,vis   ,uvar  ,off   ,sigy  ,defp  ,&
             &dpla  ,et    ,ipm   ,mat   ,israte,&
             &yldfac,epsp  )
-! 
+!
           elseif (mtn == 190) then !path dependent foam (dubois)
             call sigeps190(nel   ,nuvar ,rho0  ,et    ,&
             &ep1   ,ep2   ,ep3   ,ep4   ,ep5   ,ep6   ,&
@@ -2120,39 +2120,39 @@
 !
 !------------------------------------------------------------
 !     Calculation of the Plastic Work
-!------------------------------------------------------------   
-          if (elbuf_tab(ng)%bufly(ilay)%l_pla > 0) then 
+!------------------------------------------------------------
+          if (elbuf_tab(ng)%bufly(ilay)%l_pla > 0) then
             !< Reset plastic work in case of fully integrated element
-            if ((npg > 1) .and. (ipg == 1)) then 
+            if ((npg > 1) .and. (ipg == 1)) then
               do i = 1,nel
                 gbuf%wpla(i) = zero
               enddo
-            endif 
+            endif
             !< Case where equivalent stress is computed in the material law
             if (elbuf_tab(ng)%bufly(ilay)%l_seq > 0) then
-              do i = 1,nel 
+              do i = 1,nel
                 dpla(i) = defp(i) - defp0(i)
                 lbuf%wpla(i) = lbuf%wpla(i) +                        &
-                    half*(seq0(i)+lbuf%seq(i))*dpla(i)*voln(i)
+                  half*(seq0(i)+lbuf%seq(i))*dpla(i)*voln(i)
               enddo
-            !< Default case using Von Mises stress
+              !< Default case using Von Mises stress
             else
               do i = 1,nel
                 dpla(i) = defp(i) - defp0(i)
                 vm0(i)= sqrt(half*(                                  &
-                       (so1(i)-so2(i))**2  + (so2(i)-so3(i))**2  +   &
-                       (so3(i)-so1(i))**2) + three*(so4(i)**2    +   &
-                               so5(i)**2   + so6(i)**2))
+                  (so1(i)-so2(i))**2  + (so2(i)-so3(i))**2  +   &
+                  (so3(i)-so1(i))**2) + three*(so4(i)**2    +   &
+                  so5(i)**2   + so6(i)**2))
                 vm (i)= sqrt(half*(                                  &
-                       (s1(i)-s2(i))**2  + (s2(i)-s3(i))**2      +   &
-                       (s3(i)-s1(i))**2) + three*(s4(i)**2       +   &
-                                s5(i)**2 +    s6(i)**2))                  
+                  (s1(i)-s2(i))**2  + (s2(i)-s3(i))**2      +   &
+                  (s3(i)-s1(i))**2) + three*(s4(i)**2       +   &
+                  s5(i)**2 +    s6(i)**2))
                 lbuf%wpla(i) = lbuf%wpla(i) +                        &
-                         half*(vm0(i)+vm(i))*dpla(i)*voln(i)
+                  half*(vm0(i)+vm(i))*dpla(i)*voln(i)
               enddo
             endif
           endif
-!          
+!
 !=======================================================================
 !                  failure model
 !=======================================================================
@@ -2577,10 +2577,10 @@
               elseif (irupt == 51) then
 !---- Composite failure model
                 call fail_composite_s(&
-                &nel      ,failparam,nvarf    ,uvarf    ,tt       ,ngl      ,& 
-                &ipg      ,ilay     ,npg      ,tdel     ,off      ,lbuf%off ,&             
+                &nel      ,failparam,nvarf    ,uvarf    ,tt       ,ngl      ,&
+                &ipg      ,ilay     ,npg      ,tdel     ,off      ,lbuf%off ,&
                 &s1       ,s2       ,s3       ,s4       ,s5       ,s6       ,&
-                &lbuf%dmgscl,lf_dammx,dfmax   ,gbuf%noff)  
+                &lbuf%dmgscl,lf_dammx,dfmax   ,gbuf%noff)
 !
               endif
             enddo ! ir = 1,nfail
@@ -2589,13 +2589,13 @@
 !----------------------------------
 !     viscous stress (/visc models + damping frequency range)
 !----------------------------------
-          
+
           if (matparam%ivisc == 1 .or.&
           &  (matparam%ivisc == 2 .and. (ismstr == 10 .or. ismstr == 12)).or.&
           &  (idamp_freq_range > 0).or. matparam%ivisc == 3) then
 
 
-!            
+!
             call viscmain(matparam%visc    ,nel     ,&
             &nvarvis ,vbuf%var,rho0    ,vis     ,ssp     ,dt1     ,&
             &ep1     ,ep2     ,ep3     ,ep4     ,ep5     ,ep6     ,&
@@ -2624,11 +2624,11 @@
 !     Shooting nodes algorithm activation
 !--------------------------------------------------------
           do i = 1,nel
-            if ((off_old(i) > zero) .and. (off(i) == zero)) then 
+            if ((off_old(i) > zero) .and. (off(i) == zero)) then
               idel7nok = 1
             endif
-          enddo 
-!          
+          enddo
+!
 !--------------------------------------------------------
 !     damaged stresses
 !---------------------------------------------------------
@@ -2777,14 +2777,14 @@
             svis(i,6)= sv6(i)*off(i)
           enddo
           if (matparam%ivisc > 0 ) then
-              do i=1,nel
-                 lbuf%visc(nel*(1-1) + i) = svis(i,1)
-                 lbuf%visc(nel*(2-1) + i) = svis(i,2)
-                 lbuf%visc(nel*(3-1) + i) = svis(i,3)
-                 lbuf%visc(nel*(4-1) + i) = svis(i,4)
-                 lbuf%visc(nel*(5-1) + i) = svis(i,5)
-                 lbuf%visc(nel*(6-1) + i) = svis(i,6)
-              enddo
+            do i=1,nel
+              lbuf%visc(nel*(1-1) + i) = svis(i,1)
+              lbuf%visc(nel*(2-1) + i) = svis(i,2)
+              lbuf%visc(nel*(3-1) + i) = svis(i,3)
+              lbuf%visc(nel*(4-1) + i) = svis(i,4)
+              lbuf%visc(nel*(5-1) + i) = svis(i,5)
+              lbuf%visc(nel*(6-1) + i) = svis(i,6)
+            enddo
           endif
 !
 !  isvis for outp

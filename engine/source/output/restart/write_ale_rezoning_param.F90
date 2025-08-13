@@ -42,44 +42,44 @@
 !||--- uses       -----------------------------------------------------
 !||    ale_mod                    ../common_source/modules/ale/ale_mod.F
 !||====================================================================
-      subroutine write_ale_rezoning_param(rezon)
+        subroutine write_ale_rezoning_param(rezon)
 ! --------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! --------------------------------------------------------------------------------------------------
-      use ale_mod , only : ale_rezon_
+          use ale_mod , only : ale_rezon_
 ! --------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! --------------------------------------------------------------------------------------------------
-      implicit none
+          implicit none
 ! --------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! --------------------------------------------------------------------------------------------------
 ! --------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! --------------------------------------------------------------------------------------------------
-      type(ale_rezon_) ,intent(in)    :: rezon
+          type(ale_rezon_) ,intent(in)    :: rezon
 ! --------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! --------------------------------------------------------------------------------------------------
-      integer :: iad,ifix
-      integer ,dimension(:) ,allocatable :: ibuf
+          integer :: iad,ifix
+          integer ,dimension(:) ,allocatable :: ibuf
 ! --------------------------------------------------------------------------------------------------
 !                                                   Body
 ! --------------------------------------------------------------------------------------------------
-      ! write integer parameters
-      ifix = 2
-      allocate (ibuf(ifix))
+          ! write integer parameters
+          ifix = 2
+          allocate (ibuf(ifix))
 !
-      iad = 1
-        ibuf(iad) = rezon%num_nuvar_mat
-      iad = iad+1
-        ibuf(iad) = rezon%num_nuvar_eos
+          iad = 1
+          ibuf(iad) = rezon%num_nuvar_mat
+          iad = iad+1
+          ibuf(iad) = rezon%num_nuvar_eos
 !
-      call write_i_c(ibuf,ifix)
-      deallocate(ibuf)
+          call write_i_c(ibuf,ifix)
+          deallocate(ibuf)
 
 !-----------
-      return
-      end subroutine write_ale_rezoning_param
+          return
+        end subroutine write_ale_rezoning_param
 
       end module write_ale_rezoning_param_mod

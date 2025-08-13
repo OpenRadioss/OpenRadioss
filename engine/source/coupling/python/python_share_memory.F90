@@ -52,7 +52,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           use iso_c_binding, only : c_char, c_null_char, c_loc
           use nodal_arrays_mod
-          use python_funct_mod 
+          use python_funct_mod
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Implicit None
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -130,7 +130,7 @@
           if(numelr > 0)  call python_expose_ints(py, "IXR", 3, c_loc(ixr), numelr*nixr)
           if(numelq > 0)  call python_expose_ints(py, "IXQ", 3, c_loc(ixq), numelq*nixq)
           if(ngroup > 0)  call python_expose_ints(py, "IPARG", 5, c_loc(iparg), ngroup*nparg)
-            
+
         end subroutine python_share_memory
 
       end module python_share_memory_mod

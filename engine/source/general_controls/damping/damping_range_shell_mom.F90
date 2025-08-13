@@ -45,9 +45,9 @@
 !||    precision_mod             ../common_source/modules/precision_mod.F90
 !||====================================================================
         subroutine damping_range_shell_mom(damp_buf,nel      ,nuvarv  ,timestep ,dtinv   ,       &
-                                           young   ,shear_mod,depbxx  ,depbyy   ,depbxy   ,       &
-                                           momnxx  ,momnyy   ,momnxy  ,thk0     ,uvarv    ,       &
-                                           off     ,etse)
+          young   ,shear_mod,depbxx  ,depbyy   ,depbxy   ,       &
+          momnxx  ,momnyy   ,momnxy  ,thk0     ,uvarv    ,       &
+          off     ,etse)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -66,14 +66,14 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           integer,                                   intent(in)    :: nel     !< number of elements
           integer,                                   intent(in)    :: nuvarv  !< number of variables in buf_visc
-          real(kind=WP),                             intent(in)    :: dtinv       
+          real(kind=WP),                             intent(in)    :: dtinv
           real(kind=WP), dimension(nel,nuvarv) ,           intent(inout) :: uvarv                    !< buffer for viscous variables
           real(kind=WP),                                   intent(in)    :: timestep                 !< time step
           real(kind=WP),                                   intent(in)    :: young                    !< young modulus
           real(kind=WP),                                   intent(in)    :: shear_mod                !< shear modulus
           real(kind=WP), dimension(nel) ,                  intent(in)    :: depbxx                   !< strain xx
           real(kind=WP), dimension(nel) ,                  intent(in)    :: depbyy                   !< strain yy
-          real(kind=WP), dimension(nel) ,                  intent(in)    :: depbxy                   !< strain xy          
+          real(kind=WP), dimension(nel) ,                  intent(in)    :: depbxy                   !< strain xy
           real(kind=WP), dimension(nel) ,                  intent(inout) :: momnxx                   !< damp stress xx
           real(kind=WP), dimension(nel) ,                  intent(inout) :: momnyy                   !< damp stress yy
           real(kind=WP), dimension(nel) ,                  intent(inout) :: momnxy                   !< damp stress xy
@@ -94,49 +94,49 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !
           offset = nuvarv - 16
-          offset2 = nuvarv - 4  
-!       
-          do j=1,3              
-!           tangent young modulus is used - bb multiplied by tangent coefficient for each element    
-            et(1:nel) = one + etse(1:nel)                    
-            gv(j)    = damp_buf%alpha(j)*shear_mod         
+          offset2 = nuvarv - 4
+!
+          do j=1,3
+!           tangent young modulus is used - bb multiplied by tangent coefficient for each element
+            et(1:nel) = one + etse(1:nel)
+            gv(j)    = damp_buf%alpha(j)*shear_mod
             beta(j)  = one/damp_buf%tau(j)
-            kv(j)    = damp_buf%alpha(j)*young             
+            kv(j)    = damp_buf%alpha(j)*young
             betak(j) = one/damp_buf%tau(j)
-            aa(j) =  exp(-beta(j)*timestep) 
-            bb(j) =  two*timestep*gv(j)*exp(-half*beta(j)*timestep)      
+            aa(j) =  exp(-beta(j)*timestep)
+            bb(j) =  two*timestep*gv(j)*exp(-half*beta(j)*timestep)
             aak(j) = exp(-betak(j)*timestep)
             bbk(j) = timestep*kv(j)*exp(-half*betak(j)*timestep)
-          enddo      
-!          
+          enddo
+!
           do i=1,nel
 !           epspzz(i) = -a1(i) + (third*a2(i)-a3(i))*(epspxx(i) + epspyy(i))
             a2(i) = zero
-            a3(i) = zero     
+            a3(i) = zero
             do j=1,3
 !             paramaters for computaion of epszz_dot (sigzz=0)
               a2(i)  = a2(i) +  bb(j)*et(i)
               a3(i)  = a3(i) +  bbk(j)*et(i)
-            enddo  
+            enddo
             fac = one/max(em20,two_third*a2(i) + a3(i))
             fac_nu(i) = fac*(third*a2(i)-a3(i))
           enddo
-!                
-          do i=1,nel 
+!
+          do i=1,nel
             epspbxx = depbxx(i)*dtinv
-            epspbyy = depbyy(i)*dtinv      
+            epspbyy = depbyy(i)*dtinv
             dav =  ((one+fac_nu(i))/three)*(epspbxx + epspbyy)
             epbxx = ((two-fac_nu(i))/three)*epspbxx - ((one+fac_nu(i))/three)*epspbyy
             epbyy = ((two-fac_nu(i))/three)*epspbyy - ((one+fac_nu(i))/three)*epspbxx
-            epbxy = depbxy(i)*dtinv   
-!  
-            do j= 1,3    
-              ii = offset + 4*(j-1)     
+            epbxy = depbxy(i)*dtinv
+!
+            do j= 1,3
+              ii = offset + 4*(j-1)
               h0(1) = uvarv(i,ii + 1)
               h0(2) = uvarv(i,ii + 2)
               h0(3) = uvarv(i,ii + 3)
               hp0   = uvarv(i,ii + 4)
-!                    
+!
               h(1,j) =    aa(j)*h0(1) + bb(j)*epbxx*et(i)
               h(2,j) =    aa(j)*h0(2) + bb(j)*epbyy*et(i)
               h(3,j) =    aa(j)*h0(3) + half*bb(j)*epbxy*et(i)
@@ -144,22 +144,22 @@
 !
               uvarv(i,ii + 1) = h(1,j)
               uvarv(i,ii + 2) = h(2,j)
-              uvarv(i,ii + 3) = h(3,j)           
-              uvarv(i,ii + 4) = hp(j)         
-            enddo 
-!     
+              uvarv(i,ii + 3) = h(3,j)
+              uvarv(i,ii + 4) = hp(j)
+            enddo
+!
 !        compute moment
 !
             s(1:3) = zero
             p = zero
-          
+
             do  j= 1,3
               s(1) = s(1) + h(1,j)
               s(2) = s(2) + h(2,j)
               s(3) = s(3) + h(3,j)
               p    = p    + hp(j)
             enddo
-!            
+!
 !           viscous stress increment in computed - incremental formulation(mulawglc)
             s_old(1) =  uvarv(i,offset2+1)
             s_old(2) =  uvarv(i,offset2+2)
@@ -171,12 +171,12 @@
             uvarv(i,offset2+3) = s(3)
             uvarv(i,offset2+4) = p
 !
-            thk08 = thk0(i)*one_over_12         
+            thk08 = thk0(i)*one_over_12
             momnxx(i) = momnxx(i)+thk08*(s(1)-s_old(1)-p+p_old)*off(i)
             momnyy(i) = momnyy(i)+thk08*(s(2)-s_old(2)-p+p_old)*off(i)
             momnxy(i) = momnxy(i)+thk08*(s(3)-s_old(3))*off(i)
-!            
-          enddo                                                  
+!
+          enddo
 !
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine damping_range_shell_mom

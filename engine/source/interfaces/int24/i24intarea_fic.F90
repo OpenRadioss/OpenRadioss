@@ -69,40 +69,40 @@
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: ie,ie1,ie2,ied,ns1,ns2,ip,is1,is2
-          integer :: ik1(4),ik2(4) 
+          integer :: ik1(4),ik2(4)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-         ik1 = (/1, 2, 3, 4/)
-         ik2 = (/2, 3, 4, 1/)
-         ie = -huge(ie)
-         ns1 = -huge(ns1)
-         ns2 = -huge(ns2)
-         if (ns >= 0) THEN
+          ik1 = (/1, 2, 3, 4/)
+          ik2 = (/2, 3, 4, 1/)
+          ie = -huge(ie)
+          ns1 = -huge(ns1)
+          ns2 = -huge(ns2)
+          if (ns >= 0) THEN
             ik1 = (/1, 2, 3, 4/)
             ik2 = (/2, 3, 4, 1/)
             ip = is2pt(ns)
             ie1 = is2se(1, ns)
             ie2 = is2se(2, ns)
             if (ie1 /= 0) then
-               ie = ie1
-               ied = irtse(5, ie)
-               ns1 = ik1(ied)
-               ns2 = ik2(ied)
-             else if (ie2 /= 0) then
-               ie = ie2
-               ied = irtse(5, ie)
-               ns1 = ik2(ied)
-               ns2 = ik1(ied)
-             else
-                print *, 'probleme EDGES,IE1,IE2=', ns, ie1, ie2
-             end if
-             is1 = irtse(ns1, ie)
-             is2 = irtse(ns2, ie)
+              ie = ie1
+              ied = irtse(5, ie)
+              ns1 = ik1(ied)
+              ns2 = ik2(ied)
+            else if (ie2 /= 0) then
+              ie = ie2
+              ied = irtse(5, ie)
+              ns1 = ik2(ied)
+              ns2 = ik1(ied)
+            else
+              print *, 'probleme EDGES,IE1,IE2=', ns, ie1, ie2
+            end if
+            is1 = irtse(ns1, ie)
+            is2 = irtse(ns2, ie)
 
-             arean_fic = half*(arean(is1)+arean(is2))
-           endif
-       return
+            arean_fic = half*(arean(is1)+arean(is2))
+          endif
+          return
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine i24intarea_fic
       end module i24intarea_fic_mod

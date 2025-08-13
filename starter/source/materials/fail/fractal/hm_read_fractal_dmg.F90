@@ -80,7 +80,7 @@
           type (submodel_data),intent(in) :: lsubmodel(nsubmod)  !< submodel table
           type (fail_param_)  ,intent(inout) :: fail             !< failure model data structure
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   local variables 
+!                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: n_rwalk,seed,debug
           integer :: grsh4n_1,grsh3n_1,grsh4n_2,grsh3n_2

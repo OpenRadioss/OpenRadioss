@@ -26,10 +26,10 @@
 !||    mulaw           ../engine/source/materials/mat_share/mulaw.F90
 !||====================================================================
       module sigeps163_mod
-        contains
+      contains
 ! ======================================================================================================================
 ! \brief Computation of stress tensor with /MAT/LAW163 (CRUSHABLE_FOAM) theory
-! \details Realise a stress scaling according to /MAT/LAW163 theory, using the tabulated 
+! \details Realise a stress scaling according to /MAT/LAW163 theory, using the tabulated
 !          yield stress and the volumetric strain rate. The volumetric strain rate is filtered
 !          and the change of volumetric strain rate is capped. The volumetric strain rate is
 !          computed according to the user choice (engineering or true strain rate).
@@ -62,17 +62,17 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                        Modules
 ! ----------------------------------------------------------------------------------------------------------------------
-          use matparam_def_mod 
-          use constant_mod      
+          use matparam_def_mod
+          use constant_mod
           use table_mat_vinterp_mod
           use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                 implicit none 
+!                                                 implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
-          implicit none 
+          implicit none
 #include  "units_c.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   arguments 
+!                                                   arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           integer, intent(in)                    :: nel        !< number of elements in the group
           integer, intent(in)                    :: nuvar      !< number of user variables
@@ -86,12 +86,12 @@
           integer, intent(in)                    :: nvartmp    !< number of temporary variables
           integer, dimension(nel,nvartmp), intent(inout) :: vartmp !< temporary variables
           integer, intent(in)                    :: mvsiz      !< maximum size of the arrays
-          real(kind=WP), dimension(nel), intent(in)    :: depsxx     !< strain increment xx 
+          real(kind=WP), dimension(nel), intent(in)    :: depsxx     !< strain increment xx
           real(kind=WP), dimension(nel), intent(in)    :: depsyy     !< strain increment yy
-          real(kind=WP), dimension(nel), intent(in)    :: depszz     !< strain increment zz 
-          real(kind=WP), dimension(nel), intent(in)    :: depsxy     !< strain increment xy 
-          real(kind=WP), dimension(nel), intent(in)    :: depsyz     !< strain increment yz 
-          real(kind=WP), dimension(nel), intent(in)    :: depszx     !< strain increment zx 
+          real(kind=WP), dimension(nel), intent(in)    :: depszz     !< strain increment zz
+          real(kind=WP), dimension(nel), intent(in)    :: depsxy     !< strain increment xy
+          real(kind=WP), dimension(nel), intent(in)    :: depsyz     !< strain increment yz
+          real(kind=WP), dimension(nel), intent(in)    :: depszx     !< strain increment zx
           real(kind=WP), dimension(nel), intent(in)    :: epsxx      !< strain xx
           real(kind=WP), dimension(nel), intent(in)    :: epsyy      !< strain yy
           real(kind=WP), dimension(nel), intent(in)    :: epszz      !< strain zz
@@ -104,18 +104,18 @@
           real(kind=WP), dimension(nel), intent(in)    :: epspxy     !< strain rate xy
           real(kind=WP), dimension(nel), intent(in)    :: epspyz     !< strain rate yz
           real(kind=WP), dimension(nel), intent(in)    :: epspzx     !< strain rate zx
-          real(kind=WP), dimension(nel), intent(in)    :: sigoxx     !< initial stress xx 
+          real(kind=WP), dimension(nel), intent(in)    :: sigoxx     !< initial stress xx
           real(kind=WP), dimension(nel), intent(in)    :: sigoyy     !< initial stress yy
-          real(kind=WP), dimension(nel), intent(in)    :: sigozz     !< initial stress zz 
-          real(kind=WP), dimension(nel), intent(in)    :: sigoxy     !< initial stress xy 
-          real(kind=WP), dimension(nel), intent(in)    :: sigoyz     !< initial stress yz 
-          real(kind=WP), dimension(nel), intent(in)    :: sigozx     !< initial stress zx 
-          real(kind=WP), dimension(nel), intent(inout) :: signxx     !< new stress xx 
+          real(kind=WP), dimension(nel), intent(in)    :: sigozz     !< initial stress zz
+          real(kind=WP), dimension(nel), intent(in)    :: sigoxy     !< initial stress xy
+          real(kind=WP), dimension(nel), intent(in)    :: sigoyz     !< initial stress yz
+          real(kind=WP), dimension(nel), intent(in)    :: sigozx     !< initial stress zx
+          real(kind=WP), dimension(nel), intent(inout) :: signxx     !< new stress xx
           real(kind=WP), dimension(nel), intent(inout) :: signyy     !< new stress yy
-          real(kind=WP), dimension(nel), intent(inout) :: signzz     !< new stress zz 
-          real(kind=WP), dimension(nel), intent(inout) :: signxy     !< new stress xy 
-          real(kind=WP), dimension(nel), intent(inout) :: signyz     !< new stress yz 
-          real(kind=WP), dimension(nel), intent(inout) :: signzx     !< new stress zx 
+          real(kind=WP), dimension(nel), intent(inout) :: signzz     !< new stress zz
+          real(kind=WP), dimension(nel), intent(inout) :: signxy     !< new stress xy
+          real(kind=WP), dimension(nel), intent(inout) :: signyz     !< new stress yz
+          real(kind=WP), dimension(nel), intent(inout) :: signzx     !< new stress zx
           real(kind=WP), dimension(nel), intent(inout) :: sigvxx     !< viscous stress xx
           real(kind=WP), dimension(nel), intent(inout) :: sigvyy     !< viscous stress yy
           real(kind=WP), dimension(nel), intent(inout) :: sigvzz     !< viscous stress zz
@@ -128,7 +128,7 @@
           real(kind=WP), dimension(nel), intent(inout) :: plas       !< effective volumetric true strain
           real(kind=WP), dimension(nel), intent(inout) :: epsd       !< effective volumetric strain rate
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   local variables 
+!                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i,j,ncycle,nrs
           real(kind=WP) :: young,nu,g,bulk,cii,cij,tsc,damp,srclmt,alpha,ldav,a
@@ -163,10 +163,10 @@
               uvar(i,2) = aldt(i)
             enddo
           endif
-          le(1:nel) = uvar(1:nel,2) 
+          le(1:nel) = uvar(1:nel,2)
           !< Coefficient for hourglass control
           et(1:nel) = zero
-! 
+!
           !=====================================================================
           !< - Computation of trial stress tensor and principal stresses
           !=====================================================================
@@ -213,9 +213,9 @@
             gama(i) = one - rho0(i)/rho(i)
             !< Volumetric strain rate
             ! -> Engineering strain rate
-            if (nrs == 1) then 
+            if (nrs == 1) then
               dgamdt(i) = (gama(i) - uvar(i,1))/max(timestep,em20)
-            ! -> True strain rate
+              ! -> True strain rate
             elseif (nrs == 0) then
               dgamdt(i) = -(epspxx(i)+epspyy(i)+epspzz(i))
             endif
@@ -267,24 +267,24 @@
             epst(i) = sqrt(epsp(i,1)**2 + epsp(i,2)**2 + epsp(i,3)**2)
             !< Update the global stress tensor
             signxx(i) = dirp(i,1,1)*dirp(i,1,1)*sigp(i,1)                      &
-                      + dirp(i,1,2)*dirp(i,1,2)*sigp(i,2)                      &
-                      + dirp(i,1,3)*dirp(i,1,3)*sigp(i,3)                      
+              + dirp(i,1,2)*dirp(i,1,2)*sigp(i,2)                      &
+              + dirp(i,1,3)*dirp(i,1,3)*sigp(i,3)
             signyy(i) = dirp(i,2,2)*dirp(i,2,2)*sigp(i,2)                      &
-                      + dirp(i,2,3)*dirp(i,2,3)*sigp(i,3)                      &
-                      + dirp(i,2,1)*dirp(i,2,1)*sigp(i,1)                      
+              + dirp(i,2,3)*dirp(i,2,3)*sigp(i,3)                      &
+              + dirp(i,2,1)*dirp(i,2,1)*sigp(i,1)
             signzz(i) = dirp(i,3,3)*dirp(i,3,3)*sigp(i,3)                      &
-                      + dirp(i,3,1)*dirp(i,3,1)*sigp(i,1)                      &
-                      + dirp(i,3,2)*dirp(i,3,2)*sigp(i,2)                      
+              + dirp(i,3,1)*dirp(i,3,1)*sigp(i,1)                      &
+              + dirp(i,3,2)*dirp(i,3,2)*sigp(i,2)
             signxy(i) = dirp(i,1,1)*dirp(i,2,1)*sigp(i,1)                      &
-                      + dirp(i,1,2)*dirp(i,2,2)*sigp(i,2)                      &
-                      + dirp(i,1,3)*dirp(i,2,3)*sigp(i,3)                      
+              + dirp(i,1,2)*dirp(i,2,2)*sigp(i,2)                      &
+              + dirp(i,1,3)*dirp(i,2,3)*sigp(i,3)
             signyz(i) = dirp(i,2,2)*dirp(i,3,2)*sigp(i,2)                      &
-                      + dirp(i,2,3)*dirp(i,3,3)*sigp(i,3)                      &
-                      + dirp(i,2,1)*dirp(i,3,1)*sigp(i,1)                      
+              + dirp(i,2,3)*dirp(i,3,3)*sigp(i,3)                      &
+              + dirp(i,2,1)*dirp(i,3,1)*sigp(i,1)
             signzx(i) = dirp(i,3,3)*dirp(i,1,3)*sigp(i,3)                      &
-                      + dirp(i,3,1)*dirp(i,1,1)*sigp(i,1)                      &
-                      + dirp(i,3,2)*dirp(i,1,2)*sigp(i,2)  
-          enddo 
+              + dirp(i,3,1)*dirp(i,1,1)*sigp(i,1)                      &
+              + dirp(i,3,2)*dirp(i,1,2)*sigp(i,2)
+          enddo
 !
           !=====================================================================
           !< - Update user variables and sound speed
@@ -294,11 +294,11 @@
             ssp(i) = sqrt((bulk + four_over_3*g)/min(rho(i),rho0(i)))
             !< User variables
             uvar(i,1) = gama(i) !< Volumetric strain
-          enddo     
+          enddo
 !
           !=====================================================================
           !< - Viscous damping
-          !===================================================================== 
+          !=====================================================================
           do i = 1,nel
             !< Viscous damping coefficient
             a = ssp(i)*rho(i)*damp*le(i)/(one + gama(i))
@@ -311,12 +311,12 @@
             sigvyz(i) = a*epspyz(i)/(two*(one + nu))
             sigvzx(i) = a*epspzx(i)/(two*(one + nu))
             !< Update the soundspeed to include the viscous damping stiffness
-            if (timestep > zero) then 
+            if (timestep > zero) then
               ssp(i) = sqrt((bulk + four_over_3*g + a/timestep)/min(rho(i),rho0(i)))
             else
-              ssp(i) = sqrt((bulk + four_over_3*g)/min(rho(i),rho0(i)))          
+              ssp(i) = sqrt((bulk + four_over_3*g)/min(rho(i),rho0(i)))
             endif
           enddo
 !
         end subroutine sigeps163
-      end module sigeps163_mod  
+      end module sigeps163_mod

@@ -35,8 +35,8 @@
 !   d u m m y   a r g u m e n t s
 !-----------------------------------------------
         integer, intent(in) :: fd  ! File descriptor
-        integer len1               ! Length of line to write
-        character(len=len1)  line  ! Line to write
+        integer :: len1               ! Length of line to write
+        character(len=len1)  :: line  ! Line to write
 !-----------------------------------------------
         write(fd,'(a)') line(1:len1)
-      end
+      end subroutine write_out_file

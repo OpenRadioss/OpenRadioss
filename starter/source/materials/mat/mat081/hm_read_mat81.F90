@@ -63,11 +63,11 @@
           use constant_mod
           use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                 implicit none 
+!                                                 implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   arguments 
+!                                                   arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           type(matparam_struct_) ,intent(inout)      :: matparam  !< matparam data structure
           integer, intent(inout)                     :: nuvar     !< number of material law user variables
@@ -83,7 +83,7 @@
           integer, intent(in)                        :: iout      !< output file number
           integer, intent(inout)                     :: nvartmp   !< number of temporary variables
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   local variables 
+!                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           real(kind=WP) :: kini,gini,cini,capini,phi,psi,alpha,max_dilat,epsvini,     &
             kwater,por0,sat0,u0,muw0,viscfac,tol,rho0,rhor,fac_unit

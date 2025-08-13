@@ -58,12 +58,12 @@
           use table_mat_vinterp_mod
           use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                 implicit none 
+!                                                 implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
 #include  "units_c.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   arguments 
+!                                                   arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           integer, intent(in)                            :: nel      !< Number of elements
           type(matparam_struct_), intent(in)             :: matparam !< Material parameters data structure
@@ -117,7 +117,7 @@
           integer, intent(in)                            :: l_planl  !< Size of the non-local plastic strain array
           real(kind=WP), dimension(nel*l_planl), intent(in)    :: planl    !< Non-local plastic strain array
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   local variables 
+!                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i,ii,nindx,indx(nel),ipos(nel,2),opte,vp,iter,nindxf,       &
             indxf(nel)

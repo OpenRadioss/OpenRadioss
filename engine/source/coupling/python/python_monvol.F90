@@ -30,15 +30,15 @@
       module python_monvol_mod
         interface
 !    void cpp_python_update_reals(char * basename, int * uid, my_real *reals, int num_reals)
-           subroutine python_update_reals(basename, uid, reals, num_reals) bind(c, name='cpp_python_update_reals')
-             use iso_c_binding, only : c_char, c_int 
-             use precision_mod, only : WP
-             implicit none
-             character(kind=c_char), intent(in) :: basename(*)
-             integer(c_int), intent(in) :: uid(*)
-             real(kind=WP), intent(inout) :: reals(*)
-             integer(c_int), intent(in) :: num_reals
-           end subroutine python_update_reals
+          subroutine python_update_reals(basename, uid, reals, num_reals) bind(c, name='cpp_python_update_reals')
+            use iso_c_binding, only : c_char, c_int
+            use precision_mod, only : WP
+            implicit none
+            character(kind=c_char), intent(in) :: basename(*)
+            integer(c_int), intent(in) :: uid(*)
+            real(kind=WP), intent(inout) :: reals(*)
+            integer(c_int), intent(in) :: num_reals
+          end subroutine python_update_reals
 
         end interface
       contains

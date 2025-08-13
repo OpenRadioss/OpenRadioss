@@ -48,14 +48,14 @@
         &ix3,  ix4,&
         &yi    ,zi    ,pene  ,gapv)
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                 implicit none 
+!                                                 implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
           USE CONSTANT_MOD
           USE COLLISION_MOD , ONLY : GROUP_SIZE
           USE PRECISION_MOD, ONLY : WP
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   arguments 
+!                                                   arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           integer, intent(in) :: jlt
           real(kind=WP), intent(in) :: gapv(GROUP_SIZE), margin
@@ -67,7 +67,7 @@
           real(kind=WP), intent(inout) ::  pene(GROUP_SIZE) !< secondary nodes and penetration
           integer, intent(in) :: ix3(GROUP_SIZE), ix4(GROUP_SIZE) !< index of the 3rd and 4th nodes of the surface
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   local variables 
+!                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i, i3n
           real(kind=WP) :: X0(GROUP_SIZE), Y0(GROUP_SIZE), Z0(GROUP_SIZE), GAP2(GROUP_SIZE),&

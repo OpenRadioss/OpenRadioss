@@ -64,13 +64,13 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer,                                   intent(in)    :: id                          !< damping id          
+          integer,                                   intent(in)    :: id                          !< damping id
           integer,                                   intent(in)    :: ndamp                       !< number of /DAMP
           integer,                                   intent(in)    :: nrdamp                      !< first dimension of array DAMP
           real(kind=WP),                             intent(inout) :: dampr(nrdamp,ndamp)         !< main structure for option /DAMP
           real(kind=WP),                             intent(in)    :: dt1                         !< time step
           real(kind=WP),                             intent(in)    :: tt                          !< current time
-          real(kind=WP),                             intent(inout) :: damp_a(3)                   !< damping coefficients      
+          real(kind=WP),                             intent(inout) :: damp_a(3)                   !< damping coefficients
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------

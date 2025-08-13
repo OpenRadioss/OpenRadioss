@@ -31,7 +31,7 @@
 !                                                   procedures
 ! ======================================================================================================================
 !! \brief solve internal energy
-!! \details 
+!! \details
 !||====================================================================
 !||    multi_solve_eint      ../engine/source/multifluid/multi_solve_eint.F90
 !||--- called by ------------------------------------------------------
@@ -45,89 +45,89 @@
 !||    multi_submatlaw_mod   ../engine/source/multifluid/multi_submatlaw.F
 !||    precision_mod         ../common_source/modules/precision_mod.F90
 !||====================================================================
-      SUBROUTINE MULTI_SOLVE_EINT(MATLAW   , LOCAL_MATID, PM        , IPM         , NPROPM , NPROPMI,&
-                                  EINT     , RHO        , PRES      , SSP         , &
-                                  BURNFRAC , BURNTIME   , DELTAX    , CURRENT_TIME, &
-                                  BUFMAT   , OFF        , SNPC,STF  , NPF         , TF     , VAREOS , NVAREOS,&
-                                  MAT_PARAM, NVARTMP_EOS, VARTMP_EOS, NUMMAT      ,ABURN)
+        SUBROUTINE MULTI_SOLVE_EINT(MATLAW   , LOCAL_MATID, PM        , IPM         , NPROPM , NPROPMI,&
+          EINT     , RHO        , PRES      , SSP         , &
+          BURNFRAC , BURNTIME   , DELTAX    , CURRENT_TIME, &
+          BUFMAT   , OFF        , SNPC,STF  , NPF         , TF     , VAREOS , NVAREOS,&
+          MAT_PARAM, NVARTMP_EOS, VARTMP_EOS, NUMMAT      ,ABURN)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Module
 ! ----------------------------------------------------------------------------------------------------------------------
-      USE MATPARAM_DEF_MOD , ONLY : MATPARAM_STRUCT_
-      USE MULTI_SUBMATLAW_MOD , ONLY : MULTI_SUBMATLAW
-      USE CONSTANT_MOD , ONLY : ZERO, ONE, EM06
-      USE EOSMAIN_MOD , ONLY : EOSMAIN
-      USE PRECISION_MOD, ONLY : WP
+          USE MATPARAM_DEF_MOD , ONLY : MATPARAM_STRUCT_
+          USE MULTI_SUBMATLAW_MOD , ONLY : MULTI_SUBMATLAW
+          USE CONSTANT_MOD , ONLY : ZERO, ONE, EM06
+          USE EOSMAIN_MOD , ONLY : EOSMAIN
+          USE PRECISION_MOD, ONLY : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
-      implicit none
+          implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-      INTEGER,INTENT(IN) :: SNPC,STF,NUMMAT, NPROPM, NPROPMI !< array size
-      INTEGER, INTENT(IN) :: MATLAW, LOCAL_MATID
-      real(kind=WP), INTENT(IN) :: PM(NPROPM, NUMMAT)
-      INTEGER, INTENT(IN) :: IPM(NPROPMI, NUMMAT)
-      real(kind=WP), INTENT(INOUT) :: RHO(1)
-      real(kind=WP), INTENT(INOUT) :: SSP(1), PRES(1), EINT(1)
-      real(kind=WP), INTENT(INOUT) :: BURNFRAC(1), BURNTIME(1), DELTAX(1), CURRENT_TIME, BUFMAT(*)
-      real(kind=WP), INTENT(INOUT) :: OFF(1)
-      INTEGER, INTENT(IN) :: NPF(SNPC),NVAREOS
-      real(kind=WP), INTENT(IN) :: TF(STF),VAREOS(NVAREOS*1)
-      TYPE(MATPARAM_STRUCT_), INTENT(IN) :: MAT_PARAM !material data structure
-      INTEGER,INTENT(IN) :: NVARTMP_EOS
-      INTEGER,INTENT(INOUT) :: VARTMP_EOS(1,NVARTMP_EOS)
-      real(kind=WP),INTENT(INOUT) :: ABURN(1) !< after burning (JWL extension)
+          INTEGER,INTENT(IN) :: SNPC,STF,NUMMAT, NPROPM, NPROPMI !< array size
+          INTEGER, INTENT(IN) :: MATLAW, LOCAL_MATID
+          real(kind=WP), INTENT(IN) :: PM(NPROPM, NUMMAT)
+          INTEGER, INTENT(IN) :: IPM(NPROPMI, NUMMAT)
+          real(kind=WP), INTENT(INOUT) :: RHO(1)
+          real(kind=WP), INTENT(INOUT) :: SSP(1), PRES(1), EINT(1)
+          real(kind=WP), INTENT(INOUT) :: BURNFRAC(1), BURNTIME(1), DELTAX(1), CURRENT_TIME, BUFMAT(*)
+          real(kind=WP), INTENT(INOUT) :: OFF(1)
+          INTEGER, INTENT(IN) :: NPF(SNPC),NVAREOS
+          real(kind=WP), INTENT(IN) :: TF(STF),VAREOS(NVAREOS*1)
+          TYPE(MATPARAM_STRUCT_), INTENT(IN) :: MAT_PARAM !material data structure
+          INTEGER,INTENT(IN) :: NVARTMP_EOS
+          INTEGER,INTENT(INOUT) :: VARTMP_EOS(1,NVARTMP_EOS)
+          real(kind=WP),INTENT(INOUT) :: ABURN(1) !< after burning (JWL extension)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local Variables
 ! ----------------------------------------------------------------------------------------------------------------------
-      INTEGER :: ITER, MAX_ITER
-      real(kind=WP) :: TOL, ERROR
-      real(kind=WP) :: FUNC, DFUNC, GRUN(1), VOL(1), INCR, TEMP(1), PRESK(1), DUMMY(6)
-      LOGICAL :: CONT
+          INTEGER :: ITER, MAX_ITER
+          real(kind=WP) :: TOL, ERROR
+          real(kind=WP) :: FUNC, DFUNC, GRUN(1), VOL(1), INCR, TEMP(1), PRESK(1), DUMMY(6)
+          LOGICAL :: CONT
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-      MAX_ITER = 50
-      TOL = EM06
-      ERROR = ONE
-      DUMMY(1:6)=ZERO
-      
-      !dummy
-      VOL = ONE
+          MAX_ITER = 50
+          TOL = EM06
+          ERROR = ONE
+          DUMMY(1:6)=ZERO
 
-      !Initialization
-      TEMP = ZERO
-      ITER = 0
-      CONT = .TRUE.
-      DO WHILE (CONT .AND. ITER  <  MAX_ITER) 
-         ITER = ITER + 1
-         CALL MULTI_SUBMATLAW( &
-         0,           MATLAW,      LOCAL_MATID, 1, &
-         EINT,        PRESK,       RHO,         SSP, &
-         VOL,         GRUN,        PM,          IPM, &
-         NPROPM,      NPROPMI,     BUFMAT,      OFF, &
-         TEMP,        BURNFRAC,    BURNTIME,    DELTAX, &
-         CURRENT_TIME,DUMMY,       SNPC    ,    STF , &
-         NPF,         TF,          VAREOS,      NVAREOS, &
-         MAT_PARAM,   NVARTMP_EOS, VARTMP_EOS,  NUMMAT , &
-         ABURN )
-         FUNC = PRESK(1) - PRES(1)
-         ERROR  = ABS(FUNC)
-         IF (ERROR  <  TOL * (ABS(PRES(1)) + ONE)) THEN
-            CONT = .FALSE.
-         ENDIF
-         DFUNC = GRUN(1)
-         IF (GRUN(1)  >  ZERO) THEN
-            INCR = -FUNC / DFUNC
-            EINT(1) = EINT(1) + INCR
-         ELSE
-            CONT = .FALSE.
-            EINT(1) = ZERO
-         ENDIF
+          !dummy
+          VOL = ONE
 
-      ENDDO
-      END SUBROUTINE MULTI_SOLVE_EINT
+          !Initialization
+          TEMP = ZERO
+          ITER = 0
+          CONT = .TRUE.
+          DO WHILE (CONT .AND. ITER  <  MAX_ITER)
+            ITER = ITER + 1
+            CALL MULTI_SUBMATLAW( &
+              0,           MATLAW,      LOCAL_MATID, 1, &
+              EINT,        PRESK,       RHO,         SSP, &
+              VOL,         GRUN,        PM,          IPM, &
+              NPROPM,      NPROPMI,     BUFMAT,      OFF, &
+              TEMP,        BURNFRAC,    BURNTIME,    DELTAX, &
+              CURRENT_TIME,DUMMY,       SNPC    ,    STF , &
+              NPF,         TF,          VAREOS,      NVAREOS, &
+              MAT_PARAM,   NVARTMP_EOS, VARTMP_EOS,  NUMMAT , &
+              ABURN )
+            FUNC = PRESK(1) - PRES(1)
+            ERROR  = ABS(FUNC)
+            IF (ERROR  <  TOL * (ABS(PRES(1)) + ONE)) THEN
+              CONT = .FALSE.
+            ENDIF
+            DFUNC = GRUN(1)
+            IF (GRUN(1)  >  ZERO) THEN
+              INCR = -FUNC / DFUNC
+              EINT(1) = EINT(1) + INCR
+            ELSE
+              CONT = .FALSE.
+              EINT(1) = ZERO
+            ENDIF
+
+          ENDDO
+        END SUBROUTINE MULTI_SOLVE_EINT
 ! ----------------------------------------------------------------------------------------------------------------------
       END MODULE MULTI_SOLVE_EINT_MOD

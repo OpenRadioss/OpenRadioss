@@ -42,41 +42,41 @@
 !||--- uses       -----------------------------------------------------
 !||    ale_mod                   ../common_source/modules/ale/ale_mod.F
 !||====================================================================
-      subroutine read_ale_rezoning_param(rezon)
+        subroutine read_ale_rezoning_param(rezon)
 ! --------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! --------------------------------------------------------------------------------------------------
-      use ale_mod , only : ale_rezon_
+          use ale_mod , only : ale_rezon_
 ! --------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! --------------------------------------------------------------------------------------------------
-      implicit none
+          implicit none
 ! --------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! --------------------------------------------------------------------------------------------------
-      type(ale_rezon_) ,intent(inout)    :: rezon
+          type(ale_rezon_) ,intent(inout)    :: rezon
 ! --------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! --------------------------------------------------------------------------------------------------
-      integer :: iad,ifix
-      integer ,dimension(:) ,allocatable :: ibuf
+          integer :: iad,ifix
+          integer ,dimension(:) ,allocatable :: ibuf
 ! --------------------------------------------------------------------------------------------------
 !                                                   Body
 ! --------------------------------------------------------------------------------------------------
-      ! read integer parameters
-      ifix = 2
-      allocate (ibuf(ifix))
-      call read_i_c(ibuf,ifix)
+          ! read integer parameters
+          ifix = 2
+          allocate (ibuf(ifix))
+          call read_i_c(ibuf,ifix)
 !
-      iad = 1
-        rezon%num_nuvar_mat = ibuf(iad)
-      iad = iad+1
-        rezon%num_nuvar_eos = ibuf(iad)
+          iad = 1
+          rezon%num_nuvar_mat = ibuf(iad)
+          iad = iad+1
+          rezon%num_nuvar_eos = ibuf(iad)
 !
-      deallocate(ibuf)
+          deallocate(ibuf)
 
 !-----------
-      return
-      end subroutine read_ale_rezoning_param
+          return
+        end subroutine read_ale_rezoning_param
 
       end module read_ale_rezoning_param_mod

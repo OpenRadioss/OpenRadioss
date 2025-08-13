@@ -80,68 +80,68 @@
 !||    h3d_mod                      ../engine/share/modules/h3d_mod.F
 !||    names_and_titles_mod         ../common_source/modules/names_and_titles_mod.F
 !||====================================================================
-      subroutine create_h3d_output_per_part(                                      &         
-                 n_h3d_part,h3d_data,id_input,lipart1,npart,ipart,ngrpart,igrpart)
- !-----------------------------------------------
- !   M o d u l e s
- !-----------------------------------------------
-        use h3d_mod
-        use names_and_titles_mod, only : ncharline100
-        use groupdef_mod
- !-----------------------------------------------
- !   I m p l i c i t   T y p e s
- !-----------------------------------------------
-         implicit none 
- !-----------------------------------------------
- !   D u m m y   A r g u m e n t s
- !-----------------------------------------------
-      integer, intent(in)                          :: n_h3d_part           !< number of parts in the h3d output
-      type(h3d_database), intent(inout)            :: h3d_data             !< H3D output structure
-      integer, intent(in)                          :: id_input             !< id of the input
-      integer, intent(in)                          :: lipart1              !< length of part array
-      integer, intent(in)                          :: npart                !< number of parts
-      integer, intent(in)                          :: ipart(lipart1,npart) !< part array
-      integer, intent(in)                          :: ngrpart              !< number of part groups
-      type(group_), intent(in)                     :: igrpart(ngrpart)     !< part group structure
- !-----------------------------------------------
- !   L o c a l   V a r i a b l e s
- !-----------------------------------------------
-      integer :: i,j,k,l,m,index
- !=======================================================================
- !------------------------------------------
-      
-      do j=1,n_h3d_part
-        if(h3d_data%input_list(id_input)%part_list(j) > 0) then
-          ! find the part with this id
-          do i=1,npart
-            if(h3d_data%input_list(id_input)%part_list(j) == ipart(4,i)) then
-                h3d_data%output_list(h3d_data%n_outp_h3d)%part(i) = 1
+        subroutine create_h3d_output_per_part(                                      &
+          n_h3d_part,h3d_data,id_input,lipart1,npart,ipart,ngrpart,igrpart)
+          !-----------------------------------------------
+          !   M o d u l e s
+          !-----------------------------------------------
+          use h3d_mod
+          use names_and_titles_mod, only : ncharline100
+          use groupdef_mod
+          !-----------------------------------------------
+          !   I m p l i c i t   T y p e s
+          !-----------------------------------------------
+          implicit none
+          !-----------------------------------------------
+          !   D u m m y   A r g u m e n t s
+          !-----------------------------------------------
+          integer, intent(in)                          :: n_h3d_part           !< number of parts in the h3d output
+          type(h3d_database), intent(inout)            :: h3d_data             !< H3D output structure
+          integer, intent(in)                          :: id_input             !< id of the input
+          integer, intent(in)                          :: lipart1              !< length of part array
+          integer, intent(in)                          :: npart                !< number of parts
+          integer, intent(in)                          :: ipart(lipart1,npart) !< part array
+          integer, intent(in)                          :: ngrpart              !< number of part groups
+          type(group_), intent(in)                     :: igrpart(ngrpart)     !< part group structure
+          !-----------------------------------------------
+          !   L o c a l   V a r i a b l e s
+          !-----------------------------------------------
+          integer :: i,j,k,l,m,index
+          !=======================================================================
+          !------------------------------------------
+
+          do j=1,n_h3d_part
+            if(h3d_data%input_list(id_input)%part_list(j) > 0) then
+              ! find the part with this id
+              do i=1,npart
+                if(h3d_data%input_list(id_input)%part_list(j) == ipart(4,i)) then
+                  h3d_data%output_list(h3d_data%n_outp_h3d)%part(i) = 1
+                endif
+              enddo
+            else
+              ! negative value refers to a part group
+              l = -h3d_data%input_list(id_input)%part_list(j)  ! get positive index of part group
+              index = 0
+              do i=1,ngrpart
+                if(igrpart(i)%id == l) then
+                  index = i
+                  exit
+                endif
+              enddo
+              if(index > 0) then
+                do i=1,igrpart(index)%nentity
+                  k = igrpart(index)%entity(i)  ! get the part id from the group
+                  ! find the part with this id
+                  do m=1,npart
+                    if (ipart(4,m) == k) then
+                      h3d_data%output_list(h3d_data%n_outp_h3d)%part(m) = 1
+                      exit
+                    endif
+                  enddo
+                enddo
+              endif
             endif
           enddo
-        else
-          ! negative value refers to a part group
-          l = -h3d_data%input_list(id_input)%part_list(j)  ! get positive index of part group
-            index = 0
-            do i=1,ngrpart
-              if(igrpart(i)%id == l) then
-                index = i
-                exit
-              endif
-            enddo
-            if(index > 0) then
-              do i=1,igrpart(index)%nentity
-                k = igrpart(index)%entity(i)  ! get the part id from the group
-                ! find the part with this id
-                do m=1,npart
-                  if (ipart(4,m) == k) then
-                    h3d_data%output_list(h3d_data%n_outp_h3d)%part(m) = 1
-                    exit
-                  endif
-                enddo
-              enddo
-            endif
-        endif
-      enddo
 
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine create_h3d_output_per_part

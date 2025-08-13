@@ -60,11 +60,11 @@
           use constant_mod
           use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                 implicit none 
+!                                                 implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   arguments 
+!                                                   arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           integer, intent(inout)                :: nuvar             !< number of material law user variables
           type(mlaw_tag_), intent(inout)        :: mtag              !< material tag for internal variables in element buffer
@@ -77,7 +77,7 @@
           type(matparam_struct_) ,intent(inout) :: matparam          !< matparam data structure
           integer, intent(in)                   :: iout              !< output file number
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   local variables 
+!                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: idel,ifailso
           real(kind=WP)                                                  &

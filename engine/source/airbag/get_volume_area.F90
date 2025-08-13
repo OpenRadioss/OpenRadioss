@@ -33,7 +33,7 @@
 !! \brief This routine computes the volume & area of monitored volumes
 !! \details * local computation of volume & area for each monitored volume
 !!          * global mpi comm (1 comm for all moniotred volumes)
-!!          * reduction of volume & area 
+!!          * reduction of volume & area
 !||====================================================================
 !||    get_volume_area       ../engine/source/airbag/get_volume_area.F90
 !||--- called by ------------------------------------------------------
@@ -50,18 +50,18 @@
 !||    precision_mod         ../common_source/modules/precision_mod.F90
 !||====================================================================
         subroutine get_volume_area(ispmd,nspmd,numelc,numeltg, &
-                       nvolu,nsurf,intbag,sporo,&
-                       numnod,sicontact,nimv,nrvolu,           &
-                       monvol,rvolu,vol,x,                     & 
-                       normal,icontact,poro,fr_mv,  &
-                       frontier_global_mv,t_monvoln,igrsurf )
+          nvolu,nsurf,intbag,sporo,&
+          numnod,sicontact,nimv,nrvolu,           &
+          monvol,rvolu,vol,x,                     &
+          normal,icontact,poro,fr_mv,  &
+          frontier_global_mv,t_monvoln,igrsurf )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   modules
 ! ----------------------------------------------------------------------------------------------------------------------
           use monvol_struct_mod , only : monvol_struct_
           use constant_mod
           use groupdef_mod , only : surf_
-          use precision_mod , only : WP 
+          use precision_mod , only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -86,7 +86,7 @@
           integer, intent(in) :: sporo !< dimension of poro array
           integer, dimension(sicontact), intent(in) :: icontact
           integer, dimension(nspmd+2,nvolu), intent(in) :: fr_mv !< mpi frontier per monitored volume
-          integer, dimension(nspmd+2), intent(in) :: frontier_global_mv !< global mpi frontier 
+          integer, dimension(nspmd+2), intent(in) :: frontier_global_mv !< global mpi frontier
           integer, dimension(nvolu*nimv), intent(in) :: monvol !< monitored volume data
           real(kind=WP), dimension(3,numnod), intent(in) :: x !< position array
           real(kind=WP), dimension(nvolu*nrvolu), intent(inout) :: rvolu !< monitored volume data (real)
@@ -151,7 +151,7 @@
                   nod4 = igrsurf(surf_id)%nodes(i,4)
                   xx=half*(x(1,nod1)+x(1,nod2))
                   yy=half*(x(2,nod1)+x(2,nod2))
-                  zz=half*(x(3,nod1)+x(3,nod2)) 
+                  zz=half*(x(3,nod1)+x(3,nod2))
                   x13=x(1,nod3)-x(1,nod1)
                   y13=x(2,nod3)-x(2,nod1)
                   z13=x(3,nod3)-x(3,nod1)
@@ -194,7 +194,7 @@
                     if(icontact(nod1)/=0)poro(ii)=poro(ii)+fourth
                     if(icontact(nod2)/=0)poro(ii)=poro(ii)+fourth
                     if(icontact(nod3)/=0)poro(ii)=poro(ii)+fourth
-                    if(icontact(nod4)/=0)poro(ii)=poro(ii)+fourth    
+                    if(icontact(nod4)/=0)poro(ii)=poro(ii)+fourth
                   endif
                   xx=half*(x(1,nod1)+x(1,nod2))
                   yy=half*(x(2,nod1)+x(2,nod2))
@@ -227,7 +227,7 @@
                   nod4 = nod3
                   xx=half*(x(1,nod1)+x(1,nod2))
                   yy=half*(x(2,nod1)+x(2,nod2))
-                  zz=half*(x(3,nod1)+x(3,nod2)) 
+                  zz=half*(x(3,nod1)+x(3,nod2))
                   x13=x(1,nod3)-x(1,nod1)
                   y13=x(2,nod3)-x(2,nod1)
                   z13=x(3,nod3)-x(3,nod1)
@@ -242,8 +242,8 @@
                 enddo
 !$omp end do
               endif
-              first = 1 + number_entity * itask / nthread 
-              last = number_entity * (itask+1) / nthread 
+              first = 1 + number_entity * itask / nthread
+              last = number_entity * (itask+1) / nthread
               frmv6_l(1:2,1:6) = zero
               call sum_6_float(first, last, f1, frmv6_l(1,1), 2)
               call sum_6_float(first, last, f2, frmv6_l(2,1), 2)
@@ -279,9 +279,9 @@
 
             if(computation_needed) then
               area = frmv6(1,1,ijk)+frmv6(1,2,ijk)+frmv6(1,3,ijk)+ &
-                     frmv6(1,4,ijk)+frmv6(1,5,ijk)+frmv6(1,6,ijk)
+                frmv6(1,4,ijk)+frmv6(1,5,ijk)+frmv6(1,6,ijk)
               vol(ijk)= frmv6(2,1,ijk)+frmv6(2,2,ijk)+frmv6(2,3,ijk)+ &
-                     frmv6(2,4,ijk)+frmv6(2,5,ijk)+frmv6(2,6,ijk)
+                frmv6(2,4,ijk)+frmv6(2,5,ijk)+frmv6(2,6,ijk)
               rvolu(rvolu_address-1+18) = area
             endif
             monvol_address = monvol_address + nimv

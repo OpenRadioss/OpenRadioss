@@ -152,7 +152,7 @@
         use spmd_irecv_mod, only: spmd_irecv
         use spmd_wait_mod, only: spmd_wait, spmd_waitall, spmd_waitany
         use spmd_allgatherv_mod, only: spmd_allgatherv
-        use spmd_alltoall_mod, only: spmd_alltoall 
+        use spmd_alltoall_mod, only: spmd_alltoall
         use spmd_pack_mod, only: spmd_pack
         use spmd_unpack_mod, only: spmd_unpack
         implicit none

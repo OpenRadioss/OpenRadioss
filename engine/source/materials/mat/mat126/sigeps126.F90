@@ -26,11 +26,11 @@
 !||    mulaw           ../engine/source/materials/mat_share/mulaw.F90
 !||====================================================================
       module sigeps126_mod
-        contains
-  ! ======================================================================================================================
-  ! \brief Johnson-Holmquist 1 material law /MAT/LAW126
-  ! \details Material law based on Johnson-Holmquist version 1 theory. Dedicated to concrete application. 
-  ! ======================================================================================================================
+      contains
+        ! ======================================================================================================================
+        ! \brief Johnson-Holmquist 1 material law /MAT/LAW126
+        ! \details Material law based on Johnson-Holmquist version 1 theory. Dedicated to concrete application.
+        ! ======================================================================================================================
 !||====================================================================
 !||    sigeps126          ../engine/source/materials/mat/mat126/sigeps126.F90
 !||--- called by ------------------------------------------------------
@@ -51,16 +51,16 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                        Modules
 ! ----------------------------------------------------------------------------------------------------------------------
-          use matparam_def_mod 
-          use constant_mod      
+          use matparam_def_mod
+          use constant_mod
           use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                 implicit none 
+!                                                 implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
-          implicit none 
+          implicit none
 #include  "units_c.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   arguments 
+!                                                   arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           integer, intent(in) :: nel !< number of elements in the group
           integer, intent(in) :: nuvar !< number of user variables
@@ -71,29 +71,29 @@
           real(kind=WP), dimension(nel), intent(in) :: rho0 !< material density
           integer, dimension(nel), intent(in) :: ngl !< element user IDs index table
           real(kind=WP), dimension(nel), intent(inout) :: sigy !< yield stress
-          real(kind=WP), dimension(nel), intent(inout) :: dpla !< cumulated plastic strain increment 
+          real(kind=WP), dimension(nel), intent(inout) :: dpla !< cumulated plastic strain increment
           real(kind=WP), dimension(nel), intent(inout) :: defp !< cumulated plastic strain
           real(kind=WP), dimension(nel), intent(in) :: amu !< volumetric strain
-          real(kind=WP), dimension(nel), intent(in) :: depsxx !< strain increment xx 
+          real(kind=WP), dimension(nel), intent(in) :: depsxx !< strain increment xx
           real(kind=WP), dimension(nel), intent(in) :: depsyy !< strain increment yy
-          real(kind=WP), dimension(nel), intent(in) :: depszz !< strain increment zz 
-          real(kind=WP), dimension(nel), intent(in) :: depsxy !< strain increment xy 
-          real(kind=WP), dimension(nel), intent(in) :: depsyz !< strain increment yz 
-          real(kind=WP), dimension(nel), intent(in) :: depszx !< strain increment zx 
-          real(kind=WP), dimension(nel), intent(in) :: sigoxx !< initial stress xx 
+          real(kind=WP), dimension(nel), intent(in) :: depszz !< strain increment zz
+          real(kind=WP), dimension(nel), intent(in) :: depsxy !< strain increment xy
+          real(kind=WP), dimension(nel), intent(in) :: depsyz !< strain increment yz
+          real(kind=WP), dimension(nel), intent(in) :: depszx !< strain increment zx
+          real(kind=WP), dimension(nel), intent(in) :: sigoxx !< initial stress xx
           real(kind=WP), dimension(nel), intent(in) :: sigoyy !< initial stress yy
-          real(kind=WP), dimension(nel), intent(in) :: sigozz !< initial stress zz 
-          real(kind=WP), dimension(nel), intent(in) :: sigoxy !< initial stress xy 
-          real(kind=WP), dimension(nel), intent(in) :: sigoyz !< initial stress yz 
-          real(kind=WP), dimension(nel), intent(in) :: sigozx !< initial stress zx 
-          real(kind=WP), dimension(nel), intent(out) :: signxx !< new stress xx 
+          real(kind=WP), dimension(nel), intent(in) :: sigozz !< initial stress zz
+          real(kind=WP), dimension(nel), intent(in) :: sigoxy !< initial stress xy
+          real(kind=WP), dimension(nel), intent(in) :: sigoyz !< initial stress yz
+          real(kind=WP), dimension(nel), intent(in) :: sigozx !< initial stress zx
+          real(kind=WP), dimension(nel), intent(out) :: signxx !< new stress xx
           real(kind=WP), dimension(nel), intent(out) :: signyy !< new stress yy
-          real(kind=WP), dimension(nel), intent(out) :: signzz !< new stress zz 
-          real(kind=WP), dimension(nel), intent(out) :: signxy !< new stress xy 
-          real(kind=WP), dimension(nel), intent(out) :: signyz !< new stress yz 
-          real(kind=WP), dimension(nel), intent(out) :: signzx !< new stress zx 
-          real(kind=WP), dimension(nel), intent(in) :: epsd !< equivalent strain rate 
-          real(kind=WP), dimension(nel), intent(inout) :: dmg !< damage variable 
+          real(kind=WP), dimension(nel), intent(out) :: signzz !< new stress zz
+          real(kind=WP), dimension(nel), intent(out) :: signxy !< new stress xy
+          real(kind=WP), dimension(nel), intent(out) :: signyz !< new stress yz
+          real(kind=WP), dimension(nel), intent(out) :: signzx !< new stress zx
+          real(kind=WP), dimension(nel), intent(in) :: epsd !< equivalent strain rate
+          real(kind=WP), dimension(nel), intent(inout) :: dmg !< damage variable
           real(kind=WP), dimension(nel), intent(inout) :: ssp !< sound speed
           real(kind=WP), dimension(nel), intent(inout) :: off !< element deletion flag
           integer, intent(in) :: inloc !< non-local method flag
@@ -101,7 +101,7 @@
           integer, intent(in) :: l_planl !< size of the non-local plastic strain table
           real(kind=WP), dimension(l_planl*nel), intent(in) :: planl !< non-local plastic strain
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   local variables 
+!                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i,j,nindx,indx(nel),idel,ifail,noff(nel)
           real(kind=WP)                                                              &
@@ -109,7 +109,7 @@
             k0,k1,k2,k3,d1,d2,emax,h
           real(kind=WP)                                                              &
             :: pold(nel),vm(nel),mup(nel),pnew(nel),dpdmu(nel),dmup(nel),         &
-            pstar(nel),phard(nel),scale(nel),dav(nel)                     
+            pstar(nel),phard(nel),scale(nel),dav(nel)
           real(kind=WP)                                                              &
             :: j2,kav,pmin,mubar,sigstar,epfail,ratio
 !
@@ -151,10 +151,10 @@
             mup(i)   = uvar(i,1)
             phard(i) = uvar(i,2)
             noff(i)  = nint(uvar(i,4))
-            dpla(i)  = zero 
+            dpla(i)  = zero
             dmup(i)  = zero
-          enddo 
-! 
+          enddo
+!
           !========================================================================
           !< Computation of elastic deviatoric stresses and equivalent stress
           !========================================================================
@@ -168,18 +168,18 @@
             signyz(i) = sigoyz(i) + g*depsyz(i)
             signzx(i) = sigozx(i) + g*depszx(i)
             j2        = half*(signxx(i)**2+signyy(i)**2+signzz(i)**2)           &
-                            + signxy(i)**2+signyz(i)**2+signzx(i)**2
+              + signxy(i)**2+signyz(i)**2+signzx(i)**2
             vm(i)     = sqrt(three*j2)
           enddo
 !
           !========================================================================
           !< Update plastic strain and damage in case of non-local regularisation
           !========================================================================
-          if (inloc > 0) then 
+          if (inloc > 0) then
             nindx = 0
             indx(1:nel) = 0
             do i=1,nel
-              if ((off(i) == one).and.(noff(i) == 0)) then 
+              if ((off(i) == one).and.(noff(i) == 0)) then
                 !< Compute plastic strain at failure
                 if ((pold(i)/fc+t0/fc) >= zero) then
                   epfail = d1*(pold(i)/fc+t0/fc)**d2
@@ -187,37 +187,37 @@
                   epfail = zero
                 endif
                 epfail = max(epfail,efmin)
-                !< Update plastic strain and damage 
+                !< Update plastic strain and damage
                 dmg(i) = dmg(i) + varnl(i)/epfail
                 dmg(i) = min(dmg(i),one)
                 ! Check element failure
-                if (idel == 1) then 
-                  if ((pold(i)/fc+t0/fc) <= zero) then 
-                    noff(i) = 1
-                    nindx = nindx + 1
-                    indx(nindx) = i
-                  endif 
-                elseif (idel == 2) then 
-                  if (planl(i) > emax) then 
+                if (idel == 1) then
+                  if ((pold(i)/fc+t0/fc) <= zero) then
                     noff(i) = 1
                     nindx = nindx + 1
                     indx(nindx) = i
                   endif
-                elseif (idel == 3) then 
-                  if (uvar(i,3) <= zero) then 
+                elseif (idel == 2) then
+                  if (planl(i) > emax) then
                     noff(i) = 1
                     nindx = nindx + 1
                     indx(nindx) = i
-                  endif   
-                elseif (idel == 4) then 
-                  if (dmg(i) >= one) then 
+                  endif
+                elseif (idel == 3) then
+                  if (uvar(i,3) <= zero) then
                     noff(i) = 1
                     nindx = nindx + 1
                     indx(nindx) = i
-                  endif          
+                  endif
+                elseif (idel == 4) then
+                  if (dmg(i) >= one) then
+                    noff(i) = 1
+                    nindx = nindx + 1
+                    indx(nindx) = i
+                  endif
                 endif
               endif
-            enddo    
+            enddo
           endif
 !
           !========================================================================
@@ -225,13 +225,13 @@
           !========================================================================
           do i=1,nel
             !< Minimum pressure for tension
-            pmin = -t0*(one-dmg(i)) 
-            !< New pressure 
+            pmin = -t0*(one-dmg(i))
+            !< New pressure
             ! -> Region I and II: elasticity + air voids crushing plasticity
             if (mup(i) < mul) then
               kav     = (k0 + (k1 - k0)*(mup(i)/mul))
               pnew(i) = kav*(amu(i) - mup(i))
-              if (pnew(i) > phard(i)) then 
+              if (pnew(i) > phard(i)) then
                 dmup(i)  = (pnew(i)-phard(i))/(kav + h)
                 mup(i)   = mup(i) + dmup(i)
                 mup(i)   = min(mup(i),mul)
@@ -241,11 +241,11 @@
               dpdmu(i) = kav
             endif
             ! -> Region III: fully dense concrete
-            if (mup(i) >= mul) then 
+            if (mup(i) >= mul) then
               mubar    = (amu(i) - mul)/(one + mul)
               pnew(i)  = k1*mubar + k2*(mubar**2) + k3*(mubar**3)
               dpdmu(i) = (k1 + two*k2*mubar + three*k3*(mubar**2))/(one + mul)
-            endif 
+            endif
             !< Check pressure for tension
             pnew(i)  = max(pnew(i),pmin)
             !< Normalized pressure
@@ -257,16 +257,16 @@
           !========================================================================
           do i=1,nel
             !< For compression loadings
-            if (pstar(i) > zero) then 
+            if (pstar(i) > zero) then
               sigy(i) = aa*(one-dmg(i)) + bb*exp(nn*log(pstar(i)))
-              if (epsd(i) > eps0) then 
+              if (epsd(i) > eps0) then
                 sigy(i) = sigy(i)*(one + cc*log(epsd(i)/eps0))
               endif
               sigy(i) = min(sfmax,sigy(i))
-            !< For tension loadings
+              !< For tension loadings
             else
               sigy(i) = aa*(one + (pnew(i)/t0))*(one - dmg(i))
-              if (epsd(i) > eps0) then 
+              if (epsd(i) > eps0) then
                 sigy(i) = sigy(i)*(one + cc*log(epsd(i)/eps0))
               endif
             endif
@@ -276,7 +276,7 @@
           !< Radial return mapping for deviatoric stress tensor
           !========================================================================
           do i=1,nel
-            if ((off(i) == one).and.(noff(i) == 0)) then 
+            if ((off(i) == one).and.(noff(i) == 0)) then
               !< Normalized deviatoric yield stress
               sigstar = vm(i)/fc
               !< Radial return scale factor
@@ -296,18 +296,18 @@
               signzx(i) = scale(i)*signzx(i)
               !< Update deviatoric plastic strain
               dpla(i)   = (one - scale(i))*vm(i)/(three*g)
-              defp(i)   = defp(i) + dpla(i)  
+              defp(i)   = defp(i) + dpla(i)
             endif
           enddo
 !
           !========================================================================
           !< Update plastic strain and damage without non-local regularization
           !========================================================================
-          if (inloc == 0) then 
+          if (inloc == 0) then
             nindx = 0
             indx(1:nel) = 0
             do i=1,nel
-              if ((off(i) == one).and.(noff(i) == 0)) then 
+              if ((off(i) == one).and.(noff(i) == 0)) then
                 !< Compute plastic strain at failure
                 if ((pstar(i)+t0/fc) >= zero) then
                   epfail = d1*(pstar(i)+t0/fc)**d2
@@ -319,40 +319,40 @@
                 dmg(i) = dmg(i) + (dpla(i) + dmup(i))/epfail
                 dmg(i) = min(dmg(i),one)
                 !< Check element deletion
-                if (idel == 1) then 
-                  if ((pstar(i)+t0/fc) <= zero) then 
-                    noff(i) = 1
-                    nindx = nindx + 1
-                    indx(nindx) = i
-                  endif 
-                elseif (idel == 2) then 
-                  if (defp(i) > emax) then 
+                if (idel == 1) then
+                  if ((pstar(i)+t0/fc) <= zero) then
                     noff(i) = 1
                     nindx = nindx + 1
                     indx(nindx) = i
                   endif
-                elseif (idel == 3) then 
-                  if (fc*sigy(i) <= zero) then 
+                elseif (idel == 2) then
+                  if (defp(i) > emax) then
                     noff(i) = 1
                     nindx = nindx + 1
                     indx(nindx) = i
-                  endif   
-                elseif (idel == 4) then 
-                  if (dmg(i) >= one) then 
+                  endif
+                elseif (idel == 3) then
+                  if (fc*sigy(i) <= zero) then
                     noff(i) = 1
                     nindx = nindx + 1
                     indx(nindx) = i
-                  endif          
+                  endif
+                elseif (idel == 4) then
+                  if (dmg(i) >= one) then
+                    noff(i) = 1
+                    nindx = nindx + 1
+                    indx(nindx) = i
+                  endif
                 endif
               endif
-            enddo    
+            enddo
           endif
 !
           !========================================================================
           !< Update stress tensor and sound speed
           !========================================================================
           do i=1,nel
-            !< Yield stress 
+            !< Yield stress
             sigy(i)   = fc*sigy(i)
             !< User variables
             uvar(i,1) = mup(i)   !< Volumetric plastic strain
@@ -366,19 +366,19 @@
             !< Sound speed
             ssp(i) = sqrt((dpdmu(i)+four_over_3*g)/rho0(i))
             !< Non-local variable to regularize
-            if (inloc > 0) then 
-              if (off(i) == one) then 
+            if (inloc > 0) then
+              if (off(i) == one) then
                 varnl(i) = defp(i) + mup(i)
-                if (dmg(i) >= one) then 
+                if (dmg(i) >= one) then
                   varnl(i) = zero
                 endif
               else
                 varnl(i) = zero
-              endif 
-            endif 
+              endif
+            endif
             !< Coefficient for hourglass control
             et(i) = one
-          enddo      
+          enddo
 !
           !========================================================================
           !< Element failure behavior
@@ -390,7 +390,7 @@
               if (off(i) <  one) off(i) = off(i)*four_over_5
               if ((noff(i) == 1).and.(off(i) == one)) off(i) = four_over_5
             enddo
-          !< Set to zero the deviatoric stress tensor
+            !< Set to zero the deviatoric stress tensor
           elseif (ifail == 2) then
             do i = 1,nel
               if (noff(i) == 1) then
@@ -402,8 +402,8 @@
                 signzx(i) = zero
               endif
             enddo
-          !< Set to zero the deviatoric stress tensor
-          !< Keep pressure only in compression
+            !< Set to zero the deviatoric stress tensor
+            !< Keep pressure only in compression
           elseif (ifail == 3) then
             do i = 1,nel
               if (noff(i) == 1) then
@@ -415,7 +415,7 @@
                 signzx(i) = zero
               endif
             enddo
-          !< Set to zero the whole stress tensor
+            !< Set to zero the whole stress tensor
           elseif (ifail == 4) then
             do i = 1,nel
               if (noff(i) == 1) then
@@ -427,8 +427,8 @@
                 signzx(i) = zero
               endif
             enddo
-          endif       
-!     
+          endif
+!
           !========================================================================
           !< Element failure behavior and printing out element deletion data
           !========================================================================
@@ -441,39 +441,39 @@
                 write(iout, 1000) ngl(i),tt
                 write(istdo,1000) ngl(i),tt
               enddo
-            !< Set to zero the deviatoric stress tensor
+              !< Set to zero the deviatoric stress tensor
             elseif (ifail == 2) then
               do j=1,nindx
                 i = indx(j)
                 write(iout, 2000) ngl(i),tt
                 write(istdo,2000) ngl(i),tt
               enddo
-            !< Set to zero the deviatoric stress tensor
-            !< Keep pressure only in compression
-            elseif (ifail == 3) then  
+              !< Set to zero the deviatoric stress tensor
+              !< Keep pressure only in compression
+            elseif (ifail == 3) then
               do j=1,nindx
-                i = indx(j)              
+                i = indx(j)
                 write(iout, 3000) ngl(i),tt
                 write(istdo,3000) ngl(i),tt
               enddo
-            !< Set to zero the whole stress tensor
-            elseif (ifail == 4) then  
+              !< Set to zero the whole stress tensor
+            elseif (ifail == 4) then
               do j=1,nindx
-                i = indx(j)                
+                i = indx(j)
                 write(iout, 4000) ngl(i),tt
                 write(istdo,4000) ngl(i),tt
               enddo
             endif
           endif
           !< Element failure messages formats
-1000 format(1X,'-- RUPTURE (JHC) OF SOLID ELEMENT :',I10,' AT TIME :',1PE12.4)     
-2000 format(1X,'-- FAILURE (JHC) OF SOLID ELEMENT :',I10,' AT TIME :',1PE12.4,/,&
-            2X,' - DEVIATORIC STRESS TENSOR WILL BE VANISHED')  
-3000 format(1X,'-- FAILURE (JHC) OF SOLID ELEMENT :',I10,' AT TIME :',1PE12.4,/,&
+1000      format(1X,'-- RUPTURE (JHC) OF SOLID ELEMENT :',I10,' AT TIME :',1PE12.4)
+2000      format(1X,'-- FAILURE (JHC) OF SOLID ELEMENT :',I10,' AT TIME :',1PE12.4,/,&
+            2X,' - DEVIATORIC STRESS TENSOR WILL BE VANISHED')
+3000      format(1X,'-- FAILURE (JHC) OF SOLID ELEMENT :',I10,' AT TIME :',1PE12.4,/,&
             2X,' - DEVIATORIC STRESS TENSOR WILL BE VANISHED IN COMPRESSION' ,/,s&
-            2X,' - WHOLE STRESS TENSOR WILL BE VANISHED IN TENSION')  
-4000 format(1X,'-- FAILURE (JHC) OF SOLID ELEMENT :',I10,' AT TIME :',1PE12.4,/,&
-            2X,' - STRESS TENSOR WILL BE VANISHED')     
+            2X,' - WHOLE STRESS TENSOR WILL BE VANISHED IN TENSION')
+4000      format(1X,'-- FAILURE (JHC) OF SOLID ELEMENT :',I10,' AT TIME :',1PE12.4,/,&
+            2X,' - STRESS TENSOR WILL BE VANISHED')
 
         end subroutine sigeps126
-      end module sigeps126_mod  
+      end module sigeps126_mod

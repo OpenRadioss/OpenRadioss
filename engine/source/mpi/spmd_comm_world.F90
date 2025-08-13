@@ -474,7 +474,7 @@
 !||    terminate_mumps                 ../engine/share/modules/linear_solver_mod.F
 !||    upcase                          ../engine/source/engine/execargcheck.F
 !||====================================================================
-         module spmd_comm_world_mod
-            implicit none
-            integer :: spmd_comm_world
-         end module spmd_comm_world_mod
+      module spmd_comm_world_mod
+        implicit none
+        integer :: spmd_comm_world
+      end module spmd_comm_world_mod

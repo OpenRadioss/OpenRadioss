@@ -77,7 +77,7 @@
           use names_and_titles_mod, only: ncharline100
           use matparam_def_mod , only : matparam_struct_
           use precision_mod , only : WP
-          use mvsiz_mod, only : mvsiz 
+          use mvsiz_mod, only : mvsiz
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -1543,20 +1543,20 @@
                   mt = ixq(1,i+nft)
                   if(mlw == 151)then
                     !multimaterial 151 (collocated scheme)
-                      do ilay=1,multi_fvm%nbmat
-                        mid = MAT_PARAM(mt)%multimat%mid(ilay)
-                        rho0i (ilay) = pm(89,mid)
-                        Vi (ilay) = multi_fvm%phase_alpha(ilay,i+nft) * gbuf%vol(i)
-                        V0i (ilay) =  multi_fvm%phase_rho(ilay,i+nft) * Vi(ilay) / rho0i(ilay)         !rho0.V0 = rho.V
-                      enddo
-                      V0g = sum(V0i)
-                      RHO0g = zero
-                      do ilay=1,multi_fvm%nbmat
-                        RHO0g = RHO0g + rho0i(ilay)*V0i(ilay)
-                      end do
-                      RHO0g = RHO0g / V0g
-                      value(i) = multi_fvm%rho(i+nft) / RHO0g - ONE
-                      is_written_value(i) = 1
+                    do ilay=1,multi_fvm%nbmat
+                      mid = MAT_PARAM(mt)%multimat%mid(ilay)
+                      rho0i (ilay) = pm(89,mid)
+                      Vi (ilay) = multi_fvm%phase_alpha(ilay,i+nft) * gbuf%vol(i)
+                      V0i (ilay) =  multi_fvm%phase_rho(ilay,i+nft) * Vi(ilay) / rho0i(ilay)         !rho0.V0 = rho.V
+                    enddo
+                    V0g = sum(V0i)
+                    RHO0g = zero
+                    do ilay=1,multi_fvm%nbmat
+                      RHO0g = RHO0g + rho0i(ilay)*V0i(ilay)
+                    end do
+                    RHO0g = RHO0g / V0g
+                    value(i) = multi_fvm%rho(i+nft) / RHO0g - ONE
+                    is_written_value(i) = 1
 
                   elseif(mlw == 51)then
                     !multimaterial 51 (staggered scheme)
@@ -1674,12 +1674,12 @@
 
                     if(mlw == 151)then
                       !multimaterial 151 (collocated scheme)
-                        mid = MAT_PARAM(mt)%multimat%mid(ilay)
-                        rho0i(ilay) = pm(89,mid)
-                        Vi(ilay) = multi_fvm%phase_alpha(ilay,i+nft) * gbuf%vol(i)
-                        V0i(ilay) = multi_fvm%phase_rho(ilay,i+nft) * Vi(ilay) / rho0i(ilay)         !rho0.V0 = rho.V
-                        value(i) = multi_fvm%phase_rho(ilay,i+nft) / rho0i(ilay) - ONE
-                        is_written_value(i) = 1
+                      mid = MAT_PARAM(mt)%multimat%mid(ilay)
+                      rho0i(ilay) = pm(89,mid)
+                      Vi(ilay) = multi_fvm%phase_alpha(ilay,i+nft) * gbuf%vol(i)
+                      V0i(ilay) = multi_fvm%phase_rho(ilay,i+nft) * Vi(ilay) / rho0i(ilay)         !rho0.V0 = rho.V
+                      value(i) = multi_fvm%phase_rho(ilay,i+nft) / rho0i(ilay) - ONE
+                      is_written_value(i) = 1
 
                     elseif(mlw == 51)then
                       !multimaterial 51 (staggered scheme)
@@ -1732,9 +1732,9 @@
                       !general case (monomaterial law)
                       is_written_value(i) = 0
                     end if
-                enddo
+                  enddo
 
-              end if
+                end if
 !--------------------------------------------------
               endif  ! keyword
 !--------------------------------------------------

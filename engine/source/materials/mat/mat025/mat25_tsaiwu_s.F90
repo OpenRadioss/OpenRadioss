@@ -63,7 +63,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   arguments 
+!                                                   arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           integer ,intent(in) :: nel                       !< element group size
           integer ,intent(in) :: ilay                      !< layer number
@@ -101,13 +101,13 @@
           real(kind=WP) ,intent(inout) :: dmg(nel,l_dmg)         !< damage related variables
           type (matparam_struct_) ,intent(in) :: mat_param !< material parameter structure
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   local variables 
+!                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i,j,fail,ioff,icc,nindx
           integer :: fail_old(mvsiz),index(mvsiz),icas(mvsiz),isoft(mvsiz)
           real(kind=WP) :: e11,e22,e33,nu12,nu21,g12,g23,g31,wplaref,cc,epdr
           real(kind=WP) :: scale, cnn, scale1, scale2, dam1, dam2,b1,b2
-          real(kind=WP) :: coefa,coefb,delta,dwpla,e1,e2,e3,e4,e5,e6 
+          real(kind=WP) :: coefa,coefb,delta,dwpla,e1,e2,e3,e4,e5,e6
           real(kind=WP)                                                            &
             :: dp1(mvsiz), dp2(mvsiz), dp3(mvsiz),cb(mvsiz),cn(mvsiz),          &
             fmax(mvsiz),ds1(mvsiz), ds2(mvsiz), ds3(mvsiz),                  &
@@ -341,7 +341,7 @@
             if (wvec(i) > fyld(i).and.off(i)  ==  one) coef(i)=one
             wvec(i)=zero
           enddo
-!       
+!
           nindx = 0
           do i=1,nel
             beta(i) = one
@@ -370,21 +370,21 @@
                     + f33(i) * beta(i)*t3(i)*t3(i)              &
                     + two*f12(i)*beta(i)*t1(i)*t2(i)) * beta(i)
 
-                 else if (imconv==1 .and. outv(i) == 0) then  ! coefa<em15 & coefb<em15
-                   nindx = nindx + 1
-                   index(nindx) = i   
+                else if (imconv==1 .and. outv(i) == 0) then  ! coefa<em15 & coefb<em15
+                  nindx = nindx + 1
+                  index(nindx) = i
                 endif
 
               else if (imconv == 1 .and. outv (i) == 0) then   ! delta < 0
-                   nindx = nindx + 1
-                   index(nindx) = i   
+                nindx = nindx + 1
+                index(nindx) = i
               endif   ! delta > 0
             end if    ! coef == 1
           enddo
           if(nindx > 0) then
-             do j=1,nindx
-                call ancmsg(msgid=244,anmode=aninfo, i1=ngl(index(j)))            
-           end do
+            do j=1,nindx
+              call ancmsg(msgid=244,anmode=aninfo, i1=ngl(index(j)))
+            end do
           endif
 ! ----------------------------------------------------------------------------------------------------------------------
           do i=1,nel
@@ -410,8 +410,8 @@
             if (lamda(i) /= zero) then
               lamda(i)=lamda(i)*coef(i)/                                    &
                 (dp1(i)*(a11(i)*dp1(i)+a12(i)*dp2(i))+                      &
-                 dp2(i)*(a12(i)*dp1(i)+a22(i)*dp2(i))+                      &
-                 two*dp3(i)*g12*de1(i)*de2(i)*dp3(i) )
+                dp2(i)*(a12(i)*dp1(i)+a22(i)*dp2(i))+                      &
+                two*dp3(i)*g12*de1(i)*de2(i)*dp3(i) )
             endif
           enddo
 !

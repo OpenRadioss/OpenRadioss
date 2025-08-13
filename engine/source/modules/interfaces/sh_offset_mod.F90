@@ -37,7 +37,7 @@
         private :: WP
         type sh_offset_
           integer ::  nsh_oset                                 ! number of offset shell to be projected
-          integer ::  nnsh_oset                                ! number of nodal offset 
+          integer ::  nnsh_oset                                ! number of nodal offset
           integer, dimension(:,:) , allocatable :: ix_offset   ! (4,nsh_oset)
           integer, dimension(:)  ,  allocatable :: intag       ! (numnod) global node to local offset
           integer, dimension(:)  ,  allocatable :: indexg      ! (nnsh_oset) to global node number

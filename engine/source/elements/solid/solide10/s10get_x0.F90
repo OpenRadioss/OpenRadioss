@@ -40,9 +40,9 @@
 !||    precision_mod   ../common_source/modules/precision_mod.F90
 !||====================================================================
         subroutine s10get_x0(                                   &
-                nel      ,numnod   ,x          ,xdp     ,       &
-                d        ,xx0      ,yy0        ,zz0     ,       &
-                nc       )
+          nel      ,numnod   ,x          ,xdp     ,       &
+          d        ,xx0      ,yy0        ,zz0     ,       &
+          nc       )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -71,59 +71,59 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                      Body
 ! ----------------------------------------------------------------------------------------------------------------------
-!         
-        if (WP==4)then  !sp
-          do n=1,4
-             do i=1,nel
-               nn = nc(i,n)
-               xx0(i,n) = xdp(1,nn) - d(1,nn)
-               yy0(i,n) = xdp(2,nn) - d(2,nn)
-               zz0(i,n) = xdp(3,nn) - d(3,nn)
-             end do
-          end do
-!          
-          do n=5,10
-            do i=1,nel
-              nn = nc(i,n)
-              if(nn/=0)then
+!
+          if (WP==4)then  !sp
+            do n=1,4
+              do i=1,nel
+                nn = nc(i,n)
                 xx0(i,n) = xdp(1,nn) - d(1,nn)
                 yy0(i,n) = xdp(2,nn) - d(2,nn)
                 zz0(i,n) = xdp(3,nn) - d(3,nn)
-              else
-                n1=iperm1(n)
-                n2=iperm2(n)
-                xx0(i,n) = half*(xx0(i,n1)+xx0(i,n2))
-                yy0(i,n) = half*(yy0(i,n1)+yy0(i,n2))
-                zz0(i,n) = half*(zz0(i,n1)+zz0(i,n2))
-              end if
+              end do
             end do
-          end do
-        else !dp
-          do n=1,4
-             do i=1,nel
-               nn = nc(i,n)
-               xx0(i,n) = x(1,nn) - d(1,nn)
-               yy0(i,n) = x(2,nn) - d(2,nn)
-               zz0(i,n) = x(3,nn) - d(3,nn)
-             end do
-          end do
-          do n=5,10
-            do i=1,nel
-              nn = nc(i,n)
-              if(nn/=0)then
+!
+            do n=5,10
+              do i=1,nel
+                nn = nc(i,n)
+                if(nn/=0)then
+                  xx0(i,n) = xdp(1,nn) - d(1,nn)
+                  yy0(i,n) = xdp(2,nn) - d(2,nn)
+                  zz0(i,n) = xdp(3,nn) - d(3,nn)
+                else
+                  n1=iperm1(n)
+                  n2=iperm2(n)
+                  xx0(i,n) = half*(xx0(i,n1)+xx0(i,n2))
+                  yy0(i,n) = half*(yy0(i,n1)+yy0(i,n2))
+                  zz0(i,n) = half*(zz0(i,n1)+zz0(i,n2))
+                end if
+              end do
+            end do
+          else !dp
+            do n=1,4
+              do i=1,nel
+                nn = nc(i,n)
                 xx0(i,n) = x(1,nn) - d(1,nn)
                 yy0(i,n) = x(2,nn) - d(2,nn)
                 zz0(i,n) = x(3,nn) - d(3,nn)
-              else
-                n1=iperm1(n)
-                n2=iperm2(n)
-                xx0(i,n) = half*(xx0(i,n1)+xx0(i,n2))
-                yy0(i,n) = half*(yy0(i,n1)+yy0(i,n2))
-                zz0(i,n) = half*(zz0(i,n1)+zz0(i,n2))
-              end if
+              end do
             end do
-          end do
-        end if ! (WP==4)then
+            do n=5,10
+              do i=1,nel
+                nn = nc(i,n)
+                if(nn/=0)then
+                  xx0(i,n) = x(1,nn) - d(1,nn)
+                  yy0(i,n) = x(2,nn) - d(2,nn)
+                  zz0(i,n) = x(3,nn) - d(3,nn)
+                else
+                  n1=iperm1(n)
+                  n2=iperm2(n)
+                  xx0(i,n) = half*(xx0(i,n1)+xx0(i,n2))
+                  yy0(i,n) = half*(yy0(i,n1)+yy0(i,n2))
+                  zz0(i,n) = half*(zz0(i,n1)+zz0(i,n2))
+                end if
+              end do
+            end do
+          end if ! (WP==4)then
 !----------------------------
         end subroutine s10get_x0
 !-------------------

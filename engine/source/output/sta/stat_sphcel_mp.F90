@@ -41,9 +41,9 @@
 !||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
 !||====================================================================
         subroutine stat_sphcel_mp(numnod      ,numsph      ,nisp          ,npart      ,ngroup       ,  &
-                                  nparg       ,lipart1     ,stat_numelsph ,itab       ,ipart        ,  &
-                                  kxsp        ,ipartsph    ,ipart_state   ,nodtag     ,stat_indxsph ,  &
-                                  iparg       ,elbuf_tab   ,idel          )
+          nparg       ,lipart1     ,stat_numelsph ,itab       ,ipart        ,  &
+          kxsp        ,ipartsph    ,ipart_state   ,nodtag     ,stat_indxsph ,  &
+          iparg       ,elbuf_tab   ,idel          )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -95,7 +95,7 @@
               ity = iparg(5,ng)
               if (ity == 51) then
                 nel = iparg(2,ng)
-                nft = iparg(3,ng) 
+                nft = iparg(3,ng)
                 lft=1
                 llt=nel
                 do i=lft,llt
@@ -117,12 +117,12 @@
               endif ! if (ity == 51)
             enddo ! do ng=1,ngroup
           endif ! if (numelsph /= 0)
-          
+
           do n=1,numsph
             stat_indxsph(n)=n
           enddo
           call my_orders(0,work,clef,stat_indxsph,stat_numelsph,2)
-          
+
           iprt0=0
           do n=1,stat_numelsph
             k=stat_indxsph(n)
@@ -138,10 +138,10 @@
               write(iugeo,'(i10)') np(jj+2)
             endif !if (idel)
           enddo ! do n=1,stat_numelsph
-          
+
           return
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine stat_sphcel_mp
       end module stat_sphcel_mp_mod
-      
-      
+
+

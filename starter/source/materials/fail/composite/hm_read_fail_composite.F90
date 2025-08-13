@@ -55,12 +55,12 @@
           use elbuftag_mod
           use constant_mod
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                 implicit none 
+!                                                 implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
 #include  "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   arguments 
+!                                                   arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           type (fail_param_)  ,intent(inout) :: fail         !< failure model data structure
           integer             ,intent(in)    :: fail_id      !< failure model ID
@@ -70,7 +70,7 @@
           type (fail_tag_)    ,intent(inout) :: fail_tag     !< failure model tag for buffer allocation
           integer             ,intent(in)    :: iout         !< output unit number
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   local variables 
+!                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: ifail_sh,ifail_so
           my_real :: sigt1,sigc1,sigt2,sigc2,sig12

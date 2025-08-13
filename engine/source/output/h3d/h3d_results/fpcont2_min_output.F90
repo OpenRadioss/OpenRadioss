@@ -44,7 +44,7 @@
 !||    precision_mod        ../common_source/modules/precision_mod.F90
 !||====================================================================
         subroutine fpcont2_min_output(fcont,fcont_min,sz_npcont2,npcont2,weight,      &
-                                      npcont2_min,numnod)
+          npcont2_min,numnod)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -78,22 +78,22 @@
 !
               normal(1:3) = npcont2_min(1:3,n)
               nnn = sqrt(max(em20,normal(1)**2+normal(2)**2+normal(3)**2))
-              normal(1:3) = normal(1:3)/nnn    
+              normal(1:3) = normal(1:3)/nnn
               fold = fcont_min(1,n)*normal(1)+fcont_min(2,n)*normal(2)+fcont_min(3,n)*normal(3)
 !
               normal(1:3) = npcont2(1:3,n)
               nnn = sqrt(max(em20,normal(1)**2+normal(2)**2+normal(3)**2))
-              normal(1:3) = normal(1:3)/nnn                        
+              normal(1:3) = normal(1:3)/nnn
               fnew = fcont(1,n)*normal(1)+fcont(2,n)*normal(2)+fcont(3,n)*normal(3)
 !
               if(fnew < fold) then
-                fcont_min(1:3,n) = fnew*normal(1:3)   
+                fcont_min(1:3,n) = fnew*normal(1:3)
                 npcont2_min(1:3,n) = normal(1:3)
-             endif
-           else
-             fcont(1:3,n) =  zero
-           endif
-         enddo
+              endif
+            else
+              fcont(1:3,n) =  zero
+            endif
+          enddo
 !
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine fpcont2_min_output

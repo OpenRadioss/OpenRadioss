@@ -78,11 +78,11 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-!          
-!         works only for monotonic increasing tables - null slope ine table treated in starter for retractors  
+!
+!         works only for monotonic increasing tables - null slope ine table treated in starter for retractors
 !         similar as retractor_table_inv but for non monotonic table
-!         will return solution that is the closest to last known solution xx_prev                
-!         
+!         will return solution that is the closest to last known solution xx_prev
+!
           ndim = table%ndim
           if (ndim > 1) then
             call ancmsg(msgid=36, anmode=aninfo, c1='table interpolation')
@@ -93,12 +93,12 @@
           r = one
           nxk = size(table%x(1)%values)
 !
-          error = ep20 
+          error = ep20
           do i = 2, nxk
 !            dy2 = table%y%values(i) - yy
 !            if (dy2 >= zero .or. i == nxk) then
             if (((yy >= table%y%values(i-1)).and.(yy <= table%y%values(i))).or.  &
-                ((yy >= table%y%values(i)).and.(yy <= table%y%values(i-1)))) then
+              ((yy >= table%y%values(i)).and.(yy <= table%y%values(i-1)))) then
               ipos = i - 1
               r = (table%y%values(i) - yy) / (table%y%values(i) - table%y%values(i - 1))
               unr = one - r

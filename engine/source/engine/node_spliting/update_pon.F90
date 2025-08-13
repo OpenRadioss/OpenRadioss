@@ -103,8 +103,8 @@
               endif
             enddo
           enddo
-          ! The actual number of forces contributions is lower or equal than the old number of contributions                                              
-          ! But we still extend it, some forces in FSKY will be allways zero 
+          ! The actual number of forces contributions is lower or equal than the old number of contributions
+          ! But we still extend it, some forces in FSKY will be allways zero
           ! because it allows us to keep the existing pointers to FSKY (such as ISENDP, IRECVDP)
           call my_alloc(new_adsky, new_numnod + 1)
 
@@ -124,19 +124,19 @@
             do j = 1, 4
               if(elements%shell%nodes(j, shell_id) == new_id) then
                 elements%pon%iadc(j,shell_id) = elements%pon%adsky(new_numnod) + contributions_count
-               ! write(6,*) "IADC(", shell_id, ",", j, ") = ", elements%pon%iadc(j,shell_id)
+                ! write(6,*) "IADC(", shell_id, ",", j, ") = ", elements%pon%iadc(j,shell_id)
                 contributions_count = contributions_count + 1
               endif
             enddo
           enddo
- 
+
           ! extend FSKY
           !        subroutine extend_array_double_2d(a, oldsize1, oldsize2, newsize1, newsize2, msg, stat)
           i = size(elements%pon%fsky, 2) + contributions_count
           call extend_array(elements%pon%fsky, 8,elements%pon%sfsky/8, 8, i)
 !         write(6,*) "old id=", old_id, "new id=", new_id
           elements%pon%sfsky = i * 8
-          elements%pon%fsky(1:8, 1:i) = 0 
+          elements%pon%fsky(1:8, 1:i) = 0
 
 
 

@@ -51,99 +51,99 @@
 !||    precision_mod                     ../common_source/modules/precision_mod.F90
 !||    table_mod                         ../engine/share/modules/table_mod.F
 !||====================================================================
-      subroutine sigeps87c(                                                    &
-        nel      ,matparam ,nuvar    ,uvar     ,                               &
-        time     ,timestep ,rho0     ,thkly    ,thk      ,                     &
-        epspxx   ,epspyy   ,epspxy   ,                                         &
-        depsxx   ,depsyy   ,depsxy   ,depsyz   ,depszx   ,                     &
-        sigoxx   ,sigoyy   ,sigoxy   ,sigoyz   ,sigozx   ,                     &
-        signxx   ,signyy   ,signxy   ,signyz   ,signzx   ,                     &
-        soundsp  ,pla      ,dpla     ,epsd_pg  ,yld      ,                     &
-        etse     ,gs       ,israte   ,asrate   ,epsd     ,                     &
-        temp     ,l_sigb   ,sigb     ,inloc    ,dplanl   ,                     &
-        seq      ,jthe     ,off      ,loff     ,nvartmp  ,                     &
-        vartmp   )
+        subroutine sigeps87c(                                                    &
+          nel      ,matparam ,nuvar    ,uvar     ,                               &
+          time     ,timestep ,rho0     ,thkly    ,thk      ,                     &
+          epspxx   ,epspyy   ,epspxy   ,                                         &
+          depsxx   ,depsyy   ,depsxy   ,depsyz   ,depszx   ,                     &
+          sigoxx   ,sigoyy   ,sigoxy   ,sigoyz   ,sigozx   ,                     &
+          signxx   ,signyy   ,signxy   ,signyz   ,signzx   ,                     &
+          soundsp  ,pla      ,dpla     ,epsd_pg  ,yld      ,                     &
+          etse     ,gs       ,israte   ,asrate   ,epsd     ,                     &
+          temp     ,l_sigb   ,sigb     ,inloc    ,dplanl   ,                     &
+          seq      ,jthe     ,off      ,loff     ,nvartmp  ,                     &
+          vartmp   )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                        Modules
 ! ----------------------------------------------------------------------------------------------------------------------
-        use matparam_def_mod 
-        use constant_mod   
-        use table_mod
-        use interface_table_mod
-        use mat87c_tabulated_mod
-        use mat87c_swift_voce_mod
-        use mat87c_hansel_mod
-        use mat87c_tabulated_3dir_ortho_mod
-        use precision_mod, only: WP
+          use matparam_def_mod
+          use constant_mod
+          use table_mod
+          use interface_table_mod
+          use mat87c_tabulated_mod
+          use mat87c_swift_voce_mod
+          use mat87c_hansel_mod
+          use mat87c_tabulated_3dir_ortho_mod
+          use precision_mod, only: WP
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                 implicit none 
+!                                                 implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
-        implicit none 
+          implicit none
 #include  "units_c.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   arguments 
+!                                                   arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-        integer, intent(in)                            :: nel      !< Number of elements
-        type(matparam_struct_), intent(in)             :: matparam !< Material parameters data structure
-        integer, intent(in)                            :: nuvar    !< Number of user variables 
-        real(kind=WP), dimension(nel,nuvar), intent(inout)   :: uvar     !< User variables
-        real(kind=WP), intent(in)                            :: time     !< Current time
-        real(kind=WP), intent(in)                            :: timestep !< Time step
-        real(kind=WP), dimension(nel), intent(in)            :: rho0     !< Initial density
-        real(kind=WP), dimension(nel), intent(in)            :: thkly    !< Current layer thickness
-        real(kind=WP), dimension(nel), intent(inout)         :: thk      !< ELement total thickness
-        real(kind=WP), dimension(nel), intent(in)            :: epspxx   !< Strain rate component xx
-        real(kind=WP), dimension(nel), intent(in)            :: epspyy   !< Strain rate component yy
-        real(kind=WP), dimension(nel), intent(in)            :: epspxy   !< Strain rate component xy
-        real(kind=WP), dimension(nel), intent(in)            :: depsxx   !< Strain increment component xx
-        real(kind=WP), dimension(nel), intent(in)            :: depsyy   !< Strain increment component yy
-        real(kind=WP), dimension(nel), intent(in)            :: depsxy   !< Strain increment component xy
-        real(kind=WP), dimension(nel), intent(in)            :: depsyz   !< Strain increment component yz
-        real(kind=WP), dimension(nel), intent(in)            :: depszx   !< Strain increment component zx
-        real(kind=WP), dimension(nel), intent(in)            :: sigoxx   !< Old stress component xx
-        real(kind=WP), dimension(nel), intent(in)            :: sigoyy   !< Old stress component yy
-        real(kind=WP), dimension(nel), intent(in)            :: sigoxy   !< Old stress component xy
-        real(kind=WP), dimension(nel), intent(in)            :: sigoyz   !< Old stress component yz
-        real(kind=WP), dimension(nel), intent(in)            :: sigozx   !< Old stress component zx
-        real(kind=WP), dimension(nel), intent(inout)         :: signxx   !< New stress component xx
-        real(kind=WP), dimension(nel), intent(inout)         :: signyy   !< New stress component yy
-        real(kind=WP), dimension(nel), intent(inout)         :: signxy   !< New stress component xy
-        real(kind=WP), dimension(nel), intent(inout)         :: signyz   !< New stress component yz
-        real(kind=WP), dimension(nel), intent(inout)         :: signzx   !< New stress component zx
-        real(kind=WP), dimension(nel), intent(inout)         :: soundsp  !< Sound speed
-        real(kind=WP), dimension(nel), intent(inout)         :: pla      !< Equivalent plastic strain
-        real(kind=WP), dimension(nel), intent(inout)         :: dpla     !< Increment of equivalent plastic strain
-        real(kind=WP), dimension(nel), intent(in)            :: epsd_pg  !< Global equivalent strain rate
-        real(kind=WP), dimension(nel), intent(inout)         :: yld      !< Yield stress
-        real(kind=WP), dimension(nel), intent(inout)         :: etse     !< Hourglass control stiffness
-        real(kind=WP), dimension(nel), intent(in)            :: gs       !< Transverse shear modulus 
-        integer, intent(in)                            :: israte   !< Flag for strain rate filtering
-        real(kind=WP), intent(in)                            :: asrate   !< Strain rate filtering factor
-        real(kind=WP), dimension(nel), intent(inout)         :: temp     !< Element temperature
-        integer, intent(in)                            :: l_sigb   !< Number of backstress components
-        real(kind=WP), dimension(nel,l_sigb), intent(inout)  :: sigb     !< Backstress components
-        integer, intent(in)                            :: inloc    !< Flag for non-local regularization
-        real(kind=WP), dimension(nel), intent(in)            :: dplanl   !< Non-local plastic strain increment
-        real(kind=WP), dimension(nel), intent(inout)         :: seq      !< Equivalent stress
-        integer, intent(in)                            :: jthe     !< Flag for thermal effects
-        real(kind=WP), dimension(nel), intent(in)            :: off      !< Flag for element deletion
-        real(kind=WP), dimension(nel), intent(in)            :: loff     !< Flag for Gauss point deletion
-        integer, intent(in)                            :: nvartmp  !< Number of temporary variables
-        integer, dimension(nel,nvartmp), intent(inout) :: vartmp   !< Temporary variables
-        real(kind=WP), dimension(nel), intent(inout)         :: epsd     !< local strain rate
+          integer, intent(in)                            :: nel      !< Number of elements
+          type(matparam_struct_), intent(in)             :: matparam !< Material parameters data structure
+          integer, intent(in)                            :: nuvar    !< Number of user variables
+          real(kind=WP), dimension(nel,nuvar), intent(inout)   :: uvar     !< User variables
+          real(kind=WP), intent(in)                            :: time     !< Current time
+          real(kind=WP), intent(in)                            :: timestep !< Time step
+          real(kind=WP), dimension(nel), intent(in)            :: rho0     !< Initial density
+          real(kind=WP), dimension(nel), intent(in)            :: thkly    !< Current layer thickness
+          real(kind=WP), dimension(nel), intent(inout)         :: thk      !< ELement total thickness
+          real(kind=WP), dimension(nel), intent(in)            :: epspxx   !< Strain rate component xx
+          real(kind=WP), dimension(nel), intent(in)            :: epspyy   !< Strain rate component yy
+          real(kind=WP), dimension(nel), intent(in)            :: epspxy   !< Strain rate component xy
+          real(kind=WP), dimension(nel), intent(in)            :: depsxx   !< Strain increment component xx
+          real(kind=WP), dimension(nel), intent(in)            :: depsyy   !< Strain increment component yy
+          real(kind=WP), dimension(nel), intent(in)            :: depsxy   !< Strain increment component xy
+          real(kind=WP), dimension(nel), intent(in)            :: depsyz   !< Strain increment component yz
+          real(kind=WP), dimension(nel), intent(in)            :: depszx   !< Strain increment component zx
+          real(kind=WP), dimension(nel), intent(in)            :: sigoxx   !< Old stress component xx
+          real(kind=WP), dimension(nel), intent(in)            :: sigoyy   !< Old stress component yy
+          real(kind=WP), dimension(nel), intent(in)            :: sigoxy   !< Old stress component xy
+          real(kind=WP), dimension(nel), intent(in)            :: sigoyz   !< Old stress component yz
+          real(kind=WP), dimension(nel), intent(in)            :: sigozx   !< Old stress component zx
+          real(kind=WP), dimension(nel), intent(inout)         :: signxx   !< New stress component xx
+          real(kind=WP), dimension(nel), intent(inout)         :: signyy   !< New stress component yy
+          real(kind=WP), dimension(nel), intent(inout)         :: signxy   !< New stress component xy
+          real(kind=WP), dimension(nel), intent(inout)         :: signyz   !< New stress component yz
+          real(kind=WP), dimension(nel), intent(inout)         :: signzx   !< New stress component zx
+          real(kind=WP), dimension(nel), intent(inout)         :: soundsp  !< Sound speed
+          real(kind=WP), dimension(nel), intent(inout)         :: pla      !< Equivalent plastic strain
+          real(kind=WP), dimension(nel), intent(inout)         :: dpla     !< Increment of equivalent plastic strain
+          real(kind=WP), dimension(nel), intent(in)            :: epsd_pg  !< Global equivalent strain rate
+          real(kind=WP), dimension(nel), intent(inout)         :: yld      !< Yield stress
+          real(kind=WP), dimension(nel), intent(inout)         :: etse     !< Hourglass control stiffness
+          real(kind=WP), dimension(nel), intent(in)            :: gs       !< Transverse shear modulus
+          integer, intent(in)                            :: israte   !< Flag for strain rate filtering
+          real(kind=WP), intent(in)                            :: asrate   !< Strain rate filtering factor
+          real(kind=WP), dimension(nel), intent(inout)         :: temp     !< Element temperature
+          integer, intent(in)                            :: l_sigb   !< Number of backstress components
+          real(kind=WP), dimension(nel,l_sigb), intent(inout)  :: sigb     !< Backstress components
+          integer, intent(in)                            :: inloc    !< Flag for non-local regularization
+          real(kind=WP), dimension(nel), intent(in)            :: dplanl   !< Non-local plastic strain increment
+          real(kind=WP), dimension(nel), intent(inout)         :: seq      !< Equivalent stress
+          integer, intent(in)                            :: jthe     !< Flag for thermal effects
+          real(kind=WP), dimension(nel), intent(in)            :: off      !< Flag for element deletion
+          real(kind=WP), dimension(nel), intent(in)            :: loff     !< Flag for Gauss point deletion
+          integer, intent(in)                            :: nvartmp  !< Number of temporary variables
+          integer, dimension(nel,nvartmp), intent(inout) :: vartmp   !< Temporary variables
+          real(kind=WP), dimension(nel), intent(inout)         :: epsd     !< local strain rate
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   local variables 
+!                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-        integer :: iflag
+          integer :: iflag
 ! ----------------------------------------------------------------------------------------------------------------------
 !
-        !< Yield stress formulation flag
-        iflag = matparam%iparam(1) 
+          !< Yield stress formulation flag
+          iflag = matparam%iparam(1)
 !
-        !< Select corresponding material routine
-        select case (iflag)
-          !< Tabulated
-          case(0)
+          !< Select corresponding material routine
+          select case (iflag)
+            !< Tabulated
+           case(0)
             call mat87c_tabulated(                                             &
               nel    ,matparam,nvartmp ,vartmp  ,timestep ,                    &
               rho0   ,thkly   ,thk     ,epsd_pg ,                              &
@@ -155,8 +155,8 @@
               etse   ,gs      ,israte  ,asrate  ,off      ,                    &
               l_sigb ,sigb    ,inloc   ,dplanl  ,seq      ,                    &
               loff   )
-          !< Swift-Voce with Cowper-Symonds
-          case(1)
+            !< Swift-Voce with Cowper-Symonds
+           case(1)
             call mat87c_swift_voce(                                            &
               nel    ,matparam,timestep,                                       &
               rho0   ,thkly   ,thk     ,epsd_pg ,                              &
@@ -167,9 +167,9 @@
               soundsp,pla     ,dpla    ,epsd    ,yld      ,                    &
               etse   ,gs      ,israte  ,asrate  ,off      ,                    &
               l_sigb ,sigb    ,inloc   ,dplanl  ,seq      ,                    &
-              loff   )    
-          !< Hansel 
-          case(2)
+              loff   )
+            !< Hansel
+           case(2)
             call mat87c_hansel(                                                &
               nel    ,matparam,nuvar   ,uvar    ,                              &
               rho0   ,thkly   ,thk     ,epsd_pg ,time     ,                    &
@@ -181,8 +181,8 @@
               etse   ,gs      ,off     ,                                       &
               l_sigb ,sigb    ,inloc   ,dplanl  ,seq      ,                    &
               loff   )
-          !< Tabulated 3 directions orthotropic yield stress
-          case(3)
+            !< Tabulated 3 directions orthotropic yield stress
+           case(3)
             call mat87c_tabulated_3dir_ortho(                                  &
               nel    ,matparam,nvartmp ,vartmp  ,timestep ,                    &
               rho0   ,thkly   ,thk     ,epsd_pg ,                              &
@@ -194,7 +194,7 @@
               etse   ,gs      ,israte  ,asrate  ,off      ,                    &
               l_sigb ,sigb    ,inloc   ,dplanl  ,seq      ,                    &
               loff   )
-        end select
-      end subroutine sigeps87c
+          end select
+        end subroutine sigeps87c
 ! ======================================================================================================================
       end module sigeps87c_mod

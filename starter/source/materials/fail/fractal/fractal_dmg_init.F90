@@ -69,7 +69,7 @@
 
 
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   arguments 
+!                                                   arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           integer ,intent(in)  :: nshell                                         !< total number of shell elements
           integer ,intent(in)  :: nummat                                         !< number material models
@@ -81,7 +81,7 @@
           type (matparam_struct_) ,dimension(nummat) ,intent(inout) :: mat_param !< material parameter structure
           type (fail_fractal_) :: fail_fractal                                   !< fractal model structure
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   local variables 
+!                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i,ii,jj,iel,nlay,ilay,ir,is,it,nptr,npts,nptt,nix
           integer :: nelem_dmg,nlay_dmg
