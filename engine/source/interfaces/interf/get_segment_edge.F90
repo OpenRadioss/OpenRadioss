@@ -54,8 +54,8 @@
           integer, intent(in) :: my_segment_id  !< id of the segment
           integer, intent(in) :: my_node_id_1 !< node id of the connected segment
           integer, intent(in) :: my_node_id_2 !< node id of the connected segment
-          integer, intent(inout) :: my_iedge !< edge id 
-          type(intbuf_struct_), intent(in) :: intbuf_tab    !< interface data 
+          integer, intent(inout) :: my_iedge !< edge id
+          type(intbuf_struct_), intent(in) :: intbuf_tab    !< interface data
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -64,9 +64,9 @@
           integer :: node_id_1,node_id_2,node_id_3,node_id_4
           integer, dimension(2,4) :: edge_list
           data edge_list /1,2,     &
-                          2,3,     &
-                          3,4,     &
-                          4,1/  
+            2,3,     &
+            3,4,     &
+            4,1/
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   external functions
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -91,11 +91,11 @@
             ! get the nodes of the edge
             node_id_1 = intbuf_tab%irectm(4*(my_segment_id-1)+edge_list(1,j))
             node_id_2 = intbuf_tab%irectm(4*(my_segment_id-1)+edge_list(2,j))
-            ! ------   
+            ! ------
             ! check if the nodes of the edge are the 2 remote nodes to find the edge id
 
             if( (my_node_id_1==node_id_1.and.my_node_id_2==node_id_2).or.               &
-                (my_node_id_1==node_id_2.and.my_node_id_2==node_id_1)        ) then
+              (my_node_id_1==node_id_2.and.my_node_id_2==node_id_1)        ) then
               my_iedge = iedge
             endif
           enddo

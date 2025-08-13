@@ -56,11 +56,11 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-      INTEGER, INTENT(IN) :: NUMNOD,SW,SV
-      INTEGER, INTENT(IN) :: NALE(NUMNOD)
-      real(kind=WP), INTENT(IN) :: V(3,SV/3)
-      real(kind=WP), INTENT(INOUT) :: W(3,SW/3)
-      INTEGER, INTENT(IN) :: NODFT, NODLT
+          INTEGER, INTENT(IN) :: NUMNOD,SW,SV
+          INTEGER, INTENT(IN) :: NALE(NUMNOD)
+          real(kind=WP), INTENT(IN) :: V(3,SV/3)
+          real(kind=WP), INTENT(INOUT) :: W(3,SW/3)
+          INTEGER, INTENT(IN) :: NODFT, NODLT
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -68,25 +68,25 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-      DO I = NODFT, NODLT
-         IF(IABS(NALE(I)) == 1) THEN
-            ! lagrangian framework
-            W(1,I)=V(1,I)
-            W(2,I)=V(2,I)
-            W(3,I)=V(3,I)
+          DO I = NODFT, NODLT
+            IF(IABS(NALE(I)) == 1) THEN
+              ! lagrangian framework
+              W(1,I)=V(1,I)
+              W(2,I)=V(2,I)
+              W(3,I)=V(3,I)
 
-         ELSEIF(NALE(I) == 0)THEN
-            ! lagrangian framework
-            W(1,I)=V(1,I)
-            W(2,I)=V(2,I)
-            W(3,I)=V(3,I)
-         ELSE
-            ! eulerian framework
-            W(1,I)=ZERO
-            W(2,I)=ZERO
-            W(3,I)=ZERO
-         ENDIF
-      ENDDO
+            ELSEIF(NALE(I) == 0)THEN
+              ! lagrangian framework
+              W(1,I)=V(1,I)
+              W(2,I)=V(2,I)
+              W(3,I)=V(3,I)
+            ELSE
+              ! eulerian framework
+              W(1,I)=ZERO
+              W(2,I)=ZERO
+              W(3,I)=ZERO
+            ENDIF
+          ENDDO
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine alew8
       end module alew8_mod

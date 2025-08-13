@@ -61,7 +61,7 @@
           real(kind=WP), intent(in   ),dimension(numnod)    :: shoset_n   !< nodal offset
           real(kind=WP), intent(inout),dimension(3,numnod)  :: xyz        !< node coordinates
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   local variables 
+!                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i,j,k,n,nnod
           real(kind=WP) :: r(3),s(3),t(3),xv(3,4),norm2

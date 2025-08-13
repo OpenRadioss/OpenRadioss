@@ -210,5 +210,5 @@
           enddo
           !
           return
-        end
+        end subroutine hm_read_thchecksum
       end module hm_read_th_checksum_mod

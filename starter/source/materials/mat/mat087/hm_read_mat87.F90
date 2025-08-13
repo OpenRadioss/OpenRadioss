@@ -75,11 +75,11 @@
           use mat_table_copy_mod
           use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                 implicit none 
+!                                                 implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   arguments 
+!                                                   arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           type(matparam_struct_),intent(inout)              :: matparam  !< Material parameters structure
           integer, intent(inout)                            :: nuvar     !< Number of user variables
@@ -96,7 +96,7 @@
           type(ttable), dimension(ntable), intent(in)       :: table     !< Tables
           integer, intent(in)                               :: maxfunc   !< Maximum number of material functions
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   local variables 
+!                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i,iflagsr,iflag,flag_fit,ilaw,nrate,offset,         &
             ierr2,ifunc(maxfunc),itable(3),ikin,info

@@ -179,4 +179,4 @@
         end function get_local_shell_id
 
 
-      end module
+      end module connectivity_mod

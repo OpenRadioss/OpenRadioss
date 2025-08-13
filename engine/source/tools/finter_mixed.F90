@@ -46,7 +46,7 @@
 !||    python_funct_mod       ../common_source/modules/python_mod.F90
 !||====================================================================
       module finter_mixed_mod
-      use precision_mod, only : WP
+        use precision_mod, only : WP
       contains
 ! ======================================================================================================================
 !                                                   procedures
@@ -83,20 +83,20 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-            ismooth = 0
-            if (ifunc > 0) ismooth = npc(2*nfunct+ifunc+1)
-            if(ismooth < 0) then 
-              call python_call_funct1d(python, -ismooth,x, y) 
-              if(present(dydx)) then
-              call python_deriv_funct1D(python, -ismooth,x, dydx) 
-              endif
-            else
-                if(present(dydx)) then
-                  y = FINTER(ifunc, x, npc, tf, dydx)
-                else
-                  y = FINTER(ifunc, x, npc, tf, unused_dxdy)
-                endif
+          ismooth = 0
+          if (ifunc > 0) ismooth = npc(2*nfunct+ifunc+1)
+          if(ismooth < 0) then
+            call python_call_funct1d(python, -ismooth,x, y)
+            if(present(dydx)) then
+              call python_deriv_funct1D(python, -ismooth,x, dydx)
             endif
+          else
+            if(present(dydx)) then
+              y = FINTER(ifunc, x, npc, tf, dydx)
+            else
+              y = FINTER(ifunc, x, npc, tf, unused_dxdy)
+            endif
+          endif
           return
         end function finter_mixed
       end module finter_mixed_mod

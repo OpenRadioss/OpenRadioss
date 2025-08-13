@@ -65,7 +65,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   arguments 
+!                                                   arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           integer ,intent(in) :: nel                       !< element group size
           integer ,intent(in) :: ilay                      !< layer number
@@ -103,7 +103,7 @@
           real(kind=WP) ,intent(inout) :: dmg(nel,l_dmg)         !< damage related variables
           type (matparam_struct_) ,intent(in) :: mat_param !< material parameter structure
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   local variables 
+!                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i,fail,iflag,imodwp,ioff,icc,id
           integer :: fail_old(mvsiz)
@@ -182,7 +182,7 @@
             eps1c1(i)  = mat_param%uparam(29)
             eps1c2(i)  = mat_param%uparam(30)
             eps1t12(i) = mat_param%uparam(31)
-            
+
             eps2t1(i)  = mat_param%uparam(32)
             eps2t2(i)  = mat_param%uparam(33)
             eps2c1(i)  = mat_param%uparam(34)
@@ -517,8 +517,8 @@
             wvec(i)=zero
           enddo
 !
-         nindx = 0
-         do i=1,nel
+          nindx = 0
+          do i=1,nel
             beta(i) = one
             if (coef(i) == one) then
               coefa = f11(i)*t1(i)*t1(i) + f22(i)*t2(i)*t2(i)       &
@@ -545,21 +545,21 @@
                     + f33(i) * beta(i)*t3(i)*t3(i)              &
                     + two*f12(i)*beta(i)*t1(i)*t2(i)) * beta(i)
 
-                 else if (imconv==1 .and. outv(i) == 0) then  ! coefa<em15 & coefb<em15   
-                   nindx = nindx + 1
-                   index(nindx) = i              
+                else if (imconv==1 .and. outv(i) == 0) then  ! coefa<em15 & coefb<em15
+                  nindx = nindx + 1
+                  index(nindx) = i
                 endif
               else if (imconv == 1 .and. outv (i) == 0) then   ! delta < 0
-                   nindx = nindx + 1
-                   index(nindx) = i
-                  outv(i) = 1                 
+                nindx = nindx + 1
+                index(nindx) = i
+                outv(i) = 1
               endif   ! delta > 0
             end if    ! coef == 1
           enddo
           if(nindx > 0) then
-           do j=1,nindx       
+            do j=1,nindx
               call ancmsg(msgid=244,anmode=aninfo, i1=ngl(index(j)))
-           end do
+            end do
           endif
 ! ----------------------------------------------------------------------------------------------------------------------
           do i=1,nel
@@ -585,8 +585,8 @@
             if(lamda(i) /= zero) then
               lamda(i)=lamda(i)*coef(i)/                             &
                 (dp1(i)*(a11(i)*dp1(i)+a12(i)*dp2(i))+               &
-                 dp2(i)*(a12(i)*dp1(i)+a22(i)*dp2(i))+               &
-                 two*dp3(i)*g12*de1(i)*de2(i)*dp3(i)  )
+                dp2(i)*(a12(i)*dp1(i)+a22(i)*dp2(i))+               &
+                two*dp3(i)*g12*de1(i)*de2(i)*dp3(i)  )
             endif
           enddo
 !

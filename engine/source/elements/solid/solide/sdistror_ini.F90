@@ -56,11 +56,11 @@
 !||    precision_mod   ../common_source/modules/precision_mod.F90
 !||====================================================================
         subroutine sdistor_ini(                                 &
-                nel      ,sti_c    ,npropm     ,nummat  ,       &
-                ismstr   ,imat     ,istab      ,pm      ,       &
-                sig      ,rho      ,cxx        ,off     ,       &
-                offg     ,ll       ,vol        ,fld     ,       &
-                mu       ,fqmax      )
+          nel      ,sti_c    ,npropm     ,nummat  ,       &
+          ismstr   ,imat     ,istab      ,pm      ,       &
+          sig      ,rho      ,cxx        ,off     ,       &
+          offg     ,ll       ,vol        ,fld     ,       &
+          mu       ,fqmax      )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                        Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -70,7 +70,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   arguments 
+!                                                   arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           integer, intent(in)                              :: nel             !< number of elements
           integer, intent(in)                              :: npropm          !< number of properties
@@ -81,51 +81,51 @@
           real(kind=WP), dimension(npropm,nummat) ,intent(in)    :: pm              !< material data
           real(kind=WP), dimension(nel,6), intent(in   )         :: sig             !< stress tensor for buckling check
           real(kind=WP), dimension(nel),   intent(in   )         :: rho             !< density
-          real(kind=WP), dimension(mvsiz), intent(in   )         :: cxx             !< speed sound 
-          real(kind=WP), dimension(mvsiz), intent(in   )         :: off             !< off value 
-          real(kind=WP), dimension(mvsiz), intent(in   )         :: vol             !< volume 
-          real(kind=WP), dimension(nel),   intent(in   )         :: offg            !< offg value 
+          real(kind=WP), dimension(mvsiz), intent(in   )         :: cxx             !< speed sound
+          real(kind=WP), dimension(mvsiz), intent(in   )         :: off             !< off value
+          real(kind=WP), dimension(mvsiz), intent(in   )         :: vol             !< volume
+          real(kind=WP), dimension(nel),   intent(in   )         :: offg            !< offg value
           real(kind=WP), dimension(mvsiz), intent(inout)         :: ll              !< charactistic length
-          real(kind=WP), dimension(mvsiz), intent(inout)         :: fld             !< damping charactistic 
+          real(kind=WP), dimension(mvsiz), intent(inout)         :: fld             !< damping charactistic
           real(kind=WP), dimension(mvsiz), intent(inout)         :: sti_c           !< nodal stiffness
           real(kind=WP), intent(inout)                           :: mu              !< damping coefficient
           real(kind=WP), intent(inout)                           :: fqmax           !< quadratic stiffness limit for contact
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   local variables 
+!                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i,mx
           real(kind=WP) :: nu,f_nu,c1,caq,c2,es,f_es,aj2,f_min
 ! ======================================================================================================================
 !
-         mu=zep05
-         mx = imat(1)
-         nu =pm(21,mx)
-         fqmax = ep02
-         if (nu > 0.48999) then 
-             f_nu = em02
-         elseif (nu>0.4) then
-             f_nu = one-two*nu
-             mu=f_nu*mu
-         else
-             f_nu = one
-             if (pm(107,mx) >= hundred80*pm(32,mx)) f_nu = ten 
-         end if
-         c1 = max(pm(32,mx),pm(100,mx))+onep333*pm(22,mx)
-         c2 = f_nu*c1
-         f_min = em03
-         do i=1,nel
-          aj2=half*(sig(i,1)**2+sig(i,2)**2+sig(i,3)**2)          &
-                  + sig(i,4)**2+sig(i,5)**2+sig(i,6)**2
-          es = sqrt(three*aj2)/c1
-          f_es = max(f_min,ep02*es)
-          f_es = min(one,f_es)
-          ll(i) = vol(i)**third
-          caq=f_es*mu*rho(i)*ll(i)
-          fld(i)=fourth*caq*cxx(i)*off(i)
-          sti_c(i) = c2 * ll(i) *off(i)
-         enddo
-         call scre_sig3(sig, c1, istab,offg,ismstr ,nel)
-!         
+          mu=zep05
+          mx = imat(1)
+          nu =pm(21,mx)
+          fqmax = ep02
+          if (nu > 0.48999) then
+            f_nu = em02
+          elseif (nu>0.4) then
+            f_nu = one-two*nu
+            mu=f_nu*mu
+          else
+            f_nu = one
+            if (pm(107,mx) >= hundred80*pm(32,mx)) f_nu = ten
+          end if
+          c1 = max(pm(32,mx),pm(100,mx))+onep333*pm(22,mx)
+          c2 = f_nu*c1
+          f_min = em03
+          do i=1,nel
+            aj2=half*(sig(i,1)**2+sig(i,2)**2+sig(i,3)**2)          &
+              + sig(i,4)**2+sig(i,5)**2+sig(i,6)**2
+            es = sqrt(three*aj2)/c1
+            f_es = max(f_min,ep02*es)
+            f_es = min(one,f_es)
+            ll(i) = vol(i)**third
+            caq=f_es*mu*rho(i)*ll(i)
+            fld(i)=fourth*caq*cxx(i)*off(i)
+            sti_c(i) = c2 * ll(i) *off(i)
+          enddo
+          call scre_sig3(sig, c1, istab,offg,ismstr ,nel)
+!
         end subroutine sdistor_ini
 ! ----------------------------------------------------------------------------------------------------------------------
       end module sdistor_ini_mod

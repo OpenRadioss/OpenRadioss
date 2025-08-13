@@ -115,7 +115,7 @@
           real(kind=WP), dimension(mvsiz),intent(in) :: fram_factor            !<
           real(kind=WP), dimension(mvsiz),intent(inout) :: eps_old             !<
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   local variables 
+!                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i,j, k, np2, fund, k1, ii, jecrou(4), interp, jfunc
           integer,dimension(mvsiz) :: jpos

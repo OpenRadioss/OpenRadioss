@@ -47,10 +47,10 @@
 !||    precision_mod         ../common_source/modules/precision_mod.F90
 !||====================================================================
         subroutine damping_range_shell(damp_buf,nel     ,nuvarv  ,nvar_damp,timestep ,           &
-                                       rho0    ,soundsp ,young   ,shear_mod,                     &
-                                       epspxx  ,epspyy  ,epspxy  ,epspyz  ,epspzx    ,           &
-                                       sigvxx  ,sigvyy  ,sigvxy  ,sigvyz  ,sigvzx    ,           &
-                                       uvarv   ,off     ,etse    ,flag_incr)
+          rho0    ,soundsp ,young   ,shear_mod,                     &
+          epspxx  ,epspyy  ,epspxy  ,epspyz  ,epspzx    ,           &
+          sigvxx  ,sigvyy  ,sigvxy  ,sigvyz  ,sigvzx    ,           &
+          uvarv   ,off     ,etse    ,flag_incr)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -69,7 +69,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           integer,                                   intent(in)    :: nel                      !< number of elements
           integer,                                   intent(in)    :: nuvarv                   !< number of variables in buf_visc
-          integer,                                   intent(in)    :: nvar_damp                !< number of variables in buf_visc used for damping        
+          integer,                                   intent(in)    :: nvar_damp                !< number of variables in buf_visc used for damping
           integer,                                   intent(in)    :: flag_incr                !< flag for viscous stress increment
           real(kind=WP), dimension(nel,nuvarv) ,           intent(inout) :: uvarv                    !< buffer for viscous variables
           real(kind=WP),                                   intent(in)    :: timestep                 !< time step
@@ -84,9 +84,9 @@
           real(kind=WP), dimension(nel) ,                  intent(inout) :: sigvyy                   !< damp stress yy
           real(kind=WP), dimension(nel) ,                  intent(inout) :: sigvxy                   !< damp stress zz
           real(kind=WP), dimension(nel) ,                  intent(inout) :: sigvyz                   !< damp stress xy
-          real(kind=WP), dimension(nel) ,                  intent(inout) :: sigvzx                   !< damp stress yz 
+          real(kind=WP), dimension(nel) ,                  intent(inout) :: sigvzx                   !< damp stress yz
           real(kind=WP), dimension(nel) ,                  intent(in)    :: rho0                     !< density
-          real(kind=WP), dimension(nel) ,                  intent(inout) :: soundsp                  !< sound speed    
+          real(kind=WP), dimension(nel) ,                  intent(inout) :: soundsp                  !< sound speed
           real(kind=WP), dimension(nel) ,                  intent(in)    :: off                      !< off flag
           real(kind=WP), dimension(nel) ,                  intent(in)    :: etse                     !< tangent young modulus coefficient
           type(buf_damp_range_)   ,                  intent(in)    :: damp_buf                 !< damping frequency range buffer
@@ -104,37 +104,37 @@
 !
           g = zero
           rbulk = zero
-          offset = nuvarv - nvar_damp 
-!       
-          do j=1,3              
-!           tangent young modulus is used - bb multiplied by tangent coefficient for each element                        
-            gv(j)    = damp_buf%alpha(j)*shear_mod         
+          offset = nuvarv - nvar_damp
+!
+          do j=1,3
+!           tangent young modulus is used - bb multiplied by tangent coefficient for each element
+            gv(j)    = damp_buf%alpha(j)*shear_mod
             beta(j)  = one/damp_buf%tau(j)
-            kv(j)    = damp_buf%alpha(j)*young             
+            kv(j)    = damp_buf%alpha(j)*young
             betak(j) = one/damp_buf%tau(j)
-            g = g + gv(j)   
+            g = g + gv(j)
             rbulk = rbulk + kv(j)
-            aa(j) =  exp(-beta(j)*timestep) 
-            bb(j) =  two*timestep*gv(j)*exp(-half*beta(j)*timestep)      
+            aa(j) =  exp(-beta(j)*timestep)
+            bb(j) =  two*timestep*gv(j)*exp(-half*beta(j)*timestep)
             aak(j) = exp(-betak(j)*timestep)
             bbk(j) = timestep*kv(j)*exp(-half*betak(j)*timestep)
-          enddo    
-!          
+          enddo
+!
           if (flag_incr==0) then
-!           call from mulawc            
+!           call from mulawc
             et(1:nel) = etse(1:nel)
           else
-!           call from mulawglc                
-            et(1:nel) = one + etse(1:nel)            
+!           call from mulawglc
+            et(1:nel) = one + etse(1:nel)
           endif
-!          
+!
           do i=1,nel
             a1(i) = zero
             a2(i) = zero
             a3(i) = zero
-            epspzz(i) = zero        
+            epspzz(i) = zero
             do j=1,3
-              ii = offset + 7*(j-1) 
+              ii = offset + 7*(j-1)
 !             paramaters for computaion of epszz_dot (sigzz=0)
               h0(3) = uvarv(i,ii + 3)
               hp0   = uvarv(i,ii + 7)
@@ -142,26 +142,26 @@
               a2(i)  = a2(i) +  bb(j)*et(i)
               a3(i)  = a3(i) +  bbk(j)*et(i)
             enddo
-          enddo  
+          enddo
 !
 !         compute epszz_dot  sig33= 0
-!            
+!
           do i=1,nel
             fac = one/max(em20,two_third*a2(i) + a3(i))
             epspzz(i) = -a1(i) + (third*a2(i)-a3(i))*(epspxx(i) + epspyy(i))
             epspzz(i) = fac*epspzz(i)
           enddo
-!                
-          do i=1,nel 
+!
+          do i=1,nel
 !           spherique part
             dav = third*(epspxx(i) + epspyy(i) + epspzz(i))
-!           deviatorique part           
+!           deviatorique part
             epxx = epspxx(i) - dav
             epyy = epspyy(i) - dav
-            epzz = epspzz(i) - dav          
-!  
-            do j= 1,3    
-              ii = offset + 7*(j-1)     
+            epzz = epspzz(i) - dav
+!
+            do j= 1,3
+              ii = offset + 7*(j-1)
               h0(1) = uvarv(i,ii + 1)
               h0(2) = uvarv(i,ii + 2)
               h0(3) = uvarv(i,ii + 3)
@@ -169,11 +169,11 @@
               h0(5) = uvarv(i,ii + 5)
               h0(6) = uvarv(i,ii + 6)
               hp0   = uvarv(i,ii + 7)
-!                    
+!
               h(1,j) =    aa(j)*h0(1) + bb(j)*epxx*et(i)
-              h(2,j) =    aa(j)*h0(2) + bb(j)*epyy*et(i)     
+              h(2,j) =    aa(j)*h0(2) + bb(j)*epyy*et(i)
               h(3,j) =    aa(j)*h0(3) + bb(j)*epzz*et(i)
-              h(4,j) =    aa(j)*h0(4) + half*bb(j)*epspxy(i)*et(i)       
+              h(4,j) =    aa(j)*h0(4) + half*bb(j)*epspxy(i)*et(i)
               h(5,j) =    aa(j)*h0(5) + half*bb(j)*epspyz(i)*et(i)
               h(6,j) =    aa(j)*h0(6) + half*bb(j)*epspzx(i)*et(i)
               hp(j)  =    aak(j)*hp0  + bbk(j)*(-three*dav)*et(i)
@@ -183,15 +183,15 @@
               uvarv(i,ii + 3) = h(3,j)
               uvarv(i,ii + 4) = h(4,j)
               uvarv(i,ii + 5) = h(5,j)
-              uvarv(i,ii + 6) = h(6,j)              
-              uvarv(i,ii + 7) = hp(j)         
-            enddo 
-!     
+              uvarv(i,ii + 6) = h(6,j)
+              uvarv(i,ii + 7) = hp(j)
+            enddo
+!
 !        comppute stress
 !
             s(1:6) = zero
             p = zero
-          
+
             do  j= 1,3
               s(1) = s(1) + h(1,j)
               s(2) = s(2) + h(2,j)
@@ -201,20 +201,20 @@
               s(6) = s(6) + h(6,j)
               p    = p    + hp(j)
             enddo
-!            
+!
             if (flag_incr == 0) then
-!              viscous stress increment in computed (mulawc)               
+!              viscous stress increment in computed (mulawc)
               sigvxx(i) = sigvxx(i)+(s(1)- p)*off(i)
               sigvyy(i) = sigvyy(i)+(s(2)- p)*off(i)
               sigvxy(i) = sigvxy(i)+s(4)*off(i)
               sigvyz(i) = sigvyz(i)+s(5)*off(i)
-              sigvzx(i) = sigvzx(i)+s(6)*off(i)          
+              sigvzx(i) = sigvzx(i)+s(6)*off(i)
             else
 !             viscous stress increment in computed - incremental formulation(mulawglc)
               s_old(1) =  uvarv(i,offset+22)
               s_old(2) =  uvarv(i,offset+23)
 !              s_old(3) =  uvarv(i,offset+24)
-              s_old(4) =  uvarv(i,offset+25) 
+              s_old(4) =  uvarv(i,offset+25)
               s_old(5) =  uvarv(i,offset+26)
               s_old(6) =  uvarv(i,offset+27)
               p_old    =  uvarv(i,offset+28)
@@ -226,17 +226,17 @@
               uvarv(i,offset+26) = s(5)
               uvarv(i,offset+27) = s(6)
               uvarv(i,offset+28) = p
-!              
+!
               sigvxx(i) = sigvxx(i)+(s(1)-s_old(1)-p+p_old)*off(i)
               sigvyy(i) = sigvyy(i)+(s(2)-s_old(2)-p+p_old)*off(i)
               sigvxy(i) = sigvxy(i)+(s(4)-s_old(4))*off(i)
               sigvyz(i) = sigvyz(i)+(s(5)-s_old(5))*off(i)
-              sigvzx(i) = sigvzx(i)+(s(6)-s_old(6))*off(i)                                
-            endif    
-!            
+              sigvzx(i) = sigvzx(i)+(s(6)-s_old(6))*off(i)
+            endif
+!
             soundsp(i) = sqrt(soundsp(i)**2 + (g + rbulk)*et(i)/rho0(i))
-!            
-          enddo                                                  
+!
+          enddo
 !
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine damping_range_shell

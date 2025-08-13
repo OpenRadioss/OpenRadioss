@@ -46,8 +46,8 @@
 !||    spmd_mod                      ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
         subroutine init_global_frontier_monvol(ispmd,nspmd,nvolu,nsurf,monvol, &
-                       nimv,volmon,  nrvolu , & 
-                       fr_mv,frontier_global_mv, t_monvoln,igrsurf )
+          nimv,volmon,  nrvolu , &
+          fr_mv,frontier_global_mv, t_monvoln,igrsurf )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -69,11 +69,11 @@
           integer :: ispmd !< mpi task id
           integer, intent(in) :: nspmd !< total number of mpi tasks
           integer, intent(in) :: nvolu !< number of monitored volume
-          integer, intent(in) :: nsurf !< number of surface    
+          integer, intent(in) :: nsurf !< number of surface
           integer, intent(in) :: nimv !< first dim of monvol
           integer, intent(in) :: nrvolu !< second dim of volmon
           integer, dimension(nspmd+2,nvolu), intent(in) :: fr_mv !< mpi frontier per monitored volume
-          integer, dimension(nspmd+2), intent(inout) :: frontier_global_mv !< global mpi frontier 
+          integer, dimension(nspmd+2), intent(inout) :: frontier_global_mv !< global mpi frontier
           integer, dimension(nimv*nvolu), intent(in) :: monvol !< monitored volume data
           real(kind=WP), dimension(nrvolu*nvolu) :: volmon !< monitored volume data
           type(monvol_struct_), dimension(nvolu), intent(inout) :: t_monvoln
@@ -114,18 +114,18 @@
               s_buffer(1) = s_buffer(1) + 6
               s_buffer(2) = s_buffer(2) + segment_number
               if((t_monvoln(ijk)%nb_fill_tri>0).and.(ispmd + 1 == fr_mv(nspmd+2,ijk))) then
-                s_buffer(2) = s_buffer(2) + t_monvoln(ijk)%nb_fill_tri               
+                s_buffer(2) = s_buffer(2) + t_monvoln(ijk)%nb_fill_tri
               endif
             endif
             t_monvoln(ijk)%uid = monvol(monvol_address) ! store the uid of the monitored volume
-            t_monvoln(ijk)%volume = 0 
+            t_monvoln(ijk)%volume = 0
             t_monvoln(ijk)%pressure = volmon(kk1+12-1)
             t_monvoln(ijk)%temperature = volmon(kk1+13-1)
             t_monvoln(ijk)%area = volmon(kk1+18-1)
             monvol_address = monvol_address + nimv
             kk1 = kk1 + nrvolu
           enddo
- 
+
           if(nspmd>1) then
 #ifdef MPI
             call mpi_gather(s_buffer,2,MPI_INTEGER,r_buffer,2,MPI_INTEGER,0,SPMD_COMM_WORLD,ierror)
@@ -151,10 +151,10 @@
             endif
             frontier_global_mv(nspmd+2) = p_main
           endif
-          if(nspmd>1) then    
+          if(nspmd>1) then
 #ifdef MPI
             call mpi_bcast(frontier_global_mv,nspmd+2,MPI_INTEGER,0,SPMD_COMM_WORLD,ierror)
-#endif  
+#endif
           endif
 
           return

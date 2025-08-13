@@ -27,7 +27,7 @@
 !||    sensor_base         ../engine/source/tools/sensor/sensor_base.F
 !||    sensor_init         ../engine/source/tools/sensor/sensor_init.F
 !||====================================================================
-      module sensor_python_mod 
+      module sensor_python_mod
       contains
 !||====================================================================
 !||    sensor_python                     ../engine/source/tools/sensor/sensor_python.F90
@@ -40,33 +40,33 @@
 !||    python_funct_mod                  ../common_source/modules/python_mod.F90
 !||    sensor_mod                        ../common_source/modules/sensor_mod.F90
 !||====================================================================
-      subroutine sensor_python(sensor)
+        subroutine sensor_python(sensor)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   modules
 ! ----------------------------------------------------------------------------------------------------------------------
-      use python_funct_mod
-      use sensor_mod
-      use constant_mod              
-      implicit none
+          use python_funct_mod
+          use sensor_mod
+          use constant_mod
+          implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-      type (sensor_str_) :: sensor
+          type (sensor_str_) :: sensor
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-      double precision :: y
+          double precision :: y
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                      Body
 ! ----------------------------------------------------------------------------------------------------------------------
 !$OMP CRITICAL
-        call python_call_function_with_state(sensor%python_function%name,y)
+          call python_call_function_with_state(sensor%python_function%name,y)
 !$OMP END CRITICAL
-        if(y >= half) then
-          sensor%status = 1
-        else if(y < half) then
-          sensor%status = 0
-        end if
-      return
-      end subroutine sensor_python
+          if(y >= half) then
+            sensor%status = 1
+          else if(y < half) then
+            sensor%status = 0
+          end if
+          return
+        end subroutine sensor_python
       end module sensor_python_mod

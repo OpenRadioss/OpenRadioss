@@ -44,58 +44,58 @@
 !||    precision_mod     ../common_source/modules/precision_mod.F90
 !||    therm_param_mod   ../common_source/modules/mat_elem/therm_param_mod.F90
 !||====================================================================
-      subroutine read_thermparam(therm)
+        subroutine read_thermparam(therm)
 ! --------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! --------------------------------------------------------------------------------------------------
-      use therm_param_mod
-      use precision_mod, only : WP
+          use therm_param_mod
+          use precision_mod, only : WP
 ! --------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! --------------------------------------------------------------------------------------------------
-      implicit none
+          implicit none
 ! --------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! --------------------------------------------------------------------------------------------------
-      type(therm_param_) ,intent(inout)    :: therm
+          type(therm_param_) ,intent(inout)    :: therm
 ! --------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! --------------------------------------------------------------------------------------------------
-      integer :: ifix,rfix
-      integer ,dimension(:) ,allocatable :: ibuf
-      real(kind=WP) ,dimension(:) ,allocatable :: rbuf
+          integer :: ifix,rfix
+          integer ,dimension(:) ,allocatable :: ibuf
+          real(kind=WP) ,dimension(:) ,allocatable :: rbuf
 ! --------------------------------------------------------------------------------------------------
 !                                                   Body
 ! --------------------------------------------------------------------------------------------------
-      ! read integer parameters
-      ifix = 2
-      allocate (ibuf(ifix))
-      call read_i_c(ibuf,ifix)
+          ! read integer parameters
+          ifix = 2
+          allocate (ibuf(ifix))
+          call read_i_c(ibuf,ifix)
 !
-      therm%iform      = ibuf(1)
-      therm%func_thexp = ibuf(2)
+          therm%iform      = ibuf(1)
+          therm%func_thexp = ibuf(2)
 !
-      deallocate(ibuf)
+          deallocate(ibuf)
 
-      ! read real value parameters
-      rfix = 10
-      allocate (rbuf(rfix))
-      call read_db(rbuf,rfix)
+          ! read real value parameters
+          rfix = 10
+          allocate (rbuf(rfix))
+          call read_db(rbuf,rfix)
 !
-      therm%tini        = rbuf(1)
-      therm%tref        = rbuf(2)
-      therm%tmelt       = rbuf(3)
-      therm%rhocp       = rbuf(4)
-      therm%as          = rbuf(5)
-      therm%bs          = rbuf(6)
-      therm%al          = rbuf(7)
-      therm%bl          = rbuf(8)
-      therm%efrac       = rbuf(9)
-      therm%scale_thexp = rbuf(10)
+          therm%tini        = rbuf(1)
+          therm%tref        = rbuf(2)
+          therm%tmelt       = rbuf(3)
+          therm%rhocp       = rbuf(4)
+          therm%as          = rbuf(5)
+          therm%bs          = rbuf(6)
+          therm%al          = rbuf(7)
+          therm%bl          = rbuf(8)
+          therm%efrac       = rbuf(9)
+          therm%scale_thexp = rbuf(10)
 !
-      deallocate(rbuf)
+          deallocate(rbuf)
 !-----------
-      return
-      end subroutine read_thermparam
+          return
+        end subroutine read_thermparam
 
       end module read_therpmaram_mod

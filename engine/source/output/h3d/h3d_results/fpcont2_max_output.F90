@@ -44,7 +44,7 @@
 !||    precision_mod        ../common_source/modules/precision_mod.F90
 !||====================================================================
         subroutine fpcont2_max_output(fcont,fcont_max,sz_npcont2,npcont2,weight,      &
-                                      npcont2_max,numnod)
+          npcont2_max,numnod)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -81,22 +81,22 @@
 !
               normal(1:3) = npcont2_max(1:3,n)
               nnn = sqrt(max(em20,normal(1)**2+normal(2)**2+normal(3)**2))
-              normal(1:3) = normal(1:3)/nnn    
+              normal(1:3) = normal(1:3)/nnn
               fold = fcont_max(1,n)*normal(1)+fcont_max(2,n)*normal(2)+fcont_max(3,n)*normal(3)
 !
               normal(1:3) = npcont2(1:3,n)
               nnn = sqrt(max(em20,normal(1)**2+normal(2)**2+normal(3)**2))
-              normal(1:3) = normal(1:3)/nnn                        
+              normal(1:3) = normal(1:3)/nnn
               fnew = fcont(1,n)*normal(1)+fcont(2,n)*normal(2)+fcont(3,n)*normal(3)
 !
               if(fnew > fold) then
-                fcont_max(1:3,n) = fnew*normal(1:3)   
+                fcont_max(1:3,n) = fnew*normal(1:3)
                 npcont2_max(1:3,n) = normal(1:3)
-             endif
-           else
-             fcont(1:3,n) =  zero
-           endif
-         enddo
+              endif
+            else
+              fcont(1:3,n) =  zero
+            endif
+          enddo
 !
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine fpcont2_max_output

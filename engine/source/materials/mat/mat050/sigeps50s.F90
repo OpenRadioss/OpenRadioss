@@ -62,12 +62,12 @@
           use constant_mod ,only : zero,third,half,one,two,three,three_half,em20
           use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                 implicit none 
+!                                                 implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
 !
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   arguments 
+!                                                   arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           integer                 ,intent(in)    :: nvartmp
           integer                 ,intent(in)    :: nel
@@ -88,7 +88,7 @@
           real(kind=WP) ,intent(inout) :: uvar(nel,nuvar)
           integer ,intent(inout) :: vartmp(nel,nvartmp) ! last interpolation positions in function tables
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   local variables 
+!                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i,ii,nindx,nindxc
           integer :: icomp,irate,iflag1,iflag2

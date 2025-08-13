@@ -94,7 +94,7 @@
             nj(1:4) = nodes1(i,1:4)
             call norma4n(n1(1,i),n1(2,i),n1(3,i),area1,nj,x)
             xj(1:3,1:4) = x(1:3,nj(1:4))
-            if (nj(3)==nj(4)) then 
+            if (nj(3)==nj(4)) then
               xmin_i(1:3) = min(xj(1:3,1),xj(1:3,2),xj(1:3,3))
               xmax_i(1:3) = max(xj(1:3,1),xj(1:3,2),xj(1:3,3))
               xmin(1:3) = min(xmin(1:3),xmin_i(1:3))
@@ -116,16 +116,16 @@
           if (nsu1>0) marge_1 = marge_1/nsu1
           marge_g = marge_max
           nb_seg1(1:3) = (xmax(1:3)-xmin(1:3))/(n_buck*marge_1)
-!  2nd 
+!  2nd
           xmin2(1:3) = ep20
           xmax2(1:3) = -ep20
           marge_2 = zero
-          marge_max = zero  
+          marge_max = zero
           do i=1,nsu2
             nj(1:4) = nodes2(i,1:4)
             call norma4n(n2(1,i),n2(2,i),n2(3,i),area2,nj,x)
             xj(1:3,1:4) = x(1:3,nj(1:4))
-            if (nj(3)==nj(4)) then 
+            if (nj(3)==nj(4)) then
               xmin_i(1:3) = min(xj(1:3,1),xj(1:3,2),xj(1:3,3))
               xmax_i(1:3) = max(xj(1:3,1),xj(1:3,2),xj(1:3,3))
               xmin2(1:3) =min(xmin2(1:3),xmin_i(1:3))
@@ -160,12 +160,12 @@
           end do
           ndiv_min = 1
           select case (k)
-            case (1)
-              if ((nsu1+nsu2)>2000000) ihuge = 1
-            case (2)
-              if ((nsu1+nsu2)>50000) ihuge = 1
-            case (3)
-              ihuge = 1
+           case (1)
+            if ((nsu1+nsu2)>2000000) ihuge = 1
+           case (2)
+            if ((nsu1+nsu2)>50000) ihuge = 1
+           case (3)
+            ihuge = 1
           end select
           allocate(ind_1(nsu1))
           allocate(ind_2(nsu2))
@@ -258,7 +258,7 @@
                       if(xs2(1,ii) < xmin2(1) .or. xs2(1,ii) > xmax2(1)) cycle
                       if(xs2(2,ii) < xmin2(2) .or. xs2(2,ii) > xmax2(2)) cycle
                       if(xs2(3,ii) < xmin2(3) .or. xs2(3,ii) > xmax2(3)) cycle
-! finer check by each node of ii                   
+! finer check by each node of ii
                       nj(1:4) = nodes2(ii,1:4)
                       xj(1:3,1:4) = x(1:3,nj(1:4))
                       xmin2(1:3) = xj(1:3,1)
@@ -309,14 +309,14 @@
                       if(xs1(1,ii) < xmin2(1) .or. xs1(1,ii) > xmax2(1)) cycle
                       if(xs1(2,ii) < xmin2(2) .or. xs1(2,ii) > xmax2(2)) cycle
                       if(xs1(3,ii) < xmin2(3) .or. xs1(3,ii) > xmax2(3)) cycle
-! finer check by each node of ii                   
+! finer check by each node of ii
                       nj(1:4) = nodes1(ii,1:4)
                       xj(1:3,1:4) = x(1:3,nj(1:4))
                       xmin2(1:3) = xj(1:3,1)
                       xmax2(1:3) = xj(1:3,1)
-                      do j=2,4 
-                         xmin2(1:3) = min(xmin2(1:3),xj(1:3,j))
-                         xmax2(1:3) = max(xmax2(1:3),xj(1:3,j))
+                      do j=2,4
+                        xmin2(1:3) = min(xmin2(1:3),xj(1:3,j))
+                        xmax2(1:3) = max(xmax2(1:3),xj(1:3,j))
                       end do
                       if(xmin2(1)>(xmax(1)+marge) .or. xmax2(1) < (xmin(1)-marge)) cycle
                       if(xmin2(2)>(xmax(2)+marge) .or. xmax2(2) < (xmin(2)-marge)) cycle

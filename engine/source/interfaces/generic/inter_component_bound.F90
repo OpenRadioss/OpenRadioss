@@ -44,8 +44,8 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
-        use constant_mod
-        use inter_sorting_mod , only : component_
+          use constant_mod
+          use inter_sorting_mod , only : component_
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -58,18 +58,18 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-        integer, intent(in) :: numnod !< number of nodes
-        my_real, intent(in) :: tzinf !< max tzinf
-        my_real, intent(in) :: curv !< max curv
-        my_real, dimension(3,numnod), intent(in) :: x !< node coordinates
-        type(component_), intent(inout) :: component
+          integer, intent(in) :: numnod !< number of nodes
+          my_real, intent(in) :: tzinf !< max tzinf
+          my_real, intent(in) :: curv !< max curv
+          my_real, dimension(3,numnod), intent(in) :: x !< node coordinates
+          type(component_), intent(inout) :: component
 
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-        integer :: i,ncomp
-        integer :: node_id
-        my_real, dimension(6) :: local_bound
+          integer :: i,ncomp
+          integer :: node_id
+          my_real, dimension(6) :: local_bound
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   External functions
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -77,82 +77,82 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-        
-        !$omp single          
-        do ncomp=1,component%s_comp_nb
-          component%s_list(ncomp)%bound(1:3) = -ep30
-          component%s_list(ncomp)%bound(4:6) = ep30
-        enddo
-        do ncomp=1,component%m_comp_nb
-          component%m_list(ncomp)%bound(1:3) = -ep30
-          component%m_list(ncomp)%bound(4:6) = ep30
-        enddo
-        !$omp end single     
-                
-        do ncomp=1,component%s_comp_nb
-          local_bound(1:3) = -ep30
-          local_bound(4:6) = ep30
-          !$omp do schedule(dynamic)
-          do i=1,component%s_list(ncomp)%node_nb
-            node_id = component%s_list(ncomp)%node(i)
-            local_bound(1) = max(local_bound(1),x(1,node_id))
-            local_bound(2) = max(local_bound(2),x(2,node_id))
-            local_bound(3) = max(local_bound(3),x(3,node_id))
-            local_bound(4) = min(local_bound(4),x(1,node_id))
-            local_bound(5) = min(local_bound(5),x(2,node_id))
-            local_bound(6) = min(local_bound(6),x(3,node_id))
+
+          !$omp single
+          do ncomp=1,component%s_comp_nb
+            component%s_list(ncomp)%bound(1:3) = -ep30
+            component%s_list(ncomp)%bound(4:6) = ep30
           enddo
-          !$omp end do
-
-          !$omp critical
-          component%s_list(ncomp)%bound(1) = max(component%s_list(ncomp)%bound(1),local_bound(1))
-          component%s_list(ncomp)%bound(2) = max(component%s_list(ncomp)%bound(2),local_bound(2))
-          component%s_list(ncomp)%bound(3) = max(component%s_list(ncomp)%bound(3),local_bound(3))
-          component%s_list(ncomp)%bound(4) = min(component%s_list(ncomp)%bound(4),local_bound(4))
-          component%s_list(ncomp)%bound(5) = min(component%s_list(ncomp)%bound(5),local_bound(5))
-          component%s_list(ncomp)%bound(6) = min(component%s_list(ncomp)%bound(6),local_bound(6))
-          !$omp end critical
-        enddo
-
-        do ncomp=1,component%m_comp_nb
-          local_bound(1:3) = -ep30
-          local_bound(4:6) = ep30
-          !$omp do schedule(dynamic)
-          do i=1,component%m_list(ncomp)%node_nb
-            node_id = component%m_list(ncomp)%node(i)
-            local_bound(1) = max(local_bound(1),x(1,node_id))
-            local_bound(2) = max(local_bound(2),x(2,node_id))
-            local_bound(3) = max(local_bound(3),x(3,node_id))
-            local_bound(4) = min(local_bound(4),x(1,node_id))
-            local_bound(5) = min(local_bound(5),x(2,node_id))
-            local_bound(6) = min(local_bound(6),x(3,node_id))
+          do ncomp=1,component%m_comp_nb
+            component%m_list(ncomp)%bound(1:3) = -ep30
+            component%m_list(ncomp)%bound(4:6) = ep30
           enddo
-          !$omp end do
-          
-          !$omp critical          
-          component%m_list(ncomp)%bound(1) = max(component%m_list(ncomp)%bound(1),local_bound(1))
-          component%m_list(ncomp)%bound(2) = max(component%m_list(ncomp)%bound(2),local_bound(2))
-          component%m_list(ncomp)%bound(3) = max(component%m_list(ncomp)%bound(3),local_bound(3))
-          component%m_list(ncomp)%bound(4) = min(component%m_list(ncomp)%bound(4),local_bound(4))
-          component%m_list(ncomp)%bound(5) = min(component%m_list(ncomp)%bound(5),local_bound(5))
-          component%m_list(ncomp)%bound(6) = min(component%m_list(ncomp)%bound(6),local_bound(6))            
-          !$omp end critical
-        enddo    
+          !$omp end single
 
-        !$omp barrier
+          do ncomp=1,component%s_comp_nb
+            local_bound(1:3) = -ep30
+            local_bound(4:6) = ep30
+            !$omp do schedule(dynamic)
+            do i=1,component%s_list(ncomp)%node_nb
+              node_id = component%s_list(ncomp)%node(i)
+              local_bound(1) = max(local_bound(1),x(1,node_id))
+              local_bound(2) = max(local_bound(2),x(2,node_id))
+              local_bound(3) = max(local_bound(3),x(3,node_id))
+              local_bound(4) = min(local_bound(4),x(1,node_id))
+              local_bound(5) = min(local_bound(5),x(2,node_id))
+              local_bound(6) = min(local_bound(6),x(3,node_id))
+            enddo
+            !$omp end do
 
-        !$omp single          
-        do ncomp=1,component%m_comp_nb
-          component%m_list(ncomp)%bound(1) = component%m_list(ncomp)%bound(1) + tzinf + curv
-          component%m_list(ncomp)%bound(2) = component%m_list(ncomp)%bound(2) + tzinf + curv
-          component%m_list(ncomp)%bound(3) = component%m_list(ncomp)%bound(3) + tzinf + curv
-          component%m_list(ncomp)%bound(4) = component%m_list(ncomp)%bound(4) - tzinf - curv
-          component%m_list(ncomp)%bound(5) = component%m_list(ncomp)%bound(5) - tzinf - curv
-          component%m_list(ncomp)%bound(6) = component%m_list(ncomp)%bound(6) - tzinf - curv
-        enddo
-        !$omp end single     
+            !$omp critical
+            component%s_list(ncomp)%bound(1) = max(component%s_list(ncomp)%bound(1),local_bound(1))
+            component%s_list(ncomp)%bound(2) = max(component%s_list(ncomp)%bound(2),local_bound(2))
+            component%s_list(ncomp)%bound(3) = max(component%s_list(ncomp)%bound(3),local_bound(3))
+            component%s_list(ncomp)%bound(4) = min(component%s_list(ncomp)%bound(4),local_bound(4))
+            component%s_list(ncomp)%bound(5) = min(component%s_list(ncomp)%bound(5),local_bound(5))
+            component%s_list(ncomp)%bound(6) = min(component%s_list(ncomp)%bound(6),local_bound(6))
+            !$omp end critical
+          enddo
 
-        return
+          do ncomp=1,component%m_comp_nb
+            local_bound(1:3) = -ep30
+            local_bound(4:6) = ep30
+            !$omp do schedule(dynamic)
+            do i=1,component%m_list(ncomp)%node_nb
+              node_id = component%m_list(ncomp)%node(i)
+              local_bound(1) = max(local_bound(1),x(1,node_id))
+              local_bound(2) = max(local_bound(2),x(2,node_id))
+              local_bound(3) = max(local_bound(3),x(3,node_id))
+              local_bound(4) = min(local_bound(4),x(1,node_id))
+              local_bound(5) = min(local_bound(5),x(2,node_id))
+              local_bound(6) = min(local_bound(6),x(3,node_id))
+            enddo
+            !$omp end do
+
+            !$omp critical
+            component%m_list(ncomp)%bound(1) = max(component%m_list(ncomp)%bound(1),local_bound(1))
+            component%m_list(ncomp)%bound(2) = max(component%m_list(ncomp)%bound(2),local_bound(2))
+            component%m_list(ncomp)%bound(3) = max(component%m_list(ncomp)%bound(3),local_bound(3))
+            component%m_list(ncomp)%bound(4) = min(component%m_list(ncomp)%bound(4),local_bound(4))
+            component%m_list(ncomp)%bound(5) = min(component%m_list(ncomp)%bound(5),local_bound(5))
+            component%m_list(ncomp)%bound(6) = min(component%m_list(ncomp)%bound(6),local_bound(6))
+            !$omp end critical
+          enddo
+
+          !$omp barrier
+
+          !$omp single
+          do ncomp=1,component%m_comp_nb
+            component%m_list(ncomp)%bound(1) = component%m_list(ncomp)%bound(1) + tzinf + curv
+            component%m_list(ncomp)%bound(2) = component%m_list(ncomp)%bound(2) + tzinf + curv
+            component%m_list(ncomp)%bound(3) = component%m_list(ncomp)%bound(3) + tzinf + curv
+            component%m_list(ncomp)%bound(4) = component%m_list(ncomp)%bound(4) - tzinf - curv
+            component%m_list(ncomp)%bound(5) = component%m_list(ncomp)%bound(5) - tzinf - curv
+            component%m_list(ncomp)%bound(6) = component%m_list(ncomp)%bound(6) - tzinf - curv
+          enddo
+          !$omp end single
+
+          return
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine inter_component_bound
       end module inter_component_bound_mod

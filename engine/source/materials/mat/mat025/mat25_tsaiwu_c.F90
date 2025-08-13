@@ -69,7 +69,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   arguments 
+!                                                   arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           integer ,intent(in) :: nel                       !< element group size
           integer ,intent(in) :: mvsiz                     !< max element group size
@@ -123,7 +123,7 @@
           real(kind=WP), intent(inout) :: dmg(nel,l_dmg)         !< damage related variables
           type (matparam_struct_) ,intent(in) :: mat_param !< material parameter structure
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   local variables 
+!                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i,j,fail,ioff,icc,nindx,ifail0
           integer ,dimension(nel) :: index,icas,isoft
@@ -444,10 +444,10 @@
           do i=1,nel
             if (israte==0) then
               epsd(i) = max(                          &
-              abs(eps(i,1)),abs(eps(i,2)),abs(eps(i,3)),           &
-              abs(eps(i,4)),abs(eps(i,5))) / max(timestep,em20)
+                abs(eps(i,1)),abs(eps(i,2)),abs(eps(i,3)),           &
+                abs(eps(i,4)),abs(eps(i,5))) / max(timestep,em20)
             else
-              epsd(i) = asrate*epsd_pg(i) + (one-asrate)*epsd(i) 
+              epsd(i) = asrate*epsd_pg(i) + (one-asrate)*epsd(i)
             end if
             if (epsd(i) > epdr(i)) then
               epspfac(i) = log(epsd(i)/epdr(i))

@@ -44,61 +44,61 @@
 !||    precision_mod      ../common_source/modules/precision_mod.F90
 !||    therm_param_mod    ../common_source/modules/mat_elem/therm_param_mod.F90
 !||====================================================================
-      subroutine write_thermparam(therm)
+        subroutine write_thermparam(therm)
 ! --------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! --------------------------------------------------------------------------------------------------
-      use therm_param_mod
-      use precision_mod, only : WP
+          use therm_param_mod
+          use precision_mod, only : WP
 ! --------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! --------------------------------------------------------------------------------------------------
-      implicit none
+          implicit none
 ! --------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! --------------------------------------------------------------------------------------------------
 ! --------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! --------------------------------------------------------------------------------------------------
-      type(therm_param_) ,intent(in)    :: therm
+          type(therm_param_) ,intent(in)    :: therm
 ! --------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! --------------------------------------------------------------------------------------------------
-      integer :: ifix,rfix
-      integer ,dimension(:) ,allocatable :: ibuf
-      real(kind=WP) ,dimension(:) ,allocatable :: rbuf
+          integer :: ifix,rfix
+          integer ,dimension(:) ,allocatable :: ibuf
+          real(kind=WP) ,dimension(:) ,allocatable :: rbuf
 ! --------------------------------------------------------------------------------------------------
 !                                                   Body
 ! --------------------------------------------------------------------------------------------------
-      ! write integer parameters
-      ifix = 2
-      allocate (ibuf(ifix))
+          ! write integer parameters
+          ifix = 2
+          allocate (ibuf(ifix))
 !
-      ibuf(1) = therm%iform
-      ibuf(2) = therm%func_thexp
+          ibuf(1) = therm%iform
+          ibuf(2) = therm%func_thexp
 !
-      call write_i_c(ibuf,ifix)
-      deallocate(ibuf)
+          call write_i_c(ibuf,ifix)
+          deallocate(ibuf)
 
-      ! write real value parameters
-      rfix = 10
-      allocate (rbuf(rfix))
+          ! write real value parameters
+          rfix = 10
+          allocate (rbuf(rfix))
 !
-      rbuf(1)  = therm%tini
-      rbuf(2)  = therm%tref
-      rbuf(3)  = therm%tmelt
-      rbuf(4)  = therm%rhocp
-      rbuf(5)  = therm%as
-      rbuf(6)  = therm%bs
-      rbuf(7)  = therm%al
-      rbuf(8)  = therm%bl
-      rbuf(9)  = therm%efrac
-      rbuf(10) = therm%scale_thexp
+          rbuf(1)  = therm%tini
+          rbuf(2)  = therm%tref
+          rbuf(3)  = therm%tmelt
+          rbuf(4)  = therm%rhocp
+          rbuf(5)  = therm%as
+          rbuf(6)  = therm%bs
+          rbuf(7)  = therm%al
+          rbuf(8)  = therm%bl
+          rbuf(9)  = therm%efrac
+          rbuf(10) = therm%scale_thexp
 !
-      call write_db(rbuf,rfix)
-      deallocate(rbuf)
+          call write_db(rbuf,rfix)
+          deallocate(rbuf)
 !-----------
-      return
-      end subroutine write_thermparam
+          return
+        end subroutine write_thermparam
 
       end module write_therpmaram_mod

@@ -25,9 +25,9 @@
 !||--- called by ------------------------------------------------------
 !||    wrrestp            ../engine/source/output/restart/wrrestp.F
 !||====================================================================
-      module write_inivel_mod        
-       contains
-  !! \brief write inivel rst data (engine)
+      module write_inivel_mod
+      contains
+        !! \brief write inivel rst data (engine)
 !||====================================================================
 !||    write_inivel    ../engine/source/output/restart/write_inivel.F90
 !||--- called by ------------------------------------------------------
@@ -43,8 +43,8 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
-      use inivel_mod 
-      use precision_mod, only : WP
+          use inivel_mod
+          use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -55,61 +55,61 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-      integer , intent(in  )                            :: ninivelt  !< dimension of inivel_t
-      type(inivel_), dimension(ninivelt), intent(in   ) :: inivel_t  !< inivel_struc 
+          integer , intent(in  )                            :: ninivelt  !< dimension of inivel_t
+          type(inivel_), dimension(ninivelt), intent(in   ) :: inivel_t  !< inivel_struc
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-      integer  :: n,itype,itmp(10),nl,nr
-      real(kind=WP)  :: rtmp(6)
+          integer  :: n,itype,itmp(10),nl,nr
+          real(kind=WP)  :: rtmp(6)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
 ! ----------------------------------------------------------------------------------------------------------------------
-       do n =1,ninivelt 
-         itmp(1) = inivel_t(n)%id  
-         itype = inivel_t(n)%itype
-         itmp(2) = itype  
-         call write_i_c(itmp,2) 
-           select case (itype)
+          do n =1,ninivelt
+            itmp(1) = inivel_t(n)%id
+            itype = inivel_t(n)%itype
+            itmp(2) = itype
+            call write_i_c(itmp,2)
+            select case (itype)
              case(0,1,2,3)
-               itmp(1) = inivel_t(n)%general%type    
-               itmp(2) = inivel_t(n)%general%skew_id 
-               itmp(3) = inivel_t(n)%general%grnd_id 
-               itmp(4) = inivel_t(n)%general%sensor_id 
-               rtmp(1) = inivel_t(n)%general%vx 
-               rtmp(2) = inivel_t(n)%general%vy 
-               rtmp(3) = inivel_t(n)%general%vz 
-               rtmp(4) = inivel_t(n)%general%tstart 
-               nl = 4
-               nr = 4
+              itmp(1) = inivel_t(n)%general%type
+              itmp(2) = inivel_t(n)%general%skew_id
+              itmp(3) = inivel_t(n)%general%grnd_id
+              itmp(4) = inivel_t(n)%general%sensor_id
+              rtmp(1) = inivel_t(n)%general%vx
+              rtmp(2) = inivel_t(n)%general%vy
+              rtmp(3) = inivel_t(n)%general%vz
+              rtmp(4) = inivel_t(n)%general%tstart
+              nl = 4
+              nr = 4
              case(4) ! axis
-               itmp(1) = inivel_t(n)%axis%dir 
-               itmp(2) = inivel_t(n)%axis%frame_id 
-               itmp(3) = inivel_t(n)%axis%grnd_id 
-               itmp(4) = inivel_t(n)%axis%sensor_id 
-               rtmp(1) = inivel_t(n)%axis%vx 
-               rtmp(2) = inivel_t(n)%axis%vy 
-               rtmp(3) = inivel_t(n)%axis%vz 
-               rtmp(4) = inivel_t(n)%axis%vr 
-               rtmp(5) = inivel_t(n)%axis%tstart
-               nl = 4
-               nr = 5
+              itmp(1) = inivel_t(n)%axis%dir
+              itmp(2) = inivel_t(n)%axis%frame_id
+              itmp(3) = inivel_t(n)%axis%grnd_id
+              itmp(4) = inivel_t(n)%axis%sensor_id
+              rtmp(1) = inivel_t(n)%axis%vx
+              rtmp(2) = inivel_t(n)%axis%vy
+              rtmp(3) = inivel_t(n)%axis%vz
+              rtmp(4) = inivel_t(n)%axis%vr
+              rtmp(5) = inivel_t(n)%axis%tstart
+              nl = 4
+              nr = 5
              case(5) ! fvm
-               itmp(1) = inivel_t(n)%fvm%skew_id 
-               itmp(2) = inivel_t(n)%fvm%grbric_id 
-               itmp(3) = inivel_t(n)%fvm%grqd_id   
-               itmp(4) = inivel_t(n)%fvm%grtria_id 
-               itmp(5) = inivel_t(n)%fvm%sensor_id 
-               rtmp(1) = inivel_t(n)%fvm%vx 
-               rtmp(2) = inivel_t(n)%fvm%vy 
-               rtmp(3) = inivel_t(n)%fvm%vz 
-               rtmp(4) = inivel_t(n)%fvm%tstart
-               nl = 5
-               nr = 4
-           end select
-           call write_i_c(itmp,nl)
-           call write_db(rtmp,nr)
-       end do 
-       end subroutine write_inivel
+              itmp(1) = inivel_t(n)%fvm%skew_id
+              itmp(2) = inivel_t(n)%fvm%grbric_id
+              itmp(3) = inivel_t(n)%fvm%grqd_id
+              itmp(4) = inivel_t(n)%fvm%grtria_id
+              itmp(5) = inivel_t(n)%fvm%sensor_id
+              rtmp(1) = inivel_t(n)%fvm%vx
+              rtmp(2) = inivel_t(n)%fvm%vy
+              rtmp(3) = inivel_t(n)%fvm%vz
+              rtmp(4) = inivel_t(n)%fvm%tstart
+              nl = 5
+              nr = 4
+            end select
+            call write_i_c(itmp,nl)
+            call write_db(rtmp,nr)
+          end do
+        end subroutine write_inivel
       end module write_inivel_mod

@@ -41,8 +41,8 @@
 !||    monvol_struct_mod           ../engine/share/modules/monvol_struct_mod.F
 !||====================================================================
         subroutine init_monvol_omp_structure(ispmd,nspmd,nvolu,nsurf,monvol,  &
-                                             nimv,numnod,                     & 
-                                             fr_mv,t_monvoln,igrsurf )
+          nimv,numnod,                     &
+          fr_mv,t_monvoln,igrsurf )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -58,7 +58,7 @@
           integer, intent(in) :: ispmd !< mpi task id
           integer, intent(in) :: nspmd !< total number of mpi tasks
           integer, intent(in) :: nvolu !< number of monitored volume
-          integer, intent(in) :: nsurf !< number of surface    
+          integer, intent(in) :: nsurf !< number of surface
           integer, intent(in) :: nimv
           integer, intent(in) :: numnod !< number of node
           integer, dimension(nspmd+2,nvolu), intent(in) :: fr_mv !< mpi frontier per monitored volume
@@ -122,7 +122,7 @@
                   w_array(nod) = w_array(nod) + 1 ! add 1 contribution for this node
                   t_monvoln(ijk)%omp_output%contribution_index(i,4) = w_array(nod)
                   total_contribution_number = total_contribution_number + 1 ! get the total number of contribution
-                endif                
+                endif
               enddo
               ! ---------------
 
@@ -149,8 +149,8 @@
               ! #contribution :     4  |  1  |  0  |  4  |
               ! shift :             0  |  4  |  5  |  5  | 9 ...
               ! shift(i+1) - shit(i) = #contribution of "i" node
-              ! shift(i) = address for the "i" node    
-              t_monvoln(ijk)%omp_output%contribution_number( 1:node_number+1 ) = node_shift( 1:node_number+1 ) ! save the 
+              ! shift(i) = address for the "i" node
+              t_monvoln(ijk)%omp_output%contribution_number( 1:node_number+1 ) = node_shift( 1:node_number+1 ) ! save the
               ! ---------------
 
               ! ---------------
@@ -164,12 +164,12 @@
                 do j=1,3
                   nod = igrsurf(surf_id)%nodes(i,j) ! get the node id
                   t_monvoln(ijk)%omp_output%contribution_index(i,j) = t_monvoln(ijk)%omp_output%contribution_index(i,j) + &
-                                                                      w_array(nod) ! save the index for the segment "i" and the edge "j)
+                    w_array(nod) ! save the index for the segment "i" and the edge "j)
                 enddo
                 if(igrsurf(surf_id)%eltyp(i)/=7) then ! the segment has 4 node
                   nod = igrsurf(surf_id)%nodes(i,4) ! get the node id
                   t_monvoln(ijk)%omp_output%contribution_index(i,4) = t_monvoln(ijk)%omp_output%contribution_index(i,4) + &
-                                                                      w_array(nod) ! save the index for the segment "i" and the edge "j)
+                    w_array(nod) ! save the index for the segment "i" and the edge "j)
                 endif
               enddo
               ! ---------------

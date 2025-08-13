@@ -44,55 +44,55 @@
 !||    precision_mod   ../common_source/modules/precision_mod.F90
 !||====================================================================
         subroutine  sz_dt1(                                     &
-                             px1,     px2,     px3,     px4,    &
-                             py1,     py2,     py3,     py4,    &
-                             pz1,     pz2,     pz3,     pz4,    &
-                             gfac,    deltax1, nel )
+          px1,     px2,     px3,     px4,    &
+          py1,     py2,     py3,     py4,    &
+          pz1,     pz2,     pz3,     pz4,    &
+          gfac,    deltax1, nel )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                        Modules
 ! ----------------------------------------------------------------------------------------------------------------------
-      use constant_mod,   only : zero,one,two,four,third,two_third
-      use precision_mod,  only : WP
-      use mvsiz_mod,      only : mvsiz
+          use constant_mod,   only : zero,one,two,four,third,two_third
+          use precision_mod,  only : WP
+          use mvsiz_mod,      only : mvsiz
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   arguments 
+!                                                   arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           integer, intent(in)                                    :: nel              !< number of elements
           real(kind=WP), dimension(mvsiz) ,intent(in   )         ::      &
-                             px1,     px2,     px3,     px4,             &
-                             py1,     py2,     py3,     py4,             &
-                             pz1,     pz2,     pz3,     pz4                          !< B matrix components
-         real(kind=WP), intent(in   )                            :: gfac             !< factor G/BULK=(1-2nu)/(1-nu) 
-         real(kind=WP), dimension(mvsiz)  ,intent(inout)         :: deltax1          !< characteristic length of dt1
+            px1,     px2,     px3,     px4,             &
+            py1,     py2,     py3,     py4,             &
+            pz1,     pz2,     pz3,     pz4                          !< B matrix components
+          real(kind=WP), intent(in   )                            :: gfac             !< factor G/BULK=(1-2nu)/(1-nu)
+          real(kind=WP), dimension(mvsiz)  ,intent(inout)         :: deltax1          !< characteristic length of dt1
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   local variables 
+!                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-      integer :: i
+          integer :: i
 !
-      real(kind=WP)    :: pxx,pyy,pzz,pxy,pxz,pyz,aa,bb,p,d
+          real(kind=WP)    :: pxx,pyy,pzz,pxy,pxz,pyz,aa,bb,p,d
 ! ----------------------------------------------------------------------------------------------------------------------
-      if (gfac<one) then
-         do i=1,nel
-           pxx=two*(px1(i)*px1(i)+px2(i)*px2(i)+px3(i)*px3(i)+px4(i)*px4(i))
-           pyy=two*(py1(i)*py1(i)+py2(i)*py2(i)+py3(i)*py3(i)+py4(i)*py4(i))
-           pzz=two*(pz1(i)*pz1(i)+pz2(i)*pz2(i)+pz3(i)*pz3(i)+pz4(i)*pz4(i))
-           pxy=two*(px1(i)*py1(i)+px2(i)*py2(i)+px3(i)*py3(i)+px4(i)*py4(i))
-           pxz=two*(px1(i)*pz1(i)+px2(i)*pz2(i)+px3(i)*pz3(i)+px4(i)*pz4(i))
-           pyz=two*(py1(i)*pz1(i)+py2(i)*pz2(i)+py3(i)*pz3(i)+py4(i)*pz4(i))
+          if (gfac<one) then
+            do i=1,nel
+              pxx=two*(px1(i)*px1(i)+px2(i)*px2(i)+px3(i)*px3(i)+px4(i)*px4(i))
+              pyy=two*(py1(i)*py1(i)+py2(i)*py2(i)+py3(i)*py3(i)+py4(i)*py4(i))
+              pzz=two*(pz1(i)*pz1(i)+pz2(i)*pz2(i)+pz3(i)*pz3(i)+pz4(i)*pz4(i))
+              pxy=two*(px1(i)*py1(i)+px2(i)*py2(i)+px3(i)*py3(i)+px4(i)*py4(i))
+              pxz=two*(px1(i)*pz1(i)+px2(i)*pz2(i)+px3(i)*pz3(i)+px4(i)*pz4(i))
+              pyz=two*(py1(i)*pz1(i)+py2(i)*pz2(i)+py3(i)*pz3(i)+py4(i)*pz4(i))
 !
-           aa = -(pxx+pyy+pzz)
-           bb =  gfac*(pxx*pyy+pxx*pzz+pyy*pzz-pxy**2-pxz**2-pyz**2) 
-           p  = bb-third*aa*aa
-           d  = four*sqrt(third*max(-p,zero))-two_third*aa  ! due mas_j=mas_e/8
+              aa = -(pxx+pyy+pzz)
+              bb =  gfac*(pxx*pyy+pxx*pzz+pyy*pzz-pxy**2-pxz**2-pyz**2)
+              p  = bb-third*aa*aa
+              d  = four*sqrt(third*max(-p,zero))-two_third*aa  ! due mas_j=mas_e/8
 !
-           deltax1(i) =one/sqrt(d)
-         end do
-      else 
-          deltax1(1:nel) =  zero
-      end if
+              deltax1(i) =one/sqrt(d)
+            end do
+          else
+            deltax1(1:nel) =  zero
+          end if
 !
-      end subroutine sz_dt1
+        end subroutine sz_dt1
 ! ----------------------------------------------------------------------------------------------------------------------
       end module sz_dt1_mod

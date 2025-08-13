@@ -73,7 +73,7 @@
           type (fractal_)  ,intent(inout) :: fractal               !< fractal structure
           type (stack_ply)                :: stack                 !< element stack structure
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   local variables 
+!                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i,k,k1,k2,i1,i2,i1m,i2m
           integer :: ipt,npt,isubstack,igtyp

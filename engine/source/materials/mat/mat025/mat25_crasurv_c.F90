@@ -71,7 +71,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   arguments 
+!                                                   arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           integer ,intent(in) :: nel                       !< element group size
           integer ,intent(in) :: mvsiz                     !< max element group size
@@ -125,7 +125,7 @@
           real(kind=WP), intent(inout) :: dmg(nel,l_dmg)         !< damage related variables
           type (matparam_struct_) ,intent(in) :: mat_param !< material parameter structure
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   local variables 
+!                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i,j,fail,ioff,icc,imodwp,nindx,id,ifail0
           integer ,dimension(nel) :: index,icas,isoft
@@ -772,7 +772,7 @@
               else if (t1(i) <= -sigyc1) then
                 wpla1 = wplamxc1(i)
                 id =-1
-              else 
+              else
                 wpla1 = ep20
                 id = 0
               endif

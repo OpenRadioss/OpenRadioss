@@ -58,10 +58,10 @@
 !||    shooting_node_mod                        ../engine/share/modules/shooting_node_mod.F
 !||====================================================================
         subroutine get_neighbour_surface_from_remote_proc( ninter,numnod,nspmd,  &
-                                                             size_r_buffer,nb_r_segment,s_buffer_2_size, &
-                                                             nodes,r_buffer,s_buffer_2, &
-                                                             x,intbuf_tab,shoot_struct ,&
-                                                             ispmd,proc_id_0 )
+          size_r_buffer,nb_r_segment,s_buffer_2_size, &
+          nodes,r_buffer,s_buffer_2, &
+          x,intbuf_tab,shoot_struct ,&
+          ispmd,proc_id_0 )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -94,7 +94,7 @@
           type(nodal_arrays_), intent(in) :: nodes !< nodal arrays
           real(kind=WP), dimension(size_r_buffer) :: r_buffer !< mpi buffer (rcv)
           real(kind=WP), dimension(3,numnod), intent(in) :: x !< nodal position
-          type(intbuf_struct_), dimension(ninter), intent(inout) :: intbuf_tab    !< interface data 
+          type(intbuf_struct_), dimension(ninter), intent(inout) :: intbuf_tab    !< interface data
           type(shooting_node_type), intent(inout) :: shoot_struct !< structure for shooting node algo
           type(array_type), dimension(nspmd), intent(inout) :: s_buffer_2 !< mpi buffer (send)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -117,18 +117,18 @@
           integer, dimension(nb_r_segment,5) :: list_r_segment
           integer, dimension(:), allocatable :: result_intersect_0
           integer, dimension(:), allocatable ::  intersect_1,intersect_2
-          integer, dimension(:), allocatable :: n_iedge 
+          integer, dimension(:), allocatable :: n_iedge
           integer, dimension(:,:), allocatable :: my_reduced_list,my_reduced_neighbour
-          real(kind=WP) :: my_real_variable      
+          real(kind=WP) :: my_real_variable
           real(kind=WP), dimension(3) :: segment_position ! coordinates of the segment barycentre
           real(kind=WP), dimension(:), allocatable :: my_real_tmp_array
           real(kind=WP), dimension(:,:), allocatable :: n_normal, n_vconvexity
 #ifdef MYREAL8
           integer(kind=8) :: my_integer
-          integer(kind=8) :: my_int_variable   
+          integer(kind=8) :: my_int_variable
 #else
           integer(kind=4) :: my_integer
-          integer(kind=4) :: my_int_variable   
+          integer(kind=4) :: my_int_variable
 #endif
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   external functions
@@ -173,7 +173,7 @@
             list_r_segment(i,4) = my_integer
             my_integer = transfer(r_buffer(next_segment+8),my_int_variable) ! get the number of procs with the 2 nodes "node_id_1" & "node_id_2"
             proc_number = my_integer
-            list_r_segment(i,5) = proc_number 
+            list_r_segment(i,5) = proc_number
             next_segment = next_segment + 8 + 13*nb_connected_segment+3 + proc_number + 3
           enddo
           ! -------------------------
@@ -204,8 +204,8 @@
             ! ------
             if(nb_surface_1>0.and.nb_surface_2>0) then
               call intersect_2_sorted_sets( intersect_1,nb_surface_1, &
-                                            intersect_2,nb_surface_2, &
-                                            result_intersect_0,nb_result_intersect_0 )
+                intersect_2,nb_surface_2, &
+                result_intersect_0,nb_result_intersect_0 )
             else
               nb_result_intersect_0 = 0
             endif
@@ -218,20 +218,20 @@
             allocate( my_reduced_neighbour(nb_result_intersect_0,4) )
 
             call get_segment_interface_id( ninter,nb_result_intersect_0,result_intersect_0, &
-                                           nin,my_reduced_nb,my_reduced_list,my_reduced_neighbour, &
-                                           shoot_struct,intbuf_tab,local_node_id_1,local_node_id_2,n_iedge)
+              nin,my_reduced_nb,my_reduced_list,my_reduced_neighbour, &
+              shoot_struct,intbuf_tab,local_node_id_1,local_node_id_2,n_iedge)
 
             do ijk=1,my_reduced_nb
               ! segment/surface orientation
               n_segment_id = my_reduced_list(ijk,1) ! connected segment id
               ! compute the normal to the segment "n_segment_id"
               call get_segment_normal( n_segment_id,segment_node_id,segment_position,n_normal(1,ijk),intbuf_tab(nin),numnod,x )
-              ! compute the tangent vector to the segment around the edge "n_segment_id" 
+              ! compute the tangent vector to the segment around the edge "n_segment_id"
               call get_convexity_normals( local_node_id_1,local_node_id_2,n_normal(1,ijk),n_vconvexity(1,ijk),numnod,x )
             enddo
 
             proc_number = list_r_segment(i,5)
-            do j=1,proc_number             
+            do j=1,proc_number
               my_address = address(i) + 8+6*list_r_segment(i,1) + 3
               my_integer = transfer(r_buffer(my_address+j),my_int_variable) ! get the processor id
               proc_id = my_integer
@@ -268,7 +268,7 @@
                 do ijk=1,my_reduced_nb
                   n_segment_id = my_reduced_list(ijk,1) ! connected segment id
                   my_integer = n_segment_id
-                  s_buffer_2(proc_id)%my_real_array_1d(my_address+ijk) = transfer(my_integer,my_real_variable) ! save the local remote segment id   
+                  s_buffer_2(proc_id)%my_real_array_1d(my_address+ijk) = transfer(my_integer,my_real_variable) ! save the local remote segment id
                 enddo
                 my_address = my_address + my_reduced_nb
                 do ijk=1,my_reduced_nb ! save the 3 normals of remote segment
@@ -284,7 +284,7 @@
                 enddo
 
                 my_address = my_address + my_reduced_nb
-                do ijk=1,my_reduced_nb 
+                do ijk=1,my_reduced_nb
                   do kji=1,4
                     my_integer =my_reduced_neighbour(ijk,kji)
                     s_buffer_2(proc_id)%my_real_array_1d(my_address+kji) = transfer(my_integer,my_real_variable) ! boolean for neirbourhood
@@ -295,8 +295,8 @@
                 do ijk=1,my_reduced_nb
                   s_buffer_2(proc_id)%my_real_array_1d(my_address+1) = n_vconvexity(1,ijk) ! neighbour segment normal (x)
                   s_buffer_2(proc_id)%my_real_array_1d(my_address+2) = n_vconvexity(2,ijk) ! neighbour segment normal (y)
-                  s_buffer_2(proc_id)%my_real_array_1d(my_address+3) = n_vconvexity(3,ijk) ! neighbour segment normal (z)    
-                  my_address = my_address + 3        
+                  s_buffer_2(proc_id)%my_real_array_1d(my_address+3) = n_vconvexity(3,ijk) ! neighbour segment normal (z)
+                  my_address = my_address + 3
                 enddo
 
                 s_buffer_2_size(1,proc_id) = s_buffer_2_size(1,proc_id)+my_size ! size of mpi buffer
@@ -308,7 +308,7 @@
             deallocate( n_iedge )
             deallocate( my_reduced_list )
             deallocate( my_reduced_neighbour )
-              deallocate( n_vconvexity )
+            deallocate( n_vconvexity )
           enddo
 
           ! --------------------------

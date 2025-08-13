@@ -69,11 +69,11 @@
           use table_mod
           use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                 implicit none 
+!                                                 implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   arguments 
+!                                                   arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           type(matparam_struct_) ,intent(inout)       :: matparam !< matparam data structure
           integer, intent(inout)                      :: nuvar    !< number of material law user variables
@@ -89,7 +89,7 @@
           integer, intent(in)                         :: ntable   !< number of tables
           type(ttable), dimension(ntable), intent(in) :: table    !< tables
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   local variables 
+!                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: j,nrate,opte,ifunce(1),ilaw,vp,ierr2,ifunc(11)
           real(kind=WP) :: rho0,rhor,e,nu,epsmax,epsr1,epsr2,rate(11),yfac(11),    &

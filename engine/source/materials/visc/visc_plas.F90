@@ -45,9 +45,9 @@
 !||    visc_param_mod   ../common_source/modules/mat_elem/visc_param_mod.F90
 !||====================================================================
         subroutine visc_plas(visc,nel     , rho, soundsp     , &
-                                       depspxx  ,depspyy  ,depspzz  ,depspxy  ,depspyz  ,depspzx  , &
-                                       sigvoxx  ,sigvoyy  ,sigvozz  ,sigvoxy  ,sigvoyz  ,sigvozx  , &
-                                       sigvxx   ,sigvyy  ,sigvzz  ,sigvxy  ,sigvyz  ,sigvzx  )
+          depspxx  ,depspyy  ,depspzz  ,depspxy  ,depspyz  ,depspzx  , &
+          sigvoxx  ,sigvoyy  ,sigvozz  ,sigvoxy  ,sigvoyz  ,sigvozx  , &
+          sigvxx   ,sigvyy  ,sigvzz  ,sigvxy  ,sigvyz  ,sigvzx  )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -76,16 +76,16 @@
           real(kind=WP), dimension(nel) ,                  intent(in) :: sigvozz                      !< old damp stress zz
           real(kind=WP), dimension(nel) ,                  intent(in) :: sigvoxy                      !< old damp stress xy
           real(kind=WP), dimension(nel) ,                  intent(in) :: sigvoyz                      !< old damp stress yz
-          real(kind=WP), dimension(nel) ,                  intent(in) :: sigvozx                      !< old damp stress zx 
+          real(kind=WP), dimension(nel) ,                  intent(in) :: sigvozx                      !< old damp stress zx
           real(kind=WP), dimension(nel) ,                  intent(out) :: sigvxx                      !< damp stress xx
           real(kind=WP), dimension(nel) ,                  intent(out) :: sigvyy                      !< damp stress yy
           real(kind=WP), dimension(nel) ,                  intent(out) :: sigvzz                      !< damp stress zz
           real(kind=WP), dimension(nel) ,                  intent(out) :: sigvxy                      !< damp stress xy
           real(kind=WP), dimension(nel) ,                  intent(out) :: sigvyz                      !< damp stress yz
-          real(kind=WP), dimension(nel) ,                  intent(out) :: sigvzx                      !< damp stress zx   
-          real(kind=WP), dimension(nel) ,                  intent(inout) :: soundsp                   !< sound speed   
+          real(kind=WP), dimension(nel) ,                  intent(out) :: sigvzx                      !< damp stress zx
+          real(kind=WP), dimension(nel) ,                  intent(inout) :: soundsp                   !< sound speed
           real(kind=WP), dimension(nel) ,                  intent(in) :: rho                          !< density
-          type(visc_param_) ,                         intent(in) :: VISC 
+          type(visc_param_) ,                         intent(in) :: VISC
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -95,16 +95,16 @@
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
 !
-          g    =   VISC%UPARAM(1)   
-          sigy =   VISC%UPARAM(2)  
-          twog =  two*g            
-          do i=1,nel                                                     
-!           spheric part 
+          g    =   VISC%UPARAM(1)
+          sigy =   VISC%UPARAM(2)
+          twog =  two*g
+          do i=1,nel
+!           spheric part
             trace = -(depspxx(i) + depspyy(i) + depspzz(i))
-            dav = third*trace                 
-!           deviatoric part                                           
-            depxx = depspxx(i) + dav                                  
-            depyy = depspyy(i) + dav                                   
+            dav = third*trace
+!           deviatoric part
+            depxx = depspxx(i) + dav
+            depyy = depspyy(i) + dav
             depzz = depspzz(i) + dav
 !           ! we shoud check if deviatoric strain are used ? must be check with lsdyna result
             sigvxx(i) = sigvoxx(i) + twog*depxx
@@ -114,21 +114,21 @@
             sigvyz(i) = sigvoyz(i) + g*depspyz(i)
             sigvzx(i) = sigvozx(i) + g*depspzx(i)
             ! update of sound speed
-             soundsp(i) = sqrt(soundsp(i)**2 + (four_over_3*g )/rho(i)) 
+            soundsp(i) = sqrt(soundsp(i)**2 + (four_over_3*g )/rho(i))
           enddo
-!           
+!
           do i=1,nel
-             sigvmises = three*(half*(sigvxx(i)**2  + sigvyy(i)**2 + sigvzz(i)**2)      & 
-                             + sigvxy(i)**2 + sigvyz(i)**2 + sigvzx(i)**2 )
-             sigvmises = sqrt(sigvmises)
-             if( sigvmises > sigy ) then
-                scale = sigy/sigvmises
-                sigvxx(i) = scale*sigvxx(i)
-                sigvyy(i) = scale*sigvyy(i)
-                sigvzz(i) = scale*sigvzz(i)
-                sigvxy(i) = scale*sigvxy(i)
-                sigvyz(i) = scale*sigvyz(i)
-                sigvzx(i) = scale*sigvzx(i)
+            sigvmises = three*(half*(sigvxx(i)**2  + sigvyy(i)**2 + sigvzz(i)**2)      &
+              + sigvxy(i)**2 + sigvyz(i)**2 + sigvzx(i)**2 )
+            sigvmises = sqrt(sigvmises)
+            if( sigvmises > sigy ) then
+              scale = sigy/sigvmises
+              sigvxx(i) = scale*sigvxx(i)
+              sigvyy(i) = scale*sigvyy(i)
+              sigvzz(i) = scale*sigvzz(i)
+              sigvxy(i) = scale*sigvxy(i)
+              sigvyz(i) = scale*sigvyz(i)
+              sigvzx(i) = scale*sigvzx(i)
             endif
           enddo
 ! ----------------------------------------------------------------------------------------------------------------------

@@ -272,7 +272,7 @@
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
           numnod = nodes%numnod
-          nodes%itab(numnod+1) = nodes%max_uid ! -nodes%itab(i) !temporary id of the new node 
+          nodes%itab(numnod+1) = nodes%max_uid ! -nodes%itab(i) !temporary id of the new node
           nodes%IKINE(numnod+1) = nodes%IKINE(i)
           nodes%V(1:3,numnod+1) = nodes%V(1:3,i)
           nodes%X(1:3,numnod+1) = nodes%X(1:3,i)
@@ -546,7 +546,7 @@
           integer, dimension(:), allocatable :: nb_detached_nodes_global
           integer, dimension(:), allocatable :: nb_detached_nodes
           integer :: nb_detached_nodes_local
-          logical, dimension(:), allocatable :: is_unique 
+          logical, dimension(:), allocatable :: is_unique
           integer :: total_new_nodes
           integer :: displ(nspmd)
           integer :: old_max_uid
@@ -556,8 +556,8 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   body
 ! ----------------------------------------------------------------------------------------------------------------------
-          new_crack = 0        
-          
+          new_crack = 0
+
           numnodg0 = numnodg
           allocate(detach_shell(0:numelc))
           detach_shell = 0.0d0
@@ -653,7 +653,7 @@
           shell_list = 0
           shells_to_detach = 0
 
-          ! detach nodes based on simple 
+          ! detach nodes based on simple
           dmax = 0.0
           do ii = 1, numelc
             i =  element%shell%permutation(ii) ! the shells are treated in the order of their user_id, for reproducibility
@@ -679,7 +679,7 @@
                 crack(1) = element%shell%ixc(j+1,i)
                 shell_list(1) = i
                 shells_to_detach = 1
-                element%shell%damage(i) = 1.0D0 ! 
+                element%shell%damage(i) = 1.0D0 !
                 nb_detached_nodes_local = nb_detached_nodes_local + 1
                 detached_nodes_local(nb_detached_nodes_local) = nodes%itab(crack(1))
                 call detach_node(nodes,crack(1),element,shell_list,shells_to_detach,npari,ninter, ipari, interf)
@@ -712,19 +712,19 @@
           ! reuse displ as displ
           displ(1:nspmd) = 0
           do i = 2, nspmd
-            displ(i) = displ(i-1) + nb_detached_nodes_global(i-1)                             
+            displ(i) = displ(i-1) + nb_detached_nodes_global(i-1)
           enddo
 
-          if(nspmd > 1) then 
-          call spmd_allgatherv(detached_nodes_local,nb_detached_nodes_global(ispmd+1), &
-            detached_nodes,nb_detached_nodes_global,displ)
+          if(nspmd > 1) then
+            call spmd_allgatherv(detached_nodes_local,nb_detached_nodes_global(ispmd+1), &
+              detached_nodes,nb_detached_nodes_global,displ)
           else
             detached_nodes = detached_nodes_local
           endif
 
           !allreduce numnodg0
-          if(nspmd > 1) then 
-          call spmd_allreduce(numnodg0,p,1,SPMD_MAX)
+          if(nspmd > 1) then
+            call spmd_allreduce(numnodg0,p,1,SPMD_MAX)
             numnodg0 = p
           endif
 !          old_max_uid = nodes%max_uid
@@ -733,13 +733,13 @@
           else
             old_max_uid = nodes%max_uid
           endif
-        
+
           !write(6,*) "numnodg0",numnodg0
 !         if(total_new_nodes >0) write(6,*) "MASS nb_detached_nodes_global",nb_detached_nodes_global(1:nspmd)
 !         if(total_new_nodes >0) write(6,*) "MASS detached_nodes",detached_nodes(1:total_new_nodes)
           !Not finalized: new nodes may be boundary nodes (i.e. new node attached to two shells from different processors)
 
-          k = sum(nb_detached_nodes_global(1:nspmd)) 
+          k = sum(nb_detached_nodes_global(1:nspmd))
           allocate(processor(k))
           allocate(local_pos(k))
           k = 0
@@ -748,16 +748,16 @@
               k = k + 1
               processor(k) = P
               if(ispmd+1 == P) then
-                 local_pos(k) = i                                                           
+                local_pos(k) = i
               else
-                 local_pos(k) = 0
+                local_pos(k) = 0
               endif
-            enddo 
+            enddo
           enddo
- 
-          k = sum(nb_detached_nodes_global(1:nspmd)) 
+
+          k = sum(nb_detached_nodes_global(1:nspmd))
           allocate(permutation(k))
-          do i = 1,k 
+          do i = 1,k
             permutation(i) = i
           enddo
           ! sort the detached nodes in ascending order of the user id of the parent node
@@ -773,17 +773,17 @@
             if( P == ispmd+1) then
               j = local_pos(i)
               nodes%itab(numnod0 + j) = old_max_uid
-              nodes%itabm1(numnod0 + j) = old_max_uid                                
+              nodes%itabm1(numnod0 + j) = old_max_uid
               nodes%itabm1(2*(numnod0 + j)) = numnod0 + j
               nodes%nodglob(numnod0 + j) = numnodg0
               !write(6,*) old_max_uid,"detached node ",nodes%itab(numnod0 + j),"form",nodes%itab(nodes%parent_node(numnod0+j))
             endif
             j = get_local_node_id(nodes,detached_nodes(i))
             if(j > 0) then
-            ! the node is known by the current processor, so we need to update its mass
-             nodes%MS(j) = nodes%MS(j) / TWO ! arbitrary division by 2
-             nodes%MS0(j) = nodes%MS0(j) /TWO
-             nodes%nchilds(nodes%parent_node(j)) = nodes%nchilds(nodes%parent_node(j)) + 1 
+              ! the node is known by the current processor, so we need to update its mass
+              nodes%MS(j) = nodes%MS(j) / TWO ! arbitrary division by 2
+              nodes%MS0(j) = nodes%MS0(j) /TWO
+              nodes%nchilds(nodes%parent_node(j)) = nodes%nchilds(nodes%parent_node(j)) + 1
             endif
           enddo
 
@@ -804,8 +804,8 @@
           if (allocated(detach_shell)) deallocate(detach_shell)
           if (allocated(shell_list)) deallocate(shell_list)
           if (allocated(nodal_damage)) deallocate(nodal_damage)
-        ! if (allocated(ghostShellCoordinates)) deallocate(ghostShellCoordinates)
-        ! if (allocated(shellCoordinates)) deallocate(shellCoordinates)
+          ! if (allocated(ghostShellCoordinates)) deallocate(ghostShellCoordinates)
+          ! if (allocated(shellCoordinates)) deallocate(shellCoordinates)
 
         end subroutine test_jc_shell_detach
 

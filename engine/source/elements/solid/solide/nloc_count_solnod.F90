@@ -50,7 +50,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   arguments 
+!                                                   arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           integer, intent(in) :: ngroup                                       !< number of groups
           integer, intent(in) :: nparg                                        !< number of group parameters
@@ -60,7 +60,7 @@
           integer, intent(in) :: nixs                                         !< number of solid element parameters
           integer, intent(in) :: numels                                       !< total number of solid elements
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   local variables 
+!                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i,j,ng,nel,nft,ity,isolnod,inloc,error
           integer, dimension(8) :: node_id,index

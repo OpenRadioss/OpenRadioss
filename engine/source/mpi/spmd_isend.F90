@@ -127,7 +127,7 @@
           endif
           call spmd_out(tag,ierr)
 #endif
-        end subroutine
+        end subroutine spmd_isend_doubles
 
 !||====================================================================
 !||    spmd_isend_double     ../engine/source/mpi/spmd_isend.F90
@@ -157,7 +157,7 @@
           endif
           call spmd_out(tag,ierr)
 #endif
-        end subroutine
+        end subroutine spmd_isend_double
 
 !||====================================================================
 !||    spmd_isend_int        ../engine/source/mpi/spmd_isend.F90
@@ -187,7 +187,7 @@
           endif
           call spmd_out(tag,ierr)
 #endif
-        end subroutine
+        end subroutine spmd_isend_int
 
 !||====================================================================
 !||    spmd_isend_real       ../engine/source/mpi/spmd_isend.F90
@@ -217,11 +217,11 @@
           endif
           call spmd_out(tag,ierr)
 #endif
-        end subroutine
+        end subroutine spmd_isend_real
 
 
 
 
 
-      end module
+      end module spmd_isend_mod
 

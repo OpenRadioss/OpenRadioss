@@ -128,9 +128,9 @@
           enddo
 
           do i=1,nel0
-            if(ilen(i) < 0) then 
-              call python_call_funct1d(python, -ilen(i),x(i), y(i)) 
-              call python_deriv_funct1D(python, -ilen(i),x(i), dydx(i)) 
+            if(ilen(i) < 0) then
+              call python_call_funct1d(python, -ilen(i),x(i), y(i))
+              call python_deriv_funct1D(python, -ilen(i),x(i), dydx(i))
             endif
           enddo
           return

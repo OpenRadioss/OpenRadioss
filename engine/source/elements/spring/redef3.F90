@@ -559,17 +559,17 @@
                   fx(i)=fxep(i)+an3y0(i)*ddx(i)
                   if ((fxep(i) < yield(i)).and.(fx(i) > yield(i))) then
 !----               crossing of the traction yield line
-                    xx(i)=dpx(i) + xn3fy0(i) + ddx(i)         
+                    xx(i)=dpx(i) + xn3fy0(i) + ddx(i)
                   elseif ((-fxep(i)< yieldc(i)).and.(-fx(i) > yieldc(i))) then
 !----               crossing of the compression yield line
-                    xx(i)=-dpx2(i) + xn3fy0(i) + ddx(i)                            
-                      else
-                    if (fx(i) >= zero) then  
+                    xx(i)=-dpx2(i) + xn3fy0(i) + ddx(i)
+                  else
+                    if (fx(i) >= zero) then
                       xx(i)= xx_old(i) + ddx(i)
                     else
-                      xx(i)= -xx_oldc(i) + ddx(i)                      
-                      end if
+                      xx(i)= -xx_oldc(i) + ddx(i)
                     end if
+                  end if
                 endif
               enddo
             endif
@@ -581,30 +581,30 @@
                 dxela(i)=dx(i)-dpx(i)
                 xxb = 0
 !--- tension - load curve is used
-                  do  k=2,np2
-                    k1=2*(k-2)
-                    x1=tf(npf(fund)+k1)
-                    x2=tf(npf(fund)+k1+2)
-                    y1=tf(npf(fund)+k1+1)
-                    y2=tf(npf(fund)+k1+3)
-                    if((fxep(i)< y2.and.fxep(i)>=y1))then
+                do  k=2,np2
+                  k1=2*(k-2)
+                  x1=tf(npf(fund)+k1)
+                  x2=tf(npf(fund)+k1+2)
+                  y1=tf(npf(fund)+k1+1)
+                  y2=tf(npf(fund)+k1+3)
+                  if((fxep(i)< y2.and.fxep(i)>=y1))then
                     x1s = x1
                     x2s = x2
-                      an3y0(i)=(y2-y1)/ (x2-x1)
+                    an3y0(i)=(y2-y1)/ (x2-x1)
                     xn3fy0(i)=(fxep(i)-y1)/an3y0(i) + x1   !abs de n3
-                      exit
-                    endif
-                  enddo
-   !---        extrapolation (outside of input curve points)
+                    exit
+                  endif
+                enddo
+                !---        extrapolation (outside of input curve points)
                 if (an3y0(i)== zero)then !
-                    x1=tf(npf(fund)+(np2-2)*2)
-                    x2=tf(npf(fund)+(np2-2)*2+2)
-                    y1=tf(npf(fund)+(np2-2)*2+1)
-                    y2=tf(npf(fund)+(np2-2)*2+3)
-                    xi1=tf(npf(fund))
-                    xi2=tf(npf(fund)+2)
-                    yi1=tf(npf(fund)+1)
-                    yi2=tf(npf(fund)+3)
+                  x1=tf(npf(fund)+(np2-2)*2)
+                  x2=tf(npf(fund)+(np2-2)*2+2)
+                  y1=tf(npf(fund)+(np2-2)*2+1)
+                  y2=tf(npf(fund)+(np2-2)*2+3)
+                  xi1=tf(npf(fund))
+                  xi2=tf(npf(fund)+2)
+                  yi1=tf(npf(fund)+1)
+                  yi2=tf(npf(fund)+3)
                   if(fxep(i)>y2) then
                     an3y0(i)=(y2-y1)/ (x2-x1)
                     xn3fy0(i)=(fxep(i)-y1)/an3y0(i) + x1
@@ -617,12 +617,12 @@
                     x2s = xi1
                   endif
                   xk_tansav(i)=an3y0(i)
-                  endif
+                endif
                 xxb =xn3fy0(i)+ddx(i)
                 xk_tansav(i)=an3y0(i)
                 if (fxep(i)==yield(i)) dpx(i) = xx_old(i)- abs(xn3fy0(i))
                 if (fxep(i)==-yieldc(i)) dpx2(i) = xx_oldc(i)- abs(xn3fy0(i))
-   !---         next point is in another part of the curve
+                !---         next point is in another part of the curve
                 if (xxb< x1s.or.xxb>x2s) then
                   xk_tansav(i)=zero
                   do  k=2,np2
@@ -632,7 +632,7 @@
                     y1=tf(npf(fund)+k1+1)
                     y2=tf(npf(fund)+k1+3)
                     if((xxb < x2.and.xxb >=x1))then
-                       xk_tansav(i)=(y2-y1)/ (x2-x1)
+                      xk_tansav(i)=(y2-y1)/ (x2-x1)
                       fxb = y1 + ((y2-y1)/(x2-x1))*(xxb-x1)
                       an3y0(i)= (fxep(i)-fxb)/ (xn3fy0(i)-xxb)
                       exit
@@ -660,15 +660,15 @@
                 fx(i)=fxep(i)+an3y0(i)*ddx(i)
                 if ((fxep(i) < yield(i)).and.(fx(i) > yield(i))) then
 !----             crossing of the traction yield line
-                  xx(i)=dpx(i) + xn3fy0(i) + ddx(i)         
+                  xx(i)=dpx(i) + xn3fy0(i) + ddx(i)
                 elseif ((-fxep(i)< yieldc(i)).and.(-fx(i) > yieldc(i))) then
 !----             crossing of the compression yield line
-                  xx(i)=-dpx2(i) + xn3fy0(i) + ddx(i)                            
+                  xx(i)=-dpx2(i) + xn3fy0(i) + ddx(i)
                 else
-                  if (fx(i) >= fx0) then  
+                  if (fx(i) >= fx0) then
                     xx(i)= xx_old(i) + ddx(i)
                   else
-                    xx(i)= -xx_oldc(i) + ddx(i)                 
+                    xx(i)= -xx_oldc(i) + ddx(i)
                   endif
                 endif
               endif
@@ -686,7 +686,7 @@
                   an3y0(i)= zero
                 else
                   an3y0(i)= xk(i)
-                  endif
+                endif
 !
                 fx(i)=fxep(i)+an3y0(i)*ddx(i)
                 xx(i)=sign(abs(xx_old(i)),fx(i))
@@ -950,8 +950,8 @@
             if(any_python_func) then
               call vinter_mixed(python, tf,jad,jpos,jlen,nel,xx,dydx,yy)
             else
-                call vinter2(tf,jad ,jpos ,jlen ,nel,xx ,dydx ,yy )
-            endif  
+              call vinter2(tf,jad ,jpos ,jlen ,nel,xx ,dydx ,yy )
+            endif
             do i=1,nel
               if(ifunc(i)/= 0.and.iecrou(i)== 9)then
                 if(fx(i)>=fx0.and.fx(i)>yield(i))then
@@ -970,7 +970,7 @@
                   xx_oldc(i) = xx_oldc(i) + abs(ddx(i))
                 endif
                 fxep(i)=fx(i)
-               endif
+              endif
             enddo
           endif
 !-------------------------------------
@@ -1075,12 +1075,12 @@
                 pos(5,i) = j2pos(i)
               enddo
             endif
-!---------------------------k * funct_id_5   
-            if(j2k>0)then  
-              do i=1,nel              
+!---------------------------k * funct_id_5
+            if(j2k>0)then
+              do i=1,nel
                 j3pos(i) = nint(pos6(i))
                 j3func=max(ifunc4(i),1)
-                pyid2 = get_python_funct_id(nfunct,j3func,npf,snpc)      
+                pyid2 = get_python_funct_id(nfunct,j3func,npf,snpc)
                 if(pyid2>0)then
                   !python function
                   j3ad(i) = -pyid2
@@ -1090,7 +1090,7 @@
                   j3ad(i)  = npf(j3func) / 2 + 1
                   j3len(i) = npf(j3func+1) / 2 - j3ad(i) - j3pos(i)
                 endif
-              enddo       
+              enddo
               if(any_python_func) then
                 call vinter_mixed(python, tf,j3ad,j3pos,j3len,nel,xx,dkdx2,kx2)
                 if(present(max_slope)) then
@@ -1103,35 +1103,35 @@
                 endif
               else
                 call vinter2(tf,j3ad,j3pos,j3len,nel,xx,dkdx2,kx2)
-              endif   
+              endif
               do i=1,nel
                 pos6(i) = j3pos(i)
               enddo
-            endif  
+            endif
 !-------------------------
             if(j2k /= nel)then
               if (present(ifunc4)) then
-                do i=1,nel         
+                do i=1,nel
                   if(ifunc4(i) == 0) kx2(i) = one
                 enddo
               else
                 kx2(1:nel) = one
-              endif  
+              endif
             endif
             if(jdmp/=nel)then
               do i=1,nel
                 if(ifv(i)==0) gx(i)=zero
               enddo
             endif
-            if(j2dmp /= nel)then 
-              do i=1,nel            
+            if(j2dmp /= nel)then
+              do i=1,nel
                 if(ifunc3(i) == 0) gx2(i) = zero
                 gx2(i) = gx2(i) * kx2(i)
               enddo
             else
-              do i=1,nel   
+              do i=1,nel
                 gx2(i) = gx2(i) * kx2(i)
-              enddo 
+              enddo
             endif
 
             do i=1,nel

@@ -44,7 +44,7 @@
           module procedure spmd_allgather_reals   !< Allgather real numbers across all processes
           module procedure spmd_allgather_ints    !< Allgather integers across all processes
           module procedure spmd_allgather_doubles !< Allgather double precision numbers across all processes
-        end interface spmd_allgather        
+        end interface spmd_allgather
 
       contains
 ! ======================================================================================================================
@@ -131,5 +131,5 @@
           call MPI_Allgather(sendbuf,buf_count, MPI_INTEGER, recvbuf, buf_count, MPI_INTEGER, used_comm, ierr)
           !call spmd_out(TAG_ALLGATHER,ierr)
 #endif
-        end subroutine spmd_allgather_ints                
+        end subroutine spmd_allgather_ints
       end module spmd_allgather_mod

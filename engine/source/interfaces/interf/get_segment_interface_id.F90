@@ -46,8 +46,8 @@
 !||    shooting_node_mod                        ../engine/share/modules/shooting_node_mod.F
 !||====================================================================
         subroutine get_segment_interface_id( ninter,nb_segment,list_segment_id, &
-                                             my_interface_id,my_reduced_nb,my_reduced_list,my_reduced_neighbour, &
-                                             shoot_struct,intbuf_tab,node_id_1,node_id_2,n_iedge)
+          my_interface_id,my_reduced_nb,my_reduced_list,my_reduced_neighbour, &
+          shoot_struct,intbuf_tab,node_id_1,node_id_2,n_iedge)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -68,9 +68,9 @@
           integer, intent(inout) :: my_reduced_nb !< number of connected segment on the interface "my_interface_id"
           integer, dimension(nb_segment), intent(in) :: list_segment_id !< id of the segment
           integer, dimension(nb_segment,2), intent(inout) :: my_reduced_list !< id of the segment belonging to the interface "my_interface_id"
-          integer, dimension(nb_segment,4), intent(inout) :: my_reduced_neighbour !< boolean : 1 if the segment has already a neighbour 
+          integer, dimension(nb_segment,4), intent(inout) :: my_reduced_neighbour !< boolean : 1 if the segment has already a neighbour
           type(shooting_node_type), intent(inout) :: shoot_struct !< structure for shooting node algo
-          type(intbuf_struct_), dimension(ninter), intent(inout) :: intbuf_tab    !< interface data 
+          type(intbuf_struct_), dimension(ninter), intent(inout) :: intbuf_tab    !< interface data
           integer, intent(in) :: node_id_1,node_id_2 ! nodes ids for edge search
           integer, dimension(nb_segment), intent(inout) :: n_iedge  ! list of neighbours edges
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -96,7 +96,7 @@
             k = list_segment_id(i)  ! get the global segment id
             id_inter = dichotomic_search_i_asc(k, shoot_struct%shift_interface(1,1), number_inter+1) ! find the interface of the segment
             nin = shoot_struct%shift_interface(id_inter,2)
-            segment_id = k - shoot_struct%shift_interface(id_inter,1) + 1 ! get the segment id in the nin interface  
+            segment_id = k - shoot_struct%shift_interface(id_inter,1) + 1 ! get the segment id in the nin interface
             my_reduced_neighbour(i,1:4) = 0
             ! find the edge id of n_segment_id
             call get_segment_edge( segment_id,node_id_1,node_id_2,iedge,intbuf_tab(nin) )

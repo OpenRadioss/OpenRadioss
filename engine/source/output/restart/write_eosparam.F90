@@ -43,91 +43,91 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
-      USE EOS_PARAM_MOD
-      USE NAMES_AND_TITLES_MOD
-      use precision_mod, only : WP
+        USE EOS_PARAM_MOD
+        USE NAMES_AND_TITLES_MOD
+        use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
-      implicit none
+        implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Imnclude files
 ! ----------------------------------------------------------------------------------------------------------------------
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-      TYPE(EOS_PARAM_) ,INTENT(IN) :: EOS
+        TYPE(EOS_PARAM_) ,INTENT(IN) :: EOS
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local Variables
 ! ----------------------------------------------------------------------------------------------------------------------
-      INTEGER :: I,IAD,NFIX,NUPARAM,NIPARAM,NUMTABL,NUMFUNC
-      INTEGER ,DIMENSION(NCHARTITLE) :: NAME
-      INTEGER ,DIMENSION(:) ,ALLOCATABLE :: IBUF
-      real(kind=WP) ,DIMENSION(:), ALLOCATABLE :: RBUF
+        INTEGER :: I,IAD,NFIX,NUPARAM,NIPARAM,NUMTABL,NUMFUNC
+        INTEGER ,DIMENSION(NCHARTITLE) :: NAME
+        INTEGER ,DIMENSION(:) ,ALLOCATABLE :: IBUF
+        real(kind=WP) ,DIMENSION(:), ALLOCATABLE :: RBUF
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-      !INTEGER parameters
-      NFIX = 6
-      ALLOCATE (IBUF(NFIX + 1))
-      IAD = 1
-      IBUF(IAD) = NFIX
-      IAD = IAD+1
+        !INTEGER parameters
+        NFIX = 6
+        ALLOCATE (IBUF(NFIX + 1))
+        IAD = 1
+        IBUF(IAD) = NFIX
+        IAD = IAD+1
         IBUF(IAD) = EOS%NUPARAM
-      IAD = IAD+1
+        IAD = IAD+1
         IBUF(IAD) = EOS%NIPARAM
-      IAD = IAD+1
+        IAD = IAD+1
         IBUF(IAD) = EOS%NFUNC
-      IAD = IAD+1
+        IAD = IAD+1
         IBUF(IAD) = EOS%NTABLE
-      IAD = IAD+1
+        IAD = IAD+1
         IBUF(IAD) = EOS%ISFLUID
-      IAD = IAD+1
-      CALL WRITE_I_C(IBUF,NFIX+1)
-      DEALLOCATE(IBUF)
+        IAD = IAD+1
+        CALL WRITE_I_C(IBUF,NFIX+1)
+        DEALLOCATE(IBUF)
 
-      !REAL parameter
-      NFIX = 2
-      ALLOCATE(IBUF(1))
-      IBUF(1) = NFIX !size
-      ALLOCATE (RBUF(NFIX))
-      IAD = 1
+        !REAL parameter
+        NFIX = 2
+        ALLOCATE(IBUF(1))
+        IBUF(1) = NFIX !size
+        ALLOCATE (RBUF(NFIX))
+        IAD = 1
         RBUF(IAD) = EOS%CV
-      IAD = IAD+1
+        IAD = IAD+1
         RBUF(IAD) = EOS%CP
-      IAD = IAD+1
-      CALL WRITE_I_C(IBUF,1)
-      CALL WRITE_DB(RBUF,NFIX)
-      DEALLOCATE(RBUF)
-      DEALLOCATE(IBUF)
+        IAD = IAD+1
+        CALL WRITE_I_C(IBUF,1)
+        CALL WRITE_DB(RBUF,NFIX)
+        DEALLOCATE(RBUF)
+        DEALLOCATE(IBUF)
 
-      ! write eos model title
-      DO I=1,NCHARTITLE
-        NAME(I) = ICHAR(EOS%TITLE(I:I))
-      END DO
-      CALL WRITE_C_C(NAME,NCHARTITLE)
-      
-      ! write eos parameter array
-      NUPARAM = EOS%NUPARAM
-      NIPARAM = EOS%NIPARAM
-      IF (NUPARAM > 0) THEN
-        CALL WRITE_DB(EOS%UPARAM ,NUPARAM)
-      END IF      
-      IF (NIPARAM > 0) THEN
-        CALL WRITE_I_C(EOS%IPARAM ,NIPARAM)
-      END IF      
+        ! write eos model title
+        DO I=1,NCHARTITLE
+          NAME(I) = ICHAR(EOS%TITLE(I:I))
+        END DO
+        CALL WRITE_C_C(NAME,NCHARTITLE)
 
-      ! write eos law function
-      NUMFUNC  = EOS%NFUNC
-      IF (NUMFUNC > 0) THEN
-        CALL WRITE_I_C(EOS%FUNC, NUMFUNC)
-      END IF
-      
-      ! write eos law tables
-      NUMTABL  = EOS%NTABLE
-      IF (NUMTABL > 0) THEN
-        CALL WRITE_MAT_TABLE(EOS%TABLE, NUMTABL)
-      END IF
+        ! write eos parameter array
+        NUPARAM = EOS%NUPARAM
+        NIPARAM = EOS%NIPARAM
+        IF (NUPARAM > 0) THEN
+          CALL WRITE_DB(EOS%UPARAM ,NUPARAM)
+        END IF
+        IF (NIPARAM > 0) THEN
+          CALL WRITE_I_C(EOS%IPARAM ,NIPARAM)
+        END IF
+
+        ! write eos law function
+        NUMFUNC  = EOS%NFUNC
+        IF (NUMFUNC > 0) THEN
+          CALL WRITE_I_C(EOS%FUNC, NUMFUNC)
+        END IF
+
+        ! write eos law tables
+        NUMTABL  = EOS%NTABLE
+        IF (NUMTABL > 0) THEN
+          CALL WRITE_MAT_TABLE(EOS%TABLE, NUMTABL)
+        END IF
 !-----------
-      RETURN
+        RETURN
       end subroutine WRITE_EOSPARAM

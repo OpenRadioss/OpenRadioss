@@ -26,9 +26,9 @@
 !||    resol            ../engine/source/engine/resol.F
 !||====================================================================
       module inivel_dt2_mod
-!        
-       contains
-  !! \brief time step change due to inivel w/ T_start
+!
+      contains
+        !! \brief time step change due to inivel w/ T_start
 !||====================================================================
 !||    inivel_dt2      ../engine/source/loads/general/inivel/inivel_dt2.F90
 !||--- called by ------------------------------------------------------
@@ -45,10 +45,10 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
-      use inivel_mod 
-      use sensor_mod
-      use constant_mod,          only : zero,half
-      use precision_mod, only : WP
+          use inivel_mod
+          use sensor_mod
+          use constant_mod,          only : zero,half
+          use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -59,54 +59,54 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-      integer , intent(in   )                          :: nspmd     !< number of domain
-      integer , intent(inout)                          :: ninivelt  !< dimension of inivel_t
-      real(kind=WP), intent(in   )                           :: time      !< time
-      real(kind=WP), intent(inout)                           :: dt2       !< time step
-      type (sensors_) ,intent(in  )                    :: sensors
-      type(inivel_), dimension(ninivelt),intent(in   ) :: inivel_t  !< inivel_struc 
+          integer , intent(in   )                          :: nspmd     !< number of domain
+          integer , intent(inout)                          :: ninivelt  !< dimension of inivel_t
+          real(kind=WP), intent(in   )                           :: time      !< time
+          real(kind=WP), intent(inout)                           :: dt2       !< time step
+          type (sensors_) ,intent(in  )                    :: sensors
+          type(inivel_), dimension(ninivelt),intent(in   ) :: inivel_t  !< inivel_struc
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-      integer  :: i,j,id,n,itype,iactiv,sens_id
-      real(kind=WP)  :: tstart,tstart_s,tstart1,time1
+          integer  :: i,j,id,n,itype,iactiv,sens_id
+          real(kind=WP)  :: tstart,tstart_s,tstart1,time1
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
 ! ----------------------------------------------------------------------------------------------------------------------
 !  if activation due to T_start or sensor
-       iactiv = 0
-       time1 = time +half*dt2
-       tstart = -HUGE(tstart)
-       sens_id = -HUGE(sens_id)
-       do n =1,ninivelt 
-         itype = inivel_t(n)%itype
-         if (itype < 0 ) cycle 
-         select case (itype)
-           case(0,1,2,3)
-               sens_id = inivel_t(n)%general%sensor_id 
-               tstart = inivel_t(n)%general%tstart 
-           case(4)
-               sens_id = inivel_t(n)%axis%sensor_id 
-               tstart = inivel_t(n)%axis%tstart 
-           case(5)
-               sens_id = inivel_t(n)%fvm%sensor_id 
-               tstart = inivel_t(n)%fvm%tstart 
-         end select 
-         tstart_s = zero 
-         if (sens_id>0) tstart_s = sensors%sensor_tab(sens_id)%tstart 
-         if (tstart==zero) then 
-           tstart1 = tstart_s 
-         else if (sens_id==0) then
-           tstart1 = tstart 
-         else
-           tstart1 = min(tstart,tstart_s) 
-         end if 
-         if (tstart1<=time1) iactiv = 1 
-       end do 
-       if (nspmd>1) call spmd_max_i(iactiv)
-!       
-       if (iactiv>0) dt2 = half*dt2
-!       
-       end subroutine inivel_dt2
+          iactiv = 0
+          time1 = time +half*dt2
+          tstart = -HUGE(tstart)
+          sens_id = -HUGE(sens_id)
+          do n =1,ninivelt
+            itype = inivel_t(n)%itype
+            if (itype < 0 ) cycle
+            select case (itype)
+             case(0,1,2,3)
+              sens_id = inivel_t(n)%general%sensor_id
+              tstart = inivel_t(n)%general%tstart
+             case(4)
+              sens_id = inivel_t(n)%axis%sensor_id
+              tstart = inivel_t(n)%axis%tstart
+             case(5)
+              sens_id = inivel_t(n)%fvm%sensor_id
+              tstart = inivel_t(n)%fvm%tstart
+            end select
+            tstart_s = zero
+            if (sens_id>0) tstart_s = sensors%sensor_tab(sens_id)%tstart
+            if (tstart==zero) then
+              tstart1 = tstart_s
+            else if (sens_id==0) then
+              tstart1 = tstart
+            else
+              tstart1 = min(tstart,tstart_s)
+            end if
+            if (tstart1<=time1) iactiv = 1
+          end do
+          if (nspmd>1) call spmd_max_i(iactiv)
+!
+          if (iactiv>0) dt2 = half*dt2
+!
+        end subroutine inivel_dt2
       end module inivel_dt2_mod

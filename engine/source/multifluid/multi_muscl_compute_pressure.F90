@@ -39,68 +39,68 @@
 !||    multi_submatlaw_mod              ../engine/source/multifluid/multi_submatlaw.F
 !||    precision_mod                    ../common_source/modules/precision_mod.F90
 !||====================================================================
-      SUBROUTINE MULTI_MUSCL_COMPUTE_PRESSURE(MATLAW, LOCAL_MATID, PM, IPM, NPROPM, NPROPMI, &
-                                  EINT, RHO, PRES, SSP, &
-                                  BURNFRAC, BURNTIME, DELTAX, CURRENT_TIME, &
-                                  BUFMAT, OFF, SIG, SNPC, STF, NPF, TF, VAREOS,NVAREOS, MAT_PARAM, &
-                                  NVARTMP_EOS, VARTMP_EOS, NUMMAT, ABURN)
+        SUBROUTINE MULTI_MUSCL_COMPUTE_PRESSURE(MATLAW, LOCAL_MATID, PM, IPM, NPROPM, NPROPMI, &
+          EINT, RHO, PRES, SSP, &
+          BURNFRAC, BURNTIME, DELTAX, CURRENT_TIME, &
+          BUFMAT, OFF, SIG, SNPC, STF, NPF, TF, VAREOS,NVAREOS, MAT_PARAM, &
+          NVARTMP_EOS, VARTMP_EOS, NUMMAT, ABURN)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
-      USE MATPARAM_DEF_MOD , ONLY : MATPARAM_STRUCT_
-      USE MULTI_SUBMATLAW_MOD , ONLY : MULTI_SUBMATLAW
-      USE CONSTANT_MOD , ONLY : ZERO, EM06, ONE
-      USE PRECISION_MOD, ONLY : WP
+          USE MATPARAM_DEF_MOD , ONLY : MATPARAM_STRUCT_
+          USE MULTI_SUBMATLAW_MOD , ONLY : MULTI_SUBMATLAW
+          USE CONSTANT_MOD , ONLY : ZERO, EM06, ONE
+          USE PRECISION_MOD, ONLY : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit None
 ! ----------------------------------------------------------------------------------------------------------------------
-      implicit none
+          implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-      INTEGER, INTENT(IN) :: MATLAW, LOCAL_MATID, NPROPM, NPROPMI, NUMMAT, SNPC, STF
-      real(kind=WP), INTENT(IN) :: PM(NPROPM, *), CURRENT_TIME
-      INTEGER, INTENT(IN) :: IPM(NPROPMI, *)
-      real(kind=WP), INTENT(IN) :: SIG(6)
-      real(kind=WP), INTENT(INOUT) :: SSP(1), PRES(1), EINT(1), RHO(1), BURNFRAC(1), BURNTIME(1), DELTAX(1), ABURN(1)
-      real(kind=WP), INTENT(INOUT) :: OFF(1)
-      real(kind=WP), INTENT(INOUT) :: BUFMAT(*)
-      INTEGER,INTENT(IN)::NPF(SNPC),NVAREOS
-      real(kind=WP),INTENT(IN)::TF(STF),VAREOS(NVAREOS*1)
-      TYPE(MATPARAM_STRUCT_), INTENT(IN) :: MAT_PARAM !material data structure
-      INTEGER,INTENT(IN) :: NVARTMP_EOS
-      INTEGER,INTENT(INOUT) :: VARTMP_EOS(1,NVARTMP_EOS)
+          INTEGER, INTENT(IN) :: MATLAW, LOCAL_MATID, NPROPM, NPROPMI, NUMMAT, SNPC, STF
+          real(kind=WP), INTENT(IN) :: PM(NPROPM, *), CURRENT_TIME
+          INTEGER, INTENT(IN) :: IPM(NPROPMI, *)
+          real(kind=WP), INTENT(IN) :: SIG(6)
+          real(kind=WP), INTENT(INOUT) :: SSP(1), PRES(1), EINT(1), RHO(1), BURNFRAC(1), BURNTIME(1), DELTAX(1), ABURN(1)
+          real(kind=WP), INTENT(INOUT) :: OFF(1)
+          real(kind=WP), INTENT(INOUT) :: BUFMAT(*)
+          INTEGER,INTENT(IN)::NPF(SNPC),NVAREOS
+          real(kind=WP),INTENT(IN)::TF(STF),VAREOS(NVAREOS*1)
+          TYPE(MATPARAM_STRUCT_), INTENT(IN) :: MAT_PARAM !material data structure
+          INTEGER,INTENT(IN) :: NVARTMP_EOS
+          INTEGER,INTENT(INOUT) :: VARTMP_EOS(1,NVARTMP_EOS)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local Variables
 ! ----------------------------------------------------------------------------------------------------------------------
-      INTEGER :: ITER, MAX_ITER
-      real(kind=WP) :: TOL, ERROR
-      real(kind=WP) :: GRUN(1), VOL(1), TEMP(1)
-      LOGICAL :: CONT
+          INTEGER :: ITER, MAX_ITER
+          real(kind=WP) :: TOL, ERROR
+          real(kind=WP) :: GRUN(1), VOL(1), TEMP(1)
+          LOGICAL :: CONT
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-      MAX_ITER = 50
-      TOL = EM06
-      ERROR = ONE
-      
-      ! Dummy
-      VOL = ONE
+          MAX_ITER = 50
+          TOL = EM06
+          ERROR = ONE
 
-      ! Initialization
-      TEMP = ZERO
-      ITER = 0
-      CONT = .TRUE.
-      CALL MULTI_SUBMATLAW( &
-         0,           MATLAW,      LOCAL_MATID, 1, &
-         EINT,        PRES,        RHO,         SSP, &
-         VOL,         GRUN,        PM,          IPM, &
-         NPROPM,      NPROPMI,     BUFMAT,      OFF, &
-         TEMP,        BURNFRAC,    BURNTIME,    DELTAX, &
-         CURRENT_TIME,SIG(1:6),    SNPC    ,    STF, &
-         NPF,         TF,          VAREOS,      NVAREOS, &
-         MAT_PARAM   ,NVARTMP_EOS, VARTMP_EOS,  NUMMAT, &
-         ABURN)
+          ! Dummy
+          VOL = ONE
 
-      END SUBROUTINE MULTI_MUSCL_COMPUTE_PRESSURE
+          ! Initialization
+          TEMP = ZERO
+          ITER = 0
+          CONT = .TRUE.
+          CALL MULTI_SUBMATLAW( &
+            0,           MATLAW,      LOCAL_MATID, 1, &
+            EINT,        PRES,        RHO,         SSP, &
+            VOL,         GRUN,        PM,          IPM, &
+            NPROPM,      NPROPMI,     BUFMAT,      OFF, &
+            TEMP,        BURNFRAC,    BURNTIME,    DELTAX, &
+            CURRENT_TIME,SIG(1:6),    SNPC    ,    STF, &
+            NPF,         TF,          VAREOS,      NVAREOS, &
+            MAT_PARAM   ,NVARTMP_EOS, VARTMP_EOS,  NUMMAT, &
+            ABURN)
+
+        END SUBROUTINE MULTI_MUSCL_COMPUTE_PRESSURE
       END MODULE MULTI_MUSCL_COMPUTE_PRESSURE_MOD

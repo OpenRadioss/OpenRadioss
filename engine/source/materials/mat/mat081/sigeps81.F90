@@ -58,11 +58,11 @@
           use constant_mod
           use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                 implicit none 
+!                                                 implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   arguments 
+!                                                   arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           integer, intent(in) :: nel                           !< number of elements in the group
           integer, intent(in) :: nuvar                         !< number of user variables
@@ -108,7 +108,7 @@
           real(kind=WP), dimension(nel), intent(inout) :: seq        !< Von Mises equivalent stress
           real(kind=WP), dimension(nel), intent(out) :: et           !< for hourglass stiffness
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   local variables 
+!                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i,ii,soft_flag,iter,nindx,ntricomp
           integer, dimension(nel) :: indx,indxtricomp,ipos,iad,ilen

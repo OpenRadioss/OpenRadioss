@@ -43,8 +43,8 @@
 !||    shour_ctl                      ../engine/source/elements/solid/solidez/shour_ctl.F90
 !||    sz_dt1                         ../engine/source/elements/solid/solidez/sz_dt1.F90
 !||====================================================================
-       module mvsiz_mod
+      module mvsiz_mod
 #include "mvsiz_p.inc"
 
 
-       end module mvsiz_mod
+      end module mvsiz_mod

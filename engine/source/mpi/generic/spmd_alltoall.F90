@@ -130,10 +130,10 @@
           call spmd_in(tag)
           if (present(comm)) then
             call MPI_Alltoall(sendbuf, sendcount, MPI_DOUBLE_PRECISION, recvbuf, recvcount,&
-               MPI_DOUBLE_PRECISION, comm, ierr)
+              MPI_DOUBLE_PRECISION, comm, ierr)
           else
             call MPI_Alltoall(sendbuf, sendcount, MPI_DOUBLE_PRECISION, recvbuf, recvcount,&
-             MPI_DOUBLE_PRECISION, SPMD_COMM_WORLD, ierr)
+              MPI_DOUBLE_PRECISION, SPMD_COMM_WORLD, ierr)
           endif
           call spmd_out(tag,ierr)
 #else
@@ -164,10 +164,10 @@
           call spmd_in(tag)
           if (present(comm)) then
             call MPI_Alltoall(sendbuf, sendcount, MPI_DOUBLE_PRECISION, recvbuf,&
-             recvcount, MPI_DOUBLE_PRECISION, comm, ierr)
+              recvcount, MPI_DOUBLE_PRECISION, comm, ierr)
           else
             call MPI_Alltoall(sendbuf, sendcount, MPI_DOUBLE_PRECISION, recvbuf,&
-             recvcount, MPI_DOUBLE_PRECISION, SPMD_COMM_WORLD, ierr)
+              recvcount, MPI_DOUBLE_PRECISION, SPMD_COMM_WORLD, ierr)
           endif
           call spmd_out(tag,ierr)
 #endif
@@ -198,7 +198,7 @@
             call MPI_Alltoall(sendbuf, sendcount, MPI_INT, recvbuf, recvcount, MPI_INT, comm, ierr)
           else
             call MPI_Alltoall(sendbuf, sendcount, MPI_INT, recvbuf, recvcount,&
-             MPI_INT, SPMD_COMM_WORLD, ierr)
+              MPI_INT, SPMD_COMM_WORLD, ierr)
           endif
           call spmd_out(tag,ierr)
 #endif
@@ -229,7 +229,7 @@
             call MPI_Alltoall(sendbuf, sendcount, MPI_REAL, recvbuf, recvcount, MPI_REAL, comm, ierr)
           else
             call MPI_Alltoall(sendbuf, sendcount, MPI_REAL, recvbuf, recvcount,&
-             MPI_REAL, SPMD_COMM_WORLD, ierr)
+              MPI_REAL, SPMD_COMM_WORLD, ierr)
           endif
           call spmd_out(tag,ierr)
 #endif

@@ -395,7 +395,7 @@
           integer :: ibidon1,ibidon2,ibidon3,ibidon4                     ! Dummy arguments
           integer :: i,ipg,nuvar,nparam,nfunc,ifunc_alpha,ilaw,imat,&
           &        nvarf,nfail,ntabl_fail,ir,irupt,ivisc,eostyp,npts,nptt,nptr,npg,  &
-          &        isvis,nvartmp,nlay,inloc,iselect,ibpreld,nvareos,nvarvis,&   
+          &        isvis,nvartmp,nlay,inloc,iselect,ibpreld,nvareos,nvarvis,&
           &        idamp_freq_range,visctype
           integer :: ifunc(maxfunc)
           integer :: nvartmp_eos
@@ -409,7 +409,7 @@
           &       c3(mvsiz), c4(mvsiz), c5(mvsiz),c6(mvsiz),                    &
           &       einc(mvsiz), rho0(mvsiz),vol_avg(mvsiz),                      &
           &       df(mvsiz), pc(mvsiz),espe(mvsiz),tmu(mvsiz),                  &
-          &       tx(mvsiz)    ,ty(mvsiz)    ,tz(mvsiz) 
+          &       tx(mvsiz)    ,ty(mvsiz)    ,tz(mvsiz)
 
           real(kind=WP) :: ss1(mvsiz),ss2(mvsiz), ss3(mvsiz),ss4(mvsiz),ss5(mvsiz),ss6(mvsiz)
           real(kind=WP) :: r11(mvsiz),r12(mvsiz),r13(mvsiz),r21(mvsiz),r22(mvsiz),r23(mvsiz),r31(mvsiz),r32(mvsiz),r33(mvsiz)
@@ -536,7 +536,7 @@
           ifailure = iparg(43,ng)
           jsms = iparg(52,ng)
           ipartsph = iparg(69,ng)
-          
+
           vecnul(:) = zero
           fheat(:)  = zero
 
@@ -741,47 +741,47 @@
 ! --------------------------------------------------------
 !    thermal material istrope expansion
 ! --------------------------------------------------------
-      if (iexpan > 0 .and. jthe < 0 .and. tt/=zero ) then
-        if (ismstr==4) then
-          amu(1:nel)  = amu(1:nel) /(amu(1:nel) + one) ! to get amu = 1-rho0/rho
-        endif
-        if(ismstr==2) then
-          do i=1,nel
-            if(abs(lbuf%off(i))<=one)then
-              amu(i)  = amu(i) /(amu(i) + one)
+          if (iexpan > 0 .and. jthe < 0 .and. tt/=zero ) then
+            if (ismstr==4) then
+              amu(1:nel)  = amu(1:nel) /(amu(1:nel) + one) ! to get amu = 1-rho0/rho
+            endif
+            if(ismstr==2) then
+              do i=1,nel
+                if(abs(lbuf%off(i))<=one)then
+                  amu(i)  = amu(i) /(amu(i) + one)
+                end if
+              enddo
             end if
-          enddo
-        end if
 
-        do i=1,nel
-          ifunc_alpha = ipm(219,imat)
-          fscal_alpha = pm(191,imat)
-          tempel0(i)  = lbuf%temp(i)
-          alpha = finter(ifunc_alpha,tempel(i),npf,tf,bidon1)
-          alpha = alpha * fscal_alpha
-          eth(i)= alpha *(tempel(i)-tempel0(i))*off(i)
-          lbuf%forth(i) = lbuf%forth(i) + eth(i)  ! lbuf%forth the total thermal strain over time
-          epsth(i)= three*lbuf%forth(i)
-          dxx(i)  = dxx(i)-eth(i)/dt1
-          dyy(i)  = dyy(i)-eth(i)/dt1
-          dzz(i)  = dzz(i)-eth(i)/dt1
-          dvol(i) = dvol(i)-three*eth(i)*vol_avg(i)
-          amu(i)  = amu(i) + epsth(i)
-          sigkk(i)= lbuf%sig(nel*(1-1)+i)+lbuf%sig(nel*(2-1)+i)+lbuf%sig(nel*(3-1)+i)
-          lbuf%eintth(i) = lbuf%eintth(i)-half*sigkk(i)*eth(i)
-        enddo
-      else
-        epsth(1:nel)= zero
-      endif
+            do i=1,nel
+              ifunc_alpha = ipm(219,imat)
+              fscal_alpha = pm(191,imat)
+              tempel0(i)  = lbuf%temp(i)
+              alpha = finter(ifunc_alpha,tempel(i),npf,tf,bidon1)
+              alpha = alpha * fscal_alpha
+              eth(i)= alpha *(tempel(i)-tempel0(i))*off(i)
+              lbuf%forth(i) = lbuf%forth(i) + eth(i)  ! lbuf%forth the total thermal strain over time
+              epsth(i)= three*lbuf%forth(i)
+              dxx(i)  = dxx(i)-eth(i)/dt1
+              dyy(i)  = dyy(i)-eth(i)/dt1
+              dzz(i)  = dzz(i)-eth(i)/dt1
+              dvol(i) = dvol(i)-three*eth(i)*vol_avg(i)
+              amu(i)  = amu(i) + epsth(i)
+              sigkk(i)= lbuf%sig(nel*(1-1)+i)+lbuf%sig(nel*(2-1)+i)+lbuf%sig(nel*(3-1)+i)
+              lbuf%eintth(i) = lbuf%eintth(i)-half*sigkk(i)*eth(i)
+            enddo
+          else
+            epsth(1:nel)= zero
+          endif
 !
 !-----tstar computation for jonhson cook failure : t* = (t-tref)/(tmelt-tref) => move to JC routine
-      tref  = pm(79, imat)
-      tmelt = pm(80, imat)
-      if (jthe /= 0 .or. elbuf_tab(ng)%bufly(ilay)%l_temp > 0) then
-        tstar(1:nel) = max(zero,(el_temp(1:nel)-tref) / max((tmelt-tref),em20) )
-      else
-        tstar(1:nel) = zero
-      end if
+          tref  = pm(79, imat)
+          tmelt = pm(80, imat)
+          if (jthe /= 0 .or. elbuf_tab(ng)%bufly(ilay)%l_temp > 0) then
+            tstar(1:nel) = max(zero,(el_temp(1:nel)-tref) / max((tmelt-tref),em20) )
+          else
+            tstar(1:nel) = zero
+          end if
 !-----------------------------------
 !     eos part1
 !-----------------------------------
@@ -790,12 +790,12 @@
           nvartmp_eos = elbuf_tab(ng)%bufly(ilay)%nvartmp_eos
           if (eostyp > 0 .and. mtn /= 12 ) then
             call eosmain(0         ,nel      ,eostyp  ,pm        ,off      ,lbuf%eint,&
-                         lbuf%rho  ,rho0     ,amu     ,amu2      ,espe     ,&
-                         dvol      ,df       ,voln    ,mat       ,psh      ,&
-                         pnew      ,dpdm     ,dpde    ,el_temp   ,&
-                         bufmat    ,lbuf%sig ,lbuf%mu ,mtn       ,&
-                         npf       ,tf       ,ebuf%var,nvareos   ,mat_elem%mat_param(imat),&
-                         lbuf%bfrac,nvartmp_eos  ,ebuf%vartmp)
+              lbuf%rho  ,rho0     ,amu     ,amu2      ,espe     ,&
+              dvol      ,df       ,voln    ,mat       ,psh      ,&
+              pnew      ,dpdm     ,dpde    ,el_temp   ,&
+              bufmat    ,lbuf%sig ,lbuf%mu ,mtn       ,&
+              npf       ,tf       ,ebuf%var,nvareos   ,mat_elem%mat_param(imat),&
+              lbuf%bfrac,nvartmp_eos  ,ebuf%vartmp)
           endif
 !-----------------------------------
 !     stresses deviatoric/total
@@ -823,7 +823,7 @@
             &off,        ipm,        rhoref,     rhosp,&
             &lbuf%vol0dp,ismstr,     jsph,       jtur,&
             &ity,        jthe,       jsms,       npg ,&
-            glob_therm)
+              glob_therm)
           else if (mtn == 1) then
 !
             if (jhbe==17.and.iint==3.and.ismstr == 1) then
@@ -886,26 +886,26 @@
           elseif (mtn == 2) then
 !
             call m2law(&
-                 pm,       off,      lbuf%sig, lbuf%eint,&
-                 lbuf%rho, lbuf%qvis,lbuf%pla, lbuf%epsd,&
-                 lbuf%vol, stifn,    dt2t,     neltst,&
-                 ityptst,  lbuf%off, geo,      pid,&
-                 amu,      vol_avg,  mumax,    mat,&
-                 ngl,      cxx,      dvol,     aire,&
-                 voln,     vd2,      deltax,   vis,&
-                 dxx,      dyy,      dzz,      d4,&
-                 d5,       d6,       pnew,     psh,&
-                 qvis,     ssp_eq,   s1,       s2,&
-                 s3,       s4,       s5,       s6,&
-                 sigy,     defp,     dpla,&
-                 epsp,     tstar,    et,       mssa,&
-                 dmels,    el_temp,  lbuf%sigb,al_imp,&
-                 signor,   conde,    gbuf%dt,  gbuf%g_dt,&
-                 nel,      ipm,      rhoref,   rhosp,&
-                 ipg,      lbuf%dmg, ity,      jtur,&
-                 jthe,     jsph,     ismstr,   jsms,&
-                 lbuf%epsd,npg ,mat_elem%mat_param(imat)%ieos ,dpdm  ,  &
-                 fheat ,glob_therm,   jlag    )
+              pm,       off,      lbuf%sig, lbuf%eint,&
+              lbuf%rho, lbuf%qvis,lbuf%pla, lbuf%epsd,&
+              lbuf%vol, stifn,    dt2t,     neltst,&
+              ityptst,  lbuf%off, geo,      pid,&
+              amu,      vol_avg,  mumax,    mat,&
+              ngl,      cxx,      dvol,     aire,&
+              voln,     vd2,      deltax,   vis,&
+              dxx,      dyy,      dzz,      d4,&
+              d5,       d6,       pnew,     psh,&
+              qvis,     ssp_eq,   s1,       s2,&
+              s3,       s4,       s5,       s6,&
+              sigy,     defp,     dpla,&
+              epsp,     tstar,    et,       mssa,&
+              dmels,    el_temp,  lbuf%sigb,al_imp,&
+              signor,   conde,    gbuf%dt,  gbuf%g_dt,&
+              nel,      ipm,      rhoref,   rhosp,&
+              ipg,      lbuf%dmg, ity,      jtur,&
+              jthe,     jsph,     ismstr,   jsms,&
+              lbuf%epsd,npg ,mat_elem%mat_param(imat)%ieos ,dpdm  ,  &
+              fheat ,glob_therm,   jlag    )
 !----------------
             if (istrain > 0 .and.&
             &(h3d_strain == 1 .or. th_strain == 1 )) then
@@ -1023,29 +1023,29 @@
             &nft)
             if (jsph == 0) then
               call mqviscb(&
-              pm,       off,      lbuf%rho, lbuf%rk,&
-              el_temp ,cxx,      lbuf%re,  stifn,&
-              dt2t,     neltst,   ityptst,  aire,&
-              lbuf%off, geo,      pid,      voln,&
-              vd2,      deltax,   vis,      dxx,&
-              dyy,      dzz,      pnew,     psh,&
-              mat,      ngl,      qvis,     ssp_eq,&
-              lbuf%vol, mssa,     dmels,    igeo,&
-              facq0,    conde,    gbuf%dt,  gbuf%g_dt,&
-              ipm,      rhoref,   rhosp,    nel,&
-              ity,      ismstr,   jtur,     jthe,&
-              jsms,     npg   ,   glob_therm)
+                pm,       off,      lbuf%rho, lbuf%rk,&
+                el_temp ,cxx,      lbuf%re,  stifn,&
+                dt2t,     neltst,   ityptst,  aire,&
+                lbuf%off, geo,      pid,      voln,&
+                vd2,      deltax,   vis,      dxx,&
+                dyy,      dzz,      pnew,     psh,&
+                mat,      ngl,      qvis,     ssp_eq,&
+                lbuf%vol, mssa,     dmels,    igeo,&
+                facq0,    conde,    gbuf%dt,  gbuf%g_dt,&
+                ipm,      rhoref,   rhosp,    nel,&
+                ity,      ismstr,   jtur,     jthe,&
+                jsms,     npg   ,   glob_therm)
             else
               call mdtsph(&
-               pm,       off,      lbuf%rho, lbuf%rk,&
-               el_temp,  lbuf%re,  stifn,    dt2t,&
-               neltst,   ityptst,  lbuf%off, geo,&
-               pid,      mumax,    cxx,      voln,&
-               vd2,      deltax,   vis,      dxx,&
-               dyy,      dzz,      pnew,     psh,&
-               mat,      ngl,      qvis,     ssp_eq,&
-               gbuf%g_dt,gbuf%dt,  nel,      ity,&
-               jtur,     jthe)
+                pm,       off,      lbuf%rho, lbuf%rk,&
+                el_temp,  lbuf%re,  stifn,    dt2t,&
+                neltst,   ityptst,  lbuf%off, geo,&
+                pid,      mumax,    cxx,      voln,&
+                vd2,      deltax,   vis,      dxx,&
+                dyy,      dzz,      pnew,     psh,&
+                mat,      ngl,      qvis,     ssp_eq,&
+                gbuf%g_dt,gbuf%dt,  nel,      ity,&
+                jtur,     jthe)
             endif
             call meint(&
             &off,      lbuf%sig, lbuf%qvis,lbuf%eint,&
@@ -1301,8 +1301,8 @@
             &lft,                llt,                jpor,               jclose)
             if (jthe == 1) then
               call mtheta(pm,       lbuf%eint,lbuf%temp,amu,   &
-                          c1,       c2,       df,       psh,   &
-                          pc,       mat,      nel)
+                c1,       c2,       df,       psh,   &
+                pc,       mat,      nel)
             end if
 !
           elseif (mtn == 10) then
@@ -1541,14 +1541,14 @@
               &jtur,     jthe)
             endif
             call meint(&
-                        off,      lbuf%sig, lbuf%qvis,lbuf%eint,&
-                        voln,     espe,     s1,       s2,&
-                        s3,       s4,       s5,       s6,&
-                        dxx,      dyy,      dzz,      d4,&
-                        d5,       d6,       psh,      dvol,&
-                        df,       qvis,     pnew,     vis,&
-                        tmu,      einc,     mtn,      vol_avg,&
-                        nel,      jtur,     jlag,     jpor)
+              off,      lbuf%sig, lbuf%qvis,lbuf%eint,&
+              voln,     espe,     s1,       s2,&
+              s3,       s4,       s5,       s6,&
+              dxx,      dyy,      dzz,      d4,&
+              d5,       d6,       psh,      dvol,&
+              df,       qvis,     pnew,     vis,&
+              tmu,      einc,     mtn,      vol_avg,&
+              nel,      jtur,     jlag,     jpor)
             call atur17(&
             &pm,      off,     lbuf%rho,lbuf%rk,&
             &lbuf%re, geo,     voln,    mat,&
@@ -1575,7 +1575,7 @@
             &s3       ,s4      ,s5      ,s6       ,tf      ,&
             &npf      ,sigy    ,defp    ,ipm      ,pnew    ,&
             &psh      ,amu     ,lbuf%seq,nel      ,nummat  ,&
-            dpla      ,lbuf%mu)
+              dpla      ,lbuf%mu)
             if (jsph == 0) then
               call mqviscb(&
               &pm,       off,      lbuf%rho, lbuf%rk,&
@@ -1938,11 +1938,11 @@
           ! These material laws are EoS
           if(mtn == 5 .or. mtn == 97)then
             DO I=1,NEL
-             IF(OFF(I) == ONE) THEN
-               DTEMP = -(lbuf%temp(I)*DPDE(I)*DF(I))*DVOL(I)/VOLN(I) ! no conduction => Cv does not play any role
-               lbuf%temp(I) = lbuf%temp(I) + DTEMP
-               lbuf%temp(I) = MAX(zero,lbuf%temp(I))
-             END IF
+              IF(OFF(I) == ONE) THEN
+                DTEMP = -(lbuf%temp(I)*DPDE(I)*DF(I))*DVOL(I)/VOLN(I) ! no conduction => Cv does not play any role
+                lbuf%temp(I) = lbuf%temp(I) + DTEMP
+                lbuf%temp(I) = MAX(zero,lbuf%temp(I))
+              END IF
             END DO
           end if
 
@@ -1951,13 +1951,13 @@
             l_eos_called = .true.
             nvartmp_eos = elbuf_tab(ng)%bufly(ilay)%nvartmp_eos
             call eosmain(1         ,nel         ,eostyp     ,pm       ,off      ,lbuf%eint,&
-                       & lbuf%rho  ,rho0        ,amu        ,amu2     ,espe     ,&
-                       & dvol      ,df          ,voln       ,mat      ,psh      ,&
-                       & pnew      ,dpdm        ,dpde       ,el_temp  , &
-                       & bufmat    ,lbuf%sig    ,lbuf%mu    ,mtn      , &
-                       & npf       ,tf          ,ebuf%var   ,nvareos , mat_elem%mat_param(imat),&
-                       & lbuf%bfrac,nvartmp_eos ,ebuf%vartmp)
-             if (jtur /= 0 .or. mtn == 17) pnew(1:nel) = pnew(1:nel) + pturb(1:nel)
+            & lbuf%rho  ,rho0        ,amu        ,amu2     ,espe     ,&
+            & dvol      ,df          ,voln       ,mat      ,psh      ,&
+            & pnew      ,dpdm        ,dpde       ,el_temp  , &
+            & bufmat    ,lbuf%sig    ,lbuf%mu    ,mtn      , &
+            & npf       ,tf          ,ebuf%var   ,nvareos , mat_elem%mat_param(imat),&
+            & lbuf%bfrac,nvartmp_eos ,ebuf%vartmp)
+            if (jtur /= 0 .or. mtn == 17) pnew(1:nel) = pnew(1:nel) + pturb(1:nel)
             !total stress tensor
             if(mtn /=102 .and. mtn /=133)then
               do i=1,nel
@@ -2000,7 +2000,7 @@
                   lbuf%temp(i) = lbuf%temp(i) + dtemp
                   lbuf%temp(I) = MAX(zero,lbuf%temp(I))
                 endif
-               enddo
+              enddo
             endif
 
           end if
@@ -2011,15 +2011,15 @@
 !
           if (jthe < 0) then
             heat_meca_l = zero
-            if (mat_elem%mat_param(imat)%heat_flag == 0) then  
+            if (mat_elem%mat_param(imat)%heat_flag == 0) then
               ! total internal energy is used as heat source by default
               do i=1,nel
                 die(i) = lbuf%eint(i)*lbuf%vol(i) - die(i)
                 die(i) = die(i) * pm(90,imat)  ! mat_elem%mat_param(imat)%therm%efrac
                 heat_meca_l = heat_meca_l + die(i)
               enddo
-            else   
-              ! exact dissipated energy is calculated by the material law as heat source 
+            else
+              ! exact dissipated energy is calculated by the material law as heat source
               ! need to add shock wave energy depending on artificial viscosity
               do i=1,nel
                 qheat = -half*(qold(i)+lbuf%qvis(i))*dvol(i)      ! 2nd order integration
@@ -2106,7 +2106,7 @@
                 ep6(i) = two*ep6(i)
               enddo
               call mrotens(1,nel,svo1,svo2,svo3,svo4,svo5,svo6,&
-              &r11,r21,r31,r12,r22,r32,r13,r23,r33)             
+              &r11,r21,r31,r12,r22,r32,r13,r23,r33)
             endif
 !---
             call viscmain(mat_elem%mat_param(imat)%visc    ,nel     ,&
@@ -2183,9 +2183,9 @@
 !------------------------------------------------------------
           if (.not.l_mulaw_called)  then
 
-            if (elbuf_tab(ng)%bufly(ilay)%l_pla > 0) then  
+            if (elbuf_tab(ng)%bufly(ilay)%l_pla > 0) then
               !< Reset plastic work in case of fully integrated element
-              if ((npg > 1) .and. (ipg == 1)) then 
+              if ((npg > 1) .and. (ipg == 1)) then
                 do i = 1,nel
                   gbuf%wpla(i) = zero
                 enddo
@@ -2193,15 +2193,15 @@
 
               !< Case where equivalent stress is computed in the material law
               if (elbuf_tab(ng)%bufly(ilay)%l_seq > 0) then
-                do i = 1,nel 
+                do i = 1,nel
                   lbuf%wpla(i) = lbuf%wpla(i) + lbuf%seq(i)*dpla(i)*voln(i)
                 enddo
-              !< Default case using Von Mises stress
+                !< Default case using Von Mises stress
               else
                 do i = 1,nel
                   vm0(i) = sqrt(half*(                                         &
                     (s1(i)-s2(i))**2 + (s2(i)-s3(i))**2 + (s3(i)-s1(i))**2) +  &
-                      three*(s4(i)**2 + s5(i)**2 + s6(i)**2))
+                    three*(s4(i)**2 + s5(i)**2 + s6(i)**2))
                   ss1(i) = lbuf%sig(nel*(1-1) + i)
                   ss2(i) = lbuf%sig(nel*(2-1) + i)
                   ss3(i) = lbuf%sig(nel*(3-1) + i)
@@ -2211,12 +2211,12 @@
                   vm(i) = sqrt(half*(                                          &
                     (ss1(i)-ss2(i))**2  + (ss2(i)-ss3(i))**2 +                 &
                     (ss3(i)-ss1(i))**2) + three*(ss4(i)**2 + ss5(i)**2 +       &
-                             ss6(i)**2))  
+                    ss6(i)**2))
                   lbuf%wpla(i) = lbuf%wpla(i) + vm(i)*dpla(i)*voln(i)
                 enddo
               endif
             endif
-         endif
+          endif
 !-----------------------------------------------------------------------visc
 !     failure for law no user ---
 !-----------------------------------------------------------------------
@@ -2484,7 +2484,7 @@
                 &ss1  ,ss2  ,ss3  ,ss4   ,ss5   ,ss6,&
                 &dpla ,epsp ,tstar,off   ,&
                 &lf_dammx   ,dfmax,tdel ,lbuf%off,&
-                niparam , iparamf, mvsiz)
+                  niparam , iparamf, mvsiz)
 !
               elseif(irupt == 9)then
                 call fail_wierzbicki_s(llt ,nparam,nvarf,&
@@ -2652,7 +2652,7 @@
                 &ss1      ,ss2      ,ss3      ,ss4      ,ss5      ,ss6      ,&
                 &el_temp  ,off      ,dfmax    ,tdel     ,lbuf%dmgscl,&
                 &gbuf%uelr,ipg      ,npg      ,lbuf%off ,ntabl_fail,itabl_fail,&
-                gbuf%noff,voln      )
+                  gbuf%noff,voln      )
 !
               elseif (irupt == 42) then
 !---- inievo failure model
@@ -2726,10 +2726,10 @@
               elseif (irupt == 51) then
 !---- Composite failure model
                 call fail_composite_s(&
-                &llt      ,failparam,nvarf    ,uvarf    ,tt       ,ngl      ,& 
-                &ipg      ,ilay     ,npg      ,tdel     ,off      ,lbuf%off ,&             
+                &llt      ,failparam,nvarf    ,uvarf    ,tt       ,ngl      ,&
+                &ipg      ,ilay     ,npg      ,tdel     ,off      ,lbuf%off ,&
                 &ss1      ,ss2      ,ss3      ,ss4      ,ss5      ,ss6      ,&
-                &lbuf%dmgscl,lf_dammx,dfmax   ,gbuf%noff)  
+                &lbuf%dmgscl,lf_dammx,dfmax   ,gbuf%noff)
 !---------
               endif ! irupt
 !
@@ -2876,16 +2876,16 @@
 !-----------------------------------------------------------------
 !      ! save local element temperature for output
 !-----------------------------------------------------------------
-       if (jthe < 0) then
+          if (jthe < 0) then
 !-----------------------------------------------------------------
-         gbuf%temp(1:nel) = tempel(1:nel)
-         do i=1,nel
-           if (off(i) /= zero) lbuf%temp(i) = tempel(i)
-         enddo
-       endif
+            gbuf%temp(1:nel) = tempel(1:nel)
+            do i=1,nel
+              if (off(i) /= zero) lbuf%temp(i) = tempel(i)
+            enddo
+          endif
 !-----------------------------------------------------------------
-      return
-      end subroutine mmain
+          return
+        end subroutine mmain
 !-----
       end module mmain_mod
 

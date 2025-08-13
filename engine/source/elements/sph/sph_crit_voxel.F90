@@ -46,11 +46,11 @@
 !||    spmd_mod         ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
         subroutine sph_crit_voxel(xmax     ,ymax     ,zmax      ,xmin      ,ymin    ,         &
-                                  zmin     ,diam_max ,voxsiz    ,majord_vox,nbk     ,         &
-                                  nsp2sortf,nsp2sortl,itask     ,nbgauge   ,nthread ,         &
-                                  lgauge   ,numels   ,spbuf     ,wsp2sort  ,kxsp    ,         &
-                                  nisp     ,nspbuf   ,numsph    ,x         ,numnod  ,         &
-                                  llgauge  ,gauge    ,nspmd     ,voxel) 
+          zmin     ,diam_max ,voxsiz    ,majord_vox,nbk     ,         &
+          nsp2sortf,nsp2sortl,itask     ,nbgauge   ,nthread ,         &
+          lgauge   ,numels   ,spbuf     ,wsp2sort  ,kxsp    ,         &
+          nisp     ,nspbuf   ,numsph    ,x         ,numnod  ,         &
+          llgauge  ,gauge    ,nspmd     ,voxel)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -67,7 +67,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer,                                   intent(in)    :: nbk                      !< number of voxel per drection  
+          integer,                                   intent(in)    :: nbk                      !< number of voxel per drection
           integer,                                   intent(in)    :: nsp2sortf                !< number of particles to sort
           integer,                                   intent(in)    :: nsp2sortl                !< number of particles to sort
           integer,                                   intent(in)    :: itask                    !< task number
@@ -75,14 +75,14 @@
           integer,                                   intent(in)    :: nthread                  !< number of threads
           integer, dimension(3,nbgauge),             intent(in)    :: lgauge                   !< gauge array
           integer,                                   intent(in)    :: numels                   !< number of solid elements
-          integer,                                   intent(in)    :: numnod                   !< number of nodes          
+          integer,                                   intent(in)    :: numnod                   !< number of nodes
           integer,                                   intent(in)    :: nisp                     !< size of kxsp
           integer, dimension(numsph),                intent(in)    :: wsp2sort                 !< number of particles to sort
           integer,                                   intent(in)    :: nspbuf                   !< size of kxsp
           integer,                                   intent(in)    :: numsph                   !< number of sph particles
-          integer,                                   intent(in)    :: llgauge                  !< size of gauge array        
-          integer,                                   intent(in)    :: nspmd                    !< number of cpus      
-          integer,                                   intent(in)    :: voxsiz                   !< sorting criteria                
+          integer,                                   intent(in)    :: llgauge                  !< size of gauge array
+          integer,                                   intent(in)    :: nspmd                    !< number of cpus
+          integer,                                   intent(in)    :: voxsiz                   !< sorting criteria
           integer, dimension(nisp,numsph),           intent(in)    :: kxsp                     !< sorted particles
           real(kind=WP),                                   intent(inout) :: xmax                     !< maximum coordinates
           real(kind=WP),                                   intent(inout) :: ymax                     !< maximum coordinates
@@ -90,7 +90,7 @@
           real(kind=WP),                                   intent(inout) :: xmin                     !< minimum coordinates
           real(kind=WP),                                   intent(inout) :: ymin                     !< minimum coordinates
           real(kind=WP),                                   intent(inout) :: zmin                     !< minimum coordinates
-          real(kind=WP),                                   intent(in)    :: diam_max                 !< maximum diameter    
+          real(kind=WP),                                   intent(in)    :: diam_max                 !< maximum diameter
           real(kind=WP),                                   intent(inout) :: majord_vox               !< majorant of interparticle distance
           real(kind=WP), dimension(nspbuf,numsph),         intent(in)    :: spbuf                    !< sorted particles
           real(kind=WP), dimension(3,numnod),              intent(in)    :: x                        !< node corrdinates
@@ -112,15 +112,15 @@
           save    :: majord_vox_g
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
-! ----------------------------------------------------------------------------------------------------------------------             
+! ----------------------------------------------------------------------------------------------------------------------
 !
           llx = max(em20, (xmax - xmin) / nbk)
           lly = max(em20, (ymax - ymin) / nbk)
-          llz = max(em20, (zmax - zmin) / nbk)       
+          llz = max(em20, (zmax - zmin) / nbk)
 !
           llx = max(1.8 * diam_max, llx)
           lly = max(1.8 * diam_max, lly)
-          llz = max(1.8 * diam_max, llz)    
+          llz = max(1.8 * diam_max, llz)
 !
           xminl = ((xmin + xmax) * half) - half * llx * nbk
           yminl = ((ymin + ymax) * half) - half * lly * nbk
@@ -143,8 +143,8 @@
           voxel%dzmin = ep20
           voxel%dxmax = -ep20
           voxel%dymax = -ep20
-          voxel%dzmax = -ep20           
-!$omp end single          
+          voxel%dzmax = -ep20
+!$omp end single
 !
           do ns=nsp2sortf,nsp2sortl
             n=wsp2sort(ns)
@@ -157,14 +157,14 @@
             ibz = min(1+floor((x(3,inod)-zminl)/llz),nbk)
             ibx = max(1,ibx)
             iby = max(1,iby)
-            ibz = max(1,ibz) 
+            ibz = max(1,ibz)
             bnbnod(ibx,iby,ibz) = bnbnod(ibx,iby,ibz)+1
             bdxmin(ibx,iby,ibz) = min(bdxmin(ibx,iby,ibz),dx)
             bdymin(ibx,iby,ibz) = min(bdymin(ibx,iby,ibz),dy)
             bdzmin(ibx,iby,ibz) = min(bdzmin(ibx,iby,ibz),dz)
             bdxmax(ibx,iby,ibz) = max(bdxmax(ibx,iby,ibz),dx)
             bdymax(ibx,iby,ibz) = max(bdymax(ibx,iby,ibz),dy)
-            bdzmax(ibx,iby,ibz) = max(bdzmax(ibx,iby,ibz),dz)  
+            bdzmax(ibx,iby,ibz) = max(bdzmax(ibx,iby,ibz),dz)
           enddo
 !
           do n=itask+1,nbgauge,nthread
@@ -177,7 +177,7 @@
               ibz = min(1+floor((gauge(4,n)-zminl)/llz),nbk)
               ibx = max(1,ibx)
               iby = max(1,iby)
-              ibz = max(1,ibz) 
+              ibz = max(1,ibz)
               bnbnod(ibx,iby,ibz) = bnbnod(ibx,iby,ibz)+1
               bdxmin(ibx,iby,ibz) = min(bdxmin(ibx,iby,ibz),dx)
               bdymin(ibx,iby,ibz) = min(bdymin(ibx,iby,ibz),dy)
@@ -187,8 +187,8 @@
               bdzmax(ibx,iby,ibz) = max(bdzmax(ibx,iby,ibz),dz)
             end if
           end do
-!          
-!         Sync of voxels with other threads        
+!
+!         Sync of voxels with other threads
 !$omp critical
           do ibx=1,nbk
             do iby=1,nbk
@@ -199,17 +199,17 @@
                 voxel%dzmin(ibx,iby,ibz) = min(voxel%dzmin(ibx,iby,ibz),bdzmin(ibx,iby,ibz))
                 voxel%dxmax(ibx,iby,ibz) = max(voxel%dxmax(ibx,iby,ibz),bdxmax(ibx,iby,ibz))
                 voxel%dymax(ibx,iby,ibz) = max(voxel%dymax(ibx,iby,ibz),bdymax(ibx,iby,ibz))
-                voxel%dzmax(ibx,iby,ibz) = max(voxel%dzmax(ibx,iby,ibz),bdzmax(ibx,iby,ibz))    
+                voxel%dzmax(ibx,iby,ibz) = max(voxel%dzmax(ibx,iby,ibz),bdzmax(ibx,iby,ibz))
               end do
             end do
           end do
-!$omp end critical    
+!$omp end critical
 !
-!$omp barrier                    
+!$omp barrier
 !
-!         Sync of voxels with other CPUs      
-!         bnbnod is number of particles in the voxel - maximum over CPUs is enough - not need to make a specific com wiht sum  
-          if (itask == 0) then          
+!         Sync of voxels with other CPUs
+!         bnbnod is number of particles in the voxel - maximum over CPUs is enough - not need to make a specific com wiht sum
+          if (itask == 0) then
 !
             bnbnod(1:nbk,1:nbk,1:nbk) = voxel%nnod(1:nbk,1:nbk,1:nbk)
             bdxmin(1:nbk,1:nbk,1:nbk) = voxel%dxmin(1:nbk,1:nbk,1:nbk)
@@ -218,7 +218,7 @@
             bdxmax(1:nbk,1:nbk,1:nbk) = voxel%dxmax(1:nbk,1:nbk,1:nbk)
             bdymax(1:nbk,1:nbk,1:nbk) = voxel%dymax(1:nbk,1:nbk,1:nbk)
             bdzmax(1:nbk,1:nbk,1:nbk) = voxel%dzmax(1:nbk,1:nbk,1:nbk)
-!            
+!
             if (nspmd > 1) then
               do ibx=1,nbk
                 do iby=1,nbk
@@ -247,15 +247,15 @@
                   end do
                 end do
               end do
-            endif            
-!     
-!           Maximum over neighbouring voxels         
+            endif
+!
+!           Maximum over neighbouring voxels
             voxel%dxmin = ep20
             voxel%dymin = ep20
             voxel%dzmin = ep20
             voxel%dxmax = -ep20
             voxel%dymax = -ep20
-            voxel%dzmax = -ep20   
+            voxel%dzmax = -ep20
 
             do ibx=1,nbk
               do iby=1,nbk
@@ -272,11 +272,11 @@
                         voxel%dzmax(ibx,iby,ibz) = max(voxel%dzmax(ibx,iby,ibz),bdzmax(ippx,ippy,ippz))
                       enddo
                     enddo
-                  enddo      
+                  enddo
                 end do
               end do
             end do
-!  
+!
             majord_vox_g = zero
             do ibx=1,nbk
               do iby=1,nbk
@@ -288,13 +288,13 @@
                   majord_vox_g =max(majord_vox_g,sqrt(dx*dx+dy*dy+dz*dz)*half)
                 end do
               end do
-            end do      
-!            
-          endif    
+            end do
 !
-!$omp barrier           
+          endif
 !
-          majord_vox = majord_vox_g                                                                                                                                
+!$omp barrier
+!
+          majord_vox = majord_vox_g
 !
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine sph_crit_voxel

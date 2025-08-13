@@ -65,15 +65,15 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   arguments 
+!                                                   arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer, intent(in), value :: istart !< starting index 
+          integer, intent(in), value :: istart !< starting index
           integer, intent(in), value :: nsn !< number of local secondary nodes
           integer, intent(in), value :: nsnr !< number of remote secondary nodes
           integer, intent(in), value :: nbx !< number of cells in x direction
           integer, intent(in), value :: nby !< number of cells in y direction
           integer, intent(in), value :: nbz !< number of cells in z direction
-          integer, intent(in), value :: nrtm !< number of segments (rectangles) 
+          integer, intent(in), value :: nrtm !< number of segments (rectangles)
           integer, intent(in), value :: numnod !< total number of nodes
           integer, intent(in) :: nsv(nsn) !< secondary node list to global node list
           integer, intent(inout) :: voxel((nbx+2)*(nby+2)*(nbz+2)) !< voxel data structure
@@ -83,11 +83,11 @@
           integer, dimension(:), allocatable, intent(inout) :: list_nb_voxel_on !< list of voxels with nodes
           real(kind=WP), intent(in) :: x(3,numnod) !< global node coordinates
           real(kind=WP), intent(in) :: stfn(nsn) !< secondary node stiffness
-          real(kind=WP), intent(in) :: box_limit_main(12) !< bounding box of the main segments 
+          real(kind=WP), intent(in) :: box_limit_main(12) !< bounding box of the main segments
           integer, dimension(:), allocatable, intent(inout) :: last_nod
 
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   local variables 
+!                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i,j
           real(kind=WP) :: xmin, xmax, ymin, ymax, zmin, zmax
@@ -126,55 +126,55 @@
             if(.not. allocated(last_nod)) size_nod = 0
             if(.not. allocated(next_nod)) size_nod = 0
             if(.not. allocated(list_nb_voxel_on)) nb_voxel_on = 0
-              nb_voxel_on = 0
-              call extend_array(last_nod, size_nod,nsn+nsnr)
-              call extend_array(next_nod, size_nod ,nsn+nsnr)
-              call extend_array(list_nb_voxel_on,size_nod,nsn+nsnr)
-              list_nb_voxel_on = 0
-              size_nod = max(size_nod,nsn+nsnr)
-              if(nsn + nsnr > 0) then
-                last_nod(1:nsn+nsnr) = 0
-                next_nod(1:nsn+nsnr) = 0
-                list_nb_voxel_on(1:nsn+nsnr) = 0
-              endif
+            nb_voxel_on = 0
+            call extend_array(last_nod, size_nod,nsn+nsnr)
+            call extend_array(next_nod, size_nod ,nsn+nsnr)
+            call extend_array(list_nb_voxel_on,size_nod,nsn+nsnr)
+            list_nb_voxel_on = 0
+            size_nod = max(size_nod,nsn+nsnr)
+            if(nsn + nsnr > 0) then
+              last_nod(1:nsn+nsnr) = 0
+              next_nod(1:nsn+nsnr) = 0
+              list_nb_voxel_on(1:nsn+nsnr) = 0
+            endif
 
-              do i=istart,nsn
-                if(stfn(i) == zero)cycle
-                j=nsv(i)
-                if(x(1,j) < xmin)  cycle
-                if(x(1,j) > xmax)  cycle
-                if(x(2,j) < ymin)  cycle
-                if(x(2,j) > ymax)  cycle
-                if(x(3,j) < zmin)  cycle
-                if(x(3,j) > zmax)  cycle
-                ix=int(nbx*(x(1,j)-xminb)/(xmaxb-xminb))
-                iy=int(nby*(x(2,j)-yminb)/(ymaxb-yminb))
-                iz=int(nbz*(x(3,j)-zminb)/(zmaxb-zminb))
-                ix=max(1,2+min(nbx,ix))
-                iy=max(1,2+min(nby,iy))
-                iz=max(1,2+min(nbz,iz))
-                cellid = (iz-1)*(nbx+2)*(nby+2)+(iy-1)*(nbx+2)+ix
-                first = voxel(cellid)
-                if(first == 0)then
-                  nb_voxel_on = nb_voxel_on + 1
-                  list_nb_voxel_on(nb_voxel_on) = cellid
-                  voxel(cellid) = i ! first
-                  next_nod(i) = 0 ! last one
-                  last_nod(i) = 0 ! no last
-                elseif(last_nod(first) == 0)then
-                  next_nod(first) = i ! next
-                  last_nod(first) = i ! last
-                  next_nod(i)     = 0 ! last one
-                else
-                  last = last_nod(first) ! last node in this voxel
-                  next_nod(last)  = i ! next
-                  last_nod(first) = i ! last
-                  next_nod(i)     = 0 ! last one
-                endif
-              enddo
+            do i=istart,nsn
+              if(stfn(i) == zero)cycle
+              j=nsv(i)
+              if(x(1,j) < xmin)  cycle
+              if(x(1,j) > xmax)  cycle
+              if(x(2,j) < ymin)  cycle
+              if(x(2,j) > ymax)  cycle
+              if(x(3,j) < zmin)  cycle
+              if(x(3,j) > zmax)  cycle
+              ix=int(nbx*(x(1,j)-xminb)/(xmaxb-xminb))
+              iy=int(nby*(x(2,j)-yminb)/(ymaxb-yminb))
+              iz=int(nbz*(x(3,j)-zminb)/(zmaxb-zminb))
+              ix=max(1,2+min(nbx,ix))
+              iy=max(1,2+min(nby,iy))
+              iz=max(1,2+min(nbz,iz))
+              cellid = (iz-1)*(nbx+2)*(nby+2)+(iy-1)*(nbx+2)+ix
+              first = voxel(cellid)
+              if(first == 0)then
+                nb_voxel_on = nb_voxel_on + 1
+                list_nb_voxel_on(nb_voxel_on) = cellid
+                voxel(cellid) = i ! first
+                next_nod(i) = 0 ! last one
+                last_nod(i) = 0 ! no last
+              elseif(last_nod(first) == 0)then
+                next_nod(first) = i ! next
+                last_nod(first) = i ! last
+                next_nod(i)     = 0 ! last one
+              else
+                last = last_nod(first) ! last node in this voxel
+                next_nod(last)  = i ! next
+                last_nod(first) = i ! last
+                next_nod(i)     = 0 ! last one
+              endif
+            enddo
           endif !< nrtm
         end subroutine FILL_VOXEL_LOCAL
- 
+
 !||====================================================================
 !||    fill_voxel_local_partial   ../engine/source/interfaces/intsort/fill_voxel.F90
 !||--- called by ------------------------------------------------------
@@ -187,7 +187,7 @@
 !||    inter_struct_mod           ../engine/share/modules/inter_struct_mod.F
 !||    precision_mod              ../common_source/modules/precision_mod.F90
 !||====================================================================
-       SUBROUTINE FILL_VOXEL_LOCAL_PARTIAL(&
+        SUBROUTINE FILL_VOXEL_LOCAL_PARTIAL(&
         & nsn,&
         & nsv,&
         & nsnr,&
@@ -206,12 +206,12 @@
           implicit none
 #include "spmd.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   arguments 
+!                                                   arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           integer, intent(in), value :: nsn !< number of local secondary nodes
-          integer, intent(in) :: nsv(nsn) !< secondary node list to global node list 
+          integer, intent(in) :: nsv(nsn) !< secondary node list to global node list
           integer, intent(in), value :: nsnr !< number of remote secondary nodes
-          integer, intent(in), value :: nrtm !< number of segments (rectangles) 
+          integer, intent(in), value :: nrtm !< number of segments (rectangles)
           integer, intent(in), value :: numnod !< total number of nodes
           real(kind=WP), intent(in) :: x(3,numnod) !< global node coordinates
           real(kind=WP), intent(in) :: stfn(nsn) !< secondary node stiffness
@@ -220,7 +220,7 @@
           integer, intent(inout) :: requests(nrequests) !< MPI request
 
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   local variables 
+!                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i,j
           real(kind=WP) :: xmin, xmax, ymin, ymax, zmin, zmax
@@ -263,12 +263,12 @@
 ! ======================================================================================================================
 
           if(nrtm > 0)then
-           !if((s%istart-1)*chunk+1 < nsn)write(6,*) 'start',(s%istart-1)*chunk+1,"nsn=",nsn,"nsnr=",nsnr
+            !if((s%istart-1)*chunk+1 < nsn)write(6,*) 'start',(s%istart-1)*chunk+1,"nsn=",nsn,"nsnr=",nsnr
 
             if(s%istart == 1) then
-            if(.not. allocated(s%last_nod)) s%size_node = 0
-            if(.not. allocated(s%next_nod)) s%size_node = 0
-            if(.not. allocated(s%list_nb_voxel_on)) s%nb_voxel_on = 0
+              if(.not. allocated(s%last_nod)) s%size_node = 0
+              if(.not. allocated(s%next_nod)) s%size_node = 0
+              if(.not. allocated(s%list_nb_voxel_on)) s%nb_voxel_on = 0
               s%nb_voxel_on = 0
               call extend_array(s%last_nod, s%size_node,nsn+nsnr)
               call extend_array(s%next_nod, s%size_node ,nsn+nsnr)
@@ -282,65 +282,65 @@
               endif
             endif
 
-              !nchunks is the number of groups              
-              nchunks = (nsn + chunk - 1) / chunk
-              !do ic = istart, nchunks ! for each chunk
-               do while (flag == 0)
+            !nchunks is the number of groups
+            nchunks = (nsn + chunk - 1) / chunk
+            !do ic = istart, nchunks ! for each chunk
+            do while (flag == 0)
 # ifdef MPI
 !                  call MPI_Test(request, flag, MPI_STATUS_IGNORE, ierr)
-                  if(nrequests > 0) then
-                    call MPI_Testall(nrequests, requests, flag, MPI_STATUSES_IGNORE, ierr)
-                  else
-                    flag = 0 ! if no request: finish the job
+              if(nrequests > 0) then
+                call MPI_Testall(nrequests, requests, flag, MPI_STATUSES_IGNORE, ierr)
+              else
+                flag = 0 ! if no request: finish the job
 !                   if((s%istart-1)*chunk+1 < nsn)write(6,*) 'start',(s%istart-1)*chunk+1,"nsn=",nsn,"nsnr=",nsnr
 
-                  endif
+              endif
 #else
 
-                if(nrequests > 0) requests(1:nrequests) = 0
-                flag = 0
+              if(nrequests > 0) requests(1:nrequests) = 0
+              flag = 0
 #endif
-                if(flag == 0 .and. s%istart <= nchunks) then
-                  chunk_size = min(chunk, nsn - (s%istart-1)*chunk)
-                  do k=1,chunk_size
-                     i = (s%istart-1)*chunk + k
-                     if(stfn(i) == zero)cycle
-                     j=nsv(i)
-                     if(x(1,j) < xmin)  cycle
-                     if(x(1,j) > xmax)  cycle
-                     if(x(2,j) < ymin)  cycle
-                     if(x(2,j) > ymax)  cycle
-                     if(x(3,j) < zmin)  cycle
-                     if(x(3,j) > zmax)  cycle
-                     ix=int(s%nbx*(x(1,j)-xminb)/(xmaxb-xminb))
-                     iy=int(s%nby*(x(2,j)-yminb)/(ymaxb-yminb))
-                     iz=int(s%nbz*(x(3,j)-zminb)/(zmaxb-zminb))
-                     ix=max(1,2+min(s%nbx,ix))
-                     iy=max(1,2+min(s%nby,iy))
-                     iz=max(1,2+min(s%nbz,iz))
-                     cellid = (iz-1)*(s%nbx+2)*(s%nby+2)+(iy-1)*(s%nbx+2)+ix
-                     first = s%voxel(cellid)
-                     if(first == 0)then
-                       s%nb_voxel_on = s%nb_voxel_on + 1
-                       s%list_nb_voxel_on(s%nb_voxel_on) = cellid
-                       s%voxel(cellid) = i ! first
-                       s%next_nod(i) = 0 ! last one
-                       s%last_nod(i) = 0 ! no last
-                     elseif(s%last_nod(first) == 0)then
-                       s%next_nod(first) = i ! next
-                       s%last_nod(first) = i ! last
-                       s%next_nod(i)     = 0 ! last one
-                     else
-                       last = s%last_nod(first) ! last node in this voxel
-                       s%next_nod(last)  = i ! next
-                       s%last_nod(first) = i ! last
-                       s%next_nod(i)     = 0 ! last one
-                     endif
-                  enddo !< k
-                  s%istart = s%istart + 1
-                else 
-                  flag = 1
-                endif !< flag
+              if(flag == 0 .and. s%istart <= nchunks) then
+                chunk_size = min(chunk, nsn - (s%istart-1)*chunk)
+                do k=1,chunk_size
+                  i = (s%istart-1)*chunk + k
+                  if(stfn(i) == zero)cycle
+                  j=nsv(i)
+                  if(x(1,j) < xmin)  cycle
+                  if(x(1,j) > xmax)  cycle
+                  if(x(2,j) < ymin)  cycle
+                  if(x(2,j) > ymax)  cycle
+                  if(x(3,j) < zmin)  cycle
+                  if(x(3,j) > zmax)  cycle
+                  ix=int(s%nbx*(x(1,j)-xminb)/(xmaxb-xminb))
+                  iy=int(s%nby*(x(2,j)-yminb)/(ymaxb-yminb))
+                  iz=int(s%nbz*(x(3,j)-zminb)/(zmaxb-zminb))
+                  ix=max(1,2+min(s%nbx,ix))
+                  iy=max(1,2+min(s%nby,iy))
+                  iz=max(1,2+min(s%nbz,iz))
+                  cellid = (iz-1)*(s%nbx+2)*(s%nby+2)+(iy-1)*(s%nbx+2)+ix
+                  first = s%voxel(cellid)
+                  if(first == 0)then
+                    s%nb_voxel_on = s%nb_voxel_on + 1
+                    s%list_nb_voxel_on(s%nb_voxel_on) = cellid
+                    s%voxel(cellid) = i ! first
+                    s%next_nod(i) = 0 ! last one
+                    s%last_nod(i) = 0 ! no last
+                  elseif(s%last_nod(first) == 0)then
+                    s%next_nod(first) = i ! next
+                    s%last_nod(first) = i ! last
+                    s%next_nod(i)     = 0 ! last one
+                  else
+                    last = s%last_nod(first) ! last node in this voxel
+                    s%next_nod(last)  = i ! next
+                    s%last_nod(first) = i ! last
+                    s%next_nod(i)     = 0 ! last one
+                  endif
+                enddo !< k
+                s%istart = s%istart + 1
+              else
+                flag = 1
+              endif !< flag
             enddo
           endif !< nrtm
         end subroutine FILL_VOXEL_LOCAL_PARTIAL
@@ -378,9 +378,9 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   arguments 
+!                                                   arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer, intent(in), value :: istart !< starting index 
+          integer, intent(in), value :: istart !< starting index
           integer, intent(in), value :: iend !< ending index
           integer, intent(in), value :: nsn !< number of local secondary nodes
           integer, intent(in), value :: nsnr !< number of remote secondary nodes
@@ -394,10 +394,10 @@
           integer, intent(inout) :: nb_voxel_on !< number of voxels with nodes
           integer, dimension(:), allocatable, intent(inout) :: list_nb_voxel_on !< list of voxels with nodes
           real(kind=WP), intent(in) :: xrem(s_xrem,nsnr) !< remote node data
-          real(kind=WP), intent(in) :: box_limit_main(12) !< bounding box of the main segments 
+          real(kind=WP), intent(in) :: box_limit_main(12) !< bounding box of the main segments
           integer, dimension(:), allocatable, intent(inout) :: last_nod
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   local variables 
+!                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i,j
           real(kind=WP) :: xmin, xmax, ymin, ymax, zmin, zmax
@@ -431,49 +431,49 @@
 ! ======================================================================================================================
 ! 1   Add local nodes to the cells
 ! ======================================================================================================================
-              call extend_array(last_nod, size_nod ,nsn+nsnr)
-              call extend_array(next_nod, size_nod ,nsn+nsnr)
-              call extend_array(list_nb_voxel_on, size_nod,nsn+nsnr)
-              size_nod = max(size_nod,nsn+nsnr)
+          call extend_array(last_nod, size_nod ,nsn+nsnr)
+          call extend_array(next_nod, size_nod ,nsn+nsnr)
+          call extend_array(list_nb_voxel_on, size_nod,nsn+nsnr)
+          size_nod = max(size_nod,nsn+nsnr)
 ! ======================================================================================================================
 ! 2   Add remote (spmd) nodes to the cells
 ! ======================================================================================================================
-              do j = istart, iend
-                if(xrem(1,j) < xmin)  cycle
-                if(xrem(1,j) > xmax)  cycle
-                if(xrem(2,j) < ymin)  cycle
-                if(xrem(2,j) > ymax)  cycle
-                if(xrem(3,j) < zmin)  cycle
-                if(xrem(3,j) > zmax)  cycle
-                ix=int(nbx*(xrem(1,j)-xminb)/(xmaxb-xminb))
-                iy=int(nby*(xrem(2,j)-yminb)/(ymaxb-yminb))
-                iz=int(nbz*(xrem(3,j)-zminb)/(zmaxb-zminb))
-                ix=max(1,2+min(nbx,ix))
-                iy=max(1,2+min(nby,iy))
-                iz=max(1,2+min(nbz,iz))
+          do j = istart, iend
+            if(xrem(1,j) < xmin)  cycle
+            if(xrem(1,j) > xmax)  cycle
+            if(xrem(2,j) < ymin)  cycle
+            if(xrem(2,j) > ymax)  cycle
+            if(xrem(3,j) < zmin)  cycle
+            if(xrem(3,j) > zmax)  cycle
+            ix=int(nbx*(xrem(1,j)-xminb)/(xmaxb-xminb))
+            iy=int(nby*(xrem(2,j)-yminb)/(ymaxb-yminb))
+            iz=int(nbz*(xrem(3,j)-zminb)/(zmaxb-zminb))
+            ix=max(1,2+min(nbx,ix))
+            iy=max(1,2+min(nby,iy))
+            iz=max(1,2+min(nbz,iz))
 
-                cellid = (iz-1)*(nbx+2)*(nby+2)+(iy-1)*(nbx+2)+ix
+            cellid = (iz-1)*(nbx+2)*(nby+2)+(iy-1)*(nbx+2)+ix
 
-                first = voxel(cellid)
+            first = voxel(cellid)
 
-                if(first == 0)then
-                  nb_voxel_on = nb_voxel_on + 1
-                  list_nb_voxel_on( nb_voxel_on ) = cellid
-                  voxel(cellid) = nsn+j ! first
-                  next_nod(nsn+j)     = 0 ! last one
-                  last_nod(nsn+j)     = 0 ! no last
-                elseif(last_nod(first) == 0)then
-                  next_nod(first) = nsn+j  ! next
-                  last_nod(first) = nsn+j  ! last
-                  next_nod(nsn+j)  = 0     ! last one
-                else
-                  last = last_nod(first)  ! last node in this voxel
-                  next_nod(last)  = nsn+j ! next
-                  last_nod(first) = nsn+j ! last
-                  next_nod(nsn+j)     = 0 ! last one
-                endif
-              enddo
-              !deallocate(last_nod)
+            if(first == 0)then
+              nb_voxel_on = nb_voxel_on + 1
+              list_nb_voxel_on( nb_voxel_on ) = cellid
+              voxel(cellid) = nsn+j ! first
+              next_nod(nsn+j)     = 0 ! last one
+              last_nod(nsn+j)     = 0 ! no last
+            elseif(last_nod(first) == 0)then
+              next_nod(first) = nsn+j  ! next
+              last_nod(first) = nsn+j  ! last
+              next_nod(nsn+j)  = 0     ! last one
+            else
+              last = last_nod(first)  ! last node in this voxel
+              next_nod(last)  = nsn+j ! next
+              last_nod(first) = nsn+j ! last
+              next_nod(nsn+j)     = 0 ! last one
+            endif
+          enddo
+          !deallocate(last_nod)
         END SUBROUTINE FILL_VOXEL_REMOTE
 
       END MODULE FILL_VOXEL_MOD

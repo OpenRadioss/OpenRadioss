@@ -88,7 +88,7 @@
           type (fractal_)    ,intent(inout) :: fractal          !< fractal model structure
           type (stack_ply)                  :: stack            !< element stack structure
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   local variables 
+!                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i,j,k,k_nxt,nix
           integer :: seed,i_seed

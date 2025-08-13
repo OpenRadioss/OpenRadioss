@@ -21,8 +21,8 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 ! ======================================================================================================================
-module anim_nodal_ssp_elems_mod
-  contains
+      module anim_nodal_ssp_elems_mod
+      contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
 ! ======================================================================================================================
@@ -39,98 +39,98 @@ module anim_nodal_ssp_elems_mod
 !||    multi_fvm_mod          ../common_source/modules/ale/multi_fvm_mod.F90
 !||    precision_mod          ../common_source/modules/precision_mod.F90
 !||====================================================================
-      subroutine anim_nodal_ssp_elems( wa4, swa4, iparg, elbuf_tab, ix, nix, numel, is_written_node, &
-        multi_fvm, nparg, ngroup, numnod)
+        subroutine anim_nodal_ssp_elems( wa4, swa4, iparg, elbuf_tab, ix, nix, numel, is_written_node, &
+          multi_fvm, nparg, ngroup, numnod)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
-        use initbuf_mod
-        use elbufdef_mod
-        use multi_fvm_mod , only : multi_fvm_struct
-        use constant_mod , only : zero
-        use precision_mod, only : WP
+          use initbuf_mod
+          use elbufdef_mod
+          use multi_fvm_mod , only : multi_fvm_struct
+          use constant_mod , only : zero
+          use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
-        implicit none
+          implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-        integer,intent(in) :: nparg, ngroup, numnod,swa4                          !< size for array definitions
-        integer, intent(in) :: iparg(nparg,ngroup)                                !< data buffer for group of elems
-        integer,intent(in) :: ix(nix,numel),nix,numel                             !< data buffer for elem definition
-        integer, intent(inout) :: is_written_node(numnod)                         !< tag specific to H3D output
-        real,intent(inout) :: wa4(swa4)                                           !< working array
-        type (elbuf_struct_),intent(in), dimension(ngroup), target :: elbuf_tab   !< data structure for elem buffer
+          integer,intent(in) :: nparg, ngroup, numnod,swa4                          !< size for array definitions
+          integer, intent(in) :: iparg(nparg,ngroup)                                !< data buffer for group of elems
+          integer,intent(in) :: ix(nix,numel),nix,numel                             !< data buffer for elem definition
+          integer, intent(inout) :: is_written_node(numnod)                         !< tag specific to H3D output
+          real,intent(inout) :: wa4(swa4)                                           !< working array
+          type (elbuf_struct_),intent(in), dimension(ngroup), target :: elbuf_tab   !< data structure for elem buffer
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-        integer :: ng,i,j,jj, mlw, nnod, nel, nft, ityp
-        type(g_bufel_)  ,pointer :: gbuf
-        type(l_bufel_)  ,pointer :: lbuf
-        real(kind=WP), allocatable, dimension(:) :: sum_weight
-        real(kind=WP) :: weight, ssp
-        type (multi_fvm_struct), intent(in) :: multi_fvm
+          integer :: ng,i,j,jj, mlw, nnod, nel, nft, ityp
+          type(g_bufel_)  ,pointer :: gbuf
+          type(l_bufel_)  ,pointer :: lbuf
+          real(kind=WP), allocatable, dimension(:) :: sum_weight
+          real(kind=WP) :: weight, ssp
+          type (multi_fvm_struct), intent(in) :: multi_fvm
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-        allocate(sum_weight(numnod))
-        sum_weight = 0
-        nnod = nix-3   !8-node brick or 4-node quad
+          allocate(sum_weight(numnod))
+          sum_weight = 0
+          nnod = nix-3   !8-node brick or 4-node quad
 
-        !---------------------------------------------------------!
-        !         EXPAND SSP PRESSURE TO NODES                    !
-        !---------------------------------------------------------!
-        do ng = 1, ngroup
-          mlw   =iparg(1,ng)
-          nel   =iparg(2,ng)
-          nft   =iparg(3,ng)
-          ityp  =iparg(5,ng)
-          if(ityp/=1 .and. ityp/=2)cycle
-          gbuf => elbuf_tab(ng)%gbuf
+          !---------------------------------------------------------!
+          !         EXPAND SSP PRESSURE TO NODES                    !
+          !---------------------------------------------------------!
+          do ng = 1, ngroup
+            mlw   =iparg(1,ng)
+            nel   =iparg(2,ng)
+            nft   =iparg(3,ng)
+            ityp  =iparg(5,ng)
+            if(ityp/=1 .and. ityp/=2)cycle
+            gbuf => elbuf_tab(ng)%gbuf
 
-          if(mlw /=151)then
-            lbuf => elbuf_tab(ng)%bufly(1)%lbuf(1,1,1)
-            if(elbuf_tab(ng)%bufly(1)%l_ssp > 0)then    !this may not be allocated (example : /mat/void)
+            if(mlw /=151)then
+              lbuf => elbuf_tab(ng)%bufly(1)%lbuf(1,1,1)
+              if(elbuf_tab(ng)%bufly(1)%l_ssp > 0)then    !this may not be allocated (example : /mat/void)
+                do i=1,nel
+                  ssp = lbuf%ssp(i)
+                  weight = gbuf%vol(i)
+                  do j=2,nnod+1
+                    jj=ix(j,nft+i)
+                    is_written_node(jj)=1
+                    wa4(jj)=wa4(jj)+ real(weight*ssp)
+                    sum_weight(jj) = sum_weight(jj) + weight !cumulated volume
+                  enddo
+                enddo!next i
+              end if
+            else
               do i=1,nel
-                ssp = lbuf%ssp(i)
+                ssp = multi_fvm%sound_speed(i+nft)
                 weight = gbuf%vol(i)
                 do j=2,nnod+1
                   jj=ix(j,nft+i)
                   is_written_node(jj)=1
-                  wa4(jj)=wa4(jj)+ real(weight*ssp)
+                  wa4(jj)=wa4(jj)+real(weight*ssp)
                   sum_weight(jj) = sum_weight(jj) + weight !cumulated volume
                 enddo
               enddo!next i
-            end if
-          else
-            do i=1,nel
-              ssp = multi_fvm%sound_speed(i+nft)
-              weight = gbuf%vol(i)
-              do j=2,nnod+1
-                jj=ix(j,nft+i)
-                is_written_node(jj)=1
-                wa4(jj)=wa4(jj)+real(weight*ssp)
-                sum_weight(jj) = sum_weight(jj) + weight !cumulated volume
-              enddo
-            enddo!next i
-          endif
-        enddo
+            endif
+          enddo
 
 !-----------------------------------------------
-        !divinding by sum of weights to get finally weighting factors
-        do i=1,numnod
-          if(sum_weight(i)/=zero)then
-            wa4(i)=wa4(i)/real(sum_weight(i))
-          endif
-        enddo
+          !divinding by sum of weights to get finally weighting factors
+          do i=1,numnod
+            if(sum_weight(i)/=zero)then
+              wa4(i)=wa4(i)/real(sum_weight(i))
+            endif
+          enddo
 
-        deallocate(sum_weight)
+          deallocate(sum_weight)
 !-----------------------------------------------
 
-        return
-      end subroutine anim_nodal_ssp_elems
-end module anim_nodal_ssp_elems_mod
+          return
+        end subroutine anim_nodal_ssp_elems
+      end module anim_nodal_ssp_elems_mod
