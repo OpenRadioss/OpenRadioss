@@ -35,7 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    message_mod            ../starter/share/message_module/message_mod.F
 !||    table_mod              ../starter/share/modules1/table_mod.F
 !||====================================================================
-      SUBROUTINE FSDCOD(BUFMAT    ,PM        ,GEO       ,IBCL      ,IPRES    ,
+      SUBROUTINE FSDCOD(PYTHON, BUFMAT    ,PM        ,GEO       ,IBCL      ,IPRES    ,
      .                  IBFV      ,ISKEW     ,ISKN      ,SENSORS   ,MAT_PARAM,
      .                  ITABM1    ,SKEW      ,LACCELM   ,INSEL     ,BUFGEO   ,
      .                  IBCSLAG   ,IGEO      ,IPM       ,
@@ -53,6 +53,7 @@ C    ...
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE python_funct_mod, only : python_
       USE MESSAGE_MOD
       USE INTSTAMP_MOD
       USE TABLE_MOD
@@ -74,6 +75,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(PYTHON_), INTENT(IN) :: PYTHON
       TYPE(glob_therm_) ,intent(in) :: glob_therm
       INTEGER IBFV(NIFV,*),NPC(*), NPC1(*), IBCL(NIBCLD,*), IPRES(NIBCLD,*),
      .        ISKEW(*), ISKN(LISKN,*), ITABM1(*),
@@ -635,7 +637,6 @@ C     fin boucle sur mats :
       ENDDO
  
  
- 
 C
 C     3) PID SPRING/AIRBAG/GENERAL SPRING
 C
@@ -671,7 +672,7 @@ C
      .                    ANMODE=ANINFO_BLIND_1,
      .                    I1=ID,
      .                    C1=TITR,
-     .                    I2=ISERV(K+3))
+     .                    I2=ISERV(K))
             ENDIF
  330      CONTINUE
           IF (IGEO(119,I) /=0)THEN                    
@@ -796,7 +797,7 @@ C
      .                    ANMODE=ANINFO_BLIND_1,
      .                    I1=ID,
      .                    C1=TITR,
-     .                    I2=ISERV(K+3))
+     .                    I2=ISERV(K))
             ENDIF
  331      CONTINUE
           IF (IGEO(201,I) > 0) THEN
