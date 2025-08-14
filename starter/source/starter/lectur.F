@@ -255,7 +255,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ini_ifront                          ../starter/source/spmd/node/ddtools.F
 !||    inicrkfill                          ../starter/source/elements/xfem/inicrkfill.F
 !||    iniebcs                             ../starter/source/boundary_conditions/ebcs/iniebcs.F
-!||    iniebcs_propellant                   ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
+!||    iniebcs_propellant                  ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
 !||    iniebcsp0                           ../starter/source/boundary_conditions/ebcs/iniebcsp0.F
 !||    inimu2                              ../starter/source/ale/bimat/inimu2.F
 !||    inimu3                              ../starter/source/ale/bimat/inimu3.F
@@ -485,7 +485,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_preread_inivel_mod               ../starter/source/initial_conditions/general/inivel/hm_preread_inivel.F90
 !||    hm_read_inivol_mod                  ../starter/source/initial_conditions/inivol/hm_read_inivol.F90
 !||    hm_read_preload_axial_mod           ../starter/source/loads/general/preload/hm_read_preload_axial.F90
-!||    iniebcs_propellant_                  ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
+!||    iniebcs_propellant_                 ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
 !||    inigrav                             ../starter/share/modules1/inigrav_mod.F
 !||    inimap1d_mod                        ../starter/share/modules1/inimap1d_mod.F
 !||    inimap2d_mod                        ../starter/share/modules1/inimap2d_mod.F

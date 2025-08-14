@@ -137,8 +137,10 @@
 !||    spmd_comm_world_mod             ../engine/source/mpi/spmd_comm_world.F90
 !||    spmd_irecv_mod                  ../engine/source/mpi/spmd_irecv.F90
 !||    spmd_isend_mod                  ../engine/source/mpi/spmd_isend.F90
+!||    spmd_pack_mod                   ../engine/source/mpi/spmd_pack.F90
 !||    spmd_recv_mod                   ../engine/source/mpi/spmd_recv.F90
 !||    spmd_send_mod                   ../engine/source/mpi/spmd_send.F90
+!||    spmd_unpack_mod                 ../engine/source/mpi/spmd_unpack.F90
 !||    spmd_wait_mod                   ../engine/source/mpi/spmd_wait.F90
 !||====================================================================
       module spmd_mod

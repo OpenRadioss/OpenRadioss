@@ -23,7 +23,7 @@
 !||====================================================================
 !||    iniebcs_propellant_   ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
 !||--- called by ------------------------------------------------------
-!||    lectur               ../starter/source/starter/lectur.F
+!||    lectur                ../starter/source/starter/lectur.F
 !||====================================================================
       module iniebcs_propellant_
       contains
@@ -35,11 +35,11 @@
 !||====================================================================
 !||    iniebcs_propellant          ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
 !||--- called by ------------------------------------------------------
-!||    lectur                     ../starter/source/starter/lectur.F
+!||    lectur                      ../starter/source/starter/lectur.F
 !||--- calls      -----------------------------------------------------
 !||    iniebcs_propellant_get_cv   ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
 !||--- uses       -----------------------------------------------------
-!||    message_mod                ../starter/share/message_module/message_mod.F
+!||    message_mod                 ../starter/share/message_module/message_mod.F
 !||====================================================================
         subroutine iniebcs_propellant(ixs,ixq,ixtg,multi_fvm_is_used,ebcs_tab,mat_param,sixs,sixq,sixtg,nummat)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -103,9 +103,9 @@
 !||--- called by ------------------------------------------------------
 !||    iniebcs_propellant          ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
 !||--- calls      -----------------------------------------------------
-!||    ancmsg                     ../starter/source/output/message/message.F
+!||    ancmsg                      ../starter/source/output/message/message.F
 !||--- uses       -----------------------------------------------------
-!||    message_mod                ../starter/share/message_module/message_mod.F
+!||    message_mod                 ../starter/share/message_module/message_mod.F
 !||====================================================================
         subroutine iniebcs_propellant_get_cv(ebcs,mat_param,nummat,title,ixs,ixq,ixtg,sixs,sixq,sixtg)
 ! ----------------------------------------------------------------------------------------------------------------------

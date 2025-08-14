@@ -57,6 +57,9 @@
 !||    spmd_isend_ints           ../engine/source/mpi/spmd_isend.F90
 !||    spmd_isend_real           ../engine/source/mpi/spmd_isend.F90
 !||    spmd_isend_reals          ../engine/source/mpi/spmd_isend.F90
+!||    spmd_pack_doubles         ../engine/source/mpi/spmd_pack.F90
+!||    spmd_pack_ints            ../engine/source/mpi/spmd_pack.F90
+!||    spmd_pack_reals           ../engine/source/mpi/spmd_pack.F90
 !||    spmd_probe                ../engine/source/mpi/spmd_mod.F90
 !||    spmd_recv_double          ../engine/source/mpi/spmd_recv.F90
 !||    spmd_recv_doubles         ../engine/source/mpi/spmd_recv.F90
@@ -78,6 +81,9 @@
 !||    spmd_send_ints            ../engine/source/mpi/spmd_send.F90
 !||    spmd_send_real            ../engine/source/mpi/spmd_send.F90
 !||    spmd_send_reals           ../engine/source/mpi/spmd_send.F90
+!||    spmd_unpack_doubles       ../engine/source/mpi/spmd_unpack.F90
+!||    spmd_unpack_ints          ../engine/source/mpi/spmd_unpack.F90
+!||    spmd_unpack_reals         ../engine/source/mpi/spmd_unpack.F90
 !||    spmd_wait                 ../engine/source/mpi/spmd_wait.F90
 !||    spmd_waitall              ../engine/source/mpi/spmd_wait.F90
 !||    spmd_waitany              ../engine/source/mpi/spmd_wait.F90
@@ -178,6 +184,9 @@
 !||    spmd_isend_ints           ../engine/source/mpi/spmd_isend.F90
 !||    spmd_isend_real           ../engine/source/mpi/spmd_isend.F90
 !||    spmd_isend_reals          ../engine/source/mpi/spmd_isend.F90
+!||    spmd_pack_doubles         ../engine/source/mpi/spmd_pack.F90
+!||    spmd_pack_ints            ../engine/source/mpi/spmd_pack.F90
+!||    spmd_pack_reals           ../engine/source/mpi/spmd_pack.F90
 !||    spmd_probe                ../engine/source/mpi/spmd_mod.F90
 !||    spmd_recv_double          ../engine/source/mpi/spmd_recv.F90
 !||    spmd_recv_doubles         ../engine/source/mpi/spmd_recv.F90
@@ -199,6 +208,9 @@
 !||    spmd_send_ints            ../engine/source/mpi/spmd_send.F90
 !||    spmd_send_real            ../engine/source/mpi/spmd_send.F90
 !||    spmd_send_reals           ../engine/source/mpi/spmd_send.F90
+!||    spmd_unpack_doubles       ../engine/source/mpi/spmd_unpack.F90
+!||    spmd_unpack_ints          ../engine/source/mpi/spmd_unpack.F90
+!||    spmd_unpack_reals         ../engine/source/mpi/spmd_unpack.F90
 !||    spmd_wait                 ../engine/source/mpi/spmd_wait.F90
 !||    spmd_waitall              ../engine/source/mpi/spmd_wait.F90
 !||    spmd_waitany              ../engine/source/mpi/spmd_wait.F90
@@ -257,6 +269,9 @@
 !||    spmd_isend_ints           ../engine/source/mpi/spmd_isend.F90
 !||    spmd_isend_real           ../engine/source/mpi/spmd_isend.F90
 !||    spmd_isend_reals          ../engine/source/mpi/spmd_isend.F90
+!||    spmd_pack_doubles         ../engine/source/mpi/spmd_pack.F90
+!||    spmd_pack_ints            ../engine/source/mpi/spmd_pack.F90
+!||    spmd_pack_reals           ../engine/source/mpi/spmd_pack.F90
 !||    spmd_probe                ../engine/source/mpi/spmd_mod.F90
 !||    spmd_recv_double          ../engine/source/mpi/spmd_recv.F90
 !||    spmd_recv_doubles         ../engine/source/mpi/spmd_recv.F90
@@ -278,6 +293,9 @@
 !||    spmd_send_ints            ../engine/source/mpi/spmd_send.F90
 !||    spmd_send_real            ../engine/source/mpi/spmd_send.F90
 !||    spmd_send_reals           ../engine/source/mpi/spmd_send.F90
+!||    spmd_unpack_doubles       ../engine/source/mpi/spmd_unpack.F90
+!||    spmd_unpack_ints          ../engine/source/mpi/spmd_unpack.F90
+!||    spmd_unpack_reals         ../engine/source/mpi/spmd_unpack.F90
 !||    spmd_wait                 ../engine/source/mpi/spmd_wait.F90
 !||    spmd_waitall              ../engine/source/mpi/spmd_wait.F90
 !||    spmd_waitany              ../engine/source/mpi/spmd_wait.F90

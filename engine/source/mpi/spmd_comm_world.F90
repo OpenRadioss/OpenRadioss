@@ -371,6 +371,9 @@
 !||    spmd_nrow                       ../engine/source/mpi/implicit/imp_spmd.F
 !||    spmd_out                        ../engine/source/mpi/spmd_error.F90
 !||    spmd_outpitab                   ../engine/source/mpi/interfaces/spmd_outp.F
+!||    spmd_pack_doubles               ../engine/source/mpi/spmd_pack.F90
+!||    spmd_pack_ints                  ../engine/source/mpi/spmd_pack.F90
+!||    spmd_pack_reals                 ../engine/source/mpi/spmd_pack.F90
 !||    spmd_part_com                   ../engine/source/mpi/interfaces/spmd_th.F
 !||    spmd_printcpuinfo               ../engine/source/mpi/output/spmd_printcpuinfo.F
 !||    spmd_r2r_idef                   ../engine/source/mpi/r2r/spmd_r2r.F
@@ -449,6 +452,9 @@
 !||    spmd_tri20boxe                  ../engine/source/mpi/interfaces/spmd_tri20boxe.F
 !||    spmd_tri22vox                   ../engine/source/mpi/interfaces/spmd_tri22vox.F
 !||    spmd_tri7vox_optimized          ../engine/source/mpi/interfaces/spmd_tri7vox_optimized.F
+!||    spmd_unpack_doubles             ../engine/source/mpi/spmd_unpack.F90
+!||    spmd_unpack_ints                ../engine/source/mpi/spmd_unpack.F90
+!||    spmd_unpack_reals               ../engine/source/mpi/spmd_unpack.F90
 !||    spmd_vchgrid                    ../engine/source/mpi/implicit/imp_spmd.F
 !||    spmd_velvec2                    ../engine/source/mpi/anim/spmd_velvec2.F
 !||    spmd_vgath                      ../engine/source/mpi/anim/spmd_vgath.F
