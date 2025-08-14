@@ -348,7 +348,7 @@ C--------------------------------------------------
       IF (QA == ZERO) QA = ONEP1         
       IF (QB == ZERO) QB = FIVEEM2      
 
-      ! --default CVIS (hourglass)  --- 
+      ! --Default Cvis (Hourglass) --- 
       IF (IHBE == 24) THEN
         IF (CVIS == ZERO) CVIS = EM01
         GEO(13) = CVIS        

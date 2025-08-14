@@ -244,7 +244,7 @@ C-------------R,S,T--direction------
           IF(ISMDISP==0.AND.OFFS(I)/=TWO)DVCA(I)= DVCA(I)-DST(I)
          ENDDO
         ENDIF 
-C-------------Volume traitement------
+C----------- Volume treatment ------
         DO I=1,NEL
           DVP=DVCA(I)-DVC(I)
           DV =DVP*OFF(I)

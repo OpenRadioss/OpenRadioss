@@ -60,13 +60,13 @@ C-----------------------------------------------
         INDX(I) = I
       ENDDO
 C
-C Retris ordre croissant itabm1 (num user)
+C Retris Croissant order Itabm1 (Num User)
 C
       CALL MY_ORDERS(0,WORK,ITMPM1,INDX,NUMNOD_L,1)
       DO I = 1, NUMNOD_L
         ITMPM2(I)= ITMPM1(INDX(I))
       ENDDO
-C Ecriture ITABM1 num user tries ordre croissant
+C ITABM1 NUM STRIES CRIES CROISANT
       CALL WRITE_I_C(ITMPM2,NUMNOD_L)
       LEN_IA = LEN_IA + NUMNOD_L
 C
@@ -76,7 +76,7 @@ C
         ITMPM1(I) = NODLOCAL(ND)
       END DO
 
-C Ecriture ITABM2 (num systemes)
+C ITABM2 Writing (NUM SYSTEMES)
       CALL WRITE_I_C(ITMPM1,NUMNOD_L)
       LEN_IA = LEN_IA + NUMNOD_L
 C

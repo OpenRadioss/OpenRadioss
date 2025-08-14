@@ -258,7 +258,7 @@ C
           NY1 = YY-YM
           NZ1 = ZZ-ZM
 C
-C         decomposition de (M,P) sur (M,N2) et (M,N3)
+C         decomposition of (M,P) on (M,N2) and (M,N3)
           NX2 = X(1,NJ2)-XM
           NY2 = X(2,NJ2)-YM
           NZ2 = X(3,NJ2)-ZM
@@ -351,7 +351,7 @@ C
           NY1 = YY-YM
           NZ1 = ZZ-ZM
 C
-C         decomposition de (M,P) sur (M,N2) et (M,N3)
+C         decomposition of (M,P) on (M,N2) and (M,N3)
           NX2 = X(1,NJ2)-XM
           NY2 = X(2,NJ2)-YM
           NZ2 = X(3,NJ2)-ZM
@@ -443,7 +443,7 @@ C
           NY1 = YY-YM
           NZ1 = ZZ-ZM
 C
-C         decomposition de (M,P) sur (M,N2) et (M,N3)
+C         decomposition of (M,P) on (M,N2) and (M,N3)
           NX2 = X(1,NJ2)-XM
           NY2 = X(2,NJ2)-YM
           NZ2 = X(3,NJ2)-ZM

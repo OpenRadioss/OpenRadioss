@@ -129,7 +129,7 @@ C NEWFRONT
           SBUF(L+1) = -NEWFRONT(NIN)
           SBUF2(KK) = NEWFRONT(NIN)
           SBUF3(KK) = 0 
-        ELSE     ! interface 17 avec courbure
+        ELSE     ! interface 17 with curvature
 
           SBUF(L+1) = ZERO
 C SIZE
@@ -199,7 +199,7 @@ C    &                   COMM_CONT, ierror)
            L = L + 6
            IF(IPARI(7,NIN)/=17)THEN
              NEWFRONT(NIN) = - NINT(RBUF(L+1))
-           ELSE     ! interface 17 avec courbure
+           ELSE     ! interface 17 with curvature
              SIZE_T(NIN) = RBUF3(KK)
            END IF
            L = L + 1

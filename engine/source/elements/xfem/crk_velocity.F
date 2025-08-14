@@ -21,13 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    crk_vitesse     ../engine/source/elements/xfem/crk_vitesse.F
+!||    crk_velocity     ../engine/source/elements/xfem/crk_velocity.F
 !||--- called by ------------------------------------------------------
 !||    resol           ../engine/source/engine/resol.F
 !||--- uses       -----------------------------------------------------
 !||    crackxfem_mod   ../engine/share/modules/crackxfem_mod.F
 !||====================================================================
-      SUBROUTINE CRK_VITESSE(
+      SUBROUTINE CRK_VELOCITY(
      .           ADDCNE_CRK,INOD_CRK ,NODLEVXF  ,NODFT     ,NODLT    ,
      .           X         ,V        ,VR        ,A         ,AR       ,
      .           ITAB      )                                              
@@ -67,8 +67,8 @@ c---
           IXEL = MOD(ILEV-1, NXEL) + 1
           ILAY = (ILEV-IXEL)/NXEL  + 1
           DO KK = NCT+1, NCT+NC
-            EN0  = CRKLVSET(ILEV)%ENR0(2,KK)  ! enr initial du debut de cycle
-            EN   = CRKLVSET(ILEV)%ENR0(1,KK)  ! enr mise a jour dans le cycle
+            EN0  = CRKLVSET(ILEV)%ENR0(2,KK)  ! initial enr at start of cycle
+            EN   = CRKLVSET(ILEV)%ENR0(1,KK)  ! enr updated in the cycle
             IFI  = XFEM_PHANTOM(ILAY)%IFI(KK)
 c---
             IF (EN0 > 0) THEN           ! free node
@@ -109,7 +109,7 @@ c             new coordinates
                 CRKAVX(ILEV)%VR(1,KK) = VR(1,N)
                 CRKAVX(ILEV)%VR(2,KK) = VR(2,N)
                 CRKAVX(ILEV)%VR(3,KK) = VR(3,N)
-              ELSEIF (IFI /= 0) THEN    ! fissure statique => noeud standard
+              ELSEIF (IFI /= 0) THEN    ! Static crack => Standard node
                 CRKAVX(ILEV)%V(1,KK)  = V(1,N)
                 CRKAVX(ILEV)%V(2,KK)  = V(2,N)
                 CRKAVX(ILEV)%V(3,KK)  = V(3,N)
@@ -127,7 +127,7 @@ c-----------
       END
 c
 !||====================================================================
-!||    crk_zero_accel   ../engine/source/elements/xfem/crk_vitesse.F
+!||    crk_zero_accel   ../engine/source/elements/xfem/crk_velocity.F
 !||--- called by ------------------------------------------------------
 !||    resol            ../engine/source/engine/resol.F
 !||--- uses       -----------------------------------------------------
@@ -175,7 +175,7 @@ C-----------
       RETURN
       END
 !||====================================================================
-!||    crk_zero_fsky   ../engine/source/elements/xfem/crk_vitesse.F
+!||    crk_zero_fsky   ../engine/source/elements/xfem/crk_velocity.F
 !||--- called by ------------------------------------------------------
 !||    resol           ../engine/source/engine/resol.F
 !||--- uses       -----------------------------------------------------

@@ -266,13 +266,13 @@ c-----------
             DO IT=2,NPTT
               POS_IT(IT) = POS_IT(IT-1) + HALF*(THK_IT(IT) + THK_IT(IT-1))
             ENDDO
-          ELSEIF (IINT == 2) THEN  !  Gauss distribution
+          ELSEIF (IINT == 2) THEN  !  Gauss Distribution
             DO IT=1,NPTT
               THK_IT(IT) = HALF*THK_LY*W_GAUSS(IT,NPTT)
               POS_IT(IT) = POS_LY + HALF*THK_LY*A_GAUSS(IT,NPTT)
             ENDDO
           ENDIF
-c         remplissage
+c         filling
           DO IT=1,NPTT
             IPT = IPT_ALL + IT
             THK_NPTT = THK_IT(IT)

@@ -125,7 +125,7 @@ c
 c
  100  CONTINUE
       IF (N < NITER) GOTO 111
-c     norme et orthogonalisation
+c     norm and orthogonalization
 c~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       DO 200 I=1,NEL
       e1x(I) = Ux(I)

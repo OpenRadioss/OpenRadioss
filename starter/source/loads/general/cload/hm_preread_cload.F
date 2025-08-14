@@ -96,7 +96,7 @@ C--------------------------------------------------
         CALL HM_GET_INTV  ('entityid',IGU,IS_AVAILABLE,LSUBMODEL)
 C--------------------------------------------------
         IGS = NGR2USRN(IGU,IGRNOD,NGRNOD,NN)
-C-----------Multidomaines -> on decompte les noeuds communs, on ne les compte qu'une foi---
+Cmultidomains -> shared nodes are counted only once
         IF (NSUBDOM>0) THEN
             IF (IDDOM>0) NN = NN-IGRNOD(IGS)%R2R_SHARE
             NNCL(I)=NN 

@@ -311,7 +311,7 @@ C Solid 8 nodes brick
          TEMP0(I) = ZERO 
         ENDDO
 C
-C Creation de la dependance au mat_rigid
+C Creation of the dependency on mat_rigid
         DO I=1,NEL
           N = I + NFT
           NINDX = NINDX + 1
@@ -369,7 +369,7 @@ C
      5         MCPS(1,NFT+1),MSSA         ,BID    ,BID        ,FILL, 
      6         IX1, IX2, IX3, IX4, IX5, IX6, IX7, IX8)
 C  
-C Element time step
+C Time Step element
         CALL DTMAIN(GEO  ,PM   ,VOID  ,PID   ,MXT   ,VOID  ,  
      .              VOID ,VOID ,VOID  ,VOID  ,VOID  ,BUFMAT, DDELTAX, AREA, VOLU, DTX , IGEO,IGTYP)  
 C

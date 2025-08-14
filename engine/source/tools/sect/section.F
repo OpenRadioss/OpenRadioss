@@ -148,7 +148,7 @@ C
 C
          ENDDO
        ELSE
-c on ne traite pas les VR car IRODDL vaut 0
+c We do not treat the VR because Iroddl is worth 0
          DO I=1,NNOD
              N=NSTRF(I)
 C

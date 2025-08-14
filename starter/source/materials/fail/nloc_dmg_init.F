@@ -952,7 +952,7 @@ c
           ILOC  = IPARG(78,NG)
           ! Type of elements
           ITY   = IPARG(5,NG)
-          ! First element position
+          ! First position element
           NFT   = IPARG(3,NG)
           ! If the elements are non-local and are shells or triangles
           IF ((ILOC > 0).AND.((ITY == 3).OR.(ITY == 7))) THEN

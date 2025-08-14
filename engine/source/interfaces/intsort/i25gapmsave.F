@@ -29,7 +29,7 @@ C I25main_tri
       SUBROUTINE I25GAPMSAVE(
      1       GAP_M     ,GAPMSAV  ,
      2       MSR       ,NRTM     ,ITASK)
-C sauvegarde des GAPMSAV et calcul borne domaine
+C save GAPMSAV values and calculate domain bounds
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

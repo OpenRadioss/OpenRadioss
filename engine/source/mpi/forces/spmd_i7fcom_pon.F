@@ -174,12 +174,12 @@ C
       IF(KDTINT/=0) LEN = LEN+1
       IF(GLOB_THERM%NODADT_THERM == 1) LEN = LEN+1
       LEN7T = LEN + 1
-C type11 => 2 impacts pour une factte
+C type11 => 2 impacts for a factte
       LEN11 = 2*(LEN-1)+1
       LEN11T = 2*LEN+1
 C type17 => 8 impacts
       LEN17 = 41
-C type20 => place additionnelle DAANC6
+C Type20 => Additional place DAANC6
       LEN20 = 18*(1+IRESP) + 1
 C type20 => place additionnelle DAANC6E (edge)
       LEN20E = 36*(1+IRESP) + 2
@@ -187,7 +187,7 @@ C type20 => place additionnelle DAANC6E (edge)
 C
       IF(IFLAG==1)THEN
 C
-C Init + ireceive sur taille communication
+C INIT + IREceive on Communication Size
 C
         DO P = 1, NSPMD
           ISIZRCV(1,P)=0
@@ -202,7 +202,7 @@ C
               NIN = INTLIST(II)
               IF(MULTI_FVM%INT18_GLOBAL_LIST(NIN)) CYCLE
               SIZ = SIZ + NSNSI(NIN)%P(P)
-C ajout partie egde pour type 20
+C Add Part EGDE for type 20
               IF(IPARI(7,NIN)==20)THEN
                 SIZ = SIZ + NSNSIE(NIN)%P(P)
               END IF
@@ -265,7 +265,7 @@ C KDTINT > 0 option
                 ENDDO
                 TEMP_SIZ=TEMP_SIZ+1
               ENDIF
-C Thermique Option
+C Thermal option
               IF(INTTH >0)THEN
                 DO J=1,NI
                   TEMPO(TEMP_SIZ,J)=FTHESKYFI(NIN)%P(J)
@@ -298,7 +298,7 @@ C KDTINT > 0 option
                 ENDDO
                 TEMP_SIZ=TEMP_SIZ+1
               ENDIF
-C Thermique Option
+C Thermal option
               IF(INTTH >0)THEN
                 DO J=1,NI
                   K=INDEX(J)
@@ -330,7 +330,7 @@ C Thermique Option
                  CALL SORTI11(NI,ISKYFI(NIN)%P(1),FSKYFI(NIN)%P(1,1),
      +                    NFSKYI)
               ENDIF
-c              LENI = LEN
+c              Leni = len
               LENI = LEN11
               IF(INTTH >0 ) LENI = LEN11T
             ELSEIF(NTY==17) THEN
@@ -341,15 +341,15 @@ c              LENI = LEN
      +                    NFSKYI)
               LENI =  LEN
               IF(INTTH > 0 ) LENI=LEN7T
-C routine calcul place supplementaire int20
+C Routine Calculation Additional int20 additional place
               CALL ADDCOMI20(
      +          NSNFI(NIN)%P(1),NSVFI(NIN)%P(1),ISIZENV,LEN20)
             END IF
-          ELSEIF(IPARI(7,NIN)==20)THEN ! pour le moment on envoie tjrs
+          ELSEIF(IPARI(7,NIN)==20)THEN ! for the moment we always send
               CALL ADDCOMI20(
      +          NSNFI(NIN)%P(1),NSVFI(NIN)%P(1),ISIZENV,LEN20)
           END IF
-C precomptage du nombre de contacts par processeur+calcul nsnfi total
+C pre-calculation of the number of contacts per processor + total nsnfi calculation
           IF(NI > 0) THEN
             CALL INTCONTP(NI,ISKYFI(NIN)%P,NSNFI(NIN)%P,ISIZENV,NSNFITOT,LENI)
           ELSE
@@ -357,16 +357,16 @@ C precomptage du nombre de contacts par processeur+calcul nsnfi total
               NSNFITOT(J) = NSNFITOT(J) + NSNFI(NIN)%P(J)
             END DO
           ENDIF
-C ajout partie edge
+C Adje
           IF(NTY==20)THEN
             NI = NISKYFIE(NIN)
             CALL SORTI11(NI,ISKYFIE(NIN)%P(1),FSKYFIE(NIN)%P(1,1),
      +                   NFSKYI)
             LENI = LEN11
-C routine calcul place supplementaire int20
+C Routine Calculation Additional int20 additional place
             CALL ADDCOMI20(
      +        NSNFIE(NIN)%P(1),NSVFIE(NIN)%P(1),ISIZENV,LEN20E)
-C precomptage du nombre de contacts par processeur+calcul nsnfi total
+C pre-calculation of the number of contacts per processor + total nsnfi calculation
             CALL INTCONTP(
      +        NI  ,ISKYFIE(NIN)%P(1),NSNFIE(NIN)%P(1),ISIZENV,NSNFITOT,
      2        LENI)
@@ -374,8 +374,8 @@ C precomptage du nombre de contacts par processeur+calcul nsnfi total
             IF(IPARI(MACRO_NEDGE,NIN) > 0) THEN
               NIE = NISKYFIE(NIN)
               CALL SORTI25(NIE,ISKYFIE(NIN)%P(1),FSKYFIE(NIN)%P(1,1),
-     +                   4) ! 4 =>  4+1 si thermique
-C precomptage du nombre de contacts par processeur+calcul nsnfi total
+     +                   4) ! 4 => 4+1 if thermal
+C pre-calculation of the number of contacts per processor + total nsnfi calculation
               LENI = LEN25E
               CALL INTCONTP25E(
      +          NIE  ,ISKYFIE(NIN)%P(1),NSNFIE(NIN)%P(1),ISIZENV,NSNFITOT,
@@ -404,7 +404,7 @@ C
         END DO
         IERROR=0
         IF(IALLOCS>0)
-     +    ALLOCATE(BBUFS(IALLOCS+NBINTC*NSPMD*2),STAT=IERROR) ! nbintc*NSPMD*2 majorant place supplementaire bufs
+     +    ALLOCATE(BBUFS(IALLOCS+NBINTC*NSPMD*2),STAT=IERROR) ! NBINTC*NSPMD*2 Majoring supplemental place BUFS
         IF(IERROR/=0) THEN
           CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
           CALL ARRET(2)
@@ -438,13 +438,13 @@ C
                LENI = LEN
                IF(NB>0) THEN
 C
-C rajout comm supplementaire int20
+C Additional int20 add -in -law
 C
                 IF(NTY == 20) THEN
                   DO N = 1, NB
                     BBUFS(L+1) = ALPHAKFI(NIN)%P(IDEB+N)
                     IF(NSVFI(NIN)%P(IDEB+N)<0)THEN
-C noeud generant une force
+C node generating a force
                       CALL PUTDPDAANC(
      .                 DAANC6FI(NIN)%P(1,1,IDEB+N),BBUFS(L+2),IRESP,INC)
 C                      L  = L + INC
@@ -462,7 +462,7 @@ C
                  IF(KDTINT==0)THEN
                   DO N = 1, NB
                     IF(NSVFI(NIN)%P(IDEB+N)<0)THEN
-C noeud generant une force
+C node generating a force
                       NOD = -NSVFI(NIN)%P(IDEB+N)
                       NSVFI(NIN)%P(IDEB+N)=NOD
                       IF(IDEBI<=NISKYFI(NIN)) THEN
@@ -489,7 +489,7 @@ C noeud generant une force
                  ELSE
                   DO N = 1, NB
                     IF(NSVFI(NIN)%P(IDEB+N)<0)THEN
-C noeud generant une force
+C node generating a force
                       NOD = -NSVFI(NIN)%P(IDEB+N)
                       NSVFI(NIN)%P(IDEB+N)=NOD
                       IF(IDEBI<=NISKYFI(NIN)) THEN
@@ -524,7 +524,7 @@ C
                   IF(KDTINT==0)THEN
                    DO N = 1, NB
                     IF(NSVFI(NIN)%P(IDEB+N)<0)THEN
-C noeud generant une force
+C node generating a force
                       NOD = -NSVFI(NIN)%P(IDEB+N)
                       NSVFI(NIN)%P(IDEB+N)=NOD
                       IF(IDEBI<=NISKYFI(NIN)) THEN
@@ -553,7 +553,7 @@ C noeud generant une force
                   ELSE
                    DO N = 1, NB
                     IF(NSVFI(NIN)%P(IDEB+N)<0)THEN
-C noeud generant une force
+C node generating a force
                       NOD = -NSVFI(NIN)%P(IDEB+N)
                       NSVFI(NIN)%P(IDEB+N)=NOD
                       IF(IDEBI<=NISKYFI(NIN)) THEN
@@ -588,7 +588,7 @@ C noeud generant une force
                   IF(KDTINT==0)THEN
                    DO N = 1, NB
                     IF(NSVFI(NIN)%P(IDEB+N)<0)THEN
-C noeud generant une force
+C node generating a force
                       NOD = -NSVFI(NIN)%P(IDEB+N)
                       NSVFI(NIN)%P(IDEB+N)=NOD
                       IF(IDEBI<=NISKYFI(NIN)) THEN
@@ -616,7 +616,7 @@ C noeud generant une force
                   ELSE
                    DO N = 1, NB
                     IF(NSVFI(NIN)%P(IDEB+N)<0)THEN
-C noeud generant une force
+C node generating a force
                       NOD = -NSVFI(NIN)%P(IDEB+N)
                       NSVFI(NIN)%P(IDEB+N)=NOD
                       IF(IDEBI<=NISKYFI(NIN)) THEN
@@ -660,7 +660,7 @@ C type 11
                  IF(KDTINT==0)THEN
                   DO N = 1, NB
                     IF(NSVFI(NIN)%P(IDEB+N)<0)THEN
-C noeud generant une force
+C node generating a force
                       NOD = -NSVFI(NIN)%P(IDEB+N)
                       NSVFI(NIN)%P(IDEB+N)=NOD
                       IF(IDEBI<=NISKYFI(NIN)) THEN
@@ -691,7 +691,7 @@ C noeud generant une force
                 ELSE
                   DO N = 1, NB
                     IF(NSVFI(NIN)%P(IDEB+N)<0)THEN
-C noeud generant une force
+C node generating a force
                       NOD = -NSVFI(NIN)%P(IDEB+N)
                       NSVFI(NIN)%P(IDEB+N)=NOD
                       IF(IDEBI<=NISKYFI(NIN)) THEN
@@ -736,7 +736,7 @@ C   Type 11 + thermal modelling
                   IF(KDTINT==0)THEN
                    DO N = 1, NB
                     IF(NSVFI(NIN)%P(IDEB+N)<0)THEN
-C noeud generant une force
+C node generating a force
                       NOD = -NSVFI(NIN)%P(IDEB+N)
                       NSVFI(NIN)%P(IDEB+N)=NOD
                       IF(IDEBI<=NISKYFI(NIN)) THEN
@@ -771,7 +771,7 @@ C noeud generant une force
                 ELSE
                   DO N = 1, NB
                     IF(NSVFI(NIN)%P(IDEB+N)<0)THEN
-C noeud generant une force
+C node generating a force
                       NOD = -NSVFI(NIN)%P(IDEB+N)
                       NSVFI(NIN)%P(IDEB+N)=NOD
                       IF(IDEBI<=NISKYFI(NIN)) THEN
@@ -817,7 +817,7 @@ C noeud generant une force
                   IF(KDTINT==0)THEN
                    DO N = 1, NB
                     IF(NSVFI(NIN)%P(IDEB+N)<0)THEN
-C noeud generant une force
+C node generating a force
                       NOD = -NSVFI(NIN)%P(IDEB+N)
                       NSVFI(NIN)%P(IDEB+N)=NOD
                       IF(IDEBI<=NISKYFI(NIN)) THEN
@@ -850,7 +850,7 @@ C noeud generant une force
                 ELSE
                   DO N = 1, NB
                     IF(NSVFI(NIN)%P(IDEB+N)<0)THEN
-C noeud generant une force
+C node generating a force
                       NOD = -NSVFI(NIN)%P(IDEB+N)
                       NSVFI(NIN)%P(IDEB+N)=NOD
                       IF(IDEBI<=NISKYFI(NIN)) THEN
@@ -898,7 +898,7 @@ C type 17
                  L = L + 1
                  DO N = 1, NB
                     IF(NSVFI(NIN)%P(IDEB+N)<0)THEN
-C facette element generant une force
+C Facet element generating a force
                       IES = -NSVFI(NIN)%P(IDEB+N)
                       NSVFI(NIN)%P(IDEB+N)=IES
                       IF(IDEBI<=NISKYFI(NIN)) THEN
@@ -927,7 +927,7 @@ C facette element generant une force
                END IF
               END IF
 C
-C Partie supplementaire type 20 edge
+C Supplementary part type 20 Edge
 C
               IF(NTY==20) THEN
                 NB = NSNFIE(NIN)%P(P)
@@ -940,7 +940,7 @@ C
                     BBUFS(L+1) = ALPHAKFIE(NIN)%P(N1)
                     BBUFS(L+2) = ALPHAKFIE(NIN)%P(N2)
                     IF(NSVFIE(NIN)%P(IDEB+N)<0)THEN
-C noeud generant une force
+C node generating a force
                       CALL PUTDPDAANC(
      .                DAANC6FIE(NIN)%P(1,1,N1),BBUFS(L+3),IRESP,INC)
 C                     L  = L + INC
@@ -960,7 +960,7 @@ C
                   IF(KDTINT==0)THEN
                     DO N = 1, NB
                       IF(NSVFIE(NIN)%P(IDEB+N)<0)THEN
-C noeud generant une force
+C node generating a force
                         NOD = -NSVFIE(NIN)%P(IDEB+N)
                         NSVFIE(NIN)%P(IDEB+N)=NOD
                         IF(IDEBI<=NISKYFIE(NIN)) THEN
@@ -991,7 +991,7 @@ C noeud generant une force
                   ELSE
                     DO N = 1, NB
                       IF(NSVFIE(NIN)%P(IDEB+N)<0)THEN
-C noeud generant une force
+C node generating a force
                         NOD = -NSVFIE(NIN)%P(IDEB+N)
                         NSVFIE(NIN)%P(IDEB+N)=NOD
                         IF(IDEBI<=NISKYFIE(NIN)) THEN
@@ -1055,7 +1055,7 @@ C Node generating the force
                           THOFFSET = 0
                           IF(INTTH > 0) THEN
                             THOFFSET = 1
-                            ! Not available yet
+                            ! Not Available Yet
                             ASSERT(.FALSE.)
                           ENDIF
                           DO WHILE(ITEST)
@@ -1082,7 +1082,7 @@ C Node generating the force
                      END DO
                   END IF
                   ! LL = L0 +1 
-                  ! L = L0 +1 + LEN25 * (NBEDGES_WITH_FORCES)
+                  ! L '= L0 +1 + LEN25 * (nbedges_with_forces)
                   ! L - LL = LEN25 * NB_TOT_EDGES / LEN25 = NB_TOT_EDGES
                   ! BBUFS(L0 + 1 ) = NB_TOT_EDGES
                   BBUFS(LL) = NB_TOT_EDGES
@@ -1109,7 +1109,7 @@ C Node generating the force
           ENDIF
         ENDDO
 C
-C mise a 0 de niskyfi une fois utilisee
+C reset niskyfi to 0 once used
 C
         DO II = 1, NBINTC
           NIN = INTLIST(II)
@@ -1129,14 +1129,14 @@ C
           END DO
         END IF
 C
-C Receive 1er message : taille communication
+C Receive 1st message: Communication size
 C
         IALLOCR = 0
         DO P = 1, NSPMD
           IF(NSNSITOT(P)>0)THEN
             CALL MPI_WAIT(REQ_R(P),STATUS,IERROR)
-            IALLOCR = MAX(IALLOCR,ISIZRCV(1,P))   ! pour comm bloquantes
-C           IALLOCR = IALLOCR + ISIZRCV(P)     ! pour comm non bloquantes
+            IALLOCR = MAX(IALLOCR,ISIZRCV(1,P))   ! for blocking communications
+C           Iallocr = Iallocr + Isizrcv (P)!For non -blocking comm
           END IF
         END DO
 C
@@ -1162,13 +1162,13 @@ C
            CALL REALLOCATE_I_SKYLINE(LSKYI_CT,3,GLOB_THERM%INTHEAT,GLOB_THERM%NODADT_THERM, INTERFACES%PON)
         ENDIF
 C
-C Reception buffer et decompactage
+C Reception buffer and decompression
 C
-C        L = 1       ! a reactiver si envoi non bloquant
+C        The = 1!To be reactivated if not blocking
         DO P = 1, NSPMD
           IF(ISIZRCV(1,P)>0) THEN
             MSGTYP = MSGOFF2
-            L = 1           ! envoi bloquant + opti alloc memoire sur max des comm
+            L = 1           ! blocking send + memory allocation optimization on max communications
             CALL MPI_RECV(
      .        BBUFR(L),ISIZRCV(1,P)+NBINTC*2,REAL  ,IT_SPMD(P),MSGTYP,
      .        SPMD_COMM_WORLD            ,STATUS,IERROR    )
@@ -1310,7 +1310,7 @@ C
                 END IF
               ENDIF
 C
-C Partie supplementaire type 20 edge
+C Supplementary part type 20 Edge
 C
               IF(NTY == 20) THEN
                 NB = NSNSIE(NIN)%P(P)
@@ -1319,7 +1319,7 @@ C
                   NOINT =IPARI(15,NIN)
                   ISECIN=IPARI(28,NIN)
 C                  IBAG  =IPARI(32,NIN)
-C IBAG force a 0 pour la partie edge
+C IBAG forced to 0 for the edge part
                   IBAG=0
                   IDEB = DEBUTE(NIN)
                   CALL SPMD_FIADD20E_PON(

@@ -324,11 +324,11 @@ C---------  Vi = Vi -VR ^ MS
      .    RS   ,RM   ,V1   ,V2   ,V3   ,                        
      .    RX   ,RY   ,RZ   ,VA   ,VB   ,
      .    VC   ,VD)  
-C-------------  vers increm en vitesses
+C-------------  vers increm en velocities
           DLX = V1*DT1
           DLY = V2*DT1
           DLZ = V3*DT1
-C-------------  DX == deplacement relatif
+C-------------- DX == Relative displacement
             DX(1,II) = DX(1,II) + DLX
             DX(2,II) = DX(2,II) + DLY
             DX(3,II) = DX(3,II) + DLZ
@@ -489,7 +489,7 @@ C------------------------------------------------
           FINI(2,II) = FLY
           FINI(3,II) = FLZ
 C------------------------------------------------                  
-C         composantes N/T de la forces nodale -> output
+C         n/t components of the nodal force -> output
 C------------------------------------------------
           HL(1:4) = H(1:4,K)
           CALL I2FORCES(X       ,FS     ,FX     ,FY      ,FZ     ,
@@ -507,7 +507,7 @@ C
           IX4(K) = IRECT(4,L)  
           STIF(K)= ZERO
           VIS(K) = ZERO
-          IF (WEIGHT(-I) == 1) THEN  ! stokage ZERO pour noeuds delete par idel2
+          IF (WEIGHT(-I) == 1) THEN  ! zero storage for nodes deleted by idel2
             I0 = I0 + 1
             JJ = 1                                                       
             NN = IADI2(JJ,I0)                                            

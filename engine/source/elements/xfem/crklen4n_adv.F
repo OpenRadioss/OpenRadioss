@@ -83,13 +83,13 @@ C=======================================================================
       NEWCRK = 0
       DO I=1,NEL
         JCT(I) = 0
-        IF (ELCRKINI(ILAY,I) == 5) THEN        ! avancement de fissure
+        IF (ELCRKINI(ILAY,I) == 5) THEN        ! crack propagation
           NEWCRK = NEWCRK + 1
           JCT(NEWCRK) = I
-          ELCRKINI(ILAY,I) = 2                 ! reset pour l avancement
-        ELSEIF (ELCRKINI(ILAY,I) == -5) THEN   ! initialisation de fissure
+          ELCRKINI(ILAY,I) = 2                 ! reset for propagation
+        ELSEIF (ELCRKINI(ILAY,I) == -5) THEN   ! crack initialization
           CRKLEN(I) = ALDT(I)
-          ELCRKINI(ILAY,I) = 0                 ! reset pour initialisation
+          ELCRKINI(ILAY,I) = 0                 ! reset for initialization
         ENDIF
       ENDDO
       IF (NEWCRK == 0) RETURN
@@ -126,7 +126,7 @@ c     First intersection (already cut edge)
 C------------------------------------------------
       DO IR=1,NEWCRK ! loop over elems (layers) with advancing cracks
         I = JCT(IR)    
-        ELCRK = IEL_CRK(I+NFT)   ! N  element sys xfem 
+        ELCRK = IEL_CRK(I+NFT)   ! DYE SYS XFEM 
         OK    = 0
         ICUT  = 0
         IED   = 0
@@ -157,9 +157,9 @@ C---
           XIN(1,I) = XXL(p1,I) + BETA*(XXL(p2,I) - XXL(p1,I))                                      
           YIN(1,I) = YYL(p1,I) + BETA*(YYL(p2,I) - YYL(p1,I))
 c                                                                                    
-          EDGEL(IED,I) = 1              ! local : premier edge coupe
+          EDGEL(IED,I) = 1              ! Local: First Edge Cup
           IEDGE  = XEDGE4N(IED,ELCRK)    ! N  edge element sys xfem
-          TIP(I) = CRKEDGE(ILAY)%EDGETIP(1,IEDGE)      ! 1 ou 2 , debut ou fin de fissure
+          TIP(I) = CRKEDGE(ILAY)%EDGETIP(1,IEDGE)      ! 1 or 2 , start or end of crack
         ELSE
           WRITE(IOUT,*) 'ERROR IN ADVANCING CRACK --- CHECK CRACK TIP'
           CALL ARRET(2)           

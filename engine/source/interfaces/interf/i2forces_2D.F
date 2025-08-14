@@ -93,7 +93,7 @@ C------------------------------------------------
         VY = VY * SUM
         VZ = VZ * SUM
 C   
-C       composantes N/T de la forces nodale
+C       n/t components of the nodal forces
 C
         FNORM = VX*FS(1) + VY*FS(2) + VZ*FS(3)
         FT(1) = VX*FNORM

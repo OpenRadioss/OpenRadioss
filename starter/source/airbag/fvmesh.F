@@ -186,24 +186,24 @@ C liste chainee polyedres
       my_real, DIMENSION(:), ALLOCATABLE :: RADIUS
       INTEGER, DIMENSION(:), ALLOCATABLE :: IDX
 C
-C Structure de donnees maillage volumes finis
-C    - NNS   : Nombre de nouveaux noeuds ( = IVOLU(46) )
-C    - NNTR  : Nombre de nouveaux triangles ( = IVOLU(47) )
+C Finished volume meshing data structure
+C    - NNS: Number of new nodes (= IVolu (46))
+C    - NNTR: Number of new triangles (= IVolu (47))
 C    - NPOLY : Nombre de polygones ( = IVOLU(48) )
-C    - NPOLH : Nombre de polyedres ( volumes finis) ( = IVOLU(49) )
+C    - NPOLH: Number of polyidres (finished volumes) (= IVolu (49))
 C
-C    - IFVNOD(NNS)   : Triangle airbag de reference pour le nouveau noeud
-C    - RFVNOD(2,NNS) : Coordonnees locales du noeud dans le triangle
+C    - IFVNOD(NNS): Reference airbag triangle for the new node
+C    - RFVNOD(2,NNS): Local coordinates of the node in the triangle
 C
-C    - IFVTRI(6,NNTR) : Connectivite nouveaux triangles (1->3)
-C                       Element de reference si appuye sur surface (4)
-C                       Polyedres connectes si interne (5->6)
+C    - Ifvtri (6, NNTR): Connectivitis new triangles (1-> 3)
+C                       Reference element if supported on surface (4)
+C                       Polyedres Connects if internal (5-> 6)
 C
 C    - IFVPOLY(NNTR)    : Attribution triangles-polygones
-C    - IFVTADR(NPOLY+1) : Adresses dans le tableau precedent
+C    - IFVTADR(NPOLY+1): Addresses in the previous array
 C
 C    - IFVPOLH(NPOLY)   : Attribution polygones-polyedres
-C    - IFVPADR(NPOLH+1) : Adresses dans le tableau precedent
+C    - IFVPADR(NPOLH+1): Addresses in the previous array
 C
 C
       NOTHING%PTR => NOTHING
@@ -233,7 +233,7 @@ C
          ENDDO
       ENDDO    
 C---------------------------------------------------
-C Normales elementaires
+C Normal elementary
 C---------------------------------------------------
       DO IEL=1,NEL+NELI
          N1=ELEM(1,IEL)
@@ -270,7 +270,7 @@ C
          NORMA(3,IEL)=NRZ/AREA2
       ENDDO   
 C---------------------------------------------------
-C Creation de tous les polygones
+C Creation of all polygons
 C---------------------------------------------------
       NPOLY=0
       NNS=0
@@ -285,7 +285,7 @@ C
       DO I=1,NBRIC
          ITAGB(I)=0
       ENDDO
-C 1. Facettes airbag coupees
+C 1. Airbag facets cuts
 C nullify sinon test sur associated vrai second appel fvmesh1
       NULLIFY(FIRST2)
       IF (ILVOUT >=1) WRITE(ISTDO,'(8X,A)') 'BUILDING POLYGONS'
@@ -327,7 +327,7 @@ C
             YC=YC+ONE_OVER_8*YY
             ZC=ZC+ONE_OVER_8*ZZ
          ENDDO
-C Passage repere local brique
+C BRICAL LOCAL PROCESS
          PP(1,1)=SFAC(4,2,I)
          PP(2,1)=SFAC(4,3,I)
          PP(3,1)=SFAC(4,4,I)
@@ -394,7 +394,7 @@ C
             TVERTS(9)=PP(1,3)*(X3-XC)+PP(2,3)*(Y3-YC)+PP(3,3)*(Z3-ZC)
 C
             CALL TRIBOX3(ICUT, BCENTER, BHALFSIZE, TVERTS)
-C Liste elargie pour faces laterales
+C Expanded list for lateral faces
             IF (ICUT == 0) THEN
                TOLE=EM5
 *               TOLE=ZERO
@@ -482,7 +482,7 @@ C
                      PTR_PREC => PTR_CUR
                   ENDIF
                ENDIF
-C Facettes coupees (1 quadrangle=2 triangles)
+C Cutting facets (1 quadrangle = 2 triangles)
                TOLE=EM5
 *               TOLE=ZERO
                XG=THIRD*(X1+X2+X3)
@@ -568,7 +568,7 @@ C
             IF(ILVOUT >=1) WRITE(IOUT,'(A,I10,A,I10)') 
      .                      ' MONITORED VOLUME ID: ',IVOLU(1),
      .                      ' NFACMAX IS RESET TO ',NSMAX
-C Destruction des polygones crees pour rien
+C Destruction of polygons created for nothing
             IF (NPOLY_OLD > 0) THEN
                PTR_CUR => PTR_OLD%PTR
             ELSE
@@ -598,7 +598,7 @@ C 2. Faces laterales
            DEALLOCATE(FACET, TRI, NORMT, POLY)
            CYCLE
          END IF
-C Debut boucle sur les 6 faces de la brique i
+C Start of loop on the 6 faces of brick i
          DO J=1,6
             NV=TBRIC(J,I)
             IF (NV == 0) CYCLE
@@ -619,14 +619,14 @@ C Debut boucle sur les 6 faces de la brique i
                         TRI(K,L)=LL
                      ENDDO
                      IF(TAGELA(IEL) <= NEL) THEN
-C Triangle sur airbag
+C Triangle on airbag
                        TRI(K,5)=1
                      ELSE
-C Triangle sur structure interne
+C Triangle on internal structure
                        TRI(K,5)=3
                      ENDIF
                   ELSEIF (TAGELA(IEL) < 0) THEN
-C Triangle sur brique additionelle
+C Triangle on additional brick
                      DO L=1,3
                         LL=IBUFA(ELEMA(L,IEL))
                         TRI(K,L)=LL
@@ -712,15 +712,15 @@ C
                DEALLOCATE(IPOLY, RPOLY, IELNOD)
             ENDIF
          ENDDO
-C Fin de boucle sur les faces des briques
+C End of loop on the faces of the bricks
          ITAGB(I)=1
 C
          DEALLOCATE(FACET, TRI, NORMT, POLY)
       ENDDO
-C Fin de boucle sur les briques
-C Fin de creation des polygones
+C End of loop on the bricks
+C End of polygon creation
 C-----------------------------------------------------------------------------------
-C Concatenation des deux listes
+C Concatenation of the two lists
       PTR_CUR2 => FIRST2
       PTR_PREC => PTR_CUR
       DO I=1,NPOLY2
@@ -764,7 +764,7 @@ C Concatenation des deux listes
 C
       NNS=NNS+NNS2
 C---------------------------------------------------
-C Decoupage des polygones selon la verticale locale
+C Cutting of polygons according to the local vertical
 C---------------------------------------------------
       NBZ=IVOLU(65)
       IF (NBZ > 1) THEN
@@ -838,7 +838,7 @@ C
             ZBMAX=MAX(ZBMAX,ZL2)
             ZBMAX=MAX(ZBMAX,ZL3)
          ENDDO
-C Clipping des polygones
+C Clipping of polygons
          X0=X0-LZ*VX3
          Y0=Y0-LZ*VY3
          Z0=Z0-LZ*VZ3
@@ -1029,7 +1029,7 @@ C
             PTR_CUR => PTR_CUR%PTR
          ENDDO
          DEALLOCATE(REDIR)
-C Creation des nouveaux polygones horizontaux
+C Creation of new horizontal polygons
          PTR_CUR => FIRST
          DO I=1,NPOLY
             PTR_PREC => PTR_CUR
@@ -1115,7 +1115,7 @@ C
          ENDDO
       ENDIF
 C---------------------------------------------------
-C Construction des polyedres
+C Construction of polyhedra
 C---------------------------------------------------
       NPOLH=0
 C     
@@ -1124,7 +1124,7 @@ C
          !IF (ILVOUT >=1) CALL PROGALE_C(I, NBRIC, 2)    !dynamic screen output
 C
          IF (TBRIC(7,I) /= 2) CYCLE
-C Polygones de la brique
+C Brick polygons
          NPOLB=0
          NPPMAX=0
          PTR_CUR => FIRST
@@ -1194,7 +1194,7 @@ C
      .                       TAGELA )
             ENDIF
             IF (INFO == 1) GOTO 300
-C Modifications des polygones
+C Modifications of polygons
             PTR_CUR => FIRST
             NPL=1
             POLC=REDIR(POLB(NPL))
@@ -1247,7 +1247,7 @@ C
          DEALLOCATE(IPOLY, RPOLY, POLB, POLH, REDIR)
       ENDDO  !I=1,NBRIC
 C---------------------------------------------------
-C Passage listes chainees -> tableaux classiques pour la suite des traitements
+C Transition from linked lists to classic arrays for the continuation of processing
 C---------------------------------------------------
   370 CONTINUE     
 C      
@@ -1282,7 +1282,7 @@ C
       NPOLY_OLD=NPOLY
       NPOLH_OLD=NPOLH
 C--------------------------------------------
-C Briques additionelles
+C Additional bricks
 C--------------------------------------------
       IF (NBA > 0) THEN
          NPOLH=NPOLH+NBA
@@ -1312,7 +1312,7 @@ C
             DO J=1,NFAC
                ITY=TFACA(2*(J-1)+1,I)
                IF (ITY == 1 .OR. ITY == -2) THEN
-C Face interne brique/brique
+C Internal brick/brick face
                   NV=TFACA(2*(J-1)+2,I)
                   IF (ITAGBA(NV) == 0) THEN
                      IF (ITY == 1) COUNT_TRIA_INTERNE_OLD = COUNT_TRIA_INTERNE_OLD + 1
@@ -1363,7 +1363,7 @@ C
                   ENDIF
 C
                ELSEIF (ITY == 2) THEN
-C Face brique appuyee sur surface externe (ity == 2)
+C Face brick supported on external surface (iTy == 2)
                   COUNT_ELEM_EXT_OLD = COUNT_ELEM_EXT_OLD + 1
                   IF (NTYPE==2) THEN
                      NPOLY=NPOLY+1
@@ -1396,7 +1396,7 @@ C Face brique appuyee sur surface externe (ity == 2)
                   ENDIF
 C
                ELSEIF (ITY == 3) THEN
-C Face interne brique/polyedres
+C Internal brick/polyedres side
                   PTR_CUR => FIRST
                   DO K=1,NPOLY_OLD
                      IF (PTR_CUR%IPOLY(1) == 1) THEN
@@ -1409,7 +1409,7 @@ C Face interne brique/polyedres
             ENDDO    !J=1,NFAC
             ITAGBA(I)=1
             NPHMAX=MAX(NPHMAX,NNP)
-C Calcul de IBSA =1 si tous les noeuds de la brique sont sur l'airbag =0 autrement
+C Calculation of IBSA =1 if all the nodes of the brick are on the airbag =0 otherwise
             II=TBA(1,I)
             NALL=1
             IF (NTYPE==2) THEN
@@ -1556,7 +1556,7 @@ C
          IFVNOD2(1,I)=N1
          IFVNOD2(2,I)=N2
          IF (IDEP == 1) THEN
-C Recalcul des coordonnees barycentriques du point dependant
+C Recalculation of the barycentric coordinates of the dependent point
             II=1
             VAL=ABS(XNS(1,N1)-XNS(1,N2))
             DO J=2,3
@@ -1602,7 +1602,7 @@ C
             DO J=1,NFAC
                ITY=TFACA(2*(J-1)+1,I)
                IF (ITY == 1) THEN
-C Face interne brique/brique
+C Internal brick/brick face
                   NV=TFACA(2*(J-1)+2,I)
                   IF (ITAGBA(NV) == 0) THEN
                      COUNT_TRIA_INTERNE = COUNT_TRIA_INTERNE + 1
@@ -1788,7 +1788,7 @@ C
                      ENDDO
                   ENDIF
                ELSEIF (ITY == 2) THEN        
-C Face brique appuyee sur surface externe (traitee plus loin)
+C Face brick supported on external surface (treated further)
                   COUNT_ELEM_EXT = COUNT_ELEM_EXT + 1
                ELSEIF (ITY == -2) THEN
 C     Brick face lying on an internal surface element. 
@@ -1883,7 +1883,7 @@ C     Need to compute the normal in order to ensure proper orientation
                      IFLAG(NN4) = 0
                   ENDIF
                ELSEIF (ITY == 3) THEN
-C Face interne brique/polyedres
+C Internal brick/polyedres side
                   DO K=1,NPOLY_OLD
                      IF (IPOLY_F(1,K) == 1) THEN
                         IEL=IPOLY_F(3,K)
@@ -2026,7 +2026,7 @@ C     Internal surface elements have two neighbours
          ENDDO
       ENDIF 
 C---------------------------------------------------
-C Surface des polygones
+C Surface of the polygons
 C---------------------------------------------------
       DO I=1,NPOLY
          ITY=IPOLY_F(1,I)
@@ -2091,7 +2091,7 @@ C---------------------------------------------------
                AREA=AREA+(NNX*NX+NNY*NY+NNZ*NZ)
             ENDDO
             AREA=ABS(AREA)
-C On retranche la surface des trous
+C Subtracting the surface of the holes
             DO J=1,NHOL
                X1=RPOLY_F(4+3*ADR(J)+1,I)
                Y1=RPOLY_F(4+3*ADR(J)+2,I)
@@ -2124,7 +2124,7 @@ C On retranche la surface des trous
          RPOLY_F(1,I)=HALF*ABS(AREA)
       ENDDO
 C---------------------------------------------------
-C Volume des polyedres
+C Volume of the polyhedra
 C---------------------------------------------------
       DO I=1,NPOLH
          VOLU(I)=ZERO
@@ -2187,7 +2187,7 @@ C---------------------------------------------------
          ENDDO
       ENDIF 
 C---------------------------------------------------
-C Elimination des segments de longueur nulle dans les polygones
+C Elimination of zero-length segments in the polygons
 C---------------------------------------------------
       NNS_OLD=NNS
       NNS_OLD_SAVE=NNS_OLD
@@ -2422,7 +2422,7 @@ C
          IPOLY_F(2,I)=NNP
 C
          IF (NNP < NNP_OLD) THEN
-C Nouvelle aire du polygone
+C New area of the polygon
             AREA=ZERO
             NX=RPOLY_F(2,I)
             NY=RPOLY_F(3,I)
@@ -2518,7 +2518,7 @@ C
 C
       DEALLOCATE(IFVNOD_OLD, REDIR)
 C---------------------------------------------------
-C Fusion des polyedres a volume infinitesimal a leur voisin
+C Merger of polyidres with infinite volume to their neighbor
 C---------------------------------------------------
       NPHMAX=2*NPHMAX
       INFO=0
@@ -2572,7 +2572,7 @@ C         IF (VOLU(I) < ZERO) THEN
          ENDIF
       ENDDO
 C
-C Volume moyen
+C Average volume
       VM=ZERO
       NPA=0
       DO I=1,NPOLH
@@ -2621,8 +2621,8 @@ C
                JJMAX=POLH_NEW(2+JMAX,I)
                ITY=IPOLY_F(1,JJMAX)
                IF (ITY == 2) RPOLY_F(1,JJMAX)=-ONE
-C On merge certain polyedres de volume < volumin avec le polyedre 1
-C on ne devrait plus passer la
+C Merging certain polyhedra with volume < volumin with polyhedron 1
+C We shouldn't go through the
                IMAX=1
             ENDIF
             IF (IMERGED(IMAX) == 1) IMAX=POLH_NEW(2,IMAX)
@@ -2709,7 +2709,7 @@ C---------------------------------------------------
          AREAEL=AREAEL+ELAREA(IEL)
       ENDDO
 C---------------------------------------------------
-C Coordonnees elementaires des nouveaux noeuds
+C Elementary contact details of new nodes
 C---------------------------------------------------
       IFV=IVOLU(45)
       ALLOCATE(FVDATA(IFV)%IFVNOD(3,NNS+NNS2),
@@ -2738,12 +2738,12 @@ C
                END IF
 
                IF (IFVNOD(NNS) < 0) THEN
-C point de solide additionnel
+C additional solid point
                   FVDATA(IFV)%IFVNOD(1,NNS)=2
                   FVDATA(IFV)%IFVNOD(2,NNS)=-IFVNOD(NNS)
                   CYCLE
                ENDIF
-C point appuye sur airbag
+C point pressed on airbag
                FVDATA(IFV)%IFVNOD(1,NNS)=1
                IEL=IFVNOD(NNS)
                FVDATA(IFV)%IFVNOD(2,NNS)=IEL
@@ -2789,7 +2789,7 @@ C
                FVDATA(IFV)%RFVNOD(1,NNS)=KSI
                FVDATA(IFV)%RFVNOD(2,NNS)=ETA
             ELSE
-C point interne
+C internal point
                JJ=-IPOLY_F(6+J,I)
                FVDATA(IFV)%IFVNOD(1,NNS_OLD+JJ)=3
                FVDATA(IFV)%IFVNOD(2,NNS_OLD+JJ)=IFVNOD2(1,JJ)
@@ -2816,7 +2816,7 @@ C
      .               C1=TITR)
       END IF
 C---------------------------------------------------
-C Triangulation des polygones
+C Triangulation of polygons
 C---------------------------------------------------
       NNTR=0
       DO I=1,NPOLY
@@ -2877,7 +2877,7 @@ C
             IC2=IPOLY_F(6,I)
          ENDIF 
 C
-C Coordonnees des sommets dans le plan du polygone
+C Coordinates of the vertices in the plane of the polygon
          NX=RPOLY_F(2,I)
          NY=RPOLY_F(3,I)
          NZ=RPOLY_F(4,I)
@@ -2986,7 +2986,7 @@ C         CALL BIDON1(IFV)
             N1=PTRI(1,J)
             N2=PTRI(2,J)
             N3=PTRI(3,J)
-C Verification de la normale
+C Normal verification
             X1=RPOLY_F(4+3*(N1-1)+1,I)
             Y1=RPOLY_F(4+3*(N1-1)+2,I)
             Z1=RPOLY_F(4+3*(N1-1)+3,I)
@@ -3026,7 +3026,7 @@ C
       ENDDO
       FVDATA(IFV)%IFVTADR(NPOLY+1)=NNTR+1
 C---------------------------------------------------
-C Structure des polyedres
+C Structure of polyhedra
 C---------------------------------------------------
       ALLOCATE(FVDATA(IFV)%IFVPOLH(2*NPOLY),
      .         FVDATA(IFV)%IFVPADR(NPOLH+1),
@@ -3094,7 +3094,7 @@ C
       ALLOCATE(FVDATA(IFV)%CPDPOLH(NPOLH), FVDATA(IFV)%CPEPOLH(NPOLH),
      .         FVDATA(IFV)%CPFPOLH(NPOLH))
 C---------------------------------------------------
-C Initialisation des quantites dans les polyedres
+C Initialization of quantities in the polyhedra
 C---------------------------------------------------
       GAMAI=RVOLU(1)
       CPAI=RVOLU(7)
@@ -3167,7 +3167,7 @@ C
       WRITE(IOUT,1020) VOLPH,AREAP,TMASS
 C
 C---------------------------------------------------
-C Anim des volumes finis
+C Animation of finite volumes
 C---------------------------------------------------
       IVOLU(43)=0
       FVDATA(IFV)%NPOLH_ANIM=NPOLH
@@ -3194,7 +3194,7 @@ C---------------------------------------------------
          FVDATA(IFV)%IFVPADR_ANIM(I)=FVDATA(IFV)%IFVPADR(I)
       ENDDO
 C-----------------------------------------
-C Elimination des noeuds doubles pour anim
+C Elimination of double nodes for animation
 C-----------------------------------------
       TOLE=EM05*FAC_LENGTH
       TOLE2=TOLE**2
@@ -3306,7 +3306,7 @@ C
        DEALLOCATE(AREATR)
       ENDIF
 C-------------------------------------------
-C Merge des points coincidents
+C Merging of coincident points
 C-------------------------------------------
       IF (ILVOUT >=1) WRITE(ISTDO,'(8X,A)') 
      .   'MERGING COINCIDENT NODES FOR ANIM'

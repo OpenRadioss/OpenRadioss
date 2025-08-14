@@ -130,13 +130,13 @@ C-----------------------------------------------------------
           ENDDO
         ENDIF
 C----------------------------
-C     TEST DE RUPTURE DUCTILE
+C     Ductile rupture test
 C----------------------------
         DO I=JFT,JLT
           IF (OFF(I) == OFF_OLD(I) .and. OFF(I) > ZERO) THEN
             IF (OFF(I) == ONE .and. EPCHK(I) >= EPMX) THEN
               OFF(I)= FOUR_OVER_5
-              IOFF_DUCT(I) = 1    ! start de la rupture
+              IOFF_DUCT(I) = 1    ! start of the rupture
             ELSE IF (OFF(I) < ONE ) THEN
               OFF(I) = OFF(I)*FOUR_OVER_5
             ENDIF

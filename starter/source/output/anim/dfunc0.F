@@ -65,7 +65,7 @@ C-----------------------------------------------
       TYPE(G_BUFEL_) ,POINTER :: GBUF
       REAL R4,WA(NBF)                                                   
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
-C La routine ne fonctionne que pour les IFUNC 3,6,7,14-19 (stress)      
+C La routine ne fonctionne que pour les IFUNC 3,6,7,14-19 (stress)
 C=======================================================================                                                                       
       NN1 = 1                                                           
 c      NN2 = NN1 + (NUMSPH+MAXPJET)                                      
@@ -152,7 +152,7 @@ c
           ENDIF                                                         
         ENDIF                                                           
 C-----------------------------------------------                        
-C       FIN DE BOUCLE SUR LES GROUPES                                   
+C       FIN DE BOUCLE SUR LES GROUPES
 C-----------------------------------------------                        
  900  CONTINUE                                                          
 C-----------------------------------------------                        

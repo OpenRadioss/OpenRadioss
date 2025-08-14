@@ -236,7 +236,7 @@ C            New impact computed into the Engine => Reduce PENE
             IF(PENE(I)/=CAND_P(INDX2(I),INDX1(I))) ! insures force == zero !
      .        CAND_P(INDX2(I),INDX1(I))=MIN(CAND_P(INDX2(I),INDX1(I)),
      .                           ((ONE-FIVEEM2)*CAND_P(INDX2(I),INDX1(I))+FIVEEM2*PENE(I))  )
-C SOUSTRACTION DE LA PENE INITIALE A LA PENE ET AU GAP
+C subtraction of the initial pene from the pene and the gap
             PENE(I)=MAX(ZERO,PENE(I)-CAND_P(INDX2(I),INDX1(I)))
             IF( PENE(I)==ZERO )  STIF(I) = ZERO
           END IF
@@ -401,9 +401,9 @@ C---------------------------------
           ENDDO
         ELSEIF(IVIS2==5)THEN
 C---------------------------------
-C         VISC = 2M/dt    => pour visc < 1 , stable : dt < 2M/visc = dt
-C         M=M1*M2/M1+M2      pour visc = 1 , choc elastique
-C                            pour visc = 0.5 , choc mou
+C         Visc = 2m/dt => For visc <1, stable: Dt <2m/visc = Dt
+C         M = m1*m2/m1+m2 for visc = 1, elastic shock
+C                            For visc = 0.5, elastic collision
 C---------------------------------
           DO I=1,JLT
             FAC = STIF(I) / MAX(EM30,STIF(I))
@@ -1156,7 +1156,7 @@ c     .                              +XP(I)*IMPY-YP(I)*IMPX
             KK=KK+1
           ENDDO
 
-        END DO       ! FAIRE LA PARTIE SPMD
+        END DO       ! do the spmd part
         IF(NSPMD > 1) THEN
           DO I=1,JLT
 
@@ -1487,7 +1487,7 @@ C  SPMD : do same after reception of forces for remote nodes
       ENDIF
 C
 C=======================================================================
-C     FORCES sur noeuds maites et second
+C     forces on master and secondary nodes
 C=======================================================================
       IF(IPARIT==0)THEN
         IF(KDTINT==0)THEN
@@ -1549,7 +1549,7 @@ C
           IF(CS_LOC(I)>NEDGE)THEN
             NI = CS_LOC(I)-NEDGE
             ASSERT(NI > 0)
-C tag temporaire de NSVFI a -
+C temporary tag of nsvfi a -
             IF(PENE(I) /= 0.OR.TAGIP(I)==1) THEN
               NSVFIE(NIN)%P(NI) = -ABS(NSVFIE(NIN)%P(NI))
             ENDIF

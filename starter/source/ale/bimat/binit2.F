@@ -142,7 +142,7 @@ C---------------------------------------
       ENDDO
 
       !------------------------------------------
-      !     MULTIMATERIAUX POUCENTAGE DE REMPLISSAGE
+      ! multimaterials filling percentage
       !------------------------------------------
       CALL BIMAT2(GBUF%VOL, LBUF%FRAC, FILL(1,1), LBUF%VOL, LBUF%OFF, IXQ(1,NF1))
       !----------------------------------------
@@ -158,13 +158,13 @@ C---------------------------------------
      .            GBUF   ,LBUF   ,MBUF   ,ELBUF_STR ,ILOADP ,
      .            FACLOAD, DELTAX,TEMPEL )
       !----------------------------------------
-      !     INITIALISATION DE LA THERMIQUE ET TURBULENCE
+      ! initialization of thermal and turbulence
       !----------------------------------------
       IF(JTHE/=0) CALL ATHERI(MAT,PM,LBUF%TEMP)
       IF(JTUR/=0) CALL ATURI2(IPARGG ,LBUF%RHO,PM,IXQ,X,
      .                          LBUF%RK,LBUF%RE, AIRE)
       !------------------------------------------
-      !     INITIALISATION DE LA MATRICE DE MASSE
+      ! initialization of the mass matrix
       !------------------------------------------
       IF(JLAG+JALE+JEUL/=0)
      .  CALL QMASI2(PM,MAT,MS,LBUF%VOL,MSQ(NF1),WMA,IPARTQ(NFT+1),PARTSAV, 
@@ -183,7 +183,7 @@ C---------------------------------------
         MAT(I)=MAT_PARAM(IABS(IXQ(1,NFT+I)))%MULTIMAT%MID(JMULT)
       ENDDO
       !------------------------------------------
-      !     MULTIMATERIAUX POUCENTAGE DE REMPLISSAGE
+      ! multimaterials filling percentage
       !------------------------------------------
       CALL BIMAT2( GBUF%VOL, LBUF%FRAC, FILL(1,2), LBUF%VOL, LBUF%OFF, IXQ(1,NF1) )
       !----------------------------------------
@@ -199,13 +199,13 @@ C---------------------------------------
      .            GBUF   , LBUF              ,MBUF      ,ELBUF_STR ,ILOADP ,
      .            FACLOAD, DELTAX,TEMPEL )
       !----------------------------------------
-      !     INITIALISATION DE LA THERMIQUE ET TURBULENCE
+      ! initialization of thermal and turbulence
       !----------------------------------------
       IF (JTHE/=0) CALL ATHERI(MAT,PM, LBUF%TEMP)
       IF (JTUR/=0) CALL ATURI2(IPARGG ,LBUF%RHO,PM,IXQ,X,
      .                          LBUF%RK,LBUF%RE, AIRE)
       !------------------------------------------
-      !     INITIALISATION DE LA MATRICE DE MASSE
+      ! initialization of the mass matrix
       !------------------------------------------
       IF(JLAG+JALE+JEUL/=0)
      .  CALL QMASI2B(PM,MAT,MS,LBUF%VOL,MSQ(NF1),WMA,IPARTQ(NFT+1),PARTSAV,

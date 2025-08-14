@@ -158,7 +158,7 @@ c-------------------------------
 C alpha = number of cycles                                 
             DTINV = TIMESTEP(I)/MAX(TIMESTEP(I)**2,EM20) 
             ALPHA = INT(MAX(ONE,FILT*DTINV))
-c alpha coef de moyenne mobile exponentielle
+c Alpha Coef of exponential mobile average
             ALPHA = TWO/(ALPHA + ONE)
             FS(I)=UVAR(I,10) 
 c smoothed strain rate 
@@ -280,7 +280,7 @@ c
 C alpha = number of cycles                                 
             DTINV = TIMESTEP(I)/MAX(TIMESTEP(I)**2,EM20) 
             ALPHA = INT(MAX(ONE,FILT*DTINV))
-c alpha coef de moyenne mobile exponentielle
+c Alpha Coef of exponential mobile average
             ALPHA = TWO/(ALPHA + ONE)
             FS(I)=UVAR(I,10) 
 c smoothed strain rate 

@@ -41,7 +41,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !       initialization of array for /INT18 + LAW 151
 !       
 !       INT18_LAW151_INIT organization :
-!       - x/V/MASS_append :
+!       - X/V/Mass_Append:
 !            * (1:NUMNOD) : classical x/v/mass
 !            * (NUMNOD+1:NUMNOD+NUMELS) : phantom node x/v/mass
 !       - kinet_append :

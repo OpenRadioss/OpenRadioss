@@ -64,13 +64,13 @@ C=======================================================================
          VIS(I) = ZERO
       END DO
 C-----------------------------
-C     CALCUL DE VITESSE DU SON
+C     CALCULATION OF SOUND VELOCITY
 C-----------------------------
       DO I=LFT,LLT
          SSP(I)=SQRT((FOUR_OVER_3*G(I)+C1(I))/RHO0(I))
       END DO
 C----------------------------------
-C     CALCUL DES DT ELEMENTAIRES
+C     CALCULATION OF ELEMENTARY DT
 C----------------------------------
       IF(JSPH==0)THEN
          CALL DT70EL(SSP,PM,GEO,PID,MAT, RHO0, VIS, DELTAX, AIRE, VOL, DTX,IGEO)

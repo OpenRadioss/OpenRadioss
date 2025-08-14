@@ -1062,7 +1062,7 @@ C
 
             DELTAX(I) = SIX*VOLG(I)/SQRT(MAX(A1,A2,A3,A4))
 c minoration deltax car inertie constante avec marge 
-c d'un facteur sqrt(8) sur le cot    AA0 
+c by a factor sqrt(8) on the side AA0
 c approche a partir du volume initial
             AA0 = ((SIX*SQR2*VOLG(I))**TWO_THIRD) * EIGHT
             AA  = MAX(RX(I)*RX(I)+RY(I)*RY(I)+RZ(I)*RZ(I),

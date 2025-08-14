@@ -197,7 +197,7 @@ C------------------------------------------------------------
       FRIGAP(1)=ITIED+0.1
       FRIGAP(2)=GAP
 
-C FRIGAP 5->14 EST MIS A JOUR DANS IN12R
+C FRIGAP 5->14 IS UPDATED IN IN12R
       IF(ITIED==2) THEN
         FRIGAP(4)=TETA
         FRIGAP(5)=XT

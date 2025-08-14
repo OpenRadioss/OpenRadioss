@@ -32,7 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      3      NUMNOD0,NMNT0   ,L_MUL_LAG1,L_MUL_LAG,MAXNX0 ,
      4      LWASPH0,NUMSPH0   ,LWASPIO  , NRCVVOIS0 ,
      5      LWAMP_L, LWANMP_L ,ITHERM   )
-C Attention les dummy peuvent etre soit locaux soit globaux suivant appel
+C Please note the dummy can be either local or global following appeal
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -76,11 +76,11 @@ C ALE / CFD
       NBHOLWA = MAX(IALE,ITHERM,IEULER) * NMULT * NUMELQ0
       LENVOISWA = 3 * ( NUMNOD0 + NRCVVOIS0 ) 
 C AirBag 
-      NAIRWA  = MAX(NAIRWA0, 4 * (NUMELC0 + NUMELTG0 + IBAGSURF))   ! en toute rigueur NAIRWA0 et IBAGSURF locaux
+      NAIRWA  = MAX(NAIRWA0, 4 * (NUMELC0 + NUMELTG0 + IBAGSURF))   ! In all nairwa0 and local Ibagsurf
 C Interface
-      NINTWA  = NMNT0+L_MUL_LAG1                                    ! en toute rigueur NMNT local
+      NINTWA  = NMNT0+L_MUL_LAG1                                    ! Rigorously local nmnt
 C
-C Assemblage SPMD : tout en dynamique
+C SPMD assembly: all in dynamics
       NASSNMP = 0
       NASSMP  = 0
 C shooting nodes
@@ -88,12 +88,12 @@ C shooting nodes
 C lenwa non parallele
       LWANMP_L   = MAX(NTHWA0,NASSNMP,L_MUL_LAG)
 C---------------------------------------------------------------------
-      NXELWA   = 22*MAXNX0                                         ! en toute rigueur MAXNX local
+      NXELWA   = 22*MAXNX0                                         ! Rigorously Maxnx Local
 C lenwa parallele
       LWAMP_L    = MAX(NAIRWA,NINTWA,NFLUWA+NBHOLWA,NASSMP,NXELWA,NSPHWA,
      +               NIDELWA,LENVOISWA)
 C
-C MSPR utilise dans le starter
+C MSPR used in the starter
       MSPR    = MAX(4*NUMELR0,NPARG*NGROUP)
 C
       LENWA0  = MAX(LWAMP_L,LWANMP_L,MSPR)
@@ -128,7 +128,7 @@ C-----------------------------------------------
       INTEGER I, MULTIMP, ICONT, ITY
 C-----------------------------------------------
 C
-C MULTIMAX : parametre servant a allouer les buffer de comm interface engine (SPMD)
+C MultiMAX: parameter used to allocate the Buffer of Comm Engine (SPMD)
 C
       MULTIMAX = 0
       ICONT = 0

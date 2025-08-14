@@ -176,7 +176,7 @@ C file run number
       NSTRF(4)=1
 C file next run number
       NSTRF(5)=2
-C file rec length
+C File Rec Length
       LREC=0
 C file record flip/flop
 
@@ -728,7 +728,7 @@ C-------------------------------------------------------------
       ENDDO
       CALL UDOUBLE(SECTIDS,1,NSECT,MESS,0,BID)
 
-C file rec length
+C File Rec Length
       NSTRF(6)=LREC*4
       DEALLOCATE(TAGNODES)
       DEALLOCATE(TAGNDOUBL)
@@ -808,7 +808,7 @@ C-----------------------------------------------
      .            32768,65536,131072,262144,524288/
 C
 C-------------------------------------------------------------
-C      TRI SUR LES NUMEROS INTERNES
+C      sort by internal numbers
 C--------------------------------------------------------------
        DO J=1,NSEG-1
          N = ISECBUF(1,J)
@@ -822,7 +822,7 @@ C--------------------------------------------------------------
          ENDDO
        ENDDO
 C-------------------------------------------------------------
-C      RECHERCHE DES NOEUDS DES ELEMENTS DE LA SECTION
+C      search for the nodes of the section elements
 C--------------------------------------------------------------
        DO J=1,NSEG
          N = ISECBUF(1,J)
@@ -947,7 +947,7 @@ C-----------------------------------------------
       ENDIF
 
 C-------------------------------------------------------------
-C      TRI SUR LES NUMEROS INTERNES
+C      sort by internal numbers
 C--------------------------------------------------------------
        DO J=1,NSEG-1
          N = ISECBUF(1,J)
@@ -961,7 +961,7 @@ C--------------------------------------------------------------
          ENDDO
        ENDDO
 C-------------------------------------------------------------
-C      RECHERCHE DES NOEUDS DES ELEMENTS DE LA SECTION
+C      search for the nodes of the section elements
 C--------------------------------------------------------------
        DO J=1,NSEG
          N = ISECBUF(1,J)
@@ -1264,7 +1264,7 @@ C
               TAGELEM3=0
               NBPROJOK = 0
               DO K=2,NBNODES+1
-C              tag les noeuds connectes a l'element
+C              tag nodes connected to the element
                 IF (NBNODES == 10 .AND. K > 5) THEN
                   OFFSET = NUMELS8
             POS = (X0(1,IXS10(K-5,IE-OFFSET))-D)*A +

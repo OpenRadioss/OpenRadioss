@@ -56,7 +56,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N,IG,NG,I,OFFSET,NEL
 C-----------------------------------------------
-C     Construit les Numeros d'appartenance aux groupes. 
+C     Build the numbers of membership of the groups. 
 C-----------------------------------------------
       DO NG=1,NGROUP
       NEL=IPARG(2,NG)

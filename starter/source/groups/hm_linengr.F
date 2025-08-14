@@ -77,7 +77,7 @@ C=======================================================================
             DO LL=1,IGRSLIN(ISU)%NSEG
               DO K=1,2
                 N=IGRSLIN(ISU)%NODES(LL,K)
-C                 tag les noeuds DU SEGMENT 
+C                 tag the NODES OF THE SEGMENT
                 IF (N /= 0) TAGBUF(N)=1
               ENDDO
             ENDDO

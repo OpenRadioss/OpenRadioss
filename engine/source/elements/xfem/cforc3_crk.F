@@ -530,7 +530,7 @@ c---------------------------------------------------
      D      IGMAT  ,A11R ,NEL)
         ENDIF
 C--------------------------
-C       BILANS PAR MATERIAU
+C       BALANCES BY MATERIAL
 C--------------------------
 c        IFLAG = MOD(NCYCLE,NCPRI)
         IF (IPRI>0) THEN
@@ -551,7 +551,7 @@ c        IFLAG = MOD(NCYCLE,NCPRI)
      E   GBUF%WPLA )
        ENDIF
 C--------------------------
-C     PAS DE TEMPS
+C     TIME STEP
 C--------------------------
        IF (ISMSTR /= 3 .AND.(NODADT == 0 .OR. IDTMIN(3) /= 0)) THEN 
          CALL CDT3(JFT     ,JLT    ,YM        ,OFF    ,DT2T    ,        
@@ -577,7 +577,7 @@ C----------------------------
      A              E1X    ,E1Y    ,E1Z     ,E2X     ,E2Y    ,E2Z    ,
      B              E3X    ,E3Y    ,E3Z     ,IHBE    ,NPTT    ,FZERO  )
 C-------------------------
-c     Thermique des coques 
+c     Shell thermal
 C--------------------------
         IF (JTHE /= 0) THEN
           IF (MAT_ELEM%MAT_PARAM(MAT(1))%HEAT_FLAG == 1) THEN

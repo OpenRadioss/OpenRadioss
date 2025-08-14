@@ -161,7 +161,7 @@ C-----------------------------------------------
           pAdjBRICK => BRICK_LIST(NIN,IB)%Adjacent_Brick(1:6,1:5)          
           DO J=1,6
             NADJ = BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%NAdjCell
-            DO IADJ=1,NADJ   !plusieurs voisins possible par face.                                                                     
+            DO IADJ=1,NADJ   !Several neighbors possible by face.                                                                     
               IV     = pAdjBRICK(J,1)                                                          
               IBV    = pAdjBRICK(J,4)                                                          
               JV     = pAdjBRICK(J,5)                                                           
@@ -308,7 +308,7 @@ C-----------------------------------------------
          IF(MLW/=51.AND.ITRIMAT>0)THEN !si law51 dans jdd TRIMAT=4 
            CYCLE
          ELSE
-           VAR(IDLOC) = VAR(IDLOC) + dPHI   !transport convectif des voisins additionels
+           VAR(IDLOC) = VAR(IDLOC) + dPHI   !Convective transport of additions
 
              
          ENDIF         

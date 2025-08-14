@@ -229,7 +229,7 @@ C         XX0(1)=SIGM *X1SCALE
       ENDDO
 c
       DO I=1,NEL
-c----   element length scale function
+c---- Length Scale Function element
         IF (IFUN_EL > 0) THEN
            LAMBDA = UVAR(I,5) / EL_REF
            FAC = SC_EL*FINTER(IFUN_EL,LAMBDA,NPF,TF,DF) 

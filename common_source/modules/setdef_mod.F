@@ -126,11 +126,11 @@ C-----------------------------------------------------------------------
           INTEGER   :: SET_TYPE         ! SET type      (1-GENERAL, 2-COLLECT)
           INTEGER   :: SET_ACTIV
           INTEGER   :: KEYTYPE          ! SET KEY type (all keys)
-          INTEGER   :: SURF_SET_ID      ! SET surface ID
+          INTEGER   :: SURF_SET_ID      ! Set Surface Id
           INTEGER   :: LINE_SET_ID      ! SET line ID
           INTEGER   :: SURF_SET_FLAG    ! SET surface activation flag
           INTEGER   :: LINE_SET_FLAG    ! SET line activation flag
-          INTEGER   :: NSEG             ! SET surface segments
+          INTEGER   :: NSEG             ! SET surface segments                
           INTEGER   :: NSEG_1D          ! SET line/edge segments
           INTEGER   :: EXT_ALL          ! type of the surface : /EXT or /ALL
 !==============================================================

@@ -54,7 +54,7 @@ C     REAL
      .   X , Y, Z ,DV
 C-----------------------------------------------
 C-----------------------------
-C     ROTATION RBY DES COORDONNEES POUR SMALL STRAIN
+C     rotation rby of coordinates for small strain
 C-----------------------------
       IF(ISMSTR<=4.AND.JLAG>0)THEN
        DO I=1,NEL

@@ -40,9 +40,9 @@ C-----------------------------------------------
 C=======================================================================
 C    * Verifie qu'il n'y a pas deux RIGID BODIES (.../... deux conditions
 C      cinematiques)
-C    qui definissent le mvt de la meme Surface.
-C    * Initialise la position et les vitesses du point ou calculer les forces
-C      dans les interfaces.
+C    which define the movement of the same surface.
+C    * Initializes the position and velocities of the point where forces are calculated
+C      in the interfaces.
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

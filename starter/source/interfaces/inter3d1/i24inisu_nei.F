@@ -251,7 +251,7 @@ C---------------------
        NE0=NE
        NN0=NN
        IASYM = IABS(IM2SH(ISELF))
-C-------------neighbour segments-----------       
+C------------- Neighbour Segments --------------       
        CALL COMM_SEG_E(N1,IED1,N2,IED2,NE,ICE,ISELF,
      .                I1,I2,IRECT,IASYM )
 C-------------treatment of multi-neighbours (T form,shell) segments->reduce to 1----------
@@ -325,7 +325,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,NEW,K,M,LING,NE,NN
       DATA LING/0/
-C----add commun ID--at end--------------------------
+C---- Common Add Id--And End --------------------------------------------------------------------
       IF (I1==I2) THEN
 C----add 0 in IC as convention ----------------------------
         CALL ADD_ID(N,IC,LING)
@@ -377,7 +377,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,NEW,K,M,LING,NN0
       DATA LING/0/
-C----add commun ID--at end--------------------------
+C---- Common Add Id--And End --------------------------------------------------------------------
       IF (I1==I2) THEN
 C----add 0 in ICN as convention ----------------------------
         CALL ADD_N_ID(NN,ICN,LING)
@@ -493,7 +493,7 @@ C
          WA(IXTG(3,I))=MAX(WA(IXTG(3,I)),DX)
          WA(IXTG(4,I))=MAX(WA(IXTG(4,I)),DX)
        ENDDO
-C--------exclude lines in main surfaces
+C------- Excluded lines in main surfaces
 C       DO I=1,NUMELT
 C        MG=IXT(4,I)
 C        DX=HALF*SQRT(GEO(1,MG))

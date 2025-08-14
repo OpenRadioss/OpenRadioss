@@ -594,7 +594,7 @@ C-----------------------------------------------
 
       IF(ISK<=1)THEN
 C
-C Remontee des forces
+C Feedback of forces
         DO K = 1, 6
           FS6(1,K) = ZERO
           FS6(2,K) = ZERO
@@ -628,7 +628,7 @@ C
         ENDDO
       END IF
 C
-C Traitement Parith/ON avant echange
+C Parith treatment/We before exchange
 C
       CALL SUM_6_FLOAT(1  ,NSL  ,F1, FS6(1,1), 3)
       CALL SUM_6_FLOAT(1  ,NSL  ,F2, FS6(2,1), 3)
@@ -739,7 +739,7 @@ C-----------------------------------------------
       ENDIF
 C
 C retablit accelerations secnds == main 
-C (le terme de rotation AR x MN est dj pass au 2nd membre)
+C (the rotation term AR x MN is already passed to the 2nd member)
       IF(ISK<=1)THEN
         IF(JT(3)>0)A(3,M)=R(3,M)*PREC_SMS3(3,M)
         IF(JT(2)>0)A(2,M)=R(2,M)*PREC_SMS3(2,M)
@@ -887,7 +887,7 @@ C-----------------------------------------------
       ENDIF
 
 C
-C Remontee des diagonales
+C Feedback of diagonals
       DO K = 1, 6
         FS6(1,K) = ZERO
         FS6(2,K) = ZERO
@@ -923,7 +923,7 @@ C
       END IF
 C
 C
-C Traitement Parith/ON avant echange
+C Parith treatment/We before exchange
 C
       CALL SUM_6_FLOAT(1  ,NSL  ,F1, FS6(1,1), 3)
       CALL SUM_6_FLOAT(1  ,NSL  ,F2, FS6(2,1), 3)

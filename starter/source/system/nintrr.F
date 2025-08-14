@@ -106,7 +106,7 @@ C-----------------------------------------------
      .        IWORK(70000)
 C-----------------------
 C TRI DE LIST EN ORDRE CROISSANT
-C AVEC SUPPRESSION DES No DOUBLES
+C WITH REMOVAL OF DUPLICATE NOS
 C-----------------------
         CALL MY_ORDERS(0,IWORK,LIST,INDEX,NLIST,1)
         DO I=1,NLIST
@@ -136,7 +136,7 @@ C-----------------------
           ENDDO
         ENDIF
 C-----------------------
-C RECHERCHE DES ELEMENTS DE LIST() DANS IX()
+C SEARCH FOR ELEMENTS OF LIST() IN IX()
 C  ALGO < NLIST+NUMEL
 C-----------------------
         I=1
@@ -212,7 +212,7 @@ C-----------------------
           ENDDO
         ENDIF
 C-----------------------
-C RECHERCHE DES ELEMENTS DE LIST() DANS IX()
+C SEARCH FOR ELEMENTS OF LIST() IN IX()
 C  ALGO < NLIST+NUMEL
 C-----------------------
         I=1
@@ -763,12 +763,12 @@ C-----------------------
       JSUP=LAST
       J=MIN(CUR,(LAST+CUR)/2)
    10 IF(JSUP<=JINF.AND.(IU-IXX_S(J))/=0) THEN
-C     >CAS ELEM non trouve
+C     > Elem case not find
         USER2SYS=0
         RETURN
       ENDIF
       IF((IU-IXX_S(J))==0)THEN
-C     >CAS IU=TABM FIN DE LA RECHERCHE
+C     >CASE IU=TABM END OF SEARCH
          USER2SYS=J
          RETURN
       ELSE IF (IU-IXX_S(J)<0) THEN
@@ -822,7 +822,7 @@ C-----------------------------------------------
       INTEGER USER2SYS
 C-----------------------
 C TRI DE LIST EN ORDRE CROISSANT
-C AVEC SUPPRESSION DES No DOUBLES
+C WITH REMOVAL OF DUPLICATE NOS
 C-----------------------
         CALL MY_ORDERS(0,IWORK,LIST,INDEX,NLIST,1)
         DO I=1,NLIST
@@ -837,7 +837,7 @@ C-----------------------
         ENDDO
         NEL=K
 C-----------------------
-C RECHERCHE DES ELEMENTS DE LIST() DANS IXX_S (sorted)
+C SEARCH FOR ELEMENTS OF LIST() IN IXX_S (sorted)
 C-----------------------
         J=0
         DO I=1,NEL

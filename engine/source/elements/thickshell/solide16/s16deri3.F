@@ -332,7 +332,7 @@ c         print *,'dx y z/dt='
 c         print *,DXDT(1),DYDT(1),DZDT(1)
 C-----------------------------------------------------------------------
 C          -1
-C       [J]          Inversion du jacobien
+C       [J]          Inversion of the jacobian
 C-----------------------------------------------------------------------
         DRDX(I)=DYDS(I)*DZDT(I)-DZDS(I)*DYDT(I)
         DRDY(I)=DZDS(I)*DXDT(I)-DXDS(I)*DZDT(I)
@@ -381,7 +381,7 @@ C
 C
       DO I=1,NEL
 C-----------------------------------------------------------------------
-C          -1            Inversion du jacobien suite
+C          -1 inversion of the Jacobian suite
 C       [J]              et repere local r,s,t
 C-----------------------------------------------------------------------
         D = ONE/DET(I)

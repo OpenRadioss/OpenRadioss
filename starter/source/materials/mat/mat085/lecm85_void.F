@@ -48,7 +48,7 @@ C PARMAT   |  3      | F | W | 1)STIFNESS MODULUS FOR INTERFACE
 C          |(in v31) |   |   |       (AND INITIAL TIME STEP COMPUTATION)
 C          |         |   |   | 2)YOUNG MODULUS (only needed for shells)
 C          |         |   |   | 3)POISSON'S RATIO (only needed for shells)
-C          |         |   |   | 4... Possible future use
+C          ||||4 ... possible future use
 C----------+---------+---+---+--------------------------------------------
 C
 C     This subroutine read the user material parameters.

@@ -180,7 +180,7 @@ C-----------------------------------------------
      .        IPM(*),INDXOF(MVSIZ),INOD_PXFEM(*),IEL_PXFEM(*),ITAB(*),
      .        IADC_PXFEM(4,*),GRTH(*),IGRTH(*),IPARG(*),IPARI(NPARI,*),
      .        INDX_DRAPE(SCDRAPE)
-C     REAL OU REAL*8
+C     real or real*8
       my_real
      .   F11(MVSIZ), F12(MVSIZ), F13(MVSIZ), F14(MVSIZ),
      .   F21(MVSIZ), F22(MVSIZ), F23(MVSIZ), F24(MVSIZ),
@@ -356,7 +356,7 @@ C
       IF (NPT == 0) NPTTOT = NPT  !  compatibility with global integration
 C
 !-------------------------------------------      
-! Tableau pour la variable non-locale
+! array for the non-local variable
       NDDL = NPTTOT
       ALLOCATE(VAR_REG(NEL,NDDL)) 
 !-------------------------------------------
@@ -453,7 +453,7 @@ c     .              IGEO, PID,ISUBSTACK)
       IGTYP = IGEO(11,IXC(6,1))
       IGMAT  = IGEO(98 ,IXC(6,1))
 C      
-C initiallisation pour la thermique ---
+C initialization for thermal ---
        DO I=JFT,JLT
          THEM(I,1) = ZERO
          THEM(I,2) = ZERO
@@ -594,7 +594,7 @@ C
 C------    assumed membrane shear strain---(no assumed shear for Ismstr=10-
         END IF !(IDRIL > 0)
 !
-!       Gauss points
+!       Gauss Points
         DO IS = 1,NPTS
           DO IR = 1,NPTR
            NG = NPTR*(IS-1) + IR
@@ -691,7 +691,7 @@ C
         ENDIF
 C
 C----------------------------------
-C       CALCUL DES DEFORMATIONS 
+C       calculation of strains
 C----------------------------------
         CALL CBASTRA3(GBUF%STRA,GBUF%STRPG(PTS),
      1             JFT, JLT, NFT, NPG,VDEF, 
@@ -924,7 +924,7 @@ c--------------------------
        ENDDO  ! NPTR
       ENDDO  ! NPTS    
 C---------------------------------------
-C-----FIN DE BOUCLE DE 4 POINTS DE GAUSS
+C-----end of loop over 4 gauss points
 !-------------------------------------------------------------------------------
 !     global element strain rate filtering for output
 
@@ -940,7 +940,7 @@ C
 C
 C----
 C---------------------------------------
-C     POST-TRAITEMENT - valeurs moyennes
+C     Post -processing - Average values
 C---------------------------------------
 C---
 C    = FOR, MOM =
@@ -970,7 +970,7 @@ C---
         ENDDO
       ENDDO
 c------------------------------      
-C     membrane shear traitement
+C     Shear treatment membrane
       IF (IDRIL == 0) THEN
         CALL CBAFORCT(JFT     ,JLT  ,VOLG    ,X13  ,X24  ,
      2                Y13     ,Y24  ,GBUF%FOR,VF   ,NPLAT,
@@ -1011,7 +1011,7 @@ C----------------------------
      3            VFPINCHDAMPX,VFPINCHDAMPY)
       ENDIF
 C--------------------------
-C     BILANS PAR MATERIAU
+C     balances by material
 C--------------------------
        IPOUT=2
       IF(IPRI == 1)

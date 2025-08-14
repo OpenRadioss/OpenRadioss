@@ -245,7 +245,7 @@ C-----------
        VZ8(I)=V(3,NC8(I))
       ENDDO
 C-----------
-C     Prepare les sorties par part.
+C     prepares outputs by part.
 C-----------
       IF (IOUTPRT /= 0) THEN
        DO I=LFT,LLT
@@ -280,11 +280,11 @@ C-----------
        ENDIF
       ENDIF
 C
-       IF(INCONV == 1) THEN              ! Debut de pas
+       IF(INCONV == 1) THEN              ! Beginning of the step
 c       IF(IMCONV == 1) THEN              ! Debut de pas
          IF(ISMSTR == 1) THEN
           DO I=LFT,LLT
-           IF (OFFG(I) >= 1 ) OFFG(I) = 1     ! A verifier avec qqun: Je ne suis pas sur de l'endroit ou offg doit etre maj
+           IF (OFFG(I) >= 1 ) OFFG(I) = 1     ! To be checked with someone: I'm not sure about the place where offg should be updated
           ENDDO
           IF (DT1 == ZERO) THEN
            CALL S8SAV3_IMP(
@@ -309,7 +309,7 @@ c       IF(IMCONV == 1) THEN              ! Debut de pas
        ENDIF   !(INCONV == 1)
 ! fin ajout qz
 C-----------
-C     REPERE CONVECTE 
+C     convected frame 
 C-----------
       IF((ISMSTR<=4.OR.(ISMSTR==12.AND.IDTMIN(1)==3)).AND.JLAG>0) THEN
         DO I=LFT,LLT
@@ -345,7 +345,7 @@ C
      6   ZD3,     ZD4,     ZD5,     ZD6,
      7   ZD7,     ZD8,     R,       NEL)
      
-!      !! POUR COMPARAISON AVEC LA FORMULATION CLASSIQUE RADIOSS
+! !! FOR COMPARISON WITH THE CLASSICAL RADIOSS FORMULATION
 !            CALL SREPISO3(
 !     .       XD1, XD2, XD3, XD4, XD5, XD6, XD7, XD8,
 !     .       YD1, YD2, YD3, YD4, YD5, YD6, YD7, YD8,
@@ -410,7 +410,7 @@ C
      C   ULZ3,         ULZ4,         ULZ5,         ULZ6,
      D   ULZ7,         ULZ8,         R,            NEL)
       ELSE
-!!sb pour verification
+!!sb for verification
 !      CALL GETVLOC(TRM,
 !     .             VX1, VX2, VX3, VX4, VX5, VX6, VX7, VX8,
 !     .             VY1, VY2, VY3, VY4, VY5, VY6, VY7, VY8,
@@ -473,7 +473,7 @@ C
 !     .        GAMA0,GAMA )                                           
 !        ENDIF
 !      ENDIF
-c Recuperer les coordonnees courantes     
+c Retrieve the current coordinates
       DO I=LFT,LLT
         X1(I)= XD1(I) 
         Y1(I)= YD1(I) 
@@ -501,10 +501,10 @@ c Recuperer les coordonnees courantes
         Z8(I)= ZD8(I) 
       ENDDO          
 !C-----------
-!C     PASSAGE AU REPERE CONVECTE.
+!C     Change to the convected frame.
 !C-----------
-!sb   ne s'applique que dans le cas des petites deformations (ismstr = 1)
-!     il faut voir ce qu'il faut faire dans les autres cas
+!sb applies only in the case of small deformations (ismstr = 1)
+! it is necessary to see what needs to be done in other cases
       IF(ISMSTR == 1)THEN
        DO I = LFT,LLT
         XD1(I) = ZERO
@@ -610,7 +610,7 @@ c Recuperer les coordonnees courantes
        ENDDO
       ENDIF 
 C-----------
-C     PASSAGE DES VITESSES AU REPERE CONVECTE (OU ORTHOTROPE).
+C     transfer of velocities to the convected (or orthotropic) frame.
 C-----------
 !      CALL SRROTA3(
 !     .   R11, R12, R13, R21, R22, R23, R31, R32, R33,

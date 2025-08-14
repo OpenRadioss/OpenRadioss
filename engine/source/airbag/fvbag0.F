@@ -122,7 +122,7 @@ c 6:               XSAV (SPH sorting)
 c 7:               YSAV (SPH sorting)
 c 8:               ZSAV (SPH sorting)
 c 9:               FF (sph only)
-c 10:              intantaneous Pressure
+c 10: Intantaneous Pressure
 c 11:              intantaneous PA
 c 12:              intantaneous Rho
 c 13:              intantaneous E

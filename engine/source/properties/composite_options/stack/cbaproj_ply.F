@@ -210,7 +210,7 @@ C        I=3
        ENDDO
       ENDDO
 C
-C     Projection des forces d'interpli
+C     Interpli's projection
        DO J = 1 , NPT 
 #include "vectorize.inc"
         DO EP=JFT,JLT  
@@ -219,7 +219,7 @@ C     Projection des forces d'interpli
          FL1 = VFI(K,1,J)
          FL2 = VFI(K,2,J)
          FL3 = VFI(K,3,J)
-C transformation au repere globale
+C global frame
          F1= VQ(K,1,1)*FL1  + VQ(K,1,2)*FL2
      1                               + VQ(K,1,3)*FL3
          F2=  VQ(K,2,1)*FL1  + VQ(K,2,2)*FL2
@@ -234,7 +234,7 @@ CNode 2 -ply
          FL1 = VFI(K,4,J)
          FL2 = VFI(K,5,J)
          FL3 = VFI(K,6,J)
-C transformation au repere globale
+C global frame
          F1= VQ(K,1,1)*FL1  + VQ(K,1,2)*FL2
      1                               + VQ(K,1,3)*FL3
          F2=  VQ(K,2,1)*FL1  + VQ(K,2,2)*FL2
@@ -248,7 +248,7 @@ CC
          FL1 = VFI(K,7,J)
          FL2 = VFI(K,8,J)
          FL3 = VFI(K,9,J)
-C transformation au repere globale
+C global frame
          F1= VQ(K,1,1)*FL1  + VQ(K,1,2)*FL2
      1                               + VQ(K,1,3)*FL3
          F2=  VQ(K,2,1)*FL1  + VQ(K,2,2)*FL2
@@ -263,7 +263,7 @@ CNode 4 -ply
          FL1 = VFI(K,10,J)
          FL2 = VFI(K,11,J)
          FL3 = VFI(K,12,J)
-C transformation au repere globale
+C global frame
          F1= VQ(K,1,1)*FL1  + VQ(K,1,2)*FL2
      1                               + VQ(K,1,3)*FL3
          F2=  VQ(K,2,1)*FL1  + VQ(K,2,2)*FL2

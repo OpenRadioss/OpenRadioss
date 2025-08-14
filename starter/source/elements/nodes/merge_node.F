@@ -160,7 +160,7 @@ C--           coding of idmerge in case of several merge
 C
 C---- bluid list of destination - filled merge by merge
       IF (ALL_VS_ALL == 1) THEN
-C--   all nodes are destination 
+C- All nodes are destination 
         DO I=1,NUMNOD
           LIST2(I) = I
           LIST2_INV(I) = I
@@ -235,7 +235,7 @@ C
 C
 C---      Check of elements
             FLAG = 0 
-C------------------------>   cas des coques  <-----------------------C        
+C------------------------>   case of shells  <-----------------------c
           DO J = KNOD2ELC(N)+1,KNOD2ELC(N+1)
             DO K=2,5             
               IF (IXC(K,NOD2ELC(J)) == N_DEST) FLAG = 1        
@@ -247,7 +247,7 @@ C------------------------>   cas des coques triagnles <--------------C
               IF (IXTG(K,NOD2ELTG(J)) == N_DEST) FLAG = 1        
             ENDDO
           ENDDO
-C------------------------>   cas des solides <-----------------------C
+C------------------------>   case of solids <-----------------------c
           DO J = KNOD2ELS(N)+1,KNOD2ELS(N+1)     
             CUR_ID = NOD2ELS(J)
             DO K=2,9
@@ -284,7 +284,7 @@ C------------------------>   cas des elements 1D <-------------------C
               ENDDO
             ENDIF
           ENDDO
-C------------------------>   cas des elements 1D inverse (pour 3e noeud )<---C
+C------------------------>   case of inverse 1d elements (for 3rd node) <---c
           DO J = KNOD2EL1D(N_DEST)+1,KNOD2EL1D(N_DEST+1)
             CUR_ID = NOD2EL1D(J)
               IF (CUR_ID <= NUMELT) THEN
@@ -301,7 +301,7 @@ C------------------------>   cas des elements 1D inverse (pour 3e noeud )<---C
               ENDDO
             ENDIF
           ENDDO
-C------------------------>   cas des quad  <-----------------------C        
+C------------------------>   case of quads  <-----------------------c
           DO J = KNOD2ELQ(N)+1,KNOD2ELQ(N+1)
             DO K=2,5             
               IF (IXQ(K,NOD2ELQ(J)) == N_DEST) FLAG = 1        

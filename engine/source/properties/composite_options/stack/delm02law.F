@@ -165,7 +165,7 @@ cc
              DELTAF = GIC(I) + (GIIC(I) - GIC(I))*CC2
              DELTAF= TWO*DELTAF/MAX(K(I)*DELTA0, EM20)
 C
-C   compute lambda en fonction de DAm
+C   compute lambda depending on damage
 c             
               LAM = DELTA0*DELTAF
               LAM  = LAM/(DELTAF - DAM*(DELTAF - DELTA0) )

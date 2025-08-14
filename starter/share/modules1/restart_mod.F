@@ -169,7 +169,7 @@ C     SH4TREE(KSHTREE,NUMELC), SH3TREE(KSHTREE,NUMELTG)
 C     1: father
 C     2: 1st son (2nd son = 1st + 1, 3rd son = 1st + 2, 4th son = 1st + 3)
 C     3:   = LEVEL SI ACTIVE
-C         = -(LEVEL+1) SINON
+C         = -(level+1) otherwise
 C     4: group Number
 C-----------------------------------------------
       INTEGER, DIMENSION(:,:),ALLOCATABLE :: SH4TREE,SH3TREE
@@ -225,7 +225,7 @@ C
 !||====================================================================
       MODULE INTBUFMOD
 #include "my_real.inc"
-! module a cleaner dans le code
+! module to be cleaned in the code
 c        INTEGER , DIMENSION(:), ALLOCATABLE :: INBUF
 c        TARGET :: INBUF
 c       my_real,

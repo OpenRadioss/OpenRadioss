@@ -106,7 +106,7 @@ C-----------------------------------------------
       ALLOCATE( ITAG(NUMNOD) )
 ! ------------------------------
 C
-C Frontiere domdec pure
+C Pure Domdec boundary
 C
       NBDDACC = 0
       NBDDKIN = 0
@@ -135,7 +135,7 @@ C
           ENDIF
       ENDDO
 C
-C Frontiere Multidomaines
+C Multidoman boundary
 C      
       SDD_R2R_ELEM = 0       
       IF ((NSUBDOM>0).AND.(IDDOM==0)) THEN
@@ -146,7 +146,7 @@ C
         ENDIF       
       ENDIF     
 C
-C Frontiere RBY (main nodes)
+C RBY boundary (main nodes)
 C
       NBDDNRB = 0
       NRBYKIN_L = 0
@@ -164,7 +164,7 @@ C
         ENDIF
       ENDDO
 C
-C Frontiere Cyl. JOINT (proc0)
+C CYL front.Joint (PROC0)
 C
       NBDDNCJ = 0
       K = 1
@@ -173,12 +173,12 @@ C
         DO J = 1, NSN
           M = LJOINT(K+J)
           IF(PROC/=1) THEN
-C proc <> 0, frontiere si noeud sur le proc
+C proc <> 0, boundary if node is on the processor
              IF(NODLOCAL(M)/=0.AND.NODLOCAL(M)<=NUMNOD_L)THEN
               NBDDNCJ = NBDDNCJ + 1
             END IF
           ELSE
-C proc = 0, recherche des autres procs ayant le noeud
+C proc = 0, search for other processors having the node
             DO P = 2, NSPMD
               IF(NLOCAL(M,P)==1) THEN
                 NBDDNCJ = NBDDNCJ + 1
@@ -189,7 +189,7 @@ C proc = 0, recherche des autres procs ayant le noeud
         K = K + NSN + 1
       END DO
 C
-C Frontiere RBY MOU (main nodes)
+C MOU RBY Frontier (Nodes)
 C
       NBDDNRBM = 0
       DO N = 1, NIBVEL
@@ -222,7 +222,7 @@ C
         ENDIF
       ENDDO
 C
-C Frontiere LAG MULT
+C Lag Mult boundary
 C
       IF(LAG_NCF>0) THEN
         DO N = 1, NUMNOD

@@ -30,9 +30,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                               TAB_COINKNOT,L_TAB_COINKNOT,TAB_NEWFCT,
      .                               TAB_NEWFCTCUT,L_TAB_NEWFCTCUT,DECALGEO,TAB_REMOVE,FLAG)
 C----------------------------------------------------------------------
-C   ROUTINE QUI MET DE COTE TOUTES LES FONCTIONS QUI ONT 
-C   ETE MODIFIEES OU CREES PAR RAFIG3D.F MAIS QUI PEUVENT ENCORE ETRE
-C   MODIFIEE OU SUPPRIMEES PAR LES ANCIENNES MESHSURFS QUE LA MESHSURF
+C   routine that puts aside all the functions that have
+C   been modified or created by rafig3d.f but which can still be
+C   modified or deleted by the old meshsurfs that the meshsurf
 C   ACTUELLE CROISE
 C----------------------------------------------------------------------
 C-----------------------------------------------
@@ -102,11 +102,11 @@ C
       COIN(1,2) = MAXVAL(TAB_COINKNOT(1,1:(L_TAB_COINKNOT)))
       COIN(2,2) = MAXVAL(TAB_COINKNOT(2,1:(L_TAB_COINKNOT)))
 C
-      DO I=1,NEWFCT ! les nouvelles fonctions ajoutees par le dernier rafig3d.F
+      DO I=1,NEWFCT ! the new functions added by the last rafig3d.f
 
         IDFCT = TAB_NEWFCT(OFFSET_NEWFCT+I) 
-C       Fonctions stockees dans le tableau tab_newfct offsete 
-c       pour ne pas prendre les newfct des anciennes coupes terminees
+C       functions stored in the offset tab_newfct array
+c       to avoid taking the newfct from the old completed cuts
 
         DO J=1,L_TAB_REMOVE
           IF(TAB_REMOVE(J)==IDFCT) EXIT
@@ -190,8 +190,8 @@ C
         ENDDO
 C
 C----------------------------------------------------------------------
-C  DIMENSIONNEMENT ET STOCKAGE DU TABLEAU DES FONCTIONS A RETRAITER 
-C  PAR LES ANCIENNES COUPES (TAB_MESHSURFCUT)
+C  sizing and storage of the array of functions to be reprocessed
+C  ------------------------>   case of inverse 1d elements (for 3rd node) <---c
 C----------------------------------------------------------------------
 C
         IF(IOUT==0) THEN

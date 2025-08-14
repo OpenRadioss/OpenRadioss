@@ -78,7 +78,7 @@ C======================================================================|
         ENDIF
         IF(MASS(M)==ZERO) MASS(M)= EM15
         IF(INER(M)==ZERO) INER(M)= EM15
-C-----  CORRECTION DE LA CENTRE DE GRAVITE DU MAIN
+C----- correction of the center of gravity of the main
         IF(ICDG==1)THEN
 C-----    CDG TOTAL
           MASRB = MASS(M)
@@ -104,7 +104,7 @@ C-----    CDG TOTAL
             X(J,M)=X(J,M)/MASRB
           ENDDO
         ELSEIF(ICDG==2)THEN
-C-----    CDG DES NOEUDS SECONDS
+C----- center of gravity of the secondary nodes
           MASRB=ZERO
           DO J=1,3
             X(J,M)=ZERO

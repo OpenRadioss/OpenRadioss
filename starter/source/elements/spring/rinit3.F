@@ -522,7 +522,7 @@ C
      .            ANMODE=ANINFO_BLIND_2,
      .            PRMOD=MSG_PRINT)
 C------------------------------------------
-C     INITIALISATION DES RIGIDITES NODALES POUR INTERFACES
+C     initialization of nodal rigidities for interfaces
 C------------------------------------------
       IF (I7STIFS /= 0) THEN
         IF (IGTYP == 4 .OR. IGTYP == 12 .OR. IGTYP == 27) THEN
@@ -1852,7 +1852,7 @@ C-----------------------------------------------
      .                  PARTSAV ,X     ,V     ,IPART ,MSR,
      .                  INR     ,MSRT  ,EMS   )
 C----------------------------------------------
-C     INITIALISATION DES MASSES NODALES
+C     initialization of nodal masses
 C----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1883,9 +1883,9 @@ C----------------------------------------------
         EMS(I)=HALF*UMASS(I)
       ENDDO
 C----------------------------------------------
-C     INITIALISATION DES MASSES NODALES
+C     initialization of nodal masses
 C----------------------------------------------
-C     traitement specifique spmd pour mass et iner parith/on
+C     specific spmd treatment for mass and iner parith/on
       DO I=LFT,LLT
         I1 = IXR(2,I+NFT)
         I2 = IXR(3,I+NFT)

@@ -241,7 +241,7 @@ c---  rigidite flexion
       KFC = FLEX1*KC*HC0/DC0
       KFT = FLEX2*KT*HT0/DT0
 c
-c---  angle blocage cisaillement
+c--- CISAGE Blocking angle
       IF (PHI_LOCK == ZERO) THEN
         COSIN = HALF*(HC0/LC0 + HT0/LT0)
         TAN_LOCK = SQRT(ONE - COSIN*COSIN) / COSIN
@@ -260,7 +260,7 @@ c
 c-----------------------------------------------------------------------
       NUVAR   = 40   
 c-----------------------------------------------------------------------
-      MATPARAM%NUPARAM = 46 ! 4pts pour l intersection +flag+PR SHEAR
+      MATPARAM%NUPARAM = 46 ! 4pts for intersection +flag +pr shear
       MATPARAM%NIPARAM = 4
       MATPARAM%NFUNC   = NFUNC
 !

@@ -219,7 +219,7 @@ C          Not yet compatible with IMAS_DS/=0
            STIFN(NC(I,4))=STIFN(NC(I,4))+AAA
            DO N=5,10
              IF(NC(I,N)/=0)THEN
-               MSSX(N-4,I) = AM*FACIROT !  meme masse que dans le cas standard
+               MSSX(N-4,I) = AM*FACIROT ! same mass as in the standard case
                STIFN(NC(I,N))=STIFN(NC(I,N))+AAA*FACIROT
              ENDIF
            ENDDO

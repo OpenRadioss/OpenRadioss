@@ -155,7 +155,7 @@ C-----------
         OFF_L  = MIN(OFF_L,OFFG(I))
       ENDDO
 C  
-C     Prepare les sorties par PART.
+C     prepares outputs by part
 C-----------
       IF(IOUTPRT/=0)THEN
        DO I=1,NEL
@@ -185,7 +185,7 @@ C-----------
       ENDIF
 C  
 C-----------
-C     REPERE CONVECTE (ITERATIONS).
+C     convected frame (ITERATIONS).
 C-----------
       CALL SREPISOT3(
      1   X1,      X2,      X3,      X4,
@@ -204,7 +204,7 @@ C-----------
      4   R21,     R22,     R23,     R31,
      5   R32,     R33,     NEL)
 C-----------
-C     PASSAGE AU REPERE CONVECTE.
+C     Change to the convected frame.
 C-----------
 C     X=RX' <=> X'=t(R)X chgt de base.
        DO I=1,NEL

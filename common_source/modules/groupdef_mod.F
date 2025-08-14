@@ -714,7 +714,7 @@ C-----------------------------------------------------------------------
 !                                 = 1 FOR /GRNOD/NOD
 !                                 = 2 FOR /GRNOD/GNROD
 !                                 = 0 ALL THE REST
-!  For element (part) group:
+!  For element (share) Group:
 !                                 = 1 ELEM
 !                                 = 2 GRELEM
 !                                 = 3 SUBSET,PART,MAT,PROP
@@ -760,7 +760,7 @@ C-----------------------------------------------------------------------
 !                                 ID MaDyMo - for entity type which impose surface movement:
 !                                 No systeme MaDyMo for entity type which impose surface movement
           INTEGER   :: IAD_BUFR   ! Analytical Surfaces address (reals BUFSF - temp)
-          INTEGER   :: NB_MADYMO  ! No de l'entite qui impose le mvt de la surface.
+          INTEGER   :: NB_MADYMO  ! Name of the entity which requires the MVT of the surface.
 !                                --> No systeme Radioss ou MaDyMO.
           INTEGER   :: TYPE_MADYMO  ! Entity type which impose surface movement.
 !                                  = 1 : Rigid Body.

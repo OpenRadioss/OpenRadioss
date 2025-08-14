@@ -144,7 +144,7 @@ C
             IF (IKC(II+J)>=1) ITAG(II+J)=-1
          ENDDO
       ENDDO
-C Elimination des ddls bloques dans la liste
+C Elimination of blocked DOFs in the list
       DO I=1,NDDL
          ITAG2(I)=ITAG(I)
          ITAG(I)=0

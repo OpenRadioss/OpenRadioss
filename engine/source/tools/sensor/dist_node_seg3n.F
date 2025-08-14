@@ -89,7 +89,7 @@ c---------------------------------------------------
       QC_Y = CY - QY
       QC_Z = CZ - QZ
 c
-c     Surfaces de sous-triangles
+c     surfaces of sub-triangles
 c
       SX = QA_Y * QB_Z - QA_Z * QB_Y
       SY = QA_Z * QB_X - QA_X * QB_Z

@@ -35,10 +35,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                        TAB_REMOVE,TAB_NEWFCT,EL_CONNECT,
      .                        TABCONPATCH,IDFILS,FLAG_PRE,FLAG_DEBUG)
 C----------------------------------------------------------------------
-C   ROUTINE QUI ENLEVE DES TABLES DE CONNECTIVITE LES POINTS SUPPRIMES
-C   ET Y INSERE LES NOUVEAUX POINTS
-C   LA ROUTINE NE REMET PAS CETTE CONNECTIVITE DANS LE BON ORDRE : 
-C   C'EST LE ROLE DE REORDER_IG3D.F
+C   routine that removes deleted points from connectivity tables
+C   and inserts the new points
+C   the routine does not put this connectivity back in the correct order:
+C   this is the role of REORDER_IG3D.F
 C----------------------------------------------------------------------
 C-----------------------------------------------
 C   M o d u l e s
@@ -87,8 +87,8 @@ c
       ENDIF
 cc
 CC----------------------------------------------------------------------------------------------
-cc   SUPPRESSION DES FONCTIONS RAFFINEES DES TABLES DE CONNECTIVITE DES ELEMENTS DU PATCH
-cc   ET DES FILS QU'ON RAFFINE : 0 A LA PLACE 
+cremoval of refined functions from the connectivity tables of the patch elements
+cand of the children that are refined: 0 instead
 CC----------------------------------------------------------------------------------------------
 cc
       DO I= 1,L_TAB_FCTCUT
@@ -112,8 +112,8 @@ cc
       ENDDO
 cc
 CC----------------------------------------------------------------------------------------------
-cc   TRAITEMENT DES TABLES DE CONNECTIVITES DES ELEMENTS DU PATCH :
-cc   RAJOUT DES NOUVELLES FONCTIONS CREES PAR LE RAFFINEMENT
+cprocessing of the connectivity tables of the patch elements:
+caddition of new functions created by the refinement
 cc   NB : POURRAIT ETRE LARGEMENT AMELIORE (BOUCLES DO WHILE)
 CC----------------------------------------------------------------------------------------------
 cc
@@ -126,10 +126,10 @@ cc
           DO WHILE (IXIG3D(KXIG3D(4,IEL)+J-1)==0.AND.J<=KXIG3D(3,IEL))
             DO WHILE (IXIG3D(KXIG3D(4,IEL)+J-1)==0.AND.K<=L_TAB_NEWFCT-1)
 c
-              EL_CONNECT(IEL)=1 ! On devra reactualiser la table de connectivite de cet element
+              EL_CONNECT(IEL)=1 ! the connectivity table of this element will need to be updated
 c
 1000          K=K+1
-c              IF(K>L_TAB_NEWFCT) CYCLE ! permet de securiser la boucle
+c              IF(K>L_TAB_NEWFCT) CYCLE ! secures the loop
               INCTRL = TAB_NEWFCT(K)
               DO L=1,L_TAB_REMOVE
                 IF(TAB_REMOVE(L)==INCTRL) GOTO 1000
@@ -164,10 +164,10 @@ cc
             DO WHILE (IXIG3D(KXIG3D(4,JEL)+J-1)==0.AND.J<=KXIG3D(3,JEL))
               DO WHILE (IXIG3D(KXIG3D(4,JEL)+J-1)==0.AND.K<=L_TAB_NEWFCT-1)
 c
-                EL_CONNECT(JEL)=1 ! On devra reactualiser la table de connectivite de cet element
+                EL_CONNECT(JEL)=1 ! the connectivity table of this element will need to be updated
 c
 2000            K=K+1
-c                IF(K>L_TAB_NEWFCT) CYCLE ! permet de securiser la boucle
+c                IF(K>L_TAB_NEWFCT) CYCLE ! secures the loop
                 INCTRL = TAB_NEWFCT(K)
                 DO L=1,L_TAB_REMOVE
                   IF(TAB_REMOVE(L)==INCTRL) GOTO 2000
@@ -192,9 +192,9 @@ c
       ENDDO
 cc
 CC----------------------------------------------------------------------------------------------
-cc   VERIFICATION QU'IL N'Y AIT PLUS DE 0 DANS LA TABLE DE CONNECTIVITE
-cc   SINON C'EST QUE LE RAFFINEMENT N'EST PAS CORRECT (RISQUE DE SURNOMBRE 
-cc   DE FONCTIONS PAR ELEMENT)
+ccheck that there are no more zeros in the connectivity table
+cotherwise the refinement is not correct (risk of
+ctoo many functions per element)
 CC----------------------------------------------------------------------------------------------
 cc
       IF(FLAG_DEBUG==1) THEN

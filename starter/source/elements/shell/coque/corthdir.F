@@ -45,8 +45,8 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD  
       USE STACK_MOD          
 C-----------------------------------------------
-C INITIALISE LES COORDONEES LOCALES DES AXES D'ORTHOTROPIE
-C INITIALISE LES EPAISSEURS ET MATERIAUX DES COUCHES
+C initializes local coordinates of orthotropy axes
+C initializes thicknesses and materials of layers
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -125,7 +125,7 @@ C---      shell 3N
             E23(I)= Z3(I)-Z1(I)
           ENDDO
         ENDIF
-C---    vecteur de projection dans repere elementaire
+C---    projection vector in element reference frame
         IRP = IGEO(14,IPROP)
         IF(IRP == 26 ) THEN
            DO I=LFT,LLT
@@ -329,7 +329,7 @@ C---
                  IPT = IPT_ALL + IT
                  DO I=LFT,LLT  
                    IF (IORTHLOC(I) /= 0) THEN                               
-                     DIR1(I)     =  COOR1(IPT,I) !! IL ou ipt
+                     DIR1(I)     =  COOR1(IPT,I) !! IL or ipt
                      DIR1(I+NEL) =  COOR2(IPT,I)
                      DIR2(I)     =  COOR3(IPT,I)
                      DIR2(I+NEL) =  COOR4(IPT,I)

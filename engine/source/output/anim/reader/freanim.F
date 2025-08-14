@@ -213,7 +213,7 @@ C-----------------------------------------------
       IF(ANIM_V(4)==1.AND.ANIMCONT == 0) NV_ANI=NV_ANI-1
       IF(ANIM_V(27)==1)NV_ANI=NV_ANI+1
 C-----------------------------------------------
-C     Anim Cut non portees en SPMD
+C     Anim cut not worn in SPMD
       IF (NCUTS>0.AND.NSPMD>1) THEN
        CALL ANCMSG(MSGID=191,ANMODE=ANINFO)
        IERR=IERR+1

@@ -75,7 +75,7 @@ C=======================================================================
         AREA(I) = ZERO
         IS = NSV(I)
         IF (ICOQ == 1) THEN
-C--       Cooques 4n
+C- 4n coats
           DO IAD = KNOD2ELC(IS)+1,KNOD2ELC(IS+1)
             IEL  = NOD2ELC(IAD)
             N1   = IXC(2,IEL)                                            
@@ -108,7 +108,7 @@ C--       Cooques 4n
             EZ  = X13*Y24 - Y13*X24                                      
             AREA(I) = AREA(I) + SQRT(EX*EX+EY*EY+EZ*EZ)*HALF*FOURTH  
           ENDDO 
-C--       Cooques 3n
+C- 3N coats
           DO IAD = KNOD2ELTG(IS)+1,KNOD2ELTG(IS+1)
             IEL  = NOD2ELTG(IAD)
             N1  = IXTG(2,IEL)                                            

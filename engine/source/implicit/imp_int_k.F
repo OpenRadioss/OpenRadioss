@@ -430,7 +430,7 @@ C     REAL
      .        XSLV_L(18,NINTER),XMSR_L(12,NINTER),
      .        VSLV_L(6,NINTER),VMSR_L(6,NINTER),
      .        SIZE_T(NINTER),DTI,FAC, TS
-C-------------DT kine par interface--------
+C-------------DT kin by interface--------
 C Init variable globale interface
 C      DO KK=1,NBINTC
 C        N = INTLIST(KK)
@@ -604,7 +604,7 @@ C-----------------------------------------------
       EXTERNAL INTAB
 C
 C
-C Precalcul des interfaces utiles
+C Pre-calculation of useful interfaces
 C
       DO J=1,NINTER
        PMAX=ZERO
@@ -663,16 +663,16 @@ C
             ENDIF
           ENDIF
           END IF !(NSPMD>1) THEN
-C maj dist = tzinf - gap ***: seulement pour etre coherent avec smp 
+C Maj Dist = Tzinf - Gap ***: Only to be coherent with SMP 
            INTBUF_TAB(I)%VARIABLES(5) = INTBUF_TAB(I)%VARIABLES(8)-
      -                                INTBUF_TAB(I)%VARIABLES(2)
-C calcul du critere de tri DIST0
+C calculation of the sorting criterion DIST0
           XX=MAX(XSLV_L(1,I)-XMSR_L(4,I),XMSR_L(1,I)-XSLV_L(4,I),ZERO)
           XY=MAX(XSLV_L(2,I)-XMSR_L(5,I),XMSR_L(2,I)-XSLV_L(5,I),ZERO)
           XZ=MAX(XSLV_L(3,I)-XMSR_L(6,I),XMSR_L(3,I)-XSLV_L(6,I),ZERO)
           DIST0 = INTBUF_TAB(I)%VARIABLES(5) - SQRT(XX**2+XY**2+XZ**2)
 C
-C Traitement VMAX
+C Vmax treatment
 C
           VX=MAX(VSLV_L(1,I)-VMSR_L(4,I),VMSR_L(1,I)-VSLV_L(4,I),ZERO)
           VY=MAX(VSLV_L(2,I)-VMSR_L(5,I),VMSR_L(2,I)-VSLV_L(5,I),ZERO)
@@ -681,7 +681,7 @@ C
           IF (VV/=ZERO) THEN
             GAPINF = INTBUF_TAB(I)%VARIABLES(6)
             IF (GAPINF==ZERO) GAPINF = INTBUF_TAB(I)%VARIABLES(2)
-C-------supposee s est encore loin de M ------
+C-------assumed s is still far from M ------
               GAPINF =GAPINF+MAX(ZERO,DIST0)
             DTI = ONEP8*GAPINF/VV
 Ctmp            DTI = ZEP9*GAPINF/VV
@@ -802,7 +802,7 @@ C-------------before inttri------
        DO N = 1,NINTER
         NUM_IMP1(N)=0
        ENDDO
-C----deactive cette fonction.     
+C----deactivate this function.
        IF (ITTOFF>0) RETURN
        NTHR_CP = NTHREAD
        IF (NTHREAD>1) NTHREAD = 1
@@ -829,7 +829,7 @@ C----deactive cette fonction.
        DO N = 1,NINTER
         NUM_IMP(N) = 0
        END DO
-C-------------dans inttri------
+C-------------in inttri------
 c      NI18 = 0
 c      LI18 = 1
 c      IAD17 = 1
@@ -892,7 +892,7 @@ C
       ENDDO
 C
       NT_IMP1=IAD-1
-C---------necessair pour spmd-----
+C---------necessary for spmd-----
       CALL CP_INTTD(NT_IMP1,NUM_IMP ,NS_IMP,NE_IMP,IND_IMP,NUM_IMP1)
  1000 CONTINUE
       IF (NTHR_CP>1) NTHREAD = NTHR_CP 
@@ -1173,7 +1173,7 @@ C     REAL
      .        DTI, TS
       my_real
      .  RDUM(3,1)
-C-------------dans inttri------
+C------------ In Intri -------
         LSKYI_SMS_NEW = 0 ! Value is set to zero than ignored.
         INT24E2EUSE=0
         RDUM(1:3,1)=ZERO
@@ -1265,7 +1265,7 @@ C
         ENDIF
 C
         IF (NSPMD>1.AND.RETRI==1) THEN
-C--------- a modifier par interface---
+C--------- to be modified by interface---
          CALL SPMD_IFRONT(
      1    IPARI  ,NEWFRONT,ISENDTO ,IRECVFROM,
      2    NSENSOR,NBINTC ,INTLIST ,IBIDLEN ,IBIDLEN  ,
@@ -1319,7 +1319,7 @@ C
      1       IPARI     ,INTBUF_TAB(N),X   ,V  ,
      2       N         ,ITASK ,COUNT_REMSLV ,COUNT_REMSLVE  )
         ENDIF
-C-------------dans intfop2------
+C-------------in intfop2------
         LINDMAX  = IPARI(18,N)*IPARI(23,N)
 
 C
@@ -1739,7 +1739,7 @@ C
       IF (NUMN_KN > 0) THEN
        ID_KN = -7    
        N = 0
-C------------valeur nega pour les nsl nodes-----      
+C------------negative value for nsl nodes-----
        DO I=1,NUMNOD
        IF (NDOFII(I)>0) THEN
         N = N + 1
@@ -2270,7 +2270,7 @@ C------MSR(NMN)-----
          ELSE
           NNOD=4
          ENDIF
-C-------si noeud main est dependant aussi-----
+C------ SI Main node is also dependent -----
          DO M=1,NNOD
           NJ=INTBUF_TAB(N)%IRECTM(NL+M)
           NDD = 0
@@ -2540,7 +2540,7 @@ C----------------actualise D,X_IMP---------------------
      .              IRBE2_KN,ID_KNM4)
       CALL ZEROR(A,NUMNOD)
       IF ((NRB_KN+NI2_KN+NRBE3_KN)>0) CALL ZEROR(AR,NUMNOD)
-C-----renvoie D (NSL) et receive DFI (NSREM)-----
+C----- Return of (nsl) and Receive DFI (nsrem) ------
       IF ((NSREM+NSL)>0) THEN
        CALL SPMD_IFCD(D  ,NSL, NSREM)
        IF (NSREM>0) CALL ZEROR(FFI,NSREM)

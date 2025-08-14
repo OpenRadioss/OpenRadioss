@@ -119,14 +119,13 @@ C
 C         I AM THE FIRST ONE
           ISPMD = 0
 C
-C Calcul du nombre de threads  { Calculating the number of threads }
+C Calculation of the number of threads
 C
 #if defined(_OPENMP)
           STR = ' '
           CALL  GETENV('OMP_NUM_THREADS',STR)
           NTHREAD1=0
-C nthread1 : nombre de threads fixe par la variable environnememt
-C {nthread1: number of threads fixed by the environment variable }
+C nthread1 : fixed number of threads by the environment variable
           READ(STR,'(I10)',ERR=999)NTHREAD1
           GOTO 1000
  999      CONTINUE
@@ -177,12 +176,12 @@ C
             END IF
           END DO
 cccc
-C code special pour MIC
+C special code for MIC
 #if defined(__MIC__)
           STR = ' '
           CALL  GETENV('OMP_NUM_THREADS',STR)
           NTHREAD1=0
-C nthread1 : nombre de threads fixe par la variable environnement sur le MIC
+C nthread1 : fixed number of threads by the environment variable on the MIC
           READ(STR,'(I10)',ERR=1999)NTHREAD1
           GOTO 2000
  1999     CONTINUE
@@ -203,8 +202,7 @@ C control of nthread per MPI process
       ELSE IF(ICAS==3) THEN
         IF(ISPMD == 0) THEN
 C
-C test cooherence NSPMD et nombre de proccesses MPI demandes (-np)
-C { NSPMD coherence test and number of MPI processes requested (-np) }
+C NSPMD COOHENENCE test and number of MPI requests (-NP)
 C
           IF (NSPMD /= NNODES) THEN
             WRITE(IOUT,*)
@@ -234,12 +232,10 @@ C
             CALL ARRET(7)
           END IF
           IF(NSPMD > 1) THEN
-C envoi NSPMD de process0 vers les autres processes
-C { sending NSPMD from process0 to other processes }
+C sending NSPMD from process0 to other processes
             CALL MPI_BCAST(NSPMD,1,MPI_INTEGER,IT_SPMD(1),
      .                     SPMD_COMM_WORLD,IERROR)
-C envoi de NTHREAD de process0 vers les autres processes
-C { sending NTHREAD from process0 to other processes }
+C sending NTHREAD from process0 to other processes
             CALL MPI_BCAST(NTHREAD,1,MPI_INTEGER,IT_SPMD(1),
      .                     SPMD_COMM_WORLD,IERROR)
 C
@@ -358,7 +354,7 @@ C MPI
 
 #elif 1
 C
-C routines simplifiees non mpi
+C Simplified routines not mpi
 C
 !||====================================================================
 !||    inipar                 ../engine/source/mpi/init/inipar.F
@@ -417,7 +413,7 @@ C
         STR = ' '
         CALL  GETENV('OMP_NUM_THREADS',STR)
         NTHREAD1=0
-C nthread1 : nombre de threads fixe par la variable environnememt
+C nthread1 : fixed number of threads by the environment variable
         READ(STR,'(I10)',ERR=999)NTHREAD1
         GOTO 1000
  999    CONTINUE

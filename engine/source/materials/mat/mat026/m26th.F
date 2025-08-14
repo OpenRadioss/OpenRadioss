@@ -32,7 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2   PM,      SESAME,  Z,       NEL,
      3   NFT)
 C----------------------------------------
-C     CALCUL DE LA CONDUCTIVITE THERMIQUE
+C     calculation of thermal conductivity
 C----------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

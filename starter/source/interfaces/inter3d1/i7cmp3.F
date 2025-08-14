@@ -26,10 +26,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE I7CMP3B(I_STOK,CAND_E  ,CAND_N, PROV_E, PROV_N,
      1                   PENE)
 C============================================================================
-C  cette routine est appelee par : I7BUC1(/inter3d1/i7buc1.F)
+C  this routine is called by: I7BUC1(/inter3d1/i7buc1.F)
 C                                  I7TRI(/inter3d1/i7tri.F)
 C----------------------------------------------------------------------------
-C  cette routine appelle : -
+C  this routine calls: -
 C============================================================================
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -80,10 +80,10 @@ C     CAS DECHARGEMENT
       SUBROUTINE I7CMP3(I_STOK,CAND_E  ,CAND_N, IFLAG,PENE,
      1                  PROV_N,PROV_E)
 C============================================================================
-C  cette routine est appelee par : I7BUC1(/inter3d1/i7buc1.F)
+C  this routine is called by: I7BUC1(/inter3d1/i7buc1.F)
 C                                  I7TRI(/inter3d1/i7tri.F)
 C----------------------------------------------------------------------------
-C  cette routine appelle : -
+C  this routine calls: -
 C============================================================================
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

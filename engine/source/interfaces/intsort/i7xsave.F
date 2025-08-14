@@ -37,7 +37,7 @@ C  |         I24MAIN_TRI                       /intsort/i24main_tri.F
      3       XMAX  ,YMAX ,ZMAX  ,C_MAX ,CURV_MAX,
      4       ICURV ,IRECT,NRTM_T,SX    ,SY      ,
      5       SZ    ,SX2  ,SY2   ,SZ2   ,NMN_L)
-C sauvegarde des XSAV et calcul borne domaine
+C save XSAV and calculate domain bounds
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

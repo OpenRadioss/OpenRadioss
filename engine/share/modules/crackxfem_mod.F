@@ -40,10 +40,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    crk_coord_ini         ../engine/source/elements/xfem/crk_coord_ini.F
 !||    crk_tagxp3            ../engine/source/elements/xfem/crk_tagxp3.F
 !||    crk_tagxp4            ../engine/source/elements/xfem/crk_tagxp4.F
-!||    crk_vitesse           ../engine/source/elements/xfem/crk_vitesse.F
-!||    crk_vitesse2          ../engine/source/elements/xfem/crk_vitesse2.F
-!||    crk_zero_accel        ../engine/source/elements/xfem/crk_vitesse.F
-!||    crk_zero_fsky         ../engine/source/elements/xfem/crk_vitesse.F
+!||    crk_velocity           ../engine/source/elements/xfem/crk_velocity.F
+!||    crk_velocity2          ../engine/source/elements/xfem/crk_velocity2.F
+!||    crk_zero_accel        ../engine/source/elements/xfem/crk_velocity.F
+!||    crk_zero_fsky         ../engine/source/elements/xfem/crk_velocity.F
 !||    crklayer3n_adv        ../engine/source/elements/xfem/crklayer3n_adv.F
 !||    crklayer3n_ini        ../engine/source/elements/xfem/crklayer3n_ini.F
 !||    crklayer4n_adv        ../engine/source/elements/xfem/crklayer4n_adv.F
@@ -105,10 +105,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    upxfem1               ../engine/source/elements/xfem/upxfem1.F
 !||    upxfem2               ../engine/source/elements/xfem/upxfem2.F
 !||    upxfem_tagxp          ../engine/source/elements/xfem/upxfem_tagxp.F
-!||    upxvit_c1             ../engine/source/elements/xfem/crk_vitesse2.F
-!||    upxvit_c2             ../engine/source/elements/xfem/crk_vitesse2.F
-!||    upxvit_t1             ../engine/source/elements/xfem/crk_vitesse2.F
-!||    upxvit_t2             ../engine/source/elements/xfem/crk_vitesse2.F
+!||    upxvit_c1             ../engine/source/elements/xfem/crk_velocity2.F
+!||    upxvit_c2             ../engine/source/elements/xfem/crk_velocity2.F
+!||    upxvit_t1             ../engine/source/elements/xfem/crk_velocity2.F
+!||    upxvit_t2             ../engine/source/elements/xfem/crk_velocity2.F
 !||    xfeconnec3n           ../engine/source/output/anim/generate/xfeconnec3n.F
 !||    xfeconnec4n           ../engine/source/output/anim/generate/xfeconnec4n.F
 !||    xfecut                ../engine/source/output/anim/generate/xfecut.F
@@ -139,7 +139,7 @@ C-----------------------------------------------
         TYPE(XFEM_PHANTOM_), DIMENSION(:), ALLOCATABLE :: XFEM_PHANTOM    ! (NXLAYMAX)
 C-----------------------------------------------
       TYPE XFEM_LVSET_
-           INTEGER, DIMENSION(:,:) ,ALLOCATABLE :: ENR0       ! phantom enrichment
+           INTEGER, DIMENSION(:,:) ,ALLOCATABLE :: ENR0       ! Phantom Enrichment
            my_real, DIMENSION(:)   ,ALLOCATABLE :: AREA       ! phantom area ratio
       END TYPE XFEM_LVSET_
 
@@ -164,10 +164,10 @@ c-------------------------------
 c---------------------------------------------
       TYPE XFEM_EDGE_
          INTEGER, DIMENSION(:)  , ALLOCATABLE :: LAYCUT    ! cut xfem element flag => move to XFEM_PHANTOM%ELCUT
-         INTEGER, DIMENSION(:)  , ALLOCATABLE :: EDGEICRK  ! Id fissure sur un edge  
+         INTEGER, DIMENSION(:)  , ALLOCATABLE :: EDGEICRK  ! Crack ID on an edge
          INTEGER, DIMENSION(:,:) ,ALLOCATABLE :: IEDGEC    ! local cut edge N within element 
          INTEGER, DIMENSION(:,:) ,ALLOCATABLE :: IEDGETG   ! local cut edge N within element 
-         INTEGER, DIMENSION(:,:), ALLOCATABLE :: EDGEIFI   ! signe lvset sur un edge (+/- ICRK)  
+         INTEGER, DIMENSION(:,:), ALLOCATABLE :: EDGEIFI   ! lvset sign on an edge (+/- ICRK)
          INTEGER, DIMENSION(:,:), ALLOCATABLE :: EDGEENR   ! edge enrichment
          INTEGER, DIMENSION(:,:), ALLOCATABLE :: EDGETIP   ! flag d'edge interne/ext  
          INTEGER, DIMENSION(:)   ,ALLOCATABLE :: IBORDEDGE ! flag of border edge 

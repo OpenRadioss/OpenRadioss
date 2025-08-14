@@ -231,7 +231,7 @@ c---
           ENDDO
           RESP0=RES
          END IF
-        ENDDO   ! nn=1,nspgroup
+        ENDDO   ! nn = 1, nspgroup
 
         IF (RESP0 > 0) THEN
           IF (OUTYY_FMT == 2) THEN                           

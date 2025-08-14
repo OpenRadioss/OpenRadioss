@@ -83,10 +83,10 @@ C-----------------------------------------------
      .    M3C24(2,2,MVSIZ),M3C33(2,2,MVSIZ),M3C34(2,2,MVSIZ),
      .    M3C44(2,2,MVSIZ),DCX(MVSIZ),DCY(MVSIZ),C11,
      .    DH(MVSIZ),HS1(MVSIZ),HS2(MVSIZ)
-C-----------Attention Matrice sym Kii ne calcul que la moitie---------72
+C----------- CAPTE Matrix Sym KII only calculates half ---------- 72
        NF=NPLAT+1
 #include "vectorize.inc"
-C--------Constante parts---------------
+C------- Constant Parts --------------
        DO M=JFT,JLT 
         EP=IPLAT(M)
         C2=VOL(EP)
@@ -131,7 +131,7 @@ C------------------r2r4=-1,s2s4=-1, r2s4=1 ,r4s2=1------------------
 C------------------r3r4=-1,s3s4=1, r3s4=1 ,r4s3=-1------------------
         K34(3,3,EP) =K12(3,3,EP)
        ENDDO
-C--------non constant part---hIhJ-
+C------- not constant part --- hihj-
        DO EP=JFT,JLT
         C11 =HS1(EP)+HS2(EP)
         K11(3,3,EP) = K11(3,3,EP)+C11
@@ -238,7 +238,7 @@ C------M2C3: 22,23,33 ---RIRJ=1---
        DO I=1,2
        DO J=1,2
         DO EP=JFT,JLT
-C------M2C2: 12,13,24,34 -exception 24,34--(1,2)<->(2,1)--RIRJ=-1-
+C------ M2C2: 12,13,24,34 -Eeception 24.34-(1,2) <-> (2.1)-RIRJ = -1-
          M2C12(I,J,EP) = M2C2(I,J,EP)*DS2(EP)
          M2C13(I,J,EP) = M2C12(I,J,EP)
         ENDDO
@@ -247,15 +247,15 @@ C------M2C2: 12,13,24,34 -exception 24,34--(1,2)<->(2,1)--RIRJ=-1-
        DO I=1,2
        DO J=1,2
         DO EP=JFT,JLT
-C------M2C2: 12,13,24,34 -exception 24,34--(1,2)<->(2,1)---
+C------ M2C2: 12,13,24,34 -Exception 24,34-(1,2) <--> (2.1) ----
          M2C24(I,J,EP) = M2C12(J,I,EP)
          M2C34(I,J,EP) = M2C12(J,I,EP)
         ENDDO
        ENDDO
        ENDDO
-C------M3C ->M3C+M4C -cette partie peut etre optimise(decomp en const + antisym-----
+C------ M3C-> M3C + M4C -This part can be optimized (DECOMP IN CONTT + ANTISYM ------
        DO EP=JFT,JLT
-C-----------Attention Matrice sym Kii ne calcul que la moitie---------72
+C----------- CAPTE Matrix Sym KII only calculates half ---------- 72
         M3C11(1,1,EP) =(RHY(EP,1)*SHY(EP,1)+RHY(EP,1)*SHY(EP,1))*CS3(EP)
         M3C12(1,1,EP) =(RHY(EP,1)*SHY(EP,2)+RHY(EP,2)*SHY(EP,1))*CS3(EP)
         M3C13(1,1,EP) =(RHY(EP,1)*SHY(EP,3)+RHY(EP,3)*SHY(EP,1))*CS3(EP)

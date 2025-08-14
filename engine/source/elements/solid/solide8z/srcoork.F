@@ -165,7 +165,7 @@ C----------------------------
         Z8(I)=X(3,NC8(I))
       ENDDO
 C-----------
-C     REPERE CONVECTE (ITERATIONS).
+C     convected frame (ITERATIONS).
 C-----------
       CALL SREPISOT3(
      1   X1,      X2,      X3,      X4,
@@ -231,7 +231,7 @@ C-------sauf thick shells --------------
         ENDIF
       ENDIF
 C-----------
-C     PASSAGE AU REPERE CONVECTE.
+C     Change to the convected frame.
 C-----------
 C     X=RX' <=> X'=t(R)X chgt de base.
       IF((ISMSTR==1.OR.ISMSTR==3).OR.
@@ -313,7 +313,7 @@ C     X=RX' <=> X'=t(R)X chgt de base.
         X8(I)=XL
         Y8(I)=YL
         Z8(I)=ZL
-C       SAV dans rep. local.
+C       sav in local frame
 C       SAV(I,1)=X1(I)-X8(I)
 C       SAV(I,2)=Y1(I)-Y8(I)
 C       SAV(I,3)=Z1(I)-Z8(I)
@@ -474,7 +474,7 @@ C------due to different initial systems and [K] is calculated using always HA8 s
         ENDIF !IF (JCVT==0)
         DO I=1,NEL
         IF(OFFG(I)<=ONE)THEN
-C       SAV dans rep. local.
+C       sav in local frame
         SAV(I,1)=X1(I)-X8(I)
         SAV(I,2)=Y1(I)-Y8(I)
         SAV(I,3)=Z1(I)-Z8(I)

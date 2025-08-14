@@ -114,7 +114,7 @@ C
      6             GBUF%POSX,GBUF%POSY,GBUF%POSZ,GBUF%POSXX,GBUF%POSYY,
      7             GBUF%POSZZ,IGEO  )
 C-------------------------
-C     MATRICE de RIGIDITE
+C     STIFFNESS MATRIX
 C-------------------------
       CALL R8SUMG3 (JFT    ,JLT     ,KX      ,KY     ,KZ     ,
      2              MX     ,MY      ,MZ      ,R11    ,R12    ,

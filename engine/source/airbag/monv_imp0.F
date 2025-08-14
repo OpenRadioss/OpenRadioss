@@ -73,7 +73,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, NTYP,NN,K1,IAD,IS,J,N,NOD,NUMN,ID,NMT,IROT,
      .        IERR1,IERR2,IERR3,IERR4,IERR5,IERR6
-C-------IMONV(NMONV)--nb de noeuds dans chaque mv.----------------------
+C-------IMONV(NMONV)--number of nodes in each mv.----------------------
       NMONV = 0
       IF(NVOLU>0.AND.IMPMV>0) THEN
        DO N=1,NUMNOD
@@ -712,7 +712,7 @@ C------MSR(NMN)-----
          ELSE
           NNOD=4
          ENDIF
-C-------si noeud main est dependant aussi-----
+C------ SI Main node is also dependent -----
          DO M=1,NNOD
           NJ=INTBUF_TAB(N)%IRECTM(NL+M)
           DO J = 1, NDOF(NJ)
@@ -874,7 +874,7 @@ C------MSR(NMN)-----
          ELSE
           NNOD=4
          ENDIF
-C-------si noeud main est dependant aussi-----
+C------ SI Main node is also dependent -----
          DO M=1,NNOD
           NJ=INTBUF_TAB(N)%IRECTM(NL+M)
           ND = 0
@@ -988,7 +988,7 @@ C-----------------------------------------------
       my_real
      .   XX,YY,ZZ,X12,Y12,Z12,X13,Y13,Z13,X24,Y24,Z24,V,
      .   GAMAV2
-C-----IDDL(3,*) est apres upd_k-,si dependant-:comme interface remote---------
+C----- Idddl (3,*) is after UPD_K-, if depending-: as a remote interface --------------------
 C-----------reprend vol,gama------
       NMV = 0
       K1 = 1
@@ -1142,7 +1142,7 @@ C---------K11,K13=-K11-------------------
           KEV1(I) = FACV(I)*DVD1(I)
 C---------K12,K22-------------------
           KEV2(I) = FACV(I)*DVD2(I)
-C---------terme sup pour (xx,xj j=1,2)-------------------
+C---------- SUP term for (xx, xj j = 1,2) ------------------------------------------
           KEVS(I) = FACV(I)*N(I)
         ENDDO
 C---------KE11-------------------
@@ -1641,7 +1641,7 @@ C------MSR(NMN)-----
          ELSE
           NNOD=4
          ENDIF
-C-------si noeud main est dependant aussi-----
+C------ SI Main node is also dependent -----
          DO M=1,NNOD
           NJ=INTBUF_TAB(N)%IRECTM(NL+M)
           DO J = 1, NDOF(NJ)
@@ -1711,7 +1711,7 @@ C------MSR(NMN)-----
          ELSE
           NNOD=4
          ENDIF
-C-------si noeud main est dependant aussi-----
+C------ SI Main node is also dependent -----
          DO M=1,NNOD
           NJ=INTBUF_TAB(N)%IRECTM(NL+M)
           DO J = 1, NDOF(NJ)
@@ -1969,7 +1969,7 @@ C-----------------------------------------------
      .        NN,L,NNOD,NJ,ND,NL,ISK,IFM,LJFR(NFXVEL),IROT,IRAD,IC
       my_real
      .  XS,YS,ZS,EJ(3)
-C------utilise A,AR pour actualise U------
+C------ Use A, argues U -------
        DO I = 1, NUMN
         N = INL(I)
         DO J = 1, 3
@@ -2056,7 +2056,7 @@ C------Rigid bodies-------
           ENDIF
          ENDDO
        ENDDO
-C------esperons le hierachic est dans l'ordre
+C------hope the hierarchy is in order
        DO I=NRB,1,-1
         M=IRB(1,I)
          DO J = 1 , MIN(3,NDOF(M))
@@ -2164,7 +2164,7 @@ C------int2-------
          ELSE
           NNOD=4
          ENDIF
-C-------si noeud main est dependant aussi-----
+C------ SI Main node is also dependent -----
          DO M=1,NNOD
           NJ=INTBUF_TAB(N)%IRECTM(NL+M)
            DO J=1,NDOF(NJ)
@@ -2191,7 +2191,7 @@ C
          ELSE
           NNOD=4
          ENDIF
-C-------si noeud main est dependant aussi-----
+C------ SI Main node is also dependent -----
          DO M=1,NNOD
           NJ=INTBUF_TAB(N)%IRECTM(NL+M)
            DO J=1,NDOF(NJ)
@@ -2216,7 +2216,7 @@ C-------si noeud main est dependant aussi-----
         ENDIF
        ENDDO
 C
-C------Actuallise-X(*) dans X_IMP-----
+Cupdate-x(*) in x_imp
        DO I = 1, NUMN
         N = INL(I)
         DO J = 1, 3
@@ -2274,7 +2274,7 @@ C
       IF(IDEF==1)THEN
         PRES  = PEXT
       ELSE
-C       CALCUL DE L ENERGIE PUIS DE LA PRESSION
+C       calculation of energy and then pressure
         FAC  = HALF*(GAMA-ONE)*DV
         ENERGY= ((ONE-FAC/(VOLD-VINC))*ENERG_OLD-DEOUT*DT1 ) /
      .                             (ONE+FAC/(VOL-VINC))
@@ -2408,7 +2408,7 @@ C------IRTL(NSN)--main el number---
          ELSE
           NNOD=4
          ENDIF
-C-------si noeud main est dependant aussi-----
+C------ SI Main node is also dependent -----
          DO M=1,NNOD
            NJ=INTBUF_TAB(N)%IRECTM(NL+M)
            DO J=1,NDOF(NJ)

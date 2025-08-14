@@ -366,7 +366,7 @@ C ---------> counting of springs------------------------------------------------
               NELRN = NELRN+1
             ENDIF
           ENDDO
-C ---------> comptage des beams----------------------------------------------------C
+C ---------> counting of beams----------------------------------------------------C
           DO J=1,NUMELP
             IF (TAG_ELP(J+NPART)/=0) THEN
               NELPN = NELPN+1
@@ -1493,10 +1493,10 @@ C-------------------------------------------------------------------------------
           COMPT = 0
           DO I=1,NBGAUGE
             IF ((TAGGAU(I)>0).AND.(NUMELS>0)) THEN
-C---------------> Cas des GAUGES <--
+C---------------> Case of GAUGES <--
               COMPT = COMPT + 1
             ELSEIF ((TAGGAU(I)<0).AND.(NUMSPH>0)) THEN
-C---------------> Cas des GAUGE/SPH <--
+C---------------> Case of GAUGE/SPH <--
               TAGGAU(I) = ABS(TAGGAU(I))
               COMPT = COMPT + 1
             ELSE

@@ -235,7 +235,7 @@ C
      .               C1=TITR)
       ENDIF
 c
-C---- Definition des variables internes (stockage elementaire)
+C---- Definition of internal variables (Elementary storage)
 c
       MTAG%G_EPSD  = 1   
       MTAG%G_PLA   = 1   

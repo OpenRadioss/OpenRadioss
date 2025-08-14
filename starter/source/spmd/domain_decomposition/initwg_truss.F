@@ -49,7 +49,7 @@ C-----------------------------------------------
      .  NUMMAT,NUMGEO,
      .  IXT(NIXT,*),IGEO(NPROPGI,*),IPM(NPROPMI,*)
 
-C     REAL OU REAL*8
+C     REAL OR REAL*8
       my_real
      .    PM(NPROPM,*), GEO(NPROPG,*)
       REAL WD(*)

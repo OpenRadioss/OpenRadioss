@@ -133,7 +133,7 @@ c
         FOR(I)=CVMGT(SIGN(YLD(I)*AREA(I),FOR(I)),FOR(I),FF(I) > ZERO)
       ENDDO
 C--------------------------------
-C     TEST DE RUPTURE DUCTILE
+C     ductile failure test
 C-------------------------------
       DO I=1,NEL
         IF (OFF(I) < EM01) OFF(I)=ZERO

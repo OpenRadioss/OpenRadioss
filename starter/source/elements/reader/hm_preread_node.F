@@ -95,7 +95,7 @@ C--------------------------------------------------
       UID_NOD(1:NUMNUSR+NUMCNOD) = 0
       DMERGE(1:NUMCNOD) = ZERO
 C--------------------------------------------------
-C      PRE-LECTURE DES NODES INPUTS DANS HM STRUCTURE
+C      PRE-READING OF INPUT NODES IN HM STRUCTURE
 C-------------------------------------------------- 
       CALL CPP_NODES_READ(ITAB,HM_X,DMERGE,SUB_NOD,UID_NOD)
 C--------------------------------------------------

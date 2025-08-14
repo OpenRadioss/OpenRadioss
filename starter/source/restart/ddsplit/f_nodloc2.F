@@ -75,7 +75,7 @@ C
           NFT = IPARG(3,NG)
           ITY = IPARG(5,NG)
           IF(ITY==1) THEN
-C solide (reste a faire solide 10, 16, 20)
+C solid (remains to be solid 10, 16, 20)
             DO I = 1, NEL
               IE = I+NFT
               DO K = 1, 8
@@ -183,7 +183,7 @@ C triangles
               END DO
             END DO
           ELSEIF(ITY==50)THEN
-C ur  a faire
+C ur to do
           END IF
         END IF
       END DO

@@ -431,7 +431,7 @@ C Warning : IX1, IX2 ... IX8 <=> NC(MVSIZ,8)
      3              BID   ,GBUF%FILL)
       ENDIF
 C------------------------------------------
-C Element time step
+C Time Step element
        AIRE(:) = ZERO
        CALL DTMAIN(GEO       ,PM        ,IPM         ,PID     ,MAT     ,FV    ,
      .      LBUF%EINT ,LBUF%TEMP ,LBUF%DELTAX ,LBUF%RK ,LBUF%RE ,BUFMAT, DELTAX, AIRE, 

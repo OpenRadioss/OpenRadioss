@@ -206,7 +206,7 @@ C
         NANIM2D=NANIM2D+NAX2D
         NANIM3D=NANIM3D+NAX3D
 C-------
-C Element time step
+C Time Step element
         DTELEM(NDEPAR+I)= DTE
 C-------
 C Nodal time step is estimated based upon stiffness only, damping not taken into account

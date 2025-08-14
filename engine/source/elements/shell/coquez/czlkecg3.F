@@ -79,10 +79,10 @@ C-----------------------------------------------
      .    FXX(MVSIZ),FYY(MVSIZ),FXY(MVSIZ),MXX(MVSIZ),MYY(MVSIZ),
      .    MXY(MVSIZ),FXY2(MVSIZ),MXY2(MVSIZ),SCX(MVSIZ),SCY(MVSIZ),
      .    CS1(MVSIZ),CS2(MVSIZ),CS3(MVSIZ)
-C-----------Attention Matrice sym Kii ne calcul que la moitie---------72
+C----------- CAPTE Matrix Sym KII only calculates half ---------- 72
        NF=NPLAT+1
 #include "vectorize.inc"
-C--------Constante parts---------------
+C------- Constant Parts --------------
        DO M=JFT,JLT 
         EP=IPLAT(M)
         C2=VOL(EP)

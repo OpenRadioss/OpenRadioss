@@ -81,28 +81,28 @@ c              IF(PENI(J)>ZERO)THEN
 c              ENDIF
               IF(INACTI/=6)THEN
                 IF(INACTI==1) THEN
-C                 DESACTIVATION DES NOEUDS
+C                 Deactivation of nodes
                   WRITE(IOUT,'(A)')'NODE STIFFNESS IS SET TO ZERO'
                   STFN(J) = ZERO
                 ELSE IF(INACTI==2) THEN
-C                 DESACTIVATION DES ELEMENTS
+C                 Deactivation of elements
                   WRITE(IOUT,'(A)')
      .              'INACTI=2 IS NOT AVAILABLE FOR INTERFACE TYPE21'
                 ELSE IF(INACTI==3) THEN
-C                 CHANGE LES COORDONNEES DES NOEUDS SECND
+C                 Changing the coordinates of the secondary nodes
                   WRITE(IOUT,'(A)')
      .              'INACTI=3 IS NOT AVAILABLE FOR INTERFACE TYPE21'
                 ELSE IF(INACTI==4) THEN
-C                 CHANGE LES COORDONNEES DES NOEUDS MAIN
+C                 Changing the coordinates of the main nodes
                   WRITE(IOUT,'(A)')
      .              'INACTI=4 IS NOT AVAILABLE FOOR INTERFACE TYPE21'
                 ELSE IF(INACTI==5) THEN
-C                 REDUCTION DU GAP 
+C                 Gap reduction
                   JWARN = 1
                 ENDIF
               ELSE
 C               INACTI==6
-C               REDUCTION DU GAP 
+C               Gap reduction
                 JWARN = 1
 C
                 PENI(J)=PENI(J)

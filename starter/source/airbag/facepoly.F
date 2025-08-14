@@ -97,7 +97,7 @@ C     Initialization to avoid error in debug mode
       A(1)=QUAD(1,1)
       A(2)=QUAD(2,1)
       A(3)=QUAD(3,1)
-C Recensement des aretes de triangles
+C Census of triangle edges
       NEDGE=0
       DO I=1,NTRI
          DO J=1,3
@@ -122,7 +122,7 @@ C Recensement des aretes de triangles
             ENDIF
          ENDDO
       ENDDO
-C Calcul des intersections des aretes avec le plan de la facette
+C Calculation of the intersections of the edges with the facet plane
       DO I=1,NEDGE
          N1=EDGE(I,1)
          N2=EDGE(I,2)
@@ -160,7 +160,7 @@ C
          XEDGE(I,3)=ZM
          XEDGE(I,4)=SS1*SS2
       ENDDO   
-C Calcul des intersections des triangles avec le plan de la facette (segments)
+C Calculation of the intersections of triangles with the facet plane (segments)
       DO I=1,4
          NINTER(I)=0
       ENDDO
@@ -212,7 +212,7 @@ C Calcul des intersections des triangles avec le plan de la facette (segments)
             SEG(I,2,2)=STMP(2,2)
             SEG(I,3,2)=STMP(3,2)
          ENDIF
-C Intersection (eventuelle) de chaque segment avec les aretes de la facette
+C (Possible) intersection of each segment with the edges of the facet
          DO J=1,4
             NPI=NINTER(J)
             IF (J/=4) THEN
@@ -341,7 +341,7 @@ C
 C
       NSEG=NTRI
 C
-C Intersection eventuelle des segments internes avec les segments externes
+C Possible intersection of internal segments with external segments
       DO I=1,NTRI
          IF(TRI(I,5)/=3) CYCLE
          XA1=SEG(I,1,1)
@@ -404,7 +404,7 @@ C
                YM=YA2
                ZM=ZA2
             ELSE
-C SI SS1=SS2=0 les segments sont colineaires (cas non traite)
+C If SS1 = SS2 = 0 The segments are colinaries (unfortunate case)
               CYCLE
             ENDIF
             SEG(J,1,2)=XM
@@ -422,7 +422,7 @@ C SI SS1=SS2=0 les segments sont colineaires (cas non traite)
          ENDDO
       ENDDO
 C
-C Segments additionels sur aretes
+C Additional segments on edges
       DO I=1,4
          IF (I/=4) THEN
             II=I+1
@@ -439,7 +439,7 @@ C Segments additionels sur aretes
          YA12=YA2-YA1
          ZA12=ZA2-ZA1
          IF (NINTER(I)==0) CYCLE
-C Tri des points sur les bords de l'arete
+C Sorting of points on the edges
          NPI=NINTER(I)
          DO J=1,NPI
             XM=PINTER(I,J,1)
@@ -463,7 +463,7 @@ C Tri des points sur les bords de l'arete
                ENDIF
             ENDDO
          ENDDO
-C Identification des doubles
+C Identification of duplicates
          DO J=1,NPI
             JJ=REDIR(J)
             IF (JJ>0) THEN
@@ -484,7 +484,7 @@ C Identification des doubles
                ENDDO
             ENDIF
          ENDDO
-C Elimination des segments de longueur nulle
+C Elimination of zero-length segments
          DO J=1,NPI
            JJ=REDIR(J)
            IF (JJ>0) THEN
@@ -510,7 +510,7 @@ c                       stop
                ENDDO
             ENDIF
          ENDDO
-C Condensation du tableau REDIR
+C Condensation of the REDIR table
          DO J=1,NPI
             REDIR_TMP(J)=REDIR(J)
          ENDDO
@@ -523,7 +523,7 @@ C Condensation du tableau REDIR
             ENDIF
          ENDDO
          IF (NPI==0) CYCLE
-C Creation des segments sur les aretes
+C Creation of segments on the edges
          IF (PINTER(I,REDIR(1),4)==-ONE) THEN
             NSEG=NSEG+1
             SEG(NSEG,1,1)=XA1
@@ -567,7 +567,7 @@ C Creation des segments sur les aretes
             ELSEG(NSEG,2)=0
          ENDIF
       ENDDO
-C Recensement des noeuds
+C Census of nodes
       NNO=0
       ALGO=0
       DO I=1,NSEG
@@ -621,23 +621,23 @@ C Recensement des noeuds
          IF (ID1==ID2) ISEG(3,I)=1
          IF(ELSEG(I,1) == ELSEG(I,2)) THEN
             IF(TRI(ELSEG(I,1),5) == 3) THEN
-C Segment sur triangle interne
+C Segment on internal triangle
                ISEG(4,I)=2
                ISEG(5,I)=1
                ALGO=1
             ELSE
-C Segment sur triangle airbag ou brique additionelle
+C Segment on airbag triangle or additional brick
                ISEG(4,I)=1
                ISEG(5,I)=0
             ENDIF
          ELSE
-C Segment sur arete de boite
+C Segment on box edge
             ISEG(4,I)=1
             ISEG(5,I)=0
          ENDIF
       ENDDO
 C
-C Elimination des segments doubles
+C Elimination of double segments
       DO I=1,NSEG
          IF (ISEG(3,I)==1) CYCLE
          ID1=ISEG(1,I)
@@ -657,7 +657,7 @@ C
       IF(ALGO == 0) THEN
 C-----------------------------
 C ALGORITHME V12
-C Reconstruction des polygones
+C Reconstruction of polygons
 C-----------------------------
         ISTOP=0
         NPOLY=0
@@ -815,11 +815,11 @@ C-------------------------
            ENDDO
         ENDDO
 C-------------------------------------------
-C Tri des noeuds
+C Sorting of nodes
 C     4 segments :  2 internes + 2 externes
 C     3 segments :  3 internes
-C     3 segments :  1 interne  + 2 externes
-C Test et mise des segments internes en tete
+C     3 segments: 1 internal + 2 external
+C Testing and moving internal segments to the front
 C-------------------------------------------
         DO I=1,NNO
            IF(NODSEG(I,1) /= 4) CYCLE
@@ -970,9 +970,9 @@ C
            ENDDO
         ENDDO ! I=1,NNO
 C---------------------------------------------------------------------------
-C Construction des polygones (nouvel algorithme v14)
-C   JTAG(1,i) le polygone interne est du cote oppose a la normale au segment
-C   JTAG(2,i) le polygone interne est du cote de la normale au segment
+C Construction of polygons (new algorithm V14)
+C   JTAG(1,i) the internal polygon is on the side opposite to the segment's normal
+C   JTAG(2,i) the internal polygon is on the side of the segment's normal
 C---------------------------------------------------------------------------
         DO I=1,NSEG
            JTAG(1,I)=0
@@ -988,7 +988,7 @@ C-----------------------------
            I2=NODSEG(I,3)
            I3=NODSEG(I,4)
            I4=NODSEG(I,5)
-C Traitement des 2 segments internes
+C Treatment of the 2 internal segments
            IF(JTAG(1,I1)==0.AND.JTAG(1,I2)==0) THEN
              ICMAX=ICMAX+1
              JTAG(1,I1)=ICMAX
@@ -1005,7 +1005,7 @@ C Traitement des 2 segments internes
                 IF(JTAG(2,J) == IMAX) JTAG(2,J)=IMIN
              ENDDO
            ENDIF
-C Traitement des 2 segments externes       
+C Treatment of 2 external segments       
            ID1=ISEG(1,I3)
            ID2=ISEG(2,I3)
            IF(ID1==I) L=ID2
@@ -1094,7 +1094,7 @@ C
            ENDDO
         ENDDO       
 C------------------------------------------------------
-C Noeud connecte a 3 segments : 1 interne et 2 externes
+C Knot connects to 3 segments: 1 internal and 2 external
 C------------------------------------------------------
         DO I=1,NNO
            IF(NODSEG(I,1) /= 3) CYCLE
@@ -1104,7 +1104,7 @@ C------------------------------------------------------
            JSEG(3)=NODSEG(I,4)
            IF(ISEG(5,JSEG(3)) == 1) CYCLE
 C
-C Normale au segment interne
+C Normal in the internal segment
            I1=JSEG(1)
            NN=ELSEG(I1,1)
            NX=NORMT(1,NN)
@@ -1165,7 +1165,7 @@ C
            IF(SS >  ONE) SS= ONE
            ALPHA2=ACOS(SS)
 C
-C Le cas peu probable alpha1=alpha2 est a completer
+C The unlikely case alpha1=alpha2 needs to be completed
 C
            IF(ALPHA1 < ALPHA2) THEN
               IADR(1)=2
@@ -1198,7 +1198,7 @@ C
            ENDDO
         ENDDO
 C-------------------------------------
-C Noeud connecte a 3 segments internes
+C Knot connects to 3 internal segments
 C-------------------------------------
         DO I=1,NNO
            IF(NODSEG(I,1) /= 3) CYCLE
@@ -1304,7 +1304,7 @@ C
 C
         ENDDO
 C-------------------------------------
-C Noeud connecte a 2 segments internes
+C Knot connects to 2 internal segments
 C-------------------------------------
         DO I=1,NNO
            IF(NODSEG(I,1) /= 2) CYCLE
@@ -1347,7 +1347,7 @@ C
            ENDIF
         ENDDO
 C-------------------------------------
-C Noeud connecte a 2 segments externes
+C Knot connects to 2 external segments
 C-------------------------------------
         DO I=1,NNO
            IF(NODSEG(I,1) /= 2) CYCLE
@@ -1515,7 +1515,7 @@ C
          IAD=IAD+LENPOLY(I)
       ENDDO
 C
-C Recherche des trous
+C Searching for holes
       INFO=0
       DO I=1,NPOLY
 C
@@ -1573,9 +1573,9 @@ C
 C
             IF (ABS(ALPHA)<TWO*PI) CYCLE
 C            IF (ABS(ALPHA)>=ONE) THEN
-C Le premier point du polygone i est a l'interieur du polygone j
-C Un point est interne si ABS(ALPHA)=2PI!
-C On teste tous les autres
+C The first point of polygon i is inside polygon j
+C A point is internal if ABS(ALPHA)=2PI!
+C We test all the others
                IPOUT=0
                DO K=2,LENPOLY(J)
                   X1=RPOLY(4+3*(K-1)+1,J)
@@ -1627,7 +1627,7 @@ C                  IF (ABS(ALPHA)<ONE) IPOUT=1
                ENDDO
 C
                IF (IPOUT==1) CYCLE
-C Le polygone j est un trou dans le polygone i
+C Polygon j is a hole in polygon i
                IPOLY(1,J)=-1
                NHOL=NHOL+1
                IADHOL(NHOL)=LENPOLY(I)
@@ -1657,7 +1657,7 @@ C Le polygone j est un trou dans le polygone i
                   ENDDO
                ENDIF
                LENPOLY(I)=LENPOLY(I)+LENPOLY(J)
-C Point interieur polygone j
+C Polygone interior j.
                VX1=QUAD(1,2)-QUAD(1,1)
                VY1=QUAD(2,2)-QUAD(2,1)
                VZ1=QUAD(3,2)-QUAD(3,1)

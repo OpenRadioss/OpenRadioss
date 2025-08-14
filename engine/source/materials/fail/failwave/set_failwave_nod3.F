@@ -102,13 +102,13 @@ c---------------
           NEWCRK1 = 0
           NEWCRK2 = 0
           DO I=1,NEL
-            IF (FWAVE_EL(I) == -1) THEN        ! DIR 1 vient de cracker
+            IF (FWAVE_EL(I) == -1) THEN        ! Dir 1 comes from Cracker
               NEWCRK1 = NEWCRK1 + 1
               INDX1(NEWCRK1) = I
-            ELSEIF (FWAVE_EL(I) == -2) THEN    ! DIR 2 vient de cracker
+            ELSEIF (FWAVE_EL(I) == -2) THEN    ! Dir 2 comes from Cracker
               NEWCRK2 = NEWCRK2 + 1
               INDX2(NEWCRK2) = I
-            ELSEIF (FWAVE_EL(I) == -3) THEN    ! deux directions viennent de cracker
+            ELSEIF (FWAVE_EL(I) == -3) THEN    ! Two directions have just cracker
               NEWCRK1 = NEWCRK1 + 1
               NEWCRK2 = NEWCRK2 + 1
               INDX1(NEWCRK1) = I

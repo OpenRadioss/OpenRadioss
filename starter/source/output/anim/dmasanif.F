@@ -171,7 +171,7 @@ cc            MAS(EL2FA(NN8+N_FA)) = BUFEL(NB16+I)
         ELSE                                                            
         ENDIF                                                           
 C-----------------------------------------------                        
-C       FIN DE BOUCLE SUR LES OFFSET                                    
+C       FIN DE BOUCLE SUR LES OFFSET
 C-----------------------------------------------                        
  490  CONTINUE                                                          
 C-----------------------------------------------                        

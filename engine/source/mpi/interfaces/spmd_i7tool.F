@@ -3038,7 +3038,7 @@ C
                 ELSEIF(ITYP==20)THEN
                   LINDIDEL = LINDIDEL+NRTM
                   LBUFIDEL = LBUFIDEL+4*NRTM+4
-C partie edge
+C Edge part
                   NLINS  = IPARI(51,I)                                   
                   NLINM  = IPARI(52,I)                                   
                   LINDIDEL = LINDIDEL+NLINM+NLINS
@@ -3093,7 +3093,7 @@ C
             ELSEIF(ITYP==20)THEN
               NSN  = IPARI(5,I)
               NMN = IPARI(6,I)  
-C partie edge rajoutee             
+C Edge part added             
               NSNE   = IPARI(55,I)                                   
               NMNE   = IPARI(56,I)                                   
               IF(NSN+NSNE/=0) THEN
@@ -3196,17 +3196,17 @@ C
               IRECVF = LAST
             END IF
           END IF
-          IF(MY_RANK==NSPMD)THEN         ! DERNIER PROC DU RING
+          IF(MY_RANK==NSPMD)THEN         ! LAST PROC OF THE RING
             IF(IRECVF/=0) ISENDT = -1      ! -1 : ENVOI A TS LE MONDE (SI COMM NECESSAIRE)
-          ELSE ! PROCESSEUR DANS LE RING
+          ELSE ! PROCESSOR IN THE RING
             ISENDT = INDP(MY_RANK+1)
           END IF
           IF(NSPMD>1) THEN
-            IF(NNP(INDP(NSPMD-1))>0)IRING= INDP(NSPMD) ! IRING = NO DU DERNIER PROCESSEUR DS LE RING (OU 0 SI PAS DE RING NECESSAIRE) 
+            IF(NNP(INDP(NSPMD-1))>0)IRING= INDP(NSPMD) ! IRING = NO OF THE LAST PROCESSOR IN THE RING (OR 0 IF NO RING NECESSARY)
           END IF
         END IF
 C
-C longueur comm routine SPMD_SD_XV
+C length com routine SPMD_SD_XV
 C
         ISIZXV = 0
         DO I = 1, NSPMD
@@ -3219,7 +3219,7 @@ C comm w
 
         IF(IDTMIN(11)==3.OR.IDTMIN(10)==3) ILENXV = ILENXV + 2
 C
-C longueur comm routine EXCH_A_INT2_PON
+C length com routine exch_a_int2_pon
 C
         IF(IRODDL==0) THEN
           I2SIZE = 5
@@ -3227,7 +3227,7 @@ C
           I2SIZE = 10
         ENDIF
 C
-C longueur comm routine I7XVCOM et I7FCOM
+C Comm routine length i7 xcom and i7 xcom
 C
         ISLEN7 = 0
         IRLEN7 = 0
@@ -3253,7 +3253,7 @@ C
           NIN = INTLIST(I)
           ITYP = IPARI(7,NIN)
           INTTH = IPARI(47,NIN)
-C type 7 ou 10
+C type 7 or 10
           IF(ITYP==7 .OR.ITYP==10.OR.
      .       ITYP==23.OR.ITYP==22.OR.ITYP==24.OR.
      .       ITYP==25)THEN
@@ -3442,7 +3442,7 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
       IF(IFLAG==1) THEN
-C init Pointeur + lecture partie entiere
+C Init Pointer + Reading Wait
        IF(NINTER/=0) THEN
         IERROR = 0
         ALLOCATE(NSVFI(NINTER),STAT=IERROR1)
@@ -3950,7 +3950,7 @@ C
           CALL ARRET(2)
         ENDIF
 C
-C allocation et lecture strutures interfaces sur fichier restart (partie entiere)
+C Allocation and reading Strings Interfaces on Restart file (integer part)
 C
         NBINTC = 0
         DO I =1, NINTER
@@ -4448,7 +4448,7 @@ C fin type11
                END IF
 C fin type 17
               END IF
-C cas LENR = 0, on a pas besoin de tableau ISKYFI et FSKYFI
+C Lenr case = 0, we don't need an iskyfi and fskyfi table
             ELSE
               NLSKYFI(I) = 0
             ENDIF
@@ -4591,7 +4591,7 @@ C
                   CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
                   CALL ARRET(2)
                 END IF
-C cas LENR = 0, on a pas besoin de tableau ISKYFI et FSKYFI
+C Lenr case = 0, we don't need an iskyfi and fskyfi table
               ELSE
                 NLSKYFIE(I) = 0
               END IF
@@ -4684,7 +4684,7 @@ C
 C
 C
             IF(IPARI(36,I)>0.AND.IPARI(7,I)/=17) THEN
-C structure output sous interfaces
+C Output structure under interfaces
               IERROR = 0
               ALLOCATE(NISUBSFI(I)%P(NSPMD),STAT=IERROR1)
               IERROR = IERROR + IERROR1
@@ -4723,7 +4723,7 @@ C structure output sous interfaces
                 CALL ARRET(2)
               END IF               
 C =================== EDGES TO EDGE
-C structure output sous interfaces
+C Output structure under interfaces
               IF(IPARI(7,I) == 25 .AND. IPARI(58,I) > 0) THEN
                 IERROR = 0
                 ALLOCATE(NISUBSFIE(I)%P(NSPMD),STAT=IERROR1)
@@ -4863,12 +4863,12 @@ C
            ENDIF
           ENDIF
         ENDDO
-C allocation buffer echanges => remplace par alloc dynamique ds les echanges
+C Buffer Allocation Exchanges => replaced by Dynamic Alloc in the exchanges
        ENDIF
 C
        
       ELSE
-C iflag = 2 lecture partie reelle
+C Iflag = 2 Reading part Reel
        IF(NINTER/=0) THEN
         DO I =1, NINTER
           ITYP = IPARI(7,I)
@@ -4940,9 +4940,9 @@ C
               END IF
             END IF
           END IF
-C Int 20 specifique
+C Int 20 Specifique
           IF(ITYP==20)THEN
-C rajout ancrage
+C Addition anchoring
             IF(LENR>0) THEN
               CALL READ_DB(DAANC6FI(I)%P(1,1,1),3*6*LENR)
               CALL READ_DB(DXANCFI(I)%P(1,1),3*LENR)
@@ -4957,7 +4957,7 @@ C rajout ancrage
                 CALL READ_DB(DIAG_SMSFI(I)%P(1),LENR)
               ENDIF 
             END IF
-C rajout partie edge
+C Edge part addition
             LENR = 0
             DO P = 1, NSPMD
               LENR = LENR + NSNFIE(I)%P(P)
@@ -5161,11 +5161,11 @@ C-----------------------------------------------
 C Global init of variable
       IEDGE4=0
 C
-C Sauvegarde Structure interfaces sur restart
+C Building Structure Interfaces on Restart
 C
       IF(IFLAG==1) THEN
         IF(NINTER/=0) THEN
-C ecriture strutures interfaces sur fichier restart (partie entiere)
+C Writing Structures Interfaces on Restart file (integer part)
           DO I =1, NINTER
             ITYP = IPARI(7,I)
             IF(ITYP==7.OR.
@@ -5385,7 +5385,7 @@ C
                   END IF
                 END IF
 C =================== EDGES TO EDGE
-C structure output sous interfaces
+C Output structure under interfaces
                 IF(IPARI(7,I) == 25 .AND. IPARI(58,I) > 0) THEN
                   CALL WRITE_I_C(NISUBSFIE(I)%P(1),NSPMD)
                   LENI = 0
@@ -5443,7 +5443,7 @@ C
       ELSE ! WRITE REAL
 
         IF(NINTER/=0) THEN
-C ecriture strutures interfaces sur fichier restart (partie reelle)
+C Writing Structures Interfaces on Restart file (real part)
           DO I =1, NINTER
             ITYP = IPARI(7,I)
             IGAP = IPARI(21,I)
@@ -5537,9 +5537,9 @@ C
                 END IF
               END IF
             END IF
-C type20 specifique
+C SPECIFIC TYPE20
             IF(ITYP==20)THEN
-C rajout ancrage
+C Addition anchoring
               IF(LENR>0) THEN
                 CALL WRITE_DB(DAANC6FI(I)%P(1,1,1),3*6*LENR)
                 CALL WRITE_DB(DXANCFI(I)%P(1,1),3*LENR)
@@ -5686,7 +5686,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-C   test sur n=0
+C   test on n=0
       IF (N==0) RETURN
       L=N/2+1
       IR=N
@@ -5758,7 +5758,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-C   test sur n=0
+C   test on n=0
       IF (N==0) RETURN
       L=N/2+1
       IR=N
@@ -5920,7 +5920,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-C   test sur n=0
+C   test on n=0
       IF (N==0) RETURN
       L=N/2+1
       IR=N
@@ -6095,7 +6095,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-C   test sur n=0
+C   test on n=0
       IF (N==0) RETURN
       L=N/2+1
       IR=N
@@ -6308,7 +6308,7 @@ C      IDEB = 0
       DO P = 1, NSPMD
         NB = NSNFI(P)
         ISIZENV(1,P) = ISIZENV(1,P) + NB*LENI20
-C envoi tjrs mais peut etre optimise
+C always send but maybe optimistic
 C        DO N = 1, NB
 C          IF(NSVFI(IDEB+N)<0) THEN
 C            ISIZENV(P) = ISIZENV(P) + LENI20
@@ -6347,7 +6347,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-C   test sur n=0
+C   test on n=0
       IF (N==0) RETURN
       L=N/2+1
       IR=N
@@ -6556,7 +6556,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-C   test sur n=0
+C   test on n=0
       IF (N==0) RETURN
       L=N/2+1
       IR=N
@@ -6777,7 +6777,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-C   test sur n=0
+C   test on n=0
       IF (N==0) RETURN
       L=N/2+1
       IR=N
@@ -7089,8 +7089,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-C si double precision, on compacte 18 valeurs dp
-C si simple precision, on compacte 18 valeurs dp soit 36 sp
+C If double precision, we compact 18 DP values
+C If simple precision, we compact 18 DP values or 36 SP
       INC = 18
       IF(IRESP==0) THEN
         DO I = 1,INC
@@ -7376,8 +7376,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-C si double precision, on compacte 18 valeurs dp
-C si simple precision, on compacte 18 valeurs dp soit 36 sp
+C If double precision, we compact 18 DP values
+C If simple precision, we compact 18 DP values or 36 SP
       INC = 18*(1+IRESP)
       DO I = 1,INC
         DAANC6(I) = BUF(I)
@@ -7414,8 +7414,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-C si double precision, on compacte 18 valeurs dp
-C si simple precision, on compacte 18 valeurs dp soit 36 sp
+C If double precision, we compact 18 DP values
+C If simple precision, we compact 18 DP values or 36 SP
       INC = 18*(1+IRESP)
       DO I = 1,INC
         BUF(I) = DAANC6(I)

@@ -133,7 +133,7 @@ C     Node 3
       DO I=1,FVDATA(IFV)%NNTR
          IEL=FVDATA(IFV)%IFVTRI(4,I)
          IF (IEL == 0) THEN
-C     Triangle interne appuye sur element solide
+C     Internal triangle Pressing on solid element
             IFOUND=0
             I1=FVDATA(IFV)%IFVTRI(1,I)
             I2=FVDATA(IFV)%IFVTRI(2,I)
@@ -229,7 +229,7 @@ C TAG elements of internal surface
       DO I=1,FVDATA(IFV)%NNTR
          IEL=FVDATA(IFV)%IFVTRI(4,I)
          IF (IEL < 0) THEN
-C     Triangle interne appuye sur element solide
+C     Internal triangle Pressing on solid element
             IFOUND=0
             I1=FVDATA(IFV)%IFVTRI(1,I)
             I2=FVDATA(IFV)%IFVTRI(2,I)

@@ -766,7 +766,7 @@ C----6---------------------------------------------------------------7---------8
         IF (I==ID) THEN
          DO K=1,ND
           DO JJ = IADK(ID+K),IADK(ID+1+K)-1
-C---------find l'adress dans LT-----
+C-------- Find l'Address in LT -----
            IF (JDIK(JJ)==JD) THEN
             JDL = JJ-1
             GOTO 100
@@ -808,7 +808,7 @@ c#include "lockoff.inc"
         IF (I==ID) THEN
          DO K=1,ND
           DO JJ = IADK(ID+K),IADK(ID+1+K)-1
-C---------find l'adress dans LT-----
+C-------- Find l'Address in LT -----
            IF (JDIK(JJ)==JD) THEN
             JDL = JJ-1
             GOTO 300

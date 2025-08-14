@@ -95,7 +95,7 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
-C     0- CALCUL DU CRITERE POUR SAVOIR SI ON DOIT TRIER OU NON
+C     0- calculate criterion to know if we should sort or not
 C
       XSLV(1) = -EP30
       XSLV(2) = -EP30
@@ -158,7 +158,7 @@ C=======================================================================
           IRBY = IKINE(IG) - (IKINE(IG)/2)*2
           IF(MS(IG) > ZERO .and. IRBY /= 1)THEN
 
-c essai viscosite critique
+c Critical viscosite test
 c            AAA = DT12/(TWO*MS(IG))
             AAA = DT12/(AMASS*MS(IG))
 c           delta A parith on
@@ -311,16 +311,16 @@ C=======================================================================
 C     maj pene a verifier !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 C=======================================================================
       IF(INACTI==5.OR.INACTI==6)THEN
-        IF(NSPMD > 1 .AND. TT > ZERO) THEN     ! a tt=0. les frontieres ne sont que partiellement baties
+        IF(NSPMD > 1 .AND. TT > ZERO) THEN     ! at tt=0, boundaries are only partially built
 C
-C Partie non parallele smt
+C SMT non -parallel part
 C
 !$OMP SINGLE
           CALL SPMD_GET_PENIS20(NSV,IXLINS,PENIS,PENISE,PENIA,NIN)
-C Fin Partie non parallele smt
+C End non -parallel part SMT
 !$OMP END SINGLE
         ENDIF
-c a faire ici ou dans I20BUCE_CRIT IF(PENIA(5,I)+... /= ZERO)NACTI=NACTI+1
+c To be done here or in i20buce_cript if (Penia (5, i)+... /= zero) nacti = nacti+1
         DO I=NLNF,NLNL
           PENIA(4,I) = MIN(PENIA(4,I),PENIA(5,I))
           PENIA(5,I) = ZERO
@@ -349,17 +349,17 @@ C     maj pene edges   !!!!!  deplace
 C=======================================================================
 c      IF(INACTI==5.OR.INACTI==6)THEN
 cC
-cC  maj PENIS sur partie non locale
+cc'Maj penis on non -local part
 cC
 c        IF(NSPMD > 1) THEN
 cC
-cC Partie non parallele smt
+cit is not parallel SMT
 cC
 c!$OMP SINGLE
 c
 c          CALL SPMD_GET_PENIS20E(NLINSA,PENIS,NIN)
 c
-cC Fin Partie non parallele smt
+cIt's not parallel part SMT
 c!$OMP END SINGLE
 c
 c        END IF
@@ -412,7 +412,7 @@ C
             VMSR(6)=MIN(VMSR(6),VA(3,IL))
           ENDIF
       END DO
-C dist calcule une fois pour toutes les interfaces dans SMP_CRIT (ci-dessous) ou SPMD_CRIT
+C dist calculated once for all interfaces in SMP_CRIT (below) or SPMD_CRIT
 C
 C     EDGES
 C
@@ -491,7 +491,7 @@ C=======================================================================
 C     STIF
 C=======================================================================
       IF(NSPMD==1) THEN
-C traitement deplace dans SPMD_GET_STIF en SPMD
+C Deplace treatment in SPMD_Get_Stif in SPMD
         DO I=NLNF,NLNL
           STFA(I)=MAX(STFA(I),ZERO)
         ENDDO
@@ -505,17 +505,17 @@ C     maj pene edges   !!!!!  deplace
 C=======================================================================
 c      IF(INACTI==5.OR.INACTI==6)THEN
 cC
-cC  maj PENIS sur partie non locale
+cc'Maj penis on non -local part
 cC
 c        IF(NSPMD > 1) THEN
 cC
-cC Partie non parallele smt
+cit is not parallel SMT
 cC
 c!$OMP SINGLE
 c
 c          CALL SPMD_GET_PENIS20E(NLINSA,PENIS,NIN)
 c
-cC Fin Partie non parallele smt
+cIt's not parallel part SMT
 c!$OMP END SINGLE
 c
 c        END IF
@@ -532,7 +532,7 @@ C=======================================================================
 C     maj pene edges  fin !!!!!  deplace
 C=======================================================================
 C
-C sur les noeuds frontieres en SPMD, suffit d'initialiser ALPHAKFI a ONE ds i20main_tri/i20xsinir
+C On the boundary nodes in SPMD, just initialize alphakfi to one ds i20main_tri/i20xinirir
       DO I=NLNF,NLNL
         ALPHAK(1,I)=MAX(ALPHAK(1,I),ALPHAK(3,I))
         ALPHAK(1,I)=MIN(ALPHAK(1,I),ABS(ALPHAK(2,I)))

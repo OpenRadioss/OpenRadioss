@@ -168,7 +168,7 @@ C-----------------------------------------------
         WYZ(I)=HALF*DT1*(DZY(I)-DYZ(I))
       ENDDO
 C---------------------------------------
-C     DERIVEES POUR LE CALCUL DES FORCES
+C     DERIVATIVES FOR FORCE CALCULATION
 C---------------------------------------
       DO I=1,NEL
         PY1(I)=HALF*(Z2(I)-Z4(I))

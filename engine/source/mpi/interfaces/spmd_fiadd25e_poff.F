@@ -133,7 +133,7 @@ C
                ENDIF
             ENDDO
 C     
-C     suite traitement i7for3 et i10for3 sur noeud secnd
+C     continuation of i7for3 and i10for3 processing on secondary node
 C     
          IF (INCONV == 1) THEN
             IF((ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0.AND.
@@ -204,7 +204,7 @@ C     Sections
          ENDIF
 C     
          IF((IBAG/=0.AND.INACTI/=7).OR.
-     .        (IADM/=0).OR.(IDAMP_RDOF/=0)) THEN ! attention conflit inacti=7 et ibag=3
+     .        (IADM/=0).OR.(IDAMP_RDOF/=0)) THEN ! warning conflict inacti = 7 and ibag = 3
 C     Airbags IBAG
             DO I = 1, NB
                IF(BUFR(2,I)/=ZERO.OR.BUFR(3,I)/=ZERO.OR.

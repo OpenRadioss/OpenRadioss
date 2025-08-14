@@ -64,7 +64,7 @@ C     REAL
       my_real
      .   MARGE
       my_real , INTENT(IN) :: DRAD, DGAPLOAD
-C     REAL ou REAL*8
+C     real or real*8
       my_real
      .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
      .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),

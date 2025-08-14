@@ -455,7 +455,7 @@ C
       ELSE
 
       !-----------------------------------------------------------------------!
-      ! SUPG OU TG                                                            !
+      ! SUPG OR TG
       ! TRANSPORTATION FORCE WHICH MINIMIZE HOURGLASS                         !
       !  <PHI,UJ*DUI/DXJ> ESTIMATED AT NODES                                  !
       !-----------------------------------------------------------------------!

@@ -86,7 +86,7 @@ C   seul proc0 ecrit en spmd
 C-----------------------------------------------
 C      SKEW ELEMENT 1D
 C-----------------------------------------------
-C   il faut recuperer les donnees sur les procs
+C   need to retrieve data on the processors
       II = 0
       DO NG=1,NGROUP
         MLW   =IPARG(1,NG)
@@ -337,7 +337,7 @@ c             ENDIF
         ELSE
         ENDIF
 C-----------------------------------------------
-C       FIN DE BOUCLE
+C       end of loop
 C-----------------------------------------------
       ENDDO
 

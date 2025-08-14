@@ -452,11 +452,11 @@ C------
             CALL SPH_NODSEG(XI,YI,ZI,XX,TFLAG,NP2SORT,LONFSPH,MWA,WA,WA(KVNORM),1)
             DPS=WA(NP2SORT)
             IF (DPS _OLD*DPS<ZERO) THEN
-C       pur outlet/silent boundaries on permute le sens de comptage
+C       Pure outlet/Silent Boundaries we swap the counting direction
               IF (ISPHIO(1,I)/=4) DPS_OLD = -DPS_OLD
-C       la particule a traverse la surface dans le sens +
+C       the particle crossed the surface in the + direction
               IF (DPS_OLD>ZERO) VSPHIO(IVAD+13) = VSPHIO(IVAD+13)-SPBUF(12,N)
-C       la particule a traverse la surface dans le sens -
+C       the particle crossed the surface in the - direction
               IF (DPS_OLD<ZERO) VSPHIO(IVAD+13) = VSPHIO(IVAD+13)+SPBUF(12,N)
             ENDIF        
           ENDIF
@@ -471,7 +471,7 @@ C------
          IACTIVE=MWA(KP)
          IF(DPS>DMAX.AND.DPS<ZERO)THEN
 C         particule imposee :
-C           conditions multiples => la derniere condition rencontree impose ..
+C           Multiple conditions => the last condition meets imposes ..
           N=LONFSPH(IACTIVE)
           IWA(IACTIVE)=I
           NG       =MOD(KXSP(2,N),NGROUP+1)
@@ -541,7 +541,7 @@ C send IMPOSE value
              CALL SPMD_SPHGETIMP(KXSP)
           END IF 
 C     requete ppv <=> non zero interaction / impose
-c     ppv: plus proche voisin
+c     PPV: closer neighbor
 C-----------------------------------------------
       DO I=1,NSPHIO
        ITYPE=ISPHIO(1,I)
@@ -618,7 +618,7 @@ c elmt delete OFF_SPH set to 1
        END IF
       ENDDO
 C-----------------------------------------------
-C      supprime particules n'inter-agissant plus avec l'interieur du domaine.
+C      Deletes particles no longer inter-acting with the interior of the domain.
 C-----------------------------------------------
       DO I1=1,NSPHIO
        ITYPE=ISPHIO(1,I1)
@@ -727,8 +727,8 @@ C           chainage:
             ILASTON            =ILASTON-1
             LPRTSPH(1,IPRT)    =ILASTON
 
-C           mise a jour des voisinages:
-c 1) ON NE TRAITE QUE LES VOISINS LOCAUX
+C           update of neighborhoods:
+c 1) WE ONLY PROCESS LOCAL NEIGHBORS
 
             DO J=1,KXSP(5,N)
 

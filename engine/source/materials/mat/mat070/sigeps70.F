@@ -188,7 +188,7 @@ C
       YLD_EMAX= UPARAM(IADBUF + 2*NFUNC + 15)
       NUMTABL = MATPARAM%NTABLE
 C-----------------------------------------------
-C     epst_spherique
+C     EPST_SPERIQUE
 C-------------------
       DO I=1,NEL
         EPST(I) = EPSXX(I)**2 + EPSYY(I)**2 + EPSZZ(I)**2
@@ -453,7 +453,7 @@ C =====================================================
       END IF
 C 
 C-------------------
-C projection spherique
+C Spherical projection
 C-------------------
       IF (IDAMAGE == 0 ) THEN
         DO I=1,NEL        

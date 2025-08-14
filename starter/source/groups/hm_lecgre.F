@@ -166,11 +166,11 @@ C=======================================================================
           CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='BUFTMP')
         ENDIF
 C-------------------------
-C groupes d' elements + init IGRN(1,IGS)
+C Elements groups + Init igrn (1, IGS)
 C-------------------------
       IGS=0
       CALL HM_OPTION_START(TRIM(STARTKEY))      
-      DO I=1,NGRELE  !NGRBRIC, NGRQUAD, etc...
+      DO I=1,NGRELE  !Ngrbric, Ngrquad, etc ...
 
         CALL HM_OPTION_READ_KEY(LSUBMODEL,
      .                          OPTION_ID   = ID,
@@ -199,20 +199,20 @@ C-------------------------
             IGRELEM(IGS)%TITLE=TITR
 C
             IF(KEY(1:6) == STARTKEY(2:7))THEN
-C             groupes de groupes
+C             groups of groups
               IGRELEM(IGS)%NENTITY=-1
               IGRELEM(IGS)%GRPGRP=2
               IGRELEM(IGS)%LEVEL=0
               IT0=IT0+1
             ELSEIF(KEY(1:4) == ELKEY)THEN
-C             groupe d'elements
+C             Group of elements
               IT1=IT1+1
               IF (FLAG == 0) THEN
                 IGRELEM(IGS)%NENTITY=0
                 IGRELEM(IGS)%GRPGRP=1
               ENDIF
             ELSEIF(KEY(1:4) == 'PART' .OR. KEY(1:6) == 'SUBSET' .OR. KEY(1:3) == 'MAT' .OR. KEY(1:4) == 'PROP') THEN
-C             groupe de SUBSET PART MAT OU PROP
+C             group of SUBSET PART MAT OR PROP
               IT2=IT2+1
               IF (FLAG == 0) THEN
                 IGRELEM(IGS)%NENTITY=0
@@ -227,7 +227,7 @@ C             groupe d'elements dans un box (old/obsolete/not supported with new
                 IGRELEM(IGS)%GRPGRP=4
               ENDIF
             ELSEIF(KEY(1:6) == 'SUBMOD')THEN
-C             groupe d'elements dans un submodel
+C             group of elements in a submodel
               IT4=IT4+1
               IF (FLAG  == 0) THEN
                 IGRELEM(IGS)%NENTITY=0
@@ -236,7 +236,7 @@ C             groupe d'elements dans un submodel
             ELSEIF(KEY(1:3) == 'BOX'.AND.(KEY2(1:5) == 'RECTA'.OR.
      .        KEY2(1:5) == 'CYLIN'.OR.KEY2(1:5) == 'SPHER'))THEN
 C             old /grnod/box (not /BOX/BOX)
-C             groupe de noeuds dans un box (clasical box, parallelepiped,
+C             group of nodes in a box (classical box, parallelepiped,
 C                              cylindrical, spherical)
               IT5=IT5+1
               IF (FLAG == 0) THEN
@@ -259,7 +259,7 @@ C
       ENDDO !next I
 
 C-------------------------------------
-C Recherche des ID doubles
+C Search for double IDs
 C-------------------------------------
       IF (FLAG == 0) THEN
         DO IGS=1,NGRELE
@@ -269,7 +269,7 @@ C-------------------------------------
       ENDIF
 
 C-------------------------------------
-C Remplacement des n0 d'elements user par systeme
+C Replacement of user element n0 by system n0
 C-------------------------------------
 
       IGS=0
@@ -280,7 +280,7 @@ C-------------------------------------
         BUFTMP = 0
         IF(NADMESH==0.OR.(ELKEY(1:4)/='SHEL'.AND.ELKEY(1:4)/='SH3N'))THEN
           CALL HM_OPTION_START(TRIM(STARTKEY))
-          DO I=1,NGRELE !NGRBRIC, NGRQUAD, etc...
+          DO I=1,NGRELE !Ngrbric, Ngrquad, etc ...
             CALL HM_OPTION_READ_KEY(LSUBMODEL,
      .                              OPTION_ID   = ID,
      .                              OPTION_TITR = TITR  ,
@@ -325,7 +325,7 @@ C-------------------------------------
           ENDDO!next I
         ELSE
           CALL HM_OPTION_START(TRIM(STARTKEY))        
-          DO I=1,NGRELE !NGRBRIC, NGRQUAD, etc ...
+          DO I=1,NGRELE !Ngrbric, Ngrquad, etc ...
               NEL=0
               IGS=IGS+1
               CALL HM_OPTION_READ_KEY(LSUBMODEL,
@@ -397,7 +397,7 @@ C-------------------------
                   CALL HM_GET_INT_ARRAY_INDEX        ('Ifirst'    ,N1    ,KK,IS_AVAILABLE,LSUBMODEL)    
                   CALL HM_GET_INT_ARRAY_INDEX        ('Ilast'     ,N2    ,KK,IS_AVAILABLE,LSUBMODEL)    
                   IF(N2>N1)THEN                                         
-                   !tag des elements                                                                 
+                   !tag of elements
                    DO K=1,NUMEL                                                                      
                      IF (IX(NIX,K) >= N1 .AND. IX(NIX,K) <= N2) BUFTMP(K)=1                            
                    ENDDO!next K                                                                           
@@ -533,7 +533,7 @@ C---
         IF(ALLOCATED(BUFBOX))DEALLOCATE(BUFBOX)
       ENDIF ! IF(IT6 /= 0)
 C-------------------------
-C groupes de SUBSETS,PART,MAT,PROP
+C groups of subsets, share, mat, prop
 C-------------------------
 
       IGS=0
@@ -604,7 +604,7 @@ C---
         ENDDO
       ENDIF
 C-------------------------
-C groupes de SUBMODELS
+C groups of SUBMODELS
 C-------------------------
 
       IGS=0

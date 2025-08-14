@@ -155,7 +155,7 @@ C     ALE ON / OFF
           !----------------------------!
           !        N V A R = 1         !
           !           in : RHO         !
-          !          out : RHO * VOL   !
+          !          Out: Rho * Flight!
           !----------------------------!
           IF (NVAR == 1) THEN
             IF(ITRIMAT==0)THEN
@@ -234,7 +234,7 @@ C     ALE ON / OFF
           !----------------------------!
           !        N V A R = 5         !
           !----------------------------!
-          !UVAR(I,1) : rho_liq*V_liq/V 
+          !Uvar (I, 1): rho_liq*v_liq/v 
           !UVAR(I,2) : density of gas
           !UVAR(I,3) : density of liquid
           !UVAR(I,4) : volumetric fraction of liquid

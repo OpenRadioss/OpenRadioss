@@ -63,7 +63,7 @@ C     INITIALISATION
 C-------------------------
       DATA VPG/PG1,PG1,PG,PG1,PG,PG,PG1,PG/
 C---------------------------------------------------------------------------------------------------------------
-C --- Non-local variable VARNL in Gauss point NG
+C --- Non-local variable varnl in gauss point ng
 C    
 C --- Position of the Gauss point
        KSI = VPG(1,NG)

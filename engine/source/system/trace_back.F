@@ -279,7 +279,7 @@ C-----------------------------------------------
 C
       IF(IW1==0) THEN
 C------------------------------------------------------------------------
-C       Ajout d'une ligne a TEXT (1 ou plusieurs X par descente de pile)
+C       adding a line to TEXT (1 or more X per stack descent)
 C------------------------------------------------------------------------
         NLIGNES_PILE(NIVEAU_PILE,IT) 
      .         = NLIGNES_PILE(NIVEAU_PILE,IT) + 1
@@ -291,7 +291,7 @@ C------------------------------------------------------------------------
         CHECK_PILE(NIVEAU_PILE,IT) = NS_SIGNAL
       ELSEIF(IW1==-1) THEN
 C------------------------------------------
-C       remonte de pile 
+C       stack ascent
 C------------------------------------------
         IF(NS_SIGNAL1==CHECK_PILE(NIVEAU_PILE,IT))THEN
           NLIGNES_PILE(NIVEAU_PILE,IT) 
@@ -304,7 +304,7 @@ C------------------------------------------
 C
       IF(IW1>0) THEN
 C------------------------------------------
-C       Ecriture du Trace Back et Arret
+C       writing the Trace Back and stopping
 C------------------------------------------
         IF(NIVEAU_PILE<=0)STOP
         NLIGNES = NLIGNES_PILE(NIVEAU_PILE,IT)

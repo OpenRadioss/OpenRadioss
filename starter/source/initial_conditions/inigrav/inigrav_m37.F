@@ -69,7 +69,7 @@ C     Global buffer
       GBUF => ELBUF_TAB(NG)%GBUF
 C     Material buffer
       MBUF  => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)
-C     EOS parameters, common
+C     EOS Parameters, Common
       P0 = BUFMAT(9)
       PSH= BUFMAT(16)
 C     EOS parameters mat 1: 

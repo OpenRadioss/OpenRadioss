@@ -339,7 +339,7 @@ C
       ENDIF
 
 C
-C nodcut non parallelises
+C NODCUT Non -paralle
       IF(NODCUT>0)THEN
         IF (NSPMD > 1) THEN
           IF (ISPMD==0)THEN

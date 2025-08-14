@@ -298,7 +298,7 @@ C
       YCDG=ZERO
       ZCDG=ZERO      
 C----------------------------
-C     CALCUL DU CDG + MASSE
+C     calculation of the center of gravity and mass
 C----------------------------
       DO 100 I=1,NSN
       N = NOD(I)
@@ -380,7 +380,7 @@ C
       CJWORK(10)=MASSE
       CJWORK(11)=INER
 C----------------------------
-C     mvt de corps rigide autour de CDG (masse MASSE, inertie INER):
+C     MVT of rigid body around CDG (mass mass, inertia inert):
 C     Extract V(t-1/2) and VR(t-1/2)
 C----------------------------
       VX= ZERO
@@ -458,7 +458,7 @@ C
 C
       CJWORK(18)=DMASSE
 C----------------------------
-C     CALCUL ACCELERATIONS DE ROTATION
+C     calculation of rotational accelerations
 C----------------------------
       VG(1)=VXX+AXX*DT12
       VG(2)=VYY+AYY*DT12
@@ -533,7 +533,7 @@ C
       AY=AY-N2*A0
       AZ=AZ-N3*A0
 C
-C transmet force au 1er nd
+C Transmet Force to the 1st ND
       N = NOD(1)
       A0=N1*A(1,N)+N2*A(2,N)+N3*A(3,N)
       A(1,N)=AX+N1*A0

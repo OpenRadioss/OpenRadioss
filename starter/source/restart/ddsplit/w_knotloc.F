@@ -84,7 +84,7 @@ c        ENDIF
         KNOTLOCEL_L(J) = KNOTLOCEL(J)
       ENDDO
 C
-      KNOTLOCPC_L = 0  ! il faut que els autre cases knotlocpc vides pour les neodus soient mises a 0
+      KNOTLOCPC_L = 0  ! The other KNOT LCPC boxes must be empty for neodus are put to 0
 
       CALL W_KNOTLOCPC(KNOTLOCPC,KNOTLOCPC_L,MAXGEO,NUMNOD_L,NODLOCAL)
 C

@@ -259,7 +259,7 @@ C
       END IF
 C reneumbering th groups and surface buffer
 C--------------------------------------------------------------
-C         DETERMINATION DES SUPER_GROUPES
+C         DETERMINATION OF SUPER_GROUPS
 C--------------------------------------------------------------
       ND=1
       EADD(1) = 1

@@ -132,7 +132,7 @@ C----------------------------
         OFF(I) = MIN(ONE,ABS(OFFG(I)))
       ENDDO
 C-----------
-C     REPERE CONVECTE (ITERATIONS).
+C     convected frame (ITERATIONS).
 C-----------
       DO I=1,NEL
         XL=ONE_OVER_6*(X1(I)+X2(I)+X3(I)+X4(I)+X5(I)+X6(I))
@@ -169,7 +169,7 @@ C-----------
      9   SZ,      TX,      TY,      TZ,
      A   NEL)
 C-----------
-C     PASSAGE AU REPERE CONVECTE.
+C     Change to the convected frame.
 C-----------
       IF((ISMSTR==1.OR.ISMSTR==3).OR.
      .   (ISMSTR==2.AND.IDTMIN(1)==3))THEN
@@ -249,7 +249,7 @@ C-----------
         X6(I)=XL
         Y6(I)=YL
         Z6(I)=-Z3(I)
-C       SAV dans rep. local.
+C       sav in local frame.
 C       SAV(I,1)=X1(I)-X6(I)
 C       SAV(I,2)=Y1(I)-Y6(I)
 C       SAV(I,3)=Z1(I)-Z6(I)

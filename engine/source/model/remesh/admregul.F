@@ -577,7 +577,7 @@ C
 C
       END IF
 C
-C     compactage de LSH4ACT
+C     compaction of LSH4ACT
       IF(ITASK==0)THEN
         NTMP   =NSH4ACT
         NSH4ACT=0
@@ -591,7 +591,7 @@ C     compactage de LSH4ACT
 
       END IF
 C
-C     compactage de LSH3ACT
+C     compaction of LSH3ACT
       IF(ITASK==0)THEN
         NTMP   =NSH3ACT
         NSH3ACT=0

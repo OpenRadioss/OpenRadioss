@@ -231,7 +231,7 @@ C
 C-------ADDITIONAL RECORDS------------
       IF(TH_VERS>=50)THEN
 C
-C       NOMBRE DE RECORDS ADDITIONNELS
+C       number of additional records
         NRECORD=2
         IF(ITTYP==0)THEN
           WRITE(IUNIT)NRECORD

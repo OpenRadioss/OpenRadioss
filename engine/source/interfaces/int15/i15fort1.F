@@ -107,7 +107,7 @@ C-----------------------------------------------
        ROT(I)=BUFSF(ADRBUF+7+I-1)
       END DO
 C-----------------------------------------------
-C     Noeud main dans le repere de l'ellipsoide :
+C     main node in the ellipsoid frame
 C-----------------------------------------------
       X1=BUFSF(ADRBUF+16)-BUFSF(ADRBUF+4)
       X2=BUFSF(ADRBUF+17)-BUFSF(ADRBUF+5)
@@ -116,7 +116,7 @@ C-----------------------------------------------
       YM=ROT(4)*X1+ROT(5)*X2+ROT(6)*X3
       ZM=ROT(7)*X1+ROT(8)*X2+ROT(9)*X3
 C-----------------------------------------------
-C     Vitesse du noeud main en local.
+C     main node velocity locally.
 C-----------------------------------------------
       V1=BUFSF(ADRBUF+19)
       V2=BUFSF(ADRBUF+20)
@@ -125,7 +125,7 @@ C-----------------------------------------------
       VYM=ROT(4)*V1+ROT(5)*V2+ROT(6)*V3
       VZM=ROT(7)*V1+ROT(8)*V2+ROT(9)*V3
 C-----------------------------------------------
-C     Vitesse  de rotation du noeud main en local.
+C     rotation velocity of the main node in local
 C-----------------------------------------------
       V1=BUFSF(ADRBUF+22)
       V2=BUFSF(ADRBUF+23)
@@ -134,7 +134,7 @@ C-----------------------------------------------
       VRY=ROT(4)*V1+ROT(5)*V2+ROT(6)*V3
       VRZ=ROT(7)*V1+ROT(8)*V2+ROT(9)*V3
 C----------------------------------------------------------
-C     PASSAGE DES VITESSES EN LOCAL.
+C     PASSAGE DES VELOCITIES EN LOCAL.
 C     non optimise (plusieurs fois / noeud).
 C----------------------------------------------------------
       DO 100 NLS=NDEB+1,MIN(NDEB+MVSIZ,NTC)
@@ -180,13 +180,13 @@ C       STF(I)=STFAC*DEPTH(I)/MAX(DEPTH(I)-PENET(I),EM20)
       FZN(I)=STF(I)*PENET(I)*NZI(I)
  200  CONTINUE
 C-------------------------------
-C     Extraction du pt de contact au cycle precedent.
+C     extraction of the contact point at the previous cycle
 C-------------------------------
       DO 250 NLS=NDEB+1,MIN(NDEB+MVSIZ,NTC)
       IL =KTC(NLS)
       IF (IACTIV(1,IL)<=0) GOTO 250
       I  =NLS-NDEB
-C     Point sur le triangle tq D(P,L) etait maximum au cycle precedent.
+C     Point on the TQ D triangle (P, L) was maximum at the previous cycle.
       L1(I)=IOLD(1,4*(IL-1)+1)
       L2(I)=IOLD(2,4*(IL-1)+1)
       L3(I)=IOLD(3,4*(IL-1)+1)
@@ -204,7 +204,7 @@ C------------------------------
       FYT(I)=ZERO
       FZT(I)=ZERO     
 C-------------------------------
-C     TOURNER DELTA(T-1) DANS LE PLAN TANGENT.
+C     rotate delta(t-1) in the tangent plane
 C-------------------------------
       IF (IACTIV(1,IL)>2) THEN
        DELTX=DOLD(1,4*(IL-1)+1)
@@ -227,7 +227,7 @@ C-------------------------------
        DELTZ=ZERO    
       ENDIF
 C-------------------------------
-C     INCREMENT SUR DELTA (T-1 -> T) : VITESSE RELATIVE TANGENTE DE POLD * DT
+C     INCREMENT SUR DELTA (T-1 -> T) : VELOCITY RELATIVE TANGENTE DE POLD * DT
 C-------------------------------
       XH=HOLD(1,4*(IL-1)+1)
       YH=HOLD(2,4*(IL-1)+1)
@@ -297,7 +297,7 @@ C-----
         SCALE=1.
       ENDIF
       IF (IACTIV(1,IL)>1) THEN
-C      Glissement DELTA=scale.DELTA
+C      Delta shift = scale.delta
        DELTX=SCALE*DOLD(1,4*(IL-1)+1)
        DELTY=SCALE*DOLD(2,4*(IL-1)+1)
        DELTZ=SCALE*DOLD(3,4*(IL-1)+1)
@@ -369,7 +369,7 @@ C-----
 C------------------------------------------------------------
 C     MISE EN MEMOIRE (VECTEURS DE TRAVAIL -> ASSEMBLAGE).
 C------------------------------------------------------------
-C     non vectoriel.
+C     non -vector.
       DO 600 NLS=NDEB+1,MIN(NDEB+MVSIZ,NTC)
       IL =KTC(NLS)
       IF (IACTIV(1,IL)<=0) GOTO 600
@@ -385,7 +385,7 @@ C-----
 C-----
  600  CONTINUE
 C------------------------------------------------------------
-C     non vectoriel.
+C     non -vector.
       DO 800 NLS=NDEB+1,MIN(NDEB+MVSIZ,NTC)
       IL =KTC(NLS)
       IF (IACTIV(1,IL)<=0) GOTO 800
@@ -424,7 +424,7 @@ C-----
 C-----
  800  CONTINUE
 C------------------------------------------------------------
-C     non vectoriel.
+C     non -vector.
       DO 825 NLS=NDEB+1,MIN(NDEB+MVSIZ,NTC)
       IL =KTC(NLS)
       IF (iactiv(1,IL)<=0) GOTO 825

@@ -44,7 +44,7 @@ C-----------------------------------------------
 C            A R G U M E N T S
 C-----------------------------------------------
 C     IXR(6,NUMELR)     TABLEAU CONECS+PID+NOS RESSORTS            E
-C     GEO(NPROPG,NUMGEO)TABLEAU DES CARACS DES PID                 E
+C     geo(npropG,numgeo)table of characteristics of pid
 C     INUM(6,NUMELR)    TABLEAU DE TRAVAIL                         E/S
 C     ISEL(NSELR)       TABLEAU DES RESSORTS CHOISIS POUR TH       E/S
 C     ITR1(NSELR)       TABLEAU DE TRAVAIL                         E/S
@@ -99,7 +99,7 @@ C
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
  
 C----------------------------------------------------------
-C   TRI GLOBAL SUR TOUS LES CRITERES POUR TOUS LES ELEMENTS
+C   global sorting on all criteria for all elements
 C----------------------------------------------------------
 C
       DO I=1,NUMELR
@@ -180,13 +180,13 @@ C
         ENDDO
       ENDDO
 C
-C INVERSION DE INDEX (DANS ITR1)
+C inversion of index (in itr1)
 C
       DO I=1,NUMELR
         ITR1(INDEX(I))=I
       ENDDO
 C
-C RENUMEROTATION POUR SURFACES
+C renumbering for surfaces
 C
       DO I=1,NSURF
         NN=IGRSURF(I)%NSEG
@@ -196,7 +196,7 @@ C
         ENDDO
       ENDDO
 C
-C RENUMEROTATION POUR GROUPES DE RESSORTS
+C renumbering for spring groups
 C
       DO I=1,NGRSPRI
         NN=IGRSPRING(I)%NENTITY
@@ -236,7 +236,7 @@ C REORDERING FOR ITAGPRLD_SPRING
         ITAGPRLD_SPRING(I) =INUM(8,INDEX(I))
       ENDDO
 C--------------------------------------------------------------
-C         DETERMINATION DES SUPER_GROUPES
+C         determination of super_groups
 C--------------------------------------------------------------
       ND=1
       DO I=2,NUMELR

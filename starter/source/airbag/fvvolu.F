@@ -78,7 +78,7 @@ C-----------------------------------------------
      .        CPAI, CPBI, CPCI, CPDI, CPEI, CPFI,
      .        RMWI, PINI, TI,   TI2,  RHOI, EFAC 
 C---------------------------------------------------
-C Noeuds des volumes finis
+C Nodes of the finite volumes
 C---------------------------------------------------
       X1 = ZERO
       Y1 = ZERO
@@ -154,7 +154,7 @@ C
          ENDIF
       ENDDO
 C----------------------------
-C Normale, aire des triangles
+C Normal, area of the triangles
 C----------------------------
       DO I=1,NNTR
          N1=IFVTRI(1,I)
@@ -174,14 +174,14 @@ C----------------------------
          ENDIF
       ENDDO
 C----------------------
-C Volume des polyhedres
+C Volume of the polyhedra
 C----------------------
       DO I=1,NPOLH
          PVOLU(I)=ZERO
-C Boucle sur les polygones du polyhedre
+C Loop over the polygons of the polyhedra
          DO J=IFVPADR(I),IFVPADR(I+1)-1
             JJ=IFVPOLH(J)
-C Boucle sur les triangles du polygone
+C Loop over the triangles of the polygon
             DO K=IFVTADR(JJ), IFVTADR(JJ+1)-1
                KK=IFVPOLY(K)
                AREA=PAREA(KK)
@@ -234,7 +234,7 @@ C
       WRITE(IOUT,1000) IVOLU(1),NSTR,NCTR,NPOLH,NPOLH_N,VOLPH,AREAP
 C
 C---------------------------------------------------
-C Update des quantites dans les polyhedres
+C Update of quantities in the polyhedra
 C---------------------------------------------------
       CPAI =RVOLU(7)
       CPBI =RVOLU(8)

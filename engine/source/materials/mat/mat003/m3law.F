@@ -203,7 +203,7 @@ C---------------------------------
        ENDDO
       ENDIF
 C----------------------------
-C     TEST DE RUPTURE DUCTILE
+C     ductile failure test
 C---------------------------
       DO I=1,NEL
        IF(OFF(I)<EM01) OFF(I)=ZERO

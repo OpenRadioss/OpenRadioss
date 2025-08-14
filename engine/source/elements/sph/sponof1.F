@@ -118,7 +118,7 @@ C-----------------------------------------------
       EN = 0
       RHON = ZERO
 C-------
-C     reset active particles states.
+C     Active reset Particecutes States.
       DO I=1,NSPHIO
        IPRT   =ISPHIO(2,I)
 C      loop over active particles related to IPRT.
@@ -233,7 +233,7 @@ c default value
          DIAM= (SQR2*VOL)**THIRD
        END IF             
 C------
-C      boite englobante / surface entiere.
+C      Enclosure box / entire surface.
        XBMIN =EP20
        YBMIN =EP20
        ZBMIN =EP20
@@ -244,10 +244,10 @@ C------
        ISU =ISPHIO(3,I)
 c NSEGB on split surface (IBUFSSG)
        NSEGB=IGRSURF(ISU)%NSEG
-c NSEG on complete surface (IBUFSSG_IO)
+c Nseg we complete surface (ibufssg_io)
        NSEG=ISPHIO(10,I)
-c IAD on split surface (IBUFSSG)
-c IAD2 on complete surface (IBUFSSG_IO)
+c IAD on Split Surface (Ibufssg)
+c IAD2 we complete surface (ibufssg_io)
        IAD2 =ISPHIO(11,I)
        DMAX=VSPHIO(IVAD+3)
 

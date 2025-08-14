@@ -97,7 +97,7 @@ C---  Local H matrix
           HLOC(K,L) = HLOC(L,K)
         ENDDO
       ENDDO
-C---  second membre
+C--- Second member
       DO K = 1,NCL
         IC = NC_INI + K
         DO IK=IADLL(IC),IADLL(IC+1)-1

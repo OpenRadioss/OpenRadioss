@@ -57,7 +57,7 @@ C----------------------------------------------------------------------------
       R_IGC1=PM(27,IVOLU(66))
       RMWI  = RVOLU(10)
 C--------------------------
-C     NOMBRE TOTAL DE MOLES
+C     TOTAL NUMBER OF MOLES
 C--------------------------
       GMI = RVOLU(11)
       RNM = GMI*RMWI
@@ -81,7 +81,7 @@ C--------------------------
       ENDDO
       RVOLU(14)=RNM
 C-------------------------------
-C     MASSE et ENTHALPY par GAZ
+C     MASS and ENTHALPY by GAS
 C-------------------------------
       RNMI=GMI*RMWI
       DGMOUT=DMOUT*RNMI/RNM

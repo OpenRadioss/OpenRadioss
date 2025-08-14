@@ -83,13 +83,13 @@ c    .               IRECTS ,IRECTM,PENE  ,NRTS    )
      .                    NRTS   ,DGAPLOAD)
 
 C-----------------------------------------------
-C il faut un lock sur toute la boucle (modification de chaine)
+C need a lock on the entire loop (chain modification)
 #include "lockon.inc"
 C-----------------------------------------------
-C elimination des couples deja trouves : une edge
-C escclave peut occuper plusieurs voxels. enbalyant les voxels
-C de l'edge main pour trouver les seconds correspondantes
-C on peut donc trouver plusieurs occurence de l'edge second.
+C elimination of already found pairs: one edge
+C Escclave can occupy several voxels.denying the Voxels
+C from the main edge to find corresponding seconds
+C We can therefore find several occurrence of the second edge.
 C-----------------------------------------------
         I_STOK = II_STOK
         DO I=1,J_STOK
@@ -204,13 +204,13 @@ C-----------------------------------------------
         CALL I11PEN3(J_STOK ,PROV_S,PROV_M,TZINF ,X     ,
      .               IRECTS ,IRECTM,PENE  ,NRTS    )
 C-----------------------------------------------
-C il faut un lock sur toute la boucle (modification de chaine)
+C need a lock on the entire loop (chain modification)
 #include "lockon.inc"
 C-----------------------------------------------
-C elimination des couples deja trouves : une edge
-C escclave peut occuper plusieurs voxels. enbalyant les voxels
-C de l'edge main pour trouver les seconds correspondantes
-C on peut donc trouver plusieurs occurence de l'edge second.
+C elimination of already found pairs: one edge
+C Escclave can occupy several voxels.denying the Voxels
+C from the main edge to find corresponding seconds
+C We can therefore find several occurrence of the second edge.
 C-----------------------------------------------
         I_STOK = II_STOK
         DO I=1,J_STOK

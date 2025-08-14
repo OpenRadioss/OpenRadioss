@@ -130,7 +130,7 @@ C HIDDEN FLAGS
 C----------------------
 C ISHEAR NEVER USED
         ISHEAR = 0
-C CVIS USED in coquez routines
+C Cvis used in shell routines
         CVIS = ZERO
 C ISEN USED IN ENGINE call csens3.F routine
         ISEN = 0
@@ -251,7 +251,7 @@ C
           GEO(5)=EP06
         ENDIF
 
-C  double stockage temporaire - supprimer GEO(12)=IGTYP apres tests
+C  Temporary double storage - Delete GEO (12) = Igtyp after tests
         IGEO( 1)=IG
         IGEO(10)=IHBE
         IGEO(11)=IGTYP
@@ -259,7 +259,7 @@ C  double stockage temporaire - supprimer GEO(12)=IGTYP apres tests
         GEO(171)=IHBE
 C
         IF (IHBE>11.AND.IHBE<29) THEN
-C---------GEO(13,I) est utilise pour porte dn;GEO(17,I),CVIS se change ----
+C---------- geo (13, i) is used for DN Porte; Geo (17, I), Cvis changes -----
           GEO(13)=GEO(17)
           GEO(17)=CVIS
 C          IGEO(20,I)=ISROT

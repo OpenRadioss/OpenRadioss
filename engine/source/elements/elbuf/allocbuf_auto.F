@@ -814,7 +814,7 @@ C
               BUFLY%SIGPT(1:NEL*LY_SIGPT) => LBUF%SIG(1:NEL*L_SIG)
             ENDIF
           ENDDO
-        ELSE    ! cette partie semble avoir des problemes de pointeur
+        ELSE    ! this part seems to have pointer issues
           BUFLY => ELBUF_STR%BUFLY(1)
           IF (IGTYP == 51 .OR. IGTYP == 52) THEN
             NPTT = BUFLY%NPTT

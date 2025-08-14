@@ -96,7 +96,7 @@ C
         DO I=LFT,LLT
           RHO0(I)= PM( 1,MAT(I))
         END DO
-C       attention loi 36
+
         NFUNC  = IPM(10,MAT(1))
         DO I=1,NFUNC
           IFUNC(I) = IPM(10+I,MAT(1))

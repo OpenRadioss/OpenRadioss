@@ -490,7 +490,7 @@ c
         ENDIF   
       ENDIF ! IF (MTN == 58) THEN
 C-----------------------------------------------------------------------
-C     CALCUL DES CONTRAINTES INITIALES
+C     CALCULATION OF INITIAL STRESSES
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
       IF (ISIGSH /= 0 .OR. ITHKSHEL == 2) THEN
 C to be checked for IGTYP = 51
@@ -606,7 +606,7 @@ C-------------------------------------------
      4                NLAY   )
        ENDIF
 C-------------------------------------------
-C     CALCUL DES DT ELEMENTAIRES
+C     CALCULATION OF ELEMENTARY TIMESTEPS
 C-------------------------------------------
 c         IGTYP=GEO(12,IXTG(5,I+NFT))
          IF (IGTYP /= 0  .AND. IGTYP /= 1  .AND.

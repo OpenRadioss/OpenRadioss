@@ -147,7 +147,7 @@ C
        NLF = 1
        NLT = NLS
 C
-C necessaire pour gap TYPE5
+C necessary for gap TYPE5
        DO LS=NLF,NLT
          IS = LISTI(LS)
          GAPV(IS)=SQRT(THREE)*GAPV(IS)
@@ -202,7 +202,7 @@ C necessaire pour gap TYPE5
         ENDDO
        ELSE
         DO LS = NLF, NLT
-C   conserver LISTI et LIST pour optimiser le code genere (IA64)
+C   keep LISTI and LIST to optimize the generated code (IA64)
           IS = LISTI(LS)
           I=JS+IS
           L  = CAND_E(I)
@@ -277,7 +277,7 @@ C
             ENDDO
           ENDIF
 C
-C necessaire pour gap TYPE5
+C necessary for gap TYPE5
           DO LS = NLF, NLT
             IS = LISTI(LS)
             GAPV(IS)=SQRT(THREE)*GAPV(IS)

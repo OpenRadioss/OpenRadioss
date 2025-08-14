@@ -61,7 +61,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sortie_main           ../engine/source/output/sortie_main.F
 !||    thcoq                 ../engine/source/output/th/thcoq.F
 !||    thnod                 ../engine/source/output/th/thnod.F
-!||    vitessepinch          ../engine/source/assembly/vitessepinch.F
+!||    velocitypinch          ../engine/source/assembly/velocitypinch.F
 !||    wrcomi                ../engine/source/output/restart/wrcomm.F
 !||    wrcomip               ../starter/source/restart/ddsplit/wrcommp.F
 !||    wrrestp               ../engine/source/output/restart/wrrestp.F

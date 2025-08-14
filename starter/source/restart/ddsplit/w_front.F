@@ -428,7 +428,7 @@ C
         IAD_ELEM(2,P+1) = IAD_ELEM(1,P+1)
       ENDDO
 C
-C-- Domdec Multidomaines hmpp      
+C- HMPP multidomatic domden      
 
       IF ((NSUBDOM>0).AND.(IDDOM==0)) THEN
         COMPTS = 0
@@ -587,7 +587,7 @@ C
  10     CONTINUE
       ENDDO
 C
-C RBY specifique (POFF)
+C SPECIFIC RBY (POFF)
 C
       NBRB = 0
       DO N = 1, NRBYKIN
@@ -674,7 +674,7 @@ C
         IAD_RBYM(P+1) = IAD_RBYM(P) + ISOM(P)
       ENDDO
 C    
-C RWALL specifique type sliding
+C SPECIFIC RWALL Type SLIDING
 C
       dd_wall(1:nspmd+2,1:nrwall) = 0
       do n=1,nrwall
@@ -746,20 +746,20 @@ C
             ENDIF
           ENDIF
         ENDDO
-C   tag DD_RBY(3) a negatif pour reperage des rb sans echange.
+C   Tag DD_RBY (3) A Negative for Spinning the RB without Exchange.
         IF(ISLOCAL==0) DD_RBY2(3,N) = -PMAIN
 C
         K = K + NSL
       ENDDO
 C
-C comptage des mains
+C counting of mains
 C
       DO P = 1, NSPMD
         DD_P(P) = 0
       ENDDO
       DO N = 1, NRBYKIN
         PMAIN = DD_RBY2(3,N)
-C si rby decoupe
+C If Rby Decoupe
         IF(PMAIN>0) DD_P(PMAIN) = DD_P(PMAIN)+1
       ENDDO
       DO P = 1, NSPMD
@@ -857,7 +857,7 @@ C   tag DD_RBY(3) a negatif pour reperage des r material sans echange.
         K = K + NSL
       ENDDO
 C
-C comptage des mains
+C counting of mains
 C
       DO P = 1, NSPMD
         DD_P(P) = 0
@@ -883,7 +883,7 @@ C
         IAD_RBYM2(4,NSPMD+1) = IAD_RBYM2(4,NSPMD+1) + IAD_RBYM2(4,P)
       END DO
 C
-C Specifique interface type 2 : on utilise les frontieres  
+C Specific type 2 interface: we use boundarys  
       DO P = 1, NSPMD+1
         IAD_I2M(P) = 0
       ENDDO
@@ -956,7 +956,7 @@ c from PMAIN computed in C_FVBAG
         K6 = K6 + NN
       ENDDO
 C
-C RLink specifique
+C SPECIFIC RLINK
 C
       K = 0
       DO I = 1, NLINK
@@ -1006,14 +1006,14 @@ C
         DO J = 1, NSN
           M = LJOINT(K+J)
           IF(PROC/=1) THEN
-C proc <> 0, frontiere si noeud sur le proc
+C proc <> 0, boundary if node on proc
             IF(NLOCAL(M,PROC)==1)THEN       
               NBCJ = NBCJ + 1
               DD_CJ(NAD+NBCJ-1) = M
               PROC_REM_CYL_JOINT(NBCJ) = 1
             END IF
           ELSE
-C proc = 0, recherche des autres procs ayant le noeud
+C proc = 0, search for other procs having the node
             DO P = 2, NSPMD
               IF(NLOCAL(M,P)==1) THEN         
                 NBCJ = NBCJ + 1
@@ -1052,7 +1052,7 @@ C
       ENDDO
       DEALLOCATE( PROC_REM_CYL_JOINT )
 C
-C RBY MOU specifique (POFF)
+C Specific Mou Rby (POFF)
 C
       NBRB = 0
       IAD_RBM(1) = 1
@@ -1070,7 +1070,7 @@ C
         IAD_RBM(P+1) = NBRB+1
       END DO
 C
-C RBM specifique (PON)
+C SPECIFIC RBM (Pon)
 C
       DO P = 1, NSPMD+1
         IAD_RBM2(1,P) = 0
@@ -1141,20 +1141,20 @@ C
             ENDIF
           ENDIF
         ENDDO
-C   tag DD_RBY(3) a negatif pour reperage des rb sans echange.
+C   Tag DD_RBY (3) A Negative for Spinning the RB without Exchange.
         IF(ISLOCAL==0) DD_RBM2(3,N) = -PMAIN
 C
         K = K + NSL
       ENDDO
 C
-C comptage des mains
+C counting of mains
 C
       DO P = 1, NSPMD
         DD_P(P) = 0
       ENDDO
       DO N = 1, NIBVEL
         PMAIN = DD_RBM2(3,N)
-C si rbm decoupe
+C If RBM Decoupe
         IF(PMAIN>0) DD_P(PMAIN) = DD_P(PMAIN)+1
       ENDDO
       DO P = 1, NSPMD
@@ -1247,7 +1247,7 @@ c              DD_CNDM(N) = ITABCNDM(DD_ELEM(I))
         endif
       ENDIF
 C
-C Section specifique
+C SPECIFIC Section
 C
       NNL_L = 0
       NNT_L = 0
@@ -1377,7 +1377,7 @@ C noeuds N1, N2, N3 NNODE a echanger
           IAD_SEC(1,PMAIN) = IAD_SEC(1,PMAIN) + DD_SEC(PROC,I)
         END IF
       END DO
-C renvoi des X  N1, N2, N3 NNODE aux procs possedant des elements de sections
+C return of X  N1, N2, N3 NNODE to procs possessing section elements
       DO P = 1, NSPMD
         DD_P(P) = 0
       ENDDO
@@ -1400,7 +1400,7 @@ C
         IP = IP + 30 + NSINT_S + NNOD_S
         IP0 = IP
         PMAIN = DD_SEC(NSPMD+1,I)
-C determination du nombre de noeuds a echange
+C determination of the number of nodes to exchange
         DD_P(PMAIN) = DD_P(PMAIN) + 1
         IF(PROC==PMAIN) THEN
           DO P = 1, NSPMD
@@ -1457,7 +1457,7 @@ C determination du nombre de noeuds a echange
               END DO
               IP = IP + 2*NSELTG_S
  3000         CONTINUE
-C si element de la section present sur le proc
+C if section element present on the proc
 c              IF(IMAX==1) THEN
               IF(IMAX==1.OR.ISECUT==1) THEN
 c                IAD_SEC(3,P) = IAD_SEC(3,P) + NN
@@ -1517,7 +1517,7 @@ c                IAD_SEC(3,P) = IAD_SEC(3,P) + NN
           END DO
           IP = IP + 2*NSELTG_S
  4000     CONTINUE
-C si element de la section present sur le proc
+C if an element of the section is present on the processor
           IF(IMAX==1.OR.ISECUT==1) THEN
             IAD_SEC(4,PMAIN) = IAD_SEC(4,PMAIN) + 1
 
@@ -1626,7 +1626,7 @@ C
         NEWFRONT(I) = 0
       END DO
 C
-C Frontieres CFD
+C CFD boundarys
 C    
       IF(IALE+IEULER+ITHERM+IALELAG/=0)THEN
 C
@@ -1673,7 +1673,7 @@ C   test agrad0
             NEL = IPARG(2,NG)
             NFT = IPARG(3,NG)
             ITY = IPARG(5,NG)
-C   voir autres types solides
+C   See other solid types
             ISOLNOD = IPARG(28,NG)
 C   3D
             IF(ITY==1) THEN
@@ -1794,7 +1794,7 @@ C
             ITY = IPARG(5,NG)
             P = IPARG(32,NG)+1
             IF(P/=PROC) THEN
-C   voir autres types solides
+C   See other solid types
              ISOLNOD = IPARG(28,NG)
 C   3D
              IF(ITY==1) THEN
@@ -1823,7 +1823,7 @@ C IV < 0 : SEGMENT INT12
         END DO
 C
 C
-C Traitement supplementaire Couplage Fluide/Structure
+C Additional treatment Fluid coupling/structure
 C
 !       Don't use here PLIST_IFRONT instead of NLOCAL
 !       because it increases cpu time 
@@ -2173,7 +2173,7 @@ C
             NRTS  = IPARI(3,N)
             NRTM  = IPARI(4,N)
             DO K=1,NRTM
-C   TAGE flag servant pour inacti
+C   Flag tage used for inactive
               N1 = INTBUF_TAB(N)%IRECTM(4*(K-1)+1)
               N2 = INTBUF_TAB(N)%IRECTM(4*(K-1)+2)
               N3 = INTBUF_TAB(N)%IRECTM(4*(K-1)+3)
@@ -2192,7 +2192,7 @@ C   TAGE flag servant pour inacti
               END DO
  1300         CONTINUE
             END DO
-C nb total de segments
+C total number of segments
             DD_I18(NSPMD+1,NN) = NRTM
 C PMAIN
             PMAIN = 1
@@ -2227,11 +2227,11 @@ C
         END DO
       END IF
 C
-C Frontiere LAG MULT
+C Lag Mult boundary
 C
       DO P = 1, NSPMD
-       DD_LAGF(1,NSPMD+1) = DD_LAGF(1,NSPMD+1)+DD_LAGF(1,P)  ! deja calcule ds routines de split
-       DD_LAGF(2,NSPMD+1) = DD_LAGF(2,NSPMD+1)+DD_LAGF(2,P)  ! deja calcule ds routines de split
+       DD_LAGF(1,NSPMD+1) = DD_LAGF(1,NSPMD+1)+DD_LAGF(1,P)  ! already calculated the split routines
+       DD_LAGF(2,NSPMD+1) = DD_LAGF(2,NSPMD+1)+DD_LAGF(2,P)  ! already calculated the split routines
       END DO
 C
       DO P = 1, NSPMD+1
@@ -2513,7 +2513,7 @@ C     Frontiers vs edges
                    FR_SAV(1,NBDDEDG) = I ! tri par no global croissant
                    FR_SAV(2,NBDDEDG) = J
                    PROC_REM25(NBDDEDG) = P
-                   ! Tri des aretes frontieres vs S1, S2 <=> ordre unique
+                   ! Sorting of the boundary areas vs s1, s2 <=> unique order
                    ITRI25_NORMAL(1,NBDDEDG) =  P
                    N1=INTBUF_TAB(NI)%ADMSR(4*(N-1)+J)
                    N2=INTBUF_TAB(NI)%ADMSR(4*(N-1)+MOD(J,4)+1)
@@ -2562,7 +2562,7 @@ C
 C
 C-------------------------
 C
-C Ecriture frontiere
+C Frontier writing
 C     
       CALL WRITE_I_C(DD_MV,NVOLU*(NSPMD+2))
       LEN_IA = LEN_IA + NVOLU*(NSPMD+2)
@@ -2683,7 +2683,7 @@ C
       CALL WRITE_I_C(NEWFRONT,NINTER)
       LEN_IA = LEN_IA + NINTER
 C
-C Ecriture frontiere ALE/CFD
+C Writing Frontiere Ale/CFD
 C
       IF(IALE+IEULER+ITHERM+IALELAG/=0)THEN
         CALL WRITE_I_C(NBRCVOIS,NSPMD+1)

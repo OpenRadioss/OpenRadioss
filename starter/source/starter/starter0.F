@@ -333,7 +333,7 @@ C ITESTV Format   [Version][YY][MM][DD]
       ALEFVM_Param%IPRINT_2 = 0
 C MUSCL Activation
       ALEMUSCL_Param%IALEMUSCL = 1
-C MUSCL compression coefficient, default value set to 1.
+C Muscl Compression Coefficient, Default Value Set to 1.
       ALEMUSCL_Param%BETA = TWO
       RATIO22 = ONE + TEN/HUNDRED
       RADIOSSV = 100090402
@@ -519,7 +519,7 @@ c
       IUSC1=30
       TSUB =31
       TSUB_TMP =32
-C     IUSC2=9 ou 10
+C     iusc2=9 or 10
       IUSC3=50
 
 C new composite shell pid max nbs 200

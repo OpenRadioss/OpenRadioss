@@ -69,12 +69,12 @@ C
       SP2 = SLP*SLP                                                    
       TM2 = TLM*TLM                                                    
       TP2 = TLP*TLP                                                    
-C---- fonctions de forme lineaires
+Clinear shape functions
       H(1)  = SLM*TLM                                                    
       H(2)  = SLP*TLM                                                    
       H(3)  = SLP*TLP                                                    
       H(4)  = SLM*TLP                                                    
-C---- fonctions de forme bicubiques (Adini, Clough)
+C--- Bicubic form functions (Adini, Cloud)
 c     u       = sum( HH(i)*u(i) + HRS(i) *theta_s(i)  + HRT(i) *theta_t(i))     
 c     theta_s = sum(HPS(i)*u(i) + HPRS(i)*theta_s(i)) + HXS(i) *theta_t(i))    
 c     theta_t = sum(HPT(i)*u(i) + HXT(i) *theta_s(i)) + HPRT(i)*theta_t(i))    

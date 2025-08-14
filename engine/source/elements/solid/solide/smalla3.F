@@ -56,7 +56,7 @@ C-----------------------------------------------
       DOUBLE PRECISION X , Y, Z   ,DV   
 C-----------------------------------------------
 C-----------------------------
-C     ROTATION RBY DES COORDONNEES POUR SMALL STRAIN
+C     ROTATION RBY COORDINATES FOR SMALL STRAIN
 C-----------------------------
       IF(ISMSTR==11)THEN
 C----SAV : (ismstr=10,11) is differently saved to Ismstr=1      

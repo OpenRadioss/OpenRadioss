@@ -89,7 +89,7 @@ C-----------------------------------------------
       IADD = 0
       NPGLOB(1:24*NUMELSG) = 0
 C
-C en spmd il faut envoyer l'info meme qd on a 0 elem local
+C In SPMD you must send the info even qd we have 0 local elem
       JJ = 0
       DO NG=1,NGROUP
         ITY   =IPARG(5,NG)

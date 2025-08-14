@@ -240,7 +240,7 @@ C-----------------------------------------------
         K_BLAST = K-NLOADP_F
         CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_TITR = TITR, OPTION_ID = ID, SUBMODEL_ID = SUB_ID)
         IAD = NUMLOADP + 1
-        SURF_ID = 0 !target surface id
+        SURF_ID = 0 !Target surface ID
         SURF_ID_GROUND = 0 !ground surface id
         internal_SURF_ID = 0
         SEG_UNDERGROUND = 0
@@ -840,7 +840,7 @@ C-----------------------------------------------
                   PBLAST%PBLAST_TAB(ILD_PBLAST)%TAGMSG(I) = 1
                 ENDIF
 
-                !Angle from detonation point
+                !Angle from Detonation Point
                 cos_theta = Dx*Nx_SEG + Dy*Ny_SEG + Dz*Nz_SEG
                 cos_theta = cos_theta/MAX(EM20,NORM_*DNORM)
 
@@ -909,12 +909,12 @@ C-----------------------------------------------
                   SELECT CASE(ISHAPE)
                     CASE (1,2)
                       Z = DNORM / W13    !spherical
-                      !Angle from detonation point
+                      !Angle from Detonation Point
                       cos_theta = Dx*Nx_SEG + Dy*Ny_SEG + Dz*Nz_SEG
                       cos_theta = cos_theta/MAX(EM20,NORM_*DNORM)
                    CASE(3)
                       Z = ZG             !cylindrical - in abac unit ID  g,cm,mus
-                      !Angle from detonation point
+                      !Angle from Detonation Point
                       !   is here cos between (Det-ProjZ) and normal
                       cos_theta = (ProjDet(1)-ProjZ(1))*Nx_SEG + (ProjDet(2)-ProjZ(2))*Ny_SEG + (ProjDet(3)-ProjZ(3))*Nz_SEG
                       cos_theta = cos_theta/MAX(EM20,LG*NORM_)

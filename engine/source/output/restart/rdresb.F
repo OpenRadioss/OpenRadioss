@@ -308,7 +308,7 @@ C-----------------------------------------------
 C--------------------------------------
 C     READING INTEGERS
 C--------------------------------------
-C fichier de restart au format binaire ieee
+C Restart file in binary format ieee
       LEN_G = NPROPGI*NUMGEO
       LEN_M = NPROPMI*NUMMAT
 C
@@ -816,12 +816,12 @@ C
         CALL READ_I_C(IAD_CNDM,SIAD_CNDM)
         CALL READ_I_C(FR_CNDM,SFR_CNDM)
 C
-C Partie Parith/ON lue en SPM dans tous les cas
+C Part Parith/We read in SPM in all cases
 C
-C lecture directe de ADDCNE
+C direct reading of ADDCNE
         IF(IPARIT==1) THEN
           CALL READ_I_C(ELEMENT%PON%ADSKY,NUMNOD+1)
-C lecture directe de PROCNE
+C direct reading of PROCNE
           CALL READ_I_C(ELEMENT%PON%PROCNE,LCNE0)
 C lecture directe structure interface type2
           IF (I2NSNT > 0) THEN
@@ -833,7 +833,7 @@ C---Itet2 of S10
            CALL READ_I_C(ADDCNCND,SADDCNCND)
           ENDIF
           CALL READ_I_C(PROCNCND,SPROCNCND)
-C lecture directe de IADS+IADWAL+IADRBK+IADI2+IADMV2+IADMV3+IADLL+IADRBM+IADI18+
+C Direct reading of IADS+IADWAL+IADRBK+IADI2+IADMV2+IADMV3+IADLL+IADRBM+IADI18+
 C  IADRBMK
           CALL READ_I_C(ELEMENT%PON%IADS       ,SIZE(ELEMENT%PON%IADS))       !< 1 ; 8xNUMELS  solid indexes to FSKY
           CALL READ_I_C(ELEMENT%PON%IADS10     ,SIZE(ELEMENT%PON%IADS10 ))    !< 6* NUMELS10 
@@ -877,7 +877,7 @@ C  ply xfem
 C
           IF(IPLYXFEM > 0) THEN
             CALL READ_I_C(ADSKY_PXFEM,NPLYXFE+1 )
-C lecture directe de PROCNE
+C direct reading of PROCNE
             CALL READ_I_C(PROCNE_PXFEM,LCNEPXFEM)
             CALL READ_I_C(IADC_PXFEM,4*EPLYXFE)
           ENDIF
@@ -893,7 +893,7 @@ C
           ENDIF
 C
         ELSEIF(IPARI0==1)THEN
-C saut de lecture
+C skip reading
           LEN = NUMNOD+1+LCNE0+(NUMNOD+1)*MIN(1,I2NSNT)+LCNI2
      +        + NISKY0+NSKYRW0+NSKYRBK0+NISKYI2+NSKYMV0+NSKYMVC0
      +        + NSKYLL0+NSKYRBM0+NSKYI18+NSKYRBE30+NSKYRBMK0
@@ -939,13 +939,13 @@ C--------------------------------------
         CALL READ_I_C(SH3TRIM,LEN)
       END IF
 C--------------------------------------
-C allocation + lecture struture interface partie entiere
+C Allowance + Reading Structure Interface Entiere Party
 C--------------------------------------
         CALL SPMD_INITFI(IPARI,1,H3D_DATA,INTERFACES%PARAMETERS,
      .                   GLOB_THERM%IDT_THERM,GLOB_THERM%INTHEAT)
 C
 C--------------------------------------
-C     Lecture + Init Frontiere SPMD pour SPH (partie entiere)
+C     Reading + Intit Frontiere SPMD for SPH (integer part)
 C--------------------------------------
       CALL SPMD_INISPH(1)
 C--------------------------------------
@@ -959,7 +959,7 @@ C--------------------------------------
         CALL INTFRIC_RRESTI(INTERFACES%INTBUF_FRIC_TAB,NINTERFRIC)
       END IF
 C--------------------------------------
-C  Structure table partie entiere
+C  Table structure
 C--------------------------------------
       IF(NTABLE /= 0)THEN
         CALL TABLE_RRESTI(TABLE)
@@ -1012,7 +1012,7 @@ C----------------------------------
         CALL READ_BCS_WALL()
       ENDIF
 C----------------------------------
-C     LECTURE DES VARIABLES REELLES
+C     reading real variables
 C--------------------------------------
 C      warning to radioss developers :
 C      IF(LVARREA>LMXVREA)THEN
@@ -1184,7 +1184,7 @@ C lecture struture interface partie reelle si irunn > 1
         IF(IRUNN>1.OR.MCHECK/=0) CALL SPMD_INITFI(IPARI,2,H3D_DATA,INTERFACES%PARAMETERS,
      .                                            GLOB_THERM%IDT_THERM,GLOB_THERM%INTHEAT)
 C--------------------------------------
-C     Lecture + Init Frontiere SPMD pour SPH (partie reelle)
+C     Reading + Intit Frontier SPMD for SPH (real part)
 C--------------------------------------
         CALL SPMD_INISPH(2)
 C--------------------------------------
@@ -1224,7 +1224,7 @@ C Read DDP
        ENDIF
        NPSAV = 29
 C   ----------------------------------------------------------------------
-C     Utilise pour les checks point restart.
+C     used for checkpoint restarts.
        IF(MCHECK/=0)THEN
         CALL READ_I_C(MY_ILEN,1)
         CALL READ_I_C(MY_RLEN,1)
@@ -1371,7 +1371,7 @@ Cfor TYPE2
         CALL READ_I_C(NATIV0_SMS,NUMNOD)
       ENDIF
 C--------------------------------------
-C structure tables partie reelle
+C Structure Tables Real Party
 C--------------------------------------
       IF(NTABLE /= 0)THEN
         CALL TABLE_RRESTR(TABLE)
@@ -1744,7 +1744,7 @@ C--------------------------------------
         IF (LENSIG>0) CALL READ_DB(FXBSIG,LENSIG)
         IF (LENGRVR>0) CALL READ_DB(FXBGRVR,LENGRVR)
       ENDIF
-C Lecture des fichiers de modes et de contraintes
+C reading mode and constraint files
       INQUIRE(IOLENGTH=RCLEN) VV
 
       TLEN=4096
@@ -1851,7 +1851,7 @@ C--------------------------------------
       ELSE
         CALL READ_DB(EIGRPM,NEIG*NERPM)
       ENDIF
-C Lecture du fichier de modes additionnels
+C reading the additional modes file
       INQUIRE(IOLENGTH=RCLEN) VV
 
       CALL MY_GETPID(MY_PID)
@@ -1919,7 +1919,7 @@ C-----------------------------------------------
 C
       DO I=1,NSPROC
 C--------------------------------------
-C Lecture des parametres entiers
+C reading integer parameters
 C--------------------------------------
          N=7
          IF (IRFORM/5<=1) THEN
@@ -2697,7 +2697,7 @@ C
       RETURN
       END
 C
-C convection flux
+C convection flow
 !||====================================================================
 !||    convrrest        ../engine/source/output/restart/rdresb.F
 !||--- called by ------------------------------------------------------

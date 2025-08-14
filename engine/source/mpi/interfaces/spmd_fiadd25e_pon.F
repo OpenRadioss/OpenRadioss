@@ -101,7 +101,7 @@ C
         ASSERT(N > 0)
         ASSERT(N <= NEDGE)
         IF(INTTH == 0 ) THEN
-C pb: pas sur de recevoir les FKSKY dans cet ordre
+C issue: not sure to receive the FKSKY in this order
 C#ifdef D_ES
 C         IF(LEDGE(8,N) == D_ES) THEN
 C          WRITE(6,*) "EDGE:",N,LEDGE(5,N),LEDGE(6,N),BUFR(10,I)
@@ -165,7 +165,7 @@ C        ENDIF
 
 
 C
-C suite traitement i7for3 et i10for3 sur noeud secnd
+C continuation of i7for3 and i10for3 processing on secondary node
 C
       IF((ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0.AND.
      .   ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
@@ -234,7 +234,7 @@ C     Sections
          ENDIF
 C     
          IF((IBAG/=0.AND.INACTI/=7).OR.
-     .        (IADM/=0).OR.(IDAMP_RDOF/=0)) THEN ! attention conflit inacti=7 et ibag=3
+     .        (IADM/=0).OR.(IDAMP_RDOF/=0)) THEN ! warning: conflict inacti = 7 and ibag = 3
 C     Airbags IBAG
             DO I = 1, NB
                IF(BUFR(2,I)/=ZERO.OR.BUFR(3,I)/=ZERO.OR.

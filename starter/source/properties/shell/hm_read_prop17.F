@@ -309,7 +309,7 @@ C---
          IF(ASHEAR == ZERO) ASHEAR=FIVE_OVER_6
 C
          IF (IHBE>11.AND.IHBE<29) THEN
-C---------GEO(13,I) est utilise pour porte dn;GEO(17,I),CVIS se change ----
+C---------- geo (13, i) is used for DN Porte; Geo (17, I), Cvis changes -----
            HM = DN
            DN = CVIS
 C          IGEO(20,I)=ISROT
@@ -493,7 +493,7 @@ C-----------------------------------------------------------------
      .               GEO(16),GEO(13),GEO(38),PTHK,FAIL_SHELL,ISHEAR,ITHK,
      .               IPLAST,IREP,GEO(7),GEO(8),GEO(9),IGEO(14)
          ELSE
-          WRITE(IOUT,2110)PROP_ID,ISTRAIN,GEO(1),ISS,IHBE, ! nly de moins
+          WRITE(IOUT,2110)PROP_ID,ISTRAIN,GEO(1),ISS,IHBE, ! nly of less
      .               ISH3N,
      .               GEO(13),GEO(14),GEO(15),GEO(16),
      .               GEO(38),PTHK,FAIL_SHELL,ISHEAR,ITHK,IPLAST,IREP,

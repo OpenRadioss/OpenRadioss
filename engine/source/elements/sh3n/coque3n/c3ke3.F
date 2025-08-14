@@ -82,7 +82,7 @@ C
       INTEGER IXTG(NIXTG,*) ,IGEO(NPROPGI,*),IPM(*),IPARG(*)
       INTEGER INDXOF(MVSIZ),
      .         ETAG(*),IDDL(*)  ,NDOF(*)  ,IADK(*) ,JDIK(*)
-C     REAL OU REAL*8
+C     REAL OR REAL*8
       my_real
      .   PM(NPROPM,*),GEO(NPROPG,*),BUFMAT(*),   X(3,*),THKE(*)
       my_real    
@@ -95,7 +95,7 @@ C     REAL OU REAL*8
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-c  indx utilise localement contrairement aux coques 4n 
+c  Indx uses locally unlike 4N shells 
       INTEGER MAT(MVSIZ),PID(MVSIZ),NGL(MVSIZ),INDX(MVSIZ)
       INTEGER I,J,J1,J2,IREP,IUN,NEL,IORTH,IGTYP,L_DIRA,L_DIRB,NLAY,
      .   IDRIL,EP

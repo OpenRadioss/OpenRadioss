@@ -246,7 +246,7 @@ C-----------------------------------------------------
             ICONTACT(N2(I))=1          
           ENDIF      
             ENDIF
-C test modifie pour coherence avec communication SPMD (spmd_i7tools)
+C test modified for consistency with SPMD communication (spmd_i7tools)
           IF(FX3(I)/=ZERO.OR.FY3(I)/=ZERO.OR.FZ3(I)/=ZERO)THEN
             ICONTACT(M1(I))=1          
           ENDIF

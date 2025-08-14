@@ -85,7 +85,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    read_db_c              ../common_source/tools/input_output/write_routtines.c
 !||====================================================================
       SUBROUTINE READ_DB(A,N)
-C lecture nombre reel : routine tampon
+C Reading Real Number: wrapper Routine
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -113,7 +113,7 @@ C-----------------------------------------------
         K=0
         N1=N/1000
         IF(ICRAY==1)THEN
-C fortran double precision : 128 bits C double : 64 bits
+C Fortran Double precision: 128 bits C'double: 64 bits
 C fortran real : 64 bits C double : 64 bits
           DO I = 1, N1
             CALL READ_DB_C(R4,1000)
@@ -131,7 +131,7 @@ C fortran real : 64 bits C double : 64 bits
             ENDDO
           ENDIF
         ELSE
-C fortran double precision : 64 bits C double : 64 bits
+C Fortran Double precision: 64 bits C'double: 64 bits
           DO I = 1, N1
             CALL READ_DB_C(R8,1000)
             DO J = 1, 1000
@@ -171,7 +171,7 @@ C
 !||--- calls      -----------------------------------------------------
 !||====================================================================
       SUBROUTINE READ_DB_ARRAY(A,N)
-C lecture nombre reel : routine tampon
+C Reading Real Number: wrapper Routine
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -199,7 +199,7 @@ C-----------------------------------------------
         K=0
         N1=N/1000
         IF(ICRAY==1)THEN
-C fortran double precision : 128 bits C double : 64 bits
+C Fortran Double precision: 128 bits C'double: 64 bits
 C fortran real : 64 bits C double : 64 bits
           DO I = 1, N1
             CALL READ_DB_ARRAY_C(R4,1000)
@@ -217,7 +217,7 @@ C fortran real : 64 bits C double : 64 bits
             ENDDO
           ENDIF
         ELSE
-C fortran double precision : 64 bits C double : 64 bits
+C Fortran Double precision: 64 bits C'double: 64 bits
           DO I = 1, N1
             CALL READ_DB_ARRAY_C(R8,1000)
             DO J = 1, 1000
@@ -248,7 +248,7 @@ C
 !||    read_db_c         ../common_source/tools/input_output/write_routtines.c
 !||====================================================================
       SUBROUTINE READ_DPDB(A,N)
-C lecture nombre reel : routine tampon
+C Reading Real Number: wrapper Routine
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -268,7 +268,7 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
         K=0
         N1=N/1000
-C fortran double precision : 64 bits C double : 64 bits
+C Fortran Double precision: 64 bits C'double: 64 bits
         DO I = 1, N1
           CALL READ_DB_C(R8,1000)
           DO J = 1, 1000

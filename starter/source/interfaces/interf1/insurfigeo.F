@@ -42,7 +42,7 @@ C-----------------------------------------------
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE FORMAT_MOD , ONLY : FMW_4I
 C-----------------------------------------------------------------------
-C     LECTURE DES SURFACES ET DECOMPTE DES SEGMENTS
+C     READING SURFACES AND COUNTING SEGMENTS
 C           ENTREE : 
 C                    NRT_IGE NOMBRE DE RENSEIGNEMENTS A LIRE
 C           SORTIE : 
@@ -77,8 +77,8 @@ C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
       INTEGER USR2SYS
 C=======================================================================   
-CC dans INTBUF_TAB%NIGE, on ecrit tout les points fictifs secnd puis les points fictifs main
-c NIGE est offsete a l'appel de la routine
+CC in intbuf_tab%nige, we write all the fictitious points second then the fictitious points main
+c NIGE is offset at the routine call
 
       DO J=1,MSN_IGE
         NIGE(J)=NIGE_TMP(J+IADTABIGE) 

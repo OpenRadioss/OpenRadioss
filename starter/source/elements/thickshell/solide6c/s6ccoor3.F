@@ -81,7 +81,7 @@ C-----------------------------------------------
       my_real
      .   CHECKVOLUME_6N
 C=======================================================================
-C     CONNECTIVITES ET NUMERO DE MATERIAU ET PID
+C     CONNECTIVITIES AND MATERIAL NUMBER AND PID
 C--------------------------------------------------
       DO I=LFT,LLT
         MXT(I)=IXS(1,I)
@@ -167,7 +167,7 @@ C
         Z6(I)=Z6(I)-ZL
       ENDDO
 C-----------
-C     REPERE CONVECTE .
+C     convected frame .
 C-----------
       CALL S6CORTHO3(                                    
      .  X1, X2, X3, X4, X5, X6,                          

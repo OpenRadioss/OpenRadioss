@@ -68,7 +68,7 @@ C-----------------------------------------------
           CALL FRETITL2(TITR,IPM(NPROPMI-LTITR+1,MY_MAT),LTITR)
           TITR = MAT_ELEM%MAT_PARAM(MY_MAT)%TITLE
 
-C         Le Titr du MAT sert de nom de la variable dans le ref.extract , suivi de l'ID du MAT 
+C         Le Titr du MAT sert de nom de la variable dans le ref.extract , suivi de l'ID du MAT
 C         2 MATs peuvent avoir le meme titre
           IF(LEN_TRIM(TITR)/=0)THEN
             CALL QAPRINT(TITR(1:LEN_TRIM(TITR)),IPM(1,MY_MAT),0.0_8)

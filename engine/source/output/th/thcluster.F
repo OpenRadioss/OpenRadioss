@@ -22,8 +22,8 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
  
 c TWO SOLUTIONS : 
-C - mettre l'user ID dans ITHBUF(J)
-C - rajouter CLUSTER(ILOC)%ID_GLOB dans le cluster (*)
+C - Put User ID in ITHBUF (J)
+C add CLUSTER(ILOC)%ID_GLOB in the cluster (*)
 !||====================================================================
 !||    thcluster         ../engine/source/output/th/thcluster.F
 !||--- called by ------------------------------------------------------

@@ -370,14 +370,14 @@ C
           VRY =  VRS(2) - VRM(2)
           VRZ =  VRS(3) - VRM(3)
 
-C-------------  vers increm en vitesses
+C-------------  vers increm en velocities
           DLX = VX*DT1
           DLY = VY*DT1
           DLZ = VZ*DT1
           DRX = VRX*DT1
           DRY = VRY*DT1
           DRZ = VRZ*DT1
-C-------------  DX == deplacement relatif
+C-------------- DX == Relative displacement
           DX(1,II) = DX(1,II) + DLX
           DX(2,II) = DX(2,II) + DLY
           DX(3,II) = DX(3,II) + DLZ
@@ -386,7 +386,7 @@ C-------------  DX == deplacement relatif
           DR(3,II) = DR(3,II) + DRZ
 C
 C------------------------------------------------                  
-C         Calcul de la force
+C         force calculation
 C------------------------------------------------
 C                         
           FLX = DX(1,II) * STFN(II)
@@ -428,7 +428,7 @@ C
           FS(3) = E1Z*FLX + E2Z*FLY + E3Z*FLZ
 C
 C------------------------------------------------                  
-C         Calcul du Moment
+C         moment calculation
 C------------------------------------------------
 C
           IF (IRODDL == 1 .AND. SAV_INER_POFF(I) > ZERO) THEN
@@ -593,7 +593,7 @@ C------------------------------------------------
             FINI(6,II) = MLZ
           ENDIF
 C------------------------------------------------                  
-C         composantes N/T de la forces nodale -> output
+C         n/t components of the nodal force -> output
 C------------------------------------------------           
           HL(1:4) = H(1:4,K)       
           CALL I2FORCES(X       ,FS     ,FX     ,FY      ,FZ     ,

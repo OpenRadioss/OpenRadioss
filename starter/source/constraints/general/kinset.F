@@ -96,16 +96,16 @@ C       TRANSLATION
         ISKWT = IKINE(1+NUMNOD)/10
         ITRAN = IKINE(1+NUMNOD) - 10*ISKWT
         IF(ITRAN==0)THEN
-C         LIBRE DANS LES 3 DIRECTIONS
+C         FREE IN 3 DIRECTIONS
           IKINE(1+NUMNOD) = JDIR(IDIR)+10*ISK
         ELSEIF(ISKWT==ISK.AND.KDIR(ITRAN,IDIR)==0)THEN
-C         LIBRE SUR LA DIRECTION DANS LE MEME SKEW
+C         FREE IN THE DIRECTION OF THE SAME SKEW
           IKINE(1+NUMNOD) = IKINE(1+NUMNOD)+JDIR(IDIR)
         ELSEIF(KDIR(ITRAN,IDIR)==0)THEN
           JWARN = 1
           IKINE(1+NUMNOD) = IKINE(1+NUMNOD)+JDIR(IDIR)
         ELSEIF(ISKWT==ISK)THEN
-C         FIXE SUR LA DIRECTION DANS LE MEME SKEW (ERROR)
+C         FIXED IN THE DIRECTION OF THE SAME SKEW (ERROR)
           JWARN = 1
         ELSE
           JWARN = 1
@@ -115,16 +115,16 @@ C       ROTATION
         ISKWR = IKINE(1+2*NUMNOD)/10
         IROTA = IKINE(1+2*NUMNOD) - 10*ISKWR
         IF(IROTA==0)THEN
-C         LIBRE DANS LES 3 DIRECTIONS
+C         FREE IN 3 DIRECTIONS
           IKINE(1+2*NUMNOD) = JDIR(IDIR)+10*ISK
         ELSEIF(ISKWR==ISK.AND.KDIR(IROTA,IDIR-3)==0)THEN
-C         LIBRE SUR LA DIRECTION DANS LE MEME SKEW
+C         FREE IN THE DIRECTION OF THE SAME SKEW
           IKINE(1+2*NUMNOD) = IKINE(1+2*NUMNOD)+JDIR(IDIR)
         ELSEIF(KDIR(IROTA,IDIR-3)==0)THEN
           JWARN = 1
           IKINE(1+2*NUMNOD) = IKINE(1+2*NUMNOD)+JDIR(IDIR)
         ELSEIF(ISKWR==ISK)THEN
-C         FIXE SUR LA DIRECTION DANS LE MEME SKEW (ERROR)
+C         FIXED IN THE DIRECTION OF THE SAME SKEW (ERROR)
           JWARN = 1
         ELSE
           JWARN = 1
@@ -146,7 +146,7 @@ c       lagrange multipliers (IDIR = 7)
       ENDIF
 C---------------------------------------------------------------
 C  CONDITION CINEMATIQUE INCOMPATIBLES ENTRE 2
-C  ENTITES DU MEME TYPE
+C  ENTITIES OF THE SAME TYPE
 C---------------------------------------------------------------    
       JWARN1 = 0
 C
@@ -155,16 +155,16 @@ C         TRANSLATION
           ISKWT1 = IKINE1(1+NUMNOD)/10
           ITRAN1 = IKINE1(1+NUMNOD) - 10*ISKWT1
           IF(ITRAN1==0)THEN
-C           LIBRE DANS LES 3 DIRECTIONS
+C           FREE IN 3 DIRECTIONS
             IKINE1(1+NUMNOD) = JDIR(IDIR)+10*ISK
           ELSEIF(ISKWT1==ISK.AND.KDIR(ITRAN1,IDIR)==0)THEN
-C           LIBRE SUR LA DIRECTION DANS LE MEME SKEW
+C           FREE IN THE DIRECTION OF THE SAME SKEW
             IKINE1(1+NUMNOD) = IKINE1(1+NUMNOD)+JDIR(IDIR)
           ELSEIF(KDIR(ITRAN1,IDIR)==0)THEN
             JWARN1 = 1
             IKINE1(1+NUMNOD) = IKINE1(1+NUMNOD)+JDIR(IDIR)
           ELSEIF(ISKWT1==ISK)THEN
-C           FIXE SUR LA DIRECTION DANS LE MEME SKEW (ERROR)
+C           FIXED IN THE DIRECTION OF THE SAME SKEW (ERROR)
             JWARN1 = 1
           ELSE
             JWARN1 = 1
@@ -174,16 +174,16 @@ C         ROTATION
           ISKWR1 = IKINE1(1+2*NUMNOD)/10
           IROTA1 = IKINE1(1+2*NUMNOD) - 10*ISKWR1
           IF(IROTA1==0)THEN
-C           LIBRE DANS LES 3 DIRECTIONS
+C           FREE IN 3 DIRECTIONS
             IKINE1(1+2*NUMNOD) = JDIR(IDIR)+10*ISK
           ELSEIF(ISKWR1==ISK.AND.KDIR(IROTA1,IDIR-3)==0)THEN
-C           LIBRE SUR LA DIRECTION DANS LE MEME SKEW
+C           free in the direction within the same skew
             IKINE1(1+2*NUMNOD) = IKINE1(1+2*NUMNOD)+JDIR(IDIR)
           ELSEIF(KDIR(IROTA1,IDIR-3)==0)THEN
             JWARN1 = 1
             IKINE1(1+2*NUMNOD) = IKINE1(1+2*NUMNOD)+JDIR(IDIR)
           ELSEIF(ISKWR1==ISK)THEN
-C           FIXE SUR LA DIRECTION DANS LE MEME SKEW (ERROR)
+C           fixed in the direction within the same skew (error)
             JWARN1 = 1
           ELSE
             JWARN1 = 1
@@ -207,10 +207,10 @@ C         lagrange multipliers (IDIR = 7)
 C
 C---------------------------------------------------------------
 C  CONDITIONS CINEMATIQUES INCOMPATIBLES ENTRE 2
-C  ENTITES DE MEME TYPE
+C  entities of the same type
 C
 C   TYPECOND(IKINE(1+3*NUMNOD)) = 1
-C   SI AU MOINS 2 CONDITIONS DE TYPE TYPCOND SUR CE NOEUD
+C   if at least 2 conditions of type typcond on this node
 C--------------------------------------------------------------- 
         IF (JWARN1 == 1) THEN
           IF(IK==1)THEN
@@ -256,10 +256,10 @@ C---------------------------------------------------------------
         ENDIF
 C---------------------------------------------------------------
 C  CONDITIONS CINEMATIQUES INCOMPATIBLES ENTRE 2
-C  ENTITES DE TYPES DIFFERENTS
+C  entities of different types
 C
 C SI IKINE(1+4*NUMNOD) = 0 :  PAS DE CONDITIONS INCOMPATIBLES
-C DE DIFFERENTS TYPES SUR CE NOEUD
+C of different types on this node
 C---------------------------------------------------------------    
         IF(IK==1)THEN
           IF(IBC(IKINE(1))==0 .AND. IBC(IKINE(1+4*NUMNOD))==0

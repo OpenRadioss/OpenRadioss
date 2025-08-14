@@ -71,7 +71,7 @@ C-----------------------------------------------
       INTEGER IBRIC,IQUAD,ISHEL,ISH3N,ITRUS,IBEAM,ISPRI,IPRT,IFLAG
       SAVE  IBRIC,IQUAD,ISHEL,ISH3N,ITRUS,IBEAM,ISPRI,IPRT,IFLAG
 C-----------------------------------------------
-C     LECTURE DES GROUPES DE GROUPES
+C     READING GROUPS OF GROUPS
 C=======================================================================
       IFLAG = MOD(FLAGG,2)
 C-----------------------------------------------

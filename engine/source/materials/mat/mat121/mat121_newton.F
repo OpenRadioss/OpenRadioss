@@ -116,7 +116,7 @@ c
         Yscale_TANG  = UPARAM(21) ! Tangent modulus scale factor 
         TANG(1:NEL)  = ZERO
       ELSE
-        TANG(1:NEL)  = UPARAM(21) ! Constant tangent modulus
+        TANG(1:NEL)  = UPARAM(21) ! Constant Tangent Modulus
         DTANGDEPSD(1:NEL) = ZERO
       ENDIF
       DTINV = ONE/MAX(TIMESTEP,EM20) ! Inverse of timestep

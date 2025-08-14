@@ -74,35 +74,35 @@ C-----------------------------------------------
      .        II12, II13, II14, IPINT, NDIM, JFORM, FREESURF
 C-----------------------------------------------------------------------------------
 C Description des tableaux ITYP=1
-C     II1  -> IFLOW   : parametres entiers
+C     II1 -> IFLOW: integer parameters
 C     II2  -> IBUF    : correspondances local-global noeuds surface
-C     II3  -> ELEM    : connectivite locale des triangles
-C     II4  -> IINOUT  : variables entieres pour les surfaces entrees-sorties
+C     II3 -> Elem: Local Connectivitis of the Triangles
+C     II4  -> IINOUT  : integer variables for inlet-outlet surfaces
 C     II5  -> IBUFI   : correspondance local-global noeuds internes
 C     II6  -> ITAGEL  : tag des elements des surfaces d'entrees-sorties
-C----- tableaux SPMD
+C---- SPMD tables
 C     II7  -> IBUFR   : indice ligne noeud local (0 si pas sur ce proc)
 C     II8  -> IBUFC   : indice colonne noeud local (0 si pas sur ce proc)
-C     II9  -> IBUFL   : liste noeuds surface sur processeur courant pour X, V, A
-C     II10 -> CNP     : attribution processeur pour noeuds surface pour X, V, A
-C     II11 -> IBUFIL  : liste noeuds internes sur processeur courant pour X, V, A
-C     II12 -> CNPI    : attribution processeur pour noeuds internes pour X, V, A
+C     II9 -> IBUFL: List Noes surface on current processor for x, v, a
+C     II10 -> CNP: Procedure processor for nodes surface for x, v, a
+C     II11 -> Ibufil: Internal noded list on current processor for x, v, a
+C     II12 -> CNPI: Award processor for internal nodes for x, v, a
 C     II13 -> IBUFELR : indice ligne elem local (0 si pas sur ce proc)
 C     II14 -> IBUFELC : indice colonne elem local (0 si pas sur ce proc)
 C
 C     IR1  -> RFLOW  : parametres reels
 C     IR2  -> PHI    : potentiel
 C     IR3  -> PRES   : pression
-C     IR4  -> U      : vitesse
-C     IR5  -> RINOUT : variables reelles pour les surfaces entrees-sorties
+C     IR4 -> U: velocity
+C     IR5  -> RINOUT : real variables for inlet-outlet surfaces
 C-----------------------------------------------------------------------------------
 C Description des tableaux ITYP=3
-C     II1  -> IFLOW   : parametres entiers
+C     II1 -> IFLOW: integer parameters
 C     II2  -> IBUF    : correspondances local-global noeuds surface
-C     II3  -> ELEM    : connectivite locale des triangles/quadrangles+flag
+C     II3 -> Elem: Local connectivitis of triangles/quadrangles+flag
 C     II4  -> IBUF_L  : correspondances local-global noeuds surface (a supprimer en SPMD)
 C     II5  -> SHELL_GA: correspondances local shell-gauge
-C     II6  -> CNP     : SPMD nombre de processeur pour chaque noeud
+C     II6  -> CNP     : SPMD number of processors for each node
 C engine
 C     II7  -> IPIV    : lapack resolution nel > nelmax
 C     II8  -> IBUFELR : SPMD

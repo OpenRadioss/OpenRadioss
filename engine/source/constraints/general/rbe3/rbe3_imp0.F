@@ -209,7 +209,7 @@ C     REAL
       my_real
      .   KDD(6,6),BD(6),KII(6,6),KIJ(6,6),BI(6)
 C------------------------------------
-C     VITESSES DES NOEUDS SECONDS
+C     velocities of secondary nodes
 C------------------------------------
        IF (NDOF(NS)<=0) RETURN
 C
@@ -398,7 +398,7 @@ C     REAL
       my_real
      .   BD(6),BI(6)
 C------------------------------------
-C     VITESSES DES NOEUDS SECONDS
+C     velocities of secondary nodes
 C------------------------------------
        IF (NDOF(NS)<=0) RETURN
 C
@@ -530,7 +530,7 @@ C     REAL
       my_real
      .   BD(6),BI(6)
 C------------------------------------
-C     VITESSES DES NOEUDS SECONDS
+C     velocities of secondary nodes
 C------------------------------------
 C
        I = NS
@@ -1093,7 +1093,7 @@ C     REAL
       my_real
      .   FDSTNB(18,NML),MDSTNB(18,NML)
 C------------------------------------
-C     VITESSES DES NOEUDS SECONDS
+C     velocities of secondary nodes
 C------------------------------------
        IF (NDOF(NS)<=0) RETURN
         CALL RBE3CL(IML  ,ISK   ,NS      ,X      ,FRBE3  ,
@@ -1145,7 +1145,7 @@ C-----------------------------------------------
       my_real
      .   KDD(6,6),KII(6,6)
 C------------------------------------
-C     VITESSES DES NOEUDS SECONDS
+C     velocities of secondary nodes
 C------------------------------------
        IF (NDOF(NS)<=0) RETURN
 C

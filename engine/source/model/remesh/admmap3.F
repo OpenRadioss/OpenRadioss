@@ -368,7 +368,7 @@ c     sig moyen
 !        END DO                                               
 !      ENDIF                                                            
 c---------------------------------------------
-c     reset source element variables
+c     Reset Source Variable elements
 c---------------------------------------------
       GBUFS%OFF(I)    =-ABS(GBUFS%OFF(I))
 !
