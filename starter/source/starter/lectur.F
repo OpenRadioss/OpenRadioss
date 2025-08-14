@@ -5513,7 +5513,7 @@ C------------------------------------------------------------------------
       ERR_MSG='USER TO SYSTEM RENUMBERING'
       ERR_CATEGORY='INTERNAL'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
-      CALL FSDCOD(BUFMAT   ,PM       ,GEO      ,IBCL      ,IPRES              ,
+      CALL FSDCOD(PYTHON, BUFMAT   ,PM       ,GEO      ,IBCL      ,IPRES              ,
      .            IBFV     ,ISKEW    ,ISKWN    ,SENSORS   ,MAT_ELEM%MAT_PARAM ,
      .            ITABM1   ,SKEW     ,LACCELM  ,BID13     ,BUFGEO             ,
      .            IBCSLAG  ,IGEO     ,IPM      ,
