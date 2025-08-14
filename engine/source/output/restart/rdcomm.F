@@ -1919,7 +1919,7 @@ C-----
       DTFAC  =TABVREA(11)
       DTMIN  =TABVREA(12)
       VOLMIN =TABVREA(13)
-      OUTPUT%WFEXT  =TABVREA(14)
+      OUTPUT%TH%WFEXT  =TABVREA(14)
       REINT  =TABVREA(15)
       !TABVREA(16) no longer used
       !TABVREA(17) no longer used

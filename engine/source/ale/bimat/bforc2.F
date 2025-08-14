@@ -68,7 +68,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    table_mod              ../engine/share/modules/table_mod.F
 !||    timer_mod              ../engine/source/system/timer_mod.F90
 !||====================================================================
-      SUBROUTINE BFORC2(TIMERS, ELBUF_TAB   ,NG        ,
+      SUBROUTINE BFORC2(TIMERS,  ELBUF_TAB   ,NG        ,
      1                   PM         ,GEO       ,IC         ,X       ,
      2                   A          ,V         ,MS         ,W       ,FLUX    ,
      3                   FLU1       ,VEUL      ,ALE_CONNECT,IPARG   ,
@@ -339,7 +339,7 @@ C-----------------------------------------------------
 C-----------------------------------------------------
 C     STRESS TENSOR
 C-----------------------------------------------------
-      CALL MMAIN(TIMERS,
+      CALL MMAIN(TIMERS, OUTPUT,
      1   ELBUF_TAB,   NG,          PM,          GEO,
      2                ALE_CONNECT, IC,          IPARG,
      3   V,           TF,          NPF,         BUFMAT,
@@ -557,7 +557,7 @@ C-----------------------------------------------------
 C-----------------------------------------------------
 C     STREE TENSOR
 C-----------------------------------------------------
-      CALL MMAIN(TIMERS,
+      CALL MMAIN(TIMERS, OUTPUT,
      1   ELBUF_TAB,   NG,          PM,          GEO,
      2                ALE_CONNECT, IC,          IPARG,
      3   V,           TF,          NPF,         BUFMAT,

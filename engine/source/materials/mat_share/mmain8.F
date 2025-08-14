@@ -52,7 +52,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    table_mod             ../engine/share/modules/table_mod.F
 !||    timer_mod             ../engine/source/system/timer_mod.F90
 !||====================================================================
-      SUBROUTINE MMAIN8(TIMERS, PM     ,GEO      ,ELBUF_STR,MAT_ELEM ,
+      SUBROUTINE MMAIN8(TIMERS , OUTPUT, PM     ,GEO      ,ELBUF_STR,MAT_ELEM ,
      2                  IX     ,IPARG    ,V        ,TF       ,
      3                  NPF    ,BUFMAT   ,STIFN    ,X        ,D1      ,
      4                  D2     ,D3       ,D4       ,D5       ,D6      ,
@@ -69,6 +69,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE TIMER_MOD
+      USE OUTPUT_MOD, ONLY : OUTPUT_
       USE TABLE_MOD
       USE MAT_ELEM_MOD         
       USE MULAW8_MOD
@@ -95,6 +96,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(TIMER_), INTENT(INOUT) :: TIMERS
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT
       INTEGER, INTENT(IN) :: SNPC
       INTEGER, INTENT(IN) :: NUMGEO
       INTEGER, INTENT(IN) :: SBUFMAT
@@ -212,7 +214,7 @@ c     user-type laws
           NUVAR  = MAX(NUVAR,IPM(8,MAT(I)))  
         ENDDO
 c
-        CALL MULAW8(TIMERS,
+        CALL MULAW8(TIMERS,OUTPUT,
      1   1,        NEL,      MTN,
      2   NPT,      D1,       D2,       D3,
      3   D4,       D5,       D6,       PM,

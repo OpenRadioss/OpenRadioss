@@ -33,7 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    output_mod              ../common_source/modules/output/output_mod.F90
 !||    root_finding_algo_mod   ../common_source/modules/root_finding_algo_mod.F90
 !||====================================================================
-      SUBROUTINE SIGEPS41 (
+      SUBROUTINE SIGEPS41(OUTPUT,
      1     NEL    ,NUPARAM,NUVAR   ,
      2     TIME   ,TIMESTEP,UPARAM  ,RHO0    ,RHO    ,
      3     VOLUME ,EINT   ,
@@ -45,7 +45,7 @@ C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
       USE ROOT_FINDING_ALGO_MOD
-      USE OUTPUT_MOD , ONLY : WFEXT
+      USE OUTPUT_MOD, ONLY : OUTPUT_
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -131,6 +131,7 @@ C---------+---------+---+---+--------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT
       INTEGER NEL, NUPARAM, NUVAR
 
       my_real, INTENT(IN) ::
@@ -342,7 +343,7 @@ C       EINT(I)=EINT(I)-0.5*(pres+pold)*DELTVOL(I) done in mulaw.
       enddo
 c
 !$OMP ATOMIC
-      WFEXT=WFEXT+WFEXTT
+      OUTPUT%TH%WFEXT=OUTPUT%TH%WFEXT+WFEXTT
 C-----------------------------------------------
       RETURN
       END

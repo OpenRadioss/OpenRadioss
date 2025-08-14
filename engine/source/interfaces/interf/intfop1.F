@@ -36,7 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    sensor_mod      ../common_source/modules/sensor_mod.F90
 !||====================================================================
-      SUBROUTINE INTFOP1(
+      SUBROUTINE INTFOP1(OUTPUT,
      1       IPARI ,X      ,A    ,
      2       ICODT ,FSAV    ,WA      ,V      ,MS   ,
      3       DT2T  ,NELTST  ,ITYPTST ,ITAB   ,STIFN,
@@ -48,6 +48,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
+      USE OUTPUT_MOD, ONLY : OUTPUT_
       USE INTBUFDEF_MOD
       USE H3D_MOD
       USE GROUPDEF_MOD
@@ -70,6 +71,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT
       INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER NELTST,ITYPTST 
       INTEGER NUM_IMP(*),NS_IMP(*),NE_IMP(*),NT_IMP
@@ -118,12 +120,12 @@ C
 C
          IF(N2D==0)THEN
           IF (NTY==14) THEN
-           CALL I14CMP(IPARI(1,N),INTBUF_TAB(N),IGRSURF ,BUFSF ,
+           CALL I14CMP(OUTPUT,IPARI(1,N),INTBUF_TAB(N),IGRSURF ,BUFSF ,
      2              A ,X ,V ,WA ,FSAV(1,N) ,
      3              IN ,STIFN ,FCONT ,MS ,FSKYI , 
      4              ISKY ,NPC ,TF ,H3D_DATA)
           ELSEIF (NTY==15) THEN
-           CALL I15CMP(IPARI(1,N),INTBUF_TAB(N),
+           CALL I15CMP(OUTPUT,IPARI(1,N),INTBUF_TAB(N),
      2            IGRSURF,BUFSF,A, X, V,
      3            WA, FSAV(1,N),IN, STIFN, FCONT,
      4            MS, FSKYI,ISKY, NPC, TF,

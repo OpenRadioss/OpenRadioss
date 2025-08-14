@@ -98,6 +98,7 @@
 !||    time_history_mod                   ../common_source/modules/output/time_history_mod.F
 !||====================================================================
       module output_mod
+        ! *.out , TH, STA, but no /ANIM/ or /H3D/ here
         use time_history_mod
         use state_file_mod
         use checksum_output_option_mod
@@ -107,13 +108,8 @@
           type (th_) :: th
           type (state_) :: state
           type (checksum_option_) :: checksum !< checksum option from Starter
-          double precision :: wfext           !< external force work (global value)
-          double precision :: wfext_md        !< specific to r2r method
-          character(len=2048) :: out_filename !< output file name
+          character(len=2048) :: out_filename !< *.out file name  
         end type output_
-
-        double precision, pointer :: wfext
-        double precision, pointer :: wfext_md
 
         ! /H3D/NODA/PEXT and /ANIM/NODA/PEXT and /TH/NODE(PEXT)
         real(kind=WP), dimension(:), allocatable :: NODA_SURF, NODA_PEXT       !domain array

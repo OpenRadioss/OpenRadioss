@@ -247,7 +247,7 @@ C------------------------------------------------------
 C     LAW 11 uses IELVS=IBIDON and IXS=IBIDON should not be used.
       IBIDON(1)=0
       OFFSET=0
-      CALL MMAIN(TIMERS,
+      CALL MMAIN(TIMERS, OUTPUT,
      1   ELBUF_TAB,   NG,          PM,          GEO,
      2                ALE_CONNECT, IBIDON,      IPARG,
      3   V,           PLD,         NPC,         BUFMAT,
