@@ -81,7 +81,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sensor_mod               ../common_source/modules/sensor_mod.F90
 !||    state_mod                ../common_source/modules/state_mod.F
 !||    th_mod                   ../engine/share/modules/th_mod.F
-!||    viper_mod                ../engine/source/interfaces/viper/viper_interface_mod.F
+!||    viper_mod                ../engine/source/coupling/viper/viper_interface_mod.F90
 !||====================================================================
       SUBROUTINE FREFORM(IRUNN,IRFL,IRFE,H3D_DATA,FLAG_CST_AMS,DYNAIN_DATA,
      .                   SENSORS,DT,OUTPUT,GLOB_THERM)

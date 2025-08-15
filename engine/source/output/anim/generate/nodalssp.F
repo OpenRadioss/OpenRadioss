@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    anim_nodal_contour_fvmbags   ../engine/source/output/anim/generate/anim_nodal_contour_fvmbags.F
 !||    anim_nodal_ssp_elems         ../engine/source/output/anim/generate/anim_nodal_ssp_elems.F90
 !||--- uses       -----------------------------------------------------
+!||    anim_nodal_ssp_elems_mod     ../engine/source/output/anim/generate/anim_nodal_ssp_elems.F90
 !||    elbufdef_mod                 ../common_source/modules/mat_elem/elbufdef_mod.F90
 !||    fvbag_mod                    ../engine/share/modules/fvbag_mod.F
 !||    groupdef_mod                 ../common_source/modules/groupdef_mod.F

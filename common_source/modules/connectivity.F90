@@ -38,6 +38,7 @@
 !||    spmd_exchange_ghost_shells    ../engine/source/engine/node_spliting/ghost_shells.F90
 !||    test_jc_shell_detach          ../engine/source/engine/node_spliting/detach_node.F90
 !||    update_pon_shells             ../engine/source/engine/node_spliting/update_pon.F90
+!||    viper_coupling_initialize     ../engine/source/coupling/viper/viper_interface_mod.F90
 !||    wrrestp                       ../engine/source/output/restart/wrrestp.F
 !||--- uses       -----------------------------------------------------
 !||    parith_on_mod                 ../common_source/modules/parith_on_mod.F90

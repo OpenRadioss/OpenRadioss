@@ -24,12 +24,14 @@
 ! All reordering of nodes & minimisation of timestep occurs in these routines rather than Viper's counterparts
 ! notes: ELBUFDEF_MOD includes a call to include task_c.inc, which is required for several of the included subroutines
 !||====================================================================
-!||    viper_mod      ../engine/source/interfaces/viper/viper_interface_mod.F
+!||    viper_mod       ../engine/source/coupling/viper/viper_interface_mod.F90
 !||--- called by ------------------------------------------------------
-!||    freform        ../engine/source/input/freform.F
-!||    resol          ../engine/source/engine/resol.F
+!||    freform         ../engine/source/input/freform.F
+!||    resol           ../engine/source/engine/resol.F
 !||--- uses       -----------------------------------------------------
-!||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    precision_mod   ../common_source/modules/precision_mod.F90
+!||    spmd_mod        ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
       MODULE VIPER_MOD
         use ELBUFDEF_MOD
@@ -54,6 +56,20 @@
         parameter (iverbose = .false.)
 
       CONTAINS
+!||====================================================================
+!||    viper_coupling_initialize                ../engine/source/coupling/viper/viper_interface_mod.F90
+!||--- called by ------------------------------------------------------
+!||    resol                                    ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    radiossviper_inittab                     ../engine/source/coupling/viper/viper_interface_mod.F90
+!||    radiossviper_receivesendinitialnumbers   ../engine/source/coupling/viper/viper_interface_mod.F90
+!||    radiossviper_receivesendinitialtimes     ../engine/source/coupling/viper/viper_interface_mod.F90
+!||    radiossviper_sendinitialstatus           ../engine/source/coupling/viper/viper_interface_mod.F90
+!||    radiossviper_sendmass                    ../engine/source/coupling/viper/viper_interface_mod.F90
+!||--- uses       -----------------------------------------------------
+!||    connectivity_mod                         ../common_source/modules/connectivity.F90
+!||    nodal_arrays_mod                         ../common_source/modules/nodal_arrays.F90
+!||====================================================================
         subroutine viper_coupling_initialize(VIPER, NODES, ELEMENT,   NUMNOD,&
           NIXS, NUMELS, IXS, NIXC, NUMELC,NIXTG, NUMELTG,IXTG, &
           ISTDO, NELEML, NUMELQ, NUMELT, NUMELP, NUMELR, &
@@ -155,9 +171,9 @@
 ! Creating a local of itabm1 that will work as required for Viper coupling
 ! Note that (e.g) itab is a 1D array, while IXS is an 11xN array that is re-arranged to be a 1D array with node ID in every ncol'th position
 !||====================================================================
-!||    radiossviper_inittab   ../engine/source/interfaces/viper/viper_interface_mod.F
+!||    radiossviper_inittab        ../engine/source/coupling/viper/viper_interface_mod.F90
 !||--- called by ------------------------------------------------------
-!||    resol                  ../engine/source/engine/resol.F
+!||    viper_coupling_initialize   ../engine/source/coupling/viper/viper_interface_mod.F90
 !||====================================================================
         subroutine RadiossViper_InitTab(numnod,itab,itabm1,ncol,ioffset)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -218,9 +234,9 @@
 ! This will receive the initial time, final time and output frequency from Viper (note that Viper does not always start at time = 0)
 ! This will also receive the minimum timestep, select the largest value, and send the new value back to Viper
 !||====================================================================
-!||    radiossviper_receivesendinitialtimes   ../engine/source/interfaces/viper/viper_interface_mod.F
+!||    radiossviper_receivesendinitialtimes   ../engine/source/coupling/viper/viper_interface_mod.F90
 !||--- called by ------------------------------------------------------
-!||    resol                                  ../engine/source/engine/resol.F
+!||    viper_coupling_initialize              ../engine/source/coupling/viper/viper_interface_mod.F90
 !||--- calls      -----------------------------------------------------
 !||====================================================================
         subroutine RadiossViper_ReceiveSendInitialTimes(dt_min,t_max,dt_out,t_now)
@@ -260,9 +276,9 @@
 ! This will send the number of nodes and elements to Viper; viper will compare the values and sent back a kill-command if
 ! there is a mismatch in numbers
 !||====================================================================
-!||    radiossviper_receivesendinitialnumbers   ../engine/source/interfaces/viper/viper_interface_mod.F
+!||    radiossviper_receivesendinitialnumbers   ../engine/source/coupling/viper/viper_interface_mod.F90
 !||--- called by ------------------------------------------------------
-!||    resol                                    ../engine/source/engine/resol.F
+!||    viper_coupling_initialize                ../engine/source/coupling/viper/viper_interface_mod.F90
 !||--- calls      -----------------------------------------------------
 !||====================================================================
         subroutine RadiossViper_ReceiveSendInitialNumbers(t_max,numnodes,numsolids,num4shells,num3shells)
@@ -295,9 +311,9 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 ! This will send nodal masses from to Viper for calculation of total energy; this needs to be done once
 !||====================================================================
-!||    radiossviper_sendmass   ../engine/source/interfaces/viper/viper_interface_mod.F
+!||    radiossviper_sendmass       ../engine/source/coupling/viper/viper_interface_mod.F90
 !||--- called by ------------------------------------------------------
-!||    resol                   ../engine/source/engine/resol.F
+!||    viper_coupling_initialize   ../engine/source/coupling/viper/viper_interface_mod.F90
 !||--- calls      -----------------------------------------------------
 !||====================================================================
         subroutine RadiossViper_SendMass(numnod,MS,itabm1)
@@ -327,9 +343,9 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 ! This will send the initial erosion status to Viper; this is required to inform Viper of void elements that need to be excluded calculations
 !||====================================================================
-!||    radiossviper_sendinitialstatus   ../engine/source/interfaces/viper/viper_interface_mod.F
+!||    radiossviper_sendinitialstatus   ../engine/source/coupling/viper/viper_interface_mod.F90
 !||--- called by ------------------------------------------------------
-!||    resol                            ../engine/source/engine/resol.F
+!||    viper_coupling_initialize        ../engine/source/coupling/viper/viper_interface_mod.F90
 !||--- calls      -----------------------------------------------------
 !||====================================================================
         subroutine RadiossViper_SendInitialStatus(n,numele,numele_viper,nparg,ngroup,ixem1,iparg,elbuf_tab)
@@ -386,7 +402,7 @@
 ! This will send nodal positions to Viper
 ! This will also send element status (i.e., eroded or still active)
 !||====================================================================
-!||    radiossviper_sendxve   ../engine/source/interfaces/viper/viper_interface_mod.F
+!||    radiossviper_sendxve   ../engine/source/coupling/viper/viper_interface_mod.F90
 !||--- called by ------------------------------------------------------
 !||    resol                  ../engine/source/engine/resol.F
 !||--- calls      -----------------------------------------------------
@@ -481,7 +497,7 @@
 ! Despite the variable name being A, this is actually a force
 ! We add this to both A and to FEXT, where the latter is used only for output
 !||====================================================================
-!||    radiossviper_receiveaccelerations   ../engine/source/interfaces/viper/viper_interface_mod.F
+!||    radiossviper_receiveaccelerations   ../engine/source/coupling/viper/viper_interface_mod.F90
 !||--- called by ------------------------------------------------------
 !||    resol                               ../engine/source/engine/resol.F
 !||--- calls      -----------------------------------------------------
@@ -513,7 +529,7 @@
 ! This will pass Viper's timestep to OpenRadioss, compare the two, select the shortest;
 ! The shortest timestep will also be passed back to Viper
 !||====================================================================
-!||    radiossviper_receivesenddt   ../engine/source/interfaces/viper/viper_interface_mod.F
+!||    radiossviper_receivesenddt   ../engine/source/coupling/viper/viper_interface_mod.F90
 !||--- called by ------------------------------------------------------
 !||    resol                        ../engine/source/engine/resol.F
 !||--- calls      -----------------------------------------------------
@@ -558,7 +574,7 @@
 ! There are commands that will modify tstop in Radioss to permit premature termination;
 ! We will compare the initial tstop with the current tstop to see if this change has been triggered
 !||====================================================================
-!||    radiossviper_sendkill   ../engine/source/interfaces/viper/viper_interface_mod.F
+!||    radiossviper_sendkill   ../engine/source/coupling/viper/viper_interface_mod.F90
 !||--- called by ------------------------------------------------------
 !||    resol                   ../engine/source/engine/resol.F
 !||--- calls      -----------------------------------------------------

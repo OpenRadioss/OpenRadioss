@@ -73,7 +73,7 @@
 #endif
         end subroutine spmd_send_reals
 !||====================================================================
-!||    spmd_send_reals       ../engine/source/mpi/spmd_send.F90
+!||    spmd_send_reals2d     ../engine/source/mpi/spmd_send.F90
 !||--- calls      -----------------------------------------------------
 !||    spmd_in               ../engine/source/mpi/spmd_error.F90
 !||    spmd_out              ../engine/source/mpi/spmd_error.F90
@@ -244,7 +244,7 @@
 #endif
         end subroutine spmd_send_double
 !||====================================================================
-!||    spmd_send_double      ../engine/source/mpi/spmd_send.F90
+!||    spmd_send_doubles2d   ../engine/source/mpi/spmd_send.F90
 !||--- calls      -----------------------------------------------------
 !||    spmd_in               ../engine/source/mpi/spmd_error.F90
 !||    spmd_out              ../engine/source/mpi/spmd_error.F90

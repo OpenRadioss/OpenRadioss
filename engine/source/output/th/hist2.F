@@ -78,6 +78,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    stack_mod               ../engine/share/modules/stack_mod.F
 !||    th_mod                  ../engine/share/modules/th_mod.F
 !||    th_surf_mod             ../common_source/modules/interfaces/th_surf_mod.F
+!||    thsechecksum_mod        ../engine/source/output/th/thchecksum.F90
 !||====================================================================
       SUBROUTINE HIST2(PM      ,D         ,X        ,V           ,A         ,
      2                 IXS     ,BUFEL     ,WA       ,IPARG       ,SENSOR_TAB,

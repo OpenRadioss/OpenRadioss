@@ -72,6 +72,7 @@
 !||    tagoff3n                                 ../engine/source/interfaces/interf/chkstfn3.F
 !||    test_jc_shell_detach                     ../engine/source/engine/node_spliting/detach_node.F90
 !||    user_interface_mod                       ../engine/source/modules/user_interface_mod.F90
+!||    viper_coupling_initialize                ../engine/source/coupling/viper/viper_interface_mod.F90
 !||    wrrestp                                  ../engine/source/output/restart/wrrestp.F
 !||--- uses       -----------------------------------------------------
 !||    precision_mod                            ../common_source/modules/precision_mod.F90

@@ -130,6 +130,7 @@
 !||    telesc                          ../engine/source/constraints/general/cyl_joint/telesc.F
 !||    test_jc_shell_detach            ../engine/source/engine/node_spliting/detach_node.F90
 !||    thermbilan                      ../engine/source/constraints/thermic/thermbilan.F
+!||    viper_mod                       ../engine/source/coupling/viper/viper_interface_mod.F90
 !||--- uses       -----------------------------------------------------
 !||    spmd_allgather_mod              ../engine/source/mpi/generic/spmd_allgather.F90
 !||    spmd_allgatherv_mod             ../engine/source/mpi/spmd_allgatherv.F90

@@ -20,17 +20,25 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    thsechecksum_mod   ../engine/source/output/th/thchecksum.F90
+!||--- called by ------------------------------------------------------
+!||    hist2              ../engine/source/output/th/hist2.F
+!||====================================================================
       module thsechecksum_mod
 
       contains
 
 !! \brief /CHECKSUM/START Option : write deck checksum digests to TH++
 !||====================================================================
-!||    thsechecksum   ../engine/source/output/th/thchecksum.F90
+!||    thsechecksum    ../engine/source/output/th/thchecksum.F90
 !||--- called by ------------------------------------------------------
-!||    hist2          ../engine/source/output/th/hist2.F
+!||    hist2           ../engine/source/output/th/hist2.F
 !||--- calls      -----------------------------------------------------
-!||    wrtdes         ../engine/source/output/th/wrtdes.F
+!||    wrtdes          ../engine/source/output/th/wrtdes.F
+!||--- uses       -----------------------------------------------------
+!||    constant_mod    ../common_source/modules/constant_mod.F
+!||    precision_mod   ../common_source/modules/precision_mod.F90
 !||====================================================================
         subroutine thsechecksum(                                  &
         &                         j1 ,j2    ,l1      ,l2  ,ithbuf,  &

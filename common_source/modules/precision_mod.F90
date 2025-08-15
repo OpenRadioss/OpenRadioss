@@ -312,9 +312,11 @@
 !||    table_mat_vinterp_c1                     ../engine/source/materials/tools/table_mat_vinterp_c1.F90
 !||    test_jc_shell_detach                     ../engine/source/engine/node_spliting/detach_node.F90
 !||    therm_param_mod                          ../common_source/modules/mat_elem/therm_param_mod.F90
+!||    thsechecksum                             ../engine/source/output/th/thchecksum.F90
 !||    update_neighbour_segment                 ../engine/source/interfaces/interf/update_neighbour_segment.F90
 !||    velrot_explicit                          ../engine/source/constraints/general/rbody/velrot_explicit.F90
 !||    vinter_mixed                             ../engine/source/tools/curve/vinter_mixed.F90
+!||    viper_mod                                ../engine/source/coupling/viper/viper_interface_mod.F90
 !||    visc_param_mod                           ../common_source/modules/mat_elem/visc_param_mod.F90
 !||    visc_plas                                ../engine/source/materials/visc/visc_plas.F90
 !||    w_inivel_str                             ../starter/source/restart/ddsplit/w_inivel_str.F90

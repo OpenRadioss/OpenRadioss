@@ -418,10 +418,12 @@
 !||    spmd_sd_xv                      ../engine/source/mpi/nodes/spmd_sd_xv.F
 !||    spmd_send_double                ../engine/source/mpi/spmd_send.F90
 !||    spmd_send_doubles               ../engine/source/mpi/spmd_send.F90
+!||    spmd_send_doubles2d             ../engine/source/mpi/spmd_send.F90
 !||    spmd_send_int                   ../engine/source/mpi/spmd_send.F90
 !||    spmd_send_ints                  ../engine/source/mpi/spmd_send.F90
 !||    spmd_send_real                  ../engine/source/mpi/spmd_send.F90
 !||    spmd_send_reals                 ../engine/source/mpi/spmd_send.F90
+!||    spmd_send_reals2d               ../engine/source/mpi/spmd_send.F90
 !||    spmd_send_vi                    ../engine/source/mpi/implicit/imp_spmd.F
 !||    spmd_send_vr                    ../engine/source/mpi/implicit/imp_spmd.F
 !||    spmd_sg_fani                    ../engine/source/mpi/lag_multipliers/spmd_lag.F

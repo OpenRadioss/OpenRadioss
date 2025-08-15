@@ -282,6 +282,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sz_dt1                                   ../engine/source/elements/solid/solidez/sz_dt1.F90
 !||    table_mat_vinterp_c1                     ../engine/source/materials/tools/table_mat_vinterp_c1.F90
 !||    test_jc_shell_detach                     ../engine/source/engine/node_spliting/detach_node.F90
+!||    thsechecksum                             ../engine/source/output/th/thchecksum.F90
 !||    update_neighbour_segment                 ../engine/source/interfaces/interf/update_neighbour_segment.F90
 !||    updfail                                  ../starter/source/materials/updfail.F90
 !||    velrot_explicit                          ../engine/source/constraints/general/rbody/velrot_explicit.F90
