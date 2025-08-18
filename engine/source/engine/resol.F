@@ -987,7 +987,7 @@ C-----------------------------------------------
               LOGICAL LOUT
               CHARACTER FILNAM*100
               INTEGER NODFT, NODLT,  I,J, N,
-     .           K1, K2, K3, K4, K5, K6, K7, K8, K9, K10, K11, K, ISK,
+     .           K1, K2, K3, K4, K5, K6, K7, K8, K9, K10, K11, K, ISK, KK1,
      .           N0, N1, N2, NN,  NNOD, NSENSOR,
      .           ISYNC, TWO_INTS(2),
      .           NELTST,ITYPTST,NWAFT, NBNCL, NBIKL,
@@ -3221,6 +3221,22 @@ C First: try with reduced bounding box
               CALL PYTHON_UPDATE_TIME(TT,DT2)
               CALL PYTHON_UPDATE_NODAL_ENTITIES(NUMNOD, NODES, X=NODES%X,A=NODES%A,V=NODES%V,D=NODES%D,DR=NODES%DR,VR=NODES%VR)
               CALL PYTHON_SYNC(PYTHON%CONTEXT)
+              IF(NVOLU > 0)THEN
+                IF(PYTHON%NB_FUNCTS > 0) THEN 
+                  K1 = 1
+                  KK1 = 0
+                  DO I=1,NVOLU
+                    T_MONVOL(I)%pressure = VOLMON(KK1+12)
+                    T_MONVOL(I)%temperature = VOLMON(KK1+13)
+                    T_MONVOL(I)%area = VOLMON(KK1+18)
+                    T_MONVOL(I)%volume = VOLMON(KK1+16)
+                    K1  = K1  + NIMV
+                    KK1 = KK1 + NRVOLU
+                  END DO
+                   CALL PYTHON_MONVOL(T_MONVOL)
+                ENDIF
+              ENDIF
+C
 
               IF(coupling%active) THEN
               ! ALLOCATION AND INITIALIZATION OF COUPLING COUPLING
