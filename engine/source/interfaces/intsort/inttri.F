@@ -103,7 +103,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    timer_mod                    ../engine/source/system/timer_mod.F90
 !||    tri7box                      ../engine/share/modules/tri7box.F
 !||====================================================================
-      SUBROUTINE INTTRI(TIMERS,
+      SUBROUTINE INTTRI(OUTPUT ,TIMERS,
      1       IPARI    ,X       ,W       , ERRORS, 
      2       V        ,MS      ,IN      ,IAD_ELEM ,
      3       FR_ELEM  ,VR      ,ISENDTO ,IRECVFROM,
@@ -148,8 +148,8 @@ C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
       USE INTER_STRUCT_MOD
       USE INTER_SORTING_MOD
+      USE OUTPUT_MOD
       USE SENSOR_MOD
-      USE OUTPUTS_MOD
       USE INTERFACES_MOD
       USE GLOB_THERM_MOD
       USE INT18_LAW151_NSV_SHIFT_MOD , ONLY : INT18_LAW151_NSV_SHIFT
@@ -176,6 +176,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE (OUTPUT_) :: OUTPUT
       TYPE(TIMER_), INTENT(inout) :: TIMERS
       INTEGER, INTENT(INOUT) :: ERRORS !< number of interfaces that could not be sorted
       INTEGER, INTENT(in) :: NODNX_SMS_SIZ
@@ -571,7 +572,7 @@ C-----------------------------------------------
 C-----------------------------------------------
           I7KGLO = 1
 C         IPARI(4,N) = NRTM ; IPARI(5,N)=NSN
-          CALL I20MAIN_CRIT_TRI(
+          CALL I20MAIN_CRIT_TRI(OUTPUT ,
      1      IPARI ,X        ,N        ,
      2      ITASK ,V            ,XSLV(1,N)    ,XMSR(1,N),VSLV(1,N),
      3      VMSR(1,N),MS        ,DXANCG       ,IKINE    ,DIAG_SMS ,
@@ -677,8 +678,8 @@ C End non -parallel part SMT
 
       IF(IMPL_S/=1)THEN
 
-       IF((NSPMD>1.AND.ITASK==0).AND.(H3D_DATA%N_SCAL_CSE_FRIC > 0.OR.NINEFRIC > 0).AND.TT > ZERO) THEN
-         CALL SPMD_EXCH_SORTING_EFRIC(
+       IF((NSPMD>1.AND.ITASK==0).AND.(H3D_DATA%N_SCAL_CSE_FRIC > 0.OR.OUTPUT%DATA%NINEFRIC > 0).AND.TT > ZERO) THEN
+         CALL SPMD_EXCH_SORTING_EFRIC(output,
      1        IPARI   ,INTLIST ,NBINTC  ,ISLEN7 ,IRLEN7  ,
      2        IRLEN7T ,ISLEN7T ,IRLEN20 ,ISLEN20,IRLEN20T,
      3        ISLEN20T,INTBUF_TAB,H3D_DATA  )

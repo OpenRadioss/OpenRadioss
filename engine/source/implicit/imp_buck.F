@@ -121,7 +121,6 @@ C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
       USE IMPBUFDEF_MOD
       USE SENSOR_MOD
-      USE ANIM_MOD
       USE MATPARAM_DEF_MOD
       use glob_therm_mod
       USE OUTPUT_MOD , ONLY : OUTPUT_
@@ -851,7 +850,7 @@ C
             X(3,J)=X0(3,J)+SCALE*D(3,J)
          ENDDO
 C
-         IF (DTANIM>ZERO) THEN
+         IF (OUTPUT%DTANIM>ZERO) THEN
             IANIM=IANIM+1
             TT=EIG(I,1)
             CALL GENANI(

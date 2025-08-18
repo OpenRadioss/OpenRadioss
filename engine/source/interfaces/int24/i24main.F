@@ -53,7 +53,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    outputs_mod                 ../common_source/modules/outputs_mod.F
 !||    timer_mod                   ../engine/source/system/timer_mod.F90
 !||====================================================================
-      SUBROUTINE I24MAINF(TIMERS,
+      SUBROUTINE I24MAINF(output,TIMERS,
      1                   IPARI  ,INTBUF_TAB         ,X        ,A      ,
      2                   ICODT  ,FSAV    ,V         ,MS       ,DT2T   ,
      3                   NELTST ,ITYPTST ,ITAB      ,STIFN    ,FSKYI  ,
@@ -84,7 +84,7 @@ C-----------------------------------------------
       USE H3D_MOD
       USE INTBUF_FRIC_MOD
       USE MESSAGE_MOD
-      USE OUTPUTS_MOD
+      USE OUTPUT_MOD
       USE INTERFACES_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -111,6 +111,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT !< output structure
       TYPE(TIMER_) :: TIMERS
       INTEGER NISUBMAX                        ! Max number of SUB INTerfaces
       INTEGER NELTST,ITYPTST,NIN,NEWFRONT,
@@ -573,7 +574,7 @@ C-------------------------------------------------------------------------------
         ENDIF 
         IF(JTASK==1) CALL STOPTIME(TIMERS,MACRO_TIMER_FRIC)      
 
-          CALL I24FOR3(
+          CALL I24FOR3(output,
      1  JLT          ,A         ,V            ,IBC         ,ICODT    ,
      2  FSAV         ,GAP       ,FRIC         ,MS          ,VISC     ,
      3  VISCF        ,NOINT     ,INTBUF_TAB%STFNS,ITAB     ,CN_LOC   ,

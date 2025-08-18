@@ -81,8 +81,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
+C     Bug here: The actual recieve buffer size is not the same 
+C     as the size written. Removing the initialization to -HUGE(IERROR)
+C     will cause valgrind errors about uninitialized memory.
       ALLOCATE(RBUF(SRBUF+1))
-      ALLOCATE(NPT(NBF_L))
+      RBUF(1:SRBUF) = -HUGE(IERROR)
 
       IF (ISPMD/=0) THEN
         MSGTYP= MSGOFF
@@ -130,7 +133,6 @@ C
       ENDIF
 C
       DEALLOCATE(RBUF)
-      DEALLOCATE(NPT)
 #endif
       RETURN
       END

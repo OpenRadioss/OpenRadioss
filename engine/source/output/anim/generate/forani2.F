@@ -27,7 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    h3d_mod   ../engine/share/modules/h3d_mod.F
 !||====================================================================
-      SUBROUTINE FORANI2(FANI,A,NFIA,NFEA,NODFT,NODLT,H3D_DATA)
+      SUBROUTINE FORANI2(OUTPUT,A,NODFT,NODLT,H3D_DATA)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -53,6 +53,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE H3D_MOD
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -67,8 +68,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NFIA,NFEA,NODFT,NODLT
-      my_real A(3,*),FANI(3,*)
+      TYPE(OUTPUT_) :: OUTPUT
+      INTEGER NODFT,NODLT
+      my_real A(3,*)
       TYPE(H3D_DATABASE) :: H3D_DATA
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -82,18 +84,18 @@ C-----------------------------------------------
       !if FINT is requested (ANIM or OUTP or H3D)
 #include      "vectorize.inc"
         DO N=NODFT,NODLT
-          FANI(1,N+NFIA)=FANI(1,N+NFIA) + A(1,N)
-          FANI(2,N+NFIA)=FANI(2,N+NFIA) + A(2,N)
-          FANI(3,N+NFIA)=FANI(3,N+NFIA) + A(3,N)
+          OUTPUT%DATA%VECT_FINT(1,N)=OUTPUT%DATA%VECT_FINT(1,N) + A(1,N)
+          OUTPUT%DATA%VECT_FINT(2,N)=OUTPUT%DATA%VECT_FINT(2,N) + A(2,N)
+          OUTPUT%DATA%VECT_FINT(3,N)=OUTPUT%DATA%VECT_FINT(3,N) + A(3,N)
         ENDDO
       ENDIF
       IF(ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT > 0) THEN
       !if FEXT is requested (ANIM or OUTP or H3D)
 #include      "vectorize.inc"
         DO N=NODFT,NODLT
-          FANI(1,N+NFEA)=FANI(1,N+NFEA) - A(1,N)
-          FANI(2,N+NFEA)=FANI(2,N+NFEA) - A(2,N)
-          FANI(3,N+NFEA)=FANI(3,N+NFEA) - A(3,N)
+          OUTPUT%DATA%VECT_FEXT(1,N)=OUTPUT%DATA%VECT_FEXT(1,N) - A(1,N)
+          OUTPUT%DATA%VECT_FEXT(2,N)=OUTPUT%DATA%VECT_FEXT(2,N) - A(2,N)
+          OUTPUT%DATA%VECT_FEXT(3,N)=OUTPUT%DATA%VECT_FEXT(3,N) - A(3,N)
         ENDDO
       ENDIF
 C-----------------------------------------------

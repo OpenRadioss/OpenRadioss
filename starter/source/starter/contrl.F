@@ -98,7 +98,7 @@ C-----------------------------------------------
       USE ALE_EBCS_MOD
       USE RESTMOD
       USE GRP_SIZE_MOD
-      USE ANIM_MOD
+      USE OUTPUT_MOD
       USE ALEMUSCL_MOD , only:ALEMUSCL_Param
       USE ALEFVM_MOD , only:ALEFVM_Param
       USE USER_WINDOWS_MOD
@@ -1103,9 +1103,9 @@ C
 C
       DTX=ZERO
       TSTOP=ZERO
-      DTANIM = ZERO
-      TANIM=ZERO
-      TANIM_STOP = EP20
+      OUTPUT%DTANIM = ZERO
+      OUTPUT%TANIM=ZERO
+      OUTPUT%TANIM_STOP = EP20
       DTOUTP = ZERO
       TOUTP=ZERO
       THIS=ZERO

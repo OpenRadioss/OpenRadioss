@@ -33,7 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    plyxfem_mod     ../engine/share/modules/plyxfem_mod.F
 !||    th_mod          ../engine/share/modules/th_mod.F
 !||====================================================================
-      SUBROUTINE THNOD(ITHBUF ,
+      SUBROUTINE THNOD(OUTPUT, ITHBUF ,
      2             WA      ,X       ,D       ,V       ,A      ,
      3             VR      ,AR      ,ISKWN   ,IFRAME  ,SKEW   ,
      4             XFRAME  ,WEIGHT  ,TEMP    ,INOD    ,FTHREAC,
@@ -44,7 +44,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE PLYXFEM_MOD
       USE PINCHTYPE_MOD
-      USE OUTPUT_MOD , ONLY : NODA_SURF, NODA_PEXT
+      USE OUTPUT_MOD
       USE TH_MOD , ONLY : TH_HAS_NODA_PEXT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -63,6 +63,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_), intent(inout) :: output
       INTEGER CPTREAC,ITHBUF(*),
      .        ISKWN(LISKN,*),IFRAME(LISKN,*),WEIGHT(NUMNOD),INOD(*),
      .        NODREAC(*),IFORM,NTHGRP2
@@ -229,8 +230,8 @@ C workaround for possible PGI bug
                   ELSEIF(K == 629) THEN
                     WA(IJK) = ZERO
                     IF(TH_HAS_NODA_PEXT == 1)THEN
-                      IF(NODA_SURF(I) > ZERO)THEN
-                        WA(IJK) = NODA_PEXT(I) / NODA_SURF(I)
+                      IF(OUTPUT%DATA%NODA_SURF(I) > ZERO)THEN
+                        WA(IJK) = OUTPUT%DATA%NODA_PEXT(I) / OUTPUT%DATA%NODA_SURF(I)
                       ENDIF
                     ENDIF
 C start of pinching information
@@ -408,8 +409,8 @@ C workaround for possible PGI bug
                   ELSEIF(K == 629) THEN
                     WA(IJK) = ZERO
                     IF(TH_HAS_NODA_PEXT == 1)THEN
-                      IF(NODA_SURF(I) > ZERO)THEN
-                        WA(IJK) = NODA_PEXT(I) / NODA_SURF(I)
+                      IF(OUTPUT%DATA%NODA_SURF(I) > ZERO)THEN
+                        WA(IJK) = OUTPUT%DATA%NODA_PEXT(I) / OUTPUT%DATA%NODA_SURF(I)
                       ENDIF
                     ENDIF
 C start of pinching information
@@ -660,8 +661,8 @@ C workaround for possible PGI bug
                   ELSEIF(K == 629) THEN
                     WA(IJK) = ZERO
                     IF(TH_HAS_NODA_PEXT == 1)THEN
-                      IF(NODA_SURF(I) > ZERO)THEN
-                        WA(IJK) = NODA_PEXT(I) / NODA_SURF(I)
+                      IF(OUTPUT%DATA%NODA_SURF(I) > ZERO)THEN
+                        WA(IJK) = OUTPUT%DATA%NODA_PEXT(I) / OUTPUT%DATA%NODA_SURF(I)
                       ENDIF
                     ENDIF
                   ELSE
@@ -773,8 +774,8 @@ C workaround for possible PGI bug
                   ELSEIF(K == 629) THEN
                     WA(IJK) = ZERO
                     IF(TH_HAS_NODA_PEXT == 1)THEN
-                      IF(NODA_SURF(I) > ZERO)THEN
-                        WA(IJK) = NODA_PEXT(I) / NODA_SURF(I)
+                      IF(OUTPUT%DATA%NODA_SURF(I) > ZERO)THEN
+                        WA(IJK) = OUTPUT%DATA%NODA_PEXT(I) / OUTPUT%DATA%NODA_SURF(I)
                       ENDIF
                     ENDIF
                   ELSE

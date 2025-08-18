@@ -73,7 +73,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2                  IXS   ,IXQ       ,IXC    ,IXT   ,IXP   ,
      3                  IXR   ,IXTG      ,IPARG  ,PM    ,IGEO  ,
      4                  MS    ,CONT      ,ITAB   ,PARTSAV,FINT ,
-     5                  FEXT  ,TANI      ,EANI   ,ANIN  ,IPART ,
+     5                  FEXT  ,TANI      ,EANI   ,IPART ,
      6                  VR    ,ELBUF_TAB ,DD_IAD,WEIGHT,
      7                  IPM   ,KXSP      ,SPBUF  ,NODGLOB,LENG ,
      8                  FOPT  ,NOM_OPT   ,NPBY   ,FNCONT   ,FTCONT,
@@ -120,7 +120,7 @@ C-----------------------------------------------
      .        LENG,NODGLOB(*), NOM_OPT(*), NPBY(*)
       my_real
      .        X(*), D(*), V(*), VR(*), A(*),
-     .        PM(NPROPM,*), MS(*),ANIN(*),
+     .        PM(NPROPM,*), MS(*),
      .        CONT(*), PARTSAV(*),FINT(*),FEXT(*),TANI(6,*),EANI(*),
      .        SPBUF(*), FOPT(*), FNCONT(3,*), FTCONT(3,*),GEO(*),THKE(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
@@ -261,7 +261,7 @@ C-----------------------------------------------
       INNODA=0
       IF(OUTP_N(1) == 1) CALL OUTP_NO('NODAL_DT  ',
      .   ' Nodal Time Step                        ',
-     .   20,ANIN,NUMNOD,ITAB,INNODA,
+     .   20,OUTPUT%DATA%SCAL_DT,NUMNOD,ITAB,INNODA,
      .   ITABG,LENG,NODGLOB,WEIGHT)
 
       IF(OUTP_N(1)+ANIM_N(1)>=1)
@@ -269,7 +269,7 @@ C-----------------------------------------------
 
       IF(OUTP_N(2) == 1) CALL OUTP_NO('NOD_ADMAS ',
      .   ' Added Mass                             ',
-     .   20,ANIN,NUMNOD,ITAB,INNODA,
+     .   20,OUTPUT%DATA%SCAL_DMAS,NUMNOD,ITAB,0,
      .   ITABG,LENG,NODGLOB,WEIGHT)
 
       IF(OUTP_N(2)+ANIM_N(2)>=1)
@@ -277,7 +277,7 @@ C-----------------------------------------------
 
       IF(OUTP_N(3) == 1) CALL OUTP_NO('NOD_ADINER',
      .   ' Added Inertia                          ',
-     .   20,ANIN,NUMNOD,ITAB,INNODA,
+     .   20,OUTPUT%DATA%SCAL_DINER,NUMNOD,ITAB,0,
      .   ITABG,LENG,NODGLOB,WEIGHT)
 
 C     IF(OUTP_N(3)+ANIM_N(12)>=1)

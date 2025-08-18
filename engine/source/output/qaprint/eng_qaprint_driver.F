@@ -69,7 +69,7 @@ C=======================================================================
 
         CALL ENG_QAPRINT_DTINPUT(DT,GLOB_THERM)
 
-        CALL ENG_QAPRINT_ANIMINPUT(SENSORS)
+        CALL ENG_QAPRINT_ANIMINPUT(OUTPUT,SENSORS)
       ENDIF
 C-----------------------------------------------------------------------
       RETURN

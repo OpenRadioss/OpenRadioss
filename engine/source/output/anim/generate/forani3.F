@@ -27,7 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    h3d_mod   ../engine/share/modules/h3d_mod.F
 !||====================================================================
-      SUBROUTINE FORANI3(FANI,A,MS,NFEA,NODFT,NODLT,H3D_DATA)
+      SUBROUTINE FORANI3(OUTPUT,A,MS,NODFT,NODLT,H3D_DATA)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -50,6 +50,7 @@ C  OUTP_V(6)            : /OUTP/VECT/FEXT
 C  H3D_DATA%N_VECT_FEXT : /H3D/NODA/FEXT
 C
 C-----------------------------------------------
+      USE output_mod, only : OUTPUT_
       USE H3D_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -65,8 +66,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NFEA,NODFT,NODLT
-      my_real A(3,*),FANI(3,*),MS(*)
+      TYPE(OUTPUT_) :: OUTPUT
+      INTEGER NODFT,NODLT
+      my_real A(3,*),MS(*)
       TYPE(H3D_DATABASE) :: H3D_DATA
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -79,9 +81,9 @@ C-----------------------------------------------
       !if FEXT is requested (ANIM or OUTP or H3D)
 #include      "vectorize.inc"
         DO N=NODFT,NODLT
-          FANI(1,N+NFEA)=FANI(1,N+NFEA) + A(1,N)*MS(N)
-          FANI(2,N+NFEA)=FANI(2,N+NFEA) + A(2,N)*MS(N)
-          FANI(3,N+NFEA)=FANI(3,N+NFEA) + A(3,N)*MS(N)
+          OUTPUT%DATA%VECT_FEXT(1,N)=OUTPUT%DATA%VECT_FEXT(1,N) + A(1,N)*MS(N)
+          OUTPUT%DATA%VECT_FEXT(2,N)=OUTPUT%DATA%VECT_FEXT(2,N) + A(2,N)*MS(N)
+          OUTPUT%DATA%VECT_FEXT(3,N)=OUTPUT%DATA%VECT_FEXT(3,N) + A(3,N)*MS(N)
         ENDDO
       ENDIF
 C-----------------------------------------------

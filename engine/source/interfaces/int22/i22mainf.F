@@ -43,7 +43,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    message_mod        ../engine/share/message_module/message_mod.F
 !||    timer_mod          ../engine/source/system/timer_mod.F90
 !||====================================================================
-      SUBROUTINE I22MAINF(TIMERS,
+      SUBROUTINE I22MAINF(OUTPUT,TIMERS,
      1                   IPARI     ,INTBUF_TAB ,X          ,A      ,
      2                   ICODT     ,FSAV       ,V          ,MS        ,DT2T     ,  
      3                   NELTST    ,ITYPTST    ,ITAB       ,STIFN     ,FSKYI    ,  
@@ -69,6 +69,7 @@ C
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE OUTPUT_MOD
       USE TIMER_MOD
       USE ELBUFDEF_MOD 
       USE I22TRI_MOD
@@ -98,6 +99,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE(TIMER_), INTENT(INOUT) :: TIMERS 
       INTEGER NELTST,ITYPTST,NIN,NEWFRONT,NSTRF(*),
@@ -367,7 +369,7 @@ C
           IPARI(29,NIN) = 1
           IF (DEBUG(3)>=1)NB_JLT_NEW = NB_JLT_NEW + JLT_NEW
           IF (SFSAVPARIT /= 0) pFSAVparit => FSAVPARIT(1,1,NFT+1)
-          CALL I22FOR3(
+          CALL I22FOR3(output,
      1    JLT                ,A                 ,V                 ,IBC               ,ICODT              ,
      2    FSAV               ,GAP               ,FRIC              ,MS                ,VISC               ,
      3    VISCF              ,NOINT             ,INTBUF_TAB%STFNS  ,ITAB              ,CB_LOC             ,

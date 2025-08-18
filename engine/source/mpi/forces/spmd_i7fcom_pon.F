@@ -62,7 +62,7 @@ C
 !||    tri25ebox              ../engine/share/modules/tri25ebox.F
 !||    tri7box                ../engine/share/modules/tri7box.F
 !||====================================================================
-      SUBROUTINE SPMD_I7FCOM_PON(
+      SUBROUTINE SPMD_I7FCOM_PON(output,
      1                       IPARI   ,INTLIST,NBINTC  ,NISKYFI,ICODT   ,
      2                       SECFCUM ,NSTRF  ,ICONTACT,FCONT  ,IGRBRIC ,
      3                       IXS     ,IXS16  ,NISKYFIE,NBINT20,IFLAG   ,                        
@@ -82,10 +82,11 @@ C-----------------------------------------------
       USE MULTI_FVM_MOD
       USE INTERFACES_MOD
       USE GLOB_THERM_MOD
+      use output_mod
+      USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
 #include      "implicit_f.inc"
 #include      "macro.inc"
 #include      "assert.inc"
@@ -106,6 +107,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      type(output_), intent(inout) :: output
       INTEGER IFLAG, NBINTC, NBINT20,
      .        IPARI(NPARI,*),  INTLIST(*), NISKYFI(*),
      .        ICODT(*), ICONTACT(*), NSTRF(*),
@@ -1208,7 +1210,7 @@ C type int20 (non edge)
                   NB = NINT(BBUFR(L))
                   L = L + 1
                   IF(INTTH == 0) THEN
-                     CALL SPMD_FIADD20F_PON(
+                     CALL SPMD_FIADD20F_PON(output,
      1                NB      ,LEN    ,BBUFR(L),INTBUF_TAB(NIN)%NSV,INTERFACES%PON%FSKYI  ,
      2                INTERFACES%PON%ISKY    ,IBC    ,ISECIN  ,NOINT        ,IBAG   ,
      3                ICODT   ,SECFCUM,NSTRF   ,ICONTACT     ,FCONT  ,
@@ -1216,7 +1218,7 @@ C type int20 (non edge)
      5                H3D_DATA)
                      L = L + NB*LEN
                   ELSE
-                     CALL SPMD_FIADD20F_PON(
+                     CALL SPMD_FIADD20F_PON(output,
      1                NB      ,LEN7T    ,BBUFR(L),INTBUF_TAB(NIN)%NSV,INTERFACES%PON%FSKYI ,
      2                INTERFACES%PON%ISKY    ,IBC    ,ISECIN  ,NOINT        ,IBAG   ,
      3                ICODT   ,SECFCUM,NSTRF   ,ICONTACT     ,FCONT  ,
@@ -1234,7 +1236,7 @@ C type int20 (non edge)
 
                     L = L + 1
                     IF(INTTH == 0) THEN
-                     CALL SPMD_FIADD_PON(
+                     CALL SPMD_FIADD_PON(output,
      1                NB      ,LEN    ,BBUFR(L),INTBUF_TAB(NIN)%NSV, INTERFACES%PON%FSKYI,
      2                INTERFACES%PON%ISKY    ,IBC    ,ISECIN  ,NOINT        ,IBAG   ,
      3                ICODT   ,SECFCUM,NSTRF   ,ICONTACT     ,FCONT  ,
@@ -1244,7 +1246,7 @@ C type int20 (non edge)
      7                GLOB_THERM%NODADT_THERM)
                      L = L + NB*LEN
                     ELSE
-                     CALL SPMD_FIADD_PON(
+                     CALL SPMD_FIADD_PON(output,
      1                NB      ,LEN7T    ,BBUFR(L),INTBUF_TAB(NIN)%NSV, INTERFACES%PON%FSKYI,
      2                INTERFACES%PON%ISKY    ,IBC    ,ISECIN  ,NOINT        ,IBAG   ,
      3                ICODT   ,SECFCUM,NSTRF   ,ICONTACT     ,FCONT  ,
@@ -1262,7 +1264,7 @@ C type int20 (non edge)
                         L = L + 1
                         LENI = LEN25E
                         IF(NB > 0) THEN
-                          CALL SPMD_FIADD25E_PON(
+                          CALL SPMD_FIADD25E_PON(output,
      1                     NB      ,LENI    ,BBUFR(L),NSVSIE(NIN)%P, INTERFACES%PON%FSKYI,
      2                     INTERFACES%PON%ISKY    ,IBC    ,ISECIN  ,NOINT        ,IBAG   ,
      3                     ICODT   ,SECFCUM,NSTRF   ,ICONTACT     ,FCONT  ,
@@ -1279,7 +1281,7 @@ C type int20 (non edge)
                     NB = NINT(BBUFR(L))
                     L = L + 1
                   IF(INTTH == 0) THEN
-                    CALL SPMD_FIADD11_PON(
+                    CALL SPMD_FIADD11_PON(output,
      1                NB     ,LEN11   ,BBUFR(L),INTBUF_TAB(NIN)%IRECTS,INTERFACES%PON%FSKYI  ,
      2                INTERFACES%PON%ISKY   ,IBC     ,ISECIN  ,NOINT        ,IBAG   ,
      3                ICODT  ,SECFCUM ,NSTRF   ,ICONTACT     ,FCONT  ,
@@ -1287,7 +1289,7 @@ C type int20 (non edge)
      5                 KLOADPINTER,LOADPINTER,LOADP_HYD_INTER,GLOB_THERM%NODADT_THERM)
                     L = L + NB*LEN11
                   ELSE
-                     CALL SPMD_FIADD11_PON(
+                     CALL SPMD_FIADD11_PON(output,
      1                NB     ,LEN11T   ,BBUFR(L),INTBUF_TAB(NIN)%IRECTS,INTERFACES%PON%FSKYI  ,
      2                INTERFACES%PON%ISKY   ,IBC     ,ISECIN  ,NOINT        ,IBAG   ,
      3                ICODT  ,SECFCUM ,NSTRF   ,ICONTACT     ,FCONT  ,
@@ -1303,7 +1305,7 @@ C type int20 (non edge)
                     NME = IGRBRIC(IGE)%NENTITY
                     NMES= IGRBRIC(IGN)%NENTITY
 C
-                    CALL SPMD_FIADD17_PON(
+                    CALL SPMD_FIADD17_PON(output,
      1                NB    ,LEN17  ,BBUFR(L),IGRBRIC(IGN)%ENTITY,INTERFACES%PON%FSKYI ,
      2                INTERFACES%PON%ISKY  ,FCONT  ,IXS     ,IXS16       ,H3D_DATA)
                     L = L + NB*LEN17
@@ -1331,7 +1333,7 @@ C
                   NB = NINT(BBUFR(L))
                   L = L + 1
                   IF(NB > 0) THEN
-                  CALL SPMD_FIADD20FE_PON(
+                  CALL SPMD_FIADD20FE_PON(output,
      1              NB     ,LEN11   ,BBUFR(L),INTBUF_TAB(NIN)%IXLINS,INTERFACES%PON%FSKYI  ,
      2              INTERFACES%PON%ISKY   ,IBC     ,ISECIN  ,NOINT        ,IBAG   ,
      3              ICODT  ,SECFCUM ,NSTRF   ,ICONTACT     ,FCONT  ,

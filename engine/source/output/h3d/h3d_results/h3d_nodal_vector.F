@@ -38,7 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE H3D_NODAL_VECTOR(
      .                  ELBUF_TAB          ,NODAL_VECTOR            ,IFUNC          ,IPARG           ,GEO             , 
-     .                  MASS               ,PM                      ,ANIN           ,ITAB            ,NODE_ID         , 
+     .                  MASS               ,PM                      ,ITAB            ,NODE_ID         , 
      .                  INFO1              ,INFO2                   ,IS_WRITTEN_NODE,H3D_PART        ,IPARTC          , 
      .                  IPARTTG            ,IXC                     ,IXTG           ,TEMP            ,IFLOW           , 
      .                  RFLOW              ,IXS                     ,IXQ            ,NV46            ,MONVOL          , 
@@ -89,7 +89,7 @@ C-----------------------------------------------
       INTEGER,INTENT(IN) :: SW
       my_real
      .   NODAL_VECTOR(3*NUMNOD),MASS(*),GEO(NPROPG,NUMGEO),
-     .   PM(NPROPM,NUMMAT),ANIN(*),TEMP(*),RFLOW(*),VOLMON(SVOLMON), DIAG_SMS(*),MS(NUMNOD),
+     .   PM(NPROPM,NUMMAT),TEMP(*),RFLOW(*),VOLMON(SVOLMON), DIAG_SMS(*),MS(NUMNOD),
      .   PDAMA2(2,*),X(3,NUMNOD),STIFR(*),STIFN(NUMNOD),A(3,NUMNOD),D(3,NUMNOD),V(3,NUMNOD), CONT(3,*),
      .   FCONTG(3,*), FINT(3,NUMNOD), FEXT(3,NUMNOD),FNCONT(3,*),FNCONTG(3,*),
      .   FTCONT(3,*),FTCONTG(3,*),FNCONT2(3,*), DR(3,NUMNOD),DXANCG(3,*),

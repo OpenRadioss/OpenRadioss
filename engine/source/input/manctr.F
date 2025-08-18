@@ -35,7 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
 !||    sensor_mod             ../common_source/modules/sensor_mod.F90
 !||====================================================================
-      SUBROUTINE MANCTR(SENSORS ,H3D_DATA)
+      SUBROUTINE MANCTR(OUTPUT,SENSORS ,H3D_DATA)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -43,7 +43,7 @@ C-----------------------------------------------
       USE H3D_MOD         
       USE INOUTFILE_MOD
       USE SENSOR_MOD
-      USE ANIM_MOD
+      USE OUTPUT_MOD
       USE ALE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -66,6 +66,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT
       TYPE(H3D_DATABASE) :: H3D_DATA
       TYPE (SENSORS_) ,INTENT(INOUT) :: SENSORS
 C-----------------------------------------------
@@ -124,7 +125,7 @@ C-----------------------------
          IF (TT > SENSORS%SENSOR_TAB(SENSORS%ANIM_ID)%TSTART) THEN
 C          ACTIVATION
            SENSORS%ANIM_ID = -SENSORS%ANIM_ID
-           TANIMSENS = TT + SENSORS%ANIM_DT
+           OUTPUT%TANIMSENS = TT + SENSORS%ANIM_DT
            MANIM=4
            MDESS=MDESS+MANIM
          ENDIF
@@ -132,9 +133,9 @@ C          ACTIVATION
          IF (TT < SENSORS%SENSOR_TAB(-SENSORS%ANIM_ID)%TSTART) THEN
 C          DEACTIVATION
            SENSORS%ANIM_ID = -SENSORS%ANIM_ID
-         ELSEIF (TT > TANIMSENS) THEN
+         ELSEIF (TT > OUTPUT%TANIMSENS) THEN
 C          ACTIF
-           TANIMSENS = TANIMSENS + SENSORS%ANIM_DT
+           OUTPUT%TANIMSENS = OUTPUT%TANIMSENS + SENSORS%ANIM_DT
            MANIM=4
            MDESS=MDESS+MANIM
            RETURN

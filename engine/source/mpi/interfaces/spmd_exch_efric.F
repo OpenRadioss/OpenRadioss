@@ -36,7 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    tri25ebox             ../engine/share/modules/tri25ebox.F
 !||    tri7box               ../engine/share/modules/tri7box.F
 !||====================================================================
-      SUBROUTINE SPMD_EXCH_EFRIC(
+      SUBROUTINE SPMD_EXCH_EFRIC(OUTPUT,
      1    IPARI   ,INTLIST ,NBINTC  ,ISLEN7 ,IRLEN7  ,
      2    IRLEN7T ,ISLEN7T,IRLEN20 ,ISLEN20,IRLEN20T,
      3    ISLEN20T,INTBUF_TAB,H3D_DATA )
@@ -47,12 +47,12 @@ C-----------------------------------------------
       USE TRI25EBOX
       USE MESSAGE_MOD
       USE INTBUFDEF_MOD
-      USE OUTPUTS_MOD
+      USE OUTPUT_MOD
       USE H3D_MOD
+      USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -68,6 +68,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE (OUTPUT_) :: OUTPUT
       INTEGER  , INTENT(IN) ::  
      .        NBINTC,ISLEN7, IRLEN7,IRLEN7T, ISLEN7T,       
      .        IRLEN20, ISLEN20, IRLEN20T, ISLEN20T,
@@ -229,8 +230,8 @@ C
                       N = NINT(BBUFR(L+LEN*(I-1)))
                       NOD = INTBUF_TAB(NIN)%NSV(N) 
                       IF(NOD<=NUMNOD)THEN
-                        IF(INTERFRIC>0)  EFRIC(INTERFRIC,NOD)= EFRIC(INTERFRIC,NOD)+ BBUFR(L+LEN*(I-1)+1)
-                        IF(H3D_DATA%N_SCAL_CSE_FRIC>0) EFRICG(NOD)= EFRICG(NOD)+ BBUFR(L+LEN*(I-1)+2)
+                        IF(INTERFRIC>0) OUTPUT%DATA%EFRIC(INTERFRIC,NOD)=OUTPUT%DATA%EFRIC(INTERFRIC,NOD)+BBUFR(L+LEN*(I-1)+1)
+                        IF(H3D_DATA%N_SCAL_CSE_FRIC>0) OUTPUT%DATA%EFRICG(NOD)= OUTPUT%DATA%EFRICG(NOD)+ BBUFR(L+LEN*(I-1)+2)
                       ENDIF
                     ENDDO
                     L = L + NB*LEN

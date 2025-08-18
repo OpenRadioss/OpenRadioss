@@ -134,7 +134,7 @@ C
           ELSE
            IF(IMPL_S/=1)THEN
               IF(TT>=TS) THEN
-                CALL INTVO3(
+                CALL INTVO3(output,
      1        IPARI(1,N) ,X,A    ,
      2        ICODT      ,FSAV(1,N)    ,WA           ,V ,MS       ,
      3        FSKYI      ,ISKY         ,FCONT   ,FNCONT ,FTCONT   ,
@@ -144,7 +144,7 @@ C
            ELSE
              NUM_IMP(N) =0
               IF(TT>=TS) THEN
-                CALL INTVO3(
+                CALL INTVO3(output,
      1          IPARI(1,N) ,X ,A        ,
      2          ICODT      ,FSAV(1,N)    ,WA           ,V ,MS       ,
      3          FSKYI      ,ISKY         ,FCONT   ,FNCONT ,FTCONT   ,
@@ -156,7 +156,7 @@ C
           END IF
          ELSE
           IF(TT>=TS) THEN
-            CALL INTVO2(
+            CALL INTVO2(output,
      1        IPARI(1,N) ,INTBUF_TAB(N),X   ,A ,
      2        ICODT      ,FSAV(1,N)    ,FSKYI        ,ISKY   ,
      3        FCONT      ,FNCONT       , FTCONT     ,H3D_DATA )
@@ -170,7 +170,7 @@ C
          ELSE
            IPARI(16,N) = NCYCLE
 #include "lockoff.inc"
-           CALL I6MAIN(
+           CALL I6MAIN(output,
      1        IPARI(1,N),X ,A        ,
      2        ICODT     ,NPC          ,TF           ,V ,FSAV(1,N),
      3        DT2T      ,NELTST       ,ITYPTST      ,FSKYI ,ISKY ,

@@ -60,7 +60,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    tri25ebox                   ../engine/share/modules/tri25ebox.F
 !||    tri7box                     ../engine/share/modules/tri7box.F
 !||====================================================================
-      SUBROUTINE I25MAINF(TIMERS,
+      SUBROUTINE I25MAINF(output,TIMERS,
      1                   IPARI  ,INTBUF_TAB         ,X        ,A      ,
      2                   ICODT  ,FSAV    ,V         ,MS       ,DT2T   ,
      3                   NELTST ,ITYPTST ,ITAB      ,STIFN    ,FSKYI  ,
@@ -85,6 +85,7 @@ C=======================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE OUTPUT_MOD
       USE TIMER_MOD
       USE INTBUFDEF_MOD
       USE TRI7BOX
@@ -92,7 +93,6 @@ C-----------------------------------------------
       USE INTBUF_FRIC_MOD
       USE MESSAGE_MOD
       USE TRI25EBOX
-      USE OUTPUTS_MOD
       USE INTERFACES_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -119,6 +119,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      type(output_), intent(inout) :: output
       TYPE(TIMER_) :: TIMERS
       INTEGER NELTST,ITYPTST,NIN,NEWFRONT,
      .        NSTRF(*),
@@ -697,7 +698,7 @@ C-------------------------------------------------------------------------------
           ENDIF
         IF(JTASK==1) CALL STOPTIME(TIMERS,MACRO_TIMER_FRIC)
 
-          CALL I25FOR3(
+          CALL I25FOR3(output,
      1  JLT          ,A         ,V            ,IBC         ,ICODT    ,
      2  FSAV         ,MS        ,VISC     ,
      3  VISCF        ,NOINT     ,INTBUF_TAB%STFNS,ITAB     ,CN_LOC   ,

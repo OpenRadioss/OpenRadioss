@@ -45,7 +45,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    multi_fvm_mod          ../common_source/modules/ale/multi_fvm_mod.F90
 !||    tri7box                ../engine/share/modules/tri7box.F
 !||====================================================================
-      SUBROUTINE I18FOR3(JLT      ,A          ,V         ,IBCC      ,ICODT         ,
+      SUBROUTINE I18FOR3(OUTPUT, JLT      ,A          ,V         ,IBCC      ,ICODT         ,
      2                  FSAV      ,GAP        ,FRIC      ,MS        ,VISC          ,
      3                  VISCF     ,NOINT      ,STFN      ,ITAB      ,CN_LOC        ,
      4                  STFVAL    ,STIFN      ,STIF      ,FSKYI     ,ISKY          ,
@@ -83,9 +83,8 @@ C-----------------------------------------------
       USE TRI7BOX
       USE MULTI_FVM_MOD
       USE H3D_MOD
-      USE ALEANIM_MOD !FANI_CELL   
       USE ELBUFDEF_MOD   
-      USE ANIM_MOD    
+      USE OUTPUT_MOD    
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -113,6 +112,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT
       INTEGER, INTENT(IN) :: IDIR
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
       INTEGER NELTST,ITYPTST,JLT,IBCC,IVIS2,NIN,
@@ -774,9 +774,9 @@ C---------------------------------
                DO I=1,JLT
                  JG=NSVG(I)-NUMNOD
                  IF(JG>0) THEN ! local cell
-                    FANI_CELL%F18(1,JG)=FANI_CELL%F18(1,JG)-FXI(I)
-                    FANI_CELL%F18(2,JG)=FANI_CELL%F18(2,JG)-FYI(I)
-                    FANI_CELL%F18(3,JG)=FANI_CELL%F18(3,JG)-FZI(I)
+                    OUTPUT%DATA%FANI_CELL%F18(1,JG)=OUTPUT%DATA%FANI_CELL%F18(1,JG)-FXI(I)
+                    OUTPUT%DATA%FANI_CELL%F18(2,JG)=OUTPUT%DATA%FANI_CELL%F18(2,JG)-FYI(I)
+                    OUTPUT%DATA%FANI_CELL%F18(3,JG)=OUTPUT%DATA%FANI_CELL%F18(3,JG)-FZI(I)
                   ENDIF
                ENDDO     
              ENDIF                                                                 
@@ -795,7 +795,7 @@ C---------------------------------
 #include "lockoff.inc"
       ENDIF
       IF((ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT > 0 .AND.
-     .    ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP) .OR.
+     .    ((TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP) .OR.
      .    (MANIM>=4.AND.MANIM<=15).OR.H3D_DATA%MH3D /= 0))
      .   .OR.H3D_DATA%N_VECT_PCONT_MAX>0)THEN
 #include "lockon.inc"

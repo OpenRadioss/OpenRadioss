@@ -41,6 +41,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE INTBUFDEF_MOD    
       USE GROUPDEF_MOD
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C
@@ -365,7 +366,7 @@ C
 !||    h3d_mod         ../engine/share/modules/h3d_mod.F
 !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
 !||====================================================================
-      SUBROUTINE I17MAIN_PENA(
+      SUBROUTINE I17MAIN_PENA(output,
      1          NIN    ,IPARI  ,INTBUF_TAB    ,X      ,V      ,
      2          A      ,ITASK  ,IGRBRIC ,EMINX  ,MS     ,
      3          IXS    ,IXS16  ,IXS20   ,STIFN  ,FSKYI  ,ISKY   ,
@@ -376,6 +377,7 @@ C-----------------------------------------------
       USE INTBUFDEF_MOD   
       USE H3D_MOD
       USE GROUPDEF_MOD
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C
@@ -408,6 +410,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      type(output_), intent(inout) :: output
       INTEGER NIN,ITASK,NISKYFI   
       INTEGER IPARI(NPARI,NINTER),
      .        IXS(NIXS,*)  ,IXS16(8,*)  ,IXS20(12,*) ,ISKY(*)
@@ -455,7 +458,7 @@ C -------------------------------------------------------------
 C=======================================================================
 C      CONTACT
 C=======================================================================
-       CALL I17FOR3(
+       CALL I17FOR3(output,
      1   X       ,V         ,INTBUF_TAB%CAND_N,INTBUF_TAB%CAND_E,IPARI(35,NIN) ,
      2   IXS     ,IXS16     ,EMINX    ,IGRBRIC(IGN)%ENTITY,IGRBRIC(IGE)%ENTITY,
      3   ITASK   ,A         ,IPARI(30,NIN),NIN          ,EMINX(1,NME+1),

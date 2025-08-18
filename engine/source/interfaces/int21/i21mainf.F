@@ -47,7 +47,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    outputs_mod                ../common_source/modules/outputs_mod.F
 !||    timer_mod                  ../engine/source/system/timer_mod.F90
 !||====================================================================
-      SUBROUTINE I21MAINF(TIMERS,
+      SUBROUTINE I21MAINF(output,TIMERS,
      1                   IPARI  ,INTBUF_TAB         ,X        ,A      ,
      2                   ICODT  ,FSAV    ,V         ,MS       ,ITAB   ,
      3                   STIFN  ,FSKYI   ,ISKY      ,FCONT    ,NIN    ,
@@ -66,12 +66,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE OUTPUT_MOD
       USE TIMER_MOD
       USE INTSTAMP_MOD
       USE INTBUFDEF_MOD
       USE H3D_MOD
       USE MESSAGE_MOD
-      USE OUTPUTS_MOD
       USE MY_ALLOC_MOD
       USE INTBUF_FRIC_MOD
 C-----------------------------------------------
@@ -99,6 +99,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      type(output_), intent(inout) :: output
       TYPE(TIMER_), INTENT(INOUT) :: TIMERS
       INTEGER NELTST, ITYPTST, NIN, NSTRF(*), NRTMDIM
       INTEGER IPARI(NPARI,NINTER), ICODT(*),ICONTACT(*),
@@ -481,7 +482,7 @@ C
             STIF(1:JLT)=ZERO
           END IF
 C
-            CALL I21ASS3(JLT       ,A        ,NIN      ,NOINT    ,FXN    ,
+            CALL I21ASS3(output, JLT       ,A        ,NIN      ,NOINT    ,FXN    ,
      2      FYN      ,FZN      ,FXT      ,FYT      ,FZT    ,
      3      IX1      ,IX2      ,IX3      ,IX4      ,NSVG   ,
      4      FCONT    ,FNCONT   ,FTCONT   ,LB       ,LC     ,

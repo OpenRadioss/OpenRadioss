@@ -28,7 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    aleanim_mod   ../engine/share/modules/aleanim_mod.F
 !||====================================================================
-      SUBROUTINE SDEFO3(
+      SUBROUTINE SDEFO3(FANI_CELL,
      1   PX1,     PX2,     PX3,     PX4,
      2   PY1,     PY2,     PY3,     PY4,
      3   PZ1,     PZ2,     PZ3,     PZ4,
@@ -58,7 +58,7 @@ C   W = 1/2 * (E - t(E))
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ALEANIM_MOD
+      USE ALEANIM_MOD, only : FANI_CELL_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -74,6 +74,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(FANI_CELL_), intent(inout) :: FANI_CELL
       INTEGER, INTENT(IN) :: NEL
       INTEGER, INTENT(IN) :: NFT
       INTEGER, INTENT(IN) :: ISMSTR

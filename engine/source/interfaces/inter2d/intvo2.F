@@ -31,7 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    h3d_mod         ../engine/share/modules/h3d_mod.F
 !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
 !||====================================================================
-      SUBROUTINE INTVO2(IPARI,INTBUF_TAB ,X   ,A    ,
+      SUBROUTINE INTVO2(output,IPARI,INTBUF_TAB ,X   ,A    ,
      .                  ICODT,FSAV       ,FSKYI,ISKY,
      .                  FCONT,FNCONT    , FTCONT,H3D_DATA      )
 C-----------------------------------------------
@@ -39,6 +39,7 @@ C   M o d u l e s
 C----------------------------------------------- 
       USE INTBUFDEF_MOD 
       USE H3D_MOD 
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -46,6 +47,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_) :: OUTPUT
       INTEGER IPARI(*), ICODT(*), ISKY(*)
 C     REAL
       my_real
@@ -87,14 +89,14 @@ C
        CALL INVOI2(X      ,INTBUF_TAB%IRECTS,INTBUF_TAB%LNSV,INTBUF_TAB%NSV,INTBUF_TAB%MSR,
      1          INTBUF_TAB%ILOCM,INTBUF_TAB%IRTLS,INTBUF_TAB%NSEGS,NMN       )
       ENDIF
-      CALL I3FOR2(X      ,A         ,INTBUF_TAB%IRECTM,INTBUF_TAB%LMSR,INTBUF_TAB%MSR,
+      CALL I3FOR2(output, X      ,A         ,INTBUF_TAB%IRECTM,INTBUF_TAB%LMSR,INTBUF_TAB%MSR,
      1          INTBUF_TAB%NSV,INTBUF_TAB%ILOCS,INTBUF_TAB%IRTLM,INTBUF_TAB%STFM,NSN   ,
      2          NMN       ,NTY       ,INTBUF_TAB%CSTS,INTBUF_TAB%IRTLOM,INTBUF_TAB%FRICOS,
      3          INTBUF_TAB%VARIABLES(1),INTBUF_TAB%STFNS,IBC       ,ICODT     ,1         ,
      4          FSAV      ,FSKYI     ,ISKY             ,PTMAX      , INTBUF_TAB%AREAS    ,
      5          FCONT     ,FNCONT    , FTCONT, H3D_DATA          )
       IF(NTY==3)THEN
-       CALL I3FOR2(X      ,A         ,INTBUF_TAB%IRECTS,INTBUF_TAB%LNSV,INTBUF_TAB%NSV,
+       CALL I3FOR2(output, X      ,A         ,INTBUF_TAB%IRECTS,INTBUF_TAB%LNSV,INTBUF_TAB%NSV,
      1          INTBUF_TAB%MSR,INTBUF_TAB%ILOCM,INTBUF_TAB%IRTLS,INTBUF_TAB%STFS,NMN       ,
      2          NSN       ,NTY       ,INTBUF_TAB%CSTM,INTBUF_TAB%IRTLOS,INTBUF_TAB%FRICOM,
      3          INTBUF_TAB%VARIABLES(1),INTBUF_TAB%STFNM,0         ,ICODT     ,-1        ,

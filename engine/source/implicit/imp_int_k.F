@@ -714,7 +714,7 @@ C
 !||    sensor_mod       ../common_source/modules/sensor_mod.F90
 !||    timer_mod        ../engine/source/system/timer_mod.F90
 !||====================================================================
-      SUBROUTINE IMP_INTTD0(TIMERS,
+      SUBROUTINE IMP_INTTD0(output, TIMERS,
      1       IPARI ,INTBUF_TAB     ,X       ,D       ,
      2       MS    ,ITAB   ,IN    ,D_IMP   ,DR_IMP  ,
      3       IMSCH ,I2MSCH ,ISIZXV,ILENXV  ,IGRBRIC ,
@@ -731,6 +731,7 @@ C
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      use output_mod
       USE TIMER_MOD
       USE INTBUFDEF_MOD
       USE H3D_MOD
@@ -755,6 +756,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      type(output_) :: output
       TYPE(TIMER_) :: TIMERS
       INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER IPARI(NPARI,*), ITAB(*),
@@ -874,7 +876,7 @@ C
      2  INTBUF_TAB(N)%STFNS,X_TMP       ,D_IMP   ,DR_IMP       ,V     ,
      3  VR           ,FAC          ,FAC1         )
         ENDIF
-        CALL IMP_TRIPI(TIMERS,
+        CALL IMP_TRIPI(output, TIMERS,
      1       IPARI ,INTBUF_TAB,X_TMP   ,D       ,
      2       V     ,MS     ,ITAB ,VR      ,IN      ,
      3       IMSCH ,I2MSCH ,ISIZXV,ILENXV ,IGRBRIC ,
@@ -1092,7 +1094,7 @@ C
 !||    sensor_mod        ../common_source/modules/sensor_mod.F90
 !||    timer_mod         ../engine/source/system/timer_mod.F90
 !||====================================================================
-      SUBROUTINE IMP_TRIPI(TIMERS,
+      SUBROUTINE IMP_TRIPI(output, TIMERS,
      1       IPARI ,INTBUF_TAB   ,X       ,D       ,
      2       V     ,MS     ,ITAB ,VR      ,IN      ,
      3       IMSCH ,I2MSCH ,ISIZXV,ILENXV ,IGRBRIC ,
@@ -1109,6 +1111,7 @@ C
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE OUTPUT_MOD
       USE TIMER_MOD
       USE INTBUFDEF_MOD
       USE H3D_MOD
@@ -1131,6 +1134,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_) :: output
       TYPE(TIMER_) :: TIMERS
       INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER IPARI(NPARI,*), ITAB(*),
@@ -1180,7 +1184,7 @@ C------------ In Intri -------
         IBID =0
         JTASK = ITASK + 1
         IF (NSPMD>1) THEN
-         IF(ISIZXV>0) CALL SPMD_SD_XV(
+         IF(ISIZXV>0) CALL SPMD_SD_XV(output,
      1     X     ,D       ,V      ,VR    ,MS   ,
      2     IN    ,IAD_ELEM,FR_ELEM,WEIGHT,IMSCH,
      3     D     ,ISIZXV ,ILENXV  ,XDP)

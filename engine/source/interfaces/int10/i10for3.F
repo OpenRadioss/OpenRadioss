@@ -35,7 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    h3d_mod    ../engine/share/modules/h3d_mod.F
 !||    tri7box    ../engine/share/modules/tri7box.F
 !||====================================================================
-      SUBROUTINE I10FOR3(
+      SUBROUTINE I10FOR3(OUTPUT,
      1    JLT    ,A      ,MS     ,V     ,FSAV  ,
      2    CAND_F ,STIFN  ,STIF   ,FSKYI ,ISKY  ,
      3    ITIED  ,VISC   ,X1     ,X2    ,X3    ,
@@ -60,7 +60,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE TRI7BOX
       USE H3D_MOD
-      USE ANIM_MOD
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -88,6 +88,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT
       INTEGER JLT,ITIED, NISKYFI,NIN,NELTST,ITYPTST,JTASK
       INTEGER ISKY(*),ISECIN, NSTRF(*)
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
@@ -763,7 +764,8 @@ C In SPMD: Treatment to be redone after reception node Remote if JG <0
       ENDIF
 C---------------------------------
       IF((ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT>0.AND.
-     .          ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
+     .          ((TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP)
+     .           .OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
      .              (MANIM>=4.AND.MANIM<=15).OR. H3D_DATA%MH3D/=0))
      .   .OR.H3D_DATA%N_VECT_PCONT_MAX>0)THEN
         IF (INCONV==1) THEN

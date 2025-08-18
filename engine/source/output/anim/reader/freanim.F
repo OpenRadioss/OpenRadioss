@@ -39,14 +39,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sensor_mod             ../common_source/modules/sensor_mod.F90
 !||    stack_mod              ../engine/share/modules/stack_mod.F
 !||====================================================================
-      SUBROUTINE FREANIM(IKAD,KEY0,KANIM,SENSORS)
+      SUBROUTINE FREANIM(OUTPUT,IKAD,KEY0,KANIM,SENSORS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100,NCHARKEY,LINE120
       USE MESSAGE_MOD
       USE STACK_MOD
-      USE ANIM_MOD
+      USE OUTPUT_MOD
       USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -64,6 +64,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      type(output_), intent(inout) :: OUTPUT
       INTEGER IKAD(0:*),KANIM
       CHARACTER KEY0(*)*5
       TYPE (SENSORS_), INTENT(INOUT) :: SENSORS
@@ -90,12 +91,12 @@ C-----------------------------------------------
 C-----------------------------------------------
       IKEY = KANIM
       ANIMCONT = 0
-      NB_ANIM_FRAME = 0
-      DTANIM_FCT_ID = 0
+      output%nb_anim_frame = 0
+      output%DTANIM_FCT_ID = 0
 C-----------------------------------------------
 C     Set all indexes and some other variables for ANIM to zero
 C-----------------------------------------------
-      CALL ANIM_SET2ZERO_STRUCT(SENSORS)
+      CALL ANIM_SET2ZERO_STRUCT(OUTPUT,SENSORS)
 C-----------------------------------------------
 C     Loop over /ANIM cards
 C-----------------------------------------------
@@ -113,9 +114,9 @@ C        THE FOLLOWING OPTIONS USE AN ADDITIONAL CARD
 C----------------------------
          IF(KEY2(1:5)=='DT   ')THEN
            CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
-           READ(IUSC2,*,ERR=310,END=320)TANIM0,DTANIM0,TANIM_STOP0,NB_ANIM_FRAME,DTANIM_FCT_ID
+           READ(IUSC2,*,ERR=310,END=320)OUTPUT%TANIM0,output%DTANIM0,output%TANIM_STOP0,output%nb_anim_frame,output%DTANIM_FCT_ID
            GOTO 320
- 310       READ(IUSC2,*,ERR=320,END=320)TANIM0
+ 310       READ(IUSC2,*,ERR=320,END=320)OUTPUT%TANIM0
  320       CONTINUE
 !
 c           DO I=1,NBC
@@ -129,18 +130,18 @@ c             TITLE_ANIM_TAB(NFRAME)=TILTLE_I
 c           ENDDO
 
 
-           IF (DTANIM0 <= ZERO.AND.DTANIM_FCT_ID == 0.AND.NB_ANIM_FRAME==0) THEN
+           IF (output%DTANIM0 <= ZERO.AND.output%DTANIM_FCT_ID == 0.AND.output%nb_anim_frame==0) THEN
              CALL ANCMSG(MSGID=293,ANMODE=ANINFO,c1='ANIM',c2='ANIM')
              CALL ARRET(0)
            ENDIF
            
-           IF (TANIM_STOP0 < ZERO) THEN
+           IF (OUTPUT%TANIM_STOP0 < ZERO) THEN
              CALL ANCMSG(MSGID=304,ANMODE=ANINFO,c1='ANIM',c2='ANIM')
              CALL ARRET(0)
-           ELSEIF (TANIM_STOP0 == ZERO)THEN
-             TANIM_STOP0 = EP20
+           ELSEIF (OUTPUT%TANIM_STOP0 == ZERO)THEN
+             OUTPUT%TANIM_STOP0 = EP20
            ELSE
-             TANIM_STOP0 = MAX(TANIM_STOP0, MAX(ZERO,TANIM0))
+             OUTPUT%TANIM_STOP0 = MAX(OUTPUT%TANIM_STOP0, MAX(ZERO,OUTPUT%TANIM0))
            ENDIF           
 !
          ELSEIF(KEY2(1:5)=='SENSO')THEN
@@ -187,7 +188,7 @@ c           ENDDO
 C----------------------------
 C        THE FOLLOWING OPTIONS DONT USE ANY ADDITIONAL CARD
 C----------------------------
-         CALL ANIM_DCOD_KEY_0(KEY2,KEY3,KEY4,KEY5,KEY6,IERR,IXITKEY)
+         CALL ANIM_DCOD_KEY_0(OUTPUT,KEY2,KEY3,KEY4,KEY5,KEY6,IERR,IXITKEY)
          IF(IXITKEY/=0) GOTO 9990
        ENDIF
        K=K+NBC
