@@ -65,7 +65,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    outputs_mod                 ../common_source/modules/outputs_mod.F
 !||    timer_mod                   ../engine/source/system/timer_mod.F90
 !||====================================================================
-      SUBROUTINE I7MAINF(TIMERS,
+      SUBROUTINE I7MAINF(OUTPUT, TIMERS,
      1                   IPARI          ,X           ,A              ,ALE_CONNECTIVITY ,XCELL      ,
      2                   ICODT          ,FSAV        ,V              ,MS               ,DT2T       ,
      3                   NELTST         ,ITYPTST     ,ITAB           ,STIFN            ,FSKYI      ,
@@ -99,7 +99,7 @@ C-----------------------------------------------
       USE INTBUF_FRIC_MOD
       USE GROUPDEF_MOD
       USE ALE_CONNECTIVITY_MOD
-      USE OUTPUTS_MOD
+      USE OUTPUT_MOD
       USE I18DST3_MOD , ONLY : I18DST3
       USE I18FOR3_MOD , ONLY : I18FOR3
 C-----------------------------------------------
@@ -129,6 +129,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(TIMER_), INTENT(INOUT) :: TIMERS
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECTIVITY
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
       INTEGER NELTST,ITYPTST,NIN,NEWFRONT,NSTRF(*),NRTMDIM, IAD17, ISENSINT(*),DIMFB,IGROUPS(NUMELS)
@@ -584,7 +585,7 @@ C!$OMP ORDERED
               IPARI(29,NIN) = 1
               IDIR = IPARI(34,NIN)
               IF (DEBUG(3) >= 1)NB_JLT_NEW = NB_JLT_NEW + JLT_NEW
-              CALL I18FOR3(
+              CALL I18FOR3(OUTPUT,
      1          JLT               ,A                 ,V                 ,IBC                ,ICODT             ,
      2          FSAV              ,GAP               ,FRIC              ,MS                 ,VISC              ,
      3          VISCF             ,NOINT             ,INTBUF_TAB%STFNS  ,ITAB               ,CN_LOC            ,
@@ -669,7 +670,7 @@ C!$OMP ORDERED
             ENDIF
             IF(ITASK==1) CALL STOPTIME(TIMERS,MACRO_TIMER_FRIC)
 
-              CALL I7FOR3(
+              CALL I7FOR3(OUTPUT,
      1  JLT          ,A         ,V            ,IBC         ,ICODT    ,
      2  FSAV         ,GAP       ,FRIC         ,MS          ,VISC     ,
      3  VISCF        ,NOINT     ,INTBUF_TAB%STFNS,ITAB     ,CN_LOC   ,
@@ -780,7 +781,7 @@ C!$OMP END ORDERED
         ILAGM = IPARI(33,NIN)
 C       I7KGLO = 1 => mis ds inttri
         IF(ILAGM == 0)THEN
-          CALL I17MAIN_PENA(
+          CALL I17MAIN_PENA(output,
      1          NIN    ,IPARI  ,INTBUF_TAB    ,X           ,V  ,
      2          A      ,JTASK-1,IGRBRIC ,EMINX(IAD17),MS ,
      3          IXS    ,IXS16  ,IXS20   ,STIFN  ,FSKYI  ,ISKY    ,

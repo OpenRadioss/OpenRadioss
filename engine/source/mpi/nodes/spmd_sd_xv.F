@@ -35,7 +35,7 @@ C
 !||    message_mod           ../engine/share/message_module/message_mod.F
 !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
 !||====================================================================
-      SUBROUTINE SPMD_SD_XV(
+      SUBROUTINE SPMD_SD_XV(OUTPUT,
      1  X     ,D       ,V      ,VR    ,MS   ,
      2  IN    ,IAD_ELEM,FR_ELEM,WEIGHT,IMSCH,
      3  W     ,ISIZXV  ,ILENXV ,XDP)
@@ -43,7 +43,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD  
-      USE ANIM_MOD   
+      USE OUTPUT_MOD   
       USE ALE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -70,6 +70,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_) :: OUTPUT
       INTEGER IMSCH, ISIZXV, ILENXV,
      .        IAD_ELEM(2,*), FR_ELEM(*), WEIGHT(*)
      
@@ -106,7 +107,7 @@ C-----------------------------------------------
       ENDIF
       IF ((IRAD2R==1).AND.(NCYCLE<2)) DT_CST = 1
       IF ((ALE%SUB%IALESUB/=0).OR.(IALE/=0).OR.
-     .    (TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.
+     .    (TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP).OR.TT>=TOUTP.OR.
      .    (MANIM>=1.AND.MANIM<=15)) THEN
         NEW_D = 1
         IF(IALE/=0.AND.NINTER>0) NEW_D = 2

@@ -124,18 +124,44 @@
         use checksum_output_option_mod
         use precision_mod, only : WP
 
+        type working_arrays_
+          ! /H3D/NODA/PEXT and /ANIM/NODA/PEXT and /TH/NODE(PEXT)
+          real(kind=WP), dimension(:), allocatable :: NODA_SURF, NODA_PEXT       !domain array
+          real(kind=WP), dimension(:), allocatable :: NODA_SURF_G, NODA_PEXT_G   !global array (proc 0) for animation files
+          integer :: H3D_HAS_NODA_PEXT = 0 ! should be in H3D_MOD ?
+          integer :: ANIM_HAS_NODA_PEXT = 0
+
+          ! Friction (both for /H3D/ and /ANIM/)
+          integer :: S_EFRICINT
+          integer :: S_EFRICINTG
+          integer :: S_EFRIC
+          integer :: S_EFRICG
+          integer :: NINEFRIC_STAMP
+          integer :: NINEFRIC
+          ! number of interfaces defined for output fricional energy
+          real(kind=WP), dimension(:,:), allocatable :: EFRIC
+          real(kind=WP), dimension(:,:), allocatable :: EFRIC_STAMP
+          real(kind=WP), dimension(:), allocatable :: EFRICG
+          real(kind=WP), dimension(:), allocatable :: EFRICG_STAMP
+        end type working_arrays_
+
         type output_
           type (th_) :: th
           type (state_) :: state
           type (checksum_option_) :: checksum !< checksum option from Starter
+          type(working_arrays_) :: data !< working arrays for output
           character(len=2048) :: out_filename !< *.out file name  
+
+          real(kind=WP) :: TANIM            !start time
+          real(kind=WP) :: TANIM0           !start time
+          real(kind=WP) :: DTANIM           !time frequency
+          real(kind=WP) :: DTANIM0          !time frequency
+          real(kind=WP) :: TANIM_STOP       !stop time
+          real(kind=WP) :: TANIM_STOP0      !stop time
+          real(kind=WP) :: TANIMSENS
+
         end type output_
 
-        ! /H3D/NODA/PEXT and /ANIM/NODA/PEXT and /TH/NODE(PEXT)
-        real(kind=WP), dimension(:), allocatable :: NODA_SURF, NODA_PEXT       !domain array
-        real(kind=WP), dimension(:), allocatable :: NODA_SURF_G, NODA_PEXT_G   !global array (proc 0) for animation files
-        integer :: H3D_HAS_NODA_PEXT
-        integer :: ANIM_HAS_NODA_PEXT
 
         type(output_),pointer :: output_ptr      ! pointer to output structure (need for arret)
 
@@ -150,26 +176,27 @@
 !||    constant_mod                ../common_source/modules/constant_mod.F
 !||    th_mod                      ../engine/share/modules/th_mod.F
 !||====================================================================
-          SUBROUTINE OUTPUT_ALLOCATE_NODA_PEXT(NUMNOD, NUMNODG)
+          SUBROUTINE OUTPUT_ALLOCATE_NODA_PEXT(OUTPUT,NUMNOD, NUMNODG)
               use th_mod , only : th_has_noda_pext
               use constant_mod , only : zero
               !use output_mod , only : anim_has_noda_pext, h3d_has_noda_pext
               !use output_mod , only : NODA_SURF,NODA_PEXT
               !use output_mod , only : NODA_SURF_G,NODA_PEXT_G
               implicit none
+              TYPE(working_arrays_) :: OUTPUT
               INTEGER,INTENT(IN) :: NUMNOD  ! number of nodes per domain
               INTEGER,INTENT(IN) :: NUMNODG ! number of nodes (proc 0 only)
-              IF(TH_HAS_NODA_PEXT > 0 .OR. ANIM_HAS_NODA_PEXT > 0 .OR. H3D_HAS_NODA_PEXT > 0) THEN
-                ALLOCATE(NODA_SURF(NUMNOD))
-                ALLOCATE(NODA_PEXT(NUMNOD))
-                NODA_SURF(1:NUMNOD)=ZERO
-                NODA_PEXT(1:NUMNOD)=ZERO
+              IF(TH_HAS_NODA_PEXT > 0 .OR. OUTPUT%ANIM_HAS_NODA_PEXT > 0 .OR. OUTPUT%H3D_HAS_NODA_PEXT > 0) THEN
+                ALLOCATE(OUTPUT%NODA_SURF(NUMNOD))
+                ALLOCATE(OUTPUT%NODA_PEXT(NUMNOD))
+                OUTPUT%NODA_SURF(1:NUMNOD)=ZERO
+                OUTPUT%NODA_PEXT(1:NUMNOD)=ZERO
              END IF
-              IF(ANIM_HAS_NODA_PEXT > 0) THEN
-                ALLOCATE(NODA_SURF_G(NUMNODG))
-                ALLOCATE(NODA_PEXT_G(NUMNODG))
-                NODA_SURF_G(1:NUMNODG)=ZERO
-                NODA_PEXT_G(1:NUMNODG)=ZERO
+              IF(OUTPUT%ANIM_HAS_NODA_PEXT > 0) THEN
+                ALLOCATE(OUTPUT%NODA_SURF_G(NUMNODG))
+                ALLOCATE(OUTPUT%NODA_PEXT_G(NUMNODG))
+                OUTPUT%NODA_SURF_G(1:NUMNODG)=ZERO
+                OUTPUT%NODA_PEXT_G(1:NUMNODG)=ZERO
              END IF
           END SUBROUTINE OUTPUT_ALLOCATE_NODA_PEXT
 
@@ -178,11 +205,13 @@
 !||--- called by ------------------------------------------------------
 !||    resol                         ../engine/source/engine/resol.F
 !||====================================================================
-          SUBROUTINE OUTPUT_DEALLOCATE_NODA_PEXT
-            IF(ALLOCATED(NODA_SURF_G)) DEALLOCATE(NODA_SURF_G)
-            IF(ALLOCATED(NODA_PEXT_G)) DEALLOCATE(NODA_PEXT_G)
-            IF(ALLOCATED(NODA_SURF))DEALLOCATE(NODA_SURF)
-            IF(ALLOCATED(NODA_PEXT))DEALLOCATE(NODA_PEXT)
+          SUBROUTINE OUTPUT_DEALLOCATE_NODA_PEXT(OUTPUT)
+            implicit none
+            TYPE(working_arrays_) :: OUTPUT
+            IF(ALLOCATED(OUTPUT%NODA_SURF_G)) DEALLOCATE(OUTPUT%NODA_SURF_G)
+            IF(ALLOCATED(OUTPUT%NODA_PEXT_G)) DEALLOCATE(OUTPUT%NODA_PEXT_G)
+            IF(ALLOCATED(OUTPUT%NODA_SURF))   DEALLOCATE(OUTPUT%NODA_SURF)
+            IF(ALLOCATED(OUTPUT%NODA_PEXT))   DEALLOCATE(OUTPUT%NODA_PEXT)
           END SUBROUTINE OUTPUT_DEALLOCATE_NODA_PEXT
 
       end module output_mod

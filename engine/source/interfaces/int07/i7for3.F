@@ -34,7 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    outputs_mod   ../common_source/modules/outputs_mod.F
 !||    tri7box       ../engine/share/modules/tri7box.F
 !||====================================================================
-      SUBROUTINE I7FOR3(JLT       ,A         ,V          ,IBCC       ,ICODT  ,
+      SUBROUTINE I7FOR3(OUTPUT,JLT       ,A         ,V          ,IBCC       ,ICODT  ,
      2                  FSAV      ,GAP       ,FRIC       ,MS         ,VISC   ,
      3                  VISCF     ,NOINT     ,STFN       ,ITAB       ,CN_LOC ,
      4                  STIGLO    ,STIFN     ,STIF       ,FSKYI      ,ISKY   ,
@@ -82,8 +82,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE TRI7BOX
       USE H3D_MOD
-      USE ANIM_MOD
-      USE OUTPUTS_MOD
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -115,6 +114,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT
       INTEGER NELTST,ITYPTST,JLT,IBCC,IBCM,IBCS,IVIS2,INACTI,IBAG,NIN,
      .        IFRIC,IFORM,INTFRIC,ITIED,JLT_TIED,IORTHFRIC,NFORTH ,NFISOT ,
      .        ICODT(*), ITAB(*), ISKY(*), KINET(*),
@@ -1500,7 +1500,7 @@ C
       ENDIF
 C---------------------------------
       IF((ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT>0.AND.
-     .          ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
+     .          ((TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
      .              (MANIM>=4.AND.MANIM<=15).OR.H3D_DATA%MH3D/=0))
      .   .OR.H3D_DATA%N_VECT_PCONT_MAX>0)THEN
         IF (INCONV==1) THEN
@@ -3024,7 +3024,7 @@ C--------      total force
       END IF
 C---------------------------------
       IF((ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT>0.AND.
-     .          ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
+     .          ((TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
      .              (MANIM>=4.AND.MANIM<=15).OR.H3D_DATA%MH3D/=0))
      .   .OR.H3D_DATA%N_VECT_PCONT_MAX>0)THEN
         IF (INCONV==1) THEN
@@ -3509,14 +3509,14 @@ C---------------------------------
 #include "lockon.inc"
           DO I=1,JLT
             EFRIC_LM = HALF*EFRIC_L(I)
-            EFRIC(INTEREFRIC,IX1(I)) = EFRIC(INTEREFRIC,IX1(I)) + H1(I)*(EFRIC_LM-FHEATM*EFRICT(I))
-            EFRIC(INTEREFRIC,IX2(I)) = EFRIC(INTEREFRIC,IX2(I)) + H2(I)*(EFRIC_LM-FHEATM*EFRICT(I))
-            EFRIC(INTEREFRIC,IX3(I)) = EFRIC(INTEREFRIC,IX3(I)) + H3(I)*(EFRIC_LM-FHEATM*EFRICT(I))
-            EFRIC(INTEREFRIC,IX4(I)) = EFRIC(INTEREFRIC,IX4(I)) + H4(I)*(EFRIC_LM-FHEATM*EFRICT(I))
+            OUTPUT%DATA%EFRIC(INTEREFRIC,IX1(I)) = OUTPUT%DATA%EFRIC(INTEREFRIC,IX1(I)) + H1(I)*(EFRIC_LM-FHEATM*EFRICT(I))
+            OUTPUT%DATA%EFRIC(INTEREFRIC,IX2(I)) = OUTPUT%DATA%EFRIC(INTEREFRIC,IX2(I)) + H2(I)*(EFRIC_LM-FHEATM*EFRICT(I))
+            OUTPUT%DATA%EFRIC(INTEREFRIC,IX3(I)) = OUTPUT%DATA%EFRIC(INTEREFRIC,IX3(I)) + H3(I)*(EFRIC_LM-FHEATM*EFRICT(I))
+            OUTPUT%DATA%EFRIC(INTEREFRIC,IX4(I)) = OUTPUT%DATA%EFRIC(INTEREFRIC,IX4(I)) + H4(I)*(EFRIC_LM-FHEATM*EFRICT(I))
             JG = NSVG(I)
             EFRIC_LS = HALF*EFRIC_L(I)
             IF(JG>0) THEN
-              EFRIC(INTEREFRIC,JG) = EFRIC(INTEREFRIC,JG) + (EFRIC_LS-FHEATS*EFRICT(I))
+              OUTPUT%DATA%EFRIC(INTEREFRIC,JG) = OUTPUT%DATA%EFRIC(INTEREFRIC,JG) + (EFRIC_LS-FHEATS*EFRICT(I))
             ELSE ! node remote
               JG = -JG
               EFRICFI(NIN)%P(JG)=EFRICFI(NIN)%P(JG)+ (EFRIC_LS-FHEATS*EFRICT(I))
@@ -3531,14 +3531,14 @@ C---------------------------------
 #include "lockon.inc"
           DO I=1,JLT
             EFRIC_LM = HALF*EFRIC_L(I)
-            EFRICG(IX1(I)) = EFRICG(IX1(I)) + H1(I)*(EFRIC_LM-FHEATM*EFRICT(I))
-            EFRICG(IX2(I)) = EFRICG(IX2(I)) + H2(I)*(EFRIC_LM-FHEATM*EFRICT(I))
-            EFRICG(IX3(I)) = EFRICG(IX3(I)) + H3(I)*(EFRIC_LM-FHEATM*EFRICT(I))
-            EFRICG(IX4(I)) = EFRICG(IX4(I)) + H4(I)*(EFRIC_LM-FHEATM*EFRICT(I))
+            OUTPUT%DATA%EFRICG(IX1(I)) = OUTPUT%DATA%EFRICG(IX1(I)) + H1(I)*(EFRIC_LM-FHEATM*EFRICT(I))
+            OUTPUT%DATA%EFRICG(IX2(I)) = OUTPUT%DATA%EFRICG(IX2(I)) + H2(I)*(EFRIC_LM-FHEATM*EFRICT(I))
+            OUTPUT%DATA%EFRICG(IX3(I)) = OUTPUT%DATA%EFRICG(IX3(I)) + H3(I)*(EFRIC_LM-FHEATM*EFRICT(I))
+            OUTPUT%DATA%EFRICG(IX4(I)) = OUTPUT%DATA%EFRICG(IX4(I)) + H4(I)*(EFRIC_LM-FHEATM*EFRICT(I))
             JG = NSVG(I)
             EFRIC_LS = HALF*EFRIC_L(I)
             IF(JG>0) THEN
-              EFRICG(JG) = EFRICG(JG) + (EFRIC_LS-FHEATS*EFRICT(I))
+              OUTPUT%DATA%EFRICG(JG) = OUTPUT%DATA%EFRICG(JG) + (EFRIC_LS-FHEATS*EFRICT(I))
             ELSE ! node remote
               JG = -JG
               EFRICGFI(NIN)%P(JG)=EFRICGFI(NIN)%P(JG)+ (EFRIC_LS-FHEATS*EFRICT(I))

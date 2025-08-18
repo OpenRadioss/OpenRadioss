@@ -27,11 +27,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    anim_mod   ../common_source/modules/output/anim_mod.F
 !||====================================================================
-      SUBROUTINE CUTCNT(ICUT,XCUT,IXS,XYZ0,D,LEN)
+      SUBROUTINE CUTCNT(OUTPUT,ICUT,XCUT,IXS,XYZ0,D,LEN)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ANIM_MOD      
+      USE OUTPUT_MOD      
 C------------------------------------------
 C NUMBERING CUT ELEMS
 C-----------------------------------------------
@@ -46,6 +46,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      type(output_), intent(inout) :: output
       my_real XCUT(7,*),XYZ0(3,*),D(3,*)
       INTEGER ICUT(44,*),IXS(NIXS,*),LEN
 C-----------------------------------------------
@@ -60,7 +61,7 @@ C-----------------------------------------------
       DO IC=1,NCUTS
         ITYP=ICUT(1,IC)
         IF(ITYP==1)THEN
-         DD=DTANIM*XCUT(7,IC)
+         DD=OUTPUT%DTANIM*XCUT(7,IC)
          XCUT(1,IC)=XCUT(1,IC)+DD*XCUT(4,IC)
          XCUT(2,IC)=XCUT(2,IC)+DD*XCUT(5,IC)
          XCUT(3,IC)=XCUT(3,IC)+DD*XCUT(6,IC)   

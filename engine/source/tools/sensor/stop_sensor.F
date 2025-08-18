@@ -43,7 +43,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE H3D_MOD
       USE SENSOR_MOD
-      USE ANIM_MOD
+      USE OUTPUT_MOD
       USE STATE_MOD
       USE OUTPUT_MOD
 C-----------------------------------------------
@@ -86,7 +86,7 @@ C-----------------------------------------------
             MREST = 1
 
             IF (SENSORS%STOP_NSTH   > 0) OUTPUT%TH%THIS  = TT
-            IF (SENSORS%STOP_NSANIM > 0) TANIM = TT
+            IF (SENSORS%STOP_NSANIM > 0) OUTPUT%TANIM = TT
             IF (SENSORS%STOP_NSSTAT > 0) TSTAT = TT
             IF (SENSORS%STOP_NSOUTP > 0) TOUTP = TT
             IF (SENSORS%STOP_NSH3D  > 0) H3D_DATA%TH3D = TT

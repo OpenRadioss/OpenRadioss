@@ -257,7 +257,7 @@ C-----------------------------------------------
         use glob_therm_mod
         use my_alloc_mod
         use drape_mod
-        USE OUTPUT_MOD , ONLY : OUTPUT_, NODA_SURF, NODA_PEXT, ANIM_HAS_NODA_PEXT
+        USE OUTPUT_MOD , ONLY : OUTPUT_
         USE ANIM_MONVOL_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -978,7 +978,7 @@ C-----------------------------------------------
         MAC2=1
         MAC3=1
         IF(NCUTS>0)THEN
-          CALL CUTCNT (ICUT,XCUT,IXS,X,D,LENCUT)
+          CALL CUTCNT(output,ICUT,XCUT,IXS,X,D,LENCUT)
           LENCUT = MAX(LENCUT,NCUTS)
           IF(LENCUT>LENCUTO)THEN
             IF(ALLOCATED(CBUF))THEN
@@ -2733,10 +2733,10 @@ C
           ELSEIF(I==31)THEN
             !Averaged external pressure (PEXT)
             IF(N2D == 0)THEN
-              IF(ANIM_HAS_NODA_PEXT == 1)THEN
+              IF(OUTPUT%DATA%ANIM_HAS_NODA_PEXT == 1)THEN
                 DO N=1,NUMNOD
-                  IF(NODA_SURF(N) > ZERO)THEN
-                    WA4(N) = NODA_PEXT(N) / NODA_SURF(N)
+                  IF(OUTPUT%DATA%NODA_SURF(N) > ZERO)THEN
+                    WA4(N) = OUTPUT%DATA%NODA_PEXT(N) / OUTPUT%DATA%NODA_SURF(N)
                   ENDIF
                 ENDDO
               ENDIF

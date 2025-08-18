@@ -35,7 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    python_funct_mod   ../common_source/modules/python_mod.F90
 !||    sensor_mod         ../common_source/modules/sensor_mod.F90
 !||====================================================================
-      SUBROUTINE FXBYFOR(FXBIPM, FXBRPM,  FXBNOD , FXBMOD  , FXBGLM ,
+      SUBROUTINE FXBYFOR(OUTPUT,FXBIPM, FXBRPM,  FXBNOD , FXBMOD  , FXBGLM ,
      .                   FXBCPM, FXBCPS,  FXBLM  , FXBFLS  , FXBDLS ,
      .                   FXBDEP, FXBVIT,  FXBACC , A       , AR     ,
      .                   X     , FXBMVN,  FXBMCD , FXBSE   , FXBSV  ,
@@ -51,7 +51,7 @@ C-----------------------------------------------
       USE python_funct_mod, ONLY : python_
       USE ELBUFDEF_MOD            
       USE SENSOR_MOD
-      USE ANIM_MOD
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -72,6 +72,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT
       INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER FXBIPM(NBIPM,*), FXBNOD(*), FXBELM(*), ITYPTST, NELTST,
      .        FXBGRVI(*), IGRV(NIGRV,*), NPC(*), IPARG(NPARG,*),
@@ -99,7 +100,7 @@ C-----------------------------------------------
 C=======================================================================
       N2=NINTER+NRWALL+NRBODY+NSECT+NJOINT+NRBAG+NVOLU
       ITN=0
-      IF(TT<TANIM) ITN=1
+      IF(TT<OUTPUT%TANIM) ITN=1
       NCYCLP1=NCYCLE+1
       IF((NCYCLP1/NCRST)*NCRST==NCYCLP1.OR.MREST/=0) ITN=0
       DO I=1,LENVAR
