@@ -30,7 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    h3d_mod             ../engine/share/modules/h3d_mod.F
 !||    outputs_mod         ../common_source/modules/outputs_mod.F
 !||====================================================================
-      SUBROUTINE ANI_PCONT(IXS ,IXC    ,IXTG    ,FASOLFR  ,X       ,
+      SUBROUTINE ANI_PCONT(OUTPUT, IXS ,IXC    ,IXTG    ,FASOLFR  ,X       ,
      .                 CONTN   ,CONTT  ,IAD_ELEM,FR_ELEM,WEIGHT    ,
      .                 IXQ     ,SEGQUADFR,IXS10 ,FNCONTP2,FTCONTP2 ,
      .                 H3D_DATA,CSEFRIC,CSEFRICG,SZ_NPCONT2,NPCONT2)
@@ -38,7 +38,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE H3D_MOD
-      USE OUTPUTS_MOD
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -54,7 +54,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL
+      TYPE(OUTPUT_), intent(inout) :: OUTPUT
       INTEGER  
      .   IXS(NIXS,*), IXC(NIXC,*), IXTG(NIXTG,*), FASOLFR(2,*),
      .   IAD_ELEM(2,*), FR_ELEM(*), WEIGHT(*),IXQ(7,*),SEGQUADFR(2,*),
@@ -62,7 +62,7 @@ C     REAL
       INTEGER  , INTENT(IN)    :: SZ_NPCONT2
       my_real
      .   X(3,*), CONTN(3,*), CONTT(3,*),FNCONTP2(3,*),FTCONTP2(3,*)
-      my_real  , INTENT(INOUT) :: CSEFRIC(NINEFRIC,S_EFRICINT),CSEFRICG(S_EFRIC)
+      my_real  , INTENT(INOUT) :: CSEFRIC(OUTPUT%DATA%NINEFRIC,OUTPUT%DATA%S_EFRICINT),CSEFRICG(OUTPUT%DATA%S_EFRIC)
       my_real  , INTENT(IN)    :: NPCONT2(3,SZ_NPCONT2)
       TYPE (H3D_DATABASE) :: H3D_DATA
 C-----------------------------------------------
@@ -825,14 +825,14 @@ C--          total force stored in FNCONTP2
          END DO
        ENDIF
 C
-       IF(NINEFRIC > 0) THEN
-        DO NI=1,NINEFRIC
+       IF(OUTPUT%DATA%NINEFRIC > 0) THEN
+        DO NI=1,OUTPUT%DATA%NINEFRIC
          DO N=1,NUMNOD
            IF (NODAREA(N) == ZERO) THEN
              CSEFRIC(NI,N)=ZERO
            ELSE
              AREAINV = ONE/MAX(EM30,NODAREA(N))
-             CSEFRIC(NI,N)=AREAINV*EFRIC(NI,N)
+             CSEFRIC(NI,N)=AREAINV*OUTPUT%DATA%EFRIC(NI,N)
            ENDIF
          END DO
         ENDDO
@@ -844,7 +844,7 @@ C
              CSEFRICG(N)=ZERO
            ELSE
              AREAINV = ONE/MAX(EM30,NODAREA(N))
-             CSEFRICG(N)=AREAINV*EFRICG(N)
+             CSEFRICG(N)=AREAINV*OUTPUT%DATA%EFRICG(N)
            ENDIF
          END DO
       ENDIF
@@ -864,7 +864,7 @@ C
 !||    h3d_mod             ../engine/share/modules/h3d_mod.F
 !||    outputs_mod         ../common_source/modules/outputs_mod.F
 !||====================================================================
-      SUBROUTINE ANI_PCONT21(IXS ,IXC    ,IXTG    ,FASOLFR  ,X       ,
+      SUBROUTINE ANI_PCONT21(OUTPUT,IXS ,IXC    ,IXTG    ,FASOLFR  ,X       ,
      .                 CONTN   ,CONTT  ,IAD_ELEM,FR_ELEM,WEIGHT      ,
      .                 NODGLOB ,FNCONTG ,FTCONTG,FNCONTP2,FTCONTP2   ,
      .                 H3D_DATA,CSEFRIC_STAMP,CSEFRICG_STAMP,SZ_NPCONT2,NPCONT2)
@@ -872,7 +872,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE H3D_MOD
-      USE OUTPUTS_MOD
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -890,7 +890,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL
+      TYPE(OUTPUT_), intent(inout) :: OUTPUT
       INTEGER  
      .   IXS(NIXS,*), IXC(NIXC,*), IXTG(NIXTG,*), FASOLFR(2,*),
      .   IAD_ELEM(2,*), FR_ELEM(*), WEIGHT(*), NODGLOB(*)
@@ -898,8 +898,8 @@ C     REAL
       my_real
      .   X(3,*), CONTN(3,*), CONTT(3,*), FNCONTG(3,*), FTCONTG(3,*),
      .   FNCONTP2(3,*),FTCONTP2(3,*)
-      my_real  , INTENT(INOUT) :: CSEFRIC_STAMP(NINEFRIC_STAMP,S_EFRICINTG),
-     .   CSEFRICG_STAMP(S_EFRICG)
+      my_real  , INTENT(INOUT) :: CSEFRIC_STAMP(OUTPUT%DATA%NINEFRIC_STAMP,OUTPUT%DATA%S_EFRICINTG),
+     .   CSEFRICG_STAMP(OUTPUT%DATA%S_EFRICG)
       my_real  , INTENT(IN)    :: NPCONT2(3,SZ_NPCONT2)
       TYPE (H3D_DATABASE) :: H3D_DATA
 C-----------------------------------------------
@@ -1117,7 +1117,7 @@ C
 C-----
 
       IF(NSPMD > 1)THEN
-        IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT+NINEFRIC_STAMP
+        IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT+OUTPUT%DATA%NINEFRIC_STAMP
      .   +H3D_DATA%N_SCAL_CSE_FRIC /=0) THEN
 
           ALLOCATE(NODAREAG(NUMNODG))
@@ -1135,10 +1135,10 @@ C-----
               CALL SPMD_GLOB_DSUM9(FNCONTG,3*NUMNODG)
               CALL SPMD_GLOB_DSUM9(FTCONTG,3*NUMNODG)
            ENDIF
-           IF(NINEFRIC_STAMP > 0) THEN
-             DO NI=1,NINEFRIC_STAMP
+           IF(OUTPUT%DATA%NINEFRIC_STAMP > 0) THEN
+             DO NI=1,OUTPUT%DATA%NINEFRIC_STAMP
                DO I=1,NUMNODG
-                 CSEFRIC_STAMP(NI,I)=EFRIC_STAMP(NI,I)
+                 CSEFRIC_STAMP(NI,I)=OUTPUT%DATA%EFRIC_STAMP(NI,I)
                ENDDO
                CALL SPMD_GLOB_DSUM9(CSEFRIC_STAMP(NI,1),NUMNODG)
              ENDDO
@@ -1146,7 +1146,7 @@ C-----
 
            IF(H3D_DATA%N_SCAL_CSE_FRIC > 0) THEN
               DO I=1,NUMNODG
-                 CSEFRICG_STAMP(I)=EFRICG_STAMP(I)
+                 CSEFRICG_STAMP(I)=OUTPUT%DATA%EFRICG_STAMP(I)
               ENDDO
               CALL SPMD_GLOB_DSUM9(CSEFRICG_STAMP,NUMNODG)
            ENDIF
@@ -1239,22 +1239,22 @@ C--          total force stored in FNCONTP2
          END DO
        ENDIF
 C
-       IF(NINEFRIC_STAMP > 0) THEN
+       IF(OUTPUT%DATA%NINEFRIC_STAMP > 0) THEN
         IF (NSPMD == 1) THEN
-            DO NI=1,NINEFRIC_STAMP
+            DO NI=1,OUTPUT%DATA%NINEFRIC_STAMP
              DO N=1,NUMNOD
                 I=NODGLOB(N)
                 IF (NODAREA(N) == ZERO) THEN
                    CSEFRIC_STAMP(NI,I)=ZERO
                 ELSE
                   TMP=ONE/MAX(EM30,NODAREA(N))
-                  CSEFRIC_STAMP(NI,I)=TMP*EFRIC_STAMP(NI,I)
+                  CSEFRIC_STAMP(NI,I)=TMP*OUTPUT%DATA%EFRIC_STAMP(NI,I)
                 ENDIF
              END DO
             ENDDO
         ELSE
           IF(ISPMD==0)THEN 
-            DO NI=1,NINEFRIC_STAMP
+            DO NI=1,OUTPUT%DATA%NINEFRIC_STAMP
              DO N=1,NUMNODG
                 IF (NODAREAG(N) == ZERO) THEN
                    CSEFRIC_STAMP(NI,N)=ZERO
@@ -1265,7 +1265,7 @@ C
              END DO
             ENDDO
           ELSE
-            DO NI=1,NINEFRIC_STAMP
+            DO NI=1,OUTPUT%DATA%NINEFRIC_STAMP
               DO N=1,NUMNODG
                 CSEFRIC_STAMP(NI,N)=ZERO
               END DO
@@ -1282,7 +1282,7 @@ C
                  CSEFRICG_STAMP(I)=ZERO
               ELSE
                  TMP=ONE/MAX(EM30,NODAREA(N))
-                 CSEFRICG_STAMP(I)=TMP*EFRICG_STAMP(I)
+                 CSEFRICG_STAMP(I)=TMP*OUTPUT%DATA%EFRICG_STAMP(I)
               ENDIF
             ENDDO
         ELSE
@@ -1304,7 +1304,7 @@ C
        ENDIF
 C
       IF(NSPMD > 1)THEN
-        IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT+NINEFRIC_STAMP
+        IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT+OUTPUT%DATA%NINEFRIC_STAMP
      .   +H3D_DATA%N_SCAL_CSE_FRIC /=0) DEALLOCATE(NODAREAG)
       ENDIF
           

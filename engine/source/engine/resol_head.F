@@ -237,7 +237,7 @@ C
      H  RWSAV           ,RBY            ,RIVET          ,SECBUF         ,VOLMON         ,LAMBDA      ,
      I  WA              ,FV             ,PARTSAV          ,
      J  UWA             ,VAL2           ,PHI            ,SEGVAR         ,R              ,CRFLSW      ,
-     K  FLSW            ,FANI           ,XCUT           ,ANIN           ,TANI           ,SECFCUM     ,AF(MF01),
+     K  FLSW            ,XCUT           ,TANI           ,SECFCUM     ,AF(MF01),
      L  IDATA           ,RDATA          ,
      M  IFRAME          ,KXSP           ,IXSP           ,NOD2SP         ,ISPSYM         ,ISPCOND     ,
      N  XFRAME          ,SPBUF          ,XSPSYM         ,VSPSYM         ,PV             ,

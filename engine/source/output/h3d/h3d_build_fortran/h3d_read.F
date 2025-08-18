@@ -45,7 +45,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE STACK_MOD
       USE H3D_MOD
-      USE ANIM_MOD
+      USE OUTPUT_MOD
       USE SENSOR_MOD
       USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100,NCHARKEY
 C-----------------------------------------------

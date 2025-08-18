@@ -33,7 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    outputs_mod       ../common_source/modules/outputs_mod.F
 !||    tri7box           ../engine/share/modules/tri7box.F
 !||====================================================================
-      SUBROUTINE I21ASS3(JLT     ,A        ,NIN      ,NOINT    ,FXN    ,
+      SUBROUTINE I21ASS3(OUTPUT, JLT     ,A        ,NIN      ,NOINT    ,FXN    ,
      2                  FYN      ,FZN      ,FXT      ,FYT      ,FZT    ,
      3                  IX1      ,IX2      ,IX3      ,IX4      ,NSVG   ,
      4                  FCONT    ,FNCONT   ,FTCONT   ,LB       ,LC     ,
@@ -57,8 +57,7 @@ C-----------------------------------------------
       USE TRI7BOX
       USE H3D_MOD
       USE TRI7BOX
-      USE ANIM_MOD
-      USE OUTPUTS_MOD
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -83,6 +82,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT
       INTEGER JLT, NIN, NOINT, ISKY(*), ISECIN, NSTRF(*),NCONT,IFORM,NISKYFI,
      .        NINSKID,NINTERSKID,IFLAGLOADP
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
@@ -580,10 +580,12 @@ C
 
 C---------------------------------
       IF(.NOT.(    (ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT>0 .AND.
-     .                  ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
+     .                  ((TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP).OR.TT>=TOUTP.OR.
+     .                  (TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
      .                  (MANIM>=4.AND.MANIM<=15) .OR. H3D_DATA%MH3D /= 0))
      .         .OR.(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT>0.AND.
-     .                  ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
+     .                  ((TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP).OR.TT>=TOUTP.OR.
+     .                   (TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
      .                  (MANIM>=4.AND.MANIM<=15) .OR. H3D_DATA%MH3D /= 0))
      .         .OR.H3D_DATA%N_VECT_PCONT_MAX>0.OR.NINSKID > 0.OR.INTEREFRIC>0
      .         .OR.H3D_DATA%N_SCAL_CSE_FRIC >0.OR.ISECIN/=0)  ) RETURN
@@ -666,7 +668,7 @@ C
 
 C---------------------------------
       IF((ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT>0.AND.
-     .        ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
+     .        ((TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
      .            (MANIM>=4.AND.MANIM<=15).OR. H3D_DATA%MH3D /= 0))
      .   .OR.H3D_DATA%N_VECT_PCONT_MAX>0)THEN
 #include "lockon.inc"
@@ -694,7 +696,7 @@ C
       ENDIF
 C---------------------------------
       IF((ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT>0.AND.
-     .        ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
+     .        ((TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
      .            (MANIM>=4.AND.MANIM<=15).OR. H3D_DATA%MH3D /= 0))
      .   .OR.H3D_DATA%N_VECT_PCONT_MAX>0)THEN
 #include "lockon.inc"
@@ -743,7 +745,7 @@ C
       ENDDO
 C-----------------------------------------------
       IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT>0.AND.
-     .        ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
+     .        ((TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
      .            (MANIM>=4.AND.MANIM<=15) .OR. H3D_DATA%MH3D /= 0 ))THEN
 #include "lockon.inc"
          DO I=1,JLT
@@ -850,23 +852,23 @@ C-------------SKID LINES OUTPUTTING ----------------
 C
 C-------------FRICTION ENERGY OUTPUTTING ----------------
       IF(INTEREFRIC > 0)THEN
-          INTF= INTEREFRIC - NINEFRIC
+          INTF= INTEREFRIC - OUTPUT%DATA%NINEFRIC
 #include "lockon.inc"
          DO I=1,JLT
           JG = NSVG(I)
           IF(WEIGHT(JG)/=1)CYCLE
           N = NODGLOB(JG)
           EFRICSM = HALF*EFRIC_L(I)
-          EFRIC_STAMP(INTF,N)=EFRIC_STAMP(INTF,N) + (EFRICSM-FHEAT*EFRICT(I))
+          OUTPUT%DATA%EFRIC_STAMP(INTF,N)=OUTPUT%DATA%EFRIC_STAMP(INTF,N) + (EFRICSM-FHEAT*EFRICT(I))
 
           N= IX1(I)
-          EFRIC_STAMP(INTF,N)=EFRIC_STAMP(INTF,N) + EFRICSM*H1(I)
+          OUTPUT%DATA%EFRIC_STAMP(INTF,N)=OUTPUT%DATA%EFRIC_STAMP(INTF,N) + EFRICSM*H1(I)
           N= IX2(I)
-          EFRIC_STAMP(INTF,N)=EFRIC_STAMP(INTF,N) + EFRICSM*H2(I)
+          OUTPUT%DATA%EFRIC_STAMP(INTF,N)=OUTPUT%DATA%EFRIC_STAMP(INTF,N) + EFRICSM*H2(I)
           N= IX3(I)
-          EFRIC_STAMP(INTF,N)=EFRIC_STAMP(INTF,N) + EFRICSM*H3(I)
+          OUTPUT%DATA%EFRIC_STAMP(INTF,N)=OUTPUT%DATA%EFRIC_STAMP(INTF,N) + EFRICSM*H3(I)
           N= IX4(I)
-          EFRIC_STAMP(INTF,N)=EFRIC_STAMP(INTF,N) + EFRICSM*H4(I)
+          OUTPUT%DATA%EFRIC_STAMP(INTF,N)=OUTPUT%DATA%EFRIC_STAMP(INTF,N) + EFRICSM*H4(I)
 
          ENDDO
 #include "lockoff.inc"
@@ -879,16 +881,15 @@ C---------------------------------
           IF(WEIGHT(JG)/=1)CYCLE
           N = NODGLOB(JG)
           EFRICSM = HALF*EFRIC_L(I)
-          EFRICG_STAMP(N)=EFRICG_STAMP(N) + (EFRICSM-FHEAT*EFRICT(I))
-
+          OUTPUT%DATA%EFRICG_STAMP(N)=OUTPUT%DATA%EFRICG_STAMP(N) + (EFRICSM-FHEAT*EFRICT(I))
           N= IX1(I)
-          EFRICG_STAMP(N)=EFRICG_STAMP(N) + EFRICSM*H1(I)
+          OUTPUT%DATA%EFRICG_STAMP(N)=OUTPUT%DATA%EFRICG_STAMP(N) + EFRICSM*H1(I)
           N= IX2(I)
-          EFRICG_STAMP(N)=EFRICG_STAMP(N) + EFRICSM*H2(I)
+          OUTPUT%DATA%EFRICG_STAMP(N)=OUTPUT%DATA%EFRICG_STAMP(N) + EFRICSM*H2(I)
           N= IX3(I)
-          EFRICG_STAMP(N)=EFRICG_STAMP(N) + EFRICSM*H3(I)
+          OUTPUT%DATA%EFRICG_STAMP(N)=OUTPUT%DATA%EFRICG_STAMP(N) + EFRICSM*H3(I)
           N= IX4(I)
-          EFRICG_STAMP(N)=EFRICG_STAMP(N) + EFRICSM*H4(I)
+          OUTPUT%DATA%EFRICG_STAMP(N)=OUTPUT%DATA%EFRICG_STAMP(N) + EFRICSM*H4(I)
 
          ENDDO
 #include "lockoff.inc"

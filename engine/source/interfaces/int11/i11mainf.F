@@ -45,7 +45,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    my_alloc_mod               ../common_source/tools/memory/my_alloc.F90
 !||    timer_mod                  ../engine/source/system/timer_mod.F90
 !||====================================================================
-      SUBROUTINE I11MAINF(TIMERS,
+      SUBROUTINE I11MAINF(OUTPUT, TIMERS,
      1      IPARI   ,X         ,A       ,
      2      ICODT   ,FSAV      ,V        ,MS     ,DT2T    ,
      3      NELTST  ,ITYPTST   ,ITAB     ,STIFN  ,FSKYI   ,
@@ -62,6 +62,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE TIMER_MOD
+      USE OUTPUT_MOD
       USE INTBUFDEF_MOD
       USE H3D_MOD
       USE INTBUF_FRIC_MOD
@@ -90,6 +91,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_), intent(inout) :: output
       TYPE(TIMER_), INTENT(INOUT) :: TIMERS
       INTEGER ,INTENT(IN) :: NODADT_THERM
       INTEGER NELTST,ITYPTST,NIN,NEWFRONT,NSTRF(*)
@@ -365,7 +367,7 @@ C-------------------------------------------------------------------------------
      7   N1         , N2          ,M1               ,M2           ,IFORM       )  
       IF(ITASK==1) CALL STOPTIME(TIMERS,MACRO_TIMER_FRIC)
 
-      CALL I11FOR3(
+      CALL I11FOR3(output,
      1  JLT          ,FSAV    ,GAP                 ,FRIC       ,MS      ,
      2  VISC         ,VISCF   ,NOINT               ,ITAB      ,CS_LOC   ,
      3  CM_LOC       ,STIF    ,DT2T                ,HS1       ,HS2      ,

@@ -46,7 +46,7 @@ C
 !||    tri25ebox             ../engine/share/modules/tri25ebox.F
 !||    tri7box               ../engine/share/modules/tri7box.F
 !||====================================================================
-      SUBROUTINE SPMD_I7FCOM_POFF(
+      SUBROUTINE SPMD_I7FCOM_POFF(OUTPUT,
      1   IPARI   ,A       ,STIFN   ,VISCN   ,
      2   INTLIST ,NBINTC  ,ICODT   ,SECFCUM ,NSTRF   ,
      3   ICONTACT,FCONT   ,ISLEN7  ,IRLEN7  ,ISLEN11 ,
@@ -67,6 +67,7 @@ C-----------------------------------------------
       USE MULTI_FVM_MOD
       USE GROUPDEF_MOD
       USE INTERFACES_MOD
+      USE output_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -88,6 +89,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      type(output_), intent(inout) :: output
       INTEGER IFLAG, NBINTC,ISLEN7, IRLEN7, ISLEN11, IRLEN11,
      .        ISLEN17, IRLEN17,IRLEN7T,ISLEN7T,
      .        IRLEN20, ISLEN20, IRLEN20T, ISLEN20T, IRLEN20E, ISLEN20E,
@@ -1142,7 +1144,7 @@ C
      *       .OR.NTY==24.OR.NTY==25 )THEN
                   INTTH = IPARI(47,NIN)
                   IF(INTTH == 0 ) THEN
-                   CALL SPMD_FIADD_POFF(
+                   CALL SPMD_FIADD_POFF(output,
      1              NB      ,LEN     ,BBUFR(L),INTBUF_TAB(NIN)%NSV,A ,
      2              STIFN   ,VISCN   ,IBC     ,ISECIN       ,NOINT   ,
      3              IBAG    ,ICODT   ,SECFCUM , NSTRF       ,ICONTACT,
@@ -1152,7 +1154,7 @@ C
      7              INTERFACES%PARAMETERS,NODADT_THERM)
                     L = L + NB*LEN
                   ELSE
-                     CALL SPMD_FIADD_POFF(
+                     CALL SPMD_FIADD_POFF(output,
      1              NB      ,LEN7T   ,BBUFR(L),INTBUF_TAB(NIN)%NSV,A ,
      2              STIFN   ,VISCN   ,IBC     ,ISECIN       ,NOINT   ,
      3              IBAG    ,ICODT   ,SECFCUM , NSTRF       ,ICONTACT,
@@ -1165,7 +1167,7 @@ C
                 ELSEIF(NTY==11)THEN
                   INTTH = IPARI(47,NIN)
                  IF(INTTH==0) THEN
-                  CALL SPMD_FIADD11_POFF(
+                  CALL SPMD_FIADD11_POFF(output,
      1              NB      ,LEN11   ,BBUFR(L),INTBUF_TAB(NIN)%IRECTS,A,
      2              STIFN   ,VISCN   ,IBC     ,ISECIN       ,NOINT   ,
      3              IBAG    ,ICODT   ,SECFCUM ,NSTRF        ,ICONTACT,
@@ -1173,7 +1175,7 @@ C
      5              TAGNCONT,KLOADPINTER,LOADPINTER,LOADP_HYD_INTER,NODADT_THERM)
                   L = L + NB*LEN11
                  ELSE
-                  CALL SPMD_FIADD11_POFF(
+                  CALL SPMD_FIADD11_POFF(output,
      1              NB      ,LEN11T   ,BBUFR(L),INTBUF_TAB(NIN)%IRECTS,A,
      2              STIFN   ,VISCN   ,IBC     ,ISECIN       ,NOINT   ,
      3              IBAG    ,ICODT   ,SECFCUM ,NSTRF        ,ICONTACT,
@@ -1187,7 +1189,7 @@ C
                   NME =IGRBRIC(IGE)%NENTITY
                   NMES=IGRBRIC(IGN)%NENTITY
 C
-                  CALL SPMD_FIADD17_POFF(
+                  CALL SPMD_FIADD17_POFF(output,
      1              NB     ,LEN17 ,BBUFR(L),IGRBRIC(IGN)%ENTITY,A             ,
      2              STIFN  ,FCONT ,IXS     ,IXS16       ,INTBUF_TAB(NIN)%FROTS,
      3              H3D_DATA)
@@ -1195,7 +1197,7 @@ C
                 ELSEIF(NTY==20)THEN
                   INTTH = IPARI(47,NIN)
                   IF(INTTH == 0 ) THEN
-                   CALL SPMD_FIADD20_POFF(
+                   CALL SPMD_FIADD20_POFF(output,
      1              NB    ,LEN20 ,BBUFR(L),INTBUF_TAB(NIN)%NSV,A      ,
      2              STIFN ,VISCN ,IBC     ,ISECIN       ,NOINT        ,
      3              IBAG  ,ICODT ,SECFCUM ,NSTRF        ,ICONTACT     ,
@@ -1203,7 +1205,7 @@ C
      5              BID   ,INTBUF_TAB(NIN)%NLG  ,INTBUF_TAB(NIN)%ALPHAK,H3D_DATA )
                     L = L + NB*LEN20
                   ELSE
-                   CALL SPMD_FIADD20_POFF(
+                   CALL SPMD_FIADD20_POFF(output,
      1              NB    ,LEN20T,BBUFR(L),INTBUF_TAB(NIN)%NSV,A              ,
      2              STIFN ,VISCN ,IBC     ,ISECIN       ,NOINT        ,
      3              IBAG  ,ICODT ,SECFCUM ,NSTRF        ,ICONTACT     ,
@@ -1226,7 +1228,7 @@ C
                   ISECIN=IPARI(28,NIN)
                   IBAG  =IPARI(32,NIN)
                   IADM  =IPARI(44,NIN)
-                  CALL SPMD_FIADD20E_POFF(
+                  CALL SPMD_FIADD20E_POFF(output,
      1              NB    ,LEN20E ,BBUFR(L),INTBUF_TAB(NIN)%IXLINS,A           ,
      2              STIFN ,VISCN  ,IBC     ,ISECIN       ,NOINT        ,
      3              IBAG  ,ICODT  ,SECFCUM ,NSTRF        ,ICONTACT     ,
@@ -1250,7 +1252,7 @@ C
                   INTTH  = IPARI(47,NIN)
                   NEDGE =IPARI(68,NIN)
 
-                  CALL SPMD_FIADD25E_POFF(
+                  CALL SPMD_FIADD25E_POFF(OUTPUT,
      1              NB      ,LEN25E     ,BBUFR(L),INTBUF_TAB(NIN)%NSV,A ,
      2              STIFN   ,VISCN   ,IBC     ,ISECIN       ,NOINT   ,
      3              IBAG    ,ICODT   ,SECFCUM , NSTRF       ,ICONTACT,

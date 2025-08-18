@@ -36,7 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    i22bufbric_mod   ../common_source/modules/interfaces/cut-cell-search_mod.F
 !||    i22tri_mod       ../common_source/modules/interfaces/cut-cell-search_mod.F
 !||====================================================================
-      SUBROUTINE I22FOR3(JLT       ,A        ,V         ,IBC      ,ICODT  ,
+      SUBROUTINE I22FOR3(OUTPUT, JLT       ,A        ,V         ,IBC      ,ICODT  ,
      2                   FSAV      ,GAP      ,FRIC      ,MS       ,VISC   ,
      3                   VISCF     ,NOINT    ,STFN      ,ITAB     ,CB_LOC ,
      4                   STIGLO    ,STIFN    ,STIF      ,FSKYI    ,ISKY   ,
@@ -74,7 +74,7 @@ C-----------------------------------------------
       USE I22TRI_MOD
       USE I22BUFBRIC_MOD  
       USE H3D_MOD 
-      USE ANIM_MOD
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -100,6 +100,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
       
       INTEGER NELTST,ITYPTST,JLT,IBC,IBCM,IBCS,IVIS2,INACTI,IBAG,NIN,
@@ -755,7 +756,7 @@ C
       !       /ANIM/VECT/PCONT          !
       !---------------------------------!   
       IF((ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT>0.AND.
-     .          ((TT>=TANIM.AND.TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
+     .          ((TT>=OUTPUT%TANIM.AND.TT<=OUTPUT%TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
      .              (MANIM>=4.AND.MANIM<=15).OR.H3D_DATA%MH3D/=0))
      .   .OR.H3D_DATA%N_VECT_PCONT_MAX>0)THEN
 #include "lockon.inc"

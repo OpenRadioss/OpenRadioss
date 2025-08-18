@@ -32,5 +32,11 @@ C last SPH structures only (see RESTMOD for other SPH structures)
         INTEGER , DIMENSION(:), ALLOCATABLE :: 
      .      SPH2SOL,SOL2SPH,IRST
 
+        my_real :: XI_RES = 0. !INLET SPH,
+        my_real :: YI_RES = 0.
+        my_real :: ZI_RES = 0.
+
+
+
       END MODULE SPH_MOD
 

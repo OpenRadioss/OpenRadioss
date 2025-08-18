@@ -38,7 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    message_mod         ../engine/share/message_module/message_mod.F
 !||    tri7box             ../engine/share/modules/tri7box.F
 !||====================================================================
-      SUBROUTINE I17FOR3(
+      SUBROUTINE I17FOR3(OUTPUT,
      1   X      ,V       ,CANDN    ,CANDE        ,I_STOK  ,
      2   IXS    ,IXS16   ,EMINXM   ,NELES        ,NELEM   ,
      3   ITASK  ,A       ,ITIED    ,NINT         ,EMINXS  ,
@@ -53,7 +53,7 @@ C-----------------------------------------------
       USE ICONTACT_MOD
       USE MESSAGE_MOD
       USE H3D_MOD
-      USE ANIM_MOD
+      USE OUTPUT_MOD, ONLY : OUTPUT_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -75,6 +75,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT
       INTEGER I_STOK,ITASK,ITIED,NINT,NME,NSE,NISKYFI,LSKYI17,NOINT,
      .  CANDN(*),CANDE(*), ISKY(*),
      .  IXS(NIXS,*),IXS16(8,*),NELES(*)  ,NELEM(*) 
@@ -216,7 +217,7 @@ C-----------------------------------------------------------------------
 C     calculation of F by mvsiz packet
 C-----------------------------------------------------------------------
           IF(LLT==MVSIZ-1)THEN
-            CALL I17LLL_PENA(
+            CALL I17LLL_PENA(OUTPUT,
      1       LLT     ,V         ,STIFN     ,XX        ,FRIC    ,
      2       YY      ,ZZ        ,III       ,FSKYI     ,ISKY    ,
      3       A       ,X         ,ITIED     ,NINT      ,
@@ -231,7 +232,7 @@ C-----------------------------------------------------------------------
 C-----------------------------------------------------------------------
 C     calculation of F for last packet
 C-----------------------------------------------------------------------        
-      IF(LLT/=0) CALL I17LLL_PENA(
+      IF(LLT/=0) CALL I17LLL_PENA(OUTPUT,
      1       LLT     ,V         ,STIFN     ,XX        ,FRIC    ,
      2       YY      ,ZZ        ,III       ,FSKYI     ,ISKY    ,
      3       A       ,X         ,ITIED     ,NINT      ,
@@ -277,7 +278,7 @@ C
 !||    anim_mod       ../common_source/modules/output/anim_mod.F
 !||    h3d_mod        ../engine/share/modules/h3d_mod.F
 !||====================================================================
-      SUBROUTINE I17LLL_PENA(
+      SUBROUTINE I17LLL_PENA( OUTPUT,
      .         LLT     ,V      ,STIFN   ,XX        ,FRIC   ,
      2         YY      ,ZZ     ,III     ,FSKYI     ,ISKY   ,
      3         A       ,X      ,ITIED   ,NINT      ,
@@ -289,7 +290,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE H3D_MOD
-      USE ANIM_MOD
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -302,6 +303,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      type(output_), intent(inout) :: output
       INTEGER LLT,ITIED,NINT ,IE_MIN,IES_MIN,NISKYFI,NOINT 
       INTEGER ITASK,
      .        III(MVSIZ,17),IIIS(MVSIZ,16),LE(*) ,LES(*), ISKY(*)
@@ -433,7 +435,7 @@ c   to be done in I17MINI
 c
 c   possible also to calculate Hertz pressure
 c                                                                                                                                                                           
-      CALL I17MINI_PENA(
+      CALL I17MINI_PENA( OUTPUT,
      1             LLT   ,R_CS  ,S_CS  ,T_CS  ,RI_S  ,SI_S   ,
      2             TI_S  ,NI_S  ,XXS   ,YYS   ,ZZS   ,XX     ,
      3             YY    ,ZZ    ,R_CM  ,S_CM  ,T_CM  ,NX     ,
@@ -470,7 +472,7 @@ C         face 5 6 7 8
 C-----------------------------------------------------------------------
 C     contact calculation
 C-----------------------------------------------------------------------
-      CALL I17LLL4_PENA(
+      CALL I17LLL4_PENA(output,
      1      LLT       ,ITIED     ,NINT    ,V       ,A       ,FRIC    ,
      3      III       ,IIIS      ,NI_M    ,NI_S    ,S_CM    ,S_CS    ,
      4      NX        ,NY        ,NZ      ,VIT     ,LE      ,LES     ,
@@ -492,13 +494,14 @@ C-----------------------------------------------------------------------
 !||    i17racine_pena   ../engine/source/interfaces/int17/i17for3.F
 !||    i17surf          ../engine/source/interfaces/int17/i17for3.F
 !||====================================================================
-      SUBROUTINE I17MINI_PENA(
+      SUBROUTINE I17MINI_PENA(output,
      1                   LLT   ,R_CS  ,S_CS  ,T_CS  ,RI_S  ,SI_S  ,
      2                   TI_S  ,NI_S  ,XXS   ,YYS   ,ZZS   ,XX    ,
      3                   YY    ,ZZ    ,R_CM  ,S_CM  ,T_CM  ,NX    ,
      4                   NY    ,NZ    ,R_1S  ,R_2S  ,T_1S  ,T_2S  ,
      5                   R_1M  ,R_2M  ,R_3M  ,R_4M  ,T_1M  ,T_2M  ,
      6                   T_3M  ,T_4M  ,ICONT ,AREA,AREA_TOT,AREA_EL)
+       USE output_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -510,6 +513,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      type(output_), intent(inout) :: output
       INTEGER LLT,
      +        ICONT(MVSIZ,4)
 C     REAL
@@ -1494,7 +1498,7 @@ C
 !||    message_mod    ../engine/share/message_module/message_mod.F
 !||    tri7box        ../engine/share/modules/tri7box.F
 !||====================================================================
-      SUBROUTINE I17LLL4_PENA(
+      SUBROUTINE I17LLL4_PENA(OUTPUT,
      1      LLT       ,ITIED     ,NINT    ,V       ,A       ,FRIC    ,
      3      III       ,IIIS      ,NI_M    ,NI_S    ,S_CM    ,S_CS    ,
      4      NX        ,NY        ,NZ      ,VIT     ,LE      ,LES     ,
@@ -1510,7 +1514,7 @@ C-----------------------------------------------
       USE ICONTACT_MOD
       USE MESSAGE_MOD
       USE H3D_MOD
-      USE ANIM_MOD
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1533,6 +1537,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT
       INTEGER LLT,ITIED,NINT,NISKYFI,NOINT   
       INTEGER III(MVSIZ,17),IIIS(MVSIZ,16),ICONT(MVSIZ), ISKY(*),
      .        LE(*) ,LES(*)
@@ -1935,7 +1940,7 @@ C-----------------------------------------------
            ENDIF
 C
            IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0.AND.
-     .          ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
+     .          ((TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
      .              (MANIM>=4.AND.MANIM<=15).OR. H3D_DATA%MH3D /= 0))THEN
 #include "lockon.inc"
             DO IK=1,8
@@ -2009,7 +2014,7 @@ C
            ENDIF
 C
            IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0.AND.
-     .          ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
+     .          ((TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
      .              (MANIM>=4.AND.MANIM<=15).OR. H3D_DATA%MH3D /= 0))THEN
 #include "lockon.inc"
             DO IK=1,8

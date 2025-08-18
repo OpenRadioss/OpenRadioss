@@ -134,7 +134,6 @@ C-----------------------------------------------
       USE SENSOR_MOD
       USE ALE_MOD
       USE DT_MOD
-      USE OUTPUT_MOD
       USE ELBUFDEF_MOD
       USE SDISTOR_INI_MOD, ONLY : SDISTOR_INI
       use glob_therm_mod
@@ -603,7 +602,7 @@ c
      6   WZZ,        BUFMAT,     NEL,        NFT,
      7   IPM,        NUMMAT,     NUMELS+NSVOIS)
       ELSE
-        CALL SDEFO3(
+        CALL SDEFO3(OUTPUT%DATA%FANI_CELL,
      1   PX1,     PX2,     PX3,     PX4,
      2   PY1,     PY2,     PY3,     PY4,
      3   PZ1,     PZ2,     PZ3,     PZ4,

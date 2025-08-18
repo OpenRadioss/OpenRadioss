@@ -59,7 +59,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    message_mod        ../engine/share/message_module/message_mod.F
 !||    timer_mod          ../engine/source/system/timer_mod.F90
 !||====================================================================
-      SUBROUTINE I20MAINF(TIMERS,
+      SUBROUTINE I20MAINF(OUTPUT,TIMERS,
      1       IPARI     ,X         ,A         ,
      2       ICODT     ,FSAV      ,V         ,MS        ,DT2T      ,
      3       NELTST    ,ITYPTST   ,ITAB      ,STIFN     ,FSKYI     ,
@@ -81,6 +81,7 @@ C=======================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE OUTPUT_MOD
       USE TIMER_MOD
       USE INTBUFDEF_MOD
       USE H3D_MOD
@@ -107,6 +108,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      type(output_), intent(inout) :: output
       INTEGER NELTST,ITYPTST,NIN,NEWFRONT,NSTRF(*),
      .        NRTMDIM, IAD17, IRLEN20, ISLEN20, IRLEN20T, ISLEN20T,
      .        IRLEN20E, ISLEN20E, DIMFB
@@ -520,7 +522,7 @@ C
      8                    H4,theaccfact)
           ENDIF
 C 
-          CALL I20FOR3(
+          CALL I20FOR3(output,
      1  JLT          ,A         ,INTBUF_TAB%VA,IBC         ,ICODT    ,
      2  FSAV         ,GAP       ,FRIC         ,MS          ,VISC     ,
      3  VISCF        ,NOINT     ,INTBUF_TAB%STFA,ITAB        ,CN_LOC   ,

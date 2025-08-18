@@ -32,13 +32,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod      ../common_source/modules/mat_elem/elbufdef_mod.F90
 !||====================================================================
-      SUBROUTINE FXBYPID(IPARG ,         IXS   , IXQ   , IXC       ,
+      SUBROUTINE FXBYPID(OUTPUT,IPARG ,         IXS   , IXQ   , IXC       ,
      .                   IXT   , IXP   , IXR   , IXTG  , FXBIPM    , 
      .                   FXBNOD, ONOF  , ITAG  , ONFELT, ELBUF_STR )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD            
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -54,6 +55,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT
       INTEGER IPARG(NPARG,*),IXS(NIXS,*), IXQ(NIXQ,*),IXC(NIXC,*), 
      .        IXT(NIXT,*),IXP(NIXP,*),IXR(NIXR,*),IXTG(NIXTG,*),
      .        FXBIPM(*),FXBNOD(*),ONOF,ITAG(*),ONFELT
@@ -61,6 +63,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
+      
       INTEGER NSN,NG,MLW,ITY,NEL,NFT,IAD,I,II,NALL,IGOF,ISHFT,IWIOUT
       my_real,
      .    DIMENSION(:), POINTER :: OFFG

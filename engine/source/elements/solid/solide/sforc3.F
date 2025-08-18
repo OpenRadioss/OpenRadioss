@@ -738,7 +738,7 @@ C Compute strain rates Dij (silent boundary element)
      7   IPM,        NUMMAT,     NUMELS+NSVOIS      )
       ELSE
 C Compute strain rates Dij
-        CALL SDEFO3(
+        CALL SDEFO3(OUTPUT%DATA%FANI_CELL,
      1   PX1,     PX2,     PX3,     PX4,
      2   PY1,     PY2,     PY3,     PY4,
      3   PZ1,     PZ2,     PZ3,     PZ4,

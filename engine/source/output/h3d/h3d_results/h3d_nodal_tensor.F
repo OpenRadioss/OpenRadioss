@@ -40,7 +40,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE H3D_NODAL_TENSOR(
      .                  ELBUF_TAB, NODAL_TENSOR, IFUNC          , IPARG      , GEO      ,
-     .                  MASS     , PM          , ANIN           , ITAB       , NODE_ID  ,
+     .                  MASS     , PM          ,  ITAB       , NODE_ID  ,
      .                  INFO1    , INFO2       , IS_WRITTEN_NODE, H3D_PART   , IPARTC   ,
      .                  IPARTTG  , IXC         , IXTG           , TEMP       , IFLOW    ,
      .                  RFLOW    , IXS         , IXQ            , NV46,MONVOL, VOLMON   ,
@@ -74,7 +74,7 @@ C-----------------------------------------------
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
       my_real
      .   NODAL_TENSOR(*),MASS(*),GEO(NPROPG,*),
-     .   PM(NPROPM,*),ANIN(*),TEMP(*),RFLOW(*),VOLMON(*), DIAG_SMS(*),MS(*),
+     .   PM(NPROPM,*),TEMP(*),RFLOW(*),VOLMON(*), DIAG_SMS(*),MS(*),
      .   PDAMA2(2,*),X(*),STIFR(*),STIFN(*),A(3,*),D(3,*),V(3,*), 
      .   CONT(3,*),FCONTG(3,*), FINT(3,*), FEXT(3,*),BUFMAT(*)
       INTEGER IPARG(NPARG,*),IFUNC,NODE_ID(*),

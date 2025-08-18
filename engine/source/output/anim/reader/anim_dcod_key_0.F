@@ -32,14 +32,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    output_mod             ../common_source/modules/output/output_mod.F90
 !||    stack_mod              ../engine/share/modules/stack_mod.F
 !||====================================================================
-      SUBROUTINE ANIM_DCOD_KEY_0(KEY2,KEY3,KEY4,KEY5,KEY6,JERR,IXITKEY)
+      SUBROUTINE ANIM_DCOD_KEY_0(OUTPUT,KEY2,KEY3,KEY4,KEY5,KEY6,JERR,IXITKEY)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE STACK_MOD
       USE NAMES_AND_TITLES_MOD, ONLY: NCHARKEY
-      USE OUTPUT_MOD , ONLY : ANIM_HAS_NODA_PEXT
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -54,6 +54,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_), intent(inout) :: OUTPUT
       INTEGER JERR, IXITKEY
       CHARACTER(LEN=NCHARKEY) :: KEY2
       CHARACTER(LEN=NCHARKEY) :: KEY3
@@ -2976,7 +2977,7 @@ C-----------------------------
          ANIM_N(30) = 1
        ELSEIF(KEY3(1:4)=='PEXT ')THEN
          ANIM_N(31) = 1
-         ANIM_HAS_NODA_PEXT = 1
+         OUTPUT%DATA%ANIM_HAS_NODA_PEXT = 1
        ELSE
          IXITKEY=IXITKEY+1
        ENDIF

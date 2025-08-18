@@ -206,6 +206,17 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                      Body
 ! ----------------------------------------------------------------------------------------------------------------------
+          if (.not. allocated(a)) then
+              allocate(a(newsize), stat=ierr)
+              if (ierr /= 0) then
+                  if (present(msg)) call check_error_and_write(ierr, msg=msg)
+                  if (present(stat)) stat = ierr
+                  return
+              endif
+              a = 0  ! Initialize to zero
+              if (present(stat)) stat = 0
+              return
+          endif
           if(newsize > oldsize) then
             allocate(temp(newsize), stat=ierr)
             if(.not. present(stat)) then
@@ -250,6 +261,18 @@
           ! ----------------------------------------------------------------------------------------------------------------------
 !                                                      Body
 ! ----------------------------------------------------------------------------------------------------------------------
+          if (.not. allocated(a)) then
+            allocate(a(newsize1, newsize2), stat=ierr)
+            if (ierr /= 0) then
+                if (present(msg)) call check_error_and_write(ierr, msg=msg)
+                if (present(stat)) stat = ierr
+                return
+            endif
+            a = 0.0  ! Initialize to zero (optional, but good practice)
+            if (present(stat)) stat = 0
+            return
+          endif
+ 
           ! Check if the array needs to be extended
           if (newsize1 > oldsize1 .or. newsize2 > oldsize2) then
             if (newsize1 == oldsize1) then
@@ -408,6 +431,18 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                      Body
 ! ----------------------------------------------------------------------------------------------------------------------
+          if (.not. allocated(a)) then
+              allocate(a(newsize), stat=ierr)
+              if (ierr /= 0) then
+                  if (present(msg)) call check_error_and_write(ierr, msg=msg)
+                  if (present(stat)) stat = ierr
+                  return
+              endif
+              a = 0  ! Initialize to zero
+              if (present(stat)) stat = 0
+              return
+          endif
+ 
           if(newsize > oldsize) then
             allocate(temp(newsize), stat=ierr)
             if(.not. present(stat)) then
@@ -452,6 +487,17 @@
           ! ----------------------------------------------------------------------------------------------------------------------
 !                                                      Body
 ! ----------------------------------------------------------------------------------------------------------------------
+          if (.not. allocated(a)) then
+            allocate(a(newsize1, newsize2), stat=ierr)
+            if (ierr /= 0) then
+                if (present(msg)) call check_error_and_write(ierr, msg=msg)
+                if (present(stat)) stat = ierr
+                return
+            endif
+            a = 0.0  ! Initialize to zero (optional, but good practice)
+            if (present(stat)) stat = 0
+            return
+          endif
           ! Check if the array needs to be extended
           if (newsize1 > oldsize1 .or. newsize2 > oldsize2) then
             if (newsize1 == oldsize1) then
@@ -612,6 +658,18 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                      Body
 ! ----------------------------------------------------------------------------------------------------------------------
+          if (.not. allocated(a)) then
+              allocate(a(newsize), stat=ierr)
+              if (ierr /= 0) then
+                  if (present(msg)) call check_error_and_write(ierr, msg=msg)
+                  if (present(stat)) stat = ierr
+                  return
+              endif
+              a = 0  ! Initialize to zero
+              if (present(stat)) stat = 0
+              return
+          endif
+ 
           if(newsize > oldsize) then
             allocate(temp(newsize), stat=ierr)
             if(.not. present(stat)) then
@@ -656,6 +714,18 @@
           ! ----------------------------------------------------------------------------------------------------------------------
 !                                                      Body
 ! ----------------------------------------------------------------------------------------------------------------------
+          if (.not. allocated(a)) then
+            allocate(a(newsize1, newsize2), stat=ierr)
+            if (ierr /= 0) then
+                if (present(msg)) call check_error_and_write(ierr, msg=msg)
+                if (present(stat)) stat = ierr
+                return
+            endif
+            a = 0.0  ! Initialize to zero (optional, but good practice)
+            if (present(stat)) stat = 0
+            return
+          endif
+ 
           ! Check if the array needs to be extended
           if (newsize1 > oldsize1 .or. newsize2 > oldsize2) then
             if (newsize1 == oldsize1) then

@@ -115,7 +115,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      C  IXR     ,IXTG     ,PON, IKINE     ,
      D  A        ,AR      ,V         ,VR        ,
      E  X       ,D        ,MS      ,IN        ,STIFN     ,
-     F  STIFR   ,DMAS     ,DINER   ,FANI      ,ANIN      ,
+     F  STIFR   ,DMAS     ,DINER   ,
      G           WA       ,UWA     ,PM        ,GEO       ,
      H  PARTSAV ,PARTS0   ,MONVOL    ,
      I  I87H    ,I87I     ,I87J    ,I87K      ,
@@ -190,7 +190,6 @@ C-----------------------------------------------
       USE OUTMAX_MOD
       USE SENSOR_MOD
       USE H3D_INC_MOD
-      USE OUTPUTS_MOD
       USE ALEMUSCL_MOD , only:ALEMUSCL_Param
       USE OUTPUT_MOD
       USE NLOC_COUNT_SOLNOD_MOD
@@ -303,8 +302,8 @@ C-----------------------------------------------
       my_real
      .   X(3,*), D(3,*), V(3,*), VR(3,*),
      .   MS(*), IN(*),  WA(*),  A(3,*), AR(3,*),
-     .   FANI(3,*), UWA(*), STIFN(*),  STIFR(*),
-     .   ANIN(*), PARTSAV(NPSAV,*),PARTS0(*),
+     .   UWA(*), STIFN(*),  STIFR(*),
+     .   PARTSAV(NPSAV,*),PARTS0(*),
      .   DMAS, DINER     ,
      .   PM(NPROPM,*)    , GEO(NPROPG,*), 
      .   VISCN(*),
@@ -479,19 +478,36 @@ C
      5                  SDD_R2R_ELEM,WEIGHT_MD,ILENXV,NUMSPH_GLO_R2R,
      6                  FLG_SPHINOUT_R2R,IPARI,NLOC_DMG)
         END IF
-C
+        ! FANI(1,1) = VECT_CONT !cont
+
+        ! FANI(1,NFIA+1) = VECT_FINT ! FINT
         NFIA = NUMNOD*MIN(1,ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT)
+        ! FANI(1,NFEA+1) = VECT_FEXT ! FEXT
         NFEA = NFIA + NUMNOD*MIN(1,ANIM_V(5)+OUTP_V(5)+H3D_DATA%N_VECT_FINT)
+        ! FANI(1,NFNCA+1) = VECT_PCONT ! FNCONT
         NFNCA= NFEA + NUMNOD*MIN(1,ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT)
+        ! FANI(1,NFTCA+1) = VECT_PCONT_2 !FTCONT
         NFTCA= NFNCA+ NUMNOD*MIN(1,ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT)
+        ! FANI(1,NFOA+1) = SECT + RBODY + RWALL  = FOPT
         NFOA = NFTCA+ NUMNOD*MIN(1,ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT)
+        ! FANI(1,NFT2+1) = VECT_CONT2 = FNCONT2
         NFT2 = NFOA+ 2*(NSECT+NRBODY+NRWALL)
+        ! FANI(1,NFNCA2+1) = VECT_PCONT2 = FNCONTP2
         NFNCA2= NFT2  + NUMNOD*MIN(1,ANIM_V(13)+H3D_DATA%N_VECT_CONT2)
+        ! FANI(1,NFTCA2+1) = VECT_PCONT2_2 = FTCONTP2
         NFTCA2= NFNCA2+ NUMNOD*MIN(1,ANIM_V(27)+H3D_DATA%N_VECT_PCONT2)
+
+        ! ANIN(1,1) = SCAL_DT
+        ! ANIN(1,NDMA+1) = SCAL_DMAS
         NDMA = NUMNOD*MIN(1,ANIM_N(1)+OUTP_N(1)+H3D_DATA%N_SCAL_DT)
+        ! ANIN(1,NDIN+1) = SCAL_DINER
         NDIN = NDMA +NUMNOD*MIN(1,ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS)
+        ! ANIN(1,NDMA2+1) = SCAL_SPRING       
         NDMA2 = NDIN+NUMNOD*MIN(1,ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER)
+        ! ANIN(1,NDAMA2+1) = SCAL_DAMA2 ! PDAMA2
         NDAMA2 = NDMA2+NUMELR*(ANIM_FE(11)+ANIM_FE(12)+ANIM_FE(13))
+
+
         IF(IRODDL/=0)THEN
           DO NG=1,NINTER
             ITY = IPARI(7,NG)
@@ -588,11 +604,11 @@ C
         IF(H3D_DATA%N_VECT_CONT2_MIN >0) IFCONT2MIN=1
         IF(H3D_DATA%N_VECT_PCONT2_MIN >0) IFCONTP2MIN=1
         IF(H3D_DATA%N_SCAL_CSE_FRIC >0) THEN
-          S_EFRIC = NUMNOD
-          IF(NINTSTAMP/=0) S_EFRICG = NUMNODG
+          OUTPUT%DATA%S_EFRIC = NUMNOD
+          IF(NINTSTAMP/=0) OUTPUT%DATA%S_EFRICG = NUMNODG
         ENDIF
-        IF(NINEFRIC >0) S_EFRICINT = NUMNOD
-        IF(NINEFRIC_STAMP >0) S_EFRICINTG = NUMNODG
+        IF(OUTPUT%DATA%NINEFRIC >0) OUTPUT%DATA%S_EFRICINT = NUMNOD
+        IF(OUTPUT%DATA%NINEFRIC_STAMP >0) OUTPUT%DATA%S_EFRICINTG = NUMNODG
 C------------------------
 C      PARAL. ARITH.
 C------------------------
@@ -860,31 +876,34 @@ C
 C--- // --------------------------------------
 C         FORCE & MOMENTUM INIT
 C---------------------------------------------
-      IF(NINTER/=0.AND.ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0) CALL ZEROR(FANI(1,NODFT),NUMNTHREAD)
-      IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT>0) THEN
-        CALL ZEROR(FANI(1,NFNCA+NODFT),NUMNTHREAD)
-        CALL ZEROR(FANI(1,NFTCA+NODFT),NUMNTHREAD)
-      END IF
-      IF(ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS >0)THEN
-#include      "vectorize.inc"
-        DO I=NODFT,NODLT
-          ANIN(I+NDMA) = ZERO
-        ENDDO
-      ENDIF
-      IF(ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER >0)THEN
-#include      "vectorize.inc"
-        DO I=NODFT,NODLT
-          ANIN(I+NDIN) = ZERO
-        ENDDO
-      END IF
-      IF(ANIM_N(15) == 1  .OR. ANIM_N(16) == 1 .OR. H3D_DATA%N_SCAL_DAMA2 == 1)THEN
-#include      "vectorize.inc"
-        DO I=NODFT,NODLT
-          ANIN(NDAMA2+2*(I-1)+1) = ZERO
-          ANIN(NDAMA2+2*(I-1)+2) = ZERO
-        ENDDO
-      ENDIF
-C-----------------------------------------------
+       IF(NINTER/=0.AND.ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0) OUTPUT%DATA%VECT_CONT = 0
+       IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT>0) THEN
+          OUTPUT%DATA%VECT_PCONT = 0
+          OUTPUT%DATA%VECT_PCONT_2 = 0
+       END IF
+       IF(ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS >0)THEN
+          OUTPUT%DATA%SCAL_DMAS = 0
+!!#include      "vectorize.inc"
+!!       DO I=NODFT,NODLT
+!!         ANIN(I+NDMA) = ZERO
+!!       ENDDO
+       ENDIF
+       IF(ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER >0)THEN
+          OUTPUT%DATA%SCAL_DINER = 0
+!!#include      "vectorize.inc"
+!!       DO I=NODFT,NODLT
+!!         ANIN(I+NDIN) = ZERO
+!!       ENDDO
+       END IF
+       IF(ANIM_N(15) == 1  .OR. ANIM_N(16) == 1 .OR. H3D_DATA%N_SCAL_DAMA2 == 1)THEN
+          OUTPUT%DATA%SCAL_DAMA2 = 0
+!!#include      "vectorize.inc"
+!!       DO I=NODFT,NODLT
+!!         ANIN(NDAMA2+2*(I-1)+1) = ZERO
+!!         ANIN(NDAMA2+2*(I-1)+2) = ZERO
+!!       ENDDO
+       ENDIF
+!C-----------------------------------------------
 C  RESTARTING RADIOSS ENGINE.
         IF (IPARIT==0) THEN
           CALL ZEROR(A(1,NDTASK),NUMNOD)

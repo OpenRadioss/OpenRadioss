@@ -37,7 +37,7 @@ C
 !||    spmd_comm_world_mod          ../engine/source/mpi/spmd_comm_world.F90
 !||    tri7box                      ../engine/share/modules/tri7box.F
 !||====================================================================
-      SUBROUTINE SPMD_I18KINE_PENE_COM_POFF(IPARI,INTBUF_TAB,FCONT,
+      SUBROUTINE SPMD_I18KINE_PENE_COM_POFF(OUTPUT,IPARI,INTBUF_TAB,FCONT,
      *                MTF,A,IAD_ELEM,FR_ELEM,MODE,SLVNDTAG,TAGPENE,ITAB,
      .                H3D_DATA )
 C-----------------------------------------------
@@ -47,7 +47,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE INTBUFDEF_MOD
       USE H3D_MOD
-      USE ANIM_MOD
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -73,6 +73,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_), intent(inout) :: OUTPUT
       INTEGER IPARI(NPARI,*),IAD_ELEM(2,*),FR_ELEM(*),
      *        SLVNDTAG(*),TAGPENE(*),ITAB(*),MODE
 C
@@ -268,7 +269,8 @@ c                      ENDIF
                          A(2,NOD) = BBUFR(IADR(P)+L+1)
                          A(3,NOD) = BBUFR(IADR(P)+L+2)
                          IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT>0.AND.
-     .                    ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
+     .                    ((TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP).OR.TT>=TOUTP.OR.
+     .                     (TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
      .                    (MANIM>=4.AND.MANIM<=15)))THEN
                            IF(INCONV == 1) THEN
                              FCONT(1,NOD) = FCONT(1,NOD)+BBUFR(IADR(P)+L+3)

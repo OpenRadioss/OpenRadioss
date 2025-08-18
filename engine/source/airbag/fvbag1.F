@@ -48,7 +48,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    python_funct_mod         ../common_source/modules/python_mod.F90
 !||    sensor_mod               ../common_source/modules/sensor_mod.F90
 !||====================================================================
-      SUBROUTINE FVBAG1(NN       , NEL    , IBUF     , ELEM          , NJET    ,
+      SUBROUTINE FVBAG1(OUTPUT,NN       , NEL    , IBUF     , ELEM          , NJET    ,
      2                  IBAGJET  , RBAGJET, NVENT    , IBAGHOL       , RBAGHOL ,
      3                  P        , RHO    , TK       , U             , SSPK    ,
      4                  X        , V      , A        , NSENSOR       ,SENSOR_TAB,
@@ -80,7 +80,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE FVMBAG_MESHCONTROL_MOD
       USE SENSOR_MOD
-      USE ANIM_MOD
+      USE OUTPUT_MOD
       USE H3D_MOD , only:H3D_DATABASE
       USE CAST_MOD, only: double_to_my_real
       USE PYTHON_FUNCT_MOD, only : python_
@@ -107,6 +107,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT
       INTEGER ,INTENT(IN) :: NSENSOR, NPOLH
       INTEGER NN, NEL, IBUF(*), ELEM(3,*), NJET, IBAGJET(NIBJET,*),
      .        NVENT, IBAGHOL(NIBHOL,*),
@@ -1873,7 +1874,7 @@ C     Automatic switch to uniform pressure when dispersion of pressure is low
 C---------------------------------------------------
 C Fluid velocity on nodes
 C---------------------------------------------------
-      IF( (TT>=TANIM .AND. TT<=TANIM_STOP) .OR.TT >= TOUTP.OR. NBGAUGE > 0 .OR.
+      IF( (TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP) .OR.TT >= TOUTP.OR. NBGAUGE > 0 .OR.
      .              (MANIM >= 4.AND.MANIM <= 15)) THEN
 C     Computations for anim, also needed if there are gauges.
         PREPARE_ANIM = 1
@@ -2283,7 +2284,7 @@ C
       ! ANIM / H3D : LOCATE POLYHEDRA CENTROIDS                    !
       !------------------------------------------------------------!
       !whenever output file is required
-      IF((TT>=TANIM         .AND. TT<=TANIM_STOP)         .OR. TT>=TOUTP .OR.
+      IF((TT>=OUTPUT%TANIM         .AND. TT<=OUTPUT%TANIM_STOP)         .OR. TT>=TOUTP .OR.
      .   (TT>=H3D_DATA%TH3D .AND. TT<=H3D_DATA%TH3D_STOP) .OR.
      .   (MANIM>=4.AND.MANIM<=15).OR.H3D_DATA%MH3D/=0)THEN
      

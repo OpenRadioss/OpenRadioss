@@ -32,13 +32,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    qa_out_mod              ../common_source/qa/qa_out_mod.F
 !||    sensor_mod              ../common_source/modules/sensor_mod.F90
 !||====================================================================
-      SUBROUTINE ENG_QAPRINT_ANIMINPUT(SENSORS)
+      SUBROUTINE ENG_QAPRINT_ANIMINPUT(OUTPUT,SENSORS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE QA_OUT_MOD
       USE MESSAGE_MOD
-      USE ANIM_MOD
+      USE OUTPUT_MOD
       USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -52,6 +52,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT
       INTEGER I
       CHARACTER (LEN=255) :: VARNAME
       DOUBLE PRECISION TEMP_DOUBLE
@@ -65,16 +66,16 @@ C-----------------------------------------------
         WRITE(VARNAME,'(A)') 'ANIM_VERS'
         CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),ANIM_VERS,0.0_8)
 
-        WRITE(VARNAME,'(A)') 'TANIM0'
-        TEMP_DOUBLE = TANIM0
+        WRITE(VARNAME,'(A)') 'OUTPUT%TANIM0'
+        TEMP_DOUBLE = OUTPUT%TANIM0
         CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
 
-        WRITE(VARNAME,'(A)') 'DTANIM0'
-        TEMP_DOUBLE = DTANIM0
+        WRITE(VARNAME,'(A)') 'OUTPUT%DTANIM0'
+        TEMP_DOUBLE = OUTPUT%DTANIM0
         CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
         
-        WRITE(VARNAME,'(A)') 'TANIM_STOP0'
-        TEMP_DOUBLE = TANIM_STOP0
+        WRITE(VARNAME,'(A)') 'OUTPUT%TANIM_STOP0'
+        TEMP_DOUBLE = OUTPUT%TANIM_STOP0
         CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)        
 
         WRITE(VARNAME,'(A)') 'SENSORS%ANIM_ID'

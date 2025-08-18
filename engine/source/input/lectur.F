@@ -92,7 +92,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      6                  NEFLSW  ,NNFLSW,ICUT   ,INOISE ,
      7                  X       ,V     ,VR     ,MS     ,IN    ,
      8                  SKEW    ,PLD           ,RBY    ,
-     9                  WA      ,CRFLSW,XCUT   ,ANIN   ,DAMPR ,
+     9                  WA      ,CRFLSW,XCUT   ,DAMPR ,
      A                  IGRNOD  ,KXSP  ,WEIGHT ,FR_RBY2,FR_RL ,
      B                  PARTSAV,IPART  ,PM    ,
      C                  MONVOL  ,VOLMON,IPART_STATE,GEO,TABLE ,
@@ -118,14 +118,12 @@ C-----------------------------------------------
       USE FVBAG_MOD
       USE CHECK_MOD
       USE SENSOR_MOD
-      USE ANIM_MOD
-      USE OUTPUTS_MOD
+      USE OUTPUT_MOD
       USE STATE_MOD
       USE ALEMUSCL_MOD , only:ALEMUSCL_Param
       USE ALE_MOD
       USE DT_MOD
       USE LOADS_MOD
-      USE OUTPUT_MOD
       USE FXB_MOD
       USE MY_ALLOC_MOD
       USE NAMES_AND_TITLES_MOD
@@ -195,7 +193,7 @@ C-----------------------------------------------
      .   MDS_OUTPUT_TABLE(MDS_NMAT*MAX_DEPVAR),MDS_NMAT,MAX_DEPVAR,
      .   MDS_NDEPSVAR(*),IBCL(*),ILOADP(*),LLOADP(*)
       my_real
-     .    SKEW(LSKEW,*),RBY(*),MS(*),IN(*),ANIN(*),
+     .    SKEW(LSKEW,*),RBY(*),MS(*),IN(*),
      .    X(*), V(*), VR(*),WA(*),PLD(*),CRFLSW(*),XCUT(*),
      .    DAMPR(NRDAMP,*), PARTSAV(*),PM(NPROPM,*),
      .    VOLMON(*),GEO(NPROPG,*),XFRAME(NXFRAME,*)
@@ -2512,9 +2510,9 @@ C---------------------------------------------------------
 C---------------------------------------------------------
 C     ANIMATION (DT ,DMAS)
 C---------------------------------------------------------
-      DO I=1,SANIN
-        ANIN(I)=ZERO
-      ENDDO
+!     DO I=1,SANIN
+!       ANIN(I)=ZERO
+!     ENDDO
 C---------------------------------------------------------
 C     FILTERED SAMPLED OUTPUT
 C---------------------------------------------------------
@@ -2600,7 +2598,7 @@ C-------------------------------------------
       CALL PRELECH3D(NUMGEO   ,NPROPGI  ,NPROPMI  ,NUMMAT   ,NUMPLY   ,
      .               IGEO     ,IPM      ,H3D_DATA ,MULTI_FVM,MDS_OUTPUT_TABLE,
      .               MDS_NMAT ,MAX_DEPVAR,MDS_NDEPSVAR,MAT_PARAM,NUMSPHG)
-      CALL LECH3D(GEO,IGEO,IPM,IPART,H3D_DATA,MULTI_FVM,IPARI,IPARG,TAG_SKINS6,
+      CALL LECH3D(OUTPUT,GEO,IGEO,IPM,IPART,H3D_DATA,MULTI_FVM,IPARI,IPARG,TAG_SKINS6,
      .            MDS_LABEL,MDS_OUTPUT_TABLE,MDS_NMAT,MAX_DEPVAR,MDS_NDEPSVAR,
      .            ELBUF_STR,STACK,IBCL,ILOADP,LLOADP,LOADS,MAT_PARAM,PBLAST,
      .            IGRPART,NPC,PLD,SNPC,STF)
@@ -2716,62 +2714,62 @@ C-------------------------------
 C-------------------------------------------
 C        2 - Frictionnal energy: allocs tabs
 C--------------------------------------------
-         IF(H3D_DATA%N_SCAL_CSE_FRIC >0.AND.S_EFRIC == 0)THEN
-            ALLOCATE(EFRICG(NUMNOD))
-            EFRICG(1:NUMNOD) = ZERO
+         IF(H3D_DATA%N_SCAL_CSE_FRIC >0.AND.OUTPUT%DATA%S_EFRIC == 0)THEN
+            ALLOCATE(OUTPUT%DATA%EFRICG(NUMNOD))
+            OUTPUT%DATA%EFRICG(1:NUMNOD) = ZERO
             IF(NINTSTAMP/=0) THEN
-              ALLOCATE(EFRICG_STAMP(NUMNODG))
-              EFRICG_STAMP(1:NUMNODG) = ZERO
+              ALLOCATE(OUTPUT%DATA%EFRICG_STAMP(NUMNODG))
+              OUTPUT%DATA%EFRICG_STAMP(1:NUMNODG) = ZERO
             ELSE
-              ALLOCATE(EFRICG_STAMP(0))
+              ALLOCATE(OUTPUT%DATA%EFRICG_STAMP(0))
             ENDIF
-         ELSEIF(S_EFRIC==0)THEN
-            ALLOCATE(EFRICG(0))
-            ALLOCATE(EFRICG_STAMP(0))
+         ELSEIF(OUTPUT%DATA%S_EFRIC==0)THEN
+            ALLOCATE(OUTPUT%DATA%EFRICG(0))
+            ALLOCATE(OUTPUT%DATA%EFRICG_STAMP(0))
          ENDIF
 
-      IF(H3D_DATA%N_SCAL_CSE_FRICINT  > 0.AND.S_EFRICINT==0) THEN
+      IF(H3D_DATA%N_SCAL_CSE_FRICINT  > 0.AND.OUTPUT%DATA%S_EFRICINT==0) THEN
 C
          NINEFRICG = H3D_DATA%N_SCAL_CSE_FRICINT
-         NINEFRIC_STAMP = 0
-         NINEFRIC = 0
+         OUTPUT%DATA%NINEFRIC_STAMP = 0
+         OUTPUT%DATA%NINEFRIC = 0
          IF(NINTSTAMP/=0) THEN
            DO N=1,NINTER
                NI = H3D_DATA%N_CSE_FRIC_INTER (N)
-               IF(NI/= 0.AND.IPARI(7,N)==21) NINEFRIC_STAMP = NINEFRIC_STAMP + 1
+               IF(NI/= 0.AND.IPARI(7,N)==21) OUTPUT%DATA%NINEFRIC_STAMP = OUTPUT%DATA%NINEFRIC_STAMP + 1
            ENDDO
          ENDIF
-         IF(NINEFRIC_STAMP==NINEFRICG) THEN
-            CALL MY_ALLOC(EFRIC_STAMP,NINEFRICG,NUMNODG)
-            EFRIC_STAMP(1:NINEFRICG,1:NUMNODG) = ZERO
-            CALL MY_ALLOC(EFRIC,0,0)
-         ELSEIF(NINEFRIC_STAMP==0) THEN
-            NINEFRIC = NINEFRICG
-            CALL MY_ALLOC(EFRIC,NINEFRIC,NUMNOD)
-            EFRIC(1:NINEFRICG,1:NUMNOD) = ZERO
-            CALL MY_ALLOC(EFRIC_STAMP,0,0)
+         IF(OUTPUT%DATA%NINEFRIC_STAMP==NINEFRICG) THEN
+            CALL MY_ALLOC(OUTPUT%DATA%EFRIC_STAMP,NINEFRICG,NUMNODG)
+            OUTPUT%DATA%EFRIC_STAMP(1:NINEFRICG,1:NUMNODG) = ZERO
+            CALL MY_ALLOC(OUTPUT%DATA%EFRIC,0,0)
+         ELSEIF(OUTPUT%DATA%NINEFRIC_STAMP==0) THEN
+            OUTPUT%DATA%NINEFRIC = NINEFRICG
+            CALL MY_ALLOC(OUTPUT%DATA%EFRIC,OUTPUT%DATA%NINEFRIC,NUMNOD)
+            OUTPUT%DATA%EFRIC(1:NINEFRICG,1:NUMNOD) = ZERO
+            CALL MY_ALLOC(OUTPUT%DATA%EFRIC_STAMP,0,0)
          ELSE
-            NINEFRIC = NINEFRICG-NINEFRIC_STAMP
-            CALL MY_ALLOC(EFRIC_STAMP,NINEFRIC_STAMP,NUMNODG)
-            EFRIC_STAMP(1:NINEFRIC_STAMP,1:NUMNODG) = ZERO
-            CALL MY_ALLOC(EFRIC,NINEFRIC,NUMNOD)
-            EFRIC(1:NINEFRIC,1:NUMNOD) = ZERO
+            OUTPUT%DATA%NINEFRIC = NINEFRICG-OUTPUT%DATA%NINEFRIC_STAMP
+            CALL MY_ALLOC(OUTPUT%DATA%EFRIC_STAMP,OUTPUT%DATA%NINEFRIC_STAMP,NUMNODG)
+            OUTPUT%DATA%EFRIC_STAMP(1:OUTPUT%DATA%NINEFRIC_STAMP,1:NUMNODG) = ZERO
+            CALL MY_ALLOC(OUTPUT%DATA%EFRIC,OUTPUT%DATA%NINEFRIC,NUMNOD)
+            OUTPUT%DATA%EFRIC(1:OUTPUT%DATA%NINEFRIC,1:NUMNOD) = ZERO
             NS = 0
             NN= 0
             DO N=1,NINTER
                NI = H3D_DATA%N_CSE_FRIC_INTER (N)
                IF(NI/= 0.AND.IPARI(7,N)==21) THEN
                   NS = NS+1
-                  H3D_DATA%N_CSE_FRIC_INTER (N) = NINEFRIC + NS
+                  H3D_DATA%N_CSE_FRIC_INTER (N) = OUTPUT%DATA%NINEFRIC + NS
                ELSEIF (NI/=0) THEN
                   NN = NN+1
                   H3D_DATA%N_CSE_FRIC_INTER (N) = NN
                ENDIF
             ENDDO
          ENDIF
-      ELSEIF(S_EFRICINT==0)THEN
-            CALL MY_ALLOC(EFRIC,0,0)
-            CALL MY_ALLOC(EFRIC_STAMP,0,0)
+      ELSEIF(OUTPUT%DATA%S_EFRICINT==0)THEN
+            CALL MY_ALLOC(OUTPUT%DATA%EFRIC,0,0)
+            CALL MY_ALLOC(OUTPUT%DATA%EFRIC_STAMP,0,0)
       ENDIF
 C-----------------------------------
 C-------------------------------------------
@@ -2781,17 +2779,17 @@ C-------------------------------------------
 C------------------------------------------------
 C     Check function load of output frequencie and initial time step
 C------------------------------------------------
-        IF(NB_ANIM_FRAME >0.AND.DTANIM_FCT_ID==0) THEN 
-           IF(TANIM_STOP0 >ZERO.AND.TANIM_STOP0 /= EP20.AND.TANIM0 > 0) THEN
-              DTANIM0  = (TANIM_STOP0 - TANIM0) / NB_ANIM_FRAME
-           ELSEIF(TANIM_STOP0 >ZERO.AND.TANIM_STOP0 /= EP20) THEN
-              DTANIM0  = (TANIM_STOP0-TT) / NB_ANIM_FRAME
-           ELSEIF(TANIM0 >ZERO) THEN
-              DTANIM0  = (TSTOP-TANIM0) / NB_ANIM_FRAME
+        IF(output%nb_anim_frame >0.AND.OUTPUT%DTANIM_FCT_ID==0) THEN 
+           IF(OUTPUT%TANIM_STOP0 >ZERO.AND.OUTPUT%TANIM_STOP0 /= EP20.AND.OUTPUT%TANIM0 > 0) THEN
+              OUTPUT%DTANIM0  = (OUTPUT%TANIM_STOP0 - OUTPUT%TANIM0) / output%nb_anim_frame
+           ELSEIF(OUTPUT%TANIM_STOP0 >ZERO.AND.OUTPUT%TANIM_STOP0 /= EP20) THEN
+              OUTPUT%DTANIM0  = (OUTPUT%TANIM_STOP0-TT) / output%nb_anim_frame
+           ELSEIF(OUTPUT%TANIM0 >ZERO) THEN
+              OUTPUT%DTANIM0  = (TSTOP-OUTPUT%TANIM0) / output%nb_anim_frame
            ELSE
-              DTANIM0  = (TSTOP-TT) / NB_ANIM_FRAME
+              OUTPUT%DTANIM0  = (TSTOP-TT) / output%nb_anim_frame
            ENDIF
-            IF (DTANIM0 <= ZERO) THEN
+            IF (OUTPUT%DTANIM0 <= ZERO) THEN
               CALL ANCMSG(MSGID=293,ANMODE=ANINFO,c1='ANIM',c2='ANIM')
               CALL ARRET(0)
             ENDIF
@@ -2799,10 +2797,10 @@ C------------------------------------------------
 
          OK = 0
          DTFCT = 0
-         IF (DTANIM_FCT_ID > 0) THEN    
+         IF (output%DTANIM_FCT_ID > 0) THEN    
 
             DO JJ=1,NFUNCT                     
-              IF(DTANIM_FCT_ID == NPC(NFUNCT+2+JJ-1)) THEN  
+              IF(OUTPUT%DTANIM_FCT_ID == NPC(NFUNCT+2+JJ-1)) THEN  
                  DTFCT=JJ                
                  OK = 1               
                  EXIT                    
@@ -2813,27 +2811,28 @@ C------------------------------------------------
      .                  MSGTYPE=MSGERROR,        
      .                  ANMODE=ANINFO_BLIND_1,   
      .                  C1='ANIM',                 
-     .                  I2=DTANIM_FCT_ID)          
+     .                  I2=OUTPUT%DTANIM_FCT_ID)          
              ENDIF
-             IF (OK >0) DTANIM_FCT_ID = DTFCT
+             IF (OK >0) OUTPUT%DTANIM_FCT_ID = DTFCT
 
-            IF(DTANIM_FCT_ID > 0) THEN
-              DTANIM0  =  FINTER(DTANIM_FCT_ID,ZERO,NPC,PLD,DYDX)   
+            IF(OUTPUT%DTANIM_FCT_ID > 0) THEN
+              OUTPUT%DTANIM0  =  FINTER(OUTPUT%DTANIM_FCT_ID,ZERO,NPC,PLD,DYDX)   
+              !need to add the python also 
             ENDIF
 
-            IF (DTANIM0 <= ZERO) THEN
+            IF (OUTPUT%DTANIM0 <= ZERO) THEN
               CALL ANCMSG(MSGID=293,ANMODE=ANINFO,c1='ANIM',c2='ANIM')
               CALL ARRET(0)
             ENDIF
          ENDIF
 
-      IF(TANIM0 /= ZERO)  TANIM = TANIM0
-      IF(TANIM_STOP0/=ZERO .AND. TANIM_STOP0/=EP20)  TANIM_STOP = TANIM_STOP0
-      IF(DTANIM0 > ZERO)  DTANIM= DTANIM0
-      IF(DTANIM<=ZERO)  TANIM = EP30
-      IF (TANIM < TT-DT2.AND.DTANIM > ZERO)TANIM = TANIM
-     .    + INT((TT-DT2-TANIM)/DTANIM)*DTANIM
-      IF (TANIM < TT-DT2)TANIM = TANIM+DTANIM
+      IF(OUTPUT%TANIM0 /= ZERO)  OUTPUT%TANIM = OUTPUT%TANIM0
+      IF(OUTPUT%TANIM_STOP0/=ZERO .AND. OUTPUT%TANIM_STOP0/=EP20)  OUTPUT%TANIM_STOP = OUTPUT%TANIM_STOP0
+      IF(OUTPUT%DTANIM0 > ZERO)  OUTPUT%DTANIM= OUTPUT%DTANIM0
+      IF(OUTPUT%DTANIM<=ZERO)  OUTPUT%TANIM = EP30
+      IF (OUTPUT%TANIM < TT-DT2.AND.OUTPUT%DTANIM > ZERO)OUTPUT%TANIM = OUTPUT%TANIM
+     .    + INT((TT-DT2-OUTPUT%TANIM)/OUTPUT%DTANIM)*OUTPUT%DTANIM
+      IF (OUTPUT%TANIM < TT-DT2)OUTPUT%TANIM = OUTPUT%TANIM+OUTPUT%DTANIM
 C-----------------------
       IF(ANIM_V(14)+H3D_DATA%N_VECT_DROT > 0 .AND.
      .      ((ISECUT == 0 .AND. IISROT == 0 .AND. IMPOSE_DR == 0 .AND. IDROT == 0) .OR. IRODDL == 0)) THEN
@@ -2855,7 +2854,7 @@ C-----------------------
 C-----------------------
 C       Tracing Animations cards
 C-----------------------
-       WRITE(IOUT,1120)TANIM,DTANIM,TANIM_STOP,SENSORS%ANIM_ID,SENSORS%ANIM_DT,
+       WRITE(IOUT,1120)OUTPUT%TANIM,OUTPUT%DTANIM,OUTPUT%TANIM_STOP,SENSORS%ANIM_ID,SENSORS%ANIM_DT,
      +       ANIM_E(1),ANIM_E(2),ANIM_E(3),ANIM_E(25),
      +       ANIM_E(4),ANIM_E(5),ANIM_E(6),
      +       ANIM_E(7),ANIM_E(8),ANIM_E(9),

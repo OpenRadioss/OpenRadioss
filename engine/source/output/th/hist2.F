@@ -794,7 +794,7 @@ C-------------------------------------------------------
 !   TH optimization for node elements
         !   initialization of local array       
         WA_NOD(ID_HIST)%WA_REAL( 1:WA_NOD_SIZE(ID_HIST) ) = ZERO
-        CALL THNOD(ITHBUF ,
+        CALL THNOD(OUTPUT, ITHBUF ,
      2   WA_NOD(ID_HIST)%WA_REAL,X       ,D       ,V      ,A      ,
      3             VR      ,AR      ,ISKWN   ,IFRAME  ,SKEW   ,
      4             XFRAME  ,WEIGHT  ,TEMP    ,INOD    ,FTHREAC,

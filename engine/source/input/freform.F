@@ -2497,7 +2497,7 @@ C--------------------
 C-----------------------
 C     /ANIM (ANIMATION FILES)
 C-----------------------
-      CALL FREANIM(IKAD(0),KEY0,KANIM,SENSORS)
+      CALL FREANIM(output,IKAD(0),KEY0,KANIM,SENSORS)
 C-----------------------
 C     /OUTP (OUTPUT FILES)
 C-----------------------

@@ -90,7 +90,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    stack_mod                 ../engine/share/modules/stack_mod.F
 !||    tri7box                   ../engine/share/modules/tri7box.F
 !||====================================================================
-      SUBROUTINE LECH3D(GEO,IGEO,IPM,IPART,H3D_DATA,MULTI_FVM,IPARI,IPARG,TAG_SKINS6,
+      SUBROUTINE LECH3D(OUTPUT,GEO,IGEO,IPM,IPART,H3D_DATA,MULTI_FVM,IPARI,IPARG,TAG_SKINS6,
      .                  MDS_LABEL,MDS_OUTPUT_TABLE,MDS_NMAT,MAX_DEPVAR,MDS_NDEPSVAR,
      .                  ELBUF_STR,STACK,IBCL,ILOADP,LLOADP,LOADS,MAT_PARAM,PBLAST,
      .                  IGRPART,NPC,TF,SNPC,STF)
@@ -110,7 +110,7 @@ C-----------------------------------------------
         USE TRI7BOX
         USE PBLAST_MOD
         USE GROUPDEF_MOD
-        USE OUTPUT_MOD , ONLY : H3D_HAS_NODA_PEXT
+        USE OUTPUT_MOD, only : OUTPUT_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -130,6 +130,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+        type(output_), intent(inout) :: OUTPUT
         my_real GEO(NPROPG,NUMGEO)
         INTEGER IGEO(NPROPGI,NUMGEO),IPART(LIPART1,*),IPM(NPROPMI,NUMMAT),IPARI(NPARI,*),
      .          IPARG(NPARG,NGROUP),TAG_SKINS6(*),MDS_OUTPUT_TABLE(MAX_DEPVAR,MDS_NMAT),MDS_NMAT,
@@ -292,7 +293,7 @@ C=========================================================================
         IF (H3D_DATA%TH3D < TT-DT2 .AND. H3D_DATA%DTH3D > ZERO) H3D_DATA%TH3D = H3D_DATA%TH3D
      .                         + INT((TT-DT2-H3D_DATA%TH3D)/H3D_DATA%DTH3D)*H3D_DATA%DTH3D
         IF (H3D_DATA%TH3D < TT-DT2)H3D_DATA%TH3D = H3D_DATA%TH3D+H3D_DATA%DTH3D
-        H3D_HAS_NODA_PEXT = 0
+        OUTPUT%DATA%H3D_HAS_NODA_PEXT = 0
 C=========================================================================
         IBID1 = 0
         IBID2 = 0
@@ -331,7 +332,7 @@ c
 
         ALLOCATE(H3D_DATA%N_CSE_FRIC_INTER(NINTER))
         H3D_DATA%N_CSE_FRIC_INTER(1:NINTER) = 0
-        NINEFRIC = 0
+        OUTPUT%DATA%NINEFRIC = 0
         MDS_LABEL_TMP=' '
 C--------------------------------------------------
 C ALLOCATE / INIT KEYWORD LISTS
@@ -453,7 +454,7 @@ c
 C--------------------------------------------------
 C BUILD KEYWORD LISTS
 C--------------------------------------------------
-        CALL H3D_LIST_NODAL_SCALAR(H3D_KEYWORD_NODAL_SCALAR, GEO, H3D_NUM_KEY%NODAL_SCALAR)
+        CALL H3D_LIST_NODAL_SCALAR(OUTPUT,H3D_KEYWORD_NODAL_SCALAR, GEO, H3D_NUM_KEY%NODAL_SCALAR)
 C
         CALL H3D_LIST_NODAL_VECTOR(H3D_KEYWORD_NODAL_VECTOR, GEO, H3D_NUM_KEY%NODAL_VECTOR)
 C
@@ -903,9 +904,9 @@ c                             H3D_DATA%OUTPUT_LIST(I)%INTER = K
                                 H3D_DATA%N_SCAL_SKID = NINTERSKID
                                 H3D_DATA%N_SKID_INTER(K) = NINTERSKID
                               ELSEIF(KEY3_GLOB(1:8) == 'CSE_FRIC' ) THEN
-                                IF(NINEFRIC == 0) NINEFRIC = NINEFRIC +1
-                                H3D_DATA%N_SCAL_CSE_FRICINT = NINEFRIC
-                                H3D_DATA%N_CSE_FRIC_INTER(K) = NINEFRIC
+                                IF(OUTPUT%DATA%NINEFRIC == 0) OUTPUT%DATA%NINEFRIC = OUTPUT%DATA%NINEFRIC +1
+                                H3D_DATA%N_SCAL_CSE_FRICINT = OUTPUT%DATA%NINEFRIC
+                                H3D_DATA%N_CSE_FRIC_INTER(K) = OUTPUT%DATA%NINEFRIC
                               ENDIF
                             ENDIF
                           ENDDO
@@ -915,7 +916,7 @@ c                             H3D_DATA%OUTPUT_LIST(I)%INTER = K
                       ENDIF
                     ELSE
                       IF(NINTER_MAX /= 0)THEN
-                        NINEFRIC = 0
+                        OUTPUT%DATA%NINEFRIC = 0
                         DO K=1,NINTER_MAX
                           IF(KEY3_GLOB(1:4) == 'SKID' ) THEN
                             CPT_H3D = CPT_H3D + 1
@@ -927,7 +928,7 @@ c
                             N19 = IPARI(71,K)
                             IF(N19 <= 0) THEN
                               IF(H3D_DATA%N_CSE_FRIC_INTER(K) ==0) THEN
-                                NINEFRIC = NINEFRIC +1
+                                OUTPUT%DATA%NINEFRIC = OUTPUT%DATA%NINEFRIC +1
                                 CPT_H3D = CPT_H3D + 1
 c
                                 INTER_INPUT(CPT_H3D) = K
@@ -936,7 +937,7 @@ c
                               ENDIF
                             ELSEIF(N19 > 0 ) THEN
                               IF(H3D_DATA%N_CSE_FRIC_INTER(N19) ==0) THEN
-                                NINEFRIC = NINEFRIC +1
+                                OUTPUT%DATA%NINEFRIC = OUTPUT%DATA%NINEFRIC +1
                                 CPT_H3D = CPT_H3D + 1
 c
                                 INTER_INPUT(CPT_H3D) = N19
@@ -949,7 +950,7 @@ c
                           ENDIF
                         ENDDO
                         IF(KEY3_GLOB(1:4) == 'SKID' ) H3D_DATA%N_SCAL_SKID = NINTER
-                        IF(KEY3_GLOB(1:8) == 'CSE_FRIC' ) H3D_DATA%N_SCAL_CSE_FRICINT = NINEFRIC
+                        IF(KEY3_GLOB(1:8) == 'CSE_FRIC' ) H3D_DATA%N_SCAL_CSE_FRICINT = OUTPUT%DATA%NINEFRIC
                       ENDIF
                     ENDIF
                   ELSE
@@ -959,7 +960,7 @@ c
                     IS_AVAILABLE_KEY(CPT_H3D) = 1
                   ENDIF
                   IF(KEY3_GLOB(1:4) == 'PEXT')THEN
-                    H3D_HAS_NODA_PEXT = 1
+                    OUTPUT%DATA%H3D_HAS_NODA_PEXT = 1
                   ENDIF
                 ENDIF
                 IF ( IS_SCALAR == 1 ) THEN
@@ -2787,7 +2788,7 @@ c          print *,'liste des parts',H3D_DATA%OUTPUT_LIST(I)%H3D_PART_LIST(J)
 c        ENDDO
 c      ENDDO
 C
-        H3D_DATA%N_SCAL_CSE_FRICINT = NINEFRIC
+        H3D_DATA%N_SCAL_CSE_FRICINT = OUTPUT%DATA%NINEFRIC
         IF (H3D_DATA%N_SCAL_CSE_FRICINT > 0)THEN
           ! Allocate INTERFACE Remote EFRICFI Array
           DO I=1,NINTER

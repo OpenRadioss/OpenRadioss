@@ -33,7 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    python_funct_mod   ../common_source/modules/python_mod.F90
 !||    sensor_mod         ../common_source/modules/sensor_mod.F90
 !||====================================================================
-      SUBROUTINE FLOW0(IFLOW  , RFLOW  , WIFLOW , WRFLOW, X      ,
+      SUBROUTINE FLOW0(OUTPUT,IFLOW  , RFLOW  , WIFLOW , WRFLOW, X      ,
      .                 V      , A      , NPC    , TF    , SENSOR_TAB,
      .                 NBGAUGE, LGAUGE , GAUGE  , NSENSOR, 
      .                 IGRV   , AGRV   , NFUNCT , PYTHON, WFEXT)
@@ -41,7 +41,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------  
       USE SENSOR_MOD
-      USE ANIM_MOD
+      USE OUTPUT_MOD
       USE PYTHON_FUNCT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -58,6 +58,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT
       INTEGER ,INTENT(IN) :: NSENSOR,NBGAUGE,NFUNCT
       INTEGER IFLOW(*), WIFLOW(*), NPC(*),LGAUGE(3,*)
       INTEGER IGRV(NIGRV,*)
@@ -132,7 +133,7 @@ C-------------------------------------------------------------------------------
       II9 = 1
       II10= 1
       IPINT=0
-      IF ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.
+      IF ((TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP).OR.
      .   MANIM==4 .OR.MANIM==5 .OR.MANIM==6 .OR.MANIM==7.OR.
      .   MANIM==12.OR.MANIM==13.OR.MANIM==14.OR.MANIM==15) 
      .   IPINT=1

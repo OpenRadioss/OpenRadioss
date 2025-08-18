@@ -37,7 +37,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    intbufdef_mod      ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    message_mod        ../engine/share/message_module/message_mod.F
 !||====================================================================
-      SUBROUTINE I10MAINF(IPARI  ,X      ,A      ,
+      SUBROUTINE I10MAINF(output, IPARI  ,X      ,A      ,
      2                    ICODT  ,FSAV   ,V      ,MS     ,DT2T    ,
      3                    NELTST ,ITYPTST,ITAB   ,STIFN  ,FSKYI  ,
      4                    ISKY   ,FCONT  ,LINDMAX,
@@ -58,6 +58,7 @@ C============================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      use output_mod
       USE INTBUFDEF_MOD
       USE H3D_MOD
       USE MESSAGE_MOD
@@ -82,6 +83,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      type(output_), intent(inout) :: output
       INTEGER NELTST,ITYPTST,NSTRF(*),
      .        NISKYFI,NIN,LINDMAX
       INTEGER IPARI(*), ICODT(*), ITAB(*),
@@ -278,7 +280,7 @@ C preparation candidats retenus
             IF (DEBUG(3)>=1)
      .        NB_JLT_NEW = NB_JLT_NEW + JLT_NEW
 C           WRITE(6,*) 'IMPACT ==> CALL I10FOR3'
-            CALL I10FOR3(
+            CALL I10FOR3(output,
      1       JLT       ,A       ,MS      ,V      ,FSAV     ,
      2       INTBUF_TAB%CAND_F,STIFN,STIF    ,FSKYI  ,ISKY     ,
      3       ITIED     ,VISC    ,X1      ,X2     ,X3       ,

@@ -41,7 +41,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    h3d_mod         ../engine/share/modules/h3d_mod.F
 !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
 !||====================================================================
-      SUBROUTINE I6MAIN(IPARI,X     ,A   ,
+      SUBROUTINE I6MAIN(OUTPUT,IPARI,X     ,A   ,
      2                  ICODT,NPC   ,TF     ,V     ,FSAV,
      3                  DT2T ,NELTST,ITYPTST,FSKYI ,ISKY,
      4                  FCONT,MS,INTBUF_TAB,H3D_DATA)
@@ -49,6 +49,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
       USE INTBUFDEF_MOD 
+      USE OUTPUT_MOD
       USE H3D_MOD 
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -64,6 +65,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      type(output_), intent(inout) :: output
       INTEGER NELTST,ITYPTST
       INTEGER IPARI(*), ICODT(*), NPC(*), ISKY(*)
 C     REAL
@@ -366,7 +368,7 @@ c
      E   NFT)
       ENDDO
 C-----------
-      CALL I6ASS3(
+      CALL I6ASS3(output,
      1     A     ,INTBUF_TAB%MSR ,INTBUF_TAB%NSV ,INTBUF_TAB%FS  ,      
      2  INTBUF_TAB%FM  ,NPC         ,TF         ,ANSMX         ,     
      3  FMX         ,FMY         ,FMZ         ,INTBUF_TAB%VARIABLES(4),      

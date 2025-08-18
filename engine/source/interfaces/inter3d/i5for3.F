@@ -30,7 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    anim_mod   ../common_source/modules/output/anim_mod.F
 !||    h3d_mod    ../engine/share/modules/h3d_mod.F
 !||====================================================================
-      SUBROUTINE I5FOR3(LFT   ,LLT   ,NFT   ,
+      SUBROUTINE I5FOR3(OUTPUT,LFT   ,LLT   ,NFT   ,
      2                  E     ,MSR   ,NSV   ,IRTL  ,STF   ,
      3                  STFN  ,IBC   ,ICODT ,FSAV  ,IGIMP ,
      4                  FSKYI ,ISKY  ,FCONT ,FNCONT,ICONTACT,
@@ -44,7 +44,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
       USE H3D_MOD 
-      USE ANIM_MOD
+      USE OUTPUT_MOD, ONLY: OUTPUT_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -67,6 +67,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_), INTENT(inout) :: OUTPUT
       INTEGER IBC, IGIMP,LFT, LLT, NFT, IBAG, IADM
       INTEGER MSR(*), NSV(*), IRTL(*), ICODT(*), ISKY(*),
      .        ICONTACT(*)
@@ -242,7 +243,7 @@ C
       ENDIF
 C
       IF(ANIM_V(4)+OUTP_V(4)>0.AND.
-     .    ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.
+     .    ((TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP).OR.TT>=TOUTP.OR.
      .   (MANIM>=4.AND.MANIM<=15)))THEN
 #include "lockon.inc"
            DO I=1,LLT
@@ -266,7 +267,7 @@ C
       ENDIF
 C
       IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT>0.AND.
-     .    ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
+     .    ((TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
      .   (MANIM>=4.AND.MANIM<=15).OR.H3D_DATA%MH3D/=0))THEN
 #include "lockon.inc"
            DO I=1,LLT
