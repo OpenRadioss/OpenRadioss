@@ -61,12 +61,4 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !--------------------------------------------------------------------
 !       OUTPUTS_MOD : for outputs tabs
 !--------------------------------------------------------------------
-        integer  S_EFRICINT, S_EFRICINTG, S_EFRIC, S_EFRICG
-        integer  NINEFRIC_STAMP,NINEFRIC ! number of interfaces defined for output fricional energy
-        my_real, DIMENSION(:,:) , ALLOCATABLE ::   EFRIC, EFRIC_STAMP
-        my_real, DIMENSION(:) , ALLOCATABLE ::   EFRICG, EFRICG_STAMP
-        my_real :: XI_RES = 0.
-        my_real :: YI_RES = 0.
-        my_real :: ZI_RES = 0.
-
       END MODULE OUTPUTS_MOD

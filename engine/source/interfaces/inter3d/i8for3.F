@@ -30,7 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    anim_mod   ../common_source/modules/output/anim_mod.F
 !||    h3d_mod    ../engine/share/modules/h3d_mod.F
 !||====================================================================
-      SUBROUTINE I8FOR3(LFT   ,LLT   ,NFT   ,
+      SUBROUTINE I8FOR3(OUTPUT,LFT   ,LLT   ,NFT   ,
      2                  E     ,MSR   ,NSV   ,IRTL  ,STF   ,
      .                  NSVGLO,NSV2   ,ILOC,
      3                  STFN  ,IBC   ,ICODT ,FSAV  ,IGIMP ,
@@ -58,7 +58,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE H3D_MOD
-      USE ANIM_MOD
+      USE OUTPUT_MOD, ONLY: OUTPUT_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -101,6 +101,7 @@ C     REAL
      .   FY1(*), FY2(*), FY3(*), FY4(*), FZ1(*), FZ2(*), FZ3(*), FZ4(*)
       my_real  , INTENT(IN) :: FRIC_LAST,FNOR_LAST,DISTLIN(NSN)
       TYPE(H3D_DATABASE) :: H3D_DATA
+      TYPE(OUTPUT_), INTENT(inout) :: OUTPUT
 
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -635,7 +636,7 @@ C
       END IF
 C
       IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT>0.AND.
-     .    ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
+     .    ((TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
      .   (MANIM>=4.AND.MANIM<=15).OR. H3D_DATA%MH3D /= 0))THEN
 #include "lockon.inc"
            DO I=1,LLT
@@ -659,7 +660,7 @@ C
 #include "lockoff.inc"
         ENDIF
       IF((ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT>0.AND.
-     .    ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
+     .    ((TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
      .   (MANIM>=4.AND.MANIM<=15).OR.H3D_DATA%MH3D/=0))
      .   .OR.H3D_DATA%N_VECT_PCONT_MAX>0)THEN
 #include "lockon.inc"

@@ -31,7 +31,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ANIM_MOD
+      USE OUTPUT_MOD
+      USE SPH_MOD, ONLY : XI_RES, YI_RES, ZI_RES
       USE OUTPUTS_MOD
       USE ALE_MOD
       USE PARAMETERS_MOD
@@ -96,8 +97,8 @@ C-----
       TABVREA(15)=REINT
       TABVREA(16)=0 !no longer used
       TABVREA(17)=0 !no longer used
-      TABVREA(18)=DTANIM
-      TABVREA(19)=TANIM
+      TABVREA(18)=OUTPUT%DTANIM
+      TABVREA(19)=OUTPUT%TANIM
       TABVREA(20)=UREINT
       TABVREA(21)=ECONTV
       TABVREA(22)=EHOUR
@@ -320,7 +321,7 @@ C  INITIAL MASS FROM STARTER
       TABVREA(RVARINT) = ZERO    
 C ANIM FILES STOP TIME
       RVARINT = RVARINT + 1
-      TABVREA(RVARINT) = TANIM_STOP       
+      TABVREA(RVARINT) = OUTPUT%TANIM_STOP       
 C INITIAL COORDS OF SPH RESERVE 
       RVARINT = RVARINT + 1
       TABVREA(RVARINT) = XI_RES  

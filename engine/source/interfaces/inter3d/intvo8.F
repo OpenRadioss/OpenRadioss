@@ -42,7 +42,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    int8_mod          ../common_source/modules/interfaces/int8_mod.F90
 !||    intbufdef_mod     ../common_source/modules/interfaces/intbufdef_mod.F90
 !||====================================================================
-      SUBROUTINE INTVO8(IPARI,X ,A  ,
+      SUBROUTINE INTVO8(OUTPUT,IPARI,X ,A  ,
      2                  ICODT,FSAV ,V ,MS ,
      3                  FSKYI,ISKY ,FCONT,FNCONT,FTCONT,
      4                  ICONTACT,RCONTACT,
@@ -52,6 +52,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
+      USE OUTPUT_MOD
       USE INTBUFDEF_MOD 
       USE INT8_MOD
       USE H3D_MOD
@@ -69,6 +70,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      type(output_), intent(inout) :: output
       INTEGER IPARI(*), ICODT(*), ISKY(*),
      .        ICONTACT(*) ,NIN
       INTEGER ITAB(*),
@@ -330,7 +332,7 @@ C
      8   H2,      H3,      H4,      FACE_A,
      9   ALP,     LFT,     LLT)
 
-        CALL I8FOR3(LFT  ,LLT  ,NFT   ,A   ,
+        CALL I8FOR3(output, LFT  ,LLT  ,NFT   ,A   ,
      2          INTBUF_TAB%MSR,NSV_A,IRTL_A,INTBUF_TAB%STFM,
      .          INTBUF_TAB%NSV,NSV2, INTBUF_TAB%ILOCS, 
      3          INTBUF_TAB%STFNS,IBC     ,ICODT      ,FSAV      ,IGIMP  , 

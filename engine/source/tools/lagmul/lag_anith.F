@@ -28,13 +28,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    anim_mod    ../common_source/modules/output/anim_mod.F
 !||    h3d_mod     ../engine/share/modules/h3d_mod.F
 !||====================================================================
-      SUBROUTINE LAG_ANITH(IADLL  ,LLL   ,JLL    ,SLL    ,XLL    ,
+      SUBROUTINE LAG_ANITH(OUTPUT,IADLL  ,LLL   ,JLL    ,SLL    ,XLL    ,
      2                     FANI  ,FSAV   ,NC     ,H3D_DATA)
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
       USE H3D_MOD
-      USE ANIM_MOD
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -52,6 +52,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      type(output_), intent(inout) :: output
       INTEGER NC,IADLL(*),LLL(*),JLL(*),SLL(*)
 C     REAL
       my_real
@@ -66,7 +67,7 @@ C---
 C     SAUVEGARDE DES FORCES D'ANIM
 C---
       IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0.AND.
-     .          ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
+     .          ((TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
      .              (MANIM>=4.AND.MANIM<=15).OR. H3D_DATA%MH3D /= 0))THEN
 #include "lockon.inc"
           DO IC=1,NC
@@ -108,14 +109,14 @@ C SPMD routine
 !||    anim_mod       ../common_source/modules/output/anim_mod.F
 !||    h3d_mod        ../engine/share/modules/h3d_mod.F
 !||====================================================================
-      SUBROUTINE LAG_ANITHP(IADLL  ,LLL   ,JLL  ,SLL     ,XLL    ,
+      SUBROUTINE LAG_ANITHP(OUTPUT, IADLL  ,LLL   ,JLL  ,SLL     ,XLL    ,
      2                      FANI   ,FSAV  ,NC   ,INDEXLAG,FANIG  ,
      3                      FR_LAGF,NBNODL,LLAGF,NLAGF   ,H3D_DATA)
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
       USE H3D_MOD
-      USE ANIM_MOD
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -135,6 +136,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      type(output_), intent(inout) :: output
       INTEGER NC,IADLL(*),LLL(*),JLL(*),SLL(*),
      .        FR_LAGF(*), LLAGF(*), INDEXLAG(*), NBNODL, NLAGF
 C     REAL
@@ -150,7 +152,7 @@ C---
 C     SAUVEGARDE DES FORCES D'ANIM
 C---
       IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT>0.AND.
-     .          ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
+     .          ((TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
      .              (MANIM>=4.AND.MANIM<=15).OR. H3D_DATA%MH3D /= 0))THEN
         IF(ISPMD==0)THEN
           DO I = 1, NBNODL

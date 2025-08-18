@@ -165,15 +165,13 @@ C-----------------------------------------------
       USE SENSOR_MOD
       USE ALE_CONNECTIVITY_MOD
       USE OUTMAX_MOD
-      USE ANIM_MOD
+      USE OUTPUT_MOD
       USE OUTPUTS_MOD
       USE MESSAGE_MOD
       USE STATE_MOD
       USE USER_WINDOWS_MOD
       USE OUTPUT_MOD , ONLY : OUTPUT_
-      USE OUTPUT_MOD , ONLY : NODA_SURF, NODA_PEXT, NODA_PEXT_G, NODA_SURF_G
-      USE OUTPUT_MOD , ONLY : ANIM_HAS_NODA_PEXT, H3D_HAS_NODA_PEXT
-      USE SPMD_EXCH_OUTPUT_NODA_PEXT_MOD , ONLY : SPMD_EXCH_OUTPUT_NODA_PEXT
+      USE SPMD_EXCH_OUTPUT_NODA_PEXT_MOD
       USE TH_MOD , ONLY : TH_HAS_NODA_PEXT
       USE DT_MOD
       USE TABLE_MOD
@@ -396,7 +394,7 @@ C-----------------------------------------------
 C     CUMUL MASS SPMD
 C-----------------------------------------------
       IF(NSPMD>1.AND.(ANIM_N(2)+OUTP_N(2)>0).AND.
-     .  ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.
+     .  ((TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP).OR.TT>=TOUTP.OR.
      .   MANIM==4 .OR.MANIM==5 .OR.MANIM==6 .OR.MANIM==7.OR.
      .   MANIM==8 .OR.MANIM==9 .OR.MANIM==10.OR.MANIM==11.OR.
      .   MANIM==12.OR.MANIM==13.OR.MANIM==14.OR.MANIM==15)) THEN
@@ -405,7 +403,7 @@ C-----------------------------------------------
       ENDIF
       IF(NSPMD>1.AND.
      .  (ANIM_N(12)+OUTP_N(3)>0).AND.
-     .  ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.
+     .  ((TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP).OR.TT>=TOUTP.OR.
      .   MANIM==4 .OR.MANIM==5 .OR.MANIM==6 .OR.MANIM==7.OR.
      .   MANIM==8 .OR.MANIM==9 .OR.MANIM==10.OR.MANIM==11.OR.
      .   MANIM==12.OR.MANIM==13.OR.MANIM==14.OR.MANIM==15)) THEN
@@ -414,19 +412,19 @@ C-----------------------------------------------
       ENDIF
 C----------------------
       ! /TH/NODE (PEXT) or /H3D/NODA/PEXT or /ANIM/NODA/PEXT
-      ! gathering NODA_SURF and NODA_PEXT on domain 0
+      ! gathering OUTPUT%DATA%NODA_SURF and OUTPUT%DATA%NODA_PEXT on domain 0
 C----------------------
         TRIGGER_TH = TT >= OUTPUT%TH%THIS
         TRIGGER_H3D = (ILASTH3D==1.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP) .OR. H3D_DATA%MH3D ==1 .OR.
      .                 (MSTOP == 1  .AND. ICTLSTOP == 0 .AND. H3D_DATA%IH3D/= 0) .OR.
      .                 (MSTOP == 2  .AND. H3D_DATA%IH3D/= 0) .OR.
      .                 (DT2<=ZERO .AND. H3D_DATA%IH3D/= 0) )
-        TRIGGER_ANIM = (TT>=TANIM .AND. TT<=TANIM_STOP).OR.
+        TRIGGER_ANIM = (TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP).OR.
      .                  MANIM==4 .OR.MANIM==5 .OR.MANIM==6 .OR.MANIM==7.OR.
      .                  MANIM==12.OR.MANIM==13.OR.MANIM==14.OR.MANIM==15 .OR.
-     .                  (MSTOP == 1 .AND. TANIM < EP30 .AND. ICTLSTOP == 0) .OR.
+     .                  (MSTOP == 1 .AND. OUTPUT%TANIM < EP30 .AND. ICTLSTOP == 0) .OR.
      .                  MSTOP == 2 .OR. DT2<=ZERO
-       CALL SPMD_EXCH_OUTPUT_NODA_PEXT(NSPMD, NODES, NUMNOD, NUMNODG,
+       CALL SPMD_EXCH_OUTPUT_NODA_PEXT(OUTPUT, NSPMD, NODES, NUMNOD, NUMNODG,
      .                                 TRIGGER_TH, TRIGGER_ANIM, TRIGGER_H3D )
 C----------------------
 C       Compute contact pressures from normal + tangential contact forces.
@@ -436,19 +434,19 @@ C----------------------
 
       IF((H3D_DATA%N_SCAL_CSE_FRIC /=0).OR.(H3D_DATA%N_SCAL_CSE_FRICINT /=0)
      .    .AND.
-     .   (TT>=TANIM.OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D .OR.
+     .   (TT>=OUTPUT%TANIM.OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D .OR.
      .  MANIM==4 .OR.MANIM==5 .OR.MANIM==6 .OR.MANIM==7.OR.
      .  MANIM==8 .OR.MANIM==9 .OR.MANIM==10.OR.MANIM==11.OR.
      .  MANIM==12.OR.MANIM==13.OR.MANIM==14.OR.MANIM==15.OR.
      .  H3D_DATA%MH3D/=0)) THEN
 
-           IF(NINEFRIC > 0) THEN
-             ALLOCATE(CSEFRIC(NINEFRIC*NUMNOD)) ! friction energy by surface unit
+           IF(OUTPUT%DATA%NINEFRIC > 0) THEN
+             ALLOCATE(CSEFRIC(OUTPUT%DATA%NINEFRIC*NUMNOD)) ! friction energy by surface unit
            ELSE
              ALLOCATE(CSEFRIC(0))
            ENDIF   
-           IF(NINEFRIC_STAMP > 0) THEN
-             ALLOCATE(CSEFRIC_STAMP(NINEFRIC_STAMP*NUMNODG)) ! friction energy by surface unit
+           IF(OUTPUT%DATA%NINEFRIC_STAMP > 0) THEN
+             ALLOCATE(CSEFRIC_STAMP(OUTPUT%DATA%NINEFRIC_STAMP*NUMNODG)) ! friction energy by surface unit
 
            ELSE
              ALLOCATE(CSEFRIC_STAMP(0)) 
@@ -477,7 +475,7 @@ C----------------------
      .   ANIM_V(27)+H3D_DATA%N_VECT_PCONT2 /=0..OR.
      .   H3D_DATA%N_SCAL_CSE_FRIC /=0.OR.H3D_DATA%N_SCAL_CSE_FRICINT /=0)
      .    .AND.
-     .   ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP) .OR.
+     .   ((TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP) .OR.
      .  MANIM==4 .OR.MANIM==5 .OR.MANIM==6 .OR.MANIM==7.OR.
      .  MANIM==8 .OR.MANIM==9 .OR.MANIM==10.OR.MANIM==11.OR.
      .  MANIM==12.OR.MANIM==13.OR.MANIM==14.OR.MANIM==15.OR.
@@ -485,13 +483,14 @@ C----------------------
      .   .OR.H3D_DATA%N_VECT_PCONT_MAX>0
      .   .OR.H3D_DATA%N_VECT_PCONT2_MAX>0)THEN
         IF(NINTSTAMP==0)THEN
-          CALL ANI_PCONT(IXS ,IXC    ,IXTG    ,FASOLFR  ,X      ,
+          CALL ANI_PCONT(OUTPUT, IXS ,IXC    ,IXTG    ,FASOLFR  ,X      ,
      .               FNCONT  ,FTCONT,IAD_ELEM ,FR_ELEM  ,WEIGHT ,
      .               IXQ     ,SEGQUADFR,IXS10 ,FNCONTP2,FTCONTP2,
      .               H3D_DATA,CSEFRIC,CSEFRICG,SZ_NPCONT2,NPCONT2)
+
         ELSE
           IFLAG_ANIPCONT = 1
-          CALL ANI_PCONT21(IXS ,IXC    ,IXTG    ,FASOLFR  ,X      ,
+          CALL ANI_PCONT21(OUTPUT, IXS ,IXC    ,IXTG    ,FASOLFR  ,X      ,
      .               FNCONT    ,FTCONT ,IAD_ELEM,FR_ELEM  ,WEIGHT ,
      .               NODGLOB   ,FNCONTG,FTCONTG,FNCONTP2,FTCONTP2,
      .               H3D_DATA  ,CSEFRIC_STAMP,CSEFRICG_STAMP,SZ_NPCONT2,NPCONT2)
@@ -668,10 +667,10 @@ c
      .         DRAPE_SH4N, DRAPE_SH3N, DRAPEG,OUTPUT    )
 c
        ENDIF
-      IF((TT>=TANIM .AND. TT<=TANIM_STOP))TANIM=TANIM+DTANIM
-      IF ((TSTOP<TANIM).AND.(TANIM<TSTOP+EM06*TSTOP)
-     .     .AND.(TSTOP+EM06*TSTOP<TANIM+DTANIM)) THEN
-         TANIM=TSTOP
+      IF((TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP))OUTPUT%TANIM=OUTPUT%TANIM+OUTPUT%DTANIM
+      IF ((TSTOP<OUTPUT%TANIM).AND.(OUTPUT%TANIM<TSTOP+EM06*TSTOP)
+     .     .AND.(TSTOP+EM06*TSTOP<OUTPUT%TANIM+OUTPUT%DTANIM)) THEN
+         OUTPUT%TANIM=TSTOP
       END IF
 C-----------------------------------------------
 C     H3D FILE
@@ -766,7 +765,7 @@ C
          K12=K11+NUMELIG3D
          L1=1+6*(NUMELC+NUMELTG)*IEPSDOT
 c
-         CALL GENH3D(TIMERS,
+         CALL GENH3D(OUTPUT, TIMERS,
      1             X          ,D         ,V           ,A           ,ELBUF     ,
      2             IXS        ,IXQ       ,IXC         ,IXT         ,IXP       ,
      3             IXR        ,IXTG      ,SN1         ,SN2         ,SN3       ,
@@ -2004,9 +2003,9 @@ C /TH/SURF quantities reset to 0 expect for massflow (airbags)
 
       ! /TH/NODE (PEXT) or /H3D/NODA/PEXT or /ANIM/NODA/PEXT
       ! reset for next cycle
-      IF(TH_HAS_NODA_PEXT > 0 .OR. ANIM_HAS_NODA_PEXT > 0 .OR. H3D_HAS_NODA_PEXT > 0)THEN
-        NODA_SURF(1:NUMNOD) = ZERO
-        NODA_PEXT(1:NUMNOD) = ZERO
+      IF(TH_HAS_NODA_PEXT > 0 .OR. OUTPUT%DATA%ANIM_HAS_NODA_PEXT > 0 .OR. OUTPUT%DATA%H3D_HAS_NODA_PEXT > 0)THEN
+        OUTPUT%DATA%NODA_SURF(1:NUMNOD) = ZERO
+        OUTPUT%DATA%NODA_PEXT(1:NUMNOD) = ZERO
       ENDIF
 C-----------
       RETURN
