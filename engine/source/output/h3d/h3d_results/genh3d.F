@@ -168,7 +168,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    table_mod                            ../engine/share/modules/table_mod.F
 !||    timer_mod                            ../engine/source/system/timer_mod.F90
 !||====================================================================
-      SUBROUTINE GENH3D(TIMERS,X        ,D        ,V           ,A           ,BUFEL    ,
+      SUBROUTINE GENH3D(OUTPUT, TIMERS,X        ,D        ,V           ,A           ,BUFEL    ,
      2                  IXS      ,IXQ      ,IXC         ,IXT         ,IXP      ,
      3                  IXR      ,IXTG     ,SWAFT       ,SMAS        ,SXNORM   ,
      4                  SIAD     ,IPARG    ,PM          ,GEO         ,MS       ,
@@ -231,7 +231,7 @@ C-----------------------------------------------
         USE SENSOR_MOD
         USE OUTMAX_MOD
         USE H3D_INC_MOD
-        USE OUTPUTS_MOD
+        USE OUTPUT_MOD
         USE TABLE_MOD
         USE LOADS_MOD
         USE MATPARAM_DEF_MOD
@@ -278,6 +278,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+        TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT ! Output structure
         TYPE(TIMER_), INTENT(INOUT) :: TIMERS ! Timers for /MON
         INTEGER SWAFT,SMAS,SXNORM,SIAD,SINVERT,SMATER,SEL2FA,SWA4,
      .          SIADG,NERCVOIS(*),NESDVOIS(*),LERCVOIS(*),
@@ -345,8 +346,8 @@ C-----------------------------------------------
         TYPE (TTABLE),DIMENSION(NTABLE)  ,INTENT(IN) :: TABLE
         TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MAT_PARAM
         my_real , INTENT(IN) :: AR(SAR)
-        my_real , INTENT(IN) :: CSEFRIC(NINEFRIC,S_EFRICINT) ,CSEFRICG(S_EFRIC),
-     .                          CSEFRIC_STAMP(NINEFRIC_STAMP,S_EFRICINTG) ,CSEFRICG_STAMP(S_EFRICG)
+        my_real , INTENT(IN) :: CSEFRIC(OUTPUT%DATA%NINEFRIC,OUTPUT%DATA%S_EFRICINT) ,CSEFRICG(OUTPUT%DATA%S_EFRIC),
+     .                          CSEFRIC_STAMP(OUTPUT%DATA%NINEFRIC_STAMP,OUTPUT%DATA%S_EFRICINTG) ,CSEFRICG_STAMP(OUTPUT%DATA%S_EFRICG)
         my_real ,DIMENSION(3,NUMNOD), INTENT(IN) :: X_C
         TYPE (DRAPE_) , INTENT(IN)  :: DRAPE_SH4N(NUMELC_DRAPE), DRAPE_SH3N(NUMELTG_DRAPE)
         TYPE (DRAPEG_), INTENT(IN)  :: DRAPEG
@@ -2154,7 +2155,7 @@ c          IF(ISPMD == 0) print *,'nodal scalar',N_OUTP_DATA,'IFUNC',IFUNC,'INFO
 
 c          IF(ISPMD == 0) print *,'H3D_DATA%OUTPUT_LIST(I)%PART',H3D_DATA%OUTPUT_LIST(I)%PART(1:NPART)
 
-          CALL H3D_NODAL_SCALAR(
+          CALL H3D_NODAL_SCALAR(OUTPUT,
      .      ELBUF_TAB         ,NODAL_SCALAR  ,IFUNC          ,IPARG                        ,GEO                       ,
      .      MAS               ,PM            ,ANIN           ,ITAB                         ,NODE_ID                   ,
      .      INFO1             ,INFO2         ,IS_WRITEN_NODE ,H3D_DATA%OUTPUT_LIST(I)%PART ,IPARTC                    ,
@@ -2186,11 +2187,11 @@ c
               ELSEIF(KEYWORD == 'CSE_FRIC'.AND.INTERFRIC > 0)THEN
                 CALL SPMD_OUTPITAB(NODE_ID,WEIGHT,NODGLOB,NODE_ID_P)
                 CALL SPMD_OUTPITAB(IS_WRITEN_NODE,WEIGHT,NODGLOB,IS_WRITEN_NODE_P)
-                IF(INTERFRIC <= NINEFRIC ) THEN
+                IF(INTERFRIC <= OUTPUT%DATA%NINEFRIC ) THEN
                   CALL SPMD_H3D_SUM_R_NODAL_VALUE(NODGLOB,NODAL_SCALAR,NUMNOD,NODAL_SCALAR_P,NUMNODG)
                 ELSE
                   IF(ISPMD == 0) THEN
-                    NODAL_SCALAR_P(1:NUMNODG) =CSEFRIC_STAMP(INTERFRIC-NINEFRIC,1:NUMNODG)
+                    NODAL_SCALAR_P(1:NUMNODG) =CSEFRIC_STAMP(INTERFRIC-OUTPUT%DATA%NINEFRIC,1:NUMNODG)
                   ENDIF
                 ENDIF
               ELSEIF((KEYWORD == 'CSE_FRIC'.AND.INTERFRIC == 0).OR.KEYWORD == 'CSE_FRICG')THEN

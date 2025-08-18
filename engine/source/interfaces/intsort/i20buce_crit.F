@@ -30,7 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    anim_mod           ../common_source/modules/output/anim_mod.F
 !||    h3d_mod            ../engine/share/modules/h3d_mod.F
 !||====================================================================
-       SUBROUTINE I20BUCE_CRIT(
+       SUBROUTINE I20BUCE_CRIT(OUTPUT  ,
      1       ITASK   ,X       ,V       ,MS      ,
      2       NTY     ,NIN     ,INACTI  ,NSN     ,
      3       NMN     ,NSV     ,MSR     ,XSAV    ,
@@ -47,7 +47,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE H3D_MOD 
-      USE ANIM_MOD 
+      USE OUTPUT_MOD 
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -68,6 +68,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE (OUTPUT_) :: OUTPUT
       INTEGER NSN,NMN,ITASK,NSV(NSN),MSR(NMN), NIN ,NTY ,INACTI,
      .        NLINSA,NLINMA,NLN,NLG(NLN),NRTM
       INTEGER NSNE,NMNE,NSVE(NSNE),MSRE(NMNE),IXLINS(2,*),IKINE(NUMNOD)
@@ -298,7 +299,7 @@ c           delta A parith on
       END IF
 
       IF(ANIM_V(15)+OUTP_V(15)+H3D_DATA%N_VECT_DXANC >0.AND.
-     .          ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
+     .          ((TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
      .              (MANIM>=4.AND.MANIM<=15).OR.H3D_DATA%MH3D/=0))THEN
         DO I=NLNF,NLNL
           IG=NLG(I)

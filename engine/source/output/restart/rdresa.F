@@ -46,7 +46,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    skew_mod               ../common_source/modules/skew_mod.F90
 !||    state_mod              ../common_source/modules/state_mod.F
 !||====================================================================
-      SUBROUTINE RDRESA(ITSTV1 , LHEADER, LVARINT, LVARREA, PRADIOS,
+      SUBROUTINE RDRESA(OUTPUT,ITSTV1 , LHEADER, LVARINT, LVARREA, PRADIOS,
      .                  PRESFIL,MULTI_FVM,H3D_DATA,
      .                  PINCH_DATA,DYNAIN_DATA,INTERFACES,SENSORS,LOADS,
      .                  MAT_ELEM, NAMES_AND_TITLES,SKEWS ,GLOB_THERM,PBLAST,
@@ -69,6 +69,7 @@ C-----------------------------------------------
       use glob_therm_mod               !< Global parameters and flags for thermal analysis
       use PBLAST_MOD                   !< PBLAST parameters
       use RBE3_MOD                     !< RBE3 type
+      use output_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -86,6 +87,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      type(output_), intent(inout) :: output
       INTEGER ITSTV1, LHEADER, LVARINT, LVARREA, PRADIOS,
      .        PRESFIL
       TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
@@ -178,7 +180,7 @@ C----------------------------
 C     Read integer variables
 C----------------------------
       CALL READ_I_C(TABVINT,LVARINT)
-      CALL RDCOMI(TABVINT,MULTI_FVM,H3D_DATA,DYNAIN_DATA,
+      CALL RDCOMI(output,TABVINT,MULTI_FVM,H3D_DATA,DYNAIN_DATA,
      .            INTERFACES%PARAMETERS,SENSORS,LOADS  ,MAT_ELEM,SKEWS,
      .            GLOB_THERM,PBLAST,RBE3 )
 

@@ -35,6 +35,12 @@ C last SPH structures only (see RESTMOD for other SPH structures)
         INTEGER , DIMENSION(:), ALLOCATABLE :: 
      .      SPH2SOL,SOL2SPH,IRST,SOL2SPH_TYP
 
+        my_real :: XI_RES = 0. 
+        my_real :: YI_RES = 0.
+        my_real :: ZI_RES = 0.
+
+
+
         TYPE SPSYM_STRUCT
             my_real, DIMENSION(:)  , POINTER :: BUF 
         END TYPE SPSYM_STRUCT

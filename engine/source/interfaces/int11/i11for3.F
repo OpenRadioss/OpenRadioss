@@ -29,7 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    tri7box    ../engine/share/modules/tri7box.F
 !||====================================================================
-      SUBROUTINE I11FOR3(
+      SUBROUTINE I11FOR3(OUTPUT,
      1                JLT      ,FSAV     ,GAP      ,FRIC    ,MS      ,
      2                VISC     ,VISCF    ,NOINT    ,ITAB    ,CS_LOC  ,
      3                CM_LOC   ,STIF     ,DT2T     ,HS1     ,HS2     ,
@@ -56,6 +56,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE TRI7BOX
+      USE OUTPUT_MOD, ONLY : OUTPUT_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -83,6 +84,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT
       INTEGER NELTST,ITYPTST,JLT,IBC,IVIS2,INACTI,NRTS,NIN,INTTH
       INTEGER ITAB(*),
      .        NOINT,NEWFRONT,NISUB,NFT

@@ -141,7 +141,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    th_surf_mod        ../common_source/modules/interfaces/th_surf_mod.F
 !||    timer_mod          ../engine/source/system/timer_mod.F90
 !||====================================================================
-      SUBROUTINE IMP_SOLV(TIMERS,PYTHON,
+      SUBROUTINE IMP_SOLV(OUTPUT, TIMERS,PYTHON,
      1  ICODE  ,ISKEW  ,ISKWN  ,IPART  ,IXTG   ,IXS    ,IXQ    ,
      2  IXC    ,IXT    ,IXP    ,IXR    ,IXTG1          ,ITAB   ,ITABM1 ,
      3  NPC    ,IBCL   ,IBFV   ,SENSOR_TAB,NNLINK ,LNLINK ,IPARG  ,IGRV   ,
@@ -173,6 +173,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+        USE OUTPUT_MOD
         USE TIMER_MOD
         USE DSGRAPH_MOD
         USE IMP_LINTF
@@ -219,6 +220,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+        TYPE (OUTPUT_) , INTENT(INOUT) :: OUTPUT
         TYPE(TIMER_) :: TIMERS
         TYPE(PYTHON_) :: PYTHON
         INTEGER ,INTENT(IN) :: NSENSOR
@@ -1414,7 +1416,7 @@ c     5                  D_IMP ,DR_IMP,1      ,W_DDL  ,AC     ,
 c     6                  ACR   ,A     ,AR     ,R2     ,0  ,NODGLOB)
 c         END IF
           IF (ILINTF>0.AND.NCYCLE<ILINTF) THEN
-            CALL IMP_INTTD0(TIMERS,
+            CALL IMP_INTTD0(OUTPUT,TIMERS,
      1         IPARI ,INTBUF_TAB    ,X_A     ,D       ,
      2         MS    ,ITAB   ,IN    ,D_IMP   ,DR_IMP  ,
      3         IMSCH ,I2MSCH ,ISIZXV,ILENXV  ,IGRBRIC ,
