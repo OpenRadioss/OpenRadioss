@@ -49,6 +49,7 @@
 !||    forcefingeo                    ../engine/source/loads/general/forcefingeo.F
 !||    forcepinch                     ../engine/source/loads/general/forcepinch.F
 !||    forint                         ../engine/source/elements/forint.F
+!||    fsdcod                         ../starter/source/system/fsdcod.F
 !||    funct_python_update_elements   ../engine/source/tools/curve/funct_python_update_elements.F90
 !||    fv_up_switch                   ../engine/source/airbag/fv_up_switch.F
 !||    fvbag0                         ../engine/source/airbag/fvbag0.F
