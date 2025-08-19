@@ -102,7 +102,7 @@ C=======================================================================
 !   ------------------------------- 
       II=0
       IH=IAD
-C   specifique spmd
+C   SPECIFIC SPMD
 C decalage IH
       DO WHILE((ITHBUF(IH+NN)/=ISPMD).AND.(IH<IAD+NN))
         IH = IH + 1
@@ -237,8 +237,8 @@ c---------
 C
               IF (K == N) THEN
                 IH=IH+1
-C             traitement specifique spmd
-C               recherche du ii correct
+C             SPECT SPMD treatment
+C               search for the correct ii
                 II = ((IH-1) - IAD)*NVAR
                 DO WHILE((ITHBUF(IH+NN) /= ISPMD) .AND. (IH < IAD+NN))
                   IH = IH + 1

@@ -31,7 +31,7 @@ C
 !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
 !||====================================================================
       SUBROUTINE SPMD_SD_ACC(ACCELM,IACCP,NACCP)
-C envoi vers p0 du tableau ACCELM calcule sur chaque proc
+C Sending to P0 of the Accelm table calculated on each proc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

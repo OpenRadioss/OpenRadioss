@@ -595,7 +595,7 @@ C
         NGF = NGL + 1
         JJ_LOC(NN) = JJ - COMPTEUR            ! size of each group
         COMPTEUR = JJ                         
-       ENDDO         ! nn=1,nspgroup
+       ENDDO         ! nn = 1, nspgroup
 !     ++++++++++
        IF( NSPMD>1 ) THEN
         CALL SPMD_RGATHER9_1COMM(WA,JJ,JJ_LOC,WAP0_LOC,SIZP0,ADRESS)
@@ -622,12 +622,12 @@ C
         JJ_OLD = COMPTEUR+1
 c--------------------------------
         IF (JJ_OLD > 1) THEN
-C       ICAS_OLD sert a connaitre le "type" du dernier groupe traite
-C       on ajoute un commentaire de format a chaque changement
+C       Icas_old is used to know the "type" of the last group deals
+C       a format comment is added at each change
          ICAS_OLD = 0
          J = 1
          DO WHILE (J < JJ_OLD)
-C         valeur absolue deja stockee dans WA
+C         Absolute value already stores in wa
           IF (ITENS == 2) THEN
            NLAY = NINT(WAP0(J))
            NPTR = NINT(WAP0(J+1))
@@ -662,7 +662,7 @@ c
               ENDIF ! ICAS_OLD
               IF (OUTYY_FMT == 2) THEN
                 WRITE(IUGEO,'(6I8)') NPT,ISOLNOD,KHBE,NPTR,NPTS,NPTT 
-C               ecriture sur 2 lignes cf smp !
+C               Writing on 2 lines CF SMP!
                 DO I = 1, NPT
                   WRITE(IUGEO,'(1P6E12.5)')(WAP0(J-1+K),K=1,6)
                   J = J + 6
@@ -671,7 +671,7 @@ C               ecriture sur 2 lignes cf smp !
                 ENDDO
               ELSE
                 WRITE(IUGEO,'(6I10)')NPT,ISOLNOD,KHBE,NPTR,NPTS,NPTT 
-C               ecriture sur 2 lignes cf smp !
+C               Writing on 2 lines CF SMP!
                 DO I = 1, NPT
                   WRITE(IUGEO,'(1P6E20.13)')(WAP0(J-1+K),K=1,6)
                   J = J + 6
@@ -699,7 +699,7 @@ c
              ENDIF
              IF (OUTYY_FMT == 2) THEN
                WRITE(IUGEO,'(3I8)') NPT, ISOLNOD, KHBE
-C              ecriture sur 2 lignes cf smp !
+C              Writing on 2 lines CF SMP!
                DO I = 1, NPT
                  WRITE(IUGEO,'(1P6E12.5)')(WAP0(J-1+K),K=1,6)
                  J = J + 6
@@ -708,7 +708,7 @@ C              ecriture sur 2 lignes cf smp !
                ENDDO
              ELSE
                WRITE(IUGEO,'(3I10)') NPT, ISOLNOD, KHBE
-C              ecriture sur 2 lignes cf smp !
+C              Writing on 2 lines CF SMP!
                DO I = 1, NPT
                  WRITE(IUGEO,'(1P6E20.13)')(WAP0(J-1+K),K=1,6)
                  J = J + 6
@@ -720,7 +720,7 @@ C              ecriture sur 2 lignes cf smp !
 c          solid properties
            ELSEIF (ISOLNOD == 8 .AND. NPT == 8 .AND.
      .         KHBE /= 14 .AND. KHBE /= 15 .AND. KHBE/=17) THEN
-C            test cas precedent et ecriture format si besoin
+C            Predent case test and format writing if necessary
              IF (ICAS_OLD /= 4) THEN
                ICAS_OLD = 4
                IF (OUTYY_FMT == 2) THEN
@@ -743,7 +743,7 @@ C            test cas precedent et ecriture format si besoin
                WRITE(IUGEO,'(2I8)')NPT,ISOLNOD 
                WRITE(IUGEO,'(1P2E12.5)')(WAP0(J-1+K),K=1,2)
                J=J+2
-C              ecriture sur 2 lignes cf smp !
+C              Writing on 2 lines CF SMP!
                DO I = 1, NPT
                  WRITE(IUGEO,'(1P6E12.5)')(WAP0(J-1+K),K=1,6)
                  J = J + 6
@@ -754,7 +754,7 @@ C              ecriture sur 2 lignes cf smp !
                WRITE(IUGEO,'(2I10)')NPT,ISOLNOD 
                WRITE(IUGEO,'(1P2E20.13)')(WAP0(J-1+K),K=1,2)
                J=J+2
-C              ecriture sur 2 lignes cf smp !
+C              Writing on 2 lines CF SMP!
                DO I = 1, NPT
                  WRITE(IUGEO,'(1P6E20.13)')(WAP0(J-1+K),K=1,6)
                  J = J + 6
@@ -785,7 +785,7 @@ c
 c
              IF (OUTYY_FMT == 2) THEN
                WRITE(IUGEO,'(6I8)') NPT,ISOLNOD,KHBE,NPTR,NPTS,NPTT 
-C              ecriture sur 2 lignes cf smp !
+C              Writing on 2 lines CF SMP!
                DO I = 1, NPT
                  WRITE(IUGEO,'(1P6E12.5)')(WAP0(J-1+K),K=1,6)
                  J = J + 6
@@ -794,7 +794,7 @@ C              ecriture sur 2 lignes cf smp !
                ENDDO
              ELSE
                WRITE(IUGEO,'(6I10)')NPT,ISOLNOD,KHBE,NPTR,NPTS,NPTT 
-C              ecriture sur 2 lignes cf smp !
+C              Writing on 2 lines CF SMP!
                DO I = 1, NPT
                  WRITE(IUGEO,'(1P6E20.13)')(WAP0(J-1+K),K=1,6)
                  J = J + 6
@@ -822,7 +822,7 @@ c
              ENDIF
              IF (OUTYY_FMT == 2) THEN
                WRITE(IUGEO,'(5I8)')NPT,ISOLNOD,NPTR,NPTS,NPTT 
-C              ecriture sur 2 lignes cf smp !
+C              Writing on 2 lines CF SMP!
                DO I = 1, NPT
                  WRITE(IUGEO,'(1P6E12.5)')(WAP0(J-1+K),K=1,6)
                  J = J + 6
@@ -831,7 +831,7 @@ C              ecriture sur 2 lignes cf smp !
                ENDDO
              ELSE
                WRITE(IUGEO,'(5I10)')NPT,ISOLNOD,NPTR,NPTS,NPTT 
-C              ecriture sur 2 lignes cf smp !
+C              Writing on 2 lines CF SMP!
                DO I = 1, NPT
                  WRITE(IUGEO,'(1P6E20.13)')(WAP0(J-1+K),K=1,6)
                  J = J + 6
@@ -877,7 +877,7 @@ c
                  WRITE(IUGEO,'(1P1E20.13)')WAP0(J)
                  J = J + 1
                ENDIF
-C           le test remis coherent par rapport a SMP
+C           the test made consistent with respect to SMP
 c
            ELSEIF (ISOLNOD == 10) THEN
              IF(ICAS_OLD /= 7) THEN
@@ -898,7 +898,7 @@ c
              ENDIF
              IF (OUTYY_FMT == 2) THEN
                WRITE(IUGEO,'(2I8)')NPT,ISOLNOD
-C              ecriture sur 2 lignes cf smp !
+C              Writing on 2 lines CF SMP!
                DO I = 1, NPT
                  WRITE(IUGEO,'(1P6E12.5)')(WAP0(J-1+K),K=1,6)
                  J = J + 6
@@ -907,7 +907,7 @@ C              ecriture sur 2 lignes cf smp !
                ENDDO
              ELSE
                WRITE(IUGEO,'(2I10)')NPT,ISOLNOD
-C              ecriture sur 2 lignes cf smp !
+C              Writing on 2 lines CF SMP!
                DO I = 1, NPT
                  WRITE(IUGEO,'(1P6E20.13)')(WAP0(J-1+K),K=1,6)
                  J = J + 6
@@ -934,7 +934,7 @@ C              ecriture sur 2 lignes cf smp !
              ENDIF
              IF (OUTYY_FMT == 2) THEN
                WRITE(IUGEO,'(3I8)') NPT, ISOLNOD, KHBE
-C              ecriture sur 2 lignes cf smp !
+C              Writing on 2 lines CF SMP!
                DO I = 1, NPT
                  WRITE(IUGEO,'(1P6E12.5)')(WAP0(J-1+K),K=1,6)
                  J = J + 6
@@ -943,7 +943,7 @@ C              ecriture sur 2 lignes cf smp !
                ENDDO
              ELSE
                WRITE(IUGEO,'(3I10)') NPT, ISOLNOD, KHBE
-C              ecriture sur 2 lignes cf smp !
+C              Writing on 2 lines CF SMP!
                DO I = 1, NPT
                  WRITE(IUGEO,'(1P6E20.13)')(WAP0(J-1+K),K=1,6)
                  J = J + 6
@@ -999,7 +999,7 @@ c
 c-------------------------------
          ENDDO  ! WHILE (J < JJ_OLD)
        ENDIF    ! jj_old>1
-      ENDDO     ! nn=1,nspgroup
+      ENDDO     ! nn = 1, nspgroup
       ENDIF     ! ispmd==0
 C-----------              
       RETURN

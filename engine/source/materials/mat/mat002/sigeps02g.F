@@ -330,7 +330,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !     ITERATIVE
 !-------------------------
 !-------------------------
-!     CRITERE DE VON MISES
+! von mises criterion
 !-------------------------
         DO I=JFT,JLT
           YLD(I) = CA(I)+CB(I)*EXP(CN * LOG(LBUF%PLA(I)+ EM30))
@@ -342,7 +342,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !
         DO I=JFT,JLT
 !-------------------------------------------------------------------------
-!     GAMA (L'INVERSE DE GAMA DANS LA FORMULE) 
+! GAMMA (THE INVERSE OF GAMMA IN THE FORMULA)
 !-------------------------------------------------------------------------
           CCC = EXP(-TWOP6666666667*LBUF%PLA(I)*YM/YLD(I))
           GAMA(I) = TWO/(THREE-CCC)
@@ -400,7 +400,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
           DPLA_J(I) = (SVM(I)-YLD(I))/(THREE*G(I)*QTIER(I)+HH(I))
         ENDDO
 !-------------------------------
-!     TIENT COMPTE DU COUPLAGE
+! TAKES COUPLING INTO ACCOUNT
 !-------------------------------
         DO N=1,NMAX
           DO J=1,NINDX
@@ -504,7 +504,7 @@ c     update and filter plastic strain rate for VP=1
 
       ENDIF ! IF (IPLA == 0)
 !--------------------------------
-!     TEST DE RUPTURE DUCTILE
+! ductile failure test
 !--------------------------------
       DO I=JFT,JLT
         IF (OFF(I) < EM01) OFF(I) = ZERO

@@ -58,12 +58,12 @@ C-----------------------------------------------
       DO WHILE(IOS==0)
         READ(UNIT=IOUT,IOSTAT=IOS,FMT='(A)') LINE
         IF(IOS==0) THEN
-C calcul du nombre exacte de ligne de 80c
+C calculation of the exact number of lines of 80c
           IWIOUT = IWIOUT + NCHAROUT
         ENDIF
       ENDDO
             IWIOUT_SAVE = IWIOUT
-C ajout rewind ds ts les cas (necessaire sur sgi au moins)
+C Addition Rewind ds cases (necessary on SGI at least)
       REWIND(UNIT=IOUT)
       READ(UNIT=IOUT,IOSTAT=IOS,FMT='(A)')
 C

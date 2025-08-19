@@ -38,9 +38,9 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
 C=======================================================================
 C
-C     * Retour des conditions cinematiques vers les surfaces
-C     * Envoi des positions ou devra etre effectue le calcul des forces
-C             dans les interfaces, au pas suivant.
+C     return of kinematic conditions to the surfaces
+C     sending the positions where the force calculation will have to be performed
+C             in the interfaces, at the next time step.
 C=======================================================================
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
@@ -79,9 +79,9 @@ C
         NRBOD=IGRSURF(ISU)%NB_MADYMO
         IF ( NRBOD/=0 ) THEN
 C         ISURF(9,ISU)==1 (RIGID BODIES) !
-C         A chaque instant (et a TT=0. dans le Starter), 
-C         le Rigid Body transmet la position et les vitesses du noeud main 
-C         a la surface.
+C         at each time step (and at tt=0. in the starter),
+C         the rigid body transmits the position and velocities of the main node
+C         to the surface.
           IM=NPBY(1,NRBOD)
           ADRSRF=IGRSURF(ISU)%IAD_BUFR
           BUFSF(ADRSRF+16)=X(1,IM)
@@ -99,7 +99,7 @@ C         a la surface.
           BUFSF(ADRSRF+22)=VRM(1)
           BUFSF(ADRSRF+23)=VRM(2)
           BUFSF(ADRSRF+24)=VRM(3)
-C         Translation et Rotation de la surface.
+C         translation and rotation of the surface.
 C   deplacer apres SORTIES :
           BUFSF(ADRSRF+4)=BUFSF(ADRSRF+4)+VM(1)*DT2
           BUFSF(ADRSRF+5)=BUFSF(ADRSRF+5)+VM(2)*DT2

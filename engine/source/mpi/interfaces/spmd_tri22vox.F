@@ -260,7 +260,7 @@ C=======================================================================
               BUF(P)%p(L+24)       = SUM(V(1,IRECTM(1:4,I)))/FOUR
               BUF(P)%p(L+25)       = SUM(V(2,IRECTM(1:4,I)))/FOUR
               BUF(P)%p(L+26)       = SUM(V(3,IRECTM(1:4,I)))/FOUR
-              L = L + SIZ_XREM ! attention SIZ_XREM a mettre a jour dans tri22_mod si modif
+              L = L + SIZ_XREM ! Attention siz_xrem to update in tri22_mod if modification
             END DO
             MSGTYP = MSGOFF4
             CALL MPI_ISEND(
@@ -312,7 +312,7 @@ C=======================================================================
             LEN = NSNFI(NIN)%P(P)*SIZ_XREM
             MSGTYP = MSGOFF4 
             IAD = IDEB
-            ! correction adresse pour passage tableau XREM SP utilise en DP ds la routine de comm
+            ! Correction Address for Passage REM SP Table used in DP DS the commout routine
             IF(IR4R8 == 1) IAD = 2*IDEB-1
             CALL MPI_IRECV(
      1        XREM(1,IAD),LEN,MPI_DOUBLE_PRECISION,IT_SPMD(P),

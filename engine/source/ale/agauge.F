@@ -96,7 +96,7 @@ c 6:               XSAV (SPH sorting)
 c 7:               YSAV (SPH sorting)
 c 8:               ZSAV (SPH sorting)
 c 9:               FF (sph only)
-c 10:              intantaneous Pressure
+c 10: Intantaneous Pressure
 c 11:              intantaneous PA
 c 12:              intantaneous Rho
 c 13:              intantaneous E
@@ -575,7 +575,7 @@ c 6:               XSAV (SPH sorting)
 c 7:               YSAV (SPH sorting)
 c 8:               ZSAV (SPH sorting)
 c 9:               FF (sph only)
-c 10:              intantaneous Pressure
+c 10: Intantaneous Pressure
 c 11:              intantaneous PA
 c 12:              intantaneous Rho
 c 13:              intantaneous E
@@ -636,7 +636,7 @@ C
       DO IG=1,NBGAUGE
         IS = -LGAUGE(1,IG)
 C
-C all gauges (ale, sph, ..)
+C ALL GAUGES (ALE, SPH, ..)
         IF(IS >= 0)THEN
           GAUGE(5,IG) = -EP20
           N = LGAUGE(3,IG)

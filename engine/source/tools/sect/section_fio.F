@@ -65,7 +65,7 @@ C
       IF(NSECT==0)RETURN
       IF(NSTRF(2)==0)RETURN
 C-----------------------------------------------
-C READ FILE dans l'ordre des sections lues sur le fichier
+C READ FILE in the order of the sections read from the file
 C  T = TT
 C-----------------------------------------------
        IF(NSPMD==1) THEN
@@ -80,7 +80,7 @@ C-----------------------------------------------
            END DO
          END IF
 C
-C SPMD SPECIFIC : MAJ MODIF NSTRF et SECBUF dans SECT_READP
+C spmd specific: major modification of nstrf and secbuf in sect_readp
 C
          CALL SECTION_READP(TT,NSTRF,SECBUF,NNODT,IAD_CUT,FR_CUT)
        END IF

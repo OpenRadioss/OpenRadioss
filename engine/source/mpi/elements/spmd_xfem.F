@@ -176,7 +176,7 @@ c                    endif
                 END DO
               END DO
             ELSE
-C               on envoie des zeros (initialise plus haut)
+C               We send zeros (initialized above)
                 L1 = L1+NENR*NXLAYMAX
                 L2 = L2+NENR*NXLAYMAX
             ENDIF
@@ -260,7 +260,7 @@ c     .                RBUFR(5,L2), RBUFR(6,L2)  , RBUFR(7,L2)
 c---
                 ENDDO  ! IENR=1,NENR                                           
               ENDDO    ! ILAY=1,NXLAYMAX                                          
-C si noeud n'est pas XFEM skipper la comm
+C if node is not XFEM skip the comm
             ELSE
                 L1 = L1+NENR*NXLAYMAX
                 L2 = L2+NENR*NXLAYMAX

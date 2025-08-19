@@ -146,7 +146,7 @@ c
         DEPSXX(I) = R1*R1*T1 + S1*S1*T2 + TWO*R1*S1*T3 ! delta_eps_x         
         DEPSYY(I) = R2*R2*T1 + S2*S2*T2 + TWO*R2*S2*T3 ! delta_eps_y         
         DEPSXY(I) = (R1*R2 + S1*S2) / (R1*S2 - R2*S1)   ! Tan(alpha_totale)   
-C---    integration des deformations
+C---    integration of deformations
         ETC = UVAR(I,4) + DEPSXX(I)     
         ETT = UVAR(I,5) + DEPSYY(I)     
         UVAR(I,4) = ETC
@@ -316,12 +316,12 @@ C
           RFAC = ZERO
           RFAT = ZERO
         ENDIF
-C---    contraintes membrane       
+C--- Membrane constraints       
         SIGC = RFAC * FC * LC(I) / DC
         SIGT = RFAT * FT * LT(I) / DT
         SIGNXX(I) = SIGC
         SIGNYY(I) = SIGT
-C---    contraintes cisaillement      
+C--- Shear stresses      
         SIG0    = UVAR(I,10)
         TAN_PHI = DEPSXY(I)
         PHI = atan (TAN_PHI)*HUNDRED80/PI
@@ -373,7 +373,7 @@ C----------------
 c---  uncoupled model  (compression of fiber)         
         YC(I)    = UVAR(I,7)  
         YT(I)    = UVAR(I,8)  
-        HC  = HC0 + YC(I)  !longueur ressort           
+        HC  = HC0 + YC(I)  !spring           
         HT  = HT0 + YT(I)                              
         DC  = SQRT(LC(I)*LC(I) + HC*HC) ! long fibre   
         DT  = SQRT(LT(I)*LT(I) + HT*HT)                
@@ -385,7 +385,7 @@ c---  uncoupled model  (compression of fiber)
         IF(DCC >=ZERO ) THEN 
            !----------------------LOAD
            DO ITER = 1, NITER           
-            HC  = HC0 + YC(I)  !longueur ressort   
+            HC  = HC0 + YC(I)  !spring   
             DC  = SQRT(LC(I)*LC(I) + HC*HC) ! long fibre    
             UDC = ONE / DC                                         
             HDC = HC * UDC      !sinus(alpha)                                
@@ -406,9 +406,9 @@ c---  uncoupled model  (compression of fiber)
             DERIC= KFC + FPC*HDC + FC*UDC*(ONE - HDC*HDC)
             YC(I) = YC(I) - FUNC / DERIC
            ENDDO !iter
-         ELSE ! DCC < ZERO domaine de compression  
+         ELSE ! DCC <Zero Domaine de Compression  
           DO ITER = 1, NITER
-           HC  = HC0 + YC(I)  !longueur ressort
+           HC  = HC0 + YC(I)  !spring
            DC  = SQRT(LC(I)*LC(I) + HC*HC) ! long fibre  
            UDC = ONE / DC                                        
            HDC = HC * UDC      !sinus(alpha)                                
@@ -430,12 +430,12 @@ c---  uncoupled model  (compression of fiber)
           SLMAXRLC(I)  = ZERO 
          ENDIF ! COMPRESSION OR TENSION FOR DIRECTION CHAINE
 c----------------------------------
-c----------------direction trame---
+c-------------- Direction Trame ---
 c----------------------------------
          IF(DTT >=ZERO ) THEN 
            !----------------------LOAD
            DO ITER = 1, NITER           
-            HT  = HT0 + YT(I)  !longueur ressort   
+            HT  = HT0 + YT(I)  !spring   
             DT  = SQRT(LT(I)*LT(I) + HT*HT) ! long fibre    
             UDT = ONE / DT                                         
             HDT = HT * UDT      !sinus(alpha)                               
@@ -460,7 +460,7 @@ c----------------------------------
            ENDDO !iter
          ELSE ! DTT < ZERO domaine de compression  
           DO ITER = 1, NITER
-           HT  = HT0 + YT(I)  !longueur ressort   
+           HT  = HT0 + YT(I)  !spring   
            DT  = SQRT(LT(I)*LT(I) + HT*HT) ! long fibre    
            UDT = ONE / DT                                         
            HDT = HT * UDT      !sinus(alpha)                                
@@ -535,7 +535,7 @@ c----------------------------------LOAD
             SLMAXRLC(I)  = ZERO 
            ENDIF ! (DCC1 >=ZERO  )            
 c----------------------------------
-c----------------direction trame---
+c-------------- Direction Trame ---
 c----------------------------------
            
            IF(DTT1 >=ZERO  ) THEN 
@@ -594,12 +594,12 @@ C------------------------------------------------------------------
           RFAC = ZERO
           RFAT = ZERO
         ENDIF
-C---    contraintes membrane       
+C--- Membrane constraints       
         SIGC = RFAC * FC * LC(I) / DC
         SIGT = RFAT * FT * LT(I) / DT
         SIGNXX(I) = SIGC
         SIGNYY(I) = SIGT      
-C---    contraintes cisaillement      
+C--- Shear stresses      
         SIG0    = UVAR(I,10)
         TAN_PHI = DEPSXY(I)
         PHI   = ATAN(TAN_PHI)*HUNDRED80/PI 
@@ -666,7 +666,7 @@ C----------------  RETOUR REPERE COQUE
         TENS(3,I) = RS1*T1 + RS2*T2 + (R3R3 - S3S3)*T3       
       ENDDO                                                    
 C-----------------------
-C      FORCES ET MOMENTS
+C      FORCES AND MOMENTS
 C-----------------------
       DO I=1,NEL
         FOR(I,1)=FOR(I,1) + THK(I)*TENS(1,I)

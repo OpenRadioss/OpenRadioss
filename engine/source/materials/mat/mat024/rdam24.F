@@ -58,8 +58,8 @@ C=======================================================================
         S33(I)= S11(I)*S22(I)-S21(I)*S12(I)
       ENDDO
 C . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-C     TRANSFORME INCREMENTS DE DEFORMATION
-C     DANS LE REPERE DES DIRECTIONS DE DOMMAGE
+C     transforms strain increments
+C     in the frame of the damage directions
 C . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
       DO K=1,NBDAMA
         I= DAMAI(K)

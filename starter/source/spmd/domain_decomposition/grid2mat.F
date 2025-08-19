@@ -1353,7 +1353,7 @@ C----------------------------------------------
 !     allocation IDDCONNECT % PDOM et % IENTRYDOM
       ALLOCATE(IDDCONNECT%PDOM(2,SIDDCONNECT),STAT=IERR1)
       ALLOCATE(IDDCONNECT%IENTRYDOM(2,NELEM),STAT=IERR1)    
-!     initialisation de IDDCONNECT%IENTRYDOM
+! initialization of IDDCONNECT%IENTRYDOM
       CALL INI_IDDCONNECT(NELEM)
 C
       NEDGES_OLD = NEDGES
@@ -1461,7 +1461,7 @@ C+------------------------------------------------------------+
 C     DEALLOCATE(TAGELEM)
       IF (IDDLEVEL==1) THEN
 C-----------------------------------------------
-C by pass des elements outils
+C by pass of tools tools
 C-----------------------------------------------
         IWARN1 = 0
         DO I = 1, NELEM
@@ -1492,11 +1492,11 @@ C-----------------------------------------------
 C CONNECTIVITES INTERFACES
 C-----------------------------------------------
 C
-C seulement rajouter une connectivite entre noeud et facette
+C only add a connectivity between node and facet
 C
-C eviter conflit entre type 2 et type 7
+C Avoid conflict between type 2 and type 7
 C
-C cep temporairement utilise comme flag
+C CEP temporarily used as flag
         DO I = 1, NELEM
           CEP(I) = 0
         ENDDO
@@ -1791,7 +1791,7 @@ C    .                        " refused_cep0: ",refused_cep0,
 C    .                        " switch_tried: ",switch_tried,
 C    .                        " switch_done: ",switch_done
 C
-!       nombre de edge 
+! number of edge
         NEDGES = 0
         NEDGES_8 = 0
         DO I=1,NELEM
@@ -1884,20 +1884,20 @@ C
 !   ----------------------------------------------------------------
 
       IF (NEDGES>0 .AND. NSPMD > 1) THEN      
-!       structures Metis 1/2
+!       Metis structures 1/2
         ALLOCATE(XADJ(NELEM+1),STAT=IERR1)
 !       init XADJ
         XADJ(1:NELEM+1)=0
-!       deallocation de CNE
+! deallocation of CNE
         DEALLOCATE(CNE)
-!       Nombre de edges
+! Number of edges
         NEDGES = 0
         DO I=1,NELEM
           CALL C_IDDCONNECT(I,TAILLE_LOCAL)
           NEDGES = NEDGES + TAILLE_LOCAL
         ENDDO
         NEDGES = NEDGES/2
-!       structures Metis 2/2
+!       Metis structures 2/2
         ALLOCATE(ADJNCY(2*NEDGES),STAT=IERR1)
 
         XADJ(1) = 1
@@ -1908,7 +1908,7 @@ C
            CALL PLIST_IDDCONNECT(ADJNCY,XADJ,I)
           ENDIF
         ENDDO
-!       deallocation de IDDCONNECT % PDOM et % IENTRYDOM
+! deallocation of IDDCONNECT % PDOM and % IENTRYDOM
         DEALLOCATE(IDDCONNECT%PDOM)
         DEALLOCATE(IDDCONNECT%IENTRYDOM)
 
@@ -2037,7 +2037,7 @@ C        OPTIONS(4)=2 ! 0 => GROW ; 1 => RANDOM to try ; 2 => EDGE ; 3 => NODE
 C        OPTIONS(METIS OPTION IRTYPE) = 1 ! ignore
 C        OPTIONS(5)=0 ! 0 => FM ; 1 => Greedy to try ; 2 => 1 S NODE ; 3 => 2 S NODE
 C        OPTIONS(METIS OPTION NITER) = 10 (default) !
-C        OPTIONS(7)=20 ! 20 tres leger mieux
+C        Options (7) = 20!20 very slight better
 C        OPTIONS(METIS MIN CONN) = 0 (default) !
 C        OPTIONS(11)=1 ! 1 minimize max connectivity
 C        OPTIONS(METIS NO2HOP) = 0 (default) !
@@ -2047,7 +2047,7 @@ C        OPTIONS(17)=1 ! ignore
 C        OPTIONS(METIS NCUTS) = 1 (default) !
 C         OPTIONS(8) = 4              
 C        OPTIONS(8)=1 
-C Domain decomposition CRASH ou FSI
+C Domain Decomposition Crash or FSI
         IF(ICFSI==0)THEN
           DO I = 1, NELEM
 C weight normalization (deleted elem to 0)
@@ -2576,7 +2576,7 @@ C
      .    NINT(DMIN(12)),NINT(DMAX(12)),
      .    NINT(AVERAGE(12)),NINT(DEVIATION(12))
       ELSE
-C   un seul element ou elements non connectes ou un seul proc
+C   a single element or unconnected elements or a single processor
         DEALLOCATE(CNE)
         DEALLOCATE(IDDCONNECT%PDOM)
         DEALLOCATE(IDDCONNECT%IENTRYDOM) 
@@ -2665,9 +2665,9 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
-C Connectivite cellules SPH
+C Connectivitis cells SPH
 C
-c NUMSPH ACTIVE less SPH2SOL/=0
+c Numsph Active Less Sph2sol/= 0
       NUMSPHA = NUMSPH - NSPHRES - NSPHSOL
 
       NEDGES = 0
@@ -2723,7 +2723,7 @@ C
           IEND(2*I)  = ITRIM(2*INDEXM(I))
         ENDDO
  
-C structures Metis 1/2
+C Metis structures 1/2
         ALLOCATE(XADJ(NUMSPHA+1),STAT=IERR1)
 C init XADJ
         XADJ(1:NUMSPHA+1)=0
@@ -2753,7 +2753,7 @@ C count xadj
 C
         NEDGES = NEWEDGE
 
-C structures Metis 2/2
+C Metis structures 2/2
         ALLOCATE(ADJNCY(2*NEDGES),STAT=IERR1)
 
 C build xadj & adjcny in a simple pass
@@ -3222,7 +3222,7 @@ C-----------------------------------------------
 
       IF(MARQUEUR3) THEN
          TEST_POIDS = 1
-C        Nombre de lignes
+C        Number of lines
          OPEN(UNIT=30,FILE=FILNAM(1:LEN_FILNAM),FORM='FORMATTED')
          DO WHILE(LINE(1:12) /= '     POINTER')
           MARQUEUR2=MARQUEUR2+1
@@ -3332,7 +3332,7 @@ C Dynamical User Library
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------   
-C     Lecture du pointer
+C     Reading the pointer
       OPEN(UNIT=30,FILE=FILNAM(1:LEN_FILNAM),FORM='FORMATTED')
          LINE = ' '
          DO WHILE(LINE(1:12) /= '     POINTER')
@@ -3376,7 +3376,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------   
       INTEGER I
 C-----------------------------------------------   
-C     Lecture du pointer 
+C     Reading the pointer
       OPEN(UNIT=30,FILE=FILNAM(1:LEN_FILNAM),FORM='FORMATTED')
          LINE = ' '
          DO WHILE(LINE(1:12) /= '     POINTER')
@@ -3943,7 +3943,7 @@ C---------------------------------------------
           ELEMNODES(K) = N
         ENDDO
       END SELECT
-C     Set duplicates to 0                     
+C     Duplicate set to 0                     
       DO K=2,MAX_NB_NODES_PER_ELT 
         DO I=1,K-1
          IF(ELEMNODES(K) == ELEMNODES(I)) ELEMNODES(K) = 0

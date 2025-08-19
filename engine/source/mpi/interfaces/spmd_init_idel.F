@@ -83,7 +83,7 @@ C-----------------------------------------------
         ENDIF
       ENDDO
 C
-C Test reception envoi NINDEX
+C Nindex shipping test
 C
       DO I = 1, NSPMD
         SIZ = (IAD_ELEM(1,I+1)-IAD_ELEM(1,I))

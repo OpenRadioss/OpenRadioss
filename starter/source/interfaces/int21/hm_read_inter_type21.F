@@ -334,7 +334,7 @@ C.....* CHECKS *........
 C
           IF(GAPSCALE==ZERO)GAPSCALE=ONE
 
-ce flag dit sil faut calculer les epaisseurs nodales dans l'engine
+cE FLAG says if you have to calculate the nodal thickness in the engine
           IF(IGAP==2) INTER_ITHKNOD=1 !defined in interface module (common_source directory)
 C
           IF(IGAP==2)THEN

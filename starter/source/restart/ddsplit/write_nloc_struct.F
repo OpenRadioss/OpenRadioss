@@ -263,11 +263,11 @@ c
 c
         CALL WRITE_DB(NLOC_DMG%SSPNL,MATSIZE)        ! SSPNL
 c   
-        CALL WRITE_I_C(INDX_L,NNOD_L)               ! INDX_L(NNOD_L)
+        CALL WRITE_I_C(INDX_L,NNOD_L)               ! Indx_l (nnod_l)
 c  
         CALL WRITE_I_C(POSI,NNOD_L+1)               ! POSI(NNOD_L+1)
 c        
-        CALL WRITE_I_C(IDXI_L,NUMNOD_L)             ! IDXI_L(NUMNOD_L)
+        CALL WRITE_I_C(IDXI_L,NUMNOD_L)             ! Idxi_l (Numnod_L)
 c
         ! If PARITH/ON
         IF (IPARI0 == 1) THEN

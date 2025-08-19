@@ -307,7 +307,7 @@ C----------------
 
 
 
-!LAST-LINES   
+!Last-lines   
       DO I=1,MFUNC 
         CALL HM_GET_INT_ARRAY_INDEX  ('Funct_Id_Load'  ,IFLOAD(I)     ,I ,IS_AVAILABLE, LSUBMODEL)
         CALL HM_GET_INT_ARRAY_INDEX  ('Funct_Id_UnLoad',IFUNLOAD(I)   ,I ,IS_AVAILABLE, LSUBMODEL)        

@@ -60,7 +60,7 @@ C=======================================================================
 !     1d array
       ALLOCATE( NODTAG(0:NUMNOD_L+1) )
 ! ----------------------------------
-c     Tableaux noeuds phantomes chaque ply
+c     Phantoma nodes each ply
 C-----------------------------------------------
       NELCRK = 0
       DO K=1,NLEVMAX
@@ -73,8 +73,8 @@ C-----------------------------------------------
                 NOD = IXC(J+1,ELEM)
                 IF (NOD > 0) THEN
                   IF (INOD_CRKXFEM(NOD) > 0) THEN        ! N noeud local xfem
-                    NOD_XFE_G = CRKSHELL(K)%XNODEG(J,I)  ! ID glob node phantome sur ply
-                    NOD_XFE_L = NOD_XFE_L + 1            ! ID local node phantome sur ply
+                    NOD_XFE_G = CRKSHELL(K)%XNODEG(J,I)  ! ID GLOB NODE PHANTOME SUR PLY
+                    NOD_XFE_L = NOD_XFE_L + 1            ! Local ID Node Phantome Sur Ply
                     NODGLOBXFE(NOD_XFE_L) = NOD_XFE_G    ! Id local -> Id global (phant)
                   ENDIF
                 ENDIF
@@ -132,7 +132,7 @@ C---
             INOD_L(I) = NL_L
             INDEX(NL_L) = INOD_CRKXFEM(NOD)
             INOD_CRK = INOD_CRKXFEM(NOD)
-            NODLEVXF_L(NL_L) = NODLEVXF(INOD_CRK) ! nb des copies d'un nooeuds std xfem
+            NODLEVXF_L(NL_L) = NODLEVXF(INOD_CRK) ! number of copies of a standard xfem node
           ENDIF
         ENDIF
       ENDDO

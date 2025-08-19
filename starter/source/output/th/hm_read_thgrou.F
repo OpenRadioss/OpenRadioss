@@ -1244,7 +1244,7 @@ C   frames
       DATA VARGAU/
      . 'P       ','IE      ','DENS    ','T       ','PA      ',
      . 'PAX     ','PAY     ','PAZ     '/
-C     element cluster
+C     cluster element
       DATA VARCLUS/
      . 'FX      ','FY      ','FZ      ','MX      ','MY      ',
      . 'MZ      ','FS      ','FN      ','MS      ','MN      ',
@@ -1889,14 +1889,14 @@ C   options 20--->100  IVSG=196
        ENDDO
        IVSG = IVSG + 7
       ENDDO
-C  Options  101--->118 IVSG= 763
+C  Options 101 ---> 118 IVSG = 763
       DO I=101,118
        DO J=1,7
         IVARSG(J,I)= IVSG + J
        ENDDO
        IVSG = IVSG + 7
       ENDDO
-C  Options  118--->199 IVSG= 889
+C  Options 118 ---> 199 IVSG = 889
       DO I=119,199
        DO J=1,9
         IVARSG(J,I)= IVSG + J
@@ -1907,28 +1907,28 @@ C  Options  118--->199 IVSG= 889
         IVARSG(J,200)= IVSG + J
        ENDDO
          IVSG = IVSG + 6
-C  Options 201--->202 IVSG= 1624
+C  Options 201 ---> 202 IVSG = 1624
       DO I=201,202
        DO J=1,11
         IVARSG(J,I)= IVSG + J
        ENDDO
        IVSG = IVSG + 11
       ENDDO
-C  Options 203--->19984    IVSG= 1646
+C  Options 203 ---> 19984 IVSG = 1646
       DO I=203,19984
        DO J=1,6
         IVARSG(J,I)= IVSG + J
        ENDDO
        IVSG = IVSG + 6
       ENDDO
-C  Options 203--->19984    IVSG= 120338
+C  Options 203 ---> 19984 IVSG = 120338
       DO I=19985,39766
        DO J=1,6
         IVARSG(J,I)= IVSG + J
        ENDDO
        IVSG = IVSG + 6
       ENDDO
-C  Option LOCSTRN
+C  Locstrn option
       DO J=1,6
        IVARSG(J,39767)= 239030 + J
       ENDDO
@@ -2556,7 +2556,7 @@ C
      4      NVARN ,VARN  ,0     ,VARNG   ,NVARNG   ,       
      5      IVARNG,NSNOD ,NVALL ,IMERGE  ,ITHVAR   ,ITHERM_FE,       
      6      FLAGABF,NVARABF,RFI,LSUBMODEL,IBID,IBID)                          
-C         decode les numeros de skews.                               
+C         decode les numeros de skews.
           NNE =ITHGRP(4,IGS)                                         
           IAD2=ITHGRP(5,IGS)+NNE                                     
           DO K=1,NNE                                                 
@@ -2567,7 +2567,7 @@ C         decode les numeros de skews.
              GO TO 110                                               
             ENDIF                                                    
  100       CONTINUE                                                  
-C          decode les numeros de frames.                             
+C          decode les numeros de frames.
            DO 101 J=(NUMSKW+1)+MIN(IUN,NSPCOND)*NUMSPH+1+NSUBMOD,    
      .              (NUMSKW+1)+MIN(IUN,NSPCOND)*NUMSPH+NSUBMOD+      
      .               (NUMFRAM+1)                                     
@@ -2610,7 +2610,7 @@ C          decode les numeros de frames.
      4      NVARC ,VARC  ,NUMELC,VARCG ,NVARCG   ,
      5      IVARCG,NSELC,NVALL,IMERGE,ITHVAR   ,ITHERM_FE,
      6      FLAGABF,NVARABF,RFI,LSUBMODEL,MAP_TABLES%ISH4NM, NUMELC)                           
-C         decode les numeros de skews.                                  
+C         decode les numeros de skews.
           NNE =ITHGRP(4,IGS)                                            
           IAD2=ITHGRP(5,IGS)+3*NNE                                      
           DO K=1,NNE                                                    
@@ -3160,7 +3160,7 @@ C
         IF(IPART(8,N)>0) NSMAT=NSMAT+1
       ENDDO
 C=======================================================================
-C Tag des groupes avec des parts dans les TH PART et SUBSET non DEF
+C Tag groups with shares in th part and subset not def
 C=======================================================================
       DO NG=1,NGROUP
         NEL=IPARG(2,NG)
@@ -3217,7 +3217,7 @@ C     LES GROUPES TH PART ET SUBSET NE SONT PLUS UTILISES
 C
       NTHGRP2=IGS
 C------------------------------------------------
-C Recherce des parts ou subsets dans plusieurs TH
+C Search for shares or subsets in several th
 C------------------------------------------------
       DO I=1,TAGP
         DO J=1, TAGP

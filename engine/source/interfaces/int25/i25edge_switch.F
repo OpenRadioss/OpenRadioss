@@ -170,7 +170,7 @@ C         DEBUG_E2E(LEDGE(LEDGE_GLOBAL_ID,NEDG) == D_ES,STFE(NEDG))
 
           IF(IRM > 0) THEN
 C on peut passer ici: cas d edge de bord
-C dont le irect casse (o ne passe pas dans le switch (1,2) <- (3,4) au dessus
+C where irect breaks (does not go through the switch (1,2) <- (3,4) above)
 C           DEBUG_E2E(LEDGE(LEDGE_GLOBAL_ID,NEDG) == D_ES,STIFM(IRM))
             IF(STIFM(IRM)==ZERO)THEN
               IF(STFE(NEDG) > ZERO) THEN

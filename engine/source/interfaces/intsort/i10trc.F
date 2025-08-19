@@ -35,10 +35,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-C   ROLE DE LA ROUTINE:
+C   role of the routine:
 C   ===================
-C   TRI sur N de CAND_N CAND_E CAND_F
-C   et elimination des noeuds en rebond 
+C   sorting on n of cand_n cand_e cand_f
+C   and elimination of bouncing nodes
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -110,7 +110,7 @@ C=======================================================================
       ENDDO
 C=======================================================================
 C     TRI DE CAND_N CAND_E CAND_F
-C     SUR N CROISSANT
+C     on increasing n
 C     PERMUTATION 1 PASSE
 C=======================================================================
       DO N=1,NUM_IMP

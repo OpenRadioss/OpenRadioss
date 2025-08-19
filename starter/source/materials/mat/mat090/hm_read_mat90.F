@@ -137,7 +137,7 @@ C-----------------------------------------------
       IF(ECONT == ZERO) ECONT = E0
       IF(TCUT == ZERO) TCUT = EP20
 !
-!... fonction de charge      
+!... load function
 !
       DO I=1,NFUNC
         CALL HM_GET_INT_ARRAY_INDEX      ('fct_IDL'     ,IFUNC(I)    ,I ,IS_AVAILABLE, LSUBMODEL)

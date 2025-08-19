@@ -53,11 +53,11 @@ C-----------------------------------------------
 C            A R G U M E N T S
 C-----------------------------------------------
 C     IXQ(7,NUMELQ)      TABLEAU CONECS+PID+MID+NOS SOLIDES 4N      E
-C     PM(NPROPM,NUMMAT)  TABLEAU DES CARACS DES MATERIAUX           E
+C     PM(NPROPM,NUMMAT)  ARRAY OF MATERIAL PROPERTIES           E
 C     IPARG(NPARG,NGROUP)TABLEAU DES CARACTERISTIQUES DES GROUPES   E/S
-C     GEO(NPROPG,NUMGEO) TABLEAU DES CARACS DES PID                 E
+C     GEO(NPROPG,NUMGEO) ARRAY OF PID CHARACTERISTICS                 E
 C     EADD(NUMELQ)       TABLEAU DES ADRESEES DANS IDAM CHGT DAMIER E 
-C     DD_IAD             TABLEAU DE LA DD EN SUPER GROUPES          S
+C     DD_IAD             ARRAY OF DD IN SUPER GROUPS          S
 C     INUM(8,NUMELQ)     TABLEAU DE TRAVAIL                         E/S
 C     INDEX(NUMELQ)      TABLEAU DE TRAVAIL                         E/S
 C     CEP(NUMELQ)        TABLEAU DE TRAVAIL                         E/S
@@ -107,11 +107,11 @@ C-----------------------------------------------
       CHARACTER(LEN=NCHARTITLE)::TITR
       LOGICAL lFOUND
 C--------------------------------------------------------------
-C         BORNAGE DES GROUPES DE MVSIZ
+C         bounding of MVSIZ groups
 C--------------------------------------------------------------
       NGR1 = NGROUP + 1
 C
-C phase 1 : domain decompostition
+C Phase 1: Domain Decomposition
 C
       IDX=IDX+ND*(NSPMD+1)
       CALL ZEROIN(1,ND*(NSPMD+1),DD_IAD(1,NSPGROUP+1))
@@ -124,8 +124,8 @@ C initialisation dd_iad
        END DO
       ENDDO
 C
-C phase 2 : bornage en groupe de mvsiz
-C ngroup est global, iparg est global mais organise en fonction de dd
+C Phase 2: MVSIZ Group Bounds
+C ngroup is global, iparg is global but organized based on dd
 C
       DO N=1,ND
         NEL = EADD(N+1)-EADD(N)
@@ -192,7 +192,7 @@ C
       ENDDO
 
 C
-C RENUMEROTATION POUR SURFACES
+C renumbering for surfaces
 C
       DO I=1,NSURF
         NN=IGRSURF(I)%NSEG
@@ -202,7 +202,7 @@ C
         ENDDO
       ENDDO
 C
-C RENUMEROTATION POUR GROUPES DE SHELL
+C renumbering for shell groups
 C
       DO I=1,NGRQUAD
         NN=IGRQUAD(I)%NENTITY
@@ -420,9 +420,9 @@ c          IPARG(4,NGROUP) = LBUFEL+1
           IPARG(26,NGROUP)= ML2
           IPARG(27,NGROUP)= JPOR
           IPARG(29,NGROUP)= IPLAST
-C reperage groupe/processeur
+C Group/Processor Splition
           IPARG(32,NGROUP)= P-1
-C  attention en toute rigeur >=46
+C  Be careful in all rigor> = 46
           IPARG(34,NGROUP)= NINT(PM(10,MID))
           IPARG(37,NGROUP)= JCVT
           IPARG(38,NGROUP)= IGT
@@ -442,7 +442,7 @@ C         flag for group of duplicated elements in multidomains
          NGP(P)=NGROUP-NGP(P)
         ENDIF
        ENDDO
-C DD_IAD => nb groupes par sous domaine
+C Dd_iad => nb groups by sub -domain
        NGP(NSPMD+1)=0
        DO P = 1, NSPMD
          NGP(NSPMD+1)=NGP(NSPMD+1)+NGP(P)
@@ -453,7 +453,7 @@ C
   300 CONTINUE
 C                                      
       NSPGROUP = NSPGROUP + ND
-C Traitement CFD sur MID negatif sur tous les solides si ineg=1
+C CFD treatment on MID negative on all solids if ineg=1
       IF (INEG==1) THEN
         DO I = 1, NUMELQ
           IXQ(1,I) = ABS(IXQ(1,I))

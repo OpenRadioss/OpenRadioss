@@ -124,7 +124,7 @@ C-----------------------------------------------
       INTEGER BITUNSET,BITGET,BITSET
       EXTERNAL BITUNSET,BITGET,BITSET
 C--------------------------------------------------------
-C  SHIFT DU GAP POUR SOLIDES AVEC GAP NUL
+C  gap shift for solids with zero gap
 C--------------------------------------------------------
        IF(IGAP /= 0)THEN 
          UNSSQR3 = ONE/SQR3
@@ -265,7 +265,7 @@ c shift nodales
              Z4(I) = Z4(I) - SZ4
 
            ELSEIF(I3 == I4)THEN
-c            bord de coque3N
+c            shell3n edge
              X10 = X1(I)
              Y10 = Y1(I)
              Z10 = Z1(I)
@@ -318,7 +318,7 @@ c            bord de coque3N
              Y4(I)=Y3(I)
              Z4(I)=Z3(I)
            ELSE
-c            bord de coque
+c            shell edge
              X10 = X1(I)
              Y10 = Y1(I)
              Z10 = Z1(I)
@@ -387,7 +387,7 @@ c            bord de coque
          ENDDO                           
        ENDIF
 C--------------------------------------------------------
-C  CAS DES PAQUETS MIXTES
+C  case of mixed packets
 C--------------------------------------------------------
        DO I=1,JLT
         IF(IX3(I)/=IX4(I))THEN
@@ -401,10 +401,10 @@ C--------------------------------------------------------
         ENDIF
        ENDDO
 C--------------------------------------------------------
-C  UNIQUEMENT POUR PAQUET DE TRIANGLE
+C  only for triangle packet
 C--------------------------------------------------------
 C--------------------------------------------------------
-C  CAS DES PAQUETS MIXTES OU QUADRANGLE
+C  mixed or quadrangle packet cases
 C--------------------------------------------------------
 C
        DO I=1,JLT
@@ -525,7 +525,7 @@ C
         Y12 = Y2(I) - Y1(I)
         Z12 = Z2(I) - Z1(I)
         LA = ONE - LB1(I) - LC1(I)
-C       HLA, HLB1, HLC1 necessaires pour triangle angle obtu
+C       HLA, HLB1, HLC1 required for triangle sharp angle
         AAA = ONE / MAX(EM20,X12*X12+Y12*Y12+Z12*Z12)
         HLA= LA*ABS(LA) * AAA
         IF(LA<ZERO.AND.
@@ -549,7 +549,7 @@ C
         Y23 = Y3(I) - Y2(I)
         Z23 = Z3(I) - Z2(I)
         LA = ONE - LB2(I) - LC2(I)
-C       HLA, HLB1, HLC1 necessaires pour triangle angle obtu
+C       HLA, HLB1, HLC1 required for triangle sharp angle
         AAA = ONE / MAX(EM20,X23*X23+Y23*Y23+Z23*Z23)
         HLA= LA*ABS(LA) * AAA
         IF(LA<ZERO.AND.
@@ -573,7 +573,7 @@ C
         Y34 = Y4(I) - Y3(I)
         Z34 = Z4(I) - Z3(I)
         LA = ONE - LB3(I) - LC3(I)
-C       HLA, HLB1, HLC1 necessaires pour triangle angle obtu
+C       HLA, HLB1, HLC1 required for triangle sharp angle
         AAA = ONE / MAX(EM20,X34*X34+Y34*Y34+Z34*Z34)
         HLA= LA*ABS(LA) * AAA
         IF(LA<ZERO.AND.
@@ -597,7 +597,7 @@ C
         Y41 = Y1(I) - Y4(I)
         Z41 = Z1(I) - Z4(I)
         LA = ONE - LB4(I) - LC4(I)
-C       HLA, HLB1, HLC1 necessaires pour triangle angle obtu
+C       HLA, HLB1, HLC1 required for triangle sharp angle
         AAA = ONE / MAX(EM20,X41*X41+Y41*Y41+Z41*Z41)
         HLA= LA*ABS(LA) * AAA
         IF(LA<ZERO.AND.
@@ -616,7 +616,7 @@ C       HLA, HLB1, HLC1 necessaires pour triangle angle obtu
         ENDIF
        ENDDO
 c---------------------------------------------------------
-c      courbure cubique
+c      cubic curvature
 c---------------------------------------------------------
        IF(ICURV == 3)THEN
          CALL I20CMAJ(JLT    ,CMAJ   ,IRECT  ,NOD_NORMAL,CAND_E,

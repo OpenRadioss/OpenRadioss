@@ -320,7 +320,7 @@ C---------------------------
         ENDDO
       ENDIF       
 C----------------------------
-C     TEST DE RUPTURE 
+C     rupture test
 C----------------------------
       DO  I=1,NEL
         IF(OFF(I) < EM01) OFF(I)=ZERO

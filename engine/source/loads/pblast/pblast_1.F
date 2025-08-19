@@ -223,7 +223,7 @@ C-----------------------------------------------
           !3-NODE-SEGMENT                                                                 
           PBLAST%PBLAST_TAB(IL)%NPt(I)   = THREE
           NPT = THREE                                                           
-          !Segment Centroid                                                                   
+          !Centroid segment                                                                   
           Zx = X(1,N1)+X(1,N2)+X(1,N3)                                                                  
           Zy = X(2,N1)+X(2,N2)+X(2,N3)                                                                  
           Zz = X(3,N1)+X(3,N2)+X(3,N3)                                                                  
@@ -240,7 +240,7 @@ C-----------------------------------------------
           !4-NODE-SEGMENT 
           PBLAST%PBLAST_TAB(IL)%NPt(I)   = FOUR
           NPT = FOUR 
-          !Face Centroid 
+          !Centroid side 
           Zx = X(1,N1)+X(1,N2)+X(1,N3)+X(1,N4)
           Zy = X(2,N1)+X(2,N2)+X(2,N3)+X(2,N4)
           Zz = X(3,N1)+X(3,N2)+X(3,N3)+X(3,N4)
@@ -276,7 +276,7 @@ C-----------------------------------------------
           Dz    = (Zdet - Zz)*FAC_L_bb  ! => ... to cm                                                                                                                                                
           DNORM = SQRT(Dx*Dx+Dy*Dy+Dz*Dz)                                                                                                                                                             
 
-          !Angle from detonation point
+          !Angle from Detonation Point
           cos_theta = Dx*Nx + Dy*Ny + Dz*Nz
           cos_theta = cos_theta/MAX(EM20,NORM*DNORM)
 

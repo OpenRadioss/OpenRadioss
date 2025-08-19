@@ -152,7 +152,7 @@ C-----------------------------------------------
              RHO2 = UVAR( 2)                                                              
              RHO1 = UVAR( 3)                                                              
              IF (MAS1 / MAS < EM10) THEN                                               
-                !! Phase 2 seule presente                                                 
+                !!Phase 2 Only present                                                 
                 UVAR( 1) = ZERO                                                           
                 UVAR( 4) = ZERO                                                           
                 UVAR( 5) = ONE                                                             
@@ -160,7 +160,7 @@ C-----------------------------------------------
                 UVAR( 2) = RHO2                                                           
                 P = P0 * (RHO2/RHO20)**GAM                                                
              ELSEIF (MAS2 / MAS < EM10) THEN                                           
-                !! Phase 1 seule presente                                                 
+                !!Phase 1 only present                                                 
                 RHO1 = MAS / VOL                                                          
                 UVAR( 1) = RHO1                                                           
                 UVAR( 3) = RHO1                                                           

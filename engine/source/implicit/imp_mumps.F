@@ -773,7 +773,7 @@ C
             ENDDO 
          ENDDO
       ENDIF
-C Complement de la matrice de rigidite d'interface pour secnds remote     
+C Complement to the interface stiffness matrix for remote seconds
       DO I=1,NDDL_SL
         II=IDDL_SL(I)
          DO J=IAD_SS(I),IAD_SS(I+1)-1
@@ -813,7 +813,7 @@ C Complement de la matrice de rigidite d'interface pour secnds remote
             ENDIF
          ENDDO
       ENDDO
-C----- il manque DIAG_SL--------
+C----- It lacks diag_sl ---------
       DO N=1,NDDL_SL
        I=IDDL_SL(N)
        IF (IACTI(I)==0) CYCLE
@@ -972,7 +972,7 @@ C Matrice de rigidite d'interface
             ENDDO 
          ENDDO
       ENDIF
-C Complement de la matrice de rigidite d'interface pour secnds remote     
+C Complement to the interface stiffness matrix for remote seconds
       DO I=1,NDDL_SL
         II=IDDL_SL(I)
          DO J=IAD_SS(I),IAD_SS(I+1)-1

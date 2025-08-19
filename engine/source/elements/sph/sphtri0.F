@@ -167,7 +167,7 @@ C   => 95% of the population for normal distribution
         BMINMA(11)=MAX(MY-2*DY,BMINMA(5))
         BMINMA(12)=MAX(MZ-2*DZ,BMINMA(6))
    
-C   Test cas particulier 2D
+C   2D special case test
         IF(BMINMA(10)==BMINMA(7))THEN
           BMINMA(10)=BMINMA(4)
           BMINMA(7)=BMINMA(1)
@@ -185,7 +185,7 @@ C   Test cas particulier 2D
 
       IF(NSPMD>1) THEN
 C
-C     Boite   MIN / MAX en SPMD
+C     Min / max box in SPMD
 C
         IF(ITASK==0) THEN
           LOC_PROC = ISPMD+1
@@ -207,7 +207,7 @@ C
            CALL STOPTIME(TIMERS,95)
          END IF
          CALL STARTIME(TIMERS,91)
-C Recuperation des cellules SPH remotes NSPHR stockees dans XSPHR
+C Recovery of remote SPH cells NSPHR stored in XSPHR
 C 
          CALL SPMD_SPHVOX(KXSP ,SPBUF,WSP2SORT,BMINMA,X)
          CALL SPMD_ALL_DMAX(DMAX,1)

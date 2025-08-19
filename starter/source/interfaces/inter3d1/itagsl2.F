@@ -84,7 +84,7 @@ C=======================================================================
       TAGNOS(1:NUMNOD) = 0
       IKINE1(1:3*NUMNOD) = 0
 C
-C     Tag des Secnds
+C     Tagging of secondary nodes
 C
       DO N=1,NINTER
         NTY  = IPARI(7,N)
@@ -108,7 +108,7 @@ C--         Check of incompatibility with other spt27 or spt28 t2 interfaces - m
         ENDIF
       ENDDO
 C
-C    Tag des noeuds de section (section = IMPDISP dans certains cas)
+C    Tagging section nodes (section = IMPDISP in some cases)
 C
      
       IF(NSECT > 0) THEN
@@ -127,7 +127,7 @@ C
         ENDDO
       ENDIF
 C
-C     Tag des mains pour TYPE2 symetrisees
+C     Tagging main nodes for symmetrized TYPE2
 C
       DO N=1,NINTER
         NTY = IPARI(7,N)

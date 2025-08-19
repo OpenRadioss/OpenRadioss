@@ -129,7 +129,7 @@ C
       SS= MIN( ONE,SS)
 C
       IF(NTY==5)THEN
-C rajout test sur stifness cote secnd
+C Add test on Stiffness Second side
        IF (STFN(II)<ZERO) THEN
          STIF = ZERO
        ELSE
@@ -344,7 +344,7 @@ C
           ISKY(NISKYL+3) = I
          ENDIF
         ELSE
-C deja traite plus haut
+C already treated higher
          FSKYI(NISKYL+1,2)= FSKYI(NISKYL+1,2)+FYI*H(1)
          FSKYI(NISKYL+1,3)= FSKYI(NISKYL+1,3)+FZI*H(1)
 C

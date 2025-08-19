@@ -191,11 +191,11 @@ C-----------------------------------------------
      . VDX(MVSIZ),VDY(MVSIZ),VDZ(MVSIZ),SSP_EQ(MVSIZ),
      . AIRE(MVSIZ),CONDE(MVSIZ),CONDEG(MVSIZ,NPE),AMU(MVSIZ),DIVDE(MVSIZ)
 
-      ! Variables utilisees en argument par les materiaux.
+      ! variables used as arguments by materials
       my_real
      .   STI(MVSIZ), WXX(MVSIZ) , WYY(MVSIZ) , WZZ(MVSIZ)
 
-      ! Variables utilisees en argument par les materiaux si SPH uniquement.
+      ! Variables used in argument by materials if SPH only.
       my_real
      .   MUVOID(MVSIZ)
 
@@ -206,7 +206,7 @@ C-----------------------------------------------
      . TEMPEL(MVSIZ),DIE(MVSIZ),THEM(MVSIZ,NPE)
       my_real, dimension(mvsiz) :: fheat
      
-      ! Variables utilisees dans les routines solides uniquement (en arguments).
+      ! variables used only in solid routines (as arguments)
       INTEGER NC(MVSIZ,NPE)
       my_real
      .  OFF(MVSIZ) , RHOO(MVSIZ),NI(NPE,NIPMAX),
@@ -283,7 +283,7 @@ c------------------------------------------------------------
      9 0.613371432700590D0,0.836031107326636D0,0.968160239507626D0/
 C
 c------------------------------------------------------------
-C     Variables utilisees en argument par les materiaux.
+C     variables used as arguments by materials
       DATA IPERM1/0,0,0,0,0,0,0,0,1,2,3,4,1,2,3,4,5,6,7,8/
       DATA IPERM2/0,0,0,0,0,0,0,0,2,3,4,1,5,6,7,8,6,7,8,5/
 C-----------------------------------------------
@@ -538,7 +538,7 @@ C
 
       END IF !( NN_DEL> 0) THEN
 C--------------------------
-C     BILANS PAR MATERIAU
+C     balances by material
 C--------------------------
       IFLAG=MOD(NCYCLE,NCPRI)
       IF (IOUTPRT>0)THEN

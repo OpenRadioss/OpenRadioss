@@ -72,9 +72,9 @@ C
      .           .0771604938272, .1234567901234,
      .           .0771604938272/
 C-------------------------------------------------------------
-C DISTANCE A LA SOURCE
+C DISTANCE TO THE SOURCE
       R2=(XP-XS)**2+(YP-YS)**2+(ZP-ZS)**2
-C NOMBRE DE POINTS DE GAUSS
+C NUMBER OF GAUSS POINTS
       IF (R2>HUNDRED*D2) THEN
          NPG=1
          IAD=1
@@ -164,9 +164,9 @@ C
      .           .0771604938272, .1234567901234,
      .           .0771604938272/
 C-------------------------------------------------------------
-C DISTANCE A LA SOURCE
+C DISTANCE TO THE SOURCE
       R2=(XP-XS)**2+(YP-YS)**2+(ZP-ZS)**2
-C NOMBRE DE POINTS DE GAUSS
+C NUMBER OF GAUSS POINTS
       IF (R2>HUNDRED*D2) THEN
          NPG=1
          IAD=1

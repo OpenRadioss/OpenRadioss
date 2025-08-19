@@ -112,7 +112,7 @@ c       END IF
 C     Define local stiffness 
       CALL RUSER32MAT3(KX, JFT, JLT, GBUF%VAR, NUVAR)
 C-------------------------
-C     MATRICE de RIGIDITE
+C     STIFFNESS MATRIX
 C-------------------------
       CALL R4SUMG3(JFT    ,JLT    ,AL      ,KX      ,EX     ,
      1             EY     ,EZ     ,KE11    ,KE12    ,KE22   )

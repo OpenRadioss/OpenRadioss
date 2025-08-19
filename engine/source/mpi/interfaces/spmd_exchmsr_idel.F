@@ -197,7 +197,7 @@ C
                 IF(N4/=0) THEN
                  DO J=ADDCNEL(N1),ADDCNEL(N1+1)-1
                   II = CNEL(J)
-                  IF(TAGEL(II)>0) THEN    !    elt actif trouve
+                  IF(TAGEL(II)>0) THEN    !    ELT Active finds
                     ITAGL(N1) = 0
                     ITAGL(N2) = 0
                     ITAGL(N3) = 0
@@ -306,7 +306,7 @@ C
               IF(N2/=0) THEN
                DO J=ADDCNEL(N1),ADDCNEL(N1+1)-1
                 II = CNEL(J)
-                IF(TAGEL(II)>0) THEN    !    elt actif trouve
+                IF(TAGEL(II)>0) THEN    !    ELT Active finds
                  ITAGL(N1) = 0
                  ITAGL(N2) = 0
                  IF(II<=OFC) THEN ! solide actif
@@ -332,19 +332,19 @@ C
                    IX = IXT(K,II)
                    ITAGL(IX) = 1
                   ENDDO
-                 ELSEIF(II>OFP.AND.II<=OFR)THEN ! poutre actif
+                 ELSEIF(II>OFP.AND.II<=OFR)THEN ! active beam
                   II = II - OFP
                   DO K=2,3
                    IX = IXP(K,II)
                    ITAGL(IX) = 1
                   ENDDO
-                 ELSEIF(II>OFR.AND.II<=OFTG)THEN ! ressort actif
+                 ELSEIF(II>OFR.AND.II<=OFTG)THEN ! active
                   II = II - OFR
                   DO K=2,3
                    IX = IXR(K,II)
                    ITAGL(IX) = 1
                   ENDDO
-                  IF(NINT(GEO(12,IXR(1,II)))==12) THEN ! ressort actif
+                  IF(NINT(GEO(12,IXR(1,II)))==12) THEN ! active
                    IX = IXR(4,II)
                    ITAGL(IX) = 1
                   ENDIF
@@ -383,7 +383,7 @@ C
         ENDIF
       ENDDO
 C
-C Test reception envoi BUFS
+C Test Reception Shipping Buds
 C
       DO I = 1, NSPMD
         SIZ = (IAD_ELEM(1,I+1)-IAD_ELEM(1,I))
@@ -392,7 +392,7 @@ C
         ENDIF
       ENDDO
 C
-C Reception BUFR dans BUFS2
+C Reception BUFR in BUFS2
 C
       ALLOCATE(BUFS2(LINDEX))
       IF(LINDEX>0) THEN
@@ -415,7 +415,7 @@ C
       DEALLOCATE(BUFS2)
 
 C
-C Test reception envoi BUFR
+C Test Reception Bufr
 C
       DO I = 1, NSPMD
         IF(IRECV(I)>0) THEN

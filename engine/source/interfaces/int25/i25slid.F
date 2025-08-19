@@ -70,7 +70,7 @@ C
         END IF
       END DO
 C
-C      NADD(1:NADMSR+1), KADD <=> liste sky line des noeuds secnd concerns / tous les sommets frontires
+C      Nadd (1: Nadmsr+1), Kadd <=> Sky Line list of the send nodes concerns / All the Sommets Frontiers
 C------
 C
       DO N=1,NSN
@@ -190,7 +190,7 @@ C
 C
         IF(N <= NSN)THEN
 C
-C          pas de glisst !
+C          no sliding!
           IF(IRTLM(2,N) > 0) CYCLE
 C
           IF(IRECT(3,L)/=IRECT(4,L))THEN
@@ -200,7 +200,7 @@ C
             IT=-IRTLM(2,N)/5
             IF(FARM(IT,J)==2)THEN
 C
-C              quitte le contact
+C              leaves the contact
               DO JT=1,4
                 IF(FARM(JT,J)==2)THEN ! Hors cone vs normales cote no JT & (FAR/=0 .OR. BBB <= ZERO)
                   ITAG(ITRIA(1,JT))=1
@@ -249,14 +249,14 @@ C
 C
               IF( FARM(2,J) == 2 )THEN
 C
-C                leave side 23
+C                Leave Side 23
                 ISLIDE(2,N)=I2
                 ISLIDE(3,N)=I3
               END IF
 C
               IF( FARM(3,J) == 2 )THEN
 C
-C                leave side 31
+C                Leave Side 31
                 ISLIDE(3,N)=I3
                 ISLIDE(1,N)=I1
               END IF
@@ -292,7 +292,7 @@ C
 
             IF(FARM(IT,J)==2)THEN
 C
-C             leave contact 
+C             Leave Contact 
               DO JT=1,4
                 IF(FARM(JT,J)==2)THEN 
                   ITAG(ITRIA(1,JT))=1
@@ -333,21 +333,21 @@ C
 
               IF( FARM(1,J) == 2 )THEN
 C
-C                leave side 12
+C                Leave Side 12
                 ISLIDE_FI(NIN)%P(1,N)=I1
                 ISLIDE_FI(NIN)%P(2,N)=I2
               END IF
 C
               IF( FARM(2,J) == 2 )THEN
 C
-C                leave side 23
+C                Leave Side 23
                 ISLIDE_FI(NIN)%P(2,N)=I2
                 ISLIDE_FI(NIN)%P(3,N)=I3
               END IF
 C
               IF( FARM(3,J) == 2 )THEN
 C
-C                leave side 31
+C                Leave Side 31
                 ISLIDE_FI(NIN)%P(3,N)=I3
                 ISLIDE_FI(NIN)%P(1,N)=I1
               END IF
@@ -651,7 +651,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, K, L, N, IKEEP
 C--------------------------------------------------------
-C      Ne garder que les couples candidats rellement impacts
+C      keep only candidate pairs that are actually impacted
 C--------------------------------------------------------
       DO I=1,I_STOK
         J=INDEX(I)
@@ -668,7 +668,7 @@ c     .                                mseglo(l),PENM(1,J)+PENM(2,J)+PENM(3,J)+P
 c              print *,'keepf natif',itab(nsv(n)),mseglo(l),PENM(1,J)+PENM(2,J)+PENM(3,J)+PENM(4,J)
             ELSE
 C
-C             attention si ici <=> pb parith/on
+C             here = pb parith/on
               print *,'i25keepf native - internal problem',itab(nsv(n)),irtlm(1,n),ispmd+1,time_s(1,n),
      .               PENM(1,J),PENM(2,J),PENM(3,J),PENM(4,J)
               IRTLM(1,N)=0
@@ -686,7 +686,7 @@ c     .                                mseglo(l),PENM(1,J)+PENM(2,J)+PENM(3,J)+P
               IKEEP=1
             ELSE
 C
-C             attention si ici <=> pb parith/on
+C             here <=> pb parith/on
               print *,'i25keepf remote - internal problem',itafi(nin)%p(n-nsn),irtlm_fi(nin)%p(1,n-nsn),
      .                             ispmd+1,time_sfi(nin)%p(2*(n-nsn-1)+1),
      .                PENM(1,J)+PENM(2,J)+PENM(3,J)+PENM(4,J)
@@ -768,7 +768,7 @@ C
             DO J=IAD_FRNOR(NI25,P),IAD_FRNOR(NI25,P+1)-1
               NOR       = FR_NOR(J)
 C
-C             NADD(1:NADMSR+1), KADD <=> liste sky line des noeuds secnd concerns / tous les sommets frontires
+C             Nadd (1: Nadmsr+1), Kadd <=> Sky Line list of the send nodes concerns / All the Sommets Frontiers
               DO N=NADD(NOR)+1, NADD(NOR+1)
                 I=KADD(N)
                 IF(TAGSLD(I) /= P)THEN
@@ -910,7 +910,7 @@ C------
             DO J=IAD_FRNOR(NI25,P),IAD_FRNOR(NI25,P+1)-1
               NOR       = FR_NOR(J)
 C
-C             NADD(1:NADMSR+1), KADD <=> liste sky line des noeuds secnd concerns / tous les sommets frontires
+C             Nadd (1: Nadmsr+1), Kadd <=> Sky Line list of the send nodes concerns / All the Sommets Frontiers
               DO N=NADD(NOR)+1, NADD(NOR+1)
                 I=KADD(N)
                 IF(TAGSLD(I)==0)THEN
@@ -926,7 +926,7 @@ c                else
 c                  if(itafi(nin)%p(i-nsn)==31935)print *,'index rem',ispmd+1,p,iloc(i)
 c                end if
 C
-C               entree dans IAD_FRNOR(NI25,P:P+1)
+C               ENTER IN IAD_FRNOR (NI25, P: P+1)
                 FR_SLIDE(TAGSLD(I),ILOC(I))=J-IAD_FRNOR(NI25,P) + 1
               END DO
             END DO
@@ -1014,7 +1014,7 @@ C
 C
             NSEND = SIZBUFS(P)
 C
-C             Pointeurs sur la zone vs cette interface et ce processeur
+C             pointers to the zone vs this interface and this processor
             LR = 0
             LI = 0
 C
@@ -1322,7 +1322,7 @@ C
               ISHIFT = ISHIFT + 5
 
               IF (ILEV==2) THEN
-C             Voir avec
+C             see with
                 LI = 0
 C include      "vectorize.inc"
                 DO J = 1, NSEND

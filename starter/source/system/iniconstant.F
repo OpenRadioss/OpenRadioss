@@ -29,8 +29,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C      
 #include "implicit_f.inc"   
 c-------------------------------------------------------------  
-c++++ les constantes suivantes ne sont pas dans le common
-c     mais peuvent y etre ajoutees si necessaire
+c++++ The following constants are not in the Common
+c     but can be added if necessary
 c-------------------------------------------------------------  
 C--------------------------------------
 C      Entiers
@@ -495,12 +495,12 @@ C--------------------------------------
        ZEP1381966 = ZEP13 + EIGHTEM3 + EM04 + NINEEM5 + SIXEM6 + SIX*EM07  
        ZEP5854102 = ZEP5 + ZEP08 + FIVEEM3 + FOUREM4 + EM05 + TWO*EM07      
 C--------------------------------------
-C       Constantes physiques
+C       Physical constants
 C--------------------------------------
        R_IGC     = 8.314472
        STEFBOLTZ = 5.6704 / EP08
 C--------------------------------------
-C       Constantes mathematiques
+C       Constants mathematics
 C--------------------------------------
        SQR2    = SQRT(TWO)
        SQR3    = SQRT(THREE)

@@ -141,7 +141,7 @@ C
         DTX(I) = DELTAX(I) / SSP_EQ(I)      
       ENDDO
 C
-      ! KDTSMSTR==1 en version 5, par defaut.
+      ! Kdtsmstr == 1 in version 5, by default.
       IF(KDTSMSTR==1.AND.ISMSTR==1.OR.(ISMSTR==2.AND.IDTMIN(1)==3))THEN
         DO 50 I=1,NEL
           IF(OFF(I)==ZERO.OR.OFFG(I)<ZERO) GO TO 50
@@ -190,7 +190,7 @@ C         dt2 replaced with dt2t
             TRHO = UVAR(I,1) * TIDT
             TAIRE = AIRE(I) * TIDT
           ENDIF
-C         dt2 remplace par dt2t
+C         dt2 replaced by dt2t
   60    CONTINUE
         IF(ALE_OR_EULER==0)THEN
           DO I=1,NEL
@@ -282,7 +282,7 @@ C
       IF(NODADT==0 .OR. ALE_OR_EULER==1)THEN
        DO 80 I=1,NEL
         IF(DTX(I)>DT2T.OR.OFF(I)<=ZERO.OR.OFFG(I)<=ZERO) GO TO 80 
-C nelts et itypts remplaces par neltst et itypst
+C nelts and itypts replaced by neltst and itypst
         DT2T    = DTX(I)
         NELTST =NGL(I)
         ITYPTST=ITY

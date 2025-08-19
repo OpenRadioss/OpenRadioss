@@ -229,11 +229,11 @@ c
       funct_parameter(5) = r3r
       funct_parameter(6) = cvr
       ! funct_parameter(7) = tmp output
-      ! funct_parameter(8) = dedvr output
+      ! funct_parameter (8) = dedvr output
       ! funct_parameter(9) = preac output
       ! funct_parameter(10) = bthr ! output
-      ! funct_parameter(11) = dpdtr! output
-      ! funct_parameter(12) = enr! output
+      ! FUNCT_PARAMER (11) = DPDTR!output
+      ! Funct_parameter (12) = ENR!output
 
       funct_parameter(13) = ap
       funct_parameter(14) = bp
@@ -293,7 +293,7 @@ c  hydrodynamic state (pass 2)
      .           dpdmu,dpde,ftol,enq,
      .           tmp,heat,vol_rel ,fc,cv,dedv,pres, beta,funct_parameter)
 c
-c  dF/dt (F function)
+c  DF/DT (F Function)
         !ORIGINAL 2-TERM-MODEL
         if (i_reac == 1) CALL BURN_FRACTION_IREAC1(I_,B_,X_,G1,D_,Y_,cappa,artvisc,dt,pres,etar,fc,cburn,oldfc)
         !EXTENDED 3-TERM-MODEL
@@ -515,7 +515,7 @@ c  T,v,fc known : find beta such as Pr=Pp  (hypothesis : equilibrium between two
 c  Iterative method : iterate on b value until delta = Pp-Pr < eps
 c
 c  input : vol_rel, etar, etap, fc, tmp
-c  output : etar, etap, pres, dedv,cv,heat,dpde,dpdmu
+c  Output: Etar, Etap, Pres, Dedv, CV, Heat, DPDE, DPDMU
 c  local : beta
 c
 C-----------------------------------------------
@@ -580,11 +580,11 @@ c
       funct_parameter(24) = etac
       funct_parameter(25) = fc
 
-      funct_parameter(8) = zero !dedvr output
+      funct_parameter(8) = zero !Dedvr Output
       funct_parameter(9) = zero !preac output
       funct_parameter(10) = zero !bthr ! output
-      funct_parameter(11) = zero !dpdtr! output
-      funct_parameter(12) = zero !enr! output
+      funct_parameter(11) = zero !DPDTR!output
+      funct_parameter(12) = zero !ENR!output
 
       funct_parameter(19) = zero !dedvp
       funct_parameter(20) = zero !pprod
@@ -633,7 +633,7 @@ c    detrdf = d(etar)/d(fc) at equilibrium
       detrdf = -(etac+etar*dbdf) / beta
       detpdf = (etac+etap*dbdf) / (ONE-beta)
 c
-c   output derivatives
+c   Derivatives output
 c    dedv = de/dv (for constant T & fc values)
       dedv = -etac**2 * (fc1*dedr*detar+fc*dedp*detap)
 c    cv = de/dT(for constant V & fc values)

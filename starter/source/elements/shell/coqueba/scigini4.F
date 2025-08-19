@@ -44,7 +44,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      7           E1X    ,E2X    ,E3X   ,E1Y    ,E2Y  ,E3Y,
      8           E1Z    ,E2Z   ,E3Z   ,DIR_A   ,DIR_B  ,
      9           POSLY  )
-!     points Gauss a corriger !!!!!!
+!     Gauss points to correct !!!!!!
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -806,7 +806,7 @@ C-----------------------------------------------
       INTEGER I
       my_real 
      .       TXX,TYY,TZZ,TXY,TYZ,TZX,UXX,UYY,UZZ,UXY,UYZ,UZX,A,B,C
-C---------out EPS : exx,eyy,2exy,2eyz,2ezx,0
+C-------- Out EPS: Exx, Eyy, 2exy, 2eyz, 2ezx, 0
              TXX = EPS(1)
              TYY = EPS(2)
              TZZ = EPS(3)
@@ -857,7 +857,7 @@ C-----------------------------------------------
       INTEGER I
       my_real 
      .       TXX,TYY,TZZ,TXY,TYZ,TZX,UXX,UYY,UZZ,UXY,UYZ,UZX,A,B,C
-C---------out EPS : exx,eyy,exy,eyz,ezx,0
+C--------- Out EPS: Exx, Eyy, Exy, Eyz, Ezx, 0
              TXX = SIG(1)
              TYY = SIG(2)
              TZZ = SIG(3)

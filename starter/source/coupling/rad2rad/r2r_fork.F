@@ -105,7 +105,7 @@ C----------------------------------------------------------------------
         IF (IPID==0) CALL OMP_SET_NUM_THREADS(NTHREAD_R2R)
 #endif         
 C----------------------------------------------------------------------         
-C-------------------INTEL -> LINUX/LINUXIA64/MACOSX--------------------
+C------------------- Intel-> Linux/Linux IA64/MacOS --------------------------------------------------------------
 C----------------------------------------------------------------------         
 #else
 #if defined(COMP_GFORTRAN) || defined(COMP_ARMFLANG)|| defined(COMP_LLVM) || defined(COMP_AOCC) || defined(COMP_NVFORTRAN)
@@ -137,7 +137,7 @@ C----------------------------------------------------------------------
 #elif CPP_mach == CPP_linux964 || CPP_mach == CPP_sun25 || CPP_mach == CPP_pwr4
             IERROR = WAIT(ISTAT)
 C----------------------------------------------------------------------     
-C-------------------INTEL -> LINUX/LINUXIA64/MACOSX--------------------
+C------------------- Intel-> Linux/Linux IA64/MacOS --------------------------------------------------------------
 C----------------------------------------------------------------------                     
 #else
 #if defined(COMP_GFORTRAN) ||  defined(COMP_ARMFLANG) || defined(COMP_LLVM) ||  defined(COMP_AOCC) || defined(COMP_NVFORTRAN)

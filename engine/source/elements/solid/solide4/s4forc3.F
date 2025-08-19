@@ -221,18 +221,18 @@ C-----------------------------------------------
      .   YD1(MVSIZ), YD2(MVSIZ), YD3(MVSIZ), YD4(MVSIZ),
      .   ZD1(MVSIZ), ZD2(MVSIZ), ZD3(MVSIZ), ZD4(MVSIZ),VOLDP(MVSIZ)
           
-      ! Variables utilisees en argument par les materiaux.
+      ! variables used as arguments by materials
       my_real
      .   STI(MVSIZ), GAMA(MVSIZ,6),
      .   WXX(MVSIZ) , WYY(MVSIZ) , WZZ(MVSIZ),AIRE(MVSIZ)
-      ! Variables utilisees en argument par les materiaux (SPH seulement).
+      ! variables used as arguments by materials (sph only)
       my_real
      . MUVOID(MVSIZ)
 
       ! Variables void MMAIN 
       my_real
      . SIGY(MVSIZ),ET(MVSIZ),R3_FREE(MVSIZ),R4_FREE(MVSIZ)
-      ! Variables utilisees dans les routines solides uniquement(en arguments).
+      ! variables used only in solid routines (as arguments)
       INTEGER NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ),MAT(MVSIZ)
       my_real
      .  OFF(MVSIZ) , RHOO(MVSIZ),OFFG0(MVSIZ) ,
@@ -588,7 +588,7 @@ c-------------------------------------------
 C------------------------------------------------------
 C     CALCUL DES CONTRAINTES SUIVANT LOIS CONSTITUTIVES
 C------------------------------------------------------
-Cpour le fluide en SPMD : BUFVOIS LOI11
+Cfor fluid in spmd: bufvois loi11
       IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STARTIME(TIMERS,35)
 
       ILAY = 1                                                
@@ -671,7 +671,7 @@ C-----------  return to global system
      4   JCVT)
       ENDIF
 C--------------------------
-C     BILANS PAR MATERIAU
+C     balances by material
 C--------------------------
       IFLAG=MOD(NCYCLE,NCPRI)
       IF(IOUTPRT>0)THEN
@@ -714,7 +714,7 @@ C-----------------------------
         END IF
       END IF
 C--------------------------
-C     UPDATE DES MASSES
+C     update of masses
 C     TRANSPORT FORCES
 C----------------------------
       IF (JALE+JEUL > 0 .AND. ALE%GLOBAL%INCOMP == 0)THEN

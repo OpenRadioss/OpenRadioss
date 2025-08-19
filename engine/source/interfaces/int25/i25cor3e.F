@@ -145,7 +145,7 @@ CC            print *,'i25cor3e - internal problem',EM,M1(I),M2(I),
 CC     .                          IRECT(JAM(I),IAM(I)),IRECT(MOD(JAM(I),4)+1,IAM(I))
 CC          END IF
 CC        ELSE
-CCC Faire le cas frontiere
+CCC Make the boundary case
 CC          IM(I) = 1
 CC        ENDIF
 CC         ASSERT(IM(I) == LEDGE(10,EM))
@@ -193,7 +193,7 @@ CC              print *,'i25cor3e - internal problem',ES,N1(I),N2(I),
 CC     .                            IRECT(JAS(I),IAS(I)),IRECT(MOD(JAS(I),4)+1,IAS(I))
 CC            END IF
 CC          ELSE
-CCC faire le SPMD
+Cdo the spmd
 CC            IS(I) = 1
 CC          ENDIF
 CC          ASSERT(IS(I) == LEDGE(10,ES))

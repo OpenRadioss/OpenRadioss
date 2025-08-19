@@ -105,7 +105,7 @@ c
       TYPE(BUF_FAIL_)   ,POINTER :: FBUF
       TYPE(L_BUFEL_)    ,POINTER :: LBUF     
 C======================================================================|
-C     EPS POINT EQUIVALENT (au sens energetique)
+C     EPS Equivalent (in the energy sense)
 C-----------------------------------------------------------
 C     interface
 C----------------------------------------------------------- 
@@ -147,7 +147,7 @@ c
         DO K=1,NINDX
           I=INDX(K)
 C
-C Actuallement on utilise qu'une interface elastique isotrope. (Law01)
+C Currently we use that an elastic interface isotropic.(Law 01)
 C  
 C         Only with  law59 (K33, K13, K23)                              
 c

@@ -148,7 +148,7 @@ C
         ELSE                                                            
         ENDIF                                                           
 C-----------------------------------------------                        
-C       FIN DE BOUCLE SUR LES OFFSET                                    
+C       FIN DE BOUCLE SUR LES OFFSET
 C-----------------------------------------------                        
        END DO                                                           
  490  CONTINUE                                                          

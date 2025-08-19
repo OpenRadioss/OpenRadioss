@@ -68,7 +68,7 @@ C-----------------------------------------------
       !!! and stability purposes
       DO I = LFT, LLT
          II = I + NFT
-         !!! Element centroid
+         !!!centroid element
          YK = ALEMUSCL_Buffer%ELCENTER(II,2) ; ZK = ALEMUSCL_Buffer%ELCENTER(II,3)
          reduc_factor = EP30
          NNUM = 0

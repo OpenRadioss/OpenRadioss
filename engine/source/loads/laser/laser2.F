@@ -126,7 +126,7 @@ C------------------------------------------------------------
         Z4 = X(3,IXQ(5,II))
         ZZ = HALF * (ABS(Z1 - Z3) + ABS(Z2 - Z4))
 C-------------------------------------------------------------
-C ABSORPTION DE LA LUMIERE LASER DANS LE PLASMA  BREMSTRALUNG  
+C absorption of laser light in the plasma  bremsstrahlung
 C-------------------------------------------------------------
         RHO      = GBUF%RHO(I)
         VOL      = GBUF%VOL(I)
@@ -156,7 +156,7 @@ C
   200  CONTINUE
 C
 C-------------------------------------------------------------
-C ABSORPTION DE LA LUMIERE LASER DANS LA CIBLE => VAPORISATION
+C absorption of laser light in the target => vaporization
 C-------------------------------------------------------------
 C
        IF(IAFUNC>0)THEN
@@ -173,7 +173,7 @@ C
        GBUF%EINT(I) = GBUF%EINT(I) + DE
        WFEXT   = WFEXT + DE * VOL
 C-------------------------
-C VITESSE DE VAPORISATION  
+C vaporization velocity
 C-------------------------
        IL       = NL+1
        NG       = LAS(1,IL)
@@ -216,7 +216,7 @@ c
        WA(3,N1) = WA(3,N1) + VM
        WA(3,N2) = WA(3,N2) + VM
 C-------------------------
-C PRESSION DE CIBLE  
+C target pressure
 C-------------------------
 c       NB2 = NB1+NEL
 c       M2  = NB2+6*I-6
@@ -232,12 +232,12 @@ c       SY  = -P + DP * HALF
 c       SZ  = -P - DP 
 C     
 C-------------------------
-C REFLEXION DU RAYON LASER  
+C reflection of the laser beam
 C-------------------------
 C
       DO IL=NL,1,-1
 C-------------------------------------------------------------
-C ABSORPTION DE LA LUMIERE LASER DANS LE PLASMA  BREMSTRALUNG  
+C absorption of laser light in the plasma  bremsstrahlung
 C-------------------------------------------------------------
         NG           = LAS(1,IL)
         I            = LAS(2,IL)

@@ -125,7 +125,7 @@ C
       DO I=1,NSPMD
 C--------------------------------------------------------------------
 C envoi a N+I mod P
-C   test si msg necessaire a envoyer a completer par test interface
+C   test if msg requires to send to complete by test interface
        IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)>0)THEN
           MSGTYP = MSGOFF 
           SIZ = IAD_SEND(I+1)-IAD_SEND(I)
@@ -140,7 +140,7 @@ C
 C decompactage
 C
       DO I = 1, NSPMD
-C   test si msg necessaire a envoyer a completer par test interface
+C   test if msg requires to send to complete by test interface
         NB_NOD = IAD_ELEM(1,I+1)-IAD_ELEM(1,I)
         IF(NB_NOD>0)THEN
           CALL SPMD_WAIT(REQ_R(I),STATUS)
@@ -329,7 +329,7 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
       LOC_PROC = ISPMD+1
 C
-C Envoi flag cellules actives
+C FLAG sending active cells
 C      
       IDEB = 1
       DO P = 1, NSPMD
@@ -416,7 +416,7 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
       LOC_PROC = ISPMD+1
 C
-C Envoi X, H sur cellules actives
+C Shipping X, H on active cells
 C
       IDEB = 0
       DO P = 1, NSPMD
@@ -525,7 +525,7 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
       LOC_PROC = ISPMD+1
 C
-C Envoi WACOMP, WA, RHO sur cellules actives
+C WACCOP, WA, RHO sending on active cells
 C
       IF (SPH_IORD1 == 0) THEN
         IDEB = 0
@@ -754,7 +754,7 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
       LOC_PROC = ISPMD+1
 C
-C Envoi STAB sur cellules actives
+C STAB sending on active cells
 C
       IDEB = 0
       DO P = 1, NSPMD
@@ -859,7 +859,7 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
       LOC_PROC = ISPMD+1
 C
-C Envoi A, H sur cellules actives
+C Send A, H on active cells
 C
       IDEB = 0
       DO P = 1, NSPMD
@@ -972,7 +972,7 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
       LOC_PROC = ISPMD+1
 C
-C Envoi A, H sur cellules actives
+C Send A, H on active cells
 C
       IDEB = 0
       DO P = 1, NSPMD
@@ -1088,7 +1088,7 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
       LOC_PROC = ISPMD+1
 C
-C Envoi H sur cellules actives
+C Send H to active cells
 C
       IDEB = 0
       DO P = 1, NSPMD
@@ -1143,7 +1143,7 @@ C
 !||    spmd_mod         ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
       SUBROUTINE SPMD_ALL_DMAX(V,LEN)
-C max tableau V de taille LEN de type my_real
+C max array V of size LEN of type my_real
       USE SPMD_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1233,7 +1233,7 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
       LOC_PROC = ISPMD+1
 C
-C Envoi WACOMP, WA, RHO sur cellules actives
+C WACCOP, WA, RHO sending on active cells
 C
       IDEB = 0
       DO P = 1, NSPMD
@@ -1337,7 +1337,7 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
       LOC_PROC = ISPMD+1
 C
-C Envoi WACOMP, WA, RHO sur cellules actives
+C WACCOP, WA, RHO sending on active cells
 C
       IF (SPH_IORD1==0) THEN
         IDEB = 0
@@ -1539,7 +1539,7 @@ C-----------------------------------------------
 C
 c need to get all remote values of WA and "IMPOSE" value
 
-C Envoi WA sur cellules actives
+C Wa sending on active cells
 C
       IDEB = 0
       DO P = 1, NSPMD
@@ -2019,7 +2019,7 @@ c use in sponfv
 
       LOC_PROC = ISPMD+1
       
-c construction liste IPPV remotes
+c Construction IPPV Remotes List
       IPPVR=0
       DO NS=1,NSPHACT
        N=WASPACT(NS)
@@ -2031,7 +2031,7 @@ c construction liste IPPV remotes
           YI=X(2,INOD)
           ZI=X(3,INOD)
 C-------
-C         plus proche voisin en amont de l'outlet => IPPV.
+C         closer neighbor upstream of the outlet => IPPV.
           IPPV=0
           DMIN=1.E+20
           DO  K=1,KXSP(4,N)  
@@ -2072,25 +2072,25 @@ C         plus proche voisin en amont de l'outlet => IPPV.
                ENDIF
              ENDIF
            ENDIF
-          ENDDO !enddo boucle voisin
+          ENDDO !Enddo neighboring loop
           
           IF(IPPV<0)THEN
             !Indice IPPV negatif (global)
             IPPVR=IPPVR+1
             TMP_IPPV(1,IPPVR) = -IPPV
-            ! recherche sur quel proc il est
+            ! searching on which proc it is
             NBIS = 0
             DO P=1,NSPMD
              IF(P/=LOC_PROC) THEN
               N1 = NBIS
               NBIS = NBIS+PSPHR(P)             
                IF((-IPPV)<=NBIS)THEN
-                TMP_IPPV(2,IPPVR)=P !proc sur lequel il se situe
+                TMP_IPPV(2,IPPVR)=P !proc on which it is
                 TMP_IPPV(3,IPPVR)=(-IPPV)-N1 !Indice IPPV (local)
                 MYPSPHS(P)=MYPSPHS(P)+1
           GOTO 160
                 ELSEIF(P==NSPMD)THEN
-                   TMP_IPPV(2,IPPVR)=P !proc sur lequel il se situe
+                   TMP_IPPV(2,IPPVR)=P !proc on which it is
                    TMP_IPPV(3,IPPVR)=(-IPPV)-N1 !Indice IPPV (local)
                    MYPSPHS(P)=MYPSPHS(P)+1
           ENDIF
@@ -2173,13 +2173,13 @@ C
           END IF
         END DO
 C
-C Envoi  sur cellules 
+C Sending on cells
 C
         IDEB = 0
         IDEB2 = 0
 
       DO P = 1, NSPMD
-c traitement
+c treatment
         IF(MYPSPHR(P)/=0)THEN
           DO N = 1, MYPSPHR(P)
             C = REC_IPPV(IDEB2+N)
@@ -2457,8 +2457,8 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
 C=======================================================================
-C     tag des boites contenant des facettes
-C     et creation des candidats
+C     tag of the boxes containing facets
+C     and creation of candidates
 C=======================================================================
 
       ALPHA_MARGE = SQRT(ONE +SPASORT)
@@ -2484,7 +2484,7 @@ c      MARGE = TZINF-GAP
 c a revoir !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
          AAA = SPBUF(1,J)* ALPHA_MARGE
 
-c        indice des voxels occupes par la facette
+c        index of the voxels occupied by the facet
 
          IX1=INT(NBX*(X(1,NN)-AAA-XMINB)/(XMAXB-XMINB))
          IY1=INT(NBY*(X(2,NN)-AAA-YMINB)/(YMAXB-YMINB))

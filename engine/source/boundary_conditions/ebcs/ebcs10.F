@@ -88,7 +88,7 @@ C-----------------------------------------------
       LOGICAL bFOUND
       TYPE(BUF_MAT_)  ,POINTER :: MBUF  
       INTEGER :: ADRESS ! adress for parit/on array
-      INTEGER :: SURF_ID ! EBCS surface identifier
+      INTEGER :: SURF_ID ! EBCS Surface Identify
 C-----------------------------------------------
       DATA ICF_2d  /1,2,2,3,3,4,4,1/
       DATA ICF_3d  /1,4,3,2,3,4,8,7,5,6,7,8,1,2,6,5,2,3,7,6,1,5,8,4/
@@ -291,7 +291,7 @@ C-----------------------------------------------
             IF(SSP /= ZERO)MACH = ABS(Vnew / SSP)
           
             IF(MACH >= ONE .AND. Vnew > ZERO)THEN
-              !vitesse sortante supersonique : etat = etat voisin
+              !outgoing supersonic velocity: State = Neighboring State
               PP          = Pvois
             ELSE
               RHOC2 = RHO*SSP*SSP 
@@ -304,7 +304,7 @@ C              PP    = Pold + (ROC*(Vnew-Vold)) !+ALPHA*(Pvois+DP0)/(ALPHA + ONE
 
             IF(SEGVAR%nbmat > 0)THEN
               !Volume Fractions update
-              IF(Vnew < ZERO)THEN     !flux rentrant, relaxation du pourcentage volumique   
+              IF(Vnew < ZERO)THEN     !Returning flow, relaxation of the volume percentage   
                 IF(MTN == 51)THEN            
                   DO ISUBMAT=1,4 
                     ! (1-beta) VF_current + BETA VF_0

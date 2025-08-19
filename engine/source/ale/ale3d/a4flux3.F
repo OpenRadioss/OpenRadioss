@@ -267,7 +267,7 @@ C-----------------------------------------------
       !     sgn  : sign of computed flux on face                 !
       !==========================================================!
       DO I=LFT,LLT
-        ! 6 fluxes on faces      
+        ! 6 flows we faces      
         FLUX(1,I)=ZERO
         FLUX(2,I)=FLUX2(I)-UPWL(2,I)*ABS(FLUX2(I))
         FLUX(3,I)=ZERO

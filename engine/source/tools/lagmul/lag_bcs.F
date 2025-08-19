@@ -64,11 +64,11 @@ C-----------------------------------------------
       my_real
      .   AA,VV,HH,R,SK1,SK2,SK3,DTM2
 C-----------------------------------------------
-C        NC : nombre de condition cinematique 
-C        IC : numero de la condition cinematique (1,NC)
+C        NC: number of cinematic condition 
+C        ic: number of the kinematic condition (1,nc)
 C        IK : 
 C        I  : numero global du noeud (1,NUMNOD)
-C        J  : direction 1,2,3,4,5,6
+C        J ': direction 1,2,3,4,5,6
 C------
 C        IADLL(NC)        : IAD = IADLL(IC)
 C        IK = IAD,IAD+1,IAD+2,...
@@ -366,10 +366,10 @@ c                print*,'RLL(',NC,') =',RLL(NC), DR(1,NN)
               ENDIF
             ENDIF
           ENDIF
-C---      Direct solution
+C--- Direct solution
          ELSE
            IF(IS==1) THEN
-C----           REPERE GLOBAL
+C----           GLOBAL REFERENCE FRAME
              IF(CT==1)THEN
                V(3,NN)=ZERO
                A(3,NN)=ZERO

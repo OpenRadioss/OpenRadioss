@@ -132,7 +132,7 @@ C HIDDEN FLAGS
 C----------------------
 C ISHEAR NEVER USED
       ISHEAR = 0
-C CVIS USED in coquez routines
+C Cvis used in shell routines
 C
       ISROT = 0  
 C
@@ -381,7 +381,7 @@ C---
       IGEO(4) = NLY                                                          
       IGEO(99) = IPOS
       ZSHIFT = ZERO
-C---  calcul epaIGEO(5)eur & position des couches
+C--- EPAIGEO (5) EUR and position of the layers
       IF (IPOS > 0)THEN
         TMIN = EP20
         TMAX =-EP20
@@ -406,7 +406,7 @@ C---  calcul epaIGEO(5)eur & position des couches
         DO N=1,NLY
           GEO(IPTHK+N)=GEO(IPTHK+N) / MAX(THICKT,EM20)
         ENDDO
-C---      calcul automatique de position des couches
+C--- automatic calculation of layer positions
         GEO(IPPOS+1) = -HALF + HALF*GEO(IPTHK+1)
         DO N=2,NLY
           GEO(IPPOS+N) = GEO(IPPOS+N-1)

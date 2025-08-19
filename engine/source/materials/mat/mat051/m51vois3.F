@@ -128,7 +128,7 @@ C-----------------------------------------------
             ML     = ITMP
           ENDIF
         ENDIF
-        IF(ML == 51 .AND. IFORM <= 1)  EXIT                             ! si materiau voisin est loi 51 Iform=1 ou 10 alors on a trouve
+        IF(ML == 51 .AND. IFORM <= 1)  EXIT                             ! If the neighboring material is law 51 iForm = 1 or 10 then we found
        ENDDO
 
        IF(ML == 51 .AND. IFORM <= 1)THEN
@@ -178,7 +178,7 @@ C-----------------------------------------------
          IF(VN(I) >= ZERO)VEL(I)=ZERO
 
         IF(IVOI <= NUMELS)THEN
-          !element du processeur
+          !processor element
             DO N=1,NGROUP
                KTY = IPARG(5,N)
                KLT = IPARG(2,N)
@@ -243,8 +243,8 @@ C-----------------------------------------------
 
         ELSE !(IVOI>NUMELS)
 
-          !cas SPMD et voisin remote : aller chercher dans BUFVOIS
-          !BUFVOIS rempli dans ALEMAIN (spmf_cfd.F : SPMD_L51VOIS)
+          !spmd case and remote neighbor: fetch from bufvois
+          !BUFVOIS filled in Alemain (SPMF_CFD.F: SPMD_L51VOIS)
 
                   IS               = IVOI-NUMELS
                   PV(0,I)          = BUFVOIS(01,IS)

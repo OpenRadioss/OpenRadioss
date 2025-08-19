@@ -309,7 +309,7 @@ C-------------------------------------------------------
                WA(JJ) = MPT  ! Integration points
             ENDIF
             JJ = JJ + 1
-            WA(JJ) = NPG  ! Gauss points
+            WA(JJ) = NPG  ! Gauss Points
             JJ = JJ + 1
             WA(JJ) = ONE  ! LARGE
 

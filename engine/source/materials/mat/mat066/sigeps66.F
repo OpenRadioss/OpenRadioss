@@ -323,7 +323,7 @@ C              ECROUISSAGE CINEMATIQUE
                YT(I) = (ONE - FISOKIN) * YT(I) + FISOKIN * Y2(I)
             ENDDO
         ENDIF
-      ELSE   ! IRATE =4 => multiples curves (tracation & compression)
+      ELSE   ! Irate = 4 => multiple curves (traction and compression)
 C----------------------------------------------------------------------
 C       compression
 C------------------------------------------------------------------------ 

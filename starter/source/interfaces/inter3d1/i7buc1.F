@@ -130,7 +130,7 @@ C-----------------------------------------------
       
 
 C     1-CALCUL TAILLE DES ZONES INFLUENCES
-C     DD EST LA LONGEUR MOYENNE ELEMENT
+C     dd is the average length of the element
       DD=ZERO
       DO 10 L=1,NRTM
 C      CONNECIVITES ELEMENT
@@ -169,15 +169,15 @@ C remove this additional test which breaks igap performance
 C in case this factor is needed, then needs to compute mean gap instead
 C     TZINF = BUMULT*DD
       MARGE = BUMULT*DD
-C calcul de TZINF en fct de la marge et non le contraire
+C calculation of tzinf based on the margin and not the opposite
       TZINF = MARGE + GAP
-C MARGE_ST : marge independante du BUMULT en input pour trouver les memes pene initiales (cas delete ou chgt coord.)
+C marge_st: margin independent of bumult in input to find the same initial penetrations (case delete or coord change)
       MARGE_ST = BMUL0*DD
-C Si IDDLEVEL = 0, alors 1er passage ici, avec la MARGE de l'ENGINE pour trouver les memes candidats
+C if iddlevel = 0, then first pass here, with the engine margin to find the same candidates
       IF(IDDLEVEL==0) MARGE_ST = MARGE
       TZINF_ST = MARGE_ST + GAP
 C      MAXBOX= ZEP9*(DD - TZINF)
-C DD + 2*TZINF : taille element augmentee de zone influence
+C DD + 2*Tzinfo: Size element increased in influence zone
       MAXBOX= HALF*(DD + 2*TZINF)
       MINBOX= HALF*MAXBOX
       MAXBOX_ST= HALF*(DD + 2*TZINF_ST)
@@ -185,7 +185,7 @@ C DD + 2*TZINF : taille element augmentee de zone influence
 C     MIS A ZERO POUR FAIRE SEARCH COMPLET CYCLE 0 ENGINE
       DIST = ZERO     
 C--------------------------------
-C     CALCUL DES BORNES DU DOMAINE
+C     calculation of the domain bounds
 C--------------------------------
 
       XMIN_M=EP30
@@ -229,12 +229,12 @@ C
       YMAX=MAX(YMAX_M+TZINF_ST,YMAX_S)
       ZMAX=MAX(ZMAX_M+TZINF_ST,ZMAX_S)
 C
-C-----2- TRI PAR BOITES DES ELEMENTS ET DES NOEUDS
+C-----2- SORTING BY BOXES OF ELEMENTS AND NODES
 C
       NB_N_B = 1
       I_MEM = 0
-C SI ON A PAS ASSEZ DE MEMOIRE POUR LES PILES ON RECOMMENCE LE TRI
-C EN INCREMENTANT LE NB_N_B (NOMBRE DE NOEUDS PAR BOITE FINIE)
+C if there is not enough memory for the stacks, we restart the sorting
+C by incrementing nb_n_b (number of nodes per finished box)
  100  CONTINUE
 C     POINTEUR  NOM                 TAILLE
 C     P1........Elt Bas Pile        NRTM
@@ -243,7 +243,7 @@ C     P21.......BPN                 NSN
 C     P22.......PN                  NSN
 C     P31.......ADDI                2000
 C
-C  POUR ONE MAILLAGE DE TOPOLOGIE CARRE LA TAILLE DE P2 PEUT ETRE ESTIMEE A:
+C  for a square topology mesh, the size of p2 can be estimated as:
 C 4n:     NUMELC + 6*SQRT(NUMELC) + 8*LOG2(NUMELC) 
 C 3n:     NUMELTG + 6*SQRT(2*NUMELTG) + 8*LOG2(NUMELTG)
 C 
@@ -252,7 +252,7 @@ C 3n:     NUMELTG + 6*SQRT(2*NUMELTG) + 12*LOG(NUMELTG)
 C 
 C NUMELC + NUMELTG + 6*SQRT(NUMELC+2*NUMELTG) + 12*LOG(NUMELC+NUMELTG)
 C 
-C  POUR ONE MAILLAGE DE TOPOLOGIE LINEAIRE LA TAILLE DE P2 PEUT ETRE ESTIMEE A:
+C  for a linear topology mesh, the size of p2 can be estimated as:
 C NUMELC + NUMELTG + (NUMELC+NUMELTG)*(1 + 1/2 + 1/4 +...) + LOG2(NUMELC+NUMELTG)
 C 3*(NUMELC+NUMELTG) + LOG2(NUMELC+NUMELTG)
 C 3*(NUMELC+NUMELTG) + 300
@@ -266,7 +266,7 @@ C      IP21= IP2+2*MAXSIZ
       IP31= IP22+NUMNOD
 C     IFIN= IP22+2000
 C
-C-----INITIALISATION DES ADRESSES ET X,Y,Z
+C-----INITIALIZATION OF ADDRESSES AND X,Y,Z
 C
 C     ADDE     ADDN     X      Y      Z
 C     1        1        XMIN   YMIN   ZMIN
@@ -291,7 +291,7 @@ C
       NB_NC = NSN
       NB_EC = NRTM
 C
-C-----COPIE DES NOS DE SEGMENTS ET DE NOEUDS DANS MWA(IP1) ET IP21
+C-----COPY OF SEGMENT AND NODE NUMBERS INTO MWA(IP1) AND IP21
 C
       DO 120 I=1,NB_EC
         MWA(IP1+I-1) = I
@@ -300,9 +300,9 @@ C
         MWA(IP21+I-1) = I
   140 CONTINUE
 C
-C-----DEBUT DE LA PHASE DE TRI 
+C-----START OF THE SORTING PHASE
 C 
-C     TANT QUE IL RESTE UNE ADRESSE A TRIER
+C     WHILE THERE IS STILL AN ADDRESS TO SORT
 C------------------
   200 CONTINUE
 C------------------
@@ -355,7 +355,7 @@ C             CALL ARRET(2)
         GO TO 100
       ENDIF
       IF(I_ADD/=0) GO TO 200
-C     FIN BOUCLE TANT QUE
+C     END OF WHILE LOOP
 C---------------------------------
       IF(J_STOK/=0)THEN
          LFT = 1
@@ -399,7 +399,7 @@ C---------------------------------
             MARGE_ST = THREE_OVER_4*MARGE_ST
             TZINF_ST = MARGE_ST + GAP
               I_MEM = 0
-C ne pas dimunuer la taille des boite
+C do not decrease the size of the boxes
 C            MINBOX= THREE_OVER_4*MINBOX
 C            MAXBOX= THREE_OVER_4*MAXBOX
             IF(MARGE_ST<EM03) THEN
@@ -430,7 +430,7 @@ C
       ENDIF!(.NOT.TYPE18)
       
 C
-C     MISE A ZERO DE TAG POUR I7PWR3
+C     ZEROING OF TAG FOR I7PWR3
 C
       DO I=1,NUMNOD+NUMFAKENODIGEO
         MWA(I)=0

@@ -95,7 +95,7 @@ C-----------------------------------------------
       DO I = LFT, LLT
         II = I + NFT
         IAD2 = ALE_CONNECT%ee_connect%iad_connect(II)
-        !!! Element centroid
+        !!!centroid element
         YK = ALEMUSCL_Buffer%ELCENTER(II,2) ; 
         ZK = ALEMUSCL_Buffer%ELCENTER(II,3)
         !!! Neighbors
@@ -149,7 +149,7 @@ C-----------------------------------------------
       ENDDO  ! I = LFT, LLT
 
 C-----------------------------------------------
-C         flux entrant par EBCS
+C         incoming flux by EBCS
 C-----------------------------------------------
       IF(NSEGFLU > 0)THEN
         DO I = LFT, LLT

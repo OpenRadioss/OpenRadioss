@@ -65,7 +65,7 @@ C
         CALL ARRET(2)
         RETURN
       ENDIF
-C lecture du fichier ...
+C reading the file ...
       NBLINE=0
       NBLINETOT=0
    10 READ(ISTDEML,'(A)',END=20,ERR=910) ERRMSGLINE

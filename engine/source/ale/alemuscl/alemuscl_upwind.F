@@ -107,7 +107,7 @@ C-----------------------------------------------
       DO I = LFT, LLT
         II = I + NFT
         IAD2 = ALE_CONNECT%ee_connect%iad_connect(II)
-        !!! Element centroid
+        !!!centroid element
         XK = ALEMUSCL_Buffer%ELCENTER(II,1) ; 
         YK = ALEMUSCL_Buffer%ELCENTER(II,2) ; 
         ZK = ALEMUSCL_Buffer%ELCENTER(II,3)

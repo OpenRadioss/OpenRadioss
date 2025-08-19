@@ -101,7 +101,7 @@ C-----------------------------------------------
       USE DRAPE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C----------------------------------------------
-C     INITIALISATION DES MASSES ET INERTIES NODALES
+C     initialization of nodal masses and inertias
 C----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -529,7 +529,7 @@ C
      .                    R1=EMS(I),R2=MST)                      
                  ENDIF                                           
              ENDIF                                               
-C correction la position de la surface neutre au CDG
+C correction of the neutral surface position at the centroid
             DO N=1,NPT
               I4 = IPPOS + N
               IF(ABS(STACK%GEO(I4 ,ISUBSTACK)) < EM15)
@@ -855,7 +855,7 @@ C
 C
       ENDIF  ! IGTYP
 C----------------------------------------------
-C     INITIALISATION DES MASSES NODALES
+C     initialization of nodal masses
 c     elt mass (parith/on spmd + adaptive meshing) 
 C----------------------------------------------
       IF(JTHE == 0 ) THEN
@@ -1631,7 +1631,7 @@ C
       END IF
       
 C----------------------------------------------
-C     INITIALISATION DES RIGIDITES NODALES POUR INTERFACES
+C     initialization of nodal rigidities for interfaces
 C----------------------------------------------
       IF (IGTYP == 52 .OR. ((IGTYP == 17 .OR. IGTYP == 51) .AND. IGMAT > 0)) THEN
            IF(I7STIFS/=0)THEN

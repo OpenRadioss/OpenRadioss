@@ -53,7 +53,7 @@ C-----------------------------------------------
       my_real,
      .  DIMENSION(:) ,POINTER :: UVAR
 C======================================================================|
-C---  Initialise Volume dans UVAR 
+C---  Initializes Volume in UVAR
       II = 2*NEL
       DO I=1,NEL
         DO IL=1,NLAY

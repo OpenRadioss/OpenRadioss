@@ -99,8 +99,8 @@ C        [L][M]-1[L]t la : HLA(NC)
 C        [L] ao - b      : B(NC)
 C        [M]-1[L]t la    : LTLA(NUMNOD)
 C
-C        NC : nombre de contact 
-C        NK : nombre de noeud pour un contact (8+1,16+1,8+8,16+16)
+C        NC : number of contacts
+C        NK: Number of node for contact (8+1.16+1.8+8.16+16)
 C
 C        IC : numero du contact (1,NC)
 C        IK : numero de noeud local a un contact (1,NK)
@@ -109,7 +109,7 @@ C
 C        IADLL(NC)        : IAD = IADLL(IC)
 C        LLL(NC*(17,51))  : I  = LLL(IAD+1,2...IADNEXT-1)
 C-----------------------------------------------
-C  evaluation de b:
+C  evaluation of b:
 C
 C         Vs = Somme(Ni Vi)
 C         Vs_ + dt As = Somme(Ni Vi_) + Somme(dt Ni Ai)
@@ -122,7 +122,7 @@ C-----------------------------------------------
 C                 b  = [L] vo+/dt   +   vout
 C-----------------------------------------------
 C-----------------------------------------------------------------------
-C     boucle sur les candidats au contact   
+C     loop over contact candidates
 C-----------------------------------------------------------------------
       NC_SAV = NC
       VIT_MIN = ZERO
@@ -139,7 +139,7 @@ C-----------------------------------------------------------------------
         IE  = NELEM(LE)
         IES = NELES(LES)
 C-----------------------------------------------------------------------
-C       test si dans la boite   
+C       test if inside the box
 C-----------------------------------------------------------------------
         IF(LE >0.AND.LES>0.AND.
      .           EMINXS(4,LES)>EMINX(1,LE).AND.
@@ -186,7 +186,7 @@ c
 c      print *, "XX(1,1),XX(1,9)",XX(1,1),XX(1,9)
 c
 C-----------------------------------------------------------------------
-C     calcul de  [L] par paquet de mvsiz   
+C     calculation of [L] by mvsiz packet
 C-----------------------------------------------------------------------
           IF(LLT==MVSIZ-1)THEN
             CALL I17LLL(
@@ -204,7 +204,7 @@ c debug
         ENDIF
       ENDDO
 C-----------------------------------------------------------------------
-C     calcul de  [L] pour dernier paquet   
+C     calculation of [L] for last packet
 C-----------------------------------------------------------------------
       IF(LLT/=0) CALL I17LLL(
      1       LLT ,LLL       ,JLL       ,SLL       ,XLL     ,V       ,
@@ -278,7 +278,7 @@ c
 c      print *, "XX(1,1),XX(1,9)",XX(1,1),XX(1,9)
 c
 C-----------------------------------------------
-C      noeud centrale face 1 2 3 4
+C      central node face 1 2 3 4
 C-----------------------------------------------
       DO I=1,LLT
         XX(I,17) = HALF *(XXS(I,5) +XXS(I,6) +XXS(I,7) +XXS(I,8))
@@ -291,7 +291,7 @@ C-----------------------------------------------
       CALL I17RST(LLT   ,RI_S(1,1),SI_S(1,1),TI_S(1,1),NI_M  ,
      2            XX    ,YY       ,ZZ       )
 C-----------------------------------------------
-C      noeud centrale face 5 6 7 8
+C      Central node face 5 6 7 8
 C-----------------------------------------------
       DO I=1,LLT
         XX(I,17) = HALF *(XXS(I,13)+XXS(I,14)+XXS(I,15)+XXS(I,16))
@@ -353,7 +353,7 @@ C
       ENDDO
 C-----------------------------------------------
 C      calcul de SI_S=s(relatif element main) 
-c      des 8 noeuds de la face de l'element second
+c      the 8 nodes of the face of the second element
 C-----------------------------------------------
       DO J=1,8
         DO I=1,LLT
@@ -365,7 +365,7 @@ C-----------------------------------------------
      2              XX    ,YY    ,ZZ    )
       ENDDO
 C-----------------------------------------------
-C      calcul du point de distance min
+C      calculation of the minimum distance point
 C      dSI_S/dr = 0 dSI_S/dt = 0     (r,t de l'element second) 
 C-----------------------------------------------
       CALL I17MINI(LLT   ,R_CS  ,S_CS  ,T_CS  ,RI_S  ,SI_S   ,
@@ -375,7 +375,7 @@ C-----------------------------------------------
      5             R_1M  ,R_2M  ,R_3M  ,R_4M  ,T_1M  ,T_2M   ,
      6             T_3M  ,T_4M  ,ICONT )
 C-----------------------------------------------
-C      choix face 1 2 3 4 face 5 6 7 8 cote main
+C      Choice Facing 1 2 3 4 Face 5 6 7 8 main side
 C-----------------------------------------------
       DO I=1,LLT
         IF(S_CM(I)<=0.)THEN
@@ -397,7 +397,7 @@ C         face 5 6 7 8
         ENDIF
       ENDDO
 C-----------------------------------------------------------------------
-C     calcul des vitesses de penetration
+C     calculation of penetration velocities
 C-----------------------------------------------------------------------
       DO I=1,LLT
         VIT(I) = EM20
@@ -418,7 +418,7 @@ C-----------------------------------------------------------------------
      2             NI_M      ,NI_S   ,NX     ,NY     ,NZ     ,VIT    ,
      3             ICONT(1,4),R_4M   ,T_4M   ,R_CS   ,T_2S   ,S_CS   ,
      4             R_CM      ,T_CM   ,R_S    ,T_S    ,ICONT(1,1))
-c tmp !!!!!!!!!!!!!!!!!!!!!!!!!!! un seul contact
+c tmp !!!!!!!!!!!!!!!!!!!!!!!!!!! single contact
 c      VV = 0.
 c      DO I=1,LLT
 c        VV = MIN(VV,VIT(I))
@@ -462,7 +462,7 @@ c      ICONT(J,1) = 1
 cc  print *,ITASK,':',VIT(J),IE(J),IES(J),NC,J,ICON
       ENDIF
 C-----------------------------------------------------------------------
-C     calcul du contact
+C     contact calculation
 C-----------------------------------------------------------------------
       CALL I17LLL4(LLT       ,LLL    ,JLL    ,SLL    ,XLL    ,N_MUL_MX,
      2             ITIED     ,NINT   ,NKMAX  ,NC     ,V      ,A       ,
@@ -519,19 +519,19 @@ C-----------------------------------------------
       my_real
      .   NI_ML(MVSIZ,8) ,NI_SL(MVSIZ,8)
 C-----------------------------------------------------------------------
-C     calcul de Ni sur face  1 2 3 4 ou 5 6 7 8 du main (s=+-1)
+C     calculation of Ni on face 1 2 3 4 or 5 6 7 8 of the main (s=+-1)
 C-----------------------------------------------------------------------
       CALL I17NI(LLT,RM ,TM ,NI_ML )
 C-----------------------------------------------------------------------
-C     calcul de Ni sur face  1 2 3 4 ou 5 6 7 8 de l'second (s=+-1)
+C     calculation of Ni on face 1 2 3 4 or 5 6 7 8 of the second (s=+-1)
 C-----------------------------------------------------------------------
       CALL I17NI(LLT,RS ,TS ,NI_SL )
 C-----------------------------------------------
-C      calcul de [L]
+C      calculation of [L]
 C-----------------------------------------------
       DO I=1,LLT
 C-----------------------------------------------
-C       test si contact
+C       Test if contact
 C-----------------------------------------------
         IF(ICONT(I)/=0)THEN
 C
@@ -555,11 +555,11 @@ c            VZ = VZ + (V(3,IIIS(I,IK))+DT12*A(3,IIIS(I,IK)))*NI_S(I,IK)
 c
           VN = NX(I)*VX + NY(I)*VY + NZ(I)*VZ
 C-----------------------------------------------
-C         test si vitesse entrante en s
+C         Test if incoming velocity in S
 C-----------------------------------------------
           IF(SM(I)*VN<=VIT(I))THEN
 c
-c      print *, "vitesse entrante",vn
+c      print *, "velocity entrante",vn
 c      print *, "s = ",S(I)
 c
             VIT(I)=SM(I)*VN
@@ -632,7 +632,7 @@ C-----------------------------------------------
       IF(ITIED==0)THEN
        DO I=1,LLT
 C-----------------------------------------------
-C       test si contact
+C       Test if contact
 C-----------------------------------------------
         IF(ICONT(I)/=0)THEN
 C
@@ -686,7 +686,7 @@ C      ITIED = 1
 C-----------------------------------------------
        DO I=1,LLT
 C-----------------------------------------------
-C       test si contact
+C       Test if contact
 C-----------------------------------------------
         IF(ICONT(I)/=0)THEN
 C
@@ -1049,7 +1049,7 @@ c
         T_CS(I) = ZERO
       ENDDO
 c------------------------------------------------
-c   newton iter : lineaRI_Sation en r et t
+c   Newton ITER: lineari_sation in r and t
 c------------------------------------------------
 C  fr = df/dr = A1 + A2 r + A3 t + A4 t r + A5 t t = 0
 C  ft = df/dt = B1 + B2 r + B3 t + B4 r t + B5 r r = 0 
@@ -1107,7 +1107,7 @@ c          print *,'it=',iter,' r=',r,' t=',t,' fr=',dfdr,' ft=',dfdt
         ENDDO
       ENDDO
 C-----------------------------------------------------------------------
-C     calcul de 4 points de l'iso S_M = +- 1
+C     calculation of 4 points of the iso S_M = +- 1
 C 
 C          second.           main
 C     1: <R_1S , T_CS>    <R_1M , T_1M>
@@ -1115,11 +1115,11 @@ C     2: <R_2S , T_CS>    <R_2M , T_2M>
 C     3: <R_CS , T_1S>    <R_3M , T_3M>
 C     4: <R_CS , T_2S>    <R_4M , T_4M> 
 C
-C     on borne r et t a +- 1 sur l'element second. :
+C     We limit R and you +- 1 on the second element.::
 C                -1 < R_1S < 1  et -1 < R_2S < 1 
 C                -1 < T_1S < 1  et -1 < T_2S < 1 
 c
-C     on borne r et t a +- 1 sur l'element main :
+C     We limit R and you +- 1 on the main element:
 C                -1 < R_M < 1   et -1 < T_M < 1 
 C-----------------------------------------------------------------------
       CALL  I17ABC(LLT ,SI_S,R_CS,T_CS,
@@ -1147,7 +1147,7 @@ C  f = C1 + C2 t + C3 t^2
 C
       CALL I17RACINE(LLT,C3,C2,C1,T_1S,T_2S)
 c-----------------------------------------------------------------------
-c      borne r a +-1 sur le main
+c      bound r at +-1 on the main
 c-----------------------------------------------------------------------
 C
       CALL  I17ABC(LLT ,RI_S,R_CS,T_CS,
@@ -1168,7 +1168,7 @@ c      CALL I17BORNE(LLT ,T_CS,C3  ,C2  ,C1  ,ICONT(1,1),R_CM)
       CALL I17BORNE(LLT ,T_1S,C3  ,C2  ,C1  ,ICONT(1,3),R_3M)
       CALL I17BORNE(LLT ,T_2S,C3  ,C2  ,C1  ,ICONT(1,4),R_4M)
 c-----------------------------------------------------------------------
-c  2: borne t a +-1 sur le main 
+c  2: bound t at +-1 on the main
 c-----------------------------------------------------------------------
       CALL  I17ABC(LLT ,TI_S,R_CS,T_CS,
      +             B1  ,B2  ,B3  ,C1  ,C2  ,C3  )
@@ -1184,7 +1184,7 @@ c      CALL I17BORNE(LLT ,T_CS,C3  ,C2  ,C1  ,ICONT(1,1),T_CM)
       CALL I17BORNE(LLT ,T_1S,C3  ,C2  ,C1  ,ICONT(1,3),T_3M)
       CALL I17BORNE(LLT ,T_2S,C3  ,C2  ,C1  ,ICONT(1,4),T_4M)
 c-----------------------------------------------------------------------
-c  test si contact
+c  Test if contact
 c-----------------------------------------------------------------------
       CALL  I17ABC(LLT ,SI_S,R_CS,T_CS,
      +             B1  ,B2  ,B3  ,C1  ,C2  ,C3  )
@@ -1274,7 +1274,7 @@ C-----------------------------------------------
      .  UMT_UMR,UMT_UPR,UPT_UMR,UPT_UPR,
      .  A,R05,S05,T05
 C-----------------------------------------------------------------------
-C     calcul de Ni
+C     calculation of Ni
 C-----------------------------------------------------------------------
       DO I=1,LLT
 C
@@ -1319,7 +1319,7 @@ C    calcul des racines r1,r2 bornees a +- 1
 C
 C    de  a x^2 + b x + c = 0
 C 
-C    la routine retourne -1,+1 s'il n'y a pas de racines
+C    The routine returns -1,+1 if there are no roots
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1362,7 +1362,7 @@ C
         ENDIF
       ENDDO
 c-----------------------------------------------------------------------
-c      borne r (ou t) a +-1 sur l'second
+c      bound r (or t) at +-1 on the second
 c-----------------------------------------------------------------------
       DO I=1,LLT
           R1(I) = MAX(-ONE,MIN(ONE,R1(I)))
@@ -1400,10 +1400,10 @@ C-----------------------------------------------
       my_real
      +   CC(MVSIZ),R1(MVSIZ),R2(MVSIZ),RS1,RS2
 c-----------------------------------------------------------------------
-c  1: borne r(ou s au 2eme appel) a +-1 sur le main
+c  1: bound r (or s on the 2nd call) at +-1 on the main
 c-----------------------------------------------------------------------
 c-----------------------------------------------------------------------
-c  1.1: borne <r1,t> et <r,t1> a +-1 sur le main
+c  1.1: bound <r1,t> and <r,t1> at +-1 on the main
 c-----------------------------------------------------------------------
         DO I=1,LLT
           RS(I) = C(I) + ( B(I) + A(I)*R_S(I) )*R_S(I)
@@ -1440,7 +1440,7 @@ c
                 R_S(I) = R2(I)
                 RS(I)  = RS2
             ELSE
-C pas de recouvrement main/second
+C No main/second cover
                 ICONT(I)=0
             ENDIF
           ENDIF
@@ -1645,7 +1645,7 @@ C
         DNIDT(5) = A * (UMR_UMS + UMR_UPS)
         DNIDT(7) = A * (UPR_UMS + UPR_UPS)
 C-----------------------------------------------------------------------
-C     dx/dr; dx/dt
+C     DX/DR;DX/DT
 C-----------------------------------------------------------------------
         DXDR(I) = DNIDR(1)*XX(I,1) + DNIDR(2)*XX(I,2) + DNIDR(3)*XX(I,3)
      +          + DNIDR(4)*XX(I,4)   
@@ -1681,7 +1681,7 @@ C
      +    + DNIDT(5)*ZZ(I,5)   + DNIDT(6)*(ZZ(I,6) - ZZ(I,8))
      +    + DNIDT(7)*ZZ(I,7)
 C-----------------------------------------------------------------------
-C     calcul de la normale -n
+C     calculation of the normal -n
 C-----------------------------------------------------------------------
         NX(I) = -DYDT(I)*DZDR(I) + DZDT(I)*DYDR(I)
         NY(I) = -DZDT(I)*DXDR(I) + DXDT(I)*DZDR(I)

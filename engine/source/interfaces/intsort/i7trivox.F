@@ -89,7 +89,7 @@ C     XMAX         largest existing abscissa         I
 C     XMAX         largest existing ordinate         I
 C     XMAX         largest existing coordinate       I
 C     I_STOK       storage level of candidate
-C                                impact couples      I/O
+C                                I/O impact couples
 C     CAND_N       node result boxes
 C     CAND_E       element result box addresses
 C                  MULNSN = MULTIMP*NSN MAX SIZE ALLOWED NOW FOR
@@ -243,7 +243,7 @@ C=======================================================================
             ENDIF
           ENDIF
           IF(FIRST == 0)THEN
-            !empty cell
+            !Empty Cell
             VOXEL(IIX(I),IIY(I),IIZ(I)) = I ! first
             NEXT_NOD(I)                 = 0 ! last one
             LAST_NOD(I)                 = 0 ! no last
@@ -294,7 +294,7 @@ C=======================================================================
           ENDIF
 
           IF(FIRST == 0)THEN
-            ! empty cell
+            ! Empty Cell
             VOXEL(IIX(NSN+J),IIY(NSN+J),IIZ(NSN+J)) = NSN+J ! first
             NEXT_NOD(NSN+J)     = 0 ! last one
             LAST_NOD(NSN+J)     = 0 ! no last

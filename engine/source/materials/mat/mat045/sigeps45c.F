@@ -316,7 +316,7 @@ C           IF(R<1.) ETSE(I)= H(I)/(H(I)+E(I))
 C
        ELSEIF(IFLAG(1)==1)THEN
 C-------------------------
-C     CRITERE DE VON MISES
+C     VON MISES CRITERION
 C-------------------------
          DO  I=1,NEL0
            UVAR(I,4) = MAX(ZERO,UVAR(I,4))

@@ -271,7 +271,7 @@ C-----------------------------------------------
 
        !TEST POINT PROJECTIONS
        DO J=LFT,LLT
-         !nearest point : IDIST(J)
+         !Nearest point: Idist (J)
          I=IDIST(J)
          I=MIN(I,NSEG)
          K=I

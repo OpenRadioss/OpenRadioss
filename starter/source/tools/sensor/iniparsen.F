@@ -54,7 +54,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     Special treatment of sensors with Parith/on (type 6,11,12,13)
 C     Tabsensor(i) pointe vers les interfaces/sections/rwalls/rbodies concernees 
-C     par les sensors type force
+C     by sensors of type force
 c=======================================================================
       TABLOCAL(:) = 0
 c

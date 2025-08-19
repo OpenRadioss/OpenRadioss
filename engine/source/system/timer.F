@@ -507,7 +507,7 @@ C-----------------------------------------------
 !||    timer_mod         ../engine/source/system/timer_mod.F90
 !||====================================================================
       SUBROUTINE PRINTIME(T,ITHERM,OUTPUT)
-C     routine d'affichage des timers
+C     timers display routine
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -613,7 +613,7 @@ C
       VMSTK=-1
       CALL MAP_MEMORY(VMPEAK, VMSIZE,VMRSS,VMHWM, VMSTK)
       NPROC = NSPMD
-C nproc = nombre de domaines, toutes les taches SMP comptent pour un seul proc
+C nproc = number of domains, all SMP tasks count as one proc
 CC      NPROC = MAX(NTHREAD,NSPMD)
 CC smp nproc = ntask, spmd nproc = NSPMD
 
@@ -638,7 +638,7 @@ CC smp nproc = ntask, spmd nproc = NSPMD
 
 
       IF (NSPMD > 1) THEN
-C gather des cpu et sys time pour spmd
+C gather cpu and sys time for spmd
         MSGTAG = 1000
         IF (ISPMD/=0) THEN
           CALL RAD_SPMD_SEND(T%CPUTIME,MAX_NB_TIMER*IRSIZE,0,IT_SPMD,
@@ -658,7 +658,7 @@ C gather des cpu et sys time pour spmd
           ENDDO
         ENDIF
 
-C Gather de la m  moire utilis  e
+C Gather memory used
         MSGTAG = 1100
         MEMUSE=0
         MEM_L=0
@@ -723,7 +723,7 @@ c       MEMSTAT(5,ISPMD+1) = VMSTK
         ENDIF
       ELSE
 C Monoproc run
-C Gestion de la m  moire utilisee
+C Management of used memory
         IF(VMHWM/=-1) THEN
             MEM_L = VMHWM
         ELSEIF(VMPEAK/=-1) THEN
@@ -739,9 +739,9 @@ C Gestion de la m  moire utilisee
         MAVR = MEM_L
       ENDIF
 C
-C Gather de la taille des fichiers restart
+C Gather the size of restart files
       IF(NSPMD > 1)CALL SPMD_GLOB_ISUM9(RESTARTFILESIZE,1)
-C Gather taille des fichiers multiple restart
+C Gather Size of Multiple Restart files
       IF(NSPMD > 1)CALL SPMD_GLOB_ISUM9(MULTIRESTS,26)
 C
 
@@ -1092,7 +1092,7 @@ C---------------------------
 
 C      CALL SYSTEM_CLOCK(COUNT=CLOCK1, COUNT_RATE=CLOCKRATE,
 C     +                  COUNT_MAX=NBMAX                   )
-C      SECS = CLOCK1-CLOCK0         ! diff temps final - temps initial (qui peut ne pas etre 0 !)
+C      SECS = Clock1-Clock0!Final time - Initial time (which may not be 0!)
 C      IF(SECS<ZERO) SECS = SECS + NBMAX   ! cas depassement nb de periode maximum
 C      SECS = SECS/CLOCKRATE
 
@@ -1396,7 +1396,7 @@ C-----------------------------------------------
             END IF
           END IF
         END IF
-C ecriture du complement en multiprocs
+C Scripture of multi -procharous complement
         IF(NSPMD>1)
      .    CALL SPMD_PRINTCPUINFO(HOSTNAME,LENH,CPUNAM, LENC, FREQUENCE,
      .                           MEM,SWAP)
@@ -1429,7 +1429,7 @@ C ecriture du complement en multiprocs
 !||    resol_init   ../engine/source/engine/resol_init.F
 !||====================================================================
       SUBROUTINE INITIMEG(NG)
-C     initialisation des timers groupes elem.
+C     Initialization of Timers Groups Elem.
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1484,7 +1484,7 @@ C
 !||    my_etime        ../engine/source/system/machine.F
 !||====================================================================
       SUBROUTINE STARTIMEG(NG)
-C     routine d incrementation des timers elem.
+C     Timer Elem Timer Incorsement Routine.
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1532,7 +1532,7 @@ C
 !||    my_etime        ../engine/source/system/machine.F
 !||====================================================================
       SUBROUTINE STOPTIMEG(NG)
-C     routine incrementation du timer event
+C     Timer Event Incontation Routine
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1565,7 +1565,7 @@ C
 !||    printtriangles   ../engine/source/system/timer.F
 !||====================================================================
       SUBROUTINE PRINTIMEG(IPARG,PM,IPM,IXC,IXTG,IXS)
-C     routine d'affichage des timers
+C     timers display routine
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1616,14 +1616,14 @@ C
       TPSTHTOT = 0.
       BATOZMULT = 4
       TIMMAT = 0.
-C   ouverture du fichier DDW
+C   opening of the DDW file
       WRITE(PROCNAM,'(I4.4)')ISPMD+1
       FILNAM=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_'//PROCNAM//'.ddw2'
       OPEN(UNIT=66,FILE=FILNAM,ACCESS='SEQUENTIAL',
      .                  FORM='FORMATTED',STATUS='UNKNOWN')
       FILEN=ROOTLEN+14 
 C  
-C   preparation de la ponderation
+C   preparation of the weighting
 C  
       IF (TPSENG==ZERO) THEN
          TPPOND = ONE
@@ -1640,7 +1640,7 @@ C
 c      WRITE(66,1100) NCYCLE
 
 
-C   Comptage des groupes
+C   counting of groups
       NUMSOLG = 0
       NUMSHG = 0
       NUMTRIG = 0
@@ -1665,7 +1665,7 @@ C   Comptage des groupes
         ENDIF
       ENDDO
 
-C   Calcul du temps theorique de chaque groupe
+C   calculation of the theoretical time for each group
       DO NG=1,NGROUP
          ITY = IPARG(5,NG)
          MTN = IPARG(1,NG)
@@ -1705,7 +1705,7 @@ C   Solides ISOLD24  - HEPH
             TELT = SOL1TNL(MTN,1) + SOLTELT(3)
 C
            ELSEIF (IHBE==12.OR.IHBE==112) THEN
-C   Solides ISOLD12 - std 8 node integ point
+C   Solids Insd12 - STD 8 NODE INTEG Point
             TELT = SOL8TNL(MTN,1) + SOLTELT(4)
 C
            ELSEIF (IHBE==14.OR.IHBE>=222) THEN
@@ -1801,7 +1801,7 @@ C   Cas Zero points d integration
 C   fin cas zero point d integrations
             ENDIF 
 
-C   temps elementaire
+C   elementary time
             IF (IHBE>=11.AND.IHBE<=19) THEN
               TELT = SHTELT(3)+BATOZMULT*TIMMAT
             ELSEIF (IHBE>=21.AND.IHBE<=29) THEN
@@ -1809,7 +1809,7 @@ C   temps elementaire
             ELSE
               TELT = SHTELT(1)  + TIMMAT
             ENDIF
-C   fin temps elementaire
+C   Elementary end
               THEOGP(NG)= THEOGP(NG)+TELT*NCYCLE*TPPOND
           ENDDO
 C   TRIANGLES
@@ -1886,7 +1886,7 @@ C   Cas Zero points d integration
 C   fin cas zero point d integrations
             ENDIF 
 
-C   temps elementaire
+C   elementary time
             IF (IHBE>=11.AND.IHBE<=19) THEN
               TELT = TRITELT(3)+BATOZMULT*TIMMAT
             ELSEIF (IHBE>=21.AND.IHBE<=29) THEN
@@ -1894,7 +1894,7 @@ C   temps elementaire
             ELSE
               TELT = TRITELT(1)  + TIMMAT
             ENDIF
-C   fin temps elementaire
+C   Elementary end
               THEOGP(NG)= THEOGP(NG)+TELT*NCYCLE*TPPOND
            ENDDO
 
@@ -1904,8 +1904,8 @@ C   fin temps elementaire
       ENDDO
 
 
-C   Maintenant qu on a tous les temps theoriques des groupes on
-C   peux passer au traitement et a l affichage.
+C   Now that we have all the theoretical times of groups we
+C   can go to treatment and display.
 
        NUMOTHER = NGROUP - NUMSHG - NUMTRIG - NUMSOLG
        WRITE(66,'(A)') ' ' 
@@ -2618,10 +2618,10 @@ C-----------------------------------------------
       ETIME = ELAPSED
 #else
       IF(CLOCK1 > 0 ) THEN
-        SECS = CLOCK1-CLOCK0         ! diff temps courant - temps initial (qui peut ne pas etre 0 !)
+        SECS = CLOCK1-CLOCK0         ! Different time common - Initial time (which may not be 0!)
         IF(SECS<ZERO) SECS = SECS + NBMAX   ! cas depassement nb de periode maximum
         SECS = SECS/CLOCKRATE
-        CLOCK0 = CLOCK1              ! recuperation du temps courant dans clock0
+        CLOCK0 = CLOCK1              !retrieval of the current time in clock0
         ELAPSED = ELAPSED + SECS
         ETIME = ELAPSED
       ENDIF
@@ -2634,7 +2634,7 @@ C
 !||--- calls      -----------------------------------------------------
 !||====================================================================
       SUBROUTINE STARTIME_MP(EVENT,NBR_GR,TIMER_MP)
-C     routine d'incrementation du timer event
+C     Timer Event Incormenting Routine
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2663,7 +2663,7 @@ C-----------------------------------------------
 !||--- calls      -----------------------------------------------------
 !||====================================================================
       SUBROUTINE STOPTIME_MP(EVENT,NBR_GR,TIMER_MP,CPUTIME_MP)
-C     routine incrementation du timer event
+C     Timer Event Incontation Routine
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2986,7 +2986,7 @@ C
 !||====================================================================
       SUBROUTINE PRINTIME_MP(TAILLE,TAB_UMP,CPUTIME_MP2,POIN_UMP,T1,
      .                       ELEM_MP,CPUTIME_MP,POIDS_REF)
-C     routine d'ecriture des timers
+C     Timer writing routine
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -3026,7 +3026,7 @@ C
 C-----------------------------------------------
 
       IF(ISPMD==0) THEN
-C ro ouverture du fichier DDW proc = 0 
+C Ro opening the DDW PRO file = 0 
        FILNAM=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'.ddw'
        OPEN(UNIT=66,FILE=FILNAM,ACCESS='SEQUENTIAL',
      .                  FORM='FORMATTED',STATUS='UNKNOWN')
@@ -3068,7 +3068,7 @@ C ro ouverture du fichier DDW proc = 0
        WRITE (ISTDO,1300) FILNAM(1:FILEN)
       ENDIF
 
-C ro ouverture du fichier DDW par proc
+C opening of the DDW file by proc
       IF(IDDWSTAT/=0) THEN
        WRITE(PROCNAM,'(I4.4)')ISPMD+1
        FILNAM=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_'//PROCNAM//'.ddw'

@@ -100,7 +100,7 @@ C-----------------------------------------------
           DDCOND = MAX(DCOND-GAPV(I),EM20)
 C
 C------------------------------------------
-C         CALCUL DE LA SURFACE VECTORIELLE (*2.)
+C         calculation of the vector surface (*2.)
 C------------------------------------------
          SX1=(Y1(I)-Y3(I))*(Z2(I)-Z4(I)) - (Z1(I)-Z3(I))*(Y2(I)-Y4(I))
          SY1=(Z1(I)-Z3(I))*(X2(I)-X4(I)) - (X1(I)-X3(I))*(Z2(I)-Z4(I))
@@ -108,7 +108,7 @@ C------------------------------------------
 C         
          NORM = SQRT(SX1**2 + SY1**2 + SZ1**2)  
 C--------+---------+---------+---------+---------+---------+---------+--
-C         CALCUL DE LA DISTANCE ENTRE CENTRE ET SURFACE 
+C         calculation of the distance between center and surface
 C-------------------------------------------------------------
          IF(IX3(I)/=IX4(I))THEN
            SX2 = FOURTH*(X1(I) + X2(I) + X3(I) + X4(I)) - XI(I)    
@@ -144,7 +144,7 @@ C         DISTANCE BETWEEN SECOND NODE
 C             AND SURFACE MAIN
 C---------------------------------
 C-------------------------------------
-C         Conduction : close distance
+C         Conduction: Close distance
 C-------------------------------------
 
           IF(PENRAD <= ZERO)THEN
@@ -266,7 +266,7 @@ C
           DDCOND = MAX(DCOND-GAPV(I),EM20)
 C
 C------------------------------------------
-C         CALCUL DE LA SURFACE VECTORIELLE (*2.)
+C         calculation of the vector surface (*2.)
 C------------------------------------------
          SX1=(Y1(I)-Y3(I))*(Z2(I)-Z4(I)) - (Z1(I)-Z3(I))*(Y2(I)-Y4(I))
          SY1=(Z1(I)-Z3(I))*(X2(I)-X4(I)) - (X1(I)-X3(I))*(Z2(I)-Z4(I))
@@ -274,7 +274,7 @@ C------------------------------------------
 C         
          NORM = SQRT(SX1**2 + SY1**2 + SZ1**2)  
 C--------+---------+---------+---------+---------+---------+---------+--
-C         CALCUL DE LA DISTANCE ENTRE CENTRE ET SURFACE 
+C         calculation of the distance between center and surface
 C-------------------------------------------------------------
          IF(IX3(I)/=IX4(I))THEN
            SX2 = FOURTH*(X1(I) + X2(I) + X3(I) + X4(I)) - XI(I)    
@@ -306,11 +306,11 @@ C
           TSTIFM = ZERO
           COND = ZERO
 C-------------------------------------
-C         Conduction : close distance
+C         Conduction: Close distance
 C-------------------------------------
           IF(PENRAD <= ZERO)THEN
 C---------------------------------
-C           CALCUL DE LA CONDUCTIBILITE
+C           calculation of the conductivity
 C---------------------------------
             P      = XTHE * ABS(FNI(I)) / AREAS(I)
             RSTIF  = ONE / MAX(EM30,KTHE * FINTER(IFUNCTK,P,NPC,TF,DYDX))

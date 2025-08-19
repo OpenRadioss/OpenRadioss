@@ -32,7 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 
       INTEGER ::
      .        MIN_IX, MIN_IY, MIN_IZ,            !indice voxel min utilise
-     .        MAX_IX, MAX_IY, MAX_IZ             !indice voxel max utilise
+     .        MAX_IX, MAX_IY, MAX_IZ             !Voxel Max index uses
 
       INTEGER, POINTER, DIMENSION(:) :: LCHAIN_ELEM
       INTEGER, POINTER, DIMENSION(:) :: LCHAIN_NEXT

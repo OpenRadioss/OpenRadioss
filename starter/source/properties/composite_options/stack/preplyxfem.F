@@ -122,14 +122,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-C   CALCUL DE CNE ADDCNE 
+C   CALCULATION OF CNE ADDCNE
 C-----------------------------------------------
       DO I = 0, NPLYXFE + 1
         ADSKY(I) = ADDCNE(I)
       ENDDO
 C
 C
-C tri des elements locaux suivants num user
+C sorting the following local elements Num User
 C
       DO I = 1, NUMELC
         ITRI(I) = IXC(7,I)

@@ -66,7 +66,7 @@ C-----------------------------------------------
       VOLO => UVAR(1:NEL,3)   
       DVOL => UVAR(1:NEL,4)   
 C
-C  incompressible flow avoir plus en cas de besoin
+C  incompressible Flow have more if necessary
 C      INCOMP = 1 not tested
       IF(ALE%GLOBAL%INCOMP == 1)THEN
          E0 = ZERO ! 
@@ -77,7 +77,7 @@ C      INCOMP = 1 not tested
           DVOL(I)=VAVG*DVV
           EINT(I)=EINT(I)*VOLO(I)-E0(I)*DVV*VAVG
          ENDDO
-C compresssible flow
+C Compressible Flow
       ELSE
          DO I=1,NEL
            RHON(I) = RHON(I)/VOLN(I)

@@ -88,7 +88,7 @@ C=======================================================================
                 NIX2=3
               ENDIF
               DO K=2,NIX2
-C                 tag les noeuds connectes a l'element 
+C                 tag nodes connected to the element 
                 TAGBUF(IXR(K,IE))=1
               ENDDO
             ENDDO

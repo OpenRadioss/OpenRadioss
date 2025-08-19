@@ -147,7 +147,7 @@ C-------------------------------------
       FYMN = FSM*N2
       FZMN = FSM*N3
 C-------------------------------------
-C     SOMME DES FORCES NORMALES
+C     sum of normal forces
 C-------------------------------------
       FN(J1) = FN(J1) + FXN - FXMN
       FN(J2) = FN(J2) + FYN - FYMN
@@ -168,7 +168,7 @@ C-------------------------------------
       FYMT = FYMI - FYMN
       FZMT = FZMI - FZMN
 C-------------------------------------
-C     SOMME DES FORCES DE FRICTION
+C     sum of friction forces
 C-------------------------------------
       FT(J1)=FT(J1) + (FXT - FXMT)*FAC
       FT(J2)=FT(J2) + (FYT - FYMT)*FAC

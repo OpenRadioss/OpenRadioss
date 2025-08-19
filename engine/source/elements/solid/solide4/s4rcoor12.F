@@ -117,7 +117,7 @@ C ---------local system compute----------
         ENDDO      
       ENDIF     
 C-----------
-C     REPERE CONVECTE (ITERATIONS).
+C     convected frame (ITERATIONS).
 C-----------
       DO I=1,NEL
        IF (OFF(I) <= ONE ) CYCLE 
@@ -150,7 +150,7 @@ C
      5   R31,     R32,     R33,     NEL)
      
 C-----------
-C     PASSAGE AU REPERE CONVECTE.
+C     Change to the convected frame.
 C-----------
 C       CALL S4RROTA3(OFF,
 C     .   R11, R12, R13, R21, R22, R23, R31, R32, R33,

@@ -57,7 +57,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IDEB, K, ESHIFT, P
 C
-C Couplage etendu
+C extended coupling 
 C
       IF(NEXMAD/=0) THEN
 C

@@ -359,7 +359,7 @@ c------------------------------------
       PM(24) = EMAX   ! E0/(ONE - NU**2)
       PM(32) = C1 
 c------------------------------------
-c     Output new tables definition
+c     Output New Tables Definition
 c------------------------------------
       IF (IS_ENCRYPTED == 0)THEN
         WRITE(IOUT,1000)     

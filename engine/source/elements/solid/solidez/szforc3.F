@@ -251,7 +251,7 @@ C
       my_real
      .   MUVOID(MVSIZ),FAC_NU,NU_SP,NU0,DN
 C-----
-C 8-nodes solid connectivities
+C 8-nodes Solid Connectivities
       INTEGER NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ), 
      .        NC5(MVSIZ), NC6(MVSIZ), NC7(MVSIZ), NC8(MVSIZ)
       my_real

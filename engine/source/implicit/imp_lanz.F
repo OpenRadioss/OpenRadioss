@@ -131,7 +131,7 @@ C*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 C*     based on File symmlq.f
 C*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-C machine  precision minimum dependant du type REAL ou DOUBLE
+C machine minimum precision depending on REAL or DOUBLE type
 c      write(*,*)'flm=',flm
 C-------add if (RTOL<FLM) RTOL=FLM
       IUPD = 0
@@ -570,7 +570,7 @@ C    --R=B-A.X--- ---
        IF(IPRINT<0) WRITE(ISTDO,1002)ITN,RNORM
       ENDIF
       IF (ISTOP>0.AND.ISTOP<4) ISTOP=0
-C--------POUR F*X--------
+C--------FOR F*X--------
       RETURN
 
 C*     ------------------------------------------------------------------

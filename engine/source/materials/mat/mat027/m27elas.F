@@ -78,7 +78,7 @@ C--------------------------------------
 C     ANCIENNES DEFORMATIONS ELASTIQUES
 C     ANCIEN DOMMAGE EFFECTIF:
 C        SIG>0  => DE =1-D
-C        SIG<0  => DE =1
+C        sig<0 => de =1
 C--------------------------------------
 #include "vectorize.inc" 
       DO I=JFT,JLT

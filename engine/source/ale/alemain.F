@@ -520,7 +520,7 @@ C     -------------------------
                CALL MULTI_PRESSURE_EQUILIBRIUM(DT1, ELBUF_TAB, IPARG, ITASK, IXS, IXQ, IXTG,
      .              PM, IPM, MULTI_FVM, TT, BUFMAT,NPC,TF,NUMMAT,MATPARAM)
 C     ------------------------
-C     Build FVM connectivities
+C     Build FVM Connectivities
 C     ------------------------
                CALL BUILD_CONNECTIVITY(ITASK, MULTI_FVM, ALE_CONNECTIVITY, IPARG)
                CALL MY_BARRIER
@@ -589,7 +589,7 @@ C     -------------------------
                CALL MULTI_PRESSURE_EQUILIBRIUM(DT1, ELBUF_TAB, IPARG, ITASK, IXS, IXQ, IXTG,
      .              PM, IPM, MULTI_FVM, TT, BUFMAT,NPC,TF,NUMMAT,MATPARAM)
 C     ------------------------
-C     Build FVM connectivities
+C     Build FVM Connectivities
 C     ------------------------
                CALL BUILD_CONNECTIVITY(ITASK, MULTI_FVM, ALE_CONNECTIVITY, IPARG)
                CALL MY_BARRIER
@@ -955,7 +955,7 @@ C
          ! ELEMENTS : LAW==11
          !---------------------------------------------
           CALL MY_BARRIER !wait for adjacent elems
-          IF (ILAW11 /= 0) THEN            !LAW11 ou LAW51 IN/OUT
+          IF (ILAW11 /= 0) THEN            !Law11 or Law51 in/Out
             IF(NSPMD > 1) THEN
              ! SPMD COMMUNICATION VOISINS LOI11
              !
@@ -974,7 +974,7 @@ C
                  ! to be optimized depending on combination of options
                  IF(ALE%GLOBAL%INCOMP == 1 .OR. ITURB + GLOB_THERM%ITHERM == 0)
      .             CALL SPMD_XVOIS(X,NBRCVOIS,NBSDVOIS,LNRCVOIS,LNSDVOIS,LENCOM  )
-                   ! comm adjacent elems
+                   ! Comm adjacent elems
                  CALL SPMD_L11VOIS(
      1                 BUFVOIS ,IPARG   ,ELBUF_TAB,PM      ,IXS     ,
      2                 IXQ     ,NERCVOIS,NESDVOIS,LERCVOIS,LESDVOIS,

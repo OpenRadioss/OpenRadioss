@@ -109,7 +109,7 @@ C-----------------------------------------------
       ENDIF
       FORCE_COMPUTATION(1:NINTER) = .FALSE.
 C
-C Precalcul des interfaces utiles
+C precalculation of useful interfaces
 C
       NBNEW = 0
       DO KK=1,NBINTC
@@ -223,7 +223,7 @@ C=======================================================================
         IF(NTY == 17)THEN
 C=======================================================================
          IF(IPARI(33,I) == 0)THEN
-C penser a faire le cumul des SIZE_T
+C remember to accumulate SIZE_T
 C
           IGN = IPARI(36,I)
           IGE = IPARI(34,I)
@@ -243,7 +243,7 @@ C
           XZ = MAX(XSLV(3,I)-XMSR(6,I),XMSR(3,I)-XSLV(6,I),ZERO)
           DIST0 = XX**2 + XY**2 + XZ**2
 C
-C      Te st sur pas de temps sur l'interface
+C      test on timestep on the interface
 C
           IF(DIST0>=TZINF(KK)**2.OR.KFORSMS/=0) THEN
 C           DIST = -1
@@ -261,11 +261,11 @@ C           DIST = -1
 C=======================================================================
         ELSEIF(NTY == 24)THEN
 C=======================================================================
-c  deplacement relatif 
+c  Relative displacement 
          XX = MAX(XSLV(1,I)-XMSR(4,I),XMSR(1,I)-XSLV(4,I),ZERO)
          XY = MAX(XSLV(2,I)-XMSR(5,I),XMSR(2,I)-XSLV(5,I),ZERO)
          XZ = MAX(XSLV(3,I)-XMSR(6,I),XMSR(3,I)-XSLV(6,I),ZERO)
-c  deplacement relatif + gap
+c  Relative displacement + gap
 c         XXG = MAX(XSLV(7,I)-XMSR(10,I),XMSR(7,I)-XSLV(10,I),ZERO)
 c         XYG = MAX(XSLV(8,I)-XMSR(11,I),XMSR(8,I)-XSLV(11,I),ZERO)
 c         XZG = MAX(XSLV(9,I)-XMSR(12,I),XMSR(9,I)-XSLV(12,I),ZERO)
@@ -357,7 +357,7 @@ c     .       F20.10,A,F14.7,A,F20.10,A,I4)')
 C=======================================================================
         ELSEIF(NTY == 25)THEN
 C=======================================================================
-c  deplacement relatif 
+c  Relative displacement 
          XX = MAX(XSLV(1,I)-XMSR(4,I),XMSR(1,I)-XSLV(4,I),ZERO)
          XY = MAX(XSLV(2,I)-XMSR(5,I),XMSR(2,I)-XSLV(5,I),ZERO)
          XZ = MAX(XSLV(3,I)-XMSR(6,I),XMSR(3,I)-XSLV(6,I),ZERO)
@@ -483,7 +483,7 @@ C
 C
          DIST0 = INTBUF_TAB(I)%VARIABLES(5) - SQRT(XX**2+XY**2+XZ**2)
 C
-C Test sur pas de temps sur l'interface
+C test on timestep on the interface
 C
          IF (VV/=ZERO) THEN
              GAPINF =INTBUF_TAB(I)%VARIABLES(6)

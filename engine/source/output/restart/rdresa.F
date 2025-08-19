@@ -356,7 +356,7 @@ C
           SDMSPH = 0
         END IF
         SPARTSAV = NPSAV*(NPART+NTHPART)*NTHREAD
-C LCNE0 = NISKY0+voisins (pre calcule dans starter)
+C Lcne0 = nisky0+neighbors (pre calculated in Starter)
         LSKY = LCNE0
         SFSKY = 8*LCNE0
 C pxfem
@@ -375,7 +375,7 @@ C FSKY DMASS
         ELSE
            SFSKYD = 0
         ENDIF
-C   PROBINT egalement initialisee dans STARTER (lectur)
+C   Also initialized in Starter (Lectur)
         PROBINT=0.5
 
         LSKYI = MAX(NINT(5*MAX(4*NUMNOD,IMAXIMP)*PROBINT)
@@ -391,7 +391,7 @@ C  INDEX VECTOR
         SPROCNE  = LCNE0
         SPROCNE_PXFE  = LCNEPXFEM
         SPROCNE_CRKXFE  = LCNECRKXFEM
-C  si I2NSNT>0 (tableau addresse connectivite interface type 2)
+C  If I2S> 0 (Type 2 Connectivitis Interface Connectivitis Interface)
         IF (I2NSNT>0) THEN
            SADDCNI2 = NUMNOD+1
 C Rajout numnod pour index machine vectorielle
@@ -399,11 +399,11 @@ C Rajout numnod pour index machine vectorielle
         ELSE
            SADDCNI2 = 0
         ENDIF
-C  LCNI2 tableau de connectivite
+C  LCNI2 connectivity array
         SPROCNI2 = LCNI2
         SIADSDP  = NSPMD+1
         SIADRCP  = NSPMD+1
-C IADS (correspond bien au NISKY0 : connections locales)
+C IADS (corresponds well to nisky0: local connections)
 C IADWAL : NSKYRW0
 C IADRBK : NSKYRBK0
 C IADI2  : NSKYI2
@@ -438,7 +438,7 @@ C
         ELSE
           SDMSPH = 0
         END IF
-C   j ai un doute sur SVISCN - et du flag KDTINT
+C   i have a doubt about SVISCN - and the KDTINT flag
         SVISCN = NUMNOD*NTHREAD 
         SSTIFR = NUMNOD*IRODDL*NTHREAD
         SPARTSAV = NPSAV*(NPART+NTHPART)*NTHREAD
@@ -558,7 +558,7 @@ C
         M16STAK = MAX(M16STAK,(10*NIPMAX+15*NPE+3*NIPMAX*NPE)*MVSIZ)
       ENDIF
       NPSAV = NPSAV_OLD
-C     NPSAV remis a la bonne valeur dans rdresb
+C     NPSAV reset to the correct value in rdresb
       IF(NUMELS8A>0)THEN
         NIPMAX = 729
         M16STAK = MAX(M16STAK,12*NIPMAX*MVSIZ)
@@ -566,10 +566,10 @@ C     NPSAV remis a la bonne valeur dans rdresb
       SW16 = M16STAK * NTHREAD
       SICUT= 44*NCUTS     
 C---------------------------------------------------------
-C     tableaux spmd additionnels alloues dans ma en v40
+C     Additional SPMD arrays allocated in my in V40
 C---------------------------------------------------------
 C---------------------------------------------------------
-C     tableaux spmd additionnels alloues dans am en v40
+C     Additional SPMD arrays allocated in AM in V40
 C---------------------------------------------------------
       SDRETRIO = 5*NINTER
       SLBVRS = 21*NIBVEL

@@ -94,7 +94,7 @@ C-----------------------
           ENDDO
         ENDIF
 C-----------------------
-C RECHERCHE DES ELEMENTS DE LIST() DANS IBOX()
+C SEARCH FOR ELEMENTS OF LIST() IN IBOX()
 C  ALGO < NLIST+NBBOX
 C-----------------------
         I=1

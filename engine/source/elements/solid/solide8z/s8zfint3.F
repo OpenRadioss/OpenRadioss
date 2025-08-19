@@ -244,7 +244,7 @@ C
         ENDDO
        ENDIF
 C----------------------------------------------    /
-C   - post-traitement-valeur moyenne au sens a'=(_/  a dv ) /v
+C   -Average post-processing in the sense A '= (_ / a dv) / V
       DO I=1,NEL
          FAC(I) = OFF(I)*VOL(I)/VOLG(I)
          SIGM(I,1) = SIGM(I,1) + FAC(I) * SIGOR(I,1)

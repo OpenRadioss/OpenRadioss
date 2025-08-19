@@ -383,7 +383,7 @@ C---------------------------
        B_3(I)=A12*NU4(I)
       ENDDO
 C-------------------------------
-C     TIENT COMPTE DU COUPLAGE
+C     TAKES COUPLING INTO ACCOUNT
 C-------------------------------
        DO N=1,NMAX
        DO J=1,NINDX

@@ -1653,7 +1653,7 @@ C     Interface type 18 law 151
                INDX_SCRT(NINDX_SCRT) = N
             ENDIF
          ENDDO
-         DO K=NSN0+1, NSN0 + NSN_IGE ! Specifique surface IGEO
+         DO K=NSN0+1, NSN0 + NSN_IGE ! Specific Igeo surface
             N=INTBUF_TAB%NSV(K)
             IF(TAG_SCRATCH(N)==0) THEN
                CNSN_L = CNSN_L+1
@@ -1872,7 +1872,7 @@ c          IF(N>NUMNOD) CYCLE
         ENDDO
         NINDX_SCRT = 0
 C
-C Reperage des candidats se trouvant sur des procs distants
+C Locating candidates on remote processors
 C
         C_NSNR = 0
 
@@ -1916,7 +1916,7 @@ c              IF(INTBUF_TAB%NSV(N)>NUMNOD) CYCLE
         ENDDO
         NINDX_SCRT = 0
 C
-C Tris des candidats remote par proc et par nsv local croissant
+C Sorting remote candidates by proc and by ascending local nsv
 C
         IF(C_NSNR>0) THEN
           ALLOCATE(INDEX(2*C_NSNR))
@@ -1967,7 +1967,7 @@ c              IF(INTBUF_TAB%NSV(N)>NUMNOD) CYCLE
               IF( NODLOCAL( MY_NODE )/=0.AND.NODLOCAL(MY_NODE)<=NUMNOD_L ) THEN
                 IBUF_N(II_STOK_L)=NSNLOCAL(N)
               ELSE
-C noeud remote : numerotation pre calculee ci-dessus
+C remote node : numbering pre-calculated above
 c                IF(TAG(N)==0) THEN
                 IF(TAG_SCRATCH(N)==0) THEN
                   C_NSNR = C_NSNR + 1
@@ -2002,7 +2002,7 @@ c                IF(TAG(N)==0) THEN
         IF(C_NSNR>0) DEALLOCATE(INDEX,ITRI)
 
 c        IF(ITYP==23.OR.INACTI==5.OR.INACTI==6.OR.INACTI==7.
-c     .          OR.IFQ>0)IPARI_L(24,NI)= C_NRTSR
+c     .Or.ifq> 0) iPari_l (24, ni) = c_nrtsr
          
       ENDIF !END INACTI=5,6,7 
 
@@ -3031,7 +3031,7 @@ C NSN+NMN < NUMNOD
       IF (NSN+NMN<=NUMNOD)THEN
 C NSN_L + NMN_L < NUMNOD_L
        IF (NSN_L+NMN_L<=NUMNOD_L)THEN
-C 1ere partie NSN
+C 1st part nsn
         NSN_L2 = 0
 !        TAG_SCRATCH(1:NUMNOD)=0
         DO K=1,NSN
@@ -3051,7 +3051,7 @@ C 1ere partie NSN
           ENDIF
         ENDDO
 
-C 2eme partie NMN
+C 2nd part NMN
         DO K=1,NMN
           N = INTBUF_TAB%MSR(K)
           IF(NLOCAL(N,PROC+1)==1)THEN
@@ -3073,7 +3073,7 @@ C 2eme partie NMN
 
        ELSE
 C NSN_L + NMN_L > NUMNOD_L
-C 1ere partie NSN
+C 1st part nsn
         NSN_L2 = 0
 !        TAG_SCRATCH(1:NUMNOD)=0
         DO K=1,NSN
@@ -3094,7 +3094,7 @@ C 1ere partie NSN
           ENDIF
         ENDDO
 
-C 2eme partie NMN
+C 2nd part NMN
         NMN_L2 = 0
         DO K=1,NMN
           N=INTBUF_TAB%MSR(K)
@@ -3748,7 +3748,7 @@ C ----------------------------------------
         ENDDO
         DEALLOCATE(PLIST) 
 C
-C Reperage des candidats se trouvant sur des procs distants
+C Locating candidates on remote processors
 C
         C_NRTSR = 0
         DO K = 1, II_STOK
@@ -3779,7 +3779,7 @@ C
         NINDX_SCRT = 0
 
 C
-C Tris des candidats remote par proc et par nsv local croissant
+C Sorting remote candidates by proc and by ascending local nsv
 C
         IF(C_NRTSR>0) THEN
           ALLOCATE(INDEX(2*C_NRTSR))
@@ -3813,7 +3813,7 @@ C
             IF(CPULOCAL(L) == (PROC+1))THEN
               IBUF_N(II_STOK_L) = NRTSLOCAL(L)
             ELSE
-C noeud remote : numerotation pre calculee ci-dessus
+C remote node : numbering pre-calculated above
               IF(TAG_SCRATCH(L)==0) THEN
                 C_NRTSR =C_NRTSR + 1
                 IBUF_N(II_STOK_L) = INDEX(C_NRTSR)+NRTS_L
@@ -4014,7 +4014,7 @@ C ----------------------------------------
       NMNE   = IPARI(56)
 
       ! for type20, TAG_NM is used to tag main nodes, secnd nodes,
-      ! line secnd, line main
+      ! second line, line main
 
       ! prepare SPLIT_NRTM_R
       CNRTM_L = 0
@@ -4092,7 +4092,7 @@ C ----------------------------------------
       ENDDO
       NINDX_SCRT = 0
 C
-C Partie ligne
+C Line part
 CTAG_SCRATCH(K)
       CNLINS_L = 0
       CNLINSA_L= 0
@@ -4110,7 +4110,7 @@ CTAG_SCRATCH(K)
           CNLINS_L = CNLINS_L + 1
           TAG_NLINS(CNLINS_L) = K
           TAG_NLINS2(K) = CNLINS_L
-C comptage ligne active
+C Active line count
           IF(K<=NLINSA)CNLINSA_L = CNLINSA_L + 1
           IF (TAG_SCRATCH(N1)==0) THEN
             CNSNE_L = CNSNE_L + 1
@@ -4162,7 +4162,7 @@ C comptage ligne active
           CNLINM_L = CNLINM_L + 1
           TAG_NLINM(CNLINM_L) = K
           TAG_NLINM2(K) = CNLINM_L
-C comptage ligne active
+C Active line count
           IF(K<=NLINMA)CNLINMA_L = CNLINMA_L + 1
           IF (TAG_SCRATCH(N1)==0) THEN
             CNMNE_L = CNMNE_L + 1
@@ -4206,7 +4206,7 @@ C comptage ligne active
         TAG_SCRATCH(N2) = 0
       ENDDO
 C
-C Calcul de NCONT en prenant le max des edge et non edge
+C Calculating NCONT taking the max of edge and non edge
 C
       NCONT1 = 0
       IF(NMN/=0) THEN
@@ -4233,7 +4233,7 @@ c fill node global to local
         I = INTBUF_TAB%NLG(L)
         IF(TAG_NM(I) == 1) THEN
           K = K + 1
-C TAGG(I) = K => noeud I vers numero local de noeud d interface sur le proc
+C TAGG(I) = K => node I to local interface node number on the proc
           TAG_NLG(K) = L
           TAG_NLG2(I) = K
         END IF
@@ -4516,7 +4516,7 @@ C ----------------------------------------
         ENDDO
         NINDX_SCRT = 0
 C
-C Reperage des candidats se trouvant sur des procs distants
+C Locating candidates on remote processors
 C
         C_NSNR = 0
 
@@ -4544,7 +4544,7 @@ C
         ENDDO
         NINDX_SCRT = 0
 C
-C Tris des candidats remote par proc et par nsv local croissant
+C Sorting remote candidates by proc and by ascending local nsv
 C
         IF(C_NSNR>0) THEN
           ALLOCATE(INDEX(2*C_NSNR))
@@ -4594,7 +4594,7 @@ C
               IF(NLOCAL(INTBUF_TAB%NSV(N),PROC+1)==1) THEN
                 IBUF_N(II_STOK_L)=NSNLOCAL(N)
               ELSE
-C noeud remote : numerotation pre calculee ci-dessus
+C remote node : numbering pre-calculated above
 c                IF(TAG(N)==0) THEN
                 IF(TAG_SCRATCH(N)==0) THEN
                   C_NSNR = C_NSNR + 1
@@ -4727,7 +4727,7 @@ C ----------------------------------------
           END DO
         ENDDO
 C
-C Reperage des candidats se trouvant sur des procs distants
+C Locating candidates on remote processors
 C
         !TAG_SCRATCH must have been reflush correctly to 0
         C_NLINSR = 0
@@ -4759,7 +4759,7 @@ C
         ENDDO
         NINDX_SCRT = 0
 C
-C Tris des candidats remote par proc et par nsv local croissant
+C Sorting remote candidates by proc and by ascending local nsv
 C
         IF(C_NLINSR>0) THEN
           ALLOCATE(INDEX(2*C_NLINSR))
@@ -4796,7 +4796,7 @@ C
             IF(CPULOCAL(L) == PROC+1)THEN
               IBUF_N(II_STOKE_L)=NRTSLOCAL(L)
             ELSE
-C noeud remote : numerotation pre calculee ci-dessus
+C remote node : numbering pre-calculated above
               IF(TAG_SCRATCH(L)==0) THEN
                 C_NLINSR = C_NLINSR + 1
                 IBUF_N(II_STOKE_L) = INDEX(C_NLINSR)+NLINS_L
@@ -5646,7 +5646,7 @@ C T24 E2E Nodes can be on 1 SPMD domain only
         ENDDO
         NINDX_SCRT = 0
 C
-C Reperage des candidats se trouvant sur des procs distants
+C Locating candidates on remote processors
 C
         C_NSNR = 0
 
@@ -5686,7 +5686,7 @@ C            IF (INTBUF_TAB%NSV(N)> NUMNOD) CYCLE
         ENDDO
         NINDX_SCRT = 0
 C
-C Tris des candidats remote par proc et par nsv local croissant
+C Sorting remote candidates by proc and by ascending local nsv
 C
         IF(C_NSNR>0) THEN
           ALLOCATE(INDEX(2*C_NSNR))
@@ -5746,7 +5746,7 @@ C
               IF(P==1 ) THEN
                 IBUF_N(II_STOK_L)=NSNLOCAL(N)
               ELSE
-C noeud remote : numerotation pre calculee ci-dessus
+C remote node : numbering pre-calculated above
 c                IF(TAG(N)==0) THEN
                 IF(TAG_SCRATCH(N)==0) THEN
                   C_NSNR = C_NSNR + 1
@@ -6033,7 +6033,7 @@ C ----------------------------------------
       ENDDO
 
 C-----------------------------------------------
-C Pre construction ADRESSES
+C PRETHING Addresses
 C    
       DO I=1,NRTM
         IF(INTERCEP%P(I)==PROC+1)THEN
@@ -6057,7 +6057,7 @@ C
       END DO
       KNOR2MSR(1)=0
 C
-C Construction de la matrice Nod -> Shell elt
+C Construction of the Nod -> Shell elt matrix
 C
       DO I=1,NRTM
         IF(INTERCEP%P(I)==PROC+1)THEN
@@ -6645,7 +6645,7 @@ C ----------------------------------------
         ENDDO
         NINDX_SCRT = 0
 C
-C Reperage des candidats se trouvant sur des procs distants
+C Locating candidates on remote processors
 C
         C_NSNR = 0
 
@@ -6674,7 +6674,7 @@ C
         ENDDO
         NINDX_SCRT = 0
 C
-C Tris des candidats remote par proc et par nsv local croissant
+C Sorting remote candidates by proc and by ascending local nsv
 C
 C       IF(C_NSNR>0) THEN
           ALLOCATE(INDEX(2*C_NSNR))
@@ -6725,7 +6725,7 @@ C
               ELSEIF(NLOCAL(INTBUF_TAB%NSV(N),PROC+1)==1) THEN
                 IBUF_N(II_STOK_L)=NSNLOCAL(N)
               ELSE
-C noeud remote : numerotation pre calculee ci-dessus
+C remote node : numbering pre-calculated above
 c                IF(TAG(N)==0) THEN
                 IF(TAG_SCRATCH(N)==0) THEN
                   C_NSNR = C_NSNR + 1

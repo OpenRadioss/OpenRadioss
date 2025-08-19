@@ -80,7 +80,7 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "task_c.inc"
 #include      "timeri_c.inc"
-C common pour variable globale en memoire partagee
+C Common for global variable in memory shared
       COMMON /I7MAINC/BMINMA,CURV_MAX_MAX,RESULT,NSNR,NSNROLD,I_MEMG,NMN_G
       INTEGER RESULT,NSNR,NSNROLD,I_MEMG,NMN_G
       my_real 
@@ -177,10 +177,10 @@ C
       CURV_MAX_MAX = ZERO
 C
 C -------------------------------------------------------------
-C     STOCKAGE DES ANCIENS CANDIDATS 
+C     storage of old candidates
 C -------------------------------------------------------------
 C
-C Barriere dans tous les cas pour bminma [et cur_max_max]
+C barrier in all cases for bminma [and cur_max_max]
 C
       CALL MY_BARRIER
 C
@@ -199,7 +199,7 @@ C
 C -------------------------------------------------------------
 C     CALCUL BORNE DOMAINE REMONTE DANS I7XSAVE
 C -------------------------------------------------------------
-C eshift : decalage sur cand_e
+C eshift: offset on cand_e
       CALL I7XSAVE(
      1       X            ,INTBUF_TAB%NSV,INTBUF_TAB%MSR,NSN ,NMN     ,
      2       ITASK        ,INTBUF_TAB%XSAV,XMINL        ,YMINL ,ZMINL   ,
@@ -218,7 +218,7 @@ C eshift : decalage sur cand_e
 #include "lockoff.inc"
 
       RESULT = 0
-C BARRIER II_STOK et RESULT
+C barrier II_STOK and RESULT
        CALL MY_BARRIER
        IF(ITASK==0)THEN
          IF(ABS(BMINMA(6)-BMINMA(3))>2*EP30.OR.
@@ -264,7 +264,7 @@ c        goto 150
 c 150   continue
         IF(ITASK==0)THEN
 C
-C recuperation des noeuds remote NSNR stockes dans XREM
+C recovery of remote nodes NSNR stored in XREM
 C
           IFQ  =0
           INTTH=0
@@ -283,7 +283,7 @@ C
 
 c 300      continue
 C
-C renumerotation locale des anciens candidats
+C Local renumeration of former candidates
 C
             CALL SPMD_RNUMCD(
      1     INTBUF_TAB%CAND_N,RENUM  ,INTBUF_TAB%I_STOK(1), NIN, NSN,
@@ -297,7 +297,7 @@ C
        ILD = 0
        NB_N_B = 1
 C
-C Barrier comm spmd_tri7box + BMINMA + Retour I7BUCE
+C Barrier Commp SPMD_TRI7BOX + BMINMA + RETURN I7BUCE
 C      
  50    CALL MY_BARRIER
 
@@ -340,7 +340,7 @@ C        UPGRADE_MULTIMP routine !!!!
         INTBUF_TAB%I_STOK(1)=CAND_N_OLD
         MULTIMP=IPARI(23,NIN)
         NCONTACT=MULTIMP*NCONT
-C eshift : decalage sur cand_e
+C eshift: offset on cand_e
         GOTO 40
       ENDIF
 
@@ -371,7 +371,7 @@ C utile si on revient
         TZINF  = INTBUF_TAB%VARIABLES(8)
         GOTO 50
       ENDIF
-C mise a - de dist temporairement pour reperage dans partie frontiere
+C set dist to negative temporarily for identification in boundary part
       IF(NSPMD>1)THEN
 C mono tache
 !$OMP SINGLE

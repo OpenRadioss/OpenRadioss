@@ -286,7 +286,7 @@ C
       PROP_TAG(IGTYP)%G_TOTDEPL = 1  ! DX - total deformation (translation)
       PROP_TAG(IGTYP)%G_FOREP = 1    !  FORCE - (ELASTO PLASTIQUE (ISOTROPE))
       PROP_TAG(IGTYP)%G_DEP_IN_TENS = 1  ! DPX  (DPY,DPZ) - max displacement in tension
-      PROP_TAG(IGTYP)%G_DEP_IN_COMP = 1  ! DPX2 (DPY2,DPZ2) - max displacement in compression
+      PROP_TAG(IGTYP)%G_DEP_IN_COMP = 1  ! DPX2 (DPY2, DPZ2) - Max Displacement in Compression
       PROP_TAG(IGTYP)%G_POSX = 5
       PROP_TAG(IGTYP)%G_YIELD = 1
       PROP_TAG(IGTYP)%G_LENGTH_ERR = 1

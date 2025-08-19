@@ -186,7 +186,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !       FINTER organization :
 !               two cases :
 !                    - constant function --> direct interpolation
-!                    - non-constant function :
+!                    - Non-confunction:
 !                        (1): if the number of point in the function is < MIN_GAP, then
 !                             the interpolation is computed 
 !                        (2): if the number of point in the function is > MIN_GAP, then
@@ -231,7 +231,7 @@ C-----------------------------------------------
         DX2 = TF(NPF(IFUNC)) - XX
         !       -----------------------------
         IF ((NPF(IFUNC+1)-NPF(IFUNC))==2) THEN
-        !       constant function
+        !       Constant Function
                 FINTER = TF(NPF(IFUNC)+1)
                 RETURN
         ELSE

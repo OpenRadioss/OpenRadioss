@@ -107,7 +107,7 @@ C     initialisation MTF(1:14,1:NUMNOD)
 C=======================================================================
 C
 c
-c     a reecrire sur mains uniquement
+c     To be reached on mains only
       NODF = 1 + (JTASK-1)*NUMNOD / NTHREAD
       NODL = JTASK*NUMNOD / NTHREAD
       DO I = NODF,NODL
@@ -120,7 +120,7 @@ c     a reecrire sur mains uniquement
         MTF(7,I) = ZERO   ! Fx mains
         MTF(8,I) = ZERO   ! Fy mains
         MTF(9,I) = ZERO   ! Fz mains
-        MTF(10,I)= ZERO   ! PENE cumulee sur second
+        MTF(10,I)= ZERO   ! cumulative penetration on second
 c        MTF(11,I)= EP30   ! Distance relative min
         MTF(11,I)= ZERO   ! pene max
         MTF(12,I) = ZERO  ! Nx second
@@ -189,19 +189,19 @@ C -------------------
       CALL MY_BARRIER
 C -------------------
       IF (NSPMD > 1)THEN
-C     MSFI (MASSE des noeuds seconds  n est pas mis a jour
-C     la masse est necessaire pour les calculs ensuite
+C     MSFI (mass of second nodes is not updated
+C     mass is needed for subsequent calculations
           CALL SPMD_I18KINE_COM_MS(IPARI,INTBUF_TAB,MTF,MS,ITAB)
       ENDIF
 C-----------------------------------------------
-C statistique interface
+C Interface Statistics
       IF (DEBUG(3) >= 1.AND.NCYCLE == 0) THEN
         NB_JLT(JTASK) = 0
         NB_JLT_NEW(JTASK) = 0
         NB_STOK_N(JTASK) = 0
       ENDIF
 C=======================================================================
-C     calcul des penetrations cumulees ...
+C     calculation of cumulative penetrations ...
 C     MTF(10,i) pene cumulee
 C     MTF(11,i) dist min relative
 C     MTF(12:14,i) normales cumulee
@@ -226,27 +226,27 @@ C LINDMAX = NCONT*MULTIMP
 C=======================================================================
 !$OMP SINGLE
 
-C     COMM SPMD : MTF(10,*)=somme des PENE
-C     COMM SPMD : MTF(11,*)=min des distances relatives
-C     COMM SPMD : MTF(12:14,*)=sommes des normales
-c   1: envoie sur le proc qui possede le noeud
-c   2: cumul(ou min) sur les noeuds frontieres secnd 18
-c   2: cumul sur les noeuds frontieres secnd 18
+C     Comm spmd: mtf (10,*) = sum of the pene
+C     Comm spmd: mtf (11,*) = min relative distances
+C     Comm SPMD: MTF (12:14,*) = IS NORMALS
+c   1: send to the proc that owns the node
+c   2: accumulate (or min) on secondary 18 boundary nodes
+c   2: accumulate on secondary 18 boundary nodes
       IF (NSPMD > 1)THEN
          CALL SPMD_I18KINE_PENE_COM_POFF(IPARI,INTBUF_TAB,VBID,
      *                                   MTF,A,IAD_ELEM,FR_ELEM,1,BID,TAGPENE,ITAB,
      .                                   H3D_DATA  )
 
-c     Besoin des accelerations pour le noeud second
+c     need accelerations for the second node
 c     quand on a surface main, noeud second. distant
-c     Dans le meme cas, retour du MTF_PENE+MTF_PENEMIN pour les
+c     in the same case, return MTF_PENE+MTF_PENEMIN for
 c     calculs suivants.
 
           CALL SPMD_I18KINE_COM_ACC(IPARI,INTBUF_TAB,MTF,A,ITAB,TAGPENE)
       ENDIF
 !$OMP END SINGLE
 C=======================================================================
-C     calcul des forces et des masses a transmettre aux mains
+C     calculation of forces and masses to be transmitted to the mains
 c     ponderation en pene/somme(pene)
 C=======================================================================
 C -------------------
@@ -264,15 +264,15 @@ C -------------------
        ENDIF
       ENDDO
 C=======================================================================
-C     COMM SPMD : MTF(1:9,*)= masses et forces des mains
-C     comm sur les noeuds frontieres main int 18
+C     Comm spmd: mtf (1: 9,*) = masses and main forces
+C     comm on main int 18 boundary nodes
 !$OMP SINGLE
       IF (NSPMD > 1)THEN
         CALL SPMD_I18KINE_MSF_COM_POFF(MTF,IAD_ELEM,FR_ELEM,ITAB)
       ENDIF
 !$OMP END SINGLE
 C=======================================================================
-C     calcul des nouvelles accelerations des mains
+C     calculation of new accelerations of the mains
 C=======================================================================
 C -------------------
       CALL MY_BARRIER
@@ -292,11 +292,11 @@ C -------------------
        ENDIF
       ENDDO
 C=======================================================================
-c     si MTF(1,*) /= 0 le noeuds est main int 18 sur ce proc
-c     et peut etre utilise comme flag
+c     if MTF(1,*) /= 0 the node is main int 18 on this proc
+c     and maybe used as flag
 
-c     => envoyer MTF(1,*) et A(1:3,*) pour TOUS les noeuds frontieres
-c     en reception si MTF(recu) est non nul
+c     => send MTF(1,*) and A(1:3,*) for ALL boundary nodes
+c     in reception if mtf (received) is not zero
 c     => ecraser A(local) par A(recu)
 !$OMP SINGLE
       IF(NSPMD > 1) CALL SPMD_I18KINE_MACC_COM_POFF(MTF,A,IAD_ELEM,FR_ELEM,ITAB)
@@ -375,7 +375,7 @@ C=======================================================================
          SLVNDTAG = 0
       ENDIF
 C=======================================================================
-C     calcul des vitesses a imposer aux second
+C     velocity calculation to be imposed on the second
 c     ponderation en pene/somme(pene)
 C=======================================================================
 C -------------------
@@ -384,9 +384,9 @@ C -------------------
       NODF = 1 + (JTASK-1)*NUMNOD / NTHREAD
       NODL = JTASK*NUMNOD / NTHREAD
       DO I = NODF,NODL
-        MTF(1,I) = ZERO   ! vx second. impose par main
-        MTF(2,I) = ZERO   ! vy second. impose par main
-        MTF(3,I) = ZERO   ! vz second. impose par main
+        MTF(1,I) = ZERO   ! VX Second.main
+        MTF(2,I) = ZERO   ! Vy second.main
+        MTF(3,I) = ZERO   ! Vz second.main
         MTF(4,I) = ZERO   ! vxp second. old (v+a*dt)
         MTF(5,I) = ZERO   ! vyp second. old (v+a*dt)
         MTF(6,I) = ZERO   ! vzp second. old (v+a*dt)
@@ -476,7 +476,7 @@ C=======================================================================
 !$OMP SINGLE
 C     COMM SPMD : A(1:3,*)= acceleration des seconds
 
-c   1: envoie sur le proc qui possede le noeud qui ecrase l'acceleration
+c   1: send to the proc that owns the node that overwrites the acceleration
       IF (NSPMD > 1)THEN
         CALL SPMD_I18KINE_PENE_COM_POFF(IPARI,INTBUF_TAB,FCONT,
      *                                  MTF,A,IAD_ELEM,FR_ELEM,3,SLVNDTAG,IBID,ITAB,
@@ -531,7 +531,7 @@ C-------------------------------------------------------------------------------
 C    NIN    1                        NUMERO INTERFACE                   E
 C   IPARI   NPARI,NINTER             PARAMETRES D'INTERFACE             E
 C     X     3,NUMNOD                 COORDONNEES                        E
-C     V     3,NUMNOD                 VITESSES                           E
+C     V     3,NUMNOD                 VELOCITIES                           E
 C    EMINX  6*NME<6*NUMELS           MIN MAX DE CHAQUE ELEMENT        TMP_GLOBAL
 C
 C-----------------------------------------------
@@ -604,7 +604,7 @@ C -------------------
 
 C=======================================================================
 C     calcul des pene,normale,Hi...
-C     et calcul de la pene cumulee pour chaque second. MTF(10,i)
+C     and calculation of cumulative penetration for each second. MTF(10,i)
 C=======================================================================
       NBID=0
       BID=ZERO
@@ -671,7 +671,7 @@ C preparing retained candidates
           CALL I7CDCOR3(
      1         JLT,INDEX2(NFT+1),INTBUF_TAB%CAND_E,INTBUF_TAB%CAND_N,
      2         CAND_E_N,CAND_N_N)
-C cand_n et cand_e replaced with cand_n_n et cand_e_n
+C cand_n and cand_e replaced with cand_n_n and cand_e_n
           CALL I7COR3(
      1         JLT       ,X   ,INTBUF_TAB%IRECTM,INTBUF_TAB%NSV,CAND_E_N,
      2         CAND_N_N  ,INTBUF_TAB%STFM   ,INTBUF_TAB%STFNS  ,X1    ,X2   ,
@@ -758,7 +758,7 @@ C   IPARI   NPARI,NINTER             PARAMETRES D'INTERFACE             E
 C
 C     X     3,NUMNOD                 COORDONNEES                        E
 C
-C     V     3,NUMNOD                 VITESSES                           E
+C     V     3,NUMNOD                 VELOCITIES                           E
 C
 C    EMINX  6*NME<6*NUMELS           MIN MAX DE CHAQUE ELEMENT        TMP_GLOBAL
 C
@@ -818,7 +818,7 @@ C-----------------------------------------------
 C
 C=======================================================================
 C     calcul des pene,normale,Hi...
-C     et calcul de la pene cumulee pour chaque second. MTF(10,i)
+C     and calculation of cumulative penetration for each second. MTF(10,i)
 C=======================================================================
       NSN   =IPARI(5)
       NTY   =IPARI(7)
@@ -843,8 +843,8 @@ C
       GAPMAX=INTBUF_TAB%VARIABLES(16)
       KMIN  =INTBUF_TAB%VARIABLES(17)
       KMAX  =INTBUF_TAB%VARIABLES(18)
-C     cette partie est effectuee en // apres le calcul des forces des elem.
-C     decoupage statique
+C     this part is done in parallel after the calculation of element forces
+C     static decoupage
       NB_LOC = I_STOK / NTHREAD
       IF (JTASK == NTHREAD) THEN
           I_STOK_LOC = I_STOK-NB_LOC*(NTHREAD-1)
@@ -853,7 +853,7 @@ C     decoupage statique
       ENDIF
       DEBUT = NB_LOC*(JTASK-1)
 C=======================================================================
-C     calcul des forces et des masses a transmettre aux mains
+C     calculation of the forces and masses to be transmitted to the mains
 c     ponderation en pene/somme(pene)
 C=======================================================================
 c      DO NFT = DEBUT , DEBUT + I_STOK_LOC - 1 , NVSIZ
@@ -917,7 +917,7 @@ C-----------------------------------------------
         J=MSR(I)
         IF(J > 0) THEN
 
-c     invertion matrice 3x3 sym et multiplication par un vecteur
+c     inversion of symmetric 3x3 matrix and multiplication by a vector
 c
 c     B = A^-1
 c
@@ -988,7 +988,7 @@ C   IPARI   NPARI,NINTER             PARAMETRES D'INTERFACE             E
 C
 C     X     3,NUMNOD                 COORDONNEES                        E
 C
-C     V     3,NUMNOD                 VITESSES                           E
+C     V     3,NUMNOD                 VELOCITIES                           E
 C
 C    EMINX  6*NME<6*NUMELS           MIN MAX DE CHAQUE ELEMENT        TMP_GLOBAL
 C
@@ -1063,8 +1063,8 @@ C
       GAPMAX=INTBUF_TAB%VARIABLES(16)
       KMIN  =INTBUF_TAB%VARIABLES(17)
       KMAX  =INTBUF_TAB%VARIABLES(18)
-C     cette partie est effectuee en // apres le calcul des forces des elem.
-C     decoupage statique
+C     this part is performed in parallel after the calculation of the forces of the elements
+C     static decoupage
       NB_LOC = I_STOK / NTHREAD
       IF (JTASK == NTHREAD) THEN
           I_STOK_LOC = I_STOK-NB_LOC*(NTHREAD-1)
@@ -1073,7 +1073,7 @@ C     decoupage statique
       ENDIF
       DEBUT = NB_LOC*(JTASK-1)
 C=======================================================================
-C     calcul des vitesses a imposer aux second
+C     velocity calculation to be imposed on the second
 c     ponderation en pene/somme(pene)
 C=======================================================================
 c      DO NFT = DEBUT , DEBUT + I_STOK_LOC - 1 , NVSIZ
@@ -1131,7 +1131,7 @@ C   IPARI   NPARI,NINTER             PARAMETRES D'INTERFACE             E
 C
 C     X     3,NUMNOD                 COORDONNEES                        E
 C
-C     V     3,NUMNOD                 VITESSES                           E
+C     V     3,NUMNOD                 VELOCITIES                           E
 C
 C    EMINX  6*NME<6*NUMELS           MIN MAX DE CHAQUE ELEMENT        TMP_GLOBAL
 C
@@ -1891,13 +1891,13 @@ C
 C-----------------------------------------------------
 C not useful so far
 C-----------------------------------------------------
-CC spmd : identification des noeuds interf. utiles a envoyer
+CC'espMD: Identification of interf nodes.useful to send
 C      IF (NSPMD > 1) THEN
 C        DO I = 1,JLT
 C          IF(PENE(I) > ZERO)THEN
 C           NN = NSVG(I)
 C          IF(NN < 0)THEN
-C tag temporaire de NSVFI a -
+C temporary tag of nsvfi a -
 C            NSVFI(NIN)%P(-NN) = -ABS(NSVFI(NIN)%P(-NN))
 C          ENDIF
 C         ENDIF

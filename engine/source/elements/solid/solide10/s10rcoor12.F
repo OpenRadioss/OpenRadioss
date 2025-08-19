@@ -85,7 +85,7 @@ C=======================================================================
           END DO 
          END DO 
 C-----------
-C     REPERE CONVECTE (ITERATIONS).
+C     convected frame (ITERATIONS).
 C-----------
       DO I=1,NEL
         IF (OFF(I) <= ONE ) CYCLE 

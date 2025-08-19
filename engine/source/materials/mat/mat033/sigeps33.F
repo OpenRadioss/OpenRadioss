@@ -202,7 +202,7 @@ C COMP    UTE TRIAL STRESSES
             SIGSYZ(I)=SIGSYZ(I)+EY*EPSPYZ(I)*TIMESTEP*HALF
             SIGSZX(I)=SIGSZX(I)+EY*EPSPZX(I)*TIMESTEP*HALF
   120     CONTINUE
-C si ancienne methode alors ....
+C If old method then ....
           IF (VPVEC==1) THEN
            DO 130 I=1,NEL
             S(1,1)=SIGSXX(I)
@@ -379,7 +379,7 @@ C COMPUTE TRIAL STRESSES
   240    CONTINUE
          IF(KEN<0)GOTO 255
 C
-C si ancienne methode alors ....
+C If old method then ....
          IF (VPVEC==1) THEN
           DO 250 I=1,NEL
            S(1,1)=SIGSXX(I)
@@ -824,12 +824,12 @@ C-----------------------------------------------
 C     DATA FTPI,TTPI / 4.188790205, 2.094395102 /
 C     FTPI=(4/3)*PI, TTPI=(2/3)*PI
 C
-C     DEVIATEUR PRINCIPAL DE CONTRAINTE
+C     principal deviator of stress
 C . . . . . . . . . . . . . . . . . . .
       MDEMI = -HALF
       TTPI = ACOS(MDEMI)
       FTPI = TWO*TTPI
-C precision minimum dependant du type REAL ou DOUBLE
+C minimum precision depending on the type real or double
       CALL FLOATMIN(CS(1),CS(2),FLMIN)
       FLM = TWO*SQRT(FLMIN)
       NINDEX3=0  
@@ -869,7 +869,7 @@ C
         VAL(1,NN) = STR(1,NN)-PR
         VAL(2,NN) = STR(2,NN)-PR
         VAL(3,NN) = STR(3,NN)-PR
-C renforcement de precision en compression----
+C accuracy reinforcement in compression ----
         IF(ABS(STR(3,NN))>ABS(STR(1,NN))
      &     .AND.AAA(NN)>NORMINF(NN)) THEN
          AA=STR(1,NN)
@@ -1079,10 +1079,10 @@ C
         VEC(8,NN)=VEC(3,NN)*VEC(4,NN)-VEC(1,NN)*VEC(6,NN)
         VEC(9,NN)=VEC(1,NN)*VEC(5,NN)-VEC(2,NN)*VEC(4,NN)
       ENDDO
-C reecriture pour contourner probleme sur itanium2 comp 9. + latency=16
+C Rewriting to bypass problem on itanium2 comp 9. + latency = 16
       DO N = 1, NINDEX3
         NN = INDEX3(N)
-C str utilise com tableau temporaire au lieu de scalaires temporaires
+C Str uses temporary table instead of temporary scalars
         STR(1,NN)=VEC(7,NN)
         STR(2,NN)=VEC(8,NN)
         STR(3,NN)=VEC(9,NN)
@@ -1143,12 +1143,12 @@ C-----------------------------------------------
 C     DATA FTPI,TTPI / 4.188790205, 2.094395102 /
 C     FTPI=(4/3)*PI, TTPI=(2/3)*PI
 C
-C     DEVIATEUR PRINCIPAL DE CONTRAINTE
+C     principal deviator of stress
 C . . . . . . . . . . . . . . . . . . .
       MDEMI = -HALF
       TTPI = ACOS(MDEMI)
       FTPI = TWO*TTPI
-C precision minimum dependant du type REAL ou DOUBLE
+C minimum precision depending on the type real or double
       CALL FLOATMIN(CS(1),CS(2),FLMIN)
       FLM = TWO*SQRT(FLMIN)
       NINDEX3=0  
@@ -1188,7 +1188,7 @@ C
         VALDP(1,NN) = STR(1,NN)-PR
         VALDP(2,NN) = STR(2,NN)-PR
         VALDP(3,NN) = STR(3,NN)-PR
-C renforcement de precision en compression simple----
+C precision reinforcement in simple compression ----
         IF(ABS(STR(3,NN))>ABS(STR(1,NN))
      &     .AND.AAA(NN)>NORMINF(NN)) THEN
          AA=STR(1,NN)
@@ -1412,10 +1412,10 @@ C
         VEC(8,NN)=VECDP(8,NN)
         VEC(9,NN)=VECDP(9,NN)
       ENDDO
-C reecriture pour contourner probleme sur itanium2 comp 9. + latency=16
+C Rewriting to bypass problem on itanium2 comp 9. + latency = 16
       DO N = 1, NINDEX3
         NN = INDEX3(N)
-C str utilise com tableau temporaire au lieu de scalaires temporaires
+C Str uses temporary table instead of temporary scalars
         STR(1,NN)=VEC(7,NN)
         STR(2,NN)=VEC(8,NN)
         STR(3,NN)=VEC(9,NN)
@@ -1571,12 +1571,12 @@ C-----------------------------------------------
 C     DATA FTPI,TTPI / 4.188790205, 2.094395102 /
 C     FTPI=(4/3)*PI, TTPI=(2/3)*PI
 C
-C     DEVIATEUR PRINCIPAL DE CONTRAINTE
+C     principal deviator of stress
 C . . . . . . . . . . . . . . . . . . .
       MDEMI = -HALF
       TTPI = ACOS(MDEMI)
       FTPI = TWO*TTPI
-C precision minimum dependant du type REAL ou DOUBLE
+C minimum precision depending on the type real or double
       CALL FLOATMIN(CS(1),CS(2),FLMIN)
       FLM = TWO*SQRT(FLMIN)
       NINDEX3=0 
@@ -1622,7 +1622,7 @@ C
         VALDP(1,NN) = STR(1,NN)-PR
         VALDP(2,NN) = STR(2,NN)-PR
         VALDP(3,NN) = STR(3,NN)-PR
-C renforcement de precision en compression simple----
+C precision reinforcement in simple compression ----
         IF(ABS(STR(3,NN))>ABS(STR(1,NN))
      &     .AND.AAA(NN)>NORMINF(NN)) THEN
          AA=STR(1,NN)
@@ -1858,10 +1858,10 @@ C
         VEC(8,NN)=VECDP(8,NN)
         VEC(9,NN)=VECDP(9,NN)
       ENDDO
-C reecriture pour contourner probleme sur itanium2 comp 9. + latency=16
+C Rewriting to bypass problem on itanium2 comp 9. + latency = 16
       DO N = 1, NINDEX3
         NN = INDEX3(N)
-C str utilise com tableau temporaire au lieu de scalaires temporaires
+C Str uses temporary table instead of temporary scalars
         STR(1,NN)=VEC(7,NN)
         STR(2,NN)=VEC(8,NN)
         STR(3,NN)=VEC(9,NN)
@@ -1932,12 +1932,12 @@ C-----------------------------------------------
 C     DATA FTPI,TTPI / 4.188790205, 2.094395102 /
 C     FTPI=(4/3)*PI, TTPI=(2/3)*PI
 C
-C     DEVIATEUR PRINCIPAL DE CONTRAINTE
+C     principal deviator of stress
 C . . . . . . . . . . . . . . . . . . .
       MDEMI = -HALF
       TTPI = ACOS(MDEMI)
       FTPI = TWO*TTPI
-C precision minimum dependant du type REAL ou DOUBLE
+C minimum precision depending on the type real or double
       CALL FLOATMIN(CS(1),CS(2),FLMIN)
       FLM = TWO*SQRT(FLMIN)
       NINDEX3=0  
@@ -1977,7 +1977,7 @@ C
         VAL(NN,1) = STR(NN,1)-PR
         VAL(NN,2) = STR(NN,2)-PR
         VAL(NN,3) = STR(NN,3)-PR
-C renforcement de precision en compression----
+C accuracy reinforcement in compression ----
         IF(ABS(STR(NN,3))>ABS(STR(NN,1))
      &     .AND.AAA(NN)>NORMINF(NN)) THEN
          AA=STR(NN,1)
@@ -2187,10 +2187,10 @@ C
         VEC(NN,8)=VEC(NN,3)*VEC(NN,4)-VEC(NN,1)*VEC(NN,6)
         VEC(NN,9)=VEC(NN,1)*VEC(NN,5)-VEC(NN,2)*VEC(NN,4)
       ENDDO
-C reecriture pour contourner probleme sur itanium2 comp 9. + latency=16
+C Rewriting to bypass problem on itanium2 comp 9. + latency = 16
       DO N = 1, NINDEX3
         NN = INDEX3(N)
-C str utilise com tableau temporaire au lieu de scalaires temporaires
+C Str uses temporary table instead of temporary scalars
         STR(NN,1)=VEC(NN,7)
         STR(NN,2)=VEC(NN,8)
         STR(NN,3)=VEC(NN,9)
@@ -2262,12 +2262,12 @@ C-----------------------------------------------
 C     DATA FTPI,TTPI / 4.188790205, 2.094395102 /
 C     FTPI=(4/3)*PI, TTPI=(2/3)*PI
 C
-C     DEVIATEUR PRINCIPAL DE CONTRAINTE
+C     principal deviator of stress
 C . . . . . . . . . . . . . . . . . . .
       MDEMI = -HALF
       TTPI = ACOS(MDEMI)
       FTPI = TWO*TTPI
-C precision minimum dependant du type REAL ou DOUBLE
+C minimum precision depending on the type real or double
       CALL FLOATMIN(CS(1),CS(2),FLMIN)
       FLM = TWO*SQRT(FLMIN)
       NINDEX3=0  
@@ -2307,7 +2307,7 @@ C
         VALDP(NN,1) = STR(NN,1)-PR
         VALDP(NN,2) = STR(NN,2)-PR
         VALDP(NN,3) = STR(NN,3)-PR
-C renforcement de precision en compression simple----
+C precision reinforcement in simple compression ----
         IF(ABS(STR(NN,3))>ABS(STR(NN,1))
      &     .AND.AAA(NN)>NORMINF(NN)) THEN
          AA=STR(NN,1)
@@ -2532,11 +2532,11 @@ C
         VEC(NN,8)=VECDP(NN,8)
         VEC(NN,9)=VECDP(NN,9)
       ENDDO
-C reecriture pour contourner probleme sur itanium2 comp 9. + latency=16
+C Rewriting to bypass problem on itanium2 comp 9. + latency = 16
 #include      "vectorize.inc"
       DO N = 1, NINDEX3
         NN = INDEX3(N)
-C str utilise com tableau temporaire au lieu de scalaires temporaires
+C Str uses temporary table instead of temporary scalars
         STR(NN,1)=VEC(NN,7)
         STR(NN,2)=VEC(NN,8)
         STR(NN,3)=VEC(NN,9)
@@ -2608,12 +2608,12 @@ C-----------------------------------------------
 C     DATA FTPI,TTPI / 4.188790205, 2.094395102 /
 C     FTPI=(4/3)*PI, TTPI=(2/3)*PI
 C
-C     DEVIATEUR PRINCIPAL DE CONTRAINTE
+C     principal deviator of stress
 C . . . . . . . . . . . . . . . . . . .
       MDEMI = -HALF
       TTPI = ACOS(MDEMI)
       FTPI = TWO*TTPI
-C precision minimum dependant du type REAL ou DOUBLE
+C minimum precision depending on the type real or double
       CALL FLOATMIN(CS1,CS2,FLMIN)
       FLM = TWO*SQRT(FLMIN)
       NINDEX3=0 
@@ -2666,7 +2666,7 @@ C
         VALDP1(NN) = STR1(NN)-PR
         VALDP2(NN) = STR2(NN)-PR
         VALDP3(NN) = STR3(NN)-PR
-C renforcement de precision en compression simple----
+C precision reinforcement in simple compression ----
         IF(ABS(STR3(NN))>ABS(STR1(NN))
      &     .AND.AAA(NN)>NORMINF(NN)) THEN
          AA=STR1(NN)
@@ -2908,11 +2908,11 @@ C
         VEC(NN,8)=VECDP8(NN)
         VEC(NN,9)=VECDP9(NN)
       ENDDO
-C reecriture pour contourner probleme sur itanium2 comp 9. + latency=16
+C Rewriting to bypass problem on itanium2 comp 9. + latency = 16
       IF (NINDEX3 > 0) THEN
         DO NN = 1, NEL
           IF(INDEX3(NN) == 1) THEN
-C strutilise com tableau temporaire au lieu de scalaires temporaires
+C Structilis com temporary table instead of temporary scalars
             S1=VEC(NN,7)
             S2=VEC(NN,8)
             S3=VEC(NN,9)

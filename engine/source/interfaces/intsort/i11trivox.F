@@ -98,17 +98,17 @@ C     IRECTS(2,*)  TABLEAU DES CONEC                 E
 C          1.........NODE 1 SECND EDGE
 C          2.........NODE 2 SECND EDGE
 C     X(3,*)       COORDONNEES NODALES               E
-C     II_STOK       niveau de stockage des couples
+C     II_STOK       contact pairs storage level
 C                                candidats impact    E/S
 C     CAND_S       boites resultats noeuds
 C     CAND_M       adresses des boites resultat elements
 C     NOINT        NUMERO USER DE L'INTERFACE
 C     TZINF        TAILLE ZONE INFLUENCE
 C     VOXEL(*,*,*) VOXEL PARTIONNEMENT DE l'ESPACE (NBX+2,NBY+2,NBZ+2) 
-C                  Stocke dans chaque voxel les edge secnd.
-C                  En pratique designe la premier arrete d'une liste chainee
-C     MAX_ADD      adresse maximum pour les tableaux chaines
-C     NSN4         4*NSN TAILLE MAX ADMISE MAINTENANT POUR LES
+C                  stores secondary edges in each voxel
+C                  In practice designe the first stop on a chain list
+C     MAX_ADD      maximum address for chain arrays
+C     NSN4         4*NSN maximum size now allowed for the
 C                  COUPLES NOEUDS,ELT CANDIDATS
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -136,11 +136,11 @@ C-----------------------------------------------
       INTEGER 
      .        I,J,SS1,SS2,IBUG,
      .        N1,N2,MM1,MM2, iN1, iN2, iM1, iM2, K,L,
-     .        PROV_S(2*MVSIZ),PROV_M(2*MVSIZ),    !tableau provisoire de candidats envoye a I11STOK
+     .        PROV_S(2*MVSIZ),PROV_M(2*MVSIZ),    !Provisional table of candidates sent to i11stok
      .        IX1,IY1,IZ1,IX2,IY2,IZ2, 
      .        IX,IY,IZ, FIRST_ADD,
      .        I_STOK, I_STOK_BAK, IEDG,
-     .        PREV_ADD, CHAIN_ADD, CURRENT_ADD,   !pour le balayage des tableaux chaines
+     .        PREV_ADD, CHAIN_ADD, CURRENT_ADD,   !for scanning chain arrays
      .        NEDG, DEJA , MAX_ADD ,II_STOK0, M,REMOVE_REMOTE
       INTEGER, DIMENSION(3) :: TMIN,TMAX
       my_real
@@ -148,7 +148,7 @@ C-----------------------------------------------
      .        XMIN, XMAX,YMIN, YMAX,ZMIN, ZMAX, 
      .        YY1,YY2,ZZ1,ZZ2,
      .        AAA, DD,
-     .        XMAX_EDGS(NRTS+NRTSR), XMIN_EDGS(NRTS+NRTSR),   !cotes min/max des arrete seconds et mains
+     .        XMAX_EDGS(NRTS+NRTSR), XMIN_EDGS(NRTS+NRTSR),   !min/max coordinates of secondary and main edges
      .        YMAX_EDGS(NRTS+NRTSR), YMIN_EDGS(NRTS+NRTSR),
      .        ZMAX_EDGS(NRTS+NRTSR), ZMIN_EDGS(NRTS+NRTSR),
      .        XMAX_EDGM(NRTM), XMIN_EDGM(NRTM),
@@ -174,7 +174,7 @@ C
       MAX_IZ=1      
       
       !---------------------------------------------------------!
-      ! Allocation des tableaux chaines                         !
+      ! allocation of chain arrays
       !---------------------------------------------------------!
       IF(ITASK == 0)THEN
         MAX_ADD = max(1,4*(NRTS+NRTSR))
@@ -186,14 +186,14 @@ C
             CALL MY_BARRIER      !all threads wait for allocation       
 
       IF(NRTM==0.OR.NRTS==0)THEN
-       !ne pas reinitiliser tout le voxel s'il n'y a pas de candidat
+       !Do not reinitize all the Voxel if there is no candidate
         MIN_IX=1
         MIN_IY=1
         MIN_IZ=1        
       END IF
 
       !---------------------------------------------------------!
-      ! recuperation des bornes du domaine                      !
+      ! retrieval of domain boundaries
       !---------------------------------------------------------!
       XMIN = XYZM(1,1)
       YMIN = XYZM(2,1)
@@ -201,7 +201,7 @@ C
       XMAX = XYZM(4,1)
       YMAX = XYZM(5,1)
       ZMAX = XYZM(6,1)      
-c     dev future: xminb plus grand que xmin...
+c     Dev Future: xminb larger than Xmin ...
       XMINB = XMIN
       YMINB = YMIN
       ZMINB = ZMIN
@@ -209,20 +209,20 @@ c     dev future: xminb plus grand que xmin...
       YMAXB = YMAX
       ZMAXB = ZMAX  
 C=======================================================================
-C 1   Pour chaque edge, on marque les voxels occupes.
-C     Le nombre d edge dans un voxels etant variable, on
-C     utilise un tableau chaine.
-C     Ces voxels representent le voisinage de l edge.
-C     On cherchera ensuite toutes les entites interfacees
-C     dans ce voisinage.
+C 1   for each edge, mark occupied voxels
+C     the number of edges in a voxel being variable, we
+C     use a chain array
+C     these voxels represent the edge neighborhood
+C     We then look for all the entities interfaces
+C     in this neighborhood
 C=======================================================================
       IF(ITASK == 0)THEN
         
-        CURRENT_ADD=1 ! premiere adresse
+        CURRENT_ADD=1 ! first address
 
         DO I = 1,NRTS  !si besoin on peut inverser Main/Secnd
         
-            IF(STFS(I)==ZERO)CYCLE !on ne retient pas les facettes detruites
+            IF(STFS(I)==ZERO)CYCLE !We do not retain the Destruit facets
                  
             !-------------------------------------------!
             ! Nodes ID for edge (N1,N2)                      !
@@ -231,8 +231,8 @@ C=======================================================================
             N2=IRECTS(2,I)             
             !-------------------------------------------!
             ! Coordinates of the two nodes              !
-            !  +Optimisation // recherche les noeuds    !
-            !compris dans xmin xmax des elements du proc!           
+            ! +optimization // search for nodes
+            !within xmin xmax of processor elements
             !-------------------------------------------!
             XX1=X(1,N1)
             XX2=X(1,N2)
@@ -265,7 +265,7 @@ C=======================================================================
             IY2=MAX(1,2+MIN(NBY,IY2))
             IZ2=MAX(1,2+MIN(NBZ,IZ2))
           
-            !pour reset des voxel
+            !for voxel reset
             MIN_IX = MIN(MIN_IX,IX1)
             MIN_IY = MIN(MIN_IY,IY1)
             MIN_IZ = MIN(MIN_IZ,IZ1)          
@@ -301,7 +301,7 @@ C                            +------------+-----------+
 C                              |            |              |  MAX_ADD
 C                              +------------+-----------+
 C 
-            !Pour tous les voxels qu'occupe la brique
+            !for all voxels occupied by the brick
             DO IZ = IZ1,IZ2
              DO IY = IY1,IY2
               DO IX = IX1,IX2
@@ -310,23 +310,23 @@ C
 
                 IF(FIRST_ADD == 0)THEN
                 !voxel encore vide
-                 VOXEL(IX,IY,IZ)          = CURRENT_ADD ! adresse dans le tableau chaine de la premiere eddge trouvee occupant le voxel
-                 LCHAIN_LAST(CURRENT_ADD) = CURRENT_ADD ! dernier=adresse pour l edge courante
+                 VOXEL(IX,IY,IZ)          = CURRENT_ADD ! address in chain array of first edge found occupying the voxel
+                 LCHAIN_LAST(CURRENT_ADD) = CURRENT_ADD ! Last = Address for Current Edge
                  LCHAIN_ELEM(CURRENT_ADD) = I               ! edge ID
-                 LCHAIN_NEXT(CURRENT_ADD) = 0               ! pas de suivant car dernier de la liste   ! 
+                 LCHAIN_NEXT(CURRENT_ADD) = 0               ! no next because last in the list
                 ELSE
                  !voxel contenant deja une edge
-                 PREV_ADD                 = LCHAIN_LAST(FIRST_ADD) ! devient l'avant-dernier
-                 LCHAIN_LAST(FIRST_ADD)         = CURRENT_ADD                  ! maj du dernier
+                 PREV_ADD                 = LCHAIN_LAST(FIRST_ADD) ! becomes the penultimate
+                 LCHAIN_LAST(FIRST_ADD)         = CURRENT_ADD                  ! update of the last
                  LCHAIN_ELEM(CURRENT_ADD) = I                          ! edge ID
                  LCHAIN_NEXT(PREV_ADD)         = CURRENT_ADD                  ! maj du suivant 0 -> CURRENT_ADD
-                 LCHAIN_NEXT(CURRENT_ADD) = 0                          ! pas de suivant car dernier de la liste
+                 LCHAIN_NEXT(CURRENT_ADD) = 0                          ! no next because last in the list
                 ENDIF
 
                 CURRENT_ADD = CURRENT_ADD+1 
 
                 IF( CURRENT_ADD>=MAX_ADD)THEN
-                 !OPTIMISATION : suprresion du deallocate/GOTO debut.
+                 !Optimization: DEALLOCATE/GOTO DEBUT SUPRRESION.
                  !REALLOCATE SI PAS ASSEZ DE PLACE : inutile de recommencer de 1 a MAX_ADD-1, on poursuit de MAX_ADD a 2*MAX_ADD
                  MAX_ADD = 2 * MAX_ADD        
                  !print *, "reallocate"
@@ -342,19 +342,19 @@ C
         ENDDO !DO I=1,NRTS
 
 C=======================================================================
-C 2   Traiter les edges remote. Recuperer les 2 noeuds des
-C    edge remotes qui sont dans les memes voxels
+C 2   process remote edges. retrieve the 2 nodes of
+C    remote edges that are in the same voxels
 C
 C           a faire
 C
 C=======================================================================
         DO I = NRTS+1,NRTS+NRTSR  !si besoin on peut inverser Main/Secnd       
-c            IF(STFS(I)==ZERO)CYCLE !on ne retient pas les facettes detruites, deja fait dans SPMD_MACH::spmd_tri11vox
+c            If (Stfs (i) == Zero) Cycle! We do not retain the destroyed facets, already done in SPMD_Mach :: SPMD_TRI11VOX
           J=I-NRTS          
           !-------------------------------------------!
           ! Coordinates of the two nodes              !
-          !  +Optimisation // recherche les noeuds    !
-          !compris dans xmin xmax des elements du proc!           
+          ! +optimization // search for nodes
+          !within xmin xmax of processor elements
           !-------------------------------------------!
           XX1=XREM(1,J)
           XX2=XREM(8,J)
@@ -387,7 +387,7 @@ c            IF(STFS(I)==ZERO)CYCLE !on ne retient pas les facettes detruites, d
           IY2=MAX(1,2+MIN(NBY,IY2))
           IZ2=MAX(1,2+MIN(NBZ,IZ2))
           
-          !pour reset des voxel
+          !for voxel reset
           MIN_IX = MIN(MIN_IX,IX1)
           MIN_IY = MIN(MIN_IY,IY1)
           MIN_IZ = MIN(MIN_IZ,IZ1)          
@@ -423,28 +423,28 @@ C                            +------------+-----------+
 C                              |            |              |  MAX_ADD
 C                              +------------+-----------+
 C 
-            !Pour tous les voxels qu'occupe la brique
+            !for all voxels occupied by the brick
           DO IZ = IZ1,IZ2
            DO IY = IY1,IY2
             DO IX = IX1,IX2           
               FIRST_ADD = VOXEL(IX,IY,IZ)
               IF(FIRST_ADD == 0)THEN
                !voxel encore vide
-                VOXEL(IX,IY,IZ)          = CURRENT_ADD ! adresse dans le tableau chaine de la premiere eddge trouvee occupant le voxel
-                LCHAIN_LAST(CURRENT_ADD) = CURRENT_ADD ! dernier=adresse pour l edge courante
+                VOXEL(IX,IY,IZ)          = CURRENT_ADD ! address in chain array of first edge found occupying the voxel
+                LCHAIN_LAST(CURRENT_ADD) = CURRENT_ADD ! Last = Address for Current Edge
                 LCHAIN_ELEM(CURRENT_ADD) = I               ! edge ID
-                LCHAIN_NEXT(CURRENT_ADD) = 0               ! pas de suivant car dernier de la liste   ! 
+                LCHAIN_NEXT(CURRENT_ADD) = 0               ! no next because last in the list
               ELSE
                 !voxel contenant deja une edge
-                PREV_ADD                 = LCHAIN_LAST(FIRST_ADD) ! devient l'avant-dernier
-                LCHAIN_LAST(FIRST_ADD)         = CURRENT_ADD                  ! maj du dernier
+                PREV_ADD                 = LCHAIN_LAST(FIRST_ADD) ! becomes the penultimate
+                LCHAIN_LAST(FIRST_ADD)         = CURRENT_ADD                  ! update of the last
                 LCHAIN_ELEM(CURRENT_ADD) = I                          ! edge ID
                 LCHAIN_NEXT(PREV_ADD)         = CURRENT_ADD                  ! maj du suivant 0 -> CURRENT_ADD
-                LCHAIN_NEXT(CURRENT_ADD) = 0                          ! pas de suivant car dernier de la liste
+                LCHAIN_NEXT(CURRENT_ADD) = 0                          ! no next because last in the list
               ENDIF
               CURRENT_ADD = CURRENT_ADD+1 
               IF( CURRENT_ADD>=MAX_ADD)THEN
-                !OPTIMISATION : suprresion du deallocate/GOTO debut.
+                !Optimization: DEALLOCATE/GOTO DEBUT SUPRRESION.
                 !REALLOCATE SI PAS ASSEZ DE PLACE : inutile de recommencer de 1 a MAX_ADD-1, on poursuit de MAX_ADD a 2*MAX_ADD
                 MAX_ADD = 2 * MAX_ADD        
                 !print *, "reallocate remote"
@@ -461,13 +461,13 @@ C
 
       END IF !(ITASK==0)
       
-      CALL MY_BARRIER  !le tableau voxel doit etre rempli avant de continuer 
-                       !max_add doit etre le meme pour tout le monde.
+      CALL MY_BARRIER  !The Voxel table must be filled before continuing 
+                       !max_add must be the same for everyone
 C=======================================================================
-C 3   A partir des voxels occupes par une edge main, on est en
-C     mesure de connaitre toutes les edges escalves dans ce voisinage.
-C     Ce qui permet de creer des couples cancidats pour le contact
-C     Si la penetration est positive.
+C 3   from voxels occupied by a main edge, we are able
+C     to know all secondary edges in this neighborhood
+C     which allows creating candidate pairs for contact
+C     if penetration is positive
 C=======================================================================
       NEDG   = 0 
       I_STOK = 0
@@ -475,7 +475,7 @@ C=======================================================================
 
       DO IEDG=1,NRTM
 
-        IF(STFM(IEDG) == ZERO)CYCLE   ! on ne retient pas les facettes detruites
+        IF(STFM(IEDG) == ZERO)CYCLE   ! We do not retain the Destruit facets
 
 c       AAA = ZERO !MARGE
         AAA = TZINF
@@ -530,7 +530,7 @@ c       AAA = ZERO !MARGE
         IY2=MAX(1,2+MIN(NBY,IY2))
         IZ2=MAX(1,2+MIN(NBZ,IZ2))
 
-        DEJA = 0     ! l edge n est pas encore candidate.
+        DEJA = 0     ! The Edge is not yet a candidate.
         I_STOK_BAK = I_STOK
 C
 C--- IREMGAP - tag of deactivated lines
@@ -542,18 +542,18 @@ C--- IREMGAP - tag of deactivated lines
           ENDDO
         ENDIF
 C
-        !ON PARCOURS A NOUVEAU LES EDGES SECND DANS LE VOISINAGE DE L EDGE main IEDG
+        !we browse again the secondary edges in the neighborhood of main edge IEDG
         !ON CONSTITUE ICI ONE COUPLE
 
         DO IZ = IZ1,IZ2
          DO IY = IY1,IY2
           DO IX = IX1,IX2        
           
-            CHAIN_ADD = VOXEL(IX,IY,IZ)       ! adresse dans le tableau chaine de la premiere edge stoquee dans le voxel
-            DO WHILE(CHAIN_ADD /= 0)          ! BOUCLE SUR LES EDGES DU VOXEL COURANT
-              I = LCHAIN_ELEM(CHAIN_ADD)       ! numeros des edge_id balayes dans le voxel courant
+            CHAIN_ADD = VOXEL(IX,IY,IZ) ! address in chain array of first edge stored in the voxel
+            DO WHILE(CHAIN_ADD /= 0)          ! loop over edges of current voxel
+              I = LCHAIN_ELEM(CHAIN_ADD)       ! numbers of edge_id scanned in current voxel
 
-              !secnd edge nodes, exclure couples avec noeud commun
+              !Second Edge Nodes, exclude couples with common node
               IF (I<=NRTS)THEN
                 SS1=ITAB(IRECTS(1,I))
                 SS2=ITAB(IRECTS(2,I))              
@@ -568,7 +568,7 @@ C
                 CYCLE
               END IF
               
-              !unicite des couples        
+              !Uniqueness of Peirs
               IF(IAUTO==1 .AND. MM1<SS1 )THEN
                 CHAIN_ADD = LCHAIN_NEXT(CHAIN_ADD)
                 CYCLE
@@ -603,7 +603,7 @@ C-                Remote lines are identified by nodes
                                                             
               !print *, "candidat:",  IEDG, I
               IF(DEJA==0) NEDG = NEDG + 1     !nombre d edges candidate au calcul de contact (debug)                 
-              DEJA=1                          !l edge main IEDG fait l'objet d'une ecriture de candidat. On compte les edges main faisant l'objet dun couple candidate : on ne doit plus incrementer NEDG pour les autres edge secnd testees.
+              DEJA=1                          !The EDGE Main IEDG is the subject of a candidate writing.We count the main edges being the subject of a candidate couple: we must no longer include NEDG for the other EDGE SOLD TESTEES.
               CHAIN_ADD = LCHAIN_NEXT(CHAIN_ADD)
 C-----------------------------------------------------
               IF(I_STOK>=NVSIZ)THEN
@@ -646,7 +646,7 @@ C--- IREMGAP - clean of tagremline
       ENDDO       !NEXT IEDG
 
 C-------------------------------------------------------------------------
-C     FIN DU TRI
+C     end of sorting
 C-------------------------------------------------------------------------
  
       IF(I_STOK/=0)CALL I11STO_VOX(
@@ -659,15 +659,15 @@ C-------------------------------------------------------------------------
 
     
 C=======================================================================
-C 4   remise a zero des noeuds dans les boites et desallocation
+C 4   reset nodes in boxes to zero and deallocation
 C=======================================================================
 
  1000 CONTINUE            
 
-      CALL MY_BARRIER  !ne pas desalloue tant que les autres threads n'ont pas fini de travailler  
+      CALL MY_BARRIER  !Do not be Desalloue as long as the other threads have not finished working  
        
 
-      ! peut etre otpimisee : ne pas reinitialiser tout le tableau (plusieurs solutions possibles)  
+      ! can be optimized: do not reset the whole table (several possible solutions)  
       !! VOXEL( MIN_IX:MAX_IX, MIN_IY:MAX_IY, MIN_IZ:MAX_IZ ) = 0        
       TMIN(1) = MIN_IX
       TMIN(2) = MIN_IY

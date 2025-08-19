@@ -157,7 +157,7 @@ C
       ENDDO
 C
       goto 111
-C correction des moments pour eviter une instabilite
+C correction of moments to avoid instability
       IF(ISMSTR==1.OR.ISMSTR==2.OR.ISMSTR==3)THEN
        DO I=1,NEL
         MX(I) = X(2,NC1(I))*F31(I) - X(3,NC1(I))*F21(I)

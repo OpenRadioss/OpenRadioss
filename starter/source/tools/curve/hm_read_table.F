@@ -201,7 +201,7 @@ C----------------------------
        CALL HM_READ_TABLE2_1(NTABLE,NTABLE1, TABLE, L , UNITAB, LSUBMODEL)      
       ENDIF
 C-------------------------------------
-C Recherche des ID doubles (functions & tables)
+C Search for double id (Functions & Tables)
 C-------------------------------------
       DO L=1,NTABLE
        IDTAB(L)=TABLE(L)%NOTABLE

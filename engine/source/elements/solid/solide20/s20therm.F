@@ -82,7 +82,7 @@ C
         PHIZ(I) = KC*PHIZ(I)
       ENDDO
 C
-C force thermique nodale
+C nodal thermal force
 C
       DO N=1,NPE
        DO I= 1,NEL
@@ -111,7 +111,7 @@ C
 !        PHIY = KC*PHIY
 !        PHIZ = KC*PHIZ
 C
-C force thermique nodale
+C nodal thermal force
 C
 !        DO N=1,NPE
 !          FPHI(I,N) = FPHI(I,N) +

@@ -73,7 +73,7 @@ C-----------------------------------------------
       my_real, DIMENSION(:,:),ALLOCATABLE ::
      .   KNOTLOCX,KNOTLOCY,KNOTLOCZ
 C-------------------------------------------------------------
-C         CALCUL DES DEPLACEMENTS TRANSLATIONS DES POINTS FICTIFS IGEO
+C         CALCULATION OF TRANSLATION DISPLACEMENTS OF FICTITIOUS IGEO POINTS
 C-------------------------------------------------------------
 c
       DO N=1,NINTER

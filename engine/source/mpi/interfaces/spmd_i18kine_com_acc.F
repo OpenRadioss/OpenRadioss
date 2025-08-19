@@ -80,7 +80,7 @@ C-----------------------------------------------
      *   DIMENSION(:), ALLOCATABLE :: BBUFS, BBUFR
       DATA MSGOFF/150/
 C-----------------------------------------------
-C Sur la type 18KINE, il faut communiquer les accelerations des nds seconds
+C On the 18KINE type, it is necessary to communicate the accelerations of the secondary nodes
 
       LOC_PROC = ISPMD+1
       IADS = 0
@@ -89,7 +89,7 @@ C Sur la type 18KINE, il faut communiquer les accelerations des nds seconds
       LENRV = 0
 
       ALEN=8
-C Comptage des tailles de buffer  Receeption et envoi
+C Counting of buffer sizes Reception and sending
       DO P=1,NSPMD
          IADR(P)=LENRV+1
          DO NIN=1,NINTER
@@ -112,7 +112,7 @@ C Comptage des tailles de buffer  Receeption et envoi
           ENDIF
       ENDIF
 
-C Preparation du recieve
+C Preparation of the receive
       IF(LENRV>0)THEN
           ALLOCATE(BBUFR(LENRV),STAT=IERROR)
           IF(IERROR/=0) THEN
@@ -133,7 +133,7 @@ C Send
            IF((NTY==7.and.IPARI(34,NIN)==-2.and.INACTI==7).OR.
      .        (NTY==22.and.IPARI(34,NIN)==-2.and.INACTI==7))THEN
                NB = NSNSI(NIN)%P(P)
-C Preparation du send
+C Preparation of the send
                DO NN=1,NB
                  ND = NSVSI(NIN)%P(IDEB(NIN)+NN)
                  NOD=INTBUF_TAB(NIN)%NSV(ND)
@@ -206,7 +206,7 @@ C Recieve
           ENDIF
       ENDDO
 
-C Fin du send
+C End of the send
       DO P = 1, NSPMD
           IF (P==NSPMD)THEN
              SIZ=LENSD-IADS(P)

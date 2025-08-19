@@ -66,7 +66,7 @@ C---------------------------------------------------
          IF (ILVOUT>=1) WRITE(ISTDO,'(A)') 
      .   ' ** BEMSOLV : ASSEMBLY OF INTEGRAL OPERATORS'
          IF (IFORM==1) THEN
-C Collocation BEM - Elements lineaires en potentiel, constants en flux
+C BEM collocation - Potential linear elements, constant flow
             DO IN=1,NN
                DO JN=1,NN
                   HBEM(IN,JN)=ZERO
@@ -130,7 +130,7 @@ C Collocation BEM - Elements lineaires en potentiel, constants en flux
                HBEM(IN,IN)=-RSUM
             ENDDO
          ELSEIF (IFORM==2) THEN
-C Galerkin BEM - Elements lineaires en potentiel, constants en flux
+C Galerkin BEM - Linear elements in potential, constant in flow
             DO IN=1,NN
                DO JN=1,NN
                   HBEM(IN,JN)=ZERO
@@ -374,12 +374,12 @@ C
      .            .17561526,.17561526,
      .           -.14957004/
 C
-C DISTANCE A LA SOURCE
+C DISTANCE TO SOURCE
       XS=X(1,NNJ)
       YS=X(2,NNJ)
       ZS=X(3,NNJ)
       R2=(X0-XS)**2+(Y0-YS)**2+(Z0-ZS)**2
-C NOMBRE DE POINTS DE GAUSS
+C NUMBER OF GAUSS POINTS
       IF (R2>HUNDRED*D2) THEN
          NPG=1
          IAD=1
@@ -422,9 +422,9 @@ C INTEGRATION
            RVAL(2)=RVAL(2)+HALF*W*VAL2*VALPHI
            RVAL(3)=RVAL(3)+HALF*W*VAL3*VALPHI
          ENDIF
-C Remarque : la normale (NRX,NRY,NRZ) n'est pas normalisee
-C         il faudrait la diviser par JAC et comme on doit multiplier
-C         par JAC a la ligne d'en dessous...
+C Note: normal (nrx, nry, nrz) is not normalized
+C         it should be divided by JAC and as we must multiply
+C         by JAC in the line below...
       ENDDO
 C
       RETURN
@@ -533,12 +533,12 @@ C
       WPG4(14)=.652145154862546 * .347854845137454
       WPG4(15)=.652145154862546 * .347854845137454
       WPG4(16)=.652145154862546 * .652145154862546
-C DISTANCE A LA SOURCE
+C DISTANCE TO SOURCE
       XS=X(1,NNJ)
       YS=X(2,NNJ)
       ZS=X(3,NNJ)
       R2=(X0-XS)**2+(Y0-YS)**2+(Z0-ZS)**2
-C NOMBRE DE POINTS DE GAUSS
+C NUMBER OF GAUSS POINTS
       IF (R2>HUNDRED*D2) THEN
          NPG=1
          IAD=1
@@ -768,7 +768,7 @@ C SIMPLIFICATION SI SOURCE LOIN DE L'ELEMENT
       L32=(X1-X3)**2+(Y1-Y3)**2+(Z1-Z3)**2
       LM2=MAX(L12,L22,L32)
 C
-C COORDONNEES LOCALES
+C local contact details
       VX1=X2-X1
       VY1=Y2-Y1
       VZ1=Z2-Z1

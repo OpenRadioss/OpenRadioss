@@ -93,7 +93,7 @@ C
             LENR=LENR+6*(ITAB(1,II)+ITAB(2,II)+ITAB(3,II))
          ENDDO
          ALLOCATE(FVSPMD(IFV)%IBUF(LENI), FVSPMD(IFV)%RBUF(LENR))
-C Reception des entiers
+C reception of integers
          II=0
          DO I=1,FVSPMD(IFV)%NSPMD-1
             II=II+1
@@ -103,7 +103,7 @@ C Reception des entiers
             CALL MPI_IRECV(FVSPMD(IFV)%IBUF(IAD), LEN, MPI_INTEGER, I,
      .                     ITAG, FVSPMD(IFV)%MPI_COMM, FVSPMD(IFV)%REQ(II), IERR)
          ENDDO
-C Reception des reels
+C reception of reals
          II=0
          DO I=1,FVSPMD(IFV)%NSPMD-1
             II=II+1
@@ -113,9 +113,9 @@ C Reception des reels
             CALL MPI_IRECV(FVSPMD(IFV)%RBUF(IAD), LEN, REAL, I, ITAG,
      .      FVSPMD(IFV)%MPI_COMM, FVSPMD(IFV)%REQ(FVSPMD(IFV)%NSPMD-1+II), IERR)
          ENDDO
-C Remplissage des tableaux de sortie XXX, XXXA, 
+C filling of output tables xxx, xxxa,
          LEN = FVSPMD(IFV)%NN_L
-C ajout noeuds internes
+C Addition Internal nodes
          LEN = LEN + FVSPMD(IFV)%NNI_L
          DO I=1,LEN
             I1=FVSPMD(IFV)%IBUF_L(1,I)
@@ -142,7 +142,7 @@ C ajout noeuds internes
          ENDDO
       ELSE IF(FVSPMD(IFV)%RANK > 0) THEN
          ITABL(1)=FVSPMD(IFV)%NN_L
-C ajout noeuds internes
+C Addition Internal nodes
          ITABL(1)=ITABL(1)+FVSPMD(IFV)%NNI_L
          ITABL(2)=FVSPMD(IFV)%NNA_L
          ITABL(3)= 0                  

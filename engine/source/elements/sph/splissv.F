@@ -374,7 +374,7 @@ C--------
       END IF
 
 C-----------------------------------------------
-C Comm H et A sur cellules remotes
+C Communication H and A on remote cells
 C-----------------------------------------------
       IF(NSPMD>1)THEN
         IF(ITASK==0) THEN
@@ -426,7 +426,7 @@ C-----------------------------------------------
          ENDIF
         ENDDO
 C
-C Particules symetriques de particules remotes
+C Symmetrical particles of remote particles
 C
         DO NS = ITASK+1,NSPHR,NTHREAD
          JS=ISPSYMR(NC,NS)
@@ -580,7 +580,7 @@ C Solids to SPH, no interaction if both particles are inactive
          WA(MYADRN+3)=WA(MYADRN+3)+FACI*WAZ
         END DO
 C-----
-C       partie symetrique.
+C       symmetrical part.
         NVOISS=KXSP(6,N)
         DO J=KXSP(5,N)+1,KXSP(5,N)+NVOISS
          JS=IXSP(J,N)
@@ -619,7 +619,7 @@ C         BETAZJ=WACOMP(4,SM)
           WAX=AXJ-AXI+MS(INOD)*(VXJ-VXI)*DTINV
           WAY=AYJ-AYI+MS(INOD)*(VYJ-VYI)*DTINV
           WAZ=AZJ-AZI+MS(INOD)*(VZJ-VZI)*DTINV
-         ELSE                     ! particule symetrique de particule remote
+         ELSE                     ! Symmetrical particle particle Remote
           SM=-JS/(NSPCOND+1)
 C
 C Solids to SPH, no interaction if both particles are inactive
@@ -661,12 +661,12 @@ C         BETAZJ=WACOMPR(4,SM)
       END DO
 C-----
 
-C barrier sur A & ASPHR
+C barrier on A & ASPHR
 C    /---------------/
       CALL MY_BARRIER
 C    /---------------/
 
-C     Assemblage des forces dans A
+C     Force assembly in A
       IF(NSPHSOL==0)THEN
         DO NS=ITASK+1,NSPHACT,NTHREAD
           N=WASPACT(NS)

@@ -66,7 +66,7 @@ C---------------------
       DATA TOLF/0.005/ 
 C=======================================================================
 C . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-C ELIMINE LES DIRECTIONS ENDOMMAGEES POUR TESTER LE CRITERE
+C removes the damaged directions to test the criterion
 C . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
       DO I=1,NEL
          S1(I)  = S01(I) * SCAL1(I)

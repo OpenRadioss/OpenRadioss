@@ -141,7 +141,7 @@ C
         IF(ITYP==7.OR.ITYP==10.OR.ITYP==11.OR.
      .    (ITYP==17.AND.IPARI(33,NI)==0).OR.ITYP==20.OR.
      .    ITYP==22.OR.ITYP==23.OR.ITYP==24.OR.ITYP==25)THEN
-C   ecriture nsnsi : 0
+C   NSNSI Writing: 0
           DO P = 1, NSPMD
             NSNFI(P) = 0
           END DO
@@ -250,7 +250,7 @@ C     T24 E2E Fictive nodes are only on 1 domain (But they are not nodes
 
             NRTM_L = 0
             DO K=1,NRTM
-C TAGE flag servant pour inacti
+C Flag tage used for inactive
               TAGE(K) = 0
               IF(INTERCEP(1,NI)%P(K)==PROC+1)THEN
                 NRTM_L = NRTM_L + 1
@@ -280,7 +280,7 @@ C Add boolean in order to treat INACTI=5 Candidates
 c                IF (INTBUF_TAB(NI)%NSV(N) > NUMNOD) CYCLE
                  
                 IF(INACTI_CASE .EQV. .TRUE.) THEN
-C ne traiter qu une seule fois les noeuds
+C process nodes only once
                   IF(NSNP(N)>0) THEN
                     P = NSNP(N)
                     NSNP(N) = -P
@@ -625,7 +625,7 @@ C
                 NL = INTBUF_TAB(NI)%NSV(N)
                 NN = INTBUF_TAB(NI)%NLG(NL)
                 IF(NODLOCAL( NN )==0.OR.NODLOCAL( NN )>NUMNOD_L) THEN
-C ne traiter qu une seule fois les noeuds
+C process nodes only once
                   IF(NSNP(N)>0) THEN
                     P = NSNP(N)
                     NSNP(N) = -P
@@ -681,9 +681,9 @@ C
            END IF ! fin type20
 C fin interface de contact inacti
           END IF
-C Type20 ajout pour edge
+C Type20 added for edge
           IF (ITYP==20)THEN
-C   ecriture nsnsie : 0
+C   NSNSIE Writing: 0
              DO P = 1, NSPMD
                NSNFI(P) = 0
              END DO
@@ -872,7 +872,7 @@ C   Void writing for IPARTFRIC_FIE
           ENDIF ! TYPE25+EDGE
 C
           IF(IPARI(36,NI)>0.AND.ITYP/=17) THEN
-C init a 0 des structures de sous interfaces
+C initialize sub-interface structures to 0
             NUMP(1:NSPMD) = 0
             CALL WRITE_I_C(NUMP,NSPMD)
             IF(ITYP == 25 .AND. IPARI(58,NI) > 0) THEN

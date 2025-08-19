@@ -580,7 +580,7 @@ C--------------------------
 C--------------------------
       IF ((IMON_MAT==1).AND.ITASK == 0)CALL STOPTIME(TIMERS,35)
 C--------------------------
-C     PAS DE TEMPS
+C     TIME STEP
 C--------------------------
       IF (ISMSTR /= 3) CALL C3DT3(
      1        JFT    ,JLT       ,PM      ,OFF    ,DT2T    ,

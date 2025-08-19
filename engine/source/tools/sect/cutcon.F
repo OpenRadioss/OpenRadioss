@@ -28,16 +28,16 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE CUTCON(ITYP,X0,VN,XYZ0,IXS,D,
      .                  NUMTOT,NUMEL,NC,NVOIS,NA,XYZ,AL,NODCUT)
 C------------------------------------------
-C GENERATION DE LA GEOMETRIE DES COUPES
+C generation of the geometry of the cuts
 C------------------------------------------
 C
-C NUMTOT NOMBRE DE NOEUD DE LA COUPE
-C NUMEL  NOMBRE D'ELEMENTS DE LA COUPE
-C NUMCON NOMBRE DE CONNECTIVITES DE LA COUPE
-C NC     TABLEAU DES CONNECTIVITES
-C XYZ    TABLEAU DES COORDONNEES
+C numtot number of nodes in the cut
+C numel number of elements in the cut
+C numcon number of connectivities in the cut
+C nc connectivity array
+C xyz coordinates array
 C NVOIS  TABLEAU DES TWO NOEUDS VOISINS 
-C LA     TABLEAU DES COEFFICIENTS D'INTERPOLATION
+C la interpolation coefficients array
 C------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -103,7 +103,7 @@ C
 C
           IF(DISTMIN*DISTMAX> ZERO)GOTO100
 C-------------------------------------------------------------
-C NODEL NOEUDS INTERSECTIONS AVEC LES ARETES DE CHAQUE ELEMENT
+C nodel nodes intersections with the edges of each element
 C-------------------------------------------------------------
           DO 120 K=1,12
             N1=IARETE(1,K)
@@ -153,7 +153,7 @@ C-------------------------------------------------------------
  120      CONTINUE
 C
 C------------------------------------------------
-C ELIMINATION DES NOEUDS DOUBLES
+C elimination of duplicate nodes
 C------------------------------------------------
           IF(NODEL>2)THEN
             K=1
@@ -239,7 +239,7 @@ C
   150       CONTINUE
 C
 C------------------------------------------------------------------
-C CREATION DES CONNECTIVITES DU POLYGONE ET VERIFICATION CONCAVITE
+C creation of polygon connectivities and concavity verification
 C------------------------------------------------------------------
             KB=0
             DO 155 K=1,NODEL
@@ -289,7 +289,7 @@ C              NEWL=NEWL+1
               NC(5,NEWL)= I
             ENDDO
 C--------------------------------
-C AFFECTATION DES VALEURS NODALES
+C assignment of nodal values
 C--------------------------------
           IF(ITYP==2)THEN
             DO260 K=1,NODEL
@@ -314,7 +314,7 @@ C
   100 CONTINUE
 C
 C--------------------------------
-C  SOUDURE DES POLYGONES
+C  welding of polygons
 C--------------------------------
       K=1
       NA(1)=1

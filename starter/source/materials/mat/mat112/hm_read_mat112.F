@@ -115,7 +115,7 @@ card2 - Young moduli - Flags
       CALL HM_GET_INTV  ('MAT_ITAB'  ,Itab     ,IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_INTV  ('MAT_SMOOTH',Ismooth  ,IS_AVAILABLE, LSUBMODEL)
       IF (Ismooth == 0) Ismooth = 1
-card3 - Coulomb moduli - Poissson's ratio  
+cArd3 - Coulomb Moduli - Poissson's'Ratio  
       CALL HM_GET_FLOATV('MAT_NU21'  ,NU21     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_G12'   ,G12      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_G23'   ,G23      ,IS_AVAILABLE, LSUBMODEL, UNITAB)

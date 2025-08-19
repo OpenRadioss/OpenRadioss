@@ -47,7 +47,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
         USE ISO_C_BINDING
         INTEGER, DIMENSION(:),ALLOCATABLE :: ITAB_DEBUG !< User Node Identifiers
         INTEGER :: NC_DEBUG                             !< Engine Cycle number
-!       double precision, DIMENSION(:),ALLOCATABLE :: DETACH_SHELL
+!       Double precision, dimension (:), allocatable:: detach_shell
 
 
         CONTAINS

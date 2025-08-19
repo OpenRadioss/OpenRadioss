@@ -20,7 +20,7 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-CC Message TAGS Rules
+Cc'Message tags rules
 C TAGS are represented by variable integer MSGOFF
 C MSGOFF is a 4 digit integer of the form
 C DATA MSGOFF/ABCD/
@@ -38,7 +38,7 @@ C 7000  -> 7999  => spmd_anim.F
 C 8000  -> 8999  => spmd_th.F
 C 9000  -> 9999  => spmd_outp.F
 C 10000 -> 10999 => spmd_stat.F
-C 11000 -> 11999 => spmd_rest.F
+C 11000 -> 11999 => SPMD_REST.F
 C 12000 -> 12999 => spmd_lag.F
 C 13000 -> 13999 => spmd_dsreso.F
 
@@ -90,7 +90,7 @@ C
         ENDIF
         PMAIN = 1
 C
-C   determination du proc main (celui qui fait joue le role de P0)
+C   determination of the main proc (the one that plays the role of P0)
 C
         DO K = 1, NSPMD
           IF (isendto(NIN,K)/=0.OR.
@@ -105,7 +105,7 @@ C temporary change for exchange and cumul
         IF (LOC_PROC/=PMAIN) THEN
           MSGTYP=MSGOFF
           CALL SPMD_SEND(INACTI,1,IT_SPMD(PMAIN),MSGTYP)
-C p0 envoi la liste des noeuds pour lesquels stfn=0
+C p0 sends the list of nodes for which stfn=0
           CALL SPMD_RECV(INACTI,1,IT_SPMD(PMAIN),MSGTYP)
         ELSE
           DO K = 1, NSPMD
@@ -120,7 +120,7 @@ C
           IF (INACTI/=0) THEN
             INACTI=INACTII
           ELSE
-C pour le cas inacti passe en negatif sur tous les procs
+C for the inacti case, pass negative on all procs
             INACTI=-ABS(INACTII)
           END IF
 C
@@ -196,7 +196,7 @@ C
           RETURN
         ENDIF
 C
-C   determination du proc main (celui qui fait joue le role de P0)
+C   determination of the main proc (the one that plays the role of P0)
 C
         DO K = 1, NSPMD
           IF (ISENDTO(NIN,K)/=0.OR.
@@ -208,7 +208,7 @@ C
   110   CONTINUE
 C
         LEN = 0
-C traitement sur tout NSN pour le cas shooting nodes
+C processing on all NSN for the shooting nodes case
         IF(IDEL7NG>=1)THEN
           DO I = 1, NSN
             IF(STFN(I)<ZERO) THEN
@@ -243,7 +243,7 @@ Candidat frontiere
         IENVOI(LOC_PROC) = LEN
 C
         IF (LOC_PROC/=PMAIN) THEN
-C   pack des candidats ayant stifness negative
+C   Pack of candidates having Stifness Negative
 C
           MSGTYP=MSGOFF
           CALL SPMD_SEND(LEN,1,IT_SPMD(PMAIN),MSGTYP)
@@ -270,7 +270,7 @@ C
             ENDIF
           ENDDO
         ENDIF
-C envoi des stifness
+C sending of stiffness
         CALL SPMD_SD_STFN(LOC_PROC,PMAIN ,LENX ,CAND_N,NSV    ,
      2                    I_STOK  ,NSN     ,STFN ,IENVOI,ISENDTO,
      3                    IRCVFROM,ITAB    ,NIN  )
@@ -336,7 +336,7 @@ C
           RETURN
         ENDIF
 C
-C   determination du proc main (celui qui fait joue le role de P0)
+C   determination of the main proc (the one that plays the role of P0)
 C
         DO K = 1, NSPMD
           IF (ISENDTO(NIN,K)/=0.OR.
@@ -348,7 +348,7 @@ C
   110   CONTINUE
 C
         LEN = 0
-C traitement sur tout NSN pour les nds precedemment impactes (ne figurent pas dans I_STOK)
+C processing on all NSN for the nodes previously impacted (do not appear in I_STOK)
         DO I = 1, NSN
           IF(STFN(I)<ZERO) THEN
             LEN = LEN + 1
@@ -369,7 +369,7 @@ C traitement sur tout NSN pour les nds precedemment impactes (ne figurent pas da
         IENVOI(LOC_PROC) = LEN
 C
         IF (LOC_PROC/=PMAIN) THEN
-C   pack des candidats ayant stifness negative
+C   Pack of candidates having Stifness Negative
 C
           MSGTYP=MSGOFF
           CALL SPMD_SEND(LEN,1,IT_SPMD(PMAIN),MSGTYP)
@@ -396,7 +396,7 @@ C
             ENDIF
           ENDDO
         ENDIF
-C envoi des stifness
+C sending of stiffness
         CALL SPMD_SD_STFN25(LOC_PROC,PMAIN ,LENX ,NSV    ,
      2                    NSN     ,STFN ,IENVOI,ISENDTO,
      3                    IRCVFROM,ITAB    ,NIN  )
@@ -464,7 +464,7 @@ C
           RETURN
         ENDIF
 C
-C   determination du proc main (celui qui fait joue le role de P0)
+C   determination of the main proc (the one that plays the role of P0)
 C
         DO K = 1, NSPMD
           IF (ISENDTO(NIN,K)/=0.OR.
@@ -476,7 +476,7 @@ C
   110   CONTINUE
 C
         LEN = 0
-C traitement sur tout NSN pour le cas shooting nodes
+C processing on all NSN for the shooting nodes case
         IF(IDEL7NG>=1)THEN
           DO I = 1, NSN
             IF(STFA(NSV(I))<ZERO) THEN
@@ -511,7 +511,7 @@ Candidat frontiere
         IENVOI(LOC_PROC) = LEN
 C
         IF (LOC_PROC/=PMAIN) THEN
-C   pack des candidats ayant stifness negative
+C   Pack of candidates having Stifness Negative
 C
           MSGTYP=MSGOFF
           CALL SPMD_SEND(LEN,1,IT_SPMD(PMAIN),MSGTYP)
@@ -538,7 +538,7 @@ C
             ENDIF
           ENDDO
         ENDIF
-C envoi des stifness
+C sending of stiffness
         CALL SPMD_SD_STFA20(LOC_PROC,PMAIN ,LENX ,CAND_N,NSV    ,
      2                      I_STOK  ,NSN     ,STFA ,IENVOI,ISENDTO,
      3                      IRCVFROM,ITAB    ,NLG  ,NIN   )
@@ -606,7 +606,7 @@ C
           RETURN
         ENDIF
 C
-C   determination du proc main (celui qui fait joue le role de P0)
+C   determination of the main proc (the one acting as P0)
 C
         DO K = 1, NSPMD
           IF (ISENDTO(NIN,K)/=0.OR.
@@ -618,7 +618,7 @@ C
   110   CONTINUE
 C
         LEN = 0
-C traitement sur tout NRTS pour le cas shooting nodes
+C processing on all NRTS for the shooting nodes case
         IF(IDEL7NG>=1)THEN
           DO I = 1, NRTS
             IF(STFS(I)<ZERO) THEN
@@ -653,7 +653,7 @@ Candidat frontiere
         IENVOI(LOC_PROC) = LEN
 C
         IF (LOC_PROC/=PMAIN) THEN
-C   pack des candidats ayant stifness negative
+C   Pack of candidates having Stifness Negative
 C
           MSGTYP=MSGOFF
           CALL SPMD_SEND(LEN,1,IT_SPMD(PMAIN),MSGTYP)
@@ -680,7 +680,7 @@ C
             ENDIF
           ENDDO
         ENDIF
-C envoi des stifness
+C sending stiffness
         CALL SPMD_SD_STFN11(LOC_PROC,PMAIN ,LENX ,CAND_S,IRECTS ,
      2                      I_STOK  ,NRTS    ,STFS ,IENVOI,ISENDTO,
      3                      IRCVFROM,ITAB    ,NIN  )
@@ -748,7 +748,7 @@ C
           RETURN
         ENDIF
 C
-C   determination du proc main (celui qui fait joue le role de P0)
+C   determination of the main proc (the one acting as P0)
 C
         DO K = 1, NSPMD
           IF (ISENDTO(NIN,K)/=0.OR.
@@ -760,7 +760,7 @@ C
   110   CONTINUE
 C
         LEN = 0
-C traitement sur tout NLINSA pour le cas shooting nodes
+C processing on all NLINSA for the shooting nodes case
         IF(IDEL7NG>=1)THEN
           DO I = 1,  NLINSA
             IF(STFS(I)<ZERO) THEN
@@ -795,7 +795,7 @@ Candidat frontiere
         IENVOI(LOC_PROC) = LEN
 C
         IF (LOC_PROC/=PMAIN) THEN
-C   pack des candidats ayant stifness negative
+C   Pack of candidates having Stifness Negative
 C
           MSGTYP=MSGOFF
           CALL SPMD_SEND(LEN,1,IT_SPMD(PMAIN),MSGTYP)
@@ -822,7 +822,7 @@ C
             ENDIF
           ENDDO
         ENDIF
-C envoi des stifness
+C sending stiffness
         CALL SPMD_SD_STFN20E(LOC_PROC,PMAIN ,LENX ,CAND_S,IXLINS ,
      2                       I_STOK  ,NLINSA  ,STFS ,IENVOI,ISENDTO,
      3                       IRCVFROM,ITAB    ,NLG  ,NIN   )
@@ -883,7 +883,7 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
         LEN = 0
-C traitement sur tout NSN pour le cas shooting nodes
+C processing on all NSN for the shooting nodes case
         IF(IDEL7NG>=1)THEN
           DO I = 1, NSN
             IF(STFN(I)<ZERO) THEN
@@ -921,7 +921,7 @@ Candidat frontiere
         END IF
 C
         IF (LOC_PROC/=PMAIN) THEN
-C   pack des candidats ayant stifness negative
+C   Pack of candidates having Stifness Negative
 C
           MSGTYP=MSGOFF
           IF(LEN>0) THEN
@@ -947,7 +947,7 @@ C
               CALL SPMD_SEND(IBUFFER,LENX,IT_SPMD(K),MSGTYP)
             ENDIF
           ENDDO
-C envoi des stifness
+C sending stiffness
         ENDIF
 C
         DO I = 1, LENX
@@ -1026,7 +1026,7 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
         LEN = 0
-C traitement sur tout NSN pour les nds precedemment impactes (ne figurent pas dans I_STOK)
+C processing on all NSN for previously impacted nodes (not listed in I_STOK)
         DO I = 1, NSN
           IF(STFN(I)<ZERO) THEN
             LEN = LEN + 1
@@ -1048,7 +1048,7 @@ C traitement sur tout NSN pour les nds precedemment impactes (ne figurent pas da
         END DO
 C
         IF (LOC_PROC/=PMAIN) THEN
-C   pack des candidats ayant stifness negative
+C   Pack of candidates having Stifness Negative
 C
           MSGTYP=MSGOFF
           IF(LEN>0) THEN
@@ -1074,7 +1074,7 @@ C
               CALL SPMD_SEND(IBUFFER,LENX,IT_SPMD(K),MSGTYP)
             ENDIF
           ENDDO
-C envoi des stifness
+C sending stiffness
         ENDIF
 C
         DO I = 1, LENX
@@ -1154,7 +1154,7 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
         LEN = 0
-C traitement sur tout NSN pour le cas shooting nodes
+C processing on all NSN for the shooting nodes case
         IF(IDEL7NG>=1)THEN
           DO I = 1, NSN
             IF(STFA(NSV(I))<ZERO) THEN
@@ -1192,7 +1192,7 @@ Candidat frontiere
         END IF
 C
         IF (LOC_PROC/=PMAIN) THEN
-C   pack des candidats ayant stifness negative
+C   Pack of candidates having Stifness Negative
 C
           MSGTYP=MSGOFF
           IF(LEN>0) THEN
@@ -1218,7 +1218,7 @@ C
               CALL SPMD_SEND(IBUFFER,LENX,IT_SPMD(K),MSGTYP)
             ENDIF
           ENDDO
-C envoi des stifness
+C sending stiffness
         ENDIF
 C
         DO I = 1, LENX
@@ -1298,7 +1298,7 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
         LEN = 0
-C traitement sur tout NSN pour le cas shooting nodes
+C processing on all NSN for the shooting nodes case
         IF(IDEL7NG>=1)THEN
           DO I = 1, NRTS
             IF(STFS(I)<ZERO) THEN
@@ -1349,7 +1349,7 @@ Candidat frontiere
         ENDIF
 C
         IF (LOC_PROC/=PMAIN) THEN
-C   pack des candidats ayant stifness negative
+C   Pack of candidates having Stifness Negative
 C
           MSGTYP=MSGOFF
           IF(LEN>0) THEN
@@ -1375,7 +1375,7 @@ C
               CALL SPMD_SEND(IBUFFER,LENX,IT_SPMD(K),MSGTYP)
             ENDIF
           ENDDO
-C envoi des stifness
+C sending stiffness
         ENDIF
 C
         DO I = 1, LENX/2
@@ -1461,7 +1461,7 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
         LEN = 0
-C traitement sur tout NSN pour le cas shooting nodes
+C processing on all NSN for the shooting nodes case
         IF(IDEL7NG>=1)THEN
           DO I = 1, NLINSA
             IF(STFS(I)<ZERO) THEN
@@ -1516,7 +1516,7 @@ Candidat frontiere
         ENDIF
 C
         IF (LOC_PROC/=PMAIN) THEN
-C   pack des candidats ayant stifness negative
+C   Pack of candidates having Stifness Negative
 C
           MSGTYP=MSGOFF
           IF(LEN>0) THEN
@@ -1542,7 +1542,7 @@ C
               CALL SPMD_SEND(IBUFFER,LENX,IT_SPMD(K),MSGTYP)
             ENDIF
           ENDDO
-C envoi des stifness
+C sending stiffness
         ENDIF
 C
         DO I = 1, LENX/2
@@ -1710,7 +1710,7 @@ C alloc comm structure
             CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
             CALL ARRET(2)
           ENDIF
-C FILL comm structure
+C FILL COMM STRUCTURE
           IDEB = 1
           DO P=1,NSPMD
             LENS(P) = 0
@@ -1792,7 +1792,7 @@ C alloc comm structure
             CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
             CALL ARRET(2)
           ENDIF
-C FILL comm structure
+C FILL COMM STRUCTURE
           IADS(1) = 1
           IADR(1) = 1
           DO P=1,NSPMD-1
@@ -2091,7 +2091,7 @@ C alloc comm structure
             CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
             CALL ARRET(2)
           ENDIF
-C FILL comm structure
+C FILL COMM STRUCTURE
           IDEB = 0
           DO NI = 1, NIACTIF
             IDEBUT2(NI) = 0
@@ -2305,7 +2305,7 @@ C alloc comm structure
               CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
               CALL ARRET(2)
             ENDIF
-C FILL comm structure
+C FILL COMM STRUCTURE
             IDEB = 0
             DO NI = 1, NIACTIF
               IDEBUT2(NI) = 0
@@ -2417,7 +2417,7 @@ C
           ENDDO
 
 C
-C Init + ireceive sur taille communication
+C INIT + IREceive on Communication Size
 C
           SIZ = 0
           DO P = 1, NSPMD
@@ -2469,7 +2469,7 @@ C
                 K=INDEX(J)
                 FTHESKYFI(NIN)%P(J)=TEMPO(K)
               ENDDO
-C precomptage du nombre de contacts par processeur+calcul nsnfi total
+C precomputation of the number of contacts per processor + total nsnfi calculation
               CALL INTCONTP(
      +        NIF,ISKYFI(NIN)%P(1),NMNFI(NIN)%P(1),ISIZENV,LENR2,2)
 
@@ -2493,7 +2493,7 @@ C alloc comm structure
           END DO
           IERROR=0
           IF(IALLOCS>0)
-     +      ALLOCATE(RBUFS(IALLOCS+NIACTIF*NSPMD*2),STAT=IERROR) ! nbintc*NIACTIF*2 majorant place supplementaire bufs
+     +      ALLOCATE(RBUFS(IALLOCS+NIACTIF*NSPMD*2),STAT=IERROR) ! NBINTC*Nactif*2 Mapping supplemental place BUFS
           IF(IERROR/=0) THEN
             CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
             CALL ARRET(2)
@@ -2503,7 +2503,7 @@ C Send
 C
 
           IF(NIACTIF /= 0 ) THEN
-C FILL comm structure
+C FILL COMM STRUCTURE
             IDEB = 0
             DO NI = 1, NIACTIF
               IDEBUT(NI) = 0
@@ -2522,7 +2522,7 @@ C FILL comm structure
                     IDEB  = IDEBUT(NI)
                     L = L + 1
                     DO I = 1,LEN
-C noeud generant une force
+C node generating a force
                       NOD = NMVFI(NIN)%P(IDEB+I)
                       IF(IDEB2<=NISKYFI(NIN)) THEN
                         ITEST = ISKYFI(NIN)%P(IDEB2)==IDEB+I
@@ -2565,14 +2565,14 @@ C SEND comm structure
             ENDDO
 
 C
-C Receive 1er message : taille communication
+C Receive 1st message: Communication size
 C
             IALLOCR = 0
             DO P = 1, NSPMD
               IF(P/=LOC_PROC.AND.LENS(P)>0)THEN
                 CALL SPMD_WAIT(REQ_R(P))
-                IALLOCR = MAX(IALLOCR,ISIZRCV(1,P))   ! pour comm bloquantes
-c           IALLOCR = IALLOCR + ISIZRCV(P)     ! pour comm non bloquantes
+                IALLOCR = MAX(IALLOCR,ISIZRCV(1,P))   ! for blocking comms
+c           Iallocr = Iallocr + Isizrcv (P)!For non -blocking comm
               END IF
             END DO
 C
@@ -2588,7 +2588,7 @@ C
             DO P=1,NSPMD
               IF(P/= LOC_PROC.AND.ISIZRCV(1,P)/= 0)THEN
                 MSGTYP = MSGOFF2
-                L = 1           ! envoi bloquant + opti alloc memoire sur max des comm
+                L = 1           ! blocking send + memory alloc optimization on max comms
                 CALL SPMD_RECV(RBUFR(L),ISIZRCV(1,P)+NIACTIF,IT_SPMD(P),MSGTYP)
 
                 DO NI = 1, NIACTIF
@@ -2746,7 +2746,7 @@ C
           END IF
         END DO
 C
-C Attente reception 1er envoi
+C Waiting reception 1st sending
 C
         DO P = 1, NSPMD
           IF(P/=LOC_PROC)THEN
@@ -2795,7 +2795,7 @@ C
           END IF
         END DO
 C
-C Attente reception 2eme envoi
+C Waiting reception 2nd sending
 C
         DO P = 1, NSPMD
           IF(P/=LOC_PROC)THEN
@@ -2948,7 +2948,7 @@ C
           END IF
         END DO
 C
-C Attente reception 1er envoi
+C Waiting reception 1st sending
 C
         DO P = 1, NSPMD
           IF(P/=LOC_PROC)THEN
@@ -3035,7 +3035,7 @@ C
           END IF
         END DO
 C
-C Attente reception 2eme envoi
+C Waiting reception 2nd sending
 C
         DO P = 1, NSPMD
           IF(P/=LOC_PROC)THEN

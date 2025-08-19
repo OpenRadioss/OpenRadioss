@@ -399,7 +399,7 @@ C !GR  T3
               ENDDO
              ENDIF  ! ID > 0           
 11      CONTINUE        
-C   compteur by element    
+C   counter by element    
            IWORK_T(1:NUMELC + NUMELTG)%IDSTACK = 0
             DO I= 1,NPLY
               J   = IDGR4N(I)
@@ -422,7 +422,7 @@ C element type Q4
                       ELSEIF(IWORK_T(IDSHEL)%IDSTACK == IDS) THEN
                           IWORKSH (1,IDSHEL) = IWORKSH(1,IDSHEL) + 1
                       ELSE
-C  message d'erreur      
+C  error message      
                         IPID_1=IGEO_STACK(1,IWORK_T(IDSHEL)%IDSTACK)
                         NGL =IXC(NIXC,IDSHEL)
                         CALL ANCMSG(MSGID=1152,
@@ -455,7 +455,7 @@ C element type T3
                       ELSEIF(IWORK_T(IDSHEL)%IDSTACK == IDS) THEN
                           IWORKSH(1,IDSHEL) =   IWORKSH(1,IDSHEL ) + 1
                       ELSE
-C  message d'erreur
+C  error message
                         IPID_1=IGEO_STACK(1,IWORK_T(IDSHEL)%IDSTACK)
                         NGL =IXTG(NIXTG,IDSHEL)
                         CALL ANCMSG(MSGID=1152,
@@ -527,7 +527,7 @@ C element type Q4
                           IWORK_T(IDSHEL)%PLYID(NPT) = IDPLY
                           IWORK_T(IDSHEL)%PLYNUM(NPT) = I
                       ELSE
-C  message d'erreur      
+C  error message      
                         IPID_1=IGEO_STACK(1,IWORK_T(IDSHEL)%IDSTACK)
                         NGL =IXC(NIXC,IDSHEL)
                         CALL ANCMSG(MSGID=1152,
@@ -567,7 +567,7 @@ C element type T3
                            IWORK_T(IDSHEL)%PLYID(NPT) = IDPLY
                            IWORK_T(IDSHEL)%PLYNUM(NPT) = I
                       ELSE
-C  message d'erreur
+C  error message
                         IPID_1=IGEO_STACK(1,IWORK_T(IDSHEL)%IDSTACK)
                         NGL =IXTG(NIXTG,IDSHEL)
                         CALL ANCMSG(MSGID=1152,

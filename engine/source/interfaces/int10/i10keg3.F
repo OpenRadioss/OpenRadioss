@@ -185,9 +185,9 @@ C-------------------------------------------
        II = INDEX(I)
        IF(CAND_F(1,II)==ZERO)THEN
 C------------------------------------
-C       1ER IMPACT ou PAS d'IMPACT
+C       1st  or no impact
 C------------------------------------
-C   c'est fait dans i10for3.F        CAND_F(4,II) = H1(I)
+C   It's done in i10for3.f cand_f (4, II) = H1 (i)
 C          CAND_F(5,II) = H2(I)
 C          CAND_F(6,II) = H3(I)
        ELSE
@@ -277,7 +277,7 @@ C
  100  CONTINUE
 C
 C---------------------------------
-C    ----sans frottement d'abord--- 
+C    ---- Without friction first --- 
       DO I=1,JLT
         IF (ABS(VT1(I))>ZERO.OR.ABS(VT2(I))>ZERO) THEN
          Q(1,1,I)=T1X(I)
@@ -357,7 +357,7 @@ C    ----sans frottement d'abord---
        KL11(2,3,I)=KN(4,I)*Q23
        KL11(3,3,I)=KN(4,I)*Q33
       ENDDO
-C    ----avec frottement --- 
+C    ----with friction ---
        DO J=1,3 
         DO K=J,3 
          DO I=1,JLT
@@ -408,7 +408,7 @@ C
          IF(NSVG(I)<0) THEN
             NN=-NSVG(I)
             NS=IND_INT(NIN)%P(NN)
-C---------pour diag_ss---
+C---------for diag_ss---
             FFI(1,NS)=ZERO
             FFI(2,NS)=ZERO
             FFI(3,NS)=ZERO
@@ -433,7 +433,7 @@ C---------pour diag_ss---
             N_E(1,NE)=NX(I)
             N_E(2,NE)=NY(I)
             N_E(3,NE)=NZ(I)
-C---------pour temporairement diag_ss---
+C---------temporarily for diag_ss---
             FFI(1,NS)=ZERO
             FFI(2,NS)=ZERO
             FFI(3,NS)=ZERO
@@ -554,7 +554,7 @@ C-------------------------------------------
         FACT(I)=FACN(I)*FRIC
        ENDDO
       ENDIF
-C--------partie NML-------
+C-------- part nml --------
       DO I=1,JLT
         FN = -FACN(I)*DNI(I)
         FX=FN*N1(I)
@@ -578,7 +578,7 @@ C--------partie NML-------
         A(3,IX3(I))=A(3,IX3(I))+FZ*H3(I)
         A(3,IX4(I))=A(3,IX4(I))+FZ*H4(I)
       ENDDO
-C--------partie NSL-------
+C-------- part nsl --------
       DO I=1,JLT
         FNI = FACN(I)*DN(I)
         FX=FNI*N1(I)
@@ -692,7 +692,7 @@ C
         IF (PENE2<=ZERO) STIF(I) = ZERO
        ENDDO
 C--------------------------------------------------------
-C  CAS DES PAQUETS MIXTES
+C  CASE OF MIXED GROUPS
 C--------------------------------------------------------
        DO I=1,JLT
         D1 = SQRT(P1(I))
@@ -767,7 +767,7 @@ C
        II = INDEX(I)
        IF(CAND_F(1,II)==ZERO)THEN
 C------------------------------------
-C       1ER IMPACT ou PAS d'IMPACT
+C       1st  or no impact
 C------------------------------------
        ELSE
 C------------------------------------
@@ -878,7 +878,7 @@ C--------main part-------
         A(3,IX3(I))=A(3,IX3(I))+FZ*H3(I)
         A(3,IX4(I))=A(3,IX4(I))+FZ*H4(I)
        ENDDO
-C--------secnd part-------
+C------- Secondary part --------
        DO I=1,JLT
          IG=NSVG(I)
          IF(IG>0)THEN

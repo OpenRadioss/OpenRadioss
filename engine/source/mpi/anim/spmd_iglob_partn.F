@@ -36,7 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
 !||====================================================================
       SUBROUTINE SPMD_IGLOB_PARTN(IAD,NBPART,IADG,SBUF)
-C iglob_part reconstruit sur p0 un tableau global de part 
+C iglob_part reconstructs on p0 a global array of part
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

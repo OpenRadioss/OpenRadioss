@@ -77,7 +77,7 @@ C
       IF(STARTT>TT) RETURN
       IF(TT>STOPT)  RETURN
 C
-C test temporaire pour assurer la compatibilite restart en 51d et 51e
+C temporary test to ensure restart compatibility in 51d and 51e
        IF(INTBUF_TAB%VARIABLES(16)==ZERO)
      .     INTBUF_TAB%VARIABLES(16)=EP30
        CALL I7BUCE_CRIT(

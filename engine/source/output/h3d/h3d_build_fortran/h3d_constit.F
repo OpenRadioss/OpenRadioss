@@ -32,7 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE H3D_CONSTIT(ITAB,ITABM1,NUMNOD)
       USE MESSAGE_MOD
 C
-C    CONSTITUTION DU TABLEAU INVERSE DES NOEUDS
+C    creation of the inverse node array
 C          ITABM1(J)=NO USER ITABM1(NUMNOD+J)=NO SYSTEME
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

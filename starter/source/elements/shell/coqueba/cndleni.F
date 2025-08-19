@@ -309,7 +309,7 @@ CCC
             SSP(I)=SQRT(YOUNG/(ONE-NU*NU)/RHO)
           ENDDO
       ENDIF
-C-------longueur caracteristique--------------
+C---------------------
       FAC11=FIVE_OVER_4
       IF (IHBE == 11) FAC11=FOUR_OVER_3
       DO I=LFT,LLT

@@ -159,7 +159,7 @@ C
 C
       DO I=1,NEL
         AL0DP(I) = AL0(I)                  ! cast My_real to double
-        AL0DP(I) = AL0DP(I) + AL0_ERR(I)   ! AL_DP doit etre recalcule ainsi afin de garantir la coherence absolue entre AL0_DP et AL_DP   
+        AL0DP(I) = AL0DP(I) + AL0_ERR(I)   ! AL_DP must be recalculated as well in order to guarantee the absolute coherence between al0_dp and al_dp   
       ENDDO
 C
       DO I=1,NEL
@@ -219,7 +219,7 @@ C     ------------------------------------------------------------------
 c
         ! Computation if the element is not broken only
         IF ((OFF(I) == ONE).AND.(DL(I) < GAP(I) .OR. ITENS(I) > 0)) THEN 
-          ! Stiffness part
+          ! Stiffness leaves
           !   Computation of the tabulated stiffness force
           IF (IFUNC(I) > 0) THEN
             FK(I) = FSCALE(I)*FINTER(IFUNC(I),(DL(I)-GAP(I))/ASCALE(I),NPF,TF,DF1)

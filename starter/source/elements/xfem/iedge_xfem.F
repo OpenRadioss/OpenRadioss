@@ -95,7 +95,7 @@ C
         CALL ANCMSG(MSGID=268 ,MSGTYPE=MSGERROR,ANMODE=ANSTOP,C1='EDGE XFEM')
       END IF
 c---------------------------------------
-c       recherche de toutes les lignes dans la surface (shells)
+c       search for all lines in the surface (shells)
 c---------------------------------------
       LL  = 0  ! nb edges
       NEL = 0  ! nb elements

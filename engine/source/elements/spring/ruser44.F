@@ -378,7 +378,7 @@ C
         ENDDO
       ENDIF ! IF (IDAMPING > ZERO)
 C--------------------------------
-      IF (ICO == 0) THEN  ! => ELASTO PLASTIQUE - Classique
+      IF (ICO == 0) THEN  ! => Plastic elasto - classic
 C--------------------------------
         DO I=1,NEL
           ID1 = NINT(UVAR(29,I))/2
@@ -607,7 +607,7 @@ C
 !
         ENDDO
 C--------------------------------
-      ELSE    ! => ELASTO PLASTIQUE - Directions couplees
+      ELSE    ! => Plastic elasto - Couplees directions
 C--------------------------------
         DO I=1,NEL
           ID1 = NINT(UVAR(29,I))/2

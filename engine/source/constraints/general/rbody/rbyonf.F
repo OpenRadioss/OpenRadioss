@@ -75,7 +75,7 @@ C-----------------------------------------------
       INTEGER I, J ,ITEMP(10),K, K0, N,NSL,NN,IAD,ONOF1,ISENS,IACTI,
      .        ONFELT,K1,K2,K3,K4,K5,K6,K7,K8,K9
 C======================================================================|
-C     MODIFICATION DES RIGID BODY
+C     modification of the rigid bodies
 C-------------------------------------------
       K1=1+LIPART1*NPART+2*9*NPART
       K2=K1+NUMELS
@@ -113,13 +113,13 @@ C
            ENDDO
            N = 0
  110       CONTINUE
-C En SPMD, il faut communiquer le RB concerne si N<>0 sur un proc
+C in spmd, the concerned rigid body must be communicated if n<>0 on a processor
 C si rigid body present sur le proc N = rb trouve
               IF(N/=0) N = N*WEIGHT(NPBY(1,N))
-C reduction pour retrouver la valeur de N (N = 0 partout sauf sur le proc main)
+C reduction to find the value of n (n = 0 everywhere except on the main processor)
               IF(NSPMD > 1) THEN
                 CALL SPMD_GLOB_ISUM9(N,1)
-C broadcast de N sur tous les procs
+C broadcast of n to all processors
                 CALL SPMD_IBCAST(N,N,1,1,0,2)
               ENDIF
 C si N = 0, alors le rby n avait ete trouve sur aucun proc
@@ -169,8 +169,8 @@ C
  120      CONTINUE
       ENDDO
 C------------------------------------
-C     tag des noeuds secnds rby avec gravite ou load/centri
-C     pour calcul du travail des forces externes
+C     tag of the secondary rby nodes with gravity or load/centrifugal
+C     for calculation of the work of external forces
 C-------------------------------------
       TAGSLV_RBY(1:NUMNOD)=0
 C
@@ -579,8 +579,8 @@ C-------------------------------------------
         NPBY(7,N)=IACTI
       ENDDO
 C-------------------------------------
-C     tag des noeuds secnds rby avec gravite ou load/centri
-C     pour calcul du travail des forces externes
+C     tag of the secondary rby nodes with gravity or load/centrifugal
+C     for calculation of the work of external forces
 C-------------------------------------
       IF(ONOF1==0) GOTO 200
 C

@@ -96,7 +96,7 @@ c
       DATA IPERM/ 4, 1, 2, 3, 4, 1/
 C-----------------------------------------------
 C
-C Phase de Preparation pour SPMD
+C preparation phase for spmd
 C
       IF(INTTH/=ZERO) THEN
        IF(ISPMD==0) THEN
@@ -127,13 +127,13 @@ C
           ENDIF
         ENDDO
 C
-C Compactage listes elem
+C Elem lists compacting
 C
         ITEMP(1) = IS
         ITEMP(2) = IM
        ENDIF
 C
-C Envoi liste facettes seconds/mains en contact
+C Sending second/mains facet list in contact
 C
        IF(NSPMD > 1) THEN
          CALL SPMD_IBCAST(ITEMP,ITEMP,1,2,0,2)
@@ -197,7 +197,7 @@ C
 C
        IF (NSPMD > 1) THEN
 C
-C gather des valeurs
+C gather values
 C
          CALL SPMD_GLOB_DSUM9(COMAREA,ILEN)
          CALL SPMD_GLOB_DSUM9(COMSTF,ILEN)
@@ -206,10 +206,10 @@ C
          CALL SPMD_GLOB_ISUM9(ICOMERR,ILEN)
                  CALL SPMD_GLOB_ISUM9(ICOMNGR,ILEN)
                  CALL SPMD_GLOB_ISUM9(ICOMNEL,ILEN)
-C   partie noeud sur P0 uniquement
+C   node part on P0 only
          IF(ISPMD/=0) GOTO 900
        END IF
-C   interface traitee par p0
+C   interface processed by p0
       ELSE
        IF(ISPMD/=0) RETURN
       ENDIF
@@ -229,7 +229,7 @@ C---------------------------------
 C
         CALL SHAPEH(H,CRST(1,II),CRST(2,II))
 C---------------------------------
-C       VITESSE DE MAILLAGE
+C       mesh velocity
 C---------------------------------
         VMX=ZERO
         VMY=ZERO
@@ -282,7 +282,7 @@ c         ENDIF
 C
       ELSEIF(ILOC(II)<0.OR.NMN==0)THEN
 C------------------------------------------------------
-C       BOUCLE SUR LES FACETTES CONNECTEES AU NOEUD II
+C       loop over facets connected to node ii
 C------------------------------------------------------
         ILOC(II) = -ILOC(II)
 C
@@ -294,7 +294,7 @@ C
         NNY = ZERO
         NNZ = ZERO
 C------------------------------------------------------
-C       BOUCLE SUR LES FACETTES CONNECTEES AU NOEUD II
+C       loop over facets connected to node ii
 C------------------------------------------------------
         DO 300 LL=LL1,LL2
          LG=LMSR(LL)
@@ -303,7 +303,7 @@ C------------------------------------------------------
  200     IF(IRECTS(KK,LG)==II) GO TO 250
  250     CONTINUE
 C------------------------------------------------------
-C         CALCUL DE LA NORMALE AVEC UPWIND SUR L'AMONT
+C         calculation of the normal with upwind on the upstream side
 C------------------------------------------------------
           K1 = IPERM(KK-1)
           K2 = IPERM(KK+1)
@@ -330,7 +330,7 @@ C          FAC = P / MAX(EM30,SQRT(NX**2+NY**2+NZ**2))
           NNY = NNY + NY*FAC
           NNZ = NNZ + NZ*FAC
 C-------------------------------------
-C       TENSION DE SURFACE
+C       surface tension
 C-------------------------------------
           IF(STENS>ZERO)THEN
             T2X = -X1 + X2
@@ -359,7 +359,7 @@ C---------------------------------
 C       W LAGRANGIEN SUIVANT N
 C---------------------------------
 C---------------------------------
-C       BCS DE GRILLE
+C       grid boundary conditions
 C---------------------------------
         IF(ICODE(N)/=0)THEN
           DVN = VX * NNX + VY * NNY + VZ * NNZ
@@ -401,7 +401,7 @@ C---------------------------------
 C
   800 CONTINUE
 C
-C Phase de Finalisation pour SPMD
+C finalization phase for spmd
 C
   900 CONTINUE
       IF(INTTH/=ZERO) THEN
@@ -412,7 +412,7 @@ C
          CALL SPMD_RBCAST(COMBUF,COMBUF,1,ILEN,0,2)
        END IF
 C
-C Mise a jour ELBUF local
+C Local Elbuf update
 C
        DO II = 1, IM
          L = LISTM(II)

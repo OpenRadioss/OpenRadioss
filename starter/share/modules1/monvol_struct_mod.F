@@ -102,7 +102,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:, :), ALLOCATABLE :: IBAGJET
 !     Real info on injectors (NJET x NRBJET)
       my_real, DIMENSION(:, :), ALLOCATABLE :: RBAGJET
-!     Vent holes and porous surfaces
+!     Wind Holes and Porous Surfaces
       INTEGER :: NVENT, NPORSURF
 !     Integer data
       INTEGER, DIMENSION(:, :), ALLOCATABLE :: IBAGHOL
@@ -859,7 +859,7 @@ C-----------------------------------------------
          SHOL = SHOL + DS
       ENDDO
 C------------------------------------------------
-C     Ajout condition Svent incluse dans Surf airbag
+C     Adding Svent Save Include in Surf Airbag
 C------------------------------------------------
       CHKSURF=0
       NN =IGRSURF(ISUR)%NSEG
@@ -870,7 +870,7 @@ C------------------------------------------------
          IF(ITY == 7) JI=JI+NUMELC
          NN1 =IGRSURF(EXT_SURFID)%NSEG
          FOUND = .FALSE.
-C     Test surface externe
+C     External surface test
          DO J1=1,NN1
             JI1 =IGRSURF(EXT_SURFID)%ELEM(J1)
             ITY1=IGRSURF(EXT_SURFID)%ELTYP(J1)

@@ -86,7 +86,7 @@ C-----------------------------------------------
             N  = PROV_S(I)
             NE = PROV_M(I)
 C           IF(N>NEDGE) THEN
-C numerotation tris precedent pour les noeuds non locaux (SPMD)
+C Previous sort numbering for non-local nodes (SPMD)
 C              N = OLDNUM(N-NEDGE)+NEDGE
 C              IF(N==NEDGE) N = NEDGE+NEDGEROLD+1
 C           END IF

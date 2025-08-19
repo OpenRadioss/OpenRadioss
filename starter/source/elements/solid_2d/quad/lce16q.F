@@ -32,7 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE LCE16Q3(IXQ    ,ISEL  ,PM     ,IPOINT ,ITAB ,ITABM1,
      .                   ICODE  ,IPARTQ,IGRQUAD,IPM    ,IGEO )
 C--------------------------------------------------------
-C     LECTURE DES ELEMENTS 2D
+C     READING 2D ELEMENTS
 C     VERSION NUMEROTATION DES NOEUDS LIBRE/MARS 90/DIM
 C     LECTURE FORMAT IDENTIQUE AUX COQUES
 C-----------------------------------------------
@@ -76,7 +76,7 @@ C
 C----------------------------------------------------
 C     DETECTION DES ELEMENTS LOIS 6 PAROI---->LOI 17
 C----------------------------------------------------
-C      LOI 17 SI LA BCS EST  011  OU 111
+C      LAW 17 IF BCS IS  011  OR 111
       DO I=1,NUMELQ
           MT=IXQ(1,I)
           MLAW=NINT(PM(19,MT))
@@ -94,7 +94,7 @@ C      LOI 17 SI LA BCS EST  011  OU 111
           ENDDO
       ENDDO
 C----------------------------------------------------
-C     CLASSEMENT DES ELEMENTS PAR LOI DE MATERIAU
+C     CLASSIFICATION OF ELEMENTS BY MATERIAL LAW
 C----------------------------------------------------
       CALL REORDR(IXQ   ,NIXQ   ,NUMELQ ,PM     ,IPOINT ,
      .            IPARTQ,NGRQUAD,IGRQUAD,NUMMAT)

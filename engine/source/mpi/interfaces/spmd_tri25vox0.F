@@ -86,8 +86,8 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
 C=======================================================================
-C     tag des boites contenant des facettes
-C     et creation des candidats
+C     tag of boxes containing facets
+C     and creation of candidates
 C=======================================================================
 
       SOL_EDGE =IEDGE/10 ! solids
@@ -107,17 +107,17 @@ C=======================================================================
       ZMINB = BMINMAL(6)
 
       DO NE=1,NRTM
-C on ne retient pas les facettes detruites
+C We do not retain the Destruit facets
         IF(STF(NE) <= ZERO)CYCLE
          AAA = MARGE+CURV_MAX(NE)+VMAXDT
      +       + MAX(MAX(PMAX_GAP,BGAPSMX+GAP_M(NE))+DGAPLOAD,DRAD)
 
 
-C verifier avec 
+C verify with
          IF(SOL_EDGE > 0) AAA = MAX(AAA,MARGE+BGAPEMX+DGAPLOAD)
 
-c     il est possible d'ameliorer l'algo en decoupant la facette
-c     en 2(4,3,6,9...) si la facette est grande devant AAA et inclinee
+c     It is possible to improve the algo by cutting the facet
+c     in 2 (4,3,6,9 ...) if the facet is large in front of AAA and inclinee
 
          M1 = IRECT(1,NE)
          M2 = IRECT(2,NE)
@@ -157,7 +157,7 @@ c     en 2(4,3,6,9...) si la facette est grande devant AAA et inclinee
            ZMINE=ZMINE-DZ
          ENDIF
 
-c        indice des voxels occupes par la facette
+c        index of voxels occupied by the facet
 
          IX1=INT(NBX*(XMINE-AAA-XMINB)/(XMAXB-XMINB))
          IY1=INT(NBY*(YMINE-AAA-YMINB)/(YMAXB-YMINB))
@@ -255,8 +255,8 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
 C=======================================================================
-C     tag des boites contenant des facettes
-C     et creation des candidats
+C     tag of boxes containing facets
+C     and creation of candidates
 C=======================================================================
 
       SOL_EDGE =IEDGE/10 ! solids

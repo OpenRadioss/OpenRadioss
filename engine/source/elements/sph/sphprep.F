@@ -189,7 +189,7 @@ C      /---------------/
             ENDIF
           ENDDO
         ELSE
-C         Traitement des INLETS.
+C         Processing of INLETS.
           CALL SPONOF1(X ,V       ,D       ,MS      ,SPBUF   ,
      2           ITAB    ,KXSP    ,IXSP    ,NOD2SP  ,NPC     ,
      3           PLD     ,IPARG   ,ELBUF_TAB,ISPHIO  ,VSPHIO  ,
@@ -206,7 +206,7 @@ C         Traitement des INLETS.
         ENDIF
 
 C-----------------------------------------------
-C  Communication Retri en SPMD (fin du cycle precedent) sur tache0
+C  Communication retri in SPMD (end of the previous cycle) on a stain0
 C-----------------------------------------------
 C
 c globalize ISPHBUC
@@ -242,7 +242,7 @@ C
       ISORTSP=ISPHBUC
 C
       IF(ISORTSP==0)THEN
-C       echange des particules reelles/symetriques si traversee.
+C       Exchange of real/symmetrical particles if crossed.
         CALL SPECHAN(
      1   X       ,V       ,MS      ,SPBUF   ,ITAB      ,
      2   KXSP    ,IXSP    ,NOD2SP  ,ISPCOND ,XFRAME    ,
@@ -374,7 +374,7 @@ C
           ENDDO
 10        CONTINUE
 C-----------------------------------------------
-C  Communication Retri en SPMD sur tache0
+C  PTMD RETRI COMMUNICAT
 C-----------------------------------------------
           IF(NSPMD>1)THEN
             CALL SPMD_ALLGLOB_ISUM9(ISORTSP,1)
@@ -460,7 +460,7 @@ C
      1      CALL SPHTRI(X       ,SPBUF   ,KXSP   ,IXSP  ,NOD2SP,
      2                  IREDUCE ,WSP2SORT ,BMINMA ,NSP2SORTF,NSP2SORTL,
      3                  ITASK   ,SPH_WORK%WREDUCE ,LGAUGE ,GAUGE    )
-C barriere a la fin de sptrivox (necessaire pour IREDUCE global)
+C barrier at the end of sptrivox (necessary for global IREDUCE)
 
 #include "lockon.inc"
           ISPHRED=MAX(ISPHRED,IREDUCE)
@@ -478,7 +478,7 @@ C
                 CALL STOPTIME(TIMERS,95)
               END IF
               CALL STARTIME(TIMERS,91)
-C Compactage des structures spmd pour cell remote + renumerotation IXSP + maj IREDUCE
+C Compacting of SPMD structures for Cell Remote + Renumerotation IXSP + Maj Ireduce
 C            
               CALL SPMD_SPHGAT(KXSP,IXSP,WSP2SORT,ISPHRED,LGAUGE)
               CALL STOPTIME(TIMERS,91)
@@ -518,7 +518,7 @@ C
             END IF
             CALL STARTIME(TIMERS,91)
 C
-C Envoi liste des cellules remotes actives courantes et reception V, M, RHO pour cellules remotes actives
+C Send List of current active Remotes cells and reception V, M, RHO for active remote cells
 C
             CALL SPMD_SPHGETV(KXSP ,SPBUF, V, MS, ISORTSP ,IPARTSP)
 C
@@ -531,7 +531,7 @@ C
      2    VSPSYM   ,WSP2SORT ,DMAX   ,ITASK   ,WSMCOMP  ,
      3    MYSPATRUE,SPBUF    ,KXSP)
 
-C Synchro sur echange SPMD et var partagee IREDUCE, MYSPATRUE, NSPHSYM
+C Synchro on SPMD and Var Share Ireduce, Myspatrue, NSPHSYM Exchange
 C    /---------------/
         CALL MY_BARRIER
 C    /---------------/
@@ -562,7 +562,7 @@ C
               CALL STOPTIME(TIMERS,95)
             END IF
             CALL STARTIME(TIMERS,91)
-C Maj globale de ISPHRED et SPATRUE apres SPSYMP (SPATRUE inutile)
+C Global majred majred and spatrue after SPSYMP (unnecessary spat)
 C
             CALL SPMD_SPAMAJ(ISPHRED,SPATRUE)
 C
@@ -575,7 +575,7 @@ C      /---------------/
 C
         IREDUCE  =ISPHRED
         MYSPATRUE=SPATRUE
-C       re-tri voisins (voisins vrais, voisins dans la zone de securite).
+C       re-sort neighbors (true neighbors, neighbors in the safety zone).
         CALL SPCLASV(X     ,SPBUF ,KXSP    ,IXSP   ,NOD2SP   ,
      1               ISPSYM,XSPSYM%BUF,WSP2SORT ,ITASK  ,MYSPATRUE,
      2               IREDUCE,SPH_WORK%WREDUCE,LGAUGE ,GAUGE ,ISORTSP)
@@ -619,7 +619,7 @@ C
               CALL STOPTIME(TIMERS,95)
             END IF
             CALL STARTIME(TIMERS,91)
-C Maj globale de ISPHRED et SPATRUE apres SPCLASV (ISPHRED inutile) 
+C Global majred majred and spclasv (isphred useless) 
 C
             CALL SPMD_SPAMAJ(ISPHRED,SPATRUE)
 C
@@ -639,13 +639,13 @@ C
           IF(ITASK==0) THEN
 C
             CALL STARTIME(TIMERS,92)
-C Reception X cellules remotes
+C Reception x Remotes cells
 C
             CALL SPMD_SPHGETX(KXSP, SPBUF ,X ,IPARTSP)
 C
             CALL STOPTIME(TIMERS,92)
           END IF 
-C Synchro sur echange SPMD
+C Synchronization on SPMD exchange
 C         /---------------/
           CALL MY_BARRIER
 C         /---------------/
@@ -667,17 +667,17 @@ C        /---------------/
 C        /---------------/    
         ENDIF
 C
-C MAJ XSPSYM avant SPCLASV mais apres SPMD_SPHGETX
+C MAJ XSPSYM BEFORE SPCLASV but after SPMD_SPHGETX
 C
         CALL SPADASM0(
      1             X       ,V       ,MS      ,SPBUF   ,ITAB    ,
      2             KXSP    ,IXSP    ,NOD2SP  ,ISPCOND ,ISPSYM  ,
      3             XFRAME  ,XSPSYM%BUF  ,WSP2SORT ,ITASK   )
-C Synchro sur XSPSYM
+C Synchronization on XSPSYM
 C      /---------------/
         CALL MY_BARRIER
 C      /---------------/
-C       re-tri voisins (voisins vrais, voisins dans la zone de securite).
+C       re-sort neighbors (true neighbors, neighbors in the safety zone).
         IREDUCE  =0
         MYSPATRUE=ZERO
         CALL SPCLASV(X     ,SPBUF ,KXSP    ,IXSP   ,NOD2SP  ,
@@ -691,7 +691,7 @@ C
           IF(ITASK==0) THEN
 C
             CALL STARTIME(TIMERS,92)
-C Envoi liste des cellules remotes actives courantes et reception V, M, RHO pour cellules remotes actives
+C Send List of current active Remotes cells and reception V, M, RHO for active remote cells
 C
             CALL SPMD_SPHGETV(KXSP ,SPBUF, V, MS, ISORTSP ,IPARTSP)
 C
@@ -703,7 +703,7 @@ C        /---------------/
 C       /---------------/
         END IF 
 C
-C Actualisation des particules symetriques : MAJ VSPSYM apres SPMD_SPHGETV
+C Updating symmetrical particles: Maj vSpsym after SPMD_SPHGETV
 C
         CALL SPADASM(
      1             X       ,V       ,MS      ,SPBUF   ,ITAB    ,
@@ -718,7 +718,7 @@ C
       ENDIF
 C
 C-----------------------------------------------
-C       Traitement des OUTLETS.
+C       Processing of OUTLETS.
 C-----------------------------------------------
       IF(ITASK==0)THEN
         IF(NSPHIO/=0)THEN
@@ -776,7 +776,7 @@ C    /---------------/
 C    /---------------/
 C
 C-----------------------------------------------
-C     CORRECTION DES NOYAUX.
+C     KERNEL CORRECTION.
 C-----------------------------------------------
       CALL SPCOMPL(
      1    X       ,V       ,MS       ,SPBUF  ,ITAB    ,

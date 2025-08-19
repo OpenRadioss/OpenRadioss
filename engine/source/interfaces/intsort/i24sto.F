@@ -108,7 +108,7 @@ C-----------------------------------------------
          N  = PROV_N(I)
          NE = PROV_E(I)+ESHIFT
          IF(N>NSN)THEN
-C numerotation tris precedent pour les noeuds non locaux (SPMD)
+C numbering of previous sorts for non-local nodes (spmd)
             N = OLDNUM(N-NSN)+NSN
             IF(N==NSN) N = NSN+NSNROLD+1
          END IF

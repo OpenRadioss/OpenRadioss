@@ -65,7 +65,7 @@ C
           PARTSAV2(M,I) = PARTSAV(M,I)
         ENDDO
       END DO
-C pre traitement SPMD : gather de PARTSAV et mise a zero sur procs remote
+C SPMD pre-processing: gather of PARTSAV and zeroing on remote procs
       IF(NSPMD > 1) THEN
         CALL SPMD_GLOB_DSUM9(PARTSAV2,NPSAV*NPART)
         IF(ISPMD/=0) THEN

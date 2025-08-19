@@ -95,7 +95,7 @@ C-----------------------------------------------
         IF(ALLOCATED(BUFF_R))DEALLOCATE(BUFF_R)          
       ELSE                                                                                                         
         DO I=2,NSPMD                                                                          
-          ! Reception du buffer flottant double des adresses DATA_I                           
+          ! reception of the double-precision floating buffer of data_i addresses
           MSGTYP = MSGOFF                                                                     
           NCELL = STATE_INIMAP_BUF(I)%NUM_CENTROIDS
           NBMAT = STATE_INIMAP_BUF(I)%NSUBMAT                                             
@@ -169,7 +169,7 @@ C-----------------------------------------------
       ELSE                                                 
         NPTS = STATE_INIMAP_BUF(1)%NUM_POINTS                                         
         DO I=2,NSPMD                                                
-          ! Reception du buffer flottant double des adresses DATA_I                        
+          ! reception of the double-precision floating buffer of data_i addresses
           MSGTYP = MSGOFF                                                
           NPTS = STATE_INIMAP_BUF(I)%NUM_POINTS                                            
           SIZ = 5*NPTS                                         

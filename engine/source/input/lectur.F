@@ -614,7 +614,7 @@ C
             END IF
 C
           ELSE
-C--        /DT/CST_AMS >- automatic element selection
+C- /DT /CST_AMS>- Automatic election
             DT_CRIT = DTMINS / MAX(EM20,DTFAC1(11))
             IF((ISPMD == 0).AND.MCHECK == 0.AND.IDTGRS<=0)THEN
               WRITE(IOUT,2109) DTFACS,DTMINS,TOL_SMS,NSMSPCG,M_VS_SMS,NCPRISMS,DT_CRIT,-IDTGRS
@@ -1893,7 +1893,7 @@ C-----------------------
                IXS(1,II)=-IXS(1,II)
                IF (MLW /= 0) THEN
                  OFFG(I)=ZERO
-               ELSE     ! loi0, pas de off
+               ELSE     ! loi0, no off
                  CALL ANCMSG(MSGID=238,ANMODE=ANINFO_BLIND,I1=IXS(NIXS,II),C1='BRICK',C2='BRICK')
                ENDIF
               ELSE
@@ -1925,7 +1925,7 @@ C-----------------------
                IXC(1,II)=-IXC(1,II)
                IF (MLW /= 0) THEN
                  OFFG(I) = ZERO
-               ELSE     ! loi0, pas de off
+               ELSE     ! loi0, no off
                 CALL ANCMSG(MSGID=238,ANMODE=ANINFO_BLIND,I1=IXC(NIXC,II), C1='SHELL',C2='SHELL')
                ENDIF
              ELSE
@@ -1937,7 +1937,7 @@ C     4. ROD ELEMS
 C-----------------------
          ELSEIF(ITY == 4.AND.NELTOF /= 0)THEN
 C          IGOF=1
-C suppression du groupe incompatible avec option gap truss
+C removal of the group incompatible with gap truss option
            IGOF=0
            DO I=1,NEL
              II=I+NFT
@@ -1985,7 +1985,7 @@ C-----------------------
              IXTG(1,II)=-IXTG(1,II)
              IF(MLW /= 0) THEN
                OFFG(I) = ZERO
-             ELSE     ! loi0, pas de off
+             ELSE     ! loi0, no off
               CALL ANCMSG(MSGID=238,ANMODE=ANINFO_BLIND,I1=IXTG(NIXTG,II), C1='SH_3N',C2='SH_3N')
              ENDIF
             ELSE
@@ -2257,7 +2257,7 @@ C                      NALELK <- NALELK+NALELINK
               WRITE(IOUT,'(10I10)')(LINALE(K+I),I=1,N)
               WRITE(IOUT,2201)
             ENDIF
-c           Verification partagee et tag en - noeuds non present
+c           Verification shared and tag in - nodes not present
             CALL FR_RLALE(LINALE(K-4),LINALE(K-3),LINALE(K+1),ITABM1,N)
             K=K+N+6
          !---------------------------------!
@@ -2340,7 +2340,7 @@ C-------------------------------------------
                WRITE(IOUT,'(10I10)')(LINALE(K+I),I=1,N)
                WRITE(IOUT,2201)
              ENDIF
-              ! Verification partagee et tag en - noeuds non present
+              ! Verification shared and tag in - nodes not present
               CALL FR_RLALE(LINALE(K-4),LINALE(K-3),LINALE(K+1),ITABM1,N)
               K=K+N+6
             !---------------------------------!
@@ -2647,7 +2647,7 @@ C-------------------------------------------
       IF(NUBCSN /= 0)THEN
         CALL LCBCSF(ICODE,ISKEW,NUBCSN,ITAB,ITABM1,NPBY ,ISKWN,WEIGHT)
         IF(NSPMD > 1) THEN
-C traitement necessaire pour recuperer les noeuds cond limites
+C necessary processing to recover limit cond nodes
           IWIOUT = 0
           IF (ISPMD /= 0) CALL SPMD_CHKW(IWIOUT,IOUT)
           CALL SPMD_GLOB_ISUM9(IWIOUT,1)
@@ -2659,7 +2659,7 @@ C traitement necessaire pour recuperer les noeuds cond limites
         END IF
       END IF
 C-------------------------------------------
-C     MODIFICATION DES INTERFACES
+C     INTERFACE MODIFICATION
 C-------------------------------------------
       IF(NINTCH /= 0)THEN
         DO I=1,NINTCH
@@ -3322,7 +3322,7 @@ C-----------------------------------------------
      .            MSG_ISOL
      . / 'PREC. CONJUGATE GRADIENT',
      .   'DIRECT(MUMPS) ',
-c     .   'PREC. LANZOS ',
+c     .'Prec.Lanzos',
      .   'DIRECT',
      .   'MULTI-LEVEL CONDENSATION',
      .   'MIXE SOLVERS: 1 + 3',

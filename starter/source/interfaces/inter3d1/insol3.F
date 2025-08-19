@@ -131,7 +131,7 @@ C
   230  CONTINUE
        IF (NUSERM==-1) RETURN
 C-----------------------------------------------
-C     VERIFICATION DE L'ORIENTATION DES SEGMENTS
+C     Verification of segment orientation
 C-----------------------------------------------
        XS1=ZERO
        YS1=ZERO
@@ -537,7 +537,7 @@ C
      4     ID,TITR)
        END IF !(NEL>NUMELS8.AND.NEL<=NUMELS8+NUMELS10) THEN
 C
-C 2 Elements connects  1 facette !
+C 2 Connects 1 Facette.
 C
        IF(IC>=2)THEN
          IF(NINT>0) CALL ANCMSG(MSGID=1245,
@@ -553,7 +553,7 @@ C
        ENDIF
        
 C-----------------------------------------------
-C     VERIFICATION DE L'ORIENTATION DES SEGMENTS
+C     Verification of segment orientation
 C-----------------------------------------------
        XS1=ZERO
        YS1=ZERO

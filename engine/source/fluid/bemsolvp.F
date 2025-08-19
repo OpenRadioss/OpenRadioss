@@ -72,11 +72,11 @@ C-----------------------------------------------
      .        NRX, NRY, NRZ, AREA2, RVAL(3), LSUM(NNO), LSUMT(NNO)
 #if defined(MPI) && defined(MYREAL8) && !defined(WITHOUT_LINALG)
 C---------------------------------------------------
-C 0- Initialisations pour utilisation SCALAPACK
+C 0- Initializations for scalapack use
 C---------------------------------------------------
-C Initialisation de la process grid
+C Initialization of the process grid
       CALL SL_INIT(ICTXT, NPROW, NPCOL)
-C Descripteur pour HBEM
+C Descriptor for HBEM
       DESC_H(1)=1
       DESC_H(2)=ICTXT
       DESC_H(3)=NNO
@@ -86,7 +86,7 @@ C Descripteur pour HBEM
       DESC_H(7)=0
       DESC_H(8)=0
       DESC_H(9)=MAX(1,NNRP)
-C Descripteur pour GBEM
+C Descriptor for GBEM
       DESC_G(1)=1
       DESC_G(2)=ICTXT
       DESC_G(3)=NNO
@@ -96,7 +96,7 @@ C Descripteur pour GBEM
       DESC_G(7)=0
       DESC_G(8)=0
       DESC_G(9)=MAX(1,NNRP)
-C Descripteur pour Q
+C Descriptor for Q
       DESC_Q(1)=1
       DESC_Q(2)=ICTXT
       DESC_Q(3)=NEL
@@ -106,7 +106,7 @@ C Descripteur pour Q
       DESC_Q(7)=0
       DESC_Q(8)=0
       DESC_Q(9)=MAX(1,NERP)
-C Descripteur pour PHI
+C Descriptor for PHI
       DESC_P(1)=1
       DESC_P(2)=ICTXT
       DESC_P(3)=NNO
@@ -122,7 +122,7 @@ C---------------------------------------------------
       IF (L_ASSEMB) THEN
          IF (ILVOUT>=1.AND.ISPMD==0) WRITE(ISTDO,'(A)') ' ** BEMSOLV : ASSEMBLY OF INTEGRAL OPERATORS'
          IF (IFORM==1) THEN
-C Assemblage de H
+C Assembly of H
             DO I=1,NNRP
                DO J=1,NNCP
                   HBEM(I,J)=ZERO
@@ -172,7 +172,7 @@ C Assemblage de H
                   IF (NL3/=0) HBEM(J,NL3)=HBEM(J,NL3)+RVAL(3)
                ENDDO
             ENDDO
-C Assemblage de G
+C Assembly of G
             DO I=1,NEP
                IF (ILVOUT==2) 
      .            CALL PROGCONDP_C(NCEIP+I,NCEIP+NEP, ISPMD+1, IBID)
@@ -212,7 +212,7 @@ C Assemblage de G
                   GBEM(J,I)=GBEM(J,I)+RVAL(1)
                ENDDO
             ENDDO
-C Somme des lignes pour le terme diagonal de H
+C Sum of rows for the diagonal term of H
             DO I=1,NNO
                LSUM(I)=ZERO
             ENDDO
@@ -291,7 +291,7 @@ C
      .                     OFFNR, OFFNC)
             ENDDO
          ENDIF
-C Somme des lignes de G pour remplacer la derniere colonne de H
+C Sum of G rows to replace the last column of H
          DO I=1,NNO
             LSUM(I)=ZERO
          ENDDO
@@ -309,7 +309,7 @@ C Somme des lignes de G pour remplacer la derniere colonne de H
                IF (IR>0) HBEM(IR,IC)=-LSUMT(I)
             ENDDO
          ENDIF
-C Factorisation de HBEM
+C Factorization of HBEM
          CALL PDGETRF(NNO,    NNO,  HBEM, 1, 1, 
      .                DESC_H, IPIV, INFO)
       ENDIF            

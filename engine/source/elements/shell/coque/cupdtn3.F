@@ -76,7 +76,7 @@ C-----------------------------------------------
      .   OFF_L,CF(MVSIZ)
 C-----------------------------------------------
 C
-C cumul de l'energie des elements deletes AU moment du delete
+C cumulative energy of deleted elements at the moment of deletion
             
       OFF_L = ZERO
       DO I=JFT,JLT
@@ -534,7 +534,7 @@ C     INTEGER I, II, K
       my_real
      .   OFF_L
 C-----------------------------------------------
-C cumul de l'energie des elements deletes AU moment du delete 
+C cumulative energy of deleted elements at the moment of deletion
       OFF_L = ZERO
       DO I=JFT,JLT
         IF(OFF(I)<ONE)OFFG(I) = OFF(I)

@@ -42,8 +42,8 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
-C INITIALISE LES DIRECTIONS DE FISSURES
-C INITIALISE LES EPAISSEURS ET LES MATERIAUX DES COUCHES
+C INITIALIZES THE CRACK DIRECTIONS
+C INITIALIZES THE THICKNESSES AND MATERIALS OF THE LAYERS
 C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

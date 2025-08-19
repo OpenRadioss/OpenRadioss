@@ -75,7 +75,7 @@ C-----------------------------------------------
         ICRK = INDX_CRK(CRKS)
         IE_EL2FA = 0
 C
-C en spmd il faut envoyer l'info meme qd on a 0 elem local
+C In SPMD you must send the info even qd we have 0 local elem
 C
         DO NG=1,NGROUP
           NEL   =IPARG(2,NG)
@@ -156,7 +156,7 @@ C
       ENDDO  !  DO CRKS = 1,NCRKPART
 c----------------------------------------
       IF (NSPMD > 1) THEN
-C   construction tableau global des parts sur p0
+C   build global part array on proc 0
         IF(ISPMD == 0)THEN
           CALL SPMD_IGLOB_PARTN(IAD_CRK,NCRKPART,IAD_CRKG,NCRKPART)
           BUF = 4 * NBF
@@ -167,7 +167,7 @@ C   construction tableau global des parts sur p0
           CALL SPMD_IGET_PARTN(4,JJ,NP,NCRKPART,IAD_CRKG,BUF,1)
         ENDIF
 C
-      ELSE ! remplissage IADG pour compatibilite mono/multi
+      ELSE ! IADG filling for mono/multi compatibility
         DO I = 1, NCRKPART
           IAD_CRKG(1,I) = IAD_CRK(I)
         END DO

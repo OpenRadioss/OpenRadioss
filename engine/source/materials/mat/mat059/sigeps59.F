@@ -122,12 +122,12 @@ c
         ELTRAC(1:NEL) = 0
         NTRAC  = 0
         DO IEL=1,NEL
-          IF (EPSZZ(IEL) > ZERO) THEN   ! element in traction
+          IF (EPSZZ(IEL) > ZERO) THEN   ! In traction element
             STF(IEL)    = (E+G) * AREA(IEL)                                          
             DSIGZ(IEL)  = E*DEPSZZ(IEL)                                 
             NTRAC = NTRAC + 1
             ELTRAC(NTRAC) = IEL
-          ELSE                          ! element in compression
+          ELSE                          ! in compression
             STF(IEL)    = (ECOMP+G) * AREA(IEL)                                          
             DSIGZ(IEL)  = ECOMP*DEPSZZ(IEL)
           ENDIF

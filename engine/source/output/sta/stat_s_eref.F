@@ -214,7 +214,7 @@ c------
                END DO              
               END IF    ! ISMSTR==1.OR.ISMSTR>=10
               IE=IE+1                                                       
-C             pointeur de fin de zone dans WA                                 
+C             end-of-zone pointer in wa
               PTWA(IE)=JJ                                                   
             END DO                                                
 C                                                                                       
@@ -223,7 +223,7 @@ C
  200  CONTINUE
 c-----------------------------------------------------------
       IF(NSPMD == 1)THEN
-C       recopies inutiles pour simplification du code.
+C       unnecessary copies for code simplification
         PTWA_P0(0)=0
         DO N=1,STAT_NUMELS
           PTWA_P0(N)=PTWA(N)
@@ -233,7 +233,7 @@ C       recopies inutiles pour simplification du code.
           WAP0(J)=WA(J)
         END DO
       ELSE
-C       construit les pointeurs dans le tableau global WAP0
+C       builds the pointers in the global array wap0
         CALL SPMD_STAT_PGATHER(PTWA,STAT_NUMELS,PTWA_P0,STAT_NUMELS_G)
         LEN = 0
         CALL SPMD_RGATHER9_DP(WA,JJ,WAP0,SIZP0,LEN)
@@ -244,9 +244,9 @@ c-----------------------------------------------------------
         IPRT0=0
         DO N=1,STAT_NUMELS_G
 
-C         retrouve le nieme elt dans l'ordre d'id croissant
+C         find the nieme elt in the order of an increasing id
           K=STAT_INDXS(N)
-C         retrouve l'adresse dans WAP0
+C         Find the address in WAP0
           J=PTWA_P0(K-1)
           IOFF  = NINT(WAP0(J + 6))      
           IPRT  = NINT(WAP0(J + 1)) 

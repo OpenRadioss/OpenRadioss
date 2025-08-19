@@ -345,7 +345,7 @@ C MDS Table
       TYPE(t_segvar) :: SEGVAR
 C----------------------------------------------------------------------------------
       TYPE(NAMES_AND_TITLES_) :: NAMES_AND_TITLES  !< NAMES_AND_TITLES host the input deck names and titles for outputs
-      TYPE(UNIT_TYPE_) :: UNITAB !< units conversion
+      TYPE(UNIT_TYPE_) :: UNITAB !<Units Conversion
       TYPE(connectivity_) :: element 
       TYPE(nodal_arrays_), target :: nodes 
       TYPE(timer_) :: TIMERS
@@ -968,7 +968,7 @@ C
       IGEO = 0
       IPM = 0
 
-      ! IAF,AF : Fluid, noise
+      ! IAF, AF: Fluid, Noise
       IF(IFIF>0)ALLOCATE (IAF(IFIF),STAT=IADIF)
       IF(MFIF>0)ALLOCATE (AF(MFIF),STAT=IADRF)
       IF(IADRF/=0.OR.IADIF/=0)THEN
@@ -1096,11 +1096,11 @@ C--------------------------------------------
          IF (MLN==20) ILAW20=1 
       ENDDO
       !----------------------------------!
-      !  Updating contour output request !
+      !  Updating output output Request!
       !  according multimaterial law type!
       !  and usage                       !
       !----------------------------------!      
-      !COMMUN LAW51/LAW37
+      !Common Law 51/Law 37
       !Removing /ANIM/ELEM/VFRAC if no multimaterial law
       IF(MMALE==0)THEN  
         DO I=283,286
@@ -1164,7 +1164,7 @@ C--------------------------------------------
       
       NN_ANI = NN_ANI + OUTPUT%CHECKSUM%CHECKSUM_COUNT   
 
-      !COMMUN LAW51/LAW37
+      !Common Law 51/Law 37
       !if multimaterial law then removing useless phases output (phases 3 or/and 4)
       IF(MMALE==1)THEN     
           IF(N2D==0)THEN 
@@ -1560,7 +1560,7 @@ C
           IF (IABFPIPE < 0) THEN
             SELECT CASE (IABFPIPE)
                CASE (-1)
-C---        Error: abf pas trouve
+C--- error: abf not find
                   CALL ANCMSG(MSGID=150,ANMODE=ANINFO)
                CASE (-2)
                   CALL ANCMSG(MSGID=151,ANMODE=ANINFO,I1=ABFCOMP)

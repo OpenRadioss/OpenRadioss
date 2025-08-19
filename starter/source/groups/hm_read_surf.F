@@ -199,7 +199,7 @@ C-----------------------------------------------
 !                             (computed in Radioss Engine, when receiving Datas from MaDyMo).
 !                             ID MaDyMo - for entity type which impose surface movement:
 !                             No systeme MaDyMo for entity type which impose surface movement
-!   IGRSURF(IGS)%NB_MADYMO   :: No de l'entite qui impose le mvt de la surface.
+! IGRSURF(IGS)%NB_MADYMO   :: Entity number imposing surface movement.
 !                                --> No systeme Radioss ou MaDyMO.
 !   IGRSURF(IGS)%TYPE_MADYMO   :: Entity type which impose surface movement.
 !                                  = 1 : Rigid Body.
@@ -352,14 +352,14 @@ C             tag for surfaces defined from surface list
             ELSEIF(KEY(1:6)=='SUBSET'.OR. KEY(1:4)=='PART'.OR.
      .             KEY(1:3)=='MAT'   .OR. KEY(1:4)=='PROP'.OR.
      .             KEY(1:6)=='GRBRIC')THEN
-C             surf de SUBSET PART MAT OU PROP
+C             surf of SUBSET PART MAT OR PROP
               IT2=IT2+1
               IF (FLAG == 0) IGRSURF(IGS)%NSEG=0
                IGRSURF(IGS)%LEVEL=1
             ELSEIF(KEY(1:3) == 'BOX'.AND.NBBOX == 0 .AND.
      .       (KEY2(1:5) /= 'RECTA'.AND.
      .        KEY2(1:5) /= 'CYLIN'.AND.KEY2(1:5) /= 'SPHER'))THEN
-C             surf dans un box (old box)
+C             surf in a box (old box)
               lERROR=.TRUE.
             ELSEIF(KEY(1:2)=='GR')THEN
 C             surf d'un group d'elements
@@ -381,7 +381,7 @@ C             surface with formal equation (non-meshed).
                  IGRSURF(IGS)%ELEM(1:NSEG0) = 0
                ENDIF
             ELSEIF(KEY(1:6)=='SUBMOD')THEN
-C             une surface d'un submodel.
+C             a surface of a submodel.
               IT6=IT6+1
               IF (FLAG == 0) IGRSURF(IGS)%NSEG=0
                IGRSURF(IGS)%LEVEL=1

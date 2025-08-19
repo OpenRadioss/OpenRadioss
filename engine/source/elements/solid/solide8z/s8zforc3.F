@@ -247,19 +247,19 @@ C-----------------------------------------------
      . DIE(MVSIZ),CONDE(MVSIZ) ,CONDEN(MVSIZ),AMU(MVSIZ)
       my_real, dimension(mvsiz) :: fheat
 C-----
-C   Variables utilisees en argument par les materiaux.
+C   variables used as arguments by materials
       my_real
      .   STI(MVSIZ),STIN(MVSIZ),GAMA(MVSIZ,6),
      .   WXX0(MVSIZ) , WYY0(MVSIZ) , WZZ0(MVSIZ),
      .   WXX(MVSIZ) , WYY(MVSIZ) , WZZ(MVSIZ)
-C   Variables utilisees en argument par les materiaux si SPH uniquement.
+C   Variables used in argument by materials if SPH only.
       my_real
      .   MUVOID(MVSIZ)
       INTEGER IOFFS,ITET,IFVM22
       my_real
      .   OFFS(MVSIZ),DSV(MVSIZ)
 C-----
-C   Variables utilisees dans les routines solides uniquement (en arguments).
+C   variables used only in solid routines (as arguments)
       INTEGER NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ), 
      .        NC5(MVSIZ), NC6(MVSIZ), NC7(MVSIZ), NC8(MVSIZ)
       INTEGER IDEG(MVSIZ),ICP0
@@ -357,7 +357,7 @@ C-----
 
 c
 C-----
-C     Variables utilis  es pour le non-local
+C     variables used for non-local
       my_real,
      .  DIMENSION(:,:), ALLOCATABLE :: VAR_REG
       INTEGER :: INLOC, L_NLOC, INOD(8), IPOS(8), IMAT,NN_DEL
@@ -1500,7 +1500,7 @@ C-----------------------------
        END IF !(IOFFS == 1) THEN
       ENDIF
 C--------------------------
-C       BILANS PAR MATERIAU
+C       balances by material
 C--------------------------
       IFLAG=MOD(NCYCLE,NCPRI)
       IF(IOUTPRT>0)THEN

@@ -114,7 +114,7 @@ C-----------------------------------------------
         INTEGER, DIMENSION(NUMNOD), INTENT(in) :: KINET  ! k energy & 
         INTEGER, DIMENSION(NODNX_SMS_SIZ), INTENT(in) :: NODNX_SMS ! SMS array
         INTEGER, DIMENSION(2,NSPMD+1), INTENT(in) :: IAD_ELEM     ! connectivity array iad(P+1)-iad(P) = nb of frontier node on P
-        INTEGER, DIMENSION(SFR_ELEM), INTENT(in) :: FR_ELEM          ! frontier node ID
+        INTEGER, DIMENSION(SFR_ELEM), INTENT(in) :: FR_ELEM          ! Frontier Node ID
 
 
         TYPE(INTBUF_STRUCT_), DIMENSION(NINTER), INTENT(inout) :: INTBUF_TAB   ! interface data

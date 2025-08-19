@@ -59,7 +59,7 @@ C-----------------------------------------------
 C This subroutines is resetting accelerations on nodes
 C since they are used in ecrit.F to update velocity.
 C Velocity don't have to be updates in ecrit.F where
-C they are still nodal momentum up to vitesse.F
+C they are still nodal momentum up to velocity.F
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------

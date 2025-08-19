@@ -94,7 +94,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       IF (KEY(1:6) == 'SUBSET') THEN
 C-------------------------
-C groupes de SUBSETS
+C groups of SUBSETS
 C-------------------------
 
            CALL GROUPS_GET_ELEM_LIST(LIST_ENTITY, NENTITY, LSUBMODEL)                  
@@ -106,7 +106,7 @@ C-------------------------
                 IF (JJ == SUBSET(K)%ID) THEN
                   ISU=K
                   DO L=1,SUBSET(ISU)%NTPART
-C                   tag les parts
+C                   tag the parts
                     IF(BUFFTMP(SUBSET(ISU)%TPART(L))==0)THEN
                       BUFFTMP(SUBSET(ISU)%TPART(L))=1
                       NINDX=NINDX+1
@@ -117,7 +117,7 @@ C                   tag les parts
                 ELSEIF (JJ == -SUBSET(K)%ID) THEN
                   ISU=K
                   DO L=1,SUBSET(ISU)%NTPART
-C                   tag les parts 
+C                   tag the parts
                     IF(BUFFTMP(SUBSET(ISU)%TPART(L))==0)THEN
                       BUFFTMP(SUBSET(ISU)%TPART(L))=-1
                       NINDX=NINDX+1
@@ -144,7 +144,7 @@ C                   tag les parts
       ELSEIF (KEY(1:4) == 'PART' .OR. KEY(1:3) == 'MAT' .OR.
      .        KEY(1:4) == 'PROP') THEN
 C-------------------------
-C groupes de PART,MAT,PROP
+C Part groups, mat, prop
 C-------------------------
               IF(KEY(1:4) == 'PART')THEN
                 MOT='PART'
@@ -188,7 +188,7 @@ C-------------------------
                     ENDIF
                     ISU=MAP(ID_LOCAL,2)
                     TAG_ENTITY_POS(KK)=1  
-                    !tag les parts                         
+                    !tag the parts
                     IF(BUFFTMP(ISU)==0)THEN                
                         BUFFTMP(ISU)=1                       
                         NINDX=NINDX+1                        
@@ -206,7 +206,7 @@ C-------------------------
 
                     ISU=MAP(ID_LOCAL,2)
                     TAG_ENTITY_NEG(KK)=1  
-                    !tag les parts                         
+                    !tag the parts
                     IF(BUFFTMP(ISU)==0)THEN                
                         BUFFTMP(ISU)=-1          
                         NINDX=NINDX+1            
@@ -226,7 +226,7 @@ C-------------------------
                         IF(JJ == NUMA)THEN                       
                             ISU=K 
                             TAG_ENTITY_POS(KK)=1  
-                            !tag les parts                         
+                            !tag the parts
                             IF(BUFFTMP(ISU)==0)THEN                
                                 BUFFTMP(ISU)=1                       
                                 NINDX=NINDX+1                        
@@ -248,7 +248,7 @@ C-------------------------
                         IF(JJ == NUMA)THEN      
                             ISU=K 
                             TAG_ENTITY_NEG(KK)=1  
-                            !tag les parts              
+                            !tag the parts
                             IF(BUFFTMP(ISU)==0)THEN   
                                 BUFFTMP(ISU)=-1          
                                 NINDX=NINDX+1            

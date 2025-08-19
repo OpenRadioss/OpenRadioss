@@ -202,7 +202,7 @@ C-----------------------------------------------
       END DO
       GETEL = IE
 
-      ! get trace samples coordinates:
+      ! Get trace samples coordinates:
 
       IF (ISOLNOD == 4 .OR. N2D/=0) THEN
         DO I=1,NEL
@@ -600,7 +600,7 @@ C-----------------------------------------------
             DISP(IP,I) = ONE-DIST
 
           ELSEIF (SURF_TYPE == 200) THEN
-           !--planar surface
+           !-Planar Surface
             !get this out from the loop ! does not depends on IP
             IAD0 = IAD_BUFR
             DIST = ZERO
@@ -673,7 +673,7 @@ C-----------------------------------------------
                 IPL = INOD2SURF(JJ,NSH)
 !               SEGTOSURF(IPL) - identify the right surface to whom the segment
 !               IPL belongs. One node NSH can connect segments coming from
-!               different surface containers.
+!               different containers surface.
 !               Do not forget that containers overwrite phases (superpose)
                 ISURF = SEGTOSURF(IPL)
                 IPL = IPL - SWIFTSURF(ISURF)

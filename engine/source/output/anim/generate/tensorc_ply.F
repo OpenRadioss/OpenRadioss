@@ -184,7 +184,7 @@ C
           A3    = ZERO
           ISTRE = 1
 C          
-C test sur un seul element du groupe          
+C test on a single element of the group
 C
            N = 1 + NFT
 C

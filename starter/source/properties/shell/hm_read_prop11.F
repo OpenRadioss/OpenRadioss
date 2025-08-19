@@ -143,7 +143,7 @@ C HIDDEN FLAGS
 C----------------------
 C ISHEAR NEVER USED
         ISHEAR = 0
-C CVIS USED in coquez routines
+C Cvis used in shell routines
         CVIS = ZERO
 C IGMAT IS USED GENERALLY > 0 in other routines  => put always to 1
         IGMAT = 1
@@ -249,7 +249,7 @@ c
       GEO(3)   = ISMSTR
       IGEO(5)  = ISMSTR
 C
-C     Double stockage temporaire
+C     Temporary double storage
       IGEO(10)=IHBE
       GEO(171)=IHBE
 C
@@ -405,7 +405,7 @@ C---
       GEO(6)= N1+EM01  ! to be cleaned
       IGEO(4) = N1
 C--------------------------------------------------------------------
-C    LECTURE DES ANGLES,EPAISSEURS,POSITIONS DE COUCHES ET MATERIAUX
+C    READING OF ANGLES, THICKNESSES, LAYER POSITIONS AND MATERIALS
 C--------------------------------------------------------------------
 C----------------------
 C READ LINE 5 -> 5+N1
@@ -425,7 +425,7 @@ C----------------------
            IF (WEIGHT == ZERO) WEIGHT = ONE
            GEO(IPWEIGHT+K)= WEIGHT
         ENDDO
-C---  calcul epaisseur & position des couches
+C--- Thickness & position of the layers
       IGEO(99) = IPOS
       ZSHIFT = ZERO
       IF (IPOS > 0)THEN
@@ -454,7 +454,7 @@ C---  calcul epaisseur & position des couches
         DO N=1,N1
           GEO(IPTHK+N)=GEO(IPTHK+N) / MAX(THICKT,EM20)
         ENDDO
-C---      calcul automatique de position des couches
+C--- automatic calculation of layer positions
         GEO(IPPOS+1) = -HALF + HALF*GEO(IPTHK+1)
         DO N=2,N1
           GEO(IPPOS+N) = GEO(IPPOS+N-1)

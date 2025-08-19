@@ -199,7 +199,7 @@ C
         ENDDO
       ENDDO
 C
-C---  Node groups
+C--- Node Groups
 C
       DO I=1,NGRNOD
         ITYP = IGRNOD(I)%GRTYPE

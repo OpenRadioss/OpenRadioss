@@ -65,7 +65,7 @@ C-----------------------------------------------
       !elem centroid
       YM= FOURTH*(YE(1)+YE(2)+YE(3)+YE(4))
       ZM= FOURTH*(ZE(1)+ZE(2)+ZE(3)+ZE(4))
-      !dot product
+      !Dot Product
       DDS=N2*(YM-YM1)+ N3*(ZM-ZM1)
       IF(DDS >= ZERO)THEN
         !switch the segment connectivity to get outward normal

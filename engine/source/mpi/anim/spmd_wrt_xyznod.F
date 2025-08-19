@@ -82,9 +82,9 @@ C-----------------------------------------------
            END IF
          END DO
 
-C   a cause de la version simple precision, on ne peux pas metre l'entier
-C   dans le buffer flottant car on n a que 2puiss 24 bits dispo ~ 16 Million
-C   de noeuds au max
+C   Because of the simple precision version, we cannot put the integer
+C   In the floating buffer because there are only 2 24 bits available ~ 16 million
+C   maximum number of nodes
 
          MSGTYP = MSGOFF2 
          CALL MPI_SEND(IBUF,SIZ,MPI_INTEGER,IT_SPMD(1),MSGTYP,
@@ -110,7 +110,7 @@ C
 
           DO I=2,NSPMD
 
-C   Reception du buffer entier des adresses NODGLOB
+C   reception of the entire buffer of NODGLOB addresses
             MSGTYP = MSGOFF2
 
             CALL MPI_PROBE(IT_SPMD(I),MSGTYP,
@@ -120,7 +120,7 @@ C   Reception du buffer entier des adresses NODGLOB
             CALL MPI_RECV(IBUF,SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
      .                  SPMD_COMM_WORLD,STATUS,ierror)
 
-C   Reception du buffer flottant des adresses NODGLOB
+C   reception of the floating buffer of NODGLOB addresses
 
             MSGTYP2 = MSGOFF 
 

@@ -73,7 +73,7 @@ C------------------------------------
       ENDIF
 C---------------------------------------------
 C
-C Calcul du gap reel a utiliser lors du critere de retri
+C Calculation of the real gap to be used during the retry criterion
 C
       IF (IGAP==0) THEN
         CRITER =MAX(GAP,EM01*MAX(DEPTH,DRAD,GAP+DGAPLOAD))
@@ -94,7 +94,7 @@ C gap_s/=0 <=> node is still connected through non deleted shells
         CRITER=MIN(CRITER,CRITERL)
         DIST  =MIN(DIST,TZINF-MAX(GAPSUPL+DGAPLOAD,DEPTH,DRAD))
         IF( TZINF-GAPSUPL <= ZERO)THEN
-C assure le retri et remet la marge initiale (on a forcement depth  <= gapsupl)
+C ensures the retry and resets the initial margin (we necessarily have depth  <= gapsupl)
           TZINF= GAPSUPL+MARGE
           DIST =-ONE
         END IF

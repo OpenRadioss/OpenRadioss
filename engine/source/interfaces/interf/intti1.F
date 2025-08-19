@@ -157,7 +157,7 @@ C-- For parithoff inertia of main and secondary node must be saved
 C
       ENDIF
 C
-C      Calcul flag de rupture pour interface type 2 user
+C      rupture flag calculation for interface type 2 user
        DO N=1,NINTER                                    
          NTY  = IPARI(7,N)                               
          ILEV = IPARI(20,N)
@@ -173,7 +173,7 @@ C      Calcul flag de rupture pour interface type 2 user
          ENDIF                                           
        ENDDO                                            
 C
-C   correction pb poff si main dans plusieurs interfaces type2
+C   POF PUFF PB CORRECTION SI MAN IN PROWS TYPE2 Interfaces
       IF (IPARIT == 0) THEN                     
         IF (NHIN2 == 0) THEN                                  
           DO N=1,NINTER                                       
@@ -309,7 +309,7 @@ C---
       ENDIF                                                           
 C------------------------------------------------------------
       IF (I2OK == 1) THEN
-C version spmd avec plus d'1 proc : sommer A et AR sur les noeuds main
+C spmd version with more than one proc: sum a and ar on main nodes
         IF (IPARIT == 0.AND.NSPMD > 1) THEN
           IF(NHIN2 == 0) THEN
             LCOMI2M = IAD_I2M(NSPMD+1)

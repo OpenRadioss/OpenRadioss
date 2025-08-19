@@ -31,7 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE SPMD_EXCH_A_RM6(
      1    IAD_RBY,FR_RBY6,ICSIZE,RBF6)
-C realise le cumul des acc et stifness des noeuds main de rigid bodies
+C performs the accumulation of accelerations and stiffness at the main nodes of rigid bodies
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

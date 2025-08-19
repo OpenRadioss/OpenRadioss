@@ -412,7 +412,7 @@ c------------------
           CASE (163)
             CALL LAW163_UPD(MAT_PARAM(IMAT),PM(1,IMAT),NPROPM)
 c------------------
-          CASE (190) !PAth dependent foam (dubois)
+          CASE (190) !Path DEPENDE FAAM (DUBOIS)
             CALL LAW190_UPD(MAT_PARAM(IMAT) ,NUMTABL ,ITABLE   ,TABLE   ,PM(1,IMAT),
      .                      NPROPM, NTABLE)
 c------------------

@@ -141,7 +141,7 @@ C
         F34(I)=F34(I)-FINT
         F36(I)=F36(I)+FINT
       ENDDO
-C   +++ non constante part------------
+C   +++ non-constant part -----------
       DO I=1,NEL
         RY1(I)= ZI*RY0(I)
         RX1(I)= ZI*RX0(I)
@@ -261,7 +261,7 @@ C
         F37(I)=F37(I)-FINT1-FINT2
         F38(I)=F38(I)-FINT1+FINT2
       ENDDO
-C   --- non constante part------------
+C   --- not constant part ------------
 C------------------------------------------------   -
 C   - for hourglass yield critiron-----
       DO I=1,NEL
@@ -274,7 +274,7 @@ C   - for hourglass yield critiron-----
         MM(I,2) = MIN(SVM0,MM(I,2))
       ENDDO
 C----------------------------------------------    /
-C   - post-traitement-valeur moyenne au sens a'=(_/  a dv ) /v
+C   -Average post-processing in the sense A '= (_ / a dv) / V
       DO I=1,NEL
          FAC(I) = OFF(I)*VOL(I)/VOLG(I)
          SIGM(I,1) = SIGM(I,1) + FAC(I) * SIG(I,1)

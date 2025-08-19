@@ -108,7 +108,7 @@ C
         Y4  = X(2,N4)
         Z4  = X(3,N4)
 C------------------------------------------------                  
-C       directions normale/tangente facette main
+C       Normal Directions/Tangena Facet
         SX = X2 + X3 - X1 - X4
         SY = Y2 + Y3 - Y1 - Y4
         SZ = Z2 + Z3 - Z1 - Z4
@@ -124,7 +124,7 @@ C------------------------------------------------
         VNY = VNY * SUM
         VNZ = VNZ * SUM
 C   
-C       composantes N/T de la forces nodale
+C       n/t components of the nodal force
 C
         FNORM = VNX*FS(1) + VNY*FS(2) + VNZ*FS(3)
         FN(1) = VNX*FNORM

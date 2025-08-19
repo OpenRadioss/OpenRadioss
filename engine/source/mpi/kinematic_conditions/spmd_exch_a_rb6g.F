@@ -31,8 +31,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
 !||====================================================================
       SUBROUTINE SPMD_EXCH_A_RB6G(NPBY,RBF6)
-C realise le cumul des acc et stiffness des noeuds main de rigid bodies
-C dans le cas ou tous les procs sont concernes gather/scatter proc0
+C accumulates the acceleration and stiffness of the main nodes of rigid bodies
+C In the case where all the procs are concerned Gather/Scatter PROC0
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------

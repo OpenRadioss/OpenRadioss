@@ -319,7 +319,7 @@ C     SPH -> only X1, Y1, Z1, have to be used
                 ! DL = (OC.ON) / ||ON||
                 ! C: centroid
                 ! P: detonation base
-                ! N: detonation vector
+                ! N: Vector detonation
                 DL(I) = (XC(I)-XLP)*NX + (YC(I)-YLP)*NY + (ZC(I)-ZLP)*NZ
                 DL(I) = ABS(DL(I))
                 DL(I) = DL(I)/NN

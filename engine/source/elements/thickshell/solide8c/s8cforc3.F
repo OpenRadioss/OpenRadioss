@@ -234,18 +234,18 @@ C-----------------------------------------------
      . E0(MVSIZ),C1,FAC(MVSIZ),THEM(MVSIZ,8),TEMPEL(MVSIZ),NI(8),
      . DIE(MVSIZ),CONDE(MVSIZ),CONDEN(MVSIZ),AMU(MVSIZ)
 C-----
-C Variables utilisees en argument par les materiaux.
+C variables used as arguments by the materials.
       my_real
      .   STI(MVSIZ),STIN(MVSIZ),GAMA(MVSIZ,6),
      .   WXX(MVSIZ) , WYY(MVSIZ) , WZZ(MVSIZ)
-C Variables utilisees en argument par les materiaux si SPH uniquement.
+C Variables used in argument by materials if SPH only.
       my_real
      .   MUVOID(MVSIZ)
       INTEGER IOFFS,IFVM22,NN_DEL,IPRES,ISCTL,ISTAB(MVSIZ)
       my_real
      .   OFFS(MVSIZ),DSV(MVSIZ)
 C-----
-C Variables utilisees dans les routines solides uniquement (en arguments).
+C variables used only in solid routines (as arguments).
       INTEGER NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ), 
      .        NC5(MVSIZ), NC6(MVSIZ), NC7(MVSIZ), NC8(MVSIZ)
       my_real
@@ -653,8 +653,8 @@ C-------------------------------------------
          ENDDO
       ENDIF
 C
-C-----------Constant SIG traitement-----
-C-----------dans ce cas unique constant direction- EV(NB2) est dans ortho. sys------
+C--------- Constant GIS treatment -----
+C-----------in this unique case constant direction- ev(nb2) is in ortho. sys------
       PID=NGEO(LFT)
       DO IR=1,NPTR
         DO IS=1,NPTS
@@ -1296,7 +1296,7 @@ C-----------------------------
       CALL SMALLB3(
      1   GBUF%OFF,OFFL,    NEL,     ISMSTR)
 C--------------------------
-C       BILANS PAR MATERIAU
+C       balances by material
 C--------------------------
       IFLAG=MOD(NCYCLE,NCPRI)
       IF(IOUTPRT>0)THEN

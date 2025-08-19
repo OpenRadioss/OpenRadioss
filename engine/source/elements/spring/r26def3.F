@@ -112,13 +112,13 @@ C
       IF (TT == ZERO) THEN
         DO I=1,NEL
           AL0(I)=ALDP(I)                   ! cast double vers My_real
-          AL0_ERR(I)=ALDP(I)-AL0(I)        ! difference entre double et My_real
+          AL0_ERR(I)=ALDP(I)-AL0(I)        ! difference between double and my_real
         ENDDO
       ENDIF
 C
       DO I=1,NEL
         AL0DP(I) = AL0(I)                  ! cast My_real en double
-        AL0DP(I) = AL0DP(I) + AL0_ERR(I)   ! AL_DP doit etre recalcule ainsi afin de garantir la coherence absolue entre AL0_DP et AL_DP   
+        AL0DP(I) = AL0DP(I) + AL0_ERR(I)   ! AL_DP must be recalculated as well in order to guarantee the absolute coherence between al0_dp and al_dp   
       ENDDO
 C
       DO I=1,NEL

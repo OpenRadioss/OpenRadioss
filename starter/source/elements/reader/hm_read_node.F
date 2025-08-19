@@ -197,7 +197,7 @@ C----------------------------------------------------
         ENDDO
       ELSE ! IF(IS_DYNA==0)THEN
 C
-C       Possible nodes merging !
+C       Possible nodes merging!
         ALLOCATE (ITAB_TMP(NUMNUSR1),STAT=stat)
         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='ITAB_TMP')
         ALLOCATE (ITABM1_TMP(2*NUMNUSR1),STAT=stat)

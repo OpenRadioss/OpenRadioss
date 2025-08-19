@@ -101,7 +101,7 @@ c-------------------------
         SIGNZX(I) = G31*EPSZX(I)*SHF(I)
       ENDDO
 C-----------------------------
-C     CONTRAINTES reduites en compression
+C     Reduced compression constraints
 C-----------------------------
       DO  I=1,NEL
        S  = HALF*(SIGNXX(I) + SIGNYY(I))

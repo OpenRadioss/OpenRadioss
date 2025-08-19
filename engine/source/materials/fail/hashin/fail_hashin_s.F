@@ -119,7 +119,7 @@ C-----------------------------------------------
      .   TELEM,K2M,INSTF,K0,K1,K2,K3,ZEP669741,DTINV,KM,
      .   FSIG12UP
 C--------------------------------------------------------------
-CC Constant
+CConsisant
       ZEP669741 = SIX*EM01 + SIX*EM02 + NINE*EM3 + SEVEN*EM04 + FOUR*EM05 + EM06
 C
       IMODEL = INT(UPARAM(1))
@@ -185,7 +185,7 @@ C initialisation
        
 C-------------------------------
 C      
-C     OFF = 0. si la matrice ou la fibre a rompu
+C     OFF = 0. if the matrix or fiber has broken
 C-------------------------------
 C           
        IF(IUNIDIR > 0)THEN   
@@ -203,7 +203,7 @@ c
 c alpha = number of cycles  
           DTINV = TIMESTEP(I)/MAX(TIMESTEP(I)**2,EM20)    
           ALPHA = INT(MAX(ONE,FILT*DTINV))
-c alpha coef de moyenne mobile exponentielle
+c Alpha Coef of exponential mobile average
           ALPHA = TWO/(ALPHA + ONE)
           FS(I)=UVAR(I,10) 
 c smoothed strain rate 
@@ -485,7 +485,7 @@ c
         ENDIF 
 C ----------------------------------------------      
 C     fabric layer model
-C     OFF = 0. si la matrice ou la fibre a rompu
+C     OFF = 0. if the matrix or fiber has broken
 C-------------------------------  
       IF(IFABRIC > 0)THEN
         INDX = 0 
@@ -503,7 +503,7 @@ C-------------------------------
 c alpha = number of cycles                                 
           DTINV = TIMESTEP(I)/MAX(TIMESTEP(I)**2,EM20)
           ALPHA = INT(MAX(ONE,FILT*DTINV))
-c alpha coef de moyenne mobile exponentielle
+c Alpha Coef of exponential mobile average
           ALPHA = TWO/(ALPHA + ONE)
           FS(I)=UVAR(I,10) 
 c smoothed strain rate 

@@ -239,13 +239,13 @@ C-----------------
         P(2)=P(6)*P(7)-P(4)*P(9)
         P(3)=P(4)*P(8)-P(5)*P(7)
 C-----------------
-C       CALCUL DE L'ORIGINE
+C       calculation of the origin
 C-----------------
         P(10) = X(1,N1)
         P(11) = X(2,N1)
         P(12) = X(3,N1)
 C----------------
-C       TESTS DE CONSISTANCE
+C       consistency checks
 C----------------
         PNOR1=SQRT(P(7)*P(7)+P(8)*P(8)+P(9)*P(9))
         IF (PNOR1 < EM20) THEN
@@ -256,7 +256,7 @@ C----------------
      .                I1=N,C1=TITR,
      .                I3=ITAB(N2))
         ENDIF
-C       CALCUL DE COLINEARITE DES VECTEURS N1N2 ET N1N3
+C       calculation of collinearity of vectors n1n2 and n1n3
         PNOR2=SQRT(P(1)*P(1)+P(2)*P(2)+P(3)*P(3))
         IF (PNOR2 > EM20) THEN
           PNORM1=ONE/(PNOR1*PNOR2)
@@ -279,7 +279,7 @@ C       CALCUL DE COLINEARITE DES VECTEURS N1N2 ET N1N3
           ENDIF
         ENDIF
 C----------------
-C     SKEW MOBILE (CALCUL DE LA POSITION INITIALE)
+C     moving skew (initial position calculation)
 C----------------
       ELSEIF (IMOV==1) THEN
        N1=USR2SYS(N1,ITABM1,MESS,ID)
@@ -290,7 +290,7 @@ C----------------
        ISKN(2,I+1)=N2
        ISKN(5,I+1)=IMOV
 C-----------------
-C     CALCUL DE X' et Y0' (IDIR=1) CALCUL DE Y' et Z0' (IDIR=2) CALCUL DE Z' et X0' (IDIR=3)
+C     calculation of x' and y0' (idir=1) calculation of y' and z0' (idir=2) calculation of z' and x0' (idir=3)
 C-----------------
        IF(N2D==0)THEN
 c
@@ -340,7 +340,7 @@ C
        P(11) = X(2,N1)
        P(12) = X(3,N1)
 C----------------
-C     TESTS DE CONSISTANCE
+C     consistency checks
 C----------------
        PNOR1 = ZERO
        IF (IDIR == 1) PNOR1=SQRT(P(1)*P(1)+P(2)*P(2)+P(3)*P(3))
@@ -354,7 +354,7 @@ C----------------
      .               I1=ID,C1=TITR,
      .               I3=ITAB(N2))
        ENDIF
-C     CALCUL DE COLINEARITE DES VECTEURS N1N2 ET N1N3
+C     calculation of collinearity of vectors n1n2 and n1n3
        IF (IDIR == 1) PNOR2=SQRT(P(4)*P(4)+P(5)*P(5)+P(6)*P(6))
        IF (IDIR == 2) PNOR2=SQRT(P(7)*P(7)+P(8)*P(8)+P(9)*P(9))
        IF (IDIR == 3) PNOR2=SQRT(P(1)*P(1)+P(2)*P(2)+P(3)*P(3))
@@ -447,13 +447,13 @@ C
        IF(P(4)==ZERO.AND.P(6)==ZERO) P(5)=SIGN(ONE,P(5))
        IF(P(7)==ZERO.AND.P(8)==ZERO) P(9)=SIGN(ONE,P(9))
 C-----------------
-C     CALCUL DE X'
+C     calculation of x'
 C-----------------
        P(1)=P(5)*P(9)-P(6)*P(8)
        P(2)=P(6)*P(7)-P(4)*P(9)
        P(3)=P(4)*P(8)-P(5)*P(7)
 C-----------------
-C     CALCUL DE Y'
+C     calculation of y'
 C-----------------
        P(4)=P(8)*P(3)-P(9)*P(2)
        P(5)=P(9)*P(1)-P(7)*P(3)
@@ -608,7 +608,7 @@ C            not a user's defined skew.
       ENDIF
 C
 C-------------------------------------
-C Recherche des ID doubles
+C search for duplicate ids
 C-------------------------------------
       IF (NUMSKW/=0)
      .   CALL UDOUBLE(ISKN(4,1),LISKN,

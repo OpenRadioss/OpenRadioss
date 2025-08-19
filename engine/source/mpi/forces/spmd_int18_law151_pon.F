@@ -44,7 +44,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !       phantom nodes 
 !       
 !       SPMD_INT18_LAW151_PON organization :
-!           part 1 = received part & send part :
+!           Part 1 = Receed Part & Send Part:
 !                    - 6*3 values per phantom nodes
 !                    - 1 value for the number of send values (=nb)
 !
@@ -130,7 +130,7 @@ C Init
             IALLOCS = LEN*IRLEN7
             IERROR=0
             IF(IALLOCS>0)
-     +      ALLOCATE(BBUFS(IALLOCS+NB_INT18*NSPMD*2),STAT=IERROR) ! nbintc*NSPMD*2 majorant place supplementaire bufs
+     +      ALLOCATE(BBUFS(IALLOCS+NB_INT18*NSPMD*2),STAT=IERROR) ! NBINTC*NSPMD*2 Majoring supplemental place BUFS
             IF(IERROR/=0) THEN
                 CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
                 CALL ARRET(2)
@@ -140,7 +140,7 @@ C
 
             IERROR=0
             IF(IALLOCR>0)
-     +      ALLOCATE(BBUFR(IALLOCR+NB_INT18*NSPMD*2),STAT=IERROR) ! nbintc*NSPMD*2 majorant place supplementaire bufs
+     +      ALLOCATE(BBUFR(IALLOCR+NB_INT18*NSPMD*2),STAT=IERROR) ! NBINTC*NSPMD*2 Majoring supplemental place BUFS
             IF(IERROR/=0) THEN
                 CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
                 CALL ARRET(2)
@@ -154,7 +154,7 @@ C
                 ADDR(P) = ADD
                 SIZ = 0
                 IF(P/=LOC_PROC)THEN
-C   test en plus pour savoir si com globale necessaire entre les 2 procs
+C   In addition test to know if global compartment required between the 2 procs
                     DO II=1,MULTI_FVM%NUMBER_INT18
                         NIN = MULTI_FVM%INT18_LIST(II)
                         NB = NSNSI(NIN)%P(P)
@@ -226,7 +226,7 @@ C
             ENDDO ! p=1,nspmd
             ADDS(NSPMD+1)=ADDS(NSPMD)+SIZ
 C
-C Attente reception buffer et decompactage
+C Buffer reception and decompacting
 C
         ELSEIF(IFLAG==2)THEN
 C

@@ -117,7 +117,7 @@ C material parameters
         C(4)     = UPARAM(9)
         C(5)     = UPARAM(10)   
         MULLINS  = INT(UPARAM(13)) ! computed in updmat 
-C iniialisation des variabesl users 
+C initialization of user variables
       IF(TIME==ZERO)THEN
        DO J = 1,NUVAR
         DO  I = 1, NEL

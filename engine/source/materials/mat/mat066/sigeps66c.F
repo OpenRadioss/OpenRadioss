@@ -238,7 +238,7 @@ C
         ENDIF
        ENDIF
 C------------------------------------------
-c      estimation if compression mode
+c      IF ESTIMATE MODE Compression
 C------------------------------------------
       DO I=1,NEL        
          SIGNXX(I)=SIGOXX(I) - UVAR(I,2)  + A11T*DEPSXX(I)+A21T*DEPSYY(I)
@@ -275,7 +275,7 @@ C   estiamte stress
 C------------------------------------------
        DO I=1,NEL 
 C
-C  en cas d'   crouissage cinematique
+C  In case of cinematic crumbling
 C       
        
          SIGNXX(I)=SIGOXX(I) - UVAR(I,2)  + A11(I)*DEPSXX(I)+A21(I)*DEPSYY(I)
@@ -572,7 +572,7 @@ C     PROJECTION
 C-------------------
        IF(IFLAG(1) == 0)THEN
          NU31 = ONE-NNU11
-C projection radiale 
+C radial projection 
          DO I=1,NEL
            SVM(I)=SQRT(SIGNXX(I)*SIGNXX(I)
      .             +SIGNYY(I)*SIGNYY(I)
@@ -596,7 +596,7 @@ C projection radiale
 C
        ELSEIF(IFLAG(1)==1)THEN
 C-------------------------
-C     CRITERE DE VON MISES
+C     von mises criterion
 C-------------------------
          DO I=1,NEL
            H(I) = MAX(ZERO,H(I))
@@ -700,7 +700,7 @@ C------------------------------------------
 C-------------------------------------------
        ELSEIF(IFLAG(1)==2)THEN
 C-------------------------
-C     CRITERE DE VON MISES
+C     von mises criterion
 C-------------------------
          DO I=1,NEL
            H(I) = MAX(ZERO,H(I))
@@ -728,7 +728,7 @@ C-------------------------
 C
          IF(NINDX/=0) THEN
 C-------------
-C   PROJ NORMALE AU CRITERE AVEC CALCUL APPROCHE DE LA NORMALE + RETOUR RADIAL
+C   normal projection to the criterion with approximate calculation of the normal + radial return
 C-------------
           NU31 = ONE-NNU11
           DO J=1,NINDX

@@ -100,9 +100,9 @@ C=======================================================================
       ICOR  =IPARI(58)
 C
       IF (NSPMD > 1) THEN
-C      les interfaces type 7 sont distribuees, les autres centralisees sur P0
+C      interfaces of type 7 are distributed, the others centralized on P0
        INCREM = 1
-C pas de NSN defini en type 16 et interface non spmd compatible
+C No NSN Defini in type 16 and non -SPMD interface compatible
        IF(NTY==16.OR.NTY==17) RETURN
 C
        IF(NTY==7.OR.NTY==10.OR.NTY==11.OR.
@@ -112,7 +112,7 @@ C
        IF(NTY==8) THEN
          DO P=1,NSPMD
            DO I=1,NSN
-         !Comment ne donner les SECONDARYs qu'aux procs
+         !How to give the secondarys only to the procs
          
              CALL IFRONTPLUS(INTBUF_TAB%NSV(I),P)
            END DO
@@ -152,12 +152,12 @@ C  interface ALE -> c. c. traitees par P0
              IF (NLOCAL(N,P)==0) THEN
                GO TO 200
              ENDIF
-c            pas d optimisation possible
+c            No optimization possible
  100         DO JJ=1,NIR
                K = INTBUF_TAB%IRECTM((L-1)*4+JJ)
                CALL IFRONTPLUS(K,P)
              ENDDO
-c            optimisation possible
+c            possible optimization
  200         CONTINUE
            ENDDO
          ENDDO
@@ -394,7 +394,7 @@ C=======================================================================
       NOINT =IPARI(15)
 C
       IF(NSPMD>1) THEN
-C      les interfaces type 7 sont distribuees, les autres centralisees sur P0
+C      interfaces of type 7 are distributed, the others centralized on P0
        INCREM = 1
        IF(NTY==7.OR.NTY==10.OR.NTY==11.OR.NTY==22) INCREM = 100
 C
@@ -432,12 +432,12 @@ C interface ALE -> c. c. traitees par P0
              IF (NLOCAL(N,P)==0) THEN
                GO TO 200
              ENDIF
-C pas d optimisation possible
+C No optimization possible
  100         DO JJ=1,NIR
                K = INTBUF_TAB%IRECTM((L-1)*4+JJ)
                      CALL IFRONTPLUS(K,P)
              ENDDO
-C optimisation possible
+C possible optimization
  200         CONTINUE
            ENDDO
          ENDDO

@@ -164,8 +164,8 @@ C
        ZM(I) = XMAS25(I)*VZA(I)
       ENDDO
 C
-C     !!!!!!!!!! VOL0,VOL00,THK0,THK02,X,VR ne sont transmis que par
-C                CFORC3 et pas par CSUBC3 et CZFORC3 (IFLA=0) !!!!!!!
+C     !!!!!!!!!! VOL0,VOL00,THK0,THK02,X,VR are only transmitted by
+C                CFORC3 and not by CSUBC3 and CZFORC3 (IFLA=0) !!!!!!!
 C
       IF(NPSAV>=21)THEN
        IF(IXFEM == 0)THEN

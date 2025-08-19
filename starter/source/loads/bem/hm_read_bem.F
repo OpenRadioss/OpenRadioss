@@ -571,7 +571,7 @@ C
      .              C2='NO IMPOSED PRESSURE')
             ENDIF
          ENDIF
-C     Tag des elements d'entrees et de sorties
+C     tag of input and output elements
          DO J=1,NNO
             ITAGIO(J)=0
          ENDDO
@@ -1095,17 +1095,17 @@ C-------------------------------------------------------------------------------
 C     Compute arrival time of incident wave, area, direction cosine, distance to charge
 C     Compute fluid mass matrix
 C-----------------------------------------------------------------------------------
-C     Description des tableaux
-C     II1  -> IFLOW    NIFLOW     : parametres entiers
+C     description of arrays
+C     II1 -> IFlow Niflow: entiers parameters
 C     II2  -> IBUF     NNO        : correspondances local-global noeuds surface
-C     II3  -> ELEM     3 ou 5*NEL : connectivite locale des triangles/quadrangles+flag
+C     II3 -> Elem 3 or 5*nel: local connectivity of triangles/quadrangles+flag
 C     II4  -> IBUF_L   NNO        : correspondances local-global noeuds surface
 C     II5  -> SHELL_GA NBGAUGE    : correspondances local-gauge 4-node shell
-C     II6  -> CNP      NNO        : nombre de processeur pour chaque noeud nspmd > 1
+C     II6 -> CNP NNO: Number of processor for each NSPMD node> 1
 C     engine
 C     II7  -> IPIV     NEL        : lapack resolution nel > nelmax
-C     II8  -> IBUFELR  NEL        : SPMD ligne   des elements dans la process grid (0 si absent du processeur courant)
-C     II9  -> IBUFELC  NEL        : SPMD colonne des elements dans la process grid (0 si absent du processeur courant)
+C     ii8  -> ibufelr  nel        : spmd row of elements in the process grid (0 if absent from current processor)
+C     ii9  -> ibufelc  nel        : spmd column of elements in the process grid (0 if absent from current processor)
 C     
 C     IR1  -> RFLOW  : parametres reels
 C     IR2  -> NORMAL : normale

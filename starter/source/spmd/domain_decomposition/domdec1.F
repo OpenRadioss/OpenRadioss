@@ -208,8 +208,8 @@ C-----------------------------------------------
 C-----------------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------------
-C         Phase de comptage des noeuds frontieres
-C         determiner les noeuds utilises
+C         Phase of counting boundary nodes
+C         determine the used nodes
 C         mettre a 1 la FRONTIERE(sd) correspondante
       DO I=1,ICON
         DO J=1,NEL
@@ -252,8 +252,8 @@ C-----------------------------------------------
 C-----------------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------------
-C         Phase de comptage des noeuds frontieres
-C         determiner les noeuds utilises
+C         Phase of counting boundary nodes
+C         determine the used nodes
 C         mettre a 1 la FRONTIERE(sd) correspondante
       DO I=1,NEL
           ICON = KXX(3,I)
@@ -296,8 +296,8 @@ C-----------------------------------------------
 C-----------------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------------
-C         Phase de comptage des noeuds frontieres
-C         determiner les noeuds utilises
+C         Phase of counting boundary nodes
+C         determine the used nodes
 C         mettre a 1 la FRONTIERE(sd) correspondante
       DO I=1,ICON
         DO J=1,NEL

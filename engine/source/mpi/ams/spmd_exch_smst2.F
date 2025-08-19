@@ -229,7 +229,7 @@ C     REAL
               ENDIF
             ENDDO
             ! -----------------
-            ! Sent MPI comm
+            ! Feels mpi comm
             L=1
             IDEBS=0
             DO P=1, NSPMD
@@ -288,7 +288,7 @@ C     REAL
             ENDDO   ! DO P=1, NSPMD
 
             ! -----------------
-            ! Fin du send
+            ! End of send
             DO P = 1, NSPMD
               IF (P==NSPMD)THEN
                 SIZ=LENSD_0-IADS(P)
@@ -359,7 +359,7 @@ C     REAL
               ENDIF
             ENDDO
             ! -----------------
-            ! Sent MPI comm
+            ! Feels mpi comm
             L=1
             IDEBS = 0
             DO P=1, NSPMD
@@ -452,7 +452,7 @@ C     REAL
               ENDIF !  IF (NB > 0)
             ENDDO ! DO P=1, NSPMD
             ! -----------------
-            ! Fin du send
+            ! End of send
             DO P = 1, NSPMD
               IF (P==NSPMD)THEN
                 SIZ=LENSD-IADS(P)

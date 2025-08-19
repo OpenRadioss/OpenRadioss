@@ -154,7 +154,7 @@ c afaire !!!!!!!!!!!!!!!!!!!!!!!!!
           Y14 = YY(I,K14) - Y1
           Z14 = ZZ(I,K14) - Z1
  
-c         deux vecteurs surfaces du diedre MAIN
+c         Two vectors of the Diedre Main
           SXM1 = Y12*Z15 - Z12*Y15
           SYM1 = Z12*X15 - X12*Z15
           SZM1 = X12*Y15 - Y12*X15
@@ -237,7 +237,7 @@ c check if convex
             AAA = SXS*SXM+SYS*SYM+SZS*SZM
             IF(AAA > ZERO) CYCLE ! MAIN and SECONDARY dihedral are not locking each other
 
-c           vecteur SECONDARY MAIN 
+c           Secondary Main vector 
             SXSM = Y12*ZIJ - Z12*YIJ
             SYSM = Z12*XIJ - X12*ZIJ
             SZSM = X12*YIJ - Y12*XIJ

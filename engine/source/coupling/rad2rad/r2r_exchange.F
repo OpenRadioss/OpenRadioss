@@ -120,7 +120,7 @@ C----------simple precision : DX is replaced by XDP--------------
      .          ADD_RBY(IEX) ,RBYLNK(IEX),KINLNK(IEX),R2R_KINE,DT1,IEX,
      .          OFF_SPH_R2R  ,NUMSPH_GLO_R2R, NRBY)
             ELSE
-C---------double precision---------------------------------------
+C-------- Double precision -----------------------------------------------------------------------------------
               CALL SEND_DATA_C(
      .          IDP    ,NNG    ,GRNOD  ,A      ,AR     ,
      .          STX    ,STR    ,V      ,VR     ,MS     ,IN     ,
@@ -143,7 +143,7 @@ C----------simple precision : DX is replaced by XDP--------------
      .            IN ,XDP ,DD_R2R(1,IEX),DD_R2R(NSPMD+1,IEX),WEIGHT,
      .            TYPLNK(IEX),ROTLNK(IEX),RBYLNK(IEX),RBY,IEX)
             ELSE
-C----------double precision -------------------------------------
+C--------- Double precision ---------------------------------------------------------------------------
               CALL SEND_DATA_SPMD(
      .            IDP,NNG,GRNOD        ,A                    ,AR     ,
      .            STX,STR,V            ,VR                   ,MS     ,

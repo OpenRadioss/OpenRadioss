@@ -146,7 +146,7 @@ c
        tz = e3z * bb                                                    
 c                                                                       
       IF (N<NITER) GOTO 111                                          
-c     norme et orthogonalisation                                        
+c     Standard and orthogonalization
 c~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                       
       e1x = rx                                                          
       e1y = ry                                                          

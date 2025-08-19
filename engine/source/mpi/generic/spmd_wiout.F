@@ -37,7 +37,7 @@ C
 !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
 !||====================================================================
       SUBROUTINE SPMD_WIOUT(IOUT,IWIOUT)
-C ecrit le buffer L01 sur p0
+C writes the buffer L01 on p0
       USE MESSAGE_MOD 
       USE IO_MOD
 C-----------------------------------------------
@@ -79,7 +79,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-C IWIOUT est utilise pour connaitre le nb max de characteres a echanger
+C IWIOUT is used to know the max number of characters to exchange
       ! MPI comm : every proc sends its IWIOUT_SAVE to the main proc
       IWIOUT_SPMD(1:NSPMD) = 0
       CALL MPI_GATHER( IWIOUT_SAVE,1,MPI_INTEGER,
@@ -121,7 +121,7 @@ C IWIOUT est utilise pour connaitre le nb max de characteres a echanger
             P = PROC_RCV(INDX)
             SIZ = IWIOUT_SPMD(P)
             DO N = 1, SIZ, LEN
-C   traitement special pour eliminer les blancs de fin de chaine
+C   special treatment to eliminate trailing spaces
                 I = LEN
                 IBLANC = ICHAR(' ')
                 DO WHILE (IWA(DISPLACEMENT(INDX)+N+I)==IBLANC.AND.I>1)

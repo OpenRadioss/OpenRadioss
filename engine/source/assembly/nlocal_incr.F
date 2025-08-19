@@ -52,7 +52,7 @@ C-----------------------------------------------
       my_real, POINTER, DIMENSION(:) :: 
      .   DNL,UNL,VNL
 C-----------------------------------------------
-c     calcul increment et nouvelle valeur de la variable non locale
+c     calculation of increment and new value of the non-local variable
 C=======================================================================
       ! Recovering increments, cumulated and velocities
       DNL => NLOC_DMG%DNL(1:NLOC_DMG%L_NLOC)

@@ -99,7 +99,7 @@ C  0 QUAD, 1 TRI ,2 MIXTE
         I3N=2
       ENDIF
 C--------------------------------------------------------
-C  UNIQUEMENT POUR PAQUET DE QUADRANGLE
+C  only for quadrangle package
 C--------------------------------------------------------
       IF(I3N==0) THEN
        DO I=1,JLT
@@ -108,7 +108,7 @@ C--------------------------------------------------------
          Z0(I) = FOURTH*(Z1(I)+Z2(I)+Z3(I)+Z4(I)) 
        ENDDO
 C--------------------------------------------------------
-C  CAS DES PAQUETS MIXTES
+C  case of mixed packages
 C--------------------------------------------------------
       ELSEIF(I3N==2) THEN
        DO I=1,JLT
@@ -124,7 +124,7 @@ C--------------------------------------------------------
        ENDDO
       ENDIF
 C--------------------------------------------------------
-C  UNIQUEMENT POUR PAQUET DE TRIANGLE
+C  only for triangle package
 C--------------------------------------------------------
       IF(I3N==1) THEN
        DO I=1,JLT
@@ -212,7 +212,7 @@ C!!!!!!!!!!!!!!!!!!!!!!!!
 C
        ENDDO
 C--------------------------------------------------------
-C  CAS DES PAQUETS MIXTES OU QUADRANGLE
+C  case of mixed or quadrangle packages
 C--------------------------------------------------------
       ELSE
 C

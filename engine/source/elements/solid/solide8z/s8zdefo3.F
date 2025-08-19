@@ -222,14 +222,14 @@ C
         DVCA(1:NEL) =(DXX(1:NEL)+DYY(1:NEL)+DZZ(1:NEL))*DT1
       ENDIF
 C-------------Constant stress traitement------
-C-------------R--direction------
+C------------ r- Direction -------
       IF (ICR==1) THEN
        DO I=1,NEL
         DXX(I)= DXX(I)-DSR(I)*DTI
         IF(ISMDISP==0.AND.OFFS(I)/=TWO)DVCA(I)= DVCA(I)-DSR(I)
        ENDDO
       ENDIF 
-C--------------S--direction--
+C------------ S- Direction--
       IF (ICS==1) THEN
        DO I=1,NEL
         DYY(I)= DYY(I)-DSS(I)*DTI
@@ -243,7 +243,7 @@ C--------------T--direction
         IF(ISMDISP==0.AND.OFFS(I)/=TWO)DVCA(I)= DVCA(I)-DST(I)
        ENDDO
       ENDIF 
-C-------------Volume traitement------
+C----------- Volume treatment ------
       DO I=1,NEL
         DVP=DVCA(I)-DVC(I)
         DV =DVP*OFF(I)

@@ -31,7 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .     STIFINT,STT     ,AREA , MXT, NC1, NC2,
      .     X1, X2, Y1, Y2, Z1, Z2)
 C----------------------------------------------
-C     INITIALISATION DES MASSES NODALES
+C     initialization of nodal masses
 C----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -80,15 +80,15 @@ C----------------------------------------------
        EMS(I)=RHO(I)*AL(I)*AREA(I)*HALF
       ENDDO
 C----------------------------------------------
-C     INITIALISATION DES MASSES NODALES
+C     initialization of nodal masses
 C----------------------------------------------
 C     mass init parith/on spmd
       DO I=LFT,LLT
         MST(I)=EMS(I)
       ENDDO
 C----------------------------------------------
-C     INITIALISATION DES RIGIDITES NODALES
-C     et RIGIDITES NODALES POUR INTERFACES
+C     initialization of nodal stiffnesses
+C     and nodal stiffnesses for interfaces
 C----------------------------------------------
       DO I=LFT,LLT
        STI(I) = PM (20,MXT(I)) * AREA(I) / AL(I)

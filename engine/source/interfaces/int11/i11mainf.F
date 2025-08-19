@@ -98,7 +98,7 @@ C-----------------------------------------------
       INTEGER  , INTENT(IN) :: S_LOADPINTER
       INTEGER  , INTENT(IN) :: KLOADPINTER(NINTER+1),LOADPINTER(S_LOADPINTER),
      .         LOADP_HYD_INTER(NLOADP_HYD)
-C statistique interface
+C Interface Statistics
       INTEGER NB_JLT,NB_JLT_NEW,NB_STOK_N,JTASK,
      .        NISKYFI, LINDMAX,ITASK
       INTEGER NUM_IMP,NS_IMP(*),NE_IMP(*), 
@@ -177,12 +177,12 @@ C     REAL
 C-----------------------------------------------
       CALL MY_ALLOC(INDEX2,LINDMAX)
 C-----------------------------------------------
-C  Calcul des adresses des buffers d'interfaces. 
-C  Les adresses des buffers J10-JFI et K10-KFI 
-C  sont remplaces systematiquement par des tableaux
+C  calculation of interface buffer addresses
+C  addresses of buffers J10-JFI and K10-KFI
+C  are systematically replaced by arrays
 C  JD(i) et KD(i), en gardant les memes numeros d'indexes.
-C  Les anciens adresses directs Jn, Kn sont modifies
-C  dans la routine sans commentaires additionnels habituels
+C  old direct addresses Jn, Kn are modified
+C  in the routine without usual additional comments
 C----------------------------------------------------
 C
       NRTS  =IPARI(3)
@@ -252,8 +252,8 @@ C
       NINLOADP = IPARI(95) ! load pressure related to inter
 C
       I_STOK = INTBUF_TAB%I_STOK(1)
-C  cette partie est effectuee en // apres le calcul des forces des elem.
-C decoupage statique
+C  this part is done in parallel after the calculation of element forces
+C static decoupage
       NB_LOC = I_STOK / NTHREAD
       IF (JTASK==NTHREAD) THEN
           I_STOK_LOC = I_STOK-NB_LOC*(NTHREAD-1)
@@ -262,7 +262,7 @@ C decoupage statique
       ENDIF
       DEBUT = (JTASK-1)*NB_LOC
       I_STOK = 0
-C recalcul du istok
+C recalculation of istok
       DO I = DEBUT+1, DEBUT+I_STOK_LOC
           IF(INTBUF_TAB%CAND_N(I)<0) THEN
             I_STOK = I_STOK + 1

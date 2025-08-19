@@ -30,7 +30,7 @@ C
 !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
 !||====================================================================
       SUBROUTINE SPMD_EXSUM_FB6(DIM6,DIM_EXCH,FB6)
-C     sommation + distribution de fb6 via MPI_AllReduce
+C     Summation + distribution of FB6 via mpi_allreduce
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

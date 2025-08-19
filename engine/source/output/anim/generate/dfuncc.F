@@ -225,11 +225,11 @@ C
                 DO I=LFT,LLT
                   FUNC(EL2FA(NN3+NFT+I)) = LBUF%EPSQ(I)
                 ENDDO
-              ELSEIF (MLW == 24) THEN   ! et autres a ajouter
+              ELSEIF (MLW == 24) THEN   ! and others to add
                 DO I=LFT,LLT
                   FUNC(EL2FA(NN3+NFT+I)) = LBUF%VK(I)
                 ENDDO
-              ELSEIF (MLW == 6 .OR. MLW == 17 .OR. MLW == 11) THEN   ! et autres a ajouter
+              ELSEIF (MLW == 6 .OR. MLW == 17 .OR. MLW == 11) THEN   ! and others to add
                 DO I=LFT,LLT
                   FUNC(EL2FA(NN3+NFT+I)) = LBUF%RK(I)
                 ENDDO
@@ -1629,7 +1629,7 @@ c
                           SZ = E2Z                                                
                         ENDIF                                    
                         IF (ISHFRAM == 0 ) THEN                  
-C------                   Repere convecte symetrique - version 5 (default)        
+C----- Symmetrical convected user-version 5 (DEFAULT)        
                           SUMA   = E3X*E3X+E3Y*E3Y+E3Z*E3Z                        
                           SUMA   = ONE / MAX(SQRT(SUMA),EM20)                      
                           E3X = E3X * SUMA                                        
@@ -1653,7 +1653,7 @@ C
                           E2Y = E3Z * E1X - E3X * E1Z                             
                           E2Z = E3X * E1Y - E3Y * E1X                             
                         ELSEIF (ISHFRAM == 2) THEN                                
-C------                   Repere convecte nonsymetrique - version 4               
+C----- Nononmetrical convected marker-version 4               
                           SUMA   = E2X*E2X+E2Y*E2Y+E2Z*E2Z                        
                           E1X = E1X*SUMA + E2Y*E3Z-E2Z*E3Y                        
                           E1Y = E1Y*SUMA + E2Z*E3X-E2X*E3Z                        
@@ -1740,7 +1740,7 @@ C
                           SZ = E2Z                                                
                         ENDIF                                    
                         IF (ISHFRAM == 0 .OR. IGTYP == 16 ) THEN                  
-C------                   Repere convecte symetrique - version 5 (default)        
+C----- Symmetrical convected user-version 5 (DEFAULT)        
                           SUMA   = E3X*E3X+E3Y*E3Y+E3Z*E3Z                        
                           SUMA   = ONE / MAX(SQRT(SUMA),EM20)                      
                           E3X = E3X * SUMA                                        
@@ -1764,7 +1764,7 @@ C
                           E2Y = E3Z * E1X - E3X * E1Z                             
                           E2Z = E3X * E1Y - E3Y * E1X                             
                         ELSEIF (ISHFRAM == 2) THEN                                
-C------                   Repere convecte nonsymetrique - version 4               
+C----- Nononmetrical convected marker-version 4               
                           SUMA   = E2X*E2X+E2Y*E2Y+E2Z*E2Z                        
                           E1X = E1X*SUMA + E2Y*E3Z-E2Z*E3Y                        
                           E1Y = E1Y*SUMA + E2Z*E3X-E2X*E3Z                        
@@ -3182,7 +3182,7 @@ c
                           SZ = E2Z                                                
                         ENDIF                                                     
                         IF (ISHFRAM == 0 .OR. IGTYP == 16 ) THEN                  
-C------                   Repere convecte symetrique - version 5 (default)        
+C----- Symmetrical convected user-version 5 (DEFAULT)        
                           SUMA   = E3X*E3X+E3Y*E3Y+E3Z*E3Z                        
                           SUMA   = ONE / MAX(SQRT(SUMA),EM20)                      
                           E3X = E3X * SUMA                                        
@@ -3206,7 +3206,7 @@ C
                           E2Y = E3Z * E1X - E3X * E1Z                             
                           E2Z = E3X * E1Y - E3Y * E1X                             
                         ELSEIF (ISHFRAM == 2) THEN                                
-C------                   Repere convecte nonsymetrique - version 4               
+C----- Nononmetrical convected marker-version 4               
                           SUMA   = E2X*E2X+E2Y*E2Y+E2Z*E2Z                        
                           E1X = E1X*SUMA + E2Y*E3Z-E2Z*E3Y                        
                           E1Y = E1Y*SUMA + E2Z*E3X-E2X*E3Z                        
@@ -3295,7 +3295,7 @@ c
                           SZ = E2Z                                                
                         ENDIF                                                     
                         IF (ISHFRAM == 0 .OR. IGTYP == 16 ) THEN                  
-C------                   Repere convecte symetrique - version 5 (default)        
+C----- Symmetrical convected user-version 5 (DEFAULT)        
                           SUMA   = E3X*E3X+E3Y*E3Y+E3Z*E3Z                        
                           SUMA   = ONE / MAX(SQRT(SUMA),EM20)                      
                           E3X = E3X * SUMA                                        
@@ -3319,7 +3319,7 @@ C
                           E2Y = E3Z * E1X - E3X * E1Z                             
                           E2Z = E3X * E1Y - E3Y * E1X                             
                         ELSEIF (ISHFRAM == 2) THEN                                
-C------                   Repere convecte nonsymetrique - version 4               
+C----- Nononmetrical convected marker-version 4               
                           SUMA   = E2X*E2X+E2Y*E2Y+E2Z*E2Z                        
                           E1X = E1X*SUMA + E2Y*E3Z-E2Z*E3Y                        
                           E1Y = E1Y*SUMA + E2Z*E3X-E2X*E3Z                        
@@ -5069,7 +5069,7 @@ C-------------------------------------
               ENDIF
 C-------------------
             ELSEIF (IFUNC == 3 .AND. MLW /= 151) THEN
-C             energie specifique
+C             Specific energy
 C-------------------
               IF (ITY == 3) THEN
                 DO I=LFT,LLT

@@ -85,9 +85,9 @@ C      IEXTER(1,M) ............... Id of GRNOD of the Link
 C      IEXTER(2,M) ............... Link ser Id
 C      IEXTER(3,M) ............... Id of 1st domain
 C      IEXTER(4,M) ............... Id of 2nd domain
-C      IEXTER(5,M) ............... Type du Link (4 ou 5)
-C        -> pour fulldomain IEXTER(4,M) = 0
-C        -> pour link classique IEXTER(4,M) = IEXTER(4,M) = -1
+C      IEXTER(5,M) ............... Type of the Link (4 or 5)
+C        -> For fulldomain iEnder (4, m) = 0
+C        -> for classic link iSSER (4, m) = ISUR (4, m) = -1
 C
 C
 C      ISUBDOM(1,N) .............. Id of subdomain

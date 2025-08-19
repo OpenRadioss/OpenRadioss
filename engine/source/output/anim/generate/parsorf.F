@@ -100,11 +100,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     PART
 C-----------------------------------------------
-C en spmd il faut envoyer l'info meme qd on a 0 elem local
+C In SPMD you must send the info even qd we have 0 local elem
       IF (NUMELP + NUMELT + NUMELR /= 0 .OR. NSPMD > 1) THEN
         DO IPRT=1,NPART
           IF (MATER(IPRT) /= 3) CYCLE
-C        test scinde car NFACPTX(1,IPRT) peut etre "out of core".
+C        Scinde car test because nfacptx (1, iprt) can be "out of core".
           IF (NUMELXG > 0 . AND. IGEO(11,IPART(2,IPRT)) == 28) CYCLE
 C
           NPAR = NPAR + 1
@@ -264,7 +264,7 @@ C
         ENDIF
 
         CALL SPMD_IGET_PARTN(2,JJ,NP,NPAR,IADG,BUF,1)
-      ELSE ! remplissage IADG pour compatibilite mono/multi
+      ELSE ! IADG filling for mono/multi compatibility
         IF(SIADG>0) THEN
         DO I = 1, NPART
           IF(IADG(1,I)<=0) THEN

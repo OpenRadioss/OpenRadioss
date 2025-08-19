@@ -74,8 +74,8 @@ C-----------------------------------------------
       DOUBLE PRECISION F6(N,6)
 C-----------------------------------------------
 c
-c      r=26 (foat_to_6_float): nombre de bits pour la retenu
-c         autorise  faire 2^r + ~= 67,000,000.
+c      r=26 (foat_to_6_float): number of bits for the carry
+c         authorizes to make 2^R + ~ = 67,000,000.
 c
 c      m1: masque 1
 c      ...
@@ -96,42 +96,42 @@ c       d = b - f2
 c      f3 = (d + 2^m3) - 2^m3
 c      f4 = ((d - f3) + 2^m4) - 2^m4
 c      ...
-c--------- calcul de fmax, fmin 
+c--------- calculation of fmax, fmin
 c      fmax avec r bits  zero = 2^(m1-r)
 c
-c      fmin avec 53 bits significatif = 2^m6
-c      fmin avec 1 bits significatif  = 2^(m6-53)
+c      Fmin with 53 significant bits = 2^m6
+c      Fmin with 1 significant bits = 2^(M6-53)
 c
-c--------- fmax, fmin aprs exprimentation
+c-------- FMAX, fmin after expression
 c      fmax avec r bits  zero ~= 2^(m1-2r)
 c
-c      fmin avec 53 bits significatif ~= 2^(m6-r)
-c      fmin avec 1 bits significatif  ~= 2^(m6-53-r)
+c      Fmin with 53 significant bits ~ = 2^(M6-R)
+c      Fmin with 1 significant bits ~ = 2^(M6-53-R)
 c
 c 6 float r=26 m1=89 m6=-46
 c 
 c      fmax avec r bits  zero ~= 2^37 = 
-c      fmin avec 53 bits significatif ~= 2^(m6-r)
-c      fmin avec 1 bits significatif  ~= 2^(m6-53-r)
+c      Fmin with 53 significant bits ~ = 2^(M6-R)
+c      Fmin with 1 significant bits ~ = 2^(M6-53-R)
 c-------------------------------------------------------
-c       a = f + deuxp63
-c       f4(1) = a - deuxp63
+c       A = F + twoP63
+c       F4 (1) = A - TwoP63
 c       b = f - f4(1)
-c       c = b + deuxp30
-c       f4(2) = c - deuxp30
+c       c '= b + twop30
+c       F4 (2) = c'- twop30
 c       d = b - f4(2)
-c       e = d + deuxpm3
-c       f4(3) = e - deuxpm3
+c       E = d '+ twopm3
+c       F4 (3) = E - TwoPM3
 c       g = d - f4(3)
-c       h = g + deuxpm36
-c       f4(4) = h - deuxpm36
+c       H = G + twoPM36
+c       F4 (4) = H - TwoPM36
 C-----------------------------------------------
 C   L o c a l   C o m m o n
 C-----------------------------------------------
 C
-C Attention - Attention - Attention - Attention - Attention - Attention
+C Warning - Warning - Warning - Warning - Warning - Warning
 C
-C Commun pour casser l optimisation et thread private pour multithread
+C Common to break the optimization and thread private for multithread
 C
       COMMON /PARIT_VAR/TEMP1,TEMP2,TEMP3,TEMP4,TEMP5,TEMP6,TEMP7,
      .                  TEMP11,TEMP12,TEMP13,TEMP14,TEMP15,TEMP16,
@@ -141,7 +141,7 @@ C
      .                 TEMP11,TEMP12,TEMP13,TEMP14,TEMP15,TEMP16,
      .                 TEMP17,RESTE
 C
-C Attention - Attention - Attention - Attention - Attention - Attention
+C Warning - Warning - Warning - Warning - Warning - Warning
 C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -236,8 +236,8 @@ C     REAL
       DOUBLE PRECISION F6(6,*)
 C-----------------------------------------------
 c
-c      r=26 (foat_to_6_float): nombre de bits pour la retenu
-c         autorise  faire 2^r + ~= 67,000,000.
+c      r=26 (foat_to_6_float): number of bits for the carry
+c         authorizes to make 2^R + ~ = 67,000,000.
 c
 c      m1: masque 1
 c      ...
@@ -258,42 +258,42 @@ c       d = b - f2
 c      f3 = (d + 2^m3) - 2^m3
 c      f4 = ((d - f3) + 2^m4) - 2^m4
 c      ...
-c--------- calcul de fmax, fmin 
+c--------- calculation of fmax, fmin
 c      fmax avec r bits  zero = 2^(m1-r)
 c
-c      fmin avec 53 bits significatif = 2^m6
-c      fmin avec 1 bits significatif  = 2^(m6-53)
+c      Fmin with 53 significant bits = 2^m6
+c      Fmin with 1 significant bits = 2^(M6-53)
 c
-c--------- fmax, fmin aprs exprimentation
+c-------- FMAX, fmin after expression
 c      fmax avec r bits  zero ~= 2^(m1-2r)
 c
-c      fmin avec 53 bits significatif ~= 2^(m6-r)
-c      fmin avec 1 bits significatif  ~= 2^(m6-53-r)
+c      Fmin with 53 significant bits ~ = 2^(M6-R)
+c      Fmin with 1 significant bits ~ = 2^(M6-53-R)
 c
 c 6 float r=26 m1=89 m6=-46
 c 
 c      fmax avec r bits  zero ~= 2^37 = 
-c      fmin avec 53 bits significatif ~= 2^(m6-r)
-c      fmin avec 1 bits significatif  ~= 2^(m6-53-r)
+c      Fmin with 53 significant bits ~ = 2^(M6-R)
+c      Fmin with 1 significant bits ~ = 2^(M6-53-R)
 c-------------------------------------------------------
-c       a = f + deuxp63
-c       f4(1) = a - deuxp63
+c       A = F + twoP63
+c       F4 (1) = A - TwoP63
 c       b = f - f4(1)
-c       c = b + deuxp30
-c       f4(2) = c - deuxp30
+c       c '= b + twop30
+c       F4 (2) = c'- twop30
 c       d = b - f4(2)
-c       e = d + deuxpm3
-c       f4(3) = e - deuxpm3
+c       E = d '+ twopm3
+c       F4 (3) = E - TwoPM3
 c       g = d - f4(3)
-c       h = g + deuxpm36
-c       f4(4) = h - deuxpm36
+c       H = G + twoPM36
+c       F4 (4) = H - TwoPM36
 C-----------------------------------------------
 C   L o c a l   C o m m o n
 C-----------------------------------------------
 C
-C Attention - Attention - Attention - Attention - Attention - Attention
+C Warning - Warning - Warning - Warning - Warning - Warning
 C
-C Commun pour casser l optimisation et thread private pour multithread
+C Common to break the optimization and thread private for multithread
 C
       COMMON /PARIT_VAR/TEMP1,TEMP2,TEMP3,TEMP4,TEMP5,TEMP6,TEMP7,
      .                  TEMP11,TEMP12,TEMP13,TEMP14,TEMP15,TEMP16,
@@ -303,7 +303,7 @@ C
      .                 TEMP11,TEMP12,TEMP13,TEMP14,TEMP15,TEMP16,
      .                 TEMP17,RESTE
 C
-C Attention - Attention - Attention - Attention - Attention - Attention
+C Warning - Warning - Warning - Warning - Warning - Warning
 C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -364,8 +364,8 @@ C-----------------------------------------------
        DOUBLE PRECISION F,F7(7)
 C-----------------------------------------------
 c
-c      r=29 (foat_to_7_float): nombre de bits pour la retenu
-c         autorise  faire 2^r + ~= 537,000,000.
+c      r=29 (foat_to_7_float): number of bits for the carry
+c         authorizes to make 2^R + ~ = 537,000,000.
 c
 c      m1: masque 1
 c      ...
@@ -387,37 +387,37 @@ c       d = b - f2
 c      f3 = (d + 2^m3) - 2^m3
 c      f4 = ((d - f3) + 2^m4) - 2^m4
 c      ...
-c--------- calcul de fmax, fmin 
+c--------- calculation of fmax, fmin
 c          calcul 
 c      fmax avec 0 bits  zero = 2^m1
 c      fmax avec r bits  zero = 2^(m1-r)
 c
-c      fmin avec 53 bits significatif = 2^m7
-c      fmin avec 1 bits significatif  = 2^(m7+53)
+c      Fmin with 53 significant bits = 2^m7
+c      Fmin with 1 significant bits = 2^(m7+53)
 c
-c      fmax avec 0 bits  zero = 5. 10^27
+c      fmax with 0 bits zero = 5. 10^27
 c      fmax avec r bits  zero = 9. 10^18
-c      fmin avec 53 bits significatif ~= 2.2 10^-16
-c      fmin avec 1 bits significatif  ~= 2.4 10^-32
+c      Fmin with 53 significant bits ~ = 2.2 10^-16
+c      Fmin with 1 significant bits ~ = 2.4 10^-32
 c-------------------------------------------------------
-c       a = f + deuxp63
-c       f4(1) = a - deuxp63
+c       A = F + twoP63
+c       F4 (1) = A - TwoP63
 c       b = f - f4(1)
-c       c = b + deuxp30
-c       f4(2) = c - deuxp30
+c       c '= b + twop30
+c       F4 (2) = c'- twop30
 c       d = b - f4(2)
-c       e = d + deuxpm3
-c       f4(3) = e - deuxpm3
+c       E = d '+ twopm3
+c       F4 (3) = E - TwoPM3
 c       g = d - f4(3)
-c       h = g + deuxpm36
-c       f4(4) = h - deuxpm36
+c       H = G + twoPM36
+c       F4 (4) = H - TwoPM36
 C-----------------------------------------------
 C   L o c a l   C o m m o n
 C-----------------------------------------------
 C
-C Attention - Attention - Attention - Attention - Attention - Attention
+C Warning - Warning - Warning - Warning - Warning - Warning
 C
-C Commun pour casser l optimisation et thread private pour multithread
+C Common to break the optimization and thread private for multithread
 C
       COMMON /PARIT_VAR/TEMP1,TEMP2,TEMP3,TEMP4,TEMP5,TEMP6,TEMP7,
      .                  TEMP11,TEMP12,TEMP13,TEMP14,TEMP15,TEMP16,
@@ -427,7 +427,7 @@ C
      .                 TEMP11,TEMP12,TEMP13,TEMP14,TEMP15,TEMP16,
      .                 TEMP17,RESTE
 C
-C Attention - Attention - Attention - Attention - Attention - Attention
+C Warning - Warning - Warning - Warning - Warning - Warning
 C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -555,8 +555,8 @@ C     REAL
       DOUBLE PRECISION F6(D,E,G)
 C-----------------------------------------------
 c
-c      r=26 (foat_to_6_float): nombre de bits pour la retenu
-c         autorise  faire 2^r + ~= 67,000,000.
+c      r=26 (foat_to_6_float): number of bits for the carry
+c         authorizes to make 2^R + ~ = 67,000,000.
 c
 c      m1: masque 1
 c      ...
@@ -577,42 +577,42 @@ c       d = b - f2
 c      f3 = (d + 2^m3) - 2^m3
 c      f4 = ((d - f3) + 2^m4) - 2^m4
 c      ...
-c--------- calcul de fmax, fmin 
+c--------- calculation of fmax, fmin
 c      fmax avec r bits  zero = 2^(m1-r)
 c
-c      fmin avec 53 bits significatif = 2^m6
-c      fmin avec 1 bits significatif  = 2^(m6-53)
+c      Fmin with 53 significant bits = 2^m6
+c      Fmin with 1 significant bits = 2^(M6-53)
 c
-c--------- fmax, fmin aprs exprimentation
+c-------- FMAX, fmin after expression
 c      fmax avec r bits  zero ~= 2^(m1-2r)
 c
-c      fmin avec 53 bits significatif ~= 2^(m6-r)
-c      fmin avec 1 bits significatif  ~= 2^(m6-53-r)
+c      Fmin with 53 significant bits ~ = 2^(M6-R)
+c      Fmin with 1 significant bits ~ = 2^(M6-53-R)
 c
 c 6 float r=26 m1=89 m6=-46
 c 
 c      fmax avec r bits  zero ~= 2^37 = 
-c      fmin avec 53 bits significatif ~= 2^(m6-r)
-c      fmin avec 1 bits significatif  ~= 2^(m6-53-r)
+c      Fmin with 53 significant bits ~ = 2^(M6-R)
+c      Fmin with 1 significant bits ~ = 2^(M6-53-R)
 c-------------------------------------------------------
-c       a = f + deuxp63
-c       f4(1) = a - deuxp63
+c       A = F + twoP63
+c       F4 (1) = A - TwoP63
 c       b = f - f4(1)
-c       c = b + deuxp30
-c       f4(2) = c - deuxp30
+c       c '= b + twop30
+c       F4 (2) = c'- twop30
 c       d = b - f4(2)
-c       e = d + deuxpm3
-c       f4(3) = e - deuxpm3
+c       E = d '+ twopm3
+c       F4 (3) = E - TwoPM3
 c       g = d - f4(3)
-c       h = g + deuxpm36
-c       f4(4) = h - deuxpm36
+c       H = G + twoPM36
+c       F4 (4) = H - TwoPM36
 C-----------------------------------------------
 C   L o c a l   C o m m o n
 C-----------------------------------------------
 C
-C Attention - Attention - Attention - Attention - Attention - Attention
+C Warning - Warning - Warning - Warning - Warning - Warning
 C
-C Commun pour casser l optimisation et thread private pour multithread
+C Common to break the optimization and thread private for multithread
 C
       COMMON /PARIT_VAR/TEMP1,TEMP2,TEMP3,TEMP4,TEMP5,TEMP6,TEMP7,
      .                  TEMP11,TEMP12,TEMP13,TEMP14,TEMP15,TEMP16,
@@ -622,7 +622,7 @@ C
      .                 TEMP11,TEMP12,TEMP13,TEMP14,TEMP15,TEMP16,
      .                 TEMP17,RESTE
 C
-C Attention - Attention - Attention - Attention - Attention - Attention
+C Warning - Warning - Warning - Warning - Warning - Warning
 C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -712,8 +712,8 @@ C-----------------------------------------------
       DOUBLE PRECISION F6(D,E)
 C-----------------------------------------------
 c
-c      r=26 (foat_to_6_float): nombre de bits pour la retenu
-c         autorise  faire 2^r + ~= 67,000,000.
+c      r=26 (foat_to_6_float): number of bits for the carry
+c         authorizes to make 2^R + ~ = 67,000,000.
 c
 c      m1: masque 1
 c      ...
@@ -734,42 +734,42 @@ c       d = b - f2
 c      f3 = (d + 2^m3) - 2^m3
 c      f4 = ((d - f3) + 2^m4) - 2^m4
 c      ...
-c--------- calcul de fmax, fmin 
+c--------- calculation of fmax, fmin
 c      fmax avec r bits  zero = 2^(m1-r)
 c
-c      fmin avec 53 bits significatif = 2^m6
-c      fmin avec 1 bits significatif  = 2^(m6-53)
+c      Fmin with 53 significant bits = 2^m6
+c      Fmin with 1 significant bits = 2^(M6-53)
 c
-c--------- fmax, fmin aprs exprimentation
+c-------- FMAX, fmin after expression
 c      fmax avec r bits  zero ~= 2^(m1-2r)
 c
-c      fmin avec 53 bits significatif ~= 2^(m6-r)
-c      fmin avec 1 bits significatif  ~= 2^(m6-53-r)
+c      Fmin with 53 significant bits ~ = 2^(M6-R)
+c      Fmin with 1 significant bits ~ = 2^(M6-53-R)
 c
 c 6 float r=26 m1=89 m6=-46
 c 
 c      fmax avec r bits  zero ~= 2^37 = 
-c      fmin avec 53 bits significatif ~= 2^(m6-r)
-c      fmin avec 1 bits significatif  ~= 2^(m6-53-r)
+c      Fmin with 53 significant bits ~ = 2^(M6-R)
+c      Fmin with 1 significant bits ~ = 2^(M6-53-R)
 c-------------------------------------------------------
-c       a = f + deuxp63
-c       f4(1) = a - deuxp63
+c       A = F + twoP63
+c       F4 (1) = A - TwoP63
 c       b = f - f4(1)
-c       c = b + deuxp30
-c       f4(2) = c - deuxp30
+c       c '= b + twop30
+c       F4 (2) = c'- twop30
 c       d = b - f4(2)
-c       e = d + deuxpm3
-c       f4(3) = e - deuxpm3
+c       E = d '+ twopm3
+c       F4 (3) = E - TwoPM3
 c       g = d - f4(3)
-c       h = g + deuxpm36
-c       f4(4) = h - deuxpm36
+c       H = G + twoPM36
+c       F4 (4) = H - TwoPM36
 C-----------------------------------------------
 C   L o c a l   C o m m o n
 C-----------------------------------------------
 C
-C Attention - Attention - Attention - Attention - Attention - Attention
+C Warning - Warning - Warning - Warning - Warning - Warning
 C
-C Commun pour casser l optimisation et thread private pour multithread
+C Common to break the optimization and thread private for multithread
 C
       COMMON /PARIT_VAR/TEMP1,TEMP2,TEMP3,TEMP4,TEMP5,TEMP6,TEMP7,
      .                  TEMP11,TEMP12,TEMP13,TEMP14,TEMP15,TEMP16,
@@ -779,7 +779,7 @@ C
      .                 TEMP11,TEMP12,TEMP13,TEMP14,TEMP15,TEMP16,
      .                 TEMP17,RESTE
 C
-C Attention - Attention - Attention - Attention - Attention - Attention
+C Warning - Warning - Warning - Warning - Warning - Warning
 C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

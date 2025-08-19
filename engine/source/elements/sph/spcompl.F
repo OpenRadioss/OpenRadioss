@@ -213,7 +213,7 @@ C------
           WGRADZI=WGRADZI+VJ*WGRAD(3)
         ENDDO
 C------
-C       partie symetrique.
+C       symmetrical part.
         NVOISS=KXSP(6,N)
         DO J=KXSP(5,N)+1,KXSP(5,N)+NVOISS
           JS=IXSP(J,N)
@@ -338,7 +338,7 @@ C------
           WGRADZZI=WGRADZZI+VJ*WGRAD(3)*(ZI-ZJ)
         ENDDO
 C------
-C       partie symetrique.
+C       symmetrical part.
         NVOISS=KXSP(6,N)
         DO J=KXSP(5,N)+1,KXSP(5,N)+NVOISS
           JS=IXSP(J,N)
@@ -503,7 +503,7 @@ C         WGRADZXI=WGRADZXI+VJ*WGRAD(3)*(XI-XJ)
 C         WGRADZYI=WGRADZYI+VJ*WGRAD(3)*(YI-YJ)
 !        ENDDO
 C------
-C       partie symetrique.
+C       symmetrical part.
 !        NVOISS=KXSP(6,N)
 !        DO J=KXSP(5,N)+1,KXSP(5,N)+NVOISS
 !          JS=IXSP(J,N)
@@ -772,7 +772,7 @@ C           LZI32=LZI32+VJZ*(YI-YJ)
 !          END IF
 !        ENDDO
 C------
-C       partie symetrique.
+C       symmetrical part.
 !        NVOISS=KXSP(6,N)
 !        DO J=KXSP(5,N)+1,KXSP(5,N)+NVOISS
 !          JS=IXSP(J,N)
@@ -960,7 +960,7 @@ C           LZI32=LZI32+VJZ*(YI-YJ)
 C------
 C     Inverse LI.
 C------
-C       Cofacteurs.
+C       COFACTORS.
 C       COFAC11=  LI22*LI33-LI32*LI23
 C       COFAC12= -LI21*LI33+LI31*LI23
 C       COFAC13=  LI21*LI32-LI31*LI22
@@ -970,7 +970,7 @@ C       COFAC23= -LI11*LI32+LI31*LI12
 C       COFAC31=  LI12*LI23-LI22*LI13
 C       COFAC32= -LI11*LI23+LI21*LI13
 C       COFAC33=  LI11*LI22-LI21*LI12
-C      Transposee des cofacteurs.
+C      Transpose of cofactors.
 C       TCOFA11=  LI22*LI33-LI32*LI23
 C       TCOFA21= -LI21*LI33+LI31*LI23
 C       TCOFA31=  LI21*LI32-LI31*LI22
@@ -1166,7 +1166,7 @@ C------
 C------
 !      ENDDO
 C-----------------------------------------------
-C       Prepare les corrections sur les particules symetriques.
+C       Prepare corrections on symmetric particles.
 C-----------------------------------------------
 C-------------------------------------------
       RETURN
@@ -1397,7 +1397,7 @@ C           WACOMP(16,JS)=WACOMP(16,SM)
            ENDIF
           ENDDO
 C
-C Particules symetriques de particules remotes
+C Symmetrical particles of remote particles
 C
           DO SM = 1+ITASK,NSPHR,NTHREAD
            JS=ISPSYMR(NC,SM)

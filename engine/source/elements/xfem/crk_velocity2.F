@@ -21,18 +21,18 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    crk_vitesse2    ../engine/source/elements/xfem/crk_vitesse2.F
+!||    crk_velocity2    ../engine/source/elements/xfem/crk_velocity2.F
 !||--- called by ------------------------------------------------------
 !||    resol           ../engine/source/engine/resol.F
 !||--- calls      -----------------------------------------------------
-!||    upxvit_c1       ../engine/source/elements/xfem/crk_vitesse2.F
-!||    upxvit_c2       ../engine/source/elements/xfem/crk_vitesse2.F
-!||    upxvit_t1       ../engine/source/elements/xfem/crk_vitesse2.F
-!||    upxvit_t2       ../engine/source/elements/xfem/crk_vitesse2.F
+!||    upxvit_c1       ../engine/source/elements/xfem/crk_velocity2.F
+!||    upxvit_c2       ../engine/source/elements/xfem/crk_velocity2.F
+!||    upxvit_t1       ../engine/source/elements/xfem/crk_velocity2.F
+!||    upxvit_t2       ../engine/source/elements/xfem/crk_velocity2.F
 !||--- uses       -----------------------------------------------------
 !||    crackxfem_mod   ../engine/share/modules/crackxfem_mod.F
 !||====================================================================
-      SUBROUTINE CRK_VITESSE2(IPARG    ,NGROUC   ,IGROUC   ,ELCUTC   ,CRKEDGE  ,
+      SUBROUTINE CRK_VELOCITY2(IPARG    ,NGROUC   ,IGROUC   ,ELCUTC   ,CRKEDGE  ,
      .                        NODEDGE  ,IXC      ,IXTG     ,XEDGE4N  ,XEDGE3N  ,
      .                        IADC_CRK ,IEL_CRK  ,INOD_CRK ,ITAB     )
 C-----------------------------------------------
@@ -60,7 +60,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IG,ITY,NG,NEL,NFT,ITG1,ITG2,IXFEM,NXLAY,GOFF,XOFF
 C=======================================================================
-C Boucle parallele dynamique SMP
+C SMP dynamic parallel loop
 !$OMP DO SCHEDULE(DYNAMIC,1)
       DO IG = 1, NGROUC
         NG = IGROUC(IG)
@@ -87,7 +87,7 @@ c       copy velocities inside cracked element if ITRI/=0
 c
 c-----------
 c
-C Boucle parallele dynamique SMP
+C SMP dynamic parallel loop
 !$OMP DO SCHEDULE(DYNAMIC,1)
       DO IG = 1, NGROUC
         NG = IGROUC(IG)
@@ -118,9 +118,9 @@ c-----------
       END
 c
 !||====================================================================
-!||    upxvit_c1       ../engine/source/elements/xfem/crk_vitesse2.F
+!||    upxvit_c1       ../engine/source/elements/xfem/crk_velocity2.F
 !||--- called by ------------------------------------------------------
-!||    crk_vitesse2    ../engine/source/elements/xfem/crk_vitesse2.F
+!||    crk_velocity2    ../engine/source/elements/xfem/crk_velocity2.F
 !||--- uses       -----------------------------------------------------
 !||    crackxfem_mod   ../engine/share/modules/crackxfem_mod.F
 !||====================================================================
@@ -161,8 +161,8 @@ c----
               ILEV = II + IXEL
               DO K=1,4
                 IAD = IADC_CRK(K,ELCRK)
-                EN0 = CRKLVSET(ILEV)%ENR0(2,IAD)  ! enr initial du debut de cycle
-                EN  = CRKLVSET(ILEV)%ENR0(1,IAD)  ! enr mise a jour dans le cycle
+                EN0 = CRKLVSET(ILEV)%ENR0(2,IAD)  ! initial enr at start of cycle
+                EN  = CRKLVSET(ILEV)%ENR0(1,IAD)  ! enr updated in the cycle
                 IF (EN0 < 0 .and. EN > 0) THEN
                   IL  = ILEV+1                                         
                   EN1 = CRKLVSET(IL)%ENR0(2,IAD)                        
@@ -184,8 +184,8 @@ c----
               ILEV = II + IXEL
               DO K=1,4
                 IAD = IADC_CRK(K,ELCRK)
-                EN0 = CRKLVSET(ILEV)%ENR0(2,IAD)  ! enr initial du debut de cycle
-                EN  = CRKLVSET(ILEV)%ENR0(1,IAD)  ! enr mise a jour dans le cycle
+                EN0 = CRKLVSET(ILEV)%ENR0(2,IAD)  ! initial enr at start of cycle
+                EN  = CRKLVSET(ILEV)%ENR0(1,IAD)  ! enr updated in the cycle
                 IF (EN0 < 0 .and. EN > 0) THEN
                   IL  = ILEV+2                                            
                   EN1 = CRKLVSET(IL)%ENR0(2,IAD)                        
@@ -212,9 +212,9 @@ c-----------
       END
 c
 !||====================================================================
-!||    upxvit_t1       ../engine/source/elements/xfem/crk_vitesse2.F
+!||    upxvit_t1       ../engine/source/elements/xfem/crk_velocity2.F
 !||--- called by ------------------------------------------------------
-!||    crk_vitesse2    ../engine/source/elements/xfem/crk_vitesse2.F
+!||    crk_velocity2    ../engine/source/elements/xfem/crk_velocity2.F
 !||--- uses       -----------------------------------------------------
 !||    crackxfem_mod   ../engine/share/modules/crackxfem_mod.F
 !||====================================================================
@@ -256,8 +256,8 @@ c----
               ILEV = II + IXEL
               DO K=1,3
                 IAD = IADC_XTG(K,ELCRKTG)
-                EN0 = CRKLVSET(ILEV)%ENR0(2,IAD)  ! enr initial du debut de cycle
-                EN  = CRKLVSET(ILEV)%ENR0(1,IAD)  ! enr mise a jour dans le cycle
+                EN0 = CRKLVSET(ILEV)%ENR0(2,IAD)  ! initial enr at start of cycle
+                EN  = CRKLVSET(ILEV)%ENR0(1,IAD)  ! enr updated in the cycle
                 IF (EN0 < 0 .and. EN > 0) THEN
                   IL  = ILEV+1                                         
                   EN1 = CRKLVSET(IL)%ENR0(2,IAD)                        
@@ -279,8 +279,8 @@ c----
               ILEV = II + IXEL
               DO K=1,3
                 IAD = IADC_XTG(K,ELCRKTG)
-                EN0 = CRKLVSET(ILEV)%ENR0(2,IAD)  ! enr initial du debut de cycle
-                EN  = CRKLVSET(ILEV)%ENR0(1,IAD)  ! enr mise a jour dans le cycle
+                EN0 = CRKLVSET(ILEV)%ENR0(2,IAD)  ! initial enr at start of cycle
+                EN  = CRKLVSET(ILEV)%ENR0(1,IAD)  ! enr updated in the cycle
                 IF (EN0 < 0 .and. EN > 0) THEN
                   IL  = ILEV+2                                            
                   EN1 = CRKLVSET(IL)%ENR0(2,IAD)                        
@@ -306,9 +306,9 @@ c-----------
       RETURN
       END
 !||====================================================================
-!||    upxvit_c2       ../engine/source/elements/xfem/crk_vitesse2.F
+!||    upxvit_c2       ../engine/source/elements/xfem/crk_velocity2.F
 !||--- called by ------------------------------------------------------
-!||    crk_vitesse2    ../engine/source/elements/xfem/crk_vitesse2.F
+!||    crk_velocity2    ../engine/source/elements/xfem/crk_velocity2.F
 !||--- uses       -----------------------------------------------------
 !||    crackxfem_mod   ../engine/share/modules/crackxfem_mod.F
 !||====================================================================
@@ -350,8 +350,8 @@ c----
               ILEV = II + IXEL
               DO K=1,4
                 KK  = IADC_CRK(K,ELCRK)
-                EN0 = CRKLVSET(ILEV)%ENR0(2,KK)  ! enr initial de debut du cycle 
-                EN  = CRKLVSET(ILEV)%ENR0(1,KK)  ! enr mise a jour dans le cycle 
+                EN0 = CRKLVSET(ILEV)%ENR0(2,KK)  ! initial enr at start of cycle
+                EN  = CRKLVSET(ILEV)%ENR0(1,KK)  ! enr updated in the cycle
 c
                 IF (EN0 <= 0 .and. EN > 0) THEN
                   NN  = IXC(K+1,IEL)        ! n  node sys std
@@ -407,9 +407,9 @@ c-----------
       END
 c
 !||====================================================================
-!||    upxvit_t2       ../engine/source/elements/xfem/crk_vitesse2.F
+!||    upxvit_t2       ../engine/source/elements/xfem/crk_velocity2.F
 !||--- called by ------------------------------------------------------
-!||    crk_vitesse2    ../engine/source/elements/xfem/crk_vitesse2.F
+!||    crk_velocity2    ../engine/source/elements/xfem/crk_velocity2.F
 !||--- uses       -----------------------------------------------------
 !||    crackxfem_mod   ../engine/share/modules/crackxfem_mod.F
 !||====================================================================
@@ -452,8 +452,8 @@ c----
               ILEV = II + IXEL
               DO K=1,3
                 KK  = IADC_XTG(K,ELCRKTG)
-                EN0 = CRKLVSET(ILEV)%ENR0(2,KK)  ! enr initial de debut du cycle 
-                EN  = CRKLVSET(ILEV)%ENR0(1,KK)  ! enr mise a jour dans le cycle 
+                EN0 = CRKLVSET(ILEV)%ENR0(2,KK)  ! initial enr at start of cycle
+                EN  = CRKLVSET(ILEV)%ENR0(1,KK)  ! enr updated in the cycle
                 IF (EN0 <= 0 .and. EN > 0) THEN
                   NN  = IXTG(K+1,IEL)        ! n  node sys std
                   NSX = INOD_CRK(NN)        ! n  node sys xfem

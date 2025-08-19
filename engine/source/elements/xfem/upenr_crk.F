@@ -66,7 +66,7 @@ c
             EN0 = ABS(CRKLVSET(ILEV)%ENR0(1,KK))                            
             IF (EN0 > 0) THEN
               ENR_MAX = ENRTAG(N,EN0)                           
-              IF (ENR_MAX > 0) THEN  ! il y a une fissure dans l'adresse sky  
+              IF (ENR_MAX > 0) THEN  ! there is a crack in the sky address
                 IFAC0(EN0) = ENR_MAX                                          
                 OK_UP = 1                                                     
               ENDIF                                                           

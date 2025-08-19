@@ -35,7 +35,7 @@ C   M o d u l e s
 C----------------------------------------------- 
       USE INTBUFDEF_MOD 
 C-----------------------------------------------------------------------
-C recontruit MSR et IRECTM en fonction des main nodes utiles
+C reconstructing MSR and Irectm as a function of useful nodes
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -71,7 +71,7 @@ C
       ELSE
         NIR = 2
       ENDIF
-C determination des main nodes reellement utilises
+C Dettermination of the nodes actually used
       DO I = 1, NSN
         J = INTBUF_TAB%IRTLM(I)
         DO K = 1, NIR
@@ -83,13 +83,13 @@ C determination des main nodes reellement utilises
           ENDIF
         ENDDO
       ENDDO
-C mise a jour de MSR
+C MSR update
       DO I = 1, NMNU
         MSR(I) = MSRU(I)
       ENDDO
-C mise a jour de irectm
+C Irectm update
 C---------------------------------------------------------------
-C     LE NOEUD LOCAL EST REMPLACE PAR LE NOEUD GLOBAL DANS IRECT
+C     THE LOCAL NODE IS REPLACED BY THE GLOBAL NODE IN IRECT
 C---------------------------------------------------------------
       DO I = 1, NRTM
         DO K = 1, NIR
@@ -103,7 +103,7 @@ CGW            IRECTM(K,I) = NM
           ENDIF
         ENDDO
       ENDDO 
-C mise a jour de IPARI et offset de IRTLM
+C update of IPARI and offset of IRTLM
       IPARI(6) = NMNU
 C
       RETURN

@@ -90,7 +90,7 @@ C-----------------------------------------------
         INTEGER, DIMENSION(NPARI,NINTER), INTENT(in) ::  IPARI
         INTEGER, DIMENSION(NUMNOD), INTENT(inout) :: WEIGHT
         INTEGER, DIMENSION(2,NSPMD+1), INTENT(in) :: IAD_ELEM ! connectivity array iad(P+1)-iad(P) = nb of frontier node
-        INTEGER, DIMENSION(SFR_ELEM), INTENT(in) :: FR_ELEM ! frontier node ID
+        INTEGER, DIMENSION(SFR_ELEM), INTENT(in) :: FR_ELEM ! Frontier Node ID
         my_real, DIMENSION(3,NUMNOD), INTENT(in) :: X,V !   position & velocity
         my_real, DIMENSION(NUMNOD), INTENT(in) :: MS   !   mass 
         my_real, DIMENSION(TEMP_SIZE), INTENT(in) :: TEMP !   temperature

@@ -237,12 +237,12 @@ C....fourth direction
 C       IPOS4(I) = NINT(UVAR(I,5))
 C        IAD4(I)  = 0.5*NPF(IFUNC(I,4)) + 1
 C        ILE4(I)  = 0.5*NPF(IFUNC(I,5)+1) - IAD4(I) - IPOS4(I)
-C... 45 direction curve
+C... 45 Direction curve
 C       IPOS5(I) = NINT(UVAR(I,6))
 C        IAD5(I)  = 0.5*NPF(IFUNC(I,5)) + 1
 C        ILE5(I)  = 0.5*NPF(IFUNC(I,6)+1) - IAD5(I) - IPOS5(I)
         ENDDO
-C  extrapollation dans chaque direction
+C  extrapolation in each direction
 C---first direction--
         CALL VINTER(TF,IAD1,IPOS1,ILEN1,NEL,EVOL,DYDX1,Y1)
        CALL VINTER(TF,IAD1,IPOS1,ILEN1,NEL,EVL,DYDX1,Y2)
@@ -323,7 +323,7 @@ C
          ENDIF
            UVAR(I,1+J)= IPOS1(I)
          ENDDO      
-CCCC 45 direction
+CCCC 45 Direction
         ELSEIF(J==5)THEN
 C          CALL VINTER(TF,IAD5,IPOS5,ILEN5,NEL,PLA,DYDX1,Y1)
 C           CALL VINTER(TF,IAD5,IPOS5,ILEN5,NEL,EVL,DYDX1,Y2)

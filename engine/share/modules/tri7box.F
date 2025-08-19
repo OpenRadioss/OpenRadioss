@@ -337,8 +337,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 #include "my_real.inc"
       my_real, DIMENSION(:,:), ALLOCATABLE :: XREM
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: IREM
-C tableau temporaire boite secnd remote pour interface type 7, 10, 11 ou 20
-C declare DOUBLE PRECISION pour tranfert entier
+C Temporary table send remote for type 7, 10, 11 or 20 interface
+C Double precision declare for integer transfer
 C XREM(1) : X(1)
 C XREM(2) : X(2)
 C XREM(3) : X(3)
@@ -350,8 +350,8 @@ C XREM(7) : MS
 C XREM(8) : STFN
 C IREM(2): ITAB
 C IREM(3): KINET
-C XREM(9): GAP_S (optionnel)
-C tableau temporaire boite secnd remote pour interface type 11
+C Xrem (9): gap_s (optional)
+C Temporary table send remote for type 11 interface
 C IREM(1) : num local
 C XREM(1) : X1(1)
 C XREM(2) : X1(2)
@@ -371,22 +371,22 @@ C XREM(14) : MS2
 C IREM(2):  ITAB2
 C XREM(15) : STFS
 C IGAP>0
-C XREM(16): GAP_S    (optionnel)
+C XREM (16): GAP_S (optional)
 C IGAP=3
-C XREM(17): GAP_S_L    (optionnel)
+C XREM (17): gap_s_l (optional)
 C INACTI=5 or 6
-C XREM(18): PENIS(1) (optionnel)
-C XREM(19): PENIS(2) (optionnel)
+C XREM (18): PENIS (1) (optional)
+C XREM (19): PENIS (2) (optional)
 C IDTMINS=2
 C IREM(4): NODNX_SMS(1) (optionnel)
-C IREM(5): N1 (optionnel)
+C IREM (5): N1 (optional)
 C IREM(6): NODNX_SMS(2) (optionnel)
-C IREM(7): N2 (optionnel)
+C IREM (7): N2 (optional)
 C IREM(4): NODNX_SMS(1) (optionnel)
 C IDTMINS_INT/=0
-C IREM(4): N1 (optionnel)
-C IREM(5): N2 (optionnel)
-C tableau temporaire boite secnd remote pour interface type 17
+C IREM (4): N1 (optional)
+C IREM (5): N2 (optional)
+C Temporary table send remote for type 17 interface
 C XREM(1) : EMINXS(1)
 C XREM(2) : EMINXS(2)
 C XREM(3) : EMINXS(3)
@@ -418,7 +418,7 @@ C XREM(111): KSFI(1)
 C XREM(112): KSFI(2)
 
       LOGICAL, DIMENSION(:), ALLOCATABLE :: TO_TRIM, FIRST_TEST
-C Pointeur dans XREM vers le debut des valeurs de l interface 24 & 25
+C Pointer in XREM to the beginning of interface 24 & 25 values
 C On utlise PANE_OLD
       INTEGER I24XREMP,IGAPXREMP,I24IREMP,I24IREMPNSNE
        
@@ -426,86 +426,86 @@ C On utlise PANE_OLD
       INTEGER, DIMENSION(:), ALLOCATABLE :: CURRENT_FI_SIZE
 
 C buffer envoi/reception forces interfaces
-C tableau de pointeurs NSVFI de taille NINTER
-C indiquant liste noeuds remote a recevoir du "proc main"
+C pointer array NSVFI of size NINTER
+C indicating nodes list Remote to receive "proc main"
       TYPE(int_pointer), DIMENSION(:), ALLOCATABLE :: NSVFI
 
 C Proc main of the secnd node. Assumes that only the main processor sends
 C secnds nodes
       TYPE(int_pointer), DIMENSION(:), ALLOCATABLE :: PMAINFI
 
-C tableau de pointeurs NSNFI de taille NINTER
-C indiquant pour chaque interface type7 le nb de noeuds secnd dans NSVFI
-C par processeur
+C pointer array NSNFI of size NINTER
+C indicating for each interface type7 the number of secondary nodes in NSVFI
+C per processor
       TYPE(int_pointer), DIMENSION(:), ALLOCATABLE :: 
      .  NSNFI, NSNFI_SAV, ITAFI, KINFI, MATSFI,IPARTFRICSFI,IF_ADHFI,
      .  IPARTFRIC_FIE,
 C tableau i20 specifique (flag nodal)
      .  NBINFLFI,
      .  NODNXFI, NODAMSFI, PROCAMSFI,
-C tableau i20 partie edge
+C Table I20 Part Edge
      .  NSNFIE,NSVFIE,ITAFIE,NODNXFIE, NODAMSFIE, PROCAMSFIE
-C tableaux frontieres interfaces pour MS, STFN, STIFN
+C arrays front interfaces for MS, STFN, STIFN
       TYPE(real_pointer), DIMENSION(:), ALLOCATABLE :: 
      .  MSFI, STIFI, STNFI, GAPFI,VSCFI, FTHEFI, FTHESKYFI,
      .  AREASFI, TEMPFI, ALPHAKFI, DIAG_SMSFI,GAP_LFI,CONDNFI,
      .  CONDNSKYFI,
-C tableau i20 partie edge
+C Table I20 Part Edge
      .  MSFIE, STIFIE, STNFIE, GAPFIE, VSCFIE, ALPHAKFIE,
      .  DIAG_SMSFIE,
 C tableau I18 Kine
      .  MTFI_PENE,MTFI_PENEMIN
-C tableaux frontieres interfaces pour X, V A ou FSKY
+C interface boundary arrays for X, V A or FSKY
       TYPE(real_pointer2), DIMENSION(:), ALLOCATABLE :: 
      .  XFI, VFI, AFI, FSKYFI, PENFI, PENFIA,MTFI_V,MTFI_A,
      .  I18KAFI,MTFI_N,DAANCFI,
-C tableau i20 partie edge
+C Table I20 Part Edge
      .  XFIE, VFIE, AFIE, FSKYFIE, PENFIE, PENFIAE, DAANCFIE,
 C NITSCHE METHOD
      .  FORNEQSFI
-C tableaux frontieres interfaces 17 pour
+C Tables front interfaces 17 for
       TYPE(real_pointer2), DIMENSION(:), ALLOCATABLE :: 
      .  EMINXFI, KSFI, FROTSFI, STNFI17
-C tableaux frontieres interfaces 17 pour XFI17, VFI17, AFI17
+C Tables Frontieres Interfaces 17 for XFI17, VFI17, AFI17
       TYPE(real_pointer3), DIMENSION(:), ALLOCATABLE :: 
      .  XFI17, VFI17, AFI17
-C tableaux frontieres interfaces 20 pour DXANC,DVANC
+C Tables boundary interfaces 20 for DXANC, DVANC
       TYPE(real_pointer2), DIMENSION(:), ALLOCATABLE :: 
      .  DXANCFI, DVANCFI, DXANCFIE, DVANCFIE
-C tableaux frontieres interfaces 20 pour DAANC6
+C Boundary Tables Interfaces 20 for DAANC6
       TYPE(r8_pointer3), DIMENSION(:), ALLOCATABLE :: 
      .  DAANC6FI, DAANC6FIE
-C tableau de pointeurs ISKYFI de taille NINTER indiquant pour chaque interface
-C la liste des noeuds remote associe a une force dans FSKYI
+C pointer array ISKYFI of size NINTER indicating for each interface
+C the list of remote nodes associated with a force in FSKYI
       TYPE(int_pointer), DIMENSION(:), ALLOCATABLE :: ISKYFI,
-C tableau i20 partie edge
+C Table I20 Part Edge
      .  ISKYFIE
-C tableau de pointeurs NSVSI de taille NINTER
-C indiquant liste noeuds remote a envoyer au "proc secnd"
+C pointer array NSVSI of size NINTER
+C Saying the noded list Remote to send to the "Prof Second"
       TYPE(int_pointer), DIMENSION(:), ALLOCATABLE :: NSVSI,
-C tableau i20 partie edge
+C Table I20 Part Edge
      .  NSVSIE
-C tableau de pointeurs NSNSI de taille NINTER
-C indiquant pour chaque interface type7, 10, 11 le nb de noeuds secnd dans NSVSI
-C par processeur
+C pointer array NSNSI of size NINTER
+C indicating for each interface type7, 10, 11 the number of secondary nodes in NSVSI
+C per processor
       TYPE(int_pointer), DIMENSION(:), ALLOCATABLE :: NSNSI,
-C tableau i20 partie edge
+C Table I20 Part Edge
      .  NSNSIE
-C tableau de pointeurs NISUBSFI de taille NINTER
-C indiquant pour chaque interface type7, 10 le nbre d elt dans LISUBSFI
-C par processeur
+C pointer array NISUBSFI of size NINTER
+C indicating for each interface type7, 10 the number of elements in LISUBSFI
+C per processor
       TYPE(int_pointer), DIMENSION(:), ALLOCATABLE :: NISUBSFI
-C tableau de pointeurs LISUBSFI de taille NINTER
-C indiquant pour chaque interface type7, 10, 24, 25 et pour chaque noeud remote de cette interface
-C la liste des sous interfaces
+C pointer array LISUBSFI of size NINTER
+C indicating for each interface type7, 10, 24, 25 and for each remote node of this interface
+C the list of sub-interfaces
       TYPE(int_pointer), DIMENSION(:), ALLOCATABLE :: LISUBSFI
-C tableau de pointeurs INFLG_SUBSFI de taille NINTER
-C indiquant pour chaque interface type25 et pour chaque noeud remote de cette interface
-C l appartenance a S1, S2, ou GRNOD
+C pointer array INFLG_SUBSFI of size NINTER
+C indicating for each interface type25 and for each remote node of this interface
+C belonging to S1, S2, or Grnod
       TYPE(int_pointer), DIMENSION(:), ALLOCATABLE :: INFLG_SUBSFI ,TAGNCONTFI
-C tableau de pointeurs ADDSUBSFI de taille NINTER
-C indiquant pour chaque interface type7, 10, 24, 25, et pour chaque noeud remote de cette interface
-C son adresse de depart dans LISUBSFI et INFLG_SUBSFI (tableau dimensionne a NSNR+1 (noeud remote + 1)
+C pointer array ADDSUBSFI of size NINTER
+C indicating for each interface type7, 10, 24, 25, and for each remote node of this interface
+C Its departure address in lisubsfi and inflg_subsfi (Table dimensioning a nsnr + 1 (Remote node + 1)
       TYPE(int_pointer), DIMENSION(:), ALLOCATABLE :: ADDSUBSFI
       TYPE(real_pointer2), DIMENSION(:), ALLOCATABLE :: FNCONTI, FTCONTI
       TYPE(real_pointer), DIMENSION(:), ALLOCATABLE :: EFRICFI, EFRICGFI

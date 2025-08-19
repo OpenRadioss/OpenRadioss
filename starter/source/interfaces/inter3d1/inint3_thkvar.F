@@ -157,7 +157,7 @@ C=======================================================================
       IF(NTY==21) THEN
 C=======================================================================
 C
-C      CALCUL DU GAP, apres INITIA (lecture des epaisseurs).
+C      CALCULATION OF THE GAP, after INITIA (reading of thicknesses).
 C
        IF(IGAP == 2) THEN
          GAP0 = INTBUF_TAB%VARIABLES(2)
@@ -204,7 +204,7 @@ C
 
        ENDIF
 C
-C      INITIALISATIONS (PRE-CALCUL DES NORMALES, etc)
+C      Initializations (normal pre-celucculus, etc.)
 C
        CALL I21NORM3(
      1 X        ,INTBUF_TAB%IRECTM,NRTM  ,NMN          ,INTBUF_TAB%MSR ,
@@ -248,7 +248,7 @@ C
        INTBUF_TAB%VARIABLES(12) = MINBOX
        INTBUF_TAB%VARIABLES(2) = GAP0
 C
-C      PUIS CALCULER LES PENETRATIONS INITIALES AVEC ONE I21DST3
+C      THEN CALCULATE THE INITIAL PENETRATIONS WITH ONE I21DST3
 C
        NGROUS=1+(I_STOK-1)/NVSIZ
 C
@@ -277,7 +277,7 @@ C
      4   NSN    ,MWA   ,INTBUF_TAB%VARIABLES(32),ID,TITR)
 
        IF(IWPENE==0.AND.(INACTI==5.OR.INACTI==6))
-     .   IPARI(22) = -INACTI     ! passage en negatif pour dimensionnenment
+     .   IPARI(22) = -INACTI     ! Negative passage for sizing
        INTBUF_TAB%I_STOK(1)=IWPENE
 C
 C      IF(NUMELS10>0)CALL
@@ -333,7 +333,7 @@ C
           END IF
         END DO
 C----------------------------------------------------------------
-C         PASSAGE DE NOD_NORMAL et XM0 en COORD LOCALES
+C         PASSAGE OF NOD_NORMAL and XM0 in LOCAL COORDS
 C             - DS REP INERTIES PRINCIPALES)
 C----------------------------------------------------------------
         IROT=INTSTAMP%IROT

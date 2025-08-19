@@ -260,7 +260,7 @@ C----------------------------------------------------------------
               IF(EDGE_LIST(NIN,IAD(K))%NBCUT > 1 .AND. Gcorner(K,SECID) > 0)ICUT(1,K) = 2   !should be 1 but formulation might be updated later, keep general form using edge orientation (ICUT=2 possible).
 CC              print *,"---1", IAD(K),ICUT(1,K), EDGE_LIST(NIN,IAD(K))%CUTSHELL(ICUT(1,K))              
               IEtab(K)      = EDGE_LIST(NIN,IAD(K))%CUTSHELL(ICUT(1,K))
-              CUTCOOR       = EDGE_LIST(NIN,IAD(K))%CUTCOOR(ICUT(1,K))             ! gerer les intersections doubles cf commentaire plus haut
+              CUTCOOR       = EDGE_LIST(NIN,IAD(K))%CUTCOOR(ICUT(1,K))             ! manage double intersections see comment above
               CUTPOINT(1:3) = X(1:3, EDGE_LIST(NIN,IAD(K))%NODE(1) ) + CUTCOOR * (EDGE_LIST(NIN,IAD(K))%VECTOR(1:3))            
               EDGE_LIST(NIN,IAD(K))%CUTPOINT(1:3,ICUT(1,1)) = CUTPOINT(1:3)
             END DO !NEXT K
@@ -269,7 +269,7 @@ CC              print *,"---1", IAD(K),ICUT(1,K), EDGE_LIST(NIN,IAD(K))%CUTSHELL
             a3 => EDGE_LIST(NIN,IAD(3))%CUTPOINT(1:3,ICUT(1,3))
             a4 => EDGE_LIST(NIN,IAD(4))%CUTPOINT(1:3,ICUT(1,4))
             vF(:,0) = I22AERA(4,(/a1,a2,a3,a4/),C(1:3,   0 )) !Cut surface normal vector (not unitary : 2S factor) 
-            ! NE peut pas valoir zero si on borne les intersections a CUTCOOR = EM06 et ONE-EM06 dans i22intersect.F  (0 et 1.00    tant impossible => pas de PENTA degenere avec Scut=0.000, et pas de division par 0)
+            ! cannot be zero if intersections are limited to cutcoor = em06 and one-em06 in i22intersect.f (0 and 1.00 impossible => no degenerate penta with scut=0.000, and no division by 0)
             PCut_vect(1:3,1) = vF(:,0) / SQRT(SUM(vF(:,0)*vF(:,0)))             
             !----------------------------------------------------------------
             SECID            = Cod2
@@ -279,7 +279,7 @@ CC              print *,"---1", IAD(K),ICUT(1,K), EDGE_LIST(NIN,IAD(K))%CUTSHELL
               IF(EDGE_LIST(NIN,IAD(K))%NBCUT > 1 .AND. Gcorner(K,SECID) > 0)ICUT(2,K) = 2   !should be 1 but formulation might be updated later, keep general form using edge orientation (ICUT=2 possible).
 CC              print *,"---2", IAD(K),ICUT(2,K), EDGE_LIST(NIN,IAD(K))%CUTSHELL(ICUT(2,K))
               IEtab(4+K)    = EDGE_LIST(NIN,IAD(K))%CUTSHELL(ICUT(2,K))
-              CUTCOOR       = EDGE_LIST(NIN,IAD(K))%CUTCOOR(ICUT(2,K))             ! gerer les intersections doubles cf commentaire plus haut
+              CUTCOOR       = EDGE_LIST(NIN,IAD(K))%CUTCOOR(ICUT(2,K))             ! manage double intersections see comment above
               CUTPOINT(1:3) = X(1:3, EDGE_LIST(NIN,IAD(K))%NODE(1) ) + CUTCOOR * (EDGE_LIST(NIN,IAD(K))%VECTOR(1:3))            
               EDGE_LIST(NIN,IAD(K))%CUTPOINT(1:3,ICUT(2,1)) = CUTPOINT(1:3)              
             END DO !NEXT K
@@ -288,7 +288,7 @@ CC              print *,"---2", IAD(K),ICUT(2,K), EDGE_LIST(NIN,IAD(K))%CUTSHELL
             a3 => EDGE_LIST(NIN,IAD(3))%CUTPOINT(1:3,ICUT(2,3))
             a4 => EDGE_LIST(NIN,IAD(4))%CUTPOINT(1:3,ICUT(2,4))
             vF(:,0) = I22AERA(4,(/a1,a2,a3,a4/),C(1:3,   0 )) !Cut surface normal vector (not unitary : 2S factor) 
-            ! NE peut pas valoir zero si on borne les intersections a CUTCOOR = EM06 et ONE-EM06 dans i22intersect.F  (0 et 1.00    tant impossible => pas de PENTA degenere avec Scut=0.000, et pas de division par 0)
+            ! cannot be zero if intersections are limited to cutcoor = em06 and one-em06 in i22intersect.f (0 and 1.00 impossible => no degenerate penta with scut=0.000, and no division by 0)
             PCut_vect(1:3,2) = vF(:,0) / SQRT(SUM(vF(:,0)*vF(:,0))) 
             !----------------------------------------------------------------            
             SECID            = Cod1_bis
@@ -298,7 +298,7 @@ CC              print *,"---2", IAD(K),ICUT(2,K), EDGE_LIST(NIN,IAD(K))%CUTSHELL
             DO K=1,4 
               IF(EDGE_LIST(NIN,IAD(K))%NBCUT > 1 .AND. Gcorner(K,SECID) > 0)ICUT(1,K) = 2   !should be 1 but formulation might be updated later, keep general form using edge orientation (ICUT=2 possible).
               !IEtab(4+K)    = EDGE_LIST(NIN,IAD(K))%CUTSHELL(ICUT(1,K))
-              CUTCOOR       = EDGE_LIST(NIN,IAD(K))%CUTCOOR(ICUT(1,K))             ! gerer les intersections doubles cf commentaire plus haut
+              CUTCOOR       = EDGE_LIST(NIN,IAD(K))%CUTCOOR(ICUT(1,K))             ! manage double intersections see comment above
               CUTPOINT(1:3) = X(1:3, EDGE_LIST(NIN,IAD(K))%NODE(1) ) + CUTCOOR * (EDGE_LIST(NIN,IAD(K))%VECTOR(1:3))            
               EDGE_LIST(NIN,IAD(K))%CUTPOINT(1:3,ICUT(1,1)) = CUTPOINT(1:3)              
             END DO !NEXT K
@@ -307,7 +307,7 @@ CC              print *,"---2", IAD(K),ICUT(2,K), EDGE_LIST(NIN,IAD(K))%CUTSHELL
             a3 => EDGE_LIST(NIN,IAD(3))%CUTPOINT(1:3,ICUT(1,3))
             a4 => EDGE_LIST(NIN,IAD(4))%CUTPOINT(1:3,ICUT(1,4))
             vF(:,0) = I22AERA(4,(/a1,a2,a3,a4/),C(1:3,   0 )) !Cut surface normal vector (not unitary : 2S factor) 
-            ! NE peut pas valoir zero si on borne les intersections a CUTCOOR = EM06 et ONE-EM06 dans i22intersect.F  (0 et 1.00    tant impossible => pas de PENTA degenere avec Scut=0.000, et pas de division par 0)
+            ! cannot be zero if intersections are limited to cutcoor = em06 and one-em06 in i22intersect.f (0 and 1.00 impossible => no degenerate penta with scut=0.000, and no division by 0)
             PCut_vect(1:3,3) = vF(:,0) / SQRT(SUM(vF(:,0)*vF(:,0)))  
             !----------------------------------------------------------------            
             SECID            = Cod2_bis
@@ -317,7 +317,7 @@ CC              print *,"---2", IAD(K),ICUT(2,K), EDGE_LIST(NIN,IAD(K))%CUTSHELL
             DO K=1,4 
               IF(EDGE_LIST(NIN,IAD(K))%NBCUT > 1 .AND. Gcorner(K,SECID) > 0)ICUT(2,K) = 2   !should be 1 but formulation might be updated later, keep general form using edge orientation (ICUT=2 possible).
               !IEtab(4+K)    = EDGE_LIST(NIN,IAD(K))%CUTSHELL(ICUT(2,K))
-              CUTCOOR       = EDGE_LIST(NIN,IAD(K))%CUTCOOR(ICUT(2,K))             ! gerer les intersections doubles cf commentaire plus haut
+              CUTCOOR       = EDGE_LIST(NIN,IAD(K))%CUTCOOR(ICUT(2,K))             ! manage double intersections see comment above
               CUTPOINT(1:3) = X(1:3, EDGE_LIST(NIN,IAD(K))%NODE(1) ) + CUTCOOR * (EDGE_LIST(NIN,IAD(K))%VECTOR(1:3))            
               EDGE_LIST(NIN,IAD(K))%CUTPOINT(1:3,ICUT(2,1)) = CUTPOINT(1:3)              
             END DO !NEXT K
@@ -326,7 +326,7 @@ CC              print *,"---2", IAD(K),ICUT(2,K), EDGE_LIST(NIN,IAD(K))%CUTSHELL
             a3 => EDGE_LIST(NIN,IAD(3))%CUTPOINT(1:3,ICUT(2,3))
             a4 => EDGE_LIST(NIN,IAD(4))%CUTPOINT(1:3,ICUT(2,4))
             vF(:,0) = I22AERA(4,(/a1,a2,a3,a4/),C(1:3,   0 )) !Cut surface normal vector (not unitary : 2S factor)
-            ! NE peut pas valoir zero si on borne les intersections a CUTCOOR = EM06 et ONE-EM06 dans i22intersect.F  (0 et 1.00    tant impossible => pas de PENTA degenere avec Scut=0.000, et pas de division par 0) 
+            ! cannot be zero if intersections are limited to cutcoor = em06 and one-em06 in i22intersect.f (0 and 1.00 impossible => no degenerate penta with scut=0.000, and no division by 0)
             PCut_vect(1:3,4) = vF(:,0) / SQRT(SUM(vF(:,0)*vF(:,0)))                                        
             !----------------------------------------------------------------
             !COMPUTING NORMALS AT LAGRANGIAN FACES
@@ -465,17 +465,17 @@ CC              print *, "inter22 : ambigus intersection not solved" ;
           ENDDO
 
           !---------------------------------------------------------------- 
-          !CALCUL DES COORDONNEES DES POINTS D'INTERSECTION
+          !calculation of intersection point coordinates
           !---------------------------------------------------------------- 
           !if twice the same intersections, the 2nd one is the biggest one choose farthest intersection points
           DO K=1,NTRUS  
              tagEDG   =  Gcorner(K,SECID)
             IF(tagEDG<0)THEN
-              !orientation negative : on prend le plus proche
+              !Negative orientation: we take the closest
               ipos = 1
               tagEDG = - tagEDG
             ELSE
-            !on prend le plus eloigne
+            !We take the most
                IF(EDGE_LIST(NIN,IAD(K))%NBCUT==1)THEN
                 ipos = 1
                ELSE
@@ -483,13 +483,13 @@ CC              print *, "inter22 : ambigus intersection not solved" ;
                ENDIF
             ENDIF
             EdgePos(IABS(tagEdg), ipos)              = 1
-            IF(iCUTe(ipos,tagEDG)==1)ipos          = MOD(ipos,2)+1 !deja pris par polyhedre precedent, on prend lautre            
+            IF(iCUTe(ipos,tagEDG)==1)ipos          = MOD(ipos,2)+1 !already taken by Polyhedre precedent, we take the other            
             CUTCOOR                                  = EDGE_LIST(NIN,IAD(K))%CUTCOOR(ipos)
             CUTPOINT(1:3)  = X(1:3, EDGE_LIST(NIN,IAD(K))%NODE(1) ) + CUTCOOR * (EDGE_LIST(NIN,IAD(K))%VECTOR(1:3))
             IE                                       = EDGE_LIST(NIN,IAD(K))%CUTSHELL(ipos)
             EDGE_LIST(NIN,IAD(K))%CUTPOINT(1:3,ipos) = CUTPOINT(1:3)
             EDGE_LIST(NIN,IAD(K))%CUTVEL(1:3,ipos)   = IRECT_L(24:26,IE)
-            ICUTe(ipos, IABS(Gcorner(K,SECID)))      = 1 !on prendra le point dintersection suivant.
+            ICUTe(ipos, IABS(Gcorner(K,SECID)))      = 1 !We will take the following intersection point.
             iPOSe(K)                                 = ipos
           END DO !K
 !          print *, "Gcorner = ", Gcorner(1:NTRUS,SECID)
@@ -503,12 +503,12 @@ CC              print *, "inter22 : ambigus intersection not solved" ;
           !   ANIMATION (positioning)
           !----------------------------------------------------------------
           NSH3N = GetNumTria(GetPolyhedraType(SECID))          
-          IF(II<=NEL-NSH3N.AND.NSPMD<=1)THEN    !II=IAD0=0 si pas de grshel, Sinon cela signifie qu'il reste encore des shel non utilise dans le groupe au moins 4 pour faire une section poly4.    
+          IF(II<=NEL-NSH3N.AND.NSPMD<=1)THEN    !ii=iad0=0 if no grshel, otherwise means there are still unused shells in the group, at least 4 to make a poly4 section
 
 C            if (IBUG22_subvol==1)WRITE (*,FMT='(A20,I10)') 
 C     .       "path intersection : ",IXS(11,ID)
 #include "lockon.inc"
-            !on positionne les shell
+            !position the shells
             !NSH3N = GetNumTria(GetPolyhedraType(SECID))
 c              print *,"i22subvol : brickID=", IXS(11,BRICK_LIST(NIN,IB)%ID)
 c              print *,"i22subvol : icode  ="  , BRICK_LIST(NIN,IB)%ICODE          
@@ -547,10 +547,10 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
 
           !----------------------------------------------------------------
           !   SUBVOLUME AERAS & VOLUMES CALCULATION
-          ! il faut d'abord calcul des aires vectorielles
+          ! It is first necessary to calculate vector areas
           !----------------------------------------------------------------
           Fa(0)    = 0
-         !OPTIM : SUPPRIMER ABS si graphe tous orientes en normales sortantes.
+         !OPTIM: Remove ABS if graph all oriented outgoing normal.
 
           IF(SECTYPE(1:5)=='TETRA')THEN
             nFACE = F_TETRA
@@ -587,8 +587,8 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
             pFACE(Fa(2))%Surf = SQRT(SUM(vF(:,2)*vF(:,2)))
             pFACE(Fa(3))%Surf = SQRT(SUM(vF(:,3)*vF(:,3)))
             pFACE0         = SCUT
-            BRICK_LIST(NIN,IB)%PCUT(ICELL)%SCUT   = SCUT                         !aire de la surface de coupure    
-            BRICK_LIST(NIN,IB)%PCUT(ICELL)%B(1:3) = C(1:3,0)                     !centroid de la surface de coupure (i.e. basis point)
+            BRICK_LIST(NIN,IB)%PCUT(ICELL)%SCUT   = SCUT                         !area of the cutting surface
+            BRICK_LIST(NIN,IB)%PCUT(ICELL)%B(1:3) = C(1:3,0)                     !centroid of the cutting surface (i.e. basis point)
             BRICK_LIST(NIN,IB)%PCUT(ICELL)%N(1:3) = vF(:,0)                      !Cut surface normal vector (not unitary : 2S factor)
             BRICK_LIST(NIN,IB)%PCUT(ICELL)%NP     = 3                            !polygon points (number)
             BRICK_LIST(NIN,IB)%PCUT(ICELL)%P(1:3,1)= a1                          !polygon points (coordinates) 
@@ -656,8 +656,8 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
                 CYCLE
               ENDIF
             ENDIF
-            BRICK_LIST(NIN,IB)%PCUT(ICELL)%SCUT   = SCUT                         !aire de la surface de coupure    
-            BRICK_LIST(NIN,IB)%PCUT(ICELL)%B(1:3) = C(1:3,0)                     !centroid de la surface de coupure (i.e. basis point)
+            BRICK_LIST(NIN,IB)%PCUT(ICELL)%SCUT   = SCUT                         !area of the cutting surface
+            BRICK_LIST(NIN,IB)%PCUT(ICELL)%B(1:3) = C(1:3,0)                     !centroid of the cutting surface (i.e. basis point)
             BRICK_LIST(NIN,IB)%PCUT(ICELL)%N(1:3) = vF(:,0)                      !Cut surface normal vector (not unitary : 2S factor)          
             BRICK_LIST(NIN,IB)%PCUT(ICELL)%NP     = 4                            !polygon points (number)
             BRICK_LIST(NIN,IB)%PCUT(ICELL)%P(1:3,1)= a1                          !polygon points (coordinates) 
@@ -724,8 +724,8 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
             pFACE(Fa(4))%Surf = SQRT(SUM(vF(:,4)*vF(:,4)))
             pFACE(Fa(5))%Surf = SQRT(SUM(vF(:,5)*vF(:,5)))
             pFACE0         = SCUT
-            BRICK_LIST(NIN,IB)%PCUT(ICELL)%SCUT   = SCUT                         !aire de la surface de coupure    
-            BRICK_LIST(NIN,IB)%PCUT(ICELL)%B(1:3) = C(1:3,0)                     !centroid de la surface de coupure (i.e. basis point)
+            BRICK_LIST(NIN,IB)%PCUT(ICELL)%SCUT   = SCUT                         !area of the cutting surface
+            BRICK_LIST(NIN,IB)%PCUT(ICELL)%B(1:3) = C(1:3,0)                     !centroid of the cutting surface (i.e. basis point)
             BRICK_LIST(NIN,IB)%PCUT(ICELL)%N(1:3) = vF(:,0)                      !Cut surface normal vector (not unitary : 2S factor)          
             BRICK_LIST(NIN,IB)%PCUT(ICELL)%NP     = 5                            !polygon points (number)
             BRICK_LIST(NIN,IB)%PCUT(ICELL)%P(1:3,1)= a1                          !polygon points (coordinates) 
@@ -798,8 +798,8 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
             pFACE(Fa(4))%Surf = SQRT(SUM(vF(:,4)*vF(:,4)))
             pFACE(Fa(5))%Surf = SQRT(SUM(vF(:,5)*vF(:,5)))
             pFACE0         = SCUT
-            BRICK_LIST(NIN,IB)%PCUT(ICELL)%SCUT   = SCUT                         !aire de la surface de coupure    
-            BRICK_LIST(NIN,IB)%PCUT(ICELL)%B(1:3) = C(1:3,0)                     !centroid de la surface de coupure (i.e. basis point)
+            BRICK_LIST(NIN,IB)%PCUT(ICELL)%SCUT   = SCUT                         !area of the cutting surface
+            BRICK_LIST(NIN,IB)%PCUT(ICELL)%B(1:3) = C(1:3,0)                     !centroid of the cutting surface (i.e. basis point)
             BRICK_LIST(NIN,IB)%PCUT(ICELL)%N(1:3) = vF(:,0)                      !Cut surface normal vector (not unitary : 2S factor)          
             BRICK_LIST(NIN,IB)%PCUT(ICELL)%NP     = 4                            !polygon points (number)
             BRICK_LIST(NIN,IB)%PCUT(ICELL)%P(1:3,1)= a1                          !polygon points (coordinates) 
@@ -903,8 +903,8 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
             pFACE(Fa(5))%Surf = SQRT(SUM(vF(:,5)*vF(:,5)))
             pFACE(Fa(6))%Surf = SQRT(SUM(vF(:,6)*vF(:,6)))
             pFACE0         = SCUT
-            BRICK_LIST(NIN,IB)%PCUT(ICELL)%SCUT   = SCUT                         !aire de la surface de coupure    
-            BRICK_LIST(NIN,IB)%PCUT(ICELL)%B(1:3) = C(1:3,0)                     !centroid de la surface de coupure (i.e. basis point)
+            BRICK_LIST(NIN,IB)%PCUT(ICELL)%SCUT   = SCUT                         !area of the cutting surface
+            BRICK_LIST(NIN,IB)%PCUT(ICELL)%B(1:3) = C(1:3,0)                     !centroid of the cutting surface (i.e. basis point)
             BRICK_LIST(NIN,IB)%PCUT(ICELL)%N(1:3) = vF(:,0)                      !Cut surface normal vector (not unitary : 2S factor)          
             BRICK_LIST(NIN,IB)%PCUT(ICELL)%NP     = 6                            !polygon points (number)
             BRICK_LIST(NIN,IB)%PCUT(ICELL)%P(1:3,1)= a1                          !polygon points (coordinates) 
@@ -985,8 +985,8 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
             pFACE(Fa(5))%Surf = SQRT(SUM(vF(:,5)*vF(:,5)))
             pFACE(Fa(6))%Surf = SQRT(SUM(vF(:,6)*vF(:,6)))
             pFACE0         = SCUT
-            BRICK_LIST(NIN,IB)%PCUT(ICELL)%SCUT    = SCUT                        !aire de la surface de coupure    
-            BRICK_LIST(NIN,IB)%PCUT(ICELL)%B(1:3)  = C(1:3,0)                    !centroid de la surface de coupure (i.e. basis point)
+            BRICK_LIST(NIN,IB)%PCUT(ICELL)%SCUT    = SCUT                        !area of the cutting surface
+            BRICK_LIST(NIN,IB)%PCUT(ICELL)%B(1:3)  = C(1:3,0)                    !centroid of the cutting surface (i.e. basis point)
             BRICK_LIST(NIN,IB)%PCUT(ICELL)%N(1:3)  = vF(:,0)                     !Cut surface normal vector (not unitary : 2S factor)          
             BRICK_LIST(NIN,IB)%PCUT(ICELL)%NP      = 6                           !polygon points (number)
             BRICK_LIST(NIN,IB)%PCUT(ICELL)%P(1:3,1)= a1                          !polygon points (coordinates) 
@@ -1069,8 +1069,8 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
             pFACE(Fa(5))%Surf = SQRT(SUM(vF(:,5)*vF(:,5)))
             pFACE(Fa(6))%Surf = SQRT(SUM(vF(:,6)*vF(:,6)))
             pFACE0         = SCUT
-            BRICK_LIST(NIN,IB)%PCUT(ICELL)%SCUT    = SCUT                        !aire de la surface de coupure    
-            BRICK_LIST(NIN,IB)%PCUT(ICELL)%B(1:3)  = C(1:3,0)                    !centroid de la surface de coupure (i.e. basis point)
+            BRICK_LIST(NIN,IB)%PCUT(ICELL)%SCUT    = SCUT                        !area of the cutting surface
+            BRICK_LIST(NIN,IB)%PCUT(ICELL)%B(1:3)  = C(1:3,0)                    !centroid of the cutting surface (i.e. basis point)
             BRICK_LIST(NIN,IB)%PCUT(ICELL)%N(1:3)  = vF(:,0)                     !Cut surface normal vector (not unitary : 2S factor)          
             BRICK_LIST(NIN,IB)%PCUT(ICELL)%NP      = 6                           !polygon points (number)
             BRICK_LIST(NIN,IB)%PCUT(ICELL)%P(1:3,1)= a1                          !polygon points (coordinates) 
@@ -1149,8 +1149,8 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
             pFACE(Fa(4))%Surf = SQRT(SUM(vF(:,4)*vF(:,4)))
             pFACE(Fa(5))%Surf = SQRT(SUM(vF(:,5)*vF(:,5)))
             pFACE0         = SCUT
-            BRICK_LIST(NIN,IB)%PCUT(ICELL)%SCUT   = SCUT                         !aire de la surface de coupure    
-            BRICK_LIST(NIN,IB)%PCUT(ICELL)%B(1:3) = C(1:3,0)                     !centroid de la surface de coupure (i.e. basis point)
+            BRICK_LIST(NIN,IB)%PCUT(ICELL)%SCUT   = SCUT                         !area of the cutting surface
+            BRICK_LIST(NIN,IB)%PCUT(ICELL)%B(1:3) = C(1:3,0)                     !centroid of the cutting surface (i.e. basis point)
             BRICK_LIST(NIN,IB)%PCUT(ICELL)%N(1:3) = vF(:,0)                      !Cut surface normal vector (not unitary : 2S factor)          
             BRICK_LIST(NIN,IB)%PCUT(ICELL)%NP     = 6                            !polygon points (number)
             BRICK_LIST(NIN,IB)%PCUT(ICELL)%P(1:3,1)= a1                          !polygon points (coordinates) 
@@ -2190,7 +2190,7 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
               
               !cell center update
               !from previous calculation based on intersection points + nodes, remove nodes and add new ones.
-              BRICK_LIST(NIN,IB)%POLY(1)%CellCenter(1:3) =  BRICK_LIST(NIN,IB)%POLY(1)%CellCenter(1:3) * NUMPT   !(somme directe, et non plus une moyenne)
+              BRICK_LIST(NIN,IB)%POLY(1)%CellCenter(1:3) =  BRICK_LIST(NIN,IB)%POLY(1)%CellCenter(1:3) * NUMPT   !(direct sum, and no longer an average)
               DO I=1,8   
                 nn => X(1:3, IXS(1+I,BRICK_LIST(NIN,IB)%ID ))                                                                                                                          
                 IF(BRICK_LIST(NIN,IB)%NODE(I)%WhichCell == 2)THEN                                                                  
@@ -2205,7 +2205,7 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
                   NUMPT = NUMPT + 1                                                                    
                 ENDIF                                                                                                                
               ENDDO  
-              BRICK_LIST(NIN,IB)%POLY(1)%CellCenter(1:3) =  BRICK_LIST(NIN,IB)%POLY(1)%CellCenter(1:3) / NUMPT   !on retrouve une moyenne
+              BRICK_LIST(NIN,IB)%POLY(1)%CellCenter(1:3) =  BRICK_LIST(NIN,IB)%POLY(1)%CellCenter(1:3) / NUMPT   !we get an average
 
 
                                                                                                                                    
@@ -2228,7 +2228,7 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
               !cell center update
               !from previous calculation based on intersection points + nodes, remove nodes and add new ones.
               NUMPT = BRICK_LIST(NIN,IB)%POLY(2)%NumPOINT                                                                                  
-              BRICK_LIST(NIN,IB)%POLY(2)%CellCenter(1:3) =  BRICK_LIST(NIN,IB)%POLY(2)%CellCenter(1:3) * NUMPT   !(somme directe, et non plus une moyenne)
+              BRICK_LIST(NIN,IB)%POLY(2)%CellCenter(1:3) =  BRICK_LIST(NIN,IB)%POLY(2)%CellCenter(1:3) * NUMPT   !(direct sum, and no longer an average)
               DO I=1,8                                                                                                               
                 IF(BRICK_LIST(NIN,IB)%NODE(I)%WhichCell == 1)THEN                                                                  
                   nn => X(1:3, IXS(1+I,BRICK_LIST(NIN,IB)%ID ))
@@ -2244,7 +2244,7 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
                   NUMPT = NUMPT + 1                                                                    
                 ENDIF                                                                                                                
               ENDDO  
-              BRICK_LIST(NIN,IB)%POLY(2)%CellCenter(1:3) =  BRICK_LIST(NIN,IB)%POLY(2)%CellCenter(1:3) / NUMPT   !on retrouve une moyenne              
+              BRICK_LIST(NIN,IB)%POLY(2)%CellCenter(1:3) =  BRICK_LIST(NIN,IB)%POLY(2)%CellCenter(1:3) / NUMPT   !we get an average
                                               
             ENDIF !Vol1>Vol2                                                                                                                 
                                                                                                                                    
@@ -2300,7 +2300,7 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
       
       IF (II<=NEL.AND.NSPMD<=1.AND.ITASK==0) THEN
 #include "lockon.inc"
-            !initialisation des noeuds du grsh3n a ZERO.
+            !initialization of grsh3n nodes to zero
             DO J=1,NEL
               !EXIT
 c              print *, "idsh3n=", IXTG(NIXTG,IBUFSSG(J))  !IDSPRI=
@@ -2381,7 +2381,7 @@ C=======================================================================
 C-----------------------------------------------
 C  D e s c r i p t i o n
 C-----------------------------------------------
-C Calcul les aires orientees des polygones P0, P1, .., Pn  avec n=NPTS
+C compute oriented areas of polygons p0, p1, .., pn with n=npts
 C Precondition : NPTS>=3, &  P0, P1, P3 non colineaires
 C OPTIMISATION POUR LA SUITE : ne pas calculer les centroides ici car on duplique certaines coperations.
 C-----------------------------------------------

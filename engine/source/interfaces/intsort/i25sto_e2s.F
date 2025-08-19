@@ -103,14 +103,14 @@ C         DEBUG_E2E(PROV_IDS(2,I)==D_ES.AND.PROV_IDS(1,I)==D_EM, PENE(I))
             NE = PROV_M(I)
 
 C           IF(N>NEDGE) THEN
-C numerotation tris precedent pour les noeuds non locaux (SPMD)
+C previous sorting numbering for non-local nodes (spmd)
 C              N = OLDNUM(N-NEDGE)+NEDGE
 C              IF(N==NEDGE) N = NEDGE+NEDGEROLD+1
 C           END IF
 
 C           DEBUG_E2E(PROV_IDS(2,I)==D_ES.AND.PROV_IDS(1,I)==D_EM, N)
             IF(N>NEDGE) THEN
-C numerotation tris precedent pour les noeuds non locaux (SPMD)
+C previous sorting numbering for non-local nodes (spmd)
 C             DEBUG_E2E(PROV_IDS(2,I)==D_ES.AND.PROV_IDS(1,I)==D_EM, OLDNUM_EDGE(N-NEDGE))
               N = OLDNUM_EDGE(N-NEDGE)+NEDGE
 C             DEBUG_E2E(PROV_IDS(2,I)==D_ES.AND.PROV_IDS(1,I)==D_EM, N)

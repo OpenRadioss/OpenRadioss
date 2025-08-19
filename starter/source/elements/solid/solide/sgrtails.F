@@ -156,7 +156,7 @@ C
         ALLOCATE(XNUM_RNOISE(0,0))
       ENDIF
 C
-C phase 1 : domain decomposition
+C Phase 1: Domain Decomposition
 C
       IDX=IDX+ND*(NSPMD+1)
       CALL ZEROIN(1,ND*(NSPMD+1),DD_IAD(1,NSPGROUP+1))
@@ -755,14 +755,14 @@ C---add ICPRE auto for thick-shell
 C-------compressible       
               CASE(1)                                             
                ICPRE = 0        
-C-------uncompressible       
+C------       
               CASE(2)                                             
                ICPRE = 1
 C--------elasto-plastic       
               CASE(3)                                             
                ICPRE = 2
              END SELECT 
-C--------message out       
+C------- Out message       
              IF (ICPRE>0) CALL ANCMSG(MSGID=1741,
      .                      MSGTYPE=MSGINFO,
      .                      ANMODE=ANINFO_BLIND_2,
@@ -788,14 +788,14 @@ C
 C-------compressible       
              CASE(1)                                             
               ICPRE = 3        
-C-------uncompressible       
+C------       
              CASE(2)                                             
               ICPRE = 1
 C--------elasto-plastic       
              CASE(3)                                             
               ICPRE = 2
             END SELECT 
-C--------message out       
+C------- Out message       
                 CALL ANCMSG(MSGID=1741,
      .                      MSGTYPE=MSGINFO,
      .                      ANMODE=ANINFO_BLIND_2,
@@ -828,7 +828,7 @@ C                IF (MATPARAM%COMPRESSIBILITY==2) ISSN = 10
              END IF
 C---  ISMSTR=12 for law1     
              IF (MLN == 1.AND.JHBE/=16) ISSN = 12
-C--------message out       
+C------- Out message       
                 CALL ANCMSG(MSGID=1742,
      .                      MSGTYPE=MSGINFO,
      .                      ANMODE=ANINFO_BLIND_2,
@@ -841,7 +841,7 @@ C----- Iframe automatic JCVT=2 excpeting law58&fluide
            IF (JCVT<0) THEN
             JCVT = 0 
             IF (IKSNOD0==8.AND.JLAG>0.AND.MLN/=68) JCVT = 1
-C--------message out       
+C------- Out message       
             ISM0 = JCVT+1
                 CALL ANCMSG(MSGID=1764,
      .                      MSGTYPE=MSGINFO,
@@ -860,7 +860,7 @@ C---add ICPRE auto for T10, firsly limited by Large Strain
 C-------compressible       
               CASE(1)                                             
                ICPRE = 3        
-C-------uncompressible       
+C------       
               CASE(2)                                             
                ICPRE = 1
                IF (MLN == 1.OR.MLN == 92) ICPRE = 3
@@ -869,7 +869,7 @@ C--------elasto-plastic
                ICPRE = 2
                IF (ICPT10==3) ICPRE = 3 
              END SELECT 
-C--------message out       
+C------- Out message       
              IF (ICPRE ==1 .OR. ICPRE ==2)  CALL ANCMSG(
      .                      MSGID=1741,
      .                      MSGTYPE=MSGINFO,
@@ -1523,7 +1523,7 @@ C
          NGP(P)=NGROUP-NGP(P)
         ENDIF
        ENDDO
-C DD_IAD => nb groups per sub domain
+C Dd_iad => nb groups per sub domain
        NGP(NSPMD+1)=0
        DO P = 1, NSPMD
          NGP(NSPMD+1)=NGP(NSPMD+1)+NGP(P)

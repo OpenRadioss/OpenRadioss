@@ -1202,7 +1202,7 @@ C           if /DT/AMS is read later, then following definition can be erased
            IDTMIN(52) = ID_DT_OPTION   
          ELSEIF(KEY3(1:1)=='2')THEN
            ID_DT_OPTION = 2
-           !option requires an airbag_id.
+           !Option REQUIRS AIRBAG_ID.
          ELSE
            ID_DT_OPTION = 1
            DTFAC1(52) = DTFACA

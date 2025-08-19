@@ -52,7 +52,7 @@ C-----------------------------------------------
 #ifdef MPI
       INTEGER INFO,BUFSIZMAX,ADD,LEN,SIZ_I
       INTEGER STATUS(MPI_STATUS_SIZE),IERROR
-C segment de memoire partagee doit etre superieur a 10 MB
+C shared memory segment must be superior to 10 Mb
       DATA BUFSIZMAX/10000000/
 C-----------------------------------------------
 C   S o u r c e  L i n e s

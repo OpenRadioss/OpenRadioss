@@ -95,7 +95,7 @@ C      characteristic length = diameter.
        WA(12,N)=ZERO
       ENDDO
 C-----------------------------------------------
-C     Calcul des densites et tenseurs de deformations.
+C     Calculation of densities and strain tensors.
 C-----------------------------------------------
       DT1D2=0.5*DT1
       DO 10 I=LFT,LLT
@@ -247,7 +247,7 @@ C       for artificial viscosity computation :
         ROTVZ=ROTVZ+VJX*WGRAD(2)-VJY*WGRAD(1)
        END DO
 C------
-C      partie symetrique.
+C      symmetrical part.
        NVOISS=KXSP(6,N)
        DO J=KXSP(5,N)+1,KXSP(5,N)+NVOISS
         JS=IXSP(J,N)

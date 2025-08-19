@@ -186,7 +186,7 @@ C-------     activation for GBUF%OFF + save the strain in buffer
        GBUF%STRA(I) = GBUF%STRA(I) + EPS(I)*DT1
       ENDDO
 C--------------------------
-C     BILANS PAR MATERIAU
+C     BALANCES BY MATERIAL
 C--------------------------
       IF (IOUTPRT>0) THEN
       CALL TBILAN(

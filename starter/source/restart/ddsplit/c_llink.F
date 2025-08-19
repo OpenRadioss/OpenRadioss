@@ -71,7 +71,7 @@ C
       ENDDO
 C
       NLLINK_L = ILP
-C espace memoire P/ON
+C memory space p/we
       IF(IPARI0/=0) THEN
         NSKYLL_L = ILP
       ELSE

@@ -134,14 +134,14 @@ C Initialisation
 C Flag = 0 ligne blanche
 
        IF (FLAG==1)THEN
-C Flag = 1 que des * dans la ligne
+C flag = 1 only * in the line
          PRINTOUT(1:72)='*'
  
 
        ELSEIF (FLAG==2) THEN
-C du texte center
+C center text
 
-C Test si sortie n'excede pas 68 cararcteres
+C Test if output does not exceed 68 caracters
          IF (ARRLEN>68) THEN
            WRITE(LINOUT,'(A)') "ERROR PRINTOUT FORMAT"
            RETURN

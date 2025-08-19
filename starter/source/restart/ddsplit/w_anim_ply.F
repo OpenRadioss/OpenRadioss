@@ -69,8 +69,8 @@ C-----------------------------------------------
         ELEMTAG=0
 
         PLYSIZNG(K)=PLYNOD(K)%PLYNUMNODS
-C Premiere partie, sur 1 pli on tag les elements et
-C les noeuds du proc
+C First part, on 1 fold we tag the elements and
+C the nodes of the proc
         DO I=1,PLYSHELL(K)%PLYNUMSHELL
            ELEM = PLYSHELL(K)%SHID(I)
            IF (CEP(ELEM)==PROC)THEN
@@ -85,7 +85,7 @@ C les noeuds du proc
              NODTAG(NODLOCAL(ND))=ND
            ENDIF
         ENDDO
-C On les compte pour preparer les tableaux a envoyer a
+C They are counted to prepare the tables to be sent to
 C L engine
         ELSZ_L=0
         NDSZ_L =0
@@ -96,11 +96,11 @@ C L engine
           IF (NODTAG(I) > 0) NDSZ_L=NDSZ_L+1
         ENDDO
 
-C on prepare les tableaux a envoyer
+C we prepare the tables to send
         ELPL = 0
         ALLOCATE ( ELNUM(ELSZ_L),ELEMIPT(ELSZ_L),ELEMXFEMID(ELSZ_L) )
 
-C Tableaux locaux elements
+C Local tables elements
         DO I=1,NUMELC_L
           IF (ELEMTAG(I)  > 0) THEN
              ELPL=ELPL+1
@@ -111,7 +111,7 @@ C
              ELEMXFEMID(ELPL) = PLYSHELL(K)%SHELLID(ND)
           ENDIF
         ENDDO
-C Tableaux locaux noeuds xfem
+C XFEM local node paintings
         NCOUNT = 0
         ALLOCATE ( NODNUM(NDSZ_L), NODEXTN(NDSZ_L) )
         DO I=1,NUMNOD_L
@@ -124,8 +124,8 @@ C
             NODEXTN(NCOUNT) = PLYNOD(K)%PLYNODID(EMPL)
           ENDIF
         ENDDO
-C Ecriture par ply des tableaux
-C Coques ply
+C Writing by fold of the tables
+C Ply shells
         CALL WRITE_I_C(ELSZ_L    , 1     )
         CALL WRITE_I_C(ELNUM     , ELSZ_L)
         CALL WRITE_I_C(ELEMIPT   , ELSZ_L)

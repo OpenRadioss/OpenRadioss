@@ -63,7 +63,7 @@ C-----------------------------------------------
       my_real, DIMENSION(NEL) ::  DE4,DE5,DE6
       my_real  YOUNG,NU,G,A11,A12,DSUP,QQ,DEN,DEPSF,HH1,HH2,HH3
 C=======================================================================
-c     DEi = (1 - DAMi)       coefficients d endommagement de la matrice Hook
+c     Dei = (1 - Dami) Damage coefficients of the Hook matrix
 c-----------------------------------------------------------------------
       YOUNG = PM(20)
       NU    = PM(21)
@@ -87,7 +87,7 @@ c
          ENDIF
       ENDDO
 c
-c     ROTATION de DEPS_IJ DANS LES DIRECTIONS D'ENDOMMAGEMENT
+c     rotation of deps_ij in the damage directions
 c
       IF (NBDAMA > 0) THEN
         CALL RDAM24(NEL   ,NBDAMA,DAMAI ,ANG   ,DEPS1 ,
@@ -98,7 +98,7 @@ c     DAMAGED ELEMENT GROUP => modified Hook matrix
 c-----------------------------------------------------------
       DO K=1,NBDAMA
         I = DAMAI(K)
-c       cumul de deformation endommagee
+c       accumulation of damaged strain
         CRAK(I,1) = CRAK(I,1) + DEPS1(I)
         CRAK(I,2) = CRAK(I,2) + DEPS2(I)
         CRAK(I,3) = CRAK(I,3) + DEPS3(I)
@@ -170,7 +170,7 @@ c
      .         + CDAM(I,2,3)*CRAK(I,3)
         S03(I) = CDAM(I,3,1)*CRAK(I,1) + CDAM(I,3,2)*CRAK(I,2)
      .         + CDAM(I,3,3)*CRAK(I,3)
-c       formulation incrementale en cisaillement 
+c       Incremental formulation in shear 
         S04(I) = DE4(I)*SIGC(I,4) + C44(I)*DEPS4(I)
         S05(I) = DE5(I)*SIGC(I,5) + C55(I)*DEPS5(I)
         S06(I) = DE6(I)*SIGC(I,6) + C66(I)*DEPS6(I)

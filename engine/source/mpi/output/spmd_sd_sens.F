@@ -30,7 +30,7 @@ C
 !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
 !||====================================================================
       SUBROUTINE SPMD_SD_SENS(XSENS,RXBUF,NSENSP)
-C envoi vers p0 du tableau SKEW calcule sur chaque proc
+C Sending to P0 of the SKEW table calculated on each proc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

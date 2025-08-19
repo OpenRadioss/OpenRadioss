@@ -109,7 +109,7 @@ C=======================================================================
       DO  K=2,KX
         DO I=LFT,LLT
           IF (IEL_CRKXFEM(I+NFT) > 0) THEN
-            N = INOD_CRKXFEM(IX(K,I+NFT)) + 1     ! numerotation locale des noeuds phantomes
+            N = INOD_CRKXFEM(IX(K,I+NFT)) + 1     ! Local number of ghost nodes
             ADDCNE_CRKXFEM(N) = ADDCNE_CRKXFEM(N) + 1
           ENDIF
         ENDDO

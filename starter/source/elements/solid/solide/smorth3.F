@@ -173,8 +173,8 @@ C         E3 = E1 x E2, E1' = V, E2' = E3 x E1'
           F2Y(I) = F3Z*F1X(I) - F3X*F1Z(I)
           F2Z(I) = F3X*F1Y(I) - F3Y*F1X(I)
 C         dir ortho ds repere global
-C         S1 = vect F1 + rot(phi) dans le plan de facette
-C         S2 = vect F2 + rot(phi) dans le plan de facette
+C         S1 = vect F1 + rot(phi) in the facet plane
+C         S2 = vect F2 + rot(phi) in the facet plane
           SK(1) = CP*F1X(I) + SP*F2X(I)
           SK(2) = CP*F1Y(I) + SP*F2Y(I)
           SK(3) = CP*F1Z(I) + SP*F2Z(I)
@@ -224,8 +224,8 @@ C         E3 = E1 x E2, E1' = V, E2' = E3 x E1'
           F2Y(I) = F3Z*F1X(I) - F3X*F1Z(I)
           F2Z(I) = F3X*F1Y(I) - F3Y*F1X(I)
 C         dir ortho ds repere global
-C         S1 = vect F1 + rot(phi) dans le plan de facette
-C         S2 = vect F2 + rot(phi) dans le plan de facette
+C         S1 = vect F1 + rot(phi) in the facet plane
+C         S2 = vect F2 + rot(phi) in the facet plane
           SK(1) = F3X
           SK(2) = F3Y
           SK(3) = F3Z
@@ -686,7 +686,7 @@ C         R'=R, T'=R^S, S'=T'^R
       ENDDO
 C-----
       IF (IREP > 0) THEN
-C       dir orthotrope attache au repere isoparametrique
+C       Orthotropic dir attach to the isoparametric frame 
         DO I=LFT,LLT
           A(1) = RX(I)*E1X(I) + RY(I)*E1Y(I) + RZ(I)*E1Z(I)
           A(2) = RX(I)*E2X(I) + RY(I)*E2Y(I) + RZ(I)*E2Z(I)

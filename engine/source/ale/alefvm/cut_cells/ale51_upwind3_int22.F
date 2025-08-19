@@ -248,7 +248,7 @@ C                DDVOL = DDVOL + cellFLUX(J,ICELL,IB)-UPWL(J)*ABS(cellFLUX(J,ICE
             UVAR   => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR                     
             ADD   = (M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS+12)*LLT                      
             pDDVOL => UVAR(ADD+1:ADD+LLT)                          
-            pDDVOL(IDLOC) =  DDVOL   !*HALF  : deja applique facteur 1/2                 
+            pDDVOL(IDLOC) =  DDVOL   !*Half: already apply 1/2 factor                 
             if(ixs(11,IE)==26354)then                           
               print *, "itrimat, ddvoli", itrimat, DDVOL                       
             endif                                

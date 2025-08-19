@@ -166,7 +166,7 @@ c
           ENDIF ! IF (ITENS == 5)
         ENDIF ! IF(ITY == 2)
 C------------------------                                               
-C         STRAIN RATE (ne fonctionne pas : pas d'EPSDOT)                 
+C         Strain Rate (does not work: no epsdot)                 
 C------------------------                                               
         IF (ITY == 3) THEN                                              
           N0 = 0                                                    

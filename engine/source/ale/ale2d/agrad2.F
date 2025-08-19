@@ -89,7 +89,7 @@ C-----------------------------------------------
         Z4(I) = X(3,IXQ(5,II))       
       ENDDO
 C------------------------------------------
-C     CALCUL DE LA NORMALE A CHAQUE FACE
+C     CALCULATION OF THE NORMAL AT EACH FACE
 C------------------------------------------
       DO I=LFT,LLT
         N1Y(I) =  (Z2(I)-Z1(I))

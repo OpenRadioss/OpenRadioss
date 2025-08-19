@@ -227,7 +227,7 @@ C-----------------------------------------------
 
       PM(88)=PSH
 c
-C---- Definition des variables internes (stockage elementaire)
+C---- Definition of internal variables (Elementary storage)
 c
       MTAG6%G_RK    = 1
       MTAG6%G_RE    = 1

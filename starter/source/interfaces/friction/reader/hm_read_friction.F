@@ -327,7 +327,7 @@ C
              ENDIF
           ENDIF
 C
-C----CHECK PARTS group
+C--- CHECK PARTS Group
 C
           IF(GRPART1/=0)THEN
             FLAGGRP1 = 0

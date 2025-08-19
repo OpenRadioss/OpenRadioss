@@ -99,7 +99,7 @@ C-------------------------------
       NREST=NSC
   50  CONTINUE
 C-------------------------------
-C     Passage au repere local :
+C     Passage to the local frame:
 C-------------------------------
       DO I=1,MIN(MVSIZ,NREST)
       IL=KSC(I+NDEB)
@@ -112,7 +112,7 @@ C-------------------------------
       XPV(3,I)=ROT(7)*X1+ROT(8)*X2+ROT(9)*X3
       ENDDO
 C-------------------------------
-C     Normale et penetration.
+C     normal and penetration
 C-------------------------------
 #include "vectorize.inc"
       DO I=1,MIN(MVSIZ,NREST)
@@ -137,7 +137,7 @@ C-------------------------------
 C-------------------------------
       EP=N1*XPV(1,I)+N2*XPV(2,I)+N3*XPV(3,I)
 C-------------------------------
-C     Detection exacte de l'impact.
+C     Exact impact detection.
 C-------------------------------
 C     Ellipsoide ::
 C     ANS=(EP-SQRT(EP))/MAX(EM20,N)
@@ -145,8 +145,8 @@ C     Hyper-Ellipsoide ::
       ANS=(EP-EXP((DGR-1)*LOG(MAX(EP,EM20))/DGR))
      .      / MAX(EXP((DGR-1)*LOG(EM20)/DGR),N)
 C-------------------------------
-C     projection du point impacte :
-C     projection sur tangente / hors ellips.
+C     projection of the ed point:
+C     Projection on Tangente / Outside Ellips.
 C-------------------------------
       IF (GAPMIN<ANS) THEN
         IMPACT(IL)=0
@@ -237,7 +237,7 @@ C-----------------------------------------------
         ENDIF
       ENDIF
 C-----------------------------------------------
-C     RAIDEUR DE L'INTERFACE
+C     interface stiffness
 C     TQ | SOMME DES FORCES | = F(PENETRATION MAX.)
 C-----------------------------------------------
       IF (NLO/=0) THEN

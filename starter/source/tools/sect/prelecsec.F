@@ -166,7 +166,7 @@ C----------tag section s skew nodes---------------
             IF(TAGNO(N3+NPART) < 2) TAGNO(N3+NPART) = 2
         ELSEIF (FLAG_R2R == 2) THEN     
 C----------set section position  wrt multidomain interface
-C----------element groups
+C--------- Group element
            NSEG  = GRSIZE_ELE(IGUS,IGRBRIC,NGRBRIC)
            NSEGC = GRSIZE_R2R(IGUS,IGRBRIC,NGRBRIC,9)
            NSEG0 = GRSIZE_R2R(IGUS,IGRBRIC,NGRBRIC,8)

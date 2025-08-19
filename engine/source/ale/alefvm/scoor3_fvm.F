@@ -476,7 +476,7 @@ C=======================================================================
       ! VDZ(1:NEL) = ZERO
 
 
-      !Here due to convection subroutine aconve.F
+      !Here due to convection subroutine aconve.f
       !        RHO = rho.vol
       !        MOM = rho.U.vol
       ! => MOM/RHO = U

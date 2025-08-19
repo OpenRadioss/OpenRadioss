@@ -70,7 +70,7 @@ C-------------------
       DATA DX/1,2,3,1,2,3/        
 c      DATA ED/1,3,2,1,3,2/
 C=======================================================================
-c     Re-build phantom element connectivities
+c     Re-built phantom connectivities
 C-----------------------------------------------
       IXEL = MOD(ILEV-1, NXEL) + 1
       ILAY = (ILEV-IXEL)/NXEL  + 1

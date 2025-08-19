@@ -136,8 +136,8 @@ c!!!!      MARGE = TZINF-MAX(GAP,PMAX_GAP)  ! il s agit bien de la marge
         NBZ = MIN(100,MAX(NBZ8,1))
       ENDIF
 
-C     initialisation complete de VOXEL
-C (en // SMP il y a possibilite de redondance de traitement mais no pb)
+C     complete initialization of VOXEL
+C (in // SMP there is possibility of processing redundancy but no pb)
       DO I=INIVOXEL,(NBX+2)*(NBY+2)*(NBZ+2)
         VOXEL1(I)=0
       ENDDO
@@ -210,7 +210,7 @@ C-------
 
             END IF
           ELSE
-C on ne fait rien pour le remote
+C we do nothing for the remote
           ENDIF
         END DO
       END DO      
@@ -282,7 +282,7 @@ C-------
 
             END IF
           ELSE
-C on ne fait rien pour le remote
+C we do nothing for the remote
           ENDIF
         END DO
       END DO      
@@ -335,7 +335,7 @@ C-------
 
           AAA2 = AAA*AAA
 
-C a faire : symetrie parfaite <=> X(hmin)-X(hmax)
+C To do: Perfect symet <=> x (hmin) -x (hmax)
           D1X = XI - XJ
           D1Y = YI - YJ
           D1Z = ZI - ZJ
@@ -374,7 +374,7 @@ C a faire : symetrie parfaite <=> X(hmin)-X(hmax)
 
           AAA2 = AAA*AAA
 
-C a faire : symetrie parfaite <=> X(hmin)-X(hmax)
+C To do: Perfect symet <=> x (hmin) -x (hmax)
           D1X = XI - XJ
           D1Y = YI - YJ
           D1Z = ZI - ZJ
@@ -399,7 +399,7 @@ C a faire : symetrie parfaite <=> X(hmin)-X(hmax)
 
            DK=DVOIS(KVOISPH)
 C-----------------
-C Choix des cellules a conserver tq distance < DK pour eviter pb de parith/on
+C Choice of cells to keep such that distance < DK to avoid parallelization problems
            NVOIS=0
            DO K=1,KVOISPH
             IF(DVOIS(K)<DK)THEN

@@ -44,14 +44,14 @@ C-----------------------------------------------
      .   DTAB2SI,PTAB2SI,ETAB2SI
 C
 C---------------------------------------------------------------
-C Passage des unites table Sesame type 301-306 aux unites SI
+C Passage of units Table Sesame Type 301-306 with units if
 C    1 Mg/m^3 --> 1000 Kg/m^3
 C    1 GPa    --> 1E9 Kg/(m.s^2)
 C    1 MJ/Kg  --> 1E6 m^2/s^2
 C
-C DTAB2SI : coef. de passage des masses volumiques tables aux unites SI
-C PTAB2SI : coef. de passage des pressions tables aux unites SI
-C ETAB2SI : coef. de passage des energies libres tables aux unites SI
+C DTAB2SI: Coef.passage of the volume masses tables with units if
+C PTAB2SI: Coef.Passage of table pressure to units if
+C ETAB2SI: Coef.passage from free energy tables to units if
 C
       DTAB2SI = 1000.
       PTAB2SI = 1.E09
@@ -107,18 +107,18 @@ C-----------------------------------------------
       ALSCAL=UNITAB%FAC_L_WORK
       ATSCAL=UNITAB%FAC_T_WORK
 C----------------------------------------------------------------
-C Passage des unites table Sesame type 301-306 aux unites
-C utilisateur passer obligatoirement avant l'appel de cette
-C routine par la routine TB2SI1
-C coefficients de passage des unites SI aux unites utilisateur
+C Passage of units Table Sesame Type 301-306 to units
+C user must necessarily pass before calling this
+C routine through the TB2SI1 routine
+C conversion coefficients from SI units to user units
 C M --> masse
-C L --> longueur
+C -> Length
 C T --> temps
-C masse volumique : M.L^-3
-C pression        : M.l^-1.T^-2
+C density: M.L^-3
+C Pressure: M.L^-1.t^-2
 C energie         : L^2.T^-2
 C L'energy array est en fait equivalent a la chaleur specifique 
-C de transition de phase. Cf Aide Memoire de Physique, B. YAVORSKI
+C phase transition. See Physics Handbook, B. YAVORSKI
 C ET A.DETLAF, p 927.
 C
       DSCAL = (ALSCAL**3)/AMSCAL

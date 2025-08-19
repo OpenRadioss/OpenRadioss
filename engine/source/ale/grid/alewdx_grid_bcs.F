@@ -95,7 +95,7 @@ C----------------------------------------
       IF (NINDX /= 0 )THEN                                                                            
           ISK  = ISKEW(N)                                                                                                                                                           
           IF(ISK == 1) THEN                                                                            
-           !=====REPERE GLOBAL
+           !=====GLOBAL REFERENCE FRAME
            IF(TAG(1))VEC(1)=ZERO                                                                         
            IF(TAG(2))VEC(2)=ZERO
            IF(TAG(3))VEC(3)=ZERO                                                                                            

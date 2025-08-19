@@ -57,17 +57,17 @@ C-----------------------------------------------
 C-----------------------------------------------
 
       NPE = DETONATOR_WAVE_SHAPER%NUMNOD !number of points
-      IOMBR=0 !function result
+      IOMBR=0 !Function Result
       JOMBR=0
       KOMBR=0
-      !YD,ZD : detonation source
+      !YD, ZD: Detonation Source
       !YL,ZL : point for which lightening time is going to be computed
       YLD=YL-YD
       ZLD=ZL-ZD
       DD=YLD**2+ZLD**2 !distance from source
 
       IF(DD > DDMX)THEN
-       IOMBR=2  !function result
+       IOMBR=2  !Function Result
        GOTO 999
       ENDIF
 

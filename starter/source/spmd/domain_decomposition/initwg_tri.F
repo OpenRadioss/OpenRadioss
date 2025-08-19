@@ -60,7 +60,7 @@ C-----------------------------------------------
      .  IPM(NPROPMI,*)
       INTEGER, INTENT(IN) :: SIZE_IRUP
 
-C     REAL OU REAL*8
+C     REAL OR REAL*8
       my_real
      .    PM(NPROPM,*), GEO(NPROPG,*),BUFMAT(*)
 
@@ -185,7 +185,7 @@ C-----------------------------------------------
            IF (MAT_PARAM(ABS(MID))%IVISC > 0) THEN 
              VISC_PRONY = VISC_PRONY_COST * MAT_PARAM(ABS(MID))%VISC%IPARAM(1)
            ENDIF
-C loi 36+86 en fonction des fct
+C Law 36+86 Depending on the FCT
         ELSEIF (MLN==36.OR.(MLN==86).AND.(ABS(NPN)>0)) THEN
           NFUNC = NINT(PM(40,MID))
           IF (NFUNC<=2) THEN
@@ -369,7 +369,7 @@ C loi 36+86 en fonction des fct
               TIMMAT =  TRITNL(MIN(MLN,MAXLAW),0,INDI)  + TMATADD
               ! *******--------*******
 !             ----------------
-!             Failure incompatible N=0
+!             Incompatible failure n = 0
               IF(NFAIL/=0) THEN
                TRUP = 0.
               ENDIF          !   <--- fin NFAIL/=0

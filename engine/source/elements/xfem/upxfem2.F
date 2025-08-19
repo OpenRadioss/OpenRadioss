@@ -77,7 +77,7 @@ C----------------------------------------
       ITG2 = 1 + ECRKXFEC*4
       NXLAY = NXLAYMAX
 c-------------------------------
-C Boucle parallele dynamique SMP
+C SMP dynamic parallel loop
 !$OMP DO SCHEDULE(DYNAMIC,1)
 c-------------------------------
 c     Save actual phantom enrichments at the end of cycle

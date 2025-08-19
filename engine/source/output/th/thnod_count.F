@@ -66,8 +66,8 @@ C-----------------------------------------------
       DATA IUN/1/
 C-------------------------
 C     NODES
-C          DEPLACEMENT, VITESSE, ACCELERATION,
-C          VITESSE ANGULAIRE, ACCELERATION ANGULAIRE,
+C          DEPLACEMENT, VELOCITY, ACCELERATION,
+C          VELOCITY ANGULAIRE, ACCELERATION ANGULAIRE,
 C          & POSITION
 C-------------------------
         WA_SIZE = 0

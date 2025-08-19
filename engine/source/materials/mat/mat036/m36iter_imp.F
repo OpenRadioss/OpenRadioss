@@ -68,7 +68,7 @@ c    YFAC    = scaling factor of sigma-eps_plast relation
 c
 c    TF      = array containing discrete sigma-eps_plast relation
 c    IAD1,  ILEN1 = pre-computed data required by interpolation
-c                         routine "VINTER"
+c                         "VINTER" routine
 c    NEL     = size of the element group being processed
 c    FISOKIN = indicator for isotropic/kinematic/moixed hardening
 c    UVAR    = array containing various state variables 

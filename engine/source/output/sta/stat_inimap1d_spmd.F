@@ -466,7 +466,7 @@ C-----------------------------------------------
       !   law 51 only 
       !
       ! MAP_NODES(1,...) : node_id
-      ! MAP_NODES(2,...) : 1d-position
+      ! MAP_NODS (2, ...): 1D-Position
       ! MAP_NODES(3,...) : vel_1d-value            
       !
       IF(NUM_CENTROIDS > 0)THEN
@@ -588,7 +588,7 @@ C-----------------------------------------------
         TOL=EM10*LEN_TOT
         WORK_INDX(1:NPTS_TOT) = 0
         !
-        !---remove duplicates (possible common nodes on adjacent domains)
+        !--- Remove duplicates (possible Common Nodes on Adjacent Domains)
         ! STAGGERED SCHEME ONLY
         !
         IF(MLW /= 151)THEN

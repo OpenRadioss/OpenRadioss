@@ -90,7 +90,7 @@ C------------------------------------------------------------------
       SMALL = EM7
       DO I=JFT,JLT
         ETSE(I) = ONE
-c remise aux val. initiales
+c Discount at the Val.initials
         CA(I)   = CA0
         CB(I)   = CB0 
         YMAX(I) = YMAX0 
@@ -205,7 +205,7 @@ C-------------------
      .               -SIGNXX(I)*SIGNYY(I)
      .         +THREE*SIGNXY(I)*SIGNXY(I))
         ENDDO
-C projection radiale 
+C radial projection 
 #include "vectorize.inc" 
         DO I=JFT,JLT
           R = MIN(ONE,YLD(I)/(SVM(I)+EM15))
@@ -229,7 +229,7 @@ C projection radiale
 C------------------------------------------------------------------------
       ELSEIF (IPLA == 1) THEN
 C-------------------------
-C     CRITERE DE VON MISES
+C     von mises criterion
 C-------------------------
         DO  I=JFT,JLT
           S1=SIGNXX(I)+SIGNYY(I)
@@ -377,7 +377,7 @@ C------------------------------------------
 C-------------------------
       ELSEIF (IPLA == 2) THEN
 C-------------------------
-C     CRITERE DE VON MISES
+C     von mises criterion
 C-------------------------
         DO I=JFT,JLT
           SVM2(I)= SIGNXX(I)*SIGNXX(I)
@@ -400,7 +400,7 @@ C-------------------------
 !
         IF (NINDX /= 0) THEN
 C-------------
-C   PROJ NORMALE AU CRITERE AVEC CALCUL APPROCHE DE LA NORMALE + RETOUR RADIAL
+C   NORMAL PROJECTION TO THE CRITERION WITH APPROXIMATE CALCULATION OF THE NORMAL + RADIAL RETURN
 C-------------
 #include "vectorize.inc" 
           DO J=1,NINDX

@@ -81,7 +81,7 @@ C=======================================================================
       DOUBLE PRECISION U,V,W,UL,VL,WL 
 
       DO I=1,NEL
-        ULX1(I) = ZERO    ! sb : On pourrait eviter de stocker ces 3 tables (toujours zero)
+        ULX1(I) = ZERO    ! SB: We could avoid storing these 3 tables (still Zero)
         ULY1(I) = ZERO
         ULZ1(I) = ZERO
 

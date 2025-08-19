@@ -89,7 +89,7 @@ C
 C-----------------------------------------------
 C
 C-----------------------------------------------
-C     Remplissage de ISMS pour les elements selectionnes par PART
+C     ISMS filling for selected elements by share
 C-----------------------------------------------
 C
       IF(ISMS_SELEC==1 .OR. ISMS_SELEC==2 .OR. ISMS_SELEC==4)THEN
@@ -135,7 +135,7 @@ C
       END IF
 C
 C-----------------------------------------------
-C     Calcul des index dans dtelem pour chaque type d'element
+C     Calculation of indexes in Dtelem for each type of element
 C-----------------------------------------------
 C
       NUMEL= NUMELC+NUMELS+NUMELT+NUMELQ+NUMELP+NUMELR+NUMELTG
@@ -165,7 +165,7 @@ C
       TYPE_ELEM(7)='SHELL-3NODES'
 C
 C--------------------------------------------------
-C     Identification des elements a switcher en AMS
+C     Identification of switcher elements in AMS
 C--------------------------------------------------
 C
       DO NG=1,NGROUP

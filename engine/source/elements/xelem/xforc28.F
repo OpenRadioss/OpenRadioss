@@ -232,7 +232,7 @@ C------------------------------------------
 C        LINEAR ELASTIC
          L0  =UVAR(NB1)
          DX  =L-L0
-C        raideur tgte par unite de longueur.
+C        tangent stiffness per unit length
          STIF=XK
          F   =XK*DX/L0
          EPSTOT=DX/L0
@@ -252,7 +252,7 @@ C        NON LINEAR ELASTIC
          DX    =L-L0
          EPSTOT=DX/L0
          F     =GET_U_FUNC(IFUNCT,EPSTOT,DFDX)
-C        raideur tgte par unite de longueur.
+C        tangent stiffness per unit length
          F = FFAC*F
          STIF=FFAC*DFDX
         ENDIF
@@ -333,7 +333,7 @@ C-------
      .       + VPREV(2) * (VEL(2,K+1) - VEL(2,K))
      .       + VPREV(3) * (VEL(3,K+1) - VEL(3,K))
          UVARN(MB2+K-1)=UVARN(MB2+K-1)
-C tous les brins ont la meme longueur correspond a :
+C all strands have the same length corresponds to:
      .       +STIF*(DT*DDX*(XN-ONE)/MAX(EM15,L)-EPSMOY)
         ENDDO
 C-------
@@ -344,7 +344,7 @@ C
           ECHANGE=0
           NIT=NIT+1
           DO K=1,NX-1
-C           stifr utilise de maniere temporaire.
+C           SFR uses a temporary manner.
             STIFR(K)=UVARN(MB2+K-1)
           END DO
           DO K=2,NX-1
@@ -381,7 +381,7 @@ C
            DFS  = STIFR(K-1)-STIFR(K)
            IF(ABS(DFS)>FMAX)THEN
              DF =SIGN(ABS(DFS)-FMAX,DFS)
-C            tous les brins ont la meme longueur correspond a :
+C            all strands have the same length corresponds to:
              UVARN(MB2+K-2)=UVARN(MB2+K-2)-HALF*DF
              UVARN(MB2+K-1)=UVARN(MB2+K-1)+HALF*DF
              ECHANGE=1

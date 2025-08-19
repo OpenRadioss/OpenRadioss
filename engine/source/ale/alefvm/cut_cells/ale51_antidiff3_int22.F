@@ -177,8 +177,8 @@ C-----------------------------------------------
           UALPHI   = ZERO 
           PHI0     = ZERO              
           !-----------------------------------------------
-          !       face voisine du voisin  
-          !       et flux total sortant 
+          ! neighboring face of the neighbor
+          ! and total outgoing flux
           !-----------------------------------------------
           DO K=1,NV46
             NADJ = BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(K)%NAdjCell
@@ -200,21 +200,21 @@ C-----------------------------------------------
                   ENDIF
                 ENDIF
                 FF(K,IADJ)= ALPHv(K,IADJ) * tmpFLUX(K,IADJ)
-                !flux sortant estime
+                !outgoing flow
                 ALPHI  = ALPHI  + FF(K,IADJ)
-                !flux sortant initial
+                !initial outgoing flow
                 PHI0 = PHI0 + tmpFLUX(K,IADJ) 
               ENDIF
             ENDDO!next IADJ
           ENDDO!next K
-          !vide sortant estime
+          !Empty outgoing esteem
           UALPHI = PHI0 - ALPHI 
           !-----------------------------------------------
-          !       flux sortant par face
+          ! outgoing flux by face
           !-----------------------------------------------
           IF(ALPHI>AV0.AND.AV0>ZERO)THEN
             !-----------------------------------------------
-            !         flux sortant > volume non vide
+            !         Outgoing flow> Non -empty volume
             !-----------------------------------------------
             AAA = AV0 / ALPHI
             DO K=1,NV46
@@ -227,7 +227,7 @@ C-----------------------------------------------
             ENDDO!next K  
           ELSEIF(UALPHI>UAV0.AND.UAV0>ZERO)THEN
             !-----------------------------------------------
-            !        vide sortant > vide disponible
+            !        Outgoing empty> Available empty
             !-----------------------------------------------
             AAA = UAV0/UALPHI
             DO K=1,NV46
@@ -240,7 +240,7 @@ C-----------------------------------------------
             ENDDO!next K
           ENDIF
           !-----------------------------------------------
-          !         flux sortant 
+          !         output 
           !-----------------------------------------------
           DO K=1,NV46
             NADJ = BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(K)%NAdjCell
@@ -276,8 +276,8 @@ C-----------------------------------------------
                 
                 !adjacent flux is also updated to be consistent and conservative
                 IF(ICELLv>0)THEN
-                  !recherche du flux voisin 
-                  !OPTIM PLUS TARD : si deja calcule dans sinit, stocker pour economiser acces memoires
+                  !search for neighboring flux
+                  !Optim later: if already calculated in Sinit, store to save Accesses Memoires
                   IF(IBv>0)THEN
                     !--IN CUT CELL BUFFER
                     NADJv = BRICK_LIST(NIN,IBv)%POLY(ICELLv)%FACE(IFv)%NAdjCell

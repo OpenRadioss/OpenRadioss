@@ -50,7 +50,7 @@ C-----------------------------------------------
         INTEGER, INTENT(IN) :: SURFACE_NUMBER ! number of surface
         my_real, DIMENSION(6), INTENT(INOUT) :: MIN_MAX_POSITION ! min/max position
         my_real, DIMENSION(3,NUMNOD), INTENT(IN) :: X ! position
-        TYPE (SURF_), DIMENSION(NSURF), INTENT(IN) :: IGRSURF ! surface data
+        TYPE (SURF_), DIMENSION(NSURF), INTENT(IN) :: IGRSURF ! surface
         TYPE (INIVOL_STRUCT_), INTENT(IN) :: INIVOL ! inivol data
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

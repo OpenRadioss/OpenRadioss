@@ -334,7 +334,7 @@ c --------------will be done in resol
 c              XX(I,N) = D(1,NC(I,N)) + HALF*(XX(I,N1)+XX(I,N2))
 c              YY(I,N) = D(2,NC(I,N)) + HALF*(YY(I,N1)+YY(I,N2))
 c              ZZ(I,N) = D(3,NC(I,N)) + HALF*(ZZ(I,N1)+ZZ(I,N2))
-c             en entr   X est faux, il manque 1/2(V1+V2)*dt
+c             In Entr X is false, it lacks 1/2 (V1+V2)*Dt
 c              X(1,NC(I,N)) = XX(I,N)
 c              X(2,NC(I,N)) = YY(I,N)
 c              X(3,NC(I,N)) = ZZ(I,N)

@@ -240,7 +240,7 @@ C Tag Arrays must be increased accordingly
 !      ALLOCATE(TAG_SCRATCH(NUMNOD+I24MAXNSNE+NUMELS))
 !      TAG_SCRATCH(1:NUMNOD+I24MAXNSNE+NUMELS) = 0
 C
-C     Init tableau de tag pour frontiere int2
+C     initialize tag array for int2 boundary
 C
       IF(NBDDI2M>0) THEN
         DO I = 1, NUMNOD_L
@@ -1673,9 +1673,9 @@ c split candidates
           IBUF8_L(1:SIZ)=0
           DO K=1,NLN
              N = INTBUF_TAB(NI)%NLG(K) ! N noeud global
-             NL = TAG_NLG2(N)       ! NL noeud local d interface sur le proc
+             NL = TAG_NLG2(N)       ! NL local interface node on the processor
              IF(NL > 0)THEN
-C 36 entiers 18 doubles
+C 36 integer 18 doubles
                CALL COPYR8(IBUF8_L(36*(NL-1)+1),
      .                     INTBUF_TAB(NI)%DAANC6(36*(K-1)+1)     ,18  )
              ENDIF

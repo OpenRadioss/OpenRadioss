@@ -149,10 +149,10 @@ C-----------------------------------------------
       INTEGER IERR0,IERROR, NBMAT,I,NPT,ISIZ1,ISIZ2
 C-----------------------------------------------
       IERROR = 0
-C pour eviter conflit avec IERR dans commun
+C to avoid conflict with IERR in common
       IERR0 = IERR
 C   -----------------------------------------------
-C             allocations entieres 
+C             Entirere Allowances 
 C   -----------------------------------------------
 
         CALL ALLOCATE_NODAL_ARRAYS(NODES, NUMNOD, NTHREAD, IRODDL, IPARIT, 
@@ -2716,7 +2716,7 @@ C   ICONTACT
         WRITE(IOUT,'(I4,A13,I8)') ISPMD+1,' SICONTACT : ',SICONTACT
 C
        IF(NSPMD>1) THEN
-C traitement necessaire pour recuperer les output dans l'ordre
+C necessary processing to retrieve the outputs in order
          IWIOUT = 0
          IF (ISPMD/=0) CALL SPMD_CHKW(IWIOUT,IOUT)
          CALL SPMD_GLOB_ISUM9(IWIOUT,1)
@@ -2872,7 +2872,7 @@ C   RCONTACT
         WRITE(IOUT,'(I4,A13,I8)') ISPMD+1,' SRCONTACT : ',SRCONTACT
 
        IF(NSPMD>1) THEN
-C traitement necessaire pour recuperer les output dans l'ordre
+C necessary processing to retrieve the outputs in order
          IWIOUT = 0
          IF (ISPMD/=0) CALL SPMD_CHKW(IWIOUT,IOUT)
          CALL SPMD_GLOB_ISUM9(IWIOUT,1)

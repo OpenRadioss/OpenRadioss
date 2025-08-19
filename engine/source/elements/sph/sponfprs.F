@@ -90,7 +90,7 @@ C=======================================================================
       PINFINI = ZERO
       PN = ZERO
 C-----------------------------------------------
-C     1.  GENERAL OUTLET : REIMPOSE P=f(t) ou Pvoisin.
+C     1. General Outlet: reimpose p = f (t) or pvoisin.
 C-----------------------------------------------       
       DO NS=1,NSPHACT
        N=WASPACT(NS)
@@ -208,7 +208,7 @@ C
      .           +GBUF%SIG(KK(2)+K)
      .           +GBUF%SIG(KK(3)+K))*THIRD
 
-          ELSEIF(IPPV<0)THEN !cas IPPV negatif on se sert des infos recuperes ds la routine de com
+          ELSEIF(IPPV<0)THEN !negative IPPV case, we use info recovered in the communication routine
 
             PN=-( WAR(1,-IPPV)
      .           +WAR(2,-IPPV)

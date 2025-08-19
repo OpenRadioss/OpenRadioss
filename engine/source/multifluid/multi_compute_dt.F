@@ -109,7 +109,7 @@ C     Number of faces in an element
                NB_FACE = 3
             ENDIF
             
-C     Flux computation
+C     Computation flow
             DTEL(1:NEL) = ZERO
             DO II = 1, NEL
                I = II + NFT               

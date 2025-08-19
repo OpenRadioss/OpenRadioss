@@ -168,7 +168,7 @@ C-----------------------------------------------
         WYZ(I)=HALF*DT1*(DZY(I)-DYZ(I))
       ENDDO
 C---------------------------------------
-C     DERIVEES POUR LE CALCUL DES FORCES
+C     DERIVATIVES FOR FORCE CALCULATION
 C---------------------------------------
       DO I=1,NEL
         PY1(I)=HALF*(Z2(I)-Z4(I))
@@ -177,7 +177,7 @@ C---------------------------------------
         PZ2(I)=HALF*(Y1(I)-Y3(I))      
       ENDDO
 C---------------------------------------
-C     REPERE LOCAL POUR MATERIAUX NON ISOTROPES
+C     LOCAL REFERENCE FRAME POUR MATERIAUX NON ISOTROPES
 C---------------------------------------
       DO I=1,NEL
         RX(I)=ONE

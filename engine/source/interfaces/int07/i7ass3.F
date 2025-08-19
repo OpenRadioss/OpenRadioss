@@ -247,7 +247,7 @@ C
             FCONT(3,IX4(I)) =FCONT(3,IX4(I)) + FZ4(I)
             JG = NSVG(I)
             IF(JG>0) THEN
-C en SPMD : traitement a refaire apres reception noeud remote si JG < 0
+C In SPMD: Treatment to be redone after reception node Remote if JG <0
               FCONT(1,JG)=FCONT(1,JG)- FXI(I)
               FCONT(2,JG)=FCONT(2,JG)- FYI(I)
               FCONT(3,JG)=FCONT(3,JG)- FZI(I)
@@ -268,8 +268,8 @@ C-----------------------------------------------------
                 IF(ISECUT/=0)THEN
 #include "lockon.inc"
                   DO K=1,JLT
-C attention aux signes pour le cumul des efforts
-C a rendre conforme avec CFORC3
+C pay attention to the signs for the accumulation of forces
+C To make it conform with CFORC3
                     IF(SECFCUM(4,IX1(K),I)==1.)THEN
                       SECFCUM(1,IX1(K),I)=SECFCUM(1,IX1(K),I)-FX1(K)
                       SECFCUM(2,IX1(K),I)=SECFCUM(2,IX1(K),I)-FY1(K)
@@ -292,7 +292,7 @@ C a rendre conforme avec CFORC3
                     ENDIF
                     JG = NSVG(K)
                     IF(JG>0) THEN
-C en SPMD : traitement a refaire apres reception noeud remote si JG < 0
+C In SPMD: Treatment to be redone after reception node Remote if JG <0
                       IF(SECFCUM(4,JG,I)==1.)THEN
                         SECFCUM(1,JG,I)=SECFCUM(1,JG,I)+FXI(K)
                         SECFCUM(2,JG,I)=SECFCUM(2,JG,I)+FYI(K)
@@ -1628,7 +1628,7 @@ Cs
             ISKYFI(NIN)%P(NISKYFIL) = IG
           ENDIF
         ENDDO
-C + la thermique {+ the thermal}
+C + thermal
       ELSE
         IF(NODADT_THERM == 1 .AND.IFORM > 0) THEN
           DO I=1,JLT

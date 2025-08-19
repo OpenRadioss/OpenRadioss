@@ -128,9 +128,9 @@ c
            END IF
          END DO
 
-C   a cause de la version simple precision, on ne peux pas metre l'entier
-C   dans le buffer flottant car on n a que 2puiss 24 bits dispo ~ 16 Million
-C   de noeuds au max
+C   Because of the simple precision version, we cannot put the integer
+C   In the floating buffer because there are only 2 24 bits available ~ 16 million
+C   of nodes at most
 
          MSGTYP = MSGOFF
          CALL MPI_SEND(IDNOD0,SIZ,MPI_INTEGER,IT_SPMD(1),MSGTYP,

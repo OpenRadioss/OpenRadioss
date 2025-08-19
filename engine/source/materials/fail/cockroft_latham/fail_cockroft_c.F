@@ -130,7 +130,7 @@ c! equivalent strain calculation (negative = total strain ; positive = plastic s
             
             EEQ   = E_11**2 + E_22**2 + E_33**2
             EEQ   = EEQ + TWO * (E_12**2) + TWO * (E_23**2) + TWO * (E_13**2)
-            EEQ   = 0.8164965809 * SQRT(EEQ) ! sqrt (2/3)*sqrt(...)
+            EEQ   = 0.8164965809 * SQRT(EEQ) ! SQRT (2/3)*SQRT (...)
             
             D_EEQ = EEQ - UVAR(I,1)
             IF (D_EEQ <= ZERO) D_EEQ = ZERO

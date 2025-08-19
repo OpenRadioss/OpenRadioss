@@ -2149,7 +2149,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C----6-----IC est deja en ordre croissante---------------------------7---------8
+C---- 6 ----- IC is already in an increasing order ----------------------------------- 7 -------- 8
       INTAB=0
        DO I =1,NIC
         IF (N==IC(I)) THEN
@@ -2562,7 +2562,7 @@ C----independent nodes first-----
         DO J=1,MIN(3,NDOF(N))
          ND = IDDSL(J,I)
          IF (ND>0) D(J,N)=LX(ND)
-C--------pour com avec FFI----
+C--------for communication with FFI----
          A(J,N)=ZERO
         ENDDO
       ENDDO
@@ -3410,7 +3410,7 @@ c      RETURN
        ENDDO
       ENDDO
        CALL SPMD_NROW(NROW,FR_NROW,IAD_ELEM,N_FR)
-C------prepare comm.-----
+C------ prepare comm .-----
        LS=1
        LR=1
        IAD_S(1)=LS
@@ -3480,7 +3480,7 @@ C
         ENDDO
        ENDDO
        N_FRNN=LR-1
-C-------d'abord c'est locale------------
+C------- First it is local ------------
        IF (N_FRNN>0) THEN
         IF(ALLOCATED(FR_ICOL)) DEALLOCATE(FR_ICOL)
         ALLOCATE(FR_ICOL(LR),STAT=IERROR2)
@@ -3607,7 +3607,7 @@ C--------recupere fr_nrow --
         ENDDO
        ENDIF
       ENDIF  ! (N_FR>0)
-C------ind_ [k] de FR.------
+C------ind_ [k] of FR.------
        CALL IND_FR_K0(
      1    NDOF      ,NROW      ,NNMAX     ,ICOL      ,FR_ELEM   ,
      2    IAD_ELEM  ,N_FR      )
@@ -3652,7 +3652,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,N,NK,NROWK(N_FR),IP,
      .        L,IAD_R(N_FR+1),FR_ICOL1(N_FRNN+1),LR,J0,NN,N_FRN
-C--------recupere fr_nrow et passe en global (par rap. a PROC) --
+C------- Recipation fr_nrow and goes through global (by rap)-
       IF (NNMAX <=0 ) RETURN
        DO IP =1,NSPMD
         DO NK=IAD_ELEM(1,IP),IAD_ELEM(1,IP+1)-1
@@ -3753,7 +3753,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:),ALLOCATABLE :: ITAG
       my_real
      .        S1,STMP
-C------dim [k] pour chaque FR.-----
+C------ Sun [K] for each fr .-----
       IF (IRODDL==0) THEN
        NDOFJ=3
       ELSE
@@ -3830,7 +3830,7 @@ C
         NDDL0=NDDL0+NDOF(N)
        ENDDO
       ENDDO
-C------ind_ [k] pour chaque FR.-----
+C------ Ind_ [K] for each fr .-----
       NDDL0 = NDDL
       NZZK0 = NZZK
       NZZK=0
@@ -3933,7 +3933,7 @@ C-----------------------------------------------
      .        FR_NROW(N_FR),L,IAD_S(NSPMD+1),IAD_R(NSPMD+1),
      .        IERROR1,IERROR2,IERROR3,LS,LR,SSIZE,RSIZE,J0,NN,NR,NL,NRN,
      .        NR2,NF1
-C   ----  suite pb avec elem delete.---------
+C   ---- PB suite with Elem Delete .--------
 C     IF (N_FR <=0 .OR. NNMAX <=0) RETURN
       DO N =1,NUMNOD
        INLOC(N)=0
@@ -3962,7 +3962,7 @@ C     IF (N_FR <=0 .OR. NNMAX <=0) RETURN
        ENDDO
       ENDDO
        CALL SPMD_NROW(NROW,FR_NROW,IAD_ELEM,N_FR)
-C------prepare comm.-----
+C------ prepare comm .-----
        LS=1
        LR=1
        IAD_S(1)=LS
@@ -4053,7 +4053,7 @@ C
        ENDDO
 C
        N_FRNN=LR-1
-C-------d'abord c'est locale------------
+C------- First it is local ------------
        IF (N_FRNN>0) THEN
         IF(ALLOCATED(FR_ICOL)) DEALLOCATE(FR_ICOL)
         ALLOCATE(FR_ICOL(LR),STAT=IERROR2)
@@ -5197,7 +5197,7 @@ C-------termes knj,n-------
         ENDDO
        ENDDO
        NZ_SI = NZ
-C-------save ICOL en forme compress-------
+C------- Save Icol in compress -------
        NZ = 0
        DO N=1,NSREM
         NZ = NZ+NROW(N)
@@ -5238,7 +5238,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,II,IT,IIC,IMIN
 C
-C-----en ordre iddl croisante-----
+C---- In an increasing iddl order -----
       DO I =1,N
        IMIN=IDDL(IC(I))
        II=I
@@ -5425,7 +5425,7 @@ C--------condense KSL_FR------
      5    IAD_M     ,IRBE3     ,LRBE3     ,IRBE2     ,LRBE2     )
         LSI = IAD_M(NSL+1) -IAD_M(1)
         CALL IND_SLD(NSL  ,NDOF  ,KSS  )
-C-------utilise tempo KSI_FR pour K_SL modifie-(neouds mains)----------------
+C------- Use tempo ksi_fr for k_sl modifies- (handshakes) -----------------------------------------------------------
         IF(ALLOCATED(KSI_FR)) DEALLOCATE(KSI_FR)
         ALLOCATE(KSI_FR(9*LSI),STAT=IER3)
         CALL UPD_KSL(
@@ -5445,7 +5445,7 @@ C-------NFV: nb of /IMPVEL node in SL, use ISLM(NFV) to save node num.
           CALL IND_FVN(
      1    NDOF      ,IDDL      ,IKC       ,ILOCP     ,NFV     )
           ALLOCATE(UDSL(3*NFV))
-C-------modif LB due au KSS et ini UDSL---put KSS dans K_SL-------
+C------ Change the due to the kSS and ini USLD --- Put kSS in K_SL --------------------
           CALL IMP_FVKSS(
      1    KSS      ,IDDL      ,IDDLM     ,IKC       ,NSL      ,
      2    UD       ,LB        ,NFV       ,UDSL      ,ILOCP    ,
@@ -5453,7 +5453,7 @@ C-------modif LB due au KSS et ini UDSL---put KSS dans K_SL-------
          ENDIF
         ENDIF     ! IF (IFDIS>0)
        ENDIF      ! IF (LSL>0)
-C-------dim pour re-copy KSI_FR (K_SL modifie) a K_SL (ne reste que IKC=0---------
+C------- Dim for re-copy ksi_fr (k_sl modifies) a k_sl (only remains ikc = 0 -----------------------
        CALL DIM_FRKM1(NSREM,NSL  ,IDDL ,IKC ,NDOF  ,
      .                NF_SI,NF_SL,LSI  ,LSL ,ISI ,ISL )
 C
@@ -5478,12 +5478,12 @@ C       CALL SPMD_MAX_I(LSG)
      .  CALL SCOM_FRK1(KSL_FR,KSI_FR,NF_SL,NF_SI,IKCSL,IKCSI)
        IF(ALLOCATED(KSL_FR)) DEALLOCATE(KSL_FR)
        IF (IFDIS>0) THEN
-C-------ini LVSI pour recevoire Ud(lvsi)-----
+C------- Ini lvsi for receiving UD (LVSI) ------
         CALL INI_FRUD(NSREM ,NSL   ,NFV   ,IFVSI ,IFVSL ,
      .                NF_SI ,NF_SL ,LVSI  )
         IF (LVSI>0) ALLOCATE(UDSI(3*LVSI))
         CALL SCOM_FRUD(UDSL,UDSI,NF_SL,NF_SI,IFVSL,IFVSI)
-C-------modifie LB(mi) du au [Ksm]^t ,Ud(si)-----
+C------ Modifies lb (Mi) from to [ksm]^t ', ud (si) ------
         IF (LVSI>0) CALL IMP_FVKSL(
      1    IDDL      ,IDDLM     ,IKC       ,IFVSI      ,NF_SI     ,
      2    KSI_FR    ,LB        ,NSREM     ,UDSI       )
@@ -5517,7 +5517,7 @@ C--------N_KINE: NML---LSI number of kinematic nodes-
      4    ISKEW     ,ICODT     ,NDOF      ,ILOCP     ,NSREM     ,
      5    IDDL      ,IKC       ,IAD_M     ,N_KINE    ,IRBE3     ,
      6    LRBE3     ,IRBE2     ,LRBE2     )
-C-------utilise tempo KSL_FR pour KML_FR modifie-----------------
+C------- Use tempo ksl_fr for kml_fr modifies -------------------------------------------------
         LSL = IAD_M(N_KINE+1) -IAD_M(1)
         ALLOCATE(KSL_FR(9*LSL),STAT=IER7)
         CALL UPD_KML(
@@ -5541,7 +5541,7 @@ C-------utilise tempo KSL_FR pour KML_FR modifie-----------------
            ENDDO
           ENDDO
           ALLOCATE(FDSI(3*LFSI))
-C-------modifie FDSI du au [Ksm] ,Ud(mi)-----
+C------- Modifies FDSI from AU [KSM], UD (Mi) -----
           CALL IMP_FVKM(
      1    KSI_FR   ,KSL_FR   ,IDDL      ,NDOF      ,IKC       ,
      2    ILOCP    ,IAD_M    ,NSREM     ,N_KINE    ,UD        ,
@@ -5550,7 +5550,7 @@ C-------modifie FDSI du au [Ksm] ,Ud(mi)-----
         ENDIF
        ENDIF
        LSI = LSI + ISI + LSI0
-C-------actualise [Ksm] et stock dans LT_SI----
+C-------updates [Ksm] and stores in LT_SI----
        CALL IMP_FRKM(
      1    NSREM     ,LSI       ,IKCSI   ,IKC     ,NDOF    ,
      2    IDDL      ,IDDLM     ,ILOCP   ,IAD_M   ,KSI_FR  ,
@@ -5562,7 +5562,7 @@ C-------actualise [Ksm] et stock dans LT_SI----
        IF (IFDIS>0) CALL INI_FRFD(NSREM ,NFV ,IKCSI,NF_SI ,FDSI )
        CALL CP_IADD(NSL ,NSREM,IAD_SLD  ,IAD_MLD)
        IF (IFDIS>0) CALL SPMD_IFRF(LB )
-C ------passe IAD_SL,IAD_SREM en ddl-----
+C ----- IAD_SL, IAD_SREM in DDL -----
         IF(ALLOCATED(IKCSI).AND.ISI>0) DEALLOCATE(IKCSI)
         IF(ALLOCATED(FDSI).AND.LFSI>0) DEALLOCATE(FDSI)
 C----6---------------------------------------------------------------7---------8
@@ -5646,11 +5646,11 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,ID
 C--------------------------------------------
-C   -----renvoie Ksl,Ksm et recevoie Kss,Kslm a condenser
+C   ----- Returns KSL, KSM and receives KSS, KSLM A CONDENSER
         SSIZE = 0
         DO I = 1, NSREM
          IF (IKC_SI(I)>0) THEN
-C   -----nb de [K}3x3--------
+C   -----number of [K}3x3--------
           IKC_SI(I) = IAD_SINR(I+1)-IAD_SINR(I)
           SSIZE = SSIZE + IKC_SI(I)
          ENDIF
@@ -6028,7 +6028,7 @@ C----------Ksm ------------------------------
        DO N=1,NSL
         IAD_M1(N+1) = IAD_M1(N)+IKC_SL(N)
        ENDDO
-C------cp KSL_FR dans KSI_FR-(pour des kin sans modif-----
+C------copy KSL_FR to KSI_FR-(for kin without modification-----
        DO I = 1,NSL
          NS = ISL(I)
          DO J = 1,IKC_SL(I)
@@ -6425,7 +6425,7 @@ C----6---------------------------------------------------------------7---------8
          DO K=1,ND
           JDL= -1
           DO JJ = IADK(ID+K),IADK(ID+1+K)-1
-C---------find l'adress dans LT-----
+C-------- Find l'Address in LT -----
            IF (JDIK(JJ)==(JD+1)) THEN
             JDL = JJ-1
             GOTO 300
@@ -6473,7 +6473,7 @@ C----6---------------------------------------------------------------7---------8
          DO K=1,NK
           JDL=-1
           DO JJ = IADK(ID+K),IADK(ID+1+K)-1
-C---------find l'adress dans LT-----
+C-------- Find l'Address in LT -----
            IF (JDIK(JJ)==(JD+1)) THEN
             JDL = JJ-1
             GOTO 300
@@ -6516,7 +6516,7 @@ C----6---------------------------------------------------------------7---------8
          DO K=1,NK
           JDL=0
           DO JJ = IADK(ID+K),IADK(ID+1+K)-1
-C---------find l'adress dans LT-----
+C-------- Find l'Address in LT -----
            IF (JDIK(JJ)==(JD+1)) THEN
             JDL = JJ-1
             GOTO 300
@@ -6656,7 +6656,7 @@ C-----------------------------------------------
       INTEGER
      .        I,J,K,N,NJ
 C----------------------------
-C--- partie double--traitement diff.  srem puisque [k]rem est dja construit
+C--- Double part-Diff.srem since [K] Rem is Dja Built
       DO I=1,NSL
        N = ISL(I)
        K = ILOCP(N)
@@ -6799,7 +6799,7 @@ C--------int2---------
          NRS(NK) = NRS(NK)+NNOD
          IA2(J) = N
          LNS2 = LNS2+1
-C--------si Mi est aussi dependant------
+C------- if Mi is also dependent ------
           DO K =1,NNOD
            NJ=INTBUF_TAB(N)%IRECTM(NL+K)
            IF (INLOC(NJ)==0) INLOC(NJ) = N_KINE + INLOC(NI)
@@ -6820,7 +6820,7 @@ C--------RBE3---------
          IF (NK>N_KINE ) NK = NK - N_KINE
          NRS(NK) = NRS(NK)+NNOD
          LNS3 = LNS3+1
-C--------si Mi est aussi dependant------
+C------- if Mi is also dependent ------
           DO K =1,NNOD
            NJ = LRBE3(IAD+K)
            IF (INLOC(NJ)==0) INLOC(NJ) = N_KINE + INLOC(NI)
@@ -7252,7 +7252,7 @@ C----------NF_SL : new nm times of [K]3x3- of dependant-------------------------
      .      NFAC = NFAC +1
            ENDIF
           ENDDO
-Ctmp cas particulier d_imp dans tous les directions
+Ctmp special case of d_imp in all directions
           IF (NDOF(N)>0.AND.IAD_SLNR(I)==IAD_SLNR(I+1))NFAC = 1
          ELSE
           NFAC = 1
@@ -7356,7 +7356,7 @@ C
             IADI=IADI+1
            ENDIF
           ENDDO
-Ctmp cas particulier d_imp dans tous les directions
+Ctmp special case of d_imp in all directions
          IF (NODOF) THEN
            IF (NDOF(N)>0.AND.IAD_SLNR(I)==IAD_SLNR(I+1))THEN
             NB = SIZE
@@ -9941,7 +9941,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C--------MIS  jour NDOFI pour NSL----
+C------- Updated ndofi for nsl ----
       INTEGER I,J,N,IDK,NC,NDOFII
        NDOFII = 3
       IF (NDDLI==0) THEN
@@ -10121,7 +10121,7 @@ C-----active rigid body main nodes------
          ENDIF
        ENDDO
       ENDDO
-C-----mis  jour NDOFI pour NSL+kin------
+C---- Odded Ndofi for NSL+Kin -------
        NDDLINS = NDDLI
        DO N =1,NUMNOD
          IF(NDOFI(N)<0) THEN

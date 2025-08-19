@@ -76,7 +76,7 @@ C     CALL MY_FREE
 #include "lockon.inc"
         ICODT = ICODTN
 #include "lockoff.inc"
-C var pour le SPMD
+C var for spmd
         IEXICODT = 1
       ENDIF
       RETURN

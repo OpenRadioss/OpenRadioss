@@ -53,7 +53,7 @@ C-----------------------------------------------
 C
       DX2 = TF(NPF(IFUNC)) - XX
 C
-C     constant function
+C     Constant Function
       IF ((NPF(IFUNC+1)-NPF(IFUNC))==2) THEN
         FINTER = TF(NPF(IFUNC)+1)
         RETURN

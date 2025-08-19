@@ -127,7 +127,7 @@ C-->
 100           K = K+NSL
             ENDDO
 C
-C-->        Stockage d'une masse elementaire (masse hormonique) pour calcul d'energie specifique
+C-> Storage of a elementary mass (hormone mass) for special energy calculation
             GMASS(IEL) = (UVAR(34,IEL)*UVAR(35,IEL))/MAX(EM20,UVAR(34,IEL)+UVAR(35,IEL))
 C-->
             IF (IDRB(I)==0) THEN      
@@ -167,7 +167,7 @@ C
 C-->
       ENDDO
 
-C---> Print de l'output pour kjoint2--------------------
+C---> Print of the output for kjoint2--------------------
       DO IEL=1,NEL
         IELUSR = IXR(NIXR,NFT+IEL)
         RB1 = 0

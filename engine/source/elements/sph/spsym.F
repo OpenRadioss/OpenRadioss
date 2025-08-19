@@ -494,7 +494,7 @@ C             -NC-NN*(NSPCOND+1) : remote if negative sign
          IF(NVOIS2+NVOISS<=KVOISPH)THEN
 C--------------------------------------------------
 C         ghost particles are added to real ones.
-C         (ordonne les particules fantomes).
+C         (orders the ghost particles).
           NVOISS1=0
           NVOISS2=NVOISS
           DO K=NVOIS2+1,NVOIS2+NVOISS

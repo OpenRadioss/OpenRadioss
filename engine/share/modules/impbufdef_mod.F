@@ -240,7 +240,7 @@ c        integer     :: NPTR           !  3
 c        integer     :: NPTS           !  4
 c        integer     :: NPTT           !  5
 C ------------add MLAW_TAG here to avoid pass everywhere the arguments
-        my_real  ,          DIMENSION(:)       , ALLOCATABLE :: ETFAC   ! relative tangent modulus ratio - per element(global)
+        my_real  ,          DIMENSION(:)       , ALLOCATABLE :: ETFAC   ! Relative tangent modulus ratio - per element (global)
         TYPE(MLAW_TAG_)   , DIMENSION(:)       , ALLOCATABLE :: MLAW_TAG ! variable dimensions - per element(global)
         TYPE (L_KTBUFEP_) , DIMENSION(:,:,:)   , ALLOCATABLE :: KTBUFEP  ! EP mat - per integration point
         TYPE (L_KTBUFGM_) , DIMENSION(:,:,:)   , ALLOCATABLE :: KTBUFMG  ! ET mat - per integration point
@@ -272,7 +272,7 @@ C
       INTEGER N_BFGS,IACTB
       my_real S_LIN
 C
-C tableau de int de : V,W pour BFGS algorithm----
+C integer array of: V,W for BFGS algorithm----
       my_real, DIMENSION(:,:), ALLOCATABLE :: BFGS_V,BFGS_W
 C 
       END MODULE IMP_BFGS
@@ -342,12 +342,12 @@ C
 #include "my_real.inc"
       INTEGER NUMN_MV,NI2_MV,NRB_MV,NNMAX_MV,NBC_MV,NFX_MV,NRW_MV,
      .        NRBE3_MV,R3M_MAX,NSPC_MV,NRBE2_MV
-C  int de taille NUMN_MV :noeuds locales de mv 
+C  integer of size NUMN_MV: local nodes of mv
       INTEGER, DIMENSION(:), ALLOCATABLE :: IN_MV
-C  int IDDL de taille 3*NUMN_MV,6*(NRB_FR ,4*NI2_FR)
+C  int IDDL of size 3*NUMN_MV, 6*(nrb_fr, 4*ni2_fr)
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: ID_MV,ID_MVM,ID_MVM4
       INTEGER, DIMENSION(:,:,:), ALLOCATABLE :: ID_MVM2,ID_MVM3
-C int de taille NI2_MV,NRB_MV :------
+C int of size Ni2_MV, nrb_mv: -------
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: II2_MV,IRB_MV,IRBE2_MV
       INTEGER, DIMENSION(:), ALLOCATABLE ::   IRBE3_MV
 C  K_DIAG reels de taille (3,NUMN_MV) 
@@ -387,9 +387,9 @@ C
       MODULE IMP_RWL
 #include "my_real.inc"
       INTEGER N_RWL
-C tableau de int de taille N_RWL :noeuds secnds de sliding RW 
+C integer array of size N_RWL: secondary nodes of sliding RW
       INTEGER, DIMENSION(:), ALLOCATABLE :: IN_RWL
-C tableau de Direction normale reels de taille (3,N_RWL) 
+C real normal direction array of size (3,N_RWL)
       my_real, DIMENSION(:,:),ALLOCATABLE :: NOR_RWL
 C      
       END MODULE IMP_RWL
@@ -405,9 +405,9 @@ C
       MODULE IMP_LINTF
 #include "my_real.inc"
       INTEGER NDDLIF,NZIF
-C tableau de int de la [k] interface 
+C integer array of the [k] interface
       INTEGER, DIMENSION(:), ALLOCATABLE :: IADIF,JDIIF,IFTOK
-C tableau de reels de la [k] interface 
+C real array of the [k] interface
       my_real, DIMENSION(:),ALLOCATABLE :: DIAG_IF,LT_IF
 C      
       END MODULE IMP_LINTF
@@ -421,7 +421,7 @@ C
 !||====================================================================
       MODULE IMP_REST
 #include "my_real.inc"
-C tableau de reels de R-file 
+C real array of R-file
       my_real, DIMENSION(:),ALLOCATABLE :: IMP_RR
 C      
       END MODULE IMP_REST
@@ -435,7 +435,7 @@ C
 !||    ind_span    ../engine/source/implicit/ind_glob_k.F
 !||====================================================================
       MODULE IMP_PPAT
-C tableau de int de pre-filtrage 
+C integer array of pre-filtering
       INTEGER, DIMENSION(:),ALLOCATABLE :: PRE_FPAT
 C      
       END MODULE IMP_PPAT
@@ -452,7 +452,7 @@ C
 C
 #include "my_real.inc"
 C
-C tableau de travail :  linear quasi-static (iterative)----
+C Workboard: Linear Quasi-Static (iterative) ----
       my_real, DIMENSION(:), ALLOCATABLE :: QS_U,QS_D
 C tableau de travail : D_n-1 used for Gravity case
       my_real, DIMENSION(:), ALLOCATABLE :: D_N_1,DR_N_1
@@ -469,7 +469,7 @@ C
 !||    prout_buck     ../engine/source/input/lectur.F
 !||====================================================================
       MODULE IMP_KBCS
-C tableau de travail de BCS-EXT 
+C work array of BCS-EXT
       INTEGER  MEM_BCS
       my_real, DIMENSION(:),ALLOCATABLE :: HOLD
       INTEGER  MSGL_B,MAXSET_B,MSG_LVL,B_ORDER,B_MCORE,LMEMN
@@ -740,17 +740,17 @@ C
       MODULE IMP_FRK
 C
       INTEGER NRMAX,N_FRNN,NDDLFR,NZKFR,NDFRMAX,LEN_V,LEN_K
-C     NDDLFRB :nb de noeuds fr. partages par au moins 3 proc,----
+C     Nddlfrb: nb de nodes fr.shared by at least 3 proc, ----
 C  50d1m     DDLP0 :dernier ddl de noeuds fr.avec procs precedents ----
-C  50d1m     DDLP1 :premier ddl de noeuds fr.avec procs suivants ----
+C  50D1M DDLP1: First DDL de nodes fr.with following -----
       INTEGER NDDLFRB,NDDLFRB1,DDLP0,DDLP1
 C
-C tableau de int de : connectivite des noeuds FR. locaux----
+C integer array of: connectivity of local FR. nodes----
       INTEGER, DIMENSION(:), ALLOCATABLE :: IFRLOC
       INTEGER, DIMENSION(:), ALLOCATABLE :: IAD_RL,FR_ICOL
-C tableau de int de taille NKINE indice loc->global: ----
+C integer array of size NKINE local->global index: ----
       INTEGER, DIMENSION(:), ALLOCATABLE :: IKIN2G
-C tableau de int de : matrice locale des noeuds FR. locaux par proc----
+C integer array of: local matrix of local FR. nodes per processor----
       INTEGER, DIMENSION(:), ALLOCATABLE :: ND_FR,IADFR,JDIFR,IDDLFR
 #if defined knf
 !dec$ attributes offload:mic :: IFR2K

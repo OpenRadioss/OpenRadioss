@@ -37,8 +37,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
        USE H3D_MOD
 C-----------------------------------------------
-C realise le cumul des acc et masses aux noeuds main d'int2,
-C cas ou il existe une hierarchie d'interfaces ds le modele
+C realizes the accumulation of accelerations and masses at the main int2 nodes,
+C case where there is a hierarchy of interfaces in the model
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

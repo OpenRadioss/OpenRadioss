@@ -127,7 +127,7 @@ C-----------------------------------------------
      .                FOR_T9, FOR_T10, STIF  ,    IFC1,
      .                NEL   ,E_DISTOR, DT1 )
         NCTL = NCTL + IFCTL
-C---- element center
+C---- Element center
         XC = ZERO
         YC = ZERO
         ZC = ZERO

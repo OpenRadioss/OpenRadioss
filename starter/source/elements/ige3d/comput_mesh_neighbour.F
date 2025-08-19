@@ -32,10 +32,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                                 TAB_MESHSURFCUT,L_TAB_MESHSURFCUT,
      .                                 TAB_MESHSURFCUT2,L_TAB_MESHSURFCUT2,FLAG)
 C----------------------------------------------------------
-C     ROUTINE QUI VA TESTER ET COMPTER LES MESHSURFS QUI 
-C     INTERSECTENT AVEC LA MESHSURFSURF QU'ON TRAITE
+C     routine that will test and count the meshsurfs that
+C     intersect with the meshsurfsurf being processed
 C     NB : MESHSURF = SURFACE DE COUPE D'ELEMENTS DEFINISSANT
-C          ONE RAFFINEMENT DANS UNE DIRECTION
+C          one refinement in one direction
 C----------------------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -57,7 +57,7 @@ C-----------------------------------------------
       my_real COINENGLOB(2,2), COINENGLOB_TEST(2,2)
 C=======================================================================
 C
-C     DANS L'ESPACE PARAMETRIQUE
+C     in the parametric space
 C
 C     RAFFINEMENT X :      RAFFINEMENT Y :      RAFFINEMENT Z :   
 C
@@ -69,7 +69,7 @@ C        X                    Y                    Z
 C
 C=======================================================================
 C                                    |    
-C    C1 ____________C2_ _ _ _ _ _P1  |               
+C    C1 ___________c2_ _ _ _ _p1 |               
 C      |            |           /    |                 
 C      |            |                |  C1 ___________C2
 C      |            |         /      |    |            |_ _ _  _P1 _ _ _ _ P2   
@@ -90,14 +90,14 @@ C                                    |
 C=======================================================================
 C----------------------------------------------------------------------
 C   TRAITEMENT SIMPLE QUI PERMET D'ECARTER LES MESHSURF D'AUTRES PATCHS
-C   OU LES MESHSURF PARALLELES
+C   or the parallel meshsurf
 C----------------------------------------------------------------------
 c
-      IF(IPID2/=IPID) RETURN ! Pas les memes patchs
-      IF(DIR2==DIR) RETURN ! Meshsurf paralelles
+      IF(IPID2/=IPID) RETURN ! not the same patches
+      IF(DIR2==DIR) RETURN ! Parallel Messiturf
 c
 C----------------------------------------------------------------------
-C   CONSTRUCTION DE BOITES ENGLOBANTE POUR LES MESHSURFS
+C   construction of bounding boxes for the meshsurfs
 C   PERMET DE SAVOIR SI IL Y A POTENTIELLEMENT INTERSECTION
 C   (IL Y A ONE TEST SUR LES FONCTIONS EN AVAL, 
 C   LA CERTITUDE D'INTERSECTION N'EST PAS NECESSAIRE)
@@ -125,9 +125,9 @@ c
       COINENGLOB_TEST(2,2) = MAXVAL(TAB_COINKNOT_TEST(2,1:(L_TAB_COINKNOT_TEST))) 
 c
 C----------------------------------------------------------------------
-C   COMPARAISON DES INTERVALES DES BOITES ENGLOBANTES ET DES KNOT_INSERES,
+C   comparison of the intervals of the bounding boxes and the inserted knots,
 C   PUIS VERIFICATION SUR LA TROISIEME DIRECTION COMPLEMENTAIRE AUX TWO DIRECTIONS
-C   DES KNOT_INSERE DE LA SUPERPOSITION DES MESHSURFS
+C   of the inserted knots from the superposition of the meshsurfs
 C   TEST QUI EXCLUE : PLUS SIMPLE
 C----------------------------------------------------------------------
 c
@@ -153,9 +153,9 @@ c
       ENDIF
 c
 C----------------------------------------------------------------------
-C   ON PEUT PRENDRE CETTE MESHSURF ET TOUTES LES MESHSURF QU'ELLE COUPE
+C   we can take this meshsurf and all the meshsurfs it intersects
 C   (TESTONS SANS POUR L'INSTANT CAR ON TESTE TOUTES LES MESHSURFS 
-C   DE TOUTE FACON, PAR RAPPORT A LA MESHSURF SUR LAQUELLE ON EST 
+C   anyway, with respect to the meshsurf we are on
 C----------------------------------------------------------------------
 c
 c      DO I=1,L_TAB_MESHSURFCUT2

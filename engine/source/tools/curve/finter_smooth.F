@@ -61,7 +61,7 @@ C-----------------------------------------------
       XX_LAST  = TF(NPF(IFUNC+1)-2)
 !
       IF ((NPF(IFUNC+1)-NPF(IFUNC)) == 2) THEN
-!     constant function
+!     Constant Function
         FINTER_SMOOTH = TF(NPF(IFUNC)+1)
         RETURN
       ELSE

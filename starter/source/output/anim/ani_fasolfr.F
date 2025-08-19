@@ -252,7 +252,7 @@ C
      .              NN=NN+NODTAG(IXS(FACES(KK,JJ)+1,JS))
                 END DO
                 IF(NN == 4)THEN
-C                 FACTAG(JS) moins face jj
+C                 Factag (JS) Less Face JJ
                   FASTAG(JS)=FASTAG(JS)+PWR(JJ)
                 END IF
               END IF
@@ -279,7 +279,7 @@ C
      .              NN=NN+NODTAG(IXS(FACES(KK,JJ)+1,JS))
                 END DO
                 IF(NN==4)THEN
-C                 FACTAG(JS) moins face jj
+C                 Factag (JS) Less Face JJ
                   FASTAG(JS)=FASTAG(JS)+PWR(JJ)
                 END IF
               END IF
@@ -305,7 +305,7 @@ C
      .              NN=NN+NODTAG(IXS(FACES(KK,JJ)+1,JS))
                 END DO
                 IF(NN==4)THEN
-C                 FACTAG(JS) moins face jj
+C                 Factag (JS) Less Face JJ
                   FASTAG(JS)=FASTAG(JS)+PWR(JJ)
                 END IF
               END IF

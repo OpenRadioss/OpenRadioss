@@ -144,7 +144,7 @@ C----------------------------
         ENDDO      
       ENDIF         
 C-----------
-C     REPERE CONVECTE (ITERATIONS).
+C     convected frame (ITERATIONS).
 C-----------
       CALL SREPISO12(
      1   OFF,     XD1,     XD2,     XD3,

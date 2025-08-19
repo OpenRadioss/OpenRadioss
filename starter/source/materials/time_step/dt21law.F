@@ -31,7 +31,7 @@ C
 !||====================================================================
       SUBROUTINE DT21LAW (PM,GEO,PID,MAT, DELTAX, AIRE, VOL, DTX)
 C
-C     CALCUL DES DT ELEMENTAIRES POUR LA LOI 21 (ROC ET BETON)
+C     CALCULATION OF ELEMENTARY DT FOR LAW 21 (ROCK AND CONCRETE)
 C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -85,7 +85,7 @@ C---------------------------
       END DO
       
 C-----------------------
-C  CALCUL DES DTELEM
+C  CALCULATION OF DTELEM
 C-----------------------
       IF(JSPH==0)THEN
          CALL DTEL(SSP,PM,GEO,PID,MAT, RHO0, VIS, DELTAX, AIRE, VOL, DTX)

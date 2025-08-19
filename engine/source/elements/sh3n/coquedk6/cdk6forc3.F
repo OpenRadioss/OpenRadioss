@@ -160,7 +160,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-c  indx utilise localement contrairement aux coques 4n 
+c  Indx uses locally unlike 4N shells 
       INTEGER MAT(MVSIZ),PID(MVSIZ),NGL(MVSIZ),INDX(MVSIZ),IVS(MVSIZ),
      .   FWAVE_EL(NEL)
       INTEGER 
@@ -208,7 +208,7 @@ c  indx utilise localement contrairement aux coques 4n
       my_real, dimension(nel)   :: epsd_pg
       my_real, dimension(mvsiz) :: fheat
 !
-C--- Variables pour le non-local
+C--- Variables for non-local
       INTEGER :: NDDL, K, INOD(3),NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), L_NLOC, IPOS(3),INLOC
       my_real, DIMENSION(:,:), ALLOCATABLE :: VAR_REG
       my_real, DIMENSION(:), POINTER :: DNL,UNL
@@ -434,7 +434,7 @@ c-------------------------------------------
 C----------------------------------------------------------------------------
 C     FORCES VISCOCITE 
 C----------------------------
-C       uniquement membranaire pour l'instant --------
+C       only membrane for the moment --------
       CALL CBAVISC(JFT     ,JLT     ,VDEF    ,AMU ,OFF,
      2             SHF     ,NU      ,RHO     ,SSP ,AREA,
      3             THK0    ,GBUF%FOR,GBUF%MOM,IUN ,MTN,
@@ -456,7 +456,7 @@ C-------------------------
      2              F11,F12,F13,F21,F22,F23,F31,F32,F33,
      3              F14,F15,F16,F24,F25,F26,F34,F35,F36)
 C--------------------------
-C     PAS DE TEMPS
+C     TIME STEP
 C--------------------------
       CALL CNDT3(
      1        JFT    ,JLT    ,OFF      ,DT2T   ,AMU     ,
@@ -489,7 +489,7 @@ c--------------------------
       ENDIF
 c-------------------------------
 C--------------------------
-C     BILANS PAR MATERIAU
+C     BALANCES BY MATERIAL
 C--------------------------
       IF(IPRI>0)
      +   CALL C3BILAN(

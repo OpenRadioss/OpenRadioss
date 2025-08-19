@@ -209,7 +209,7 @@ c
         END DO     
       ENDIF
       ! Ensured convexity
-      IF (ICONV == 1) THEN    ! Ensure convexity 
+      IF (ICONV == 1) THEN    ! ENSURE CONVEXITY 
         DO I = 1,NEL
           CONV(I) = .FALSE.
           IF (SIGS(I) < SFAC*SQRT(SIGC(I)*SIGT(I)/THREE)) THEN 

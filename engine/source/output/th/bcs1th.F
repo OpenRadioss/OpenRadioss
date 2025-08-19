@@ -62,7 +62,7 @@ C
 C
         IF(ISK==1) THEN
 C------------------
-C     REPERE GLOBAL
+C     GLOBAL REFERENCE FRAME
 C------------------
           IF(LCOD==1)THEN
           FTHREAC0(N+3) = - A(3,L)
@@ -200,7 +200,7 @@ C
 C
         IF(ISK==1) THEN
 C------------------
-C     REPERE GLOBAL
+C     GLOBAL REFERENCE FRAME
 C------------------
           IF(LCOD==1)THEN
           FANREAC0(N+3) = - A(3,L)

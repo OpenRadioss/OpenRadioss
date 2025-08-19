@@ -49,7 +49,7 @@ C-----------------------------------------------
       INTEGER LEN, I, NNS, NNTR, LENP, NPOLY, LENH, NPOLH, TABI(11),
      .        LENP_ANIM, NPOLH_ANIM, LENH_ANIM, NNS_ANIM
 C--------------------------------------
-C     ECRITURE DES DIMENSIONS
+C     WRITING OF DIMENSIONS
 C--------------------------------------
       LEN=1
         CALL WRITE_I_C(NFVBAG,LEN)
@@ -135,7 +135,7 @@ C
            CALL WRITE_I_C(TABI,LEN)
        
 C--------------------------------------
-C     ECRITURE DES ENTIERS
+C     WRITING OF INTEGERS
 C--------------------------------------
          LEN=3*NNS
            CALL WRITE_I_C(FVDATA(I)%IFVNOD,LEN)
@@ -158,7 +158,7 @@ C
               CALL WRITE_I_C(FVDATA(I)%REDIR_ANIM,NNS_ANIM)
          ENDIF
 C--------------------------------------
-C     ECRITURE DES REELS
+C     WRITING OF REAL NUMBERS
 C--------------------------------------
            LEN = 1
            CALL WRITE_DB(FVDATA(I)%PDISP_OLD,LEN)

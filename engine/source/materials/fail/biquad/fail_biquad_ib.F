@@ -65,7 +65,7 @@ C-----------------------------------------------
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: DPLA    ! plastic strain 
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: AL
       my_real ,DIMENSION(STF)     ,INTENT(IN)    :: TF
-      my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: OFF     ! element deactivation flag
+      my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: OFF     ! flag
       my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: DFMAX   ! maximum damage
       my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: DAMSCL  !1-damage
       my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: TDEL    ! deactivation time

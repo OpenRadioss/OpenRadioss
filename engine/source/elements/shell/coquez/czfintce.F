@@ -31,7 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      3                      MX34 ,MY13 ,MY23 ,MY34 ,VSTRE,MSTRE,
      4                      VF   ,VM   ,NEL)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
-C        CALCUL LA PARTIE CONSTANTE
+C        calculation of the constant part
 C         VF(3,NODE),VM(2,NODE) : FORCES INTERNES GENERALISEES
 C        ENTREES  : THK,AREA,X13,X24,Y13,Y24,MX13,MX34,MY13,MY34,Z1,...
 C        SORTIES  : VF,VM

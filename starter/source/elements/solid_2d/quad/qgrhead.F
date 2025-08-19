@@ -46,8 +46,8 @@ C-----------------------------------------------
 C            A R G U M E N T S
 C-----------------------------------------------
 C     IXQ(7,NUMELQ)     TABLEAU CONECS+PID+MID+NOS SOLIDES 4N      E
-C     PM(NPROPM,NUMMAT) TABLEAU DES CARACS DES MATERIAUX           E
-C     GEO(NPROPG,NUMGEO)TABLEAU DES CARACS DES PID                 E
+C     PM(NPROPM,NUMMAT) ARRAY OF MATERIAL PROPERTIES           E
+C     GEO(NPROPG,NUMGEO) ARRAY OF PID CHARACTERISTICS                 E
 C     INUM(8,NUMELQ)    TABLEAU DE TRAVAIL                         E/S
 C     ISEL(NSELQ)       TABLEAU DES SOLIDES 4N CHOISIS POUR TH     E/S
 C     ITR1(NSELQ)       TABLEAU DE TRAVAIL                         E/S
@@ -110,7 +110,7 @@ C
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
  
 C----------------------------------------------------------
-C   TRI GLOBAL SUR TOUS LES CRITERES POUR TOUS LES ELEMENTS
+C   GLOBAL SORT ON ALL CRITERIA FOR ALL ELEMENTS
 C----------------------------------------------------------
 C
       DO I=1,NUMELQ
@@ -195,13 +195,13 @@ C
           JCVT=0
         END IF
         IEOS = IPM(4,MID)
-C tri sur elem delete des rigidbody
+C sort on elem deletes rigidbody
 C IRB = 0 : elem actif
-C IRB = 1 : elem inactif et optimise pour en SPMD
-C IRB = 2 : elem inactif mais optimise pour etre actif en SPMD
+C IRB = 1 : inactive elem and optimized for SPMD
+C IRB = 2: Elem inactive but optimized to be active in SPMD
         IRB = IQUAOFF(I)       
 C
-C NPT = 1 ; JHBE = 0 ; JIVF = 0 et JLAG non utilise
+C Npt = 1;Jhbe = 0;Jivf = 0 and jlag not used
 C Key 1---------------------------------
         JPOR=MY_SHIFTL(JPOR,0)
         JTHE=MY_SHIFTL(JTHE,3)

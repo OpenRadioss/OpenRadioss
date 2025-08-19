@@ -134,7 +134,7 @@ C
 C 
         CALL MY_BARRIER()
 C
-        IF(ITASK==0) THEN   ! comm sur 1er thread
+        IF(ITASK==0) THEN   ! comm on 1st thread
           DO K=1,FR_RMS(NSPMD+1)-1
             I=LIST_RMS(K)
             IF(I==0)CYCLE
@@ -430,7 +430,7 @@ C
       IF(IDTMINS/=0)THEN
         IF(IPARIT==0.OR.DEBUG(9)==0)THEN
           DO I=NODFT,NODLT
-C reset du passe
+C reset of the past
            DIAG_SMS(I)= ZERO
            DO IJ=JAD_SMS(I),JAD_SMS(I+1)-1
              DIAG_SMS(I)=DIAG_SMS(I)-LT_SMS(IJ)
@@ -438,7 +438,7 @@ C reset du passe
           END DO
         ELSE
           DO I=NODFT,NODLT
-C reset du passe
+C reset of the past
            DIAG_SMS(I)= ZERO
           END DO
 C
@@ -460,7 +460,7 @@ C
 C
 C      /DT/INTER/AMS
        DO I=NODFT,NODLT
-C reset du passe
+C reset of the past
         DIAG_SMS(I)= ZERO
        END DO
       END IF
@@ -483,7 +483,7 @@ C
 C 
           CALL MY_BARRIER()
 C
-          IF(ITASK==0) THEN   ! comm sur 1er thread
+          IF(ITASK==0) THEN   ! communication on the first thread
 
             LOC_PROC = ISPMD+1
             M = 1
@@ -515,7 +515,7 @@ C
 C
           CALL MY_BARRIER
 C
-          IF(ITASK==0) THEN   ! comm sur 1er thread
+          IF(ITASK==0) THEN   ! communication on the first thread
             SIZE = 1
             LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
 C
@@ -563,7 +563,7 @@ C
             MV(KMV)=MSKYI_SMS(K)
           END DO
 
-          IF(ITASK==0) THEN   ! comm sur 1er thread
+          IF(ITASK==0) THEN   ! communication on the first thread
             CALL SPMD_MIJ_SMS(
      1       ISKYI_SMS,FR_SMS,FR_RMS,LIST_RMS,MSKYI_SMS,
      2       MSKYI_FI_SMS)
@@ -611,7 +611,7 @@ C
 C 
           CALL MY_BARRIER()
 C 
-          IF(ITASK==0) THEN   ! comm sur 1er thread
+          IF(ITASK==0) THEN   ! communication on the first thread
             SIZE = 1
             LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
 C
@@ -666,7 +666,7 @@ C
             MV(KMV)=MSKYI_SMS(K)
           END DO
 
-          IF(ITASK==0) THEN   ! comm sur 1er thread
+          IF(ITASK==0) THEN   ! communication on the first thread
             CALL SPMD_MIJ_SMS(
      1       ISKYI_SMS,FR_SMS,FR_RMS,LIST_RMS,MSKYI_SMS,
      2       MSKYI_FI_SMS)
@@ -705,7 +705,7 @@ C
 C 
           CALL MY_BARRIER()
 C 
-          IF(ITASK==0) THEN   ! comm sur 1er thread
+          IF(ITASK==0) THEN   ! communication on the first thread
             SIZE = 1
             LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
 C

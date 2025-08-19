@@ -153,7 +153,7 @@ cc             IF (NBX==1)WA(JJ) = BUFEL((IAD-1)+ I)
            ENDDO
            RESP0=RES
           ENDIF        ! if(jj_old>0)
-         ENDDO         ! nn=1,nspgroup
+         ENDDO         ! nn = 1, nspgroup
          IF (RESP0>0) THEN
           IF (OUTYY_FMT==2) THEN
             WRITE(IUGEO,'(1P6E12.5)')(WAP0(J),J=1,RESP0)

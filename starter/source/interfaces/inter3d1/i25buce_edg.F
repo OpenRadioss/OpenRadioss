@@ -101,7 +101,7 @@ C-----------------------------------------------
       IONE=1        !< Constant init
       IHUNDRED=100  !< Constant init
 C--------------------------------
-C     CALCUL DES BORNES DU DOMAINE
+C     Calculation of the domain boundaries
 C--------------------------------
       BMINMA(1)=-EP30
       BMINMA(2)=-EP30
@@ -213,7 +213,7 @@ C=============================================================================
         NBZ = MIN(IHUNDRED,MAX(NBZ8,IONE))
       END IF
 
-C     initialisation complete de VOXEL
+C     Complete initialization of VOXEL
       DO I=INIVOXEL,(NBX+2)*(NBY+2)*(NBZ+2)
         VOXEL1(I)=0
       ENDDO

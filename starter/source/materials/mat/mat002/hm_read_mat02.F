@@ -596,7 +596,7 @@ C     Formulation for solid elements time step computation.
       IPM(252)= 2
       PM(105) = TWO*G/(C1+FOUR_OVER_3*G)
 !
-C---- Definition des variables internes (stockage elementaire)
+C---- Definition of internal variables (Elementary storage)
 c
       MTAG%G_EPSD  = 1   
       MTAG%G_PLA   = 1   

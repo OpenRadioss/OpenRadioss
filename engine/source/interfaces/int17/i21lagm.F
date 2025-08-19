@@ -69,7 +69,7 @@ C
 C
 C       | M | Lt| | a    | M ao
 C       |---+---| |    = |
-C       | L | 0 | | la   | bo
+C       | L | 0 | | la | bo
 C
 C        [M] a + [L]t la = [M] ao
 C        [L] a = bo
@@ -86,7 +86,7 @@ C
 C        a = ao - [M]-1[L]t la
 C-----------------------------------------------
 C
-C        la              : LAMBDA(NC)
+C        la : LAMBDA(NC)
 C        ao              : A(NUMNOD)
 C        L               : XLL(NK,NC)
 C        M               : MAS(NUMNOD)
@@ -94,8 +94,8 @@ C        [L][M]-1[L]t la : HLA(NC)
 C        [L] ao - b      : B(NC)
 C        [M]-1[L]t la    : LTLA(NUMNOD)
 C
-C        NC : nombre de contact 
-C        NK : nombre de noeud pour un contact (8+1,16+1,8+8,16+16)
+C        NC: number of contacts
+C        NK: Number of node for contact (8+1.16+1.8+8.16+16)
 C
 C        IC : numero du contact (1,NC)
 C        IK : numero de noeud local a un contact (1,NK)
@@ -104,7 +104,7 @@ C
 C        IADLL(NC)        : IAD = IADLL(IC)
 C        LLL(NC*(21,63))  : I  = LLL(IAD+1,2...IADNEXT-1)
 C-----------------------------------------------
-C  evaluation de b:
+C  evaluation of b:
 C
 C         Vs = Somme(Ni Vi)
 C         Vs_ + dt As = Somme(Ni Vi_) + Somme(dt Ni Ai)
@@ -117,7 +117,7 @@ C-----------------------------------------------
 C                 b  = [L] vo+/dt   +   vout
 C-----------------------------------------------
 C-----------------------------------------------------------------------
-C     boucle sur les candidats au contact   
+C     loop over contact candidates
 C-----------------------------------------------------------------------
       FIRST = 1 + I_STOK * ITASK / NTHREAD
       LAST = I_STOK*(ITASK+1) / NTHREAD
@@ -128,7 +128,7 @@ C-----------------------------------------------------------------------
        IE = NELEM(LE)
        I20 = IE - NUMELS8 - NUMELS10
 C-----------------------------------------------------------------------
-C      test si brick 20  
+C      Test Si Brick 20  
 C-----------------------------------------------------------------------
        IF(I20.GE .1.AND.I20.LE .NUMELS20)THEN
         IS = NSV(CANDN(IC))
@@ -141,7 +141,7 @@ C-----------------------------------------------------------------------
      .             X(3,IS)+DT2*(V(3,IS)+DT12*A(3,IS))-EMINX(6,LE),DIST)
 c        IF (DIST<0.) CANDN(I) = -CANDN(I)
 C-----------------------------------------------------------------------
-C       test si dans la boite   
+C       test if inside the box
 C-----------------------------------------------------------------------
         IF(DIST.LE .0.)THEN
 c
@@ -165,7 +165,7 @@ c
             ZZ(LLT,K)=X(3,I)
           ENDDO
 C-----------------------------------------------------------------------
-C     calcul de  [L] par paquet de mvsiz   
+C     calculation of [L] by mvsiz packet
 C-----------------------------------------------------------------------
           IF(LLT==MVSIZ-1)THEN
             CALL I21LLL(
@@ -183,7 +183,7 @@ c debug
        ENDIF
       ENDDO
 C-----------------------------------------------------------------------
-C     calcul de  [L] pour dernier paquet   
+C     calculation of [L] for last packet
 C-----------------------------------------------------------------------
       IF(LLT/=0) CALL I21LLL(
      1       LLT ,LLL       ,JLL       ,SLL       ,XLL     ,V       ,
@@ -258,12 +258,12 @@ c
      2            NSX   ,NSY   ,NSZ   ,NX    ,NY    ,NZ    ,
      3            XX    ,YY    ,ZZ    )
 C-----------------------------------------------
-C      calcul de [L]
+C      calculation of [L]
 C-----------------------------------------------
       IF(ITIED==0)THEN
        DO I=1,LLT
 C-----------------------------------------------
-C       test si contact
+C       Test if contact
 C-----------------------------------------------
         IF(R(I)>=-ONE.AND.S(I)>=-ONE.AND.T(I)>=-ONE.AND.
      .     R(I)<= ONE.AND.S(I)<= ONE.AND.T(I)<= ONE)THEN
@@ -283,11 +283,11 @@ c      print *, "nx,ny,nz ", NX(I),NY(I),NZ(I)
 c
           VN = NSX(I)*VX + NSY(I)*VY + NSZ(I)*VZ
 C-----------------------------------------------
-C         test si vitesse entrante en s
+C         Test if incoming velocity in S
 C-----------------------------------------------
           IF(S(I)*VN<=ZERO)THEN
 c
-c      print *, "vitesse entrante",vn
+c      print *, "velocity entrante",vn
       print *, "s = ",S(I)
 c
 c           AA = DT12/SQRT(NX(I)*NX(I)+NY(I)*NY(I)+NZ(I)*NZ(I))
@@ -338,7 +338,7 @@ C      ITIED = 1
 C-----------------------------------------------
        DO I=1,LLT
 C-----------------------------------------------
-C       test si contact
+C       Test if contact
 C-----------------------------------------------
         IF(R(I)>=-ONE.AND.S(I)>=-ONE.AND.T(I)>=-ONE.AND.
      .     R(I)<= ONE.AND.S(I)<= ONE.AND.T(I)<= ONE)THEN
@@ -358,11 +358,11 @@ c      print *, "nx,ny,nz ", NX(I),NY(I),NZ(I)
 c
           VN = NX(I)*VX + NY(I)*VY + NZ(I)*VZ
 C-----------------------------------------------
-C         test si vitesse entrante en r,s ou t
+C         test if incoming velocity in r,
 C-----------------------------------------------
           IF(VN<=ZERO)THEN
 c
-c      print *, "vitesse entrante",vn
+c      print *, "velocity entrante",vn
       print *, "s = ",S(I)
 c
 #include "lockon.inc"
@@ -425,7 +425,7 @@ C      ITIED = 2
 C-----------------------------------------------
        DO I=1,LLT
 C-----------------------------------------------
-C       test si contact
+C       Test if contact
 C-----------------------------------------------
         IF(R(I)>=-ONE.AND.S(I)>=-ONE.AND.T(I)>=-ONE.AND.
      .     R(I)<= ONE.AND.S(I)<= ONE.AND.T(I)<= ONE)THEN

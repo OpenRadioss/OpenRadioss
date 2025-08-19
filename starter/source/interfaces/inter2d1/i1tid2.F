@@ -67,7 +67,7 @@ C-----------------------------------------------
       IER1=0
       DO II=1,NSN
         I=NSV(II)
-        J=ILOC(II) ! nearest lag node (main) from secnd node (ale)
+        J=ILOC(II) ! Nearest Lag Node (Main) from second node (ale)
         K=MSR(J)
         L=IRTL(II)
         M=MSR(IRECT(1,L))

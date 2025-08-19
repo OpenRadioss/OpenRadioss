@@ -1185,7 +1185,7 @@ C machine.inc include
         CHARACTER CPUNAM*20,ARCHTITLE*66
         INTEGER RDFLEXCOMP
 
-C variables inutiles mais definies dans machine.inc
+C unnecessary variables but defined in machine.cinc
         INTEGER IBUILTIN,NSPMD,IEXPM,ICRAY,IRESP,IRFORM,LENBT,READER_ID
         INTEGER READER_COMMIT_ID_SIZE,READER_COMMIT_ID_LEN
         CHARACTER(LEN=128):: READER_COMMIT_ID

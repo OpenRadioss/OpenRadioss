@@ -44,7 +44,7 @@ C    10 -> 12:  INERTIES PRINCIPALES RBODY
 C          13:  INERTIE MAIN INITIALE SPHERIQUE 
 C          14:  MASSE RBODY
 C          15:  MASSE MAIN INITIALE
-C    17 -> 20:  INERTIES DANS LE REPERE GLOBALE
+C    17 -> 20:  INERTIAS IN THE GLOBAL FRAME OF REFERENCE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -83,10 +83,10 @@ C
         ID=NOM_OPT(1,NRBYKIN+NR)
         CALL FRETITL2(TITR, NOM_OPT(LNOPT1-LTITR+1,NRBYKIN+NR),LTITR)
 C---------------------------------
-C     CORRECTION DE LA MASSE ET DU
-C     CENTRE DE GRAVITE DU MAIN
+C     CORRECTION OF MASS AND
+C     CENTER OF GRAVITY OF THE HAND
 C---------------------------------
-C-----CDG DES NOEUDS SECONDS
+C-----CGS OF SECONDARY NODES
          MASRB=ZERO
          XG(1)=ZERO
          XG(2)= ZERO
@@ -121,7 +121,7 @@ C
              RBYM(1 + J,NR) = XG(J) 
            ENDDO   
 C--------------------------------------
-C      L'INERTIE DU MAIN
+C      THE INERTIA OF THE HAND
 C--------------------------------------
           DO I=1,NSL
                N=LSN(I + KK)
@@ -142,7 +142,7 @@ C--------------------------------------
                RBY(9) = RBY(9) + IN(N)+(XX+YY)*MS(N)               
           ENDDO
 C
-C Rigidite au noeud main pour estimation DT.
+C Rigidity with a main node for estimation of DT.
 C
       DO I=1,NSL
         N = LSN(I + KK)

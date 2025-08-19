@@ -840,7 +840,7 @@ C
         DO I=1,NUMNOD+NUMFAKENODIGEO
          INPENE=INPENE+MIN(MWA(I),1)
         ENDDO
-        IF(ISTOK==0.AND.(INACTI==5.OR.INACTI==6))IPARI(22,NIN) = -INACTI ! passage en negatif pour dimensionnenment
+        IF(ISTOK==0.AND.(INACTI==5.OR.INACTI==6))IPARI(22,NIN) = -INACTI ! Negative passage for sizing
         INTBUF_TAB(NIN)%I_STOK(1)=ISTOK
        ENDIF
 C
@@ -1943,8 +1943,8 @@ C
      9  IPARI(100,NIN))
 
        IF(IEDGE/=0)THEN
-         NCONTE   =IPARI(68,NIN) ! cf NCONTE=NEDGE cest a voir ...
-         IPARI(88,NIN)=NCONTE ! cf NCONTE=NEDGE cest a voir ...
+         NCONTE   =IPARI(68,NIN) ! See tale = Edge is to see ...
+         IPARI(88,NIN)=NCONTE ! See tale = Edge is to see ...
        END IF
 
        ITHK25 = IPARI(91,NIN)

@@ -66,7 +66,7 @@ C-----------------------------------------------
       CHARACTER(LEN=NCHARTITLE)::TITR
       TYPE (SENSOR_STR_) ,DIMENSION(:) ,POINTER :: SENSOR_TAB
 c=======================================================================
-C     INIT DES PARAMETRES DE SENSOR
+C     initialization of sensor parameters
 C---------------------------------------------
       NSENSOR    =  SENSORS%NSENSOR
       SENSOR_TAB => SENSORS%SENSOR_TAB(1:NSENSOR)
@@ -81,7 +81,7 @@ c
 c
         IF (SENS_TYPE == 3) THEN
 C-------------------------------------
-C         SENSOR de SENSOR
+C         sensor of sensor
 C-------------------------------------
           DO I=1,NSENSOR
             IF (SENSOR_TAB(K)%IPARAM(1) == SENSOR_TAB(I)%SENS_ID) IS1=I

@@ -264,7 +264,7 @@ c ?
                 ET(3) =CTH*SKEW(6,ISK)- STH*SKEW(3,ISK)
                 NOR2=SQRT(ET(1)*ET(1)+ET(2)*ET(2)+ET(3)*ET(3))
                 ET=ET/MAX(NOR2,EM20)
-c-----------------vitesse angulaire imposee---------
+c--------------- angular velocity imposed -------------
                 ALPHA=-YC(II)*DT2/TWO
 c-----------------sinon-----------------------------
 c                ALPHA=-YC(II)*DT2/(TWO*R)
@@ -287,7 +287,7 @@ c                ALPHA=-YC(II)*DT2/(TWO*R)
               IF(IBFV(7,N)>=1) THEN
                 IF (J==2) THEN
 c                 YC(II)=(YC(II)-VV)/DT12
-c-----------------vitesse angulaire imposee--------
+c-------------- A angular velocity imposed ----------
                   YC(II)=(R*YC(II)-VV)/DT12
 c----------------------------------------------------
                 ELSE
@@ -363,7 +363,7 @@ c ?
                 ET(3) =CTH*XFRAME(6,IFM)- STH*XFRAME(3,IFM)
                 NOR2=SQRT(ET(1)*ET(1)+ET(2)*ET(2)+ET(3)*ET(3))
                 ET=ET/MAX(NOR2,EM20)
-c---------------vitesse angulaire imposee--------
+c------------- A angular velocity imposed ----------
                 ALPHA=-YC(II)*DT2/TWO
 c-----------------------------------------------
 c                ALPHA=-YC(II)*DT2/(TWO*R)
@@ -388,7 +388,7 @@ c                ALPHA=-YC(II)*DT2/(TWO*R)
               A0 = FMDIR(1)*A(1,I) + FMDIR(2)*A(2,I) + FMDIR(3)*A(3,I)
               IF (J==2) THEN
 c               YC(II)=(YC(II)-VV+VF)/DT12
-c---------------vitesse angulaire imposee--------
+c------------- A angular velocity imposed ----------
                 YC(II)=(R*YC(II)-VV+VF)/DT12
 c-------------------------------------------------
               ELSE
@@ -623,7 +623,7 @@ C             Fixed velocity in moving frame (rota)
           VEL(4,N) = DT2*DW
          ENDDO
         ELSE
-C       partie vectorielle
+C       vector part
          NSK=0
          NFK=0
          DO II=1,IC
@@ -831,7 +831,7 @@ c             VEL(6,N) = YC(II)
                ET(3) =CTH*SKEW(6,ISK)- STH*SKEW(3,ISK)
                NOR2=SQRT(ET(1)*ET(1)+ET(2)*ET(2)+ET(3)*ET(3))
                ET=ET/MAX(NOR2,EM20)
-c-----------------vitesse angulaire imposee---------
+c--------------- angular velocity imposed -------------
                ALPHA=-YC(II)*DT2/TWO
 c-----------------sinon-----------------------------
 c                  ALPHA=-YC(II)*DT2/(TWO*R)
@@ -858,7 +858,7 @@ c                  ALPHA=-YC(II)*DT2/(TWO*R)
              IF(IBFV(7,N)>=1) THEN
                IF (J==2) THEN
 c                  YC(II)=(YC(II)-VV)/DT12
-c------------------vitesse angulaire imposee--------
+c---------------- angular velocity imposed ------------
                    YC(II)=(R*YC(II)-VV)/DT12
 c----------------------------------------------------
                ELSE
@@ -1212,7 +1212,7 @@ c ?
                  ET(3) =CTH*XFRAME(6,IFM)- STH*XFRAME(3,IFM)
                  NOR2=SQRT(ET(1)*ET(1)+ET(2)*ET(2)+ET(3)*ET(3))
                  ET=ET/MAX(NOR2,EM20)
-c--------------------vitesse angulaire imposee--------
+c------------------ angular velocity imposed ------------
                  ALPHA=-YC(II)*DT2/TWO
 c-----------------------------------------------
 c                    ALPHA=-YC(II)*DT2/(TWO*R)
@@ -1244,7 +1244,7 @@ c                    ALPHA=-YC(II)*DT2/(TWO*R)
      &              FMDIR(3)*A(3,I)
                IF (J==2) THEN
 c                  YC(II)=(YC(II)-VV+VF)/DT12
-c------------------vitesse angulaire imposee--------
+c---------------- angular velocity imposed ------------
                  YC(II)=(R*YC(II)-VV+VF)/DT12
 c-------------------------------------------------
                ELSE
@@ -1309,7 +1309,7 @@ c               VEL(6,N) = YC(II)
                  ET(3) =CTH*SKEW(6,ISK)- STH*SKEW(3,ISK)
                  NOR2=SQRT(ET(1)*ET(1)+ET(2)*ET(2)+ET(3)*ET(3))
                  ET=ET/MAX(NOR2,EM20)
-c-----------------vitesse angulaire imposee---------
+c--------------- angular velocity imposed -------------
                 ALPHA=-YC(II)*DT2/TWO
 c-----------------sinon-----------------------------
 c                  ALPHA=-YC(II)*DT2/(TWO*R)
@@ -1336,7 +1336,7 @@ c                  ALPHA=-YC(II)*DT2/(TWO*R)
                IF(IBFV(7,N)>=1) THEN
                  IF (J==2) THEN
 c                  YC(II)=(YC(II)-VV)/DT12
-c------------------vitesse angulaire imposee--------
+c---------------- angular velocity imposed ------------
                      YC(II)=(R*YC(II)-VV)/DT12
 c----------------------------------------------------
                  ELSE
@@ -1747,7 +1747,7 @@ C             Fixed velocity in moving frame (transl)
           ENDIF
          ENDDO
         ELSE
-C       partie vectorielle
+C       vector part
          NSK=0
          NFK=0
          DO II=1,IC

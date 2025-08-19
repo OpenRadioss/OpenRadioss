@@ -193,7 +193,7 @@ C-----------
         ENDDO
       ENDIF
 C-----------
-C     Prepare les sorties par part.
+C     prepares outputs by part.
 C-----------
       IF(IOUTPRT/=0)THEN
        DO I=LFT,LLT
@@ -252,7 +252,7 @@ C  -----------
         Z6(I)=Z6(I)-ZL
       ENDDO
 C-----------
-C     REPERE CONVECTE 
+C     convected frame 
 C-----------
        CALL S6CORTHO3(
      1   X1,      X2,      X3,      X4,
@@ -273,7 +273,7 @@ C------stocker [R] in %GAMA_R--------------
        GAMA_R(LFT:LLT,5) = R22(LFT:LLT)                             
        GAMA_R(LFT:LLT,6) = R32(LFT:LLT)                             
 C-----------
-C     PASSAGE AU REPERE CONVECTE.
+C     Change to the convected frame.
 C-----------
 C   X=RX' <=> X'=t(R)X chgt de base.
       IF(ISMSTR<=4.AND.JLAG>0) THEN
@@ -356,7 +356,7 @@ C          ZL=R13(I)*X6(I)+R23(I)*Y6(I)+R33(I)*Z6(I)
         X6(I)=XL
         Y6(I)=YL
         Z6(I)=-Z3(I)
-C       SAV dans rep. local.
+C       sav in local frame.
 C       SAV(I,1)=X1(I)-X6(I)
 C       SAV(I,2)=Y1(I)-Y6(I)
 C       SAV(I,3)=Z1(I)-Z6(I)
@@ -416,7 +416,7 @@ C          ZL=R13(I)*X6(I)+R23(I)*Y6(I)+R33(I)*Z6(I)
 C
        ENDIF
 C-----------
-C     PASSAGE DES VITESSES AU REPERE CONVECTE (OU ORTHOTROPE).
+C     transfer of velocities to the convected (or orthotropic) frame.
 C-----------
       CALL VRROTA3(
      1   R11,     R12,     R13,     R21,

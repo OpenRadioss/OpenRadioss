@@ -226,7 +226,7 @@ C-----------------------------------------------
         N3 = IRECTM(3,I)
         N4 = IRECTM(4,I)
 
-C---Element Frame :
+C--- Frame element:
 
         IF (N3 /= N4) THEN
 C---      shell 4N

@@ -486,7 +486,7 @@ C
       ELSEIF(NTY==7)THEN
 C
         I_STOK = INTBUF_TAB%I_STOK(1)
-C decoupage statique
+C static partitioning 
         IF(INACTI/=7)THEN
           NB_LOC = I_STOK / NTHREAD
           IF (JTASK==NTHREAD) THEN
@@ -508,7 +508,7 @@ C decoupage statique
 C
         NUM_IMP = 0
 C
-C recalcul du istok
+C recalculation of istok
 C
         IF (INACTI==5.OR.INACTI==6.OR.INACTI==7)THEN
           DO I = DEBUT+1, DEBUT+I_STOK_LOC
@@ -518,7 +518,7 @@ C
 C inbuf == cand_n
               INTBUF_TAB%CAND_N(I) = -INTBUF_TAB%CAND_N(I)
             ELSE
-C remise a 0 de cand_p
+C Discount at 0 of Cand_P
               INTBUF_TAB%CAND_P(I) = ZERO
             ENDIF
           ENDDO
@@ -783,7 +783,7 @@ C--------------------------------------------------------
          IF(NI > NSN)THEN
           NN = NI - NSN
           NS=IND_INT(NIN)%P(NN)
-C---------pour diag_ss---
+Cfor diag_ss
           FFI(1,NS)=ZERO
           FFI(2,NS)=ZERO
           FFI(3,NS)=ZERO
