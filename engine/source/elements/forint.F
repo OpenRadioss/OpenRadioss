@@ -66,12 +66,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
 !||    ale_mod                ../common_source/modules/ale/ale_mod.F
 !||    dt_mod                 ../engine/source/modules/dt_mod.F
-!||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
-!||    glob_therm_mod         ../common_source/modules/mat_elem/glob_therm_mod.F90
+!||    elbufdef_mod           ../common_source/modules/MAT_ELEM/elbufdef_mod.F90
+!||    glob_therm_mod         ../common_source/modules/MAT_ELEM/glob_therm_mod.F90
 !||    groupdef_mod           ../common_source/modules/groupdef_mod.F
 !||    h3d_mod                ../engine/share/modules/h3d_mod.F
 !||    initbuf_mod            ../engine/share/resol/initbuf.F
-!||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
+!||    MAT_ELEM_mod           ../common_source/modules/MAT_ELEM/MAT_ELEM_mod.F90
 !||    message_mod            ../engine/share/message_module/message_mod.F
 !||    nlocal_reg_mod         ../common_source/modules/nlocal_reg_mod.F
 !||    output_mod             ../common_source/modules/output/output_mod.F90
@@ -954,7 +954,7 @@ c            IF (NPTR==0) NPTR=IINT
      J         FTHESKY    ,IEXPAN    ,IGEO     ,NPT0       ,GRESAV     ,
      K         GRTH       ,IGRTH(NF1),MSSA(NF1),DMELS(NF1) ,TABLE      ,
      L         XDP        ,VOLN      ,CONDN    ,CONDNSKY   ,JFAC,
-     M         D          ,SENSORS   ,IPRI     ,MAt_ELEM   ,IBID,DT ,SNPC,
+     M         D          ,SENSORS   ,IPRI     ,MAT_ELEM   ,IBID,DT ,SNPC,
      N         STF        ,SBUFMAT   ,SVIS     ,NSVOIS     ,IDTMINS  ,
      O         IRESP      ,MAXFUNC   ,USERL_AVAIL, GLOB_THERM, 
      P         impl_s     ,idyna)
@@ -1070,7 +1070,7 @@ C-------------------------
      P   VOLN,       CONDN,      CONDNSKY,   AGRAV,
      Q   IGRV,       LGRAV,      SENSORS,    SKEW,
      R   NALE,       D,          IPRI,       NLOC_DMG,
-     S   MAt_ELEM,   IBID,       DT,         IDEL7NOK,NSVOIS,
+     S   MAT_ELEM,   IBID,       DT,         IDEL7NOK,NSVOIS,
      T   IBID,       SNPC,       STF,        SBUFMAT,SVIS,IDTMINS,
      U   IRESP,      IDEL7NG,    MAXFUNC,    USERL_AVAIL, GLOB_THERM, 
      V   impl_s,     idyna,      OUTPUT%TH%WFEXT)
@@ -1207,7 +1207,7 @@ C
           IF (ISENS_ENERGY == 1 .AND. IPRI == 0)
      .     CALL SENSOR_ENERGY_PART(IPARTT(NF1) ,SUBSET ,IPRI,SENSORS,ITASK)
 c
-          CALL TFORC3(
+          CALL TFORC3(MAT_ELEM%MAT_PARAM,NUMMAT,
      1   ELBUF_TAB(NG),       JFT,                 JLT,                 PM,
      2   GEO,                 IXT,                 X,                   A,
      3   V,                   PARTSAV,             BUFMAT,              DT2T,

@@ -83,8 +83,8 @@
           character(len=nchartitle)              ,intent(in)    :: titr        !< material law title
 !
           integer                                ,intent(inout) :: israte      !< strain rate flag
-          real(kind=WP), dimension(100)                ,intent(inout) :: parmat      !< temporary material parameter table
-          real(kind=WP), dimension(npropm)             ,intent(inout) :: pm          !< material parameter table
+          real(kind=WP), dimension(128)          ,intent(inout) :: parmat      !< temporary material parameter table
+          real(kind=WP), dimension(npropm)       ,intent(inout) :: pm          !< material parameter table
           type(matparam_struct_)                 ,intent(inout) :: mat_param   !< material parameter structure
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
@@ -375,6 +375,9 @@
           mat_param%uparam(28) = cn            !         pm(47)
           mat_param%uparam(29) = fmax          !         pm(49)
 
+! ----------------------------------------------------------------------------------------------------------------------
+          mat_param%rho  = rhor
+          mat_param%rho0 = rho0
 ! ----------------------------------------------------------------------------------------------------------------------
 
           ! for ply xfem

@@ -32,13 +32,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    message_mod                ../starter/share/message_module/message_mod.F
 !||    submodel_mod               ../starter/share/modules1/submodel_mod.F
 !||====================================================================
-      SUBROUTINE HM_READ_EOS_IDEAL_GAS_VT(IOUT,PM,UNITAB,IUNIT,LSUBMODEL,IMIDEOS)
+      SUBROUTINE HM_READ_EOS_IDEAL_GAS_VT(IOUT,PM,UNITAB,IUNIT,LSUBMODEL,IMIDEOS,MAT_PARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
       USE SUBMODEL_MOD
       USE MESSAGE_MOD
+      USE MATPARAM_DEF_MOD, ONLY : MATPARAM_STRUCT_
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -69,6 +70,7 @@ C-----------------------------------------------
       INTEGER IIN,IOUT,IUNIT
       my_real PM(NPROPM)
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
+      TYPE(MATPARAM_STRUCT_),INTENT(INOUT) :: MAT_PARAM
       INTEGER,INTENT(IN) :: IMIDEOS
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -110,6 +112,7 @@ C      CALL HM_GET_FLOATV('MAT_R', R_GAS, IS_AVAILABLE,LSUBMODEL,UNITAB)
       IF(RHO0 > ZERO) THEN
         RHOR = RHO0
         PM(1)= RHO0 
+        MAT_PARAM%RHO = RHO0
       ELSE
         RHO0=RHOR                   
       ENDIF
@@ -183,8 +186,6 @@ C      CALL HM_GET_FLOATV('MAT_R', R_GAS, IS_AVAILABLE,LSUBMODEL,UNITAB)
       E0 = RHO0 * (A0 * T0 + HALF * A1 * T0**2 + THIRD * A2 * T0**3 + FOURTH * A3 * T0**4 + 
      .     ONE_FIFTH * A4 * T0**5 - r_GAS_ * T0)
      
-      IF(T0 == ZERO)T0=THREE100
-     
       PM(106) = r_gas_ ! r=R_GAS/M
       PM(88) = PSH
       PM(23) = E0
@@ -194,8 +195,9 @@ C      CALL HM_GET_FLOATV('MAT_R', R_GAS, IS_AVAILABLE,LSUBMODEL,UNITAB)
       PM(34) = A2
       PM(35) = A3
       PM(36) = A4
-      PM(79) = T0
-      IF(PM(79)==ZERO)PM(79)=THREE100      
+      IF (T0 == ZERO) T0 = THREE100
+      MAT_PARAM%THERM%TINI =THREE100
+      PM(79) = THREE100
       
       PM(104)=P0-PSH
             

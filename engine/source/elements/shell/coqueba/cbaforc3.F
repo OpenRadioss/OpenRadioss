@@ -1072,11 +1072,11 @@ C
 C--------------------------
 C     THERMAL TIME STEP
 C--------------------------
-        IF (JTHE > 0.AND. GLOB_THERM%IDT_THERM == 1)THEN
-           call dttherm(nel     ,pm(1,mat(1))  ,npropm  ,glob_therm   ,
-     .                  jtur    ,tempel  ,vol0    ,rho       ,
-     .                  lc      ,off     ,conde   ,gbuf%re   ,gbuf%rk )
-         ENDIF 
+      IF (JTHE > 0.AND. GLOB_THERM%IDT_THERM == 1)THEN
+        call dttherm(nel     ,pm(1,imat),npropm,glob_therm,mat_elem%mat_param(imat),
+     .               jtur    ,tempel  ,vol0    ,rho       ,
+     .               lc      ,off     ,conde   ,gbuf%re   ,gbuf%rk )       
+      ENDIF 
 C 
       IF(ISHPLYXFEM > 0) THEN                                     
         CALL CNDT_PLY(                                            
