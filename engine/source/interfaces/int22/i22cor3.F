@@ -108,7 +108,7 @@ C      IRECT_L( 9:12, :)                         : Y-coordinates
 C      IRECT_L(13:16, :)                         : Z-coordinates
 C      IRECT_L(17:19, :)                         : Minimum X,Y,Z
 C      IRECT_L(20:22, :)                         : Maximum X,Y,Z
-C      IRECT_L(23   , :)                         : Stiffness
+C      Irect_l (23, :): Stiffness
 C      IRECT_L(24:26, :)                         : Lagrangian Velocity (mean)
 C      IRECT_L(    :,1+4*ESHIFT:4*ESHIFT+NRTM_T) : element data on current Thread
 C      IRECT_L(    :,NRTM+1:NRTM + NSNR)         : remotes elements data

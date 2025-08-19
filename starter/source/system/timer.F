@@ -27,7 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- calls      -----------------------------------------------------
 !||====================================================================
       SUBROUTINE INITIME()
-C     initialisation des timers
+C     TIMER INITIALIZATION
 C     timer                       signification
 C
 C     1                           translator
@@ -71,7 +71,7 @@ C-----------------------------------------------
           REALTIME(J,I) = ZERO
         ENDDO 
       ENDDO
-      CALL SYSTEM_CLOCK(CLOCK0)   ! recuperation du temps de debut dans clock0
+      CALL SYSTEM_CLOCK(CLOCK0)   ! GETTING START TIME IN CLOCK0
       ELAPSED = ZERO  ! initialisation a zero de l'elapsed time
 
 #ifdef _OPENMP
@@ -90,7 +90,7 @@ C-----------------------------------------------
 !||    my_etime       ../starter/source/system/machine.F
 !||====================================================================
       SUBROUTINE STARTIME(EVENT,ITASK)
-C     routine d'incrementation du timer event
+C     Timer Event Incormenting Routine
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -132,7 +132,7 @@ C
 !||    my_etime       ../starter/source/system/machine.F
 !||====================================================================
       SUBROUTINE STOPTIME(EVENT,ITASK)
-C     routine incrementation du timer event
+C     Timer Event Incontation Routine
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -165,7 +165,7 @@ C-----------------------------------------------
 #else
       CALL SYSTEM_CLOCK(COUNT=CLOCK1, COUNT_RATE=CLOCKRATE,
      +                  COUNT_MAX=NBMAX                   )
-      SECS = CLOCK1-CLOCKINI(EVENT,ITASK)    ! diff temps courant - temps initial
+      SECS = CLOCK1-CLOCKINI(EVENT,ITASK)    ! Different time common - Initial time
       IF(SECS<ZERO) SECS = SECS + NBMAX   ! cas depassement nb de periode maximum
       SECS = SECS/CLOCKRATE
 #endif
@@ -181,7 +181,7 @@ C-----------------------------------------------
 !||    elapstime       ../starter/source/system/timer.F
 !||====================================================================
       SUBROUTINE PRINTIME(ITASK,GOT_TIMER,STARTDATE,STARTTIME,ENDDATE,ENDTIME)
-C     routine d'affichage des timers
+C     timers display routine
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -403,13 +403,13 @@ C-----------------------------------------------
         SECS = OMP_ENDING_TIME-OMP_STARTING_TIME
         ELAPSED = SECS
 #else    
-        SECS = CLOCK1-CLOCK0         ! diff temps courant - temps initial (qui peut ne pas etre 0 !)
+        SECS = CLOCK1-CLOCK0         ! Different time common - Initial time (which may not be 0!)
         IF(SECS<ZERO) SECS = SECS + NBMAX   ! cas depassement nb de periode maximum
         SECS = SECS/CLOCKRATE
         ELAPSED = ELAPSED + SECS
 #endif
 
-        CLOCK0 = CLOCK1              ! recuperation du temps courant dans clock0
+        CLOCK0 = CLOCK1              ! GETTING CURRENT TIME IN CLOCK0
         ETIME = ELAPSED
 
         RETURN

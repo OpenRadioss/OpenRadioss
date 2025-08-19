@@ -64,9 +64,9 @@ C-----------------------------------------------
             L_SURF = L_SURF+1
 !        IGRSURF_L(L_SURF+1) = TYPE
             L_SURF = L_SURF+1
-!        IGRSURF_L(L_SURF+1) = ID_MADYMO
+!        Igrsurf_l (l_surf+1) = id_madymo
             L_SURF = L_SURF+1
-!        IGRSURF_L(L_SURF+1) = IAD_BUFR
+!        Igrsurf_l (l_surf+1) = iAd_bufr
             L_SURF = L_SURF+1
 !        IGRSURF_L(L_SURF+1) = NB_MADYMO
             L_SURF = L_SURF+1

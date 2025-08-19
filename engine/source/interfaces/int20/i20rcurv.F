@@ -49,7 +49,7 @@ C-----------------------------------------------
      .   SURFX,SURFY,SURFZ,X13,Y13,Z13,X24,Y24,Z24,AAA
 C-----------------------------------------------
 
-C optimisable en spmd si ajout flag pour routine de comm, spmd_exchange_n
+C Optimizable in SPMD If Addition Flag for comm, SPMD_exchange_n
       DO N1=1,NUMNOD
         NOD_NORMAL(1,N1) = ZERO
         NOD_NORMAL(2,N1) = ZERO
@@ -208,7 +208,7 @@ C
      .                      ISDSIZ,IRCSIZ,ITAG  ,LENR    ,LENS   )
       END IF
 C
-C     tri par packet des normales
+C     sorting by packet of normals
 C
       DO N1 = 1, NUMNOD
         N2 = ADSKYT(N1-1)
@@ -225,7 +225,7 @@ C            IF(N4>MAXCC)print*,'error cc:',n4,maxcc
               NOD_NORMAL(J,N1) = NOD_NORMAL(J,N1) + FSKYT2(CC-N2+1)
             END DO
           END DO
-        ELSEIF(N4==1)THEN    ! cas 1 seule contribution => direct
+        ELSEIF(N4==1)THEN    ! Case 1 single contribution => direct
           NOD_NORMAL(1,N1) = FSKYT(1,N2)
           NOD_NORMAL(2,N1) = FSKYT(2,N2)
           NOD_NORMAL(3,N1) = FSKYT(3,N2)
@@ -366,7 +366,7 @@ C-------
         ERY = (Y2+Y3)-(Y1+Y4)
         ERZ = (Z2+Z3)-(Z1+Z4)
 
-C       Longueur vraie = LL/2
+C       True length = ll/2
         LL  = SQRT(ERX*ERX+ERY*ERY+ERZ*ERZ)
         AAA = ONE / LL
         ERX = ERX*AAA
@@ -387,7 +387,7 @@ C-------
         ERY = (Y4+Y3)-(Y1+Y2)
         ERZ = (Z4+Z3)-(Z1+Z2)
 
-C       Longueur vraie = LL/2
+C       True length = ll/2
         LL  = SQRT(ERX*ERX+ERY*ERY+ERZ*ERZ)
         AAA = ONE / LL
         ERX = ERX*AAA

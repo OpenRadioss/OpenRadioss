@@ -346,7 +346,7 @@ C
       ENDDO
 C
 C----------------------------------------
-C     INITIALISATION DE LA THERMIQUE 
+C     INITIALIZATION OF THERMAL CONDITIONS
 C----------------------------------------
       IF(JTHE /=0) CALL ATHERI(MAT,PM,GBUF%TEMP)
 C-----------------------------
@@ -408,7 +408,7 @@ c
      .               GBUF     ,LBUF   ,MBUF        ,ELBUF_STR  ,ILOADP   ,
      .               FACLOAD, DELTAX  ,TEMPEL     )
 C----------------------------------------
-C     INITIALISATION DES MASSES
+C     INITIALIZATION OF MASSES
 C----------------------------------------
          CALL S20MSI(LBUF%RHO ,MASS     ,LBUF%VOL  ,DTELEM(NFT+1),STI    ,
      .               LBUF%OFF ,LBUF%SIG ,LBUF%EINT ,DTX          ,NEL    ,
@@ -482,8 +482,8 @@ C----------------------------------------
      .             SIGI,NSIGS,IXS,NIXS,PTSOL,
      .             RNOISE,PERTURB,MAT_PARAM)
 C------------------------------------------
-C     assemblage des Volumes nodaux et Modules nodaux
-C     (pour rigidites d'interface)
+C     assembly of Nodal Volumes and Nodal Modules
+C     (for interface rigidities)
 C------------------------------------------
       IF (I7STIFS /= 0) THEN
         NCC=16

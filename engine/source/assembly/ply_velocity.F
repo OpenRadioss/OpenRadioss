@@ -21,15 +21,15 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    ply_vitesse   ../engine/source/assembly/ply_vitesse.F
+!||    ply_velocity   ../engine/source/assembly/ply_velocity.F
 !||--- called by ------------------------------------------------------
 !||    resol         ../engine/source/engine/resol.F
 !||--- calls      -----------------------------------------------------
-!||    plyv          ../engine/source/assembly/ply_vitesse.F
+!||    plyv          ../engine/source/assembly/ply_velocity.F
 !||--- uses       -----------------------------------------------------
 !||    plyxfem_mod   ../engine/share/modules/plyxfem_mod.F
 !||====================================================================
-      SUBROUTINE PLY_VITESSE(NODFT,NODLT,NPLYMAX,INOD,NDDIM)
+      SUBROUTINE PLY_VELOCITY(NODFT,NODLT,NPLYMAX,INOD,NDDIM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -62,9 +62,9 @@ C
       RETURN
       END
 !||====================================================================
-!||    plyv          ../engine/source/assembly/ply_vitesse.F
+!||    plyv          ../engine/source/assembly/ply_velocity.F
 !||--- called by ------------------------------------------------------
-!||    ply_vitesse   ../engine/source/assembly/ply_vitesse.F
+!||    ply_velocity   ../engine/source/assembly/ply_velocity.F
 !||====================================================================
       SUBROUTINE PLYV(NODFT,NODLT,INOD,A,V,U)
 C-----------------------------------------------

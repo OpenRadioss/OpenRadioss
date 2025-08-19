@@ -335,7 +335,7 @@ C----------------------------------------
        WRITE(IOUT,'(40X, 1PG20.13/)') PM(45)
       ENDIF
 c
-C---- Definition des variables internes (stockage elementaire)
+C---- Definition of internal variables (Elementary storage)
 c
 
       MTAG%G_PLA    = 1    

@@ -88,8 +88,8 @@ C=======================================================================
 c
         IF (JCVT == 0) THEN 
 c ------------------------------
-c Angle d'orthotropie defini par rapport
-c a la premiere direction du repere isoparametrique
+c DEFINI Orthotropy Angle compared
+c in the first direction of the isoparametric frame
 c ------------------------------
           IF(IPNUM==11) THEN
             SUM=SQRT(RY(I)**2+RZ(I)**2)
@@ -199,11 +199,11 @@ c ------------------------------
           ELSE
 c ------------------------------
 c ATTENTION !
-c Angle d'orthotropie est desormais toujours donne par l'utilisateur 
-c par rapport au repere isoparametrique
-c Puis transforme en interne en angle par rapport au repere corrotationnel
-c (pour plus de simplicite cote utilisateur)
-c (anciennement donne directement par rapport au repere corot)
+c Orthotropy angle is now given by the user 
+c Compared to the isoparametric mark
+c Then transforms internally into angle compared to the corrotational frame
+c (for user-side simplicity)
+c (formerly gives directly with respect to the Corot mark)
 c ------------------------------          
             SUM=SQRT(RY(I)**2+RZ(I)**2)
             SUM=ONE/MAX(SUM,EM20)

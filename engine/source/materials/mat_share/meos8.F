@@ -127,7 +127,7 @@ C
         ESPE(I)=DF(I)*EINT(I)/ MAX(EM15,VNEW(I))
       ENDDO
 C--------------------------------------------------
-C     VITESSE DU SON APPROCHEE COURANTE
+C     VELOCITY DU SON APPROCHEE COURANTE
 C--------------------------------------------------
       DO I=1,NEL
         DPDM(I)=ONEP333*G(I)
@@ -142,7 +142,7 @@ C
         SSP(I)=SQRT(ABS(DPDM(I))/RHO0(I))
       ENDDO
 C--------------------------------------------------
-C     VISCOSITE VOLUMETRIQUE ET PAS DE TEMPS
+C     volumetric viscosity and time step
 C--------------------------------------------------
       CALL MQVISC8(
      1   PM,      OFF,     RHO,     RK,
@@ -205,8 +205,8 @@ C--------------------------------------------------
       ENDDO ! DO IPT=1,NPT
 C---------------------------------------------
 C
-C  DIVISION PAR LE VOLUME POUR L'ALE <(:o))=
-C  VOL EST LE VOLUME INITIAL EN LAG.
+C  division by volume for ALE <(:o))=
+C  VOL IS THE INITIAL VOLUME IN LAG.
 C
 C---------------------------------------------
       DO I=1,NEL

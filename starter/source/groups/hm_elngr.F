@@ -80,7 +80,7 @@ C=======================================================================
             DO L=1,IGRELEM(ISU)%NENTITY
               IE=IGRELEM(ISU)%ENTITY(L)
               DO K=NIX1,NIX2
-C               tag les noeuds connectes a l'element 
+C               tag nodes connected to the element 
                 TAGBUF(IX(K,IE))=1
               ENDDO
             ENDDO
@@ -161,7 +161,7 @@ C=======================================================================
             DO L=1,IGRELEM(ISU)%NENTITY
               IE = IGRELEM(ISU)%ENTITY(L)
               DO K=2,9
-C               tag les noeuds connectes a l'element 
+C               tag nodes connected to the element 
                 TAGBUF(IXS(K,IE))=1
               ENDDO
               IF (IE > NUMELS8 .AND. IE <= NUMELS8+NUMELS10) THEN

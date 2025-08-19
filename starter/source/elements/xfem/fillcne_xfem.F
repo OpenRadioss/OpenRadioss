@@ -81,7 +81,7 @@ c---------------------------
 c     Connectivities
 c---------------------------
       DO I = 1, NUMELC
-        ITRIC(I) = IXC(7,I)    !  ID elements std dans l'ordre d'input
+        ITRIC(I) = IXC(7,I)    !  Id elements std in the order of input
       ENDDO
       CALL MY_ORDERS(0,WORK,ITRIC,INDXC,NUMELC,1)
 c
@@ -95,7 +95,7 @@ c---------------------------
         DO K=1,4
           N = IXC(K+1,I)
           KNOD2ELC(N)  = KNOD2ELC(N) + 1
-          TAGSKYC(K,I) = KNOD2ELC(N)      ! Nb d'elements std connectes a un noeud
+          TAGSKYC(K,I) = KNOD2ELC(N)      ! Number of std connects to a node
         END DO
       END DO
 c---
@@ -108,7 +108,7 @@ c---
         END DO
       END DO
 c---------------------------
-c     SHELL -4N- Connectivities
+c     Shell -4n- Connectivities
 c---------------------------
       INDX = 0
       DO J=1,NUMELC
@@ -125,7 +125,7 @@ c---------------------------
         ENDIF 
       ENDDO
 c---------------------------
-c     SHELL -3N- Connectivities
+c     Shell -3N- Connectivities
 c---------------------------
       DO J=1,NUMELTG
         I = INDXTG(J)

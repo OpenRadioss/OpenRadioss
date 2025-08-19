@@ -98,7 +98,7 @@ C
 
           ELSEIF(IREM_EDGE(E_LOCAL_ID,J+JDEB)>
      +           NSVFIE(NIN)%P(I+IDEB)) THEN
-Cas candidat non penetre et non retenu
+Cas candidate not penetrating and not selected
             I = I + 1
           END IF
         END DO

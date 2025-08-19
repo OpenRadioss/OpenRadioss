@@ -29,7 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      1                  VXYZ,VETA,VKSI,BM,BC,TC,DT1C,
      2                  EXX, EYY , EYZ, EZX)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
-C       CALCUL DES DEFORMATIONS GENERALISEES AUX POINTS DE GAUSS ET [B]
+C       CALCULATION OF GENERALIZED STRAINS AT GAUSS POINTS AND [B]
 C       ENTREES :  NEL,NG,VQN,VXYZ,VASM,VASTN
 C       SORTIES : VDEF,BM (MEMBRANE),BMF(COUPLAGE MEM-FLEXION),BF (FLEXION),BC(C.T)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
@@ -199,7 +199,7 @@ C---------DEF MEMBRANE------
             EXX(EP,J)= EXX(EP,J)+ C1*VT1
             EYY(EP,J)= EYY(EP,J)+ C2*VT2
 C---------DEF DE FLEXION ASSOCIEE AUX U,V,W ([BMF]=2H[B0]+[B01])------
-C----------SEULEMENT LA PARTIE DE [B01]---------
+C----------ONLY THE [B01] PART---------
 c         VDEF(6,EP)= VDEF(6,EP)+ BC1*VT1
 c         VDEF(7,EP)= VDEF(7,EP)+ BC2*VT2
 c         VDEF(8,EP)= VDEF(8,EP)+ BC1*VT2+BC2*VT1

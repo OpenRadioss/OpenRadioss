@@ -167,7 +167,7 @@ c    material parameters
 C    
       IF (IAVIS>0) THEN    
       DO  I = 1, NEL
-         !retrieve previous viscous deformation gradient
+         !Retrieve Previous Viscous Deformation Gradient
          FPO(I,1,1)  = UVAR(I,1) 
          FPO(I,2,2)  = UVAR(I,2) 
          FPO(I,3,3)  = UVAR(I,3) 

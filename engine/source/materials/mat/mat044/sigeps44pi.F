@@ -104,7 +104,7 @@ c
         DPLA(I) = ZERO
       ENDDO
 c        
-c---    Contraintes elastiques
+c--- Elastic constraints
 c
       DO I = 1,NEL
         GS = SHFACT*G(I)                         

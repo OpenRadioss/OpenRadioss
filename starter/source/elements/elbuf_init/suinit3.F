@@ -355,7 +355,7 @@ C
         ENDDO
       ENDIF
 C----------------------------------------
-C     INITIALISATION DES MASSES et INERTIES
+C     initialization of masses and inertias
 C----------------------------------------
       CALL SUMASS3(MS,PARTSAV,X,V,IPARTS(NF1),MSS(1,NF1),
      2             MAS,INN,GBUF%VOL,VOLU,MASS,IN,
@@ -369,10 +369,10 @@ C----------------------------------------
      .             SIGI,NSIGS,IXS,NIXS,PTSOL,
      .             RNOISE,PERTURB,MAT_PARAM)
 C------------------------------------------
-C     assemblage des Volumes nodaux et Modules nodaux
-C     (pour rigidites d'interface)
+C     assembly of nodal volumes and nodal modules
+C     (for interface rigidities)
 C------------------------------------------
-C   attention : NC1, NC2 ... NC8 sont sous la forme NC(MVSIZ,8)
+C   Please note: NC1, NC2 ... NC8 are in the form NC (MVSIZ, 8)
       IF(I7STIFS/=0)THEN
         NCC=8
         CALL SBULK3(VOLU  ,NC1    ,NCC,MAT,PM ,
@@ -380,7 +380,7 @@ C   attention : NC1, NC2 ... NC8 sont sous la forme NC(MVSIZ,8)
      3              BID   ,GBUF%FILL)
       ENDIF
 C------------------------------------------
-C    CALCUL DES DT ELEMENTAIRES
+C    calculation of elementary dt
 C------------------------------------------
        AIRE(:) = ZERO
        CALL DTMAIN(GEO       ,PM        ,IPM         ,PID     ,MAT     ,FV    ,

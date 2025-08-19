@@ -164,7 +164,7 @@ C
            ENDDO
            RESP0=RES
           ENDIF      ! jj_old>0
-        ENDDO        ! nn=1,nspgroup
+        ENDDO        ! nn = 1, nspgroup
         IF (RESP0 > 0) THEN
           IF (OUTYY_FMT == 2) THEN
             WRITE(IUGEO,'(1P6E12.5)')(WAP0(J),J=1,RESP0)
@@ -300,7 +300,7 @@ C
         NGF = NGL + 1
         JJ_LOC(NN) = JJ - COMPTEUR            ! size of each group
         COMPTEUR = JJ                         
-      ENDDO                                   ! nn=1,nspdgroup
+      ENDDO                                   ! nn = 1, nspdgroup
 
 !     ++++++++++
        IF( NSPMD>1 ) THEN
@@ -347,7 +347,7 @@ C
            ENDDO 
          END IF
         END IF
-       ENDDO   ! nn=1,nspgroup
+       ENDDO   ! nn = 1, nspgroup
       END IF   ! ispmd=0     
 C-----------             
       RETURN

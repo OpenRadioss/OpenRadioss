@@ -796,9 +796,9 @@ C---------------------------------
           ENDDO
         ELSEIF(IVIS2==5)THEN
 C---------------------------------
-C         VISC = 2M/dt    => pour visc < 1 , stable : dt < 2M/visc = dt
-C         M=M1*M2/M1+M2      pour visc = 1 , choc elastique
-C                            pour visc = 0.5 , choc mou
+C         Visc = 2m/dt => For visc <1, stable: Dt <2m/visc = Dt
+C         M = m1*m2/m1+m2 for visc = 1, elastic shock
+C                            For visc = 0.5, elastic collision
 C---------------------------------
           DO I=1,JLT
             IF(PENE(I) == ZERO)CYCLE
@@ -932,9 +932,9 @@ C---------------------------------
               STIF(I) = MAX(STIF0(I) ,FAC*SQRT(VISCFFRIC(I))*VIS*DT1INV)
             ELSEIF(IVIS2==5)THEN
 C---------------------------------
-C         VISC = 2M/dt    => pour visc < 1 , stable : dt < 2M/visc = dt
-C         M=M1*M2/M1+M2      pour visc = 1 , choc elastique
-C                            pour visc = 0.5 , choc mou
+C         Visc = 2m/dt => For visc <1, stable: Dt <2m/visc = Dt
+C         M = m1*m2/m1+m2 for visc = 1, elastic shock
+C                            For visc = 0.5, elastic collision
 C---------------------------------
               IF(PENE(I) == ZERO)CYCLE
               MAS2  = MS(IX1(I))*H1(I)
@@ -953,7 +953,7 @@ C---------------------------------
 
 
           ELSE
-cbb  initialisation du tableau VIS2 pour eviter des problemes
+cbb initialization of the vis2 array to avoid problems
             VIS2(I) = ZERO
           ENDIF
         ENDDO
@@ -1054,7 +1054,7 @@ C---------------------------------
             FNCONT(3,IX4(I)) =FNCONT(3,IX4(I)) + FZI(I)*H4(I)
             JG = NSVG(I)
             IF(JG>0) THEN
-C en SPMD : traitement a refaire apres reception noeud remote si JG < 0
+C In SPMD: Treatment to be redone after reception node Remote if JG <0
               IF (JG >NUMNOD) THEN
                 IG = JG - NUMNOD
                 CALL I24FOR1_FIC(3     ,IRTSE   ,NSNE    ,IS2SE   ,IS2PT   ,
@@ -2638,7 +2638,7 @@ C---------------------------------
             FTCONT(3,IX4(I)) =FTCONT(3,IX4(I)) + FZT(I)*H4(I)
             JG = NSVG(I)
             IF(JG>0) THEN
-C en SPMD : traitement a refaire apres reception noeud remote si JG < 0
+C In SPMD: Treatment to be redone after reception node Remote if JG <0
               IF (JG >NUMNOD) THEN
                 IG = JG - NUMNOD
                 CALL I24FOR1_FIC(3     ,IRTSE   ,NSNE    ,IS2SE   ,IS2PT   ,
@@ -2931,7 +2931,7 @@ C
           ENDIF
           IF(IE > NRTM) IE=IE-NRTM
 
-          KK  =ADDSUBM(IE) ! Addresse du M
+          KK  =ADDSUBM(IE) ! address of m
           DO WHILE(KK<ADDSUBM(IE+1))
 !             all sub interfaces of S
             KSUB=LISUBM(KK)
@@ -3215,7 +3215,7 @@ C---------------------------------
      .    .AND.(IVIS2==0.OR.IVIS2==1))THEN
           DO I=1,JLT
             IF(PENE(I) == ZERO)CYCLE
-C        C(I)=2.*C(I)
+C        C (i) = 2.*C (i)
 C
             IF(MSI(I)==ZERO)THEN
               KS(I) =ZERO
@@ -3327,7 +3327,7 @@ C
             IF(VISCFFRIC(I)/=ZERO
      .        .AND.(IVIS2==0.OR.IVIS2==1))THEN
               IF(PENE(I) == ZERO)CYCLE
-C        C(I)=2.*C(I)
+C        C (i) = 2.*C (i)
 C
               IF(MSI(I)==ZERO)THEN
                 KS(I) =ZERO
@@ -3548,14 +3548,14 @@ C  SPMD : do same after reception of forces for remote nodes
       ENDIF
 C
 C
-C spmd : identification des noeuds interf. utiles a envoyer
+C SPMD: Identification of interf nodes.useful to send
       IF (NSPMD>1) THEN
 ctmp+1 mic only
 #include "mic_lockon.inc"
         DO I = 1,JLT
           NN = NSVG(I)
           IF(NN<0)THEN
-C tag temporaire de NSVFI a -
+C temporary tag of nsvfi a -
             HH = H1(I)+H2(I)+H3(I)+H4(I)
             IF(HH /= ZERO.OR.TAGIP(I)==1)THEN
               IF(ISEDGE_FI(NIN)%P(-NN)==0)THEN
@@ -3621,7 +3621,7 @@ C
             FCONT(3,IX4(I)) =FCONT(3,IX4(I)) + FZ4(I)
             JG = NSVG(I)
             IF(JG>0) THEN
-C en SPMD : traitement a refaire apres reception noeud remote si JG < 0
+C In SPMD: Treatment to be redone after reception node Remote if JG <0
               IF (JG >NUMNOD) THEN
                 IG = JG - NUMNOD
                 CALL I24FOR1_FIC(3     ,IRTSE   ,NSNE    ,IS2SE   ,IS2PT   ,
@@ -3657,8 +3657,8 @@ C-----------------------------------------------------
 #include "lockon.inc"
                   DO K=1,JLT
                     IF(PENE(K) == ZERO)CYCLE
-C attention aux signes pour le cumul des efforts
-C a rendre conforme avec CFORC3
+C pay attention to the signs for the accumulation of forces
+C To make it conform with CFORC3
                     IF(SECFCUM(4,IX1(K),I)==1.)THEN
                       SECFCUM(1,IX1(K),I)=SECFCUM(1,IX1(K),I)-FX1(K)
                       SECFCUM(2,IX1(K),I)=SECFCUM(2,IX1(K),I)-FY1(K)
@@ -3681,7 +3681,7 @@ C a rendre conforme avec CFORC3
                     ENDIF
                     JG = NSVG(K)
                     IF(JG>0) THEN
-C en SPMD : traitement a refaire apres reception noeud remote si JG < 0
+C In SPMD: Treatment to be redone after reception node Remote if JG <0
                       IF (JG >NUMNOD) THEN
                         IG = JG - NUMNOD
                         IF(SECFCUM(4,JG,I)==1.)THEN
@@ -3728,11 +3728,11 @@ C-----------------------------------------------------
       IF(IBAG/=0.OR.IADM/=0)THEN
         DO I=1,JLT
           IF(PENE(I) == ZERO)CYCLE
-C test modifie pour coherence avec communication SPMD (spmd_i7tools)
+C test modified for consistency with spmd communication (spmd_i7tools)
 c        IF(FXI(I)/=ZERO.OR.FYI(I)/=ZERO.OR.FZI(I)/=ZERO)THEN
           JG = NSVG(I)
           IF(JG>0) THEN
-C en SPMD : traitement a refaire apres reception noeud remote si JG < 0
+C In SPMD: Treatment to be redone after reception node Remote if JG <0
             ICONTACT(JG)=1
           ENDIF
           ICONTACT(IX1(I))=1
@@ -3757,7 +3757,7 @@ C
           IG=NSVG(I)
 C---------obsolate option, no need to update
           IF(IG>0.AND.IG<=NUMNOD) THEN
-C en SPMD : traitement a refaire apres reception noeud remote si JG < 0
+C In SPMD: Treatment to be redone after reception node Remote if JG <0
             CALL IBCOFF(IBCS,ICODT(IG))
           ENDIF
         ENDIF
@@ -4725,7 +4725,7 @@ cc             PLY(ILY)%A(2,NN) = PLY(ILY)%A(2,NN) - FYI(I)
 cc             PLY(ILY)%A(3,NN) = PLY(ILY)%A(3,NN) - FZI(I)
 cc             PLY(ILY)%A(4,NN) = PLY(ILY)%A(4,NN) + STIF(I)
 cc           ELSE
-C avoir l'aspect spmd
+C have the SPMD appearance
 cc             IG = -IG
 cc             AFI(NIN)%P(1,IG)=AFI(NIN)%P(1,IG)-FXI(I)
 cc             AFI(NIN)%P(2,IG)=AFI(NIN)%P(2,IG)-FYI(I)

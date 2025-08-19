@@ -129,7 +129,7 @@ C Initialisation
       CPEI_MIX=0   
       CPFI_MIX=0   
       FAC_TIME=ONE  
-C Lecture carte 1
+C Reading Card 1
       CALL HM_GET_INTV('NIP',NGASES,IS_AVAILABLE,LSUBMODEL)                       
       CALL HM_GET_INTV('IFLOW',IFLOW,IS_AVAILABLE,LSUBMODEL)                      
       CALL HM_GET_FLOATV('A_SCALE_X',ASTIME,IS_AVAILABLE,LSUBMODEL,UNITAB)        
@@ -152,7 +152,7 @@ C Verification
      .               I1=PROP_ID,
      .               C1=IDTITL)
       END IF
-C Lecture NGASES cartes
+C Reading ngases cards
       IF(NGASES>0)THEN
           CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('ABG_Smass',FAC_MASS,1,IS_AVAILABLE,LSUBMODEL,UNITAB)
           CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('ABG_Stemp',FAC_TEMP,1,IS_AVAILABLE,LSUBMODEL,UNITAB)
@@ -164,7 +164,7 @@ C Lecture NGASES cartes
         CALL HM_GET_INT_ARRAY_INDEX('ABG_Itemp',F_IDTEMP(1,I),I,IS_AVAILABLE,LSUBMODEL)       
         CALL HM_GET_FLOAT_ARRAY_INDEX('ABG_Smass',FSMASS(I),I,IS_AVAILABLE,LSUBMODEL,UNITAB)  
         CALL HM_GET_FLOAT_ARRAY_INDEX('ABG_Stemp',FSTEMP(I),I,IS_AVAILABLE,LSUBMODEL,UNITAB)  
-C       Verification existence materiaux et functions                                         
+C       Material existence and funeration existence                                         
 C ---
 C ---   Materiaux                                                                             
         IF(FSMASS(I) == ZERO)FSMASS(I)=ONE*FAC_MASS                                            
@@ -214,10 +214,10 @@ C ---   Fonctions
         ENDIF                                                                                 
       ENDDO  ! I=1,NGASES                                                                     
 
-C Conversion d unites ----------------------
+C Units conversion --------------------
       IF(ASTIME == ZERO)ASTIME=ONE*FAC_TIME
       R_IGC1=PM(27,MAT_ID(2,1))
-C     Verification de la croissance des fonctions de masse
+C     Verification of the growth of mass function
       DO I=1,NGASES
         IFUN_TMP=0
         IFUN_TMP_USR=0
@@ -261,7 +261,7 @@ C     Verification de la croissance des fonctions de masse
         END IF
       END DO
 
-C Calcul des caracteristiques initiales du melange
+C Calculation of initial characteristics of the mixture
       MWI_MIXTURE=ZERO
       CPAI_MIX=ZERO
       CPBI_MIX=ZERO
@@ -275,18 +275,18 @@ C Calcul des caracteristiques initiales du melange
       MOL_TOT=ZERO
       INIT_MASS=ZERO
 
-C Calcul de la masse totale
+C Calculation of total mass
       DO I=1,NGASES
          IF (F_IDMASS(2,I) > 0) THEN
             MASS_TOT = MASS_TOT + PLD(NPC(F_IDMASS(2,I))+3)*FSMASS(I)
          ENDIF
       END DO
       DO I=1,NGASES
-C Moyenne simple dans le cas d une masse nulle
-C on considere que chaque gaz arrive avec la meme masse
-C attention dans ce cas la moyenne faite pour mw est :
+C Simple average in the case of a null mass
+C it is assumed that each gas arrives with the same mass
+C note that in this case the average made for mw is:
 C  mw = somme (moles) / somme (masses)
-C  mw = somme (1/masse_molaire) / somme (masses=1)=ngases
+C  mw = sum (1 / mass_molar) / sum (masses = 1) = ngase
        IF (MASS_TOT == ZERO .OR. F_IDMASS(2,I) == 0) THEN
          INIT_MASS=ONE
        ELSE
@@ -300,8 +300,8 @@ C  mw = somme (1/masse_molaire) / somme (masses=1)=ngases
         CPEI_MIX = CPEI_MIX + INIT_MASS*PM(25,MAT_ID(2,I))
         CPFI_MIX = CPFI_MIX + INIT_MASS*PM(26,MAT_ID(2,I))
       END DO
-C on utilise mass tot pour detecter
-C comment calculer init_mass
+C We use Mass Tot to detect
+C How to calculate Init_mass
       IF (MASS_TOT == ZERO) THEN
         MASS_TOT=NGASES
       END IF

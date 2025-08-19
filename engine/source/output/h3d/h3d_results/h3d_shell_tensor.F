@@ -1312,7 +1312,7 @@ C--------------------------------------------------
                     ENDDO !I              
                   ENDIF ! MLW==
                 ELSEIF(ID > 0) THEN !!
-                  IF(MLW == 36.AND. CHARD > ZERO) THEN ! forcement ID=1 y a qu une BS
+                  IF(MLW == 36.AND. CHARD > ZERO) THEN ! necessarily id = 1 there is only one bs
                     DO I=1,NEL  
                       DO J=1,NLAY
                         BUFLY => ELBUF_TAB(NG)%BUFLY(J)
@@ -1463,7 +1463,7 @@ C--------------------------------------------------
                   ENDIF!(MLW ==  
                 ENDIF !(ID >0 ) 
 C--------------------------------------------------
-c PLY=IPLY NPT=IPT pour prop avec ply 17-51-52
+c Ply = iPly npt = IPT for prop with Ply 17-51-52
 C--------------------------------------------------
               ELSEIF ( IPLY > 0 .AND. IPT <= MPT .AND. IPT > 0 ) THEN 
                 DO J=1,NLAY

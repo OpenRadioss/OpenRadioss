@@ -69,7 +69,7 @@ C-----------------------------------------------
       NMEF = 1 + ITASK*NME / NTHREAD
       NMEL = (ITASK+1)*NME / NTHREAD
 C--------------------------------------------------------------
-C     0- CALCUL DU CRITERE POUR SAVOIR SI ON DOIT TRIER OU NON
+C     0- criterion calculation to know if sorting is needed
 C--------------------------------------------------------------
       XMSR(1) = -EP30
       XMSR(2) = -EP30
@@ -79,7 +79,7 @@ C--------------------------------------------------------------
       XMSR(6) =  EP30    
       SIZE_T  =  ZERO
 C------------------------------------
-C     CALCUL DES BORNES DES ELEMENTS
+C     calculation of element bounds
 C------------------------------------
       DO I=NMEF,NMEL
         EMINX(1,I) = EP30

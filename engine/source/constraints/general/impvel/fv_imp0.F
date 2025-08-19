@@ -20,7 +20,7 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-C   ------- only FIXV dans system global sont traites---------
+C   ------- only FIXV in global system are processed---------
 !||====================================================================
 !||    fv_imp0       ../engine/source/constraints/general/impvel/fv_imp0.F
 !||--- called by ------------------------------------------------------
@@ -423,7 +423,7 @@ C-------------SAVE Fint-----
          ENDDO
  100    CONTINUE
       ENDDO
-C-------------traitement-pour fxvel dans system local  --
+C-------------processing for fxvel in local system  --
       IF (NVL > 0) THEN
        CALL FVL_MODIF(NVL   ,IBFV  ,UD    ,RD   ,IFIX  ,
      1                IDDL  ,SKEW  ,XFRAME,VL   ,LJ    )
@@ -668,7 +668,7 @@ C-----------------------------------------------
      .   Y1(NEL0),Y2(NEL0),DYDX,X(NEL0),Y(NEL0),
      .   V(NEL0) 
       INTEGER I,J1,J,J2,ICONT,J0,L,JJ
-C------postion pour x1-----
+C------position for x1-----
       IF (NEL0==0) RETURN
       DO I=1,NEL0
        IF (ITY(I)<2) DY(I) =ZERO
@@ -698,7 +698,7 @@ C
          ENDIF
        ENDDO
       ENDDO
-C------interpelation pour y1--------
+C------interpolation for y1--------
       DO I=1,NEL0
         J1   =IPOS(I)+IAD(I)
         J2   = J1+1
@@ -710,7 +710,7 @@ C------interpelation pour y1--------
          Y(I) = Y1(I)
         ENDIF
       ENDDO
-C------ Calcul de V initial quand A est imposee
+C------ calculation of initial V when A is imposed
       ICONT = 1
 C
       JJ = 0
@@ -734,7 +734,7 @@ C
           END IF
         ENDDO
       ENDDO        
-C------postion pour x2-----
+C------position for x2-----
       ICONT = 1
 C
       DO WHILE(ICONT==1)
@@ -1016,7 +1016,7 @@ c       RD(J1,I)=RD(J1,I)*S*S
              CALL BC_UPDD(I     ,EJ   ,J1     ,RD     )
             ENDIF
        ELSEIF (ITAG(N)>0) THEN
-C-------traite le cas ou il y a deux directions sont imposees-----
+C-------handles the case where two directions are imposed-----
           N1 = ITAG(N)
           I=IABS(IBFV(1,N))
            ISK=IBFV(2,N)/10
@@ -1283,7 +1283,7 @@ C--------change to global system ---------------------
         ENDIF
        ENDDO
       ENDIF
-C--------VL dans 2 directions--------
+C--------VL in 2 directions--------
       IF (N2 == 0) RETURN
        N2 =0
        DO I=1,NVL
@@ -2046,7 +2046,7 @@ C-----calculate acceleration at (a(X1)+a(X2))/2
      .   Y1(NEL0),Y2(NEL0),DYDX,X(NEL0),Y(NEL0),
      .   VY1(NEL0),VY2(NEL0)
       INTEGER I,J1,J,J2,ICONT,J0,L
-C------postion pour x1-----
+C------position for x1-----
       IF (NEL0==0) RETURN
       DO I=1,NEL0
        J1 = IPOS1(I)+IAD(I)+1
@@ -2072,7 +2072,7 @@ C
          ENDIF
        ENDDO
       ENDDO
-C------interpelation pour y1--------
+C------interpolation for y1--------
       DO I=1,NEL0
         J1   =IPOS(I)+IAD(I)
         J2   = J1+1
@@ -2083,7 +2083,7 @@ C        IPOS1(I) = IPOS(I)
 C--------to be consisting w/ explicit--
 c        IF (X1(I)<=ZERO) Y1(I)   =ZERO
       ENDDO
-C------postion pour x2-----
+C------position for x2-----
       ICONT = 1
 C
       DO WHILE(ICONT==1)
@@ -2097,7 +2097,7 @@ C
          ENDIF
        ENDDO
       ENDDO
-C------interpelation pour y2--------
+C------interpolation for y2--------
       DO I=1,NEL0
         J1   =IPOS(I)+IAD(I)
         J2   = J1+1

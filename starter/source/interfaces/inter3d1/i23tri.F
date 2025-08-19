@@ -111,22 +111,22 @@ C     REAL
      .   BID,DX,DY,DZ,DSUP,SEUIL,XMX,XMN,GAPSMAX,
      .   GAPV(MVSIZ)
 C-----------------------------------------------
-C   ROLE DE LA ROUTINE:
+C   Role of the routine:
 C   ===================
-C   CLASSE LES ELETS DE BPE ET LES NOEUDS DE BPN EN TWO ZONES
-C   > OU < A UNE FRONTIERE ICI DETERMINEE ET SORT LE TOUT
-C   DANS bpe,hpe, et bpn,hpn
+C   Classifies the elements of BPE and the nodes of BPN into two zones
+C   > or < to a boundary determined here and outputs everything
+C   Into bpe, hpe, and bpn, hpn
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C
 C     NOM          DESCRIPTION                       E/S
 C
 C     BPE          TABLEAU DES FACETTES A TRIER      E/S
-C                  ET DU RESULTAT COTE MAX            
+C                  And the result on the max side
 C     PE           TABLEAU DES FACETTES              S
 C                  RESULTAT COTE MIN
 C     BPN          TABLEAU DES NOEUDS A TRIER        E/S
-C                  ET DU RESULTAT COTE MAX            
+C                  And the result on the max side
 C     PN           TABLEAU DES NOEUDS                S
 C                  RESULTAT COTE MIN
 C     ADD(2,*)     TABLEAU DES ADRESSES              E/S 
@@ -143,17 +143,17 @@ C     IRECT(4,*)   TABLEAU DES CONEC FACETTES        E
 C     X(3,*)       COORDONNEES NODALES               E
 C     NB_NC        NOMBRE DE NOEUDS CANDIDATS        E/S
 C     NB_EC        NOMBRE D'ELTS CANDIDATS           E/S
-C     I_ADD        POSITION DANS LE TAB DES ADRESSES E/S
+C     i_add position in the input/output address table
 C     NSV          NOS SYSTEMES DES NOEUDS           E
-C     XMAX         plus grande abcisse existante     E
-C     XMAX         plus grande ordonn. existante     E
-C     XMAX         plus grande cote    existante     E
+C     Xmax larger abcisse existing e
+C     XMAX largest order.existing E
+C     Xmax larger existing side E
 C     MAXSIZ       TAILLE MEMOIRE MAX POSSIBLE       E
-C     I_STOK       niveau de stockage des couples
+C     i_stok storage level of the pairs
 C                                candidats impact    E/S
 C     CAND_N       boites resultats noeuds
 C     CAND_E       adresses des boites resultat elements
-C                  MULTIMP*NSN TAILLE MAX ADMISE MAINTENANT POUR LES
+C                  multimp*nsn current maximum allowed size for the
 C                  COUPLES NOEUDS,ELT CANDIDATS
 C     NOINT        NUMERO USER DE L'INTERFACE
 C     TZINF        TAILLE ZONE INFLUENCE
@@ -165,7 +165,7 @@ C
 C    1- TEST ARRET = BOITE VIDE
 C                    BOITE TROP PETITE 
 C                    BOITE NE CONTENANT QU'ONE NOEUD
-C                    PLUS DE MEMOIRE DISPONIBLE
+C                    No More Memory Available
 C
 C-----------------------------------------------------------
 C
@@ -175,17 +175,17 @@ C        MEMX=-1
 C      ELSEIF(MEMX/=-1)THEN
 C        MEMX=ADD(2,1)+NB_EC
 C      ENDIF
-C--------------------TEST SUR BOITE VIDES-------------- 
+C--------------------test on empty boxes--------------
 C
       IF(NB_EC==0.OR.NB_NC==0) THEN
 C       write(6,*)" BOITE VIDE"
-C       IL FAUT COPIER LES BAS DES PILES DANS BAS_DE_PILE CORRESPONDANTS
-C       AVANT DE REDESCENDRE DANS LA BRANCHE MITOYENNE
+C       the bottoms of the stacks must be copied into the corresponding bas_de_pile
+C       before descending again into the neighboring branch
         CALL I7DSTK(I_ADD,NB_NC,NB_EC,ADD,BPN,PN,BPE,PE)
         RETURN
       ENDIF
 C
-C-------------------TEST SUR FIN DE BRANCHE / MEMOIRE DEPASSEE------------
+C-------------------test on end of branch / memory exceeded------------
 C
       DX = XYZM(4,I_ADD) - XYZM(1,I_ADD)
       DY = XYZM(5,I_ADD) - XYZM(2,I_ADD)
@@ -193,7 +193,7 @@ C
       DSUP= MAX(DX,DY,DZ)
 C
       IF(ADD(2,1)+NB_EC>=MAXSIZ) THEN
-C       PLUS DE PLACE DANS LA PILE DES ELEMENTS BOITES TROP PETITES
+C       no more space in the stack of elements, boxes too small
         IF ( NB_N_B == NUMNOD) THEN
 C          WRITE(IOUT,*)'***ERROR INFINITE LOOP DETECTED '
 C          WRITE(ISTDO,*)'***ERROR INFINITE LOOP DETECTED '
@@ -220,8 +220,8 @@ C          CALL ARRET(2)
      .   NB_NC<=NB_N_B.AND.NB_EC==1) THEN
 C
 C       write(6,*)" NOUVELLE BOITE "
-C       1- STOCKAGE DU OU DES  NOEUD CANDIDAT ET DES ELTS CORRESP.
-C       VIRER LES INUTILES
+C       1- storage of the candidate node(s) and the corresponding elements
+C       remove the unnecessary ones
         DO 20 I=1,NB_EC
             NE = BPE(I)
             N1=IRECT(1,NE)
@@ -289,8 +289,8 @@ C               write(6,*)"Noeud candidat",BPN(J)
 C               write(6,*)"Element  candidat",NE
               ENDIF  
    20   CONTINUE 
-C       IL FAUT COPIER LES BAS DES PILES DANS BAS_DE_PILE CORRESPONDANTS
-C       AVANT DE REDESCENDRE DANS LA BRANCHE MITOYENNE
+C       the bottoms of the stacks must be copied into the corresponding bas_de_pile
+C       before descending again into the neighboring branch
         CALL I7DSTK(I_ADD,NB_NC,NB_EC,ADD,BPN,PN,BPE,PE)
         RETURN
       ENDIF
@@ -298,7 +298,7 @@ C
 C-----------------------------------------------------------
 C
 C
-C    2- PHASE DE TRI SUR LA MEDIANE SELON LA + GDE DIRECTION
+C    2- sorting phase on the median according to the largest direction
 C                    
 C                   
 C-----------------------------------------------------------
@@ -323,7 +323,7 @@ C
       IF(IGAP==0)THEN
        DO I=1,NB_NC
         IF(X(DIR,NSV(BPN(I)))<SEUIL) THEN
-C         ON STOCKE DANS LE BAS DE LA PILE BP
+C         store in the bottom of the bp stack
           ADDNN = ADDNN + 1
           PN(ADDNN) = BPN(I)
           INF = 1
@@ -339,7 +339,7 @@ C         ON STOCKE EN ECRASANT PROGRESSIVEMENT BPN
        BGAPSMX = ZERO
        DO I=1,NB_NC
         IF(X(DIR,NSV(BPN(I)))<SEUIL) THEN
-C         ON STOCKE DANS LE BAS DE LA PILE BP
+C         store in the bottom of the bp stack
           ADDNN = ADDNN + 1
           PN(ADDNN) = BPN(I)
           GAPSMX = MAX(GAPSMX,GAP_S(BPN(I)))
@@ -377,7 +377,7 @@ C   80   CONTINUE
 C
 C   81   CONTINUE
 C        IF(INF==1) THEN
-C         ON STOCKE DANS LE BAS DE LA PILE BP
+C         store in the bottom of the bp stack
 C          ADDNE = ADDNE + 1
 C          PE(ADDNE) = BPE(I)
 C        ENDIF
@@ -388,7 +388,7 @@ C          BPE(NB_ECN) = BPE(I)
 C        ENDIF
 C   85 CONTINUE
 C
-C    3- DIVISER LES ELEMENTS
+C    3- divide the elements
 C
 C 2 LIGNES PROV POUR TEST
 C      INF = 1
@@ -405,7 +405,7 @@ C
      .          X(DIR,IRECT(3,BPE(I))),X(DIR,IRECT(4,BPE(I))))
      .      - TZINF
         IF(XMN<SEUIL.AND.INF==1) THEN
-C         ON STOCKE DANS LE BAS DE LA PILE BP
+C         store in the bottom of the bp stack
           ADDNE = ADDNE + 1
           PE(ADDNE) = BPE(I)
         ENDIF
@@ -422,7 +422,7 @@ C         ON STOCKE EN ECRASANT PROGRESSIVEMENT BPE
      -      -SQRT(THREE)*MIN(MAX(GAPSMX+GAP_M(BPE(I)),GAPMIN),GAPMAX)
      -      -MARGE
         IF(XMN<SEUIL.AND.INF==1) THEN
-C         ON STOCKE DANS LE BAS DE LA PILE BP
+C         store in the bottom of the bp stack
           ADDNE = ADDNE + 1
           PE(ADDNE) = BPE(I)
         ENDIF
@@ -442,12 +442,12 @@ C    4- REMPLIR LES TABLEAUX D'ADRESSES
 C
       ADD(1,2) = ADDNN
       ADD(2,2) = ADDNE
-C-----on remplit les min de la boite suivante et les max de la courante
-C     (i.e. seuil est un max pour la courante)
-C     on va redescendre et donc on definit une nouvelle boite
-C     on remplit les max de la nouvelle boite
+C-----fill the min of the next box and the max of the current one
+C     (i.e. threshold is a max for the current one)
+C     We're going to go down and so we define a new box
+C     fill the max of the new box
 C     initialises dans i7buc1 a 1.E30 comme ca on recupere
-C     soit XMAX soit le max de la boite
+C     either xmax or the max of the box
       XYZM(1,I_ADD+1) = XYZM(1,I_ADD) 
       XYZM(2,I_ADD+1) = XYZM(2,I_ADD)
       XYZM(3,I_ADD+1) = XYZM(3,I_ADD)
@@ -459,7 +459,7 @@ C     soit XMAX soit le max de la boite
 C
       NB_NC = NB_NCN
       NB_EC = NB_ECN
-C     on incremente le niveau de descente avant de sortir
+C     increment the descent level before exiting
       I_ADD = I_ADD + 1
       IF(I_ADD>=1000) THEN
 C       TROP NIVEAUX PILE ON VAS LES PRENDRE PLUS GRANDES...
@@ -485,6 +485,6 @@ C          CALL ARRET(2)
         RETURN
       ENDIF
 C
-C     ce return n'est atteint que dans le cas ok = 0
+C     this return is only reached when ok = 0
       RETURN
       END

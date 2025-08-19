@@ -410,7 +410,7 @@ C----- reset initial mass
           IF (IRODDL /=0) IN(1:NUMNOD)=IN0(1:NUMNOD)
         END IF
 C
-C parallel structures init.
+C Parallel Structures Init.
 C
         IROTG=0
         DO I=1,NRBE3
@@ -728,7 +728,7 @@ C   Domain Decomposition Weight computation
 C----------------------------------------------------------
        IF(IDDW>0) CALL INITIMEG(NGROUP)
 C----------------------------------------------------------
-C   INIT ADAPTIVE MESHING (sequentielle)
+C   Init Adaptive Meshing (Sequential)
 C----------------------------------------------------------
        IF(NADMESH/=0)THEN
          CALL ADMINI(IXC ,IPART(I15C),IXTG   ,IPART(I15H),IPART,
@@ -748,7 +748,7 @@ C        ADAPTIVE MESHING + STATIC CONDENSATION
          CALL CNDORDR(IPART,IPART(I15C),IPART(I15H),SH4TREE,SH3TREE)
        END IF
 C----------------------------------------------------------
-C   INIT MULTIPLICATEURS LAGRANGES (sequentielle)
+C   Lagrangian multipliers (sequential)
 C----------------------------------------------------------
        IF(LAG_NCF+LAG_NCL > 0)THEN
          LAG_SEC=0
@@ -829,7 +829,7 @@ C
         ENDDO
       ENDIF
 C-----------------------
-C INTERFACE TYPE 2 PENALITE
+C INTERFACE TYPE 2 penalty
 C-----------------------
        INT2PEN=0
        DO I=1, NINTER

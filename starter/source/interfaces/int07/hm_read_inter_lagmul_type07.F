@@ -162,7 +162,7 @@ C------------------------------------------------------------
 
         IF(BUMULT==ZERO) THEN
           BUMULT = BMUL0
-C bmult augmente pour les tres gros modeles et interface 7 ou 20
+C bmult increases for very large models and interface 7 or 20
            IF(NTYP==7)THEN
              IF(NUMNOD > 2500000) THEN
                BUMULT = BMUL0*TWO

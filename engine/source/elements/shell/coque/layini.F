@@ -167,7 +167,7 @@ C=======================================================================
       ENDIF 
 c
 c---------------------------------------------------------
-      IF (IXFEM == 1 .and. IXLAY > 0) THEN  ! traitement des elements fantomes
+      IF (IXFEM == 1 .and. IXLAY > 0) THEN  ! ghost element handling
 c                                           ! layer = ixlay  
 c---------------------------------------------------------
         SELECT CASE (IGTYP)
@@ -386,7 +386,7 @@ c
                           MATLY(JMLY) = MAT_LY(I)    ! layer defined                
                         ENDDO ! DO I=JFT,JLT        
                         IPT_ALL = IPT_ALL + NPTT                                                                       
-                   ELSEIF (IINT == 2) THEN  !  Gauss distribution
+                   ELSEIF (IINT == 2) THEN  !  Gauss Distribution
                         DO I=JFT,JLT                                                                  
                           MAT_LY(I)  = STACK%IGEO(IPMAT + ILAY,ISUBSTACK)   ! layer material                        
                           THK_LY(I)  = STACK%GEO(IPTHK  + ILAY,ISUBSTACK)   ! layer thickness ratio            
@@ -476,7 +476,7 @@ cc                  IPID_LY = STACK%IGEO(IPPID + ILAY,ISUBSTACK)  ! layer PID (i
                           MATLY(JMLY) = MAT_LY(I)    ! layer defined 
                         ENDDO ! DO I=JFT,JLT        
                         IPT_ALL = IPT_ALL + NPTT                                                                       
-                   ELSEIF (IINT == 2) THEN  !  Gauss distribution
+                   ELSEIF (IINT == 2) THEN  !  Gauss Distribution
                         DO I=JFT,JLT                                                                  
                           MAT_LY(I)  = STACK%IGEO(IPMAT + ILAY,ISUBSTACK)  ! layer material                         
                           THICKT   = STACK%GEO(1,ISUBSTACK)                                                         

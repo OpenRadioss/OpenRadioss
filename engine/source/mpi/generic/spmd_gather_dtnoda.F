@@ -71,9 +71,9 @@ C
            END IF
          END DO 
 
-C   a cause de la version simple precision, on ne peux pas metre l'entier
-C   dans le buffer flottant car on n a que 2puiss 24 bits dispo ~ 16 Million
-C   de noeuds au max
+C   Because of the simple precision version, we cannot put the integer
+C   In the floating buffer because there are only 2 24 bits available ~ 16 million
+C   nodes at most
 
          MS_LTYP = MS_LOFF 
          CALL MPI_SEND(BUFSR,SIZ,REAL,IT_SPMD(1),MS_LTYP,
@@ -97,7 +97,7 @@ C-------------
      .                    SPMD_COMM_WORLD,STATUS,ierror)
               CALL MPI_GET_COUNT(STATUS,REAL,SIZ,ierror) 
 
-C------------ Reception du buffer flottant
+C------------ Reception of the floating buffer
 
             CALL MPI_RECV(BUFSR,SIZ,REAL,IT_SPMD(I),MS_LTYP,
      .                  SPMD_COMM_WORLD,STATUS,ierror)

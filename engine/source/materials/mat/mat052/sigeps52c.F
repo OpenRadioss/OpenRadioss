@@ -331,7 +331,7 @@ C
            IF(VM < YLDC .OR. YLDC == ZERO )THEN
               LAMDA(I)=ZERO
            ELSE
-C.. stockage des contraintes ....
+C.. storage of constraints ....
              LAMDA(I) = ZERO
              SIGXX(I) = SIGNXX(I)
              SIGYY(I) = SIGNYY(I)
@@ -535,7 +535,7 @@ C
          IF(CRIT < ZERO .OR. YLD(I) == ZERO )THEN
           LAMDA(I)=ZERO
          ELSE
-C.. stockage des contraintes ....
+C.. storage of constraints ....
           SIGXX(I) = SIGNXX(I)
           SIGYY(I) = SIGNYY(I)
           SIGXY(I) = SIGNXY(I)
@@ -774,7 +774,7 @@ C
          IF(CRIT < ZERO .OR. YLD(I) == ZERO)THEN
           LAMDA(I)=ZERO
          ELSE
-C.. stockage des contraintes ....
+C.. storage of constraints ....
           SIGXX(I) = SIGNXX(I)
           SIGYY(I) = SIGNYY(I)
           SIGXY(I) = SIGNXY(I)
@@ -1016,7 +1016,7 @@ C
          IF(VM < YLDC .OR. YLDC == ZERO)THEN
           LAMDA(I)=ZERO
          ELSE
-C.. stockage des contraintes ....
+C.. storage of constraints ....
           LAMDA(I) = ZERO
           SIGXX(I) = SIGNXX(I)
           SIGYY(I) = SIGNYY(I)

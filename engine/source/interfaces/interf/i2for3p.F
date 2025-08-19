@@ -20,7 +20,7 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-C  dev023 routine duale de i2for3 pour parith/on spmd
+C  dev023 dual routine of i2for3 for parith/on spmd
 !||====================================================================
 !||    i2for3pn      ../engine/source/interfaces/interf/i2for3p.F
 !||--- called by ------------------------------------------------------
@@ -77,7 +77,7 @@ C-----------------------------------------------
             I3=3*I
             I2=I3-1
             I1=I2-1
-C   traitement 1er noeud secnd
+C   1st node treatment second
             IF (WEIGHT(I)==1) THEN
 C
               XMSI=MS(I)
@@ -138,7 +138,7 @@ c
             A(I1)=ZERO
             A(I2)=ZERO
             A(I3)=ZERO
-C stokage ZERO pour noeuds delete par idel2
+C zero storage for nodes deleted by idel2
           ELSEIF(WEIGHT(-I)==1) THEN
             I0 = I0 + 1
             NN = IADI2(1,I0)
@@ -164,7 +164,7 @@ C   NIR = 4
             I3=3*I
             I2=I3-1
             I1=I2-1
-C   traitement 1er noeud secnd
+C   1st node treatment second
             IF (WEIGHT(I)==1) THEN
 C
               XMSI=MS(I)
@@ -243,7 +243,7 @@ C
               A(I3)=ZERO
             ENDIF
 
-C stokage ZERO pour noeuds delete par idel2
+C zero storage for nodes deleted by idel2
           ELSEIF(WEIGHT(-I)==1) THEN
             I0 = I0 + 1
             NN = IADI2(1,I0)
@@ -327,7 +327,7 @@ C     REAL
      .   FX(4),FY(4),FZ(4)
 C=======================================================================
       L = 0
-C   sauvegarde de la masse initiale
+C   saves the initial mass
       DO II=1,NMN
         J=MSR(II)
         MMASS(II)=MS(J)
@@ -341,7 +341,7 @@ C
         I3=3*I
         I2=I3-1
         I1=I2-1
-C   traitement 1er noeud secnd
+C   1st node treatment second
           IF (WEIGHT(I)==1) THEN
 C
         SS=CRST(1,II)
@@ -410,7 +410,7 @@ C   NIR = 4
         I3=3*I
         I2=I3-1
         I1=I2-1
-C   traitement 1er noeud secnd
+C   1st node treatment second
         IF (WEIGHT(I)==1) THEN
 C
         XMSI=MS(I)
@@ -487,7 +487,7 @@ C
           A(I3)=ZERO
         END IF
 C
-C stokage ZERO pour noeuds delete par idel2
+C zero storage for nodes deleted by idel2
         ELSEIF(WEIGHT(-I)==1) THEN
         I0 = I0 + 1
         NN = IADI2(1,I0)
@@ -564,7 +564,7 @@ C     REAL
      .   SS, ST, XMSI, FS(3),SP,SM,TP,TM,
      .   H(4),H2(4),FX(4),FY(4),FZ(4)
 C-----------------------------------------------
-C   sauvegarde de la masse initiale
+C   saving of the initial mass
       DO II=1,NMN
         J=MSR(II)
         MMASS(II)=MS(J)
@@ -576,7 +576,7 @@ C
           I3=3*I
           I2=I3-1
           I1=I2-1
-C   traitement 1er noeud secnd
+C   1st node treatment second
           IF (WEIGHT(I)==1) THEN
 C
             SS=CRST(1,II)
@@ -629,7 +629,7 @@ C   NIR = 4
           I3=3*I
           I2=I3-1
           I1=I2-1
-C   traitement 1er noeud secnd
+C   1st node treatment second
           IF (WEIGHT(I)==1) THEN
 C
             XMSI=MS(I)
@@ -865,7 +865,7 @@ C
             A(1,I)=ZERO
             A(2,I)=ZERO
             A(3,I)=ZERO
-C stokage ZERO pour noeuds delete par idel2
+C zero storage for nodes deleted by idel2
           ELSEIF(WEIGHT(-I)==1) THEN
             I0 = I0 + 1
             NN = IADI2(1,I0)
@@ -988,7 +988,7 @@ C
             A(1,I)=ZERO
             A(2,I)=ZERO
             A(3,I)=ZERO
-C stokage ZERO pour noeuds delete par idel2
+C zero storage for nodes deleted by idel2
           ELSEIF(WEIGHT(-I)==1) THEN
             I0 = I0 + 1
             NN = IADI2(1,I0)
@@ -1020,7 +1020,7 @@ C stokage ZERO pour noeuds delete par idel2
 C
       ENDIF
 C
-C Traitement specifique pour ADI
+C specific processing for adi
 C
       IF(ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER >0) THEN
 #include "vectorize.inc"
@@ -1032,7 +1032,7 @@ C
 C
       RETURN
       END
-C  dev023 routine duale de i2mom3 pour parith/on spmd
+C  dev023 dual routine of i2mom3 for parith/on spmd
 !||====================================================================
 !||    i2mom3p   ../engine/source/interfaces/interf/i2for3p.F
 !||--- called by ------------------------------------------------------
@@ -1214,7 +1214,7 @@ C
 C
       RETURN
       END
-C  dev023 routine duale de i2fomo3 pour parith/on spmd
+C  dev023 dual routine of i2fomo3 for parith/on spmd
 C==========================================================================
 !||====================================================================
 !||    i2fomo3p   ../engine/source/interfaces/interf/i2for3p.F
@@ -1274,7 +1274,7 @@ C     REAL
      .   A1,A2,A3,B1,B2,B3,C1,C2,C3,MR,MRX,MRY,MRZ,INX,INY,INZ,STF,
      .   FX(4),FY(4),FZ(4)
 C=======================================================================
-C Traitement specifique pour DMAS
+C specific processing for dmas
 C
 C MMASS(II) initialise a MS(J) a t=0 dans starter
       IF(ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS >0.AND.ILEV==1) THEN
@@ -1284,13 +1284,13 @@ C MMASS(II) initialise a MS(J) a t=0 dans starter
         ENDDO
       ENDIF
 C------------------------------
-C     FORCES ET MOMENTS DES NOEUDS SECONDS
+C     forces and moments of secondary nodes
 C     TRANSMIS AUX NOEUDS MAINS SOUS
-C     FORME DE FORCES
+C     force shape
 C
-C     MASSES ET INERTIES DES NOEUDS SECONDS
+C     masses and inertias of secondary nodes
 C     TRANSMISES AUX NOEUDS MAINS SOUS
-C     FORME DE MASSES
+C     mass shape
 C------------------------------
 C
       DO II=1,NSN
@@ -1504,7 +1504,7 @@ C---    output of tied contact forces
      .                  IRECT(1,L),NIR  ,FSAV   ,FNCONT  ,FNCONTP,
      .                  FTCONTP ,WEIGHT ,H3D_DATA,I      ,H)
 C----
-C stokage ZERO pour noeuds delete par idel2
+C zero storage for nodes deleted by idel2
         ELSEIF(WEIGHT(-I)==1) THEN
           I0 = I0 + 1
           NN = IADI2(1,I0)
@@ -1555,7 +1555,7 @@ C stokage ZERO pour noeuds delete par idel2
       ENDDO        
 C
 C
-C Traitement specifique pour ADM
+C specific processing for adm
 C
       IF(ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS >0.AND.ILEV==1) THEN
 #include "vectorize.inc"

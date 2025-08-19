@@ -63,7 +63,7 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
-C     0- CALCUL DU CRITERE POUR SAVOIR SI ON DOIT TRIER OU NON
+C     0- calculation of criterion to know if we should sort or not
 C
 C
       DELTA_PMAX_GAP_L = ZERO
@@ -324,10 +324,10 @@ c            XMSR(12)=MIN(XMSR(12),X(3,J)-XSAV(3,J)-GAPN_M(I))
           ENDIF
         ENDDO
       ENDIF       
-C dist calcule une fois pour toutes les interfaces dans COMCRIT (ci-dessous)
+C distance calculated once for all interfaces in COMCRIT (below)
 C
       IF(NSPMD==1) THEN
-C traitement deplace dans SPMD_GET_STIF en SPMD
+C Deplace treatment in SPMD_Get_Stif in SPMD
         DO I=NSNF,NSNL
           STFN(I)=MAX(STFN(I),ZERO)
         ENDDO

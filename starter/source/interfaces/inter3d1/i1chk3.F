@@ -114,7 +114,7 @@ C-----------------------------------------------
            ENDIF
         ENDIF
       ENDDO!next I
-      !LE NOEUD GLOBAL EST REMPLACE PAR LE NOEUD LOCAL DANS IRECT
+      !THE GLOBAL NODE IS REPLACED BY THE LOCAL NODE IN IRECT
       DO I=1,NRT
         DO J=1,4
           IG=IRECT(J,I)

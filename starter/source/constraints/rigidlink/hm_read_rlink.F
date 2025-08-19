@@ -152,9 +152,9 @@ C-----------------------------------------------------------------
      .               C1=TITR)
        END IF
 C------------------------------------------------------------------
-C            RECHERCHE DES NOEUDS SECONDARY
+C            SEARCH FOR SECONDARY NODES
 C------------------------------------------------------------------
-C     GROUPE DE NOEUDS
+C     NODE GROUP
 C------------------------------------------------------------------
        NSL = 0
        INGR2USR => IGRNOD(1:NGRNOD)%ID
@@ -228,7 +228,7 @@ C
        K  = K+NSL
       ENDDO
 C-------------------------------------
-C     Recherche des ID doubles
+C     Search for double IDs
 C-------------------------------------
       CALL UDOUBLE(NOM_OPT,LNOPT1,NLINK,MESS,0,BID)
       RETURN

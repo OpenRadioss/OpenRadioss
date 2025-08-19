@@ -227,7 +227,7 @@ c
       UPARAM(32) = C11            
       UPARAM(33) = C12            
 c
-      UPARAM(34) = THICK ! For connect element  (type43)
+      UPARAM(34) = THICK ! For Connect Element (Type43)
       ITABLE(1)  = YTAB_ID     ! Yield function table = f(epsp,epsdot,temp)
 c------------------
       PM(1)  = RHOR

@@ -592,7 +592,7 @@ C------------
          ENDIF
  299   CONTINUE
 C------------
-C     fin boucle sur mats :
+C     END OF LOOP ON MATS:
  300  CONTINUE
  
  
@@ -743,11 +743,11 @@ c            IF(NPC(2*NFUNCT+LOAD+1) <0 .OR. NPC(2*NFUNCT+UNLOAD+1) <0)THEN
                    X2 =PLD(NPC(UNLOAD)+K1+2)*XSCALE
                    YY1=PLD(NPC(UNLOAD)+K1+1)
                    Y2 =PLD(NPC(UNLOAD)+K1+3)
-                   IF ( XX1<=ZERO .AND.X2> ZERO)ALPHA2=(Y2-YY1)/(X2-XX1)!  passage par zero
+                   IF ( XX1<=ZERO .AND.X2> ZERO)ALPHA2=(Y2-YY1)/(X2-XX1)! CROSSING THROUGH ZERO
                    IF (Y2>=T1 .AND.YY1<=T2.AND.X2>=S1.AND.XX1<=S2)THEN
                      DYDX = (Y2-YY1) / (X2-XX1)
                      DTDS = (T2-T1) / (S2-S1)
-                     IF (DYDX > DTDS) THEN ! intersection des courbes
+                     IF (DYDX > DTDS) THEN ! INTERSECTION OF CURVES
                        SX = (T1-YY1-DTDS*S1+DYDX*XX1) / (DYDX-DTDS)
                        TY =  T1 + DTDS*(SX - S1)
                      ENDIF 
@@ -1604,7 +1604,7 @@ C---------------------------
      .              I1=IBFT(2,I))
  751  CONTINUE
 C------------------------------
-C     10 FIXED convective flux
+C     10 Convective Flow
 C------------------------------
       DO 753 I=1,GLOB_THERM%NUMCONV
         DO 752 J=1,NFUNCT
@@ -1860,7 +1860,7 @@ C---------------------
       ENDDO
 c
 C----------------------------
-C     (IV) TRAITEMENT DES TABLES
+C     (IV) PROCESSING OF TABLES
 C----------------------------
 C
 C         1) LOIS 73
@@ -2020,12 +2020,12 @@ C      USER
 C----------------------
       CALL INIGUSER(BUFGEO,IGEO,IPM,NPC1)
 C------------------------------------------------------------------
-C      POINTS DE DETONATION,
-C      SEGMENTS DE DETONATION,
-C      DETONATION AVEC ECRAN,
+C      DETONATION POINTS,
+C      DETONATION SEGMENTS,
+C      DETONATION WITH SCREEN,
 C      PLANAR DETONATION WAVE.
 C------------------------------------------------------------------
-C Traitement des id matriau (Mdet) dans lecdet.F avec le check des user flags
+C Treatment of Matriaux ID (MDET) in Lecdet.f with the flag -like checkout
 
       RETURN
 C-----

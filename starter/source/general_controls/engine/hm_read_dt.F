@@ -199,7 +199,7 @@ C
      .                         IGRPART(IDTGRS)%ID
             END IF
           ELSE
-C--         /DT/CST_AMS >- automatic element selection
+C- /DT /CST_AMS>- Automatic election
             DT_CRIT = DTMINS / MAX(EM20,DTFAC1(11))
             IF(IDTGRS<=0)THEN
               WRITE(IOUT,2108) DTFACS,DTMINS,TOL_SMS,

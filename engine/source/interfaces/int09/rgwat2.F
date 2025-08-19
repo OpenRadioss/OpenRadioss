@@ -78,8 +78,8 @@ C-----------------------------------------------
 c---
       DATA IFACE/ 2, 3, 3, 4, 4, 5, 5, 2/
 C----------------------
-C     DECOMPTE DES ELEMENTS PAR NOEUD
-C     POUR ENERGIE DE FROTTEMENT
+C     counting elements per node
+C     for friction energy
 C----------------------
       I = 0
       DO 100 IE=1,NE
@@ -91,7 +91,7 @@ C----------------------
         IF(NTAG(N2)>0) NTAG(N2) = NTAG(N2) + 1
  100  CONTINUE
 C
-C Comm SPMD NTAG : cumul aux points frontiere + prise en compte tag initial
+C Comm SPMD NTAG: Cumulation at the boundary points + initial tag
 C
       IF(NSPMD>1)THEN
         LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
@@ -107,7 +107,7 @@ C----------------------
         N2  = IXQ(IFACE(2,IFA),II)
         IF(NTAG(N1)+NTAG(N2)>0)THEN
 C---------------------------------
-C         RECHERCHE DE L'ELEMENT DANS LE BUFFER
+C         search for the element in the buffer
 C---------------------------------
           DO 200 NG=II/NVSIZ,NGROUP
             CALL INITBUF(IPARG    ,NG      ,                   
@@ -134,7 +134,7 @@ C
           EE  = ZERO
           PHI = ZERO
 C----------------------
-C     ENERGIE DE FROTTEMENT
+C     friction energy
 C----------------------
           IF(NTAG(N1)>1) EE = EE + E(N1) / (NTAG(N1)-1)
           IF(NTAG(N2)>1) EE = EE + E(N2) / (NTAG(N2)-1)
@@ -147,12 +147,12 @@ C
             Y2=X(2,N2)
             Z2=X(3,N2)
 C------------------------------------------
-C         CALCUL DE LA SURFACE VECTORIELLE 
+C         calculation of the vector surface
 C------------------------------------------
             NY= (Z2-Z1)
             NZ=-(Y2-Y1)
 C--------+---------+---------+---------+---------+---------+---------+--
-C         CALCUL DE LA DISTANCE ENTRE CENTRE ET SURFACE ( * 4. )
+C         calculation of the distance between center and surface (*4.)
 C-------------------------------------------------------------
             DY = TWO*(Y1 + Y2)
      .          -X(2,IXQ(2,II))-X(2,IXQ(3,II))
@@ -164,7 +164,7 @@ C
 C
             DD= DY**2+DZ**2
 C---------------------------------
-C         CALCUL DU GRADIENT * SURFACE
+C         calculation of gradient * surface
 C---------------------------------
             GRAD = FOUR*(DY*NY+DZ*NZ) / MAX(EM15,DD)
             MAT  =IXQ(1,IE)
@@ -175,7 +175,7 @@ C---------------------------------
             ENDIF
             TSTIFE = COEF * GRAD
 C---------------------------------
-C         CALCUL DU FLUX
+C         calculation of the flux
 C---------------------------------
             PHI = TSTIFE*TSTIF*(TEMP-TEMPE)
      2           / MAX(EM20,(TSTIFE+TSTIF))

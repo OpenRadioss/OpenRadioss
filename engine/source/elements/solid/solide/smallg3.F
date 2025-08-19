@@ -63,7 +63,7 @@ C     REAL
      .   X , Y, Z   ,DV   ,WXXG,WYYG,WZZG
 C-----------------------------------------------
 C-----------------------------
-C     ROTATION RBY DES COORDONNEES POUR SMALL STRAIN
+C     ROTATION RBY COORDINATES FOR SMALL STRAIN
 C-----------------------------
 C------------Wxx,y,z from local system to global 
       IF (JCVT > 0 ) THEN

@@ -108,7 +108,7 @@ C----------------------------------------------------------
           JLT = MIN(NVSIZ,NEL)  
         GBUF => ELBUF_TAB(NG)%GBUF
           IF (ITYP /= 6) GOTO 250
-C--------> Boucle sur les elements ressort -------
+C--------> Loop over spring elements -------
         DO I=JFT,JLT
             J = I + NFT    
           IG = IPART(2,IPARTR(J))

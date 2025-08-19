@@ -469,7 +469,7 @@ c------------------------------
 C       PROJECTION
 C-------------------
         IF (IPLAS(1) == 0) THEN
-c         projection radiale 
+c         radial projection 
           NU3 = ONE-NU_MNU
           DO I=1,NEL
             SVM2(I)= SIGNXX(I)*SIGNXX(I)
@@ -487,7 +487,7 @@ c         projection radiale
               IF (INLOC == 0) THEN 
                 IF(YLD(I) .NE. 0) THEN
                   !YLD may be 0 when SIGNXX+SIGNYY == 0, that will cause floating point
-                  !exception in debug mode
+                  !Exception in Debug Mode
                   DEZZ = DPLA_I(I) * HALF*(SIGNXX(I)+SIGNYY(I)) / YLD(I)
                 ELSE
                   DEZZ = ZERO 
@@ -501,7 +501,7 @@ c         projection radiale
 C
         ELSEIF (IPLAS(1) == 1) THEN    ! implicit scheme, 3 Newton iterations
 C-------------------------
-C         CRITERE DE VON MISES
+C         VON MISES CRITERION
 C-------------------------
           DO I=1,NEL
             H(I) = MAX(ZERO,H(I))
@@ -593,7 +593,7 @@ C-----       for kin hardening
 c-------------------------------------------
         ELSEIF (IPLAS(1) == 2) THEN
 c-------------------------------------------
-C         CRITERE DE VON MISES
+C         VON MISES CRITERION
 C-------------------------
           DO I=1,NEL
             H(I) = MAX(ZERO,H(I))
@@ -618,7 +618,7 @@ C-------------------------
 C
           IF (NINDX > 0) THEN
 C-------------
-C           PROJ NORMALE AU CRITERE AVEC CALCUL APPROCHE DE LA NORMALE + RETOUR RADIAL
+C           NORMAL PROJECTION ON THE CRITERION WITH APPROXIMATE NORMAL CALCULATION + RADIAL RETURN
 C-------------
             NU3 = ONE-NU_MNU
 #include "vectorize.inc"
@@ -769,7 +769,7 @@ c-------------------------------
            VARTMP(I,2+J2) = IPOS2(I)
           ENDDO
 c-------------------------------
-        ELSEIF (FISOKIN == ONE) THEN  ! ecrouissage cinematique
+        ELSEIF (FISOKIN == ONE) THEN  ! cinematics
 c-------------------------------
 #include "vectorize.inc"
           DO I=1,NEL
@@ -796,7 +796,7 @@ c-------------------------------
             VARTMP(I,2+J2) = IPOS2(I)
           ENDDO
 c-------------------------------
-        ELSE   ! ecrouissage mixte
+        ELSE   ! mixed collapse
 c-------------------------------
 #include "vectorize.inc"
           DO I=1,NEL
@@ -831,7 +831,7 @@ c-------------------------------
 C-------------------
 C       PROJECTION
 C-------------------
-C       CRITERE DE VON MISES
+C       VON MISES CRITERION
 C-------------------------
         DO I=1,NEL
           H(I) = MAX(ZERO,H(I))

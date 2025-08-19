@@ -268,7 +268,7 @@ C
       ENDDO
 C
       NINDX = 0
-C---- Tension / Compression
+C---- Voltage / compression
       DO I=1,NEL
         IECROU(I)= IGEO(101,MGN(I))
         IFUNC(I) = IGEO(102,MGN(I))

@@ -755,7 +755,7 @@ c     initialize random number generator in LAW69_GUESS1
       IRND1 = 205
       ATRY(1:MMAX) = ZERO ! Initialization of ATRY
       DO 111 WHILE ( ISTART < NSTART )
-c       get one guess point A0(1:NMUAL)        
+c       Get One Guess Point A0 (1: Nmual)        
         CALL LAW69_GUESS1(
      $       LAWID, NMUAL, ICHECK_GUESS, MU_INCR_GUESS,IRND1,
      $       A0, NONZERO, MCOF_MIN, MCOF_MAX, NGUESS)

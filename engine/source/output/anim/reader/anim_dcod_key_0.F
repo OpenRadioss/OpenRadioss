@@ -107,12 +107,12 @@ C--------------------------
         ELSEIF(KEY3(1:4)=='FOPT')THEN
           ANIM_V(7) = 1
           ANIM_V(8) = 1
-C         vitesses de rotations
+C         rotation velocities
         ELSEIF(KEY3(1:4)=='VROT')THEN
           ANIM_V(9) = 1
-C         vitesses fluides pour alebag et /bem/flow
+C         fluid velocities for alebag and /bem/flow
         ELSEIF(KEY3(1:4)=='FVEL'.OR.KEY3(1:4)=='VFLU')THEN
-C         vitesses fluides pour alebag et /bem/flow
+C         fluid velocities for alebag and /bem/flow
           ANIM_V(10) = 1
         ELSEIF(KEY3(1:5)=='FRES')THEN
           IF ((ANIM_V(5)/=1.OR.ANIM_V(6)/=1).AND.IDTMINS==0.AND.IDTMINS_INT==0)THEN
@@ -1165,7 +1165,7 @@ C-----
         ELSEIF(KEY3(1:5)=='SIGEQ')THEN
            ANIM_CE(10677) = 1
         ELSEIF(KEY3(1:4)=='BULK' .OR. KEY3(1:4)=='QVIS')THEN
-           ANIM_CE(11888) = 1   !PID15 uses ANIM_CE(10678:11887)
+           ANIM_CE(11888) = 1   !PID15 UNIM_CE (10678: 11887)
         ELSEIF(KEY3(1:4)=='TDET')THEN
            ANIM_CE(11889) = 1
         ELSEIF(KEY3(1:5)=='LAW20')THEN
@@ -1619,7 +1619,7 @@ C--------------------------
          IF (LAW51_PHASE2) ANIM_SE(4898) = 1 !DENS_law51-phase2
          IF (LAW51_PHASE3) ANIM_SE(4899) = 1 !DENS_law51-phase3
          IF (LAW51_PHASE4) ANIM_SE(4900) = 1 !DENS_law51-phase4             
-           !ANIM_SE(4935) = 1  !law37 -rho_liquid
+           !Anim_se (4935) = 1! Law37 -rho_liquid
            !ANIM_SE(4936) = 1  !law37 - rho_gas             
       ELSEIF(KEY3(1:4)=='ENER')THEN
          ANIM_SE(3) = 1
@@ -1879,7 +1879,7 @@ C--------------------------
          IF (LAW51_PHASE3) ANIM_SE(4933) = 1
          IF (LAW51_PHASE4) ANIM_SE(4934) = 1                                 
 
-CTTENTION : NUMEROS RESERVES ANIM_SE pour SOUS-MATERIAUX LOI51
+CTentation: numeros reserves anim_save for sub-materiaux law 51
 C         ANIM_SE(4897) ==> !DENS_law51-phase1
 C         ANIM_SE(4898) ==> !           phase2
 C         ANIM_SE(4899) ==> !           phase3
@@ -1912,7 +1912,7 @@ C         ANIM_SE(4920) ==> !           phase4
           ANIM_SE(4924) = 1
           ANIM_SE(4925) = 1                                        
 
-CTTENTION : NUMEROS RESERVES ANIM_SE pour SOUS-MATERIAUX LOI51
+CTentation: numeros reserves anim_save for sub-materiaux law 51
 C         ANIM_SE(4926) ==> !MASS_law51-phase1
 C         ANIM_SE(4927) ==> !           phase2
 C         ANIM_SE(4928) ==> !           phase3
@@ -1921,12 +1921,12 @@ C         ANIM_SE(4929) ==> !           phase4
       ELSEIF(KEY3(1:4)=='TDET')THEN
         ANIM_SE(4930) = 1
 
-CTTENTION : NUMEROS RESERVES ANIM_SE pour SOUS-MATERIAUX LOI51
+CTentation: numeros reserves anim_save for sub-materiaux law 51
 C         ANIM_SE(4931) ==> !QVIS_law51-phase1
 C         ANIM_SE(4932) ==> !           phase2
 C         ANIM_SE(4933) ==> !           phase3
 C         ANIM_SE(4934) ==> !           phase4
-C         ANIM_SE(4935) ==> !   law37 - liquid
+C         Anim_se (4935) ==>!Law37 - Liquid
 C         ANIM_SE(4936) ==> !   law37 -    gas
 
       ELSEIF(KEY3(1:5)=='DT   ')THEN
@@ -2171,7 +2171,7 @@ C--------------------------
             ANIM_SE(4900) = 1 !DENS_law51-phase4
             ANIM_CE(11893) = 1
          ENDIF
-           !ANIM_SE(4935) = 1  !law37 -rho_liquid
+           !Anim_se (4935) = 1! Law37 -rho_liquid
            !ANIM_SE(4936) = 1  !law37 - rho_gas
        ELSEIF(KEY3(1:4)=='ENER')THEN
          ANIM_E(3) = 1
@@ -2474,10 +2474,10 @@ C--------------------------
          ANIM_SE(284)   = 1 !vfrac phase2 USR4 (law51 & 37)
          ANIM_SE(285)   = 1 !vfrac phase3 USR22 (law51)
          ANIM_SE(286)   = 1 !vfrac phase4 USR48 (law51)
-         ANIM_CE(10248) = 1 !vfrac phase1 (law20/51)
-         ANIM_CE(10249) = 1 !vfrac phase2 (law20/51)
-         ANIM_CE(10250) = 1 !vfrac phase3 (law20/51)
-         ANIM_CE(10251) = 1 !vfrac phase4 (law20/51)           
+         ANIM_CE(10248) = 1 !VFRAC Phase1 (Law20/51)
+         ANIM_CE(10249) = 1 !VFRAC Phase2 (Law20/51)
+         ANIM_CE(10250) = 1 !VFRAC Phase3 (Law20/51)
+         ANIM_CE(10251) = 1 !VFRAC Phase4 (Law20/51)           
       ELSEIF(KEY3(1:5)=='BFRAC')THEN
          ANIM_SE(887)   = 1
          ANIM_CE(10252) = 1
@@ -2574,7 +2574,7 @@ C--------------------------
          IF (LAW51_PHASE2) ANIM_SE(4932)  = 1
          IF (LAW51_PHASE3) ANIM_SE(4933)  = 1
          IF (LAW51_PHASE4) ANIM_SE(4934)  = 1                                            
-         ANIM_CE(11888) = 1   !PID15 uses ANIM_CE(10678:11887)  
+         ANIM_CE(11888) = 1   !PID15 UNIM_CE (10678: 11887)  
        ELSEIF(KEY3(1:5)=='DT   ')THEN
          IDX            = 13242 + 4*MX_PLY_ANIM  
          ANIM_SE(4937)  = 1 

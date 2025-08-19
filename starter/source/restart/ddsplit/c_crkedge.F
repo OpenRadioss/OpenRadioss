@@ -87,10 +87,10 @@ C
           IEL_L1 = IEL_L1 + 1
           IF (IEL_CRK(I) > 0) THEN
             IEL_L = IEL_L + 1
-CC            JCRK = IELC_L(IEL_L1)
+Cc                       
             JCRK = IEL_CRK(I)
             DO K=1,4  ! edges
-              IED_GL = IEDGESH4(K,JCRK)   ! Id global des edges dans element xfem
+              IED_GL = IEDGESH4(K,JCRK)   ! global id of edges in xfem element
               IF (IED_GL > 0) THEN
                 IF (ITAG_EDGE(IED_GL) == 0) THEN
                   IED_L = IED_L + 1
@@ -106,7 +106,7 @@ C                 local edge nodes
                   IC2 = NODLOCAL(IC2)
                   NODEDGE_L(1,IED_L) = IC1
                   NODEDGE_L(2,IED_L) = IC2
-C                  IEDGE_L(IED_L) = IED_GL
+C                  Iedge_l (ied_l) = ied_gl
                   IEDGE_L(IED_L) = IEDGE(IED_GL)
                 ENDIF
 C               local element edges
@@ -129,7 +129,7 @@ C
           IEL_L1 = IEL_L1 + 1
           IF(IEL_CRK(I+NUMELC) > 0)THEN
             IEL_L = IEL_L + 1
-CC           JCRK = IELTG_L(IEL_L1)
+Cc                      
             JCRK = IEL_CRK(I+NUMELC) - ECRKXFEC
             DO K=1,3   ! edges
               IED_GL = IEDGESH3(K,JCRK)
@@ -148,7 +148,7 @@ C local nodal edges
                   IC2 = NODLOCAL(IC2)
                   NODEDGE_L(1,IED_L) = IC1
                   NODEDGE_L(2,IED_L) = IC2
-C                  IEDGE_L(IED_L) = IED_GL
+C                  Iedge_l (ied_l) = ied_gl
                   IEDGE_L(IED_L) = IEDGE(IED_GL)
                 ENDIF
 C local element edges
@@ -165,7 +165,7 @@ C---
 c      NUMEDGES_L = IED
 C---
 C---
-C  count front local edges  (front entre les procs) => edges d'echange
+C  Count Local Front Edges (Front between the procs) => Exchange edges
 C---
       PROC = P+1
       DO IED_GL=1,NUMEDGES
@@ -173,20 +173,20 @@ cc       IF(EDGELOCAL(IED_GL) > 0.AND.IEDGE_TMP(1,IED_GL) > 1)THEN
        IF (IEDGE_TMP(3,IED_GL) < 0) THEN   ! edge interieur
         IC1 = NODEDGE(1,IED_GL)
         IC2 = NODEDGE(2,IED_GL)
-c       NLOCAL = 1 => noeud sur frontiere entre des procs
+c       NLOCAL = 1 => node on the boundary between processors
         IF((NLOCAL(IC1,PROC)==1).AND.
      .     (NLOCAL(IC2,PROC)==1))THEN
           DO I = 1,NSPMD
             EDGEPROC = 0
             IF(I/=PROC)THEN
               IF(NLOCAL(IC1,I)==1.AND.
-     .           NLOCAL(IC2,I)==1)THEN   ! arrete commune antre deux procs
+     .           NLOCAL(IC2,I)==1)THEN   
                  NBDDEDGE_L = NBDDEDGE_L + 1
 C---
                  IF(IEDGE_TMP(2,IED_GL) == 0)THEN
                    EDGEPROC = EDGEPROC + 1
-                   IEDGE_TMP(1,IED_GL) = EDGEPROC   ! num local de l'arrete sur chaque proc
-                   IEDGE_TMP(2,IED_GL) = 1          ! flag pour ne pas repasser cette arrete
+                   IEDGE_TMP(1,IED_GL) = EDGEPROC   ! local number of the edge on each processor
+                   IEDGE_TMP(2,IED_GL) = 1          ! flag to avoid reprocessing this edge
 c                  IEDGE_TMP(3,I) = IEDGE_TMP0(I)   ! flag bord libre / interieur
                  ENDIF
 C---

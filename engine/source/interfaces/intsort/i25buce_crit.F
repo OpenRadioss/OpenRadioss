@@ -56,7 +56,7 @@ C-----------------------------------------------
      .  XSLV(18),XMSR(12), VSLV(6), VMSR(6)
 C-----------------------------------------------
 C
-C     0- CALCUL DU CRITERE POUR SAVOIR SI ON DOIT TRIER OU NON
+C     0- calculation of the criterion to know whether to sort or not
 C
 C
       XSLV(1) = -EP30
@@ -181,10 +181,10 @@ C
           ENDIF
         ENDDO
       ENDIF       
-C dist calcule une fois pour toutes les interfaces dans COMCRIT (ci-dessous)
+C dist is calculated once for all interfaces in comcrit (see below)
 C
       IF(NSPMD==1) THEN
-C traitement deplace dans SPMD_GET_STIF en SPMD
+C Deplace treatment in SPMD_Get_Stif in SPMD
         DO I=NSNF,NSNL
           STFN(I)=MAX(STFN(I),ZERO)
         ENDDO

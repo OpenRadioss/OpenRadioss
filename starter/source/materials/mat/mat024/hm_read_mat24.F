@@ -229,7 +229,7 @@ c
 C-----------------------
 C     OTTOSEN SURFACE PARAMETERS
 C-----------------------
-C     Failure surface : f = r - rf = 0
+C     Failure surface: F = R - RF = 0
 C
 C     Ottosen surface defined with :
 C      -> rf = 1/AA (-BB+SQRT(BB  / B2 -AA(SM-CC))
@@ -298,7 +298,7 @@ c---------------------
       NFUNC   = 0
       NUVAR   = 0
 c-----------------
-c---- Definition des variables internes (stockage elementaire)
+c---- Definition of internal variables (Elementary storage)
 c-----------------
       MTAG%G_GAMA  = 6  
       MTAG%G_PLA = 1

@@ -133,7 +133,7 @@ C=======================================================================
       BIG   = EP20
       TOL   = EM20
 c---------------------     
-      EPSPD => DEFP(1:NEL,1)   ! Von Mises Equivalent Plastic Strain  
+      EPSPD => DEFP(1:NEL,1)   ! Von Equivalent Plastic Strain  
       EPSPV => DEFP(1:NEL,2)   ! Volumetric Plastic Strain
 c---------------------     
       EINI = UPARAM(1)
@@ -231,7 +231,7 @@ c
         D1(I)  = DEPSXX(I)-DAV(I)
         D2(I)  = DEPSYY(I)-DAV(I)
         D3(I)  = DEPSZZ(I)-DAV(I)
-c       Increments elastiques pression et deviateur        
+c       Elastic Pressure and Deviation increment
         DP(I) =-K(I)* DEPSV(I)
         DS1(I)= G2(I)* D1(I) 
         DS2(I)= G2(I)* D2(I)
@@ -239,7 +239,7 @@ c       Increments elastiques pression et deviateur
         DS4(I)= G(I) * DEPSXY(I)
         DS5(I)= G(I) * DEPSYZ(I)
         DS6(I)= G(I) * DEPSZX(I)
-c       Valeurs elastiques pression et deviateur   
+c       Elastic values pressure and deviator   
         PO(I)  =-(SIGOXX(I)+SIGOYY(I)+SIGOZZ(I))*THIRD
         SO1(I) = SIGOXX(I) + PO(I)
         SO2(I) = SIGOYY(I) + PO(I)
@@ -255,7 +255,7 @@ c       Valeurs elastiques pression et deviateur
         S5(I) = SO5(I) + DS5(I)
         S6(I) = SO6(I) + DS6(I)
         P(I)  = PO(I)  + DP(I)
-c       Contraintes elastiques
+c       Elastic constraints
         SIGNXX(I) = S1(I) - P(I)
         SIGNYY(I) = S2(I) - P(I)
         SIGNZZ(I) = S3(I) - P(I)
@@ -281,7 +281,7 @@ c------------------------------------------
         F(I)= Q(I) - MAX(ZERO, P(I)*TANB + YLD(I))
       ENDDO
 c------------------------------------------
-c     ITERATION POUR TROUVER LE PT D'INTERSECTION AVEC LE CRITERE
+c     ITERATION TO FIND THE INTERSECTION POINT WITH THE CRITERION
 c------------------------------------------
       DO I=1,NEL
         IF (F(I) > TOL) THEN

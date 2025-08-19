@@ -216,11 +216,11 @@ C     FVMABG2 are in fact FVMBAG1 with simplified input
          NN =IGRSURF(T_MONVOL(N)%EXT_SURFID)%NSEG
          IF (ITYPE == 6.OR.ITYPE == 8) THEN
 C------------------------------------------
-C     Elements de l'airbag et elements internes
+C     Elements of airbag and internal elements
 C------------------------------------------
             T_MONVOL(N)%IVOLU(31)=IADALE-1
             T_MONVOL(N)%IVOLU(34)=RADALE-1
-C     Tag les noeuds des briques additionnelles
+C     Tag the nodes of additional bricks
             ALLOCATE(TAGNODBR(NUMNOD))
             TAGNODBR(1:NUMNOD)=0
             IBRIC=T_MONVOL(N)%IVOLU(61)
@@ -375,7 +375,7 @@ C
             ENDIF
 
 C--------------------------------------
-C     Elements d'injecteur et de vent holes
+C     Holes injector and wind elements
 C--------------------------------------
             NJET=T_MONVOL(N)%IVOLU(8)
             ALLOCATE(T_MONVOL(N)%ITAGEL(T_MONVOL(N)%NTG +T_MONVOL(N)%NTGI))
@@ -428,7 +428,7 @@ C
      .              T_MONVOL(N)%IBAGHOL, ILVOUT, 0 )
             ENDIF
 C----------------------------------
-C     Elements volumiques additionnels
+C     Additional volume elements
 C----------------------------------
             IBRIC=T_MONVOL(N)%IVOLU(61)
             IF (IBRIC/=0 .OR. (IBRIC==0 .AND. KMESH(N)>=2)) THEN
@@ -634,7 +634,7 @@ C
          ENDIF
       ENDDO
 !     ***************    !
-!     Venthole adress    !
+!     Venthole Address!
 !     ***************    !
       NVENTTOT = 0
       DO NN = 1, NVOLU
@@ -655,7 +655,7 @@ C
          ENDIF
       ENDDO
 C----------------------------------------------------------------------------
-C     airbags communiquants, verifie les caracteristiques du gaz a l'initial.
+C     Airbags communicators, check the characteristics of the gas at the initial.
 C----------------------------------------------------------------------------
       DO N=1,NVOLU
          ITYPE=T_MONVOL(N)%IVOLU(2)
@@ -788,7 +788,7 @@ C----------------------------------------------------------------------------
      
 
 C-------------------------------------
-C     airbags communiquants, echange des caracteristiques des gaz.
+C     Airbags communicators, exchange of gas characteristics.
 C-------------------------------------
       DO N=1,NVOLU
          ITYPE=T_MONVOL(N)%TYPE
@@ -797,7 +797,7 @@ C-------------------------------------
             NJET   =T_MONVOL(N)%IVOLU(8)
             DO J=1,NJET
 C---------------------------------------------------------------------------------
-C     informe le volume pere des caracteristiques du gaz injecte dans un fils
+C     informs the pere volume of the gas characteristics injects into a son
 C---------------------------------------------------------------------------------
                T_MONVOL(COMM_TAG(N))%RBAGJET(1, NGROOT + J) = T_MONVOL(N)%RBAGJET(1, J)
                T_MONVOL(COMM_TAG(N))%RBAGJET(2, NGROOT + J) = T_MONVOL(N)%RBAGJET(2, J)
@@ -811,7 +811,7 @@ C-------------------------------------------------------------------------------
                   T_MONVOL(COMM_TAG(N))%IBAGJET(13, NGROOT + J) = T_MONVOL(N)%IBAGJET(13, J)
                ENDIF
 C----------------------------------------------------
-C     deplace les infos relatives a l'injection.
+C     DEPLACE INJECTION INFOS.
 C----------------------------------------------------
                IF(J-1/=NGROOT)THEN
                   DO K=1,NIBJET
@@ -830,7 +830,7 @@ C----------------------------------------------------
          ENDIF
       ENDDO
 C----------------------------------------------------------
-C     informe tous les volumes des caracteristiques des gaz.
+C     informs all the volumes of the gas characteristics.
 C----------------------------------------------------------
       DO N=1,NVOLU
          ITYPE=T_MONVOL(N)%TYPE

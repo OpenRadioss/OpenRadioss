@@ -110,7 +110,7 @@ C     GEO(37): ISHEAR
 C     GEO(38): FSHEAR
 C     GEO(39): IPLAST
 C     GEO(40): IG    v50  ->    IGEO(1)
-C     GEO(20:34) : Milieu poreux (bricks)
+C     GEO (20:34): porous medium (bricks)
 C     GEO(129): HCLOS (bricks)
 C     GEO(130): HTEST (bricks)
 C     GEO(131:170): FREE
@@ -350,7 +350,7 @@ C
        ENDIF 
       ENDDO ! DO I = 1, NUMSTACK
 C-------------------------------------
-C Recherche des ID doubles
+C Search for double IDs
 C-------------------------------------
       IDS = 79
       I = 0

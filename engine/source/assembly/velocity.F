@@ -21,11 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    vitesse   ../engine/source/assembly/vitesse.F
+!||    velocity   ../engine/source/assembly/velocity.F
 !||--- called by ------------------------------------------------------
 !||    resol     ../engine/source/engine/resol.F
 !||====================================================================
-      SUBROUTINE VITESSE( A, AR, V, VR, FZERO, ITAB, NALE )
+      SUBROUTINE VELOCITY( A, AR, V, VR, FZERO, ITAB, NALE )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------

@@ -36,7 +36,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
-      ! INPUT  - PTS(0:3,:) are 4 control points
+      ! INPUT - PTS (0: 3, :) Are 4 Control points
       ! INPUT  - T is in [0,1]  : T=0 => VAL = P(2,:)
       ! OUTPUT - C is interpolated value.
       ! OUTPUT - C_D is 1st derivative

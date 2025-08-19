@@ -63,7 +63,7 @@ C     REAL
      .   SY(MVSIZ) ,SZ(MVSIZ) ,
      .   TY(MVSIZ) ,TZ(MVSIZ), SUMA,CS,CT
 C--------------------------------------------------
-C     CONNECTIVITES ET MATERIEL
+C     connectivities and material
 C--------------------------------------------------
       DO I=LFT,LLT
         MXT(I)=IXQ(1,I)
@@ -89,7 +89,7 @@ C----------------------------
         Z4(I)=X(3,IX4(I))
       END DO
 C---------------------------------------
-C     REPERE LOCAL (ISOPARAMETRIQUE)
+C     LOCAL REFERENCE FRAME (ISOPARAMETRIQUE)
 C---------------------------------------
       DO I=LFT,LLT
         SY(I)=HALF*(Y2(I)+Y3(I)-Y1(I)-Y4(I))
@@ -98,7 +98,7 @@ C---------------------------------------
         TZ(I)=HALF*(Z3(I)+Z4(I)-Z1(I)-Z2(I))
       END DO
 C-----------
-C     REPERE CONVECTE ORTHOGONALISE 
+C     convected frame ORTHOGONALISE 
 C     full integ: Same than the shell 
 C-----------
       DO I=LFT,LLT

@@ -41,7 +41,7 @@ C
 C     NAME          DESCRIPTION                         
 C
 C     SET           Set Structure - Current SET
-C     IGRxxx        SURFACES & Groups
+C     IGRXX Surfaces & Groups
 C============================================================================
 C-----------------------------------------------
 C   M o d u l e s

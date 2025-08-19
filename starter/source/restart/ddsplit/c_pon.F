@@ -64,7 +64,7 @@ C-----------------------------------------------
      .        ITYP,NVENT,IV,IADHOL,KIBHOL,KIBJET,NNC,KAD,NAV,IPVENT
 C-----------------------------------------------
 C
-C taille Matrice connectivite locale
+C Local connectivity matrix size
 C
       LCNE_L = 0
       DO I = 1, NUMNOD_L
@@ -116,7 +116,7 @@ C
         ENDDO
       ENDIF
 C
-C Taille connectivite airbag
+C Airbag connectivity size
 C
       OFFC = NUMELS+NUMELQ
       OFFTG =NUMELS+NUMELQ+ NUMELC+NUMELT+NUMELP+NUMELR

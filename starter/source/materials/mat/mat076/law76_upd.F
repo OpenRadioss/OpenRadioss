@@ -220,7 +220,7 @@ c
         END IF
       END IF
 c      
-c     copy compression table
+c     Copy Compression Table
 c
       IF (FUNC_C > 0) THEN
 

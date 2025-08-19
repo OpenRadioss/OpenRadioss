@@ -132,7 +132,6 @@ c         NBINTC = NBINTC + 1
 c         INTLIST(NBINTC) = NIN
 c       ENDIF
 c     ENDDO 
-C Attention aux interfaces inactives
 
 C ===========================================================
       IF(MODE == 1) THEN
@@ -182,7 +181,7 @@ C
      .    ITY==22.OR.ITY==23.OR.ITY==24.OR.
      .    ITY==20.OR.ITY==11.OR.ITY==17.OR.
      .    ITY==25) THEN
-C Attention aux interfaces inactives
+C Take care if inactive interfaces                                  
 C
         INTERACT = 0
         ISENS = 0
@@ -216,7 +215,7 @@ c           ENDIF
 
             ICOMM = 1
             INTBUF_TAB(NIN)%VARIABLES(5) = -DIST
-c           RBUFS(L+1)= NIN
+c           Rbufs (L+1) = Nin
 c           RBUFS(L+2)= INTBUF_TAB(NIN)%VARIABLES(8)
 c           RBUFS(L+3)= INTBUF_TAB(NIN)%VARIABLES(9)
 c           RBUFS(L+4)= INTBUF_TAB(NIN)%VARIABLES(12)
@@ -237,7 +236,7 @@ C              IF(IPARI(7,NIN)==20) LEN = LEN + NSNFIE(NIN)%P(P)
                ENDDO
             END IF
 C
-C Rajout partie Edge pour type 20
+C Edge part addition for type 20
 C
             ITY=IPARI(7,NIN)
             IF (ITY == 20 .OR. (ITY == 25.AND. IPARI(58,NIN) > 0)) THEN
@@ -258,7 +257,7 @@ C
        ENDIF
       ENDDO
 C
-C Verification de la fin du tri (i7buce)
+C Verification of the end of sorting (i7buce)
 C
       DO P = 1, NSPMD
        ICOMM2(P) = 0
@@ -318,7 +317,7 @@ C ENVOI
       DO P = 1, NSPMD
         LEN = ISCOM(P)
         IF(LEN/=0) THEN
-C alloc structure de comm
+C allocate communication structure
           ALLOCATE(MSGBUF_S(P)%P(LEN),STAT=IERROR)
 
           IF(IERROR/=0) THEN
@@ -454,7 +453,7 @@ C interface retriee ?
           ENDIF
           DO P = 1, NSPMD
             LEN = NSNSI(NIN)%P(P)
-C test si proc a envoye qqchose
+C test if proc has sent something
             IF(LEN>0) THEN
               IDEB2 = IDEBUT(P)
               DO I = 1, LEN
@@ -480,7 +479,7 @@ C
             ENDIF
             DO P = 1, NSPMD
               LEN = NSNSIE(NIN)%P(P)
-C test si proc a envoye qqchose
+C test if proc has sent something
               IF(LEN>0) THEN
 C               WRITE(6,*) __FILE__,ISPMD,"SEND",P-1,LEN
                 IDEB2 = IDEBUT(P)
@@ -495,7 +494,7 @@ C               WRITE(6,*) __FILE__,ISPMD,"SEND",P-1,LEN
           END IF
         ENDIF 
       ENDDO  
-C Attente reception de msg
+C Waiting for message reception
       DO P = 1, NSPMD
         IF(IRCOM(P)>0) THEN
           DEALLOCATE(MSGBUF_R(P)%P)
@@ -510,7 +509,7 @@ C
       IF(NISUBG>0) THEN
 C interface avec output sous interfaces
 C
-C Calcul et envoi de la taille des parties sous interfaces sur partie frontiere
+C Calculation and sending of the size of sub-interface parts on the border part
 C
         DO P = 1, NSPMD
           IF(IRCOM(P)>0) THEN
@@ -533,7 +532,7 @@ C interface retriee avec sous interfaces ?
               IF(LEN>0) THEN
                 DO I = 1, LEN
                   NS = NSVSI(NIN)%P(IDEB+I)
-C rajout +1 pour envoyer le nb de sous interface par noeud
+C addition of +1 to send the number of sub-interfaces per node
                   LENOUT = LENOUT + INTBUF_TAB(NIN)%ADDSUBS(NS+1)-
      .                     INTBUF_TAB(NIN)%ADDSUBS(NS) + 1
                 END DO
@@ -550,7 +549,7 @@ C              Partie Eedge
                 IF(LEN>0) THEN
                   DO I = 1, LEN
                     NS = NSVSIE(NIN)%P(IDEB+I)
-C rajout +1 pour envoyer le nb de sous interface par noeud
+C addition of +1 to send the number of sub-interfaces per node
                     LENOUT = LENOUT + INTBUF_TAB(NIN)%ADDSUBE(NS+1)-
      .                       INTBUF_TAB(NIN)%ADDSUBE(NS) + 1
 C                   WRITE(6,*) "Node",I,INTBUF_TAB(NIN)%ADDSUBE(NS),
@@ -582,10 +581,10 @@ C
                  ENDIF
               ENDIF
             END DO
-C longueur comm sauvegardee ds ircom
+C Comm Save length in IRCOM
             IRCOM(P) = LENOUT           
             IF(LENOUT>0) THEN
-C alloc structure de comm
+C allocate communication structure
               ALLOCATE(MSGBUF_S(P)%P(LENOUT),STAT=IERROR)
               IF(IERROR/=0) THEN
                 CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
@@ -600,14 +599,14 @@ C alloc structure de comm
           END IF
         END DO
 C
-C Reception de la taille des parties sous interfaces sur partie frontiere
+C Reception of the size of sub-interface parts on the border part
 C
         DO P = 1, NSPMD
           IF(ISCOMS(P)>0) THEN
             MSGTYP = MSGOFF3
             LENOUT = 0
             SIZ = NINTER * 2
-C on recoit dans la partie de buffer isubtmp non utilisee
+C received in the unused part of the isubtmp buffer
             CALL MPI_RECV(ISUBTMP2(1,1,P),SIZ,MPI_INTEGER,IT_SPMD(P),
      .                    MSGTYP,SPMD_COMM_WORLD,STATUS,IERROR)
             DO II = 1, NBINTC
@@ -615,7 +614,7 @@ C on recoit dans la partie de buffer isubtmp non utilisee
 C interface retriee avec sous interfaces ?
               IF(NEWFRONT(NIN)==2.AND.IPARI(36,NIN)>0.AND.
      +           IPARI(7,NIN)/=17) THEN
-C on retranche le nbre de noeuds pour retrouver la longeur des sous interfaces
+C subtracting the number of nodes to find the length of sub-interfaces
                 NB_SUBINT = ISUBTMP2(NIN,1,P) - NSNFI(NIN)%P(P)
                 NISUBSFI(NIN)%P(P) = NB_SUBINT 
                 LENOUT = LENOUT + ISUBTMP2(NIN,1,P)
@@ -632,7 +631,7 @@ C                   WRITE(6,*) "NISUBSFIE(NIN)%P(",P-1,")=",NISUBSFIE(NIN)%P(P),
                 ENDIF
               END IF
             END DO
-C longueur comm sauvegardee ds iscom
+C Comm Save length in Iscom
             ISCOM(P) = LENOUT
             IF(LENOUT>0) THEN          
               ALLOCATE(MSGBUF_R(P)%P(LENOUT),STAT=IERROR)
@@ -652,7 +651,7 @@ C
           END IF
         END DO
 C
-C Envoi des parties sous interfaces sur partie frontiere
+C Sending of sub-interface parts on the border part
 C
         DO P = 1, NSPMD
           IDEBUT(P) = 0
@@ -670,7 +669,7 @@ C interface retriee avec sous interfaces ?
                 DO I = 1, LEN
                   NS = NSVSI(NIN)%P(IDEB+I)
                   I0 = I0 + 1
-C recupere le nbre de sous interface pour le noeud
+C retrieves the number of sub-interfaces for the node
                   MSGBUF_S(P)%P(I0) = INTBUF_TAB(NIN)%ADDSUBS(NS+1)-
      .                             INTBUF_TAB(NIN)%ADDSUBS(NS)
 
@@ -701,7 +700,7 @@ C                Sub interface for Edges
                   DO I = 1, LEN
                     NS = NSVSIE(NIN)%P(IDEB_EDGE+I)
                     I0 = I0 + 1
-C recupere le   nbre de sous interface pour le noeud
+C retrieves the number of sub-interfaces for the node
                     MSGBUF_S(P)%P(I0) = INTBUF_TAB(NIN)%ADDSUBE(NS+1)-
      .                               INTBUF_TAB(NIN)%ADDSUBE(NS)
                 
@@ -729,7 +728,7 @@ C                     WRITE(6,*) P-1,"INFLG---MSGBUF_S(",I0,")=",MSGBUF_S(P)%P(I
         END DO
 C
         DO P = 1, NSPMD
-C longueur comm sauvegardee ds ircom
+C Comm Save length in IRCOM
           IF(IRCOM(P)>0) THEN
             MSGTYP = MSGOFF4        
 C           WRITE(6,*) "SEND",IRCOM(P) ,"TO",P-1
@@ -739,10 +738,10 @@ C           WRITE(6,*) "SEND",IRCOM(P) ,"TO",P-1
           END IF
         END DO  
 C
-C Reception des parties sous interfaces sur partie frontiere
+C Reception of sub-interface parts on the border part
 C
         DO P = 1, NSPMD
-C longueur comm sauvegardee ds iscom
+C Comm Save length in Iscom
           IF(ISCOM(P)>0) THEN
             MSGTYP = MSGOFF4
 C           WRITE(6,*) "RECV",ISCOM(P) ,"FROM",P-1

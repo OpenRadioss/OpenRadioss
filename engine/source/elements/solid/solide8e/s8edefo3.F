@@ -311,7 +311,7 @@ C------force ICP>0 -->I_sh=0 or check   !!!!
         DVC(I) =(DXX(I)+DYY(I)+DZZ(I)-DVC(I))*DT1
        ENDDO
       END IF !(ISMSTR==12) THEN
-C-------------Volume traitement------
+C----------- Volume treatment ------
       IF (ICP==2.AND.I_SH<=1) THEN
        DO I=1,NEL
         DVC(I)=(DSV(I)-DVC(I))*FAC(I)*DT1

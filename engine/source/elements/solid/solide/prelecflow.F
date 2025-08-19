@@ -81,7 +81,7 @@ C======================================================================|
 C   
       LENCOM = 0    
       IF(NSPMD > 1)LENCOM=NERCVOIS(NSPMD+1)+NESDVOIS(NSPMD+1) 
-C Boucle parallele dynamique SMP
+C SMP dynamic parallel loop
 C
 !$OMP DO 
 
@@ -136,7 +136,7 @@ C-----------------------------
       IF (NSPMD > 1) THEN       
 cc        LENCOMN=NBRCVOIS(MAXPROC+1)+NBSDVOIS(MAXPROC+1)
 C
-C Partie non parallele smt
+C SMT non -parallel part
 C
 !$OMP SINGLE
        CALL SPMD_E1VOIS(PHI1     ,NERCVOIS,NESDVOIS,LERCVOIS,
@@ -147,7 +147,7 @@ C
 C       
        CALL SPMD_E1VOIS(POR     ,NERCVOIS,NESDVOIS,LERCVOIS,
      1                     LESDVOIS,LENCOM  )
-C Fin Partie non parallele smt
+C End non -parallel part SMT
 !$OMP END SINGLE       
       ENDIF
       END

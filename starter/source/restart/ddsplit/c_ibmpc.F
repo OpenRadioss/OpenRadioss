@@ -44,7 +44,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, P, NUMC, KF, J, ISK
 C
-      P = 1   ! uniquement sur p0 pour le moment
+      P = 1   ! only on p0 for the moment
       KF = 0
       DO I=1,NUMMPC
         DD_LAGF(1,P) = DD_LAGF(1,P) + 1

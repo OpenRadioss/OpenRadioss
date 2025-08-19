@@ -319,7 +319,7 @@ C               CALL SUKE3(
                       IAD2 = LBUFEL - 21 * NEL + 1
                   ENDIF
                   IF(JHBE==24)THEN
-C---------------ca ne riske pas de entrer ici pour l'instant
+C------------- It is not likely to enter here for the moment
 C               CALL SZKE3(
 C     1                   PM    ,GEO   ,IXS    ,X  ,ELBUF(KAD),
 C     1                   K11   ,K12   ,K13    ,K14    ,K15   ,
@@ -745,7 +745,7 @@ C----6---------------------------------------------------------------7---------8
       IF (I==ID) THEN
           DO K=1,NK
               DO JJ = IADK(ID+K),IADK(ID+1+K)-1
-C---------find l'adress dans LT-----
+C-------- Find l'Address in LT -----
                   IF (JDIK(JJ)==JD) THEN
                       JDL = JJ-1
                       GOTO 100
@@ -841,7 +841,7 @@ C----6---------------------------------------------------------------7---------8
       IF (I==ID) THEN
           DO K=1,NK
               DO JJ = IADK(ID+K),IADK(ID+1+K)-1
-C---------find l'adress dans LT-----
+C-------- Find l'Address in LT -----
                   IF (JDIK(JJ)==JD) THEN
                       JDL = JJ-1
                       GOTO 100
@@ -981,7 +981,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N,K,EP,IK,ID,JD,L
 C----6----------KII is always triag_sup whatever IKPAT---------------7--------
-C   lock par element trop penalisant pour perf
+C   lock by element too penalizing for performance
 #include "lockon.inc"
       DO EP = 1,NEL
           IF (OFF(EP)>ZERO.AND.NI(EP)>0) THEN
@@ -1095,7 +1095,7 @@ C----6---------------------------------------------------------------7---------8
                   IF (I==ID) THEN
                       DO K=1,ND
                           DO JJ = IADK(ID+K),IADK(ID+1+K)-1
-C---------find l'adress dans LT-----
+C-------- Find l'Address in LT -----
                               IF (JDIK(JJ)==JD) THEN
                                   JDL = JJ-1
                                   GOTO 100
@@ -1135,7 +1135,7 @@ c#include "lockoff.inc"
                   IF (I==ID) THEN
                       DO K=1,ND
                           DO JJ = IADK(ID+K),IADK(ID+1+K)-1
-C---------find l'adress dans LT-----
+C-------- Find l'Address in LT -----
                               IF (JDIK(JJ)==JD) THEN
                                   JDL = JJ-1
                                   GOTO 300
@@ -1269,7 +1269,7 @@ C----6---------------------------------------------------------------7---------8
       IF (I==ID) THEN
           DO K=1,NK
               DO JJ = IADK(ID+K),IADK(ID+1+K)-1
-C---------find l'adress dans LT-----
+C-------- Find l'Address in LT -----
                   IF (JDIK(JJ)==JD) THEN
                       JDL = JJ-1
                       GOTO 100
@@ -1383,7 +1383,7 @@ C=======================================================================
 C
       RETURN
       END
-C  |----nouvell routine -----
+C  | --- new routine -----
 !||====================================================================
 !||    writeks    ../engine/source/implicit/imp_glob_k.F
 !||--- called by ------------------------------------------------------
@@ -1423,7 +1423,7 @@ C-----------------------------------------------
       RETURN
       END
 C
-C  |----nouvell routine -----
+C  | --- new routine -----
 !||====================================================================
 !||    impkcout   ../engine/source/implicit/imp_glob_k.F
 !||--- calls      -----------------------------------------------------
@@ -1471,7 +1471,7 @@ C=======================================================================
 C
       RETURN
       END
-C  |----nouvell routine -----
+C  | --- new routine -----
 !||====================================================================
 !||    writekc    ../engine/source/implicit/imp_glob_k.F
 !||--- called by ------------------------------------------------------
@@ -1511,7 +1511,7 @@ C-----------------------------------------------
       RETURN
       END
 C
-C  |----nouvell routine -----
+C  | --- new routine -----
 !||====================================================================
 !||    impkpout   ../engine/source/implicit/imp_glob_k.F
 !||--- calls      -----------------------------------------------------
@@ -1548,7 +1548,7 @@ C=======================================================================
 C
       RETURN
       END
-C  |----nouvell routine -----
+C  | --- new routine -----
 !||====================================================================
 !||    writekp    ../engine/source/implicit/imp_glob_k.F
 !||--- called by ------------------------------------------------------
@@ -1588,7 +1588,7 @@ C-----------------------------------------------
       RETURN
       END
 C
-C  |----nouvell routine -----
+C  | --- new routine -----
 !||====================================================================
 !||    impkiout   ../engine/source/implicit/imp_glob_k.F
 !||--- calls      -----------------------------------------------------
@@ -1625,7 +1625,7 @@ C=======================================================================
 C
       RETURN
       END
-C  |----nouvell routine -----
+C  | --- new routine -----
 !||====================================================================
 !||    writeki    ../engine/source/implicit/imp_glob_k.F
 !||--- called by ------------------------------------------------------
@@ -1665,7 +1665,7 @@ C-----------------------------------------------
       RETURN
       END
 C
-C  |----nouvell routine -----
+C  | --- new routine -----
 !||====================================================================
 !||    kelamda    ../engine/source/implicit/imp_glob_k.F
 !||--- calls      -----------------------------------------------------
@@ -2601,7 +2601,7 @@ C-----------------------------------------------
 C----6---used only for shell due to npt=1 -> NDOF=3-------
       INTEGER N,K,EP,IK,ID,JD,L
 C----6----------KII is always triag_sup whatever IKPAT---------------7--------
-C   lock par element trop penalisant pour perf
+C   lock by element too penalizing for performance
 #include "lockon.inc"
       DO EP = 1,NEL
           IF (OFF(EP)>ZERO.AND.NI(EP)>0) THEN
@@ -2697,7 +2697,7 @@ C---- s'il y a des elms degeneres--------------
      . CALL ASSEMC_KII(NN    ,NELD  ,IDDL  ,IADK  ,K_DIAG,
      .                 K_LT  ,KIJD  ,ND    ,OFFD  ,NDOF  )
 C----6---------------------------------------------------------------7---------8
-C   lock par element trop penalisant pour perf
+C   lock by element too penalizing for performance
 #include "lockon.inc"
       IF (IKPAT==0) THEN
           DO EP = 1,NEL
@@ -2712,7 +2712,7 @@ C   lock par element trop penalisant pour perf
                   IF (I==ID) THEN
                       DO K=1,NDOF(N1)
                           DO JJ = IADK(ID+K),IADK(ID+1+K)-1
-C---------find l'adress dans LT-----
+C-------- Find l'Address in LT -----
                               IF (JDIK(JJ)==JD) THEN
                                   JDL = JJ-1
                                   GOTO 100
@@ -2754,7 +2754,7 @@ c#include "lockoff.inc"
                   IF (I==ID) THEN
                       DO K=1,NDOF(N1)
                           DO JJ = IADK(ID+K),IADK(ID+1+K)-1
-C---------find l'adress dans LT-----
+C-------- Find l'Address in LT -----
                               IF (JDIK(JJ)==JD) THEN
                                   JDL = JJ-1
                                   GOTO 300
@@ -3133,7 +3133,7 @@ C-----------------------------------------------
       my_real
      .   OFF(MVSIZ)
 C----6---------------------------------------------------------------7-2
-C Boucle parallele dynamique SMP
+C SMP dynamic parallel loop
 C
 !$OMP DO SCHEDULE(DYNAMIC,1)
       DO IG = 1, NGROUP
@@ -3304,7 +3304,7 @@ C----6---------------------------------------------------------------7---------8
 C               CALL SUKE3(
               ELSEIF(NPT==1)THEN
                   IF(JHBE==24)THEN
-C---------------ca ne riske pas de entrer ici pour l'instant
+C------------- It is not likely to enter here for the moment
 C               CALL SZKE3(
 C     1                   PM    ,GEO   ,IXS    ,X  ,ELBUF(KAD),
 C     1                   K11   ,K12   ,K13    ,K14    ,K15   ,

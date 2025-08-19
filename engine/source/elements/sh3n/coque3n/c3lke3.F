@@ -73,7 +73,7 @@ C-----------------------------------------------
      .    DM5(MVSIZ),DM6(MVSIZ),DF5(MVSIZ),DF6(MVSIZ),DM5_2(MVSIZ),
      .    DM6_2(MVSIZ),DF5_2(MVSIZ),DF6_2(MVSIZ),
      .    DMF(3,3,MVSIZ),MFIJ(2,2,MVSIZ)
-C-----------Attention Matrice sym Kii ne calcul que la moitie---------72
+C----------- CAPTE Matrix Sym KII only calculates half ---------- 72
        DO EP=JFT,JLT 
         C2=VOL(EP)
         C1=THK2(EP)*C2
@@ -105,7 +105,7 @@ C-------PX2=-PX1 ,PX3=0---------------
         PY2PY3(EP)=PY2(EP)*PY3(EP)
         PY3PY3(EP)=PY3(EP)*PY3(EP)
        ENDDO
-C------Membrainaires-----------
+C------ Membrainous ----------
        DO EP=JFT,JLT 
         K11(1,1,EP)=PX1PX1(EP)*DM(1,1,EP)
         K11(1,2,EP)=PX1PY1(EP)*DM(1,2,EP)
@@ -205,7 +205,7 @@ C
          DF5_2(EP)=TWO*DF5(EP)
          DF6_2(EP)=TWO*DF6(EP)
         ENDDO
-C----Px2=-Px1,--Px3=0---
+C---- Px2 = -px1,-PX3 = 0 ---
         DO EP=JFT,JLT
          K11(1,1,EP)=K11(1,1,EP)+PX1PY1(EP)*DM5_2(EP)
          K11(1,2,EP)=K11(1,2,EP)+
@@ -493,7 +493,7 @@ C---
         FM23(2,3,EP)=BCYY2*PY3DY
        ENDDO
 C
-C------ Mzz  pour tous-------
+C------ Mzz  for all-------
         DO EP=JFT,JLT
          M11(3,3,EP)=M11(3,3,EP)+DHZ(EP)*(PX1PX1(EP)+PY1PY1(EP))
          M12(3,3,EP)=M12(3,3,EP)+DHZ(EP)*(PY1PY2(EP)-PX1PX1(EP))
@@ -602,7 +602,7 @@ c  I   JFT,JLT           - element id limit
 c  I   HM(4,NEL)         - membrane stiffness modulus (plane stress)
 c  I   HZ(NEL)           -drilling dof modulus
 C  I   PX1,PY1,PX2=-PX1,PY2(NEL): standard [B] of Tria
-c  I   VOL,AREA          - element volume,AREA
+c  I   Area - Volume element, Area
 c  IO  Kij,FMij,MFij,Mij(3,3,NEL)   sub-stiffness matrix
 C---------------|[KIJ][MFIJ]|----
 C-----KE(6x6)=  |           |
@@ -639,7 +639,7 @@ C-----------------------------------------------
 C---------------|[KIJ][MFIJ]|----
 C-----KE(6x6)=  |           |
 C---------------|[FMIJ]{MIJ]|----
-C-----------Attention Matrice sym Kii ne calcul que la moitie---------72
+C----------- CAPTE Matrix Sym KII only calculates half ---------- 72
 C--------Bi: Bi*A--- DM: DM/A
        DO EP=JFT,JLT
         A_I(EP)=ONE/MAX(AREA(EP),EM20)

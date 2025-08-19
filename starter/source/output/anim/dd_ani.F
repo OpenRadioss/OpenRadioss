@@ -81,7 +81,7 @@ Calcul connectivite sph pour A000 domdec
 C
       NBCSPH = 0
       DO I = 1, NUMSPH
-C maillage hexagonal compact => 12 voisins les + proches
+C Compact hexagonal mesh => 12 neighbors + close
           DO J = 1,MIN(12,KXSP(4,I))
             N1 = KXSP(3,I)
             N2 = IXSP(J,I)

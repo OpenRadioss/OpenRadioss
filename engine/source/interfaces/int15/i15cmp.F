@@ -108,7 +108,7 @@ C     REAL
 C-----------------------------------------------
         NOINT=IPARI(15)
 C-----------------------------------------------
-C       Vecteurs de travail (nbre maximum de facettes).
+C       working vectors (maximum number of facets)
         MAXFCT=6*NUMELS+NUMELC+NUMELTG
         KSC    =1
         KTC    =MAXFCT +KSC
@@ -117,7 +117,7 @@ C       Vecteurs de travail (nbre maximum de facettes).
         KWNF   =KMARQND+NUMNOD
         KWTF   =KWNF   +3*NUMNOD
         KWNS   =KWTF   +3*NUMNOD
-C       Longueur totale des vecteurs de travail.
+C       total length of the working vectors
         KWLENG=KWNS+NUMNOD-1
         IF (KWLENG>LENWA) THEN
           CALL ANCMSG(MSGID=83,ANMODE=ANINFO)

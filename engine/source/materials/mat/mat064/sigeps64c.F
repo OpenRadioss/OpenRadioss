@@ -231,7 +231,7 @@ C
        ENDIF
        ENDIF
 C-----------------------------------------------
-C  Calcul de la tempurature. (conduction ou adiabatique)
+C  Calculation of temperature. (conduction or adiabatic)
 C--------------------    
         IF(JTHE > 0 ) THEN
          DO I=1,NEL0     
@@ -282,7 +282,7 @@ C Yld stress
            FAC   = VM(I)/VMC
            YLD(I) = Y1(I)    + FAC*(Y2(I)-Y1(I))
            YLD(I) = MAX(YLD(I),EM20)
-C ecrouissage 
+C collapse 
            DYDX1(I)=DYDX1(I)*YFAC(1)
            DYDX2(I)=DYDX2(I)*YFAC(2)
            H(I)   = (DYDX1(I) + FAC*(DYDX2(I)-DYDX1(I)))
@@ -293,7 +293,7 @@ C-------------------
 C     PROJECTION
 C-------------------
        IF(IFLAG(1)==0)THEN
-C projection radiale 
+C radial projection 
          DO I=1,NEL0
            SVM(I)=SQRT(SIGNXX(I)*SIGNXX(I)
      .             +SIGNYY(I)*SIGNYY(I)
@@ -317,7 +317,7 @@ cc           DPLA(I) = OFF(I)*SVM(I)*UMR/(G3(I)+H(I))
          ENDDO
        ELSEIF(IFLAG(1)==1)THEN
 C-------------------------
-C     CRITERE DE VON MISES
+C     VON MISES CRITERION
 C-------------------------  
          DO  I=1,NEL0
            H(I) = MAX(ZERO,H(I))
@@ -398,10 +398,10 @@ C------------------------------------------
          ENDIF
 C------------------------------------------
        ELSEIF(IFLAG(1)==2)THEN
-C projection radial sur le deviateur sur un critere reduit
-C projection elastique en z => sig33 = 0
-C le coef. de reduction du critere est tel que 
-C l'on se trouve sur le critere apres les 2 projections   
+C radial projection on the deviator on a reduced criterion
+C Elastic projection in z => sig33 = 0
+C the coefficient of reduction of the criterion is such that
+C one is on the criterion after the 2 projections
          DO I=1,NEL0
            P   = -(SIGNXX(I)+SIGNYY(I))*THIRD
            S11 = SIGNXX(I)+P
@@ -448,7 +448,7 @@ C calcul de l'effet martensite ----
          
          VM(I) = VM(I) + MAX(DVM*DPLA(I),ZERO)
          VM(I) = MIN(VM(I), ONE)
-C la chaleur latente dans le terme source.
+C the latent heat in the source term.
          IF(JTHE > 0 ) DIE(I) = (VM(I) - UVAR(I,2))*HL       
          UVAR(I,2) = VM(I)
          UVAR(I,5) = TEMP(I)

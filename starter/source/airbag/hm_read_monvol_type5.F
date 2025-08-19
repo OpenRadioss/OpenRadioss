@@ -724,7 +724,7 @@ C
      .                 C1 = T_MONVOLN%TITLE)
                ENDIF
 C----------------------------------------------
-C     Ajout condition Scom incluse dans Surf airbag
+C     Adding SCOM Condition Include in Surf Airbag
 C----------------------------------------------
                NN = IGRSURF(T_MONVOL_METADATA%ICBAG(2, II + LCA))%NSEG
                EXT_SURFID = T_MONVOLN%EXT_SURFID
@@ -772,7 +772,7 @@ C----------------------------------------------
                      ENDIF
                   ENDIF
                ENDDO
-C     Fin ajout condition Scom incluse dans Surf airbag
+C     End Addition Condition SCOM Include in Surf Airbag
             ENDIF
             T_MONVOL_METADATA%ICBAG(3, II + LCA) = 0
             IF((COMM_DPDEF(II) == ZERO .AND. COMM_DTPDEF(II) == ZERO) .OR. COMM_TVENT(II) == ZERO)

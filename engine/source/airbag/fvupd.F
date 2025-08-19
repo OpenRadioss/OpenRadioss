@@ -328,7 +328,7 @@ C
       INTEGER, ALLOCATABLE :: MERGE(:,:), IFVPOLH_OLD(:)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
       IF (NSPMD == 1) THEN
-C traitement necessaire pour rester p/on
+C treatment necessary to stay p/we
          DO I=1,FVSPMD(IFV)%NN_L+FVSPMD(IFV)%NNI_L
            I1=FVSPMD(IFV)%IBUF_L(1,I)
            I2=FVSPMD(IFV)%IBUF_L(2,I)
@@ -360,7 +360,7 @@ C
                FVSPMD(IFV)%WAX(3,I1)=X(3,I2)
             ENDDO
          ENDIF
-C WA utilise temporairement pour stocker XXXA
+C WA uses temporarily to store xxxa
          DO I=1,NNA
            XXXA(1,I)=FVSPMD(IFV)%WAX(1,I)
            XXXA(2,I)=FVSPMD(IFV)%WAX(2,I)
@@ -398,7 +398,7 @@ C
                FVSPMD(IFV)%WAV(3,I1)=V(3,I2)
             ENDDO
          ENDIF
-C WA utilise temporairement pour stocker VVVA
+C WA uses temporarily to store VVVA
          DO I=1,NNA
             IF(NCONA(2,I) == 1) THEN
               VVVA(1,I)=FVSPMD(IFV)%WAV(1,I)
@@ -422,7 +422,7 @@ c    .                                V,FVSPMD(IFV)%VVV,FVSPMD(IFV)%WAV )
      .                                V,FVSPMD(IFV)%VVV,FVSPMD(IFV)%WAV )
 
 c        CALL SPMD_FVB_GATH(IFV, X, XXX, WA, XXXSA, 3)
-C WA utilise temporairement pour stocker XXXA
+C WA uses temporarily to store xxxa
          IF (KMESH(IFV) >= 2) THEN
             DO I=1,NNA
                IF (NCONA(2, I) /= 0) THEN
@@ -441,8 +441,8 @@ C WA utilise temporairement pour stocker XXXA
          ENDIF
 C
 
-C XXXSA et VVVSA utilise temporairement
-C WA utilise temporairement pour stocker VVVA
+C XXXSA and VVVSA temporarily uses
+C WA uses temporarily to store VVVA
          DO I=1,NNA
            IF(NCONA(2,I) == 1) THEN
               VVVA(1,I)=FVSPMD(IFV)%WAV(1,I)
@@ -466,7 +466,7 @@ C
 !$OMP+ PRIVATE(X2,Y2,Z2,X3,Y3,Z3,NRX,NRY,NRZ,AREA2) 
 !$OMP+ PRIVATE(KSI,ETA,FAC,I1,I2)
 C
-C Calcul position et vitesse des noeuds internes 
+C calculation of position and velocity of internal nodes
 !$OMP DO SCHEDULE(DYNAMIC,MVSIZ)
       DO I=1,NNA
         IF(NCONA(2,I) == 0) THEN
@@ -500,7 +500,7 @@ C Calcul position et vitesse des noeuds internes
 !$OMP END DO
       ENDIF
 
-C Calcul la position des noeuds internes 
+C calculation of the position of internal nodes
 !$OMP DO SCHEDULE(DYNAMIC,MVSIZ)
       DO I=1,NNA
         IF(NCONA(2,I) == 0) THEN
@@ -515,7 +515,7 @@ C Calcul la position des noeuds internes
 !$OMP END DO 
 
 
-C Calcul la position de tous les points 
+C calculation of the position of all points
 !$OMP DO SCHEDULE(DYNAMIC,MVSIZ)
       DO I=1,NNS
          IF (IFVNOD(1,I)==1) THEN
@@ -583,7 +583,7 @@ C
 !$OMP END DO
       ENDIF 
             
-C Normale et aire des triangles
+C normal and area of triangles
 !$OMP DO SCHEDULE(DYNAMIC,MVSIZ)
       DO I=1,NNTR
          N1=IFVTRI(1,I)
@@ -621,15 +621,15 @@ C Normale et aire des triangles
       ENDDO
 !$OMP END DO
 C
-C Volume des polyhedres
+C volume of polyhedra
 !$OMP DO SCHEDULE(DYNAMIC,MVSIZ)
       DO I=1,NPOLH
          PVOLU(I)= ZERO
          PVOLTMP = ZERO
-C Boucle sur les polygones du polyhedre
+C loop over the polygons of the polyhedron
          DO J=IFVPADR(I),IFVPADR(I+1)-1
             JJ=IFVPOLH(J)
-C Boucle sur les triangles du polygone
+C loop over the triangles of the polygon
             DO K=IFVTADR(JJ), IFVTADR(JJ+1)-1
                KK=IFVPOLY(K)
                AREA=PAREA(KK)
@@ -671,12 +671,12 @@ C Boucle sur les triangles du polygone
 
       IF(IVOLU(39) == 0) RETURN
 
-C Pas de temps mini
+C minimum time step
 C      DTMIN=DTMIN1(52)
       DTMIN = FVBAG_DTMIN
       DTMERGV12=IDTMIN(52)
       IF(DTMERGV12==2) DTMERGV12=1
-C Volume moyen
+C Average volume
       VM=ZERO
       NPA=0
       DO I=1,NPOLH
@@ -703,7 +703,7 @@ C Volume moyen
          VOLUMIN=RVOLU(33)*RVOLU(31)
       ENDIF
 
-C Aire des polygones et polyhedres appuyes
+C Area of supported polygons and polyhedra
       DO I=1,NPOLY
          AREAPOLY(I)=ZERO
          POLHAPP(1,I)=0
@@ -729,7 +729,7 @@ C
       DO I=1,NPOLY
          ITAGP(I)=0
       ENDDO
-C Volume max de voisins
+C max volume of neighbors
 !$OMP PARALLEL PRIVATE(I,J,JJ,K,KK,IEL,II)
 !$OMP DO SCHEDULE(DYNAMIC,MVSIZ)
       DO I=1,NPOLH
@@ -772,7 +772,7 @@ C
             IF (MPOLH(I)<=ZERO.OR.EPOLH(I)<=ZERO) ITYPM=3
             IF (DTPOLH(I)<=DTMIN) ITYPM=4
 C
-C Recherche le polyedre voisin Imax ayant la plus grande surface commune avec le polyedre I
+C Search for the neighboring polyhedron Imax with the largest common surface with polyhedron I
 C
             AREAMAX=ZERO
             IMAX=0
@@ -803,7 +803,7 @@ C Merge polyedre I dans polyedre Imax
                   JJ=IFVPOLH(J)
                   K=IFVTADR(JJ)
                   KK=IFVPOLY(K)
-C Tag polygone commun aux polyedres Imax et I
+C Tag Polygone common to the Polyedres Imax and I
                   IF (IFVTRI(4,KK)==0.AND.(IFVTRI(5,KK)==I.OR.
      .                                       IFVTRI(6,KK)==I))
      .               ITAGP(JJ)=1

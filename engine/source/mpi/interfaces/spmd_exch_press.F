@@ -106,7 +106,7 @@ C
         IALLOCS = LEN*(IRLEN7+IRLEN25) + LEN*(IRLEN7T+IRLEN25T)  + LEN*IRLEN20 + LEN*IRLEN20T
         IERROR=0
         IF(IALLOCS>0)
-     +  ALLOCATE(BBUFS(IALLOCS+NBINTC*NSPMD),STAT=IERROR) ! nbintc*NSPMD majorant place supplementaire bufs
+     +  ALLOCATE(BBUFS(IALLOCS+NBINTC*NSPMD),STAT=IERROR) ! bintec*nsppd increased supplementary buds buds
         IF(IERROR/=0) THEN
           CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
           CALL ARRET(2)
@@ -114,7 +114,7 @@ C
         IALLOCR = LEN*(ISLEN7+ISLEN25) + LEN*(ISLEN7T+ISLEN25T) + LEN*ISLEN20 + LEN*ISLEN20T
         IERROR=0
         IF(IALLOCR>0)
-     +    ALLOCATE(BBUFR(IALLOCR+NBINTC*NSPMD),STAT=IERROR) ! nbintc*NSPMD majorant place supplementaire bufs
+     +    ALLOCATE(BBUFR(IALLOCR+NBINTC*NSPMD),STAT=IERROR) ! bintec*nsppd increased supplementary buds buds
         IF(IERROR/=0) THEN
           CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
           CALL ARRET(2)
@@ -129,7 +129,7 @@ C
           ADDR(P) = ADD
           SIZ = 0
           IF(P/=LOC_PROC)THEN
-C   test en plus pour savoir si com globale necessaire entre les 2 procs
+C   In addition test to know if global compartment required between the 2 procs
             DO II = 1, NBINTC
               NIN = INTLIST(II)
               NB = NSNSI(NIN)%P(P)
@@ -161,7 +161,7 @@ C
           ADDS(P) = ADD
           SIZ = 0
           IF(P/=LOC_PROC)THEN
-C   test en plus pour savoir si com globale necessaire entre les 2 procs
+C   In addition test to know if global compartment required between the 2 procs
             DO II = 1, NBINTC
               NIN = INTLIST(II)
               IDEB = DEBUT(NIN)
@@ -245,7 +245,7 @@ C node not generating force but energy is cumulated
         ENDDO
         ADDS(NSPMD+1)=ADDS(NSPMD)+SIZ
 C
-C Attente reception buffer et decompactage
+C Buffer reception and decompacting
 C
 C
 C Attente IRECV

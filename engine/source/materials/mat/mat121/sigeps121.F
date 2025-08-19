@@ -271,7 +271,7 @@ c
         ENDDO
       ENDIF
 c
-      ! Printout timestep element deletion
+      ! Printout Timestep element deletion
       IF (NINDX>0) THEN
         DO J=1,NINDX
 #include "lockon.inc"

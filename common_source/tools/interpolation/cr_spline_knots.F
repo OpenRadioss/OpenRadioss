@@ -40,7 +40,7 @@ C-----------------------------------------------
         !  ALPHA = 0.0 : uniform
         !  ALPHA = 0.5 : centripetal
         !  ALPHA = 1.0 : chordal
-        !      INPUT  - PTS(0:3,:) are 4 control points
+        !      INPUT - PTS (0: 3, :) Are 4 Control points
         !      INPUT  - ALPHA CCR SPLINE PARAMETER
         !      OUTPU  - KNOTS() : t0,t1,t2,t3
 C-----------------------------------------------

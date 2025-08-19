@@ -97,7 +97,7 @@ C=======================================================================
       NEWCRK = 0
       DO I=1,NEL
         JCT(I) = 0
-        IF (ELCRKINI(ILAY,I) == -1) THEN   ! initialisation de fissure
+        IF (ELCRKINI(ILAY,I) == -1) THEN   ! crack initialization
           NEWCRK = NEWCRK + 1
           JCT(NEWCRK) = I
         ENDIF
@@ -404,7 +404,7 @@ C-------------------
           IEDGE = XEDGE4N(K,ELCRK)                                                            
           ICUT = CRKEDGE(ILAY)%ICUTEDGE(IEDGE)                                                
           IF (ICUT > 0) THEN   ! edge connecting two cracks (for spmd                         
-            CRKEDGE(ILAY)%ICUTEDGE(IEDGE) = 3   ! 2 cracks sur le meme edge
+            CRKEDGE(ILAY)%ICUTEDGE(IEDGE) = 3   ! 2 cracks on the same edge
           ELSE                                                                                
             CRKEDGE(ILAY)%ICUTEDGE(IEDGE) = 2  ! edge cut                                     
             CRKEDGE(ILAY)%RATIO(IEDGE) = BETA0(K,I)                                           

@@ -103,7 +103,7 @@ C-----------------------------------------------
       PENE_OLD(4,NSNF:NSNL) = PENE_OLD(3,NSNF:NSNL)
 C-----------------------------------------------
 C
-C----- TRI DES ELEMENTS ET DES NOEUDS
+Csorting of elements and nodes
 C
 C-----------------------------------------------
 C
@@ -173,8 +173,8 @@ C=============================================================================
       ENDIF
 c      IF(MAX(NBX,NBY,NBZ) > 100) stop 678
 
-C     initialisation complete de VOXEL
-C (en // SMP il y a possibilite de redondance de traitement mais no pb)
+C     complete initialization of VOXEL
+C (in // SMP there is possibility of processing redundancy but no pb)
       DO I=INIVOXEL,(NBX+2)*(NBY+2)*(NBZ+2)
         VOXEL1(I)=0
       ENDDO

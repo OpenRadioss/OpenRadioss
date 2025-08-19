@@ -66,9 +66,9 @@ C     isogeometric elements :
         ENDDO
       ENDDO
 
-CC NB : on peut repartir le volume differemment selon si les points sont dans les coins, au milieu
-cC      ou sur une arrete, avec PX,PY,PZ on peut retrouver la place de chacun
-Cc pour les elements 20 neouds, il y a 3/192 * vol aux coins et 14/192 * vol aux points milieux
+Cnote: the volume can be distributed differently depending on whether the points are at the corners, in the middle
+cor on an edge, with PX, PY, PZ you can find the position of each one
+CThis is the elements 20 neoud, there are 3/192 * flight to corners and 14/192 * Vol at the backgrounds
 C
       RETURN
       END

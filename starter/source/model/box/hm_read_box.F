@@ -140,7 +140,7 @@ c
       CALL READ_BOX_BOX(IBOX     ,IAD      ,NBOX_BOX  ,LSUBMODEL)
 c
 c--------------------------------------------------
-c     Recherche des ID doubles
+c     Search for double IDs
 c
       CALL MY_ALLOC (IBOXTMP  ,NBOX )
       IBOXTMP(1:NBOX) = IBOX(1:NBOX)%ID

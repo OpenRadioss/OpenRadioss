@@ -73,17 +73,17 @@ C
         NRTML = (ITASK+1) * NRTM / NTHREAD
 
 C-----------------------------------------------
-C  maj PENIS sur partie non locale
+C  update PENIS on non -local part
 C-----------------------------------------------
-        IF(NSPMD>1 .AND. TT > ZERO) THEN ! frontieres partiellement baties a tt=0 
+        IF(NSPMD>1 .AND. TT > ZERO) THEN ! Partially BATIE boundarys at tt = 0 
 C
-C Partie non parallele smt
+C SMT non -parallel part
 C
 !$OMP SINGLE
 
           CALL SPMD_GET_PENIS(PENIS,NIN)
 
-C Fin Partie non parallele smt
+C End non -parallel part SMT
 !$OMP END SINGLE
 
         END IF
@@ -102,8 +102,8 @@ C-----------------------------------------------
 !$OMP END DO NOWAIT
       ENDIF
 C
-C si NSPMD > 1 traitement effectue dans SPMD_GET_STIF11
-C car reperage comm sur stfs < ZERO
+C If nspmd> 1 treatment performs in SPMD_Get_Stif11
+C Because LEDRAGE COMM SUR STFS <ZERO
 C
       IF (NSPMD==1) THEN
 !$OMP DO SCHEDULE(guided)
@@ -113,7 +113,7 @@ C
 !$OMP END DO NOWAIT
       END IF
 C
-C     0- CALCUL DU CRITERE POUR SAVOIR SI ON DOIT TRIER OU NON
+C     0- calculation of the criterion to know whether we should sort or not
 C
       XSLV(1) = -EP30
       XSLV(2) = -EP30

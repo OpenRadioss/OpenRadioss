@@ -93,7 +93,7 @@ C----------------------------
         Y8=X(2,NC8)                                                     
         Z8=X(3,NC8)                                                     
 C-----------                                                            
-C     REPERE CONVECTE.                                                  
+C     convected frame.                                                  
 C-----------                                                            
       CALL SORTHO31(                                                    
      .   X1, X2, X3, X4, X5, X6, X7, X8,                                
@@ -101,7 +101,7 @@ C-----------
      .   Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,                                
      .   R11, R12, R13, R21, R22, R23, R31, R32, R33)                   
 C-----------                                                            
-C     REPERE ORTHOTROPE.                                                
+C     ORTHOTROPIC FRAME.                                                
 C-----------                                                            
       IF (KCVT==2) THEN                                               
         G11=GAMA(1)                                                     

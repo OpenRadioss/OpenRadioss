@@ -125,7 +125,7 @@ C
          ISU2=NGR2USR(ISU2,INGR2USR,NSURF)
        ENDIF                                   
                                                
-       !common value : IOUTP22                 
+       !Common Value: ioutp22                 
        IF(IOUTP22==0)THEN                    
          IOUTP22=1                             
        ELSEIF(IOUTP22/=1)THEN                
@@ -223,7 +223,7 @@ C
         !
         !     IGRN(1,I) : IDENTIFICATEUR DE GROUP
         !     IGRN(2,I) : NOMBRE DE NOEUDS
-        !     IGRN(3,I) : ADRESSE DES NOEUDS DANS IBUFSSG
+        ! IGRN(3,I) : ADDRESS OF NODES IN IBUFSSG
         !     IGRN(4,I) : TYPE (0 POUR NOEUDS, 1 BRIC, 2 QUAD, 3 SHELL, 
         !                         4 TRUSS, 5 BEAM, 6 SPRINGS,7 SHELL_3N)
         !        

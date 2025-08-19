@@ -187,7 +187,7 @@ C-----------------------------------------------
       INTEGER I,J,LCO,NF1,IFLAG,NUVAR,CURRENT_LAYER,IMAT,
      .   ILAY,NLAY,IR,IS,IT,IP,IBID,MX,L_PLA,L_EPSD
       INTEGER MXT(MVSIZ),NGL(MVSIZ),NGEO(MVSIZ),IBIDON(1)
-c     Variables utilisees dans les routines solides uniquement (en arguments).
+c     variables used only in solid routines (as arguments).
       INTEGER NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ), 
      .        NC5(MVSIZ), NC6(MVSIZ), NC7(MVSIZ), NC8(MVSIZ)
 C----------

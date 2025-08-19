@@ -228,7 +228,7 @@ C----------------------------
         ENDDO
       ENDIF
 C----------------------------
-C     ORTHOTROPY (plus tard)
+C     Orthotropy (later)
 C----------------------------
       IF (IREP > 0) THEN
        CALL CORTDIR3(ELBUF_STR,DIR_A,DIR_B ,JFT    ,JLT    ,
@@ -283,7 +283,7 @@ c
         ENDIF 
        ENDDO
       ENDIF 
-C  -------vectoriser--un jour-faire index jft,nplat,jlt pour tous--
+C  ------- Vectorize- a day-to-day JFT, NPLAT, JLT for all--
       NPLAT=JFT-1
       SPLAT= 0
       DO EP=JFT,JLT
@@ -381,7 +381,7 @@ C--------------------------
 C     CONSTRUIRE [F], [Q], [NM], [A-S], [AS] AUX NOEUDS
 C--------------------------
 C----------------------------------------------------
-C  CALCUL DE [F] 
+C  CALCULATION OF [F]
 C----------------------------------------------------
 C--------- 
 C   2A1
@@ -474,7 +474,7 @@ C
         VQN(EP,5,4)= VQN(EP,9,4)*VQN(EP,1,4)-VQN(EP,7,4)*VQN(EP,3,4)
         VQN(EP,6,4)= VQN(EP,7,4)*VQN(EP,2,4)-VQN(EP,8,4)*VQN(EP,1,4)
 C--------------------------------------------------
-C   CALCUL DE AS N AU MILIEU DES COTES
+C   CALCULATION OF AS N AT THE MIDDLE OF SIDES
 C--------------------------------------------------
 C        J=1 COTE
           VNRM(EP,1,1)=VQN(EP,7,1)+VQN(EP,7,2)

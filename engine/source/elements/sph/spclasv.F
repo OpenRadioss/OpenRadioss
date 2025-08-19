@@ -82,7 +82,7 @@ C-----------------------------------------------
         LVOIRED = 0
         IF(IREDUCE==0)GO TO 100
 C-------------------------------------------
-C       tri voisins / ne garder que LVOISPH voisins effectifs
+C       Tri neighboring / keep only lvoisph neighbors effective
 C
 C       /---------------/
         CALL MY_BARRIER
@@ -207,7 +207,7 @@ C         /---------------/
 c            CALL SPMD_GLOB_IMAX9(LVOIRED,1)
             CALL  SPMD_ALLGLOB_ISUM9(LVOIRED,1)
 C
-C il faut encore echanger SPBUF(1,*)
+C SPBUF must still be exchanged (1,*)
             IF(LVOIRED /= 0) CALL SPMD_SPHGETH(KXSP ,SPBUF)
           END IF
         END IF
@@ -231,7 +231,7 @@ C
            ZI=X(3,INOD)
            DI=SPBUF(1,N)
 C
-C          on est forcement plus proche de la particule vraie que de la particule fantome
+C          we are necessarily closer to the real particle than to the phantom particle
            JNOD = IXSP(NVOIS,N)
            IF(JNOD>0)THEN
              M =NOD2SP(JNOD)
@@ -258,12 +258,12 @@ C-------------------------------------------
  100    CONTINUE
         IF(NSPCOND==0) THEN
           DO N = ITASK+1,NSPHR,NTHREAD
-C remise a zero du flag de reperage des cellules actives en spmd multiprocesseurs
+C reset flag for locating active cells in spmd multiprocessors
             ISPHR(N) = 0
           END DO
         ELSE
-C si condition de symetrie alors pas d'optimisation sur particules active
-C car particule symetrique de particule inactive eventuellement active
+C If condition of symmetry then no optimization on active particles
+C Because symmetrical particle of inactive particle possibly active
           DO N = ITASK+1,NSPHR,NTHREAD
             ISPHR(N) = 1
           END DO
@@ -326,11 +326,12 @@ C---------
             IXSP(NVOIS1+J,N)=MWA(KVOISPH+J)
           ENDDO
 C------------------
-C Tri des particules effectives suivant no particule pour conservation Parith/ON
+C Sorting effective particles according to no particle for conservation
+C PARITH/ON
           DO K = 1, NVOIS1
             JK = IXSP(K,N)
             IF(JK>0)THEN
-              DVOIS(K) = KXSP(8,NOD2SP(JK))           ! ID particule stoke ds DVOIS
+              DVOIS(K) = KXSP(8,NOD2SP(JK))           ! Id Particle Stoke DS DVOIS
             ELSE
               DVOIS(K) = NINT(XSPHR(6,-JK))
             END IF
@@ -344,7 +345,7 @@ C Tri des particules effectives suivant no particule pour conservation Parith/ON
           END DO
          ENDDO
 C--------------------------------------------
-C      Re-ordonne les particules fantomes.
+C      Re-order ghost particles.
          DO NS=ITASK+1,NSP2SORT,NTHREAD
           N=WSP2SORT(NS)
           INOD=KXSP(3,N)
@@ -376,7 +377,7 @@ C      Re-ordonne les particules fantomes.
               NVOISS2=NVOISS2+1
               MWA(KVOISPH+NVOISS2)=JK
              ENDIF
-            ELSE                      ! particule symetrique de particule remote
+            ELSE                      ! Symmetrical particle particle Remote
              NC=MOD(-JK,NSPCOND+1)
              M =-JK/(NSPCOND+1)
              JS=ISPSYMR(NC,M)
@@ -403,13 +404,14 @@ C      Re-ordonne les particules fantomes.
           DO J=1,NVOISS2
             IXSP(NVOIS2+NVOISS1+J,N)=MWA(KVOISPH+J)
           ENDDO
-C Tri des particules symetriques suivant no particule pour conservation Parith/ON
+C Sorting symmetrical particles according to no particle for
+C conservation /PARITH/ON
           DO K = 1, NVOISS1
             JK = IXSP(NVOIS2+K,N)
             IF(JK>0)THEN
               M=JK/(NSPCOND+1)
               NC=MOD(JK,NSPCOND+1)
-              DVOIS(K) = KXSP(8,M)            ! ID particule stoke ds DVOIS
+              DVOIS(K) = KXSP(8,M)            ! Id Particle Stoke DS DVOIS
 cc              DVOIS(K) = KXSP(8,nod2sp(M))          ! ID particule stoke ds DVOIS
               MWA(K) = NC
             ELSE
@@ -433,7 +435,7 @@ cc              DVOIS(K) = KXSP(8,nod2sp(M))          ! ID particule stoke ds DV
            MWA(K) = JSTOR(JPERM(K))
           END DO
           IF(NSPCOND>1) THEN
-C Tri des particules symetriques suivant NSPCOND pour un meme no particule pour conservation Parith/ON
+C Sort symmetric particles according to NSPCOND for same particle number for Parith/ON conservation
             M = NINT(DVOIS(1))
             NB = 1
             DO K = 2, NVOISS1
@@ -538,7 +540,7 @@ C---------
           ENDDO
          ENDDO ! NS=ITASK+1,NSP2SORT,NTHREAD
 C--------------------------------------------
-C        Re-ordonne les particules fantomes.
+C        Re-order ghost particles.
          DO NS=ITASK+1,NSP2SORT,NTHREAD
           N=WSP2SORT(NS)
           INOD=KXSP(3,N)
@@ -570,7 +572,7 @@ C        Re-ordonne les particules fantomes.
               NVOISS2=NVOISS2+1
               MWA(KVOISPH+NVOISS2)=JK
              ENDIF
-            ELSE                      ! particule symetrique de particule remote
+            ELSE                      ! Symmetrical particle particle Remote
              NC=MOD(-JK,NSPCOND+1)
              M =-JK/(NSPCOND+1)
              JS=ISPSYMR(NC,M)
@@ -654,7 +656,7 @@ C--------
            IXSP(NVOIS1+J,N)=MWA(KVOISPH+J)
          ENDDO
 C-------------------------------------------
-C        Re-ordonne les particules fantomes.
+C        Re-order ghost particles.
          NVOIS2 =KXSP(5,N)
          NVOISS =KXSP(7,N)
          NVOISS1=0
@@ -679,7 +681,7 @@ C        Re-ordonne les particules fantomes.
              NVOISS2=NVOISS2+1
              MWA(KVOISPH+NVOISS2)=JK
             ENDIF
-           ELSE                      ! particule symetrique de particule remote
+           ELSE                      ! Symmetrical particle particle Remote
             NC=MOD(-JK,NSPCOND+1)
             M =-JK/(NSPCOND+1)
             JS=ISPSYMR(NC,M)

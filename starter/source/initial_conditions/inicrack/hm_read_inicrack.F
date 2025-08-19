@@ -125,7 +125,7 @@ C
         ENDDO
       ENDDO
 C-------------------------------------
-C Recherche des ID doubles
+C Search for duplicate IDs
 C-------------------------------------
       DO J = 1,NINICRACK
         LIST_INICRACK(J) = INICRACK(J)%ID

@@ -107,7 +107,7 @@ C
         IF(IPARI(7,NIN)/=17)THEN
 C NEWFRONT
           SBUF(L+1) = NEWFRONT(NIN)
-        ELSE     ! interface 17 avec courbure
+        ELSE     ! interface 17 with curvature
 C SIZE
           SBUF(L+1) = SIZE_T(NIN)
         END IF
@@ -162,7 +162,7 @@ C Unpack results
            L = L + 6
            IF(IPARI(7,NIN)/=17)THEN
              NEWFRONT(NIN) = NINT(RBUF(L+1))
-           ELSE     ! interface 17 avec courbure
+           ELSE     ! interface 17 with curvature
              SIZE_T(NIN) = RBUF(L+1)
            END IF
            L = L + 1

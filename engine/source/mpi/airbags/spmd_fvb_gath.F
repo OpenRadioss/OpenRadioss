@@ -122,7 +122,7 @@ C
          ALLOCATE(IBUF(LENI), RBUF(LENR))
          RBUF(1:LENR) = ZERO
          IBUF(1:LENI) = 0
-C Reception des entiers
+C reception of integers
          II=0
          DO I=1,FVSPMD(IFV)%NSPMD-1
             II=II+1
@@ -133,7 +133,7 @@ C Reception des entiers
             IF(LEN > 0) CALL MPI_IRECV(IBUF(IAD), LEN, MPI_INTEGER, I,
      .                     ITAG, FVSPMD(IFV)%MPI_COMM, REQ(II), IERR)
          ENDDO
-C Reception des reels
+C reception of reals
          II=0
          DO I=1,FVSPMD(IFV)%NSPMD-1
             II=II+1
@@ -144,9 +144,9 @@ C Reception des reels
             IF(LEN >0 ) CALL MPI_IRECV(RBUF(IAD), LEN, REAL, I, ITAG,
      .      FVSPMD(IFV)%MPI_COMM, REQ(FVSPMD(IFV)%NSPMD-1+II), IERR)
          ENDDO
-C Remplissage des tableaux de sortie XXX, XXXA, XXXSA
+C filling of output tables xxx, xxxa, xxksa
          LEN = FVSPMD(IFV)%NN_L
-C ajout noeuds internes
+C Addition Internal nodes
          IF(IDO2 == 1)LEN = LEN + FVSPMD(IFV)%NNI_L
          DO I=1,LEN
             I1=FVSPMD(IFV)%IBUF_L(1,I)
@@ -211,7 +211,7 @@ C ajout noeuds internes
          DEALLOCATE(IBUF, RBUF)
       ELSE IF(FVSPMD(IFV)%RANK > 0) THEN
          ITABL(1)=FVSPMD(IFV)%NN_L
-C ajout noeuds internes
+C Addition Internal nodes
          IF(IDO2== 1 ) ITABL(1)=ITABL(1)+FVSPMD(IFV)%NNI_L
          IF (IDO1 > 1) THEN
             ITABL(2)=FVSPMD(IFV)%NNA_L

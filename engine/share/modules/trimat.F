@@ -30,7 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       MODULE TRIMAT_MOD
 #include "my_real.inc"
-C tableau tempo entier partage
+C integer tempo array sharing
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: N4_VOIS
 C tableau tempo reel partage
       my_real       ,DIMENSION(:,:), ALLOCATABLE :: FLUX_VOIS

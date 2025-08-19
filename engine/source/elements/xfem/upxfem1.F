@@ -73,7 +73,7 @@ C-----------------------------------------------
 C=======================================================================
 C     check cracks connections
 c---------------------------
-C Boucle parallele dynamique SMP
+C SMP dynamic parallel loop
 !$OMP DO SCHEDULE(DYNAMIC,1)
 c---------------------------
       DO IG = 1, NGROUC
@@ -92,7 +92,7 @@ C---
           JFT=LFT
           JLT=LLT
 c
-C---      connection des fissures sur une arrete (enrichissements) : iecut=3
+C---      crack connection on an edge (enrs) : iecut=3
           IF (ITY == 3) THEN
             CALL UPENRIC1_N4(IPARG  ,IXC     ,NFT     ,JFT     ,JLT    ,
      .                       ELCUTC ,IADC_CRK,IEL_CRK,INOD_CRK ,NXLAY  ,
@@ -112,7 +112,7 @@ C---
 !$OMP END DO
 C-----------------------------------------------
 C
-C Boucle parallele dynamique SMP
+C SMP dynamic parallel loop
 C
 !$OMP DO SCHEDULE(DYNAMIC,1)
       DO IG = 1, NGROUC

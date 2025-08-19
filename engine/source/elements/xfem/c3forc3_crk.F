@@ -172,7 +172,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-c     indx utilise localement contrairement aux coques 4n 
+c     Indx uses locally unlike 4N shells 
       INTEGER 
      .   I,J,J1,J2,IR,IS,IT,IPT,IFLAG,IGTYP,IXFEM2,IREP,IMAT,
      .   IUN,NPG,IBID,IDRIL,NG,IXLAY,NXLAY,NLAYER,NPTT,STEP,
@@ -240,7 +240,7 @@ C
       INTEGER SDIR_A    ! Size of DIR_A
       INTEGER SDIR_B    ! Size of DIR_B
 C---------------------------
-c     Attention : Coque3N + ISMSTR=10 pas compatible avec XFEM !!!
+c     CAUTION: shell3N + ISMSTR = 10 Pas compatible with XFEM !!!
 C=======================================================================
       BID    = ZERO
       IUN  = 1  
@@ -394,7 +394,7 @@ C----------use always old local sys
      .                 E1X      ,E1Y     ,E1Z     ,E2X      ,               
      .                 E2Y      ,E2Z     ,E3X     ,E3Y      ,E3Z     )
         ELSE
-C         bug : ismstr=3 non supporte pour coques 3N
+C         Bug: ISMSTR = 3 not supported for 3n shells
           CALL C3PXPY3(JFT       ,JLT     ,PM      ,STI     ,STIR,
      2                 SMSTRG    ,PX1     ,PY1     ,PY2     ,MAT ,
      3                 SSP       ,NEL     )
@@ -483,7 +483,7 @@ C--------------------------
 C--------------------------
         IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STOPTIME(TIMERS,35)
 C--------------------------
-C       PAS DE TEMPS
+C       TIME STEP
 C--------------------------
         IF (ISMSTR /= 3) CALL C3DT3(
      1          JFT      ,JLT       ,PM      ,OFF    ,DT2T    ,
@@ -496,7 +496,7 @@ C--------------------------
      8          ZOFFSET)
 
 C--------------------------
-C     BILANS PAR MATERIAU
+C     BALANCES BY MATERIAL
 C--------------------------
 c        IFLAG = MOD(NCYCLE,NCPRI)
         IF (IPRI>0)
@@ -528,7 +528,7 @@ C----------------------------
      6                  OFF       ,VOL0 ,NEL  )
         ENDIF
 C-------------------------
-c     Thermique des coques 
+c     Shell thermal
 C--------------------------
         IF (JTHE > 0) THEN
           IF (MAT_ELEM%MAT_PARAM(IMAT)%HEAT_FLAG == 1) THEN

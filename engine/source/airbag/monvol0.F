@@ -102,7 +102,7 @@ C-----------------------------------------------
       TYPE(PYTHON_), INTENT(IN) :: PYTHON     
 C-----------------------------------------------
 C     N(3,*)  NORMALE STOCKEE DANS WA
-C     PORO(*) STOCKE DANS WA
+C     PORO(*) STORED IN WA
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -159,7 +159,7 @@ C
         IF(FR_MV(ISPMD+1,I)/=0 .OR. FR_MV(NSPMD+2,I)==ISPMD+1) THEN
           PMAIN = FR_MV(NSPMD+2,I)
         ELSE
-C saut partie airbag si proc non concerne
+C Airbag jumping if proc not concerned
           GO TO 100
         ENDIF
         IF(ITYP == 6 .OR. ITYP == 8) GO TO 100

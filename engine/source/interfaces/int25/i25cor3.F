@@ -861,7 +861,7 @@ C-----------------------------------------------
            IF(NI<=NSN)THEN
              IG = NSV(NI)
              NSVG(I) = IG
-C---------------voir quand KINET(IG) est utilise  
+C-------------- see when Kinet (IG) is used  
              KINI(I) = KINET(IG)
              XI(I) = X(1,IG)
              YI(I) = X(2,IG)

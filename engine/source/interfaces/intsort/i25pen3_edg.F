@@ -166,7 +166,7 @@ CDIR$ NOFUSION
       END DO
 C
 C--------------------------------------------------------
-C     calcul d'un minorant de la distance
+C     calculation of distance lower bound
 C--------------------------------------------------------
 CDIR$ NOFUSION                            
         DO I=1,JLT
@@ -189,7 +189,7 @@ CDIR$ NOFUSION
             CYCLE
           ENDIF
 
-c         calcul de la distance^2
+c         calculation of distance squared
 
           XM12 = XXM2(I)-XXM1(I)
           YM12 = XYM2(I)-XYM1(I)

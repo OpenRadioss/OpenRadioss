@@ -194,7 +194,7 @@ C------------
             ENDIF ! IF (IGTYP)
 C
             IE=IE+1
-C         pointeur de fin de zone dans WA
+C         end-of-zone pointer in wa
             PTWA(IE)=JJ
           ENDDO  !  DO I=LFT,LLT
 c------- end loop over spring elements
@@ -206,7 +206,7 @@ c-----------------------------------------------------------------------
 c     SPRING - WRITE
 c-----------------------------------------------------------------------
       IF (NSPMD == 1) THEN
-C     recopies inutiles pour simplification du code.
+C     unnecessary copies for code simplification
         PTWA_P0(0)=0
         DO N=1,STAT_NUMELR
           PTWA_P0(N)=PTWA(N)
@@ -216,7 +216,7 @@ C     recopies inutiles pour simplification du code.
           WAP0(J)=WA(J)
         ENDDO
       ELSE
-C       construit les pointeurs dans le tableau global WAP0
+C       builds the pointers in the global wap0 array
         CALL SPMD_STAT_PGATHER(PTWA,STAT_NUMELR,PTWA_P0,STAT_NUMELR_G)
         LEN = 0
         CALL SPMD_RGATHER9_DP(WA,JJ,WAP0,SIZP0,LEN)
@@ -225,9 +225,9 @@ c-------------------------------------
       IF (ISPMD == 0 .AND. LEN > 0) THEN
         IPRT0 = 0
         DO N=1,STAT_NUMELR_G
-C         retrouve le nieme elt dans l'ordre d'id croissant
+C         find the nieme elt in the order of an increasing id
           K=STAT_INDXR(N)
-C         retrouve l'adresse dans WAP0
+C         Find the address in WAP0
           J=PTWA_P0(K-1)
 C
           IOFF = NINT(WAP0(J + 1))

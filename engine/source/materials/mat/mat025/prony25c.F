@@ -144,10 +144,10 @@ C
        ENDDO
 C                
        DO I=  1,NEL
-C spherique part
+C SPHERIC PART
           DAV = THIRD*(EPSPXX(I) + EPSPYY(I) + EPSPZZ(I))
           P(I) = -THREE*KV*DAV
-c deviatorique part           
+c Deviatori parties           
           EPXX(I) = EPSPXX(I) - DAV
           EPYY(I) = EPSPYY(I) - DAV
           EPZZ(I) = EPSPZZ(I) - DAV
@@ -222,7 +222,7 @@ C
           SOUNDSP(I) = SQRT(SOUNDSP(I)**2 + G1/RHO0(I))
         ENDDO        
 
-C transformation dans le rep re d'orthotropie
+C transformation in the orthotropy reference frame
         LL = 1
         CALL ROTO_SIG(LL,NEL,SIGV, DIR,NEL)
 C

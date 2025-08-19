@@ -57,8 +57,8 @@ C-----------------------------------------------
 C=======================================================================
 c      Element Buffer Routine (Solid) 
 c------
-c      1) taille du tableau ELBUF pour restart
-c      2) allocation de la structure ELBUF_STR
+c      1) size of elbuf array for restart
+c      2) allocation of elbuf_str structure
 C=======================================================================
       ERR = 0
       ALLOCATE (MAT_ELEM%ELBUF(NGROUP), STAT=ERR)

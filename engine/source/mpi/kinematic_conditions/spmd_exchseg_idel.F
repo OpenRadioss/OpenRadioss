@@ -214,7 +214,7 @@ C
         ENDIF
       ENDDO
 C
-C Test reception envoi BUFS
+C Test Reception Shipping Buds
 C
       DO I = 1, NSPMD
         SIZ = (IAD_ELEM(1,I+1)-IAD_ELEM(1,I))
@@ -223,7 +223,7 @@ C
         ENDIF
       ENDDO
 C
-C Reception BUFR dans BUFS2
+C Reception Bufr in BUFS2
 C
       ALLOCATE(BUFS2(LINDEX))
       IF(LINDEX>0) THEN
@@ -246,7 +246,7 @@ C
       DEALLOCATE(BUFS2)
 
 C
-C Test reception envoi BUFR
+C Test Reception Bufr
 C
       DO I = 1, NSPMD
         SIZ = (IAD_ELEM(1,I+1)-IAD_ELEM(1,I))

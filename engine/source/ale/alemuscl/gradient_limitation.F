@@ -68,7 +68,7 @@ C-----------------------------------------------
       !!! and stability purposes
       DO I = LFT, LLT
          II = I + NFT
-         !!! Element centroid
+         !!!centroid element
          XK = ALEMUSCL_Buffer%ELCENTER(II,1) ; 
          YK = ALEMUSCL_Buffer%ELCENTER(II,2) ; 
          ZK = ALEMUSCL_Buffer%ELCENTER(II,3) ;

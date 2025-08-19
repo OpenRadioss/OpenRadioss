@@ -92,8 +92,8 @@ C-----------------------------------------------
        NSC=0
        NSP=0
 C-----------------------------------------------
-C      Calcul de EG (coefs de l'equation de l'ellipse
-C      dans rep. global centre en G).
+C      calculation of eg (coefficients of the ellipse equation)
+C      in rep.global center in G).
 C      Warning : Xloc = [ROT] Xglo
 C      EG(1)=ROT(1)*ROT(1)*A2+ROT(4)*ROT(4)*B2+ROT(7)*ROT(7)*C2
 C      EG(2)=ROT(1)*ROT(2)*A2+ROT(4)*ROT(5)*B2+ROT(7)*ROT(8)*C2
@@ -143,7 +143,7 @@ C---------------------------------
           ENDIF
         ELSE
 C---------------------------------
-C         tri exhaustif.
+C         exhaustive sorting.
           H =ONE+G*D
           HN=H**DGR
           IF (EW(IN) <= HN) THEN

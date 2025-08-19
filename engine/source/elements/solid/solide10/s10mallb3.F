@@ -55,7 +55,7 @@ C     REAL
      .   X , Y, Z 
 C-----------------------------------------------
 C-----------------------------
-C     ROTATION RBY DES COORDONNEES POUR SMALL STRAIN
+C     ROTATION RBY COORDINATES FOR SMALL STRAIN
 C-----------------------------
 C-----------------implicit sm disp option---
       IF (ISMDISP>0) THEN

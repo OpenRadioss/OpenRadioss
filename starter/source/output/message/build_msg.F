@@ -80,7 +80,7 @@ C fill MESSAGES
       SBUFMSG=0
       ITYPE=0
       DO I=1,SMESSAGESFILE
-C remplir MESSAGES
+C fill messages
         LINE1=MESSAGESFILE(I)
         IF (LINE1(1:9)=='/MESSAGE/') THEN
           IF (ID>0.AND.ID<=SMESSAGESMAX.AND.ITYPE/=0) THEN

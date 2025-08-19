@@ -164,7 +164,7 @@ C=======================================================================
         IEND_ITER = 0
         ATRY(1:MAXA) = ZERO ! Initialization of ATRY
         DO WHILE ( ISTART < NSTART  )     !!! 111 continue
-      !!       get one guess point A0(1:NMUAL)  
+      !!Get One Guess Point A0 (1: Nmual)  
           CALL LAW69_GUESS1(
      $            LAWID, NMUAL, ICHECK_GUESS, MU_INCR_GUESS,IRND1,
      $            A0, NONZERO, MCOF_MIN, MCOF_MAX, NGUESS)

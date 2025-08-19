@@ -75,7 +75,7 @@ C--------------------------------------------------------------------
       LOC_PROC=ISPMD+1
 C
       BBUFR=-1.
-C Preparation du recv
+C preparation of recv
       IADR(1) = 1
       L=1
       DO P=1,NSPMD
@@ -121,7 +121,7 @@ C--------------------------------------------------------------------
 C Recv
 
       DO P = 1, NSPMD
-C   test si msg necessaire a envoyer a completer par test interface
+C   test if msg requires to send to complete by test interface
         NB = IAD_ELEM(1,P+1)-IAD_ELEM(1,P)
         IF(NB>0)THEN
           CALL MPI_WAIT(REQ_RI(P),STATUS,IERROR)
@@ -138,7 +138,7 @@ C   test si msg necessaire a envoyer a completer par test interface
         ENDIF
       ENDDO
 
-C Fin du send
+C end of send
       DO P = 1, NSPMD
           SIZ=IADS(P+1)-IADS(P)
           IF(SIZ>0) THEN

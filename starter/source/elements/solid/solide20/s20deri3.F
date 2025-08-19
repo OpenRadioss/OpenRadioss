@@ -325,7 +325,7 @@ c         print *,'dx y z/dt='
 c         print *,DXDT(1),DYDT(1),DZDT(1)
 C-----------------------------------------------------------------------
 C          -1
-C       [J]          Inversion du jacobien
+C       [J] Jacobian inversion
 C-----------------------------------------------------------------------
         DRDX(I)=DYDS(I)*DZDT(I)-DZDS(I)*DYDT(I)
         DRDY(I)=DZDS(I)*DXDT(I)-DXDS(I)*DZDT(I)
@@ -360,7 +360,7 @@ C      ENDIF
 C
       DO I=LFT,LLT
 C-----------------------------------------------------------------------
-C          -1            Inversion du jacobien suite
+C          -1 inversion of the Jacobian suite
 C       [J]              et repere local r,s,t
 C-----------------------------------------------------------------------
         D = 1./DET(I)
@@ -477,7 +477,7 @@ C
         BB = MAX(UL(I,9),UL(I,10),UL(I,11),UL(I,12),UL(I,13),UL(I,14),
      .          UL(I,15),UL(I,16),UL(I,17),UL(I,18),UL(I,19),UL(I,20))
         DELTAX2(I) = AA/MAX(AA,BB)
-C       64,64/5 cf s20mass3 (rapport des masses noeuds sommet/milieu)
+C       64.64/5 Cf s20mass3 (Masses ratio nodes summit/environment)
         AA = AA*SIXTY4
         BB = BB*EIGHTY16/SEVEN
         DELTAX(I) = SQRT(TWO*VOLG(I)/MAX(AA,BB))

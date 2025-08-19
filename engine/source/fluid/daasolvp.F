@@ -94,7 +94,7 @@ C-----------------------------------------------
       my_real, ALLOCATABLE :: SBUF(:), RBUF(:)
 
 #if defined(MPI) && defined(MYREAL8) && !defined(WITHOUT_LINALG)
-C Coordonnees et vitesses locales SPMD
+C SPMD contact details and velocities
       NNO_L=IFLOW(16)
       LENBUF=6*NNO
       ALLOCATE(SBUF(LENBUF), RBUF(LENBUF))
@@ -213,7 +213,7 @@ C hydrostatic pressure
              HH(I)=ZERO
            ENDIF
                  COSG(I)=NORMAL(1,I)*DIRWIX+NORMAL(2,I)*DIRWIY+NORMAL(3,I)*DIRWIZ
-C vitesse N-1/2
+C velocity N-1/2
            VX0 = THIRD*VL(1,I1)+THIRD*VL(1,I2)+THIRD*VL(1,I3)
            VY0 = THIRD*VL(2,I1)+THIRD*VL(2,I2)+THIRD*VL(2,I3)
            VZ0 = THIRD*VL(3,I1)+THIRD*VL(3,I2)+THIRD*VL(3,I3)
@@ -296,7 +296,7 @@ C hydrostatic pressure
              HH(I)=ZERO
            ENDIF
            COSG(I)=NORMAL(1,I)*DIRWIX+NORMAL(2,I)*DIRWIY+NORMAL(3,I)*DIRWIZ
-C vitesse N-1/2
+C velocity N-1/2
            VX0 = WI(1,I5)*VL(1,I1)+WI(2,I5)*VL(1,I2)+WI(3,I5)*VL(1,I3)+WI(4,I5)*VL(1,I4)
            VY0 = WI(1,I5)*VL(2,I1)+WI(2,I5)*VL(2,I2)+WI(3,I5)*VL(2,I3)+WI(4,I5)*VL(2,I4)
            VZ0 = WI(1,I5)*VL(3,I1)+WI(2,I5)*VL(3,I2)+WI(3,I5)*VL(3,I3)+WI(4,I5)*VL(3,I4)
@@ -455,7 +455,7 @@ C-----------------------------------------------
         DO I=1,NEL
            VR(I)=PR(I)*COSG(I+NEL)/RHOC
         ENDDO
-      ELSE  ! pas de surface libre
+      ELSE  ! no free surface
         DO I=1,NEL
           PR(I) = ZERO
           VR(I) = ZERO
@@ -503,7 +503,7 @@ C Correction
           ENDIF
 C
         ELSE  ! resolution systeme  MFLE*X=Y
-C  Initialisation de la process grid
+C  Initialization of the process grid
           CALL SL_INIT(ICTXT, NPROW, NPCOL)
           CALL BLACS_GRIDINFO(ICTXT, NPROW, NPCOL, MYROW, MYCOL)
 C          MXLLDM = NUMROC(NEL, NBLOC, MYROW, 1, NPROW)

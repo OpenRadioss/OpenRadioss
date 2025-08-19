@@ -87,7 +87,7 @@ C
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
 C----------------------------------------------------------
-C   TRI GLOBAL SUR TOUS LES CRITERES POUR TOUS LES ELEMENTS
+C   GLOBAL TRI ON ALL CRITERIA FOR ALL ELEMENTS
 C----------------------------------------------------------
 C
       DO I=1,NUMELX
@@ -148,7 +148,7 @@ C
         ENDDO
       ENDDO
 C
-C INVERSION DE INDEX (DANS ITR1)
+C INDEX INVERSION (IN ITR1)
 C
       DO I=1,NUMELX
         ITR1(INDEX(I))=I
@@ -156,7 +156,7 @@ C
 
 
 C
-C RENUMEROTATION POUR SURFACES
+C RENAMING FOR SURFACES
 C ow a verifier IBUFSSG - ITYP == 100
        DO I=1,NSURF
          NN=IGRSURF(I)%NSEG
@@ -166,7 +166,7 @@ C ow a verifier IBUFSSG - ITYP == 100
          ENDDO
        ENDDO
 C--------------------------------------------------------------
-C         DETERMINATION DES SUPER_GROUPES
+C         DETERMINATION OF SUPER_GROUPS
 C--------------------------------------------------------------
       ND=1
       DO I=2,NUMELX

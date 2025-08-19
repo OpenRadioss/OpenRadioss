@@ -157,7 +157,7 @@ c---
       PM(89) = RHO0
 c--------------------------
 c
-c---- Definition des variables internes (stockage elementaire)
+c---- Definition of internal variables (Elementary storage)
 c
       MTAG%G_TEMP   = 1
       MTAG%G_DELTAX = 1

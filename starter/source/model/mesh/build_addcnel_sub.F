@@ -62,7 +62,7 @@ C Building the ADDCNEL table for a subset of nodes
 C    
       ! The first node is in first position in FSKY
       ADDCNEL_SUB(2) = 1     
-      ! Boucle ici pour indexer les elements non-locaux
+      ! loop here to index non-local elements
       ! Loop over the nodes of the subset
       DO NS=1,SUBSIZE
         ! Number of the corresponding global node

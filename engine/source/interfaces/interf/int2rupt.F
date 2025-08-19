@@ -301,7 +301,7 @@ C
            N3  = IRECT(3,L)
            N4  = IRECT(4,L)
 C------------------------------------------------                  
-C         relative deplacement main-secnd
+C         Relative Main-Second Deplacement
 C------------------------------------------------                  
            X0  = X(1,I)
            Y0  = X(2,I)
@@ -332,7 +332,7 @@ C--------- depl relatif total
            DSM(2,II) = DY
            DSM(3,II) = DZ
 C------------------------------------------------                  
-C          direction normale facette main
+C          Normal Facet
 C------------------------------------------------                  
            SX = -(X2 + X3 - X1 - X4)
            SY = -(Y2 + Y3 - Y1 - Y4)
@@ -352,7 +352,7 @@ C------------------------------------------------
            VTY = SY * SUM
            VTZ = SZ * SUM
 C------------------------------------------------                  
-C         composantes N/T du deplacement
+C         components n/t'du Deplacement
 C------------------------------------------------                  
            DXNORM = VNX*DX + VNY*DY + VNZ*DZ
            DXN(1) = VNX*DXNORM
@@ -376,7 +376,7 @@ C------------------------------------------------
 C         force main/secnd
 C------------------------------------------------                  
            IF (IRUPT(II) == 0) THEN
-C            pas de rupture - interface cinematique          
+C            No break - cinematic interface          
              MCDG = ONE/(MS(I)+MS(N1)+MS(N2)+MS(N3)+MS(N4))
              VX = V(1,I)*MS(I)+V(1,N1)*MS(N1)
      .           +V(1,N2)*MS(N2)+V(1,N3)*MS(N3)+V(1,N4)*MS(N4)
@@ -396,7 +396,7 @@ C            rupture partielle = spring main/secnd
              FY  = STIFN(I)*DY              
              FZ  = STIFN(I)*DZ              
            ENDIF
-C          composantes N/T de la forces nodale                 
+C          n/t components of the nodal forces
            FNORM = VNX*FX + VNY*FY + VNZ*FZ                    
            FTANG = VTX*FX + VTY*FY + VTZ*FZ                    
            FTAN2 = VUX*FX + VUY*FY + VUZ*FZ                    

@@ -525,7 +525,7 @@ c
       WASZ2 = 0
       NUVAR = 0
 C------------------------------
-C      10: /inibri/aux/full
+C      10:/INIBRI/AUX/FULL
 C------------------------------
       IF (STAT_S(6)==1) THEN
         DO NG=1,NGROUP

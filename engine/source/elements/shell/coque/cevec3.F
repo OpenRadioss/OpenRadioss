@@ -113,7 +113,7 @@ C
         E2Z(I)=E2Z(I)/SUMA                                
       ENDDO                                               
 C
-C---  directions orthotropie / anisotropie convectes
+C--- Orthotropy / anisotropy convectes directions
 C
       CALL CORTDIR3(ELBUF_STR,DIR_A,DIR_B  ,JFT    ,JLT    ,
      .              NLAY   ,IREP   ,X21    ,Y21    ,Z21    ,

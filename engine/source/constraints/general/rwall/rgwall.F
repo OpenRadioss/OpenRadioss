@@ -160,7 +160,7 @@ C---        test for penetrated nodes
             DP=XC*RWL(1)+YC*RWL(2)+ZC*RWL(3)
             IF(DP > ZERO) CYCLE
             ICONT=1
-C---        test pour noeuds penetres
+C---        test for penetrated nodes
             IF((VX-VXW)*RWL(1)+(VY-VYW)*RWL(2)+(VZ-VZW)*RWL(3) > ZERO)THEN
               CYCLE
             ENDIF
@@ -234,7 +234,7 @@ C
               CYCLE
             ENDIF
             ICONT=1
-C---        test pour noeuds penetres
+C---        test for penetrated nodes
             IF((VX-VXW)*RWL(1)+(VY-VYW)*RWL(2)+(VZ-VZW)*RWL(3) > ZERO)THEN
               CYCLE
             ENDIF
@@ -263,7 +263,7 @@ C
             DP=XC*RWL(1)+YC*RWL(2)+ZC*RWL(3)
             IF(DP > ZERO) CYCLE
             ICONT=1
-C---        test pour noeuds penetres
+C---        test for penetrated nodes
             IF((VX-VXW)*RWL(1)+(VY-VYW)*RWL(2)+(VZ-VZW)*RWL(3) > ZERO)THEN
               CYCLE
             ENDIF
@@ -572,7 +572,7 @@ C
            ENDIF 
           ENDDO
         ELSE
-C--------c'est fait avant-------
+C--------it's done before-------
         ENDIF
           DO J=1,NINDEX
            I = INDEX(J)

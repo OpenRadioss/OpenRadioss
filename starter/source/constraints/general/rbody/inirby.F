@@ -98,7 +98,7 @@ C
       TOL=ONE+EM04
 C
       NSL = NPBY(2,NRB) ! Nombre total de noeuds SECONDARY 
-      LSN => LPBY(NPBY(11,NRB)+1:NPBY(11,NRB)+NSL) ! Liste des noeuds SECONDARY
+      LSN => LPBY(NPBY(11,NRB)+1:NPBY(11,NRB)+NSL) ! List of SECONDARY nodes
       RBLEVEL = NPBY(12,NRB)
       ALLOCATE (MS_LOC(NSL))
       ALLOCATE (IN_LOC(NSL))
@@ -117,7 +117,7 @@ C-----------Multidomaines : on ne compte l'ajout de masse et d'inertie uniquemen
              DO J=1,9
                RBY(J,NRB) = ZERO
              END DO
-C-----------Multidomaines : on evite de compter 2 fois la masse et l'inertie des noeuds communs--------
+C-----------Multidomains: avoid counting the mass and inertia of common nodes twice--------
            DO I=1,NSL
              N=LSN(I)
              IF (TAGNO(N+N_PART)>3) MS_LOC(I)= 0
@@ -140,13 +140,13 @@ C-------------------------------------------------------------------------------
 C
       NSL_XTRA = NPBY(14,NRB)+NPBY(15,NRB)+NPBY(16,NRB)
       NSL = NPBY(2,NRB) - NSL_XTRA
-      LSN => LPBY(NPBY(11,NRB)+1:NPBY(11,NRB)+NSL) ! Liste des noeuds SECONDARY
+      LSN => LPBY(NPBY(11,NRB)+1:NPBY(11,NRB)+NSL) ! List of SECONDARY nodes
 C------------------------------------------------------------------------------------------------------
 
       MS(M)=MS(M)+RBY(1,NRB)
        IF(MS(M)==ZERO) MS(M)=EM20
 
-C NUMERO EXTERNE DU NOEUD (DEPLACEE PAR JBM LE 30/9/96)
+C EXTERNAL NUMBER OF THE NODE (MOVED BY JBM ON 30/9/96)
       NONOD=ITAB(M)
 C
       ICDG = NPBY(3,NRB)
@@ -158,7 +158,7 @@ C
       RBY(4,NRB)=RBY(5,NRB)
       RBY(5,NRB)=RBY(3,NRB)
       RBY(3,NRB)=RBY(7,NRB)
-C CAS DU REPERE SKEW POUR LE RB
+C CASE OF THE SKEW REFERENCE FOR THE RB
       IF(NOSKEW/=0) THEN
         CALL CHBAS(SKEW(1,NOSKEW),RBY(1,NRB))
       ENDIF
@@ -169,8 +169,8 @@ C
       IN(M) = (RBY(1,NRB) + RBY(5,NRB) + RBY(9,NRB)) * THIRD
 C
 C---------------------------------
-C     CORRECTION DE LA MASSE ET DU
-C     CENTRE DE GRAVITE DU MAIN
+C     CORRECTION OF THE MASS AND
+C     CENTER OF GRAVITY OF THE HAND
 C---------------------------------
 C
       XMG=MS(M)
@@ -210,7 +210,7 @@ C
           X(J,M)=X(J,M)/MASRB
         ENDDO
 C
-C-----CDG DES NOEUDS SECONDS
+C-----CG OF SECONDARY NODES
       ELSEIF(ICDG==2)THEN
         MASRB=ZERO
         DO J=1,3
@@ -242,7 +242,7 @@ C
 C
         MASRB=MASRB+MS(M)
 C
-C-----CDG DU NOEUD MAIN
+C-----CG OF THE MAIN NODE
       ELSEIF(ICDG==3)THEN
         DO J=1,3
           XG(J)=X(J,M)
@@ -262,7 +262,7 @@ C
            RETURN
         ENDIF
 C
-C-----CDG DU NOEUD MAIN (MASSE DES SECONDS IGNOREE)
+C-----CG OF THE MAIN NODE (MASS OF SECONDS IGNORED)
       ELSEIF(ICDG==4)THEN
         DO J=1,3
           XG(J)=X(J,M)
@@ -282,7 +282,7 @@ C
       ENDIF
 
 C--------------------------------------
-C     ASSEMBLAGE DES XTRA NODES DANS LA MASSE ET COG
+C     ASSEMBLY OF XTRA NODES IN THE MASS AND COG
 C--------------------------------------
       IF(NPBY(15,NRB) > 0) THEN ! MASS/INERTIA ADD, COG ACTUALIZED
         LSN_XTRA => LPBY(NPBY(11,NRB)+NSL+NPBY(14,NRB)+1:
@@ -317,7 +317,7 @@ C
       ENDIF
 C 
 C--------------------------------------
-C     CORRECTION DE L'INERTIE DU MAIN
+C     CORRECTION OF THE HAND'S INERTIA
 C--------------------------------------
       IF(ICDG<=3)THEN
         IF(N2D==0)THEN
@@ -439,7 +439,7 @@ c
       ENDIF
 c
 C--------------------------------------
-C     AJOUT DE L'INERTIE DES XTRA NODES
+C     ADDITION OF THE INERTIA OF XTRA NODES
 C--------------------------------------
       IF((NPBY(15,NRB)+NPBY(16,NRB)) > 0) THEN
 
@@ -490,12 +490,12 @@ C--------------------------------------
       ENDIF
 C
 C--------------------------------------
-C     ASSEMBLAGE DES MASSES DES RIGID BODY SECONDARYS ET MAJ POSITION DU COG
+C     ASSEMBLY OF THE MASSES OF SECONDARY RIGID BODIES AND UPDATE OF COG POSITION
 C--------------------------------------
       DO I=NRB-1,1,-1
         IF((NPBY(12,I)) == RBLEVEL-1) THEN ! Merge with Rb level n-1 
           DO J=1,3
-            XG(J)=X(J,M)  ! centre de gravite du rb main avant modif
+            XG(J)=X(J,M)  ! center of gravity of the rb main before modification
           ENDDO
           XMG=MASRB  ! masse du RB main avant modif
 c
@@ -607,8 +607,8 @@ c         mise a zero des donnees rb SECONDARY
       ENDDO
 c
 C----------------------------------------------
-C    NSL est complete par les noeuds SECONDARY des rigid body SECONDARYs
-C    LSN est actualisee
+C    NSL is completed by the SECONDARY nodes of the SECONDARY rigid bodies
+C    LSN is updated
 C----------------------------------------------
       IF(RBLEVEL == 0) THEN ! IF THIS RIGID BODY IS THE TOP MAIN
         IF(NRBMERGE > 0) THEN
@@ -622,7 +622,7 @@ C
 C-----------Multidomaines : on ne compte l'ajout de masse et d'inertie uniquement d'1 cote-------------
           IF ((NSUBDOM>0).AND.(IPID==0)) THEN
             IF (TAGNO(M+N_PART)==3) THEN
-C-----------Multidomaines : on evite de compter 2 fois la masse et l'inertie des noeuds communs--------
+C-----------Multidomains: avoid counting the mass and inertia of common nodes twice--------
                DO I=1,NSL
                  N=LSN(I)
                  IF (TAGNO(N+N_PART)>3) MS_LOC(I)= 0
@@ -663,7 +663,7 @@ C-----------Multidomaines : on stoke la matrice assembl   e--------------
         ENDIF
 
 C----------------------------------------------
-C     MISE A ZERO DES MASSES ET INERTIES SECONDARYS
+C     Resetting the masses and inertias of the secondary nodes
 C----------------------------------------------
 C      DO I=1,NSL
 C       N=LSN(I)
@@ -841,7 +841,7 @@ C
       DEALLOCATE(IN_LOC)
 c
 C----------------------------------------------------------------
-C     TRAITEMENT DU RIGID BODY QUI N'A PAS DE MAIN
+C     Processing the rigid body without a main node
 C----------------------------------------------------------------
 c
       IF(RBLEVEL == 0) THEN ! IF THIS RIGID BODY IS THE TOP MAIN
@@ -861,7 +861,7 @@ C
          YGT = YGT - MS(M)*X(2,M) + MASRB*X(2,M)
          ZGT = ZGT - MS(M)*X(3,M) + MASRB*X(3,M)
 C
-C Rigidite au noeud main pour estimation DT.
+C Rigidity at main node to estimate DT.
          IF (NS10E>0) THEN
            DO I=1,NSL
              N = LSN(I)
@@ -914,7 +914,7 @@ C
          YGT = YGT - MS(M)*X(2,M) + MASRB*X(2,M)
          ZGT = ZGT - MS(M)*X(3,M) + MASRB*X(3,M)
 C
-C Rigidite au noeud main pour estimation DT.
+C Rigidity at main node to estimate DT.
 
          IF (NS10E>0) THEN
            DO I=1,NSL
@@ -957,7 +957,7 @@ C MATRICE d'inertie -> repere global
          YGT = YGT - MS(M)*X(2,M) + MASRB*X(2,M)
          ZGT = ZGT - MS(M)*X(3,M) + MASRB*X(3,M)
 C
-C Rigidite au noeud main pour estimation DT.
+C Rigidity at main node to estimate DT.
          IF (NS10E>0) THEN
            DO I=1,NSL
              N = LSN(I)
@@ -1000,8 +1000,8 @@ C
          RBY(24,NRB)=RBY(6,NRB)*II5 + RBY(9,NRB)*II8
          RBY(25,NRB)=RBY(6,NRB)*II6 + RBY(9,NRB)*II9
        ENDIF
-C-----------Multidomaines : on ignore l'erreur generee par le calcul des val propres et le chgt de repere--------------
-C------------------> on reinjecte les ancienne valeures de la matrice dans le repere global <--------------------------
+C-----------Multidomains: ignoring the error generated by the eigenvalue calculation and the change of reference frame--------------
+C------------------> reinjecting the old matrix values into the global reference frame <--------------------------
        IF(NSUBDOM>0)THEN
          IF(TAGNO(M+N_PART)==3)THEN
            DO J=1,9
@@ -1173,7 +1173,7 @@ C
 C
       NSL_XTRA = NPBY(14,NRB)+NPBY(15,NRB)+NPBY(16,NRB)
       NSL = NPBY(2,NRB) - NSL_XTRA
-      LSN => LPBY(NPBY(11,NRB)+1:NPBY(11,NRB)+NSL) ! Liste des noeuds SECONDARY
+      LSN => LPBY(NPBY(11,NRB)+1:NPBY(11,NRB)+NSL) ! List of secondary nodes
       RBLEVEL = NPBY(12,NRB)
 C
       RBY(1,NRB)=ZERO
@@ -1184,8 +1184,8 @@ C
       RBY(8,NRB)=ZERO
       RBY(9,NRB)=ZERO
 C---------------------------------
-C     RECHERCHE DES NOEUDS SECONDS
-C     DE SOUS RBY (NOEUD MAIN PARMI LES SECONDS)
+C     Searching for secondary nodes
+C     From sub RBY (main node among the secondary nodes)
 C---------------------------------
       DO I=1,NSL
          N=LSN(I)
@@ -1203,8 +1203,8 @@ C---------------------------------
          ENDIF
       ENDDO
 C---------------------------------
-C     CORRECTION DE LA MASSE ET DU
-C     CENTRE DE GRAVITE DU MAIN
+C     Correction of the mass and
+C     Center of gravity of the main node
 C---------------------------------
 C
 C---INITIAL COORDINATES ARE STORED FOR INIVEL/AXIS correction
@@ -1214,7 +1214,7 @@ C---INITIAL COORDINATES ARE STORED FOR INIVEL/AXIS correction
         ENDDO
       ENDIF
 
-C-----CDG DES NOEUDS SECONDS
+C-----Center of gravity of the secondary nodes
       MASRB=ZERO
       DO J=1,3
           X(J,M)=ZERO
@@ -1257,7 +1257,7 @@ C
       ENDDO
 C
 C--------------------------------------
-C     ASSEMBLAGE DES XTRA NODES DANS LA MASSE ET COG
+C     Assembly of extra nodes in the mass and center of gravity
 C--------------------------------------
       IF(NPBY(15,NRB) > 0) THEN ! MASS/INERTIA ADD, COG ACTUALIZED
         LSN_XTRA => LPBY(NPBY(11,NRB)+NSL+NPBY(14,NRB)+1:
@@ -1294,7 +1294,7 @@ C
       ENDIF
 C 
 C--------------------------------------
-C     CORRECTION DE L'INERTIE DU MAIN
+C     Correction of the inertia of the main node
 C--------------------------------------
       IF(N2D==0)THEN
 C        ANALYSE 3D
@@ -1318,7 +1318,7 @@ C        ANALYSE 3D
             RBY(8,NRB)=RBY(8,NRB)-YZ*MS(N)
             RBY(9,NRB)=RBY(9,NRB)+IN(N)+(XX+YY)*MS(N)
            ELSEIF(NI>0)THEN
-C MAIN DE SOUS RBY
+C Main of sub RBY
             XX=(X(1,N)-X(1,M))*(X(1,N)-X(1,M))
             XY=(X(1,N)-X(1,M))*(X(2,N)-X(2,M))
             XZ=(X(1,N)-X(1,M))*(X(3,N)-X(3,M))
@@ -1356,7 +1356,7 @@ C        ANALYSE 2D : Axisymetrie
             RBY(8,NRB)=ZERO
             RBY(9,NRB)=RBY(9,NRB)+IN(N)+YY*MS(N)
            ELSEIF(NI>0)THEN
-C MAIN DE SOUS RBY
+C Main of sub RBY
             YY=(X(2,N)-X(2,M))*(X(2,N)-X(2,M))
             YZ=(X(2,N)-X(2,M))*(X(3,N)-X(3,M))
             ZZ=(X(3,N)-X(3,M))*(X(3,N)-X(3,M))
@@ -1391,7 +1391,7 @@ C        ANALYSE 2D : Strain Plane
             RBY(8,NRB)=RBY(8,NRB)-YZ*MS(N)
             RBY(9,NRB)=RBY(9,NRB)+IN(N)+YY*MS(N)
            ELSEIF(NI>0)THEN
-C MAIN DE SOUS RBY
+C Main of sub RBY
             YY=(X(2,N)-X(2,M))*(X(2,N)-X(2,M))
             YZ=(X(2,N)-X(2,M))*(X(3,N)-X(3,M))
             ZZ=(X(3,N)-X(3,M))*(X(3,N)-X(3,M))
@@ -1410,7 +1410,7 @@ C
       ENDIF
 C
 C--------------------------------------
-C     AJOUT DE L'INERTIE DES XTRA NODES
+C     Addition of the inertia of the extra nodes
 C--------------------------------------
       IF((NPBY(15,NRB)+NPBY(16,NRB)) > 0) THEN
 
@@ -1464,12 +1464,12 @@ C--------------------------------------
       ENDIF
 C
 C--------------------------------------
-C     ASSEMBLAGE DES MASSES DES RIGID BODY SECONDARYS ET MAJ POSITION DU COG
+C     Assembly of the masses of the secondary rigid bodies and update of the center of gravity position
 C--------------------------------------
       DO I=NRB-1,1,-1
         IF((NPBY(12,I)) == RBLEVEL-1) THEN
           DO J=1,3
-            XG(J)=X(J,M)  ! centre de gravite du rb main avant modif
+            XG(J)=X(J,M)  ! Center of gravity of the main rigid body before modification
           ENDDO
           XMG=MASRB  ! masse du RB main avant modif
 c
@@ -1581,8 +1581,8 @@ c         mise a zero des donnees rb SECONDARY
       ENDDO
 c
 C----------------------------------------------
-C    NSL est complete par les noeuds SECONDARY des rigid body SECONDARYs
-C    LSN est actualisee
+C    NSL is completed by the secondary nodes of the secondary rigid bodies
+C    LSN is updated
 C----------------------------------------------
       IF(RBLEVEL == 0) THEN ! IF THIS RIGID BODY IS THE TOP MAIN
         NSL = NPBY(2,NRB) ! Liste totale des noeuds SECONDARY

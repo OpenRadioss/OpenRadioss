@@ -54,7 +54,7 @@ C-----------------------------------------------
       my_real  YOUNG,NU,G,A11,A12,DE1,DE2,DE3,DE4,DE5,DE6,DEN,
      .         SCAL1,SCAL2,SCAL3,D_MAX
 C=======================================================================
-c     DEi = (1 - DAMi)       coefficients d endommagement de la matrice Hook
+c     Dei = (1 - Dami) Damage coefficients of the Hook matrix
 c-----------------------------------------------------------------------
       YOUNG = PM(20)
       NU    = PM(21)

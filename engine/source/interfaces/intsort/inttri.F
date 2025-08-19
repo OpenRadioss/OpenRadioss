@@ -326,7 +326,7 @@ C Single region
         SIZE_T(N)=ZERO  
         DELTA_PMAX_DGAP(N)=ZERO    
       END DO
-      ! idem pour interface 21
+      ! same for interface 21
       DO KK=1,NINTSTAMP
         N = INTSTAMP(KK)%NOINTER
         XSLV(1,N)= -EP30
@@ -354,7 +354,7 @@ C Single region
         VMSR(5,N)= EP30
         VMSR(6,N)= EP30
       END DO
-C-----int24 edge pourait etre optimis  e apres
+C----- int24 edge could be optimistic after
       NSNE_MAX=0    
       MAX_IGE = 0  
       DO KK=1,NBINTC
@@ -435,7 +435,7 @@ C       Cyle 1 : update secondary and main nodal masses
           ENDDO   
        ENDIF  
 C
-C Critere de retri interface
+C interface resorting criterion
 C
       IF(ITASK==0)CALL STARTIME(TIMERS,120)
       DO KK=1,NBINTC
@@ -615,7 +615,7 @@ C
      1          IPARI ,INTBUF_TAB(N),N     ,ITASK ,
      2          THKNOD)
 C
-C       remet a 0 le segment main le plus proche (IRTLM): avt barrier
+C       Gets the nearest main segment to 0 (IRTLM): Avt Barrier
           CALL I21RESET(
      1          IPARI ,INTBUF_TAB(N),N     ,ITASK )
 C
@@ -628,7 +628,7 @@ C
 C
        CALL MY_BARRIER
 C
-C Partie non parallele smt
+C SMT non -parallel part
 C
 !$OMP SINGLE
 
@@ -642,7 +642,7 @@ C
         CALL STARTIME(TIMERS,16)
        ENDIF 
 C
-C Communication critere de tri
+C communication sorting criterion
 C
       CALL INTCRIT(TIMERS,
      1    ERRORS, IPARI   ,NEWFRONT ,ISENDTO  ,NSENSOR  , 
@@ -653,7 +653,7 @@ C
 
 
 C
-C (barriere par interface)
+C (barrier per interface)
       IF(NINTSTAMP/=0)THEN
         CALL I21_ICRIT(
      1    INTBUF_TAB       ,IPARI   ,DT2T ,NELTST ,NSENSOR ,
@@ -672,7 +672,7 @@ C
         CALL SPMD_I7ITIED_CAND(2,NBINTC,IPARI,INTLIST,INTBUF_TAB)
       ENDIF
 
-C Fin Partie non parallele smt
+C End non -parallel part SMT
 !$OMP END SINGLE
 
       IF(IMPL_S/=1)THEN
@@ -1250,7 +1250,7 @@ C-----------------------------------------------------------------------
         ENDDO     
 C=======================================================================
 C
-C       Calcul // des normales
+C       parallel calculation of normals
 C
 C       il FAUT garder une barriere avant i25main_norm !!!
         CALL MY_BARRIER
@@ -1305,7 +1305,7 @@ C
           CALL STARTIME(TIMERS,MACRO_TIMER_T25SLIDING)
         END IF 
 C
-C statistique interface
+C Interface Statistics
         IF (DEBUG(3)>=1.AND.NCYCLE==0) THEN
           NB25_CANDT(ITASK+1) = 0
           NB25_IMPCT(ITASK+1) = 0
@@ -1564,10 +1564,10 @@ C
       ENDIF   
 C
 C=======================================================================
-C Partie parallele
+C Parallel
       IF(NINTER25 /= 0)THEN
 C
-C       il FAUT garder une barriere apres i25main_opt_tri !!!
+C       You have to keep a barrier after i25main_opt_tri !!!
         CALL MY_BARRIER()
 C
         IF (IMON>0 .AND. ITASK==0) THEN
@@ -1597,7 +1597,7 @@ C
 ! If ifront is done at this cycle (retri or ninter25>0
 ! and not already terminated because of type25 edge2edge 
 C
-C Communication apres retri
+C Communication after Retri
 C
         IF (IMONM > 0) CALL STARTIME(TIMERS,18)
 

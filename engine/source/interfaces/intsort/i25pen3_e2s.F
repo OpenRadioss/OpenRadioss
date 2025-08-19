@@ -87,7 +87,7 @@ CDIR$ NOFUSION
         IE = CAND_M(I)
         IF(CAND_S(I) <= NEDGE) THEN
           JE = CAND_S(I)
-          GAPV(I)=GAPE(JE) ! Peut etre considere comme nul pour l instant
+          GAPV(I)=GAPE(JE) ! Maybe consider void for the moment
 C
           IF(IGAP == 3)
      .       GAPV(I)=MIN(GAP_M_L(IE)+GAP_E_L(JE),GAPV(I)) ! under-estimated ...
@@ -96,7 +96,7 @@ C
 C
           IF(IGAP == 3) 
      .      GAPV(I)=MIN(GAP_M_L(IE)+XREM_EDGE(E_GAPL,CAND_S(I)-NEDGE),GAPV(I))
-C verifier si E_GAPL  est bien ce qu'on veut ici 
+C Check if e_gapl is what we want here 
         ENDIF
         GAPV(I)=MAX(DRAD,GAPV(I)+DGAPLOAD)+MARGE
       ENDDO

@@ -353,7 +353,7 @@ CC     Formulation for solid elements time step computation.
       PM(105) =DMIN/C1**2    
 C-----------------------------------------
 c
-C---- Definition des variables internes (stockage elementaire)
+C---- Definition of internal variables (Elementary storage)
 c
       MTAG%G_PLA    = 1    
       MTAG%L_PLA    = 1

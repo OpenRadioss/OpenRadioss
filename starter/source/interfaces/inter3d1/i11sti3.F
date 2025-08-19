@@ -619,7 +619,7 @@ C---------------------------
           ENDIF
           IF ((NINTR<0) .AND. (IT19==0)) WRITE(IOUT,1300)HALF*(GAPMIN+GAP1)
         ENDIF
-C GAP MINI ET SUP DES GAPS VARIABLES
+C MIN GAP AND MAX OF VARIABLE GAPS
         IF(NINTR>0)THEN
           GAPMIN = GAP1
           GAPMAX = GAPS1
@@ -648,7 +648,7 @@ C---------------------------
       ENDIF
 C---------------------------------------------
 C
-C Calcul du gap reel a utiliser lors du critere de retri
+C Calculation of the actual gap to use during the retri criterion
 C
       IF(IGAP == 0) THEN
         GAPINF=GAPMAX

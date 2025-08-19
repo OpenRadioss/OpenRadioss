@@ -167,7 +167,7 @@ C
           NUVAR = 6
 C
           IF ((ITYP==6).AND.(MTN==114)) THEN
-C--------> Boucle sur les elements ressort seatbelt-------
+C--------> Loop over seatbelt spring elements-------
             DO I=JFT,JLT
 C
                 J = I + NFT    

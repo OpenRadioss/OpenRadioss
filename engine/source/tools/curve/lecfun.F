@@ -121,7 +121,7 @@ C
         OK=0
         DO L=1,NFUNCT
 C
-C par construction TABLE(L) == Function no L
+C By Table Construction (L) == Function no L
          LL=TABLE(L)%NOTABLE
          IF(LL==LLNEW)THEN
           OK=1

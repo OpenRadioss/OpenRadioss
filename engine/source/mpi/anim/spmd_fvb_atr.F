@@ -89,7 +89,7 @@ C
                         INOD(3)=FVOFF(1,I)+FVDATA(I)%IFVTRI_ANIM(3,NN)-1
                         INOD(4)=INOD(3)
                         II=II+1
-C Nombre de noeuds distincts de la coque (apres fusion dans FVMESH)
+C Number of distinct nodes of the shell (after merging in FVMESH)
                         NND=1
                         IF (INOD(2)/=INOD(1)) NND=NND+1
                         IF (INOD(3)/=INOD(1).AND.
@@ -128,7 +128,7 @@ C
                   INOD(3)=FVOFF(1,I)+IBUF(JJ+3)
                   INOD(4)=FVOFF(1,I)+IBUF(JJ+4)
 C
-C Nombre de noeuds distincts de la coque (apres fusion dans FVMESH)
+C Number of distinct nodes of the shell (after merging in FVMESH)
                   NND=1
                   IF (INOD(2)/=INOD(1)) NND=NND+1
                   IF (INOD(3)/=INOD(1).AND.

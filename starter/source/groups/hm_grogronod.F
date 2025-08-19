@@ -37,7 +37,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE HM_GROGRONOD(IGRNOD  ,ICOUNT  ,FLAG    ,ITER  ,ELKEY,   
      .                        LSUBMODEL)
 !---
-!   group des group des elements + parts
+! group of groups of elements + parts
 !---
 C-----------------------------------------------
 C   M o d u l e s
@@ -89,7 +89,7 @@ C=======================================================================
       IF (FLAG == 0) ICOUNT=0
       IGS =0
       CALL HM_OPTION_START('/GRNOD')
-C     boucle sur les groupes
+C     loop over the groups
       DO I=1,NGRNOD     
         CALL HM_OPTION_READ_KEY(LSUBMODEL,
      .                          OPTION_ID   = ID,
@@ -136,15 +136,14 @@ C                       reference a un groupe non initialise
                     NEL = 0
                     CYCLE
                   ELSE
-C                       reference a un groupe initialise
+C                       Reference has an initialized group
                     IF (NONTRI == 0) THEN
 C                         sorted group, tag les noeuds
                       DO L=1,IGRNOD(IGRS)%NENTITY
                         IF (JJ < 0) THEN
-C                             retire les noeuds du group si j10 < 0
+C                             remove nodes from the group if j10 < 0
                           BUFTMP(IGRNOD(IGRS)%ENTITY(L))=-1
                         ELSEIF (BUFTMP(IGRNOD(IGRS)%ENTITY(L)) == 0) THEN
-C                              ajoute les noeuds au group si j10 > 0 et noeud non rire
                           BUFTMP(IGRNOD(IGRS)%ENTITY(L))=1
                         ENDIF
                       ENDDO
@@ -190,13 +189,12 @@ c
                   CYCLE                                            
                 ELSE                                                 
                   IF (NONTRI == 0) THEN                                                       
-C                       tag les noeuds                                                            
+C                       tag the nodes
                     DO L=1,IGRNOD(IGRS)%NENTITY
                       IF (JJ < 0) THEN                                                    
-C                           retire les noeuds du group si j10 < 0                                 
+C                           remove nodes from the group if j10 < 0
                         BUFTMP(IGRNOD(IGRS)%ENTITY(L))=-1
                       ELSEIF (BUFTMP(IGRNOD(IGRS)%ENTITY(L)) == 0) THEN
-C                           ajoute les noeuds au group si j10 > 0 et noeud non retire            
                         BUFTMP(IGRNOD(IGRS)%ENTITY(L))=1
                       ENDIF                                                                   
                     ENDDO                                                                     

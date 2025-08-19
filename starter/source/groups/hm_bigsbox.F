@@ -103,7 +103,7 @@ C-------
         BOXTYPE = 2
       END IF
 C-------
-C get box de box ID'S dans LINE :
+C get box of box IDs in LINE:
 C-------
       ISU = 0
       DO I=1,NBBOX
@@ -124,7 +124,7 @@ C---
        END IF
       END IF
 C---
-C   simple box dans /LINE :
+C   simple box in /LINE:
 C---
       BOOL=.FALSE.
       IF(ISU>0)THEN
@@ -166,7 +166,7 @@ C---
         ENDDO
       ENDIF
 C---
-C tag lines (ou surfaces) in main-box:
+C Tag Lines (or surfaces) in Main-Box:
 C---
 C---count lines within BOX
       IF(ISU > 0)THEN

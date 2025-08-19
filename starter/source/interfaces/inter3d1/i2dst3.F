@@ -43,7 +43,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      7                  LB1,LB2,LB3,LB4,LC1,
      8                  LC2,LC3,LC4,S  ,T  )
 C============================================================================
-C  cette routine est appelee par : I2TRI(/inter3d1/i2tri.F)
+C  this routine is called by: I2TRI(/inter3d1/i2tri.F)
 C                                  I2BUC1(/inter3d1/i2buc1.F)
 C----------------------------------------------------------------------------
 C  cette routine appelle : I7BAR3(/inter3d1/i7bar3.F)

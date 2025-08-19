@@ -282,7 +282,7 @@ C---
 C---
          ENDIF
        ELSEIF(WEIGHT(-IS) == 1) THEN  
-C        stokage ZERO pour noeuds delete par idel2
+C        zero storage for nodes deleted by idel2
          I0 = I0 + 1                 
          NN = IADI2(1,I0)            
          FSKYI2(1,NN) = ZERO         

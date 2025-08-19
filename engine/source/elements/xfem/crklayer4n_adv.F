@@ -92,7 +92,7 @@ C=======================================================================
       NEWCRK = 0
       DO I=1,NEL
         JCT(I) = 0
-        IF (ELCRKINI(ILAY,I) == 1) THEN  ! avancement de fissure
+        IF (ELCRKINI(ILAY,I) == 1) THEN  ! crack propagation
           NEWCRK = NEWCRK + 1
           JCT(NEWCRK) = I
         ENDIF
@@ -138,7 +138,7 @@ c     First intersection (already cut edge)
 C------------------------------------------------
       DO IR=1,NEWCRK ! loop over elems (layers) with advancing cracks
         I = JCT(IR)    
-        ELCRK = IEL_CRK(I+NFT)   ! N  element sys xfem 
+        ELCRK = IEL_CRK(I+NFT)   ! DYE SYS XFEM 
         OK    = 0
         ICUT  = 0
         IED   = 0
@@ -169,12 +169,12 @@ C---
           XIN(1,I) = XXL(p1,I) + BETA*(XXL(p2,I) - XXL(p1,I))                                      
           YIN(1,I) = YYL(p1,I) + BETA*(YYL(p2,I) - YYL(p1,I))
 c                                                                                    
-          ELFISS(I)   = CRKEDGE(ILAY)%EDGEICRK(IEDGE)    ! Id fissure qui avance                  
+          ELFISS(I)   = CRKEDGE(ILAY)%EDGEICRK(IEDGE)    ! ID of crack that propagates
           IENR0(p1,I) = CRKEDGE(ILAY)%EDGEENR(1,IEDGE)   ! enrichissement 1 noeud                 
           IENR0(p2,I) = CRKEDGE(ILAY)%EDGEENR(2,IEDGE)   ! enrichissement 2 noeud                 
-          EDGEL(IED,I) = 1              ! local : premier edge coupe
+          EDGEL(IED,I) = 1              ! Local: First Edge Cup
           IEDGE  = XEDGE4N(IED,ELCRK)    ! N  edge element sys xfem
-          TIP(I) = CRKEDGE(ILAY)%EDGETIP(1,IEDGE)      ! 1 ou 2 , debut ou fin de fissure
+          TIP(I) = CRKEDGE(ILAY)%EDGETIP(1,IEDGE)      ! 1 or 2 , start or end of crack
         ELSE
           WRITE(IOUT,*) 'ERROR IN ADVANCING CRACK --- CHECK CRACK TIP'
           CALL ARRET(2)           
@@ -413,7 +413,7 @@ C
         IEDGE = XEDGE4N(K,ELCRK)                                                              
         ICUT  = CRKEDGE(ILAY)%ICUTEDGE(IEDGE)                                                  
         IF (ICUT > 0) THEN   ! already cut before => edge connecting two cracks               
-          CRKEDGE(ILAY)%ICUTEDGE(IEDGE) = 3   ! 2 cracks sur le meme edge    
+          CRKEDGE(ILAY)%ICUTEDGE(IEDGE) = 3   ! 2 cracks on the same edge    
         ELSE                                                                                  
           CRKEDGE(ILAY)%ICUTEDGE(IEDGE) = 2  ! edge cut                                       
           CRKEDGE(ILAY)%RATIO(IEDGE) = BETA0(K,I)                                             
@@ -425,8 +425,8 @@ C-----------------------
       DO IR=1,NEWCRK
         I = JCT(IR)
         ELCRK = IEL_CRK(I+NFT)        ! n  elem sys xfem
-        ELCUTC(1,I) = 2               ! flag de l'element std coupe  (= 1,2)
-        NUMELCRK = NUMELCRK + 1       ! + 1 element coupe (pour debug/anim par element)
+        ELCUTC(1,I) = 2               ! FLAG of the std cut element (= 1.2)
+        NUMELCRK = NUMELCRK + 1       ! + 1 cut element (for debug/animation by element)
 C
         IADC(1) = IADC_CRK(1,ELCRK)
         IADC(2) = IADC_CRK(2,ELCRK)
@@ -450,7 +450,7 @@ C
         NN(3) = INOD_CRK(N(3))
         NN(4) = INOD_CRK(N(4))
 C
-        ICRK = ELFISS(I)              ! Id fissure qui avance
+        ICRK = ELFISS(I)              ! ID of crack that propagates
 C
         ISIGN(1) = INT(SIGN(ONE,FIT(1,I)))
         ISIGN(2) = INT(SIGN(ONE,FIT(2,I)))

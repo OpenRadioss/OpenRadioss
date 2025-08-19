@@ -370,7 +370,7 @@ C
         ENDDO
       ENDDO
 C-----------------------
-c     FILL new cut phantom element
+c     Fill New Cut Phantom Element
 C-----------------------
       DO IR=1,NEWCRK
         I = JCT(IR)

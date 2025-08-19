@@ -191,7 +191,7 @@ C orthomalized isoparametric system
        SZ(I)=SZ(I)/MAX(EM30,RR)
       END DO
 C-----------
-C       REPERE ORTHOTROPE.
+C       ORTHOTROPIC FRAME.
 C-----------
       IF (ISORTH /= 0) THEN
         IF (JCVT == 0) THEN

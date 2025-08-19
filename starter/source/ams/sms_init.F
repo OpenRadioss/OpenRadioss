@@ -826,7 +826,7 @@ C-----------------------------------------------
       DATA IPENTA6/1,2,3,5,6,7/
 C-----------------------------------------------
 C
-C     Construit JDI_SMS, JADS_SMS, etc
+C     Built jdi_sms, jads_sms, etc.
 C     -----------------
       DO I=1,NUMNOD
         NAD_SMS(I)=KAD_SMS(I)
@@ -1130,7 +1130,7 @@ C
       END DO
 C-------------------------------------------------------------------------
 C     PREPARE KOMPACTION OF ELEMENTARY MATRIX
-C     NODNX_SMS(I) devient le nb de nds connectes a I
+C     Nodnx_sms (i) becomes the nb of NDS connects a i
 C-------------------------------------------------------------------------
       TAGK(1:NUMNOD)=0
       DO I=1,NUMNOD
@@ -1228,7 +1228,7 @@ C-----------------------------------------------
       DATA IUN/1/
 C-------------------------------------------------------------------------
 C     PREPARE KOMPACTION OF ELEMENTARY MATRIX
-C     construit IDI_SMS et pointeurs KAD_SMS vers JAD_SMS 
+C     Built Idi_sms and Pointers Kad_sms to Jad_sms 
 C     KJ = KAD_SMS(I),KAD_SMS(I+1)-1 => PK_SMS(KJ) = rang de KDI_SMS(KJ) dans IDI_SMS(I),IDI_SMS(I+1)-1
 C-------------------------------------------------------------------------
       TAGK(1:NUMNOD)=0
@@ -1323,7 +1323,7 @@ C inter/type2 : numbering
 C------------
       KINET(1:NUMNOD) = 0 
 C
-C     Tag des mains pour TYPE2 symetrisees
+C     main tag for symmetrical type 2
 C
       DO N=1,NINTER
         NTY = IPARI(7,N)
@@ -1356,7 +1356,7 @@ c
       ENDDO
 C
       DO N=1,NUMNOD
-        IF(KINET(N)/=0) KINET(N)=MIN(IUN,KINET(N)-1) ! KINET == 1 <=> Incompatible conditions
+        IF(KINET(N)/=0) KINET(N)=MIN(IUN,KINET(N)-1) ! Kinet == 1 <=> Incompatible conditions
       END DO
 C------------
 C
@@ -1624,7 +1624,7 @@ C-------------------------------------------------------------------------
 C     PREPARE KOMPACTION OF ELEMENTARY MATRIX
 C     KJ = KAD_SMS(I),KAD_SMS(I+1)-1 => PK_SMS(KJ) = rang de KDI_SMS(KJ) dans JDI_SMS(I),JDI_SMS(I+1)-1
 C
-C     Reconstruit JDI_SMS :: Recopie IDI_SMS (connectivite elementaire compactee et triee)
+C     Rebuilt jdi_sms :: copy idi_sms (compact and sorting elementary connectivity)
 C-------------------------------------------------------------------------
       DO I=1,NUMNOD
         DO KJ=IAD_SMS(I),IAD_SMS(I+1)-1
@@ -1922,7 +1922,7 @@ C-------------------------------------------------------------------------
 C     PREPARE KOMPACTION OF ELEMENTARY MATRIX
 C     KJ = KAD_SMS(I),KAD_SMS(I+1)-1 => PK_SMS(KJ) = rang de KDI_SMS(KJ) dans JDI_SMS(I),JDI_SMS(I+1)-1
 C
-C     Reconstruit JDI_SMS :: Recopie IDI_SMS (connectivite elementaire compactee et triee)
+C     Rebuilt jdi_sms :: copy idi_sms (compact and sorting elementary connectivity)
 C-------------------------------------------------------------------------
       DO I=1,NUMNOD
         DO KJ=IAD_SMS(I),IAD_SMS(I+1)-1
@@ -1931,14 +1931,14 @@ C-------------------------------------------------------------------------
         END DO
       END DO
 C-------------------------------------------------------------------------
-C     PREPARE JSM_SMS (connectivite elementaire)
+C     PREPARE JSM_SMS (Elementary connectivitis)
 C-------------------------------------------------------------------------
       DO I=1,NUMNOD
         DO KJ=JAD_SMS(I),JAD_SMS(I)+LAD_SMS(I)-1
           J =JDI_SMS(KJ)
 cc        IF(I < J)THEN
 C
-C         dichotomie (recherche parmi les voisins ordonnes de J)
+C         Dichotomy (research among the neighbors of J)
           K1=JAD_SMS(J)
           K2=JAD_SMS(J)+LAD_SMS(J)-1
  100      CONTINUE
@@ -1972,7 +1972,7 @@ C
         NAD_SMS(I)=JAD_SMS(I)+LAD_SMS(I)
       END DO
 C
-C inter/type2 : reconstruction (jdi et jsm)
+C Inter/Type2: Reconstruction (JDI and JSM)
 C------------
       DO N=1,NINTER
         NTY   = IPARI(7,N)

@@ -31,7 +31,7 @@ C
 !||====================================================================
       SUBROUTINE DT10LAW (PM,GEO,PID,MAT, DELTAX, AIRE, VOL, DTX)
 C
-C     CALCUL DES DT ELEMENTAIRES POUR LA LOI 10 (ROC ET BETON)
+C     CALCULATION OF ELEMENTARY DT FOR LAW 10 (ROCK AND CONCRETE)
 C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -83,7 +83,7 @@ C=======================================================================
         SSP(I)=SQRT(ABS(DPDM(I))/RHO0(I))
       END DO
 C-----------------------
-C  CALCUL DES DTELEM
+C  CALCULATION OF DTELEM
 C-----------------------
       VIS(:) = ZERO
       IF(JSPH==0)THEN

@@ -277,7 +277,7 @@ C---------------------------
          I=INDEX(J)
          DPLA_J(I)=(SVM(I)-YLD(I))/(G3(I)+H(I))
          ETSE(I)= H(I)/(H(I)+E(I))
-C        +++cette partie peut etre neglige quand FHK est tres petit
+C        +++ This part can be Neglige when FHK is very small
          HK(I) = H(I)*FISOKIN
          FHK = FOUR_OVER_3*HK(I)/A1(I)
          FA01 =A01*FHK

@@ -136,7 +136,7 @@ C
        DD(1)=INTSTAMP%D(1)
        DD(2)=INTSTAMP%D(2)
        DD(3)=INTSTAMP%D(3)
-C sauvegarde de XSAV (tableau BUFIN(JD(19)))
+C Backup of XSAV (BUFIN Table (JD (19)))
        IROT=INTSTAMP%IROT
        CALL I21XSAVE(
      1       X     ,INTBUF_TAB%NSV,NSN ,ITASK ,INTBUF_TAB%XSAV,
@@ -150,7 +150,7 @@ C
 C -------------------------------------------------------------
        I_SK_OLD=0
        INTBUF_TAB%I_STOK(1)=ZERO
-C BARRIER II_STOK et RESULT
+C BARRIER II_STOK and RESULT
        RESULT21 = 0
 C      
       CAND_N_OLD = INTBUF_TAB%I_STOK(1)
@@ -160,7 +160,7 @@ C
        INACTI = IPARI(22,NIN)
 C -------------------------------------------------------------
        NRTM_T=NRTM/NTHREAD
-C eshift : decalage sur cand_e
+C eshift: shift on cand_e
        ESHIFT = ITASK*NRTM_T
 C il faut conserver K11 global
 
@@ -248,7 +248,7 @@ C--------------------------------------------------------------
           GOTO 50
          ENDIF
 C-----------------------------------------------------------
-C     Remise a 0 de IFPEN pour les nds qui ne sont plus candidats
+C     reset of IFPEN for nodes that are no longer candidates
 C--------------------------------------------------------------
          IF(ITASK==0)THEN
            IP0 = 1

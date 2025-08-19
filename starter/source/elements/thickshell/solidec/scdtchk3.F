@@ -401,7 +401,7 @@ C--------only linear for the moment
          END IF
        END IF
       ENDDO 
-C-------message out      
+C------ Out message      
       IF (IDTTSH>0 .AND.(IER1+IER2)>0) THEN
         IF (IER1>0.AND. IPRI>0 ) CALL ANCMSG(MSGID=2070,
      .                MSGTYPE=MSGINFO,

@@ -97,7 +97,7 @@ C-----------------------------------------------
                  Y1=X(2,IX(2,J))+X(2,IX(3,J))+X(2,IX(4,J))+X(2,IX(5,J))+X(2,IX(6,J))+X(2,IX(7,J))+X(2,IX(8,J))+X(2,IX(9,J))
                  Z1=X(3,IX(2,J))+X(3,IX(3,J))+X(3,IX(4,J))+X(3,IX(5,J))+X(3,IX(6,J))+X(3,IX(7,J))+X(3,IX(8,J))+X(3,IX(9,J))
                  D2= MIN(D2,(X1-X0)**2+(Y1-Y0)**2+(Z1-Z0)**2)
-               END DO !JJ=LFT2,LLT2
+               END DO !JJ = LFT2, LLT2
              ENDIF
           END DO !NG=1,NGROUP
           XL=XL+ONE_OVER_8*SQRT(D2)

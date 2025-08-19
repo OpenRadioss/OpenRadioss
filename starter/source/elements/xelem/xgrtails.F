@@ -91,7 +91,7 @@ C
 C----------------------------------------------------------
       NGR1 = NGROUP + 1
 C
-C phase 1 : decompostition canonique
+C Phase 1: Canonical decomposition
 C
       IDX=IDX+ND*(NSPMD+1)
       CALL ZEROIN(1,ND*(NSPMD+1),DD_IAD(1,NSPGROUP+1))
@@ -160,7 +160,7 @@ C
         NFT = NFT + NEL
       ENDDO
 C
-C RENUMEROTATION POUR SURFACE voir pour 100==ITYP
+C RENAMING FOR SURFACE see for 100==ITYP
 C
       DO I=1,NSURF
         NN=IGRSURF(I)%NSEG
@@ -170,8 +170,8 @@ C
         ENDDO
       ENDDO
 
-C phase 2 : bornage en groupe de mvsiz
-C ngroup est global, iparg est global mais organise en fonction de dd
+C Phase 2: MVSIZ Group Bounds
+C ngroup is global, iparg is global but organized according to dd
 C
       DO 300 N=1,ND
         NFT = 0
@@ -225,7 +225,7 @@ c                                        other groups using old buffer
 C         flag for group of duplicated elements in multidomains
               IF (NSUBDOM>0) IPARG(77,NGROUP)= IPARTR2R
 C
-C reperage groupe/processeur
+C Group/Processor Splition
               IPARG(32,NGROUP)= P-1
               NFT = NFT + NE1
   220       CONTINUE
@@ -234,7 +234,7 @@ C reperage groupe/processeur
         ENDDO
 cc       LB_L = LBUFEL - LB_L
 cc       LB_MAX = MAX(LB_MAX,LB_L)
-C DD_IAD => nb groupes par sous domaine
+C Dd_iad => nb groups by sub -domain
         NGP(NSPMD+1)=0
         DO P = 1, NSPMD
           NGP(NSPMD+1)=NGP(NSPMD+1)+NGP(P)

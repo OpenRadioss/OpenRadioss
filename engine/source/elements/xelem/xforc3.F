@@ -20,7 +20,7 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-C calcul des forces sur un groupe d'elements multi-purpose.
+C calculation of forces on a group of multi-purpose elements
 !||====================================================================
 !||    xforc3          ../engine/source/elements/xelem/xforc3.F
 !||--- called by ------------------------------------------------------
@@ -232,7 +232,7 @@ C         NSTRAND ELEMENTS.
      6         NUVAR  ,GBUF%VAR(KVAR) ,NUVARN ,GBUF%VARN(KVARN) ,DT1U , DTE)
         ENDIF ! IF (IGTYP == 28)
 C-------
-C       CALCUL DE DT ELEMENTAIRE.
+C       calculation of elementary dt
         IF (GBUF%OFF(I) /= ZERO) THEN
           IF (DTE < DT2T) THEN
            DT2T=DTE

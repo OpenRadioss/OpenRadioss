@@ -125,7 +125,7 @@ C
      .              YE   ,ZE)
       ENDDO
 C---------------------------------------------
-C     CALCUL DES RIGIDITES NODALES
+C     CALCULATION OF NODAL STIFFNESSES
 C---------------------------------------------
       DO J=1,NSN
         NUM=NSEG(J+1)-NSEG(J)
@@ -200,7 +200,7 @@ c
       DEALLOCATE(INRTIE)
 
 C-----------------------------------------------------
-C     MISE DANS IRECT DU NUMERO LOCAL DU NOEUD
+C     PLACING THE LOCAL NODE NUMBER DIRECTLY
 C-----------------------------------------------------
       DO I=1,NRT
         IG=IRECT(1,I)

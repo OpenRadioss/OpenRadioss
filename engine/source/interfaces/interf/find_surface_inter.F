@@ -174,21 +174,21 @@ C-----------------------------------------------
             IX_TETRA10 => NULL()
             ! ----------------------
             IF(ELEM_ID<=NUMELS8) THEN
-                ! solid element : 8 nodes --> 6 surfaces
+                ! Solid element: 8 nodes -> 6 surfaces
                 !     o----o
                 !    /+   /|
                 !   o-+--o |
                 !   | o++|+o
                 !   |+   |/
                 !   o----o
-                ! penta element : 6 nodes --> 5 surfaces
+                ! Penta element: 6 nodes -> 5 surfaces
                 !        o
                 !       /+\
                 !      o+  \
                 !     /\o++/o
                 !    /+ \ /
                 !   o----o
-                ! tetra4 element : 4 nodes --> 4 surfaces  
+                ! tetra4 element: 4 nodes -> 4 surfaces  
                 !       o      
                 !      /+\
                 !     / + \
@@ -269,7 +269,7 @@ C-----------------------------------------------
                 NODE_SURF_NB = 4 ! number of node per surface
                 SHIFT_ELM = OFFSET_SHELL
             ELSEIF(ELEM_ID<=OFFSET_BEAM) THEN
-                !   truss element
+                !   truss
                 DO_COMPUTATION = .FALSE.
             ELSEIF(ELEM_ID<=OFFSET_SPRING) THEN
                 !   beam element

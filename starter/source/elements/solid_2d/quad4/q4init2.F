@@ -303,19 +303,19 @@ C
       ENDDO
 C     EXIT THE INTEGRATION POINTS LOOP <--
 C----------------------------------------
-C     INITIALISATION DE LA THERMIQUE ET TURBULENCE
+C     initialization of thermal and turbulence
 C----------------------------------------
       IF(JTHE/=0)CALL ATHERI(MAT ,PM  ,LBUF%TEMP)
       IF(JTUR/=0)CALL ATURI2(IPARGG   ,LBUF%RHO,PM,IXQ,X,
      .                         LBUF%RK  ,LBUF%RE, AREA)
 C------------------------------------------
-C     INITIALISATION DE LA MATRICE DE MASSE
+C     initialization of the mass matrix
 C------------------------------------------
       IF(JLAG+JALE+JEUL/=0)
      .  CALL QMASI2(PM,MAT,MS,GBUF%VOL,MSQ(NF1),WMA,IPARTQ(NFT+1),PARTSAV,
      .     IX1, IX2, IX3, IX4,X ,V)
 C-------------------------------------------
-C      CALCUL DES DT ELEMENTAIRES
+C      calculation of elementary timesteps (dt)
 C-------------------------------------------
        CALL DTMAIN(GEO       ,PM        ,IPM         ,PID     ,MAT     ,FV    ,
      .     GBUF%EINT ,GBUF%TEMP ,GBUF%DELTAX ,GBUF%RK ,GBUF%RE ,BUFMAT, DELTAX, AREA, 

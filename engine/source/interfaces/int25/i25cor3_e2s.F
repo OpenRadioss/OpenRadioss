@@ -314,7 +314,7 @@ C     THIS is provisional (solids => Zero gap even if secnd shell edge)
 
         IF ( STFM(IAM(I)) > ZERO) THEN 
         DO EJ=1,4
-C Comment savoir si EDG_BiSECTOR a ete calcule
+C How to know if Edg_Bisector was calculated
           EX(EJ,I)=EDG_BISECTOR(1,EJ,IAM(I))
           EY(EJ,I)=EDG_BISECTOR(2,EJ,IAM(I))
           EZ(EJ,I)=EDG_BISECTOR(3,EJ,IAM(I))

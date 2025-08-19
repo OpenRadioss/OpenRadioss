@@ -77,7 +77,7 @@ C-----------------------------------------------
       INTEGER :: LEN_TMP_NAME
       CHARACTER(len=2048) :: TMP_NAME
 C-----------------------------------------------
-C READ FILE dans l'ordre des sections lues sur le fichier
+C read file in the order of the sections read from the file
 C  TTT = TT ou TT + DT2
 C-----------------------------------------------
 C   debranchement pi <> p0
@@ -228,7 +228,7 @@ C            KR3 = KR2 + 12*NNOD
               CALL ARRET(2)
             END IF
             IF(FOUND==0.OR.NSTRF(K0)<100)THEN
-C skip deplacements et forces
+C skip displacements and forces
               IF(TYPE>=1)THEN
                 DO I=1,6*NNODR
                   CALL READ_R_C(R4,1)
@@ -240,7 +240,7 @@ C skip deplacements et forces
                 ENDDO
               ENDIF
             ELSEIF(NSTRF(K0)==100)THEN
-C lecture deplacements
+C Reading Deplacements
               IF(TYPE>=1)THEN
                 BUFCOM(N) = 1
                 BUFCOM(N+NSECT+IFRL1*NSECT) = 1
@@ -261,7 +261,7 @@ C lecture deplacements
                   L = L + 6
                 ENDDO
               ELSE
-C Pb de compatibilite type_new>=100 et type_old<1
+C compatibility issue type_new>=100 and type_old<1
               ENDIF
               IF(TYPE>=2)THEN
 C skip forces
@@ -270,7 +270,7 @@ C skip forces
                 ENDDO
               ENDIF
             ELSEIF(NSTRF(K0)==101)THEN
-C lecture deplacements
+C Reading Deplacements
               IF(TYPE>=1)THEN
                 BUFCOM(N) = 1
                 BUFCOM(N+NSECT+IFRL1*NSECT) = 1
@@ -291,10 +291,10 @@ C lecture deplacements
                   L = L + 6
                 ENDDO
               ELSE
-C Pb de compatibilite type_new>=101 et type_old<1
+C compatibility issue type_new>=101 and type_old<1
               ENDIF
               IF(TYPE>=2)THEN
-C lecture forces
+C reading forces
                 BUFCOM(N) = 2
 c                BUFCOM(N+NSECT+IFRL1*NSECT) = 1
 c                ADDSEC(N+IFRL1*NSECT) = L+1
@@ -314,7 +314,7 @@ c                ADDSEC(N+IFRL1*NSECT) = L+1
                   L = L + 6
                 ENDDO
               ELSE
-C Pb de compatibilite type_new>=101 et type_old<2
+C compatibility issue type_new>=101 and type_old<2
               ENDIF
             ELSEIF(NSTRF(K0)>=102)THEN
 C a faire
@@ -346,7 +346,7 @@ C
          SECBUF(4) = BUFCOM(3*NSECT+7)
       END IF
 C
-C Traitement Passage de SECBUFG a SECBUF local
+C Treatment Passage from Secou
 C
       L = 1
       KC = 1
@@ -362,7 +362,7 @@ C
           NNOD = NSTRF(K0+6)
           IFLG = NINT(BUFCOM(I))
           IF(NINT(BUFCOM(NSECT+I))==1) THEN
-C remplissage secbuf avec ifrl1 = 0
+C SECUBUF filling with IFRL1 = 0
             IFRL1 = 0
             KR1 = KR0 + 10 + IFRL1*6*NNOD
             KR2 = KR1 + 12*NNOD
@@ -375,7 +375,7 @@ C remplissage secbuf avec ifrl1 = 0
      2        FR_CUT(KC),IAD_CUT(1,I),IFLG                        )
           END IF
           IF(NINT(BUFCOM(2*NSECT+I))==1) THEN
-C remplissage secbuf avec ifrl1 = 1
+C SECUBUF filling with IFRL1 = 1
             IFRL1 = 1
             KR1 = KR0 + 10 + IFRL1*6*NNOD
             KR2 = KR1 + 12*NNOD

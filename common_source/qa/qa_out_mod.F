@@ -760,7 +760,7 @@ c      lmax = len(a)
 c      do while ( l <= lmax .and. a(l:l) > ' ' )
 c        l = l + 1
 c      enddo
-c      lastchar = l
+c      Lastchar = L
           lastchar=LEN_TRIM(a)
           return
         end function lastchar
@@ -785,7 +785,7 @@ C       call qaprint('QASKIP',0, 0.0D0)
 C       call qaclose()
 C       stop 0
 C       RETURN
-C       end subroutine qaskip
+C       End Subroutine Qaskip
 
 ! ----------------------------------------------------------------------
 !>    @purpose
@@ -804,7 +804,7 @@ C #define NQAVAR 10
 C #define LIQAVAR 30
 C #define LRQAVAR 40
 C       integer i, ifirst, iqavar(3,NQAVAR)
-C       double precision rqavar(4,NQAVAR), vari
+C       Double precision rqavar (4, nqavar), varies
 C !
 C       data ifirst /1/, iqavar /LIQAVAR*0/, rqavar /LRQAVAR*0.0d0/
 C !
@@ -883,7 +883,7 @@ C       end subroutine qaprint_ia
 C       subroutine qaprint_ra ( name,rvar,ndim,index,ilast )
 C #include "implicit_f.inc"
 C       integer ndim, index, ilast
-C       double precision rvar(ndim)
+C       Double precision Rvar (NDIM)
 C       character*(*) name
 C       character*48 tmpmsg
 C       integer nlen
@@ -893,7 +893,7 @@ C #define NQAVAR  10
 C #define LIQAVAR 30
 C #define LRQAVAR 40
 C       integer i, ifirst, iqavar(3,NQAVAR)
-C       double precision rqavar(4,NQAVAR), vari
+C       Double precision rqavar (4, nqavar), varies
 C !
 C       data ifirst /1/, iqavar /LIQAVAR*0/, rqavar /LRQAVAR*0.0d0/
 C !
@@ -969,9 +969,9 @@ C       end subroutine qaprint_ra
 !
 !      character *(*) name
 !      integer idin, id
-!      double precision value(2)
+!      Value double precision (2)
 !!
-!      double precision  rvalue
+!      Double precision Rvalue
 !      character *20 srvalue
 !      character *6  siid
 !      character*4 simg

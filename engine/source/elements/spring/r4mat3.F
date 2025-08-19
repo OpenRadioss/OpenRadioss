@@ -259,7 +259,7 @@ C------compression 1er point
         YN=TF(NPF(IFUNCT)+J1+1)-Y0
         E1 = ZERO
         IF (ABS(XN)>ZERO) E1= YN/XN
-C------traction 1er point
+C----- 1st point traction
         J1=2*(N0-2)
         X=TF(NPF(IFUNCT)+J1)
         IF (X==ZERO) THEN

@@ -57,10 +57,10 @@ C
       KK1 = 0
       DO I=1,NVOLU
        ITYP=MONVOL(K1+1)
-C communication dans resol juste avant mvoludt et envoi a proc0 des volmon
-C evite difference en parallele quand processeur ne traite pas ts les airbags
-C voir formules sur min dty / max dtx
-C debranchement a part pour le proc main (proc ayant a jour p,v,s)
+C communication in resol just before mvoludt and sending to proc0 of volmon
+C avoid difference in parallel when processor does not handle all airbags
+C see formulas on min dty / max dtx
+C separate branch for the main proc (proc having updated p,v,s)
        IF(ITYP/=1)THEN
         GAMA=VOLMON(KK1+1)
         AL=VOLMON(KK1+2)

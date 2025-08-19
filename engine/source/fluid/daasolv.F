@@ -89,7 +89,7 @@ C-----------------------------------------------
       my_real  VECT(NEL), VECT1(NEL), VEL(NEL)
       my_real  XL(3,NNO), VL(3,NNO)
 
-C Coordonnees et vitesses locales
+C Local coordinates and velocities
       DO I=1,NNO
          II=IBUF(I)
          XL(1,I)=X(1,II)
@@ -185,7 +185,7 @@ C hydrostatic pressure
              HH(I)=ZERO
            ENDIF
                  COSG(I)=NORMAL(1,I)*DIRWIX+NORMAL(2,I)*DIRWIY+NORMAL(3,I)*DIRWIZ
-C vitesse N-1/2
+C velocity N-1/2
            VX0 = THIRD*VL(1,I1)+THIRD*VL(1,I2)+THIRD*VL(1,I3)
            VY0 = THIRD*VL(2,I1)+THIRD*VL(2,I2)+THIRD*VL(2,I3)
            VZ0 = THIRD*VL(3,I1)+THIRD*VL(3,I2)+THIRD*VL(3,I3)
@@ -268,7 +268,7 @@ C hydrostatic pressure
              HH(I)=ZERO
            ENDIF
            COSG(I)=NORMAL(1,I)*DIRWIX+NORMAL(2,I)*DIRWIY+NORMAL(3,I)*DIRWIZ
-C vitesse N-1/2
+C velocity N-1/2
            VX0 = WI(1,I5)*VL(1,I1)+WI(2,I5)*VL(1,I2)+WI(3,I5)*VL(1,I3)+WI(4,I5)*VL(1,I4)
            VY0 = WI(1,I5)*VL(2,I1)+WI(2,I5)*VL(2,I2)+WI(3,I5)*VL(2,I3)+WI(4,I5)*VL(2,I4)
            VZ0 = WI(1,I5)*VL(3,I1)+WI(2,I5)*VL(3,I2)+WI(3,I5)*VL(3,I3)+WI(4,I5)*VL(3,I4)
@@ -427,7 +427,7 @@ C-----------------------------------------------
         DO I=1,NEL
            VR(I)=PR(I)*COSG(I+NEL)/RHOC
         ENDDO
-      ELSE  ! pas de surface libre
+      ELSE  ! no free surface
         DO I=1,NEL
           PR(I) = ZERO
           VR(I) = ZERO

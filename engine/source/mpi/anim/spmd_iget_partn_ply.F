@@ -39,7 +39,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE PLYXFEM_MOD
-C gather sur p0 du tableau wa en fonction des parts (IADG)
+C gather on p0 of the wa table according to the parts (IADG)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

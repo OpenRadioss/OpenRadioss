@@ -170,7 +170,7 @@ C     TRIANGLES
                NZ(1:6) = -EP30
                VOL = VOLUME(II)
                ONE_OVER_VOL = ONE / VOL
-C     Element centroid
+C     centroid element
                XK(1:3) = MULTI_FVM%ELEM_DATA%CENTROID(1:3, I)
 C     Matrice
                MAT(1:3, 1:3) = ZERO
@@ -267,7 +267,7 @@ C     =========
 C     Density gradient
                   MAXVAL_RHO = MULTI_FVM%RHO(I)
                   MINVAL_RHO = MAXVAL_RHO
-C     Pressure gradient
+C     Gradient press
                   MAXVAL_PRES = MULTI_FVM%EINT(I)
                   MINVAL_PRES = MAXVAL_PRES
                ELSE
@@ -278,7 +278,7 @@ C     ==========
 C     Density gradient
                      PHASE_MAXVAL_RHO(IMAT) = MULTI_FVM%PHASE_RHO(IMAT, I)
                      PHASE_MINVAL_RHO(IMAT) = PHASE_MAXVAL_RHO(IMAT)
-C     Pressure gradient
+C     Gradient press
                      PHASE_MAXVAL_PRES(IMAT) = MULTI_FVM%PHASE_EINT(IMAT, I)
                      PHASE_MINVAL_PRES(IMAT) = PHASE_MAXVAL_PRES(IMAT)
 C     Volume fraction gradient
@@ -448,7 +448,7 @@ C     Density gradient limitation
                      MULTI_FVM%GRAD_RHO(1, I) = SUMX * LIM_RHO
                      MULTI_FVM%GRAD_RHO(2, I) = SUMY * LIM_RHO
                      MULTI_FVM%GRAD_RHO(3, I) = SUMZ * LIM_RHO
-C     Pressure gradient
+C     Gradient press
                      VALK = MULTI_FVM%EINT(I)
                      RHS(1:3) = ZERO
                      DO IFACE = 1, NB_FACE
@@ -574,7 +574,7 @@ C     Density gradient limitation
                         MULTI_FVM%PHASE_GRAD_RHO(1, IMAT, I) = SUMX * PHASE_LIM_RHO(IMAT)
                         MULTI_FVM%PHASE_GRAD_RHO(2, IMAT, I) = SUMY * PHASE_LIM_RHO(IMAT)
                         MULTI_FVM%PHASE_GRAD_RHO(3, IMAT, I) = SUMZ * PHASE_LIM_RHO(IMAT)
-C     Pressure gradient
+C     Gradient press
                         VALK = MULTI_FVM%PHASE_EINT(IMAT, I)
                         RHS(1:3) = ZERO
                         DO IFACE = 1, NB_FACE
@@ -594,7 +594,7 @@ C     Pressure gradient
                         SUMX = -SOL(1)
                         SUMY = -SOL(2)
                         SUMZ = -SOL(3)
-C     Pressure gradient limitation
+C     Gradient Limitation Pressure
                         LIMFACE(1:6) = ONE
                         DO IFACE = 1, NB_FACE
                            KFACE = FACE_LIST(IFACE)

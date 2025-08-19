@@ -76,7 +76,7 @@ C-----------------------------------------------
       my_real, DIMENSION(NEL), INTENT(IN) :: PZ3  !< Derivative of the third node shape function along z
       my_real, DIMENSION(NEL), INTENT(IN) :: PZ4  !< Derivative of the fourth node shape function along z
       TYPE(NLOCAL_STR_), INTENT(INOUT), TARGET :: NLOC_DMG !< Non-local data structure
-      TYPE(BUF_NLOCS_), INTENT(IN) :: NLOCS       !< Non-local effective nodes data structure
+      TYPE(BUF_NLOCS_), INTENT(IN) :: NLOCS       !<Effective Nodes Nodes Data Structure
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

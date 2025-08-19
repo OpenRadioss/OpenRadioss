@@ -1059,7 +1059,7 @@ C=======================================================================
 
       !iRightEdge(Face,nodeID)
       !next edge is clockwise edge when face is looked from cell centroid.
-      ! "-" : means centripetal
+      ! "-": Means centripetal
       ! "+" : means centrifugal
       INT22_BUF%iLeftEdge(1,1)=+02; INT22_BUF%iLeftEdge(1,2)=-01; INT22_BUF%iLeftEdge(1,3)=+04; INT22_BUF%iLeftEdge(1,4)=-05;  !1234  <-  nodFACE(1,1:4) = (/1,2,3,4/) 
       INT22_BUF%iLeftEdge(2,1)=-10; INT22_BUF%iLeftEdge(2,2)=+05; INT22_BUF%iLeftEdge(2,3)=-06; INT22_BUF%iLeftEdge(2,4)=+12;  !4378  <-  nodFACE(2,1:4) = (/4,3,7,8/) 

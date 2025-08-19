@@ -104,7 +104,7 @@ C---- tag elm /w /INIBRI/ORTHO
       ENDIF
 C---
 C     Repere orthotrope pour thick shells-------
-C     Stockage de Transpose(G) p.r.a. corotationel systems comme les coques
+C     Transpose storage (G) P.R.A.Corotationeel Systems like the shells
 C     GAMA(1)= sina , GAMA(2) = cosa, only first 2 are useful --
 C---
 C------------HA8: variable thickness direction ---------

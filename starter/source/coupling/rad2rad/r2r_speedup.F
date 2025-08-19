@@ -371,7 +371,7 @@ C--     beam element time step --
               ENDIF
             END DO
           ENDIF
-C--     truss element time step --
+C-Truss Time Step element-
         ELSEIF (KEYA(1:9)=='/DT/TRUSS') THEN
           READ(71,*,END=20) DTSCA,DTMINI
           DTFAC1(5) = DTSCA 

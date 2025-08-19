@@ -122,7 +122,7 @@ c       NB15 =NB15  + 4 * OFFSET
      1             DKX    ,BETA   ,GBUF%LENGTH,GBUF%FOR,GBUF%TOTDEPL,
      2             TF     ,NPF    ,GBUF%POSX,IGEO  )
 C-------------------------
-C     MATRICE de RIGIDITE
+C     STIFFNESS MATRIX
 C-------------------------
       CALL R12SUMG3(JFT    ,JLT    ,KX      ,DKX    ,EX     ,
      1              EY     ,EZ     ,EX2     ,EY2    ,EZ2    ,

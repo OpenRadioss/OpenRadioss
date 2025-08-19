@@ -159,7 +159,7 @@ C-----------------------------------------------
 C----------------------
 C     GEO(3) : ISMSTR
 C     GEO(5) : DT (ISMSTR=3 SAUF SOLIDES)
-C     GEO(7) : VX  coques/solides ortho - vecteur de reference
+C     GEO (7): VX Ortho shells/Solids - Reference vector
 C     GEO(8) : VY
 C     GEO(9) : VZ
 C     GEO(11): ISTRAIN (COQUE)
@@ -171,15 +171,15 @@ C     GEO(39): IPLAST
 C     GEO(40): PROP_ID    v50  ->    IGEO(1)
 C     GEO(42): PTHK 
 C     GEO(43): FAILEXP 
-C     GEO(20:34) : Milieu poreux (briques)
-C     GEO(129): HCLOS (briques)
-C     GEO(130): HTEST (briques)
+C     GEO (20:34): porous medium (bricks)
+C     GEO (129): HCLOS (Bricks)
+C     GEO (130): Htest (bricks)
 C     GEO(131:170): LIBRE
 C     GEO(171): IHBE
 C     GEO(212): ANGLE BETWEEN two orthotropy directions (DIR1,DIR2) for 
 C               the PID with LAW58
 C-------------------
-C    nouveau stockage:
+C    New storage:
 C    IGEO(1)  : PROP_ID
 C    IGEO(2)  : ISK
 C    IGEO(3)  : ISEN

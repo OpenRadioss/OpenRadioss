@@ -140,7 +140,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,IVAR,IDUM
 C--------------------------------------
-C     PREPARATION DES VARIABLES ENTIERES POUR ECRITURE SUR RFILE.
+C     preparation of integer variables for writing to rfile.
 C=======================================================================
 C-----
       IDUM=0
@@ -184,7 +184,7 @@ C-----
 C-----
        TABVINT(5)  =NGROUP
        TABVINT(9)  =LBUFEL
-C   -------- Tailles des tableaux entiers --------
+C   sizes of integer arrays
       TABVINT(36)  = 0
       TABVINT(37)  = SICODE
       TABVINT(38)  = 0
@@ -313,7 +313,7 @@ C   -------- Tailles des tableaux entiers --------
       TABVINT(160) = SNPORGEO
       TABVINT(161) = SLNODPOR
 C-----
-C   tailles des tableau flottant
+C   sizes of arrays of floating point numbers
 C
       TABVINT(162) = SX
       TABVINT(163) = SD
@@ -656,7 +656,7 @@ C-----
       DO I=1,12
        TABVINT(LVARINT + I) = IDTMIN(I)
       ENDDO
-C-----  chk pt restart
+C----- CHK PT RESTART
       TABVINT(LVARINT + 13 ) = IDTGR(11)
       TABVINT(LVARINT + 14 ) = NODADT
       TABVINT(LVARINT + 15 ) = NPROC
@@ -867,7 +867,7 @@ C--------------------------------------
       TABVINT(LVARINT)= NBI18
       LVARINT=LVARINT+1
       TABVINT(LVARINT)= NSKYI18
-C partie commun spmd cfd
+C common part SPMD CFD
       LVARINT=LVARINT+1
       TABVINT(LVARINT)= NSVOIS
       LVARINT=LVARINT+1
@@ -1086,7 +1086,7 @@ C    spmd rigid material
       TABVINT(LVARINT)=  SFR_RBYM
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=  SFR_RBYM2
-C Tableaux Noise
+C Noise arrays
       LVARINT=LVARINT+1
       TABVINT(LVARINT) = SINOISE
       LVARINT=LVARINT+1
@@ -1133,11 +1133,11 @@ C--------------------------------------
       LVARINT=LVARINT+1
       TABVINT(LVARINT) = NTHPART
 C--------------------------------------
-C ecriture sur restart de tableaux de masse elementaires
+C writing of elementary mass arrays to restart
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=IREST_MSELT
 C--------------------------------------
-C ecriture sur restart nthread
+C writing nthread to restart
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=NTHREAD
 C   ----for output of rotational dof -----
@@ -1458,10 +1458,10 @@ C
 C
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=NRTMX25     
-C drape option
+C Drape option
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=NDRAPE
-C Element activation
+C activation element
       LVARINT=LVARINT+1
       TABVINT(LVARINT) = LRACTIV
 C ID_PLY -> animation file

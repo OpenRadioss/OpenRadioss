@@ -77,7 +77,7 @@ C
             POLY(3,J)=POLYOUT(3,J)
          ENDDO
       ENDDO   
-C Elimination des noeuds doubles
+C Elimination of double nodes
       NN=0
       DO I=1,NVERTS
          X1=POLY(1,I)

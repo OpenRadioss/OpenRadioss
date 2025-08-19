@@ -96,13 +96,13 @@ C-----------------------------------------------
           L_SUB = L_SUB+1
 !!        ISUBSET(L_SUB+1) = TITR
 !!          L_SUB = L_SUB+1
-! NOMBRE DE SUBSETS FILS
+! NUMBER OF CHILD SUBSETS
         DO J=1,NCHILD
           ICHILD = SUBSET(ISU)%CHILD(J)
           ISUBSET(L_SUB+1) = ICHILD
           L_SUB = L_SUB+1
         ENDDO
-! NOMBRE DE PARTS FILLES
+! NUMBER OF CHILD PARTS
         DO J=1,NBPART
           IPART = SUBSET(ISU)%PART(J)
           ISUBSET(L_SUB+1) = IPART

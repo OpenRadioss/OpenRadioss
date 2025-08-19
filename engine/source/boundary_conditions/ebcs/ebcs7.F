@@ -66,7 +66,7 @@ C-----------------------------------------------
       RHO=EBCS%rho
       ROC=RHO*C
 C
-C     INITIALISATION DES DENSITES ET ENERGIES INITIALES
+C     initialization of initial densities and energies
 C
       IF(TT==0)THEN
         DO IS=1,NSEG
@@ -152,7 +152,7 @@ c
         DMF=DMF-FLUXO*ROOU-FLUXI*RO0(IS)
         DEF=DEF-FLUXO*ENOU-FLUXI*EN0(IS)
 C
-C stockage densit  et  nergie entrante dans buffer facette
+C storage of density and incoming energy in facet buffer
 C
         SEGVAR%RHO(KSEG)=RO0(IS)
         SEGVAR%EINT(KSEG)=EN0(IS)

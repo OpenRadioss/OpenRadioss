@@ -33,7 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_comm_world_mod               ../engine/source/mpi/spmd_comm_world.F90
 !||====================================================================
       SUBROUTINE SPMD_GLOB_IMAX9(V,LEN)
-C gather tableau V de taille LEN de type integer
+C gather table V of size LEN of type integer
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

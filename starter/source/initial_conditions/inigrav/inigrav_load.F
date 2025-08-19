@@ -243,10 +243,10 @@ C-----------------------------------------------
             !check if PART must be treated or not
             LIST(1:MVSIZ) = 0
             NEL2 = 0
-            !il peut y avoir plusieurs PARTS par groupe. Tous les elements ont meme mat et meme PROP.
-            ! creation dune list LIST(1:NEL2) c  1:NEL  avec les elements des parts a traiter
+            !There may be several shares per group.All the elements have even mat and even prop.
+            ! Creation of a list list (1: nel 2) c'1: nel with the elements of the shares to be treated
             !===================================================================!
-            !                     SELECTION DES ELEMENTS                        !
+            ! ELEMENT SELECTION
             !===================================================================! 
             IF(IGRP/=0)THEN
               lCYCLE = .TRUE.
@@ -267,11 +267,11 @@ C-----------------------------------------------
                LIST(I) = I !(/1:NEL/) !identite
               ENDDO
             ENDIF
-            ! LIST est la sous liste de 1:NEL des elements dont la PART est a traiter avec INIGRAV
+            ! LIST is the sublist of 1:NEL of elements whose PART is to be processed with INIGRAV
 
             ! This group is going to be treated since PART_ID in GRPART_ID
             !===================================================================!
-            !                     CALCUL DES CENTROIDES                         !
+            ! CENTROID CALCULATION
             !===================================================================! 
             DO KK=1,NEL2
               I = LIST(KK)
@@ -312,7 +312,7 @@ C-----------------------------------------------
               !===================================================================! 
               IF(l_PLANAR_SURF)THEN
               !===================================================================!
-              !                 --- CALCUL DES DISTANCES ---                      !
+              ! --- DISTANCE CALCULATION ---
               !-PLANAR SURFACE :          IGRSURF(ISURF)%TYPE = 200 OR ISURF=0    !
               !===================================================================!               
               !---NORMAL : NX,NY,NZ 
@@ -322,7 +322,7 @@ C-----------------------------------------------
                  INTERP(1)             = Z(1) + ALPHA*NGX
                    INTERP(2)             = Z(2) + ALPHA*NGY
                    INTERP(3)             = Z(3) + ALPHA*NGZ
-                 ! profondeur = <INTERP_P , N>
+                 ! Depth = <perf_P, n>
                  !DEPTH(I) = (INTERP(1)-Z(1))*(INTERP(1)-Z(1))+(INTERP(2)-Z(2))*(INTERP(2)-Z(2))+(INTERP(3)-Z(3))*(INTERP(3)-Z(3))
                  !DEPTH(I) = SQRT(DEPTH(I))
                  DEPTH(KK)= (INTERP(1)-Z(1))*NGX+(INTERP(2)-Z(2))*NGY+(INTERP(3)-Z(3))*NGZ
@@ -331,7 +331,7 @@ C-----------------------------------------------
                  lFOUND_PROJ=.TRUE.
               ELSEIF(l_USER_SURF) THEN             
               !===================================================================!
-              !                 --- CALCUL DES DISTANCES ---                      !
+              ! --- DISTANCE CALCULATION ---
               !-USER SURFACE :              IGRSURF(ISURF)%TYPE=0 ,   ISURF/=0    !
               !===================================================================!
                  !LOOP ON CELL, THEN LOOP ON FACE :  complexity is O(NCELL*NFACE), can be optimized with space partitioning
@@ -574,8 +574,8 @@ C using triangulation with midpoint Z(:)
 !                   +
 !                   A =  P(:,3)
 
-!Il s'agit de savoir avec cette fonction s'il est a l'interieur
-! ou a l'exterieur.
+!This function determines if it is inside
+! or outside.
 !  ANCIEN CRITERE
 !                   1 :interieur
 !                   0 :exterieur
@@ -588,8 +588,8 @@ C using triangulation with midpoint Z(:)
 !              |/           \ V=AH
 !             A+
 !
-! NOUVEAU CRITERE (bien meilleure performance CPU) :
-!     Coordonnes de H dans le repere (ZA,ZB) doit etre
+! New criterion (much better CPU performance):
+! Coordinates of H in the (ZA,ZB) frame must be
 !        -TOL < x < 1+ TOL
 !        -TOL < y < 1+ TOL
 

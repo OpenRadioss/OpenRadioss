@@ -372,7 +372,7 @@ C       filtering strain rate
           ENDIF    
           EPSD(II) = RATEEPS
         ENDDO
-C sous groupe  
+C under group  
         INDX_L(1:NINDX) = 0
         INDX_UNL(1:NINDX) = 0
         NE_L    = 0

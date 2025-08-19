@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
-C  093 + conditions aux limites SPH, modifie les masses.
+C  093 + SPH limit conditions, modifies the masses.
 !||====================================================================
 !||    inspcnd        ../starter/source/elements/sph/inspcnd.F
 !||--- called by ------------------------------------------------------
@@ -89,7 +89,7 @@ C-----------------------------------------------
          ISPTAG(I)=1
         ENDDO
 C-----------------------------------------------
-C       creation des skews (prepare l'addition des conditions cinematiques).
+C       creation of skews (prepares the addition of kinematic conditions).
         DO I=1,NUMSPH
          J =NUMSKW+1+I
          INOD=KXSP(3,I)
@@ -195,7 +195,7 @@ C---------------
      .                         I1=ITAB(INOD))
                 ELSEIF(NC==2)THEN
 C---------------
-C               2 conditions deja realisees + 1 condition :
+C               2 conditions already made + 1 condition:
                  IF(J6(1)==1)THEN
                   K=1
                   IF(J6(2)==1)THEN

@@ -147,7 +147,7 @@ C=======================================================================
         PSTAR=-A0/A1 
       ELSEIF(A2/=ZERO)THEN
         DELTA = A1*A1-FOUR*A0*A2
-        !Si intersection avec l'axe
+        !If intersection with the axis
         IF(DELTA >= ZERO)THEN
           DELTA=SQRT(DELTA)
           PSTAR = (-A1+DELTA)/TWO/A2
@@ -199,7 +199,7 @@ c-------------------
         WRITE(IOUT,1500)IFUNC,FAC_Y,C1,BUNL,XMUMX,PMIN,PEXT,PSTAR
       ENDIF
 C
-C---- Definition des variables internes (stockage elementaire)
+C---- Definition of internal variables (Elementary storage)
 c
       MTAG%G_PLA   = 1
       MTAG%G_EPSQ  = 1

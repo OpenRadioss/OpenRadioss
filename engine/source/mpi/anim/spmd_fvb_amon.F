@@ -99,7 +99,7 @@ C
                   VOLMON(IAD+I-1)=RBUF(6*NN+I)
                ENDDO
             ELSEIF (ISPMD==PMAIN-1) THEN
-C Proc main envoie
+C main price sends
                IAD=KRBALE+MONVOL(K1-1+34)
                DO I=1,6*NN
                   RBUF(I)=VOLMON(IAD+I-1)

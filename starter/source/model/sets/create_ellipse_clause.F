@@ -90,7 +90,7 @@ C=======================================================================
       CALL HM_GET_INTV('Skew_ID' ,ISKEW,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV('n' ,DGR1,IS_AVAILABLE,LSUBMODEL)
 
-      CLAUSE%ELLIPSE_ID_MADYMO=ISKEW ! No de l'entite qui impose le mvt de la surface.
+      CLAUSE%ELLIPSE_ID_MADYMO=ISKEW ! Entity number imposing surface movement.
       !                                --> No systeme Radioss ou MaDyMO.
       !skew:temporary storage of user id
       !get internal id from user id

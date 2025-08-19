@@ -92,7 +92,7 @@ C=======================================================================
 c         FICT(K) = FICI(K)/NPT
         END DO    
        IF (IP==NPT) THEN
-C---equi_balance to NS1,NS2 and element center   
+C--- Equi_Balance to ns1, ns2 and element center   
 C-------seg center------- 
         IF (IRTSE(3,IE)/=IRTSE(4,IE)) THEN
          DO J =1,4
@@ -201,7 +201,7 @@ C=======================================================================
         print *,'probleme EDGENS,IE1,IE2=',NS,IE1,IE2
        END IF
        IF (IP==NPT) THEN
-C---equi_balance to NS1,NS2 and element center       
+C--- Equi_Balance to ns1, ns2 and element center       
          FX = FXI
          FY = FYI
          FZ = FZI         
@@ -338,7 +338,7 @@ C=======================================================================
         print *,'probleme EDGENS,IE1,IE2=',NS,IE1,IE2
        END IF
        IF (IP==NPT) THEN
-C---equi_balance to NS1,NS2 and element center       
+C--- Equi_Balance to ns1, ns2 and element center       
          FX = FXI
          FY = FYI
          FZ = FZI         

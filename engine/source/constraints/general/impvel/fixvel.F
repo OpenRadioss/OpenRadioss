@@ -448,7 +448,7 @@ C dw was already counted in WFEXT, in sms_fixvel...
                 ET(3) =CTH*SKEW(6,ISK)- STH*SKEW(3,ISK)
                 NOR2=SQRT(ET(1)*ET(1)+ET(2)*ET(2)+ET(3)*ET(3))
                 ET=ET/MAX(NOR2,EM20)
-c-----------------vitesse angulaire imposee---------
+c-----------------velocity angulaire imposee---------
                 ALPHA=-YC(II)*DT2_DOUBLE/TWO
 c-----------------sinon-----------------------------
 c                ALPHA=-YC(II)*DT2_DOUBLE/(TWO*R)
@@ -471,7 +471,7 @@ c                ALPHA=-YC(II)*DT2_DOUBLE/(TWO*R)
               IF(IBFV(7,N)>=1) THEN
                 IF (J == 2) THEN
 c                 YC(II)=(YC(II)-VV)/DT12
-c-----------------vitesse angulaire imposee--------
+c-----------------velocity angulaire imposee--------
                    YC(II)=(R*YC(II)-VV)/DT12
 c----------------------------------------------------
                 ELSE
@@ -559,7 +559,7 @@ C             Fixed velocity in moving frame (transl)
                 ET(3) =CTH*XFRAME(6,IFM)- STH*XFRAME(3,IFM)
                 NOR2=SQRT(ET(1)*ET(1)+ET(2)*ET(2)+ET(3)*ET(3))
                 ET=ET/MAX(NOR2,EM20)
-c---------------vitesse angulaire imposee--------
+c---------------velocity angulaire imposee--------
                 ALPHA=-YC(II)*DT2_DOUBLE/TWO
 c-----------------------------------------------
 c                ALPHA=-YC(II)*DT2_DOUBLE/(TWO*R)
@@ -584,7 +584,7 @@ c                ALPHA=-YC(II)*DT2_DOUBLE/(TWO*R)
               A0 = FMDIR(1)*A(1,I) + FMDIR(2)*A(2,I) + FMDIR(3)*A(3,I)
               IF (J == 2) THEN
 c               YC(II)=(YC(II)-VV+VF)/DT12
-c---------------vitesse angulaire imposee--------
+c---------------velocity angulaire imposee--------
                 YC(II)=(R*YC(II)-VV+VF)/DT12
 c-------------------------------------------------
               ELSE

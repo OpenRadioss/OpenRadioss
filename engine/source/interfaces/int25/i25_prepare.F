@@ -64,7 +64,7 @@ C-----------------------------------------------
       INTEGER P,I,J,NI,NIN,NOD,NTY,NSN,SN
       INTEGER, DIMENSION(:), ALLOCATABLE :: ITAG
 C-----------------------------------------------
-C Partie 1, calcul des tailles de FR_I25
+C part 1, calculation of the sizes of fr_i25
 C-----------------------------------------------
       ALLOCATE(ITAG(NUMNOD))
       ITAG(1:NUMNOD)=0
@@ -102,7 +102,7 @@ C Flush ITAG to zero again for next CPU
         SFR_I25=SZFRI25
       
 C-----------------------------------------------
-C Partie 2, on remplis FR_I25 et IAD_I25
+C Part 2, we fill out Fr_i25 and IAD_I25
 C-----------------------------------------------
       ELSEIF(MODE==2)THEN
         IAD_I25(1,1)=1

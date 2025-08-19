@@ -32,7 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                 IXP   ,IXR   ,IXTG  ,KXX   ,
      .                 KXSP  ,KXIG3D,IGEO  ,NUMEL)
 C
-C     TRI DES DTEL (POUR CHAQUE TYPE D'ELEMENT) ET IMPRESSIONS
+C     SORTING OF DTEL (FOR EACH TYPE OF ELEMENT) AND PRINTING
 C
 C-----------------------------------------------
 C   M o d u l e s
@@ -71,7 +71,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE :: PERM
       DATA VINGTR4 /20./
 C=======================================================================
-C     INITIALISATION DES NOS INTERNES DES ELEMENTS AVANT TRI
+C     INITIALIZATION OF INTERNAL NUMBERS OF ELEMENTS BEFORE SORTING
 C
       CALL MY_ALLOC(PERM,NUMEL)
       ! --------------------
@@ -130,7 +130,7 @@ C
       ENDDO
       ! --------------------
 C
-C     TRIS DES ELEMENTS EN FONCTION DU PAS DE TEMPS
+C     SORTING OF ELEMENTS ACCORDING TO THE TIME STEP
 C
       IF (NUMELS>1) THEN
         NUM2 = 1
@@ -177,7 +177,7 @@ C
       DTELEM(NUMEL+1:2*NUMEL) = PERM(1:NUMEL)
 
 C
-C     IMPRESSIONS PAR GROUPES DES ELEMENTS TRIES
+C     PRINTING IN GROUPS OF SORTED ELEMENTS
 C
       IF (NUMELS>0) THEN
         TEMPO = NUMELS*TWOEM2
@@ -372,7 +372,7 @@ C-----------------------------------------------
       USE PLOT_CURVE_MOD
       USE MESSAGE_MOD
 C-----------------------------------------------
-C     TRI DES DT NODAUX ET IMPRESSIONS
+C     SORTING OF NODAL DT AND PRINTING
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

@@ -246,7 +246,7 @@ c           NLAY = 1 :
             ENDIF ! (NLAY > 1)
 C
             IE=IE+1
-C         pointeur de fin de zone dans WA
+C         end-of-zone pointer in wa
             PTWA(IE)=JJ
           ENDDO  !  I=LFT,LLT
         ENDIF  !  IF (ITY == 3)
@@ -264,7 +264,7 @@ C
           WAP0(J)=WA(J)
         END DO
       ELSE
-C       construit les pointeurs dans le tableau global WAP0
+C       builds the pointers in the global array wap0
         CALL SPMD_STAT_PGATHER(PTWA,STAT_NUMELC,PTWA_P0,STAT_NUMELC_G)
         LEN = 0
         CALL SPMD_RGATHER9_DP(WA,JJ,WAP0,SIZP0,LEN)
@@ -274,9 +274,9 @@ C
 C
         IPRT0=0
         DO N=1,STAT_NUMELC_G
-C         retrouve le nieme elt dans l'ordre d'id croissant
+C         find the nieme elt in the order of an increasing id
           K=STAT_INDXC(N)
-C         retrouve l'adresse dans WAP0
+C         Find the address in WAP0
           J=PTWA_P0(K-1)
 
           IOFF  = NINT(WAP0(J + 1))
@@ -455,7 +455,7 @@ c           NLAY = 1 :
             ENDIF  !  IF (NLAY > 1)
 C
             IE=IE+1
-C         pointeur de fin de zone
+C         end-of-zone pointer
             PTWA(IE)=JJ
           ENDDO  !  I=LFT,LLT
         ENDIF  !  IF (ITY == 7)
@@ -473,7 +473,7 @@ C
           PTWA_P0(N)=PTWA(N)
         ENDDO
       ELSE
-C       construit les pointeurs dans le tableau global WAP0
+C       builds the pointers in the global array wap0
         CALL SPMD_STAT_PGATHER(PTWA,STAT_NUMELTG,PTWA_P0,STAT_NUMELTG_G)
         LEN = 0
         CALL SPMD_RGATHER9_DP(WA,JJ,WAP0,SIZP0,LEN)
@@ -483,9 +483,9 @@ C
 C
         IPRT0=0
         DO N=1,STAT_NUMELTG_G
-C         retrouve le nieme elt dans l'ordre d'id croissant
+C         find the nieme elt in the order of an increasing id
           K=STAT_INDXTG(N)
-C         retrouve l'adresse dans WAP0
+C         Find the address in WAP0
           J=PTWA_P0(K-1)
 C
           IOFF = NINT(WAP0(J + 1))

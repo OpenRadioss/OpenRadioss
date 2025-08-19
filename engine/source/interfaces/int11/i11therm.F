@@ -135,7 +135,7 @@ C
 C
        ELSE ! IFUNC
 C--------------------------------------------------------
-C  CAS DES PAQUETS MIXTES OU QUADRANGLE
+C  CASE OF MIXED OR QUADRANGLE PACKETS
 C--------------------------------------------------------
 C    
          DO I=1,JLT
@@ -168,7 +168,7 @@ C---------------------------------
               MAT = IELECI(I)
 
 C---------------------------------
-C           CALCUL DE LA CONDUCTIBILITE
+C           CALCULATION OF CONDUCTIVITY
 C---------------------------------
               P      = XTHE * FNI(I) / AREAC(I)
               RSTIFF  = ONE /MAX(EM30,FINTER(IFUNCTK,P,NPC,TF,DYDX)*KTHE)
@@ -202,7 +202,7 @@ C
 C
        IF(IFUNCTK==0)THEN ! KTHE =/ F(PEN)
 C--------------------------------------------------------
-C  CAS DES PAQUETS MIXTES OU QUADRANGLE
+C  CASE OF MIXED OR QUADRANGLE PACKETS
 C--------------------------------------------------------
 C     
         RSTIF = ONE/MAX(EM30,KTHE)

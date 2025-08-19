@@ -85,7 +85,7 @@ C     REAL
 C-----------------------------------------------
       IF(IFUNCTK==0)THEN ! KTHE =/ F(PEN)
 C--------------------------------------------------------
-C  CAS DES PAQUETS MIXTES OU QUADRANGLE
+C  case of mixed packets or quadrangle
 C--------------------------------------------------------
 C     
        DO I=1,JLT
@@ -95,7 +95,7 @@ C
          CONDINT(I) = ZERO
 C
 C------------------------------------------
-C         CALCUL DE LA SURFACE VECTORIELLE (*2.)
+C         calculation of the vector surface (*2.)
 C------------------------------------------
          SX1=(Y1(I)-Y3(I))*(Z2(I)-Z4(I)) - (Z1(I)-Z3(I))*(Y2(I)-Y4(I))
          SY1=(Z1(I)-Z3(I))*(X2(I)-X4(I)) - (X1(I)-X3(I))*(Z2(I)-Z4(I))
@@ -103,7 +103,7 @@ C------------------------------------------
 C         
          NORM = SQRT(SX1**2 + SY1**2 + SZ1**2)  
 C--------+---------+---------+---------+---------+---------+---------+--
-C         CALCUL DE LA DISTANCE ENTRE CENTRE ET SURFACE 
+C         calculation of the distance between center and surface
 C-------------------------------------------------------------
          IF(IX3(I)/=IX4(I))THEN
            SX2 = FOURTH*(X1(I) + X2(I) + X3(I) + X4(I)) - XI(I)    
@@ -117,7 +117,7 @@ C-------------------------------------------------------------
 C
 C-----------------------------------------------
 C         CALCUL DISTANCE ENTRE LE NOEUD SECOND. 
-C              ET  LA  SURFACE (SURFACE NODALE)
+C              and the surface (nodal surface)
 C-----------------------------------------------
          DIST = (SX2*SX1+SY2*SY1+SZ2*SZ1) / MAX(EM15,NORM)
 
@@ -206,7 +206,7 @@ C---------------------------------
          ENDDO
        ELSE
 C--------------------------------------------------------
-C  CAS DES PAQUETS MIXTES OU QUADRANGLE
+C  case of mixed packets or quadrangle
 C--------------------------------------------------------
 C     
        DO I=1,JLT
@@ -214,7 +214,7 @@ C
 C
          TS = TEMPI(I)  
 C------------------------------------------
-C         CALCUL DE LA SURFACE VECTORIELLE (*2.)
+C         calculation of the vector surface (*2.)
 C------------------------------------------
          SX1=(Y1(I)-Y3(I))*(Z2(I)-Z4(I)) - (Z1(I)-Z3(I))*(Y2(I)-Y4(I))
          SY1=(Z1(I)-Z3(I))*(X2(I)-X4(I)) - (X1(I)-X3(I))*(Z2(I)-Z4(I))
@@ -222,7 +222,7 @@ C------------------------------------------
 C         
          NORM = SQRT(SX1**2 + SY1**2 + SZ1**2)  
 C--------+---------+---------+---------+---------+---------+---------+--
-C         CALCUL DE LA DISTANCE ENTRE CENTRE ET SURFACE 
+C         calculation of the distance between center and surface
 C-------------------------------------------------------------
          IF(IX3(I)/=IX4(I))THEN
            SX2 = FOURTH*(X1(I) + X2(I) + X3(I) + X4(I)) - XI(I)    
@@ -236,7 +236,7 @@ C-------------------------------------------------------------
 C
 C-----------------------------------------------
 C         CALCUL DISTANCE ENTRE LE NOEUD SECOND. 
-C              ET  LA  SURFACE (SURFACE NODALE)
+C              and the surface (nodal surface)
 C-----------------------------------------------
          DIST = (SX2*SX1+SY2*SY1+SZ2*SZ1) / MAX(EM15,NORM)
 
@@ -266,7 +266,7 @@ C---------------------------------
               MAT = IELECI(I)
 
 C---------------------------------
-C           CALCUL DE LA CONDUCTIBILITE
+C           calculation of the conductivity
 C---------------------------------
               P      = XTHE * ABS(FNI(I)) / AREAC
               RSTIFF  = RSTIF / MAX(EM30,FINTER(IFUNCTK,P,NPC,TF,DYDX))
@@ -304,7 +304,7 @@ C---------------------------------
      .               * (TM + TS) * (TM- TS) * DT1 * THEACCFACT
             ELSE
 C---------------------------------
-C           CALCUL DE LA CONDUCTIBILITE
+C           calculation of the conductivity
 C---------------------------------
               P      = XTHE * ABS(FNI(I)) / AREAC
               RSTIFF  = RSTIF / MAX(EM30,FINTER(IFUNCTK,P,NPC,TF,DYDX))

@@ -35,7 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      4      NSN   ,OLDNUM,NSNROLD,IGAP  ,GAP    ,
      6      GAP_S ,GAP_M ,GAPMIN ,GAPMAX,NIN    )
 C============================================================================
-C  cette routine est appelee par : I10TRI(/int10/i10tri.F)
+C  this routine is called by: I10TRI(/int10/i10tri.F)
 C----------------------------------------------------------------------------
 C  cette routine appelle : I7COR3T(/int7/i7cor3.F)
 C                          I7PEN3(/int7/i7pen3.F)
@@ -98,11 +98,11 @@ C-----------------------------------------------
           IF (PENE(I)/=ZERO) THEN
             N  = PROV_N(I)
             IF(N>NSN) THEN
-C numerotation tris precedent pour les noeuds non locaux (SPMD)
+C numbering sorted previously for non-local nodes (SPMD)
               N = OLDNUM(N-NSN)+NSN
               IF(N==NSN) N = NSN+NSNROLD+1
             END IF
-C   attention au shift
+C  pay attention to shift
             NE = PROV_E(I)+ESHIFT
             DO J = CAND_A(N),CAND_A(N+1)-1
               IF (CAND_E(J)==NE) GOTO 100
@@ -129,11 +129,11 @@ C-----------------------------------------------
             N  = PROV_N(I)
             NN = N
             IF(N>NSN) THEN
-C numerotation tris precedent pour les noeuds non locaux (SPMD)
+C numbering sorted previously for non-local nodes (SPMD)
               N = OLDNUM(N-NSN)+NSN
               IF(N==NSN) N = NSN+NSNROLD+1
             END IF
-C   attention au shift
+C  pay attention to shift
             NE = PROV_E(I)+ESHIFT
             DO J = CAND_A(N),CAND_A(N+1)-1
               IF (CAND_E(J)==NE) GOTO 200

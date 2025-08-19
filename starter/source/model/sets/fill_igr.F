@@ -53,7 +53,7 @@ C
 C     NAME          DESCRIPTION                         
 C
 C     SET           Set Structure - Current SET
-C     IGRxxx        SURFACES & Groups
+C     IGRXX Surfaces & Groups
 C============================================================================
 C-----------------------------------------------
 C   M o d u l e s
@@ -443,7 +443,7 @@ C
            IF(ALLOCATED (SET(IGS)%SURF_ELTYP )) DEALLOCATE ( SET(IGS)%SURF_ELTYP )
            IF(ALLOCATED (SET(IGS)%SURF_ELEM ))  DEALLOCATE ( SET(IGS)%SURF_ELEM )
            SET(IGS)%NB_SURF_SEG = 0
-           ! ellipse surface
+           ! Ellipse surface
            IF(ALLOCATED (SET(IGS)%ELLIPSE_SKEW )) DEALLOCATE ( SET(IGS)%ELLIPSE_SKEW )
            SET(IGS)%ELLIPSE_A = ZERO
            SET(IGS)%ELLIPSE_B = ZERO
@@ -454,7 +454,7 @@ C
            SET(IGS)%ELLIPSE_N = ZERO
            SET(IGS)%ELLIPSE_IAD_BUFR = 0
            SET(IGS)%ELLIPSE_ID_MADYMO = 0
-           ! plane surface
+           ! flat surface
            SET(IGS)%PLANE_XM = ZERO
            SET(IGS)%PLANE_YM = ZERO
            SET(IGS)%PLANE_ZM = ZERO

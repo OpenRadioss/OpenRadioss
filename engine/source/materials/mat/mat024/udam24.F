@@ -62,7 +62,7 @@ C
         S33(I) = S11(I)*S22(I)-S21(I)*S12(I)
       ENDDO
 C . . . . . . . . . . . . . . . . . .
-C     ROTATION INVERSE DES CONTRAINTES
+C     inverse rotation of the stresses
 C . . . . . . . . . . . . . . . . . .
       DO I = 1,NEL
         A11(I)=SIG(I,1)*S11(I)+SIG(I,4)*S12(I)+SIG(I,6)*S13(I)
@@ -127,7 +127,7 @@ C=======================================================================
         S33(I)=S11(I)*S22(I)-S21(I)*S12(I)
       ENDDO
 C . . . . . . . . . . . . . . . . . .
-C     ROTATION INVERSE DES CONTRAINTES
+C     inverse rotation of the stresses
 C . . . . . . . . . . . . . . . . . .
       DO K=1,NBDAMA
        I = DAMAI(K)

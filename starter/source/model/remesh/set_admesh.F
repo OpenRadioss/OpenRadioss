@@ -152,7 +152,7 @@ C
           END IF
           ANGL=ANGLDEGR*PI/HUNDRED80
 C
-C         pour creer les structures LSH4UPL, PSH4UPL, LSH3UPL, PSH3UPL
+C         to create the structures LSH4UPL, PSH4UPL, LSH3UPL, PSH3UPL
           IF(THKERR > ZERO) IADMERRT=1
           IF(THKERR == ZERO)THKERR=EP30
 C

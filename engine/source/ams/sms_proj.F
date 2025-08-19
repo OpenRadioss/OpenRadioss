@@ -558,7 +558,7 @@ C---------------------
         IF(ITASK==0)THEN
           CALL SMS_INIS(NUMNOD,1 , NUMNOD,1 ,NPV  ,PROJ_S ,
      .                   NODNX_SMS,KINET )
-C projeter PROJ_S sur cond cin. !!!
+C Project Proj_S on Cond Cin.!!!
         END IF
 C----------------------
         CALL MY_BARRIER
@@ -578,7 +578,7 @@ C--------matrix GS orthonalization and normalized
      .                PROJ_S ,WEIGHT  ,ITASK  )
       ELSE
 C
-C projeter PROJ_S sur cond cin. !!!
+C Project Proj_S on Cond Cin.!!!
         DO J=1,NPV
         DO N=NODFT,NODLT
          IF(KINET(N)/=0.OR.NODNX_SMS(N)==0)THEN

@@ -245,7 +245,7 @@ C
         ENDDO
       ENDDO
 C----------------------------
-C---------Facteur pour longueur caracteristique---
+C---------Factor for characteristic length---
 C----------------------------
       OFF_L = 0.
       DO EP=JFT,JLT
@@ -273,7 +273,7 @@ C----------------------------
        ENDDO  
       ENDIF
 C ---
-C  les deplacements nodaux dans le rep re local
+C  the nodal displacements in the local frame
       DO J=1, NPT
        DO EP=JFT,JLT
          IP = ISTACK(EP,J)
@@ -311,7 +311,7 @@ C  node 4 layer J
          DN_PLY(EP,12,J)=VQ(EP,1,3)*D1 + VQ(EP,2,3)*D2 + VQ(EP,3,3)*D3 
         ENDDO
        ENDDO  
-C  glissement elementaire
+C  Elementary shift
       DO J=1, NPT
        DO EP=JFT,JLT
          DEL_PLY(EP,1,J) = (

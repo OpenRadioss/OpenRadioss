@@ -110,7 +110,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       LOC_PROC = ISPMD+1
 C ----------------------------------      
-C IFLAG=1 partie1 - Send   
+C Iflag = 1 part 1 - Send   
 C ----------------------------------      
       IF(FLAG==1)THEN
 C      WRITE(6,*) __FILE__,__LINE__ ; CALL FLUSH(6)
@@ -134,13 +134,13 @@ C      WRITE(6,*) __FILE__,__LINE__ ; CALL FLUSH(6)
 
 C--------------------------------------------------------
 
-C Comm sur l'interface type 25
-C 1ere partie, on ramene sur le proc qui a les noeuds slv les valeurs de IRTLM_FI + TIME_SFI & traitements
-C 2eme partie on les traite sur le proc  qui a les neouds slv les valeurs
-C 3eme partie on renvoie sur les procs remotes les valeurs globalisees
+C Comm on the type 25 interface
+C First part, we bring back to the proc that has the secondary nodes the values of IRTLM_FI + TIME_SFI & treatments
+C Second part, we process them on the proc that has the secondary nodes the values
+C Third part, we send back to the remote procs the globalized values
 
 C--------------------------------------------------------
-C 1ere partie, on ramene sur le proc qui a les neouds slv les valeurs de IRTLM_FI + TIME_SFI
+C First part, we bring back to the proc that has the secondary nodes the values of IRTLM_FI + TIME_SFI
 C--------------------------------------------------------
 
       LOC_PROC = ISPMD+1
@@ -152,7 +152,7 @@ C--------------------------------------------------------
       ALEN=6
 
 
-C Comptage des tailles de buffer  Reception et envoi
+C counting buffer sizes for reception and sending
       DO P=1,NSPMD
          IADR(P)=LENRV+1
          DO NI=1,NBINTC
@@ -166,7 +166,7 @@ C Comptage des tailles de buffer  Reception et envoi
       ENDDO
       IADR(NSPMD+1)=LENRV+1
 
-C Preparation du send
+C preparation of send
       IF(LENSD>0)THEN
           ALLOCATE(BBUFS(LENSD),STAT=IERROR)
           IF(IERROR/=0) THEN
@@ -176,7 +176,7 @@ C Preparation du send
       ENDIF
 
 C ---------------------------------------------
-C Preparation du recieve
+C preparation of receive
       IF(LENRV>0)THEN
           ALLOCATE(BBUFR(LENRV),STAT=IERROR)
           IF(IERROR/=0) THEN
@@ -378,7 +378,7 @@ c         if(itab(sn)==29376)print *,'recoit nsnsi apr',loc_proc,p,INTBUF_TAB(NI
           L=L+SIZ
       ENDDO        ! DO P=1, NSPMD
 
-C Fin du send
+C end of send
       DO P = 1, NSPMD
           IF (P==NSPMD)THEN
              SIZ=LENSD-IADS(P)
@@ -393,8 +393,8 @@ C Fin du send
       IF (ALLOCATED(BBUFS)) DEALLOCATE(BBUFS)
       IF (ALLOCATED(BBUFR)) DEALLOCATE(BBUFR)
 C-----------------------------------------------------------
-C 2eme partie - echanges sur les noeuds seconds frontieres
-C               pour toutes les interface type 25.
+C Second part - exchanges on the secondary boundary nodes
+C               for all interface type 25.
 C-----------------------------------------------------------
       IADS(1:NSPMD+1)=0
 
@@ -405,7 +405,7 @@ C-----------------------------------------------------------
       IADS(NSPMD+1)=SFR_I25+1
 
 c     print *,'iads',ispmd+1,iads(1),iads(2),iads(3)
-C Preparation du send
+C preparation of send
       ILEN=5
       RLEN=2
       ASSERT(SFR_I25 >= 0) 
@@ -414,7 +414,7 @@ C Preparation du send
       ALLOCATE(RSENDBUF(RLEN,SFR_I25))
       ALLOCATE(RRECBUF(RLEN*SFR_I25))
 
-C mise en place du irecieve
+C implementation of the IRECIEVE
       DO P=1,NSPMD
         SIZ = IADS(P+1)-IADS(P)
         ASSERT(SIZ >= 0)
@@ -509,7 +509,7 @@ c           print *,'recept recu entiers',ispmd+1,p
           CALL MPI_WAIT(REQ_R2(P),STATUS,IERROR)
 c           print *,'recept recu reels',ispmd+1,p
 
-C Traitements
+C Treatments
         
          DO NI=1,NBINTC
            NIN = INTLIST(NI)
@@ -571,7 +571,7 @@ c                       END IF
 c inutile
 c                     elseif(SURFR > 0 .AND. TIME_SR_1 == EP20 .AND. KLEAVE_R > 0)THEN
 cC
-cC                      le nd est ressorti du contact ou il etait precedemment sur le proc remote
+cC the node has exited the contact where it was previously on the remote proc
 cC                                                                             ------------------
 c                       INTBUF_TAB(NIN)%IRTLM(4*(ND-1)+1)  = SURFR
 c                       INTBUF_TAB(NIN)%IRTLM(4*(ND-1)+2)  = SUBTRIAR
@@ -653,7 +653,7 @@ C Fin send
       IF(ALLOCATED(RRECBUF))DEALLOCATE(RRECBUF)
 
 C ------------------------------------------------------------------
-C 3e partie on renvoie les valeurs globalisees sur les procs remote
+C Third part we send back the globalized values to the remote procs
 C ------------------------------------------------------------------
       LOC_PROC = ISPMD+1
       IADS = 0
@@ -662,7 +662,7 @@ C ------------------------------------------------------------------
       LENRV = 0
 
       ALEN=6
-C Comptage des tailles de buffer  Receeption et envoi
+C counting buffer sizes for reception and sending
       DO P=1,NSPMD
          IADR(P)=LENRV+1
          DO NI=1,NBINTC
@@ -684,7 +684,7 @@ C Comptage des tailles de buffer  Receeption et envoi
           ENDIF
       ENDIF
 
-C Preparation du recieve
+C preparation of receive
       IF(LENRV>0)THEN
           ALLOCATE(BBUFR(LENRV),STAT=IERROR)
           IF(IERROR/=0) THEN
@@ -714,7 +714,7 @@ C Send
            NTY   =IPARI(7,NIN)
            IF(NTY==25)THEN
                NB = NSNSI(NIN)%P(P)
-C Preparation du send
+C preparation of send
                DO NN=1,NB
                  ND = NSVSI(NIN)%P(IDEB(NIN)+NN)
                  NOD=INTBUF_TAB(NIN)%NSV(ND)
@@ -788,7 +788,7 @@ c     .                       BBUFR(IADR(P)+L:IADR(P)+L+3)
           ENDIF
       ENDDO
 
-C Fin du send
+C end of send
       DO P = 1, NSPMD
           IF (P==NSPMD)THEN
              SIZ=LENSD-IADS(P)

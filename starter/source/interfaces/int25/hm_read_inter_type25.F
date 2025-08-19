@@ -609,7 +609,7 @@ C------------remove BUMULT
 
         IF(BUMULT==ZERO) THEN
           BUMULT = BMUL0
-C bmult augmente pour les tres gros modeles et interface 7 ou 20
+C bmult increases for very large models and interface 7 or 20
 
             IF(NUMNOD > 2500000) THEN
               BUMULT = BMUL0*TWO
@@ -709,7 +709,7 @@ C-----
 C FRIGAP(10) is initialized but used only in engine for storing number of couples candidates  
         FRIGAP(10)=FLOAT(0)
 
-C       POUR STOCKER LE FLAG D'INACTIVATION DES PENE INITIALES
+C       TO STORE THE FLAG FOR DEACTIVATION OF INITIAL PENETRATIONS
 C       (0 = RIEN , 1 = NOEUDS , 2 = FACETTES )
         MULTIMP = 4
         IPARI(23)=MULTIMP

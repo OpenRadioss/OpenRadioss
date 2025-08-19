@@ -197,7 +197,7 @@ c
             ENDDO      ! IL = 1,NLAY
 c                                                          
             IE=IE+1
-C       pointeur de fin de zone
+C       end-of-zone pointer
             PTWA(IE)=JJ
           ENDDO        ! I=LFT,LLT
 c--------------
@@ -218,7 +218,7 @@ c
           WAP0(J)=WA(J)
         ENDDO
       ELSE
-C       construit les pointeurs dans le tableau global WAP0
+C       builds the pointers in the global array wap0
         CALL SPMD_STAT_PGATHER(PTWA,STAT_NUMELC,PTWA_P0,STAT_NUMELC_G)
         LEN = 0
         CALL SPMD_RGATHER9_DP(WA,JJ,WAP0,SIZP0,LEN)
@@ -229,9 +229,9 @@ c
       IF (ISPMD == 0.AND.LEN > 0) THEN
         IPRT0=0
         DO N=1,STAT_NUMELC_G
-C         retrouve le nieme elt dans l'ordre d'id croissant
+C         find the nieme elt in the order of an increasing id
           K=STAT_INDXC(N)
-C         retrouve l'adresse dans WAP0
+C         Find the address in WAP0
           J=PTWA_P0(K-1)
           IPRT  = NINT(WAP0(J + 2))
           IF (IPRT /= IPRT0) THEN 
@@ -430,7 +430,7 @@ c
             ENDDO      ! IL = 1,NLAY
 c                                                          
             IE=IE+1
-C       pointeur de fin de zone
+C       end-of-zone pointer
             PTWA(IE)=JJ
           ENDDO        ! I=LFT,LLT
 c--------------
@@ -451,7 +451,7 @@ c
           WAP0(J)=WA(J)
         ENDDO
       ELSE
-C       construit les pointeurs dans le tableau global WAP0
+C       builds the pointers in the global array wap0
         CALL SPMD_STAT_PGATHER(PTWA,STAT_NUMELTG,PTWA_P0,STAT_NUMELTG_G)
         LEN = 0
         CALL SPMD_RGATHER9_DP(WA,JJ,WAP0,SIZP0,LEN)
@@ -462,9 +462,9 @@ c
       IF (ISPMD == 0.AND.LEN > 0) THEN
         IPRT0=0
         DO N=1,STAT_NUMELTG_G
-C         retrouve le nieme elt dans l'ordre d'id croissant
+C         find the nieme elt in the order of an increasing id
           K=STAT_INDXTG(N)
-C         retrouve l'adresse dans WAP0
+C         Find the address in WAP0
           J=PTWA_P0(K-1)
           IPRT = NINT(WAP0(J + 2))
           IF (IPRT /= IPRT0) THEN 

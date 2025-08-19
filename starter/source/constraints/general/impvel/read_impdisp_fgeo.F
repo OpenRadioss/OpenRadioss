@@ -178,7 +178,7 @@ c
             IBFVEL(3 ,INUM) = FUN_ID
             IBFVEL(4 ,INUM) = SENS_ID
             IBFVEL(5 ,INUM) = 0
-            IBFVEL(6 ,INUM) = 0  ! init dans lecrby (si vitesse de rotation sur main)
+            IBFVEL(6 ,INUM) = 0  ! initialization in lecrby (if rotation velocity on main)
             IBFVEL(7 ,INUM) = IDIS
             IBFVEL(8 ,INUM) = ILAGM
             IBFVEL(9 ,INUM) = NOFRAME

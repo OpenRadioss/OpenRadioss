@@ -34,10 +34,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                   DECALGEO,TABCONPATCH,NUMPATCH,KXIG3D,
      .                   IXIG3D,TAB_STAY,FLAG_PRE)
 C----------------------------------------------------------------------
-C   ROUTINE QUI VA INSERER LE NOUVEAU KNOT DANS LE PATCH EN CREANT DE
+C   routine that will insert the new knot into the patch by creating
 C   NOUVELLES FONCTIONS, EN EN SUPPRIMANT CERTAINES, TOUT EN TENANT 
-C   COMPTE DES FONCTIONS EXISTANTES, SUR LE PATCHS OU SUR LES AUTRES PATCHS
-C   ET QUI MODIFIE LES COORDONNES X, V, D DES POINTS SI BESOIN
+C   count of existing functions, on the patch or on the other patches
+C   and which modifies the x, v, d coordinates of the points if needed
 C----------------------------------------------------------------------
 C-----------------------------------------------
 C   M o d u l e s
@@ -96,7 +96,7 @@ c
         IF(NEWKNOT<KNOTLOCPC(1,DIR,DECALGEO+IDFCTCOUPEE).OR.
      .     NEWKNOT>KNOTLOCPC(DEG+1,DIR,DECALGEO+IDFCTCOUPEE)) CYCLE
 c
-C       CALCUL DES COEFFICIENTS ALPHA1 ET ALPHA2
+C       calculation of the alpha1 and alpha2 coefficients
 c
         IF(NEWKNOT>=KNOTLOCPC(DEG,DIR,DECALGEO+IDFCTCOUPEE)) THEN 
           ALPHA1=1
@@ -111,7 +111,7 @@ c
      /           (KNOTLOCPC(DEG+1,DIR,DECALGEO+IDFCTCOUPEE)-KNOTLOCPC(2,DIR,DECALGEO+IDFCTCOUPEE))
         ENDIF
 c
-c       ASSEMBLAGE DES NOUVEAUX KNOT
+c       assembly of the new knots
 c        
         I=DEG+1
         DO WHILE (KNOTLOCPC(I-1,DIR,DECALGEO+IDFCTCOUPEE)>=NEWKNOT)
@@ -136,7 +136,7 @@ c
           I=I-1
         ENDDO
 c
-c       Recherche si la fonction rajoutee existe deja dans les anciens points
+c       search if the added function already exists in the old points
 c
         DO J=1,L_TAB_FCTCUT
           IDFCTCOUPEE1 = TAB_FCTCUT(J)
@@ -155,9 +155,9 @@ c
           ENDIF
           IF(I>DEG+1) EXIT
          ENDDO
-         IF(I>DEG+1) THEN  ! La fonction existe deja
+         IF(I>DEG+1) THEN  ! the function already exists
 c
-c      modification d'un ancien point existant
+c      Modification of an old existing point
 c
            IF(FLAG_PRE==1) THEN
             X(:,IDFCTCOUPEE1)=(X(:,IDFCTCOUPEE1)*GAMA(IDFCTCOUPEE1)+
@@ -178,8 +178,8 @@ c
           ENDIF
           GAMA(IDFCTCOUPEE1) = GAMA(IDFCTCOUPEE1)+ALPHA1*GAMA(IDFCTCOUPEE)
           KNOTLOCPC(:,DIR,DECALGEO+IDFCTCOUPEE1) = NEWKNOTLOC(:,1)
-        ELSEIF(I<=DEG+1) THEN  ! Il faut chercher dans les nouveaux points
-         DO J=1,NEWFCT  ! les nouvelles fonctions de cette meshsurf
+        ELSEIF(I<=DEG+1) THEN  ! need to search in the new points
+         DO J=1,NEWFCT  ! the new functions of this meshsurf
           IDFCTCOUPEE1 = NUMNODIGE0+OFFSET_NEWFCT+J
           DO I=1,DEGTANG1+1
             IF(ABS(KNOTLOCPC(I,DIRTANG1,DECALGEO+IDFCTCOUPEE)-KNOTLOCPC(I,DIRTANG1,DECALGEO+IDFCTCOUPEE1))>TOL) EXIT
@@ -197,9 +197,9 @@ c
           IF(I>DEG+1) EXIT
          ENDDO
         ENDIF
-        IF(I>DEG+1) THEN  ! La fonction existe deja
+        IF(I>DEG+1) THEN  ! the function already exists
 c
-c      modification d'un point existant
+c      Modification of an existing point
 c
           IF(FLAG_PRE==1) THEN
             X(:,NUMNODIGE0+OFFSET_NEWFCT+J)=(X(:,NUMNODIGE0+OFFSET_NEWFCT+J)*GAMA(IDFCTCOUPEE1)+
@@ -254,9 +254,9 @@ c
           ENDIF
           IF(I>DEG+1) EXIT
         ENDDO
-        IF(I>DEG+1) THEN  ! La fonction existe deja
+        IF(I>DEG+1) THEN  ! the function already exists
 c
-c      modification d'un point existant
+c      Modification of an existing point
 c
           IF(FLAG_PRE==1) THEN
             X(:,IDFCTCOUPEE2)=(X(:,IDFCTCOUPEE2)*GAMA(IDFCTCOUPEE2)+
@@ -277,8 +277,8 @@ c
           ENDIF
           GAMA(IDFCTCOUPEE2) = GAMA(IDFCTCOUPEE2)+ALPHA2*GAMA(IDFCTCOUPEE)
           KNOTLOCPC(:,DIR,DECALGEO+IDFCTCOUPEE2) = NEWKNOTLOC(:,2)
-        ELSEIF(I<=DEG+1) THEN  ! Il faut chercher dans les nouveaux points
-         DO J=1,NEWFCT  ! les nouvelles fonctions de cette meshsurf
+        ELSEIF(I<=DEG+1) THEN  ! need to search in the new points
+         DO J=1,NEWFCT  ! the new functions of this meshsurf
           IDFCTCOUPEE2 = NUMNODIGE0+OFFSET_NEWFCT+J
           DO I=1,DEGTANG1+1
             IF(ABS(KNOTLOCPC(I,DIRTANG1,DECALGEO+IDFCTCOUPEE)-KNOTLOCPC(I,DIRTANG1,DECALGEO+IDFCTCOUPEE2))>TOL) EXIT
@@ -296,9 +296,9 @@ c
           IF(I>DEG+1) EXIT
          ENDDO
         ENDIF
-        IF(I>DEG+1) THEN  ! La fonction existe deja
+        IF(I>DEG+1) THEN  ! the function already exists
 c
-c      modification d'un point existant
+c      Modification of an existing point
 c
           IF(FLAG_PRE==1) THEN
             X(:,NUMNODIGE0+OFFSET_NEWFCT+J)=(X(:,NUMNODIGE0+OFFSET_NEWFCT+J)*GAMA(IDFCTCOUPEE2)+
@@ -336,13 +336,13 @@ c
           TAB_NEWFCT(L_TAB_NEWFCT) = NUMNODIGE0+OFFSET_NEWFCT+NEWFCT 
         ENDIF
 c
-ccc si la fonction est sur un autre patch aussi, elle ne doit pas etre supprimee. 
-ccc Elle sera supprimee de la connectivite du patch raffine mais restera
-ccc avec son numero de fct pour le patch voisin
+cif the function is also on another patch, it must not be deleted.
+cit will be removed from the connectivity of the refined patch but will remain
+cwith its function number for the neighboring patch
 c
         FLAG_REMOVE=1
         DO I=1,NBPART_IG3D
-          IF(I==NUMPATCH) CYCLE ! pas sur le patch sur lequel on travaille 
+          IF(I==NUMPATCH) CYCLE ! not on the patch we are working on
           DO J=1,TABCONPATCH(I)%L_TAB_IG3D
             DO ITNCTRL=1,KXIG3D(3,TABCONPATCH(I)%TAB_IG3D(J))
               IF(IXIG3D(KXIG3D(4,TABCONPATCH(I)%TAB_IG3D(J))+ITNCTRL-1)==IDFCTCOUPEE) THEN

@@ -85,14 +85,14 @@ C----------NOEUD 1 ------------
           VF(EP,1,J) = VF(EP,1,J) + C2*(BM(EP,1)*FF(EP,1,J))
           VF(EP,2,J) = VF(EP,2,J) + C2*(BM(EP,5)*FF(EP,2,J))
           VF(EP,3,J) = VF(EP,3,J) + C2*(BC1+BC(EP,2)*FF(EP,5,J))
-C integration complete du cisaillement
+C complete integration of the shear
 cc          VF(1,EP,J) = VF(1,EP,J) + C2*(BM(EP,5)*FF(3,EP,J))
 cc          VF(2,EP,J) = VF(2,EP,J) + C2*(BM(EP,1)*FF(3,EP,J)) 
           
 C         
           VF(EP,7,J) = VF(EP,7,J) + C2*(BM(EP,3)*FF(EP,1,J))
           VF(EP,8,J) = VF(EP,8,J) + C2*(BM(EP,7)*FF(EP,2,J))
-C integration complete du cisaillement
+C complete integration of the shear
 cc          VF(7,EP,J) = VF(7,EP,J) + C2*(BM(7,EP)*FF(3,EP,J))
 cc          VF(8,EP,J) = VF(8,EP,J) + C2*(BM(3,EP)*FF(3,EP,J))                 
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
@@ -103,7 +103,7 @@ C----------NOEUD 2 ------------
           VF(EP,5,J) = VF(EP,5,J) + C2*(BM(EP,6)*FF(EP,2,J))
           VF(EP,6,J) = VF(EP,6,J) + C2*(BC(EP,7)*FF(EP,4,J)
      .                            + BC(EP,8)*FF(EP,5,J)) 
-C integration complete du cisaillement
+C complete integration of the shear
 cc          VF(4,EP,J) = VF(4,EP,J) + C2*(BM(EP,6)*FF(3,EP,J))
 cc          VF(5,EP,J) = VF(5,EP,J) + C2*(BM(EP,2)*FF(3,EP,J)) 
 C

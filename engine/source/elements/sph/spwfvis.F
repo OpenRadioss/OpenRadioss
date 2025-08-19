@@ -67,9 +67,9 @@ C===============================================
       DO NS=1,NSPHACT
         N=WASPACT(NS)
         IF (KXSP(2,N)>0)THEN
-C         pour sorties par cellule.
+C         for output per cell.
           SPBUF(10,N)=SPBUF(10,N)+DT05*SPBUF(11,N)
-C         le travail des forces de viscosite artificielle est 
+C         the work of artificial viscosity forces is
 C         reinjecte dans l'energie interne.
 C
           NG=MOD(KXSP(2,N),NGROUP+1)

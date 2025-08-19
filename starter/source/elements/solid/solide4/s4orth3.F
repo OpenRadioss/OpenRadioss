@@ -68,7 +68,7 @@ C     REAL
       my_real
      .   XL(MVSIZ),YL(MVSIZ),ZL(MVSIZ)
 C-----------------------------------------------
-C     PASSAGE AU REPERE ORTHOTROPE.
+C     PASSAGE AU ORTHOTROPIC FRAME.
       IF (JHBE/=24 .AND. JHBE/=222 .AND. JHBE/=14)THEN
         DO I=LFT,LLT
 C         Extration de G tq Xortho=Transpose(G) Xcvt
@@ -170,7 +170,7 @@ C     REAL
       my_real
      .   XL(MVSIZ),YL(MVSIZ),ZL(MVSIZ)
 C-----------------------------------------------
-C     PASSAGE AU REPERE ORTHOTROPE.
+C     PASSAGE AU ORTHOTROPIC FRAME.
       IF (JHBE/=24 .AND. JHBE/=222 .AND. JHBE/=14)THEN
         DO I=LFT,LLT
 C         Extration de G tq Xortho=Transpose(G) Xcvt

@@ -58,7 +58,7 @@ C   IPARI   NPARI,NINTER             PARAMETRES D'INTERFACE             E
 C                  
 C     X     3,NUMNOD                 COORDONNEES                        E
 C                  
-C     V     3,NUMNOD                 VITESSES                           E
+C     V     3,NUMNOD                 VELOCITIES                           E
 C                  
 C    EMINX  6*NME<6*NUMELS           MIN MAX DE CHAQUE ELEMENT        TMP_GLOBAL
 C                  
@@ -143,7 +143,7 @@ C -------------------------------------------------------------
 C -------------------------------------------------------------
        CALL MY_BARRIER
 C=======================================================================
-C      TEST pour savoir s'il faut retrier + initialisation
+C      Test to know whether to retriate + initialization
 C=======================================================================
        SIZE_T = ZERO
        CALL I17CRIT(

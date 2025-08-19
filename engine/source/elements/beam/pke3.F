@@ -93,7 +93,7 @@ C-----------------------------------------------
      3           AL     ,ALI    ,SH1    ,SH2    ,MTN      ,
      4           MAT    ,PID    )
 C-------------------------
-C     MATRICE de RIGIDITE
+C     STIFFNESS MATRIX
 C-------------------------
       CALL PSUMG3(JFT    ,JLT    ,YM      ,G      ,AREA   ,
      2           B1     ,B2     ,B3      ,AL     ,ALI    ,

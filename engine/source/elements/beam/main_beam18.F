@@ -259,7 +259,7 @@ c------------------------------------
          ENDDO
       ELSE     
 C-----------------------
-C      FORCES ET MOMENTS
+C      FORCES AND MOMENTS
 C-----------------------
         DO IPT = 1,NPT        
          DO I=1,NEL

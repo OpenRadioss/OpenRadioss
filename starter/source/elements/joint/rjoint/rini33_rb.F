@@ -94,7 +94,7 @@ C
       IF (ISK2==0) NSK = 1
       ERR_FLG = 0
       IPID=IXR(1,1+NFT)       
-C------------------check sur les skews-----------------
+C------------------check on the skews-----------------
       DO I=1,NSK
         IDSK(I) = NINT(GET_U_GEO(1+I,IPROP))
         ISK = GET_U_SKEW(IDSK(I),NO(1),NO(2),NO(3),U)
@@ -141,7 +141,7 @@ C------------------check sur les skews-----------------
             IDSKRB(2) = IDSKRB(1)
       ENDIF
       
-C------------------Boucle sur les neuds-----------------
+C------------------Loop on the nodes-----------------
 
       IF(NRBODY==0) THEN
         CALL ANCMSG(MSGID=390,
@@ -205,7 +205,7 @@ C-->
 C
             ENDDO
 C
-C-->  Stockage d'une masse elementaire (masse hormonique) pour calcul d'energie specifique
+C-> Storage of a elementary mass (hormone mass) for special energy calculation
             GMASS(IEL) = (UVAR(34,IEL)*UVAR(35,IEL))/MAX(EM20,UVAR(34,IEL)+UVAR(35,IEL))
 C-->
             IF (IDRB(I)==0) THEN      

@@ -106,10 +106,10 @@ C
 
       IF(RESULT==0) THEN
 C
-C Reperage des candidats
+C identification of candidates
 C
         DO NI = 1, NSNROLD
-C         STIFI a ete mis a jour dans SPMD_GET_STIF !
+C         STIFI has been updated in SPMD_Get_Stif!
 C         STIFI was not set at time=0 (not read from restart)
           IF((TT==ZERO.OR.STIFI(NIN)%P(NI)>ZERO).AND.IRTLM_FI(NIN)%P(4,NI)==LOC_PROC)THEN
             NODFI = NODFI + 1
@@ -131,7 +131,7 @@ C
           ENDIF
         ENDDO
 C
-C Allocation des tableaux de frontieres interfaces
+C allocation of interface boundary arrays
 C
         IERROR1 = 0
         IERROR2 = 0

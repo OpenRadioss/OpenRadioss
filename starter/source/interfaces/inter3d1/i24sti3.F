@@ -146,10 +146,10 @@ C     REAL
      .             5,15,16,
      .             12,15,16/
 C--------------------------------------------------------------
-C     CALCUL DES RIGIDITES DES SEGMENTS 
-C     V16 : DANS LE CAS OU ONE SEGMENT APPARTIENT A LA FOIS
-C           A UNE BRIQUE ET A UNE COQUE ON CHOISIT LA RIGIDITE
-C           DE LA COQUE SAUF SI LE MATERIAU COQUE EST NUL.
+C     CALCULATION OF THE STIFFNESSES OF THE SEGMENTS
+C     V16: IN CASE A SEGMENT BELONGS TO BOTH
+C           A BRICK AND A SHELL, THE STIFFNESS OF THE SHELL IS CHOSEN
+C           OF THE SHELL UNLESS THE SHELL MATERIAL IS NULL.
 C---------------------------------------------------------------
 C      NRT->NRT0
 C---  MVOISN is used temporarily for Pen_ini MVOISN(1,*) -> MTYPE(solid),MVOISN(2,*) -> E_id
@@ -286,7 +286,7 @@ C
         GAPS1=MAX(GAPS1,GAP_S(I))
         GAPS_MN=MIN(GAPS_MN,GAP_S(I))
       ENDDO
-C calcul du surface second. ---
+C calculation of the second surface. ---
       IF(INTTH > 0 ) THEN
         IF(NADMESH==0)THEN
           DO I = 1,NSN    
@@ -383,7 +383,7 @@ C overwrite
         END IF
       END IF
 
-C -----Friction model  SECONDARY nodes parts------
+C ---- FRUCTION Model Secondary Nodes Parts ------
 C-----------if node connects to both shell and solid -> takes shell    
 
       IF(INTFRIC > 0) THEN
@@ -716,7 +716,7 @@ C FACNRTS tab : Facet number in element connectuvty for each SECONDARY segment f
                 ENDDO
 
             ELSEIF(IE <= NUMELS8+NUMELS10+NUMELS20 ) THEN
-!          Not available yet
+!          Not Available Yet
             ENDIF
 
            ENDIF ! IE >0
@@ -823,16 +823,16 @@ C------recalculate GAP_MIN,MAX
         WRITE(IOUT,1500)GAPMN,GAPMX
       END IF
       END IF!(IPRI>=1) THEN
-C SUP DES GAPS VARIABLES
+C REMOVAL OF VARIABLE GAPS
       GAP = GAPS1+GAPS2
 C---------------------------------------------
-C     MISE A ONE DU MULTIPLICATEUR NODALE DES RIGIDITES 
+C     SETTING TO ONE OF THE NODE STIFFNESS MULTIPLIER
 C---------------------------------------------
       DO 610 L=1,NSN
          STFN(L) = ONE
  610  CONTINUE
 C
-C Calcul du gap reel a utiliser lors du critere de retri
+C Calculation of the real gap to use during the retri criterion
 C
       BGAPSMX = ZERO
       GAPINF=EP30
@@ -1735,7 +1735,7 @@ C------------------------------------
 C
        IF(NELS+NELC+NELTG==0)THEN
 
-C      en SPMD il faut un element associe a l'arrete sinon erreur
+C      In SPMD you need an element associated with the edge otherwise error
          IF(NINT>0) THEN
             CALL ANCMSG(MSGID=481,
      .                  MSGTYPE=MSGERROR,
@@ -1787,7 +1787,7 @@ C
      .             I2=NINV)
 C         
 C      IF (IPRI>=5.AND.NREV>0) WRITE (IOUT,1400) NREV,NOINT
-C----due to Cycle       ------- 
+C---- due to cycle ------- 
       DO I=1+NSHIFT,NRT+NSHIFT
        GAP_M(I)=MIN(GAP_M(I),GAPMAX_M)
       END DO
@@ -1826,7 +1826,7 @@ C=======================================================================
       ALLOCATE (LINEIX(2,NLMAX)    ,STAT=stat)
       ALLOCATE (INDEX(2*NLMAX)     ,STAT=stat)
 c---------------------------------------
-c       recherche de toutes les lignes dans la surface
+c       search for all lines on the surface
 c---------------------------------------
         IS = 0
         LL = 0
@@ -1853,7 +1853,7 @@ C
         CALL MY_ORDERS(0,IWORK,LINEIX,INDEX,LL,2)
 
 c---------------------------------------
-c       suppression des lignes doubles
+c       removal of duplicate lines
 c---------------------------------------
         I1M = LINEIX(1,INDEX(1))
         I2M = LINEIX(2,INDEX(1))
@@ -1863,10 +1863,10 @@ c---------------------------------------
           I1 = LINEIX(1,INDEX(L))
           I2 = LINEIX(2,INDEX(L))
           IF(I1M == I2M)THEN
-c triangle on ne fait rien
+c triangle we do nothing
             BOLD=1
           ELSEIF(BOLD == 0)THEN
-c idem precedent on ne fait rien
+c ditto previous we do nothing
             BOLD=1
           ELSEIF(I2 == I2M .and. I1 == I1M)THEN
 c idem suivant pas de bord
@@ -1883,7 +1883,7 @@ c idem suivant pas de bord
         ENDDO
 
         IF(BORD==1)THEN
-c         derniere arrete est un bord
+c         last edge is a border
           TAGB(I1) = 1
           TAGB(I2) = 1
         ENDIF
@@ -2260,7 +2260,7 @@ C---Remove print-out in 0.out file (could be too much)
 C
       NEL=SURF_ELEM(I)
 C-----------------------------------------------
-C     VERIFICATION DE L'ORIENTATION DES SEGMENTS
+C     VERIFICATION OF THE ORIENTATION OF THE SEGMENTS
 C-----------------------------------------------
        XS1=0.
        YS1=0.

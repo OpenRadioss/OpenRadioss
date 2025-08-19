@@ -58,7 +58,7 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
-C     0- CALCUL DU CRITERE POUR SAVOIR SI ON DOIT TRIER OU NON
+C     0- calculation of the criterion to know if we should sort or not
 C
 C
       DO I = 1, 3
@@ -171,7 +171,7 @@ C
         ENDDO
 !$OMP END DO NOWAIT
       ENDIF       
-C dist calcule une fois pour toutes les interfaces dans COMCRIT (ci-dessous)
+C dist calculated once for all interfaces in COMCRIT (below)
 C
       IF(NSPMD==1) THEN
 !$OMP DO SCHEDULE(guided)

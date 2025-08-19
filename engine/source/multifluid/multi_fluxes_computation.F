@@ -179,7 +179,7 @@ C     TRIANGLES
          CALL ARRET(2)
       END SELECT
 
-C     Flux computation
+C     Computation flow
       DO II = 1, NEL
          I = II + NFT
          IAD = ALE_CONNECTIVITY%ee_connect%iad_connect(I)

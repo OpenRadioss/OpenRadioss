@@ -35,7 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      7       ICURV ,IRECT ,NRTM_T,XMINE   ,
      8       YMINE ,ZMINE ,XMAXE ,YMAXE   ,
      9       ZMAXE )
-C sauvegarde des XSAV
+C save XSAV values
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

@@ -101,7 +101,7 @@ C-----------------------------------------------
 C
       NOD_NORMAL(1:3,1:4,1:NRTM) = RZERO
       VTX_BISECTOR(1:3,1:2,1:NADMSR) = RZERO
-C optimisable en spmd si ajout flag pour routine de comm, spmd_exchange_n
+C Optimizable in SPMD If Addition Flag for comm, SPMD_exchange_n
       SOL_EDGE = 0 
       IF(IEDGE/=0) SOL_EDGE =IEDGE/10 ! solids
       IF(SOL_EDGE  /=0)THEN

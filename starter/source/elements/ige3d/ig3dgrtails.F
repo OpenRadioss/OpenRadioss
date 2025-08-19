@@ -95,7 +95,7 @@ C----------------------------------------------------------
       NGR1 = NGROUP + 1
       nullify(MATPARAM)
 C
-C phase 1 : decompostition canonique
+C Phase 1: Canonical decomposition
 C
       IDX=IDX+ND*(NSPMD+1)
       CALL ZEROIN(1,ND*(NSPMD+1),DD_IAD(1,NSPGROUP+1))
@@ -166,8 +166,8 @@ C
         ENDDO
         NFT = NFT + NEL
       ENDDO  
-C phase 2 : bornage en groupe de mvsiz
-C ngroup est global, iparg est global mais organise en fonction de dd
+C Phase 2: MVSIZ Group Bounds
+C ngroup is global, iparg is global but organized according to dd
 C
       DO 300 N=1,ND
        NFT = 0
@@ -250,7 +250,7 @@ C
 C
 c          LBUFEL= IPARG(4,NGROUP)+NE1*
 c     .            (NXVIE+NUVAR+INND*(NXVIN+NUVARN))-1
-C reperage groupe/processeur
+C Group/Processor Splition
           IPARG(32,NGROUP)= P-1
           NFT = NFT + NE1
   220    CONTINUE
@@ -259,7 +259,7 @@ C reperage groupe/processeur
        ENDDO
        LB_L = LBUFEL - LB_L
        LB_MAX = MAX(LB_MAX,LB_L)
-C DD_IAD => nb groupes par sous domaine
+C Dd_iad => nb groups by sub -domain
        NGP(NSPMD+1)=0
        DO P = 1, NSPMD
          NGP(NSPMD+1)=NGP(NSPMD+1)+NGP(P)
@@ -271,9 +271,9 @@ C
 C
       NSPGROUP = NSPGROUP + ND
 C
-C RENUMEROTATION POUR SURFACES
+C renumbering for surfaces
 C
-      DO I=1,NSURF ! mettre un if pour ne pas changer les faces EF classiques
+      DO I=1,NSURF ! add an if to not change the classic ef faces
         NN=IGRSURF(I)%NSEG_IGE
         DO J=1,NN
           IF(IGRSURF(I)%ELTYP_IGE(J) == 101)

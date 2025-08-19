@@ -630,7 +630,7 @@ C-----------------------------------------------
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*
 !       INDX_xxx : integer ; dimension=NUMELxxx ; index for the surface
 !                  of the remote connected element
-!       FACE_ELM_xxx : integer ; dimension=(6/4/3*NUMELxxx,2) ; surface
+!       Face_elm_xxx: Integer;Dimension = (6/4/3*NUMELXXX, 2);surface
 !                  of the remote connected element
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*
         TYPE(t_ebcs_tab), INTENT(INOUT) :: EBCS_TAB
@@ -846,7 +846,7 @@ C--------------------------------------------
       ISP0 = 0
       IF(P==1) ISP0 = 1
 C--------------------------------------------
-C Init Frontiere LAG MULT
+C Init boundary Lag Mult
 C--------------------------------------------
       DO PROC = 1, NSPMD+1
        DD_LAGF(1,PROC) = 0
@@ -1121,7 +1121,7 @@ C--------------------------------------
          ENDIF
       ENDIF
 C--------------------------------------
-c count buffer subset, groups, surfaces, lines
+c Count Buffer Subset, Groups, Surfaces, Lines
 C--------------------------------------
       LENIGRNOD_L = 0
       LENIGRBRIC_L = 0
@@ -1172,7 +1172,7 @@ c      stop CPU timer for IPARI_L_INI
       ENDIF
 
 C--------------------------------------------
-C count nodes RW
+C Count Nodes RW
 C--------------------------------------------
       NSLAW_L  = 0
       NESLAW_L = 0
@@ -1195,7 +1195,7 @@ C--------------------------------------------
      +  CALL C_MAD(IEXMAD,NMADSH4_L,NMADSH3_L,NMADSOL_L,NMADNOD_L,
      +             MADCL_NMADNOD_L,CEP      ,P-1      )
 C--------------------------------------------
-C count Nodes RBY
+C Count nodes rby
 C--------------------------------------------
       NSLARB_L = 0
       NSKYRBK_L = 0
@@ -1219,7 +1219,7 @@ C--------------------------------------------
      +  CALL C_SECTIO(NSTRF    ,CEP    ,P-1,NSTRF_L,
      +                LSECBUF_L,NNODT_L,NNODL_L)
 C--------------------------------------------
-C count Joints Cylindriques : already done
+C Count cylindrical joints: Already Done
 C--------------------------------------------
       LJOINT_L = 0
       IF(JOINT_SMS) THEN
@@ -1233,7 +1233,7 @@ C--------------------------------------------
         CALL C_PORO(PORNOD,P-1,NUMPOR_L,GEO)
       ENDIF
 C--------------------------------------------
-C count Buffer Element
+C Buffer element
 C--------------------------------------------
       CALL C_BUFEL(IPARG,P-1,LBUFEL_L)
 C--------------------------------------------
@@ -1501,7 +1501,7 @@ C--------------------------------------------
         CALL C_SEGQUADFR(SEGQUADFR, CEP, P-1, CEL, NSEGQUADFR_L)
       ENDIF
 C--------------------------------------
-C counts flux convec
+C Convec flow courses
 C--------------------------------------
       NCONV_L = 0
       IF (GLOB_THERM%NUMCONV > 0)
@@ -1525,13 +1525,13 @@ C--------------------------------------
       IF (GLOB_THERM%NFXTEMP > 0)
      .  CALL C_IBFT(IBFT,GLOB_THERM%NFXTEMP,NFXTEMP_L,P-1,DD_LAGF,GLOB_THERM%NIFT)
 C--------------------------------------
-C count Lagrange multiplier
+C Count Lagrange Multiply
 C--------------------------------------
       LAG_SEC=0
       IF(LAG_NCF+LAG_NCL > 0)
      .  CALL C_LAG(IPARI,NPRW,LAG_SEC)
 C--------------------------------------------
-C count Elements PLY X-FEM type SHEL 4-N
+C Count Ply X-FEM Type SHEL 4-N
 C--------------------------------------------
        NUMELCPXFE_L = 0
        NUMNODPXFE_L = 0
@@ -1718,7 +1718,7 @@ C--------------------------------------------
       FILNAM = ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_'//PROCNAM//'.rst'
       TMP_NAME = OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:LEN_TRIM(FILNAM))
       LEN_TMP_NAME = OUTFILE_NAME_LEN+ROOTLEN+14
-C fichier de restart au format binaire ieee 64 bits
+C Restart file in binary format ieee 64 bits
       DO I=1,LEN_TMP_NAME
           IFILNAM(I)=ICHAR(TMP_NAME(I:I))
       ENDDO
@@ -2044,7 +2044,7 @@ C--------------------------------------
         CALL W_GJOINT(GJBUFI,NGJOINT,LKJNI,NODLOCAL,LEN_IA)
       END IF
 C--------------------------------------
-C NALE et voisin ALE
+C NALE and ALE neighbor
 C--------------------------------------
       IF(IALE+IEULER+GLOB_THERM%ITHERM+IALELAG > 0) THEN
         IF(IALE+IEULER+IALELAG/=0)
@@ -2382,7 +2382,7 @@ c       stop CPU timer for INTBUF_INI
         CALL STOPTIME(6,1)
 
         IF (I22LEN_L>0)THEN
-          !init tableau de 0
+          !initialize table to 0
           CALL W_BUFBRIC_22()
         ENDIF
 
@@ -2404,7 +2404,7 @@ c       stop CPU timer for SPLIT_INTERFACES
       ENDIF
 
 C--------------------------------------
-C RW et RW ALE
+C RW and RW ALE
 C--------------------------------------
       IF(NRWALL > 0)
      +  CALL W_RWALL(NPRW    ,LPRW    ,RWL   ,
@@ -2456,7 +2456,7 @@ C--------------------------------------------
 C Airbags
 C--------------------------------------------
       IF(NVOLU>0)THEN
-C        LENVOLU = NIMV*NVOLU+LICBAG+LIBAGJET+LIBAGHOL+LIBAGALE
+C        Lenvolu = NIMV*NVOLU+LICBAG+LIBAGJET+LIBAGHOL+LIBAGALE
         CALL W_MONVOL(MONVOL,LENVOLU,NODLOCAL,LEN_IA,MONVOL_L,ITAB,T_MONVOL,P)
       ENDIF
 C--------------------------------------------
@@ -2504,7 +2504,7 @@ C--------------------------------------------
        ENDIF
 
 C--------------------------------------
-C Frontieres SPMD
+C SPMD boundarys
 C--------------------------------------
       NUMEL = MAX(NUMELS,NUMELQ)
       NUMEL_L2 = MAX(NUMELS_L,NUMELQ_L)
@@ -2639,7 +2639,7 @@ C--------------------------------------
           CALL INTFRIC_WRESTI(INTBUF_FRIC_TAB,NINTERFRIC)
        ENDIF
 C--------------------------------------
-C structure tables (integer part)
+C Table structure (Integer Part)
 C--------------------------------------
       IF(NTABLE /= 0)THEN
         CALL TABLE_WRESTI(TABLE, LTABLE)
@@ -2760,7 +2760,7 @@ C--------------------------------------------
         ENDIF  
       ENDIF
 C--------------------------------------------
-C Mass et Inertia
+C Mass and Inertia
 C--------------------------------------------
       CALL W_RNLOC(MS,NODGLOB,NUMNOD_L,LEN_AM)
 
@@ -2797,7 +2797,7 @@ C--------------------------------------
       CALL WRITE_ELGROUP_PARAM(GROUP_PARAM_TAB,IPARG,P-1,NGROUP_L,LEN)
       LEN_AM = LEN_AM + LEN
 C--------------------------------------------
-C Skew et Frames
+C Skew and Frames
 C--------------------------------------------
       CALL WRITE_DB(SKEW,LSKEW*(NUMSKW+1))
       LEN_AM = LEN_AM + LSKEW*(NUMSKW+1)
@@ -2850,7 +2850,7 @@ C In BUFGEO is a double precision Buffer, even in Single Precision
       LEN_AM = LEN_AM + LBUFGEO
       CALL WRITE_DB(BUFSF ,LBUFSF )
       LEN_AM = LEN_AM + LBUFSF
-C LAG options
+C Lag Options
       IF(NUMMPC>0.AND.P==1)THEN
         CALL WRITE_DB(BRMPC,LMPC)
         LEN_AM = LEN_AM + LMPC
@@ -3054,7 +3054,7 @@ c------------------
         ENDDO
       ENDIF
 C--------------------------------------------
-C Element Clusters
+C clusters
 C--------------------------------------------
       IF (NCLUSTER > 0) CALL W_CLUSTER(CLUSTERS,
      .                                 IPARG,NODLOCAL,
@@ -3062,7 +3062,7 @@ C--------------------------------------------
      .                                 NUMLOCGROUP,
      .                                 LEN_IA,LEN_AM)
 C--------------------------------------------
-C RWALL et RWALL ALE
+C RWALL and RWALL ALE
 C--------------------------------------------
       CALL W_RWAR(NPRW,LPRW ,RWL, RWSAV,
      +            LWSAV_L,CEP,P-1,LEN_AM)
@@ -3329,7 +3329,7 @@ C ALEBAG
 C-----------------------------------------------
       CALL FVWRESTP(P)
 C-----------------------------------------------
-C thermique des coques + solides
+C thermal of shells + solids
 C-----------------------------------------------
         IF(GLOB_THERM%ITHERM_FE > 0  ) THEN
           CALL W_RNLOC(MCP,NODGLOB,NUMNOD_L,LEN_AM)
@@ -3528,7 +3528,7 @@ C  for foam+air
           CALL W_ALELAG(DFLOW,VFLOW,WFLOW,NODGLOB,NUMNOD_L,LEN_AM)
        ENDIF
 C--------------------------------------------
-C TH Groupes
+C Th groups
 C--------------------------------------------
        IF(LENTHGR > 0) THEN
          CALL WRITE_DB(RTHBUF,LENTHGR)

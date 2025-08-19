@@ -255,7 +255,7 @@ C     rot matrix (eigenvectors)
         ENDDO
       ENDIF
 C-----------------------------------------------
-C  Calcul de la tempurature. (conduction ou adiabatique)
+C  calculation of the temperature (conduction or adiabatic)
 C--------------------    
       IF (JTHE == 0) THEN
         DO I=1,NEL
@@ -460,7 +460,7 @@ c
            ! loading function
            FS(I) = SV(I) + THREE*ALPHA*P11(I) - CAS*TEMP(I) ! loading function A--> M
            !----------------------
-           !Check Austenite -----> martensite  (dependance tempurature a voir ...)
+           !Check Austenite -----> Martensite (Depending Temperature to see ...)
            FASS = FS(I) -RSAS 
            FASF = FS(I) -RFAS 
            FS0 = UVAR(I,2)

@@ -271,7 +271,7 @@ C--
      .                        BID4   ,BID4   ,BID4   ,STIFMR ,BETAX   ,
      .                        BETAY)
           ELSE
-C--           moment balance
+C- Balance moment
               CALL I2LOCEQ_27(NIR    ,RS     ,RX     ,RY     ,RZ      ,
      .                        BID4   ,BID4   ,BID4   ,H      ,STIFM   ,
      .                        BID4   ,BID4   ,BID4   ,STIFMR ,BETAX   ,

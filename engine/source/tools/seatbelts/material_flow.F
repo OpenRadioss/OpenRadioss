@@ -898,7 +898,7 @@ C-----------------------------------------------
 C
 C      Computation of Dl0 for locked retractor
 C
-C--    equation 1 -> l0 > lmin
+C-Equation 1 -> L0> LMIN
       IF (L0 > EM05) THEN
        AA = ALPHA
        BB = ALPHA*L0+BETA+XK*L/L0-FB
@@ -918,7 +918,7 @@ C--      computation will be done by equation 2
        ENDIF
 C
        IF (L0 +  DELTA_LO < LMIN) THEN
-C--      equation 2 -> l0 < lmin
+C-Equation 2 -> L0 <LMIN
          BETA = BETA -FB + XK*(L-L0)/MAX(LMIN,L0)
          LMIN = MAX(LMIN,L0)
          BB = ALPHA*LMIN + XK

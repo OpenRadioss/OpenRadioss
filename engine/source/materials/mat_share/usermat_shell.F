@@ -510,7 +510,7 @@ C
             WMC(1:NEL) = ZZ(1:NEL)*THLY(1:NEL)
           ENDIF
 C-------------------------------
-C         INCREMENT DE DEFORMATIONS 
+C         increment of deformations
 C-------------------------------
           SIGNXX(1:MVSIZ) = ZERO
           SIGNYY(1:MVSIZ) = ZERO
@@ -712,7 +712,7 @@ C------------------------------------------
               ! ----------------
 !!!
             ENDIF
-! recopie EINT_LOC en EINT (du buffer)
+! EINT_LOC REPOPY IN EINT (Buffer)
             DO I=JFT,JLT
               EINT(I,1) = EINT_LOC(1,I)
               EINT(I,2) = EINT_LOC(2,I)
@@ -778,7 +778,7 @@ C------------------------------------------
               ! ----------------
 !!!
             ENDIF
-! recopie EINT_LOC en EINT (du buffer)
+! EINT_LOC REPOPY IN EINT (Buffer)
             DO I=JFT,JLT
               EINT(I,1) = EINT_LOC(1,I)
               EINT(I,2) = EINT_LOC(2,I)
@@ -844,7 +844,7 @@ C------------------------------------------
               ! ----------------
 !!!
             ENDIF
-! recopie EINT_LOC en EINT (du buffer)
+! EINT_LOC REPOPY IN EINT (Buffer)
             DO I=JFT,JLT
               EINT(I,1) = EINT_LOC(1,I)
               EINT(I,2) = EINT_LOC(2,I)
@@ -863,7 +863,7 @@ C------------------------------------------
 c---------------------------------
           ELSEIF (ILAW == 99) THEN
 c---------------------------------         
-C          chrgt de la structure
+C          Load structure
           
 C
 ! copie EINT (du buffer) en local (EINT_LOC) + COPY_PLA
@@ -1100,7 +1100,7 @@ C
               IF (JTHE == 0) EL_TEMP = USERBUF%TEMP ! otherwise it's read only in user law
             ENDIF
 c
-! recopie EINT_LOC en EINT (du buffer)
+! EINT_LOC REPOPY IN EINT (Buffer)
             DO I=JFT,JLT
               EINT(I,1) = EINT_LOC(1,I)
               EINT(I,2) = EINT_LOC(2,I)
@@ -1159,7 +1159,7 @@ C
      *                            SIGVYZ  , SIGVZX  ,DPLA,
      *                            ADDITIONAL_FLT_PARAMETERS,ADDITIONAL_INT_PARAMETERS)
 !
- ! recopie EINT_LOC en EINT (du buffer)
+ ! EINT_LOC REPOPY IN EINT (Buffer)
             DO I=JFT,JLT
               EINT(I,1) = EINT_LOC(1,I)
               EINT(I,2) = EINT_LOC(2,I)
@@ -1970,7 +1970,7 @@ C-------------------------------------
         IPT_ALL = IPT_ALL + NPTT
       ENDDO  !  DO ILAY =1,NLAY
 c--------------------------------------------------
-c     FIN DE BOUCLE SUR POINTS INTEGRATION (LAYERS)
+c     end of loop on integration points (layers)
 c--------------------------------------------------
 c     TEST OF ELEMENT FAILURE 
 c--------------------------------------------------
@@ -2011,7 +2011,7 @@ c---
       IF (IXFEM == 0) THEN
         DO I=JFT,JLT
           IF (OFF(I) == FOUR_OVER_5 .and. IOFF_DUCT(I) == 0 .or.   ! rupture /fail
-     .        OFF(I) > ZERO   .and. OFF_OLD(I) < EM01 .or.   ! rupture progressive law 2,22,25
+     .        OFF(I) > ZERO   .and. OFF_OLD(I) < EM01 .or.   ! progressive rupture Law 2,22,25
      .        OFF(I) > ZERO   .and. OFF(I) < ONE .and. DMG_FLAG == 1 .and. 
      .        DMG_GLOB_SCALE(I) < EM02) THEN  
             OFF(I) = ZERO
@@ -2032,7 +2032,7 @@ c--------------------------------------------------------
         ENDIF
       ENDDO 
 c------------------------------------------------------------------
-C     VISCOSITE DE MEMBRANE
+C     membrane viscosity
 C---------------------------                                              
       IF (IGTYP == 11 .AND. IGMAT > 0) THEN
         IPGMAT = 700

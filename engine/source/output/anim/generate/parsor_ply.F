@@ -105,7 +105,7 @@ C-----------------------------------------------
         IE_EL2FA=0
         NPAR = 0
 C
-C en spmd il faut envoyer l'info meme qd on a 0 elem local
+C In SPMD you must send the info even qd we have 0 local elem
          DO 490 NG=1,NGROUP
           MTN   =IPARG(1,NG)
           NEL   =IPARG(2,NG)
@@ -175,7 +175,7 @@ C
       ENDDO
 
       IF (NSPMD > 1) THEN
-C   construction tableau global des parts sur p0
+C   build global part array on proc 0
 
         IF (ISPMD==0) THEN
          CALL SPMD_IGLOB_PARTN(IADPLY,NPLYPART,IADPLYG,NPLYPART)

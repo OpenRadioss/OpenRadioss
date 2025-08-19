@@ -112,12 +112,12 @@ C      INTEGER :: TAG_EL(NBCUT_MAX)
       INTEGER :: HULL_PT, HULL_IDX(24)
       INTEGER :: NP_INTER, NP_LAG, NP_SURF, NODE_NUM,brickID, ListP(4), NBCUT_ADD
       my_real :: NODE_XY(2,24), NODE_XYZ(3,24), PS, MARGE
-      my_real :: DIST_PCUT(NBCUT_MAX, 4,I_STOK)  !2 PCUT, 4 POINTS, NCANDE couples
+      my_real :: DIST_PCUT(NBCUT_MAX, 4,I_STOK)  !2 pcuts, 4 points, ncande couples
       my_real :: DMIN
       my_real :: NORMAL(3), BASIS(3), PH(3,NBCUT_MAX,4),P(3,4),  A,B,C,D , A2,B2,C2 ,A2B2, L2, DIST(4), PPh(3,4)
       my_real :: distance(4), edge(4), Area_tria(4)
       my_real :: SH(3,NBCUT_MAX,8), S(3,8)
-      my_real :: SCUT_Pts(3,6) !Scut points
+      my_real :: SCUT_Pts(3,6) !Scut Points
       my_real :: K1(2),K2(2),K3(2),K4(2)
       my_real :: POINT(3),RATIO,COG3,P_Grav(3,NBCUT_MAX,MVSIZ),ss2(4), s2, Sel(MVSIZ)
       my_real
@@ -135,7 +135,7 @@ C      INTEGER :: TAG_EL(NBCUT_MAX)
      .     NNZ1(MVSIZ), NNZ2(MVSIZ), NNZ3(MVSIZ), NNZ4(MVSIZ)
       my_real
      .     VAL1,VAL2,VAL3, V1(3), V2(3), V3(3), M(3,3,NBCUT_MAX),VEC(3), ! basis vector for each intersectionp plane
-     .     POSj, POS, VAL,        !position sur le segment : produit scalaire non normalise
+     .     POSj, POS, VAL,        !position on the segment: unnormalized dot product
      .     InterP(2), WET_RATIO(0:4), Z(3), Stria(4),  Dsum, NumGrav, Pgrav(3),
      .     Cumul_VAL1, Cumul_VAL2
 
@@ -157,7 +157,7 @@ C      INTEGER :: TAG_EL(NBCUT_MAX)
       
 !      INTEGER IDX(7,6)
       INTEGER IAD1,ILAG0,ISCUT0,ILAGk,ISCUTk,IIB,NTRIA,
-     .        JPOS(6) !index des poitsions non nulles sur IADD(id_lagrangian_edge,:)
+     .        JPOS(6) !index of nonzero positions on iadd(id_lagrangian_edge,:)
     
       TYPE(POLYGON) :: PolySCUT, PolyTria(4), POLYresult
      
@@ -279,7 +279,7 @@ C--------------------------------------------------------
         ENDIF
        ENDDO
 C--------------------------------------------------------
-C  CALCUL DES NORMALES SUR LES FACETTES LAGRANGIENNE
+C  calculation of normals on lagrangian facets
 C--------------------------------------------------------
 C
        DO I=1,JLT
@@ -403,7 +403,7 @@ C--------------------------------------------------------
 C--------------------------------------------------------
 c      DO I=1,JLT
 c        IF(IX3(I)/=IX4(I))THEN
-c          !moyenne issue des 4 triangles
+c          ! Average from the 4 triangles
 c          NX1(I)  = FOURTH*(NNX1(I)+NNX2(I)+NNX3(I)+NNX4(I))
 c          NY1(I)  = FOURTH*(NNY1(I)+NNY2(I)+NNY3(I)+NNY4(I))          
 c          NZ1(I)  = FOURTH*(NNZ1(I)+NNZ2(I)+NNZ3(I)+NNZ4(I))          
@@ -422,12 +422,12 @@ c      ENDDO
 !          write (*,FMT='(A,I10)')              "    N_CAND_E       =",NCANDE           
 !          write (*,FMT='(A,I10)')              "    #COUPLES       =",I_STOK        
 !          write (*,FMT='(A,I10)')              "    NB             =",NB     
-!        do I=1, JLT ! en bouclant sur NB il faut utiliser les tableaux globaux (moins performant, mais cest pour le post/debug)
+!        Do I = 1, JLT!By curling on NB you must use global tables (less efficient, but it is for post/debug)
 !          IB  = CB_LOC(I)
 !          IFT = BRICK_LIST(NIN,IB)%Seg_add_LFT
 !          ILT = BRICK_LIST(NIN,IB)%Seg_add_LLT
 !          ILT = MIN(ILT, JLT) !boucle MVSIZ
-!!          IF(ILT<IFT)CYCLE  !on boucle ici sur les brique pas sur les candidats ne devrait pas arriver
+!if(ilt<ift)cycle  !looping here on bricks not on candidates, should not happen
 !          
 !          !IFT : [1,NBRIC] |-> 1st    :si =I_stok alors pas candidate
 !          !ILT : [1,NBRIC] |-> last   :si =0      alors idem
@@ -472,7 +472,7 @@ c      ENDDO
 
       DO I=1,JLT 
 C--------------------------------------------------------
-       !PROJECTION DES NOEUDS SUR LE PLAN DE COUPE
+       !projection of nodes onto the cutting plane
 C--------------------------------------------------------      
         IB                      = CB_LOC(I)                                       
         IFT                     = BRICK_LIST(NIN,IB)%Seg_add_LFT                                                  
@@ -491,7 +491,7 @@ C--------------------------------------------------------
           NORMAL(1:3)           =  BRICK_LIST(NIN,IB)%PCUT(ICUT)%N(1:3)                                        
           BASIS(1:3)            =  BRICK_LIST(NIN,IB)%PCUT(ICUT)%B(1:3)                                      
           N_SCUT(1:3,ICUT,I)    =  NORMAL(1:3)                                                                
-          !(/a,b,c,d/) = (/ NORMAL(1:3), -NORMAL(1:3)*BASIS(1:3) /)  !Equation du plan de section (Pcut)   
+          !(/a, b, c, d/) = (/normal (1: 3), -normal (1: 3)*Basis (1: 3)/)! Equation of the section plan (PCUT)   
           a                     = NORMAL(1)                                                                                   
           b                     = NORMAL(2)                                                                                   
           c                     = NORMAL(3)                                                                                   
@@ -534,7 +534,7 @@ C--------------------------------------------------------
           NORMAL(1:3)           =  BRICK_LIST(NIN,IB)%PCUT(ICUT)%N(1:3)                                        
           BASIS(1:3)            =  BRICK_LIST(NIN,IB)%PCUT(ICUT)%B(1:3)                                      
           N_SCUT(1:3,ICUT,I)    =  NORMAL(1:3)                                                                  
-          !(/a,b,c,d/) = (/ NORMAL(1:3), -NORMAL(1:3)*BASIS(1:3) /)  !Equation du plan de section (Pcut)   
+          !(/a, b, c, d/) = (/normal (1: 3), -normal (1: 3)*Basis (1: 3)/)! Equation of the section plan (PCUT)   
           a                     = NORMAL(1)                                                                 
           b                     = NORMAL(2)                                                                 
           c                     = NORMAL(3)                                                                 
@@ -596,7 +596,7 @@ C            ENDDO!next ICUT
 C          ENDDO !next J                            
 C        ENDIF!(NBCUT_ADD > 0)
 
-        !TAG DES ELEMENTS LAGRANGIENS                                                                           
+        !tag of lagrangian elements
 C        TAG_EL(1:NBCUT_MAX) = 0  
 C        IF(NBCUT>0)THEN                                                                                  
 C          DO ICUT=1,NBCUT                                                                                                                                                     
@@ -616,7 +616,7 @@ C       ENDIF
                                                                              
        
 C--------------------------------------------------------
-       !INJECTION DANS LESPACE PROPRE DU PLAN DE PROJECTION (IE PLAN DINTERSECTION) 
+       !injection into the proper space of the projection plane (i.e. intersection plane)
 C-------------------------------------------------------- 
 
         !DIM = 2
@@ -659,7 +659,7 @@ C          if(TAG_EL(ICUT)==0)CYCLE
           V3                 = NORMAL / SQRT(SUM(NORMAL*NORMAL)) 
           !BASIS SWITCH
           !third direction is Pcut normal
-          !matrice de changement de base
+          !change of basis matrix
           M(1:3,1,ICUT)      = V1
           M(1:3,2,ICUT)      = V2
           M(1:3,3,ICUT)      = V3
@@ -669,8 +669,8 @@ C          if(TAG_EL(ICUT)==0)CYCLE
             write (*,FMT='(A,F20.10,A1,F20.10,A1,F20.10)')"     V2=", V2(1),",",V2(2),",",V2(3)
             write (*,FMT='(A,F20.10,A1,F20.10,A1,F20.10)')"     V3=", V3(1),",",V3(2),",",V3(3)        
           endif  
-          !nouvelles coordonnees dans le plan de projection (dim=2)
-          !Inutile dinverser la matrice car elle est orthogonale
+          !new coordinates in the projection plane (dim=2)
+          !no need to invert the matrix because it is orthogonal
           DO J=1,4
             VAL1             = M(1,1,ICUT)*Ph(1,ICUT,J) + M(2,1,ICUT)*Ph(2,ICUT,J) + M(3,1,ICUT)*Ph(3,ICUT,J)
             VAL2             = M(1,2,ICUT)*Ph(1,ICUT,J) + M(2,2,ICUT)*Ph(2,ICUT,J) + M(3,2,ICUT)*Ph(3,ICUT,J)
@@ -731,7 +731,7 @@ C            if(TAG_EL(ICUT)==0)CYCLE
             V3                 = NORMAL / SQRT(SUM(NORMAL*NORMAL)) 
             !BASIS SWITCH
             !third direction is Pcut normal
-            !matrice de changement de base
+            !change of basis matrix
             M(1:3,1,ICUT)      = V1
             M(1:3,2,ICUT)      = V2
             M(1:3,3,ICUT)      = V3
@@ -741,8 +741,8 @@ C            if(TAG_EL(ICUT)==0)CYCLE
               write (*,FMT='(A,F20.10,A1,F20.10,A1,F20.10)')"     V2=", V2(1),",",V2(2),",",V2(3)
               write (*,FMT='(A,F20.10,A1,F20.10,A1,F20.10)')"     V3=", V3(1),",",V3(2),",",V3(3)        
             endif  
-            !nouvelles coordonnees dans le plan de projection (dim=2)
-            !Inutile dinverser la matrice car elle est orthogonale
+            !new coordinates in the projection plane (dim=2)
+            !no need to invert the matrix because it is orthogonal
             DO J=1,4
               VAL1             = M(1,1,ICUT)*Ph(1,ICUT,J) + M(2,1,ICUT)*Ph(2,ICUT,J) + M(3,1,ICUT)*Ph(3,ICUT,J)
               VAL2             = M(1,2,ICUT)*Ph(1,ICUT,J) + M(2,2,ICUT)*Ph(2,ICUT,J) + M(3,2,ICUT)*Ph(3,ICUT,J)
@@ -1359,9 +1359,9 @@ C           write (*,FMT='(A,4E30.16,A,I2,A,I6)')  "delta= ", delta(1:4,ICUT,I),
                      
 C--------------------------------------------------------     
 C COMMENTAIRES
-C  -2- Dans le cas ou NBCUT > 1 (SCUT non connexe) il faut traiter les elements qui nont pas de projection directed mais sont dans la continuite de la surface.(celle ci a en general une partie connexe dans lelement voisin)
-C      Solution : etendre SCUT par continuite en fermant la facette
-C      (Inutile si taille de maille similaire entre lagrane et euler : example SMAES ciculaire)
+C  -2- in the case where nbcut > 1 (scut not connected) need to handle elements that do not have a directed projection but are in the continuity of the surface (generally there is a connected part in the neighboring element)
+C      solution: extend scut by continuity by closing the facet
+C      (Useless if similar mesh size between Lagrane and Euler: Cicular Smaes)
 C--------------------------------------------------------     
       
             

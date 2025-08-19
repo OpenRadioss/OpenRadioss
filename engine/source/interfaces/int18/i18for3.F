@@ -693,12 +693,12 @@ C---------------------------------
        !FZI(I)=ZERO
       ENDDO    
                    
-      !SPMD : identification des noeuds interf. utiles a envoyer
+      !SPMD: Identification of interf nodes.useful to send
       IF (NSPMD > 1) THEN
         DO I = 1,JLT
           NN = NSVG(I)
           IF(NN<0)THEN
-            ! tag temporaire de NSVFI a -
+            ! temporary tag of nsvfi a -
             NSVFI(NIN)%P(-NN) = -ABS(NSVFI(NIN)%P(-NN))
           ENDIF
         ENDDO

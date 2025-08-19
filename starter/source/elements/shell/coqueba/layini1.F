@@ -384,7 +384,7 @@ c         stack addresses
                            MATLY(JMLY) = MAT_LY(I)    ! layer defined                 
                        ENDDO  
                     ELSE ! IE > 0
-                !!calcul automatique de position des NPTT dans les couches --- 
+                !automatic calculation of nptt positions in the layers
                         IP = DRAPE(IE)%INDX_PLY(ILAY)
                         IF(IP > 0) THEN
                            DRAPE_PLY => DRAPE(IE)%DRAPE_PLY(IP)

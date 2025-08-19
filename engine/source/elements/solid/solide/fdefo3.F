@@ -251,7 +251,7 @@ C
         WZZ(I)=AAA*WZZ(I) + BBB*VZR(I)
        ENDDO
       ENDIF
-C pour le calcul du pas du temps      
+C for the calculation of the time step
       DO I=1, NEL
         DD(I) = - DXX(I)- DYY(I) - DZZ(I) 
       ENDDO  

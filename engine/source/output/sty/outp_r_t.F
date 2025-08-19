@@ -463,7 +463,7 @@ c
               ENDIF ! igtyp          
             ENDDO  ! do while
           ENDIF   ! jj_old>0
-        ENDDO   ! nn=1,nspgroup
+        ENDDO   ! nn = 1, nspgroup
       ENDIF   ! ispmd=0
 C---
       RETURN

@@ -222,7 +222,7 @@ C
         ENDDO
       END DO !NG =1,NPG
 C-------------------------------------------------
-C        constant part PX2=-PX1
+C        Constant Part PX2 = -PX1
 C-------------------------------------------------
         DO I=JFT,JLT
           C2=THK(I)*SRZM(I)*ONE_OVER_6

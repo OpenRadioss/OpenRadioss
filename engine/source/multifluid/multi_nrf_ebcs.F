@@ -224,7 +224,7 @@ C     VE formulation
             EBCS%vold(IELEM) = Vnew
             
             IF(MACH >= ONE .AND. Vnew > ZERO)THEN
-              !vitesse sortante supersonique : etat = etat voisin
+              !outgoing supersonic velocity: State = Neighboring State
               PP = Pvois
             ELSE
               RHOC2 = RHOJJ*SSPII*SSPII 

@@ -73,7 +73,7 @@ c
       DO NG = 1,NGROUP
 c
         ! Group parameters
-        ITY   = IPARG(5,NG)         ! -> Element type 
+        ITY   = IPARG(5,NG)         ! -> Type element 
         IGTYP = ELBUF_STR(NG)%IGTYP ! -> Property type 
         NLAY  = ELBUF_STR(NG)%NLAY  ! -> Number of layers
         MLW   = IPARG(1,NG)         ! -> Material law type

@@ -74,7 +74,7 @@ C=======================================================================
       ITG1 = 1+NUMELC
       ITG2 = 1+4*ECRKXFEC
 C-----------------------------------------------
-C Boucle parallele dynamique SMP
+C SMP dynamic parallel loop
 !$OMP DO SCHEDULE(DYNAMIC,1)
         DO IG = 1, NGROUC
           NG = IGROUC(IG)
@@ -108,7 +108,7 @@ C---
         ENDDO
 !$OMP END DO
 C-----------------------------------------------
-C Boucle parallele dynamique SMP
+C SMP dynamic parallel loop
 !$OMP DO SCHEDULE(DYNAMIC,1)
         DO IG = 1, NGROUC
           NG = IGROUC(IG)

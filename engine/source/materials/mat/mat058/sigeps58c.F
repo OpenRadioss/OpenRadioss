@@ -284,7 +284,7 @@ c
         IF (KBC == ZERO) THEN 
           CCL = EP30 
         ELSE
-          CCL = KC / KBC ! condition pour derivee nulle 
+          CCL = KC / KBC ! Condition for derivee zero 
         ENDIF
 
         IF (KBT == ZERO) THEN
@@ -313,7 +313,7 @@ c
           CVIST(I) = SQRT(MASS*KFT0)*DTINV*THIRD
         ENDDO
 
-C---  integration des deformations
+C--- integration of deformations
 #include "vectorize.inc"
         DO  J=1,NINDX
           I=INDEX(J)
@@ -344,7 +344,7 @@ c---      uncoupled model  (compression of fiber)
           DYC = ZERO
           DYT = ZERO
           DO ITER = 1, NITER
-            HC  = HC0 + YC(I)  !longueur ressort
+            HC  = HC0 + YC(I)  !spring
             HT  = HT0 + YT(I)     
             DC  = SQRT(LC(I)*LC(I) + HC*HC) ! long fibre  
             DT  = SQRT(LT(I)*LT(I) + HT*HT)   
@@ -358,7 +358,7 @@ c---      uncoupled model  (compression of fiber)
               FC = YFAC(1)*FINTER(KFUNC(1),DCC,NPF,TF,FPC)
               FPC = FPC *YFAC(1)
               KC = FPC
-              KFC = FLEX1*FPC*HC0/DC0  ! rigidite de flexion
+              KFC = FLEX1*FPC*HC0/DC0  ! bending stiffness
               IF(KFC == ZERO)KFC=KFC0
               FPC = FPC*HDC
             ELSEIF (DCC >= CCL ) THEN 
@@ -503,7 +503,7 @@ C------------------------------------------------------------------
           ET2 = MAX(TRACE / (ET(I) + ONE), EM6)
           RFAC = NC / EC2
           RFAT = NT / ET2
-C---      contraintes membrane       
+C--- Membrane constraints       
           SIGC = FC * LC(I) / DC
           SIGT = FT * LT(I) / DT
           SIGNXX(I) = SIGC * RFAC
@@ -513,7 +513,7 @@ c
           UVAR(I,2)  = SIGT
           UVAR(I,15) = DC
           UVAR(I,16) = DT
-C---      contraintes cisaillement      
+C--- Shear stresses      
 C------------------------------------------------------------------
 C------------------------------------------------------------------
 c++++++++++
@@ -538,14 +538,14 @@ c++++++++++
             SIGNXY(I) = G0*TAN_PHI(I) - SIG0
             KG        = G0*TAN2
           ENDIF
-C---      contraintes visc fibres   
+C--- Visc fibers constraints   
           DTINV = TIMESTEP(I)/MAX(TIMESTEP(I)*TIMESTEP(I),EM20)
           DAMP  = SQRT(RHO0(I)*AREA(I)*THKLY(I)*HALF)
           V1 = VISCE*DAMP*SQRT(NC*KC)
           V2 = VISCE*DAMP*SQRT(NT*KT)
           SIGVXX(I) = DTINV*(DEPSXX(I))*V1
           SIGVYY(I) = DTINV*(DEPSYY(I))*V2
-C---      contraintes frottement cisaillement  
+C--- Cisae friction constraints  
           IF (FN(I) > ZERO) THEN
             TFROT = TWO_THIRD*VISCG*FN(I)*(HC0+HT0)/(LC(I)+LT(I))
             DTANG(I) = DEPSXY(I) - TAN_PHI(I)
@@ -617,7 +617,7 @@ c
         YT(I)    = UVAR(I,8)  
         TFOLD(I) = UVAR(I,9)  
        ENDDO
-C---  integration des deformations
+C--- integration of deformations
 #include "vectorize.inc"
       DO  J=1,NINDX
         I=INDEX(J)
@@ -651,7 +651,7 @@ C---  integration des deformations
         I=INDEX(J)
         FN(I) = ZERO
 c---    uncoupled model  (compression of fiber)         
-        HC  = HC0 + YC(I)  !longueur ressort           
+        HC  = HC0 + YC(I)  !spring           
         HT  = HT0 + YT(I)                              
         DC  = SQRT(LC(I)*LC(I) + HC*HC) ! long fibre   
         DT  = SQRT(LT(I)*LT(I) + HT*HT)                
@@ -664,7 +664,7 @@ c---    uncoupled model  (compression of fiber)
      .       (DDEC >=ZERO .AND. UVAR(I,17)==UVAR(I,18)) ) THEN     
            !----------------------LOAD
            DO ITER = 1, NITER           
-            HC  = HC0 + YC(I)  !longueur ressort   
+            HC  = HC0 + YC(I)  !spring   
             DC  = SQRT(LC(I)*LC(I) + HC*HC) ! long fibre    
             DCC = DC - DC0 
             DCC = MAX (UVAR(I,18),DCC)           
@@ -694,7 +694,7 @@ c---    uncoupled model  (compression of fiber)
           ELSEIF(DDEC >=ZERO    ) THEN     
            !----------------------RELOAD
            DO ITER = 1, NITER
-            HC  = HC0 + YC(I)  !longueur ressort   
+            HC  = HC0 + YC(I)  !spring   
             DC  = SQRT(LC(I)*LC(I) + HC*HC) ! long fibre    
             DCC = DC - DC0    
             DCC = MAX (UVAR(I,18),DCC)                             
@@ -730,7 +730,7 @@ c---    uncoupled model  (compression of fiber)
 c
            IF (UVAR(I,19) > ZERO) THEN  !emaxrl
            DO ITER = 1, NITER
-            HC  = HC0 + YC(I)  !longueur ressort   
+            HC  = HC0 + YC(I)  !spring   
             DC  = SQRT(LC(I)*LC(I) + HC*HC) ! long fibre    
             DCC = DC - DC0                    
             DCC = MAX (ZERO,DCC)                  
@@ -758,7 +758,7 @@ c
            ENDDO !iter
           ELSE!(UVAR(I,19) >ZERO
            DO ITER = 1, NITER
-            HC  = HC0 + YC(I)  !longueur ressort
+            HC  = HC0 + YC(I)  !spring
             DC  = SQRT(LC(I)*LC(I) + HC*HC) ! long fibre  
             UDC = ONE / DC                                        
             HDC = HC * UDC      !sinus(alpha)                                
@@ -780,9 +780,9 @@ c
           ENDIF!(UVAR(I,19) >ZERO)
           !TAGOLDC = 3
           ENDIF !LOAD RELOD OR UNLOAD
-         ELSE ! DCC < ZERO domaine de compression  
+         ELSE ! DCC <Zero Domaine de Compression  
           DO ITER = 1, NITER
-           HC  = HC0 + YC(I)  !longueur ressort
+           HC  = HC0 + YC(I)  !spring
            DC  = SQRT(LC(I)*LC(I) + HC*HC) ! long fibre  
            UDC = ONE / DC                                        
            HDC = HC * UDC      !sinus(alpha)                                
@@ -804,14 +804,14 @@ c
           SMAXRLC(I) = ZERO 
          ENDIF ! COMPRESSION OR TENSION FOR DIRECTION CHAINE
 c----------------------------------
-c----------------direction trame---
+c-------------- Direction Trame ---
 c----------------------------------
          IF(DTT >ZERO ) THEN !(DDET >=ZERO .AND. UVAR(I,22)==ZERO).OR.
           IF((DDET >=ZERO .AND.DTT>UVAR(I,21))
      .          .OR.(DDET >=ZERO .AND.UVAR(I,21)==UVAR(I,22))) THEN     
            !----------------------LOAD
            DO ITER = 1, NITER           
-            HT  = HT0 + YT(I)  !longueur ressort   
+            HT  = HT0 + YT(I)  !spring   
             DT  = SQRT(LT(I)*LT(I) + HT*HT) ! long fibre    
             DTT = DT - DT0     
             DTT = MAX (UVAR(I,22),DTT)     
@@ -843,7 +843,7 @@ c----------------------------------
           ELSEIF(DDET >=ZERO) THEN     
            !----------------------RELOAD
            DO ITER = 1, NITER
-            HT  = HT0 + YT(I)  !longueur ressort   
+            HT  = HT0 + YT(I)  !spring   
             DT  = SQRT(LT(I)*LT(I) + HT*HT) ! long fibre    
             DTT = DT - DT0                    
             DTT = MAX (UVAR(I,22),DTT)                  
@@ -882,7 +882,7 @@ c----------------------------------
             !-----------------------UNLOAD
            IF (UVAR(I,23)>ZERO)THEN
               DO ITER = 1, NITER
-               HT  = HT0 + YT(I)  !longueur ressort   
+               HT  = HT0 + YT(I)  !spring   
                DT  = SQRT(LT(I)*LT(I) + HT*HT) ! long fibre    
                DTT = DT - DT0                    
                DTT = MAX (zero,DTT)                  
@@ -910,7 +910,7 @@ c----------------------------------
               ENDDO !iter
            ELSE !(UVAR(I,23)>ZERO)
             DO ITER = 1, NITER
-             HT  = HT0 + YT(I)  !longueur ressort   
+             HT  = HT0 + YT(I)  !spring   
              DT  = SQRT(LT(I)*LT(I) + HT*HT) ! long fibre    
              UDT = ONE / DT                                         
              HDT = HT * UDT      !sinus(alpha)                                
@@ -933,7 +933,7 @@ c----------------------------------
           ENDIF !LOAD RELOD OR UNLOAD
          ELSE ! DTT < ZERO domaine de compression  
           DO ITER = 1, NITER
-           HT  = HT0 + YT(I)  !longueur ressort   
+           HT  = HT0 + YT(I)  !spring   
            DT  = SQRT(LT(I)*LT(I) + HT*HT) ! long fibre    
            UDT = ONE / DT                                         
            HDT = HT * UDT      !sinus(alpha)                                
@@ -1047,7 +1047,7 @@ c----------------------------------UNLOAD
               TAGC(IDX1) = 5            
               TAGC(IDX2) = 5            
            ENDIF ! (DCC1 >=ZERO  )            
-c ---------------direction trame ---------------------
+c ------------- Direction Trame -----------------------------------------------
            IF(DTT1 >=ZERO  ) THEN 
              IF((DDET >=ZERO .AND.DTT0>UVAR(I,21))
      .              .OR.(DDET >=ZERO .AND.UVAR(I,21)==UVAR(I,22))   ) THEN      
@@ -1208,7 +1208,7 @@ c
                   SMAXRLC(I) = ZERO                  
               END SELECT
 c
-c -----------------------direction trame 
+c --------------------- Direction Trame 
               SELECT CASE (TAGT(IDX1))
                 CASE(1)  ! tension load or reload
                   DTT = MAX (UVAR(I,22),DTT)                  
@@ -1505,7 +1505,7 @@ C=======================================================================
 c
         RFAC = ONE / EC2
         RFAT = ONE / ET2
-C---    contraintes membrane       
+C--- Membrane constraints       
 c
         SIGC = FC * LC(I) / DC
         SIGT = FT * LT(I) / DT
@@ -1517,7 +1517,7 @@ c
         UVAR(I,15) = DC
         UVAR(I,16) = DT
 C------------------------------------------------------------------
-C---    contraintes cisaillement      
+C--- Shear stresses      
 C------------------------------------------------------------------
         SIG0    = UVAR(I,10)
         TAN_PHI(I)= DEPSXY(I)
@@ -1616,7 +1616,7 @@ c-----
 c
         ENDIF ! KFUNC(3) > 0
 c---------------------------------------------------------------------
-C---    contraintes visc fibres   
+C--- Visc fibers constraints   
 c
         DTINV = TIMESTEP(I)/MAX(TIMESTEP(I)*TIMESTEP(I),EM20)
         DAMP  = SQRT(RHO0(I)*AREA(I)*THKLY(I)*HALF)        
@@ -1630,7 +1630,7 @@ c
         V2 = VISCE*DAMP*SQRT(KT)
         SIGVXX(I) = DTINV*(DEPSXX(I))*V1
         SIGVYY(I) = DTINV*(DEPSYY(I))*V2
-C---    contraintes frottement cisaillement  
+C--- Cisae friction constraints  
         IF (FN(I) > ZERO) THEN
           TFROT = TWO_THIRD*VISCG*FN(I)*(HC0+HT0)/(LC(I)+LT(I))
           DTANG(I) = DEPSXY(I) - TAN_PHI(I)

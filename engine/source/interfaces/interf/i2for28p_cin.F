@@ -86,7 +86,7 @@ C------------------------------
 C
       I0BASE = I0
 C
-C Traitement specifique pour DMAS
+C specific processing for dmas
 C
 C MMASS(II) initialise a MS(J) a t=0 dans starter
       IF(ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS  >0) THEN
@@ -97,13 +97,13 @@ C MMASS(II) initialise a MS(J) a t=0 dans starter
       ENDIF
 C
 C------------------------------
-C     FORCES ET MOMENTS DES NOEUDS SECONDS 
+C     forces and moments of secondary nodes
 C     TRANSMIS AUX NOEUDS MAINS SOUS 
-C     FORME DE FORCES 
+C     force shape
 C
-C     MASSES ET INERTIES DES NOEUDS SECONDS 
+C     masses and inertias of secondary nodes
 C     TRANSMISES AUX NOEUDS MAINS SOUS 
-C     FORME DE MASSES 
+C     mass shape
 C------------------------------
 C
       DO II=1,NSN
@@ -244,7 +244,7 @@ C
          FACT = ONE
          IF (IRODDL==1) THEN
          IF ((IN(J1)>ZERO.AND.IN(J2)>ZERO.AND.IN(J3)>ZERO.AND.IN(J4)>ZERO)) THEN
-C--        Inertie transmise sous forme d'inertie
+C- inertia transmitted in the form of inertia
            FACT = ZERO
          ENDIF
          ENDIF
@@ -351,7 +351,7 @@ C---    output of tied contact forces
      .                IRECT(1,L),NIR  ,FSAV   ,FNCONT  ,FNCONTP,
      .                FTCONTP ,WEIGHT ,H3D_DATA,I      ,H)  
 C----
-C stokage ZERO pour noeuds delete par idel2
+C zero storage for nodes deleted by idel2
        ELSEIF(WEIGHT(-I)==1) THEN
          I0 = I0BASE + IADX(K)
          NN = IADI2(1,I0)
@@ -411,7 +411,7 @@ C
        ENDIF
       ENDDO
 C
-C Traitement specifique pour ADM
+C specific processing for adm
 C
       IF(ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS  >0) THEN
 #include "vectorize.inc"

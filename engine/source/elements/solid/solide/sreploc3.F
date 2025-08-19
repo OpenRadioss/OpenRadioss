@@ -67,7 +67,7 @@ C     REAL
       my_real
      .  SUMA
 C=======================================================================
-C     Orthogonalisation du repere
+C     Orthogonalization of the reference frame
 C       E1=R, E3=R^S, E2=E3^E1                            
 C--------------------------------
       DO I=1,NEL                                      

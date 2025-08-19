@@ -138,7 +138,7 @@ C-----------------------------------------------
      .   XGXA(MVSIZ),XGYA(MVSIZ),XGZA(MVSIZ),
      .   XGXYA(MVSIZ),XGYZA(MVSIZ),XGZXA(MVSIZ),
      .   XGXA2(MVSIZ),XGYA2(MVSIZ),XGZA2(MVSIZ)
-C Variables utilisees en arguments dans les routines solides 
+C variables used as arguments in solid routines
       my_real
      .   R11(MVSIZ),R12(MVSIZ),R13(MVSIZ),
      .   R21(MVSIZ),R22(MVSIZ),R23(MVSIZ),
@@ -181,7 +181,7 @@ C-----------------------------------------------
      .             XGXYA,XGYZA,XGZXA,IPARG(1,NG))
       ENDIF
 C-----------------------------------------------
-C FONCTIONS DE FORME, DEFORMATION, ET OBJECTIVITE 
+C shape functions, strain, and objectivity
 C PXJ(K,I) FONCTION J DU PT INTEGRATION K ELEMENT I
 C-----------------------------------------------
       CALL S8DERI3(
@@ -235,7 +235,7 @@ C------------------------------------------------------
      D            NTABLE)
       IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STOPTIME(TIMERS,35)
 C--------------------------
-C     BILANS PAR MATERIAU
+C     balances by material
 C--------------------------
         IFLAG=MOD(NCYCLE,NCPRI)
         IF(IOUTPRT>0)THEN       

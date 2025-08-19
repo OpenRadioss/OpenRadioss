@@ -161,7 +161,7 @@ C-----------------------------------------------
 !     set rhs and matrix
       CALL this%LINEAR_SOLVER%SET_RHS(3, this%RHS)
       CALL this%LINEAR_SOLVER%SET_MATRIX(this%MAT)
-!     diffusion coefficient, outlet flag
+!     Diffusion Coefficient, Outlet Flag
       this%OUTLET_FLAGGED = .FALSE.
       IF (N2D == 0) THEN
          ALLOCATE(this%NU(NUMELS + NSVOIS))

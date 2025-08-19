@@ -218,7 +218,7 @@ C-----------------------
      4                    FLUX_SAV    ,QMV   ,NV46 ,ELBUF_TAB)
         ENDIF
         !-----------------------------!
-        !     REZONE DEVIATEUR        !
+        !     REZONE  DEVIATORIC      !
         !-----------------------------!
         CALL AREZON(IPARG   ,ELBUF_TAB, FLUX   ,PHI     ,ALE_CONNECT ,
      2              2       ,1         ,ITASK  ,NERCVOIS,

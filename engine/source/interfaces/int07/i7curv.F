@@ -46,7 +46,7 @@ C-----------------------------------------------
      .   SURFX,SURFY,SURFZ,X13,Y13,Z13,X24,Y24,Z24
 C-----------------------------------------------
 
-C optimisable en spmd si ajout flag pour routine de comm, spmd_exchange_n
+C Optimizable in SPMD If Addition Flag for comm, SPMD_exchange_n
       DO N1=1,NUMNOD
         NOD_NORMAL(1,N1) = ZERO
         NOD_NORMAL(2,N1) = ZERO
@@ -183,7 +183,7 @@ C
      .                      ISDSIZ,IRCSIZ,ITAG  ,LENR    ,LENS   )
       END IF
 C
-C     tri par packet des normales
+C     sorting normals by packet
 C
       DO N1 = 1, NUMNOD
         N2 = ADSKYT(N1-1)
@@ -200,7 +200,7 @@ C            IF(N4>MAXCC)print*,'error cc:',n4,maxcc
               NOD_NORMAL(J,N1) = NOD_NORMAL(J,N1) + FSKYT2(CC-N2+1)
             END DO
           END DO
-        ELSEIF(N4==1)THEN    ! cas 1 seule contribution => direct
+        ELSEIF(N4==1)THEN    ! Case 1 single contribution => direct
           NOD_NORMAL(1,N1) = FSKYT(1,N2)
           NOD_NORMAL(2,N1) = FSKYT(2,N2)
           NOD_NORMAL(3,N1) = FSKYT(3,N2)
@@ -284,7 +284,7 @@ c          r = e
 c          tmaj = (e+1)t1' = (e-1)t'2
 c    => en 2D      t = t'max => Z = (Lmax/2)t'max
 c
-c       vecteurs:Z,L,N
+c       Vectors: Z, L, N
 c            Z^2 = (L/2.N)^2(L/2)^2 / (N^2(L/2)^2 - (L/2.N)^2)
 c            Z^2 = (L.N)^2 L^2 / 4(N^2 L^2 - (L.N)^2)
 c
@@ -489,9 +489,9 @@ C-----------------------------------------------
      .   BBB,CCC,DDD,EEE,RM,RP,SM,SP,RPMM,SPMM,RPPM,SPPM,
      .   NX,NY,NZ,DIST,EPS,XP,YP,ZP,XX,YY,ZZ,XXP,YYP,ZZP,A,B
 C-----------------------------------------------
-C     Interpolation bicubique
-c     avec continuit  des coordonn s,
-c     des d riv s tagente et normale sur les bords
+C     Bicubic interpolation
+c     with continuity of coordinates
+c     of tangent and normal derivatives on the edges
 C-----------------------------------------------
 
       DO I=1,JLT
@@ -512,7 +512,7 @@ C-----------------------------------------------
         NNZ4(I)=NOD_NORMAL(3,IX4(I))  
 
 C-----------------------------------------------
-c       calcul de r,s   partir des Hi
+c       calculation of r,s from the Hi
 C-----------------------------------------------
         RM = (H2(I)-H1(I))/MAX(EM20,H2(I)+H1(I))
         RP = (H3(I)-H4(I))/MAX(EM20,H3(I)+H4(I))
@@ -569,8 +569,8 @@ c ligne r
       DO I=1,JLT
 
 C-----------------------------------------------
-c       normale   la surface cubique en r,s 
-c       produit vectoriel des vecteurs directeurs cr et cs
+c       normal the cubic surface in r, s 
+c       cross product of the direction vectors cr and cs
 C-----------------------------------------------
         NX = CRY(I)*CSZ(I)-CRZ(I)*CSY(I)
         NY = CRZ(I)*CSX(I)-CRX(I)*CSZ(I)
@@ -581,25 +581,25 @@ C-----------------------------------------------
         NZ = NZ*AAA
 
 C-----------------------------------------------
-c       point calcul  sur la surface cubique (r,s)
+c       point calculated on the cubic surface (r,s)
 C-----------------------------------------------
         XA(I) = HALF*(XA(I)+XB(I))
         YA(I) = HALF*(YA(I)+YB(I))
         ZA(I) = HALF*(ZA(I)+ZB(I))
  
 C-----------------------------------------------
-c       vecteur: point calcul  -> noeud second. 
+c       Vector: Calculation point -> Second node. 
 C-----------------------------------------------
         XD = XI(I) - XA(I)
         YD = YI(I) - YA(I)
         ZD = ZI(I) - ZA(I) 
 C-----------------------------------------------
-c       distance: surface cubique -> noeud second. 
+c       Distance: Cubic surface -> Second node. 
 C-----------------------------------------------
         DIST = NX*XD + NY*YD + NZ*ZD
 
 C-----------------------------------------------
-c       projection du noeud second. sur la surface cubique
+c       projection of the secondary node on the cubic surface
 C-----------------------------------------------
         XP = XI(I) - DIST*NX
         YP = YI(I) - DIST*NY
@@ -618,7 +618,7 @@ C-----------------------------------------------
 C        IF(BBB<ZERO.OR.BBB>CCC)THEN
 C-----------------------------------------------
 c         s<-1 ou s>1
-c         on conserve la normale et la p n tration ancienne 
+c         keep the normal and the previous penetration
 C-----------------------------------------------
 C        ELSE
           XX = X23(I) - X14(I)
@@ -634,13 +634,13 @@ C        ELSE
 C          IF(DDD<ZERO.OR.DDD>EEE)THEN
 C-----------------------------------------------
 c           r<-1 ou r>1
-c           on conserve la normale et la p n tration ancienne 
+c           keep the normal and the previous penetration
 C-----------------------------------------------
 C          ELSE
 C-----------------------------------------------
 c           -1<r<+1 et -1<s<+1
 C-----------------------------------------------
-c           r et s peuvent  tres recalcul s
+c           r and can very recalculate
 c           R(I) = TWO*DDD/EEE - ONE
 c           S(I) = TWO*BBB/CCC - ONE
 C-----------------------------------------------
@@ -704,7 +704,7 @@ C-----------------------------------------------
      .    UPR2,UMR2,A3RR2,A2RR,
      .    ERX,ERY,ERZ,ESX,ESY,ESZ,ETX,ETY,ETZ
 c---------------------------------------------------
-c       vecteur directeur en r
+c       Director vector in R
 c---------------------------------------------------
 c
 c         ^t
@@ -767,7 +767,7 @@ c
         ESZ = ETX*ERY-ETY*ERX
       
 c---------------------------------------------------
-c       d riv  calcul e   partir des normales(non norm es)
+c       of RIV Calculation of normal (not norms)
 c---------------------------------------------------
         DTDR1 = -(NNX1(I)*ERX+NNY1(I)*ERY+NNZ1(I)*ERZ) 
      .        /  (NNX1(I)*ETX+NNY1(I)*ETY+NNZ1(I)*ETZ)
@@ -775,8 +775,8 @@ c---------------------------------------------------
         DTDR2 = -(NNX2(I)*ERX+NNY2(I)*ERY+NNZ2(I)*ERZ) 
      .        /  (NNX2(I)*ETX+NNY2(I)*ETY+NNZ2(I)*ETZ)
 c---------------------------------------------------
-c       la d riv  est born e   +- 1 pour limiter la taille
-c       des boites dans i7tri
+c       the derivative is limited to +- 1 to restrict the size
+c       of the boxes in i7tri
 c---------------------------------------------------
         DTDR1 = DTDR1/MAX(ONE,ABS(DTDR1))
         DTDR2 = DTDR2/MAX(ONE,ABS(DTDR2))
@@ -812,7 +812,7 @@ c---------------------------------------------------
         DTDR = THREE*A3RR2 + A2RR + A2RR + A1
 
 c---------------------------------------------------
-c       vecteur directeur en r
+c       Director vector in R
 c---------------------------------------------------
         CX(I) = ERX + DTDR*ETX
         CY(I) = ERY + DTDR*ETY

@@ -115,7 +115,7 @@ C-----------------------------------------------
         IF(L > 0 .AND. IBC == 0) THEN                
          IF(ISK == 0) THEN
 C------------------
-C     REPERE GLOBAL
+C     GLOBAL REFERENCE FRAME
 C------------------
            IF(LCOD == 1)THEN
               DO J=1,NPLYMAX
@@ -341,7 +341,7 @@ C
            ISUP = J
           IF(ISK == 0) THEN
 C------------------
-C     REPERE GLOBAL
+C     GLOBAL REFERENCE FRAME
 C------------------          
 C          
              IF(IBC ==2 ) THEN 

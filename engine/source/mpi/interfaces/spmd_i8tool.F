@@ -205,7 +205,7 @@ C Computes INDEX_IN_COMM such that
 C if I is the main local id
 C INDEX_IN_COMM(i) = 
 C                     index of the node in
-C   Communication structure
+C   Communication Structure
 C                     0 if the node is not
 C   shared between processors (considering only this
 C   interface)            

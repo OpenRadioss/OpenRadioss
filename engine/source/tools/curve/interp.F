@@ -62,7 +62,7 @@ C-----------------------------------------------
       D2=TF(2,M)-TF(2,M-1)
       TG=ZERO
       IF(D1/=ZERO)TG=D2/D1
-      !TEST POUR PRECISION DU CALCUL
+      !test for calculation precision
       IF(DT1<=DT2)THEN
        F =TF(2,M-1)+DT1*TG
       ELSE

@@ -74,7 +74,7 @@ C
 C
       IFV=IVOLU(45)
       IF (NSPMD == 1) THEN
-C traitement necessaire pour rester p/on
+C treatment necessary to stay p/we
          DO I=1,FVSPMD(IFV)%NN_L
             I1=FVSPMD(IFV)%IBUF_L(1,I)
             I2=FVSPMD(IFV)%IBUF_L(2,I)

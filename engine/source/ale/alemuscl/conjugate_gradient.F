@@ -43,7 +43,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) ::  dim  ! system dimension
       my_real, INTENT(INOUT) ::  mat(dim, dim)  ! matrix
       my_real, INTENT(INOUT) :: rhs(dim)  ! right hand side
-      my_real, INTENT(OUT) :: sol(dim)  ! solution vector
+      my_real, INTENT(OUT) :: sol(dim)  ! Vector solution
       INTEGER, INTENT(IN) :: max_iter
       my_real, INTENT(IN) :: tol
 C-----------------------------------------------

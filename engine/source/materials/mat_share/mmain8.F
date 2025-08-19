@@ -145,7 +145,7 @@ C=======================================================================
         JJ(I) = NEL*(I-1)
       ENDDO
 !
-C     tangent module
+C     module
       DO I=1,NEL
         ET(I)=ZERO
       ENDDO 

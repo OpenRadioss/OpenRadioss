@@ -1146,7 +1146,7 @@ Ce warning for sorting algorithm (performance).
         END IF
       END IF
 
-C -----Friction model  secnd nodes parts------
+C ---- FRUCTION MODEL DRAD NODES PARTS ------
       IF(INTFRIC > 0) THEN
         IF(NUMELS  /= 0)THEN
           DO I = 1,NSN   

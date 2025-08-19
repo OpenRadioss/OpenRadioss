@@ -229,14 +229,14 @@ C
      .                   C2=XYZ,I1=ID,C1=TITR)
            END IF
         END IF
-C !!  IBCL ET NWORK ONT LA MEME ADRESSE
+C !!  ibcl and nwork have the same address
         NUM0=NUM
 C-----------
         IF (IDDOM==0) THEN
         NN = NODGRNR5(IGU    ,IGS    ,NWORK(1+NIBCLD*NUM0),IGRNOD ,
      .                ITABM1 ,MESS   )
         ELSE
-C-----------Multidomaines : on enleve les noeuds communs qui sont deja trait   s dans le fomain full-------------
+Cmultidomains: shared nodes already processed in the full domain are removed
         NN = NODGR_R2R(IGU    ,IGS    ,NWORK(1+NIBCLD*NUM0),IGRNOD   ,
      .                ITABM1 ,MESS      )
         ENDIF
@@ -250,7 +250,7 @@ C-----------
         ENDIF
         NUM=NUM+NN
         DO J=NN,1,-1
-C       !!  IBCL ET NWORK ONT LA MEME ADRESSE
+C       !!  ibcl and nwork have the same address
 C          IBCL(1,I+J)=NWORK(J+6*NUM0)
             NWORK(1+NIBCLD*(J+I-1))=NWORK(J+NIBCLD*NUM0)
         ENDDO

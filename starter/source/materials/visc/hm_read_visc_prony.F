@@ -187,7 +187,7 @@ C
           YGl_scale = ONE * YGl_scale_UNIT      
         ENDIF 
         !----------------------------------------------------------------------------------
-        ! -> Bulk storage modulus VS frequency
+        ! -> Bulk Storage Modulus vs Frequency
         !----------------------------------------------------------------------------------
         CALL HM_GET_INTV   ('Fct_Ks'    ,FctID_Ks  ,IS_AVAILABLE,LSUBMODEL)
         CALL HM_GET_FLOATV ('XKs_scale' ,XKs_scale ,IS_AVAILABLE,LSUBMODEL,UNITAB)

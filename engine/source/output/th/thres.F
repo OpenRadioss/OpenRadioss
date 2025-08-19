@@ -92,7 +92,7 @@ C-----------------------------------------------
         
           IF(ITYP==6) THEN
             IH=IAD
-C   specifique spmd
+C   SPECIFIC SPMD
 C decalage IH
                 DO WHILE (ITHBUF(IH+NN) /= ISPMD .AND. IH < IAD+NN)
                     IH = IH + 1
@@ -124,8 +124,8 @@ C
 C
                             IF (K == N) THEN
                                 IH=IH+1
-C   traitement specifique spmd
-C recherche du ii correct
+C   SPECT SPMD treatment
+C search for the correct ii
                                 II = ((IH-1) - IAD)*NVAR
                                 DO WHILE (ITHBUF(IH+NN) /= ISPMD .AND. IH < IAD+NN)
                                     IH = IH + 1
@@ -175,7 +175,7 @@ C
 C
                             IF (K == N) THEN
                                 IH=IH+1
-C recherche du ii correct
+C search for the correct ii
                                 II = ((IH-1) - IAD)*NVAR
                                 DO WHILE (ITHBUF(IH+NN) /= ISPMD .AND. IH < IAD+NN)
                                     IH = IH + 1
@@ -231,7 +231,7 @@ C
 C
                             IF (K == N) THEN
                                 IH=IH+1
-C recherche du ii correct
+C search for the correct ii
                                 II = ((IH-1) - IAD)*NVAR
                                 DO WHILE (ITHBUF(IH+NN) /= ISPMD .AND. IH < IAD+NN)
                                     IH = IH + 1
@@ -341,8 +341,8 @@ C
 C
                             IF (K == N) THEN
                                 IH=IH+1
-C   traitement specifique spmd
-C recherche du ii correct
+C   SPECT SPMD treatment
+C search for the correct ii
                                 II = ((IH-1) - IAD)*NVAR
                                 DO WHILE (ITHBUF(IH+NN) /= ISPMD .AND. IH < IAD+NN)
                                     IH = IH + 1
@@ -400,8 +400,8 @@ C
 C
                                     IF (K == N) THEN
                                         IH=IH+1
-C   traitement specifique spmd
-C recherche du ii correct
+C   SPECT SPMD treatment
+C search for the correct ii
                                         II = ((IH-1) - IAD)*NVAR
                                         DO WHILE (ITHBUF(IH+NN) /= ISPMD .AND. IH<IAD+NN)
                                             IH = IH + 1
@@ -485,7 +485,7 @@ C---            deformation globale
                                         WWA(44)=-WWA(41)                       
                                         WWA(45)=-WWA(42)                       
                                         WWA(46)=-WWA(43)                       
-C---            rotation locale Noeud1                     
+C--- Local rotation node1                     
                                         V1 = -GBUF%VR_REPCVT(JJ(1)+I-1)
                                         V2 = GBUF%V_REPCVT(JJ(2)+I-1)
                                         V3 = GBUF%V_REPCVT(JJ(3)+I-1)
@@ -496,7 +496,7 @@ C---            rotation globale Noeud1
                                         WWA(53)= V1*E1X+V2*E1Y+V3*E1Z              
                                         WWA(54)= V1*E2X+V2*E2Y+V3*E2Z              
                                         WWA(55)= V1*E3X+V2*E3Y+V3*E3Z              
-C---            rotation locale Noeud2                     
+C--- Local rotation node2                     
                                         V2 = GBUF%VR_REPCVT(JJ(2)+I-1)
                                         V3 = GBUF%VR_REPCVT(JJ(3)+I-1)
                                         WWA(62)=-V1                            
@@ -530,8 +530,8 @@ c
 C
                                     IF (K == N) THEN
                                         IH=IH+1
-C   traitement specifique spmd
-C recherche du ii correct
+C   SPECT SPMD treatment
+C search for the correct ii
                                         II = ((IH-1) - IAD)*NVAR
                                         DO WHILE (ITHBUF(IH+NN) /= ISPMD .AND. IH < IAD+NN)
                                             IH = IH + 1
@@ -581,8 +581,8 @@ C
 C
                                     IF (K == N) THEN
                                         IH=IH+1
-C   traitement specifique spmd
-C recherche du ii correct
+C   SPECT SPMD treatment
+C search for the correct ii
                                         II = ((IH-1) - IAD)*NVAR
                                         DO WHILE (ITHBUF(IH+NN) /= ISPMD .AND. IH < IAD+NN)
                                             IH = IH + 1

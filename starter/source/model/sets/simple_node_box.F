@@ -44,7 +44,7 @@ C
 C     NAME          DESCRIPTION                         
 C
 C     IBOX          BOX structure
-C     X             Node position 
+C     X node position 
 C     SKEW          SKEW array
 C     NOD_ARRAY     Result list of nodes
 C     ND_SIZE       number of stacked nodes

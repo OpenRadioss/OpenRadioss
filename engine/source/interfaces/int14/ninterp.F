@@ -92,7 +92,7 @@ C---------------------------------
         ENDIF
       ENDDO
 C---------------------------------
-C     Groupe suivant.
+C     Next group.
 C---------------------------------
       IF (NREST-MVSIZ>0) THEN
         NREST=NREST-MVSIZ

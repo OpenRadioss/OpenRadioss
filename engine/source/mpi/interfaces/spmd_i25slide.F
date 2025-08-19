@@ -404,10 +404,10 @@ C-----------------------------------------------
       LSKYFI= 0
       NB_SLID_TOT = 0
       NSNR_TOT = 0
-C Reperage des candidats
+C locating candidates
 
 C
-C Allocation des tableaux de frontieres interfaces
+C allocation of interface boundary arrays
 C
       DO P = 1,NSPMD
          NODFI =  NODFI + NSNFI(NIN)%P(P) + NB_SLID(P)
@@ -427,7 +427,7 @@ C
       CALL REALLOCATE_FI1(NODFI,TMP,NIN,INTTH,IGAP,ILEV,INTFRIC,FLAGREMN,IVIS2,ISTIF_MSDT,IFSUB_CAREA)
       NSNFI(NIN)%P(1:NSPMD) = TMP%NSNFI%P(1:NSPMD)
 C
-C Compactage des candidats
+C compacting candidates
 C
       IDEB = 0
       IDEB_NEW = 0  
@@ -474,7 +474,7 @@ C
       ENDIF
       DO P = 1, NSPMD
       ! Pour l'instant on garde l'iteration P = LOC_PROC
-      ! voir avec  ce qu'il faut faire dans ce cas
+      ! see with what to do in this case
         NN = 0
         NSNR_OLD = NSNFI(NIN)%P(P)
         NSNR_NEW = SINDEX(P) ! NSNR from XREM, we don't know yet if they are already known
@@ -591,7 +591,7 @@ C ========================================================
 
 
 
-          ! NN = Taille de XREM + Taille ancien FI - noeuds communs
+          ! Nn = size of xrem + old size fi - common nodes
           NN = NSNFI(NIN)%P(P)
           NSNFI(NIN)%P(P) = NN - NBLOCAL
 
@@ -932,7 +932,7 @@ C         IF(ITYP==25)THEN
             ISHIFT = ISHIFT + 5
  
             IF (ILEV==2) THEN  
-C          NBINFLFI local ne semble pas toujours alloue 
+C          Local nbinflfi does not always seem allocated 
                NBLOCAL = 0
                DO J = 1, NN
                  I = IAUX(J)
@@ -1091,7 +1091,7 @@ C ================================================================
 
 
 C
-C Deallocation de XREM IREM
+C Deallocation of XREM IREM
 C
       IF(ALLOCATED(XREM)) DEALLOCATE(XREM)
       IF(ALLOCATED(IREM)) DEALLOCATE(IREM)
@@ -1600,7 +1600,7 @@ C
         CALL ARRET(2)
       ENDIF
 C
-C allocations conditionnelles output pression/ friction energy
+C Output Pressure/ Friction Energy conditional allowances
 C
       IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT >0)THEN
         IF(ASSOCIATED(FNCONTI(NIN)%P)) DEALLOCATE(FNCONTI(NIN)%P)

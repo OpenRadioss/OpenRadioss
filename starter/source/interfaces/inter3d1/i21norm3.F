@@ -216,7 +216,7 @@ C
         GO TO 100
       END IF
 C------------------------------------
-C     normales aux noeuds.
+C     normal nodes.
 C------------------------------------
       DO I=1,NMN
 C
@@ -318,7 +318,7 @@ C-------
         ERY = (Y2+Y3)-(Y1+Y4)
         ERZ = (Z2+Z3)-(Z1+Z4)
 
-C       Longueur vraie = LL/2
+C       True length = ll/2
         LL  = SQRT(ERX*ERX+ERY*ERY+ERZ*ERZ)
         AAA = ONE / LL
         ERX = ERX*AAA
@@ -339,7 +339,7 @@ C-------
         ERY = (Y4+Y3)-(Y1+Y2)
         ERZ = (Z4+Z3)-(Z1+Z2)
 
-C       Longueur vraie = LL/2
+C       True length = ll/2
         LL  = SQRT(ERX*ERX+ERY*ERY+ERZ*ERZ)
         AAA = ONE / LL
         ERX = ERX*AAA

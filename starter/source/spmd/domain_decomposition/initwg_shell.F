@@ -61,7 +61,7 @@ C-----------------------------------------------
      .  IGEO(NPROPGI,NUMGEO),IPM(NPROPMI,NUMMAT),TABMP_L
       INTEGER, INTENT(IN) :: SIZE_IRUP ! maximum number of rupture criteria
 
-C     REAL OU REAL*8
+C     REAL OR REAL*8
       my_real
      .    PM(NPROPM,NUMMAT), GEO(NPROPG,NUMGEO),BUFMAT(*)
       REAL WD(*)
@@ -410,7 +410,7 @@ C           0pt d integration doit etre traite a part
                 TIMMAT =  SHTNL(MIN(MLN,MAXLAW),0,INDI) + TMATADD
                 ! *******--------*******
 !               ----------------
-!               Failure incompatible N=0
+!               Incompatible failure n = 0
                 IF(NFAIL/=0) THEN
                  TRUP = 0.
                 ENDIF          !   <--- fin NFAIL/=0

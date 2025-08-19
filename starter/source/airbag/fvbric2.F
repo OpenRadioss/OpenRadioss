@@ -99,7 +99,7 @@ C
          NFAC=NFACE(NTYPE)
          DO J=1,NFAC
             IF (TFAC(2*(J-1)+1,I)==3) THEN
-C La facette de solide est libre a l'interieur de l'airbag
+C The solid facet is free inside the airbag
                IF (NTYPE==2) THEN
                   NELA=NELA+1
                   KK=FAC4(1,J)

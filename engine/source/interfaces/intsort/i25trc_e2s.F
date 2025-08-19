@@ -47,10 +47,10 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
 C-----------------------------------------------
-C   ROLE DE LA ROUTINE:
+C   role of the routine:
 C   ===================
-C   TRI sur N de CAND_S CAND_M CAND_F
-C   et elimination des noeuds en rebond 
+C   sorting on N of CAND_S CAND_M CAND_F
+C   and elimination of bouncing nodes
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -139,7 +139,7 @@ C=======================================================================
       ENDDO
 C=======================================================================
 C     TRI DE CAND_S CAND_M CAND_P
-C     SUR N CROISSANT
+C     on increasing N
 C     PERMUTATION 1 PASSE
 C============================================= 
         DO K=1,I_STOK

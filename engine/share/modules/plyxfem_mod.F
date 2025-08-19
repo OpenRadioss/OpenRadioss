@@ -44,7 +44,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    parsor_ply             ../engine/source/output/anim/generate/parsor_ply.F
 !||    ply_accele             ../engine/source/assembly/ply_accele.F
 !||    ply_bcs1v              ../engine/source/constraints/general/bcs/ply_bcs.F
-!||    ply_vitesse            ../engine/source/assembly/ply_vitesse.F
+!||    ply_velocity            ../engine/source/assembly/ply_velocity.F
 !||    plyxfem_ravuply        ../engine/source/output/restart/rdresb.F
 !||    plyxfem_rrestanim      ../engine/source/output/restart/rdresb.F
 !||    plyxfem_wravuply       ../engine/source/output/restart/wrrest.F
@@ -72,7 +72,7 @@ C   m y _ r e a l
 C-----------------------------------------------
 #include      "my_real.inc"
 C------------------------
-C tableau de travail 
+C work array
 C------------------------
 C-----------------------------------------------
 C   D e r i v e d   T y p e   D e f i n i t i o n s
@@ -80,7 +80,7 @@ C-----------------------------------------------
 CC         my_real,
 CC     .            DIMENSION(:,:,:),ALLOCATABLE :: PLYA,PLYV,PLYU,PLYFSKY
 C-------------------------------
-C Donnees briques intersectantes
+C Interesting brick data
 C-------------------------------
         TYPE PLY_DATA
            my_real,
@@ -122,7 +122,7 @@ C NPLYPART & IND_PLY are global values shared by all processors
       INTEGER NPLYPART
       INTEGER, DIMENSION(:), ALLOCATABLE :: INDX_PLY,PLYSIZG,IDPID_PLY
 C-------------------------------
-C Donnees briques intersectantes
+C Interesting brick data
 C-------------------------------
 cc        my_real,
 cc    .            DIMENSION(:,:), POINTER :: FSKY

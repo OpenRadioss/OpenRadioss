@@ -68,7 +68,7 @@ C-----------------------------------------------
       my_real XN14, XN13, XN24, XN23, XN12, X31,
      .   Y31, Z31, X42, Y42, Z42, E3X, E3Y, E3Z, SURF
 C=======================================================================
-C     CONNECTIVITES ET SHELL ID                   
+C     connectivities and shell id
 C----------------------------
       DO I=LFT,LLT
         IX1(I)=IXC(2,I)

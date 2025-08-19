@@ -337,7 +337,7 @@ C--------------------------------------------------
       ENDDO
       IF(ALLOCATED(SUBID_NODES)) DEALLOCATE(SUBID_NODES)
 C------
-C     CONSTITUTION DU TABLEAU INVERSE DES NOEUDS
+C     building the inverse node table
 C------
 C     NUMNUSR=NUMNUSR1+NUMCNOD !
       CALL CONSTIT(ITAB,ITABM1,NUMNUSR)

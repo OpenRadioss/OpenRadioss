@@ -118,7 +118,7 @@ C
         CALL MY_ALLOC(AMS_WORK%CHECK%INVND,NUMNOD)
       ENDIF 
 C     ----- approx. (by each colonne of L_T) inverse ---------
-C     ----- utilise d'abord la place de [M] pour la matrice assemblee ---------
+C     ----- first uses the space of [M] for the assembled matrix ---------
       IF (NSPMD==1) THEN
         AMS_WORK%check%NNDFT0=0
         AMS_WORK%check%NNDFT1=NUMNOD
@@ -195,7 +195,7 @@ C M triee 1 ... NNDFT0 ... NNDFT1 ... NUMNOD
 C----------------------
       CALL MY_BARRIER
 C---------------------
-C M <- termes des processeurs voisins
+C M '<- Terms of neighboring processors
       IF (ITASK == 0 .AND. NSPMD > 1) THEN
         CALL SPMD_EXCHM_SMS(
      1           FR_SMS ,FR_RMS,LIST_SMS,LIST_RMS,IAD_ELEM,
@@ -383,7 +383,7 @@ C
          CALL ARRET(2)
        ENDIF 
 C
-C Boucle parallele dynamique SMP
+C SMP dynamic parallel loop
 C
 !$OMP DO SCHEDULE(DYNAMIC,1)
       DO I=NNDFT0+1,NUMNOD
@@ -413,7 +413,7 @@ C
      .                 MAX_L ,MJ    )
 C
         ENDIF 
-C------------filtrage----Diagonal est dans LT_M (last one)--
+C------------filtering----Diagonal is in LT_M (last one)--
         DIAG_INV(I)=MJ(NC)
        ENDDO
 
@@ -553,7 +553,7 @@ C------X(I)=ZERO--------
       R2 =R02
       IF (R02==ZERO) GOTO 200
       TOLN=R02*TOLS2
-C-------pour etre coherent avec lanzos for linear
+C-------to be consistent with lanzos for linear
        IT=1
        DO I=1,NDDL
          X(I) = X(I) + ALPHA*P(I)

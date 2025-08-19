@@ -192,7 +192,7 @@ C
               L = L + E_LEN
             END DO
            ENDIF
-C   D est a envoyer pour sorties
+C   d is to be sent for outputs
           ELSEIF(NEW_D==1) THEN
            IF(IRODDL/=0.AND.DT_CST/=0) THEN
 #include      "vectorize.inc"
@@ -363,7 +363,7 @@ C   NEW_D==2 => Envoyer D et W
             ENDIF    
         ENDDO
 C
-C   Envoi messages
+C   Sending messages
 C
        L = 1
        L2= 1
@@ -554,7 +554,7 @@ C   D a recevoir
               END DO
             ENDIF
 
-CD et W a recevoir
+Cfrom and w to receive
           ELSE
             IF(IRODDL/=0.AND.DT_CST/=0) THEN
 #include      "vectorize.inc"

@@ -29,8 +29,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
 !||====================================================================
       SUBROUTINE SPMD_MIN_MAX(X1,Y1,Z1,X2,Y2,Z2)
-C spmd_min_max calcule les minimum des reels X1, Y1, Z1 et les
-C maximum des reels X2, Y2, Z2 sur p0
+C spmd_min_max calculates the minimum of the real numbers X1, Y1, Z1 and the
+C maximum of the real numbers X2, Y2, Z2 on p0
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

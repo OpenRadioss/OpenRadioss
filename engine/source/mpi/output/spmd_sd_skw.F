@@ -83,7 +83,7 @@ C-----------------------------------------------
 !       - initialize the SBUF buffer with the local SKEW value
 !       - initialize the displacement and the total number of 
 !         received SKEW
-!       - ALLGATHERV comm
+!       - Allgatherv com
 !       - fill the SKEW array with the received RBUFF buffer
 !
 !       proc 1 :

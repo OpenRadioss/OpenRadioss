@@ -55,7 +55,7 @@ C-----------------------------------------------
 
       ALLOCATE(TAG8(NUMNOD))
 C
-C Remplissage de NDOF (cf DIM_GLOB_K dans ENGINE)
+C Filling of ndof (see dim_glob_k in engine)
 C
       DO I=1,NUMNOD
          NDOF(I)=0

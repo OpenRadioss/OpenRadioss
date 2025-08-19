@@ -249,7 +249,7 @@ C-----------------------------------------------
 !
 !        IGROUP_L(L_GROUP+1) = ID
           L_GROUP = L_GROUP+1
-!        IGROUP_L(L_GROUP+1) = NNOD_LOC(IGU)
+!        Igroup_l (l_group+1) = nnod_loc (igu)
           L_GROUP = L_GROUP+1
 !        IGROUP_L(L_GROUP+1) = GRTYPE
           L_GROUP = L_GROUP+1

@@ -51,7 +51,7 @@ C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
       IF(J==1) THEN
-        !=====REPERE GLOBAL
+        !=====GLOBAL REFERENCE FRAME
         SELECT CASE (K)
           CASE(1)
             A(3)=ZERO
@@ -167,7 +167,7 @@ C-----------------------------------------------
         ISK  = ISKEW(N)
         LCOD = ICODT(N)
         IF(ISK==1) THEN
-         !=====REPERE GLOBAL
+         !=====GLOBAL REFERENCE FRAME
          SELECT CASE (LCOD)
            CASE(1)
              A(3,N)=ZERO

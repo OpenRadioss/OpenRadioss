@@ -95,19 +95,19 @@ C
             PENE(I) = PENE(I) + EM8*PENE(I)
             PENMAX = FPENMAX*GAPV(I)
             IF (INACTI == 1 .OR. PENE(I) > PENMAX) THEN
-C               DESACTIVATION DES NOEUDS
+C               Deactivation of nodes
                 IF (PENE(I) > PENMAX) 
      .          WRITE(IOUT,'(A,1PG20.13,A)')
      .                ' MAX INITIAL PENETRATION ',PENMAX,' IS REACHED'
                 WRITE(IOUT,'(A)')' SECONDARY STIFFNESS IS SET TO ZERO'
                 STFS(CAND_S(I)) = ZERO
             ELSE IF(INACTI==2) THEN
-C               DESACTIVATION DES ELEMENTS
+C               Deactivation of elements
                 WRITE(IOUT,'(A)')'MAIN STIFFNESS IS SET TO ZERO'
                 STFM(CAND_M(I)) = ZERO
             ELSE IF(INACTI==6) THEN
 C             INACTI==6
-C               CHANGE LES COORDONNEES DES NOEUDS SECONDARY
+C               Change coordinates of secondary nodes
                 WRITE(IOUT,'(A)')'NODE COORD IS CHANGED AS PROPOSED'
                 PS2 = HALF*PENE(I)
                 PENEOLD = SQRT( (XANEW(1,N1(I))-X(1,N1(I)))**2 +
@@ -126,7 +126,7 @@ C               CHANGE LES COORDONNEES DES NOEUDS SECONDARY
                   XANEW(2,N2(I)) = X(2,N2(I))+PS2*NY(I)
                   XANEW(3,N2(I)) = X(3,N2(I))+PS2*NZ(I)
                 ENDIF
-C               CHANGE LES COORDONNEES DES NOEUDS MAIN
+C               Change coordinates of main nodes
                 WRITE(IOUT,'(A)')'SEG. COORD IS CHANGED AS PROPOSED'
                 PENEOLD = SQRT( (XANEW(1,M1(I))-X(1,M1(I)))**2 +
      .                          (XANEW(2,M1(I))-X(2,M1(I)))**2 +
@@ -268,18 +268,18 @@ C
             ENDIF
 
             IF (INACTI == 1 .OR. PENE(I) > PENMAX) THEN
-C               DESACTIVATION DES NOEUDS
+C               Deactivation of nodes
                 IF (PENE(I) > PENMAX) 
      .          WRITE(IOUT,'(A,I8,A,1PG20.13,A)')' NODE ',ITAB(NSVG(I)),
      .                ' : MAX INITIAL PENETRATION ',PENMAX,' IS REACHED'
                 WRITE(IOUT,'(A)')' SECONDARY STIFFNESS IS SET TO ZERO'
                 STFN(CAND_N(I)) = ZERO
             ELSE IF(INACTI==2) THEN
-C               DESACTIVATION DES ELEMENTS
+C               Deactivation of elements
                 WRITE(IOUT,'(A)')'ELEMENT STIFFNESS IS SET TO ZERO'
                 STF(CAND_E(I)) = ZERO
             ELSE IF(INACTI==3) THEN
-C               CHANGE LES COORDONNEES DES NOEUDS SECONDARY
+C               Change coordinates of secondary nodes
                 WRITE(IOUT,'(A)')'NODE COORD IS CHANGED AS PROPOSED'
                 PENEOLD = SQRT( (XANEW(1,NSV(CAND_N(I)))-XI(I))**2 +
      .                          (XANEW(2,NSV(CAND_N(I)))-YI(I))**2 +
@@ -290,7 +290,7 @@ C               CHANGE LES COORDONNEES DES NOEUDS SECONDARY
                   XANEW(3,NSV(CAND_N(I))) = ZI(I)+PENE(I)*N3(I)
                 ENDIF
             ELSE IF(INACTI==4) THEN
-C               CHANGE LES COORDONNEES DES NOEUDS MAIN
+C               Change coordinates of main nodes
                 WRITE(IOUT,'(A)')'SEG. COORD IS CHANGED AS PROPOSED'
                 PENEOLD = SQRT( (XANEW(1,IX1(I))-X1(I))**2 +
      .                          (XANEW(2,IX1(I))-Y1(I))**2 +
@@ -329,7 +329,7 @@ C
                 ENDIF
             ELSE IF(INACTI == 6) THEN
 C               INACTI == 6
-C               CHANGE LES COORDONNEES DES NOEUDS SECONDARY
+C               Change coordinates of secondary nodes
                 WRITE(IOUT,'(A)')'NODE COORD IS CHANGED AS PROPOSED'
                 PS2 = HALF*PENE(I)
                 PENEOLD = SQRT( (XANEW(1,NSV(CAND_N(I)))-XI(I))**2 +
@@ -340,7 +340,7 @@ C               CHANGE LES COORDONNEES DES NOEUDS SECONDARY
                   XANEW(2,NSV(CAND_N(I))) = YI(I)+PS2*N2(I)
                   XANEW(3,NSV(CAND_N(I))) = ZI(I)+PS2*N3(I)
                 ENDIF
-C               CHANGE LES COORDONNEES DES NOEUDS MAIN
+C               Change coordinates of main nodes
                 WRITE(IOUT,'(A)')'SEG. COORD IS CHANGED AS PROPOSED'
                 PENEOLD = SQRT( (XANEW(1,IX1(I))-X1(I))**2 +
      .                          (XANEW(2,IX1(I))-Y1(I))**2 +

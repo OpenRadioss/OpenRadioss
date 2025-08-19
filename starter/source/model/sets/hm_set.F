@@ -810,7 +810,7 @@ C-----------------------------------------------
 
               CASE ( 'ELLIPS' )
                   
-                   ! Hyper-ellipsoid surface definition
+                   ! Hyper-Ellipsoid Surface Definition
                    !-----------------------
                    SET(IGS)%NB_ELLIPSE = 1
                    CALL CREATE_ELLIPSE_CLAUSE(CLAUSE%SET_ID,CLAUSE%TITLE ,SUB_ID   ,SKEW   ,RTRANS,
@@ -820,7 +820,7 @@ C-----------------------------------------------
   
               CASE ( 'PLANE' )
                   
-                   ! PLANE surface definition
+                   ! Plane Surface Definition
                    !-----------------------
                    SET(IGS)%NB_PLANE = 1
                    CALL CREATE_PLANE_CLAUSE(CLAUSE%SET_ID ,CLAUSE%TITLE ,SUB_ID  ,CLAUSE ,LSUBMODEL,
@@ -828,7 +828,7 @@ C-----------------------------------------------
 
               CASE ( 'NODENS' )
                   
-                   ! NODENS -> unsortable node list
+                   ! NODENS -> UNSTABLE NODE LIST
                    !-----------------------
                    CALL CREATE_NODENS_CLAUSE(CLAUSE ,ITABM1 ,J ,IS_AVAILABLE ,LSUBMODEL ,NUMNOD)
 
@@ -896,7 +896,7 @@ C -----------------------------------------------------
       !ENDIF
       !  -----------------------------------------------------
 
-      ! Fill Radioss group, lines surfaces
+      ! Fill Radioss Group, surface lines
       !  -----------------------------------------------------
       CALL FILL_IGR(SET,
      .              IGRSURF ,IGRNOD  ,IGRSLIN  ,IGRPART     ,IGRBRIC, IGRQUAD ,   

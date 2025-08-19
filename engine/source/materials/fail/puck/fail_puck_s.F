@@ -167,7 +167,7 @@ C-----------------------------------------------
       END DO
 C-------------------------------
 C      
-C     OFF = 0. si la matrice ou la fibre a rompu
+C     OFF = 0. if the matrix or fiber has broken
 C-------------------------------    
         NINDX = 0 
         NINDX0= 0 

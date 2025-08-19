@@ -140,7 +140,7 @@ C-----------------------------------------------
       !-----------------------------------------------
       !   LAW51 : convective terme computed like in FVM
       !-----------------------------------------------
-      !   DMi = 0.5*DT1*QMV(i,I)  masse entrant par la face i
+      !   Dmi = 0.5*dt1*QMV (i, i) mass entering by the face i
       IF(MTN == 51 .AND. ALE%UPWIND%UPWM /= 3) THEN
         IADBUF = IPM(27,MAT(1))
         IFLG = NINT(BUFMAT(31+IADBUF-1))

@@ -164,7 +164,7 @@ C-----------------------------------------------
      .             DVOIS  ,IREDUCE,WREDUCE,BMINMA,IPARTSP ,
      .             SZ_INTP_DIST,MAX_INTP_DIST_PART,PRE_SEARCH)
 C-----------------------------------------------
-C     re-tri voisins (voisins vrais, voisins dans la zone de securite).
+C     re-sort neighbors (true neighbors, neighbors in the safety zone)
 C
       IF (PRE_SEARCH==0) THEN
       MYSPATRUE=SPATRUE

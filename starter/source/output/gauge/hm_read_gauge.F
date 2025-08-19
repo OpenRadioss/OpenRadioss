@@ -109,7 +109,7 @@ c 6:                                       XSAV (SPH sorting)
 c 7:                                       YSAV (SPH sorting)
 c 8:                                       ZSAV (SPH sorting)
 c 9:                                       FF (sph only)
-c 10:                                      intantaneous Pressure
+c 10: Intantaneous Pressure
 c 11:                                      intantaneous PA
 c 12:                                      intantaneous Rho
 c 13:                                      intantaneous E
@@ -147,7 +147,7 @@ C-----------------------------------------------------------------
        CALL HM_OPTION_START('/GAUGE/SPH')       
        DO I=1,NBGAUGE_SPH
         NG=NG+1
-        !---Multidomaines --> on ignore les sections non tagees----
+        !--- Multidomatic-> We do not know the non-tagged sections ----
         IF(NSUBDOM > 0) THEN
           IF(TAGGAU(NG) == 0) CALL SZ_R2R(TAGGAU,NG)
         ENDIF
@@ -207,7 +207,7 @@ C-----------------------------------------------------------------
             NOM_OPT(1,I)=NGAU
             CALL FRETITL(TITR,NOM_OPT(LNOPT1-LTITR+1,I),LTITR)
             NG=NG+1
-            !Multidomaines --> on ignore les sections non tagees----
+            !Multidomatic-> We do not know the non-tagged sections ----
             IF(NSUBDOM > 0) THEN
               IF(TAGGAU(NG) == 0) CALL SZ_R2R(TAGGAU,NG)
             ENDIF
@@ -244,7 +244,7 @@ C-----------------------------------------------
 
         IF (KEY == 'SPH' .OR. KEY == 'POINT') CYCLE
         NG=NG+1
-        !Multidomaines --> on ignore les sections non tagees----
+        !Multidomatic-> We do not know the non-tagged sections ----
         IF(NSUBDOM > 0) THEN
           IF(TAGGAU(NG) == 0) CALL SZ_R2R(TAGGAU,NG)
         ENDIF

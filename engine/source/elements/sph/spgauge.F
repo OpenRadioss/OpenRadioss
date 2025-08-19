@@ -82,7 +82,7 @@ c 6:               XSAV (SPH sorting)
 c 7:               YSAV (SPH sorting)
 c 8:               ZSAV (SPH sorting)
 c 9:               FF (sph only)
-c 10:              intantaneous Pressure
+c 10: Intantaneous Pressure
 c 11:              not yet available
 c 12:              intantaneous Rho
 c 13:              intantaneous E
@@ -164,7 +164,7 @@ C------
             END IF
           ENDDO
 C------
-C       partie symetrique.
+C       symmetrical part.
         NVOISS=KXSP(6,N)
         K = NVOIS
         DO J=KXSP(5,N)+1,KXSP(5,N)+NVOISS
@@ -190,7 +190,7 @@ C       partie symetrique.
           END IF
         ENDDO
 C
-C Traitement Parith/ON avant echange
+C Parith treatment/We before exchange
 C
         DO K = 1, 6
           SPHG_F6(1,K,IG) = ZERO
@@ -288,7 +288,7 @@ C
 C
       F = MIN(FF,ZEP4/DT2)
 C-----------------------------------------------
-C INITIALIALISATION DES COEFFICIENTS DU FILTRE
+C INITIALIZATION OF FILTER COEFFICIENTS
 C-----------------------------------------------
       PI1   = TWO*ATAN2(ONE,ZERO)
       PI8  = PI1*ONE_OVER_8

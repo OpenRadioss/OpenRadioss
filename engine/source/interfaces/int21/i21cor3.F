@@ -510,7 +510,7 @@ C
 C
       DO I=1,JLT
 
-C3 pas la meme distance que dans i21dst3 : DIST <= Pi(I)
+Cnot the same distance as in i21dst3: DIST <= Pi(I)
 c       LB(I) = MIN(ONE,MAX(LB(I),ZERO))
 c       LC(I) = MIN(ONE,MAX(LC(I),ZERO))
 c       LA(I) = MIN(ONE,MAX(LA(I),ZERO))

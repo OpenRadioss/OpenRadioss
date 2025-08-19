@@ -118,7 +118,7 @@ C
        ISHEA_D = 0
        NPTS_D = 0
        ISTRA_D = 1
-C       Double stockage temporaire - supprimer GEO(12)=IGTYP apres tests
+C       Temporary double storage - Delete GEO (12) = Igtyp after tests
         IGEO( 1)=IG
         IGEO(11)=IGTYP
         GEO(12) =IGTYP+PUN
@@ -127,7 +127,7 @@ C HIDDEN FLAGS
 C----------------------
 C ISHEAR NEVER USED
         ISHEAR = 0
-C CVIS USED in coquez routines
+C Cvis used in shell routines
         CVIS = ZERO
 C ISEN USED IN ENGINE call csens3.F routine
         ISEN = 0
@@ -301,7 +301,7 @@ C-------not change default dn of DKT with old define (ishel=12)
 C-----------------------------
 C       IHBE IPLA ISTRAIN
 C-----------------------------
-C       Double stockage temporaire
+C       Temporary double storage
         GEO(171)=IHBE
         IGEO(10)=IHBE
         IF(IHBE==0)THEN
@@ -335,7 +335,7 @@ C       Double stockage temporaire
         END IF
         GEO(199) = ZSHIFT
 C-------------------------------
-C       Double stockage temporaire
+C       Temporary double storage
         IGEO( 5)=NINT(GEO( 3))
         IGEO( 9)=NINT(GEO(39))
 C-----------------------------

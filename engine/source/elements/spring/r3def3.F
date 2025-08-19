@@ -215,7 +215,7 @@ C
       IF (SCODVER >= 101) THEN
         IF (TT == ZERO) THEN
           DO I=1,NEL
-            AL0_ERR(I)=ALDP(I)-AL0(I)     ! difference entre double et My_real
+            AL0_ERR(I)=ALDP(I)-AL0(I)     ! difference between double and my_real
           ENDDO
         ENDIF
       ENDIF
@@ -232,7 +232,7 @@ C
 !
       IF (SCODVER >= 101) THEN
         DO I=1,NEL
-          AL0DP(I)= AL0DP(I)+AL0_ERR(I)   ! AL_DP doit   tre recalcul   ainsi afin de garantir la coh  rence absolue entre AL0_DP et AL_DP
+          AL0DP(I)= AL0DP(I)+AL0_ERR(I)   ! Al_dp must be recalculated as well in order to guarantee the absolute coh rence between al0_dp and al_dp
         ENDDO
       ENDIF
 C
@@ -343,8 +343,8 @@ C
             FMAX  = MIN(FMAX,ABS(DFS(I)))
             DFS(I)= SIGN(FMAX,DFS(I))
             DF(I) = DFS(I)
-C         df=dfs pour compatibilite des restarts si fric=0 
-C         et dfs=ev(nb9) non existant avant 23f et ancien 23f
+C         df=dfs for restart compatibility if fric=0
+C         and DFS = EV (NB9) not existing before 23F and old 23F
           ELSE
             DF(I)= ZERO
           ENDIF ! IF (ITABF(I) > ZERO)

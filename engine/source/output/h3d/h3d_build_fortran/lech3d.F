@@ -1424,7 +1424,7 @@ c
               !=====================================================================================
               ! /H3D/ELEM/DAMG output definition
               !=====================================================================================
-              ! -> Modes output definition
+              ! -> Output Definition modes
               IF ((KEY3_GLOB(1:4) == 'DAMG').AND.((IS_MODE > 0).OR.(IS_MODE_ALL > 0))) THEN 
                 ! Only available if the ID of the material law is given by user
                 CPT_MOD = 0

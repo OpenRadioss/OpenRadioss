@@ -20,8 +20,8 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-C remplit le tableau segvar avec les valeurs des variables de  l ments voisins
-C sert pour les interfaces et pour les ebc
+C fills the segvar array with the values of the neighboring element variables
+C used for interfaces and for ebc
 !||====================================================================
 !||    seggetv                ../engine/source/interfaces/interf/seggetv.F
 !||--- called by ------------------------------------------------------

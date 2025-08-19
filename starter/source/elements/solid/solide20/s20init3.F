@@ -214,7 +214,7 @@ C
      4   DTELEM(NF1),STI   ,GBUF%SIG  ,GBUF%EINT   ,GBUF%RHO,
      5   GBUF%QVIS  ,TEMP0 ,TEMP      ,NEL         ,GLOB_THERM%NINTEMP)
 C----------------------------------------
-C     INITIALISATION DE LA THERMIQUE 
+C     initialization of thermal
 C----------------------------------------
       IF(JTHE /=0) CALL ATHERI(MAT,PM,GBUF%TEMP)
 C-----------------------------
@@ -268,7 +268,7 @@ C----------------------------------------
      .         LBUF%EINT ,LBUF%TEMP ,LBUF%DELTAX ,LBUF%RK ,LBUF%RE ,BUFMAT, DELTAX, AIRE, 
      .         GBUF%VOL, DTX       , IGEO,IGTYP)
 C----------------------------------------
-c         INITIALISATION DES MASSES
+c         initialization of masses
 C
           CALL S20MSI(LBUF%RHO, MASS    , LBUF%VOL , DTELEM(NF1), STI    ,
      .                LBUF%OFF, LBUF%SIG, LBUF%EINT, DTX        , NEL    ,
@@ -328,8 +328,8 @@ C----------------------------------------
      .             SIGI,NSIGS,IXS,NIXS,PTSOL,
      .             RNOISE,PERTURB,MAT_PARAM)
 C------------------------------------------
-C     assemblage des Volumes nodaux et Modules nodaux
-C     (pour rigidites d'interface)
+C     assembly of nodal volumes and nodal modules
+C     (for interface stiffnesses)
 C------------------------------------------
       IF(I7STIFS/=0)THEN
         NCC=20

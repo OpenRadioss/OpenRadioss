@@ -143,8 +143,8 @@ c
       EPSCMAX    = UPARAM(33)       ! Maximum compressive strain rate threshold
       ALPHAS     = UPARAM(34)       ! Compressive strain rate effect parameter 1
       GAMMAS     = UPARAM(35)       ! Compressive strain rate effect parameter 2
-      !  -> Element deletion flag
-      IDEL       = NINT(UPARAM(36)) ! Element deletion flag
+      !  -> flag deletion element
+      IDEL       = NINT(UPARAM(36)) ! flag element
 c
       !--------------------------------------------------------------------
       ! Recovering internal variables
@@ -901,7 +901,7 @@ c
             SIGNZX(I) = (ONE-DMG(I,1))*SIGNZX(I)
           ENDIF
 c
-          ! Element deletion check    
+          ! DELETION CHECK element    
           IF ((DMG(I,1) == ZEP999).AND.(LOFF(I) == ONE).AND.(OFF(I) > ZERO)) THEN 
             SIGNXX(I) = ZERO
             SIGNYY(I) = ZERO

@@ -199,7 +199,7 @@ C
                     END IF
                   END DO
                   IF(MI(1)==NI(1).AND.MI(NF)==NI(2))THEN
-C                    FACTAG(JS) moins face jj
+C                    Factag (JS) Less Face JJ
                      FASTAG(JS)=FASTAG(JS)+PWR(JJ)
                      GO TO 300
                   END IF

@@ -69,10 +69,10 @@ C Recherche du no de noeud interne
 C
       DO I=1,NSN
         NODU(I) = NOD(I)
-C SYSFUS2 retourne 0 si noeud non trouve
+C Sysfus2 returns 0 if node not found
         NODTMP(I) = SYSFUS2(NOD(I),ITABM1,NUMNOD)
       END DO
-C Denombrement nb de noeuds locaux (ie nb de noeuds N<>0
+C Department number of local nodes (ie number of nodes n <> 0
       NSN_L=0
       DO I=1,NSN
         IF(NODTMP(I)/=0) THEN
@@ -83,7 +83,7 @@ C Denombrement nb de noeuds locaux (ie nb de noeuds N<>0
       FR_RL(ISPMD+1)=NSN_L
 C sauvegarde nb de noeuds totaux
       FR_RL(NSPMD+1)=NSN
-C Verification des ID user avec comm globale
+C Verification of ID User with Global Comm
       IF(NSPMD > 1) CALL SPMD_GLOB_ISUM9(NODTMP,NSN)
       IF(ISPMD==0) THEN
        DO I = 1, NSN
@@ -94,15 +94,15 @@ C Verification des ID user avec comm globale
         END IF
        END DO
       ENDIF
-C affectation du nb de noeud local
+C Assignment of the number of local node
       NSN = NSN_L
-C echange valeur fr_rl
+C EXCHANGE VALUE FR_RL
       IF(NSPMD > 1) THEN
         DO P = 1, NSPMD
           CALL SPMD_IBCAST(FR_RL(P),FR_RL(P),1,1,IT_SPMD(P),0)
         ENDDO
       END IF
-C determination du pmain
+C Dettermination of the pmain
       IMAX = 0
       PMAIN = 1
       DO P = 1, NSPMD
@@ -183,7 +183,7 @@ C
           ! SYSFUS2 retourne 0 si noeud non trouve, local id otherwise
           NODTMP(I) = SYSFUS2(NOD(I),ITABM1,NUMNOD)
         END DO
-        !Denombrement nb de noeuds locaux (ie nb de noeuds N<>0)
+        !Department number of local nodes (ie number of nodes n <> 0)
         DO I=1,NSN
           IF(NODTMP(I)/=0) THEN
             NOD(I) = NODTMP(I)
@@ -191,7 +191,7 @@ C
             NOD(I) = -NODU(I)
           END IF
         END DO
-        ! si noeuds non present alors tag en - pour M1 et M2
+        ! If nodes not present then tag en - for m1 and m2
         IF(NODTMP(NSN+1)==0)THEN
           M1=-M1
         ELSE
@@ -202,7 +202,7 @@ C
         ELSE
           M2=NODTMP(NSN+2)
         END IF
-        ! Verification des ID user avec comm globale
+        ! Verification of ID User with Global Comm
         IF(NSPMD > 1) CALL SPMD_GLOB_ISUM9(NODTMP,NSN+2)
         IF(ISPMD==0) THEN  
          !stop if main nodes not found
@@ -231,7 +231,7 @@ C
         NODU(NSN+2)=M2
         NODTMP(NSN+1) = SYSFUS2(M1,ITABM1,NUMNOD)
         NODTMP(NSN+2) = SYSFUS2(M2,ITABM1,NUMNOD)
-        ! si noeuds non present alors tag en - pour M1 et M2
+        ! If nodes not present then tag en - for m1 and m2
         IF(NODTMP(NSN+1)==0)THEN
           M1=-M1
         ELSE
@@ -242,7 +242,7 @@ C
         ELSE
           M2=NODTMP(NSN+2)
         END IF
-        ! Verification des ID user avec comm globale
+        ! Verification of ID User with Global Comm
         IF(NSPMD > 1) CALL SPMD_GLOB_ISUM9(NODTMP,NSN+2)        
         IF(ISPMD==0) THEN  
          !stop if main nodes not found

@@ -172,7 +172,7 @@ c
         END IF    
       END IF    
 c-------------------------
-c     Strain rate dependent fracture energies     
+c     Strain Rate depends fracture Energies     
 c-------------------------
       GC_N(:NEL) = GC1_INI
       GC_T(:NEL) = GC2_INI

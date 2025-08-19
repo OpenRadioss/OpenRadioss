@@ -87,7 +87,7 @@ C-----------------------------------------------
      .    CBR2(4,MVSIZ),CBR3(4,MVSIZ),BB0(2,2,MVSIZ),T0IJ(2,2,MVSIZ),
      .    T1IJ(2,2,MVSIZ)
        DATA IN/2,1/
-C-----------Attention Matrice sym Kii ne calcul que la moitie---------72
+C----------- CAPTE Matrix Sym KII only calculates half ---------- 72
 #include "vectorize.inc"
        DO M=JFT,JLT 
         EP=IPLAT(M)
@@ -303,7 +303,7 @@ C
        ENDDO
        ENDDO
       END IF
-C ----ajoute termes sup. due au orthotrope-----
+C ---- Add terms sup.due to orthotropic -----
        IF (IORTH>0) THEN
 C ----add mem-bending coupling terms of orthotrope--coplanar first---
 #include "vectorize.inc"
@@ -869,7 +869,7 @@ C
      2                BBC(2,1,4,EP)*DC(2,2,EP)*BBC(2,J1,3,EP)
         ENDDO
        ENDDO
-C------ Mzz  pour tous----x:1,3,5,7;y:2,4,6,8---
+C------ Mzz for all ---- x: 1.3,5,7; Y: 2.4,6,8 ---
       IF (IDRIL==0) THEN
         DO EP=JFT,JLT
           M11(3,3,EP)=M11(3,3,EP)+DHZ(EP)
@@ -1065,7 +1065,7 @@ C---+----1----+----2----+shear contribution-+----5----+----6----+----7----+----8
        ENDDO
        ENDDO
 C
-C---+----1----+----2----+couplage part--[MF](3x2)[FM](2x3)-6----+----7----+----8
+C---+---- 1 ----+---- 2 ----+Part coupling-[MF] (3x2) [FM] (2x3) -6 ----+---- 7 ----+---- 8
        DO I=1,3
        DO J=1,2
         J1=J+3
@@ -1806,7 +1806,7 @@ C-----------------------------------------------
       my_real
      .   PRX(4,MVSIZ),PRY(4,MVSIZ),PRXY(4,MVSIZ),PRZ(4,MVSIZ),
      .   DMF(3,3,MVSIZ),CBR1(4,MVSIZ),CBR2(4,MVSIZ),CBR3(4,MVSIZ)
-C-----------Attention Matrice sym Kii ne calcul que la moitie---------72
+C----------- CAPTE Matrix Sym KII only calculates half ---------- 72
         NF =NPLAT+1
 #include "vectorize.inc"
        DO M=JFT,JLT

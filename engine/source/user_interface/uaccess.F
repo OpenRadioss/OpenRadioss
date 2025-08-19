@@ -204,12 +204,12 @@ C-----------------------------------------------
      .                I1=IU,C1=MESS)
         IERR=IERR+1
        END IF
-C   en SPMD la valeur 0 n indique pas une erreur mais l absence du noeud sur le proc
+C   in SPMD the value 0 does not indicate an error but the absence of the node on the proc
        GET_U_NUMNOD=0
        RETURN
       ENDIF
       IF((IU-ITAB1)==0)THEN
-C     >CAS IU=TABM FIN DE LA RECHERCHE
+C     >CAS IU=TABM END OF THE SEARCH
        CALL GET_VAR_USER_I(13,J+NUMNOD,ITAB2)
          GET_U_NUMNOD=ITAB2
          RETURN
@@ -236,7 +236,7 @@ C
 !||    spmd_rbcast         ../engine/source/mpi/generic/spmd_rbcast.F
 !||====================================================================
       INTEGER FUNCTION GET_U_NOD_X(NOD, X,Y,Z)
-C   En SPMD, tous les procs doivent appeler cette fonction
+C   In SPMD, all procs must call this function
 C   sinon blocage
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -285,7 +285,7 @@ C   weight : pointeur 18 (cf resol.F)
         ENDIF
        ENDIF
 C
-C SPMD communication du resultat a ts les procs
+C SPMD communication of the result to all procs
 C
        IF(NSPMD>1.AND.GETUNOD_NOCOM==0) THEN
          IF(P==1) THEN
@@ -326,7 +326,7 @@ C
 !||    spmd_rbcast         ../engine/source/mpi/generic/spmd_rbcast.F
 !||====================================================================
       INTEGER FUNCTION GET_U_NOD_D(NOD, DX,DY,DZ)
-C   En SPMD, tous les procs doivent appeler cette fonction
+C   In SPMD, all procs must call this function
 C   sinon blocage
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -375,7 +375,7 @@ C   weight : pointeur 18 (cf resol.F)
         ENDIF
        ENDIF
 C
-C SPMD communication du resultat a ts les procs
+C SPMD communication of the result to all procs
 C
        IF(NSPMD>1.AND.GETUNOD_NOCOM==0) THEN
          IF(P==1) THEN
@@ -416,7 +416,7 @@ C
 !||    spmd_rbcast         ../engine/source/mpi/generic/spmd_rbcast.F
 !||====================================================================
       INTEGER FUNCTION GET_U_NOD_V(NOD, VX,VY,VZ)
-C   En SPMD, tous les procs doivent appeler cette fonction
+C   In SPMD, all procs must call this function
 C   sinon blocage
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -466,7 +466,7 @@ C   weight : pointeur 18 (cf resol.F)
           CALL GET_VAR_USER_F(16,D3,VZ)
         ENDIF
 C
-C SPMD communication du resultat a ts les procs
+C SPMD communication of the result to all procs
 C
        ENDIF
        IF(NSPMD>1.AND.GETUNOD_NOCOM==0) THEN
@@ -508,7 +508,7 @@ C
 !||    spmd_rbcast         ../engine/source/mpi/generic/spmd_rbcast.F
 !||====================================================================
       INTEGER FUNCTION GET_U_NOD_A(NOD, AX,AY,AZ)
-C   En SPMD, tous les procs doivent appeler cette fonction
+C   In SPMD, all procs must call this function
 C   sinon blocage
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -557,7 +557,7 @@ C   weight : pointeur 18 (cf resol.F)
         ENDIF
        ENDIF
 C
-C SPMD communication du resultat a ts les procs
+C SPMD communication of the result to all procs
 C
        IF(NSPMD>1.AND.GETUNOD_NOCOM==0) THEN
          IF(P==1) THEN

@@ -89,7 +89,7 @@ C-----------------------------------------------
             M51_NVPHASL = 0
          ENDIF
 C---------------------------------------------------------------------C
-C   initialisation du tableau de travail pour l'interface 22 (FSI)    C
+C   initialization of the work array for interface 22 (FSI)    C
 C---------------------------------------------------------------------C
          !int22  : number of int22 interface
          !i22len : maximum number of bricks  (optim dimensionnement possible)
@@ -159,7 +159,7 @@ C---------------------------------------------------------------------C
          !CALL I22DATAINIT_DB()
 
 C---------------------------------------------------------------------C
-C   Lecture du tableau de travail pour l'interface 22 (FSI)           C
+C   Reading the work array for interface 22 (FSI)           C
 C---------------------------------------------------------------------C
 
          !temporary arg copy is needed while calling READ_* subroutine (ifort & -check arg_temp_created)

@@ -81,7 +81,7 @@ C----------------------------
           Y4(I)=X(2,NC4(I))
           Z4(I)=X(3,NC4(I))
 C---------------------------------------
-C     REPERE LOCAL (ISOPARAMETRIQUE)
+C     LOCAL REFERENCE FRAME (ISOPARAMETRIQUE)
 C---------------------------------------
           SY(I)=HALF*(Y2(I)+Y3(I)-Y1(I)-Y4(I))
           SZ(I)=HALF*(Z2(I)+Z3(I)-Z1(I)-Z4(I))
@@ -89,7 +89,7 @@ C---------------------------------------
           TZ(I)=HALF*(Z3(I)+Z4(I)-Z1(I)-Z2(I))
         ENDDO
 C-----------
-C       REPERE CONVECTE
+C       convected frame
 C-----------
         DO I=1,NEL
           CT = TY(I)*TY(I)+TZ(I)*TZ(I)

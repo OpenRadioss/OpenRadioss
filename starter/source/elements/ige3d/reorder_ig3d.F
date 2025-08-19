@@ -32,13 +32,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                        TAB_REMOVE,TAB_NEWFCT,EL_CONNECT,
      .                        IPARTIG3D,IGEO,TAB_STAY,FLAG_PRE,FLAG_DEBUG)
 C----------------------------------------------------------------------
-C   ROUTINE QUI REORDONNE LES TABLEAUX DE POINTS X, KNOTLOCPC, D, V ETC 
-C   EN COMPACTANT : ENLEVE LES POINTS SUPPRIMES, RAJOUTE LES NOUVEAUX,
-C   SANS LAISSER DE TROU
-C   LA ROUTINE TRIE EGALEMENT LES DOUBLONS EN BORD DE PATCHS, MAIS NE 
+C   routine that reorders the arrays of points x, knotlocpc, d, v, etc.
+C   by compacting: removes deleted points, adds new ones,
+C   without leaving any gaps
+C   the routine also sorts duplicates at patch edges, but does not
 C   SUPPRIME PAS COMPLETEMENT LES POINTS (DESACTIVATION)
-C   ELLE REORDONNE EN FIN LES TABLES DE CONNECTIVITES DE TOUT LES ELEMENTS
-C   QUI ONT ETE MODIFIES
+C   finally, it reorders the connectivity tables of all the elements
+C   that have been modified
 C----------------------------------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -76,7 +76,7 @@ C
       TOL=EM06
 c
 c ------------------------------------------------------------------------------------------
-CC   TRI DE MANIERE CROISSANTE LES TABLEAUX REMOVE ET NEWFCT
+Csort the remove and newfct arrays in ascending order
 c ------------------------------------------------------------------------------------------
 c
       ALLOCATE(TAB_REMOVE_TRI(L_TAB_REMOVE)) 
@@ -190,25 +190,25 @@ c
       NBNEWX_FINAL = L_REAL_NEWFCT - L_REAL_REMOVE  !  attention il faudra s'il y avait des 0 concatener
 c
 c ------------------------------------------------------------------------------------------
-C   PUIS IL FAUT REMPLACER CHAQUE POINT DE REMOVE PAR LES POINTS DE NEWS ET QUAND IL N'Y A PLUS DE PLACE
-C   ON COMPTE LE NOMBRE REEL DE POINT AJOUTES ET ON REMPLIT AVEC NUMNODO + ITNBNEWX
+C   then each point from remove must be replaced by the points from news, and when there is no more space
+C   count the actual number of points added and fill with numnodo + itnbnewx
 C
-CC  MODIFICATION DES CONNECTIVITES DES ELEMENTS ET DES DONNES DES POINTS DE CONTROLE
+Cmodification of the connectivity of the elements and the data of the control points
 c ------------------------------------------------------------------------------------------
 c
       IF(FLAG_PRE==1) THEN
 
         I=1
         DO WHILE (I<=L_REAL_REMOVE)
-          X_TMP(:,TAB_REMOVE_TRI(I)) = X_TMP(:,TAB_NEWFCT_TRI(I))  ! X a pile poil la bonne taille
+          X_TMP(:,TAB_REMOVE_TRI(I)) = X_TMP(:,TAB_NEWFCT_TRI(I))  ! X has the right size
           D_TMP(:,TAB_REMOVE_TRI(I)) = D_TMP(:,TAB_NEWFCT_TRI(I))
           V_TMP(:,TAB_REMOVE_TRI(I)) = V_TMP(:,TAB_NEWFCT_TRI(I))
           MS_TMP(TAB_REMOVE_TRI(I)) = MS_TMP(TAB_NEWFCT_TRI(I))
           WIGE_TMP(TAB_REMOVE_TRI(I)) = WIGE_TMP(TAB_NEWFCT_TRI(I))
           DO ITPATCH=1,NUMGEO  ! SI ON DECALE ONE POINT, C'EST QU'IL EST SUR ONE SEUL PATCH, DONC ON VA DECALER TOUT LES KNOT
-cc DE CE POINT SUR TOUT LES PATCH POUR ETRE SUR, MAIS IL AURAIT FALU JUSTE SAVOIR SUR LEQUEL IL EST POU RNE PAS 
-C DECALER DES 0
-            DECALGEO=(ITPATCH-1)*(NUMNOD+NBNEWX_TMP) ! nb total de point ajoute avec ceux qu'on supprime
+cfrom this point on all patches to be sure, but it would have been enough to know which one it is on to avoid
+C shifting zeros
+            DECALGEO=(ITPATCH-1)*(NUMNOD+NBNEWX_TMP) ! total number of openwork point with those that are deleted
             KNOTLOCPC(:,1,DECALGEO+TAB_REMOVE_TRI(I)) = KNOTLOCPC(:,1,DECALGEO+TAB_NEWFCT_TRI(I))
             KNOTLOCPC(:,2,DECALGEO+TAB_REMOVE_TRI(I)) = KNOTLOCPC(:,2,DECALGEO+TAB_NEWFCT_TRI(I))
             KNOTLOCPC(:,3,DECALGEO+TAB_REMOVE_TRI(I)) = KNOTLOCPC(:,3,DECALGEO+TAB_NEWFCT_TRI(I))
@@ -233,7 +233,7 @@ c
           MS_TMP(NUMNODIGE0+J) = MS_TMP(TAB_NEWFCT_TRI(I))
           WIGE_TMP(NUMNODIGE0+J) = WIGE_TMP(TAB_NEWFCT_TRI(I))
           DO ITPATCH=1,NUMGEO
-            DECALGEO=(ITPATCH-1)*(NUMNOD+NBNEWX_TMP) ! nb total de point ajoute avec ceux qu'on supprime
+            DECALGEO=(ITPATCH-1)*(NUMNOD+NBNEWX_TMP) ! total number of openwork point with those that are deleted
             KNOTLOCPC(:,1,DECALGEO+NUMNODIGE0+J) = KNOTLOCPC(:,1,DECALGEO+TAB_NEWFCT_TRI(I))
             KNOTLOCPC(:,2,DECALGEO+NUMNODIGE0+J) = KNOTLOCPC(:,2,DECALGEO+TAB_NEWFCT_TRI(I))
             KNOTLOCPC(:,3,DECALGEO+NUMNODIGE0+J) = KNOTLOCPC(:,3,DECALGEO+TAB_NEWFCT_TRI(I))
@@ -252,17 +252,17 @@ c              print*,'IXIG3D = ', IXIG3D(K),'IXIG3D final = ', NUMNODIGE0+J
         ENDDO
 c
 c ------------------------------------------------------------------------------------------
-c  TEST DE DOUBLON GEOMETRIQUE (CAUSE PAR DU RAFFINEMENT DE MULTIPATCH COLLES)
+c  geometric duplicate test (caused by refinement of glued multipatch)
 C  MERGE EN CAS DE BESOIN
-C  ATTENTION A BIEN RAMENER LES INFORMATIONS SUR CHACUN DES PATCHS
+C  be careful to bring back the information for each patch
 C
 C  ATTENTION : TWO PATCHS PEUVENT AVOIR DES POINTS AU MEME ENDROIT,
 C  MAIS POURRAIENT NE PAS AVOIR A ETRE CONNECTES
-C  LE MERGE DE CES TWO POINTS CAUSERAIT ONE SOUCIS
-C  ATTENTION2 : NE SUPPRIME PAS LES DOUBLONS DU MODELE : ILS SONT SEULEMENT DESACTIVES
+C  merging these two points would cause a problem
+C  note2: do not delete duplicates from the model: they are only deactivated
 c ------------------------------------------------------------------------------------------
 c
-        IF(NBPART_IG3D>1) THEN !  ET SI ON A GARDE DES POINTS (CONDITION QUI VIENT DE RAFIG3D.F)
+        IF(NBPART_IG3D>1) THEN ! and if points have been kept (condition coming from rafig3d.f)
           ALLOCATE(PERMIGE(NUMNOD))
           ALLOCATE(X_TRIE(3,NUMNOD))
           DO I=1,NUMNOD
@@ -280,9 +280,9 @@ c
      .       .AND. (ABS(X_TRIE(3,I+NDOUBLONIGE)-X_TRIE(3,I+NDOUBLONIGE+NVALEURS+1)) <= TOL))
 c
 c ------------------------------------------------------------------------------------------
-CC TEST POUR SAVOIR LEQUEL DES POINTS DOUBLONS EST A GARDER
-CC ET MODIFICATION DES DONNES DES POINTS DE CONTROLE ET DES TABLES
-CC DE CONNECTIVITES
+Ctest to know which of the duplicate points should be kept
+Cand modification of the control point data and the tables
+Cof connectivities
 c ------------------------------------------------------------------------------------------
 c
               NUMPCSTAY =0
@@ -299,7 +299,7 @@ c
                   EXIT
                 ENDIF
               ENDDO
-              IF(NUMPCSTAY==0.AND.NUMPCLEAVE==0) THEN ! LES TWO POINTS SONT A SUPPRIMER
+              IF(NUMPCSTAY==0.AND.NUMPCLEAVE==0) THEN ! both points must be deleted
                 NUMPCSTAY = PERMIGE(I+NDOUBLONIGE)
                 NUMPCLEAVE = PERMIGE(I+NDOUBLONIGE+NVALEURS+1)
 c                print*,'jai supprime au hasard ',NUMPCLEAVE
@@ -316,12 +316,12 @@ c
                 J=J+1
               ENDDO
 
-ccc il faut savoir de quel patch vient le point qu'on supprime et de quel patch est le point qui va le remplacer 
+cit is necessary to know from which patch comes the point being deleted and from which patch is the point that will replace it
 
               DO ITPATCH=1,NBPART_IG3D
                 DECALGEO=(ITPATCH-1)*(NUMNOD+NBNEWX_TMP)
-c  on ramene les knotlocpc des patch lorsque l'etendue est non nulle pour ce patch
-                DO K=1,4 ! test des etendues knot (vide ou non)
+c  bring back the knotlocpc of the patches when the extent is not zero for this patch
+                DO K=1,4 ! test of knot extents (empty or not)
                   IF(KNOTLOCPC(K,1,DECALGEO+NUMPCLEAVE)/=0) THEN
                     KNOTLOCPC(:,1,DECALGEO+NUMPCSTAY)=KNOTLOCPC(:,1,DECALGEO+NUMPCLEAVE)
                     KNOTLOCPC(:,2,DECALGEO+NUMPCSTAY)=KNOTLOCPC(:,2,DECALGEO+NUMPCLEAVE)
@@ -338,7 +338,7 @@ c  on ramene les knotlocpc des patch lorsque l'etendue est non nulle pour ce pat
             I = I + 1
           ENDDO
 
-C  changer pour ne pas ecrire de facon croissante mais simplement eliminer les points doublons
+C  change to not write in ascending order but simply eliminate duplicate points
 c
 c        IF(NDOUBLONIGE>0) print*, 'J AI TROUVE ET SUPPRIME DES CONNECTIVITES :',NDOUBLONIGE,' DOUBLONS !'
 c
@@ -354,12 +354,12 @@ c
       IF(FLAG_PRE==1) THEN   
 c
 C-----------------------------------------------
-CC ON RE-ORDONNE LA TABLE DE CONNECTIVITE DES ELEMENTS : 
+Cthe connectivity table of the elements is reordered:
 CC PEUT TRAITER DES ELEMENTS MAXI DE DEGRE 3*3*3
 CC (TMPZ(4),TMPZY(4),TABPOSZ(64),TABPOSZY(64),TABPOSZYX(64))
 C-----------------------------------------------
 c
-      DO I=1,NUMELIG3D0+ADDELIG3D ! TAILLE DE EL_CONNECT
+      DO I=1,NUMELIG3D0+ADDELIG3D ! size of el_connect
 c
         IF(EL_CONNECT(I)/=1) CYCLE
 c
@@ -373,11 +373,11 @@ c
 C 
         TABPOSZ(:)=0
         TMPZ(:)=0
-        DO J=1,NCTRL ! POUR CHACUNE DES (PX*PY*PZ) FONCTIONS
+        DO J=1,NCTRL ! for each of the (px*py*pz) functions
           DO K=1,PZ
             IF(KNOTLOCPC(K,3,DECALGEO+IXIG3D(DECALIXIG3D+J-1))<KNOTLOCEL(1,3,I)+TOL.AND.
      .         KNOTLOCPC(K+1,3,DECALGEO+IXIG3D(DECALIXIG3D+J-1))>KNOTLOCEL(2,3,I)-TOL) THEN
-c la position en Z de cette fonction est K : 1 la fonction est en haut, PZ la fonction est en bas
+c the position in z of this function is k: 1 the function is at the top, pz the function is at the bottom
                TMPZ(K)=TMPZ(K)+1
                TABPOSZ((K-1)*(PX*PY)+TMPZ(K)) = IXIG3D(DECALIXIG3D+J-1)
             ENDIF
@@ -385,13 +385,13 @@ c la position en Z de cette fonction est K : 1 la fonction est en haut, PZ la fo
         ENDDO
 C
         TABPOSZY(:)=0
-        DO J=1,PZ ! sur chacun des PZ niveaux
+        DO J=1,PZ ! on each of the pz levels
           TMPZY(:)=0
-          DO K=1,PX*PY  ! POUR CHACUNE DES (PX*PY) FONCTIONS
+          DO K=1,PX*PY  ! for each of the (px*py) functions
             DO L=1,PY
               IF(KNOTLOCPC(L,2,DECALGEO+TABPOSZ((J-1)*(PX*PY)+K))<KNOTLOCEL(1,2,I)+TOL.AND.
      .           KNOTLOCPC(L+1,2,DECALGEO+TABPOSZ((J-1)*(PX*PY)+K))>KNOTLOCEL(2,2,I)-TOL) THEN
-c la position en Y de cette fonction est L : 1 la fonction est a droite, PY la fonction est a gauche
+c the position in y of this function is l: 1 the function is on the right, py the function is on the left
                 TMPZY(L)=TMPZY(L)+1
                 TABPOSZY((J-1)*(PX*PY)+(L-1)*PY+TMPZY(L)) = TABPOSZ((J-1)*(PX*PY)+K)
               ENDIF
@@ -400,13 +400,13 @@ c la position en Y de cette fonction est L : 1 la fonction est a droite, PY la f
         ENDDO
 C
         TABPOSZYX(:)=0
-        DO J=1,PZ ! sur chacun des PZ niveaux
-          DO K=1,PY ! sur chacune des PY lignes
-            DO L=1,PX ! POUR CHACUNE DES PX FONCTIONS
+        DO J=1,PZ ! on each of the pz levels
+          DO K=1,PY ! on each of the py lines
+            DO L=1,PX ! for each of the px functions
               DO M=1,PX
                 IF(KNOTLOCPC(M,1,DECALGEO+TABPOSZY((J-1)*(PX*PY)+(K-1)*PY+L))<KNOTLOCEL(1,1,I)+TOL.AND.
      .             KNOTLOCPC(M+1,1,DECALGEO+TABPOSZY((J-1)*(PX*PY)+(K-1)*PY+L))>KNOTLOCEL(2,1,I)-TOL) THEN
-c la position en X de cette fonction est M : 1 la fonction est devant, PX la fonction est derriere
+c the position in x of this function is m: 1 the function is in front, px the function is behind
                   TABPOSZYX((J-1)*(PX*PY)+(K-1)*PY+M) = TABPOSZY((J-1)*(PX*PY)+(K-1)*PY+L)
                 ENDIF
               ENDDO
@@ -415,7 +415,7 @@ c la position en X de cette fonction est M : 1 la fonction est devant, PX la fon
         ENDDO
 C
 C-----------------------------------------------
-CC REECRICUTE DANS LA TABLE DE CONNECTIVITE GLOBALE DES 
+Crewrite in the global connectivity table of the
 CC ELEMENTS ISOGEOMETRIQUES
 C-----------------------------------------------
 C
@@ -424,8 +424,8 @@ C
         ENDDO
 C
 C-----------------------------------------------
-CC VERIFICATION DE LA REORGANISATION DES TABLES DE CONNECTIVITE
-CC EN FONCTION DES ETENDUES KNOT DE L'ELEMENTS ET DES PC
+Cverification of the reorganization of the connectivity tables
+Caccording to the knot extents of the elements and the control points
 C-----------------------------------------------
 C
         IF(FLAG_DEBUG==1) THEN
@@ -446,7 +446,7 @@ C
           ENDDO
 
 C-----------------------------------------------
-C VERIFICATION PARTIEL DE L'ORDRE DE LA CONNECTIVITE
+C partial verification of the order of the connectivity
 C-----------------------------------------------
 
          DO J=1,PZ-1
@@ -455,7 +455,7 @@ C-----------------------------------------------
 
                ITNCTRL=(PX*PY)*(J-1)+PX*(K-1)+L
 
-               INCTRL=IXIG3D(KXIG3D(4,I)+ITNCTRL-1)  !! IXIG3D range a l'envers 27->1
+               INCTRL=IXIG3D(KXIG3D(4,I)+ITNCTRL-1)  !!IXIG3D puts backwards 27-> 1
                INCTRL2=IXIG3D(KXIG3D(4,I)+ITNCTRL-1+1)  
                IF(KNOTLOCPC(1,1,DECALGEO+INCTRL)<KNOTLOCPC(1,1,DECALGEO+INCTRL2)) THEN
                  print*,'MAUVAIS RANGEMENT DANS IXIG3D : element : ',I,'point',INCTRL

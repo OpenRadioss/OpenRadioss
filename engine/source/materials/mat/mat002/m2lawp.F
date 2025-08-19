@@ -269,7 +269,7 @@ c       PLA(I)=PLA(I)+OFF(I)*MAX(ZERO,0.5*EPSP(I)*DWPLA(I)/YLD(I)/A1(I))
       ENDDO
 
 C--------------------------------
-C     TEST DE RUPTURE DUCTILE
+C     ductile failure test
 C--------------------------------
       DO I=1,NEL
           IF (OFF(I) < EM01)  OFF(I) = ZERO

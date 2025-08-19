@@ -215,7 +215,7 @@ c
                   ENDDO       
                 ENDDO       
 c
-              ELSE  ! Lois non user
+              ELSE  ! Laws not user
                DO I=LFT,LLT
                 WA(JJ+ 1 ) = ISOLNOD
                 WA(JJ+ 2 ) = NPT
@@ -374,7 +374,7 @@ c-------------------------------
             RESP0=RES
           ENDIF    ! nbx= 26
          ENDIF    ! JJ_OLD>0
-        ENDDO      ! nn=1,nspgroup
+        ENDDO      ! nn = 1, nspgroup
 c
         IF (RESP0>0) THEN
            IF (OUTYY_FMT == 2) THEN
@@ -478,7 +478,7 @@ C-----------------------------------------------
                JJ = JJ + (NUVAR+4)*NEL      
              ENDIF               
             ELSE
-cc  pour d'autres type de lois materiaux
+cfor other types of material laws
                JJ = JJ + 4 * NEL
             ENDIF 
 

@@ -66,7 +66,7 @@ C=======================================================================
       IIX = 0
       IIY = 0
       IIZ = 0
-C----- BORNES DU DOMAINE
+C----- BOUNDS OF THE DOMAIN
       XMAX_M=-EP30
       YMAX_M=-EP30
       ZMAX_M=-EP30
@@ -122,7 +122,7 @@ C
       NBY = MAX(NBY,1)
       NBZ = MAX(NBZ,1)
 C=======================================================================
-C 1   mise des noeuds dans les boites
+C 1   placing of nodes in boxes
 C=======================================================================
       ALLOCATE(VOXEL(NBX,NBY,NBZ))
       VOXEL=0
@@ -142,7 +142,7 @@ C=======================================================================
 
         FIRST = VOXEL(IIX(I),IIY(I),IIZ(I))
         IF(FIRST == 0)THEN
-c         empty cell
+c         Empty Cell
           VOXEL(IIX(I),IIY(I),IIZ(I)) = I ! first
           NEXT_NOD(I)                 = 0 ! last one
           LAST_NOD(I)                 = 0 ! no last
@@ -162,7 +162,7 @@ c         jump to the last node of the cell
         ENDIF
       ENDDO
 C=======================================================================
-C 2   recherche noeud second. le plus proche de chaque main
+C 2 Second node search.closest to each main
 C=======================================================================
       DO NE=1,NMN
         MINDIST = EP30

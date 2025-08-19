@@ -487,9 +487,9 @@ C---------------------------------
           ENDDO
         ELSEIF(IVIS2==5)THEN
 C---------------------------------
-C         VISC = 2M/dt    => pour visc < 1 , stable : dt < 2M/visc = dt
-C         M=M1*M2/M1+M2      pour visc = 1 , choc elastique
-C                            pour visc = 0.5 , choc mou
+C         Visc = 2m/dt => For visc <1, stable: Dt <2m/visc = Dt
+C         M = m1*m2/m1+m2 for visc = 1, elastic shock
+C                            For visc = 0.5, elastic collision
 C---------------------------------
           DO I=1,JLT
             MAS2  = MS1(I)*HS1(I)
@@ -553,7 +553,7 @@ C
         ENDDO
       ENDIF
 C
-C     impulsion normale pour les sous-interfaces
+C     normal impulse for sub-interfaces
 C
       IF (NISUB > 0) THEN
 C
@@ -1016,7 +1016,7 @@ C
       ENDIF
 C
 C
-C     impulsion tangentielle dans les sous-interfaces
+C     tangential impulse in sub-interfaces
 C
       IF (NISUB > 0) THEN
 C
@@ -1357,7 +1357,7 @@ ctmp+1 mic only
         DO I = 1,JLT
           IF(CS_LOC(I)>NRTS)THEN
             NI = CS_LOC(I)-NRTS
-C tag temporaire de NSVFI a -
+C temporary tag of nsvfi a -
             NSVFI(NIN)%P(NI) = -ABS(NSVFI(NIN)%P(NI))
           ENDIF
         ENDDO

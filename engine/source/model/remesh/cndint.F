@@ -187,7 +187,7 @@ C
       CALL MY_BARRIER
 C
 C-------
-C     Interpolation de v,a
+C     interpolation of v, a
       DO LEVEL=0,LEVELMAX-1
 
         LL=PSH4UPL(LEVEL+1)-PSH4UPL(LEVEL)
@@ -388,7 +388,7 @@ C-------
         END DO
       END IF
 
-c pour debug
+c for debug
 c      DT2P=DT2*ZEP999
 c      DO N=NODFT,NODLT
 c        IF(TAGNOD(N)/=0)THEN

@@ -77,7 +77,7 @@ C
         STI(2,I) = STI(1,I) 
         STIR(2,I) = STIR(1,I)
 
-C-------- Masse harmonique --------------
+C-------- Harmonic mass --------------
         MS = (UVAR(34,I)*UVAR(35,I))/MAX(EM20,UVAR(34,I)+UVAR(35,I))
         IN = (UVAR(36,I)*UVAR(37,I))/MAX(EM20,UVAR(36,I)+UVAR(37,I))
 

@@ -436,18 +436,18 @@ C-----------------------------------------------
 
         INTEGER ::
      .          MIN_IX, MIN_IY, MIN_IZ,            !indice voxel min utilise
-     .          MAX_IX, MAX_IY, MAX_IZ             !indice voxel max utilise
+     .          MAX_IX, MAX_IY, MAX_IZ             !Voxel Max index uses
 
         INTEGER ::
      .          CURRENT_ADD,
-     .          NRTM_T_MAX ! (nombre maximum des valeurs locales)
+     .          NRTM_T_MAX ! (maximum number of local values)
 
         my_real, ALLOCATABLE ::
      .          IRECT_L(:,:)    !IRECT_L <=> IRECT + XREM  (T=thread, L=Localdomain)
         INTEGER ::
      .          NIRECT_L
         INTEGER :: SIZ_IRECT_L
-        PARAMETER (SIZ_IRECT_L = 26)  !longueur buffer (nodes, coordinates, min, max, stif...)
+        PARAMETER (SIZ_IRECT_L = 26)  !Buffer length (nodes, coordinates, min, max, stif ...)
 
         INTEGER, ALLOCATABLE, DIMENSION(:)  ::
      .          NSNR_G

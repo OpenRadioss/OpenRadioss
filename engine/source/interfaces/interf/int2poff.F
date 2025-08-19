@@ -328,7 +328,7 @@ C-----------------------------------------------
 C---
       ENDIF
 C-----------------------------------------------
-C  Thermal Analysis (quelque soit ILEV et IRODDL)
+C  Thermal analysis (whatever Ilev and Iroddl)
 C-----------------------------------------------
       IF(ITHERM_FE > 0) THEN
         DO II=1,NMN

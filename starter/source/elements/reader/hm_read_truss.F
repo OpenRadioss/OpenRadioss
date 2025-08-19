@@ -172,7 +172,7 @@ C
       I1=1
       I2=MIN0(50,NUMELT)
 C-------------------------------------
-C Recherche des ID doubles
+C Search for double IDs
 C-------------------------------------
       IDS = 79
       I = 0

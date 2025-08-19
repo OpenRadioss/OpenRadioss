@@ -61,7 +61,7 @@ C   IPARI   NPARI,NINTER             PARAMETRES D'INTERFACE             E
 C                  
 C     X     3,NUMNOD                 COORDONNEES                        E
 C                  
-C     V     3,NUMNOD                 VITESSES                           E
+C     V     3,NUMNOD                 VELOCITIES                           E
 C                  
 C    EMINX  6*NME<6*NUMELS           MIN MAX DE CHAQUE ELEMENT        TMP_GLOBAL
 C                  
@@ -182,8 +182,8 @@ C
         DRAD  = INTBUF_TAB(NIN)%VARIABLES(32)
         DRAD2 = DRAD*DRAD
       ENDIF
-C     cette partie est effectuee en // apres le calcul des forces des elem.
-C     decoupage statique
+C     this part is performed in parallel after the calculation of the forces of the elements
+C     static decoupage
       NB_LOC = I_STOK / NTHREAD
       IF (JTASK==NTHREAD) THEN
           I_STOK_LOC = I_STOK-NB_LOC*(NTHREAD-1)
@@ -192,7 +192,7 @@ C     decoupage statique
       ENDIF
       DEBUT = (JTASK-1)*NB_LOC
       I_STOK = 0
-C recalcul du istok
+C recalculation of istok
       IF (INACTI==5.OR.INACTI==6)THEN
           DO I = DEBUT+1, DEBUT+I_STOK_LOC
             IF(INTBUF_TAB(NIN)%CAND_N(I)<0) THEN
@@ -207,7 +207,7 @@ Ctmp---
 C inbuf == cand_n
               INTBUF_TAB(NIN)%CAND_N(I) = -INTBUF_TAB(NIN)%CAND_N(I)
             ELSE
-C   remise a 0 de cand_p
+C   Discount at 0 of Cand_P
               INTBUF_TAB(NIN)%CAND_P(I) = ZERO
             ENDIF
           ENDDO
@@ -239,7 +239,7 @@ C preparation candidats retenus
           CALL I7CDCOR3(
      1         JLT,INDEX2(NFT+1),INTBUF_TAB(NIN)%CAND_E,INTBUF_TAB(NIN)%CAND_N,
      2         CAND_E_N,CAND_N_N)
-C cand_n et cand_e remplace par cand_n_n et cand_e_n
+C cand_n and cand_e replaced by cand_n_n and cand_e_n
           CALL I7COR3(
      1         JLT       ,X   ,INTBUF_TAB(NIN)%IRECTM,INTBUF_TAB(NIN)%NSV,
      .         CAND_E_N,

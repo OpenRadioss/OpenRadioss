@@ -241,7 +241,7 @@ C
         IF(SUB_ID /= 0) CALL SUBROTPOINT(XM2,YM2,ZM2,RTRANS,SUB_ID,LSUBMODEL)
 C
         ! Initialization depending on the type of interface
-C       MM1 ET MM2 DEFINISSENT LE PARALLELOGRAMME
+C       MM1 AND MM2 DEFINE THE PARALLELOGRAM
         RWL(1,N) = (YM1-RWL(5,N))*(ZM2-RWL(6,N))
      .           - (ZM1-RWL(6,N))*(YM2-RWL(5,N))
         RWL(2,N) = (ZM1-RWL(6,N))*(XM2-RWL(4,N))

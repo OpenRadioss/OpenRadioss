@@ -381,7 +381,7 @@ C---
       PM(151) = C22
       PM(152)  =S12
 c
-C---- Definition des variables internes (stockage elementaire)
+C---- Definition of internal variables (Elementary storage)
 c
       MTAG%G_PLA    = 1    
       MTAG%L_PLA    = 1   ! NB10

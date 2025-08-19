@@ -672,7 +672,7 @@ C       NUMNOD, NUMELC, NUMELTG will be changed
       END IF
 C-----
       IF(NSPMD > 1)THEN
-C       Tests option non disponible en SPMD (ie NSPMD > 1)
+C       Option tests not available in SPMD (IE NSPMD> 1)
         IF(NADMESH/=0)THEN
           CALL ANCMSG(MSGID=704,
      .                MSGTYPE=MSGERROR,
@@ -823,7 +823,7 @@ C---------------------------------------------------
       CALL HM_OPTION_COUNT('/SECT',NSECT)
 C---------------------------------------------------
 C---------------------------------------------------
-C     Box, Groups, Lines, Surfaces, Sets
+C     Box, groups, lines, surfaces, sets
 C---------------------------------------------------
       CALL HM_OPTION_COUNT('/BOX' ,NBBOX)
       CALL HM_OPTION_COUNT('/SURF',NSURF)
@@ -987,8 +987,7 @@ C---------------------------------------------------
       !********
       CALL HM_READ_UPWIND(JUPW, ALE%UPWIND%UPWMG, ALE%UPWIND%UPWOG, ALE%UPWIND%UPWSM, LSUBMODEL, UNITAB)
 C---------------------------------------------------
-C   OPTIONS DE L'ENGINE LUES DANS LE STARTER
-C   { ENGINE OPTIONS READ IN THE STARTER }
+C   ENGINE OPTIONS READ IN THE STARTER
 C---------------------------------------------------
       CALL HM_OPTION_COUNT('/RUN',NRUN_ENG)
       CALL HM_OPTION_COUNT('/ANIM',NANIM_ENG)
@@ -1133,9 +1132,9 @@ C=======================================================================
 C     Opening of some input files (.sty, etc...)
 C=======================================================================
       IF(ISIGI==1.OR.ISIGI==2) THEN
-C--     Lecture fichier S00 supprimee
+C- Reading file S00 deleted
       ELSEIF(ISIGI==3.OR.ISIGI==4.OR.ISIGI==5) THEN
-C--     Lecture fichier Y00/Ynn
+C- Reading file y00/ynn
         IF(S0FILE==' ') THEN
           ISIGI=-ISIGI
         ELSE
@@ -1717,8 +1716,7 @@ C-----------------------------------------------
       IO_ERR1=0
       IDTTSH=0
 C-----------------------------------------------
-C     Lecture des donnees dans le fichier engine
-C     { Reading data from the engine file }
+C     Reading data from the engine file
 C-----------------------------------------------   
       FILNAM=ROOTNAM(1:ROOTLEN)//'_0001.rad'
 
@@ -1833,8 +1831,7 @@ C-----------------------------------------------
       LMAX_NSTRA = 0
       NKPART(1:NPART+1,1:NKEYMAX+1) = 0
 C-----------------------------------------------
-C     Lecture des donnees dans le fichier engine
-C     { Reading data from the engine file }
+C     Reading data from the engine file
 C-----------------------------------------------
       IH3D=1
       K_LEN = 19 
@@ -2029,7 +2026,7 @@ C-----------------------------------------------
       IO_ERR1 = 0
       NPRT = 0
 C-----------------------------------------------
-C     Lecture des donnees dans le fichier engine
+C     Reading data from the engine file
 C-----------------------------------------------   
       FILNAM=ROOTNAM(1:ROOTLEN)//'_0001.rad'
 
@@ -2080,7 +2077,7 @@ C---- read ipart_id if there are
                  NTM_PART(1:NPRT) = 1
                END IF
              END IF
-           END DO !(IC == 1) remove comments
+           END DO !(CI == 1) Remove Comments
         END IF        
 C
       END DO

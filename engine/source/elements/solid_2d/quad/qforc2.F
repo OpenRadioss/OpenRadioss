@@ -568,7 +568,7 @@ c
       ENDIF
 C
 C------------------------
-C     FORCES DE TRANSPORT
+C     TRANSPORT FORCES
 C------------------------
        IF(JALE > 0 .AND. MTN /= 11)THEN
          CALL AMOMT2(

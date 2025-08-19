@@ -73,7 +73,7 @@ C     REAL
       my_real
      .   P,FAC(MVSIZ),FAC2(MVSIZ)
 C-----------------------------------------------
-C   - post-traitement-valeur moyenne au sens a'=(_/  a dv ) /v
+C   -Average post-processing in the sense A '= (_ / a dv) / V
       DO I=1,NEL
          FAC(I) = OFF(I)*VOL(I)/VOLG(I)
          FAC2(I) = VOL(I)/VOLG(I)

@@ -128,7 +128,7 @@ C fixing flag and removed from input
 C HIDDEN FLAGS
 C----------------------
         ISHEAR = 0
-C CVIS USED in coquez routines
+C Cvis used in shell routines
         CVIS = ONE
 
 
@@ -201,7 +201,7 @@ C---------IHBE,ISH3N-------------
      .                 C1=IDTITL)
            IHBE=24
          ENDIF         
-C    Double stockage temporaire - 
+C    Temporary double storage - 
          IGEO(10)=IHBE
          GEO(171)=IHBE
          IF(IHBE==2)THEN

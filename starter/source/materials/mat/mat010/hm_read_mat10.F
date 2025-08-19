@@ -188,7 +188,7 @@ C-----------------------------------------------
         PSTAR=-A0/A1 
       ELSEIF(A2 /= ZERO)THEN
         DELTA = A1*A1-FOUR*A0*A2
-        !Si intersection avec l'axe
+        !If intersection with the axis
         IF(DELTA  >=  ZERO)THEN
           DELTA=SQRT(DELTA) 
           PSTAR = (-A1+DELTA)/TWO/A2

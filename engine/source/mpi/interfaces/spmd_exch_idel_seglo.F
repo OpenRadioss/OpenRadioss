@@ -126,7 +126,7 @@ C-----------------------------------------------
            ENDIF           ! IF(I/=LOC_PROC) THEN
          ENDDO
 C
-C Test reception envoi BUFR
+C Test Reception Bufr
 C
       DO I = 1, NSPMD
         IF(I/=LOC_PROC) THEN

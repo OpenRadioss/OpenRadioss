@@ -88,7 +88,7 @@ C-----------------------------------------------
        ROT(I)=BUFSF(ADRBUF+7+I-1)
       END DO
 C---------------------------------
-C     SORTIES dans le rep. global.
+C     outputs in the global coordinate system
 C---------------------------------
       FN1=ROT(1)*FNORMX+ROT(4)*FNORMY+ROT(7)*FNORMZ
       FN2=ROT(2)*FNORMX+ROT(5)*FNORMY+ROT(8)*FNORMZ
@@ -116,7 +116,7 @@ C------------------------------------------------------------
       WNF(3,IN)=ROT(3)*FX+ROT(6)*FY+ROT(9)*FZ
       ENDDO
 C------------------------------------------------------------
-C     ASSEMBLAGE AU NOEUD MAIN DE LA SURFACE.
+C     assembly at the main node of the surface
 C------------------------------------------------------------
       DO I=1,NNC
       IN=KNC(I)
@@ -143,7 +143,7 @@ C-----
       BUFSF(ADRBUF+32)=BUFSF(ADRBUF+32)+DD*STF
       ENDDO
 C---------------------------------
-C     ASSEMBLAGE des FORCES aux NOEUDS SECONDS.
+C     Assembly of forces with second nodes.
 C---------------------------------
       IF (IPARIT/=0) THEN
 #include "lockon.inc"
@@ -197,7 +197,7 @@ C---------------------------------
        ENDIF
       ENDIF
 C------------------------------------------------------------
-C     ANIM (FORCES DE CONTACT).
+C     animation (contact forces)
 C------------------------------------------------------------
       IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT>0.AND.
      .    ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
@@ -213,7 +213,7 @@ C------------------------------------------------------------
 #include "lockoff.inc"
       ENDIF
 C---------------------------------
-C     Pour Travail des forces sur noeuds seconds
+C     for work of forces on secondary nodes
 C     1ere partie : ici
 C     2eme partie : apres calcul de DT2.
 C---------------------------------

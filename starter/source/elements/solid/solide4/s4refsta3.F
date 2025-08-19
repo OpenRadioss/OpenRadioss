@@ -157,7 +157,7 @@ C----------------------------
      .                 C1=TITR)
         ENDIF
 C----------------------------
-C        Connectivities, PID, MID N
+C        Connectivities, PID, Mid N
 C----------------------------
         MAT(1) = 0
         DO I=LFT,LLT
@@ -193,7 +193,7 @@ C----------------------------
           ZR(I,4) = ZERO
         END DO
 C-----Case total strain calculated in global sys
-C       Repere isoparametrique -> rep convecte -> rep orthotrope
+C       Isoparametric bench
         CALL S4REPISOT3(XR(1,1) ,XR(1,2) ,XR(1,3) ,XR(1,4) ,
      .                 YR(1,1) ,YR(1,2) ,YR(1,3) ,YR(1,4) ,
      .                 ZR(1,1) ,ZR(1,2) ,ZR(1,3) ,ZR(1,4) ,
@@ -232,7 +232,7 @@ C----------------------------
           Y4(I)=ZERO
           Z4(I)=ZERO
         END DO
-C       Repere isoparametrique -> rep convecte -> rep orthotrope
+C       Isoparametric bench
         CALL S4REPISO3(X1   ,X2   ,X3   ,X4   ,
      .                 Y1   ,Y2   ,Y3   ,Y4   ,
      .                 Z1   ,Z2   ,Z3   ,Z4   ,
@@ -356,7 +356,7 @@ C         ENDIF
             Z4(I)=ZR(I,4)+FAC*VZ4(I)
           END DO
 C-----------
-C         Repere isoparametrique -> rep convecte -> rep orthotrope
+C         Isoparametric bench
           CALL S4REPISO3(X1   ,X2   ,X3   ,X4   ,
      .                   Y1   ,Y2   ,Y3   ,Y4   ,
      .                   Z1   ,Z2   ,Z3   ,Z4   ,
