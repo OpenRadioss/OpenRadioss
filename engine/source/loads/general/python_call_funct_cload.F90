@@ -209,5 +209,31 @@
 !$OMP END CRITICAL
           y = argout(1)
         end subroutine python_call_funct_cload_dp
+
+        subroutine python_dummy_active_node(py)
+          use python_funct_mod
+          implicit none
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                     Arguments
+! ----------------------------------------------------------------------------------------------------------------------
+          type(python_),                      intent(in) :: py !< the Fortran structure that holds the python function
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Local variables
+! ----------------------------------------------------------------------------------------------------------------------
+          double precision, dimension(3) :: zeros
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                      Body
+! ----------------------------------------------------------------------------------------------------------------------
+          if(py%nb_functs < 1) return
+          zeros(1:3) = 0.0d0
+          call python_set_active_node_values(1,"C",zeros)
+          call python_set_active_node_values(1,"A",zeros)
+          call python_set_active_node_values(1,"D",zeros)
+          call python_set_active_node_values(2,"DR",zeros)
+          call python_set_active_node_values(1,"V",zeros)
+          call python_set_active_node_values(2,"VR",zeros)
+          call python_set_active_node_values(2,"AR",zeros)
+ 
+        end subroutine python_dummy_active_node
       end module python_call_funct_cload_mod
 

@@ -712,6 +712,7 @@ C-----------------------------------------------
               USE PYTHON_SHARE_MEMORY_MOD
               USE PYTHON_REGISTER_MOD, ONLY : PYTHON_REGISTER
               USE FUNCT_PYTHON_UPDATE_ELEMENTS_MOD, ONLY : FUNCT_PYTHON_UPDATE_ELEMENTS
+              USE python_call_funct_cload_mod
               USE python_monvol_mod , ONLY : python_monvol
               USE OUTMAX_MOD
               USE FORCE_MOD , ONLY : FORCE
@@ -2160,6 +2161,7 @@ C save the Python functions into the Python interpreter dictionarry
               K7=K6+NUMELR
               K8=K7
               K9=K8+NUMELTG
+              CALL python_dummy_active_node(PYTHON)
               CALL FUNCT_PYTHON_UPDATE_ELEMENTS(PYTHON, ISPMD,
      .                 N2D,  NGROUP,  NIXC, NIXTG, NIXS,NIXQ,
      .                 NUMGEO, NUMELC, NUMELTG, NUMELS, NUMELQ, NUMMAT, NUMNOD,
