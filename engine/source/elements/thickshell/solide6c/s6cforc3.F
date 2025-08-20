@@ -508,7 +508,7 @@ C
      4   F15,        F25,        F35,        F16,
      5   F26,        F36,        GBUF%SIG,   GBUF%EINT,
      6   GBUF%RHO,   GBUF%QVIS,  GBUF%PLA,   GBUF%EPSD,
-     7   GBUF%G_PLA, GBUF%G_EPSD,NEL)
+     7   GBUF%G_PLA, GBUF%G_EPSD,NEL,NLAY)
 C ------------------------------------------------------------------------------
 C  Update reference configuration (possible future change to small strain option)
 C -------------------------------------------------------------------------------
@@ -758,7 +758,8 @@ C----------------------------
      I   GBUF%QVIS,  GBUF%PLA,   ZT,         WT,
      J   VOLG,       OFF,        NU1,        LBUF%VOL,
      K   GBUF%VOL,   L_PLA,      L_EPSD,     NEL,
-     L   SVIS,       GBUF%WPLA,  LBUF%WPLA,   GBUF%G_WPLA    )
+     L   SVIS,       GBUF%WPLA,  LBUF%WPLA,   GBUF%G_WPLA,
+     M   NLAY    )
         ELSE
          CALL S6CFINT3(
      1   LBUF%SIG,          PX1,               PX2,               PX3,
@@ -781,7 +782,8 @@ C----------------------------
      I   GBUF%QVIS,         GBUF%PLA,          A_GAUSS(ILAY,NLAY),W_GAUSS(ILAY,NLAY),
      J   VOLG,              OFF,               NU1,               LBUF%VOL,
      K   GBUF%VOL,          L_PLA,             L_EPSD,            NEL,
-     L   SVIS,              GBUF%WPLA,         LBUF%WPLA,         GBUF%G_WPLA     )
+     L   SVIS,              GBUF%WPLA,         LBUF%WPLA,         GBUF%G_WPLA ,
+     M   NLAY    )
         ENDIF ! IF (ISORTH > 0)
 C-------------------------
 C Finite element heat transfert  

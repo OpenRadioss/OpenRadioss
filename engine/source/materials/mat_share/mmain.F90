@@ -679,6 +679,7 @@
           else
             if(mtn == 1 .or. mtn == 2 .or. mtn == 22.or.(mtn >=28.and.mtn /=45)) then     ! for compatibility with qa tests
               amu(1:nel) =  lbuf%rho(1:nel)/rho0(1:nel)-one
+
             else
               amu(1:nel) =  one/df(1:nel)-one
             end if

@@ -140,6 +140,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD
       use glob_therm_mod
       USE PRELOAD_SOLID_INI_MOD
+      USE S6ZFORC3_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -165,6 +166,7 @@ C-----------------------------------------------
 #include      "task_c.inc"
 #include      "impl1_c.inc"
 #include      "stati_c.inc"
+#include      "parit_c.inc"
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -257,7 +259,7 @@ C======================================================================|
        ALLOCATE(MX(MVSIZ,4),MY(MVSIZ,4),MZ(MVSIZ,4),STAT=IERROR)
        ALLOCATE(JFAC(MVSIZ,729)) ! for solid 8z
        SBID=1
-!
+  
        IF(IERROR/=0)THEN
         CALL ANCMSG(MSGID=246,ANMODE=ANINFO)
         CALL ARRET(2)
@@ -1025,6 +1027,7 @@ C              SOLID HEPH FORMULATION
 C-------------------------
                IHET = IINT
 C
+               IF (ISOLNOD == 8) THEN
                CALL SZFORC3(TIMERS,ELBUF_TAB,NG    ,
      1         PM      ,GEO    ,IXS    ,X            ,
      2         A       ,V     ,MS     ,W      ,WA          ,
@@ -1047,6 +1050,40 @@ C
      J         OUTPUT,NSVOIS,IBID,SNPC,STF,SBUFMAT,SVIS,IRESP,
      K         MAXFUNC,  USERL_AVAIL, GLOB_THERM, impl_s   ,idyna)
 C
+               ELSEIF (ISOLNOD == 6) THEN        
+               CALL S6ZFORC3(TIMERS,  OUTPUT, ELBUF_TAB,NG         ,
+     1         PM   ,GEO   ,IXS    ,X            ,
+     2         A           ,V    ,W      ,WA          ,
+     3         VAL2  ,ALE_CONNECT        ,IPARG       ,
+     4         TF    ,NPC    ,BUFMAT       ,PARTSAV     ,
+     5         DT2T ,NELTST,ITYPTST,STIFN        ,FSKY        ,
+     6         IADS    ,OFFSET  ,IPARTS(NF1) ,
+     7         FX(1,1) ,FY(1,1) ,FZ(1,1) ,FX(1,2) ,FY(1,2) ,
+     8         FZ(1,2) ,FX(1,3) ,FY(1,3) ,FZ(1,3) ,FX(1,4) ,
+     9         FY(1,4) ,FZ(1,4) ,FX(1,5) ,FY(1,5) ,FZ(1,5) ,
+     A         FX(1,6) ,FY(1,6) ,FZ(1,6) ,NEL     ,
+     B         ICP     ,NLOC_DMG,
+     C         IPM     ,ISTRA   ,IGEO    ,GRESAV  ,GRTH       ,
+     D         IGRTH(NF1),TABLE ,MSSA(NF1),DMELS(NF1)  ,VOLN  ,
+     E         ITASK ,IPRI      ,MAT_ELEM ,IBID,TEMP       ,
+     F         FTHE  ,FTHESKY   ,CONDN    ,CONDNSKY ,
+     G         IEXPAN,IFTHE ,ICONDN    ,DT      ,SNPC,STF,
+     H         SBUFMAT,SVIS,NSVOIS, IRESP, 
+     I         idel7nok, MAXFUNC, IMON_MAT, USERL_AVAIL, 
+     J         GLOB_THERM,XDP,SENSORS,
+     K         NGROUP,NPROPM,NPROPG,NIXS,NPARG, 
+     L         NPROPMI,NPROPGI,NUMNOD,LSKY,
+     M         DT1,VOLMIN,TH_STRAIN, IDTMIN,
+     N         TT,
+     1         IDYNA,IGTYP,IMPL_S, INEG_V,  
+     2         IPARIT,IREP,ISCAU,ISMDISP, 
+     3         ISMSTR, ISORTH, ISORTHG, JALE, 
+     4         JCVT, JEUL, JLAG, JSPH, JPLASOL, 
+     5         JTHE ,
+     6         MSTOP,MTN, N2D,NCPRI,NCYCLE,
+     7         NFILSOL,NFT,NTABLE,
+     8         NUMELS,NUMGEO,NUMMAT,NUMELQ,IINT)
+               ENDIF
             ELSE
 C-------------------------
 C             STANDARD 8 NODE SOLID ELEMENT (JHBE = 1,2,101,102)

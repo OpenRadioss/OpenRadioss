@@ -399,12 +399,14 @@ C         SIGY(I) = 1.0E+30
         FHOUR(I,3,3) = FHOUR(I,3,3)*OFF(I)
         FHOUR(I,3,4) = FHOUR(I,3,4)*OFF(I)
        ENDDO
+
       IF (IPLAST==1) 
      .   CALL SZSVM(
      1   JR0,     JS0,     JT0,     FHOUR,
      2   SIGY,    SIGOLD,  NU4,     SMO1,
      3   SMO2,    NEL,     IINT)
       !-----------For energy calculation------------
+
       IF(JLAG==1)THEN
        DO I=1,NEL
         FHOURT(1,1) = FHOUR(I,1,1)*JR0(I)+FCL(I)*HGX1(I)
@@ -497,12 +499,14 @@ C
        FHOUR(I,3,3) = FHOUR(I,3,3) + DFHOUR(I,3,3)
        FHOUR(I,3,4) = FHOUR(I,3,4) + DFHOUR(I,3,4)
       ENDDO
+
       IF (IPLAST==1) 
      .    CALL SZSVM(
      1   JR0,     JS0,     JT0,     FHOUR,
      2   SIGY,    SIG0,    NU4,     SM1,
      3   SM2,     NEL,     IINT)
       !-----------ELASTIC-PLASTIC yield criterion------------
+
       IF (IPLAST==1) THEN
       DO I=1,NEL
         IF (SM1(I)>SIGY(I).AND.DEINT(I)>0) THEN
