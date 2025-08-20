@@ -626,7 +626,8 @@ C------------------------------------------------------
 C
       IF(IBOLTP /= 0) CALL BOLTST(
      .                IP,        BPRELD,    LBUF%SIG,TT,        
-     .                NEL   ,NPT   ,SENSORS%NSENSOR,SENSORS%SENSOR_TAB)
+     .                NEL   ,NPT   ,SENSORS%NSENSOR,SENSORS%SENSOR_TAB,
+     .                IPARG(67,NG),IPARG(68,NG))
 C
         CALL MMAIN(TIMERS, OUTPUT,
      1   ELBUF_TAB,   NG,          PM,          GEO,

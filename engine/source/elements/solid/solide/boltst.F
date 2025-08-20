@@ -34,7 +34,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sensor_mod   ../common_source/modules/sensor_mod.F90
 !||====================================================================
       SUBROUTINE BOLTST(IP      ,BPRELD   ,SIG       ,TT        ,        
-     .                  NEL     ,NPT      ,NSENSOR   ,SENSOR_TAB)
+     .                  NEL     ,NPT      ,NSENSOR   ,SENSOR_TAB,
+     .                  FUN_ID  ,SENS_ID  )
 C-----------------------------------------------  
 C   M o d u l e s
 C-----------------------------------------------  
@@ -50,7 +51,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: NPT,NSENSOR,NEL,IP
+      INTEGER, INTENT(IN) :: NPT,NSENSOR,NEL,IP,FUN_ID,SENS_ID
       my_real
      .   TT, DT1
       my_real
@@ -61,27 +62,15 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,K,ISENS 
       my_real
-     .   TS,TE
+     .   TS,TE,SFAC
 C-----------------------------------------------
-C
-!     Retrieve sysid of the sensors at cycle=0
-      IF (NCYCLE == 0 .AND. IP == 1) THEN
-       DO I=1,NEL
-        ISENS = INT(BPRELD(I,10))
-        IF (ISENS > 0)THEN            
-         DO K=1,NSENSOR
-          IF(ISENS==SENSOR_TAB(K)%SENS_ID) GOTO 100  ! do it in staerter !!!
-         ENDDO
-100      BPRELD(I,10)=K
-        ENDIF
-       ENDDO
-      ENDIF
+!!! see preload_solid_ini.F90
       
        DO I=1,NEL
         TS = BPRELD(I,1)
         TE = BPRELD(I,2)
         IF(BPRELD(I,3) == ZERO)THEN
-          ISENS = INT(BPRELD(I,10))
+          ISENS = SENS_ID
         
           IF (ISENS > 0) THEN
            TS = TS+SENSOR_TAB(ISENS)%TSTART
@@ -91,12 +80,13 @@ C
 
         IF(BPRELD(I,3) < ONE)THEN
           IF(TT >= TS )THEN
-           SIG(I,1) = BPRELD(I,4) !SIG(I,1)+BPRELD(I,4)
-           SIG(I,2) = BPRELD(I,5) !SIG(I,2)+BPRELD(I,5)
-           SIG(I,3) = BPRELD(I,6) !SIG(I,3)+BPRELD(I,6)
-           SIG(I,4) = BPRELD(I,7) !SIG(I,4)+BPRELD(I,7)
-           SIG(I,5) = BPRELD(I,8) !SIG(I,5)+BPRELD(I,8)
-           SIG(I,6) = BPRELD(I,9) !SIG(I,6)+BPRELD(I,9)
+           SFAC = BPRELD(I,10)
+           SIG(I,1) = SFAC*BPRELD(I,4) !SIG(I,1)+BPRELD(I,4)
+           SIG(I,2) = SFAC*BPRELD(I,5) !SIG(I,2)+BPRELD(I,5)
+           SIG(I,3) = SFAC*BPRELD(I,6) !SIG(I,3)+BPRELD(I,6)
+           SIG(I,4) = SFAC*BPRELD(I,7) !SIG(I,4)+BPRELD(I,7)
+           SIG(I,5) = SFAC*BPRELD(I,8) !SIG(I,5)+BPRELD(I,8)
+           SIG(I,6) = SFAC*BPRELD(I,9) !SIG(I,6)+BPRELD(I,9)
            BPRELD(I,3) = REAL(IP)/REAL(NPT)
            
 !          Added to shift all the preloading duration in case of sensor use        
@@ -110,22 +100,30 @@ C
        IF(BPRELD(1,3) == ONE)THEN
          TS = BPRELD(1,1)
          TE = BPRELD(1,2)
-!         IF (TT <= (TE+EM01*(TE-TS))) THEN       ! sb : seems to be an error 
-         IF (TT <= (TS+EM01*(TE-TS))) THEN
-          DO I=1,NEL
-            SIG(I,1) = BPRELD(I,4)
-            SIG(I,2) = BPRELD(I,5)
-            SIG(I,3) = BPRELD(I,6)
-            SIG(I,4) = BPRELD(I,7)
-            SIG(I,5) = BPRELD(I,8)
-            SIG(I,6) = BPRELD(I,9)
-          ENDDO
-         ELSE IF (TT >= TE) THEN
-          DO I=1,NEL
-            BPRELD(I,3) = TWO
-          ENDDO
+         IF(FUN_ID == 0)THEN
+           IF (TT <= (TS+EM01*(TE-TS))) THEN
+            DO I=1,NEL
+              SIG(I,1) = BPRELD(I,4)
+              SIG(I,2) = BPRELD(I,5)
+              SIG(I,3) = BPRELD(I,6)
+              SIG(I,4) = BPRELD(I,7)
+              SIG(I,5) = BPRELD(I,8)
+              SIG(I,6) = BPRELD(I,9)
+            ENDDO
+           ELSE IF (TT >= TE) THEN
+            DO I=1,NEL
+              BPRELD(I,3) = TWO
+            ENDDO
+           ENDIF
+         ELSE ! ramping inital stress need more time to reach the pick
+           IF (TT < TE) THEN
+             SFAC = BPRELD(1,10)
+             SIG(1:NEL,1:6) = SFAC*BPRELD(1:NEL,4:9)
+           ELSE 
+             BPRELD(1:NEL,3) = TWO
+           ENDIF
          ENDIF
-       ENDIF
+       END IF !(BPRELD(1,3) == ONE)THEN
 
        
       RETURN

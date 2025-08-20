@@ -47,7 +47,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      6       IPM           ,NOD2ELS ,ISOLOFF     , ISOLNOD1,
      7       TAGPRT_SMS    ,INIVOL  ,SPH2SOL     , SOL2SPH , SOL2SPH_TYP,
      8       IFLAG_BPRELOAD,CLUSTERS,MATPARAM_TAB, RNOISE  ,
-     9       PRINT_FLAG    ,DAMP_RANGE_PART)
+     9       PRINT_FLAG    ,DAMP_RANGE_PART,IPRELOAD_FUN)
 C-----------------------------------------------
 C   A n a l y s e   M o d u l e
 C-----------------------------------------------
@@ -112,6 +112,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: DAMP_RANGE_PART(NPART)     !< flag to compute the damping range
       TYPE(MATPARAM_STRUCT_) , TARGET, DIMENSION(NUMMAT),INTENT(IN) :: MATPARAM_TAB
       MY_REAL  PM(NPROPM,NUMMAT), GEO(NPROPG,NUMGEO), RNOISE(NPERTURB,NUMELS)
+      INTEGER, DIMENSION(2,NPRELOAD),INTENT(IN) :: IPRELOAD_FUN
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRBRIC) :: IGRBRIC
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
@@ -1504,6 +1505,10 @@ C         flag for group of duplicated elements in multidomains
           IF (NSUBDOM>0) IPARG(77,NGROUP)= IPARTR2R 
 C         flag for bolt preloading
           IPARG(72,NGROUP)= IBOLTP
+          IF (IBOLTP>0) THEN 
+            IPARG(67,NGROUP)= IPRELOAD_FUN(1,IBOLTP)
+            IPARG(68,NGROUP)= IPRELOAD_FUN(2,IBOLTP)
+          END IF
 C
 C         Formulation level for the solid elements time step computation
           IPARG(73,NGROUP)=IPM(252,MID)
