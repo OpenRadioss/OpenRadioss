@@ -80,6 +80,7 @@
 !||    mat_elem_mod          ../common_source/modules/mat_elem/mat_elem_mod.F90
 !||    message_mod           ../engine/share/message_module/message_mod.F
 !||    mvsiz_mod             ../engine/share/spe_inc/mvsiz_mod.F90
+!||    output_mod            ../common_source/modules/output/output_mod.F90
 !||    precision_mod         ../common_source/modules/precision_mod.F90
 !||    sigeps50s_mod         ../engine/source/materials/mat/mat050/sigeps50s.F90
 !||    table_mod             ../engine/share/modules/table_mod.F

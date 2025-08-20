@@ -68,6 +68,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
 !||    mmain_mod              ../engine/source/materials/mat_share/mmain.F90
 !||    nlocal_reg_mod         ../common_source/modules/nlocal_reg_mod.F
+!||    output_mod             ../common_source/modules/output/output_mod.F90
 !||    s6chour_ctl_mod        ../engine/source/elements/thickshell/solide6c/s6chour_ctl.F90
 !||    s6for_distor_mod       ../engine/source/elements/thickshell/solide6c/s6for_distor.F90
 !||    s6get_xv_mod           ../engine/source/elements/thickshell/solide6c/s6get_xv.F90

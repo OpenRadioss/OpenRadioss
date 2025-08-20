@@ -170,6 +170,7 @@
 !||    mulaw_mod              ../engine/source/materials/mat_share/mulaw.F90
 !||    mvsiz_mod              ../engine/share/spe_inc/mvsiz_mod.F90
 !||    nlocal_reg_mod         ../common_source/modules/nlocal_reg_mod.F
+!||    output_mod             ../common_source/modules/output/output_mod.F90
 !||    precision_mod          ../common_source/modules/precision_mod.F90
 !||    sensor_mod             ../common_source/modules/sensor_mod.F90
 !||    table_mod              ../engine/share/modules/table_mod.F

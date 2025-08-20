@@ -49,6 +49,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    fail_spalling_s_mod   ../engine/source/materials/fail/spalling/fail_spalling_s.F90
 !||    mat_elem_mod          ../common_source/modules/mat_elem/mat_elem_mod.F90
 !||    mulaw8_mod            ../engine/source/materials/mat_share/mulaw8.F90
+!||    output_mod            ../common_source/modules/output/output_mod.F90
 !||    table_mod             ../engine/share/modules/table_mod.F
 !||    timer_mod             ../engine/source/system/timer_mod.F90
 !||====================================================================
