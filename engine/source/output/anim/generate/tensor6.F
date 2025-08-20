@@ -769,7 +769,7 @@ c-----------
                 ENDDO                                     
               ENDIF
 c-----------
-            ELSEIF((ISOLNOD == 6.OR.ISOLNOD == 8).AND.JHBE == 15)THEN
+            ELSEIF(((ISOLNOD == 6.OR.ISOLNOD == 8).AND.JHBE == 15) .OR. ((ISOLNOD == 6).AND.JHBE == 24))THEN
 c-----------
                IF (MLW>=28.AND.MLW /= 49.AND.ISTRAIN > 0) THEN
                 DO I=LFT,LLT                                               
@@ -1202,7 +1202,7 @@ c-----------
                 ENDDO ! DO I=LFT,LLT
               ENDIF ! IF (KCVT /= 0)
 c-----------
-            ELSEIF ((ISOLNOD == 6 .OR. ISOLNOD == 8) .AND. JHBE == 15) THEN
+            ELSEIF (((ISOLNOD == 6.OR.ISOLNOD == 8).AND.JHBE == 15) .OR. ((ISOLNOD == 6).AND.JHBE == 24)) THEN
 c-----------
               IF (MLW == 24 .AND. ISTRAIN > 0) THEN
                 DO I=LFT,LLT                                               
@@ -1749,7 +1749,7 @@ c-----------
                 ENDIF
               ENDIF
 c-----------
-            ELSEIF ((ISOLNOD == 6 .OR. ISOLNOD == 8).AND.JHBE == 15) THEN
+            ELSEIF (((ISOLNOD == 6.OR.ISOLNOD == 8).AND.JHBE == 15) .OR. ((ISOLNOD == 6).AND.JHBE == 24)) THEN
               IPT = MOD(ABS(PTI)/10,10)
               IF ( IPT > 0 .AND. IPT<=NLAY) THEN
                
@@ -1805,7 +1805,7 @@ c-----------
           ELSEIF(ITENS>=2010.AND.ITENS<=22109) THEN
 !-------------- case NLAY>9
             PTI = ITENS - 2010
-            IF ((ISOLNOD == 6 .OR. ISOLNOD == 8).AND.JHBE == 15) THEN
+            IF (((ISOLNOD == 6.OR.ISOLNOD == 8).AND.JHBE == 15) .OR. ((ISOLNOD == 6).AND.JHBE == 24)) THEN
               IPT = MOD(ABS(PTI)/10,201)
               IF ( IPT > 0 .AND. IPT<=NLAY .AND.NLAY>9) THEN
                
@@ -2364,7 +2364,7 @@ C              STRAIN TENSOR IN GLOBAL SYSTEM
                ENDIF
              ENDIF
 
-           ELSEIF ((ISOLNOD == 6 .OR. ISOLNOD == 8).AND.JHBE == 15) THEN
+           ELSEIF (((ISOLNOD == 6.OR.ISOLNOD == 8).AND.JHBE == 15) .OR. ((ISOLNOD == 6).AND.JHBE == 24)) THEN
               IPT = MOD(ABS(PTI)/10,10)
               IF ( IPT > 0 .AND. IPT<=NLAY ) THEN
                 LBUF =>  ELBUF_TAB(NG)%BUFLY(IPT)%LBUF(1,1,1) 
@@ -2490,7 +2490,7 @@ C        STRAIN TENSOR / integration point more than 9 point in direction s
           ELSEIF (ITENS>=22110.AND.ITENS<=42209) THEN
 C-----------------------------------------------
             PTI = ITENS - 22110
-            IF ((ISOLNOD == 6 .OR. ISOLNOD == 8).AND.JHBE == 15) THEN
+            IF (((ISOLNOD == 6.OR.ISOLNOD == 8).AND.JHBE == 15) .OR. ((ISOLNOD == 6).AND.JHBE == 24)) THEN
               IPT = MOD(ABS(PTI)/10,201)
               IF ( IPT > 0 .AND. IPT<=NLAY.AND.NLAY>9) THEN
                 LBUF =>  ELBUF_TAB(NG)%BUFLY(IPT)%LBUF(1,1,1) 
@@ -2978,7 +2978,7 @@ C                  3*9*3 points d'integration (r*s*t)
                 ENDDO ! DO I=LFT,LLT
               ENDIF ! IF (KCVT /= 0)
 c-----------
-            ELSEIF ((ISOLNOD == 6 .OR. ISOLNOD == 8).AND.JHBE == 15) THEN
+            ELSEIF (((ISOLNOD == 6.OR.ISOLNOD == 8).AND.JHBE == 15) .OR. ((ISOLNOD == 6).AND.JHBE == 24)) THEN
             
               IPT = MOD(ABS(PTI)/10,10)
               IF ( IPT > 0 .AND. IPT<=NLAY) THEN
@@ -3022,7 +3022,7 @@ C-----------------------------------------------
 C----------------------------NLAY>9
             PTI = ITENS - 43210
 c-----------
-            IF ((ISOLNOD == 6 .OR. ISOLNOD == 8).AND.JHBE == 15) THEN
+            IF (((ISOLNOD == 6.OR.ISOLNOD == 8).AND.JHBE == 15) .OR. ((ISOLNOD == 6).AND.JHBE == 24)) THEN
             
               IPT = MOD(ABS(PTI)/10,201)
               IF ( IPT > 0 .AND. IPT<=NLAY .AND. NLAY>9) THEN
@@ -4313,7 +4313,7 @@ c
                  GAMA(6)=ZERO
                END IF
              END IF
-             DO J=1,8
+             DO J=1,ISOLNOD 
                KSI = A_HEPH(1,J)
                ETA = A_HEPH(2,J)
                ZETA = A_HEPH(3,J)
