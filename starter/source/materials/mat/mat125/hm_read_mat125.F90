@@ -116,26 +116,26 @@
           call hm_get_floatv("LSD_MAT_EB"    ,e2       ,is_available, lsubmodel, unitab)
           call hm_get_floatv("LSD_MAT_EC"    ,e3       ,is_available, lsubmodel, unitab)
           call hm_get_floatv("LSD_SOFT"      ,soft      ,is_available, lsubmodel, unitab)
-          call hm_get_intv("LSD_FS" ,fs    ,is_available, lsubmodel)
+          call hm_get_intv("LSD_FS" ,fs      ,is_available, lsubmodel)
 !card3 - shear modulus +
           call hm_get_floatv("LSD_MAT_GAB"   ,g12      ,is_available, lsubmodel, unitab)
           call hm_get_floatv("LSD_MAT_GBC"   ,g23      ,is_available, lsubmodel, unitab)
           call hm_get_floatv("LSD_MAT_GCA"   ,g13      ,is_available, lsubmodel, unitab)
 !card4 - poisson's ratio
           call hm_get_floatv("LSD_MAT_PRBA"  ,nu21     ,is_available, lsubmodel, unitab)
-          call hm_get_floatv("LSDYNA_PRCB"  ,nu32     ,is_available, lsubmodel, unitab)
-          call hm_get_floatv("LSDYNA_PRCA"  ,nu31     ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("LSDYNA_PRCB"   ,nu32     ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("LSDYNA_PRCA"   ,nu31     ,is_available, lsubmodel, unitab)
 !card5 - dir 11 tension
           call hm_get_floatv  ("LSD_M11T"        ,em11t      ,is_available, lsubmodel, unitab)
           call hm_get_floatv  ("LSD_MAT_XT"      ,xt         ,is_available, lsubmodel, unitab)
           call hm_get_floatv  ("MATL58_SLIMT1"   ,slimt1     ,is_available, lsubmodel, unitab)
-          call hm_get_intv ("LSD_LCID12"  ,ifem11t     ,is_available, lsubmodel)
+          call hm_get_intv ("LSD_LCID12"  ,ifem11t    ,is_available, lsubmodel)
           call hm_get_intv ("LSD_LCID2"   ,ifxt       ,is_available, lsubmodel)
 !card6 - dir 11 compression
           call hm_get_floatv  ("LSD_M11C"         ,em11c      ,is_available, lsubmodel, unitab)
           call hm_get_floatv  ("LSD_MAT_XC"       ,xc         ,is_available, lsubmodel, unitab)
           call hm_get_floatv  ("MATL58_SLIMC1"    ,slimc1     ,is_available, lsubmodel, unitab)
-          call hm_get_intv  ("LSD_LCID11"  ,ifem11c   ,is_available, lsubmodel)
+          call hm_get_intv  ("LSD_LCID11"  ,ifem11c  ,is_available, lsubmodel)
           call hm_get_intv  ("LSD_LCID"    ,ifxc     ,is_available, lsubmodel)
 !card7 - dir 22 tension
           call hm_get_floatv  ("LSD_M22T"         ,em22t      ,is_available, lsubmodel, unitab)
@@ -147,20 +147,20 @@
           call hm_get_floatv  ("LSD_M22C"         ,em22c      ,is_available, lsubmodel, unitab)
           call hm_get_floatv  ("LSD_MAT_YC"       ,yc         ,is_available, lsubmodel, unitab)
           call hm_get_floatv  ("MATL58_SLIMC2"    ,slimc2     ,is_available, lsubmodel, unitab)
-          call hm_get_intv  ("LSD_LCID13"  ,ifem22c   ,is_available, lsubmodel)
+          call hm_get_intv  ("LSD_LCID13"  ,ifem22c  ,is_available, lsubmodel)
           call hm_get_intv  ("LSD_LCID3"   ,ifyc     ,is_available, lsubmodel)
 !card9 - dir 33 tension only for solid
           call hm_get_floatv  ("LSD_MAT_E33T"         ,em33t      ,is_available, lsubmodel, unitab)
           call hm_get_floatv  ("LSD_MAT_157_ZT"       ,zt         ,is_available, lsubmodel, unitab)
-          call hm_get_floatv  ("LSD_MAT_SLIMT3"   ,slimt3     ,is_available, lsubmodel, unitab)
-          call hm_get_intv ("LSD_MAT_LCE33T"  ,ifem33t     ,is_available, lsubmodel)
+          call hm_get_floatv  ("LSD_MAT_SLIMT3"       ,slimt3     ,is_available, lsubmodel, unitab)
+          call hm_get_intv ("LSD_MAT_LCE33T"   ,ifem33t     ,is_available, lsubmodel)
           call hm_get_intv ("LSD_MAT_LCZT"     ,ifzt       ,is_available, lsubmodel)
 !card10 - dir 33 compression only for solid
           call hm_get_floatv  ("LSD_MAT_E33C"     ,em33c      ,is_available, lsubmodel, unitab)
-          call hm_get_floatv  ("LSD_MAT_157_ZC"       ,zc         ,is_available, lsubmodel, unitab)
-          call hm_get_floatv  ("LSD_MAT_SLIMC3"   ,slimc3     ,is_available, lsubmodel, unitab)
+          call hm_get_floatv  ("LSD_MAT_157_ZC"   ,zc         ,is_available, lsubmodel, unitab)
+          call hm_get_floatv  ("LSD_MAT_SLIMC3"    ,slimc3     ,is_available, lsubmodel, unitab)
           call hm_get_intv  ("LSD_MAT_LCE33C"  ,ifem33c   ,is_available, lsubmodel)
-          call hm_get_intv  ("LSD_MAT_LCZC"   ,ifzc     ,is_available, lsubmodel)
+          call hm_get_intv  ("LSD_MAT_LCZC"    ,ifzc     ,is_available, lsubmodel)
 !card11 - shear 12
           call hm_get_floatv  ("MATL58_GAMMA1"   ,gamma     ,is_available, lsubmodel, unitab)
           call hm_get_floatv  ("MATL58_TAU1"     ,tau       ,is_available, lsubmodel, unitab)
@@ -176,31 +176,31 @@
           call hm_get_floatv  ("LSD_MAT_GAMMA2"   ,gamma2     ,is_available, lsubmodel, unitab)
           call hm_get_floatv  ("LSD_MAT_TAU2"     ,tau2       ,is_available, lsubmodel, unitab)
           call hm_get_floatv  ("LSD_MAT_LCSC31"   ,ems13      ,is_available, lsubmodel, unitab)
-          call hm_get_floatv  ("LSD_MAT_SC31"      ,sc13       ,is_available, lsubmodel, unitab)
+          call hm_get_floatv  ("LSD_MAT_SC31"     ,sc13       ,is_available, lsubmodel, unitab)
           call hm_get_floatv  ("LSD_MAT_SLIMS31"  ,slims13    ,is_available, lsubmodel, unitab)
 !card14 - strain rate dependency (optional)
           call hm_get_intv  ("LSD_MAT_LCGAM2"      ,ifgamma2   ,is_available, lsubmodel)
           call hm_get_intv  ("LSD_MAT_LCTAU2"      ,iftau2     ,is_available, lsubmodel)
-          call hm_get_intv  ("LSD_MAT_LCGMS31"      ,ifems13     ,is_available, lsubmodel)
-          call hm_get_intv  ("LSD_MAT_GMS31"      ,ifsc13      ,is_available, lsubmodel)
+          call hm_get_intv  ("LSD_MAT_LCGMS31"     ,ifems13     ,is_available, lsubmodel)
+          call hm_get_intv  ("LSD_MAT_GMS31"       ,ifsc13      ,is_available, lsubmodel)
 !card15- shear 13 for solid
           call hm_get_floatv  ("LSD_MAT_GAMMA3"   ,gamma3     ,is_available, lsubmodel, unitab)
           call hm_get_floatv  ("LSD_MAT_TAU3"     ,tau3       ,is_available, lsubmodel, unitab)
-          call hm_get_floatv  ("LSD_MAT_GMS23"        ,ems23      ,is_available, lsubmodel, unitab)
-          call hm_get_floatv  ("LSD_MAT_SC23"    ,sc23       ,is_available, lsubmodel, unitab)
+          call hm_get_floatv  ("LSD_MAT_GMS23"    ,ems23      ,is_available, lsubmodel, unitab)
+          call hm_get_floatv  ("LSD_MAT_SC23"     ,sc23       ,is_available, lsubmodel, unitab)
           call hm_get_floatv  ("LSD_MAT_SLIMS23"  ,slims23    ,is_available, lsubmodel, unitab)
 !card16 - strain rate dependency (optional)
-          call hm_get_intv  ("LSD_MAT_LCGAM3"     ,ifgamma3   ,is_available, lsubmodel)
-          call hm_get_intv  ("LSD_MAT_LCTAU3"      ,iftau3     ,is_available, lsubmodel)
+          call hm_get_intv  ("LSD_MAT_LCGAM3"      ,ifgamma3   ,is_available, lsubmodel)
+          call hm_get_intv  ("LSD_MAT_LCTAU3"      ,iftau3      ,is_available, lsubmodel)
           call hm_get_intv  ("LSD_MAT_LCGMS23"     ,ifems23     ,is_available, lsubmodel)
           call hm_get_intv  ("LSD_MAT_LCSC23"      ,ifsc23      ,is_available, lsubmodel)
 !card17
-          call hm_get_floatv  ("LSD_MAT_EPSF"   ,gammaf     ,is_available, lsubmodel, unitab)
-          call hm_get_floatv  ("LSD_MAT_EPSR"   ,gammar       ,is_available, lsubmodel, unitab)
+          call hm_get_floatv  ("LSD_MAT_EPSF"       ,gammaf     ,is_available, lsubmodel, unitab)
+          call hm_get_floatv  ("LSD_MAT_EPSR"       ,gammar       ,is_available, lsubmodel, unitab)
           call hm_get_floatv  ("MAT_LSD_MAT_TSMD"   ,tsmd      ,is_available, lsubmodel, unitab)
 !card18
           call hm_get_intv  ("LSD_LCID16"        ,iferods  ,is_available, lsubmodel)
-          call hm_get_floatv  ("MATL58_ERODS"   ,erods       ,is_available, lsubmodel, unitab)
+          call hm_get_floatv  ("MATL58_ERODS"    ,erods       ,is_available, lsubmodel, unitab)
 !card? - equivalent strain rate cutoff frequency
           call hm_get_floatv("FCUT"      ,fcut     ,is_available, lsubmodel, unitab)
 
@@ -313,7 +313,7 @@
           if(e1 > zero ) then
             if(xt > zero )then
               ef11t  = xt/e1
-              if(em11t == zero) em11t = ONEP2*ef11t
+              em11t = max(em11t, onep1*ef11t)
               m1t = -one/log(ef11t/em11t)
               al1t = m1t*(em11t/ef11t)**m1t
               damage = 1
@@ -321,7 +321,7 @@
 
             if(xc > zero  )then
               ef11c  = xc/e1
-              if(em11c <= zero)em11c = ONEP2*ef11c
+              em11c = max(em11c, onep1*ef11c)
               m1c = -one/log(ef11c/em11c)
               al1c = m1c*(em11c/ef11c)**m1c
             end if
@@ -336,14 +336,14 @@
           if(e2 > zero) then
             if(yt > zero )then
               ef22t  = yt/e2
-              if(em22t <= zero) em22t = ONEP2*ef22t
+              em22t = max(em22t, ONEP1*ef22t) 
               m2t = -one/log(ef22t/em22t)
               al2t = m2t*(em22t/ef22t)**m2t
             end if
             !
             if(yc  > zero  )then
-              ef22c  = yc/e1
-              if(em22c == zero  )em22c = ONEP2*ef22c
+              ef22c  = yc/e2
+              em22c = max(em22c, ONEP1*ef22c)
               m2c = -one/log(ef22c/em22c)
               al2c = m2c*(em22c/ef22c)**m2c
             end if
@@ -358,7 +358,7 @@
           if(e3 > zero) then
             if(zt  > zero )then
               ef33t  = zt/e3
-              if(em33t == zero )em33t = ONEP2*ef33t
+              if(em33t == zero .or. em33t < ef33t )em33t = ONEP1*ef33t
               m3t = -one/log(ef33t/em33t)
               al3t = m3t*(em33t/ef33t)**m3t
               !!if(ef11t < em11t ) 'error message'
@@ -366,7 +366,7 @@
             !
             if(zc > zero )then
               ef33c  = zc/e3
-              if(em33c == zero  )em33c = ONEP2*ef33c
+              if(em33c == zero  .or. em33c < ef33c )em33c = ONEP1*ef33c
               m3c = -one/log(ef33c/em33c)
               al3c = m3c*(em33c/ef33c)**m3c
             end if
@@ -380,17 +380,16 @@
           ms23 = -HUGE(ms23)
           als23 = -HUGE(als23)
           efs23 = -HUGE(efs23)
+          if(tau == zero) tau = sc
+          if(gamma == zero) gamma = ems 
           if(fs == -1) then
             ! plane shear
             if(g12 > zero ) then
               if(tau > zero  )then
                 efs  = tau /g12
-                if(gamma <= zero ) gamma = ONEP2*efs
+                gamma = max(gamma, onep1*efs)
                 ms = -one/log(efs/gamma) ! one/ln(epsm/epsf)
                 als = ms*(gamma/efs)**ms
-              else
-                ! adding error message
-                fs = 1
               end if
             end if
             ! transverse shear 13 (only for solid)
@@ -400,7 +399,7 @@
             if(g13 > zero ) then
               if( tau2 > zero ) then
                 efs13  = tau2 /g13
-                if(gamma2 <= 0 ) gamma2 = ONEP2*efs13
+                gamma2 = max(gamma2, onep1*efs13)
                 ms13 = -one/log(efs13/gamma2) ! one/ln(epsm/epsf)
                 als13 = ms*(gamma2/efs13)**ms13
               else
@@ -414,7 +413,7 @@
             if(g23 > zero ) then
               if(tau3 > zero ) then
                 efs23  = tau3 /g23
-                if(gamma2 <= zero) gamma2 = ONEP2*efs23
+                gamma3 = max(gamma2, onep1*efs23)
                 ms23 = -one/log(efs23/gamma3) ! one/ln(epsm/epsf)
                 als23 = ms23*(gamma3/efs23)**ms23
               else
@@ -435,8 +434,6 @@
           if(sc <= tau ) sc = two*tau
           if(sc13 <= tau2) sc13 = two*tau2
           if(sc23 <= tau3) sc23 = two*tau3
-          if(fs == 2) damage = 0
-
           ! material parameters
           matparam%uparam(1)  = e1
           matparam%uparam(2)  = e2
@@ -530,8 +527,6 @@
           matparam%uparam(75) = als23
 
           matparam%uparam(76) = fs
-          matparam%uparam(77) = damage
-
           !
           matparam%uparam(78)  = nu21
           matparam%uparam(79)  = nu31
@@ -589,7 +584,7 @@
           ! parameters used outside the law
 ! ----------------------------------------------------------------------------------------------------------------------
           pm(9)  = asrate            !  mat_param%asrate
-          pm(20) = young               !  mat_param%young
+          pm(20) = young             !  mat_param%young
           pm(21) = nu                !  mat_param%nu
           pm(22) = max(g12,g12,g23)  !  mat_param%shear
           pm(24) = a11
@@ -628,7 +623,7 @@
           mtag%l_epsd = 1
           mtag%g_seq  = 1
           mtag%l_seq  = 1
-          mtag%g_dmg  = 6
+          mtag%g_dmg  = 1
           mtag%l_dmg  = 6
           ! number of output mod
           ! matparam%nmod = 3
@@ -645,7 +640,7 @@
           call init_mat_keyword(matparam ,"ORTHOTROPIC")
 !
           ! properties compatibility
-          call init_mat_keyword(matparam,"SOLID_ORTHOTROPIC")
+          !! call init_mat_keyword(matparam,"SOLID_ORTHOTROPIC")
           call init_mat_keyword(matparam,"SHELL_ORTHOTROPIC")
           call init_mat_keyword(matparam,"SOLID_ALL")
 ! ----------------------------------------------------------------------------------------------------------------------
