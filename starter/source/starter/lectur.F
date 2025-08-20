@@ -1023,6 +1023,7 @@ C---  Bolt preload/axial
       INTEGER, ALLOCATABLE, DIMENSION(:)       :: ITAGPRLD_BEAM
       INTEGER, ALLOCATABLE, DIMENSION(:)       :: ITAGPRLD_TRUSS
       TYPE(PREL1D_), DIMENSION(:), ALLOCATABLE :: PRELOAD_A
+      INTEGER, ALLOCATABLE, DIMENSION(:)       :: IPRELOAD_FUN    !  workarray fun_id,sen_id
 C======================================================================|
 C   Allocations AM (Reels)
 C======================================================================|
@@ -5112,14 +5113,20 @@ c
        IF(STAT /= 0) CALL ANCMSG(MSGID= 268,ANMODE=ANINFO,
      .                          MSGTYPE= MSGERROR,
      .                               C1= 'IFLAG_BPRELOAD')
+       ALLOCATE(IPRELOAD_FUN(2*NPRELOAD)    ,STAT=stat)
+       IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+     .                             MSGTYPE=MSGERROR,
+     .                         C1='IPRELOAD_FUN')
        IPRELOAD       = 0
        IFLAG_BPRELOAD = 0
        PRELOAD        = ZERO
+       IPRELOAD_FUN   = 0
 
        WRITE(ISTDO,'(A)')TITRE(34)
        CALL HM_READ_PRELOAD(IXS   ,IXS10     ,IPRELOAD ,PRELOAD,IFLAG_BPRELOAD,
      .                      NSTRF ,SENSORS   ,UNITAB ,X        ,
-     .                      EANI  ,ITAB      ,LSUBMODEL)
+     .                      EANI  ,ITAB      ,LSUBMODEL,
+     .                     SNPC   ,NPC       ,IPRELOAD_FUN)        
 c
        IF(ALLOCATED(NSTRF))  DEALLOCATE(NSTRF)
        IF(ALLOCATED(SECBUF)) DEALLOCATE(SECBUF)
@@ -5138,6 +5145,7 @@ c
         IF(STAT /= 0) CALL ANCMSG(MSGID= 268,ANMODE=ANINFO,
      .                          MSGTYPE= MSGERROR,
      .                               C1= 'IFLAG_BPRELOAD')
+        ALLOCATE(IPRELOAD_FUN(0))
       ENDIF
 !      /PRELOAD/AXIAL  2 int 2 real per preload, itag_spring...
        ALLOCATE(PRELOAD_A(NPRELOAD_A)    ,STAT=stat)
@@ -6024,7 +6032,7 @@ C
      6       IPM      ,NOD2ELS  ,ISOLOFF  ,ISOLNOD  ,
      7       TAGPRT_SMS,INIVOL  ,SPH2SOL  ,SOL2SPH  ,SOL2SPH_TYP,
      8       IFLAG_BPRELOAD, CLUSTERS ,MAT_ELEM%MAT_PARAM ,RNOISE(1,MIN(SRNOISE2,NUMELC+NUMELTG+1)),
-     9       IPRI     ,DAMP_RANGE_PART)
+     9       IPRI     ,DAMP_RANGE_PART,IPRELOAD_FUN)
         GRSOL_ID2 = NGROUP
         NGR_SOL   = GRSOL_ID2 - GRSOL_ID1
 C
@@ -11313,6 +11321,7 @@ C
       IF(ALLOCATED(IPRELOAD)) DEALLOCATE(IPRELOAD)
       IF(ALLOCATED(PRELOAD))  DEALLOCATE(PRELOAD)
       IF(ALLOCATED(IFLAG_BPRELOAD))  DEALLOCATE(IFLAG_BPRELOAD)
+      IF(ALLOCATED(IPRELOAD_FUN)) DEALLOCATE(IPRELOAD_FUN)
       IF(ALLOCATED(EOS_TAG))DEALLOCATE(EOS_TAG)
       CALL C_DELETE_HASH(H_NODE)
       CALL DEALLOCATE_DETONATORS(DETONATORS)

@@ -981,7 +981,8 @@ C
      4   ISMSTR)
 
         CALL BOLTST(IPTR  ,BPRELD,LBUF%SIG       ,TT    ,NEL   ,        
-     .              NPT   ,SENSORS%NSENSOR,SENSORS%SENSOR_TAB)
+     .              NPT   ,SENSORS%NSENSOR,SENSORS%SENSOR_TAB ,
+     .            IPARG1(67),IPARG1(68))
       END IF
 C
 C Stress computation according to material laws 

@@ -606,7 +606,8 @@ Cfor fluid in spmd: bufvois loi11
 
         CALL BOLTST(
      1       IP,        BPRELD,    LBUF%SIG,TT,   NEL,     
-     2       NPT,   SENSORS%NSENSOR,SENSORS%SENSOR_TAB)
+     2       NPT,   SENSORS%NSENSOR,SENSORS%SENSOR_TAB,
+     3      IPARG(67,NG),IPARG(68,NG))
       END IF
 
       CALL MMAIN(TIMERS,OUTPUT,

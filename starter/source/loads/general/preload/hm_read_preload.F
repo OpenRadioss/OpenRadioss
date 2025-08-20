@@ -38,7 +38,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE HM_READ_PRELOAD(IXS     ,IXS10,IPRELOAD ,PRELOAD  ,IFLAG_BPRELOAD,
      .                           NSTRF   ,SENSORS    ,UNITAB ,X       ,
-     .                           ISOLNOD ,ITAB       ,LSUBMODEL)
+     .                           ISOLNOD ,ITAB       ,LSUBMODEL       ,
+     .                           SNPC    ,NPC        ,IPRELOAD_FUN )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -64,6 +65,9 @@ C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
       INTEGER IXS(NIXS,*), IXS10(6,*), IPRELOAD(3,*), IFLAG_BPRELOAD(*)  
       INTEGER NSTRF(*),ITAB(*),ISOLNOD(*)
+      INTEGER ,INTENT(IN) :: SNPC
+      INTEGER ,DIMENSION(SNPC), INTENT(IN) :: NPC 
+      INTEGER ,DIMENSION(2,NPRELOAD), INTENT(INOUT) :: IPRELOAD_FUN 
       my_real PRELOAD(6,*),X(3,*)
       TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
@@ -73,7 +77,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ISEC, K, I1, I2, I, ISENS,NPR0,NN,ID,J,UID,IFLAGUNIT,JS,SENSNUM
       INTEGER IUGRP(NPRELOAD),IDSENSOR(NPRELOAD)
-      INTEGER K0,K1,K2,K3,IS,IE,II,NS,NI,ITYPE,IN1,IN2,IN3
+      INTEGER K0,K1,K2,K3,IS,IE,II,NS,NI,ITYPE,IN1,IN2,IN3,IFUN,FUN_ID
       my_real LVAL(NPRELOAD),TS(NPRELOAD),TE(NPRELOAD),NX(NPRELOAD),NY(NPRELOAD),NZ(NPRELOAD)
       my_real TDEB,TFIN, LOADVAL,X1,Y1,Z1,X2,Y2,Z2,X3,Y3,Z3,N3,AREA(NPRELOAD)
       CHARACTER MESS*40
@@ -126,6 +130,7 @@ C
         CALL HM_GET_INTV('sect_ID'  ,ISEC  ,IS_AVAILABLE,LSUBMODEL)  
         CALL HM_GET_INTV('sens_ID'  ,ISENS ,IS_AVAILABLE,LSUBMODEL)  
         CALL HM_GET_INTV('Itype'    ,ITYPE ,IS_AVAILABLE,LSUBMODEL) 
+        CALL HM_GET_INTV('curveid'  ,IFUN  ,IS_AVAILABLE,LSUBMODEL)
  
         CALL HM_GET_FLOATV('Preload',LOADVAL,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('Tstart' ,TDEB   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -135,16 +140,29 @@ C
         IF (ITYPE == 0) ITYPE = 1 ! Default to effort preloading
 
       
-        IF(LOADVAL <= ZERO) THEN
+        IF(LOADVAL <= ZERO .AND. IFUN==0) THEN
           CALL ANCMSG(MSGID=1255,MSGTYPE=MSGWARNING,
      .                ANMODE=ANINFO_BLIND_1,
      .                C1='BOLT PRELOAD',
      .                I1=ID,
      .                C2=TITR)
-          LOADVAL = ZERO 
+!          LOADVAL = ZERO 
         ENDIF
-
         IF (TFIN == ZERO) TFIN=EP30
+!        
+        FUN_ID = 0
+        IF (IFUN>0) THEN
+          DO J=1,NFUNCT
+            IF(NPC(NFUNCT+J+1)==IFUN) FUN_ID=J
+          ENDDO
+          IF(FUN_ID==0)THEN
+            CALL ANCMSG(MSGID=154,ANMODE=ANINFO,MSGTYPE=MSGERROR,I2=IFUN,I1=ID,C1=TITR)
+          ENDIF
+        END IF !(IFUN>0) THEN
+        IF (FUN_ID>0) THEN ! Tstart,Tstop will be updated in Engin
+          TDEB = ZERO          
+          TFIN = EP30
+        END IF !(IFUN>0) THEN
 c        
         SENSNUM = 0
         IF (ISENS > 0) THEN
@@ -173,6 +191,10 @@ c
               IDSENSOR(I) = ISENS
               TS(I) = TDEB
               TE(I) = TFIN
+              IF (FUN_ID>0) THEN ! for printout
+                  TS(I) = -IFUN 
+                  TE(I) = IFUN
+              END IF
               NN = NSTRF(K0+6)
               NS = NSTRF(K0+7)
               NI = NSTRF(K0+14)
@@ -246,6 +268,8 @@ c
      .              C2='BOLT PRELOAD',
      .              I2=ISEC,I1=ID,C3=TITR)
 100     CONTINUE
+        IPRELOAD_FUN(1,I)  = FUN_ID              
+        IPRELOAD_FUN(2,I)  = SENSNUM                 
 
       ENDDO
       I1=1
@@ -254,8 +278,17 @@ c-----------------------------output------------------------------------------
    90  WRITE (IOUT,2000)
        DO I=I1,I2
          IF (IUGRP(I)==0) CYCLE
-         WRITE (IOUT,'(I10,1X,I10,1X,1PE10.3,1X,I10,6(1X,1PE10.3))') I,
-     .        IUGRP(I), AREA(I), IDSENSOR(I), NX(I), NY(I), NZ(I), LVAL(I), TS(I), TE(I)
+         IF (TS(I)<ZERO) THEN
+           TS(I) = ZERO
+           IFUN = NINT(TE(I))
+           TE(I)=EP30
+           WRITE (IOUT,'(I10,1X,I10,1X,1PE10.3,1X,I10,6(1X,1PE10.3),I10)') I,
+     .        IUGRP(I), AREA(I), IDSENSOR(I), NX(I), NY(I), NZ(I), LVAL(I), TS(I), TE(I),IFUN
+         ELSE
+           IFUN = 0
+           WRITE (IOUT,'(I10,1X,I10,1X,1PE10.3,1X,I10,6(1X,1PE10.3),I10)') I,
+     .        IUGRP(I), AREA(I), IDSENSOR(I), NX(I), NY(I), NZ(I), LVAL(I), TS(I), TE(I),IFUN
+         END IF
        ENDDO
        IF(I2==NPRELOAD)GOTO 200
        I1=I1+50
@@ -269,7 +302,7 @@ c-------------------------
      .'     BOLT PRELOADINGS  '/
      .'     ----------------  '/
      .'        ID    SECTION       AREA     SENSOR         NX         NY
-     .         NZ    PRELOAD    START-T      END-T')
+     .         NZ    PRELOAD    START-T      END-T      IFUNC')
 C-----------
       RETURN
       END

@@ -137,6 +137,7 @@ C-----------------------------------------------
       USE PRELOAD_AXIAL_MOD
       USE ELBUFDEF_MOD
       use glob_therm_mod
+      USE PRELOAD_SOLID_INI_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -371,6 +372,15 @@ C----6---------------------------------------------------------------7---------8
 !
           IF (ISENS_ENERGY == 1 .AND. IPRI == 0)
      .     CALL SENSOR_ENERGY_PART(IPARTS(NF1) ,SUBSET ,IPRI,SENSORS,ITASK)
+          IF (IPREID>0) THEN
+             GBUF => ELBUF_TAB(NG)%GBUF 
+             FUN_ID = IPARG(67,NG)
+             SENS_ID= IPARG(68,NG) 
+             CALL PRELOAD_SOLID_INI(PYTHON, NFUNCT,
+     1           FUN_ID        ,SENS_ID       ,NPC          ,SNPC          ,
+     2           TF            ,STF           ,SENSORS      ,TT            ,
+     3           GBUF%BPRELD   ,GBUF%G_BPRELD ,NEL          )
+          END IF
 C---------
           IF(ISOLNOD==4.AND.(ISROT==0.OR.ISROT==3))THEN                            
 C---------

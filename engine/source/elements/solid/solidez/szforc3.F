@@ -710,7 +710,8 @@ c===========================================================================
 c===========================================================================
 C
       IF(IBOLTP /= 0) CALL BOLTST(IP    ,BPRELD    ,LBUF%SIG  ,TT     ,NEL   ,
-     .                            NPT   ,SENSORS%NSENSOR,SENSORS%SENSOR_TAB)
+     .                            NPT   ,SENSORS%NSENSOR,SENSORS%SENSOR_TAB,
+     .                            IPARG(67,NG),IPARG(68,NG))
 C
 C Compute stresses according to the material law
       CALL MMAIN(TIMERS, OUTPUT,
