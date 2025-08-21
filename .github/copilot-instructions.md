@@ -243,6 +243,10 @@ integer, parameter :: WP = 8  ! Double precision build
 use `SPMD_MOD.F90` instead that is a wrapper around the MPI functions. 
 `SPMD_*` functions match the `MPI_*` functions but with a more Fortran-like interface, optional arguments (status, communicator), and better error handling.
 
+## Building
+
+OpenRadioss is made of two binaries: the starter and the engine. Run the following command `./build_script.sh -arch=linux64_gf -mpi=ompi` in the engine or the starter subdirectory to build the binaries. 
+
 ---
 
 *This document should be reviewed and updated regularly to reflect evolving best practices and project-specific requirements.*
