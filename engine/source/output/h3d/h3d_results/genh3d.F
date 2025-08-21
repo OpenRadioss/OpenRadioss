@@ -223,7 +223,7 @@ C-----------------------------------------------
         USE CLUSTER_MOD
         USE STACK_MOD
         USE H3D_MOD
-        USE ALEANIM_MOD  !, ONLY : FANI_CELL
+        USE ALEANIM_MOD
         USE MULTI_FVM_MOD
         USE GROUPDEF_MOD
         USE INOUTFILE_MOD
@@ -2793,7 +2793,7 @@ c          IF(ISPMD == 0)  print *,'solid scalar',N_OUTP_DATA,'IFUNC',IFUNC,'INF
      .                      NERCVOIS,NESDVOIS, LERCVOIS,LESDVOIS,
      .                      SOLID_ID  ,SOLID_ITY     ,IPARTS       ,LAYER      ,
      .                      IR        ,IS        ,IT            ,IUVAR        ,H3D_DATA%OUTPUT_LIST(I)%PART,
-     .                      IS_WRITEN_SOLID,INFO1,KEYWORD       ,GLOB_THERM%ITHERM,FANI_CELL    ,
+     .                      IS_WRITEN_SOLID,INFO1,KEYWORD       ,GLOB_THERM%ITHERM,OUTPUT%DATA%FANI_CELL    ,
      .                      MULTI_FVM, IDMDS         ,IMDSVAR      ,
      .                      OBJECT_ID ,MAT_PARAM ,MODE          )
 c
@@ -2844,7 +2844,7 @@ c          IF(ISPMD == 0)  print *,'solid scalar',N_OUTP_DATA,'IFUNC',IFUNC,'INF
      .                      NV46      ,NERCVOIS  ,NESDVOIS      ,LERCVOIS     ,LESDVOIS   ,
      .                      STACK     ,SOLID_ID  ,SOLID_ITY     ,IPARTS       ,LAYER      ,
      .                      IR        ,IS        ,IT            ,IUVAR        ,H3D_DATA%OUTPUT_LIST(I)%PART,
-     .                      IS_WRITEN_SOLID,INFO1,KEYWORD       ,FANI_CELL    ,
+     .                      IS_WRITEN_SOLID,INFO1,KEYWORD       ,OUTPUT%DATA%FANI_CELL    ,
      .                      H3D_DATA, MULTI_FVM)
 c
             IF (NSPMD > 1 ) THEN

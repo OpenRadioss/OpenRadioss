@@ -93,7 +93,6 @@ C-----------------------------------------------
       USE INTBUF_FRIC_MOD
       USE MESSAGE_MOD
       USE TRI25EBOX
-      USE OUTPUTS_MOD
       USE INTERFACES_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

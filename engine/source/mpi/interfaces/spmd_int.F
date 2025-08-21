@@ -3554,7 +3554,6 @@ C   M o d u l e s
 C-----------------------------------------------
       USE TRI7BOX
       USE MESSAGE_MOD
-      USE OUTPUTS_MOD
       USE SPMD_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -4927,7 +4926,6 @@ C   M o d u l e s
 C-----------------------------------------------
       USE TRI7BOX
       USE MESSAGE_MOD
-      USE OUTPUTS_MOD
       USE SPMD_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

@@ -1781,7 +1781,6 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE OUTPUT_MOD
-      USE OUTPUTS_MOD
       USE STATE_MOD
       USE ALE_MOD
       USE SPH_MOD, ONLY : XI_RES,YI_RES,ZI_RES

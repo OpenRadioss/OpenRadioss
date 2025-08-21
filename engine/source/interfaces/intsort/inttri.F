@@ -150,7 +150,6 @@ C-----------------------------------------------
       USE INTER_SORTING_MOD
       USE OUTPUT_MOD
       USE SENSOR_MOD
-      USE OUTPUTS_MOD
       USE INTERFACES_MOD
       USE GLOB_THERM_MOD
       USE INT18_LAW151_NSV_SHIFT_MOD , ONLY : INT18_LAW151_NSV_SHIFT

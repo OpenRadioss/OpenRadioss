@@ -52,7 +52,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
           my_real,DIMENSION(:), ALLOCATABLE :: VORT_Z
         END TYPE
 
-        TYPE(FANI_CELL_) :: FANI_CELL
 
 
       END MODULE ALEANIM_MOD

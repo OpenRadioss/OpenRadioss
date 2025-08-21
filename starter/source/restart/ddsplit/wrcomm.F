@@ -33,7 +33,6 @@ C   M o d u l e s
 C-----------------------------------------------
       USE OUTPUT_MOD
       USE SPH_MOD, ONLY : XI_RES, YI_RES, ZI_RES
-      USE OUTPUTS_MOD
       USE ALE_MOD
       USE PARAMETERS_MOD
       USE UNITAB_MOD

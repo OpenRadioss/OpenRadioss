@@ -190,7 +190,6 @@ C-----------------------------------------------
       USE OUTMAX_MOD
       USE SENSOR_MOD
       USE H3D_INC_MOD
-      USE OUTPUTS_MOD
       USE ALEMUSCL_MOD , only:ALEMUSCL_Param
       USE OUTPUT_MOD
       USE NLOC_COUNT_SOLNOD_MOD

@@ -72,7 +72,6 @@ C-----------------------------------------------
       USE INTBUFDEF_MOD
       USE H3D_MOD
       USE MESSAGE_MOD
-      USE OUTPUTS_MOD
       USE MY_ALLOC_MOD
       USE INTBUF_FRIC_MOD
 C-----------------------------------------------
