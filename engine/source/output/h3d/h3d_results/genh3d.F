@@ -174,7 +174,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      4                  SIAD     ,IPARG    ,PM          ,GEO         ,MS       ,
      5                  SINVERT  ,CONT     ,SMATER      ,ICUT        ,SKEW     ,
      6                  XCUT     ,FINT     ,ITAB        ,SEL2FA      ,FEXT     ,
-     7                  FOPT     ,ANIN     ,LPBY        ,NPBY        ,NSTRF    ,
+     7                  FOPT     ,LPBY        ,NPBY        ,NSTRF    ,
      8                  RWBUF    ,NPRW     ,TANI        ,ELBUF_TAB   ,MAT_PARAM,
      A                  DD_IAD   ,WEIGHT   ,EANI        ,IPART       ,CLUSTER  ,
      B                  IPARTS   ,IPARTQ   ,IPARTC      ,IPARTT      ,IPARTP   ,
@@ -223,7 +223,7 @@ C-----------------------------------------------
         USE CLUSTER_MOD
         USE STACK_MOD
         USE H3D_MOD
-        USE ALEANIM_MOD  !, ONLY : FANI_CELL
+        USE ALEANIM_MOD
         USE MULTI_FVM_MOD
         USE GROUPDEF_MOD
         USE INOUTFILE_MOD
@@ -296,7 +296,7 @@ C-----------------------------------------------
      .     X(3*NUMNOD), D(3*NUMNOD), V(3*NUMNOD), A(3,NUMNOD), BUFEL(*),
      .     PM(NPROPM,NUMMAT), GEO(NPROPG,NUMGEO),CONT(*),
      .     XCUT(*) , FINT(3,NUMNOD),MS(NUMNOD),RWBUF(NRWLP,*),SKEW(LSKEW,*),
-     .     RBY(NRBY,*),FEXT(3,NUMNOD) ,FOPT(6,*),ANIN(*),TANI(6,*),EANI(*),
+     .     RBY(NRBY,*),FEXT(3,NUMNOD) ,FOPT(6,*),TANI(6,*),EANI(*),
      .     TORS(15,*),BUFSF(*), RDATA(*),
      .     BUFMAT(*),BUFGEO(*),
      .     SPBUF(*), VR(3*NUMNOD),VOLMON(SVOLMON), RFLOW(*), FNCONT(3,*), FTCONT(3,*),
@@ -2157,7 +2157,7 @@ c          IF(ISPMD == 0) print *,'H3D_DATA%OUTPUT_LIST(I)%PART',H3D_DATA%OUTPUT
 
           CALL H3D_NODAL_SCALAR(OUTPUT,
      .      ELBUF_TAB         ,NODAL_SCALAR  ,IFUNC          ,IPARG                        ,GEO                       ,
-     .      MAS               ,PM            ,ANIN           ,ITAB                         ,NODE_ID                   ,
+     .      MAS               ,PM            ,ITAB                         ,NODE_ID                   ,
      .      INFO1             ,INFO2         ,IS_WRITEN_NODE ,H3D_DATA%OUTPUT_LIST(I)%PART ,IPARTC                    ,
      .      IPARTTG           ,IXC           ,IXTG           ,TEMP                         ,IFLOW                     ,
      .      RFLOW             ,IXS           ,IXQ            ,NV46                         ,MONVOL                    ,
@@ -2257,7 +2257,7 @@ c          IF(ISPMD == 0) print *,'H3D_DATA%OUTPUT_LIST(I)%PART',H3D_DATA%OUTPUT
 
             CALL H3D_NODAL_VECTOR(
      .                     ELBUF_TAB         ,NODAL_VECTOR             , IFUNC         ,IPARG  ,GEO             ,
-     .                     MAS               ,PM                       , ANIN          ,ITAB   ,NODE_ID         ,
+     .                     MAS               ,PM                       , ITAB   ,NODE_ID         ,
      .                     INFO1             ,INFO2                    , IS_WRITEN_NODE,H3D_DATA%OUTPUT_LIST(I)%PART,
      .                     IPARTC          ,
      .                     IPARTTG           ,IXC                      , IXTG          ,TEMP   ,IFLOW           ,
@@ -2370,7 +2370,7 @@ c          IF(ISPMD == 0) print *,'H3D_DATA%OUTPUT_LIST(I)%PART',H3D_DATA%OUTPUT
 
             CALL H3D_NODAL_TENSOR(
      .                       ELBUF_TAB, NODAL_TENSOR ,IFUNC      ,IPARG,GEO ,MAS       ,PM         ,
-     .                        ANIN , ITAB, NODE_ID   ,INFO1        ,INFO2      ,
+     .                        ITAB, NODE_ID   ,INFO1        ,INFO2      ,
      .                       IS_WRITEN_NODE,H3D_DATA%OUTPUT_LIST(I)%PART ,IPARTC,IPARTTG,
      .                    IXC, IXTG,TEMP,IFLOW,RFLOW,IXS,IXQ,NV46,MONVOL   ,VOLMON, DIAG_SMS,MS,
      .                     PDAMA2,X, STIFR, STIFN, A, D, V, CONT, FCONTG, FINT, FEXT,KEYWORD,
@@ -2417,7 +2417,7 @@ c          IF(ISPMD == 0) print *,'H3D_DATA%OUTPUT_LIST(I)%PART',H3D_DATA%OUTPUT
 
             SZ_ANIN = SANIN - NDMA2
             CALL H3D_ONED_SCALAR(ELBUF_TAB      ,IPARG    ,GEO  , IXT,
-     .                           IXP            ,IXR      ,PM   , ANIN(NDMA2+1),
+     .                           IXP            ,IXR      ,PM   , OUTPUT%DATA%SCAL_SPRING,
      .                           ONED_SCALAR    ,ONED_ID  ,ONED_ITY,
      .                           IS_WRITEN_ONED ,IPARTT ,IPARTP,IPARTR,H3D_DATA%OUTPUT_LIST(I)%PART,
      .                           KEYWORD, X , D   ,IPT, 
@@ -2465,7 +2465,7 @@ c          IF(ISPMD == 0) print *,'H3D_DATA%OUTPUT_LIST(I)%PART',H3D_DATA%OUTPUT
 
             CALL H3D_ONED_VECTOR(ELBUF_TAB   ,IFUNC  ,IPARG    ,GEO  ,
      .                  IXT          ,IXP    ,IXR    ,PM   ,
-     .                  ANIN(NDMA2+1),ONED_VECTOR,
+     .                  OUTPUT%DATA%SCAL_SPRING,ONED_VECTOR,
      .                  ONED_ID      ,ONED_ITY,INFO1 ,INFO2    , IS_WRITEN_ONED  ,
      .                  IPARTT ,IPARTP,IPARTR,H3D_DATA%OUTPUT_LIST(I)%PART,
      .                  KEYWORD      , X     , D     ,TORS   )
@@ -2510,7 +2510,7 @@ c          IF(ISPMD == 0) print *,'H3D_DATA%OUTPUT_LIST(I)%PART',H3D_DATA%OUTPUT
 
             CALL H3D_ONED_TENSOR(ELBUF_TAB   ,IFUNC  ,IPARG    ,GEO  ,
      .                  IXT          ,IXP    ,IXR    ,PM   ,
-     .                  ANIN(NDMA2+1),ONED_TENSOR,
+     .                  OUTPUT%DATA%SCAL_SPRING,ONED_TENSOR,
      .                  ONED_ID      ,ONED_ITY,INFO1 ,INFO2    , IS_WRITEN_ONED  ,
      .                  IPARTT ,IPARTP,IPARTR,H3D_DATA%OUTPUT_LIST(I)%PART,
      .                  KEYWORD      , X     , D     ,IPT)
@@ -2676,7 +2676,7 @@ c         IF(ISPMD == 0)  print *,'H3D_DATA%OUTPUT_LIST(I)%PART',H3D_DATA%OUTPUT
      .                       ELBUF_TAB ,SHELL_VECTOR ,IFUNC      ,IPARG,GEO    ,
      .                       IXQ       ,IXC       ,IXTG          ,PM       ,
      .                       EL2FA     ,NBF       ,IAD          ,
-     .                       NBF_L     ,EANI      ,ANIN(NDMA2+1) ,NBPART       ,IADG       ,
+     .                       NBF_L     ,EANI      ,OUTPUT%DATA%SCAL_SPRING ,NBPART       ,IADG       ,
      .                       IPM       ,IGEO      ,THKE          ,ERR_THK_SH4  ,ERR_THK_SH3,
      .                       INVERT    ,X         ,V             ,W            ,
      .                       NV46      ,NERCVOIS  ,NESDVOIS      ,LERCVOIS     ,LESDVOIS   ,
@@ -2793,7 +2793,7 @@ c          IF(ISPMD == 0)  print *,'solid scalar',N_OUTP_DATA,'IFUNC',IFUNC,'INF
      .                      NERCVOIS,NESDVOIS, LERCVOIS,LESDVOIS,
      .                      SOLID_ID  ,SOLID_ITY     ,IPARTS       ,LAYER      ,
      .                      IR        ,IS        ,IT            ,IUVAR        ,H3D_DATA%OUTPUT_LIST(I)%PART,
-     .                      IS_WRITEN_SOLID,INFO1,KEYWORD       ,GLOB_THERM%ITHERM,FANI_CELL    ,
+     .                      IS_WRITEN_SOLID,INFO1,KEYWORD       ,GLOB_THERM%ITHERM,OUTPUT%DATA%FANI_CELL    ,
      .                      MULTI_FVM, IDMDS         ,IMDSVAR      ,
      .                      OBJECT_ID ,MAT_PARAM ,MODE          )
 c
@@ -2838,13 +2838,13 @@ c          IF(ISPMD == 0)  print *,'solid scalar',N_OUTP_DATA,'IFUNC',IFUNC,'INF
      .                      ELBUF_TAB ,SOLID_VECTOR ,IFUNC      ,IPARG,GEO    ,
      .                      IXQ       ,IXS       ,IXTG          ,PM           ,
      .                      EL2FA     ,NBF       ,IAD          ,
-     .                      NBF_L     ,EANI      ,ANIN(NDMA2+1) ,NBPART       ,IADG       ,
+     .                      NBF_L     ,EANI      ,OUTPUT%DATA%SCAL_SPRING ,NBPART       ,IADG       ,
      .                      IPM       ,IGEO      ,THKE          ,ERR_THK_SH4  ,ERR_THK_SH3,
      .                      INVERT    ,X         ,V             ,W            ,
      .                      NV46      ,NERCVOIS  ,NESDVOIS      ,LERCVOIS     ,LESDVOIS   ,
      .                      STACK     ,SOLID_ID  ,SOLID_ITY     ,IPARTS       ,LAYER      ,
      .                      IR        ,IS        ,IT            ,IUVAR        ,H3D_DATA%OUTPUT_LIST(I)%PART,
-     .                      IS_WRITEN_SOLID,INFO1,KEYWORD       ,FANI_CELL    ,
+     .                      IS_WRITEN_SOLID,INFO1,KEYWORD       ,OUTPUT%DATA%FANI_CELL    ,
      .                      H3D_DATA, MULTI_FVM)
 c
             IF (NSPMD > 1 ) THEN
@@ -3072,7 +3072,7 @@ c         IF(ISPMD == 0)  print *,'H3D_DATA%OUTPUT_LIST(I)%PART',H3D_DATA%OUTPUT
      .                       ELBUF_TAB ,QUAD_VECTOR ,IFUNC      ,IPARG,GEO    ,
      .                       IXQ       ,IXC       ,IXTG          ,PM       ,
      .                       EL2FA     ,NBF       ,IAD          ,
-     .                       NBF_L     ,EANI      ,ANIN(NDMA2+1) ,NBPART       ,IADG       ,
+     .                       NBF_L     ,EANI      ,OUTPUT%DATA%SCAL_SPRING ,NBPART       ,IADG       ,
      .                       IPM       ,IGEO      ,THKE          ,ERR_THK_SH4  ,ERR_THK_SH3,
      .                       INVERT    ,X         ,V             ,W            ,
      .                       NV46      ,NERCVOIS  ,NESDVOIS      ,LERCVOIS     ,LESDVOIS   ,

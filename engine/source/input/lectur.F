@@ -91,7 +91,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      6                  NEFLSW  ,NNFLSW,ICUT   ,INOISE ,
      7                  X       ,V     ,VR     ,MS     ,IN    ,
      8                  SKEW    ,PLD           ,RBY    ,
-     9                  WA      ,CRFLSW,XCUT   ,ANIN   ,DAMPR ,
+     9                  WA      ,CRFLSW,XCUT   ,DAMPR ,
      A                  IGRNOD  ,KXSP  ,WEIGHT ,FR_RBY2,FR_RL ,
      B                  PARTSAV,IPART  ,PM    ,
      C                  MONVOL  ,VOLMON,IPART_STATE,GEO,TABLE ,
@@ -192,7 +192,7 @@ C-----------------------------------------------
      .   MDS_OUTPUT_TABLE(MDS_NMAT*MAX_DEPVAR),MDS_NMAT,MAX_DEPVAR,
      .   MDS_NDEPSVAR(*),IBCL(*),ILOADP(*),LLOADP(*)
       my_real
-     .    SKEW(LSKEW,*),RBY(*),MS(*),IN(*),ANIN(*),
+     .    SKEW(LSKEW,*),RBY(*),MS(*),IN(*),
      .    X(*), V(*), VR(*),WA(*),PLD(*),CRFLSW(*),XCUT(*),
      .    DAMPR(NRDAMP,*), PARTSAV(*),PM(NPROPM,*),
      .    VOLMON(*),GEO(NPROPG,*),XFRAME(NXFRAME,*)
@@ -2745,9 +2745,9 @@ C---------------------------------------------------------
 C---------------------------------------------------------
 C     ANIMATION (DT ,DMAS)
 C---------------------------------------------------------
-      DO I=1,SANIN
-        ANIN(I)=ZERO
-      ENDDO
+!     DO I=1,SANIN
+!       ANIN(I)=ZERO
+!     ENDDO
 C---------------------------------------------------------
 C     FILTERED SAMPLED OUTPUT
 C---------------------------------------------------------

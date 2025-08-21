@@ -48,7 +48,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE H3D_NODAL_SCALAR( OUTPUT,
      .                  ELBUF_TAB          ,NODAL_SCALAR ,IFUNC           ,IPARG                  ,GEO     ,
-     .                  MASS               ,PM           ,ANIN            ,ITAB                   ,NODE_ID ,
+     .                  MASS               ,PM           ,ITAB                   ,NODE_ID ,
      .                  INFO1              ,INFO2        ,IS_WRITTEN_NODE ,H3D_PART               ,IPARTC  ,
      .                  IPARTTG            ,IXC          ,IXTG            ,TEMP                   ,IFLOW   ,
      .                  RFLOW              ,IXS          ,IXQ             ,NV46                   ,MONVOL  ,
@@ -101,7 +101,7 @@ C-----------------------------------------------
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
       my_real
      .   NODAL_SCALAR(NUMNOD),MASS(*),GEO(NPROPG,NUMGEO),
-     .   PM(NPROPM,NUMMAT),ANIN(*),TEMP(*),RFLOW(*),VOLMON(*), DIAG_SMS(*),MS(*),
+     .   PM(NPROPM,NUMMAT),TEMP(*),RFLOW(*),VOLMON(*), DIAG_SMS(*),MS(*),
      .   PDAMA2(2,*),X(*),STIFR(*),STIFN(*),RBY(NRBY,*),PSKIDS(NINTERSKID,*)
       my_real,INTENT(INOUT) :: NODAL_SCALAR_FVM(AIRBAGS_TOTAL_FVM_IN_H3D)
       INTEGER IPARG(NPARG,*),IFUNC,NODE_ID(*),
@@ -226,16 +226,16 @@ c
       ENDIF
 C
 C--------------------------------------------------
-      IF(KEYWORD == 'DMASS' .OR. KEYWORD == 'DINER')THEN 
-C--------------------------------------------------
-        !IF(KEYWORD == 'DT') K = 0
-        IF(KEYWORD == 'DMASS') K = MIN(1,ANIM_N(1)+H3D_DATA%N_SCAL_DT) * NUMNOD
-        IF(KEYWORD == 'DINER') K =(MIN(1,ANIM_N(1)+H3D_DATA%N_SCAL_DT) +
-     .                            MIN(1,ANIM_N(2)+H3D_DATA%N_SCAL_DMAS) ) * NUMNOD
+      IF(KEYWORD == 'DMASS') THEN 
+        VALUE(1:NUMNOD) = OUTPUT%DATA%SCAL_DMAS(1:NUMNOD)
         DO I=1,NUMNOD
-         VALUE(I) = ANIN(I+K)       
          IS_WRITTEN_VALUE(I) = 1
         ENDDO
+      ELSE IF(KEYWORD == 'DINER')THEN 
+        VALUE(1:NUMNOD) = OUTPUT%DATA%SCAL_DINER(1:NUMNOD)
+        DO I=1,NUMNOD
+         IS_WRITTEN_VALUE(I) = 1
+        ENDDO 
       ELSEIF(KEYWORD == 'MASS')THEN      ! IFUNC<3.OR.IFUNC==12)THEN
         DO I=1,NUMNOD
          VALUE(I) = MS(I)       
@@ -276,7 +276,7 @@ c
            IFUNC = 0 !not 
            K = 0    
            DO I=1,NUMNOD
-             VALUE(I) = ANIN(I+K)       
+             VALUE(I) = OUTPUT%DATA%SCAL_DT(I)       
              IS_WRITTEN_VALUE(I) = 1
            ENDDO                  
          ENDIF

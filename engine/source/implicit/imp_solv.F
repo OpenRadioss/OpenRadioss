@@ -4673,12 +4673,13 @@ C endif MUMPS defined
 !||    impbufdef_mod   ../engine/share/modules/impbufdef_mod.F
 !||====================================================================
       SUBROUTINE IMP_FOUT(
-     1          FANI     ,A        ,AR       ,NFIA      ,NFEA       ,
+     1          OUTPUT     ,A        ,AR       ,NFIA      ,NFEA       ,
      2          NODFT    ,NODLT    ,H3D_DATA ,IMPBUF_TAB)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
         USE H3D_MOD
+        USE OUTPUT_MOD, ONLY : OUTPUT_
         USE IMPBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -4692,10 +4693,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+        TYPE(OUTPUT_) :: OUTPUT
         INTEGER NFIA,NFEA,NODFT,NODLT
 C     REAL
         my_real
-     .     A(3,*)    ,AR(3,*)    ,FANI(3,*)
+     .     A(3,*)    ,AR(3,*)  
         TYPE(H3D_DATABASE) :: H3D_DATA
         TYPE (IMPBUF_STRUCT_) ,TARGET :: IMPBUF_TAB
 C-----------------------------------------------
@@ -4711,12 +4713,12 @@ C-------------mis  zero Fint des noeuds dependants------------
           DO I = NODFT,NODLT
             DO J=1,MIN(3,NDOF(I))
               ND = IDDL(I)+J
-              IF (IKC(ND)/=0) FANI(J,I+NFIA)= ZERO
+              IF (IKC(ND)/=0) OUTPUT%DATA%VECT_FINT(j,i)= ZERO
             ENDDO
             IF (NDOF(I)==0) THEN
-              FANI(1,I+NFIA)= ZERO
-              FANI(2,I+NFIA)= ZERO
-              FANI(3,I+NFIA)= ZERO
+              OUTPUT%DATA%VECT_FINT(1,I)= ZERO
+              OUTPUT%DATA%VECT_FINT(2,I)= ZERO
+              OUTPUT%DATA%VECT_FINT(3,I)= ZERO
             ENDIF
           ENDDO
         ENDIF
@@ -4731,12 +4733,13 @@ C
 !||    h3d_mod     ../engine/share/modules/h3d_mod.F
 !||====================================================================
       SUBROUTINE IMP_FANII(
-     1          FANI     ,FINT     ,NFIA      ,NODFT    ,NODLT    ,
+     1          OUTPUT,FINT     ,NFIA      ,NODFT    ,NODLT    ,
      2          H3D_DATA )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
         USE H3D_MOD
+        USE OUTPUT_MOD, ONLY : OUTPUT_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -4749,10 +4752,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+        TYPE(OUTPUT_) :: OUTPUT
         INTEGER NFIA,NODFT,NODLT
 C     REAL
         my_real
-     .     FINT(3,*)    ,FANI(3,*)
+     .     FINT(3,*)  
         TYPE(H3D_DATABASE) :: H3D_DATA
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -4762,9 +4766,9 @@ C---
         IF(ANIM_V(5)+OUTP_V(5)+H3D_DATA%N_VECT_FINT>0) THEN
 #include      "vectorize.inc"
           DO N=NODFT,NODLT
-            FANI(1,N+NFIA)= FINT(1,N)
-            FANI(2,N+NFIA)= FINT(2,N)
-            FANI(3,N+NFIA)= FINT(3,N)
+            OUTPUT%DATA%VECT_FINT(1,N)= FINT(1,N)
+            OUTPUT%DATA%VECT_FINT(2,N)= FINT(2,N)
+            OUTPUT%DATA%VECT_FINT(3,N)= FINT(3,N)
           ENDDO
         ENDIF
 C
@@ -4778,12 +4782,13 @@ C
 !||    h3d_mod     ../engine/share/modules/h3d_mod.F
 !||====================================================================
       SUBROUTINE IMP_FANIE(
-     1          FANI   ,FEXT   ,NFIA   ,NFEA     ,NODFT    ,NODLT    ,
+     1          OUTPUT  ,FEXT   ,NFIA   ,NFEA     ,NODFT    ,NODLT    ,
      2          H3D_DATA )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
         USE H3D_MOD
+        USE OUTPUT_MOD, ONLY : OUTPUT_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -4796,10 +4801,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+        TYPE(OUTPUT_) :: OUTPUT
         INTEGER NFIA,NFEA,NODFT,NODLT
 C     REAL
         my_real
-     .     FEXT(3,*)    ,FANI(3,*)
+     .     FEXT(3,*) 
         TYPE(H3D_DATABASE) :: H3D_DATA
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -4809,17 +4815,17 @@ C---
         IF(ANIM_V(5)+OUTP_V(5)+H3D_DATA%N_VECT_FINT>0) THEN
 #include      "vectorize.inc"
           DO N=NODFT,NODLT
-            FANI(1,N+NFIA)= -FEXT(1,N)
-            FANI(2,N+NFIA)= -FEXT(2,N)
-            FANI(3,N+NFIA)= -FEXT(3,N)
+            OUTPUT%DATA%VECT_FINT(1,N)= -FEXT(1,N)
+            OUTPUT%DATA%VECT_FINT(2,N)= -FEXT(2,N)
+            OUTPUT%DATA%VECT_FINT(3,N)= -FEXT(3,N)
           ENDDO
         ENDIF
         IF(ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT>0) THEN
 #include      "vectorize.inc"
           DO N=NODFT,NODLT
-            FANI(1,N+NFEA)= FEXT(1,N)
-            FANI(2,N+NFEA)= FEXT(2,N)
-            FANI(3,N+NFEA)= FEXT(3,N)
+            OUTPUT%DATA%VECT_FEXT(1,N)= FEXT(1,N)
+            OUTPUT%DATA%VECT_FEXT(2,N)= FEXT(2,N)
+            OUTPUT%DATA%VECT_FEXT(3,N)= FEXT(3,N)
           ENDDO
         ENDIF
         RETURN

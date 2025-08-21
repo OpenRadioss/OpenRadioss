@@ -205,7 +205,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      4                  SIAD     ,IPARG    ,PM          ,GEO         ,MS       ,
      5                  SINVERT  ,CONT     ,SMATER      ,ICUT        ,SKEW     ,
      6                  XCUT     ,FINT     ,ITAB        ,SEL2FA      ,FEXT     ,
-     7                  FOPT     ,ANIN     ,LPBY        ,NPBY        ,NSTRF    ,
+     7                  FOPT     ,LPBY        ,NPBY        ,NSTRF    ,
      8                  RWBUF    ,NPRW     ,TANI        ,ELBUF_TAB   ,MAT_PARAM,
      A                  DD_IAD   ,WEIGHT   ,EANI        ,IPART       ,CLUSTER  ,
      B                  IPARTS   ,IPARTQ   ,IPARTC      ,IPARTT      ,IPARTP   ,
@@ -309,7 +309,7 @@ C-----------------------------------------------
      .     X(3*NUMNOD), D(3*NUMNOD), V(3*NUMNOD), A(3,NUMNOD), BUFEL(*),
      .     PM(NPROPM,NUMMAT), GEO(NPROPG,*),CONT(*),
      .     XCUT(*) , FINT(3,*),MS(*),RWBUF(NRWLP,*),SKEW(LSKEW,*),
-     .     RBY(NRBY,*),FEXT(3,*) ,FOPT(6,*),ANIN(*),TANI(6,*),EANI(*),
+     .     RBY(NRBY,*),FEXT(3,*) ,FOPT(6,*),TANI(6,*),EANI(*),
      .     TORS(15,*),BUFSF(*), RDATA(*),
      .     BUFMAT(*),BUFGEO(*),
      .     SPBUF(*), VR(*),VOLMON(*), RFLOW(*), FNCONT(3,*), FTCONT(3,*),
@@ -2620,9 +2620,23 @@ C-----------------------------------------------
             WA4(N) = ZERO
           ENDDO
           IF(I<3.OR.I==12)THEN
-            DO N=1,NUMNOD
-              WA4(N)=ANIN(N+K)
-            ENDDO
+! really unsure of this part of the code
+            IF(I == 1) THEN 
+              WA4(1:NUMNOD)=OUTPUT%DATA%SCAL_DT(1:NUMNOD)         
+            ENDIF
+            IF(I == 2) then 
+                WA4(1:NUMNOD) = OUTPUT%DATA%SCAL_DMAS(1:NUMNOD)
+            ENDIF
+            IF(I == 12) then 
+              WA4(1:NUMNOD) = OUTPUT%DATA%SCAL_DINER(1:NUMNOD) 
+            ENDIF
+            !IF(K == 3*NUMNOD) WA(1:NUMNOD) = OUTPUT%SCAL_SPRING(1:NUMNOD)
+ !          IF(I == 12) then 
+ !            WA4(1:NUMNOD) = OUTPUT%DATA%SCAL_DAMA2(1:NUMNOD)
+ !          ENDIF
+!           DO N=1,NUMNOD
+!             WA4(N)=ANIN(N+K)
+!           ENDDO
             K = K + NUMNOD
           ELSEIF(I>=3.AND.I<=11 .OR. I==30) THEN
             IF(I == 6 .AND. (GLOB_THERM%ITHERM_FE  > 0  )) THEN
@@ -3137,7 +3151,10 @@ c----------------------------------------
           R4 = ZERO
           IF(NCUTS>0) THEN
             IF (I<3.OR.I==12) THEN
-              CALL CUTFUNC(ANIN(K+1),ICBUF(MIC2),CBUF(MAC2),NODCUT)
+              ! really not sure, ask Sebastien
+              IF(I ==1) CALL CUTFUNC(OUTPUT%DATA%SCAL_DT,ICBUF(MIC2),CBUF(MAC2),NODCUT)
+              IF(I ==2) CALL CUTFUNC(OUTPUT%DATA%SCAL_DMAS,ICBUF(MIC2),CBUF(MAC2),NODCUT)
+              IF(I ==12) CALL CUTFUNC(OUTPUT%DATA%SCAL_DINER,ICBUF(MIC2),CBUF(MAC2),NODCUT)
             ELSE
               DO N=1,NODCUT
                 CALL WRITE_R_C(R4,1)
@@ -3273,7 +3290,7 @@ C  In SPMD locally NBF = 0 but not the sum on PI!
               CALL DFUNCC(ELBUF_TAB ,WAFT        ,IFUNC         ,IPARG,GEO    ,
      .                    IXQ       ,IXC         ,IXTG          ,MAS          ,PM         ,
      .                    EL2FA     ,NBF         ,IAD           ,GLOB_THERM%ITHERM        ,
-     .                    NBF_L     ,EANI        ,ANIN(NDMA2+1) ,NBPART       ,IADG       ,
+     .                    NBF_L     ,EANI        ,OUTPUT%DATA%SCAL_SPRING ,NBPART       ,IADG       ,
      .                    IPM       ,IGEO        ,THKE          ,ERR_THK_SH4  ,ERR_THK_SH3,
      .                    INVERT    ,X           ,V             ,W            ,ALE_CONNECTIVITY,
      .                    NV46      ,NERCVOIS    ,NESDVOIS      ,LERCVOIS     ,LESDVOIS   ,
@@ -3291,7 +3308,7 @@ C ply information
               IF (ANIM_PLY > 0)THEN
                 CALL DFUNCC_PLY(ELBUF_TAB, WAFT_PLY, IFUNC, IPARG, GEO,
      .                           IXC ,  IXTG    , MAS,   PM,    EL2FA_PLY,
-     .                           NBF_PXFEM,IAD  , PLYNUMC,EANI,ANIN(NDMA2+1),
+     .                           NBF_PXFEM,IAD  , PLYNUMC,EANI,OUTPUT%DATA%SCAL_SPRING,
      .                           NPLYPART,IAD_PLYG,IPM  ,IGEO , THKE,
      .                           ERR_THK_SH4, ERR_THK_SH3,MAT_PARAM,
      .                           NBF_PXFEMG ,X , STACK )
@@ -3300,7 +3317,7 @@ C ply information
                 CALL DFUNCC_CRK(
      .              ELBUF_TAB   ,LEN_CRKX   ,IFUNC      ,IPARG,GEO          ,
      .              IXC         ,IXTG       ,MAS        ,PM   ,EL2FA_CRK    ,
-     .              NBF_CRKXFEM ,IAD        ,NBF_CRKXFEM,EANI ,ANIN(NDMA2+1),
+     .              NBF_CRKXFEM ,IAD        ,NBF_CRKXFEM,EANI ,OUTPUT%DATA%SCAL_SPRING,
      .              NCRKPART    ,IAD_CRKG   ,IPM        ,IGEO ,THKE         ,
      .              ERR_THK_SH4 ,ERR_THK_SH3,XFEM_TAB   ,IEL_CRK   ,INDX_CRK,
      .              NBF_CRKXFEMG,EL2FA      ,CRKEDGE    )
@@ -4782,11 +4799,11 @@ C-----------------------------------------------
             CALL DFUNCS(
      1                ELBUF_TAB ,WAFT      ,IFUNC       ,IPARG       ,GEO          ,
      2                IXS       ,MAS       ,PM          ,EL2FA       ,NNN          ,
-     3                IPM       ,IGEO      ,NBPART      ,EANI        ,ANIN(NDMA2+1),
+     3                IPM       ,IGEO      ,NBPART      ,EANI        ,OUTPUT%DATA%SCAL_SPRING,
      4                IADG      ,SPBUF     ,IPART       ,IPARTSP     ,ISPH3D       ,
      5                X         ,V         ,W           ,ALE_CONNECTIVITY,
      6                NERCVOIS  ,NESDVOIS  ,LERCVOIS    ,LESDVOIS    ,BUFMAT       ,
-     7                FANI_CELL ,MULTI_FVM ,MAT_PARAM   ,GLOB_THERM%ITHERM)
+     7                OUTPUT%DATA%FANI_CELL ,MULTI_FVM ,MAT_PARAM   ,GLOB_THERM%ITHERM)
           ENDIF
         ENDDO
 C-----------------------------------------------
@@ -5270,7 +5287,7 @@ C-----------------------------------------------
             CALL DFUNCF(ELBUF_TAB    ,WAFT   ,IFUNC  ,IPARG    ,GEO  ,
      .                  IXT          ,IXP    ,IXR    ,MAS      ,PM   ,
      .                  EL2FA        ,NB1D   ,IAD    ,NBPART   ,EANI ,
-     .                  ANIN(NDMA2+1),IADG   ,XFUNC1 ,NANIM1D_L,IGEO )
+     .                  OUTPUT%DATA%SCAL_SPRING,IADG   ,XFUNC1 ,NANIM1D_L,IGEO )
             IF (ISPMD==0) THEN
               R4 = 0.
               DO J=1,NERBY+NERBE2+NERBE3

@@ -123,6 +123,7 @@
         use state_file_mod
         use checksum_output_option_mod
         use precision_mod, only : WP
+        use ALEANIM_MOD, only : FANI_CELL_
 
         type working_arrays_
           ! /H3D/NODA/PEXT and /ANIM/NODA/PEXT and /TH/NODE(PEXT)
@@ -143,6 +144,39 @@
           real(kind=WP), dimension(:,:), allocatable :: EFRIC_STAMP
           real(kind=WP), dimension(:), allocatable :: EFRICG
           real(kind=WP), dimension(:), allocatable :: EFRICG_STAMP
+          TYPE(FANI_CELL_) :: FANI_CELL
+          integer :: S_VECT_CONT 
+          integer :: S_VECT_FINT 
+          integer :: S_VECT_FEXT 
+          integer :: S_VECT_PCONT
+          integer :: S_VECT_PCONT_2
+          integer :: S_VECT_CONT2
+          integer :: S_VECT_PCONT2
+          integer :: S_VECT_PCONT2_2
+          integer :: S_FOPT
+
+          real(kind=wp), dimension(:,:), allocatable :: VECT_CONT 
+          real(kind=wp), dimension(:,:), allocatable :: VECT_FINT 
+          real(kind=wp), dimension(:,:), allocatable :: VECT_FEXT 
+          real(kind=wp), dimension(:,:), allocatable :: VECT_PCONT
+          real(kind=wp), dimension(:,:), allocatable :: VECT_PCONT_2
+          real(kind=wp), dimension(:,:), allocatable :: VECT_CONT2
+          real(kind=wp), dimension(:,:), allocatable :: VECT_PCONT2
+          real(kind=wp), dimension(:,:), allocatable :: VECT_PCONT2_2
+          real(kind=wp), dimension(:,:), allocatable :: FOPT
+
+          integer :: S_SCAL_DT                                                  
+          integer :: S_SCAL_DMAS                                                    
+          integer :: S_SCAL_DINER                                                      
+          integer :: S_SCAL_DAMA2                                                         
+          integer :: S_SCAL_SPRING !
+
+          real(kind=wp), dimension(:), allocatable :: SCAL_DT                                                  
+          real(kind=wp), dimension(:), allocatable :: SCAL_DMAS                                                    
+          real(kind=wp), dimension(:), allocatable :: SCAL_DINER                                                      
+          real(kind=wp), dimension(:), allocatable :: SCAL_DAMA2                                                         
+          real(kind=wp), dimension(:), allocatable :: SCAL_SPRING ! 
+ 
         end type working_arrays_
 
         type output_
@@ -213,5 +247,152 @@
             IF(ALLOCATED(OUTPUT%NODA_SURF))   DEALLOCATE(OUTPUT%NODA_SURF)
             IF(ALLOCATED(OUTPUT%NODA_PEXT))   DEALLOCATE(OUTPUT%NODA_PEXT)
           END SUBROUTINE OUTPUT_DEALLOCATE_NODA_PEXT
+
+          SUBROUTINE ALLOCATE_OUTPUT_DATA(OUTPUT,NUMNOD)
+          use extend_array_mod
+          implicit none
+          TYPE(output_) :: OUTPUT
+          INTEGER,INTENT(IN) :: NUMNOD
+          INTEGER :: current_size1, current_size2, new_size2, new_size1
+          INTEGER :: ierr
+          
+          ! Handle VECT_CONT
+          if (allocated(OUTPUT%DATA%VECT_CONT)) then
+            current_size1 = size(OUTPUT%DATA%VECT_CONT, 1)
+            current_size2 = size(OUTPUT%DATA%VECT_CONT, 2)
+          else
+            current_size1 = 0
+            current_size2 = 0
+          end if
+          new_size2 = NUMNOD * OUTPUT%DATA%S_VECT_CONT
+          call extend_array(OUTPUT%DATA%VECT_CONT, current_size1, current_size2,3, new_size2)
+          ! Handle VECT_FINT
+          if (allocated(OUTPUT%DATA%VECT_FINT)) then
+            current_size1 = size(OUTPUT%DATA%VECT_FINT, 1)
+            current_size2 = size(OUTPUT%DATA%VECT_FINT, 2)
+          else
+            current_size1 = 0
+            current_size2 = 0
+          end if
+          new_size2 = NUMNOD * OUTPUT%DATA%S_VECT_FINT
+          call extend_array(OUTPUT%DATA%VECT_FINT, current_size1, current_size2, 3, new_size2)
+          
+          ! Handle VECT_FEXT
+          if (allocated(OUTPUT%DATA%VECT_FEXT)) then
+            current_size1 = size(OUTPUT%DATA%VECT_FEXT, 1)
+            current_size2 = size(OUTPUT%DATA%VECT_FEXT, 2)
+          else
+            current_size1 = 0
+            current_size2 = 0
+          end if
+          new_size2 = NUMNOD * OUTPUT%DATA%S_VECT_FEXT
+          call extend_array(OUTPUT%DATA%VECT_FEXT, current_size1, current_size2, 3, new_size2)
+          
+          ! Handle VECT_PCONT
+          if (allocated(OUTPUT%DATA%VECT_PCONT)) then
+            current_size1 = size(OUTPUT%DATA%VECT_PCONT, 1)
+            current_size2 = size(OUTPUT%DATA%VECT_PCONT, 2)
+          else
+            current_size1 = 0
+            current_size2 = 0
+          end if
+          new_size2 = NUMNOD * OUTPUT%DATA%S_VECT_PCONT
+          call extend_array(OUTPUT%DATA%VECT_PCONT, current_size1, current_size2, 3, new_size2)
+          ! Handle VECT_PCONT_2
+          if (allocated(OUTPUT%DATA%VECT_PCONT_2)) then
+            current_size1 = size(OUTPUT%DATA%VECT_PCONT_2, 1)
+            current_size2 = size(OUTPUT%DATA%VECT_PCONT_2, 2)
+          else
+            current_size1 = 0
+            current_size2 = 0
+          end if
+          new_size2 = NUMNOD * OUTPUT%DATA%S_VECT_PCONT_2
+          call extend_array(OUTPUT%DATA%VECT_PCONT_2, current_size1, current_size2, 3, new_size2)
+ 
+          
+          ! Handle VECT_CONT2
+          if (allocated(OUTPUT%DATA%VECT_CONT2)) then
+            current_size1 = size(OUTPUT%DATA%VECT_CONT2, 1)
+            current_size2 = size(OUTPUT%DATA%VECT_CONT2, 2)
+          else
+            current_size1 = 0
+            current_size2 = 0
+          end if
+          new_size2 = NUMNOD * OUTPUT%DATA%S_VECT_CONT2
+          call extend_array(OUTPUT%DATA%VECT_CONT2, current_size1, current_size2, 3, new_size2)
+          
+          ! Handle VECT_PCONT2
+          if (allocated(OUTPUT%DATA%VECT_PCONT2)) then
+            current_size1 = size(OUTPUT%DATA%VECT_PCONT2, 1)
+            current_size2 = size(OUTPUT%DATA%VECT_PCONT2, 2)
+          else
+            current_size1 = 0
+            current_size2 = 0
+          end if
+          new_size2 = NUMNOD * OUTPUT%DATA%S_VECT_PCONT2
+          call extend_array(OUTPUT%DATA%VECT_PCONT2, current_size1, current_size2,3, new_size2)
+
+          ! Handle VECT_PCONT2_2
+          if (allocated(OUTPUT%DATA%VECT_PCONT2_2)) then
+            current_size1 = size(OUTPUT%DATA%VECT_PCONT2_2, 1)
+            current_size2 = size(OUTPUT%DATA%VECT_PCONT2_2, 2)
+          else
+            current_size1 = 0
+            current_size2 = 0
+          end if
+          new_size2 = NUMNOD * OUTPUT%DATA%S_VECT_PCONT2_2
+          call extend_array(OUTPUT%DATA%VECT_PCONT2_2, current_size1, current_size2,3, new_size2)
+
+
+
+           ! Handle OUTPUT%DATA%S_SCAL_DT                                                  
+          if(allocated(OUTPUT%DATA%SCAL_DT)) then
+            current_size1 = size(OUTPUT%DATA%SCAL_DT, 1)
+          else
+            current_size1 = 0
+          end if  
+          new_size1 = NUMNOD * OUTPUT%DATA%S_SCAL_DT
+          call extend_array(OUTPUT%DATA%SCAL_DT, current_size1,  new_size1)
+
+         ! Handle OUTPUT%DATA%S_SCAL_DMAS                                                    
+          if(allocated(OUTPUT%DATA%SCAL_DMAS)) then
+            current_size1 = size(OUTPUT%DATA%SCAL_DMAS, 1)
+          else
+            current_size1 = 0
+          end if
+          new_size1 = NUMNOD * OUTPUT%DATA%S_SCAL_DMAS
+          call extend_array(OUTPUT%DATA%SCAL_DMAS, current_size1, new_size1)  
+
+          ! Handle OUTPUT%DATA%S_SCAL_DINER                                                      
+          if(allocated(OUTPUT%DATA%SCAL_DINER)) then
+            current_size1 = size(OUTPUT%DATA%SCAL_DINER, 1)
+          else
+            current_size1 = 0
+          end if
+          new_size1 = NUMNOD * OUTPUT%DATA%S_SCAL_DINER
+          call extend_array(OUTPUT%DATA%SCAL_DINER, current_size1, new_size1) 
+
+           !Handle OUTPUT%DATA%S_SCAL_DAMA2                                                         
+          if(allocated(OUTPUT%DATA%SCAL_DAMA2)) then
+            current_size1 = size(OUTPUT%DATA%SCAL_DAMA2, 1)
+          else
+            current_size1 = 0
+          end if
+          new_size1 = NUMNOD * OUTPUT%DATA%S_SCAL_DAMA2
+          call extend_array(OUTPUT%DATA%SCAL_DAMA2, current_size1, new_size1) 
+           !Handle OUTPUT%DATA%S_SCAL_SPRING                                                         
+          if(allocated(OUTPUT%DATA%SCAL_SPRING)) then
+            current_size1 = size(OUTPUT%DATA%SCAL_SPRING, 1)
+          else
+            current_size1 = 0
+          end if
+          new_size1 = NUMNOD * OUTPUT%DATA%S_SCAL_SPRING
+          call extend_array(OUTPUT%DATA%SCAL_SPRING, current_size1, new_size1) 
+
+
+
+        
+        END SUBROUTINE ALLOCATE_OUTPUT_DATA
+
 
       end module output_mod

@@ -83,7 +83,6 @@ C-----------------------------------------------
       USE TRI7BOX
       USE MULTI_FVM_MOD
       USE H3D_MOD
-      USE ALEANIM_MOD !FANI_CELL   
       USE ELBUFDEF_MOD   
       USE OUTPUT_MOD    
 C-----------------------------------------------
@@ -775,9 +774,9 @@ C---------------------------------
                DO I=1,JLT
                  JG=NSVG(I)-NUMNOD
                  IF(JG>0) THEN ! local cell
-                    FANI_CELL%F18(1,JG)=FANI_CELL%F18(1,JG)-FXI(I)
-                    FANI_CELL%F18(2,JG)=FANI_CELL%F18(2,JG)-FYI(I)
-                    FANI_CELL%F18(3,JG)=FANI_CELL%F18(3,JG)-FZI(I)
+                    OUTPUT%DATA%FANI_CELL%F18(1,JG)=OUTPUT%DATA%FANI_CELL%F18(1,JG)-FXI(I)
+                    OUTPUT%DATA%FANI_CELL%F18(2,JG)=OUTPUT%DATA%FANI_CELL%F18(2,JG)-FYI(I)
+                    OUTPUT%DATA%FANI_CELL%F18(3,JG)=OUTPUT%DATA%FANI_CELL%F18(3,JG)-FZI(I)
                   ENDIF
                ENDDO     
              ENDIF                                                                 
