@@ -210,7 +210,7 @@ C
 !||    message_mod      ../engine/share/message_module/message_mod.F
 !||    pinchtype_mod    ../common_source/modules/pinchtype_mod.F
 !||====================================================================
-      SUBROUTINE INIRESA(H3D_DATA,PINCH_DATA,GLOB_THERM)
+      SUBROUTINE INIRESA(OUTPUT, H3D_DATA,PINCH_DATA,GLOB_THERM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -220,6 +220,7 @@ C-----------------------------------------------
       USE ALE_MOD
       USE ALEANIM_MOD
       USE glob_therm_mod
+      use output_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -255,6 +256,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_) :: OUTPUT
       TYPE(H3D_DATABASE) :: H3D_DATA
       TYPE(PINCH) :: PINCH_DATA
       type (glob_therm_)    ,intent(inout)   :: GLOB_THERM
@@ -536,17 +538,21 @@ C     Work Array private to sph : WAPSH(LWASPH)
       SWASPH = LWASPH
 C
       !/H3D/ELEM/VORT,X,Y,Z
-      FANI_CELL%IS_VORT_X_REQUESTED = .FALSE.
-      FANI_CELL%IS_VORT_Y_REQUESTED = .FALSE.
-      FANI_CELL%IS_VORT_Z_REQUESTED = .FALSE.
-      IF(ANIM_SE(10) == 1   .OR. H3D_DATA%SOL_SCAL_VORTX == 1)FANI_CELL%IS_VORT_X_REQUESTED=.TRUE.
-      IF(ANIM_SE(4960) == 1 .OR. H3D_DATA%SOL_SCAL_VORTY == 1)FANI_CELL%IS_VORT_Y_REQUESTED=.TRUE.
-      IF(ANIM_SE(4961) == 1 .OR. H3D_DATA%SOL_SCAL_VORTZ == 1)FANI_CELL%IS_VORT_Z_REQUESTED=.TRUE.
+      output%data%fani_cell%is_vort_x_requested = .FALSE.
+      output%data%fani_cell%is_vort_y_requested = .FALSE.
+      output%data%fani_cell%is_vort_z_requested = .FALSE.
+      IF(ANIM_SE(10) == 1   .OR. H3D_DATA%SOL_SCAL_VORTX == 1)
+     .  output%data%fani_cell%is_vort_x_requested=.TRUE.
+      IF(ANIM_SE(4960) == 1 .OR. H3D_DATA%SOL_SCAL_VORTY == 1)
+     .  output%data%fani_cell%is_vort_y_requested=.TRUE.
+      IF(ANIM_SE(4961) == 1 .OR. H3D_DATA%SOL_SCAL_VORTZ == 1)
+     .  output%data%fani_cell%is_vort_z_requested=.TRUE.
 
       ! /H3D/ELEM/VECT/CONT
       ! INTER18 REACTION FORCES ON CELL CENTROIDS
-      FANI_CELL%IS_F18_FVM_REQUESTED = .FALSE.
-      IF(H3D_DATA%N_VECT_CONT == 1)FANI_CELL%IS_F18_FVM_REQUESTED = .TRUE.
+      output%data%fani_cell%is_f18_fvm_requested = .FALSE.
+      IF(H3D_DATA%N_VECT_CONT == 1)
+     .  output%data%fani_cell%is_f18_fvm_requested = .TRUE.
 
       M16STAK = 0
       IF(NUMELS16/=0)THEN

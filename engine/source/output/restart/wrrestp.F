@@ -191,7 +191,6 @@ C-----------------------------------------------
       USE SEATBELT_MOD
       USE PBLAST_MOD
       USE OUTMAX_MOD
-      USE OUTPUTS_MOD
       USE LOADS_MOD
       USE STATE_MOD
       USE USER_WINDOWS_MOD

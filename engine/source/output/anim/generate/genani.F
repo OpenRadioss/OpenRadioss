@@ -4786,7 +4786,7 @@ C-----------------------------------------------
      4                IADG      ,SPBUF     ,IPART       ,IPARTSP     ,ISPH3D       ,
      5                X         ,V         ,W           ,ALE_CONNECTIVITY,
      6                NERCVOIS  ,NESDVOIS  ,LERCVOIS    ,LESDVOIS    ,BUFMAT       ,
-     7                FANI_CELL ,MULTI_FVM ,MAT_PARAM   ,GLOB_THERM%ITHERM)
+     7                OUTPUT%DATA%FANI_CELL ,MULTI_FVM ,MAT_PARAM   ,GLOB_THERM%ITHERM)
           ENDIF
         ENDDO
 C-----------------------------------------------

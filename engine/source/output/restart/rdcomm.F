@@ -1855,7 +1855,6 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
        USE OUTPUT_MOD      
-       USE OUTPUTS_MOD        
        USE STATE_MOD  
        USE ALE_MOD
        USE PARAMETERS_MOD

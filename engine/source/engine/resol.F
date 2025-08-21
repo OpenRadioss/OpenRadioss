@@ -700,7 +700,6 @@ C-----------------------------------------------
               USE INTER_SORTING_MOD
               USE SHOOTING_NODE_MOD
               USE OUTPUT_MOD
-              USE OUTPUTS_MOD
               USE LOADS_MOD
               USE STATE_MOD
               USE USER_WINDOWS_MOD
@@ -2178,7 +2177,7 @@ C save the Python functions into the Python interpreter dictionarry
      .                 M51_N0PHAS, M51_NVPHAS, STACK       ,
      .                 IPART(K3:K4-1),IPART(K1:K2-1),IPART(K8:K9-1), IPART(K2:K3-1),
      .                 MULTI_FVM ,
-     .                 MAT_ELEM%MAT_PARAM , FANI_CELL,GLOB_THERM%ITHERM)
+     .                 MAT_ELEM%MAT_PARAM , OUTPUT%DATA%FANI_CELL,GLOB_THERM%ITHERM)
 
 C========================================================================================
 C Initialize SENSORS & communication buffers.
@@ -8568,7 +8567,7 @@ C===============================================================================
      .                 M51_N0PHAS, M51_NVPHAS, STACK       ,
      .                 IPART(K3:K4-1),IPART(K1:K2-1) ,IPART(K8:K9-1),IPART(K1:K2-1),
      .                 MULTI_FVM ,
-     .                 MAT_ELEM%MAT_PARAM, FANI_CELL,GLOB_THERM%ITHERM)
+     .                 MAT_ELEM%MAT_PARAM, OUTPUT%DATA%FANI_CELL,GLOB_THERM%ITHERM)
 
 
 C

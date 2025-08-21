@@ -87,7 +87,6 @@ C-----------------------------------------------
       USE PLYXFEM_MOD
       USE H3D_MOD
       USE OUTPUT_MOD
-      USE OUTPUTS_MOD
       USE PARAMETERS_MOD
       USE I24INTAREA_FIC_MOD  , ONLY : I24INTAREA_FIC  
 C-----------------------------------------------

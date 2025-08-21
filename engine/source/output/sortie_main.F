@@ -158,7 +158,6 @@ C-----------------------------------------------
       USE FVMBAG_MESHCONTROL_MOD
       USE GROUPDEF_MOD
       USE MULTI_FVM_MOD
-      USE ALEANIM_MOD !FANI_CELL 
       USE PINCHTYPE_MOD
       USE INOUTFILE_MOD
       USE DRAPE_MOD
@@ -166,7 +165,6 @@ C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
       USE OUTMAX_MOD
       USE OUTPUT_MOD
-      USE OUTPUTS_MOD
       USE MESSAGE_MOD
       USE STATE_MOD
       USE USER_WINDOWS_MOD
@@ -963,7 +961,7 @@ C----------------------
         IF(NINTER+NEXMAD/=0.AND.ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT > 0)THEN
             IF(SFANI >0)CALL ANICON0(CONT,NUMNOD)
             !law151 reaction forces can be output only with H3D (not ANIM files since vectors are at element centroids)
-            IF (MULTI_FVM%IS_USED .AND. H3D_DATA%N_VECT_CONT > 0)CALL ANICON0(FANI_CELL%F18,NUMELS+NUMELQ) !/H3D/ELEM/VECT/CONT
+            IF (MULTI_FVM%IS_USED .AND. H3D_DATA%N_VECT_CONT > 0)CALL ANICON0(OUTPUT%DATA%FANI_CELL%F18,NUMELS+NUMELQ) !/H3D/ELEM/VECT/CONT
         ENDIF
         IF(NINTSTAMP/=0.AND.ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0)THEN
             CALL ANICON2(FCONTG,NCONT,INDEXCONT)     

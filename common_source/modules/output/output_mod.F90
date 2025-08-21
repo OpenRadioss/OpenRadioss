@@ -123,6 +123,7 @@
         use state_file_mod
         use checksum_output_option_mod
         use precision_mod, only : WP
+        use ALEANIM_MOD, only : FANI_CELL_
 
         type working_arrays_
           ! /H3D/NODA/PEXT and /ANIM/NODA/PEXT and /TH/NODE(PEXT)
@@ -143,6 +144,8 @@
           real(kind=WP), dimension(:,:), allocatable :: EFRIC_STAMP
           real(kind=WP), dimension(:), allocatable :: EFRICG
           real(kind=WP), dimension(:), allocatable :: EFRICG_STAMP
+          TYPE(FANI_CELL_) :: FANI_CELL
+
         end type working_arrays_
 
         type output_
