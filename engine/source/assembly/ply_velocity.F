@@ -23,11 +23,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
 !||    ply_velocity   ../engine/source/assembly/ply_velocity.F
 !||--- called by ------------------------------------------------------
-!||    resol         ../engine/source/engine/resol.F
+!||    resol          ../engine/source/engine/resol.F
 !||--- calls      -----------------------------------------------------
-!||    plyv          ../engine/source/assembly/ply_velocity.F
+!||    plyv           ../engine/source/assembly/ply_velocity.F
 !||--- uses       -----------------------------------------------------
-!||    plyxfem_mod   ../engine/share/modules/plyxfem_mod.F
+!||    plyxfem_mod    ../engine/share/modules/plyxfem_mod.F
 !||====================================================================
       SUBROUTINE PLY_VELOCITY(NODFT,NODLT,NPLYMAX,INOD,NDDIM)
 C-----------------------------------------------
@@ -62,7 +62,7 @@ C
       RETURN
       END
 !||====================================================================
-!||    plyv          ../engine/source/assembly/ply_velocity.F
+!||    plyv           ../engine/source/assembly/ply_velocity.F
 !||--- called by ------------------------------------------------------
 !||    ply_velocity   ../engine/source/assembly/ply_velocity.F
 !||====================================================================

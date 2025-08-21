@@ -31,7 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    cmain3pinch           ../engine/source/elements/shell/coqueba/cmain3pinch.F
 !||    contrl                ../starter/source/starter/contrl.F
 !||    ddsplit               ../starter/source/restart/ddsplit/ddsplit.F
-!||    deplapinch            ../engine/source/assembly/deplapinch.F
+!||    deplapinch            ../engine/source/assembly/displpinch.F
 !||    force                 ../engine/source/loads/general/force.F90
 !||    force_imp             ../engine/source/loads/general/force_imp.F
 !||    forcepinch            ../engine/source/loads/general/forcepinch.F
@@ -61,7 +61,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sortie_main           ../engine/source/output/sortie_main.F
 !||    thcoq                 ../engine/source/output/th/thcoq.F
 !||    thnod                 ../engine/source/output/th/thnod.F
-!||    velocitypinch          ../engine/source/assembly/velocitypinch.F
+!||    velocitypinch         ../engine/source/assembly/velocitypinch.F
 !||    wrcomi                ../engine/source/output/restart/wrcomm.F
 !||    wrcomip               ../starter/source/restart/ddsplit/wrcommp.F
 !||    wrrestp               ../engine/source/output/restart/wrrestp.F

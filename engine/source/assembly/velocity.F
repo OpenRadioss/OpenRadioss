@@ -23,7 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
 !||    velocity   ../engine/source/assembly/velocity.F
 !||--- called by ------------------------------------------------------
-!||    resol     ../engine/source/engine/resol.F
+!||    resol      ../engine/source/engine/resol.F
 !||====================================================================
       SUBROUTINE VELOCITY( A, AR, V, VR, FZERO, ITAB, NALE )
 C-----------------------------------------------

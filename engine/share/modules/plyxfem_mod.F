@@ -44,7 +44,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    parsor_ply             ../engine/source/output/anim/generate/parsor_ply.F
 !||    ply_accele             ../engine/source/assembly/ply_accele.F
 !||    ply_bcs1v              ../engine/source/constraints/general/bcs/ply_bcs.F
-!||    ply_velocity            ../engine/source/assembly/ply_velocity.F
+!||    ply_velocity           ../engine/source/assembly/ply_velocity.F
 !||    plyxfem_ravuply        ../engine/source/output/restart/rdresb.F
 !||    plyxfem_rrestanim      ../engine/source/output/restart/rdresb.F
 !||    plyxfem_wravuply       ../engine/source/output/restart/wrrest.F

@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    fxbdepla   ../engine/source/constraints/fxbody/fxbdepla.F
+!||    fxbdepla   ../engine/source/constraints/fxbody/fxbdispl.F
 !||--- called by ------------------------------------------------------
 !||    fxbodfp1   ../engine/source/constraints/fxbody/fxbodfp.F
 !||====================================================================

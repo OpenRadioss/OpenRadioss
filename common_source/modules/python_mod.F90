@@ -77,6 +77,7 @@
 !||    monvol0                        ../engine/source/airbag/monvol0.F
 !||    nbfunct                        ../starter/source/tools/curve/nbfunc.F
 !||    pfluid                         ../engine/source/loads/general/pfluid/pfluid.F
+!||    preload_solid_ini              ../engine/source/elements/solid/solide/preload_solid_ini.F90
 !||    python_call_funct_cload_dp     ../engine/source/loads/general/python_call_funct_cload.F90
 !||    python_call_funct_cload_sp     ../engine/source/loads/general/python_call_funct_cload.F90
 !||    python_duplicate_nodes         ../starter/source/spmd/domain_decomposition/python_duplicate_nodes.F90

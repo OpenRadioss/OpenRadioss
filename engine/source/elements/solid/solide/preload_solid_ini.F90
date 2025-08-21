@@ -21,6 +21,10 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
+!||    preload_solid_ini_mod   ../engine/source/elements/solid/solide/preload_solid_ini.F90
+!||--- called by ------------------------------------------------------
+!||    forint                  ../engine/source/elements/forint.F
+!||====================================================================
       module preload_solid_ini_mod
       contains
 ! ======================================================================================================================
@@ -30,6 +34,17 @@
 !=======================================================================================================================
 !!\brief This subroutine get info of /PRELOAD using FCT_ID
 !=======================================================================================================================
+!||====================================================================
+!||    preload_solid_ini   ../engine/source/elements/solid/solide/preload_solid_ini.F90
+!||--- called by ------------------------------------------------------
+!||    forint              ../engine/source/elements/forint.F
+!||--- uses       -----------------------------------------------------
+!||    constant_mod        ../common_source/modules/constant_mod.F
+!||    finter_mixed_mod    ../engine/source/tools/finter_mixed.F90
+!||    precision_mod       ../common_source/modules/precision_mod.F90
+!||    python_funct_mod    ../common_source/modules/python_mod.F90
+!||    sensor_mod          ../common_source/modules/sensor_mod.F90
+!||====================================================================
         subroutine preload_solid_ini(python    , nfunct    ,         &
           fun_id    ,    sens_id,          npc,            snpc,     &
           tf        ,        stf,      sensors,            time,     &

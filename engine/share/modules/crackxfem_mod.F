@@ -40,8 +40,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    crk_coord_ini         ../engine/source/elements/xfem/crk_coord_ini.F
 !||    crk_tagxp3            ../engine/source/elements/xfem/crk_tagxp3.F
 !||    crk_tagxp4            ../engine/source/elements/xfem/crk_tagxp4.F
-!||    crk_velocity           ../engine/source/elements/xfem/crk_velocity.F
-!||    crk_velocity2          ../engine/source/elements/xfem/crk_velocity2.F
+!||    crk_velocity          ../engine/source/elements/xfem/crk_velocity.F
+!||    crk_velocity2         ../engine/source/elements/xfem/crk_velocity2.F
 !||    crk_zero_accel        ../engine/source/elements/xfem/crk_velocity.F
 !||    crk_zero_fsky         ../engine/source/elements/xfem/crk_velocity.F
 !||    crklayer3n_adv        ../engine/source/elements/xfem/crklayer3n_adv.F

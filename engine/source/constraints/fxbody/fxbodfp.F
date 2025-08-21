@@ -25,7 +25,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    fxbyfor        ../engine/source/constraints/fxbody/fxbyfor.F
 !||--- calls      -----------------------------------------------------
-!||    fxbdepla       ../engine/source/constraints/fxbody/fxbdepla.F
+!||    fxbdepla       ../engine/source/constraints/fxbody/fxbdispl.F
 !||    fxbmajp1       ../engine/source/constraints/fxbody/fxbodfp.F
 !||    fxbsgmaj       ../engine/source/constraints/fxbody/fxbsgmaj.F
 !||--- uses       -----------------------------------------------------

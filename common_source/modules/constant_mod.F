@@ -215,6 +215,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    polygon_zeroing                          ../common_source/tools/clipping/polygon_mod.F90
 !||    powder_burn                              ../common_source/eos/powder_burn.F
 !||    preload_axial                            ../engine/source/elements/spring/preload_axial.F90
+!||    preload_solid_ini                        ../engine/source/elements/solid/solide/preload_solid_ini.F90
 !||    prodmat                                  ../engine/source/materials/tools/prodmat.F
 !||    prodmatvect                              ../starter/source/materials/mat/mat087/law87_upd.F90
 !||    puff                                     ../common_source/eos/puff.F

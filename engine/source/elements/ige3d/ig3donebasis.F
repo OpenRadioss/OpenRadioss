@@ -23,7 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
 !||    ig3donebasis   ../engine/source/elements/ige3d/ig3donebasis.F
 !||--- called by ------------------------------------------------------
-!||    deplafakeige   ../engine/source/assembly/deplafakeige.F
+!||    deplafakeige   ../engine/source/assembly/displfakeige.F
 !||    i7assigeo0     ../engine/source/interfaces/int07/i7ass3.F
 !||    projecig3d     ../engine/source/elements/ige3d/projecig3d.F
 !||--- calls      -----------------------------------------------------

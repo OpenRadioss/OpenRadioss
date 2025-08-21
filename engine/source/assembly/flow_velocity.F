@@ -23,7 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
 !||    flow_velocity   ../engine/source/assembly/flow_velocity.F
 !||--- called by ------------------------------------------------------
-!||    resol          ../engine/source/engine/resol.F
+!||    resol           ../engine/source/engine/resol.F
 !||====================================================================
       SUBROUTINE FLOW_VELOCITY(NALE,A    ,V      ,FZERO,
      2                   NODFT,NODLT    ,W      ,VS,IFOAM)

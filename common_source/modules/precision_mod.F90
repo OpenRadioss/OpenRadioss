@@ -232,6 +232,7 @@
 !||    polygon_clipping_mod                     ../common_source/tools/clipping/polygon_clipping_mod.F90
 !||    polygon_mod                              ../common_source/tools/clipping/polygon_mod.F90
 !||    preload_axial                            ../engine/source/elements/spring/preload_axial.F90
+!||    preload_solid_ini                        ../engine/source/elements/solid/solide/preload_solid_ini.F90
 !||    prodmat                                  ../engine/source/materials/tools/prodmat.F
 !||    prodmatvect                              ../starter/source/materials/mat/mat087/law87_upd.F90
 !||    prop_param_mod                           ../common_source/modules/mat_elem/prop_param_mod.F90

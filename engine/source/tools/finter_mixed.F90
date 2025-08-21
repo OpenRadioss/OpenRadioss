@@ -34,6 +34,7 @@
 !||    fxgrvcor               ../engine/source/constraints/fxbody/fxgrvcor.F
 !||    get_preload_axial      ../engine/source/elements/spring/preload_axial.F90
 !||    gravit_imp             ../engine/source/loads/general/grav/gravit_imp.F
+!||    preload_solid_ini      ../engine/source/elements/solid/solide/preload_solid_ini.F90
 !||    sms_gravit             ../engine/source/ams/sms_gravit.F
 !||    volp_lfluid            ../engine/source/airbag/volp_lfluid.F
 !||    volpfv                 ../engine/source/airbag/volpfv.F
