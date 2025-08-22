@@ -236,17 +236,17 @@
             MU1,MU2,MU3,MU4, &
             MU1P1, MU2P1, MU3P1, MU4P1, &
             DVDP1,DVDP2,DVDP3,DVDP4,DDVOL1,DDVOL2,DDVOL3,DDVOL4, &
+            DVOL1,DVOL2,DVOL3,DVOL4,&
             V10,V20,V30,V40,V1,V2,V3,V4,V1OLD,V2OLD,V3OLD,V4OLD, &
             V1I,V2I,V3I,V4I,E01,E02,E03,E04,PM1,PM2,PM3,PM4, &
-            ECOLD1,ECOLD2,ECOLD3,ECOLD4,SPH1,SPH2,SPH3,SPH4, &
-            T10,T20,T30,T40,H1,H2,H3,H4,TEMP1,TEMP2,TEMP3,TEMP4, &
+            SPH1,SPH2,SPH3,SPH4, &
+            DPDE1,DPDE2,DPDE3,DPDE4,&
+            T10,T20,T30,T40,TEMP1,TEMP2,TEMP3,TEMP4, &
             XL,QAL,QBL,Q,POLD,QOLD,MASS, &
             VISA1,VISB1,AA,DD,QA,QB,UNDT, &
             VOLD,DVOL, &
             C01,C02,C03,C04,EDIF1,EDIF2,EDIF3,EDIF4, &
-            DE(NEL), &
-            AAA, &
-            ECOLD,T
+            DE(NEL)
           real(kind=WP) :: DEPS(6,nel),EPD(nel), &
             P1OLD(nel),P2OLD(nel),P3OLD(nel),P4OLD(nel), &
             SIGD(6,nel), EINT0(nel),PLAS1(nel),PLAS2(nel),PLAS3(nel), &
@@ -484,67 +484,22 @@
           DO I=1,NEL
             !---submaterial_1---!
             KK = M51_N0PHAS + 0*M51_NVPHAS
-            EINT1   = UVAR(I,8 +KK)
-            V1OLD   = UVAR(I,11+KK)
-            RHO1OLD = UVAR(I,12+KK)
-            ECOLD = -T10 * SPH1
-            MU1 = (RHO1OLD/RHO10 - ONE)
-            H1 = SPH1*V1OLD*(ONE+MU1)
-            IF(MU1 > ZERO) ECOLD = ECOLD * (ONE+C51*MU1*(ONE-MU1)) + HALF*C21*MU1*MU1
-            ECOLD1 = ECOLD*V1OLD*(ONE+MU1)
-            TEMP1 = (EINT1 - ECOLD1)/MAX(EM20,H1)
-            UVAR(I,16+KK) = TEMP1
             P1OLD(I) = UVAR(I,18+KK)
 
             !---submaterial_2---!
             KK = M51_N0PHAS + 1*M51_NVPHAS
-            EINT2   = UVAR(I,8 +KK)
-            V2OLD   = UVAR(I,11+KK)
-            RHO2OLD = UVAR(I,12+KK)
-            ECOLD = -T20 * SPH2
-            MU2 = (RHO2OLD/RHO20 - ONE)
-            H2 = SPH2*V2OLD*(ONE+MU2)
-            IF(MU2 > ZERO) ECOLD = ECOLD * (ONE+C52*MU2*(ONE-MU2)) + HALF*C22*MU2*MU2
-            ECOLD2 = ECOLD*V2OLD*(ONE+MU2)
-            TEMP2 = (EINT2 - ECOLD2)/MAX(EM20,H2)
-            UVAR(I,16+KK) = TEMP2
             P2OLD(I) = UVAR(I,18+KK)
 
             !---submaterial_3---!
             KK = M51_N0PHAS + 2*M51_NVPHAS
-            EINT3   = UVAR(I,8 +KK)
-            V3OLD   = UVAR(I,11+KK)
-            RHO3OLD = UVAR(I,12+KK)
-            ECOLD = -T30 * SPH3
-            MU3 = (RHO3OLD/RHO30 - ONE)
-            H3 = SPH3*V3OLD*(ONE+MU3)
-            IF(MU3 > ZERO) ECOLD = ECOLD * (ONE+C53*MU3*(ONE-MU3)) + HALF*C23*MU3*MU3
-            ECOLD3 = ECOLD*V3OLD*(ONE+MU3)
-            TEMP3 = (EINT3 - ECOLD3)/MAX(EM20,H3)
-            UVAR(I,16+KK) = TEMP3
             P3OLD(I) = UVAR(I,18+KK)
 
             !---submaterial_4---!
             IF(IEXP == 1)THEN
               KK = M51_N0PHAS + 3*M51_NVPHAS
-              EINT4   = UVAR(I,8 +KK)
-              V4OLD   = UVAR(I,11+KK)
-              RHO4OLD = UVAR(I,12+KK)
-              ECOLD = -T40 * SPH4
-              MU4 = (RHO4OLD/RHO40 - ONE)
-              H4 = SPH4*V4OLD*(ONE+MU4)
-              ECOLD4 = ECOLD*V4OLD*(ONE+MU4)
-              TEMP4 = (EINT4 - ECOLD4)/MAX(EM20,H4)
               P4OLD(I) = UVAR(I,18+KK)
             ELSE
-              V4OLD    = ZERO
-              EINT4    = ZERO
-              RHO4OLD  = EM20
-              MU4      = ZERO
-              TEMP4    = ZERO
               P4OLD(I) = ZERO
-              ECOLD4   = ZERO
-              H4       = ZERO
             ENDIF
           ENDDO
 
@@ -789,13 +744,7 @@
             EDIF1   = UVAR(I,17+KK)   ! chaleur diffusee
             P1OLD(I)= UVAR(I,18+KK)   ! Pressure
             EPSEQ1(I)= UVAR(I,19+KK)   ! Dprag
-            ECOLD = -T10 * SPH1
             MU1 = (RHO1OLD/RHO10 - ONE)
-            H1 = SPH1*V1OLD*(ONE+MU1)
-            IF(MU1 > ZERO) ECOLD = ECOLD * (ONE+C51*MU1*(ONE-MU1)) + HALF*C21*MU1*MU1
-            ECOLD1 = ECOLD*V1OLD*(ONE+MU1)
-            TEMP1 = (EINT1 - ECOLD1)/MAX(EM20,H1)
-
 
             !===================================
             ! material 2 : THERMODYNAMICAL STATE
@@ -813,13 +762,7 @@
             EDIF2   = UVAR(I,17+KK)   ! chaleur diffusee
             P2OLD(I)= UVAR(I,18+KK)   ! Pressure
             EPSEQ2(I)= UVAR(I,19+KK)   ! Dprag
-            ECOLD = -T20 * SPH2
             MU2 = (RHO2OLD/RHO20 - ONE)
-            H2 = SPH2*V2OLD*(ONE+MU2)
-            IF(MU2 > ZERO) ECOLD = ECOLD * (ONE+C52*MU2*(ONE-MU2)) + HALF*C22*MU2*MU2
-            ECOLD2 = ECOLD*V2OLD*(ONE+MU2)
-            TEMP2 = (EINT2 - ECOLD2)/MAX(H2,EM20)
-
 
             !===================================
             ! material 3 : THERMODYNAMICAL STATE
@@ -837,12 +780,7 @@
             EDIF3   = UVAR(I,17+KK)   ! chaleur diffusee
             P3OLD(I)= UVAR(I,18+KK)   ! Pressure
             EPSEQ3(I)= UVAR(I,19+KK)   ! Dprag
-            ECOLD   = -T30 * SPH3
             MU3     = (RHO3OLD/RHO30 - ONE)
-            H3      = SPH3*V3OLD*(ONE+MU3)
-            IF(MU3 > ZERO) ECOLD = ECOLD * (ONE+C53*MU3*(ONE-MU3)) + HALF*C23*MU3*MU3
-            ECOLD3  = ECOLD*V3OLD*(ONE+MU3)
-            TEMP3   = (EINT3 - ECOLD3)/MAX(H3,EM20)
 
             !===================================
             ! H.Explosive : THERMODYNAMICAL STATE
@@ -858,8 +796,6 @@
               TEMP4   = ZERO
               EDIF4   = ZERO
               MU4     = ZERO
-              H4      = ZERO
-              ECOLD4  = ZERO
               TEMP4   = ZERO
               P4OLD(I)= ZERO
             ELSE
@@ -874,13 +810,8 @@
               TEMP4   = UVAR(I,16+KK)
               EDIF4   = UVAR(I,17+KK)   ! chaleur diffusee
               P4OLD(I)= UVAR(I,KK + 18) ! Pressure
-              ECOLD = -T40 * SPH4
               MU4 = (RHO4OLD/RHO40 - ONE)
-              H4 = SPH4*V4OLD*(ONE+MU4)
-              ECOLD4 = ECOLD*V4OLD*(ONE+MU4)
-              TEMP4 = (EINT4 - ECOLD4)/MAX(H4,EM20)
               BFRAC(I) = GBUF%BFRAC(I)
-
             ENDIF
 
             !===================================
@@ -895,34 +826,25 @@
             !     --> Energy should here corrected with TdH
             !                    (dE = dW+dQ = -PdV+TdH)
             !=======================================================================
-            IF(JTHE == 1)THEN
-              IF(V1OLD+V2OLD+V3OLD > EM03)THEN
-                ! heat in
-                T = ( EINT1 - ECOLD1 + EINT2 - ECOLD2 + EINT3 - ECOLD3 + UVAR(I,2)) / (H1 + H2 + H3)
-                !--------material_1---------!
-                AAA   = (T-TEMP1)*H1        ! 'TdH'
-                EDIF1   = EDIF1 + AAA       ! -> Heat 'Q'
-                EINT1   = EINT1 + AAA       ! -> E(k)=E(k)+ TdH
-                !--------material_2---------!
-                AAA   = (T-TEMP2)*H2
-                EDIF2   = EDIF2 + AAA
-                EINT2   = EINT2 + AAA
-                !--------material_3---------!
-                AAA   = (T-TEMP3)*H3
-                EDIF3   = EDIF3 + AAA
-                EINT3   = EINT3 + AAA
-                !--------output-------------!
-                !================================================!
-                !Internal Energy is here bounded (Inferior limit)!
-                !for stability reasons                           !
-                !================================================!
-                EINT1=max(EINT1,MAS1/MAX(RHO10,EM20)*E1_INF)
-                EINT2=max(EINT2,MAS2/MAX(RHO20,EM20)*E2_INF)
-                EINT3=max(EINT3,MAS3/MAX(RHO30,EM20)*E3_INF)
-                EINT4=max(EINT4,MAS4/MAX(RHO40,EM20)*E4_INF)
-              END IF
-              ECOLD4 = ZERO
-            END IF
+            ! IF(JTHE == 1)THEN
+            !   IF(V1OLD+V2OLD+V3OLD > EM03)THEN
+            !     ! heat in
+            !     T = ( EINT1 - ECOLD1 + EINT2 - ECOLD2 + EINT3 - ECOLD3 + UVAR(I,2)) / (H1 + H2 + H3)
+            !     !--------material_1---------!
+            !     AAA   = (T-TEMP1)*H1        ! 'TdH'
+            !     EDIF1   = EDIF1 + AAA       ! -> Heat 'Q'
+            !     EINT1   = EINT1 + AAA       ! -> E(k)=E(k)+ TdH
+            !     !--------material_2---------!
+            !     AAA   = (T-TEMP2)*H2
+            !     EDIF2   = EDIF2 + AAA
+            !     EINT2   = EINT2 + AAA
+            !     !--------material_3---------!
+            !     AAA   = (T-TEMP3)*H3
+            !     EDIF3   = EDIF3 + AAA
+            !     EINT3   = EINT3 + AAA
+            !   END IF
+            !   ECOLD4 = ZERO
+            ! END IF
             IF (TIME  ==  ZERO) THEN
               EINT(I)= EINT1 + EINT2 + EINT3 + EINT4
             ENDIF
@@ -1141,13 +1063,15 @@
                   RHO(I),MAS1 ,RHO10,DD,MU1,MU1P1, &
                   POLD,PEXT,P1,PM1,Q1, &
                   RHO0E1,EINT1 ,VISCMAX(I),XL ,SSP1, &
-                  QA,QB)
+                  QA,QB,DPDE1)
                 EINT(I) = EINT1
                 SOUNDSP(I) = SSP1
                 P = P1
                 Q = Q1
                 V1 = VOLUME(I)
                 RHO1 = RHO(I)
+                DVOL1 = DVOL
+                TEMP1 = TEMP1-TEMP1*DPDE1*DVOL1/V10
 
 
                 !==========================================
@@ -1165,7 +1089,7 @@
                   RHO(I),MAS2 ,RHO20,DD,MU2,MU2P1, &
                   POLD,PEXT,P2,PM2,Q2, &
                   RHO0E2,EINT2 ,VISCMAX(I),XL ,SSP2, &
-                  QA,QB)
+                  QA,QB,DPDE2)
 
                 EINT(I) = EINT2
                 SOUNDSP(I) = SSP2
@@ -1173,6 +1097,8 @@
                 Q = Q2
                 V2 = VOLUME(I)
                 RHO2 = RHO(I)
+                DVOL2 = DVOL
+                TEMP2 = TEMP2-TEMP2*DPDE2*DVOL2/V20
 
                 !==========================================
                 ! The only material is MAT3 (sol, liq, gas)
@@ -1189,13 +1115,15 @@
                   RHO(I),MAS3 ,RHO30,DD,MU3,MU3P1,&
                   POLD,PEXT,P3,PM3,Q3,&
                   RHO0E3,EINT3,VISCMAX(I),XL ,SSP3,&
-                  QA,QB)
+                  QA,QB,DPDE3)
                 EINT(I) = EINT3
                 SOUNDSP(I) = SSP3
                 P = P3
                 Q = Q3
                 V3 = VOLUME(I)
                 RHO3 = RHO(I)
+                DVOL3 = DVOL
+                TEMP3 = TEMP3-TEMP3*DPDE3*DVOL3/V30
 
                 !===========================================
                 ! The only material is MAT4 (High Explosive)
@@ -1214,13 +1142,15 @@
                   Q4,PEXT,P4,PM4,&
                   RHO(I),RHO40,MAS4,&
                   SSP4,&
-                  QA,QB,BFRAC(I))
+                  QA,QB,BFRAC(I),DPDE4)
 
                 SOUNDSP(I) = SSP4
                 P = P4
                 Q = Q4
                 V4 = VOLUME(I)
                 RHO4 = RHO(I)
+                DVOL4 = DVOL
+                TEMP4 = TEMP4-TEMP4*DPDE4*DVOL4/V40
 
               ENDIF
 
@@ -1275,6 +1205,10 @@
               DVDP2 = ZERO
               DVDP3 = ZERO
               DVDP4 = ZERO
+              DVOL1 = ZERO
+              DVOL2 = ZERO
+              DVOL3 = ZERO
+              DVOL4 = ZERO
               V1I   = V1
               V2I   = V2
               V3I   = V3
@@ -1293,7 +1227,7 @@
                 CALL POLY51 (C01,C11,C21,C31,C41,C51,GG1(I), &
                   V10,V1,V1I,MU1,MU1P1,EINT1, &
                   PEXT,P1,PM1,P1I, &
-                  RHO1,RHO10,MAS1,SSP1,DVDP1,DPDV1, E1_INF, 0)
+                  RHO1,RHO10,MAS1,SSP1,DVDP1,DPDV1, E1_INF, DPDE1, 0)
               ENDIF
 
               ! MAT2
@@ -1301,7 +1235,7 @@
                 CALL POLY51 (C02,C12,C22,C32,C42,C52,GG2(I), &
                   V20,V2,V2I,MU2,MU2P1,EINT2, &
                   PEXT,P2,PM2,P2I, &
-                  RHO2,RHO20,MAS2,SSP2,DVDP2,DPDV2, E2_INF, 0)
+                  RHO2,RHO20,MAS2,SSP2,DVDP2,DPDV2, E2_INF, DPDE2, 0)
               ENDIF
 
               ! MAT3
@@ -1309,7 +1243,7 @@
                 CALL POLY51 (C03,C13,C23,C33,C43,C53,GG3(I), &
                   V30,V3,V3I,MU3,MU3P1,EINT3, &
                   PEXT,P3,PM3,P3I, &
-                  RHO3,RHO30,MAS3,SSP3,DVDP3,DPDV3, E3_INF, 0)
+                  RHO3,RHO30,MAS3,SSP3,DVDP3,DPDV3, E3_INF, DPDE3, 0)
               ENDIF
 
               ! MAT4 : High Explosive
@@ -1323,7 +1257,7 @@
                   V4,V4I,MU4,MU4P1,EINT4, &
                   P4OLD(I),PEXT,P4,PM4, &
                   RHO4,RHO40,MAS4,SSP4,DVDP4,DPDV4, &
-                  BFRAC(I),V40, 0)
+                  BFRAC(I),V40, DPDE4, 0)
               ENDIF
 
               !---------------------------------------------------
@@ -1460,7 +1394,7 @@
                   CALL POLY51 (C01,C11,C21,C31,C41,C51,GG1(I), &
                     V10,V1,V1I,MU1,MU1P1,EINT1, &
                     PEXT,P1,PM5,P1I, &
-                    RHO1,RHO10,MAS1,SSP1,DVDP1,DPDV1, E1_INF, 0)
+                    RHO1,RHO10,MAS1,SSP1,DVDP1,DPDV1, E1_INF, DPDE1, 0)
                 ENDIF
                 !===========================================
                 !       material 2 - Polynomial EOS
@@ -1469,7 +1403,7 @@
                   CALL POLY51 (C02,C12,C22,C32,C42,C52,GG2(I), &
                     V20,V2,V2I,MU2,MU2P1,EINT2, &
                     PEXT,P2,PM5,P2I, &
-                    RHO2,RHO20,MAS2,SSP2,DVDP2,DPDV2, E2_INF, 0)
+                    RHO2,RHO20,MAS2,SSP2,DVDP2,DPDV2, E2_INF, DPDE2, 0)
                 ENDIF
                 !===========================================
                 !       material 3 - Polynomial EOS
@@ -1478,7 +1412,7 @@
                   CALL POLY51 (C03,C13,C23,C33,C43,C53,GG3(I), &
                     V30,V3,V3I,MU3,MU3P1,EINT3, &
                     PEXT,P3,PM5,P3I, &
-                    RHO3,RHO30,MAS3,SSP3,DVDP3,DPDV3, E3_INF, 0)
+                    RHO3,RHO30,MAS3,SSP3,DVDP3,DPDV3, E3_INF, DPDE3, 0)
                 ENDIF
                 !===========================================
                 !       material 4 - Polynomial EOS
@@ -1488,7 +1422,7 @@
                     V4,V4I,MU4,MU4P1,EINT4,&
                     P4OLD(I),PEXT,P4,PM5,&
                     RHO4,RHO40,MAS4,SSP4,DVDP4,DPDV4,&
-                    BFRAC(I),V40, 0)
+                    BFRAC(I),V40, DPDE4, 0)
                 ENDIF
 
                 !!! Check convergence
@@ -1503,6 +1437,20 @@
                 ENDIF
 
               ENDDO
+
+              DVOL1=ZERO
+              DVOL2=ZERO
+              DVOL3=ZERO
+              DVOL4=ZERO
+
+              IF (V1 > ZERO) DVOL1 = V1-V1OLD
+              IF (V2 > ZERO) DVOL2 = V2-V2OLD
+              IF (V3 > ZERO) DVOL3 = V3-V3OLD
+              IF (V4 > ZERO) DVOL4 = V4-V4OLD
+              TEMP1 = TEMP1-TEMP1*DPDE1*DVOL1/V10
+              TEMP2 = TEMP2-TEMP2*DPDE2*DVOL2/V20
+              TEMP3 = TEMP3-TEMP3*DPDE3*DVOL3/V30
+              TEMP4 = TEMP4-TEMP4*DPDE4*DVOL4/V40
 
               !---------------------------------------------------
               !     CONVERGENCE TEST
@@ -1633,9 +1581,6 @@
               UVAR(I,18+KK) =   P1
               UVAR(I,14+KK) = SSP1
               UVAR(I,15+KK) = PLAS1(I)     ! Eps plastique
-              ECOLD         = -T10 * SPH1
-              IF(MU1 > ZERO) ECOLD = ECOLD * (ONE+C51*MU1*(ONE-MU1)) + HALF*C21*MU1*MU1
-              TEMP1         = (EINT1/V1/MU1P1 - ECOLD) / SPH1
               UVAR(I,16+KK) = TEMP1
               UVAR(I,8+KK)  = EINT1 / V1 ! energie IN rho e OUT
               UVAR(I,9+KK)  = RHO1       ! masse IN rho OUT
@@ -1677,9 +1622,6 @@
               UVAR(I,18+KK) = P2
               UVAR(I,14+KK) = SSP2
               UVAR(I,15+KK) = PLAS2(I)   ! Eps plastique
-              ECOLD         = -T20 * SPH2
-              IF(MU2 > ZERO) ECOLD = ECOLD * (ONE+C52*MU2*(ONE-MU2)) + HALF*C22*MU2*MU2
-              TEMP2         = (EINT2/V2/(MU2P1) - ECOLD) / SPH2
               UVAR(I,16+KK) = TEMP2
               UVAR(I,8+KK)  = EINT2 / V2
               UVAR(I,9+KK)  = RHO2
@@ -1721,9 +1663,6 @@
               UVAR(I,18+KK) =   P3
               UVAR(I,14+KK) = SSP3
               UVAR(I,15+KK) = PLAS3(I)   ! Eps plastique
-              ECOLD         = -T30 * SPH3
-              IF(MU3 > ZERO) ECOLD = ECOLD * (ONE+C53*MU3*(ONE-MU3)) + HALF*C23*MU3*MU3
-              TEMP3         = (EINT3/V3/MU3P1 - ECOLD) / SPH3
               UVAR(I,16+KK) = TEMP3
               UVAR(I,8+KK)  = EINT3 / V3
               UVAR(I,9+KK)  = RHO3
@@ -1765,6 +1704,7 @@
                 UVAR(I,18+KK) = P4
                 UVAR(I,14+KK) = SSP4
                 UVAR(I,15+KK) = ZERO      ! Eps plastique
+                UVAR(I,16+KK) = TEMP4
                 UVAR(I,8+KK)  = EINT4 / V4 ! energie IN rho e OUT
                 UVAR(I,9+KK)  = RHO4       ! masse IN rho OUT
                 UVAR(I,10+KK) = Q4
@@ -1802,12 +1742,8 @@
             !===================================================
             !               UVAR(I,2)    : TEMP
             !===================================================
-            H1 = SPH1*V1*(MU1P1)
-            H2 = SPH2*V2*(MU2P1)
-            H3 = SPH3*V3*(MU3P1)
-            H4 = SPH4*V4*(MU4P1)
             ! temperature out ! chaleur     in
-            UVAR(I,2) = (TEMP1*H1 + TEMP2*H2 + TEMP3*H3 + TEMP4*H4)  / (H1 + H2 + H3 + H4)
+            UVAR(I,2) = (SPH1*V1*TEMP1+SPH2*V2*TEMP2+SPH3*V3*TEMP3+SPH4*V4*TEMP4)/(SPH1*V1+SPH2*V2+SPH3*V3+SPH4*V4)
             IF(BUFLY%L_TEMP>0)LBUF%TEMP(I) = UVAR(I,2)
             !===================================================
             !               UVAR(I,3) : BFRAC
@@ -1827,7 +1763,7 @@
             ENDIF
 
             IF(JTHE == 1 ) THEN
-              GBUF%TEMP(I) = THREE100 + EM03
+              GBUF%TEMP(I) = UVAR(I,2)
             ELSE
               GBUF%TEMP(I) = UVAR(I,2)
             ENDIF
