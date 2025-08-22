@@ -42,11 +42,11 @@
 !||    th_surf_mod           ../common_source/modules/interfaces/th_surf_mod.F
 !||====================================================================
       subroutine ebcs11(nseg,iseg,segvar, &
-        v,w,x, &
+        x, &
         liste,nod,irect,ielem,iface, &
         la,ms,stifn,ebcs,iparg,elbuf_tab,ixq,ixs,ixtg, &
         fsavsurf,time,iparit,dt1, &
-        numels, numelq, numeltg, numnod, nparg, ngroup, nixs, nixq, nixtg, nsurf, iale, n2d, &
+        numels, numelq, numeltg, numnod, nparg, ngroup, nixs, nixq, nixtg, nsurf, n2d, &
         nfunct, npc, tf ,snpc, stf, python, &
         nsensor, sensor_tab)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -73,7 +73,6 @@
 !                                                   arguments
 ! ----------------------------------------------------------------------------------------------------------------------
         integer,intent(in) :: n2d !< 2d/3d flag
-        integer,intent(in) :: iale !< ale flag
         integer,intent(in) :: numeltg, numels, numelq, numnod, nparg, ngroup, nixs, nixq, nixtg, nsurf !< array sizes
         real(kind=WP), intent(in) :: dt1 !< time step
         real(kind=WP), intent(in) :: time !< simulation time
@@ -87,7 +86,7 @@
         integer,intent(in) :: stf       !< array size of array tf
         real(kind=WP),intent(in) :: tf(stf)   !< function working array
         real(kind=WP),intent(inout) :: ms(numnod) !< nodal mass
-        real(kind=WP),intent(inout) :: v(3,numnod),w(3,numnod),x(3,numnod) !< mat. velocity, grid velocity, coordinates
+        real(kind=WP),intent(inout) :: x(3,numnod) !< mat. velocity, grid velocity, coordinates
         real(kind=WP),intent(inout) :: la(3,nod),stifn(numnod)
         type(t_ebcs_propellant), intent(inout) :: ebcs !< ebcs data structure
         integer :: iparg(nparg,ngroup) !< data for all group of elems
@@ -107,10 +106,12 @@
         real(kind=WP) :: npt
         real(kind=WP) :: orient,rho,vol,volg,mass,mass_face
         real(kind=WP) :: x13,y13,z13,x24,y24,z24
-        real(kind=WP) :: v0(3,nod)
-        real(kind=WP) :: xn, yn, zn, vold, vnew, padj, eadj, tadj
+        real(kind=WP) :: xn, yn, zn, vold, padj, eadj, tadj
         real(kind=WP) :: pp,ee,tt,ssp,vel_front,fac1,fac2
-        real(kind=WP) :: param_a, param_n, param_q, surf,phase_alpha(21),phase_rho(21), phase_eint(21)
+        real(kind=WP) :: param_a, param_n, param_q, param_t, param_gamma
+        real(kind=WP) :: Cp, Cv
+        real(kind=WP) :: surf
+        real(kind=WP) :: phase_alpha(21),phase_rho(21), phase_eint(21)
         real(kind=WP) :: face_force
         real(kind=WP) :: param_rho0s  !< initial propellant density
         real(kind=WP) :: dmass_g     !< mass increment (burnt propellant)
@@ -119,6 +120,8 @@
         real(kind=WP) :: tstart
         real(kind=WP) :: ff, gg, hh
         real(kind=WP) :: dydx
+        real(kind=WP) :: temp
+        real(kind=WP) :: eint_new
 
         logical :: bfound
         type(buf_mat_)  ,pointer :: mbuf
@@ -126,6 +129,7 @@
         integer :: nbsubmat
         integer :: sensor_iid, sensor_uid, ffunc_id, gfunc_id, hfunc_id
         integer :: ismooth_f, ismooth_g, ismooth_h
+        integer :: param_ienthalpy
 
         data icf_2d  /1,2,2,3,3,4,4,1/
         data icf_3d  /1,4,3,2,3,4,8,7,5,6,7,8,1,2,6,5,2,3,7,6,1,5,8,4/
@@ -148,8 +152,11 @@
         param_a = ebcs%a
         param_n = ebcs%n
         param_q = ebcs%q
+        param_t = ebcs%T
+        param_gamma = ebcs%gamma
         param_rho0s = ebcs%rho0s
         param_surf_id = ebcs%surf_id
+        param_ienthalpy = ebcs%ienthalpy
         sensor_uid = ebcs%sensor_id !user id
         isubmat =  ebcs%submat_id
         ffunc_id = ebcs%ffunc_id
@@ -161,6 +168,13 @@
         gscaleY = ebcs%gscaleY
         hscaleX = ebcs%hscaleX
         hscaleY = ebcs%hscaleY
+        If(param_ienthalpy  == -1)then
+          Cv = param_q/param_T
+          Cp = Cv*param_gamma
+        else
+          Cp = param_q/param_T
+          Cv = Cp/param_gamma
+        End If
 
         phase_alpha(:) = zero
         phase_eint(:) = zero
@@ -199,23 +213,6 @@
           endif
         else
           ff = fscaley
-        endif
-
-
-        !--- nodal velocities at face nodes
-        do ii=1,nod
-          num=liste(ii)
-          v0(1,ii)=v(1,num)
-          v0(2,ii)=v(2,num)
-          v0(3,ii)=v(3,num)
-        enddo
-        if(iale == 1)then
-          do ii=1,nod
-            num=liste(ii)
-            v0(1,ii)=v0(1,ii)-w(1,num)
-            v0(2,ii)=v0(2,ii)-w(2,num)
-            v0(3,ii)=v0(3,ii)-w(3,num)
-          enddo
         endif
 
         !--- reset working array for internal forces
@@ -265,6 +262,10 @@
             xn = zero
             yn = -(-x(3,ix(2))+x(3,ix(1)))
             zn =  (-x(2,ix(2))+x(2,ix(1)))
+            if(n2d == 1)then
+              yn = yn * (x(2,ix(1))+x(2,ix(2))) * half
+              zn = zn * (x(2,ix(1))+x(2,ix(2))) * half
+            endif
             fac2 = one/sqrt(yn*yn+zn*zn)
             yn=yn*fac2
             zn=zn*fac2
@@ -335,6 +336,10 @@
               ipos = 8
               kk = (n0phas + (isubmat-1)*nvphas +ipos-1) * klt  +  iloc+1
               phase_eint(isubmat) = mbuf%var(kk)
+              !energy density
+              ipos = 16
+              kk = (n0phas + (isubmat-1)*nvphas +ipos-1) * klt  +  iloc+1
+              tadj = mbuf%var(kk)
             enddo
             isubmat = ebcs%submat_id
             vol = volg * phase_alpha(isubmat) ! burnt gas is supposed to be submat #isubmat
@@ -425,7 +430,8 @@
             !energy density
             ipos = 8
             kk = (n0phas + (isubmat-1)*nvphas +ipos-1) * klt  +  iloc+1
-            mbuf%var(kk) = ( mbuf%var(kk)*vol + param_q*param_rho0s*dvol_s)/vol
+            eint_new = mbuf%var(kk)*vol + param_q*param_rho0s*dvol_s
+            mbuf%var(kk) = eint_new /vol
             segvar%phase_eint(isubmat,kseg)=mbuf%var(kk)
 
             gbuf%eint(iloc+1) = phase_eint(1)*phase_alpha(1) + &
@@ -438,15 +444,31 @@
               phase_rho(3)*phase_alpha(3) + &
               phase_rho(4)*phase_alpha(4)
 
-            segvar%rho(kseg)=gbuf%rho(iloc+1)  !param_rho0s
-            segvar%eint(kseg)=gbuf%eint(iloc+1) !param_q*param_rho0s
+            segvar%rho(kseg) = param_rho0s
+            segvar%eint(kseg) = param_q*param_rho0s
+
+            eint_new = (gbuf%eint(iloc+1)*vol + param_q*param_rho0s*dvol_s)
 
           else
             gbuf%rho(iloc+1) = (mass + dmass_g)/vol
-            gbuf%eint(iloc+1) = (gbuf%eint(iloc+1)*vol + param_q*param_rho0s*dvol_s)/vol
-            segvar%rho(kseg)=gbuf%rho(iloc+1)  !param_rho0s
-            segvar%eint(kseg)=gbuf%eint(iloc+1) !param_q*param_rho0s
+            eint_new = (gbuf%eint(iloc+1)*vol + param_q*param_rho0s*dvol_s)
+            gbuf%eint(iloc+1) = eint_new/vol
+
+            segvar%rho(kseg) = gbuf%rho(iloc+1)  !param_rho0s
+            segvar%eint(kseg) = gbuf%eint(iloc+1) !param_q*param_rho0s
           endif
+
+          !temperature update
+          !temp =  (mass*tadj + dmass_g*param_gamma*param_t) / (mass+dmass_g)   ! This fromula embedded the enthalpy (additional term corresponding to the work required to inlet the burnt volume)
+          temp = eint_new / (mass+dmass_g) / Cv   !this formula is more convenient as it does not requires any update enthalpy is not injected (may be useful for example to switch to an advection step rather than a source term)
+          if(mtn == 51 )then
+            !temperature
+            ipos = 16
+            kk = (n0phas + (isubmat-1)*nvphas +ipos-1) * klt  +  iloc+1
+            mbuf%var(kk) = temp
+          else
+            gbuf%temp(iloc+1) = temp
+          end if
 
           !-- expand pressure to face nodes
           face_force = pp*surf                                        !pp for equilibrium

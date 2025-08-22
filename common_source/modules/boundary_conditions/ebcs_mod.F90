@@ -309,8 +309,8 @@
 !     type = 11 /EBCS/PROPELLANT
 !     ----------------------
         type, public, extends(t_ebcs) :: t_ebcs_propellant
-          integer :: sensor_id=0, submat_id=1
-          real(kind=WP) :: a = 0., n = 0., q = 0., rho0s=0.
+          integer :: sensor_id=0, submat_id=1, ienthalpy=1
+          real(kind=WP) :: a = 0., n = 0., q = 0., rho0s=0., gamma=1., T=300.
           integer :: ffunc_id=0, gfunc_id=0, hfunc_id=0
           real(kind=WP) :: fscaleX=1.0, fscaleY=1.0, gscaleX=1.0, gscaleY=0., hscaleX=1.0, hscaleY=1.0
           type(fvm_inlet_data_struct) :: fvm_inlet_data
@@ -1690,31 +1690,34 @@
           implicit none
           class (t_ebcs_propellant), intent(inout) :: this
           integer, intent(inout) :: leni, lenr
-          integer, dimension(5) :: integer_data
-          real(kind=WP), dimension(10) :: real_data
+          integer, dimension(6) :: integer_data
+          real(kind=WP), dimension(12) :: real_data
 
           integer_data(1) = this%sensor_id
           integer_data(2) = this%ffunc_id
           integer_data(3) = this%gfunc_id
           integer_data(4) = this%hfunc_id
           integer_data(5) = this%submat_id
+          integer_data(6) = this%ienthalpy
 
           real_data(1)  = this%a
           real_data(2)  = this%n
           real_data(3)  = this%q
-          real_data(4)  = this%rho0s
-          real_data(5)  = this%fscaleX
-          real_data(6)  = this%fscaleY
-          real_data(7)  = this%gscaleX
-          real_data(8)  = this%gscaleY
-          real_data(9)  = this%hscaleX
-          real_data(10) = this%hscaleY
+          real_data(4)  = this%gamma
+          real_data(5)  = this%T
+          real_data(6)  = this%rho0s
+          real_data(7)  = this%fscaleX
+          real_data(8)  = this%fscaleY
+          real_data(9)  = this%gscaleX
+          real_data(10) = this%gscaleY
+          real_data(11) = this%hscaleX
+          real_data(12) = this%hscaleY
 
-          call write_i_array_c(integer_data, 5)
-          leni = leni + 5
+          call write_i_array_c(integer_data, 6)
+          leni = leni + 6
 
-          call write_db_array(real_data, 10)
-          lenr = lenr + 10
+          call write_db_array(real_data, 12)
+          lenr = lenr + 12
           if(this%is_multifluid)then
             call write_i_c(this%fvm_inlet_data%vector_velocity, 1)
             leni = leni + 1
@@ -1756,10 +1759,13 @@
           call read_i_c(this%gfunc_id, 1)
           call read_i_c(this%hfunc_id, 1)
           call read_i_c(this%submat_id, 1)
+          call read_i_c(this%ienthalpy, 1)
 
           call read_db(this%a, 1)
           call read_db(this%n, 1)
           call read_db(this%q, 1)
+          call read_db(this%gamma, 1)
+          call read_db(this%T, 1)
           call read_db(this%rho0s, 1)
           call read_db(this%fscaleX, 1)
           call read_db(this%fscaleY, 1)

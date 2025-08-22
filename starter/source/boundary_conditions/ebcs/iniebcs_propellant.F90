@@ -30,18 +30,20 @@
 ! ======================================================================================================================
 !                                                   procedures
 ! ======================================================================================================================
-!! \brief For option /EBCS/PROPERGOL, need to get from adjacent EoS Cv parameter
-!! \details this Cv parameter allows to determine q_combustion=Cv.T_combustion
 !||====================================================================
 !||    iniebcs_propellant          ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
 !||--- called by ------------------------------------------------------
 !||    lectur                      ../starter/source/starter/lectur.F
 !||--- calls      -----------------------------------------------------
-!||    iniebcs_propellant_get_cv   ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
+!||    iniebcs_propellant_get_cp   ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
 !||--- uses       -----------------------------------------------------
 !||    message_mod                 ../starter/share/message_module/message_mod.F
 !||====================================================================
         subroutine iniebcs_propellant(ixs,ixq,ixtg,multi_fvm_is_used,ebcs_tab,mat_param,sixs,sixq,sixtg,nummat)
+!! \brief For option /EBCS/PROPERGOL, need to get from adjacent EoS Cp parameter
+!! \details this Cp parameter allows to determine q_combustion=Cp.T_combustion
+!! \details U=Cv.T_combustion.dm if an advection step is used (dvol is then incremented from EBCS ghost cell and treated later in EOS updates dE=-PdV)
+!! \details When using a source term, H=U+W=Cv.T_combustion+PdV=...=Cp.T_combustion.dm  (the work is then automatically included)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -83,11 +85,11 @@
             isu = ebcs%surf_id
             if(multi_fvm_is_used )then; ;end if
             if(isu>0)then
-              !/EBCS/PROPERGOL (TYP=11) : retrieve Cv parameter in adjacent (sub)material
+              !/EBCS/PROPERGOL (TYP=11) : retrieve Cp parameter in adjacent (sub)material
               !  warn user if adjacent elem is not matching an Ideal Gas EoS
               select type (twf => ebcs_tab%tab(ii)%poly)
                type is (t_ebcs_propellant)
-                call iniebcs_propellant_get_cv(twf,mat_param,nummat,twf%title,ixs,ixq,ixtg,sixs,sixq,sixtg)
+                call iniebcs_propellant_get_cp(twf,mat_param,nummat,twf%title,ixs,ixq,ixtg,sixs,sixq,sixtg)
               end select
             end if
           end do
@@ -96,10 +98,10 @@
 ! ======================================================================================================================
 !                                                   procedures
 ! ======================================================================================================================
-!! \brief For option /EBCS/PROPERGOL,loop over adjacent elems and get cv parameter
+!! \brief For option /EBCS/PROPERGOL,loop over adjacent elems and get cp parameter
 !! \details in case of different values are detected, use median one (ignition may be starter with a high density gas : few elems only)
 !||====================================================================
-!||    iniebcs_propellant_get_cv   ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
+!||    iniebcs_propellant_get_cp   ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
 !||--- called by ------------------------------------------------------
 !||    iniebcs_propellant          ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
 !||--- calls      -----------------------------------------------------
@@ -107,7 +109,7 @@
 !||--- uses       -----------------------------------------------------
 !||    message_mod                 ../starter/share/message_module/message_mod.F
 !||====================================================================
-        subroutine iniebcs_propellant_get_cv(ebcs,mat_param,nummat,title,ixs,ixq,ixtg,sixs,sixq,sixtg)
+        subroutine iniebcs_propellant_get_cp(ebcs,mat_param,nummat,title,ixs,ixq,ixtg,sixs,sixq,sixtg)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -115,7 +117,7 @@
           use matparam_def_mod, only : matparam_struct_
           use message_mod
           use names_and_titles_mod , only : nchartitle
-          use constant_mod , only : em06, zero
+          use constant_mod , only : em06, zero, one
           use array_reindex_mod, only : real_array_reindex
           use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -138,25 +140,29 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local Variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: EOSid, imat, mlw    !< material & eos data
-          integer :: kk, icell              !< loop
-          real(kind=WP) :: T_combust           !< parameter for combustion model
-          real(kind=WP) :: Cv0,Cv              !< Specific Heat parameter (Cv0 : first segment)
-          real(kind=WP),allocatable,dimension(:) :: tmp  !< Cv parameters for each segment
-          integer,allocatable,dimension(:) :: indx !< array for sorting algorithm
-          logical :: MULTIPLE_CV_DETECTED
+          integer :: EOSid, imat, mlw                    !< material & eos data
+          integer :: kk, icell                           !< loop
+          real(kind=WP) :: Cp0,Cp,Cv                     !< Specific Heat parameter (Cp0 : first segment)
+          real(kind=WP) :: gamma
+          real(kind=WP),allocatable,dimension(:) :: tmp,tmp2  !< Cp parameters for each segment
+          integer,allocatable,dimension(:) :: indx       !< array for sorting algorithm
+          logical :: MULTIPLE_CP_DETECTED
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
           allocate (tmp(ebcs%nb_elem))
+          allocate (tmp2(ebcs%nb_elem))
           allocate (indx(ebcs%nb_elem))
           do kk = 1, ebcs%nb_elem
             indx(kk) = kk
           end do
           tmp(1:) = zero
-          MULTIPLE_CV_DETECTED = .false.
+          tmp2(1:) = zero
+          MULTIPLE_CP_DETECTED = .false.
           imat = 0
+          cp = zero
           cv = zero
+          gamma = one
 
           do kk=1,ebcs%nb_elem
 
@@ -176,17 +182,20 @@
             endif
 
             !eos parameters
-            Cv0=Cv
+            Cp0=Cp
             eosid = mat_param(imat)%ieos
+            cp = mat_param(imat)%eos%cp
             cv = mat_param(imat)%eos%cv
-            tmp(kk) = Cv
-            if(kk==1)Cv0=Cv
-
-            if(abs(Cv0-Cv)/Cv0 > em06 )then
-              MULTIPLE_CV_DETECTED = .TRUE.
+            tmp(kk) = Cp
+            if(Cv > zero)then
+              tmp2(kk) = Cp/Cv
+              gamma = Cp/Cv
             end if
+            if(kk==1)Cp0=Cp
 
-            T_combust = ebcs%q
+            if(abs(Cp0-Cp)/Cp0 > em06 )then
+              MULTIPLE_CP_DETECTED = .TRUE.
+            end if
 
             if(eosid /= 7)then
               CALL ANCMSG(MSGID = 1602, MSGTYPE = MSGERROR, ANMODE = ANINFO, &
@@ -196,23 +205,32 @@
 
           enddo
 
-          if (ebcs%nb_elem >=2 .and. multiple_cv_detected)then
+          if (ebcs%nb_elem >=2 .and. multiple_cp_detected)then
             call real_array_reindex(tmp, indx, ebcs%nb_elem)
-            Cv = tmp( int(ebcs%nb_elem/2) )     !median value
+            Cp = tmp( int(ebcs%nb_elem/2) )     !median value
+            gamma = tmp2( int(ebcs%nb_elem/2) )     !median value
             call ancmsg(msgid = 3083, msgtype = msgwarning, anmode = aninfo, &
               i1 = ebcs%ebcs_id, c1 = title(1:len_trim(title)), &
-              C2 = "EBCS PROPERGOL IS FACING DIFFERENT GAS EOS : CHECK Cv PARAMETER (Cv=E0/RHO0/T0)", &
-              C3 = "RETAINED Cv VALUE FROM EOS ID :", &
+              C2 = "EBCS PROPERGOL IS FACING DIFFERENT GAS EOS : CHECK Cp PARAMETER (Cp=GAMMA.E0/RHO0/T0)", &
+              C3 = "RETAINED Cp VALUE FROM EOS ID :", &
               I2 = MAT_param(imat)%mat_id )
           end if
 
           !Setting Heat of combustion (q)
-          ebcs%q = Cv * ebcs%q    !q = Cv * Tcomb
+          if(ebcs%ienthalpy == -1) then
+            ebcs%q = Cv * ebcs%t
+          else
+            ebcs%q = Cp * ebcs%t
+          end if
+          ebcs%gamma = gamma
+
+
 
           if (allocated(tmp)) deallocate(tmp)
+          if (allocated(tmp2)) deallocate(tmp2)
           if (allocated(indx)) deallocate(indx)
 
-        end subroutine iniebcs_propellant_get_cv
+        end subroutine iniebcs_propellant_get_cp
 
 
 ! ----------------------------------------------------------------------------------------------------------------------

@@ -61,8 +61,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------   
-      INTEGER :: I, KK, TYP, JBUF, K1, K2, K3, NSEG, NSEG_L, IELEM, ELEM_ID, ISEG
-      INTEGER :: II
+      INTEGER :: I, TYP, NSEG, NSEG_L, IELEM, ISEG
       INTEGER, DIMENSION(:), ALLOCATABLE  :: LOCALID
       INTEGER, DIMENSION(:, :), POINTER :: IX
       my_real :: DP0
