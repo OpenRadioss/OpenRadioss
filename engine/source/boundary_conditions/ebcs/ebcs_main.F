@@ -187,11 +187,11 @@ C-----------------------------------------------
             select type (twf => EBCS)
              type is (t_ebcs_propellant)
               call ebcs11(nseg,twf%iseg,segvar,
-     .                    v,w,x,
+     .                    x,
      .                    twf%node_list,nod,twf%elem_list,twf%ielem,twf%iface,
      .                    twf%la,ms,stifn,twf,iparg,elbuf_tab,ixq,ixs,ixtg,
      .                    fsavsurf,time,iparit,dt1,
-     .                    numels, numelq, numeltg,numnod, nparg, ngroup, nixs, nixq, nixtg, nsurf, iale, n2d,
+     .                    numels, numelq, numeltg,numnod, nparg, ngroup, nixs, nixq, nixtg, nsurf, n2d,
      .                    nfunct, npc, tf ,snpc, stf, python,
      .                    nsensor, sensor_tab)
             end select
