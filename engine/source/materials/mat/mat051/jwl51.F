@@ -28,7 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE JWLUN51 (TIME,XL,TBURN,UPARAM,DD,MU,MUP1,
      .          VOLUME,DVOL,V1OLD,EINT1,VISCMAX,
      .          Q1,PEXT,P1,PM1,
-     .          RHO,RHO10,MAS1,SSP1, QA,QB,BFRAC)
+     .          RHO,RHO10,MAS1,SSP1, QA,QB,BFRAC,DPDE)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -41,7 +41,7 @@ C-----------------------------------------------
      .                       PEXT,PM1,
      .                       RHO10,MAS1,
      .                       UPARAM(*),QA,QB
-      my_real, INTENT(INOUT) :: SSP1, P1, DVOL, RHO, BFRAC, MU, VISCMAX, Q1
+      my_real, INTENT(INOUT) :: SSP1, P1, DVOL, RHO, BFRAC, MU, VISCMAX, Q1, DPDE
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -122,6 +122,7 @@ C
 
       P1       = BFRAC*Pgas + (ONE-BFRAC)*Psol
 
+
       !--------------------------------!
       ! Update SSP with current state  !
       !--------------------------------!
@@ -130,6 +131,7 @@ C
       SSP_reacted   = SQRT(DPDMU/RHO10)
       SSP_unreacted = SQRT(C11/RHO10)
       SSP1          = MAX(BFRAC*SSP_reacted,(ONE-BFRAC)*SSP_unreacted)
+      DPDE          = BFRAC*W1/MUP1
 C
       RETURN
       END
@@ -143,7 +145,7 @@ C
       SUBROUTINE JWL51 (UPARAM,
      .          V1,V1OLD,MU1,MUP1,EINT1,
      .          P1OLD,PEXT,P1,PM1,
-     .          RHO1,RHO10,MAS1,SSP1,DVDP1,DPDV1,BFRAC,V10, FLAG)
+     .          RHO1,RHO10,MAS1,SSP1,DVDP1,DPDV1,BFRAC,V10, DPDE1, FLAG)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -156,7 +158,7 @@ C-----------------------------------------------
      .                      RHO10,MAS1,
      .                      UPARAM(*),BFRAC, V10
       INTEGER,INTENT(IN) :: FLAG
-      my_real,INTENT(INOUT) :: RHO1, MU1, EINT1, P1, SSP1, DVDP1,DPDV1
+      my_real,INTENT(INOUT) :: RHO1, MU1, EINT1, P1, SSP1, DVDP1,DPDV1, DPDE1
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -229,6 +231,7 @@ C------------------------
       DPDV1_REACTED    = -DPDMU*MUP1/V1
       DPDV1_UNREACTED  = -C11*MUP1/V1
       DPDV1            = BFRAC*DPDV1_REACTED + (ONE-BFRAC)*DPDV1_UNREACTED
+      DPDE1 = BFRAC * W1/MUP1
 
       IF(ABS(DPDV1)<EM20)THEN
         DVDP1 = ZERO
