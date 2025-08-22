@@ -37,8 +37,9 @@
 !||    inter_sh_offset_ini   ../engine/source/interfaces/shell_offset/inter_offset_ini.F90
 !||    offset_nproj          ../engine/source/interfaces/shell_offset/offset_nproj.F90
 !||--- calls      -----------------------------------------------------
+!||    spmd_wait             ../engine/source/mpi/spmd_wait.F90
 !||--- uses       -----------------------------------------------------
-!||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
+!||    spmd_mod              ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
         subroutine spmd_exch_vnpon(ndim1,ndim2,vn6,iad_offset,fr_offset,nspmd,lenr )
 ! ----------------------------------------------------------------------------------------------------------------------

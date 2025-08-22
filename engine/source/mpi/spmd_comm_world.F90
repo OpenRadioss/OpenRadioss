@@ -196,7 +196,6 @@
 !||    spmd_exch_userwi                ../engine/source/mpi/user_interface/spmd_exch_userwi.F
 !||    spmd_exch_v                     ../engine/source/mpi/generic/spmd_exch_v.F
 !||    spmd_exch_vmax                  ../engine/source/mpi/elements/spmd_exch_dttsh.F
-!||    spmd_exch_vnpon                 ../engine/source/mpi/nodes/spmd_exch_vnpon.F90
 !||    spmd_exch_vol                   ../engine/source/mpi/nodes/spmd_exch_vol.F
 !||    spmd_exch_wave                  ../engine/source/mpi/nodes/spmd_exch_wave.F
 !||    spmd_exch_work                  ../engine/source/mpi/r2r/spmd_r2r.F

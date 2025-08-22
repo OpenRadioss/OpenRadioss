@@ -258,6 +258,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    printime                                     ../engine/source/system/timer.F
 !||    printime_interf                              ../engine/source/system/timer_interf.F
 !||    printimeg                                    ../engine/source/system/timer.F
+!||    python_dummy_active_node                     ../engine/source/loads/general/python_call_funct_cload.F90
 !||    python_monvol                                ../engine/source/coupling/python/python_monvol.F90
 !||    python_register                              ../engine/source/tools/curve/python_register.F90
 !||    python_share_memory                          ../engine/source/coupling/python/python_share_memory.F90
@@ -513,6 +514,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    pblast_mod                                   ../common_source/modules/loads/pblast_mod.F90
 !||    pinchtype_mod                                ../common_source/modules/pinchtype_mod.F
 !||    plyxfem_mod                                  ../engine/share/modules/plyxfem_mod.F
+!||    python_call_funct_cload_mod                  ../engine/source/loads/general/python_call_funct_cload.F90
 !||    python_funct_mod                             ../common_source/modules/python_mod.F90
 !||    python_monvol_mod                            ../engine/source/coupling/python/python_monvol.F90
 !||    python_register_mod                          ../engine/source/tools/curve/python_register.F90

@@ -54,6 +54,7 @@
 !||    spmd_exch_flow_tracking_data3   ../engine/source/ale/grid/spmd_exch_flow_tracking_data3.F90
 !||    spmd_exch_flow_tracking_data4   ../engine/source/ale/grid/spmd_exch_flow_tracking_data4.F90
 !||    spmd_exch_neighbour_segment     ../engine/source/mpi/interfaces/spmd_exch_neighbour_segment.F90
+!||    spmd_exch_vnpon                 ../engine/source/mpi/nodes/spmd_exch_vnpon.F90
 !||    spmd_exchange_ghost_shells      ../engine/source/engine/node_spliting/ghost_shells.F90
 !||    spmd_extag                      ../engine/source/mpi/fluid/spmd_cfd.F
 !||    spmd_get_penis                  ../engine/source/mpi/interfaces/send_cand.F

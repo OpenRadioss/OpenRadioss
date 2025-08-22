@@ -30,6 +30,7 @@
 !||    forcefingeo                   ../engine/source/loads/general/forcefingeo.F
 !||    lag_fxv                       ../engine/source/tools/lagmul/lag_fxv.F
 !||    lag_fxvp                      ../engine/source/tools/lagmul/lag_fxv.F
+!||    resol                         ../engine/source/engine/resol.F
 !||====================================================================
       module python_call_funct_cload_mod
 
@@ -210,6 +211,15 @@
           y = argout(1)
         end subroutine python_call_funct_cload_dp
 
+!||====================================================================
+!||    python_dummy_active_node        ../engine/source/loads/general/python_call_funct_cload.F90
+!||--- called by ------------------------------------------------------
+!||    resol                           ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    python_set_active_node_values   ../common_source/modules/python_mod.F90
+!||--- uses       -----------------------------------------------------
+!||    python_funct_mod                ../common_source/modules/python_mod.F90
+!||====================================================================
         subroutine python_dummy_active_node(py)
           use python_funct_mod
           implicit none
