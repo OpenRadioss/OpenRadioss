@@ -418,6 +418,7 @@ c------------------
 c------------------
 c
         END SELECT ! (ILAW)  
+        PM(107,IMAT) = TWO*MAX(PM(32,IMAT),PM(100,IMAT)) ! used for contact stif of Icontrol>0
 c------------------
       ENDDO        ! IMAT=1,NUMMAT
 c-----------
