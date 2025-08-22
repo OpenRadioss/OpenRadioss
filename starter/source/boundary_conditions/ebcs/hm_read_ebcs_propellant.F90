@@ -75,10 +75,10 @@
 ! ----------------------------------------------------------------------------------------------------------------------
         integer :: isu,surf,j,nseg
         integer :: imat,iflagunit
-        integer :: sensor_id, submat_id
+        integer :: sensor_id, submat_id, ienthalpy
         integer :: ffunc_id, gfunc_id, hfunc_id
         real(kind=WP) :: fscaleX,fscaleY,gscaleX,gscaleY,hscaleX,hscaleY
-        real(kind=WP) :: param_a, param_n, param_q, param_rho0s,param_t
+        real(kind=WP) :: param_a, param_n, param_rho0s,param_t
         integer, dimension(:), pointer :: ingr2usr
         integer, external :: ngr2usr
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -101,6 +101,7 @@
         call hm_get_intv('entityid' , surf     , is_available,lsubmodel)
         call hm_get_intv('sensor_id', sensor_id, is_available,lsubmodel)
         call hm_get_intv('submat_id', submat_id, is_available,lsubmodel)
+        call hm_get_intv('ienthalpy', ienthalpy, is_available,lsubmodel)
         ! propellant properties
         call hm_get_floatv('rho0s', param_rho0s, is_available,lsubmodel,unitab)
         call hm_get_floatv('param_t', param_t, is_available,lsubmodel,unitab)
@@ -119,7 +120,6 @@
 
         if(param_a == zero)param_a = one
         if(param_n < zero)param_n = zero
-        !if(param_q < zero)param_q = zero
         if(param_t <= zero)param_t = three100
         if(param_rho0s == zero)param_rho0s = one
 
@@ -131,18 +131,22 @@
         if(hscaleY == zero) hscaleY = one
 
         if(submat_id == 0)submat_id = 1
+        if(ienthalpy == 0)ienthalpy = 1
 
-        param_q = param_t
-        !param_q = cv * param_t     ! -> must be done during Starter check to identify adjacent EoS (retrieve t=param_q -> param_q <- cv*t)
+        if (ienthalpy /=1 .and. ienthalpy /=-1)ienthalpy = 1
+
+        !param_q = cp * param_t     ! -> must be done during Starter check to identify adjacent EoS (iniebcs_propellant.F90)
 
         ebcs%title = titr
 
         ebcs%sensor_id = sensor_id
         ebcs%submat_id = submat_id
+        ebcs%ienthalpy = ienthalpy
 
         ebcs%a = param_a
         ebcs%n = param_n
-        ebcs%q = param_q
+        ebcs%q = param_t !updated in iniebcs_propellant.F90
+        ebcs%T = param_t
         ebcs%rho0s = param_rho0s
         ebcs%has_ielem = .true.
         ebcs%ffunc_id = ffunc_id
@@ -194,7 +198,7 @@
         ebcs%nb_elem = nseg
 
         write(iout,1001)id, trim(titr)
-        write(iout,1118)surf,sensor_id,submat_id,nseg,param_rho0s, param_q
+        write(iout,1118)surf,sensor_id,submat_id,ienthalpy,nseg,param_rho0s, param_t
         write(iout,1201)param_a,param_n,ffunc_id,fscaleX,fscaleY,gfunc_id,gscaleX,gscaleY,hfunc_id,hscaleX,hscaleY
 
 
@@ -207,6 +211,7 @@
           '    ON SURFACE  . . . . . . . . . . . . . . . ',I8,/,&
           '    SENSOR ID   . . . . . . . . . . . . . . . ',I8,/,&
           '    SUBMAT ID   . . . . . . . . . . . . . . . ',I8,/,&
+          '    ENTHALPY FLAG . . . . . . . . . . . . . . ',I8,/,&
           '    NUMBER OF SEGMENTS FOUND. . . . . . . . . ',I8,/,&
           '    PROPELLANT DENSITY  . . . . . . . . . . . ',E20.12,/,&
           '    PROPELLANT TEMPERATURE RISE . . . . . . . ',E20.12)
