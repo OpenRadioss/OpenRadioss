@@ -617,7 +617,7 @@ C--------IORTH=2 -> HMFOR couplage non-null----------------
                 J2=1+(J-1)*JLT
                  MX  = MATLY(J2)
                  ILAW_PLY = MAT_ELEM%MAT_PARAM(MX)%ILAW 
-                 IF(ILAW_PLY == 15. OR. ILAW_PLY == 25) THEN
+                 IF(ILAW_PLY == 15. OR. ILAW_PLY == 25 .or. ILAW_PLY == 125 .or. ILAW_PLY == 127) THEN
                      IORTH = 1
                      EXIT 
                  ENDIF
@@ -632,12 +632,12 @@ C--------IORTH=2 -> HMFOR couplage non-null----------------
                     J1 = 1+(ILAY-1)*JLT       ! JMLY
                     MX  = MATLY(J1)
                     ILAW_PLY = MAT_ELEM%MAT_PARAM(MX)%ILAW 
-                    IF(ILAW_PLY == 15 .OR. ILAW_PLY == 25 ) THEN
+                     IF(ILAW_PLY == 15. OR. ILAW_PLY == 25 .or. ILAW_PLY == 125 .or. ILAW_PLY == 127) THEN
                       IORTH  = 1
                       EXIT
                     ENDIF
            ENDDO
-      ELSEIF(MTN == 19 .OR. MTN == 15  .OR.  MTN == 25 .OR. MTN == 119) THEN
+      ELSEIF(MTN == 19 .OR. MTN == 15  .OR.  MTN == 25 .OR. MTN == 119 .OR. MTN == 125 .OR. MTN == 127) THEN
         IORTH=1
       ELSE
         IORTH=0
@@ -671,7 +671,7 @@ C----------unify the factor ONE_OVER_12 after
             HF(I,5)=ONE_OVER_12*HMOR(I,1)
             HF(I,6)=ONE_OVER_12*HMOR(I,2)
           ENDDO
-        ELSEIF ((MTN == 15 .OR. MTN == 25 ) .AND. 
+        ELSEIF ((MTN == 15 .OR. MTN == 25 .OR. MTN == 125. OR. MTN == 127) .AND. 
      .           IGTYP == 9 .OR. IGTYP == 10 ) THEN
           SELECT CASE (IGTYP)
             CASE(9)
@@ -737,7 +737,7 @@ C
                     J3=1+(J-1)*JLT*2
                     MX  = MATLY(J2)
                     ILAW_PLY = MAT_ELEM%MAT_PARAM(MX)%ILAW 
-                    IF(ILAW_PLY == 15 .OR. ILAW_PLY == 25 ) THEN
+                    IF(ILAW_PLY == 15 .OR. ILAW_PLY == 25 .OR. ILAW_PLY == 125 .or. ILAW_PLY == 127 ) THEN
                        CALL GEPM_LC(JFT,JLT,MATLY(J2),PM,SHF,HMLY,HCLY)
                     ELSE
                         NU   =PM(21,MX)
@@ -793,7 +793,7 @@ C
                     J3=1+(J-1)*JLT*2
                     MX  = MATLY(J2)
                     ILAW_PLY = MAT_ELEM%MAT_PARAM(MX)%ILAW 
-                    IF(ILAW_PLY == 15 .OR. ILAW_PLY == 25 ) THEN
+                     IF(ILAW_PLY == 15 .OR. ILAW_PLY == 25 .OR. ILAW_PLY == 125 .or. ILAW_PLY == 127 ) THEN
                        CALL GEPM_LC(JFT,JLT,MATLY(J2),PM,SHF,HMLY,HCLY)
                     ELSE
                         NU   =PM(21,MX)
@@ -857,7 +857,7 @@ C
                     J = IPT                   ! JPOS
                     MX  = MATLY(J1)
                     ILAW_PLY = MAT_ELEM%MAT_PARAM(MX)%ILAW 
-                    IF(ILAW_PLY == 15 .OR. ILAW_PLY == 25 ) THEN
+                   IF(ILAW_PLY == 15 .OR. ILAW_PLY == 25 .OR. ILAW_PLY == 125 .or. ILAW_PLY == 127 ) THEN
                       CALL GEPM_LC(JFT,JLT,MATLY(J1),PM,SHF,HMLY,HCLY)
                     ELSE
                         NU   =PM(21,MX)
@@ -920,7 +920,7 @@ C-----------
                     J = IPT                   ! POS
                     MX  = MATLY(J1)
                     ILAW_PLY = MAT_ELEM%MAT_PARAM(MX)%ILAW 
-                    IF(ILAW_PLY == 15 .OR. ILAW_PLY == 25 ) THEN
+                     IF(ILAW_PLY == 15 .OR. ILAW_PLY == 25 .OR. ILAW_PLY == 125 .or. ILAW_PLY == 127 ) THEN
                       CALL GEPM_LC(JFT,JLT,MATLY(J1),PM,SHF,HMLY,HCLY)
                     ELSE
                         NU   =PM(21,MX)
