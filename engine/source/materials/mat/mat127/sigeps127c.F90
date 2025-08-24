@@ -117,16 +117,15 @@
           integer ::  i,updat2,                  &
             ncyred, n,ndex,ndel_ply,ndex0
           integer , dimension(nel) :: index,iad,ipos,ilen,index0
-          real(kind=WP)                                                             &
-            :: e1, e2, nu12, nu21, xt0, slimt1, xc0, slimc1,                     &
+          real(kind=WP) :: e1, e2, nu12, nu21, xt0, slimt1, xc0, slimc1,        &
             yt0, slimt2, yc0, sc0, d,                    &
-            slims, invd, slimc2, alpha, beta, dfailt, dfailc,       &
-            g12, limit_sig, eint, deint, a11, g13, g23, ycfac, dfailm,  &
-            dfails, efs, epsf, epsr, fbrt, tsmd, yc_over_sc,    &
-            yfac_xt, yfac_xc, yfac_yc, yfac_yt, yfac_sc, eft, efc, emt, emc,  &
+            slims, invd, slimc2, alpha, beta, dfailt, dfailc,                   &
+            g12, limit_sig, eint, deint, a11, g13, g23, ycfac, dfailm,          &
+            dfails, efs, epsf, epsr, fbrt, tsmd, yc_over_sc,                    &
+            yfac_xt, yfac_xc, yfac_yc, yfac_yt, yfac_sc, eft, efc, emt, emc,    &
             scale,dam,ratio,del_ratio,eps_ef,tau2,sc2,tau_bar
 
-          real(kind=WP), dimension(nel) :: dezz, check, xc, xt, yc, yt, sc, dydx
+          real(kind=WP), dimension(nel) :: dezz, check, xc, xt, yc, yt, sc, dydx,xt_0
 !!======================================================================
           e1    = mat_param%uparam(1)   ! Young's modulus in the longitudinal direction (1-direction)
           e2    = mat_param%uparam(2)   ! Young's modulus in the transverse direction (2-direction)
@@ -179,10 +178,10 @@
             ipos(1:nel) = 1
             iad (1:nel) = npf(ifunc(1)) / 2 + 1
             ilen(1:NEL) = npf(ifunc(1)+1) / 2 - iad(1:nel) - ipos(1:nel)
-            CALL vinter(tf,iad,ipos,ilen,nel,epsp,dydx,xt)
-            xt(1:nel)= yfac_xt*xt(1:nel)
+            CALL vinter(tf,iad,ipos,ilen,nel,epsp,dydx,xt_0)
+            xt_0(1:nel)= yfac_xt*xt_0(1:nel)
           else
-            xt(1:nel) = xt0
+            xt_0(1:nel) = xt0
           endif
           ! xc
           if(ifunc(2) /= 0) then
@@ -252,9 +251,10 @@
             do n=1,ndex0
               i=index0(n)
               ! Update compressive strength if damage in matrix is complete
+               xt(i) = xt_0(i)
               if(dmg(i,5) == one ) then
                 xc(i) = ycfac*yc(i)!
-                xt(i) = fbrt*xt(i)
+                xt(i) = fbrt*xt_0(i)
               endif
               ! computing ne stress
               d = (one - nu12*nu21)
@@ -319,9 +319,10 @@
             do n=1,ndex0
               i=index0(n)
               !  ! Update compressive strength if damage in matrix is complete
+               xt(i) = xt_0(i)
               if(dmg(i,5) == one ) then
-                xc(i) = ycfac*yc(i)!
-                xt(i) = fbrt*xt(i)
+                xc(i) = ycfac*yc(i) !
+                xt(i) = fbrt*xt_0(i)
               endif
               eps_ef =  two_third* (epsxx(i)**2 + epsyy(i)**2 + epsxy(i)**2 )
               eps_ef = sqrt(eps_ef)
@@ -400,29 +401,29 @@
               if(dmg(i,2) == one  .and. signxx(i) >= slimt1*xt(i) ) then
                 limit_sig = slimt1*xt(i)
                 signxx(i) = limit_sig
-                signyy(i) = sigoyy(i)
-                signxy(i) = sigoxy(i)
+                signyy(i) = slimt1*sigoyy(i)
+                signxy(i) = slimt1*sigoxy(i)
               elseif(dmg(i,3) == one .and. signxx(i)  <= - slimc1*xc(i)) then
                 signxx(i) = - slimc1*xc(i)
-                signyy(i) = sigoyy(i)
-                signxy(i) = sigoxy(i)
+                signyy(i) = slimc1*sigoyy(i)
+                signxy(i) = slimc1*sigoxy(i)
               endif
               ! dir 22
               if(dmg(i,4) == one  .and. signyy(i) >=  slimt2*yt(i)) then
                 signyy(i) = slimt2*yt(i)
-                signxx(i) = sigoxx(i)
-                signxy(i) = sigoxy(i)
+                signxx(i) = slimt2*sigoxx(i)
+                signxy(i) = slimt2*sigoxy(i)
               elseif(dmg(i,5) == one  .and. signyy(i) <= -slimc2*yc(i)) then
                 signyy(i) = - slimc2*yc(i)
-                signxx(i) = sigoxx(i)
-                signxy(i) = sigoxy(i)
+                signxx(i) = slimc2*sigoxx(i)
+                signxy(i) = slimc2*sigoxy(i)
               endif
 
               if(dmg(i,6) == one .and. abs(signxy(i)) >=  slims*sc(i) ) then
                 limit_sig = slims*sc(i)
                 signxy(i) = sign(limit_sig, signxy(i))
-                signxx(i) = sigoxx(i)
-                signyy(i) = sigoyy(i)
+                signxx(i) = slims*sigoxx(i)
+                signyy(i) = slims*sigoyy(i)
               endif
             else ! unloading check < 0
               ! dir 11
