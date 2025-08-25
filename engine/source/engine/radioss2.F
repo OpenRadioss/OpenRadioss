@@ -855,7 +855,7 @@ C------------------------------------------------------------------
 C------------------------------------------------
 C     .rst file reading 1
 C------------------------------------------------
-      CALL RDRESA(ITSTV1 ,LHEADER ,LVARINT ,LVARREA ,PRADIOS ,
+      CALL RDRESA(output,ITSTV1 ,LHEADER ,LVARINT ,LVARREA ,PRADIOS ,
      .            PRESFIL, MULTI_FVM, H3D_DATA,
      .            PINCH_DATA,DYNAIN_DATA,INTERFACES,SENSORS,LOADS,
      .            MAT_ELEM,NAMES_AND_TITLES,SKEWS ,GLOB_THERM,PBLAST,
@@ -904,7 +904,7 @@ C      CALL TRACE_OUT(19)
 
       CALL TRACE_IN(17,1,ZERO)
 C end init rdresa after call xtime0
-      CALL INIRESA(H3D_DATA,PINCH_DATA,GLOB_THERM)
+      CALL INIRESA(OUTPUT,H3D_DATA,PINCH_DATA,GLOB_THERM)
       CALL TRACE_OUT(17)
 
 
@@ -961,7 +961,7 @@ C
       CALL ALE_CONNECTIVITY%ALE_CONNECTIVITY_INIT()
 
       ! Most of arrays from Restart
-      CALL RESTALLOC(ELEMENT,NODES,MULTI_FVM,H3D_DATA,PINCH_DATA,ALE_CONNECTIVITY,SEGVAR,INTERFACES,SKEWS,
+      CALL RESTALLOC(OUTPUT,ELEMENT,NODES,MULTI_FVM,H3D_DATA,PINCH_DATA,ALE_CONNECTIVITY,SEGVAR,INTERFACES,SKEWS,
      *               GLOB_THERM,RBE3)
 
       ! Initialization
@@ -1466,7 +1466,7 @@ C------------------------------------------------
      6              NEFLSW , NNFLSW , ICUT ,   IAF(IF01),
      7              NODES%X  ,NODES%V,  NODES%VR, NODES%MS   ,NODES%IN  ,
      8              SKEWS%SKEW  ,TF       ,RBY  ,
-     9              WA  ,CRFLSW  ,XCUT  ,ANIN  ,DAMPR  ,
+     9              WA  ,CRFLSW  ,XCUT  ,DAMPR  ,
      A              IGRNOD ,KXSP,NODES%WEIGHT ,FR_RBY2 ,FR_RL,
      B              PARTSAV,IPART,PM,
      C              MONVOL ,VOLMON, IPART_STATE,GEO,TABLE,

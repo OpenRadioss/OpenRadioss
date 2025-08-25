@@ -42,7 +42,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    message_mod        ../engine/share/message_module/message_mod.F
 !||    timer_mod          ../engine/source/system/timer_mod.F90
 !||====================================================================
-      SUBROUTINE I23MAINF(TIMERS,
+      SUBROUTINE I23MAINF(OUTPUT,TIMERS,
      1                   IPARI  ,INTBUF_TAB         ,X        ,A      ,
      2                   ICODT  ,FSAV    ,V         ,MS       ,ITAB   ,
      3                   STIFN  ,FSKYI   ,ISKY      ,FCONT    ,NIN    ,
@@ -56,6 +56,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      use output_mod
       USE TIMER_MOD
       USE INTBUFDEF_MOD 
       USE H3D_MOD 
@@ -83,6 +84,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      type(output_), intent(inout) :: output
       TYPE(TIMER_), INTENT(inout) :: TIMERS
       INTEGER NELTST, ITYPTST, NIN, NSTRF(*), NRTMDIM, NEWFRONT,
      .        NISKYFI
@@ -341,7 +343,7 @@ C
             IF (DEBUG(3)>=1)
      .        NB_JLT_NEW = NB_JLT_NEW + JLT
 C 
-              CALL I23FOR3(
+              CALL I23FOR3(output,
      1  JLT       ,NIN  ,NOINT        ,IBC  ,ICODT        ,
      2  FSAV       ,GAP  ,STIGLO       ,FRIC  ,VISC        ,
      3  INACTI       ,MFROT  ,IFQ        ,IBAG  ,

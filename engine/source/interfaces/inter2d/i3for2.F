@@ -30,7 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    anim_mod   ../common_source/modules/output/anim_mod.F
 !||    h3d_mod    ../engine/share/modules/h3d_mod.F
 !||====================================================================
-      SUBROUTINE I3FOR2(X     ,E    ,IRECT,LMSR ,MSR  ,
+      SUBROUTINE I3FOR2(OUTPUT, X     ,E    ,IRECT,LMSR ,MSR  ,
      1                  NSV   ,ILOC ,IRTL ,STF  ,NSN  ,
      2                  NMN   ,NTY  ,CST  ,IRTLO,FRIC0,
      3                  FRIGAP,STFN ,IBC  ,ICODT,IMAST,
@@ -40,7 +40,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE H3D_MOD
-      USE ANIM_MOD
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -60,6 +60,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_), INTENT(inout) :: OUTPUT
       INTEGER NSN, NMN, NTY, IBC, IMAST
       INTEGER IRECT(4,*), LMSR(*), MSR(*), NSV(*), ILOC(*), IRTL(*),
      .   IRTLO(*), ICODT(*), ISKY(*)
@@ -207,7 +208,7 @@ C
       ENDIF  
 C
       IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT>0.AND.
-     .    ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
+     .    ((TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
      .   (MANIM>=4.AND.MANIM<=15).OR. H3D_DATA%MH3D /= 0))THEN
          FCONT(2,IX(1)) =FCONT(2,IX(1)) + FYI*H(1)
          FCONT(3,IX(1)) =FCONT(3,IX(1)) + FZI*H(1)
@@ -219,7 +220,7 @@ c
       ENDIF
 
       IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT>0.AND.
-     .        ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP) .OR.
+     .        ((TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP) .OR.
      .            (MANIM>=4.AND.MANIM<=15).OR.H3D_DATA%MH3D/=0))THEN
 
         FNCONT(2,IX(1)) =FNCONT(2,IX(1)) + FYI*H(1)
@@ -357,7 +358,7 @@ C
       ENDIF  
 C
       IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT>0.AND.
-     .    ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
+     .    ((TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
      .   (MANIM>=4.AND.MANIM<=15).OR. H3D_DATA%MH3D /= 0))THEN
           FCONT(2,IX(1)) =FCONT(2,IX(1)) + FYI*H(1)
           FCONT(3,IX(1)) =FCONT(3,IX(1)) + FZI*H(1)
@@ -368,7 +369,7 @@ c
           FCONT(3,I)=FCONT(3,I)- FZI
       ENDIF
       IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT>0.AND.
-     .        ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
+     .        ((TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
      .            (MANIM>=4.AND.MANIM<=15).OR.H3D_DATA%MH3D/=0))THEN
         FTCONT(2,IX(1)) =FTCONT(2,IX(1)) + FYI*H(1)
         FTCONT(3,IX(1)) =FTCONT(3,IX(1)) + FZI*H(1)

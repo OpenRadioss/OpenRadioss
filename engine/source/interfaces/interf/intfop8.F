@@ -33,7 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    intbufdef_mod    ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    sensor_mod       ../common_source/modules/sensor_mod.F90
 !||====================================================================
-      SUBROUTINE INTFOP8(
+      SUBROUTINE INTFOP8(output,
      1       IPARI ,X      ,A    ,
      2       ICODT ,FSAV    ,WA      ,V      ,MS   ,
      3       DT2T  ,NELTST  ,ITYPTST ,ITAB   ,STIFN,
@@ -46,6 +46,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
+      use output_mod
       USE INTBUFDEF_MOD
       USE INT8_MOD
       USE H3D_MOD
@@ -67,6 +68,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      type(output_), intent(inout) :: output
       INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER NELTST,ITYPTST 
       INTEGER NUM_IMP(*),NS_IMP(*),NE_IMP(*),NT_IMP
@@ -124,7 +126,7 @@ C
          IF(N2D==0)THEN
            IF(IMPL_S/=1)THEN
               IF(TT>=TS) THEN
-                CALL INTVO8(
+                CALL INTVO8(output,
      1        IPARI(1,N) ,X,A    ,
      2        ICODT      ,FSAV(1,N)    ,V ,MS       ,
      3        FSKYI      ,ISKY         ,FCONT   ,FNCONT ,FTCONT   ,
@@ -136,7 +138,7 @@ C
            ELSE
              NUM_IMP(N) =0
               IF(TT>=TS) THEN
-                CALL INTVO8(
+                CALL INTVO8(output,
      1          IPARI(1,N) ,X ,A        ,
      2          ICODT      ,FSAV(1,N)    ,V ,MS       ,
      3          FSKYI      ,ISKY         ,FCONT   ,FNCONT ,FTCONT   ,
