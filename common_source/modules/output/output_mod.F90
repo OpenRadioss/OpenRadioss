@@ -381,6 +381,15 @@
           end if
           new_size1 = NUMNOD * OUTPUT%DATA%S_SCAL_DAMA2
           call extend_array(OUTPUT%DATA%SCAL_DAMA2, current_size1, new_size1) 
+           !Handle OUTPUT%DATA%S_SCAL_SPRING                                                         
+          if(allocated(OUTPUT%DATA%SCAL_SPRING)) then
+            current_size1 = size(OUTPUT%DATA%SCAL_SPRING, 1)
+          else
+            current_size1 = 0
+          end if
+          new_size1 = NUMNOD * OUTPUT%DATA%S_SCAL_SPRING
+          call extend_array(OUTPUT%DATA%SCAL_SPRING, current_size1, new_size1) 
+
 
 
         

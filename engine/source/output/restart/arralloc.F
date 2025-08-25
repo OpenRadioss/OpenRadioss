@@ -1351,9 +1351,9 @@ C
         IF (IERR/=0) GOTO 1000
         FLSW = 0  
 
-        ALLOCATE (FANI(SFANI),STAT=IERR)
-        IF (IERR/=0) GOTO 1000
-        FANI = 0  
+!       ALLOCATE (FANI(SFANI),STAT=IERR)
+!       IF (IERR/=0) GOTO 1000
+!       FANI = 0  
 
         ISIZ1=2
         ISIZ2=NUMELQ+NUMELTG
@@ -1388,9 +1388,9 @@ C
         IF (IERR/=0) GOTO 1000
         XCUT = 0  
 
-        ALLOCATE (ANIN(SANIN),STAT=IERR)
-        IF (IERR/=0) GOTO 1000
-        ANIN = 0  
+!       ALLOCATE (ANIN(SANIN),STAT=IERR)
+!       IF (IERR/=0) GOTO 1000
+!       ANIN = 0  
 
         ALLOCATE (TANI(STANI),STAT=IERR)
         IF (IERR/=0) GOTO 1000

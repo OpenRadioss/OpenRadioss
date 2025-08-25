@@ -442,7 +442,6 @@ C
         ELSE
           SDMSPH = 0
         END IF
-C   i have a doubt about SVISCN - and the KDTINT flag
         SVISCN = NUMNOD*NTHREAD 
         SSTIFR = NUMNOD*IRODDL*NTHREAD
         SPARTSAV = NPSAV*(NPART+NTHPART)*NTHREAD
