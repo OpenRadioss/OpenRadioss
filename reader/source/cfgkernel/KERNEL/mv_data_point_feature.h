@@ -47,8 +47,12 @@ public:
   /// Is the point type is Base or Relative
  // inline MvDataTripleFeatureType_e getPointType() const { return myPointTypeFlag; }
 
+  inline void setDefaultValue(vector<vector<double>> val) { myDefaultValues = val; }
+  /// Gets the default value container
+  inline vector<vector<double>> getDefaultValue() const { return myDefaultValues; }
 private:
 //  MvDataTripleFeatureType_e myPointTypeFlag;
+  vector<vector<double>> myDefaultValues;
   //@}
 
 protected: // Output in an output stream
