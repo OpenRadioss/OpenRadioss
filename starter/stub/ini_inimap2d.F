@@ -33,7 +33,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE INI_INIMAP2D(INIMAP2D ,ELBUF_TAB ,IPART   ,IPARG   ,IPARTS   , 
      .                        IPARTQ   ,XGRID     ,VEL     ,IXS     ,IXQ      ,
      .                        IXTG     ,PM        ,IPM     ,BUFMAT  ,MULTI_FVM, 
-     .                        FUNC2D   ,IGRBRIC   ,IGRQUAD ,IGRSH3N )
+     .                        FUNC2D   ,IGRBRIC   ,IGRQUAD ,IGRSH3N,NPC,
+     .                        PLD, MAT_PARAM)
 C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------
@@ -43,6 +44,7 @@ C-----------------------------------------------
       USE MULTI_FVM_MOD
       USE GROUPDEF_MOD
       USE MESSAGE_MOD
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C     I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -65,11 +67,13 @@ C     D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(INIMAP2D_STRUCT), DIMENSION(NINIMAP2D), INTENT(INOUT) :: INIMAP2D
       TYPE(ELBUF_STRUCT_), DIMENSION(NGROUP), INTENT(INOUT), TARGET :: ELBUF_TAB
-      INTEGER, INTENT(IN) :: IPART(LIPART1, *)
+      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
+
+      INTEGER, INTENT(IN) :: IPART(LIPART1, *),NPC(*)
       INTEGER, INTENT(IN) :: IPARTS(*), IPARTQ(*),IPM(NPROPMI, *), 
      .     IPARG(NPARG, NGROUP), IXS(NIXS, *), IXQ(NIXQ, *), IXTG(NIXTG, *)
       my_real, INTENT(IN) :: XGRID(3, *), PM(NPROPM, *), BUFMAT(*)
-      my_real, INTENT(INOUT) :: VEL(3, *)
+      my_real, INTENT(INOUT) :: VEL(3, *), PLD(*)
       TYPE(MULTI_FVM_STRUCT), INTENT(INOUT) :: MULTI_FVM
       TYPE(FUNC2D_STRUCT), DIMENSION(NFUNC2D), INTENT(IN) :: FUNC2D
       my_real, POINTER, DIMENSION(:) :: THETA

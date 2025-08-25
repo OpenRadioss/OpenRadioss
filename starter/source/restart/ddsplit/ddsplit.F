@@ -1859,10 +1859,10 @@ C--------------------------------------
       CALL WRITE_I_C(TABVINT,LVARINT)
       LEN_IA = LEN_IA + LVARINT
 C--------------------------------------
-      CALL checksum_write_starter_restart(OUTPUT)
 #ifdef DNC
       CALL WRDUM_INFO()
 #endif
+      CALL checksum_write_starter_restart(OUTPUT)
 C     NODGLOB Deplacee
 C--------------------------------------
       CALL WRITE_I_C(NODGLOB,NUMNOD_L)
