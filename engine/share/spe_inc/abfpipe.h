@@ -78,6 +78,12 @@ void check_abf__(int *finp,int *fout,int *code_ret);
 void _FCALL CHECK_ABF(int *finp,int *fout,int *code_ret); 
 
 
+static void syserr(char *message);
+static void syserr2(char *message);
+static int readpuncrypt(int pipe, char* buf, int nbytes);
+static int writepuncrypt(int pipe, char* buf, int nbytes);
+
+
 
 #ifdef _WIN64
 
@@ -98,13 +104,6 @@ void _FCALL INIT_ABFPIPE(int *fdinp,int *fdout ,int *req,int *ok,char *altdoctag
 void release_abfpipe(int *finp,int *fout);
 void release_abfpipe_(int *finp,int *fout);
 void _FCALL RELEASE_ABFPIPE(int *finp,int *fout);
-
-
-static void syserr(char *message);
-static void syserr2(char *message);
-static int readpuncrypt(int pipe, char* buf, int nbytes);
-static int writepuncrypt(int pipe, char* buf, int nbytes);
-
 
 #endif
 

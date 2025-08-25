@@ -1740,7 +1740,8 @@ C---------------------------------
          CALL INI_INIMAP2D(INIMAP2D    ,ELBUF_TAB ,IPART   ,IPARG   ,IPART(I15A),
      .                     IPART(I15B) ,X         ,V       ,IXS     ,IXQ        , 
      .                     IXTG        ,PM        ,IPM     ,BUFMAT  ,MULTI_FVM  ,
-     .                     FUNC2D      ,IGRBRIC   ,IGRQUAD ,IGRSH3N )
+     .                     FUNC2D      ,IGRBRIC   ,IGRQUAD ,IGRSH3N ,NPC,
+     .                     PLD         ,MAT_PARAM)
       ENDIF
 C---------------------------------
 C Initialization of FVM velocities
