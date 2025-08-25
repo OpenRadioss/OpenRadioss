@@ -5536,7 +5536,7 @@ C
 #ifdef DNC
               IF (IMADCPL>0)THEN
 C   at every cycle except cycle 0, send the Nodes coordinates
-                CALL DATA_RECV_MADCPL(NODES%X,NODES%A,NODES%V,NODES%MS,FANI,MADCLNOD,MADCLFRECV,H3D_DATA)
+                CALL DATA_RECV_MADCPL(NODES%X,NODES%A,NODES%V,NODES%MS,FANI,MADCLNOD,MADCLFRECV,H3D_DATA,OUTPUT%TH%WFEXT)
               ENDIF
 #endif
 
