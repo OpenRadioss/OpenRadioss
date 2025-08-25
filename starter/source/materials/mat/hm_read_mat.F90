@@ -1456,10 +1456,9 @@
               buflen = buflen + nuparam
 !
             endif ! ilaw>=28
-!------- high stiffness for contact
+!------- high stiffness for contact for icontrol, law62 is removed to updmat
             pm(107,i) = two*max(pm(32,i),pm(100,i))
             if (ilaw==1) pm(107,i) = thirty*pm(107,i)
-            if (ilaw==62) pm(107,i) = hundred*pm(107,i)
 !
             ipm(1,i)   = mat_id
             ipm(2,i)   = ilaw
