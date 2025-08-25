@@ -442,7 +442,6 @@ C
         ELSE
           SDMSPH = 0
         END IF
-C   i have a doubt about SVISCN - and the KDTINT flag
         SVISCN = NUMNOD*NTHREAD 
         SSTIFR = NUMNOD*IRODDL*NTHREAD
         SPARTSAV = NPSAV*(NPART+NTHPART)*NTHREAD
@@ -553,7 +552,6 @@ C---------------------------------------------------------
       allocate(OUTPUT%DATA%SCAL_SPRING(OUTPUT%DATA%S_SCAL_SPRING))
 
       SANIN = NUMELR*(ANIM_FE(11)+ANIM_FE(12)+ANIM_FE(13)) 
-
       CALl ALLOCATE_OUTPUT_DATA(OUTPUT,NUMNOD)
 
       STANI = 6*(NUMELC+NUMELTG)*IEPSDOT + 15*(NUMELT+NUMELP+NUMELR)*(MAX(ANIM_FT(1),H3D_DATA%UND_FORC))

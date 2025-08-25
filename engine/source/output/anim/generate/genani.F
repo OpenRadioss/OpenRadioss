@@ -2621,19 +2621,19 @@ C-----------------------------------------------
           ENDDO
           IF(I<3.OR.I==12)THEN
 ! really unsure of this part of the code
-            IF(K == 0) THEN 
+            IF(I == 1) THEN 
               WA4(1:NUMNOD)=OUTPUT%DATA%SCAL_DT(1:NUMNOD)         
             ENDIF
-            IF(K == NUMNOD) then 
+            IF(I == 2) then 
                 WA4(1:NUMNOD) = OUTPUT%DATA%SCAL_DMAS(1:NUMNOD)
             ENDIF
-            IF(K == 2*NUMNOD) then 
+            IF(I == 12) then 
               WA4(1:NUMNOD) = OUTPUT%DATA%SCAL_DINER(1:NUMNOD) 
             ENDIF
             !IF(K == 3*NUMNOD) WA(1:NUMNOD) = OUTPUT%SCAL_SPRING(1:NUMNOD)
-            IF(I == 12) then 
-              WA4(1:NUMNOD) = OUTPUT%DATA%SCAL_DAMA2(1:NUMNOD)
-            ENDIF
+ !          IF(I == 12) then 
+ !            WA4(1:NUMNOD) = OUTPUT%DATA%SCAL_DAMA2(1:NUMNOD)
+ !          ENDIF
 !           DO N=1,NUMNOD
 !             WA4(N)=ANIN(N+K)
 !           ENDDO

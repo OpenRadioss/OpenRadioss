@@ -115,7 +115,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      C  IXR     ,IXTG     ,PON, IKINE     ,
      D  A        ,AR      ,V         ,VR        ,
      E  X       ,D        ,MS      ,IN        ,STIFN     ,
-     F  STIFR   ,DMAS     ,DINER   ,FANI      ,ANIN      ,
+     F  STIFR   ,DMAS     ,DINER   ,
      G           WA       ,UWA     ,PM        ,GEO       ,
      H  PARTSAV ,PARTS0   ,MONVOL    ,
      I  I87H    ,I87I     ,I87J    ,I87K      ,
@@ -302,8 +302,8 @@ C-----------------------------------------------
       my_real
      .   X(3,*), D(3,*), V(3,*), VR(3,*),
      .   MS(*), IN(*),  WA(*),  A(3,*), AR(3,*),
-     .   FANI(3,*), UWA(*), STIFN(*),  STIFR(*),
-     .   ANIN(*), PARTSAV(NPSAV,*),PARTS0(*),
+     .   UWA(*), STIFN(*),  STIFR(*),
+     .   PARTSAV(NPSAV,*),PARTS0(*),
      .   DMAS, DINER     ,
      .   PM(NPROPM,*)    , GEO(NPROPG,*), 
      .   VISCN(*),
@@ -502,7 +502,7 @@ C
         NDMA = NUMNOD*MIN(1,ANIM_N(1)+OUTP_N(1)+H3D_DATA%N_SCAL_DT)
         ! ANIN(1,NDIN+1) = SCAL_DINER
         NDIN = NDMA +NUMNOD*MIN(1,ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS)
-        ! ANIN(1,NDMA2+1) = SCAL       
+        ! ANIN(1,NDMA2+1) = SCAL_SPRING       
         NDMA2 = NDIN+NUMNOD*MIN(1,ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER)
         ! ANIN(1,NDAMA2+1) = SCAL_DAMA2 ! PDAMA2
         NDAMA2 = NDMA2+NUMELR*(ANIM_FE(11)+ANIM_FE(12)+ANIM_FE(13))
@@ -876,31 +876,31 @@ C
 C--- // --------------------------------------
 C         FORCE & MOMENTUM INIT
 C---------------------------------------------
-      IF(NINTER/=0.AND.ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0) CALL ZEROR(FANI(1,NODFT),NUMNTHREAD)
-      IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT>0) THEN
-        CALL ZEROR(FANI(1,NFNCA+NODFT),NUMNTHREAD)
-        CALL ZEROR(FANI(1,NFTCA+NODFT),NUMNTHREAD)
-      END IF
-      IF(ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS >0)THEN
-#include      "vectorize.inc"
-        DO I=NODFT,NODLT
-          ANIN(I+NDMA) = ZERO
-        ENDDO
-      ENDIF
-      IF(ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER >0)THEN
-#include      "vectorize.inc"
-        DO I=NODFT,NODLT
-          ANIN(I+NDIN) = ZERO
-        ENDDO
-      END IF
-      IF(ANIM_N(15) == 1  .OR. ANIM_N(16) == 1 .OR. H3D_DATA%N_SCAL_DAMA2 == 1)THEN
-#include      "vectorize.inc"
-        DO I=NODFT,NODLT
-          ANIN(NDAMA2+2*(I-1)+1) = ZERO
-          ANIN(NDAMA2+2*(I-1)+2) = ZERO
-        ENDDO
-      ENDIF
-C-----------------------------------------------
+!      !IF(NINTER/=0.AND.ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0) CALL ZEROR(FANI(1,NODFT),NUMNTHREAD)
+!      IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT>0) THEN
+!!       CALL ZEROR(FANI(1,NFNCA+NODFT),NUMNTHREAD)
+!!       CALL ZEROR(FANI(1,NFTCA+NODFT),NUMNTHREAD)
+!      END IF
+!      IF(ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS >0)THEN
+!!#include      "vectorize.inc"
+!!       DO I=NODFT,NODLT
+!!         ANIN(I+NDMA) = ZERO
+!!       ENDDO
+!      ENDIF
+!      IF(ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER >0)THEN
+!!#include      "vectorize.inc"
+!!       DO I=NODFT,NODLT
+!!         ANIN(I+NDIN) = ZERO
+!!       ENDDO
+!      END IF
+!      IF(ANIM_N(15) == 1  .OR. ANIM_N(16) == 1 .OR. H3D_DATA%N_SCAL_DAMA2 == 1)THEN
+!!#include      "vectorize.inc"
+!!       DO I=NODFT,NODLT
+!!         ANIN(NDAMA2+2*(I-1)+1) = ZERO
+!!         ANIN(NDAMA2+2*(I-1)+2) = ZERO
+!!       ENDDO
+!      ENDIF
+!C-----------------------------------------------
 C  RESTARTING RADIOSS ENGINE.
         IF (IPARIT==0) THEN
           CALL ZEROR(A(1,NDTASK),NUMNOD)

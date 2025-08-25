@@ -1466,7 +1466,7 @@ C------------------------------------------------
      6              NEFLSW , NNFLSW , ICUT ,   IAF(IF01),
      7              NODES%X  ,NODES%V,  NODES%VR, NODES%MS   ,NODES%IN  ,
      8              SKEWS%SKEW  ,TF       ,RBY  ,
-     9              WA  ,CRFLSW  ,XCUT  ,ANIN  ,DAMPR  ,
+     9              WA  ,CRFLSW  ,XCUT  ,DAMPR  ,
      A              IGRNOD ,KXSP,NODES%WEIGHT ,FR_RBY2 ,FR_RL,
      B              PARTSAV,IPART,PM,
      C              MONVOL ,VOLMON, IPART_STATE,GEO,TABLE,
