@@ -1076,7 +1076,7 @@ C         To have double points
      K                  FTHREAC,NODREAC,GRESAV  ,TABFWR(2),
      L                  2     ,GAUGE  ,IGAUP,NGAUP   ,RTHBUF ,THKE ,
      M                  STACK ,ISPHIO  ,VSPHIO,ITHFLAG,1,PINCH_DATA,MULTI_FVM,W,
-     N                  OUTPUT%TH%SITHBUFA)
+     N                  OUTPUT%TH%SITHBUFA,GLOB_THERM,OUTPUT)
             CPTFILE=CPTFILE+1
 
             IF(TT>=TABFWR0(2) .AND. ISPMD == 0) THEN
@@ -1169,7 +1169,7 @@ C
      K                  FTHREAC,NODREAC,GRESAV  ,TABFWR(3),
      L                  3     ,GAUGE  ,IGAUP,NGAUP   ,RTHBUF ,THKE,
      M                  STACK ,ISPHIO  ,VSPHIO,ITHFLAG,2,PINCH_DATA,MULTI_FVM,W,
-     N                  OUTPUT%TH%SITHBUFB )
+     N                  OUTPUT%TH%SITHBUFB,GLOB_THERM,OUTPUT)
             CPTFILE=CPTFILE+1
 
             IF(TT>=TABFWR0(3) .AND. ISPMD == 0) THEN
@@ -1264,7 +1264,7 @@ C
      K                  FTHREAC,NODREAC,GRESAV  ,TABFWR(4),
      L                  4      ,GAUGE  ,IGAUP,NGAUP  ,RTHBUF  ,THKE  ,
      M                  STACK  ,ISPHIO  ,VSPHIO,ITHFLAG,1,PINCH_DATA,MULTI_FVM,W,
-     N                  OUTPUT%TH%SITHBUFC)
+     N                  OUTPUT%TH%SITHBUFC,GLOB_THERM,OUTPUT)
               CPTFILE=CPTFILE+1
 
             IF(TT>=TABFWR0(4) .AND. ISPMD == 0) THEN
@@ -1357,7 +1357,7 @@ C
      K                  FTHREAC,NODREAC,GRESAV  ,TABFWR(5),
      L                  5     ,GAUGE  ,IGAUP,NGAUP   ,RTHBUF   ,THKE ,
      M                  STACK ,ISPHIO  ,VSPHIO,ITHFLAG,1,PINCH_DATA,MULTI_FVM,W,
-     N                  OUTPUT%TH%SITHBUFD)
+     N                  OUTPUT%TH%SITHBUFD,GLOB_THERM,OUTPUT)
               CPTFILE=CPTFILE+1
 
             IF(TT>=TABFWR0(5) .AND. ISPMD == 0) THEN
@@ -1448,7 +1448,7 @@ C
      K                  FTHREAC,NODREAC,GRESAV  ,TABFWR(6),
      L                  6     ,GAUGE  ,IGAUP,NGAUP   ,RTHBUF,THKE ,
      M                  STACK ,ISPHIO  ,VSPHIO,ITHFLAG,1,PINCH_DATA,MULTI_FVM,W,
-     N                  OUTPUT%TH%SITHBUFE)
+     N                  OUTPUT%TH%SITHBUFE,GLOB_THERM,OUTPUT)
               CPTFILE=CPTFILE+1
 
             IF(TT>=TABFWR0(6) .AND. ISPMD == 0) THEN
@@ -1539,7 +1539,7 @@ C
      K                  FTHREAC,NODREAC,GRESAV  ,TABFWR(7),
      L                  7     ,GAUGE  ,IGAUP,NGAUP   ,RTHBUF,THKE ,
      M                  STACK ,ISPHIO  ,VSPHIO,ITHFLAG,1,PINCH_DATA,MULTI_FVM,W,
-     N                  OUTPUT%TH%SITHBUFF)
+     N                  OUTPUT%TH%SITHBUFF,GLOB_THERM,OUTPUT)
               CPTFILE=CPTFILE+1
 
             IF(TT>=TABFWR0(7) .AND. ISPMD == 0) THEN
@@ -1631,7 +1631,7 @@ C
      K                  FTHREAC,NODREAC,GRESAV  ,TABFWR(8),
      L                  8      ,GAUGE  ,IGAUP,NGAUP  ,RTHBUF  ,THKE  ,
      M                  STACK  ,ISPHIO  ,VSPHIO,ITHFLAG,1,PINCH_DATA,MULTI_FVM,W,
-     N                  OUTPUT%TH%SITHBUFG)
+     N                  OUTPUT%TH%SITHBUFG,GLOB_THERM,OUTPUT)
               CPTFILE=CPTFILE+1
 
             IF(TT>=TABFWR0(8) .AND. ISPMD == 0) THEN
@@ -1721,7 +1721,7 @@ C
      K                  FTHREAC,NODREAC,GRESAV  ,TABFWR(9),
      L                  9     ,GAUGE  ,IGAUP,NGAUP   ,RTHBUF,THKE ,
      M                  STACK ,ISPHIO  ,VSPHIO,ITHFLAG,1,PINCH_DATA,MULTI_FVM,W,
-     N                  OUTPUT%TH%ITHBUFH)
+     N                  OUTPUT%TH%ITHBUFH,GLOB_THERM,OUTPUT)
               CPTFILE=CPTFILE+1
 
             IF(TT>=TABFWR0(9) .AND. ISPMD == 0) THEN
@@ -1807,7 +1807,7 @@ C
      K                  FTHREAC,NODREAC,GRESAV  ,TABFWR(10),
      L                  10    ,GAUGE  ,IGAUP,NGAUP   ,RTHBUF,THKE ,
      M                  STACK ,ISPHIO  ,VSPHIO,ITHFLAG,9,PINCH_DATA,MULTI_FVM,W,
-     N                  OUTPUT%TH%ITHBUFI)
+     N                  OUTPUT%TH%ITHBUFI,GLOB_THERM,OUTPUT)
               CPTFILE=CPTFILE+1
 
             IF(TT>=TABFWR0(10) .AND. ISPMD == 0) THEN
@@ -1895,7 +1895,7 @@ C
      K                FTHREAC,NODREAC,GRESAV  ,TABFWR(1),
      L                1     ,GAUGE  ,IGAUP,NGAUP   ,RTHBUF,THKE ,
      M                STACK ,ISPHIO  ,VSPHIO,ITHFLAG,10,PINCH_DATA,MULTI_FVM,W,
-     N                OUTPUT%TH%SITHBUF)
+     N                OUTPUT%TH%SITHBUF,GLOB_THERM,OUTPUT)
 
          IF((TT>=TABFWR0(1) .OR. TT+DT2>TSTOP).AND. ISPMD == 0)THEN
           FILNAMABF_TMP=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'.tmp'
