@@ -41,7 +41,7 @@
 !||====================================================================
         subroutine eikonal_init_start_list_2d(nstart, start_elem_list, start_elem_tdet, detonators, numel, numnod, &
           nvois, nod2el, knod2el, ale_connectivity, elem_list_bij, neldet, xel, x, &
-          nix, ix, mat_det, vel)
+          nix, ix, mat_det, vel, uelem_list)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -49,6 +49,8 @@
           use detonators_mod , only : detonators_struct_
           use ale_connectivity_mod , only : t_ale_connectivity
           use precision_mod, only : WP
+          use insertion_sort_mod , only : integer_insertion_sort_with_index
+          use RESTMOD , only : itab
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -76,6 +78,7 @@
           integer,intent(in) :: ix(nix,numel)
           integer,intent(in) :: mat_det
           real(kind=WP),intent(in) :: vel(neldet)
+          integer,intent(in) :: uelem_list(neldet) !< array size
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -89,16 +92,17 @@
           integer :: iev, iel, ie
           real(kind=WP) :: dx,dy,dz,dl,tdet,dcj
           real(kind=WP) :: xdet, ydet,zdet
-
+          integer, allocatable, dimension(:):: indx
+          integer, allocatable, dimension(:) :: int_tmp_array
+          integer,allocatable,dimension(:) :: start_elem_uid     !< user identifier for sorting
+          real(kind=WP), allocatable, dimension(:) :: real_tmp_array
           real(kind=WP),allocatable,dimension(:) :: tmp_tdet
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
           allocate(itag_elem(numel)); !tag to check if elem was already found
-
           allocate(tmp_tdet(neldet))
           tmp_tdet(:) = ep21
-
           ! loop over detonation point with shadowing option (I_shadow_flag=1)
           ! and build ADJACENT NEIGHBORHOOD (3-STAGE-PROCESS)
           ndet_pts = detonators%n_det_point
@@ -132,11 +136,11 @@
                   iev = ale_connectivity%ee_connect%connected(iad1 + jj - 1)
                   if(iev == 0)cycle
                   iel = elem_list_bij(iev)
-                  if(itag_elem(iel) == 0)then
+                  if(itag_elem(iev) == 0)then
                     if(mat_det /=0 .and. ix(1,iev) /= mat_det)cycle
-                    itag_elem(iel) = 10
+                    itag_elem(iev) = 10
                     num_adj = num_adj + 1
-                    adjacent_elem(num_adj) = iel
+                    adjacent_elem(num_adj) = iev
                   end if
                 end do
               end do
@@ -151,9 +155,9 @@
                   iev = ale_connectivity%ee_connect%connected(iad1 + jj - 1)
                   if(iev == 0)cycle
                   iel = elem_list_bij(iev)
-                  if(itag_elem(iel) < 10)then
+                  if(itag_elem(iev) < 10)then
                     if(mat_det /=0 .and. ix(1,iev) /= mat_det)cycle
-                    itag_elem(iel) = itag_elem(iel) + 1
+                    itag_elem(iev) = itag_elem(iev) + 1
                   end if
                 end do
               end do
@@ -211,15 +215,38 @@
           !sorting them in expected data structure for FMM
           allocate(start_elem_list(nstart))
           allocate(start_elem_tdet(nstart))
+          allocate(start_elem_uid(nstart))
+
           nstart = 0
           do ii=1,neldet
             if(tmp_tdet(ii) /= ep21)then
               nstart = nstart + 1
               start_elem_list(nstart) = ii
               start_elem_tdet(nstart) = tmp_tdet(ii)
+              start_elem_uid(nstart) = uelem_list(ii)
             end if
           end do
 
+          ! SORTING (SPMD & PARITH/ON)
+          ! ensuring same order of treatment
+          allocate(indx(nstart))
+          allocate(int_tmp_array(nstart))
+          allocate(real_tmp_array(nstart))
+          int_tmp_array(1:nstart) = start_elem_list(1:nstart)
+          real_tmp_array(1:nstart) = start_elem_tdet(1:nstart)
+          indx(1:nstart)= [(ii, ii=1,nstart)]
+          call integer_insertion_sort_with_index(start_elem_uid, indx, nstart)
+          ! sort with same order (algo already ran -> use index(:) result)
+          do ii=1,nstart
+            start_elem_list(ii) = int_tmp_array(indx(ii))
+            start_elem_tdet(ii) = real_tmp_array(indx(ii))
+          end do
+          deallocate(int_tmp_array)
+          deallocate(real_tmp_array)
+          deallocate(indx)
+          deallocate(start_elem_uid)
+
+          !remaing deallocate
           deallocate(itag_elem)
           deallocate(tmp_tdet)
 

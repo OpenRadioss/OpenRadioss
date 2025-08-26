@@ -118,7 +118,7 @@
             tdet_adj(1:nvois) = ep21
             xel_adj(1:3,1:nvois) = zero
             do kk=1,lgth2
-              vel_adj(kk) = vel(iev)
+              vel_adj(kk) = vel(elem_list_bij(iev))  !iev is global id (1:numel)
               iev_v = ale_connectivity%ee_connect%connected(iad2 + kk - 1)
               if(iev_v == 0)cycle
               iel_v = elem_list_bij(iev_v)

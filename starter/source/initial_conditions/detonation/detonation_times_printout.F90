@@ -114,7 +114,7 @@
             nix = nixq
           else
             ix => ixtg(1:nixtg,1:numeltg)
-            nix = nixq
+            nix = nixtg
           end if
 
           if(ipri >= 3)then
@@ -128,7 +128,7 @@
                   mpr = mpr+1
                   iel = ix(nix,i+nft)
                   tdet=-elbuf_tab(ng)%gbuf%tb(i)
-                  write(iout,510) nel,tdet
+                  write(iout,510) iel,tdet
                   if(mpr == 50) mpr=0
                 end do
               endif
