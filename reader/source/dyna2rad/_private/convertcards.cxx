@@ -805,13 +805,13 @@ void sdiD2R::ConvertCard::p_ConvertDbBinaryD3Plot()
         }
         
         int nobeam = GetValue<int>(*selDbBinD3Plot, "LSD_NOBEAM");
-        SelectionEdit selAnimSpring(p_radiossModel, "/ANIM/SPRING/FORC");
+        SelectionEdit selAnimSpring(p_radiossModel, "/ANIM/SPRING");
         if(nobeam > 0)
         {
             if (selAnimSpring.Count() == 0)
             {
-                p_radiossModel->CreateEntity(animSpringFORC, "/ANIM/SPRING/FORC");
-                animSpringFORC.SetValue(p_radiossModel, sdiIdentifier("ANIM_SPRING_FORC"), sdiValue(1));
+                p_radiossModel->CreateEntity(animSpringFORC, "/ANIM/SPRING");
+                animSpringFORC.SetValue(p_radiossModel, sdiIdentifier("ENG_ANIM_SPRING_FORC"), sdiValue(1));
                 sdiConvert::Convert::PushToConversionLog(std::make_pair(animSpringFORC, sourceControlCards));
             }
         }
