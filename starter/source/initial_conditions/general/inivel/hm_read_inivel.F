@@ -229,6 +229,7 @@ C--------------------------------------------------
 
         !---READER /INIVEL/TRA,ROT,T+G,GRID  (0,1,2,3)
         ELSEIF (ITYPE <= 3) THEN
+          ISK = 0
           IFRA  = 0
           CALL HM_GET_INTV('entityid',IGR,IS_AVAILABLE,LSUBMODEL)
           CALL HM_GET_INTV('inputsystem',ISK,IS_AVAILABLE,LSUBMODEL)
@@ -236,8 +237,6 @@ C--------------------------------------------------
           CALL HM_GET_FLOATV('vector_X',VL1,IS_AVAILABLE,LSUBMODEL,UNITAB)
           CALL HM_GET_FLOATV('vector_Y',VL2,IS_AVAILABLE,LSUBMODEL,UNITAB)
           CALL HM_GET_FLOATV('vector_Z',VL3,IS_AVAILABLE,LSUBMODEL,UNITAB)    
-
-          IF(IFRA == 0 .AND. SUB_INDEX  /=  0) CALL SUBROTVECT(VL1,VL2,VL3,RTRANS,SUB_ID,LSUBMODEL)
           
           IF (TSTART>ZERO .OR. SENS_ID>0) THEN 
             NINIT = NINIT + 1
