@@ -147,7 +147,7 @@ C
       IP8 = IP7 + LWAT
       IP8A= IP7 + NUMNOD
       IP8B= IP8A+ NUMNOD
-      ALLOCATE(WAG(IP8B))
+      ALLOCATE(WAG(MAX(IP8,IP8B)))
       IF(ITASK==0)THEN
         KINDEX2=IP8B
       ELSE
