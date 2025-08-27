@@ -105,11 +105,6 @@ C-----------------------------------------------
       my_real, DIMENSION(:,:), ALLOCATABLE :: 
      . STIFNLTH,DTN
       my_real, target :: nothing(1)
-      ! Safety coefficient for non-local stability vs mechanical stability
-      ! (it has been slightly increased vs nloc_dmg_init.F)
-      my_real, PARAMETER :: CSTA  = 40.0D0
-      ! Coefficient for non-local stability to take into account damping
-      my_real, PARAMETER :: CDAMP = 0.7D0
       my_real
      . ZS(10,9)      
       ! Position of nodes in the thickshell thickness
@@ -369,8 +364,8 @@ C
                   ENDIF
                 ENDDO
               ENDDO
+              DTNOD = DTMIN1(11)*(SQRT(CSTA))
             ENDIF
-            DTNOD = DTMIN1(11)*(SQRT(CSTA))
           ENDIF
 C
           ! Classical nodal timestep check

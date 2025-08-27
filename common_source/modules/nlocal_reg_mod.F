@@ -121,6 +121,15 @@ c=======================================================================
 c define type NLOCAL_STRUCT_ for nodal variable regularization
 c=======================================================================
 c
+!
+        ! Safety coefficient for non-local stability vs mechanical stability
+        ! (here we have a good compromise to find, DENS must be as low as 
+        !  possible but sufficiently high to avoid the decrease of the timestep)
+        my_real, PARAMETER :: CSTA = 40.0D0
+!  
+        ! Coefficient for non-local stability to take into account damping
+        my_real, PARAMETER :: CDAMP = 0.7D0
+!
         TYPE NLOCAL_STR_
           integer  :: IMOD                                  ! Non-local regularization flag
           integer  :: NNOD                                  ! Number of nodes with additional d.o.fs
