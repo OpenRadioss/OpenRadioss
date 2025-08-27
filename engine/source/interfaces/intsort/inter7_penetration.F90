@@ -27,6 +27,7 @@
 !||    inter7_filter_cand       ../engine/source/interfaces/intsort/inter7_filter_cand.F90
 !||====================================================================
       MODULE INTER7_PENETRATION_MOD
+      implicit none
       contains
 !! \brief computes the penetration between a chuck of secondary nodes and a main surface/segment
 !! \details the candidate for penetration are couple of secondary nodes and the main surface/segment
@@ -105,12 +106,12 @@
           i3n=0
           do i=1,jlt
             if(ix3(i)==ix4(i))i3n=i3n+1
-          enddo
+          end do
           if(i3n==jlt)then
             i3n=1
-          elseif(i3n/=0)then
+          else if(i3n/=0)then
             i3n=2
-          endif
+          end if
 ! ----------------------------------------------------------------------------------------------------------------------
 !   quadrangle
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -119,11 +120,11 @@
               x0(i) = fourth*(x1(i)+x2(i)+x3(i)+x4(i))
               y0(i) = fourth*(y1(i)+y2(i)+y3(i)+y4(i))
               z0(i) = fourth*(z1(i)+z2(i)+z3(i)+z4(i))
-            enddo
+            end do
 ! ----------------------------------------------------------------------------------------------------------------------
 !  triangle
 ! ----------------------------------------------------------------------------------------------------------------------
-          elseif(i3n==2) then
+          else if(i3n==2) then
             do i=1,jlt
               if(ix3(i)/=ix4(i))then
                 x0(i) = fourth*(x1(i)+x2(i)+x3(i)+x4(i))
@@ -133,9 +134,9 @@
                 x0(i) = x3(i)
                 y0(i) = y3(i)
                 z0(i) = z3(i)
-              endif
-            enddo
-          endif
+              end if
+            end do
+          end if
 ! ----------------------------------------------------------------------------------------------------------------------
 !  triangle
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -186,7 +187,7 @@
               hlb1(i)= lb1(i)*abs(lb1(i))*aaa
               al2(i) = -(xi0*x02(i)+yi0*y02(i)+zi0*z02(i))*aaa
               al2(i) = max(zero,min(one,al2(i)))
-            enddo
+            end do
 !
             do i=1,jlt
               x12 = x2(i) - x1(i)
@@ -200,16 +201,16 @@
                 lb1(i) = (xi2(i)*x12+yi2(i)*y12+zi2(i)*z12)*aaa
                 lb1(i) = max(zero,min(one,lb1(i)))
                 lc1(i) = one - lb1(i)
-              elseif(lb1(i)<zero.and.&
+              else if(lb1(i)<zero.and.&
               &hlb1(i)<=hlc1(i).and.hlb1(i)<=hla)then
                 lb1(i) = zero
                 lc1(i) = al2(i)
-              elseif(lc1(i)<zero.and.&
+              else if(lc1(i)<zero.and.&
               &hlc1(i)<=hla.and.hlc1(i)<=hlb1(i))then
                 lc1(i) = zero
                 lb1(i) = al1(i)
-              endif
-            enddo
+              end if
+            end do
 !
             do i=1,jlt
 !
@@ -222,7 +223,7 @@
 !!!!!!!!!!!!!!!!!!!!!!!!!
               pene(i) = max(zero, gap2(i) - p1(i))
 !
-            enddo
+            end do
 ! ----------------------------------------------------------------------------------------------------------------------
 !  mixed group of quadrangle and triangles
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -335,7 +336,7 @@
               al4(i) = -(xi0*x04(i)+yi0*y04(i)+zi0*z04(i))*aaa
               al4(i) = max(zero,min(one,al4(i)))
 !
-            enddo
+            end do
 !
             do i=1,jlt
               x12 = x2(i) - x1(i)
@@ -349,16 +350,16 @@
                 lb1(i) = (xi2(i)*x12+yi2(i)*y12+zi2(i)*z12) * aaa
                 lb1(i) = max(zero,min(one,lb1(i)))
                 lc1(i) = one - lb1(i)
-              elseif(lb1(i)<zero.and.&
+              else if(lb1(i)<zero.and.&
               &hlb1(i)<=hlc1(i).and.hlb1(i)<=hla)then
                 lb1(i) = zero
                 lc1(i) = al2(i)
-              elseif(lc1(i)<zero.and.&
+              else if(lc1(i)<zero.and.&
               &hlc1(i)<=hla.and.hlc1(i)<=hlb1(i))then
                 lc1(i) = zero
                 lb1(i) = al1(i)
-              endif
-            enddo
+              end if
+            end do
 !
             do i=1,jlt
               x23 = x3(i) - x2(i)
@@ -372,16 +373,16 @@
                 lb2(i) = (xi3(i)*x23+yi3(i)*y23+zi3(i)*z23)*aaa
                 lb2(i) = max(zero,min(one,lb2(i)))
                 lc2(i) = one - lb2(i)
-              elseif(lb2(i)<zero.and.&
+              else if(lb2(i)<zero.and.&
               &hlb2(i)<=hlc2(i).and.hlb2(i)<=hla)then
                 lb2(i) = zero
                 lc2(i) = al3(i)
-              elseif(lc2(i)<zero.and.&
+              else if(lc2(i)<zero.and.&
               &hlc2(i)<=hla.and.hlc2(i)<=hlb2(i))then
                 lc2(i) = zero
                 lb2(i) = al2(i)
-              endif
-            enddo
+              end if
+            end do
 !
             do i=1,jlt
               x34 = x4(i) - x3(i)
@@ -395,16 +396,16 @@
                 lb3(i) = (xi4(i)*x34+yi4(i)*y34+zi4(i)*z34)*aaa
                 lb3(i) = max(zero,min(one,lb3(i)))
                 lc3(i) = one - lb3(i)
-              elseif(lb3(i)<zero.and.&
+              else if(lb3(i)<zero.and.&
               &hlb3(i)<=hlc3(i).and.hlb3(i)<=hla)then
                 lb3(i) = zero
                 lc3(i) = al4(i)
-              elseif(lc3(i)<zero.and.&
+              else if(lc3(i)<zero.and.&
               &hlc3(i)<=hla.and.hlc3(i)<=hlb3(i))then
                 lc3(i) = zero
                 lb3(i) = al3(i)
-              endif
-            enddo
+              end if
+            end do
 !
             do i=1,jlt
               x41 = x1(i) - x4(i)
@@ -418,16 +419,16 @@
                 lb4(i) = (xi1(i)*x41+yi1(i)*y41+zi1(i)*z41)*aaa
                 lb4(i) = max(zero,min(one,lb4(i)))
                 lc4(i) = one - lb4(i)
-              elseif(lb4(i)<zero.and.&
+              else if(lb4(i)<zero.and.&
               &hlb4(i)<=hlc4(i).and.hlb4(i)<=hla)then
                 lb4(i) = zero
                 lc4(i) = al1(i)
-              elseif(lc4(i)<zero.and.&
+              else if(lc4(i)<zero.and.&
               &hlc4(i)<=hla.and.hlc4(i)<=hlb4(i))then
                 lc4(i) = zero
                 lb4(i) = al4(i)
-              endif
-            enddo
+              end if
+            end do
 
             do i=1,jlt
 !
@@ -458,8 +459,8 @@
 !  pene = gap^2 - dist^2 utilise pour tester si non nul
 !!!!!!!!!!!!!!!!!!!!!!!!!
               pene(i) = max(d1,d2,d3,d4)
-            enddo
-          endif
+            end do
+          end if
           return
         end subroutine inter7_penetration
       end module INTER7_PENETRATION_MOD

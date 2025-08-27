@@ -32,29 +32,29 @@
 !||--- uses       -----------------------------------------------------
 !||====================================================================
       module umap_mod
-        use iso_c_binding
+        use, intrinsic :: iso_c_binding
         implicit none
 
         interface
           function create_umap() bind(C, name="cpp_create_umap")
-            use iso_c_binding
+            use, intrinsic :: iso_c_binding
             type(C_PTR) :: create_umap
           end function create_umap
 
           subroutine free_umap(umap_ptr) bind(C, name="cpp_free_umap")
-            use iso_c_binding
+            use, intrinsic :: iso_c_binding
             type(C_PTR), value :: umap_ptr
           end subroutine free_umap
 
           subroutine add_entry_umap(umap_ptr, key, value) bind(C, name="cpp_add_entry_umap")
-            use iso_c_binding
+            use, intrinsic :: iso_c_binding
             type(C_PTR), value :: umap_ptr
             integer(C_INT), value :: key
             integer(C_INT), value :: value
           end subroutine add_entry_umap
 
           function get_value_umap(umap_ptr, key, default_value) result(val) bind(C, name="cpp_get_value_umap")
-            use iso_c_binding
+            use, intrinsic :: iso_c_binding
             type(C_PTR), value :: umap_ptr
             integer(C_INT), value :: key
             integer(C_INT), value :: default_value
@@ -62,7 +62,7 @@
           end function get_value_umap
 
           subroutine reserve_umap(umap_ptr, n) bind(C, name="cpp_reserve_umap")
-            use iso_c_binding
+            use, intrinsic :: iso_c_binding
             type(C_PTR), value :: umap_ptr
             ! size_t is typically mapped to C_SIZE_T
             integer(C_SIZE_T), value :: n

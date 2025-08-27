@@ -28,6 +28,7 @@
 !||    mulaw            ../engine/source/materials/mat_share/mulaw.F90
 !||====================================================================
       module sigeps134s_mod
+      implicit none
       contains
 
 
@@ -126,7 +127,7 @@
             !
             aa(i) = exp(-beta*dtime)
             bb(i) = e2*exp(-beta*half*dtime)
-          enddo
+          end do
           soundsp(1:nel) = sqrt((bulk + four_over_3*shear) / rho0)     ! sound-speed
 ! ----------------------------------------------------------------------------------------------------------------------
           !  elastic and viscous stress
@@ -171,7 +172,7 @@
             uvar(i,4) = sigv(4)
             uvar(i,5) = sigv(5)
             uvar(i,6) = sigv(6)
-          enddo
+          end do
           !
           do i=1,nel
             signxx(i) = signxx(i)*off(i)
@@ -180,7 +181,7 @@
             signxy(i) = signxy(i)*off(i)
             signyz(i) = signyz(i)*off(i)
             signzx(i) = signzx(i)*off(i)
-          enddo
+          end do
 ! ----------------------------------------------------------------------------------------------------------------------
           return
         end subroutine sigeps134s

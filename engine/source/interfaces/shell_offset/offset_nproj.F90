@@ -26,6 +26,7 @@
 !||    resol              ../engine/source/engine/resol.F
 !||====================================================================
       module offset_nproj_mod
+      implicit none
       contains
 !=======================================================================================================================
 !!\brief This subroutine do nodal offset projection for shell
@@ -107,7 +108,7 @@
                 sh_offset_tab%norm_n6(1:6,2,n_l) = sh_offset_tab%norm_n6(1:6,2,n_l) + t6(1:6,2)
                 sh_offset_tab%norm_n6(1:6,3,n_l) = sh_offset_tab%norm_n6(1:6,3,n_l) + t6(1:6,3)
               end do
-            enddo
+            end do
             if (nspmd>1) then
               lenr = sh_offset_tab%iad_offset(1,nspmd+1)-sh_offset_tab%iad_offset(1,1)
               ndim1 = 3*6
@@ -152,7 +153,7 @@
                 if (n_l==0) cycle
                 sh_offset_tab%norm_n(1:3,n_l) = sh_offset_tab%norm_n(1:3,n_l) + t(1:3)
               end do
-            enddo
+            end do
 !
             if (nspmd>1) then
               lenr = sh_offset_tab%iad_offset(1,nspmd+1)-sh_offset_tab%iad_offset(1,1)

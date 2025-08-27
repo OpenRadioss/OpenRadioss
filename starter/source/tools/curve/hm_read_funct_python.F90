@@ -35,7 +35,7 @@
 !||--- uses       -----------------------------------------------------
 !||====================================================================
         function array_to_string(char_array) result(string)
-          use iso_c_binding, only : c_char
+          use, intrinsic :: iso_c_binding, only : c_char
           character(kind=c_char), dimension(:), intent(in) :: char_array
           character(len=:), allocatable :: string
           integer :: i
@@ -76,7 +76,7 @@
           USE PYTHON_FUNCT_MOD
           USE PRECISION_MOD, only : WP
           USE NAMES_AND_TITLES_MOD, only : ncharline, nchartitle
-          use iso_c_binding , only : c_char, c_null_char
+          use, intrinsic :: iso_c_binding , only : c_char, c_null_char
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     arguments
@@ -115,7 +115,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           allocate(character(kind=c_char, len=max_code_length) :: code)
 
-          call hm_option_count('/FUNCT_PYTHON', nb_funct)
+          call hm_option_count("/FUNCT_PYTHON", nb_funct)
           allocate(python%functs(nb_funct))
           python%nb_functs = nb_funct
           position_in_code = 1
@@ -127,16 +127,16 @@
               call ancmsg(MSGID=3039,&
               &MSGTYPE=MSGERROR,&
               &ANMODE=ANINFO_BLIND_2)
-            endif
+            end if
 
             call python_initialize(python_error)
             call python_load_environment()
-            call hm_option_start('/FUNCT_PYTHON')
+            call hm_option_start("/FUNCT_PYTHON")
             do i = 1, nb_funct
               !fill code with spaces:
-              code(1:max_code_length) = repeat(' ',max_code_length)
+              code(1:max_code_length) = repeat(" ",max_code_length)
               call hm_option_read_key(lsubmodel, option_id = func_id)
-              call hm_get_intv('Number_of_datalines' ,nlines ,is_available, lsubmodel)
+              call hm_get_intv("Number_of_datalines" ,nlines ,is_available, lsubmodel)
               python%functs(i)%num_lines = nlines
               python%functs(i)%user_id = func_id
 !             write(6,*) "Python test: funct_id",func_id,"nlines",nlines
@@ -144,7 +144,7 @@
               if(nlines > 0) then
                 ! create tempo file
                 do j=1,nlines
-                  call hm_get_string_index('arraydatalines', rline, j, max_line_length, is_available)
+                  call hm_get_string_index("arraydatalines", rline, j, max_line_length, is_available)
 !              write(6,fmt='(a)') trim(rline)
                   !append trim(rline) to "code"
                   line_len = len_trim(rline)
@@ -153,7 +153,7 @@
                   position_in_code = position_in_code + line_len
                   code(position_in_code:position_in_code) = c_null_char
                   position_in_code = position_in_code + 1
-                enddo
+                end do
                 l = i + python%funct_offset
                 npc(l + 1) = npc(l)
                 npc(total_nb_funct + l + 1) = func_id
@@ -165,12 +165,12 @@
                 if(error > 0 .and. error_old == 0) then
                   ! converts python%functs(i)%name of type  character(kind=c_char), dimension(:), allocatable :: name
                   ! initialize titr with "/FUNCT_PYTHON"
-                  titr = repeat(' ',nchartitle)
+                  titr = repeat(" ",nchartitle)
                   call ancmsg(MSGID=3038,&
                   &MSGTYPE=MSGERROR,&
                   &ANMODE=ANINFO_BLIND_2,&
                   &I1=func_id)
-                endif
+                end if
                 table(l)%notable= func_id
                 table(l)%ndim = -1
                 allocate(table(l)%X(1))
@@ -196,12 +196,12 @@
                     table(l)%Y%values(ipt) = YY(ipt)
                     PLD(NPC(l+1)) = table(l)%Y%values(ipt)
                     NPC(L + 1) = NPC(L + 1) + 1
-                  enddo
-                endif
+                  end do
+                end if
               else
-              endif
-            enddo
-          endif
+              end if
+            end do
+          end if
           deallocate(code)
           return
 

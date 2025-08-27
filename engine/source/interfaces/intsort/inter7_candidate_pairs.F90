@@ -27,6 +27,7 @@
 !||    main                         ../engine/unit_test/unit_test1.F
 !||====================================================================
       MODULE INTER7_CANDIDATE_PAIRS_MOD
+      implicit none
       CONTAINS
 
 !! \brief get the list of candidates pairs for all main segments
@@ -217,8 +218,8 @@
             allocate(tagremnode(numnod))
             do i=1,numnod
               tagremnode(i) = 0
-            enddo
-          endif
+            end do
+          end if
 !$OMP BARRIER
 !$OMP DO SCHEDULE(DYNAMIC)
           do ne=1,nrtm
@@ -230,13 +231,13 @@
                 ! the segment ne cannot be in contact with the node remnod(i)
                 ! typically, remnod(i) contains nodes of neighboring elements
                 tagremnode(remnod(i)) = 1
-              enddo
-            endif
+              end do
+            end if
             if(igap == 0)then
               aaa = tzinf+curv_max(ne)
             else
               aaa = marge+curv_max(ne)+max(min(gapmax,max(gapmin,bgapsmx+gap_m(ne)))+dgapload,drad)
-            endif
+            end if
 
             m1 = irect(1,ne)
             m2 = irect(2,ne)
@@ -277,7 +278,7 @@
             else
               ix1=-2
               ix2=1
-            endif
+            end if
 
             if(nby>1) then
               iy1=int(nby*(ymine-aaa-yminb)/(ymaxb-yminb))
@@ -285,7 +286,7 @@
             else
               iy1=-2
               iy2=1
-            endif
+            end if
 
             if(nbz>1) then
               iz1=int(nbz*(zmine-aaa-zminb)/(zmaxb-zminb))
@@ -293,7 +294,7 @@
             else
               iz1=-2
               iz2=1
-            endif
+            end if
 
             ix1=max(1,2+min(nbx,ix1))
             iy1=max(1,2+min(nby,iy1))
@@ -322,13 +323,13 @@
 
                       if(flagremnode == 2) then
                         if( tagremnode(nsv(jj)) == 1) goto 200
-                      endif
+                      end if
                       xs = x(1,nn)
                       ys = x(2,nn)
                       zs = x(3,nn)
                       if(igap /= 0)then
                         aaa = marge+curv_max(ne)+max(min(gapmax,max(gapmin,gap_s(jj)+gap_m(ne)))+dgapload,drad)
-                      endif
+                      end if
                     else
                       ! remote (SPMD) node: data are stored in irem/xrem (communicated earlier)
                       j=jj-nsn
@@ -340,18 +341,18 @@
                           if(remnod(m) == -irem(2,j) ) then
                             delnod = delnod + 1
                             exit
-                          endif
-                        enddo
+                          end if
+                        end do
                         if(delnod /= 0)goto 200
-                      endif
+                      end if
 
                       xs = xrem(1,j)
                       ys = xrem(2,j)
                       zs = xrem(3,j)
                       if(igap /= 0)then
                         aaa = marge+curv_max(ne)+max(min(gapmax,max(gapmin,xrem(9,j)+gap_m(ne)))+dgapload,drad)
-                      endif
-                    endif
+                      end if
+                    end if
 
                     if(xs<=xmine-aaa)goto 200
                     if(xs>=xmaxe+aaa)goto 200
@@ -374,7 +375,7 @@
                       d2 = min(dd1*dd1,dd2*dd2)
                       a2 = aaa*aaa*s2
                       if(d2 > a2)goto 200
-                    endif
+                    end if
 
                     j_stok = j_stok + 1
                     prov_n(j_stok) = jj
@@ -394,22 +395,22 @@
                       &                   nsnr, nrtm, isznsnr,&
                       &                   xrem ,s_xrem)
                       j_stok = 0
-                    endif
+                    end if
 
 200                 continue
                     jj = next_nod(jj)
-                  enddo ! while(jj /= 0)
-                enddo ! x
-              enddo  ! y
-            enddo   ! z
+                  end do ! while(jj /= 0)
+                end do ! x
+              end do  ! y
+            end do   ! z
             if(flagremnode == 2) then
               k = kremnod(2*(ne-1)+1)+1
               l = kremnod(2*(ne-1)+2)
               do i=k,l
                 tagremnode(remnod(i)) = 0
-              enddo
-            endif
-          enddo
+              end do
+            end if
+          end do
 !$OMP END DO
           if(j_stok > 0 .and. i_mem == 0) call inter7_filter_cand(&
           &                   j_stok,irect  ,x     ,nsv   ,ii_stok,&
@@ -439,7 +440,7 @@
 ! ======================================================================================================================
           if(flagremnode == 2) then
             if(allocated(tagremnode)) deallocate(tagremnode)
-          endif
+          end if
 !         if(itask == 0) deallocate(list_nb_voxel_on)
 
 !#ifndef NO_SERIALIZE
@@ -612,7 +613,7 @@
           integer :: i, j, iostat, unitNum
           integer :: pos
 
-          open(NEWUNIT=unitNum, FILE=filename, FORM='UNFORMATTED', STATUS='REPLACE', IOSTAT=iostat)
+          open(NEWUNIT=unitNum, FILE=filename, FORM="UNFORMATTED", STATUS="REPLACE", IOSTAT=iostat)
           if (iostat /= 0) then
             write(6,*) "error opening file: ", filename
             return
@@ -647,7 +648,7 @@
 
           do i = 1, nrtm
             write(unitNum) (irect(j, i), j = 1, 4)
-          enddo
+          end do
           write(unitNum) cand_a(1:s_cand_a) !< (???)
           write(unitNum) gap !< gap (???)
           write(unitNum) gapmin !< minimum gap
@@ -813,7 +814,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i, j, iostat, unitNum
           integer :: pos
-          open(NEWUNIT=unitNum, FILE=filename, FORM='UNFORMATTED', STATUS='OLD', IOSTAT=iostat)
+          open(NEWUNIT=unitNum, FILE=filename, FORM="UNFORMATTED", STATUS="OLD", IOSTAT=iostat)
           if (iostat /= 0) then
             write(6,*) "error opening file: ", filename
             return
@@ -882,7 +883,7 @@
           read(unitNum) remnod(1:s_remnod) !< list of removed nodes
           do i = 1, nrtm
             read(unitNum) (irect(j, i), j = 1, 4)
-          enddo
+          end do
           read(unitNum) cand_a(1:s_cand_a) !< (???)
 
           read(unitNum) gap !< gap (???)

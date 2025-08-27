@@ -30,6 +30,7 @@
 !||    usermat_solid         ../engine/source/materials/mat_share/usermat_solid.F
 !||====================================================================
       module fail_spalling_s_mod
+      implicit none
       contains
 !||====================================================================
 !||    fail_spalling_s   ../engine/source/materials/fail/spalling/fail_spalling_s.F90
@@ -119,14 +120,14 @@
           ispall = 1
           if (iflag == 2) then
             idel   = 1
-          elseif (iflag == 3) then
+          else if (iflag == 3) then
             idev   = 1
-          elseif (iflag == 4) then
+          else if (iflag == 4) then
             idel   = 1
             ispall = 2
-          elseif (iflag == 5) then
+          else if (iflag == 5) then
             ispall = 3
-          elseif (iflag == 6) then
+          else if (iflag == 6) then
             ispall = 4
             sig(1:nel,1) = signxx(1:nel)
             sig(1:nel,2) = signyy(1:nel)
@@ -137,8 +138,8 @@
             call valpvecdp_v(sig,valp,vec,nel)
             do i = 1,nel
               sigp_max(i) = maxval(valp(i,1:3))
-            enddo
-          endif
+            end do
+          end if
 !
           !< Update the element status
           do i=1,nel
@@ -171,9 +172,9 @@
                   nindx  = nindx+1
                   indx(nindx) = i
                   tdele(i) = time
-                endif
-              endif
-            enddo
+                end if
+              end if
+            end do
             !< Printing out element deletion message
             if (nindx > 0)then
               do j=1,nindx
@@ -181,7 +182,7 @@
                 write(istdo,1000) ngl(indx(j)),time
               end do
             end if
-          endif
+          end if
 !
           !< In case of deviatoric stress vanishing
           if (idev==1) then
@@ -213,7 +214,7 @@
                     signxy(i) = zero
                     signyz(i) = zero
                     signzx(i) = zero
-                  endif
+                  end if
                 else
                   p = third*(signxx(i) + signyy(i) + signzz(i))
                   signxx(i) =   p
@@ -222,9 +223,9 @@
                   signxy(i) = zero
                   signyz(i) = zero
                   signzx(i) = zero
-                endif
-              endif
-            enddo
+                end if
+              end if
+            end do
             !< Printing out deviatoric stress vanishing message
             if (nindx > 0) then
               do j = 1,nindx
@@ -233,9 +234,9 @@
                 write(iout ,2100)
                 write(istdo,2000) ngl(i),time
                 write(istdo,2100)
-              enddo
-            endif
-          endif
+              end do
+            end if
+          end if
 !
           !< Update spalling criterion
           nindex = 0
@@ -256,7 +257,7 @@
                   signyz(i) = zero
                   nindx = nindx+1
                   indx(nindx) = i
-                endif
+                end if
               else
                 signxx(i) = -max(p , zero)
                 signyy(i) = -max(p , zero)
@@ -264,8 +265,8 @@
                 signxy(i) = zero
                 signzx(i) = zero
                 signyz(i) = zero
-              endif
-            elseif (ispall == 2  .and. offg(i) > zero) then
+              end if
+            else if (ispall == 2  .and. offg(i) > zero) then
               dfmax(i,3) = max(dfmax(i,3),min(p,zero)/pmin)
               dfmax(i,3) = min(dfmax(i,3),one)
               if (p <= pmin .and. off(i) == one) then
@@ -273,8 +274,8 @@
                 nindex = nindex+1
                 index(nindex) = i
                 tdele(i) = time
-              endif
-            elseif (ispall == 3 .and. offg(i) > zero) then
+              end if
+            else if (ispall == 3 .and. offg(i) > zero) then
               dfmax(i,3) = max(dfmax(i,3),min(p,zero)/pmin)
               dfmax(i,3) = min(dfmax(i,3),one)
               if (p <= pmin .and. off(i) == one) then
@@ -282,8 +283,8 @@
                 signxx(i)  = signxx(i) + p - pmin
                 signyy(i)  = signyy(i) + p - pmin
                 signzz(i)  = signzz(i) + p - pmin
-              endif
-            elseif (ispall == 4 .and. offg(i) > zero) then
+              end if
+            else if (ispall == 4 .and. offg(i) > zero) then
               if (dfmax(i,3) < one) then
                 dfmax(i,3) = max(dfmax(i,3),max(sigp_max(i),zero)/(abs(pmin)))
                 dfmax(i,3) = min(dfmax(i,3),one)
@@ -297,7 +298,7 @@
                   signyz(i) = zero
                   nindx = nindx+1
                   indx(nindx) = i
-                endif
+                end if
               else
                 signxx(i) = -max(p , zero)
                 signyy(i) = -max(p , zero)
@@ -305,39 +306,39 @@
                 signxy(i) = zero
                 signzx(i) = zero
                 signyz(i) = zero
-              endif
-            endif
-          enddo
+              end if
+            end if
+          end do
 !
           !< Printing out spalling message
           if (nindx > 0) then
             do j = 1,nindx
               write(iout ,3000) ngl(indx(j)),time
               write(istdo,3000) ngl(indx(j)),time
-            enddo
-          endif
+            end do
+          end if
 !
           if (nindex > 0) then
             do j=1,nindex
               write(iout ,3100) ngl(index(j)),time
               write(istdo,3100) ngl(index(j)),time
-            enddo
-          endif
+            end do
+          end if
 !
           !< Storing the maximum damage for output
           do i=1,nel
             dfmax(i,1) = max(dfmax(i,2),dfmax(i,3))
-          enddo
+          end do
 !
           !< Output message format
-1000      format (1X,'-- RUPTURE (JOHNSON-COOK) OF SOLID ELEMENT:',I10,            &
-            ' AT TIME :',1PE12.4)
-2000      format (1X,'FOR SOLID ELEMENT NUMBER:',I10,                              &
-            ' JOHNSON-COOK CRITERION REACHED AT TIME:',1PE12.4)
-2100      format (1X,'-- DEVIATORIC STRESS TENSOR WILL BE VANISHED')
-3000      format (1X,'-- SPALLING OF SOLID ELEMENT:',I10,' AT TIME :',1PE12.4)
-3100      format (1X,'-- RUPTURE (SPALLING) OF SOLID ELEMENT:',I10,                &
-            ' AT TIME :',1PE12.4)
+1000      format (1X,"-- RUPTURE (JOHNSON-COOK) OF SOLID ELEMENT:",I10,            &
+            " AT TIME :",1PE12.4)
+2000      format (1X,"FOR SOLID ELEMENT NUMBER:",I10,                              &
+            " JOHNSON-COOK CRITERION REACHED AT TIME:",1PE12.4)
+2100      format (1X,"-- DEVIATORIC STRESS TENSOR WILL BE VANISHED")
+3000      format (1X,"-- SPALLING OF SOLID ELEMENT:",I10," AT TIME :",1PE12.4)
+3100      format (1X,"-- RUPTURE (SPALLING) OF SOLID ELEMENT:",I10,                &
+            " AT TIME :",1PE12.4)
 
         end subroutine fail_spalling_s
       end module fail_spalling_s_mod

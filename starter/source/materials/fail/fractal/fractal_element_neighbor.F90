@@ -265,12 +265,12 @@
               elem2 = edge2(1,iedge)
               fractal%random_walk(elem1)%neighbor(k1) = elem2
               fractal%random_walk(elem2)%neighbor(k2) = elem1
-            endif
+            end if
             i1m = i1
             i2m = i2
             k1  = k2
             elem1 = elem2
-          enddo
+          end do
 !
           deallocate(edge2)
           deallocate(edge1)

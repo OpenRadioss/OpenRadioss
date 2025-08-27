@@ -27,6 +27,7 @@
 !||    get_segment_interface_id                 ../engine/source/interfaces/interf/get_segment_interface_id.F90
 !||====================================================================
       module get_segment_edge_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures
@@ -97,8 +98,8 @@
             if( (my_node_id_1==node_id_1.and.my_node_id_2==node_id_2).or.               &
               (my_node_id_1==node_id_2.and.my_node_id_2==node_id_1)        ) then
               my_iedge = iedge
-            endif
-          enddo
+            end if
+          end do
           ! -------------------------
 !
           return

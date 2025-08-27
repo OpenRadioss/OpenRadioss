@@ -26,6 +26,7 @@
 !||    sigeps51                         ../engine/source/materials/mat/mat051/sigeps51.F90
 !||====================================================================
       module sigeps51_boundary_material_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures
@@ -231,19 +232,19 @@
           K=M51_N0PHAS
           DO I=1,NEL
             AV1(I)=UVAR(I,K+23)
-          ENDDO
+          END DO
           K=M51_N0PHAS+M51_NVPHAS
           DO I=1,NEL
             AV2(I)=UVAR(I,K+23)
-          ENDDO
+          END DO
           K=M51_N0PHAS+2*M51_NVPHAS
           DO I=1,NEL
             AV3(I)=UVAR(I,K+23)
-          ENDDO
+          END DO
           K=M51_N0PHAS+3*M51_NVPHAS
           DO I=1,NEL
             AV4(I)=UVAR(I,K+23)
-          ENDDO
+          END DO
 
           PFAR   = UPARAM(7)
           PEXT   = UPARAM(8)
@@ -331,15 +332,15 @@
             IF(IAV1 /= 0)THEN
               myVAR = FINTER(IAV1,ABCS,NPF,TF,DYDX)
               AV1(1:NEL) = myVAR * AV1(1:NEL)
-            ENDIF
+            END IF
             IF(IAV2 /= 0)THEN
               myVAR = FINTER(IAV2,ABCS,NPF,TF,DYDX)
               AV2(1:NEL) = myVAR * AV2(1:NEL)
-            ENDIF
+            END IF
             IF(IAV3 /= 0)THEN
               myVAR = FINTER(IAV3,ABCS,NPF,TF,DYDX)
               AV3(1:NEL) = myVAR * AV3(1:NEL)
-            ENDIF
+            END IF
 
             !rho0,E0,P0,SSP0 in UVAR(20,21,22,24)
 
@@ -374,24 +375,24 @@
                 P1 = ( C01 + C11*MU1&
                   + MAX(MU1,ZERO)*(C21*MU1 + C31*MU1*MU1)&
                   + (C41 + C51*MU1)*E01*UVAR(I,K1+21)*RHO10/RHO1/UVAR(I,K1+20) )
-              ENDIF
+              END IF
               P1 = MAX(P1,PM1)
               MU2=UVAR(I,K2+20)*RHO2/RHO20 - ONE
               IF(UVAR(I,K2+20)/=ZERO)THEN
                 P2 = ( C02 + C12*MU2&
                   + MAX(MU2,ZERO)*(C22*MU2 + C32*MU2*MU2)&
                   + (C42 + C52*MU2)*E02*UVAR(I,K2+21)*RHO20/RHO2/UVAR(I,K2+20) )
-              ENDIF
+              END IF
               P2 = MAX(P2,PM2)
               MU3=UVAR(I,K3+20)*RHO3/RHO30 - ONE
               IF(UVAR(I,K3+20)/=ZERO)THEN
                 P3 = ( C03 + C13*MU3&
                   + MAX(MU3,ZERO)*(C23*MU3 + C33*MU3*MU3)&
                   + (C43 + C53*MU3)*E03*UVAR(I,K3+21)*RHO30/RHO3/UVAR(I,K3+20) )
-              ENDIF
+              END IF
               P3 = MAX(P3,PM3)
               PP(I) = P1 * AV1(I) + P2 * AV2(I) + P3 * AV3(I)
-            ENDDO
+            END DO
 
             DO I=1,NEL
 
@@ -526,7 +527,7 @@
                     IF(IVOI /= 0) IADBUF = IPM(7,IX(1,IVOI))
                     IF(IVOI /= 0 .AND. ML == 51) IFORM = NINT(BUFMAT(IADBUF+31-1))
                     IF(ML == 51 .AND. IFORM <= 1)  EXIT
-                  ENDDO
+                  END DO
                   XN = ZERO
                   YN = ZERO
                   ZN = ZERO
@@ -548,7 +549,7 @@
                     XN  = XN*FAC
                     YN  = YN*FAC
                     ZN  = ZN*FAC
-                  ENDIF
+                  END IF
                 ELSE !IF(N2D==0)
                   II     = I+NFT
                   IAD2 = ALE_CONNECT%ee_connect%iad_connect(II)
@@ -560,7 +561,7 @@
                     IF(IVOI /= 0) IADBUF = IPM(7,IX(1,IVOI))
                     IF(IVOI /= 0 .AND. ML == 51) IFORM = NINT(BUFMAT(IADBUF+31-1))     !if adjacent is mat51 then retrieving UPARAM(31)=IFLG to check it is not a boundary material
                     IF(ML == 51 .AND. IFORM <= 1)  EXIT
-                  ENDDO
+                  END DO
                   XN = ZERO
                   YN = ZERO
                   ZN = ZERO
@@ -573,8 +574,8 @@
                     FAC  = ONE/SQRT(YN**2+ZN**2)
                     YN  = YN*FAC
                     ZN  = ZN*FAC
-                  ENDIF
-                ENDIF
+                  END IF
+                END IF
                 ! sauvegarde de la quantite de mouvement imposee
                 IF(ALEFVM_Param%IEnabled /= 0)THEN
                   MOM = RHO(I) * VEL_IN * VOLUME(I)
@@ -587,15 +588,15 @@
                   IF(N2D == 0)THEN
                     V(1:3,IX3) =  V(1:3,IX1)
                     V(1:3,IX4) =  V(1:3,IX1)
-                  ENDIF
-                ENDIF
-              ENDIF
+                  END IF
+                END IF
+              END IF
 
               VDX(I) = ZERO
               VDY(I) = ZERO
               VDZ(I) = ZERO
 
-            ENDDO
+            END DO
 
 #if defined(_OPENMP)
 !$OMP ATOMIC
@@ -608,11 +609,11 @@
             ! LEGACY OUTLET - OLD VERSIONS (IFLG = 3)   !
             !===========================================!
 
-          ELSEIF(IFLG == 3)THEN
+          ELSE IF(IFLG == 3)THEN
 
             DO I=1,NEL
               PP0(I) = C01 * AV1(I) + C02 * AV2(I) + C03 * AV3(I)
-            ENDDO
+            END DO
 
             IF(TIME == ZERO)THEN
               DO I=1,NEL
@@ -623,8 +624,8 @@
                 SIGOYZ(I) = ZERO
                 SIGOZX(I) = ZERO
                 RHO(I) = RHO1 * AV1(I) + RHO2 * AV2(I) + RHO3 * AV3(I)
-              ENDDO
-            ENDIF
+              END DO
+            END IF
 
 
             DO I=1,NEL
@@ -647,7 +648,7 @@
                 SIGNXY(I) = BBB * SIGOXY(I)
                 SIGNYZ(I) = BBB * SIGOYZ(I)
                 SIGNZX(I) = BBB * SIGOZX(I)
-              ENDIF
+              END IF
               UVAR(I,1)  =  ZERO
               UVAR(I,2)  =  ZERO
               UVAR(I,3)  =  ZERO !BFRAC
@@ -748,7 +749,7 @@
               VDY(I) = ZERO
               VDZ(I) = ZERO
 
-            ENDDO
+            END DO
 
 #if defined(_OPENMP)
 !$OMP ATOMIC
@@ -762,7 +763,7 @@
             !   GAS    (IFLG = 4)                       !
             !   LIQUID (IFLG = 5)                       !
             !===========================================!
-          ELSEIF(IFLG == 4 .OR. IFLG == 5)THEN
+          ELSE IF(IFLG == 4 .OR. IFLG == 5)THEN
             ! Conditions d'arret pour gaz parfait ou liquide selon la phase
             ABCS  = TIME / UPARAM(38)
             IAV1  = IFUNC(1)
@@ -777,15 +778,15 @@
             IF(IAV1 /= 0)THEN
               myVAR = FINTER(IAV1,ABCS,NPF,TF,DYDX)
               AV1(1:NEL) = myVAR * AV1(1:NEL)
-            ENDIF
+            END IF
             IF(IAV2 /= 0)THEN
               myVAR = FINTER(IAV2,ABCS,NPF,TF,DYDX)
               AV2(1:NEL) = myVAR * AV2(1:NEL)
-            ENDIF
+            END IF
             IF(IAV3 /= 0)THEN
               myVAR = FINTER(IAV3,ABCS,NPF,TF,DYDX)
               AV3(1:NEL) = myVAR * AV3(1:NEL)
-            ENDIF
+            END IF
             K1 = M51_N0PHAS
             K2 = M51_N0PHAS+M51_NVPHAS
             K3 = M51_N0PHAS+2*M51_NVPHAS
@@ -854,7 +855,7 @@
                 X0 = X0 + X(1,K)
                 Y0 = Y0 + X(2,K)
                 Z0 = Z0 + X(3,K)
-              ENDDO
+              END DO
               X0 = X0 / N48
               Y0 = Y0 / N48
               Z0 = Z0 / N48
@@ -868,7 +869,7 @@
                 NY = X(2,K)-Y0
                 NZ = X(3,K)-Z0
                 VN = VN + VX*NX + VY*NY + VZ*NZ
-              ENDDO
+              END DO
               U2 = U2 / (N48/2)
               IF(VN <= ZERO) U2 = ZERO
 
@@ -892,7 +893,7 @@
                     RHO1 = RHO1A *(ONE- RV1/(C41+ONE)/P1A)
                     P1   = P1A - RV1
                     E01  = P1/C41
-                  ENDIF
+                  END IF
                   !---LIQUID
                 ELSE
                   FAC = (C11 + HALF*RHO10*U2)
@@ -900,12 +901,12 @@
                     RHO1 = RHO1A*C11/FAC
                     P1   = P1A - HALF*RHO1*U2
                     E01  = E01A + (ONE - RHO1/RHO1A)*P1
-                  ENDIF
-                ENDIF
+                  END IF
+                END IF
               ELSE
                 !unused submaterial
                 RHO1 = RHO10
-              ENDIF! (AV1(I) > ZERO)
+              END IF! (AV1(I) > ZERO)
               !================!
               !     output     !
               !================!
@@ -949,19 +950,19 @@
                     RHO2 = RHO2A *(ONE- RV2/(C42+ONE)/P2A)
                     P2   = P2A - RV2
                     E02  = P2/C42
-                  ENDIF
+                  END IF
                 ELSE
                   FAC = (C12 + HALF*RHO20*U2)
                   IF(FAC /= ZERO)THEN
                     RHO2 = RHO2A*C12/FAC
                     P2   = P2A - HALF*RHO2*U2
                     E02  = E02A + (ONE - RHO2/RHO2A)*P2
-                  ENDIF
-                ENDIF
+                  END IF
+                END IF
               ELSE
                 !unused submaterial
                 RHO2 = RHO20
-              ENDIF! (AV2(I) > ZERO)
+              END IF! (AV2(I) > ZERO)
               !================!
               !     output     !
               !================!
@@ -1005,19 +1006,19 @@
                     RHO3 = RHO3A *(ONE- RV3/(C43+ONE)/P3A)
                     P3   = P3A - RV3
                     E03  = P3/C43
-                  ENDIF
+                  END IF
                 ELSE
                   FAC = (C13 + HALF*RHO30*U2)
                   IF(FAC /= ZERO)THEN
                     RHO3 = RHO3A*C13/FAC
                     P3   = P3A - HALF*RHO3*U2
                     E03  = E03A + (ONE - RHO3/RHO3A)*P3
-                  ENDIF
-                ENDIF
+                  END IF
+                END IF
               ELSE
                 !unused submaterial
                 RHO3 = RHO30
-              ENDIF! (AV3(I) > ZERO)
+              END IF! (AV3(I) > ZERO)
               !================!
               !     output     !
               !================!
@@ -1088,7 +1089,7 @@
               VDY(I) = ZERO
               VDZ(I) = ZERO
 
-            ENDDO  !DO I=1,NEL
+            END DO  !DO I=1,NEL
 
 #if defined(_OPENMP)
 !$OMP ATOMIC
@@ -1101,7 +1102,7 @@
             ! OUTLET NRF (IFLG = 6)                     !
             !===========================================!
 
-          ELSEIF(IFLG == 6)THEN
+          ELSE IF(IFLG == 6)THEN
 
             IF(TIME == ZERO) THEN
               DO I=1,NEL
@@ -1206,8 +1207,8 @@
                 UVAR(I,18+KK) = P0_NRF
                 UVAR(I,19+KK) = ZERO
 
-              ENDDO
-            ENDIF
+              END DO
+            END IF
 
             IF(TIMESTEP > EM20)THEN
               BETA = TIMESTEP/MAX(UPARAM(71),TIMESTEP)
@@ -1216,7 +1217,7 @@
             ELSE
               BETA = ONE
               ALPHA = ONE
-            ENDIF
+            END IF
 
             !RHOC2(1)  = MAX(RHO1*SSP1*SSP1,EM20)
             !RHOC2(2)  = MAX(RHO2*SSP2*SSP2,EM20)
@@ -1241,7 +1242,7 @@
                 EIV  ,  TV     ,BUFVOIS ,AVV           ,RHO0V, &
                 IPM  ,  BUFMAT ,NEL     , &
                 NV46 ,  SSPv   ,EPSPv   ,P0_NRFv )
-            ENDIF
+            END IF
 
             IF(TIME == ZERO) THEN
               DO I=1,NEL
@@ -1265,8 +1266,8 @@
                 SIGOXY(I)    = ZERO
                 SIGOYZ(I)    = ZERO
                 SIGOZX(I)    = ZERO
-              ENDDO
-            ENDIF
+              END DO
+            END IF
             DO I=1,NEL
               P0_NRF = UVAR(I,4)
               !
@@ -1323,7 +1324,7 @@
                   POLD  = -THIRD*(SIGOXX(I)+SIGOYY(I)+SIGOZZ(I))
                   DP0   = (P0_NRF-P0_NRFv(I)) ! assuming rho0*g(t)*(z-zvois) = cst ; otherwise complicated: get g(t) and compute z-zvois
                   P     = ONE/(ONE+ALPHA)*(POLD+ROC*(VEL_N(I)-VEL_O(I)))+ALPHA*(PV(0,I)+DP0)/(ALPHA + ONE)
-                ENDIF
+                END IF
 
                 IF(VEL_N(I)<ZERO)THEN     !incoming flux. relaxation of volume fraction
                   KK = M51_N0PHAS
@@ -1336,8 +1337,8 @@
                   AVV(4,I)  = (ONE-BETA)*UVAR(I,1+KK) + BETA* AV4(I)
                 ELSE
 
-                ENDIF
-              ENDIF
+                END IF
+              END IF
               EEE       = EIV(0,I) * VOLUME(I)
               RHO(I)    = RHOV(0,I)
               SIGNXX(I) = -P
@@ -1357,7 +1358,7 @@
               IF(BUFLY%L_PLA>0)THEN
                 LBUF%PLA(I) = EPSPv(0,I)
                 UVAR(I,1)  =  EPSPv(0,I)
-              ENDIF
+              END IF
               UVAR(I,2) = ZERO
               UVAR(I,3) = ZERO
 
@@ -1440,7 +1441,7 @@
               WFEXTT = ZERO !WFEXTT + EEE - EINT(I)
               EINT(I) = EEE
               VISCMAX(I) = ZERO
-            ENDDO
+            END DO
 
 #if defined(_OPENMP)
 !$OMP ATOMIC
@@ -1449,7 +1450,7 @@
 
             RETURN
 
-          ENDIF ! IFLG
+          END IF ! IFLG
 
         end subroutine sigeps51_boundary_material
 

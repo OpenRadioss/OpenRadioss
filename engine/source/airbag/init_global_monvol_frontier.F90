@@ -26,6 +26,7 @@
 !||    resol                             ../engine/source/engine/resol.F
 !||====================================================================
       module init_global_frontier_monvol_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures
@@ -115,8 +116,8 @@
               s_buffer(2) = s_buffer(2) + segment_number
               if((t_monvoln(ijk)%nb_fill_tri>0).and.(ispmd + 1 == fr_mv(nspmd+2,ijk))) then
                 s_buffer(2) = s_buffer(2) + t_monvoln(ijk)%nb_fill_tri
-              endif
-            endif
+              end if
+            end if
             t_monvoln(ijk)%uid = monvol(monvol_address) ! store the uid of the monitored volume
             t_monvoln(ijk)%volume = 0
             t_monvoln(ijk)%pressure = volmon(kk1+12-1)
@@ -124,7 +125,7 @@
             t_monvoln(ijk)%area = volmon(kk1+18-1)
             monvol_address = monvol_address + nimv
             kk1 = kk1 + nrvolu
-          enddo
+          end do
 
           if(nspmd>1) then
 #ifdef MPI
@@ -132,7 +133,7 @@
 #endif
           else
             r_buffer(1:2,1) = s_buffer(1:2)
-          endif
+          end if
 
           p_main = -1
           min_segment = HUGE(min_segment)
@@ -144,18 +145,18 @@
               if(r_buffer(1,ijk)>0.and.r_buffer(2,ijk)<min_segment) then
                 p_main = ijk
                 min_segment = r_buffer(2,ijk)
-              endif
-            enddo
+              end if
+            end do
             if(p_main==-1) then
               p_main = 1
-            endif
+            end if
             frontier_global_mv(nspmd+2) = p_main
-          endif
+          end if
           if(nspmd>1) then
 #ifdef MPI
             call mpi_bcast(frontier_global_mv,nspmd+2,MPI_INTEGER,0,SPMD_COMM_WORLD,ierror)
 #endif
-          endif
+          end if
 
           return
 ! ----------------------------------------------------------------------------------------------------------------------

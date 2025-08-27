@@ -26,6 +26,7 @@
 !||    updmat           ../starter/source/materials/updmat.F
 !||====================================================================
       module law129_upd_mod
+      implicit none
       contains
         ! ======================================================================================================================
         ! \brief Updating material parameters of /MAT/law129

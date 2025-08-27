@@ -26,6 +26,7 @@
 !||    s6cforc3       ../engine/source/elements/thickshell/solide6c/s6cforc3.F
 !||====================================================================
       module s6get_xv_mod
+      implicit none
       contains
 ! ======================================================================================================================
 ! \brief get x,v in global(basic) coordinate system for penta6 element
@@ -106,7 +107,7 @@
                 x6(i)=x(1,nc6(i))
                 y6(i)=x(2,nc6(i))
                 z6(i)=x(3,nc6(i))
-              enddo
+              end do
             else
               do i=1,nel
                 x1(i)=xdp(1,nc1(i))
@@ -127,8 +128,8 @@
                 x6(i)=xdp(1,nc6(i))
                 y6(i)=xdp(2,nc6(i))
                 z6(i)=xdp(3,nc6(i))
-              enddo
-            endif
+              end do
+            end if
           end if! (ismstr == 1.or.ismstr >= 11)
           do i=1,nel
             vx1(i)=v(1,nc1(i))
@@ -149,7 +150,7 @@
             vx6(i)=v(1,nc6(i))
             vy6(i)=v(2,nc6(i))
             vz6(i)=v(3,nc6(i))
-          enddo
+          end do
 !
         end subroutine s6get_xv
 !-------------------

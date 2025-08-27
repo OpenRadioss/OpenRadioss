@@ -32,6 +32,7 @@
 !||    updfail               ../starter/source/materials/updfail.F90
 !||====================================================================
       module brokmann_random_mod
+      implicit none
       contains
 ! ======================================================================================================================
 ! \brief initializes random crack in /fail/alter following Ch.Brokmann extension

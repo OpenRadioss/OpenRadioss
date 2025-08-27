@@ -26,6 +26,7 @@
 !||    ini_inimap1d           ../starter/source/initial_conditions/inimap/ini_inimap1d.F
 !||====================================================================
       MODULE MULTI_SOLVE_EINT_MOD
+      implicit none
       CONTAINS
 !||====================================================================
 !||    multi_solve_eint   ../starter/source/initial_conditions/inimap/multi_solve_eint.F90
@@ -111,7 +112,7 @@
             ERROR(LOCALID) = EP20
             CONVERGED(LOCALID) = .FALSE.
             REMAINING_ELTS = REMAINING_ELTS + 1
-          ENDDO
+          END DO
 
           MAX_ITER = 30
           ITER = 0
@@ -119,7 +120,7 @@
           POLD(1:NEL)=PRESIN(1:NEL)
           DO II=1,NEL
             SIG(II,1:3)=-POLD(II)
-          ENDDO
+          END DO
           DO WHILE(REMAINING_ELTS  /=  0 .AND. ITER  <  MAX_ITER)
             ITER = ITER + 1
             DO II = IFIRST, ILAST
@@ -127,7 +128,7 @@
               LOCALID = ELEMID - NFT
               MU(LOCALID) = RHO(LOCALID) / RHOZERO(LOCALID) - ONE
               DF(LOCALID) = RHOZERO(LOCALID) / RHO(LOCALID)
-            ENDDO
+            END DO
 
             CALL EOSMAIN(2, NEL, EOSTYPE, PM, OFF, EINT(1:NEL), &
               RHO(1:NEL), RHOZERO, MU, MU2, ESPE, &
@@ -153,15 +154,15 @@
                     REMAINING_ELTS = REMAINING_ELTS - 1
                     CONVERGED(LOCALID) = .TRUE.
                     VOL(LOCALID) = ZERO
-                  ENDIF
-                ENDIF
-              ENDIF
-            ENDDO
-          ENDDO
+                  END IF
+                END IF
+              END IF
+            END DO
+          END DO
 
           IF (REMAINING_ELTS  /=  0) THEN
             PRINT*, "*** Convergence issue in /INIMAP1D or /INIMAP2D option"
-          ENDIF
+          END IF
 
         END SUBROUTINE MULTI_SOLVE_EINT
       END MODULE MULTI_SOLVE_EINT_MOD

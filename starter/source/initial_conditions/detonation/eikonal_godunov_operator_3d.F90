@@ -26,6 +26,7 @@
 !||    eikonal_compute_adjacent          ../starter/source/initial_conditions/detonation/eikonal_compute_adjacent.F90
 !||====================================================================
       module eikonal_godunov_operator_3d_mod
+      implicit none
       contains
 
 ! ======================================================================================================================
@@ -102,7 +103,7 @@
             s = one / s
             tt_candidate = c+s*dist
             tt = min(tt, tt_candidate)
-          elseif (a == ep21 .and. c ==ep21)then
+          else if (a == ep21 .and. c ==ep21)then
             l=2
             if(b == tt_adj(4))l=4  !supposing x axis fior adj elems 2,4
             dx = (xel(1)-xel_adj(1,l))
@@ -113,7 +114,7 @@
             s = one / s
             tt_candidate = b+s*dist
             tt = min(tt, tt_candidate)
-          elseif (b == ep21 .and. c == ep21) then
+          else if (b == ep21 .and. c == ep21) then
             k=1
             if(a==tt_adj(3))k=3  !supposing x axis fior adj elems 1,3
             dx = (xel(1)-xel_adj(1,k))
@@ -124,18 +125,18 @@
             s = one / s
             tt_candidate = a+s*dist
             tt = min(tt, tt_candidate)
-          elseif (max_abc == ep21) then  !at least one 'direction' ignored (two directions)
+          else if (max_abc == ep21) then  !at least one 'direction' ignored (two directions)
             if(a == ep21)then
               k=5
               if(c == tt_adj(6))k=6
               l=2
               if(b == tt_adj(4))l=4
-            elseif(b==ep21)then
+            else if(b==ep21)then
               k=1
               if(a == tt_adj(3))k=3
               l=5
               if(c == tt_adj(6))l=6
-            elseif(c==ep21)then
+            else if(c==ep21)then
               k=1
               if(a == tt_adj(3))k=3
               l=2
@@ -204,7 +205,7 @@
 
 
 
-          elseif (max_abc < ep21) then  !three directions
+          else if (max_abc < ep21) then  !three directions
             s = maxval(Velocity_adj)
             s = max(s, Velocity)
             s = one / s

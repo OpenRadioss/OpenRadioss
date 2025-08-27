@@ -26,6 +26,7 @@
 !||    eikonal_fast_marching_method   ../starter/source/initial_conditions/detonation/eikonal_fast_marching_method.F90
 !||====================================================================
       module eikonal_compute_adjacent_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures
@@ -110,7 +111,7 @@
               updown(iel) = 0
               num_new_activated = num_new_activated + 1
               list_new_activated(num_new_activated) = iel
-            endif
+            end if
 
             !update arrival time this adjacent elem (whatever is updown for the adjacent elem)
             iad2 = ale_connectivity%ee_connect%iad_connect(iev)
@@ -129,7 +130,7 @@
 
             if(nvois == 4)then
               call eikonal_Godunov_Operator_2d(xel(1,iel), tdet(iel), xel_adj, tdet_adj, 4, Vel(iel), Vel_adj)
-            elseif (nvois == 3)then
+            else if (nvois == 3)then
               tdet_adj(4) = ep21
               call eikonal_Godunov_Operator_2d(xel(1,iel), tdet(iel), xel_adj, tdet_adj, 3, Vel(iel), Vel_adj)
             else
@@ -138,7 +139,7 @@
 
 
 
-          ENDDO
+          END DO
         end subroutine eikonal_compute_adjacent
 ! ----------------------------------------------------------------------------------------------------------------------
       end module eikonal_compute_adjacent_mod

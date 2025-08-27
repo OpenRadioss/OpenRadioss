@@ -73,9 +73,9 @@
                 do p = 1, nspmd
                   call ifrontplus(j,p)
                   !write(6,*) "python_front: node ", nodes_global_ids(i), " is on processor ", p
-                enddo
-              endif
-            enddo
+                end do
+              end if
+            end do
           end do
         end subroutine python_duplicate_nodes
       end module python_duplicate_nodes_mod

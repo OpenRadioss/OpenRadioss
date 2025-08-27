@@ -35,6 +35,7 @@
 !||    inter_sort_07                ../engine/source/interfaces/int07/inter_sort_07.F
 !||====================================================================
       module check_sorting_criteria_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures
@@ -120,7 +121,7 @@
             my_bool = t_start_condition.or.t_stop_condition.or.distance_condition
             need_computation = .not.(my_bool)
 
-          elseif(interface_type==20.or.interface_type==22) then
+          else if(interface_type==20.or.interface_type==22) then
 
             ! check only 2 conditions : start / stop
             my_bool = t_start_condition.or.t_stop_condition
@@ -132,20 +133,20 @@
               if(distance_condition.and.nspmd>1) then
                 call i20xsinir( ipari(MACRO_NSNR),ipari(MACRO_NSNER),  &
                   task_id,interface_id,intbuf_tab%stfac )
-              endif
-            endif
+              end if
+            end if
             ! ------
 
-          elseif(interface_type==25) then
+          else if(interface_type==25) then
 
             ! check only 2 conditions : stop / distance
             sensor_id = ipari(MACRO_IDSENS)
             if(sensor_id==0) then
               my_bool = t_stop_condition
-            endif
+            end if
             need_computation = .not.(my_bool.or.distance_condition)
 
-          endif
+          end if
           ! -------------
           return
           ! -------------------------

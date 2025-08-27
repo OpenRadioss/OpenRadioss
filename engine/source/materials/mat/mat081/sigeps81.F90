@@ -26,6 +26,7 @@
 !||    mulaw          ../engine/source/materials/mat_share/mulaw.F90
 !||====================================================================
       module sigeps81_mod
+      implicit none
       contains
 ! ======================================================================================================================
 ! \brief   Drucker-Prager with cap hardening material law /MAT/LAW81 (DPRAG_CAP)
@@ -154,7 +155,7 @@
           !< Initialization of the volumetric plastic strain if needed
           if ((uvar(1,1) == zero).and.(epspvol0 /= zero).and.(sat0 > 0)) then
             defp(1:nel,2) = epspvol0
-          endif
+          end if
 !
           !=====================================================================
           !< - RECOVERING USER VARIABLES AND STATE VARIABLES
@@ -180,7 +181,7 @@
             !  -> Constant value
           else
             k(1:nel) = kini
-          endif
+          end if
           !<  Shear modulus computation
           !   -> Interpolated with volumetric plastic strain
           if (ifunc(2) > 0) then
@@ -193,11 +194,11 @@
             !   -> Constant value
           else
             g(1:nel) = gini
-          endif
+          end if
           !< Young modulus
           do i = 1,nel
             young(i) = nine*k(i)*g(i)/(three*k(i)+g(i))
-          enddo
+          end do
           !< Two*shear modulus
           g2(1:nel) = two*g(1:nel)
           !< Lame coefficient
@@ -229,7 +230,7 @@
             seq(i) = three_half*(sxx(i)**2 + syy(i)**2 + szz(i)**2)            &
               +      three*(sxy(i)**2 + syz(i)**2 + szx(i)**2)
             seq(i) = sqrt(seq(i))
-          enddo
+          end do
 !
           !=====================================================================
           !< - POROSITY COMPUTATION (IF ACTIVATED)
@@ -245,19 +246,19 @@
               if (muw(i) >= tolmu) then
                 u(i) = kwater*muw(i)
                 dudmuw(i) = kwater
-              elseif (muw(i) > -tolmu) then
+              else if (muw(i) > -tolmu) then
                 u(i) = (kwater/(four*tolmu))*(muw(i)+tolmu)**2
                 dudmuw(i) = (kwater/(two*tolmu))*(muw(i)+tolmu)
               else
                 u(i) = zero
                 dudmuw(i) = zero
-              endif
-            enddo
+              end if
+            end do
           else
             muw(1:nel)    = -one
             u(1:nel)      = zero
             dudmuw(1:nel) = zero
-          endif
+          end if
 !
           !=====================================================================
           !< - YIELD CRITERION VARIABLES COMPUTATION
@@ -276,7 +277,7 @@
           else
             c(1:nel) = cini
             dcdepspd(1:nel) = zero
-          endif
+          end if
           !< Tri-traction return mapping (apex of the yield surface)
           do i = 1,nel
             if (p(i) <= -c(i)/tgphi) then
@@ -287,8 +288,8 @@
               signxx(i) = sxx(i) - p(i)
               signyy(i) = syy(i) - p(i)
               signzz(i) = szz(i) - p(i)
-            endif
-          enddo
+            end if
+          end do
 !
           !< Cap limit pressure
           !  -> Interpolated with volumetric plastic strain
@@ -304,7 +305,7 @@
           else
             pb(1:nel) = capini
             dpbdepspv(1:nel) = zero
-          endif
+          end if
           !< Transition pressure yield surface to cap
           pa(1:nel) = alpha*pb(1:nel)
           dpadepspv(1:nel) = alpha*dpbdepspv(1:nel)
@@ -315,8 +316,8 @@
               p0(i) = pa(i) + (-(pa(i)*tgphi+c(i)) + sqrt(delta))/(four*tgphi)
             else
               p0(i) = pa(i)
-            endif
-          enddo
+            end if
+          end do
 !
           !=====================================================================
           !< - COMPUTATION OF YIELD FUNCTION AND CHECK ELEMENT BEHAVIOR
@@ -335,7 +336,7 @@
               pu(i)    = p(i)
               dpudp(i) = one
               dpudu(i) = zero
-            elseif (p(i) - u(i) <= p0(i)) then
+            else if (p(i) - u(i) <= p0(i)) then
               pu(i)    = p0(i)
               dpudp(i) = zero
               dpudu(i) = zero
@@ -343,26 +344,26 @@
               pu(i)    = p(i) - u(i)
               dpudp(i) =  one
               dpudu(i) = -one
-            endif
+            end if
             !< Transition surface to cap hardening factor
             if (pu(i)<=pa(i)) then
               rc(i) = one
-            elseif (pu(i) >= pb(i)) then
+            else if (pu(i) >= pb(i)) then
               rc(i) = zero
               ntricomp = ntricomp + 1
               indxtricomp(ntricomp) = i
             else
               rc(i) = one - ((pu(i)-pa(i))/(pb(i)-pa(i)))**2
               rc(i) = sqrt(max(rc(i),zero))
-            endif
+            end if
             !< Check the yield condition
             a(i) = max(zero,pu(i)*tgphi + c(i))
             f(i) = seq(i) - rc(i)*a(i)
             if (f(i) >= zero) then
               nindx = nindx + 1
               indx(nindx) = i
-            endif
-          enddo
+            end if
+          end do
 !
           !=====================================================================
           ! - RETURN MAPPING PROCEDURES (PLASTIC CORRECTION)
@@ -386,7 +387,7 @@
                   dmuwdpor    = -(sat0*por0*amu(i))/max((por(i)**2),em20)
                   dpordepspv  = (por0 - one)*exp(epspv(i) - epspvol0)
                   dftrcdepspv = dftrcdepspv - dudmuw(i)*dmuwdpor*dpordepspv
-                endif
+                end if
                 !< Volumetric plastic strain increment and update
                 dftrcdepspv = sign(min(max(abs(dftrcdepspv),em20),ep20),     &
                   dftrcdepspv)
@@ -405,15 +406,15 @@
                   if (muw(i) >= tolmu) then
                     u(i) = kwater*muw(i)
                     dudmuw(i) = kwater
-                  elseif (muw(i) > -tolmu) then
+                  else if (muw(i) > -tolmu) then
                     u(i) = (kwater/(four*tolmu))*(muw(i)+tolmu)**2
                     dudmuw(i) = (kwater/(two*tolmu))*(muw(i)+tolmu)
                   else
                     u(i) = zero
                     dudmuw(i) = zero
-                  endif
-                endif
-              enddo
+                  end if
+                end if
+              end do
               !< Update the cap pressure limit Pb if tabulated
               if (ifunc(4) > 0) then
                 ipos(1:nel) = vartmp(1:nel,4)
@@ -425,7 +426,7 @@
                 vartmp(1:nel,4) = ipos(1:nel)
                 pa(1:nel) = alpha*pb(1:nel)
                 dpadepspv(1:nel) = alpha*dpbdepspv(1:nel)
-              endif
+              end if
               do ii = 1, ntricomp
                 i = indxtricomp(ii)
                 !< Update null criterion derivative pressure (dfdp = 0)
@@ -436,13 +437,13 @@
                     sqrt(delta))/(four*tgphi)
                 else
                   p0(i) = pa(i)
-                endif
+                end if
                 !< Update the shifted pressure
                 if (p(i) < p0(i)) then
                   pu(i)    = p(i)
                   dpudp(i) = one
                   dpudu(i) = zero
-                elseif (p(i) - u(i) <= p0(i)) then
+                else if (p(i) - u(i) <= p0(i)) then
                   pu(i)    = p0(i)
                   dpudp(i) = zero
                   dpudu(i) = zero
@@ -450,9 +451,9 @@
                   pu(i)    = p(i) - u(i)
                   dpudp(i) = one
                   dpudu(i) = -one
-                endif
-              enddo
-            enddo
+                end if
+              end do
+            end do
             !< Compute accordingly the new related variables
             do ii = 1, ntricomp
               i = indxtricomp(ii)
@@ -465,15 +466,15 @@
                 p0(i) = pa(i) + (-(pa(i)*tgphi+c(i)) + sqrt(delta))/(four*tgphi)
               else
                 p0(i) = pa(i)
-              endif
+              end if
               !< Update of the hydtostatic stress
               signxx(i) = sxx(i) - p(i)
               signyy(i) = syy(i) - p(i)
               signzz(i) = szz(i) - p(i)
               !< Coefficient for hourglass control
               et(i) = max(et(i),dpbdepspv(i)/(dpbdepspv(i) + k(i)))
-            enddo
-          endif
+            end do
+          end if
 !
           !< Regular return mapping (yield surface)
           !< Cutting plane algorithm to compute the plastic correction
@@ -516,7 +517,7 @@
                 if ((pu(i) > pa(i)).and.(rc(i) > zero)) then
                   drcdpu = -(pu(i) - pa(i))/(rc(i)*(pb(i) - pa(i))**2)
                   dfdpu  = dfdpu - drcdpu*a(i)
-                endif
+                end if
                 dfdp   = dfdpu*dpudp(i)
                 dfdseq = one
 !
@@ -524,11 +525,11 @@
                 !  Von Mises stress
                 if (pu(i) <= pa(i)) then
                   dgdpu = -tgpsi
-                elseif (pu(i) <= p0(i)) then
+                else if (pu(i) <= p0(i)) then
                   dgdpu = -tgpsi*(one - ((pu(i) - pa(i))/(p0(i) - pa(i))))
-                elseif (pu(i) > p0(i)) then
+                else if (pu(i) > p0(i)) then
                   dgdpu = dfdpu
-                endif
+                end if
                 dgdp   = dgdpu*dpudp(i)
                 dgdseq = one
 !
@@ -537,7 +538,7 @@
                 if (rho(i) <= (one + max_dilat)*rho0(i)) then
                   dgdp = max(zero,dgdp)
                   dfdp = max(zero,dfdp)
-                endif
+                end if
 !
                 !< Assembling derivative of yield criterion w.r.t stress tensor
                 dfdsigxx = dfdseq*dseqdsigxx - third*dfdp
@@ -580,7 +581,7 @@
                 else
                   drcdpa = zero
                   drcdpb = zero
-                endif
+                end if
 !
                 !< 3 - Derivative of yield criterion w.r.t material cohesion
                 !---------------------------------------------------------------
@@ -607,7 +608,7 @@
                   dpordepspv = (por0 - one)*exp(epspv(i) - epspvol0)
                   df_dlam = df_dlam +                                          &
                     dfdpu*dpudu(i)*dudmuw(i)*dmuwdpor*dpordepspv*depspv_dlam
-                endif
+                end if
                 df_dlam = sign(min(max(abs(df_dlam),em20),ep20),df_dlam)
 !
                 !< 6 - Computation of plastic multiplier
@@ -665,15 +666,15 @@
                   if (muw(i) >= tolmu) then
                     u(i) = kwater*muw(i)
                     dudmuw(i) = kwater
-                  elseif (muw(i) > -tolmu) then
+                  else if (muw(i) > -tolmu) then
                     u(i) = (kwater/(four*tolmu))*(muw(i)+tolmu)**2
                     dudmuw(i) = (kwater/(two*tolmu))*(muw(i)+tolmu)
                   else
                     u(i) = zero
                     dudmuw(i) = zero
-                  endif
-                endif
-              enddo
+                  end if
+                end if
+              end do
 !
               !< 9 - Update yield function value
               !-----------------------------------------------------------------
@@ -686,7 +687,7 @@
                 c(1:nel) = cini*c(1:nel)
                 dcdepspd(1:nel) = cini*dcdepspd(1:nel)
                 vartmp(1:nel,3) = ipos(1:nel)
-              endif
+              end if
 !
               !< Update cap limit pressure
               if (ifunc(4) > 0) then
@@ -699,7 +700,7 @@
                 vartmp(1:nel,4) = ipos(1:nel)
                 pa(1:nel) = alpha*pb(1:nel)
                 dpadepspv(1:nel) = alpha*dpbdepspv(1:nel)
-              endif
+              end if
 !
               !< Loop over yielding elements
               do ii = 1,nindx
@@ -711,14 +712,14 @@
                   p0(i) = pa(i)+(-(pa(i)*tgphi+c(i))+sqrt(delta))/(four*tgphi)
                 else
                   p0(i) = pa(i)
-                endif
+                end if
 !
                 !< Update the shifted pressure
                 if (p(i) < p0(i)) then
                   pu(i)    = p(i)
                   dpudp(i) = one
                   dpudu(i) = zero
-                elseif (p(i) - u(i) <= p0(i)) then
+                else if (p(i) - u(i) <= p0(i)) then
                   pu(i)    = p0(i)
                   dpudp(i) = zero
                   dpudu(i) = zero
@@ -726,36 +727,36 @@
                   pu(i)    = p(i) - u(i)
                   dpudp(i) =  one
                   dpudu(i) = -one
-                endif
+                end if
 !
                 !< Transition yield surface to cap hardening factor
                 if (pu(i)<=pa(i)) then
                   rc(i) = one
-                elseif (pu(i) >= pb(i)) then
+                else if (pu(i) >= pb(i)) then
                   rc(i) = zero
                 else
                   rc(i) = one - ((pu(i)-pa(i))/(pb(i)-pa(i)))**2
                   rc(i) = sqrt(max(rc(i),zero))
-                endif
+                end if
                 !< Pressure dependent factor
                 a(i) = max(zero,pu(i)*tgphi + c(i))
                 !< New yield function value
                 f(i) = seq(i) - rc(i)*a(i)
-              enddo
-            enddo
+              end do
+            end do
 !
             !< Update coefficient for hourglass
             do ii = 1, nindx
               i = indx(ii)
               if (depspv(i) > zero) then
                 et(i) = max(et(i),dpbdepspv(i)/(dpbdepspv(i) + k(i)))
-              endif
+              end if
               if (depspd(i) > zero) then
                 et(i) = max(et(i),dcdepspd(i)/(dcdepspd(i) + young(i)))
-              endif
-            enddo
+              end if
+            end do
 !
-          endif
+          end if
           !=====================================================================
           ! - END OF PLASTIC CORRECTION WITH CUTTING PLANE METHOD
           !=====================================================================
@@ -768,14 +769,14 @@
               if (muw(i) > -tolmu) then
                 viscmax(i) = viscfac*(sqrt(kwater*rho(i))*(volume(i)**third))
                 u(i) = u(i) - viscmax(i)*(depsxx(i)+depsyy(i)+depszz(i))/dt1
-              endif
+              end if
               !< fp_poro the pore pressure is stored in the viscous stress
               !< for practical reasons including compatibility with ale
               sigvxx(i) = -u(i)
               sigvyy(i) = -u(i)
               sigvzz(i) = -u(i)
-            enddo
-          endif
+            end do
+          end if
 !
           !< Update user variables and compute the sound speed
           do i = 1,nel
@@ -795,7 +796,7 @@
             defp(1:nel,2) = epspv(1:nel) !< Volumetric Plastic Strain
             !< Sound speed in the material
             soundsp(i) = sqrt((k(i) + four_over_3*g(i) + dudmuw(i))/rho0(i))
-          enddo
+          end do
 !
         end subroutine sigeps81
       end module sigeps81_mod

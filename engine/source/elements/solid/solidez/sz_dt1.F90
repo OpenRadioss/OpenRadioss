@@ -28,6 +28,7 @@
 !||    szforc3      ../engine/source/elements/solid/solidez/szforc3.F
 !||====================================================================
       module sz_dt1_mod
+      implicit none
       contains
 ! ======================================================================================================================
 ! \brief new hexa hourglass formulation for distordtion control

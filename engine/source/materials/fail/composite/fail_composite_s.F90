@@ -28,6 +28,7 @@
 !||    usermat_solid          ../engine/source/materials/mat_share/usermat_solid.F
 !||====================================================================
       module fail_composite_s_mod
+      implicit none
       contains
 !||====================================================================
 !||    fail_composite_s   ../engine/source/materials/fail/composite/fail_composite_s.F90
@@ -49,11 +50,11 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           use constant_mod
           use fail_param_mod
+          use precision_mod , only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                 implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
-#include "my_real.inc"
 #include "units_c.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                              Arguments s
@@ -61,30 +62,30 @@
           integer, intent(in)                     :: nel      !< Number of elements
           type(fail_param_), intent(in)           :: fail     !< Failure parameters data structure
           integer, intent(in)                     :: nuvar    !< Number of user variables
-          my_real, dimension(nel,nuvar), intent(inout) :: uvar !< User variables
-          my_real, intent(in)                     :: time     !< Current time
+          real(kind=WP), dimension(nel,nuvar), intent(inout) :: uvar !< User variables
+          real(kind=WP), intent(in)                     :: time     !< Current time
           integer, dimension(nel), intent(in)     :: ngl      !< Global element numbers
           integer, intent(in)                     :: ip       !< Gauss point number
           integer, intent(in)                     :: ilay     !< Layer number
           integer, intent(in)                     :: npg      !< Number of Gauss points
-          my_real, dimension(nel), intent(inout)  :: tdele    !< Deletion time
-          my_real, dimension(nel), intent(inout)  :: off      !< Element failure flag
-          my_real, dimension(nel), intent(inout)  :: loff     !< Integration point failure flag
-          my_real, dimension(nel), intent(inout)  :: signxx   !< Stress xx
-          my_real, dimension(nel), intent(inout)  :: signyy   !< Stress yy
-          my_real, dimension(nel), intent(inout)  :: signzz   !< Stress zz
-          my_real, dimension(nel), intent(inout)  :: signxy   !< Stress xy
-          my_real, dimension(nel), intent(inout)  :: signyz   !< Stress yz
-          my_real, dimension(nel), intent(inout)  :: signzx   !< Stress zx
-          my_real, dimension(nel), intent(inout)  :: dmgscl   !< Damage softening scaling factor
+          real(kind=WP), dimension(nel), intent(inout)  :: tdele    !< Deletion time
+          real(kind=WP), dimension(nel), intent(inout)  :: off      !< Element failure flag
+          real(kind=WP), dimension(nel), intent(inout)  :: loff     !< Integration point failure flag
+          real(kind=WP), dimension(nel), intent(inout)  :: signxx   !< Stress xx
+          real(kind=WP), dimension(nel), intent(inout)  :: signyy   !< Stress yy
+          real(kind=WP), dimension(nel), intent(inout)  :: signzz   !< Stress zz
+          real(kind=WP), dimension(nel), intent(inout)  :: signxy   !< Stress xy
+          real(kind=WP), dimension(nel), intent(inout)  :: signyz   !< Stress yz
+          real(kind=WP), dimension(nel), intent(inout)  :: signzx   !< Stress zx
+          real(kind=WP), dimension(nel), intent(inout)  :: dmgscl   !< Damage softening scaling factor
           integer, intent(in)                     :: lf_dammx !< Flag for damage max value
-          my_real, dimension(nel,lf_dammx), intent(inout) :: dfmax !< Damage variable
+          real(kind=WP), dimension(nel,lf_dammx), intent(inout) :: dfmax !< Damage variable
           integer, dimension(nel), intent(inout)  :: noff     !< Number of failed integration points
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i,j,k,indx(nel),nindx,ifail_so,indx0(nel),nindx0
-          my_real :: sigt1,sigc1,sigt2,sigc2,sig12,sigt3,sigc3,sig23,sig31,beta,   &
+          real(kind=WP) :: sigt1,sigc1,sigt2,sigc2,sig12,sigt3,sigc3,sig23,sig31,beta,   &
             expn,tmax
 !
           !=========================================================================

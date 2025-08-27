@@ -27,6 +27,7 @@
 !||    read_dfs_detpoint                ../starter/source/initial_conditions/detonation/read_dfs_detpoint.F
 !||====================================================================
       module material_is_high_explosive_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures
@@ -65,7 +66,7 @@
 
           if(mlw == 5 .or. mlw == 97 .or. mlw == 51)then !jwl and jwlb
             material_is_high_explosive = .true.
-          endif
+          end if
 
 ! ----------------------------------------------------------------------------------------------------------------------
         end function material_is_high_explosive

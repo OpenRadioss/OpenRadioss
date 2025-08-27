@@ -110,99 +110,99 @@
           call hm_option_is_encrypted(is_encrypted)
           !------------------------------------------
 !card1 - Density
-          call hm_get_floatv('MAT_RHO'   ,rho0     ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_RHO"   ,rho0     ,is_available, lsubmodel, unitab)
 !card2 - young's moduli + shear moduli
-          call hm_get_floatv('LSD_MAT_EA'    ,e1       ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('LSD_MAT_EB'    ,e2       ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('LSD_MAT_EC'    ,e3       ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('LSD_SOFT'      ,soft      ,is_available, lsubmodel, unitab)
-          call hm_get_intv('LSD_FS' ,fs    ,is_available, lsubmodel)
+          call hm_get_floatv("LSD_MAT_EA"    ,e1       ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("LSD_MAT_EB"    ,e2       ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("LSD_MAT_EC"    ,e3       ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("LSD_SOFT"      ,soft      ,is_available, lsubmodel, unitab)
+          call hm_get_intv("LSD_FS" ,fs    ,is_available, lsubmodel)
 !card3 - shear modulus +
-          call hm_get_floatv('LSD_MAT_GAB'   ,g12      ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('LSD_MAT_GBC'   ,g23      ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('LSD_MAT_GCA'   ,g13      ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("LSD_MAT_GAB"   ,g12      ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("LSD_MAT_GBC"   ,g23      ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("LSD_MAT_GCA"   ,g13      ,is_available, lsubmodel, unitab)
 !card4 - poisson's ratio
-          call hm_get_floatv('LSD_MAT_PRBA'  ,nu21     ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('LSDYNA_PRCB'  ,nu32     ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('LSDYNA_PRCA'  ,nu31     ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("LSD_MAT_PRBA"  ,nu21     ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("LSDYNA_PRCB"  ,nu32     ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("LSDYNA_PRCA"  ,nu31     ,is_available, lsubmodel, unitab)
 !card5 - dir 11 tension
-          call hm_get_floatv  ('LSD_M11T'        ,em11t      ,is_available, lsubmodel, unitab)
-          call hm_get_floatv  ('LSD_MAT_XT'      ,xt         ,is_available, lsubmodel, unitab)
-          call hm_get_floatv  ('MATL58_SLIMT1'   ,slimt1     ,is_available, lsubmodel, unitab)
-          call hm_get_intv ('LSD_LCID12'  ,ifem11t     ,is_available, lsubmodel)
-          call hm_get_intv ('LSD_LCID2'   ,ifxt       ,is_available, lsubmodel)
+          call hm_get_floatv  ("LSD_M11T"        ,em11t      ,is_available, lsubmodel, unitab)
+          call hm_get_floatv  ("LSD_MAT_XT"      ,xt         ,is_available, lsubmodel, unitab)
+          call hm_get_floatv  ("MATL58_SLIMT1"   ,slimt1     ,is_available, lsubmodel, unitab)
+          call hm_get_intv ("LSD_LCID12"  ,ifem11t     ,is_available, lsubmodel)
+          call hm_get_intv ("LSD_LCID2"   ,ifxt       ,is_available, lsubmodel)
 !card6 - dir 11 compression
-          call hm_get_floatv  ('LSD_M11C'         ,em11c      ,is_available, lsubmodel, unitab)
-          call hm_get_floatv  ('LSD_MAT_XC'       ,xc         ,is_available, lsubmodel, unitab)
-          call hm_get_floatv  ('MATL58_SLIMC1'    ,slimc1     ,is_available, lsubmodel, unitab)
-          call hm_get_intv  ('LSD_LCID11'  ,ifem11c   ,is_available, lsubmodel)
-          call hm_get_intv  ('LSD_LCID'    ,ifxc     ,is_available, lsubmodel)
+          call hm_get_floatv  ("LSD_M11C"         ,em11c      ,is_available, lsubmodel, unitab)
+          call hm_get_floatv  ("LSD_MAT_XC"       ,xc         ,is_available, lsubmodel, unitab)
+          call hm_get_floatv  ("MATL58_SLIMC1"    ,slimc1     ,is_available, lsubmodel, unitab)
+          call hm_get_intv  ("LSD_LCID11"  ,ifem11c   ,is_available, lsubmodel)
+          call hm_get_intv  ("LSD_LCID"    ,ifxc     ,is_available, lsubmodel)
 !card7 - dir 22 tension
-          call hm_get_floatv  ('LSD_M22T'         ,em22t      ,is_available, lsubmodel, unitab)
-          call hm_get_floatv  ('LSD_MAT_YT'       ,yt         ,is_available, lsubmodel, unitab)
-          call hm_get_floatv  ('MATL58_SLIMT2'    ,slimt2     ,is_available, lsubmodel, unitab)
-          call hm_get_intv ('LSD_LCID14'  ,ifem22t     ,is_available, lsubmodel)
-          call hm_get_intv ('LSD_LCID4'   ,ifyt       ,is_available, lsubmodel)
+          call hm_get_floatv  ("LSD_M22T"         ,em22t      ,is_available, lsubmodel, unitab)
+          call hm_get_floatv  ("LSD_MAT_YT"       ,yt         ,is_available, lsubmodel, unitab)
+          call hm_get_floatv  ("MATL58_SLIMT2"    ,slimt2     ,is_available, lsubmodel, unitab)
+          call hm_get_intv ("LSD_LCID14"  ,ifem22t     ,is_available, lsubmodel)
+          call hm_get_intv ("LSD_LCID4"   ,ifyt       ,is_available, lsubmodel)
 !card8 - dir 22 compression
-          call hm_get_floatv  ('LSD_M22C'         ,em22c      ,is_available, lsubmodel, unitab)
-          call hm_get_floatv  ('LSD_MAT_YC'       ,yc         ,is_available, lsubmodel, unitab)
-          call hm_get_floatv  ('MATL58_SLIMC2'    ,slimc2     ,is_available, lsubmodel, unitab)
-          call hm_get_intv  ('LSD_LCID13'  ,ifem22c   ,is_available, lsubmodel)
-          call hm_get_intv  ('LSD_LCID3'   ,ifyc     ,is_available, lsubmodel)
+          call hm_get_floatv  ("LSD_M22C"         ,em22c      ,is_available, lsubmodel, unitab)
+          call hm_get_floatv  ("LSD_MAT_YC"       ,yc         ,is_available, lsubmodel, unitab)
+          call hm_get_floatv  ("MATL58_SLIMC2"    ,slimc2     ,is_available, lsubmodel, unitab)
+          call hm_get_intv  ("LSD_LCID13"  ,ifem22c   ,is_available, lsubmodel)
+          call hm_get_intv  ("LSD_LCID3"   ,ifyc     ,is_available, lsubmodel)
 !card9 - dir 33 tension only for solid
-          call hm_get_floatv  ('LSD_MAT_E33T'         ,em33t      ,is_available, lsubmodel, unitab)
-          call hm_get_floatv  ('LSD_MAT_157_ZT'       ,zt         ,is_available, lsubmodel, unitab)
-          call hm_get_floatv  ('LSD_MAT_SLIMT3'   ,slimt3     ,is_available, lsubmodel, unitab)
-          call hm_get_intv ('LSD_MAT_LCE33T'  ,ifem33t     ,is_available, lsubmodel)
-          call hm_get_intv ('LSD_MAT_LCZT'     ,ifzt       ,is_available, lsubmodel)
+          call hm_get_floatv  ("LSD_MAT_E33T"         ,em33t      ,is_available, lsubmodel, unitab)
+          call hm_get_floatv  ("LSD_MAT_157_ZT"       ,zt         ,is_available, lsubmodel, unitab)
+          call hm_get_floatv  ("LSD_MAT_SLIMT3"   ,slimt3     ,is_available, lsubmodel, unitab)
+          call hm_get_intv ("LSD_MAT_LCE33T"  ,ifem33t     ,is_available, lsubmodel)
+          call hm_get_intv ("LSD_MAT_LCZT"     ,ifzt       ,is_available, lsubmodel)
 !card10 - dir 33 compression only for solid
-          call hm_get_floatv  ('LSD_MAT_E33C'     ,em33c      ,is_available, lsubmodel, unitab)
-          call hm_get_floatv  ('LSD_MAT_157_ZC'       ,zc         ,is_available, lsubmodel, unitab)
-          call hm_get_floatv  ('LSD_MAT_SLIMC3'   ,slimc3     ,is_available, lsubmodel, unitab)
-          call hm_get_intv  ('LSD_MAT_LCE33C'  ,ifem33c   ,is_available, lsubmodel)
-          call hm_get_intv  ('LSD_MAT_LCZC'   ,ifzc     ,is_available, lsubmodel)
+          call hm_get_floatv  ("LSD_MAT_E33C"     ,em33c      ,is_available, lsubmodel, unitab)
+          call hm_get_floatv  ("LSD_MAT_157_ZC"       ,zc         ,is_available, lsubmodel, unitab)
+          call hm_get_floatv  ("LSD_MAT_SLIMC3"   ,slimc3     ,is_available, lsubmodel, unitab)
+          call hm_get_intv  ("LSD_MAT_LCE33C"  ,ifem33c   ,is_available, lsubmodel)
+          call hm_get_intv  ("LSD_MAT_LCZC"   ,ifzc     ,is_available, lsubmodel)
 !card11 - shear 12
-          call hm_get_floatv  ('MATL58_GAMMA1'   ,gamma     ,is_available, lsubmodel, unitab)
-          call hm_get_floatv  ('MATL58_TAU1'     ,tau       ,is_available, lsubmodel, unitab)
-          call hm_get_floatv  ('LSD_MS'          ,ems       ,is_available, lsubmodel, unitab)
-          call hm_get_floatv  ('LSD_MAT_SC'      ,sc        ,is_available, lsubmodel, unitab)
-          call hm_get_floatv  ('MATL58_SLIMS'    ,slims     ,is_available, lsubmodel, unitab)
+          call hm_get_floatv  ("MATL58_GAMMA1"   ,gamma     ,is_available, lsubmodel, unitab)
+          call hm_get_floatv  ("MATL58_TAU1"     ,tau       ,is_available, lsubmodel, unitab)
+          call hm_get_floatv  ("LSD_MS"          ,ems       ,is_available, lsubmodel, unitab)
+          call hm_get_floatv  ("LSD_MAT_SC"      ,sc        ,is_available, lsubmodel, unitab)
+          call hm_get_floatv  ("MATL58_SLIMS"    ,slims     ,is_available, lsubmodel, unitab)
 !card12 - strain rate dependency (optional)
-          call hm_get_intv  ('LSD_LCID7'    ,ifgamma   ,is_available, lsubmodel)
-          call hm_get_intv  ('LSD_LCID6'    ,iftau     ,is_available, lsubmodel)
-          call hm_get_intv  ('LSD_LCID15'   ,ifems     ,is_available, lsubmodel)
-          call hm_get_intv  ('LSD_LCID5'    ,ifsc     ,is_available, lsubmodel)
+          call hm_get_intv  ("LSD_LCID7"    ,ifgamma   ,is_available, lsubmodel)
+          call hm_get_intv  ("LSD_LCID6"    ,iftau     ,is_available, lsubmodel)
+          call hm_get_intv  ("LSD_LCID15"   ,ifems     ,is_available, lsubmodel)
+          call hm_get_intv  ("LSD_LCID5"    ,ifsc     ,is_available, lsubmodel)
 !card13 - shear 13 for solid
-          call hm_get_floatv  ('LSD_MAT_GAMMA2'   ,gamma2     ,is_available, lsubmodel, unitab)
-          call hm_get_floatv  ('LSD_MAT_TAU2'     ,tau2       ,is_available, lsubmodel, unitab)
-          call hm_get_floatv  ('LSD_MAT_LCSC31'   ,ems13      ,is_available, lsubmodel, unitab)
-          call hm_get_floatv  ('LSD_MAT_SC31'      ,sc13       ,is_available, lsubmodel, unitab)
-          call hm_get_floatv  ('LSD_MAT_SLIMS31'  ,slims13    ,is_available, lsubmodel, unitab)
+          call hm_get_floatv  ("LSD_MAT_GAMMA2"   ,gamma2     ,is_available, lsubmodel, unitab)
+          call hm_get_floatv  ("LSD_MAT_TAU2"     ,tau2       ,is_available, lsubmodel, unitab)
+          call hm_get_floatv  ("LSD_MAT_LCSC31"   ,ems13      ,is_available, lsubmodel, unitab)
+          call hm_get_floatv  ("LSD_MAT_SC31"      ,sc13       ,is_available, lsubmodel, unitab)
+          call hm_get_floatv  ("LSD_MAT_SLIMS31"  ,slims13    ,is_available, lsubmodel, unitab)
 !card14 - strain rate dependency (optional)
-          call hm_get_intv  ('LSD_MAT_LCGAM2'      ,ifgamma2   ,is_available, lsubmodel)
-          call hm_get_intv  ('LSD_MAT_LCTAU2'      ,iftau2     ,is_available, lsubmodel)
-          call hm_get_intv  ('LSD_MAT_LCGMS31'      ,ifems13     ,is_available, lsubmodel)
-          call hm_get_intv  ('LSD_MAT_GMS31'      ,ifsc13      ,is_available, lsubmodel)
+          call hm_get_intv  ("LSD_MAT_LCGAM2"      ,ifgamma2   ,is_available, lsubmodel)
+          call hm_get_intv  ("LSD_MAT_LCTAU2"      ,iftau2     ,is_available, lsubmodel)
+          call hm_get_intv  ("LSD_MAT_LCGMS31"      ,ifems13     ,is_available, lsubmodel)
+          call hm_get_intv  ("LSD_MAT_GMS31"      ,ifsc13      ,is_available, lsubmodel)
 !card15- shear 13 for solid
-          call hm_get_floatv  ('LSD_MAT_GAMMA3'   ,gamma3     ,is_available, lsubmodel, unitab)
-          call hm_get_floatv  ('LSD_MAT_TAU3'     ,tau3       ,is_available, lsubmodel, unitab)
-          call hm_get_floatv  ('LSD_MAT_GMS23'        ,ems23      ,is_available, lsubmodel, unitab)
-          call hm_get_floatv  ('LSD_MAT_SC23'    ,sc23       ,is_available, lsubmodel, unitab)
-          call hm_get_floatv  ('LSD_MAT_SLIMS23'  ,slims23    ,is_available, lsubmodel, unitab)
+          call hm_get_floatv  ("LSD_MAT_GAMMA3"   ,gamma3     ,is_available, lsubmodel, unitab)
+          call hm_get_floatv  ("LSD_MAT_TAU3"     ,tau3       ,is_available, lsubmodel, unitab)
+          call hm_get_floatv  ("LSD_MAT_GMS23"        ,ems23      ,is_available, lsubmodel, unitab)
+          call hm_get_floatv  ("LSD_MAT_SC23"    ,sc23       ,is_available, lsubmodel, unitab)
+          call hm_get_floatv  ("LSD_MAT_SLIMS23"  ,slims23    ,is_available, lsubmodel, unitab)
 !card16 - strain rate dependency (optional)
-          call hm_get_intv  ('LSD_MAT_LCGAM3'     ,ifgamma3   ,is_available, lsubmodel)
-          call hm_get_intv  ('LSD_MAT_LCTAU3'      ,iftau3     ,is_available, lsubmodel)
-          call hm_get_intv  ('LSD_MAT_LCGMS23'     ,ifems23     ,is_available, lsubmodel)
-          call hm_get_intv  ('LSD_MAT_LCSC23'      ,ifsc23      ,is_available, lsubmodel)
+          call hm_get_intv  ("LSD_MAT_LCGAM3"     ,ifgamma3   ,is_available, lsubmodel)
+          call hm_get_intv  ("LSD_MAT_LCTAU3"      ,iftau3     ,is_available, lsubmodel)
+          call hm_get_intv  ("LSD_MAT_LCGMS23"     ,ifems23     ,is_available, lsubmodel)
+          call hm_get_intv  ("LSD_MAT_LCSC23"      ,ifsc23      ,is_available, lsubmodel)
 !card17
-          call hm_get_floatv  ('LSD_MAT_EPSF'   ,gammaf     ,is_available, lsubmodel, unitab)
-          call hm_get_floatv  ('LSD_MAT_EPSR'   ,gammar       ,is_available, lsubmodel, unitab)
-          call hm_get_floatv  ('MAT_LSD_MAT_TSMD'   ,tsmd      ,is_available, lsubmodel, unitab)
+          call hm_get_floatv  ("LSD_MAT_EPSF"   ,gammaf     ,is_available, lsubmodel, unitab)
+          call hm_get_floatv  ("LSD_MAT_EPSR"   ,gammar       ,is_available, lsubmodel, unitab)
+          call hm_get_floatv  ("MAT_LSD_MAT_TSMD"   ,tsmd      ,is_available, lsubmodel, unitab)
 !card18
-          call hm_get_intv  ('LSD_LCID16'        ,iferods  ,is_available, lsubmodel)
-          call hm_get_floatv  ('MATL58_ERODS'   ,erods       ,is_available, lsubmodel, unitab)
+          call hm_get_intv  ("LSD_LCID16"        ,iferods  ,is_available, lsubmodel)
+          call hm_get_floatv  ("MATL58_ERODS"   ,erods       ,is_available, lsubmodel, unitab)
 !card? - equivalent strain rate cutoff frequency
-          call hm_get_floatv('FCUT'      ,fcut     ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("FCUT"      ,fcut     ,is_available, lsubmodel, unitab)
 
           ! young modulus initialization
           if (e2 == zero)  e2  = e1
@@ -239,7 +239,7 @@
               anmode=aninfo_blind_2,               &
               i1=mat_id,                           &
               c1=titr)
-          endif
+          end if
           !
           detc = one - nu12*nu21
           if (detc <= zero) then
@@ -248,7 +248,7 @@
               anmode=aninfo,                    &
               i1=mat_id,                        &
               c1=titr)
-          endif
+          end if
           ! elasticity matrix for 2d plane stress
           fac = one/(one - nu12*nu21)
           a11 = e1*fac
@@ -270,7 +270,7 @@
               anmode=aninfo,                               &
               i1=mat_id,                                   &
               c1=titr)
-          endif
+          end if
           ! 3d elastic matrix
           d11  = (c22*c33-c23*c23)/detc
           d12  =-(c12*c33-c13*c23)/detc
@@ -317,15 +317,15 @@
               m1t = -one/log(ef11t/em11t)
               al1t = m1t*(em11t/ef11t)**m1t
               damage = 1
-            endif
+            end if
 
             if(xc > zero  )then
               ef11c  = xc/e1
               if(em11c <= zero)em11c = ONEP2*ef11c
               m1c = -one/log(ef11c/em11c)
               al1c = m1c*(em11c/ef11c)**m1c
-            endif
-          endif
+            end if
+          end if
           al2c = ep20
           m2t = one
           al2c = ep20
@@ -339,15 +339,15 @@
               if(em22t <= zero) em22t = ONEP2*ef22t
               m2t = -one/log(ef22t/em22t)
               al2t = m2t*(em22t/ef22t)**m2t
-            endif
+            end if
             !
             if(yc  > zero  )then
               ef22c  = yc/e1
               if(em22c == zero  )em22c = ONEP2*ef22c
               m2c = -one/log(ef22c/em22c)
               al2c = m2c*(em22c/ef22c)**m2c
-            endif
-          endif
+            end if
+          end if
           al3c = ep20
           m3t = one
           al3c = ep20
@@ -362,15 +362,15 @@
               m3t = -one/log(ef33t/em33t)
               al3t = m3t*(em33t/ef33t)**m3t
               !!if(ef11t < em11t ) 'error message'
-            endif
+            end if
             !
             if(zc > zero )then
               ef33c  = zc/e3
               if(em33c == zero  )em33c = ONEP2*ef33c
               m3c = -one/log(ef33c/em33c)
               al3c = m3c*(em33c/ef33c)**m3c
-            endif
-          endif
+            end if
+          end if
           ms = one
           als = ep20
           efs = zero
@@ -391,8 +391,8 @@
               else
                 ! adding error message
                 fs = 1
-              endif
-            endif
+              end if
+            end if
             ! transverse shear 13 (only for solid)
             ms13 = one
             als13 = ep20
@@ -405,8 +405,8 @@
                 als13 = ms*(gamma2/efs13)**ms13
               else
                 ! adding error message
-              endif
-            endif
+              end if
+            end if
             ! transverse shear 23 (only for solid)
             ms23 = one
             als23 = ep20
@@ -419,10 +419,10 @@
                 als23 = ms23*(gamma3/efs23)**ms23
               else
                 ! adding error message
-              endif
-            endif
+              end if
+            end if
 
-          endif ! fs = -1
+          end if ! fs = -1
           if(ems <= gamma) ems = two*gamma
           if(ems13 <= gamma2) ems13 = two*gamma2
           if(ems23 <= gamma3) ems23 = two*gamma3
@@ -654,7 +654,7 @@
           write(iout,1000) trim(titr),mat_id,ilaw
           write(iout,1050)
           if (is_encrypted) then
-            write(iout,'(5x,a,//)')'confidential data'
+            write(iout,"(5x,a,//)")"confidential data"
           else
             write(iout,1200) rho0
             write(iout,1300) e1,e2,e3,g12,g23,g13,nu21,nu32,nu31
@@ -675,137 +675,137 @@
             write(iout,2600) gammaf, gammar, tsmd, erods, iferods
 
             write(iout,2800) fcut
-          endif
+          end if
 ! ----------------------------------------------------------------------------------------------------------------------
 1000      format(/                                                               &
             5x,a,/,                                                               &
-            5x,'material number. . . . . . . . . . . . =',i10/,                   &
-            5x,'material law . . . . . . . . . . . . . =',i10/)
+            5x,"material number. . . . . . . . . . . . =",i10/,                   &
+            5x,"material law . . . . . . . . . . . . . =",i10/)
 1050      format                                                                 &
-            (5x,'material model : laminated composite ',/,                         &
-            5x,'----------------------------------',/)
+            (5x,"material model : laminated composite ",/,                         &
+            5x,"----------------------------------",/)
 1200      format(                                                                &
-            5x,'initial density . . . . . . . . . . . . . . . . .=',1pg20.13/)
+            5x,"initial density . . . . . . . . . . . . . . . . .=",1pg20.13/)
 1300      format(                                                                &
-            5x,'elasticity parameters:                            ',/             &
-            5x,'----------------------                            ',/             &
-            5x,'young modulus in dir. 1 (fiber)  e1 . . . . . . .=',1pg20.13/     &
-            5x,'young modulus in dir. 2 (matrix) e2 . . . . . . .=',1pg20.13/     &
-            5x,'young modulus in dir. 3 (matrix) e3 . . . . . . .=',1pg20.13/     &
-            5x,'shear modulus in plane 12 g12 . . . . . . . . . .=',1pg20.13/     &
-            5x,'shear modulus in plane 23 g23 . . . . . . . . . .=',1pg20.13/     &
-            5x,'shear modulus in plane 31 g31 . . . . . . . . . .=',1pg20.13/     &
-            5x,'poisson ratio in plane 21 nu21. . . . . . . . . .=',1pg20.13/     &
-            5x,'poisson ratio in plane 32 nu32. . . . . . . . . .=',1pg20.13/     &
-            5x,'poisson ratio in plane 31 nu31. . . . . . . . . .=',1pg20.13)
+            5x,"elasticity parameters:                            ",/             &
+            5x,"----------------------                            ",/             &
+            5x,"young modulus in dir. 1 (fiber)  e1 . . . . . . .=",1pg20.13/     &
+            5x,"young modulus in dir. 2 (matrix) e2 . . . . . . .=",1pg20.13/     &
+            5x,"young modulus in dir. 3 (matrix) e3 . . . . . . .=",1pg20.13/     &
+            5x,"shear modulus in plane 12 g12 . . . . . . . . . .=",1pg20.13/     &
+            5x,"shear modulus in plane 23 g23 . . . . . . . . . .=",1pg20.13/     &
+            5x,"shear modulus in plane 31 g31 . . . . . . . . . .=",1pg20.13/     &
+            5x,"poisson ratio in plane 21 nu21. . . . . . . . . .=",1pg20.13/     &
+            5x,"poisson ratio in plane 32 nu32. . . . . . . . . .=",1pg20.13/     &
+            5x,"poisson ratio in plane 31 nu31. . . . . . . . . .=",1pg20.13)
 1400      format(                                                                     &
-            5x,' fiber (dir. 1) parameters   :                            ',/          &
-            5x,'---------------------------                               ',/          &
-            7x,'strain at longitudinal tensile strength . . . . . . . . =',1pg20.13/   &
-            7x,'longitudinal tensile strength  . . . .  . . . . . . . . =',1pg20.13/   &
-            7x,'scale for minimum longitudinal tensile stress limit. . .=',1pg20.13/   &
-            7x,'strain at longitudinal compressive strength . . . . . . =',1pg20.13/   &
-            7x,'longitudinal compressive strength  . . . .  . . . . . . =',1pg20.13/   &
-            7x,'scale for minimum compressive tensile stress limit. . . =',1pg20.13/ )
+            5x," fiber (dir. 1) parameters   :                            ",/          &
+            5x,"---------------------------                               ",/          &
+            7x,"strain at longitudinal tensile strength . . . . . . . . =",1pg20.13/   &
+            7x,"longitudinal tensile strength  . . . .  . . . . . . . . =",1pg20.13/   &
+            7x,"scale for minimum longitudinal tensile stress limit. . .=",1pg20.13/   &
+            7x,"strain at longitudinal compressive strength . . . . . . =",1pg20.13/   &
+            7x,"longitudinal compressive strength  . . . .  . . . . . . =",1pg20.13/   &
+            7x,"scale for minimum compressive tensile stress limit. . . =",1pg20.13/ )
 
 1500      format(                                                                     &
-            5x,'matrix (dir. 2) parameters   :                            ',/          &
-            5x,'---------------------------                               ',/          &
-            7x,'strain at transverse  tensile strength . . . . . . . . =',1pg20.13/    &
-            7x,'transverse tensile strength  . . . .  . . . . . . . . =',1pg20.13/     &
-            7x,'scale for minimum transverse tensile stress limit. . .=',1pg20.13/     &
-            7x,'strain at transverse compressive strength . . . . . . =',1pg20.13/     &
-            7x,'transverse compressive strength  . . . .  . . . . . . =',1pg20.13/     &
-            7x,'scale for minimum compressive tensile stress limit. . . =',1pg20.13/ )
+            5x,"matrix (dir. 2) parameters   :                            ",/          &
+            5x,"---------------------------                               ",/          &
+            7x,"strain at transverse  tensile strength . . . . . . . . =",1pg20.13/    &
+            7x,"transverse tensile strength  . . . .  . . . . . . . . =",1pg20.13/     &
+            7x,"scale for minimum transverse tensile stress limit. . .=",1pg20.13/     &
+            7x,"strain at transverse compressive strength . . . . . . =",1pg20.13/     &
+            7x,"transverse compressive strength  . . . .  . . . . . . =",1pg20.13/     &
+            7x,"scale for minimum compressive tensile stress limit. . . =",1pg20.13/ )
 
 1600      format(                                                                     &
-            5x,'matrix (dir. 3) parameters   :                            ',/          &
-            5x,'---------------------------                               ',/          &
-            5x,'strain at transverse  tensile strength . . . . . . . . =',1pg20.13/    &
-            5x,'transverse tensile strength  . . . .  . . . . . . . . =',1pg20.13/     &
-            5x,'scale for minimum transverse tensile stress limit. . .=',1pg20.13/     &
-            5x,'strain at transverse compressive strength . . . . . . =',1pg20.13/     &
-            5x,'transverse compressive strength  . . . .  . . . . . . =',1pg20.13/     &
-            5x,'scale for minimum compressive tensile stress limit. . . =',1pg20.13/ )
+            5x,"matrix (dir. 3) parameters   :                            ",/          &
+            5x,"---------------------------                               ",/          &
+            5x,"strain at transverse  tensile strength . . . . . . . . =",1pg20.13/    &
+            5x,"transverse tensile strength  . . . .  . . . . . . . . =",1pg20.13/     &
+            5x,"scale for minimum transverse tensile stress limit. . .=",1pg20.13/     &
+            5x,"strain at transverse compressive strength . . . . . . =",1pg20.13/     &
+            5x,"transverse compressive strength  . . . .  . . . . . . =",1pg20.13/     &
+            5x,"scale for minimum compressive tensile stress limit. . . =",1pg20.13/ )
 1700      format(                                                                    &
-            5x,' shear (12) parameters   :                            ',/               &
-            5x,'---------------------------                               ',/           &
-            7x,'shear strain limit in direction 12 . . . . . . . . . . =',1pg20.13/     &
-            7x,'shear stress limit in direction 12  . . . .  . . . . . =',1pg20.13/     &
-            7x,'engineering shear strain at shear strength 12 . . . . .=',1pg20.13/     &
-            7x,'shear strength 12 . . . . . . . . . . . . . . . . . . . =',1pg20.13/    &
-            7x,'scale for minimum shear stress limit 12 . . . . .. . . =',1pg20.13/ )
+            5x," shear (12) parameters   :                            ",/               &
+            5x,"---------------------------                               ",/           &
+            7x,"shear strain limit in direction 12 . . . . . . . . . . =",1pg20.13/     &
+            7x,"shear stress limit in direction 12  . . . .  . . . . . =",1pg20.13/     &
+            7x,"engineering shear strain at shear strength 12 . . . . .=",1pg20.13/     &
+            7x,"shear strength 12 . . . . . . . . . . . . . . . . . . . =",1pg20.13/    &
+            7x,"scale for minimum shear stress limit 12 . . . . .. . . =",1pg20.13/ )
 1800      format(                                                                     &
-            5x,' shear (13) parameters   :                            ',/              &
-            5x,'---------------------------                               ',/          &
-            7x,'shear strain limit in direction 13 . . . . . . . . . . =',1pg20.13/    &
-            7x,'shear stress limit in direction 13  . . . .  . . . . . =',1pg20.13/    &
-            7x,'engineering shear strain at shear strength 13 . . . . .=',1pg20.13/    &
-            7x,'shear strength 13 . . . . . . . . . . . . . . . . . . . =',1pg20.13/   &
-            7x,'scale for minimum shear stress limit 13 . . . . .. . . =',1pg20.13/ )
+            5x," shear (13) parameters   :                            ",/              &
+            5x,"---------------------------                               ",/          &
+            7x,"shear strain limit in direction 13 . . . . . . . . . . =",1pg20.13/    &
+            7x,"shear stress limit in direction 13  . . . .  . . . . . =",1pg20.13/    &
+            7x,"engineering shear strain at shear strength 13 . . . . .=",1pg20.13/    &
+            7x,"shear strength 13 . . . . . . . . . . . . . . . . . . . =",1pg20.13/   &
+            7x,"scale for minimum shear stress limit 13 . . . . .. . . =",1pg20.13/ )
 1900      format(                                                                     &
-            5x,' shear (23) parameters   :                            ',/                &
-            5x,'---------------------------                               ',/            &
-            7x,'shear strain limit in direction 23 . . . . . . . . . . =',1pg20.13/      &
-            7x,'shear stress limit in direction 23  . . . .  . . . . . =',1pg20.13/      &
-            7x,'engineering shear strain at shear strength 23 . . . . .=',1pg20.13/      &
-            7x,'shear strength 23 . . . . . . . . . . . . . . . . . . . =',1pg20.13/     &
-            7x,'scale for minimum shear stress limit 23 . . . . .. . . =',1pg20.13/ )
+            5x," shear (23) parameters   :                            ",/                &
+            5x,"---------------------------                               ",/            &
+            7x,"shear strain limit in direction 23 . . . . . . . . . . =",1pg20.13/      &
+            7x,"shear stress limit in direction 23  . . . .  . . . . . =",1pg20.13/      &
+            7x,"engineering shear strain at shear strength 23 . . . . .=",1pg20.13/      &
+            7x,"shear strength 23 . . . . . . . . . . . . . . . . . . . =",1pg20.13/     &
+            7x,"scale for minimum shear stress limit 23 . . . . .. . . =",1pg20.13/ )
 2000      format(                                                                   &
-            5x,' fiber (dir. 1) strain rate dependency  :                 ',/        &
-            5x,'---------------------------                               ',/        &
-            7x,'curve id defining em11t  . . . .  . . . . . . . . . . . . =',i10/    &
-            7x,'curve id defining longitudinal tensile strength xt . . .  =',i10/    &
-            7x,'curve id defining em11c  . . . .  . . . . . . . . . . . . =',i10/    &
-            7x,'curve id defining longitudinal compresssive strength xc . =',i10/  )
+            5x," fiber (dir. 1) strain rate dependency  :                 ",/        &
+            5x,"---------------------------                               ",/        &
+            7x,"curve id defining em11t  . . . .  . . . . . . . . . . . . =",i10/    &
+            7x,"curve id defining longitudinal tensile strength xt . . .  =",i10/    &
+            7x,"curve id defining em11c  . . . .  . . . . . . . . . . . . =",i10/    &
+            7x,"curve id defining longitudinal compresssive strength xc . =",i10/  )
 2100      format(                                                                   &
-            5x,' matrix (dir. 2) strain rate dependency  :                ',/        &
-            5x,'---------------------------                               ',/        &
-            7x,'curve id defining em22t  . . . .  . . . . . . . . . . . . =',i10/    &
-            7x,'curve id defining longitudinal tensile strength yt . . .  =',i10/    &
-            7x,'curve id defining em22c  . . . .  . . . . . . . . . . . . =',i10/    &
-            7x,'curve id defining longitudinal compresssive strength xc . =',i10/  )
+            5x," matrix (dir. 2) strain rate dependency  :                ",/        &
+            5x,"---------------------------                               ",/        &
+            7x,"curve id defining em22t  . . . .  . . . . . . . . . . . . =",i10/    &
+            7x,"curve id defining longitudinal tensile strength yt . . .  =",i10/    &
+            7x,"curve id defining em22c  . . . .  . . . . . . . . . . . . =",i10/    &
+            7x,"curve id defining longitudinal compresssive strength xc . =",i10/  )
 2200      format(                                                                   &
-            5x,' matrix (dir. 3) strain rate dependency  :                ',/        &
-            5x,'---------------------------                               ',/        &
-            7x,'curve id defining em33t  . . . .  . . . . . . . . . . . . =',i10/    &
-            7x,'curve id defining longitudinal tensile strength yt . . .  =',i10/    &
-            7x,'curve id defining em33c  . . . .  . . . . . . . . . . . . =',i10/    &
-            7x,'curve id defining longitudinal compresssive strength yt . =',i10/ )
+            5x," matrix (dir. 3) strain rate dependency  :                ",/        &
+            5x,"---------------------------                               ",/        &
+            7x,"curve id defining em33t  . . . .  . . . . . . . . . . . . =",i10/    &
+            7x,"curve id defining longitudinal tensile strength yt . . .  =",i10/    &
+            7x,"curve id defining em33c  . . . .  . . . . . . . . . . . . =",i10/    &
+            7x,"curve id defining longitudinal compresssive strength yt . =",i10/ )
 2300      format(                                                                   &
-            5x,' dir 12 - strain rate dependency  :                       ',/        &
-            5x,'---------------------------                               ',/        &
-            7x,'curve id defining shear strain gamma dir12 . . . . . . . .=',i10/    &
-            7x,'curve id defining shear stress tau dir12 . . . . .  . . . =',i10/    &
-            7x,'curve id defining shear strain ems dir12. . . . . . . . . =',i10/    &
-            7x,'curve id defining shear strength sc12 at ems strain . . . =',i10/  )
+            5x," dir 12 - strain rate dependency  :                       ",/        &
+            5x,"---------------------------                               ",/        &
+            7x,"curve id defining shear strain gamma dir12 . . . . . . . .=",i10/    &
+            7x,"curve id defining shear stress tau dir12 . . . . .  . . . =",i10/    &
+            7x,"curve id defining shear strain ems dir12. . . . . . . . . =",i10/    &
+            7x,"curve id defining shear strength sc12 at ems strain . . . =",i10/  )
 2400      format(                                                                   &
-            5x,' dir 13 - strain rate dependency  :                       ',/        &
-            5x,'---------------------------                               ',/        &
-            7x,'curve id defining shear strain gamma dir13 . . . . . . .. =',i10/    &
-            7x,'curve id defining shear stress tau dir13 . . . . .  . . . =',i10/    &
-            7x,'curve id defining shear strain ems dir13. . . . . . . . . =',i10/    &
-            7x,'curve id defining shear strength sc13 at ems strain . . . =',i10/  )
+            5x," dir 13 - strain rate dependency  :                       ",/        &
+            5x,"---------------------------                               ",/        &
+            7x,"curve id defining shear strain gamma dir13 . . . . . . .. =",i10/    &
+            7x,"curve id defining shear stress tau dir13 . . . . .  . . . =",i10/    &
+            7x,"curve id defining shear strain ems dir13. . . . . . . . . =",i10/    &
+            7x,"curve id defining shear strength sc13 at ems strain . . . =",i10/  )
 
 2500      format(                                                                   &
-            5x,' dir 23 - strain rate dependency  :                       ',/        &
-            5x,'---------------------------                               ',/        &
-            7x,'curve id defining shear strain gamma dir23 . . . . . . . .=',i10/    &
-            7x,'curve id defining shear stress tau dir23 . . . . .  . . . =',i10/    &
-            7x,'curve id defining shear strain ems dir23. . . . . . . . . =',i10/    &
-            7x,'curve id defining shear strength sc23 at ems strain . . . =',i10/  )
+            5x," dir 23 - strain rate dependency  :                       ",/        &
+            5x,"---------------------------                               ",/        &
+            7x,"curve id defining shear strain gamma dir23 . . . . . . . .=",i10/    &
+            7x,"curve id defining shear stress tau dir23 . . . . .  . . . =",i10/    &
+            7x,"curve id defining shear strain ems dir23. . . . . . . . . =",i10/    &
+            7x,"curve id defining shear strength sc23 at ems strain . . . =",i10/  )
 
 2600      format(                                                                    &
-            5x,' damage parameters:                               ',/                 &
-            5x,'---------------------------------                 ',/                 &
-            5x,'damage initiation transverse shear strain. . . . . . . =',1pg20.13/   &
-            5x,'final rupture transverse shear strain . .  . . . . . . =',1pg20.13/   &
-            5x,'transverse shear maximum damage . . . . . . . . . . . .=',1pg20.13/   &
-            5x,'maximum effective strain for ply failure erods  . . . .=',1pg20.13/   &
-            5x,'curve id defining erods for strain rate dependency. . .=',i10/ )
+            5x," damage parameters:                               ",/                 &
+            5x,"---------------------------------                 ",/                 &
+            5x,"damage initiation transverse shear strain. . . . . . . =",1pg20.13/   &
+            5x,"final rupture transverse shear strain . .  . . . . . . =",1pg20.13/   &
+            5x,"transverse shear maximum damage . . . . . . . . . . . .=",1pg20.13/   &
+            5x,"maximum effective strain for ply failure erods  . . . .=",1pg20.13/   &
+            5x,"curve id defining erods for strain rate dependency. . .=",i10/ )
 
 2800      format(                                                                    &
-            5x,'strain rate filtering cutoff frequency fcut . . .=',1pg20.13/)
+            5x,"strain rate filtering cutoff frequency fcut . . .=",1pg20.13/)
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine hm_read_mat125
 ! ----------------------------------------------------------------------------------------------------------------------

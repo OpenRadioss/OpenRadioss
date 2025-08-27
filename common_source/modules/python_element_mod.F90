@@ -30,25 +30,27 @@
 !||--- uses       -----------------------------------------------------
 !||====================================================================
       module python_element_mod
-        use iso_c_binding
+        use, intrinsic :: iso_c_binding
+        implicit none
+
         integer, parameter :: NAME_LEN = 100
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                               Interface
 ! ----------------------------------------------------------------------------------------------------------------------
         interface
           subroutine python_update_elemental_entity(name,val,uid) bind(c,name="cpp_python_update_elemental_entity")
-            use iso_c_binding
+            use, intrinsic :: iso_c_binding
             integer(kind=c_int), value, intent(in) :: uid
             real(kind=c_double), value, intent(in) :: val
             character(kind=c_char), dimension(100), intent(in) :: name
           end subroutine python_update_elemental_entity
           subroutine python_get_number_elemental_entities(nb) bind(c,name="cpp_python_get_number_elemental_entities")
-            use iso_c_binding, only : c_int
+            use, intrinsic :: iso_c_binding, only : c_int
             integer(kind=c_int), intent(inout) :: nb
           end subroutine python_get_number_elemental_entities
 !  void cpp_python_get_elemental_entity(int nb,  char *name, int *uid)
           subroutine python_get_elemental_entity(nb,name,uid) bind(c,name="cpp_python_get_elemental_entity")
-            use iso_c_binding
+            use, intrinsic :: iso_c_binding
             integer(kind=c_int), value, intent(in) :: nb
             integer(kind=c_int), intent(inout) :: uid !< returns the user id of the nth variable found in the python code
             character(kind=c_char), dimension(100), intent(inout) :: name !< variable name, as defined in H3D keyword
@@ -141,7 +143,7 @@
             pos = pos + NAME_LEN
             buffer(pos:pos+1) = element%user_ids(i)
             pos = pos + 1
-          enddo
+          end do
         end subroutine element_serialize
 
 !! \brief deserialize the python elemental variables found in the python function
@@ -177,7 +179,7 @@
             pos = pos + NAME_LEN
             element%user_ids(i) = buffer(pos)
             pos = pos + 1
-          enddo
+          end do
 
           ! allocate the other arrays
           if(allocated(element%values)) deallocate(element%values)

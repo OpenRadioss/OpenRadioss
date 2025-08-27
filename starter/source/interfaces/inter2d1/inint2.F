@@ -54,6 +54,8 @@ C   M o d u l e s
 C----------------------------------------------- 
       USE MESSAGE_MOD
       USE INTBUFDEF_MOD
+      USE i9bcs_check_mod , ONLY : I9BCS_CHECK
+      use i1bcs_check_mod , only : I1BCS_CHECK 
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

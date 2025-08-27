@@ -149,10 +149,10 @@
 !                                                      Body
 ! ----------------------------------------------------------------------------------------------------------------------
           if (stat /= 0) then
-            write(6, "(a,i10,a)") 'Error in memory allocation'
+            write(6, "(a,i10,a)") "Error in memory allocation"
             if(present(msg)) then
               write(6, "(a)") msg
-            endif
+            end if
             call arret(2)
           end if
         end subroutine check_error_and_write
@@ -186,7 +186,7 @@
             oldsize = size(a)
           else
             oldsize = 0
-          endif
+          end if
 
           if(newsize < oldsize) then
             allocate(temp(newsize), stat=ierr)
@@ -196,7 +196,7 @@
               else
                 call check_error_and_write(ierr)
               end if
-            endif
+            end if
             if(present(stat)) stat = ierr
             copy_size = newsize
             if(copy_size >0) temp(1:copy_size) = a(1:copy_size)
@@ -204,7 +204,7 @@
           else if(newsize == oldsize .and. newsize == 0 .and. .not. allocated(a)) then
             allocate(a(1), stat=ierr)
             if(present(stat)) stat = ierr
-          endif
+          end if
         end subroutine shrink_array_integer_1d
 
 !||====================================================================
@@ -234,7 +234,7 @@
             oldsize = size(a)
           else
             oldsize = 0
-          endif
+          end if
 
           if(newsize < oldsize) then
             allocate(temp(newsize), stat=ierr)
@@ -244,7 +244,7 @@
               else
                 call check_error_and_write(ierr)
               end if
-            endif
+            end if
             if(present(stat)) stat = ierr
             copy_size = newsize
             if(copy_size >0) temp(1:copy_size) = a(1:copy_size)
@@ -252,7 +252,7 @@
           else if(newsize == oldsize .and. newsize == 0 .and. .not. allocated(a)) then
             allocate(a(1), stat=ierr)
             if(present(stat)) stat = ierr
-          endif
+          end if
         end subroutine shrink_array_real_1d
 !||====================================================================
 !||    shrink_array_double_1d   ../common_source/tools/memory/shrink_array.F90
@@ -281,7 +281,7 @@
             oldsize = size(a)
           else
             oldsize = 0
-          endif
+          end if
           if(newsize < oldsize) then
             allocate(temp(newsize), stat=ierr)
             if(.not. present(stat)) then
@@ -290,7 +290,7 @@
               else
                 call check_error_and_write(ierr)
               end if
-            endif
+            end if
             if(present(stat)) stat = ierr
             copy_size = newsize
             if(copy_size >0) temp(1:copy_size) = a(1:copy_size)
@@ -298,6 +298,6 @@
           else if(newsize == oldsize .and. newsize == 0 .and. .not. allocated(a)) then
             allocate(a(1), stat=ierr)
             if(present(stat)) stat = ierr
-          endif
+          end if
         end subroutine shrink_array_double_1d
       end module shrink_array_mod

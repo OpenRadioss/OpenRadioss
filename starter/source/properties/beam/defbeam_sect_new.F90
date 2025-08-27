@@ -26,6 +26,7 @@
 !||    hm_read_prop18         ../starter/source/properties/beam/hm_read_prop18.F
 !||====================================================================
       module defbeam_sect_new_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
@@ -110,19 +111,19 @@
               geo(ipy+ip)=y1_0 +(i-1)*dy1
               geo(ipz+ip)=half*(l(3)-l(2))
               geo(ipa+ip)=area1_i
-            enddo
+            end do
             do i = 1,2*intr+3
               ip = ip+1
               geo(ipy+ip)=y1_0 +(i-1)*dy1
               geo(ipz+ip)=-half*(l(3)-l(2))
               geo(ipa+ip)=area1_i
-            enddo
+            end do
             do i = 1,2*intr+3
               ip = ip+1
               geo(ipy+ip)=zero
               geo(ipz+ip)=z2_0+(i-1)*dz2
               geo(ipa+ip)=area2_i
-            enddo
+            end do
 ! ----------------------------------------------------------------------------------------------------------------------
            case (11) ! channel section (l(1)-l(2)-l(3)-l(4))
 !                      ----
@@ -146,19 +147,19 @@
               geo(ipy+ip)=y1_0 +(i-1)*dy1
               geo(ipz+ip)=half*(l(3)-l(2))
               geo(ipa+ip)=area1_i
-            enddo
+            end do
             do i = 1,intr+3
               ip = ip+1
               geo(ipy+ip)=y1_0 +(i-1)*dy1
               geo(ipz+ip)=-half*(l(3)-l(2))
               geo(ipa+ip)=area1_i
-            enddo
+            end do
             do i = 1,intr+3
               ip = ip+1
               geo(ipy+ip)=-half*(l(1)-l(4))
               geo(ipz+ip)=z2_0+(i-1)*dz2
               geo(ipa+ip)=area2_i
-            enddo
+            end do
 ! ----------------------------------------------------------------------------------------------------------------------
            case (12) ! l-shape section (l(1)-l(2)-l(3)-l(4))
 !                      |
@@ -182,7 +183,7 @@
               geo(ipy+ip)=half*(-l(1)+l(4))
               geo(ipz+ip)=z1_0 +(i-1)*dz1
               geo(ipa+ip)=area1_i
-            enddo
+            end do
             ip = ip+1
             geo(ipy+ip)=half*(-l(1)+l(4))
             geo(ipz+ip)=half*(-l(3)+l(2))
@@ -192,7 +193,7 @@
               geo(ipy+ip)=y2_0 +(i-1)*dy2
               geo(ipz+ip)=half*(-l(3)+l(2))
               geo(ipa+ip)=area2_i
-            enddo
+            end do
 ! -----------------------------------------------------------------------------------------------------------------------
            case (13) ! t-shape section (l(1)-l(2)-l(3)-l(4))
 !                    -----
@@ -217,7 +218,7 @@
               geo(ipy+ip)=y1_0 +(i-1)*dy1
               geo(ipz+ip)=half*(l(3)-l(2))
               geo(ipa+ip)=area1_i
-            enddo
+            end do
             ip = ip+1
             geo(ipy+ip)=zero
             geo(ipz+ip)=half*(l(3)-l(2))
@@ -228,13 +229,13 @@
               geo(ipy+ip)=y1_0 +(i-1)*dy1
               geo(ipz+ip)=half*(l(3)-l(2))
               geo(ipa+ip)=area1_i
-            enddo
+            end do
             do i = 1,2*(intr+2)
               ip = ip+1
               geo(ipy+ip)=zero
               geo(ipz+ip)=z2_0 +(i-1)*dz2
               geo(ipa+ip)=area2_i
-            enddo
+            end do
 ! ----------------------------------------------------------------------------------------------------------------------
            case (14) ! box-shape section (l(1)-l(2)-l(3)-l(4))
 !                   -------
@@ -258,26 +259,26 @@
               geo(ipy+ip)=y1_0 +(i-1)*dy1
               geo(ipz+ip)=half*(l(3)-l(2))
               geo(ipa+ip)=area1_i
-            enddo
+            end do
             do i = 1,intr+3
               ip = ip+1
               geo(ipy+ip)=y1_0 +(i-1)*dy1
               geo(ipz+ip)=-half*(l(3)-l(2))
               geo(ipa+ip)=area1_i
-            enddo
+            end do
             z2_0 = half*l(3)-l(2)+half*dz2
             do i = 1,intr+1
               ip = ip+1
               geo(ipy+ip)=-half*(l(1)-l(4))
               geo(ipz+ip)=z2_0 +(i-1)*dz2
               geo(ipa+ip)=area2_i
-            enddo
+            end do
             do i = 1,intr+1
               ip = ip+1
               geo(ipy+ip)=half*(l(1)-l(4))
               geo(ipz+ip)=z2_0 +(i-1)*dz2
               geo(ipa+ip)=area2_i
-            enddo
+            end do
 ! ----------------------------------------------------------------------------------------------------------------------
            case (15) ! z-shape section (l(1)-l(2)-l(3)-l(4))
 !                   ----
@@ -300,20 +301,20 @@
               geo(ipy+ip)=y1_0 +(i-1)*dy1
               geo(ipz+ip)=half*(l(3)-l(2))
               geo(ipa+ip)=area1_i
-            enddo
+            end do
             do i = 1,intr+3
               ip = ip+1
               geo(ipy+ip)=-y1_0-(i-1)*dy1
               geo(ipz+ip)=-half*(l(3)-l(2))
               geo(ipa+ip)=area1_i
-            enddo
+            end do
             z2_0 = half*l(3)-l(2)+half*dz2
             do i = 1,intr+3
               ip = ip+1
               geo(ipy+ip)=zero
               geo(ipz+ip)=z2_0 +(i-1)*dz2
               geo(ipa+ip)=area2_i
-            enddo
+            end do
 ! ----------------------------------------------------------------------------------------------------------------------
            case (16) ! trapezoidal section (l(1)-l(2)-l(3))
 !                      ---
@@ -340,8 +341,8 @@
                 geo(ipy+ip)=y1_0 +(i-1)*dy1
                 geo(ipz+ip)=z1_0 +(j-1)*dh
                 geo(ipa+ip)=area1_i
-              enddo
-            enddo
+              end do
+            end do
 ! ----------------------------------------------------------------------------------------------------------------------
            case (17) ! circal section (l(1))
 !                     /  \
@@ -367,8 +368,8 @@
                 geo(ipy+ip)=half*(r_sup+r_inf)*cos(phi)
                 geo(ipz+ip)=half*(r_sup+r_inf)*sin(phi)
                 geo(ipa+ip)=area1_i
-              enddo
-            enddo
+              end do
+            end do
 ! ----------------------------------------------------------------------------------------------------------------------
            case (18) ! tubular section (l(1)-l(2))
 !                     /  \
@@ -394,8 +395,8 @@
                 geo(ipy+ip)=half*(r_sup+r_inf)*cos(phi)
                 geo(ipz+ip)=half*(r_sup+r_inf)*sin(phi)
                 geo(ipa+ip)=area1_i
-              enddo
-            enddo
+              end do
+            end do
 ! ----------------------------------------------------------------------------------------------------------------------
            case (19) ! i-shape section (l(1)-l(2)-l(3)-l(4)-l(5)-l(6))
 !                     -----
@@ -416,7 +417,7 @@
               geo(ipy+ip)=y1_0 +(i-1)*dy1
               geo(ipz+ip)=half*(l(1)-l(6))
               geo(ipa+ip)=area1_i
-            enddo
+            end do
             area1_i = l(2)*l(5)*fac
             dy1 = l(2)*fac
             y1_0 = -half*l(2)+half*dy1
@@ -425,7 +426,7 @@
               geo(ipy+ip)=y1_0 +(i-1)*dy1
               geo(ipz+ip)=-half*(l(1)-l(5))
               geo(ipa+ip)=area1_i
-            enddo
+            end do
             area1_i = l(4)*(l(1)-l(5)-l(6))*fac
             dz1 = -(l(1)-l(5)-l(6))*fac
             z1_0 = half*(l(1)-l(5)-l(6))+half*dz1
@@ -434,7 +435,7 @@
               geo(ipy+ip)=zero
               geo(ipz+ip)=z1_0+(i-1)*dz1
               geo(ipa+ip)=area1_i
-            enddo
+            end do
 ! ----------------------------------------------------------------------------------------------------------------------
            case (20) ! rectangular section (l(1)-l(2))
 !                     -----
@@ -458,8 +459,8 @@
                 geo(ipy+ip)=y1_0 +(i-1)*dy1
                 geo(ipz+ip)=z1_0 +(j-1)*dz1
                 geo(ipa+ip)=area1_i
-              enddo
-            enddo
+              end do
+            end do
 ! ----------------------------------------------------------------------------------------------------------------------
            case (21) ! cross-shape section (l(1)-l(2)-l(3)-l(4))
 !                       |
@@ -480,13 +481,13 @@
               geo(ipy+ip)=-half*half*l(2)
               geo(ipz+ip)=z1_0 +(i-1)*dz1
               geo(ipa+ip)=area1_i
-            enddo
+            end do
             do i = 1,2*intr+4
               ip = ip+1
               geo(ipy+ip)=half*half*l(2)
               geo(ipz+ip)=z1_0 +(i-1)*dz1
               geo(ipa+ip)=area1_i
-            enddo
+            end do
             fac = one/(intr+1)
             area1_i = half*l(4)*half*l(1)*fac
             dy1 = half*l(1)*fac
@@ -496,26 +497,26 @@
               geo(ipy+ip)=y1_0 +(i-1)*dy1
               geo(ipz+ip)=half*l(3)-l(4)-half*half*l(4)
               geo(ipa+ip)=area1_i
-            enddo
+            end do
             do i = 1,intr+1
               ip = ip+1
               geo(ipy+ip)=y1_0 +(i-1)*dy1
               geo(ipz+ip)=half*l(3)-two*l(4)+half*half*l(4)
               geo(ipa+ip)=area1_i
-            enddo
+            end do
             y1_0 = half*(l(1)+l(2))-half*dy1
             do i = 1,intr+1
               ip = ip+1
               geo(ipy+ip)=y1_0 -(i-1)*dy1
               geo(ipz+ip)=half*l(3)-l(4)-half*half*l(4)
               geo(ipa+ip)=area1_i
-            enddo
+            end do
             do i = 1,intr+1
               ip = ip+1
               geo(ipy+ip)=y1_0 -(i-1)*dy1
               geo(ipz+ip)=half*l(3)-two*l(4)+half*half*l(4)
               geo(ipa+ip)=area1_i
-            enddo
+            end do
 ! ----------------------------------------------------------------------------------------------------------------------
            case (22) ! h-shape section (l(1)-l(2)-l(3)-l(4))
 !                     |    |
@@ -540,19 +541,19 @@
               geo(ipy+ip)=-half*(l(1)+half*l(2))
               geo(ipz+ip)=z1_0 +(i-1)*dz1
               geo(ipa+ip)=area1_i
-            enddo
+            end do
             do i = 1,2*intr+5
               ip = ip+1
               geo(ipy+ip)=half*(l(1)+half*l(2))
               geo(ipz+ip)=z1_0 +(i-1)*dz1
               geo(ipa+ip)=area1_i
-            enddo
+            end do
             do i = 1,2*intr+3
               ip = ip+1
               geo(ipy+ip)=y2_0+(i-1)*dy2
               geo(ipz+ip)=zero
               geo(ipa+ip)=area2_i
-            enddo
+            end do
 ! ----------------------------------------------------------------------------------------------------------------------
            case (23) ! t section (l(1)-l(2)-l(3)-l(4))
 !                      |
@@ -576,25 +577,25 @@
               geo(ipy+ip)=half*(l(2)-l(3)+half*l(3))
               geo(ipz+ip)=z1_0 +(i-1)*dz1
               geo(ipa+ip)=area1_i
-            enddo
+            end do
             do i = 1,2*intr+4
               ip = ip+1
               geo(ipy+ip)=half*(l(2)+l(3)-half*l(3))
               geo(ipz+ip)=z1_0 +(i-1)*dz1
               geo(ipa+ip)=area1_i
-            enddo
+            end do
             do i = 1,2*intr+4
               ip = ip+1
               geo(ipy+ip)=y2_0+(i-1)*dy2
               geo(ipz+ip)=half*half*l(4)
               geo(ipa+ip)=area2_i
-            enddo
+            end do
             do i = 1,2*intr+4
               ip = ip+1
               geo(ipy+ip)=y2_0+(i-1)*dy2
               geo(ipz+ip)=-half*half*l(4)
               geo(ipa+ip)=area2_i
-            enddo
+            end do
 ! ----------------------------------------------------------------------------------------------------------------------
            case (24) ! i section (l(1)-l(2)-l(3)-l(4))
 !                      ------
@@ -619,25 +620,25 @@
               geo(ipy+ip)=y1_0 +(i-1)*dy1
               geo(ipz+ip)=half*l(4)-half*half*(l(4)-l(3))
               geo(ipa+ip)=area1_i
-            enddo
+            end do
             do i = 1,2*intr+4
               ip = ip+1
               geo(ipy+ip)=y1_0 +(i-1)*dy1
               geo(ipz+ip)=-half*l(4)+half*half*(l(4)-l(3))
               geo(ipa+ip)=area1_i
-            enddo
+            end do
             do i = 1,2*intr+3
               ip = ip+1
               geo(ipy+ip)=-half*half*l(2)
               geo(ipz+ip)=z2_0 +(i-1)*dz2
               geo(ipa+ip)=area2_i
-            enddo
+            end do
             do i = 1,2*intr+3
               ip = ip+1
               geo(ipy+ip)=half*half*l(2)
               geo(ipz+ip)=z2_0 +(i-1)*dz2
               geo(ipa+ip)=area2_i
-            enddo
+            end do
 ! ----------------------------------------------------------------------------------------------------------------------
            case (25) ! Channel section (l(1)-l(2)-l(3)-l(4))
 !                      |----
@@ -661,25 +662,25 @@
               geo(ipy+ip)=y1_0 +(i-1)*dy1
               geo(ipz+ip)=half*l(4)-half*half*(l(4)-l(3))
               geo(ipa+ip)=area1_i
-            enddo
+            end do
             do i = 1,intr+3
               ip = ip+1
               geo(ipy+ip)=y1_0 +(i-1)*dy1
               geo(ipz+ip)=-half*l(4)+half*half*(l(4)-l(3))
               geo(ipa+ip)=area1_i
-            enddo
+            end do
             do i = 1,intr+3
               ip = ip+1
               geo(ipy+ip)=-half*(l(1)+l(2)) +half*half*l(2)
               geo(ipz+ip)=z2_0 +(i-1)*dz2
               geo(ipa+ip)=area2_i
-            enddo
+            end do
             do i = 1,intr+3
               ip = ip+1
               geo(ipy+ip)=-half*(l(1)+l(2))+three*half*half*l(2)
               geo(ipz+ip)=z2_0 +(i-1)*dz2
               geo(ipa+ip)=area2_i
-            enddo
+            end do
 ! ----------------------------------------------------------------------------------------------------------------------
            case (26) ! u section (l(1)-l(2)-l(3)-l(4))
 !                       |   |
@@ -704,19 +705,19 @@
               geo(ipy+ip)=y1_0 +(i-1)*dy1
               geo(ipz+ip)=-half*l(3)+half*l(2)
               geo(ipa+ip)=area1_i
-            enddo
+            end do
             do i = 1,2*intr+2
               ip = ip+1
               geo(ipy+ip)=-half*l(4)+half*l(1)
               geo(ipz+ip)=z2_0 +(i-1)*dz2
               geo(ipa+ip)=area2_i
-            enddo
+            end do
             do i = 1,2*intr+2
               ip = ip+1
               geo(ipy+ip)=half*l(4)-half*l(1)
               geo(ipz+ip)=z2_0 +(i-1)*dz2
               geo(ipa+ip)=area2_i
-            enddo
+            end do
 ! ----------------------------------------------------------------------------------------------------------------------
            case (27) ! T section (l(1)-l(2)-l(3)-l(4))
 !                        ||
@@ -741,26 +742,26 @@
               geo(ipy+ip)=y1_0 +(i-1)*dy1
               geo(ipz+ip)=-half*l(2)+three*half*half*l(3)
               geo(ipa+ip)=area1_i
-            enddo
+            end do
             do i = 1,2*intr+4
               ip = ip+1
               geo(ipy+ip)=y1_0 +(i-1)*dy1
               geo(ipz+ip)=-half*l(2)+half*half*l(3)
               geo(ipa+ip)=area1_i
-            enddo
+            end do
             do i = 1,2*intr+2
               ip = ip+1
               geo(ipy+ip)=-half*half*l(4)
               geo(ipz+ip)=z2_0 +(i-1)*dz2
               geo(ipa+ip)=area2_i
-            enddo
+            end do
             do i = 1,2*intr+2
               ip = ip+1
               geo(ipy+ip)=half*half*l(4)
               geo(ipz+ip)=z2_0 +(i-1)*dz2
               geo(ipa+ip)=area2_i
 
-            enddo
+            end do
 ! ----------------------------------------------------------------------------------------------------------------------
            case (28) ! box section (l(1)-l(2)-l(3)-l(4)-l(5)-l(6))
 !                      ------
@@ -787,25 +788,25 @@
               geo(ipy+ip)=y1_0 +(i-1)*dy1
               geo(ipz+ip)=half*l(2)-half*l(3)
               geo(ipa+ip)=area1_i
-            enddo
+            end do
             do i = 1,intr+3
               ip = ip+1
               geo(ipy+ip)=y1_0 +(i-1)*dy1
               geo(ipz+ip)=-half*l(2)+half*l(4)
               geo(ipa+ip)=area2_i
-            enddo
+            end do
             do i = 1,intr+1
               ip = ip+1
               geo(ipy+ip)=-half*l(1)+half*l(6)
               geo(ipz+ip)=z2_0 +(i-1)*dz2
               geo(ipa+ip)=area3_i
-            enddo
+            end do
             do i = 1,intr+1
               ip = ip+1
               geo(ipy+ip)=half*l(1)-half*l(5)
               geo(ipz+ip)=z2_0 +(i-1)*dz2
               geo(ipa+ip)=area4_i
-            enddo
+            end do
 ! ----------------------------------------------------------------------------------------------------------------------
            case (29) ! hexagon section (l(1)-l(2)-l(3))
 !                      ---
@@ -833,8 +834,8 @@
                 geo(ipy+ip)=y1_0 +(i-1)*dy1
                 geo(ipz+ip)=z1_0 -(j-1)*dh
                 geo(ipa+ip)=area1_i
-              enddo
-            enddo
+              end do
+            end do
             z1_0 = -half*l(3)+half*dh
             do j=1,intr+3
               l_sup = l(2)-two*l(1)+(j-1)*dl
@@ -847,8 +848,8 @@
                 geo(ipy+ip)=y1_0 +(i-1)*dy1
                 geo(ipz+ip)=z1_0 +(j-1)*dh
                 geo(ipa+ip)=area1_i
-              enddo
-            enddo
+              end do
+            end do
 ! ----------------------------------------------------------------------------------------------------------------------
            case (30) ! hat section (l(1)-l(2)-l(3)-l(4))
 !                       ----
@@ -873,7 +874,7 @@
               geo(ipy+ip)=y1_0 +(i-1)*dy1
               geo(ipz+ip)=half*l(1)-half*l(2)
               geo(ipa+ip)=area1_i
-            enddo
+            end do
             dy1 = l(4)*fac2
             y1_0 = -half*(l(3)+two*l(4))+half*dy1
             do i = 1,intr+2
@@ -881,7 +882,7 @@
               geo(ipy+ip)=y1_0 +(i-1)*dy1
               geo(ipz+ip)=-half*l(1)+half*l(2)
               geo(ipa+ip)=area2_i
-            enddo
+            end do
             dy1 = -l(4)*fac2
             y1_0 = half*(l(3)+two*l(4))+half*dy1
             do i = 1,intr+2
@@ -889,7 +890,7 @@
               geo(ipy+ip)=y1_0 +(i-1)*dy1
               geo(ipz+ip)=-half*l(1)+half*l(2)
               geo(ipa+ip)=area2_i
-            enddo
+            end do
             dz2 = -(l(1)-l(2))*fac3
             z2_0 = half*l(1)-l(2)+half*dz2
             do i = 1,2*intr+3
@@ -897,13 +898,13 @@
               geo(ipy+ip)=-half*l(3)+half*l(2)
               geo(ipz+ip)=z2_0 +(i-1)*dz2
               geo(ipa+ip)=area3_i
-            enddo
+            end do
             do i = 1,2*intr+3
               ip = ip+1
               geo(ipy+ip)=half*l(3)-half*l(2)
               geo(ipz+ip)=z2_0 +(i-1)*dz2
               geo(ipa+ip)=area3_i
-            enddo
+            end do
 ! ----------------------------------------------------------------------------------------------------------------------
            case (31) ! hat section (l(1)-l(2)-l(3)-l(4)-l(5)-l(6))
 !                       ----
@@ -931,7 +932,7 @@
               geo(ipy+ip)=y1_0 +(i-1)*dy1
               geo(ipz+ip)=half*l(2)-half*l(4)
               geo(ipa+ip)=area1_i
-            enddo
+            end do
             dy1 = l(6)*fac2
             y1_0 = -half*(l(3)+two*l(6))+half*dy1
             do i = 1,intr+2
@@ -939,7 +940,7 @@
               geo(ipy+ip)=y1_0 +(i-1)*dy1
               geo(ipz+ip)=-half*l(2)+l(5)+half*l(4)
               geo(ipa+ip)=area2_i
-            enddo
+            end do
             dy1 = -l(6)*fac2
             y1_0 = half*(l(3)+two*l(6))+half*dy1
             do i = 1,intr+2
@@ -947,7 +948,7 @@
               geo(ipy+ip)=y1_0 +(i-1)*dy1
               geo(ipz+ip)=-half*l(2)+l(5)+half*l(4)
               geo(ipa+ip)=area2_i
-            enddo
+            end do
             dz2 = -(l(2)-l(4)-l(5))*fac3
             z2_0 = half*l(2)-l(4)+half*dz2
             do i = 1,2*intr+3
@@ -955,13 +956,13 @@
               geo(ipy+ip)=-half*l(3)+half*l(4)
               geo(ipz+ip)=z2_0 +(i-1)*dz2
               geo(ipa+ip)=area3_i
-            enddo
+            end do
             do i = 1,2*intr+3
               ip = ip+1
               geo(ipy+ip)=half*l(3)-half*l(4)
               geo(ipz+ip)=z2_0 +(i-1)*dz2
               geo(ipa+ip)=area3_i
-            enddo
+            end do
             dy1 = l(1)*fac4
             y1_0 = -half*l(1)+half*dy1
             do i = 1,6*intr+7
@@ -969,7 +970,7 @@
               geo(ipy+ip)=y1_0 +(i-1)*dy1
               geo(ipz+ip)=-half*l(2)+half*l(5)
               geo(ipa+ip)=area4_i
-            enddo
+            end do
            case default
           end select
 !

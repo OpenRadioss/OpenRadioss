@@ -31,6 +31,7 @@
 !||    write_matparam                 ../engine/source/output/restart/write_matparam.F
 !||====================================================================
       module write_ale_rezoning_param_mod
+      implicit none
       contains
 
 !||====================================================================

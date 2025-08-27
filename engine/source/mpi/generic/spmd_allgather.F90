@@ -72,7 +72,7 @@
             used_comm = comm
           else
             used_comm = SPMD_COMM_WORLD
-          endif
+          end if
 
           call MPI_Allgather(sendbuf,buf_count, MPI_REAL, recvbuf, buf_count, MPI_REAL, used_comm, ierr)
           !call spmd_out(TAG_ALLGATHER,ierr)
@@ -99,7 +99,7 @@
             used_comm = comm
           else
             used_comm = SPMD_COMM_WORLD
-          endif
+          end if
 
           call MPI_Allgather(sendbuf,buf_count, MPI_DOUBLE_PRECISION, recvbuf, buf_count, MPI_DOUBLE_PRECISION, used_comm, ierr)
           !call spmd_out(TAG_ALLGATHER,ierr)
@@ -126,7 +126,7 @@
             used_comm = comm
           else
             used_comm = SPMD_COMM_WORLD
-          endif
+          end if
 
           call MPI_Allgather(sendbuf,buf_count, MPI_INTEGER, recvbuf, buf_count, MPI_INTEGER, used_comm, ierr)
           !call spmd_out(TAG_ALLGATHER,ierr)

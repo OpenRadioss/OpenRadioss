@@ -31,6 +31,7 @@
 !||    hm_read_mat87        ../starter/source/materials/mat/mat087/hm_read_mat87.F90
 !||====================================================================
       module mat_table_copy_mod
+      implicit none
       contains
 
 !! \brief  copy tabulated function input to local table storage in mat_param

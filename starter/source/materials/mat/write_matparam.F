@@ -43,6 +43,7 @@ C-----------------------------------------------
       USE NAMES_AND_TITLES_MOD
       use write_therpmaram_mod
       use write_ale_rezoning_param_mod , only : write_ale_rezoning_param
+!     use write_eosparam_mod , only : write_eosparam
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

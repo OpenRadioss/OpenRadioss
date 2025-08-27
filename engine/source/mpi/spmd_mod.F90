@@ -434,7 +434,7 @@
             call MPI_Probe(source, tag, comm, status, ierr)
           else
             call MPI_Probe(source, tag, SPMD_COMM_WORLD, status, ierr)
-          endif
+          end if
           call spmd_out(tag,ierr)
 #endif
         end subroutine spmd_probe
@@ -466,7 +466,7 @@
             used_comm = comm
           else
             used_comm = SPMD_COMM_WORLD
-          endif
+          end if
 
           call MPI_Reduce(sendbuf, recvbuf, buf_count, MPI_REAL, mpi_op, root, used_comm, ierr)
           call spmd_out(TAG_REDUCE,ierr)
@@ -500,7 +500,7 @@
             used_comm = comm
           else
             used_comm = SPMD_COMM_WORLD
-          endif
+          end if
 
           call MPI_Reduce(sendbuf, recvbuf, buf_count, MPI_REAL, mpi_op, root, used_comm, ierr)
           call spmd_out(TAG_REDUCE,ierr)
@@ -536,7 +536,7 @@
             used_comm = comm
           else
             used_comm = SPMD_COMM_WORLD
-          endif
+          end if
 
           call MPI_Reduce(sendbuf, recvbuf, buf_count, MPI_REAL, mpi_op, root, used_comm, ierr)
           call spmd_out(TAG_REDUCE,ierr)
@@ -572,7 +572,7 @@
             used_comm = comm
           else
             used_comm = SPMD_COMM_WORLD
-          endif
+          end if
 
           call MPI_Allreduce(sendbuf, recvbuf, buf_count, MPI_INTEGER, mpi_op, used_comm, ierr)
           call spmd_out(TAG_ALLREDUCE,ierr)
@@ -608,7 +608,7 @@
             used_comm = comm
           else
             used_comm = SPMD_COMM_WORLD
-          endif
+          end if
 
           call MPI_Allreduce(sendbuf, recvbuf, buf_count, MPI_DOUBLE_PRECISION, mpi_op, used_comm, ierr)
           call spmd_out(TAG_ALLREDUCE,ierr)
@@ -644,7 +644,7 @@
             used_comm = comm
           else
             used_comm = SPMD_COMM_WORLD
-          endif
+          end if
 
           call MPI_Allreduce(sendbuf, recvbuf, buf_count, MPI_REAL, mpi_op, used_comm, ierr)
           call spmd_out(TAG_ALLREDUCE,ierr)
@@ -681,7 +681,7 @@
             used_comm = comm
           else
             used_comm = SPMD_COMM_WORLD
-          endif
+          end if
 
           call MPI_Reduce(sendbuf, recvbuf, buf_count, MPI_REAL, mpi_op, root, used_comm, ierr)
           call spmd_out(TAG_REDUCE,ierr)
@@ -715,7 +715,7 @@
             used_comm = comm
           else
             used_comm = SPMD_COMM_WORLD
-          endif
+          end if
 
           call MPI_Reduce(sendbuf, recvbuf, buf_count, MPI_REAL, mpi_op, root, used_comm, ierr)
           call spmd_out(TAG_REDUCE,ierr)
@@ -751,7 +751,7 @@
             used_comm = comm
           else
             used_comm = SPMD_COMM_WORLD
-          endif
+          end if
 
           call MPI_Reduce(sendbuf, recvbuf, buf_count, MPI_REAL, mpi_op, root, used_comm, ierr)
           call spmd_out(TAG_REDUCE,ierr)
@@ -787,7 +787,7 @@
             used_comm = comm
           else
             used_comm = SPMD_COMM_WORLD
-          endif
+          end if
 
           call MPI_Allreduce(sendbuf, recvbuf, buf_count, MPI_INTEGER, mpi_op, used_comm, ierr)
           call spmd_out(TAG_ALLREDUCE,ierr)
@@ -823,7 +823,7 @@
             used_comm = comm
           else
             used_comm = SPMD_COMM_WORLD
-          endif
+          end if
 
           call MPI_Allreduce(sendbuf, recvbuf, buf_count, MPI_DOUBLE_PRECISION, mpi_op, used_comm, ierr)
           call spmd_out(TAG_ALLREDUCE,ierr)
@@ -859,7 +859,7 @@
             used_comm = comm
           else
             used_comm = SPMD_COMM_WORLD
-          endif
+          end if
 
           call MPI_Allreduce(sendbuf, recvbuf, buf_count, MPI_DOUBLE_PRECISION, mpi_op, used_comm, ierr)
           call spmd_out(TAG_ALLREDUCE,ierr)

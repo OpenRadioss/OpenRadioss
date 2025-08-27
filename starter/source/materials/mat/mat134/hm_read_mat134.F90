@@ -93,14 +93,14 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !     read input fields
 ! ----------------------------------------------------------------------------------------------------------------------
-          call hm_get_floatv('MAT_RHO'     ,rho0,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_RHO"     ,rho0,is_available, lsubmodel, unitab)
           !line2
-          call hm_get_floatv('LSD_MAT_E1'  ,e1  ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('MAT_NU'      ,nu  ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('LSD_MAT_N1'  ,n1  ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('LSD_MAT_E2'  ,e2  ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('LSD_MAT_N2' ,n2  ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('LSD_MAT_V2'  ,v2  ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("LSD_MAT_E1"  ,e1  ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_NU"      ,nu  ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("LSD_MAT_N1"  ,n1  ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("LSD_MAT_E2"  ,e2  ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("LSD_MAT_N2" ,n2  ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("LSD_MAT_V2"  ,v2  ,is_available, lsubmodel, unitab)
 ! ----------------------------------------------------------------------------------------------------------------------
           young  = e1 + e2
           shear   = young/(two * (one + nu))
@@ -152,11 +152,11 @@
           write(iout,1050) trim(titr),mat_id,134
           write(iout,1000)
           if (is_encrypted) then
-            write(iout,'(5x,a,//)')'CONFIDENTIAL DATA'
+            write(iout,"(5x,a,//)")"CONFIDENTIAL DATA"
           else
             write(iout,1060) rho0
             write(iout,1100) e1,n1,e2,v2,n2,nu
-          endif
+          end if
 !
 ! ----------------------------------------------------------------------------------------------------------------------
           return
@@ -167,17 +167,17 @@
             5x,40h  -----------------------------------   ,//)
 1050      format(/                                                               &
             5x,a,/,                                                                &
-            5x,'MATERIAL NUMBER . . . . . . . . . . . . .=',i10/,                  &
-            5x,'MATERIAL LAW. . . . . . . . . . . . . . .=',i10/)
+            5x,"MATERIAL NUMBER . . . . . . . . . . . . .=",i10/,                  &
+            5x,"MATERIAL LAW. . . . . . . . . . . . . . .=",i10/)
 1060      format(                                                                &
-            5x,'INITIAL DENSITY . . . . . . . . . . . . .=',1pg20.13/)
+            5x,"INITIAL DENSITY . . . . . . . . . . . . .=",1pg20.13/)
 1100      format(                                                                &
-            5x,'INITIAL YOUNGS MODULUS . . . . . . . . . . . . . . .=',1PG20.13/,  &
-            5x,'EXPONENT IN POWER LAW FOR YOUNGS MODULUS. . . . . . =',1PG20.13/,  &
-            5x,'ELASTIC MODULUS FOR VISCOSITY . . .. . . . . . . . .=',1PG20.13/,  &
-            5x,'VISCOUS COEFFICIENT  .  . . . . . . . . . . . . . . =',1PG20.13/, &
-            5x,'EXPONENT IN POWER LAW FOR VISCOSITY. . . . . . . . .=',1PG20.13/,  &
-            5x,'POISSONS RATIO . . . . . . . . . . . . . . . . . . .=',1PG20.13/ )
+            5x,"INITIAL YOUNGS MODULUS . . . . . . . . . . . . . . .=",1PG20.13/,  &
+            5x,"EXPONENT IN POWER LAW FOR YOUNGS MODULUS. . . . . . =",1PG20.13/,  &
+            5x,"ELASTIC MODULUS FOR VISCOSITY . . .. . . . . . . . .=",1PG20.13/,  &
+            5x,"VISCOUS COEFFICIENT  .  . . . . . . . . . . . . . . =",1PG20.13/, &
+            5x,"EXPONENT IN POWER LAW FOR VISCOSITY. . . . . . . . .=",1PG20.13/,  &
+            5x,"POISSONS RATIO . . . . . . . . . . . . . . . . . . .=",1PG20.13/ )
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine hm_read_mat134
       end module hm_read_mat134_mod

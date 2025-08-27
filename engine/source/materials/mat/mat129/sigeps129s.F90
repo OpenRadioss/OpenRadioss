@@ -28,6 +28,7 @@
 !||    mulaw            ../engine/source/materials/mat_share/mulaw.F90
 !||====================================================================
       module sigeps129s_mod
+      implicit none
       contains
 
 
@@ -65,13 +66,13 @@
           use sensor_mod
           use table4d_mod
           use table_mat_vinterp_mod
+          use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                    Included files
 ! ----------------------------------------------------------------------------------------------------------------------
 
-#include "my_real.inc"
 
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   arguments
@@ -80,37 +81,37 @@
           integer ,intent(in) :: nuvar                         !< number of state variables
           integer ,intent(in) :: nvartmp                       !< number of temporary internal variables
           integer ,intent(in) :: iexpan                        !< /heat/therm_stress flag
-          my_real ,intent(in) :: time                          !< current time
-          my_real ,intent(in) :: timestep                      !< time step
-          my_real ,dimension(nel)     ,intent(in)    :: temp0  !< previous temperature
-          my_real ,dimension(nel)     ,intent(in)    :: temp   !< current  temperature
-          my_real ,dimension(nel)     ,intent(in)    :: amu    !< mu
-          my_real ,dimension(nel)     ,intent(in)    :: depsxx !< deformation increment component
-          my_real ,dimension(nel)     ,intent(in)    :: depsyy !< deformation increment component
-          my_real ,dimension(nel)     ,intent(in)    :: depszz !< deformation increment component
-          my_real ,dimension(nel)     ,intent(in)    :: depsxy !< deformation increment component
-          my_real ,dimension(nel)     ,intent(in)    :: depsyz !< deformation increment component
-          my_real ,dimension(nel)     ,intent(in)    :: depszx !< deformation increment component
-          my_real ,dimension(nel)     ,intent(in)    :: sigoxx !< input  stress component
-          my_real ,dimension(nel)     ,intent(in)    :: sigoyy !< input  stress component
-          my_real ,dimension(nel)     ,intent(in)    :: sigozz !< input  stress component
-          my_real ,dimension(nel)     ,intent(in)    :: sigoxy !< input  stress component
-          my_real ,dimension(nel)     ,intent(in)    :: sigoyz !< input  stress component
-          my_real ,dimension(nel)     ,intent(in)    :: sigozx !< input  stress component
-          my_real ,dimension(nel)     ,intent(out)   :: signxx !< output stress component
-          my_real ,dimension(nel)     ,intent(out)   :: signyy !< output stress component
-          my_real ,dimension(nel)     ,intent(out)   :: signzz !< output stress component
-          my_real ,dimension(nel)     ,intent(out)   :: signxy !< output stress component
-          my_real ,dimension(nel)     ,intent(out)   :: signyz !< output stress component
-          my_real ,dimension(nel)     ,intent(out)   :: signzx !< output stress component
-          my_real ,dimension(nel)     ,intent(inout) :: off    !< element activation coefficient
-          my_real ,dimension(nel)     ,intent(inout) :: pla    !< plastic strain
-          my_real ,dimension(nel)     ,intent(out)   :: dpla   !< plastic strain increment
-          my_real ,dimension(nel)     ,intent(out)   :: et     !< tangent module
-          my_real ,dimension(nel)     ,intent(out)   :: yld    !< yield stress
-          my_real ,dimension(nel)     ,intent(out)   :: soundsp!< sound speed
-          my_real ,dimension(nel)     ,intent(out)   :: epsp   !< plastic strain rate
-          my_real ,dimension(nel,nuvar)   ,intent(inout) :: uvar      !< state variables
+          real(kind=WP) ,intent(in) :: time                          !< current time
+          real(kind=WP) ,intent(in) :: timestep                      !< time step
+          real(kind=WP) ,dimension(nel)     ,intent(in)    :: temp0  !< previous temperature
+          real(kind=WP) ,dimension(nel)     ,intent(in)    :: temp   !< current  temperature
+          real(kind=WP) ,dimension(nel)     ,intent(in)    :: amu    !< mu
+          real(kind=WP) ,dimension(nel)     ,intent(in)    :: depsxx !< deformation increment component
+          real(kind=WP) ,dimension(nel)     ,intent(in)    :: depsyy !< deformation increment component
+          real(kind=WP) ,dimension(nel)     ,intent(in)    :: depszz !< deformation increment component
+          real(kind=WP) ,dimension(nel)     ,intent(in)    :: depsxy !< deformation increment component
+          real(kind=WP) ,dimension(nel)     ,intent(in)    :: depsyz !< deformation increment component
+          real(kind=WP) ,dimension(nel)     ,intent(in)    :: depszx !< deformation increment component
+          real(kind=WP) ,dimension(nel)     ,intent(in)    :: sigoxx !< input  stress component
+          real(kind=WP) ,dimension(nel)     ,intent(in)    :: sigoyy !< input  stress component
+          real(kind=WP) ,dimension(nel)     ,intent(in)    :: sigozz !< input  stress component
+          real(kind=WP) ,dimension(nel)     ,intent(in)    :: sigoxy !< input  stress component
+          real(kind=WP) ,dimension(nel)     ,intent(in)    :: sigoyz !< input  stress component
+          real(kind=WP) ,dimension(nel)     ,intent(in)    :: sigozx !< input  stress component
+          real(kind=WP) ,dimension(nel)     ,intent(out)   :: signxx !< output stress component
+          real(kind=WP) ,dimension(nel)     ,intent(out)   :: signyy !< output stress component
+          real(kind=WP) ,dimension(nel)     ,intent(out)   :: signzz !< output stress component
+          real(kind=WP) ,dimension(nel)     ,intent(out)   :: signxy !< output stress component
+          real(kind=WP) ,dimension(nel)     ,intent(out)   :: signyz !< output stress component
+          real(kind=WP) ,dimension(nel)     ,intent(out)   :: signzx !< output stress component
+          real(kind=WP) ,dimension(nel)     ,intent(inout) :: off    !< element activation coefficient
+          real(kind=WP) ,dimension(nel)     ,intent(inout) :: pla    !< plastic strain
+          real(kind=WP) ,dimension(nel)     ,intent(out)   :: dpla   !< plastic strain increment
+          real(kind=WP) ,dimension(nel)     ,intent(out)   :: et     !< tangent module
+          real(kind=WP) ,dimension(nel)     ,intent(out)   :: yld    !< yield stress
+          real(kind=WP) ,dimension(nel)     ,intent(out)   :: soundsp!< sound speed
+          real(kind=WP) ,dimension(nel)     ,intent(out)   :: epsp   !< plastic strain rate
+          real(kind=WP) ,dimension(nel,nuvar)   ,intent(inout) :: uvar      !< state variables
           integer ,dimension(nel,nvartmp) ,intent(inout) :: vartmp    !< temporary internal variables
           type (matparam_struct_)         ,intent(in)    :: mat_param !< material parameter structure
           type (sensors_)                 ,intent(in)    :: sensors   !< sensor structure
@@ -120,33 +121,33 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i,ii,iter,niter,nindx,crp_law,isens,ndim
           integer ,dimension(nel) :: indx
-          my_real :: dpdt
-          my_real :: epsp0,lame,ldav,epsc,deps,dcreep,p,rfact
-          my_real :: facp
-          my_real :: asrate,dtime,tstart
-          my_real :: cr1,cr2,cx1,cx2
-          my_real :: j2,g2,g3,rho0
-          my_real :: sig_crp,time_crp,tref
-          my_real :: dphi_dlam
-          my_real :: ca,n,m,cq
-          my_real :: fsig,ftime
-          my_real :: alpha0,crpa0
-          my_real ,dimension(nel)   :: pla0,dlam
-          my_real ,dimension(nel)   :: sxx,syy,szz,sxy,syz,szx !< deviatoric stress components
-          my_real ,dimension(nel)   :: crpa,crpm,crpn,crpq     !< creep parameters
-          my_real ,dimension(nel)   :: cc,cp,cowp              !< strain rate parameters
-          my_real ,dimension(nel)   :: young,shear,bulk,nu     !< elastic moduli
-          my_real ,dimension(nel)   :: h                       !< hardening tangent stiffness
-          my_real ,dimension(nel)   :: phi                     !< plastic yield criterion
-          my_real ,dimension(nel)   :: sigy                    !< yield stress
-          my_real ,dimension(nel)   :: svm                     !< Von Mises stress
-          my_real ,dimension(nel)   :: sigm                    !< pressure
-          my_real ,dimension(nel)   :: fscale                  !< scale factor
-          my_real ,dimension(nel)   :: alpha                   ! thermal expansion coeff
-          my_real ,dimension(nel)   :: depsth,depsc
-          my_real ,dimension(nel)   :: qr1,qr2,qx1,qx2
-          my_real ,dimension(:,:) ,pointer :: xvec1
-          my_real ,dimension(:,:) ,pointer :: xvec2
+          real(kind=WP) :: dpdt
+          real(kind=WP) :: epsp0,lame,ldav,epsc,deps,dcreep,p,rfact
+          real(kind=WP) :: facp
+          real(kind=WP) :: asrate,dtime,tstart
+          real(kind=WP) :: cr1,cr2,cx1,cx2
+          real(kind=WP) :: j2,g2,g3,rho0
+          real(kind=WP) :: sig_crp,time_crp,tref
+          real(kind=WP) :: dphi_dlam
+          real(kind=WP) :: ca,n,m,cq
+          real(kind=WP) :: fsig,ftime
+          real(kind=WP) :: alpha0,crpa0
+          real(kind=WP) ,dimension(nel)   :: pla0,dlam
+          real(kind=WP) ,dimension(nel)   :: sxx,syy,szz,sxy,syz,szx !< deviatoric stress components
+          real(kind=WP) ,dimension(nel)   :: crpa,crpm,crpn,crpq     !< creep parameters
+          real(kind=WP) ,dimension(nel)   :: cc,cp,cowp              !< strain rate parameters
+          real(kind=WP) ,dimension(nel)   :: young,shear,bulk,nu     !< elastic moduli
+          real(kind=WP) ,dimension(nel)   :: h                       !< hardening tangent stiffness
+          real(kind=WP) ,dimension(nel)   :: phi                     !< plastic yield criterion
+          real(kind=WP) ,dimension(nel)   :: sigy                    !< yield stress
+          real(kind=WP) ,dimension(nel)   :: svm                     !< Von Mises stress
+          real(kind=WP) ,dimension(nel)   :: sigm                    !< pressure
+          real(kind=WP) ,dimension(nel)   :: fscale                  !< scale factor
+          real(kind=WP) ,dimension(nel)   :: alpha                   ! thermal expansion coeff
+          real(kind=WP) ,dimension(nel)   :: depsth,depsc
+          real(kind=WP) ,dimension(nel)   :: qr1,qr2,qx1,qx2
+          real(kind=WP) ,dimension(:,:) ,pointer :: xvec1
+          real(kind=WP) ,dimension(:,:) ,pointer :: xvec2
           type (table_4d_)        ,pointer :: itable
 ! ----------------------------------------------------------------------------------------------------------------------
 !   state  v a r i a b l e s (uvar)
@@ -267,14 +268,14 @@
           else                   ! use analytic Voce hardening formula
             do i = 1,nel
               yld(i) = sigy(i)                                     &
-                     + qr1(i)*(one - exp(-cr1*pla(i)))             &
-                     + qr2(i)*(one - exp(-cr2*pla(i)))             &
-                     + qx1(i)*(one - exp(-cx1*pla(i)))             &
-                     + qx2(i)*(one - exp(-cx2*pla(i)))
+                + qr1(i)*(one - exp(-cr1*pla(i)))             &
+                + qr2(i)*(one - exp(-cr2*pla(i)))             &
+                + qx1(i)*(one - exp(-cx1*pla(i)))             &
+                + qx2(i)*(one - exp(-cx2*pla(i)))
               h(i)   = qr1(i)*cr1*exp(-cr1*pla(i))                 &
-                     + qr2(i)*cr2*exp(-cr2*pla(i))                 &
-                     + qx1(i)*cx1*exp(-cx1*pla(i))                 &
-                     + qx2(i)*cx2*exp(-cx2*pla(i))
+                + qr2(i)*cr2*exp(-cr2*pla(i))                 &
+                + qx1(i)*cx1*exp(-cx1*pla(i))                 &
+                + qx2(i)*cx2*exp(-cx2*pla(i))
             enddo
           end if
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -351,9 +352,9 @@
             endif
           enddo
 !
-          !< plastic projection - Newton iterations  
-          do iter = 1,niter 
-#include "vectorize.inc" 
+          !< plastic projection - Newton iterations
+          do iter = 1,niter
+#include "vectorize.inc"
             do ii=1,nindx
               i  = indx(ii)
               dphi_dlam  = -(three*shear(i) + h(i))
@@ -377,26 +378,26 @@
                 call table_mat_vinterp(itable,nel,nel,vartmp,xvec2,yld,h)
               end if
             else                   ! use analytic Voce hardening formula
-#include "vectorize.inc" 
+#include "vectorize.inc"
               do i = 1,nel
                 yld(i) = sigy(i)                                     &
-                       + qr1(i)*(one - exp(-cr1*pla(i)))             &
-                       + qr2(i)*(one - exp(-cr2*pla(i)))             &
-                       + qx1(i)*(one - exp(-cx1*pla(i)))             &
-                       + qx2(i)*(one - exp(-cx2*pla(i)))
+                  + qr1(i)*(one - exp(-cr1*pla(i)))             &
+                  + qr2(i)*(one - exp(-cr2*pla(i)))             &
+                  + qx1(i)*(one - exp(-cx1*pla(i)))             &
+                  + qx2(i)*(one - exp(-cx2*pla(i)))
                 h(i)   = qr1(i)*cr1*exp(-cr1*pla(i))                 &
-                       + qr2(i)*cr2*exp(-cr2*pla(i))                 &
-                       + qx1(i)*cx1*exp(-cx1*pla(i))                 &
-                       + qx2(i)*cx2*exp(-cx2*pla(i))
+                  + qr2(i)*cr2*exp(-cr2*pla(i))                 &
+                  + qx1(i)*cx1*exp(-cx1*pla(i))                 &
+                  + qx2(i)*cx2*exp(-cx2*pla(i))
               enddo
             end if
             !< Update the stress tensor
-#include "vectorize.inc" 
+#include "vectorize.inc"
             do ii=1,nindx
               i  = indx(ii)
               g3 = shear(i) * three
               rfact  = yld(i) / (g3*dlam(i) + yld(i))
-              sxx(i) = sxx(i) * rfact 
+              sxx(i) = sxx(i) * rfact
               syy(i) = syy(i) * rfact
               szz(i) = szz(i) * rfact
               sxy(i) = sxy(i) * rfact
@@ -450,7 +451,7 @@
               end if
               do i=1,nel
                 deps = (depsxx(i)**2 + depsyy(i)**2 + depszz(i)**2) * half     &
-                     +  depsxy(i)**2 + depsyz(i)**2 + depszx(i)**2
+                  +  depsxy(i)**2 + depsyz(i)**2 + depszx(i)**2
                 depsc(i) = min(depsc(i) ,sqrt(two_third*deps))   ! creep strain should be lower than elastic !
                 epsc = uvar(i,2) + depsc(i)
                 uvar(i,2) = epsc
@@ -464,7 +465,7 @@
             dcreep = max(depsc(i), zero)
             g3     = shear(i) * three
             rfact  = yld(i) / (g3*dcreep + yld(i))
-            sxx(i) = sxx(i) * rfact 
+            sxx(i) = sxx(i) * rfact
             syy(i) = syy(i) * rfact
             szz(i) = szz(i) * rfact
             sxy(i) = sxy(i) * rfact
@@ -501,6 +502,6 @@
           end if
           soundsp(1:nel) = sqrt((bulk(1:nel) + four_over_3*shear(1:nel)) / rho0)
           return
-        end
+        end subroutine sigeps129s
 ! ----------------------------------------------------------------------------------------------------------------------
       end module sigeps129s_mod

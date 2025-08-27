@@ -92,7 +92,7 @@
               do i =1,proc_number
                 proc_id = proc_list(i)
                 constraint_struct%rwall%spmd(n)%m_proc_list(proc_id) = 1
-              enddo
+              end do
               ! ---------
 
               ! ---------
@@ -104,10 +104,10 @@
                   proc_id = proc_list(j)
                   if(constraint_struct%rwall%spmd(n)%m_proc_list(proc_id) == 0) cycle
                   constraint_struct%rwall%dd(proc_id,n) = constraint_struct%rwall%dd(proc_id,n) + 1
-                enddo
-              enddo
+                end do
+              end do
               ! ---------
-            endif
+            end if
 
             ! ---------
             ! get the main processor of the current rwall
@@ -118,11 +118,11 @@
               if(constraint_struct%rwall%dd(i,n)>max_node_number) then
                 max_node_number = constraint_struct%rwall%dd(i,n)
                 proc_main = i
-              elseif(constraint_struct%rwall%dd(i,n)==0.and.constraint_struct%rwall%spmd(n)%m_proc_list(i)==1) then
+              else if(constraint_struct%rwall%dd(i,n)==0.and.constraint_struct%rwall%spmd(n)%m_proc_list(i)==1) then
                 constraint_struct%rwall%dd(i,n) = -1
                 if(s_node_number==0) proc_main = i
-              endif
-            enddo
+              end if
+            end do
             ! ---------
 
 
@@ -135,12 +135,12 @@
               if(constraint_struct%rwall%spmd(n)%m_proc_list(i)==1) then
                 constraint_struct%rwall%spmd(n)%pmain = proc_main
                 constraint_struct%rwall%spmd(n)%s_node_number = s_node_number
-              endif
-            enddo
+              end if
+            end do
             ! ---------
 
             index_lprw = index_lprw + s_node_number
-          enddo
+          end do
           ! ------------
 
 ! ----------------------------------------------------------------------------------------------------------------------

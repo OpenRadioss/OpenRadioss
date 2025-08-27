@@ -26,6 +26,7 @@
 !||    mulawc          ../engine/source/materials/mat_share/mulawc.F90
 !||====================================================================
       module sigeps57c_mod
+      implicit none
       contains
 !||====================================================================
 !||    sigeps57c               ../engine/source/materials/mat/mat057/sigeps57c.F90
@@ -163,7 +164,7 @@
           do i = 1,nel
             if (off(i) < em01) off(i) = zero
             if (off(i) <  one) off(i) = off(i)*four_over_5
-          enddo
+          end do
 !
           !< Total strain-rate computation
           if (vp == 0) then
@@ -172,11 +173,11 @@
                 epsd(i) = half*(abs(epspxx(i)+epspyy(i))                &
                   + sqrt((epspxx(i)-epspyy(i))*(epspxx(i)-epspyy(i))    &
                   + epspxy(i)*epspxy(i)))
-              enddo
+              end do
             else
               epsd(1:nel) = asrate*epsd_pg(1:nel) + (one-asrate)*epsd(1:nel)
-            endif
-          endif
+            end if
+          end if
 !
           !< Save the initial yield stress in case of kinematic hardening
           xvec(1:nel,1) = zero
@@ -205,14 +206,14 @@
             a12(1:nel)   = young(1:nel)*nu/(one - nu*nu)
             shear(1:nel) = young(1:nel)/(two*(one + nu))
             !< Non-linear Young modulus evolution
-          elseif ((ce > zero).and.(einf > zero)) then
+          else if ((ce > zero).and.(einf > zero)) then
             do i = 1,nel
               young(i) = young(i) - (young(i) - einf)*(one - exp(-ce*pla(i)))
               a11(i)   = young(i)/(one - nu*nu)
               a12(i)   = young(i)*nu/(one - nu*nu)
               shear(i) = young(i)/(two*(one + nu))
-            enddo
-          endif
+            end do
+          end if
 !
           !=======================================================================
           !< - COMPUTATION OF TRIAL STRESS TENSOR, VON MISES AND PRESSURE
@@ -226,13 +227,13 @@
             signxy(i) = sigoxy(i)/max(one-dmg(i,3),em20) + shear(i)*depsxy(i)
             signyz(i) = sigoyz(i)/max(one-dmg(i,3),em20) + shear(i)*depsyz(i)*shf(i)
             signzx(i) = sigozx(i)/max(one-dmg(i,3),em20) + shear(i)*depszx(i)*shf(i)
-          enddo
+          end do
           !< Kinematic hardening (if activated)
           do i = 1, nel
             signxx(i) = signxx(i) - sigb(i,1)
             signyy(i) = signyy(i) - sigb(i,2)
             signxy(i) = signxy(i) - sigb(i,3)
-          enddo
+          end do
 !
           !=======================================================================
           !< - COMPUTATION OF TRIAL BARLAT 2000 EQUIVALENT STRESS
@@ -257,12 +258,12 @@
               seq(i) = exp((one/m)*log(half*seq(i)))
             else
               seq(i) = zero
-            endif
+            end if
 !
             !< Unnormalized equivalent stress
             seq(i) = seq(i)*normsig(i)
 !
-          enddo
+          end do
 !
           !=======================================================================
           !< - YIELD STRESS COMPUTATION
@@ -288,8 +289,8 @@
             if (phi(i) >= zero .and. off(i) == one) then
               nindx = nindx + 1
               indx(nindx) = i
-            endif
-          enddo
+            end if
+          end do
 !
           !=======================================================================
           !< - RETURN MAPPING PROCEDURES (PLASTIC CORRECTION)
@@ -454,7 +455,7 @@
                   seq(i) = exp((one/m)*log(half*seq(i)))
                 else
                   seq(i) = zero
-                endif
+                end if
                 seq(i) = seq(i)*normsig(i)
 !
                 !< Save variables for yield stress in plastic index order
@@ -462,7 +463,7 @@
                 xvec(ii,2) = epsd(i)
                 ipos(ii,1) = vartmp(i,1)
                 ipos(ii,2) = vartmp(i,2)
-              enddo
+              end do
 !
               !< Update of the yield stress
               call table_mat_vinterp(matparam%table(1),nindx,nindx,ipos,xvec,    &
@@ -487,9 +488,9 @@
                 !< Compute the new yield function
                 phi(i) = (seq(i)/yld(i))**2 - one
 !
-              enddo
+              end do
               !< End of the loop over yielding elements
-            enddo
+            end do
             !< End of the loop over the iterations
 !
 #include "vectorize.inc"
@@ -504,9 +505,9 @@
                 off(i) = four_over_5
                 nindxf = nindxf + 1
                 indxf(nindxf) = i
-              endif
-            enddo
-          endif
+              end if
+            end do
+          end if
           !=======================================================================
           !< - END OF PLASTIC RETURN MAPPING PROCEDURE
           !=======================================================================
@@ -516,15 +517,15 @@
             do i = 1,nel
               dpdt    = dpla(i)/max(timestep,em20)
               epsd(i) = asrate*dpdt + (one - asrate)*epsd(i)
-            enddo
-          endif
+            end do
+          end if
 !
           !< Remove backstress contribution to the stress tensor
           do i = 1,nel
             signxx(i) = signxx(i) + sigb(i,1)
             signyy(i) = signyy(i) + sigb(i,2)
             signxy(i) = signxy(i) + sigb(i,3)
-          enddo
+          end do
 !
           !< Damage softening activated
           if ((epsr1 > zero).and.(epsr2 > zero)) then
@@ -536,8 +537,8 @@
               !< Damage parameter
               dmg(i,3) = max(dmg(i,3),one-(epsr2-epst)/(epsr2-epsr1))
               dmg(i,3) = min(one,dmg(i,3))
-            enddo
-          endif
+            end do
+          end if
 !
           !< Add damage stoftenin to the stress tensor
           do i = 1,nel
@@ -546,7 +547,7 @@
             signxy(i) = (one - dmg(i,3))*signxy(i)
             signyz(i) = (one - dmg(i,3))*signyz(i)
             signzx(i) = (one - dmg(i,3))*signzx(i)
-          enddo
+          end do
 !
           !< Non-local variable update if needed
           if (inloc > 0) then
@@ -579,16 +580,16 @@
                     dseq_dsigxy*signxy(i)
                 else
                   sig_dphidsig = zero
-                endif
+                end if
                 if (sig_dphidsig /= zero) then
                   deplzz(i) = - dplanl(i)*(seq(i)/sig_dphidsig)*(dseq_dsigxx     &
                     + dseq_dsigyy)
                 else
                   deplzz(i) = zero
-                endif
-              endif
-            enddo
-          endif
+                end if
+              end if
+            end do
+          end if
 !
           !< Update the user variable, soundspeed and thickness
           do i=1,nel
@@ -602,7 +603,7 @@
             soundsp(i) = sqrt(a11(i)/rho0(i))
             !< Global damage output
             dmg(i,1) = max(dmg(i,2),dmg(i,3))
-          enddo
+          end do
 !
           !=======================================================================
           !< - PRINTING OUT ELEMENT DELETION FAILURE
@@ -611,11 +612,11 @@
             do ii = 1,nindxf
               write(iout ,1000) ngl(indxf(ii))
               write(istdo,1100) ngl(indxf(ii)),time
-            enddo
-          endif
+            end do
+          end if
 !
-1000      format(1X,'FAILURE (BARLAT3) OF SHELL ELEMENT ',I10)
-1100      format(1X,'FAILURE (BARLAT3) OF SHELL ELEMENT ',I10,1X,'AT TIME :',1PE12.4)
+1000      format(1X,"FAILURE (BARLAT3) OF SHELL ELEMENT ",I10)
+1100      format(1X,"FAILURE (BARLAT3) OF SHELL ELEMENT ",I10,1X,"AT TIME :",1PE12.4)
 !
         end subroutine sigeps57c
       end module sigeps57c_mod

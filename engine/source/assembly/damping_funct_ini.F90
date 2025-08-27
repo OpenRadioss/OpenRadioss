@@ -26,6 +26,7 @@
 !||    resol                   ../engine/source/engine/resol.F
 !||====================================================================
       module damping_funct_ini_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
@@ -85,7 +86,7 @@
                 fact = get_u_func(id_func,tt,dxdy)
               else
                 fact = one
-              endif
+              end if
               alpha = fact*dampr(16,nd)
               dampr(3,nd) = alpha*dampr(32,nd)
               dampr(5,nd) = alpha*dampr(33,nd)

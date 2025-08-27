@@ -31,6 +31,7 @@
 !||    fail_windshield_init      ../starter/source/materials/fail/windshield_alter/fail_windshield_init.F
 !||====================================================================
       module brokmann_crack_init_mod
+      implicit none
       contains
 ! ======================================================================================================================
 ! \brief initializes random crack in /fail/alter following Ch.Brokmann extension
@@ -320,7 +321,7 @@
               phi = brokmann%brokmann_elem(ib)%random(irand + 3)
               cr_ang(i) = phi * pi         !  random crack angle (0 - Pi)
             end if ! ib > 0
-          enddo    ! nel
+          end do    ! nel
 ! ----------------------------------------------------------------------------------------------------------------------
 !     crack depth calculation
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -341,7 +342,7 @@
 
                 if (yiter < y0(i)) then
                   cr_depth(i) = cr_depth(i)*(one+delta_y)
-                elseif (yiter > y0(i)) then
+                else if (yiter > y0(i)) then
                   cr_depth(i) = cr_depth(i)*(one-delta_y)
                 end if
 
@@ -356,7 +357,7 @@
             else
               cr_depth(i) = zero
             end if ! cr_len > 0
-          enddo
+          end do
 !
           uvar(1:nel,15) = zero                ! brokmann model flag
           uvar(1:nel,16) = cr_len(1:nel)
@@ -365,7 +366,7 @@
 
           if (idebug == 1) then
             do i = 1,nel
-              if (cr_len(i) > zero) print*,'i,len,angle=',i,ngl(i),cr_len(i),cr_ang(i)
+              if (cr_len(i) > zero) print*,"i,len,angle=",i,ngl(i),cr_len(i),cr_ang(i)
             end do
           end if
 ! ----------------------------------------------------------------------------------------------------------------------

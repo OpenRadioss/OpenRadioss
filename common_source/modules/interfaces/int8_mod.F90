@@ -44,16 +44,17 @@
 !||    wrrestp            ../engine/source/output/restart/wrrestp.F
 !||====================================================================
       module int8_mod
+      implicit none
 !-----------------------------------------------------------------------
 
         type buft8
           integer ::  nbmain
           integer ::  nbsecnd_tot
-          integer, dimension(:) , pointer ::  nbsecnd !table of nbsecnd per main
-          integer, dimension(:) , pointer ::  main_uid
-          integer, dimension(:) , pointer ::  main_id
-          integer, dimension(:) , pointer ::  secnd_uid
-          integer, dimension(:) , pointer ::  secnd_id
+          integer, dimension(:) , pointer ::  nbsecnd => null() !table of nbsecnd per main
+          integer, dimension(:) , pointer ::  main_uid => null()
+          integer, dimension(:) , pointer ::  main_id => null()
+          integer, dimension(:) , pointer ::  secnd_uid => null()
+          integer, dimension(:) , pointer ::  secnd_id => null()
         end type buft8
         type front8
           !local number of the main node :
@@ -64,17 +65,17 @@
           ! sent and received
           integer  ::  nbcom !
           !list (of size nbcom) of processors that share the main
-          integer, dimension(:) , pointer ::  proclist
+          integer, dimension(:) , pointer ::  proclist => null()
           !pointer to the structure buffer
-          integer, dimension(:) , pointer ::  buf_index
+          integer, dimension(:) , pointer ::  buf_index => null()
         end type front8
 
         type int8_struct_
           integer :: ni
           integer :: s_comm
           integer :: is_activated
-          type(buft8), dimension(:) , pointer :: buffer
-          type(front8), dimension(:) , pointer :: spmd_comm_pattern
+          type(buft8), dimension(:) , pointer :: buffer => null()
+          type(front8), dimension(:) , pointer :: spmd_comm_pattern => null()
         end type int8_struct_
 
       end module int8_mod

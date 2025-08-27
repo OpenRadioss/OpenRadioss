@@ -101,20 +101,20 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-          WRITE(ISTDO,*) 'Number of elements in Radioss:'
-          WRITE(ISTDO,*) '  NIXS     = ',NIXS      ! This is the number of characteristics per element in the IXS array
-          WRITE(ISTDO,*) '  NELEML   = ',NELEML    ! This is the total number of elements
-          WRITE(ISTDO,*) '  NUMELS   = ',NUMELS    ! This is the number of SOLIDS
+          WRITE(ISTDO,*) "Number of elements in Radioss:"
+          WRITE(ISTDO,*) "  NIXS     = ",NIXS      ! This is the number of characteristics per element in the IXS array
+          WRITE(ISTDO,*) "  NELEML   = ",NELEML    ! This is the total number of elements
+          WRITE(ISTDO,*) "  NUMELS   = ",NUMELS    ! This is the number of SOLIDS
           !WRITE(ISTDO,*) '  NUMELS8  = ',NUMELS8   ! This is the number of 8-node solids
           !WRITE(ISTDO,*) '  NUMELS10 = ',NUMELS10  ! This is the number of 10-node tetrahedra
           !WRITE(ISTDO,*) '  NUMELS16 = ',NUMELS16  ! This is the number of 16-node solids
           !WRITE(ISTDO,*) '  NUMELS20 = ',NUMELS20  ! This is the number of 20-node solids
-          WRITE(ISTDO,*) '  NUMELQ   = ',NUMELQ    ! This is the number of quads
-          WRITE(ISTDO,*) '  NUMELC   = ',NUMELC    ! This is the number of 4-shells
-          WRITE(ISTDO,*) '  NUMELT   = ',NUMELT    ! This is the number of trias (aka 3-shells)
-          WRITE(ISTDO,*) '  NUMELP   = ',NUMELP    ! This is the number of beams / rebar
-          WRITE(ISTDO,*) '  NUMELR   = ',NUMELR    ! This is the number of springs
-          WRITE(ISTDO,*) '  NUMELTG  = ',NUMELTG   ! This is the number of 3-shells
+          WRITE(ISTDO,*) "  NUMELQ   = ",NUMELQ    ! This is the number of quads
+          WRITE(ISTDO,*) "  NUMELC   = ",NUMELC    ! This is the number of 4-shells
+          WRITE(ISTDO,*) "  NUMELT   = ",NUMELT    ! This is the number of trias (aka 3-shells)
+          WRITE(ISTDO,*) "  NUMELP   = ",NUMELP    ! This is the number of beams / rebar
+          WRITE(ISTDO,*) "  NUMELR   = ",NUMELR    ! This is the number of springs
+          WRITE(ISTDO,*) "  NUMELTG  = ",NUMELTG   ! This is the number of 3-shells
 
 !           Allocate the arays for inverse index lookup
           VIPER%NUMEL_SC       = NUMELS+NUMELC                                        ! The total number of elements used by Viper
@@ -122,7 +122,7 @@
           VIPER%NUMELE= VIPER%NUMEL_SCG                                            ! The total number of elements used by Viper
           VIPER%ioffset_4shell = NUMELS+NUMELQ                                        ! The (assumed) index offset for 4-shells (confirmed that NUMELS8,NUMELS10,NUMELS16,NUMELS20 are not in the array)
           VIPER%ioffset_3shell = VIPER%ioffset_4shell+NUMELC+NUMELT+NUMELP+NUMELR           ! The (assumed) index offset for 3-shells
-          WRITE(ISTDO,'(a,I18)') 'Radioss2Viper: the total number of elements used by Viper: ',VIPER%NUMELE
+          WRITE(ISTDO,"(a,I18)") "Radioss2Viper: the total number of elements used by Viper: ",VIPER%NUMELE
           ALLOCATE(VIPER%ITABM1(NUMNOD))
           ALLOCATE(VIPER%IXEM1(VIPER%NUMELE))
 
@@ -150,19 +150,19 @@
             TANIM     = TT
             IF (TT > 0.) THEN
 !                Viper is starting from a remap; need to set animation times correctly
-              WRITE(ISTDO,'(a,F12.6,a)') &
-                'Radioss2Viper: the simulation is starting at ', &
+              WRITE(ISTDO,"(a,F12.6,a)") &
+                "Radioss2Viper: the simulation is starting at ", &
                 TT, &
-                ' due to Viper-remapping'
+                " due to Viper-remapping"
               DO WHILE (TANIM < TT)
                 TANIM = TANIM + DTANIM
-              ENDDO
+              END DO
               TANIM = TANIM - DTANIM  ! this will enforce printing the initial dump
-            ENDIF
-          ENDIF
+            END IF
+          END IF
           VIPER%TSTOP= TSTOP-1.d-8    ! TSTOP can change to facilitate an early exit; use this to send a kill-command to Viper
           VIPER%id = 1701
-          OPEN(unit=VIPER%id,file='TimeLog.txt')
+          OPEN(unit=VIPER%id,file="TimeLog.txt")
         end subroutine viper_coupling_initialize
 
 
@@ -191,13 +191,13 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 
           if (numnod == 0) return
-          if (iverbose) print*, 'Radioss2Viper: InitTab: entering with ncol = ',ncol,' and N = ',numnod
+          if (iverbose) print*, "Radioss2Viper: InitTab: entering with ncol = ",ncol," and N = ",numnod
 
           ! copy data to a 1D array to (hopefully) minimise cache misses
           allocate(itab1D(numnod))
           do i = 1,numnod
             itab1D(i) = itab(i*ncol)
-          enddo
+          end do
 
           ! find the maximum index & add create a working array of that size
           idmax = 0
@@ -205,29 +205,29 @@
           do i = 1,numnod
             idmax = max(idmax,itab1D(i))
             idmin = min(idmin,itab1D(i))
-          enddo
-          if (iverbose) print*, 'Radioss2Viper: InitTab: IDs in the range ',idmin,idmax
+          end do
+          if (iverbose) print*, "Radioss2Viper: InitTab: IDs in the range ",idmin,idmax
           allocate(itabtmp(idmax))
           itabtmp = -1 ! initialise to illegal index
 
           ! place the shuffled index in the array entry corresponding to the user id
           do j = 1,numnod
             itabtmp(itab1D(j)) = j
-          enddo
+          end do
 
           ! Reshuffle the array into itabm1 removing all the illegal -1's
           j = 1
           do i = 1,numnod
             do while (itabtmp(j)==-1)
               j = j + 1                     ! advance to skip over -1
-            enddo
+            end do
             itabm1(i) = itabtmp(j) + ioffset ! fill in the correct entry using the correct offset value
             j = j + 1                        ! advance to next entry
-          enddo
+          end do
           deallocate(itabtmp)
           deallocate(itab1D)
 
-          print*, 'Radioss2Viper: InitTab: exiting with ncol = ',ncol,' and N = ',numnod
+          print*, "Radioss2Viper: InitTab: exiting with ncol = ",ncol," and N = ",numnod
 
         end subroutine RadiossViper_InitTab
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -257,9 +257,9 @@
           t_max  = 0.
           dt_out = 0.
           if (iverbose) then
-            print*, 'Radioss2Viper: ReceiveSendInitialTimes: entering: t_now,t_max,dt_min,dt_out: ', &
+            print*, "Radioss2Viper: ReceiveSendInitialTimes: entering: t_now,t_max,dt_min,dt_out: ", &
               t_now, t_max, dt_min, dt_out
-          endif
+          end if
           call SPMD_RECV(dt_min_viper, 1, 1, 9931, MPI_COMM_WORLD)
           call SPMD_RECV(t_max,        1, 1, 9932, MPI_COMM_WORLD)
           call SPMD_RECV(dt_out,       1, 1, 9933, MPI_COMM_WORLD)
@@ -267,9 +267,9 @@
           dt_min = max(dt_min,dt_min_viper)
           call SPMD_SEND(dt_min,       1,  1, 9935, MPI_COMM_WORLD)
           if (iverbose) then
-            print*, 'Radioss2Viper: ReceiveSendInitialTimes: exiting: t_now,t_max,dt_min,dt_out: ', &
+            print*, "Radioss2Viper: ReceiveSendInitialTimes: exiting: t_now,t_max,dt_min,dt_out: ", &
               t_now, t_max, dt_min, dt_out
-          endif
+          end if
 
         end subroutine RadiossViper_ReceiveSendInitialTimes
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -295,17 +295,17 @@
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
 
-          if (iverbose) print*, 'Radioss2Viper: Entering ReceiveSendInitialNumbers: ', t_max
+          if (iverbose) print*, "Radioss2Viper: Entering ReceiveSendInitialNumbers: ", t_max
           call SPMD_SEND(numnodes,   1,1, 9940)
           call SPMD_SEND(numsolids,  1,1, 9941)
           call SPMD_SEND(num4shells, 1,1, 9942)
           call SPMD_SEND(num3shells, 1,1, 9943)
           call SPMD_RECV(ikill,      1,1, 9944)
           if (ikill == 1) then
-            print*, 'Radioss2Viper: ReceiveSendInitialNumbers: ABORTING due to number mismatch'
+            print*, "Radioss2Viper: ReceiveSendInitialNumbers: ABORTING due to number mismatch"
             t_max = 0.
-          endif
-          if (iverbose) print*, 'Radioss2Viper: Exiting ReceiveSendInitialNumbers: ', t_max
+          end if
+          if (iverbose) print*, "Radioss2Viper: Exiting ReceiveSendInitialNumbers: ", t_max
 
         end subroutine RadiossViper_ReceiveSendInitialNumbers
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -331,13 +331,13 @@
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
           allocate(MSviper(numnod))
-          print*, 'Radioss2Viper: SendMass: entering with numnod = ',numnod
+          print*, "Radioss2Viper: SendMass: entering with numnod = ",numnod
 !     make new arrays where the elements are in the correct order
           do i = 1,numnod     ! tests show tha this is slower if openmp-parallel
             MSviper(i) = MS(itabm1(i))
-          enddo
+          end do
           call SPMD_SEND(MSviper,numnod,  1, 9930)
-          if (iverbose) print*, 'Radioss2Viper: SendMass: exiting'
+          if (iverbose) print*, "Radioss2Viper: SendMass: exiting"
           deallocate(MSviper)
         end subroutine RadiossViper_SendMass
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -366,7 +366,7 @@
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
 
-          print*, 'Radioss2Viper: SendInitialStatus: entering:', numele,numele_viper
+          print*, "Radioss2Viper: SendInitialStatus: entering:", numele,numele_viper
 !     make new erosion arrary in Viper's order & determine the number of eroded elements
 !     first, we put them in a contigious array; we will sort and send only if the number of active elements has changed
           n = 0
@@ -377,7 +377,7 @@
                 viper_element = .true.
               else
                 viper_element = .false.
-              endif
+              end if
               k = k + 1
               if (k <= numele) then
                 if (ELBUF_TAB(i)%GBUF%OFF(j) == 1 .and. ELBUF_TAB(i)%BUFLY(1)%ILAW > 0 .and. viper_element) then
@@ -385,17 +385,17 @@
                   Evipertmp(k) = ELBUF_TAB(i)%GBUF%OFF(j)   ! pass element status (eroded or not)
                 else
                   Evipertmp(k) = -1                         ! pass element status defined as void
-                endif
-              endif
-            enddo
-          enddo
-          if (iverbose) print*, 'Radioss2Viper: SendInitialStatus: filled primary array'
+                end if
+              end if
+            end do
+          end do
+          if (iverbose) print*, "Radioss2Viper: SendInitialStatus: filled primary array"
           do i = 1,numele_viper
             Eviper(i) = Evipertmp(ixem1(i))
-          enddo
-          if (iverbose) print*, 'Radioss2Viper: _SendInitialStatus: filled secondary array'
+          end do
+          if (iverbose) print*, "Radioss2Viper: _SendInitialStatus: filled secondary array"
           call SPMD_SEND(Eviper, numele_viper, 1, 9950, MPI_COMM_WORLD)
-          print*, 'Radioss2Viper: SendInitialStatus: exiting', numele,numele_viper,n
+          print*, "Radioss2Viper: SendInitialStatus: exiting", numele,numele_viper,n
 
         end subroutine RadiossViper_SendInitialStatus
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -431,16 +431,16 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           allocate(Xviper(3,numnod),Vviper(3,numnod))
 
-          if (iverbose) print*, 'Radioss2Viper: Entering SendXVE '
+          if (iverbose) print*, "Radioss2Viper: Entering SendXVE "
 !     make temporary position & velocity arrays where the elements are in the correct order for Viper
           do i = 1,numnod     ! tests show that this is slower if openmp-parallel
             Xviper(1:3,i) = X(1:3,itabm1(i))
             Vviper(1:3,i) = V(1:3,itabm1(i))
-          enddo
+          end do
           call SPMD_SEND(Xviper,  3*numnod,  1, 9902, MPI_COMM_WORLD)
           call SPMD_SEND(Vviper,  3*numnod,  1, 9903, MPI_COMM_WORLD)
 
-          if (iverbose) print*, 'Radioss2Viper: SendXVE: Sent position & velocity'
+          if (iverbose) print*, "Radioss2Viper: SendXVE: Sent position & velocity"
 !     make new erosion arrary in Viper's order & determine the number of eroded elements
 !     first, we put them in a contigious array; we will sort and send only if the number of active elements has changed
           n = 0
@@ -451,7 +451,7 @@
                 viper_element = .true.
               else
                 viper_element = .false.
-              endif
+              end if
               k = k + 1
 !           Coupling tests where elements are manually eroded
 !            if (ivoutIO==200 .and. k < 125 .and. .false.) then  ! Testing Chinook plate that is 2 FE thick
@@ -468,26 +468,26 @@
                 if (kill_element) then
                   viper_element = .false.
                   ELBUF_TAB(i)%GBUF%OFF(j) = 0
-                endif
-              endif
+                end if
+              end if
               if (k <= numele) then
                 if (ELBUF_TAB(i)%GBUF%OFF(j) == 1 .and. ELBUF_TAB(i)%BUFLY(1)%ILAW > 0 .and. viper_element) then
                   n = n + 1
                   Evipertmp(k) = ELBUF_TAB(i)%GBUF%OFF(j)   ! pass active status
                 else
                   Evipertmp(k) = -1                         ! failed, dead, null, eroded
-                endif
-              endif
-            enddo
-          enddo
+                end if
+              end if
+            end do
+          end do
           call SPMD_SEND(n, 1,  1, 9907, MPI_COMM_WORLD)
-          print*, 'Radioss2Viper: SendXVE: numnod, nElements_prev, nElements = : ',numnod,numonIO,n
+          print*, "Radioss2Viper: SendXVE: numnod, nElements_prev, nElements = : ",numnod,numonIO,n
           if (numonIO /= n) then
             do i = 1,numele_viper
               Eviper(i) = Evipertmp(ixem1(i))
-            enddo
+            end do
             call SPMD_SEND(Eviper, numele_viper,  1, 9908, MPI_COMM_WORLD)
-          endif
+          end if
           numonIO = n
           ivoutIO = ivoutIO + 1
           deallocate(Xviper,Vviper)
@@ -517,12 +517,12 @@
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
           allocate(Aviper(3,numnod))
-          if (iverbose) print*, 'Radioss2Viper: ReceiveAccelerations: ', numnod
+          if (iverbose) print*, "Radioss2Viper: ReceiveAccelerations: ", numnod
           call SPMD_RECV(Aviper, 3*numnod, 1, 9910, MPI_COMM_WORLD)
           do i = 1,numnod
             A(   1:3,itabm1(i)) = A(   1:3,itabm1(i)) + Aviper(1:3,i)
             Fext(1:3,itabm1(i)) = Fext(1:3,itabm1(i)) + Aviper(1:3,i)
-          enddo
+          end do
           deallocate(Aviper)
         end subroutine RadiossViper_ReceiveAccelerations
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -555,18 +555,18 @@
           call SPMD_RECV(dt_viper, 1,  1, 9925, MPI_COMM_WORLD )
           dt_rad = min(dt_rad,dt_viper)
           call SPMD_SEND(dt_rad,   1,  1, 9926, MPI_COMM_WORLD)
-          print*, 'Radioss2Viper: ReceiveSendDT: exiting: dt_rad_in, dt_viper_in, dt_out: ', &
+          print*, "Radioss2Viper: ReceiveSendDT: exiting: dt_rad_in, dt_viper_in, dt_out: ", &
             dt_rad_in, dt_viper, dt_rad
           if (dt_rad_in < dt_viper) then
-            dt_selected = 'dt_Radioss'
+            dt_selected = "dt_Radioss"
           else
-            dt_selected = 'dt_Viper'
-          endif
-          write(id_ViperCouplingIO,'(3(a,Es13.6),3a,Es13.6)')&
-          &'Time_Radioss=',time, &
-            '   dt_Radioss=',dt_rad_in, &
-            '   dt_Viper=',dt_viper, &
-            '   dt_selected=',trim(dt_selected),'=',dt_rad
+            dt_selected = "dt_Viper"
+          end if
+          write(id_ViperCouplingIO,"(3(a,Es13.6),3a,Es13.6)")&
+          &"Time_Radioss=",time, &
+            "   dt_Radioss=",dt_rad_in, &
+            "   dt_Viper=",dt_viper, &
+            "   dt_selected=",trim(dt_selected),"=",dt_rad
 
         end subroutine RadiossViper_ReceiveSendDT
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -594,11 +594,11 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 
           if (tstop < tstop_viper .or. mstop > 0) then
-            print*, 'Radioss2Viper: SendKill: ABORTING!  Sending kill-command to Viper!'
+            print*, "Radioss2Viper: SendKill: ABORTING!  Sending kill-command to Viper!"
             ikill = 1
           else
             ikill = 0
-          endif
+          end if
           call SPMD_SEND(ikill,   1,  1, 9960, MPI_COMM_WORLD)
 
         end subroutine RadiossViper_SendKill

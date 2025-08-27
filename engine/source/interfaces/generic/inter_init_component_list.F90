@@ -26,6 +26,7 @@
 !||    inter_init_component            ../engine/source/interfaces/generic/inter_init_component.F90
 !||====================================================================
       module inter_init_component_list_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures
@@ -87,24 +88,24 @@
           do i=1,nsn
             my_color = s_node_color(i)
             sm_node_nb(my_color) = sm_node_nb(my_color) + 1
-          enddo
+          end do
 
           do i=1,component%s_comp_nb
             allocate(component%s_list(i)%node(sm_node_nb(i)))
             allocate(component%s_list(i)%bound(6))
-          enddo
+          end do
           sm_node_nb(1:component%s_comp_nb) = 0
           do i=1,nsn
             my_color = s_node_color(i)
             sm_node_nb(my_color) = sm_node_nb(my_color) + 1
             component%s_list(my_color)%node(sm_node_nb(my_color)) = nsv(i)
-          enddo
+          end do
 
           my_size = 0
           do i=1,component%s_comp_nb
             my_size = my_size + sm_node_nb(i)
             component%s_list(i)%node_nb = sm_node_nb(i)
-          enddo
+          end do
 
           deallocate(sm_node_nb)
 
@@ -115,13 +116,13 @@
           do i=1,nrtm
             my_color = m_node_color(i)
             seg_nb(my_color) = seg_nb(my_color) + 1
-          enddo
+          end do
           do i=1,component%m_comp_nb
             allocate(component%m_list(i)%seg(seg_nb(i)))
             allocate(component%m_list(i)%node(4*seg_nb(i)))
             allocate(component%m_list(i)%bound(6))
             component%m_list(i)%node_nb = 0
-          enddo
+          end do
           seg_nb(1:component%m_comp_nb) = 0
           allocate(not_yet(numnod))
           not_yet(:) = .true.
@@ -135,14 +136,14 @@
               node_id = irectm((i-1)*4+j)
               sm_node_nb(my_color) = sm_node_nb(my_color) + 1
               component%m_list(my_color)%node(sm_node_nb(my_color)) = irectm((i-1)*4+j)
-            enddo
-          enddo
+            end do
+          end do
           deallocate(not_yet)
           my_size = 0
           do i=1,component%m_comp_nb
             my_size = my_size + sm_node_nb(i)
             component%m_list(i)%node_nb = sm_node_nb(i)
-          enddo
+          end do
           deallocate(seg_nb)
           deallocate(sm_node_nb)
 

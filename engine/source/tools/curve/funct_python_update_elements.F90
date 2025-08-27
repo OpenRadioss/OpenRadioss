@@ -211,8 +211,8 @@
               ity = iparg(5,ng)
               do i = 1,ncharline100
                 keyword(i:i) = py%elements%local%keyword(ii)%h3d(i:i)
-                if(ichar(keyword(i:i)) == 0) keyword(i:i) = ' '
-              enddo
+                if(ichar(keyword(i:i)) == 0) keyword(i:i) = " "
+              end do
               if(ity == 3 .or. ity == 7 ) then
                 ! shell or triangle
                 !-------------------------------------------------------!
@@ -220,9 +220,9 @@
                 !       DENSITY FOR ALL TRIA ARE STORED IN WA_L         !
                 !-------------------------------------------------------!
                 ! /TRIA are 2d solid elements (new entity type derived from SH3N buffer, it is currently managed from h3d_shell_* subroutines. It will change in the future.
-                if(keyword == 'SCHLIEREN' .and. n2d > 0)then
+                if(keyword == "SCHLIEREN" .and. n2d > 0)then
                   call schlieren_buffer_gathering(nercvois ,nesdvois ,lercvois ,lesdvois, iparg, elbuf_tab, multi_fvm,itherm)
-                endif
+                end if
 
                 call h3d_shell_scalar_1(.true.,                                                     &
                 &       elbuf_tab   ,scalar_results,iparg       ,geo        ,                &
@@ -236,7 +236,7 @@
                 &       nodes%d     ,ng         ,multi_fvm,idmds       ,imdsvar    ,       &
                 &       mds_matid   ,id         ,mode     ,mat_param   ,                   &
                 &       0           ,shell_stack, max_shell_stacksize, shell_stakcksize)
-              elseif (ity == 1) then ! solid
+              else if (ity == 1) then ! solid
                 call h3d_solid_scalar_1(.true.,                                              &
                 &         elbuf_tab       ,scalar_results ,iparg       ,                      &
                 &         ixs          ,pm          ,bufmat      ,                            &
@@ -249,7 +249,7 @@
                 &         multi_fvm       , ng        ,idmds       ,imdsvar     ,             &
                 &         id           ,mat_param ,mode     )
 
-              elseif (ity == 2) then ! quad
+              else if (ity == 2) then ! quad
                 call h3d_quad_scalar_1(.true.,ng,                                               &
                 &       n0phas        ,nvphas        ,ngroup, n2d, numelq, nummat, numnod, nparg, npropm, npropmi, ispmd,&
                 &       elbuf_tab     ,scalar_results, MVSIZ, iparg       ,                             &
@@ -263,11 +263,11 @@
                 &       bufmat        ,multi_fvm     ,                                              &
                 &       id            ,mat_param)
 
-              endif
+              end if
               py%elements%local%values(ii) = scalar_results(j)
               !write(6,*) "keyword",keyword(1:10),"value",scalar_results(j)
 
-            enddo
+            end do
 
             deallocate(scalar_results)
             deallocate(id_elem)
@@ -279,7 +279,7 @@
 
 
             deallocate(h3d_part)
-          endif
+          end if
           return
         end subroutine funct_python_update_elements
       end module funct_python_update_elements_mod

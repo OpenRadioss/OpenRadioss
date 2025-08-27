@@ -31,6 +31,7 @@
 !||    read_matparam         ../engine/source/output/restart/read_matparam.F
 !||====================================================================
       module read_therpmaram_mod
+      implicit none
       contains
 
 !||====================================================================

@@ -26,6 +26,7 @@
 !||    sphprep              ../engine/source/elements/sph/sphprep.F
 !||====================================================================
       module sph_crit_voxel_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
@@ -165,7 +166,7 @@
             bdxmax(ibx,iby,ibz) = max(bdxmax(ibx,iby,ibz),dx)
             bdymax(ibx,iby,ibz) = max(bdymax(ibx,iby,ibz),dy)
             bdzmax(ibx,iby,ibz) = max(bdzmax(ibx,iby,ibz),dz)
-          enddo
+          end do
 !
           do n=itask+1,nbgauge,nthread
             if(lgauge(1,n) <= -(numels+1))then
@@ -247,7 +248,7 @@
                   end do
                 end do
               end do
-            endif
+            end if
 !
 !           Maximum over neighbouring voxels
             voxel%dxmin = ep20
@@ -270,9 +271,9 @@
                         voxel%dxmax(ibx,iby,ibz) = max(voxel%dxmax(ibx,iby,ibz),bdxmax(ippx,ippy,ippz))
                         voxel%dymax(ibx,iby,ibz) = max(voxel%dymax(ibx,iby,ibz),bdymax(ippx,ippy,ippz))
                         voxel%dzmax(ibx,iby,ibz) = max(voxel%dzmax(ibx,iby,ibz),bdzmax(ippx,ippy,ippz))
-                      enddo
-                    enddo
-                  enddo
+                      end do
+                    end do
+                  end do
                 end do
               end do
             end do
@@ -290,7 +291,7 @@
               end do
             end do
 !
-          endif
+          end if
 !
 !$omp barrier
 !

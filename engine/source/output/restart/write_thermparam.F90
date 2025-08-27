@@ -31,6 +31,7 @@
 !||    write_matparam         ../engine/source/output/restart/write_matparam.F
 !||====================================================================
       module write_therpmaram_mod
+      implicit none
       contains
 
 !||====================================================================

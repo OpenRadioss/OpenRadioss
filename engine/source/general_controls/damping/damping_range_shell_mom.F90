@@ -26,6 +26,7 @@
 !||    mulawglc                      ../engine/source/materials/mat_share/mulawglc.F
 !||====================================================================
       module damping_range_shell_mom_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
@@ -107,7 +108,7 @@
             bb(j) =  two*timestep*gv(j)*exp(-half*beta(j)*timestep)
             aak(j) = exp(-betak(j)*timestep)
             bbk(j) = timestep*kv(j)*exp(-half*betak(j)*timestep)
-          enddo
+          end do
 !
           do i=1,nel
 !           epspzz(i) = -a1(i) + (third*a2(i)-a3(i))*(epspxx(i) + epspyy(i))
@@ -117,10 +118,10 @@
 !             paramaters for computaion of epszz_dot (sigzz=0)
               a2(i)  = a2(i) +  bb(j)*et(i)
               a3(i)  = a3(i) +  bbk(j)*et(i)
-            enddo
+            end do
             fac = one/max(em20,two_third*a2(i) + a3(i))
             fac_nu(i) = fac*(third*a2(i)-a3(i))
-          enddo
+          end do
 !
           do i=1,nel
             epspbxx = depbxx(i)*dtinv
@@ -146,7 +147,7 @@
               uvarv(i,ii + 2) = h(2,j)
               uvarv(i,ii + 3) = h(3,j)
               uvarv(i,ii + 4) = hp(j)
-            enddo
+            end do
 !
 !        compute moment
 !
@@ -158,7 +159,7 @@
               s(2) = s(2) + h(2,j)
               s(3) = s(3) + h(3,j)
               p    = p    + hp(j)
-            enddo
+            end do
 !
 !           viscous stress increment in computed - incremental formulation(mulawglc)
             s_old(1) =  uvarv(i,offset2+1)
@@ -176,7 +177,7 @@
             momnyy(i) = momnyy(i)+thk08*(s(2)-s_old(2)-p+p_old)*off(i)
             momnxy(i) = momnxy(i)+thk08*(s(3)-s_old(3))*off(i)
 !
-          enddo
+          end do
 !
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine damping_range_shell_mom

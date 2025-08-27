@@ -222,6 +222,8 @@ C-----------------------------------------------
       USE DAMPING_RANGE_INIT_MOD
       USE EIKONAL_SOLVER_MOD, ONLY : EIKONAL_SOLVER
       USE DETONATION_TIMES_PRINTOUT_MOD , ONLY : DETONATION_TIMES_PRINTOUT
+      USE INIT_BCS_WALL_MOD , ONLY : INIT_BCS_WALL
+      use init_inivol_mod , only : INIT_INIVOL
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

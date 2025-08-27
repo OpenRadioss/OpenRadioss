@@ -79,7 +79,7 @@
 !||====================================================================
       module nodal_arrays_mod
         use precision_mod, only : wp
-        use iso_c_binding, only: C_PTR
+        use, intrinsic :: iso_c_binding, only: C_PTR
         implicit none
         integer, parameter :: padding = 5 !< percentage of padding for reallocation
 
@@ -240,7 +240,7 @@
           else
             arrays%used_dr = .false.
             call my_alloc(arrays%DR,3,0)
-          endif
+          end if
           call my_alloc(arrays%parent_node,numnod)
           call my_alloc(arrays%nchilds,numnod)
           call my_alloc(arrays%itab,numnod)
@@ -267,13 +267,13 @@
           else
             call my_alloc(arrays%MCP,0)
             call my_alloc(arrays%TEMP,0)
-          endif
+          end if
 #ifdef MYREAL4
           call my_alloc(arrays%DDP,3,numnod)
           call my_alloc(arrays%XDP,3,numnod)
           if(iparith==0) then
             call my_alloc(arrays%ACC_DP,3,numnod)
-          endif
+          end if
 #else
           call my_alloc(arrays%DDP,3,1)
           call my_alloc(arrays%XDP,3,1)
@@ -296,7 +296,7 @@
             call my_alloc(arrays%STIFR,numnod)
             call my_alloc(arrays%VISCN,numnod)
             call my_alloc(arrays%STIFN,numnod)
-          endif
+          end if
           arrays%numnod = numnod
           ! initialization to 0
           arrays%itab = 0
@@ -331,10 +331,10 @@
           if(itherm_fe > 0) then
             arrays%MCP = 0
             arrays%TEMP = 0
-          endif
+          end if
           do i = 1, numnod
             arrays%parent_node(i) = i
-          enddo
+          end do
           arrays%nchilds = 0
 
 
@@ -402,19 +402,19 @@
               call extend_array(arrays%IN, size(arrays%IN), arrays%max_numnod)
               call extend_array(arrays%IN0, size(arrays%IN0), arrays%max_numnod)
               call extend_array(arrays%ICODR, size(arrays%ICODR), arrays%max_numnod*arrays%iroddl)
-            endif
+            end if
             if(arrays%itherm_fe > 0) then
               call extend_array(arrays%MCP, size(arrays%MCP), arrays%max_numnod)
               call extend_array(arrays%TEMP, size(arrays%TEMP), arrays%max_numnod)
             else
               call extend_array(arrays%MCP, size(arrays%MCP), 0)
               call extend_array(arrays%TEMP, size(arrays%TEMP), 0)
-            endif
+            end if
             call extend_array(arrays%ICODT, size(arrays%ICODT), arrays%sicodt_fac * arrays%max_numnod)
             arrays%ICODT(arrays%sicodt_fac * arrays%numnod + 1:) = 0
             if(arrays%used_dr) then
               call extend_array(arrays%DR,3, size(arrays%DR,2), 3, arrays%max_numnod)
-            endif
+            end if
             call extend_array(arrays%MS, size(arrays%MS), arrays%max_numnod)
             call extend_array(arrays%MS0, size(arrays%MS0), arrays%max_numnod)
 #ifdef MYREAL4
@@ -422,7 +422,7 @@
             call extend_array(arrays%XDP,3, size(arrays%XDP,2), 3,arrays%max_numnod)
             if(arrays%iparith==0) then
               call extend_array(arrays%ACC_DP,3, size(arrays%ACC_DP,2), 3,arrays%max_numnod)
-            endif
+            end if
 #endif
             call extend_array(arrays%WEIGHT, size(arrays%WEIGHT), arrays%max_numnod)
             call extend_array(arrays%MAIN_PROC, size(arrays%MAIN_PROC), arrays%max_numnod)
@@ -441,8 +441,8 @@
               call extend_array(arrays%STIFR,size(arrays%STIFR) ,arrays%max_numnod)
               call extend_array(arrays%VISCN,size(arrays%VISCN) ,arrays%max_numnod)
               call extend_array(arrays%STIFN, size(arrays%STIFN), arrays%max_numnod)
-            endif
-          endif
+            end if
+          end if
           ! ITABM1 is of size 2*arrays%max_numnod, but only the first 2*arrays%numnod elements are used
           ! When adding an element, the second half have to be shifted
           ! ITABM1 is used in SYSFUS2, that should be replaced by a hash table

@@ -46,6 +46,7 @@
 !||    create_h3d_sph_tensor            ../engine/source/output/h3d/h3d_build_fortran/create_h3d_sph_tensor.F
 !||====================================================================
       module create_h3d_output_per_part_mod
+      implicit none
       contains
 ! ======================================================================================================================
 ! \brief creation of h3d output per part or set of parts
@@ -116,8 +117,8 @@
               do i=1,npart
                 if(h3d_data%input_list(id_input)%part_list(j) == ipart(4,i)) then
                   h3d_data%output_list(h3d_data%n_outp_h3d)%part(i) = 1
-                endif
-              enddo
+                end if
+              end do
             else
               ! negative value refers to a part group
               l = -h3d_data%input_list(id_input)%part_list(j)  ! get positive index of part group
@@ -126,8 +127,8 @@
                 if(igrpart(i)%id == l) then
                   index = i
                   exit
-                endif
-              enddo
+                end if
+              end do
               if(index > 0) then
                 do i=1,igrpart(index)%nentity
                   k = igrpart(index)%entity(i)  ! get the part id from the group
@@ -136,12 +137,12 @@
                     if (ipart(4,m) == k) then
                       h3d_data%output_list(h3d_data%n_outp_h3d)%part(m) = 1
                       exit
-                    endif
-                  enddo
-                enddo
-              endif
-            endif
-          enddo
+                    end if
+                  end do
+                end do
+              end if
+            end if
+          end do
 
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine create_h3d_output_per_part

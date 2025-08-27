@@ -29,6 +29,7 @@
 !||    resol                            ../engine/source/engine/resol.F
 !||====================================================================
       module damping_vref_compute_dampa_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
@@ -93,7 +94,7 @@
             fact = get_u_func(id_func,tt,dxdy)
           else
             fact = one
-          endif
+          end if
 !
           if (dt1 > zero) then
             if (freq > zero) then
@@ -105,16 +106,16 @@
 !               Initial time step is saved
                 dtini = dt1
                 dampr(29,id) = dt1
-              endif
+              end if
               damp_a(1)  = fact*dampr(3,id)*(one/dtini)
               damp_a(2)  = fact*dampr(5,id)*(one/dtini)
               damp_a(3)  = fact*dampr(7,id)*(one/dtini)
-            endif
+            end if
           else
             damp_a(1)  = zero
             damp_a(2)  = zero
             damp_a(3)  = zero
-          endif
+          end if
 !
 !
 ! ----------------------------------------------------------------------------------------------------------------------

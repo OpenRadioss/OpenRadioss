@@ -322,7 +322,7 @@
             t%realtime(j) = 0
             t%omp_initime(j) = 0
             t%clockini(j) = 0
-          enddo
+          end do
           call system_clock(t%clock0)
           if(t%clock0 < 0 )  call system_clock(t%clock0)   !in case of failure
           t%elapsed = 0
@@ -540,7 +540,7 @@
           if(clock1 < 0 ) then
             ! retry in case of failure
             call system_clock(count=clock1, count_rate=clockrate,count_max=nbmax)
-          endif
+          end if
 
           secs = clock1-t%clockini(event)
           if(secs<0) secs = secs + nbmax

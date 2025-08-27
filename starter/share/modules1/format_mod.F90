@@ -111,6 +111,7 @@
 !||    yctrl                        ../starter/source/initial_conditions/inista/yctrl.F
 !||====================================================================
       module format_mod
+        implicit none
 
         ! number of character per field/column
         INTEGER, PARAMETER :: LFIELD = 10

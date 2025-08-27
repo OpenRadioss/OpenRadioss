@@ -36,6 +36,7 @@
 !||    fail_windshield_init   ../starter/source/materials/fail/windshield_alter/fail_windshield_init.F
 !||====================================================================
       module crack_depth_init_mod
+      implicit none
       contains
 ! ======================================================================================================================
 ! \brief initialize crack depth for /fail/alter
@@ -103,11 +104,11 @@
               formf = one
               if (ipt == 1) then
                 ai = cr_foil  ! crack depth at foil side in mm (unit system: length)
-              elseif (ipt == npt) then
+              else if (ipt == npt) then
                 ai = cr_air   ! crack depth at top side in mm (unit system: length)
               else
                 ai = cr_core  ! crack depth inside glass
-              endif
+              end if
             end if
             ai = ai * (one - dfmax(i))    ! take into account the initial damage
 !

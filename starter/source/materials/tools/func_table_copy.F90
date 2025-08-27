@@ -31,6 +31,7 @@
 !||    hm_read_mat87         ../starter/source/materials/mat/mat087/hm_read_mat87.F90
 !||====================================================================
       module func_table_copy_mod
+      implicit none
       contains
 
 !! \brief  creates local 2d table in material parameter structure from input function list
@@ -180,14 +181,14 @@
 !----------------------------------------
           ! print mat_tables
           if (idebug == 1) then
-            print*,' '
+            print*," "
             if (mat_table%ndim == 1) then
               do j = 1,size(mat_table%x(1)%values)
                 print*,mat_table%x(1)%values(j),mat_table%y1d(j)
               end do
             else if (mat_table%ndim == 2) then
               do i = 1, size(mat_table%x(2)%values)
-                print*,' dimension, epsp', i,mat_table%x(2)%values(i)
+                print*," dimension, epsp", i,mat_table%x(2)%values(i)
                 do j = 1,size(mat_table%x(1)%values)
                   print*,mat_table%x(1)%values(j),mat_table%y2d(j,i)
                 end do

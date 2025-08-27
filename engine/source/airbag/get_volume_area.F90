@@ -26,6 +26,7 @@
 !||    monvol0               ../engine/source/airbag/monvol0.F
 !||====================================================================
       module get_volume_area_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures
@@ -142,9 +143,9 @@
                   ii=igrsurf(surf_id)%elem(i)
                   if(igrsurf(surf_id)%eltyp(i)==7)then
                     ii=ii+numelc
-                  elseif(igrsurf(surf_id)%eltyp(i)/=3)then
+                  else if(igrsurf(surf_id)%eltyp(i)/=3)then
                     ii=i+numelc+numeltg
-                  endif
+                  end if
                   nod1 = igrsurf(surf_id)%nodes(i,1)
                   nod2 = igrsurf(surf_id)%nodes(i,2)
                   nod3 = igrsurf(surf_id)%nodes(i,3)
@@ -166,7 +167,7 @@
                   normal(3,ii) = t_monvoln(ijk)%normal(3,i)
                   f1(i) = sqrt( t_monvoln(ijk)%normal(1,i)**2+t_monvoln(ijk)%normal(2,i)**2+t_monvoln(ijk)%normal(3,i)**2 )
                   f2(i) = third*( t_monvoln(ijk)%normal(1,i)*xx+t_monvoln(ijk)%normal(2,i)*yy+t_monvoln(ijk)%normal(3,i)*zz )
-                enddo
+                end do
 !$omp end do
               else
 !$omp do schedule(guided)
@@ -182,7 +183,7 @@
                     if(icontact(nod2)/=0)poro(ii)=poro(ii)+fourth
                     if(icontact(nod3)/=0)poro(ii)=poro(ii)+fourth
                     if(icontact(nod4)/=0)poro(ii)=poro(ii)+fourth
-                  elseif(igrsurf(surf_id)%eltyp(i)==7)then
+                  else if(igrsurf(surf_id)%eltyp(i)==7)then
                     ii=ii+numelc
                     poro(ii)=zero
                     if(icontact(nod1)/=0)poro(ii)=poro(ii)+third
@@ -195,7 +196,7 @@
                     if(icontact(nod2)/=0)poro(ii)=poro(ii)+fourth
                     if(icontact(nod3)/=0)poro(ii)=poro(ii)+fourth
                     if(icontact(nod4)/=0)poro(ii)=poro(ii)+fourth
-                  endif
+                  end if
                   xx=half*(x(1,nod1)+x(1,nod2))
                   yy=half*(x(2,nod1)+x(2,nod2))
                   zz=half*(x(3,nod1)+x(3,nod2))
@@ -213,9 +214,9 @@
                   normal(3,ii) = t_monvoln(ijk)%normal(3,i)
                   f1(i) = sqrt( t_monvoln(ijk)%normal(1,i)**2+t_monvoln(ijk)%normal(2,i)**2+t_monvoln(ijk)%normal(3,i)**2 )
                   f2(i) = third*( t_monvoln(ijk)%normal(1,i)*xx+t_monvoln(ijk)%normal(2,i)*yy+t_monvoln(ijk)%normal(3,i)*zz )
-                enddo
+                end do
 !$omp end do
-              endif
+              end if
               number_entity = segment_number
               if (ispmd + 1 == fr_mv(nspmd+2,ijk)) then
                 number_entity = number_entity + t_monvoln(ijk)%nb_fill_tri
@@ -239,9 +240,9 @@
                   nz=half*(x13*y24-x24*y13)
                   f1(segment_number + i) = sqrt( nx**2+ny**2+nz**2 )
                   f2(segment_number + i) = third*( nx*xx+ny*yy+nz*zz )
-                enddo
+                end do
 !$omp end do
-              endif
+              end if
               first = 1 + number_entity * itask / nthread
               last = number_entity * (itask+1) / nthread
               frmv6_l(1:2,1:6) = zero
@@ -251,7 +252,7 @@
               do i=1,6
                 frmv6(1,i,ijk) = frmv6(1,i,ijk) + frmv6_l(1,i)
                 frmv6(2,i,ijk) = frmv6(2,i,ijk) + frmv6_l(2,i)
-              enddo
+              end do
 !$omp end critical
 
 !$omp barrier
@@ -259,16 +260,16 @@
 !$omp single
               deallocate( f1,f2 )
 !$omp end single
-            endif
+            end if
             monvol_address = monvol_address + nimv
             rvolu_address = rvolu_address + nrvolu
 
-          enddo
+          end do
 !$omp end parallel
 
           if(nspmd>1) then
             call spmd_exch_fr6(frontier_global_mv,frmv6,2*6*nvolu)
-          endif
+          end if
           monvol_address = 1
           rvolu_address = 1
           do ijk=1,nvolu
@@ -283,10 +284,10 @@
               vol(ijk)= frmv6(2,1,ijk)+frmv6(2,2,ijk)+frmv6(2,3,ijk)+ &
                 frmv6(2,4,ijk)+frmv6(2,5,ijk)+frmv6(2,6,ijk)
               rvolu(rvolu_address-1+18) = area
-            endif
+            end if
             monvol_address = monvol_address + nimv
             rvolu_address = rvolu_address + nrvolu
-          enddo
+          end do
 
           return
 ! ----------------------------------------------------------------------------------------------------------------------

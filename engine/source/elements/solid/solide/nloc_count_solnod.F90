@@ -26,6 +26,7 @@
 !||    resol_init              ../engine/source/engine/resol_init.F
 !||====================================================================
       module nloc_count_solnod_mod
+      implicit none
       contains
 ! ======================================================================================================================
 ! \brief count non-local effectives nodes for 8 nodes solid elements
@@ -82,25 +83,25 @@
               do i = 1,nel
                 do j=1,8
                   node_id(j) = ixs(1+j,i+nft)
-                enddo
+                end do
                 call myqsort_int(8,node_id,index,error)
                 bool(1:8) = .false.
                 bool(index(1)) = .true.
                 do j=2,8
                   if (node_id(j) /= node_id(j-1)) then
                     bool(index(j))=.true.
-                  endif
-                enddo
+                  end if
+                end do
                 ! Loop over the nodes of the element
                 do j = 1,8
                   if (bool(j)) then
                     elbuf_tab(ng)%nlocs%nl_isolnod(i) = elbuf_tab(ng)%nlocs%nl_isolnod(i) + 1
                     elbuf_tab(ng)%nlocs%nl_solnod(elbuf_tab(ng)%nlocs%nl_isolnod(i),i) = ixs(1+j,i+nft)
-                  endif
-                enddo
-              enddo
-            endif
-          enddo
+                  end if
+                end do
+              end do
+            end if
+          end do
 !
         end subroutine nloc_count_solnod
 ! ----------------------------------------------------------------------------------------------------------------------

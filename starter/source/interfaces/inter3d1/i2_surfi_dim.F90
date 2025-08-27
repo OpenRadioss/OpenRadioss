@@ -26,6 +26,7 @@
 !||    lecint             ../starter/source/interfaces/interf1/lecint.F
 !||====================================================================
       module i2_surfi_dim_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures
@@ -114,9 +115,9 @@
               if(itagn(n) == 0)then
                 ns = ns + 1
                 itagn(n) = 1
-              endif
-            enddo
-          enddo
+              end if
+            end do
+          end do
           nsn = ns
           ns = 0
           do i=1,igrsurf(isu2)%nseg
@@ -126,9 +127,9 @@
               if(itagn(n) == 0)then
                 ns = ns + 1
                 itagn(n) = 2
-              endif
-            enddo
-          enddo
+              end if
+            end do
+          end do
           nsn = nsn + ns
           nmn = nsn
           deallocate(itags1)

@@ -26,6 +26,7 @@
 !||    resol                      ../engine/source/engine/resol.F
 !||====================================================================
       module inter_init_component_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures
@@ -62,6 +63,7 @@
           use inter_init_component_list_mod , only : inter_init_component_list
           use inter_sorting_mod , only : component_
           use spmd_mod
+          use precision_mod , only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -69,7 +71,6 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 #include "spmd.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
@@ -80,7 +81,7 @@
           integer, intent(in) :: ispmd !< processor id
           integer, intent(in) :: nspmd !< number of processors
           integer, dimension(npari,ninter), intent(in) :: ipari !< interface parameters
-          my_real, dimension(3,numnod), intent(in) :: x !< node coordinates
+          real(kind=WP), dimension(3,numnod), intent(in) :: x !< node coordinates
           type(intbuf_struct_), dimension(ninter), intent(inout) :: intbuf_tab !< interface structure
           type(component_), dimension(ninter), intent(inout) :: component
 
@@ -94,7 +95,7 @@
           integer :: type7_nb,inacti,my_size
           integer :: itask,local_comp_nb
           integer, dimension(ninter) :: type7_list
-          my_real, dimension(6) :: box_limit
+          real(kind=WP), dimension(6) :: box_limit
           integer, dimension(:), allocatable :: s_node_color,m_node_color
           integer, dimension(:), allocatable :: s_buffer,r_buffer
           integer, parameter :: my_tag = 400000

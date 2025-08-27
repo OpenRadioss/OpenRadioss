@@ -35,6 +35,7 @@
         !=======================================================================================================================
         !!\brief default type : Hosts the parameters for Starter File Descriptors
         !=======================================================================================================================
+      implicit none
         integer, parameter :: istdo = 6
         integer, parameter :: iout = 7
         integer, parameter :: fchecksum = 4566

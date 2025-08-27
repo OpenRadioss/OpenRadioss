@@ -26,6 +26,7 @@
 !||    ddsplit         ../starter/source/restart/ddsplit/ddsplit.F
 !||====================================================================
       module c_inivell_mod
+      implicit none
       contains
         !! \brief get number of splited inivel rst w/ T_start or sensor_id
 !||====================================================================
@@ -87,7 +88,7 @@
               igrs = 0
               do j=1,ngrnod
                 if(igr == igrnod(j)%id) igrs=j
-              enddo
+              end do
               if (igrs /= 0 ) then
                 do j=1,igrnod(igrs)%nentity
                   node=igrnod(igrs)%entity(j)
@@ -102,7 +103,7 @@
               igrs = 0
               do j=1,ngrnod
                 if(igr == igrnod(j)%id) igrs=j
-              enddo
+              end do
               if (igrs /= 0 ) then
                 do j=1,igrnod(igrs)%nentity
                   node=igrnod(igrs)%entity(j)
@@ -120,7 +121,7 @@
                 igbric_loc = -HUGE(igbric_loc)
                 do j = 1,ngrbric
                   if (igbric == igrbric(j)%id) igbric_loc = j
-                enddo
+                end do
                 do j=1,igrbric(igbric_loc)%nentity
                   nel=igrbric(igbric_loc)%entity(j)
                   if (cep(nel)==proc) then
@@ -128,12 +129,12 @@
                     cycle
                   end if
                 end do
-              endif
+              end if
               if (igqd > 0) then
                 igqd_loc = -HUGE(igqd_loc)
                 do j = 1,ngrquad
                   if (igqd == igrquad(j)%id) igqd_loc = j
-                enddo
+                end do
                 do j=1,igrquad(igqd_loc)%nentity
                   nel=igrquad(igqd_loc)%entity(j)
                   if (cep(nel)==proc) then
@@ -141,12 +142,12 @@
                     cycle
                   end if
                 end do
-              endif
+              end if
               if (igtria > 0) then
                 igtria_loc = -HUGE(igtria_loc)
                 do j = 1,ngrsh3n
                   if (igtria == igrsh3n(j)%id) igtria_loc = j
-                enddo
+                end do
                 do j=1,igrsh3n(igtria_loc)%nentity
                   nel=igrsh3n(igtria_loc)%entity(j)
                   if (cep(nel)==proc) then
@@ -154,7 +155,7 @@
                     cycle
                   end if
                 end do
-              endif
+              end if
             end select
             if (ilocal(n) == 1 ) ninivel_l = ninivel_l + 1
           end do

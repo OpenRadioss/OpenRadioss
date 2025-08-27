@@ -479,10 +479,10 @@
 !                                                      Body
 ! ----------------------------------------------------------------------------------------------------------------------
           if (stat /= 0) then
-            write(6, "(a,i10,a)") 'Error in memory allocation'
+            write(6, "(a,i10,a)") "Error in memory allocation"
             if(present(msg)) then
               write(6, "(a)") msg
-            endif
+            end if
             call arret(2)
           end if
         end subroutine check_error_and_write
@@ -520,7 +520,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_real_1d
@@ -554,7 +554,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_real_2d
@@ -589,7 +589,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_real_3d
@@ -625,7 +625,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_double_1d
@@ -659,7 +659,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_double_2d
@@ -694,7 +694,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_double_3d
@@ -731,7 +731,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_integer_1d
@@ -765,7 +765,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_integer_2d
@@ -801,7 +801,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
         end subroutine my_alloc_integer_3d
 
@@ -837,7 +837,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_preal_1d
@@ -871,7 +871,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_preal_2d
@@ -906,7 +906,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_preal_3d
@@ -942,7 +942,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_pdouble_1d
@@ -976,7 +976,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_pdouble_2d
@@ -1011,7 +1011,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_pdouble_3d
@@ -1048,7 +1048,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_pinteger_1d
@@ -1082,7 +1082,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_pinteger_2d
@@ -1118,7 +1118,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
         end subroutine my_alloc_pinteger_3d
 
@@ -1157,7 +1157,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_8_real_1d
@@ -1191,7 +1191,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_8_real_2d
@@ -1226,7 +1226,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_8_real_3d
@@ -1262,7 +1262,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_8_double_1d
@@ -1296,7 +1296,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_8_double_2d
@@ -1331,7 +1331,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_8_double_3d
@@ -1368,7 +1368,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_8_integer_1d
@@ -1402,7 +1402,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_8_integer_2d
@@ -1438,7 +1438,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
         end subroutine my_alloc_8_integer_3d
 ! ======================================================================================================================
@@ -1473,7 +1473,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_8_preal_1d
@@ -1507,7 +1507,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_8_preal_2d
@@ -1542,7 +1542,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_8_preal_3d
@@ -1578,7 +1578,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_8_pdouble_1d
@@ -1612,7 +1612,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_8_pdouble_2d
@@ -1647,7 +1647,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_8_pdouble_3d
@@ -1684,7 +1684,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_8_pinteger_1d
@@ -1718,7 +1718,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_8_pinteger_2d
@@ -1754,7 +1754,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
         end subroutine my_alloc_8_pinteger_3d
 
@@ -1789,7 +1789,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_logical_1d
@@ -1823,7 +1823,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_logical_2d
@@ -1858,7 +1858,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_logical_3d
@@ -1890,7 +1890,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_plogical_1d
@@ -1924,7 +1924,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_plogical_2d
@@ -1959,7 +1959,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_plogical_3d
@@ -1994,7 +1994,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_8_logical_1d
@@ -2028,7 +2028,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_8_logical_2d
@@ -2063,7 +2063,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_8_logical_3d
@@ -2095,7 +2095,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_8_plogical_1d
@@ -2129,7 +2129,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_8_plogical_2d
@@ -2164,7 +2164,7 @@
             else
               call check_error_and_write(ierr)
             end if
-          endif
+          end if
           if(present(stat)) stat = ierr
 
         end subroutine my_alloc_8_plogical_3d

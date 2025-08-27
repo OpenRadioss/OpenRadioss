@@ -52,6 +52,7 @@ C-----------------------------------------------
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARFIELD
       USE FORMAT_MOD , ONLY : FMT_F
       USE USER_ID_MOD , ONLY : ID_LIMIT
+      USE ASCII_ENCODING_MU_LETTER_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

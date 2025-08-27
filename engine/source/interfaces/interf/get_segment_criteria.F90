@@ -27,6 +27,7 @@
 !||    update_neighbour_segment   ../engine/source/interfaces/interf/update_neighbour_segment.F90
 !||====================================================================
       module get_segment_criteria_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures

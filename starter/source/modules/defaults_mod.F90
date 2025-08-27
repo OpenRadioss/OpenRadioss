@@ -67,6 +67,7 @@
 !=======================================================================================================================
 
         ! Variables from /DEF/SHELL Option.
+      implicit none
         type shell_defaults_
           integer ::  ioffset    !< offset support contact
           integer ::  ishell     !< 4n shell formulations     old :IHBE_D

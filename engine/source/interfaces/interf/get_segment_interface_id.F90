@@ -27,6 +27,7 @@
 !||    get_neighbour_surface_from_remote_proc   ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
 !||====================================================================
       module get_segment_interface_id_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures
@@ -108,10 +109,10 @@
                 n_iedge(my_reduced_nb) = iedge
                 do j=1,4
                   if(intbuf_tab(nin)%mvoisin(4*(segment_id-1)+j)/=0) my_reduced_neighbour(my_reduced_nb,j) = 1
-                enddo
-              endif
-            endif
-          enddo
+                end do
+              end if
+            end if
+          end do
           ! -------------------------
 !
           return

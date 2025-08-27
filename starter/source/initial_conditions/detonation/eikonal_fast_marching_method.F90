@@ -26,6 +26,7 @@
 !||    eikonal_solver                     ../starter/source/initial_conditions/detonation/eikonal_solver.F90
 !||====================================================================
       module eikonal_fast_marching_method_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures
@@ -162,8 +163,8 @@
                   neldet = neldet + nel
                 end if
               end if
-            endif
-          enddo
+            end if
+          end do
 
           ! size neldet
           allocate(elem_list(neldet)) ; elem_list(:) = 0
@@ -199,14 +200,14 @@
             Dcj = pm(38,mid)
             if(mlw == 51)then
               multimat_id = 51
-            elseif(mlw == 151)then
+            else if(mlw == 151)then
               multimat_id = 151
-            elseif(mlw /= 5 .and. mlw /= 97)then
+            else if(mlw /= 5 .and. mlw /= 97)then
               cycle
-            endif
+            end if
             if(ity == 2)then
               fac = fourth
-            elseif(ity == 7)then
+            else if(ity == 7)then
               fac = third
             else !ity == 1
               fac = one_over_8
@@ -228,7 +229,7 @@
                 xel(3, neldet) = fac * sum(x(3,inod(1:nvois))) ! z-center
                 !medium velocity
                 vel(neldet) = Dcj ! chapman jouget velocity
-              enddo
+              end do
             else ! 3d
               do i=1,nel
                 !building list
@@ -246,7 +247,7 @@
                 xel(3, neldet) = fac * sum(x(3,inod(1:8))) ! z-center
                 !medium velocity
                 vel(neldet) = Dcj ! chapman jouget velocity
-              enddo
+              end do
             end if
             if(multimat_id /= 0)then
               ! Dcj not initialized for multimaterial law
@@ -257,7 +258,7 @@
               iad1 = neldet + 1
               lgth = 0
             end if
-          enddo
+          end do
 
           !parith/on requires same order of treatment whatever is the domain decompostion (reneumbered occured in ddsplit)
           ! ensuring same order of treatment
@@ -289,7 +290,7 @@
           do jj=1,nstart
             updown(start_elem_list(jj)) = 1
             tdet(start_elem_list(jj)) = start_elem_tdet(jj)
-          enddo ! next jj
+          end do ! next jj
 
           ! initial narrow band
           !    mark first points in the narrow band (close)
@@ -319,9 +320,9 @@
                   priority_queue_tt(n_queue) = tdet(ii) + dl*s
                   tdet(iel) = priority_queue_tt(n_queue)
                 end if
-              ENDDO
+              END DO
             end if
-          enddo ! next ii
+          end do ! next ii
           call eikonal_sort_narrow_band(priority_queue_id,priority_queue_tt,n_queue)
 
           ! main loop -------------------------------------------------------------------------
@@ -355,7 +356,7 @@
             ! reorder priority queue
             call eikonal_sort_narrow_band(priority_queue_id,priority_queue_tt,n_queue)
 
-          enddo !wend
+          end do !wend
           ! end of main loop -------------------------------------------------------------------------
 
           ! initialize element buffer (arrival times)

@@ -124,11 +124,13 @@
         use checksum_output_option_mod
         use precision_mod, only : WP
 
+      implicit none
+
         type output_
           type (th_) :: th
           type (state_) :: state
           type (checksum_option_) :: checksum !< checksum option from Starter
-          character(len=2048) :: out_filename !< *.out file name  
+          character(len=2048) :: out_filename !< *.out file name
         end type output_
 
         ! /H3D/NODA/PEXT and /ANIM/NODA/PEXT and /TH/NODE(PEXT)
@@ -140,7 +142,7 @@
         type(output_),pointer :: output_ptr      ! pointer to output structure (need for arret)
 
 
-        contains
+      contains
 
 !||====================================================================
 !||    output_allocate_noda_pext   ../common_source/modules/output/output_mod.F90
@@ -150,39 +152,39 @@
 !||    constant_mod                ../common_source/modules/constant_mod.F
 !||    th_mod                      ../engine/share/modules/th_mod.F
 !||====================================================================
-          SUBROUTINE OUTPUT_ALLOCATE_NODA_PEXT(NUMNOD, NUMNODG)
-              use th_mod , only : th_has_noda_pext
-              use constant_mod , only : zero
-              !use output_mod , only : anim_has_noda_pext, h3d_has_noda_pext
-              !use output_mod , only : NODA_SURF,NODA_PEXT
-              !use output_mod , only : NODA_SURF_G,NODA_PEXT_G
-              implicit none
-              INTEGER,INTENT(IN) :: NUMNOD  ! number of nodes per domain
-              INTEGER,INTENT(IN) :: NUMNODG ! number of nodes (proc 0 only)
-              IF(TH_HAS_NODA_PEXT > 0 .OR. ANIM_HAS_NODA_PEXT > 0 .OR. H3D_HAS_NODA_PEXT > 0) THEN
-                ALLOCATE(NODA_SURF(NUMNOD))
-                ALLOCATE(NODA_PEXT(NUMNOD))
-                NODA_SURF(1:NUMNOD)=ZERO
-                NODA_PEXT(1:NUMNOD)=ZERO
-             END IF
-              IF(ANIM_HAS_NODA_PEXT > 0) THEN
-                ALLOCATE(NODA_SURF_G(NUMNODG))
-                ALLOCATE(NODA_PEXT_G(NUMNODG))
-                NODA_SURF_G(1:NUMNODG)=ZERO
-                NODA_PEXT_G(1:NUMNODG)=ZERO
-             END IF
-          END SUBROUTINE OUTPUT_ALLOCATE_NODA_PEXT
+        SUBROUTINE OUTPUT_ALLOCATE_NODA_PEXT(NUMNOD, NUMNODG)
+          use th_mod , only : th_has_noda_pext
+          use constant_mod , only : zero
+          !use output_mod , only : anim_has_noda_pext, h3d_has_noda_pext
+          !use output_mod , only : NODA_SURF,NODA_PEXT
+          !use output_mod , only : NODA_SURF_G,NODA_PEXT_G
+          implicit none
+          INTEGER,INTENT(IN) :: NUMNOD  ! number of nodes per domain
+          INTEGER,INTENT(IN) :: NUMNODG ! number of nodes (proc 0 only)
+          IF(TH_HAS_NODA_PEXT > 0 .OR. ANIM_HAS_NODA_PEXT > 0 .OR. H3D_HAS_NODA_PEXT > 0) THEN
+            ALLOCATE(NODA_SURF(NUMNOD))
+            ALLOCATE(NODA_PEXT(NUMNOD))
+            NODA_SURF(1:NUMNOD)=ZERO
+            NODA_PEXT(1:NUMNOD)=ZERO
+          END IF
+          IF(ANIM_HAS_NODA_PEXT > 0) THEN
+            ALLOCATE(NODA_SURF_G(NUMNODG))
+            ALLOCATE(NODA_PEXT_G(NUMNODG))
+            NODA_SURF_G(1:NUMNODG)=ZERO
+            NODA_PEXT_G(1:NUMNODG)=ZERO
+          END IF
+        END SUBROUTINE OUTPUT_ALLOCATE_NODA_PEXT
 
 !||====================================================================
 !||    output_deallocate_noda_pext   ../common_source/modules/output/output_mod.F90
 !||--- called by ------------------------------------------------------
 !||    resol                         ../engine/source/engine/resol.F
 !||====================================================================
-          SUBROUTINE OUTPUT_DEALLOCATE_NODA_PEXT
-            IF(ALLOCATED(NODA_SURF_G)) DEALLOCATE(NODA_SURF_G)
-            IF(ALLOCATED(NODA_PEXT_G)) DEALLOCATE(NODA_PEXT_G)
-            IF(ALLOCATED(NODA_SURF))DEALLOCATE(NODA_SURF)
-            IF(ALLOCATED(NODA_PEXT))DEALLOCATE(NODA_PEXT)
-          END SUBROUTINE OUTPUT_DEALLOCATE_NODA_PEXT
+        SUBROUTINE OUTPUT_DEALLOCATE_NODA_PEXT
+          IF(ALLOCATED(NODA_SURF_G)) DEALLOCATE(NODA_SURF_G)
+          IF(ALLOCATED(NODA_PEXT_G)) DEALLOCATE(NODA_PEXT_G)
+          IF(ALLOCATED(NODA_SURF))DEALLOCATE(NODA_SURF)
+          IF(ALLOCATED(NODA_PEXT))DEALLOCATE(NODA_PEXT)
+        END SUBROUTINE OUTPUT_DEALLOCATE_NODA_PEXT
 
       end module output_mod

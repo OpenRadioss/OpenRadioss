@@ -44,6 +44,7 @@
 !||    sz_dt1                         ../engine/source/elements/solid/solidez/sz_dt1.F90
 !||====================================================================
       module mvsiz_mod
+      implicit none
 #include "mvsiz_p.inc"
 
 

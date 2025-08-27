@@ -26,6 +26,7 @@
 !||    s6for_distor     ../engine/source/elements/thickshell/solide6c/s6for_distor.F90
 !||====================================================================
       module sfor_visn6_mod
+      implicit none
       contains
 ! ======================================================================================================================
 ! \brief damping force calculation of distortion control for penta6 elements
@@ -153,7 +154,7 @@
                 for_t6(i,1)*(vx6(i)-vc(i,1))+     &
                 for_t6(i,2)*(vy6(i)-vc(i,2))+     &
                 for_t6(i,3)*(vz6(i)-vc(i,3)))
-            enddo
+            end do
           end if
           ifctl = ifcont  ! used for self-contact compute less strict : 2 times
 !

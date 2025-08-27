@@ -53,6 +53,8 @@
         use user_windows_mod
         use sensor_mod
         USE nodal_arrays_mod
+      implicit none
+
 #include "my_real.inc"
 !-----------------------------------------------------------------------------------s
 !     module dedicated to pass arrays from radioss to user routines.

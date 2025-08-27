@@ -28,6 +28,7 @@
 !||    mulaw8          ../engine/source/materials/mat_share/mulaw8.F90
 !||====================================================================
       module sigeps50s_mod
+      implicit none
       contains
 ! ======================================================================================================================
 ! \brief   Orthotropic honeycomb material with strain rate dependency /MAT/LAW50 (VISC_HONEY)
@@ -168,14 +169,14 @@
             signyz(i) = sigoyz(i) + g23(i) * depsyz(i)
             signzx(i) = sigozx(i) + g31(i) * depszx(i)
             soundsp(i) = sqrt(max(e11(i),e22(i),e33(i),g12(i),g23(i),g31(i))/rho(i))
-          enddo
+          end do
 !
           do i=1,nel
             if (epsxx(i) > emx11 .or. epsyy(i) > emx22 .or. epszz(i) > emx33 .or.    &
               abs(epsxy(i)*half) > emx12 .or.                                      &
               abs(epsyz(i)*half) > emx23 .or.                                      &
               abs(epszx(i)*half) > emx31) off(i) = zero
-          enddo
+          end do
 ! ----------------------------------------------------------------------------------------------------------------------
           ! strain definition
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -183,7 +184,7 @@
             ep1(1:nel) = epsxx(1:nel)
             ep2(1:nel) = epsyy(1:nel)
             ep3(1:nel) = epszz(1:nel)
-          elseif (iflag1 == -1)then
+          else if (iflag1 == -1)then
             ep1(1:nel) = -epsxx(1:nel)
             ep2(1:nel) = -epsyy(1:nel)
             ep3(1:nel) = -epszz(1:nel)
@@ -191,12 +192,12 @@
             ep1(1:nel) = amu(1:nel)
             ep2(1:nel) = amu(1:nel)
             ep3(1:nel) = amu(1:nel)
-          endif
+          end if
           if (iflag2 == 1)then
             ep4(1:nel) = epsxy(1:nel)
             ep5(1:nel) = epsyz(1:nel)
             ep6(1:nel) = epszx(1:nel)
-          elseif (iflag2 == -1)then
+          else if (iflag2 == -1)then
             ep4(1:nel) = -epsxy(1:nel)
             ep5(1:nel) = -epsyz(1:nel)
             ep6(1:nel) = -epszx(1:nel)
@@ -204,7 +205,7 @@
             ep4(1:nel) = amu(1:nel)
             ep5(1:nel) = amu(1:nel)
             ep6(1:nel) = amu(1:nel)
-          endif
+          end if
 ! ----------------------------------------------------------------------------------------------------------------------
           ! strain rate definition
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -241,7 +242,7 @@
               dep6(i)   = abs(uvar(i,6))
               epsd(i) = (dep1(i)**2 + dep2(i)**2 + dep3(i)**2)          &
                 + (dep4(i)**2 + dep5(i)**2 + dep6(i)**2)*half          ! just for ouptput
-            enddo
+            end do
           else                     ! irate = 1 : equivalent strain rate common for all directions
             do i=1,nel
               epsd(i) = (epspxx(i)**2 + epspyy(i)**2 + epspzz(i)**2)          &
@@ -254,7 +255,7 @@
               dep5(i)   = epsd(i)
               dep6(i)   = epsd(i)
               uvar(i,1) = epsd(i)
-            enddo
+            end do
           end if
 ! ----------------------------------------------------------------------------------------------------------------------
 !     table interpolations in each direction
@@ -273,7 +274,7 @@
               vartmp(1:nel,1) = ipos2(1:nel,1)
               vartmp(1:nel,2) = ipos2(1:nel,2)
             end if
-          endif
+          end if
           !  direction yy : table(2)
           if (mat_param%table(2)%notable > 0) then
             if (mat_param%table(2)%ndim == 1) then
@@ -288,7 +289,7 @@
               vartmp(1:nel,3) = ipos2(1:nel,1)
               vartmp(1:nel,4) = ipos2(1:nel,2)
             end if
-          endif
+          end if
           !  direction zz : table(3)
           if (mat_param%table(3)%notable > 0) then
             if (mat_param%table(3)%ndim == 1) then
@@ -303,7 +304,7 @@
               vartmp(1:nel,5) = ipos2(1:nel,1)
               vartmp(1:nel,6) = ipos2(1:nel,2)
             end if
-          endif
+          end if
           !  direction xy : table(4)
           if (mat_param%table(4)%notable > 0) then
             if (mat_param%table(3)%ndim == 1) then
@@ -318,7 +319,7 @@
               vartmp(1:nel,7) = ipos2(1:nel,1)
               vartmp(1:nel,8) = ipos2(1:nel,2)
             end if
-          endif
+          end if
           !  direction yz : table(5)
           if (mat_param%table(5)%notable > 0) then
             if (mat_param%table(5)%ndim == 1) then
@@ -333,7 +334,7 @@
               vartmp(1:nel,9)  = ipos2(1:nel,1)
               vartmp(1:nel,10) = ipos2(1:nel,2)
             end if
-          endif
+          end if
           !  direction zz : table(6)
           if (mat_param%table(6)%notable > 0) then
             if (mat_param%table(6)%ndim == 1) then

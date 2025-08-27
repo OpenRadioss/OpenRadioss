@@ -26,6 +26,7 @@
 !||    s10forc3        ../engine/source/elements/solid/solide10/s10forc3.F
 !||====================================================================
       module s10get_x0_mod
+      implicit none
       contains
 ! ======================================================================================================================
 ! \brief get initial configuration by displacement

@@ -117,8 +117,8 @@
               rho_new(i) = uvar(i,9+kk) / vnew(i)  !mass/volume
             else
               rho_new(i)=rho_old(i)
-            endif
-          enddo
+            end if
+          end do
 
           !========================================================================
           !< Recovering Yield surface value Y = Y(P)
@@ -152,7 +152,7 @@
             mas = uvar(i,9+kk)
             if(mas < em20)then
               rho_new(i) = rho0
-            endif
+            end if
 
             t1(i)=sigd(1,i)
             t2(i)=sigd(2,i)
@@ -165,7 +165,7 @@
             if(pold(i) <= pfrac)then
               p(i)  = pfrac
               fac2 = zero
-            endif
+            end if
             pp(i) = p(i)
 
             sigdo(1:6,i) = sigd(1:6,i)
@@ -197,7 +197,7 @@
                   dpla = (one - r)*vm  /max(three*g(i),em15)
                   plas(i)  = plas(i)  + dpla
                   epseq(i) = epseq(i) + dpla
-                endif
+                end if
               else
                 r = one-em02 ! 1-epsilon
               end if
@@ -221,7 +221,7 @@
                 + (sigdo(6,i)+sigd(6,i)) * deps(6,i))
               eint(i) = eint(i) + einc
 
-            elseif(vfrac(i) < em02)then
+            else if(vfrac(i) < em02)then
               plas(i) = zero
               sigd(1,i) = zero
               sigd(2,i) = zero
@@ -248,7 +248,7 @@
               sigd(6,i) = sigd(6,i) * r
             end if
 
-          enddo !next i
+          end do !next i
 
           return
         end subroutine granular51

@@ -86,7 +86,7 @@
             df    = a*((m-one)*(ca-cb)-(ca1-cb1)*(m+(one+r45)*c5/gama)) + m*abg1
             df    = half*df*pp/gama
             pp    = pp - f/df
-          enddo
+          end do
           p = pp
 !
         end subroutine calculp2

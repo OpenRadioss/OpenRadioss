@@ -27,6 +27,7 @@
 !||    usermat_shell         ../engine/source/materials/mat_share/usermat_shell.F
 !||====================================================================
       module fail_lemaitre_c_mod
+      implicit none
       contains
 !||====================================================================
 !||    fail_lemaitre_c    ../engine/source/materials/fail/lemaitre/fail_lemaitre_c.F90
@@ -127,9 +128,9 @@
               if (sig1(i) > zero) then
                 nindx = nindx + 1
                 indx(nindx) = i
-              endif
-            endif
-          enddo
+              end if
+            end if
+          end do
 !
           !< Update Lemaitre damage variable
           nindx2 = 0
@@ -149,15 +150,15 @@
               tdele(i) = time
               nindx2 = nindx2 + 1
               indx2(nindx2) = i
-            endif
-          enddo
+            end if
+          end do
 !
           !< Update the damage scaling factor
           do i = 1,nel
             dmgscl(i) = one - dfmax(i)
             dmgscl(i) = min(dmgscl(i),one)
             dmgscl(i) = max(dmgscl(i),zero)
-          enddo
+          end do
 !
           !< Printing out the integration point failure information
           if (nindx2 > 0) then
@@ -166,23 +167,23 @@
               if (igtyp == 17 .or. igtyp == 51 .or. igtyp == 52) then
                 write(iout ,1200) ngl(i),ipg,ply_id,ipt
                 write(istdo,1200) ngl(i),ipg,ply_id,ipt
-              elseif (igtyp == 1 .or. igtyp == 9) then
+              else if (igtyp == 1 .or. igtyp == 9) then
                 write(iout ,1000) ngl(i),ipg,ipt
                 write(istdo,1000) ngl(i),ipg,ipt
               else
                 write(iout ,1100) ngl(i),ipg,ilay,ipt
                 write(istdo,1100) ngl(i),ipg,ilay,ipt
-              endif
-            enddo
-          endif
+              end if
+            end do
+          end if
 !
           !< Output message format
-1000      format(1X,'FAILURE (LEMAITRE) OF SHELL ELEMENT ',I10,1X,',GAUSS PT',     &
-            I2,1X,',INTEGRATION PT',I3)
-1100      format(1X,'FAILURE (LEMAITRE) OF SHELL ELEMENT ',I10,1X,',GAUSS PT',     &
-            I2,1X,',LAYER',I3,1X,',INTEGRATION PT',I3)
-1200      format(1X,'FAILURE (LEMAITRE) OF SHELL ELEMENT ',I10,1X,',GAUSS PT',     &
-            I2,1X,',PLY ID',I10,1X,',INTEGRATION PT',I3)
+1000      format(1X,"FAILURE (LEMAITRE) OF SHELL ELEMENT ",I10,1X,",GAUSS PT",     &
+            I2,1X,",INTEGRATION PT",I3)
+1100      format(1X,"FAILURE (LEMAITRE) OF SHELL ELEMENT ",I10,1X,",GAUSS PT",     &
+            I2,1X,",LAYER",I3,1X,",INTEGRATION PT",I3)
+1200      format(1X,"FAILURE (LEMAITRE) OF SHELL ELEMENT ",I10,1X,",GAUSS PT",     &
+            I2,1X,",PLY ID",I10,1X,",INTEGRATION PT",I3)
 !
         end subroutine fail_lemaitre_c
       end module fail_lemaitre_c_mod

@@ -26,6 +26,7 @@
 !||    inter7_filter_cand       ../engine/source/interfaces/intsort/inter7_filter_cand.F90
 !||====================================================================
       MODULE INTER7_GATHER_CAND_MOD
+      implicit none
       CONTAINS
 !||====================================================================
 !||    inter7_gather_cand   ../engine/source/interfaces/int07/inter7_gather_cand.F90
@@ -117,7 +118,7 @@
             do i=1,jlt
               gapv(i)=max(gap+dgapload,drad)
             end do
-          elseif(igap == 3)then
+          else if(igap == 3)then
             iadd = 9
             do i=1,jlt
               j = cand_n(i)
@@ -159,7 +160,7 @@
               xi(i) = xrem(1,ig)
               yi(i) = xrem(2,ig)
               zi(i) = xrem(3,ig)
-            endif
+            end if
 !
             l  = cand_e(i)
 !
@@ -182,12 +183,12 @@
             x4(i)=x(1,ix4(i))
             y4(i)=x(2,ix4(i))
             z4(i)=x(3,ix4(i))
-          enddo
+          end do
           if(ityp == 7)then
             do i=1,jlt
               gapv(i) = gapv(i) + curv_max(cand_e(i))
             end do
-          endif
+          end if
 !
           return
         end subroutine inter7_gather_cand

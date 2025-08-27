@@ -26,6 +26,7 @@
 !||    rbe3f           ../engine/source/constraints/general/rbe3/rbe3f.F
 !||====================================================================
       module rbe3f_pen_mod
+      implicit none
       contains
 ! ======================================================================================================================
 ! \brief rbe3 penalty force, stiffness update
@@ -118,7 +119,7 @@
             m = iml(i)
             xbar(1:3) = xbar(1:3)+wi(i)*x(1:3,m)
             vts(1:3)  = vts(1:3)+wi(i)*v(1:3,m)
-          enddo
+          end do
 !
           disdp(1:3)= x(1:3,ns) - xbar(1:3)
           rR(1:3)   = disdp(1:3)
@@ -157,7 +158,7 @@
             dwrv(3) = wi(i)*(rn(1)*vl(2)-rn(2)*vl(1))
             wrv(1:3) = wrv(1:3)+dwrv(1:3)
 !
-          enddo
+          end do
           icoline = 0
           det =                                                          &
             (gamma(1)*(gamma(5)*gamma(9)-gamma(6)*gamma(8))-       &
@@ -206,18 +207,18 @@
                   el(i,1,k) = skew(i,iel)
                   el(i,2,k) = skew(i+3,iel)
                   el(i,3,k) = skew(i+6,iel)
-                enddo
+                end do
               else
                 do i = 1, 3
                   el(i,i,k) = one
-                enddo
-              endif
+                end do
+              end if
               vrl(1:3) = el(1:3,1,k)*vr(1,m)+el(1:3,2,k)*vr(2,m)+el(1:3,3,k)*vr(3,m)
               vrl(1:3) = wri(1:3,k)*vrl(1:3)
               vrg(1:3) = el(1,1:3,k)*vrl(1)+el(2,1:3,k)*vrl(2)+el(3,1:3,k)*vrl(3)
               omgRb(1:3)  = omgRb(1:3)+vrg(1:3)
-            enddo
-          endif
+            end do
+          end if
 ! incre. force,moment
 !          disp(1:3) = disdp(1:3) - rrbe3pen_d(1:3)
 !          lms2=disdp(1)*disdp(1)+disdp(2)*disdp(2)+disdp(3)*disdp(3)
@@ -321,7 +322,7 @@
               am(1:3,k) = am(1:3,k) + fn(1:3)
             end do
 !
-          endif !if (icoline>0) then
+          end if !if (icoline>0) then
 !
           a(1:3,ns) = a(1:3,ns) - for(1:3)
 !

@@ -26,6 +26,7 @@
 !||    eikonal_fast_marching_method     ../starter/source/initial_conditions/detonation/eikonal_fast_marching_method.F90
 !||====================================================================
       module eikonal_init_start_list_2d_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures
@@ -102,7 +103,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-          allocate(itag_elem(numel)); !tag to check if elem was already found
+          allocate(itag_elem(numel)) !tag to check if elem was already found
           allocate(tmp_tdet(neldet))
           tmp_tdet(:) = ep21
           ! loop over detonation point with shadowing option (I_shadow_flag=1)
@@ -167,7 +168,7 @@
                 if(itag_elem(ii) == 2)then
                   num_adj = num_adj + 1
                   adjacent_elem(num_adj) = ii
-                endif
+                end if
               end do
 
               ! ---INIT WITH RADIAL DISTANCE
@@ -202,7 +203,7 @@
                 end do
               end if
 
-            enddo ! next inod
+            end do ! next inod
 
           end do !next idet
 

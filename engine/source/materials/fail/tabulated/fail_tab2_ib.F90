@@ -26,6 +26,7 @@
 !||    fail_beam18        ../engine/source/elements/beam/fail_beam18.F
 !||====================================================================
       module fail_tab2_ib_mod
+      implicit none
       contains
 ! ======================================================================================================================
 ! \brief   tab2 failure criteria for type18 beam elements
@@ -178,7 +179,7 @@
               ! necking critical damage
               if (uvar(i,2) == zero) uvar(i,2) = one
               dc(i)   = uvar(i,2)
-            endif
+            end if
           end do
 !c
           !c
@@ -207,7 +208,7 @@
             if (cos3theta > one)  cos3theta = one
             xi(i) = one - two*acos(cos3theta)/pi
 !c
-          enddo
+          end do
 !c
           !====================================================================
           ! - compute factors for element size, strain rate and temperature
@@ -222,10 +223,10 @@
               lambda     = l0(i)/exp_ref
               softexp(i) = finter(ifunc(1),lambda,npf,tf,df)
               softexp(i) = expo*softexp(i)
-            enddo
+            end do
           else
             softexp(1:nel) = expo
-          endif
+          end if
 !c
           ! compute the temperature dependency factor
           if (ifunc(4) > 0) then
@@ -239,7 +240,7 @@
           else
             tempfac(1:nel)  = one
             tempfac2(1:nel) = one
-          endif
+          end if
 !c
           ! compute the element size regularization factor
           if (itab_size > 0) then
@@ -258,14 +259,14 @@
                 if (log_scale1 > 0) then
                   do i = 1,nel
                     xvec(i,2) = log(max(epsp(i),em20)/sr_ref1)
-                  enddo
+                  end do
                 else
                   xvec(1:nel,2) = epsp(1:nel)/sr_ref1
-                endif
+                end if
                 xvec(1:nel,3)   = zero
                 ipos(1:nel,1:3) = 1
               end select
-            elseif (ireg == 2) then
+            else if (ireg == 2) then
               select case (ndim)
                 ! scale factor vs element size
                case(1)
@@ -285,47 +286,47 @@
                 xvec(1:nel,3)   = xi(1:nel)
                 ipos(1:nel,1:3) = 1
               end select
-            endif
+            end if
             call table_vinterp(table(itab_size),nel,nel,ipos,xvec,sizefac,dsize)
             sizefac(1:nel) = sizefac(1:nel)*fscale_el
             if (ireg == 1) then
               do i = 1,nel
                 if (triax(i) < shrf) then
                   sizefac(i) = one
-                elseif (triax(i) > biaxf) then
+                else if (triax(i) > biaxf) then
                   sizefac(i) = one
-                endif
-              enddo
-            endif
+                end if
+              end do
+            end if
           else
             sizefac(1:nel) = one
-          endif
+          end if
 !c
           ! compute the strain rate dependency factor
           if (ifunc(2) > 0) then
             if (log_scale2 > 0) then
               do i = 1,nel
                 var(i) = log(max(epsp(i),em20)/sr_ref2)
-              enddo
+              end do
             else
               var(1:nel) = epsp(1:nel)/sr_ref2
-            endif
+            end if
             ipos2(1:nel) = 1
             iad (1:nel) = npf(ifunc(2)) / 2 + 1
             ilen(1:nel) = npf(ifunc(2)+1) / 2 - iad(1:nel) - ipos2(1:nel)
             call vinter2(tf,iad,ipos2,ilen,nel,var,dft,ratefac)
             ratefac(1:nel) = fscale_sr*ratefac(1:nel)
-          elseif (cjc > zero) then
+          else if (cjc > zero) then
             do i=1,nel
               if (epsp(i) > sr_ref2) then
                 ratefac(i) = one + cjc*log(epsp(i)/sr_ref2)
               else
                 ratefac(i) = one
-              endif
-            enddo
+              end if
+            end do
           else
             ratefac(1:nel) = one
-          endif
+          end if
 !c
           ! compute the damage limit value
           if (ifunc(3) > 0) then
@@ -335,10 +336,10 @@
               dlim(i) = fscale_dlim*dlim(i)
               dlim(i) = min(dlim(i),one)
               dlim(i) = max(dlim(i),zero)
-            enddo
+            end do
           else
             dlim(1:nel) = one
-          endif
+          end if
 !c
           !====================================================================
           ! - computation of plastic strain at failure
@@ -370,7 +371,7 @@
             epsf(1:nel) = epsf(1:nel)*fcrit
           else
             epsf(1:nel) = fcrit
-          endif
+          end if
 !c
           !====================================================================
           ! - computation of plastic strain at necking
@@ -400,9 +401,9 @@
             end select
             call table_vinterp(table(itab_inst),nel,nel,ipos,xvec,epsl,depsl)
             epsl(1:nel) = epsl(1:nel)*ecrit
-          elseif (ecrit > zero) then
+          else if (ecrit > zero) then
             epsl(1:nel) = ecrit
-          endif
+          end if
 !c
           !====================================================================
           ! - computation of the damage variable evolution
@@ -433,9 +434,9 @@
                 if (uelr(i) >= failip) then
                   off(i)    = zero
                   tdele(i)  = time
-                endif
+                end if
 
-              endif
+              end if
 !c
               ! compute the control necking instability damage
               if ((itab_inst > 0).or.(ecrit > zero)) then
@@ -444,11 +445,11 @@
                 inst(i) = min(inst(i),one)
                 if ((inst(i) >= one).and.(dc(i) == one)) then
                   dc(i) = dfmax(i)
-                endif
-              endif
+                end if
+              end if
 !c
-            endif
-          enddo
+            end if
+          end do
 !c
           !====================================================================
           ! - update uvar and the stress tensor
@@ -462,22 +463,22 @@
                   dmg_scale(i) = one - ((dfmax(i)-dc(i))/max(one-dc(i),em20))**softexp(i)
                 else
                   dmg_scale(i) = zero
-                endif
+                end if
               else
                 dmg_scale(i) = one
-              endif
+              end if
             else
               if (dfmax(i) >= dcrit) then
                 if (dcrit < one) then
                   dmg_scale(i) = one - ((dfmax(i)-dcrit)/max(one-dcrit,em20))**softexp(i)
                 else
                   dmg_scale(i) = zero
-                endif
+                end if
               else
                 dmg_scale(i) = one
-              endif
-            endif
-          enddo
+              end if
+            end if
+          end do
 !c
           !====================================================================
           ! - printout data about failed elements
@@ -490,15 +491,15 @@
               if (off(i) == zero) then
                 write(iout, 2000) ngl(i),time
                 write(istdo,2000) ngl(i),time
-              endif
+              end if
             end do
           end if
 !c-----------------------------------------------------------------------
-1000      format(1x,'FOR BEAM ELEMENT NUMBER EL#',i10,    &
-            ' FAILURE (TAB2) AT GAUSS POINT ',i5, &
-            ' AT TIME :',1pe12.4)
-2000      format(1x,'-- RUPTURE OF BEAM ELEMENT :',i10,   &
-            ' AT TIME :',1pe12.4)
+1000      format(1x,"FOR BEAM ELEMENT NUMBER EL#",i10,    &
+            " FAILURE (TAB2) AT GAUSS POINT ",i5, &
+            " AT TIME :",1pe12.4)
+2000      format(1x,"-- RUPTURE OF BEAM ELEMENT :",i10,   &
+            " AT TIME :",1pe12.4)
 !c
         end subroutine fail_tab2_ib
       end module fail_tab2_ib_mod

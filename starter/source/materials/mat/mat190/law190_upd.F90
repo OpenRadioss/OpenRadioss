@@ -26,6 +26,7 @@
 !||    updmat           ../starter/source/materials/updmat.F
 !||====================================================================
       module law190_upd_mod
+      implicit none
       contains
 !! \brief update material law 190
 !||====================================================================
@@ -140,28 +141,28 @@
               dy = -huge(dy)
               if (ndim == 1) then
                 dy = table_mat(1)%y1d(i+1) - table_mat(1)%y1d(i)
-              elseif (ndim == 2) then
+              else if (ndim == 2) then
                 dy = table_mat(1)%y2d(i+1,1) - table_mat(1)%y2d(i,1)
-              elseif (ndim == 3) then
+              else if (ndim == 3) then
                 dy = table_mat(1)%y3d(i+1,1,1) - table_mat(1)%y3d(i,1,1)
-              endif
+              end if
               dydx = scalefac*dy/dx
               if (table_mat(1)%x(1)%values(i+1) == zero)then
                 stiffini = max(stiffini,dydx)
-              elseif (table_mat(1)%x(1)%values(i) == zero) then
+              else if (table_mat(1)%x(1)%values(i) == zero) then
                 stiffini = max(stiffini,dydx)
-              elseif (table_mat(1)%x(1)%values(1) >= zero) then
+              else if (table_mat(1)%x(1)%values(1) >= zero) then
                 dx = table_mat(1)%x(1)%values(2) - table_mat(1)%x(1)%values(1)
                 if (ndim == 1) then
                   dy = table_mat(1)%y1d(2) - table_mat(1)%y1d(1)
-                elseif (ndim == 2) then
+                else if (ndim == 2) then
                   dy = table_mat(1)%y2d(2,1) - table_mat(1)%y2d(1,1)
-                elseif (ndim == 3) then
+                else if (ndim == 3) then
                   dy = table_mat(1)%y3d(2,1,1) - table_mat(1)%y3d(1,1,1)
-                endif
+                end if
                 stiffini = max(stiffini, scalefac*dy/dx)
-              endif
-            enddo
+              end if
+            end do
           end if
 !
           stiffini = max(stiffini,matparam%uparam(1))
@@ -191,11 +192,11 @@
             if(x_i >= zero .and. x_ii < zero) then
               sizetozero = i+1
               exit
-            endif
-          enddo
+            end if
+          end do
           do k = 1, npt
             x_ener(k) = table(fun_1)%x(1)%values(k)
-          enddo
+          end do
           y_ener(sizetozero) = zero
           do k = sizetozero+1, npt
             x_i  = table(fun_1)%x(1)%values(k)
@@ -204,7 +205,7 @@
             y_ii = table(fun_1)%y%values(k-1)*scalefac
             ener = (x_i-x_ii)*(y_i + y_ii)/two
             y_ener(k) = y_ener(k-1) + ener
-          enddo
+          end do
           do k = 1, sizetozero-1
             kk   = sizetozero - k
             x_i  = table(fun_1)%x(1)%values(kk)
@@ -213,7 +214,7 @@
             y_ii = table(fun_1)%y%values(k+1)*scalefac
             ener = (x_i-x_ii)*(y_i + y_ii)/two
             y_ener(kk) = y_ener(kk+1) + ener
-          enddo
+          end do
           allocate (table_mat(2)%x(ndim)          ,stat=stat)
           allocate (table_mat(2)%x(1)%values(npt) ,stat=stat)
           allocate (table_mat(2)%y1d(npt)         ,stat=stat)

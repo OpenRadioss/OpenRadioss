@@ -26,6 +26,7 @@
 !||    get_neighbour_surface         ../engine/source/interfaces/interf/get_neighbour_surface.F90
 !||====================================================================
       module get_segment_orientation_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures
@@ -130,31 +131,31 @@
             ! ----------------
             do j=1,node_number
               list(j) = ixs(j+1,elem_id) ! get the node id of the solid element : a node can appeared several time in ixs... (tetra or degenerated element)
-            enddo
+            end do
             call myqsort_int(node_number,list,perm_list,error) ! sort the list
             need_orientation = .true.
             ! ----------------
             ! -----------------
             ! shell element :
-          elseif( (shoot_struct%offset_elem%shell_low_bound<elem_id ).and.&
+          else if( (shoot_struct%offset_elem%shell_low_bound<elem_id ).and.&
             (elem_id<=shoot_struct%offset_elem%shell_up_bound) )then
             elem_id = elem_id - shoot_struct%offset_elem%shell_low_bound
             node_number = 4
             do j=1,node_number
               list(j) = ixc(j+1,elem_id) ! get the node id of the shell
-            enddo
+            end do
             need_orientation = .false.
             ! -----------------
             ! shell3n element :
-          elseif( (shoot_struct%offset_elem%shell3n_low_bound<elem_id ).and.&
+          else if( (shoot_struct%offset_elem%shell3n_low_bound<elem_id ).and.&
             (elem_id<=shoot_struct%offset_elem%shell3n_up_bound) )then
             elem_id = elem_id - shoot_struct%offset_elem%shell3n_low_bound
             node_number = 3
             do j=1,node_number
               list(j) = ixtg(j+1,elem_id) ! get the node id of the shell3n
-            enddo
+            end do
             need_orientation = .false.
-          endif
+          end if
           ! -----------------
 
           if(need_orientation) then
@@ -168,8 +169,8 @@
                 real_nb_node = real_nb_node + 1
                 node_id = list(j)
                 node_id_list(real_nb_node) = node_id
-              endif
-            enddo
+              end if
+            end do
             ! ----------------
 
             ! ----------------
@@ -179,7 +180,7 @@
               xc = xc+x(1,node_id)
               yc = yc+x(2,node_id)
               zc = zc+x(3,node_id)
-            enddo
+            end do
             xc=xc*ratio
             yc=yc*ratio
             zc=zc*ratio
@@ -208,7 +209,7 @@
             !
             if( .not.elem_state( elem_id ) ) then
               dds = -dds
-            endif
+            end if
 
             if(dds  >= zero) then
               if(segment_node_id(3)==segment_node_id(4)) then
@@ -217,11 +218,11 @@
               else
                 do i=1,4
                   intbuf_tab%irectm(4*(segment_id-1)+i)=segment_node_id(4-i+1)
-                enddo
-              endif
-            endif
+                end do
+              end if
+            end if
             ! -------------------------
-          endif
+          end if
 !
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine get_segment_orientation

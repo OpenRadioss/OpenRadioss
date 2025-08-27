@@ -87,7 +87,7 @@
             pm(32)  = matparam%bulk
             pm(100) = matparam%bulk
             pm(107) = two*pm(32)
-          endif
+          end if
 !
           !< Shear modulus function (if exists)
           if (ifunc(2) > 0) then
@@ -99,7 +99,7 @@
             matparam%shear = gini
             !< Update PM table
             pm(22) = matparam%shear
-          endif
+          end if
 !
           !< Update elastic parameters in the material parameters structures
           if ((ifunc(1) > 0).or.(ifunc(2) > 0)) then
@@ -110,7 +110,7 @@
             pm(20) = matparam%young
             pm(21) = matparam%nu
             pm(24) = matparam%young/(one - (matparam%nu)**2)
-          endif
+          end if
 !
           !< Print the updated material parameters
           write(iout,1000) titr,mat_id,81
@@ -119,17 +119,17 @@
 !
 1000      format(/                                                                 &
             5X,A,/,                                                                 &
-            5X,'MATERIAL NUMBER. . . . . . . . . . . . . . .=',I10/,                &
-            5X,'MATERIAL LAW . . . . . . . . . . . . . . . .=',I10/)
+            5X,"MATERIAL NUMBER. . . . . . . . . . . . . . .=",I10/,                &
+            5X,"MATERIAL LAW . . . . . . . . . . . . . . . .=",I10/)
 1100      format(/                                                                 &
-            5X,'-----------------------------------------------------',/,           &
-            5X,'  ADDITIONAL DATA DRUCKER-PRAGER WITH CAP HARDENING  ',/,           &
-            5X,'-----------------------------------------------------',/)
+            5X,"-----------------------------------------------------",/,           &
+            5X,"  ADDITIONAL DATA DRUCKER-PRAGER WITH CAP HARDENING  ",/,           &
+            5X,"-----------------------------------------------------",/)
 1200      FORMAT(/                                                                 &
-            5X,'INITIAL BULK MODULUS. . . . . . . . . . . . =',1PG20.13/            &
-            5X,'INITIAL SHEAR MODULUS . . . . . . . . . . . =',1PG20.13/            &
-            5X,'INITIAL YOUNG MODULUS (COMPUTED). . . . . . =',1PG20.13/            &
-            5X,'INITIAL POISSON RATIO (COMPUTED). . . . . . =',1PG20.13/)
+            5X,"INITIAL BULK MODULUS. . . . . . . . . . . . =",1PG20.13/            &
+            5X,"INITIAL SHEAR MODULUS . . . . . . . . . . . =",1PG20.13/            &
+            5X,"INITIAL YOUNG MODULUS (COMPUTED). . . . . . =",1PG20.13/            &
+            5X,"INITIAL POISSON RATIO (COMPUTED). . . . . . =",1PG20.13/)
 !
         end subroutine law81_upd
       end module law81_upd_mod

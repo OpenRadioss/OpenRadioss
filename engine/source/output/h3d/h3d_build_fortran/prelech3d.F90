@@ -26,6 +26,7 @@
 !||    lectur          ../engine/source/input/lectur.F
 !||====================================================================
       module prelech3d_mod
+      implicit none
       contains
 !||====================================================================
 !||    prelech3d                ../engine/source/output/h3d/h3d_build_fortran/prelech3d.F90
@@ -125,7 +126,7 @@
           do id_input = 1,h3d_data%n_input_h3d
 !
             nunits = 0
-            key3_glob = ''
+            key3_glob = ""
 !
             !< H3D keywords
             key2 = h3d_data%input_list(id_input)%key2
@@ -178,19 +179,19 @@
             !< SEARCH '=' character
             !<-------------------------------------------------------------------
             do i=1,ncharkey
-              if ( key3(i:i) == '=' ) is_char_key3  = 0
-              if ( key3(i:i) /= ' ' ) is_empty_key3 = 0
-              if ( key4(i:i) == '=' ) is_char_key4  = 0
-              if ( key4(i:i) /= ' ' ) is_empty_key4 = 0
-              if ( key5(i:i) == '=' ) is_char_key5  = 0
-              if ( key5(i:i) /= ' ' ) is_empty_key5 = 0
-              if ( key6(i:i) == '=' ) is_char_key6  = 0
-              if ( key6(i:i) /= ' ' ) is_empty_key6 = 0
-              if ( key7(i:i) == '=' ) is_char_key7  = 0
-              if ( key7(i:i) /= ' ' ) is_empty_key7 = 0
-              if ( key8(i:i) == '=' ) is_char_key8  = 0
-              if ( key8(i:i) /= ' ' ) is_empty_key8 = 0
-            enddo
+              if ( key3(i:i) == "=" ) is_char_key3  = 0
+              if ( key3(i:i) /= " " ) is_empty_key3 = 0
+              if ( key4(i:i) == "=" ) is_char_key4  = 0
+              if ( key4(i:i) /= " " ) is_empty_key4 = 0
+              if ( key5(i:i) == "=" ) is_char_key5  = 0
+              if ( key5(i:i) /= " " ) is_empty_key5 = 0
+              if ( key6(i:i) == "=" ) is_char_key6  = 0
+              if ( key6(i:i) /= " " ) is_empty_key6 = 0
+              if ( key7(i:i) == "=" ) is_char_key7  = 0
+              if ( key7(i:i) /= " " ) is_empty_key7 = 0
+              if ( key8(i:i) == "=" ) is_char_key8  = 0
+              if ( key8(i:i) /= " " ) is_empty_key8 = 0
+            end do
 !
             !<--------------------------------------------------------------------
             !< Read PLY= I/ALL
@@ -203,7 +204,7 @@
             call create_h3d_arg_keyword(                                         &
               key2       ,key3        ,key4      ,key5     ,key6      ,&
               key7       ,key8        ,is_all    ,is_lower ,is_upper  ,&
-              'PLY'      ,3           ,is_ply    ,ply      ,           &
+              "PLY"      ,3           ,is_ply    ,ply      ,           &
               is_ply_all ,ibid1       ,ibid2     ,is_def   ,           &
               ibid3      ,is_memb     ,ibid4     )
 !
@@ -218,7 +219,7 @@
             call create_h3d_arg_keyword(                                         &
               key2       ,key3        ,key4      ,key5     ,key6      ,&
               key7       ,key8        ,is_all    ,is_lower ,is_upper  ,&
-              'LAYER'    ,5           ,is_layer  ,layer    ,           &
+              "LAYER"    ,5           ,is_layer  ,layer    ,           &
               is_layer_all,is_layer_lower,is_layer_upper   ,is_def    ,&
               ibid1      ,is_memb     ,ibid2     )
 !
@@ -233,7 +234,7 @@
             call create_h3d_arg_keyword(                                         &
               key2       ,key3        ,key4      ,key5     ,key6      ,&
               key7       ,key8        ,is_all    ,is_lower ,is_upper  ,&
-              'NPT'      ,3           ,is_ipt    ,ipt      ,           &
+              "NPT"      ,3           ,is_ipt    ,ipt      ,           &
               is_ipt_all ,is_ipt_lower,is_ipt_upper,is_def ,           &
               ibid1      ,is_memb     ,is_ipt_memb)
 !
@@ -248,7 +249,7 @@
             call create_h3d_arg_keyword(                                         &
               key2       ,key3        ,key4      ,key5     ,key6      ,&
               key7       ,key8        ,is_all    ,is_lower ,is_upper  ,&
-              'UVAR'     ,4           ,is_uvar   ,iuvar    ,           &
+              "UVAR"     ,4           ,is_uvar   ,iuvar    ,           &
               is_uvar_all,ibid1       ,ibid2     ,is_def   ,           &
               ibid3      ,is_memb     ,ibid4     )
 !
@@ -263,7 +264,7 @@
             call create_h3d_arg_keyword(                                         &
               key2       ,key3        ,key4      ,key5     ,key6      ,&
               key7       ,key8        ,is_all    ,is_lower ,is_upper  ,&
-              'MDS_VAR'  ,7           ,is_mdsvar ,imdsvar  ,           &
+              "MDS_VAR"  ,7           ,is_mdsvar ,imdsvar  ,           &
               is_mdsvar_all,ibid1     ,ibid2     ,is_def   ,           &
               is_mdsvar_def,is_memb   ,ibid3     )
 !
@@ -278,7 +279,7 @@
             call create_h3d_arg_keyword(                                         &
               key2       ,key3        ,key4      ,key5     ,key6      ,&
               key7       ,key8        ,is_all    ,is_lower ,is_upper  ,&
-              'IR'       ,2           ,is_ir     ,ir       ,           &
+              "IR"       ,2           ,is_ir     ,ir       ,           &
               is_ir_all  ,is_ir_lower ,is_ir_upper,is_def  ,           &
               ibid1      ,is_memb     ,ibid2     )
 !
@@ -293,7 +294,7 @@
             call create_h3d_arg_keyword(                                         &
               key2       ,key3        ,key4        ,key5     ,key6      ,&
               key7       ,key8        ,is_all      ,is_lower ,is_upper  ,&
-              'IS'       ,2           ,is_is       ,is       ,           &
+              "IS"       ,2           ,is_is       ,is       ,           &
               is_is_all  ,is_is_lower ,is_is_upper ,is_def   ,           &
               ibid1      ,is_memb     ,ibid2       )
 !
@@ -308,7 +309,7 @@
             call create_h3d_arg_keyword(                                         &
               key2       ,key3        ,key4        ,key5     ,key6      ,&
               key7       ,key8        ,is_all      ,is_lower ,is_upper  ,&
-              'IT'       ,2           ,is_it       ,it       ,           &
+              "IT"       ,2           ,is_it       ,it       ,           &
               is_it_all  ,is_it_lower ,is_it_upper ,is_def   ,           &
               ibid1      ,is_memb     ,ibid2       )
 !
@@ -323,7 +324,7 @@
             call create_h3d_arg_keyword(                                         &
               key2       ,key3        ,key4       ,key5      ,key6      ,&
               key7       ,key8        ,is_all     ,is_lower  ,is_upper  ,&
-              'INTER'    ,5           ,is_inter   ,inter     ,           &
+              "INTER"    ,5           ,is_inter   ,inter     ,           &
               is_inter_all,ibid1      ,ibid2      ,is_def    ,           &
               ibid3      ,is_memb     ,ibid4      )
 !
@@ -338,7 +339,7 @@
             call create_h3d_arg_keyword(                                         &
               key2       ,key3        ,key4      ,key5       ,key6      ,&
               key7       ,key8        ,is_all    ,is_lower   ,is_upper  ,&
-              'ID'       ,2           ,is_id     ,id         ,           &
+              "ID"       ,2           ,is_id     ,id         ,           &
               is_id_all  ,ibid1       ,ibid2     ,is_def     ,           &
               ibid3      ,is_memb     ,ibid4     )
 !
@@ -353,88 +354,91 @@
             call create_h3d_arg_keyword(                                         &
               key2       ,key3        ,key4      ,key5       ,key6      ,&
               key7       ,key8        ,is_all    ,is_lower   ,is_upper  ,&
-              'MODE'     ,4           ,is_mode   ,mode       ,           &
+              "MODE"     ,4           ,is_mode   ,mode       ,           &
               is_mode_all,ibid1       ,ibid2     ,is_def     ,           &
               ibid3      ,is_memb     ,ibid4     )
 !
             cpt = 0
             if ( is_char_key3 == 1 .and. is_empty_key3 == 0 ) then
               do i=1,ncharkey
-                if ( key3(i:i) /= ' ' ) then
+                if ( key3(i:i) /= " " ) then
                   cpt = cpt + 1
                   key3_glob(cpt:cpt) = key3(i:i)
-                endif
-              enddo
-            endif
+                end if
+              end do
+            end if
             if ( is_char_key4 == 1 .and. is_empty_key4 == 0 ) then
               cpt = cpt + 1
-              key3_glob(cpt:cpt) = '/'
+              key3_glob(cpt:cpt) = "/"
               do i=1,ncharkey
-                if ( key4(i:i) /= ' ' ) then
+                if ( key4(i:i) /= " " ) then
                   cpt = cpt + 1
                   key3_glob(cpt:cpt) = key4(i:i)
-                endif
-              enddo
-            endif
+                end if
+              end do
+            end if
             if ( is_char_key5 == 1 .and. is_empty_key5 == 0 ) then
               cpt = cpt + 1
-              key3_glob(cpt:cpt) = '/'
+              key3_glob(cpt:cpt) = "/"
               do i=1,ncharkey
-                if ( key5(i:i) /= ' ' ) then
+                if ( key5(i:i) /= " " ) then
                   cpt = cpt + 1
                   key3_glob(cpt:cpt) = key5(i:i)
-                endif
-              enddo
-            endif
+                end if
+              end do
+            end if
             if ( is_char_key6 == 1 .and. is_empty_key6 == 0 ) then
               cpt = cpt + 1
-              key3_glob(cpt:cpt) = '/'
+              key3_glob(cpt:cpt) = "/"
               do i=1,ncharkey
-                if ( key6(i:i) /= ' ' ) then
+                if ( key6(i:i) /= " " ) then
                   cpt = cpt + 1
                   key3_glob(cpt:cpt) = key6(i:i)
-                endif
-              enddo
-            endif
+                end if
+              end do
+            end if
             if ( is_char_key7 == 1 .and. is_empty_key7 == 0 ) then
               cpt = cpt + 1
-              key3_glob(cpt:cpt) = '/'
+              key3_glob(cpt:cpt) = "/"
               do i=1,ncharkey
-                if ( key7(i:i) /= ' ' ) then
+                if ( key7(i:i) /= " " ) then
                   cpt = cpt + 1
                   key3_glob(cpt:cpt) = key7(i:i)
-                endif
-              enddo
-            endif
+                end if
+              end do
+            end if
             if ( is_char_key8 == 1 .and. is_empty_key8 == 0 ) then
               cpt = cpt + 1
-              key3_glob(cpt:cpt) = '/'
+              key3_glob(cpt:cpt) = "/"
               do i=1,ncharkey
-                if ( key8(i:i) /= ' ' ) then
+                if ( key8(i:i) /= " " ) then
                   cpt = cpt + 1
                   key3_glob(cpt:cpt) = key8(i:i)
-                endif
-              enddo
-            endif
+                end if
+              end do
+            end if
 !
             is_model_npt   = 0
             is_model_layer = 0
             is_model_ply   = 0
             do k=1,numgeo
-              if (igeo(11,k) == 9  .or. igeo(11,k) == 11 .or. igeo(11,k) == 16)  &
+              if (igeo(11,k) == 9  .or. igeo(11,k) == 11 .or. igeo(11,k) == 16) then
                 is_model_npt = 1
-              if (igeo(11,k) == 10 .or. igeo(11,k) == 11 .or. igeo(11,k) == 16)  &
+              end if
+              if (igeo(11,k) == 10 .or. igeo(11,k) == 11 .or. igeo(11,k) == 16) then
                 is_model_layer = 1
-              if (igeo(11,k) == 17 .or. igeo(11,k) == 51 .or. igeo(11,k) == 52)  &
+              end if
+              if (igeo(11,k) == 17 .or. igeo(11,k) == 51 .or. igeo(11,k) == 52) then
                 is_model_ply = 1
-            enddo
+              end if
+            end do
 !
             cpt = 0
             do k=1,nummat
               if (ipm(2,k) == 200) then
                 cpt = cpt + 1
-              endif
-            enddo
+              end if
+            end do
 !
             !<--------------------------------------------------------------------
             !<  KEYWORD MANAGEMENT
@@ -451,9 +455,9 @@
                 is_id    )
 !
               !< Element type or keyword
-              if (key2 == 'SHELL' .or. key2 =='ELEM' .or. key2 =='SOLID' .or.    &
-                key2 == 'BRICK' .or. key2 =='QUAD' .or. key2 =='BEAM ' .or.    &
-                key2 == 'SPRING'.or. key2 =='TRUSS'.or. key2 =='SPH' ) then
+              if (key2 == "SHELL" .or. key2 =="ELEM" .or. key2 =="SOLID" .or.    &
+                key2 == "BRICK" .or. key2 =="QUAD" .or. key2 =="BEAM " .or.    &
+                key2 == "SPRING".or. key2 =="TRUSS".or. key2 =="SPH" ) then
 !
                 !<================================================================
                 !< Number of output storage units (element, layer, ply, etc.)
@@ -465,11 +469,11 @@
                     igeo(11,k) == 16) then
                     nunits = nunits + igeo(4,k)
                     !< Thickshell properties
-                  elseif (igeo(11,k) == 20 .or. igeo(11,k) == 21 .or.          &
+                  else if (igeo(11,k) == 20 .or. igeo(11,k) == 21 .or.          &
                     igeo(11,k) == 22) then
                     nunits = nunits + max(1,igeo(30,k))
-                  endif
-                enddo
+                  end if
+                end do
 !
                 !< NPT=...
                 do k=1,numgeo
@@ -477,22 +481,22 @@
                   if (igeo(11,k) == 1 .or. igeo(11,k) == 9) then
                     nunits = nunits + igeo(4,k)
                     !< Integrated beam property
-                  elseif (igeo(11,k) == 18) then
+                  else if (igeo(11,k) == 18) then
                     nunits = nunits + igeo(3,k)
-                  endif
-                enddo
+                  end if
+                end do
 !
                 !< PLY=...
                 do k=1,numgeo
                   !< Ply properties
                   if (igeo(11,k) == 19) then
                     nunits = nunits + igeo(4,k)
-                  endif
-                enddo
+                  end if
+                end do
                 !< Ply properties
                 do k=1,numply
                   nunits = nunits + ply_info(2,k)
-                enddo
+                end do
 !
                 !< IR=.../IS=.../IT=...
                 do k = 1,numgeo
@@ -502,10 +506,10 @@
                     igeo(11,k) == 22) then
                     nunits = nunits + igeo(4,k)
                     !< Cohesive properties
-                  elseif (igeo(11,k) == 43) then
+                  else if (igeo(11,k) == 43) then
                     nunits = nunits + 4
-                  endif
-                enddo
+                  end if
+                end do
                 !<================================================================
 !
                 !<================================================================
@@ -515,44 +519,44 @@
                 if (is_uvar_all == 1) then
                   do k=1,nummat
                     sizetot = sizetot + nunits*ipm(8,k)
-                  enddo
+                  end do
 !
                   !< MDS_VAR=ALL
-                elseif (is_mdsvar_all == 1) then
-                  if(key3_glob(1:3) == 'MDS' ) then
+                else if (is_mdsvar_all == 1) then
+                  if(key3_glob(1:3) == "MDS" ) then
                     do k = 1,mds_nmat
                       sizetot = sizetot + nunits*mds_ndepsvar(k)
-                    enddo
-                  endif
+                    end do
+                  end if
 !
                   !< MDS_VAR=DEF
-                elseif (is_mdsvar_def == 1) then
-                  if(key3_glob(1:3) == 'MDS' ) then
+                else if (is_mdsvar_def == 1) then
+                  if(key3_glob(1:3) == "MDS" ) then
                     do k=1,mds_nmat
                       do l=1,mds_ndepsvar(k)
                         sizetot = sizetot + nunits*mds_output_table(l,k)
-                      enddo
-                    enddo
-                  endif
+                      end do
+                    end do
+                  end if
 !
                   !< /H3D/ELEM/TENS/BSTRESS/ID=
-                elseif (key4(1:7) == 'BSTRESS') then
+                else if (key4(1:7) == "BSTRESS") then
                   if (is_id_all == 1) then
                     do k=1,nummat
                       if (ipm(2,k) == 36) then
                         sizetot = sizetot + nunits
-                      elseif (ipm(2,k) == 78) then
+                      else if (ipm(2,k) == 78) then
                         sizetot = sizetot + 3*nunits
-                      elseif (ipm(2,k) == 87) then
+                      else if (ipm(2,k) == 87) then
                         sizetot = sizetot + 4*nunits
-                      endif
-                    enddo
+                      end if
+                    end do
                   else
                     sizetot = sizetot + nunits
-                  endif
+                  end if
 !
                   !< /H3D/ELEM/FAILURE output definition
-                elseif (key3_glob(1:7) == 'FAILURE') then
+                else if (key3_glob(1:7) == "FAILURE") then
                   !< If mode output is specified by user
                   if ((is_mode > 0).or.(is_mode_all > 0)) then
                     do imat = 1,nummat
@@ -565,23 +569,23 @@
                               if (mat_param(imat)%fail(j)%fail_id > 0) then
                                 if (is_mode_all > 0) then
                                   sizetot = sizetot + (nmod+1)*nunits
-                                elseif (is_mode > 0) then
+                                else if (is_mode > 0) then
                                   sizetot = sizetot + nunits
-                                endif
-                              endif
-                            elseif (is_id > 0) then
+                                end if
+                              end if
+                            else if (is_id > 0) then
                               if (mat_param(imat)%fail(j)%fail_id == id) then
                                 if (is_mode_all > 0) then
                                   sizetot = sizetot + (nmod+1)*nunits
-                                elseif (is_mode > 0) then
+                                else if (is_mode > 0) then
                                   sizetot = sizetot + nunits
-                                endif
-                              endif
-                            endif
-                          endif
-                        enddo
-                      endif
-                    enddo
+                                end if
+                              end if
+                            end if
+                          end if
+                        end do
+                      end if
+                    end do
                     !< Otherwise, classic global damage variable only
                   else
                     do imat = 1,nummat
@@ -591,19 +595,19 @@
                           if (is_id_all > 0) then
                             if (mat_param(imat)%fail(j)%fail_id > 0) then
                               sizetot = sizetot + nunits
-                            endif
-                          elseif (is_id > 0) then
+                            end if
+                          else if (is_id > 0) then
                             if (mat_param(imat)%fail(j)%fail_id == id) then
                               sizetot = sizetot + nunits
-                            endif
-                          endif
-                        enddo
-                      endif
-                    enddo
-                  endif
+                            end if
+                          end if
+                        end do
+                      end if
+                    end do
+                  end if
 !
                   !< /H3D/ELEM/DAMG output definition
-                elseif (key3_glob(1:4) == 'DAMG') then
+                else if (key3_glob(1:4) == "DAMG") then
                   ! -> modes output definition
                   if ((is_mode > 0).or.(is_mode_all > 0)) then
                     if (is_id > 0) then
@@ -612,24 +616,24 @@
                           nmod = mat_param(imat)%nmod
                           if (is_mode_all > 0) then
                             sizetot = sizetot + (nmod+1)*nunits
-                          elseif (is_mode > 0) then
+                          else if (is_mode > 0) then
                             sizetot = sizetot + nunits
-                          endif
-                        endif
-                      enddo
-                    endif
+                          end if
+                        end if
+                      end do
+                    end if
                   else
                     sizetot = sizetot + nunits
-                  endif
+                  end if
 !
                   !< All other keywords
                 else
                   sizetot = sizetot + nunits
-                endif
+                end if
 !
-              endif
-            enddo
-          enddo
+              end if
+            end do
+          end do
 !
           !< Allocation of the output list
 
@@ -638,14 +642,14 @@
             ndef=2
           else
             ndef=0
-          endif
+          end if
           if (h3d_data%n_input_h3d > 0) then
             sizetot = max(sizetot+ndef,10000)
             allocate(h3d_data%output_list(sizetot))
             h3d_data%output_list(1:sizetot)%ok = 0
           else
             allocate(h3d_data%output_list(1+ndef))
-          endif
+          end if
 !
         end subroutine prelech3d
       end module prelech3d_mod

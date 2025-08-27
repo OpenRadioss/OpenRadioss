@@ -99,165 +99,165 @@
 !
           call hm_option_is_encrypted(is_encrypted)
 !
-          CALL hm_get_floatv('MAT_RHO'      ,rho0      ,is_available, lsubmodel, unitab)
-          CALL hm_get_floatv('Refer_Rho'    ,rhor      ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_RHO"      ,rho0      ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("Refer_Rho"    ,rhor      ,is_available, lsubmodel, unitab)
 !
-          CALL hm_get_floatv('MAT_EA'       ,e11       ,is_available, lsubmodel, unitab)
-          CALL hm_get_floatv('MAT_EB'       ,e22       ,is_available, lsubmodel, unitab)
-          CALL hm_get_floatv('MAT_EC'       ,e33       ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_EA"       ,e11       ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_EB"       ,e22       ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_EC"       ,e33       ,is_available, lsubmodel, unitab)
 !
-          CALL hm_get_floatv('MAT_GAB'      ,g12       ,is_available, lsubmodel, unitab)
-          CALL hm_get_floatv('MAT_GBC'      ,g23       ,is_available, lsubmodel, unitab)
-          CALL hm_get_floatv('MAT_GCA'      ,g31       ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_GAB"      ,g12       ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_GBC"      ,g23       ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_GCA"      ,g31       ,is_available, lsubmodel, unitab)
 !
-          CALL hm_get_floatv('MAT_asrate'   ,fcut      ,is_available, lsubmodel, unitab)
-          CALL hm_get_intv  ('Irate'        ,irate     ,is_available,lsubmodel)
+          CALL hm_get_floatv("MAT_asrate"   ,fcut      ,is_available, lsubmodel, unitab)
+          CALL hm_get_intv  ("Irate"        ,irate     ,is_available,lsubmodel)
 !
 !     normal direction
 !
-          CALL hm_get_intv  ('Gflag'        ,iflag1    ,is_available,lsubmodel)
-          CALL hm_get_floatv('MAT_EPS_max11',emx11     ,is_available, lsubmodel, unitab)
-          CALL hm_get_floatv('MAT_EPS_max22',emx22     ,is_available, lsubmodel, unitab)
-          CALL hm_get_floatv('MAT_EPS_max33',emx33     ,is_available, lsubmodel, unitab)
+          CALL hm_get_intv  ("Gflag"        ,iflag1    ,is_available,lsubmodel)
+          CALL hm_get_floatv("MAT_EPS_max11",emx11     ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_EPS_max22",emx22     ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_EPS_max33",emx33     ,is_available, lsubmodel, unitab)
 !
 !     direction 11
 !
-          CALL hm_get_intv  ('MAT_YFUN11_1' ,i11(1)    ,is_available,lsubmodel)
-          CALL hm_get_intv  ('MAT_YFUN11_2' ,i11(2)    ,is_available,lsubmodel)
-          CALL hm_get_intv  ('MAT_YFUN11_3' ,i11(3)    ,is_available,lsubmodel)
-          CALL hm_get_intv  ('MAT_YFUN11_4' ,i11(4)    ,is_available,lsubmodel)
-          CALL hm_get_intv  ('MAT_YFUN11_5' ,i11(5)    ,is_available,lsubmodel)
+          CALL hm_get_intv  ("MAT_YFUN11_1" ,i11(1)    ,is_available,lsubmodel)
+          CALL hm_get_intv  ("MAT_YFUN11_2" ,i11(2)    ,is_available,lsubmodel)
+          CALL hm_get_intv  ("MAT_YFUN11_3" ,i11(3)    ,is_available,lsubmodel)
+          CALL hm_get_intv  ("MAT_YFUN11_4" ,i11(4)    ,is_available,lsubmodel)
+          CALL hm_get_intv  ("MAT_YFUN11_5" ,i11(5)    ,is_available,lsubmodel)
 !
-          CALL hm_get_floatv('MAT_SFAC11_1' ,fac11(1)  ,is_available, lsubmodel, unitab)
-          CALL hm_get_floatv('MAT_SFAC11_2' ,fac11(2)  ,is_available, lsubmodel, unitab)
-          CALL hm_get_floatv('MAT_SFAC11_3' ,fac11(3)  ,is_available, lsubmodel, unitab)
-          CALL hm_get_floatv('MAT_SFAC11_4' ,fac11(4)  ,is_available, lsubmodel, unitab)
-          CALL hm_get_floatv('MAT_SFAC11_5' ,fac11(5)  ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_SFAC11_1" ,fac11(1)  ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_SFAC11_2" ,fac11(2)  ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_SFAC11_3" ,fac11(3)  ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_SFAC11_4" ,fac11(4)  ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_SFAC11_5" ,fac11(5)  ,is_available, lsubmodel, unitab)
 !
-          CALL hm_get_floatv('MAT_EPS11_1'  ,epsp11(1) ,is_available, lsubmodel, unitab)
-          CALL hm_get_floatv('MAT_EPS11_2'  ,epsp11(2) ,is_available, lsubmodel, unitab)
-          CALL hm_get_floatv('MAT_EPS11_3'  ,epsp11(3) ,is_available, lsubmodel, unitab)
-          CALL hm_get_floatv('MAT_EPS11_4'  ,epsp11(4) ,is_available, lsubmodel, unitab)
-          CALL hm_get_floatv('MAT_EPS11_5'  ,epsp11(5) ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_EPS11_1"  ,epsp11(1) ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_EPS11_2"  ,epsp11(2) ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_EPS11_3"  ,epsp11(3) ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_EPS11_4"  ,epsp11(4) ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_EPS11_5"  ,epsp11(5) ,is_available, lsubmodel, unitab)
 !
 !     direction 22
 !
-          CALL hm_get_intv  ('MAT_YFUN22_1' ,i22(1)    ,is_available,lsubmodel)
-          CALL hm_get_intv  ('MAT_YFUN22_2' ,i22(2)    ,is_available,lsubmodel)
-          CALL hm_get_intv  ('MAT_YFUN22_3' ,i22(3)    ,is_available,lsubmodel)
-          CALL hm_get_intv  ('MAT_YFUN22_4' ,i22(4)    ,is_available,lsubmodel)
-          CALL hm_get_intv  ('MAT_YFUN22_5' ,i22(5)    ,is_available,lsubmodel)
+          CALL hm_get_intv  ("MAT_YFUN22_1" ,i22(1)    ,is_available,lsubmodel)
+          CALL hm_get_intv  ("MAT_YFUN22_2" ,i22(2)    ,is_available,lsubmodel)
+          CALL hm_get_intv  ("MAT_YFUN22_3" ,i22(3)    ,is_available,lsubmodel)
+          CALL hm_get_intv  ("MAT_YFUN22_4" ,i22(4)    ,is_available,lsubmodel)
+          CALL hm_get_intv  ("MAT_YFUN22_5" ,i22(5)    ,is_available,lsubmodel)
 !
-          CALL hm_get_floatv('MAT_SFAC22_1' ,fac22(1)  ,is_available, lsubmodel, unitab)
-          CALL hm_get_floatv('MAT_SFAC22_2' ,fac22(2)  ,is_available, lsubmodel, unitab)
-          CALL hm_get_floatv('MAT_SFAC22_3' ,fac22(3)  ,is_available, lsubmodel, unitab)
-          CALL hm_get_floatv('MAT_SFAC22_4' ,fac22(4)  ,is_available, lsubmodel, unitab)
-          CALL hm_get_floatv('MAT_SFAC22_5' ,fac22(5)  ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_SFAC22_1" ,fac22(1)  ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_SFAC22_2" ,fac22(2)  ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_SFAC22_3" ,fac22(3)  ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_SFAC22_4" ,fac22(4)  ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_SFAC22_5" ,fac22(5)  ,is_available, lsubmodel, unitab)
 !
-          CALL hm_get_floatv('MAT_EPS22_1'  ,epsp22(1) ,is_available, lsubmodel, unitab)
-          CALL hm_get_floatv('MAT_EPS22_2'  ,epsp22(2) ,is_available, lsubmodel, unitab)
-          CALL hm_get_floatv('MAT_EPS22_3'  ,epsp22(3) ,is_available, lsubmodel, unitab)
-          CALL hm_get_floatv('MAT_EPS22_4'  ,epsp22(4) ,is_available, lsubmodel, unitab)
-          CALL hm_get_floatv('MAT_EPS22_5'  ,epsp22(5) ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_EPS22_1"  ,epsp22(1) ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_EPS22_2"  ,epsp22(2) ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_EPS22_3"  ,epsp22(3) ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_EPS22_4"  ,epsp22(4) ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_EPS22_5"  ,epsp22(5) ,is_available, lsubmodel, unitab)
 !
 !     direction 33
 !
-          CALL hm_get_intv  ('MAT_YFUN33_1' ,i33(1)    ,is_available,lsubmodel)
-          CALL hm_get_intv  ('MAT_YFUN33_2' ,i33(2)    ,is_available,lsubmodel)
-          CALL hm_get_intv  ('MAT_YFUN33_3' ,i33(3)    ,is_available,lsubmodel)
-          CALL hm_get_intv  ('MAT_YFUN33_4' ,i33(4)    ,is_available,lsubmodel)
-          CALL hm_get_intv  ('MAT_YFUN33_5' ,i33(5)    ,is_available,lsubmodel)
+          CALL hm_get_intv  ("MAT_YFUN33_1" ,i33(1)    ,is_available,lsubmodel)
+          CALL hm_get_intv  ("MAT_YFUN33_2" ,i33(2)    ,is_available,lsubmodel)
+          CALL hm_get_intv  ("MAT_YFUN33_3" ,i33(3)    ,is_available,lsubmodel)
+          CALL hm_get_intv  ("MAT_YFUN33_4" ,i33(4)    ,is_available,lsubmodel)
+          CALL hm_get_intv  ("MAT_YFUN33_5" ,i33(5)    ,is_available,lsubmodel)
 !
-          CALL hm_get_floatv('MAT_SFAC33_1' ,fac33(1)  ,is_available, lsubmodel, unitab)
-          CALL hm_get_floatv('MAT_SFAC33_2' ,fac33(2)  ,is_available, lsubmodel, unitab)
-          CALL hm_get_floatv('MAT_SFAC33_3' ,fac33(3)  ,is_available, lsubmodel, unitab)
-          CALL hm_get_floatv('MAT_SFAC33_4' ,fac33(4)  ,is_available, lsubmodel, unitab)
-          CALL hm_get_floatv('MAT_SFAC33_5' ,fac33(5)  ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_SFAC33_1" ,fac33(1)  ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_SFAC33_2" ,fac33(2)  ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_SFAC33_3" ,fac33(3)  ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_SFAC33_4" ,fac33(4)  ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_SFAC33_5" ,fac33(5)  ,is_available, lsubmodel, unitab)
 !
-          CALL hm_get_floatv('MAT_EPS33_1'  ,epsp33(1) ,is_available, lsubmodel, unitab)
-          CALL hm_get_floatv('MAT_EPS33_2'  ,epsp33(2) ,is_available, lsubmodel, unitab)
-          CALL hm_get_floatv('MAT_EPS33_3'  ,epsp33(3) ,is_available, lsubmodel, unitab)
-          CALL hm_get_floatv('MAT_EPS33_4'  ,epsp33(4) ,is_available, lsubmodel, unitab)
-          CALL hm_get_floatv('MAT_EPS33_5'  ,epsp33(5) ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_EPS33_1"  ,epsp33(1) ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_EPS33_2"  ,epsp33(2) ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_EPS33_3"  ,epsp33(3) ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_EPS33_4"  ,epsp33(4) ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_EPS33_5"  ,epsp33(5) ,is_available, lsubmodel, unitab)
 !
 !     shear
 !
-          CALL hm_get_intv  ('Vflag'        ,iflag2    ,is_available,lsubmodel)
-          CALL hm_get_floatv('MAT_EPS_max12',emx12     ,is_available, lsubmodel, unitab)
-          CALL hm_get_floatv('MAT_EPS_max23',emx23     ,is_available, lsubmodel, unitab)
-          CALL hm_get_floatv('MAT_EPS_max31',emx31     ,is_available, lsubmodel, unitab)
+          CALL hm_get_intv  ("Vflag"        ,iflag2    ,is_available,lsubmodel)
+          CALL hm_get_floatv("MAT_EPS_max12",emx12     ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_EPS_max23",emx23     ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_EPS_max31",emx31     ,is_available, lsubmodel, unitab)
 !
 !     direction 12
 !
-          CALL hm_get_intv  ('MAT_YFUN12_1' ,i12(1)    ,is_available,lsubmodel)
-          CALL hm_get_intv  ('MAT_YFUN12_2' ,i12(2)    ,is_available,lsubmodel)
-          CALL hm_get_intv  ('MAT_YFUN12_3' ,i12(3)    ,is_available,lsubmodel)
-          CALL hm_get_intv  ('MAT_YFUN12_4' ,i12(4)    ,is_available,lsubmodel)
-          CALL hm_get_intv  ('MAT_YFUN12_5' ,i12(5)    ,is_available,lsubmodel)
+          CALL hm_get_intv  ("MAT_YFUN12_1" ,i12(1)    ,is_available,lsubmodel)
+          CALL hm_get_intv  ("MAT_YFUN12_2" ,i12(2)    ,is_available,lsubmodel)
+          CALL hm_get_intv  ("MAT_YFUN12_3" ,i12(3)    ,is_available,lsubmodel)
+          CALL hm_get_intv  ("MAT_YFUN12_4" ,i12(4)    ,is_available,lsubmodel)
+          CALL hm_get_intv  ("MAT_YFUN12_5" ,i12(5)    ,is_available,lsubmodel)
 !
-          CALL hm_get_floatv('MAT_SFAC12_1' ,fac12(1)  ,is_available, lsubmodel, unitab)
-          CALL hm_get_floatv('MAT_SFAC12_2' ,fac12(2)  ,is_available, lsubmodel, unitab)
-          CALL hm_get_floatv('MAT_SFAC12_3' ,fac12(3)  ,is_available, lsubmodel, unitab)
-          CALL hm_get_floatv('MAT_SFAC12_4' ,fac12(4)  ,is_available, lsubmodel, unitab)
-          CALL hm_get_floatv('MAT_SFAC12_5' ,fac12(5)  ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_SFAC12_1" ,fac12(1)  ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_SFAC12_2" ,fac12(2)  ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_SFAC12_3" ,fac12(3)  ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_SFAC12_4" ,fac12(4)  ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_SFAC12_5" ,fac12(5)  ,is_available, lsubmodel, unitab)
 !
-          CALL hm_get_floatv('MAT_EPS12_1'  ,epsp12(1) ,is_available, lsubmodel, unitab)
-          CALL hm_get_floatv('MAT_EPS12_2'  ,epsp12(2) ,is_available, lsubmodel, unitab)
-          CALL hm_get_floatv('MAT_EPS12_3'  ,epsp12(3) ,is_available, lsubmodel, unitab)
-          CALL hm_get_floatv('MAT_EPS12_4'  ,epsp12(4) ,is_available, lsubmodel, unitab)
-          CALL hm_get_floatv('MAT_EPS12_5'  ,epsp12(5) ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_EPS12_1"  ,epsp12(1) ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_EPS12_2"  ,epsp12(2) ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_EPS12_3"  ,epsp12(3) ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_EPS12_4"  ,epsp12(4) ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_EPS12_5"  ,epsp12(5) ,is_available, lsubmodel, unitab)
 !
 !     direction 23
 !
-          CALL hm_get_intv  ('MAT_YFUN23_1' ,i23(1)    ,is_available,lsubmodel)
-          CALL hm_get_intv  ('MAT_YFUN23_2' ,i23(2)    ,is_available,lsubmodel)
-          CALL hm_get_intv  ('MAT_YFUN23_3' ,i23(3)    ,is_available,lsubmodel)
-          CALL hm_get_intv  ('MAT_YFUN23_4' ,i23(4)    ,is_available,lsubmodel)
-          CALL hm_get_intv  ('MAT_YFUN23_5' ,i23(5)    ,is_available,lsubmodel)
+          CALL hm_get_intv  ("MAT_YFUN23_1" ,i23(1)    ,is_available,lsubmodel)
+          CALL hm_get_intv  ("MAT_YFUN23_2" ,i23(2)    ,is_available,lsubmodel)
+          CALL hm_get_intv  ("MAT_YFUN23_3" ,i23(3)    ,is_available,lsubmodel)
+          CALL hm_get_intv  ("MAT_YFUN23_4" ,i23(4)    ,is_available,lsubmodel)
+          CALL hm_get_intv  ("MAT_YFUN23_5" ,i23(5)    ,is_available,lsubmodel)
 !
-          CALL hm_get_floatv('MAT_SFAC23_1' ,fac23(1)  ,is_available, lsubmodel, unitab)
-          CALL hm_get_floatv('MAT_SFAC23_2' ,fac23(2)  ,is_available, lsubmodel, unitab)
-          CALL hm_get_floatv('MAT_SFAC23_3' ,fac23(3)  ,is_available, lsubmodel, unitab)
-          CALL hm_get_floatv('MAT_SFAC23_4' ,fac23(4)  ,is_available, lsubmodel, unitab)
-          CALL hm_get_floatv('MAT_SFAC23_5' ,fac23(5)  ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_SFAC23_1" ,fac23(1)  ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_SFAC23_2" ,fac23(2)  ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_SFAC23_3" ,fac23(3)  ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_SFAC23_4" ,fac23(4)  ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_SFAC23_5" ,fac23(5)  ,is_available, lsubmodel, unitab)
 !
-          CALL hm_get_floatv('MAT_EPS23_1'  ,epsp23(1) ,is_available, lsubmodel, unitab)
-          CALL hm_get_floatv('MAT_EPS23_2'  ,epsp23(2) ,is_available, lsubmodel, unitab)
-          CALL hm_get_floatv('MAT_EPS23_3'  ,epsp23(3) ,is_available, lsubmodel, unitab)
-          CALL hm_get_floatv('MAT_EPS23_4'  ,epsp23(4) ,is_available, lsubmodel, unitab)
-          CALL hm_get_floatv('MAT_EPS23_5'  ,epsp23(5) ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_EPS23_1"  ,epsp23(1) ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_EPS23_2"  ,epsp23(2) ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_EPS23_3"  ,epsp23(3) ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_EPS23_4"  ,epsp23(4) ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_EPS23_5"  ,epsp23(5) ,is_available, lsubmodel, unitab)
 !
 !     direction 31
 !
-          CALL hm_get_intv  ('MAT_YFUN31_1' ,i31(1)    ,is_available,lsubmodel)
-          CALL hm_get_intv  ('MAT_YFUN31_2' ,i31(2)    ,is_available,lsubmodel)
-          CALL hm_get_intv  ('MAT_YFUN31_3' ,i31(3)    ,is_available,lsubmodel)
-          CALL hm_get_intv  ('MAT_YFUN31_4' ,i31(4)    ,is_available,lsubmodel)
-          CALL hm_get_intv  ('MAT_YFUN31_5' ,i31(5)    ,is_available,lsubmodel)
+          CALL hm_get_intv  ("MAT_YFUN31_1" ,i31(1)    ,is_available,lsubmodel)
+          CALL hm_get_intv  ("MAT_YFUN31_2" ,i31(2)    ,is_available,lsubmodel)
+          CALL hm_get_intv  ("MAT_YFUN31_3" ,i31(3)    ,is_available,lsubmodel)
+          CALL hm_get_intv  ("MAT_YFUN31_4" ,i31(4)    ,is_available,lsubmodel)
+          CALL hm_get_intv  ("MAT_YFUN31_5" ,i31(5)    ,is_available,lsubmodel)
 !
-          CALL hm_get_floatv('MAT_SFAC31_1' ,fac31(1)  ,is_available, lsubmodel, unitab)
-          CALL hm_get_floatv('MAT_SFAC31_2' ,fac31(2)  ,is_available, lsubmodel, unitab)
-          CALL hm_get_floatv('MAT_SFAC31_3' ,fac31(3)  ,is_available, lsubmodel, unitab)
-          CALL hm_get_floatv('MAT_SFAC31_4' ,fac31(4)  ,is_available, lsubmodel, unitab)
-          CALL hm_get_floatv('MAT_SFAC31_5' ,fac31(5)  ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_SFAC31_1" ,fac31(1)  ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_SFAC31_2" ,fac31(2)  ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_SFAC31_3" ,fac31(3)  ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_SFAC31_4" ,fac31(4)  ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_SFAC31_5" ,fac31(5)  ,is_available, lsubmodel, unitab)
 !
-          CALL hm_get_floatv('MAT_EPS31_1'  ,epsp31(1) ,is_available, lsubmodel, unitab)
-          CALL hm_get_floatv('MAT_EPS31_2'  ,epsp31(2) ,is_available, lsubmodel, unitab)
-          CALL hm_get_floatv('MAT_EPS31_3'  ,epsp31(3) ,is_available, lsubmodel, unitab)
-          CALL hm_get_floatv('MAT_EPS31_4'  ,epsp31(4) ,is_available, lsubmodel, unitab)
-          CALL hm_get_floatv('MAT_EPS31_5'  ,epsp31(5) ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_EPS31_1"  ,epsp31(1) ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_EPS31_2"  ,epsp31(2) ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_EPS31_3"  ,epsp31(3) ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_EPS31_4"  ,epsp31(4) ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_EPS31_5"  ,epsp31(5) ,is_available, lsubmodel, unitab)
 !
 !     compact state coupling parameters
 !
-          CALL hm_get_floatv('MAT_ECOMP'    ,ecomp     ,is_available, lsubmodel, unitab)
-          CALL hm_get_floatv('MAT_PR'       ,nu        ,is_available, lsubmodel, unitab)
-          CALL hm_get_floatv('MAT_SIGY'     ,sigy      ,is_available, lsubmodel, unitab)
-          CALL hm_get_floatv('MAT_ET'       ,hcomp     ,is_available, lsubmodel, unitab)
-          CALL hm_get_floatv('MAT_VCOMP'    ,vcomp     ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_ECOMP"    ,ecomp     ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_PR"       ,nu        ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_SIGY"     ,sigy      ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_ET"       ,hcomp     ,is_available, lsubmodel, unitab)
+          CALL hm_get_floatv("MAT_VCOMP"    ,vcomp     ,is_available, lsubmodel, unitab)
 !
 !     get pressure unit scale factor
 !
-          call hm_get_floatv_dim('MAT_EA',press_scale,is_available,lsubmodel,unitab)
+          call hm_get_floatv_dim("MAT_EA",press_scale,is_available,lsubmodel,unitab)
 ! ----------------------------------------------------------------------------------------------------------------------
 !     default values
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -282,7 +282,7 @@
             if (fac12(i) == zero) fac12(i) = one*press_scale
             if (fac23(i) == zero) fac23(i) = one*press_scale
             if (fac31(i) == zero) fac31(i) = one*press_scale
-          enddo
+          end do
 !
           n11 = 0
           n22 = 0
@@ -303,7 +303,7 @@
             if ((i12(i)*epsp12(i)) > em20 .and. n12 == i-1) n12=i
             if ((i23(i)*epsp23(i)) > em20 .and. n23 == i-1) n23=i
             if ((i31(i)*epsp31(i)) > em20 .and. n31 == i-1) n31=i
-          enddo
+          end do
 !
           do i=1,5
             func_id(i,1) = i11(i)
@@ -438,7 +438,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           write(iout,1000) trim(titr),mat_id,ilaw
           if (is_encrypted) then
-            write(iout,'(5x,a,//)')'confidential data'
+            write(iout,"(5x,a,//)")"confidential data"
           else
             write(iout,1100)
             write(iout,1200) rho0
@@ -493,53 +493,53 @@
             if (icompact == 1) then
               write(iout,1700) ecomp,nu,sigy,hcomp,vcomp
             end if
-          endif
+          end if
 !
           return
 ! ----------------------------------------------------------------------------------------------------------------------
 1000      format(/                                                           &
             5x,a,/,                                                            &
-            5x,'   MATERIAL NUMBER. . . . . . . . . . .=',i10/,                &
-            5x,'   MATERIAL LAW . . . . . . . . . . . .=',i10/)
-1100      format(5x,'MATERIAL MODEL : HONEYCOMB (VISC_HONEY)    ',/,         &
-            5x,'-------------------------------------------',/)
+            5x,"   MATERIAL NUMBER. . . . . . . . . . .=",i10/,                &
+            5x,"   MATERIAL LAW . . . . . . . . . . . .=",i10/)
+1100      format(5x,"MATERIAL MODEL : HONEYCOMB (VISC_HONEY)    ",/,         &
+            5x,"-------------------------------------------",/)
 1200      format(                                                            &
-            5x,'INITIAL DENSITY . . . . . . . . . . . . .=',1pg20.13/)
+            5x,"INITIAL DENSITY . . . . . . . . . . . . .=",1pg20.13/)
 1300      format(                                                            &
-            5x,'E11 . . . . . . . . . . . . . . . . . . .=',1pg20.13/          &
-            5x,'E22 . . . . . . . . . . . . . . . . . . .=',1pg20.13/          &
-            5x,'E33 . . . . . . . . . . . . . . . . . . .=',1pg20.13/          &
-            5x,'G12 . . . . . . . . . . . . . . . . . . .=',1pg20.13/          &
-            5x,'G23 . . . . . . . . . . . . . . . . . . .=',1pg20.13/          &
-            5x,'G31 . . . . . . . . . . . . . . . . . . .=',1pg20.13/          &
-            5x,'STRAIN RATE DEFINITION FLAG . . . . . . .=',i10/               &
-            5x,'STRAIN RATE FILTERING CUT OFF FREQUENCY .=',1pg20.13)
+            5x,"E11 . . . . . . . . . . . . . . . . . . .=",1pg20.13/          &
+            5x,"E22 . . . . . . . . . . . . . . . . . . .=",1pg20.13/          &
+            5x,"E33 . . . . . . . . . . . . . . . . . . .=",1pg20.13/          &
+            5x,"G12 . . . . . . . . . . . . . . . . . . .=",1pg20.13/          &
+            5x,"G23 . . . . . . . . . . . . . . . . . . .=",1pg20.13/          &
+            5x,"G31 . . . . . . . . . . . . . . . . . . .=",1pg20.13/          &
+            5x,"STRAIN RATE DEFINITION FLAG . . . . . . .=",i10/               &
+            5x,"STRAIN RATE FILTERING CUT OFF FREQUENCY .=",1pg20.13)
 1400      format(                                                            &
-            5x,'YIELD FUNCTION 11,22,33 FLAG .  . . . . .=',i10/               &
-            5x,'YIELD FUNCTION 12,23,31 FLAG .  . . . . .=',i10//)
+            5x,"YIELD FUNCTION 11,22,33 FLAG .  . . . . .=",i10/               &
+            5x,"YIELD FUNCTION 12,23,31 FLAG .  . . . . .=",i10//)
 1500      format(                                                            &
-            5x,'TENSION FAILURE STRAIN 11 . . . . . . . .=',1pg20.13/          &
-            5x,'TENSION FAILURE STRAIN 22 . . . . . . . .=',1pg20.13/          &
-            5x,'TENSION FAILURE STRAIN 33 . . . . . . . .=',1pg20.13/          &
-            5x,'SHEAR FAILURE STRAIN 12 . . . . . . . . .=',1pg20.13/          &
-            5x,'SHEAR FAILURE STRAIN 23 . . . . . . . . .=',1pg20.13/          &
-            5x,'SHEAR FAILURE STRAIN 31 . . . . . . . . .=',1pg20.13//)
+            5x,"TENSION FAILURE STRAIN 11 . . . . . . . .=",1pg20.13/          &
+            5x,"TENSION FAILURE STRAIN 22 . . . . . . . .=",1pg20.13/          &
+            5x,"TENSION FAILURE STRAIN 33 . . . . . . . .=",1pg20.13/          &
+            5x,"SHEAR FAILURE STRAIN 12 . . . . . . . . .=",1pg20.13/          &
+            5x,"SHEAR FAILURE STRAIN 23 . . . . . . . . .=",1pg20.13/          &
+            5x,"SHEAR FAILURE STRAIN 31 . . . . . . . . .=",1pg20.13//)
 1600      format(                                                            &
-            8x,'STRAIN RATE . . . . . . . . . . . . . . .=',1pg20.13/          &
-            8x,'  FUNCTION NUMBER . . . . . . . . . . . .=',i10/               &
-            8x,'  SCALE FACTOR. . . . . . . . . . . . . .=',1pg20.13)
+            8x,"STRAIN RATE . . . . . . . . . . . . . . .=",1pg20.13/          &
+            8x,"  FUNCTION NUMBER . . . . . . . . . . . .=",i10/               &
+            8x,"  SCALE FACTOR. . . . . . . . . . . . . .=",1pg20.13)
 1700      format(                                                            &
-            5x,'YOUNG MODULUS IN COMPACTED STATE. . . . .=',1pg20.13/          &
-            5x,'POISSON RATIO IN COMPACTED STATE. . . . .=',1pg20.13/          &
-            5x,'YELD STRESS IN COMPACTED STATE. . . . . .=',1pg20.13/          &
-            5x,'TANGENT MODULUS IN COMPACTED STATE. . . .=',1pg20.13/          &
-            5x,'VOLUME FRACTION IN COMPACTED STATE. . . .=',1pg20.13//)
-1001      format(5x,'YIELD STRESS 11')
-1002      format(5x,'YIELD STRESS 22')
-1003      format(5x,'YIELD STRESS 33')
-1004      format(5x,'YIELD STRESS 12')
-1005      format(5x,'YIELD STRESS 23')
-1006      format(5x,'YIELD STRESS 31')
+            5x,"YOUNG MODULUS IN COMPACTED STATE. . . . .=",1pg20.13/          &
+            5x,"POISSON RATIO IN COMPACTED STATE. . . . .=",1pg20.13/          &
+            5x,"YELD STRESS IN COMPACTED STATE. . . . . .=",1pg20.13/          &
+            5x,"TANGENT MODULUS IN COMPACTED STATE. . . .=",1pg20.13/          &
+            5x,"VOLUME FRACTION IN COMPACTED STATE. . . .=",1pg20.13//)
+1001      format(5x,"YIELD STRESS 11")
+1002      format(5x,"YIELD STRESS 22")
+1003      format(5x,"YIELD STRESS 33")
+1004      format(5x,"YIELD STRESS 12")
+1005      format(5x,"YIELD STRESS 23")
+1006      format(5x,"YIELD STRESS 31")
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine hm_read_mat50
 

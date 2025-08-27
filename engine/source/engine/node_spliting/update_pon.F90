@@ -100,9 +100,9 @@
             do j = 1, 4
               if(elements%shell%nodes(j, shell_id) == new_id) then
                 contributions_count = contributions_count + 1
-              endif
-            enddo
-          enddo
+              end if
+            end do
+          end do
           ! The actual number of forces contributions is lower or equal than the old number of contributions
           ! But we still extend it, some forces in FSKY will be allways zero
           ! because it allows us to keep the existing pointers to FSKY (such as ISENDP, IRECVDP)
@@ -126,9 +126,9 @@
                 elements%pon%iadc(j,shell_id) = elements%pon%adsky(new_numnod) + contributions_count
                 ! write(6,*) "IADC(", shell_id, ",", j, ") = ", elements%pon%iadc(j,shell_id)
                 contributions_count = contributions_count + 1
-              endif
-            enddo
-          enddo
+              end if
+            end do
+          end do
 
           ! extend FSKY
           !        subroutine extend_array_double_2d(a, oldsize1, oldsize2, newsize1, newsize2, msg, stat)

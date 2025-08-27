@@ -116,7 +116,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           is_encrypted = .false.
           is_available = .false.
-          mtl_msg = ''
+          mtl_msg = ""
 
           matparam%ieos = 18  ! linear eos is used by default
           ipm(4)        = 18
@@ -124,36 +124,36 @@
           call hm_option_is_encrypted(is_encrypted)
 !----------------------------------------------------------------
 !         #initial density
-          call hm_get_floatv('MAT_RHO', rho0, is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_RHO", rho0, is_available, lsubmodel, unitab)
 !----------------------------------------------------------------
 !         #Poisson's ratio
-          call hm_get_floatv('MAT_NU', nu, is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_NU", nu, is_available, lsubmodel, unitab)
 !----------------------------------------------------------------
 !         #Minimum/fracture Pressure
-          call hm_get_floatv('MAT_PMIN', pmin, is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_PMIN", pmin, is_available, lsubmodel, unitab)
 !----------------------------------------------------------------
 !         #scale factors
-          call hm_get_floatv('FSCALE_G', fscale_g, is_available, lsubmodel, unitab)
-          call hm_get_floatv('FSCALE_Y', fscale_y, is_available, lsubmodel, unitab)
+          call hm_get_floatv("FSCALE_G", fscale_g, is_available, lsubmodel, unitab)
+          call hm_get_floatv("FSCALE_Y", fscale_y, is_available, lsubmodel, unitab)
 !----------------------------------------------------------------
 !         #function identifiers
-          call hm_get_intv('FCT_ID_G' ,fctID_g, is_available, lsubmodel)
-          call hm_get_intv('FCT_ID_Y' ,fctID_y, is_available, lsubmodel)
+          call hm_get_intv("FCT_ID_G" ,fctID_g, is_available, lsubmodel)
+          call hm_get_intv("FCT_ID_Y" ,fctID_y, is_available, lsubmodel)
 !----------------------------------------------------------------
 
           !Default Values
           if (fscale_g == zero) then
             fscale_g = one
-          endif
+          end if
           if (fscale_y == zero) then
             fscale_y = one
-          endif
+          end if
 
           !Input checks
           if (nu <= zero .OR.nu >= half ) then
             mtl_msg = "LAW133 (GRANULAR)"
             call ancmsg(msgid=1514,msgtype=msgerror,anmode=aninfo,i1 = mat_uid,c1=mtl_msg,c2=titr)
-          endif
+          end if
 
           if(pmin == zero)then
             pmin = em20
@@ -173,8 +173,8 @@
           allocate (matparam%table(matparam%ntable))
 
           !< user function storage
-          call hm_get_floatv_dim('MAT_RHO',density_unit,is_available,lsubmodel,unitab)
-          call hm_get_floatv_dim('FSCALE_G',pressure_unit,is_available,lsubmodel,unitab)
+          call hm_get_floatv_dim("MAT_RHO",density_unit,is_available,lsubmodel,unitab)
+          call hm_get_floatv_dim("FSCALE_G",pressure_unit,is_available,lsubmodel,unitab)
           matparam%table(1)%notable = fctID_g
           matparam%table(2)%notable = fctID_y
           x1scale   = one * density_unit
@@ -240,35 +240,35 @@
           write(iout, 100) trim(titr),mat_uid,133
           write(iout,200)
           if (is_encrypted) then
-            write(iout,'(5X,A,//)') 'CONFIDENTIAL DATA'
+            write(iout,"(5X,A,//)") "CONFIDENTIAL DATA"
           else
             write(iout,300) rho0
             write(iout,400) nu,young,pmin
             write(iout,500) fctID_g,fctID_y
             write(iout,600) fscale_g,fscale_y
-          endif
+          end if
 
 !-----------------------------------------------------------------------
 100       format(/                                                        &
             5X,A,/,                                                       &
-            5X,'MATERIAL NUMBER. . . . . . . . . . . . . . .=',I10/,      &
-            5X,'MATERIAL LAW . . . . . . . . . . . . . . . .=',I10/)
+            5X,"MATERIAL NUMBER. . . . . . . . . . . . . . .=",I10/,      &
+            5X,"MATERIAL LAW . . . . . . . . . . . . . . . .=",I10/)
 200       format(/                                                        &
-            5X,'-------------------------',/         &
-            5X,'MATERIAL MODEL:  GRANULAR',/,        &
-            5X,'-------------------------',/)
+            5X,"-------------------------",/         &
+            5X,"MATERIAL MODEL:  GRANULAR",/,        &
+            5X,"-------------------------",/)
 300       format(/                                                        &
-            5X,'INITIAL DENSITY. . . . . . . . . . . . . .  =',1PG20.13/)
+            5X,"INITIAL DENSITY. . . . . . . . . . . . . .  =",1PG20.13/)
 400       format(/                                                        &
             5X,'POISSON''S RATIO  . . . . . . . . . . . . .  =',1PG20.13/, &
-            5X,'INITIAL YOUNG MODULUS E (COMPUTED) . . . .  =',1PG20.13/, &
+            5X,"INITIAL YOUNG MODULUS E (COMPUTED) . . . .  =",1PG20.13/, &
             5X,"MINIMUM PRESSURE (FRACTURE). . . . . . . .  =",1PG20.13/)
 500       format(/                                                        &
-            5X,'SHEAR MODULUS FUNCTION ID - G(RHO) . . . .  =',I10/,      &
-            5X,'YIELD FUNCTION ID - Y(P) . . . . . . . . .  =',I10/ )
+            5X,"SHEAR MODULUS FUNCTION ID - G(RHO) . . . .  =",I10/,      &
+            5X,"YIELD FUNCTION ID - Y(P) . . . . . . . . .  =",I10/ )
 600       format(/                                                        &
-            5X,'SHEAR SCALE FACTOR (FSCALE_G)  . . . . . .  =',1PG20.13/, &
-            5X,'YIELD SCALE FACTOR (FSCALE_Y)  . . . . . .  =',1PG20.13/ )
+            5X,"SHEAR SCALE FACTOR (FSCALE_G)  . . . . . .  =",1PG20.13/, &
+            5X,"YIELD SCALE FACTOR (FSCALE_Y)  . . . . . .  =",1PG20.13/ )
 !
         end subroutine hm_read_mat133
 !-------------------

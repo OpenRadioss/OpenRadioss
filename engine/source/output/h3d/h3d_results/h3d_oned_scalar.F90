@@ -26,6 +26,7 @@
 !||    genh3d                ../engine/source/output/h3d/h3d_results/genh3d.F
 !||====================================================================
       module h3d_oned_scalar_mod
+      implicit none
       contains
 !! \brief fill the scalar values for the 1D elements
 !||====================================================================
@@ -159,12 +160,12 @@
             nft   =iparg(3,ng)
             do i=1,6
               jj(i) = nel*(i-1)
-            enddo
+            end do
 
             do i=1,nel
               value(i) = zero
               is_written_value(i) = 0
-            enddo
+            end do
 !
             if (ity == 4) offset = 0
             if (ity == 5) offset = numelt
@@ -175,26 +176,26 @@
                 id_elem(offset+nft+i) = ixt(nixt,nft+i)
                 ity_elem(offset+nft+i) = 4
                 if( h3d_part(ipartt(nft+i)) == 1) iok_part(i) = 1
-              elseif (ity == 5) then
+              else if (ity == 5) then
                 id_elem(offset+nft+i) = ixp(nixp,nft+i)
                 ity_elem(offset+nft+i) = 5
                 if( h3d_part(ipartp(nft+i)) == 1) iok_part(i) = 1
-              elseif (ity == 6) then
+              else if (ity == 6) then
                 id_elem(offset+nft+i) = ixr(nixr,nft+i)
                 ity_elem(offset+nft+i) = 6
                 if( h3d_part(ipartr(nft+i)) == 1) iok_part(i) = 1
-              endif
-            enddo
+              end if
+            end do
 
             if(ity==4 .or. ity==5 .or. ity==6)then
               do i=1,nel
                 oned_scalar(offset+nft+i) = zero   ! default = zero in all cases !
-              enddo
-            endif
+              end do
+            end if
 !-----------------------------------------------
 ! MASS COMPUTATION
 !-----------------------------------------------
-            if (keyword == 'MASS' .OR. keyword == 'ENER') then
+            if (keyword == "MASS" .OR. keyword == "ENER") then
 !-----------------------------------------------
 !       truss
 !-----------------------------------------------
@@ -210,11 +211,11 @@
                   zz1 = x(3,n2)-d(3,n2)-x(3,n1)+d(3,n1)
                   al0  = sqrt(xx1*xx1 + yy1*yy1 + zz1*zz1)
                   mass(i) = rho0*al0*a0
-                enddo
+                end do
 !-----------------------------------------------
 !       poutres
 !-----------------------------------------------
-              elseif (ity == 5) then
+              else if (ity == 5) then
                 do i=1,nel
                   n = i + nft
                   rho0 = pm(1,ixp(1,n))
@@ -226,66 +227,66 @@
                   zz1 = x(3,n2)-d(3,n2)-x(3,n1)+d(3,n1)
                   al0  = sqrt(xx1*xx1 + yy1*yy1 + zz1*zz1)
                   mass(i) = rho0*al0*a0
-                enddo
+                end do
 !-----------------------------------------------
 !       ressorts
 !-----------------------------------------------
-              elseif (ity == 6) then
+              else if (ity == 6) then
                 if(mlw==3)then
                   do i=1,nel
                     n = i + nft
                     mass(i) = half*geo(1,ixr(1,n))
-                  enddo
-                elseif (mlw == 5) then
+                  end do
+                else if (mlw == 5) then
                   do i=1,nel
                     n = i + nft
                     mass(i) = elbuf_tab(ng)%gbuf%mass(i)
-                  enddo
+                  end do
                 else
                   do i=1,nel
                     n = i + nft
                     mass(i) = geo(1,ixr(1,n))
-                  enddo
-                endif ! if(mlw)
-              endif ! if (ity)
-            endif
+                  end do
+                end if ! if(mlw)
+              end if ! if (ity)
+            end if
 !-----------------------------------------------
 !       truss
 !-----------------------------------------------
             if(ity==4)then
 !--------------------------------------------------
-              if (keyword == 'MASS') then
+              if (keyword == "MASS") then
 !--------------------------------------------------
                 do i=1,nel
                   value(i) = mass(i)
                   is_written_value(i) = 1
-                enddo
+                end do
 !--------------------------------------------------
-              elseif(keyword == 'EPSP')then
+              else if(keyword == "EPSP")then
 !--------------------------------------------------
                 if(mlw/=1)then
                   do  i=1,nel
                     off = elbuf_tab(ng)%gbuf%off(i)
                     value(i) = elbuf_tab(ng)%gbuf%pla(i)
                     is_written_value(i) = 1
-                  enddo
-                endif
+                  end do
+                end if
 !--------------------------------------------------
-              elseif(keyword == 'ENER')then
+              else if(keyword == "ENER")then
 !--------------------------------------------------
                 do i=1,nel
                   value(i) =elbuf_tab(ng)%gbuf%eint(i)/max(em30,mass(i))
                   is_written_value(i) = 1
-                enddo
+                end do
 !--------------------------------------------------
-              elseif(keyword == 'EINT')then
+              else if(keyword == "EINT")then
 !--------------------------------------------------
                 do i=1,nel
                   value(i) =elbuf_tab(ng)%gbuf%eint(i)
                   is_written_value(i) = 1
-                enddo
+                end do
 !--------------------------------------------------
-              elseif(keyword == 'VONM')then
+              else if(keyword == "VONM")then
 !--------------------------------------------------
                 do i=1,nel
                   for = elbuf_tab(ng)%gbuf%for(i)
@@ -293,80 +294,80 @@
                   feq = for*for
                   value(i) = sqrt(feq)/area
                   is_written_value(i) = 1
-                enddo
+                end do
 !--------------------------------------------------
-              elseif(keyword == 'SIGX')then
+              else if(keyword == "SIGX")then
 !--------------------------------------------------
                 do i=1,nel
                   value(i)=(elbuf_tab(ng)%gbuf%for(i))/(elbuf_tab(ng)%gbuf%area(i))
                   is_written_value(i) = 1
-                enddo
+                end do
 !--------------------------------------------------
-              elseif(keyword == 'DT')then
+              else if(keyword == "DT")then
 !--------------------------------------------------
                 if(elbuf_tab(ng)%gbuf%g_dt>0)then
                   do i=1,nel
                     value(i) = elbuf_tab(ng)%gbuf%dt(i)
                     is_written_value(i) = 1
-                  enddo
-                endif
+                  end do
+                end if
 !--------------------------------------------------
-              elseif (keyword == 'AMS'.and.(elbuf_tab(ng)%gbuf%g_isms>0)) then
+              else if (keyword == "AMS".and.(elbuf_tab(ng)%gbuf%g_isms>0)) then
 !--------------------------------------------------
                 do i=1,nel
                   value(i) = elbuf_tab(ng)%gbuf%isms(i)
                   is_written_value(i) = 1
-                enddo
+                end do
 !--------------------------------------------------
-              elseif(keyword == 'OFF')then
+              else if(keyword == "OFF")then
 !--------------------------------------------------
                 do i=1,nel
                   if (elbuf_tab(ng)%gbuf%g_off > 0) then
                     if(elbuf_tab(ng)%gbuf%off(i) > one) then
                       value(i) = elbuf_tab(ng)%gbuf%off(i) - one
-                    elseif((elbuf_tab(ng)%gbuf%off(i) >= zero .and. elbuf_tab(ng)%gbuf%off(i) <= one)) then
+                    else if((elbuf_tab(ng)%gbuf%off(i) >= zero .and. elbuf_tab(ng)%gbuf%off(i) <= one)) then
                       value(i) = elbuf_tab(ng)%gbuf%off(i)
                     else
                       value(i) = -one
-                    endif
-                  endif
+                    end if
+                  end if
                   is_written_value(i) = 1
-                enddo
+                end do
 !--------------------------------------------------
-              elseif(keyword == 'GROUP')then
+              else if(keyword == "GROUP")then
 !--------------------------------------------------
                 do i=1,nel
                   value(i) = ng
                   is_written_value(i) = 1
-                enddo
+                end do
 !--------------------------------------------------
-              elseif(keyword == 'INTERNAL.ID')then
+              else if(keyword == "INTERNAL.ID")then
 !--------------------------------------------------
                 do i=1,nel
                   value(i) = i+nft
                   is_written_value(i) = 1
-                enddo
+                end do
 !--------------------------------------------------
-              elseif(keyword == 'LOCAL.ID')then
+              else if(keyword == "LOCAL.ID")then
 !--------------------------------------------------
                 do i=1,nel
                   value(i) = i
                   is_written_value(i) = 1
-                enddo
-              endif
+                end do
+              end if
 !-----------------------------------------------
 !       poutres
 !-----------------------------------------------
-            elseif(ity==5)then
+            else if(ity==5)then
 !--------------------------------------------------
-              if (keyword == 'MASS') then
+              if (keyword == "MASS") then
 !--------------------------------------------------
                 do i=1,nel
                   value(i) = mass(i)
                   is_written_value(i) = 1
-                enddo
+                end do
 !--------------------------------------------------
-              elseif (keyword == 'EPSP') then
+              else if (keyword == "EPSP") then
 !--------------------------------------------------
                 if (mlw /= 1) then
                   if (igtyp == 18) then
@@ -380,36 +381,36 @@
                         eplas = zero
                         do k = 1,npt
                           eplas = eplas + elbuf_tab(ng)%bufly(ilayer)%lbuf(ir,is,k)%pla(i)
-                        enddo
+                        end do
                         value(i) = eplas/npt
                         is_written_value(i) = 1
-                      enddo
+                      end do
 !   ilayer=null,   npt=ipt
-                    elseif ( ipt <= npt .and. ipt > 0 .and. elbuf_tab(ng)%gbuf%g_pla > 0) then
+                    else if ( ipt <= npt .and. ipt > 0 .and. elbuf_tab(ng)%gbuf%g_pla > 0) then
                       do  i=1,nel
                         value(i) = elbuf_tab(ng)%bufly(ilayer)%lbuf(ir,is,ipt)%pla(i)
                         is_written_value(i) = 1
-                      enddo
-                    endif ! if (ipt == -1 .and. elbuf_tab(ng)%gbuf%g_pla > 0)
+                      end do
+                    end if ! if (ipt == -1 .and. elbuf_tab(ng)%gbuf%g_pla > 0)
                   else ! (igtyp == 3)
                     do  i=1,nel
                       off = elbuf_tab(ng)%gbuf%off(i)
                       value(i) = elbuf_tab(ng)%gbuf%pla(i)
                       is_written_value(i) = 1
-                    enddo
-                  endif ! if (igtyp == 18)
-                endif ! if (mlw /= 1)
+                    end do
+                  end if ! if (igtyp == 18)
+                end if ! if (mlw /= 1)
 !--------------------------------------------------
-              elseif(keyword == 'ENER')then
+              else if(keyword == "ENER")then
 !--------------------------------------------------
                 do i=1,nel
 !a mass a recalculer !!        value(i) = (elbuf_tab(ng)%gbuf%eint(i) + elbuf_tab(ng)%gbuf%eint(i)) / max(em30,mass(nft+i))
                   value(i) = (elbuf_tab(ng)%gbuf%eint(i) + elbuf_tab(ng)%gbuf%eint(i))/ max(em30,mass(i))
                   is_written_value(i) = 1
 
-                enddo
+                end do
 !--------------------------------------------------
-              elseif(keyword == 'EINTV')then
+              else if(keyword == "EINTV")then
 !--------------------------------------------------
                 do i=1,nel
                   n  = i + nft
@@ -417,9 +418,9 @@
                   vol = geo(1,ipid)*elbuf_tab(ng)%gbuf%length(i)
                   value(i) = (elbuf_tab(ng)%gbuf%eint(i)+elbuf_tab(ng)%gbuf%eint(i+nel))/max(vol,em20)
                   is_written_value(i) = 1
-                enddo
+                end do
 !--------------------------------------------------
-              elseif(keyword == 'VONM')then
+              else if(keyword == "VONM")then
 !--------------------------------------------------
                 do i=1,nel
                   n = i + nft
@@ -437,54 +438,54 @@
                   &+ m3*m3 / max(b2,em30) )
                   value(i) = sqrt(yeq)/a1
                   is_written_value(i) = 1
-                enddo
+                end do
 !--------------------------------------------------
-              elseif(keyword == 'SIGX')then
+              else if(keyword == "SIGX")then
 !--------------------------------------------------
                 do i=1,nel
                   n = i + nft
                   value(i) = elbuf_tab(ng)%gbuf%for(jj(1)+i) / geo(1,ixp(5,n))
                   is_written_value(i) = 1
-                enddo
+                end do
 !--------------------------------------------------
-              elseif(keyword == 'SIGXY')then
+              else if(keyword == "SIGXY")then
 !--------------------------------------------------
                 do i=1,nel
                   n = i + nft
                   value(i) = elbuf_tab(ng)%gbuf%for(jj(2)+i) / geo(1,ixp(5,n))
                   is_written_value(i) = 1
-                enddo
+                end do
 !--------------------------------------------------
-              elseif(keyword == 'SIGZX')then
+              else if(keyword == "SIGZX")then
 !--------------------------------------------------
                 do i=1,nel
                   n = i + nft
                   value(i) = elbuf_tab(ng)%gbuf%for(jj(3)+i) / geo(1,ixp(5,n))
                   is_written_value(i) = 1
-                enddo
+                end do
 !--------------------------------------------------
-              elseif(keyword == 'DT')then
+              else if(keyword == "DT")then
 !--------------------------------------------------
                 do i=1,nel
                   value(i) = elbuf_tab(ng)%gbuf%dt(i)
                   is_written_value(i) = 1
-                enddo
+                end do
 !--------------------------------------------------
-              elseif (keyword == 'AMS'.and.(elbuf_tab(ng)%gbuf%g_isms>0)) then
+              else if (keyword == "AMS".and.(elbuf_tab(ng)%gbuf%g_isms>0)) then
 !--------------------------------------------------
                 do i=1,nel
                   value(i) = elbuf_tab(ng)%gbuf%isms(i)
                   is_written_value(i) = 1
-                enddo
+                end do
 !--------------------------------------------------
-              elseif(keyword == 'OFF')then
+              else if(keyword == "OFF")then
 !--------------------------------------------------
                 do i=1,nel
                   value(i) = elbuf_tab(ng)%gbuf%off(i)
                   is_written_value(i) = 1
-                enddo
+                end do
 !--------------------------------------------------
-              elseif(keyword == 'FRACTION/MARTENSITE')then
+              else if(keyword == "FRACTION/MARTENSITE")then
 !--------------------------------------------------
                 if (igtyp == 18) then
 !   ilayer=null,   npt=null
@@ -498,21 +499,21 @@
                         efrac = zero
                         do k = 1,npt
                           efrac = efrac + elbuf_tab(ng)%bufly(ilayer)%lbuf(ir,is,k)%frac(i)
-                        enddo
+                        end do
                         value(i) = efrac/npt
                         is_written_value(i) = 1
-                      enddo
+                      end do
 !   ilayer=null,   npt=ipt
-                    elseif ( ipt <= npt .and. ipt > 0 ) then
+                    else if ( ipt <= npt .and. ipt > 0 ) then
                       do  i=1,nel
                         value(i) =  elbuf_tab(ng)%bufly(ilayer)%lbuf(ir,is,ipt)%frac(i)
                         is_written_value(i) = 1
-                      enddo
-                    endif ! if (ipt == -1 .and. elbuf_tab(ng)%gbuf%g_pla > 0)
-                  endif !(mlw /= 71)
-                endif !(igtyp == 18)
+                      end do
+                    end if ! if (ipt == -1 .and. elbuf_tab(ng)%gbuf%g_pla > 0)
+                  end if !(mlw /= 71)
+                end if !(igtyp == 18)
 !--------------------------------------------------
-              elseif(keyword == 'TEPS')then
+              else if(keyword == "TEPS")then
 !--------------------------------------------------
                 if (igtyp == 18) then
 !   ilayer=null,   npt=null
@@ -526,111 +527,111 @@
                         efrac = zero
                         do k = 1,npt
                           efrac = efrac + elbuf_tab(ng)%bufly(ilayer)%lbuf(ir,is,k)%pla(i)
-                        enddo
+                        end do
                         value(i) = efrac/npt
                         is_written_value(i) = 1
-                      enddo
+                      end do
 !   ilayer=null,   npt=ipt
-                    elseif ( ipt <= npt .and. ipt > 0 ) then
+                    else if ( ipt <= npt .and. ipt > 0 ) then
 
                       do  i=1,nel
                         value(i) = elbuf_tab(ng)%bufly(ilayer)%lbuf(ir,is,ipt)%pla(i)
                         is_written_value(i) = 1
-                      enddo
-                    endif ! if (ipt == -1 .and. elbuf_tab(ng)%gbuf%g_pla > 0)
-                  endif !(mlw /= 71)
-                endif !(igtyp == 18)
+                      end do
+                    end if ! if (ipt == -1 .and. elbuf_tab(ng)%gbuf%g_pla > 0)
+                  end if !(mlw /= 71)
+                end if !(igtyp == 18)
 
 !--------------------------------------------------
-              elseif(keyword == 'FRACTION/MARTENSITE/TMAX')then
+              else if(keyword == "FRACTION/MARTENSITE/TMAX")then
 !--------------------------------------------------
                 do i=1,nel
                   value(i) = elbuf_tab(ng)%gbuf%maxfrac(i)
                   is_written_value(i) = 1
-                enddo
+                end do
 !--------------------------------------------------
-              elseif(keyword == 'GROUP')then
+              else if(keyword == "GROUP")then
 !--------------------------------------------------
                 do i=1,nel
                   value(i) = ng
                   is_written_value(i) = 1
-                enddo
+                end do
 !--------------------------------------------------
-              elseif(keyword == 'INTERNAL.ID')then
+              else if(keyword == "INTERNAL.ID")then
 !--------------------------------------------------
                 do i=1,nel
                   value(i) = i+nft
                   is_written_value(i) = 1
-                enddo
+                end do
 !--------------------------------------------------
-              elseif(keyword == 'LOCAL.ID')then
+              else if(keyword == "LOCAL.ID")then
 !--------------------------------------------------
                 do i=1,nel
                   value(i) = i
                   is_written_value(i) = 1
-                enddo
+                end do
 !--------------------------------------------------
-              elseif(keyword == 'EPSD')then
+              else if(keyword == "EPSD")then
 !--------------------------------------------------
                 do i=1,nel
                   value(i) = elbuf_tab(ng)%gbuf%epsd(i)
                   is_written_value(i) = 1
-                enddo
+                end do
 !--------------------------------------------------
-              elseif (keyword == 'DAMINI' .and. ifail > 0) then
+              else if (keyword == "DAMINI" .and. ifail > 0) then
 !--------------------------------------------------
                 if (igtyp == 3) then
                   do i=1,nel
                     if (elbuf_tab(ng)%gbuf%g_dmgscl > 0) then
                       value(i) = elbuf_tab(ng)%gbuf%fail(1)%damini(i)
                       is_written_value(i) = 1
-                    endif
-                  enddo
+                    end if
+                  end do
                 else if (igtyp == 18) then
                   do i=1,nel
                     damini  = zero
                     do k = 1,elbuf_tab(ng)%bufly(1)%nptt
                       if (elbuf_tab(ng)%bufly(1)%fail(1,1,k)%floc(1)%lf_damini > 0) then
                         damini = max(damini,elbuf_tab(ng)%bufly(1)%fail(1,1,k)%floc(1)%damini(i))
-                      endif
-                    enddo
+                      end if
+                    end do
                     value(i) = damini
                     is_written_value(i) = 1
-                  enddo
-                endif
+                  end do
+                end if
 !--------------------------------------------------
-              elseif (keyword == 'DAMA' .and. ifail > 0) then
+              else if (keyword == "DAMA" .and. ifail > 0) then
 !--------------------------------------------------
                 if (igtyp == 3) then
                   do i=1,nel
                     value(i) = elbuf_tab(ng)%gbuf%fail(1)%dammx(i)
                     is_written_value(i) = 1
-                  enddo
+                  end do
                 else if (igtyp == 18) then
                   do i=1,nel
                     dammx  = zero
                     do k = 1,elbuf_tab(ng)%bufly(1)%nptt
                       dammx = max(dammx ,elbuf_tab(ng)%bufly(1)%fail(1,1,k)%floc(1)%dammx(i))
-                    enddo
+                    end do
                     value(i) = dammx
                     is_written_value(i) = 1
-                  enddo
-                endif
+                  end do
+                end if
 !
-              endif
+              end if
 !-----------------------------------------------
 !       ressorts
 !-----------------------------------------------
-            elseif(ity==6)then
+            else if(ity==6)then
 !--------------------------------------------------
-              if (keyword == 'MASS') then
+              if (keyword == "MASS") then
 !--------------------------------------------------
                 do i=1,nel
                   value(i) = mass(i)
                   is_written_value(i) = 1
-                enddo
+                end do
 !--------------------------------------------------
-              elseif(keyword == 'ENER')then
+              else if(keyword == "ENER")then
 !--------------------------------------------------
                 if (mlw==1) then
                   xm = one/geo(1,ixr(1,1+nft))
@@ -638,121 +639,122 @@
 !             xm cannot be zero (was checked in starter).
                     value(i) = elbuf_tab(ng)%gbuf%eint(i)*xm
                     is_written_value(i) = 1
-                  enddo
-                elseif (mlw==2) then
+                  end do
+                else if (mlw==2) then
                   xm = one/geo(1,ixr(1,1+nft))
                   do  i=1,nel
 !             xm cannot be zero (was checked in starter).
                     value(i) = elbuf_tab(ng)%gbuf%eint(i)*xm
                     is_written_value(i) = 1
-                  enddo
-                elseif (mlw==3) then
+                  end do
+                else if (mlw==3) then
                   xm = one/geo(1,ixr(1,1+nft))
                   do  i=1,nel
 !             xm cannot be zero (was checked in starter).
                     value(i) = elbuf_tab(ng)%gbuf%eint(i)*xm
                     is_written_value(i) = 1
-                  enddo
-                elseif (mlw==4) then
+                  end do
+                else if (mlw==4) then
                   xm = one/geo(1,ixr(1,1+nft))
                   do  i=1,nel
 !             xm cannot be zero (was checked in starter).
                     value(i) = elbuf_tab(ng)%gbuf%eint(i)*xm
                     is_written_value(i) = 1
-                  enddo
-                elseif (mlw==5) then
+                  end do
+                else if (mlw==5) then
 !           user springs.
                   do  i=1,nel
                     value(i) = elbuf_tab(ng)%gbuf%eint(i)/max(em30,elbuf_tab(ng)%gbuf%mass(i))
                     is_written_value(i) = 1
-                  enddo
+                  end do
 !           spring axi
-                elseif (mlw==6) then
+                else if (mlw==6) then
                   xm = one/geo(1,ixr(1,1+nft))
                   do  i=1,nel
 !             xm cannot be zero (was checked in starter).
                     value(i) = elbuf_tab(ng)%gbuf%eint(i)*xm
                     is_written_value(i) = 1
-                  enddo
-                elseif (mlw==7) then
+                  end do
+                else if (mlw==7) then
                   xm = one/geo(1,ixr(1,1+nft))
                   do  i=1,nel
                     value(i) = elbuf_tab(ng)%gbuf%eint(i)*xm
                     is_written_value(i) = 1
-                  enddo
-                endif
+                  end do
+                end if
 !--------------------------------------------------
-              elseif(keyword == 'DAM1')then
+              else if(keyword == "DAM1")then
 !--------------------------------------------------
                 do  i=1,nel
                   value(i) = anim(i)
                   is_written_value(i) = 1
-                enddo
+                end do
 !--------------------------------------------------
-              elseif(keyword == 'DAM2')then
+              else if(keyword == "DAM2")then
 !--------------------------------------------------
                 kk = numelr * anim_fe(11)
                 do  i=1,nel
                   value(i) = anim(i+kk)
                   is_written_value(i) = 1
-                enddo
+                end do
 !--------------------------------------------------
-              elseif(keyword == 'DAM3')then
+              else if(keyword == "DAM3")then
 !--------------------------------------------------
                 kk = numelr * (anim_fe(11)+anim_fe(12))
                 do  i=1,nel
                   value = anim(i+kk)
                   is_written_value(i) = 1
-                enddo
+                end do
 !--------------------------------------------------
-              elseif(keyword == 'DT' .and. elbuf_tab(ng)%gbuf%g_dt/=0)then
+              else if(keyword == "DT" .and. elbuf_tab(ng)%gbuf%g_dt/=0)then
 !--------------------------------------------------
                 do i=1,nel
                   value(i) = elbuf_tab(ng)%gbuf%dt(i)
                   is_written_value(i) = 1
-                enddo
+                end do
 !--------------------------------------------------
-              elseif (keyword == 'AMS'.and.(elbuf_tab(ng)%gbuf%g_isms>0)) then
+              else if (keyword == "AMS".and.(elbuf_tab(ng)%gbuf%g_isms>0)) then
 !--------------------------------------------------
                 do i=1,nel
                   value(i) = elbuf_tab(ng)%gbuf%isms(i)
                   is_written_value(i) = 1
-                enddo
+                end do
 !--------------------------------------------------
-              elseif(keyword == 'OFF')then
+              else if(keyword == "OFF")then
 !--------------------------------------------------
                 do i=1,nel
                   value(i) = elbuf_tab(ng)%gbuf%off(i)
                   is_written_value(i) = 1
-                enddo
+                end do
 !--------------------------------------------------
-              elseif(keyword == 'GROUP')then
+              else if(keyword == "GROUP")then
 !--------------------------------------------------
                 do i=1,nel
                   value(i) = ng
                   is_written_value(i) = 1
-                enddo
-              endif
+                end do
+              end if
 !--------------------------------------------------
-            elseif(keyword == 'INTERNAL.ID')then
+            else if(keyword == "INTERNAL.ID")then
 !--------------------------------------------------
               do i=1,nel
                 value(i) = i+nft
                 is_written_value(i) = 1
-              enddo
+              end do
 !--------------------------------------------------
-            elseif(keyword == 'LOCAL.ID')then
+            else if(keyword == "LOCAL.ID")then
 !--------------------------------------------------
               do i=1,nel
                 value(i) = i
                 is_written_value(i) = 1
-              enddo
-            endif
+              end do
+            end if
 
-            if (ity == 4 .or. ity == 5 .or. ity == 6)&
-            &call h3d_write_scalar(iok_part,is_written_oned,oned_scalar,nel,offset,nft,&
-            &value,is_written_value)
-          enddo ! do ng=1,ngroup
+            if (ity == 4 .or. ity == 5 .or. ity == 6) then
+              call h3d_write_scalar(iok_part,is_written_oned,oned_scalar,nel,offset,nft,&
+              &value,is_written_value)
+            end if
+          end do ! do ng=1,ngroup
 
 
           return

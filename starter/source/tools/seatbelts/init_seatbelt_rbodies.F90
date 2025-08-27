@@ -101,10 +101,10 @@
                     if ((lpby(k+l)==nod).and.((idrb==0).or.(idrb == n))) then
                       nfound_rby  = nfound_rby  + 1
                       idrb = n
-                    endif
-                  enddo
+                    end if
+                  end do
                   l = l+nsl
-                enddo
+                end do
 !---          check of bcs ---
                 ic = icode(nod)
                 ic1=ic/512
@@ -113,17 +113,17 @@
                 bcs_y = (ic1-4*bcs_x)/2
                 bcs_z = ic1-4*bcs_x-2*bcs_y
                 if (bcs_x*bcs_y*bcs_z > 0) nfound_bcs = nfound_bcs + 1
-              enddo
+              end do
               if (nfound_rby ==slipring(i)%nfram) then
                 slipring(i)%rbody = idrb
-              elseif (nfound_bcs /= slipring(i)%nfram) then
+              else if (nfound_bcs /= slipring(i)%nfram) then
                 call ancmsg(msgid=2081,              &
                   msgtype=msgerror,        &
                   anmode=aninfo_blind_1,   &
                   i1=slipring(i)%id)
-              endif
-            endif
-          enddo
+              end if
+            end if
+          end do
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine init_seatbelt_rbodies
       end module init_seatbelt_rbodies_mod

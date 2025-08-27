@@ -26,6 +26,7 @@
 !||    resol_init                ../engine/source/engine/resol_init.F
 !||====================================================================
       module inter_sh_offset_ini_mod
+      implicit none
       contains
 !=======================================================================================================================
 !!\brief This subroutine do the initialization for offset treatment
@@ -144,7 +145,7 @@
                     thkoset(nshel)=shelloff*thke(ie)
                   end if
                 end do
-              elseif (ity == 7)then
+              else if (ity == 7)then
                 nnode =3
                 do i=1,nel
                   ie = nft + i
@@ -180,8 +181,8 @@
               do j=iad_elem(1,i),iad_elem(1,i+1)-1
                 n = fr_elem(j)
                 if (sh_offset_tab%intag(n)>0) nn = nn + 1
-              enddo
-            enddo
+              end do
+            end do
             allocate(sh_offset_tab%iad_offset(2,nspmd+1),STAT=stat) ! dim (2,*) to use existing spmd_exch routines
             sh_offset_tab%iad_offset= 0
             allocate(sh_offset_tab%fr_offset(nn),STAT=stat)
@@ -194,9 +195,9 @@
                   k = k + 1
                   sh_offset_tab%fr_offset(k) = n
                 end if
-              enddo
+              end do
               sh_offset_tab%iad_offset(1,i+1) = k+1
-            enddo
+            end do
           end if !(nspmd>1)
 !  compute offset_n
           sh_offset_tab%intag = 0
@@ -235,7 +236,7 @@
               if (sh_offset_tab%intag(n)==0) cycle
               do k=1,6
                 thkoset_n(n) = thkoset_n(n) + thkoset_n6(k,n)
-              enddo
+              end do
             end do
             deallocate(thkoset6)
             deallocate(thkoset_n6)
@@ -295,8 +296,8 @@
               do j=iad_elem(1,i),iad_elem(1,i+1)-1
                 n = fr_elem(j)
                 if (sh_offset_tab%intag(n)>0) nfr = nfr + 1
-              enddo
-            enddo
+              end do
+            end do
             deallocate(sh_offset_tab%fr_offset)
             allocate(sh_offset_tab%fr_offset(nfr),STAT=stat)
             sh_offset_tab%iad_offset(1,1) = 1
@@ -309,9 +310,9 @@
                   k = k + 1
                   sh_offset_tab%fr_offset(k) = ii
                 end if
-              enddo
+              end do
               sh_offset_tab%iad_offset(1,i+1) = k+1
-            enddo
+            end do
           end if !(nspmd>1)
           deallocate(thkoset_n)
         end subroutine inter_sh_offset_ini

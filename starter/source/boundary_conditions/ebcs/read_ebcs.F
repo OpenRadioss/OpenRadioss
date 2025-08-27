@@ -67,6 +67,7 @@ C-----------------------------------------------
       USE EBCS_MOD
       USE HM_OPTION_READ_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
+      use hm_read_ebcs_propellant_mod, only : hm_read_ebcs_propellant
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

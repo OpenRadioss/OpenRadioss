@@ -27,6 +27,7 @@
 !||    r23l114def3          ../engine/source/elements/spring/r23l114def3.F
 !||====================================================================
       module redef_seatbelt_mod
+      implicit none
       contains
 !! \brief routine to compute seatbelt spring
 !||====================================================================
@@ -165,7 +166,7 @@
             ddx(j)= (dx(i)-eps_old(i))
             dvx(j)= (dx(i)-dxold(i))/ dt11
             eps_old(i) = dx(i)
-          enddo
+          end do
 !
           if ((iani/=0).and.(flag==1))then
             do i=1,nel_loc
@@ -174,8 +175,8 @@
               damm=dx(i)/min(dmn(i),-em15)
               anim(ii)=max(anim(ii),damp,damm)
               anim(ii)=min(anim(ii),one)
-            enddo
-          endif
+            end do
+          end if
 !
 ! ----------------------------------------------------------------------------------------------------------------------
 !        vector interpolation (adress)
@@ -188,16 +189,16 @@
             i = indexa(j)
             if(iecrou(i) == 0)then
               jecrou(1) = jecrou(1) + 1
-            elseif(iecrou(i) == 10)then
+            else if(iecrou(i) == 10)then
               jecrou(2) = jecrou(2) + 1
               interp = 1
-            elseif(iecrou(i) == 11)then
+            else if(iecrou(i) == 11)then
               jecrou(3) = jecrou(3) + 1
-            elseif(iecrou(i) == 12)then
+            else if(iecrou(i) == 12)then
               jecrou(4) = jecrou(4) + 1
               interp = 1
-            endif
-          enddo
+            end if
+          end do
 !
           any_python_funct = .false.
           if(interp>0)then
@@ -213,7 +214,7 @@
               else
                 jad(j)   = npf(jfunc) / 2  + 1
                 jlen(j)  = npf(jfunc+1) / 2  - jad(j)  - jpos(j)
-              endif
+              end if
               pyid2 = get_python_funct_id(nfunct, ifunc2(i),npf,snpc)
               if(pyid2 > 0) then
                 jad2(j) = -pyid2
@@ -221,11 +222,11 @@
                 any_python_funct = .true.
               else
                 jad2(j) = 1
-              endif
+              end if
               xx(j) =zero
-            enddo
+            end do
 
-          endif
+          end if
 !
 ! ----------------------------------------------------------------------------------------------------------------------
 !        linear elastic
@@ -235,8 +236,8 @@
             if(ifunc(i)==0)then
               fx(i)=xk(i)*dx(i)
               xk_tan(i) = xk(i)
-            endif
-          enddo
+            end if
+          end do
 !
 ! ----------------------------------------------------------------------------------------------------------------------
 !        elasto plastic (isotropic hardening) - perfectly plastic in compression
@@ -265,9 +266,9 @@
                     an3y0(j) = xkc(i)
                   end if
                   fx(i) = fxep(i) + an3y0(j) * ddx(j)
-                endif
-              enddo
-            endif
+                end if
+              end do
+            end if
             do j=1,nel_loc
               i = indexa(j)
               if(ifunc2(i)/=0.and.iecrou(i)== 10 .and. jad2(j) >= 0)then
@@ -287,8 +288,8 @@
                       an3y0(j)=(y2-y1)/ (x2-x1)
                       xn3fy0(i)=(fxep(i)-y1)/an3y0(j) + x1   !abs of n3
                       exit
-                    endif
-                  enddo
+                    end if
+                  end do
 !
                   if (an3y0(j)==zero) then ! extrapolation (outside of input curve points)
                     x1=tf(npf(fund)+(np2-2)*2)
@@ -302,17 +303,17 @@
                     yi2=tf(npf(fund)+3)
                     if(fxep(i)>y2)an3y0(j)=(y2-y1)/ (x2-x1)
                     if(fxep(i)<yi1)an3y0(j)=(yi2-yi1)/ (xi2-xi1)
-                  endif
+                  end if
 !
                   xx(j)=xx_old(i)+ddx(j)
                 else
 !--- compression - perfectly plastic behavior
                   an3y0(j)= xkc(i)
-                endif
+                end if
                 fx(i)=fxep(i)+an3y0(j)*ddx(j)
-              endif
-            enddo
-          endif
+              end if
+            end do
+          end if
 ! ----------------------------------------------------------------------------------------------------------------------
 !        linear elastic in tension - perfleclty palstic in compression (same as 10 without curve)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -326,11 +327,11 @@
                   an3y0(j)= xk(i)
                 else
                   an3y0(j)= xkc(i)
-                endif
+                end if
                 fx(i)=fxep(i)+an3y0(j)*ddx(j)
-              endif
-            enddo
-          endif
+              end if
+            end do
+          end if
 ! ----------------------------------------------------------------------------------------------------------------------
 !        non linear elastic in tension with compression and no plasticity in compression - for 2d seatblets only
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -352,10 +353,10 @@
                     xx(j) = dpx(i) + xn3fy0(j) + ddx(j)
                   else
                     xx(j) = xx_old(i) + ddx(j)
-                  endif
-                endif
-              enddo
-            endif
+                  end if
+                end if
+              end do
+            end if
             do j=1,nel_loc
               i = indexa(j)
               if(ifunc2(i)/= 0.and.iecrou(i)== 12 .and. jad2(j) > 0)then
@@ -377,8 +378,8 @@
                     an3y0(j)=(y2-y1)/ (x2-x1)
                     xn3fy0(j)=(fxep(i)-y1)/an3y0(j) + x1   !abs de n3
                     exit
-                  endif
-                enddo
+                  end if
+                end do
 !---        extrapolation (outside of input curve points)
                 if (an3y0(j)== zero)then !
                   x1=tf(npf(fund)+(np2-2)*2)
@@ -394,14 +395,14 @@
                     xn3fy0(j)=(fxep(i)-y1)/an3y0(j) + x1
                     x1s = x2
                     x2s = ep20
-                  elseif(fxep(i)<yi1) then
+                  else if(fxep(i)<yi1) then
                     an3y0(j)=(yi2-yi1)/ (xi2-xi1)
                     xn3fy0(j)=(fxep(i)-yi1)/an3y0(j) + xi1
                     x1s = -ep20
                     x2s = xi1
-                  endif
+                  end if
                   xk_tansav(j)=an3y0(j)
-                endif
+                end if
                 xxb =xn3fy0(j)+ddx(j)
                 xk_tansav(j)=an3y0(j)
                 if (fxep(i)==yield(i)) dpx(i) = xx_old(i) - xn3fy0(j)
@@ -419,8 +420,8 @@
                       fxb = y1 + ((y2-y1)/(x2-x1))*(xxb-x1)
                       an3y0(j)= (fxep(i)-fxb)/ (xn3fy0(j)-xxb)
                       exit
-                    endif
-                  enddo
+                    end if
+                  end do
                   if (xk_tansav(j)== zero)then ! extrapolation (outside of input curve points)
                     x1=tf(npf(fund)+(np2-2)*2)
                     x2=tf(npf(fund)+(np2-2)*2+2)
@@ -433,30 +434,30 @@
                     if(xxb>x2) then
                       xk_tansav(j)=(y2-y1)/ (x2-x1)
                       fxb = y2 + xk_tansav(j)*(xxb-x2)
-                    elseif(xxb<xi1) then
+                    else if(xxb<xi1) then
                       xk_tansav(j)=(yi2-yi1)/ (xi2-xi1)
                       fxb = yi1 + xk_tansav(j)*(xxb-xi1)
-                    endif
+                    end if
                     an3y0(j)= (fxep(i)-fxb)/ (xn3fy0(j)-xxb)
-                  endif
-                endif
+                  end if
+                end if
                 fx(i)=fxep(i)+an3y0(j)*ddx(j)
                 if ((fxep(i) < yield(i)).and.(fx(i) > yield(i))) then
 !----         crossing of the yield line
                   xx(j)=dpx(i) + xn3fy0(j) + ddx(j)
                 else
                   xx(j)=xx_old(i)+ddx(j)
-                endif
-              endif
-            enddo
-          endif
+                end if
+              end if
+            end do
+          end if
 ! ----------------------------------------------------------------------------------------------------------------------
 !     vector interpolation
 ! ----------------------------------------------------------------------------------------------------------------------
           do j=1,nel_loc
             i = indexa(j)
             xx(j)  = xx(j) *lscale(i)
-          enddo
+          end do
 ! ----------------------------------------------------------------------------------------------------------------------
 !     seatbelt - elasto plastique (ecouissage isotrope) in tension - perfleclty plastic in compression
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -474,7 +475,7 @@
 !-- ecr variable for hardening/softening - always incremented with positive value
                   xx_old(i) = xx_old(i) + abs(ddx(j))
                   xk_tan(i) = dydx(j)
-                elseif(fx(i)<= -fx_max(i))then
+                else if(fx(i)<= -fx_max(i))then
                   yy(j) = -fx_max(i)
 !-- compute plastic deformation (total)
                   if (xkc(i) > zero) dpx(i)=dpx(i)+(-yy(j)+fx(i))/max(em20,an3y0(j))
@@ -482,11 +483,11 @@
                   xk_tan(i) = xk(i)
                 else
                   xk_tan(i) = an3y0(j)
-                endif
+                end if
                 fxep(i)=fx(i)
-              endif
-            enddo
-          endif
+              end if
+            end do
+          end if
 ! ----------------------------------------------------------------------------------------------------------------------
 !     seatbelt - linear elastic in tension - perfleclty plastic in compression
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -502,11 +503,11 @@
                   xk_tan(i) = xk(i)
                 else
                   xk_tan(i) = an3y0(j)
-                endif
+                end if
                 fxep(i)=fx(i)
-              endif
-            enddo
-          endif
+              end if
+            end do
+          end if
 ! ----------------------------------------------------------------------------------------------------------------------
 !     non linear elastic in tension with compression and no plasticity in compression - for 2d seatblets only
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -525,11 +526,11 @@
                   xk_tan(i) = dydx(j)
                 else
                   xk_tan(i) = xk_tansav(j)
-                endif
+                end if
                 fxep(i)=fx(i)
-              endif
-            enddo
-          endif
+              end if
+            end do
+          end if
 ! ----------------------------------------------------------------------------------------------------------------------
 !     non linear damping
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -538,14 +539,14 @@
               i = indexa(j)
               fx(i)= (ak(i)*fx(i) + xc(i)*dvx(j)) *off(i)
               e(i) = e(i) + (dx(i)-dxold(i)) * (fx(i)+fold(j)) / 2
-            enddo
+            end do
           else
             do j=1,nel_loc
               i = indexa(j)
               fx(i)= fx(i)  *ak(i)* off(i)
               e(i) = e(i) + (dx(i)-dxold(i)) * (fx(i)+fold(j)) / 2
-            enddo
-          endif
+            end do
+          end if
 ! ----------------------------------------------------------------------------------------------------------------------
           do j=1,nel_loc
             i = indexa(j)
@@ -553,7 +554,7 @@
             dxold(i)=dxold(i)*xl0(i)
             e(i)=e(i)*xl0(i)
             xk_tan(i) = xk_tan(i)*fram_factor(i)
-          enddo
+          end do
 !
 ! ----------------------------------------------------------------------------------------------------------------------
           return

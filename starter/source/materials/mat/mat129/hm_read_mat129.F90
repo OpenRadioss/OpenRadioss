@@ -28,6 +28,7 @@
 !||    hm_read_mat          ../starter/source/materials/mat/hm_read_mat.F90
 !||====================================================================
       module hm_read_mat129_mod
+      implicit none
       contains
 
 
@@ -70,6 +71,7 @@
           use constant_mod , only : infinity,em20,em3
           use mat_table_table_copy_mod
           use func_table_copy_mod
+          use precision_mod , only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                 implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -77,7 +79,6 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                    Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                              D u m m y a r g u m e n t s
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -85,7 +86,7 @@
           integer                     ,intent(in)     :: ntable
           integer                     ,intent(out)    :: nuvar
           integer                     ,intent(out)    :: nvartmp
-          my_real, dimension(128)     ,intent(inout)  :: parmat
+          real(kind=WP), dimension(128)     ,intent(inout)  :: parmat
           type(ttable) ,dimension(ntable) ,intent(in) :: table
           type(unit_type_)           ,intent(in)      :: unitab
           type(matparam_struct_)     ,intent(inout)   :: mat_param
@@ -101,15 +102,15 @@
           integer :: func_cc,func_cp
           integer :: func_a,func_n,func_q,func_m,func_alpha
           integer :: crp_law,sens_id
-          my_real :: rho0,young,shear,bulk,nu,sigy
-          my_real :: qr1,qr2,qx1,qx2,cr1,cr2,cx1,cx2
-          my_real :: crpa,crpn,crpm,crpq,sig_crp,time_crp
-          my_real :: cc,cp,fcut,asrate
-          my_real :: alpha,tref
-          my_real :: kboltz
-          my_real :: epsp_unit,pres_unit,time_unit,energy_unit
-          my_real :: x1scale,x2scale,x3scale,x4scale,xfac,yfac
-          my_real, dimension(1) :: x2vect,yscale
+          real(kind=WP) :: rho0,young,shear,bulk,nu,sigy
+          real(kind=WP) :: qr1,qr2,qx1,qx2,cr1,cr2,cx1,cx2
+          real(kind=WP) :: crpa,crpn,crpm,crpq,sig_crp,time_crp
+          real(kind=WP) :: cc,cp,fcut,asrate
+          real(kind=WP) :: alpha,tref
+          real(kind=WP) :: kboltz
+          real(kind=WP) :: epsp_unit,pres_unit,time_unit,energy_unit
+          real(kind=WP) :: x1scale,x2scale,x3scale,x4scale,xfac,yfac
+          real(kind=WP), dimension(1) :: x2vect,yscale
           integer, dimension(1) :: ifunc
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                 body

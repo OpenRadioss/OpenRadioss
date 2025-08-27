@@ -27,6 +27,7 @@
 !||    get_neighbour_surface_from_remote_proc   ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
 !||====================================================================
       module get_convexity_normals_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures

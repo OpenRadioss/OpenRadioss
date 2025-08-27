@@ -26,6 +26,7 @@
 !||    spmd_exch_neighbour_segment                  ../engine/source/mpi/interfaces/spmd_exch_neighbour_segment.F90
 !||====================================================================
       module get_neighbour_surface_from_remote_proc_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures
@@ -175,7 +176,7 @@
             proc_number = my_integer
             list_r_segment(i,5) = proc_number
             next_segment = next_segment + 8 + 13*nb_connected_segment+3 + proc_number + 3
-          enddo
+          end do
           ! -------------------------
           ! loop over the remote segment/surface
           do i=1,nb_r_segment
@@ -208,7 +209,7 @@
                 result_intersect_0,nb_result_intersect_0 )
             else
               nb_result_intersect_0 = 0
-            endif
+            end if
             ! ------
 
             allocate( n_normal(3,nb_result_intersect_0) )
@@ -228,7 +229,7 @@
               call get_segment_normal( n_segment_id,segment_node_id,segment_position,n_normal(1,ijk),intbuf_tab(nin),numnod,x )
               ! compute the tangent vector to the segment around the edge "n_segment_id"
               call get_convexity_normals( local_node_id_1,local_node_id_2,n_normal(1,ijk),n_vconvexity(1,ijk),numnod,x )
-            enddo
+            end do
 
             proc_number = list_r_segment(i,5)
             do j=1,proc_number
@@ -250,7 +251,7 @@
                   call alloc_my_real_1d_array(s_buffer_2(proc_id))
                   s_buffer_2(proc_id)%my_real_array_1d(1:old_size) = my_real_tmp_array(1:old_size)
                   deallocate( my_real_tmp_array )
-                endif
+                end if
                 ! -----------
 
                 my_address = s_buffer_2_size(1,proc_id)
@@ -263,53 +264,53 @@
                   n_segment_id = my_reduced_list(ijk,1) ! connected segment id
                   my_integer = -intbuf_tab(nin)%mseglo(n_segment_id)
                   s_buffer_2(proc_id)%my_real_array_1d(my_address+7+ijk) = transfer(my_integer,my_real_variable) ! save the global remote segment id
-                enddo
+                end do
                 my_address = my_address + 7 + my_reduced_nb
                 do ijk=1,my_reduced_nb
                   n_segment_id = my_reduced_list(ijk,1) ! connected segment id
                   my_integer = n_segment_id
                   s_buffer_2(proc_id)%my_real_array_1d(my_address+ijk) = transfer(my_integer,my_real_variable) ! save the local remote segment id
-                enddo
+                end do
                 my_address = my_address + my_reduced_nb
                 do ijk=1,my_reduced_nb ! save the 3 normals of remote segment
                   s_buffer_2(proc_id)%my_real_array_1d(my_address+1) = n_normal(1,ijk)
                   s_buffer_2(proc_id)%my_real_array_1d(my_address+2) = n_normal(2,ijk)
                   s_buffer_2(proc_id)%my_real_array_1d(my_address+3) = n_normal(3,ijk)
                   my_address = my_address + 3
-                enddo
+                end do
 
                 do ijk=1,my_reduced_nb ! save the edge of the remote connected segment
                   my_integer = n_iedge(ijk)
                   s_buffer_2(proc_id)%my_real_array_1d(my_address+ijk) = transfer(my_integer,my_real_variable) ! edge of the connected segment
-                enddo
+                end do
 
                 my_address = my_address + my_reduced_nb
                 do ijk=1,my_reduced_nb
                   do kji=1,4
                     my_integer =my_reduced_neighbour(ijk,kji)
                     s_buffer_2(proc_id)%my_real_array_1d(my_address+kji) = transfer(my_integer,my_real_variable) ! boolean for neirbourhood
-                  enddo
+                  end do
                   my_address = my_address + 4
-                enddo
+                end do
 
                 do ijk=1,my_reduced_nb
                   s_buffer_2(proc_id)%my_real_array_1d(my_address+1) = n_vconvexity(1,ijk) ! neighbour segment normal (x)
                   s_buffer_2(proc_id)%my_real_array_1d(my_address+2) = n_vconvexity(2,ijk) ! neighbour segment normal (y)
                   s_buffer_2(proc_id)%my_real_array_1d(my_address+3) = n_vconvexity(3,ijk) ! neighbour segment normal (z)
                   my_address = my_address + 3
-                enddo
+                end do
 
                 s_buffer_2_size(1,proc_id) = s_buffer_2_size(1,proc_id)+my_size ! size of mpi buffer
                 s_buffer_2_size(2,proc_id) = s_buffer_2_size(2,proc_id)+my_reduced_nb ! total number of connected remote sgment
                 s_buffer_2_size(3,proc_id) = s_buffer_2_size(3,proc_id)+1 ! total number of connected remote sgment
-              endif
-            enddo
+              end if
+            end do
             deallocate( n_normal )
             deallocate( n_iedge )
             deallocate( my_reduced_list )
             deallocate( my_reduced_neighbour )
             deallocate( n_vconvexity )
-          enddo
+          end do
 
           ! --------------------------
 

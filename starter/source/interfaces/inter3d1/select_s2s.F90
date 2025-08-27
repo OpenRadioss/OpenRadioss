@@ -27,6 +27,7 @@
 !||    i2_surfi_dim     ../starter/source/interfaces/inter3d1/i2_surfi_dim.F90
 !||====================================================================
       module select_s2s_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures
@@ -279,9 +280,9 @@
                         ifound=ii
                         if (i_old>0.and. (dsn+tol_d) < dmin) itag2(i_old) = 0
                         dmin = dsn
-                      elseif (dsn > dmin+tol_d .and. ifound>0) then
+                      else if (dsn > dmin+tol_d .and. ifound>0) then
                         itag2(ii) = 0
-                      endif
+                      end if
                       if (ifound==0) ifound=ii
                     end do
                     if (ifound==0) itag1(i) = 0
@@ -330,19 +331,19 @@
                         ifound=ii
                         if (i_old>0.and.(dsn+tol_d) < dmin) itag1(i_old) = 0
                         dmin = dsn
-                      elseif (dsn > dmin+tol_d .and. ifound>0) then
+                      else if (dsn > dmin+tol_d .and. ifound>0) then
                         itag1(ii) = 0
-                      endif
+                      end if
                       if (ifound==0) ifound=ii
                     end do
                     if (ifound==0) itag2(i) = 0
                   end do
-                elseif (nsu_1 > 0) then ! nsu_2 = 0
+                else if (nsu_1 > 0) then ! nsu_2 = 0
                   do ii=1,nsu_1
                     i = ind_1(ii)
                     itag1(i) = 0
                   end do
-                elseif (nsu_2 > 0) then ! nsu_1 = 0
+                else if (nsu_2 > 0) then ! nsu_1 = 0
                   do ii=1,nsu_2
                     i = ind_2(ii)
                     itag2(i) = 0
