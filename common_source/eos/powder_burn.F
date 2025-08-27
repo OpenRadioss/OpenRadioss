@@ -20,6 +20,9 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+       MODULE POWDER_BURN_MOD
+       IMPLICIT NONE
+       CONTAINS
 !||====================================================================
 !||    powder_burn        ../common_source/eos/powder_burn.F
 !||--- called by ------------------------------------------------------
@@ -71,8 +74,8 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
         INTEGER,INTENT(IN) :: NVAREOS,NUMMAT,NPROPM
         INTEGER MAT(NEL), IFLAG, NEL
-        my_real,INTENT(IN) :: PM(NPROPM,NUMMAT),OFF(NEL),MU(NEL),MU2(NEL),DVOL(NEL),DF(NEL),VNEW(NEL)
-        my_real,INTENT(INOUT) :: PNEW(NEL),DPDM(NEL),DPDE(NEL),EINT(NEL),RHO0(NEL),ESPE(NEL)
+        my_real,INTENT(IN) :: PM(NPROPM,NUMMAT),OFF(NEL),MU(NEL),MU2(NEL),DVOL(NEL),DF(NEL),VNEW(NEL),RHO0(NEL)
+        my_real,INTENT(INOUT) :: PNEW(NEL),DPDM(NEL),DPDE(NEL),EINT(NEL),ESPE(NEL)
         my_real,INTENT(INOUT) :: VAREOS(NEL,NVAREOS),BFRAC(NEL)
         my_real,INTENT(IN) :: DT1
         TYPE(MATPARAM_STRUCT_), INTENT(IN) :: MAT_PARAM !< material data structure
@@ -80,7 +83,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
         INTEGER I
-        my_real :: bulk,P0,PSH,DD,EG,Gr,CC,ALPHA,FSCALE_B,FSCALE_P,FSCALE_G,FSCALE_RHO, C1,C2
+        my_real :: bulk,P0,PSH(NEL),DD,EG,Gr,CC,ALPHA,FSCALE_B,FSCALE_P,FSCALE_G,FSCALE_RHO, C1,C2
         my_real :: TMP, TMP2
         my_real :: compac
         my_real :: TOTAL_BFRAC
@@ -108,7 +111,7 @@ C-----------------------------------------------
         IF(IFLAG == 0) THEN
           BULK       = MAT_PARAM%EOS%UPARAM(01)
           P0         = MAT_PARAM%EOS%UPARAM(02)
-          PSH        = MAT_PARAM%EOS%UPARAM(03)
+          PSH(1:NEL) = MAT_PARAM%EOS%UPARAM(03)
           DD         = MAT_PARAM%EOS%UPARAM(04)
           EG         = MAT_PARAM%EOS%UPARAM(05)
           Gr         = MAT_PARAM%EOS%UPARAM(06)
@@ -178,4 +181,5 @@ C-----------------------------------------------
         ENDIF
 C-----------------------------------------------
         RETURN
-      END
+      END SUBROUTINE POWDER_BURN
+      END MODULE POWDER_BURN_MOD

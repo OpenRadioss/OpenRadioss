@@ -20,6 +20,9 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      MODULE NASG_MOD
+      IMPLICIT NONE
+      CONTAINS
 !||====================================================================
 !||    nasg            ../common_source/eos/nasg.F
 !||--- called by ------------------------------------------------------
@@ -28,9 +31,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    constant_mod    ../common_source/modules/constant_mod.F
 !||    eos_param_mod   ../common_source/modules/mat_elem/eos_param_mod.F90
 !||====================================================================
-      SUBROUTINE NASG( NPROPM, NUMMAT,
-     1                 IFLAG ,NEL    ,PM   ,OFF  ,EINT ,MU  ,
-     2                 ESPE  ,DVOL   ,VNEW ,MAT  ,PSH ,
+      SUBROUTINE NASG(
+     1                 IFLAG ,NEL    ,PMIN ,OFF  ,EINT ,MU  ,
+     2                 ESPE  ,DVOL   ,VNEW ,PSH ,
      3                 PNEW  ,DPDM   ,DPDE ,EOS_STRUCT)
 C-----------------------------------------------
 C   M o d u l e s
@@ -65,21 +68,20 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER,INTENT(IN) :: MAT(NEL), IFLAG, NEL, NPROPM, NUMMAT
-      my_real,INTENT(IN) :: PM(NPROPM,NUMMAT), OFF(NEL) ,MU(NEL)   , ESPE(NEL) ,DVOL(NEL) ,VNEW(NEL)
+      INTEGER,INTENT(IN) :: IFLAG, NEL
+      my_real,INTENT(IN) :: PMIN, OFF(NEL) ,MU(NEL)   , ESPE(NEL) ,DVOL(NEL) ,VNEW(NEL)
       my_real, INTENT(INOUT) :: PSH(NEL), PNEW(NEL) ,DPDM(NEL), DPDE(NEL), EINT(NEL)
       TYPE(EOS_PARAM_),INTENT(IN) :: EOS_STRUCT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
         INTEGER I, MX
-        my_real :: P0,GAMMA,E0,AA,BB,PP,PSTAR, PC,V0
+        my_real :: P0,GAMMA,E0,AA,BB,PP,PSTAR,V0
         my_real :: Q,Q_,RHO0,NUM,DENOM,UNPMU,B,RHO
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-        E0         = PM(23 ,MAT(1))
-        PC         = PM(37, MAT(1))
+        E0         = EOS_STRUCT%E0
         PSH(1:NEL) = EOS_STRUCT%PSH
         GAMMA      = EOS_STRUCT%UPARAM(1)
         P0         = EOS_STRUCT%UPARAM(2)
@@ -121,7 +123,7 @@ C-----------------------------------------------
             DENOM   = (ONE-RHO0*b*UNPMU)
             NUM     = (ESPE(I)-RHO0*q)
             PNEW(I) = -PSH(I) +  (GAMMA-ONE)*UNPMU*NUM/DENOM - GAMMA*PSTAR
-            PNEW(I) = MAX(PNEW(I),MAX(PC, -GAMMA*PSTAR))*OFF(I)
+            PNEW(I) = MAX(PNEW(I),MAX(PMIN, -GAMMA*PSTAR))*OFF(I)
             dPdE(I) = (GAMMA-ONE)*UNPMU / DENOM                                              !partial derivative
             DPDM(I) = (GAMMA-ONE)*NUM/DENOM/DENOM + dPdE(I)*(PNEW(I)+PSH(I))/UNPMU/UNPMU     !total derivative
           ENDIF
@@ -130,4 +132,5 @@ C-----------------------------------------------
         ENDIF
 C-----------------------------------------------
         RETURN
-      END
+      END SUBROUTINE NASG
+      END MODULE NASG_MOD

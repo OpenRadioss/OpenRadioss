@@ -136,9 +136,7 @@
           is_available = .false.
           vartmp(1,1:3) = 1
 
-          eos_tag(ieos)%g_mu = 1
-          eos_tag(ieos)%l_mu = 1
-          eos_tag(ieos)%nvar = 5   !  --> elbuf%bufly%eos%nvar      (LAMBDA, C*C, Pnew, GAMMA, Pc)
+          eos_tag(ieos)%nvar = 6  !  --> elbuf%bufly%eos%nvar      (LAMBDA, C*C, Pnew, GAMMA, Pc, rho_bak)
           eos_tag(ieos)%nvartmp = 3
 
           call hm_option_is_encrypted(is_encrypted)
@@ -338,6 +336,8 @@
 
       !pressure shift
       eos_struct%psh = PSH
+      eos_struct%e0 = zero
+      eos_struct%p0 = p0-psh
 
       !ssp0
       pm(27) = max(ssp0, pm(27))
@@ -350,7 +350,7 @@
           ! tell to rezoning how many user variables (uvar) must be rezoned.
           ! Example :  nuvar = 5          ! material law has 5 user variables
           !            %num_nuvar_mat = 2 ! uvar(I,1) and uvar(i,1) will be rezoned.
-          ale_rezon_param%num_nuvar_eos = 5
+          ale_rezon_param%num_nuvar_eos = 6
 
           write(iout,1000)
           if(is_encrypted)then

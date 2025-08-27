@@ -20,6 +20,9 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      MODULE EOSPOLYNO_MOD
+      IMPLICIT NONE
+      CONTAINS
 !||====================================================================
 !||    eospolyno       ../common_source/eos/eospolyno.F
 !||--- called by ------------------------------------------------------
@@ -28,9 +31,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    constant_mod    ../common_source/modules/constant_mod.F
 !||    eos_param_mod   ../common_source/modules/mat_elem/eos_param_mod.F90
 !||====================================================================
-      SUBROUTINE EOSPOLYNO(NPROPM,NUMMAT,
-     1                     IFLAG,NEL  ,PM   ,OFF  ,EINT ,MU   ,MU2 ,
-     2                     ESPE ,DVOL ,DF   ,VNEW ,MAT  ,PSH ,
+      SUBROUTINE EOSPOLYNO(
+     1                     IFLAG,NEL  ,PMIN ,OFF  ,EINT ,MU   ,MU2 ,
+     2                     ESPE ,DVOL ,DF   ,VNEW ,PSH ,
      3                     PNEW ,DPDM ,DPDE ,EOS_STRUCT)
 C-----------------------------------------------
 C   M o d u l e s
@@ -62,20 +65,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER,INTENT(IN) :: NPROPM, NUMMAT
-      INTEGER :: MAT(NEL), IFLAG, NEL
+      INTEGER :: IFLAG, NEL
       my_real,INTENT(INOUT) :: PNEW(NEL), DPDM(NEL), DPDE(NEL), PSH(NEL), EINT(NEL)
-      my_real,INTENT(IN) :: PM(NPROPM,NUMMAT),
-     .        OFF(NEL)  ,MU(NEL)   ,
-     .        MU2(NEL)  ,ESPE(NEL) ,DVOL(NEL) ,DF(NEL)  ,
-     .        VNEW(NEL)
+      my_real,INTENT(IN) :: OFF(NEL), MU(NEL), MU2(NEL), ESPE(NEL), DVOL(NEL), DF(NEL), VNEW(NEL), PMIN
       type(eos_param_),intent(in) :: eos_struct !< data structure for EoS parameters
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I, MX
+      INTEGER :: I
       my_real :: AA, BB, DVV, PP
-      my_real :: C0,C1,C2,C3,C4,C5,PC
+      my_real :: C0,C1,C2,C3,C4,C5
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
@@ -86,15 +85,13 @@ C-----------------------------------------------
         C4         = EOS_STRUCT%UPARAM(5)
         C5         = EOS_STRUCT%UPARAM(6)
         PSH(1:NEL) = EOS_STRUCT%PSH
-        MX         = MAT(1)
-        PC         = PM( 37,MX)
 
       IF(IFLAG == 0) THEN
         DO I=1,NEL
           PP      = C0 +(C1 +C3 *MU(I)*MU(I))*MU(I)+C2 *MU2(I) + (C4 +C5 *MU(I))*ESPE(I)
           DPDM(I) = C1 + TWO*C2 *MAX(ZERO,MU(I))+THREE*C3 *MU(I)*MU(I) + C5 *ESPE(I)+(C4 +C5 *MU(I))*DF(I)*DF(I)*(PP+PSH(I) )
           DPDE(I) = C4 +C5 *MU(I)
-          PNEW(I) = MAX(PP,PC)*OFF(I)! P(mu[n+1],E[n])
+          PNEW(I) = MAX(PP,PMIN)*OFF(I)! P(mu[n+1],E[n])
         ENDDO
 
       ELSEIF(IFLAG == 1) THEN
@@ -103,7 +100,7 @@ C-----------------------------------------------
           BB      = C4 +C5 *MU(I)
           DVV     = HALF*DVOL(I)*DF(I) / MAX(EM15,VNEW(I))
           PNEW(I) = (AA+BB*(ESPE(I)-PSH(I) *DVV))/(ONE+BB*DVV)
-          PNEW(I) = MAX(PNEW(I),PC )*OFF(I) ! P(mu[n+1],E[n+1])
+          PNEW(I) = MAX(PNEW(I),PMIN )*OFF(I) ! P(mu[n+1],E[n+1])
           EINT(I) = EINT(I) - HALF*DVOL(I)*(PNEW(I)+PSH(I))
           DPDE(I) = C4 +C5 *MU(I)
         ENDDO
@@ -111,14 +108,14 @@ C-----------------------------------------------
       ELSEIF(IFLAG == 2) THEN
          DO I=1, NEL
            IF (VNEW(I) > ZERO) THEN
-             PNEW(I) = C0 +(C1 +C3 *MU(I)*MU(I))*MU(I)+C2 *MU2(I) + (C4 +C5 *MU(I))*ESPE(I)
-             DPDM(I) = C1 + TWO*C2 *MAX(ZERO,MU(I))+THREE*C3 *MU(I)*MU(I) +
-     .            C5 *ESPE(I)+(C4 +C5 *MU(I))*DF(I)*DF(I)*(PNEW(I)+PSH(I) )
-             DPDE(I) = C4 +C5 *MU(I)
-             PNEW(I) = MAX(PNEW(I),PC )*OFF(I)
+             PNEW(I) = C0 + (C1 +C3*MU(I)*MU(I))*MU(I) + C2*MU2(I) + (C4 +C5 *MU(I))*ESPE(I)
+             DPDE(I) = C4+C5*MU(I)
+             DPDM(I) = C1 + TWO*C2*MAX(ZERO,MU(I)) + THREE*C3*MU(I)*MU(I) + C5*ESPE(I)  + (DPDE(I)) * DF(I)*DF(I)*(PNEW(I)+PSH(I))
+             PNEW(I) = MAX(PNEW(I),PMIN )*OFF(I)
            ENDIF
          ENDDO
        ENDIF
-C------------------------      
+C------------------------
       RETURN
-      END
+      END SUBROUTINE EOSPOLYNO
+      END MODULE EOSPOLYNO_MOD

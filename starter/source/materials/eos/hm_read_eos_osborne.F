@@ -155,11 +155,12 @@ C-----------------------------------------------
       MAT_PARAM%EOS%UPARAM(9) = P0
 
       MAT_PARAM%EOS%PSH = PSH
+      MAT_PARAM%EOS%E0 = E0
       IF (MAT_PARAM%THERM%TINI == ZERO) THEN
         MAT_PARAM%THERM%TINI =THREE100
         PM(79) = THREE100
       END IF
-      
+
       !P0
       IF(RHOI == ZERO)THEN
         MU0 = ZERO ! error 683 already displayed

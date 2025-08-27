@@ -72,7 +72,7 @@ C-----------------------------------------------
       INTEGER IMAT
       INTEGER KK,NUMEL
       my_real :: GG1, GG2, GG3
-      my_real VOLD,T0_(4),C0_(4),C1_(4),C2_(4),C3_(4),C4_(4),C5_(4),E0_(4),RHO0_(4),VF(4),P0(4),PEXT,PRES_0
+      my_real VOLD,P0_(4),T0_(4),C0_(4),C1_(4),C2_(4),C3_(4),C4_(4),C5_(4),E0_(4),RHO0_(4),VF(4),PEXT,PRES_0
       my_real,intent(inout) :: TB(NEL)
       LOGICAL IS_IFORM12
 C-----------------------------------------------
@@ -141,10 +141,7 @@ C-----------------------------------------------
       RHO0_(1:4)= (/UPARAM(09:11),UPARAM(47)/)                          
       VF(1:4)   = (/UPARAM(04:06),UPARAM(46)/)                          
       PEXT      = UPARAM(8)                                             
-      P0(1)     = C0_(1)+C4_(1)*E0_(1)                                  
-      P0(2)     = C0_(2)+C4_(2)*E0_(2)                                  
-      P0(3)     = C0_(3)+C4_(3)*E0_(3)                                  
-      P0(4)     = C0_(4)                                  
+      P0_(1:4)  = (/UPARAM(57:60)/)
                                                                         
       !===========================!                                     
       ! material IMAT : TIME=0    ! 
@@ -170,7 +167,7 @@ C-----------------------------------------------
         UVAR(I,15+KK) = ZERO                ! Plastic EPS             
         UVAR(I,16+KK) = T0_(IMAT)            ! temperature              
         UVAR(I,17+KK) = ZERO                ! diffuse heat          
-        UVAR(I,18+KK) = C0_(IMAT)+C4_(IMAT)*E0_(IMAT)                   
+        UVAR(I,18+KK) = P0_(IMAT)
         UVAR(I,19+KK) = ZERO 
         UVAR(I,20+KK) = RHO0_(IMAT)  !rho0 initial state is element dependent and can be updated by /INIGRAV
         UVAR(I,21+KK) = E0_(IMAT)    !E0
@@ -184,11 +181,7 @@ C-----------------------------------------------
       UVAR(1:NEL,15+KK) = UVAR(1:NEL,1) ! Tdet
       !
       DO I=1,NEL
-        P0(1)     = C0_(1)+C4_(1)*E0_(1)                                  
-        P0(2)     = C0_(2)+C4_(2)*E0_(2)                                  
-        P0(3)     = C0_(3)+C4_(3)*E0_(3)                                  
-        P0(4)     = C0_(4)  
-        PRES_0 = VF(1)*P0(1)+VF(2)*P0(2)+VF(3)*P0(3)+VF(4)*P0(4)
+        PRES_0 = VF(1)*P0_(1)+VF(2)*P0_(2)+VF(3)*P0_(3)+VF(4)*P0_(4)
         UVAR(I,4) = PRES_0
         PM(31,MAT(I)) = PRES_0
         PM(104,MAT(I)) = PRES_0
