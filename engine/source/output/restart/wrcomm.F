@@ -48,7 +48,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    state_mod        ../common_source/modules/state_mod.F
 !||    th_mod           ../engine/share/modules/th_mod.F
 !||====================================================================
-      SUBROUTINE WRCOMI(LMXVINT,LVARINT,TABVINT,ISP,MULTI_FVM,H3D_DATA,DYNAIN_DATA,
+      SUBROUTINE WRCOMI(OUTPUT,LMXVINT,LVARINT,TABVINT,ISP,MULTI_FVM,H3D_DATA,DYNAIN_DATA,
      .           INTER_PARAMETERS,SENSORS,LOADS,GLOB_THERM,PBLAST)
 C-----------------------------------------------
 C   M o d u l e s
@@ -57,8 +57,7 @@ C-----------------------------------------------
       USE H3D_MOD 
       USE PINCHTYPE_MOD
       USE OUTMAX_MOD
-      USE ANIM_MOD
-      USE OUTPUTS_MOD
+      USE OUTPUT_MOD
       USE LOADS_MOD
       USE DRAPE_MOD
       USE STATE_MOD
@@ -72,7 +71,6 @@ C-----------------------------------------------
       USE glob_therm_mod
       USE PBLAST_MOD
       USE TH_MOD , ONLY : TH_HAS_NODA_PEXT
-      USE OUTPUT_MOD , ONLY : ANIM_HAS_NODA_PEXT, H3D_HAS_NODA_PEXT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -81,6 +79,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER LMXVINT,LVARINT,TABVINT(*),ISP
+      TYPE(OUTPUT_),INTENT(INOUT) :: OUTPUT
       TYPE(MULTI_FVM_STRUCT) ,INTENT(IN) :: MULTI_FVM
       TYPE(H3D_DATABASE)     ,INTENT(IN) :: H3D_DATA
       TYPE (DYNAIN_DATABASE) ,INTENT(IN) :: DYNAIN_DATA
@@ -444,7 +443,7 @@ C-----1
       TABVINT(292)=NANIM1D
       TABVINT(293)=NR2RLNK
 C-----
-      TABVINT(294)=ANIM_HAS_NODA_PEXT*10 + H3D_HAS_NODA_PEXT
+      TABVINT(294)=OUTPUT%DATA%ANIM_HAS_NODA_PEXT*10 + OUTPUT%DATA%H3D_HAS_NODA_PEXT
       TABVINT(295)=IANIM
       TABVINT(296)=IOUTP
       TABVINT(297)=NHIN2
@@ -1594,17 +1593,17 @@ C Friction interface
       LVARINT=LVARINT+1
       TABVINT(LVARINT) = IFCONTP2MIN
       LVARINT=LVARINT+1
-      TABVINT(LVARINT) = S_EFRIC
+      TABVINT(LVARINT) = OUTPUT%DATA%S_EFRIC
       LVARINT=LVARINT+1
-      TABVINT(LVARINT) = S_EFRICINT
+      TABVINT(LVARINT) = OUTPUT%DATA%S_EFRICINT
       LVARINT=LVARINT+1
-      TABVINT(LVARINT) = S_EFRICG
+      TABVINT(LVARINT) = OUTPUT%DATA%S_EFRICG
       LVARINT=LVARINT+1
-      TABVINT(LVARINT) = S_EFRICINTG
+      TABVINT(LVARINT) = OUTPUT%DATA%S_EFRICINTG
       LVARINT=LVARINT+1
-      TABVINT(LVARINT) = NINEFRIC
+      TABVINT(LVARINT) = OUTPUT%DATA%NINEFRIC
       LVARINT=LVARINT+1
-      TABVINT(LVARINT) = NINEFRIC_STAMP
+      TABVINT(LVARINT) = OUTPUT%DATA%NINEFRIC_STAMP
 C  NITSCHE METHOD
       LVARINT=LVARINT+1
       TABVINT(LVARINT) = NITSCHE
@@ -1781,10 +1780,10 @@ c-----------
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ANIM_MOD
-      USE OUTPUTS_MOD
+      USE OUTPUT_MOD
       USE STATE_MOD
       USE ALE_MOD
+      USE SPH_MOD, ONLY : XI_RES,YI_RES,ZI_RES
       USE PARAMETERS_MOD
       USE OUTPUT_MOD
       USE MULTIMAT_PARAM_MOD , ONLY : M51_IFLG6
@@ -1853,8 +1852,8 @@ C-----
       TABVREA(15)=REINT
       TABVREA(16)=0 !no longer used
       TABVREA(17)=0 !no longer used
-      TABVREA(18)=DTANIM
-      TABVREA(19)=TANIM
+      TABVREA(18)=OUTPUT%DTANIM
+      TABVREA(19)=OUTPUT%TANIM
       TABVREA(20)=UREINT
       TABVREA(21)=ECONTV
       TABVREA(22)=EHOUR
@@ -2105,7 +2104,7 @@ C  INITIAL MASS IN STARTER
       TABVREA(RVARINT) = PERCENT_ADDMASS_OLD
       
       RVARINT = RVARINT + 1
-      TABVREA(RVARINT) = TANIM_STOP      
+      TABVREA(RVARINT) = OUTPUT%TANIM_STOP      
       
       RVARINT = RVARINT + 1
       TABVREA(RVARINT) = XI_RES  

@@ -30,7 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    h3d_mod            ../engine/share/modules/h3d_mod.F
 !||    intbufdef_mod      ../common_source/modules/interfaces/intbufdef_mod.F90
 !||====================================================================
-      SUBROUTINE I20MAIN_CRIT_TRI(
+      SUBROUTINE I20MAIN_CRIT_TRI(OUTPUT ,
      1  IPARI  ,X      ,NIN    ,
      2  ITASK  ,V      ,XSLV_L ,XMSR_L ,VSLV_L ,
      3  VMSR_L ,MS     ,DXANCG ,IKINE  ,DIAG_SMS,
@@ -40,6 +40,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE INTBUFDEF_MOD
       USE H3D_MOD
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -53,6 +54,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE (OUTPUT_) :: OUTPUT
       INTEGER NIN,ITASK,I,
      .        IPARI(NPARI,NINTER), IKINE(NUMNOD)
 C     REAL
@@ -95,7 +97,7 @@ C
 C
 C
        IF(INTBUF_TAB%VARIABLES(16)==ZERO)INTBUF_TAB%VARIABLES(16)=EP30
-       CALL I20BUCE_CRIT(
+       CALL I20BUCE_CRIT(OUTPUT   ,
      1  ITASK      ,X      ,V    ,MS         ,
      2  NTY      ,NIN    ,IPARI(22,NIN),NSN        ,
      3  NMN      ,INTBUF_TAB%NSV,INTBUF_TAB%MSR,INTBUF_TAB%XSAV,

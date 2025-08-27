@@ -58,7 +58,7 @@ C-----------------------------------------------
       USE MULTI_FVM_MOD
       USE H3D_MOD
       USE SENSOR_MOD
-      USE ANIM_MOD
+      USE OUTPUT_MOD
       USE STATE_MOD
       USE OUTPUT_MOD , ONLY : OUTPUT_
 C-----------------------------------------------
@@ -545,7 +545,7 @@ C
           ENDIF
           IF(NANIM/=0)THEN
            MDESS = 1
-           TANIM = TT
+           OUTPUT%TANIM = TT
            IPRI  = 0
           ENDIF                 
         ELSEIF((NERR_POSIT==0.AND.ABS(ERR)>DEMXS).OR.
@@ -560,7 +560,7 @@ C
           ENDIF
           IF(NANIM/=0)THEN
            MDESS = 1
-           TANIM = TT
+           OUTPUT%TANIM = TT
            IPRI  = 0
           ENDIF 
         ENDIF
@@ -575,7 +575,7 @@ C
           ENDIF
           IF(NANIM/=0)THEN
            MDESS = 1
-           TANIM = TT
+           OUTPUT%TANIM = TT
            IPRI  = 0
           ENDIF 
         ELSEIF(EMASS>DMTMXS)THEN
@@ -589,7 +589,7 @@ C
           ENDIF
           IF(NANIM/=0)THEN
            MDESS = 1
-           TANIM = TT
+           OUTPUT%TANIM = TT
            IPRI  = 0
           ENDIF 
         ENDIF
@@ -602,7 +602,7 @@ C---------------------------------
           RTMP(1)  = MSTOP
           RTMP(2)  = MREST
           RTMP(3)  = MDESS
-          RTMP(4)  = TANIM
+          RTMP(4)  = OUTPUT%TANIM
           RTMP(5)  = OUTPUT%TH%THIS
           RTMP(6)  = TSTAT
           RTMP(7)  = TOUTP
@@ -616,7 +616,7 @@ C
         MSTOP = NINT(RTMP(1))
         MREST = NINT(RTMP(2))
         MDESS = NINT(RTMP(3))
-        TANIM = RTMP(4)
+        OUTPUT%TANIM = RTMP(4)
         OUTPUT%TH%THIS =  RTMP(5)
         TSTAT = RTMP(6)
         TOUTP = RTMP(7)

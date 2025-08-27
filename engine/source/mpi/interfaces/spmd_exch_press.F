@@ -35,7 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    tri25ebox             ../engine/share/modules/tri25ebox.F
 !||    tri7box               ../engine/share/modules/tri7box.F
 !||====================================================================
-      SUBROUTINE SPMD_EXCH_PRESS(
+      SUBROUTINE SPMD_EXCH_PRESS(OUTPUT,
      1    IPARI   ,INTLIST ,NBINTC  ,FNCONT ,
      2    FTCONT  ,ISLEN7 ,IRLEN7  ,IRLEN7T ,ISLEN7T,
      3    IRLEN20 ,ISLEN20,IRLEN20T,ISLEN20T,INTBUF_TAB,
@@ -47,11 +47,11 @@ C-----------------------------------------------
       USE TRI25EBOX
       USE MESSAGE_MOD
       USE INTBUFDEF_MOD
-      USE OUTPUTS_MOD
+      USE OUTPUT_MOD
+      USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
 #include      "implicit_f.inc"
 #include      "assert.inc"
 C-----------------------------------------------
@@ -68,6 +68,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE (OUTPUT_) :: OUTPUT
       INTEGER NBINTC,ISLEN7, IRLEN7,IRLEN7T, ISLEN7T,
      .        IRLEN20, ISLEN20, IRLEN20T, ISLEN20T,
      .        IPARI(NPARI,*), INTLIST(*)
@@ -94,7 +95,7 @@ C-----------------------------------------------
         LOC_PROC = ISPMD + 1
 C
         LEN = 7
-        IF(NINEFRIC > 0) LEN = LEN +1
+        IF(OUTPUT%DATA%NINEFRIC > 0) LEN = LEN +1
         IF(N_SCAL_CSE_EFRIC > 0)  LEN = LEN +1
 C
 C Partie 1 envoi et preparation buffer reception
@@ -188,7 +189,7 @@ C node generating force
                         BBUFS(L+LF+1) = EFRICFI(NIN)%P(IDEB+N)
                         EFRICFI(NIN)%P(IDEB+N) = ZERO
                         LF=LF+1
-                    ELSEIF(NINEFRIC>0) THEN
+                    ELSEIF(OUTPUT%DATA%NINEFRIC>0) THEN
                         BBUFS(L+LF+1) = ZERO
                         LF=LF+1
                     ENDIF
@@ -217,7 +218,7 @@ C node not generating force but energy is cumulated
                         BBUFS(L+LF+1) = EFRICFI(NIN)%P(IDEB+N)
                         EFRICFI(NIN)%P(IDEB+N) = ZERO
                         LF=LF+1
-                    ELSEIF(NINEFRIC>0) THEN
+                    ELSEIF(OUTPUT%DATA%NINEFRIC>0) THEN
                         BBUFS(L+LF+1) = ZERO
                         LF=LF+1
                     ENDIF
@@ -278,13 +279,13 @@ C
                       FTCONT(3,NOD) = FTCONT(3,NOD) + BBUFR(L+LEN*(I-1)+6)
                       LF = 6
                       IF(INTERFRIC>0) THEN
-                          EFRIC(INTERFRIC,NOD)= EFRIC(INTERFRIC,NOD)+ BBUFR(L+LEN*(I-1)+LF+1)
+                          OUTPUT%DATA%EFRIC(INTERFRIC,NOD)= OUTPUT%DATA%EFRIC(INTERFRIC,NOD)+ BBUFR(L+LEN*(I-1)+LF+1)
                           LF = LF+1
-                      ELSEIF(NINEFRIC>0) THEN
+                      ELSEIF(OUTPUT%DATA%NINEFRIC>0) THEN
                         LF=LF+1
                       ENDIF
                       IF(N_SCAL_CSE_EFRIC>0) THEN
-                         EFRICG(NOD)= EFRICG(NOD)+ BBUFR(L+LEN*(I-1)+LF+1)
+                         OUTPUT%DATA%EFRICG(NOD)= OUTPUT%DATA%EFRICG(NOD)+ BBUFR(L+LEN*(I-1)+LF+1)
                       ENDIF
                     ENDIF
                   ENDDO

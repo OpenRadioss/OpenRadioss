@@ -46,7 +46,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    skew_mod               ../common_source/modules/skew_mod.F90
 !||    state_mod              ../common_source/modules/state_mod.F
 !||====================================================================
-      SUBROUTINE RDRESA(ITSTV1 , LHEADER, LVARINT, LVARREA, PRADIOS,
+      SUBROUTINE RDRESA(OUTPUT,ITSTV1 , LHEADER, LVARINT, LVARREA, PRADIOS,
      .                  PRESFIL,MULTI_FVM,H3D_DATA,
      .                  PINCH_DATA,DYNAIN_DATA,INTERFACES,SENSORS,LOADS,
      .                  MAT_ELEM, NAMES_AND_TITLES,SKEWS ,GLOB_THERM,PBLAST,
@@ -69,6 +69,7 @@ C-----------------------------------------------
       use glob_therm_mod               !< Global parameters and flags for thermal analysis
       use PBLAST_MOD                   !< PBLAST parameters
       use RBE3_MOD                     !< RBE3 type
+      use output_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -86,6 +87,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      type(output_), intent(inout) :: output
       INTEGER ITSTV1, LHEADER, LVARINT, LVARREA, PRADIOS,
      .        PRESFIL
       TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
@@ -178,7 +180,7 @@ C----------------------------
 C     Read integer variables
 C----------------------------
       CALL READ_I_C(TABVINT,LVARINT)
-      CALL RDCOMI(TABVINT,MULTI_FVM,H3D_DATA,DYNAIN_DATA,
+      CALL RDCOMI(output,TABVINT,MULTI_FVM,H3D_DATA,DYNAIN_DATA,
      .            INTERFACES%PARAMETERS,SENSORS,LOADS  ,MAT_ELEM,SKEWS,
      .            GLOB_THERM,PBLAST,RBE3 )
 
@@ -208,7 +210,7 @@ C
 !||    message_mod      ../engine/share/message_module/message_mod.F
 !||    pinchtype_mod    ../common_source/modules/pinchtype_mod.F
 !||====================================================================
-      SUBROUTINE INIRESA(H3D_DATA,PINCH_DATA,GLOB_THERM)
+      SUBROUTINE INIRESA(OUTPUT, H3D_DATA,PINCH_DATA,GLOB_THERM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -218,6 +220,7 @@ C-----------------------------------------------
       USE ALE_MOD
       USE ALEANIM_MOD
       USE glob_therm_mod
+      use output_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -253,6 +256,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_) :: OUTPUT
       TYPE(H3D_DATABASE) :: H3D_DATA
       TYPE(PINCH) :: PINCH_DATA
       type (glob_therm_)    ,intent(inout)   :: GLOB_THERM
@@ -438,7 +442,6 @@ C
         ELSE
           SDMSPH = 0
         END IF
-C   i have a doubt about SVISCN - and the KDTINT flag
         SVISCN = NUMNOD*NTHREAD 
         SSTIFR = NUMNOD*IRODDL*NTHREAD
         SPARTSAV = NPSAV*(NPART+NTHPART)*NTHREAD
@@ -512,39 +515,69 @@ C---------------------------------------------------------
 C     ANIMATION (vectors for CONTACT,INTERNAL FORCES, EXTERNAL FORCES)
 C     CUTS NOISE 
 C---------------------------------------------------------
-      SFANI = 3*NUMNOD*(
-     .                MIN(1,ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT)
-     .              + MIN(1,ANIM_V(5)+OUTP_V(5)+H3D_DATA%N_VECT_FINT)
-     .              + MIN(1,ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT) )
-     .          + 6*(NSECT+NRBODY+NRWALL)
-     .          + 6*NUMNOD*MIN(1,ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT)  
-     .          + 3*NUMNOD*MIN(1,ANIM_V(13)+H3D_DATA%N_VECT_CONT2)
-     .          + 6*NUMNOD*MIN(1,ANIM_V(27)+H3D_DATA%N_VECT_PCONT2)  
+!     SFANI = 3*NUMNOD*(
+!    .                MIN(1,ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT)
+!    .              + MIN(1,ANIM_V(5)+OUTP_V(5)+H3D_DATA%N_VECT_FINT)
+!    .              + MIN(1,ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT) )
+!    .          + 6*(NSECT+NRBODY+NRWALL)
+!    .          + 6*NUMNOD*MIN(1,ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT)  
+!    .          + 3*NUMNOD*MIN(1,ANIM_V(13)+H3D_DATA%N_VECT_CONT2)
+!    .          + 6*NUMNOD*MIN(1,ANIM_V(27)+H3D_DATA%N_VECT_PCONT2)  
+      OUTPUT%DATA%S_FOPT = (NSECT + NRBODY + NRWALL)
+      allocate(OUTPUT%DATA%FOPT(6,NSECT + NRBODY + NRWALL))
+
+      OUTPUT%DATA%S_VECT_CONT =(MIN(1,ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT))
+      OUTPUT%DATA%S_VECT_FINT = (MIN(1,ANIM_V(5)+OUTP_V(5)+H3D_DATA%N_VECT_FINT))
+      OUTPUT%DATA%S_VECT_FEXT = (MIN(1,ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT))
+      OUTPUT%DATA%S_VECT_PCONT = (MIN(1,ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT))
+      OUTPUT%DATA%S_VECT_PCONT_2 =(MIN(1,ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT))
+
+      OUTPUT%DATA%S_VECT_CONT2 = (MIN(1,ANIM_V(13)+H3D_DATA%N_VECT_CONT2))
+      OUTPUT%DATA%S_VECT_PCONT2 =(MIN(1,ANIM_V(27)+H3D_DATA%N_VECT_PCONT2))
+      OUTPUT%DATA%S_VECT_PCONT2_2 =(MIN(1,ANIM_V(27)+H3D_DATA%N_VECT_PCONT2))
+
 
       SXCUT = 7*NCUTS
-      SANIN = NUMNOD*( 
-     .                MIN(1,ANIM_N(1)+OUTP_N(1)+H3D_DATA%N_SCAL_DT)
-     .              + MIN(1,ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS)
-     .              + MIN(1,ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER))
-     .              + NUMELR*(ANIM_FE(11)+ANIM_FE(12)+ANIM_FE(13)) + 2*NUMNOD*MIN(1,ANIM_N(15)*ANIM_N(16)+H3D_DATA%N_SCAL_DAMA2)
+!     SANIN = NUMNOD*( 
+!    .                MIN(1,ANIM_N(1)+OUTP_N(1)+H3D_DATA%N_SCAL_DT)
+!    .              + MIN(1,ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS)
+!    .              + MIN(1,ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER))
+!    .              + NUMELR*(ANIM_FE(11)+ANIM_FE(12)+ANIM_FE(13)) 
+!    .              + 2*NUMNOD*MIN(1,ANIM_N(15)*ANIM_N(16)+H3D_DATA%N_SCAL_DAMA2)
+      OUTPUT%DATA%S_SCAL_DT = (MIN(1,ANIM_N(1)+OUTP_N(1)+H3D_DATA%N_SCAL_DT))
+      OUTPUT%DATA%S_SCAL_DMAS = (MIN(1,ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS))
+      OUTPUT%DATA%S_SCAL_DINER = (MIN(1,ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER))
+      OUTPUT%DATA%S_SCAL_DAMA2 = 2*(MIN(1,ANIM_N(15)*ANIM_N(16)+H3D_DATA%N_SCAL_DAMA2))
+      OUTPUT%DATA%S_SCAL_SPRING = NUMELR*(ANIM_FE(11)+ANIM_FE(12)+ANIM_FE(13)) 
+      allocate(OUTPUT%DATA%SCAL_SPRING(OUTPUT%DATA%S_SCAL_SPRING))
+
+      SANIN = NUMELR*(ANIM_FE(11)+ANIM_FE(12)+ANIM_FE(13)) 
+      CALl ALLOCATE_OUTPUT_DATA(OUTPUT,NUMNOD)
+
       STANI = 6*(NUMELC+NUMELTG)*IEPSDOT + 15*(NUMELT+NUMELP+NUMELR)*(MAX(ANIM_FT(1),H3D_DATA%UND_FORC))
+
+
 C
       SSECFCUM = 7*NUMNOD*NSECT*ISECUT
 C     Work Array private to sph : WAPSH(LWASPH)
       SWASPH = LWASPH
 C
       !/H3D/ELEM/VORT,X,Y,Z
-      FANI_CELL%IS_VORT_X_REQUESTED = .FALSE.
-      FANI_CELL%IS_VORT_Y_REQUESTED = .FALSE.
-      FANI_CELL%IS_VORT_Z_REQUESTED = .FALSE.
-      IF(ANIM_SE(10) == 1   .OR. H3D_DATA%SOL_SCAL_VORTX == 1)FANI_CELL%IS_VORT_X_REQUESTED=.TRUE.
-      IF(ANIM_SE(4960) == 1 .OR. H3D_DATA%SOL_SCAL_VORTY == 1)FANI_CELL%IS_VORT_Y_REQUESTED=.TRUE.
-      IF(ANIM_SE(4961) == 1 .OR. H3D_DATA%SOL_SCAL_VORTZ == 1)FANI_CELL%IS_VORT_Z_REQUESTED=.TRUE.
+      output%data%fani_cell%is_vort_x_requested = .FALSE.
+      output%data%fani_cell%is_vort_y_requested = .FALSE.
+      output%data%fani_cell%is_vort_z_requested = .FALSE.
+      IF(ANIM_SE(10) == 1   .OR. H3D_DATA%SOL_SCAL_VORTX == 1)
+     .  output%data%fani_cell%is_vort_x_requested=.TRUE.
+      IF(ANIM_SE(4960) == 1 .OR. H3D_DATA%SOL_SCAL_VORTY == 1)
+     .  output%data%fani_cell%is_vort_y_requested=.TRUE.
+      IF(ANIM_SE(4961) == 1 .OR. H3D_DATA%SOL_SCAL_VORTZ == 1)
+     .  output%data%fani_cell%is_vort_z_requested=.TRUE.
 
       ! /H3D/ELEM/VECT/CONT
       ! INTER18 REACTION FORCES ON CELL CENTROIDS
-      FANI_CELL%IS_F18_FVM_REQUESTED = .FALSE.
-      IF(H3D_DATA%N_VECT_CONT == 1)FANI_CELL%IS_F18_FVM_REQUESTED = .TRUE.
+      output%data%fani_cell%is_f18_fvm_requested = .FALSE.
+      IF(H3D_DATA%N_VECT_CONT == 1)
+     .  output%data%fani_cell%is_f18_fvm_requested = .TRUE.
 
       M16STAK = 0
       IF(NUMELS16/=0)THEN
