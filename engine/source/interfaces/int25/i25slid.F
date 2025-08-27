@@ -1090,7 +1090,7 @@ C specific cases ../..
               ISHIFT = ISHIFT + 2
             ENDIF
 
-            IF(IGAP==1 .OR. IGAP==2)THEN
+            IF(IGAP==1 .OR. IGAP==2 .OR. IGAP==5)THEN
               LR = 0
               DO J=1,NSEND
                 I = INDEX(IDEB+J)

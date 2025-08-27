@@ -1134,7 +1134,7 @@ C-------------------------------------
      2 IXT   ,IXP   ,IPART  ,IPARTC   ,IPARTTG  ,
      3 THK   ,THK_PART,GAP_N ,GAP_M   ,NMN      ,
      4 MSR   ,GAPN_M  ,GAPMAX_M ,GAPSCALE,IGEO  ,
-     5 MSEGTYP,GAPMSAV,ITHK25)
+     5 MSEGTYP,GAPMSAV,ITHK25,IGAP,THK_M   ,THK_M_SCALE)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1157,6 +1157,8 @@ C     REAL
       my_real
      .   GEO(NPROPG,*), THK(*),THK_PART(*),GAP_N(4,*),GAP_M(*),
      .   GAPN_M(*),GAPMAX_M, GAPSCALE,GAPMSAV(*)
+      INTEGER, INTENT(IN)    :: IGAP
+      my_real, INTENT(IN) :: THK_M   ,THK_M_SCALE
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1178,7 +1180,9 @@ C------------------------------------
          MG=IXC(6,I)
          IGTYP = IGEO(11,MG)
          IP = IPARTC(I)
-         IF ( THK_PART(IP) /= ZERO .AND. IINTTHICK == 0) THEN
+         IF ( IGAP == 5) THEN
+            DX=HALF*THK_M
+         ELSEIF ( THK_PART(IP) /= ZERO .AND. IINTTHICK == 0) THEN
            DX=HALF*THK_PART(IP)
          ELSEIF ( THK(I) /= ZERO .AND. IINTTHICK == 0) THEN
            DX=HALF*THK(I)
@@ -1197,7 +1201,10 @@ C
          MG=IXTG(5,I)
          IGTYP = IGEO(11,MG)
          IP = IPARTTG(I)
-         IF ( THK_PART(IP) /= ZERO .AND. IINTTHICK == 0) THEN
+         IF ( IGAP == 5) THEN
+            DX=HALF*THK_M
+
+         ELSEIF ( THK_PART(IP) /= ZERO .AND. IINTTHICK == 0) THEN
            DX=HALF*THK_PART(IP)
          ELSEIF ( THK(NUMELC+I) /= ZERO .AND. IINTTHICK == 0) THEN
            DX=HALF*THK(NUMELC+I)
@@ -1211,10 +1218,16 @@ C
          WA(IXTG(4,I))=MAX(WA(IXTG(4,I)),DX)
        ENDDO
 C
-       DO I=1,NUMNOD
-        WA(I)=GAPSCALE*WA(I)
-       END DO
-C------- Excluded lines in main surfaces
+       IF(IGAP==5) THEN
+         DO I=1,NUMNOD
+           WA(I)=THK_M_SCALE*WA(I)
+         END DO
+       ELSE
+         DO I=1,NUMNOD
+           WA(I)=GAPSCALE*WA(I)
+         END DO
+       ENDIF
+C--------exclude lines in main surfaces
 C       DO I=1,NUMELT
 C        MG=IXT(4,I)
 C        DX=HALF*SQRT(GEO(1,MG))
@@ -1254,6 +1267,7 @@ C
           M=IRECT(J,I)
           GAP_N(J,I)=WA(M)
           GAP_M(I) = MAX(GAP_M(I),WA(M))
+
         END DO
       END DO  ! nrtm
 C
