@@ -78,7 +78,7 @@
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: ismooth
-          real(kind=WP), external :: FINTER
+          real(kind=WP), external :: FINTER, FINTER_SMOOTH
           real(kind=WP) :: unused_dxdy
 
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -90,6 +90,12 @@
             call python_call_funct1d(python, -ismooth,x, y)
             if(present(dydx)) then
               call python_deriv_funct1D(python, -ismooth,x, dydx)
+            endif
+          elseif (ismooth > 0) then
+            if(present(dydx)) then
+              y = FINTER_SMOOTH(ifunc, x, npc, tf, dydx)
+            else
+              y = FINTER_SMOOTH(ifunc, x, npc, tf, unused_dxdy)
             endif
           else
             if(present(dydx)) then
