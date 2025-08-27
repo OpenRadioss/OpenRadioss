@@ -31,7 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
 !||    h3d_inc_mod     ../engine/share/modules/h3d_inc_mod.F
 !||====================================================================
-      SUBROUTINE ALLOCBUF_AUTO(ELBUF_STR,BUFLEN,NPT,ITY,ISNOD,NEWLEN,INLOC,ISOLNOD,
+      SUBROUTINE ALLOCBUF_AUTO(ELBUF_STR,BUFLEN,NPT,ITY,ISNOD,NEWLEN,INLOC,
      .                         IDAMP_FREQ_RANGE)
 C-----------------------------------------------
 C   M o d u l e s
@@ -51,7 +51,6 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER BUFLEN,NPT,ITY,ISNOD,NEWLEN,INLOC
-      INTEGER, INTENT(IN) :: ISOLNOD
       INTEGER, INTENT(IN) :: IDAMP_FREQ_RANGE
       TYPE(ELBUF_STRUCT_) , TARGET   :: ELBUF_STR
 C-----------------------------------------------
@@ -1021,16 +1020,6 @@ c-------------------------------
 c         Non-local regularization in the thickshell thickness                
 c-------------------------------
       ELSEIF (ITY==1) THEN
-        ! Brick element geometry configuration for non-local
-        IF ((INLOC>0).AND.(ISOLNOD == 8)) THEN 
-          ALLOCATE(ELBUF_STR%NLOCS%NL_ISOLNOD(NEL))
-          ELBUF_STR%NLOCS%NL_ISOLNOD(1:NEL) = 0 
-          ALLOCATE(ELBUF_STR%NLOCS%NL_SOLNOD(8,NEL))  
-          ELBUF_STR%NLOCS%NL_SOLNOD(1:8,1:NEL) = 0
-        ELSE 
-          ALLOCATE(ELBUF_STR%NLOCS%NL_ISOLNOD(0))
-          ALLOCATE(ELBUF_STR%NLOCS%NL_SOLNOD(0,0))
-        ENDIF
         ! Number of integration points in the shell thickness
         NPTT = ELBUF_STR%NLAY
         IF ((INLOC>0).AND.(NPTT>1)) THEN

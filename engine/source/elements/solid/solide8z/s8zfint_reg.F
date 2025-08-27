@@ -95,8 +95,6 @@ C-----------------------------------------------
      . POS1,POS2,POS3,POS4,POS5,POS6,POS7,POS8
       my_real, POINTER, DIMENSION(:) :: 
      . VNL,FNL,UNL,STIFNL,MASS,MASS0,VNL0
-      ! Coefficient for non-local stability to take into account damping
-      my_real, PARAMETER :: CDAMP = 0.7D0
 C=======================================================================
       NULLIFY(MASS)
       NULLIFY(MASS0)

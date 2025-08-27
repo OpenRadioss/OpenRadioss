@@ -57,8 +57,6 @@ C-----------------------------------------------
       INTEGER I
       my_real 
      .  L2,ZETA,DTNL_TH,DTNL,DAMPFAC,LE_MAX
-      ! Coefficient for non-local stability to take into account damping
-      my_real, PARAMETER :: CDAMP = 0.7D0
 C=======================================================================
       ! Recovering non-local parameters
       L2     = NLOC_DMG%LEN(IMAT)**2 ! Non-local internal length ** 2

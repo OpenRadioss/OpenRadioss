@@ -33,7 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE NLOC_DMG_INIT(ELBUF_TAB,NLOC_DMG ,IPARG    ,IXC      ,
      .                         IXS      ,IXTG     ,AREA     ,DTELEM   ,
      .                         NUMEL    ,IPM      ,X        ,XREFS    ,
-     .                         XREFC    ,XREFTG   ,BUFMAT   ,PM       )
+     .                         XREFC    ,XREFTG   ,MATPARAM )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -42,6 +42,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE NLOCAL_REG_MOD
       USE INOUTFILE_MOD
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -68,9 +69,8 @@ C-----------------------------------------------
       my_real,
      .         DIMENSION(NUMEL), INTENT(INOUT)       :: DTELEM
       my_real
-     .   X(3,*),XREFC(4,3,*),XREFTG(3,3,*),XREFS(8,3,*),BUFMAT(*),
-     .   PM(NPROPM,*)
-      TARGET BUFMAT
+     .   X(3,*),XREFC(4,3,*),XREFTG(3,3,*),XREFS(8,3,*)
+      TYPE (MATPARAM_STRUCT_), DIMENSION(NUMMAT), INTENT(IN) :: MATPARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -90,8 +90,8 @@ C-----------------------------------------------
       my_real
      .   DENS, DTMIN, LEN, SSPNL,NTH1, NTH2,
      .   Z01(11,11), WF1(11,11), ZN1(12,11),DAMP,WS,LE_MIN,
-     .   DTSCA_AMS,DTSCA_CST_AMS,LE_MAX,SSP,
-     .   DTMINI_AMS,DTMINI_CST_AMS,DTMINI
+     .   DTSCA_AMS,DTSCA_CST_AMS,LE_MAX,SSP, YOUNG, NU,
+     .   DTMINI_AMS,DTMINI_CST_AMS,DTMINI, SHEAR, BULK, RHO
       my_real, DIMENSION(:,:), ALLOCATABLE ::  
      .   WARN_LENGHT
       my_real, DIMENSION(:)  , ALLOCATABLE ::  
@@ -103,16 +103,12 @@ C-----------------------------------------------
       my_real, DIMENSION(:,:), POINTER     :: 
      .   MASSTH
       LOGICAL, DIMENSION(8) :: BOOL
-      ! Damping ratio ZETA 
-      ! ZETA = 0     : Undamped
-      ! 0 < ZETA < 1 : Underdamped
-      ! ZETA = 1     : Critically damped
-      ! ZETA > 1     : Overdamped
-      my_real, PARAMETER                   :: ZETA = 0.2D0 
-      ! Safety coefficient for non-local stability vs mechanical stability
-      ! (here we have a good compromise to find, DENS must be as low as 
-      !  possible but sufficiently high to avoid the decrease of the timestep)
-      my_real, PARAMETER                   :: CSTA = 40.0D0
+      ! Damping ratio ETA 
+      ! ETA = 0     : Undamped
+      ! 0 < ETA < 1 : Underdamped
+      ! ETA = 1     : Critically damped
+      ! ETA > 1     : Overdamped
+      my_real, PARAMETER                   :: ETA = 0.2D0
       ! Position of integration points in the 2D shell thickness
       DATA  Z01/
      1 0.       ,0.       ,0.       ,0.       ,0.       ,
@@ -492,6 +488,14 @@ c
                       SOLNOD(ISLNOD(I+NFT),I+NFT) = IXS(1+J,I+NFT)
                     ENDIF 
                   ENDDO
+                  IF (ISLNOD(I+NFT) < 8) THEN
+                    CALL ANCMSG(MSGID=3106,
+     .                          MSGTYPE=MSGERROR,
+     .                          ANMODE=ANINFO_BLIND_1,
+     .                          I1=IXS(11,I+NFT), 
+     .                          I2=IPM(1,IMAT),  
+     .                          PRMOD=MSG_CUMU)
+                  ENDIF
                   ! Loop over brick nodes
                   DO J = 1,ISLNOD(I+NFT)
                     ! Number of the nodes
@@ -632,6 +636,12 @@ c
           ENDIF
         ENDDO
 C
+        ! Printing out error messages
+        CALL ANCMSG(MSGID=3106,
+     .              MSGTYPE=MSGERROR,
+     .              ANMODE=ANINFO_BLIND_1,
+     .              PRMOD=MSG_PRINT)
+C
         ! Checking if a DT option is set in the engine file
         DTMINI_AMS     = ZERO
         DTMINI_CST_AMS = ZERO
@@ -742,7 +752,10 @@ C
             ! Material number
             IMAT   = IXS(1,I)
             ! Soundspeed
-            SSP    = SQRT(((THIRD*PM(20,IMAT)/(ONE - PM(21,IMAT)*TWO)) + FOUR_OVER_3*PM(22,IMAT))/PM(1,IMAT))
+            SHEAR = MATPARAM(IMAT)%SHEAR
+            BULK  = MATPARAM(IMAT)%BULK
+            RHO   = MATPARAM(IMAT)%RHO0
+            SSP   = SQRT((BULK + FOUR_OVER_3*SHEAR)/RHO)
             ! Element characteristic length
             LE_MIN = (VOLU(I))**THIRD
             IF (TAGTET(I)>0) THEN 
@@ -794,7 +807,10 @@ C
             ! Material number
             IMAT   = IXC(1,I)
             ! Soundspeed
-            SSP    = SQRT(PM(24,IMAT)/PM(1,IMAT))
+            YOUNG  = MATPARAM(IMAT)%YOUNG
+            NU     = MATPARAM(IMAT)%NU
+            RHO    = MATPARAM(IMAT)%RHO0
+            SSP    = SQRT((YOUNG/(ONE - NU**2))/RHO)
             ! Element characteristic length
             LE_MIN = SQRT(AREA(I))       
           ! Triangle elements
@@ -812,7 +828,10 @@ C
             ! Material number
             IMAT   = IXTG(1,I)
             ! Soundspeed
-            SSP    = SQRT(PM(24,IMAT)/PM(1,IMAT))
+            YOUNG  = MATPARAM(IMAT)%YOUNG
+            NU     = MATPARAM(IMAT)%NU
+            RHO    = MATPARAM(IMAT)%RHO0
+            SSP    = SQRT((YOUNG/(ONE - NU**2))/RHO)
             ! Element characteristic length
             LE_MIN = SQRT((FOUR/SQRT(THREE))*AREA(NUMELC + I))      
           ENDIF
@@ -836,13 +855,13 @@ C
           ! Computation of non-local damping
           IF ((DENS < NLOC_DMG%DENS(IMAT)).OR.(NLOC_DMG%DENS(IMAT) == ZERO)) THEN 
             ! Computation of the damping parameter (homogeneous to a time value)
-            DAMP  = TWO*ZETA*SQRT((FOUR*(LEN/MAX(LE_MAX,EM20))**2 + THIRD)*DENS)
+            DAMP = (TWO*ETA/LE_MAX)*SQRT(DENS*((LEN**2)*(PI**2) + LE_MAX**2))
             ! Saving non-local parameters (storing the maximal value)
             NLOC_DMG%DENS(IMAT) = MAX(DENS,ZERO)
             NLOC_DMG%DAMP(IMAT) = MAX(DAMP,ZERO)
           ENDIF
           ! Computation of the initial non-local sound-speed
-          SSPNL = (SQRT(TWELVE*(LEN**2) + (LE_MIN)**2))/(TWO*SQRT(THREE*DENS))
+          SSPNL = SQRT((LEN**2 + (LE_MAX**2)/PI**2)/DENS)
           IF ((SSPNL < NLOC_DMG%SSPNL(IMAT)).OR.(NLOC_DMG%SSPNL(IMAT) == ZERO)) THEN
             NLOC_DMG%SSPNL(IMAT) = MAX(SSPNL,ZERO)
           ENDIF
@@ -952,7 +971,7 @@ c
           ILOC  = IPARG(78,NG)
           ! Type of elements
           ITY   = IPARG(5,NG)
-          ! First position element
+          ! First element position
           NFT   = IPARG(3,NG)
           ! If the elements are non-local and are shells or triangles
           IF ((ILOC > 0).AND.((ITY == 3).OR.(ITY == 7))) THEN

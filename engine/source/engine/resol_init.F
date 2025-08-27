@@ -191,7 +191,6 @@ C-----------------------------------------------
       USE H3D_INC_MOD
       USE ALEMUSCL_MOD , only:ALEMUSCL_Param
       USE OUTPUT_MOD
-      USE NLOC_COUNT_SOLNOD_MOD
       USE INTER_SH_OFFSET_INI_MOD , only : INTER_SH_OFFSET_INI
       USE INTER_SH_OFFSET_MOD , only:SH_OFFSET_
       USE LOADS_MOD 
@@ -1158,7 +1157,6 @@ C-----------------------
        ! Non-local regularization is activated
        IF (NLOC_DMG%IMOD > 0) THEN
          CALL SPMD_SUB_BOUNDARIES(NLOC_DMG,IAD_ELEM,FR_ELEM)
-         CALL NLOC_COUNT_SOLNOD(NGROUP, NPARG, IPARG, ELBUF_TAB, IXS, NIXS, NUMELS)
        ENDIF
 C-----------------------
 C DT_DC OF TSH
