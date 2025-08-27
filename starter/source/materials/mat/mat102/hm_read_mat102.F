@@ -35,8 +35,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    message_mod              ../starter/share/message_module/message_mod.F
 !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
 !||====================================================================
-      SUBROUTINE HM_READ_MAT102(UPARAM ,MAXUPARAM,NUPARAM  ,ISRATE   , IMATVIS  ,
-     .                          NUVAR  ,IFUNC    ,MAXFUNC  ,NFUNC    , PARMAT   , 
+      SUBROUTINE HM_READ_MAT102(UPARAM ,MAXUPARAM,NUPARAM  ,ISRATE   ,
+     .                          NUVAR  ,NFUNC    ,PARMAT   ,
      .                          UNITAB ,MAT_ID   ,TITR     ,MTAG     , LSUBMODEL,
      .                          PM     ,IPM      ,MATPARAM )
 C-----------------------------------------------
@@ -65,10 +65,13 @@ C-----------------------------------------------
       USE SUBMODEL_MOD , ONLY : SUBMODEL_DATA, NSUBMOD
       USE MATPARAM_DEF_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY, NCHARFIELD
+      USE CONSTANT_MOD , ONLY : PI, HUNDRED80, FOUR, ZERO, INFINITY, NINE, ONE, SIX, THREE, TWO
+      USE PRECISION_MOD , ONLY : WP
+
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-#include      "implicit_f.inc"
+      IMPLICIT NONE
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -77,34 +80,26 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN)                 :: UNITAB
-      my_real, DIMENSION(NPROPM),INTENT(INOUT)     :: PM
-      my_real, DIMENSION(100),INTENT(INOUT)        :: PARMAT
-      my_real, DIMENSION(MAXUPARAM) ,INTENT(INOUT) :: UPARAM
-      INTEGER, DIMENSION(NPROPMI),INTENT(INOUT)    :: IPM
-      INTEGER, DIMENSION(MAXFUNC),INTENT(INOUT)    :: IFUNC
-      INTEGER, INTENT(INOUT)                       :: ISRATE,IMATVIS,NFUNC,MAXFUNC,MAXUPARAM,NUPARAM,NUVAR
-      TYPE(MLAW_TAG_),INTENT(INOUT)                :: MTAG
-      INTEGER,INTENT(IN)                           :: MAT_ID
-      CHARACTER(LEN=NCHARTITLE) ,INTENT(IN)        :: TITR
-      TYPE(SUBMODEL_DATA),INTENT(IN)               :: LSUBMODEL(NSUBMOD)
-      TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT)        :: MATPARAM
+      TYPE (UNIT_TYPE_),INTENT(IN)                       :: UNITAB
+      REAL(KIND=WP), DIMENSION(NPROPM),INTENT(INOUT)     :: PM
+      REAL(KIND=WP), DIMENSION(100),INTENT(INOUT)        :: PARMAT
+      REAL(KIND=WP), DIMENSION(MAXUPARAM) ,INTENT(INOUT) :: UPARAM
+      INTEGER, DIMENSION(NPROPMI),INTENT(INOUT)          :: IPM
+      INTEGER, INTENT(INOUT)                             :: ISRATE,NFUNC,MAXUPARAM,NUPARAM,NUVAR
+      TYPE(MLAW_TAG_),INTENT(INOUT)                      :: MTAG
+      INTEGER,INTENT(IN)                                 :: MAT_ID
+      CHARACTER(LEN=NCHARTITLE) ,INTENT(IN)              :: TITR
+      TYPE(SUBMODEL_DATA),INTENT(IN)                     :: LSUBMODEL(NSUBMOD)
+      TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT)              :: MATPARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real   :: E,NU,C,PSTAR,AMAX,G, DELTA,STIFINT,PMIN,BID,PHI_DEG
-      my_real   :: A0,A1,A2,RHO0,RHOR
-  
-      CHARACTER(LEN=NCHARFIELD) :: STRING, KEYNET
-      CHARACTER(LEN=NCHARKEY) :: KEY
-
-      INTEGER   :: IFORM
-      
-      DOUBLE PRECISION :: PHI,K,ALPHA
-      
-      LOGICAL :: IS_ENCRYPTED,IS_AVAILABLE
-      
-      CHARACTER*64 :: CHAIN
+      REAL(KIND=WP)    :: E,NU,C,PSTAR,AMAX,G, DELTA,STIFINT,PMIN,PHI_DEG
+      REAL(KIND=WP)    :: A0,A1,A2,RHO0,RHOR
+      INTEGER          :: IFORM
+      REAL(KIND=WP)    :: PHI,K,ALPHA
+      LOGICAL          :: IS_ENCRYPTED,IS_AVAILABLE
+      CHARACTER*64     :: CHAIN
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -114,7 +109,7 @@ C-----------------------------------------------
 
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 
-      CALL HM_GET_INTV  ('IFORM',IFORM  ,IS_AVAILABLE, LSUBMODEL) 
+      CALL HM_GET_INTV  ('IFORM',IFORM  ,IS_AVAILABLE, LSUBMODEL)
       
       CALL HM_GET_FLOATV('MAT_RHO'      ,RHO0  ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       
@@ -135,7 +130,7 @@ C-----------------------------------------------
 C     UNITS   
 C----------------------------------------------- 
       PHI_DEG = PHI
-      PHI     = PHI*3.141592653589793238D00/180.D00
+      PHI     = PHI*PI/HUNDRED80
 C----------------------------------------------- 
 C     DEFAULTS   
 C----------------------------------------------- 

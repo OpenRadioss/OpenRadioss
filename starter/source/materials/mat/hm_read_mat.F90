@@ -1016,8 +1016,8 @@
              case ('LAW102','DPRAG2')
               ilaw  = 102
               call hm_read_mat102(&
-              &uparam   ,maxuparam,nuparam  ,israte  ,imatvis  ,&
-              &nuvar    ,ifunc    ,maxfunc  ,nfunc   ,parmat   ,&
+              &uparam   ,maxuparam,nuparam  ,israte  ,&
+              &nuvar    ,nfunc    ,parmat   ,&
               &unitab   ,mat_id   ,titr     ,mtag    ,lsubmodel,&
               &pm(1,i)  ,ipm(1,i) ,matparam )
 !-------

@@ -1835,12 +1835,13 @@
 !
           elseif (mtn == 102) then
 
-            call sigeps102(nel    ,npar    ,nuvar  ,uparam0 , rho0     ,rho    ,&
-            &de1    ,de2     ,de3    ,de4    , de5      ,de6    ,&
-            &so1    ,so2     ,so3    ,so4    , so5      ,so6    ,&
-            &s1     ,s2      ,s3     ,s4     , s5       ,s6     ,&
-            &ssp    ,uvar    ,off    ,et     ,&
-            &psh    ,pnew    ,dpdm   ,ssp    , lbuf%pla )
+            call sigeps102(&
+             nel    ,npar    ,uparam0, rho0  ,rho       ,&
+             de1    ,de2     ,de3    ,de4    , de5      ,de6        ,&
+             so1    ,so2     ,so3    ,so4    , so5      ,so6        ,&
+             s1     ,s2      ,s3     ,s4     , s5       ,s6         ,&
+             off    ,&
+             psh    ,pnew    ,dpdm   ,ssp    , lbuf%pla ,pm(37,imat) )
 !
 !
           elseif (mtn == 103) then
