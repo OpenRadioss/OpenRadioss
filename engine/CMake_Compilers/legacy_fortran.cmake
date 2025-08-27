@@ -1369,7 +1369,6 @@ set_source_files_properties( ${source_directory}/source/materials/mat/mat087/mat
 set_source_files_properties( ${source_directory}/source/materials/mat/mat087/mat87c_swift_voce.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/materials/mat/mat087/mat87c_tabulated_totalsr.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/materials/mat/mat087/mat87c_hansel.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
-set_source_files_properties( ${source_directory}/source/materials/mat/mat102/sigeps102.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/materials/mat/mat022/sigeps22g.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/materials/mat/mat107/mat107c_newton.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/materials/mat/mat107/mat107_newton.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
