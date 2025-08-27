@@ -50,7 +50,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                        Modules
 ! ----------------------------------------------------------------------------------------------------------------------
-          use constant_mod,          only : one,two,zero,zep05,em20,third,fourth,ten,em6,em12
+          use constant_mod,          only : half,one,two,zero,zep05,em20,third,fourth,ten,em6,em12
           use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
@@ -238,7 +238,8 @@
               drot(1:3) = (vr(1:3,ns)-omgRb(1:3))*dt1
               mom(1:3) = rrbe3pen_m(1:3)+ rrbe3pen_stf(2)*drot(1:3)
               rrbe3pen_m(1:3) = mom(1:3)
-              stifr(ns) = stifr(ns)+rrbe3pen_stf(2)
+              facr = max(one,half*rrbe3pen_fac)
+              stifr(ns) = stifr(ns)+facr*rrbe3pen_stf(2)
               ar(1:3,ns) = ar(1:3,ns) - mom(1:3) ! a(1:3,ns) will be updated at the end
             end if
           end if

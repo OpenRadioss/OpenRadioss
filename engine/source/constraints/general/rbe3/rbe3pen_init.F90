@@ -309,6 +309,7 @@
           endif !if (icoline>0) then
           if (in(ns)>zero) then
             rrbe3pen_fac = max(one,(facn+facr))  ! solid/solid(shell)
+            rrbe3pen_stf(2) = rrbe3pen_stf(2)/rrbe3pen_fac !instability concern
           else
             rrbe3pen_fac = max(one,facn)         ! shell/solid(shell)
           end if
