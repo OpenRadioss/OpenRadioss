@@ -40,6 +40,7 @@
 
         ! Fortran file descriptor / same as units_c.inc
         ! --------------------------
+      implicit none
         integer, parameter :: iuhis=1
         integer, parameter :: istdo=6
         integer, parameter :: iout=7

@@ -26,6 +26,7 @@
 !||    hm_read_fail                ../starter/source/materials/fail/hm_read_fail.F
 !||====================================================================
       module hm_read_fail_lemaitre_mod
+      implicit none
       contains
 !||====================================================================
 !||    hm_read_fail_lemaitre    ../starter/source/materials/fail/lemaitre/hm_read_fail_lemaitre.F90
@@ -82,11 +83,11 @@
           call hm_option_is_encrypted(is_encrypted)
 ! ----------------------------------------------------------------------------------------------------------------------
           !< Lemaitre damage model parameters
-          call hm_get_floatv('FAIL_EPSD'  ,epsd   ,is_available,lsubmodel,unitab)
-          call hm_get_floatv('FAIL_S'     ,s      ,is_available,lsubmodel,unitab)
-          call hm_get_floatv('FAIL_DC'    ,dc     ,is_available,lsubmodel,unitab)
-          call hm_get_intv  ('FAILIP'     ,failip ,is_available,lsubmodel)
-          call hm_get_floatv('P_thickfail',pthk   ,is_available,lsubmodel,unitab)
+          call hm_get_floatv("FAIL_EPSD"  ,epsd   ,is_available,lsubmodel,unitab)
+          call hm_get_floatv("FAIL_S"     ,s      ,is_available,lsubmodel,unitab)
+          call hm_get_floatv("FAIL_DC"    ,dc     ,is_available,lsubmodel,unitab)
+          call hm_get_intv  ("FAILIP"     ,failip ,is_available,lsubmodel)
+          call hm_get_floatv("P_thickfail",pthk   ,is_available,lsubmodel,unitab)
 ! ----------------------------------------------------------------------------------------------------------------------
           !< Check values and set default values
           if (epsd == zero) epsd = infinity
@@ -102,7 +103,7 @@
 !     Filling buffer tables
 ! ----------------------------------------------------------------------------------------------------------------------
           !< Failure tables size
-          fail%keyword = 'LEMAITRE'
+          fail%keyword = "LEMAITRE"
           fail%irupt   = irupt
           fail%fail_id = fail_id
           fail%niparam = 1
@@ -129,29 +130,29 @@
 !     Parameters printout
 ! ----------------------------------------------------------------------------------------------------------------------
           if (is_encrypted)then
-            write(iout,'(5X,A,//)')'CONFIDENTIAL DATA'
+            write(iout,"(5X,A,//)")"CONFIDENTIAL DATA"
           else
             write(iout, 1000) epsd,s,dc
             write(iout, 1100) pthk,failip
-          endif
+          end if
 ! ----------------------------------------------------------------------------------------------------------------------
 1000      format(/                                                                 &
-          & 5X,'---------------------------------------------------------',/,       &
-          & 5X,'     LEMAITRE CONTINUUM DAMAGE MECHANICS (CDM) MODEL     ',/,       &
-          & 5X,'---------------------------------------------------------',/,       &
-          & 5X,'                                                         ',/,       &
-          & 5X,'DAMAGE SOFTENING PARAMETERS:                             ',/,       &
-          & 5X,'----------------------------                             ',/,       &
-          & 5X,'EFFECTIVE PLASTIC STRAIN THRESHOLD (EPSD). . . . . . . .=',1pg20.13/&
-          & 5X,'SOFTENING PARAMETER (S). . . . . . . . . . . . . . . . .=',1pg20.13/&
-          & 5X,'CRITICAL DAMAGE AT FAILURE (DC). . . . . . . . . . . . .=',1pg20.13/)
+          & 5X,"---------------------------------------------------------",/,       &
+          & 5X,"     LEMAITRE CONTINUUM DAMAGE MECHANICS (CDM) MODEL     ",/,       &
+          & 5X,"---------------------------------------------------------",/,       &
+          & 5X,"                                                         ",/,       &
+          & 5X,"DAMAGE SOFTENING PARAMETERS:                             ",/,       &
+          & 5X,"----------------------------                             ",/,       &
+          & 5X,"EFFECTIVE PLASTIC STRAIN THRESHOLD (EPSD). . . . . . . .=",1pg20.13/&
+          & 5X,"SOFTENING PARAMETER (S). . . . . . . . . . . . . . . . .=",1pg20.13/&
+          & 5X,"CRITICAL DAMAGE AT FAILURE (DC). . . . . . . . . . . . .=",1pg20.13/)
 1100      format(/                                                                 &
-          & 5X,'ELEMENT DELETION:                                        ',/,       &
-          & 5X,'-----------------                                        ',/,       &
-          & 5X,'SHELL ELEMENT DELETION PARAMETER PTHICKFAIL. . . . . . .=',1pg20.13/&
-          & 5X,'   > 0.0: FRACTION OF FAILED THICKNESS                   ',/,       &
-          & 5X,'   < 0.0: FRACTION OF FAILED INTG. POINTS                ',/,       &
-          & 5X,'NUMBER OF FAILED INTG. POINTS PRIOR TO ELEM DELETION . .=',i10/)
+          & 5X,"ELEMENT DELETION:                                        ",/,       &
+          & 5X,"-----------------                                        ",/,       &
+          & 5X,"SHELL ELEMENT DELETION PARAMETER PTHICKFAIL. . . . . . .=",1pg20.13/&
+          & 5X,"   > 0.0: FRACTION OF FAILED THICKNESS                   ",/,       &
+          & 5X,"   < 0.0: FRACTION OF FAILED INTG. POINTS                ",/,       &
+          & 5X,"NUMBER OF FAILED INTG. POINTS PRIOR TO ELEM DELETION . .=",i10/)
 !
         end subroutine hm_read_fail_lemaitre
       end module hm_read_fail_lemaitre_mod

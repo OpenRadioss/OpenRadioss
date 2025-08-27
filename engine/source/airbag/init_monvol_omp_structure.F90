@@ -26,6 +26,7 @@
 !||    resol                           ../engine/source/engine/resol.F
 !||====================================================================
       module init_monvol_omp_structure_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures
@@ -108,22 +109,22 @@
                   if(w_array(nod)==0) then ! the node is not yet taken into account
                     node_number = node_number + 1
                     node_id( node_number ) = nod ! save the node id
-                  endif
+                  end if
                   w_array(nod) = w_array(nod) + 1 ! add 1 contribution for this node
                   t_monvoln(ijk)%omp_output%contribution_index(i,j) = w_array(nod)
                   total_contribution_number = total_contribution_number + 1 ! get the total number of contribution
-                enddo
+                end do
                 if(igrsurf(surf_id)%eltyp(i)/=7) then ! check if the segment has 4 node
                   nod = igrsurf(surf_id)%nodes(i,4) ! get the node id
                   if(w_array(nod)==0) then ! the node is not yet taken into account
                     node_number = node_number + 1
                     node_id( node_number ) = nod ! save the node id
-                  endif
+                  end if
                   w_array(nod) = w_array(nod) + 1 ! add 1 contribution for this node
                   t_monvoln(ijk)%omp_output%contribution_index(i,4) = w_array(nod)
                   total_contribution_number = total_contribution_number + 1 ! get the total number of contribution
-                endif
-              enddo
+                end if
+              end do
               ! ---------------
 
               ! ---------------
@@ -144,7 +145,7 @@
               do i=2,node_number+1
                 nod = node_id(i-1)
                 node_shift( i ) = node_shift( i-1 ) + w_array(nod) ! get the shift for the node "i"
-              enddo
+              end do
               ! node :              1  |  2  |  3  |  4  | ...
               ! #contribution :     4  |  1  |  0  |  4  |
               ! shift :             0  |  4  |  5  |  5  | 9 ...
@@ -158,20 +159,20 @@
               do i=1,node_number
                 nod = node_id(i)
                 w_array(nod) = node_shift( i )
-              enddo
+              end do
               ! loop over the segment
               do i=1,segment_number
                 do j=1,3
                   nod = igrsurf(surf_id)%nodes(i,j) ! get the node id
                   t_monvoln(ijk)%omp_output%contribution_index(i,j) = t_monvoln(ijk)%omp_output%contribution_index(i,j) + &
                     w_array(nod) ! save the index for the segment "i" and the edge "j)
-                enddo
+                end do
                 if(igrsurf(surf_id)%eltyp(i)/=7) then ! the segment has 4 node
                   nod = igrsurf(surf_id)%nodes(i,4) ! get the node id
                   t_monvoln(ijk)%omp_output%contribution_index(i,4) = t_monvoln(ijk)%omp_output%contribution_index(i,4) + &
                     w_array(nod) ! save the index for the segment "i" and the edge "j)
-                endif
-              enddo
+                end if
+              end do
               ! ---------------
               deallocate( node_shift )
               deallocate( w_array )
@@ -184,9 +185,9 @@
               allocate( t_monvoln(ijk)%omp_output%contribution_index(0,0) )
               allocate( t_monvoln(ijk)%omp_output%contribution(0,0) )
               allocate( t_monvoln(ijk)%omp_output%node_id(0) )
-            endif
+            end if
             monvol_address = monvol_address + nimv
-          enddo
+          end do
           ! --------------
 
           return

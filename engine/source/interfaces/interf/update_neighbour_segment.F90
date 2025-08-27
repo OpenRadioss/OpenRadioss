@@ -26,6 +26,7 @@
 !||    get_neighbour_surface          ../engine/source/interfaces/interf/get_neighbour_surface.F90
 !||====================================================================
       module update_neighbour_segment_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures
@@ -135,7 +136,7 @@
           nb_new_segment = 0
           do i =1,nspmd
             nb_new_segment = nb_new_segment + r_buffer_size(2,i)
-          enddo
+          end do
           ! ------------
 
           ! ------------
@@ -179,14 +180,14 @@
                 next_segment = next_segment + 8 + 13*nb_connected_segment+ 3 + proc_number + 3
 
                 total_nb_segment = total_nb_segment + nb_connected_segment ! add the local segment number
-              enddo
+              end do
 
-            endif
-          enddo
+            end if
+          end do
 
           do i =1,nspmd
             total_nb_segment = total_nb_segment + r_buffer_2_size(2,i) ! add the remote segment number
-          enddo
+          end do
           ! ------------
 
           ! ------------
@@ -213,8 +214,8 @@
               new_segment_id(i) = seg_id
             else
               new_segment_id(i) = ierror
-            endif
-          enddo
+            end if
+          end do
           ! ------------
 
           allocate( segment_pair(total_nb_segment,4,5) )
@@ -291,7 +292,7 @@
                   segment_pair(new_segment_id(i),my_iedge,4) = n_iedge_id
                   segment_pair(new_segment_id(i),my_iedge,5) = local_n_segment_id
 
-                elseif(my_criteria==criteria(new_segment_id(i),my_iedge)) then
+                else if(my_criteria==criteria(new_segment_id(i),my_iedge)) then
 
                   if(n_segment_id<segment_pair(new_segment_id(i),my_iedge,1)) then
 
@@ -302,12 +303,12 @@
                     segment_pair(new_segment_id(i),my_iedge,4) = n_iedge_id
                     segment_pair(new_segment_id(i),my_iedge,5) = local_n_segment_id
 
-                  endif
-                endif
+                  end if
+                end if
 
-              endif
+              end if
               ! -------
-            enddo
+            end do
             ! ---------------------
 
 
@@ -373,7 +374,7 @@
                         segment_pair(new_segment_id(i),my_iedge,4) = n_iedge_id
                         segment_pair(new_segment_id(i),my_iedge,5) = local_n_segment_id
 
-                      elseif(my_criteria==criteria(new_segment_id(i),my_iedge)) then
+                      else if(my_criteria==criteria(new_segment_id(i),my_iedge)) then
                         if(n_segment_id<segment_pair(new_segment_id(i),my_iedge,1)) then
                           criteria(new_segment_id(i),my_iedge) = my_criteria
 
@@ -382,19 +383,19 @@
                           segment_pair(new_segment_id(i),my_iedge,4) = n_iedge_id
                           segment_pair(new_segment_id(i),my_iedge,5) = local_n_segment_id
 
-                        endif
-                      endif
+                        end if
+                      end if
 
-                    endif
+                    end if
                     ! -------
-                  enddo
+                  end do
 
-                endif
+                end if
                 r_address = r_address + 7+13*nb_r_connected_segment
-              enddo
-            enddo
+              end do
+            end do
             ! ---------------------c
-          enddo
+          end do
           ! --------------------------
 
           ! --------------------------
@@ -419,9 +420,9 @@
                   my_id = local_n_segment_id
                 else
                   my_id = -n_segment_id
-                endif
+                end if
                 intbuf_tab(nin)%mvoisin(4*(local_segment_id-1)+my_iedge) = my_id
-              endif
+              end if
               ! ---------------------
 
 
@@ -435,14 +436,14 @@
                   my_id = local_segment_id
                 else
                   my_id = -segment_id
-                endif
+                end if
 
                 intbuf_tab(nin)%mvoisin(4*(local_n_segment_id-1)+n_iedge_id) = my_id
-              endif
+              end if
               ! ---------------------
-            endif
+            end if
 
-          enddo
+          end do
           ! --------------------------
 
           deallocate( list_new_segment )

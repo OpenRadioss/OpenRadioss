@@ -20,7 +20,9 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-
+      module i9bcs_check_mod
+        implicit none
+      contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
 ! ======================================================================================================================
@@ -34,71 +36,72 @@
 !||--- uses       -----------------------------------------------------
 !||    message_mod   ../starter/share/message_module/message_mod.F
 !||====================================================================
-      subroutine i9bcs_check(icode, sicode, nsn , nsv, siloc, iloc)
+        subroutine i9bcs_check(icode, sicode, nsn , nsv, siloc, iloc)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
-        use message_mod
+          use message_mod
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
-        implicit none
+          implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-        integer,                  intent(in) :: siloc, sicode    !< the size of array ICODE
-        integer,                  intent(in) :: icode(sicode)           !< bcs codes for nodes
-        integer,                  intent(in) :: iloc(siloc)             !< working array for interface type9
-        integer,                  intent(in) :: nsn                     !< number of secnd nodes
-        integer,                  intent(in) :: nsv(nsn)                !< list of secnd nodes
+          integer,                  intent(in) :: siloc, sicode    !< the size of array ICODE
+          integer,                  intent(in) :: icode(sicode)           !< bcs codes for nodes
+          integer,                  intent(in) :: iloc(siloc)             !< working array for interface type9
+          integer,                  intent(in) :: nsn                     !< number of secnd nodes
+          integer,                  intent(in) :: nsv(nsn)                !< list of secnd nodes
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-        integer :: ii      !< loop
-        integer :: num_bcs !< number of boundary conditions
-        integer :: jbc(3)  !< working array
-        integer :: icodt   !< current code (translation)
-        integer :: lcod    !< code in [1,7] which is a 3-bit-integer
-        integer :: inod    !< current node
+          integer :: ii      !< loop
+          integer :: num_bcs !< number of boundary conditions
+          integer :: jbc(3)  !< working array
+          integer :: icodt   !< current code (translation)
+          integer :: lcod    !< code in [1,7] which is a 3-bit-integer
+          integer :: inod    !< current node
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
 
-        do ii=1,nsn
+          do ii=1,nsn
 
-          if(iloc(ii) >= 1)then
+            if(iloc(ii) >= 1)then
 
-            inod=nsv(ii)
-            lcod=icode(inod)/512
-            num_bcs = 2
+              inod=nsv(ii)
+              lcod=icode(inod)/512
+              num_bcs = 2
 
-            if(lcod /= 0)then
-              ! --- this node has a bc(s) defined
-              jbc(1:3) = 0  ! 3-bit-integer representing XYZ tags :  lcod = sum( jbc(i)*2**(i-1) , i=1..3 )
-              jbc(3) = IAND(lcod, 1)    !1st bit
-              jbc(2) = IAND(lcod, 2)    !2nd bit
-              jbc(1) = IAND(lcod, 4)    !3rd bit
+              if(lcod /= 0)then
+                ! --- this node has a bc(s) defined
+                jbc(1:3) = 0  ! 3-bit-integer representing XYZ tags :  lcod = sum( jbc(i)*2**(i-1) , i=1..3 )
+                jbc(3) = IAND(lcod, 1)    !1st bit
+                jbc(2) = IAND(lcod, 2)    !2nd bit
+                jbc(1) = IAND(lcod, 4)    !3rd bit
 
-              num_bcs=2
-              if(jbc(1) /= 0) num_bcs = num_bcs+1
-              if(jbc(2) /= 0) num_bcs = num_bcs+1
-              if(jbc(3) /= 0)then
-                if(num_bcs == 4)then
-                  ! bcs check also in engine, since engine options /bcs, /bcsr may update nodal bcs
-                  !call ancmsg(msgid=3065, anmode = aninfo, msgtype = msgerror, i1=interf_uid, i2=nty, i3=itab(inod), c1=title)
-                  exit
-                else
-                  num_bcs=num_bcs+1
-                endif
-              endif
+                num_bcs=2
+                if(jbc(1) /= 0) num_bcs = num_bcs+1
+                if(jbc(2) /= 0) num_bcs = num_bcs+1
+                if(jbc(3) /= 0)then
+                  if(num_bcs == 4)then
+                    ! bcs check also in engine, since engine options /bcs, /bcsr may update nodal bcs
+                    !call ancmsg(msgid=3065, anmode = aninfo, msgtype = msgerror, i1=interf_uid, i2=nty, i3=itab(inod), c1=title)
+                    exit
+                  else
+                    num_bcs=num_bcs+1
+                  end if
+                end if
 
-            elseif(lcod == 0)then
-              !no bc defined on this node
+              else if(lcod == 0)then
+                !no bc defined on this node
 
-            endif !lcod
+              end if !lcod
 
-          endif !(iloc(ii) >= 1)
+            end if !(iloc(ii) >= 1)
 
-        enddo  !next ii
+          end do  !next ii
 
-      end subroutine i9bcs_check
+        end subroutine i9bcs_check
+      end module i9bcs_check_mod

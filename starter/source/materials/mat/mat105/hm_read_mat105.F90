@@ -122,34 +122,34 @@
           mtag%l_bfrac  = 1
 
           !======== ELEMENTARY BUFFER ALLOCATION SIZES
-          call hm_get_floatv('MAT_RHO'          ,rho0            ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_RHO"          ,rho0            ,is_available, lsubmodel, unitab)
 
-          call hm_get_floatv('POWDER_BULK'      ,bulk            ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('POWDER_P0'        ,p0              ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('MAT_PSH'          ,psh             ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("POWDER_BULK"      ,bulk            ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("POWDER_P0"        ,p0              ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_PSH"          ,psh             ,is_available, lsubmodel, unitab)
 
-          call hm_get_floatv('GAS_D'            ,dd               ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('GAS_EG'           ,eg              ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("GAS_D"            ,dd               ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("GAS_EG"           ,eg              ,is_available, lsubmodel, unitab)
 
-          call hm_get_floatv('POWDER_Gr'        ,gr              ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('POWDER_C'         ,c               ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('Alpha'            ,alpha           ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("POWDER_Gr"        ,gr              ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("POWDER_C"         ,c               ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("Alpha"            ,alpha           ,is_available, lsubmodel, unitab)
 
-          call hm_get_intv  ('POWDER_B_FUNC'    ,funcb           ,is_available, lsubmodel)
-          call hm_get_floatv('POWDER_SCALE_B'   ,fscale_b        ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('POWDER_SCALE_P'   ,fscale_p        ,is_available, lsubmodel, unitab)
+          call hm_get_intv  ("POWDER_B_FUNC"    ,funcb           ,is_available, lsubmodel)
+          call hm_get_floatv("POWDER_SCALE_B"   ,fscale_b        ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("POWDER_SCALE_P"   ,fscale_p        ,is_available, lsubmodel, unitab)
 
-          call hm_get_intv  ('POWDER_GAM_FUNC'  ,funcg           ,is_available, lsubmodel)
-          call hm_get_floatv('POWDER_SCALE_GAM' ,fscale_g        ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('POWDER_SCALE_RHO' ,fscale_rho      ,is_available, lsubmodel, unitab)
+          call hm_get_intv  ("POWDER_GAM_FUNC"  ,funcg           ,is_available, lsubmodel)
+          call hm_get_floatv("POWDER_SCALE_GAM" ,fscale_g        ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("POWDER_SCALE_RHO" ,fscale_rho      ,is_available, lsubmodel, unitab)
 
-          call hm_get_floatv('MAT_C1'           ,c1              ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('MAT_C2'           ,c2              ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_C1"           ,c1              ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_C2"           ,c2              ,is_available, lsubmodel, unitab)
 
-          call hm_get_floatv_dim('FSCALE_b'     ,fscale_b_unit   ,is_available, lsubmodel, unitab)
-          call hm_get_floatv_dim('FSCALE_P'     ,fscale_p_unit   ,is_available, lsubmodel, unitab)
-          call hm_get_floatv_dim('FSCALE_g'     ,fscale_g_unit   ,is_available, lsubmodel, unitab)
-          call hm_get_floatv_dim('FSCALE_rho'   ,fscale_rho_unit ,is_available, lsubmodel, unitab)
+          call hm_get_floatv_dim("FSCALE_b"     ,fscale_b_unit   ,is_available, lsubmodel, unitab)
+          call hm_get_floatv_dim("FSCALE_P"     ,fscale_p_unit   ,is_available, lsubmodel, unitab)
+          call hm_get_floatv_dim("FSCALE_g"     ,fscale_g_unit   ,is_available, lsubmodel, unitab)
+          call hm_get_floatv_dim("FSCALE_rho"   ,fscale_rho_unit ,is_available, lsubmodel, unitab)
 
           if(fscale_g   == zero) fscale_g   = one*fscale_g_unit
           if(fscale_rho == zero) fscale_rho = one*fscale_rho_unit
@@ -162,27 +162,27 @@
 
           if(bulk <= zero)then
             mtl_msg = "BULK MODULUS MUST BE DEFINED        "
-            CALL ANCMSG(MSGID=856, MSGTYPE=MSGERROR, ANMODE=ANINFO, I1=133, I2=MAT_ID, C1='ERROR', C2=TITR, C3=mtl_msg)
+            CALL ANCMSG(MSGID=856, MSGTYPE=MSGERROR, ANMODE=ANINFO, I1=133, I2=MAT_ID, C1="ERROR", C2=TITR, C3=mtl_msg)
           end if
 
           if(dd <= zero)then
             mtl_msg = "GAS EOS PARAMETER D MUST BE DEFINED"
-            CALL ANCMSG(MSGID=856, MSGTYPE=MSGERROR, ANMODE=ANINFO, I1=133, I2=MAT_ID, C1='ERROR', C2=TITR, C3=mtl_msg)
+            CALL ANCMSG(MSGID=856, MSGTYPE=MSGERROR, ANMODE=ANINFO, I1=133, I2=MAT_ID, C1="ERROR", C2=TITR, C3=mtl_msg)
           end if
 
           if(eg <= zero)then
             mtl_msg = "GAS EOS PARAMETER EG MUST BE DEFINED"
-            CALL ANCMSG(MSGID=856, MSGTYPE=MSGERROR, ANMODE=ANINFO, I1=133, I2=MAT_ID, C1='ERROR', C2=TITR, C3=mtl_msg)
+            CALL ANCMSG(MSGID=856, MSGTYPE=MSGERROR, ANMODE=ANINFO, I1=133, I2=MAT_ID, C1="ERROR", C2=TITR, C3=mtl_msg)
           end if
 
           if(gr <= zero)then
             mtl_msg = "GROWTH PARAMETER Gr MUST BE DEFINED"
-            CALL ANCMSG(MSGID=856, MSGTYPE=MSGERROR, ANMODE=ANINFO, I1=133, I2=MAT_ID, C1='ERROR', C2=TITR, C3=mtl_msg)
+            CALL ANCMSG(MSGID=856, MSGTYPE=MSGERROR, ANMODE=ANINFO, I1=133, I2=MAT_ID, C1="ERROR", C2=TITR, C3=mtl_msg)
           end if
 
           if(c1 <= zero)then
             mtl_msg = "BURNING VELOCITY C1 MUST BE DEFINED"
-            CALL ANCMSG(MSGID=856, MSGTYPE=MSGERROR, ANMODE=ANINFO, I1=133, I2=MAT_ID, C1='ERROR', C2=TITR, C3=mtl_msg)
+            CALL ANCMSG(MSGID=856, MSGTYPE=MSGERROR, ANMODE=ANINFO, I1=133, I2=MAT_ID, C1="ERROR", C2=TITR, C3=mtl_msg)
           end if
 
           rhor = rho0
@@ -233,40 +233,40 @@
           write(iout,1000)
 
           if(is_encrypted)then
-            write(iout,'(5X,A,//)')'CONFIDENTIAL DATA'
+            write(iout,"(5X,A,//)")"CONFIDENTIAL DATA"
           else
             write(iout,1500)rho0,bulk,p0,dd,eg,gr,c,alpha,funcb, fscale_b, fscale_p, c1,c2,funcg, fscale_g, fscale_rho, psh
-          endif
+          end if
 
           return
 ! ----------------------------------------------------------------------------------------------------------------------
 1000      format(&
-            5X,'  POWDER BURN EOS ',/,&
-            5X,'  --------------- ',/)
+            5X,"  POWDER BURN EOS ",/,&
+            5X,"  --------------- ",/)
 ! ----------------------------------------------------------------------------------------------------------------------
 1500      format( &
-            5X,'-- POWDER EOS--',&
-            5X,'REFERENCE DENSITY . . . . . . . . . . . .=',1PG20.13/,&
-            5X,'BULK MODULUS. . . . . . . . . . . . . . .=',1PG20.13/,&
-            5X,'INITIAL PRESSURE. . . . . . . . . . . . .=',1PG20.13/,&
-            5X,'-- GAS EOS --',&
-            5X,'D EXPONENTIAL EOS PARAMETER . . . . . . .=',1PG20.13/,&
-            5X,'eg SPECIFIC ENERGY BY MASS. . . . . . . .=',1PG20.13//,&
-            5X,'-- GROWTH MODEL --',&
-            5X,'Gr      GROWTH PARAMETER. . . . . . . . .=',1PG20.13/,&
-            5X,'C       GROWTH REACTION RATIO . . . . . .=',1PG20.13/,&
-            5X,'ALPHA . REACTION RATIO FACTOR . . . . . .=',1PG20.13/,&
-            5X,'FUNC_B BURN RATE FUNCTION.  . . . . . . .=',I20/,&
-            5X,'BURN RATE ORDINATE SCALE FACTOR. . . . . =',1PG20.13/,&
-            5X,'BURN RATE ABSCISSA SCALE FACTOR. . . . . =',1PG20.13//,&
-            5X,'-- SPEED OF IGNITION FRONT --',&
-            5X,'C1 BURN FRONT VELOCITY PARAMETER. . . . .=',1PG20.13/,&
-            5X,'C2 BURN FRONT VELOCITY PARAMETER. . . . .=',1PG20.13/,&
-            5X,'FUNC_GAMMA. . . . . . . . . . . . . . . .=',I20/,&
-            5X,'GAMMA ORDINATE SCALE FACTOR . . . . . . .=',1PG20.13/,&
-            5X,'GAMMA ABSCISSA SCALE FACTOR . . . . . . .=',1PG20.13//,&
-            5X,'-- GLOBAL PARAMETER --',&
-            5X,'PSH PRESSURE SHIFT. . . . . . . . . . . .=',1PG20.13/)
+            5X,"-- POWDER EOS--",&
+            5X,"REFERENCE DENSITY . . . . . . . . . . . .=",1PG20.13/,&
+            5X,"BULK MODULUS. . . . . . . . . . . . . . .=",1PG20.13/,&
+            5X,"INITIAL PRESSURE. . . . . . . . . . . . .=",1PG20.13/,&
+            5X,"-- GAS EOS --",&
+            5X,"D EXPONENTIAL EOS PARAMETER . . . . . . .=",1PG20.13/,&
+            5X,"eg SPECIFIC ENERGY BY MASS. . . . . . . .=",1PG20.13//,&
+            5X,"-- GROWTH MODEL --",&
+            5X,"Gr      GROWTH PARAMETER. . . . . . . . .=",1PG20.13/,&
+            5X,"C       GROWTH REACTION RATIO . . . . . .=",1PG20.13/,&
+            5X,"ALPHA . REACTION RATIO FACTOR . . . . . .=",1PG20.13/,&
+            5X,"FUNC_B BURN RATE FUNCTION.  . . . . . . .=",I20/,&
+            5X,"BURN RATE ORDINATE SCALE FACTOR. . . . . =",1PG20.13/,&
+            5X,"BURN RATE ABSCISSA SCALE FACTOR. . . . . =",1PG20.13//,&
+            5X,"-- SPEED OF IGNITION FRONT --",&
+            5X,"C1 BURN FRONT VELOCITY PARAMETER. . . . .=",1PG20.13/,&
+            5X,"C2 BURN FRONT VELOCITY PARAMETER. . . . .=",1PG20.13/,&
+            5X,"FUNC_GAMMA. . . . . . . . . . . . . . . .=",I20/,&
+            5X,"GAMMA ORDINATE SCALE FACTOR . . . . . . .=",1PG20.13/,&
+            5X,"GAMMA ABSCISSA SCALE FACTOR . . . . . . .=",1PG20.13//,&
+            5X,"-- GLOBAL PARAMETER --",&
+            5X,"PSH PRESSURE SHIFT. . . . . . . . . . . .=",1PG20.13/)
 ! ----------------------------------------------------------------------------------------------------------------------
           return
         end subroutine hm_read_mat105

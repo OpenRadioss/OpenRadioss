@@ -26,6 +26,7 @@
 !||    genstat                ../engine/source/output/sta/genstat.F
 !||====================================================================
       module stat_sphcel_spmd_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
@@ -129,11 +130,11 @@
                     clef(1,ii)=iprt
                     clef(2,ii)=kxsp(nisp,n)
                     nodtag(kxsp(3,n))=1
-                  endif ! if (ipart_state(iprt) /= 0)
-                enddo ! do i=lft,llt
-              endif ! if (ity == 51)
-            enddo ! do ng=1,ngroup
-          endif ! if (numelsph /= 0)
+                  end if ! if (ipart_state(iprt) /= 0)
+                end do ! do i=lft,llt
+              end if ! if (ity == 51)
+            end do ! do ng=1,ngroup
+          end if ! if (numelsph /= 0)
 
           stat_numelsph_g=0
           call spmd_iget_partn_sta(4,stat_numelsph,stat_numelsph_g,lengsph,np, &
@@ -156,14 +157,14 @@
               ioff=npglob(jj+4)
               if (idel==0 .or. (idel==1 .and. ioff >= 1)) then
                 if (iprt /= iprt0) then
-                  write(iugeo,'(a,i10)')'/SPHCEL/',ipart(4,iprt)
-                  write(iugeo,'(a)')'#sphcel_id'
+                  write(iugeo,"(a,i10)")"/SPHCEL/",ipart(4,iprt)
+                  write(iugeo,"(a)")"#sphcel_id"
                   iprt0=iprt
-                endif
-                write(iugeo,'(i10)') npglob(jj+2)
-              endif !if (idel)
-            enddo ! do n=1,stat_numelsph_g
-          endif !if (ispmd)
+                end if
+                write(iugeo,"(i10)") npglob(jj+2)
+              end if !if (idel)
+            end do ! do n=1,stat_numelsph_g
+          end if !if (ispmd)
 
           deallocate(clef)
           deallocate(npglob)

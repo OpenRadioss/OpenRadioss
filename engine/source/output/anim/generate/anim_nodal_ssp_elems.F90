@@ -27,6 +27,7 @@
 !||    nodalssp                   ../engine/source/output/anim/generate/nodalssp.F
 !||====================================================================
       module anim_nodal_ssp_elems_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
@@ -108,8 +109,8 @@
                     is_written_node(jj)=1
                     wa4(jj)=wa4(jj)+ real(weight*ssp)
                     sum_weight(jj) = sum_weight(jj) + weight !cumulated volume
-                  enddo
-                enddo!next i
+                  end do
+                end do!next i
               end if
             else
               do i=1,nel
@@ -120,18 +121,18 @@
                   is_written_node(jj)=1
                   wa4(jj)=wa4(jj)+real(weight*ssp)
                   sum_weight(jj) = sum_weight(jj) + weight !cumulated volume
-                enddo
-              enddo!next i
-            endif
-          enddo
+                end do
+              end do!next i
+            end if
+          end do
 
 !-----------------------------------------------
           !divinding by sum of weights to get finally weighting factors
           do i=1,numnod
             if(sum_weight(i)/=zero)then
               wa4(i)=wa4(i)/real(sum_weight(i))
-            endif
-          enddo
+            end if
+          end do
 
           deallocate(sum_weight)
 !-----------------------------------------------

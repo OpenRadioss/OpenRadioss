@@ -26,6 +26,7 @@
 !||    multi_inlet_ebcs       ../engine/source/multifluid/multi_inlet_ebcs.F
 !||====================================================================
       MODULE MULTI_SOLVE_EINT_MOD
+      implicit none
       CONTAINS
 ! ======================================================================================================================
 !                                                   procedures
@@ -117,7 +118,7 @@
             ERROR  = ABS(FUNC)
             IF (ERROR  <  TOL * (ABS(PRES(1)) + ONE)) THEN
               CONT = .FALSE.
-            ENDIF
+            END IF
             DFUNC = GRUN(1)
             IF (GRUN(1)  >  ZERO) THEN
               INCR = -FUNC / DFUNC
@@ -125,9 +126,9 @@
             ELSE
               CONT = .FALSE.
               EINT(1) = ZERO
-            ENDIF
+            END IF
 
-          ENDDO
+          END DO
         END SUBROUTINE MULTI_SOLVE_EINT
 ! ----------------------------------------------------------------------------------------------------------------------
       END MODULE MULTI_SOLVE_EINT_MOD

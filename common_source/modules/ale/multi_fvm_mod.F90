@@ -285,7 +285,7 @@
           real(kind=WP), dimension(:), allocatable :: rho, eint, pres
           real(kind=WP), dimension(:), allocatable :: tburn, vol
           real(kind=WP), dimension(:, :), allocatable :: bfrac
-          integer, pointer, dimension(:) :: pcnel, paddcnel, paddtmpl
+          integer, pointer, dimension(:) :: pcnel => null(), paddcnel => null(), paddtmpl => null()
 
           ! indicates whether we run in 3d (sym = 0), or 2d (sym = 1 planar case, sym = 2 cylindrical case)
           integer :: sym
@@ -340,11 +340,11 @@
         end type multi_fvm_struct
 
         type lbuf_ptr
-          type(l_bufel_), pointer :: lbuf
+          type(l_bufel_), pointer :: lbuf => null()
         end type lbuf_ptr
 
         type ebuf_ptr
-          type(buf_eos_), pointer :: ebuf
+          type(buf_eos_), pointer :: ebuf => null()
         end type ebuf_ptr
 
         type fvm_inivel_struct

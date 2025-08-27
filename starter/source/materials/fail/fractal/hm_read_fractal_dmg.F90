@@ -31,6 +31,7 @@
 !||    hm_read_fail              ../starter/source/materials/fail/hm_read_fail.F
 !||====================================================================
       module hm_read_fractal_dmg_mod
+      implicit none
       contains
 ! ======================================================================================================================
 ! \brief read config file for fractal damage model initialization
@@ -96,19 +97,19 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !     Read config file
 ! ----------------------------------------------------------------------------------------------------------------------
-          call hm_get_intv   ('grsh4n_1'       ,grsh4n_1    ,is_available,lsubmodel)
-          call hm_get_intv   ('grsh3n_1'       ,grsh3n_1    ,is_available,lsubmodel)
-          call hm_get_intv   ('grsh4n_2'       ,grsh4n_2    ,is_available,lsubmodel)
-          call hm_get_intv   ('grsh3n_2'       ,grsh3n_2    ,is_available,lsubmodel)
-          call hm_get_floatv ('Damage'         ,dmg         ,is_available,lsubmodel,unitab)
-          call hm_get_floatv ('Probability'    ,probability ,is_available,lsubmodel,unitab)
-          call hm_get_intv   ('Seed'           ,seed        ,is_available,lsubmodel)
-          call hm_get_intv   ('Num_walk'       ,n_rwalk     ,is_available,lsubmodel)
-          call hm_get_intv   ('Printout'       ,debug       ,is_available,lsubmodel)
+          call hm_get_intv   ("grsh4n_1"       ,grsh4n_1    ,is_available,lsubmodel)
+          call hm_get_intv   ("grsh3n_1"       ,grsh3n_1    ,is_available,lsubmodel)
+          call hm_get_intv   ("grsh4n_2"       ,grsh4n_2    ,is_available,lsubmodel)
+          call hm_get_intv   ("grsh3n_2"       ,grsh3n_2    ,is_available,lsubmodel)
+          call hm_get_floatv ("Damage"         ,dmg         ,is_available,lsubmodel,unitab)
+          call hm_get_floatv ("Probability"    ,probability ,is_available,lsubmodel,unitab)
+          call hm_get_intv   ("Seed"           ,seed        ,is_available,lsubmodel)
+          call hm_get_intv   ("Num_walk"       ,n_rwalk     ,is_available,lsubmodel)
+          call hm_get_intv   ("Printout"       ,debug       ,is_available,lsubmodel)
 ! ----------------------------------------------------------------------------------------------------------------------
           dmg = max(zero, min(dmg,one))
 ! ----------------------------------------------------------------------------------------------------------------------
-          fail%keyword = 'Fractal damage'
+          fail%keyword = "Fractal damage"
           fail%irupt   = irupt
           fail%fail_id = fail_id
           fail%nuparam = 2
@@ -137,24 +138,24 @@
           else
             write(iout, 2000) mat_id,fail_id,dmg,probability,seed,n_rwalk,        &
               grsh4n_1,grsh3n_1,grsh4n_2,grsh3n_2
-          endif
+          end if
 ! ----------------------------------------------------------------------------------------------------------------------
 1000      format(                                                                  &
-            5X,'    CONFIDENTIAL DATA                               '/,              &
-            5X,'    -----------------                               '/)
+            5X,"    CONFIDENTIAL DATA                               "/,              &
+            5X,"    -----------------                               "/)
 2000      format(                                                                  &
-            5X,'  FRACTAL DAMAGE INITIALIZATION                     ',/,             &
-            5X,'  -----------------------------                     ',/              &
-            5X,'MATERIAL ID . . . . . . . . . . . . . . . . . . . .=',I10/           &
-            5X,'FAILURE MODEL ID. . . . . . . . . . . . . . . . . .=',I10/           &
-            5X,'INITIAL DAMAGE VALUE. . . . . . . . . . . . . . . .=',E12.4/         &
-            5X,'DAMAGE PROBABILITY. . . . . . . . . . . . . . . . .=',E12.4/         &
-            5X,'RANDOM SEED . . . . . . . . . . . . . . . . . . . .=',I10/           &
-            5X,'NUMBER OF WALKERS . . . . . . . . . . . . . . . . .=',I10/           &
-            5X,'STARTING SH4N ELEMENT GROUP . . . . . . . . . . . .=',I10/           &
-            5X,'STARTING SH3N ELEMENT GROUP . . . . . . . . . . . .=',I10/           &
-            5X,'DAMAGED SH4N ELEMENT GROUP. . . . . . . . . . . . .=',I10/           &
-            5X,'DAMAGED SH3N ELEMENT GROUP. . . . . . . . . . . . .=',I10/)
+            5X,"  FRACTAL DAMAGE INITIALIZATION                     ",/,             &
+            5X,"  -----------------------------                     ",/              &
+            5X,"MATERIAL ID . . . . . . . . . . . . . . . . . . . .=",I10/           &
+            5X,"FAILURE MODEL ID. . . . . . . . . . . . . . . . . .=",I10/           &
+            5X,"INITIAL DAMAGE VALUE. . . . . . . . . . . . . . . .=",E12.4/         &
+            5X,"DAMAGE PROBABILITY. . . . . . . . . . . . . . . . .=",E12.4/         &
+            5X,"RANDOM SEED . . . . . . . . . . . . . . . . . . . .=",I10/           &
+            5X,"NUMBER OF WALKERS . . . . . . . . . . . . . . . . .=",I10/           &
+            5X,"STARTING SH4N ELEMENT GROUP . . . . . . . . . . . .=",I10/           &
+            5X,"STARTING SH3N ELEMENT GROUP . . . . . . . . . . . .=",I10/           &
+            5X,"DAMAGED SH4N ELEMENT GROUP. . . . . . . . . . . . .=",I10/           &
+            5X,"DAMAGED SH3N ELEMENT GROUP. . . . . . . . . . . . .=",I10/)
 ! ----------------------------------------------------------------------------------------------------------------------
           return
         end subroutine hm_read_fractal_dmg

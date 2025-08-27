@@ -27,6 +27,7 @@
 !||    mulawglc                  ../engine/source/materials/mat_share/mulawglc.F
 !||====================================================================
       module damping_range_shell_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
@@ -118,7 +119,7 @@
             bb(j) =  two*timestep*gv(j)*exp(-half*beta(j)*timestep)
             aak(j) = exp(-betak(j)*timestep)
             bbk(j) = timestep*kv(j)*exp(-half*betak(j)*timestep)
-          enddo
+          end do
 !
           if (flag_incr==0) then
 !           call from mulawc
@@ -126,7 +127,7 @@
           else
 !           call from mulawglc
             et(1:nel) = one + etse(1:nel)
-          endif
+          end if
 !
           do i=1,nel
             a1(i) = zero
@@ -141,8 +142,8 @@
               a1(i)  = a1(i) +  aa(j)*h0(3) -  aak(j)*hp0
               a2(i)  = a2(i) +  bb(j)*et(i)
               a3(i)  = a3(i) +  bbk(j)*et(i)
-            enddo
-          enddo
+            end do
+          end do
 !
 !         compute epszz_dot  sig33= 0
 !
@@ -150,7 +151,7 @@
             fac = one/max(em20,two_third*a2(i) + a3(i))
             epspzz(i) = -a1(i) + (third*a2(i)-a3(i))*(epspxx(i) + epspyy(i))
             epspzz(i) = fac*epspzz(i)
-          enddo
+          end do
 !
           do i=1,nel
 !           spherique part
@@ -185,7 +186,7 @@
               uvarv(i,ii + 5) = h(5,j)
               uvarv(i,ii + 6) = h(6,j)
               uvarv(i,ii + 7) = hp(j)
-            enddo
+            end do
 !
 !        comppute stress
 !
@@ -200,7 +201,7 @@
               s(5) = s(5) + h(5,j)
               s(6) = s(6) + h(6,j)
               p    = p    + hp(j)
-            enddo
+            end do
 !
             if (flag_incr == 0) then
 !              viscous stress increment in computed (mulawc)
@@ -232,11 +233,11 @@
               sigvxy(i) = sigvxy(i)+(s(4)-s_old(4))*off(i)
               sigvyz(i) = sigvyz(i)+(s(5)-s_old(5))*off(i)
               sigvzx(i) = sigvzx(i)+(s(6)-s_old(6))*off(i)
-            endif
+            end if
 !
             soundsp(i) = sqrt(soundsp(i)**2 + (g + rbulk)*et(i)/rho0(i))
 !
-          enddo
+          end do
 !
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine damping_range_shell

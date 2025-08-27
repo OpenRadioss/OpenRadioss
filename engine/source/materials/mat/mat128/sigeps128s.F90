@@ -28,6 +28,7 @@
 !||    mulaw            ../engine/source/materials/mat_share/mulaw.F90
 !||====================================================================
       module sigeps128s_mod
+      implicit none
       contains
 
 
@@ -171,7 +172,7 @@
           do i=1,nel
             if (off(i) < one)  off(i) = four_over_5*off(i)
             if (off(i) < em01) off(i) = zero
-          enddo
+          end do
           !< Backstress tensor computation
           if (fisokin > zero) then
             !< Add the kinematic hardening contribution to stress tensor
@@ -194,7 +195,7 @@
                 call table_mat_vinterp(mat_param%table(1),nel,nel,vartmp,xvec2,yld0,h0)
               end if
             end if
-          endif
+          end if
 ! ----------------------------------------------------------------------------------------------------------------------
           !< trial stress tensor
           do i=1,nel
@@ -210,7 +211,7 @@
               + hh*(signxx(i) - signyy(i))**2 + two*ll*signyz(i)**2             &
               + two*mm*signzx(i)**2 + two*nn*signxy(i)**2
             sighl(i) = sqrt(max(zero,sighl(i)))
-          enddo
+          end do
 ! ----------------------------------------------------------------------------------------------------------------------
           ! computing yield stress
 !
@@ -231,7 +232,7 @@
               hk(i)  = fisokin * h(i)  * (one + cowp(i))
               h(i)   = beta * h(i) * (one + cowp(i))
               yld(i) = beta * yld(i) + fisokin*sigy + sigy*cowp(i)
-            enddo
+            end do
           else                               ! tabulated yield function
             if (ndim == 1) then
               xvec1(1:nel,1) = pla(1:nel)
@@ -244,7 +245,7 @@
             hk (1:nel) = fisokin * h(1:nel)
             h  (1:nel) = beta * h(1:nel)
             yld(1:nel) = beta * yld(1:nel) + fisokin*yld0(1:nel)
-          endif
+          end if
 !
           !====================================================================
           ! check yield criterion for all elements
@@ -258,8 +259,8 @@
             if (phi(i) > zero .and. off(i) == one) then
               nindx = nindx+1
               indx(nindx) = i
-            endif
-          enddo
+            end if
+          end do
 !
           !====================================================================
           ! plastic correction with cutting plane algorithm (newton iterations)
@@ -327,7 +328,7 @@
                   dphi_dlam(i) = dphi_dlam(i)                                            &
                     - normxx*dsigbxx_dlam - normyy*dsigbyy_dlam - normzz*dsigbzz_dlam   &
                     - normxy*dsigbxy_dlam - normyz*dsigbyz_dlam - normzx*dsigbzx_dlam
-                endif
+                end if
                 dphi_dlam(i) = sign(max(abs(dphi_dlam(i)),em20) ,dphi_dlam(i))
 !
                 !< plastic multiplier increment and plastic strain increment
@@ -376,7 +377,7 @@
                   signxy(i) = signxy(i) - sigb(i,4)
                   signyz(i) = signyz(i) - sigb(i,5)
                   signzx(i) = signzx(i) - sigb(i,6)
-                endif
+                end if
 !
                 ! update hill equivalent stress
                 sighl(i) = ff*(signyy(i) - signzz(i))**2 + gg*(signzz(i) - signxx(i))**2   &
@@ -396,9 +397,9 @@
 !
                   ! update yield criterion
                   phi(i) = sighl(i) - yld(i)
-                endif
+                end if
 !
-              enddo
+              end do
               ! end of the loop over the yielding elements
 !
               ! case of tabulated yield stress definition
@@ -416,10 +417,10 @@
                 yld(1:nel) = beta * yld(1:nel) + fisokin*yld0(1:nel)
 !
                 phi(1:nel) = sighl(1:nel) - yld(1:nel)
-              endif
+              end if
 !
-            enddo   ! end of the loop over the iterations
-          endif     ! nindx
+            end do   ! end of the loop over the iterations
+          end if     ! nindx
           !===================================================================
           ! - end of plastic correction with cutting plane algorithm
           !===================================================================
@@ -435,7 +436,7 @@
             dpdt    = dpla(i) / dtime
             epsd(i) = asrate * dpdt + (one - asrate) * uvar(i,1)
             uvar(i,1) = max(cc, epsd(i))  ! strain rate effect below static limit is ignored
-          enddo
+          end do
 ! ----------------------------------------------------------------------------------------------------------------------
           return
         end subroutine sigeps128s

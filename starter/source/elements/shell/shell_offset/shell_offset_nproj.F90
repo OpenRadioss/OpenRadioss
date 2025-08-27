@@ -27,6 +27,8 @@
 !||====================================================================
       module sh_offset_nproj_mod
 
+      implicit none
+
       contains
 ! ======================================================================================================================
 !                                                      procedures
@@ -95,7 +97,7 @@
               n = ix_offset(k,i)
               norm_nod(1:3,n) = norm_nod(1:3,n) + t(1:3)
             end do
-          enddo
+          end do
 !
           do n = 1, numnod
             if (itagn(n) == 0) cycle

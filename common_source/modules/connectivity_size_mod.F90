@@ -26,6 +26,7 @@
 !||    i2_surfi                ../starter/source/interfaces/inter3d1/i2_surfi.F90
 !||====================================================================
       module connectivity_size_mod
+        implicit none
         integer, parameter :: nixs = 11 !< size of IXS array
         integer, parameter :: nixc = 7  !< size of IXC array
         integer, parameter :: nixq = 7  !< size of IXQ array

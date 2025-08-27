@@ -26,6 +26,7 @@
 !||    sigeps25c            ../engine/source/materials/mat/mat025/sigeps25c.F
 !||====================================================================
       module mat25_tsaiwu_c_mod
+      implicit none
       contains
 
 ! ======================================================================================================================
@@ -143,7 +144,7 @@
 ! ======================================================================================================================
           if (time == zero) then
             offply(1:nel) = one
-          endif
+          end if
 
           ioff   = mat_param%iparam(2)
           icc    = mat_param%iparam(3)
@@ -169,7 +170,7 @@
             epsf1(i)  = mat_param%uparam(16)     ! pm(98)
             epsf2(i)  = mat_param%uparam(17)     ! pm(99)
             dmax (i)  = mat_param%uparam(18)     ! pm(64)
-          enddo
+          end do
 
           wplamx(1:nel) = mat_param%uparam(20)   !  pm(41)
           f1(1:nel)     = mat_param%uparam(21)   !  pm(54)
@@ -207,7 +208,7 @@
               fail_old(i) = fail_old(i) + 16
             end if
 !       if (wpla(i)>=wplamx(i))fail_old(i) = fail_old(i) + 4
-          enddo
+          end do
 !
           nindx=0
           do i=1,nel
@@ -215,7 +216,7 @@
               nindx=nindx+1
               index(nindx)=i
             end if
-          enddo
+          end do
 ! ----------------------------------------------------------------------------------------------------------------------
 !     stress reduction using wpla_old >= wplamx
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -237,8 +238,8 @@
               eps(i,3)=zero
               eps(i,4)=zero
               eps(i,5)=zero
-            endif
-          enddo
+            end if
+          end do
 !
 ! ----------------------------------------------------------------------------------------------------------------------
           if (ishplyxfem /= 0 .and. iplyxfem==2) then
@@ -248,13 +249,13 @@
               epsply(i,3)=half*ly_exy(i)
               epsply(i,4)=zero
               epsply(i,5)=zero
-            enddo
+            end do
             call rotov(1,nel,epsply,dir,nel)
             do i=1,nel
               epsply(i,3)=two*epsply(i,3)
 !         epsply(i,4)=two*epsply(i,4)
 !         epsply(i,5)=two*epsply(i,5)
-            enddo
+            end do
             do i=1,nel
               if ((fail_old(i)>=4.and.ioff>=0).or. fail_old(i)>=8) then
                 sigply(i,1)=four_over_5*sigply(i,1)
@@ -267,7 +268,7 @@
                 epsply(i,2)=zero
                 epsply(i,3)=zero
               end if
-            enddo
+            end do
           end if
 ! ----------------------------------------------------------------------------------------------------------------------
 !     rotation into orthotropic directions
@@ -276,13 +277,13 @@
             eps(i,3)=half*eps(i,3)
             eps(i,4)=half*eps(i,4)
             eps(i,5)=half*eps(i,5)
-          enddo
+          end do
           call rotov(1,nel,eps,dir,nel)
           do i=1,nel
             eps(i,3)=two*eps(i,3)
             eps(i,4)=two*eps(i,4)
             eps(i,5)=two*eps(i,5)
-          enddo
+          end do
 !     strains in orthotropic directions
           do i=1,nel
             strp1(i) = dir(i,1)*dir(i,1)*strn1(i)         &
@@ -291,7 +292,7 @@
             strp2(i) = dir(i,2)*dir(i,2)*strn1(i)         &
               + dir(i,1)*dir(i,1)*strn2(i)         &
               - two*dir(i,2)*dir(i,1)*strn3(i)
-          enddo
+          end do
 ! ----------------------------------------------------------------------------------------------------------------------
 !     elastic deformations
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -313,7 +314,7 @@
               eply(i,1) = eply(i,1)/e11(i)
               eply(i,2) = eply(i,2)/e22(i)
               eply(i,3) = sigply(i,3)/de1(i)/de2(i)/g12(i)
-            enddo
+            end do
 !
             do  i=1,nel
               s1(i)=s1(i)+eps(i,1)
@@ -325,7 +326,7 @@
               eply(i,1)=eply(i,1)+epsply(i,1)
               eply(i,2)=eply(i,2)+epsply(i,2)
               eply(i,3)=eply(i,3)+epsply(i,3)
-            enddo
+            end do
           else
             do i=1,nel
               de1(i) = one-max( zero , sign(dmg(i,2),sig(i,1)) )
@@ -338,7 +339,7 @@
               s3(i)  = sig(i,3)/de1(i)/de2(i)/g12(i)
               s4(i)  = sig(i,4)/max(de2(i)*g23(i)*shf(i),em20)
               s5(i)  = sig(i,5)/max(de1(i)*g31(i)*shf(i),em20)
-            enddo
+            end do
 !
             do i=1,nel
               s1(i)=s1(i)+eps(i,1)
@@ -346,9 +347,9 @@
               s3(i)=s3(i)+eps(i,3)
               s4(i)=s4(i)+eps(i,4)
               s5(i)=s5(i)+eps(i,5)
-            enddo
+            end do
 !
-          endif ! iplxfem
+          end if ! iplxfem
 ! ----------------------------------------------------------------------------------------------------------------------
           if (ishplyxfem /= 0 .and. iplyxfem==2) then
 #include "vectorize.inc"
@@ -360,8 +361,8 @@
                 dam2 = dam1*epsm1(i)/(crak(i,1)+epst1(i))
                 dmg(i,2) = max(dmg(i,2),dam2)
                 dmg(i,2) = min(dmg(i,2),dmax(i))
-              endif
-            enddo
+              end if
+            end do
 !
 #include "vectorize.inc"
             do j=1,nindx
@@ -373,8 +374,8 @@
                 dam2 = dam1*epsm2(i)/(crak(i,2)+epst2(i))
                 dmg(i,3) = max(dmg(i,3),dam2)
                 dmg(i,3) = min(dmg(i,3),dmax(i))
-              endif
-            enddo
+              end if
+            end do
           else
 #include "vectorize.inc"
             do j=1,nindx
@@ -385,8 +386,8 @@
                 dam2 = dam1*epsm1(i)/(crak(i,1)+epst1(i))
                 dmg(i,2) = max(dmg(i,2),dam2)
                 dmg(i,2) = min(dmg(i,2),dmax(i))
-              endif
-            enddo
+              end if
+            end do
 !
             do j=1,nindx
               i=index(j)
@@ -397,9 +398,9 @@
                 dam2 = dam1*epsm2(i)/(crak(i,2)+epst2(i))
                 dmg(i,3) = max(dmg(i,3),dam2)
                 dmg(i,3) = min(dmg(i,3),dmax(i))
-              endif
-            enddo
-          endif
+              end if
+            end do
+          end if
 !
           do i=1,nel
             de1(i) = one- max( zero , sign(dmg(i,2),sig(i,1)) )
@@ -409,7 +410,7 @@
             a11(i) = e11(i)*de1(i)/scale2
             a22(i) = e22(i)*de2(i)/scale2
             a12(i) = nu21(i)*a11(i)*scale1
-          enddo
+          end do
 ! ----------------------------------------------------------------------------------------------------------------------
 !     elastic stress
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -419,7 +420,7 @@
             t3(i)    = de1(i)*de2(i)*g12(i)*s3(i)
             sig(i,4) = de2(i)*g23(i)*shf(i)*s4(i)
             sig(i,5) = de1(i)*g31(i)*shf(i)*s5(i)
-          enddo
+          end do
 !
           if (ishplyxfem /= 0 .and. iplyxfem==2) then
             do i=1,nel
@@ -436,8 +437,8 @@
             else
               if (t2(i) > 0) icas(i) = 2
               if (t2(i) < 0) icas(i) = 3
-            endif
-          enddo
+            end if
+          end do
 ! ----------------------------------------------------------------------------------------------------------------------
 !     strain rate
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -453,9 +454,9 @@
               epspfac(i) = log(epsd(i)/epdr(i))
             else
               epspfac(i)=zero
-            endif
+            end if
             coef(i)=zero
-          enddo
+          end do
 ! ----------------------------------------------------------------------------------------------------------------------
           do i=1,nel
             epspfac(i)=one + cc(i) * epspfac(i)
@@ -463,15 +464,15 @@
               fyld(i)=(one+cb(i)*exp(cn(i)*log(wpla(i))))*epspfac(i)
             else
               fyld(i)=epspfac(i)
-            endif
+            end if
             if (icc==1.or.icc==3) then
               fmax(i) = fmax(i)*epspfac(i)
-            endif
+            end if
             if (icc==3.or.icc==4) then
               wplamx(i) = wplamx(i)*epspfac(i)
-            endif
+            end if
             fyld(i) = min(fmax(i),fyld(i))
-          enddo
+          end do
 ! ----------------------------------------------------------------------------------------------------------------------
 !     tsai wu plasticity criteria
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -480,32 +481,32 @@
               + f11(i)*t1(i)*t1(i) + f22(i)*t2(i)*t2(i)       &
               + f33(i)*t3(i)*t3(i) + two*f12(i)*t1(i)*t2(i)
             tsaiwu(i) = max(min(wvec(i)/fyld(i),one),tsaiwu(i))
-          enddo
+          end do
 !
           do i=1,nel
             if (wvec(i)>fyld(i).and.off(i)==one) coef(i)=one
             cnn=cn(i)-one
             wvec(i)=zero
             if (wpla(i)>zero.and.fyld(i)<fmax(i))  wvec(i)=epspfac(i)*exp(cnn*log(wpla(i)))
-          enddo
+          end do
 !
           do i=1,nel
             so1(i) = sig(i,1)
             so2(i) = sig(i,2)
             so3(i) = sig(i,3)
-          enddo
+          end do
 !
           do i=1,nel
             dp1(i)=f1(i)+two*f11(i)*so1(i)+two*f12(i)*so2(i)
             dp2(i)=f2(i)+two*f22(i)*so2(i)+two*f12(i)*so1(i)
             dp3(i)=two*f33(i)*so3(i)
-          enddo
+          end do
 ! ----------------------------------------------------------------------------------------------------------------------
           do i=1,nel
             ds1(i)=t1(i)-so1(i)
             ds2(i)=t2(i)-so2(i)
             ds3(i)=t3(i)-so3(i)
-          enddo
+          end do
 !
           do i=1,nel
             lamda(i)=(dp1(i)*ds1(i)+dp2(i)*ds2(i)+dp3(i)*ds3(i))*coef(i)
@@ -517,19 +518,19 @@
                 (so1(i)*dp1(i)+so2(i)*dp2(i)+two*so3(i)*dp3(i))       &
                 *cn(i)*cb(i)*wvec(i) )
             end if
-          enddo
+          end do
 !
           do i=1,nel
             dp1(i)=lamda(i)*dp1(i)
             dp2(i)=lamda(i)*dp2(i)
             dp3(i)=lamda(i)*dp3(i)
-          enddo
+          end do
 !
           do i=1,nel
             t1(i)=t1(i)-a11(i)*dp1(i)-a12(i)*dp2(i)
             t2(i)=t2(i)-a12(i)*dp1(i)-a22(i)*dp2(i)
             t3(i)=t3(i)-g12(i)*de1(i)*de2(i)*dp3(i)*two
-          enddo
+          end do
 !
           do i=1,nel
             dwpla = half* (dp1(i)*(t1(i)+so1(i))+ dp2(i)*(t2(i)+so2(i))    &
@@ -537,7 +538,7 @@
             dwpla   = max(dwpla ,zero) / wplaref(i)
             wpla(i) = wpla(i) + dwpla
             icas(i) = 0   ! flag for output
-          enddo
+          end do
 !
           do i=1,nel
             ifail0  =  mod(fail_old(i),8)
@@ -552,7 +553,7 @@
             if (wpla(i)>=wplamx(i).or.ifail0 >= 4 .or. dmg(i,2)>=dmax(i).or.   &
               crak(i,1)>=epsf1(i)-epst1(i) .or. dmg(i,3)>=dmax(i).or.        &
               crak(i,2)>=epsf2(i)-epst2(i)) nfis3(i)=nfis3(i)+1
-          enddo
+          end do
 ! ----------------------------------------------------------------------------------------------------------------------
 !     failure
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -586,7 +587,7 @@
                     else if (icas(i) == 3) then
                       write(iout, 2005) ngl(i),wplamx(i),ilayer,ipg,ply_id,time
                     end if    ! icas
-                  endif
+                  end if
                   if (fail >= 16) then
                     write(iout,1003) ngl(i),ilayer,ipg,ply_id,time
                   else if (fail >= 8) then
@@ -610,21 +611,21 @@
                       write(iout,4004) ngl(i),wplamx(i),ilayer,ipg,time
                     else if (icas(i) == 3) then
                       write(iout,4005) ngl(i),wplamx(i),ilayer,ipg,time
-                    endif
-                  endif
+                    end if
+                  end if
                   if (fail >= 16) then
                     write(iout,3003) ngl(i),ilayer,ipg,time
                   else if (fail >= 8) then
                     write(iout,3004) ngl(i),ilayer,ipg,time
                   end if
-                endif   ! igtyp
+                end if   ! igtyp
 !$OMP END CRITICAL
-              endif     ! imconv == 1
-            endif       ! new failure
+              end if     ! imconv == 1
+            end if       ! new failure
 !
 !       Wpla negative for stresses reduction at next cycle in case of failure-p :
             if (wpla(i)>=wplamx(i).or.mod(fail_old(i),8)>=4) wpla(i)=-wpla(i)
-          enddo
+          end do
 ! ----------------------------------------------------------------------------------------------------------------------
 !     end failure
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -632,7 +633,7 @@
             sig(i,1)=t1(i)
             sig(i,2)=t2(i)
             sig(i,3)=t3(i)
-          enddo
+          end do
 !------for qeph
           do i=1,nel
             sigy(i) = fyld(i)*sigy(i)
@@ -655,7 +656,7 @@
             signxy(i) = sig(i,3)
             signyz(i) = sig(i,4)
             signzx(i) = sig(i,5)
-          enddo
+          end do
 ! ----------------------------------------------------------------------------------------------------------------------
 !     retour dans le repere coque
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -665,7 +666,7 @@
             sige(i,3)=sig(i,3)
             sige(i,4)=sig(i,4)
             sige(i,5)=sig(i,5)
-          enddo
+          end do
 !
           call urotov(1,nel,sige,dir,nel)
 !
@@ -680,7 +681,7 @@
               wvec(i)= f1(i) *t1(i) + f2(i) * t2(i)                    &
                 + f11(i)*t1(i)*t1(i) + f22(i)*t2(i)*t2(i)         &
                 + f33(i)*t3(i)*t3(i) + two*f12(i)*t1(i)*t2(i)
-            enddo
+            end do
 !
             do i=1,nel
               coef(i) = zero
@@ -688,23 +689,23 @@
               cnn=cn(i)-one
               wvec(i)=zero
               if (wpla(i)>zero.and.fyld(i)<fmax(i)) wvec(i)=epspfac(i)*exp(cnn*log(wpla(i)))
-            enddo
+            end do
 !
             do i=1,nel
               so1(i) = t1(i)
               so2(i) = t2(i)
               so3(i) = t3(i)
-            enddo
+            end do
             do  i=1,nel
               dp1(i)=f1(i)+two*f11(i)*so1(i)+two*f12(i)*so2(i)
               dp2(i)=f2(i)+two*f22(i)*so2(i)+two*f12(i)*so1(i)
               dp3(i)=two*f33(i)*so3(i)
-            enddo
+            end do
             do  i=1,nel
               ds1(i)=t1(i)-so1(i)
               ds2(i)=t2(i)-so2(i)
               ds3(i)=t3(i)-so3(i)
-            enddo
+            end do
 !
             do i=1,nel
               lamda(i)=(dp1(i)*ds1(i)+dp2(i)*ds2(i)+dp3(i)*ds3(i))*coef(i)
@@ -715,20 +716,20 @@
                   two*dp3(i)*g12(i)*de1(i)*de2(i)*dp3(i)+                &
                   (so1(i)*dp1(i)+so2(i)*dp2(i)+two*so3(i)*dp3(i))        &
                   *cn(i)*cb(i)*wvec(i) )
-              endif
-            enddo
+              end if
+            end do
 !
             do  i=1,nel
               dp1(i)=lamda(i)*dp1(i)
               dp2(i)=lamda(i)*dp2(i)
               dp3(i)=lamda(i)*dp3(i)
-            enddo
+            end do
 !
             do  i=1,nel
               sigply(i,1)=t1(i)-a11(i)*dp1(i)-a12(i)*dp2(i)
               sigply(i,2)=t2(i)-a12(i)*dp1(i)-a22(i)*dp2(i)
               sigply(i,3)=t3(i)-g12(i)*de1(i)*de2(i)*dp3(i)*two
-            enddo
+            end do
 !
             do i=1,nel
               sigpe(i,1) = sigply(i,1)
@@ -738,7 +739,7 @@
               sigpe(i,5) = zero
               strp1(i) = strp1(i) + eply(i,1)
               strp2(i) = strp2(i) + eply(i,2)
-            enddo
+            end do
 !
             call urotov(1,nel,sigpe,dir,nel)
 !
@@ -746,46 +747,46 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           return
 ! ----------------------------------------------------------------------------------------------------------------------
-1001      format(' FAILURE-1 ELEMENT #',i10,', LAYER #',i3,                       &
-            ', INTEGRATION POINT #',i3,', (PLY #',i10,'), TIME=',1pe11.4)
-1002      format(' FAILURE-2 ELEMENT #',i10,', LAYER #',i3,                       &
-            ', INTEGRATION POINT #',i3,', (PLY #',i10,'), TIME=',1pe11.4)
-1003      format(' TOTAL FAILURE-2 ELEMENT #',i10,', LAYER #',i3,                 &
-            ', INTEGRATION POINT #',i3,', (PLY #',i10,'), TIME=',1pe11.4)
-1004      format(' TOTAL FAILURE-1 ELEMENT #',i10,', LAYER #',i3,                 &
-            ', INTEGRATION POINT #',i3,', (PLY #',i10,'), TIME=',1pe11.4)
-2000      format(' FAILURE-P-MAX ELEMENT #',i10,', WPLA ',f8.2,', LAYER #',i3,    &
-            ', INTEGRATION POINT #',i3,', (PLY #',i10,'), TIME=',1pe11.4)
-2001      format(' FAILURE-P-T1 ELEMENT #',i10,', WPLA ',f8.2,', LAYER #',i3,     &
-            ', INTEGRATION POINT #',i3,', (PLY #',i10,'), TIME=',1pe11.4)
-2002      format(' FAILURE-P-C1 ELEMENT #',i10,', WPLA ',f8.2,', LAYER #',i3,     &
-            ', INTEGRATION POINT #',i3,', (PLY #',i10,'), TIME=',1pe11.4)
-2003      format(' FAILURE-P-T2 ELEMENT #',i10,', WPLA ',f8.2,', LAYER #',i3,     &
-            ', INTEGRATION POINT #',i3,', (PLY #',i10,'), TIME=',1pe11.4)
-2004      format(' FAILURE-P-C2 ELEMENT #',i10,', WPLA ',f8.2,', LAYER #',i3,     &
-            ', INTEGRATION POINT #',i3,', (PLY #',i10,'), TIME=',1pe11.4)
-2005      format(' FAILURE-P-T12 ELEMENT #',i10,', WPLA ',f8.2,', LAYER #',i3,    &
-            ', INTEGRATION POINT #',i3,', (PLY #',i10,'), TIME=',1pe11.4)
-3001      format(' FAILURE-1 ELEMENT #',i10,', LAYER #',i3,                       &
-            ', INTEGRATION POINT #',i3,', TIME=',1pe11.4)
-3002      format(' FAILURE-1 ELEMENT #',i10,', LAYER #',i3,                       &
-            ', INTEGRATION POINT #',i3,', TIME=',1pe11.4)
-3003      format(' TOTAL FAILURE-2 ELEMENT #',i10,', LAYER #',i3,                 &
-            ', INTEGRATION POINT #',i3,', TIME=',1pe11.4)
-3004      format(' TOTAL FAILURE-1 ELEMENT #',i10,', LAYER #',i3,                 &
-            ', INTEGRATION POINT #',i3,', TIME=',1pe11.4)
-4000      format(' FAILURE-P-MAX ELEMENT #',i10,', WPLA ',f8.2,', LAYER #',i3,    &
-            ', INTEGRATION POINT #',i3,', TIME=',1pe11.4)
-4001      format(' FAILURE-P-T1 ELEMENT #',i10,', WPLA ',f8.2,', LAYER #',i3,     &
-            ', INTEGRATION POINT #',i3,', TIME=',1pe11.4)
-4002      format(' FAILURE-P-C1 ELEMENT #',i10,', WPLA ',f8.2,', LAYER #',i3,     &
-            ', INTEGRATION POINT #',i3,', TIME=',1pe11.4)
-4003      format(' FAILURE-P-T2 ELEMENT #',i10,', WPLA ',f8.2,', LAYER #',i3,     &
-            ', INTEGRATION POINT #',i3,', TIME=',1pe11.4)
-4004      format(' FAILURE-P-C2 ELEMENT #',i10,', WPLA ',f8.2,', LAYER #',i3,     &
-            ', INTEGRATION POINT #',i3,', TIME=',1pe11.4)
-4005      format(' FAILURE-P-T12 ELEMENT #',i10,', WPLA ',f8.2,', LAYER #',i3,    &
-            ', INTEGRATION POINT #',i3,', TIME=',1pe11.4)
+1001      format(" FAILURE-1 ELEMENT #",i10,", LAYER #",i3,                       &
+            ", INTEGRATION POINT #",i3,", (PLY #",i10,"), TIME=",1pe11.4)
+1002      format(" FAILURE-2 ELEMENT #",i10,", LAYER #",i3,                       &
+            ", INTEGRATION POINT #",i3,", (PLY #",i10,"), TIME=",1pe11.4)
+1003      format(" TOTAL FAILURE-2 ELEMENT #",i10,", LAYER #",i3,                 &
+            ", INTEGRATION POINT #",i3,", (PLY #",i10,"), TIME=",1pe11.4)
+1004      format(" TOTAL FAILURE-1 ELEMENT #",i10,", LAYER #",i3,                 &
+            ", INTEGRATION POINT #",i3,", (PLY #",i10,"), TIME=",1pe11.4)
+2000      format(" FAILURE-P-MAX ELEMENT #",i10,", WPLA ",f8.2,", LAYER #",i3,    &
+            ", INTEGRATION POINT #",i3,", (PLY #",i10,"), TIME=",1pe11.4)
+2001      format(" FAILURE-P-T1 ELEMENT #",i10,", WPLA ",f8.2,", LAYER #",i3,     &
+            ", INTEGRATION POINT #",i3,", (PLY #",i10,"), TIME=",1pe11.4)
+2002      format(" FAILURE-P-C1 ELEMENT #",i10,", WPLA ",f8.2,", LAYER #",i3,     &
+            ", INTEGRATION POINT #",i3,", (PLY #",i10,"), TIME=",1pe11.4)
+2003      format(" FAILURE-P-T2 ELEMENT #",i10,", WPLA ",f8.2,", LAYER #",i3,     &
+            ", INTEGRATION POINT #",i3,", (PLY #",i10,"), TIME=",1pe11.4)
+2004      format(" FAILURE-P-C2 ELEMENT #",i10,", WPLA ",f8.2,", LAYER #",i3,     &
+            ", INTEGRATION POINT #",i3,", (PLY #",i10,"), TIME=",1pe11.4)
+2005      format(" FAILURE-P-T12 ELEMENT #",i10,", WPLA ",f8.2,", LAYER #",i3,    &
+            ", INTEGRATION POINT #",i3,", (PLY #",i10,"), TIME=",1pe11.4)
+3001      format(" FAILURE-1 ELEMENT #",i10,", LAYER #",i3,                       &
+            ", INTEGRATION POINT #",i3,", TIME=",1pe11.4)
+3002      format(" FAILURE-1 ELEMENT #",i10,", LAYER #",i3,                       &
+            ", INTEGRATION POINT #",i3,", TIME=",1pe11.4)
+3003      format(" TOTAL FAILURE-2 ELEMENT #",i10,", LAYER #",i3,                 &
+            ", INTEGRATION POINT #",i3,", TIME=",1pe11.4)
+3004      format(" TOTAL FAILURE-1 ELEMENT #",i10,", LAYER #",i3,                 &
+            ", INTEGRATION POINT #",i3,", TIME=",1pe11.4)
+4000      format(" FAILURE-P-MAX ELEMENT #",i10,", WPLA ",f8.2,", LAYER #",i3,    &
+            ", INTEGRATION POINT #",i3,", TIME=",1pe11.4)
+4001      format(" FAILURE-P-T1 ELEMENT #",i10,", WPLA ",f8.2,", LAYER #",i3,     &
+            ", INTEGRATION POINT #",i3,", TIME=",1pe11.4)
+4002      format(" FAILURE-P-C1 ELEMENT #",i10,", WPLA ",f8.2,", LAYER #",i3,     &
+            ", INTEGRATION POINT #",i3,", TIME=",1pe11.4)
+4003      format(" FAILURE-P-T2 ELEMENT #",i10,", WPLA ",f8.2,", LAYER #",i3,     &
+            ", INTEGRATION POINT #",i3,", TIME=",1pe11.4)
+4004      format(" FAILURE-P-C2 ELEMENT #",i10,", WPLA ",f8.2,", LAYER #",i3,     &
+            ", INTEGRATION POINT #",i3,", TIME=",1pe11.4)
+4005      format(" FAILURE-P-T12 ELEMENT #",i10,", WPLA ",f8.2,", LAYER #",i3,    &
+            ", INTEGRATION POINT #",i3,", TIME=",1pe11.4)
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine mat25_tsaiwu_c
       end module mat25_tsaiwu_c_mod

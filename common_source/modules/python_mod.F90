@@ -130,7 +130,7 @@
 !||    python_element_mod             ../common_source/modules/python_element_mod.F90
 !||====================================================================
       module python_funct_mod
-        use iso_c_binding
+        use, intrinsic :: iso_c_binding
         use precision_mod, only : WP
         use python_element_mod
         implicit none
@@ -145,7 +145,7 @@
 ! use iso_c_binding to bind python_init to cpp_python_init and python_finalize to cpp_python_finalize
         interface
           subroutine python_initialize(ok) bind(c, name="cpp_python_initialize")
-            use iso_c_binding
+            use, intrinsic :: iso_c_binding
             integer(kind=c_int), intent(inout) :: ok  !< error code
           end subroutine python_initialize
           subroutine python_finalize() bind(c, name="cpp_python_finalize")
@@ -157,15 +157,15 @@
 
           ! add a function to the python dictionary
           subroutine python_register_function(name, code, num_lines) bind(c, name="cpp_python_register_function")
-            use iso_c_binding
-            character(kind=c_char), dimension(*) :: name !< intent out: extracted from the code
+            use, intrinsic :: iso_c_binding
+            character(kind=c_char), dimension(*), intent(in) :: name !< intent out: extracted from the code
             integer(kind=c_int), value :: num_lines
-            character(kind=c_char), dimension(500,*) :: code
+            character(kind=c_char), dimension(500,*), intent(in) :: code
           end subroutine python_register_function
           ! call a function from the python dictionary
           subroutine python_call_function(name, num_args, args, num_return, return_values) &
             bind(c, name="cpp_python_call_function")
-            use iso_c_binding
+            use, intrinsic :: iso_c_binding
             character(kind=c_char), dimension(*), intent(in) :: name !< intent in
             integer(kind=c_int), value :: num_args
             integer(kind=c_int), value :: num_return
@@ -173,7 +173,7 @@
             real(kind = c_double), intent(out) :: return_values(num_return)
           end subroutine python_call_function
           subroutine python_sample_function(name, X, Y, N) bind(c, name="cpp_python_sample_function")
-            use iso_c_binding
+            use, intrinsic :: iso_c_binding
             character(kind=c_char), dimension(*), intent(in) :: name
             integer(kind=c_int), value, intent(in) :: N !< sample size
             real(kind=c_double), dimension(N), intent(inout) :: X
@@ -183,20 +183,20 @@
           ! a subroutine that checks if the function works, and returns a nonzero error code if it does not
           subroutine python_call_function_with_state(name, return_value) &
             bind(c, name="cpp_python_call_function_with_state") ! def: my_sensor(state_dictionary):
-            use iso_c_binding
+            use, intrinsic :: iso_c_binding
             character(kind=c_char), dimension(*), intent(in) :: name !< intent in
             real(kind = c_double), intent(out) :: return_value
           end subroutine python_call_function_with_state
 
           ! a subroutine that check if the function works, and return an nonzero error code if it does not
           subroutine python_check_function(name, error) bind(c, name="cpp_python_check_function")
-            use iso_c_binding
-            character(kind=c_char), dimension(*) :: name
+            use, intrinsic :: iso_c_binding
+            character(kind=c_char), dimension(*), intent(in) :: name
             integer(kind=c_int), intent(out) :: error
           end subroutine python_check_function
 
           subroutine python_update_time(time,dt) bind(c, name="cpp_python_update_time")
-            use iso_c_binding
+            use, intrinsic :: iso_c_binding
 #ifdef MYREAL8
             real(kind = c_double), value, intent(in) :: time
             real(kind = c_double), value, intent(in) :: dt
@@ -208,7 +208,7 @@
 
           !interface for    void cpp_python_update_nodal_entities(char *name, int len_name, real(kind=WP) *values)
           subroutine python_set_node_values(numnod, name_len, name, val) bind(c, name="cpp_python_update_nodal_entity")
-            use iso_c_binding
+            use, intrinsic :: iso_c_binding
             integer(kind=c_int), value, intent(in) :: numnod
             integer(kind=c_int), value, intent(in) :: name_len
             character(kind=c_char), dimension(name_len), intent(in) :: name
@@ -219,33 +219,33 @@
 #endif
           end subroutine python_set_node_values
           subroutine python_update_active_node_values(name_len, name, val) bind(c, name="cpp_python_update_active_node")
-            use iso_c_binding
+            use, intrinsic :: iso_c_binding
             integer(kind=c_int), value, intent(in) :: name_len
             character(kind=c_char), dimension(name_len), intent(in) :: name
             real(kind=c_double), dimension(3), intent(in) :: val
           end subroutine python_update_active_node_values
           ! call python_set_node_ids(n,nodes%itab(n))
           subroutine python_set_active_node_ids(id, uid) bind(c, name="cpp_python_update_active_node_ids")
-            use iso_c_binding
+            use, intrinsic :: iso_c_binding
             integer(kind=c_int), value, intent(in) :: id
             integer(kind=c_int), value,  intent(in) :: uid
           end subroutine python_set_active_node_ids
 
 
           subroutine python_get_number_of_nodes(number_of_nodes) bind(c, name="cpp_python_get_number_of_nodes")
-            use iso_c_binding
+            use, intrinsic :: iso_c_binding
             integer(kind=c_int), intent(out) :: number_of_nodes
           end subroutine python_get_number_of_nodes
 
           subroutine python_get_nodes(nodes_global_ids) &
             bind(c, name="cpp_python_get_nodes")
-            use iso_c_binding
+            use, intrinsic :: iso_c_binding
             integer(kind=c_int), intent(inout) :: nodes_global_ids(*)
           end subroutine python_get_nodes
 
           subroutine python_update_sensors(types, uids, statuses, results, nsensor) &
             bind(c, name="cpp_python_update_sensors")
-            use iso_c_binding
+            use, intrinsic :: iso_c_binding
             integer(kind=c_int), intent(in) :: types(*)
             integer(kind=c_int), intent(in) :: uids(*)
             integer(kind=c_int), intent(in) :: statuses(*)
@@ -257,7 +257,7 @@
           !interface for    void cpp_create_node_mapping(int * itab, int *num_nodes)
           subroutine python_create_node_mapping(itab, num_nodes) &
             bind(c, name="cpp_python_create_node_mapping")
-            use iso_c_binding
+            use, intrinsic :: iso_c_binding
             integer(kind=c_int), intent(in) :: num_nodes
             integer(kind=c_int), intent(in) :: itab(*)
           end subroutine python_create_node_mapping
@@ -265,7 +265,7 @@
 
           subroutine python_add_ints_to_dict(context, name, len_name, values, nvalues) &
             bind(c, name="cpp_python_add_ints_to_dict")
-            use iso_c_binding
+            use, intrinsic :: iso_c_binding
             type(c_ptr), value, intent(in) :: context
             integer(kind=c_int), value, intent(in) :: nvalues
             character(kind=c_char), dimension(len_name), intent(in) :: name
@@ -274,7 +274,7 @@
 
           subroutine python_add_doubles_to_dict(context, name, len_name, values, nvalues) &
             bind(c, name="cpp_python_add_doubles_to_dict")
-            use iso_c_binding
+            use, intrinsic :: iso_c_binding
             type(c_ptr), value, intent(in) :: context
             integer(kind=c_int), value, intent(in) :: nvalues
             character(kind=c_char), dimension(len_name), intent(in) :: name
@@ -282,18 +282,18 @@
           end subroutine python_add_doubles_to_dict
 
           function python_create_context() bind(c, name="cpp_python_create_context")
-            use iso_c_binding
+            use, intrinsic :: iso_c_binding
             type(c_ptr) :: python_create_context
           end function python_create_context
 
           subroutine python_free_context(context) bind(c, name="cpp_python_free_context")
-            use iso_c_binding
+            use, intrinsic :: iso_c_binding
             type(c_ptr), value, intent(in) :: context
           end subroutine python_free_context
 
           !/             void cpp_python_sync(void* pcontext, int num_args)
           subroutine python_sync(pcontext) bind(c, name="cpp_python_sync")
-            use iso_c_binding
+            use, intrinsic :: iso_c_binding
             type(c_ptr), value, intent(in) :: pcontext
           end subroutine python_sync
 
@@ -432,7 +432,7 @@
           do i = 1, python%nb_functs
             buffer_size = buffer_size + 6! 5 integers: len_name, len_code, num_lines, num_args, num_return
             buffer_size = buffer_size + python%functs(i)%len_name + python%functs(i)%len_code
-          enddo
+          end do
           elsize = 0
           !elsize = element_get_size(python%elements%global)
           buffer_size = buffer_size + elsize
@@ -463,8 +463,8 @@
               pos = pos + python%functs(i)%len_name
               buffer(pos:pos+len_code-1) = transfer(python%functs(i)%code, buffer(pos:pos+len_code-1))
               pos = pos + python%functs(i)%len_code
-            enddo
-          endif
+            end do
+          end if
 !         call element_serialize(python%elements%global,buffer(pos:pos+elsize-1),elsize)
         end subroutine python_serialize
 
@@ -512,15 +512,15 @@
               if(ierr == 0) then
                 python%functs(i)%name=transfer(buffer(pos:pos+python%functs(i)%len_name-1), python%functs(i)%name)
                 pos = pos + python%functs(i)%len_name
-              endif
+              end if
               allocate(python%functs(i)%code(python%functs(i)%len_code),stat = ierr)
               if(ierr == 0) then
                 python%functs(i)%code = transfer(buffer(pos:pos+python%functs(i)%len_code-1), python%functs(i)%code)
                 pos = pos + python%functs(i)%len_code
-              endif
-            enddo
+              end if
+            end do
 !           call element_deserialize(python%elements%global,buffer(pos:))
-          endif
+          end if
 
         end subroutine python_deserialize
 
@@ -562,7 +562,7 @@
             do i = 1, len_trim(name)
               funct%name(i) = name(i:i)
             end do
-          endif
+          end if
           allocate(funct%code(len_code))
           do i = 1, len_code
             funct%code(i) = code(i:i)
@@ -649,7 +649,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Module
 ! ----------------------------------------------------------------------------------------------------------------------
-          use iso_c_binding
+          use, intrinsic :: iso_c_binding
 ! --------------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -832,7 +832,7 @@
               x = x - fx / dfx
             else
               x = x - fx / epsilon
-            endif
+            end if
 
             ! Check if the solution converged
             if (abs(x - x_prev) < tol_x_val) then
@@ -860,7 +860,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Module
 ! ----------------------------------------------------------------------------------------------------------------------
-          use iso_c_binding
+          use, intrinsic :: iso_c_binding
 ! --------------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -901,7 +901,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Module
 ! ----------------------------------------------------------------------------------------------------------------------
-          use iso_c_binding, only : c_double
+          use, intrinsic :: iso_c_binding, only : c_double
           use nodal_arrays_mod, only : nodal_arrays_
 ! --------------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
@@ -946,7 +946,7 @@
 !||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine python_funct_test()
-          use iso_c_binding , only: c_null_char,c_char
+          use, intrinsic :: iso_c_binding , only: c_null_char,c_char
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
@@ -1001,7 +1001,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Module
 ! ----------------------------------------------------------------------------------------------------------------------
-          use iso_c_binding
+          use, intrinsic :: iso_c_binding
 ! --------------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -1037,7 +1037,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Module
 ! ----------------------------------------------------------------------------------------------------------------------
-          use iso_c_binding
+          use, intrinsic :: iso_c_binding
 ! --------------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------

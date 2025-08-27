@@ -35,15 +35,15 @@
         implicit none
 
         interface
-          function deck_checksum_creation( len_filename, filename) bind (C, name='deck_checksum_creation')
-            use iso_c_binding
+          function deck_checksum_creation( len_filename, filename) bind (C, name="deck_checksum_creation")
+            use, intrinsic :: iso_c_binding
             integer(C_INT), value :: len_filename
             type(C_PTR),value  :: filename
             type(C_PTR) :: deck_checksum_creation
           end function deck_checksum_creation
 
-          function deck_checksum_count(checksum_list) bind (C, name='deck_checksum_count')
-            use iso_c_binding
+          function deck_checksum_count(checksum_list) bind (C, name="deck_checksum_count")
+            use, intrinsic :: iso_c_binding
             type(C_PTR),value :: checksum_list
             integer(C_INT) :: deck_checksum_count
           end function deck_checksum_count
@@ -51,8 +51,8 @@
           subroutine deck_checksum_read(checksum_list, i,         &
           &                                checksum_title,len_title, &
           &                                checksum,len_checksum)    &
-          &                                bind (C, name='deck_checksum_read')
-            use iso_c_binding
+          &                                bind (C, name="deck_checksum_read")
+            use, intrinsic :: iso_c_binding
             type(C_PTR),value :: checksum_list
             integer(C_INT),value :: i
             type(C_PTR),value :: checksum_title
@@ -113,7 +113,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-          call hm_option_count('/CHECKSUM/START', checksum_option_count)
+          call hm_option_count("/CHECKSUM/START", checksum_option_count)
 
           output%checksum%checksum_count = checksum_option_count
           if (checksum_option_count > 0) then
@@ -125,18 +125,18 @@
 
             ! Print the checksum list in the output file
             ! -------------------------------------------
-            write(iout,'(a)') ' '
-            write(iout,'(a)') ' '
-            write(iout,'(a)') '    CHECKSUM DIGESTS'
-            write(iout,'(a)') '    ----------------'
-            write(iout,'(a)') ' '
+            write(iout,"(a)") " "
+            write(iout,"(a)") " "
+            write(iout,"(a)") "    CHECKSUM DIGESTS"
+            write(iout,"(a)") "    ----------------"
+            write(iout,"(a)") " "
             do i=1,checksum_digest_count
               call deck_checksum_read(output%checksum%checksum_list, i,       &
               &                          c_loc(checksum_title),c_loc(len_title), &
               &                          c_loc(checksum),c_loc(len_checksum))
-              write(iout,'(a,a,a,a)') '    CHECKSUM : ',checksum_title(1:len_title), '_',checksum(1:len_checksum)
+              write(iout,"(a,a,a,a)") "    CHECKSUM : ",checksum_title(1:len_title), "_",checksum(1:len_checksum)
             end do
-          endif
+          end if
         end subroutine hm_read_checksum
 
 !! \brief Create Starter Checksum file
@@ -190,51 +190,51 @@
           checksum_digest_count=deck_checksum_count(output%checksum%checksum_list)  ! Count real number of checksums in list
 
           if (checksum_digest_count > 0) then                                   ! There are checksum in the list
-            formated_date_time = enddate(1:4)//'/'//enddate(5:6)//'/'//enddate(7:8)//'  '// &
-            &                                  endtime(1:2)//':'//endtime(3:4)//':'//endtime(5:6)
+            formated_date_time = enddate(1:4)//"/"//enddate(5:6)//"/"//enddate(7:8)//"  "// &
+            &                                  endtime(1:2)//":"//endtime(3:4)//":"//endtime(5:6)
 
-            checksum_file  = rootnam(1:rootlen)//'_'//'0000'//'.checksum'
-            open(unit=fchecksum,file=trim(checksum_file),access='sequential',form='formatted',status='unknown')
+            checksum_file  = rootnam(1:rootlen)//"_"//"0000"//".checksum"
+            open(unit=fchecksum,file=trim(checksum_file),access="sequential",form="formatted",status="unknown")
 
-            write(fchecksum,'(a)') ' ************************************************************************'
-            write(fchecksum,'(a)') ' **                                                                    **'
-            write(fchecksum,'(a)') ' **                                                                    **'
-            write(fchecksum,'(a)') ' **                           Checksum Digest                          **'
-            write(fchecksum,'(a)') ' **                                                                    **'
-            write(fchecksum,'(a)') ' **                                                                    **'
-            write(fchecksum,'(a)') ' ************************************************************************'
-            write(fchecksum,'(a)') ' ** OpenRadioss Software                                               **'
-            write(fchecksum,'(a)') ' ** COPYRIGHT (C) 1986-2025 Altair Engineering, Inc.                   **'
-            write(fchecksum,'(a)') ' ** Licensed under GNU Affero General Public License.                  **'
-            write(fchecksum,'(a)') ' ** See License file.                                                  **'
-            write(fchecksum,'(a)') ' ************************************************************************'
-            write(fchecksum,'(a,a)') ' DECK ROOTNAME .............................:      ',rootnam(1:rootlen)
-            write(fchecksum,'(a,a)') ' EXECUTION COMPLETED .......................:      ',trim(formated_date_time)
-            write(fchecksum,'(a)') ' '
-            write(fchecksum,'(a)') ' DECK FINGERPRINTS'
-            write(fchecksum,'(a)') ' -----------------'
+            write(fchecksum,"(a)") " ************************************************************************"
+            write(fchecksum,"(a)") " **                                                                    **"
+            write(fchecksum,"(a)") " **                                                                    **"
+            write(fchecksum,"(a)") " **                           Checksum Digest                          **"
+            write(fchecksum,"(a)") " **                                                                    **"
+            write(fchecksum,"(a)") " **                                                                    **"
+            write(fchecksum,"(a)") " ************************************************************************"
+            write(fchecksum,"(a)") " ** OpenRadioss Software                                               **"
+            write(fchecksum,"(a)") " ** COPYRIGHT (C) 1986-2025 Altair Engineering, Inc.                   **"
+            write(fchecksum,"(a)") " ** Licensed under GNU Affero General Public License.                  **"
+            write(fchecksum,"(a)") " ** See License file.                                                  **"
+            write(fchecksum,"(a)") " ************************************************************************"
+            write(fchecksum,"(a,a)") " DECK ROOTNAME .............................:      ",rootnam(1:rootlen)
+            write(fchecksum,"(a,a)") " EXECUTION COMPLETED .......................:      ",trim(formated_date_time)
+            write(fchecksum,"(a)") " "
+            write(fchecksum,"(a)") " DECK FINGERPRINTS"
+            write(fchecksum,"(a)") " -----------------"
 
             do i=1,checksum_digest_count
 
               call deck_checksum_read(output%checksum%checksum_list,i,         &
               &                          c_loc(checksum_title),c_loc(len_title),  &
               &                          c_loc(checksum),c_loc(len_checksum))
-              assembled_checksum(1:ncharline)=''
-              assembled_checksum=checksum_title(1:len_title)//'_'//checksum(1:len_checksum)
+              assembled_checksum(1:ncharline)=""
+              assembled_checksum=checksum_title(1:len_title)//"_"//checksum(1:len_checksum)
               assembled_checksum_length=len_title+len_checksum+1
-              write(fchecksum,'(a,a)') '    CHECKSUM : ',trim(assembled_checksum)
+              write(fchecksum,"(a,a)") "    CHECKSUM : ",trim(assembled_checksum)
 
-            enddo
+            end do
 
             ! Print the checksum of Starter output file (ROOTNAME_0000.out)
-            write(fchecksum,'(a)') ' '
-            write(fchecksum,'(a)') ' OUTPUT FILES CHECKSUM DIGESTS'
-            write(fchecksum,'(a)') ' -----------------------------'
+            write(fchecksum,"(a)") " "
+            write(fchecksum,"(a)") " OUTPUT FILES CHECKSUM DIGESTS"
+            write(fchecksum,"(a)") " -----------------------------"
             call print_checksum_list(output%checksum%files_checksum,fchecksum )
-            write(fchecksum,'(a)') ' '
+            write(fchecksum,"(a)") " "
 
             close(unit=fchecksum)
-          endif
+          end if
 
         end subroutine st_checksum_file_print
 
@@ -288,8 +288,8 @@
               &                            c_loc(checksum_title),c_loc(len_title), &
               &                            c_loc(checksum),c_loc(len_checksum))
 
-              assembled_checksum(1:ncharline)=''
-              assembled_checksum=checksum_title(1:len_title)//'_'//checksum(1:len_checksum)
+              assembled_checksum(1:ncharline)=""
+              assembled_checksum=checksum_title(1:len_title)//"_"//checksum(1:len_checksum)
               assembled_checksum_length=len_title+len_checksum+1
               ! Transform assembled_checksum_length to integer array
               do j=1,assembled_checksum_length
@@ -300,7 +300,7 @@
               call write_i_array_c(i_assembled_checksum,assembled_checksum_length)
             end do
 
-          endif
+          end if
         end subroutine checksum_write_starter_restart
 !!
       end module checksum_starter_option_mod

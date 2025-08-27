@@ -28,10 +28,11 @@
 !||    precision_mod       ../common_source/modules/precision_mod.F90
 !||====================================================================
       module python_monvol_mod
+      implicit none
         interface
 !    void cpp_python_update_reals(char * basename, int * uid, my_real *reals, int num_reals)
-          subroutine python_update_reals(basename, uid, reals, num_reals) bind(c, name='cpp_python_update_reals')
-            use iso_c_binding, only : c_char, c_int
+          subroutine python_update_reals(basename, uid, reals, num_reals) bind(c, name="cpp_python_update_reals")
+            use, intrinsic :: iso_c_binding, only : c_char, c_int
             use precision_mod, only : WP
             implicit none
             character(kind=c_char), intent(in) :: basename(*)
@@ -55,7 +56,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Module
 ! ----------------------------------------------------------------------------------------------------------------------
-          use iso_c_binding
+          use, intrinsic :: iso_c_binding
           use MONVOL_STRUCT_MOD
           use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -89,28 +90,28 @@
               uid(i) = t_monvol(i)%uid
             end do
             allocate(character(len=11) :: basename)
-            basename = 'MONVOL_VOL' // c_null_char
+            basename = "MONVOL_VOL" // c_null_char
             call python_update_reals(basename, uid, reals, nvolu)
             deallocate(basename)
             do i = 1, nvolu
               reals(i) = t_monvol(i)%pressure
             end do
             allocate(character(len=9) :: basename)
-            basename = 'MONVOL_P' // c_null_char
+            basename = "MONVOL_P" // c_null_char
             call python_update_reals(basename, uid, reals, nvolu)
             deallocate(basename)
             do i = 1, nvolu
               reals(i) = t_monvol(i)%area
             end do
             allocate(character(len=9) :: basename)
-            basename = 'MONVOL_A' // c_null_char
+            basename = "MONVOL_A" // c_null_char
             call python_update_reals(basename, uid, reals, nvolu)
             deallocate(basename)
             do i = 1, nvolu
               reals(i) = t_monvol(i)%temperature
             end do
             allocate(character(len=9) :: basename)
-            basename = 'MONVOL_T' // c_null_char
+            basename = "MONVOL_T" // c_null_char
             call python_update_reals(basename, uid, reals, nvolu)
             deallocate(basename)
             deallocate(reals)

@@ -69,6 +69,8 @@
         use domdec_load_mod
         use inivel_mod
 !-----------------------------------------------------------------------
+        implicit none
+
         type loads_
           integer :: nload_cyl
           integer :: nload_cload                                          !< nb of concentrated loads

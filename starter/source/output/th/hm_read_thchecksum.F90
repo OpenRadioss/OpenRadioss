@@ -27,6 +27,8 @@
 !||====================================================================
       module hm_read_th_checksum_mod
 
+      implicit none
+
       contains
 !=======================================================================================================================
 !!\brief /CHECKSUM/START option : prepares structutures to write Checksum fingerprints in /TH
@@ -157,13 +159,13 @@
             ids = 1
             if (nsubdom > 0) then
               if (r2r_exist(ityp,ids) == 0) cycle
-            endif
+            end if
             n = 1
             nne  = nne + 1
             nsne = nsne + 1
             ithbuf(iad) = n
             iad = iad+1
-          enddo
+          end do
 !
           ithgrp(4) = nne
           iad2      = ithgrp(5)+3*nne
@@ -174,18 +176,18 @@
           do i = 1,nne
             n = ithbuf(iad)
 
-            checksum_title = ' '
-            deck_checksum = ' '
+            checksum_title = " "
+            deck_checksum = " "
             call deck_checksum_read(checksum%checksum_list,i,c_loc(checksum_title),&
             &c_loc(len_title),c_loc( deck_checksum),c_loc(len_checksum))
-            titr = checksum_title(1:len_title)//'_'// deck_checksum(1:len_checksum)
+            titr = checksum_title(1:len_title)//"_"// deck_checksum(1:len_checksum)
 
             ithbuf(iad+2*nne) = i
             call fretitl(titr,ithbuf(iad2),ltitr)
             iad=iad+1
             iad2=iad2+40
 
-          enddo
+          end do
 !
           iad = iad2
 
@@ -197,17 +199,17 @@
           nvar=ithgrp(6)
           iad0=ithgrp(7)
           iad2=ithgrp(8)
-          write(iout,'(//)')
+          write(iout,"(//)")
           call fretitl2(titr,ithgrp(nithgr-ltitr+1),ltitr)
-          write(iout,'(A,I10,3A,I3,A,I5,2A)')' TH GROUP:',ithgrp(1),',',trim(titr),',',nvar,' VAR',n, key,':'
-          write(iout,'(A)')' -------------------'
-          write(iout,'(10A10)')(vare(ithbuf(j)),j=1,nvar)
-          write(iout,'(3A)')'    ',key,'        NAME '
+          write(iout,"(A,I10,3A,I3,A,I5,2A)")" TH GROUP:",ithgrp(1),",",trim(titr),",",nvar," VAR",n, key,":"
+          write(iout,"(A)")" -------------------"
+          write(iout,"(10A10)")(vare(ithbuf(j)),j=1,nvar)
+          write(iout,"(3A)")"    ",key,"        NAME "
           do k=iad1,iad1+n-1
             call fretitl2(titr,ithbuf(iad2),40)
             iad2=iad2+40
-            write(iout,'(I10,X,A)')k-iad1+1, titr(1:len_trim(titr))
-          enddo
+            write(iout,"(I10,X,A)")k-iad1+1, titr(1:len_trim(titr))
+          end do
           !
           return
         end subroutine hm_read_thchecksum

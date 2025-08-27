@@ -26,6 +26,7 @@
 !||    forint                  ../engine/source/elements/forint.F
 !||====================================================================
       module preload_solid_ini_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
@@ -93,8 +94,8 @@
             t_shift = sensors%sensor_tab(sens_id)%tstart
           end if
           if (fun_id>0) then
-            t_start = tf(npc(fun_id)) 
-            t_stop  = tf(npc(fun_id+1)-2) 
+            t_start = tf(npc(fun_id))
+            t_stop  = tf(npc(fun_id+1)-2)
             tt = time-t_shift
             if (tt>=t_start.and.tt<t_stop) then
               sfac = finter_mixed(python,nfunct,fun_id,tt,npc,tf)

@@ -173,10 +173,10 @@
 !                                                      Body
 ! ----------------------------------------------------------------------------------------------------------------------
           if (stat /= 0) then
-            write(6, "(a,i10,a)") 'Error in memory allocation'
+            write(6, "(a,i10,a)") "Error in memory allocation"
             if(present(msg)) then
               write(6, "(a)") msg
-            endif
+            end if
             call arret(2)
           end if
         end subroutine check_error_and_write
@@ -214,7 +214,7 @@
               else
                 call check_error_and_write(ierr)
               end if
-            endif
+            end if
             if(present(stat)) stat = ierr
             copy_size = oldsize
             if(copy_size >0) temp(1:copy_size) = a(1:copy_size)
@@ -223,7 +223,7 @@
           else if(newsize == oldsize .and. newsize == 0 .and. .not. allocated(a)) then
             allocate(a(1), stat=ierr)
             if(present(stat)) stat = ierr
-          endif
+          end if
         end subroutine extend_array_integer_1d
 
 !||====================================================================
@@ -259,7 +259,7 @@
                 if (present(msg)) call check_error_and_write(ierr, msg=msg)
                 if (present(stat)) stat = ierr
                 return
-              endif
+              end if
               ! Copy existing data to the new array
               temp(:, 1:oldsize2) = a(:, 1:oldsize2)
               ! Use move_alloc for efficient reallocation
@@ -271,7 +271,7 @@
                 if (present(msg)) call check_error_and_write(ierr, msg=msg)
                 if (present(stat)) stat = ierr
                 return
-              endif
+              end if
               ! Initialize the new array
               temp = 0
               ! Copy existing data to the new array
@@ -285,21 +285,21 @@
               if (ierr /= 0) then
                 if (present(stat)) stat = ierr
                 return
-              endif
+              end if
               allocate(a(newsize1, newsize2), stat=ierr)
               if (ierr /= 0) then
                 if (present(stat)) stat = ierr
                 return
-              endif
+              end if
               a = temp
               deallocate(temp, stat=ierr)
-            endif
+            end if
           else if (newsize1 == oldsize1 .and. newsize2 == oldsize2 .and. &
             newsize1 == 0 .and. newsize2 == 0 .and. .not. allocated(a)) then
             ! Special case for unallocated arrays
             allocate(a(1, 1), stat=ierr)
             if (present(stat)) stat = ierr
-          endif
+          end if
 
           ! Set the status to success if no errors occurred
           if (present(stat)) stat = 0
@@ -342,7 +342,7 @@
                 if (present(msg)) call check_error_and_write(ierr, msg=msg)
                 if (present(stat)) stat = ierr
                 return
-              endif
+              end if
               temp(:, :, 1:oldsize3) = a(:, :, 1:oldsize3)
               call move_alloc(temp, a)
             else
@@ -351,7 +351,7 @@
                 if (present(msg)) call check_error_and_write(ierr, msg=msg)
                 if (present(stat)) stat = ierr
                 return
-              endif
+              end if
               temp = 0
               ! Copy existing data to the new array
               do i = 1, min(oldsize1, newsize1)
@@ -366,21 +366,21 @@
               if (ierr /= 0) then
                 if (present(stat)) stat = ierr
                 return
-              endif
+              end if
               allocate(a(newsize1, newsize2, newsize3), stat=ierr)
               if (ierr /= 0) then
                 if (present(stat)) stat = ierr
                 return
-              endif
+              end if
               a = temp
               deallocate(temp, stat=ierr)
-            endif
+            end if
           else if (newsize1 == oldsize1 .and. newsize2 == oldsize2 .and. newsize3 == oldsize3 .and. &
             newsize1 == 0 .and. newsize2 == 0 .and. newsize3 == 0 .and. .not. allocated(a)) then
             ! Special case for unallocated arrays
             allocate(a(1, 1, 1), stat=ierr)
             if (present(stat)) stat = ierr
-          endif
+          end if
           ! Set the status to success if no errors occurred
           if (present(stat)) stat = 0
         end subroutine extend_array_integer_3d
@@ -416,7 +416,7 @@
               else
                 call check_error_and_write(ierr)
               end if
-            endif
+            end if
             if(present(stat)) stat = ierr
             copy_size = oldsize
             if(copy_size >0) temp(1:copy_size) = a(1:copy_size)
@@ -425,7 +425,7 @@
           else if(newsize == oldsize .and. newsize == 0 .and. .not. allocated(a)) then
             allocate(a(1), stat=ierr)
             if(present(stat)) stat = ierr
-          endif
+          end if
         end subroutine extend_array_real_1d
 
 !||====================================================================
@@ -461,7 +461,7 @@
                 if (present(msg)) call check_error_and_write(ierr, msg=msg)
                 if (present(stat)) stat = ierr
                 return
-              endif
+              end if
               ! Copy existing data to the new array
               temp(:, 1:oldsize2) = a(:, 1:oldsize2)
               ! Use move_alloc for efficient reallocation
@@ -473,7 +473,7 @@
                 if (present(msg)) call check_error_and_write(ierr, msg=msg)
                 if (present(stat)) stat = ierr
                 return
-              endif
+              end if
               ! Initialize the new array
               temp = 0
               ! Copy existing data to the new array
@@ -487,21 +487,21 @@
               if (ierr /= 0) then
                 if (present(stat)) stat = ierr
                 return
-              endif
+              end if
               allocate(a(newsize1, newsize2), stat=ierr)
               if (ierr /= 0) then
                 if (present(stat)) stat = ierr
                 return
-              endif
+              end if
               a = temp
               deallocate(temp, stat=ierr)
-            endif
+            end if
           else if (newsize1 == oldsize1 .and. newsize2 == oldsize2 .and. &
             newsize1 == 0 .and. newsize2 == 0 .and. .not. allocated(a)) then
             ! Special case for unallocated arrays
             allocate(a(1, 1), stat=ierr)
             if (present(stat)) stat = ierr
-          endif
+          end if
 
           ! Set the status to success if no errors occurred
           if (present(stat)) stat = 0
@@ -544,7 +544,7 @@
                 if (present(msg)) call check_error_and_write(ierr, msg=msg)
                 if (present(stat)) stat = ierr
                 return
-              endif
+              end if
               temp(:, :, 1:oldsize3) = a(:, :, 1:oldsize3)
               call move_alloc(temp, a)
             else
@@ -553,7 +553,7 @@
                 if (present(msg)) call check_error_and_write(ierr, msg=msg)
                 if (present(stat)) stat = ierr
                 return
-              endif
+              end if
               temp = 0
               ! Copy existing data to the new array
               do i = 1, min(oldsize1, newsize1)
@@ -568,21 +568,21 @@
               if (ierr /= 0) then
                 if (present(stat)) stat = ierr
                 return
-              endif
+              end if
               allocate(a(newsize1, newsize2, newsize3), stat=ierr)
               if (ierr /= 0) then
                 if (present(stat)) stat = ierr
                 return
-              endif
+              end if
               a = temp
               deallocate(temp, stat=ierr)
-            endif
+            end if
           else if (newsize1 == oldsize1 .and. newsize2 == oldsize2 .and. newsize3 == oldsize3 .and. &
             newsize1 == 0 .and. newsize2 == 0 .and. newsize3 == 0 .and. .not. allocated(a)) then
             ! Special case for unallocated arrays
             allocate(a(1, 1, 1), stat=ierr)
             if (present(stat)) stat = ierr
-          endif
+          end if
           ! Set the status to success if no errors occurred
           if (present(stat)) stat = 0
         end subroutine extend_array_real_3d
@@ -620,7 +620,7 @@
               else
                 call check_error_and_write(ierr)
               end if
-            endif
+            end if
             if(present(stat)) stat = ierr
             copy_size = oldsize
             if(copy_size >0) temp(1:copy_size) = a(1:copy_size)
@@ -629,7 +629,7 @@
           else if(newsize == oldsize .and. newsize == 0 .and. .not. allocated(a)) then
             allocate(a(1), stat=ierr)
             if(present(stat)) stat = ierr
-          endif
+          end if
         end subroutine extend_array_double_1d
 
 !||====================================================================
@@ -665,7 +665,7 @@
                 if (present(msg)) call check_error_and_write(ierr, msg=msg)
                 if (present(stat)) stat = ierr
                 return
-              endif
+              end if
               ! Copy existing data to the new array
               temp(:, 1:oldsize2) = a(:, 1:oldsize2)
               ! Use move_alloc for efficient reallocation
@@ -677,7 +677,7 @@
                 if (present(msg)) call check_error_and_write(ierr, msg=msg)
                 if (present(stat)) stat = ierr
                 return
-              endif
+              end if
               ! Initialize the new array
               temp = 0
               ! Copy existing data to the new array
@@ -691,21 +691,21 @@
               if (ierr /= 0) then
                 if (present(stat)) stat = ierr
                 return
-              endif
+              end if
               allocate(a(newsize1, newsize2), stat=ierr)
               if (ierr /= 0) then
                 if (present(stat)) stat = ierr
                 return
-              endif
+              end if
               a = temp
               deallocate(temp, stat=ierr)
-            endif
+            end if
           else if (newsize1 == oldsize1 .and. newsize2 == oldsize2 .and. &
             newsize1 == 0 .and. newsize2 == 0 .and. .not. allocated(a)) then
             ! Special case for unallocated arrays
             allocate(a(1, 1), stat=ierr)
             if (present(stat)) stat = ierr
-          endif
+          end if
 
           ! Set the status to success if no errors occurred
           if (present(stat)) stat = 0
@@ -748,7 +748,7 @@
                 if (present(msg)) call check_error_and_write(ierr, msg=msg)
                 if (present(stat)) stat = ierr
                 return
-              endif
+              end if
               temp(:, :, 1:oldsize3) = a(:, :, 1:oldsize3)
               call move_alloc(temp, a)
             else
@@ -757,7 +757,7 @@
                 if (present(msg)) call check_error_and_write(ierr, msg=msg)
                 if (present(stat)) stat = ierr
                 return
-              endif
+              end if
               temp = 0
               ! Copy existing data to the new array
               do i = 1, min(oldsize1, newsize1)
@@ -772,21 +772,21 @@
               if (ierr /= 0) then
                 if (present(stat)) stat = ierr
                 return
-              endif
+              end if
               allocate(a(newsize1, newsize2, newsize3), stat=ierr)
               if (ierr /= 0) then
                 if (present(stat)) stat = ierr
                 return
-              endif
+              end if
               a = temp
               deallocate(temp, stat=ierr)
-            endif
+            end if
           else if (newsize1 == oldsize1 .and. newsize2 == oldsize2 .and. newsize3 == oldsize3 .and. &
             newsize1 == 0 .and. newsize2 == 0 .and. newsize3 == 0 .and. .not. allocated(a)) then
             ! Special case for unallocated arrays
             allocate(a(1, 1, 1), stat=ierr)
             if (present(stat)) stat = ierr
-          endif
+          end if
           ! Set the status to success if no errors occurred
           if (present(stat)) stat = 0
         end subroutine extend_array_double_3d
@@ -822,7 +822,7 @@
               else
                 call check_error_and_write(ierr)
               end if
-            endif
+            end if
             allocate(a(newsize), stat=ierr)
             if(.not. present(stat)) then
               if(present(msg)) then
@@ -830,8 +830,8 @@
               else
                 call check_error_and_write(ierr)
               end if
-            endif
-          endif
+            end if
+          end if
           if(newsize > 0) a(1:newsize) = 0
         end subroutine reallocate_array_integer_1d
 

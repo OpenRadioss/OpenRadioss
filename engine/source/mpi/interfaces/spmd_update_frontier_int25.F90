@@ -115,15 +115,15 @@
                       p = intbuf_tab(nin)%proc_mvoisin(4*(i-1)+j)
                       if(p /= ispmd+1) then
                         nbddedg = nbddedg + 1
-                      endif
+                      end if
                     end if
-                  enddo
-                endif
-              enddo
+                  end do
+                end if
+              end do
               nbddedg_max = max(nbddedg_max,nbddedg)
               nbddedgt    = nbddedgt+nbddedg
-            endif
-          enddo
+            end if
+          end do
           !     frontiers vs edges  : update fr_edg array
           if(allocated(spmd_arrays%fr_edg))  deallocate(spmd_arrays%fr_edg)
           allocate(spmd_arrays%fr_edg(2*nbddedgt))
@@ -161,36 +161,36 @@
                         itri25(3,nbddedg) =  max(-k,intbuf_tab(nin)%mseglo(i))
                         itri25(4,nbddedg) =  min(itab(n1),itab(n2))
                         itri25(5,nbddedg) =  max(itab(n1),itab(n2))
-                      endif
+                      end if
                     end if
-                  enddo
-                endif
-              enddo
+                  end do
+                end if
+              end do
 
               do i=1,nbddedg
                 index25(i) = i
-              enddo
+              end do
               call my_orders(0,work,itri25,index25,nbddedg,5)
               do i=1,nbddedg
                 proc_rem25(i) = itri25(1,index25(i))
                 spmd_arrays%fr_edg(2*(lshift+i-1)+1) = fr_sav(1,index25(i))
                 spmd_arrays%fr_edg(2*(lshift+i-1)+2) = fr_sav(2,index25(i))
-              enddo
+              end do
 
               do p=1,nspmd
                 isom(p) = 0
-              enddo
+              end do
               do i=1,nbddedg
                 p = proc_rem25(i)
                 isom(p) = isom(p) + 1
-              enddo
+              end do
 
               spmd_arrays%iad_fredg(ni25) = lshift + 1
               do p=1,nspmd
                 spmd_arrays%iad_fredg(p*ninter25+ni25) = spmd_arrays%iad_fredg((p-1)*ninter25+ni25) + isom(p)
-              enddo
+              end do
               lshift=lshift+nbddedg
-            endif
+            end if
           end do
 
           deallocate(fr_sav)

@@ -66,7 +66,7 @@
             max_value_local = huge(res)
           end if
 
-          if( x .ne. x ) then
+          if( x /= x ) then
             res = nan_replacement_local
           else if( x < -max_value_local ) then
             res = -max_value_local
@@ -77,9 +77,9 @@
             res = -huge(res)
           else if( x > huge(res) ) then
             res = huge(res)
-          else if( x < -tiny(res) .and. x .ne. 0) then
+          else if( x < -tiny(res) .and. x /= 0) then
             res = -tiny(res)
-          else if( x > tiny(res) .and. x .ne. 0) then
+          else if( x > tiny(res) .and. x /= 0) then
             res = tiny(res)
 #endif
           else

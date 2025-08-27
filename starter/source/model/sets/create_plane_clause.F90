@@ -97,14 +97,14 @@
           ym1 = ZERO
           zm1 = ZERO
 !
-          call hm_get_floatv('XM' ,xm,is_available,lsubmodel,unitab)
-          call hm_get_floatv('YM' ,ym,is_available,lsubmodel,unitab)
-          call hm_get_floatv('ZM' ,zm,is_available,lsubmodel,unitab)
+          call hm_get_floatv("XM" ,xm,is_available,lsubmodel,unitab)
+          call hm_get_floatv("YM" ,ym,is_available,lsubmodel,unitab)
+          call hm_get_floatv("ZM" ,zm,is_available,lsubmodel,unitab)
           if (sub_id /= 0) call subrotpoint(xm,ym,zm,rtrans,sub_id,lsubmodel)
 !
-          call hm_get_floatv  ('XM1' ,xm1,is_available,lsubmodel,unitab)
-          call hm_get_floatv  ('YM1' ,ym1,is_available,lsubmodel,unitab)
-          call hm_get_floatv  ('ZM1' ,zm1,is_available,lsubmodel,unitab)
+          call hm_get_floatv  ("XM1" ,xm1,is_available,lsubmodel,unitab)
+          call hm_get_floatv  ("YM1" ,ym1,is_available,lsubmodel,unitab)
+          call hm_get_floatv  ("ZM1" ,zm1,is_available,lsubmodel,unitab)
           if (sub_id /= 0) call subrotpoint(xm1,ym1,zm1,rtrans,sub_id,lsubmodel)
 !
 !         Normal Vector

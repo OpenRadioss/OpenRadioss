@@ -26,6 +26,7 @@
 !||    initia                   ../starter/source/elements/initia/initia.F
 !||====================================================================
       module damping_range_init_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
@@ -80,8 +81,8 @@
             if (idamp_freq_range > 0) then
               elbuf_tab(ng)%damp_range%alpha(1:3) = dampr(32:34,idamp_freq_range)
               elbuf_tab(ng)%damp_range%tau(1:3)   = dampr(35:37,idamp_freq_range)
-            endif
-          enddo
+            end if
+          end do
 !
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine damping_range_init

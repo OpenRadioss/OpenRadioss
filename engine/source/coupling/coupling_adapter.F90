@@ -48,7 +48,7 @@
         ! Both adapters implement the virtual class in coupling.h
         ! - For preCICE see precice_coupling_adapter.cpp
         ! - For CWIPI see cwipi_coupling_adapter.cpp
-        use iso_c_binding
+        use, intrinsic :: iso_c_binding
         implicit none
 
         ! Data type constants
@@ -79,122 +79,122 @@
 
         ! C interface declarations cooresponding to the file coupling_c_interface./cpp
         interface
-          function coupling_adapter_create() bind(c, name='coupling_adapter_create')
-            use iso_c_binding
+          function coupling_adapter_create() bind(c, name="coupling_adapter_create")
+            use, intrinsic :: iso_c_binding
             type(c_ptr) :: coupling_adapter_create
           end function coupling_adapter_create
-          subroutine coupling_adapter_destroy(adapter) bind(c, name='coupling_adapter_destroy')
-            use iso_c_binding
+          subroutine coupling_adapter_destroy(adapter) bind(c, name="coupling_adapter_destroy")
+            use, intrinsic :: iso_c_binding
             type(c_ptr), value :: adapter
           end subroutine coupling_adapter_destroy
-          function coupling_adapter_configure(adapter, filename) bind(c, name='coupling_adapter_configure')
-            use iso_c_binding
+          function coupling_adapter_configure(adapter, filename) bind(c, name="coupling_adapter_configure")
+            use, intrinsic :: iso_c_binding
             type(c_ptr), value :: adapter
             character(kind=c_char), intent(in) :: filename(*)
             integer(c_int) :: coupling_adapter_configure
           end function coupling_adapter_configure
-          subroutine coupling_adapter_set_nodes(adapter, node_ids, num_nodes) bind(c, name='coupling_adapter_set_nodes')
-            use iso_c_binding
+          subroutine coupling_adapter_set_nodes(adapter, node_ids, num_nodes) bind(c, name="coupling_adapter_set_nodes")
+            use, intrinsic :: iso_c_binding
             type(c_ptr), value :: adapter
             integer(c_int), intent(in) :: node_ids(*)
             integer(c_int), value :: num_nodes
           end subroutine coupling_adapter_set_nodes
           function coupling_adapter_initialize(adapter, coordinates, total_nodes, mpi_rank, mpi_size) &
-            bind(c, name='coupling_adapter_initialize')
-            use iso_c_binding
+            bind(c, name="coupling_adapter_initialize")
+            use, intrinsic :: iso_c_binding
             type(c_ptr), value :: adapter
             real(c_double), intent(in) :: coordinates(*)
             integer(c_int), value :: total_nodes, mpi_rank, mpi_size
             integer(c_int) :: coupling_adapter_initialize
           end function coupling_adapter_initialize
           subroutine coupling_adapter_write_data(adapter, values, total_nodes, dt, data_type) &
-            bind(c, name='coupling_adapter_write_data')
-            use iso_c_binding
+            bind(c, name="coupling_adapter_write_data")
+            use, intrinsic :: iso_c_binding
             type(c_ptr), value :: adapter
             real(c_double), intent(in) :: values(*)
             integer(c_int), value :: total_nodes, data_type
             real(c_double), value :: dt
           end subroutine coupling_adapter_write_data
           subroutine coupling_adapter_read_data(adapter, values, total_nodes, dt, data_type, mode) &
-            bind(c, name='coupling_adapter_read_data')
-            use iso_c_binding
+            bind(c, name="coupling_adapter_read_data")
+            use, intrinsic :: iso_c_binding
             type(c_ptr), value :: adapter
             real(c_double), intent(inout) :: values(*)
             integer(c_int), value :: total_nodes, data_type, mode
             real(c_double), value :: dt
           end subroutine coupling_adapter_read_data
 
-          subroutine coupling_adapter_advance(adapter, dt) bind(c, name='coupling_adapter_advance')
-            use iso_c_binding
+          subroutine coupling_adapter_advance(adapter, dt) bind(c, name="coupling_adapter_advance")
+            use, intrinsic :: iso_c_binding
             type(c_ptr), value :: adapter
             real(c_double), intent(inout) :: dt
           end subroutine coupling_adapter_advance
-          function coupling_adapter_is_coupling_ongoing(adapter) bind(c, name='coupling_adapter_is_coupling_ongoing')
-            use iso_c_binding
+          function coupling_adapter_is_coupling_ongoing(adapter) bind(c, name="coupling_adapter_is_coupling_ongoing")
+            use, intrinsic :: iso_c_binding
             type(c_ptr), value :: adapter
             integer(c_int) :: coupling_adapter_is_coupling_ongoing
           end function coupling_adapter_is_coupling_ongoing
           function coupling_adapter_requires_writing_checkpoint(adapter) &
-            bind(c, name='coupling_adapter_requires_writing_checkpoint')
-            use iso_c_binding
+            bind(c, name="coupling_adapter_requires_writing_checkpoint")
+            use, intrinsic :: iso_c_binding
             type(c_ptr), value :: adapter
             integer(c_int) :: coupling_adapter_requires_writing_checkpoint
           end function coupling_adapter_requires_writing_checkpoint
           function coupling_adapter_requires_reading_checkpoint(adapter) &
-            bind(c, name='coupling_adapter_requires_reading_checkpoint')
-            use iso_c_binding
+            bind(c, name="coupling_adapter_requires_reading_checkpoint")
+            use, intrinsic :: iso_c_binding
             type(c_ptr), value :: adapter
             integer(c_int) :: coupling_adapter_requires_reading_checkpoint
           end function coupling_adapter_requires_reading_checkpoint
-          subroutine coupling_adapter_finalize(adapter) bind(c, name='coupling_adapter_finalize')
-            use iso_c_binding
+          subroutine coupling_adapter_finalize(adapter) bind(c, name="coupling_adapter_finalize")
+            use, intrinsic :: iso_c_binding
             type(c_ptr), value :: adapter
           end subroutine coupling_adapter_finalize
-          function coupling_adapter_is_active(adapter) bind(c, name='coupling_adapter_is_active')
-            use iso_c_binding
+          function coupling_adapter_is_active(adapter) bind(c, name="coupling_adapter_is_active")
+            use, intrinsic :: iso_c_binding
             type(c_ptr), value :: adapter
             integer(c_int) :: coupling_adapter_is_active
           end function coupling_adapter_is_active
           function coupling_adapter_get_max_time_step_size(adapter) &
-            bind(c, name='coupling_adapter_get_max_time_step_size')
-            use iso_c_binding
+            bind(c, name="coupling_adapter_get_max_time_step_size")
+            use, intrinsic :: iso_c_binding
             type(c_ptr), value :: adapter
             real(c_double) :: coupling_adapter_get_max_time_step_size
           end function coupling_adapter_get_max_time_step_size
 
           function coupling_adapter_get_num_coupling_nodes(adapter) &
-            bind(c, name='coupling_adapter_get_num_coupling_nodes')
-            use iso_c_binding
+            bind(c, name="coupling_adapter_get_num_coupling_nodes")
+            use, intrinsic :: iso_c_binding
             type(c_ptr), value :: adapter
             integer(c_int) :: coupling_adapter_get_num_coupling_nodes
           end function coupling_adapter_get_num_coupling_nodes
           !    int coupling_adapter_get_group_node_id(void* adapter);
           function coupling_adapter_get_group_node_id(adapter) &
-            bind(c, name='coupling_adapter_get_group_node_id')
-            use iso_c_binding
+            bind(c, name="coupling_adapter_get_group_node_id")
+            use, intrinsic :: iso_c_binding
             type(c_ptr), value :: adapter
             integer(c_int) :: coupling_adapter_get_group_node_id
           end function coupling_adapter_get_group_node_id
 
           !int coupling_adapter_get_surface_id(void* adapter) {
           function coupling_adapter_get_surface_id(adapter) &
-            bind(c, name='coupling_adapter_get_surface_id')
-            use iso_c_binding
+            bind(c, name="coupling_adapter_get_surface_id")
+            use, intrinsic :: iso_c_binding
             type(c_ptr), value :: adapter
             integer(c_int) :: coupling_adapter_get_surface_id
           end function coupling_adapter_get_surface_id
 
           function coupling_get_communicator(adapter) &
-            bind(c, name='coupling_adapter_get_communicator')
-            use iso_c_binding
+            bind(c, name="coupling_adapter_get_communicator")
+            use, intrinsic :: iso_c_binding
             type(c_ptr), value :: adapter
             integer(c_int) :: coupling_get_communicator
           end function coupling_get_communicator
 
           ! Not available in preCICE yet, only cwipi:
           subroutine coupling_adapter_set_mesh(adapter, elem_node_offsets, elem_node_indices, num_elements) &
-            bind(c, name='coupling_adapter_set_mesh')
-            use iso_c_binding
+            bind(c, name="coupling_adapter_set_mesh")
+            use, intrinsic :: iso_c_binding
             type(c_ptr), value :: adapter
             integer(c_int), intent(in) :: elem_node_offsets(*), elem_node_indices(*)
             integer(c_int), value :: num_elements
@@ -284,7 +284,7 @@
           integer :: i, result
           if(.not.coupling%active) then
             call coupling_create(coupling)
-          endif
+          end if
           if (.not. c_associated(coupling%adapter_ptr)) return
 
           ! Convert Fortran string to C string
@@ -413,11 +413,11 @@
             connectIndex(i+1) = connectIndex(i+1) + nb_unique_nodes
             do j = 1, nb_unique_nodes
               if(tmp(j) < 0) then
-                write(6,*) 'Error in surf%nodes', tmp(j)
+                write(6,*) "Error in surf%nodes", tmp(j)
                 cycle
-              endif
+              end if
               if(tmp(j) > nodes%numnod) then
-                write(6,*) 'Error in surf%nodes', tmp(j), nodes%numnod
+                write(6,*) "Error in surf%nodes", tmp(j), nodes%numnod
                 cycle
               end if
               n = tmp(j)
@@ -428,11 +428,11 @@
               end if
               next_node = next_node + 1
               if(next_node /= connectIndex(i) + j ) then
-                write(6,*) 'Error in connectIndex?', connectIndex(i)+j, next_node
+                write(6,*) "Error in connectIndex?", connectIndex(i)+j, next_node
               end if
               connec(next_node) = index(n)
-            enddo
-          enddo
+            end do
+          end do
           call coupling_adapter_set_mesh(coupling%adapter_ptr, connectIndex, connec, surf%NSEG)
           coupling%nb_coupling_nodes = counter
           call coupling_adapter_set_nodes(coupling%adapter_ptr, node_id, counter)
@@ -479,7 +479,7 @@
               coupling%surface_id= i
               call coupling_set_mesh(coupling, surf(i), nodes)
             end if
-          enddo
+          end do
           if(coupling%surface_id == 0) call coupling_set_nodes(coupling, igrnod, ngrnod)
         end subroutine coupling_set_interface
 

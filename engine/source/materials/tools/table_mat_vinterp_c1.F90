@@ -24,6 +24,7 @@
 !||    table_mat_vinterp_c1_mod   ../engine/source/materials/tools/table_mat_vinterp_c1.F90
 !||====================================================================
       module table_mat_vinterp_c1_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                      procedures
@@ -89,11 +90,11 @@
           do_extrapolation = .true.
           if (present(opt_extrapolate)) then
             do_extrapolation = opt_extrapolate
-          endif
+          end if
 
           ndim = table%ndim
           if (size(xx,2) < ndim ) then
-            call ancmsg(msgid=36,anmode=aninfo,c1='table interpolation')
+            call ancmsg(msgid=36,anmode=aninfo,c1="table interpolation")
             call arret(2)
           end if
 
@@ -115,8 +116,8 @@
               else
                 nindx_2 = nindx_2 + 1
                 indx_2(nindx_2) = i
-              endif
-            enddo
+              end if
+            end do
 
             do j=1,nindx_1
               i = indx_1(j)
@@ -129,9 +130,9 @@
                   need_to_compute = .false.
                 else
                   m=m-1
-                endif
-              enddo
-            enddo
+                end if
+              end do
+            end do
 
             do j=1,nindx_2
               i = indx_2(j)
@@ -144,10 +145,10 @@
                   need_to_compute = .false.
                 else
                   m=m+1
-                endif
-              enddo
-            enddo
-          enddo ! k=1,ndim
+                end if
+              end do
+            end do
+          end do ! k=1,ndim
 
           do k=1,ndim
 #include "vectorize.inc"
@@ -165,7 +166,7 @@
                 fac(i,k) = min(one,max(fac(i,k),zero))
               end do
             end do
-          endif
+          end if
 ! ----------------------------------------------------------------------------------------------------------------------
           select case(ndim)
 

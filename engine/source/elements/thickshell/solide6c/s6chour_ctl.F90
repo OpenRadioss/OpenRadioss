@@ -26,6 +26,7 @@
 !||    s6cforc3          ../engine/source/elements/thickshell/solide6c/s6cforc3.F
 !||====================================================================
       module s6chour_ctl_mod
+      implicit none
       contains
 ! ======================================================================================================================
 ! \brief new penta6 thick hourglass formulation for distordtion control
@@ -160,7 +161,7 @@
             jac_19_37(i)=jac1(i)*jac9(i)-jac3(i)*jac7(i)
             jac_48_57(i)=jac4(i)*jac8(i)-jac5(i)*jac7(i)
             det(i)=one_over_64*(jac1(i)*jac_59_68(i)+jac2(i)*jac_67_49(i)+jac3(i)*jac_48_57(i))
-          enddo
+          end do
 ! jacobian matrix inverse
           do i=1,nel
             dett=one_over_64/det(i)
@@ -195,7 +196,7 @@
             py2(i)=-jaci12+jaci3
             pz2(i)=-jaci45+jaci6
             px2(i)=-jaci78+jaci9
-          enddo
+          end do
 !   h1
 ! 1 1 -1 -1 -1 -1 1 1
           do i=1,nel

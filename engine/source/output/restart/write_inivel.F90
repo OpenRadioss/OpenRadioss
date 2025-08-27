@@ -26,6 +26,7 @@
 !||    wrrestp            ../engine/source/output/restart/wrrestp.F
 !||====================================================================
       module write_inivel_mod
+      implicit none
       contains
         !! \brief write inivel rst data (engine)
 !||====================================================================

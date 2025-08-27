@@ -27,6 +27,7 @@
 !||    hm_read_eos_compaction_tab   ../starter/source/materials/eos/hm_read_eos_compaction_tab.F90
 !||====================================================================
       module eos_table_copy_mod
+      implicit none
       contains
 
 !! \brief  see mat_table_copy  (adapted for type eosparam_struct_)

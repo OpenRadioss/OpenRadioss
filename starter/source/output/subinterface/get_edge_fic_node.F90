@@ -26,6 +26,7 @@
 !||    inintsub_25             ../starter/source/output/subinterface/inintsub_25.F
 !||====================================================================
       module get_edge_fic_node_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures
@@ -88,11 +89,11 @@
               ns1 = ik2(ied)
               ns2 = ik1(ied)
             else
-              print *, 'probleme EDGES,IE1,IE2=', ns, ie1, ie2
+              print *, "probleme EDGES,IE1,IE2=", ns, ie1, ie2
             end if
             is1 = irtse(ns1, ie)
             is2 = irtse(ns2, ie)
-          endif
+          end if
           return
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine get_edge_fic_node

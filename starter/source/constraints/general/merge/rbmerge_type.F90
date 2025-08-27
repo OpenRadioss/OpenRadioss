@@ -35,6 +35,7 @@
         !                           rigid body merge
         !c=======================================================================
         !-----------------------------------------------------------------------
+      implicit none
         type rbmerge_
           integer   :: id                                     !< - rigid body identifier
           integer   :: nbsecondary                            !< number of secondary rigid body

@@ -26,6 +26,7 @@
 !||    mulawc           ../engine/source/materials/mat_share/mulawc.F90
 !||====================================================================
       module sigeps125c_mod
+      implicit none
       contains
         ! ======================================================================================================================
         ! \brief   material law /MAT/LAW125
@@ -214,7 +215,7 @@
             em11t(1:nel)= yy(1:nel)
           else
             em11t(1:nel) = em11t0
-          endif
+          end if
           !
           if(ifunc(2) /= 0) then  ! em11t
             ipos(1:nel) = 1
@@ -224,7 +225,7 @@
             xt(1:nel)= yy(1:nel)
           else
             xt(1:nel) = xt0
-          endif
+          end if
           ! fiber - compression  dir 1 -
           if(ifunc(3) /= 0) then  ! em11c
             ipos(1:nel) = 1
@@ -234,7 +235,7 @@
             em11c(1:nel)= yy(1:nel)
           else
             em11c(1:nel) = em11c0
-          endif
+          end if
           if(ifunc(4) /= 0) then  ! xc
             ipos(1:nel) = 1
             iad (1:nel) = npf(ifunc(4)) / 2 + 1
@@ -243,7 +244,7 @@
             xc(1:nel)= yy(1:nel)
           else
             xc(1:nel) = xc0
-          endif
+          end if
           ! matrix - tension dir 2 -
           if(ifunc(5) /= 0) then  !
             ipos(1:nel) = 1
@@ -253,7 +254,7 @@
             em22t(1:nel)= yy(1:nel)
           else
             em22t(1:nel) = em22t0
-          endif
+          end if
           !
           if(ifunc(6) /= 0) then  ! em11t
             ipos(1:nel) = 1
@@ -263,7 +264,7 @@
             yt(1:nel)= yy(1:nel)
           else
             yt(1:nel) = yt0
-          endif
+          end if
           ! matrix - compression  dir 2 -
           if(ifunc(7) /= 0) then  ! em11c
             ipos(1:nel) = 0
@@ -273,7 +274,7 @@
             em22c(1:nel)= yy(1:nel)
           else
             em22c(1:nel) = em22c0
-          endif
+          end if
           if(ifunc(8) /= 0) then  ! xc
             ipos(1:nel) = 1
             iad (1:nel) = npf(ifunc(8)) / 2 + 1
@@ -282,7 +283,7 @@
             yc(1:nel)= yy(1:nel)
           else
             yc(1:nel) = yc0
-          endif
+          end if
 
           ! shear  12 - gamma
           if(ifunc(13) /= 0) then  !
@@ -293,7 +294,7 @@
             gamma(1:nel)= yy(1:nel)
           else
             gamma(1:nel) = gamma0
-          endif
+          end if
           ! shear  tau
           if(ifunc(14) /= 0) then  ! tau
             ipos(1:nel) = 1
@@ -303,7 +304,7 @@
             tau(1:nel)= yy(1:nel)
           else
             tau(1:nel) = tau0
-          endif
+          end if
           ! shear strain 12 - ems
           if(ifunc(15) /= 0) then  ! em11c
             ipos(1:nel) = 1
@@ -313,7 +314,7 @@
             ems(1:nel)= yy(1:nel)
           else
             ems(1:nel) = ems0
-          endif
+          end if
           ! shear strengh sc
           if(ifunc(16) /= 0) then  ! sc
             ipos(1:nel) = 1
@@ -323,7 +324,7 @@
             sc(1:nel)= yy(1:nel)
           else
             sc(1:nel) = sc0
-          endif
+          end if
           ! shear  13 - gamma2
           if(ifunc(17) /= 0) then  !
             ipos(1:nel) = 1
@@ -333,7 +334,7 @@
             gamma(1:nel)= yy(1:nel)
           else
             gamma2(1:nel) = gamma02
-          endif
+          end if
           ! shear  tau 2
           if(ifunc(18) /= 0) then  ! tau
             ipos(1:nel) = 1
@@ -343,7 +344,7 @@
             tau2(1:nel)= yy(1:nel)
           else
             tau2(1:nel) = tau02
-          endif
+          end if
           ! shear strain 12 - ems13
           if(ifunc(20) /= 0) then  ! em11c
             ipos(1:nel) = 1
@@ -353,7 +354,7 @@
             ems13(1:nel)= yy(1:nel)
           else
             ems13(1:nel) = ems013
-          endif
+          end if
           ! shear strengh sc13
           if(ifunc(19) /= 0) then  ! sc
             ipos(1:nel) = 1
@@ -363,7 +364,7 @@
             sc13(1:nel)= yy(1:nel)
           else
             sc13(1:nel) = sc013
-          endif
+          end if
           ! shear  23 - gamma3
           if(ifunc(21) /= 0) then  !
             ipos(1:nel) = 1
@@ -373,7 +374,7 @@
             gamma(1:nel)= yy(1:nel)
           else
             gamma3(1:nel) = gamma03
-          endif
+          end if
           ! shear  tau 2
           if(ifunc(22) /= 0) then  ! tau
             ipos(1:nel) = 1
@@ -383,7 +384,7 @@
             tau3(1:nel)= yy(1:nel)
           else
             tau3(1:nel) = tau03
-          endif
+          end if
           ! shear strain 23 - ems23
           if(ifunc(24) /= 0) then  !
             ipos(1:nel) = 1
@@ -393,7 +394,7 @@
             ems23(1:nel)= yy(1:nel)
           else
             ems23(1:nel) = ems023
-          endif
+          end if
           ! shear strengh sc13
           if(ifunc(23) /= 0) then  ! sc
             ipos(1:nel) = 1
@@ -403,7 +404,7 @@
             sc23(1:nel)= yy(1:nel)
           else
             sc23(1:nel) = sc023
-          endif
+          end if
           ! Computing the damage parameters
           do i=1,nel
             if(xt(i) > zero )then
@@ -411,33 +412,33 @@
               if(em11t(i)  == zero) em11t(i) = onep2*ef11t(i)
               m1t(i)= -one/log(ef11t(i)/em11t(i))
               al1t(i) = m1t(i)*(em11t(i)/ef11t(i))**m1t(i)
-            endif
+            end if
             if(xc(i) > zero  )then
               ef11c(i)  = xc(i)/e1
               if(em11c(i) <= zero)em11c(i) = ONEP2*ef11c(i)
               m1c(i)= -one/log(ef11c(i)/em11c(i))
               al1c(i) = m1c(i)*(em11c(i)/ef11c(i))**m1c(i)
-            endif
+            end if
             if(yt(i) > zero )then
               ef22t(i)  = yt(i)/e2
               if(em22t(i) <= zero) em22t(i) = ONEP2*ef22t(i)
               m2t(i) = -one/log(ef22t(i)/em22t(i))
               al2t(i) = m2t(i)*(em22t(i)/ef22t(i))**m2t(i)
-            endif
+            end if
             !
             if(yc(i) > zero  )then
               ef22c(i)  = yc(i)/e1
               if(em22c(i) == zero  )em22c(i) = onep2*ef22c(i)
               m2c(i) = -one/log(ef22c(i)/em22c(i))
               al2c(i) = m2c(i)*(em22c(i)/ef22c(i))**m2c(i)
-            endif
+            end if
             if(tau(i) > zero  )then
               efs(i)  = tau(i) /g12
               if(gamma(i) <= zero ) gamma(i) = onep2*efs(i)
               ms(i) = -one/log(efs(i)/gamma(i)) ! one/ln(epsm/epsf)
               als(i) = ms(i)*(gamma(i)/efs(i))**ms(i)
-            endif
-          enddo ! nel
+            end if
+          end do ! nel
           ! check loading/unloading
 
           do i=1,nel
@@ -468,8 +469,8 @@
               !!if(uvar(i,3) /= zero .and. eint >= uvar(i,3)) check(i) = one
             else
               check(i) = one
-            endif
-          enddo !
+            end if
+          end do !
           !
           ! membrane computing FS = 0, 1, -1
           select  case (fs)
@@ -487,7 +488,7 @@
                   w11 = abs(epsxx(i))/ef11c(i)
                   w11 = exp(m1c(i)*log(w11))/al1c(i)  ! (esp/epsf)^m/alpha
                   w11 = exp(-w11)
-                endif
+                end if
                 ! dir b
                 if(epsyy(i) >= zero )then
                   w22 = epsyy(i)/ef22t(i)
@@ -497,13 +498,13 @@
                   w22 = abs(epsyy(i))/ef22c(i)
                   w22 = exp(m2c(i)*log(w22))/al2c(i)  ! (esp/epsf)^m/alpha
                   w22 = exp(-w22)
-                endif
+                end if
               else ! unlaod
                 w11 = dmg(i,1)
                 w22 = dmg(i,2)
                 w12 = dmg(i,3)
                 uvar(i,2) = -one
-              endif
+              end if
               ! damage hook matrix
               d = (one - w11*w22*nu12*nu21)
               e1d = w11*e1
@@ -524,7 +525,7 @@
               a11       = max(e1,e2)
               ssp(i) = sqrt(a11/rho(i))
               sigy(i)    = min(slimt1*xt(i),slimt2*yt(i), slimc1*xc(i),slimc2*yc(i))
-            enddo ! nel loop
+            end do ! nel loop
             ! shear traitement and softening
             do i=1,nel
               ! shear w12
@@ -539,14 +540,14 @@
               else
                 w12 = dmg(i,3)
                 uvar(i,2) = -one
-              endif
+              end if
               g12d = w12*g12
               signxy(i) = g12d*epsxy(i)
               if(abs(signxy(i)) >= tau(i) .and. abs(signxy(i)) <  sc(i)) then
                 tauxy = abs(epsxy(i)/gamma(i))
                 tauxy = tau(i) + tauxy*(sc(i) - tau(i))/(ems(i) - gamma(i))
                 signxy(i) = sign(tauxy,signxy(i))
-              endif
+              end if
               ! checking loading failure criteria
               if(dmg_g(i) < one ) then
                 dmg(i,4) = signxx(i)/xt(i)
@@ -555,7 +556,7 @@
                 if(signyy(i) < zero) dmg(i,5) = -signyy(i)/yc(i)
                 dmg(i,6) = abs(signxy(i))/sc(i)
                 if(dmg(i,4) >= zep99 .or. dmg(i,5) >= zep99 .or. dmg(i,6) >= zep99) dmg_g(i) = one
-              endif
+              end if
               If(check(i) >= zero) then
                 if(dmg_g(i) == one  ) then
                   if( uvar(i,4) == zero .and. uvar(i,5) == zero .and. uvar(i,6) == zero) then
@@ -564,21 +565,21 @@
                     uvar(i,5) = signyy(i)*slimt2
                     if(signyy(i) < zero) uvar(i,5) = -signyy(i)*slimc2
                     uvar(i,6) = abs(signxy(i))*slims
-                  endif
+                  end if
                   signxx(i) = sign(max(uvar(i,4), abs(signxx(i))),signxx(i))
                   signyy(i) = sign(max(uvar(i,5), abs(signyy(i))),signyy(i))
                   signxy(i) = sign(max(uvar(i,6), abs(signxy(i))),signxy(i))
                   if(epsxx(i) /= zero ) w11 = Min(one, abs(signxx(i)/epsxx(i))/e1)
                   if(epsyy(i) /= zero ) w22 = Min(one, abs(signyy(i)/epsyy(i))/e2)
                   if(epsxy(i) /= zero ) w12 = Min(one, abs(signxy(i)/epsxy(i))/g12)
-                endif
-              endif
+                end if
+              end if
               dmg(i,1) = w11
               dmg(i,2) = w22
               dmg(i,3) = w12
               dezz(i)    = -(nu12/e1)*(signxx(i)-sigoxx(i))-(nu12/e2)*(signyy(i)-sigoyy(i))
               thk(i)     = thk(i) + dezz(i)*thkly(i)*off(i)
-            enddo ! nel
+            end do ! nel
             !  coupling between matrix and shear
             !  FS = 0
             !
@@ -604,7 +605,7 @@
                   w11 = abs(epsxx(i))/ef11c(i)
                   w11 = exp(m1c(i)*log(w11))/al1c(i)
                   w11 = exp(-w11)  !
-                endif
+                end if
                 ! dir b
                 if(epsyy(i) >= zero )then
                   w22 = epsyy(i)/ef22t(i)
@@ -614,7 +615,7 @@
                   w22 = abs(epsyy(i))/ef22c(i)
                   w22 = exp(m2c(i)*log(w22))/al2c(i)
                   w22 = exp(-w22)  !
-                endif
+                end if
                 w12 = abs(epsxy(i))/efs(i)
                 w12 = exp(ms(i)*log(w12))/als(i)  ! (esp/epsf)^m/alpha
                 w12 = exp(-w12)
@@ -623,7 +624,7 @@
                 w22 = dmg(i,2)
                 w12 = dmg(i,3)
                 uvar(i,2) = -one
-              endif
+              end if
               ! damage hook matrix
               d = (one - w11*w22*nu12*nu21)
               e1d = w11*e1
@@ -643,7 +644,7 @@
                 dmg(i,5) = (signyy(i)/yt(i))**2 + (signxy(i)/sc(i))**2
                 if(signyy(i) < zero )dmg(i,5) = (signyy(i)/yc(i))**2 + (signxy(i)/sc(i))**2
                 if(dmg(i,4) >= zep99 .or. dmg(i,5) >=  zep99) dmg_g(i) = one
-              endif
+              end if
               if( check(i) >= zero  ) then
                 if(dmg_g(i) == one  ) then
                   ! if( uvar(i,4) == zero .and. uvar(i,5) == zero .and. uvar(i,6) == zero) then
@@ -653,19 +654,19 @@
                     uvar(i,5) = signyy(i)*slimt2
                     if(signyy(i) < zero) uvar(i,5) = -signyy(i)*slimc2
                     uvar(i,6) = abs(signxy(i))*slims
-                  endif
+                  end if
                   signxx(i) = sign(max(uvar(i,4), abs(signxx(i))),signxx(i))
                   signyy(i) = sign(max(uvar(i,5), abs(signyy(i))),signyy(i))
                   signxy(i) = sign(max(uvar(i,6), abs(signxy(i))),signxy(i))
                   if(epsxx(i) /= zero ) w11 = Min(one, abs(signxx(i)/epsxx(i))/e1)
                   if(epsyy(i) /= zero ) w22 = Min(one, abs(signyy(i)/epsyy(i))/e2)
                   if(epsxy(i) /= zero ) w12 = Min(one, abs(signxy(i)/epsxy(i))/g12)
-                endif
+                end if
                 ! save w11 & w22, w12
                 dmg(i,1)= w11
                 dmg(i,2)= w22
                 dmg(i,3)= w12
-              endif
+              end if
               etse(i)   = one
               a11       = max(e1,e2)/(one - nu12**2)
               a11       = max(e1,e2)
@@ -673,7 +674,7 @@
               sigy(i)    = min(slimt1*xt(i),slimt2*yt(i), slimc1*xc(i),slimc2*yc(i))
               dezz(i)  = -(nu12/e1)*(signxx(i)-sigoxx(i))-(nu12/e2)*(signyy(i)-sigoyy(i))
               thk(i)     = thk(i) + dezz(i)*thkly(i)*off(i)
-            enddo ! nel loop
+            end do ! nel loop
           end select ! FS
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine sigeps125c

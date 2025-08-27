@@ -26,6 +26,7 @@
 !||    eikonal_fast_marching_method   ../starter/source/initial_conditions/detonation/eikonal_fast_marching_method.F90
 !||====================================================================
       module eikonal_remove_first_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures

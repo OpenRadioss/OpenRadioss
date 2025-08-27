@@ -27,6 +27,7 @@
 !||    iniebcs_propellant_get_cp   ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
 !||====================================================================
       module array_reindex_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES

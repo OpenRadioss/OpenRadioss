@@ -26,6 +26,7 @@
 !||    mulawc          ../engine/source/materials/mat_share/mulawc.F90
 !||====================================================================
       module sigeps87c_mod
+      implicit none
       contains
 ! ======================================================================================================================
 ! \brief Barlat 2000 elastoplastic material law 87

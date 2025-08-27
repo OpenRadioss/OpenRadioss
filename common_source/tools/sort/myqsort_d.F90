@@ -29,6 +29,8 @@
 !||====================================================================
       module myqsort_d_mod
 
+      implicit none
+
       contains
 !
 
@@ -81,16 +83,16 @@
           if  (n < 1)  then
             error = -1
             return
-          endif
+          end if
 
           if  (n == 1)  then
             perm(1)=1
             return
-          endif
+          end if
 
           do  i = 1, n
             perm(i) = i
-          enddo
+          end do
 !
           top = 1
           left = 1
@@ -99,7 +101,7 @@
             done = 1
           else
             done = 0
-          endif
+          end if
 
 !     quicksort
 !
@@ -119,7 +121,7 @@
               k = perm(left+1)
               perm(left+1) = perm(right)
               perm(right) = k
-            endif
+            end if
             if( a(left) > a(right) ) then
               rk = a(left)
               a(left) = a(right)
@@ -127,7 +129,7 @@
               k = perm(left)
               perm(left) = perm(right)
               perm(right) = k
-            endif
+            end if
             if( a(left+1) >  a(left) ) then
               rk = a(left+1)
               a(left+1) = a(left)
@@ -135,7 +137,7 @@
               k = perm(left+1)
               perm(left+1) = perm(left)
               perm(left) = k
-            endif
+            end if
 
             rv = a(left)
             i = left+1
@@ -145,11 +147,11 @@
               i  = i + 1
               do while(a(i) <  rv)
                 i = i +1
-              enddo
+              end do
               j = j - 1
               do while(a(j) > rv)
                 j = j - 1
-              enddo
+              end do
               if (j >= i) then
                 rk = a(i)
                 a(i) = a(j)
@@ -157,8 +159,8 @@
                 k = perm(i)
                 perm(i) = perm(j)
                 perm(j) = k
-              endif
-            enddo
+              end if
+            end do
 !
             rk = a(left)
             a(left) = a(j)
@@ -178,13 +180,13 @@
                 top = top - 2
                 left = stack(top)
                 right = stack(top+1)
-              endif
+              end if
             else if(min(llen, rlen) <=  treshold) then
               if( llen > rlen ) then
                 right = j - 1
               else
                 left = i
-              endif
+              end if
             else
               if( llen > rlen ) then
                 stack(top) = left
@@ -194,9 +196,9 @@
                 stack(top) = i
                 stack(top+1) = right
                 right = j-1
-              endif
+              end if
               top = top + 2
-            endif
+            end if
           end do
 !
 !     insertion sort
@@ -215,14 +217,14 @@
                 jminus1 = j
                 j = j + 1
                 if  ( j > n )  exit
-              enddo
+              end do
               a(jminus1) = rk
               perm(jminus1) = k
-            endif
+            end if
 !
             iplus1 = i
             i = i - 1
-          enddo
+          end do
 ! ----------------------------------------------------------------------------------------------------------------------
           return
         end subroutine myqsort_d

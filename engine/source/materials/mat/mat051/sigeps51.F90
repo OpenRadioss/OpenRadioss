@@ -26,6 +26,7 @@
 !||    mulaw          ../engine/source/materials/mat_share/mulaw.F90
 !||====================================================================
       module sigeps51_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures
@@ -290,7 +291,7 @@
             UNDT = ONE/TIMESTEP
           ELSE
             UNDT = ZERO
-          ENDIF
+          END IF
 
           IBUG_ID(1:2) = (/0, 0/)
 
@@ -349,19 +350,19 @@
           K=M51_N0PHAS
           DO I=1,NEL
             AV1(I)=UVAR(I,K+23)
-          ENDDO
+          END DO
           K=M51_N0PHAS+M51_NVPHAS
           DO I=1,NEL
             AV2(I)=UVAR(I,K+23)
-          ENDDO
+          END DO
           K=M51_N0PHAS+2*M51_NVPHAS
           DO I=1,NEL
             AV3(I)=UVAR(I,K+23)
-          ENDDO
+          END DO
           K=M51_N0PHAS+3*M51_NVPHAS
           DO I=1,NEL
             AV4(I)=UVAR(I,K+23)
-          ENDDO
+          END DO
 
           PEXT   = UPARAM(8)
 
@@ -478,8 +479,8 @@
               UVAR(I, 11 + KK) = V4OLD
               UVAR(I, 9 + KK) = V4OLD * UVAR(I, 20 + KK)
               UVAR(I, 8 + KK) = V4OLD * UVAR(I, 21 + KK)
-            ENDDO
-          ENDIF
+            END DO
+          END IF
 
           !=======================================================================
           !     TEMPERATURES
@@ -504,8 +505,8 @@
               P4OLD(I) = UVAR(I,18+KK)
             ELSE
               P4OLD(I) = ZERO
-            ENDIF
-          ENDDO
+            END IF
+          END DO
 
           !=======================================================================
           !     PLASTICITY
@@ -526,13 +527,13 @@
               DEPS(6,I) = DEPSZX(I)
               EPD(I)=OFF(I)*MAX(   ABS(EPSPXX(I)),   ABS(EPSPYY(I)),   ABS(EPSPZZ(I)), &
                 HALF*ABS(EPSPXY(I)),HALF*ABS(EPSPYZ(I)),HALF*ABS(EPSPZX(I)))
-            ENDDO
+            END DO
             IF(BUFLY%L_EPSD > 0)THEN
               DO I=1,NEL
                 LBUF%EPSD(I) = EPD(I)
-              ENDDO
-            ENDIF
-          ENDIF
+              END DO
+            END IF
+          END IF
 
           !===================================
           !       material 1 : PLASTICITY
@@ -544,7 +545,7 @@
               IF(VOLUME(I) == ZERO)CYCLE
               DO J=1,6
                 SIGD(J,I)  = UVAR(I,KK + J + 1)
-              ENDDO
+              END DO
 
               VFRAC(I)     = UVAR(I,1+KK)
               PP(I)        = UVAR(I,18+KK)
@@ -554,7 +555,7 @@
               EINT0(I)     = UVAR(I,8 +KK)
               EPSEQ1(I)    = UVAR(I,19+KK)   ! Dprag
 
-            ENDDO
+            END DO
             SELECT CASE (IPLA1)
              CASE (1)
               CALL JCOOK51 (NEL  ,SIGD     ,PLAS1       ,TEMP   ,VOL  , &
@@ -596,8 +597,8 @@
 
               !total stress is set before  returning from sigeps51.F
 
-            ENDDO
-          ENDIF
+            END DO
+          END IF
 
           !===================================
           !        material 2 : PLASTICITY
@@ -609,7 +610,7 @@
               IF(VOLUME(I) == ZERO)CYCLE
               DO J=1,6
                 SIGD(J,I)   = UVAR(I,KK + J + 1)
-              ENDDO
+              END DO
               VFRAC(I)     = UVAR(I,1+KK)
               PP(I)        = UVAR(I,18+KK)
               PLAS2(I)     = UVAR(I,15+KK)
@@ -617,7 +618,7 @@
               VOL(I)       = UVAR(I,11+KK)
               EINT0(I)     = UVAR(I,8 +KK)
               EPSEQ2(I)    = UVAR(I,19+KK)   ! Dprag
-            ENDDO
+            END DO
             SELECT CASE (IPLA2)
              CASE (1)
               CALL JCOOK51 (NEL  ,SIGD     ,PLAS2       ,TEMP   ,VOL  , &
@@ -656,8 +657,8 @@
               UVAR(I,8+KK)       = EINT0(I)
               UVAR(I,19+KK)      = EPSEQ2(I)   ! Dprag
 
-            ENDDO
-          ENDIF
+            END DO
+          END IF
 
           !===================================
           !        material 3 : PLASTICITY
@@ -669,7 +670,7 @@
               IF(VOLUME(I) == ZERO)CYCLE
               DO J=1,6
                 SIGD(J,I)  = UVAR(I,KK + J + 1)
-              ENDDO
+              END DO
               VFRAC(I)     = UVAR(I,1+KK)
               PP(I)        = UVAR(I,18+KK)
               PLAS3(I)     = UVAR(I,15+KK)
@@ -677,7 +678,7 @@
               VOL(I)       = UVAR(I,11+KK)
               EINT0(I)     = UVAR(I,8 +KK)
               EPSEQ3(I)    = UVAR(I,19+KK)   ! Dprag
-            ENDDO
+            END DO
             SELECT CASE (IPLA3)
              CASE (1)
               CALL JCOOK51 (NEL  ,SIGD    ,PLAS3       ,TEMP   ,VOL  , &
@@ -717,8 +718,8 @@
               UVAR(I,19+KK) = EPSEQ3(I)   ! Dprag
               !total stress is set before  returning from sigeps51.F
 
-            ENDDO
-          ENDIF
+            END DO
+          END IF
 
 
 
@@ -816,7 +817,7 @@
               P4OLD(I)= UVAR(I,KK + 18) ! Pressure
               MU4 = (RHO4OLD/RHO40 - ONE)
               BFRAC(I) = GBUF%BFRAC(I)
-            ENDIF
+            END IF
 
             !===================================
             ! GLOBAL PRESSURE IN ELEMENT
@@ -851,7 +852,7 @@
             ! END IF
             IF (TIME  ==  ZERO) THEN
               EINT(I)= EINT1 + EINT2 + EINT3 + EINT4
-            ENDIF
+            END IF
             !=======================================================================
             !  NUMERICAL VISCOSITY
             !=======================================================================
@@ -912,7 +913,7 @@
               VQ2  = ZERO
               VQ3  = ZERO
               VQ4  = ZERO
-            ENDIF
+            END IF
 
             Q1   = VQ1
             Q2   = VQ2
@@ -959,7 +960,7 @@
               V1 = ZERO
               V10   = ZERO
               ALPHA1OLD = ZERO
-            ENDIF
+            END IF
             IF (MAS2 / MASS  >  TOL51 .AND. MAS2/RHO20/VOLD > Tol51) THEN
               SUBMAT_CODE = SUBMAT_CODE + 2
               V20 = MAS2 / RHO20
@@ -974,7 +975,7 @@
               V2 = ZERO
               V20   = ZERO
               ALPHA2OLD = ZERO
-            ENDIF
+            END IF
 
             IF (MAS3 / MASS  >  TOL51 .AND. MAS3/RHO30/VOLD > Tol51) THEN
               SUBMAT_CODE = SUBMAT_CODE + 4
@@ -990,7 +991,7 @@
               V3 = ZERO
               V30   = ZERO
               ALPHA3OLD = ZERO
-            ENDIF
+            END IF
 
             IF (MAS4 / MASS  >  TOL51 .AND. MAS4/RHO40/VOLD > Tol51) THEN
               SUBMAT_CODE = SUBMAT_CODE + 8
@@ -1005,7 +1006,7 @@
               V4 = ZERO
               V40   = ZERO
               ALPHA4OLD = ZERO
-            ENDIF
+            END IF
             ! SANITY CHECK
             AA = (V1 + V2 + V3 + V4) / VOLUME(I)
             IF(AA > EM06)THEN
@@ -1018,7 +1019,7 @@
               V2 = ZERO
               V3 = ZERO
               V4 = ZERO
-            ENDIF
+            END IF
             !Mass may have changed and then needs to be update.
             MASS = MAS1 + MAS2 + MAS3 + MAS4
             RHO(I) = MASS / VOLUME(I)
@@ -1083,7 +1084,7 @@
                 !==========================================
                 ! The only material is MAT2 (sol, liq, gas)
                 !==========================================
-              ELSEIF(SUBMAT_CODE == 2)THEN
+              ELSE IF(SUBMAT_CODE == 2)THEN
                 !EINT2 = EINT2  - HALF*(PEXT + POLD + QQOLD(I)) * DDVOL(I) !2nd order integration (semi-implicit)
                 EINT2 = EINT2  -      (PEXT + POLD + QQOLD(I)) * DDVOL(I) !first order integration (explicit)
                 RHO0E2 = EINT2/V20
@@ -1111,7 +1112,7 @@
                 !==========================================
                 ! The only material is MAT3 (sol, liq, gas)
                 !==========================================
-              ELSEIF(SUBMAT_CODE == 4)THEN
+              ELSE IF(SUBMAT_CODE == 4)THEN
                 !EINT3 = EINT3  - HALF*(PEXT + POLD + QQOLD(I)) * DDVOL(I) !2nd order integration (semi-implicit)
                 EINT3 = EINT3  -      (PEXT + POLD + QQOLD(I)) * DDVOL(I) !first order integration (explicit)
                 RHO0E3 = EINT3/V30
@@ -1138,7 +1139,7 @@
                 !===========================================
                 ! The only material is MAT4 (High Explosive)
                 !===========================================
-              ELSEIF(SUBMAT_CODE == 8)THEN
+              ELSE IF(SUBMAT_CODE == 8)THEN
                 EINT4 = EINT4  - (PEXT + POLD + QQOLD(I)) * DDVOL(I)
                 EINT(I) = EINT4
                 V4 = VOLUME(I)
@@ -1164,12 +1165,12 @@
                 TEMP4 = MAX(TEMP4, ZERO)
                 TEMP4 = MIN(TEMP4, TMAX)
 
-              ENDIF
+              END IF
 
               ! MORE THAN ONE MATERIAL IN ELEMENT
               !    SUBMAT_CODE /= 1,2,4,8
               !    SUBMAT_CODE /= 0
-            ELSEIF(SUBMAT_CODE /= 0) THEN
+            ELSE IF(SUBMAT_CODE /= 0) THEN
 
 
 !=======================================================================
@@ -1240,7 +1241,7 @@
                   V10,V1,V1I,MU1,MU1P1,EINT1, &
                   PEXT,P1,PM1,P1I, &
                   RHO1,RHO10,MAS1,SSP1,DVDP1,DPDV1, E1_INF, DPDE1, 0)
-              ENDIF
+              END IF
 
               ! MAT2
               IF (V2  >  ZERO) THEN
@@ -1248,7 +1249,7 @@
                   V20,V2,V2I,MU2,MU2P1,EINT2, &
                   PEXT,P2,PM2,P2I, &
                   RHO2,RHO20,MAS2,SSP2,DVDP2,DPDV2, E2_INF, DPDE2, 0)
-              ENDIF
+              END IF
 
               ! MAT3
               IF (V3  >  ZERO) THEN
@@ -1256,7 +1257,7 @@
                   V30,V3,V3I,MU3,MU3P1,EINT3, &
                   PEXT,P3,PM3,P3I, &
                   RHO3,RHO30,MAS3,SSP3,DVDP3,DPDV3, E3_INF, DPDE3, 0)
-              ENDIF
+              END IF
 
               ! MAT4 : High Explosive
               IF (V4  >  ZERO) THEN
@@ -1270,7 +1271,7 @@
                   P4OLD(I),PEXT,P4,PM4, &
                   RHO4,RHO40,MAS4,SSP4,DVDP4,DPDV4, &
                   BFRAC(I),V40, DPDE4, 0)
-              ENDIF
+              END IF
 
               !---------------------------------------------------
               !     Save initial state in case of convergence failure
@@ -1309,19 +1310,19 @@
                 COEF1 = ZERO
                 IF (V1  >  ZERO .AND. SSP1  >  ZERO) THEN
                   COEF1 = V1 / RHO1 / SSP1 / SSP1
-                ENDIF
+                END IF
                 COEF2 = ZERO
                 IF (V2  >  ZERO .AND. SSP2  >  ZERO) THEN
                   COEF2 = V2 / RHO2 / SSP2 / SSP2
-                ENDIF
+                END IF
                 COEF3 = ZERO
                 IF (V3  >  ZERO .AND. SSP3  >  ZERO) THEN
                   COEF3 = V3 / RHO3 / SSP3 / SSP3
-                ENDIF
+                END IF
                 COEF4 = ZERO
                 IF (V4  >  ZERO .AND. SSP4  >  ZERO) THEN
                   COEF4 = V4 / RHO4 / SSP4 / SSP4
-                ENDIF
+                END IF
                 !!! Relaxation pressure
                 P = (COEF1 * P1 + COEF2 * P2 + COEF3 * P3 + COEF4 * P4)
                 P = P / (COEF1 + COEF2 + COEF3 + COEF4)
@@ -1339,16 +1340,16 @@
                 STEP = ONE
                 IF (DV1 < ZERO) THEN
                   STEP = MIN(STEP, -HALF * V1 / DV1)
-                ENDIF
+                END IF
                 IF (DV2 < ZERO) THEN
                   STEP = MIN(STEP, -HALF * V2 / DV2)
-                ENDIF
+                END IF
                 IF (DV3 < ZERO) THEN
                   STEP = MIN(STEP, -HALF * V3 / DV3)
-                ENDIF
+                END IF
                 IF (DV4 < ZERO) THEN
                   STEP = MIN(STEP, -HALF * V4 / DV4)
-                ENDIF
+                END IF
 
                 DV1 = STEP * DV1
                 DV2 = STEP * DV2
@@ -1363,16 +1364,16 @@
 
                 IF (V1  >  ZERO) THEN
                   EINT1 = EINT1 - (P + PEXT) * DV1
-                ENDIF
+                END IF
                 IF (V2  >  ZERO) THEN
                   EINT2 = EINT2 - (P + PEXT) * DV2
-                ENDIF
+                END IF
                 IF (V3  >  ZERO) THEN
                   EINT3 = EINT3 - (P + PEXT) * DV3
-                ENDIF
+                END IF
                 IF (V4  >  ZERO) THEN
                   EINT4 = EINT4 - (P + PEXT) * DV4
-                ENDIF
+                END IF
 
                 !!! Update volumes
                 V1 = V1 + DV1
@@ -1407,7 +1408,7 @@
                     V10,V1,V1I,MU1,MU1P1,EINT1, &
                     PEXT,P1,PM5,P1I, &
                     RHO1,RHO10,MAS1,SSP1,DVDP1,DPDV1, E1_INF, DPDE1, 0)
-                ENDIF
+                END IF
                 !===========================================
                 !       material 2 - Polynomial EOS
                 !===========================================
@@ -1416,7 +1417,7 @@
                     V20,V2,V2I,MU2,MU2P1,EINT2, &
                     PEXT,P2,PM5,P2I, &
                     RHO2,RHO20,MAS2,SSP2,DVDP2,DPDV2, E2_INF, DPDE2, 0)
-                ENDIF
+                END IF
                 !===========================================
                 !       material 3 - Polynomial EOS
                 !===========================================
@@ -1425,7 +1426,7 @@
                     V30,V3,V3I,MU3,MU3P1,EINT3, &
                     PEXT,P3,PM5,P3I, &
                     RHO3,RHO30,MAS3,SSP3,DVDP3,DPDV3, E3_INF, DPDE3, 0)
-                ENDIF
+                END IF
                 !===========================================
                 !       material 4 - Polynomial EOS
                 !===========================================
@@ -1435,7 +1436,7 @@
                     P4OLD(I),PEXT,P4,PM5,&
                     RHO4,RHO40,MAS4,SSP4,DVDP4,DPDV4,&
                     BFRAC(I),V40, DPDE4, 0)
-                ENDIF
+                END IF
 
                 !!! Check convergence
                 ERROR = ZERO
@@ -1446,9 +1447,9 @@
 
                 IF (ERROR  <  TOL) THEN
                   CONT = 0
-                ENDIF
+                END IF
 
-              ENDDO
+              END DO
 
               DVOL1=ZERO
               DVOL2=ZERO
@@ -1493,17 +1494,17 @@
               IF (CONT  ==  1) THEN
                 IF (IDBG  ==  1) THEN
                   PRINT*, "*** Non convergence of LAW51 EOS in elem", IX(NIX, I + NFT), ERROR, ERROR2
-                ENDIF
-              ENDIF
+                END IF
+              END IF
               AA = (V1 + V2 + V3 + V4) / VOLUME(I)
               IF (IDBG==1 .AND. ABS(AA - ONE) > EM14) THEN
                 PRINT*, "**WARNING : CONVERGENCE ISSUE", AA
-              ENDIF
+              END IF
               ! Sanity check
               ERROR2 = ABS(EINT(I) - EINT1 - EINT2 - EINT3 - EINT4)
               IF (IDBG==1 .AND. ERROR2 > EM13 * (ONE + ABS(EINT(I)))) THEN
                 PRINT*, "**Warning : Conversgence Issue", ERROR2
-              ENDIF
+              END IF
               Q1 = Q1OLD
               Q2 = Q2OLD
               Q3 = Q3OLD
@@ -1517,12 +1518,12 @@
 !=======================================================================
 
 
-            ELSEIF(SUBMAT_CODE == 0) THEN
+            ELSE IF(SUBMAT_CODE == 0) THEN
               !! This case should not occur.It means that MASS<=ZERO
               !print *, "Warning, empty element"
               SOUNDSP(I)=EM20
 
-            ENDIF
+            END IF
 
             RHO(I) = MASS / VOLUME(I)
 
@@ -1532,19 +1533,19 @@
             IF (MAS1 / MASS  >  TOL51) THEN
               SOUNDSP(I) = SOUNDSP(I) + MAS1 / MASS * SSP1 * SSP1
               VISA1 = VISA1 + V1*RHO1 * VISC1
-            ENDIF
+            END IF
             IF (MAS2 / MASS  >  TOL51) THEN
               SOUNDSP(I) = SOUNDSP(I) + MAS2 / MASS * SSP2 * SSP2
               VISA1 = VISA1 + V2*RHO2 * VISC2
-            ENDIF
+            END IF
             IF (MAS3 / MASS  >  TOL51) THEN
               SOUNDSP(I) = SOUNDSP(I) + MAS3 / MASS * SSP3 * SSP3
               VISA1 = VISA1 + V3*RHO3 * VISC3
-            ENDIF
+            END IF
             IF (MAS4 / MASS  >  TOL51) THEN
               SOUNDSP(I) = SOUNDSP(I) + MAS4 / MASS * SSP4 * SSP4
               VISA1 = VISA1 + V4*RHO4 * VISC4
-            ENDIF
+            END IF
 
             VISA1 = VISA1 / VOLUME(I) / RHO(I)
 
@@ -1579,7 +1580,7 @@
               SIGNXY(I) = SIGNXY(I) + UVAR(I,5+K4) * V4
               SIGNYZ(I) = SIGNYZ(I) + UVAR(I,6+K4) * V4
               SIGNZX(I) = SIGNZX(I) + UVAR(I,7+K4) * V4
-            ENDIF
+            END IF
 
             SIGNXX(I) = SIGNXX(I) / VOLUME(I)
             SIGNYY(I) = SIGNYY(I) / VOLUME(I)
@@ -1645,7 +1646,7 @@
               UVAR(I,18+KK) =  P
               UVAR(I,19+KK) = ZERO
               EPSEQ1(I)     = ZERO
-            ENDIF
+            END IF
 
             !===================================================C
             !        material 2 : THERMODYNAMICAL STATE OUTPUT  C
@@ -1686,7 +1687,7 @@
               UVAR(I,18+KK) =   P
               UVAR(I,19+KK) = ZERO
               EPSEQ2(I)     = ZERO
-            ENDIF
+            END IF
 
             !===================================================C
             !        material 3 : THERMODYNAMICAL STATE OUTPUT  C
@@ -1727,7 +1728,7 @@
               TEMP3         = T30
               UVAR(I,19+KK) = ZERO
               EPSEQ3(I)     = ZERO
-            ENDIF
+            END IF
 
             !===================================================C
             !        material 4 : THERMODYNAMICAL STATE OUTPUT  C
@@ -1767,7 +1768,7 @@
                 UVAR(I,17+KK) = ZERO ! energie diffusee IN spec OUT
                 TEMP4 = T40
                 UVAR(I,19+KK) = ZERO
-              ENDIF
+              END IF
             END IF
             !===================================================
             !               UVAR(I,1) : PLAS
@@ -1798,13 +1799,13 @@
             IF(BUFLY%L_EPSQ > 0)THEN
               LBUF%EPSQ(I) = ZERO
               IF(IPLA > 0) LBUF%EPSQ(I) = EPSEQ1(I) + EPSEQ2(I) + EPSEQ3(I)
-            ENDIF
+            END IF
 
             IF(JTHE == 1 ) THEN
               GBUF%TEMP(I) = UVAR(I,2)
             ELSE
               GBUF%TEMP(I) = UVAR(I,2)
-            ENDIF
+            END IF
 
             QVIS(I) = QQOLD(I)
 
@@ -1822,7 +1823,7 @@
 
             wfextt = wfextt - DDVOL(I)*pext !group accumulation
 
-          ENDDO  !DO I=1,NEL
+          END DO  !DO I=1,NEL
 
 !$OMP ATOMIC
           wfext = wfext + wfextt

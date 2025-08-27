@@ -28,6 +28,8 @@
 !||====================================================================
       module spmd_xv_inter_type1_mod
 
+      implicit none
+
         INTEGER :: IS_PRESENT_INTER1  ! -1 : not yet defined
         !  0 : false
         !  1 : true
@@ -107,59 +109,59 @@
                 is_present_inter1 = 1
                 exit
               end if
-            enddo
+            end do
           end if
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-              if(nspmd>1) then ! check the number of processor
-                if(ispmd /= 0) then ! prepare the reception on secondary processor
+          if(nspmd>1) then ! check the number of processor
+            if(ispmd /= 0) then ! prepare the reception on secondary processor
 
-                  my_size = IAD_ELEM(1,2) - IAD_ELEM(1,1)
-                  if(my_size /= 0) then
-                    rcv_buff%size_my_real_array_2d(1) = 6
-                    rcv_buff%size_my_real_array_2d(2) = my_size
-                    call alloc_my_real_2D_array(rcv_buff) ! allocate the R buffer
-                    array_size = rcv_buff%size_my_real_array_2d(1) * rcv_buff%size_my_real_array_2d(2)
-                    call spmd_irecv(rcv_buff%my_real_array_2d(:,1),array_size,0,my_tag,my_request,SPMD_COMM_WORLD) ! post the R comm, sent by the processor 0
-                    call spmd_wait(my_request) ! wait the R comm, sent by the processor 0
-                    do k=1,my_size
-                      ! index pour noeuds frontieres appartement au interface /TYPE1
-                      a(1:3,FR_ELEM(IAD_ELEM(1,0+1)-1+k)) = rcv_buff%my_real_array_2d(1:3,k)
-                      v(1:3,FR_ELEM(IAD_ELEM(1,0+1)-1+k)) = rcv_buff%my_real_array_2d(4:6,k)
-                    enddo
-                    call dealloc_my_real_2D_array(rcv_buff) ! deallocate the R buffer
-                  endif
+              my_size = IAD_ELEM(1,2) - IAD_ELEM(1,1)
+              if(my_size /= 0) then
+                rcv_buff%size_my_real_array_2d(1) = 6
+                rcv_buff%size_my_real_array_2d(2) = my_size
+                call alloc_my_real_2D_array(rcv_buff) ! allocate the R buffer
+                array_size = rcv_buff%size_my_real_array_2d(1) * rcv_buff%size_my_real_array_2d(2)
+                call spmd_irecv(rcv_buff%my_real_array_2d(:,1),array_size,0,my_tag,my_request,SPMD_COMM_WORLD) ! post the R comm, sent by the processor 0
+                call spmd_wait(my_request) ! wait the R comm, sent by the processor 0
+                do k=1,my_size
+                  ! index pour noeuds frontieres appartement au interface /TYPE1
+                  a(1:3,FR_ELEM(IAD_ELEM(1,0+1)-1+k)) = rcv_buff%my_real_array_2d(1:3,k)
+                  v(1:3,FR_ELEM(IAD_ELEM(1,0+1)-1+k)) = rcv_buff%my_real_array_2d(4:6,k)
+                end do
+                call dealloc_my_real_2D_array(rcv_buff) ! deallocate the R buffer
+              end if
 
-                else ! prepare the sending by main processor ("0")
+            else ! prepare the sending by main processor ("0")
 
-                  my_size_0(1) = 0
-                  do j=2,nspmd
-                    my_size_0(j) = IAD_ELEM(1,J+1) - IAD_ELEM(1,J)
-                    send_buff(j)%size_my_real_array_2d(1) = 6
-                    send_buff(j)%size_my_real_array_2d(2) = my_size_0(j)
-                    call alloc_my_real_2D_array(send_buff(j)) ! allocate the S buffer
-                    do k=1,my_size_0(j)
-                      ! index pour noeuds frontieres appartement au interface /TYPE1
-                      send_buff(j)%my_real_array_2d(1:3,k) = a(1:3, fr_elem(IAD_ELEM(1,J)+k-1)) ! save acceleration into the S buffer
-                      send_buff(j)%my_real_array_2d(4:6,k) = v(1:3, fr_elem(IAD_ELEM(1,J)+k-1)) ! save velocity into the S buffer
-                    enddo
-                    ! send the S buffer to processor "j"
-                    array_size = send_buff(j)%size_my_real_array_2d(1) * send_buff(j)%size_my_real_array_2d(2)
-                    if(my_size_0(j) /= 0) then
-                      call spmd_isend(send_buff(j)%my_real_array_2d(:,1),array_size,j-1,my_tag,my_request_0(j),SPMD_COMM_WORLD)
-                    endif
-                  enddo
+              my_size_0(1) = 0
+              do j=2,nspmd
+                my_size_0(j) = IAD_ELEM(1,J+1) - IAD_ELEM(1,J)
+                send_buff(j)%size_my_real_array_2d(1) = 6
+                send_buff(j)%size_my_real_array_2d(2) = my_size_0(j)
+                call alloc_my_real_2D_array(send_buff(j)) ! allocate the S buffer
+                do k=1,my_size_0(j)
+                  ! index pour noeuds frontieres appartement au interface /TYPE1
+                  send_buff(j)%my_real_array_2d(1:3,k) = a(1:3, fr_elem(IAD_ELEM(1,J)+k-1)) ! save acceleration into the S buffer
+                  send_buff(j)%my_real_array_2d(4:6,k) = v(1:3, fr_elem(IAD_ELEM(1,J)+k-1)) ! save velocity into the S buffer
+                end do
+                ! send the S buffer to processor "j"
+                array_size = send_buff(j)%size_my_real_array_2d(1) * send_buff(j)%size_my_real_array_2d(2)
+                if(my_size_0(j) /= 0) then
+                  call spmd_isend(send_buff(j)%my_real_array_2d(:,1),array_size,j-1,my_tag,my_request_0(j),SPMD_COMM_WORLD)
+                end if
+              end do
 
-                  do j=2,nspmd
-                    if(my_size_0(j) /= 0) then
-                      call spmd_wait(my_request_0(j))  ! wait the S comm for the processor "j"
-                      call dealloc_my_real_2D_array(send_buff(j)) ! allocate the S buffer
-                    endif
-                  enddo
+              do j=2,nspmd
+                if(my_size_0(j) /= 0) then
+                  call spmd_wait(my_request_0(j))  ! wait the S comm for the processor "j"
+                  call dealloc_my_real_2D_array(send_buff(j)) ! allocate the S buffer
+                end if
+              end do
 
-                endif
-              endif
-              return
-            end subroutine spmd_xv_inter_type1
-          end module spmd_xv_inter_type1_mod
+            end if
+          end if
+          return
+        end subroutine spmd_xv_inter_type1
+      end module spmd_xv_inter_type1_mod

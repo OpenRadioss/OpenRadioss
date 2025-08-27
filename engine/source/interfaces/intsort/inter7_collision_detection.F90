@@ -26,6 +26,7 @@
 !||    inter_sort_07                    ../engine/source/interfaces/int07/inter_sort_07.F
 !||====================================================================
       MODULE INTER7_COLLISION_DETECTION_MOD
+      implicit none
       CONTAINS
 !||====================================================================
 !||    inter7_collision_detection   ../engine/source/interfaces/intsort/inter7_collision_detection.F90
@@ -183,7 +184,7 @@
               call spmd_oldnumcd(renum,prev_remote_number,s_prev_remote_number,nsnrold, &
                 intheat,idt_therm,nodadt_therm)
             end if
-          endif
+          end if
 !$OMP SINGLE
           if(nrtm>0)then
             ! finish to fill the voxel with local nondes
@@ -232,7 +233,7 @@
 !       &                    stfn,&
 !       &                    xrem,&
 !       &                    inter_struct%box_limit_main)
-          ENDIF
+          END IF
 !$OMP END SINGLE
 
 
@@ -298,7 +299,7 @@
             IF(ALLOCATED(PREV_REMOTE_NUMBER)) DEALLOCATE(PREV_REMOTE_NUMBER)
 !           if(allocated(inter_struct%list_nb_voxel_on)) deallocate(inter_struct%list_nb_voxel_on)
 
-          ENDIF
+          END IF
 !     I_MEM = 2 ==> Not enough memory
           IF (I_MEM ==2) RETURN
           IF(I_MEM==1)THEN
@@ -307,9 +308,9 @@
               CALL ANCMSG(MSGID=85,ANMODE=ANINFO,&
               &I1=NOINT)
               CALL ARRET(2)
-            ENDIF
+            END IF
             ILD = 1
-          ELSEIF(I_MEM==2) THEN
+          ELSE IF(I_MEM==2) THEN
             RETURN
             TZINF = THREE_OVER_4*TZINF
 ! taille de boite non diminuee
@@ -317,19 +318,19 @@
 !        MAXBOX= THREE_OVER_4*MAXBOX
             IF( TZINF<=MAX(GAP+DGAPLOAD,DRAD)  ) THEN
               CALL ANCMSG(MSGID=98,ANMODE=ANINFO,&
-              &I1=NOINT,C1='(I7BUCE)')
+              &I1=NOINT,C1="(I7BUCE)")
               CALL ARRET(2)
-            ENDIF
+            END IF
             ILD = 1
-          ELSEIF(I_MEM==3)THEN
+          ELSE IF(I_MEM==3)THEN
             NB_N_B = NB_N_B + 1
             IF ( NB_N_B > NCONT) THEN
               CALL ANCMSG(MSGID=100,ANMODE=ANINFO,&
               &I1=NOINT)
               CALL ARRET(2)
-            ENDIF
+            END IF
             ILD = 1
-          ENDIF
+          END IF
 !
           RETURN
         end subroutine INTER7_COLLISION_DETECTION

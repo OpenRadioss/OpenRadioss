@@ -204,14 +204,14 @@
               lenc =2
             else
               lenc = 8
-            endif
+            end if
             if(iorth == 0) then
               len    =lenc*(nset+1)
               call write_db_array(intbuf_fric_tab(n)%tabcoef_fric,len)
             else
               len    =lenc+2*lenc*nset
               call write_db_array(intbuf_fric_tab(n)%tabcoef_fric,len)
-            endif
+            end if
           end do
           return
         end subroutine intfric_wrestr
@@ -339,18 +339,18 @@
               lenc =2
             else
               lenc = 8
-            endif
+            end if
 
             if(iorth == 0) then
               len    =lenc*(nset+1)
             else
               len    =lenc+2*lenc*nset
-            endif
+            end if
 
             if(len>0)then
               allocate(intbuf_fric_tab(n)%tabcoef_fric(len))
               call read_db_array(intbuf_fric_tab(n)%tabcoef_fric,len)
-            endif
+            end if
 
           end do
           return

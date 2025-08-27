@@ -31,6 +31,7 @@
 !||    read_matparam                 ../engine/source/output/restart/read_matparam.F
 !||====================================================================
       module read_ale_rezoning_param_mod
+      implicit none
       contains
 
 !||====================================================================

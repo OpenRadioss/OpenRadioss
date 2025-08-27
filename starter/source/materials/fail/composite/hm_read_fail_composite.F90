@@ -26,6 +26,7 @@
 !||    hm_read_fail                 ../starter/source/materials/fail/hm_read_fail.F
 !||====================================================================
       module hm_read_fail_composite_mod
+      implicit none
       contains
 !||====================================================================
 !||    hm_read_fail_composite   ../starter/source/materials/fail/composite/hm_read_fail_composite.F90
@@ -54,11 +55,11 @@
           use hm_option_read_mod
           use elbuftag_mod
           use constant_mod
+          use precision_mod , only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                 implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
-#include  "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   arguments
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -73,9 +74,9 @@
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: ifail_sh,ifail_so
-          my_real :: sigt1,sigc1,sigt2,sigc2,sig12
-          my_real :: sigt3,sigc3,sig23,sig31
-          my_real :: beta,tmax,expn,pthkf
+          real(kind=WP) :: sigt1,sigc1,sigt2,sigc2,sig12
+          real(kind=WP) :: sigt3,sigc3,sig23,sig31
+          real(kind=WP) :: beta,tmax,expn,pthkf
           logical :: is_available,is_encrypted
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                 body

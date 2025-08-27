@@ -26,6 +26,7 @@
 !||    initia                          ../starter/source/elements/initia/initia.F
 !||====================================================================
       module detonation_times_printout_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures
@@ -99,8 +100,8 @@
                 if(tdet == ep21 .or. tdet == -ep21)then
                   elbuf_tab(ng)%gbuf%tb(i) = zero
                 end if
-              enddo
-            endif
+              end do
+            end if
           end do
 
           !---------------------------------!
@@ -109,7 +110,7 @@
           if(n2d == 0)then
             ix => ixs(1:nixs,1:numels)
             nix = nixs
-          elseif(numelq > 0)then
+          else if(numelq > 0)then
             ix => ixq(1:nixq,1:numelq)
             nix = nixq
           else
@@ -131,17 +132,17 @@
                   write(iout,510) iel,tdet
                   if(mpr == 50) mpr=0
                 end do
-              endif
+              end if
             end do
-          endif
+          end if
 
           return
 
 ! ----------------------------------------------------------------------------------------------------------------------
 500       FORMAT(//, &
-            5X, 'DETONATION TIMES FOR JWL ELEMENTS' /, &
-            5X, '---------------------------------' //, &
-            5X, 'ELEMENT DETONATION TIME' /)
+            5X, "DETONATION TIMES FOR JWL ELEMENTS" /, &
+            5X, "---------------------------------" //, &
+            5X, "ELEMENT DETONATION TIME" /)
 510       FORMAT(5X,I10,E15.5)
 
 ! ----------------------------------------------------------------------------------------------------------------------

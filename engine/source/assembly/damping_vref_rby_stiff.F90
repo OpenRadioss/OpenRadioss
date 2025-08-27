@@ -26,6 +26,7 @@
 !||    rbyfor                       ../engine/source/constraints/general/rbody/rbyfor.F
 !||====================================================================
       module damping_vref_rby_stiff_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
@@ -96,9 +97,9 @@
               fac = sqrt(one + dd*dd) - dd
               stifr(m) = stifr(m) / fac**2
 !
-            endif
+            end if
 !
-          enddo
+          end do
 !
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine damping_vref_rby_stiff

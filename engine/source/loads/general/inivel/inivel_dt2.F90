@@ -27,6 +27,7 @@
 !||====================================================================
       module inivel_dt2_mod
 !
+      implicit none
       contains
         !! \brief time step change due to inivel w/ T_start
 !||====================================================================

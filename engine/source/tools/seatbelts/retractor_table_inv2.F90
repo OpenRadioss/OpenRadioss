@@ -26,6 +26,7 @@
 !||    material_flow              ../engine/source/tools/seatbelts/material_flow.F
 !||====================================================================
       module retractor_table_inv2_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
@@ -85,7 +86,7 @@
 !
           ndim = table%ndim
           if (ndim > 1) then
-            call ancmsg(msgid=36, anmode=aninfo, c1='table interpolation')
+            call ancmsg(msgid=36, anmode=aninfo, c1="table interpolation")
             call arret(2)
           end if
 !
@@ -107,7 +108,7 @@
                 xx = xx_temp
                 error = abs(xx_temp - xx_prev)
               end if
-            endif
+            end if
           end do
 !
 ! ----------------------------------------------------------------------------------------------------------------------

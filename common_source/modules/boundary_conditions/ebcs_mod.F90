@@ -111,7 +111,7 @@
 !     Generic ebcs type
 !     -----------------
         type, public :: t_ebcs
-          character(len=nchartitle) :: title =''              !<     user title
+          character(len=nchartitle) :: title =""              !<     user title
           integer :: type = -1
           integer :: ebcs_id = -1
           integer :: surf_id = -1
@@ -388,7 +388,7 @@
             this%nebcs = nebcs
             allocate(this%tab(nebcs))
             this%is_created = .true.
-          endif
+          end if
         end subroutine create
 
 !     Creation from given type numbers
@@ -452,8 +452,8 @@
                case default
                 print*, "EBCS type ", type, " unrecognized"
               end select
-            enddo
-          endif
+            end do
+          end if
         end subroutine create_from_types
 !     Deallocation
 !     ----------
@@ -471,7 +471,7 @@
 !        enddo
 ! All allocatable subobjects are deallocated here:
             deallocate(this%tab)
-          endif
+          end if
         end subroutine destroy
 
 !     Read and write methods
@@ -490,7 +490,7 @@
 
           do ii = 1, this%nebcs
             integer_data(ii) = this%tab(ii)%poly%type
-          enddo
+          end do
           call write_i_array_c(integer_data, this%nebcs)
           leni = leni + this%nebcs
           lenr = lenr + 0
@@ -531,15 +531,15 @@
           do ii = 1, nelem
             do jj = 1, 4
               tag_node(surf_node(ii, jj)) = 1
-            enddo
-          enddo
+            end do
+          end do
 !     keep track of nodes
           nnode = 0
           do ii = 1, numnod
             if (tag_node(ii) == 1) then
               nnode = nnode + 1
-            endif
-          enddo
+            end if
+          end do
 
           this%nb_node = nnode
           if(allocated(this%node_list)) deallocate(this%node_list)
@@ -551,8 +551,8 @@
               nnode = nnode + 1
               this%node_list(nnode) = ii
               tag_node(ii) = nnode
-            endif
-          enddo
+            end if
+          end do
 
 !     keep track of elems
           this%nb_elem = nelem
@@ -561,8 +561,8 @@
           do ii = 1, nelem
             do jj = 1, 4
               this%elem_list(jj, ii) = tag_node(surf_node(ii, jj))
-            enddo
-          enddo
+            end do
+          end do
 !     Allocate members
           if(.not.allocated(this%ielem)) allocate(this%ielem(nelem))
 
@@ -590,7 +590,7 @@
           leni = leni + 0
           lenr = lenr + 0
           this%type=-1
-          print*,'Should not ebter in this code'
+          print*,"Should not ebter in this code"
         end subroutine write_data
 
 !||====================================================================
@@ -600,7 +600,7 @@
           implicit none
           class (t_ebcs), intent(inout) :: this
           this%type=-1
-          print*,'Should not ebter in this code'
+          print*,"Should not ebter in this code"
         end subroutine read_data
 
 !     Common write routine
@@ -672,7 +672,7 @@
           else
             call write_i_c(0, 1)
             leni = leni + 1
-          endif
+          end if
 
 !     write la
           if (this%has_la) then
@@ -684,31 +684,31 @@
           else
             call write_i_c(0, 1)
             leni = leni + 1
-          endif
+          end if
 
 !     write p0
           if (this%has_p0) then
             call write_i_c(1, 1)
             leni = leni + 1
-            if (this%debug_print) print*, 'p0 = ', this%p0
+            if (this%debug_print) print*, "p0 = ", this%p0
             call write_db(this%p0, this%nb_node)
             leni = leni + this%nb_node
           else
             call write_i_c(0, 1)
             leni = leni + 1
-          endif
+          end if
 
 !     write dp0
           if (this%has_dp0) then
             call write_i_c(1, 1)
             leni = leni + 1
-            if (this%debug_print) print*, 'dp0 = ', this%dp0
+            if (this%debug_print) print*, "dp0 = ", this%dp0
             call write_db(this%dp0, this%nb_elem)
             leni = leni + this%nb_node
           else
             call write_i_c(0, 1)
             leni = leni + 1
-          endif
+          end if
 
 !     write ro0
           if (this%has_ro0) then
@@ -720,7 +720,7 @@
           else
             call write_i_c(0, 1)
             leni = leni + 1
-          endif
+          end if
 
 !     write en0
           if (this%has_en0) then
@@ -732,7 +732,7 @@
           else
             call write_i_c(0, 1)
             leni = leni + 1
-          endif
+          end if
 
 !     write pold
           if (this%has_pold) then
@@ -740,7 +740,7 @@
               siz=this%nb_elem
             else
               siz = this%nb_node
-            endif
+            end if
             call write_i_c(1, 1)
             leni = leni + 1
             if (this%debug_print) print*, "pold ", this%pold
@@ -749,7 +749,7 @@
           else
             call write_i_c(0, 1)
             leni = leni + 1
-          endif
+          end if
 
 !     write +
           if (this%has_vold) then
@@ -757,7 +757,7 @@
               siz=this%nb_elem
             else
               siz = this%nb_node
-            endif
+            end if
             call write_i_c(1, 1)
             leni = leni + 1
             if (this%debug_print) print*, "vold ", this%vold
@@ -766,7 +766,7 @@
           else
             call write_i_c(0, 1)
             leni = leni + 1
-          endif
+          end if
 
 !     write v0
           if (this%has_v0) then
@@ -778,7 +778,7 @@
           else
             call write_i_c(0, 1)
             leni = leni + 1
-          endif
+          end if
 
 !     write reso
           if (this%has_reso) then
@@ -790,7 +790,7 @@
           else
             call write_i_c(0, 1)
             leni = leni + 1
-          endif
+          end if
 
         end subroutine write_common_data
 
@@ -859,7 +859,7 @@
             if (this%debug_print) print*, "iface ", this%iface
           else
             this%has_iface = .false.
-          endif
+          end if
 
 !     read la
           call read_i_c(ihas_la, 1)
@@ -870,7 +870,7 @@
             if (this%debug_print) print*, "la ", this%la
           else
             this%has_la = .false.
-          endif
+          end if
 
 !     read p0
           call read_i_c(ihas_p0, 1)
@@ -878,10 +878,10 @@
             this%has_p0 = .true.
             allocate(this%p0(this%nb_node))
             call read_db_array(this%p0, this%nb_node)
-            if (this%debug_print) print*, 'p0 = ', this%p0
+            if (this%debug_print) print*, "p0 = ", this%p0
           else
             this%has_p0 = .false.
-          endif
+          end if
 
 !     read dp0
           call read_i_c(ihas_dp0, 1)
@@ -889,10 +889,10 @@
             this%has_dp0 = .true.
             allocate(this%dp0(this%nb_elem))
             call read_db_array(this%dp0, this%nb_elem)
-            if (this%debug_print) print*, 'dp0 = ', this%dp0
+            if (this%debug_print) print*, "dp0 = ", this%dp0
           else
             this%has_dp0 = .false.
-          endif
+          end if
 
 !     read ro0
           call read_i_c(ihas_ro0, 1)
@@ -903,7 +903,7 @@
             if (this%debug_print) print*, "ro0 ", this%ro0
           else
             this%has_ro0 = .false.
-          endif
+          end if
 
 !     read en0
           call read_i_c(ihas_en0, 1)
@@ -914,7 +914,7 @@
             if (this%debug_print) print*, "en0 ", this%en0
           else
             this%has_en0 = .false.
-          endif
+          end if
 
 !     read pold
           call read_i_c(ihas_pold, 1)
@@ -924,13 +924,13 @@
               siz=this%nb_elem
             else
               siz = this%nb_node
-            endif
+            end if
             allocate(this%pold(siz))
             call read_db_array(this%pold, siz)
             if (this%debug_print) print*, "pold ", this%pold
           else
             this%has_pold = .false.
-          endif
+          end if
 
 !     read vold
           call read_i_c(ihas_vold, 1)
@@ -940,13 +940,13 @@
               siz=this%nb_elem
             else
               siz = this%nb_node
-            endif
+            end if
             allocate(this%vold(siz))
             call read_db_array(this%vold, siz)
             if (this%debug_print) print*, "vold ", this%vold
           else
             this%has_vold = .false.
-          endif
+          end if
 
 !     read v0
           call read_i_c(ihas_v0, 1)
@@ -957,7 +957,7 @@
             if (this%debug_print) print*, "v0 ", this%v0
           else
             this%has_v0 = .false.
-          endif
+          end if
 
 !     read reso
           call read_i_c(ihas_reso, 1)
@@ -968,7 +968,7 @@
             if (this%debug_print) print*, "reso ", this%reso
           else
             this%has_reso = .false.
-          endif
+          end if
         end subroutine read_common_data
 
 !     /EBCS/PRES
@@ -1642,7 +1642,7 @@
             lenr = lenr + 21
             call write_db_array(this%fvm_inlet_data%val_pres, 21)
             lenr = lenr + 21
-          endif
+          end if
         end subroutine write_data_nrf
 
 !||====================================================================
@@ -1674,7 +1674,7 @@
             call read_db_array(this%fvm_inlet_data%val_alpha, 21)
             call read_db_array(this%fvm_inlet_data%val_rho, 21)
             call read_db_array(this%fvm_inlet_data%val_pres, 21)
-          endif
+          end if
         end subroutine read_data_nrf
 
 !     /EBCS/PROPELLANT
@@ -1740,7 +1740,7 @@
             lenr = lenr + 21
             call write_db_array(this%fvm_inlet_data%val_pres, 21)
             lenr = lenr + 21
-          endif
+          end if
         end subroutine write_data_propellant
 
 !||====================================================================
@@ -1786,7 +1786,7 @@
             call read_db_array(this%fvm_inlet_data%val_alpha, 21)
             call read_db_array(this%fvm_inlet_data%val_rho, 21)
             call read_db_array(this%fvm_inlet_data%val_pres, 21)
-          endif
+          end if
         end subroutine read_data_propellant
 
 

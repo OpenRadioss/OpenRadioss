@@ -26,6 +26,7 @@
 !||    hm_read_fail                ../starter/source/materials/fail/hm_read_fail.F
 !||====================================================================
       module hm_read_fail_spalling_mod
+      implicit none
       contains
 !||====================================================================
 !||    hm_read_fail_spalling    ../starter/source/materials/fail/spalling/hm_read_fail_spalling.F90
@@ -86,15 +87,15 @@
           call hm_option_is_encrypted(is_encrypted)
 ! ----------------------------------------------------------------------------------------------------------------------
           !< Johnson-Cook failure criterion parameters
-          call hm_get_floatv('D1'           ,d1     ,is_available,lsubmodel,unitab)
-          call hm_get_floatv('D2'           ,d2     ,is_available,lsubmodel,unitab)
-          call hm_get_floatv('D3'           ,d3     ,is_available,lsubmodel,unitab)
-          call hm_get_floatv('D4'           ,d4     ,is_available,lsubmodel,unitab)
-          call hm_get_floatv('D5'           ,d5     ,is_available,lsubmodel,unitab)
+          call hm_get_floatv("D1"           ,d1     ,is_available,lsubmodel,unitab)
+          call hm_get_floatv("D2"           ,d2     ,is_available,lsubmodel,unitab)
+          call hm_get_floatv("D3"           ,d3     ,is_available,lsubmodel,unitab)
+          call hm_get_floatv("D4"           ,d4     ,is_available,lsubmodel,unitab)
+          call hm_get_floatv("D5"           ,d5     ,is_available,lsubmodel,unitab)
           !< Spalling failure criterion parameters
-          call hm_get_floatv('Epsilon_Dot_0',epsp0  ,is_available,lsubmodel,unitab)
-          call hm_get_floatv('P_min'        ,pmin   ,is_available,lsubmodel,unitab)
-          call hm_get_intv  ('Ifail_so'     ,isolid ,is_available,lsubmodel)
+          call hm_get_floatv("Epsilon_Dot_0",epsp0  ,is_available,lsubmodel,unitab)
+          call hm_get_floatv("P_min"        ,pmin   ,is_available,lsubmodel,unitab)
+          call hm_get_intv  ("Ifail_so"     ,isolid ,is_available,lsubmodel)
 ! ----------------------------------------------------------------------------------------------------------------------
           if (epsp0 == zero) epsp0 =  em20
           pmin = -abs(pmin)
@@ -102,7 +103,7 @@
           isolid = max(1,isolid)
           isolid = min(6,isolid)
 ! ----------------------------------------------------------------------------------------------------------------------
-          fail%keyword = 'SPALLING'
+          fail%keyword = "SPALLING"
           fail%irupt   = irupt
           fail%fail_id = fail_id
           fail%nuparam = 7
@@ -143,75 +144,75 @@
 !     Parameters printout
 ! ----------------------------------------------------------------------------------------------------------------------
           if (is_encrypted)then
-            write(iout,'(5X,A,//)')'CONFIDENTIAL DATA'
+            write(iout,"(5X,A,//)")"CONFIDENTIAL DATA"
           else
             write(iout, 1000)d1,d2,d3,d4,d5,epsp0,pmin
             if (isolid == 1) then
               write(iout, 1100)
-            elseif (isolid == 2) then
+            else if (isolid == 2) then
               write(iout, 1200)
-            elseif (isolid == 3) then
+            else if (isolid == 3) then
               write(iout, 1300)
-            elseif (isolid == 4) then
+            else if (isolid == 4) then
               write(iout, 1400)
-            elseif (isolid == 5) then
+            else if (isolid == 5) then
               write(iout, 1500)
-            elseif (isolid == 6) then
+            else if (isolid == 6) then
               write(iout, 1600)
-            endif
+            end if
             if (d3 > zero) then
               call ancmsg(msgid = 831,                                             &
                 msgtype = msgwarning,                                    &
                 anmode = aninfo,                                         &
                 i1 = mat_id)
-            endif
+            end if
 !
-          endif
+          end if
 ! ----------------------------------------------------------------------------------------------------------------------
 1000      format(/                                                                 &
-          & 5X,' --------------------------------------------------------',/,       &
-          & 5X,'      JOHNSON-COOK AND SPALLING FAILURE CRITERION        ',/,       &
-          & 5X,' --------------------------------------------------------',/,       &
-          & 5X,'                                                         ',/,       &
-          & 5X,'JOHNSON-COOK CRITERION PARAMETERS:                       ',/,       &
-          & 5X,'----------------------------------                       ',/,       &
-          & 5X,'FIRST  FAILURE PARAMETER (D1). . . . . . . . . . . . . .=',1PG20.13/&
-          & 5X,'SECOND FAILURE PARAMETER (D2). . . . . . . . . . . . . .=',1PG20.13/&
-          & 5X,'THIRD  FAILURE PARAMETER (D3). . . . . . . . . . . . . .=',1PG20.13/&
-          & 5X,'FORTH  FAILURE PARAMETER (D4). . . . . . . . . . . . . .=',1PG20.13/&
-          & 5X,'FIFTH  FAILURE PARAMETER (D5). . . . . . . . . . . . . .=',1PG20.13/&
-          & 5X,'REFERENCE STRAIN RATE (EPSP0). . . . . . . . . . . . . .=',1PG20.13/&
-          & 5X,'                                                         ',/,       &
-          & 5X,'SPALLING CRITERION PARAMETER:                            ',/,       &
-          & 5X,'-----------------------------                            ',/,       &
-          & 5X,'LIMIT PRESSURE (PMIN). . . . . . . . . . . . . . . . . .=',1PG20.13/)
+          & 5X," --------------------------------------------------------",/,       &
+          & 5X,"      JOHNSON-COOK AND SPALLING FAILURE CRITERION        ",/,       &
+          & 5X," --------------------------------------------------------",/,       &
+          & 5X,"                                                         ",/,       &
+          & 5X,"JOHNSON-COOK CRITERION PARAMETERS:                       ",/,       &
+          & 5X,"----------------------------------                       ",/,       &
+          & 5X,"FIRST  FAILURE PARAMETER (D1). . . . . . . . . . . . . .=",1PG20.13/&
+          & 5X,"SECOND FAILURE PARAMETER (D2). . . . . . . . . . . . . .=",1PG20.13/&
+          & 5X,"THIRD  FAILURE PARAMETER (D3). . . . . . . . . . . . . .=",1PG20.13/&
+          & 5X,"FORTH  FAILURE PARAMETER (D4). . . . . . . . . . . . . .=",1PG20.13/&
+          & 5X,"FIFTH  FAILURE PARAMETER (D5). . . . . . . . . . . . . .=",1PG20.13/&
+          & 5X,"REFERENCE STRAIN RATE (EPSP0). . . . . . . . . . . . . .=",1PG20.13/&
+          & 5X,"                                                         ",/,       &
+          & 5X,"SPALLING CRITERION PARAMETER:                            ",/,       &
+          & 5X,"-----------------------------                            ",/,       &
+          & 5X,"LIMIT PRESSURE (PMIN). . . . . . . . . . . . . . . . . .=",1PG20.13/)
 1100      format(/                                                                 &
-          & 5X,'NO JOHNSON-COOK CRITERION, ONLY SPALLING MINIMUM PRESSURE',/,       &
-          & 5X,'IS USED. DEVIATORIC STRESS TENSOR WILL BE NULLYFIED AND  ',/,       &
-          & 5X,'HYDROSTATIC PRESSURE WILL BE LIMITED TO COMPRESSION.     ',/,       &
-          & 5X,'UNDER TENSILE LOADING THE STRESS TENSOR WILL VANISH.     ',/)
+          & 5X,"NO JOHNSON-COOK CRITERION, ONLY SPALLING MINIMUM PRESSURE",/,       &
+          & 5X,"IS USED. DEVIATORIC STRESS TENSOR WILL BE NULLYFIED AND  ",/,       &
+          & 5X,"HYDROSTATIC PRESSURE WILL BE LIMITED TO COMPRESSION.     ",/,       &
+          & 5X,"UNDER TENSILE LOADING THE STRESS TENSOR WILL VANISH.     ",/)
 1200      format(/                                                                 &
-          & 5X,'JOHNSON-COOK CRITERION IS USED TO TRIGGER ELEMENT FAILURE',/,       &
-          & 5X,'WHEREAS SPALLING MINIMUM PRESSURE IS USED TO NULLIFY THE ',/,       &
-          & 5X,'DEVIATORIC STRESS TENSOR AND LIMIT HYDROSTATIC PRESSURE  ',/,       &
-          & 5X,'TO COMPRESSION.                                          ',/,       &
-          & 5X,'UNDER TENSILE LOADING THE STRESS TENSOR WILL VANISH.     ',/)
+          & 5X,"JOHNSON-COOK CRITERION IS USED TO TRIGGER ELEMENT FAILURE",/,       &
+          & 5X,"WHEREAS SPALLING MINIMUM PRESSURE IS USED TO NULLIFY THE ",/,       &
+          & 5X,"DEVIATORIC STRESS TENSOR AND LIMIT HYDROSTATIC PRESSURE  ",/,       &
+          & 5X,"TO COMPRESSION.                                          ",/,       &
+          & 5X,"UNDER TENSILE LOADING THE STRESS TENSOR WILL VANISH.     ",/)
 1300      format(/                                                                 &
-          & 5X,'JOHNSON-COOK CRITERION IS USED TO NULLIFY THE DEVIATORIC ',/,       &
-          & 5X,'STRESS TENSOR. SPALLING MINIMUM PRESSURE IS USED TO LIMIT',/,       &
-          & 5X,'HYDROSTATIC PRESSURE TO COMPRESSION.                     ',/,       &
-          & 5X,'UNDER TENSILE LOADING THE STRESS TENSOR WILL VANISH.     ',/)
+          & 5X,"JOHNSON-COOK CRITERION IS USED TO NULLIFY THE DEVIATORIC ",/,       &
+          & 5X,"STRESS TENSOR. SPALLING MINIMUM PRESSURE IS USED TO LIMIT",/,       &
+          & 5X,"HYDROSTATIC PRESSURE TO COMPRESSION.                     ",/,       &
+          & 5X,"UNDER TENSILE LOADING THE STRESS TENSOR WILL VANISH.     ",/)
 1400      format(/                                                                 &
-          & 5X,'BOTH JOHNSON-COOK AND SPALLING MINIMUM PRESSURE CRITERION',/,       &
-          & 5X,'ARE USED TO TRIGGER ELEMENT DELETION                     ',/)
+          & 5X,"BOTH JOHNSON-COOK AND SPALLING MINIMUM PRESSURE CRITERION",/,       &
+          & 5X,"ARE USED TO TRIGGER ELEMENT DELETION                     ",/)
 1500      format(/                                                                 &
-          & 5X,'HYDROSTATIC PRESSURE IS LIMITED BY THE SPALLING MINIMUM  ',/,       &
-          & 5X,'PRESSURE. DEVIATORIC STRESS TENSOR IS UNTOUCHED          ',/)
+          & 5X,"HYDROSTATIC PRESSURE IS LIMITED BY THE SPALLING MINIMUM  ",/,       &
+          & 5X,"PRESSURE. DEVIATORIC STRESS TENSOR IS UNTOUCHED          ",/)
 1600      format(/                                                                 &
-          & 5X,'IF MAXIMUM PRINCIPAL STRESS OVERTAKE THE SPALLING MINIMUM',/,       &
-          & 5X,'PRESSURE, THE DEVIATORIC TENSOR IS NULLYFIED AND         ',/,       &
-          & 5X,'HYDROSTATIC PRESSURE IS LIMITED TO COMPRESSION.          ',/,       &
-          & 5X,'UNDER TENSILE LOADING THE STRESS TENSOR WILL VANISH.     ',/)
+          & 5X,"IF MAXIMUM PRINCIPAL STRESS OVERTAKE THE SPALLING MINIMUM",/,       &
+          & 5X,"PRESSURE, THE DEVIATORIC TENSOR IS NULLYFIED AND         ",/,       &
+          & 5X,"HYDROSTATIC PRESSURE IS LIMITED TO COMPRESSION.          ",/,       &
+          & 5X,"UNDER TENSILE LOADING THE STRESS TENSOR WILL VANISH.     ",/)
 
         end subroutine hm_read_fail_spalling
       end module hm_read_fail_spalling_mod

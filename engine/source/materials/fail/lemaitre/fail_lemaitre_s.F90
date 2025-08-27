@@ -28,6 +28,7 @@
 !||    usermat_solid         ../engine/source/materials/mat_share/usermat_solid.F
 !||====================================================================
       module fail_lemaitre_s_mod
+      implicit none
       contains
 !||====================================================================
 !||    fail_lemaitre_s    ../engine/source/materials/fail/lemaitre/fail_lemaitre_s.F90
@@ -145,9 +146,9 @@
               if (sig1(i) > zero) then
                 nindx = nindx + 1
                 indx(nindx) = i
-              endif
-            endif
-          enddo
+              end if
+            end if
+          end do
 !
           !< Update Lemaitre damage variable
           nindx2 = 0
@@ -170,16 +171,16 @@
                 indx2(nindx2) = i
                 off(i) = zero
                 tdele(i) = time
-              endif
-            endif
-          enddo
+              end if
+            end if
+          end do
 !
           !< Update the damage scaling factor
           do i = 1,nel
             dmgscl(i) = one - dfmax(i)
             dmgscl(i) = min(dmgscl(i),one)
             dmgscl(i) = max(dmgscl(i),zero)
-          enddo
+          end do
 !
           !< Printing out element failure information
           if (nindx2 > 0) then
@@ -187,11 +188,11 @@
               i = indx2(j)
               write(iout ,1000) ngl(i),time
               write(istdo,1000) ngl(i),time
-            enddo
-          endif
+            end do
+          end if
 !
           !< Output message format
-1000      format (1X,'-- RUPTURE (LEMAITRE) OF SOLID ELEMENT:',I10,' AT TIME :',1PE12.4)
+1000      format (1X,"-- RUPTURE (LEMAITRE) OF SOLID ELEMENT:",I10," AT TIME :",1PE12.4)
 !
         end subroutine fail_lemaitre_s
       end module fail_lemaitre_s_mod

@@ -33,6 +33,7 @@
 !||    szforc3           ../engine/source/elements/solid/solidez/szforc3.F
 !||====================================================================
       module sdistor_ini_mod
+      implicit none
       contains
 ! ======================================================================================================================
 ! \brief some parameter initialization for solid distortion control
@@ -103,7 +104,7 @@
           fqmax = ep02
           if (nu > 0.48999) then
             f_nu = em02
-          elseif (nu>0.4) then
+          else if (nu>0.4) then
             f_nu = one-two*nu
             mu=f_nu*mu
           else
@@ -123,7 +124,7 @@
             caq=f_es*mu*rho(i)*ll(i)
             fld(i)=fourth*caq*cxx(i)*off(i)
             sti_c(i) = c2 * ll(i) *off(i)
-          enddo
+          end do
           call scre_sig3(sig, c1, istab,offg,ismstr ,nel)
 !
         end subroutine sdistor_ini

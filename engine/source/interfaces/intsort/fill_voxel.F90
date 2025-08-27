@@ -28,6 +28,7 @@
 !||    spmd_cell_exchange           ../engine/source/mpi/generic/spmd_cell_exchange.F
 !||====================================================================
       MODULE FILL_VOXEL_MOD
+      implicit none
         integer, parameter :: FLAG_REMOTE = 1
         integer, parameter :: FLAG_LOCAL = 0
         integer, parameter :: FLAG_NONE = -1
@@ -136,7 +137,7 @@
               last_nod(1:nsn+nsnr) = 0
               next_nod(1:nsn+nsnr) = 0
               list_nb_voxel_on(1:nsn+nsnr) = 0
-            endif
+            end if
 
             do i=istart,nsn
               if(stfn(i) == zero)cycle
@@ -161,7 +162,7 @@
                 voxel(cellid) = i ! first
                 next_nod(i) = 0 ! last one
                 last_nod(i) = 0 ! no last
-              elseif(last_nod(first) == 0)then
+              else if(last_nod(first) == 0)then
                 next_nod(first) = i ! next
                 last_nod(first) = i ! last
                 next_nod(i)     = 0 ! last one
@@ -170,9 +171,9 @@
                 next_nod(last)  = i ! next
                 last_nod(first) = i ! last
                 next_nod(i)     = 0 ! last one
-              endif
-            enddo
-          endif !< nrtm
+              end if
+            end do
+          end if !< nrtm
         end subroutine FILL_VOXEL_LOCAL
 
 !||====================================================================
@@ -279,8 +280,8 @@
                 s%last_nod(1:nsn+nsnr) = 0
                 s%next_nod(1:nsn+nsnr) = 0
                 s%list_nb_voxel_on(1:nsn+nsnr) = 0
-              endif
-            endif
+              end if
+            end if
 
             !nchunks is the number of groups
             nchunks = (nsn + chunk - 1) / chunk
@@ -294,7 +295,7 @@
                 flag = 0 ! if no request: finish the job
 !                   if((s%istart-1)*chunk+1 < nsn)write(6,*) 'start',(s%istart-1)*chunk+1,"nsn=",nsn,"nsnr=",nsnr
 
-              endif
+              end if
 #else
 
               if(nrequests > 0) requests(1:nrequests) = 0
@@ -326,7 +327,7 @@
                     s%voxel(cellid) = i ! first
                     s%next_nod(i) = 0 ! last one
                     s%last_nod(i) = 0 ! no last
-                  elseif(s%last_nod(first) == 0)then
+                  else if(s%last_nod(first) == 0)then
                     s%next_nod(first) = i ! next
                     s%last_nod(first) = i ! last
                     s%next_nod(i)     = 0 ! last one
@@ -335,14 +336,14 @@
                     s%next_nod(last)  = i ! next
                     s%last_nod(first) = i ! last
                     s%next_nod(i)     = 0 ! last one
-                  endif
-                enddo !< k
+                  end if
+                end do !< k
                 s%istart = s%istart + 1
               else
                 flag = 1
-              endif !< flag
-            enddo
-          endif !< nrtm
+              end if !< flag
+            end do
+          end if !< nrtm
         end subroutine FILL_VOXEL_LOCAL_PARTIAL
 
 !||====================================================================
@@ -462,7 +463,7 @@
               voxel(cellid) = nsn+j ! first
               next_nod(nsn+j)     = 0 ! last one
               last_nod(nsn+j)     = 0 ! no last
-            elseif(last_nod(first) == 0)then
+            else if(last_nod(first) == 0)then
               next_nod(first) = nsn+j  ! next
               last_nod(first) = nsn+j  ! last
               next_nod(nsn+j)  = 0     ! last one
@@ -471,8 +472,8 @@
               next_nod(last)  = nsn+j ! next
               last_nod(first) = nsn+j ! last
               next_nod(nsn+j)     = 0 ! last one
-            endif
-          enddo
+            end if
+          end do
           !deallocate(last_nod)
         END SUBROUTINE FILL_VOXEL_REMOTE
 

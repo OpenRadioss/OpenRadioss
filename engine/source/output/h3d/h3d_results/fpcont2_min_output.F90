@@ -26,6 +26,7 @@
 !||    sortie_main              ../engine/source/output/sortie_main.F
 !||====================================================================
       module fpcont2_min_output_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
@@ -89,11 +90,11 @@
               if(fnew < fold) then
                 fcont_min(1:3,n) = fnew*normal(1:3)
                 npcont2_min(1:3,n) = normal(1:3)
-              endif
+              end if
             else
               fcont(1:3,n) =  zero
-            endif
-          enddo
+            end if
+          end do
 !
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine fpcont2_min_output

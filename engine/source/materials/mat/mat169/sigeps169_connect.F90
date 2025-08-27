@@ -26,6 +26,7 @@
 !||    suser43                 ../engine/source/elements/solid/sconnect/suser43.F
 !||====================================================================
       module sigeps169_connect_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !  \brief material for cohesive element, elastic in normal direction, elastoplastic in shear, with coupled damage
@@ -144,7 +145,7 @@
             dtb = (dtmins/dtfacs)**2
             do iel=1,nel
               dmels(iel)=max(dmels(iel),half*dtb*stf(iel)*off(iel))
-            enddo
+            end do
           end if
 
           do i=1,nel
@@ -153,7 +154,7 @@
             fdam_n(i) = one - dmg_n(i)
             fdam_s(i) = one - dmg_s(i)
             ! write(*,*) ' dmg_n       = ',i,  dmg_n(i)
-          enddo
+          end do
 
           do i = 1,nel
             if (off(i) < 0.001)  off(i) = zero
@@ -165,8 +166,8 @@
               strs_tr_sh(i) = sqrt(signyz(i)**2 + signzx(i)**2)
               dstr_sh(i)    = sqrt(depsyz(i)**2 + depszx(i)**2)
               eps_sh(i)     = sqrt(epsyz(i)**2  + epszx(i)**2)
-            endif
-          enddo
+            end if
+          end do
           !-----------------------------------------------
           !   compute yield function
           !-----------------------------------------------
@@ -175,7 +176,7 @@
               (strs_tr_sh(i) /(shrmax(i) - sht_sl * signzz(i) ))**pwrs
             fyld(i) =  fyld(i) - one
             uvar(i,6) = fyld(i)
-          enddo
+          end do
           !
           !  test of damage initiation
           !
@@ -195,7 +196,7 @@
                 uvar(i,9) = one
               end if
             end if
-          enddo
+          end do
 !
           do i=1,nel
             if (eps_sh(i) > eps_s0(i)) then
@@ -206,7 +207,7 @@
               dmg_n(i) = (epszz(i) - eps_n0(i)) / (dfn(i) - eps_n0(i))
               dmg_n(i) = max(uvar(i,1),dmg_n(i))
             end if
-          enddo
+          end do
 !
           do i=1,nel
             if (dmg_n(i) >= one .and. off(i) == one) then
@@ -219,7 +220,7 @@
               off(i) = four/five
               nindf   = nindf + 1
               indf(nindf) = i
-            endif
+            end if
 
             signzz(i) = min(signzz(i), tenmax(i))
             taumax    = shrmax(i) - sht_sl * signzz(i)
@@ -228,8 +229,8 @@
               tau_n     = min(strs_tr_sh(i), taumax)
               signyz(i) = signyz(i) * tau_n / strs_tr_sh(i)
               signzx(i) = signzx(i) * tau_n / strs_tr_sh(i)
-            endif
-          enddo
+            end if
+          end do
 !
           uvar(:,10) = shrmax(:)
           uvar(:,11) = tenmax(:)
@@ -242,7 +243,7 @@
             uvar(i,1) = dmg_n(i)
             uvar(i,2) = dmg_s(i)
             dmg(i)    = max(dmg_n(i),dmg_s(i))
-          enddo
+          end do
 
           do i=1,nel
             strs_tr_sh(i) =  sqrt( signyz(i)**2 + signzx(i)**2)
@@ -259,7 +260,7 @@
             signzz(i)  =  signzz(i) * fdam_n(i)
             signyz(i)  =  signyz(i) * (one - dmg_s(i))
             signzx(i)  =  signzx(i) * (one - dmg_s(i))
-          enddo
+          end do
 
 ! ----------------------------------------------------------------------------------------------------------------------
           if (nindxd > 0) then
@@ -267,7 +268,7 @@
             do ii=1,nindxd
               i = indxd(ii)
               write(iout, 1000) ngl(i),ipg,time
-            enddo
+            end do
 !$OMP END CRITICAL
           end if
           if (nindf > 0) then
@@ -276,13 +277,13 @@
               i = indf(ii)
               write(iout, 1003) ngl(i),time
               write(iout, 1004) epszz(i), eps_sh(i)
-            enddo
+            end do
 !$OMP END CRITICAL
           end if
 ! ----------------------------------------------------------------------------------------------------------------------
-1000      format(1x,'START DAMAGE IN CONNECTION ELEMENT NUMBER ',i10,1x,'INTEGRATION POINT',i2,1x, 'AT TIME :',g11.4)
-1003      format(1x,'FAILURE IN CONNECTION ELEMENT NUMBER ',i10,1x,' AT TIME :',g11.4)
-1004      format(1x,'ELONGATION IN NORMAL DIRECTION AT FAILURE ',g11.4,1x,'ELONGATION IN TANGENTIAL DIRECTION AT FAILURE',g11.4)
+1000      format(1x,"START DAMAGE IN CONNECTION ELEMENT NUMBER ",i10,1x,"INTEGRATION POINT",i2,1x, "AT TIME :",g11.4)
+1003      format(1x,"FAILURE IN CONNECTION ELEMENT NUMBER ",i10,1x," AT TIME :",g11.4)
+1004      format(1x,"ELONGATION IN NORMAL DIRECTION AT FAILURE ",g11.4,1x,"ELONGATION IN TANGENTIAL DIRECTION AT FAILURE",g11.4)
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine sigeps169_connect
       end module sigeps169_connect_mod

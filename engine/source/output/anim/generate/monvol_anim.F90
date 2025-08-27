@@ -28,6 +28,7 @@
 !||    h3d_nodal_scalar   ../engine/source/output/h3d/h3d_results/h3d_nodal_scalar.F
 !||====================================================================
       MODULE ANIM_MONVOL_MOD
+      implicit none
         integer, parameter, private :: NIXS=11
       CONTAINS
 !||====================================================================
@@ -96,7 +97,7 @@
               R4NP(JJ+1) = XX
               R4NP(JJ+2) = YY
               R4NP(JJ+3) = ZZ
-            ENDIF
+            END IF
             N1 = IXS(6,I)
             N2 = IXS(7,I)
             N3 = IXS(8,I)
@@ -127,18 +128,18 @@
               R4NP(JJ+5) = YY
               R4NP(JJ+6) = ZZ
               JJ = JJ + 6
-            ENDIF
-          ENDDO
+            END IF
+          END DO
           IF (NSPMD > 1) THEN
             IF (ISPMD==0) THEN
               BUF = 6*NUMELS16G
             ELSE
               BUF=1
-            ENDIF
+            END IF
 !
             CALL SPMD_GATHER_XYZ16(R4NP,BUF)
 !
-          ENDIF
+          END IF
 !
           RETURN
         end subroutine XYZ16
@@ -175,7 +176,7 @@
             CALL WRITE_S_C(I3000,1)
             CALL WRITE_S_C(I3000,1)
             CALL WRITE_S_C(I3000,1)
-          ENDDO
+          END DO
 !
           RETURN
         end subroutine XYZNOR16
@@ -258,86 +259,86 @@
                 IF (NSPMD > 1)THEN
                   CALL SPMD_FVB_SCAT_NUM_NODA(IFV,VOLMON(KRA1),NNA)
                   CALL SPMD_FVB_SCAT_NUM_NODA(IFV,VOLMON(KR1),NNT)
-                ENDIF
+                END IF
                 IF(IOPT==2)THEN
                   DO N=1,FVSPMD(IFV)%NNA_L
                     N1=FVSPMD(IFV)%IBUFA_L(1,N)
                     N2=FVSPMD(IFV)%IBUFA_L(2,N)
                     WA4(N2)=VOLMON(KRA1-1+N1)
-                  ENDDO
-                ENDIF
+                  END DO
+                END IF
 !
                 DO N=1,FVSPMD(IFV)%NN_L+FVSPMD(IFV)%NNI_L
                   N1=FVSPMD(IFV)%IBUF_L(1,N)
                   N2=FVSPMD(IFV)%IBUF_L(2,N)
                   WA4(N2)=VOLMON(KR1-1+N1)
                   IS_WRITTEN_NODE(N2)=1
-                ENDDO
-              ELSEIF (IAN==4) THEN
+                END DO
+              ELSE IF (IAN==4) THEN
 ! densite
                 IF (NSPMD > 1)THEN
                   CALL SPMD_FVB_SCAT_NUM_NODA(IFV,VOLMON(KRA2),NNA)
                   CALL SPMD_FVB_SCAT_NUM_NODA(IFV,VOLMON(KR2),NNT)
-                ENDIF
+                END IF
                 IF(IOPT==2)THEN
                   DO N=1,FVSPMD(IFV)%NNA_L
                     N1=FVSPMD(IFV)%IBUFA_L(1,N)
                     N2=FVSPMD(IFV)%IBUFA_L(2,N)
                     WA4(N2)=VOLMON(KRA2-1+N1)
-                  ENDDO
-                ENDIF
+                  END DO
+                END IF
 !
                 DO N=1,FVSPMD(IFV)%NN_L+FVSPMD(IFV)%NNI_L
                   N1=FVSPMD(IFV)%IBUF_L(1,N)
                   N2=FVSPMD(IFV)%IBUF_L(2,N)
                   WA4(N2)=VOLMON(KR2-1+N1)
                   IS_WRITTEN_NODE(N2)=1
-                ENDDO
-              ELSEIF (IAN==6) THEN
+                END DO
+              ELSE IF (IAN==6) THEN
 ! temperature
                 IF (NSPMD > 1)THEN
                   CALL SPMD_FVB_SCAT_NUM_NODA(IFV,VOLMON(KRA3),NNA)
                   CALL SPMD_FVB_SCAT_NUM_NODA(IFV,VOLMON(KR3),NNT)
-                ENDIF
+                END IF
                 IF(IOPT==2)THEN
                   DO N=1,FVSPMD(IFV)%NNA_L
                     N1=FVSPMD(IFV)%IBUFA_L(1,N)
                     N2=FVSPMD(IFV)%IBUFA_L(2,N)
                     WA4(N2)=VOLMON(KRA3-1+N1)
-                  ENDDO
-                ENDIF
+                  END DO
+                END IF
 !
                 DO N=1,FVSPMD(IFV)%NN_L+FVSPMD(IFV)%NNI_L
                   N1=FVSPMD(IFV)%IBUF_L(1,N)
                   N2=FVSPMD(IFV)%IBUF_L(2,N)
                   WA4(N2)=VOLMON(KR3-1+N1)
                   IS_WRITTEN_NODE(N2)=1
-                ENDDO
-              ELSEIF (IAN==30) THEN
+                END DO
+              ELSE IF (IAN==30) THEN
 ! ssp:sound speed
                 IF (NSPMD > 1)THEN
                   CALL SPMD_FVB_SCAT_NUM_NODA(IFV,VOLMON(KRA8),NNA)
                   CALL SPMD_FVB_SCAT_NUM_NODA(IFV,VOLMON(KR9),NNT)
-                ENDIF
+                END IF
                 IF(IOPT==2)THEN
                   DO N=1,FVSPMD(IFV)%NNA_L
                     N1=FVSPMD(IFV)%IBUFA_L(1,N)
                     N2=FVSPMD(IFV)%IBUFA_L(2,N)
                     WA4(N2)=VOLMON(KRA8-1+N1)
-                  ENDDO
-                ENDIF
+                  END DO
+                END IF
 !
                 DO N=1,FVSPMD(IFV)%NN_L+FVSPMD(IFV)%NNI_L
                   N1=FVSPMD(IFV)%IBUF_L(1,N)
                   N2=FVSPMD(IFV)%IBUF_L(2,N)
                   WA4(N2)=VOLMON(KR9-1+N1)
                   IS_WRITTEN_NODE(N2)=1
-                ENDDO
-              ENDIF
-            ENDIF
+                END DO
+              END IF
+            END IF
             K1 = K1 + NIMV
             KK1 = KK1 + NRVOLU
-          ENDDO
+          END DO
 !
           RETURN
         end subroutine ANIMBALE
@@ -379,7 +380,7 @@
           IF (NSPMD > 1)THEN
             CALL SPMD_FVB_SCAT_NUM_NODA(IFV,UA,NNA*3)
             CALL SPMD_FVB_SCAT_NUM_NODA(IFV,U, NNT*3)
-          ENDIF
+          END IF
 
 
           IF (KMESH(IFV) < 2) THEN
@@ -389,8 +390,8 @@
               VFLU(1,N2)=UA(1,N1)
               VFLU(2,N2)=UA(2,N1)
               VFLU(3,N2)=UA(3,N1)
-            ENDDO
-          ENDIF
+            END DO
+          END IF
 !
           DO N=1,FVSPMD(IFV)%NN_L+FVSPMD(IFV)%NNI_L
             N1=FVSPMD(IFV)%IBUF_L(1,N)
@@ -398,7 +399,7 @@
             VFLU(1,N2)=U(1,N1)
             VFLU(2,N2)=U(2,N1)
             VFLU(3,N2)=U(3,N1)
-          ENDDO
+          END DO
 !
           RETURN
         end subroutine ALEVFLU
@@ -432,13 +433,13 @@
             VFLU(1,II)=U(1,I)
             VFLU(2,II)=U(2,I)
             VFLU(3,II)=U(3,I)
-          ENDDO
+          END DO
           DO I=1,NNI
             II=IBUFI(I)
             VFLU(1,II)=U(1,NNO+I)
             VFLU(2,II)=U(2,NNO+I)
             VFLU(3,II)=U(3,NNO+I)
-          ENDDO
+          END DO
 !
           RETURN
         end subroutine ANIVFLOW
@@ -476,14 +477,14 @@
             VFLU(1,III)=U(1,II)
             VFLU(2,III)=U(2,II)
             VFLU(3,III)=U(3,II)
-          ENDDO
+          END DO
           DO I=1,NNI_L
             II=IBUFIL(I)
             III=IBUFI(II)
             VFLU(1,III)=U(1,NNO+II)
             VFLU(2,III)=U(2,NNO+II)
             VFLU(3,III)=U(3,NNO+II)
-          ENDDO
+          END DO
 !
           RETURN
         end subroutine ANIVFLOWP
@@ -529,7 +530,7 @@
 !
           DO I=1,NBF
             WA(I)=ZERO
-          ENDDO
+          END DO
 !
           K1 = 1
           KK1 = 1
@@ -557,30 +558,30 @@
                   IF (JJ==0) CYCLE
                   JJ=EL2FA(1+JJ)
                   WA(JJ)=VOLMON(KR1-1+J)
-                ENDDO
-              ELSEIF (IANIM==2144) THEN
+                END DO
+              ELSE IF (IANIM==2144) THEN
                 DO J=1,NTGT
                   JJ=MONVOL(KI1-1+J)
                   IF (JJ==0) CYCLE
                   JJ=EL2FA(1+JJ)
                   WA(JJ)=VOLMON(KR2-1+J)
-                ENDDO
-              ENDIF
-            ENDIF
-          ENDDO
+                END DO
+              END IF
+            END IF
+          END DO
           IF (NSPMD == 1) THEN
             DO I=1,NBF
               R4 = WA(I)
               CALL WRITE_R_C(R4,1)
-            ENDDO
+            END DO
           ELSE
             IF (ISPMD==0) THEN
               BUF = (NUMELQG+NUMELCG+NUMELTGG)*4
             ELSE
               BUF=1
-            ENDIF
+            END IF
             CALL SPMD_R4GET_PARTN(1,NBF_L,NBPART,IADG,WA,BUF)
-          ENDIF
+          END IF
 
 !
           RETURN
@@ -627,13 +628,13 @@
               VTR(1,J)=ZERO
               VTR(2,J)=ZERO
               VTR(3,J)=ZERO
-            ENDDO
+            END DO
             DO J=1,NNS_ANIM
               NPN(J)=0
               VV(1,J)=ZERO
               VV(2,J)=ZERO
               VV(3,J)=ZERO
-            ENDDO
+            END DO
             DO J=1,FVDATA(I)%NPOLH
               IF (FVDATA(I)%MPOLH(J)==ZERO) CYCLE
               DO K=FVDATA(I)%IFVPADR(J),FVDATA(I)%IFVPADR(J+1)-1
@@ -647,9 +648,9 @@
                   &FVDATA(I)%MPOLH(J)
                   VTR(3,LL)=VTR(3,LL)+FVDATA(I)%QPOLH(3,J)/&
                   &FVDATA(I)%MPOLH(J)
-                ENDDO
-              ENDDO
-            ENDDO
+                END DO
+              END DO
+            END DO
             DO J=1,NNTR
               N1=FVDATA(I)%IFVTRI_ANIM(1,J)
               N2=FVDATA(I)%IFVTRI_ANIM(2,J)
@@ -665,7 +666,7 @@
                 VVT(1)=ZERO
                 VVT(2)=ZERO
                 VVT(3)=ZERO
-              ENDIF
+              END IF
               VV(1,N1)=VV(1,N1)+VVT(1)
               VV(2,N1)=VV(2,N1)+VVT(2)
               VV(3,N1)=VV(3,N1)+VVT(3)
@@ -675,7 +676,7 @@
               VV(1,N3)=VV(1,N3)+VVT(1)
               VV(2,N3)=VV(2,N3)+VVT(2)
               VV(3,N3)=VV(3,N3)+VVT(3)
-            ENDDO
+            END DO
 !
             DO J=1,NNS_ANIM
               R4 = VV(1,J)/NPN(J)
@@ -684,17 +685,17 @@
               CALL WRITE_R_C(R4,1)
               R4 = VV(3,J)/NPN(J)
               CALL WRITE_R_C(R4,1)
-            ENDDO
+            END DO
 !
             DEALLOCATE(VTR, VV, NPTR, NPN)
-          ENDDO
+          END DO
 !
           R4=ZERO
           DO I=1,3
             CALL WRITE_R_C(R4,1)
             CALL WRITE_R_C(R4,1)
             CALL WRITE_R_C(R4,1)
-          ENDDO
+          END DO
 !
           RETURN
         end subroutine ALEVEC

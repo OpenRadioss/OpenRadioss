@@ -26,6 +26,7 @@
 !||    hm_read_visc            ../starter/source/materials/visc/hm_read_visc.F
 !||====================================================================
       module hm_read_visc_plas_mod
+      implicit none
       contains
 ! ======================================================================================================================
 ! \brief Reading material parameters of /VISC/PLAS
@@ -80,8 +81,8 @@
           visc%ilaw = ivisc
 !
           ! 1st card
-          call hm_get_floatv ('LSD_G'       ,g    ,is_available,lsubmodel,unitab)
-          call hm_get_floatv ('LSDYNA_SIGF'  ,sigy   ,is_available,lsubmodel,unitab)
+          call hm_get_floatv ("LSD_G"       ,g    ,is_available,lsubmodel,unitab)
+          call hm_get_floatv ("LSDYNA_SIGF"  ,sigy   ,is_available,lsubmodel,unitab)
 ! ----------------------------------------------------------------------------------------------------------------------
 !     storing parameters in uparam / iparam tables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -100,18 +101,18 @@
 !     output
 ! ----------------------------------------------------------------------------------------------------------------------
           if (is_encrypted)then
-            write(iout,'(5x,a,//)')'confidential data'
+            write(iout,"(5x,a,//)")"confidential data"
           else
             write(iout,1000)
             write(iout,1100) g,sigy
-          endif
+          end if
 ! ----------------------------------------------------------------------------------------------------------------------
 1000      format(  &
-            5x,'  FREQUENCY INDEPENDENT DAMPING MODEL  :'           ,/, &
-            5x,' ---------------------------------------- '         ,/)
+            5x,"  FREQUENCY INDEPENDENT DAMPING MODEL  :"           ,/, &
+            5x," ---------------------------------------- "         ,/)
 1100      format(   &
-            5x,'SHEAR MODULUS FOR FREQUENCY INDEPENDENT DAMPING . . . . . . =',1pg20.13 /  &
-            5x,'LIMIT STRESS FOR FREQUENCY INDEPENDENT FRICTIONAL DAMPING . =',1pg20.13 / )
+            5x,"SHEAR MODULUS FOR FREQUENCY INDEPENDENT DAMPING . . . . . . =",1pg20.13 /  &
+            5x,"LIMIT STRESS FOR FREQUENCY INDEPENDENT FRICTIONAL DAMPING . =",1pg20.13 / )
 
         end subroutine hm_read_visc_plas
 ! ======================================================================================================================

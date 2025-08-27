@@ -26,6 +26,7 @@
 !||    rbyfor                 ../engine/source/constraints/general/rbody/rbyfor.F
 !||====================================================================
       module damping_vref_rby_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
@@ -146,9 +147,9 @@
                 numskw,skew,damp_a,dim,damp,            &
                 dw,damp_a2,iparit,size_rby6_c)
 !
-            endif
+            end if
 !
-          enddo
+          end do
 !
           wfext = wfext + dw
 !

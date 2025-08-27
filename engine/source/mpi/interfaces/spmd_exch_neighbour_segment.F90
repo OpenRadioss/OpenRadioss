@@ -26,6 +26,7 @@
 !||    get_neighbour_surface             ../engine/source/interfaces/interf/get_neighbour_surface.F90
 !||====================================================================
       module spmd_exch_neighbour_segment_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures
@@ -150,13 +151,13 @@
               recv_nb_1 = recv_nb_1 + 1
               index_r_proc(recv_nb_1) = i
               call spmd_irecv(r_buffer_size(1:2,i),2,i-1,spmd_tag_1,request_r_1(recv_nb_1),SPMD_COMM_WORLD)
-            elseif(ispmd==i-1) then
+            else if(ispmd==i-1) then
               r_buffer_size(1:2,i) = s_buffer_size(1:2,i)
               r_buffer(i)%size_my_real_array_1d = r_buffer_size(1,i)
               call alloc_my_real_1d_array(r_buffer(i))
               r_buffer(i)%my_real_array_1d(1:r_buffer_size(1,i)) = s_buffer(i)%my_real_array_1d(1:s_buffer_size(1,i))
-            endif
-          enddo
+            end if
+          end do
           ! ----------------
           ! ----------------
           ! send the data : "size if my S buffer"
@@ -164,8 +165,8 @@
             frontier_elm = iad_elem(1,i+1)-iad_elem(1,i) ! check if the proc "i" is a neighbour
             if(frontier_elm>0) then
               call spmd_isend(s_buffer_size(1:2,i),2,i-1,spmd_tag_1,request_s_1(i),SPMD_COMM_WORLD)
-            endif
-          enddo
+            end if
+          end do
           ! ----------------
 
           ! ----------------
@@ -186,9 +187,9 @@
                 my_size = r_buffer(proc_id)%size_my_real_array_1d
                 call spmd_irecv( r_buffer(proc_id)%my_real_array_1d,my_size,proc_id-1,              &
                   spmd_tag_2,request_r_2(recv_nb_2),SPMD_COMM_WORLD )
-              endif
-            enddo
-          endif
+              end if
+            end do
+          end if
           ! ----------------
 
           ! ----------------
@@ -198,8 +199,8 @@
             if(s_buffer_size(1,i)>0) then
               my_size = s_buffer_size(1,i)
               call spmd_isend(s_buffer(i)%my_real_array_1d,my_size,i-1,spmd_tag_2,request_s_2(i),SPMD_COMM_WORLD)
-            endif
-          enddo
+            end if
+          end do
           ! ----------------
 
           ! ----------------
@@ -208,12 +209,12 @@
           !   * send the result to S proc "list of connected segment"
           do i=1,nspmd
             s_buffer_2_size(1:3,i) = 0
-          enddo
+          end do
           if(recv_nb_2>0) then
             do i=1,nspmd
               s_buffer_2(i)%size_my_real_array_1d = 8 + 13 * shoot_struct%max_surf_nb + 3 +3
               call alloc_my_real_1d_array(s_buffer_2(i))
-            enddo
+            end do
 
             do i=1,recv_nb_2
               call spmd_waitany(recv_nb_2, request_r_2, my_index, status_mpi)
@@ -223,8 +224,8 @@
                 nodes,r_buffer(proc_id)%my_real_array_1d,s_buffer_2, &
                 x,intbuf_tab,shoot_struct ,&
                 ispmd,proc_id )
-            enddo
-          endif
+            end do
+          end if
 
           do i=1,nspmd
             frontier_elm = iad_elem(1,i+1)-iad_elem(1,i) ! check if the proc "i" is a neighbour
@@ -233,9 +234,9 @@
               if(s_buffer_2_size(1,i)>0) then
                 call spmd_isend(s_buffer_2(i)%my_real_array_1d,s_buffer_2_size(1,i),i-1,  &
                   spmd_tag_4,request_s_4(i) )
-              endif
-            endif
-          enddo
+              end if
+            end if
+          end do
           ! ----------------
 
           ! ----------------
@@ -251,13 +252,13 @@
               index_r_proc_3(recv_nb_3) = i
               call spmd_irecv(r_buffer_2_size(:,i),3,i-1,spmd_tag_3,request_r_3(recv_nb_3), SPMD_COMM_WORLD)
 
-            elseif(ispmd==i-1) then
+            else if(ispmd==i-1) then
               r_buffer_2_size(1:3,i) =s_buffer_2_size(1:3,i)
               r_buffer_2(i)%size_my_real_array_1d = r_buffer_2_size(1,i)
               call alloc_my_real_1d_array(r_buffer_2(i))
               r_buffer_2(i)%my_real_array_1d(1:r_buffer_2_size(1,i)) = s_buffer_2(i)%my_real_array_1d(1:s_buffer_2_size(1,i))
-            endif
-          enddo
+            end if
+          end do
 
           ! wait the R comm "data of remote proc"
           recv_nb_4 = 0
@@ -274,16 +275,16 @@
                 my_size = r_buffer_2_size(1,proc_id)
                 call spmd_irecv( r_buffer_2(proc_id)%my_real_array_1d,my_size, &
                   proc_id-1,spmd_tag_4,request_r_4(recv_nb_4), SPMD_COMM_WORLD )
-              endif
-            enddo
-          endif
+              end if
+            end do
+          end if
           ! ----------------
 
           ! ----------------
           ! wait the R comm "list of connected segment"
           do i=1,recv_nb_4
             call spmd_waitany(recv_nb_4, request_r_4, my_index, status_mpi)
-          enddo
+          end do
           ! ----------------
 
           ! ----------------
@@ -294,9 +295,9 @@
               call spmd_wait(request_s_3(i),status_mpi)
               if(s_buffer_2_size(1,i)>0) then
                 call spmd_wait(request_s_4(i),status_mpi)
-              endif
-            endif
-          enddo
+              end if
+            end if
+          end do
           ! ----------------
 
           ! --------------------------

@@ -26,6 +26,7 @@
 !||    damping_vref_rby            ../engine/source/assembly/damping_vref_rby.F90
 !||====================================================================
       module damping_vref_sum6_rby_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
@@ -132,8 +133,8 @@
               f2(n) = cc*dist2*weight(i)
               f9(n) = four*cc*cc*weight(i)/ms(i)
               f10(n) = four*cc*cc*dist2*weight(i)/ms(i)
-            endif
-          enddo
+            end if
+          end do
 !
           if (isk == 1) then
 !-------- computation of forces in global skew -----
@@ -170,8 +171,8 @@
                 f6(n) = (fdamp_y*(x(3,i)-x(3,im))-fdamp_z*(x(2,i)-x(2,im)))*weight(i)
                 f7(n) = (fdamp_z*(x(1,i)-x(1,im))-fdamp_x*(x(3,i)-x(3,im)))*weight(i)
                 f8(n) = (fdamp_x*(x(2,i)-x(2,im))-fdamp_y*(x(1,i)-x(1,im)))*weight(i)
-              endif
-            enddo
+              end if
+            end do
           else
 !-------- computation of forces in local skew -----
             do n=1,nsn
@@ -211,9 +212,9 @@
                 f6(n) = (fdamp_y*(x(3,i)-x(3,im))-fdamp_z*(x(2,i)-x(2,im)))*weight(i)
                 f7(n) = (fdamp_z*(x(1,i)-x(1,im))-fdamp_x*(x(3,i)-x(3,im)))*weight(i)
                 f8(n) = (fdamp_x*(x(2,i)-x(2,im))-fdamp_y*(x(1,i)-x(1,im)))*weight(i)
-              endif
-            enddo
-          endif
+              end if
+            end do
+          end if
 
           if (iparit > 0) then
 !--------   PARITH/ON assembly -----
@@ -241,8 +242,8 @@
               rby6(8,1,id_rby) = rby6(8,1,id_rby) + f8(n)
               rby6(1,1,id_rby) = rby6(1,1,id_rby) + f9(n)
               rby6(2,1,id_rby) = rby6(2,1,id_rby) + f10(n)
-            enddo
-          endif
+            end do
+          end if
 !
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine damping_vref_sum6_rby

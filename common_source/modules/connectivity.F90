@@ -45,9 +45,10 @@
 !||    precision_mod                 ../common_source/modules/precision_mod.F90
 !||====================================================================
       module connectivity_mod
-        use iso_c_binding
+        use, intrinsic :: iso_c_binding
         USE parith_on_mod
         use precision_mod, only: wp
+        implicit none
 !       INTEGER, PARAMETER :: NIXS = 11
 !       INTEGER, PARAMETER :: NIXC = 7
 !       INTEGER, PARAMETER :: NIXQ = 7
@@ -170,7 +171,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-          type(shell_) :: shell!< nodal arrays
+          type(shell_), intent(inout) :: shell!< nodal arrays
           integer, intent(in) :: global_id !< global id
           integer :: local_id !< local id or 0
 ! ----------------------------------------------------------------------------------------------------------------------

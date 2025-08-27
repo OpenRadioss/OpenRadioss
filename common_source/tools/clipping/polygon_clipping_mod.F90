@@ -168,10 +168,10 @@
           if(icur_list == 1)then
             size_ = size1
             iorient = list1(ii)%iorient(kk)
-          elseif(icur_list == 2)then
+          else if(icur_list == 2)then
             size_ = size2
             iorient = list2(ii)%iorient(kk)
-          endif
+          end if
 
           !if we had to remain on current list
 
@@ -181,7 +181,7 @@
             if(kk < num_pt_on_edge)then
               !next point on current edge
               kk = kk + 1
-            elseif(ii < size_)then
+            else if(ii < size_)then
               !first point on next edge
               ii = ii + 1
               kk = 1
@@ -195,11 +195,11 @@
           else
             !leaving point : move to the other list
             if(icur_list == 1)then
-              jj = list1(ii)%ptr(kk)%id_edge;
-              kk = list1(ii)%ptr(kk)%id_point;
+              jj = list1(ii)%ptr(kk)%id_edge
+              kk = list1(ii)%ptr(kk)%id_point
             else
-              jj = list2(ii)%ptr(kk)%id_edge;
-              kk = list2(ii)%ptr(kk)%id_point;
+              jj = list2(ii)%ptr(kk)%id_edge
+              kk = list2(ii)%ptr(kk)%id_point
             end if
 
             icur_list = 3 - icur_list  ! switch : 1 becomes 2 and 2 becomes 1
@@ -207,7 +207,7 @@
             if(icur_list == 1)then
               size_ = size1
               num_pt_on_edge = 2 + list1(jj)%num_inter_pt(kk) ! then increment to next point (do not stay on same point)
-            elseif(icur_list == 2)then
+            else if(icur_list == 2)then
               size_ = size2
               num_pt_on_edge = 2 + list2(jj)%num_inter_pt(kk) ! then increment to next point (do not stay on same point)
             end if
@@ -221,7 +221,7 @@
                 jj = jj +1
                 if (jj > size_)jj=1
               end if
-            elseif(ii < size_)then
+            else if(ii < size_)then
               !first point on next edge
               jj = jj + 1
               kk = 1
@@ -231,7 +231,7 @@
               kk = 1
             end if
 
-          endif
+          end if
 
           currentPoint%id_edge = jj
           currentPoint%id_point = kk
@@ -339,9 +339,9 @@
             allocate(list_edges_1(ii)%point_id(2+num_edges_2)) ; list_edges_1(ii)%point_id(:) = 0
             allocate(list_edges_1(ii)%iorient(2+num_edges_2)) ; list_edges_1(ii)%iorient(:) = 0
             allocate(list_edges_1(ii)%num_inter_pt(2+num_edges_2)) ; list_edges_1(ii)%num_inter_pt(:) = 0
-            allocate(list_edges_1(ii)%ptr(2+num_edges_2)) ;
-            list_edges_1(ii)%ptr(:)%id_edge=0;
-            list_edges_1(ii)%ptr(:)%id_point=0;
+            allocate(list_edges_1(ii)%ptr(2+num_edges_2))
+            list_edges_1(ii)%ptr(:)%id_edge=0
+            list_edges_1(ii)%ptr(:)%id_point=0
             list_edges_1(ii)%numpoints = 0
           end do
 
@@ -353,9 +353,9 @@
             allocate(list_edges_2(jj)%point_id(2+num_edges_1)) ; list_edges_2(jj)%point_id(:) = 0
             allocate(list_edges_2(jj)%iorient(2+num_edges_1)) ; list_edges_2(jj)%iorient(:) = 0
             allocate(list_edges_2(jj)%num_inter_pt(2+num_edges_1)) ; list_edges_2(jj)%num_inter_pt(:) = 0
-            allocate(list_edges_2(jj)%ptr(2+num_edges_1)) ;
-            list_edges_2(jj)%ptr(:)%id_edge=0;
-            list_edges_2(jj)%ptr(:)%id_point=0;
+            allocate(list_edges_2(jj)%ptr(2+num_edges_1))
+            list_edges_2(jj)%ptr(:)%id_edge=0
+            list_edges_2(jj)%ptr(:)%id_point=0
             list_edges_2(jj)%numpoints = 0
           end do
 
@@ -382,9 +382,9 @@
 
             !ADDING FIRST ENDPOINT ON list_edges_1 (Clipped)
             icur_1 = 1
-            list_edges_1(ii)%alpha(1)=zero ;
-            list_edges_1(ii)%coor(1)%y = p1%y;
-            list_edges_1(ii)%coor(1)%z = p1%z;
+            list_edges_1(ii)%alpha(1)=zero
+            list_edges_1(ii)%coor(1)%y = p1%y
+            list_edges_1(ii)%coor(1)%z = p1%z
 
             do jj=1,num_edges_2
               !Clipping polygon
@@ -412,17 +412,17 @@
               total_int_pt = total_int_pt + 1 !numbering to affect a global identifier and make relation between the two lists
 
               !ADDING INTERSECTION POINT ON list_edges_1
-              icur_1 = icur_1 + 1 ; list_edges_1(ii)%alpha(icur_1) = alpha ;  !alpha \in ]0,1[ : position on edge
+              icur_1 = icur_1 + 1 ; list_edges_1(ii)%alpha(icur_1) = alpha   !alpha \in ]0,1[ : position on edge
               !storing intersection point
               list_edges_1(ii)%coor(icur_1)%y = tmpPoint%y
               list_edges_1(ii)%coor(icur_1)%z = tmpPoint%z
               list_edges_1(ii)%point_id(icur_1) = total_int_pt
 
               !ADDING INTERSECTION POINT ON list_edges_2
-              icur_2(jj) = icur_2(jj) + 1 ; list_edges_2(jj)%alpha(icur_2(jj))=beta ;
-              list_edges_2(jj)%coor(icur_2(jj))%y = tmpPoint%y;
-              list_edges_2(jj)%coor(icur_2(jj))%z = tmpPoint%z;
-              list_edges_2(jj)%point_id(icur_2(jj)) = total_int_pt;
+              icur_2(jj) = icur_2(jj) + 1 ; list_edges_2(jj)%alpha(icur_2(jj))=beta
+              list_edges_2(jj)%coor(icur_2(jj))%y = tmpPoint%y
+              list_edges_2(jj)%coor(icur_2(jj))%z = tmpPoint%z
+              list_edges_2(jj)%point_id(icur_2(jj)) = total_int_pt
 
               !entering or leaving point ? (p1p2 point of view : along p1p2)
               !normal vector is vector q1q2 rotation +90°
@@ -462,12 +462,12 @@
 
             if(vertice_on_edge)exit
             ! ADDING LAST ENDPOINT ON list_edges_1 (Clipped)
-            icur_1 = icur_1 + 1 ;
-            list_edges_1(ii)%alpha(icur_1) = one ;  !last point = endpoints
-            list_edges_1(ii)%coor(icur_1)%y = p2%y;
-            list_edges_1(ii)%coor(icur_1)%z = p2%z;
+            icur_1 = icur_1 + 1
+            list_edges_1(ii)%alpha(icur_1) = one   !last point = endpoints
+            list_edges_1(ii)%coor(icur_1)%y = p2%y
+            list_edges_1(ii)%coor(icur_1)%z = p2%z
             ! NUMBER OF POINT ON list_edges_1
-            list_edges_1(ii)%numpoints = icur_1;   !numpoints = 2 endpoints + intersection points
+            list_edges_1(ii)%numpoints = icur_1   !numpoints = 2 endpoints + intersection points
           end do
 
           if(vertice_on_edge)then
@@ -477,12 +477,12 @@
 
           ! ADDING LAST ENDPOINT ON list_edges_2 (Clipping)
           do jj=1,num_edges_2
-            icur_2(jj) = icur_2(jj) + 1 ;
-            list_edges_2(jj)%alpha(icur_2(jj)) = one ;  !last point = endpoint
-            list_edges_2(jj)%coor((icur_2(jj)))%y = ClippingPolygon%point(jj+1)%y;
-            list_edges_2(jj)%coor((icur_2(jj)))%z = ClippingPolygon%point(jj+1)%z;
+            icur_2(jj) = icur_2(jj) + 1
+            list_edges_2(jj)%alpha(icur_2(jj)) = one   !last point = endpoint
+            list_edges_2(jj)%coor((icur_2(jj)))%y = ClippingPolygon%point(jj+1)%y
+            list_edges_2(jj)%coor((icur_2(jj)))%z = ClippingPolygon%point(jj+1)%z
             ! NUMBER OF POINT ON list_edges_1
-            list_edges_2(jj)%numpoints = icur_2(jj);   !numpoints = 2 endpoints + intersection points
+            list_edges_2(jj)%numpoints = icur_2(jj)   !numpoints = 2 endpoints + intersection points
           end do
 
           !sorting intersection points on list_edges_1 (Clipped)
@@ -625,7 +625,7 @@
                   if(list_edges_1(ii)%iorient(kk)==1)then
                     counter_entering_point=counter_entering_point+1
                   end if
-                elseif(icur_list == 2)then
+                else if(icur_list == 2)then
                   if(list_edges_2(ii)%iorient(kk)==-1)then
                     counter_entering_point=counter_entering_point+1
                   end if
@@ -634,7 +634,7 @@
               if(icur_list == 1) ierr=polygon_addpoint(result_list%polygon(ipoly), list_edges_1(ii)%coor(kk))
               if(icur_list == 2) ierr=polygon_addpoint(result_list%polygon(ipoly), list_edges_2(ii)%coor(kk))
               !  go on with next point
-            enddo
+            end do
 
             !write( *,*) "  poly id:",ipoly
             !do ii =1, result_list%polygon(ipoly)%numpoint
@@ -712,15 +712,15 @@
           total = ZERO
           do i=1,n-1
             total = total + (point(i+1)%y-point(i)%y)*(point(i+1)%z+point(i)%z)
-          enddo
+          end do
           polyg%area = half * abs(total)
           !set counter clockwise
           if (total > zero) then
             do i=1,n
               polyg%point(i)%y = point(n-i+1)%y
               polyg%point(i)%z = point(n-i+1)%z
-            enddo
-          endif
+            end do
+          end if
           deallocate(point)
         end subroutine polygon_SetClockWise
 

@@ -26,6 +26,7 @@
 !||    updmat          ../starter/source/materials/updmat.F
 !||====================================================================
       module law87_upd_mod
+      implicit none
       contains
         ! ======================================================================================================================
         ! \brief Updating material parameters of /MAT/LAW87
@@ -128,7 +129,7 @@
             kvoce  = ko + qvoce*(one - expv)
             yield  = alpha*kswift + (one-alpha)*kvoce
             !< - Hansel Spittel yield stress type
-          elseif (iflag == 2) then
+          else if (iflag == 2) then
             k1     = matparam%uparam(13)
             k2     = matparam%uparam(14)
             ahs    = matparam%uparam(15)
@@ -151,7 +152,7 @@
             ipos(1,2) = 1
             call table_mat_vinterp(matparam%table(1),1,1,ipos,xvec,yld,dyld_dp)
             yield = yld(1)
-          endif
+          end if
 !
           !< Start newton loops to find al parameters from 1 to 6
           residu  = ep30
@@ -255,15 +256,15 @@
                   i1=mat_id,                                         &
                   c1=titr)
                 exit
-              endif
-            enddo
+              end if
+            end do
             residu = sqrt(f(1)**2+f(2)**2+f(3)**2+f(4)**2+f(5)**2+f(6)**2)/6
             niter = niter + 1
-          enddo
+          end do
 !
           !< Compute al(7) and al(8)
-          x1  = (al(1)+al(2))/3;
-          x2  = (al(1)-al(2))/3;
+          x1  = (al(1)+al(2))/3
+          x2  = (al(1)-al(2))/3
           x11 = (al(3)     + two*al(4) + two*al(5)+al(6)      ) /nine
           x22 = (two*al(5)+      al(6) - al(3)     -two *al(4))/three
 !
@@ -308,11 +309,11 @@
                   i1=mat_id,                                           &
                   c1=titr)
                 exit
-              endif
-            enddo
+              end if
+            end do
             residu = sqrt(g(1)**2+g(2)**2)/2
             niter = niter + 1
-          enddo ! while iterations
+          end do ! while iterations
 
           if (iok ==0) then
             do k=1,8
@@ -324,9 +325,9 @@
                   i1=mat_id,                                           &
                   c1=titr)
                 exit
-              endif
-            enddo
-          endif
+              end if
+            end do
+          end if
 !
           !< Check yield surface convexity
           !< Check first linear transformation matrix principal values
@@ -337,14 +338,14 @@
           lp(2,1) = -al(2)/three
           lp(2,2) = two*al(2)/three
           lp(3,3) = al(7)
-          call dgeev('N','N',3,lp,3,wr,wi,vl,3,vr,3,work,102,info)
+          call dgeev("N","N",3,lp,3,wr,wi,vl,3,vr,3,work,102,info)
           if (minval(wr) <= zero) then
             call ancmsg(msgid=3095,                                            &
               msgtype=msgwarning,                                      &
               anmode=aninfo_blind_1,                                 &
               i1=mat_id,                                             &
               c1=titr)
-          endif
+          end if
           !< Check second linear transformation matrix principal values
           ! (must be positive to ensure convexity)
           lpp = zero
@@ -358,7 +359,7 @@
           vl = zero
           vr = zero
           work = zero
-          call dgeev('N','N',3,lpp,3,wr,wi,vl,3,vr,3,work,102,info)
+          call dgeev("N","N",3,lpp,3,wr,wi,vl,3,vr,3,work,102,info)
           !< Check second linear transformation matrix principal values
           ! (must be positive to ensure convexity)
           if (minval(wr) <= zero) then
@@ -367,7 +368,7 @@
               anmode=aninfo_blind_1,                                 &
               i1=mat_id,                                             &
               c1=titr)
-          endif
+          end if
 !
           !< Update the material parameters
           matparam%uparam(3) = al(1)
@@ -381,34 +382,34 @@
 !
           !< Printing the fitted alpha parameters
           if (is_encrypted) then
-            write(iout,'(5x,a,//)')'confidential data'
+            write(iout,"(5x,a,//)")"confidential data"
           else
             if (iok == 0) then
               write(iout,1000)
               write(iout,1001) trim(titr), mat_id, 87
               write(iout,1200) al(1),al(2),al(3),al(4),al(5),al(6),al(7),al(8)
-            endif
-          endif
+            end if
+          end if
 !
 1000      format(/                                                                 &
-            5X,'-------------------------------------------------------',/            &
-            5X,'      UPDATE MATERIAL MODEL: BARLAT YLD2000            ',/,           &
-            5X,'-------------------------------------------------------',/)
+            5X,"-------------------------------------------------------",/            &
+            5X,"      UPDATE MATERIAL MODEL: BARLAT YLD2000            ",/,           &
+            5X,"-------------------------------------------------------",/)
 1001      format(/                                                                 &
             5X,A,/,                                                                   &
-            5X,'MATERIAL NUMBER. . . . . . . . . . . . . . . . . . . .=',I10/,        &
-            5X,'MATERIAL LAW . . . . . . . . . . . . . . . . . . . . .=',I10/)
+            5X,"MATERIAL NUMBER. . . . . . . . . . . . . . . . . . . .=",I10/,        &
+            5X,"MATERIAL LAW . . . . . . . . . . . . . . . . . . . . .=",I10/)
 1200      format(/                                                                 &
-            5X,'FITTED BARLAT 2000 ANISOTROPY COEFFICIENTS:            ',/,           &
-            5X,'-------------------------------------------            ',/,           &
-            5X,'ANISOTROPY COEFFICIENT ALPHA1. . . . . . . . . . . . .=',1PG20.13/    &
-            5X,'ANISOTROPY COEFFICIENT ALPHA2. . . . . . . . . . . . .=',1PG20.13/    &
-            5X,'ANISOTROPY COEFFICIENT ALPHA3. . . . . . . . . . . . .=',1PG20.13/    &
-            5X,'ANISOTROPY COEFFICIENT ALPHA4. . . . . . . . . . . . .=',1PG20.13/    &
-            5X,'ANISOTROPY COEFFICIENT ALPHA5. . . . . . . . . . . . .=',1PG20.13/    &
-            5X,'ANISOTROPY COEFFICIENT ALPHA6. . . . . . . . . . . . .=',1PG20.13/    &
-            5X,'ANISOTROPY COEFFICIENT ALPHA7. . . . . . . . . . . . .=',1PG20.13/    &
-            5X,'ANISOTROPY COEFFICIENT ALPHA8. . . . . . . . . . . . .=',1PG20.13/)
+            5X,"FITTED BARLAT 2000 ANISOTROPY COEFFICIENTS:            ",/,           &
+            5X,"-------------------------------------------            ",/,           &
+            5X,"ANISOTROPY COEFFICIENT ALPHA1. . . . . . . . . . . . .=",1PG20.13/    &
+            5X,"ANISOTROPY COEFFICIENT ALPHA2. . . . . . . . . . . . .=",1PG20.13/    &
+            5X,"ANISOTROPY COEFFICIENT ALPHA3. . . . . . . . . . . . .=",1PG20.13/    &
+            5X,"ANISOTROPY COEFFICIENT ALPHA4. . . . . . . . . . . . .=",1PG20.13/    &
+            5X,"ANISOTROPY COEFFICIENT ALPHA5. . . . . . . . . . . . .=",1PG20.13/    &
+            5X,"ANISOTROPY COEFFICIENT ALPHA6. . . . . . . . . . . . .=",1PG20.13/    &
+            5X,"ANISOTROPY COEFFICIENT ALPHA7. . . . . . . . . . . . .=",1PG20.13/    &
+            5X,"ANISOTROPY COEFFICIENT ALPHA8. . . . . . . . . . . . .=",1PG20.13/)
 !
         end subroutine law87_upd
 !
@@ -521,15 +522,15 @@
           do i = 1, n
             do j = 1, n
               c(i,j) = zero
-            enddo
-          enddo
+            end do
+          end do
           do i = 1, n
             do j = 1, n
               do k = 1, n
                 c(i,j) = c(i,j) + a(i,k) * b(k,j)
-              enddo
-            enddo
-          enddo
+              end do
+            end do
+          end do
 !
         end subroutine prodmat
 !
@@ -566,12 +567,12 @@
 !
           do i = 1, n
             c(i) = zero
-          enddo
+          end do
           do i = 1, n
             do j = 1, n
               c(i) = c(i) + a(i,j) * b(j)
-            enddo
-          enddo
+            end do
+          end do
 !
         end subroutine prodmatvect
       end module law87_upd_mod

@@ -26,6 +26,7 @@
 !||    cmain3       ../engine/source/materials/mat_share/cmain3.F
 !||====================================================================
       module mulawc_mod
+      implicit none
       contains
 !! \brief routine to compute the material laws for shell elements
 !||====================================================================
@@ -213,11 +214,11 @@
           use fail_param_mod
           use fail_lemaitre_c_mod
           use fail_composite_c_mod
+          use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
-#include "my_real.inc"
 #include "comlock.inc"
 #include "mvsiz_p.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -276,7 +277,7 @@
           integer, intent(in),dimension(npropmi,nummat) :: ipm
           integer, intent(in),dimension(nparg) :: iparg
           integer, intent(in),dimension(snpc)  :: npf
-          my_real, intent(in),dimension(mvsiz) :: epsd_pg !< global element strain rate in Gauss pt
+          real(kind=WP), intent(in),dimension(mvsiz) :: epsd_pg !< global element strain rate in Gauss pt
           integer, intent(in) :: idamp_freq_range         ! flag for damping frequency range
           !
           integer, intent(inout) :: idel7nok    ! element deletion flag in contact interfaces
@@ -286,65 +287,65 @@
           integer, intent(inout),dimension(nel)            :: fwave_el
           integer, intent(inout),dimension(nxlaymax,mvsiz) :: elcrkini
           !
-          my_real, intent(in) :: dt1
-          my_real, intent(in) :: tt
-          my_real, intent(in) :: theaccfact
-          my_real, intent(in) ,dimension(npropm,nummat) :: pm
-          my_real, intent(in) ,dimension(npropg,numgeo) :: geo
-          my_real, intent(in) ,dimension(sbufmat)       :: bufmat
-          my_real, intent(in) ,dimension(stf)           ::  tf
+          real(kind=WP), intent(in) :: dt1
+          real(kind=WP), intent(in) :: tt
+          real(kind=WP), intent(in) :: theaccfact
+          real(kind=WP), intent(in) ,dimension(npropm,nummat) :: pm
+          real(kind=WP), intent(in) ,dimension(npropg,numgeo) :: geo
+          real(kind=WP), intent(in) ,dimension(sbufmat)       :: bufmat
+          real(kind=WP), intent(in) ,dimension(stf)           ::  tf
           !
-          my_real, intent(inout) :: dm
-          my_real, intent(inout), dimension(nel,5) :: for
-          my_real, intent(inout), dimension(nel,3) :: mom
-          my_real, intent(inout), dimension(nel,8) :: gstr
-          my_real, intent(inout), dimension(nel)   :: thk
-          my_real, intent(inout), dimension(nel,2) :: eint
-          my_real, intent(inout), dimension(nel,5) :: tensx
+          real(kind=WP), intent(inout) :: dm
+          real(kind=WP), intent(inout), dimension(nel,5) :: for
+          real(kind=WP), intent(inout), dimension(nel,3) :: mom
+          real(kind=WP), intent(inout), dimension(nel,8) :: gstr
+          real(kind=WP), intent(inout), dimension(nel)   :: thk
+          real(kind=WP), intent(inout), dimension(nel,2) :: eint
+          real(kind=WP), intent(inout), dimension(nel,5) :: tensx
           !
-          my_real, intent(inout), dimension(mvsiz) :: kxx
-          my_real, intent(inout), dimension(mvsiz) :: kyy
-          my_real, intent(inout), dimension(mvsiz) :: kxy
+          real(kind=WP), intent(inout), dimension(mvsiz) :: kxx
+          real(kind=WP), intent(inout), dimension(mvsiz) :: kyy
+          real(kind=WP), intent(inout), dimension(mvsiz) :: kxy
           !
-          my_real, intent(inout), dimension(mvsiz) :: off
-          my_real, intent(inout), dimension(mvsiz) :: tempel
-          my_real, intent(inout), dimension(mvsiz) :: viscmx
-          my_real, intent(inout), dimension(mvsiz) :: area
-          my_real, intent(inout), dimension(mvsiz) :: exx
-          my_real, intent(inout), dimension(mvsiz) :: eyy
-          my_real, intent(inout), dimension(mvsiz) :: exy
-          my_real, intent(inout), dimension(mvsiz) :: exz
-          my_real, intent(inout), dimension(mvsiz) :: eyz
-          my_real, intent(inout), dimension(mvsiz) :: thk0
-          my_real, intent(inout), dimension(mvsiz) :: ssp
-          my_real, intent(inout), dimension(mvsiz) :: rho
-          my_real, intent(inout), dimension(mvsiz) :: alpe
-          my_real, intent(inout), dimension(mvsiz) :: shf
-          my_real, intent(inout), dimension(mvsiz) :: gs
-          my_real, intent(inout), dimension(mvsiz) :: sigy
-          my_real, intent(inout), dimension(mvsiz,2) :: zcfac
-          my_real, intent(inout), dimension(mvsiz,8) :: f_def
-          my_real, intent(inout), dimension(nxlaymax,mvsiz) :: dir1_crk
-          my_real, intent(inout), dimension(nxlaymax,mvsiz) :: dir2_crk
-          my_real, intent(inout), dimension(mvsiz) :: dt1c
-          my_real, intent(inout), dimension(mvsiz) :: die
-          my_real, intent(inout), dimension(mvsiz) :: etimp
-          my_real, intent(inout), dimension(mvsiz) :: aldt
-          my_real, intent(inout), dimension(mvsiz*nlay_max*laynpt_max) :: thkly
-          my_real, intent(inout), dimension(nel,nlay_max*laynpt_max) :: thk_ly
-          my_real, intent(inout), dimension(mvsiz,nlay_max*laynpt_max) :: posly
+          real(kind=WP), intent(inout), dimension(mvsiz) :: off
+          real(kind=WP), intent(inout), dimension(mvsiz) :: tempel
+          real(kind=WP), intent(inout), dimension(mvsiz) :: viscmx
+          real(kind=WP), intent(inout), dimension(mvsiz) :: area
+          real(kind=WP), intent(inout), dimension(mvsiz) :: exx
+          real(kind=WP), intent(inout), dimension(mvsiz) :: eyy
+          real(kind=WP), intent(inout), dimension(mvsiz) :: exy
+          real(kind=WP), intent(inout), dimension(mvsiz) :: exz
+          real(kind=WP), intent(inout), dimension(mvsiz) :: eyz
+          real(kind=WP), intent(inout), dimension(mvsiz) :: thk0
+          real(kind=WP), intent(inout), dimension(mvsiz) :: ssp
+          real(kind=WP), intent(inout), dimension(mvsiz) :: rho
+          real(kind=WP), intent(inout), dimension(mvsiz) :: alpe
+          real(kind=WP), intent(inout), dimension(mvsiz) :: shf
+          real(kind=WP), intent(inout), dimension(mvsiz) :: gs
+          real(kind=WP), intent(inout), dimension(mvsiz) :: sigy
+          real(kind=WP), intent(inout), dimension(mvsiz,2) :: zcfac
+          real(kind=WP), intent(inout), dimension(mvsiz,8) :: f_def
+          real(kind=WP), intent(inout), dimension(nxlaymax,mvsiz) :: dir1_crk
+          real(kind=WP), intent(inout), dimension(nxlaymax,mvsiz) :: dir2_crk
+          real(kind=WP), intent(inout), dimension(mvsiz) :: dt1c
+          real(kind=WP), intent(inout), dimension(mvsiz) :: die
+          real(kind=WP), intent(inout), dimension(mvsiz) :: etimp
+          real(kind=WP), intent(inout), dimension(mvsiz) :: aldt
+          real(kind=WP), intent(inout), dimension(mvsiz*nlay_max*laynpt_max) :: thkly
+          real(kind=WP), intent(inout), dimension(nel,nlay_max*laynpt_max) :: thk_ly
+          real(kind=WP), intent(inout), dimension(mvsiz,nlay_max*laynpt_max) :: posly
           !
-          my_real, intent(inout), dimension(mvsiz,npt) :: ply_exx    ! batoz shell delamination
-          my_real, intent(inout), dimension(mvsiz,npt) :: ply_eyy    ! batoz shell delamination
-          my_real, intent(inout), dimension(mvsiz,npt) :: ply_exy    ! batoz shell delamination
-          my_real, intent(inout), dimension(mvsiz,npt) :: ply_exz    ! batoz shell delamination
-          my_real, intent(inout), dimension(mvsiz,npt) :: ply_eyz    ! batoz shell delamination
-          my_real, intent(inout), dimension(mvsiz,5,npt) :: ply_f    ! batoz shell delamination
+          real(kind=WP), intent(inout), dimension(mvsiz,npt) :: ply_exx    ! batoz shell delamination
+          real(kind=WP), intent(inout), dimension(mvsiz,npt) :: ply_eyy    ! batoz shell delamination
+          real(kind=WP), intent(inout), dimension(mvsiz,npt) :: ply_exy    ! batoz shell delamination
+          real(kind=WP), intent(inout), dimension(mvsiz,npt) :: ply_exz    ! batoz shell delamination
+          real(kind=WP), intent(inout), dimension(mvsiz,npt) :: ply_eyz    ! batoz shell delamination
+          real(kind=WP), intent(inout), dimension(mvsiz,5,npt) :: ply_f    ! batoz shell delamination
           !
-          my_real, intent(inout), dimension(nel,varnl_npttot) :: varnl
-          my_real, intent(inout), dimension(sdir_a) :: dir_a
-          my_real, intent(inout), dimension(sdir_b) :: dir_b
-          my_real, dimension(mvsiz), intent(inout) :: fheat
+          real(kind=WP), intent(inout), dimension(nel,varnl_npttot) :: varnl
+          real(kind=WP), intent(inout), dimension(sdir_a) :: dir_a
+          real(kind=WP), intent(inout), dimension(sdir_b) :: dir_b
+          real(kind=WP), dimension(mvsiz), intent(inout) :: fheat
           !
           target :: aldt, ipm, varnl
           type(elbuf_struct_),intent(inout), target :: elbuf_str
@@ -374,8 +375,8 @@
           integer ,dimension(maxfunc) :: ifunc
           integer ,dimension(mvsiz)   :: ioff_duct,nfis1,nfis2,nfis3
 !
-          my_real sigdmg(mvsiz,5),sigksi(mvsiz,5),tens(mvsiz,5)
-          my_real ,dimension(mvsiz) :: epchk,copy_pla,pla0,&
+          real(kind=WP) :: sigdmg(mvsiz,5),sigksi(mvsiz,5),tens(mvsiz,5)
+          real(kind=WP) ,dimension(mvsiz) :: epchk,copy_pla,pla0,&
             degmb ,degfx ,sigoff,thklyl,thkn  ,etse,off_old,&
             depsxx,depsyy,depsxy,depsyz,depszx,epsxx ,epsyy ,epsxy,&
             epsyz ,epszx ,epspxx,epspyy,epspxy,epspyz,epspzx,sigoxx,&
@@ -384,21 +385,21 @@
             wmc, epsd, yld,dpla,vol0, coef,hardm,g_imp,visc,wplar,&
             tstar,  vm, vm0, seq0, &
             areamin,dareamin,dmg_glob_scale,dmg_loc_scale,et_imp, epsthtot
-          my_real, dimension(nel,5) :: dmg_orth_scale
+          real(kind=WP), dimension(nel,5) :: dmg_orth_scale
 !
-          my_real :: zt,dtinv, vol2,asrate, &
+          real(kind=WP) :: zt,dtinv, vol2,asrate, &
             r1,r2,s1,s2,r12a,r22a,s12b,s22b,rs1,rs2,rs3,&
             t1,t2,t3,fact,r3r3,s3s3,&
             bidon1,bidon2,bidon3,bidon4,bidon5,vv,aa,trelax,t0,tm
-          my_real  scale1(nel)
-          my_real ,dimension(nel), target :: le_max
-          my_real tt_local
-          my_real, dimension(:) ,pointer  :: el_temp,yldfac,crklen,crkdir,dadv,tfail,el_len,&
+          real(kind=WP)  :: scale1(nel)
+          real(kind=WP) ,dimension(nel), target :: le_max
+          real(kind=WP) :: tt_local
+          real(kind=WP), dimension(:) ,pointer  :: el_temp,yldfac,crklen,crkdir,dadv,tfail,el_len,&
           &el_pla
-          my_real, dimension(nel), target :: el_pla_dum
+          real(kind=WP), dimension(nel), target :: el_pla_dum
           target :: tempel,bufmat,scale1
 !----
-          type(ttable) table(*)
+          type(ttable) :: table(*)
           type(buf_lay_) ,pointer :: bufly
           type(l_bufel_) ,pointer :: lbuf
           type(g_bufel_) ,pointer :: gbuf
@@ -406,7 +407,7 @@
 !----
           integer, dimension(:) ,pointer  :: fld_idx,foff,offly,itable,ifunc_fail,&
           &itabl_fail,vartmp,iparam,iparamf
-          my_real, dimension(:) ,pointer  :: uvar,uvarf,uelr,uelr1,dam,&
+          real(kind=WP), dimension(:) ,pointer  :: uvar,uvarf,uelr,uelr1,dam,&
           &dfmax,tdel ,offl,uvarv,uparam,uparam0,uparamf,&
           &dirdmg,dir_orth,damini
           type(matparam_struct_) , pointer :: matparam
@@ -417,15 +418,15 @@
           logical :: flag_law1,flag_law2,flag_law25,flag_law22
           logical, dimension(nel) :: print_fail
 !
-          character option*256
-          integer size
+          character :: option*256
+          integer :: size
           integer :: nrate,nprony
-          my_real :: fisokin,kv,zshift
-          my_real, dimension(nel) :: eps1,eps2
-          my_real, dimension(nel), target :: vecnul
-          my_real, dimension(:), pointer  :: sigbxx,sigbyy,sigbxy
-          my_real, dimension(:), allocatable :: gv,beta
-          my_real wm(11,11)
+          real(kind=WP) :: fisokin,kv,zshift
+          real(kind=WP), dimension(nel) :: eps1,eps2
+          real(kind=WP), dimension(nel), target :: vecnul
+          real(kind=WP), dimension(:), pointer  :: sigbxx,sigbyy,sigbxy
+          real(kind=WP), dimension(:), allocatable :: gv,beta
+          real(kind=WP) :: wm(11,11)
 !
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
@@ -3018,6 +3019,6 @@
 1100      FORMAT(1X,'-- RUPTURE OF SHELL ELEMENT :',I10,' AT TIME :',G11.4)
 !---------------------------------------------------
           return
-        end
+        end subroutine mulawc
 !-----
       end module mulawc_mod

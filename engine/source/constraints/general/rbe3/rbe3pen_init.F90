@@ -26,6 +26,7 @@
 !||    rbe3t1             ../engine/source/constraints/general/rbe3/rbe3f.F
 !||====================================================================
       module rbe3pen_init_mod
+      implicit none
       contains
 ! ======================================================================================================================
 ! \brief rbe3 penalty formulation initialization
@@ -95,18 +96,18 @@
                 rbe3%pen%rrbe3pen_fac(n_p), rbe3%pen%rrbe3pen_vi(n_p )       ,         &
                 rbe3%pen%rrbe3pen_m(1,n_p))
 !
-            enddo
+            end do
           end if !(time==zero) then
           if (impl_s>0) then ! not use penalty for implicit
             do n = 1,rbe3%nrbe3
               ipen =rbe3%irbe3(9,n)
               if (ipen >0) rbe3%irbe3(9,n) =-ipen
-            enddo
+            end do
           else
             do n = 1,rbe3%nrbe3
               ipen =rbe3%irbe3(9,n)
               if (ipen <0) rbe3%irbe3(9,n) =-ipen
-            enddo
+            end do
           end if
 !
         end subroutine rbe3pen_init
@@ -182,7 +183,7 @@
               stif = stifn(m)*rndotrn
             end if
             stfrm  = stfrm + wi(i)*stif
-          enddo
+          end do
 !      print *,'stf_m,stf_s',stfrm,stifn(ns)
 !
           disdp(1:3)= x(1:3,ns) - xbar(1:3)
@@ -231,7 +232,7 @@
             gamma(8) = gamma(8)+wi(i)*(       -rn(2)*rn(3))
             gamma(9) = gamma(9)+wi(i)*(rndotrn-rn(3)*rn(3))
 !
-          enddo
+          end do
           icoline = 0
           det =                                                          &
             (gamma(1)*(gamma(5)*gamma(9)-gamma(6)*gamma(8))-       &
@@ -306,7 +307,7 @@
                 Ar(1,3)*Ar(1,3)+Ar(2,3)*Ar(2,3)+Ar(3,3)*Ar(3,3))
             end do
 !
-          endif !if (icoline>0) then
+          end if !if (icoline>0) then
           if (in(ns)>zero) then
             rrbe3pen_fac = max(one,(facn+facr))  ! solid/solid(shell)
             rrbe3pen_stf(2) = rrbe3pen_stf(2)/rrbe3pen_fac !instability concern

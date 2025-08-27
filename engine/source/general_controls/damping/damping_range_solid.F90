@@ -26,6 +26,7 @@
 !||    viscmain                  ../engine/source/materials/visc/viscmain.F
 !||====================================================================
       module damping_range_solid_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
@@ -113,7 +114,7 @@
             bb(j) = two*timestep*gv(j)*exp(-half*beta(j)*timestep)
             aak(j) = exp(-betak(j)*timestep)
             bbk(j) = timestep*kv(j)*exp(-half*betak(j)*timestep)
-          enddo
+          end do
 !
           do i=1,nel
 !           spheric part
@@ -132,7 +133,7 @@
             sv4(i) = zero
             sv5(i) = zero
             sv6(i) = zero
-          enddo
+          end do
 !
           do j= 1,3
             offset = nvarvis - nvar_damp
@@ -170,15 +171,15 @@
               sv6(i) = sv6(i) + h(6)
               p(i)   = p(i)   + hp
 !
-            enddo
-          enddo
+            end do
+          end do
 !
           do i=1,nel
             sv1(i) = sv1(i) - p(i)
             sv2(i) = sv2(i) - p(i)
             sv3(i) = sv3(i) - p(i)
             soundsp(i) = sqrt(soundsp(i)**2 + (four_over_3*g + rbulk)*et(i)/rho(i))
-          enddo
+          end do
 !
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine damping_range_solid

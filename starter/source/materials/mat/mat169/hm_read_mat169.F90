@@ -101,19 +101,19 @@
 !     read input fields
 ! ----------------------------------------------------------------------------------------------------------------------
 
-          call hm_get_floatv('Rho'            ,rho0    ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("Rho"            ,rho0    ,is_available, lsubmodel, unitab)
           !line2
-          call hm_get_floatv('E'              ,young   ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('Nu'             ,nu      ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('MAT169_SHT_SL'  ,sht_sl  ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('MAT169_TENMAX'  ,tenmax  ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('MAT169_GCTEN'   ,gcten   ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("E"              ,young   ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("Nu"             ,nu      ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT169_SHT_SL"  ,sht_sl  ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT169_TENMAX"  ,tenmax  ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT169_GCTEN"   ,gcten   ,is_available, lsubmodel, unitab)
           !line 3
-          call hm_get_floatv('MAT169_SHRMAX'  ,shrmax  ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('MAT169_GCSHR'   ,gcshr   ,is_available, lsubmodel, unitab)
-          call hm_get_intv  ('MAT169_PWRT'    ,pwrt    ,is_available, lsubmodel)
-          call hm_get_intv  ('MAT169_PWRS'    ,pwrs    ,is_available, lsubmodel)
-          call hm_get_floatv('MAT169_SHRP'    ,shrp    ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT169_SHRMAX"  ,shrmax  ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT169_GCSHR"   ,gcshr   ,is_available, lsubmodel, unitab)
+          call hm_get_intv  ("MAT169_PWRT"    ,pwrt    ,is_available, lsubmodel)
+          call hm_get_intv  ("MAT169_PWRS"    ,pwrs    ,is_available, lsubmodel)
+          call hm_get_floatv("MAT169_SHRP"    ,shrp    ,is_available, lsubmodel, unitab)
 ! ----------------------------------------------------------------------------------------------------------------------
           shear   = young/(two * (one + nu))
 
@@ -130,11 +130,11 @@
             CALL ANCMSG(MSGID=3074,MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_1,     &
               I1 = MAT_ID,                                             &
               C1 = TITR,                                               &
-              C2 = 'GCTEN',                                            &
+              C2 = "GCTEN",                                            &
               R1 =  gcten  )
 
 
-          endif
+          end if
           limit_sh = shrmax*dp + shrmax**2/two/shear
           if (gcshr < limit_sh ) then
             ! dfs must be modified
@@ -144,9 +144,9 @@
             CALL ANCMSG(MSGID=3075,MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_1,     &
               I1 = MAT_ID,                                             &
               C1 = TITR,                                               &
-              C2 = 'GCSHR',                                            &
+              C2 = "GCSHR",                                            &
               R1 =  gcshr  )
-          endif
+          end if
 ! ----------------------------------------------------------------------------------------------------------------------
           nuvar = 15
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -193,12 +193,12 @@
           write(iout,1050) trim(titr),mat_id,169
           write(iout,1000)
           if (is_encrypted) then
-            write(iout,'(5x,a,//)')'CONFIDENTIAL DATA'
+            write(iout,"(5x,a,//)")"CONFIDENTIAL DATA"
           else
             write(iout,1060) rho0
             write(iout,1100) young,nu, tenmax,shrmax, pwrt,pwrs,gcten , gcshr,   &
               shrp, sht_sl
-          endif
+          end if
 !      parmat(1)  = c1
           parmat(2)  = young
           parmat(3)  = nu
@@ -212,21 +212,21 @@
             5x,40h  -----------------------------------   ,//)
 1050      format(/                                                               &
             5x,a,/,                                                                &
-            5x,'MATERIAL NUMBER . . . . . . . . . . . . .=',i10/,                  &
-            5x,'MATERIAL LAW. . . . . . . . . . . . . . .=',i10/)
+            5x,"MATERIAL NUMBER . . . . . . . . . . . . .=",i10/,                  &
+            5x,"MATERIAL LAW. . . . . . . . . . . . . . .=",i10/)
 1060      format(                                                                &
-            5x,'INITIAL DENSITY . . . . . . . . . . . . .=',1pg20.13/)
+            5x,"INITIAL DENSITY . . . . . . . . . . . . .=",1pg20.13/)
 1100      format(                                                                &
-            5x,'YOUNG MODULUS PER THICKNESS UNIT IN TENSION. . . . .=',1PG20.13/,  &
-            5x,'POISSON RATION . . . . . . . . . . . . . . . . . . .=',1PG20.13/,  &
-            5x,'MAXIMAL TENSILE STRESS . . . . . . . . . . . . . . .=',1PG20.13/,  &
-            5x,'MAXIMAL SHEAR STRESS . . . . . . . . . . . . . . . .=',1PG20.13/,  &
-            5x,'POWER TERM FOR TENSION . . . . . . . . . . . . . . .=',1PG20.13/,  &
-            5x,'POWER TERM FOR SHEAR . . . . . . . . . . . . . . . .=',1PG20.13/,  &
-            5x,'ENERGY PER UNIT AREA TO FAIL IN TENSION. . . . . . .=',1PG20.13/,  &
-            5x,'ENERGY PER UNIT AREA TO FAIL IN SHEAR. . . . . . . .=',1PG20.13/,  &
-            5x,'SHEAR PLATEAU RATIO. . . . . . . . . . . . . . . . .=',1PG20.13/,  &
-            5x,'SLOPE OF YIELD SURFACE AT ZERO TENSION . . . . . . .=',1PG20.13/)
+            5x,"YOUNG MODULUS PER THICKNESS UNIT IN TENSION. . . . .=",1PG20.13/,  &
+            5x,"POISSON RATION . . . . . . . . . . . . . . . . . . .=",1PG20.13/,  &
+            5x,"MAXIMAL TENSILE STRESS . . . . . . . . . . . . . . .=",1PG20.13/,  &
+            5x,"MAXIMAL SHEAR STRESS . . . . . . . . . . . . . . . .=",1PG20.13/,  &
+            5x,"POWER TERM FOR TENSION . . . . . . . . . . . . . . .=",1PG20.13/,  &
+            5x,"POWER TERM FOR SHEAR . . . . . . . . . . . . . . . .=",1PG20.13/,  &
+            5x,"ENERGY PER UNIT AREA TO FAIL IN TENSION. . . . . . .=",1PG20.13/,  &
+            5x,"ENERGY PER UNIT AREA TO FAIL IN SHEAR. . . . . . . .=",1PG20.13/,  &
+            5x,"SHEAR PLATEAU RATIO. . . . . . . . . . . . . . . . .=",1PG20.13/,  &
+            5x,"SLOPE OF YIELD SURFACE AT ZERO TENSION . . . . . . .=",1PG20.13/)
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine hm_read_mat169_arup
       end module hm_read_mat169_arup_mod

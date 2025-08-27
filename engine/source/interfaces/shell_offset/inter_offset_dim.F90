@@ -26,6 +26,7 @@
 !||    inter_sh_offset_ini       ../engine/source/interfaces/shell_offset/inter_offset_ini.F90
 !||====================================================================
       module inter_sh_offset_dim_mod
+      implicit none
       contains
         ! ======================================================================================================================
         !                                                   PROCEDURES

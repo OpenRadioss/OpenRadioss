@@ -38,5 +38,5 @@
         integer :: len1               ! Length of line to write
         character(len=len1)  :: line  ! Line to write
 !-----------------------------------------------
-        write(fd,'(a)') line(1:len1)
+        write(fd,"(a)") line(1:len1)
       end subroutine write_out_file

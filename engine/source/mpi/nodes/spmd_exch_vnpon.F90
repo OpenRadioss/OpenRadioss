@@ -27,6 +27,7 @@
 !||    offset_nproj          ../engine/source/interfaces/shell_offset/offset_nproj.F90
 !||====================================================================
       module spmd_exch_vnpon_mod
+      implicit none
       contains
 !=======================================================================================================================
 !!\brief This subroutine do nodal exchange vn6 in P/ON; ndim1=6*3,ndim2=numnod for vn6->nodal normal
@@ -100,7 +101,7 @@
                 it_spmd,msgtyp,           &
                 req_r(i))
               l = l  + len
-            endif
+            end if
             iad_recv(i+1)  = l
           end do
 
@@ -115,11 +116,11 @@
                 sbuf(1:ndim1, l)   =  vn6(1:ndim1,nod)
               else
                 sbuf(1:ndim1, l)   =  0.0D0
-              endif
+              end if
               l  = l  + 1
             end do
             iad_send(i+1)  = l
-          enddo
+          end do
 !
 !   echange messages
 !
@@ -137,9 +138,9 @@
                 sbuf(1,l),siz,         &
                 it_spmd,msgtyp,           &
                 req_s(i))
-            endif
+            end if
 !
-          enddo
+          end do
 !
 ! assemblage
 !
@@ -153,7 +154,7 @@
                 vn6(1:ndim1,nod) = vn6(1:ndim1,nod) + rbuf(1:ndim1,l)
                 l  = l  + 1
               end do
-            endif
+            end if
           end do
 !
 !   wait for isend
@@ -161,8 +162,8 @@
           do i = 1, nspmd
             if(iad_offset(1,i+1)-iad_offset(1,i)>0)then
               call spmd_wait(req_s(i))
-            endif
-          enddo
+            end if
+          end do
           return
         end subroutine spmd_exch_vnpon
       end module spmd_exch_vnpon_mod

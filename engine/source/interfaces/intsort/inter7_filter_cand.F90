@@ -26,6 +26,7 @@
 !||    inter7_candidate_pairs   ../engine/source/interfaces/intsort/inter7_candidate_pairs.F90
 !||====================================================================
       MODULE INTER7_FILTER_CAND_MOD
+      implicit none
       contains
 !! \brief broad phase filtering of candidate pairs
 !! \details input: nodes and segment sharing the same voxel, output: filtered candidate pairs
@@ -175,16 +176,16 @@
                   if(cand_e(j)==ne)then
                     pene(i)=zero
                     exit
-                  endif
-                enddo
-              endif
-            enddo
-          endif
+                  end if
+                end do
+              end if
+            end do
+          end if
 ! ----------------------------------------------------------------------------------------------------------------------
           k_stok = 0
           do i=1,j_stok
             if(pene(i)/=zero) k_stok = k_stok + 1
-          enddo
+          end do
           if(k_stok==0)return
           exit_flag = .false.
 !$omp critical
@@ -194,12 +195,12 @@
             exit_flag = .true.
           else
             ii_stok = i_stok + k_stok
-          endif
+          end if
 !$omp end critical
 
           if (exit_flag) then
             return
-          endif
+          end if
 
           inacti_l = inacti
           itied_l = itied
@@ -212,8 +213,8 @@
               if(ifq_l > 0)ifpen(i_stok)  = 0
               if(inacti_l==5 .or. inacti_l==6 .or. inacti_l==7) cand_p(i_stok) = zero
               if(itied_l /= 0) cand_f(1:8,i_stok)=zero
-            endif
-          enddo
+            end if
+          end do
           return
         end subroutine INTER7_FILTER_CAND
       end module INTER7_FILTER_CAND_MOD

@@ -113,47 +113,47 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !
           ! line1  Density
-          call hm_get_floatv('MAT_RHO'        ,rho0    ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_RHO"        ,rho0    ,is_available, lsubmodel, unitab)
           ! line 2
-          call hm_get_floatv('LAW128_E'       ,young   ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('LAW128_NU'      ,nu      ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('LAW128_SIGY'    ,sigy    ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('LAW128_KIN'     ,fisokin ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("LAW128_E"       ,young   ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("LAW128_NU"      ,nu      ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("LAW128_SIGY"    ,sigy    ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("LAW128_KIN"     ,fisokin ,is_available, lsubmodel, unitab)
           ! line 3
-          call hm_get_intv  ('LAW128_ITAB'    ,func_id ,is_available, lsubmodel)
-          call hm_get_floatv('LAW128_FACY'    ,yfac    ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('LAW128_FACX'    ,xfac    ,is_available, lsubmodel, unitab)
+          call hm_get_intv  ("LAW128_ITAB"    ,func_id ,is_available, lsubmodel)
+          call hm_get_floatv("LAW128_FACY"    ,yfac    ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("LAW128_FACX"    ,xfac    ,is_available, lsubmodel, unitab)
           ! line 4
-          call hm_get_floatv('LAW128_QR1'     ,qr1     ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('LAW128_CR1'     ,cr1     ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('LAW128_QR2'     ,qr2     ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('LAW128_CR2'     ,cr2     ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("LAW128_QR1"     ,qr1     ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("LAW128_CR1"     ,cr1     ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("LAW128_QR2"     ,qr2     ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("LAW128_CR2"     ,cr2     ,is_available, lsubmodel, unitab)
           ! line 5
-          call hm_get_floatv('LAW128_QX1'     ,qx1     ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('LAW128_CX1'     ,cx1     ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('LAW128_QX2'     ,qx2     ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('LAW128_CX2'     ,cx2     ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("LAW128_QX1"     ,qx1     ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("LAW128_CX1"     ,cx1     ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("LAW128_QX2"     ,qx2     ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("LAW128_CX2"     ,cx2     ,is_available, lsubmodel, unitab)
           ! line 6
-          call hm_get_floatv('LAW128_EPSP0'   ,epsp_ref,is_available, lsubmodel, unitab)
-          call hm_get_floatv('LAW128_CP'      ,cp      ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("LAW128_EPSP0"   ,epsp_ref,is_available, lsubmodel, unitab)
+          call hm_get_floatv("LAW128_CP"      ,cp      ,is_available, lsubmodel, unitab)
           ! line 7
-          call hm_get_floatv('LAW128_R00'     ,r00     ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('LAW128_R45'     ,r45     ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('LAW128_R90'     ,r90     ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("LAW128_R00"     ,r00     ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("LAW128_R45"     ,r45     ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("LAW128_R90"     ,r90     ,is_available, lsubmodel, unitab)
 
           ! line 8
-          call hm_get_floatv('LAW128_F'       ,ff     ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('LAW128_G'       ,gg     ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('LAW128_H'       ,hh     ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("LAW128_F"       ,ff     ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("LAW128_G"       ,gg     ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("LAW128_H"       ,hh     ,is_available, lsubmodel, unitab)
 
           !line 9
-          call hm_get_floatv('LAW128_L'       ,ll     ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('LAW128_M'       ,mm     ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('LAW128_N'       ,nn     ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("LAW128_L"       ,ll     ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("LAW128_M"       ,mm     ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("LAW128_N"       ,nn     ,is_available, lsubmodel, unitab)
 !
           ! stress and strain rate units
-          call hm_get_floatv_dim('LAW128_FACX' ,epsp_unit  ,is_available, lsubmodel, unitab)
-          call hm_get_floatv_dim('LAW128_FACY' ,pres_unit  ,is_available, lsubmodel, unitab)
+          call hm_get_floatv_dim("LAW128_FACX" ,epsp_unit  ,is_available, lsubmodel, unitab)
+          call hm_get_floatv_dim("LAW128_FACY" ,pres_unit  ,is_available, lsubmodel, unitab)
 ! ----------------------------------------------------------------------------------------------------------------------
           !  DEFAULT VALUES
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -217,8 +217,8 @@
               if (mat_param%table(1)%ndim == 1) then
                 sigy = mat_param%table(1)%y1d(1)    !< initial yield stress from hardening function
               end if
-            endif
-          endif
+            end if
+          end if
 !
           ! reference (static) strain rate
           if (func_id > 0 .and. ndim == 2) then
@@ -283,7 +283,7 @@
           !< allocate backstresses in case of kinematic hardening
           if (fisokin > zero) then
             mtag%l_sigb = 6
-          endif
+          end if
 ! ----------------------------------------------------------------------------------------------------------------------
           !< material model keywords
 
@@ -303,16 +303,16 @@
           write(iout,1100) trim(titr),mat_id,ilaw
           write(iout,1000)
           if (is_encrypted) then
-            write(iout,'(5x,a,//)')'CONFIDENTIAL DATA'
+            write(iout,"(5x,a,//)")"CONFIDENTIAL DATA"
           else
             write(iout,1200) rho0,young,nu,fisokin
             if (func_id > 0) then
               write(iout,1300) func_id,yfac,xfac
             else
               write(iout,1400) qr1,cr1,qr2,cr2,qx1,cx1,qx2,cx2,cc,cp
-            endif
+            end if
             write(iout,1500) ff,gg,hh,ll,mm,nn
-          endif
+          end if
 ! ----------------------------------------------------------------------------------------------------------------------
           return
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -322,35 +322,35 @@
             5x,40h  -----------------------------------   ,//)
 1100      format(/                                                               &
             5x,a,/,                                                                &
-            5x,'MATERIAL NUMBER . . . . . . . . . . . . .=',i10/,                  &
-            5x,'MATERIAL LAW. . . . . . . . . . . . . . .=',i10/)
+            5x,"MATERIAL NUMBER . . . . . . . . . . . . .=",i10/,                  &
+            5x,"MATERIAL LAW. . . . . . . . . . . . . . .=",i10/)
 1200      format(                                                                &
-            5x,'INITIAL DENSITY. . . . . . . . . . . . . . . . . . .=',1pg20.13/,  &
-            5x,'YOUNG MODULUS. . . . . . . . . . . . . . . . . . . .=',1pg20.13/,  &
-            5x,'POISSON RATIO. . . . . . . . . . . . . . . . . . . .=',1pg20.13/,  &
-            5x,'KINEMATIC HARDENING FACTOR . . . . . . . . . . . . .=',1pg20.13/)
+            5x,"INITIAL DENSITY. . . . . . . . . . . . . . . . . . .=",1pg20.13/,  &
+            5x,"YOUNG MODULUS. . . . . . . . . . . . . . . . . . . .=",1pg20.13/,  &
+            5x,"POISSON RATIO. . . . . . . . . . . . . . . . . . . .=",1pg20.13/,  &
+            5x,"KINEMATIC HARDENING FACTOR . . . . . . . . . . . . .=",1pg20.13/)
 1300      format(                                                                &
-            5x,'TABULATED YIELD STRESS FUNCTION ID . . . . . . . . .=',i10     /,  &
-            5x,'SCALE FACTOR FOR STRESS FUNCTION . . . . . . . . . .=',1pg20.13/,  &
-            5x,'SCALE FACTOR FOR STRAIN RATE . . . . . . . . . . . .=',1pg20.13/)
+            5x,"TABULATED YIELD STRESS FUNCTION ID . . . . . . . . .=",i10     /,  &
+            5x,"SCALE FACTOR FOR STRESS FUNCTION . . . . . . . . . .=",1pg20.13/,  &
+            5x,"SCALE FACTOR FOR STRAIN RATE . . . . . . . . . . . .=",1pg20.13/)
 1400      format(                                                                &
-            5x,'ISOTROPIC HARDENING PARAMETER QR1. . . . . . . . . .=',1pg20.13/,  &
-            5x,'ISOTROPIC HARDENING PARAMETER CR1. . . . . . . . . .=',1pg20.13/,  &
-            5x,'ISOTROPIC HARDENING PARAMETER QR2. . . . . . . . . .=',1pg20.13/,  &
-            5x,'ISOTROPIC HARDENING PARAMETER CR2. . . . . . . . . .=',1pg20.13/,  &
-            5x,'KINEMATIC HARDENING PARAMETER QX1. . . . . . . . . .=',1pg20.13/,  &
-            5x,'KINEMATIC HARDENING PARAMETER CX1. . . . . . . . . .=',1pg20.13/,  &
-            5x,'KINEMATIC HARDENING PARAMETER QX2. . . . . . . . . .=',1pg20.13/,  &
-            5x,'KINEMATIC HARDENING PARAMETER CX2. . . . . . . . . .=',1pg20.13/,  &
-            5x,'COWPER-SYMONDS STRAIN RATE PARAMETER CC. . . . . . .=',1pg20.13/,  &
-            5x,'COWPER-SYMONDS STRAIN RATE EXPONENT CP . . . . . . .=',1pg20.13/)
+            5x,"ISOTROPIC HARDENING PARAMETER QR1. . . . . . . . . .=",1pg20.13/,  &
+            5x,"ISOTROPIC HARDENING PARAMETER CR1. . . . . . . . . .=",1pg20.13/,  &
+            5x,"ISOTROPIC HARDENING PARAMETER QR2. . . . . . . . . .=",1pg20.13/,  &
+            5x,"ISOTROPIC HARDENING PARAMETER CR2. . . . . . . . . .=",1pg20.13/,  &
+            5x,"KINEMATIC HARDENING PARAMETER QX1. . . . . . . . . .=",1pg20.13/,  &
+            5x,"KINEMATIC HARDENING PARAMETER CX1. . . . . . . . . .=",1pg20.13/,  &
+            5x,"KINEMATIC HARDENING PARAMETER QX2. . . . . . . . . .=",1pg20.13/,  &
+            5x,"KINEMATIC HARDENING PARAMETER CX2. . . . . . . . . .=",1pg20.13/,  &
+            5x,"COWPER-SYMONDS STRAIN RATE PARAMETER CC. . . . . . .=",1pg20.13/,  &
+            5x,"COWPER-SYMONDS STRAIN RATE EXPONENT CP . . . . . . .=",1pg20.13/)
 1500      format(                                                                &
-            5x,'YIELD PARAMETER F. . . . . . . . . . . . . . . . . .=',1pg20.13/,  &
-            5x,'YIELD PARAMETER G. . . . . . . . . . . . . . . . . .=',1pg20.13/,  &
-            5x,'YIELD PARAMETER H. . . . . . . . . . . . . . . . . .=',1pg20.13/,  &
-            5x,'YIELD PARAMETER L. . . . . . . . . . . . . . . . . .=',1pg20.13/,  &
-            5x,'YIELD PARAMETER M. . . . . . . . . . . . . . . . . .=',1pg20.13/,  &
-            5x,'YIELD PARAMETER N. . . . . . . . . . . . . . . . . .=',1pg20.13/)
+            5x,"YIELD PARAMETER F. . . . . . . . . . . . . . . . . .=",1pg20.13/,  &
+            5x,"YIELD PARAMETER G. . . . . . . . . . . . . . . . . .=",1pg20.13/,  &
+            5x,"YIELD PARAMETER H. . . . . . . . . . . . . . . . . .=",1pg20.13/,  &
+            5x,"YIELD PARAMETER L. . . . . . . . . . . . . . . . . .=",1pg20.13/,  &
+            5x,"YIELD PARAMETER M. . . . . . . . . . . . . . . . . .=",1pg20.13/,  &
+            5x,"YIELD PARAMETER N. . . . . . . . . . . . . . . . . .=",1pg20.13/)
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine hm_read_mat128
 !

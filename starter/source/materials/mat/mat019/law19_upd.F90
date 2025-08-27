@@ -72,10 +72,11 @@
                 isens = i
                 exit
               end if
-            enddo
-            if (isens == 0)                                               &
+            end do
+            if (isens == 0) then
               call ancmsg(msgid=1240,anmode=aninfo,msgtype=msgwarning,    &
-              i1=mat_param%mat_id,c1=mat_param%title,i2=isens)
+                i1=mat_param%mat_id,c1=mat_param%title,i2=isens)
+            end if
           end if
           mat_param%iparam(1) = isens
 ! ----------------------------------------------------------------------------------------------------------------------

@@ -35,6 +35,7 @@
 !||    cinit3              ../starter/source/elements/shell/coque/cinit3.F
 !||====================================================================
       module initemp_shell_mod
+      implicit none
       contains
 
 !||====================================================================

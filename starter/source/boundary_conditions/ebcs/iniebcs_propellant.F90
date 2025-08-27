@@ -26,6 +26,7 @@
 !||    lectur                ../starter/source/starter/lectur.F
 !||====================================================================
       module iniebcs_propellant_
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures
@@ -83,7 +84,7 @@
             ebcs => ebcs_tab%tab(ii)%poly
             typ = ebcs%type
             isu = ebcs%surf_id
-            if(multi_fvm_is_used )then; ;end if
+            if(multi_fvm_is_used )then; end if
             if(isu>0)then
               !/EBCS/PROPERGOL (TYP=11) : retrieve Cp parameter in adjacent (sub)material
               !  warn user if adjacent elem is not matching an Ideal Gas EoS
@@ -169,17 +170,17 @@
             icell = ebcs%ielem(kk)
             if(ebcs%itype(kk) == 8)then
               imat = ixs(1,icell)
-            elseif(ebcs%itype(kk) == 4)then
+            else if(ebcs%itype(kk) == 4)then
               imat = ixq(1,icell)
-            elseif(ebcs%itype(kk) == 3)then
+            else if(ebcs%itype(kk) == 3)then
               imat = ixtg(1,icell)
-            endif
+            end if
 
             !multimaterial case
             mlw = mat_param(imat)%ilaw
             if(mlw == 51 .or. mlw == 151) then
               imat = mat_param(imat)%multimat%mid( ebcs%submat_id )
-            endif
+            end if
 
             !eos parameters
             Cp0=Cp
@@ -203,7 +204,7 @@
                 C2 = "EBCS PROPERGOL ONLY COMPATIBLE WITH IDEAL-GAS EOS")
             end if
 
-          enddo
+          end do
 
           if (ebcs%nb_elem >=2 .and. multiple_cp_detected)then
             call real_array_reindex(tmp, indx, ebcs%nb_elem)

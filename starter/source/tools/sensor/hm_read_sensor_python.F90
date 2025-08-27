@@ -49,7 +49,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           use sensor_mod
           use names_and_titles_mod, only : ncharline, nchartitle
-          use iso_c_binding , only : c_char, c_null_char
+          use, intrinsic :: iso_c_binding , only : c_char, c_null_char
           use message_mod
           use submodel_mod
           use hm_option_read_mod
@@ -100,9 +100,9 @@
           i = python%nb_functs
           sensor_ptr%python_function_id = i
           func_id = sens_id
-          code(1:max_code_length) = repeat(' ',max_code_length)
+          code(1:max_code_length) = repeat(" ",max_code_length)
           !call hm_option_read_key(lsubmodel, option_id = func_id) sens_id
-          call hm_get_intv('Number_of_datalines' ,nlines ,is_available, lsubmodel)
+          call hm_get_intv("Number_of_datalines" ,nlines ,is_available, lsubmodel)
           python%functs(i)%num_lines = nlines
           python%functs(i)%user_id = func_id
 !         write(6,*) "Python test: funct_id",func_id,"nlines",nlines
@@ -110,32 +110,32 @@
           if(nlines > 0) then
             ! create tempo file
             do j=1,nlines
-              call hm_get_string_index('arraydatalines', rline, j, ncharline, is_available)
+              call hm_get_string_index("arraydatalines", rline, j, ncharline, is_available)
               line_len = len_trim(rline)
               code(position_in_code:position_in_code+line_len-1) = trim(rline)
               ! add c_null_char
               position_in_code = position_in_code + line_len
               code(position_in_code:position_in_code) = c_null_char
               position_in_code = position_in_code + 1
-            enddo
+            end do
             l = i + python%sensor_offset
             call python_funct_init(python%functs(i), code, position_in_code, nlines)
             call python_check_function(python%functs(i)%name,error)
             if(error > 0 ) then
               ! converts python%functs(i)%name of type  character(kind=c_char), dimension(:), allocatable :: name
               ! initialize titr with "/FUNCT_PYTHON"
-              titr = repeat(' ',nchartitle)
+              titr = repeat(" ",nchartitle)
               call ancmsg(MSGID=3038,&
               &MSGTYPE=MSGERROR,&
               &ANMODE=ANINFO_BLIND_2,&
               &I1=func_id)
-            endif
+            end if
             ! duplicate the python function into the sensor structure (no great solution for target and allocatable in Fortran)
             call copy_python_function(python%functs(i), sensor_ptr%python_function)
 
           else
             ! missing code for /SENSOR/PYTHON
-          endif
+          end if
           ! enddo
           deallocate(code)
           return

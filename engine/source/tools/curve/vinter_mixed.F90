@@ -28,6 +28,7 @@
 !||    redef3_law113      ../engine/source/elements/spring/redef3_law113.F
 !||====================================================================
       module vinter_mixed_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures
@@ -106,12 +107,12 @@
               if(cond1)then
                 ipos(i)=ipos(i)+1
                 icont = 1
-              elseif(cond2)then
+              else if(cond2)then
                 ipos(i)=ipos(i)-1
                 icont = 1
-              endif
-            enddo
-          enddo
+              end if
+            end do
+          end do
           do i=1,nel0
             if(ilen(i) < 0) cycle
             j1   =ipos(i)+iad(i)
@@ -125,14 +126,14 @@
             dydx(i) = dydxdp ! possible cast here in sp
             yydp = tf2j1 + dydxdp * (xdp - tf1j1)
             y(i) = yydp
-          enddo
+          end do
 
           do i=1,nel0
             if(ilen(i) < 0) then
               call python_call_funct1d(python, -ilen(i),x(i), y(i))
               call python_deriv_funct1D(python, -ilen(i),x(i), dydx(i))
-            endif
-          enddo
+            end if
+          end do
           return
         end subroutine vinter_mixed
       end module vinter_mixed_mod

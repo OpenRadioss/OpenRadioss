@@ -92,7 +92,7 @@
 !||--- uses       -----------------------------------------------------
 !||====================================================================
       module spmd_error_mod
-        use iso_c_binding
+        use, intrinsic :: iso_c_binding
         implicit none
 
         interface
@@ -233,7 +233,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 #ifdef DEBUG_SPMD
           ! call print_traceback()
-          write(6,*) 'Entering MPI call: ', tag
+          write(6,*) "Entering MPI call: ", tag
 #endif
         end subroutine spmd_in
 
@@ -330,11 +330,11 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 #ifdef MPI
           if(ierr /= MPI_SUCCESS) then
-            write(6,*) 'MPI error: ', ierr,' at ',tag
+            write(6,*) "MPI error: ", ierr," at ",tag
             call MPI_Abort(SPMD_COMM_WORLD, ierr,ierror)
           end if
 #ifdef DEBUG_SPMD
-          write(6,*) 'Exiting MPI call: ', tag
+          write(6,*) "Exiting MPI call: ", tag
 #endif
 #endif
         end subroutine spmd_out

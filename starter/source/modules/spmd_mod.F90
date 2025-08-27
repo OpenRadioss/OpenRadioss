@@ -27,4 +27,6 @@
       module spmd_mod
         ! empty module fo spmd_mod, that can be used in common_source
 
+      implicit none
+
       end module spmd_mod

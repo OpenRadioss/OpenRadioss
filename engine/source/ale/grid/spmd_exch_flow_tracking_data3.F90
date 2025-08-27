@@ -27,6 +27,7 @@
 !||    alew7                               ../engine/source/ale/grid/alew7.F
 !||====================================================================
       module spmd_exch_flow_tracking_data3_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
@@ -91,8 +92,8 @@
             if(p /= loc_proc) then
               msgtyp = msgoff
               call spmd_isend(rbuf(1,loc_proc),isize,it_spmd(p),msgtyp,req_sb(p))
-            endif
-          enddo
+            end if
+          end do
           !-------------------------------------------!
           ! RECEIVING %ITM(1:6)                       !
           !-------------------------------------------!
@@ -103,16 +104,16 @@
               irindexi(nbirecv)=p
               msgtyp = msgoff
               call spmd_recv(rbuf(1,p), isize, it_spmd(p), msgtyp)
-            endif
-          enddo
+            end if
+          end do
           !-------------------------------------------!
           !     MPI_WAITING                           !
           !-------------------------------------------!
           do p = 1, nspmd
             if(p /= loc_proc) then
               call spmd_wait(req_sb(p))
-            endif
-          enddo
+            end if
+          end do
 
           !-------------------------------------------!
           ! COMPUTE AVERAGE ON CURRENT DOMAIN         !
@@ -126,7 +127,7 @@
             domain_data%itm_l(4) = domain_data%itm_l(4) + rbuf(4,p)
             domain_data%itm_l(5) = domain_data%itm_l(5) + rbuf(5,p)
             domain_data%itm_l(6) = domain_data%itm_l(6) + rbuf(6,p)
-          enddo
+          end do
 
 
 !-----------------------------------------------

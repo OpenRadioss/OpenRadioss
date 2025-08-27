@@ -632,6 +632,8 @@ C-----------------------------------------------
       use iniebcs_propellant_
       use init_monvol_mod ,only : init_monvol
       use python_duplicate_nodes_mod
+      use split_bcs_wall_mod , only : split_bcs_wall
+      use hm_read_bcs_wall_mod , only : hm_read_bcs_wall
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

@@ -31,6 +31,7 @@
 !||    czforc3       ../engine/source/elements/shell/coquez/czforc3.F
 !||====================================================================
       module dttherm_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                           dttherm
@@ -99,21 +100,21 @@
               akk = as + bs*tempel(i)
             else
               akk = al + bl*tempel(i)
-            endif
+            end if
             if (jtur /= 0) then
               xmu = pm(24)*rho(i)
               tmu = pm(81)
               rpr = pm(95)
               atu = rpr*tmu*rk(i)*rk(i) / (max(em15,re(I)*vol0(I))*xmu)
               akk = akk*(one+atu)
-            endif
+            end if
             akk = akk*glob_therm%theaccfact
             lc2 = lc(i)*lc(i)
             dt  = glob_therm%dtfactherm * half*lc2*rhocp/max(akk,em20)
             if (dt < glob_therm%dt_therm)  glob_therm%dt_therm = dt
             conde(i) = four*vol0(i)*akk/lc2
             conde(i) = conde(i)*off(i)
-          enddo
+          end do
 ! ----------------------------------------------------------------------------------------------------------------------
           return
         end subroutine dttherm

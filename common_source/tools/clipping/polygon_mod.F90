@@ -89,8 +89,8 @@
           end if
           numpt = numpt+1
           poly%numpoint = numpt
-          poly%point(numpt)%y = point%y;
-          poly%point(numpt)%z = point%z;
+          poly%point(numpt)%y = point%y
+          poly%point(numpt)%z = point%z
           ierr = 0
           !area not recomputed for performance reason. It has to be calculated once the polygon is fully built
         end function polygon_addpoint
@@ -123,9 +123,9 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           poly%size = numnodes
           poly%numpoint = 0
-          allocate(poly%point(numnodes));
-          poly%point(1:numnodes)%y = zero;
-          poly%point(1:numnodes)%z = zero;
+          allocate(poly%point(numnodes))
+          poly%point(1:numnodes)%y = zero
+          poly%point(1:numnodes)%z = zero
           poly%area = zero
           poly%diag = zero
         end subroutine polygon_create
@@ -156,8 +156,8 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           poly%numpoint = 0
           do ii=1,poly%size
-            poly%point(ii)%y = zero;
-            poly%point(ii)%z = zero;
+            poly%point(ii)%y = zero
+            poly%point(ii)%z = zero
             poly%diag = zero
             poly%area = zero
           end do

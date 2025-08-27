@@ -28,6 +28,7 @@
 !||    sigeps41                ../engine/source/materials/mat/mat041/sigeps41.F
 !||====================================================================
       module root_finding_algo_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
@@ -95,7 +96,7 @@
           if(sign(one, f_a) == sign(one, f_b)) then
             condition = .false.
             stop
-          endif
+          end if
           ! -----------------
 
           c = save_a
@@ -114,7 +115,7 @@
               f_a = f_b
               f_b = f_c
               f_c = f_a
-            endif
+            end if
             ! compute the tolerance
             new_tol = two * epsilon (save_b) * abs(save_b) + tolerance
             length = half * ( c - save_b )
@@ -137,13 +138,13 @@
                   ! q = 1 - f(b)/f(a)
                   r3 = two * length * s
                   r1 = one - s
-                endif
+                end if
 
                 if (r3<=zero) then
                   r3 = - r3
                 else
                   r1 = -r1
-                endif
+                end if
 
                 s = delta
                 delta = d
@@ -153,13 +154,13 @@
                   d = delta
                 else
                   d = r3 / r1
-                endif
+                end if
               else
                 ! -----------------
                 ! bisection algo
                 delta = length
                 d = delta
-              endif
+              end if
 
               save_a = save_b
               f_a = f_b
@@ -170,7 +171,7 @@
                 save_b = save_b + new_tol
               else
                 save_b = save_b - new_tol
-              endif
+              end if
 
               f_b = funct(save_b,funct_parameter)
 
@@ -179,11 +180,11 @@
                 f_c = f_a
                 delta = save_b - save_a
                 d = delta
-              endif
+              end if
             else
               condition=.false.
-            endif
-          enddo
+            end if
+          end do
 
 
           brent_algo = save_b

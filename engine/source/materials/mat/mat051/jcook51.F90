@@ -100,11 +100,11 @@
             if(plas(i) >= plamx) then
               y(i)    = zero
               h(i)    = zero
-            elseif(temp(i) >= tmelt) then
+            else if(temp(i) >= tmelt) then
               !plas(i) = zero
               y(i)    = zero
               h(i)    = zero
-            elseif(vfrac(i) <= em02) then
+            else if(vfrac(i) <= em02) then
               !plas(i) = zero
               y(i)    = zero
               h(i)    = zero
@@ -116,11 +116,11 @@
                 cmx   = cm
                 if(temp(i) > thetl) cmx = one
                 cte   = one - tstar**cmx
-              endif
+              end if
               !strain rate depedency
               if(cc /= zero .and. epd(i) > epdr) then
                 cte   = cte * (one + cc * log(epd(i)/epdr))
-              endif
+              end if
               if(plas(i) <= em20)then
                 !h(i)  = cte * beps0pnm1
                 !y(i)  = cte * y0  + h(i) * plas(i)
@@ -131,13 +131,13 @@
                 dy    = b * plas(i)**n
                 y(i)  = cte * (y0 + dy)
                 h(i)  = cte * n * dy / plas(i)
-              endif
+              end if
               if(y(i) > sigmx)then
                 y(i)  = sigmx
                 h(i)  = zero
-              endif
-            endif
-          enddo
+              end if
+            end if
+          end do
 
           do i = 1,nel
             fact         = vfrac(i)
@@ -160,7 +160,7 @@
             vm2(i) = three_half * ( sigd(1,i)*sigd(1,i) + sigd(2,i)*sigd(2,i) + sigd(3,i)*sigd(3,i) ) &
               +three * ( sigd(4,i)*sigd(4,i) + sigd(5,i)*sigd(5,i) + sigd(6,i)*sigd(6,i) )
             vm = sqrt(vm2(i))
-          ENDDO
+          END DO
           do i = 1,nel
             if(temp(i) > tmelt)then
               sigd(1,i) = zero
@@ -170,7 +170,7 @@
               sigd(5,i) = zero
               sigd(6,i) = zero
               plas(i) = zero
-            elseif(VFRAC(I) > two*em02) then
+            else if(VFRAC(I) > two*em02) then
               !--------------
               ! critere
               !--------------
@@ -180,7 +180,7 @@
                 DPLA    = (VM-Y(I)) / (G3+H(I))
                 PLAS(I) = PLAS(I) + DPLA
                 R       = (Y(I) + H(I) * DPLA) / MAX(VM,EM15)
-              endif
+              end if
               if(y(i) == zero) r = zero
               !--------------
               ! projection
@@ -203,7 +203,7 @@
                 + (sigdo(5,i)+sigd(5,i)) * deps(5,i) &
                 + (sigdo(6,i)+sigd(6,i)) * deps(6,i) )
               eint(i) = eint(i) + einc
-            elseif(vfrac(i) < em02)then
+            else if(vfrac(i) < em02)then
               plas(i) = zero
               sigd(1,i) = zero
               sigd(2,i) = zero
@@ -231,7 +231,7 @@
               sigd(5,i) = sigd(5,i) * r
               sigd(6,i) = sigd(6,i) * r
             end if
-          enddo
+          end do
 
           return
         end subroutine jcook51

@@ -116,79 +116,79 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !     read input fields
 ! ----------------------------------------------------------------------------------------------------------------------
-          call hm_get_floatv('MAT_RHO'   ,rho0     ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('Refer_Rho' ,rhor     ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_RHO"   ,rho0     ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("Refer_Rho" ,rhor     ,is_available, lsubmodel, unitab)
 !
 !     elasticity and failure limits
 !
 !
-          call hm_get_floatv('MAT_EA'    ,e11      ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('MAT_EB'    ,e22      ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('MAT_EC'    ,e33      ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_EA"    ,e11      ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_EB"    ,e22      ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_EC"    ,e33      ,is_available, lsubmodel, unitab)
 !
-          call hm_get_floatv('MAT_PRAB'  ,n12      ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('MAT_GAB'   ,g12      ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('MAT_GBC'   ,g23      ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('MAT_GCA'   ,g31      ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_PRAB"  ,n12      ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_GAB"   ,g12      ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_GBC"   ,g23      ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_GCA"   ,g31      ,is_available, lsubmodel, unitab)
 !
-          call hm_get_floatv('MAT_EPSF1' ,epsf1    ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('MAT_EPSF2' ,epsf2    ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_EPSF1" ,epsf1    ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_EPSF2" ,epsf2    ,is_available, lsubmodel, unitab)
 !
-          call hm_get_floatv('MAT_EPST1' ,epst1    ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('MAT_EPSM1' ,epsm1    ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('MAT_EPST2' ,epst2    ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('MAT_EPSM2' ,epsm2    ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('MAT_DAMAGE',dmax     ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_EPST1" ,epst1    ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_EPSM1" ,epsm1    ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_EPST2" ,epst2    ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_EPSM2" ,epsm2    ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_DAMAGE",dmax     ,is_available, lsubmodel, unitab)
 !
 !     composite plasticity hardening
 !
-          call hm_get_floatv('WPMAX'     ,wplamx   ,is_available, lsubmodel, unitab)
-          call hm_get_intv  ('Itype'     ,ioff     ,is_available, lsubmodel)
-          call hm_get_floatv('MAT_R00'   ,ratio    ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("WPMAX"     ,wplamx   ,is_available, lsubmodel, unitab)
+          call hm_get_intv  ("Itype"     ,ioff     ,is_available, lsubmodel)
+          call hm_get_floatv("MAT_R00"   ,ratio    ,is_available, lsubmodel, unitab)
 !
 ! ----------------------------------------------------------------------------------------------------------------------
 !--   composite plasticity hardening
 !
-          call hm_get_floatv('WPREF'        ,wplaref  ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('MAT_BETA'     ,cb       ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('MAT_HARD'     ,cn       ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('MAT_SIG'      ,fmax     ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("WPREF"        ,wplaref  ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_BETA"     ,cb       ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_HARD"     ,cn       ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_SIG"      ,fmax     ,is_available, lsubmodel, unitab)
 !
 !--   composite plasticity in tension / compression
 !
-          call hm_get_floatv('MAT_SIGYT1'   ,sigyt1   ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('MAT_SIGYT2'   ,sigyt2   ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('MAT_SIGYC1'   ,sigyc1   ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('MAT_SIGYC2'   ,sigyc2   ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('MAT_ALPHA '   ,alpha    ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_SIGYT1"   ,sigyt1   ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_SIGYT2"   ,sigyt2   ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_SIGYC1"   ,sigyc1   ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_SIGYC2"   ,sigyc2   ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_ALPHA "   ,alpha    ,is_available, lsubmodel, unitab)
 !
 !--   yield stress in shear and strain rate
 !
-          call hm_get_floatv('MAT_SIGC12'   ,sigyc12  ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('MAT_SIGT12'   ,sigyt12  ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('MAT_SRC'      ,cc       ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('MAT_SRP'      ,epdr     ,is_available, lsubmodel, unitab)
-          call hm_get_intv  ('STRFLAG'      ,icc      ,is_available,lsubmodel)
+          call hm_get_floatv("MAT_SIGC12"   ,sigyc12  ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_SIGT12"   ,sigyt12  ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_SRC"      ,cc       ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_SRP"      ,epdr     ,is_available, lsubmodel, unitab)
+          call hm_get_intv  ("STRFLAG"      ,icc      ,is_available,lsubmodel)
 !
 ! ----------------------------------------------------------------------------------------------------------------------
 !     Delamination
 !
-          call hm_get_floatv('MAT_GAMAi' ,shrdam   ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('MAT_GAMAm' ,shrmax   ,is_available, lsubmodel, unitab)
-          call hm_get_floatv('MAT_DAMm'  ,shrdmax  ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_GAMAi" ,shrdam   ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_GAMAm" ,shrmax   ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_DAMm"  ,shrdmax  ,is_available, lsubmodel, unitab)
 !
 !     Strain rate filtering
 !
-          call hm_get_intv  ('Fsmooth'   ,israte    ,is_available, lsubmodel)
-          call hm_get_floatv('Fcut'      ,fcut      ,is_available, lsubmodel, unitab)
+          call hm_get_intv  ("Fsmooth"   ,israte    ,is_available, lsubmodel)
+          call hm_get_floatv("Fcut"      ,fcut      ,is_available, lsubmodel, unitab)
 !
-          call hm_get_floatv_dim('WPREF',fscal_unit,is_available,lsubmodel,unitaB)
+          call hm_get_floatv_dim("WPREF",fscal_unit,is_available,lsubmodel,unitaB)
 ! ----------------------------------------------------------------------------------------------------------------------
           if (cc > zero .and. epdr > zero  .and. fcut == zero) then
             call ancmsg(msgid=1220, msgtype=msgwarning, anmode=aninfo_blind_1,     &
               i1=mat_id,                                                  &
               c1=titr)
-          endif
+          end if
 !
           if (e11 == zero .or. e22 == zero .or.                                      &
             g12 == zero .or. g23 == zero .or. g31 == zero) then
@@ -196,8 +196,8 @@
               i1=25,                                                       &
               i2=mat_id,                                                   &
               c1=titr,                                                     &
-              c2='e11, e22, g12, g23, g31')
-          endif
+              c2="e11, e22, g12, g23, g31")
+          end if
           if (e33 <= zero) e33 = max(e11, e22)
 !
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -207,45 +207,45 @@
             call ancmsg(msgid=198, msgtype=msgerror, anmode=aninfo,     &
               i1=mat_id,                                        &
               c1=titr,                                          &
-              c2='sigyt1')
-          endif
+              c2="sigyt1")
+          end if
           if (sigyc1 <= zero) then
             call ancmsg(msgid=198, msgtype=msgerror, anmode=aninfo,     &
               i1=mat_id,                                       &
               c1=titr,                                         &
-              c2='sigyc1')
-          endif
+              c2="sigyc1")
+          end if
           if (sigyt2 <= zero) then
             call ancmsg(msgid=198, msgtype=msgerror, anmode=aninfo,     &
               i1=mat_id,                                         &
               c1=titr,                                           &
-              c2='sigyt2')
-          endif
+              c2="sigyt2")
+          end if
           if (sigyc2 <= zero) then
             call ancmsg(msgid=198, msgtype=msgerror, anmode=aninfo,     &
               i1=mat_id,                                        &
               c1=titr,                                          &
-              c2='sigyc2')
-          endif
+              c2="sigyc2")
+          end if
           if (sigyt12 <= zero) then
             call ancmsg(msgid=198, msgtype=msgerror, anmode=aninfo,     &
               i1=mat_id,                                        &
               c1=titr,                                          &
-              c2='sigyt12')
-          endif
+              c2="sigyt12")
+          end if
           if (sigyc12 <= zero) then
             call ancmsg(msgid=198, msgtype=msgerror, anmode=aninfo,     &
               i1=mat_id,                                       &
               c1=titr,                                         &
-              c2='sigyc12')
-          endif
+              c2="sigyc12")
+          end if
 !
           if (cn > one) then
             call ancmsg(msgid=213, msgtype=msgerror, anmode=aninfo,       &
               i1=25,                                            &
               i2=mat_id,                                        &
               c1=titr)
-          endif
+          end if
 ! ----------------------------------------------------------------------------------------------------------------------
           if (israte == zero) israte = 1    ! for backward compatibility
           if (fcut == zero)   fcut   = ep20
@@ -292,7 +292,7 @@
             call ancmsg(msgid=307, msgtype=msgerror, anmode=aninfo,      &
               i1=mat_id,                                        &
               c1=titr)
-          endif
+          end if
 ! ----------------------------------------------------------------------------------------------------------------------
 
           ! -------------------------
@@ -437,7 +437,7 @@
           write(iout,1050) trim(titr),mat_id,25
           write(iout,1000)
           if (is_encrypted) then
-            write(iout,'(5x,a,//)')'confidential data'
+            write(iout,"(5x,a,//)")"confidential data"
           else
             write(iout,1060) rho0
             write(iout,1100) e11,e22,n12,e33
@@ -453,7 +453,7 @@
             write(iout,1600) shrdam,shrmax,shrdmax
             write(iout,1611) israte,fcut
             write(iout,1650) f1,f2,f11,f22,f33,f12
-          endif
+          end if
 ! ----------------------------------------------------------------------------------------------------------------------
           return
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -463,9 +463,9 @@
             5x,40H  -------------------------------       ,//)
 1050      forMAT(/                                                            &
             5x,A,/,                                                             &
-            5x,'MATERIAL NUMBER . . . . . . . . . . . . .=',i10/,               &
-            5x,'MATERIAL LAW. . . . . . . . . . . . . . .=',i10/)
-1060      format(5x,'INITIAL DENSITY . . . . . . . . . . . . .=',1pg20.13/)
+            5x,"MATERIAL NUMBER . . . . . . . . . . . . .=",i10/,               &
+            5x,"MATERIAL LAW. . . . . . . . . . . . . . .=",i10/)
+1060      format(5x,"INITIAL DENSITY . . . . . . . . . . . . .=",1pg20.13/)
 1100      format(                                                             &
             5x,40HYOUNG'S MODULUS E11 . . . . . . . . . .=,e12.4/,              &
             5x,40HYOUNG'S MODULUS E22 . . . . . . . . . .=,e12.4/,              &
@@ -476,65 +476,65 @@
             5x,40HSHEAR MODULUS   G23 . . . . . . . . . .=,e12.4/,              &
             5x,40HSHEAR MODULUS   G31 . . . . . . . . . .=,e12.4/)
 1500      format(                                                             &
-            5x,'TENSILE FAILURE STRAIN DIR-1. . . . . .=',1pg20.13/,            &
-            5x,'MAXIMUM TENSILE STRAIN DIR-1. . . . . .=',1pg20.13/,            &
-            5x,'TOTAL FAILURE TENSILE STRAIN DIR-1. . .=',1pg20.13/,            &
-            5x,'TENSILE FAILURE STRAIN DIR-2. . . . . .=',1pg20.13/,            &
-            5x,'MAXIMUM TENSILE STRAIN DIR-2. . . . . .=',1pg20.13/,            &
-            5x,'TOTAL FAILURE TENSILE STRAIN DIR-2. . .=',1pg20.13/,            &
-            5x,'MAXIMUM DAMAGE DIR. . . . . . . . . . .=',1pg20.13/)
+            5x,"TENSILE FAILURE STRAIN DIR-1. . . . . .=",1pg20.13/,            &
+            5x,"MAXIMUM TENSILE STRAIN DIR-1. . . . . .=",1pg20.13/,            &
+            5x,"TOTAL FAILURE TENSILE STRAIN DIR-1. . .=",1pg20.13/,            &
+            5x,"TENSILE FAILURE STRAIN DIR-2. . . . . .=",1pg20.13/,            &
+            5x,"MAXIMUM TENSILE STRAIN DIR-2. . . . . .=",1pg20.13/,            &
+            5x,"TOTAL FAILURE TENSILE STRAIN DIR-2. . .=",1pg20.13/,            &
+            5x,"MAXIMUM DAMAGE DIR. . . . . . . . . . .=",1pg20.13/)
 1510      format(                                                             &
-            5x,'COMPOSITE HARDENING PARAMETER  (B). . .=',1pg20.13/,            &
-            5x,'COMPOSITE HARDENING PARAMETER  (N). . .=',1pg20.13/,            &
-            5x,'COMPOSITE MAXIMUM YIELD FUNCTION FMAX .=',1pg20.13//)
+            5x,"COMPOSITE HARDENING PARAMETER  (B). . .=",1pg20.13/,            &
+            5x,"COMPOSITE HARDENING PARAMETER  (N). . .=",1pg20.13/,            &
+            5x,"COMPOSITE MAXIMUM YIELD FUNCTION FMAX .=",1pg20.13//)
 1550      format(                                                             &
-            5x,'COMPOSITE YIELD IN TENSION DIR-1  . . . . . .=',1pg20.13/,      &
-            5x,'COMPOSITE YIELD IN TENSION DIR-2  . . . . . .=',1pg20.13/,      &
-            5x,'COMPOSITE YIELD IN COMPRESSION DIR-1  . . . .=',1pg20.13/,      &
-            5x,'COMPOSITE YIELD IN COMPRESSION DIR-2  . . . .=',1pg20.13/,      &
-            5x,'F12 REDUCTION FACTOR . . . . . . . .  . . . .=',1pg20.13//)
+            5x,"COMPOSITE YIELD IN TENSION DIR-1  . . . . . .=",1pg20.13/,      &
+            5x,"COMPOSITE YIELD IN TENSION DIR-2  . . . . . .=",1pg20.13/,      &
+            5x,"COMPOSITE YIELD IN COMPRESSION DIR-1  . . . .=",1pg20.13/,      &
+            5x,"COMPOSITE YIELD IN COMPRESSION DIR-2  . . . .=",1pg20.13/,      &
+            5x,"F12 REDUCTION FACTOR . . . . . . . .  . . . .=",1pg20.13//)
 1560      format(                                                             &
-            5x,'COMPOSITE YIELD IN SHEAR (+12) . . . .=',1pg20.13/,             &
-            5x,'COMPOSITE YIELD IN SHEAR (-12) . . . .=',1pg20.13//)
+            5x,"COMPOSITE YIELD IN SHEAR (+12) . . . .=",1pg20.13/,             &
+            5x,"COMPOSITE YIELD IN SHEAR (-12) . . . .=",1pg20.13//)
 1600      format(                                                             &
-            5x,'SHEAR DELAMINATION                      '/,                     &
-            5x,'INITIATION STRAIN . . . . . . . . . . .=',1pg20.13/,            &
-            5x,'MAXIMUM STRAIN. . . . . . . . . . . . .=',1pg20.13/,            &
-            5x,'MAXIMUM DAMAGE. . . . . . . . . . . . .=',1pg20.13/)
+            5x,"SHEAR DELAMINATION                      "/,                     &
+            5x,"INITIATION STRAIN . . . . . . . . . . .=",1pg20.13/,            &
+            5x,"MAXIMUM STRAIN. . . . . . . . . . . . .=",1pg20.13/,            &
+            5x,"MAXIMUM DAMAGE. . . . . . . . . . . . .=",1pg20.13/)
 1650      format(                                                             &
-            5x,'  YIELD FUNCTION CONSTANTS              '/,                     &
-            5x,'  ------------------------              '//,                    &
-            5x,'F1 , F2 . . . . . . . . . . . . . . . .=',2e12.4/,              &
-            5x,'F11, F22. . . . . . . . . . . . . . . .=',2e12.4/,              &
-            5x,'F33 . . . . . . . . . . . . . . . . . .=', e12.4/,              &
-            5x,'F12 . . . . . . . . . . . . . . . . . .=', e12.4//)
+            5x,"  YIELD FUNCTION CONSTANTS              "/,                     &
+            5x,"  ------------------------              "//,                    &
+            5x,"F1 , F2 . . . . . . . . . . . . . . . .=",2e12.4/,              &
+            5x,"F11, F22. . . . . . . . . . . . . . . .=",2e12.4/,              &
+            5x,"F33 . . . . . . . . . . . . . . . . . .=", e12.4/,              &
+            5x,"F12 . . . . . . . . . . . . . . . . . .=", e12.4//)
 1610      format(                                                             &
-            5x,'STRAIN RATE COEFFICIENT CC. . . . . . .=',1pg20.13/,            &
-            5x,'REFERENCE STRAIN RATE . . . . . . . . .=',1pg20.13/,            &
-            5x,'FLAG FOR STRAIN RATE ON F-MAX WP-MAX. .=',i10//)
+            5x,"STRAIN RATE COEFFICIENT CC. . . . . . .=",1pg20.13/,            &
+            5x,"REFERENCE STRAIN RATE . . . . . . . . .=",1pg20.13/,            &
+            5x,"FLAG FOR STRAIN RATE ON F-MAX WP-MAX. .=",i10//)
 1611      format(                                                             &
-            5x,'SMOOTH STRAIN RATE OPTION . . . . . . .=',i10/,                 &
-            5x,'STRAIN RATE CUTTING FREQUENCY . . . . .=',1pg20.13/)
+            5x,"SMOOTH STRAIN RATE OPTION . . . . . . .=",i10/,                 &
+            5x,"STRAIN RATE CUTTING FREQUENCY . . . . .=",1pg20.13/)
 1805      format(                                                             &
-            5x,'COMPOSITE MAXIMUM PLASTIC WORK WPLAMX .=',1pg20.13/,            &
-            5x,'REFERENCE PLASTIC WORK WPLAREF        .=',1pg20.13)
+            5x,"COMPOSITE MAXIMUM PLASTIC WORK WPLAMX .=",1pg20.13/,            &
+            5x,"REFERENCE PLASTIC WORK WPLAREF        .=",1pg20.13)
 1807      format(                                                             &
-            5x,'TOTAL ELEMENT FAILURE CRITERIA    IOFF =',i10/,                 &
-            5x,' IOFF=0: SHELL DELETE IF WPLA >= WPLAMX FOR 1 LAYER'/,          &
-            5x,' IOFF=1: SHELL DELETE IF WPLA >= WPLAMX FOR ALL LAYERS'/,       &
-            5x,' IOFF=2: SHELL DELETE IF FOR EACH LAYER :'/,                    &
-            5x,'         WPLA >= WPLAMX OR TENSILE FAILURE DIR 1'/,             &
-            5x,' IOFF=3: SHELL DELETE IF FOR EACH LAYER :'/,                    &
-            5x,'         WPLA >= WPLAMX OR TENSILE FAILURE DIR 2'/,             &
-            5x,' IOFF=4: SHELL DELETE IF FOR EACH LAYER :'/,                    &
-            5x,'         WPLA >= WPLAMX OR TENSILE FAILURE DIR 1 AND 2'/,       &
-            5x,' IOFF=5: SHELL DELETE IF FOR ALL LAYERS :'/,                    &
-            5x,'         WPLA >= WPLAMX OR TENSILE FAILURE DIR 1'/,             &
-            5x,'         OR'/,                                                  &
-            5x,'         WPLA >= WPLAMX OR TENSILE FAILURE DIR 2'/,             &
-            5x,' IOFF=6: SHELL DELETE IF FOR EACH LAYER :'/,                    &
-            5x,'         WPLA >= WPLAMX OR TENSILE FAILURE DIR 1 OR 2'//,       &
-            5x,'LAYER FAILURE RATIO FOR ELEMENT DELETION. =',E12.4 )
+            5x,"TOTAL ELEMENT FAILURE CRITERIA    IOFF =",i10/,                 &
+            5x," IOFF=0: SHELL DELETE IF WPLA >= WPLAMX FOR 1 LAYER"/,          &
+            5x," IOFF=1: SHELL DELETE IF WPLA >= WPLAMX FOR ALL LAYERS"/,       &
+            5x," IOFF=2: SHELL DELETE IF FOR EACH LAYER :"/,                    &
+            5x,"         WPLA >= WPLAMX OR TENSILE FAILURE DIR 1"/,             &
+            5x," IOFF=3: SHELL DELETE IF FOR EACH LAYER :"/,                    &
+            5x,"         WPLA >= WPLAMX OR TENSILE FAILURE DIR 2"/,             &
+            5x," IOFF=4: SHELL DELETE IF FOR EACH LAYER :"/,                    &
+            5x,"         WPLA >= WPLAMX OR TENSILE FAILURE DIR 1 AND 2"/,       &
+            5x," IOFF=5: SHELL DELETE IF FOR ALL LAYERS :"/,                    &
+            5x,"         WPLA >= WPLAMX OR TENSILE FAILURE DIR 1"/,             &
+            5x,"         OR"/,                                                  &
+            5x,"         WPLA >= WPLAMX OR TENSILE FAILURE DIR 2"/,             &
+            5x," IOFF=6: SHELL DELETE IF FOR EACH LAYER :"/,                    &
+            5x,"         WPLA >= WPLAMX OR TENSILE FAILURE DIR 1 OR 2"//,       &
+            5x,"LAYER FAILURE RATIO FOR ELEMENT DELETION. =",E12.4 )
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine read_mat25_tsaiwu
       end module read_mat25_tsaiwu_mod

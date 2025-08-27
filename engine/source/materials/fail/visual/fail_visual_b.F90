@@ -26,6 +26,7 @@
 !||    fail_beam3          ../engine/source/elements/beam/fail_beam3.F
 !||====================================================================
       module fail_visual_b_mod
+      implicit none
       contains
 ! ======================================================================================================================
 ! \brief   Visual failure criteria for type3 beam elements
@@ -152,7 +153,7 @@
                   eps11 = uvar(i,3) !eps22 = 0. eps33 = 0.
                   eps12 = uvar(i,4)
                   eps13 = uvar(i,5) !eps23 = 0
-                endif
+                end if
 
 
                 i1 = eps11         !i1 = eps11+eps22+eps33
@@ -192,19 +193,19 @@
                   r_inter = e11
                   e11     = e22
                   e22     = r_inter
-                endif
+                end if
                 if (e22 < e33)then
                   r_inter = e22
                   e22     = e33
                   e33     = r_inter
-                endif
+                end if
                 if (e11 < e22)then
                   r_inter = e11
                   e11     = e22
                   e22     = r_inter
-                endif
+                end if
 !c
-              endif !type_max
+              end if !type_max
 
               if (ema == one .and. ff /= zero .and. f_flag > 1) then
 !C-----------------------------------------------
@@ -296,7 +297,7 @@
                   uvar(i,10) = one
                   uvar(i,11) = one
 
-                endif
+                end if
 
                 e11 = a2(1)
 
@@ -305,7 +306,7 @@
                 e11        = ema * e11 + ( one - ema ) * uvar(i,2)
                 uvar(i,2)  = e11
 
-              endif
+              end if
 !c!
               damage(i)    =  max(zero , min(one ,(e11-c_min)/max(em6,(c_max-c_min)) ))
               uvar(i,1)    =  max(uvar(i,1),damage(i))
@@ -314,8 +315,8 @@
               if (uvar(i,1) >= one) then
                 nindx       = nindx+1
                 indx(nindx) = i
-              endif
-            endif  ! uvar(i,1) < one
+              end if
+            end if  ! uvar(i,1) < one
           end do
 
 !c------------------------
@@ -329,8 +330,8 @@
             end do
           end if   ! nindx
 !c------------------
-1000      format(5x,'failure (visual) of beam element ',i10,1x, &
-            'at time :', 1pe12.4)
+1000      format(5x,"failure (visual) of beam element ",i10,1x, &
+            "at time :", 1pe12.4)
 !c------------------
           return
 

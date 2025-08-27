@@ -26,6 +26,7 @@
 !||    multi_muscl_fluxes_computation     ../engine/source/multifluid/multi_muscl_fluxes_computation.F
 !||====================================================================
       MODULE MULTI_MUSCL_COMPUTE_PRESSURE_MOD
+      implicit none
       CONTAINS
 !||====================================================================
 !||    multi_muscl_compute_pressure     ../engine/source/multifluid/multi_muscl_compute_pressure.F90

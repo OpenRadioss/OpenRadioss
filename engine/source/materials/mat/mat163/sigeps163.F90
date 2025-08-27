@@ -26,6 +26,7 @@
 !||    mulaw           ../engine/source/materials/mat_share/mulaw.F90
 !||====================================================================
       module sigeps163_mod
+      implicit none
       contains
 ! ======================================================================================================================
 ! \brief Computation of stress tensor with /MAT/LAW163 (CRUSHABLE_FOAM) theory
@@ -161,8 +162,8 @@
           if (uvar(1,2) == zero) then
             do i = 1,nel
               uvar(i,2) = aldt(i)
-            enddo
-          endif
+            end do
+          end if
           le(1:nel) = uvar(1:nel,2)
           !< Coefficient for hourglass control
           et(1:nel) = zero
@@ -178,7 +179,7 @@
             signxy(i) = sigoxy(i) +   g*depsxy(i)
             signyz(i) = sigoyz(i) +   g*depsyz(i)
             signzx(i) = sigozx(i) +   g*depszx(i)
-          enddo
+          end do
           !< Principal strains  and directions
           eps(1:nel,1) = epsxx(1:nel)
           eps(1:nel,2) = epsyy(1:nel)
@@ -190,7 +191,7 @@
             call valpvecdp_v(eps,epsp,dirp,nel)
           else
             call valpvec_v(eps,epsp,dirp,nel)
-          endif
+          end if
           dirp(1:mvsiz,1:3,1:3) = zero
           !< Principal stresses and directions
           sig(1:nel,1) = signxx(1:nel)
@@ -203,7 +204,7 @@
             call valpvecdp_v(sig,sigp,dirp,nel)
           else
             call valpvec_v(sig,sigp,dirp,nel)
-          endif
+          end if
 !
           !=====================================================================
           !< - Volumetric strain and strain rate filtering
@@ -216,20 +217,20 @@
             if (nrs == 1) then
               dgamdt(i) = (gama(i) - uvar(i,1))/max(timestep,em20)
               ! -> True strain rate
-            elseif (nrs == 0) then
+            else if (nrs == 0) then
               dgamdt(i) = -(epspxx(i)+epspyy(i)+epspzz(i))
-            endif
+            end if
             !< Filtering of the volumetric strain rate
             dgamdt(i) = alpha*dgamdt(i) + (one-alpha)*epsd(i)
             !< Cap the change of volumetric strain rate
             if (abs(dgamdt(i)-epsd(i)) > srclmt*timestep) then
               dgamdt(i) = epsd(i) + sign(one,dgamdt(i)-epsd(i))*srclmt*timestep
-            endif
+            end if
             !< Effective volumetric true strain (output purpose)
             plas(i) = log(rho0(i)/rho(i))
             !< Volumetric strain rate (output purpose)
             epsd(i) = dgamdt(i)
-          enddo
+          end do
 !
           !=====================================================================
           !< - Yield stress computation
@@ -237,11 +238,11 @@
           do i = 1,nel
             xvec(i,1) = max(gama(i)  ,zero)
             xvec(i,2) = max(dgamdt(i),zero)
-          enddo
+          end do
           call table_mat_vinterp(matparam%table(1),nel,nel,vartmp,xvec,sigy,dsdgam)
           do i = 1,nel
             sigy(i) = -abs(sigy(i))
-          enddo
+          end do
 !
           !=====================================================================
           !< - Stress scaling procedure
@@ -252,15 +253,15 @@
               if (sigp(i,j) < sigy(i)) then
                 sigp(i,j) = sigy(i)
                 et(i) = max(dsdgam(i)/(dsdgam(i) + bulk),et(i))
-              elseif (sigp(i,j) > tsc) then
+              else if (sigp(i,j) > tsc) then
                 sigp(i,j) = tsc
                 dsdgam(i) = zero
                 et(i) = one
               else
                 dsdgam(i) = zero
                 et(i) = one
-              endif
-            enddo
+              end if
+            end do
             !< equivalent stress for hourglass control
             seq(i)  = sqrt(sigp(i,1)**2 + sigp(i,2)**2 + sigp(i,3)**2)
             !< equivalent strain for hourglass control
@@ -284,7 +285,7 @@
             signzx(i) = dirp(i,3,3)*dirp(i,1,3)*sigp(i,3)                      &
               + dirp(i,3,1)*dirp(i,1,1)*sigp(i,1)                      &
               + dirp(i,3,2)*dirp(i,1,2)*sigp(i,2)
-          enddo
+          end do
 !
           !=====================================================================
           !< - Update user variables and sound speed
@@ -294,7 +295,7 @@
             ssp(i) = sqrt((bulk + four_over_3*g)/min(rho(i),rho0(i)))
             !< User variables
             uvar(i,1) = gama(i) !< Volumetric strain
-          enddo
+          end do
 !
           !=====================================================================
           !< - Viscous damping
@@ -315,8 +316,8 @@
               ssp(i) = sqrt((bulk + four_over_3*g + a/timestep)/min(rho(i),rho0(i)))
             else
               ssp(i) = sqrt((bulk + four_over_3*g)/min(rho(i),rho0(i)))
-            endif
-          enddo
+            end if
+          end do
 !
         end subroutine sigeps163
       end module sigeps163_mod

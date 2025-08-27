@@ -26,6 +26,7 @@
 !||    rdresb            ../engine/source/output/restart/rdresb.F
 !||====================================================================
       module read_inivel_mod
+      implicit none
       contains
         !! \brief allocate&read inivel rst data (engine)
 !||====================================================================

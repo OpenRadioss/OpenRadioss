@@ -27,6 +27,7 @@
 !||    alemain                ../engine/source/ale/alemain.F
 !||====================================================================
       module bcs_wall_trigger_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
@@ -113,7 +114,7 @@
                 end do
                 write (iout ,1000) bcs%wall(ii)%user_id, time
                 write (istdo,1000) bcs%wall(ii)%user_id, time
-              endif
+              end if
 
             else
 
@@ -131,16 +132,16 @@
                 end do
                 write (iout ,2000) bcs%wall(ii)%user_id, time
                 write (istdo,2000) bcs%wall(ii)%user_id, time
-              endif
-            endif !time
+              end if
+            end if !time
 
-          enddo!next ii
+          end do!next ii
 
 ! ----------------------------------------------------------------------------------------------------------------------
           return
 
-1000      FORMAT(' BCS WALL NUMBER ',I10,' ACTIVATED AT TIME ',1PE12.5)
-2000      FORMAT(' BCS WALL NUMBER ',I10,' DESACTIVATED AT TIME ',1PE12.5)
+1000      FORMAT(" BCS WALL NUMBER ",I10," ACTIVATED AT TIME ",1PE12.5)
+2000      FORMAT(" BCS WALL NUMBER ",I10," DESACTIVATED AT TIME ",1PE12.5)
 
 
         end subroutine bcs_wall_trigger

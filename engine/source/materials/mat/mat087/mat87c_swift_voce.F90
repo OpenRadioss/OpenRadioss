@@ -26,6 +26,7 @@
 !||    sigeps87c               ../engine/source/materials/mat/mat087/sigeps87c.F90
 !||====================================================================
       module mat87c_swift_voce_mod
+      implicit none
       contains
 !||====================================================================
 !||    mat87c_swift_voce   ../engine/source/materials/mat/mat087/mat87c_swift_voce.F90
@@ -177,7 +178,7 @@
             ckh(4) = matparam%uparam(29)
             akh(4) = matparam%uparam(30)
             akck   = akh(1)*ckh(1) + akh(2)*ckh(2) + akh(3)*ckh(3) + akh(4)*ckh(4)
-          endif
+          end if
 !
           !< Total strain-rate computation
           if (iflagsr == 0) then
@@ -186,11 +187,11 @@
                 epsd(i) = half*(abs(epspxx(i)+epspyy(i))                           &
                   + sqrt((epspxx(i)-epspyy(i))*(epspxx(i)-epspyy(i))     &
                   + epspxy(i)*epspxy(i)))
-              enddo
+              end do
             else
               epsd(1:nel) = asrate*epsp(1:nel) + (one-asrate)*epsd(1:nel)
-            endif
-          endif
+            end if
+          end if
 !
           !< Barlat linear projection parameters
           !< - For xprime tensor
@@ -223,7 +224,7 @@
             signxy(i) = sigoxy(i) +     g*depsxy(i)
             signyz(i) = sigoyz(i) + gs(i)*depsyz(i)
             signzx(i) = sigozx(i) + gs(i)*depszx(i)
-          enddo
+          end do
           !< Backstress tensor computation
           if (fisokin > zero) then
             do i=1,nel
@@ -235,13 +236,13 @@
                 sigbxx(i) = sigbxx(i) + sigb(i,3*(j-1) + 1)
                 sigbyy(i) = sigbyy(i) + sigb(i,3*(j-1) + 2)
                 sigbxy(i) = sigbxy(i) + sigb(i,3*(j-1) + 3)
-              enddo
+              end do
               !< Add the kinematic hardening contribution to stress tensor
               signxx(i) = signxx(i) - sigbxx(i)
               signyy(i) = signyy(i) - sigbyy(i)
               signxy(i) = signxy(i) - sigbxy(i)
-            enddo
-          endif
+            end do
+          end if
 !
           !=========================================================================
           !< - COMPUTATION OF TRIAL BARLAT 2000 EQUIVALENT STRESS
@@ -286,10 +287,10 @@
               seq(i) = exp((one/expa)*log(seq(i)))
             else
               seq(i) = zero
-            endif
+            end if
             seq(i) = seq(i)*normsig(i)
 !
-          enddo
+          end do
 !
           !=========================================================================
           !< - YIELD STRESS COMPUTATION
@@ -302,7 +303,7 @@
             else
               swift(i) = zero
               dswiftdp(i) = zero
-            endif
+            end if
             !< Voce hardening
             voce(i) = ko + qvoce*(one-exp(-beta*pla(i)))
             dvocedp(i) = qvoce*beta*exp(-beta*pla(i))
@@ -313,7 +314,7 @@
             hk(i)     = fisokin*dylddp(i)
             dylddp(i) = (one - fisokin)*dylddp(i)
             frate(i)  = one
-          enddo
+          end do
           !< Adding Cowper-Symonds strain rate dependency
           if (unsp /= zero) then
             do i = 1,nel
@@ -322,9 +323,9 @@
                 yld(i) = yld(i)*frate(i)
                 hk(i) = hk(i)*frate(i)
                 dylddp(i) = dylddp(i)*frate(i)
-              endif
-            enddo
-          endif
+              end if
+            end do
+          end if
 !
           !=========================================================================
           !< - COMPUTATION OF YIELD FUNCTION AND CHECK ELEMENT BEHAVIOR
@@ -335,8 +336,8 @@
             if (phi(i) >= zero .and. off(i) == one) then
               nindx = nindx + 1
               indx(nindx)  = i
-            endif
-          enddo
+            end if
+          end do
 !
           !=========================================================================
           !< - RETURN MAPPING PROCEDURES (PLASTIC CORRECTION)
@@ -354,8 +355,8 @@
                   ckh(3)*sigb(i,8) + ckh(4)*sigb(i,11)
                 dsigbxydp(i) = ckh(1)*sigb(i,3) + ckh(2)*sigb(i,6) +               &
                   ckh(3)*sigb(i,9) + ckh(4)*sigb(i,12)
-              enddo
-            endif
+              end do
+            end if
 !
             !< Loop over the iterations
             do iter = 1, niter
@@ -502,11 +503,11 @@
                     dsigbyydlam = fisokin*(akck*normyy - dsigbyydp(i)*dpladlam)
                     dsigbxydlam = fisokin*(akck*normxy - dsigbxydp(i)*dpladlam)
                     !<  -> Prager kinematic hardening
-                  elseif (ikin == 2) then
+                  else if (ikin == 2) then
                     dsigbxxdlam = two_third*hk(i)*(two*normxx + normyy)
                     dsigbyydlam = two_third*hk(i)*(two*normyy + normxx)
                     dsigbxydlam = two_third*hk(i)*normxy
-                  endif
+                  end if
                   !< Assembling derivative
                   dphidsigb_dsigbdlam = -normxx*dsigbxxdlam -                     &
                     normyy*dsigbyydlam -                     &
@@ -514,7 +515,7 @@
                   !<  -> No kinematic hardening
                 else
                   dphidsigb_dsigbdlam = zero
-                endif
+                end if
 !
                 !< 4 - Derivative of yield criterion w.r.t plastic multiplier
                 !-------------------------------------------------------------------
@@ -587,12 +588,12 @@
                     sigb(i,12) = sigb(i,12) +                                      &
                       fisokin*(akh(4)*ckh(4)*normxy*dlam - ckh(4)*sigb(i,12)*ddep)
                     !<  -> Prager kinematic hardening
-                  elseif (ikin == 2) then
+                  else if (ikin == 2) then
                     sigb(i, 1) = sigb(i,1) + dsigbxxdlam*dlam
                     sigb(i, 2) = sigb(i,2) + dsigbyydlam*dlam
                     sigb(i, 3) = sigb(i,3) + dsigbxydlam*dlam
-                  endif
-                endif
+                  end if
+                end if
 !
                 !< Norm of the stress tensor
                 normsig(i) = signxx(i)*signxx(i)                                   &
@@ -630,7 +631,7 @@
                   seq(i) = exp((one/expa)*log(seq(i)))
                 else
                   seq(i) = zero
-                endif
+                end if
                 seq(i) = seq(i)*normsig(i)
 !
                 !< Update the yield stress
@@ -641,7 +642,7 @@
                 else
                   swift(i) = zero
                   dswiftdp(i) = zero
-                endif
+                end if
                 !  -> Voce hardening
                 voce(i) = ko + qvoce*(one-exp(-beta*pla(i)))
                 dvocedp(i) = qvoce*beta*exp(-beta*pla(i))
@@ -658,9 +659,9 @@
                 !< Compute the new yield function
                 phi(i) = (seq(i)/yld(i))**2 - one
 !
-              enddo
+              end do
               !< End of the loop over yielding elements
-            enddo
+            end do
             !< End of the loop over the iterations
 !
 #include "vectorize.inc"
@@ -669,8 +670,8 @@
               i = indx(ii)
               !< Hourglass stiffness parameter
               etse(i) = (dylddp(i)+hk(i)) / ((dylddp(i)+hk(i)) + young)
-            enddo
-          endif
+            end do
+          end if
           !=======================================================================
           !< - END OF PLASTIC RETURN MAPPING PROCEDURE
           !=======================================================================
@@ -680,8 +681,8 @@
             do i = 1,nel
               dpdt    = dpla(i)/max(timestep,em20)
               epsd(i) = asrate*dpdt + (one - asrate)*epsd(i)
-            enddo
-          endif
+            end do
+          end if
 !
           !< Non-local thickness variation (if activated)
           if (inloc > 0) then
@@ -767,9 +768,9 @@
                 !< Non-local out-of-plane plastic strain increment
                 deplzz(i) = -dplanl(i)*(yld(i)/max(sig_dphidsig,em20))*            &
                   (normxx + normyy)
-              endif
-            enddo
-          endif
+              end if
+            end do
+          end if
 !
           !< Remove backstress contribution to the stress tensor
           if (fisokin > zero) then
@@ -778,8 +779,8 @@
               signxx(i) = signxx(i) + sigbxx(i)
               signyy(i) = signyy(i) + sigbyy(i)
               signxy(i) = signxy(i) + sigbxy(i)
-            enddo
-          endif
+            end do
+          end if
 !
           !< Update the user variable, soundspeed and thickness
           do i=1,nel
@@ -791,7 +792,7 @@
             thk(i) = thk(i) + depszz(i)*thkly(i)*off(i)
             !< Update of the soundspeed
             soundsp(i) = sqrt(a1/rho0(i))
-          enddo
+          end do
 !
         end subroutine mat87c_swift_voce
       end module mat87c_swift_voce_mod

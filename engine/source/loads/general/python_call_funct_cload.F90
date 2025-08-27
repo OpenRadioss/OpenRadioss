@@ -34,6 +34,8 @@
 !||====================================================================
       module python_call_funct_cload_mod
 
+      implicit none
+
         interface python_call_funct_cload
           module procedure python_call_funct_cload_sp
           module procedure python_call_funct_cload_dp
@@ -81,49 +83,49 @@
           else
             tmp(1:3) = 0.0d0
             call python_set_active_node_values(1,"C",tmp)
-          endif
+          end if
           if(n <= size(nodes%A,2) .and. n > 0) then
             tmp = nodes%A(:,n)
             call python_set_active_node_values(1,"A",tmp)
           else
             tmp(1:3) = 0.0d0
             call python_set_active_node_values(1,"A",tmp)
-          endif
+          end if
           if(n <= size(nodes%D,2) .and. n > 0) then
             tmp = nodes%D(:,n)
             call python_set_active_node_values(1,"D",tmp)
           else
             tmp(1:3) = 0.0d0
             call python_set_active_node_values(1,"D",tmp)
-          endif
+          end if
           if(n <= size(nodes%DR,2) .and. n > 0) then
             tmp = nodes%DR(:,n)
             call python_set_active_node_values(2,"DR",tmp)
           else
             tmp(1:3) = 0.0d0
             call python_set_active_node_values(2,"DR",tmp)
-          endif
+          end if
           if(n <= size(nodes%V,2) .and. n > 0) then
             tmp = nodes%V(:,n)
             call python_set_active_node_values(1,"V",tmp)
           else
             tmp = 0.0d0
             call python_set_active_node_values(1,"V",tmp)
-          endif
+          end if
           if(n <= size(nodes%VR,2) .and. n > 0) then
             tmp = nodes%VR(:,n)
             call python_set_active_node_values(2,"VR",tmp)
           else
             tmp = 0.0d0
             call python_set_active_node_values(2,"VR",tmp)
-          endif
+          end if
           if(n <= size(nodes%AR,2) .and. n > 0) then
             tmp = nodes%AR(:,n)
             call python_set_active_node_values(2,"AR",tmp)
           else
             tmp = 0.0d0
             call python_set_active_node_values(2,"AR",tmp)
-          endif
+          end if
           call python_call_function(py%functs(funct_id)%name, 1, argin, 1, argout)
           y = real(argout(1),kind(1.0))
 !$OMP END CRITICAL
@@ -168,43 +170,43 @@
             call python_set_active_node_values(1,"C",tmp)
           else
             call python_set_active_node_values(1,"C",zeros)
-          endif
+          end if
           if(n <= size(nodes%A,2) .and. n > 0) then
             tmp = nodes%A(:,n)
             call python_set_active_node_values(1,"A",tmp)
           else
             call python_set_active_node_values(1,"A",zeros)
-          endif
+          end if
           if(n <= size(nodes%D,2) .and. n > 0) then
             tmp = nodes%D(:,n)
             call python_set_active_node_values(1,"D",tmp)
           else
             call python_set_active_node_values(1,"D",zeros)
-          endif
+          end if
           if(n <= size(nodes%DR,2) .and. n > 0) then
             tmp = nodes%DR(:,n)
             call python_set_active_node_values(2,"DR",tmp)
           else
             call python_set_active_node_values(2,"DR",zeros)
-          endif
+          end if
           if(n <= size(nodes%V,2) .and. n > 0) then
             tmp = nodes%V(:,n)
             call python_set_active_node_values(1,"V",tmp)
           else
             call python_set_active_node_values(1,"V",zeros)
-          endif
+          end if
           if(n <= size(nodes%VR,2) .and. n > 0) then
             tmp = nodes%VR(:,n)
             call python_set_active_node_values(2,"VR",tmp)
           else
             call python_set_active_node_values(2,"VR",zeros)
-          endif
+          end if
           if(n <= size(nodes%AR,2) .and. n > 0) then
             tmp = nodes%AR(:,n)
             call python_set_active_node_values(2,"AR",tmp)
           else
             call python_set_active_node_values(2,"AR",zeros)
-          endif
+          end if
 !$OMP CRITICAL
           call python_call_function(py%functs(funct_id)%name, 1, argin, 1, argout)
 !$OMP END CRITICAL
@@ -243,7 +245,7 @@
           call python_set_active_node_values(1,"V",zeros)
           call python_set_active_node_values(2,"VR",zeros)
           call python_set_active_node_values(2,"AR",zeros)
- 
+
         end subroutine python_dummy_active_node
       end module python_call_funct_cload_mod
 

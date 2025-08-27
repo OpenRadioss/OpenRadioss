@@ -67,7 +67,7 @@
             call MPI_Allgatherv(sendbuf, sendcount, MPI_REAL, recvbuf, recvcounts, displs, MPI_REAL, comm, ierr)
           else
             call MPI_Allgatherv(sendbuf, sendcount, MPI_REAL, recvbuf, recvcounts, displs, MPI_REAL, SPMD_COMM_WORLD, ierr)
-          endif
+          end if
           call spmd_out(tag,ierr)
 #else
           recvbuf(1:sendcount) = sendbuf(1:sendcount)
@@ -101,7 +101,7 @@
             call MPI_Allgatherv(sendbuf, sendcount, MPI_INT, recvbuf, recvcounts, displs, MPI_INT, comm, ierr)
           else
             call MPI_Allgatherv(sendbuf, sendcount, MPI_INT, recvbuf, recvcounts, displs, MPI_INT, SPMD_COMM_WORLD, ierr)
-          endif
+          end if
           call spmd_out(tag,ierr)
 #else
           recvbuf(1:sendcount) = sendbuf(1:sendcount)
@@ -139,7 +139,7 @@
             call MPI_Allgatherv(sendbuf, sendcount, MPI_DOUBLE_PRECISION, &
               recvbuf, recvcounts, displs,              &
               MPI_DOUBLE_PRECISION, SPMD_COMM_WORLD, ierr)
-          endif
+          end if
           call spmd_out(tag,ierr)
 #else
           recvbuf(1:sendcount) = sendbuf(1:sendcount)
@@ -174,7 +174,7 @@
           else
             call MPI_Allgatherv(sendbuf, sendcount, MPI_DOUBLE_PRECISION, recvbuf, &
               recvcounts, displs, MPI_DOUBLE_PRECISION, SPMD_COMM_WORLD, ierr)
-          endif
+          end if
           call spmd_out(tag,ierr)
 #endif
         end subroutine spmd_allgatherv_double
@@ -206,7 +206,7 @@
           else
             call MPI_Allgatherv(sendbuf, sendcount, MPI_INT, recvbuf, recvcounts, &
               displs, MPI_INT, SPMD_COMM_WORLD, ierr)
-          endif
+          end if
           call spmd_out(tag,ierr)
 #endif
         end subroutine spmd_allgatherv_int
@@ -237,7 +237,7 @@
             call MPI_Allgatherv(sendbuf, sendcount, MPI_REAL, recvbuf, recvcounts, displs, MPI_REAL, comm, ierr)
           else
             call MPI_Allgatherv(sendbuf, sendcount, MPI_REAL, recvbuf, recvcounts, displs, MPI_REAL, SPMD_COMM_WORLD, ierr)
-          endif
+          end if
           call spmd_out(tag,ierr)
 #endif
         end subroutine spmd_allgatherv_real

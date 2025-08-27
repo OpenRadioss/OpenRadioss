@@ -27,6 +27,8 @@
 !||====================================================================
       module thsechecksum_mod
 
+      implicit none
+
       contains
 
 !! \brief /CHECKSUM/START Option : write deck checksum digests to TH++
@@ -89,10 +91,10 @@
                 k = ithbuf(l)
                 ii= ii+1
                 wa(ii) = zero
-              enddo
-            enddo
+              end do
+            end do
             if (ii > 0) call wrtdes(wa,iwa,ii,iform,1)
-          endif
+          end if
 !-----------
           return
         end subroutine thsechecksum

@@ -30,7 +30,7 @@
 !||--- uses       -----------------------------------------------------
 !||====================================================================
       module simple_checksum_mod
-        use iso_c_binding, only: c_int, c_double, c_ptr
+        use, intrinsic :: iso_c_binding, only: c_int, c_double, c_ptr
         implicit none
 
         interface

@@ -27,6 +27,7 @@
 !||    wrrestp               ../engine/source/output/restart/wrrestp.F
 !||====================================================================
       module restart_rbe3pen_mod
+      implicit none
       contains
 ! ----------------------------------------------------------------------------------------------------------------------
         !! \brief get the number of penalty formulation of RBE3

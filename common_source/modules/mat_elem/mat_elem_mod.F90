@@ -163,7 +163,7 @@
           type (elbuf_struct_)    ,dimension(:,:) ,allocatable :: xfem_tab       !< element buffer for xfem elements
           type (group_param_)     ,dimension(:)   ,allocatable :: group_param    !< common element group data
 
-          type (matparam_struct_) ,dimension(:)   ,pointer     :: mat_param      !< material model data structure
+          type (matparam_struct_) ,dimension(:)   ,pointer     :: mat_param => null()      !< material model data structure
 
 !           type (prop_param_)      ,dimension(:)   ,allocatable :: prop_param     !< element property data structure
 !           type (prop_param_)      ,dimension(:)   ,allocatable :: prop_stack     !< element stack data

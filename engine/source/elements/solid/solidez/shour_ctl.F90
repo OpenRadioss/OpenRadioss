@@ -164,14 +164,14 @@
               sfac = min(four,sqrt(f_gt(i)))
               f_et(i)=sfac*f_et(i)
               f_sti(i)=sfac*f_sti(i)
-            enddo
+            end do
            case (62)
             do i=1,nel
               sfac = min(ten,f_et(i))
               if (sfac>two) sfac=ten
               f_et(i)=sfac*f_et(i)
               f_sti(i)=sfac*f_sti(i)
-            enddo
+            end do
            case (90)
             f_et(1:nel)=max(one,qh*lamgt(1:nel)/lamg)
           end select
@@ -199,7 +199,7 @@
             edt(i)=f_et(i)*caq(i)*ll
             fcl(i)=fvl*rho(i)*cxx(i)*ll*ll
             sti(i) = f_sti(i)*sti(i)
-          enddo
+          end do
 !
           do i=1,nel
 ! 1 1 -1 -1 -1 -1 1 1 mode 1
@@ -217,7 +217,7 @@
               +g51(i)*vy5(i)+g61(i)*vy6(i)+g71(i)*vy7(i)+g81(i)*vy8(i)
             hgz1(i)=g11(i)*vz1(i)+g21(i)*vz2(i)+g31(i)*vz3(i)+g41(i)*vz4(i)    &
               +g51(i)*vz5(i)+g61(i)*vz6(i)+g71(i)*vz7(i)+g81(i)*vz8(i)
-          enddo
+          end do
 !
           do i=1,nel
 ! 1 -1 -1 1 -1 1 1 -1 mode 2
@@ -235,7 +235,7 @@
               +g52(i)*vy5(i)+g62(i)*vy6(i)+g72(i)*vy7(i)+g82(i)*vy8(i)
             hgz2(i)=g12(i)*vz1(i)+g22(i)*vz2(i)+g32(i)*vz3(i)+g42(i)*vz4(i)    &
               +g52(i)*vz5(i)+g62(i)*vz6(i)+g72(i)*vz7(i)+g82(i)*vz8(i)
-          enddo
+          end do
           do i=1,nel
 ! 1 -1 1 -1 1 -1 1 -1 mode 3
             g13(i)= one_over_8-px1h3(i)
@@ -252,7 +252,7 @@
               +g53(i)*vy5(i)+g63(i)*vy6(i)+g73(i)*vy7(i)+g83(i)*vy8(i)
             hgz3(i)=g13(i)*vz1(i)+g23(i)*vz2(i)+g33(i)*vz3(i)+g43(i)*vz4(i)    &
               +g53(i)*vz5(i)+g63(i)*vz6(i)+g73(i)*vz7(i)+g83(i)*vz8(i)
-          enddo
+          end do
 !
           do i=1,nel
 ! 1 -1 1 -1 -1 1 -1 1
@@ -262,11 +262,11 @@
               vy1(i)-vy2(i)+vy3(i)-vy4(i)-vy5(i)+vy6(i)-vy7(i)+vy8(i))
             hgz4(i)= one_over_64*(                                            &
               vz1(i)-vz2(i)+vz3(i)-vz4(i)-vz5(i)+vz6(i)-vz7(i)+vz8(i))
-          enddo
+          end do
 !
           do i=1,nel
             fhour(i,1:3,1:4) = fhour(i,1:3,1:4)*off(i)
-          enddo
+          end do
           do i=1,nel
             fhour(i,1,1) = fhour(i,1,1) + edt(i)*hgx1(i)
             fhour(i,1,2) = fhour(i,1,2) + edt(i)*hgx2(i)
@@ -280,7 +280,7 @@
             fhour(i,3,2) = fhour(i,3,2) + edt(i)*hgz2(i)
             fhour(i,3,3) = fhour(i,3,3) + edt(i)*hgz3(i)
             fhour(i,3,4) = fhour(i,3,4) + edt(i)*hgz4(i)
-          enddo
+          end do
           do i=1,nel
             hx1(i)=(fhour(i,1,1) +  fcl(i)*hgx1(i))*eight
             hx2(i)=(fhour(i,1,2) +  fcl(i)*hgx2(i))*eight
@@ -294,7 +294,7 @@
             hz2(i)=(fhour(i,3,2) +  fcl(i)*hgz2(i))*eight
             hz3(i)=(fhour(i,3,3) +  fcl(i)*hgz3(i))*eight
             hz4(i)=(fhour(i,3,4) +  fcl(i)*hgz4(i))*eight
-          enddo
+          end do
 !
           do i=1,nel
             f11(i)=f11(i)-g11(i)*hx1(i)-g12(i)*hx2(i)-g13(i)*hx3(i)-hx4(i)
@@ -323,7 +323,7 @@
             f36(i)=f36(i)-g61(i)*hz1(i)-g62(i)*hz2(i)-g63(i)*hz3(i)-hz4(i)
             f37(i)=f37(i)-g71(i)*hz1(i)-g72(i)*hz2(i)-g73(i)*hz3(i)+hz4(i)
             f38(i)=f38(i)-g81(i)*hz1(i)-g82(i)*hz2(i)-g83(i)*hz3(i)-hz4(i)
-          enddo
+          end do
 !
           do i=1,nel
             eint(i)= eint(i)+dt1*(                                            &
@@ -333,7 +333,7 @@
               hx3(i)*hgx3(i) + hx4(i)*hgx4(i) +                                 &
               hy1(i)*hgy1(i) + hy2(i)*hgy2(i) +                                 &
               hy3(i)*hgy3(i) + hy4(i)*hgy4(i) )/vol0(i)
-          enddo
+          end do
 !
         end subroutine shour_ctl
 ! ----------------------------------------------------------------------------------------------------------------------

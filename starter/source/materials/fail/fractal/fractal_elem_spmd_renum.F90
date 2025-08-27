@@ -31,6 +31,7 @@
 !||    lectur                   ../starter/source/starter/lectur.F
 !||====================================================================
       module fractal_elem_renum_mod
+      implicit none
       contains
 ! ======================================================================================================================
 ! \brief renumber local element numbers in damaged element list after domain decomposition

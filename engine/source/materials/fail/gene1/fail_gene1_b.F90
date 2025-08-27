@@ -26,6 +26,7 @@
 !||    fail_beam3         ../engine/source/elements/beam/fail_beam3.F
 !||====================================================================
       module fail_gene1_b_mod
+      implicit none
       contains
 ! ======================================================================================================================
 ! \brief   gene1 failure criteria for type3 beam elements
@@ -231,11 +232,11 @@
                 lambda      = aldt(i)/el_ref
                 fac         = finter(fct_idel,lambda,npf,tf,df)
                 uvar(i,1)   = fac*fscale_el
-              enddo
+              end do
             else
               uvar(1:nel,1) = one
-            endif
-          endif
+            end if
+          end if
 
           if (uvar(1,8) == zero) uvar(1:nel,8) = aldt(1:nel)
           if (uvar(1,5) == zero.and.(off(1) /= zero)) uvar(1:nel,5) = one
@@ -245,7 +246,7 @@
             ! Integration point failure
             if (uvar(i,5) < one .and. uvar(i,5) >= em08) then
               uvar(i,5) = uvar(i,5) - one/nstep
-            endif
+            end if
             if (uvar(i,5) <= em08) uvar(i,5) = zero
             if ((uvar(i,5) == zero) .and. off(i) == one) off(i) = zero
             ! integration point failure
@@ -253,7 +254,7 @@
             signxx(i) = f1(i)/area
             ! regularization factors for length, surface and volume
             facl(i)   = uvar(i,1)
-          enddo
+          end do
 !c
           !step2: computation of stress and strain
           !====================================================================
@@ -295,17 +296,17 @@
                 r_inter = e11(i)
                 e11(i)  = e22(i)
                 e22(i)  = r_inter
-              endif
+              end if
               if (e22(i) < e33(i))then
                 r_inter = e22(i)
                 e22(i)  = e33(i)
                 e33(i)  = r_inter
-              endif
+              end if
               if (e11(i) < e22(i))then
                 r_inter = e11(i)
                 e11(i)  = e22(i)
                 e22(i)  = r_inter
-              endif
+              end if
 
               !  -> computation of volumetric strain
               vol_strain(i) = e11(i) + e22(i) + e33(i)
@@ -353,9 +354,9 @@
               s11(i) = zero
               s22(i) = zero
               s33(i) = zero
-            endif
+            end if
 !c
-          enddo
+          end do
 !c
           !  -> forming limit diagram
           !flag for function
@@ -378,7 +379,7 @@
                 ipos(1:nel,1:2) = 1
                 call table2d_vinterp_log(table(tab_idfld),ismooth,nel,nel,ipos,xvec,e1fld,dfld,hardr)
                 e1fld = log(one + e1fld)
-              endif
+              end if
             else
               ! diagram using true strains
               if (istrain == 0) then
@@ -397,9 +398,9 @@
                 ipos(1:nel,1:2) = 1
                 call table_vinterp(table(tab_idfld),nel,nel,ipos,xvec,e1fld,dfld)
                 e1fld = log(one + e1fld)
-              endif
-            endif
-          endif
+              end if
+            end if
+          end if
 
 !c    ! step4: check the criterion of failure
           !====================================================================
@@ -416,8 +417,8 @@
                 if (p(i) <= minpres*facl(i)) then
                   ncrit(i) = ncrit(i) + 1
                   ipmin(i) = 1
-                endif
-              endif
+                end if
+              end if
               !  -> maximum pressure
               if (btest(crit,2)) then
                 nmod = nmod + 1
@@ -426,8 +427,8 @@
                 if (p(i) >= maxpres*facl(i)) then
                   ncrit(i) = ncrit(i) + 1
                   ipmax(i) = 1
-                endif
-              endif
+                end if
+              end if
               !  -> maximal principal stress
               if (btest(crit,3)) then
                 nmod = nmod + 1
@@ -438,7 +439,7 @@
                   if (s11(i) >= sigp1*facl(i)) then
                     ncrit(i)  = ncrit(i) + 1
                     is1max(i) = 1
-                  endif
+                  end if
                   !     (restricted to positive stress triaxialities)
                 else
                   if (triax(i)>em10) then
@@ -447,10 +448,10 @@
                     if (s11(i) >= abs(sigp1)*facl(i)) then
                       ncrit(i)  = ncrit(i) + 1
                       is1max(i) = 1
-                    endif
-                  endif
-                endif
-              endif
+                    end if
+                  end if
+                end if
+              end if
               !  -> maximum time
               if (btest(crit,4)) then
                 nmod = nmod + 1
@@ -459,8 +460,8 @@
                 if (time >= tmax) then
                   ncrit(i) = ncrit(i) + 1
                   itmax(i) = 1
-                endif
-              endif
+                end if
+              end if
               !  -> minimum timestep
               if (btest(crit,5)) then
                 nmod = nmod + 1
@@ -470,9 +471,9 @@
                   if ((dt(i) <= dtmin).and.(time > zero)) then
                     ncrit(i)  = ncrit(i) + 1
                     imindt(i) = 1
-                  endif
-                endif
-              endif
+                  end if
+                end if
+              end if
               !  -> equivalent stress
               if (btest(crit,6)) then
                 nmod = nmod + 1
@@ -482,14 +483,14 @@
                   sigmax(i) = sigmax(i)*sigvm
                 else
                   sigmax(i) = sigvm
-                endif
+                end if
                 dfmax(i,1+nmod) = max(svm(i)/(sigmax(i)*facl(i)),dfmax(i,1+nmod))
                 dfmax(i,1+nmod) = min(dfmax(i,1+nmod),one)
                 if (svm(i) >= sigmax(i)*facl(i)) then
                   ncrit(i)   = ncrit(i) + 1
                   isigmax(i) = 1
-                endif
-              endif
+                end if
+              end if
               !  -> tuler-butcher
               if (btest(crit,7)) then
                 nmod = nmod + 1
@@ -500,9 +501,9 @@
                   if (uvar(i,2) >= kf*facl(i)) then
                     ncrit(i)  = ncrit(i) + 1
                     isigth(i) = 1
-                  endif
-                endif
-              endif
+                  end if
+                end if
+              end if
               !  -> maximal principal strain
               if (btest(crit,8)) then
                 nmod = nmod + 1
@@ -512,14 +513,14 @@
                   epsmax(i) = epsmax(i)*maxeps
                 else
                   epsmax(i) = maxeps
-                endif
+                end if
                 dfmax(i,1+nmod) = max(e11(i)/(epsmax(i)*facl(i)),dfmax(i,1+nmod))
                 dfmax(i,1+nmod) = min(dfmax(i,1+nmod),one)
                 if (e11(i) >= epsmax(i)*facl(i)) then
                   ncrit(i)   = ncrit(i) + 1
                   iepsmax(i) = 1
-                endif
-              endif
+                end if
+              end if
 
               !  -> maximum effective strain
               if (btest(crit,9)) then
@@ -529,8 +530,8 @@
                 if (eff_strain(i) >= effeps*facl(i)) then
                   ncrit(i)   = ncrit(i) + 1
                   ieffeps(i) = 1
-                endif
-              endif
+                end if
+              end if
               !  -> maximum volumetric strain
               if (btest(crit,10)) then
                 nmod = nmod + 1
@@ -540,28 +541,28 @@
                   if (vol_strain(i) >= voleps*facl(i)) then
                     ncrit(i)   = ncrit(i) + 1
                     ivoleps(i) = 1
-                  endif
+                  end if
                 else
                   dfmax(i,1+nmod) = max(vol_strain(i)/(voleps*facl(i)),dfmax(i,1+nmod))
                   dfmax(i,1+nmod) = min(dfmax(i,1+nmod),one)
                   if (vol_strain(i) <= voleps*facl(i)) then
                     ncrit(i)   = ncrit(i) + 1
                     ivoleps(i) = 1
-                  endif
-                endif
-              endif
+                  end if
+                end if
+              end if
               !  -> minimum principal strain
               if (btest(crit,11)) then
                 nmod = nmod + 1
                 if (e33(i) /= zero) then
                   dfmax(i,1+nmod) = max(mineps*facl(i)/(e33(i)),dfmax(i,1+nmod))
-                endif
+                end if
                 dfmax(i,1+nmod) = min(dfmax(i,1+nmod),one)
                 if (e33(i) <= mineps*facl(i)) then
                   ncrit(i) = ncrit(i) + 1
                   imineps(i) = 1
-                endif
-              endif
+                end if
+              end if
               !  -> maximum tensorial shear strain
               if (btest(crit,12)) then
                 nmod = nmod + 1
@@ -570,8 +571,8 @@
                 if ((e11(i) - e33(i))/two >= epssh*facl(i)) then
                   ncrit(i)  = ncrit(i) + 1
                   ishear(i) = 1
-                endif
-              endif
+                end if
+              end if
               !  -> mixed mode
               if (btest(crit,13)) then
                 lambda  = uvar(i,8)/el_ref
@@ -584,9 +585,9 @@
                   if ((e11(i) - e22(i))/two >= sh12(i)) then
                     ncrit(i)  = ncrit(i) + 1
                     imix12(i) = 1
-                  endif
-                endif
-              endif
+                  end if
+                end if
+              end if
               if (btest(crit,14)) then
                 lambda  = uvar(i,8)/el_ref
                 sh13(i) = finter(fct_idg13,lambda,npf,tf,df)
@@ -598,9 +599,9 @@
                   if ((e11(i) - e33(i))/two >= sh13(i)) then
                     ncrit(i)  = ncrit(i) + 1
                     imix13(i) = 1
-                  endif
-                endif
-              endif
+                  end if
+                end if
+              end if
               if (btest(crit,15)) then
                 lambda = uvar(i,8)/el_ref
                 e1c(i) = finter(fct_ide1c,lambda,npf,tf,df)
@@ -612,9 +613,9 @@
                   if (e11(i) >= e1c(i)) then
                     ncrit(i)  = ncrit(i) + 1
                     imxe1c(i) = 1
-                  endif
-                endif
-              endif
+                  end if
+                end if
+              end if
               !  -> forming limit diagram
               if (btest(crit,16)) then
                 nmod = nmod + 1
@@ -624,16 +625,16 @@
                   if (e11(i) >= e1fld(i)*facl(i)) then
                     ncrit(i) = ncrit(i) + 1
                     ifld(i)  = 1
-                  endif
+                  end if
                 else
                   dfmax(i,1+nmod) = max(e11(i)/(e1fld(i)),dfmax(i,1+nmod))
                   dfmax(i,1+nmod) = min(dfmax(i,1+nmod),one)
                   if (e11(i) >= e1fld(i)) then
                     ncrit(i) = ncrit(i) + 1
                     ifld(i)  = 1
-                  endif
-                endif
-              endif
+                  end if
+                end if
+              end if
               !  -> maximum temperature
               if (btest(crit,18)) then
                 nmod = nmod + 1
@@ -642,13 +643,13 @@
                 if (temp(i) >= maxtemp) then
                   ncrit(i)    = ncrit(i) + 1
                   imaxtemp(i) = 1
-                endif
-              endif
+                end if
+              end if
 !c
               !  -> checking failure
               do j = 1,nmod
                 dfmax(i,1) = max(dfmax(i,1),dfmax(i,1+j))
-              enddo
+              end do
               dfmax(i,1) = min(dfmax(i,1),one)
               if (ncrit(i) >= ncs) then
                 dfmax(i,1)  = one
@@ -656,10 +657,10 @@
                 indx(nindx) = i
                 uvar(i,5)   = one - one/nstep
                 f1(i) = uvar(i,5)*f1(i)
-              endif
-            endif
+              end if
+            end if
 !c
-          enddo
+          end do
 !c
 !c------------------------
 !c------------------------
@@ -678,52 +679,52 @@
                 write(istdo,1001) ngl(i),time,ncrit(i)
                 write(iout, 2000) ngl(i),time
                 write(istdo,2000) ngl(i),time
-              endif
+              end if
               if (ipmax(i) == 1) then
                 !message: hydrostatic pressure value > critical value
                 write(iout, 1002) p(i),maxpres*facl(i)
                 write(istdo,1002) p(i),maxpres*facl(i)
-              endif
+              end if
               if (ipmin(i) == 1) then
                 !message: hydrostatic pressure value < critical value
                 write(iout, 1003) p(i),minpres*facl(i)
                 write(istdo,1003) p(i),minpres*facl(i)
-              endif
+              end if
               if (is1max(i) == 1) then
                 !message: 1st principal stress value > critical value
                 write(iout, 1004) s11(i),abs(sigp1)*facl(i)
                 write(istdo,1004) s11(i),abs(sigp1)*facl(i)
-              endif
+              end if
               if (itmax(i) == 1) then
                 !message: time value > critical value
                 write(iout, 1005) time,tmax
                 write(istdo,1005) time,tmax
-              endif
+              end if
               if (imindt(i) == 1) then
                 !message: element timestep value: < critical value
                 write(iout, 1006) dt(i),dtmin
                 write(istdo,1006) dt(i),dtmin
-              endif
+              end if
               if (isigmax(i) == 1) then
                 !message: equivalent stress value: > critical value
                 write(iout, 1007) svm(i),sigmax(i)*facl(i)
                 write(istdo,1007) svm(i),sigmax(i)*facl(i)
-              endif
+              end if
               if (isigth(i) == 1) then
                 !message: t-butcher intg. value > critical value
                 write(iout, 1008) uvar(i,2),kf*facl(i)
                 write(istdo,1008) uvar(i,2),kf*facl(i)
-              endif
+              end if
               if (iepsmax(i) == 1) then
                 !message: 1st principal strain value > critical value
                 write(iout, 1009) e11(i),epsmax(i)*facl(i)
                 write(istdo,1009) e11(i),epsmax(i)*facl(i)
-              endif
+              end if
               if (ieffeps(i) == 1) then
                 !message: effective strain value > critical value
                 write(iout, 1010) eff_strain(i),effeps*facl(i)
                 write(istdo,1010) eff_strain(i),effeps*facl(i)
-              endif
+              end if
               if (ivoleps(i) == 1) then
                 if (voleps >= zero) then
                   !message: volumetric strain value > critical value
@@ -733,33 +734,33 @@
                   !message: volumetric strain value < critical value
                   write(iout, 1012) vol_strain(i),voleps*facl(i)
                   write(istdo,1012) vol_strain(i),voleps*facl(i)
-                endif
-              endif
+                end if
+              end if
               if (imineps(i) == 1) then
                 !message: 3rd principal strain value < critical value
                 write(iout, 1013) e33(i),mineps*facl(i)
                 write(istdo,1013) e33(i),mineps*facl(i)
-              endif
+              end if
               if (ishear(i) == 1) then
                 !message: max. shear strain value > critical value
                 write(iout, 1014) (e11(i) - e33(i))/two,epssh*facl(i)
                 write(istdo,1014) (e11(i) - e33(i))/two,epssh*facl(i)
-              endif
+              end if
               if (imix12(i) == 1) then
                 !message: 1in-plane sh.strain value > critical value
                 write(iout, 1015) (e11(i) - e22(i))/two,sh12(i)
                 write(istdo,1015) (e11(i) - e22(i))/two,sh12(i)
-              endif
+              end if
               if (imix13(i) == 1) then
                 !message: transv.  sh.strain 13 value > critical value
                 write(iout, 1016) (e11(i) - e33(i))/two,sh13(i)
                 write(istdo,1016) (e11(i) - e33(i))/two,sh13(i)
-              endif
+              end if
               if (imxe1c(i) == 1) then
                 !message: in-plane princ.strain value: > critical value
                 write(iout, 1017) e11(i),e1c(i)
                 write(istdo,1017) e11(i),e1c(i)
-              endif
+              end if
               if (ifld(i) == 1) then
                 if (itab == 1) then
                   !message: 1st principal stress value > forming limit value
@@ -769,40 +770,40 @@
                   !message: 1st principal stress value > forming limit value
                   write(iout, 1018) e11(i),e1fld(i)
                   write(istdo,1018) e11(i),e1fld(i)
-                endif
-              endif
+                end if
+              end if
               if (imaxtemp(i) == 1) then
                 !message: temperature value > critical value
                 write(iout, 1020) temp(i),maxtemp
                 write(istdo,1020) temp(i),maxtemp
-              endif
+              end if
             end do
           end if
 
 !C------------------------
-1000      format(1X,'>> FOR BEAM ELEMENT NUMBER (GENE1) EL#',I10, &
-            ', FAILURE START AT TIME: ',1PE12.4,', ',I3,' CRITERION HAS BEEN REACHED:')
-1001      format(1X,'>> FOR BEAM ELEMENT NUMBER (GENE1) EL#',I10, &
-            ', FAILURE START AT TIME: ',1PE12.4,', ',I3,' CRITERIA HAVE BEEN REACHED:')
-1002      format(1X,'HYDROSTATIC PRESSURE VALUE:  ',1PE12.4,' > CRITICAL VALUE: ',1PE12.4)
-1003      format(1X,'HYDROSTATIC PRESSURE VALUE:  ',1PE12.4,' < CRITICAL VALUE: ',1PE12.4)
-1004      format(1X,'1ST PRINCIPAL STRESS VALUE:  ',1PE12.4,' > CRITICAL VALUE: ',1PE12.4)
-1005      format(1X,'TIME VALUE:                  ',1PE12.4,' > CRITICAL VALUE: ',1PE12.4)
-1006      format(1X,'ELEMENT TIMESTEP VALUE:      ',1PE12.4,' < CRITICAL VALUE: ',1PE12.4)
-1007      format(1X,'EQUIVALENT STRESS VALUE:     ',1PE12.4,' > CRITICAL VALUE: ',1PE12.4)
-1008      format(1X,'T-BUTCHER INTG. VALUE:       ',1PE12.4,' > CRITICAL VALUE: ',1PE12.4)
-1009      format(1X,'1ST PRINCIPAL STRAIN VALUE:  ',1PE12.4,' > CRITICAL VALUE: ',1PE12.4)
-1010      format(1X,'EFFECTIVE STRAIN VALUE:      ',1PE12.4,' > CRITICAL VALUE: ',1PE12.4)
-1011      format(1X,'VOLUMETRIC STRAIN VALUE:     ',1PE12.4,' > CRITICAL VALUE: ',1PE12.4)
-1012      format(1X,'VOLUMETRIC STRAIN VALUE:     ',1PE12.4,' < CRITICAL VALUE: ',1PE12.4)
-1013      format(1X,'3RD PRINCIPAL STRAIN VALUE:  ',1PE12.4,' < CRITICAL VALUE: ',1PE12.4)
-1014      format(1X,'MAX. SHEAR STRAIN VALUE:     ',1PE12.4,' > CRITICAL VALUE: ',1PE12.4)
-1015      format(1X,'IN-PLANE SH.STRAIN 12 VALUE: ',1PE12.4,' > CRITICAL VALUE: ',1PE12.4)
-1016      format(1X,'TRANSV.  SH.STRAIN 13 VALUE: ',1PE12.4,' > CRITICAL VALUE: ',1PE12.4)
-1017      format(1X,'IN-PLANE PRINC.STRAIN VALUE: ',1PE12.4,' > CRITICAL VALUE: ',1PE12.4)
-1018      format(1X,'1ST PRINCIPAL STRESS VALUE:  ',1PE12.4,' > FORMING LIMIT VALUE : ',1PE12.4)
-1020      format(1X,'TEMPERATURE VALUE:           ',1PE12.4,' > CRITICAL VALUE: ',1PE12.4)
-2000      format(1X,'DELETED BEAM ELEMENT ',I10,1X,'AT TIME :',1PE12.4)
+1000      format(1X,">> FOR BEAM ELEMENT NUMBER (GENE1) EL#",I10, &
+            ", FAILURE START AT TIME: ",1PE12.4,", ",I3," CRITERION HAS BEEN REACHED:")
+1001      format(1X,">> FOR BEAM ELEMENT NUMBER (GENE1) EL#",I10, &
+            ", FAILURE START AT TIME: ",1PE12.4,", ",I3," CRITERIA HAVE BEEN REACHED:")
+1002      format(1X,"HYDROSTATIC PRESSURE VALUE:  ",1PE12.4," > CRITICAL VALUE: ",1PE12.4)
+1003      format(1X,"HYDROSTATIC PRESSURE VALUE:  ",1PE12.4," < CRITICAL VALUE: ",1PE12.4)
+1004      format(1X,"1ST PRINCIPAL STRESS VALUE:  ",1PE12.4," > CRITICAL VALUE: ",1PE12.4)
+1005      format(1X,"TIME VALUE:                  ",1PE12.4," > CRITICAL VALUE: ",1PE12.4)
+1006      format(1X,"ELEMENT TIMESTEP VALUE:      ",1PE12.4," < CRITICAL VALUE: ",1PE12.4)
+1007      format(1X,"EQUIVALENT STRESS VALUE:     ",1PE12.4," > CRITICAL VALUE: ",1PE12.4)
+1008      format(1X,"T-BUTCHER INTG. VALUE:       ",1PE12.4," > CRITICAL VALUE: ",1PE12.4)
+1009      format(1X,"1ST PRINCIPAL STRAIN VALUE:  ",1PE12.4," > CRITICAL VALUE: ",1PE12.4)
+1010      format(1X,"EFFECTIVE STRAIN VALUE:      ",1PE12.4," > CRITICAL VALUE: ",1PE12.4)
+1011      format(1X,"VOLUMETRIC STRAIN VALUE:     ",1PE12.4," > CRITICAL VALUE: ",1PE12.4)
+1012      format(1X,"VOLUMETRIC STRAIN VALUE:     ",1PE12.4," < CRITICAL VALUE: ",1PE12.4)
+1013      format(1X,"3RD PRINCIPAL STRAIN VALUE:  ",1PE12.4," < CRITICAL VALUE: ",1PE12.4)
+1014      format(1X,"MAX. SHEAR STRAIN VALUE:     ",1PE12.4," > CRITICAL VALUE: ",1PE12.4)
+1015      format(1X,"IN-PLANE SH.STRAIN 12 VALUE: ",1PE12.4," > CRITICAL VALUE: ",1PE12.4)
+1016      format(1X,"TRANSV.  SH.STRAIN 13 VALUE: ",1PE12.4," > CRITICAL VALUE: ",1PE12.4)
+1017      format(1X,"IN-PLANE PRINC.STRAIN VALUE: ",1PE12.4," > CRITICAL VALUE: ",1PE12.4)
+1018      format(1X,"1ST PRINCIPAL STRESS VALUE:  ",1PE12.4," > FORMING LIMIT VALUE : ",1PE12.4)
+1020      format(1X,"TEMPERATURE VALUE:           ",1PE12.4," > CRITICAL VALUE: ",1PE12.4)
+2000      format(1X,"DELETED BEAM ELEMENT ",I10,1X,"AT TIME :",1PE12.4)
 !c
           return
 

@@ -116,7 +116,7 @@
               av(4,i) = epsxy(i)*half
               av(5,i) = epsyz(i)*half
               av(6,i) = epszx(i)*half
-            enddo
+            end do
 !
             call valpvecdp(av,evv,dirprv,nel)
             do i=1,nel
@@ -125,7 +125,7 @@
               dav=-third*ekk
               p = c1*ekk
               sigprv(1:3,i)=p +g2*(ev(i,1:3)+dav)
-            enddo
+            end do
             do i=1,nel
               ! transform principal cauchy stresses to global directions
               signxx(i) = dirprv(1,1,i)*dirprv(1,1,i)*sigprv(1,i)        &
@@ -151,7 +151,7 @@
               signzx(i) = dirprv(3,3,i)*dirprv(1,3,i)*sigprv(3,i)        &
                 + dirprv(3,1,i)*dirprv(1,1,i)*sigprv(1,i)        &
                 + dirprv(3,2,i)*dirprv(1,2,i)*sigprv(2,i)
-            enddo
+            end do
             soundsp(1:nel)  =sqrt((onep333*g+c1)/rho(1:nel))
 
            case (11)
@@ -165,7 +165,7 @@
               signxy(i) = g*epsxy(i)
               signyz(i) = g*epsyz(i)
               signzx(i) = g*epszx(i)
-            enddo
+            end do
             soundsp(1:nel)  =sqrt((onep333*g+c1)/rho0(1:nel))
            case default         !incremental
             do i=1,nel
@@ -179,7 +179,7 @@
               signxy(i) = sigoxy(i)+ g*depsxy(i)
               signyz(i) = sigoyz(i)+ g*depsyz(i)
               signzx(i) = sigozx(i)+ g*depszx(i)
-            enddo
+            end do
             soundsp(1:nel)  =sqrt((onep333*g+c1)/rho0(1:nel))
           end select
           viscmax(1:nel) = zero

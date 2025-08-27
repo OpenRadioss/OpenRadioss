@@ -26,6 +26,7 @@
 !||    lectur                      ../starter/source/starter/lectur.F
 !||====================================================================
       module hm_read_preload_axial_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
@@ -81,24 +82,24 @@
 !
           is_available = .false.
 !
-          call hm_option_start('/PRELOAD')
+          call hm_option_start("/PRELOAD")
 !
           nld  = npreload_a
           np = 0
           do i=1,nld
             ! read title, id and unit id
-            titr = ''
+            titr = ""
             call hm_option_read_key(lsubmodel,                                   &
               option_id      = id,                          &
               unit_id        = uid,                         &
               option_titr    = titr,                        &
               keyword2       = key)
 !
-            if (key(1:len_trim(key))/='AXIAL') cycle
+            if (key(1:len_trim(key))/="AXIAL") cycle
 
-            call hm_get_intv('curveid' ,ifun  ,is_available,lsubmodel)
+            call hm_get_intv("curveid" ,ifun  ,is_available,lsubmodel)
             if (ifun ==0) cycle
-            call hm_get_intv('set_id'  ,iset  ,is_available,lsubmodel)
+            call hm_get_intv("set_id"  ,iset  ,is_available,lsubmodel)
 
             nn = 0
             if (iset > 0) then
@@ -106,11 +107,11 @@
                 if (iset==igrspring(is)%ID) then
                   nn = 1
                   exit
-                endif
-              enddo
-            endif
+                end if
+              end do
+            end if
             if (nn>0) np = np + 1
-          enddo
+          end do
           npreload_a = np
 !
 
@@ -203,11 +204,11 @@
           is_available = .false.
           write(iout,2000)
 !
-          call hm_option_start('/PRELOAD/AXIAL')
+          call hm_option_start("/PRELOAD/AXIAL")
 !
           do i=1,npreload_a
 ! read title, id and unit id
-            titr = ''
+            titr = ""
             call hm_option_read_key(lsubmodel,                                   &
               option_id      = id,                         &
               unit_id        = uid,                        &
@@ -219,40 +220,40 @@
               if (unitab%unit_id(j) == uid) then
                 iflagunit = 1
                 exit
-              endif
-            enddo
+              end if
+            end do
             if (uid/=0.and.iflagunit==0) then
               call ancmsg(msgid=659,anmode=aninfo,msgtype=msgerror,              &
-                i2=uid,i1=id,c1='bolt preload',                        &
-                c2='bolt preload_axial',                              &
+                i2=uid,i1=id,c1="bolt preload",                        &
+                c2="bolt preload_axial",                              &
                 c3=titr)
-            endif
+            end if
 
-            call hm_get_intv('set_id'  ,iset  ,is_available,lsubmodel)
-            call hm_get_intv('sens_id' ,isens ,is_available,lsubmodel)
+            call hm_get_intv("set_id"  ,iset  ,is_available,lsubmodel)
+            call hm_get_intv("sens_id" ,isens ,is_available,lsubmodel)
             is = 0
             do j=1,sensors%nsensor
               if(sensors%sensor_tab(j)%sens_id==isens) is=j
-            enddo
+            end do
             if(is==0.and.isens/=0)then
               call ancmsg(msgid=521,anmode=aninfo,msgtype=msgerror,              &
                 i2=isens,i1=id,c1=titr)
-            endif
+            end if
             preload_a(i)%sens_id = is
 !
-            call hm_get_intv('curveid' ,ifun  ,is_available,lsubmodel)
+            call hm_get_intv("curveid" ,ifun  ,is_available,lsubmodel)
             is = 0
             do j=1,nfunct
               if(npc(nfunct+j+1)==ifun) is=j
-            enddo
+            end do
             if(is==0)then
               call ancmsg(msgid=154,anmode=aninfo,msgtype=msgerror,              &
                 i2=ifun,i1=id,c1=titr)
-            endif
+            end if
             preload_a(i)%fun_id  = is
 !
-            call hm_get_floatv('Preload',loadval,is_available, lsubmodel, unitab)
-            call hm_get_floatv('Damp',damp,is_available, lsubmodel, unitab)
+            call hm_get_floatv("Preload",loadval,is_available, lsubmodel, unitab)
+            call hm_get_floatv("Damp",damp,is_available, lsubmodel, unitab)
 !
             if (loadval==zero) loadval = one
             preload_a(i)%preload = loadval
@@ -266,9 +267,9 @@
                   nn = is
                   itype = 6
                   exit
-                endif
-              enddo
-            endif
+                end if
+              end do
+            end if
             if (iset > 0 .and. nn==0) then
               do is=1,ngrbeam
                 if (igrbeam(is)%nentity == 0) cycle
@@ -276,9 +277,9 @@
                   nn = is
                   itype = 5
                   exit
-                endif
-              enddo
-            endif
+                end if
+              end do
+            end if
             if (iset > 0 .and. nn==0) then
               do is=1,ngrtrus
                 if (igrtruss(is)%nentity == 0) cycle
@@ -286,9 +287,9 @@
                   nn = is
                   itype = 4
                   exit
-                endif
-              enddo
-            endif
+                end if
+              end do
+            end if
             if (nn==0) then
               call ancmsg(msgid=3052,anmode=aninfo,msgtype=msgerror,              &
                 i2=iset,i1=id,c1=titr)
@@ -299,33 +300,33 @@
                 do j=1,np
                   is = igrtruss(nn)%entity(j)      ! sys_id already
                   if(is>0) itagprld_truss(is)=i
-                enddo
-                key ='TRUSS'
+                end do
+                key ="TRUSS"
                case(5)
                 np=igrbeam(nn)%nentity
                 do j=1,np
                   is = igrbeam(nn)%entity(j)
                   if(is>0) itagprld_beam(is)=i
-                enddo
-                key ='BEAM'
+                end do
+                key ="BEAM"
                case(6)
                 np=igrspring(nn)%nentity
                 do j=1,np
                   is = igrspring(nn)%entity(j)
                   if(is>0) itagprld_spring(is)=i
-                enddo
-                key ='SPRING'
+                end do
+                key ="SPRING"
               end select
             end if
 !
-            write(iout,'(I10,1X,I10,4X,A6,1X,I10,1X,I10,2(1X,1PE10.3))')         &
+            write(iout,"(I10,1X,I10,4X,A6,1X,I10,1X,I10,2(1X,1PE10.3))")         &
               id,iset,key,isens,ifun,loadval,Damp
-          enddo
+          end do
 !
 2000      FORMAT(//                                                                &
-            '     BOLT 1D-ELEMENT PRELOADINGS  '/                                    &
-            '     ----------------  '/                                               &
-            '        ID     SET_ID   1D-ELEM    SENS_ID    FUNC_ID    PRELOAD       DAMP ')
+            "     BOLT 1D-ELEMENT PRELOADINGS  "/                                    &
+            "     ----------------  "/                                               &
+            "        ID     SET_ID   1D-ELEM    SENS_ID    FUNC_ID    PRELOAD       DAMP ")
 !-----------
         end subroutine hm_read_preload_axial
 ! ======================================================================================================================
@@ -382,21 +383,21 @@
           if (stat /= 0) then
             call ancmsg(msgid=268,anmode=aninfo,                                 &
               msgtype=msgerror,                           &
-              c1='preload_a_itris')
+              c1="preload_a_itris")
             return
           end if
           allocate (indexs(2*nx) ,stat=stat)
           if (stat /= 0) then
             call ancmsg(msgid=268,anmode=aninfo,                                 &
               msgtype=msgerror,                           &
-              c1='preload_a_indexs')
+              c1="preload_a_indexs")
             return
           end if
           allocate (ksysusrs(2*nx),stat=stat)
           if (stat /= 0) then
             call ancmsg(msgid=268,anmode=aninfo,                                 &
               msgtype=msgerror,                           &
-              c1='preload_a_ksysusrs')
+              c1="preload_a_ksysusrs")
             return
           end if
           itris = 0
@@ -423,8 +424,8 @@
               else
 ! error out
               end if
-            endif
-          enddo
+            end if
+          end do
 !-----------
           deallocate(ksysusrs,indexs,itris)
 !---

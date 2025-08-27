@@ -73,8 +73,8 @@
           do i=1,nel
             do j=1,npe
               tempel(i) = tempel(i) + ni(j) * temp(nc(i,j))
-            enddo
-          enddo
+            end do
+          end do
 ! ----------------------------------------------------------------------------------------------------------------------
           return
         end subroutine s20temp

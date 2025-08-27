@@ -110,6 +110,7 @@ C-----------------------------------------------
       use glob_therm_mod
       USE PBLAST_MOD
       USE OUTPUT_MOD , ONLY : OUTPUT_
+      use ascii_encoding_mu_letter_mod, only : ascii_encoding_mu_letter
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

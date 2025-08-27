@@ -26,6 +26,7 @@
 !||    updfail               ../starter/source/materials/updfail.F90
 !||====================================================================
       module random_walk_dmg_mod
+      implicit none
       contains
 ! ======================================================================================================================
 ! \brief fractal random walk algorithm for initializing damage in material law elements
@@ -190,13 +191,13 @@
           !------------------------------
           if (debug == 1) then
             if (random_start .eqv. .false.) then
-              print*,'starting element list'
+              print*,"starting element list"
               do i = 1,nstart
                 iel = start_group(i)
-                print*,'    ',fractal%random_walk(iel)%id
+                print*,"    ",fractal%random_walk(iel)%id
               end do
             else
-              print*,'random starting element for each walker'
+              print*,"random starting element for each walker"
             end if
           end if
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -206,15 +207,15 @@
           nb_sh3 = 0
 !
           if ((debug == 1)) then
-            print*,' '
-            print*,'target element list'
+            print*," "
+            print*,"target element list"
           end if
           if (target_gsh4_id + target_gsh3_id == 0) then  ! empty target element groups
             random_target = .true.
             call random_number(random_value)
             iel = ceiling(random_value * fractal%nelem)
             fractal%random_walk(iel)%damage = dmg
-            if (debug==1) print*,'    ',fractal%random_walk(iel)%id
+            if (debug==1) print*,"    ",fractal%random_walk(iel)%id
           else
             random_target = .false.
             igr4n_target = -HUGE(igr4n_target)
@@ -232,7 +233,7 @@
                 if (fractal%random_walk(j)%nix == 4) then
                   if (fractal%random_walk(j)%elnum == iel) then
                     fractal%random_walk(j)%damage = dmg
-                    if (debug==1) print*,'    ',fractal%random_walk(j)%id
+                    if (debug==1) print*,"    ",fractal%random_walk(j)%id
                   end if
                 end if
               end do
@@ -243,18 +244,18 @@
                 if (fractal%random_walk(j)%nix == 3) then
                   if (fractal%random_walk(j)%elnum == iel) then
                     fractal%random_walk(j)%damage = dmg
-                    if (debug==1) print*,'    ',fractal%random_walk(j)%id
+                    if (debug==1) print*,"    ",fractal%random_walk(j)%id
                   end if
                 end if
               end do
             end do
-          endif       ! random target
+          end if       ! random target
 ! ----------------------------------------------------------------------------------------------------------------------
 !     fractal random walks from starting elements to targets
 ! ----------------------------------------------------------------------------------------------------------------------
           if (debug==1) then
-            print*,' '
-            print*,' begin random walk algorithm'
+            print*," "
+            print*," begin random walk algorithm"
           end if
           !-------------------------------------
 !
@@ -266,8 +267,8 @@
             ! skip already damaged elements => choose another starting point
             if (fractal%random_walk(current)%damage == zero) then
               if (debug==1) then
-                print*,' '
-                print*,' drunken walker number',iwalk,',start with',fractal%random_walk(current)%id
+                print*," "
+                print*," drunken walker number",iwalk,",start with",fractal%random_walk(current)%id
               end if
               !------------------------------------------------
               ! start random walk from current starting point
@@ -290,7 +291,7 @@
                         if (debug==1) then
                           curr_id = fractal%random_walk(current)%id
                           trgt_id = fractal%random_walk(j)%id
-                          print*,'     found target',trgt_id,',set damage to',curr_id
+                          print*,"     found target",trgt_id,",set damage to",curr_id
                         end if
                       end if
                     end if
@@ -307,11 +308,11 @@
                   end if
                   if (nxt == 0) then          ! exit on border
                     stop_walk = 1
-                    if (debug==1) print*,'     died on',fractal%random_walk(current)%id
+                    if (debug==1) print*,"     died on",fractal%random_walk(current)%id
                   else if (debug==1) then
                     curr_id = fractal%random_walk(current)%id
                     nxt_id  = fractal%random_walk(nxt)%id
-                    print*,'   ',curr_id,' => ',nxt_id
+                    print*,"   ",curr_id," => ",nxt_id
                   end if
                   prv     = current
                   current = nxt

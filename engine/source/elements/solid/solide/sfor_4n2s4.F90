@@ -27,6 +27,7 @@
 !||    s8for_distor       ../engine/source/elements/solid/solide/s8for_distor.F
 !||====================================================================
       module sfor_nsn2seg_mod
+      implicit none
       contains
 ! ======================================================================================================================
 ! \brief self-contact for 4-node to quad
@@ -162,7 +163,7 @@
             dz =z3(i)-z2(i)
             dmin = abs(dx)+abs(dy)+abs(dz)
             if (dmin==zero) itgsub(i)=23
-          enddo
+          end do
 !------general info of seg, and sorting by projected distance
           do i=1,nel
             if (itgsub(i)==-1) cycle
@@ -180,7 +181,7 @@
             nx(i)=nx(i)*norm
             ny(i)=ny(i)*norm
             nz(i)=nz(i)*norm
-          enddo
+          end do
 ! if degenerated for 2nd nodes,not possible have 1=3 or 2=4
           ifde_s(1:nel) = 0
           do i=1,nel
@@ -224,7 +225,7 @@
             dz =zn3(i)-zn2(i)
             dmin = abs(dx)+abs(dy)+abs(dz)
             if (dmin==zero) ifde_s(i)=3
-          enddo
+          end do
 !----ns=n1
           ifc2(1:nel) = 0
           ifctl1 = 0
@@ -240,8 +241,8 @@
               ifc2(i)=1
               if (itgsub(i)==0) itgsub(i)=1
               ifctl1=1
-            endif
-          enddo
+            end if
+          end do
           if (ifctl1==1) then
             call sfor_ns2s4(                                                 &
               xn1,     yn1,    zn1, itgsub,                      &
@@ -259,13 +260,13 @@
             nctl = nctl + ifctl
             do i=1,nel
               if (itgsub(i)==1) itgsub(i)=0
-            enddo
+            end do
           end if ! (ifctl1==1) then
 !----ns=n2
           ifc2(1:nel) = 0
           ifctl1 = 0
           do i=1,nel
-            if (itgsub(i)==-1.or.iabs(ifde_s(i))==2) cycle
+            if (itgsub(i)==-1.or.abs(ifde_s(i))==2) cycle
             dx = xn2(i)-xn1(i)
             dy = yn2(i)-yn1(i)
             dz = zn2(i)-zn1(i)
@@ -281,8 +282,8 @@
               ifc2(i)=1
               if (itgsub(i)==0) itgsub(i)=2
               ifctl1=1
-            endif
-          enddo
+            end if
+          end do
           if (ifctl1==1) then
             call sfor_ns2s4(                                                 &
               xn2,     yn2,    zn2, itgsub,                      &
@@ -300,13 +301,13 @@
             nctl = nctl + ifctl
             do i=1,nel
               if (itgsub(i)==2) itgsub(i)=0
-            enddo
+            end do
           end if ! (ifctl1==1) then
 !----ns=n3
           ifc2(1:nel) = 0
           ifctl1 = 0
           do i=1,nel
-            if (itgsub(i)==-1.or.iabs(ifde_s(i))==3) cycle
+            if (itgsub(i)==-1.or.abs(ifde_s(i))==3) cycle
             dx = xn3(i)-x3(i)
             dy = yn3(i)-y3(i)
             dz = zn3(i)-z3(i)
@@ -317,8 +318,8 @@
               ifc2(i)=1
               if (itgsub(i)==0) itgsub(i)=3
               ifctl1=1
-            endif
-          enddo
+            end if
+          end do
           if (ifctl1==1) then
             call sfor_ns2s4(                                                 &
               xn3,     yn3,    zn3, itgsub,                      &
@@ -336,13 +337,13 @@
             nctl = nctl + ifctl
             do i=1,nel
               if (itgsub(i)==3) itgsub(i)=0
-            enddo
+            end do
           end if ! (ifctl1==1) then
 !----ns=n4
           ifc2(1:nel) = 0
           ifctl1 = 0
           do i=1,nel
-            if (itgsub(i)==-1.or.iabs(ifde_s(i))==4) cycle
+            if (itgsub(i)==-1.or.abs(ifde_s(i))==4) cycle
             dx = xn4(i)-x4(i)
             dy = yn4(i)-y4(i)
             dz = zn4(i)-z4(i)
@@ -353,8 +354,8 @@
               ifc2(i)=1
               if (itgsub(i)==0) itgsub(i)=4
               ifctl1=1
-            endif
-          enddo
+            end if
+          end do
           if (ifctl1==1) then
             call sfor_ns2s4(                                                 &
               xn4,     yn4,    zn4, itgsub,                      &
@@ -475,7 +476,7 @@
             ny(i)=ny(i)*norm
             nz(i)=nz(i)*norm
             fkt(i)= one
-          enddo
+          end do
 !----ns=n1
           ifc2(1:nel) = 0
           ifctl1 = 0
@@ -489,8 +490,8 @@
             if (dn<marge(i).and.stif0(i)>zero) then
               ifc2(i)=1
               ifctl1=1
-            endif
-          enddo
+            end if
+          end do
           if (ifctl1==1) then
             call sfor_n2s3(xn1,     yn1,    zn1,  for_n1,                        &
               x1,      y1,     z1,  for_t1,                        &
@@ -517,8 +518,8 @@
             if (dn<marge(i).and.stif0(i)>zero) then
               ifc2(i)=1
               ifctl1=1
-            endif
-          enddo
+            end if
+          end do
           if (ifctl1==1) then
             call sfor_n2s3(xn2,     yn2,    zn2,  for_n2,                        &
               x1,      y1,     z1,  for_t1,                        &
@@ -545,8 +546,8 @@
             if (dn<marge(i).and.stif0(i)>zero) then
               ifc2(i)=1
               ifctl1=1
-            endif
-          enddo
+            end if
+          end do
           if (ifctl1==1) then
             call sfor_n2s3(xn3,     yn3,    zn3,  for_n3,                        &
               x1,      y1,     z1,  for_t1,                        &
@@ -566,7 +567,7 @@
             if ( fkt(i) > one) then
               stif(i) = max(stif(i),fkt(i)*stif0(i))
             end if
-          enddo
+          end do
 !-----------
         end subroutine sfor_3n2s3
 !-------------------

@@ -32,6 +32,7 @@
 !||    read_material_models       ../starter/source/materials/read_material_models.F
 !||====================================================================
       module hm_read_therm_stress_mod
+      implicit none
       contains
 
 !||====================================================================
@@ -99,22 +100,22 @@
 !     count eos models using cfg files
 ! ----------------------------------------------------------------------------------------------------------------------
 !
-          call hm_option_count('/THERM_STRESS',ntherm_st)
+          call hm_option_count("/THERM_STRESS",ntherm_st)
 !
 ! ----------------------------------------------------------------------------------------------------------------------
 !     start browsing /therm_stress models
 ! ----------------------------------------------------------------------------------------------------------------------
 !
-          call hm_option_start('/THERM_STRESS')
+          call hm_option_start("/THERM_STRESS")
 !
 ! ----------------------------------------------------------------------------------------------------------------------
           do ith = 1,ntherm_st
 !
             call hm_option_read_key(lsubmodel, option_id = mat_id , option_titr = titr , keyword2 = key )
 
-            if (key(1:3) == 'MAT') then
-              call hm_get_intv  ('FUNCT_ID'      ,ifunc_alpha    ,is_available, lsubmodel)
-              call hm_get_floatv('CLOAD_SCALE_Y' ,fscal_alpha    ,is_available, lsubmodel, unitab)
+            if (key(1:3) == "MAT") then
+              call hm_get_intv  ("FUNCT_ID"      ,ifunc_alpha    ,is_available, lsubmodel)
+              call hm_get_floatv("CLOAD_SCALE_Y" ,fscal_alpha    ,is_available, lsubmodel, unitab)
 
               if (fscal_alpha == zero) fscal_alpha=one
               do imat=1,nummat-1
@@ -124,7 +125,7 @@
                   jthe = mat_param(imat)%itherm
                   if (jthe == 0) then
                     call ancmsg(msgid=1129, msgtype=msgerror, anmode=aninfo, i1=mat_id, c1=titr)
-                  endif
+                  end if
                   mat_param(imat)%iexpan = 1
                   mat_param(imat)%therm%func_thexp  = ifunc_alpha
                   mat_param(imat)%therm%scale_thexp = fscal_alpha
@@ -143,20 +144,20 @@
                     ! euler or ale material
                     call ancmsg(msgid=1723,msgtype=msgerror,anmode=aninfo,      &
                       i1=imat,c1=titr)
-                  endif
+                  end if
 
-                endif
-              enddo    ! nummat
-            endif
-          enddo        ! ith = 1,ntherm_st
+                end if
+              end do    ! nummat
+            end if
+          end do        ! ith = 1,ntherm_st
 ! ----------------------------------------------------------------------------------------------------------------------
 4000      format(                                                         &
-            5x,'    THERMAL MATERIAL EXPANSION  ',/,                        &
-            5x,'    --------------------------  ',/,                        &
-            5x,'MATERIAL NUMBER . . . . . . . . . . . . .=',i10/,           &
-            5x,'CURVE ID DEFINING THERMAL EXPANSION COEFFICIENT '/,         &
-            5x,'   AS A FUNCTION OF TEMPERATURE         .=',i10/,           &
-            5x,'THERMAL EXPANSION FUNCTION SCALE FACTOR .=',1pg20.13//)
+            5x,"    THERMAL MATERIAL EXPANSION  ",/,                        &
+            5x,"    --------------------------  ",/,                        &
+            5x,"MATERIAL NUMBER . . . . . . . . . . . . .=",i10/,           &
+            5x,"CURVE ID DEFINING THERMAL EXPANSION COEFFICIENT "/,         &
+            5x,"   AS A FUNCTION OF TEMPERATURE         .=",i10/,           &
+            5x,"THERMAL EXPANSION FUNCTION SCALE FACTOR .=",1pg20.13//)
 ! ----------------------------------------------------------------------------------------------------------------------
           return
         end subroutine hm_read_therm_stress

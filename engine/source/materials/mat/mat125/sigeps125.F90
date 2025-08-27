@@ -26,6 +26,7 @@
 !||    mulaw           ../engine/source/materials/mat_share/mulaw.F90
 !||====================================================================
       module sigeps125_mod
+      implicit none
       contains
         ! ======================================================================================================================
         ! \brief    Mat058 Lsdyna
@@ -243,12 +244,12 @@
             uvar(i,8) = eint
             if(deint < ZERO ) then
               check(i) = -one
-            elseif(uvar(i,7) == -one) then
+            else if(uvar(i,7) == -one) then
               check(i) = -one
               if(uvar(i,9) /= zero .and. eint >= uvar(i,9)) check(i) = one
             else
               check(i) = one
-            endif
+            end if
             if(check(i) >= zero ) then
               uvar(i,5) = one
               if(damage > 0 ) then
@@ -260,7 +261,7 @@
                   w11 = abs(epsxx(i))/ef11c
                   w11 = exp(m1c*log(w11))/al1c  ! (esp/epsf)^m/alpha
                   w11 = exp(-w11)
-                endif
+                end if
                 ! dir 22
                 if(epsyy(i) >= zero )then
                   w22 = epsyy(i)/ef22t
@@ -270,7 +271,7 @@
                   w22 = abs(epsyy(i))/ef22c
                   w22 = exp(m2c*log(w22))/al2c  ! (esp/epsf)^m/alpha
                   w22 = exp(-w22)
-                endif
+                end if
                 ! dir 33
                 if(epszz(i) >= zero )then
                   w33 = epszz(i)/ef33t
@@ -280,8 +281,8 @@
                   w33 = abs(epszz(i))/ef33c
                   w33 = exp(m3c*log(w33))/al3c  ! (esp/epsf)^m/alpha
                   w33 = exp(-w33)
-                endif
-              endif
+                end if
+              end if
             else ! unlaod
               w11 = uvar(i,1)
               w22 = uvar(i,2)
@@ -290,7 +291,7 @@
               w23 = uvar(i,5)
               w13 = uvar(i,6)
               uvar(i,7) = -one
-            endif
+            end if
             ! damage hook matrix
             d = (one - w11*w22*w33*nu12*nu23*nu31 - w11*w22*w33*nu21*nu32*nu13        &
               - w11*w33*nu31*nu13 - w22*w33*nu23*nu32 - w11*w22*nu12*nu21 )
@@ -318,33 +319,33 @@
               if(epsxx(i) >= em11t  ) then
                 limit_sig = slimt1*xt
                 signxx(i) = max(limit_sig, signxx(i))
-              elseif(abs(epsxx(i)) >= em11c)then
+              else if(abs(epsxx(i)) >= em11c)then
                 limit_sig = slimc1*xc
                 signxx(i) = -max(limit_sig, abs(signxx(i)))
-              endif
+              end if
               if(abs(signxx(i)) ==  limit_sig .and. limit_sig > zero) w11 = signxx(i) / epsxx(i)/e1
               if(epsyy(i) >= em22t)then
                 limit_sig = slimt2*yt
                 signyy(i) = max(limit_sig, signyy(i))
-              elseif(abs(epsyy(i)) >= em22c)then
+              else if(abs(epsyy(i)) >= em22c)then
                 limit_sig = slimc2*yc
                 signyy(i) = - max(limit_sig, abs(signyy(i)))
-              endif
+              end if
               if(abs(signyy(i)) ==  limit_sig .and. limit_sig > zero) w22 = signyy(i) / epsyy(i)/e2
               if(epsZZ(i) >= em33t)then
                 limit_sig = slimt3*zt
                 signzz(i) = max(limit_sig, signzz(i))
-              elseif(abs(epszz(i)) >= em33c)then
+              else if(abs(epszz(i)) >= em33c)then
                 limit_sig = slimc3*zc
                 signzz(i) = - max(limit_sig, abs(signzz(i)))
-              endif
+              end if
               if(abs(signzz(i)) ==  limit_sig .and. limit_sig > zero) w33 = signzz(i) / epszz(i)/e3
               ! save w11 & w22
               uvar(i,1)= w11
               uvar(i,2)= w22
               uvar(i,3) = w33
               uvar(i,9)= eint
-            endif ! check
+            end if ! check
             a11       = max(e1,e2,e3)  ! bulk + G*4/3 ????
             ssp(i) = sqrt(a11/rho0(i))
           end do ! nel loop
@@ -373,7 +374,7 @@
                 w13 = uvar(i,5)
                 w23 = uvar(i,6)
                 uvar(i,7) = -one
-              endif
+              end if
               signxy(i) = w12*g12*epsxy(i)
               signzx(i) = w13*g13*epszx(i)
               signyz(i) = w23*g23*epsyz(i)
@@ -386,9 +387,9 @@
                   signxy(i) = sign(limit_sig, signxy(i))
                   if(abs(signxy(i)) ==  limit_sig .and. check(i) >= zero) then
                     w12 = signxy(i)/epsxy(i)/g12
-                  endif
-                endif
-              endif
+                  end if
+                end if
+              end if
               if(abs(signzx(i)) >= tau1 ) then
                 tauzx = abs(epszx(i)/gamma1)
                 tauzx = tau1 + tauzx*(sc13 - tau1)/(ems13 - gamma1)
@@ -398,9 +399,9 @@
                   signzx(i) = sign(limit_sig, signzx(i))
                   if(abs(signzx(i)) ==  limit_sig .and. check(i) >= zero) then
                     w13 = signzx(i)/epszx(i)/g13
-                  endif
-                endif
-              endif
+                  end if
+                end if
+              end if
               if(abs(signyz(i)) >= tau2 ) then
                 tauyz = abs(epsyz(i)/gamma2)
                 tauyz = tau2 + tauyz*(sc23 - tau2)/(ems23 - gamma2)
@@ -410,14 +411,14 @@
                   signyz(i) = sign(limit_sig, signyz(i))
                   if(abs(signyz(i)) ==  limit_sig .and. check(i) >= zero) then
                     w23 = signyz(i)/epsyz(i)/g23
-                  endif
-                endif
-              endif
+                  end if
+                end if
+              end if
 
               uvar(i,4)= w12
               uvar(i,5)= w13
               uvar(i,6)= w23
-            enddo ! nel loop
+            end do ! nel loop
            case(0)
             do i=1,nel
               w12 = one
@@ -437,27 +438,27 @@
                   signxy(i) = sign(limit_sig, signxy(i))
                   if(abs(signxy(i)) ==  limit_sig ) then
                     w12 = signxy(i)/epsxy(i)/g12
-                  endif
-                endif
+                  end if
+                end if
                 if(abs(signzx(i)) > sc13)then
                   limit_sig = slims13*sc13
                   signzx(i) = sign(limit_sig, signzx(i))
                   if(abs(signzx(i)) ==  limit_sig ) then
                     w13 = signzx(i)/epszx(i)/g13
-                  endif
-                endif
+                  end if
+                end if
                 if(abs(signyz(i)) > sc23)then
                   limit_sig = slims23*sc23
                   signyz(i) = sign(limit_sig, signyz(i))
                   if(abs(signyz(i)) ==  limit_sig ) then
                     w23 = signyz(i)/epszx(i)/g23
-                  endif
-                endif
+                  end if
+                end if
                 uvar(i,4)= w12
                 uvar(i,5)= w13
                 uvar(i,6)= w23
-              endif
-            enddo ! nel loop
+              end if
+            end do ! nel loop
            case(1)
             do i=1,nel
               w12 = one
@@ -473,27 +474,27 @@
                   signxy(i) = sign(limit_sig, signxy(i))
                   if(abs(signxy(i)) ==  limit_sig ) then
                     w12 = signxy(i)/epsxy(i)/g12
-                  endif
-                endif
+                  end if
+                end if
                 if(abs(signzx(i)) > sc13)then
                   limit_sig = slims13*sc13
                   signzx(i) = sign(limit_sig, signzx(i))
                   if(abs(signzx(i)) ==  limit_sig ) then
                     w13 = signzx(i)/epszx(i)/g13
-                  endif
-                endif
+                  end if
+                end if
                 if(abs(signyz(i)) > sc23)then
                   limit_sig = slims23*sc23
                   signyz(i) = sign(limit_sig, signyz(i))
                   if(abs(signyz(i)) ==  limit_sig ) then
                     w23 = signyz(i)/epszx(i)/g23
-                  endif
-                endif
+                  end if
+                end if
                 uvar(i,4)= w12
                 uvar(i,5)= w13
                 uvar(i,6)= w23
-              endif
-            enddo ! nel loop
+              end if
+            end do ! nel loop
           end select
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine sigeps125

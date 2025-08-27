@@ -26,6 +26,7 @@
 !||    mulaw           ../engine/source/materials/mat_share/mulaw.F90
 !||====================================================================
       module sigeps126_mod
+      implicit none
       contains
         ! ======================================================================================================================
         ! \brief Johnson-Holmquist 1 material law /MAT/LAW126
@@ -153,7 +154,7 @@
             noff(i)  = nint(uvar(i,4))
             dpla(i)  = zero
             dmup(i)  = zero
-          enddo
+          end do
 !
           !========================================================================
           !< Computation of elastic deviatoric stresses and equivalent stress
@@ -170,7 +171,7 @@
             j2        = half*(signxx(i)**2+signyy(i)**2+signzz(i)**2)           &
               + signxy(i)**2+signyz(i)**2+signzx(i)**2
             vm(i)     = sqrt(three*j2)
-          enddo
+          end do
 !
           !========================================================================
           !< Update plastic strain and damage in case of non-local regularisation
@@ -185,7 +186,7 @@
                   epfail = d1*(pold(i)/fc+t0/fc)**d2
                 else
                   epfail = zero
-                endif
+                end if
                 epfail = max(epfail,efmin)
                 !< Update plastic strain and damage
                 dmg(i) = dmg(i) + varnl(i)/epfail
@@ -196,29 +197,29 @@
                     noff(i) = 1
                     nindx = nindx + 1
                     indx(nindx) = i
-                  endif
-                elseif (idel == 2) then
+                  end if
+                else if (idel == 2) then
                   if (planl(i) > emax) then
                     noff(i) = 1
                     nindx = nindx + 1
                     indx(nindx) = i
-                  endif
-                elseif (idel == 3) then
+                  end if
+                else if (idel == 3) then
                   if (uvar(i,3) <= zero) then
                     noff(i) = 1
                     nindx = nindx + 1
                     indx(nindx) = i
-                  endif
-                elseif (idel == 4) then
+                  end if
+                else if (idel == 4) then
                   if (dmg(i) >= one) then
                     noff(i) = 1
                     nindx = nindx + 1
                     indx(nindx) = i
-                  endif
-                endif
-              endif
-            enddo
-          endif
+                  end if
+                end if
+              end if
+            end do
+          end if
 !
           !========================================================================
           !< Computation of the pressure
@@ -237,20 +238,20 @@
                 mup(i)   = min(mup(i),mul)
                 pnew(i)  = pnew(i) - kav*dmup(i)
                 phard(i) = pnew(i)
-              endif
+              end if
               dpdmu(i) = kav
-            endif
+            end if
             ! -> Region III: fully dense concrete
             if (mup(i) >= mul) then
               mubar    = (amu(i) - mul)/(one + mul)
               pnew(i)  = k1*mubar + k2*(mubar**2) + k3*(mubar**3)
               dpdmu(i) = (k1 + two*k2*mubar + three*k3*(mubar**2))/(one + mul)
-            endif
+            end if
             !< Check pressure for tension
             pnew(i)  = max(pnew(i),pmin)
             !< Normalized pressure
             pstar(i) = pnew(i)/fc
-          enddo
+          end do
 !
           !========================================================================
           !< Computation of the deviatoric yield stress
@@ -261,16 +262,16 @@
               sigy(i) = aa*(one-dmg(i)) + bb*exp(nn*log(pstar(i)))
               if (epsd(i) > eps0) then
                 sigy(i) = sigy(i)*(one + cc*log(epsd(i)/eps0))
-              endif
+              end if
               sigy(i) = min(sfmax,sigy(i))
               !< For tension loadings
             else
               sigy(i) = aa*(one + (pnew(i)/t0))*(one - dmg(i))
               if (epsd(i) > eps0) then
                 sigy(i) = sigy(i)*(one + cc*log(epsd(i)/eps0))
-              endif
-            endif
-          enddo
+              end if
+            end if
+          end do
 !
           !========================================================================
           !< Radial return mapping for deviatoric stress tensor
@@ -282,11 +283,11 @@
               !< Radial return scale factor
               if (sigstar < sigy(i)) then
                 scale(i) = one
-              elseif (vm(i) > zero) then
+              else if (vm(i) > zero) then
                 scale(i) = sigy(i)/sigstar
               else
                 scale(i) = zero
-              endif
+              end if
               !< Update deviatoric stress tensor
               signxx(i) = scale(i)*signxx(i)
               signyy(i) = scale(i)*signyy(i)
@@ -297,8 +298,8 @@
               !< Update deviatoric plastic strain
               dpla(i)   = (one - scale(i))*vm(i)/(three*g)
               defp(i)   = defp(i) + dpla(i)
-            endif
-          enddo
+            end if
+          end do
 !
           !========================================================================
           !< Update plastic strain and damage without non-local regularization
@@ -313,7 +314,7 @@
                   epfail = d1*(pstar(i)+t0/fc)**d2
                 else
                   epfail = zero
-                endif
+                end if
                 epfail = max(epfail,efmin)
                 !< Update plastic strain and damage
                 dmg(i) = dmg(i) + (dpla(i) + dmup(i))/epfail
@@ -324,29 +325,29 @@
                     noff(i) = 1
                     nindx = nindx + 1
                     indx(nindx) = i
-                  endif
-                elseif (idel == 2) then
+                  end if
+                else if (idel == 2) then
                   if (defp(i) > emax) then
                     noff(i) = 1
                     nindx = nindx + 1
                     indx(nindx) = i
-                  endif
-                elseif (idel == 3) then
+                  end if
+                else if (idel == 3) then
                   if (fc*sigy(i) <= zero) then
                     noff(i) = 1
                     nindx = nindx + 1
                     indx(nindx) = i
-                  endif
-                elseif (idel == 4) then
+                  end if
+                else if (idel == 4) then
                   if (dmg(i) >= one) then
                     noff(i) = 1
                     nindx = nindx + 1
                     indx(nindx) = i
-                  endif
-                endif
-              endif
-            enddo
-          endif
+                  end if
+                end if
+              end if
+            end do
+          end if
 !
           !========================================================================
           !< Update stress tensor and sound speed
@@ -371,14 +372,14 @@
                 varnl(i) = defp(i) + mup(i)
                 if (dmg(i) >= one) then
                   varnl(i) = zero
-                endif
+                end if
               else
                 varnl(i) = zero
-              endif
-            endif
+              end if
+            end if
             !< Coefficient for hourglass control
             et(i) = one
-          enddo
+          end do
 !
           !========================================================================
           !< Element failure behavior
@@ -389,9 +390,9 @@
               if (off(i) < em01) off(i) = zero
               if (off(i) <  one) off(i) = off(i)*four_over_5
               if ((noff(i) == 1).and.(off(i) == one)) off(i) = four_over_5
-            enddo
+            end do
             !< Set to zero the deviatoric stress tensor
-          elseif (ifail == 2) then
+          else if (ifail == 2) then
             do i = 1,nel
               if (noff(i) == 1) then
                 signxx(i) = pnew(i)
@@ -400,11 +401,11 @@
                 signxy(i) = zero
                 signyz(i) = zero
                 signzx(i) = zero
-              endif
-            enddo
+              end if
+            end do
             !< Set to zero the deviatoric stress tensor
             !< Keep pressure only in compression
-          elseif (ifail == 3) then
+          else if (ifail == 3) then
             do i = 1,nel
               if (noff(i) == 1) then
                 signxx(i) = max(pnew(i),zero)
@@ -413,10 +414,10 @@
                 signxy(i) = zero
                 signyz(i) = zero
                 signzx(i) = zero
-              endif
-            enddo
+              end if
+            end do
             !< Set to zero the whole stress tensor
-          elseif (ifail == 4) then
+          else if (ifail == 4) then
             do i = 1,nel
               if (noff(i) == 1) then
                 signxx(i) = zero
@@ -425,9 +426,9 @@
                 signxy(i) = zero
                 signyz(i) = zero
                 signzx(i) = zero
-              endif
-            enddo
-          endif
+              end if
+            end do
+          end if
 !
           !========================================================================
           !< Element failure behavior and printing out element deletion data
@@ -440,40 +441,40 @@
                 off(i) = four_over_5
                 write(iout, 1000) ngl(i),tt
                 write(istdo,1000) ngl(i),tt
-              enddo
+              end do
               !< Set to zero the deviatoric stress tensor
-            elseif (ifail == 2) then
+            else if (ifail == 2) then
               do j=1,nindx
                 i = indx(j)
                 write(iout, 2000) ngl(i),tt
                 write(istdo,2000) ngl(i),tt
-              enddo
+              end do
               !< Set to zero the deviatoric stress tensor
               !< Keep pressure only in compression
-            elseif (ifail == 3) then
+            else if (ifail == 3) then
               do j=1,nindx
                 i = indx(j)
                 write(iout, 3000) ngl(i),tt
                 write(istdo,3000) ngl(i),tt
-              enddo
+              end do
               !< Set to zero the whole stress tensor
-            elseif (ifail == 4) then
+            else if (ifail == 4) then
               do j=1,nindx
                 i = indx(j)
                 write(iout, 4000) ngl(i),tt
                 write(istdo,4000) ngl(i),tt
-              enddo
-            endif
-          endif
+              end do
+            end if
+          end if
           !< Element failure messages formats
-1000      format(1X,'-- RUPTURE (JHC) OF SOLID ELEMENT :',I10,' AT TIME :',1PE12.4)
-2000      format(1X,'-- FAILURE (JHC) OF SOLID ELEMENT :',I10,' AT TIME :',1PE12.4,/,&
-            2X,' - DEVIATORIC STRESS TENSOR WILL BE VANISHED')
-3000      format(1X,'-- FAILURE (JHC) OF SOLID ELEMENT :',I10,' AT TIME :',1PE12.4,/,&
-            2X,' - DEVIATORIC STRESS TENSOR WILL BE VANISHED IN COMPRESSION' ,/,s&
-            2X,' - WHOLE STRESS TENSOR WILL BE VANISHED IN TENSION')
-4000      format(1X,'-- FAILURE (JHC) OF SOLID ELEMENT :',I10,' AT TIME :',1PE12.4,/,&
-            2X,' - STRESS TENSOR WILL BE VANISHED')
+1000      format(1X,"-- RUPTURE (JHC) OF SOLID ELEMENT :",I10," AT TIME :",1PE12.4)
+2000      format(1X,"-- FAILURE (JHC) OF SOLID ELEMENT :",I10," AT TIME :",1PE12.4,/,&
+            2X," - DEVIATORIC STRESS TENSOR WILL BE VANISHED")
+3000      format(1X,"-- FAILURE (JHC) OF SOLID ELEMENT :",I10," AT TIME :",1PE12.4,/,&
+            2X," - DEVIATORIC STRESS TENSOR WILL BE VANISHED IN COMPRESSION" ,/,s&
+            2X," - WHOLE STRESS TENSOR WILL BE VANISHED IN TENSION")
+4000      format(1X,"-- FAILURE (JHC) OF SOLID ELEMENT :",I10," AT TIME :",1PE12.4,/,&
+            2X," - STRESS TENSOR WILL BE VANISHED")
 
         end subroutine sigeps126
       end module sigeps126_mod

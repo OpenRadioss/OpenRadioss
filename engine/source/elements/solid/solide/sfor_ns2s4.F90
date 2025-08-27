@@ -26,6 +26,7 @@
 !||    sfor_4n2s4       ../engine/source/elements/solid/solide/sfor_4n2s4.F90
 !||====================================================================
       module sfor_ns2s4_mod
+      implicit none
       contains
 ! ======================================================================================================================
 ! \brief self-contact for node to quad (optimized)
@@ -196,7 +197,7 @@
               ya(i) = y1(i)
               za(i) = z1(i)
             end select
-          enddo
+          end do
 !
           pene(1:nel)= zero
           do i=1,nel
@@ -218,7 +219,7 @@
             bbb = (xb(i)-xi(i))*nx(i) +(yb(i)-yi(i))*ny(i) +                         &
               (zb(i)-zi(i))*nz(i) -penmin(i)
             pene(i) = max(zero,-bbb)
-          enddo
+          end do
           do i=1,nel
             if(pene(i) == zero) cycle
             xab = xb(i)-xa(i)
@@ -259,7 +260,7 @@
                 la(i) = zero
                 lb(i) = zero
                 lc(i) = one
-              elseif(lc(i)<zero)then
+              else if(lc(i)<zero)then
                 lc(i) = zero
                 la(i) = zero
                 lb(i) = one
@@ -268,8 +269,8 @@
                 aaa = lb(i) + lc(i)
                 lb(i) = lb(i)/aaa
                 lc(i) = lc(i)/aaa
-              endif
-            elseif(lb(i)<zero)then
+              end if
+            else if(lb(i)<zero)then
               if(lc(i)<zero)then
                 lb(i) = zero
                 lc(i) = zero
@@ -279,14 +280,14 @@
                 aaa = lc(i) + la(i)
                 lc(i) = lc(i)/aaa
                 la(i) = la(i)/aaa
-              endif
-            elseif(lc(i)<zero)then
+              end if
+            else if(lc(i)<zero)then
               lc(i) = zero
               aaa = la(i) + lb(i)
               la(i) = la(i)/aaa
               lb(i) = lb(i)/aaa
-            endif
-          enddo
+            end if
+          end do
           do i=1,nel
             if(pene(i) == zero) cycle
             select case (itgsub(i)) ! 1: 1-2-4, 2:2-3-1, 3:3-4-2, 4:4-1-3, 34:1-2-3, 14:2-3-4, 23:4-1-2, 12:3-4-1
@@ -331,7 +332,7 @@
               hj(i,1) = la(i)
               hj(i,2) = zero
             end select
-          enddo
+          end do
           f_q = ep02
           do i=1,nel
             if(pene(i) == zero) cycle
@@ -340,7 +341,7 @@
             fn(i) = (fac+one)*stif0(i)*pene(i)
             fkt = one+three*fac
             stif(i) =max(stif(i),fkt*stif0(i))
-          enddo
+          end do
           do i=1,nel
             if(pene(i) == zero) cycle
             dx = vxi(i) - hj(i,1)*vx1(i) - hj(i,2)*vx2(i)                  &
@@ -351,7 +352,7 @@
               - hj(i,3)*vz3(i) - hj(i,4)*vz4(i)
             dn = (nx(i)*dx + ny(i)*dy + nz(i)*dz)*dt1
             e_distor(i) = e_distor(i) - fn(i)*dn
-          enddo
+          end do
           do i=1,nel
             if (pene(i) ==zero) cycle
             fx = nx(i)*fn(i)
@@ -373,7 +374,7 @@
             for_t4(i,2) = for_t4(i,2) + fy*hj(i,4)
             for_t4(i,3) = for_t4(i,3) + fz*hj(i,4)
             ifctl =1
-          enddo
+          end do
         end subroutine sfor_ns2s4
 !-------------------
       end module sfor_ns2s4_mod

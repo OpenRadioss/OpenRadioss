@@ -142,7 +142,7 @@
             IGAP   = IPARI(INDEX_IGAP,i)
             nrts   = IPARI(INDEX_NRTS,i)
             if(itype == 7) then
-             ! search if node_id is in interf%intbuf_tab(i)%MSR(1:NMN)
+              ! search if node_id is in interf%intbuf_tab(i)%MSR(1:NMN)
               is_found = any(interf%intbuf_tab(i)%MSR(1:nmn) == node_id)
               if(is_found) then
                 ! extend the arrays MSR
@@ -152,7 +152,7 @@
                 ! large value in xsav should trigger the contact search
                 interf%intbuf_tab(i)%S_MSR = interf%intbuf_tab(i)%S_MSR + 1
                 nmn = nmn + 1
-              endif
+              end if
 
               is_found = any(interf%intbuf_tab(i)%NSV(1:nsn) == node_id)
               if(is_found) then
@@ -161,15 +161,15 @@
                   if(interf%intbuf_tab(i)%NSV(j) == node_id) then
                     old_secondary_node = j
                     exit
-                  endif
-                enddo
+                  end if
+                end do
                 call extend_array(interf%intbuf_tab(i)%NSV,nsn,nsn+1)
                 interf%intbuf_tab(i)%NSV(nsn+1) = nodes%numnod + 1
                 interf%intbuf_tab(i)%S_NSV = nsn + 1
                 if(intth > 0) then
                   call extend_array(interf%intbuf_tab(i)%ielec,nsn,nsn+1)
                   interf%intbuf_tab(i)%s_ielec = nsn + 1
-                endif
+                end if
                 interf%intbuf_tab(i)%s_stfns   = nsn + 1
                 call extend_array(interf%intbuf_tab(i)%stfns,nsn,nsn+1)
                 interf%intbuf_tab(i)%stfns(nsn+1) = - interf%intbuf_tab(i)%stfns(old_secondary_node)
@@ -177,83 +177,83 @@
                   interf%intbuf_tab(i)%s_gap_s   = nsn + 1
                   call extend_array(interf%intbuf_tab(i)%gap_s,nsn,nsn+1)
                   interf%intbuf_tab(i)%gap_s(nsn+1) = interf%intbuf_tab(i)%gap_s(old_secondary_node)
-                ENDIF
+                END IF
                 IF (INTTH > 0 ) THEN
                   interf%intbuf_tab(i)%s_areas   = nsn + 1
                   call extend_array(interf%intbuf_tab(i)%areas,nsn,nsn+1)
                   interf%intbuf_tab(i)%areas(nsn+1) = interf%intbuf_tab(i)%areas(old_secondary_node)
-                ENDIF
+                END IF
                 IF (IGAP == 3 ) THEN
                   interf%intbuf_tab(i)%s_gap_sl  = nsn + 1
                   call extend_array(interf%intbuf_tab(i)%gap_sl,nsn,nsn+1)
                   interf%intbuf_tab(i)%gap_sl(nsn+1) = interf%intbuf_tab(i)%gap_sl(old_secondary_node)
-                ENDIF
+                END IF
 !                 if(ipari(index_intfric) > 0) then
 !                      not supported yet
 !                 endif
                 IPARI(INDEX_NSN,i) = nsn + 1
                 nsn = nsn + 1
-              endif
+              end if
 
               if(interf%intbuf_tab(i)%s_xsav  < 3*min(nodes%numnod,nsn+nmn)) then
                 call extend_array(interf%intbuf_tab(i)%xsav,interf%intbuf_tab(i)%s_xsav,3*min(nodes%numnod,nsn+nmn))
                 interf%intbuf_tab(i)%s_xsav = 3*min(nodes%numnod,nsn+nmn)
                 interf%intbuf_tab(i)%xsav = - HUGE(interf%intbuf_tab(i)%xsav(1))
-              endif
+              end if
 
               ! if the main segment has the same nodes as a detached shell, then the segment is detached
               do j = 1, nrtm
                 if(interf%intbuf_tab(i)%irectm((j-1)*4 + 1) == node_id) then
                   is_found=find_segment_in_list(interf%intbuf_tab(i)%irectm((j-1)*4+1:(j-1)*4+4),shell_list,list_size,elements)
                   if(is_found) interf%intbuf_tab(i)%irectm((j-1)*4 + 1) = nodes%numnod + 1
-                endif
+                end if
                 if(interf%intbuf_tab(i)%irectm((j-1)*4 + 2) == node_id) then
                   is_found=find_segment_in_list(interf%intbuf_tab(i)%irectm((j-1)*4+1:(j-1)*4+4),shell_list,list_size,elements)
                   if(is_found) interf%intbuf_tab(i)%irectm((j-1)*4 + 2) = nodes%numnod + 1
-                endif
+                end if
                 if(interf%intbuf_tab(i)%irectm((j-1)*4 + 3) == node_id) then
                   is_found=find_segment_in_list(interf%intbuf_tab(i)%irectm((j-1)*4+1:(j-1)*4+4),shell_list,list_size,elements)
                   if(is_found) interf%intbuf_tab(i)%irectm((j-1)*4 + 3) = nodes%numnod + 1
-                endif
+                end if
                 if(interf%intbuf_tab(i)%irectm((j-1)*4 + 4) == node_id) then
                   is_found=find_segment_in_list(interf%intbuf_tab(i)%irectm((j-1)*4+1:(j-1)*4+4),shell_list,list_size,elements)
                   if(is_found) interf%intbuf_tab(i)%irectm((j-1)*4 + 4) = nodes%numnod + 1
-                endif
-              enddo
+                end if
+              end do
               do j = 1, nrts
                 if(interf%intbuf_tab(i)%irects((j-1)*4 + 1) == node_id) then
                   is_found=find_segment_in_list(interf%intbuf_tab(i)%irects((j-1)*4+1:(j-1)*4+4),shell_list,list_size,elements)
                   if(is_found) interf%intbuf_tab(i)%irects((j-1)*4 + 1) = nodes%numnod + 1
-                endif
+                end if
                 if(interf%intbuf_tab(i)%irects((j-1)*4 + 2) == node_id) then
                   is_found=find_segment_in_list(interf%intbuf_tab(i)%irects((j-1)*4+1:(j-1)*4+4),shell_list,list_size,elements)
                   if(is_found) interf%intbuf_tab(i)%irects((j-1)*4 + 2) = nodes%numnod + 1
-                endif
+                end if
                 if(interf%intbuf_tab(i)%irects((j-1)*4 + 3) == node_id) then
                   is_found=find_segment_in_list(interf%intbuf_tab(i)%irects((j-1)*4+1:(j-1)*4+4),shell_list,list_size,elements)
                   if(is_found) interf%intbuf_tab(i)%irects((j-1)*4 + 3) = nodes%numnod + 1
-                endif
+                end if
                 if(interf%intbuf_tab(i)%irects((j-1)*4 + 4) == node_id) then
                   is_found=find_segment_in_list(interf%intbuf_tab(i)%irects((j-1)*4+1:(j-1)*4+4),shell_list,list_size,elements)
                   if(is_found) interf%intbuf_tab(i)%irects((j-1)*4 + 4) = nodes%numnod + 1
-                endif
-              enddo
-            elseif (itype == 11) then
+                end if
+              end do
+            else if (itype == 11) then
               !edge 2 edge interface irectm = two nodes of the edge
               new_edges = 0
               do j =1, nrtm
                 if(interf%intbuf_tab(i)%irectm((j-1)*2 + 1) == node_id) then
                   !if the node is splited, then a new node is created, and new edges are created
                   new_edges = new_edges + 1
-                elseif(interf%intbuf_tab(i)%irectm((j-1)*2 + 2) == node_id) then
+                else if(interf%intbuf_tab(i)%irectm((j-1)*2 + 2) == node_id) then
                   new_edges = new_edges + 1
-                endif
-              enddo
+                end if
+              end do
               ! extend irect by 2*new_edges
               if(new_edges > 0) then
                 call extend_array(interf%intbuf_tab(i)%irectm, &
-                         interf%intbuf_tab(i)%s_irectm, &
-                         interf%intbuf_tab(i)%s_irectm + 2*new_edges)
+                  interf%intbuf_tab(i)%s_irectm, &
+                  interf%intbuf_tab(i)%s_irectm + 2*new_edges)
                 interf%intbuf_tab(i)%s_irectm = interf%intbuf_tab(i)%s_irectm + 2*new_edges
                 IPARI(INDEX_NRTM,i) = nrtm + new_edges
                 new_edges = 0
@@ -262,40 +262,40 @@
                     ! a new edge is created, with the new node
                     new_edges = new_edges + 1
                     interf%intbuf_tab(i)%irectm((nrtm+new_edges)*2 + 1) = nodes%numnod + 1
-                  elseif(interf%intbuf_tab(i)%irectm((j-1)*2 + 2) == node_id) then
+                  else if(interf%intbuf_tab(i)%irectm((j-1)*2 + 2) == node_id) then
                     new_edges = new_edges + 1
                     interf%intbuf_tab(i)%irectm((nrtm+new_edges)*2 + 2) = nodes%numnod + 1
-                  endif
-                enddo
-              endif
+                  end if
+                end do
+              end if
 
               !same for secondary edges in irects
               new_edges = 0
               do j=1,nrts
                 if(interf%intbuf_tab(i)%irects((j-1)*2 + 1) == node_id) then
                   new_edges = new_edges + 1
-                elseif(interf%intbuf_tab(i)%irects((j-1)*2 + 2) == node_id) then
+                else if(interf%intbuf_tab(i)%irects((j-1)*2 + 2) == node_id) then
                   new_edges = new_edges + 1
-                endif
-              enddo
+                end if
+              end do
               if(new_edges > 0) then
                 IPARI(INDEX_NRTS,i) = nrts + new_edges
                 call extend_array(interf%intbuf_tab(i)%irects, &
-                         interf%intbuf_tab(i)%s_irects, &
-                         interf%intbuf_tab(i)%s_irects + 2*new_edges)
+                  interf%intbuf_tab(i)%s_irects, &
+                  interf%intbuf_tab(i)%s_irects + 2*new_edges)
                 interf%intbuf_tab(i)%s_irects = interf%intbuf_tab(i)%s_irects + 2*new_edges
                 do j=1,nrts
                   if(interf%intbuf_tab(i)%irects((j-1)*2 + 1) == node_id) then
                     new_edges = new_edges + 1
                     interf%intbuf_tab(i)%irects((nrts+new_edges)*2 + 1) = nodes%numnod + 1
-                  elseif(interf%intbuf_tab(i)%irects((j-1)*2 + 2) == node_id) then
+                  else if(interf%intbuf_tab(i)%irects((j-1)*2 + 2) == node_id) then
                     new_edges = new_edges + 1
                     interf%intbuf_tab(i)%irects((nrts+new_edges)*2 + 2) = nodes%numnod + 1
-                  endif
-                enddo
-              endif
-            endif
-          enddo
+                  end if
+                end do
+              end if
+            end if
+          end do
 
         end subroutine detach_node_from_interfaces
         !\brief This subroutine sets the values of the new node using the values of the old node
@@ -341,7 +341,7 @@
           if(nodes%itherm_fe> 0) then
             nodes%MCP(numnod+1) = nodes%MCP(i)
             nodes%TEMP(numnod+1) = nodes%TEMP(i)
-          endif
+          end if
 
 
           if(nodes%iroddl >0) then
@@ -349,11 +349,11 @@
             nodes%IN(numnod+1) = nodes%IN(i)
             nodes%IN0(numnod+1) = nodes%IN0(i)
             nodes%ICODR(numnod+1) = nodes%ICODR(i)
-          endif
+          end if
           if(nodes%sicodt_fac >0) nodes%ICODT(numnod+1) = nodes%ICODT(i)
           if(nodes%used_dr) then
             nodes%DR(1:3,numnod+1) = nodes%DR(1:3,i)
-          endif
+          end if
           nodes%MS(numnod+1) = nodes%MS(i)  / TWO
 !         nodes%MS(i) = nodes%MS(i)  / TWO
           nodes%MS0(numnod+1) = nodes%MS0(i)   /TWO
@@ -364,7 +364,7 @@
           nodes%XDP(1:3,numnod+1) = nodes%XDP(1:3,i)
           if(nodes%iparith==0) then
             nodes%ACC_DP(1:3,numnod+1) = nodes%ACC_DP(1:3,i)
-          endif
+          end if
 
 #endif
           nodes%WEIGHT(numnod+1) = 1 ! nodes%WEIGHT(i)
@@ -383,12 +383,12 @@
             nodes%STIFR(numnod+1) = nodes%STIFR(i)
             nodes%VISCN(numnod+1) = nodes%VISCN(i)
             nodes%STIFN(numnod+1) = nodes%STIFN(i)
-          endif
+          end if
           p = i
           nodes%parent_node(numnod+1) = i
           do while(nodes%parent_node(p) /= p)
             p = nodes%parent_node(p)
-          enddo
+          end do
           nodes%parent_node(numnod+1) = p
 !         nodes%nchilds(p) = nodes%nchilds(p) + 1
 
@@ -450,12 +450,12 @@
                 elements%shell%nodes(j,shell_list(i)) = new_local_id
                 elements%shell%ixc(j+1,shell_list(i)) = new_local_id
               end if
-            enddo
+            end do
           end do
 
           if(nodes%iparith > 0) then! /PARITH/ON
             call update_pon_shells(elements,list_size,shell_list,new_local_id)
-          endif
+          end if
 
 
         end subroutine detach_node_from_shells
@@ -637,10 +637,10 @@
                 distance = max(distance, sqrt((v(1) - nodes%x(1,element%shell%ixc(j+1,i)))**2 + &
                   (v(2) - nodes%x(2,element%shell%ixc(j+1,i)))**2 + &
                   (v(3) - nodes%x(3,element%shell%ixc(j+1,i)))**2))
-              enddo
+              end do
               element%shell%dist_to_center(i) = distance
-            enddo
-          endif
+            end do
+          end if
 
 
           !! gather the damage of the shells in the detach_shell array
@@ -657,14 +657,14 @@
                     do l = 1,size(elbuf(ng)%bufly(k)%fail(n1,n2,n3)%floc,1)
                       do n = 1, size(elbuf(ng)%bufly(k)%fail(n1,n2,n3)%floc(l)%dammx,1)
                         detach_shell(nft+n) = max(detach_shell(nft+n), elbuf(ng)%bufly(k)%fail(n1,n2,n3)%floc(l)%dammx(n))
-                      enddo
-                    enddo
-                  enddo
-                enddo
-              enddo
-            enddo
+                      end do
+                    end do
+                  end do
+                end do
+              end do
+            end do
             ! detach_shell(nft+1: nft+nel) = detach_shell(nft+1: nft+nel) - element%shell%damage(nft+1: nft+nel)
-          enddo
+          end do
 
 
           ! Exchange the detach_shell values on ghost shells
@@ -689,7 +689,7 @@
             nodal_damage(n2) =max(nodal_damage(n2),element%shell%damage(i))
             nodal_damage(n3) =max(nodal_damage(n3),element%shell%damage(i))
             nodal_damage(n4) =max(nodal_damage(n4),element%shell%damage(i))
-          enddo
+          end do
 
           ! add the damage of the ghost shells
           do i = 1, nghostshells
@@ -699,8 +699,8 @@
               n1 = element%ghost_shell%nodes(j,i)
               if(n1 <= 0) cycle
               nodal_damage(n1) =max(nodal_damage(n1),element%ghost_shell%damage(i))
-            enddo
-          enddo
+            end do
+          end do
 
           deallocate(ghostshelldamage)
 
@@ -730,7 +730,7 @@
                 (v(3) - nodes%X(3,element%shell%ixc(j+1,i)))**2)
               if(nodes%nchilds(nodes%parent_node(element%shell%ixc(j+1,i))) < 1) then
                 dmax = max(dmax,distance / element%shell%dist_to_center(i))
-              endif
+              end if
               if(distance > treshold * element%shell%dist_to_center(i)) then
                 if(nodes%nchilds(nodes%parent_node(element%shell%ixc(j+1,i))) > 3) cycle ! this node has not been splitted more than 3 times
                 if(nodal_damage(element%shell%ixc(j+1,i)) < .001 ) cycle
@@ -743,9 +743,9 @@
                 call detach_node(nodes,crack(1),element,shell_list,shells_to_detach,npari,ninter, ipari, interf)
                 numnod = numnod + 1
                 if(ispmd == 0) numnodg = numnodg + 1
-              endif
-            enddo
-          enddo
+              end if
+            end do
+          end do
 
           ! list nodes that are detached from the shells at this timestep
           allocate(nb_detached_nodes(nspmd))
@@ -758,39 +758,39 @@
             call spmd_allreduce(nb_detached_nodes,nb_detached_nodes_global,nspmd,SPMD_SUM)
           else
             nb_detached_nodes_global = nb_detached_nodes
-          endif
+          end if
 
           total_new_nodes = sum(nb_detached_nodes_global(1:nspmd))
           if(total_new_nodes > 0) new_crack = total_new_nodes
           !allocate(detached_nodes_local(nb_detached_nodes_global(ispmd+1)))
           allocate(detached_nodes(total_new_nodes))
           if(nb_detached_nodes_global(ispmd+1) /= nb_detached_nodes_local) then
-          endif
+          end if
 
           ! reuse displ as displ
           displ(1:nspmd) = 0
           do i = 2, nspmd
             displ(i) = displ(i-1) + nb_detached_nodes_global(i-1)
-          enddo
+          end do
 
           if(nspmd > 1) then
             call spmd_allgatherv(detached_nodes_local,nb_detached_nodes_global(ispmd+1), &
               detached_nodes,nb_detached_nodes_global,displ)
           else
             detached_nodes = detached_nodes_local
-          endif
+          end if
 
           !allreduce numnodg0
           if(nspmd > 1) then
             call spmd_allreduce(numnodg0,p,1,SPMD_MAX)
             numnodg0 = p
-          endif
+          end if
 !          old_max_uid = nodes%max_uid
           if(nspmd > 1) then
             call spmd_allreduce(nodes%max_uid,old_max_uid,1,SPMD_MAX)
           else
             old_max_uid = nodes%max_uid
-          endif
+          end if
 
           !write(6,*) "numnodg0",numnodg0
 !         if(total_new_nodes >0) write(6,*) "MASS nb_detached_nodes_global",nb_detached_nodes_global(1:nspmd)
@@ -809,15 +809,15 @@
                 local_pos(k) = i
               else
                 local_pos(k) = 0
-              endif
-            enddo
-          enddo
+              end if
+            end do
+          end do
 
           k = sum(nb_detached_nodes_global(1:nspmd))
           allocate(permutation(k))
           do i = 1,k
             permutation(i) = i
-          enddo
+          end do
           ! sort the detached nodes in ascending order of the user id of the parent node
           CALL STLSORT_INT_INT(k,detached_nodes,permutation)
 
@@ -835,15 +835,15 @@
               nodes%itabm1(2*(numnod0 + j)) = numnod0 + j
               nodes%nodglob(numnod0 + j) = numnodg0
               !write(6,*) old_max_uid,"detached node ",nodes%itab(numnod0 + j),"form",nodes%itab(nodes%parent_node(numnod0+j))
-            endif
+            end if
             j = get_local_node_id(nodes,detached_nodes(i))
             if(j > 0) then
               ! the node is known by the current processor, so we need to update its mass
               nodes%MS(j) = nodes%MS(j) / TWO ! arbitrary division by 2
               nodes%MS0(j) = nodes%MS0(j) /TWO
               nodes%nchilds(nodes%parent_node(j)) = nodes%nchilds(nodes%parent_node(j)) + 1
-            endif
-          enddo
+            end if
+          end do
 
 !         if(old_max_uid /= nodes%max_uid) then
 !           write(6,*) "old_max_uid",old_max_uid,"nodes%max_uid",nodes%max_uid
