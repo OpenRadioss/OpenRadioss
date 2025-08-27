@@ -124,14 +124,15 @@ C     ALE ON / OFF
           ELSEIF (FLAG_MAT_EOS == 2)THEN
            IF(IDX > NUVAR_EOS) CYCLE ! rezon uvar( I,  1:NUVAR_MAT) only
           ENDIF
+          IF(MTN == 51 .AND. (ITRIMAT==0.OR.ITRIMAT==4))CYCLE
         ENDIF
         IF (ITRIMAT > 0 .AND. MTN /= 51) CYCLE
         IF (JALE+JEUL == 0) CYCLE
         IF (IPARG(8,NG) == 1) CYCLE
         IF (MAX(1,JMULT) < NM) CYCLE
         ! pressurer rezoning for outlets (continuity)
-        IF( JMULT /= 0) MTN =IPARG(24+NM,NG)
-        IF (NVAR == 10 .AND.(MTN == 37)) CYCLE
+        IF (JMULT /= 0) MTN=IPARG(24+NM,NG)
+        IF (NVAR == 10 .AND. (MTN == 37)) CYCLE
         IF (NVAR == 12 .AND. ELBUF_STR(NG)%GBUF%G_TEMP == 0) CYCLE
         !-----------------------------!
         IRS=IPARG(15,NG) !rezoning sigma enabled
@@ -204,7 +205,14 @@ C     ALE ON / OFF
             ENDDO
           ELSEIF( FLAG_MAT_EOS == 2 )THEN
             ! EOS %VAR buffer
-            VAR => ELBUF_STR(NG)%BUFLY(NM)%EOS(1,1,1)%VAR(LLT*(IDX-1)+1:LLT*(IDX))
+            IF(ITRIMAT == 0) THEN ! precondition : mtn /=51 in this case
+              VAR => ELBUF_STR(NG)%BUFLY(NM)%EOS(1,1,1)%VAR(LLT*(IDX-1)+1:LLT*(IDX))
+            ELSEIF(ITRIMAT /= 4)THEN
+              ADD0= M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS
+              ADD = ADD0 + 23 + IDX  ! EOSVAR
+              K   = LLT*(ADD-1)
+              VAR  => ELBUF_STR(NG)%BUFLY(1)%MAT(1,1,1)%VAR(K+1:K+LLT)
+            ENDIF
             DO I=LFT,LLT
               J = I+NFT
               PHI(J) = VAR(I)
@@ -215,7 +223,19 @@ C     ALE ON / OFF
         !             (TEMP)         !
         !----------------------------!
         ELSEIF (NVAR == 12) THEN
-          VAR => ELBUF_STR(NG)%BUFLY(NM)%LBUF(1,1,1)%TEMP(1:LLT)
+
+           IF (MTN == 51) THEN  !submat 4 is JWL
+             IF(ITRIMAT == 0)THEN
+               CYCLE
+             ELSE
+               ADD0= M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS
+               ADD = ADD0 + 16  ! TEMP
+               K   = LLT*(ADD-1)
+               VAR  => ELBUF_STR(NG)%BUFLY(1)%MAT(1,1,1)%VAR(K+1:K+LLT)
+             ENDIF
+          ELSE
+            VAR => ELBUF_STR(NG)%BUFLY(NM)%LBUF(1,1,1)%TEMP(1:LLT)
+          ENDIF
           DO I=LFT,LLT
             J = I+NFT
             PHI(J) = VAR(I)
@@ -269,8 +289,9 @@ C     ALE ON / OFF
           ELSEIF (FLAG_MAT_EOS == 2)THEN
            IF(IDX > NUVAR_EOS) CYCLE ! rezon uvar( I,  1:NUVAR_MAT) only
           ENDIF
+          IF(MTN == 51 .AND. (ITRIMAT==0.OR.ITRIMAT==4))CYCLE
         ENDIF
-        IF (MAX(1,JMULT) < NM)         CYCLE
+        IF (MAX(1,JMULT) < NM)          CYCLE
         IF (JALE+JEUL == 0)             CYCLE
         IF (IPARG(8,NG) == 1)           CYCLE
         IF (ITRIMAT /= 0.AND.MTN /= 51) CYCLE
@@ -278,6 +299,7 @@ C     ALE ON / OFF
         IF (NVAR == 10 .AND. (MTN == 37)) CYCLE
         IF (NVAR == 10 .AND. MTN==51 .AND. ITRIMAT == 0) CYCLE
         IF (NVAR == 12 .AND. ELBUF_STR(NG)%GBUF%G_TEMP == 0) CYCLE
+
         !-----------------------------!
         IRS=IPARG(15,NG)
         IRE=IPARG(16,NG)
@@ -326,6 +348,10 @@ C     ALE ON / OFF
               ADD = ADD0 + 15                                ! UVAR(ADD+1) => PLAS
               K   = LLT*(ADD-1)
               VAR =>ELBUF_STR(NG)%BUFLY(1)%MAT(1,1,1)%VAR(K+1:K+LLT)
+              ADD0= M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS
+              ADD = ADD0 + 11
+              K   = LLT*(ADD-1)
+              VOL =>ELBUF_STR(NG)%BUFLY(1)%MAT(1,1,1)%VAR(K+1:K+LLT)
               INDX=1
           ELSEIF (MTN == 5 .OR. MTN == 97 .OR. MTN==105 .OR. ITRIMAT == 4) THEN
             VAR => ELBUF_STR(NG)%BUFLY(NM)%LBUF(1,1,1)%TB(1:LLT)
@@ -334,6 +360,7 @@ C     ALE ON / OFF
           ELSEIF (MTN >= 28 .AND. MTN /= 67 .AND. MTN /= 49) THEN
             VAR => ELBUF_STR(NG)%BUFLY(NM)%LBUF(1,1,1)%PLA(1:LLT)
           ELSE
+            IF(MTN==51 .AND. ITRIMAT == 0)CYCLE
             VAR => ELBUF_STR(NG)%BUFLY(NM)%LBUF(1,1,1)%PLA(1:LLT)
           ENDIF        
           IF (N2D == 0) THEN 
@@ -352,12 +379,30 @@ C     ALE ON / OFF
         !          (MAT/EOS %VAR)    !
         !----------------------------!
         ELSEIF (NVAR == 11) THEN
-          VOL => ELBUF_STR(NG)%BUFLY(NM)%LBUF(1,1,1)%VOL(1:LLT)
-          IF(FLAG_MAT_EOS == 1)THEN
-            VAR => ELBUF_STR(NG)%BUFLY(NM)%MAT(1,1,1)%VAR(LLT*(IDX-1)+1:LLT*(IDX))
-          ELSEIF (FLAG_MAT_EOS == 2)THEN
-            VAR => ELBUF_STR(NG)%BUFLY(NM)%EOS(1,1,1)%VAR(LLT*(IDX-1)+1:LLT*(IDX))
-          ENDIF
+
+            IF (ITRIMAT /= 0) THEN
+              IF(ITRIMAT /=4)THEN
+                !VOLUME
+                ADD0= M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS
+                ADD = ADD0 + 11                               ! UVAR(ADD+1) => VOL
+                K   = LLT*(ADD-1)
+                VOL =>ELBUF_STR(NG)%BUFLY(1)%MAT(1,1,1)%VAR(K+1:K+LLT)
+                !VAR
+                ADD0= M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS
+                ADD = ADD0 + 24 + IDX                              ! UVAR(ADD+1) => TEMP
+                K   = LLT*(ADD-1)
+                VAR =>ELBUF_STR(NG)%BUFLY(1)%MAT(1,1,1)%VAR(K+1:K+LLT)
+                INDX=1
+              ENDIF
+            ELSE
+              VOL => ELBUF_STR(NG)%BUFLY(NM)%LBUF(1,1,1)%VOL(1:LLT)
+              IF(FLAG_MAT_EOS == 1)THEN
+                VAR => ELBUF_STR(NG)%BUFLY(NM)%MAT(1,1,1)%VAR(LLT*(IDX-1)+1:LLT*(IDX))
+              ELSEIF (FLAG_MAT_EOS == 2)THEN
+                VAR => ELBUF_STR(NG)%BUFLY(NM)%EOS(1,1,1)%VAR(LLT*(IDX-1)+1:LLT*(IDX))
+              ENDIF
+            ENDIF
+
           DO I=LFT,LLT                                           
             J = I+NFT                                            
             PHI(J) = VAR(I)
@@ -367,7 +412,7 @@ C     ALE ON / OFF
             CALL AREZO3(ALE_CONNECT,VAR,PHI,FLUX(6*NFT+1),VOL,TAG22)
           ELSE                                                        
             NFX=NFT+(NM-1)*NUMELQ                                     
-            IF(NMULT == 0)THEN                                        
+            IF(NMULT == 0)THEN
               CALL AREZO2(ALE_CONNECT,VAR,PHI,FLUX(4*NFX+1),VOL)
             ELSE                                                      
               CALL BREZO2(ALE_CONNECT,VAR,PHI,FLUX(4*NFX+1),VOL,BHOLE,NM)
@@ -381,14 +426,17 @@ C     ALE ON / OFF
         ELSEIF (NVAR == 12) THEN
           INDX = IDX
           TEMP => ELBUF_STR(NG)%BUFLY(NM)%LBUF(1,1,1)%TEMP(1:LLT)
-          VOL => ELBUF_STR(NG)%BUFLY(NM)%LBUF(1,1,1)%VOL(1:LLT)
           IF (ITRIMAT /= 0) THEN
             ADD0= M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS
+            ADD = ADD0 + 11                                ! UVAR(ADD+1) => VOL
+            K   = LLT*(ADD-1)
+            VOL =>ELBUF_STR(NG)%BUFLY(1)%MAT(1,1,1)%VAR(K+1:K+LLT)
             ADD = ADD0 + 16                                ! UVAR(ADD+1) => TEMP
             K   = LLT*(ADD-1)
             TEMP =>ELBUF_STR(NG)%BUFLY(1)%MAT(1,1,1)%VAR(K+1:K+LLT)
             INDX=1
           ELSE
+            IF(MTN == 51 .AND. ITRIMAT == 0)CYCLE
             TEMP => ELBUF_STR(NG)%BUFLY(NM)%LBUF(1,1,1)%TEMP(1:LLT)
             VOL => ELBUF_STR(NG)%BUFLY(NM)%LBUF(1,1,1)%VOL(1:LLT)
           ENDIF

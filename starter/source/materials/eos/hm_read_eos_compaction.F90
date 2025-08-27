@@ -172,6 +172,7 @@
       eos_struct%iparam(1) = iform
 
       eos_struct%psh = psh
+      eos_struct%e0 = e0
 
       pm(32) = c1 !bulk modulus (
 

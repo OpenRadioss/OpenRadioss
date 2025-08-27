@@ -52,7 +52,7 @@
 !||    submodel_mod              ../starter/share/modules1/submodel_mod.F
 !||====================================================================
       subroutine hm_read_eos_compaction2(iout,pm,unitab,lsubmodel,imideos,eos_tag,ieos,npropm,maxeos,&
-                                          eos_struct, nfunc, npc, tf ,snpc ,npts )
+                                          eos_struct, nfunc, npc, tf ,snpc ,npts , ale_rezon_param)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -63,6 +63,7 @@
           use constant_mod , only : zero, em12, two_third, one, two, three, three100, ep20
           use eos_param_mod , only : eos_param_
           use precision_mod , only : WP
+          use ale_mod , only : ale_rezon_
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -82,6 +83,7 @@
       integer,intent(in) :: snpc, npts, nfunc
       integer,intent(in) :: npc(snpc)
       real(kind=WP),intent(in) :: tf(npts)
+      type(ale_rezon_), intent(inout) :: ale_rezon_param
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -117,8 +119,12 @@
           iform=0
           p0=zero
 
-          eos_tag(ieos)%g_mu = 1
-          eos_tag(ieos)%l_mu = 1
+          eos_tag(ieos)%nvar = 1  !  --> elbuf%bufly%eos%nvar      (LAMBDA, C*C, Pnew, GAMMA, Pc, rho_bak)
+          !< ALE rezoning.
+          ! tell to rezoning how many user variables (uvar) must be rezoned.
+          ! Example :  nuvar = 5          ! material law has 5 user variables
+          !            %num_nuvar_mat = 2 ! uvar(I,1) and uvar(i,1) will be rezoned.
+          ale_rezon_param%num_nuvar_eos = 1
 
           call hm_option_is_encrypted(is_encrypted)
 
@@ -187,6 +193,7 @@
       eos_struct%uparam(6) = Xscale
 
       eos_struct%psh = psh
+      eos_struct%e0 = zero
 
       !integer parameters
       eos_struct%iparam(1) = iform

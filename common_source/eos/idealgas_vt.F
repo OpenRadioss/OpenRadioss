@@ -20,6 +20,9 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      MODULE IDEALGAS_VT_MOD
+      IMPLICIT NONE
+      CONTAINS
 !||====================================================================
 !||    idealgas_vt     ../common_source/eos/idealgas_vt.F
 !||--- called by ------------------------------------------------------
@@ -28,10 +31,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    constant_mod    ../common_source/modules/constant_mod.F
 !||    eos_param_mod   ../common_source/modules/mat_elem/eos_param_mod.F90
 !||====================================================================
-      SUBROUTINE IDEALGAS_VT(NPROPM, NUMMAT,
-     1                       IFLAG ,NEL  ,PM   ,OFF  ,EINT ,MU  ,MU2 ,
-     2                       ESPE  ,DVOL ,DF   ,VNEW ,MAT  ,PSH ,
-     3                       PNEW  ,DPDM ,DPDE ,THETA,SIG  ,EOS_STRUCT)
+      SUBROUTINE IDEALGAS_VT(
+     1                       IFLAG ,NEL  ,PMIN ,OFF  ,EINT ,MU  ,MU2 ,
+     2                       ESPE  ,DVOL ,DF   ,VNEW ,PSH  ,RHO0, RHO,
+     3                       PNEW  ,DPDM ,DPDE ,THETA,POLD  ,EOS_STRUCT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -64,20 +67,19 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER,INTENT(IN) :: MAT(NEL), IFLAG, NEL, NPROPM, NUMMAT
-      my_real,INTENT(IN) :: PM(NPROPM,NUMMAT),OFF(NEL),MU(NEL)
+      INTEGER,INTENT(IN) :: IFLAG, NEL
+      my_real,INTENT(IN) :: PMIN,OFF(NEL),MU(NEL)
       my_real,INTENT(IN) :: MU2(NEL)  ,ESPE(NEL) ,DVOL(NEL) ,DF(NEL), VNEW(NEL)
       my_real, INTENT(INOUT) :: PSH(NEL),PNEW(NEL),DPDM(NEL),DPDE(NEL),EINT(NEL),THETA(NEL)
-      my_real,INTENT(IN) :: SIG(NEL,6)
+      my_real,INTENT(IN) :: POLD(NEL), RHO0(NEL), RHO(NEL)
       TYPE(EOS_PARAM_),INTENT(IN) :: EOS_STRUCT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
         INTEGER I, MX
-        my_real :: P0,GAMMA,RHO,RHO0
+        my_real :: P0,GAMMA
         my_real :: r_GAS,A0,A1,A2,A3,A4,CP(NEL),CV
         my_real :: TEMP, FUN, DFUN, TOL, ERROR, INCR
-        my_real :: POLD ! pressure
         INTEGER :: ITER, MAX_ITER
 C-----------------------------------------------
 C   S o u r c e  L i n e s
@@ -86,32 +88,28 @@ C-----------------------------------------------
       TOL = EM05
 
       CP(1:NEL)=ZERO
-      CV = EOS_STRUCT%CV
-      PSH = EOS_STRUCT%PSH
-      MX    = MAT(1)
-      RHO0  = PM(1 ,MX)
-      P0    = PM(31,MX)
-      A0    = EOS_STRUCT%UPARAM(1) !PM(32,MX)
-      A1    = EOS_STRUCT%UPARAM(2) !PM(33,MX)
-      A2    = EOS_STRUCT%UPARAM(3) !PM(34,MX)
-      A3    = EOS_STRUCT%UPARAM(4) !PM(35,MX)
-      A4    = EOS_STRUCT%UPARAM(5) !PM(36,MX)
-      r_GAS = EOS_STRUCT%UPARAM(6) !PM(106,MX)
+      CV    = EOS_STRUCT%CV
+      PSH   = EOS_STRUCT%PSH
+      A0    = EOS_STRUCT%UPARAM(1)
+      A1    = EOS_STRUCT%UPARAM(2)
+      A2    = EOS_STRUCT%UPARAM(3)
+      A3    = EOS_STRUCT%UPARAM(4)
+      A4    = EOS_STRUCT%UPARAM(5)
+      r_GAS = EOS_STRUCT%UPARAM(6)
+      P0    = EOS_STRUCT%UPARAM(7)
 
       IF(IFLAG == 0) THEN
         !SOLVE TEMPERATURE
         DO I=1,NEL
           ! Init newton
-          RHO = RHO0 * (ONE + MU(I))
-          POLD=-THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))
-          TEMP = POLD/RHO/r_GAS
+          TEMP = POLD(I)/RHO(I)/r_GAS
           ITER = 0
           ERROR = HUGE(ZERO)
           DO WHILE(ERROR > TOL .AND. ITER < MAX_ITER)
              ! f(x) = 0 <=> int(cv(T), T) - eint = 0
              ! <=> int(cp(T) - r_gas, T) - eint = 0
              FUN = A0 * TEMP + HALF * A1 * TEMP**2 + THIRD * A2 * TEMP**3 +
-     .            FOURTH * A3 * TEMP**4 + ONE_FIFTH * A4 * TEMP**5 - r_GAS * TEMP - ESPE(I) / RHO0
+     .            FOURTH * A3 * TEMP**4 + ONE_FIFTH * A4 * TEMP**5 - r_GAS * TEMP - ESPE(I) / RHO0(I)
              IF (ABS(FUN) < TOL) EXIT
              DFUN = A0 +  A1 * TEMP + A2 * TEMP**2 + A3 * TEMP**3 + A4 * TEMP**4 - r_GAS
              INCR = - FUN / DFUN
@@ -126,9 +124,9 @@ C-----------------------------------------------
        DO I=1,NEL
          CV = CP(I) - r_GAS
          GAMMA = CP(I)/CV
-         DPDM(I) = RHO0*GAMMA*r_GAS*THETA(I)     !total derivative
+         DPDM(I) = RHO0(I)*GAMMA*r_GAS*THETA(I)     !total derivative
          DPDE(I) = GAMMA*(ONE+MU(I))
-         PNEW(I) = RHO0*(ONE+MU(I))*r_GAS*THETA(I)    ! P(mu[n+1],E[n])
+         PNEW(I) = RHO0(I)*(ONE+MU(I))*r_GAS*THETA(I)    ! P(mu[n+1],E[n])
          PNEW(I) = PNEW(I)-PSH(I)
        ENDDO
          
@@ -137,16 +135,14 @@ C-----------------------------------------------
         !SOLVE TEMPERATURE
         DO I=1,NEL
           ! Init newton
-          RHO = RHO0 * (ONE + MU(I))
-          POLD=-THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))
-          TEMP = POLD/RHO/r_GAS
+          TEMP = POLD(I)/RHO(I)/r_GAS
           ITER = 0
           ERROR = HUGE(ZERO)
           DO WHILE(ERROR > TOL .AND. ITER < MAX_ITER)
              ! f(x) = 0 <=> int(cv(T), T) - eint = 0
              ! <=> int(cp(T) - r_gas, T) - eint = 0
              FUN = A0 * TEMP + HALF * A1 * TEMP**2 + THIRD * A2 * TEMP**3 +
-     .            FOURTH * A3 * TEMP**4 + ONE_FIFTH * A4 * TEMP**5 - r_GAS * TEMP - ESPE(I) / RHO0
+     .            FOURTH * A3 * TEMP**4 + ONE_FIFTH * A4 * TEMP**5 - r_GAS * TEMP - ESPE(I) / RHO0(I)
              IF (ABS(FUN) < TOL) EXIT
              DFUN = A0 +  A1 * TEMP + A2 * TEMP**2 + A3 * TEMP**3 + A4 * TEMP**4 - r_GAS
              INCR = - FUN / DFUN
@@ -159,7 +155,7 @@ C-----------------------------------------------
           CP(I) = A0 + A1 * TEMP + A2 * TEMP**2 + A3 * TEMP**3 + A4 * TEMP**4
         ENDDO
         DO I=1,NEL
-          PNEW(I) = RHO0*(ONE+MU(I))*r_GAS*THETA(I)    ! P(mu[n+1],E[n+1])
+          PNEW(I) = RHO0(I)*(ONE+MU(I))*r_GAS*THETA(I)    ! P(mu[n+1],E[n+1])
           EINT(I) = EINT(I) - HALF*DVOL(I)*PNEW(I)
           PNEW(I) = PNEW(I)-PSH(I)
           CV = CP(I) - r_GAS
@@ -171,16 +167,14 @@ C-----------------------------------------------
         !SOLVE TEMPERATURE
         DO I=1,NEL
           ! Init newton
-          RHO = RHO0 * (ONE + MU(I))
-          POLD=-THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))
-          TEMP = POLD/RHO/r_GAS
+          TEMP = POLD(I)/RHO(I)/r_GAS
           ITER = 0
           ERROR = HUGE(ZERO)
           DO WHILE(ERROR > TOL .AND. ITER < MAX_ITER)
              ! f(x) = 0 <=> int(cv(T), T) - eint = 0
              ! <=> int(cp(T) - r_gas, T) - eint = 0
              FUN = A0 * TEMP + HALF * A1 * TEMP**2 + THIRD * A2 * TEMP**3 +
-     .            FOURTH * A3 * TEMP**4 + ONE_FIFTH * A4 * TEMP**5 - r_GAS * TEMP - ESPE(I) / RHO0
+     .            FOURTH * A3 * TEMP**4 + ONE_FIFTH * A4 * TEMP**5 - r_GAS * TEMP - ESPE(I) / RHO0(I)
              IF (ABS(FUN) < TOL) EXIT
              DFUN = A0 +  A1 * TEMP + A2 * TEMP**2 + A3 * TEMP**3 + A4 * TEMP**4 - r_GAS
              INCR = - FUN / DFUN
@@ -196,13 +190,14 @@ C-----------------------------------------------
           IF (VNEW(I) > ZERO) THEN
             CV = CP(I) - r_GAS
             GAMMA = CP(I)/CV
-            DPDM(I) = RHO0*GAMMA*r_GAS*THETA(I) !total derivative
+            DPDM(I) = RHO0(I)*GAMMA*r_GAS*THETA(I) !total derivative
             DPDE(I) = GAMMA*(ONE+MU(I)) !partial derivative
-            PNEW(I) = RHO0*(ONE+MU(I))*r_GAS*THETA(I)
+            PNEW(I) = RHO0(I)*(ONE+MU(I))*r_GAS*THETA(I)
           ENDIF
         ENDDO
 
         ENDIF
 C-----------------------------------------------
         RETURN
-      END
+      END SUBROUTINE IDEALGAS_VT
+      END MODULE IDEALGAS_VT_MOD

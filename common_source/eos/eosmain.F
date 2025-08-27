@@ -85,29 +85,34 @@ C   D e s c r i p t i o n
 C-----------------------------------------------
 C This subroutines call the expected EOS solver
 C depending on EOSTYP(INTEGER) value.
-          !------------------------------------!
-          !  IEOS     !    EOS                 !
-          !-----------!------------------------!
-          !   1       !     POLYNOMIAL         !
-          !   2       !     GRUNEISEN          !
-          !   3       !     TILLOTSON          !
-          !   4       !     PUFF               !
-          !   5       !     SESAME             !
-          !   6       !     NOBLE-ABEL         ! 2017.0
-          !   7       !     IDEAL GAS          ! 2018.0
-          !   8       !     MUNAGHAN           ! 2018.0
-          !   9       !     OSBORNE            ! 2018.0
-          !  10       !     STIFFENED GAS      ! 2018.0
-          !  11       !     LSZK               ! 2018.0
-          !  12       !     POWDER-BURN        ! 2019.1
-          !  13       !     COMPACTION         ! 2019.1
-          !  14       !     NASG               ! 2020.0
-          !  15       !     JWL                ! internal use : INIMAP
-          !  16       !     IDEALGAS_VT        ! 2022.0
-          !  17       !     TABULATED          ! 2022.2
-          !  18       !     LINEAR             ! 2019.0
-          !  19       !     EXPONENTIAL        ! 2024.1
-          !------------------------------------!
+C IFLAG:0 staggered scheme, Cranck-Nicolson scheme / semi-implicit step 0
+C IFLAG:1 sstaggered scheme, Cranck-Nicolson scheme / semi-implicit step 1
+C IFLAG:2 collocated scheme and others, Euler scheme
+      !--------------------------------------------------!--------------------------!-----------!
+      !   MODULE                                         !  IEOS  ! EOS             !  VERSION  !
+      !--------------------------------------------------!--------!-----------------!-----------!
+          USE EOSPOLYNO_MOD      , ONLY : EOSPOLYNO      !   1    !  POLYNOMIAL     ! 12.0      !
+          USE GRUNEISEN_MOD      , ONLY : GRUNEISEN      !   2    !  GRUNEISEN      ! 12.0      !
+          USE TILLOTSON_MOD      , ONLY : TILLOTSON      !   3    !  TILLOTSON      ! 12.0      !
+          USE PUFF_MOD           , ONLY : PUFF           !   4    !  PUFF           ! 12.0      !
+          USE SESAME_MOD         , ONLY : SESAME         !   5    !  SESAME         ! 12.0      !
+          USE NOBLE_ABEL_MOD     , ONLY : NOBLE_ABEL     !   6    !  NOBLE-ABEL     ! 2017.0    !
+          USE IDEALGAS_MOD       , ONLY : IDEALGAS       !   7    !  IDEAL GAS      ! 2018.0    !
+          USE MURNAGHAN_MOD      , ONLY : MURNAGHAN      !   8    !  MUNAGHAN       ! 2018.0    !
+          USE OSBORNE_MOD        , ONLY : OSBORNE        !   9    !  OSBORNE        ! 2018.0    !
+          USE STIFFGAS_MOD       , ONLY : STIFFGAS       !  10    !  STIFFENED GAS  ! 2018.0    !
+          USE LSZK_MOD           , ONLY : LSZK           !  11    !  LSZK           ! 2018.0    !
+          USE POWDER_BURN_MOD    , ONLY : POWDER_BURN    !  12    !  POWDER-BURN    ! 2019.1    !
+          USE COMPACTION_MOD     , ONLY : COMPACTION     !  13    !  COMPACTION     ! 2019.1    !
+          USE NASG_MOD           , ONLY : NASG           !  14    !  NASG           ! 2020.0    !
+          USE JWL_MOD            , ONLY : JWL            !  15    !  JWL            ! internal use : INIMAP
+          USE IDEALGAS_VT_MOD    , ONLY : IDEALGAS_VT    !  16    !  IDEALGAS_VT    ! 2022.0    !
+          USE TABULATED_MOD      , ONLY : TABULATED      !  17    !  TABULATED      ! 2022.2    !
+          USE EOSLINEAR_MOD      , ONLY : EOSLINEAR      !  18    !  LINEAR         ! 2019.0    !
+          USE EOSEXPONENTIAL_MOD , ONLY : EOSEXPONENTIAL !  19    !  EXPONENTIAL    ! 2024.1    !
+          USE COMPACTION2_MOD    , ONLY : COMPACTION2    !  20    !  COMPACTION2    ! 2025.1    !
+          USE COMPACTION_TAB_MOD , ONLY : COMPACTION_TAB !  21    !  COMPACTION_TAB ! 2026.0    !
+      !--------------------------------------------------!--------!-----------------!-----------!
 !
 !  input   EINT(:) :  rho.e   (law151    , unit J/m**3)
 !                     rho.e.V (other laws, unit J)
@@ -140,25 +145,48 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-          INTEGER MAT(NEL),IFLAG, EOSTYP, NEL, MLW, NVAREOS
-          my_real PM(NPROPM,NUMMAT),BUFMAT(SBUFMAT),OFF(NEL),EINT(NEL),RHO(NEL),RHO0(NEL),MU(NEL),MU2(NEL),ESPE(NEL),DVOL(NEL),
-     .            DF(NEL),VNEW(NEL),PSH(NEL),PNEW(NEL),DPDM(NEL),DPDE(NEL),THETA(NEL),MU_BAK(NEL),
-     .            SIG(NEL,6),VAREOS(NVAREOS*NEL)
-          my_real,INTENT(INOUT) :: BFRAC(NEL)
-          INTEGER,INTENT(IN)::NPF(SNPC)
-          my_real,INTENT(IN)::TF(STF)
-          TYPE(MATPARAM_STRUCT_), INTENT(IN) :: MAT_PARAM !material data structure
+          INTEGER, INTENT(IN) :: IFLAG  !< IFLAG 0,1,2 : 0=explicit (or semi-implicit pass 1), 1=semi-implicit (pass2), 2=collocated
+          INTEGER, INTENT(IN) :: NEL    !< number of elements
+          INTEGER, INTENT(IN) :: EOSTYP !< EoS identifier  (1:polynomial, 2:gruneisen, 3:tillotson, 4:puff, 5:sesame, etc...)
+          my_real, INTENT(IN) :: PM(NPROPM,NUMMAT) !< material properties array
+          my_real, INTENT(IN) :: OFF(NEL) !< Element failure factor (usually 1.0)
+          my_real, INTENT(INOUT) :: EINT(NEL) !< Internal Energy (SI:J)
+          my_real, INTENT(IN) :: RHO(NEL)  !< Mass density
+          my_real, INTENT(IN) :: RHO0(NEL) !< Reference mass density
+          my_real, INTENT(IN) :: MU(NEL)    !< volumetric strain
+          my_real, INTENT(INOUT) :: MU2(NEL) !< mu*mu
+          my_real, INTENT(INOUT) :: ESPE(NEL) !< rho0.e (used such as P_eos:=P(mu,E) )
+          my_real, INTENT(IN) :: DVOL(NEL) !< voluem change (including advected flow)
+          my_real, INTENT(IN) :: DF(NEL) !< rho0/rho
+          my_real, INTENT(IN) :: VNEW(NEL) !< current volume
+          INTEGER, INTENT(IN) :: MAT(NEL) !< material internal identifier
+          my_real, INTENT(INOUT) :: PSH(NEL) !< pressure shift
+          my_real, INTENT(INOUT) :: PNEW(NEL) !< curent pressure
+          my_real, INTENT(INOUT) :: DPDM(NEL) !< total derivative dP/d(mu)
+          my_real, INTENT(INOUT) :: DPDE(NEL) !< partial derivative dP/dE  where E=Eint/V0 and V0 such as rho0.V0 = rho.V
+          my_real, INTENT(INOUT) :: THETA(NEL) !< current temperature
+          my_real, INTENT(IN) :: BUFMAT(SBUFMAT) !< buffer array for EOS (used by SESAME)
+          my_real, INTENT(IN) :: SIG(NEL,6) !< stress tensor (used by ideal gas VT)
+          my_real, INTENT(INOUT) :: MU_BAK(NEL) !< backup for history (used by COMPACTION)
+          INTEGER, INTENT(IN) :: MLW !< current material law type
+          INTEGER, INTENT(IN) :: NPF(SNPC) !< buffer for functions
+          my_real, INTENT(IN) :: TF(STF) !< buffer for functions
+          my_real, INTENT(INOUT) :: BFRAC(NEL) !< Burn fractions
+          INTEGER, INTENT(IN) :: NVAREOS !< number of additional variables for EOS
+          my_real, INTENT(INOUT) :: VAREOS(NVAREOS*NEL) !< additional variables for EOS
+          TYPE(MATPARAM_STRUCT_), INTENT(IN) :: MAT_PARAM !< material parameters structure
+          INTEGER ,INTENT(IN) :: NVARTMP                              !< NUMBER OF TEMPORARY INTERNAL VARIABLES
+          INTEGER ,DIMENSION(NEL,NVARTMP) ,INTENT(INOUT) :: VARTMP    !< TEMPORARY INTERNAL VARIABLES
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------
+          INTEGER I,ISFLUID
           my_real :: DTEMP(NEL)    !< temperature increment
           my_real :: CV            !< specific heat at constant volume
           my_real :: CP            !< specific heat at constant pressure
           my_real :: TAB_TEMP(NEL) !< temporary array,tabulated temperatures
           my_real :: PMIN          !< minimum pressure allowed (material parameter)
-          integer ,intent(in) :: nvartmp                              !< number of temporary internal variables
-          integer ,dimension(nel,nvartmp) ,intent(inout) :: vartmp    !< temporary internal variables
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-          INTEGER I, ISFLUID
+          my_real :: POLD(NEL)     !< previous pressure (used by IDEALGAS_VT)
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -187,18 +215,18 @@ C-----------------------------------------------
          !--------------------------------------------------!
          !         POLYNOMIAL EOS                           !
          !--------------------------------------------------! 
-         CALL EOSPOLYNO(NPROPM ,NUMMAT ,
-     1                  IFLAG  ,NEL    ,PM     ,OFF    ,EINT  ,MU  ,MU2,
-     2                  ESPE   ,DVOL   ,DF     ,VNEW   ,MAT   ,PSH ,
+         CALL EOSPOLYNO(
+     1                  IFLAG  ,NEL    ,PMIN   ,OFF    ,EINT  ,MU  ,MU2,
+     2                  ESPE   ,DVOL   ,DF     ,VNEW   ,PSH   ,
      3                  PNEW   ,DPDM   ,DPDE   ,MAT_PARAM%EOS)
 
        CASE (2)
          !--------------------------------------------------!
          !         GRUNEISEN EOS                            !
          !--------------------------------------------------! 
-         CALL GRUNEISEN(NPROPM ,NUMMAT ,
-     1                  IFLAG  ,NEL    ,PM     ,OFF    ,EINT  ,MU  ,MU2,
-     2                  ESPE   ,DVOL   ,DF     ,VNEW   ,MAT   ,RHO0,
+         CALL GRUNEISEN(
+     1                  IFLAG  ,NEL    ,PMIN   ,OFF    ,EINT  ,MU  ,MU2,
+     2                  ESPE   ,DVOL   ,DF     ,VNEW   ,RHO0,
      3                  PNEW   ,DPDM   ,DPDE   ,PSH ,
      4                  MAT_PARAM%EOS)
 
@@ -206,82 +234,82 @@ C-----------------------------------------------
          !--------------------------------------------------!
          !         TILLOTSON EOS                            !
          !--------------------------------------------------! 
-         CALL TILLOTSON(NPROPM, NUMMAT,
-     1                  IFLAG  ,NEL    ,PM     ,OFF    ,EINT  ,MU  ,MU2,
-     2                  ESPE   ,DVOL   ,DF     ,VNEW   ,MAT   ,PSH ,
+         CALL TILLOTSON(
+     1                  IFLAG  ,NEL    ,PMIN   ,OFF    ,EINT   ,MU  ,MU2,
+     2                  ESPE   ,DVOL   ,DF     ,VNEW   ,PSH    ,
      3                  PNEW   ,DPDM   ,DPDE   ,VAREOS ,NVAREOS,MAT_PARAM%EOS)
 
        CASE (4) 
          !--------------------------------------------------!
          !         PUFF EOS                                 !
          !--------------------------------------------------! 
-         CALL PUFF(     NPROPM ,NUMMAT ,
-     1                  IFLAG  ,NEL    ,PM     ,OFF    ,EINT  ,MU  ,MU2,
-     2                  ESPE   ,DVOL   ,DF     ,VNEW   ,MAT   ,
+         CALL PUFF(
+     1                  IFLAG  ,NEL    ,PMIN   ,OFF    ,EINT  ,MU  ,MU2,
+     2                  ESPE   ,DVOL   ,DF     ,VNEW   ,
      3                  PNEW   ,DPDM   ,DPDE   ,MAT_PARAM%EOS)
 
            CASE (5)
             !--------------------------------------------------!
-            !         SESAME EOS                               !
+            !      SESAME EOS                                  !
             !--------------------------------------------------!
             TAB_TEMP(1:NEL) = THETA(1:NEL)
             CALL SESAME(
-     1                     IFLAG    ,NEL    ,PM     ,OFF    ,EINT  ,RHO ,RHO0 ,
-     2                     ESPE     ,DVOL   ,MAT    ,PNEW   ,DPDM  ,DPDE,
-     3                     TAB_TEMP ,BUFMAT )
+     1                     IFLAG    ,NEL    ,PMIN   ,OFF    ,EINT  ,RHO ,RHO0 ,
+     2                     ESPE     ,DVOL   ,PNEW   ,DPDM   ,DPDE,
+     3                     TAB_TEMP ,BUFMAT ,MAT_PARAM%EOS)
 
        CASE(6)
          !--------------------------------------------------!
          !         NOBLE-ABEL EOS (COVOLUME EOS)            !
          !--------------------------------------------------!          
-          CALL NOBLE_ABEL(NPROPM, NUMMAT,
-     1                    IFLAG , NEL  ,PM   ,OFF  ,EINT ,MU  ,
-     2                    ESPE  , DVOL ,DF   ,VNEW ,MAT  ,PSH ,
+          CALL NOBLE_ABEL(
+     1                    IFLAG , NEL  ,OFF  ,EINT ,MU  ,
+     2                    ESPE  , DVOL ,DF   ,VNEW ,PSH ,
      3                    PNEW  , DPDM ,DPDE ,MAT_PARAM%EOS)
 
        CASE(7)
          !--------------------------------------------------!
          !         IDEAL GAS EOS                            !
          !--------------------------------------------------!          
-          CALL IDEALGAS(NPROPM, NUMMAT,
-     1                  IFLAG ,NEL  ,PM   ,OFF  ,EINT ,MU  ,
-     2                  ESPE  ,DVOL ,DF   ,VNEW ,MAT  ,PSH ,
+          CALL IDEALGAS(
+     1                  IFLAG ,NEL  ,OFF  ,EINT ,MU  ,
+     2                  ESPE  ,DVOL ,DF   ,VNEW ,PSH ,
      3                  PNEW  ,DPDM ,DPDE ,MAT_PARAM%EOS )
 
        CASE(8)
          !--------------------------------------------------!
          !         MURNAGHAN EOS                            !
          !--------------------------------------------------!          
-          CALL MURNAGHAN(NPROPM, NUMMAT,
-     1                  IFLAG  ,NEL    ,PM   ,OFF  ,EINT ,MU  ,
-     2                  DVOL   ,VNEW   ,MAT  ,PSH ,
+          CALL MURNAGHAN(
+     1                  IFLAG  ,NEL    ,PMIN,OFF  ,EINT ,MU  ,
+     2                  DVOL   ,VNEW   ,PSH ,
      3                  PNEW   ,DPDM   ,DPDE ,MAT_PARAM%EOS)
 
        CASE(9)
          !--------------------------------------------------!
          !         OSBORNE EOS                              !
          !--------------------------------------------------!
-          CALL OSBORNE( NPROPM ,NUMMAT,
-     1                  IFLAG  ,NEL   ,PMIN ,PM   ,OFF  ,EINT ,MU  ,
-     2                  ESPE   ,DVOL  ,DF   ,VNEW ,MAT  ,PSH ,
+          CALL OSBORNE(
+     1                  IFLAG  ,NEL   ,PMIN ,OFF  ,EINT ,MU  ,
+     2                  ESPE   ,DVOL  ,DF   ,VNEW ,RHO0 ,PSH ,
      3                  PNEW   ,DPDM  ,DPDE ,MAT_PARAM%EOS)
 
        CASE(10)
          !--------------------------------------------------!
          !         STIFFENED GAS EOS                        !
          !--------------------------------------------------!          
-          CALL STIFFGAS(NPROPM, NUMMAT,
-     1                  IFLAG , NEL  ,PM   ,OFF  ,EINT ,MU  ,MU2,
-     2                  ESPE  , DVOL ,DF   ,VNEW ,MAT  ,PSH ,
+          CALL STIFFGAS(
+     1                  IFLAG , NEL  ,PMIN ,OFF  ,EINT ,MU  ,MU2,
+     2                  ESPE  , DVOL ,DF   ,VNEW ,PSH ,
      3                  PNEW  , DPDM ,DPDE ,MAT_PARAM%EOS)
 
        CASE(11)
          !--------------------------------------------------!
-         !         STIFFENED GAS EOS                        !
+         !         LSZK EOS                                 !
          !--------------------------------------------------!          
-          CALL LSZK(    NPROPM, NUMMAT,
-     1                  IFLAG , NEL   ,PM   ,OFF  ,EINT ,MU  ,
-     2                  ESPE  , DVOL  ,DF   ,VNEW ,MAT  ,PSH ,
+          CALL LSZK(
+     1                  IFLAG , NEL   ,PMIN ,OFF  ,EINT ,MU  ,
+     2                  ESPE  , DVOL  ,DF   ,VNEW ,PSH  ,
      3                  PNEW  , DPDM  ,DPDE ,MAT_PARAM%EOS)
 
        CASE(12)
@@ -298,9 +326,9 @@ C-----------------------------------------------
          !--------------------------------------------------!
          !         COMPACTION EOS                           !
          !--------------------------------------------------!          
-          CALL COMPACTION(NPROPM,NUMMAT,
-     1                    IFLAG ,NEL   ,PM   ,OFF   ,EINT  ,MU  ,MU2,
-     2                    DVOL  ,MAT   ,PSH  ,
+          CALL COMPACTION(
+     1                    IFLAG ,NEL   ,PMIN ,OFF   ,EINT  ,MU  ,MU2,
+     2                    DVOL  ,PSH  ,
      3                    PNEW  ,DPDM  ,DPDE ,MU_BAK,
      4                    MAT_PARAM%EOS)
 
@@ -308,13 +336,13 @@ C-----------------------------------------------
          !--------------------------------------------------!
          !         NASG EOS                                 !
          !--------------------------------------------------!          
-          CALL NASG(    NPROPM, NUMMAT,
-     1                  IFLAG , NEL   ,PM   ,OFF  ,EINT ,MU  ,
-     2                  ESPE  , DVOL  ,VNEW ,MAT  ,PSH ,
+          CALL NASG(
+     1                  IFLAG , NEL   ,PMIN ,OFF  ,EINT ,MU  ,
+     2                  ESPE  , DVOL  ,VNEW ,PSH ,
      3                  PNEW  , DPDM  ,DPDE ,MAT_PARAM%EOS)
        CASE(15)
          !--------------------------------------------------!
-         !        JWL EOS (internal use, no /EOS/JWL so far)!
+         !         JWL EOS (internal use law151)            !
          !--------------------------------------------------!
           CALL JWL(
      1                  IFLAG ,NEL  ,PM   ,OFF  , EINT ,MU  ,MU2,
@@ -323,20 +351,23 @@ C-----------------------------------------------
 
        CASE(16)
          !--------------------------------------------------!
-         !         IDEAL GAS EOS                            !
+         !         IDEAL GAS VT EOS                         !
          !--------------------------------------------------!
-          CALL IDEALGAS_VT(NPROPM, NUMMAT,
-     1                     IFLAG ,NEL  ,PM   ,OFF     ,EINT ,MU  ,MU2,
-     2                     ESPE  ,DVOL ,DF   ,VNEW    ,MAT  ,PSH ,
-     3                     PNEW  ,DPDM ,DPDE ,TAB_TEMP,SIG  ,MAT_PARAM%EOS)
+          DO I=1,NEL
+            POLD(I) = -THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))
+          ENDDO
+          CALL IDEALGAS_VT(
+     1                     IFLAG ,NEL  ,PMIN ,OFF     ,EINT ,MU  ,MU2,
+     2                     ESPE  ,DVOL ,DF   ,VNEW    ,PSH  ,RHO0,RHO,
+     3                     PNEW  ,DPDM ,DPDE ,TAB_TEMP,POLD  ,MAT_PARAM%EOS)
 
        CASE(17)
          !--------------------------------------------------!
          !         TABULATED EOS                            !
          !--------------------------------------------------!          
-          CALL TABULATED(NPROPM, NUMMAT,
-     1                  IFLAG  , NEL   ,PM   ,OFF  ,EINT ,MU  ,
-     2                  ESPE   , DVOL  ,DF   ,VNEW ,MAT  ,PSH ,
+          CALL TABULATED(
+     1                  IFLAG  , NEL   ,PMIN ,OFF  ,EINT ,MU  ,
+     2                  ESPE   , DVOL  ,DF   ,VNEW ,PSH ,
      3                  PNEW   , DPDM  ,DPDE ,
      4                  NPF    , TF    ,SNPC ,STF  ,MAT_PARAM%EOS)
 
@@ -344,18 +375,18 @@ C-----------------------------------------------
          !--------------------------------------------------!
          !         LINEAR EOS                               !
          !--------------------------------------------------!
-         CALL EOSLINEAR(NPROPM ,NUMMAT ,
-     1                  IFLAG  ,NEL    ,PM     ,OFF    ,EINT  ,MU  ,
-     2                  DVOL   ,VNEW   ,MAT    ,PSH    ,PNEW  ,DPDM,
-     3                  DPDE   ,MAT_PARAM%EOS)
+         CALL EOSLINEAR(
+     1                  IFLAG  ,NEL    ,PMIN   ,OFF    ,EINT  ,MU  ,
+     2                  DVOL   ,VNEW   ,PSH    ,PNEW  ,DPDM,
+     3                  DPDE   ,MAT_PARAM%EOS, PM(104,MAT(1)), PM(32,MAT(1)))
 
        CASE (19)
          !--------------------------------------------------!
          !         EXPONENTIAL EOS                          !
          !--------------------------------------------------!
-         CALL EOSEXPONENTIAL(NPROPM ,NUMMAT ,
-     1                       IFLAG  ,NEL    ,PM     ,OFF    ,EINT  ,
-     2                       DVOL   ,VNEW   ,MAT    ,PSH   ,
+         CALL EOSEXPONENTIAL(
+     1                       IFLAG  ,NEL    ,OFF    ,EINT  ,
+     2                       DVOL   ,VNEW   ,PSH   ,
      3                       PNEW   ,DPDM   ,DPDE   ,TT    ,
      4                       MAT_PARAM%EOS)
 
@@ -363,21 +394,21 @@ C-----------------------------------------------
          !--------------------------------------------------!
          !         COMPACTION EOS                           !
          !--------------------------------------------------!
-          CALL COMPACTION2(NPROPM,NUMMAT,
-     1                  IFLAG ,NEL  ,PM   ,OFF   ,EINT  ,MU   ,
-     2                  DVOL  ,MAT  ,PSH  ,
-     3                  PNEW  ,DPDM ,DPDE ,MU_BAK,
+          CALL COMPACTION2(
+     1                  IFLAG ,NEL  ,PMIN   ,OFF   ,EINT  ,MU   ,
+     2                  DVOL  ,PSH  ,
+     3                  PNEW  ,DPDM ,DPDE ,NVAREOS, VAREOS ,
      4                  NPF   ,TF   ,SNPC ,STF   ,
      5                  MAT_PARAM%EOS)
 
        CASE(21)
          !--------------------------------------------------!
-         !         COMPACTIONTAB EOS                        !
+         !         COMPACTION_TAB EOS                       !
          !--------------------------------------------------!
-          CALL COMPACTION_TAB(NPROPM ,NUMMAT,
-     1                        IFLAG  ,NEL   ,PM     ,OFF   ,EINT  ,
-     2                        DVOL   ,MAT   ,PSH    ,DT1   ,RHO   ,RHO0 ,
-     3                        PNEW   ,DPDM  ,DPDE   ,MU_BAK,
+          CALL COMPACTION_TAB(
+     1                        IFLAG  ,NEL   ,PMIN   ,OFF   ,EINT  ,
+     2                        DVOL   ,PSH   ,DT1    ,RHO   ,RHO0 ,
+     3                        PNEW   ,DPDM  ,DPDE   ,
      4                        NVAREOS,VAREOS,NVARTMP,VARTMP,
      5                        MAT_PARAM%EOS)
 

@@ -257,7 +257,7 @@ C
      .              MAT      ,IPM      ,NSIGS    ,NUMSOL     ,PTSOL  ,
      .              IP       ,NGL      ,NPF      ,TF         ,BUFMAT ,
      .              GBUF     ,LBUF     ,MBUF     ,ELBUF_STR  ,ILOADP ,
-     .              FACLOAD, DELTAX    ,TEMPEL   )
+     .              FACLOAD, DELTAX    ,TEMPEL   ,MAT_PARAM )
 C------------------------------------------
 C       CALCULATION OF ELEMENTARY TIMESTEPS
 C------------------------------------------

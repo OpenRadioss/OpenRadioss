@@ -38,7 +38,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
       USE SUBMODEL_MOD
-      USE MESSAGE_MOD      
+      USE MESSAGE_MOD
       USE MATPARAM_DEF_MOD, ONLY : MATPARAM_STRUCT_
 C-----------------------------------------------
 C   D e s c r i p t i o n
@@ -193,6 +193,7 @@ C-----------------------------------------------
       MAT_PARAM%EOS%UPARAM(5) = GAMA0
       MAT_PARAM%EOS%UPARAM(6) = A
       MAT_PARAM%EOS%PSH = PSH
+      MAT_PARAM%EOS%E0 = E0
       IF (MAT_PARAM%THERM%TINI == ZERO) THEN
         MAT_PARAM%THERM%TINI =THREE100
         PM(79) = THREE100
