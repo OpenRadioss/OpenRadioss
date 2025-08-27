@@ -246,7 +246,7 @@
             VISA1,VISB1,AA,DD,QA,QB,UNDT, &
             VOLD,DVOL, &
             C01,C02,C03,C04,EDIF1,EDIF2,EDIF3,EDIF4, &
-            DE(NEL)
+            DE(NEL),DENOM
           real(kind=WP) :: DEPS(6,nel),EPD(nel), &
             P1OLD(nel),P2OLD(nel),P3OLD(nel),P4OLD(nel), &
             SIGD(6,nel), EINT0(nel),PLAS1(nel),PLAS2(nel),PLAS3(nel), &
@@ -1443,14 +1443,29 @@
               DVOL3=ZERO
               DVOL4=ZERO
 
-              IF (V1 > ZERO) DVOL1 = V1-V1OLD
-              IF (V2 > ZERO) DVOL2 = V2-V2OLD
-              IF (V3 > ZERO) DVOL3 = V3-V3OLD
-              IF (V4 > ZERO) DVOL4 = V4-V4OLD
-              TEMP1 = TEMP1-TEMP1*DPDE1*DVOL1/V10
-              TEMP2 = TEMP2-TEMP2*DPDE2*DVOL2/V20
-              TEMP3 = TEMP3-TEMP3*DPDE3*DVOL3/V30
-              TEMP4 = TEMP4-TEMP4*DPDE4*DVOL4/V40
+              IF (V1 > ZERO) THEN
+                DVOL1 = V1-V1OLD
+                TEMP1 = TEMP1-TEMP1*DPDE1*DVOL1/V10
+              END IF
+
+              IF (V2 > ZERO) THEN
+                DVOL2 = V2-V2OLD
+                TEMP2 = TEMP2-TEMP2*DPDE2*DVOL2/V20
+              END IF
+
+              IF (V3 > ZERO) THEN
+                DVOL3 = V3-V3OLD
+                TEMP3 = TEMP3-TEMP3*DPDE3*DVOL3/V30
+              END IF
+
+              IF (V4 > ZERO) THEN
+                DVOL4 = V4-V4OLD
+                TEMP4 = TEMP4-TEMP4*DPDE4*DVOL4/V40
+              END IF
+
+
+
+
 
               !---------------------------------------------------
               !     CONVERGENCE TEST
@@ -1743,7 +1758,10 @@
             !               UVAR(I,2)    : TEMP
             !===================================================
             ! temperature out ! chaleur     in
-            UVAR(I,2) = (SPH1*V1*TEMP1+SPH2*V2*TEMP2+SPH3*V3*TEMP3+SPH4*V4*TEMP4)/(SPH1*V1+SPH2*V2+SPH3*V3+SPH4*V4)
+            DENOM = (SPH1*V1+SPH2*V2+SPH3*V3+SPH4*V4)
+            IF(DENOM /= ZERO)THEN
+              UVAR(I,2) = (SPH1*V1*TEMP1+SPH2*V2*TEMP2+SPH3*V3*TEMP3+SPH4*V4*TEMP4) / DENOM
+            END IF
             IF(BUFLY%L_TEMP>0)LBUF%TEMP(I) = UVAR(I,2)
             !===================================================
             !               UVAR(I,3) : BFRAC
