@@ -39,7 +39,7 @@ C-----------------------------------------------
       USE UNITAB_MOD
       USE SUBMODEL_MOD
       USE MESSAGE_MOD      
-      USE ELBUFTAG_MOD       
+      USE ELBUFTAG_MOD
       USE MATPARAM_DEF_MOD, ONLY : MATPARAM_STRUCT_
 C-----------------------------------------------
 C   D e s c r i p t i o n
@@ -110,7 +110,7 @@ C-----------------------------------------------
       IF (RHO0 > ZERO) THEN
         RHOR = RHO0
         MAT_PARAM%RHO = RHO0
-        PM(1)= RHO0 
+        PM(1)= RHO0
       ELSE
         RHO0=RHOR                   
       ENDIF
@@ -135,6 +135,7 @@ C-----------------------------------------------
       MAT_PARAM%EOS%UPARAM(8) = ALPHA
       MAT_PARAM%EOS%UPARAM(9) = BETA
       MAT_PARAM%EOS%PSH       = PSH
+      MAT_PARAM%EOS%E0        = E0
 !
       IF (MAT_PARAM%THERM%TINI == ZERO) THEN
         MAT_PARAM%THERM%TINI =THREE100

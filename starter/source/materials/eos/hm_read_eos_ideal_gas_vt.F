@@ -93,7 +93,7 @@ C-----------------------------------------------
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 
       GAMMA=ZERO
-            
+
       CALL HM_GET_FLOATV('MAT_R', r_GAS_, IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('LAW5_P0', P0, IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('LAW5_PSH', PSH, IS_AVAILABLE,LSUBMODEL,UNITAB)
@@ -184,7 +184,7 @@ C-----------------------------------------------
       
       E0 = RHO0 * (A0 * T0 + HALF * A1 * T0**2 + THIRD * A2 * T0**3 + FOURTH * A3 * T0**4 + 
      .     ONE_FIFTH * A4 * T0**5 - r_GAS_ * T0)
-     
+
       PM(88) = PSH
       PM(23) = E0
       PM(31) = P0-PSH   !used to init stress tensor
@@ -203,6 +203,7 @@ C-----------------------------------------------
       MAT_PARAM%EOS%UPARAM(4) = A3
       MAT_PARAM%EOS%UPARAM(5) = A4
       MAT_PARAM%EOS%UPARAM(6) = r_gas_ ! r=R_GAS/M
+      MAT_PARAM%EOS%UPARAM(7) = P0-PSH
       IF (T0 == ZERO) T0 = THREE100
       MAT_PARAM%THERM%TINI =THREE100
       PM(79) = THREE100
@@ -217,6 +218,7 @@ C-----------------------------------------------
 
       MAT_PARAM%EOS%PSH = PSH
       MAT_PARAM%EOS%CV = CV
+      MAT_PARAM%EOS%E0 = E0
 
       SSP0 = SQRT(GAMMA*r_gas_*T0)
       G0 = PM(22) ! 0.0 with physical input.However mathematical model allows any positive value.
