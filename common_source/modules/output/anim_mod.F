@@ -101,6 +101,8 @@ C COMMON BLOCK are no longer maintened
         my_real TANIM, TANIM0            !start time
         my_real DTANIM, DTANIM0          !time frequency
         my_real TANIM_STOP, TANIM_STOP0  !stop time
-        my_real TANIMSENS
+        my_real TANIMSENS  
+        integer DTANIM_FCT_ID            ! Function defining frequence of anim outputs over time
+        integer NB_ANIM_FRAME            ! TOtal number of anims in the run
 
       END MODULE ANIM_MOD
