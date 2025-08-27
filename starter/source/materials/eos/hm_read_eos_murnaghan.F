@@ -116,6 +116,7 @@ C-----------------------------------------------
       MAT_PARAM%EOS%UPARAM(2) = P0
       MAT_PARAM%EOS%UPARAM(3) = K1
       MAT_PARAM%EOS%PSH = PSH
+      MAT_PARAM%EOS%E0 = E0
       IF (MAT_PARAM%THERM%TINI == ZERO) THEN
         MAT_PARAM%THERM%TINI =THREE100
         PM(79) = THREE100

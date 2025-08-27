@@ -210,8 +210,8 @@ C foam + air
           !  With ALE framework, since the Mesh is arbitrary, the variable must be updated to map thei expected location and not follow the arbitrary mesh displacement
           !  this numbering here will be used in arezon.F to loop over variables to rezon/remap
           IF(JALE == 1)THEN
-            ALE%REZON%NUM_NUVAR_MAT = ALE%REZON%NUM_NUVAR_MAT + MATPARAM%REZON%NUM_NUVAR_MAT
-            ALE%REZON%NUM_NUVAR_EOS = ALE%REZON%NUM_NUVAR_EOS + MATPARAM%REZON%NUM_NUVAR_EOS
+            ALE%REZON%NUM_NUVAR_MAT = MAX(ALE%REZON%NUM_NUVAR_MAT, MATPARAM%REZON%NUM_NUVAR_MAT)
+            ALE%REZON%NUM_NUVAR_EOS = MAX(ALE%REZON%NUM_NUVAR_EOS, MATPARAM%REZON%NUM_NUVAR_EOS)
           ENDIF
 
           !ALE UVAR REZONING  (81:MAT,  82:EOS)

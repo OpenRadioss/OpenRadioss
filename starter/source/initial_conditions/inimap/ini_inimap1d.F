@@ -146,6 +146,8 @@ C-----------------------------------------------
          NBMAT = INIMAP1D(KK)%NBMAT
          IF(NBMAT==0)CYCLE !something went wrong with reader
          ALLOCATE(PRES(MVSIZ, NBMAT), EINT(MVSIZ, NBMAT))
+         PRES(:,:)=ZERO
+         EINT(:,:)=ZERO
          IF (INIMAP1D(KK)%GRBRICID  /=  0) THEN
             GRBRICID = INIMAP1D(KK)%GRBRICID
          ELSEIF (INIMAP1D(KK)%GRQUADID  /=  0) THEN
