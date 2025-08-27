@@ -8867,16 +8867,19 @@ C-------> Multidomain single precision:  double precision time scale----
 C May do 1 more cycle to write animation if TT = TTANIM - 10%
                 IF (IMADCPL /= 1) THEN
                   IF (DTANIM>ZERO) THEN
-                    IF (TT>TSTOP.AND.ILASTANIM==0
+                    IF((NB_ANIM_FRAME >0.AND.IANIM < NB_ANIM_FRAME).OR.NB_ANIM_FRAME ==0) THEN
+                      IF (TT>TSTOP.AND.ILASTANIM==0
      .                  .AND.ABS((TT-TANIM)/DTANIM)<EM03) THEN
-                      ILASTANIM=1
+                        ILASTANIM=1
+                        TANIM=TT-EM10
+                      END IF
+
+                      IF (TT>TSTOP.AND.ILASTANIM==0.AND.
+     .                    (NCYCLE-LASTANIMCYCLE)>=100) THEN
+                        ILASTANIM=1
                       TANIM=TT-EM10
-                    END IF
-                    IF (TT>TSTOP.AND.ILASTANIM==0.AND.
-     .                  (NCYCLE-LASTANIMCYCLE)>=100) THEN
-                      ILASTANIM=1
-                      TANIM=TT-EM10
-                    END IF
+                      END IF
+                    ENDIF
                   END IF
 c
                   IF (DTSTAT>ZERO) THEN
@@ -8906,16 +8909,18 @@ c
                   END IF
 c
                   IF (H3D_DATA%DTH3D>ZERO) THEN
-                    IF (TT>TSTOP.AND.ILASTH3D==0
-     .                  .AND.ABS((TT-H3D_DATA%TH3D)/H3D_DATA%DTH3D)<EM03) THEN
-                      ILASTH3D=1
-                      H3D_DATA%TH3D=TT-EM10
-                    END IF
-                    IF (TT>TSTOP.AND.ILASTH3D==0.AND.
-     .                  (NCYCLE-LASTH3DCYCLE)>=100) THEN
-                      ILASTH3D=1
-                      H3D_DATA%TH3D=TT-EM10
-                    END IF
+                    IF((H3D_DATA%NB_H3D_FRAME >0.AND.H3D_DATA%IH3D < H3D_DATA%NB_H3D_FRAME).OR.(H3D_DATA%NB_H3D_FRAME ==0)) THEN
+                      IF (TT>TSTOP.AND.ILASTH3D==0
+     .                    .AND.ABS((TT-H3D_DATA%TH3D)/H3D_DATA%DTH3D)<EM03) THEN
+                        ILASTH3D=1
+                        H3D_DATA%TH3D=TT-EM10
+                      END IF
+                      IF (TT>TSTOP.AND.ILASTH3D==0.AND.
+     .                    (NCYCLE-LASTH3DCYCLE)>=100) THEN
+                        ILASTH3D=1
+                        H3D_DATA%TH3D=TT-EM10
+                      END IF
+                    ENDIF
                   END IF
                 ENDIF
 C------------

@@ -141,7 +141,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      s            LOADP     ,TAGNCONT    ,LOADP_HYD_INTER,FORC  ,DRAPEG,USER_WINDOWS,
      t            OUTPUT    ,DT          ,FSAVSURF    ,TABLE    ,
      u            LOADS     ,SFANI       ,IPARIT      ,X_C      ,
-     v            SZ_NPCONT2,NPCONT2     ,GLOB_THERM  ,PBLAST   ,WFEXT)
+     v            SZ_NPCONT2,NPCONT2     ,GLOB_THERM  ,PBLAST   ,WFEXT     )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -328,7 +328,8 @@ C-----------------------------------------------
       INTEGER SIZE_MES,LONG,LONG_TMP,N
       INTEGER IFILNAM(2148),IFILNAM_TMP(2148)
 
-      my_real WFEXTH,ENINTOT,EKINTOT
+      my_real WFEXTH,ENINTOT,EKINTOT,DYDX,FINTER
+      EXTERNAL FINTER
       my_real TABFWR0(10),BID
       my_real,  DIMENSION(:),ALLOCATABLE :: VMCDN
       my_real,  DIMENSION(:),ALLOCATABLE :: CSEFRIC,CSEFRIC_STAMP,CSEFRICG,CSEFRICG_STAMP
@@ -668,6 +669,9 @@ c
      .         DRAPE_SH4N, DRAPE_SH3N, DRAPEG,OUTPUT    )
 c
        ENDIF
+       IF(DTANIM_FCT_ID > 0) THEN
+          DTANIM  =  FINTER(DTANIM_FCT_ID,TT+DT2,NPC,TF,DYDX)   
+       ENDIF
       IF((TT>=TANIM .AND. TT<=TANIM_STOP))TANIM=TANIM+DTANIM
       IF ((TSTOP<TANIM).AND.(TANIM<TSTOP+EM06*TSTOP)
      .     .AND.(TSTOP+EM06*TSTOP<TANIM+DTANIM)) THEN
@@ -813,6 +817,10 @@ c
       IF(ALLOCATED(CSEFRICG)) DEALLOCATE(CSEFRICG)
       IF(ALLOCATED(CSEFRIC_STAMP)) DEALLOCATE(CSEFRIC_STAMP)
       IF(ALLOCATED(CSEFRICG_STAMP)) DEALLOCATE(CSEFRICG_STAMP)
+
+      IF(H3D_DATA%DTH3D_FCT_ID > 0) THEN
+          H3D_DATA%DTH3D  =  FINTER(H3D_DATA%DTH3D_FCT_ID,TT+DT2,NPC,TF,DYDX)  
+       ENDIF
 
       IF(TT>=H3D_DATA%TH3D) H3D_DATA%TH3D = H3D_DATA%TH3D + H3D_DATA%DTH3D
       IF((TSTOP< H3D_DATA%TH3D).AND.(H3D_DATA%TH3D < TSTOP+EM06*TSTOP) .AND.(TSTOP+EM06*TSTOP< H3D_DATA%TH3D + H3D_DATA%DTH3D)) THEN

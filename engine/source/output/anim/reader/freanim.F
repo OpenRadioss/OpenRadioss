@@ -90,6 +90,8 @@ C-----------------------------------------------
 C-----------------------------------------------
       IKEY = KANIM
       ANIMCONT = 0
+      NB_ANIM_FRAME = 0
+      DTANIM_FCT_ID = 0
 C-----------------------------------------------
 C     Set all indexes and some other variables for ANIM to zero
 C-----------------------------------------------
@@ -111,12 +113,23 @@ C        THE FOLLOWING OPTIONS USE AN ADDITIONAL CARD
 C----------------------------
          IF(KEY2(1:5)=='DT   ')THEN
            CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
-           READ(IUSC2,*,ERR=310,END=320)TANIM0,DTANIM0,TANIM_STOP0
+           READ(IUSC2,*,ERR=310,END=320)TANIM0,DTANIM0,TANIM_STOP0,NB_ANIM_FRAME,DTANIM_FCT_ID
            GOTO 320
  310       READ(IUSC2,*,ERR=320,END=320)TANIM0
  320       CONTINUE
 !
-           IF (DTANIM0 <= ZERO) THEN
+c           DO I=1,NBC
+c             READ(IUSC1,REC=IKAD(IKEY)+K+I-1,FMT='(A)',ERR=9990)CARTE
+c             CALL WRIUSC2(IKAD(IKEY)+K+I-1,1,KEY0(IKEY))
+c             READ(IUSC2,*,ERR=9990,END=9990) TIME_I,NB_FRAME_I,TILTLE_I
+c             NFRAME=NFRAME+1
+c             TIME_ANIM_TAB( NFRAME) = TIME_I
+c             NB_FRAME_ANIM_TAB(NFRAME)=NB_FRAME_I
+c             TITLE_ANIM_TAB(NFRAME)=TILTLE_I
+c           ENDDO
+
+
+           IF (DTANIM0 <= ZERO.AND.DTANIM_FCT_ID == 0.AND.NB_ANIM_FRAME==0) THEN
              CALL ANCMSG(MSGID=293,ANMODE=ANINFO,c1='ANIM',c2='ANIM')
              CALL ARRET(0)
            ENDIF
