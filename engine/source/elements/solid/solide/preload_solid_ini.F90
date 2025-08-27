@@ -84,6 +84,8 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
+          t_start = 0 ! important initialization for GCC15's -maybe-uninitialized flag
+          t_stop  = 0 ! important initialization for GCC15's -maybe-uninitialized flag
 !
           sfac = one
           t_shift = zero
