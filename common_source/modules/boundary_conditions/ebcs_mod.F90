@@ -60,7 +60,7 @@
 !||    iniebcs                     ../starter/source/boundary_conditions/ebcs/iniebcs.F
 !||    iniebcs_nrf_tcar            ../starter/source/boundary_conditions/ebcs/iniebcs_nrf_tcar.F
 !||    iniebcs_propellant          ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
-!||    iniebcs_propellant_get_cv   ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
+!||    iniebcs_propellant_get_cp   ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
 !||    iniebcsp0                   ../starter/source/boundary_conditions/ebcs/iniebcsp0.F
 !||    inigrav_load                ../starter/source/initial_conditions/inigrav/inigrav_load.F
 !||    inigrav_part_list           ../starter/source/initial_conditions/inigrav/inigrav_part_list.F

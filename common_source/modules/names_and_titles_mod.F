@@ -673,7 +673,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ini_msg                           ../engine/source/output/message/ini_msg.F
 !||    ini_rack                          ../starter/source/tools/lagmul/ini_rack.F
 !||    inicrkfill                        ../starter/source/elements/xfem/inicrkfill.F
-!||    iniebcs_propellant_get_cv         ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
+!||    iniebcs_propellant_get_cp         ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
 !||    iniend                            ../starter/source/interfaces/inter3d1/iniend.F
 !||    iniguser                          ../starter/source/system/iniguser.F
 !||    inimap1d_mod                      ../starter/share/modules1/inimap1d_mod.F

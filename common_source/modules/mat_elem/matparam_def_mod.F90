@@ -201,9 +201,10 @@
 !||    ig3dgrtails                         ../starter/source/elements/ige3d/ig3dgrtails.F
 !||    imp_buck                            ../engine/source/implicit/imp_buck.F
 !||    ini_inimap1d                        ../starter/source/initial_conditions/inimap/ini_inimap1d.F
+!||    ini_inimap2d                        ../starter/stub/ini_inimap2d.F
 !||    iniebcs_nrf_tcar                    ../starter/source/boundary_conditions/ebcs/iniebcs_nrf_tcar.F
 !||    iniebcs_propellant                  ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
-!||    iniebcs_propellant_get_cv           ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
+!||    iniebcs_propellant_get_cp           ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
 !||    iniebcsp0                           ../starter/source/boundary_conditions/ebcs/iniebcsp0.F
 !||    inigrav_eos                         ../starter/source/initial_conditions/inigrav/inigrav_eos.F
 !||    inigrav_load                        ../starter/source/initial_conditions/inigrav/inigrav_load.F

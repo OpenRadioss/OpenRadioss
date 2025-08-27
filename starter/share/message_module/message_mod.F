@@ -823,7 +823,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    iniboltprel                         ../starter/source/loads/bolt/iniboltprel.F
 !||    iniebcs                             ../starter/source/boundary_conditions/ebcs/iniebcs.F
 !||    iniebcs_propellant                  ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
-!||    iniebcs_propellant_get_cv           ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
+!||    iniebcs_propellant_get_cp           ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
 !||    iniend                              ../starter/source/interfaces/inter3d1/iniend.F
 !||    inigrav_load                        ../starter/source/initial_conditions/inigrav/inigrav_load.F
 !||    inigrav_part_list                   ../starter/source/initial_conditions/inigrav/inigrav_part_list.F

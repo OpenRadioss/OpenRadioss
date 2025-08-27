@@ -164,7 +164,7 @@
 !||    i2_surfi_dim                             ../starter/source/interfaces/inter3d1/i2_surfi_dim.F90
 !||    imp_intbufdef                            ../engine/share/modules/imp_mod_def.F90
 !||    iniebcs_propellant                       ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
-!||    iniebcs_propellant_get_cv                ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
+!||    iniebcs_propellant_get_cp                ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
 !||    init_global_frontier_monvol              ../engine/source/airbag/init_global_monvol_frontier.F90
 !||    init_inivol                              ../starter/source/initial_conditions/inivol/init_inivol.F90
 !||    init_inivol_2d_polygons                  ../starter/source/initial_conditions/inivol/init_inivol_2D_polygons.F90
