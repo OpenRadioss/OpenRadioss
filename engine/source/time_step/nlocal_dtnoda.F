@@ -61,13 +61,9 @@ C-----------------------------------------------
      .  MASS,STIFN
       my_real
      .  DTNOD,DT2P
-      ! Safety coefficient for non-local stability vs mechanical stability
-      ! (it has been slightly increased vs nloc_dmg_init.F)
-      my_real, PARAMETER :: CSTA  = 40.0D0
-      ! Coefficient for non-local stability to take into account damping
-      my_real, PARAMETER :: CDAMP = 0.7D0
 C  
       DTNOD = EP20
+C
       IF (NODADT > 0) THEN
 C
         ! Recovering nodal stiffness and masses
@@ -113,8 +109,8 @@ C
                 ENDIF
               ENDDO
             ENDDO
+            DTNOD = DTMIN1(11)*(SQRT(CSTA))
           ENDIF
-          DTNOD = DTMIN1(11)*(SQRT(CSTA))
         ENDIF 
 C
 #include "lockon.inc"
