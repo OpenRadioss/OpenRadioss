@@ -59,7 +59,6 @@ C-----------------------------------------------
       TYPE (DT_), INTENT(INOUT) :: DT
       TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT !< output structure
       type (glob_therm_) ,intent(inout)   :: glob_therm
-
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
