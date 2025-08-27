@@ -54,7 +54,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      J IPARTFRICM,INTBUF_FRIC_TAB,IVIS2 ,GAPM_MX   ,GAPS_MX    ,
      K GAPM_L_MX ,GAPS_L_MX  ,IPARTSM   ,DRAD      ,IPARTT     ,
      J IPARTP    ,IPARTR     ,IELEM_M   ,IDEL_SOLID,ELEM_LINKED_TO_SEGMENT,
-     K NIN25     , FLAG_ELEM_INTER25)
+     K NIN25     , FLAG_ELEM_INTER25,THK_S,THK_M   ,THK_S_SCALE,
+     L THK_M_SCALE)
 C-----------------------------------------------
       USE MY_ALLOC_MOD
       USE INTBUF_FRIC_MOD
@@ -109,6 +110,7 @@ C     REAL
       INTEGER, DIMENSION(NUMELS), INTENT(INOUT):: ELEM_LINKED_TO_SEGMENT !< working array, dim=numels
       INTEGER, INTENT(IN) :: NIN25
       INTEGER, INTENT(IN) :: FLAG_ELEM_INTER25(NINTER25,NUMELS)
+      my_real, INTENT(IN) :: THK_S,THK_M   ,THK_S_SCALE,THK_M_SCALE
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -209,7 +211,9 @@ C------------------------------------
         MG=IXC(6,I)
         IP = IPARTC(I)
         IGTYP = IGEO(11,MG)
-        IF ( THK_PART(IP) /= ZERO .AND. IINTTHICK == 0) THEN
+        IF ( IGAP == 5) THEN
+          DX=HALF*THK_S
+        ELSEIF ( THK_PART(IP) /= ZERO .AND. IINTTHICK == 0) THEN
           DX=HALF*THK_PART(IP)
         ELSEIF ( THK(I) /= ZERO .AND. IINTTHICK == 0) THEN
           DX=HALF*THK(I)
@@ -227,7 +231,9 @@ C------------------------------------
         MG=IXTG(5,I)
         IP = IPARTTG(I)
         IGTYP = IGEO(11,MG)
-        IF ( THK_PART(IP) /= ZERO .AND. IINTTHICK == 0) THEN
+        IF ( IGAP == 5) THEN
+          DX=HALF*THK_S
+        ELSEIF ( THK_PART(IP) /= ZERO .AND. IINTTHICK == 0) THEN
           DX=HALF*THK_PART(IP)
         ELSEIF ( THK(NUMELC+I) /= ZERO .AND. IINTTHICK == 0) THEN
           DX=HALF*THK(NUMELC+I)
@@ -262,7 +268,9 @@ C-------
       DO I=1,NUMELT
         MG=IXT(4,I)
         IP = IPARTT(I)
-        IF ( THK_PART(IP) > ZERO ) THEN
+        IF ( IGAP == 5) THEN
+          DX=HALF*THK_S
+        ELSEIF  ( THK_PART(IP) > ZERO ) THEN
           DX=HALF*THK_PART(IP)
         ELSE
           DX=HALF*SQRT(GEO(1,MG))
@@ -273,7 +281,9 @@ C-------
       DO I=1,NUMELP
         MG=IXP(5,I)
         IP = IPARTP(I)
-        IF ( THK_PART(IP) > ZERO ) THEN
+        IF ( IGAP == 5) THEN
+          DX=HALF*THK_S
+        ELSEIF  ( THK_PART(IP) > ZERO ) THEN
           DX=HALF*THK_PART(IP)
         ELSE
           DX=HALF*SQRT(GEO(1,MG))
@@ -283,7 +293,9 @@ C-------
       ENDDO
       DO I=1,NUMELR
         IP = IPARTR(I)
-        IF ( THK_PART(IP) > ZERO ) THEN
+        IF ( IGAP == 5) THEN
+          DX=HALF*THK_S
+        ELSEIF  ( THK_PART(IP) > ZERO ) THEN
           MG=IXR(1,I)
           IGTYP = IGEO(11,MG)
           DX=HALF*THK_PART(IP)
@@ -293,7 +305,11 @@ C-------
        END IF
       ENDDO
       DO I=1,NSN
-        GAP_S(I)=GAPSCALE * WA(NSV(I))
+        IF ( IGAP /= 5) THEN
+            GAP_S(I)=GAPSCALE * WA(NSV(I))
+        ELSE
+            GAP_S(I)= THK_S_SCALE*WA(NSV(I))
+        ENDIF
         GAP_S(I)=MIN(GAP_S(I),GAPMAX_S)
       ENDDO
 C---------put SECONDARY node on the free edge to GAP=0
@@ -428,7 +444,7 @@ C------------------------------------
      H PM_STACK, IWORKSH,INTFRIC,TAGPRT_FRIC,IPARTFRICS,
      I IPARTFRICM,IPARTS,INTBUF_FRIC_TAB,IPARTSM,INRTIE,
      J IVIS2  ,IELEM_M  ,IDEL_SOLID,ELEM_LINKED_TO_SEGMENT,
-     K NIN25  ,FLAG_ELEM_INTER25  )
+     K NIN25  ,FLAG_ELEM_INTER25  ,THK_M   ,THK_M_SCALE)
 C---------------------------
 C     GAP
 C---------------------------
@@ -732,7 +748,7 @@ C
      H PM_STACK, IWORKSH,INTFRIC,TAGPRT_FRIC,IPARTFRICS,
      I IPARTFRICM,IPARTS,INTBUF_FRIC_TAB,IPARTSM,INRTIE,
      J IVIS2  ,IELEM_M  ,IDEL_SOLID,ELEM_LINKED_TO_SEGMENT,
-     F NIN25  ,FLAG_ELEM_INTER25)
+     F NIN25  ,FLAG_ELEM_INTER25,THK_M   ,THK_M_SCALE)
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE INTBUF_FRIC_MOD
@@ -779,6 +795,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(NUMELS), INTENT(INOUT):: ELEM_LINKED_TO_SEGMENT !< working array, dim=numels
       INTEGER, INTENT(IN) :: NIN25
       INTEGER, INTENT(INOUT) :: FLAG_ELEM_INTER25(NINTER25,NUMELS)
+      my_real, INTENT(IN) :: THK_M   ,THK_M_SCALE
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -947,7 +964,9 @@ C
           IELEM_M(1,I) = OFTG+NELTG
 
           IF(INTTH > 0 ) IELEM(I) = MT
-          IF ( THK_PART(IP) /= ZERO .AND. IINTTHICK == 0) THEN
+          IF ( IGAP == 5) THEN
+            DX=THK_M_SCALE*THK_M
+          ELSEIF ( THK_PART(IP) /= ZERO .AND. IINTTHICK == 0) THEN
             DX=THK_PART(IP)*GAPSCALE
           ELSEIF ( THK(NUMELC+NELTG) /= ZERO .AND. IINTTHICK == 0)THEN
             DX=THK(NUMELC+NELTG)*GAPSCALE
@@ -1038,7 +1057,9 @@ C
           IELEM_M(1,I) = OFC+NELC
 
           IF(INTTH > 0 ) IELEM(I) = MT
-          IF ( THK_PART(IP) /= ZERO .AND. IINTTHICK == 0) THEN
+          IF ( IGAP == 5) THEN
+            DX=THK_M_SCALE*THK_M
+          ELSEIF (THK_PART(IP) /= ZERO .AND. IINTTHICK == 0) THEN
             DX=THK_PART(IP)*GAPSCALE
           ELSEIF ( THK(NELC) /= ZERO .AND. IINTTHICK == 0) THEN
             DX=THK(NELC)*GAPSCALE

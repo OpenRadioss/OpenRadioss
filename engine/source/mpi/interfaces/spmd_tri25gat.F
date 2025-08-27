@@ -387,7 +387,7 @@ c shift for integer variables (prepare for next setting)
             ENDIF
 
 c IGAP=1 or IGAP=2
-            IF(IGAP==1 .OR. IGAP==2)THEN
+            IF(IGAP==1 .OR. IGAP==2.OR. IGAP==5)THEN
 #include      "vectorize.inc"
               DO J = 1, NN
                 I = IAUX(J)
