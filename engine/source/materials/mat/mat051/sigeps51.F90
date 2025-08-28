@@ -84,7 +84,8 @@
           use ale_connectivity_mod , only : t_ale_connectivity
           use multimat_param_mod , only : m51_n0phas, m51_nvphas
           use sigeps51_boundary_material_mod , only : sigeps51_boundary_material
-          use constant_mod , only : zero,one,em03,em12,em13,em14,ep10,ep20,em06,em10,em20,em4,half,third,three,two, three100
+          use constant_mod , only : zero,one,em03,em12,em13,em14,ep10,ep20,em06,em10,em20,em4,half,third,three,two
+          use constant_mod , only : ep03, fifteen, three100
           use prop_param_mod , only : n_var_ipm, n_var_pm, n_var_geo, n_var_iparg
           use i22bufbric_mod , only : ninter22
           use precision_mod , only : WP
@@ -241,7 +242,9 @@
             V1I,V2I,V3I,V4I,E01,E02,E03,E04,PM1,PM2,PM3,PM4, &
             SPH1,SPH2,SPH3,SPH4, &
             DPDE1,DPDE2,DPDE3,DPDE4,&
-            T10,T20,T30,T40,TEMP1,TEMP2,TEMP3,TEMP4, &
+            T10,T20,T30,T40,&
+            TEMP1,TEMP2,TEMP3,TEMP4,&
+            TMAX,&
             XL,QAL,QBL,Q,POLD,QOLD,MASS, &
             VISA1,VISB1,AA,DD,QA,QB,UNDT, &
             VOLD,DVOL, &
@@ -282,6 +285,7 @@
           IX4 = HUGE(IX4)
           ML = HUGE(ML)
           P = 0
+          TMAX = FIFTEEN * EP03
           IF(TIMESTEP > ZERO)THEN
             UNDT = ONE/TIMESTEP
           ELSE
@@ -1072,6 +1076,8 @@
                 RHO1 = RHO(I)
                 DVOL1 = DVOL
                 TEMP1 = TEMP1-TEMP1*DPDE1*DVOL1/V10
+                TEMP1 = MAX(TEMP1, ZERO)
+                TEMP1 = MIN(TEMP1, TMAX)
 
 
                 !==========================================
@@ -1099,6 +1105,8 @@
                 RHO2 = RHO(I)
                 DVOL2 = DVOL
                 TEMP2 = TEMP2-TEMP2*DPDE2*DVOL2/V20
+                TEMP2 = MAX(TEMP2, ZERO)
+                TEMP2 = MIN(TEMP2, TMAX)
 
                 !==========================================
                 ! The only material is MAT3 (sol, liq, gas)
@@ -1124,6 +1132,8 @@
                 RHO3 = RHO(I)
                 DVOL3 = DVOL
                 TEMP3 = TEMP3-TEMP3*DPDE3*DVOL3/V30
+                TEMP3 = MAX(TEMP3, ZERO)
+                TEMP3 = MIN(TEMP3, TMAX)
 
                 !===========================================
                 ! The only material is MAT4 (High Explosive)
@@ -1151,6 +1161,8 @@
                 RHO4 = RHO(I)
                 DVOL4 = DVOL
                 TEMP4 = TEMP4-TEMP4*DPDE4*DVOL4/V40
+                TEMP4 = MAX(TEMP4, ZERO)
+                TEMP4 = MIN(TEMP4, TMAX)
 
               ENDIF
 
@@ -1446,21 +1458,29 @@
               IF (V1 > ZERO) THEN
                 DVOL1 = V1-V1OLD
                 TEMP1 = TEMP1-TEMP1*DPDE1*DVOL1/V10
+                TEMP1 = MAX(TEMP1, ZERO)
+                TEMP1 = MIN(TEMP1, TMAX)
               END IF
 
               IF (V2 > ZERO) THEN
                 DVOL2 = V2-V2OLD
                 TEMP2 = TEMP2-TEMP2*DPDE2*DVOL2/V20
+                TEMP2 = MAX(TEMP2, ZERO)
+                TEMP2 = MIN(TEMP2, TMAX)
               END IF
 
               IF (V3 > ZERO) THEN
                 DVOL3 = V3-V3OLD
                 TEMP3 = TEMP3-TEMP3*DPDE3*DVOL3/V30
+                TEMP3 = MAX(TEMP3, ZERO)
+                TEMP3 = MIN(TEMP3, TMAX)
               END IF
 
               IF (V4 > ZERO) THEN
                 DVOL4 = V4-V4OLD
                 TEMP4 = TEMP4-TEMP4*DPDE4*DVOL4/V40
+                TEMP4 = MAX(TEMP4, ZERO)
+                TEMP4 = MIN(TEMP4, TMAX)
               END IF
 
 
