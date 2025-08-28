@@ -1979,6 +1979,7 @@ C----------------------------------------
                   PARTID = IPART(K10 + II)
                   IF (IPARTOF(PARTID)==1) THEN
                     OFFG(I) = ZERO 
+                    KXSP(2,NFT+I) = 0
                   ELSE
                     IGOF=0
                   ENDIF
