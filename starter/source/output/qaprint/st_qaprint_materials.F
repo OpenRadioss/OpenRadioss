@@ -55,8 +55,8 @@ C-----------------------------------------------
 C--------------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IP, MY_ID,MY_MAT,IADBUF,NUPARAM,NIPARAM,NFAIL,IVISC,IVAR,
-     .        IRUPT,FAIL_ID,FAIL_IP,NUVAR,NFUNCF,NTABF,NMOD,NBMAT,MID
+      INTEGER :: I,J,IP, MY_ID,MY_MAT,IADBUF,NUPARAM,NIPARAM,NFAIL,IVISC,IVAR
+      INTEGER ::  IRUPT,FAIL_ID,FAIL_IP,NUVAR,NFUNCF,NTABF,NMOD,NBMAT,MID,IEOS
       CHARACTER(LEN=NCHARTITLE) :: TITR
       CHARACTER (LEN=255) :: VARNAME
       DOUBLE PRECISION TEMP_DOUBLE,PTHK
@@ -147,7 +147,7 @@ c
               END DO
               CALL QAPRINT(' NFUNC',NFUNCF,0.0_8)
               DO J=1,NFUNCF
-                IVAR = MAT_ELEM%MAT_PARAM(MY_MAT)%FAIL(I)%IFUNC(J)   
+                IVAR = MAT_ELEM%MAT_PARAM(MY_MAT)%FAIL(I)%IFUNC(J)
                 IF (IVAR /= 0) THEN
                   WRITE(VARNAME,'(A,I0)') 'IFUNC_',J
                   CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IVAR,0.0_8)
@@ -186,7 +186,117 @@ c-----------------------------
               END IF
             END DO
           END IF
-          
+
+c-----------------------------
+c         /EOS parameters
+c-----------------------------
+          IEOS = MAT_ELEM%MAT_PARAM(MY_MAT)%IEOS
+          IF (IEOS > 0) THEN
+
+      !   1       !     POLYNOMIAL         !
+      !   2       !     GRUNEISEN          !
+      !   3       !     TILLOTSON          !
+      !   4       !     PUFF               !
+      !   5       !     SESAME             !
+      !   6       !     NOBLE-ABEL         ! 2017.0
+      !   7       !     IDEAL GAS          ! 2018.0
+      !   8       !     MUNAGHAN           ! 2018.0
+      !   9       !     OSBORNE            ! 2018.0
+      !  10       !     STIFFENED GAS      ! 2018.0
+      !  11       !     LSZK               ! 2018.0
+      !  12       !     POWDER-BURN        ! 2019.1
+      !  13       !     COMPACTION         ! 2019.1
+      !  14       !     NASG               ! 2020.0
+      !  15       !     JWL                ! internal use : /INIMAP
+      !  16       !     IDEALGAS_VT        ! 2022.0
+      !  17       !     TABULATED          ! 2022.2
+      !  18       !     LINEAR             ! 2019.0
+      !  19       !     EXPONENTIAL        ! 2024.1
+      !  20       !     COMPACTION2        ! 2025.1
+      !  21       !     COMPACTION_TAB     ! 2026.0
+      !------------------------------------!
+
+
+            SELECT CASE (IEOS)
+              CASE(1)
+                CALL QAPRINT('** EOS_MODEL > POLYNOMIAL',I,0.0_8)
+              CASE(2)
+                CALL QAPRINT('** EOS_MODEL > GRUNEISEN',I,0.0_8)
+              CASE(3)
+                CALL QAPRINT('** EOS_MODEL > TILLOTSON',I,0.0_8)
+              CASE(4)
+                CALL QAPRINT('** EOS_MODEL > PUFF',I,0.0_8)
+              CASE(5)
+                CALL QAPRINT('** EOS_MODEL > SESAME',I,0.0_8)
+              CASE(6)
+                CALL QAPRINT('** EOS_MODEL > NOBLE-ABEL',I,0.0_8)
+              CASE(7)
+                CALL QAPRINT('** EOS_MODEL > IDEAL-GAS',I,0.0_8)
+              CASE(8)
+                CALL QAPRINT('** EOS_MODEL > MUNAGHAN',I,0.0_8)
+              CASE(9)
+                CALL QAPRINT('** EOS_MODEL > OSBORNE',I,0.0_8)
+              CASE(10)
+                CALL QAPRINT('** EOS_MODEL > STIFFENED-GAS',I,0.0_8)
+              CASE(11)
+                CALL QAPRINT('** EOS_MODEL > LSZK',I,0.0_8)
+              CASE(12)
+                CALL QAPRINT('** EOS_MODEL > POWDER-BURN',I,0.0_8)
+              CASE(13)
+                CALL QAPRINT('** EOS_MODEL > COMPACTION',I,0.0_8)
+              CASE(14)
+                CALL QAPRINT('** EOS_MODEL > NASG',I,0.0_8)
+              CASE(15)
+                CALL QAPRINT('** EOS_MODEL > JWL',I,0.0_8)
+              CASE(16)
+                CALL QAPRINT('** EOS_MODEL > IDEAL-GAS-VT',I,0.0_8)
+              CASE(17)
+                CALL QAPRINT('** EOS_MODEL > TABULATED',I,0.0_8)
+              CASE(18)
+                CALL QAPRINT('** EOS_MODEL > LINEAR',I,0.0_8)
+              CASE(19)
+                CALL QAPRINT('** EOS_MODEL > EXPONENTIAL',I,0.0_8)
+              CASE(20)
+                CALL QAPRINT('** EOS_MODEL > COMPACTION2',I,0.0_8)
+              CASE(21)
+                CALL QAPRINT('** EOS_MODEL > COMPACTION_TAB',I,0.0_8)
+              CASE DEFAULT
+                CALL QAPRINT('** EOS_MODEL ',I,0.0_8)
+            END SELECT
+            NUPARAM = MAT_ELEM%MAT_PARAM(MY_MAT)%EOS%NUPARAM
+            NIPARAM = MAT_ELEM%MAT_PARAM(MY_MAT)%EOS%NIPARAM
+            NFUNCF = MAT_ELEM%MAT_PARAM(MY_MAT)%EOS%NFUNC
+            NTABF = MAT_ELEM%MAT_PARAM(MY_MAT)%EOS%NTABLE
+            DO J=1,NUPARAM
+              TEMP_DOUBLE = MAT_ELEM%MAT_PARAM(MY_MAT)%EOS%UPARAM(J)
+              IF (TEMP_DOUBLE /= ZERO) THEN
+                WRITE(VARNAME,'(A,I0)') 'EOS_UPARAM_',J
+                CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
+              END IF
+            END DO
+            DO J=1,NIPARAM
+              IVAR = MAT_ELEM%MAT_PARAM(MY_MAT)%EOS%IPARAM(J)
+              IF (IVAR /= 0) THEN
+                WRITE(VARNAME,'(A,I0)') 'EOS_IPARAM_',J
+                CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IVAR,0.0_8)
+              END IF
+            END DO
+            DO J=1,NFUNCF
+              IVAR = MAT_ELEM%MAT_PARAM(MY_MAT)%EOS%FUNC(J)
+              IF (IVAR /= 0) THEN
+                WRITE(VARNAME,'(A,I0)') 'EOS_FUNC_',J
+                CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IVAR,0.0_8)
+              END IF
+            END DO
+            DO J=1,NTABF
+              IVAR = MAT_ELEM%MAT_PARAM(MY_MAT)%EOS%TABLE(J)%notable
+              IF (IVAR /= 0) THEN
+                WRITE(VARNAME,'(A,I0)') 'EOS_TABLE_',J
+                CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IVAR,0.0_8)
+              END IF
+            END DO
+          END IF
+
 c-----------------------------
 c         MULTIMAT
 c-----------------------------
