@@ -39,11 +39,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      7   GEO,     PID,     DT2T,    NELTST,
      8   ITYPTST, OFFG,    MSSA,    DMELS,
      9   BUFLY,   SSP,     ITY,     NPT,
-     A   JTUR,    JTHE,    JSMS)
+     A   JTUR,    JTHE,    JSMS,    MAT_PARAM,
+     B   NUMMAT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD         
+      USE ELBUFDEF_MOD
+      USE MATPARAM_DEF_MOD , ONLY : MATPARAM_STRUCT_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -64,6 +66,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: JTUR
       INTEGER, INTENT(IN) :: JTHE
       INTEGER, INTENT(IN) :: JSMS
+      INTEGER,INTENT(IN) :: NUMMAT
       INTEGER MAT(MVSIZ),NC(8,MVSIZ),NGL(MVSIZ),PID(MVSIZ)
       INTEGER NEL,NELTST,ITYPTST
 C     REAL
@@ -76,6 +79,7 @@ C     REAL
      . VD2(MVSIZ) , VIS(MVSIZ),GEO(NPROPG,*), DT2T, OFFG(*),
      . MSSA(*)    , DMELS(*)   , SSP(MVSIZ)
       TYPE (BUF_LAY_), TARGET :: BUFLY
+      TYPE(MATPARAM_STRUCT_), DIMENSION(NUMMAT), INTENT(IN) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -99,15 +103,15 @@ C
       ENDDO
 C
       DO I=1,NEL
-        G(I)   =PM(22,MX)
-        C1(I)  =PM(31,MX)
-        C2(I)  =PM(32,MX)
-        C3(I)  =PM(33,MX)
-        C4(I)  =PM(34,MX)
-        C5(I)  =PM(35,MX)
-        C6(I)  =PM(36,MX)
-        PC(I)  =PM(37,MX)
-        PSH(I) =PM(88,MX)
+        G(I) = PM(22,MX)
+        C1(I) = MAT_PARAM(MX)%EOS%UPARAM(1)
+        C2(I) = MAT_PARAM(MX)%EOS%UPARAM(2)
+        C3(I) = MAT_PARAM(MX)%EOS%UPARAM(3)
+        C4(I) = MAT_PARAM(MX)%EOS%UPARAM(4)
+        C5(I) = MAT_PARAM(MX)%EOS%UPARAM(5)
+        C6(I) = MAT_PARAM(MX)%EOS%UPARAM(6)
+        PC(I) = PM(37,MX)
+        PSH(I) = PM(88,MX)
       ENDDO
 C
       DO I=1,NEL

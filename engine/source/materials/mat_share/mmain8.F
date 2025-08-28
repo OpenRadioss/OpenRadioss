@@ -206,7 +206,8 @@ C-----------------------------------------------------------------
      7   GEO,      PID,      DT2T,     NELTST,
      8   ITYPTST,  GBUF%OFF, MSSA,     DMELS,
      9   BUFLY,    SSP,      ITY,      NPT,
-     A   JTUR,     JTHE,     JSMS)
+     A   JTUR,     JTHE,     JSMS,     MAT_ELEM%MAT_PARAM,
+     B   MAT_ELEM%NUMMAT)
       ELSEIF (MTN == 41) THEN
       ELSEIF (MTN>=28) THEN
 c     user-type laws

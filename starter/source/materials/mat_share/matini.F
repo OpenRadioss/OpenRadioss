@@ -58,7 +58,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    m51init                ../starter/source/materials/mat/mat051/m51init.F
 !||    m5in2                  ../starter/source/initial_conditions/detonation/m5in2.F
 !||    m5in3                  ../starter/source/initial_conditions/detonation/m5in3.F
-!||    m6in                   ../starter/source/materials/mat/mat006/m6in.F
 !||    m70init                ../starter/source/materials/mat/mat070/m70init.F
 !||    m75init                ../starter/source/materials/mat/mat075/m75init.F
 !||    m77init                ../starter/source/materials/mat/mat077/m77init.F
@@ -212,9 +211,6 @@ C=======================================================================
         ENDIF
         IPARG(63)=1 !Loi fluide
       ELSEIF (MTN == 6) THEN
-        IF(ISGIFL > 0) THEN
-          CALL M6IN(PM,MAT,SIG,RHO,NEL)
-        ENDIF
         IPARG(15)=0
         IPARG(63)=1 !Loi fluide
       ELSEIF (MTN == 10) THEN
@@ -251,9 +247,6 @@ C=======================================================================
         IPARG(15)=1
         IPARG(16)=1
       ELSEIF (MTN == 17) THEN
-        IF(ISGIFL > 0) THEN
-          CALL M6IN(PM,MAT,SIG,RHO,NEL)
-        ENDIF
         IPARG(15)=0
         IPARG(63)=1 !Loi fluide
       ELSEIF (MTN == 18) THEN

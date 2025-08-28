@@ -35,7 +35,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      7   PC,      AMU,     AMU2,    ESPE,
      8   SSP,     DF,      TMU,     MAT,
      9   WXX,     WYY,     WZZ,     NEL,
-     A   DPDM,    JTUR,    JPOR)
+     A   DPDM,    JTUR,    JPOR,    EOS_STRUCT)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+        USE EOS_PARAM_MOD , ONLY : EOS_PARAM_
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
@@ -63,6 +67,7 @@ C-----------------------------------------------
      .   C4_1, C5_1, C6_1, TMU_1, PSH_1
       my_real
      .     DPDM(*)
+      TYPE(EOS_PARAM_),INTENT(INOUT) :: EOS_STRUCT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -87,12 +92,12 @@ C-----------------------------------------------
       MX     =MAT(1)
       RHO0_1=PM( 1,MX)
       PC_1  =PM(37,MX)
-      C1_1  =PM(104,MX)-PM(88,MX)
-      C2_1  =PM(32,MX)
-      C3_1  =PM(33,MX)
-      C4_1  =PM(34,MX)
-      C5_1  =PM(35,MX)
-      C6_1  =PM(36,MX)
+      C1_1  = EOS_STRUCT%UPARAM(1)
+      C2_1  = EOS_STRUCT%UPARAM(2)
+      C3_1  = EOS_STRUCT%UPARAM(3)
+      C4_1  = EOS_STRUCT%UPARAM(4)
+      C5_1  = EOS_STRUCT%UPARAM(5)
+      C6_1  = EOS_STRUCT%UPARAM(6)
       TMU_1 =PM(81,MX)
       PSH_1=PM(88,MX)
       DO 10 I=1,NEL

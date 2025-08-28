@@ -35,7 +35,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      7   TMU,     AMU,     AMU2,    PSH,
      8   PC,      ESPE,    C1,      C2,
      9   C3,      C4,      C5,      C6,
-     A   DF,      DPDM,    JPOR)
+     A   DF,      DPDM,    JPOR,    EOS_STRUCT)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+        USE EOS_PARAM_MOD , ONLY : EOS_PARAM_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -62,6 +66,7 @@ C-----------------------------------------------
      .   D1(*), D2(*), D3(*), D4(*), D5(*), D6(*), ALOGEY(*), SSP(*),
      .   RHO0(*), TMU(*), AMU(*), AMU2(*), PSH(*), PC(*), ESPE(*),
      .   C1(*), C2(*), C3(*), C4(*), C5(*), C6(*), DF(*), DPDM(*)
+      TYPE(EOS_PARAM_),INTENT(INOUT) :: EOS_STRUCT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -93,12 +98,12 @@ C
       RHO0_1=PM( 1,MX)
       VIS_1 =PM(24,MX)
       PC_1  =PM(37,MX)
-      C1_1  =PM(31,MX)-PM(88,MX)
-      C2_1  =PM(32,MX)
-      C3_1  =PM(33,MX)
-      C4_1  =PM(34,MX)
-      C5_1  =PM(35,MX)
-      C6_1  =PM(36,MX)
+      C1_1  = EOS_STRUCT%UPARAM(1)
+      C2_1  = EOS_STRUCT%UPARAM(2)
+      C3_1  = EOS_STRUCT%UPARAM(3)
+      C4_1  = EOS_STRUCT%UPARAM(4)
+      C5_1  = EOS_STRUCT%UPARAM(5)
+      C6_1  = EOS_STRUCT%UPARAM(6)
       PSH_1 =PM(88,MX)
 C
       DO 10 I=1,NEL
