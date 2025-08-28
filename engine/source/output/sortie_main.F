@@ -958,7 +958,7 @@ C----------------------
           TABFWR0(10) = TABFWR(10)
         ENDIF
         IF(NINTER+NEXMAD/=0.AND.ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT > 0)THEN
-            IF(SFANI >0)CALL ANICON0(OUTPUT%DATA%VECT_CONT,NUMNOD)
+            IF(OUTPUT%DATA%S_VECT_CONT > 0) CALL ANICON0(OUTPUT%DATA%VECT_CONT,NUMNOD)
             !law151 reaction forces can be output only with H3D (not ANIM files since vectors are at element centroids)
             IF (MULTI_FVM%IS_USED .AND. H3D_DATA%N_VECT_CONT > 0)CALL ANICON0(OUTPUT%DATA%FANI_CELL%F18,NUMELS+NUMELQ) !/H3D/ELEM/VECT/CONT
         ENDIF
