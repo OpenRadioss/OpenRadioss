@@ -1,5 +1,17 @@
+!||====================================================================
+!||    eikonal_init_sorting_mod       ../starter/source/initial_conditions/detonation/eikonal_init_sorting.F90
+!||--- called by ------------------------------------------------------
+!||    eikonal_fast_marching_method   ../starter/source/initial_conditions/detonation/eikonal_fast_marching_method.F90
+!||====================================================================
       module eikonal_init_sorting_mod
       contains
+!||====================================================================
+!||    eikonal_init_sorting                ../starter/source/initial_conditions/detonation/eikonal_init_sorting.F90
+!||--- called by ------------------------------------------------------
+!||    eikonal_fast_marching_method        ../starter/source/initial_conditions/detonation/eikonal_fast_marching_method.F90
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||====================================================================
         subroutine eikonal_init_sorting(neldet, numel, elem_list, uelem_list, idx_ng , idx_i, elem_list_bij, xel, vel)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules

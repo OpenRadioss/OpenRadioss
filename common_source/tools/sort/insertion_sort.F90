@@ -23,10 +23,12 @@
 
 
 !||====================================================================
-!||    insertion_sort_mod         ../common_source/tools/sort/insertion_sort.F90
+!||    insertion_sort_mod           ../common_source/tools/sort/insertion_sort.F90
 !||--- called by ------------------------------------------------------
-!||    clipping_weiler_atherton   ../common_source/tools/clipping/polygon_clipping_mod.F90
-!||    eikonal_sort_narrow_band   ../starter/source/initial_conditions/detonation/eikonal_sort_narrow_band.F90
+!||    clipping_weiler_atherton     ../common_source/tools/clipping/polygon_clipping_mod.F90
+!||    eikonal_init_sorting         ../starter/source/initial_conditions/detonation/eikonal_init_sorting.F90
+!||    eikonal_init_start_list_2d   ../starter/source/initial_conditions/detonation/eikonal_init_start_list_2d.F90
+!||    eikonal_sort_narrow_band     ../starter/source/initial_conditions/detonation/eikonal_sort_narrow_band.F90
 !||====================================================================
       module insertion_sort_mod
 
@@ -93,6 +95,9 @@
 !! \details resulting index are provided
 !||====================================================================
 !||    integer_insertion_sort_with_index   ../common_source/tools/sort/insertion_sort.F90
+!||--- called by ------------------------------------------------------
+!||    eikonal_init_sorting                ../starter/source/initial_conditions/detonation/eikonal_init_sorting.F90
+!||    eikonal_init_start_list_2d          ../starter/source/initial_conditions/detonation/eikonal_init_start_list_2d.F90
 !||====================================================================
         subroutine integer_insertion_sort_with_index(array, index, n)
           implicit none
