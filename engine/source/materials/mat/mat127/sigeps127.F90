@@ -121,7 +121,7 @@
             epsr, fbrt, tsmd, yc_over_sc, yfac_xt, yfac_xc, yfac_yc, dam,     &
             yfac_yt, yfac_sc, eft, efc, emt, emc,scale,eps_ef,tau2,sc2,       &
             tau_bar, d11,d22,d33, d12,d13,d23,e3,nu13,nu31,nu23,nu32,red
-          real(kind=WP), dimension(nel) ::  xc, xt, yc, yt, sc, dydx
+          real(kind=WP), dimension(nel) ::  xc, xt, yc, yt, sc, dydx,xt_0
 !!======================================================================
           e1    = mat_param%uparam(1)   ! Young's modulus in the longitudinal direction (1-direction)
           e2    = mat_param%uparam(2)   ! Young's modulus in the transverse direction (2-direction)
@@ -193,10 +193,10 @@
             ipos(1:nel) = 1
             iad (1:nel) = npf(ifunc(1)) / 2 + 1
             ilen(1:NEL) = npf(ifunc(1)+1) / 2 - iad(1:nel) - ipos(1:nel)
-            CALL vinter(tf,iad,ipos,ilen,nel,epsp,dydx,xt)
-            xt(1:nel)= yfac_xt*xt(1:nel)
+            CALL vinter(tf,iad,ipos,ilen,nel,epsp,dydx,xt_0)
+            xt_0(1:nel)= yfac_xt*xt_0(1:nel)
           else
-            xt(1:nel) = xt0
+            xt_0(1:nel) = xt0
           end if
           ! xc
           if(ifunc(2) /= 0) then
@@ -283,10 +283,11 @@
 #include "vectorize.inc"
             do n=1,ndex
               i= index(n)
+               xt(i) = xt_0(i)
               ! Update compressive strength if damage in matrix is complete in b or c
               if(dmg(i,5) == one .or. dmg(i,8) == one) then
                 xc(i) = ycfac*yc(i)!
-                xt(i) = fbrt*xt(i)
+                xt(i) = fbrt*xt_0(i)
               end if
               ! Fiber failure
               if(signxx(i) >= zero .and. dmg(i,2)  == zero ) then
@@ -330,16 +331,17 @@
 #include "vectorize.inc"
             do n=1,ndex
               i = index(n)
+               xt(i) = xt_0(i)
               ! Update compressive strength if damage in matrix is complete in direction c
               if(dmg(i,8) == one ) then
                 xc(i) = ycfac*yc(i)!
-                xt(i) = fbrt*xt(i)
+                xt(i) = fbrt*xt_0(i)
               end if
               ! Fiber failure dir a
               if(signxx(i) >= zero .and. dmg(i,2)  == zero ) then
                 eft = (signxx(i)/xt(i))**2  + beta*(signxy(i)/sc(i))**2
                 if( eft >= one) dmg(i,2) = one  !
-              else if(dmg(i,3) == zero ) then
+              else if(dmg(i,3) == zero )then
                 efc = (signxx(i)/xc(i))**2
                 if(efc >= one) dmg(i,3) = one
               end if
@@ -436,63 +438,57 @@
               (signxx(i) >= slimt1*xt(i) .or. sigoxx(i) == slimt1*xt(i)) ) then
               limit_sig = slimt1*xt(i)
               signxx(i) = min(signxx(i),limit_sig)
-              signyy(i) = sigoyy(i)
-              signzz(i) = sigozz(i)
-              signxy(i) = sigoxy(i)
+              signyy(i) = slimt1*sigoyy(i)
+              signzz(i) = slimt1*sigozz(i)
+              signxy(i) = slimt1*sigoxy(i)
             else if(dmg(i,3) == one .and. &
               (signxx(i) <= -slimc1*xc(i) .or. sigoxx(i) == -slimc1*xc(i)) ) then
               !!signxx(i) = - slimc1*xc(i)
               limit_sig= - slimc1*xc(i)
               signxx(i)= max(signxx(i),limit_sig)
-              signyy(i) = sigoyy(i)
-              signzz(i) = sigozz(i)
-              signxy(i) = sigoxy(i)
-            end if
-            ! matrix direction c
-            if( dmg(i,7) == one .and. &
+              signyy(i) = slimc1*sigoyy(i)
+              signzz(i) = slimc1*sigozz(i)
+              signxy(i) = slimc1*sigoxy(i)
+           elseif( dmg(i,7) == one .and. &
               (signzz(i) >= slimt2*yt(i) .or. sigozz(i) == slimt2*yt(i)) ) then
               limit_sig= slimt2*yt(i)
               signzz(i)= min(signzz(i),limit_sig)
-              signxx(i) = sigoxx(i)
-              signyy(i) = sigoyy(i)
-              signxy(i) = sigoxy(i)
+              signxx(i) = slimt2*sigoxx(i)
+              signyy(i) = slimt2*sigoyy(i)
+              signxy(i) = slimt2*sigoxy(i)
             else if(dmg(i,8) == one .and. &
               (signzz(i) <= -slimc2*yc(i) .or. sigozz(i) == -slimc2*yc(i)) ) then
               limit_sig= - slimc2*yc(i)
               signzz(i)= max(signzz(i),limit_sig)
-              signxx(i) = sigoxx(i)
-              signyy(i) = sigoyy(i)
-              signxy(i) = sigoxy(i)
-            end if
-            ! matrix direction b
-            if(dmg(i,4) == one .and. &
+              signxx(i) = slimc2*sigoxx(i)
+              signyy(i) = slimc2*sigoyy(i)
+              signxy(i) = slimc2*sigoxy(i)
+            elseif(dmg(i,4) == one .and. &
               (signyy(i) >= slimt2*yt(i) .or. sigoyy(i) == slimt2*yt(i)) ) then
               limit_sig= slimt2*yt(i)
               signyy(i)= min(signyy(i),limit_sig)
-              signxx(i) = sigoxx(i)
-              signxy(i) = sigoxy(i)
-              signzz(i) = sigozz(i)
+              signxx(i) = slimt2*sigoxx(i)
+              signxy(i) = slimt2*sigoxy(i)
+              signzz(i) = slimt2*sigozz(i)
             else if(dmg(i,5) == one  .and. &
               (signyy(i) <= -slimc2*yc(i) .or. sigoyy(i) == -slimc2*yc(i)) ) then
               limit_sig = - slimc2*yc(i)
               signyy(i)= max(signyy(i),limit_sig)
-              signxx(i) = sigoxx(i)
-              signxy(i) = sigoxy(i)
-              signzz(i) = sigozz(i)
-            end if
-            !
-            if(dmg(i,6) == one  ) then
+              signxx(i) = slimc2*sigoxx(i)
+              signxy(i) = slimc2*sigoxy(i)
+              signzz(i) = slimc2*sigozz(i)
+            elseif(dmg(i,6) == one  ) then
               limit_sig = slims*sc(i)
               if(signxy(i) >= zero .and. signxy(i) >= limit_sig) then
                 signxy(i) = min(limit_sig, signxy(i))
-                !! signxx(i) = sigoxx(i)
-                !! signyy(i) = sigoyy(i)
-                !!  signzz(i) = sigozz(i)
+               !! signxx(i) = slims*sigoxx(i)
+               !! signyy(i) = slims*sigoyy(i)
+              !!  signzz(i) = slims*sigozz(i)
               else if(signxy(i) < zero .and. signxy(i) <= -limit_sig) then
                 signxy(i) = max(-limit_sig, signxy(i))
-                !! signxx(i) = sigoxx(i)
-                !!  signyy(i) = sigoyy(i)
-                !! signzz(i) = sigozz(i)
+               !! signxx(i) = slims*sigoxx(i)
+               !! signyy(i) = slims*sigoyy(i)
+               !! signzz(i) = slims*sigozz(i)
               end if
             end if
             ! out of plane damage

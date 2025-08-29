@@ -49,11 +49,11 @@
           nfunc   ,ifunc     ,npf       ,tf     , snpc   ,       &
           stf     ,epsp      ,                                   &
           depsxx  ,depsyy    ,depsxy ,                           &
-          epsxx   ,epsyy     ,epsxy   ,epsyz   ,epszx ,         &
-          sigoxx  ,sigoyy    ,sigoxy,                           &
-          signxx  ,signyy    ,signxy  ,signzx   ,signyz  ,      &
-          off     ,sigy      ,etse    ,ssp      ,dmg     ,      &
-          dmg_g   ,offply  )
+          epsxx   ,epsyy     ,epsxy   ,epsyz   ,epszx ,          &
+          sigoxx  ,sigoyy    ,sigoxy,                            &
+          signxx  ,signyy    ,signxy  ,signzx   ,signyz  ,       &
+          off     ,sigy      ,etse    ,ssp      ,dmg     ,       &
+          offply  )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                        Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -104,8 +104,7 @@
           real(kind=WP), dimension(nel), intent(out) :: signzx !< new stress zx
           real(kind=WP), dimension(nel), intent(inout) :: ssp !< sound speed
           real(kind=WP), dimension(nel), intent(inout) :: off !< element deletion flag
-          real(kind=WP), dimension(nel,6), intent(inout) ::  dmg
-          real(kind=WP), dimension(nel), intent(inout) ::  dmg_g
+          real(kind=WP), dimension(nel,13), intent(inout) ::  dmg
           real(kind=WP), dimension(nel), intent(inout) :: offply !< ply element deletion flag
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
@@ -134,7 +133,7 @@
           ! FS ! type of failure yield surface loading
           !  =  -1
           !  =  0  ! not available
-          !  =  1  ! not finalized
+          !  =  1  ! not available
 ! ----------------------------------------------------------------------------------------------------------------------
           ! Material parameters
           e1    = mat_param%uparam(1)
@@ -330,7 +329,7 @@
             iad (1:nel) = npf(ifunc(17)) / 2 + 1
             ilen(1:NEL) = npf(ifunc(17)+1) / 2 - iad(1:nel) - ipos(1:nel)
             CALL vinter(tf,iad,ipos,ilen,nel,epsp,dydx,yy)
-            gamma(1:nel)= yy(1:nel)
+            gamma2(1:nel)= yy(1:nel)
           else
             gamma2(1:nel) = gamma02
           end if
@@ -344,21 +343,21 @@
           else
             tau2(1:nel) = tau02
           end if
-          ! shear strain 12 - ems13
-          if(ifunc(20) /= 0) then  ! em11c
+          ! shear strain 13 - ems13
+          if(ifunc(19) /= 0) then  ! em11c
             ipos(1:nel) = 1
-            iad (1:nel) = npf(ifunc(20)) / 2 + 1
-            ilen(1:NEL) = npf(ifunc(20)+1) / 2 - iad(1:nel) - ipos(1:nel)
+            iad (1:nel) = npf(ifunc(19)) / 2 + 1
+            ilen(1:NEL) = npf(ifunc(19)+1) / 2 - iad(1:nel) - ipos(1:nel)
             CALL vinter(tf,iad,ipos,ilen,nel,epsp,dydx,yy)
             ems13(1:nel)= yy(1:nel)
           else
             ems13(1:nel) = ems013
           end if
           ! shear strengh sc13
-          if(ifunc(19) /= 0) then  ! sc
+          if(ifunc(20) /= 0) then  ! sc
             ipos(1:nel) = 1
-            iad (1:nel) = npf(ifunc(19)) / 2 + 1
-            ilen(1:NEL) = npf(ifunc(19)+1) / 2 - iad(1:nel) - ipos(1:nel)
+            iad (1:nel) = npf(ifunc(20)) / 2 + 1
+            ilen(1:NEL) = npf(ifunc(20)+1) / 2 - iad(1:nel) - ipos(1:nel)
             CALL vinter(tf,iad,ipos,ilen,nel,epsp,dydx,yy)
             sc13(1:nel)= yy(1:nel)
           else
@@ -370,7 +369,7 @@
             iad (1:nel) = npf(ifunc(21)) / 2 + 1
             ilen(1:NEL) = npf(ifunc(21)+1) / 2 - iad(1:nel) - ipos(1:nel)
             CALL vinter(tf,iad,ipos,ilen,nel,epsp,dydx,yy)
-            gamma(1:nel)= yy(1:nel)
+            gamma3(1:nel)= yy(1:nel)
           else
             gamma3(1:nel) = gamma03
           end if
@@ -385,20 +384,20 @@
             tau3(1:nel) = tau03
           end if
           ! shear strain 23 - ems23
-          if(ifunc(24) /= 0) then  !
+          if(ifunc(23) /= 0) then  !
             ipos(1:nel) = 1
-            iad (1:nel) = npf(ifunc(24)) / 2 + 1
-            ilen(1:NEL) = npf(ifunc(24)+1) / 2 - iad(1:nel) - ipos(1:nel)
+            iad (1:nel) = npf(ifunc(23)) / 2 + 1
+            ilen(1:NEL) = npf(ifunc(23)+1) / 2 - iad(1:nel) - ipos(1:nel)
             CALL vinter(tf,iad,ipos,ilen,nel,epsp,dydx,yy)
             ems23(1:nel)= yy(1:nel)
           else
             ems23(1:nel) = ems023
           end if
-          ! shear strengh sc13
-          if(ifunc(23) /= 0) then  ! sc
+          ! shear strengh sc23
+          if(ifunc(24) /= 0) then  ! sc
             ipos(1:nel) = 1
-            iad (1:nel) = npf(ifunc(23)) / 2 + 1
-            ilen(1:NEL) = npf(ifunc(23)+1) / 2 - iad(1:nel) - ipos(1:nel)
+            iad (1:nel) = npf(ifunc(24)) / 2 + 1
+            ilen(1:NEL) = npf(ifunc(24)+1) / 2 - iad(1:nel) - ipos(1:nel)
             CALL vinter(tf,iad,ipos,ilen,nel,epsp,dydx,yy)
             sc23(1:nel)= yy(1:nel)
           else
@@ -408,32 +407,32 @@
           do i=1,nel
             if(xt(i) > zero )then
               ef11t(i)  = xt(i)/e1
-              if(em11t(i)  == zero) em11t(i) = onep2*ef11t(i)
+              em11t(i) = max(em11t(i), onep1*ef11t(i))
               m1t(i)= -one/log(ef11t(i)/em11t(i))
               al1t(i) = m1t(i)*(em11t(i)/ef11t(i))**m1t(i)
             end if
             if(xc(i) > zero  )then
               ef11c(i)  = xc(i)/e1
-              if(em11c(i) <= zero)em11c(i) = ONEP2*ef11c(i)
+              em11c(i) = max(em11c(i), onep1*ef11c(i))
               m1c(i)= -one/log(ef11c(i)/em11c(i))
               al1c(i) = m1c(i)*(em11c(i)/ef11c(i))**m1c(i)
             end if
             if(yt(i) > zero )then
               ef22t(i)  = yt(i)/e2
-              if(em22t(i) <= zero) em22t(i) = ONEP2*ef22t(i)
+              em22t(i) = max(em22t(i), onep1*ef22t(i))
               m2t(i) = -one/log(ef22t(i)/em22t(i))
               al2t(i) = m2t(i)*(em22t(i)/ef22t(i))**m2t(i)
             end if
             !
             if(yc(i) > zero  )then
               ef22c(i)  = yc(i)/e1
-              if(em22c(i) == zero  )em22c(i) = onep2*ef22c(i)
+              em22c(i) = max(em22c(i),onep1*ef22c(i))
               m2c(i) = -one/log(ef22c(i)/em22c(i))
               al2c(i) = m2c(i)*(em22c(i)/ef22c(i))**m2c(i)
             end if
             if(tau(i) > zero  )then
               efs(i)  = tau(i) /g12
-              if(gamma(i) <= zero ) gamma(i) = onep2*efs(i)
+              gamma(i) = max(gamma(i),onep1*efs(i))
               ms(i) = -one/log(efs(i)/gamma(i)) ! one/ln(epsm/epsf)
               als(i) = ms(i)*(gamma(i)/efs(i))**ms(i)
             end if
@@ -444,9 +443,9 @@
             ! dir
             check(i) = one
             ! check unloading
-            w11 = dmg(i,1)
-            w22 = dmg(i,2)
-            w12 = dmg(i,3)
+            w11 = dmg(i,2)
+            w22 = dmg(i,3)
+            w12 = dmg(i,4)
             d = (one - w11*w22*nu12*nu21)
             e1d = w11*e1
             e2d = w22*e2
@@ -475,7 +474,7 @@
             !  FS = -1
             do i=1,nel
               limit_strain = epsxx(i)**2 + epsyy(i)**2 + epsxy(i)**2
-              if(check(i) >= zero .and. limit_strain > uvar(i,2) .and. dmg_g(i) /= two .and. dmg_g(i) >= zero) then
+              if(check(i) >= zero .and. limit_strain > uvar(i,2) .and. dmg(i,1) /= two .and. dmg(i,1) >= zero) then
                 if(epsxx(i) >= zero )then
                   w11 = epsxx(i)/ef11t(i)
                   w11 = exp(m1t(i)*log(w11))/al1t(i)  ! (esp/epsf)^m/alpha
@@ -496,12 +495,12 @@
                   w22 = exp(-w22)
                 end if
               else ! unlaod & reloading (following the same path as unloading)
-                w11 = dmg(i,1)
-                w22 = dmg(i,2)
-                w12 = dmg(i,3)
+                w11 = dmg(i,2)
+                w22 = dmg(i,3)
+                w12 = dmg(i,4)
                 !if(check(i)  > zero) then
-                !  if( ( limit_strain < uvar(i,2) .and. dmg_g(i) > zero )  .or.       & 
-                !      ( limit_strain > uvar(i,2) .and. dmg_g(i) < zero ) ) dmg_g(i) = -dmg_g(i)
+                !  if( ( limit_strain < uvar(i,2) .and. dmg(i,1) > zero )  .or.       & 
+                !      ( limit_strain > uvar(i,2) .and. dmg(i,1) < zero ) ) dmg(i,1) = -dmg(i,1)
                 !endif      
               end if
               ! damage hook matrix
@@ -516,8 +515,8 @@
               signzx(i) = shf(i)*g12*epszx(i)
               signyz(i) = shf(i)*g12*epsyz(i)
               ! save w11 & w22
-              dmg(i,1)= w11
-              dmg(i,2)= w22
+              dmg(i,2)= w11
+              dmg(i,3)= w22
               !
               etse(i)   = one
               a11       = max(e1,e2)/(one - nu12**2)
@@ -529,21 +528,20 @@
             do i=1,nel
               ! shear w12
               w12 = one
-              w11 = dmg(i,1)
-              w22 = dmg(i,2)
+              w11 = dmg(i,2)
+              w22 = dmg(i,3)
               limit_strain = epsxx(i)**2 + epsyy(i)**2 + epsxy(i)**2
-              if(check(i) >= zero .and. limit_strain > uvar(i,2) .and. dmg_g(i) /= two .and. dmg_g(i) >= zero) then
-                 dmg_g(i) = abs(dmg_g(i))
+              if(check(i) >= zero .and. limit_strain > uvar(i,2) .and. dmg(i,1) /= two .and. dmg(i,1) >= zero) then
                  if(tau(i) >  zero ) then
                   w12 = abs(epsxy(i))/efs(i)
                   w12 = exp(ms(i)*log(w12))/als(i)  ! (esp/epsf)^m/alpha
                   w12 = exp(-w12)
                 end if  
               else
-                w12 = dmg(i,3)
+                w12 = dmg(i,4)
                 if(check(i)  > zero) then
-                  if( ( limit_strain < uvar(i,2) .and. dmg_g(i) > zero )  .or.       & 
-                      ( limit_strain > uvar(i,2) .and. dmg_g(i) < zero ) ) dmg_g(i) = -dmg_g(i)
+                  if( ( limit_strain < uvar(i,2) .and. dmg(i,1) > zero )  .or.       & 
+                      ( limit_strain > uvar(i,2) .and. dmg(i,1) < zero ) ) dmg(i,1) = -dmg(i,1)
                 end if   
               end if
               g12d = w12*g12
@@ -554,61 +552,61 @@
                 signxy(i) = sign(tauxy,signxy(i))
               end if
               ! checking loading failure criteria
-              if(abs(dmg_g(i)) <  one ) then
-                dmg(i,4) = max(epsxx(i)/em11t(i), signxx(i)/xt(i)) ! based on max strain or max strain
-                if(signxx(i) < zero) dmg(i,4) = max(-epsxx(i)/em11c(i), -signxx(i)/xc(i))
-                dmg(i,5) = max(epsyy(i)/em22t(i), signyy(i)/yt(i))
-                if(signyy(i) < zero) dmg(i,5) = max(-epsyy(i)/em22c(i),-signyy(i)/yc(i))
-                dmg(i,6) = max( abs(epsxy(i))/ems(i),  abs(signxy(i))/sc(i) )
-                if(dmg(i,4) >= zep99 .or. dmg(i,5) >= zep99 .or. dmg(i,6) >= zep99) dmg_g(i) = one
+              if(abs(dmg(i,1)) <  one ) then
+                dmg(i,5) = max(epsxx(i)/em11t(i), signxx(i)/xt(i)) ! based on max strain or max strain
+                if(signxx(i) < zero) dmg(i,5) = max(-epsxx(i)/em11c(i), -signxx(i)/xc(i))
+                dmg(i,6) = max(epsyy(i)/em22t(i), signyy(i)/yt(i))
+                if(signyy(i) < zero) dmg(i,6) = max(-epsyy(i)/em22c(i),-signyy(i)/yc(i))
+                dmg(i,7) = max( abs(epsxy(i))/ems(i),  abs(signxy(i))/sc(i) )
+                if(dmg(i,5) >= zep99 .or. dmg(i,6) >= zep99 .or. dmg(i,7) >= zep99) dmg(i,1) = one
               end if
               if(check(i) >= zero) then
-                if(dmg_g(i) >= one  ) then
-                  if( dmg(i,4) >= zep99) then
-                     if(signxx(i) >= zero .and. (signxx(i) <=  slimt1*xt(i) .or. dmg(i,4) == two )) then !  slimt1*xt(i) ) then
+                if(dmg(i,1) >= one  ) then
+                  if( dmg(i,5) >= zep99) then
+                     if(signxx(i) >= zero .and. (signxx(i) <=  slimt1*xt(i) .or. dmg(i,5) == two )) then !  slimt1*xt(i) ) then
                        limit_sig = slimt1*xt(i)
                        signxx(i) = limit_sig ! max(signxx(i), limit_sig )
                        signyy(i) = slimt1*sigoyy(i)
                        signxy(i) = slimt1*sigoxy(i) 
-                       dmg(i,4) = two ! 
-                      elseif(signxx(i) < zero .and. ( signxx(i) >= -slimc1*xc(i) .or. dmg(i,4) == two)) then
+                       dmg(i,5) = two ! 
+                      elseif(signxx(i) < zero .and. ( signxx(i) >= -slimc1*xc(i) .or. dmg(i,5) == two)) then
                        limit_sig = -slimc1*xc(i)
                        signxx(i) = limit_sig !  min(signxx(i),  limit_sig ) 
                        signyy(i) = slimc1*sigoyy(i)
                        signxy(i) = slimc1*sigoxy(i)
-                       dmg(i,4) = two !
+                       dmg(i,5) = two !
                       end if 
-                   elseif( dmg(i,5) >= zep99)then
-                     if(signyy(i) >= zero .and. (signyy(i) <= slimt2*yt(i) .or. dmg(i,5) == two )) then !  slimt2*yt(i) ) then
+                   elseif( dmg(i,6) >= zep99)then
+                     if(signyy(i) >= zero .and. (signyy(i) <= slimt2*yt(i) .or. dmg(i,6) == two )) then !  slimt2*yt(i) ) then
                        limit_sig = slimt2*yt(i)
                        signyy(i) = limit_sig
                        signxx(i) = slimt2*sigoxx(i)
                        signxy(i) = slimt2*sigoxy(i)
-                       dmg(i,5) = two ! dmg(i,5) !
-                      elseif(signyy(i) < zero .and. ( signyy(i) >= -slimc2*yc(i) .or. dmg(i,5) == two ) ) then
+                       dmg(i,6) = two ! 
+                      elseif(signyy(i) < zero .and. ( signyy(i) >= -slimc2*yc(i) .or. dmg(i,6) == two ) ) then
                        limit_sig = -slimc2*yc(i)
                        signyy(i) = limit_sig ! min(signyy(i),limit_sig )
                        signxx(i) = slimc2*sigoxx(i)
                        signxy(i) = slimc2*sigoxy(i)
-                       dmg(i,5) = two !
+                       dmg(i,6) = two !
                       end if
-                    elseif( dmg(i,6) >= zep99 .and. (abs(signxy(i)) <= slims*sc(i) .or. dmg(i,6) == two )) then
+                    elseif( dmg(i,7) >= zep99 .and. (abs(signxy(i)) <= slims*sc(i) .or. dmg(i,7) == two )) then
                          limit_sig = slims*sc(i)
                          signxy(i) = sign(limit_sig,signxy(i))
                          signxx(i) = slims*sigoxx(i)
                          signyy(i) = slims*sigoyy(i)
-                         dmg(i,6) = two 
+                         dmg(i,7) = two 
                     end if ! dmg
-                    dmg_g(i) = max(one, dmg(i,4),dmg(i,5),dmg(i,6))
+                    dmg(i,1) = max(one, dmg(i,5),dmg(i,6),dmg(i,7))
                     if(epsxx(i) /= zero ) w11 = Min(one, abs(signxx(i)/epsxx(i))/e1)
                     if(epsyy(i) /= zero ) w22 = Min(one, abs(signyy(i)/epsyy(i))/e2)
                     if(epsxy(i) /= zero ) w12 = Min(one, abs(signxy(i)/epsxy(i))/g12)
-                end if ! dmg_g
+                end if ! dmg(i,1)
                 uvar(i,2) = max(uvar(i,2), limit_strain)
               endif ! check
-              dmg(i,1) = w11
-              dmg(i,2) = w22
-              dmg(i,3) = w12
+              dmg(i,2) = w11
+              dmg(i,3) = w22
+              dmg(i,4) = w12
               dezz(i)    = -(nu12/e1)*(signxx(i)-sigoxx(i))-(nu12/e2)*(signyy(i)-sigoyy(i))
               thk(i)     = thk(i) + dezz(i)*thkly(i)*off(i)
             end do ! nel
@@ -616,97 +614,14 @@
             !  FS = 0
             !
            case(0)  ! fs = 0  !  should be added after fixing fs=1 formulation
-            ! coupled failure criterion
             ! Coupling failure criterion
             ! matrix/shear
            case(1)
             ! coupled failure criterion
-            ! Coupling failure criterion
             ! fiber/shear
             ! matrix/shear
             !  FS = 1  ! not finalized. Waiting to understand how we can handle the coupling.
-            do i=1,nel
-              if(check(i) >= zero ) then
-                uvar(i,2) = one
-                ! compute the damage parameters
-                if(epsxx(i) >= zero )then
-                  w11 = epsxx(i)/ef11t(i)
-                  w11 = exp(m1t(i)*log(w11))/al1t(i) ! (esp/epsf)^m/alpha
-                  w11 = exp(-w11)
-                else
-                  w11 = abs(epsxx(i))/ef11c(i)
-                  w11 = exp(m1c(i)*log(w11))/al1c(i)
-                  w11 = exp(-w11)  !
-                end if
-                ! dir b
-                if(epsyy(i) >= zero )then
-                  w22 = epsyy(i)/ef22t(i)
-                  w22 = exp(m2t(i)*log(w22))/al2t(i)
-                  w22 = exp(-w22)  !
-                else
-                  w22 = abs(epsyy(i))/ef22c(i)
-                  w22 = exp(m2c(i)*log(w22))/al2c(i)
-                  w22 = exp(-w22)  !
-                end if
-                w12 = abs(epsxy(i))/efs(i)
-                w12 = exp(ms(i)*log(w12))/als(i)  ! (esp/epsf)^m/alpha
-                w12 = exp(-w12)
-              else ! unlaod
-                w11 = dmg(i,1)
-                w22 = dmg(i,2)
-                w12 = dmg(i,3)
-                uvar(i,2) = -one
-              end if
-              ! damage hook matrix
-              d = (one - w11*w22*nu12*nu21)
-              e1d = w11*e1
-              e2d = w22*e2
-              e12d = w11*w22*nu21*e1
-              e21d = w11*w22*nu12*e2
-              invd = one/d
-              signxx(i) = invd*(e1d*epsxx(i) + e12d*epsyy(i))
-              signyy(i) = invd*(e21d*epsxx(i)+ e2d*epsyy(i))
-              signxy(i) = g12*w12*epsxy(i)
-              signzx(i) = shf(i)*g12*epszx(i)
-              signyz(i) = shf(i)*g12*epsyz(i)
-              !
-              if(dmg_g(i) < one ) then
-                dmg(i,4)= (signxx(i)/xt(i))**2 + (signxy(i)/sc(i))**2
-                if(signxx(i) < zero )dmg(i,4) = (signxx(i)/xc(i))**2 + (signxy(i)/sc(i))**2
-                dmg(i,5) = (signyy(i)/yt(i))**2 + (signxy(i)/sc(i))**2
-                if(signyy(i) < zero )dmg(i,5) = (signyy(i)/yc(i))**2 + (signxy(i)/sc(i))**2
-                if(dmg(i,4) >= zep99 .or. dmg(i,5) >=  zep99) dmg_g(i) = one
-              end if
-              if( check(i) >= zero  ) then
-                if(dmg_g(i) == one  ) then
-                  ! if( uvar(i,4) == zero .and. uvar(i,5) == zero .and. uvar(i,6) == zero) then
-                  if( uvar(i,4) == zero ) then
-                    uvar(i,4) = signxx(i)*slimt1
-                    if(signxx(i) < zero) uvar(i,4) = -signxx(i)*slimc1
-                    uvar(i,5) = signyy(i)*slimt2
-                    if(signyy(i) < zero) uvar(i,5) = -signyy(i)*slimc2
-                    uvar(i,6) = abs(signxy(i))*slims
-                  end if
-                  signxx(i) = sign(max(uvar(i,4), abs(signxx(i))),signxx(i))
-                  signyy(i) = sign(max(uvar(i,5), abs(signyy(i))),signyy(i))
-                  signxy(i) = sign(max(uvar(i,6), abs(signxy(i))),signxy(i))
-                  if(epsxx(i) /= zero ) w11 = Min(one, abs(signxx(i)/epsxx(i))/e1)
-                  if(epsyy(i) /= zero ) w22 = Min(one, abs(signyy(i)/epsyy(i))/e2)
-                  if(epsxy(i) /= zero ) w12 = Min(one, abs(signxy(i)/epsxy(i))/g12)
-                end if
-                ! save w11 & w22, w12
-                dmg(i,1)= w11
-                dmg(i,2)= w22
-                dmg(i,3)= w12
-              end if
-              etse(i)   = one
-              a11       = max(e1,e2)/(one - nu12**2)
-              a11       = max(e1,e2)
-              ssp(i) = sqrt(a11/rho(i))
-              sigy(i)    = min(slimt1*xt(i),slimt2*yt(i), slimc1*xc(i),slimc2*yc(i))
-              dezz(i)  = -(nu12/e1)*(signxx(i)-sigoxx(i))-(nu12/e2)*(signyy(i)-sigoyy(i))
-              thk(i)     = thk(i) + dezz(i)*thkly(i)*off(i)
-            end do ! nel loop
+          
           end select ! FS
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine sigeps125c

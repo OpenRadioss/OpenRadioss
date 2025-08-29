@@ -2017,12 +2017,14 @@
             &sigy   ,et     ,lbuf%dmg,deltax)
 !
           else if (mtn == 125) then
+            call mstrain_rate(nel    ,israte ,asrate ,epsd   ,idev   ,&
+            &ep1    ,ep2    ,ep3    ,ep4    ,ep5    ,ep6)
             call sigeps125(&
-            &nel      ,nuvar    ,uvar     ,matparam                     ,&
-            &rho0                                                       ,&
+            &nel      ,nuvar    ,uvar     ,matparam ,rho0              ,&
+            &nfunc    ,ifunc    ,snpc     ,npf      ,stf      ,tf       ,&   
             &es1      ,es2      ,es3      ,es4      ,es5      ,es6      ,&
             &s1       ,s2       ,s3       ,s4       ,s5       ,s6       ,&
-            &ssp )
+            &ssp     , epsd,  lbuf%dmg )
 !
           else if (mtn == 126) then
             idev = 1

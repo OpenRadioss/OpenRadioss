@@ -1802,7 +1802,7 @@
                   sigoxx   ,sigoyy     ,sigoxy                       ,&
                   signxx   ,signyy     ,signxy   ,signzx   ,signyz   ,&
                   off      ,sigy       ,etse     ,ssp      ,lbuf%dmg ,&
-                  gbuf%dmg ,lbuf%off  )
+                  lbuf%off  )
                 lbuf%epsd(1:nel) = epsd_pg(1:nel)
 !
               elseif (ilaw == 127) then
