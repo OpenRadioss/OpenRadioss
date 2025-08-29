@@ -855,7 +855,11 @@ C
           ! Computation of non-local damping
           IF ((DENS < NLOC_DMG%DENS(IMAT)).OR.(NLOC_DMG%DENS(IMAT) == ZERO)) THEN 
             ! Computation of the damping parameter (homogeneous to a time value)
-            DAMP = (TWO*ETA/LE_MAX)*SQRT(DENS*((LEN**2)*(PI**2) + LE_MAX**2))
+            IF (LE_MAX > EM20) THEN
+              DAMP = (TWO*ETA/LE_MAX)*SQRT(DENS*((LEN**2)*(PI**2) + LE_MAX**2))
+            ELSE
+              DAMP = ZERO
+            ENDIF
             ! Saving non-local parameters (storing the maximal value)
             NLOC_DMG%DENS(IMAT) = MAX(DENS,ZERO)
             NLOC_DMG%DAMP(IMAT) = MAX(DAMP,ZERO)
