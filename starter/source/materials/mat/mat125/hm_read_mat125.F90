@@ -295,9 +295,9 @@
           allocate (matparam%uparam(matparam%nuparam))
 
           ! number of functions
-          nfunc   = 24
+          nfunc   = 25
           ! number of user variables
-          nuvar   = 10
+          nuvar   = 2
           ! number of temporary variable for interpolation
           nvartmp = 0
 !
@@ -549,20 +549,20 @@
           !
           ifunc(13)  = ifgamma
           ifunc(14)  = iftau
-          ifunc(15)  = ifsc
           ifunc(15)  = ifems
+          ifunc(16)  = ifsc
           !
-          ifunc(16)  = ifgamma2
-          ifunc(17)  = iftau2
-          ifunc(18)  = ifsc13
+          ifunc(17)  = ifgamma2
+          ifunc(18)  = iftau2
           ifunc(19)  = ifems13
+          ifunc(20)  = ifsc13
           !
-          ifunc(20)  = ifgamma3
-          ifunc(21)  = iftau3
-          ifunc(22)  = ifsc23
+          ifunc(21)  = ifgamma3
+          ifunc(22)  = iftau3
           ifunc(23)  = ifems23
+          ifunc(24)  = ifsc23
           !
-          ifunc(24)  = iferods
+          ifunc(25)  = iferods
 !
           nu21   = nu12*e2/e1
           nu    = sqrt(nu12*nu21)
@@ -624,13 +624,13 @@
           mtag%g_seq  = 1
           mtag%l_seq  = 1
           mtag%g_dmg  = 1
-          mtag%l_dmg  = 6
+          mtag%l_dmg  = 13
           ! number of output mod
           ! matparam%nmod = 3
           ! allocate(matparam%mode(matparam%nmod))
-          ! matparam%mode(1) = "fiber damage"
-          ! matparam%mode(2) = "shear matrix damage"
-          ! matparam%mode(3) = "transverse matrix damage"
+          !matparam%mode(1) = "fiber damage"
+          !matparam%mode(2) = "matrix damage"
+          !matparam%mode(3) = "shear matrix damage"
 !
           call init_mat_keyword(matparam ,"ELASTO_PLASTIC")
           !call init_mat_keyword(matparam ,"incremental"   )
