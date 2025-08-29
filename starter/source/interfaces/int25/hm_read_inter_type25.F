@@ -823,6 +823,22 @@ C
         FRIGAP(50 ) = THK_M
         FRIGAP(51 ) = THK_S_SCALE
         FRIGAP(52 ) = THK_M_SCALE
+        IF(IGAP == 5.AND.THK_S == ZERO) THEN
+          CALL ANCMSG(MSGID=3105,
+     .                MSGTYPE=MSGWARNING,
+     .                ANMODE=ANINFO,
+     .                I1=NOINT,
+     .                C1=TITR,
+     .                C2='SECONDARY')
+        ENDIF
+        IF(IGAP == 5.AND.THK_M == ZERO) THEN
+          CALL ANCMSG(MSGID=3105,
+     .                MSGTYPE=MSGWARNING,
+     .                ANMODE=ANINFO,
+     .                I1=NOINT,
+     .                C1=TITR,
+     .                C2='MAIN')
+        ENDIF
 
 C
 C------------------------------------------------------------
