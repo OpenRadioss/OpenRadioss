@@ -1180,7 +1180,7 @@ C------------------------------------
          MG=IXC(6,I)
          IGTYP = IGEO(11,MG)
          IP = IPARTC(I)
-         IF ( IGAP == 5) THEN
+         IF ( IGAP == 5.AND.THK_M /= ZERO) THEN
             DX=HALF*THK_M
          ELSEIF ( THK_PART(IP) /= ZERO .AND. IINTTHICK == 0) THEN
            DX=HALF*THK_PART(IP)
@@ -1201,9 +1201,8 @@ C
          MG=IXTG(5,I)
          IGTYP = IGEO(11,MG)
          IP = IPARTTG(I)
-         IF ( IGAP == 5) THEN
+         IF ( IGAP == 5.AND.THK_M /= ZERO) THEN
             DX=HALF*THK_M
-
          ELSEIF ( THK_PART(IP) /= ZERO .AND. IINTTHICK == 0) THEN
            DX=HALF*THK_PART(IP)
          ELSEIF ( THK(NUMELC+I) /= ZERO .AND. IINTTHICK == 0) THEN
@@ -1218,7 +1217,7 @@ C
          WA(IXTG(4,I))=MAX(WA(IXTG(4,I)),DX)
        ENDDO
 C
-       IF(IGAP==5) THEN
+       IF(IGAP==5.AND.THK_M /= ZERO) THEN
          DO I=1,NUMNOD
            WA(I)=THK_M_SCALE*WA(I)
          END DO
