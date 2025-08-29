@@ -211,7 +211,7 @@ C------------------------------------
         MG=IXC(6,I)
         IP = IPARTC(I)
         IGTYP = IGEO(11,MG)
-        IF ( IGAP == 5) THEN
+        IF ( IGAP == 5.AND.THK_S /= ZERO) THEN
           DX=HALF*THK_S
         ELSEIF ( THK_PART(IP) /= ZERO .AND. IINTTHICK == 0) THEN
           DX=HALF*THK_PART(IP)
@@ -231,7 +231,7 @@ C------------------------------------
         MG=IXTG(5,I)
         IP = IPARTTG(I)
         IGTYP = IGEO(11,MG)
-        IF ( IGAP == 5) THEN
+        IF ( IGAP == 5.AND.THK_S /= ZERO ) THEN
           DX=HALF*THK_S
         ELSEIF ( THK_PART(IP) /= ZERO .AND. IINTTHICK == 0) THEN
           DX=HALF*THK_PART(IP)
@@ -268,7 +268,7 @@ C-------
       DO I=1,NUMELT
         MG=IXT(4,I)
         IP = IPARTT(I)
-        IF ( IGAP == 5) THEN
+        IF ( IGAP == 5.AND.THK_S /= ZERO) THEN
           DX=HALF*THK_S
         ELSEIF  ( THK_PART(IP) > ZERO ) THEN
           DX=HALF*THK_PART(IP)
@@ -281,7 +281,7 @@ C-------
       DO I=1,NUMELP
         MG=IXP(5,I)
         IP = IPARTP(I)
-        IF ( IGAP == 5) THEN
+        IF ( IGAP == 5.AND.THK_S /= ZERO) THEN
           DX=HALF*THK_S
         ELSEIF  ( THK_PART(IP) > ZERO ) THEN
           DX=HALF*THK_PART(IP)
@@ -292,23 +292,23 @@ C-------
         WA(IXP(3,I))=MAX(WA(IXP(3,I)),DX)
       ENDDO
       DO I=1,NUMELR
+        MG=IXR(1,I)
         IP = IPARTR(I)
-        IF ( IGAP == 5) THEN
+        IF ( IGAP == 5.AND.THK_S /= ZERO) THEN
           DX=HALF*THK_S
         ELSEIF  ( THK_PART(IP) > ZERO ) THEN
-          MG=IXR(1,I)
-          IGTYP = IGEO(11,MG)
           DX=HALF*THK_PART(IP)
-          WA(IXR(2,I))=MAX(WA(IXR(2,I)),DX)
-          WA(IXR(3,I))=MAX(WA(IXR(3,I)),DX)
-          IF (IGTYP==12) WA(IXR(4,I))=MAX(WA(IXR(4,I)),DX)
-       END IF
+        ENDIF
+        IGTYP = IGEO(11,MG)
+        WA(IXR(2,I))=MAX(WA(IXR(2,I)),DX)
+        WA(IXR(3,I))=MAX(WA(IXR(3,I)),DX)
+        IF (IGTYP==12) WA(IXR(4,I))=MAX(WA(IXR(4,I)),DX)
       ENDDO
       DO I=1,NSN
-        IF ( IGAP /= 5) THEN
-            GAP_S(I)=GAPSCALE * WA(NSV(I))
-        ELSE
+        IF ( IGAP == 5.AND.THK_S /= ZERO) THEN
             GAP_S(I)= THK_S_SCALE*WA(NSV(I))
+        ELSE
+            GAP_S(I)=GAPSCALE * WA(NSV(I))
         ENDIF
         GAP_S(I)=MIN(GAP_S(I),GAPMAX_S)
       ENDDO
@@ -964,7 +964,7 @@ C
           IELEM_M(1,I) = OFTG+NELTG
 
           IF(INTTH > 0 ) IELEM(I) = MT
-          IF ( IGAP == 5) THEN
+          IF ( IGAP == 5.AND.THK_M /= ZERO) THEN
             DX=THK_M_SCALE*THK_M
           ELSEIF ( THK_PART(IP) /= ZERO .AND. IINTTHICK == 0) THEN
             DX=THK_PART(IP)*GAPSCALE
@@ -1057,7 +1057,7 @@ C
           IELEM_M(1,I) = OFC+NELC
 
           IF(INTTH > 0 ) IELEM(I) = MT
-          IF ( IGAP == 5) THEN
+          IF ( IGAP == 5.AND.THK_M /= ZERO) THEN
             DX=THK_M_SCALE*THK_M
           ELSEIF (THK_PART(IP) /= ZERO .AND. IINTTHICK == 0) THEN
             DX=THK_PART(IP)*GAPSCALE
