@@ -379,7 +379,7 @@
 !                                                     Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           type(python_function), intent(in) :: src !< the source python function
-          type(python_function), intent(out) :: dest !< the destination python function
+          type(python_function), intent(inout) :: dest !< the destination python function
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                      Body
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -541,7 +541,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-          type(python_function),                     intent(out) :: funct !< the Fortran structure that holds the python function
+          type(python_function),                   intent(inout) :: funct !< the Fortran structure that holds the python function
           integer,                                    intent(in) :: len_code !< the length of the code
           integer,                                    intent(in) :: num_lines !< the number of lines of the code
           character(kind=c_char,len=len_code),        intent(in) :: code !< the code of the python function from the input file
