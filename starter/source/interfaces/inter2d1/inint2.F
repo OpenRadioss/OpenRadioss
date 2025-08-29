@@ -37,6 +37,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    inint0                 ../starter/source/interfaces/interf1/inint0.F
 !||    invoi2                 ../starter/source/interfaces/inter2d1/invoi2.F
 !||--- uses       -----------------------------------------------------
+!||    i1bcs_check_mod        ../starter/source/interfaces/int01/i1bcs_check.F90
+!||    i9bcs_check_mod        ../starter/source/interfaces/int09/i9bcs_check.F90
 !||    message_mod            ../starter/share/message_module/message_mod.F
 !||====================================================================
       SUBROUTINE ININT2(INTBUF_TAB ,INSCR    ,X         ,IXQ     ,SINSCR   ,

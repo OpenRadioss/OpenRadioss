@@ -45,15 +45,15 @@
 !! \details  COLLOCATED SCHEME
 !! \details     EOSMAIN / IFLG = 2 : SINGLE PASS FOR P[n+1] AND DERIVATIVES
 !----------------------------------------------------------------------------
-      !||====================================================================
-      !||    compaction2     ../common_source/eos/compaction2.F90
-      !||--- called by ------------------------------------------------------
-      !||    eosmain         ../common_source/eos/eosmain.F
-      !||--- uses       -----------------------------------------------------
-      !||    constant_mod    ../common_source/modules/constant_mod.F
-      !||    eos_param_mod   ../common_source/modules/mat_elem/eos_param_mod.F90
-      !||    precision_mod   ../common_source/modules/precision_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    compaction2     ../common_source/eos/compaction2.F90
+!||--- called by ------------------------------------------------------
+!||    eosmain         ../common_source/eos/eosmain.F
+!||--- uses       -----------------------------------------------------
+!||    constant_mod    ../common_source/modules/constant_mod.F
+!||    eos_param_mod   ../common_source/modules/mat_elem/eos_param_mod.F90
+!||    precision_mod   ../common_source/modules/precision_mod.F90
+!||====================================================================
       subroutine compaction2(npropm, nummat,&
                              iflag  , nel   , pm   , off   , eint  , mu    , &
                              dvol   , mat   , psh  , &

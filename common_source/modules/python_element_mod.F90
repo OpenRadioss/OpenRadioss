@@ -27,7 +27,6 @@
 !||    python_element_sync   ../engine/source/mpi/python_spmd_mod.F90
 !||    python_funct_mod      ../common_source/modules/python_mod.F90
 !||    python_register       ../engine/source/tools/curve/python_register.F90
-!||--- uses       -----------------------------------------------------
 !||====================================================================
       module python_element_mod
         use, intrinsic :: iso_c_binding

@@ -27,7 +27,6 @@
 !||    radioss2               ../engine/source/engine/radioss2.F
 !||    resol                  ../engine/source/engine/resol.F
 !||    resol_head             ../engine/source/engine/resol_head.F
-!||--- uses       -----------------------------------------------------
 !||====================================================================
       module coupling_adapter_mod
         ! This file contain the generic coupling adapter interface used by CWIPI and preCICE

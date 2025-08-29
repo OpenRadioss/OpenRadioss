@@ -166,7 +166,6 @@
 !||    multi_muscl_gradients            ../engine/source/multifluid/multi_muscl_gradients.F
 !||    multi_nrf_ebcs                   ../engine/source/multifluid/multi_nrf_ebcs.F
 !||    multi_pressure_equilibrium       ../engine/source/multifluid/multi_pressure_equilibrium.F
-!||    multi_propellant_ebcs            ../engine/source/multifluid/multi_propellant_ebcs.F90
 !||    multi_timeevolution              ../engine/source/multifluid/multi_timeevolution.F
 !||    multi_update_global              ../engine/source/multifluid/multi_update_global.F
 !||    multi_update_partial             ../engine/source/multifluid/multi_update_partial.F

@@ -32,7 +32,6 @@
 !||    array_to_string        ../starter/source/tools/curve/hm_read_funct_python.F90
 !||--- called by ------------------------------------------------------
 !||    hm_read_funct_python   ../starter/source/tools/curve/hm_read_funct_python.F90
-!||--- uses       -----------------------------------------------------
 !||====================================================================
         function array_to_string(char_array) result(string)
           use, intrinsic :: iso_c_binding, only : c_char

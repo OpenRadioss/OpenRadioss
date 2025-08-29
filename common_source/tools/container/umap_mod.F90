@@ -29,7 +29,6 @@
 !||    init_global_node_id          ../common_source/modules/nodal_arrays.F90
 !||    init_global_shell_id         ../common_source/modules/connectivity.F90
 !||    spmd_exchange_ghost_shells   ../engine/source/engine/node_spliting/ghost_shells.F90
-!||--- uses       -----------------------------------------------------
 !||====================================================================
       module umap_mod
         use, intrinsic :: iso_c_binding

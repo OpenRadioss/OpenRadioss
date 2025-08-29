@@ -42,6 +42,7 @@
 !||--- uses       -----------------------------------------------------
 !||    array_mod               ../common_source/modules/array_mod.F
 !||    constant_mod            ../common_source/modules/constant_mod.F
+!||    precision_mod           ../common_source/modules/precision_mod.F90
 !||====================================================================
         subroutine inter_init_node_color( nsn,nrtm,nb_cell_x,nb_cell_y,nb_cell_z, &
           numnod,s_comp_nb,m_comp_nb, &

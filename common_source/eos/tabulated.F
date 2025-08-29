@@ -20,11 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    tabulated   ../common_source/eos/tabulated.F
-      !||--- called by ------------------------------------------------------
-      !||    eosmain     ../common_source/eos/eosmain.F
-      !||====================================================================
+!||====================================================================
+!||    tabulated       ../common_source/eos/tabulated.F
+!||--- called by ------------------------------------------------------
+!||    eosmain         ../common_source/eos/eosmain.F
+!||--- uses       -----------------------------------------------------
+!||    constant_mod    ../common_source/modules/constant_mod.F
+!||    eos_param_mod   ../common_source/modules/mat_elem/eos_param_mod.F90
+!||====================================================================
       SUBROUTINE TABULATED(NPROPM, NUMMAT,
      1                     IFLAG,NEL  ,PM   ,OFF  ,EINT ,MU  ,
      2                     ESPE ,DVOL ,DF   ,VNEW ,MAT  ,PSH ,

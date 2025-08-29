@@ -120,6 +120,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    func2d_mod                      ../starter/share/modules1/func2d_mod.F
 !||    inimap1d_mod                    ../starter/share/modules1/inimap1d_mod.F
 !||    inimap2d_mod                    ../starter/share/modules1/inimap2d_mod.F
+!||    init_bcs_wall_mod               ../starter/source/boundary_conditions/init_bcs_wall.F90
+!||    init_inivol_mod                 ../starter/source/initial_conditions/inivol/init_inivol.F90
 !||    init_seatbelt_rbodies_mod       ../starter/source/tools/seatbelts/init_seatbelt_rbodies.F90
 !||    inivol_def_mod                  ../starter/share/modules1/inivol_mod.F
 !||    message_mod                     ../starter/share/message_module/message_mod.F

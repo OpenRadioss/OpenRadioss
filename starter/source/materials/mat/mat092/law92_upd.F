@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_option_is_encrypted   ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
 !||    law92_nlsqf              ../starter/source/materials/mat/mat092/law92_nlsqf.F90
 !||--- uses       -----------------------------------------------------
+!||    law92_nlsqf_mod          ../starter/source/materials/mat/mat092/law92_nlsqf.F90
 !||    message_mod              ../starter/share/message_module/message_mod.F
 !||    table_mod                ../starter/share/modules1/table_mod.F
 !||====================================================================

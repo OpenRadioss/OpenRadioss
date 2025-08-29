@@ -37,7 +37,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    c_fortran_dgssv                  ../engine/stub/superlu_stub.F
 !||    c_freemem                        ../engine/stub/superlu_stub.F
 !||    c_tricall                        ../engine/stub/fvmbags_stub.F
-!||    check_error_and_write            ../common_source/tools/memory/my_alloc.F90
+!||    check_error_and_write            ../common_source/tools/memory/shrink_array.F90
 !||    cp_ifront                        ../engine/source/implicit/produt_v.F
 !||    create_h3d_1d_scalar             ../engine/source/output/h3d/h3d_build_fortran/create_h3d_1d_scalar.F
 !||    create_h3d_1d_tensor             ../engine/source/output/h3d/h3d_build_fortran/create_h3d_1d_tensor.F
@@ -256,13 +256,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    mulaw8                           ../engine/source/materials/mat_share/mulaw8.F90
 !||    mulawc                           ../engine/source/materials/mat_share/mulawc.F90
 !||    multi_allocate                   ../engine/source/multifluid/multi_allocate.F
+!||    multi_ebcs                       ../engine/source/multifluid/multi_ebcs.F
 !||    multi_fluxes_computation         ../engine/source/multifluid/multi_fluxes_computation.F
 !||    multi_i18_force_pon              ../engine/source/interfaces/int18/multi_i18_force_pon.F
 !||    multi_inlet_ebcs                 ../engine/source/multifluid/multi_inlet_ebcs.F
 !||    multi_muscl_fluxes_computation   ../engine/source/multifluid/multi_muscl_fluxes_computation.F
 !||    multi_muscl_gradients            ../engine/source/multifluid/multi_muscl_gradients.F
 !||    multi_nrf_ebcs                   ../engine/source/multifluid/multi_nrf_ebcs.F
-!||    multi_propellant_ebcs            ../engine/source/multifluid/multi_propellant_ebcs.F90
 !||    multi_submatlaw                  ../engine/source/multifluid/multi_submatlaw.F
 !||    multi_timeevolution              ../engine/source/multifluid/multi_timeevolution.F
 !||    ndof_fv                          ../engine/source/implicit/ind_glob_k.F

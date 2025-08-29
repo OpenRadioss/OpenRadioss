@@ -50,6 +50,7 @@
 !||    inter_init_component_list_mod   ../engine/source/interfaces/generic/inter_init_component_list.F90
 !||    inter_init_node_color_mod       ../engine/source/interfaces/generic/inter_init_node_color.F90
 !||    inter_sorting_mod               ../engine/share/modules/inter_sorting_mod.F
+!||    precision_mod                   ../common_source/modules/precision_mod.F90
 !||    spmd_mod                        ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
         subroutine inter_init_component(ninter,npari,numnod,ispmd,nspmd, &

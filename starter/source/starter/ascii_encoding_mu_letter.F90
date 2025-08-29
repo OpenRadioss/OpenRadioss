@@ -20,6 +20,12 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    ascii_encoding_mu_letter_mod   ../starter/source/starter/ascii_encoding_mu_letter.F90
+!||--- called by ------------------------------------------------------
+!||    contrl                         ../starter/source/starter/contrl.F
+!||    hm_read_unit                   ../starter/source/general_controls/computation/hm_read_unit.F
+!||====================================================================
       module ascii_encoding_mu_letter_mod
         implicit none
       contains

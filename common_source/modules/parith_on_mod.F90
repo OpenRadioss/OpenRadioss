@@ -28,6 +28,8 @@
 !||    reallocate_i_skyline   ../engine/source/system/reallocate_skyline.F
 !||    resol_init             ../engine/source/engine/resol_init.F
 !||    update_pon_shells      ../engine/source/engine/node_spliting/update_pon.F90
+!||--- uses       -----------------------------------------------------
+!||    precision_mod          ../common_source/modules/precision_mod.F90
 !||====================================================================
       module parith_on_mod
         use precision_mod , only : WP

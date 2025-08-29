@@ -48,6 +48,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    compaction_tab                           ../common_source/eos/compaction_tab.F90
 !||    compaction_tab_init                      ../common_source/eos/compaction_tab.F90
 !||    compute_voxel_dimensions                 ../engine/source/interfaces/intsort/voxel_dimensions.F90
+!||    construct_multimat_eos                   ../common_source/modules/multimat_param_mod.F90
 !||    crack_depth_init                         ../starter/source/materials/fail/windshield_alter/crack_depth_init.F90
 !||    create_plane_clause                      ../starter/source/model/sets/create_plane_clause.F90
 !||    crityld2000                              ../starter/source/materials/mat/mat087/law87_upd.F90
@@ -80,6 +81,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    eikonal_solver                           ../starter/source/initial_conditions/detonation/eikonal_solver.F90
 !||    eos_table_copy                           ../starter/source/materials/tools/eos_table_copy.F90
 !||    eosexponential                           ../common_source/eos/eosexponential.F90
+!||    eoslinear                                ../common_source/eos/eoslinear.F
 !||    eospolyno                                ../common_source/eos/eospolyno.F
 !||    fail_composite_c                         ../engine/source/materials/fail/composite/fail_composite_c.F90
 !||    fail_composite_s                         ../engine/source/materials/fail/composite/fail_composite_s.F90
@@ -125,6 +127,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_eos_compaction2                  ../starter/source/materials/eos/hm_read_eos_compaction2.F90
 !||    hm_read_eos_compaction_tab               ../starter/source/materials/eos/hm_read_eos_compaction_tab.F90
 !||    hm_read_eos_exponential                  ../starter/source/materials/eos/hm_read_eos_exponential.F90
+!||    hm_read_eos_osborne                      ../starter/source/materials/eos/hm_read_eos_osborne.F
 !||    hm_read_eos_powderburn                   ../starter/source/materials/eos/hm_read_eos_powderburn.F90
 !||    hm_read_fail_composite                   ../starter/source/materials/fail/composite/hm_read_fail_composite.F90
 !||    hm_read_fail_lemaitre                    ../starter/source/materials/fail/lemaitre/hm_read_fail_lemaitre.F90
@@ -151,6 +154,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_therm_stress                     ../starter/source/materials/therm/hm_read_therm_stress.F90
 !||    i24intarea_fic                           ../engine/source/interfaces/int24/i24intarea_fic.F90
 !||    i2_surfi                                 ../starter/source/interfaces/inter3d1/i2_surfi.F90
+!||    idealgas                                 ../common_source/eos/idealgas.F
+!||    idealgas_vt                              ../common_source/eos/idealgas_vt.F
 !||    iniebcs_propellant_get_cp                ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
 !||    iniphase                                 ../starter/source/initial_conditions/inivol/iniphase.F
 !||    init_inivol                              ../starter/source/initial_conditions/inivol/init_inivol.F90
@@ -178,6 +183,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    law87_upd                                ../starter/source/materials/mat/mat087/law87_upd.F90
 !||    law92_guess                              ../starter/source/materials/mat/mat092/law92_nlsqf.F90
 !||    law92_nlsqf                              ../starter/source/materials/mat/mat092/law92_nlsqf.F90
+!||    lszk                                     ../common_source/eos/lszk.F
 !||    m21law                                   ../engine/source/materials/mat/mat021/m21law.F
 !||    m5in2                                    ../starter/source/initial_conditions/detonation/m5in2.F
 !||    m5in2t                                   ../starter/source/initial_conditions/detonation/m5in2t.F
@@ -199,11 +205,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    mulaw8                                   ../engine/source/materials/mat_share/mulaw8.F90
 !||    mulawc                                   ../engine/source/materials/mat_share/mulawc.F90
 !||    multi_muscl_compute_pressure             ../engine/source/multifluid/multi_muscl_compute_pressure.F90
-!||    multi_propellant_ebcs                    ../engine/source/multifluid/multi_propellant_ebcs.F90
 !||    multi_solve_eint                         ../engine/source/multifluid/multi_solve_eint.F90
 !||    multifluid_global_tdet                   ../starter/source/multifluid/multifluid_global_tdet.F
+!||    murnaghan                                ../common_source/eos/murnaghan.F
+!||    nasg                                     ../common_source/eos/nasg.F
 !||    newman_raju                              ../common_source/fail/newman_raju.F90
+!||    noble_abel                               ../common_source/eos/noble_abel.F
 !||    offset_nproj                             ../engine/source/interfaces/shell_offset/offset_nproj.F90
+!||    osborne                                  ../common_source/eos/osborne.F
 !||    output_allocate_noda_pext                ../common_source/modules/output/output_mod.F90
 !||    pblast_load                              ../common_source/modules/loads/pblast_mod.F90
 !||    pblast_parameters__air_burst             ../common_source/modules/loads/pblast_mod.F90
@@ -281,11 +290,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_gather_nodal_scalar                 ../engine/source/mpi/nodes/spmd_gather_nodal_scalar.F
 !||    spmd_update_frontier_int25               ../engine/source/mpi/interfaces/spmd_update_frontier_int25.F90
 !||    spmd_xv_inter_type1                      ../engine/source/mpi/nodes/spmd_sd_xv_inter1.F90
+!||    stiffgas                                 ../common_source/eos/stiffgas.F
 !||    stifint_icontrol                         ../starter/source/interfaces/interf1/stifint_icontrol.F90
 !||    sz_dt1                                   ../engine/source/elements/solid/solidez/sz_dt1.F90
 !||    table_mat_vinterp_c1                     ../engine/source/materials/tools/table_mat_vinterp_c1.F90
+!||    tabulated                                ../common_source/eos/tabulated.F
 !||    test_jc_shell_detach                     ../engine/source/engine/node_spliting/detach_node.F90
 !||    thsechecksum                             ../engine/source/output/th/thchecksum.F90
+!||    tillotson                                ../common_source/eos/tillotson.F
 !||    update_neighbour_segment                 ../engine/source/interfaces/interf/update_neighbour_segment.F90
 !||    updfail                                  ../starter/source/materials/updfail.F90
 !||    velrot_explicit                          ../engine/source/constraints/general/rbody/velrot_explicit.F90

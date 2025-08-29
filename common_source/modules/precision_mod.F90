@@ -91,6 +91,8 @@
 !||    eos_param_mod                            ../common_source/modules/mat_elem/eos_param_mod.F90
 !||    eos_table_copy                           ../starter/source/materials/tools/eos_table_copy.F90
 !||    eosexponential                           ../common_source/eos/eosexponential.F90
+!||    fail_composite_c                         ../engine/source/materials/fail/composite/fail_composite_c.F90
+!||    fail_composite_s                         ../engine/source/materials/fail/composite/fail_composite_s.F90
 !||    fail_gene1_b                             ../engine/source/materials/fail/gene1/fail_gene1_b.F90
 !||    fail_gene1_ib                            ../engine/source/materials/fail/gene1/fail_gene1_ib.F90
 !||    fail_inievo_b                            ../engine/source/materials/fail/inievo/fail_inievo_b.F90
@@ -128,6 +130,7 @@
 !||    glob_therm_mod                           ../common_source/modules/mat_elem/glob_therm_mod.F90
 !||    granular51                               ../engine/source/materials/mat/mat051/granular51.F90
 !||    group_param_mod                          ../common_source/modules/mat_elem/group_param_mod.F90
+!||    gruneisen                                ../common_source/eos/gruneisen.F
 !||    h3d_oned_scalar                          ../engine/source/output/h3d/h3d_results/h3d_oned_scalar.F90
 !||    h3d_quad_scalar_1                        ../engine/source/output/h3d/h3d_results/h3d_quad_scalar_1.F90
 !||    hm_pre_read_preload_axial                ../starter/source/loads/general/preload/hm_read_preload_axial.F90
@@ -139,6 +142,7 @@
 !||    hm_read_eos_compaction_tab               ../starter/source/materials/eos/hm_read_eos_compaction_tab.F90
 !||    hm_read_eos_exponential                  ../starter/source/materials/eos/hm_read_eos_exponential.F90
 !||    hm_read_eos_powderburn                   ../starter/source/materials/eos/hm_read_eos_powderburn.F90
+!||    hm_read_fail_composite                   ../starter/source/materials/fail/composite/hm_read_fail_composite.F90
 !||    hm_read_fail_lemaitre                    ../starter/source/materials/fail/lemaitre/hm_read_fail_lemaitre.F90
 !||    hm_read_fail_spalling                    ../starter/source/materials/fail/spalling/hm_read_fail_spalling.F90
 !||    hm_read_fractal_dmg                      ../starter/source/materials/fail/fractal/hm_read_fractal_dmg.F90
@@ -151,6 +155,7 @@
 !||    hm_read_mat126                           ../starter/source/materials/mat/mat126/hm_read_mat126.F90
 !||    hm_read_mat127                           ../starter/source/materials/mat/mat127/hm_read_mat127.F90
 !||    hm_read_mat128                           ../starter/source/materials/mat/mat128/hm_read_mat128.F90
+!||    hm_read_mat129                           ../starter/source/materials/mat/mat129/hm_read_mat129.F90
 !||    hm_read_mat133                           ../starter/source/materials/mat/mat133/hm_read_mat133.F90
 !||    hm_read_mat134                           ../starter/source/materials/mat/mat134/hm_read_mat134.F90
 !||    hm_read_mat163                           ../starter/source/materials/mat/mat163/hm_read_mat163.F90
@@ -162,6 +167,7 @@
 !||    hm_read_preload_axial                    ../starter/source/loads/general/preload/hm_read_preload_axial.F90
 !||    hm_read_therm_stress                     ../starter/source/materials/therm/hm_read_therm_stress.F90
 !||    hm_read_visc_plas                        ../starter/source/materials/visc/hm_read_visc_plas.F90
+!||    i24intarea_fic                           ../engine/source/interfaces/int24/i24intarea_fic.F90
 !||    i2_surfi                                 ../starter/source/interfaces/inter3d1/i2_surfi.F90
 !||    i2_surfi_dim                             ../starter/source/interfaces/inter3d1/i2_surfi_dim.F90
 !||    imp_intbufdef                            ../engine/share/modules/imp_mod_def.F90
@@ -184,6 +190,9 @@
 !||    inter7_gather_cand                       ../engine/source/interfaces/int07/inter7_gather_cand.F90
 !||    inter7_penetration                       ../engine/source/interfaces/intsort/inter7_penetration.F90
 !||    inter7_serialize                         ../engine/source/interfaces/intsort/inter7_candidate_pairs.F90
+!||    inter_component_bound                    ../engine/source/interfaces/generic/inter_component_bound.F90
+!||    inter_init_component                     ../engine/source/interfaces/generic/inter_init_component.F90
+!||    inter_init_node_color                    ../engine/source/interfaces/generic/inter_init_node_color.F90
 !||    inter_save_candidate                     ../starter/source/interfaces/inter3d1/inter_save_candidate.F90
 !||    inter_sh_offset_ini                      ../engine/source/interfaces/shell_offset/inter_offset_ini.F90
 !||    inter_sh_offset_mod                      ../engine/source/modules/interfaces/sh_offset_mod.F90
@@ -206,6 +215,7 @@
 !||    mat87c_tabulated                         ../engine/source/materials/mat/mat087/mat87c_tabulated.F90
 !||    mat87c_tabulated_3dir_ortho              ../engine/source/materials/mat/mat087/mat87c_tabulated_3dir_ortho.F90
 !||    mat_table_copy                           ../starter/source/materials/tools/mat_table_copy.F90
+!||    mat_table_table_copy                     ../starter/source/materials/tools/mat_table_table_copy.F90
 !||    matparam_def_mod                         ../common_source/modules/mat_elem/matparam_def_mod.F90
 !||    mmain                                    ../engine/source/materials/mat_share/mmain.F90
 !||    monvol_struct_mod                        ../engine/share/modules/monvol_struct_mod.F
@@ -213,15 +223,16 @@
 !||    mrqmin_law92                             ../starter/source/materials/mat/mat092/law92_nlsqf.F90
 !||    mulaw                                    ../engine/source/materials/mat_share/mulaw.F90
 !||    mulaw8                                   ../engine/source/materials/mat_share/mulaw8.F90
+!||    mulawc                                   ../engine/source/materials/mat_share/mulawc.F90
 !||    multi_fvm_mod                            ../common_source/modules/ale/multi_fvm_mod.F90
 !||    multi_muscl_compute_pressure             ../engine/source/multifluid/multi_muscl_compute_pressure.F90
-!||    multi_propellant_ebcs                    ../engine/source/multifluid/multi_propellant_ebcs.F90
 !||    multi_solve_eint                         ../engine/source/multifluid/multi_solve_eint.F90
 !||    multimat_param_mod                       ../common_source/modules/multimat_param_mod.F90
 !||    newman_raju                              ../common_source/fail/newman_raju.F90
 !||    nodal_arrays_mod                         ../common_source/modules/nodal_arrays.F90
 !||    offset_nproj                             ../engine/source/interfaces/shell_offset/offset_nproj.F90
 !||    output_mod                               ../common_source/modules/output/output_mod.F90
+!||    parith_on_mod                            ../common_source/modules/parith_on_mod.F90
 !||    pblast_deallocate                        ../common_source/modules/loads/pblast_mod.F90
 !||    pblast_load                              ../common_source/modules/loads/pblast_mod.F90
 !||    pblast_mod                               ../common_source/modules/loads/pblast_mod.F90
@@ -288,6 +299,7 @@
 !||    sigeps127c                               ../engine/source/materials/mat/mat127/sigeps127c.F90
 !||    sigeps128c                               ../engine/source/materials/mat/mat128/sigeps128c.F90
 !||    sigeps128s                               ../engine/source/materials/mat/mat128/sigeps128s.F90
+!||    sigeps129s                               ../engine/source/materials/mat/mat129/sigeps129s.F90
 !||    sigeps133                                ../engine/source/materials/mat/mat133/sigeps133.F90
 !||    sigeps134s                               ../engine/source/materials/mat/mat134/sigeps134s.F90
 !||    sigeps163                                ../engine/source/materials/mat/mat163/sigeps163.F90
@@ -305,6 +317,7 @@
 !||    spmd_exch_flow_tracking_data3            ../engine/source/ale/grid/spmd_exch_flow_tracking_data3.F90
 !||    spmd_exch_flow_tracking_data4            ../engine/source/ale/grid/spmd_exch_flow_tracking_data4.F90
 !||    spmd_exch_neighbour_segment              ../engine/source/mpi/interfaces/spmd_exch_neighbour_segment.F90
+!||    spmd_exchange_component                  ../engine/source/mpi/interfaces/spmd_exch_component.F90
 !||    spmd_exchange_ghost_shells               ../engine/source/engine/node_spliting/ghost_shells.F90
 !||    spmd_gather_nodal_scalar                 ../engine/source/mpi/nodes/spmd_gather_nodal_scalar.F
 !||    spmd_xv_inter_type1                      ../engine/source/mpi/nodes/spmd_sd_xv_inter1.F90
@@ -316,6 +329,7 @@
 !||    test_jc_shell_detach                     ../engine/source/engine/node_spliting/detach_node.F90
 !||    therm_param_mod                          ../common_source/modules/mat_elem/therm_param_mod.F90
 !||    thsechecksum                             ../engine/source/output/th/thchecksum.F90
+!||    tillotson                                ../common_source/eos/tillotson.F
 !||    update_neighbour_segment                 ../engine/source/interfaces/interf/update_neighbour_segment.F90
 !||    velrot_explicit                          ../engine/source/constraints/general/rbody/velrot_explicit.F90
 !||    vinter_mixed                             ../engine/source/tools/curve/vinter_mixed.F90

@@ -20,11 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    gruneisen   ../common_source/eos/gruneisen.F
-      !||--- called by ------------------------------------------------------
-      !||    eosmain     ../common_source/eos/eosmain.F
-      !||====================================================================
+!||====================================================================
+!||    gruneisen       ../common_source/eos/gruneisen.F
+!||--- called by ------------------------------------------------------
+!||    eosmain         ../common_source/eos/eosmain.F
+!||--- uses       -----------------------------------------------------
+!||    eos_param_mod   ../common_source/modules/mat_elem/eos_param_mod.F90
+!||    precision_mod   ../common_source/modules/precision_mod.F90
+!||====================================================================
       SUBROUTINE GRUNEISEN(NPROPM,NUMMAT,
      1                     IFLAG , NEL    ,PM   ,OFF   ,EINT  ,MU   ,MU2 ,
      2                     ESPE  , DVOL   ,DF   ,VNEW  ,MAT   ,RHO0,

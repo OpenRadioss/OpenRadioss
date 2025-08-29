@@ -35,21 +35,22 @@
 !! \details  RHOR = PM(01)   -> provided by /MAT (can be erased by EOS if present : obsolete)
 !! \details  => MU0 = RHO/RHOR-1.
 !! \details  PM(31) = P(MU0,E0) -> will be used to initialize diagonal of stress tensor SIG(1:3,*)
-      !||====================================================================
-      !||    hm_read_eos_compaction2   ../starter/source/materials/eos/hm_read_eos_compaction2.F90
-      !||--- called by ------------------------------------------------------
-      !||    hm_read_eos               ../starter/source/materials/eos/hm_read_eos.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                    ../starter/source/output/message/message.F
-      !||    finter                    ../starter/source/tools/curve/finter.F
-      !||    hm_get_floatv             ../starter/source/devtools/hm_reader/hm_get_floatv.F
-      !||    hm_get_intv               ../starter/source/devtools/hm_reader/hm_get_intv.F
-      !||    hm_option_is_encrypted    ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbuftag_mod              ../starter/share/modules1/elbuftag_mod.F
-      !||    message_mod               ../starter/share/message_module/message_mod.F
-      !||    submodel_mod              ../starter/share/modules1/submodel_mod.F
-      !||====================================================================
+!||====================================================================
+!||    hm_read_eos_compaction2   ../starter/source/materials/eos/hm_read_eos_compaction2.F90
+!||--- called by ------------------------------------------------------
+!||    hm_read_eos               ../starter/source/materials/eos/hm_read_eos.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                    ../starter/source/output/message/message.F
+!||    finter                    ../starter/source/tools/curve/finter.F
+!||    hm_get_floatv             ../starter/source/devtools/hm_reader/hm_get_floatv.F
+!||    hm_get_floatv_dim         ../starter/source/devtools/hm_reader/hm_get_floatv_dim.F
+!||    hm_get_intv               ../starter/source/devtools/hm_reader/hm_get_intv.F
+!||    hm_option_is_encrypted    ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
+!||--- uses       -----------------------------------------------------
+!||    elbuftag_mod              ../starter/share/modules1/elbuftag_mod.F
+!||    message_mod               ../starter/share/message_module/message_mod.F
+!||    submodel_mod              ../starter/share/modules1/submodel_mod.F
+!||====================================================================
       subroutine hm_read_eos_compaction2(iout,pm,unitab,lsubmodel,imideos,eos_tag,ieos,npropm,maxeos,&
                                           eos_struct, nfunc, npc, tf ,snpc ,npts )
 ! ----------------------------------------------------------------------------------------------------------------------

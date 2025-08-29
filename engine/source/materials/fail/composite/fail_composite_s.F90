@@ -39,6 +39,7 @@
 !||--- uses       -----------------------------------------------------
 !||    constant_mod       ../common_source/modules/constant_mod.F
 !||    fail_param_mod     ../common_source/modules/mat_elem/fail_param_mod.F90
+!||    precision_mod      ../common_source/modules/precision_mod.F90
 !||====================================================================
         subroutine fail_composite_s(                                             &
           nel       ,fail      ,nuvar     ,uvar      ,time      ,ngl       ,  &

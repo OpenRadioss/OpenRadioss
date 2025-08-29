@@ -76,6 +76,7 @@
 !||    wrcomr                           ../engine/source/output/restart/wrcomm.F
 !||    write_buf_law51                  ../engine/source/materials/mat/mat051/write_buf_law51.F
 !||--- uses       -----------------------------------------------------
+!||    eos_param_mod                    ../common_source/modules/mat_elem/eos_param_mod.F90
 !||    precision_mod                    ../common_source/modules/precision_mod.F90
 !||====================================================================
       MODULE MULTIMAT_PARAM_MOD
@@ -132,7 +133,9 @@
         end subroutine destruct_multimat_param
 
 !||====================================================================
-!||    construct_multimat_param   ../common_source/modules/multimat_param_mod.F90
+!||    construct_multimat_eos   ../common_source/modules/multimat_param_mod.F90
+!||--- uses       -----------------------------------------------------
+!||    constant_mod             ../common_source/modules/constant_mod.F
 !||====================================================================
         subroutine construct_multimat_eos(this)
           use constant_mod , only : zero

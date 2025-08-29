@@ -236,6 +236,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    stack_var_mod                    ../starter/share/modules1/stack_var_mod.F
 !||    submodel_mod                     ../starter/share/modules1/submodel_mod.F
 !||    table_mod                        ../starter/share/modules1/table_mod.F
+!||    w_bcs_proc_mod                   ../starter/source/restart/ddsplit/w_bcs_proc.F90
 !||    w_inivel_str_mod                 ../starter/source/restart/ddsplit/w_inivel_str.F90
 !||====================================================================
       SUBROUTINE DDSPLIT(

@@ -68,7 +68,6 @@
 !||    lectur                      ../engine/source/input/lectur.F
 !||    multi_ebcs                  ../engine/source/multifluid/multi_ebcs.F
 !||    multi_nrf_ebcs              ../engine/source/multifluid/multi_nrf_ebcs.F
-!||    multi_propellant_ebcs       ../engine/source/multifluid/multi_propellant_ebcs.F90
 !||    multi_timeevolution         ../engine/source/multifluid/multi_timeevolution.F
 !||    ns_fvm_diffusion            ../engine/source/multifluid/ns_fvm_diffusion.F
 !||    radioss2                    ../engine/source/engine/radioss2.F

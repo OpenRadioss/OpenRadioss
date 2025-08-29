@@ -40,6 +40,7 @@
 !||--- uses       -----------------------------------------------------
 !||    constant_mod            ../common_source/modules/constant_mod.F
 !||    inter_sorting_mod       ../engine/share/modules/inter_sorting_mod.F
+!||    precision_mod           ../common_source/modules/precision_mod.F90
 !||====================================================================
         subroutine inter_component_bound(numnod,tzinf,curv,x,component)
 ! ----------------------------------------------------------------------------------------------------------------------

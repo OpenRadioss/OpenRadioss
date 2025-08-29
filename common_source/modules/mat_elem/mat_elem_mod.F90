@@ -84,6 +84,7 @@
 !||    lectur                    ../engine/source/input/lectur.F
 !||    main_beam18               ../engine/source/elements/beam/main_beam18.F
 !||    main_beam3                ../engine/source/elements/beam/main_beam3.F
+!||    mat51_associate_eos       ../starter/source/materials/mat/mat051/mat51_associate_eos.F90
 !||    mmain                     ../engine/source/materials/mat_share/mmain.F90
 !||    mmain8                    ../engine/source/materials/mat_share/mmain8.F
 !||    mulaw                     ../engine/source/materials/mat_share/mulaw.F90

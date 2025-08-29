@@ -42,6 +42,7 @@
 !||--- uses       -----------------------------------------------------
 !||    constant_mod              ../common_source/modules/constant_mod.F
 !||    inter_sorting_mod         ../engine/share/modules/inter_sorting_mod.F
+!||    precision_mod             ../common_source/modules/precision_mod.F90
 !||    spmd_mod                  ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
         subroutine spmd_exchange_component(mode,nspmd,component)

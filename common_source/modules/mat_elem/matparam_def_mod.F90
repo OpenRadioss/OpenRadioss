@@ -71,8 +71,6 @@
 !||    h3d_solid_scalar_1                  ../engine/source/output/h3d/h3d_results/h3d_solid_scalar_1.F
 !||    hist2                               ../engine/source/output/th/hist2.F
 !||    hm_read_eos                         ../starter/source/materials/eos/hm_read_eos.F
-!||    hm_read_eos_ideal_gas               ../starter/source/materials/eos/hm_read_eos_ideal_gas.F
-!||    hm_read_eos_powderburn              ../starter/source/materials/eos/hm_read_eos_powderburn.F90
 !||    hm_read_fail                        ../starter/source/materials/fail/hm_read_fail.F
 !||    hm_read_inistate_d00                ../starter/source/elements/initia/hm_read_inistate_d00.F
 !||    hm_read_mat                         ../starter/source/materials/mat/hm_read_mat.F90
@@ -256,7 +254,6 @@
 !||    multi_muscl_fluxes_computation      ../engine/source/multifluid/multi_muscl_fluxes_computation.F
 !||    multi_nrf_ebcs                      ../engine/source/multifluid/multi_nrf_ebcs.F
 !||    multi_pressure_equilibrium          ../engine/source/multifluid/multi_pressure_equilibrium.F
-!||    multi_propellant_ebcs               ../engine/source/multifluid/multi_propellant_ebcs.F90
 !||    multi_solve_eint                    ../engine/source/multifluid/multi_solve_eint.F90
 !||    multi_submatlaw                     ../engine/source/multifluid/multi_submatlaw.F
 !||    multi_timeevolution                 ../engine/source/multifluid/multi_timeevolution.F

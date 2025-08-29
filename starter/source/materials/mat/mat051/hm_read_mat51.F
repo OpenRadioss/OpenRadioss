@@ -37,8 +37,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ie_bound                       ../starter/source/materials/mat/mat051/ie_bound.F
 !||    init_mat_keyword               ../starter/source/materials/mat/init_mat_keyword.F
 !||    lecm51__check_initial_state    ../starter/source/materials/mat/mat051/lecm51__check_initial_state.F
+!||    mat51_associate_eos            ../starter/source/materials/mat/mat051/mat51_associate_eos.F90
 !||--- uses       -----------------------------------------------------
 !||    elbuftag_mod                   ../starter/share/modules1/elbuftag_mod.F
+!||    mat51_associate_eos_mod        ../starter/source/materials/mat/mat051/mat51_associate_eos.F90
 !||    message_mod                    ../starter/share/message_module/message_mod.F
 !||    submodel_mod                   ../starter/share/modules1/submodel_mod.F
 !||====================================================================

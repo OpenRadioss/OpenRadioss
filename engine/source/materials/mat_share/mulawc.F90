@@ -155,6 +155,7 @@
 !||    matparam_def_mod          ../common_source/modules/mat_elem/matparam_def_mod.F90
 !||    message_mod               ../engine/share/message_module/message_mod.F
 !||    nlocal_reg_mod            ../common_source/modules/nlocal_reg_mod.F
+!||    precision_mod             ../common_source/modules/precision_mod.F90
 !||    sensor_mod                ../common_source/modules/sensor_mod.F90
 !||    sigeps125c_mod            ../engine/source/materials/mat/mat125/sigeps125c.F90
 !||    sigeps127c_mod            ../engine/source/materials/mat/mat127/sigeps127c.F90

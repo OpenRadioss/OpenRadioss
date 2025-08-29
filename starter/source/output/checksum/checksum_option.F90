@@ -29,7 +29,6 @@
 !||    hm_read_thchecksum            ../starter/source/output/th/hm_read_thchecksum.F90
 !||    hm_read_thgrou                ../starter/source/output/th/hm_read_thgrou.F
 !||    starter0                      ../starter/source/starter/starter0.F
-!||--- uses       -----------------------------------------------------
 !||====================================================================
       module checksum_starter_option_mod
         implicit none

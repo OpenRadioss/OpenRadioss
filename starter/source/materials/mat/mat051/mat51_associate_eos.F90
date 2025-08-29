@@ -20,6 +20,12 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    mat51_associate_eos_mod   ../starter/source/materials/mat/mat051/mat51_associate_eos.F90
+!||--- called by ------------------------------------------------------
+!||    fill_buffer_51            ../starter/source/materials/mat/mat051/fill_buffer_51.F
+!||    hm_read_mat51             ../starter/source/materials/mat/mat051/hm_read_mat51.F
+!||====================================================================
       module mat51_associate_eos_mod
         implicit none
       contains
@@ -28,6 +34,13 @@
 ! ======================================================================================================================
 !! \brief
 !! \details
+!||====================================================================
+!||    mat51_associate_eos   ../starter/source/materials/mat/mat051/mat51_associate_eos.F90
+!||--- called by ------------------------------------------------------
+!||    fill_buffer_51        ../starter/source/materials/mat/mat051/fill_buffer_51.F
+!||    hm_read_mat51         ../starter/source/materials/mat/mat051/hm_read_mat51.F
+!||--- uses       -----------------------------------------------------
+!||====================================================================
         subroutine mat51_associate_eos(mat_param,nummat,parent_mid)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules

@@ -24,6 +24,12 @@
 #define IDEBUG 0
 ! IOCSV=1 -> output fitting to curv.csv
 #define IOCSV 0
+!||====================================================================
+!||    law92_nlsqf_mod   ../starter/source/materials/mat/mat092/law92_nlsqf.F90
+!||--- called by ------------------------------------------------------
+!||    law100_upd_ab     ../starter/source/materials/mat/mat100/law100_upd.F
+!||    law92_upd         ../starter/source/materials/mat/mat092/law92_upd.F
+!||====================================================================
       module law92_nlsqf_mod
         implicit none
       contains

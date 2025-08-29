@@ -40,6 +40,7 @@
 !||    i24for3          ../engine/source/interfaces/int24/i24for3.F
 !||--- uses       -----------------------------------------------------
 !||    constant_mod     ../common_source/modules/constant_mod.F
+!||    precision_mod    ../common_source/modules/precision_mod.F90
 !||====================================================================
         subroutine i24intarea_fic(irtse, nsne, is2se, is2pt, ns, nrtse, numnod, arean, arean_fic)
 

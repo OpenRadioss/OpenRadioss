@@ -483,6 +483,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    group_mod                           ../starter/share/modules1/group_mod.F
 !||    hm_option_read_mod                  ../starter/share/modules1/hm_option_read_mod.F
 !||    hm_preread_inivel_mod               ../starter/source/initial_conditions/general/inivel/hm_preread_inivel.F90
+!||    hm_read_bcs_wall_mod                ../starter/source/boundary_conditions/hm_read_bcs_wall.F90
 !||    hm_read_inivol_mod                  ../starter/source/initial_conditions/inivol/hm_read_inivol.F90
 !||    hm_read_preload_axial_mod           ../starter/source/loads/general/preload/hm_read_preload_axial.F90
 !||    iniebcs_propellant_                 ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
@@ -516,6 +517,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    shell_offsetp_mod                   ../starter/source/elements/shell/shell_offset/shell_offsetp.F90
 !||    sms_mod                             ../starter/share/modules1/sms_mod.F
 !||    sph_mod                             ../starter/share/modules1/sph_mod.F
+!||    split_bcs_wall_mod                  ../starter/source/restart/ddsplit/split_bcs_wall.F90
 !||    split_cfd_mod                       ../starter/share/modules1/split_cfd_mod.F
 !||    split_rwall_mod                     ../starter/source/constraints/general/rwall/split_rwall.F90
 !||    stack_mod                           ../starter/share/modules1/stack_mod.F

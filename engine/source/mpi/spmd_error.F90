@@ -89,7 +89,6 @@
 !||    spmd_wait                 ../engine/source/mpi/spmd_wait.F90
 !||    spmd_waitall              ../engine/source/mpi/spmd_wait.F90
 !||    spmd_waitany              ../engine/source/mpi/spmd_wait.F90
-!||--- uses       -----------------------------------------------------
 !||====================================================================
       module spmd_error_mod
         use, intrinsic :: iso_c_binding

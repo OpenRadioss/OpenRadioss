@@ -42,6 +42,7 @@
 !||    volprep                ../engine/source/airbag/volpresp.F
 !||--- calls      -----------------------------------------------------
 !||    finter                 ../engine/source/tools/curve/finter.F
+!||    finter_smooth          ../engine/source/tools/curve/finter_smooth.F
 !||--- uses       -----------------------------------------------------
 !||    precision_mod          ../common_source/modules/precision_mod.F90
 !||    python_funct_mod       ../common_source/modules/python_mod.F90

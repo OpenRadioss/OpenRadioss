@@ -118,6 +118,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    upgrade_remnode_edg              ../starter/source/interfaces/interf1/upgrade_remnode.F
 !||--- uses       -----------------------------------------------------
 !||    front_mod                        ../starter/share/modules1/front_mod.F
+!||    i1bcs_check_mod                  ../starter/source/interfaces/int01/i1bcs_check.F90
+!||    i9bcs_check_mod                  ../starter/source/interfaces/int09/i9bcs_check.F90
 !||    inter_cand_mod                   ../starter/share/modules1/inter_cand_mod.F
 !||    message_mod                      ../starter/share/message_module/message_mod.F
 !||====================================================================
