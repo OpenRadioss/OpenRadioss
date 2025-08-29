@@ -106,7 +106,8 @@ C-----------------------------------------------
       ENDIF
 
       PM(23)=E0
-      PM(32)=C1+C5*E0    !BULK = (1+µ)*dP/dmu (partial derivative at constant E)
+      !PM(32) = C1 !legacy value
+      PM(32)=C1+C4*E0    !BULK MODULUS = (1+µ)*dP/dmu (partial derivative at constant E)
       PM(88)=PSH
       IF(PM(79)==ZERO)PM(79)=THREE100
 

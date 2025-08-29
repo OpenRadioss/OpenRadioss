@@ -652,6 +652,7 @@ c     the combinations
       INTEGER IRND1
 ! ------------------------------------------------------------------------------       
       ALLOCATE (SIG(1:NPT))
+      ERRAVE_MIN = ZERO
 !
       !
       IF ( MAXA < MA ) THEN

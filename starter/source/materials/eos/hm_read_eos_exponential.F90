@@ -86,9 +86,9 @@
         call hm_get_floatv('MAT_PSH', psh, is_available,lsubmodel,unitab)
 
       pm(104)=p0-psh
-      pm( 31)=p0-psh
-      pm( 32)=zero !bulk
-      pm( 88)=psh
+      pm(31)=p0-psh
+      pm(32)=zero !bulk modulus
+      pm(88)=psh
       if(pm(79)==zero)pm(79)=three100
       ssp0 = em20
       pm(27)=ssp0

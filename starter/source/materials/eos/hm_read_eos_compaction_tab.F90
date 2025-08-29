@@ -123,6 +123,7 @@
           integer :: vartmp(1,3)
           real(kind=WP) :: slope(1)
           real(kind=WP) :: yy(2)
+          real(kind=WP) :: bulk
 
           integer :: ipt
 
@@ -199,7 +200,6 @@
       call eos_struct%construct() !allocations
 
       !generate user function in data structure
-      allocate (eos_struct%table(eos_struct%ntable))
       eos_struct%table(1)%notable = P_FUNC_ID
       eos_struct%table(2)%notable = C_FUNC_ID
       eos_struct%table(3)%notable = G_FUNC_ID
@@ -289,6 +289,7 @@
       xvec1(1:1,1) = rhoi
       call table_mat_vinterp(eos_struct%table(1),1,1,vartmp(1,1),xvec1,yy,slope)
       P0 = yy(1)
+      bulk = slope(1)
       ! SSP0 = Cunload(rho_0)
       call table_mat_vinterp(eos_struct%table(2),1,1,vartmp(1,2),xvec1,yy,slope)
       SSP0 = yy(1)
@@ -342,6 +343,7 @@
       pm(27) = max(ssp0, pm(27))
       pm(23) = zero ! e0
       pm(31) = p0-psh
+      pm(32) = bulk ! initial bulk modulus
       pm(104)= p0-psh
 
           !< ALE rezoning.

@@ -178,7 +178,7 @@ C-----------------------------------------------
       ISIGI   =TABVINT(22)
       NSPMD   =TABVINT(23)
       LENWA   =TABVINT(24)
-      ISGIFL  =TABVINT(25)
+      ! TABVINT(25)  unused
       TH_HAS_NODA_PEXT = TABVINT(26)
       NNODS   =TABVINT(27)
       NCNOIS  =TABVINT(28)
