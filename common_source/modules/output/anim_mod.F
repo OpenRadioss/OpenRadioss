@@ -71,6 +71,7 @@ C COMMON BLOCK are no longer maintened
 !||    lectur                       ../engine/source/input/lectur.F
 !||    manctr                       ../engine/source/input/manctr.F
 !||    mmain                        ../engine/source/materials/mat_share/mmain.F90
+!||    radioss2                     ../engine/source/engine/radioss2.F
 !||    rdcomi                       ../engine/source/output/restart/rdcomm.F
 !||    rdcomr                       ../engine/source/output/restart/rdcomm.F
 !||    resol                        ../engine/source/engine/resol.F

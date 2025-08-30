@@ -100,6 +100,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    incpflow                     ../engine/source/fluid/incpflow.F
 !||    lag_fxv                      ../engine/source/tools/lagmul/lag_fxv.F
 !||    lag_fxvp                     ../engine/source/tools/lagmul/lag_fxv.F
+!||    lech3d                       ../engine/source/output/h3d/h3d_build_fortran/lech3d.F
+!||    lectur                       ../engine/source/input/lectur.F
 !||    load_pressure                ../engine/source/loads/general/load_pressure/load_pressure.F
 !||    m11law                       ../engine/source/materials/mat/mat011/m11law.F
 !||    m21law                       ../engine/source/materials/mat/mat021/m21law.F
@@ -176,6 +178,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sigeps94                     ../engine/source/materials/mat/mat094/sigeps94.F
 !||    sigeps95                     ../engine/source/materials/mat/mat095/sigeps95.F
 !||    sms_gravit                   ../engine/source/ams/sms_gravit.F
+!||    sortie_main                  ../engine/source/output/sortie_main.F
 !||    thermexpc                    ../engine/source/materials/mat_share/thermexpc.F
 !||====================================================================
         my_real FUNCTION FINTER(IFUNC,XX,NPF,TF,DERI)

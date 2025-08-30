@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    anim_build_index_all   ../engine/source/output/anim/reader/anim_build_index_all.F
 !||    arret                  ../engine/source/system/arret.F
 !||    chkipari               ../engine/source/interfaces/interf/chkstfn3.F
+!||    finter                 ../engine/source/tools/curve/finter.F
 !||    fr_rlale               ../engine/source/mpi/kinematic_conditions/fr_rlink1.F
 !||    fr_rlink1              ../engine/source/mpi/kinematic_conditions/fr_rlink1.F
 !||    lcbcsf                 ../engine/source/constraints/general/bcs/lcbcsf.F

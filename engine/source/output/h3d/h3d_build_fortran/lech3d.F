@@ -52,6 +52,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    create_h3d_solid_vector   ../engine/source/output/h3d/h3d_build_fortran/create_h3d_solid_vector.F
 !||    create_h3d_sph_scalar     ../engine/source/output/h3d/h3d_build_fortran/create_h3d_sph_scalar.F
 !||    create_h3d_sph_tensor     ../engine/source/output/h3d/h3d_build_fortran/create_h3d_sph_tensor.F
+!||    finter                    ../engine/source/tools/curve/finter.F
 !||    h3d_gene_keyword          ../engine/source/output/h3d/input_list/h3d_gene_keyword.F
 !||    h3d_list_1d_scalar        ../engine/source/output/h3d/input_list/h3d_list_1d_scalar.F
 !||    h3d_list_1d_tensor        ../engine/source/output/h3d/input_list/h3d_list_1d_tensor.F

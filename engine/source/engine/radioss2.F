@@ -89,6 +89,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ale_mod                      ../common_source/modules/ale/ale_mod.F
 !||    alefvm_mod                   ../common_source/modules/ale/alefvm_mod.F
 !||    alemuscl_mod                 ../common_source/modules/ale/alemuscl_mod.F
+!||    anim_mod                     ../common_source/modules/output/anim_mod.F
 !||    check_mod                    ../common_source/modules/check_mod.F
 !||    checksum_output_option_mod   ../common_source/modules/output/checksum_mod.F90
 !||    connectivity_mod             ../common_source/modules/connectivity.F90
