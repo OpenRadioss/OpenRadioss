@@ -178,12 +178,9 @@ C-----------------------------------------------
         MAT_PARAM%EOS%E0 = E0
         BULK  = C1                                                                                  
         PM(23)= E0                                                                                  
-        PM(31)= C0-PSH                                                                              
-        PM(32)= C1                                                                                  
-        PM(33)= C2                                                                                  
-        PM(34)= C3                                                                                  
-        PM(35)= C4                                                                                  
-        PM(36)= C5                                                                                  
+        PM(31)= C0-PSH
+        PM(32)=C1 !legacy value
+        !!PM(32)= C1+C4*ABS(E0) !bulk modulus
         PM(88)= PSH                                                                                 
         IEOS  = 1   ! Polynomial EOS
       ELSE

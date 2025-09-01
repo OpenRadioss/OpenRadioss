@@ -72,15 +72,15 @@ C=======================================================================
       END DO
 
       DO I=LFT,LLT
-        DPDM(I)=C1(I)
+        DPDM(I)=C1(I) ! DPDM is BULK modulus
       END DO
 
       DO I=LFT,LLT
-      DPDM(I)= G43(I) + MAX(BULK(I),DPDM(I))
+        DPDM(I)=  MAX(BULK(I),DPDM(I))
       END DO
 
       DO I=LFT,LLT
-        SSP(I)=SQRT(ABS(DPDM(I))/RHO0(I))
+        SSP(I)=SQRT(ABS(DPDM(I)+G43(I))/RHO0(I))
       END DO
 C-----------------------
 C  CALCULATION OF DTELEM

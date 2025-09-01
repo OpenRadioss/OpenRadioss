@@ -48,31 +48,19 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real
-     .   PM(NPROPM,*), EINT(*), RK(*), RE(*),GEO(NPROPG,*), DELTAX(*), AIRE(*), VOL(*), DTX(*)
+      my_real :: PM(NPROPM,*), EINT(*), RK(*), RE(*),GEO(NPROPG,*), DELTAX(*), AIRE(*), VOL(*), DTX(*)
       INTEGER PID(*),MAT(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, MX
-C     REAL
-      my_real
-     .   RHO0(MVSIZ), VIS(MVSIZ),
-     .   C1(MVSIZ), C2(MVSIZ), C3(MVSIZ), C4(MVSIZ), C5(MVSIZ),
-     .   C6(MVSIZ), DPDM(MVSIZ), ESPE(MVSIZ), SSP(MVSIZ), TMU(MVSIZ), PSH(MVSIZ)
-C=======================================================================
+      INTEGER :: I, MX
+      my_real :: RHO0(MVSIZ), VIS(MVSIZ), BULK(MVSIZ),DPDM(MVSIZ), ESPE(MVSIZ), SSP(MVSIZ), TMU(MVSIZ), PSH(MVSIZ)
+C-----------------------------------------------
       DO I=LFT,LLT
-         MX     =MAT(I)
+         MX  = MAT(I)
          RHO0(I)=PM( 1,MX)
          VIS(I) =PM(24,MX)*RHO0(I)
-         C1(I)  =PM(31,MX)
-         C2(I)  =PM(32,MX)
-         C3(I)  =PM(33,MX)
-         C4(I)  =PM(34,MX)
-         C5(I)  =PM(35,MX)
-         C6(I)  =PM(36,MX)
-         PSH(I) =PM(88,MX)
-         C1(I) = C1(I) + PSH(I)
+         BULK(I) = PM(32,MX)  ! reference bulk modulus
          TMU(I) =PM(81,MX)
          VIS(I) = ZERO
       END DO
@@ -87,14 +75,10 @@ C=======================================================================
       DO I=LFT,LLT
          ESPE(I)=EINT(I)
       END DO
-      
+
       DO I=LFT,LLT
-         DPDM(I)=C2(I)+C6(I)*ESPE(I)
-     .        +C5(I)*(C1(I)+C5(I)*ESPE(I))
-      END DO
-      
-      DO I=LFT,LLT
-         SSP(I)=SQRT(ABS(DPDM(I))/RHO0(I))
+         ! more precise estimator is to call EOSMAIN to compute BULK modulus updated for each element
+         SSP(I)=SQRT(BULK(I)/RHO0(I))   ! G=0 with law6
       END DO
       
       IF(JSPH==0)THEN

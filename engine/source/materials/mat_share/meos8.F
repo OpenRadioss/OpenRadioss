@@ -43,7 +43,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD         
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -87,7 +87,7 @@ C     REAL
      .   C5(MVSIZ), C6(MVSIZ), G(MVSIZ) , POLD(MVSIZ), DPDM(MVSIZ),
      .   A(MVSIZ) , B(MVSIZ) , PC(MVSIZ), PNEW(MVSIZ), DF(MVSIZ),
      .   PSH(MVSIZ),
-     .   DVV     
+     .   DVV
       my_real,
      .  DIMENSION(:), POINTER :: SIGP
       TYPE(L_BUFEL_) ,POINTER :: LBUF

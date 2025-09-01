@@ -173,6 +173,7 @@ C-----------------------------------------------
 
       ! Storage in Material Buffer PM
       PM(23)  = E0
+      PM(27) = SSP0
       PM(32)  = PM(1)*C*C + A*E0  !BULK = (1+µ)*dP/dmu (partial derivative at constant E)
       PM(88)  = PSH
       IF(PM(79)==ZERO)PM(79)=THREE100

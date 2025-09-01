@@ -150,6 +150,7 @@
         pm(31) = p0-psh
         pm(104)= p0-psh
         pm(27)=sqrt(bulk/rhoi) !ssp0
+        pm(32)=bulk
 
       e0 = eg*rhoi
       

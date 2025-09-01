@@ -170,7 +170,7 @@ C-----
       TABVINT(22) =ISIGI
       TABVINT(23) =NSPMD
       TABVINT(24) =LENWA
-      TABVINT(25) =ISGIFL
+      TABVINT(25) = 0 !unused
       TABVINT(26) = TH_HAS_NODA_PEXT
       TABVINT(27) =NNODS
       TABVINT(28) =NCNOIS

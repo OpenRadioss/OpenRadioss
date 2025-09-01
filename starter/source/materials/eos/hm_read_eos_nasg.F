@@ -179,8 +179,9 @@ C-----------------------------------------------
         DPDMU   = (GAMMA-ONE)*NUM/DENOM/DENOM + DPDE*(PP)/UNPMU/UNPMU                                  
 
       DPDMU=MAX(ZERO,DPDMU)
-      IF(RHOR > ZERO) SSP0 = SQRT((DPDMU + TWO_THIRD*G0)/RHOR) 
-      PM(27)=SSP0           
+      IF(RHOR > ZERO) SSP0 = SQRT((DPDMU + TWO_THIRD*G0)/RHOR)
+      PM(32) = DPDMU ! bulk modulus
+      PM(27) = SSP0
    
       !---listing output
       WRITE(IOUT,1000)
