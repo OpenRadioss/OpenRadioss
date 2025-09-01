@@ -796,27 +796,7 @@ C-------------------------------------------
           ENDDO
         ENDIF
       END IF                    !(ISPMD==0.AND.MCHECK==0)
-C-------------------------------------------
-C     H3D/SENSOR
-C-------------------------------------------
-      IF (ISPMD == 0.AND.MCHECK == 0) THEN
-        DO K=1,H3D_DATA%N_SENS_H3D
-         IOK = 0
-          IF(H3D_DATA%LSENS_H3D(K) /= 0)THEN
-           DO I=1,SENSORS%NSENSOR
-              IF(H3D_DATA%LSENS_H3D(K) == SENSOR_TAB(I)%SENS_ID)THEN
-               H3D_DATA%LSENS_H3D(K)=I
-               IOK = 1
-               EXIT
-             ENDIF
-           ENDDO
-         ENDIF
-         IF(IOK == 0) THEN
-           CALL ANCMSG(MSGID=283,ANMODE=ANINFO,I1=H3D_DATA%LSENS_H3D(K))
-           CALL ARRET(2)
-         ENDIF
-       ENDDO
-      ENDIF                     !(ISPMD==0.AND.MCHECK==0)
+
 C-------------------------------------------
 C     STATE/SENSOR
 C-------------------------------------------
@@ -1653,83 +1633,6 @@ C
 !
       END IF
 
-C-------------------------------
-C     Output by interface :
-C        1 - Skid lines
-C-------------------------------
-      IF(H3D_DATA%N_SCAL_SKID  > 0.AND.NINTSKIDOLD==0) THEN
-         NINTERSKID = H3D_DATA%N_SCAL_SKID
-         IF(NINTSTAMP/=0) THEN
-            ALLOCATE (PSKIDS(NINTERSKID,NUMNODG))
-            PSKIDS(1:NINTERSKID,1:NUMNODG) = ZERO
-         ELSE
-            ALLOCATE (PSKIDS(NINTERSKID,NUMNOD))
-            PSKIDS(1:NINTERSKID,1:NUMNOD) = ZERO
-         ENDIF
-      ELSEIF(H3D_DATA%N_SCAL_SKID  == 0.AND.NINTSKIDOLD==0)THEN
-         ALLOCATE (PSKIDS(0,0))
-      ENDIF
-C-------------------------------------------
-C        2 - Frictionnal energy: allocs tabs
-C--------------------------------------------
-         IF(H3D_DATA%N_SCAL_CSE_FRIC >0.AND.S_EFRIC == 0)THEN
-            ALLOCATE(EFRICG(NUMNOD))
-            EFRICG(1:NUMNOD) = ZERO
-            IF(NINTSTAMP/=0) THEN
-              ALLOCATE(EFRICG_STAMP(NUMNODG))
-              EFRICG_STAMP(1:NUMNODG) = ZERO
-            ELSE
-              ALLOCATE(EFRICG_STAMP(0))
-            ENDIF
-         ELSEIF(S_EFRIC==0)THEN
-            ALLOCATE(EFRICG(0))
-            ALLOCATE(EFRICG_STAMP(0))
-         ENDIF
-
-      IF(H3D_DATA%N_SCAL_CSE_FRICINT  > 0.AND.S_EFRICINT==0) THEN
-C
-         NINEFRICG = H3D_DATA%N_SCAL_CSE_FRICINT
-         NINEFRIC_STAMP = 0
-         NINEFRIC = 0
-         IF(NINTSTAMP/=0) THEN
-           DO N=1,NINTER
-               NI = H3D_DATA%N_CSE_FRIC_INTER (N)
-               IF(NI/= 0.AND.IPARI(7,N)==21) NINEFRIC_STAMP = NINEFRIC_STAMP + 1
-           ENDDO
-         ENDIF
-         IF(NINEFRIC_STAMP==NINEFRICG) THEN
-            CALL MY_ALLOC(EFRIC_STAMP,NINEFRICG,NUMNODG)
-            EFRIC_STAMP(1:NINEFRICG,1:NUMNODG) = ZERO
-            CALL MY_ALLOC(EFRIC,0,0)
-         ELSEIF(NINEFRIC_STAMP==0) THEN
-            NINEFRIC = NINEFRICG
-            CALL MY_ALLOC(EFRIC,NINEFRIC,NUMNOD)
-            EFRIC(1:NINEFRICG,1:NUMNOD) = ZERO
-            CALL MY_ALLOC(EFRIC_STAMP,0,0)
-         ELSE
-            NINEFRIC = NINEFRICG-NINEFRIC_STAMP
-            CALL MY_ALLOC(EFRIC_STAMP,NINEFRIC_STAMP,NUMNODG)
-            EFRIC_STAMP(1:NINEFRIC_STAMP,1:NUMNODG) = ZERO
-            CALL MY_ALLOC(EFRIC,NINEFRIC,NUMNOD)
-            EFRIC(1:NINEFRIC,1:NUMNOD) = ZERO
-            NS = 0
-            NN= 0
-            DO N=1,NINTER
-               NI = H3D_DATA%N_CSE_FRIC_INTER (N)
-               IF(NI/= 0.AND.IPARI(7,N)==21) THEN
-                  NS = NS+1
-                  H3D_DATA%N_CSE_FRIC_INTER (N) = NINEFRIC + NS
-               ELSEIF (NI/=0) THEN
-                  NN = NN+1
-                  H3D_DATA%N_CSE_FRIC_INTER (N) = NN
-               ENDIF
-            ENDDO
-         ENDIF
-      ELSEIF(S_EFRICINT==0)THEN
-            CALL MY_ALLOC(EFRIC,0,0)
-            CALL MY_ALLOC(EFRIC_STAMP,0,0)
-      ENDIF
-C-----------------------------------
 
 C-----------------------
 C     RESET OFF ARRAY
@@ -2773,6 +2676,104 @@ c            WRITE(IOUT,*)  '       |----'//H3D_DATA%OUTPUT_LIST(I)%KEYWORD
         WRITE(IOUT,*)' '
         WRITE(IOUT,*)' '
       ENDIF
+C-------------------------------------------
+C     H3D/SENSOR
+C-------------------------------------------
+      IF (ISPMD == 0.AND.MCHECK == 0) THEN
+        DO K=1,H3D_DATA%N_SENS_H3D
+         IOK = 0
+          IF(H3D_DATA%LSENS_H3D(K) /= 0)THEN
+           DO I=1,SENSORS%NSENSOR
+              IF(H3D_DATA%LSENS_H3D(K) == SENSOR_TAB(I)%SENS_ID)THEN
+               H3D_DATA%LSENS_H3D(K)=I
+               IOK = 1
+               EXIT
+             ENDIF
+           ENDDO
+         ENDIF
+         IF(IOK == 0) THEN
+           CALL ANCMSG(MSGID=283,ANMODE=ANINFO,I1=H3D_DATA%LSENS_H3D(K))
+           CALL ARRET(2)
+         ENDIF
+       ENDDO
+      ENDIF                     !(ISPMD==0.AND.MCHECK==0)
+C-------------------------------
+C     Output by interface :
+C        1 - Skid lines
+C-------------------------------
+      IF(H3D_DATA%N_SCAL_SKID  > 0.AND.NINTSKIDOLD==0) THEN
+         NINTERSKID = H3D_DATA%N_SCAL_SKID
+         IF(NINTSTAMP/=0) THEN
+            ALLOCATE (PSKIDS(NINTERSKID,NUMNODG))
+            PSKIDS(1:NINTERSKID,1:NUMNODG) = ZERO
+         ELSE
+            ALLOCATE (PSKIDS(NINTERSKID,NUMNOD))
+            PSKIDS(1:NINTERSKID,1:NUMNOD) = ZERO
+         ENDIF
+      ELSEIF(H3D_DATA%N_SCAL_SKID  == 0.AND.NINTSKIDOLD==0)THEN
+         ALLOCATE (PSKIDS(0,0))
+      ENDIF
+C-------------------------------------------
+C        2 - Frictionnal energy: allocs tabs
+C--------------------------------------------
+         IF(H3D_DATA%N_SCAL_CSE_FRIC >0.AND.S_EFRIC == 0)THEN
+            ALLOCATE(EFRICG(NUMNOD))
+            EFRICG(1:NUMNOD) = ZERO
+            IF(NINTSTAMP/=0) THEN
+              ALLOCATE(EFRICG_STAMP(NUMNODG))
+              EFRICG_STAMP(1:NUMNODG) = ZERO
+            ELSE
+              ALLOCATE(EFRICG_STAMP(0))
+            ENDIF
+         ELSEIF(S_EFRIC==0)THEN
+            ALLOCATE(EFRICG(0))
+            ALLOCATE(EFRICG_STAMP(0))
+         ENDIF
+
+      IF(H3D_DATA%N_SCAL_CSE_FRICINT  > 0.AND.S_EFRICINT==0) THEN
+C
+         NINEFRICG = H3D_DATA%N_SCAL_CSE_FRICINT
+         NINEFRIC_STAMP = 0
+         NINEFRIC = 0
+         IF(NINTSTAMP/=0) THEN
+           DO N=1,NINTER
+               NI = H3D_DATA%N_CSE_FRIC_INTER (N)
+               IF(NI/= 0.AND.IPARI(7,N)==21) NINEFRIC_STAMP = NINEFRIC_STAMP + 1
+           ENDDO
+         ENDIF
+         IF(NINEFRIC_STAMP==NINEFRICG) THEN
+            CALL MY_ALLOC(EFRIC_STAMP,NINEFRICG,NUMNODG)
+            EFRIC_STAMP(1:NINEFRICG,1:NUMNODG) = ZERO
+            CALL MY_ALLOC(EFRIC,0,0)
+         ELSEIF(NINEFRIC_STAMP==0) THEN
+            NINEFRIC = NINEFRICG
+            CALL MY_ALLOC(EFRIC,NINEFRIC,NUMNOD)
+            EFRIC(1:NINEFRICG,1:NUMNOD) = ZERO
+            CALL MY_ALLOC(EFRIC_STAMP,0,0)
+         ELSE
+            NINEFRIC = NINEFRICG-NINEFRIC_STAMP
+            CALL MY_ALLOC(EFRIC_STAMP,NINEFRIC_STAMP,NUMNODG)
+            EFRIC_STAMP(1:NINEFRIC_STAMP,1:NUMNODG) = ZERO
+            CALL MY_ALLOC(EFRIC,NINEFRIC,NUMNOD)
+            EFRIC(1:NINEFRIC,1:NUMNOD) = ZERO
+            NS = 0
+            NN= 0
+            DO N=1,NINTER
+               NI = H3D_DATA%N_CSE_FRIC_INTER (N)
+               IF(NI/= 0.AND.IPARI(7,N)==21) THEN
+                  NS = NS+1
+                  H3D_DATA%N_CSE_FRIC_INTER (N) = NINEFRIC + NS
+               ELSEIF (NI/=0) THEN
+                  NN = NN+1
+                  H3D_DATA%N_CSE_FRIC_INTER (N) = NN
+               ENDIF
+            ENDDO
+         ENDIF
+      ELSEIF(S_EFRICINT==0)THEN
+            CALL MY_ALLOC(EFRIC,0,0)
+            CALL MY_ALLOC(EFRIC_STAMP,0,0)
+      ENDIF
+C-----------------------------------
 C-------------------------------------------
 C     Animations
 C-------------------------------------------
