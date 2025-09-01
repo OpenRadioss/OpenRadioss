@@ -1054,6 +1054,12 @@ C
      .            GLOB_THERM     ,PBLAST     ,ELEMENT       ,NODES            ,RBE3)
       ! Close restart file
        CALL CLOSE_C
+       if(python%nb_functs > 0) then
+         write(6,*) "INFO: ", python%nb_functs, " python functions: OpenMP disabled"
+         call omp_set_num_threads(1)
+         NTHREAD = 1
+       end if
+ 
        ! --------------------------------------------------------------------------------------------
       IF (NSPMD > 1)  CALL SPMD_RST_CHECK()
 c----------
