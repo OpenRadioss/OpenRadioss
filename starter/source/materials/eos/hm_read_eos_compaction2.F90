@@ -240,6 +240,7 @@
           pm(27) = max(ssp0, pm(27))
           pm(23) = zero ! e0
           pm(31) = p0-psh
+          pm(32)= dpdmu !bulk modulus at mu=0
           pm(104)= p0-psh
 
           write(iout,1000)

@@ -114,7 +114,6 @@ C-----------------------------------------------
       ENDIF
       
       PM(34) = GAMMA
-      PM(32) = (GAMMA-ONE)*E0 + A*B !bulk modulus
       PM(88) = PSH
       IF(PM(79)==ZERO)PM(79)=THREE100
 
@@ -153,6 +152,8 @@ C-----------------------------------------------
       ELSE
         E0 = ZERO ! this error is managed above
       ENDIF
+
+      PM(32) = (GAMMA-ONE)*ABS(E0) + A*B !bulk modulus
       
       IF(E0 < ZERO)THEN
          CALL ANCMSG(MSGID=67,MSGTYPE=MSGERROR,ANMODE=ANINFO,

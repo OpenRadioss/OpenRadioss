@@ -55,7 +55,7 @@ C-----------------------------------------------
 C--------------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,J,IP, MY_ID,MY_MAT,IADBUF,NUPARAM,NIPARAM,NFAIL,IVISC,IVAR
+      INTEGER :: I,J,MY_MAT,IADBUF,NUPARAM,NIPARAM,NFAIL,IVISC,IVAR
       INTEGER ::  IRUPT,FAIL_ID,FAIL_IP,NUVAR,NFUNCF,NTABF,NMOD,NBMAT,MID,IEOS
       CHARACTER(LEN=NCHARTITLE) :: TITR
       CHARACTER (LEN=255) :: VARNAME
@@ -219,54 +219,58 @@ c-----------------------------
 
             SELECT CASE (IEOS)
               CASE(1)
-                CALL QAPRINT('** EOS_MODEL > POLYNOMIAL',I,0.0_8)
+                CALL QAPRINT('** EOS_MODEL > POLYNOMIAL',IEOS,0.0_8)
               CASE(2)
-                CALL QAPRINT('** EOS_MODEL > GRUNEISEN',I,0.0_8)
+                CALL QAPRINT('** EOS_MODEL > GRUNEISEN',IEOS,0.0_8)
               CASE(3)
-                CALL QAPRINT('** EOS_MODEL > TILLOTSON',I,0.0_8)
+                CALL QAPRINT('** EOS_MODEL > TILLOTSON',IEOS,0.0_8)
               CASE(4)
-                CALL QAPRINT('** EOS_MODEL > PUFF',I,0.0_8)
+                CALL QAPRINT('** EOS_MODEL > PUFF',IEOS,0.0_8)
               CASE(5)
-                CALL QAPRINT('** EOS_MODEL > SESAME',I,0.0_8)
+                CALL QAPRINT('** EOS_MODEL > SESAME',IEOS,0.0_8)
               CASE(6)
-                CALL QAPRINT('** EOS_MODEL > NOBLE-ABEL',I,0.0_8)
+                CALL QAPRINT('** EOS_MODEL > NOBLE-ABEL',IEOS,0.0_8)
               CASE(7)
-                CALL QAPRINT('** EOS_MODEL > IDEAL-GAS',I,0.0_8)
+                CALL QAPRINT('** EOS_MODEL > IDEAL-GAS',IEOS,0.0_8)
               CASE(8)
-                CALL QAPRINT('** EOS_MODEL > MUNAGHAN',I,0.0_8)
+                CALL QAPRINT('** EOS_MODEL > MUNAGHAN',IEOS,0.0_8)
               CASE(9)
-                CALL QAPRINT('** EOS_MODEL > OSBORNE',I,0.0_8)
+                CALL QAPRINT('** EOS_MODEL > OSBORNE',IEOS,0.0_8)
               CASE(10)
-                CALL QAPRINT('** EOS_MODEL > STIFFENED-GAS',I,0.0_8)
+                CALL QAPRINT('** EOS_MODEL > STIFFENED-GAS',IEOS,0.0_8)
               CASE(11)
-                CALL QAPRINT('** EOS_MODEL > LSZK',I,0.0_8)
+                CALL QAPRINT('** EOS_MODEL > LSZK',IEOS,0.0_8)
               CASE(12)
-                CALL QAPRINT('** EOS_MODEL > POWDER-BURN',I,0.0_8)
+                CALL QAPRINT('** EOS_MODEL > POWDER-BURN',IEOS,0.0_8)
               CASE(13)
-                CALL QAPRINT('** EOS_MODEL > COMPACTION',I,0.0_8)
+                CALL QAPRINT('** EOS_MODEL > COMPACTION',IEOS,0.0_8)
               CASE(14)
-                CALL QAPRINT('** EOS_MODEL > NASG',I,0.0_8)
+                CALL QAPRINT('** EOS_MODEL > NASG',IEOS,0.0_8)
               CASE(15)
-                CALL QAPRINT('** EOS_MODEL > JWL',I,0.0_8)
+                CALL QAPRINT('** EOS_MODEL > JWL',IEOS,0.0_8)
               CASE(16)
-                CALL QAPRINT('** EOS_MODEL > IDEAL-GAS-VT',I,0.0_8)
+                CALL QAPRINT('** EOS_MODEL > IDEAL-GAS-VT',IEOS,0.0_8)
               CASE(17)
-                CALL QAPRINT('** EOS_MODEL > TABULATED',I,0.0_8)
+                CALL QAPRINT('** EOS_MODEL > TABULATED',IEOS,0.0_8)
               CASE(18)
-                CALL QAPRINT('** EOS_MODEL > LINEAR',I,0.0_8)
+                CALL QAPRINT('** EOS_MODEL > LINEAR',IEOS,0.0_8)
               CASE(19)
-                CALL QAPRINT('** EOS_MODEL > EXPONENTIAL',I,0.0_8)
+                CALL QAPRINT('** EOS_MODEL > EXPONENTIAL',IEOS,0.0_8)
               CASE(20)
-                CALL QAPRINT('** EOS_MODEL > COMPACTION2',I,0.0_8)
+                CALL QAPRINT('** EOS_MODEL > COMPACTION2',IEOS,0.0_8)
               CASE(21)
-                CALL QAPRINT('** EOS_MODEL > COMPACTION_TAB',I,0.0_8)
+                CALL QAPRINT('** EOS_MODEL > COMPACTION_TAB',IEOS,0.0_8)
               CASE DEFAULT
-                CALL QAPRINT('** EOS_MODEL ',I,0.0_8)
+                CALL QAPRINT('** EOS_MODEL ',IEOS,0.0_8)
             END SELECT
             NUPARAM = MAT_ELEM%MAT_PARAM(MY_MAT)%EOS%NUPARAM
             NIPARAM = MAT_ELEM%MAT_PARAM(MY_MAT)%EOS%NIPARAM
             NFUNCF = MAT_ELEM%MAT_PARAM(MY_MAT)%EOS%NFUNC
             NTABF = MAT_ELEM%MAT_PARAM(MY_MAT)%EOS%NTABLE
+            IF(NUPARAM > 0) CALL QAPRINT('EOS_NUPARAM',NUPARAM,0.0_8)
+            IF(NIPARAM > 0) CALL QAPRINT('EOS_NIPARAM',NIPARAM,0.0_8)
+            IF(NFUNCF > 0) CALL QAPRINT('EOS_NFUNCF',NFUNCF,0.0_8)
+            IF(NTABF > 0) CALL QAPRINT('EOS_NTABF',NTABF,0.0_8)
             DO J=1,NUPARAM
               TEMP_DOUBLE = MAT_ELEM%MAT_PARAM(MY_MAT)%EOS%UPARAM(J)
               IF (TEMP_DOUBLE /= ZERO) THEN

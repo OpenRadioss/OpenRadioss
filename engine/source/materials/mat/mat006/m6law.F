@@ -30,12 +30,15 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2   RHO,     RK,      RE,      VORTI,
      3   VNEW,    RHO0,    VIS,     PSH,
      4   D1,      D2,      D3,      D4,
-     5   D5,      D6,      C1,      C2,
-     6   C3,      C4,      C5,      C6,
-     7   PC,      AMU,     AMU2,    ESPE,
-     8   SSP,     DF,      TMU,     MAT,
-     9   WXX,     WYY,     WZZ,     NEL,
-     A   DPDM,    JTUR,    JPOR)
+     5   D5,      D6,
+     6   PC,      AMU,     AMU2,    ESPE,
+     7   SSP,     DF,      TMU,     MAT,
+     8   WXX,     WYY,     WZZ,     NEL,
+     9   DPDM,    JTUR,    JPOR,    EOS_STRUCT)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+        USE EOS_PARAM_MOD , ONLY : EOS_PARAM_
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
@@ -56,13 +59,12 @@ C-----------------------------------------------
      .   VORTI(*)
       my_real
      .   VNEW(*), RHO0(*), D1(*), D2(*), D3(*), D4(*), D5(*), D6(*),
-     .   PC(*), VIS(*), C1(*), C2(*), C3(*), C4(*), C5(*),
-     .   C6(*), AMU(*), AMU2(*), ESPE(*), SSP(*), DF(*),
+     .   PC(*), VIS(*),
+     .   AMU(*), AMU2(*), ESPE(*), SSP(*), DF(*),
      .   TMU(*), PSH(*), WXX(*), WYY(*), WZZ(*), RHO0_1,
-     .   PC_1, C1_1, C2_1, C3_1,
-     .   C4_1, C5_1, C6_1, TMU_1, PSH_1
-      my_real
-     .     DPDM(*)
+     .   PC_1, TMU_1, PSH_1
+      my_real, INTENT(IN) :: DPDM(NEL)
+      TYPE(EOS_PARAM_),INTENT(INOUT) :: EOS_STRUCT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -87,24 +89,12 @@ C-----------------------------------------------
       MX     =MAT(1)
       RHO0_1=PM( 1,MX)
       PC_1  =PM(37,MX)
-      C1_1  =PM(104,MX)-PM(88,MX)
-      C2_1  =PM(32,MX)
-      C3_1  =PM(33,MX)
-      C4_1  =PM(34,MX)
-      C5_1  =PM(35,MX)
-      C6_1  =PM(36,MX)
       TMU_1 =PM(81,MX)
       PSH_1=PM(88,MX)
       DO 10 I=1,NEL
       RHO0(I)=RHO0_1
       VIS(I) =PM(24,MX)*RHO(I)
       PC(I)  =PC_1
-      C1(I)  =C1_1
-      C2(I)  =C2_1
-      C3(I)  =C3_1
-      C4(I)  =C4_1
-      C5(I)  =C5_1
-      C6(I)  =C6_1
       TMU(I) =TMU_1
       PSH(I)=PSH_1
    10 CONTINUE
@@ -140,9 +130,6 @@ C-----------------------------------------------
        SIG(I,4)=VIS(I) *D4(I)
        SIG(I,5)=VIS(I) *D5(I)
        SIG(I,6)=VIS(I) *D6(I)
-
-C         DF(I)  =RHO0(I)/RHO(I)
-C         AMU(I) =ONE/DF(I)-ONE
        AMU2(I)= MAX(ZERO,AMU(I))**2
        ESPE(I)=DF(I)*EINT(I) / MAX(EM15,VNEW(I))
        RK2T = TWO*RK(I) / MAX(EM15,THREE*VNEW(I))
@@ -150,9 +137,6 @@ C         AMU(I) =ONE/DF(I)-ONE
        !------------------------------!
        !         SOUND SPEED          !
        !------------------------------!
-       
-       DPDM(I) = DPDM(I)
-     .       +(C5(I)+C6(I)*AMU(I))*DF(I)*DF(I)*RK2T + RK2T*DF(I)
        SSP(I)=SQRT(ABS(DPDM(I))/RHO0(I))
       ENDDO
 

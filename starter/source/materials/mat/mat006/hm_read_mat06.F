@@ -169,11 +169,8 @@ C-----------------------------------------------
         PM(31) = -PSH + C0+C1*MU+C2*MU**2+C3*MU**3+(C4+C5*MU)*E0
       ENDIF
 
-      PM(32)=C1
-      PM(33)=C2
-      PM(34)=C3
-      PM(35)=C4
-      PM(36)=C5
+      PM(32)=C1 !legacy value
+      !!PM(32)=C1+C4*ABS(E0) !bulk modulus
       PM(37)=PMIN
       PM(80)=INFINITY
       PM(88)=PSH      

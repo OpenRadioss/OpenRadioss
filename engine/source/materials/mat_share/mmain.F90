@@ -1256,12 +1256,11 @@
             &lbuf%rho, lbuf%rk,  lbuf%re,  lbuf%vk,&
             &voln,     rho0,     vis,      psh,&
             &dxx,      dyy,      dzz,      d4,&
-            &d5,       d6,       c1,       c2,&
-            &c3,       c4,       c5,       c6,&
+            &d5,       d6,       &
             &pc,       amu,      amu2,     espe,&
             &cxx,      df,       tmu,      mat,&
             &wxx,      wyy,      wzz,      nel,&
-            &dpdm,     jtur,     jpor)
+            &dpdm,     jtur,     jpor,     mat_elem%mat_param(imat)%eos)
             if (jsph == 0) then
               call mqviscb(&
               &pm,       off,      lbuf%rho, lbuf%rk,&
@@ -1517,7 +1516,7 @@
             &tmu,      amu,      amu2,     psh,&
             &pc,       espe,     c1,       c2,&
             &c3,       c4,       c5,       c6,&
-            &df,       dpdm,     jpor)
+            &df,       dpdm,     jpor,     mat_elem%mat_param(imat)%eos )
             if (jsph == 0) then
               call mqviscb(&
               &pm,       off,      lbuf%rho, lbuf%rk,&
