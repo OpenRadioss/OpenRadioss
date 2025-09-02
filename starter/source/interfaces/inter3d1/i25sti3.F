@@ -292,17 +292,20 @@ C-------
         WA(IXP(3,I))=MAX(WA(IXP(3,I)),DX)
       ENDDO
       DO I=1,NUMELR
-        MG=IXR(1,I)
         IP = IPARTR(I)
+        MG=IXR(1,I)
+        IGTYP = IGEO(11,MG)
         IF ( IGAP == 5.AND.THK_S /= ZERO) THEN
           DX=HALF*THK_S
+          WA(IXR(2,I))=MAX(WA(IXR(2,I)),DX)
+          WA(IXR(3,I))=MAX(WA(IXR(3,I)),DX)
+          IF (IGTYP==12) WA(IXR(4,I))=MAX(WA(IXR(4,I)),DX)
         ELSEIF  ( THK_PART(IP) > ZERO ) THEN
           DX=HALF*THK_PART(IP)
-        ENDIF
-        IGTYP = IGEO(11,MG)
-        WA(IXR(2,I))=MAX(WA(IXR(2,I)),DX)
-        WA(IXR(3,I))=MAX(WA(IXR(3,I)),DX)
-        IF (IGTYP==12) WA(IXR(4,I))=MAX(WA(IXR(4,I)),DX)
+          WA(IXR(2,I))=MAX(WA(IXR(2,I)),DX)
+          WA(IXR(3,I))=MAX(WA(IXR(3,I)),DX)
+          IF (IGTYP==12) WA(IXR(4,I))=MAX(WA(IXR(4,I)),DX)
+       END IF
       ENDDO
       DO I=1,NSN
         IF ( IGAP == 5.AND.THK_S /= ZERO) THEN
