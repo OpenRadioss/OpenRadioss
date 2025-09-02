@@ -726,6 +726,10 @@ c
               X0(2) = X(2,I0) 
               X0(3) = X(3,I0)
             ENDIF
+          ELSE
+            X0(1) = ZERO
+            X0(2) = ZERO
+            X0(3) = ZERO
           ENDIF
 C
           DO J=1,3
