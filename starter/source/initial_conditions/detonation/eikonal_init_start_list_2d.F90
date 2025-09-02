@@ -175,7 +175,7 @@
               dcj = zero
               do ii=1,num_adj
                 iel = adjacent_elem(ii)
-                dcj = max(dcj,vel(iel)) ! chapman jouget velocity
+                dcj = max(dcj,vel(elem_list_bij(iel))) ! chapman jouget velocity
               end do
               xdet = x(1,nod_id)
               ydet = x(2,nod_id)
