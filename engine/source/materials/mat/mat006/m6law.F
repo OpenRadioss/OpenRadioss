@@ -21,9 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    m6law   ../engine/source/materials/mat/mat006/m6law.F
+!||    m6law           ../engine/source/materials/mat/mat006/m6law.F
 !||--- called by ------------------------------------------------------
-!||    mmain   ../engine/source/materials/mat_share/mmain.F90
+!||    mmain           ../engine/source/materials/mat_share/mmain.F90
+!||--- uses       -----------------------------------------------------
+!||    eos_param_mod   ../common_source/modules/mat_elem/eos_param_mod.F90
 !||====================================================================
       SUBROUTINE M6LAW(
      1   PM,      OFF,     SIG,     EINT,

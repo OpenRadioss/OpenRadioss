@@ -55,6 +55,8 @@
 !||    idealgas                     ../common_source/eos/idealgas.F
 !||    idealgas_vt                  ../common_source/eos/idealgas_vt.F
 !||    lszk                         ../common_source/eos/lszk.F
+!||    m17law                       ../engine/source/materials/mat/mat017/m17law.F
+!||    m6law                        ../engine/source/materials/mat/mat006/m6law.F
 !||    matparam_def_mod             ../common_source/modules/mat_elem/matparam_def_mod.F90
 !||    multimat_param_mod           ../common_source/modules/multimat_param_mod.F90
 !||    murnaghan                    ../common_source/eos/murnaghan.F
