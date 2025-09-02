@@ -378,7 +378,7 @@
 #include "vectorize.inc"
           do n=1,ndex
             i= index(n)
-            deint = half*(depsxx(i)*(signxx(i) + sigoxx(i))  +                                     &
+            deint = half*(depsxx(i)*(signxx(i) + sigoxx(i))  +                        &
               depsyy(i)*(signyy(i) + sigoyy(i))) +                                    &
               depsxy(i)*(signxy(i) + sigoxy(i))
             eint = uvar(i,2) + deint
@@ -397,32 +397,28 @@
             limit_sig=  zero
             if(check(i) >= zero) then ! loading
               ! dir 11
-              if(dmg(i,2) == one  .and. signxx(i) >= slimt1*xt(i) ) then
+              if(dmg(i,2) == one  .and. signxx(i) >= slimt1*xt(i) ) then !dir 11 (tension)
                 limit_sig = slimt1*xt(i)
                 signxx(i) = limit_sig
                 signyy(i) = slimt1*sigoyy(i)
                 signxy(i) = slimt1*sigoxy(i)
-              elseif(dmg(i,3) == one .and. signxx(i)  <= - slimc1*xc(i)) then
+              elseif(dmg(i,3) == one .and. signxx(i)  <= - slimc1*xc(i)) then ! dir 11 (compression)
                 signxx(i) = - slimc1*xc(i)
                 signyy(i) = slimc1*sigoyy(i)
                 signxy(i) = slimc1*sigoxy(i)
-              endif
-              ! dir 22
-              if(dmg(i,4) == one  .and. signyy(i) >=  slimt2*yt(i)) then
+              elseif(dmg(i,4) == one  .and. signyy(i) >=  slimt2*yt(i)) then ! dir 22 ! Tension
                 signyy(i) = slimt2*yt(i)
                 signxx(i) = slimt2*sigoxx(i)
                 signxy(i) = slimt2*sigoxy(i)
-              elseif(dmg(i,5) == one  .and. signyy(i) <= -slimc2*yc(i)) then
+              elseif(dmg(i,5) == one  .and. signyy(i) <= -slimc2*yc(i)) then ! dir 22 ! Compression
                 signyy(i) = - slimc2*yc(i)
                 signxx(i) = slimc2*sigoxx(i)
                 signxy(i) = slimc2*sigoxy(i)
-              endif
-
-              if(dmg(i,6) == one .and. abs(signxy(i)) >=  slims*sc(i) ) then
+              elseif(dmg(i,6) == one .and. abs(signxy(i)) >=  slims*sc(i) ) then  ! shear
                 limit_sig = slims*sc(i)
                 signxy(i) = sign(limit_sig, signxy(i))
-                signxx(i) = slims*sigoxx(i)
-                signyy(i) = slims*sigoyy(i)
+               !! signxx(i) = slims*sigoxx(i)
+               !! signyy(i) = slims*sigoyy(i)
               endif
             else ! unloading check < 0
               ! dir 11
@@ -432,16 +428,13 @@
               elseif(dmg(i,3) == one .or. sigoxx(i) == -slimc1*xc(i) )then
                 limit_sig= - slimc1*xc(i)
                 signxx(i)= max(signxx(i),limit_sig)
-              endif
-              ! dir 22
-              if(dmg(i,4) == one .or. sigoyy(i) == slimt2*yt(i)) then
+              elseif(dmg(i,4) == one .or. sigoyy(i) == slimt2*yt(i)) then
                 limit_sig = slimt2*yt(i)
                 signyy(i) = min(signyy(i),limit_sig)
               elseif(dmg(i,5) == one .or. sigoyy(i) == -slimc2*yc(i)) then
                 limit_sig= - slimc2*yc(i)
                 signyy(i)= max(signyy(i),limit_sig)
-              endif
-              if(dmg(i,6) ==one .or. abs(sigoxy(i)) == slims*sc(i)) then
+              elseif(dmg(i,6) ==one .or. abs(sigoxy(i)) == slims*sc(i)) then
                 limit_sig = slims*sc(i)
                 if(signxy(i) >= zero) then
                   signxy(i) = min(limit_sig, signxy(i))
