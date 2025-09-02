@@ -646,7 +646,7 @@ C-----------------------------------
        DO I=1,NSURF
          IF(IGRSURF(I)%TH_SURF == 1 .AND. FSAVSURF(1,I) == ZERO) THEN
            NN = IGRSURF(I)%NSEG
-           CALL SURF_AREA(X, NN, IGRSURF(I)%NODES, FSAVSURF(1,I), NUMNOD)
+           CALL SURF_AREA(X, NN, IGRSURF(I)%NODES, FSAVSURF(1,I), NUMNOD, N2D)
          ENDIF
        ENDDO
 
