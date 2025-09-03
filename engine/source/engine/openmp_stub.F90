@@ -87,6 +87,7 @@
 !||    omp_set_num_threads   ../engine/source/engine/openmp_stub.F90
 !||--- called by ------------------------------------------------------
 !||    inipar                ../engine/source/mpi/init/inipar.F
+!||    radioss2              ../engine/source/engine/radioss2.F
 !||    resol                 ../engine/source/engine/resol.F
 !||====================================================================
       subroutine omp_set_num_threads(num_threads)
