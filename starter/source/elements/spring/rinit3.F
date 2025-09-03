@@ -449,7 +449,11 @@ C---- For mat law108 skew of property 23 is used if no skew per element
             ELSEIF (MTN == 114) THEN
 C---- For mat law114 lmin is used for mass setting of element with null length
               IMASS = 1
-              LMIN = MAX(UPARAM(IADBUF + 119),UPARAM(IADBUF + 126))
+              IF (GBUF%RETRACTOR_ID(I) < 0) THEN
+                LMIN = MAX(UPARAM(IADBUF + 119),UPARAM(IADBUF + 126))
+              ELSE
+                LMIN = UPARAM(IADBUF + 119)
+              ENDIF  
               RFAC = UPARAM(IADBUF + 124)
               IXX = UPARAM(IADBUF + 122)
               IYY = UPARAM(IADBUF + 123)
