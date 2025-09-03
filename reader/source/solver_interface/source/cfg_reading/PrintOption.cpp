@@ -51,7 +51,7 @@ void PrintPreObject(const IMECPreObject *pPreObject, MECDataWriter &datawriter,
         return;
     }
 
-    const fileformat_t *a_format_p =     a_format_p=descr_p->getRadiossFileFormatPtr(FF_D00_20200);
+    const fileformat_t *a_format_p =     a_format_p=descr_p->getRadiossFileFormatPtr(FF_D00_2026);
 
     datawriter.WriteObjectData(a_format_p, *pPreObject, descr_p, &a_model_scanner);
 }
@@ -65,7 +65,7 @@ void PrintEntity(
 
     MECSingleFileWriter filewriter(file, 100);
     MECDataWriter datawriter(&filewriter, 100);
-    datawriter.setFormatId(FF_D00_20200);
+    datawriter.setFormatId(FF_D00_2026);
 
     datawriter.setCompressDouble(1);
     datawriter.setRoundDouble(0);
