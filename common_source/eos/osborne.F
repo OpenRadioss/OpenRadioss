@@ -29,7 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    eos_param_mod   ../common_source/modules/mat_elem/eos_param_mod.F90
 !||====================================================================
       SUBROUTINE OSBORNE  (NPROPM, NUMMAT,
-     1                     IFLAG , NEL   ,PM   ,OFF  ,EINT ,MU   ,
+     1                     IFLAG , NEL   ,PMIN ,PM   ,OFF  ,EINT ,MU   ,
      2                     ESPE  , DVOL  ,DF   ,VNEW ,MAT  ,PSH  ,
      3                     PNEW  , DPDM  ,DPDE ,EOS_STRUCT)
 C-----------------------------------------------
@@ -66,7 +66,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER,INTENT(IN) :: MAT(NEL), IFLAG, NEL, NPROPM, NUMMAT
-      my_real,INTENT(IN) :: PM(NPROPM,NUMMAT), OFF(NEL) ,MU(NEL) ,DVOL(NEL) ,DF(NEL) ,VNEW(NEL)
+      my_real,INTENT(IN) :: PMIN, PM(NPROPM,NUMMAT), OFF(NEL) ,MU(NEL) ,DVOL(NEL) ,DF(NEL) ,VNEW(NEL)
       my_real,INTENT(INOUT) :: PNEW(NEL), DPDM(NEL), DPDE(NEL),PSH(NEL),EINT(NEL),ESPE(NEL)
       TYPE(EOS_PARAM_),INTENT(IN):: EOS_STRUCT
 C-----------------------------------------------
@@ -102,7 +102,7 @@ C-----------------------------------------------
           dPdMU   = (A1+2*A2_*MU(I)+(TWO*B2*MU(I)+B1)*ESPE(I)+C1*ESPE(I)*ESPE(I))/DENOM
           dPdE(I) = (((B2*MU(I)+B1)*MU(I)+B0)+(TWO*(C1*MU(I)+C0))*ESPE(I) - PP/DENOM)/DENOM
           DPDM(I) = dPdmu + dPdE(I)*DF(I)*DF(I)*(PP)   !total derivative
-          PNEW(I) = PP * OFF(I) ! P(mu[n+1],E[n])
+          PNEW(I) = MAX(PP,PMIN) * OFF(I) ! P(mu[n+1],E[n])
           PNEW(I) = PNEW(I) - PSH(I)
         ENDDO
 
@@ -118,7 +118,7 @@ C-----------------------------------------------
           DENOM   = (ESPE(I)+D0)
           PP      = (A1*MU(I)+A2_*MU(I)*MU(I)+(B0+B1*MU(I)+B2*MU(I)*MU(I))*ESPE(I)+(C1*MU(I)+C0)*ESPE(I)*ESPE(I))/DENOM
           ESPE(I) = ESPE(I) - (PP)*DVV
-          PNEW(I) = PP * OFF(I) ! P(mu[n+1],E[n+1])
+          PNEW(I) = MAX(PP,PMIN) * OFF(I) ! P(mu[n+1],E[n+1])
           EINT(I) = EINT(I) - HALF*DVOL(I)*(PNEW(I))
           PNEW(I) = PNEW(I) - PSH(I)
           dPdE(I) = (((B2*MU(I)+B1)*MU(I)+B0)+(TWO*(C1*MU(I)+C0))*ESPE(I) - PP/DENOM)/DENOM
@@ -134,7 +134,7 @@ C-----------------------------------------------
             dPdMU   = (A1+2*A2_*MU(I)+(TWO*B2*MU(I)+B1)*ESPE(I)+C1*ESPE(I)*ESPE(I))/DENOM
             dPdE(I) = (((B2*MU(I)+B1)*MU(I)+B0)+(TWO*(C1*MU(I)+C0))*ESPE(I) - PP/DENOM)/DENOM
             DPDM(I) = dPdmu + dPdE(I)*DF(I)*DF(I)*(PP) !total derivative
-            PNEW(I) = PP*OFF(I)
+            PNEW(I) = MAX(PP,PMIN)*OFF(I)
             PNEW(I) = PNEW(I) - PSH(I)
           ENDIF
         ENDDO

@@ -149,6 +149,7 @@ C-----------------------------------------------
           my_real :: CV            !< specific heat at constant volume
           my_real :: CP            !< specific heat at constant pressure
           my_real :: TAB_TEMP(NEL) !< temporary array,tabulated temperatures
+          my_real :: PMIN          !< minimum pressure allowed (material parameter)
           integer ,intent(in) :: nvartmp                              !< number of temporary internal variables
           integer ,dimension(nel,nvartmp) ,intent(inout) :: vartmp    !< temporary internal variables
 C-----------------------------------------------
@@ -174,6 +175,8 @@ C-----------------------------------------------
             ENDDO
 
           ENDIF
+
+          PMIN = PM(37,MAT(1)) ! minimum pressure allowed (material parameter)
 
           SELECT CASE (EOSTYP)
 
@@ -244,7 +247,7 @@ C-----------------------------------------------
 
        CASE(8)
          !--------------------------------------------------!
-         !         OSBORNE EOS                              !
+         !         MURNAGHAN EOS                            !
          !--------------------------------------------------!          
           CALL MURNAGHAN(NPROPM, NUMMAT,
      1                  IFLAG  ,NEL    ,PM   ,OFF  ,EINT ,MU  ,
@@ -256,7 +259,7 @@ C-----------------------------------------------
          !         OSBORNE EOS                              !
          !--------------------------------------------------!
           CALL OSBORNE( NPROPM ,NUMMAT,
-     1                  IFLAG  ,NEL   ,PM   ,OFF  ,EINT ,MU  ,
+     1                  IFLAG  ,NEL   ,PMIN ,PM   ,OFF  ,EINT ,MU  ,
      2                  ESPE   ,DVOL  ,DF   ,VNEW ,MAT  ,PSH ,
      3                  PNEW   ,DPDM  ,DPDE ,MAT_PARAM%EOS)
 
