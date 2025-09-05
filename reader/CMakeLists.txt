@@ -2,7 +2,7 @@
 # CMake Project for open_reader
 #
 
-cmake_minimum_required (VERSION 3.6)
+cmake_minimum_required (VERSION 3.15)
 project(open_reader)
 
 set (open_reader_root_dir ${CMAKE_CURRENT_SOURCE_DIR})

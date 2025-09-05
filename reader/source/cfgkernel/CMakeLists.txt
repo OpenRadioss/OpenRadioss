@@ -1,6 +1,6 @@
 # CMake project file for CMake
 
-cmake_minimum_required (VERSION 3.5)
+cmake_minimum_required (VERSION 3.15)
 project (cfg_kernel) 
 enable_language (CXX)
 
