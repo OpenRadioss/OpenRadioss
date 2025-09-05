@@ -216,6 +216,7 @@
           use fail_lemaitre_c_mod
           use fail_composite_c_mod
           use precision_mod, only : WP
+          use shell_offset_wm_ini_mod
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -422,7 +423,7 @@
           character :: option*256
           integer :: size
           integer :: nrate,nprony
-          real(kind=WP) :: fisokin,kv,zshift
+          real(kind=WP) :: fisokin,kv,zshift,wm_zshift
           real(kind=WP), dimension(nel) :: eps1,eps2
           real(kind=WP), dimension(nel), target :: vecnul
           real(kind=WP), dimension(:), pointer  :: sigbxx,sigbyy,sigbxy
@@ -710,13 +711,18 @@
               !thly => thkly(jpos:jpos+nel-1)
               thklyl(1:nel) = thkly(jpos:jpos+nel-1)*thk0(1:nel)
 !
-              if ((igtyp == 1 .or. igtyp == 9).and.zshift==zero) then
+              if (igtyp == 1 .or. igtyp == 9) then
                 ! initialize wm matrix
-                call coqini_wm(wm)
-                wmc(1:nel) = wm(ipt,npt)
+                if (zshift==zero) then
+                  call coqini_wm(wm)
+                  wmc(1:nel) = wm(ipt,npt)
+                else
+                  call shell_offset_wm_ini(ipt,nptt,zshift,wm_zshift)
+                  wmc(1:nel) = wm_zshift
+                end if
               else
                 wmc(1:nel) = posly(1:nel,ipt)*thkly(jpos:jpos+nel-1)
-              endif
+              end if
 !-------------------------------
 !         increment de deformations
 !-------------------------------
