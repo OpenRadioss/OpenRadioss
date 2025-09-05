@@ -91,7 +91,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real :: A1,A2,A3,THK,CHARD,FACTOR
+      my_real :: A1,A2,A3,THK,CHARD,FACTOR,FACTOR_N,ZSHIFT
       my_real :: VALUE(5)
       INTEGER I,J,K,N,NG,NEL,NFT,ITY,NPT,MPT,IPT,NBFUNCT,NCHARD,MLW,
      .        ILAY,IR,IS,IT,NPTR,NPTS,NPTT,NLAY,NPG,IPLY,IDRAPE,
@@ -280,6 +280,7 @@ C------------------------
               ENDIF
 c
               IREP = IGEO(6,IPID)
+              ZSHIFT = GEO(199, IPID)
             ENDIF 
            IF( KEYWORD == 'TENS/STRAIN' .OR.  KEYWORD == 'TENS/MSTRAIN') THEN
            !Npt_max
@@ -352,15 +353,18 @@ c
                 ISELECT = 1
                 IF (IPT_INPUT == -2 ) THEN
                   FACTOR = -SIX  ! lower
+                  FACTOR_N = ONE + SIX*ZSHIFT  
                 ELSEIF (IPT_INPUT == -3) THEN  
                   FACTOR = SIX   ! upper
+                  FACTOR_N = ONE - SIX*ZSHIFT  
                 ELSE
                   FACTOR = ZERO   ! mem
+                  FACTOR_N = ONE  
                 END IF
                 DO I=1,NEL
-                  SIGE(I,1) =  GBUF%FOR(JJ(1)+I) + GBUF%MOM(JJ(1)+I) * FACTOR
-                  SIGE(I,2) =  GBUF%FOR(JJ(2)+I) + GBUF%MOM(JJ(2)+I) * FACTOR 
-                  SIGE(I,3) =  GBUF%FOR(JJ(3)+I) + GBUF%MOM(JJ(3)+I) * FACTOR                  
+                  SIGE(I,1) =  GBUF%FOR(JJ(1)+I)*FACTOR_N + GBUF%MOM(JJ(1)+I) * FACTOR
+                  SIGE(I,2) =  GBUF%FOR(JJ(2)+I)*FACTOR_N + GBUF%MOM(JJ(2)+I) * FACTOR 
+                  SIGE(I,3) =  GBUF%FOR(JJ(3)+I)*FACTOR_N + GBUF%MOM(JJ(3)+I) * FACTOR                  
                 ENDDO 
 c
               ELSE IF (ILAY == -1 .AND. IPLY == -1 .AND. IPT == -1) THEN
@@ -662,9 +666,9 @@ C--------------------------------------------------
                 ISELECT = 1
                 DO I=1,NEL
                   IF (IPT == 1) THEN 
-                    FACTOR = -HALF*GBUF%THK(I)
+                    FACTOR = (ZSHIFT-HALF)*GBUF%THK(I)
                   ELSE 
-                    FACTOR =  HALF*GBUF%THK(I)
+                    FACTOR = (ZSHIFT+HALF)*GBUF%THK(I)
                   ENDIF
                   VALUE(1) =  GBUF%STRA(JJ(1)+I) + FACTOR*GBUF%STRA(JJ(6)+I) 
                   VALUE(2) =  GBUF%STRA(JJ(2)+I) + FACTOR*GBUF%STRA(JJ(7)+I) 

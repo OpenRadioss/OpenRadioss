@@ -78,7 +78,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER INDXOF(MVSIZ),
      .        I, J, II, NINDX,IDT,ITYEL
-      my_real DT(MVSIZ),FAC,MAS,DIVM,MMIN  ,IZ   
+      my_real DT(MVSIZ),FAC,MAS,DIVM,MMIN  ,IZ ,F_OSET(NEL)  
 C=======================================================================
       DO I=JFT,JLT
         VISCMX(I) = MAX(VISCMX(I), AMU(I))
@@ -89,6 +89,7 @@ c---------------------------------------------------
 C
       ITYEL = 3
       IF (NNE==3) ITYEL = 7
+      F_OSET(JFT:JLT) = ONE + ZEP2*ABS(ZOFFSET(JFT:JLT))/THK0(JFT:JLT)
       IF (NODADT/=0) THEN
         IF(IGTYP == 52 .OR. 
      .   ((IGTYP == 11 .OR. IGTYP == 17 .OR. IGTYP == 51)
@@ -178,7 +179,7 @@ c dt = 2/w = sqrt( 2*(m+dmelc)/k)
                    STI(I) = ZERO
                    STIR(I) = ZERO          
                 ELSE
-                   STI(I) = HALF*VOL0(I) * A1(I) / ALDT(I)**2
+                   STI(I) = HALF*F_OSET(I)*VOL0(I) * A1(I) / ALDT(I)**2
                    STIR(I) = STI(I) * (THK02(I)+AREA(I)) *ONE_OVER_12
      .                       +  STI(I)*ZOFFSET(I)*ZOFFSET(I)
                 ENDIF
@@ -187,11 +188,11 @@ c dt = 2/w = sqrt( 2*(m+dmelc)/k)
       ENDIF
 C
       DO I=JFT,JLT
-        DT(I)=DTFAC1(ITYEL)*ALDT(I)/SSP(I)   
+        DT(I)=DTFAC1(ITYEL)*F_OSET(I)*ALDT(I)/SSP(I)   
       ENDDO
       IF(G_DT>0)THEN
         DO I=JFT,JLT
-          DTEL(I)=ALDT(I)/SSP(I)     ! DT=ALDT(I)/SSP(I) & DT=DT*DTFAC1 does not lead to same digits, so operation is made again here.
+          DTEL(I)=F_OSET(I)*ALDT(I)/SSP(I)     ! DT=ALDT(I)/SSP(I) & DT=DT*DTFAC1 does not lead to same digits, so operation is made again here.
         ENDDO
       ENDIF
       IF((NODADT/=0.OR.IDTMINS==2).AND.IDTMIN(ITYEL)==0)RETURN
@@ -279,7 +280,7 @@ C
 C
       DO I=JFT,JLT
         DIVM=MAX(ALDT(I)*ALDT(I),EM20)
-        STI(I) = HALF*VOL0(I) * A1(I)* OFF(I) / DIVM
+        STI(I) = HALF*F_OSET(I)*VOL0(I) * A1(I)* OFF(I) / DIVM
         STIR(I)= ZERO
       ENDDO
 C

@@ -465,6 +465,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
         my_real, parameter ::  FOURTH     = ONE/FOUR
         my_real, parameter ::  ONE_FIFTH    = ONE/FIVE
         my_real, parameter ::  ONE_OVER_6     = ONE/SIX
+        my_real, parameter ::  ONE_OVER_7     = ONE/SEVEN
         my_real, parameter ::  ONE_OVER_8    = ONE/EIGHT
         my_real, parameter ::  ONE_OVER_9    = ONE/NINE
         my_real, parameter ::  ONE_OVER_12   = ONE/TWELVE
@@ -752,4 +753,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
         my_real, parameter ::  TWOEM2    = ZEP02
         my_real, parameter ::  FIVEEM2   = ZEP05
         my_real, parameter ::  NINEEM2   = ZEP09
+        my_real, parameter ::  ZEP3571429 = HALF- ONE_OVER_7            ! labatto position for shell
+        my_real, parameter ::  ZEP2142857 = HALF- TWO*ONE_OVER_7
+        my_real, parameter ::  ZEP0714286 = HALF- THREE*ONE_OVER_7
+        my_real, parameter ::  ZEP375     = HALF- ONE_OVER_8
+        my_real, parameter ::  ZEP3888889 = HALF- ONE_OVER_9
+        my_real, parameter ::  ZEP2777778 = HALF- TWO*ONE_OVER_9
+        my_real, parameter ::  ZEP1666667 = HALF- THREE*ONE_OVER_9
+        my_real, parameter ::  ZEP0555555 = HALF- FOUR*ONE_OVER_9
       end module constant_mod
