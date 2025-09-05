@@ -319,7 +319,7 @@ C-------------------------------------------
      4                 DEPBXY  ,SIGOXX  ,SIGOYY  ,SIGOXY  ,SIGOYZ  ,
      5                 SIGOZX  ,MOMOXX  ,MOMOYY  ,MOMOXY  ,SIGNXX  ,
      6                 SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,MOMNXX  ,
-     7                 MOMNYY  ,MOMNXY  )
+     7                 MOMNYY  ,MOMNXY  ,ZSHIFT  )
       ELSEIF (MTN == 2) THEN
         VP = IPM(255,MX)
         CALL SIGEPS02G(ELBUF_STR,
@@ -529,15 +529,6 @@ C-----------------------------------------------
         ZCFAC(I,1) = ETSE(I)
         ZCFAC(I,2) = ZCFAC(I,1)
       ENDDO
-C---------------------------
-C     offset
-C---------------------------
-      IF (ZSHIFT /= ZERO) THEN
-        DO I=JFT,JLT                                                   
-          SH_OFFSET = ZSHIFT*THK(I)
-          MOM(I,1:3) = MOM(I,1:3) + FOR(I,1:3) *SH_OFFSET*SH_OFFSET      
-        ENDDO
-      ENDIF
 C---------------------------
 C     membrane viscosity
 C---------------------------

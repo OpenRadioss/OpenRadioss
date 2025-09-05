@@ -264,7 +264,7 @@ c
       SELECT CASE(IGTYP)
         CASE (1,9,10,11,16)
            DO I=JFT,JLT
-            ZOFFSET(I) = Z0
+            ZOFFSET(I) = Z0*THK0(I)
            ENDDO 
         CASE (17,51,52)
             IPOS   = IGEO(99,PID(1))
@@ -438,7 +438,7 @@ c
       SELECT CASE(IGTYP)
         CASE (1,9,10,11,16)
            DO I=JFT,JLT
-            ZOFFSET(I) = Z0
+            ZOFFSET(I) = Z0*THK0(I)
            ENDDO 
         CASE (17,51,52)
             IPOS   = IGEO(99,PID(1))
