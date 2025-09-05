@@ -1,6 +1,6 @@
 # CMake project file for CMake
 
-cmake_minimum_required (VERSION 3.6)
+cmake_minimum_required (VERSION 3.15)
 project (sdi) 
 enable_language (CXX)
 
