@@ -3,7 +3,7 @@
 # ctest -C Release --output-on-failure --timeout 600
 # set minimum cmake version
 
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.15)
 
 # project name and language
 project(OpenRadioss_test_suite LANGUAGES NONE)
