@@ -1076,11 +1076,6 @@
           real(kind=WP), dimension(:,:), pointer :: vnlth => null()  ! non-local velocities
           real(kind=WP), dimension(:,:), pointer :: fnlth => null()  ! non-local forces
         end type buf_nlocts_
-!     Non-local buffer for brick elements geometry configuration
-        Type buf_nlocs_
-          integer, dimension(:)  , allocatable :: nl_isolnod ! number of effective nodes (nel)
-          integer, dimension(:,:), allocatable :: nl_solnod  ! identifiers of effectives nodes (8,nel)
-        end type buf_nlocs_
 !--------------------------------------------------------------------------------
 !     buffer for damping frequency range
         Type buf_damp_range_
@@ -1308,12 +1303,11 @@
           integer     :: idrape
 
           type (g_bufel_)                              :: gbuf   ! global variables - mean element values
-          type (buf_lay_)   , dimension(:)   , pointer :: bufly => null()  ! bufly(nlay) layer variables
-          type (buf_intlay_), dimension(:)   , pointer :: intlay => null() ! inter-layer (nlay-1)
-          type (buf_xfem_)  , dimension(:)   , pointer :: xfem => null()   ! xfem (nxel)
-          type (buf_nloc_)  , dimension(:,:) , pointer :: nloc => null()   ! non-local thickness specific structure for shells
-          type (buf_nlocts_), dimension(:,:) , pointer :: nlocts => null() ! non-local thickness specific structure for thickshells
-          type (buf_nlocs_)                            :: nlocs  ! non-local structure of brick element geometry configuration
+          type (buf_lay_)   , dimension(:)   , pointer :: bufly  ! bufly(nlay) layer variables
+          type (buf_intlay_), dimension(:)   , pointer :: intlay ! inter-layer (nlay-1)
+          type (buf_xfem_)  , dimension(:)   , pointer :: xfem   ! xfem (nxel)
+          type (buf_nloc_)  , dimension(:,:) , pointer :: nloc   ! non-local thickness specific structure for shells
+          type (buf_nlocts_), dimension(:,:) , pointer :: nlocts ! non-local thickness specific structure for thickshells
           type (buf_damp_range_)                       :: damp_range  ! structure for damping parameters of damping freq range
 
         end type elbuf_struct_

@@ -95,11 +95,6 @@ C-----------------------------------------------
       my_real, DIMENSION(:,:), ALLOCATABLE :: 
      . STIFNLTH,DTN
       DATA VPG/PG1,PG1,PG,PG1,PG,PG,PG1,PG/
-      ! Safety coefficient for non-local stability vs mechanical stability
-      ! (it has been slightly increased vs nloc_dmg_init.F)
-      my_real, PARAMETER :: CSTA  = 40.0D0
-      ! Coefficient for non-local stability to take into account damping
-      my_real, PARAMETER :: CDAMP = 0.7D0
 c-----------------------------------------------------------------------
 c     VAR_REG :  variable a regulariser (local cumulated plastic strain)
 c     NTVAR  =  NT * VAR_REG
@@ -285,8 +280,8 @@ C
                   ENDIF
                 ENDDO
               ENDDO
+              DTNOD = DTMIN1(11)*(SQRT(CSTA))
             ENDIF
-            DTNOD = DTMIN1(11)*(SQRT(CSTA))
           ENDIF
 C
           ! Classical nodal timestep check
