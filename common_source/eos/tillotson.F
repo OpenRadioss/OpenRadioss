@@ -90,10 +90,10 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, MX
       real(kind=WP) AA, BB, DVV, ETA, ENEW, OMEGA, XX, EXPA, EXPB,
-     .        PP, FACC1, FACC2, FACPB,
-     .        C1,C2,PTIA,PTIB,EZERO,
-     .        ALPHA,BETA,ESUBL,VSUBL,
-     .        PC, REGION
+     .              PP, FACC1, FACC2, FACPB,
+     .              C1,C2,PTIA,PTIB,EZERO,
+     .              ALPHA,BETA,ESUBL,VSUBL,
+     .              PC, REGION
 C--------------------------------------------------------------------
       MX      = MAT(1)
       PC      = PM(37,MX)
@@ -205,6 +205,7 @@ C--------------------------------------------------------------------
      .             +ESPE(I)*( BB+(TWO*ESPE(I)/ETA-PP*DF(I)*DF(I))
      .             *PTIB*FACPB/(EZERO*ETA*OMEGA**2) )
             DPDE(I)=BB*ETA
+            PNEW(I) = PP
           ENDIF
           VAREOS(I,1)=REGION
         ENDDO
