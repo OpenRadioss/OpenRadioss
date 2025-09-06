@@ -48,10 +48,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    my_barrier         ../engine/source/system/machine.F
 !||    rby_decond         ../engine/source/tools/lagmul/lag_rby_cond.F
 !||--- uses       -----------------------------------------------------
+!||    extend_array_mod   ../common_source/tools/memory/extend_array.F90
 !||    groupdef_mod       ../common_source/modules/groupdef_mod.F
 !||    h3d_mod            ../engine/share/modules/h3d_mod.F
 !||    intbufdef_mod      ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    nodal_arrays_mod   ../common_source/modules/nodal_arrays.F90
+!||    output_mod         ../common_source/modules/output/output_mod.F90
 !||    python_funct_mod   ../common_source/modules/python_mod.F90
 !||    sensor_mod         ../common_source/modules/sensor_mod.F90
 !||====================================================================
@@ -425,10 +427,12 @@ C
 !||    spmd_gg_mult       ../engine/source/mpi/lag_multipliers/spmd_lag.F
 !||    spmd_sg_mult       ../engine/source/mpi/lag_multipliers/spmd_lag.F
 !||--- uses       -----------------------------------------------------
+!||    extend_array_mod   ../common_source/tools/memory/extend_array.F90
 !||    h3d_mod            ../engine/share/modules/h3d_mod.F
 !||    intbufdef_mod      ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    message_mod        ../engine/share/message_module/message_mod.F
 !||    nodal_arrays_mod   ../common_source/modules/nodal_arrays.F90
+!||    output_mod         ../common_source/modules/output/output_mod.F90
 !||    python_funct_mod   ../common_source/modules/python_mod.F90
 !||====================================================================
       SUBROUTINE LAG_MULTP(output,

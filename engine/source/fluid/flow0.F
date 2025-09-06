@@ -29,7 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    daasolvp           ../engine/source/fluid/daasolvp.F
 !||    incpflow           ../engine/source/fluid/incpflow.F
 !||--- uses       -----------------------------------------------------
-!||    anim_mod           ../common_source/modules/output/anim_mod.F
+!||    output_mod         ../common_source/modules/output/output_mod.F90
 !||    python_funct_mod   ../common_source/modules/python_mod.F90
 !||    sensor_mod         ../common_source/modules/sensor_mod.F90
 !||====================================================================

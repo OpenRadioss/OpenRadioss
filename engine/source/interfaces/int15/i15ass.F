@@ -25,7 +25,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    i15cmp         ../engine/source/interfaces/int15/i15cmp.F
 !||--- uses       -----------------------------------------------------
-!||    anim_mod       ../common_source/modules/output/anim_mod.F
 !||    groupdef_mod   ../common_source/modules/groupdef_mod.F
 !||    h3d_mod        ../engine/share/modules/h3d_mod.F
 !||    output_mod     ../common_source/modules/output/output_mod.F90

@@ -30,7 +30,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ale_mod          ../common_source/modules/ale/ale_mod.F
 !||    alefvm_mod       ../common_source/modules/ale/alefvm_mod.F
 !||    alemuscl_mod     ../common_source/modules/ale/alemuscl_mod.F
-!||    anim_mod         ../common_source/modules/output/anim_mod.F
 !||    damp_mod         ../engine/share/modules/damp_mod.F
 !||    drape_mod        ../engine/share/modules/drape_mod.F
 !||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
@@ -40,7 +39,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    multi_fvm_mod    ../common_source/modules/ale/multi_fvm_mod.F90
 !||    outmax_mod       ../common_source/modules/outmax_mod.F
 !||    output_mod       ../common_source/modules/output/output_mod.F90
-!||    outputs_mod      ../common_source/modules/outputs_mod.F
 !||    parameters_mod   ../common_source/modules/interfaces/parameters_mod.F
 !||    pblast_mod       ../common_source/modules/loads/pblast_mod.F90
 !||    pinchtype_mod    ../common_source/modules/pinchtype_mod.F
@@ -1767,12 +1765,11 @@ c-----------
 !||    wrrestp              ../engine/source/output/restart/wrrestp.F
 !||--- uses       -----------------------------------------------------
 !||    ale_mod              ../common_source/modules/ale/ale_mod.F
-!||    anim_mod             ../common_source/modules/output/anim_mod.F
 !||    glob_therm_mod       ../common_source/modules/mat_elem/glob_therm_mod.F90
 !||    multimat_param_mod   ../common_source/modules/multimat_param_mod.F90
 !||    output_mod           ../common_source/modules/output/output_mod.F90
-!||    outputs_mod          ../common_source/modules/outputs_mod.F
 !||    parameters_mod       ../common_source/modules/interfaces/parameters_mod.F
+!||    sph_mod              ../engine/share/modules/sph_mod.F
 !||    state_mod            ../common_source/modules/state_mod.F
 !||====================================================================
       SUBROUTINE WRCOMR(LMXVREA,LVARREA,TABVREA,DYNAIN_DATA,INTER_PARAMETERS,

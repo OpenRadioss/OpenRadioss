@@ -31,8 +31,8 @@ C
 !||    arret                 ../engine/source/system/arret.F
 !||--- uses       -----------------------------------------------------
 !||    ale_mod               ../common_source/modules/ale/ale_mod.F
-!||    anim_mod              ../common_source/modules/output/anim_mod.F
 !||    message_mod           ../engine/share/message_module/message_mod.F
+!||    output_mod            ../common_source/modules/output/output_mod.F90
 !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
 !||====================================================================
       SUBROUTINE SPMD_SD_XV(OUTPUT,

@@ -36,6 +36,7 @@ C
 !||    format_mod             ../starter/share/modules1/format_mod.F90
 !||    hm_option_read_mod     ../starter/share/modules1/hm_option_read_mod.F
 !||    message_mod            ../starter/share/message_module/message_mod.F
+!||    sph_mod                ../starter/share/modules1/sph_mod.F
 !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
 !||====================================================================
       SUBROUTINE HM_READ_NODE(X       ,ITAB,ITABM1,CMERGE,UNITAB,

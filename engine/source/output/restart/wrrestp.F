@@ -128,7 +128,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    nodal_arrays_mod             ../common_source/modules/nodal_arrays.F90
 !||    outmax_mod                   ../common_source/modules/outmax_mod.F
 !||    output_mod                   ../common_source/modules/output/output_mod.F90
-!||    outputs_mod                  ../common_source/modules/outputs_mod.F
 !||    pblast_mod                   ../common_source/modules/loads/pblast_mod.F90
 !||    pinchtype_mod                ../common_source/modules/pinchtype_mod.F
 !||    python_funct_mod             ../common_source/modules/python_mod.F90

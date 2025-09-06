@@ -31,6 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    h3d_mod          ../engine/share/modules/h3d_mod.F
 !||    int8_mod         ../common_source/modules/interfaces/int8_mod.F90
 !||    intbufdef_mod    ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    output_mod       ../common_source/modules/output/output_mod.F90
 !||    sensor_mod       ../common_source/modules/sensor_mod.F90
 !||====================================================================
       SUBROUTINE INTFOP8(output,

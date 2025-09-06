@@ -28,7 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_exch_nodarea   ../engine/source/mpi/anim/spmd_exch_nodarea.F
 !||--- uses       -----------------------------------------------------
 !||    h3d_mod             ../engine/share/modules/h3d_mod.F
-!||    outputs_mod         ../common_source/modules/outputs_mod.F
+!||    output_mod          ../common_source/modules/output/output_mod.F90
 !||====================================================================
       SUBROUTINE ANI_PCONT(OUTPUT, IXS ,IXC    ,IXTG    ,FASOLFR  ,X       ,
      .                 CONTN   ,CONTT  ,IAD_ELEM,FR_ELEM,WEIGHT    ,
@@ -862,7 +862,7 @@ C
 !||    spmd_glob_dsum9     ../engine/source/mpi/interfaces/spmd_th.F
 !||--- uses       -----------------------------------------------------
 !||    h3d_mod             ../engine/share/modules/h3d_mod.F
-!||    outputs_mod         ../common_source/modules/outputs_mod.F
+!||    output_mod          ../common_source/modules/output/output_mod.F90
 !||====================================================================
       SUBROUTINE ANI_PCONT21(OUTPUT,IXS ,IXC    ,IXTG    ,FASOLFR  ,X       ,
      .                 CONTN   ,CONTT  ,IAD_ELEM,FR_ELEM,WEIGHT      ,

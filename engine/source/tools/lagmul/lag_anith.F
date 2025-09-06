@@ -21,12 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    lag_anith   ../engine/source/tools/lagmul/lag_anith.F
+!||    lag_anith    ../engine/source/tools/lagmul/lag_anith.F
 !||--- called by ------------------------------------------------------
-!||    lag_mult    ../engine/source/tools/lagmul/lag_mult.F
+!||    lag_mult     ../engine/source/tools/lagmul/lag_mult.F
 !||--- uses       -----------------------------------------------------
-!||    anim_mod    ../common_source/modules/output/anim_mod.F
-!||    h3d_mod     ../engine/share/modules/h3d_mod.F
+!||    h3d_mod      ../engine/share/modules/h3d_mod.F
+!||    output_mod   ../common_source/modules/output/output_mod.F90
 !||====================================================================
       SUBROUTINE LAG_ANITH(OUTPUT,IADLL  ,LLL   ,JLL    ,SLL    ,XLL    ,
      2                     FANI  ,FSAV   ,NC     ,H3D_DATA)
@@ -106,8 +106,8 @@ C SPMD routine
 !||--- calls      -----------------------------------------------------
 !||    spmd_sg_fani   ../engine/source/mpi/lag_multipliers/spmd_lag.F
 !||--- uses       -----------------------------------------------------
-!||    anim_mod       ../common_source/modules/output/anim_mod.F
 !||    h3d_mod        ../engine/share/modules/h3d_mod.F
+!||    output_mod     ../common_source/modules/output/output_mod.F90
 !||====================================================================
       SUBROUTINE LAG_ANITHP(OUTPUT, IADLL  ,LLL   ,JLL  ,SLL     ,XLL    ,
      2                      FANI   ,FSAV  ,NC   ,INDEXLAG,FANIG  ,

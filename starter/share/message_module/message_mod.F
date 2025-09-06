@@ -303,7 +303,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_ale_muscl                   ../starter/source/general_controls/ale_cfd/hm_read_ale_muscl.F
 !||    hm_read_ale_solver                  ../starter/source/general_controls/ale_cfd/hm_read_ale_solver.F
 !||    hm_read_alebcs                      ../starter/source/constraints/ale/hm_read_alebcs.F
-!||    hm_read_anim                        ../starter/source/general_controls/engine/hm_read_anim.F
 !||    hm_read_bcs                         ../starter/source/constraints/general/bcs/hm_read_bcs.F
 !||    hm_read_bcs_wall                    ../starter/source/boundary_conditions/hm_read_bcs_wall.F90
 !||    hm_read_beam                        ../starter/source/elements/reader/hm_read_beam.F

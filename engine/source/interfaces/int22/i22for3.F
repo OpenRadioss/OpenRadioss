@@ -30,11 +30,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    i22ass2          ../engine/source/interfaces/int22/i22assembly.F
 !||    i7ass3           ../engine/source/interfaces/int07/i7ass3.F
 !||--- uses       -----------------------------------------------------
-!||    anim_mod         ../common_source/modules/output/anim_mod.F
 !||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
 !||    h3d_mod          ../engine/share/modules/h3d_mod.F
 !||    i22bufbric_mod   ../common_source/modules/interfaces/cut-cell-search_mod.F
 !||    i22tri_mod       ../common_source/modules/interfaces/cut-cell-search_mod.F
+!||    output_mod       ../common_source/modules/output/output_mod.F90
 !||====================================================================
       SUBROUTINE I22FOR3(OUTPUT, JLT       ,A        ,V         ,IBC      ,ICODT  ,
      2                   FSAV      ,GAP      ,FRIC      ,MS       ,VISC   ,

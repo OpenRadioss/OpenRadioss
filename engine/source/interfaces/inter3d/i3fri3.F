@@ -21,12 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    i3fri3     ../engine/source/interfaces/inter3d/i3fri3.F
+!||    i3fri3       ../engine/source/interfaces/inter3d/i3fri3.F
 !||--- called by ------------------------------------------------------
-!||    intvo3     ../engine/source/interfaces/inter3d/intvo3.F
+!||    intvo3       ../engine/source/interfaces/inter3d/intvo3.F
 !||--- uses       -----------------------------------------------------
-!||    anim_mod   ../common_source/modules/output/anim_mod.F
-!||    h3d_mod    ../engine/share/modules/h3d_mod.F
+!||    h3d_mod      ../engine/share/modules/h3d_mod.F
+!||    output_mod   ../common_source/modules/output/output_mod.F90
 !||====================================================================
       SUBROUTINE I3FRI3(OUTPUT,LFT   ,LLT   ,NFT   ,
      2                  X     ,E     ,IRECT ,MSR   ,NSV   ,
@@ -409,12 +409,12 @@ C
       END
 C  054 +++
 !||====================================================================
-!||    i5fri3     ../engine/source/interfaces/inter3d/i3fri3.F
+!||    i5fri3       ../engine/source/interfaces/inter3d/i3fri3.F
 !||--- called by ------------------------------------------------------
-!||    intvo3     ../engine/source/interfaces/inter3d/intvo3.F
+!||    intvo3       ../engine/source/interfaces/inter3d/intvo3.F
 !||--- uses       -----------------------------------------------------
-!||    anim_mod   ../common_source/modules/output/anim_mod.F
-!||    h3d_mod    ../engine/share/modules/h3d_mod.F
+!||    h3d_mod      ../engine/share/modules/h3d_mod.F
+!||    output_mod   ../common_source/modules/output/output_mod.F90
 !||====================================================================
       SUBROUTINE I5FRI3(OUTPUT,LFT   ,LLT   ,NFT   ,IPARI ,
      2                  X     ,E     ,IRECT ,MSR   ,NSV   ,

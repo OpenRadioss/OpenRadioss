@@ -29,7 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    fxbodvp2       ../engine/source/constraints/fxbody/fxbodvp.F
 !||    spmd_fxb_cin   ../engine/source/mpi/kinematic_conditions/spmd_fxb_cin.F
 !||--- uses       -----------------------------------------------------
-!||    anim_mod       ../common_source/modules/output/anim_mod.F
+!||    output_mod     ../common_source/modules/output/output_mod.F90
 !||====================================================================
       SUBROUTINE FXBYVIT(OUTPUT,FXBIPM, FXBNOD, FXBMOD  , FXBGLM , FXBLM ,
      .                   FXBMVN, FXBMCD, FXBSE   , FXBSV  , FXBVIT,

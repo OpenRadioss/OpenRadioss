@@ -21,14 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    i3for3     ../engine/source/interfaces/inter3d/i3for3.F
+!||    i3for3       ../engine/source/interfaces/inter3d/i3for3.F
 !||--- called by ------------------------------------------------------
-!||    intvo3     ../engine/source/interfaces/inter3d/intvo3.F
+!||    intvo3       ../engine/source/interfaces/inter3d/intvo3.F
 !||--- calls      -----------------------------------------------------
-!||    ibcoff     ../engine/source/interfaces/interf/ibcoff.F
+!||    ibcoff       ../engine/source/interfaces/interf/ibcoff.F
 !||--- uses       -----------------------------------------------------
-!||    anim_mod   ../common_source/modules/output/anim_mod.F
-!||    h3d_mod    ../engine/share/modules/h3d_mod.F
+!||    h3d_mod      ../engine/share/modules/h3d_mod.F
+!||    output_mod   ../common_source/modules/output/output_mod.F90
 !||====================================================================
       SUBROUTINE I3FOR3(OUTPUT,LFT   ,LLT   ,NFT   ,
      2                  E     ,MSR   ,NSV   ,IRTL  ,STF      ,

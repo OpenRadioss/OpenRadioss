@@ -25,8 +25,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    freanim                ../engine/source/output/anim/reader/freanim.F
 !||--- uses       -----------------------------------------------------
-!||    anim_mod               ../common_source/modules/output/anim_mod.F
 !||    message_mod            ../engine/share/message_module/message_mod.F
+!||    output_mod             ../common_source/modules/output/output_mod.F90
 !||    sensor_mod             ../common_source/modules/sensor_mod.F90
 !||====================================================================
       SUBROUTINE ANIM_SET2ZERO_STRUCT(OUTPUT,SENSORS)

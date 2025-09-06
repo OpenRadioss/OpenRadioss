@@ -38,11 +38,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    multi_i18_force_poff   ../engine/source/interfaces/int18/multi_i18_force_poff.F
 !||    multi_i18_force_pon    ../engine/source/interfaces/int18/multi_i18_force_pon.F
 !||--- uses       -----------------------------------------------------
-!||    aleanim_mod            ../engine/share/modules/aleanim_mod.F
-!||    anim_mod               ../common_source/modules/output/anim_mod.F
 !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
 !||    h3d_mod                ../engine/share/modules/h3d_mod.F
 !||    multi_fvm_mod          ../common_source/modules/ale/multi_fvm_mod.F90
+!||    output_mod             ../common_source/modules/output/output_mod.F90
 !||    tri7box                ../engine/share/modules/tri7box.F
 !||====================================================================
       SUBROUTINE I18FOR3(OUTPUT, JLT      ,A          ,V         ,IBCC      ,ICODT         ,

@@ -90,7 +90,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    nlocal_reg_mod             ../common_source/modules/nlocal_reg_mod.F
 !||    outmax_mod                 ../common_source/modules/outmax_mod.F
 !||    output_mod                 ../common_source/modules/output/output_mod.F90
-!||    outputs_mod                ../common_source/modules/outputs_mod.F
 !||    parith_on_mod              ../common_source/modules/parith_on_mod.F90
 !||    pblast_mod                 ../common_source/modules/loads/pblast_mod.F90
 !||    pinchtype_mod              ../common_source/modules/pinchtype_mod.F

@@ -40,6 +40,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    h3d_mod            ../engine/share/modules/h3d_mod.F
 !||    intbufdef_mod      ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    message_mod        ../engine/share/message_module/message_mod.F
+!||    output_mod         ../common_source/modules/output/output_mod.F90
 !||    timer_mod          ../engine/source/system/timer_mod.F90
 !||====================================================================
       SUBROUTINE I23MAINF(OUTPUT,TIMERS,

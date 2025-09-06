@@ -54,8 +54,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_sd_skw_anim                 ../engine/source/mpi/output/spmd_sd_skw.F
 !||--- uses       -----------------------------------------------------
 !||    ale_connectivity_mod             ../common_source/modules/ale/ale_connectivity_mod.F
-!||    aleanim_mod                      ../engine/share/modules/aleanim_mod.F
-!||    anim_mod                         ../common_source/modules/output/anim_mod.F
 !||    cluster_mod                      ../engine/share/modules/cluster_mod.F
 !||    crackxfem_mod                    ../engine/share/modules/crackxfem_mod.F
 !||    drape_mod                        ../engine/share/modules/drape_mod.F
@@ -80,7 +78,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    nodal_arrays_mod                 ../common_source/modules/nodal_arrays.F90
 !||    outmax_mod                       ../common_source/modules/outmax_mod.F
 !||    output_mod                       ../common_source/modules/output/output_mod.F90
-!||    outputs_mod                      ../common_source/modules/outputs_mod.F
 !||    pblast_mod                       ../common_source/modules/loads/pblast_mod.F90
 !||    pinchtype_mod                    ../common_source/modules/pinchtype_mod.F
 !||    sensor_mod                       ../common_source/modules/sensor_mod.F90

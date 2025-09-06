@@ -36,12 +36,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_fvb_gath            ../engine/source/mpi/airbags/spmd_fvb_gath.F
 !||    spmd_fvb_igath           ../engine/source/mpi/airbags/spmd_fvb_igath.F
 !||--- uses       -----------------------------------------------------
-!||    anim_mod                 ../common_source/modules/output/anim_mod.F
 !||    elbufdef_mod             ../common_source/modules/mat_elem/elbufdef_mod.F90
 !||    finter_mixed_mod         ../engine/source/tools/finter_mixed.F90
 !||    fvbag_mod                ../engine/share/modules/fvbag_mod.F
 !||    fvmbag_meshcontrol_mod   ../common_source/modules/airbag/fvmbag_meshcontrol_mod.F
 !||    message_mod              ../engine/share/message_module/message_mod.F
+!||    output_mod               ../common_source/modules/output/output_mod.F90
 !||    python_funct_mod         ../common_source/modules/python_mod.F90
 !||    sensor_mod               ../common_source/modules/sensor_mod.F90
 !||====================================================================

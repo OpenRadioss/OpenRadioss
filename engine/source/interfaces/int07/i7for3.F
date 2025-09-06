@@ -21,18 +21,17 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    i7for3        ../engine/source/interfaces/int07/i7for3.F
+!||    i7for3       ../engine/source/interfaces/int07/i7for3.F
 !||--- called by ------------------------------------------------------
-!||    i7mainf       ../engine/source/interfaces/int07/i7mainf.F
+!||    i7mainf      ../engine/source/interfaces/int07/i7mainf.F
 !||--- calls      -----------------------------------------------------
-!||    bitget        ../engine/source/interfaces/intsort/i20sto.F
-!||    i7curv        ../engine/source/interfaces/int07/i7curv.F
-!||    ibcoff        ../engine/source/interfaces/interf/ibcoff.F
+!||    bitget       ../engine/source/interfaces/intsort/i20sto.F
+!||    i7curv       ../engine/source/interfaces/int07/i7curv.F
+!||    ibcoff       ../engine/source/interfaces/interf/ibcoff.F
 !||--- uses       -----------------------------------------------------
-!||    anim_mod      ../common_source/modules/output/anim_mod.F
-!||    h3d_mod       ../engine/share/modules/h3d_mod.F
-!||    outputs_mod   ../common_source/modules/outputs_mod.F
-!||    tri7box       ../engine/share/modules/tri7box.F
+!||    h3d_mod      ../engine/share/modules/h3d_mod.F
+!||    output_mod   ../common_source/modules/output/output_mod.F90
+!||    tri7box      ../engine/share/modules/tri7box.F
 !||====================================================================
       SUBROUTINE I7FOR3(OUTPUT,JLT       ,A         ,V          ,IBCC       ,ICODT  ,
      2                  FSAV      ,GAP       ,FRIC       ,MS         ,VISC   ,

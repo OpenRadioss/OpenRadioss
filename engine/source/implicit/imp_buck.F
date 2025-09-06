@@ -50,7 +50,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    zeror                  ../engine/source/system/zero.F
 !||--- uses       -----------------------------------------------------
 !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
-!||    anim_mod               ../common_source/modules/output/anim_mod.F
 !||    cluster_mod            ../engine/share/modules/cluster_mod.F
 !||    crackxfem_mod          ../engine/share/modules/crackxfem_mod.F
 !||    drape_mod              ../engine/share/modules/drape_mod.F

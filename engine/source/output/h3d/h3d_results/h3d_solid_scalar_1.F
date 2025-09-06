@@ -35,7 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ths_vol                        ../engine/source/output/h3d/h3d_results/h3d_solid_scalar_1.F
 !||--- uses       -----------------------------------------------------
 !||    ale_connectivity_mod           ../common_source/modules/ale/ale_connectivity_mod.F
-!||    aleanim_mod                    ../engine/share/modules/aleanim_mod.F
+!||    aleanim_mod                    ../common_source/modules/aleanim_mod.F
 !||    alefvm_mod                     ../common_source/modules/ale/alefvm_mod.F
 !||    elbufdef_mod                   ../common_source/modules/mat_elem/elbufdef_mod.F90
 !||    h3d_mod                        ../engine/share/modules/h3d_mod.F

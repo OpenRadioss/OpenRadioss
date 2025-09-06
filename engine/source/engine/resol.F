@@ -439,12 +439,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    acceleration_dp_mod                          ../engine/share/modules/acceleration_dp_mod.F
 !||    ale_connectivity_mod                         ../common_source/modules/ale/ale_connectivity_mod.F
 !||    ale_mod                                      ../common_source/modules/ale/ale_mod.F
-!||    aleanim_mod                                  ../engine/share/modules/aleanim_mod.F
+!||    aleanim_mod                                  ../common_source/modules/aleanim_mod.F
 !||    aleflow_mod                                  ../engine/share/modules/aleflow_mod.F
 !||    alefvm_mod                                   ../common_source/modules/ale/alefvm_mod.F
 !||    alemuscl_mod                                 ../common_source/modules/ale/alemuscl_mod.F
 !||    ams_work_mod                                 ../engine/source/modules/ams_work_mod.F90
-!||    anim_mod                                     ../common_source/modules/output/anim_mod.F
 !||    array_mod                                    ../common_source/modules/array_mod.F
 !||    bcs_mod                                      ../common_source/modules/boundary_conditions/bcs_mod.F90
 !||    check_mod                                    ../common_source/modules/check_mod.F
@@ -510,7 +509,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    offset_nproj_mod                             ../engine/source/interfaces/shell_offset/offset_nproj.F90
 !||    outmax_mod                                   ../common_source/modules/outmax_mod.F
 !||    output_mod                                   ../common_source/modules/output/output_mod.F90
-!||    outputs_mod                                  ../common_source/modules/outputs_mod.F
 !||    pblast_mod                                   ../common_source/modules/loads/pblast_mod.F90
 !||    pinchtype_mod                                ../common_source/modules/pinchtype_mod.F
 !||    plyxfem_mod                                  ../engine/share/modules/plyxfem_mod.F

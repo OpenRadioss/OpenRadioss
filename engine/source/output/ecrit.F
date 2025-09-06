@@ -33,7 +33,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_glob_dsum9     ../engine/source/mpi/interfaces/spmd_th.F
 !||    spmd_rbcast         ../engine/source/mpi/generic/spmd_rbcast.F
 !||--- uses       -----------------------------------------------------
-!||    anim_mod            ../common_source/modules/output/anim_mod.F
 !||    h3d_mod             ../engine/share/modules/h3d_mod.F
 !||    imp_dyna            ../engine/share/modules/impbufdef_mod.F
 !||    message_mod         ../engine/share/message_module/message_mod.F

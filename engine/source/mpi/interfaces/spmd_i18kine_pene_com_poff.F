@@ -30,10 +30,10 @@ C
 !||    ancmsg                       ../engine/source/output/message/message.F
 !||    arret                        ../engine/source/system/arret.F
 !||--- uses       -----------------------------------------------------
-!||    anim_mod                     ../common_source/modules/output/anim_mod.F
 !||    h3d_mod                      ../engine/share/modules/h3d_mod.F
 !||    intbufdef_mod                ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    message_mod                  ../engine/share/message_module/message_mod.F
+!||    output_mod                   ../common_source/modules/output/output_mod.F90
 !||    spmd_comm_world_mod          ../engine/source/mpi/spmd_comm_world.F90
 !||    tri7box                      ../engine/share/modules/tri7box.F
 !||====================================================================

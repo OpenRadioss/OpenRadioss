@@ -27,10 +27,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- calls      -----------------------------------------------------
 !||    ibcoff               ../engine/source/interfaces/interf/ibcoff.F
 !||--- uses       -----------------------------------------------------
-!||    anim_mod             ../common_source/modules/output/anim_mod.F
 !||    debug_mod            ../engine/share/modules/debug_mod.F
 !||    h3d_mod              ../engine/share/modules/h3d_mod.F
 !||    multi_fvm_mod        ../common_source/modules/ale/multi_fvm_mod.F90
+!||    output_mod           ../common_source/modules/output/output_mod.F90
 !||====================================================================
       SUBROUTINE SPMD_FIADD25E_POFF(OUTPUT,
      1       NB    ,LEN     ,BUFR   ,NSV    ,A       ,

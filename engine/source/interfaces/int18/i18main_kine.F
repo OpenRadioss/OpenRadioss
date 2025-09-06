@@ -36,11 +36,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_i18kine_pene_com_poff   ../engine/source/mpi/interfaces/spmd_i18kine_pene_com_poff.F
 !||--- uses       -----------------------------------------------------
 !||    ale_connectivity_mod         ../common_source/modules/ale/ale_connectivity_mod.F
-!||    anim_mod                     ../common_source/modules/output/anim_mod.F
 !||    array_mod                    ../common_source/modules/array_mod.F
 !||    h3d_mod                      ../engine/share/modules/h3d_mod.F
 !||    intbufdef_mod                ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    multi_fvm_mod                ../common_source/modules/ale/multi_fvm_mod.F90
+!||    output_mod                   ../common_source/modules/output/output_mod.F90
 !||    tri7box                      ../engine/share/modules/tri7box.F
 !||====================================================================
       SUBROUTINE I18MAIN_KINE_1(output, IPARI   ,INTBUF_TAB ,X        ,V             ,
@@ -321,6 +321,7 @@ C
 !||--- uses       -----------------------------------------------------
 !||    h3d_mod                      ../engine/share/modules/h3d_mod.F
 !||    intbufdef_mod                ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    output_mod                   ../common_source/modules/output/output_mod.F90
 !||    tri7box                      ../engine/share/modules/tri7box.F
 !||====================================================================
       SUBROUTINE I18MAIN_KINE_2(output,IPARI,INTBUF_TAB ,X   ,V       ,
@@ -1109,6 +1110,7 @@ C
 !||--- uses       -----------------------------------------------------
 !||    h3d_mod          ../engine/share/modules/h3d_mod.F
 !||    intbufdef_mod    ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    output_mod       ../common_source/modules/output/output_mod.F90
 !||====================================================================
       SUBROUTINE I18MAIN_KINE_S(output, NIN,
      1      IPARI     ,INTBUF_TAB         ,X       ,STIFN    ,
@@ -1917,8 +1919,8 @@ C
 !||--- called by ------------------------------------------------------
 !||    i18main_kine_s   ../engine/source/interfaces/int18/i18main_kine.F
 !||--- uses       -----------------------------------------------------
-!||    anim_mod         ../common_source/modules/output/anim_mod.F
 !||    h3d_mod          ../engine/share/modules/h3d_mod.F
+!||    output_mod       ../common_source/modules/output/output_mod.F90
 !||    tri7box          ../engine/share/modules/tri7box.F
 !||====================================================================
       SUBROUTINE I18KINE_S(OUTPUT,JLT ,A      ,V      ,CAND_E,CAND_N ,

@@ -31,6 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    h3d_mod         ../engine/share/modules/h3d_mod.F
 !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    output_mod      ../common_source/modules/output/output_mod.F90
 !||====================================================================
       SUBROUTINE INTAL1(output, IPARI,X      ,V       ,
      2                  A    ,ISKEW  ,SKEW    ,LCOD   ,WA      ,

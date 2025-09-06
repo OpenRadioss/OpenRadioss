@@ -32,10 +32,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    my_barrier          ../engine/source/system/machine.F
 !||    spmd_i17frots_pon   ../engine/source/mpi/interfaces/spmd_i17frots_pon.F
 !||--- uses       -----------------------------------------------------
-!||    anim_mod            ../common_source/modules/output/anim_mod.F
 !||    h3d_mod             ../engine/share/modules/h3d_mod.F
 !||    icontact_mod        ../engine/share/modules/icontact_mod.F
 !||    message_mod         ../engine/share/message_module/message_mod.F
+!||    output_mod          ../common_source/modules/output/output_mod.F90
 !||    tri7box             ../engine/share/modules/tri7box.F
 !||====================================================================
       SUBROUTINE I17FOR3(OUTPUT,
@@ -275,8 +275,8 @@ C
 !||    i17rst         ../engine/source/interfaces/int17/i17lagm.F
 !||    i17vit_pena    ../engine/source/interfaces/int17/i17for3.F
 !||--- uses       -----------------------------------------------------
-!||    anim_mod       ../common_source/modules/output/anim_mod.F
 !||    h3d_mod        ../engine/share/modules/h3d_mod.F
+!||    output_mod     ../common_source/modules/output/output_mod.F90
 !||====================================================================
       SUBROUTINE I17LLL_PENA( OUTPUT,
      .         LLT     ,V      ,STIFN   ,XX        ,FRIC   ,
@@ -493,6 +493,8 @@ C-----------------------------------------------------------------------
 !||    i17norm          ../engine/source/interfaces/int17/i17lagm.F
 !||    i17racine_pena   ../engine/source/interfaces/int17/i17for3.F
 !||    i17surf          ../engine/source/interfaces/int17/i17for3.F
+!||--- uses       -----------------------------------------------------
+!||    output_mod       ../common_source/modules/output/output_mod.F90
 !||====================================================================
       SUBROUTINE I17MINI_PENA(output,
      1                   LLT   ,R_CS  ,S_CS  ,T_CS  ,RI_S  ,SI_S  ,
@@ -1492,10 +1494,10 @@ C
 !||    ancmsg         ../engine/source/output/message/message.F
 !||    arret          ../engine/source/system/arret.F
 !||--- uses       -----------------------------------------------------
-!||    anim_mod       ../common_source/modules/output/anim_mod.F
 !||    h3d_mod        ../engine/share/modules/h3d_mod.F
 !||    icontact_mod   ../engine/share/modules/icontact_mod.F
 !||    message_mod    ../engine/share/message_module/message_mod.F
+!||    output_mod     ../common_source/modules/output/output_mod.F90
 !||    tri7box        ../engine/share/modules/tri7box.F
 !||====================================================================
       SUBROUTINE I17LLL4_PENA(OUTPUT,

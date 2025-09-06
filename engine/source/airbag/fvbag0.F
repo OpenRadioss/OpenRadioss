@@ -33,6 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    fvbag_mod                ../engine/share/modules/fvbag_mod.F
 !||    fvmbag_meshcontrol_mod   ../common_source/modules/airbag/fvmbag_meshcontrol_mod.F
 !||    h3d_mod                  ../engine/share/modules/h3d_mod.F
+!||    output_mod               ../common_source/modules/output/output_mod.F90
 !||    python_funct_mod         ../common_source/modules/python_mod.F90
 !||    sensor_mod               ../common_source/modules/sensor_mod.F90
 !||====================================================================

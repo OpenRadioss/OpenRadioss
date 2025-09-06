@@ -41,7 +41,7 @@
 !||    schlieren_buffer_gathering     ../engine/source/output/anim/generate/schlieren_buffer_gathering.F
 !||--- uses       -----------------------------------------------------
 !||    ale_connectivity_mod           ../common_source/modules/ale/ale_connectivity_mod.F
-!||    aleanim_mod                    ../engine/share/modules/aleanim_mod.F
+!||    aleanim_mod                    ../common_source/modules/aleanim_mod.F
 !||    elbufdef_mod                   ../common_source/modules/mat_elem/elbufdef_mod.F90
 !||    h3d_quad_scalar_1_mod          ../engine/source/output/h3d/h3d_results/h3d_quad_scalar_1.F90
 !||    matparam_def_mod               ../common_source/modules/mat_elem/matparam_def_mod.F90

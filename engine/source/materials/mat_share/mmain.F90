@@ -156,7 +156,7 @@
 !||--- uses       -----------------------------------------------------
 !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
 !||    ale_mod                ../common_source/modules/ale/ale_mod.F
-!||    anim_mod               ../common_source/modules/output/anim_mod.F
+!||    anim_mod               ../common_source/modules/output/anim_mod.F90
 !||    constant_mod           ../common_source/modules/constant_mod.F
 !||    dt_mod                 ../engine/source/modules/dt_mod.F
 !||    eosmain_mod            ../common_source/eos/eosmain.F

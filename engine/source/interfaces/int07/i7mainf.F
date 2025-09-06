@@ -62,7 +62,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    intbufdef_mod               ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    message_mod                 ../engine/share/message_module/message_mod.F
 !||    multi_fvm_mod               ../common_source/modules/ale/multi_fvm_mod.F90
-!||    outputs_mod                 ../common_source/modules/outputs_mod.F
+!||    output_mod                  ../common_source/modules/output/output_mod.F90
 !||    timer_mod                   ../engine/source/system/timer_mod.F90
 !||====================================================================
       SUBROUTINE I7MAINF(OUTPUT, TIMERS,

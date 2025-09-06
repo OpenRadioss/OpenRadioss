@@ -58,7 +58,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    ale_mod                ../common_source/modules/ale/ale_mod.F
 !||    alemuscl_mod           ../common_source/modules/ale/alemuscl_mod.F
-!||    anim_mod               ../common_source/modules/output/anim_mod.F
 !||    check_mod              ../common_source/modules/check_mod.F
 !||    dt_mod                 ../engine/source/modules/dt_mod.F
 !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
@@ -76,7 +75,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    my_alloc_mod           ../common_source/tools/memory/my_alloc.F90
 !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
 !||    output_mod             ../common_source/modules/output/output_mod.F90
-!||    outputs_mod            ../common_source/modules/outputs_mod.F
 !||    pblast_mod             ../common_source/modules/loads/pblast_mod.F90
 !||    prelech3d_mod          ../engine/source/output/h3d/h3d_build_fortran/prelech3d.F90
 !||    sensor_mod             ../common_source/modules/sensor_mod.F90

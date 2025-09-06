@@ -35,10 +35,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    i24sms2              ../engine/source/interfaces/int24/i24for3.F
 !||    ibcoff               ../engine/source/interfaces/interf/ibcoff.F
 !||--- uses       -----------------------------------------------------
-!||    anim_mod             ../common_source/modules/output/anim_mod.F
 !||    h3d_mod              ../engine/share/modules/h3d_mod.F
 !||    i24intarea_fic_mod   ../engine/source/interfaces/int24/i24intarea_fic.F90
-!||    outputs_mod          ../common_source/modules/outputs_mod.F
+!||    output_mod           ../common_source/modules/output/output_mod.F90
 !||    parameters_mod       ../common_source/modules/interfaces/parameters_mod.F
 !||    plyxfem_mod          ../engine/share/modules/plyxfem_mod.F
 !||    tri7box              ../engine/share/modules/tri7box.F

@@ -43,7 +43,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ddsplit                             ../starter/source/restart/ddsplit/ddsplit.F
 !||    elbuf_ini                           ../starter/source/elements/elbuf_init/elbuf_ini.F
 !||    fractal_element_neighbor            ../starter/source/materials/fail/fractal/fractal_element_neighbor.F90
-!||    hm_read_anim                        ../starter/source/general_controls/engine/hm_read_anim.F
 !||    hm_read_drape                       ../starter/source/properties/composite_options/drape/hm_read_drape.F
 !||    hm_read_inistate_d00                ../starter/source/elements/initia/hm_read_inistate_d00.F
 !||    hm_read_prop17                      ../starter/source/properties/shell/hm_read_prop17.F

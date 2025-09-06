@@ -21,14 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    i6ass3     ../engine/source/interfaces/inter3d/i6ass3.F
+!||    i6ass3       ../engine/source/interfaces/inter3d/i6ass3.F
 !||--- called by ------------------------------------------------------
-!||    i6main     ../engine/source/interfaces/inter3d/i6main.F
+!||    i6main       ../engine/source/interfaces/inter3d/i6main.F
 !||--- calls      -----------------------------------------------------
-!||    finter     ../engine/source/tools/curve/finter.F
+!||    finter       ../engine/source/tools/curve/finter.F
 !||--- uses       -----------------------------------------------------
-!||    anim_mod   ../common_source/modules/output/anim_mod.F
-!||    h3d_mod    ../engine/share/modules/h3d_mod.F
+!||    h3d_mod      ../engine/share/modules/h3d_mod.F
+!||    output_mod   ../common_source/modules/output/output_mod.F90
 !||====================================================================
       SUBROUTINE I6ASS3(OUTPUT  ,E       ,MSR     ,NSV     ,ES      ,
      2                  EM      ,NPC     ,TF      ,ANSMX   ,

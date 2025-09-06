@@ -26,7 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sforc3        ../engine/source/elements/solid/solide/sforc3.F
 !||    szforc3       ../engine/source/elements/solid/solidez/szforc3.F
 !||--- uses       -----------------------------------------------------
-!||    aleanim_mod   ../engine/share/modules/aleanim_mod.F
+!||    aleanim_mod   ../common_source/modules/aleanim_mod.F
 !||====================================================================
       SUBROUTINE SDEFO3(FANI_CELL,
      1   PX1,     PX2,     PX3,     PX4,

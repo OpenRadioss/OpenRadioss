@@ -29,10 +29,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_rbcast            ../engine/source/mpi/generic/spmd_rbcast.F
 !||--- uses       -----------------------------------------------------
 !||    ale_mod                ../common_source/modules/ale/ale_mod.F
-!||    anim_mod               ../common_source/modules/output/anim_mod.F
 !||    h3d_mod                ../engine/share/modules/h3d_mod.F
 !||    inoutfile_mod          ../common_source/modules/inoutfile_mod.F
 !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
+!||    output_mod             ../common_source/modules/output/output_mod.F90
 !||    sensor_mod             ../common_source/modules/sensor_mod.F90
 !||====================================================================
       SUBROUTINE MANCTR(OUTPUT,SENSORS ,H3D_DATA)

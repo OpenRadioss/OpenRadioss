@@ -27,7 +27,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- calls      -----------------------------------------------------
 !||    ancmsg        ../engine/source/output/message/message.F
 !||--- uses       -----------------------------------------------------
-!||    anim_mod      ../common_source/modules/output/anim_mod.F
 !||    h3d_mod       ../engine/share/modules/h3d_mod.F
 !||    imp_dyna      ../engine/share/modules/impbufdef_mod.F
 !||    message_mod   ../engine/share/message_module/message_mod.F

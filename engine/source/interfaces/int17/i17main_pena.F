@@ -30,6 +30,7 @@ C I17MAIN_LAG split in 3 routines for SPMD reorganization
 !||--- uses       -----------------------------------------------------
 !||    groupdef_mod       ../common_source/modules/groupdef_mod.F
 !||    intbufdef_mod      ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    output_mod         ../common_source/modules/output/output_mod.F90
 !||====================================================================
       SUBROUTINE I17MAIN_CRIT_TRI(
      1          IPARI  ,INTBUF_TAB ,X       ,NIN    ,
@@ -365,6 +366,7 @@ C
 !||    groupdef_mod    ../common_source/modules/groupdef_mod.F
 !||    h3d_mod         ../engine/share/modules/h3d_mod.F
 !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    output_mod      ../common_source/modules/output/output_mod.F90
 !||====================================================================
       SUBROUTINE I17MAIN_PENA(output,
      1          NIN    ,IPARI  ,INTBUF_TAB    ,X      ,V      ,

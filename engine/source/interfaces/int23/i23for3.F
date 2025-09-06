@@ -21,22 +21,22 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    i23for3    ../engine/source/interfaces/int23/i23for3.F
+!||    i23for3      ../engine/source/interfaces/int23/i23for3.F
 !||--- called by ------------------------------------------------------
-!||    i23mainf   ../engine/source/interfaces/int23/i23mainf.F
+!||    i23mainf     ../engine/source/interfaces/int23/i23mainf.F
 !||--- calls      -----------------------------------------------------
-!||    i7ass0     ../engine/source/interfaces/int07/i7ass3.F
-!||    i7ass05    ../engine/source/interfaces/int07/i7ass3.F
-!||    i7ass2     ../engine/source/interfaces/int07/i7ass3.F
-!||    i7ass25    ../engine/source/interfaces/int07/i7ass3.F
-!||    i7ass3     ../engine/source/interfaces/int07/i7ass3.F
-!||    i7ass35    ../engine/source/interfaces/int07/i7ass3.F
-!||    i7sms2     ../engine/source/interfaces/int07/i7sms2.F
-!||    ibcoff     ../engine/source/interfaces/interf/ibcoff.F
+!||    i7ass0       ../engine/source/interfaces/int07/i7ass3.F
+!||    i7ass05      ../engine/source/interfaces/int07/i7ass3.F
+!||    i7ass2       ../engine/source/interfaces/int07/i7ass3.F
+!||    i7ass25      ../engine/source/interfaces/int07/i7ass3.F
+!||    i7ass3       ../engine/source/interfaces/int07/i7ass3.F
+!||    i7ass35      ../engine/source/interfaces/int07/i7ass3.F
+!||    i7sms2       ../engine/source/interfaces/int07/i7sms2.F
+!||    ibcoff       ../engine/source/interfaces/interf/ibcoff.F
 !||--- uses       -----------------------------------------------------
-!||    anim_mod   ../common_source/modules/output/anim_mod.F
-!||    h3d_mod    ../engine/share/modules/h3d_mod.F
-!||    tri7box    ../engine/share/modules/tri7box.F
+!||    h3d_mod      ../engine/share/modules/h3d_mod.F
+!||    output_mod   ../common_source/modules/output/output_mod.F90
+!||    tri7box      ../engine/share/modules/tri7box.F
 !||====================================================================
       SUBROUTINE I23FOR3(OUTPUT, JLT    ,NIN    ,NOINT  ,IBC    ,ICODT  ,
      2                  FSAV    ,GAP    ,STIGLO ,FRIC   ,VISC   ,

@@ -27,8 +27,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- calls      -----------------------------------------------------
 !||    spmd_get_penis20   ../engine/source/mpi/interfaces/send_cand.F
 !||--- uses       -----------------------------------------------------
-!||    anim_mod           ../common_source/modules/output/anim_mod.F
 !||    h3d_mod            ../engine/share/modules/h3d_mod.F
+!||    output_mod         ../common_source/modules/output/output_mod.F90
 !||====================================================================
        SUBROUTINE I20BUCE_CRIT(OUTPUT  ,
      1       ITASK   ,X       ,V       ,MS      ,

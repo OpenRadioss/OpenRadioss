@@ -36,7 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    ale_connectivity_mod    ../common_source/modules/ale/ale_connectivity_mod.F
 !||    ale_mod                 ../common_source/modules/ale/ale_mod.F
-!||    aleanim_mod             ../engine/share/modules/aleanim_mod.F
+!||    aleanim_mod             ../common_source/modules/aleanim_mod.F
 !||    alefvm_mod              ../common_source/modules/ale/alefvm_mod.F
 !||    alemuscl_mod            ../common_source/modules/ale/alemuscl_mod.F
 !||    cluster_mod             ../engine/share/modules/cluster_mod.F
@@ -55,7 +55,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    my_alloc_mod            ../common_source/tools/memory/my_alloc.F90
 !||    nodal_arrays_mod        ../common_source/modules/nodal_arrays.F90
 !||    outmax_mod              ../common_source/modules/outmax_mod.F
-!||    outputs_mod             ../common_source/modules/outputs_mod.F
+!||    output_mod              ../common_source/modules/output/output_mod.F90
 !||    pinchtype_mod           ../common_source/modules/pinchtype_mod.F
 !||    rbe3_mod                ../common_source/modules/constraints/rbe3_mod.F90
 !||    restmod                 ../engine/share/modules/restart_mod.F

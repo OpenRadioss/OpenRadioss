@@ -29,9 +29,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    i25sms2          ../engine/source/interfaces/int25/i25for3.F
 !||    ibcoff           ../engine/source/interfaces/interf/ibcoff.F
 !||--- uses       -----------------------------------------------------
-!||    anim_mod         ../common_source/modules/output/anim_mod.F
 !||    h3d_mod          ../engine/share/modules/h3d_mod.F
-!||    outputs_mod      ../common_source/modules/outputs_mod.F
+!||    output_mod       ../common_source/modules/output/output_mod.F90
 !||    parameters_mod   ../common_source/modules/interfaces/parameters_mod.F
 !||    pinchtype_mod    ../common_source/modules/pinchtype_mod.F
 !||    plyxfem_mod      ../engine/share/modules/plyxfem_mod.F

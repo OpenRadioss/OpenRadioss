@@ -21,11 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    forani3   ../engine/source/output/anim/generate/forani3.F
+!||    forani3      ../engine/source/output/anim/generate/forani3.F
 !||--- called by ------------------------------------------------------
-!||    resol     ../engine/source/engine/resol.F
+!||    resol        ../engine/source/engine/resol.F
 !||--- uses       -----------------------------------------------------
-!||    h3d_mod   ../engine/share/modules/h3d_mod.F
+!||    h3d_mod      ../engine/share/modules/h3d_mod.F
+!||    output_mod   ../common_source/modules/output/output_mod.F90
 !||====================================================================
       SUBROUTINE FORANI3(OUTPUT,A,MS,NODFT,NODLT,H3D_DATA)
 C-----------------------------------------------

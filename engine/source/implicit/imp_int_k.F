@@ -711,6 +711,7 @@ C
 !||    intbufdef_mod    ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    interfaces_mod   ../common_source/modules/interfaces/interfaces_mod.F90
 !||    multi_fvm_mod    ../common_source/modules/ale/multi_fvm_mod.F90
+!||    output_mod       ../common_source/modules/output/output_mod.F90
 !||    sensor_mod       ../common_source/modules/sensor_mod.F90
 !||    timer_mod        ../engine/source/system/timer_mod.F90
 !||====================================================================
@@ -1091,6 +1092,7 @@ C
 !||    intbufdef_mod     ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    interfaces_mod    ../common_source/modules/interfaces/interfaces_mod.F90
 !||    multi_fvm_mod     ../common_source/modules/ale/multi_fvm_mod.F90
+!||    output_mod        ../common_source/modules/output/output_mod.F90
 !||    sensor_mod        ../common_source/modules/sensor_mod.F90
 !||    timer_mod         ../engine/source/system/timer_mod.F90
 !||====================================================================

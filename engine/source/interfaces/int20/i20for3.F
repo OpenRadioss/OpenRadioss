@@ -36,8 +36,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    i7sms2            ../engine/source/interfaces/int07/i7sms2.F
 !||    ibcoff            ../engine/source/interfaces/interf/ibcoff.F
 !||--- uses       -----------------------------------------------------
-!||    anim_mod          ../common_source/modules/output/anim_mod.F
 !||    h3d_mod           ../engine/share/modules/h3d_mod.F
+!||    output_mod        ../common_source/modules/output/output_mod.F90
 !||    tri7box           ../engine/share/modules/tri7box.F
 !||====================================================================
       SUBROUTINE I20FOR3(OUTPUT,JLT   ,A      ,VA     ,IBCC  ,ICODT  ,

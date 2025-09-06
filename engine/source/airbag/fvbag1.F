@@ -36,7 +36,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_fvb_gath            ../engine/source/mpi/airbags/spmd_fvb_gath.F
 !||    spmd_fvb_igath           ../engine/source/mpi/airbags/spmd_fvb_igath.F
 !||--- uses       -----------------------------------------------------
-!||    anim_mod                 ../common_source/modules/output/anim_mod.F
 !||    cast_mod                 ../common_source/modules/cast_mod.F90
 !||    elbufdef_mod             ../common_source/modules/mat_elem/elbufdef_mod.F90
 !||    finter_mixed_mod         ../engine/source/tools/finter_mixed.F90
@@ -45,6 +44,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    h3d_mod                  ../engine/share/modules/h3d_mod.F
 !||    message_mod              ../engine/share/message_module/message_mod.F
 !||    my_alloc_mod             ../common_source/tools/memory/my_alloc.F90
+!||    output_mod               ../common_source/modules/output/output_mod.F90
 !||    python_funct_mod         ../common_source/modules/python_mod.F90
 !||    sensor_mod               ../common_source/modules/sensor_mod.F90
 !||====================================================================

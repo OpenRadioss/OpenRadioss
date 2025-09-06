@@ -25,6 +25,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    ddsplit              ../starter/source/restart/ddsplit/ddsplit.F
 !||--- uses       -----------------------------------------------------
+!||    sph_mod              ../starter/share/modules1/sph_mod.F
 !||====================================================================
       SUBROUTINE WRCOMR(LMXVREA,LVARREA,TABVREA,MS_ND,P,INTER_PARAMETERS, 
      .                  UNITAB ,GLOB_THERM, OUTPUT)

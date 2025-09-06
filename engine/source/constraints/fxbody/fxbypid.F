@@ -31,6 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_wiout        ../engine/source/mpi/generic/spmd_wiout.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod      ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    output_mod        ../common_source/modules/output/output_mod.F90
 !||====================================================================
       SUBROUTINE FXBYPID(OUTPUT,IPARG ,         IXS   , IXQ   , IXC       ,
      .                   IXT   , IXP   , IXR   , IXTG  , FXBIPM    , 

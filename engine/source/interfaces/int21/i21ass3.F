@@ -27,10 +27,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- calls      -----------------------------------------------------
 !||    foat_to_6_float   ../engine/source/system/parit.F
 !||--- uses       -----------------------------------------------------
-!||    anim_mod          ../common_source/modules/output/anim_mod.F
 !||    h3d_mod           ../engine/share/modules/h3d_mod.F
 !||    intstamp_mod      ../engine/share/modules/intstamp_mod.F
-!||    outputs_mod       ../common_source/modules/outputs_mod.F
+!||    output_mod        ../common_source/modules/output/output_mod.F90
 !||    tri7box           ../engine/share/modules/tri7box.F
 !||====================================================================
       SUBROUTINE I21ASS3(OUTPUT, JLT     ,A        ,NIN      ,NOINT    ,FXN    ,

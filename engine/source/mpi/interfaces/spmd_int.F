@@ -3541,7 +3541,6 @@ C END TRI7GAT
 !||    spmd_waitany    ../engine/source/mpi/spmd_wait.F90
 !||--- uses       -----------------------------------------------------
 !||    message_mod     ../engine/share/message_module/message_mod.F
-!||    outputs_mod     ../common_source/modules/outputs_mod.F
 !||    spmd_mod        ../engine/source/mpi/spmd_mod.F90
 !||    tri7box         ../engine/share/modules/tri7box.F
 !||====================================================================
@@ -4914,7 +4913,6 @@ C END SPMD_TRI11VOX
 !||    arret           ../engine/source/system/arret.F
 !||--- uses       -----------------------------------------------------
 !||    message_mod     ../engine/share/message_module/message_mod.F
-!||    outputs_mod     ../common_source/modules/outputs_mod.F
 !||    spmd_mod        ../engine/source/mpi/spmd_mod.F90
 !||    tri7box         ../engine/share/modules/tri7box.F
 !||====================================================================

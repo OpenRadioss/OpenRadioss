@@ -34,7 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    groupdef_mod   ../common_source/modules/groupdef_mod.F
 !||    initbuf_mod    ../engine/share/resol/initbuf.F
 !||    message_mod    ../engine/share/message_module/message_mod.F
-!||    outputs_mod    ../common_source/modules/outputs_mod.F
+!||    sph_mod        ../engine/share/modules/sph_mod.F
 !||====================================================================
       SUBROUTINE SPONOF1(X ,V       ,D       ,MS      ,SPBUF   ,
      2             ITAB    ,KXSP    ,IXSP    ,NOD2SP  ,NPC     ,

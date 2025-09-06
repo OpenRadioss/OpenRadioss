@@ -44,7 +44,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    intstamp_mod               ../engine/share/modules/intstamp_mod.F
 !||    message_mod                ../engine/share/message_module/message_mod.F
 !||    my_alloc_mod               ../common_source/tools/memory/my_alloc.F90
-!||    outputs_mod                ../common_source/modules/outputs_mod.F
+!||    output_mod                 ../common_source/modules/output/output_mod.F90
 !||    timer_mod                  ../engine/source/system/timer_mod.F90
 !||====================================================================
       SUBROUTINE I21MAINF(output,TIMERS,
