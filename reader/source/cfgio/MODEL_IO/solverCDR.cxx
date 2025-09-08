@@ -29,6 +29,7 @@
 
 #include <string>
 #include "solverCDR.h"
+#include "meci_model_factory_parameter_evaluator.h"
 #include "MODEL_IO/hw_cfg_reader.h"
 #include <HCDI/hcdi_mec_pre_object.h>
 #include <HCDI/hcdi_mv_descriptor.h>
@@ -36,7 +37,6 @@
 #include <HCDI/hcdi_utils.h>
 #include <MODEL_IO/cdr_reserveattribs.h>
 #include <MODEL_IO/hcioi_utils.h>
-#include <HCDI/hcdi_utils.h>
 #include <assert.h>
 
 
@@ -61,6 +61,7 @@ void ParameterPOImp::ClearProcessedParameters()
 }
 int ParameterPOImp::GetFileIndex() const
 {
+    if (pCurParameterObj) return pCurParameterObj->GetFileIndex();
     return 0;// evaluateHandler.GetIncludeId();
 }
 int ParameterPOImp::GetIntValue() const
@@ -115,6 +116,50 @@ IParameter::Keywordtype ParameterPOImp::GetKeywordType() const
     return IParameter::REGULAR;
 }
 
+std::string ParameterPOImp::GetExpression() const
+{
+    std::string str("");
+    if (pCurParameterObj)
+    {
+        IDescriptor* pdescrp = HCDI_GetDescriptorHandle(pCurParameterObj->GetKernelFullType());
+        if (!pdescrp) return str;
+        string skey = GetAttribNameFromDrawable(pdescrp, cdr::g_AttribParamExpression);
+        int att_indx = pCurParameterObj->GetIndex(IMECPreObject::ATY_SINGLE, IMECPreObject::VTY_STRING, skey.c_str());
+        str = att_indx >= 0 ? pCurParameterObj->GetStringValue(att_indx) : "";
+    }
+    return str;
+}
+
+void ParameterPOImp::SetExpressionValue(double value)
+{
+    Type type = GetType();
+    if (pCurParameterObj)
+    {
+        if(TYPE_DOUBLE_EXPRESSION == type)
+        {
+            pCurParameterObj->AddFloatValue(cur_paramvaldoubleskey.c_str(), value);
+        }
+        else if(TYPE_INTEGER_EXPRESSION == type)
+        {
+            pCurParameterObj->AddIntValue(cur_paramvaldoubleskey.c_str(), (int) value);
+        }
+    }
+}
+
+std::string ParameterPOImp::GetName() const
+{
+    std::string str("");
+    if (pCurParameterObj)
+    {
+        IDescriptor* pdescrp = HCDI_GetDescriptorHandle(pCurParameterObj->GetKernelFullType());
+        if (!pdescrp) return str;
+        string skey = GetAttribNameFromDrawable(pdescrp, cdr::g_AttribParamName);
+        int att_indx = pCurParameterObj->GetIndex(IMECPreObject::ATY_SINGLE, IMECPreObject::VTY_STRING, skey.c_str());
+        str = att_indx >= 0 ? pCurParameterObj->GetStringValue(att_indx) : "";
+    }
+    return str;
+}
+
 static int get_paramname_beginindex(vector<IMECPreObject *> &objlst, int low, int high, string param_find, int n_size, string &paramname, string &paramscope)
 {
     if (high >= low)
@@ -154,16 +199,14 @@ IParameter* ModelFactoryReaderPO::GetParameterObject(const char* param_str, cons
     if(!a_nb_objects)
         return parameter_obj;
 
-    IDescriptor* pdescrp = HCDI_GetDescriptorHandle(a_vec[0]->GetKernelFullType());
+    const char* kftype = a_vec[0]->GetKernelFullType();
+    IDescriptor* pdescrp = HCDI_GetDescriptorHandle(kftype);
 
     if (!pdescrp)
         return parameter_obj;
 
     string paramname_skey = GetAttribNameFromDrawable(pdescrp, cdr::g_AttribParamName);
 
-    string paramvalueint_skey = GetAttribNameFromDrawable(pdescrp, cdr::g_AttribParamValueInteger);
-    string paramvaluedouble_skey = GetAttribNameFromDrawable(pdescrp, cdr::g_AttribParamValueDouble);
-    string paramvaluetext_skey = GetAttribNameFromDrawable(pdescrp, cdr::g_AttribParamValueString);
     string scope_skey = GetAttribNameFromDrawable(pdescrp, cdr::g_AttribParamScope);
     string type_skey = GetAttribNameFromDrawable(pdescrp, cdr::g_AttribParamType);
 
@@ -172,6 +215,7 @@ IParameter* ModelFactoryReaderPO::GetParameterObject(const char* param_str, cons
         return parameter_obj;
 
     IMECPreObject* found = nullptr;
+    size_t j = a_nb_objects;
     for (int i = first_indx; i < a_nb_objects; i++) 
     {
         IMECPreObject* obj = a_vec[i];
@@ -188,6 +232,7 @@ IParameter* ModelFactoryReaderPO::GetParameterObject(const char* param_str, cons
                 int ifileindx = obj->GetFileIndex();
                 if (ifileindx == file_index) {
                     found = obj; // Found a local object with matching a
+                    j = i;
                     break;
                 }
                 else
@@ -210,6 +255,7 @@ IParameter* ModelFactoryReaderPO::GetParameterObject(const char* param_str, cons
                         {
                             found = obj;
                             match_found = true;
+                            j = i;
                             break;
                         }
                         sub = MECSubdeck::mySubdeckVector[a_ind];
@@ -220,12 +266,24 @@ IParameter* ModelFactoryReaderPO::GetParameterObject(const char* param_str, cons
             }
             else if (found == nullptr) {
                 found = obj; // Found a global object
+                j = i;
             }
         }
         else if(first_indx)
             break;
     }
     parameter_obj->SetCurParameterObj(found);
+
+    if(j > 0 && j < a_nb_objects && a_vec[j] && a_vec[j]->GetKernelFullType() &&
+       strcmp(kftype, a_vec[j]->GetKernelFullType()) != 0)
+    { // the found parameter is another one as the first one, so we have to re-fetch the descriptor
+        kftype = a_vec[j]->GetKernelFullType();
+        pdescrp = HCDI_GetDescriptorHandle(kftype);
+    }
+
+    string paramvalueint_skey = GetAttribNameFromDrawable(pdescrp, cdr::g_AttribParamValueInteger);
+    string paramvaluedouble_skey = GetAttribNameFromDrawable(pdescrp, cdr::g_AttribParamValueDouble);
+    string paramvaluetext_skey = GetAttribNameFromDrawable(pdescrp, cdr::g_AttribParamValueString);
 
     parameter_obj->SetCurParamValIntSkey(paramvalueint_skey);
     parameter_obj->SetCurParamValDoubleSkey(paramvaluedouble_skey);
@@ -236,6 +294,26 @@ IParameter* ModelFactoryReaderPO::GetParameterObject(const char* param_str, cons
     return parameter_obj;
 }
 
+void ModelFactoryReaderPO::EvaluateExpressionParameters(const MECMsgManager* pMsgManager)
+{
+    vector<IMECPreObject*>& a_vec = GetPreObjectLst(HCDI_OBJ_TYPE_PARAMETERS);
+    for (IMECPreObject* obj : a_vec) 
+    {
+        // This is certainly not a preformance-optimized way, but easy to code:
+        // The call to parameterEvaluator.GetValue() will evaluate expression parameters and store
+        // their values in the preobject, and not do anything for other parameters.
+        if(!obj) continue;
+        IDescriptor* pdescrp = HCDI_GetDescriptorHandle(obj->GetKernelFullType());
+        if(!pdescrp) continue;
+        string paramname_skey = GetAttribNameFromDrawable(pdescrp, cdr::g_AttribParamName);
+        const char* paramname = obj->GetStringValue(paramname_skey.c_str());
+        ExpressionEvaluatorExprTk baseEvaluator;
+        int fileIndex = obj->GetFileIndex();
+        MECIModelFactoryParameterEvaluator parameterEvaluator(this, fileIndex, &baseEvaluator, pMsgManager);
+        double value;
+        parameterEvaluator.GetValue(paramname, value);
+    }
+}
 
 void ModelFactoryReaderPO::AddSubDeckObjects()
 {
@@ -401,8 +479,6 @@ void CommonDataReaderCFG::ReadModel(const std::string& filepath, vector<IMECPreO
                               m_pfileFactory);
         a_reader.readModel(m_pmodel);
     }
-
-    CFGResolveEntitiesSubObjectReferences(m_pinputInfo.get()->getlUserNamesSolverInfo(), preobjLst);
 }
 
 

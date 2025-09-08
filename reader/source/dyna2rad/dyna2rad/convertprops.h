@@ -71,6 +71,8 @@ namespace sdiD2R
 
         void p_ConvertSectionBeam(const sdi::EntityRead& matEntityRead, const sdi::EntityRead& dynaProp, sdiString& destCard, sdi::HandleEdit& radProp);
         
+        void ConvertSecShellsRelatedMat37(const sdi::EntityRead& matEntityRead, const sdi::EntityRead& dynaProp, sdiString& destCard, sdi::HandleEdit& radProp);
+
         void ConvertSecShellsRelatedMatFabric(const sdi::EntityRead& matEntityRead, const sdi::EntityRead& dynaProp, sdiString& destCard, sdi::HandleEdit& radProp);
 
         void ConvertSecShells16RelatedMatFabric(const sdi::EntityRead& matEntityRead, const sdi::EntityRead& dynaProp, sdiString& destCard, sdi::HandleEdit& radProp);
@@ -109,6 +111,8 @@ namespace sdiD2R
         void ConvertSecTShellsRelatedMatIsotropic(const sdi::EntityRead& matEntityRead, const sdi::EntityRead& dynaProp, sdiString& destCard, sdi::HandleEdit& radProp);
 
         void ConvertSecTShellsRelatedMatComposite(const sdi::EntityRead& matEntityRead, const sdi::EntityRead& dynaProp, sdiString& destCard, sdi::HandleEdit& radProp);
+
+        void ConvertPartSensor();
 
     };
 }

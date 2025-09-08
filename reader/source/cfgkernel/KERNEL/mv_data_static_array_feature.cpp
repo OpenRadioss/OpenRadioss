@@ -32,7 +32,7 @@ typedef const MvDataFeature_t *MvConstDataFeaturePtr_t;
 
 MvDataStaticArrayFeature_t::MvDataStaticArrayFeature_t(const string &name,int nb_features,int size) :
   MvDataArrayFeature_t(DFT_STATIC_ARRAY,name,nb_features,size),
-  myTitleArray(size==0 ? NULL : new string[size])
+  myTitleArray(size==0 ? NULL : new string[size]), myDefaultValues()
 {}
 
 MvDataStaticArrayFeature_t::~MvDataStaticArrayFeature_t() {

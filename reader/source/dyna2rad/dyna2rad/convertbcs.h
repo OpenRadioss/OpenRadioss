@@ -58,6 +58,8 @@ namespace sdiD2R
         void ConvertBoundarySPC();
 
         void ConvertBoundaryMotion();
+
+        void ConvertBoundaryPrescribedFinalGeometry();
     };
 }
 

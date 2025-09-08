@@ -83,7 +83,8 @@ CDECL int cfgreader_inc(char *modelfilename, int *nbDynaIncludes,char *globalPat
     {
         ModelViewEdit *pModelViewSDI = NULL;
         pModelViewSDI = RadiossblkReadModelSDI(modelfilename);
-        RadiossblkApplyOffsets(pModelViewSDI);
+        //RadiossblkApplyOffsets(pModelViewSDI);
+        
         GlobalModelSDISetModel(pModelViewSDI);
         g_pModelViewSDI = pModelViewSDI;
 

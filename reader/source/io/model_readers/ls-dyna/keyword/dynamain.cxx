@@ -39,7 +39,7 @@ void DynakeyMessages::ShowMessage(const sdiMessageHandler::Level &level, int cod
         "", "", "", 0);
 }
  
-
+ 
 #include <sdiCFGTypeMapper.h> 
 #include <sdiModelViewPO.h>
 

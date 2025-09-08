@@ -99,6 +99,22 @@ static void DescTypeToPreobjType(attribute_type_e desc_a_type, value_type_e desc
     return;
 }
 
+
+static bool hasWhitespaceAndLength(const char* input, unsigned int& length) {
+    length = 0;
+    if (!input) return false;
+
+    bool hasWhitespace = false;
+    while (input[length]) {
+        if (std::isspace(static_cast<unsigned char>(input[length]))) {
+            hasWhitespace = true;
+        }
+        ++length;
+    }
+    return hasWhitespace;
+}
+
+
 class DataReaderUpdateManager_t
 {
 public:
@@ -855,7 +871,7 @@ void MECIDataReader::assign(const PseudoFileFormatCard_t       *card_format_p,
             int a_cell_ind = -1;
             if (a_atype == ATYPE_VALUE)
             {
-                object_p->AddStringValue(skeyword.c_str(), ind, p_exp_str);
+                object_p->AddStringValue(skeyword.c_str(), p_exp_str);
             }
             else if (a_atype == ATYPE_DYNAMIC_ARRAY)
             {
@@ -1099,7 +1115,11 @@ void MECIDataReader::assign(const PseudoFileFormatCard_t       *card_format_p,
         {
             size_t pos = first_str.find(second_str);
             if (pos != std::string::npos)
+            {
                 first_str.erase(pos, second_str.length());
+                // erase whitespace after the erased portion
+                while(pos < first_str.size() && IsWhitespace(first_str[pos])) first_str.erase(pos, 1);
+            }
             if (ind < 0)
             {
             int a_skey_ind = object_p->GetIndex(IMECPreObject::ATY_SINGLE, IMECPreObject::VTY_STRING, skeyword);
@@ -1250,16 +1270,24 @@ void MECIDataReader::assign(const PseudoFileFormatCard_t       *card_format_p,
         }
         else if (assign_attrib_atype == ATYPE_DYNAMIC_ARRAY || assign_attrib_atype == ATYPE_STATIC_ARRAY) // copying Array_Att to Array_Att
         {
-            if (index_ikey == -1)
+            int start_ind_value = 0, end_ind_value = 0;
+            if (index_ikey == -1 && last_index_ikey == -1)
             {
-                if (ind < 0) index = 0;
-                else index = ind;
+                if (ind < 0)
+                {
+                    index = 0;
+                    last_index = a_size-1;
+                }
+                else
+                {
+                    index = ind;
+                    last_index = ind;
+                }
             }
             if (index < 0 || index >= a_size || last_index >= a_size)
                 return;
 
-            int start_ind_value = 0, end_ind_value = a_size;
-            int updated_array_size = a_size;
+            int updated_array_size = 0;
             if (index >= 0)
             {
                 start_ind_value = index;
@@ -1267,6 +1295,8 @@ void MECIDataReader::assign(const PseudoFileFormatCard_t       *card_format_p,
                 {
                     end_ind_value = last_index + 1;
                     updated_array_size = end_ind_value - start_ind_value;
+                    if (index == ind && last_index == ind)
+                        updated_array_size = a_size;
                 }
             }
             if (assign_attrib_atype == ATYPE_DYNAMIC_ARRAY)
@@ -1287,6 +1317,17 @@ void MECIDataReader::assign(const PseudoFileFormatCard_t       *card_format_p,
             }
             if (ikey_des_vtype == VTYPE_STRING && assign_attrib_vtype == VTYPE_STRING)
             {
+                if (index_ikey == -1 && last_index_ikey == -1)
+                {
+                    for (int i = start_ind_value; i < end_ind_value; i++)
+                    {
+                        std::string a_value_str = "";
+                        object_p->GetExpressionValue(a_descr_p, ikeyword, i, value, a_value_str);
+                        HCDI_UpdatePreObjectValue(*object_p, descr_p, assign_card_attrib_ikey, value, a_value_str, i);
+                    }
+                }
+                else
+                {
                 // copy the length end_ind_value, from the string at start_ind_value
                 std::string a_value_str = "";
                 object_p->GetExpressionValue(a_descr_p, ikeyword, start_ind_value, value, a_value_str);
@@ -1295,6 +1336,7 @@ void MECIDataReader::assign(const PseudoFileFormatCard_t       *card_format_p,
                     end_ind_value = a_str_size;
                 a_value_str = a_value_str.substr(0, end_ind_value);
                 HCDI_UpdatePreObjectValue(*object_p, descr_p, assign_card_attrib_ikey, value, a_value_str, start_ind_value);
+            }
             }
             else
             {
@@ -1307,6 +1349,8 @@ void MECIDataReader::assign(const PseudoFileFormatCard_t       *card_format_p,
                     else if (atype == ASSIGN_STOF)
                         value = std::stof(a_value_str.c_str());
                     HCDI_UpdatePreObjectValue(*object_p, descr_p, assign_card_attrib_ikey, value, a_value_str, i);
+                    if (atype == ASSIGN_STOI || atype == ASSIGN_STOF)
+                        break; // copy only start_ind_value
                 }
             }
             return;
@@ -4175,7 +4219,7 @@ MYOBJ_INT MECIDataReader::readSubobject(MECIDataReader               *subobj_rea
                                   IMECPreObject                 *object_p) const
 {
     //MECPreObject a_subobj(kfulltype,kfulltype,"",0);
-    IMECPreObject *a_subobj = HCDI_GetPreObjectHandle(kfulltype,kfulltype,"",0, 0);
+    IMECPreObject *a_subobj = ((MECIModelFactory*)model_p)->CreateObject(kfulltype,kfulltype,"",0, 0);
     a_subobj->Init((const PseudoDescriptor_t *)subobj_descr_p);
     //MvFullType_t ftp(nullptr, kfulltype); 
     obj_type_e type = (obj_type_e)HCDI_GetHCObjectType(kfulltype); //ftp.getType();
@@ -5007,13 +5051,18 @@ const char* MECIDataReader::readCell(const char* cell,
             ikw_str_vect.push_back(make_pair(ikw, string(a_skeyword)));
         }
         char* token = NULL;
-        token = strtok(a_value, &separator);
+        char pair_str[2], separator_str[2];
+        separator_str[0] = separator;
+        separator_str[1] = '\0';
+        pair_str[0] = pair_char;
+        pair_str[1] = '\0';
+        token = strtok(a_value, separator_str);
         vector<string> a_vect;
         while (token)
         {
             string name_value = token;
             a_vect.push_back(name_value);
-            token = strtok(NULL, &separator);
+            token = strtok(NULL, separator_str);
         }
         int size = (int)a_vect.size();
         for(int i=0; i < size; i++)
@@ -5497,11 +5546,11 @@ const char* MECIDataReader::readCell(const char* cell,
             }
             else
             {
-                char* token2 = strtok((char *)name_value.c_str(), &pair_char);
+                char* token2 = strtok((char *)name_value.c_str(), pair_str);
                 while (token2)
                 {
                     string skw_to_search = token2;
-                    token2 = strtok(NULL, &pair_char);
+                    token2 = strtok(NULL, pair_str);
                     string name_value2 = token2;
                     for (int j = 0; j < nb_cells; j++)
                     {
@@ -5693,7 +5742,7 @@ const char* MECIDataReader::readCell(const char* cell,
                             break;
                         }
                     }
-                    token2 = strtok(NULL, &pair_char);
+                    token2 = strtok(NULL, pair_str);
                 }
             }
         }
@@ -6575,8 +6624,11 @@ const char *MECIDataReader::readCell_COMMENT(const char                   *cell,
       {
           /*a_cell_string will have the whitespaces as per card format length
           However we want it same as cell*/
+          if (hasWhitespaceAndLength(a_cell_string, a_cell_size))/*incase there are no whiltespace*/
+          {
           a_cell_string = cell;
           a_cell_size = GetCellFreeSize(cell);
+          }
       }
       else
       {

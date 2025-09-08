@@ -65,13 +65,17 @@ public: /** @name Accessors */
   inline const string &getName() const { return myTitle; }
   /// Gets the 
   virtual  MvDataTripleFeatureType_e getDifferentiatorType() const { return myPointTypeFlag; }
+  /// Sets the default value container
+  inline void setDefaultValue(vector<vector<double>> val) { myDefaultValues = val; }
+  /// Gets the default value container
+  inline vector<vector<double>> getDefaultValue() const { return myDefaultValues; }
   //@}
 
 protected: // Output in an output stream
   virtual ostream &display(ostream &os,const MvDescriptor_t &descr,int level=0) const;
 protected:
 	MvDataTripleFeatureType_e myPointTypeFlag;
-
+    vector<vector<double>>    myDefaultValues;
 private:
     int      myIkeyword;
     string   myTitle;

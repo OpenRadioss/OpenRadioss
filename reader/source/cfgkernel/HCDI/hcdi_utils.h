@@ -72,6 +72,11 @@ HC_DATA_DLL_API int HCDIGetMaxProfileBit();
 HC_DATA_DLL_API void HCDIGetMultiObjectTypes(const IDescriptor* descrp, int ikeyword, MvFullTypeSet_t& set);
 HC_DATA_DLL_API int HCDI_splitString(const string& target, const string& delimiter, vector <string >& result);
 HC_DATA_DLL_API bool HCDIIsAttributeTripleCFG(const IDescriptor& descrp, int ikeyword, bool& is_multi);
-HC_DATA_DLL_API void CFGResolveEntitiesSubObjectReferences(std::map<string, CUserNameTypeInfo>& username_info, vector<IMECPreObject*>* p_preobjlst);
+HC_DATA_DLL_API void CFGGetSubDescriptorReferenceMap(
+    const std::map<string, CUserNameTypeInfo>& username_info,
+    std::unordered_map<std::string, cfglnksubdescriptor>& cfglnksubdescriptor_map);
+HC_DATA_DLL_API void CFGResolveEntitiesSubObjectReferences(
+    const std::unordered_map<std::string, cfglnksubdescriptor>& cfglnksubdescriptor_map,
+    vector<IMECPreObject*>* p_preobjlst);
 
 #endif 

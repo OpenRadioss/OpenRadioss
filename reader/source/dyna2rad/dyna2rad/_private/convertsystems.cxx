@@ -358,6 +358,7 @@ void ConvertSystem::p_ConvertDefineVector()
                 skewEntityEdit.SetValue(sdiIdentifier("N2"), sdiValue(sdiValueEntity(sdiValueEntityType(1), nodehId)));
                 skewEntityEdit.SetValue(sdiIdentifier("N3"), sdiValue(sdiValueEntity(sdiValueEntityType(1), node3Read.GetId())));
                 skewEntityEdit.SetValue(sdiIdentifier("DIR"), sdiValue(sdiString("X")));
+                DynaToRad::PushIntoStoreLsdVIDVsRadSkewId(selDefineVect->GetId(), skewHEdit.GetId(p_radiossModel));
             }
             else
             {

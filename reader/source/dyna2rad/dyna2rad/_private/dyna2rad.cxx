@@ -750,7 +750,8 @@ void sdiD2R::DynaToRad::p_AutoConvert()
         p_lsdynaModel->GetKeyword(i).find("EOS") != p_lsdynaModel->GetKeyword(i).npos ||
         p_lsdynaModel->GetKeyword(i).find("INCLUDE") != p_lsdynaModel->GetKeyword(i).npos ||
         p_lsdynaModel->GetKeyword(i).find("PARAMETER") != p_lsdynaModel->GetKeyword(i).npos ||
-        p_lsdynaModel->GetKeyword(i).find("DATABASE") != p_lsdynaModel->GetKeyword(i).npos  ))
+        p_lsdynaModel->GetKeyword(i).find("DATABASE") != p_lsdynaModel->GetKeyword(i).npos  ||
+        p_lsdynaModel->GetKeyword(i).find("PART_SENSOR") != p_lsdynaModel->GetKeyword(i).npos))
         {
             ConvertUtils cnvrtUtil(p_lsdynaModel, p_radiossModel);
             SelectionRead selCard(p_lsdynaModel, p_lsdynaModel->GetKeyword(i).c_str());

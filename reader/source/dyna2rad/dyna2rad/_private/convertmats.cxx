@@ -357,6 +357,9 @@ void ConvertMat::p_ConvertMatBasedOnCard(const EntityRead& dynaMat, HandleEdit& 
         case 34:
             p_ConvertMatL34(dynaMat, destCard, attribMap, radMat);
             break;
+        case 37:
+            p_ConvertMatL37(dynaMat, destCard, attribMap, radMat);
+            break;
         case 54:
             p_ConvertMatL54(dynaMat, destCard, attribMap, radMat);
             break;
@@ -3040,6 +3043,121 @@ void ConvertMat::p_ConvertMatL34(const EntityRead& dynaMat, sdiString& destCard,
     } // if(lsdFORM != 14.0 && lsdFORM != -14.0)
 }
 
+void ConvertMat::p_ConvertMatL37(const EntityRead& dynaMat, sdiString& destCard, multimap<string, string>& attribMap, HandleEdit& radMat)
+{
+
+    sdiString dynaMatName = dynaMat.GetName();
+    unsigned int dynaMatId = dynaMat.GetId();
+    attribMap = { {"RO", "RHO_I"}, {"E", "E"} , {"PR", "NU"} , {"EA", "Einf"} , {"COE", "CE"}};
+    destCard = "/MAT/LAW43"; 
+
+    if (matToPropsReferenceCount > 1)
+        p_radiossModel->CreateEntity(radMat, destCard, dynaMatName, p_ConvertUtils.GetDynaMaxEntityID(srcEntityType));
+    else
+        p_radiossModel->CreateEntity(radMat, destCard, dynaMatName, dynaMatId);
+
+    if (radMat.IsValid())
+    {
+        EntityEdit radmatEntityEdit(p_radiossModel, radMat);
+
+        sdiValueEntity hlcidEntity = GetValue<sdiValueEntity>(dynaMat, "HLCID");
+        if (!hlcidEntity.GetId())
+            {
+                // Create a default hardening curve with 2 points
+                double lsdSIGY = GetValue<double>(dynaMat, "SIGY");
+                double lsdETAN = GetValue<double>(dynaMat, "ETAN");
+                
+                HandleEdit functHEdit;
+                p_ConvertUtils.CreateCurve(dynaMatName + "Heading", 2, 
+                                          { { 0.0, lsdSIGY, 1.0, lsdSIGY + abs(lsdETAN) } },  functHEdit);
+                
+                if (functHEdit.IsValid())
+                {
+                    radmatEntityEdit.SetValue(sdiIdentifier("NUM_CURVES"), sdiValue(1));
+                    radmatEntityEdit.SetValue(sdiIdentifier("func_IDi",0,0), 
+                                              sdiValue(sdiValueEntity(p_radiossModel->GetEntityType("/FUNCT"), 
+                                              functHEdit.GetId(p_radiossModel))));
+                    
+                    sdiConvert::SDIHandlReadList sourcemat = { {dynaMat.GetHandle()} };
+                    sdiConvert::Convert::PushToConversionLog(std::make_pair(functHEdit, sourcemat));
+                }
+            }
+        
+        else
+            radmatEntityEdit.SetValue(sdiIdentifier("NUM_CURVES"), sdiValue(1));
+            radmatEntityEdit.SetValue(sdiIdentifier("func_IDi",0,0), sdiValue(sdiValueEntity(p_radiossModel->GetEntityType("/FUNCT"), hlcidEntity.GetId())));
+
+        // Get R value from LS-DYNA material
+        double lsdR = GetValue<double>(dynaMat, "R");
+
+        // Calculate r00, r90, and r45 values based on R
+        double r00 = abs(lsdR);
+        double r90 = abs(lsdR);
+        double r45 = ((2.0 * abs(lsdR) + 1.0) / 2.0) - 0.5;
+
+        // Set the calculated values to the RADIOSS material
+        radmatEntityEdit.SetValue(sdiIdentifier("r00"), sdiValue(r00));
+        radmatEntityEdit.SetValue(sdiIdentifier("r90"), sdiValue(r90));
+        radmatEntityEdit.SetValue(sdiIdentifier("r45"), sdiValue(r45));
+
+        // Handle IDSCALE parameter (convert to fct_IDE in RADIOSS)
+        sdiValueEntity idscaleEntity = GetValue<sdiValueEntity>(dynaMat, "IDSCALE");
+        if (idscaleEntity.GetId())
+        {
+            radmatEntityEdit.SetValue(sdiIdentifier("FUNCT_IDE"), 
+                                     sdiValue(sdiValueEntity(p_radiossModel->GetEntityType("/FUNCT"), 
+                                     idscaleEntity.GetId())));
+        }
+
+
+        // Handle ICFLD parameter (convert to /FAIL/FLD)
+        sdiValueEntity icfldEntity = GetValue<sdiValueEntity>(dynaMat, "ICFLD");
+        if (icfldEntity.GetId())
+        {
+            // Create /FAIL/FLD card
+            HandleEdit failFldEdit;
+            p_radiossModel->CreateEntity(failFldEdit, "/FAIL/FLD", dynaMatName);
+            
+            if (failFldEdit.IsValid())
+            {
+                EntityEdit failFldEntityEdit(p_radiossModel, failFldEdit);
+                
+                // Set material reference
+                failFldEntityEdit.SetEntityHandle(sdiIdentifier("mat_id"), radMat);
+                
+                // Set FLD curve
+                failFldEntityEdit.SetValue(sdiIdentifier("fct_ID"), 
+                                          sdiValue(sdiValueEntity(p_radiossModel->GetEntityType("/FUNCT"), 
+                                          icfldEntity.GetId())));
+                
+                // Set Ifail_sh
+                failFldEntityEdit.SetValue(sdiIdentifier("Ifail_sh"), sdiValue(2));
+                
+                // Get option parameter
+                int option = GetValue<int>(dynaMat, "ECHANGE_OPTION");
+                double strainLt = GetValue<double>(dynaMat, "STRAINLT");
+                
+                if (option == 3 || option == 5)
+                {
+                    failFldEntityEdit.SetValue(sdiIdentifier("Istrain"), sdiValue(2));
+                    failFldEntityEdit.SetValue(sdiIdentifier("ALPHA"), sdiValue(strainLt));
+                }
+                else if (option == 4)
+                {
+                    failFldEntityEdit.SetValue(sdiIdentifier("Istrain"), sdiValue(1));
+                }
+                
+                // Add to conversion log
+                sdiConvert::SDIHandlReadList sourceMat = { {dynaMat.GetHandle()} };
+                sdiConvert::Convert::PushToConversionLog(std::make_pair(failFldEdit, sourceMat));
+            }
+        }
+        
+        sdiConvert::SDIHandlReadList sourceMat = { {dynaMat.GetHandle()} };
+        sdiConvert::Convert::PushToConversionLog(std::make_pair(radMat, sourceMat));
+    }
+}
+
 void ConvertMat::p_ConvertMatL54(const EntityRead& dynaMat, sdiString& destCard, multimap<string, string>& attribMap, HandleEdit& radMat)
 {
     sdiString dynaMatName = dynaMat.GetName();
@@ -3150,6 +3268,10 @@ void ConvertMat::p_ConvertMatL57(const EntityRead& dynaMat, sdiString& destCard,
         radMatEntityEdit.SetValue(sdiIdentifier("Ismooth"), sdiValue(1));
         radMatEntityEdit.SetValue(sdiIdentifier("Fcut"), sdiValue(0.0));
         radMatEntityEdit.SetValue(sdiIdentifier("TFLAG"), sdiValue(2));
+
+        p_ConvertUtils.CopyValue(dynaMat, radMatEntityEdit, "KCON", "Kcont");
+        p_ConvertUtils.CopyValue(dynaMat, radMatEntityEdit, "TC", "Tcut");
+        p_ConvertUtils.CopyValue(dynaMat, radMatEntityEdit, "FAIL", "FAIL");
     }
 }
 
@@ -4771,22 +4893,9 @@ void ConvertMat::p_ConvertMatL83(const EntityRead& dynaMat, sdiString& destCard,
         sdiDoubleList strainRatesList;
         sdiDoubleList scaleList;
         EntityEdit radMatEntityEdit(p_radiossModel, radMat);
-        double lsdTFLAG = 0;
-        double lsdTC = 0.0, lsdE = 0.0;
         sdiValue tempValue;
-        double lsdFAIL = GetValue<double>(dynaMat, "FAIL");
 
-        tempValue = sdiValue(lsdTFLAG);
-        dynaMat.GetValue(sdiIdentifier("TFLAG"), tempValue);
-        tempValue.GetValue(lsdTFLAG);
-
-        tempValue = sdiValue(lsdTC);
-        dynaMat.GetValue(sdiIdentifier("TC"), tempValue);
-        tempValue.GetValue(lsdTC);
-
-        tempValue = sdiValue(lsdE);
-        dynaMat.GetValue(sdiIdentifier("E"), tempValue);
-        tempValue.GetValue(lsdE);
+        double lsdTFLAG = GetValue<double>(dynaMat, "TFLAG");
 
         HandleRead sigCrvHandle;
         dynaMat.GetEntityHandle(sdiIdentifier("TBID"), sigCrvHandle);
@@ -4812,7 +4921,7 @@ void ConvertMat::p_ConvertMatL83(const EntityRead& dynaMat, sdiString& destCard,
                 if (funcIdList.size())
                 {
                     // loop over table curves:
-                    for (size_t i = 0; i < funcIdList.size(); ++i)
+                    for (size_t i = 0; i < (int)funcIdList.size(); ++i)
                     {
                         unsigned int lcid = funcIdList[i];
 
@@ -4822,166 +4931,8 @@ void ConvertMat::p_ConvertMatL83(const EntityRead& dynaMat, sdiString& destCard,
 
                         if(radfuncHEdit.IsValid())
                         {
-                            //-----------------------
-                            int nPnts = 0;
-                            sdiDoubleList crvPoints;
-
-                            double lsdSFA = 1.0;
-                            double lsdSFO = 1.0;
-                            double lsdOFFA = 0.0;
-                            double lsdOFFO = 0.0;
-
-                            tempValue = sdiValue(nPnts);
-                            radfuncEdit.GetValue(sdiIdentifier("numberofpoints"), tempValue);
-                            tempValue.GetValue(nPnts);
-                            crvPoints.reserve(2 * nPnts + 4);
-                            //crvPoints.erase(crvPoints.begin(),crvPoints.end());
-                            crvPoints.clear();
-
-                            tempValue = sdiValue(crvPoints);
-                            radfuncEdit.GetValue(sdiIdentifier("points"), tempValue);
-                            tempValue.GetValue(crvPoints);
-
-                            vector< reference_wrapper<double>> attribVals({ lsdSFA, lsdSFO, lsdOFFA, lsdOFFO });
-                            vector<sdiString> lsdQueryAttribs = { "A_SCALE_X", "F_SCALE_Y", "A_SHIFT_X", "F_SHIFT_Y" };
-                            p_ConvertUtils.GetAttribValues(radfuncEdit, lsdQueryAttribs, attribVals);
-                            lsdSFA = (lsdSFA == 0.0) ? 1.0 : lsdSFA;
-                            lsdSFO = (lsdSFO == 0.0) ? 1.0 : lsdSFO;
-                            //-----------------------
-                            if(lsdTFLAG == 0.0)
-                            {
-                            // ignore part of stress strain curves in 3rd quadrant
-                            // and create new curves with following points in the third quadrant:
-                                // case (1)
-                                if(lsdE*10.0 > lsdTC &&  lsdTC > 0.0)
-                                {
-                                    // if E*10>TC>0: (-TC/E-1, -TC); (-TC/E, -TC)
-                                    while (crvPoints[0] < 0.0)
-                                    {
-                                        crvPoints.erase(crvPoints.begin());
-                                        crvPoints.erase(crvPoints.begin());
-                                    }
-
-                                    crvPoints.insert(crvPoints.begin(), -lsdTC);
-                                    crvPoints.insert(crvPoints.begin(), -lsdTC/lsdE);
-
-                                    crvPoints.insert(crvPoints.begin(), -lsdTC);
-                                    crvPoints.insert(crvPoints.begin(), -(lsdTC/lsdE)-1.0);
-
-                                    HandleEdit newfunctHEdit;
-                                    p_ConvertUtils.CreateCurve("Duplicate_" + to_string(lcid) + "_MatL83_" + to_string(dynaMatId),
-                                        (int)crvPoints.size()/2, crvPoints, newfunctHEdit, lsdSFA, lsdSFO, lsdOFFA, lsdOFFO);
-
-                                    sdiConvert::SDIHandlReadList sourceMat = { {dynaMat.GetHandle()} };
-                                    if (newfunctHEdit.IsValid())
-                                    {
-                                        sdiConvert::Convert::PushToConversionLog(std::make_pair(newfunctHEdit, sourceMat));
-                                        funcIdList[i] = newfunctHEdit.GetId(p_radiossModel);
-                                    }
-                                }
-                                // case (2)
-                                else if(lsdTC == 0.0 || lsdTC >= lsdE*10.0)
-                                {
-                                    // if TC=0 and lsdTC >= lsdE*10.0: (-1, -E), (0.0, 0.0)
-
-                                    while (crvPoints[0] < 0.0)
-                                    {
-                                        crvPoints.erase(crvPoints.begin());
-                                        crvPoints.erase(crvPoints.begin());
-                                    }
-
-                                    crvPoints.insert(crvPoints.begin(), -lsdE);
-                                    crvPoints.insert(crvPoints.begin(), -1.0);
-
-                                    HandleEdit newfunctHEdit;
-                                    p_ConvertUtils.CreateCurve("Duplicate_" + to_string(lcid) + "_MatL83_" + to_string(dynaMatId),
-                                        (int)crvPoints.size()/2, crvPoints, newfunctHEdit, lsdSFA, lsdSFO, lsdOFFA, lsdOFFO);
-
-                                    sdiConvert::SDIHandlReadList sourceMat = { {dynaMat.GetHandle()} };
-                                    if (newfunctHEdit.IsValid())
-                                    {
-                                        sdiConvert::Convert::PushToConversionLog(std::make_pair(newfunctHEdit, sourceMat));
-                                        funcIdList[i] = newfunctHEdit.GetId(p_radiossModel);
-                                    }
-                                }
-                            }
-                            else if(lsdTFLAG == 1.0)
-                            {
-                                // case (1)
-                                if(crvPoints[0] < 0.0 && crvPoints[1] < 0.0)
-                                {
-                                    // existing curve in third quadrant
-                                    // Replace each points (xi, yi) in the 3rd quadrant by (xi, max(yi, -TC))
-                                    double maxabscisa = 0.0;
-                                    if(lsdTC != 0.0) maxabscisa = -lsdTC;
-
-                                    for (size_t j = 0; j < crvPoints.size(); j += 2)
-                                    {
-                                        if(crvPoints[j] < 0.0 && crvPoints[j+1] < 0.0) crvPoints[j+1] = max(crvPoints[j+1],maxabscisa);
-                                    }
-
-                                    HandleEdit newfunctHEdit;
-                                    p_ConvertUtils.CreateCurve("Duplicate_" + to_string(lcid) + "_MatL83_" + to_string(dynaMatId),
-                                        (int)crvPoints.size()/2, crvPoints, newfunctHEdit, lsdSFA, lsdSFO, lsdOFFA, lsdOFFO);
-
-                                    sdiConvert::SDIHandlReadList sourceMat = { {dynaMat.GetHandle()} };
-                                    if (newfunctHEdit.IsValid())
-                                    {
-                                        sdiConvert::Convert::PushToConversionLog(std::make_pair(newfunctHEdit, sourceMat));
-                                        funcIdList[i] = newfunctHEdit.GetId(p_radiossModel);
-                                    }
-                                }
-                                else
-                                {
-                                    // case (2)
-                                    // non existing curve in third quadrant
-                                    // if TC>0: (-TC/Eslope-1, -TC); (-TC/Eslope, -TC)
-
-                                    double Eslope = 0.0;
-                                    Eslope = crvPoints[3]-crvPoints[1];
-                                    if (crvPoints[2]-crvPoints[0] > 0.0)
-                                        Eslope = (crvPoints[3]-crvPoints[1])/(crvPoints[2]-crvPoints[0] > 0.0);
-
-                                    // case (2)-1
-                                    if (Eslope*10.0 > lsdTC &&  lsdTC > 0.0)
-                                    {
-                                        crvPoints.insert(crvPoints.begin(), -lsdTC);
-                                        crvPoints.insert(crvPoints.begin(), -lsdTC/Eslope);
-
-                                        crvPoints.insert(crvPoints.begin(), -lsdTC);
-                                        crvPoints.insert(crvPoints.begin(), -(lsdTC/Eslope)-1.0);
-
-                                        HandleEdit newfunctHEdit;
-                                        p_ConvertUtils.CreateCurve("Duplicate_" + to_string(lcid) + "_MatL83_" + to_string(dynaMatId),
-                                            (int)crvPoints.size()/2, crvPoints, newfunctHEdit, lsdSFA, lsdSFO, lsdOFFA, lsdOFFO);
-
-                                        sdiConvert::SDIHandlReadList sourceMat = { {dynaMat.GetHandle()} };
-                                        if (newfunctHEdit.IsValid())
-                                        {
-                                            sdiConvert::Convert::PushToConversionLog(std::make_pair(newfunctHEdit, sourceMat));
-                                            funcIdList[i] = newfunctHEdit.GetId(p_radiossModel);
-                                        }
-                                    }
-                                    // case (2)-2
-                                    else if (lsdTC == 0.0 || lsdTC >= Eslope*10.0)
-                                    {
-                                        crvPoints.insert(crvPoints.begin(), -Eslope);
-                                        crvPoints.insert(crvPoints.begin(), -1.0);
-
-                                        HandleEdit newfunctHEdit;
-                                        p_ConvertUtils.CreateCurve("Duplicate_" + to_string(lcid) + "_MatL83_" + to_string(dynaMatId),
-                                            (int)crvPoints.size()/2, crvPoints, newfunctHEdit, lsdSFA, lsdSFO, lsdOFFA, lsdOFFO);
-
-                                        sdiConvert::SDIHandlReadList sourceMat = { {dynaMat.GetHandle()} };
-                                        if (newfunctHEdit.IsValid())
-                                        {
-                                            sdiConvert::Convert::PushToConversionLog(std::make_pair(newfunctHEdit, sourceMat));
-                                            funcIdList[i] = newfunctHEdit.GetId(p_radiossModel);
-                                        }
-                                    }
-                                }
-                            }
-                        } // if(radfuncHEdit.IsValid())
+                            funcIdList[i] = radfuncHEdit.GetId(p_radiossModel);
+                        }
                     } // for (size_t i = 0; i < funcIdList.size(); ++i)
 
                     funcIdList.push_back(funcIdList[nFunct - 1]);
@@ -5005,29 +4956,16 @@ void ConvertMat::p_ConvertMatL83(const EntityRead& dynaMat, sdiString& destCard,
         radMatEntityEdit.SetValue(sdiIdentifier("Ismooth"), sdiValue(1));
         radMatEntityEdit.SetValue(sdiIdentifier("Fcut"), sdiValue(0.0));
         p_ConvertUtils.CopyValue(dynaMat, radMatEntityEdit, "EXPON", "MAT_ALPHA");
-
-        //The rest of parameters are set to default 0 values in converson
+        p_ConvertUtils.CopyValue(dynaMat, radMatEntityEdit, "TC", "Tcut");
+        p_ConvertUtils.CopyValue(dynaMat, radMatEntityEdit, "FAIL", "FAIL");
+        p_ConvertUtils.CopyValue(dynaMat, radMatEntityEdit, "ED", "Kcont");
         radMatEntityEdit.SetValue(sdiIdentifier("MAT_NU"), sdiValue(0.0));
-        // to be added ... once /MAT/LAW90 in radioss supports TFLAG
-        //if(lsdTFLAG == 0.0) lsdTFLAG = 2.0; // default value for TFLAG
-        //radMatEntityEdit.SetValue(sdiIdentifier("TFLAG"), sdiValue(lsdTFLAG));
+
+        if(lsdTFLAG == 0.0) lsdTFLAG = 2.0; // default value for TFLAG
+        if(lsdTFLAG == 1.0) lsdTFLAG = 1.0;
+        radMatEntityEdit.SetValue(sdiIdentifier("TFLAG"), sdiValue(lsdTFLAG));
 
         
-        //---------------------
-        // -- /FAIL/GENE1/ -- //
-        //---------------------
-        HandleEdit failGene1HEdit;
-    
-        p_radiossModel->CreateEntity(failGene1HEdit, "/FAIL/GENE1", dynaMatName);
-        failGene1HEdit.SetValue(p_radiossModel, sdiIdentifier("ID_CARD_EXIST"), sdiValue(true));
-        if (failGene1HEdit.IsValid() && lsdFAIL == 2.0)
-        {
-            failGene1HEdit.SetEntityHandle(p_radiossModel, sdiIdentifier("mat_id"), radMat);
-            failGene1HEdit.SetValue(p_radiossModel, sdiIdentifier("SigP1_max"),sdiValue(abs(lsdTC)));
-
-            sdiConvert::SDIHandlReadList sourcemat = { {dynaMat.GetHandle()} };
-            sdiConvert::Convert::PushToConversionLog(std::make_pair(failGene1HEdit, sourcemat));
-        }
     }
 }
 
@@ -7834,12 +7772,10 @@ void ConvertMat::p_ConvertMatAddErosion()
                             }
                             else if(lsdDETYP[i] == 1.0)
                             {
-                                // ENER = SCALAR(Q1)
-                                tempValue = sdiValue(lsdQ1DAMAGE);
-                                selMatAddErosion->GetValue(sdiIdentifier("Q1_DAMAGE",0,i), tempValue);
-                                tempValue.GetValue(lsdQ1DAMAGE);
-
-                                failInievoHEdit.SetValue(p_radiossModel, sdiIdentifier("ENER",0,i),sdiValue(lsdQ1DAMAGE[i]));
+                                tempValue = sdiValue(lsdQ1);
+                                selMatAddErosion->GetValue(sdiIdentifier("LSD_Q1_ARRAY",0,i), tempValue);
+                                tempValue.GetValue(lsdQ1);
+                                failInievoHEdit.SetValue(p_radiossModel, sdiIdentifier("ENER",0,i),sdiValue(lsdQ1[i]));
                             } // if(lsdDETYP[i] == 0.0 && lsdflagforQ1 != 1)
 
                             // Q2 - ignored
@@ -10881,7 +10817,7 @@ void ConvertMat::p_ConvertMatL105(const EntityRead& dynaMat,sdiString& destCard,
         {
             double lsdEps = epsEsPair.first;
             double lsdEs  = epsEsPair.second;
- 
+            
             if (tempIndex == 0 || (lsdEs != 0.0 && lsdEps != 0.0))
             {
                 lsdESList.push_back(lsdEs);
@@ -10894,11 +10830,11 @@ void ConvertMat::p_ConvertMatL105(const EntityRead& dynaMat,sdiString& destCard,
         {
             sdiDoubleList pntsToCreateCrv;
             pntsToCreateCrv.reserve(2 * epsEsCount + 2);
-            if (lsdEPSList[0] != 0.0)
+            /*if (lsdEPSList[0] != 0.0)
             {
                 pntsToCreateCrv.push_back(0.0);
                 pntsToCreateCrv.push_back(lsdESList[0]);
-            }
+            }*/
             for (size_t i = 0; i < epsEsCount; ++i)
             {
                 pntsToCreateCrv.push_back(lsdEPSList[i]);
@@ -11467,13 +11403,10 @@ void ConvertMat::p_ConvertMatL224(const EntityRead& dynaMat, sdiString& destCard
 
     EntityEdit faiTab2Edit(p_radiossModel, faiTab2HEdit);
 
-    double lsdNUMINT;
-    tempValue = sdiValue(lsdNUMINT);
-    dynaMat.GetValue(sdiIdentifier("NUMINT"), tempValue);
-    tempValue.GetValue(lsdNUMINT);
+    double lsdNUMINT = GetValue<double>(dynaMat, "NUMINT");
 
-    if(lsdNUMINT > 0.0) p_ConvertUtils.CopyValue(dynaMat, faiTab2Edit, "NUMINT", "FAILIP");
-    else p_ConvertUtils.CopyValue(dynaMat, faiTab2Edit, "NUMINT", "PTHICKFAIL");
+    if(lsdNUMINT > 0.0) p_ConvertUtils.SetExpressionValue(dynaMat, faiTab2Edit, "NUMINT/100.0", "FAILIP");
+    else if(lsdNUMINT < 0.0) p_ConvertUtils.SetExpressionValue(dynaMat, faiTab2Edit, "abs(NUMINT)/100.0", "PTHICKFAIL");
 
     p_ConvertUtils.CopyValue(dynaMat, faiTab2Edit, "LCG", "FCT_SR");
     p_ConvertUtils.CopyValue(dynaMat, faiTab2Edit, "LCH", "FCT_TEMP");
@@ -11505,11 +11438,6 @@ void ConvertMat::p_ConvertMatL224(const EntityRead& dynaMat, sdiString& destCard
             lciEntityRead.GetValue(sdiIdentifier("VALUE"), tempValue);
             tempValue.GetValue(strainRates3DList);
 
-            HandleEdit Rad3DTableEditHandle;
-            //p_radiossModel->CreateEntity(Rad3DTableEditHandle, "/TABLE/1", readTable->GetName(), readTable->GetId());
-            p_radiossModel->CreateEntity(Rad3DTableEditHandle, "/TABLE/1", "Duplicate_table_ID_" + to_string(lciEntityRead.GetId())+"_MatL224_ID_" + to_string(dynaMat.GetId()), 
-                                         p_ConvertUtils.GetDynaMaxEntityID(p_lsdynaModel->GetEntityType("*DEFINE_CURVE")));
-            EntityEdit rad3DTableEntEdit(p_radiossModel, Rad3DTableEditHandle);
 
             //  loop over n2DTab of table 3D
 
@@ -11565,25 +11493,60 @@ void ConvertMat::p_ConvertMatL224(const EntityRead& dynaMat, sdiString& destCard
                 tab2dHandle.GetValue(p_lsdynaModel,sdiIdentifier("VALUE"), tempValue);
                 tempValue.GetValue(strainRates2DList);
 
-                //-------------
+
                 // (multiply LS-DYNA triaxiality entry by -1 to have RADIOSS triaxiality index)
-                for (int j = 0; j < strainRates2DList.size(); ++j)
-                {
-                    strainRates2DList[j]=(strainRates2DList[j])*-1.0;
-                }
-                //-------------
+                // SFA = SFA*-1.0;
+                // duplicate funcIdList function :
 
                 for (int j = 0; j < nFunct; j++)
                 {
-                    func3DIdList.push_back(funcIdList[j]);
+                    HandleRead functLCIHRead;
+                    p_lsdynaModel->FindById(p_lsdynaModel->GetEntityType("*DEFINE_CURVE"), funcIdList[j], functLCIHRead);
+                    EntityRead functLCIEntRead(p_lsdynaModel, functLCIHRead);
+
+                    int nPnts = 0;
+                    sdiDoubleList crvPoints;
+
+                    double lsdSFA = 1.0;
+                    double lsdSFO = 1.0;
+                    double lsdOFFA = 0.0;
+                    double lsdOFFO = 0.0;
+
+                    tempValue = sdiValue(crvPoints);
+                    functLCIEntRead.GetValue(sdiIdentifier("points"), tempValue);
+                    tempValue.GetValue(crvPoints);
+
+                    tempValue = sdiValue(nPnts);
+                    functLCIEntRead.GetValue(sdiIdentifier("numberofpoints"), tempValue);
+                    tempValue.GetValue(nPnts);
+                    crvPoints.reserve(2 * nPnts + 2);
+
+                    vector< reference_wrapper<double>> attribVals({ lsdSFA, lsdSFO, lsdOFFA, lsdOFFO });
+                    vector<sdiString> lsdQueryAttribs = { "SFA", "SFO", "OFFA", "OFFO" };
+                    p_ConvertUtils.GetAttribValues(functLCIEntRead, lsdQueryAttribs, attribVals);
+                    lsdSFA = (lsdSFA == 0.0) ? 1.0 : lsdSFA;
+                    // (multiply LS-DYNA triaxiality entry by -1 to have RADIOSS triaxiality index)
+                    lsdSFA = lsdSFA*-1.0;
+                    lsdSFO = (lsdSFO == 0.0) ? 1.0 : lsdSFO;
+                    //-----------------------
+                    HandleEdit functHEdit;
+                    p_ConvertUtils.CreateCurve("Duplicate_" + to_string(funcIdList[j]) + "_MatL224_" + to_string(dynaMatId),
+                                             (int)crvPoints.size() / 2, crvPoints, functHEdit, lsdSFA, lsdSFO, lsdOFFA);
+
+                    func3DIdList.push_back(functHEdit.GetId(p_radiossModel));
+
                     A3List.push_back(strainRates2DList[j]);
                     B3List.push_back(strainRates3DList[i]);
                 }
             }
 
+            HandleEdit Rad3DTableEditHandle;
+            p_radiossModel->CreateEntity(Rad3DTableEditHandle, "/TABLE/1", "Duplicate_table_ID_" + to_string(lciEntityRead.GetId())+"_MatL224_ID_" + to_string(dynaMat.GetId()), 
+                                         p_ConvertUtils.GetDynaMaxEntityID(p_lsdynaModel->GetEntityType("*DEFINE_CURVE")));
+            EntityEdit rad3DTableEntEdit(p_radiossModel, Rad3DTableEditHandle);
             rad3DTableEntEdit.SetValue(sdiIdentifier("dimension"), sdiValue(3));
             rad3DTableEntEdit.SetValue(sdiIdentifier("curverows"), sdiValue(int(nFunct3D)));
-            rad3DTableEntEdit.SetValue(sdiIdentifier("fct_ID"), sdiValue(sdiValueEntityList(destEntityType, func3DIdList)));
+            rad3DTableEntEdit.SetValue(sdiIdentifier("fct_ID"), sdiValue(sdiValueEntityList(p_radiossModel->GetEntityType("/FUNCT"), func3DIdList)));
             rad3DTableEntEdit.SetValue(sdiIdentifier("A"), sdiValue(A3List));
             rad3DTableEntEdit.SetValue(sdiIdentifier("B"), sdiValue(B3List));
             rad3DTableEntEdit.SetValue(sdiIdentifier("Scale_y"), sdiValue(scale3DList));
@@ -11593,7 +11556,7 @@ void ConvertMat::p_ConvertMatL224(const EntityRead& dynaMat, sdiString& destCard
             SDIHandlReadList duplidynaTables = { {dynaMat.GetHandle()} };
             sdiConvert::Convert::PushToConversionLog(std::make_pair(Rad3DTableEditHandle, duplidynaTables));
         }
-        else if (keyWord.find("TABLE_2D") != keyWord.npos)
+        else if (keyWord.find("TABLE_2D") != keyWord.npos || keyWord.find("TABLE") != keyWord.npos)
         {
             // table 2D
             int nFunct = 0;
@@ -11602,23 +11565,21 @@ void ConvertMat::p_ConvertMatL224(const EntityRead& dynaMat, sdiString& destCard
             lciEntityRead.GetValue(sdiIdentifier("CurveIds"), tempValue);
             tempValue.GetValue(curveList);
             curveList.GetIdList(entList);
-            //entList.push_back(entList.back());
 
             nFunct = (int)entList.size();
-
             scaleList = sdiDoubleList(nFunct, 1.0);
 
-            sdiDoubleList strainRatesList;
+            sdiDoubleList strainRatesList,newstrainRatesList;
             tempValue = sdiValue(strainRatesList);
             lciEntityRead.GetValue(sdiIdentifier("VALUE"), tempValue);
             tempValue.GetValue(strainRatesList);
-
-            //-------------
+            newstrainRatesList.reserve(int(strainRatesList.size()));
             // (multiply LS-DYNA triaxiality entry by -1 to have RADIOSS triaxiality index)
-            for (int i = 0; i < strainRatesList.size(); ++i)
+            for (int j = 0; j < int(strainRatesList.size()); ++j)
             {
-                strainRatesList[i]=(strainRatesList[i])*-1.0;
+                newstrainRatesList.push_back(strainRatesList[j] * (-1.0));
             }
+
             //-------------
             // new table for strain rate 
             HandleEdit tablelciHEdit;
@@ -11628,7 +11589,7 @@ void ConvertMat::p_ConvertMatL224(const EntityRead& dynaMat, sdiString& destCard
             tablelciEdit.SetValue(sdiIdentifier("dimension"), sdiValue(2));
             tablelciEdit.SetValue(sdiIdentifier("curverows"), sdiValue(nFunct));
             tablelciEdit.SetValue(sdiIdentifier("fct_ID"), sdiValue(sdiValueEntityList(p_radiossModel->GetEntityType("/FUNCT"), entList)));
-            tablelciEdit.SetValue(sdiIdentifier("A"), sdiValue(strainRatesList));
+            tablelciEdit.SetValue(sdiIdentifier("A"), sdiValue(newstrainRatesList));
             tablelciEdit.SetValue(sdiIdentifier("Scale_y"), sdiValue(scaleList));
 
             faiTab2Edit.SetEntityHandle(sdiIdentifier("TAB_EL"), tablelciHEdit);
@@ -11648,7 +11609,7 @@ void ConvertMat::p_ConvertMatL224(const EntityRead& dynaMat, sdiString& destCard
         sdiString keyWord = lcfEntityRead.GetKeyword();
         sdiValueEntityList curveList;
 
-        if (keyWord.find("TABLE_2D") != keyWord.npos)
+        if (keyWord.find("TABLE_2D") != keyWord.npos || keyWord.find("TABLE") != keyWord.npos)
         {
             int nFunct = 0;
 
@@ -11658,8 +11619,8 @@ void ConvertMat::p_ConvertMatL224(const EntityRead& dynaMat, sdiString& destCard
             curveList.GetIdList(entList);
 
             nFunct = (int)entList.size();
-            sdiUIntList DuplientList;
-            DuplientList.reserve(nFunct);
+            sdiUIntList DuplicateList;
+            DuplicateList.reserve(nFunct);
 
             // (multiply LS-DYNA triaxiality entry by -1 to have RADIOSS triaxiality index)
             // SFA = SFA*-1.0;
@@ -11700,7 +11661,7 @@ void ConvertMat::p_ConvertMatL224(const EntityRead& dynaMat, sdiString& destCard
                 p_ConvertUtils.CreateCurve("Duplicate_" + to_string(entList[i]) + "_MatL224_" + to_string(dynaMatId),
                                          (int)crvPoints.size() / 2, crvPoints, functHEdit, lsdSFA, lsdSFO, lsdOFFA);
 
-                DuplientList.push_back(functHEdit.GetId(p_radiossModel));
+                DuplicateList.push_back(functHEdit.GetId(p_radiossModel));
             }
 
             scaleList = sdiDoubleList(nFunct, 1.0);
@@ -11718,8 +11679,7 @@ void ConvertMat::p_ConvertMatL224(const EntityRead& dynaMat, sdiString& destCard
             EntityEdit tablelcfEdit(p_radiossModel, tablelcfHEdit);
             tablelcfEdit.SetValue(sdiIdentifier("dimension"), sdiValue(2));
             tablelcfEdit.SetValue(sdiIdentifier("curverows"), sdiValue(nFunct));
-            //tablelcfEdit.SetValue(sdiIdentifier("fct_ID"), sdiValue(sdiValueEntityList(p_radiossModel->GetEntityType("/FUNCT"), entList)));
-            tablelcfEdit.SetValue(sdiIdentifier("fct_ID"), sdiValue(sdiValueEntityList(p_radiossModel->GetEntityType("/FUNCT"), DuplientList)));
+            tablelcfEdit.SetValue(sdiIdentifier("fct_ID"), sdiValue(sdiValueEntityList(p_radiossModel->GetEntityType("/FUNCT"), DuplicateList)));
             tablelcfEdit.SetValue(sdiIdentifier("A"), sdiValue(strainRatesList));
             tablelcfEdit.SetValue(sdiIdentifier("Scale_y"), sdiValue(scaleList));
 
@@ -11732,7 +11692,7 @@ void ConvertMat::p_ConvertMatL224(const EntityRead& dynaMat, sdiString& destCard
        {
             int nPoints = 0;
             sdiDoubleList crvPoints;
-            double SFA, SFO, OFFA, OFFO;
+            double SFA=0.0, SFO=0.0, OFFA=0.0, OFFO=0.0;
 
             tempValue = sdiValue(nPoints);
             lcfHandle.GetValue(p_radiossModel, sdiIdentifier("numberofpoints"), tempValue);
@@ -11772,6 +11732,7 @@ void ConvertMat::p_ConvertMatL224(const EntityRead& dynaMat, sdiString& destCard
        }
     }
 
+    faiTab2HEdit.SetValue(p_radiossModel, sdiIdentifier("DCRIT"), sdiValue(1));
     faiTab2HEdit.SetValue(p_radiossModel, sdiIdentifier("IREG"), sdiValue(2));
     faiTab2HEdit.SetValue(p_radiossModel, sdiIdentifier("mat_id"), sdiValue(sdiValueEntity(destEntityType, radmatEntityEdit.GetId())));
 
@@ -12373,6 +12334,8 @@ void ConvertMat::p_ConvertMatAddDamageGissmo()
         p_radiossModel->CreateEntity(failTAB2HEdit, "/FAIL/TAB2", matAddDamageGissmoName,lsdMIDEntity.GetId());
         failTAB2HEdit.SetValue(p_radiossModel, sdiIdentifier("ID_CARD_EXIST"), sdiValue(true));
         EntityEdit failTAB2Edit(p_radiossModel, failTAB2HEdit);
+
+        if(radMatConvertedHandles.size() == 0 ) return;
 
         failTAB2Edit.SetValue(sdiIdentifier("mat_id"), sdiValue(sdiValueEntity(destEntityType, radMatConvertedHandles[0].GetId(p_radiossModel))));
 

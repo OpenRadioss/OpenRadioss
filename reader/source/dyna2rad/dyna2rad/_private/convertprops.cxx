@@ -46,6 +46,7 @@ void ConvertProp::ConvertProperties()
 {
     ConvertEntities();
     CreateDefSolidForRadSolidProp();
+    ConvertPartSensor();
 }
 
 void ConvertProp::ConvertEntities()
@@ -445,6 +446,14 @@ void ConvertProp::p_ConvertPropBasedOnCard(const EntityRead& dynaProp, const sdi
 
                     radPropEdit.SetValue(sdiIdentifier("Mu"), sdiValue(lsdDAMP));
                     radPropEdit.SetValue(sdiIdentifier("Lambda"), sdiValue(lsdDAMP/3.0));
+                    if(matCard.find("*MAT_FU_CHANG_FOAM") != string::npos || matCard.find("*MAT_083") != string::npos)
+                    {
+                        radPropEdit.SetValue(sdiIdentifier("Ismstr"), sdiValue(1));
+                    }
+                    else if(matCard.find("*MAT_LOW_DENSITY_FOAM") != string::npos || matCard.find("*MAT_057") != string::npos)
+                    {
+                        radPropEdit.SetValue(sdiIdentifier("Ismstr"), sdiValue(10));
+                    }
                 }
             }
             else if (keyword == "*SECTION_SEATBELT")
@@ -659,6 +668,11 @@ void ConvertProp::p_ConvertSectionShell(const sdi::EntityRead& matEntityRead, co
         destCard = "/PROP/TYPE9";
         ConvertSecShellsRelatedMatFabric(matEntityRead, dynaProp, destCard, radProp);
     }
+    else if (matCard.find("*MAT_TRANSVERSELY_ANISOTROPIC_ELASTIC_PLASTIC") != string::npos || matCard.find("*MAT_037") != string::npos)
+    {
+        destCard = "/PROP/TYPE9";
+        ConvertSecShellsRelatedMat37(matEntityRead, dynaProp, destCard, radProp);
+    }
     else
     {
         if (matCard.find("*MAT_ORTHOTROPIC_ELASTIC") != string::npos || matCard.find("*MAT_002") != string::npos)
@@ -682,7 +696,14 @@ void ConvertProp::p_ConvertSectionShell(const sdi::EntityRead& matEntityRead, co
             if (matReferenceCount > 1)
                 p_radiossModel->CreateEntity(radProp, destCard, dynaPropName, p_ConvertUtils.GetDynaMaxEntityID(srcEntityType));
             else
-                p_radiossModel->CreateEntity(radProp, destCard, dynaPropName, dynaPropId);
+            {
+                if (p_radiossModel->IsIdAvailable(destEntityType, dynaPropId))
+                    p_radiossModel->CreateEntity(radProp, destCard, dynaPropName, dynaPropId);
+                else
+                    p_radiossModel->CreateEntity(radProp, destCard, dynaPropName, p_ConvertUtils.GetDynaMaxEntityID(srcEntityType));
+ 
+                //p_radiossModel->CreateEntity(radProp, destCard, dynaPropName, dynaPropId);
+            }
         }
 
         vector<int> unSupportedElformList = { 12, 13, 14, 15, 99 };
@@ -1568,6 +1589,42 @@ void ConvertProp::ConvertSecShellsRelatedMatLaminate(const EntityRead& matEntity
     }
 }
 
+void ConvertProp::ConvertSecShellsRelatedMat37(const EntityRead& matEntityRead, const EntityRead& dynaProp, sdiString& destCard, HandleEdit& radProp)
+{
+    sdiString dynaPropName = dynaProp.GetName();
+    EntityId dynaPropId = dynaProp.GetId();
+
+    if (p_radiossModel->IsIdAvailable(destEntityType, dynaPropId))
+        p_radiossModel->CreateEntity(radProp, destCard, dynaPropName, dynaPropId);
+    else
+        p_radiossModel->CreateEntity(radProp, destCard, dynaPropName, p_ConvertUtils.GetDynaMaxEntityID(srcEntityType));
+ 
+    EntityEdit radShOrthEdit(p_radiossModel, radProp);
+    int NIP = GetValue<int>(dynaProp, "LSD_NIP");
+    
+    p_ConvertUtils.CopyValue(dynaProp, radShOrthEdit, "T1", "Thick");
+
+    radProp.SetValue(p_radiossModel, sdiIdentifier("Ip"), sdiValue(20));
+    radProp.SetValue(p_radiossModel, sdiIdentifier("Ishell"), sdiValue(12));
+    radProp.SetValue(p_radiossModel, sdiIdentifier("Ismstr"), sdiValue(11));
+    radProp.SetValue(p_radiossModel, sdiIdentifier("Ish3n"), sdiValue(3));
+    radProp.SetValue(p_radiossModel, sdiIdentifier("N"), sdiValue(NIP));
+    radProp.SetValue(p_radiossModel, sdiIdentifier("Dm"), sdiValue(0.25));
+
+    //The rest of parameters are set to default 0 values in converson
+    radProp.SetValue(p_radiossModel, sdiIdentifier("P_Thick_Fail"), sdiValue(0.0));
+
+    radProp.SetValue(p_radiossModel, sdiIdentifier("Hm"), sdiValue(0.0));
+    radProp.SetValue(p_radiossModel, sdiIdentifier("Hf"), sdiValue(0.0));
+    radProp.SetValue(p_radiossModel, sdiIdentifier("Hr"), sdiValue(0.0));
+    radProp.SetValue(p_radiossModel, sdiIdentifier("Dn"), sdiValue(0.0));
+
+    radProp.SetValue(p_radiossModel, sdiIdentifier("ISTRAIN"), sdiValue(0));
+    radProp.SetValue(p_radiossModel, sdiIdentifier("Ashear"), sdiValue(0.0));
+    radProp.SetValue(p_radiossModel, sdiIdentifier("ITHICK"), sdiValue(0));
+    radProp.SetValue(p_radiossModel, sdiIdentifier("IPLAS"), sdiValue(0));
+
+}
 void ConvertProp::ConvertSecShellsRelatedMatFabric(const EntityRead& matEntityRead, const EntityRead& dynaProp, sdiString& destCard, HandleEdit& radProp)
 {
     sdiString dynaPropName = dynaProp.GetName();
@@ -1586,12 +1643,19 @@ void ConvertProp::ConvertSecShellsRelatedMatFabric(const EntityRead& matEntityRe
     double lsdBETA = GetValue<double>(matEntityRead, "BETA");
     int NIP = GetValue<int>(dynaProp, "LSD_NIP");
     sdiString matCard = matEntityRead.GetKeyword();
+    int ICOMP = GetValue<int>(dynaProp, "LSD_ICOMP");
 
     if (matCard.find("*MAT_FABRIC") != string::npos || matCard.find("*MAT_034") != string::npos)
     {
         p_ConvertUtils.CopyValue(matEntityRead, radPropEntityEdit, "DAMP", "Dm");
+
+        if((lsdElform == 9 && NIP == 0) || (lsdElform == 9 && NIP == 3) || (lsdElform == 9 && NIP == 2 && ICOMP == 1) ||
+           (lsdElform == 5 && NIP == 0) || (lsdElform == 5 && NIP == 3) || (lsdElform == 5 && NIP == 2 && ICOMP == 1) ||
+           (lsdElform ==16 && NIP == 0) || (lsdElform ==16 && NIP == 3) || (lsdElform ==16 && NIP == 2 && ICOMP == 1) ||
+           (lsdElform == 2 && NIP == 0) || (lsdElform == 2 && NIP == 3) || (lsdElform == 2 && NIP == 2 && ICOMP == 1))
+           NIP = 1; // For elform 2, 5, 9 or 16 --> NIP is set to 1 in these cases
+
         if (NIP == 0) NIP = 2; // Default value if not specified
-        if(lsdElform == 5 || lsdElform == 9) NIP = 1; // For elform 5 or 9, NIP is set to 1
     }
     else if(matCard.find("*MAT_HILL_3R") != string::npos || matCard.find("*MAT_122") != string::npos)
     {
@@ -1709,10 +1773,7 @@ void ConvertProp::ConvertSecShellsRelatedMatFabric(const EntityRead& matEntityRe
         radProp.SetValue(p_radiossModel, sdiIdentifier("Ip"), sdiValue(0));
     }
     radProp.SetValue(p_radiossModel, sdiIdentifier("Thick"), sdiValue(thick));
-    if(lsdElform == 9)
-        radProp.SetValue(p_radiossModel, sdiIdentifier("Ishell"), sdiValue(12));
-    else
-        radProp.SetValue(p_radiossModel, sdiIdentifier("Ishell"), sdiValue(24));
+    radProp.SetValue(p_radiossModel, sdiIdentifier("Ishell"), sdiValue(24));
     radProp.SetValue(p_radiossModel, sdiIdentifier("Ismstr"), sdiValue(4));
     radProp.SetValue(p_radiossModel, sdiIdentifier("Ish3n"), sdiValue(2));
     radProp.SetValue(p_radiossModel, sdiIdentifier("N"), sdiValue(NIP));
@@ -3174,11 +3235,18 @@ void ConvertProp::ConvertSecShells16RelatedMatFabric(const sdi::EntityRead& matE
     EntityEdit radPropEntity(p_radiossModel, radProp);
     sdiValue tempVal;
 
+    int elform = GetValue<int>(dynaProp, "LSD_ELFORM");
     int NIP = GetValue<int>(dynaProp, "LSD_NIP");
+    int ICOMP = GetValue<int>(dynaProp, "LSD_ICOMP");
+    
+    if((elform == 9 && NIP == 0) || (elform == 9 && NIP == 3) || (elform == 9 && NIP == 2 && ICOMP == 1) ||
+       (elform == 5 && NIP == 0) || (elform == 5 && NIP == 3) || (elform == 5 && NIP == 2 && ICOMP == 1) ||
+       (elform ==16 && NIP == 0) || (elform ==16 && NIP == 3) || (elform ==16 && NIP == 2 && ICOMP == 1) ||
+       (elform == 2 && NIP == 0) || (elform == 2 && NIP == 3) || (elform == 2 && NIP == 2 && ICOMP == 1))
+           NIP = 1; // For elform 2, 5, 9 or 16 --> NIP is set to 1 in these cases
     if (NIP == 0) NIP = 2; // Default value if not specified
 
-    int elform = GetValue<int>(dynaProp, "LSD_ELFORM");
-    if(elform == 5 || elform == 9) NIP = 1; // For elform 5 or 9, NIP is set to 1
+    
 
     p_ConvertUtils.CopyValue(dynaProp, radPropEntity, "T1", "Thick");
     radProp.SetValue(p_radiossModel, sdiIdentifier("Ishell"), sdiValue(24));
@@ -4376,5 +4444,97 @@ void ConvertProp::ConvertSecTShellsRelatedMatComposite(const EntityRead& matEnti
     if (!ThicknessRatioList.empty())
     {
         radTSHELLCompositeEdit.SetValue(sdiIdentifier("ti/t"), sdiValue(ThicknessRatioList));
+    }
+}
+void ConvertProp::ConvertPartSensor()
+{
+    SelectionRead selPartSensor(p_lsdynaModel, "*PART_SENSOR");
+    EntityType radPartType = p_radiossModel->GetEntityType("/PART");
+
+    while (selPartSensor.Next())
+    {
+        sdiValueEntity PIDEntity = GetValue<sdiValueEntity>(*selPartSensor, "PID");
+        unsigned int PID=PIDEntity.GetId();
+        sdiValueEntity SIDAEntity = GetValue<sdiValueEntity>(*selPartSensor, "SIDA");
+        unsigned int SIDA=SIDAEntity.GetId();
+
+        int Isflag = 0;
+        int ACTIVE = GetValue<int>(*selPartSensor, "ACTIVE");
+        if (ACTIVE==0)
+            Isflag = 1;
+        else if (ACTIVE==1)
+            Isflag = 0;
+
+        HandleEdit parHEdit;
+        p_lsdynaModel->FindById(p_lsdynaModel->GetEntityType("*PART"), PID, parHEdit);
+        if (parHEdit.IsValid())
+        {
+            HandleEdit propHread;
+            parHEdit.GetEntityHandle(p_lsdynaModel, sdiIdentifier("SECID"), propHread);
+            if (propHread.IsValid())
+            {
+                int count = 0;
+                SelectionRead selPart(p_lsdynaModel, "*PART");
+                while (selPart.Next())
+                {
+                    if (selPart->GetId() != PID)
+                    {
+                        HandleEdit anotherpropHread;
+                        selPart->GetEntityHandle( sdiIdentifier("SECID"), anotherpropHread);
+                        int multiple_prop_id = anotherpropHread.GetId(p_lsdynaModel);
+                        if(multiple_prop_id == propHread.GetId(p_lsdynaModel)) count++;
+                    }
+                }
+
+                HandleEdit radpropHEdit;
+                p_radiossModel->FindById(p_radiossModel->GetEntityType("/PROP"), propHread.GetId(p_lsdynaModel), radpropHEdit);
+
+                if (count > 0 && radpropHEdit.IsValid())
+                {
+                    // create a new prop for the part in *PART_SENSOR
+
+                    HandleEdit newradpropHEdit;
+                    p_radiossModel->CreateEntity(newradpropHEdit, "/PROP/TYPE23", "duplicate_prop_" + to_string(radpropHEdit.GetId(p_radiossModel)));
+
+                    EntityEdit newradpropEdit(p_radiossModel, newradpropHEdit);
+
+                    EntityEdit radpropEdit(p_radiossModel, radpropHEdit);
+                    p_ConvertUtils.CopyValue(radpropEdit, newradpropEdit, "Imass", "Imass");
+
+                    int Imass = GetValue<int>(radpropEdit, "Imass");
+                    if (Imass == 1)
+                        p_ConvertUtils.CopyValue(radpropEdit, newradpropEdit, "Area", "Area");
+                    else if(Imass == 2)
+                        p_ConvertUtils.CopyValue(radpropEdit, newradpropEdit, "Volume", "Volume");
+
+                    p_ConvertUtils.CopyValue(radpropEdit, newradpropEdit, "Inertia", "Inertia");
+                    p_ConvertUtils.CopyValue(radpropEdit, newradpropEdit, "skew_ID", "skew_ID");
+                    newradpropEdit.SetValue(sdiIdentifier("sens_ID"), sdiValue(sdiValueEntity(radPartType,SIDA)));
+                    newradpropEdit.SetValue(sdiIdentifier("ISFLAG"), sdiValue(Isflag));
+
+
+                    // update duplicated prop in /PART
+                    HandleEdit radpartHEdit;
+                    p_radiossModel->FindById(p_radiossModel->GetEntityType("/PART"), parHEdit.GetId(p_lsdynaModel), radpartHEdit);
+
+                    radpartHEdit.SetEntityHandle(p_radiossModel, sdiIdentifier("prop_ID"), newradpropHEdit);
+                    sdiConvert::SDIHandlReadList sourceList = { {selPartSensor->GetHandle()} };
+                    sdiConvert::Convert::PushToConversionLog(std::make_pair(newradpropHEdit, sourceList));
+                }
+                else if( count == 0)
+                {
+                    // use the existing prop
+                    if (radpropHEdit.IsValid())
+                    {
+                        EntityEdit radpropEdit(p_radiossModel, radpropHEdit);
+                        radpropEdit.SetValue(sdiIdentifier("sens_ID"), sdiValue(sdiValueEntity(radPartType,SIDA)));
+                        radpropEdit.SetValue(sdiIdentifier("ISFLAG"), sdiValue(Isflag));
+
+                        sdiConvert::SDIHandlReadList sourceList = { {selPartSensor->GetHandle()} };
+                        sdiConvert::Convert::PushToConversionLog(std::make_pair(radpropHEdit, sourceList));
+                    }
+                }
+            }
+        }
     }
 }

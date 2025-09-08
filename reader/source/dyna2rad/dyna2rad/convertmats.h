@@ -94,6 +94,8 @@ namespace sdiD2R
 
         void p_ConvertMatL34(const sdi::EntityRead& dynaMat, sdiString& destCard, std::multimap<std::string, std::string>& attribMap, sdi::HandleEdit& radMat);
 
+        void p_ConvertMatL37(const sdi::EntityRead& dynaMat, sdiString& destCard, std::multimap<std::string, std::string>& attribMap, sdi::HandleEdit& radMat);
+
         void p_ConvertMatL54(const sdi::EntityRead& dynaMat, sdiString& destCard, std::multimap<std::string, std::string>& attribMap, sdi::HandleEdit& radMat);
 
         void p_ConvertMatL57(const sdi::EntityRead& dynaMat, sdiString& destCard, std::multimap<std::string, std::string>& attribMap, sdi::HandleEdit& radMat);

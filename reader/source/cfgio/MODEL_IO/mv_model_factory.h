@@ -87,6 +87,9 @@ public: /** @name Managing parameter*/
 public:
     /// Reserving memory for objects of given type
     virtual void Alloc(const char* otype, int nb_objects) { return; }
+    virtual IMECPreObject* CreateObject(const char *kernel_full_type, const char *input_full_type,
+                                        const char *title = "", int id = 0, int unit_id = 0);
+    virtual void DeleteObject(IMECPreObject *preobj);
     virtual int AddObject(const IMECPreObject& pre_object, const InputInfos::IdentifierValuePairList  *metaarg=NULL) { return 0; }
     virtual int AddObjects(const char* otype);
     virtual void AddSubDeckObjects() { }

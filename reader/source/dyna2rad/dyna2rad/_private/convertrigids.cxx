@@ -299,15 +299,12 @@ void sdiD2R::ConvertRigid::ConvertConstrainedExtraNodes()
 
                     HandleRead dynaNODEIDHRead;
                     dynapartHread.GetEntityHandle(p_lsdynaModel, sdiIdentifier("NODEID"), dynaNODEIDHRead);
-                    
-                    EntityRead dynaNODEIDRead;
-                    dynaNODEIDRead = EntityRead(p_lsdynaModel, dynaNODEIDHRead);
+                    EntityRead dynaNODEIDRead(p_lsdynaModel, dynaNODEIDHRead);
 
                     if(slaveAttName == "NID")
                     {
-                        if(dynaNODEIDRead.IsValid() &&  dynaPIDinertiaRead.IsValid())
-                          if(slaveEntityId  == dynaNODEIDRead.GetId() &&
-                             masterEntityId == dynaPIDinertiaRead.GetId())break;
+                        if(slaveEntityId  == dynaNODEIDRead.GetId() &&
+                           masterEntityId == dynaPIDinertiaRead.GetId())break;
                     }
                     else if(slaveAttName == "NSID")
                     {

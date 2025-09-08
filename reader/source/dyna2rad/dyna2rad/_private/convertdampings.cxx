@@ -57,12 +57,20 @@ void sdiD2R::ConvertDamping::ConvertDampingGlobal()
         unsigned int dampingGlobalId = selDampingGlobal->GetId();
         if (!p_radiossModel->IsIdAvailable(radDampingType, dampingGlobalId))
             dampingGlobalId = p_ConvertUtils.GetDynaMaxEntityID(srcEntityType);
+
+
         HandleEdit dampingHEdit;
-        p_radiossModel->CreateEntity(dampingHEdit, "/DAMP", selDampingGlobal->GetName(), dampingGlobalId);
+        p_radiossModel->CreateEntity(dampingHEdit, "/DAMP/FUNCT", selDampingGlobal->GetName(), dampingGlobalId);
         EntityEdit dampingEdit(p_radiossModel, dampingHEdit);
 
+        sdiValueEntity lsdLcid;
+        sdiValue tempVal = sdiValue(lsdLcid);
+        selDampingGlobal->GetValue(sdiIdentifier("LCID"), tempVal);
+        tempVal.GetValue(lsdLcid);
+        dampingEdit.SetValue(sdiIdentifier("FuncID"), sdiValue(sdiValueEntity(p_radiossModel->GetEntityType("/FUNCT"), lsdLcid.GetId())));
+
         double VALDAMP = 0;
-        sdiValue tempVal(VALDAMP);
+        tempVal = sdiValue(VALDAMP);
         selDampingGlobal->GetValue(sdiIdentifier("VALDAMP"), tempVal);
         tempVal.GetValue(VALDAMP);
 
@@ -98,24 +106,34 @@ void sdiD2R::ConvertDamping::ConvertDampingGlobal()
 
         dampingEdit.SetValue(sdiIdentifier("Mass_Damp_Factor_Option"), sdiValue(true));
 
-        if (STX == 0 && STY == 0 && STZ == 0 && SRX == 0 && SRY == 0 && SRZ == 0)
+        if(lsdLcid.GetId() == 0 )
         {
             dampingEdit.SetValue(sdiIdentifier("Alpha"), sdiValue(VALDAMP));
-            dampingEdit.SetValue(sdiIdentifier("Alpha_y"), sdiValue(VALDAMP));
-            dampingEdit.SetValue(sdiIdentifier("Alpha_z"), sdiValue(VALDAMP));
-            dampingEdit.SetValue(sdiIdentifier("Alpha_xx"), sdiValue(VALDAMP));
-            dampingEdit.SetValue(sdiIdentifier("Alpha_yy"), sdiValue(VALDAMP));
-            dampingEdit.SetValue(sdiIdentifier("Alpha_zz"), sdiValue(VALDAMP));
         }
         else
         {
-            dampingEdit.SetValue(sdiIdentifier("Alpha"), sdiValue(VALDAMP*STX));
-            dampingEdit.SetValue(sdiIdentifier("Alpha_y"), sdiValue(VALDAMP*STY));
-            dampingEdit.SetValue(sdiIdentifier("Alpha_z"), sdiValue(VALDAMP*STZ));
-            dampingEdit.SetValue(sdiIdentifier("Alpha_xx"), sdiValue(VALDAMP*SRX));
-            dampingEdit.SetValue(sdiIdentifier("Alpha_yy"), sdiValue(VALDAMP*SRY));
-            dampingEdit.SetValue(sdiIdentifier("Alpha_zz"), sdiValue(VALDAMP*SRZ));
+            dampingEdit.SetValue(sdiIdentifier("Alpha"), sdiValue(1.0));
         }
+        
+        if (STX == 0. && STY == 0. && STZ == 0. && SRX == 0. && SRY == 0. && SRZ == 0.)
+        {
+            dampingEdit.SetValue(sdiIdentifier("Alpha_x"), sdiValue(1.0));
+            dampingEdit.SetValue(sdiIdentifier("Alpha_y"), sdiValue(1.0));
+            dampingEdit.SetValue(sdiIdentifier("Alpha_z"), sdiValue(1.0));
+            dampingEdit.SetValue(sdiIdentifier("Alpha_xx"), sdiValue(1.0));
+            dampingEdit.SetValue(sdiIdentifier("Alpha_yy"), sdiValue(1.0));
+            dampingEdit.SetValue(sdiIdentifier("Alpha_zz"), sdiValue(1.0));
+        }
+        else
+        {
+            dampingEdit.SetValue(sdiIdentifier("Alpha_x"), sdiValue(STX));
+            dampingEdit.SetValue(sdiIdentifier("Alpha_y"), sdiValue(STY));
+            dampingEdit.SetValue(sdiIdentifier("Alpha_z"), sdiValue(STZ));
+            dampingEdit.SetValue(sdiIdentifier("Alpha_xx"), sdiValue(SRX));
+            dampingEdit.SetValue(sdiIdentifier("Alpha_yy"), sdiValue(SRY));
+            dampingEdit.SetValue(sdiIdentifier("Alpha_zz"), sdiValue(SRZ));
+        }
+
 
         HandleEdit radSetHEdit;
         p_radiossModel->CreateEntity(radSetHEdit, "/SET/GENERAL", dampingGlobalName);

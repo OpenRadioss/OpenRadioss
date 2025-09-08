@@ -24,6 +24,9 @@
 #define MV_MESSSAGES_H
 
 #include <HCDI/hcdi.h>
+
+#include <string>
+
 /** @name Messages strings */
 /*@{*/
 
@@ -278,8 +281,21 @@ typedef enum MvMsgType_s MvMsgType_e;
 extern "C" {
 #endif
 
+class HC_DATA_DLL_API MvMsgArray_t {
+public:
+    MvMsgArray_t(int increm=50);
+    ~MvMsgArray_t();
+public:
+    inline int          getNbMsg()    const { return myNbMsg; }
+    const char* operator[](int ind) const;
+    void setMsg(int ind,const std::string &msg);
+private:
+    int    myNbMsg,myRealSize,myIncrement;
+    char **myStrArray;
+};
+
 /** Gets the array containing the messages (for a given library) */
-HC_DATA_DLL_API const char **MV_get_msg_array(MvMsgType_e type);
+HC_DATA_DLL_API const MvMsgArray_t& MV_get_msg_array(MvMsgType_e type);
 
 /** Gets the number of messages (of a given library) */
 int          MV_get_nb_msg(MvMsgType_e type);

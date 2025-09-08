@@ -44,19 +44,6 @@ static const MvMsgArray_t &loc_get_msg_arrays(MvMsgType_e type);
 
 /* --------- Classes declaration --------- */
 
-class MvMsgArray_t {
-public:
-  MvMsgArray_t(int increm=50);
-  ~MvMsgArray_t();
-public:
-  inline int          getNbMsg()    const { return myNbMsg; }
-  inline const char **getStrArray() const { return (const char **)myStrArray; }
-  void setMsg(int ind,const string &msg);
-private:
-  int    myNbMsg,myRealSize,myIncrement;
-  char **myStrArray;
-};
-
 class MvMsgArrayFile_t : public MvParserBase_t {
 public:
   MvMsgArrayFile_t(const string &fullname, MvMsgArray_t *msg_array_tab);
@@ -103,8 +90,8 @@ static const MvMsgArray_t &loc_get_msg_arrays(MvMsgType_e type) {
 
 /* --------- public functions implementation --------- */
 
-extern "C" const char **MV_get_msg_array(MvMsgType_e type) {
-  return loc_get_msg_arrays(type).getStrArray();
+extern "C" const MvMsgArray_t& MV_get_msg_array(MvMsgType_e type) {
+  return loc_get_msg_arrays(type);
 }
 
 extern "C" int MV_get_nb_msg(MvMsgType_e type) {
@@ -138,6 +125,12 @@ void MvMsgArray_t::setMsg(int ind,const string &msg) {
   if(ind>=myNbMsg) myNbMsg=ind+1;
 }
 
+static char* empty_string = "";
+const char* MvMsgArray_t::operator[](int ind) const
+{
+    if(ind < 0 || ind >= myNbMsg) return empty_string;
+    return myStrArray[ind];
+}
 
 /* --------- MvMsgArrayFile_t implementation --------- */
 MvMsgArrayFile_t::MvMsgArrayFile_t(const string &fullname, MvMsgArray_t *msg_array_tab) : MvParserBase_t(fullname,false,true) {

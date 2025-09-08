@@ -592,7 +592,39 @@ void CalculateCumulativeOffset(std::vector<IMECPreObject*>* p_preobjlst, const c
         }
     }
 }
-void TransformWithOffset(int submodelindex, IMECPreObject* preObj, bool doUnOffset, obj_type_e hm_type)
+
+static obj_type_e GetMultiObjectType(IMECPreObject* preObj, IMECPreObject::MyAttributeType_e a_atype, int k)
+{
+    obj_type_e a_hm_type = HCDI_OBJ_TYPE_NULL;
+    const char* kwd = preObj->GetKeyword(a_atype, IMECPreObject::VTY_OBJECT, k);
+    if (kwd)
+    {
+        string typekwd = string(kwd) + "_type";
+        const char* a_otype = preObj->GetStringValue(typekwd.c_str());
+        size_t len = a_otype ? strlen(a_otype) : 0;
+        if (len > 1)
+        {
+            size_t slashlen = '/' == a_otype[0] ? 1 : 0; // optionally prepended '/'
+            const char* psubslash = std::find (a_otype + slashlen, a_otype + len, '/');
+            if(a_otype + len == psubslash)
+            {
+                a_hm_type = HCDI_get_entitytype(a_otype + slashlen);
+            }
+            else
+            {
+                char buffer[100];
+                len = psubslash - a_otype - slashlen;
+                strncpy(buffer, a_otype + slashlen, len);
+                buffer[len] = '\0';
+                a_hm_type = HCDI_get_entitytype(buffer);
+            }
+        }
+    }
+    return a_hm_type;
+}
+
+void TransformWithOffset(int submodelindex, IMECPreObject* preObj, bool doUnOffset, obj_type_e hm_type,
+                         const std::unordered_map<std::string, cfglnksubdescriptor>* cfglnksubdescriptor_map)
 {
     if (preObj == nullptr || submodelindex < 0) return;
 
@@ -607,7 +639,20 @@ void TransformWithOffset(int submodelindex, IMECPreObject* preObj, bool doUnOffs
     // for all entities except /SET/COLLECT offset the own id
     if (preObj->GetId() > 0)
     {
-        int offsetval = cumulobjinfo[hm_type];
+        int offsetval = 0;
+        if(cumulobjinfo.count(hm_type) > 0)
+        {
+            offsetval = cumulobjinfo[hm_type];
+        }
+        else if(cfglnksubdescriptor_map)
+        {
+            auto it = cfglnksubdescriptor_map->find(preObj->GetKernelFullType());
+            if(it != cfglnksubdescriptor_map->end() &&
+               cumulobjinfo.count(it->second.parent_type) > 0)
+            {
+                offsetval = cumulobjinfo[it->second.parent_type];
+            }
+        }
         if (doUnOffset) preObj->SetId(preObj->GetId() - offsetval);
         else           preObj->SetId(preObj->GetId() + offsetval);
     }
@@ -642,22 +687,13 @@ void TransformWithOffset(int submodelindex, IMECPreObject* preObj, bool doUnOffs
                     obj_type_e a_hm_type = HCDI_get_entitytype(a_otype);
 
                     int offsetval = 0;
-                    if (hm_type == HCDI_OBJ_TYPE_MULTIOBJECT)
+                    if (a_hm_type == HCDI_OBJ_TYPE_MULTIOBJECT)
                     {
-                        const char* kwd = preObj->GetKeyword(a_atype, IMECPreObject::VTY_OBJECT, k);
-                        if (kwd)
-                        {
-                            string typekwd = string(kwd) + "_type";
-                            const char* a_otype = preObj->GetStringValue(typekwd.c_str());
-                            if (a_otype && strlen(a_otype) >= 1)
-                            {
-                                a_hm_type = HCDI_get_entitytype(a_otype + 1);
-                                offsetval = cumulobjinfo[a_hm_type];
+                        a_hm_type = GetMultiObjectType(preObj, a_atype, k);
+                        if(cumulobjinfo.count(a_hm_type) > 0) offsetval = cumulobjinfo[a_hm_type];
                             }
-                        }
-                    }
                     else
-                        offsetval = cumulobjinfo[hm_type];
+                        if(cumulobjinfo.count(a_hm_type) > 0) offsetval = cumulobjinfo[a_hm_type];
 
                     if (doUnOffset) a_id -= offsetval;
                     else            a_id += offsetval;
@@ -668,6 +704,7 @@ void TransformWithOffset(int submodelindex, IMECPreObject* preObj, bool doUnOffs
             break;
             case IMECPreObject::ATY_ARRAY:
             {
+                obj_type_e multiobject_type = HCDI_OBJ_TYPE_NULL;
                 int a_nb_values = preObj->GetNbValues(IMECPreObject::VTY_OBJECT, k);
                 for (l = 0; l < a_nb_values; ++l)
                 {
@@ -678,22 +715,16 @@ void TransformWithOffset(int submodelindex, IMECPreObject* preObj, bool doUnOffs
                         int         a_index = preObj->GetObjectIndex(k, l);
                         obj_type_e a_hm_type = HCDI_get_entitytype(a_otype);
                         int offsetval = 0;
-                        if (hm_type == HCDI_OBJ_TYPE_MULTIOBJECT)
+                        if (a_hm_type == HCDI_OBJ_TYPE_MULTIOBJECT)
                         {
-                            const char* kwd = preObj->GetKeyword(a_atype, IMECPreObject::VTY_OBJECT, k);
-                            if (kwd)
+                            if(HCDI_OBJ_TYPE_NULL == multiobject_type)
                             {
-                                string typekwd = string(kwd) + "_type";
-                                const char* a_otype = preObj->GetStringValue(typekwd.c_str());
-                                if (a_otype && strlen(a_otype) >= 1)
-                                {
-                                    a_hm_type = HCDI_get_entitytype(a_otype + 1);
-                                    offsetval = cumulobjinfo[a_hm_type];
-                                }
+                                multiobject_type = GetMultiObjectType(preObj, a_atype, k);
                             }
+                            if(cumulobjinfo.count(multiobject_type) > 0) offsetval = cumulobjinfo[multiobject_type];
                         }
                         else
-                            offsetval = cumulobjinfo[hm_type];
+                            if(cumulobjinfo.count(a_hm_type) > 0) offsetval = cumulobjinfo[a_hm_type];
 
                         if (doUnOffset) a_id -= offsetval;
                         else           a_id += offsetval;
@@ -714,7 +745,7 @@ void TransformWithOffset(int submodelindex, IMECPreObject* preObj, bool doUnOffs
     for (int i = 0; i < subobj.size(); ++i)
     {
         int hm_type = (int)HCDI_GetHCObjectType(preObj->GetKernelFullType());
-        TransformWithOffset(submodelindex, subobj[i], doUnOffset, (obj_type_e)hm_type);
+        TransformWithOffset(submodelindex, subobj[i], doUnOffset, (obj_type_e)hm_type, nullptr);
     }
 }
 
@@ -736,7 +767,9 @@ static void TransformWithOffsetIntArray(IMECPreObject* preObj,
     }
 }
 
-void UpdateEntityIDOffsetCFG(std::vector<IMECPreObject*>* p_preobjlst, const char* submodelsolkey, bool doUnOffset)
+void UpdateEntityIDOffsetCFG(
+    std::vector<IMECPreObject*>* p_preobjlst, const char* submodelsolkey, bool doUnOffset,
+    const std::unordered_map<std::string, cfglnksubdescriptor>* cfglnksubdescriptor_map)
 {
     cumulative_pindex_offsetMap.clear();
     CalculateCumulativeOffset(p_preobjlst, submodelsolkey);
@@ -792,7 +825,7 @@ void UpdateEntityIDOffsetCFG(std::vector<IMECPreObject*>* p_preobjlst, const cha
         }
     }
 
-    for (int i = 0; i < (int)HCDI_OBJ_TYPE_MAX; ++i)
+    for (int i = 0; i <= (int)HCDI_OBJ_TYPE_SUBOBJECT; ++i)
     {
         for (auto* preObj : p_preobjlst[i])
         {
@@ -807,7 +840,8 @@ void UpdateEntityIDOffsetCFG(std::vector<IMECPreObject*>* p_preobjlst, const cha
             if (!subinfo.presence)
                 continue;
 
-            TransformWithOffset(fileindex, preObj, doUnOffset, (obj_type_e)i);
+            TransformWithOffset(fileindex, preObj, doUnOffset, (obj_type_e)i,
+                                cfglnksubdescriptor_map);
         }
     }
 }

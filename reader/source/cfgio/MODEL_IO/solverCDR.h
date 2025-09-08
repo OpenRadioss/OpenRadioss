@@ -60,7 +60,11 @@ public:
     IParameter::Type GetType() const;
     IParameter::Keywordtype GetKeywordType() const;
 
-    std::string GetName() const { return ""; }
+    std::string GetName() const;
+
+    virtual std::string GetExpression() const;
+    virtual void SetExpressionValue(double value);
+
     void* GetPointer() { return nullptr; }
     void SetCurParameterObj(IMECPreObject* pobj)
     {
@@ -119,6 +123,7 @@ public:
     bool SetParameterObjectUsageData(IMECPreObject* pre_object);
     bool SetIdParameterData(IMECPreObject* pre_object, IMECPreObject* main_pre_object = NULL);
     void SetParameterAttributeData(IMECPreObject* pre_object, IDescriptor* descr_p, IMECPreObject* main_pre_object = NULL);
+    virtual void EvaluateExpressionParameters(const MECMsgManager* pMsgManager);
 
 private:
 

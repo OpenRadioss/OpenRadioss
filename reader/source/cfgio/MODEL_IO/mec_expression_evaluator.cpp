@@ -70,6 +70,11 @@ double IValueExpressionEvaluator::Evaluate(const char* expression, int* pError) 
                 posTokenStart += 2;
             }
         }
+        else if(posTokenEnd == posTokenStart &&
+                srcExpression[posTokenStart] == '&')
+        { // single "&" is parameter prefix, so just skip
+            ++posTokenStart;
+        }
         else
         {
             string token = srcExpression.substr(posTokenStart, posTokenEnd - posTokenStart);

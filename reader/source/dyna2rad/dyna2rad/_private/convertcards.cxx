@@ -70,6 +70,9 @@ void sdiD2R::ConvertCard::ConvertEntities()
     /*convert th_title*/
     p_ConvertTH_TITLE();
 
+    /*convert Interface_Springback*/
+    p_ConvertInterfaceSpringback();
+
 }
 
 
@@ -147,9 +150,18 @@ void sdiD2R::ConvertCard::p_ConvertCtrlTimeStep()
         double lsdDT2MS;
         double lsdTSSFAC;
         double lsdDT2MSF;
-        vector<reference_wrapper<double>> attrValList = { lsdDT2MS, lsdTSSFAC, lsdDT2MSF };
-        vector<sdiString> attrNameList = { "DT2MS", "TSSFAC",  "DT2MSF" };
+        double lsdTSLIMIT;
+        int lsdERODE;
+        vector<reference_wrapper<double>> attrValList = { lsdDT2MS, lsdTSSFAC, lsdDT2MSF, lsdTSLIMIT   };
+        vector<sdiString> attrNameList = { "DT2MS", "TSSFAC",  "DT2MSF", "TSLIMT"};
+        
+        vector<reference_wrapper<int>> attrValList2 = { lsdERODE  };
+        vector<sdiString> attrNameList2 = { "ERODE" };
+
+
+         // get values from *CONTROL_TIMESTEP card
         p_ConvertUtils.GetAttribValues(*selectCtrlTS, attrNameList, attrValList);
+        p_ConvertUtils.GetAttribValues(*selectCtrlTS, attrNameList2, attrValList2);
 
         lsdTSSFAC = (lsdTSSFAC == 0.0) ? 0.9 : lsdTSSFAC;
         if (lsdDT2MS != 0.0)
@@ -220,6 +232,66 @@ void sdiD2R::ConvertCard::p_ConvertCtrlTimeStep()
 
             dtAmsHandleEdit.SetValue(p_radiossModel, sdiIdentifier("SCALE"), sdiValue(0.67));
             dtAmsHandleEdit.SetValue(p_radiossModel, sdiIdentifier("Tmin"), sdiValue(abs(lsdDT2MS)));
+        }
+        
+
+        if (lsdTSLIMIT > 0.0)
+        {
+            // ERODE == 1 -> /DT/BRICK/DEL
+            if (lsdERODE == 1)
+            {
+                HandleEdit dtBrickDelHandleEdit;
+                p_radiossModel->CreateEntity(dtBrickDelHandleEdit, "/DT/BRICK");
+                if (dtBrickDelHandleEdit.IsValid())
+                {
+                    EntityEdit dtBrickEdit(p_radiossModel, dtBrickDelHandleEdit);
+                    dtBrickEdit.SetValue(sdiIdentifier("ENG_DT_BRICK_DEL"), sdiValue(1));
+                    dtBrickEdit.SetValue(sdiIdentifier("FScale22"), sdiValue(0.67));
+                    dtBrickEdit.SetValue(sdiIdentifier("Tmin2"), sdiValue(lsdTSLIMIT));
+                    sdiConvert::Convert::PushToConversionLog(std::make_pair(dtBrickDelHandleEdit, sourceCards));
+                }
+            }
+
+            // ERODE == 10 -> /DT/SHELL/DEL
+            if (lsdERODE == 10)
+            {
+                HandleEdit dtShellDelHandleEdit;
+                p_radiossModel->CreateEntity(dtShellDelHandleEdit, "/DT/SHELL");
+                if (dtShellDelHandleEdit.IsValid())
+                {
+                    EntityEdit dtShellEdit(p_radiossModel, dtShellDelHandleEdit);
+                    dtShellEdit.SetValue(sdiIdentifier("ENG_DT_SHELL_DEL"), sdiValue(1));
+                    dtShellEdit.SetValue(sdiIdentifier("FScale22"), sdiValue(0.67));
+                    dtShellEdit.SetValue(sdiIdentifier("Tmin2"), sdiValue(lsdTSLIMIT));
+                    sdiConvert::Convert::PushToConversionLog(std::make_pair(dtShellDelHandleEdit, sourceCards));
+                }
+            }
+
+            // ERODE == 11 -> both /DT/BRICK/DEL and /DT/SHELL/DEL
+            if (lsdERODE == 11)
+            {
+                HandleEdit dtBrickDelHandleEdit;
+                p_radiossModel->CreateEntity(dtBrickDelHandleEdit, "/DT/BRICK");
+                if (dtBrickDelHandleEdit.IsValid())
+                {
+                    EntityEdit dtBrickEdit(p_radiossModel, dtBrickDelHandleEdit);
+                    dtBrickEdit.SetValue(sdiIdentifier("ENG_DT_BRICK_DEL"), sdiValue(1));
+                    dtBrickEdit.SetValue(sdiIdentifier("FScale22"), sdiValue(0.67));
+                    dtBrickEdit.SetValue(sdiIdentifier("Tmin2"), sdiValue(lsdTSLIMIT));
+                    sdiConvert::Convert::PushToConversionLog(std::make_pair(dtBrickDelHandleEdit, sourceCards));
+                }
+
+                HandleEdit dtShellDelHandleEdit;
+                p_radiossModel->CreateEntity(dtShellDelHandleEdit, "/DT/SHELL");
+                if (dtShellDelHandleEdit.IsValid())
+                {
+                    EntityEdit dtShellEdit(p_radiossModel, dtShellDelHandleEdit);
+                    dtShellEdit.SetValue(sdiIdentifier("ENG_DT_SHELL_DEL"), sdiValue(1));
+                    dtShellEdit.SetValue(sdiIdentifier("FScale22"), sdiValue(0.67));
+                    dtShellEdit.SetValue(sdiIdentifier("Tmin2"), sdiValue(lsdTSLIMIT));
+                    sdiConvert::Convert::PushToConversionLog(std::make_pair(dtShellDelHandleEdit, sourceCards));
+                }
+            }
         }
     }
 }
@@ -372,7 +444,18 @@ void sdiD2R::ConvertCard::p_ConvertDbBinaryCards()
             tempVal = sdiValue(lsdDtCycl);
             selDbBin->GetValue(sdiIdentifier("LSD_DT"), tempVal);
             tempVal.GetValue(lsdDtCycl);
-
+            if (lsdDtCycl == 0.0)
+            {
+                int lsdNPLTC = GetValue<int>(*selDbBin, "NPLTC");
+                SelectionRead selectCtrlTerm(p_lsdynaModel, "*CONTROL_TERMINATION");
+                double lsdENDTIM = 0.0;
+                while (selectCtrlTerm.Next())
+                {
+                    lsdENDTIM = GetValue<double>(*selectCtrlTerm, "ENDTIM");
+                    break;
+                }
+                lsdDtCycl = lsdENDTIM / lsdNPLTC;
+            }   
             p_radiossModel->CreateEntity(radCard, "/ANIM/DT");
             radCard.SetValue(p_radiossModel, sdiIdentifier("Tstart"), sdiValue(0.0));
             radCard.SetValue(p_radiossModel, sdiIdentifier("Tfreq"), sdiValue(lsdDtCycl));
@@ -932,10 +1015,10 @@ void sdiD2R::ConvertCard::p_ConvertDbNodalForceGroup()
                 p_radiossModel->CreateEntity(thHandleEdit, "/TH/NODE", TITLE);
                 EntityEdit  thEdit(p_radiossModel, thHandleEdit);
                 thEdit.SetValue(sdiIdentifier("idsmax"), sdiValue(idArrSIze));
-                thEdit.SetValue(sdiIdentifier("Number_Of_Variables"), sdiValue(1));
+                thEdit.SetValue(sdiIdentifier("Number_Of_Variables"), sdiValue(7));
                 thEdit.SetValue(sdiIdentifier("elem_ID"), sdiValue(sdiValueEntityList(p_radiossModel->GetEntityType("/NODE"), allExtratedNodes)));
                 thEdit.SetValue(sdiIdentifier("skew_ID"), sdiValue(sdiValueEntityList(p_radiossModel->GetEntityType("/SKEW"), skewList)));
-                thEdit.SetValue(sdiIdentifier("var"), sdiValue(sdiStringList({ "DEF" })));
+                thEdit.SetValue(sdiIdentifier("var"), sdiValue(sdiStringList({ "DEF", "REACX", "REACY", "REACZ", "REACXX", "REACYY", "REACZZ" })));
         
                 sdiConvert::SDIHandlReadList sourceHandles = { {seldbNodalForce->GetHandle()} };
                 sdiConvert::Convert::PushToConversionLog(std::make_pair(thHandleEdit, sourceHandles));
@@ -956,4 +1039,206 @@ void sdiD2R::ConvertCard::p_ConvertTH_TITLE()
         p_radiossModel->CreateEntity(ThTitleHandleEdit, "/TH/TITLE");
         sdiConvert::Convert::PushToConversionLog(std::make_pair(ThTitleHandleEdit, sourceControlCards));
     }
+}
+
+void sdiD2R::ConvertCard::p_ConvertInterfaceSpringback()
+{
+    EntityType radSetType = p_radiossModel->GetEntityType("/SET");
+    SelectionRead selectInterfSpr(p_lsdynaModel, "*INTERFACE_SPRINGBACK_LSDYNA");
+
+    //---------------------------------------------------------------------
+    while (selectInterfSpr.Next())
+    {
+        SDIHandlReadList sourceCards = { {selectInterfSpr->GetHandle()} };
+
+        sdiValueEntity lsdPSID = GetValue<sdiValueEntity>(*selectInterfSpr, "PSID");
+        unsigned int PSID = lsdPSID.GetId();
+        string lsdOPTC = GetValue<string>(*selectInterfSpr, "OPTC");
+        int lsdNDFLAG = GetValue<int>(*selectInterfSpr, "NDFLAG");
+        int lsdNTHHSV = GetValue<int>(*selectInterfSpr, "NTHHSV");
+
+        SelectionRead selectCtrlTerm(p_lsdynaModel, "*CONTROL_TERMINATION");
+        double lsdENDTIM = 0.0;
+        while (selectCtrlTerm.Next())
+        {
+            lsdENDTIM = GetValue<double>(*selectCtrlTerm, "ENDTIM");
+            break;
+        }
+
+        sdiUIntList PartSetList;
+        sdiString setType = "*SET_PART_LIST";
+        p_ConvertUtils.GetPartIdsFromPartSet(setType, PSID, PartSetList);
+
+        HandleEdit StateHandleEdit; 
+        if(lsdNDFLAG > 0)
+        {
+            SelectionEdit  selStateDtAll(p_radiossModel, "/STATE/DT/ALL");
+            if (selStateDtAll.Count() == 0)
+            {
+                p_radiossModel->CreateEntity(StateHandleEdit, "/STATE/DT/ALL");
+                //StateHandleEdit.SetValue(p_radiossModel,sdiIdentifier("ENG_STATE_DT"), sdiValue(1));
+                StateHandleEdit.SetValue(p_radiossModel,sdiIdentifier("Tstart"), sdiValue(lsdENDTIM));
+                StateHandleEdit.SetValue(p_radiossModel,sdiIdentifier("Tfreq"), sdiValue(lsdENDTIM));
+                StateHandleEdit.SetValue(p_radiossModel,sdiIdentifier("keyword3"), sdiValue(string("/ALL")));
+           }
+        }
+        else
+        {
+            SelectionEdit  selStateDt(p_radiossModel, "/STATE/DT");
+            if (selStateDt.Count() == 0)
+            {
+                p_radiossModel->CreateEntity(StateHandleEdit, "/STATE/DT");
+                //StateHandleEdit.SetValue(p_radiossModel,sdiIdentifier("ENG_STATE_DT"), sdiValue(1));
+                StateHandleEdit.SetValue(p_radiossModel,sdiIdentifier("Tstart"), sdiValue(lsdENDTIM));
+                StateHandleEdit.SetValue(p_radiossModel,sdiIdentifier("Tfreq"), sdiValue(lsdENDTIM));
+                StateHandleEdit.SetValue(p_radiossModel,sdiIdentifier("ids", 0, 0), sdiValue(sdiValueEntityList(p_radiossModel->GetEntityType("/PART"), PartSetList)));
+                StateHandleEdit.SetValue(p_radiossModel,sdiIdentifier("idsmax"), sdiValue(int(PartSetList.size())));
+                StateHandleEdit.SetValue(p_radiossModel,sdiIdentifier("keyword3"), sdiValue(string("")));
+            }
+        }
+
+        int lsdSLDO = GetValue<int>(*selectInterfSpr, "SLD0");
+        // write card "/STATE/BRICK/ORTHO"
+        HandleEdit StateBrickOrthoHandleEdit; 
+        SelectionEdit  selStateBrickOrtho(p_radiossModel, "/STATE/BRICK/ORTHO");
+        if(lsdSLDO > 0 && selStateBrickOrtho.Count() == 0)
+        {
+            p_radiossModel->CreateEntity(StateBrickOrthoHandleEdit, "/STATE/BRICK/ORTHO");
+            //StateBrickOrthoHandleEdit.SetValue(p_radiossModel,sdiIdentifier("ENG_STATE_BRICK_ORTHO"), sdiValue(1));
+            StateBrickOrthoHandleEdit.SetValue(p_radiossModel,sdiIdentifier("keyword3"), sdiValue(string("/ORTHO")));
+            //StateBrickOrthoHandleEdit.SetValue(p_radiossModel,sdiIdentifier("keyword4"), sdiValue(string("")));
+        }
+        // write card "/STATE/BRICK/AUX/FULL"
+        HandleEdit StateBrickAuxFullHandleEdit;
+        SelectionEdit  selStateBrickAuxFull(p_radiossModel, "/STATE/BRICK/AUX/FULL");
+        if(selStateBrickAuxFull.Count() == 0)
+        {
+            p_radiossModel->CreateEntity(StateBrickAuxFullHandleEdit, "/STATE/BRICK/AUX/FULL");
+            //StateBrickAuxFullHandleEdit.SetValue(p_radiossModel,sdiIdentifier("ENG_STATE_BRICK_AUX_FULL"), sdiValue(1));
+            StateBrickAuxFullHandleEdit.SetValue(p_radiossModel,sdiIdentifier("keyword3"), sdiValue(string("/AUX/FULL")));
+        }
+        // write card "/STATE/BRICK/STRES/FULL"
+        HandleEdit StateBrickStresFullHandleEdit;
+        SelectionEdit  selStateBrickStresFull(p_radiossModel, "/STATE/BRICK/STRES/FULL");
+        if(selStateBrickStresFull.Count() == 0)
+        {
+            p_radiossModel->CreateEntity(StateBrickStresFullHandleEdit, "/STATE/BRICK/STRES/FULL");
+            //StateBrickStresFullHandleEdit.SetValue(p_radiossModel,sdiIdentifier("ENG_STATE_BRICK_STRES_FULL"), sdiValue(1));
+            StateBrickStresFullHandleEdit.SetValue(p_radiossModel,sdiIdentifier("keyword3"), sdiValue(string("/STRES/FULL")));
+        }
+        // write card "/STATE/BRICK/STRAIN/FULL"
+        HandleEdit StateBrickStrainFullHandleEdit;
+        SelectionEdit  selStateBrickStrainFull(p_radiossModel, "/STATE/BRICK/STRAIN/FULL");
+        if(selStateBrickStrainFull.Count() == 0)
+        {
+            p_radiossModel->CreateEntity(StateBrickStrainFullHandleEdit, "/STATE/BRICK/STRAIN/FULL");
+            //StateBrickStrainFullHandleEdit.SetValue(p_radiossModel,sdiIdentifier("ENG_STATE_BRICK_STRAIN_FULL"), sdiValue(1));
+            StateBrickStrainFullHandleEdit.SetValue(p_radiossModel,sdiIdentifier("keyword3"), sdiValue(string("/STRAIN/FULL")));
+        }
+        // write card "/STATE/SHELL/AUX/FULL"
+        HandleEdit StateShellAuxFullHandleEdit;
+        SelectionEdit  selStateShellAuxFull(p_radiossModel, "/STATE/SHELL/AUX/FULL");
+        if(selStateShellAuxFull.Count() == 0)
+        {
+            p_radiossModel->CreateEntity(StateShellAuxFullHandleEdit, "/STATE/SHELL/AUX/FULL");
+            //StateShellAuxFullHandleEdit.SetValue(p_radiossModel,sdiIdentifier("ENG_STATE_SHELL_AUX_FULL"), sdiValue(1));
+            StateShellAuxFullHandleEdit.SetValue(p_radiossModel,sdiIdentifier("keyword3"), sdiValue(string("/AUX/FULL")));
+        }
+        // write card "/STATE/SHELL/STRES/FULL"
+        HandleEdit StateShellStresFullHandleEdit;
+        SelectionEdit  selStateShellStresFull(p_radiossModel, "/STATE/SHELL/STRES/FULL");
+        if(selStateShellStresFull.Count() == 0)
+        {
+            p_radiossModel->CreateEntity(StateShellStresFullHandleEdit, "/STATE/SHELL/STRES/FULL");
+            //StateShellStresFullHandleEdit.SetValue(p_radiossModel,sdiIdentifier("ENG_STATE_SHELL_STRES_FULL"), sdiValue(1));
+            StateShellStresFullHandleEdit.SetValue(p_radiossModel,sdiIdentifier("keyword3"), sdiValue(string("/STRES/FULL")));
+        }
+        // write card "/STATE/SHELL/STRAIN/FULL"
+        HandleEdit StateShellStrainFullHandleEdit;
+        SelectionEdit  selStateShellStrainFull(p_radiossModel, "/STATE/SHELL/STRAIN/FULL");
+        if(selStateShellStrainFull.Count() == 0)
+        {
+            p_radiossModel->CreateEntity(StateShellStrainFullHandleEdit, "/STATE/SHELL/STRAIN/FULL");
+            //StateShellStrainFullHandleEdit.SetValue(p_radiossModel,sdiIdentifier("ENG_STATE_SHELL_STRAIN_FULL"), sdiValue(1));
+            StateShellStrainFullHandleEdit.SetValue(p_radiossModel,sdiIdentifier("keyword3"), sdiValue(string("/STRAIN/FULL")));
+        }
+        // write card "/STATE/BEAM/FULL"
+        HandleEdit StateBeamFullHandleEdit;
+        SelectionEdit  selStateBeamFull(p_radiossModel, "/STATE/BEAM/FULL");
+        if(selStateBeamFull.Count() == 0)
+        {
+            p_radiossModel->CreateEntity(StateBeamFullHandleEdit, "/STATE/BEAM/FULL");
+            //StateBeamFullHandleEdit.SetValue(p_radiossModel,sdiIdentifier("ENG_STATE_BEAM_FULL"), sdiValue(1));
+            StateBeamFullHandleEdit.SetValue(p_radiossModel,sdiIdentifier("keyword3"), sdiValue(string("/FULL")));
+        }
+        // write card "/STATE/BEAM/AUX"
+        HandleEdit StateBeamAuxHandleEdit;
+        SelectionEdit  selStateBeamAux(p_radiossModel, "/STATE/BEAM/AUX");
+        if(selStateBeamAux.Count() == 0)
+        {
+            p_radiossModel->CreateEntity(StateBeamFullHandleEdit, "/STATE/BEAM/AUX");
+            //StateBeamFullHandleEdit.SetValue(p_radiossModel,sdiIdentifier("ENG_STATE_BEAM_AUX"), sdiValue(1));
+            StateBeamFullHandleEdit.SetValue(p_radiossModel,sdiIdentifier("keyword3"), sdiValue(string("/AUX")));
+        }
+        // write card "/STATE/TRUSS/FULL"
+        HandleEdit StateTrussFullHandleEdit;
+        SelectionEdit  selStateTrussFull(p_radiossModel, "/STATE/TRUSS/FULL");
+        if(selStateTrussFull.Count() == 0)
+        {
+            p_radiossModel->CreateEntity(StateTrussFullHandleEdit, "/STATE/TRUSS/FULL");
+            //StateTrussFullHandleEdit.SetValue(p_radiossModel,sdiIdentifier("ENG_STATE_TRUSS_FULL"), sdiValue(1));
+            StateTrussFullHandleEdit.SetValue(p_radiossModel,sdiIdentifier("keyword3"), sdiValue(string("/FULL")));
+        }
+        // write card "/STATE/SPRING/FULL"
+        HandleEdit StateSpringFullHandleEdit;
+        SelectionEdit  selStateSpringFull(p_radiossModel, "/STATE/SPRING/FULL");
+        if(selStateSpringFull.Count() == 0)
+        {
+            p_radiossModel->CreateEntity(StateSpringFullHandleEdit, "/STATE/SPRING/FULL");
+            //StateSpringFullHandleEdit.SetValue(p_radiossModel,sdiIdentifier("ENG_STATE_SPRING_FULL"), sdiValue(1));
+            StateSpringFullHandleEdit.SetValue(p_radiossModel,sdiIdentifier("keyword3"), sdiValue(string("/FULL")));
+        }
+
+        // write card "/STATE/NODE/TEMP"
+        SelectionEdit  selStateNodeTemp(p_radiossModel, "/STATE/NODE/TEMP");
+        if(lsdNTHHSV > 0 && selStateNodeTemp.Count() == 0)
+        {
+            HandleEdit StateNodeTempHandleEdit; 
+            p_radiossModel->CreateEntity(StateNodeTempHandleEdit, "/STATE/NODE/TEMP");
+            //StateNodeTempHandleEdit.SetValue(p_radiossModel,sdiIdentifier("ENG_STATE_NODE_TEMP"), sdiValue(1));
+            StateNodeTempHandleEdit.SetValue(p_radiossModel,sdiIdentifier("keyword3"), sdiValue(string("/TEMP")));
+        }
+
+        SelectionEdit  selDynainDt(p_radiossModel, "/DYNAIN/DT");
+        if (selDynainDt.Count() == 0)
+        {
+            HandleEdit DynainHandleEdit;
+            p_radiossModel->CreateEntity(DynainHandleEdit, "/DYNAIN/DT");
+            //DynainHandleEdit.SetValue(p_radiossModel,sdiIdentifier("ENG_DYNAIN_DT"), sdiValue(1));
+            DynainHandleEdit.SetValue(p_radiossModel,sdiIdentifier("Tstart"), sdiValue(lsdENDTIM));
+            DynainHandleEdit.SetValue(p_radiossModel,sdiIdentifier("Tfreq"), sdiValue(lsdENDTIM));
+            DynainHandleEdit.SetValue(p_radiossModel,sdiIdentifier("ids", 0, 0), sdiValue(sdiValueEntityList(p_radiossModel->GetEntityType("/PART"), PartSetList)));
+            DynainHandleEdit.SetValue(p_radiossModel,sdiIdentifier("idsmax"), sdiValue(int(PartSetList.size())));
+            DynainHandleEdit.SetValue(p_radiossModel,sdiIdentifier("keyword3"), sdiValue(string("")));
+        }
+        // write card "/DYNAIN/SHELL/STRES/FULL"
+        HandleEdit DYNAINShellStresFullHandleEdit;
+        SelectionEdit  selDYNAINShellStresFull(p_radiossModel, "/DYNAIN/SHELL/STRES/FULL");
+        if(selDYNAINShellStresFull.Count() == 0)
+        {
+            p_radiossModel->CreateEntity(DYNAINShellStresFullHandleEdit, "/DYNAIN/SHELL/STRES/FULL");
+            //DYNAINShellStresFullHandleEdit.SetValue(p_radiossModel,sdiIdentifier("ENG_DYNAIN_SHELL_STRES_FULL"), sdiValue(1));
+            DYNAINShellStresFullHandleEdit.SetValue(p_radiossModel,sdiIdentifier("keyword3"), sdiValue(string("/STRES/FULL")));
+        }
+        // write card "/DYNAIN/SHELL/STRAIN/FULL"
+        HandleEdit DYNAINShellStrainFullHandleEdit;
+        SelectionEdit  selDYNAINShellStrainFull(p_radiossModel, "/DYNAIN/SHELL/STRAIN/FULL");
+        if(selDYNAINShellStrainFull.Count() == 0)
+        {
+            p_radiossModel->CreateEntity(DYNAINShellStrainFullHandleEdit, "/DYNAIN/SHELL/STRAIN/FULL");
+            //DYNAINShellStrainFullHandleEdit.SetValue(p_radiossModel,sdiIdentifier("ENG_DYNAIN_SHELL_STRAIN_FULL"), sdiValue(1));
+            DYNAINShellStrainFullHandleEdit.SetValue(p_radiossModel,sdiIdentifier("keyword3"), sdiValue(string("/STRAIN/FULL")));
+        }
+    }
+    //---------------------------------------------------------------------
 }

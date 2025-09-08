@@ -75,6 +75,8 @@ namespace sdiD2R
         void p_ConvertDbNodalForceGroup();
 
         void p_ConvertTH_TITLE();
+
+        void p_ConvertInterfaceSpringback();
     };
 }
 
