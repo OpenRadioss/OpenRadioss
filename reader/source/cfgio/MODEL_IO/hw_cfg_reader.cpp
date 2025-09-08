@@ -491,77 +491,7 @@ void HWCFGReader::readHeaderPositions(MECIModelFactory* model_p) {
                         do_continue = false;
                     }
                     //
-                    //
-                    int sub_count_id_or_title = 0;
-                    if (p_type_info)
-                    {
-                        ApplicationMode_e a_mode = (ApplicationMode_e)myInputInfosPtr->GetAppMode();
-                        if (a_mode == HCDI_SOLVER_LSDYNA)
-                        {
-                            if (p_type_info->myAllPossibleflags)
-                            {
-                                static string can_have_title_card_str = "CAN_HAVE_TITLE_CARD";
-                                static string can_have_id_card_str = "CAN_HAVE_ID_CARD";
-                                static string has_title_card_str = "HAS_TITLE_CARD";
-                                static string has_id_card_str = "HAS_ID_CARD";
-                                static string title_str = "_TITLE";
-                                static string id_str = "_ID";
-
-                                /*shoud be a part of member variable later*/
-                                int bit_can_have_title = HCDI_get_data_hierarchy_bitmask(can_have_title_card_str);
-                                int bit_hastitle = HCDI_get_data_hierarchy_bitmask(has_title_card_str);
-
-                                bool has_title = p_type_info->myAllPossibleflags & bit_hastitle;
-                                bool can_have_title = false;
-                                if (!has_title)
-                                    can_have_title = p_type_info->myAllPossibleflags & bit_can_have_title;
-
-                                if (has_title || can_have_title)
-                                {
-                                    bool title_flag = true;
-                                    if (!has_title)
-                                    {
-                                        size_t pos = a_header.find(title_str);
-                                        if (pos == string::npos)
-                                            title_flag = false;
-                                    }
-                                    if (title_flag)
-                                    {
-                                        sub_count_id_or_title = 1;
-                                    }
-                                }
-                                else
-                                {
-                                    int bit_has_idcard = HCDI_get_data_hierarchy_bitmask(has_id_card_str);
-                                    int bit_can_have_idcard = HCDI_get_data_hierarchy_bitmask(can_have_id_card_str);
-
-                                    bool has_idcard = p_type_info->myAllPossibleflags & bit_has_idcard;
-                                    bool can_have_idcard = false;
-                                    if (!has_idcard && bit_can_have_idcard)
-                                        can_have_idcard = p_type_info->myAllPossibleflags & bit_can_have_idcard;
-
-                                    if (has_idcard || can_have_idcard)
-                                    {
-                                        bool idcard_flag = true;
-                                        if (can_have_idcard)
-                                        {
-                                            size_t pos = a_header.find(id_str);
-                                            if (pos == string::npos)
-                                                idcard_flag = false;
-                                        }
-
-                                        if (idcard_flag)
-                                        {
-                                            sub_count_id_or_title = 1;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    a_line_counts -= sub_count_id_or_title;
-                    //
-                    //
+                    postTreatLineCount(p_type_info, a_header, &a_line_counts);
                     a_cur_file_p->SetCurrentLocation(aloc);
                     a_cur_file_p->SetCurrentLine(acurline);
                     SetCurrentFileIndex(file_index);
@@ -597,7 +527,7 @@ void HWCFGReader::readHeaderPositions(MECIModelFactory* model_p) {
     }
 
     model_p->SortPreObjectsByName("PARAMETER");
-
+    model_p->EvaluateExpressionParameters(this);
 
     //resolved submodel parameter if any
 
@@ -1141,162 +1071,6 @@ bool HWCFGReader::checkObject(const IMECPreObject& object, const MECIModelFactor
     return a_ok;
 }
 
-void HWCFGReader::readCurrentObjects(vector<IMECPreObject*>& preobj_lst, char* header_card, int linecount) {
-    // Header
-    int   a_id = 0;
-    char* a_title_str = NULL;
-    string a_iftype_str, a_kftype_str;
-    int   a_unit_id = 0;
-    char* id_param_p = NULL;
-    const IDescriptor* a_descr_p = NULL;
-    const fileformat_t* a_format_p = NULL;
-    obj_type_e etype;
-    char* id_unit_param_p = NULL;
-    /* Needs to initialize myIsCrypted, myCryptType, myCommentState before calling readHeader: any new header*/
-    myIsCrypted = false;
-    myEncryptionPtr->SetCryptingMethod(IEncryption::CRYPT_UNKNOWN);
-    myCommentState = true;
-
-
-    bool  a_is_readable = readHeader(nullptr, a_iftype_str, a_kftype_str, (const void**)&a_descr_p, (const void**)&a_format_p, &a_id, &a_title_str, &a_unit_id, &id_param_p, &id_unit_param_p, etype, &header_card);
-    // Reading cards
-    if (a_is_readable)
-    {
-        // Getting descriptor and format
-        if (a_is_readable && a_format_p) {
-            object_type_e a_kernel_otype = HCDI_GetHCObjectType(a_kftype_str);
-
-            int subdeck_index = getCurrentSubdeckIndex();
-            // Creating pre-object
-            IMECPreObject* a_pre_object = HCDI_GetPreObjectHandle(a_kftype_str.c_str(), a_iftype_str != "" ? a_iftype_str.c_str() : a_kftype_str.c_str(), a_title_str, a_id, a_unit_id);
-            if (a_pre_object == NULL)
-                return;
-            a_pre_object->Init((const PseudoDescriptor_t*)a_descr_p);
-            a_pre_object->SetEntityType(etype);
-
-            a_pre_object->SetSubdeckIndex(subdeck_index);
-
-            bool          a_is_cryptable = myInputInfosPtr->IsEntityCryptable(a_kernel_otype, getFormatVersion());
-            if (a_is_cryptable) {
-
-                if (!myEncryptionPtr->IsKeySupported())
-                {
-                    bool a_continue = true;
-                    myDoRecord = true;
-                    StartRecording();
-                    pushPosition();
-                    bool a_isencrypted = false;
-                    while (a_continue)
-                    {
-                        const char* a_buffer = ReadBuffer(true);
-                        if (a_buffer == NULL)
-                            break;
-
-                        if (mySyntaxInfo->getHeaderSize())
-                            a_buffer = killBlanksBegin(a_buffer);
-                        if (isHeader(a_buffer))
-                        {
-                            const char* a_crypted_data = NULL;
-                            a_crypted_data = StopRecording();
-                            UnrecordLastComments();
-                            if (a_isencrypted)
-                            {
-                                const char* a_copy_cryp_data = strdup(a_crypted_data);
-                                if (a_crypted_data && *a_crypted_data != '\0')
-                                {
-                                    eraseSubstringFromEnd(a_copy_cryp_data, a_buffer);
-                                    a_pre_object->SetCryptedData(a_copy_cryp_data);
-                                    const char* a_crypt_ref = myEncryptionPtr->GetCurCryptingReference() + (myEncryptionPtr->GetCurCryptingReference()[0] == myEncryptionPtr->GetCrypChar() ? 1 : 0);
-                                    a_pre_object->SetCryptingReference(a_crypt_ref);
-                                }
-                            }
-                            UnreadBuffer();
-                            myIsCrypted = false;
-                            break;
-                        }
-                        //
-                        if (myEncryptionPtr->IsStringEncrypted(a_buffer))
-                        {
-                            myEncryptionPtr->SetCryptingMethod(a_kernel_otype);
-                            a_isencrypted = true;
-                        }
-                    }
-                    if (!a_isencrypted)
-                    {
-                        popPosition();
-                        StopRecording();
-                        UnrecordLastComments();
-                        ClearRecordBuffer();
-                    }
-                    else
-                    {
-                        ClearRecordBuffer();
-                        // Freeing strings
-                        if (a_title_str)
-                            myfree(a_title_str);
-                        if (id_param_p)
-                            myfree(id_param_p);
-
-                        preobj_lst.push_back(a_pre_object);
-                        return ;
-                    }
-                }
-                else
-                    myEncryptionPtr->SetCryptingMethod(a_kernel_otype);
-
-                StartRecording();
-            }
-            //
-            bool a_ok = false;
-
-
-
-            a_ok = readObjectData((const PseudoFileFormat_t*)a_format_p, a_pre_object, NULL, (const PseudoDescriptor_t*)a_descr_p);
-            if (a_is_cryptable)
-            {
-                const char* a_crypted_data = NULL;
-                if (a_ok && isCrypted())
-                {
-                    a_crypted_data = StopRecording();
-                    a_pre_object->SetCryptedData(a_crypted_data); 
-                    UnrecordLastComments();
-                    if (myEncryptionPtr->IsKeySupported())
-                    {
-                        const char* a_crypt_ref = myEncryptionPtr->GetCurCryptingReference() + (myEncryptionPtr->GetCurCryptingReference()[0] == myEncryptionPtr->GetCrypChar() ? 1 : 0);
-                        a_pre_object->SetCryptingReference(a_crypt_ref);
-                    }
-                }
-                if (a_crypted_data == NULL) StopRecording();
-                ClearRecordBuffer();
-            }
-            if (!a_ok) displayMessage(MSG_ERROR, getMsg(11), a_iftype_str.c_str(), a_id);
-            if (a_ok) preobj_lst.push_back(a_pre_object);
-            if (a_pre_object)
-                HCDI_ReleasePreObjectHandle(a_pre_object);
-        }
-        if (!a_descr_p)
-        {
-            displayCurrentLocation(MSG_ERROR);
-            displayMessage(MSG_ERROR, getMsg(2), a_iftype_str.c_str());
-        }
-        else if (a_descr_p && !a_format_p)
-        {
-            MvFileFormat_e format_version = getFormatVersion();
-            double a_version = (int)(format_version) * .1;
-            displayCurrentLocation(MSG_ERROR);
-            displayMessage(MSG_ERROR, getMsg(3), a_iftype_str.c_str(), a_version);
-        }
-    }
-    else
-    {
-        displayMessage(MSG_ERROR, getMsg(11), a_iftype_str.c_str(), a_id);
-    }
-    //
-// Freeing strings
-    myfree(a_title_str);
-    my_free(id_param_p);
-}
-
 IMECPreObject* HWCFGReader::readCurrentObjects(MECIModelFactory* model_p, char* header_card, const CUserNameTypeInfo* headerdata, int linecount) {
     // Header
     int   a_id = 0;
@@ -1327,7 +1101,7 @@ IMECPreObject* HWCFGReader::readCurrentObjects(MECIModelFactory* model_p, char* 
         int a_current_component_index = GetCurrentComponentIndex();
 
         // Creating pre-object
-        preobj = HCDI_GetPreObjectHandle(a_kftype_str.c_str(), a_iftype_str != "" ? a_iftype_str.c_str() : a_kftype_str.c_str(), a_title_str, a_id, a_unit_id);
+        preobj = model_p->CreateObject(a_kftype_str.c_str(), a_iftype_str != "" ? a_iftype_str.c_str() : a_kftype_str.c_str(), a_title_str, a_id, a_unit_id);
         preobj->Init((const PseudoDescriptor_t*)a_descr_p);
         preobj->SetEntityType(etype);
         if (header_card)
@@ -2205,7 +1979,7 @@ void HWCFGReader::readCurrentObjects(MECIModelFactory* model_p, vector<IMECPreOb
         int a_current_component_index = GetCurrentComponentIndex();
 
         // Creating pre-object
-        preobj = HCDI_GetPreObjectHandle(a_kftype_str.c_str(), a_iftype_str != "" ?  a_iftype_str.c_str() : a_kftype_str.c_str(), a_title_str, a_id, a_unit_id);
+        preobj = model_p->CreateObject(a_kftype_str.c_str(), a_iftype_str != "" ?  a_iftype_str.c_str() : a_kftype_str.c_str(), a_title_str, a_id, a_unit_id);
         preobj->Init((const PseudoDescriptor_t*)a_descr_p);
         preobj->SetEntityType(etype);
         if (header_card || a_header_card)
@@ -2429,7 +2203,7 @@ void HWCFGReaderLSDyna::readCurrentObjects(MECIModelFactory* model_p, vector<IME
         int a_current_component_index = GetCurrentComponentIndex();
 
         // Creating pre-object
-        preobj = HCDI_GetPreObjectHandle(a_kftype_str.c_str(), a_iftype_str != "" ? a_iftype_str.c_str() : a_kftype_str.c_str(), a_title_str, a_id, a_unit_id);
+        preobj = model_p->CreateObject(a_kftype_str.c_str(), a_iftype_str != "" ? a_iftype_str.c_str() : a_kftype_str.c_str(), a_title_str, a_id, a_unit_id);
         preobj->Init((const PseudoDescriptor_t*)a_descr_p);
         preobj->SetEntityType(etype);
 
@@ -2639,5 +2413,74 @@ void HWCFGReaderLSDyna::readCurrentObjects(MECIModelFactory* model_p, vector<IME
 
 }
 
+void HWCFGReaderLSDyna::postTreatLineCount(const CUserNameTypeInfo* p_type_info, string& header, int *line_count)
+{
+    if (p_type_info == NULL)
+        return;
 
+    if (p_type_info->myAllPossibleflags)
+    {
+        int sub_count_id_or_title = 0;
+        static string can_have_title_card_str = "CAN_HAVE_TITLE_CARD";
+        static string can_have_id_card_str = "CAN_HAVE_ID_CARD";
+        static string has_title_card_str = "HAS_TITLE_CARD";
+        static string has_id_card_str = "HAS_ID_CARD";
+        static string title_str = "_TITLE";
+        static string id_str = "_ID";
+
+        /*shoud be a part of member variable later*/
+        int bit_can_have_title = HCDI_get_data_hierarchy_bitmask(can_have_title_card_str);
+        int bit_hastitle = HCDI_get_data_hierarchy_bitmask(has_title_card_str);
+
+        bool has_title = p_type_info->myAllPossibleflags & bit_hastitle;
+        bool can_have_title = false;
+        if (!has_title)
+            can_have_title = p_type_info->myAllPossibleflags & bit_can_have_title;
+
+        if (has_title || can_have_title)
+        {
+            bool title_flag = true;
+            if (!has_title)
+            {
+                size_t pos = header.find(title_str);
+                if (pos == string::npos)
+                    title_flag = false;
+            }
+            if (title_flag)
+            {
+                sub_count_id_or_title = 1;
+            }
+        }
+        else
+        {
+            int bit_has_idcard = HCDI_get_data_hierarchy_bitmask(has_id_card_str);
+            int bit_can_have_idcard = HCDI_get_data_hierarchy_bitmask(can_have_id_card_str);
+
+            bool has_idcard = p_type_info->myAllPossibleflags & bit_has_idcard;
+            bool can_have_idcard = false;
+            if (!has_idcard && bit_can_have_idcard)
+                can_have_idcard = p_type_info->myAllPossibleflags & bit_can_have_idcard;
+
+            if (has_idcard || can_have_idcard)
+            {
+                bool idcard_flag = true;
+                if (can_have_idcard)
+                {
+                    size_t pos = header.find(id_str);
+                    if (pos == string::npos)
+                        idcard_flag = false;
+                }
+
+                if (idcard_flag)
+                {
+                    sub_count_id_or_title = 1;
+                }
+            }
+        }
+        if (line_count)
+        {
+            *line_count -= sub_count_id_or_title;
+        }
+    }
+}
 /************************************************/

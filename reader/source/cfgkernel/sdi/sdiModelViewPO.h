@@ -450,7 +450,6 @@ public:
         if(0 <= att_index_id) return p_ptr->GetObjectId(att_index_id);
 
         // we shouldn't get here
-        assert(0);
         return 0;
     }
 
@@ -564,7 +563,7 @@ public:
         for(unsigned int i = 0; i < aNodeId.size(); ++i)
         {
             aNodeId[i] = p_ptr->GetIntValue(att_indices[i], p_index2);
-            if (p_ptr->GetIntValue(att_indices[i], p_index2) > 0) node_count++;
+            if (p_ptr->GetIntValue(att_indices[i], p_index2) > 0) node_count = i + 1;
         }
 
         if (node_count == 0)
@@ -576,11 +575,11 @@ public:
             for(unsigned int i = 0; i < node_max; ++i)
             {
                 aNodeId[i] = p_ptr->GetIntValue(att_indices[i], p_index2);
-                if (p_ptr->GetIntValue(att_indices[i], p_index2) > 0) node_count++;
+                if (p_ptr->GetIntValue(att_indices[i], p_index2) > 0) node_count = i + 1;
             }
-            aNodeId.resize(node_count);
         }
 
+        aNodeId.resize(node_count);
         return ;
     }
     
@@ -950,8 +949,7 @@ public:
 
     //! Constructor for empty model
     ModelViewPO(const SDITypeMapper& typemapper, const CFGKernel *pCFGKernel=nullptr) :
-        ModelViewCFG(typemapper, pCFGKernel),
-        myTypeElementOwner(ENTITY_TYPE_NONE)
+        ModelViewCFG(typemapper, pCFGKernel)
     {
         p_nbPOTypes = HCDI_OBJ_TYPE_HC_MAX;
         p_preobjects = new std::vector<IMECPreObject*>[p_nbPOTypes];
@@ -968,8 +966,7 @@ public:
         ModelViewCFG(typemapper, pCFGKernel),
         p_preobjects(preobjects),
         p_nbPOTypes(nbPOTypes),
-        owningPreobjects(false),
-        myTypeElementOwner(ENTITY_TYPE_NONE)
+        owningPreobjects(false)
     {
         assert(p_preobjects && 0 < p_nbPOTypes);
         for(size_t i=0; i < HCDI_OBJ_TYPE_HC_MAX; ++i) p_isSorted[i] = SortNone;
@@ -1091,199 +1088,7 @@ public:
         if(entityTypeIdentifierTarget == EntityTypeIdentifier("elements"))
         {
             // Handle relation selection for elements
-            if(RelationSource::SOURCE_TYPE_ENTITY == relationSource.GetType())
-            {
-                // Process source entity (like a component)
-                const SDIEntityData* entitydata = relationSource.GetEntity();
-                EntityType entityType = entitydata ? entitydata->GetType() : ENTITY_TYPE_NONE;
-                
-                if(entitydata && entityType != ENTITY_TYPE_NONE)
-                {
-                    unsigned int entityId = entitydata->GetId();
-                    
-                    // Find elements in the preobjects that belong to this entity
-                    std::vector<IMECPreObject*> *elementsList = new std::vector<IMECPreObject*>();
-                    
-                    // We'll use a map to group elements by part (index1)
-                    // For each part, we'll count elements with the same index2
-                    std::map<unsigned int, std::map<unsigned int, std::vector<IMECPreObject*>>> elemsByPartAndIndex2;
-                    
-                    // First, collect all elements and organize them by part ID (index1) and index2
-                    for(size_t i = 0; i < p_preobjects[HCDI_OBJ_TYPE_ELEMS].size(); ++i)
-                    {
-                        IMECPreObject* elemObj = p_preobjects[HCDI_OBJ_TYPE_ELEMS][i];
-                        if(elemObj)
-                        {
-                            // Using the ID as index1 (part ID)
-                            unsigned int partId = elemObj->GetId();  // This represents index1 - the part ID
-                            
-                            // Get index2 - if not available directly, we might need to use another attribute
-                            // For this example, we'll use a simple modulo operation on the element ID as a placeholder
-                            unsigned int index2 = elemObj->GetId() % 10;  // Just a placeholder for actual index2
-                            
-                            // Group elements by part ID and index2
-                            elemsByPartAndIndex2[partId][index2].push_back(elemObj);
-                            
-                            // If this element belongs to the entity we're looking for
-                            if(partId == entityId)
-                            {
-                                // Add to our result list
-                                elementsList->push_back(elemObj);
-                            }
-                        }
-                    }
-                    
-                    // Count elements with same index2 within each part and print some debug info
-                    for(const auto& partEntry : elemsByPartAndIndex2) 
-                    {
-                        unsigned int partId = partEntry.first;
-                        // For now, just print some information about the counts
-                        // In a real implementation, you might use this information differently
-                        for(const auto& index2Entry : partEntry.second)
-                        {
-                            unsigned int index2 = index2Entry.first;
-                            size_t count = index2Entry.second.size();
-                            
-                            // You can use this information as needed
-                            // For example, if count > threshold, do something special
-                        }
-                    }
-                    
-                    if(!elementsList->empty())
-                    {
-                        // Create a selection data for these elements
-                        // Group elements by their keywords and create appropriate selection data
-                        // First, categorize elements by their types
-                        std::map<std::string, std::vector<IMECPreObject*>*> elementsByType;
-
-                        // Categorize elements by type
-                        for(auto* elemObj : *elementsList) {
-                            if(elemObj) {
-                                std::string elemType = elemObj->GetInputFullType();
-                                if(elementsByType.find(elemType) == elementsByType.end()) {
-                                    elementsByType[elemType] = new std::vector<IMECPreObject*>();
-                                }
-                                elementsByType[elemType]->push_back(elemObj);
-                            }
-                        }
-
-                        // If there's only one type, return that selection
-                        if(elementsByType.size() == 1) {
-                            std::string elemType = elementsByType.begin()->first;
-                            return new SDISelectionDataPOArray<SPECIALIZATION_TYPE_ELEMENT>(
-                                elemType, 
-                                this,
-                                elementsByType.begin()->second, 
-                                &relationFilterTarget);
-                        } 
-                        else if(!elementsByType.empty()) {
-                            // If multiple types, return the first one (you might need a more complex logic here)
-                            std::string elemType = elementsByType.begin()->first;
-                            return new SDISelectionDataPOArray<SPECIALIZATION_TYPE_ELEMENT>(
-                                elemType, 
-                                this,
-                                elementsByType.begin()->second, 
-                                &relationFilterTarget);
-                        }
-
-                        // Fallback - use the original list with shell type
-                        return new SDISelectionDataPOArray<SPECIALIZATION_TYPE_ELEMENT>(
-                            "/SHELL", 
-                            this,
-                            elementsList, 
-                            &relationFilterTarget);
-                    }
-                    else
-                    {
-                        delete elementsList;
-                    }
-                }
-            }
-            else
-            {
-                // Process source selection (multiple entities)
-                SDISelectionData* selectiondata = const_cast<SDISelectionData*>(relationSource.GetSelection());
-                if(selectiondata && selectiondata->GetReferenceToCurrentValue())
-                {
-                    std::vector<IMECPreObject*> *elementsList = new std::vector<IMECPreObject*>();
-                    
-                    // Save current position in the selection
-                    // Use Restart instead of Reset (which doesn't exist)
-                    selectiondata->Restart();
-                    
-                    while(selectiondata->Next())
-                    {
-                        const SDIEntityData* entityData = selectiondata->GetReferenceToCurrentValue();
-                        if(entityData)
-                        {
-                            unsigned int entityId = entityData->GetId();
-                            
-                            // Find elements in the preobjects that belong to this entity
-                            for(size_t i = 0; i < p_preobjects[HCDI_OBJ_TYPE_ELEMS].size(); ++i)
-                            {
-                                IMECPreObject* elemObj = p_preobjects[HCDI_OBJ_TYPE_ELEMS][i];
-                                if(elemObj)
-                                {
-                                    // Using the ID as index1 (part ID)
-                                    unsigned int partId = elemObj->GetId();  // This represents index1 - the part ID
-                                    
-                                    // If this element belongs to the entity we're looking for
-                                    if(partId == entityId)
-                                    {
-                                        // Add to our result list
-                                        elementsList->push_back(elemObj);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    
-                    // Reset position in the selection after we're done
-                    selectiondata->Restart();
-                    
-                    if(!elementsList->empty())
-                    {
-                        // Create a selection data for these elements
-                        // Categorize elements by their type/keyword
-                        std::map<std::string, std::vector<IMECPreObject*>*> elementsByType;
-                        for(auto* elemObj : *elementsList) {
-                            if(elemObj) {
-                                std::string elemType = elemObj->GetInputFullType();
-                                // Initialize the vector if it doesn't exist yet
-                                if(elementsByType.find(elemType) == elementsByType.end()) {
-                                    elementsByType[elemType] = new std::vector<IMECPreObject*>();
-                                }
-                                elementsByType[elemType]->push_back(elemObj);
-                            }
-                        }
-
-                        // If we found elements with specific types
-                        if(!elementsByType.empty()) {
-                            // Return the first group of elements we found
-                            std::string elemType = elementsByType.begin()->first;
-                            return new SDISelectionDataPO<SPECIALIZATION_TYPE_ELEMENT>(
-                                elemType, 
-                                this,
-                                elementsByType.begin()->second, 
-                                &relationFilterTarget);
-                        }
-
-                        // Fallback to default if no element types were found
-                        return new SDISelectionDataPO<SPECIALIZATION_TYPE_ELEMENT>(
-                            "/SHELL", 
-                            this,
-                            elementsList, 
-                            &relationFilterTarget);
-                    }
-                    else
-                    {
-                        delete elementsList;
-                    }
-                }
-            }
-            
-            // Fallback to the dummy implementation
-            return CreateSelectionData("/SHELL");
+            return CreateSelectionData("*ELEMENT_SHELL");
         }
         return 0;
     }
@@ -2179,11 +1984,6 @@ public:
     {
         return POKeywordSet();
     }
-
-public: // for EntityData, should rather be friend
-    EntityType myTypeElementOwner = ENTITY_TYPE_NONE;
-    EntityType myTypeNode = ENTITY_TYPE_NONE;
-    EntityType myTypeSubmodel = ENTITY_TYPE_NONE;
 
 protected:
 

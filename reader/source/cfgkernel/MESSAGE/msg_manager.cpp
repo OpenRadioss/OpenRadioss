@@ -56,9 +56,11 @@ void MvMsgManager_t::DisplayMessage(const string &msg) {
 }
 
 void MvMsgManager_t::DisplayWarning(const string &msg) {
+  DisplayMess(CFG_WARNING,msg);
 }
 
 void MvMsgManager_t::DisplayError(const string &msg) {
+  DisplayMess(CFG_ERROR,msg);
 }
 
 void MvMsgManager_t::DisplayMess(type_message_e type,const string &msg) {

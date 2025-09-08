@@ -59,7 +59,9 @@ typedef enum ReadingBlockStatus_s
    READ_STATER_BLOCK = 0,
    READ_ENGINE_BLOCK = 1
 } ReadingBlockStatus_e;
-void SplitArrayToSingleObjects(const IDescriptor* descrp, std::vector<IMECPreObject*>& preobj_lst);
+void SplitArrayToSingleObjects(MECIModelFactory* model_p, const IDescriptor* descrp,
+                               std::vector<IMECPreObject*>& preobj_lst);
+
 /* --------- Constructors & destructor --------- */
 
 MECIReadModelBase::MECIReadModelBase(const char *full_name,int buffer_nb_chars,int line_nb_chars,
@@ -395,7 +397,7 @@ void MECIReadModelBase::ManageReadKeyWord( MECIModelFactory* model_p, const char
     // split array to single objects for parameter
     if (headerdata)
     {
-        SplitArrayToSingleObjects(headerdata->pdescrp, preobj_lst);
+        SplitArrayToSingleObjects(model_p, headerdata->pdescrp, preobj_lst);
     for (int i = 0; i < preobj_lst.size(); i++)
     {
         if (i == 0)
@@ -1186,7 +1188,8 @@ char* MECIReadModelBase::ReadBuffer(bool do_check_eof, int nb_chars, bool skip_c
                 if (file)
                 {
                     int indx = file->GetParentIndex();
-
+                    if(indx >= 0)
+                    {
                     MECSubdeck *subdeck = MECSubdeck::mySubdeckVector[indx];
                     object_type_e atype = subdeck->GetSubtype();
 
@@ -1200,6 +1203,13 @@ char* MECIReadModelBase::ReadBuffer(bool do_check_eof, int nb_chars, bool skip_c
                     {
                         MECReadFile* parent = GetFile(indx);
                         if (parent)
+                            fformat = parent->GetVersion();
+                    }
+                }
+                    else
+                    {
+                        MECReadFile* parent = GetFile(0);
+                        if(parent)
                             fformat = parent->GetVersion();
                     }
                 }
@@ -1401,7 +1411,8 @@ void MECIReadModelBase::displayCurrentLocation(MyMsgType_e msg_type) const {
     displayMessage(msg_type,getMsg(0),a_cur_line,a_cur_full_name);
 }
 
-void SplitArrayToSingleObjects(const IDescriptor* descrp, std::vector<IMECPreObject*>& preobj_lst)
+void SplitArrayToSingleObjects(MECIModelFactory* model_p, const IDescriptor* descrp,
+                               std::vector<IMECPreObject*>& preobj_lst)
 {
     if (descrp == NULL)
         return;
@@ -1434,7 +1445,7 @@ void SplitArrayToSingleObjects(const IDescriptor* descrp, std::vector<IMECPreObj
                     const char* title = preobj_lst[j]->GetTitle();
                     int unit_id = preobj_lst[j]->GetUnitId();
                     int id = preobj_lst[j]->GetId() + i;
-                    set_obj = HCDI_GetPreObjectHandle(k_fulltype, i_fulltype, title, id, unit_id);
+                    set_obj = model_p->CreateObject(k_fulltype, i_fulltype, title, id, unit_id);
                     preobj_lst.push_back(set_obj);
                 }
                 for (a_aikw_it = a_aikw_it_begin; a_aikw_it != a_aikw_it_end; ++a_aikw_it)

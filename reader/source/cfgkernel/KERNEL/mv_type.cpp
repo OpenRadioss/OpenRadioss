@@ -271,7 +271,7 @@ void MvTypeMap_t::InitTypeMap() {
   myTypeMap["CONNECTORSET"]                      = HCDI_OBJ_TYPE_CONNECTORSETS;        
   myTypeMap["CONNECTORGROUP"]                    = HCDI_OBJ_TYPE_CONNECTORGROUPS;        
   myTypeMap["WELDLINE"]                          = HCDI_OBJ_TYPE_WELDLINES;
-  myTypeMap["LOADSET"]                           = HCDI_OBJ_TYPE_LOADSETS;
+  myTypeMap["ALE"]                               = HCDI_OBJ_TYPE_ALES;
   myTypeMap["AIRBAG"]                            = HCDI_OBJ_TYPE_AIRBAGS;
   myTypeMap["AIRBAGFOLD"]                        = HCDI_OBJ_TYPE_AIRBAGFOLDS; 
   myTypeMap["AIRBAGFOLDINGSEQUENCE"]             = HCDI_OBJ_TYPE_AIRBAGFOLDINGSEQUENCES;

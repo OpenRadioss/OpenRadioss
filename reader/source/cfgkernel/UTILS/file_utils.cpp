@@ -20,10 +20,9 @@
 //Copyright>    As an alternative to this open-source version, Altair also offers Altair Radioss
 //Copyright>    software under a commercial license.  Contact Altair to discuss further if the
 //Copyright>    commercial version may interest you: https://www.altair.com/radioss/.*/
-#include <iostream>
+
 #include <UTILS/mv_cmath.h>
 #include <string.h>
-#include <array>
 #include <UTILS/mv_string.h>
 #include <stdio.h>
 #ifndef WIN32
@@ -45,7 +44,6 @@
 #include <MESSAGE/msg_manager.h> 
 #include <MESSAGE/mv_messages.h> 
 
-#include <filesystem>
 #if defined(_WIN32)
 #include <windows.h>
 #endif
