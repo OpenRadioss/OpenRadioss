@@ -366,6 +366,15 @@ sdi::ModelViewEdit* RadiossblkReadModel(const char *filename)
     CommonDataReaderCFG reader("radioss", rad_version, "", true);
     reader.ReadModel(filename, pre_obj_lst);
 
+    //Apply id offsets (of includes and submodels)
+    std::unordered_map<std::string, cfglnksubdescriptor> cfglnksubdescriptor_map;
+    CFGGetSubDescriptorReferenceMap(reader.GetInputInfo()->getlUserNamesSolverInfo(), cfglnksubdescriptor_map);
+    UpdateEntityIDOffsetCFG(pre_obj_lst, "SUBMODEL", false, &cfglnksubdescriptor_map);
+ 
+    // Connect "adhesive objects"
+    CFGResolveEntitiesSubObjectReferences(cfglnksubdescriptor_map, pre_obj_lst);
+    //
+
     // create and return SDI model
     sdi::SDIModelViewRadiossblk *pModelView = 
         new sdi::SDIModelViewRadiossblk(pre_obj_lst);

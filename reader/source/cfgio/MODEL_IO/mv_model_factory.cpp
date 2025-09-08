@@ -365,7 +365,7 @@ IMECPreObject* MvModelFactory_t::FindByObjectId(int entity_type, int id)
 void MvModelFactory_t::SortPreObjectsByName(const char* otype)
 {
     obj_type_e entity_type = HCDI_get_entitytype(string(otype));
-    if (entity_type <= HCDI_OBJ_TYPE_NULL && entity_type >= HCDI_OBJ_TYPE_HC_MAX)
+    if (entity_type <= HCDI_OBJ_TYPE_NULL || entity_type >= HCDI_OBJ_TYPE_HC_MAX)
         return;
 
     vector<IMECPreObject*>& a_vec = myPreobjLst[entity_type];
@@ -374,6 +374,19 @@ void MvModelFactory_t::SortPreObjectsByName(const char* otype)
     {
         if (a_vec.size())
         {
+            // When we come here, the preobjects are still in the order of appearance in the deck.
+            // We store this order, so that we can restore it for the export of the deck. The
+            // order may be important in case of expression parameters using other parameters.
+            // Also, in Dyna, parameters have no ids. We assign increasing ids here, so that
+            // when can also restore the order by sorting by id.
+            for(int i = 0; i <a_vec.size(); ++i)
+            {
+                IMECPreObject* obj = a_vec[i];
+                obj->SetOrderId(i + 1);
+                if(obj->GetId() == 0) obj->SetId((MYOBJ_INT)(i + 1));
+            }
+
+            // now sort...
             IDescriptor* pdescrp = HCDI_GetDescriptorHandle(a_vec[0]->GetKernelFullType());
             string paramname_skey = GetAttribNameFromDrawable(pdescrp, "_PARAM_NAME");
             sort(a_vec.begin(), a_vec.end(), ParameterComparator(paramname_skey));
@@ -383,7 +396,7 @@ void MvModelFactory_t::SortPreObjectsByName(const char* otype)
 
 void MvModelFactory_t::StorePreObject(const int otype, IMECPreObject* pre_object, const InputInfos::IdentifierValuePairList* keywordData)
 {
-    if (myPreobjLst && otype <= HCDI_OBJ_TYPE_NULL && otype >= HCDI_OBJ_TYPE_HC_MAX)
+    if (!myPreobjLst || otype <= HCDI_OBJ_TYPE_NULL || otype >= HCDI_OBJ_TYPE_HC_MAX)
         return; 
 
     //vector< MyPairPreobjString > &a_vec = myPreobjCommentLst[otype];
@@ -417,6 +430,17 @@ void MvModelFactory_t::StorePreObject(const int otype, IMECPreObject* pre_object
     }
     vector<IMECPreObject*>& a_vec = myPreobjLst[otype];
     a_vec.push_back(pre_object);
+}
+
+IMECPreObject* MvModelFactory_t::CreateObject(const char *kernel_full_type, const char *input_full_type,
+                                                  const char *title, int id, int unit_id)
+{
+    return HCDI_GetPreObjectHandle(kernel_full_type, input_full_type, title, id, unit_id);
+}
+
+void MvModelFactory_t::DeleteObject(IMECPreObject *preobj)
+{
+    HCDI_ReleasePreObjectHandle(preobj);
 }
 
 int MvModelFactory_t::AddObjects(const char* otype)

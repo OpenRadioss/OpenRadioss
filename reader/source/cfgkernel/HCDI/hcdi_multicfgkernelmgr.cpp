@@ -70,6 +70,12 @@ MultiCFGKernelMgr::~MultiCFGKernelMgr()
     MV_delete_type_map();
 }
 
+MultiCFGKernelMgr& MultiCFGKernelMgr::getInstance()
+{
+    static std::unique_ptr<MultiCFGKernelMgr> instance(new MultiCFGKernelMgr());
+    return *instance;
+}
+
 void MultiCFGKernelMgr::operator=(MultiCFGKernelMgr const&)
 {
      

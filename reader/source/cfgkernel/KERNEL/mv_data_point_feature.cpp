@@ -34,7 +34,8 @@ MvDataPointFeature_t::MvDataPointFeature_t(const string &name,
                        MvDimension_e dimension,
                        vector<string>* argVect,
                        MvDataTripleFeatureType_e type) :
-  MvDataTripleFeature_t(name,ikw,title,dimension, argVect)
+  MvDataTripleFeature_t(name,ikw,title,dimension, argVect),
+  myDefaultValues()
 {
   myType=DFT_POINT;
   myPointTypeFlag=type;

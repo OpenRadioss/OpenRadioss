@@ -33,7 +33,7 @@
 HC_DATA_DLL_API IMECPREOBJECT HCDI_GetPreObjectHandle(const char *kernel_full_type, const char *input_full_type,const char *title,int id,int unit_id)
 {
     IMECPreObject *pre_obj =  new MECPreObject(kernel_full_type, input_full_type, title, id, unit_id);
-	return (IMECPREOBJECT)pre_obj;
+    return (IMECPREOBJECT)pre_obj;
 }
 HC_DATA_DLL_API IMECPREOBJECT HCDI_GetPreObjectHandleFromOtherPreObject(IMECPreObject *p_pre_obj)
 {
@@ -107,7 +107,7 @@ HC_DATA_DLL_API bool HCDI_UpdatePreObjectValue(IMECPreObject& pre_object, const 
             int a_cell_ind = -1;
             if (a_atype == ATYPE_VALUE)
             {
-                pre_object.AddBoolValue(skeyword.c_str(), ind, a_val);
+                pre_object.AddBoolValue(skeyword.c_str(), a_val);
             }
             else if (a_atype == ATYPE_DYNAMIC_ARRAY)
             {
@@ -133,7 +133,7 @@ HC_DATA_DLL_API bool HCDI_UpdatePreObjectValue(IMECPreObject& pre_object, const 
             int a_cell_ind = -1;
             if (a_atype == ATYPE_VALUE)
             {
-                pre_object.AddIntValue(skeyword.c_str(), ind, (int)value);
+                pre_object.AddIntValue(skeyword.c_str(), (int)value);
             }
             else if (a_atype == ATYPE_DYNAMIC_ARRAY)
             {
@@ -156,7 +156,7 @@ HC_DATA_DLL_API bool HCDI_UpdatePreObjectValue(IMECPreObject& pre_object, const 
             int a_cell_ind = -1;
             if (a_atype == ATYPE_VALUE)
             {
-                pre_object.AddUIntValue(skeyword.c_str(), ind, (unsigned int)value);
+                pre_object.AddUIntValue(skeyword.c_str(), (unsigned int)value);
             }
             else if (a_atype == ATYPE_DYNAMIC_ARRAY)
             {
@@ -179,7 +179,7 @@ HC_DATA_DLL_API bool HCDI_UpdatePreObjectValue(IMECPreObject& pre_object, const 
             int a_cell_ind = -1;
             if (a_atype == ATYPE_VALUE)
             {
-                pre_object.AddFloatValue(skeyword.c_str(), ind, value);
+                pre_object.AddFloatValue(skeyword.c_str(), value);
             }
             else if (a_atype == ATYPE_DYNAMIC_ARRAY)
             {
@@ -215,6 +215,29 @@ HC_DATA_DLL_API bool HCDI_UpdatePreObjectValue(IMECPreObject& pre_object, const 
         }
     }
     break;
+    case VTYPE_STRING:
+    {
+        if (ind < 0)
+        {
+            pre_object.AddStringValue(skeyword.c_str(), str_val.c_str());
+        }
+        else
+        {
+            attribute_type_e a_atype = a_descr_p->getAttributeType(attrib_ikey);
+            int a_cell_ind = -1;
+            if (a_atype == ATYPE_VALUE)
+            {
+                pre_object.AddStringValue(skeyword.c_str(), str_val.c_str());
+            }
+            else if (a_atype == ATYPE_DYNAMIC_ARRAY)
+            {
+                a_cell_ind = pre_object.GetIndex(IMECPreObject::ATY_ARRAY, IMECPreObject::VTY_STRING, skeyword);
+                if (a_cell_ind >= 0)
+                    pre_object.SetStringValue(a_cell_ind, ind, str_val.c_str());
+            }
+        }
+    }
+        break;
     default:
         break;
     }
@@ -479,7 +502,7 @@ HC_DATA_DLL_API bool HCDI_UpdatePreObjectStringValue(IMECPreObject& pre_object, 
         int a_cell_ind = -1;
         if (a_atype == ATYPE_VALUE)
         {
-            pre_object.AddStringValue(skeyword.c_str(), ind, str_val.c_str());
+            pre_object.AddStringValue(skeyword.c_str(), str_val.c_str());
         }
         else if (a_atype == ATYPE_DYNAMIC_ARRAY)
         {

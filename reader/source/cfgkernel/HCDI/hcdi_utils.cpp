@@ -358,6 +358,20 @@ bool HCDIIsAttributeTripleCFG(const IDescriptor& descrp, int ikeyword, bool &is_
     return false;
 }
 
+void P_CFGRemovePreobjectFromVector(
+    const IMECPreObject* obj, std::vector<IMECPreObject*> objlists[], object_type_e exluded_type)
+{
+    object_type_e objtype = HCDI_GetHCObjectType(obj->GetKernelFullType());
+    assert(objtype > HCDI_OBJ_TYPE_NULL && objtype < HCDI_OBJ_TYPE_HC_MAX &&
+           objtype != exluded_type); // protect erasing from parentlst[exluded_type]
+    if(objtype > HCDI_OBJ_TYPE_NULL && objtype < HCDI_OBJ_TYPE_HC_MAX &&
+       objtype != exluded_type)
+    {
+        std::vector<IMECPreObject*>& objlist = objlists[objtype];
+        auto it = std::find(objlist.begin(), objlist.end(), obj);
+        if(it != objlist.end()) objlist.erase(it);
+    }
+}
 
 void CFGLinkSubObjectsToParent(std::vector<IMECPreObject*>           parentlst[],   // Array of parent lists
                                const std::unordered_map<std::string, cfglnksubdescriptor>& descriptor_map,
@@ -378,6 +392,8 @@ void CFGLinkSubObjectsToParent(std::vector<IMECPreObject*>           parentlst[]
                     [](IMECPreObject* child, unsigned int id) { return child->GetId() < id; });
                 if (it != child_objs.end() && (*it)->GetId() == parent->GetId()) {
                     parent->SetSubobject((*it));  // Link child to parent
+                    // subobject is now handled by parent, so remove it from vector of preobjects
+                    P_CFGRemovePreobjectFromVector(*it, parentlst, descriptor.parent_type);
 
                     IDescriptor* descrp = HCDI_GetDescriptorHandle(parent->GetKernelFullType());
                     if (descrp)
@@ -470,6 +486,8 @@ void CFGLinkSubObjectsToParent(std::vector<IMECPreObject*>           parentlst[]
                     [](IMECPreObject* child, const std::string& name) { return child->GetTitle() < name; });
                 if (it != child_objs.end() && (*it)->GetTitle() == parent->GetTitle()) {
                     parent->SetSubobject((*it));// Link child to parent
+                    // subobject is now handled by parent, so remove it from vector of preobjects
+                    P_CFGRemovePreobjectFromVector(*it, parentlst, descriptor.parent_type);
                 }
             }
         }
@@ -503,6 +521,8 @@ void CFGLinkSubObjectsToParent(std::vector<IMECPreObject*>           parentlst[]
                     [](IMECPreObject* child, unsigned int id) { return child->GetId() < id; });
                 if (it != child_objs.end() && (*it)->GetId() == a_p_att_id) {
                     parent->SetSubobject((*it));  // Link child to parent
+                    // subobject is now handled by parent, so remove it from vector of preobjects
+                    P_CFGRemovePreobjectFromVector(*it, parentlst, descriptor.parent_type);
                 }
             }
         }
@@ -536,6 +556,8 @@ void CFGLinkSubObjectsToParent(std::vector<IMECPreObject*>           parentlst[]
                     [](IMECPreObject* child, const std::string& name) { return child->GetTitle() < name; });
                 if (it != child_objs.end() && (*it)->GetTitle() == obj_name) {
                     parent->SetSubobject((*it));  // Link child to parent
+                    // subobject is now handled by parent, so remove it from vector of preobjects
+                    P_CFGRemovePreobjectFromVector(*it, parentlst, descriptor.parent_type);
                 }
             }
         }
@@ -592,14 +614,13 @@ static void CFGPreprocessSubobjects(vector<IMECPreObject*>* p_preobjlst,
     }
 }
 
-void CFGResolveEntitiesSubObjectReferences(std::map<string, CUserNameTypeInfo>& username_info, vector<IMECPreObject*>* p_preobjlst)
+void CFGGetSubDescriptorReferenceMap(
+    const std::map<string, CUserNameTypeInfo>& username_info,
+    std::unordered_map<std::string, cfglnksubdescriptor>& cfglnksubdescriptor_map)
 {
-    std::unordered_map<std::string, cfglnksubdescriptor>   cfglnksubdescriptor_map;
-    vector<IMECPreObject*>& subobject_lst = p_preobjlst[HCDI_OBJ_TYPE_SUBOBJECT];
-
     for (auto& username_itr : username_info)
     {
-        CUserNameTypeInfo& typeinfo = username_itr.second;
+        const CUserNameTypeInfo& typeinfo = username_itr.second;
         const IDescriptor* descrp = typeinfo.pdescrp;
         if (descrp)
         {
@@ -621,7 +642,12 @@ void CFGResolveEntitiesSubObjectReferences(std::map<string, CUserNameTypeInfo>& 
             }
         }
     }
+}
 
+void CFGResolveEntitiesSubObjectReferences(
+    const std::unordered_map<std::string, cfglnksubdescriptor>& cfglnksubdescriptor_map,
+    vector<IMECPreObject*>* p_preobjlst)
+{
     // Preprocess children
     std::unordered_map<std::string, std::vector<IMECPreObject*>> sorted_child_ids;
     std::unordered_map<std::string, std::vector<IMECPreObject*>> sorted_child_names;

@@ -98,7 +98,7 @@ public:
         set<string>* stripheader = nullptr, obj_type_e etype = HCDI_OBJ_TYPE_NULL, bool isexactmatch = false) const;
 
     bool IsSupportedForContinueReadWithoutHeader() const;
-    void ProcessKeywordComments(std::vector<std::vector<string>>& comments, obj_type_e& etype,
+    void ProcessKeywordComments(std::vector<std::vector<string>>& comments, obj_type_e etype,
                                 IdentifierValuePairList& vallst) const;
     virtual bool IsExactUsername() const { return myUserNameExactMatch; }
 

@@ -26,8 +26,13 @@
 #include <dyna2rad/sdiUtils.h>
 #include <typedef.h>
 
-using namespace sdi;
+//using namespace sdi;
+//using namespace std;
+
+using namespace sdiD2R;
 using namespace std;
+using namespace sdi;
+using namespace sdiConvert;
 
 void sdiD2R::ConvertControlVolume::ConvertControlVolumes()
 {
@@ -45,6 +50,7 @@ void sdiD2R::ConvertControlVolume::ConvertEntities()
     ConvertAirbagShellReferenceGeometry();
     ConvertAirbagParticle();
     ConvertAirbagLinearFluid();
+    ConvertAirbagHybrid();
 }
 
 void sdiD2R::ConvertControlVolume::ConvertAirbagPressureVolume()
@@ -2784,4 +2790,800 @@ void sdiD2R::ConvertControlVolume::ConvertAirbagLinearFluid()
         }
     } // while (selAirbagLinearFluid.Next())
 //---
+}
+void sdiD2R::ConvertControlVolume::ConvertAirbagHybrid()
+{
+    SelectionRead selAirbagHybrid(p_lsdynaModel, "*AIRBAG_HYBRID");
+
+    EntityType radSurfType = p_radiossModel->GetEntityType("/SURF");
+    EntityType radMatType = p_radiossModel->GetEntityType("/MAT");
+    EntityType radPropType = p_radiossModel->GetEntityType("/PROP");
+    EntityType radSensorType = p_radiossModel->GetEntityType("/SENSOR");
+    EntityType radFunctType = p_radiossModel->GetEntityType("/FUNCT");
+    EntityType radPartType = p_radiossModel->GetEntityType("/PART");
+
+    while (selAirbagHybrid.Next())
+    {
+        unsigned int airbagId = selAirbagHybrid->GetId();
+
+        HandleEdit radAirbagHEdit;
+        p_radiossModel->CreateEntity(radAirbagHEdit, "/MONVOL/COMMU1/", selAirbagHybrid->GetName(), airbagId);
+        EntityEdit radAirbagEdit(p_radiossModel, radAirbagHEdit);
+
+        double lsdVSCAR, lsdPSCA, lsdVINI, lsdMWD, lsdATMOST, lsdATMOSP, lsdPVENT;
+        int lsdSIDTYP,lsdRBID,lsdSPSF, lsd_NGAS;
+        vector<reference_wrapper<double>> attribVals({ lsdVSCAR, lsdPSCA, lsdVINI, lsdMWD, lsdATMOST, lsdATMOSP, lsdPVENT });
+        vector<sdiString> attribNames({ "VSCAR", "PSCA", "VINI", "MWD", "ATMOST", "ATMOSP", "PVENT" });
+        p_ConvertUtils.GetAttribValues(*selAirbagHybrid, attribNames, attribVals);
+
+        vector<reference_wrapper<int>> attribIntVals({ lsdSIDTYP, lsdRBID, lsdSPSF, lsd_NGAS });
+        vector<sdiString> attribIntNames({ "SIDTYP", "RBID", "SPSF", "NGAS" });
+        p_ConvertUtils.GetAttribValues(*selAirbagHybrid, attribIntNames, attribIntVals);
+
+        sdiValueEntity sidEntity = GetValue<sdiValueEntity>(*selAirbagHybrid, "SID");
+        unsigned int SID=sidEntity.GetId();
+
+         if(lsdSIDTYP == 0)
+        {
+            radAirbagEdit.SetValue(sdiIdentifier("surf_IDex"), sdiValue(sdiValueEntity(radSurfType, DynaToRad::GetRadiossSetIdFromLsdSet(SID, "*SET_SEGMENT"))));
+        }
+        else
+        {
+            radAirbagEdit.SetValue(sdiIdentifier("surf_IDex"), sdiValue(sdiValueEntity(radSurfType, DynaToRad::GetRadiossSetIdFromLsdSet(SID, "*SET_PART"))));
+        }
+
+        // Conversion of gas materials
+        sdiValue tempValue;
+        int lsdUNIT;
+        HandleEdit radMatGasHEdit;
+        HandleEdit radMatGasiHEdit;
+        sdiUIntList lsdmatIDList;
+        sdiUIntList lsdLCIDMiIDList;
+        sdiUIntList lsdLCIDTiIDList;
+        sdiDoubleList TTFList;
+        if(lsd_NGAS > 0)
+        {
+            // Create a new material /MAT/GAS/MOLE with gas mixture property (initially fills the airbag). 
+            int matGasType = 0;
+            double radINITM = 0.0;
+            double radMW = 0.0;
+            double radCpa = 0.0;
+            double radCpb = 0.0;
+            double radCpc = 0.0;
+
+            sdiDoubleList lsdINITMList, lsdMWList, lsdAList, lsdBList, lsdCList;
+            lsdINITMList.reserve(lsd_NGAS);
+            lsdMWList.reserve(lsd_NGAS);
+            lsdAList.reserve(lsd_NGAS);
+            lsdBList.reserve(lsd_NGAS);
+            lsdCList.reserve(lsd_NGAS);
+
+            for (int i = 0; i < lsd_NGAS; ++i)
+            {
+               lsdINITMList.push_back(GetValue<double>(*selAirbagHybrid, "INITM",i));
+               lsdMWList.push_back(GetValue<double>(*selAirbagHybrid, "MW",i));
+               lsdAList.push_back(GetValue<double>(*selAirbagHybrid, "A",i));
+               lsdBList.push_back(GetValue<double>(*selAirbagHybrid, "B",i));
+               lsdCList.push_back(GetValue<double>(*selAirbagHybrid, "C",i));
+
+               radINITM = radINITM + lsdINITMList[i];
+            }
+
+            if(radINITM > 0.0)
+            {
+                for (int i = 0; i < lsd_NGAS; ++i)
+                {
+                   if (lsdINITMList[i] >= 1.0)
+                   {
+                       radMW  = radMW  + (lsdMWList[i]*lsdINITMList[i])/radINITM;
+                       radCpa = radCpa + (lsdAList[i]*lsdINITMList[i])/radINITM;
+                       radCpb = radCpb + (lsdBList[i]*lsdINITMList[i])/radINITM;
+                       radCpc = radCpc + (lsdCList[i]*lsdINITMList[i])/radINITM;
+                   }
+                }
+
+                p_radiossModel->CreateEntity(radMatGasHEdit, "/MAT/GAS/MOLE", selAirbagHybrid->GetName()+ "_INITIALLY_GAS_MIXTURE");
+                matGasType = 2;
+                if (radMatGasHEdit.IsValid())
+                {
+                    EntityEdit radMatGasEdit(p_radiossModel, radMatGasHEdit);
+                    radMatGasEdit.SetValue(sdiIdentifier("MGAS_TYPE"), sdiValue(matGasType));
+                    radMatGasEdit.SetValue(sdiIdentifier("MW"), sdiValue(radMW));
+                    radMatGasEdit.SetValue(sdiIdentifier("Cpa"), sdiValue(radCpa));
+                    radMatGasEdit.SetValue(sdiIdentifier("Cpb"), sdiValue(radCpb));
+                    radMatGasEdit.SetValue(sdiIdentifier("Cpc"), sdiValue(radCpc));
+                    radMatGasEdit.SetValue(sdiIdentifier("Cpd"), sdiValue(0));
+                    radMatGasEdit.SetValue(sdiIdentifier("Cpe"), sdiValue(0));
+                    radAirbagHEdit.SetEntityHandle(p_radiossModel, sdiIdentifier("mat_ID"), radMatGasHEdit);
+
+                    sdiConvert::SDIHandlReadList sourceConVol = { {selAirbagHybrid->GetHandle()} };
+                    sdiConvert::Convert::PushToConversionLog(std::make_pair(radMatGasHEdit, sourceConVol));
+                }
+            }
+
+            // Create NGAS gas materials for injection
+
+            for (int i = 0; i < lsd_NGAS; ++i)
+            {
+                if (lsdINITMList[i] == 0.0)
+                {
+                    p_radiossModel->CreateEntity(radMatGasiHEdit, "/MAT/GAS/MOLE", selAirbagHybrid->GetName() + "_GAS_" + to_string(i+1));
+                    matGasType = 2;
+
+                    if (radMatGasiHEdit.IsValid())
+                    {
+                        EntityEdit radMatGasiEdit(p_radiossModel, radMatGasiHEdit);
+                        radMatGasiEdit.SetValue(sdiIdentifier("MGAS_TYPE"), sdiValue(matGasType));
+
+                        int mat_ID = radMatGasiHEdit.GetId(p_radiossModel);
+                        lsdmatIDList.push_back(mat_ID);
+                        
+                        radMatGasiEdit.SetValue(sdiIdentifier("MW"), sdiValue(lsdMWList[i]));
+                        radMatGasiEdit.SetValue(sdiIdentifier("Cpa"), sdiValue(lsdAList[i]));
+                        radMatGasiEdit.SetValue(sdiIdentifier("Cpb"), sdiValue(lsdBList[i]));
+                        radMatGasiEdit.SetValue(sdiIdentifier("Cpc"), sdiValue(lsdCList[i]));
+                        radMatGasiEdit.SetValue(sdiIdentifier("Cpd"), sdiValue(0));
+                        radMatGasiEdit.SetValue(sdiIdentifier("Cpe"), sdiValue(0));
+
+                        sdiConvert::SDIHandlReadList sourceConVol = { {selAirbagHybrid->GetHandle()} };
+                        sdiConvert::Convert::PushToConversionLog(std::make_pair(radMatGasiHEdit, sourceConVol));
+                    }
+                }
+            }
+        }
+
+        //---
+        // Conversion of injector property
+        //---
+        double TTF = 0.0, OFFA_TTF = 0.0;
+        int airbag_sensorID = 0;
+
+        HandleEdit radPropInjectHEdit;
+        p_radiossModel->CreateEntity(radPropInjectHEdit, "/PROP/INJECT1", selAirbagHybrid->GetName());
+
+        if (radPropInjectHEdit.IsValid())
+        {
+            EntityEdit radPropInjectEdit(p_radiossModel, radPropInjectHEdit);
+            if(int(lsdmatIDList.size()) > 0)
+            {
+                radPropInjectEdit.SetValue(sdiIdentifier("N_gases"), sdiValue(int(lsdmatIDList.size())));
+                radPropInjectEdit.SetValue(sdiIdentifier("Iflow"), sdiValue(1));
+
+                if(int(lsdmatIDList.size()) > 0)
+                   radPropInjectEdit.SetValue(sdiIdentifier("Mat_ID"), sdiValue(sdiValueEntityList(radMatType, lsdmatIDList)));
+
+                int cnt = 0;
+                for (int i = 0; i < lsd_NGAS; ++i)
+                {
+                    double lsdINITML = GetValue<double>(*selAirbagHybrid, "INITM",i);
+                    if(lsdINITML == 0) // Here we account only for gases with INITM=0 (injected gases)
+                    {
+                        cnt++;
+
+                        sdiValueEntity lsdLCIDMiEntity = GetValue<sdiValueEntity>(*selAirbagHybrid, "LCIDM",i);
+                        unsigned int lsdLCIDMiId=lsdLCIDMiEntity.GetId();
+
+                        sdiValueEntity lsdLCIDTiEntity = GetValue<sdiValueEntity>(*selAirbagHybrid, "LCIDT",i);
+                        unsigned int lsdLCIDTiId=lsdLCIDTiEntity.GetId();
+
+                        HandleRead lsdLCIDMiHandle;
+                        selAirbagHybrid->GetEntityHandle(sdiIdentifier("LCIDM",0,i), lsdLCIDMiHandle);
+
+                        HandleRead lsdLCIDTiHandle;
+                        selAirbagHybrid->GetEntityHandle(sdiIdentifier("LCIDT",0,i), lsdLCIDTiHandle);
+
+                        int nPointsLCIDMi = 0;
+                        tempValue = sdiValue(nPointsLCIDMi);
+                        lsdLCIDMiHandle.GetValue(p_lsdynaModel, sdiIdentifier("numberofpoints"), tempValue);
+                        tempValue.GetValue(nPointsLCIDMi);
+
+                        int nPointsLCIDTi = 0;
+                        tempValue = sdiValue(nPointsLCIDTi);
+                        lsdLCIDTiHandle.GetValue(p_lsdynaModel, sdiIdentifier("numberofpoints"), tempValue);
+                        tempValue.GetValue(nPointsLCIDTi);
+
+                        double lsdSFA, lsdSFO, lsdOFFA, lsdOFFO;
+                        double minval=0.0 , maxval=0.0;
+                        double ordonate;
+                        double min_abscisa=0.0, max_abscisa=0.0;
+                        //------------------
+                        // functions: "LCIDMi"
+                        //------------------
+                        if (nPointsLCIDMi > 0)
+                        {
+                            sdiDoubleList crvPointsLCIDMi;
+                            tempValue = sdiValue(crvPointsLCIDMi);
+                            lsdLCIDMiHandle.GetValue(p_lsdynaModel, sdiIdentifier("points"), tempValue);
+                            tempValue.GetValue(crvPointsLCIDMi);
+
+                            //-------------------------------------------
+                            // find max_abscisa for which ordonate = 0.0
+
+                            tempValue = sdiValue(lsdSFA);
+                            lsdLCIDMiHandle.GetValue(p_lsdynaModel, sdiIdentifier("SFA"), tempValue);
+                            tempValue.GetValue(lsdSFA);
+                            lsdSFA = (lsdSFA == 0.0) ? 1.0 : lsdSFA;
+
+                            tempValue = sdiValue(lsdSFO);
+                            lsdLCIDMiHandle.GetValue(p_lsdynaModel, sdiIdentifier("SFO"), tempValue);
+                            tempValue.GetValue(lsdSFO);
+                            lsdSFO = (lsdSFO == 0.0) ? 1.0 : lsdSFO;
+
+                            tempValue = sdiValue(lsdOFFA);
+                            lsdLCIDMiHandle.GetValue(p_lsdynaModel, sdiIdentifier("OFFA"), tempValue);
+                            tempValue.GetValue(lsdOFFA);
+
+                            tempValue = sdiValue(lsdOFFO);
+                            lsdLCIDMiHandle.GetValue(p_lsdynaModel, sdiIdentifier("OFFO"), tempValue);
+                            tempValue.GetValue(lsdOFFO);
+
+                            max_abscisa = crvPointsLCIDMi[0];
+                            //min_abscisa = (crvPointsLCIDMi[2*nPointsLCIDMi-2] + lsdOFFO)*lsdSFO;
+
+                            //if (i == 0) OFFA_TTF = lsdOFFA;
+                            if (cnt == 1) OFFA_TTF = lsdOFFA;
+                            for (int j = 2; j < 2 * nPointsLCIDMi; j += 2)
+                            {
+                                //abscisa = crvPointsLCIDMi[j];
+                                ordonate = crvPointsLCIDMi[j+1];
+                                // get min abscisa for ordonate= 0
+                                if (crvPointsLCIDMi[j] > max_abscisa && ordonate == 0.0)
+                                {
+                                    max_abscisa = crvPointsLCIDMi[j];
+                                }
+                                else
+                                {
+                                    break;
+                                }
+                            }
+
+                            TTFList.push_back(max_abscisa);
+
+                            // Assume first element as maximum and minimum
+                            double maxval = TTFList[0];
+                            double minval = TTFList[0];
+                            // Find maximum and minimum in all list elements.
+                            for (int k = 0; k < TTFList.size(); k++)
+                            {
+                                // If current element is greater than max
+                                if (TTFList[k] > maxval)
+                                   maxval = TTFList[k];
+                                // If current element is smaller than min
+                                if (TTFList[k] < minval)
+                                    minval = TTFList[k];
+                            }
+
+                            min_abscisa = minval;
+                            TTF = min_abscisa;
+                            lsdOFFA = -TTF;
+                            //-------------------------------------------
+                            HandleEdit fctHEdit;
+                            p_ConvertUtils.CreateCurve(selAirbagHybrid->GetName()+ "_curve_LCIDM_" + to_string(lsdLCIDMiId), 
+                                       (int)nPointsLCIDMi, crvPointsLCIDMi, fctHEdit, lsdSFA, lsdSFO, lsdOFFA ,lsdOFFO);
+                            if (lsdLCIDMiId > 0) lsdLCIDMiIDList.push_back(fctHEdit.GetId(p_radiossModel));
+
+                            sdiConvert::SDIHandlReadList sourceConVol = { {selAirbagHybrid->GetHandle()} };
+                            sdiConvert::Convert::PushToConversionLog(std::make_pair(fctHEdit, sourceConVol));
+                        }
+
+                        //------------------
+                        // functions: "LCIDTi"
+                        //------------------
+                        if (nPointsLCIDTi > 0)
+                        {
+                            sdiDoubleList crvPointsLCIDTi;
+                            tempValue = sdiValue(crvPointsLCIDTi);
+                            lsdLCIDTiHandle.GetValue(p_lsdynaModel, sdiIdentifier("points"), tempValue);
+                            tempValue.GetValue(crvPointsLCIDTi);
+
+                            tempValue = sdiValue(lsdSFA);
+                            lsdLCIDTiHandle.GetValue(p_lsdynaModel, sdiIdentifier("SFA"), tempValue);
+                            tempValue.GetValue(lsdSFA);
+                            lsdSFA = (lsdSFA == 0.0) ? 1.0 : lsdSFA;
+
+                            tempValue = sdiValue(lsdSFO);
+                            lsdLCIDTiHandle.GetValue(p_lsdynaModel, sdiIdentifier("SFO"), tempValue);
+                            tempValue.GetValue(lsdSFO);
+                            lsdSFO = (lsdSFO == 0.0) ? 1.0 : lsdSFO;
+
+                            tempValue = sdiValue(lsdOFFA);
+                            lsdLCIDTiHandle.GetValue(p_lsdynaModel, sdiIdentifier("OFFA"), tempValue);
+                            tempValue.GetValue(lsdOFFA);
+
+                            tempValue = sdiValue(lsdOFFO);
+                            lsdLCIDTiHandle.GetValue(p_lsdynaModel, sdiIdentifier("OFFO"), tempValue);
+                            tempValue.GetValue(lsdOFFO);
+
+                            lsdOFFA = -TTF;
+
+                            HandleEdit fctHEdit;
+                            p_ConvertUtils.CreateCurve(selAirbagHybrid->GetName()+ "_curve_LCIDT_" + to_string(lsdLCIDTiId), 
+                                       (int)nPointsLCIDTi, crvPointsLCIDTi, fctHEdit, lsdSFA, lsdSFO, lsdOFFA ,lsdOFFO);
+                            if (lsdLCIDTiId > 0) lsdLCIDTiIDList.push_back(fctHEdit.GetId(p_radiossModel));
+
+                            sdiConvert::SDIHandlReadList sourceConVol = { {selAirbagHybrid->GetHandle()} };
+                            sdiConvert::Convert::PushToConversionLog(std::make_pair(fctHEdit, sourceConVol));
+                        }
+
+                        radAirbagEdit.SetValue(sdiIdentifier("Njet"), sdiValue(1));
+                        radAirbagHEdit.SetValue(p_radiossModel, sdiIdentifier("inject_ID"), sdiValue(sdiValueEntityList(radPropType, sdiUIntList(1, radPropInjectHEdit.GetId(p_radiossModel)))));
+
+                    } // if(lsdINITML == 0)
+                } // for (int i = 0; i < lsd_NGAS; ++i)
+                if (lsdLCIDMiIDList.size() > 0)
+                     radPropInjectEdit.SetValue(sdiIdentifier("fun_ID_M"), sdiValue(sdiValueEntityList(radMatType, lsdLCIDMiIDList)));
+                if (lsdLCIDTiIDList.size() > 0)
+                     radPropInjectEdit.SetValue(sdiIdentifier("fun_ID_T"), sdiValue(sdiValueEntityList(radMatType, lsdLCIDTiIDList)));
+            } // if(lsd_NGAS > 0)
+
+            //---
+            // Conversion of sensor corresponding to the injector property
+            //---
+            if (TTF > 0)
+            {
+                HandleEdit sensorTimeHedit;
+                p_radiossModel->CreateEntity(sensorTimeHedit, "/SENSOR/TIME", selAirbagHybrid->GetName());
+                EntityEdit sensorTimeEntityEdit(p_radiossModel, sensorTimeHedit);
+                sensorTimeEntityEdit.SetValue(sdiIdentifier("Tdelay"), sdiValue(TTF+OFFA_TTF));
+                //radAirbagHEdit.SetEntityHandle(p_radiossModel, Identifier("sens_ID"), sensorTimeHedit);
+                airbag_sensorID = sensorTimeHedit.GetId(p_radiossModel);
+                radAirbagHEdit.SetValue(p_radiossModel, sdiIdentifier("sens_ID"), sdiValue(sdiValueEntityList(radSensorType, sdiUIntList(1, sensorTimeHedit.GetId(p_radiossModel)))));
+
+                sdiConvert::SDIHandlReadList sourceConVol = { {selAirbagHybrid->GetHandle()} };
+                sdiConvert::Convert::PushToConversionLog(std::make_pair(sensorTimeHedit, sourceConVol));
+            }
+
+            sdiConvert::SDIHandlReadList sourceConVol = { {selAirbagHybrid->GetHandle()} };
+            sdiConvert::Convert::PushToConversionLog(std::make_pair(radPropInjectHEdit, sourceConVol));
+        } // if (radPropInjectHEdit.IsValid())
+
+        //---
+        // Conversion of airbag card
+        //---
+        // Create initial air input
+        p_ConvertUtils.CopyValue(*selAirbagHybrid, radAirbagEdit, "ATMOSP", "PEXT");
+        p_ConvertUtils.CopyValue(*selAirbagHybrid, radAirbagEdit, "ATMOST", "T0");
+
+        // Create venthole input
+        
+        int nvent = 0;
+        //p_ConvertUtils.CopyValue(*selAirbagHybrid, radAirbagEdit, "PVENT", "ABG_dPdef",0,nvent);
+        radAirbagHEdit.SetValue(p_radiossModel, sdiIdentifier("ABG_dPdef",0,nvent), sdiValue(lsdPVENT));
+        radAirbagHEdit.SetValue(p_radiossModel, sdiIdentifier("Tstart_arr_X",0,nvent), sdiValue(0.0));
+
+        //---
+        // C23 and LCC23 ( Define venthole area scaling coefficient C23, LCC23 )
+        //---
+        double lsdC23 = GetValue<double>(*selAirbagHybrid, "C23");
+        int lsdLCIDOpt = GetValue<int>(*selAirbagHybrid, "LSD_LCIDOpt");
+
+        if(lsdLCIDOpt == 0)
+        {
+            EntityId lsdposLCC23 = GetValue<int>(*selAirbagHybrid, "LSD_GO");
+            if (lsdposLCC23 > 0)
+            {
+              // LCC23 is positif
+                lsdC23 = 1.0; // reset C23 to 1.0
+                radAirbagHEdit.SetValue(p_radiossModel, sdiIdentifier("fct_IDt",0,nvent), sdiValue(sdiValueEntity(p_radiossModel->GetEntityType("/FUNCT"), lsdposLCC23)));
+            }
+            else if(lsdposLCC23 == 0)
+            {
+                if (lsdC23 == 0.0) lsdC23 = 1.0;
+            }
+        }
+        else
+        {
+            // LCC23 is negatif
+            HandleRead crvLCC23Handle;
+            selAirbagHybrid->GetEntityHandle(sdiIdentifier("LCC23"), crvLCC23Handle);
+            if (crvLCC23Handle.IsValid())
+            {
+                lsdC23 = 1.0; // reset C23 to 1.0
+            }
+        }
+
+        //---
+        // A23 and LCA23 ( Define vent area A23, LCA23 )
+        //---
+        
+        int lsdLSD_LCMINOpt = GetValue<int>(*selAirbagHybrid, "LSD_LCMINOpt");
+        int lsdLSD_HYBRID_PART_OPT = GetValue<int>(*selAirbagHybrid, "LSD_HYBRID_PART_OPT");
+        //double dummy1 = GetValue<double>(*selAirbagHybrid, "dummy1");
+        //double dummy2 = GetValue<double>(*selAirbagHybrid, "dummy2");
+        
+        // lsdLSD_LCMINOpt and lsdLSD_HYBRID_PART_OPT
+
+        if(lsdLSD_LCMINOpt == 0 && lsdLSD_HYBRID_PART_OPT == 0)
+        {
+            // A23 is a scalar
+            double lsdA23 = GetValue<double>(*selAirbagHybrid, "A23");
+            if (lsdA23 > 0.0)
+            {
+                // A23 is a scalar
+                double lsdA23 = GetValue<double>(*selAirbagHybrid, "A23");
+                double radAvent = lsdA23;
+                if(lsdC23 > 0.0) radAvent = lsdA23 * lsdC23; 
+                radAirbagHEdit.SetValue(p_radiossModel, sdiIdentifier("Avent",0,nvent), sdiValue(radAvent));
+            }
+        }
+        else if(lsdLSD_LCMINOpt == 1)
+        {
+            if(lsdLSD_HYBRID_PART_OPT == 1)
+            {
+                // A23 is a set ID
+                // Svent with the corresponding /SET and the AP23 as part item
+                sdiValueEntity A23Entity = GetValue<sdiValueEntity>(*selAirbagHybrid, "LSD_HYBRID_PSID");
+                unsigned int SetPartA23ID=A23Entity.GetId();
+                radAirbagEdit.SetValue(sdiIdentifier("surf_IDv",0,nvent), sdiValue(sdiValueEntity(p_radiossModel->GetEntityType("/SET/GENERAL"), SetPartA23ID)));
+            }
+            else if(lsdLSD_HYBRID_PART_OPT == 0)
+            {
+                // A23 is a part ID
+                // Svent with the corresponding /SET and the AP23 as part item
+                sdiValueEntity A23Entity = GetValue<sdiValueEntity>(*selAirbagHybrid, "LSD_PID");
+                unsigned int PartA23ID=A23Entity.GetId();
+                //
+                // create /SET/GENERAL with PartA23ID
+                HandleEdit PartSetHedit;
+                p_radiossModel->CreateEntity(PartSetHedit, "/SET/GENERAL", "VENTING_PART_SET_GENERAL_AIRBAG_HYBRID_" + to_string(selAirbagHybrid->GetId()));
+                EntityEdit PartSetEdit(p_radiossModel, PartSetHedit);
+
+                PartSetEdit.SetValue(sdiIdentifier("clausesmax"), sdiValue(1));
+                PartSetEdit.SetValue(sdiIdentifier("KEY_type", 0, 0), sdiValue(sdiString("PART")));
+                PartSetEdit.SetValue(sdiIdentifier("idsmax", 0, 0), sdiValue(1));
+                PartSetEdit.SetValue(sdiIdentifier("ids", 0, 0), sdiValue(sdiValueEntity(radPartType, PartA23ID)));
+                radAirbagEdit.SetValue(sdiIdentifier("surf_IDv",0,nvent), sdiValue(sdiValueEntity(p_radiossModel->GetEntityType("/SET/GENERAL"), PartSetHedit.GetId(p_radiossModel))));
+
+                // add LCA23 function
+                double lsdA23 = GetValue<double>(*selAirbagHybrid, "A23");
+                HandleRead crvLCA23Handle;
+                selAirbagHybrid->GetEntityHandle(sdiIdentifier("LCA23"), crvLCA23Handle);
+                if (crvLCA23Handle.IsValid())
+                {
+                    // reset A23 = 0.0
+                    // lsdA23 = 0.0;
+                    EntityId crvLCA23Id = crvLCA23Handle.GetId(p_lsdynaModel);
+                    EntityRead crvEntRead(p_lsdynaModel, crvLCA23Handle);
+                    radAirbagEdit.SetValue(sdiIdentifier("Avent",0,nvent), sdiValue(lsdC23));
+
+                    // (with abscissa shifted by -Pext)
+                    // lsdATMOSP = Pext
+                    sdiDoubleList crvPoints;
+
+                    double lsdSFA = 1.0;
+                    double lsdSFO = 1.0;
+                    double lsdOFFA = 0.0;
+                    double lsdOFFO = 0.0;
+
+                    int nPnts = GetValue<int>(crvEntRead, "numberofpoints");
+                    crvPoints.reserve(2 * nPnts + 2);
+
+                    tempValue = sdiValue(crvPoints);
+                    crvEntRead.GetValue(sdiIdentifier("points"), tempValue);
+                    tempValue.GetValue(crvPoints);
+
+                    vector< reference_wrapper<double>> attribVals({ lsdSFA, lsdSFO, lsdOFFA, lsdOFFO });
+                    vector<sdiString> lsdQueryAttribs = { "SFA", "SFO", "OFFA", "OFFO" };
+                    p_ConvertUtils.GetAttribValues(crvEntRead, lsdQueryAttribs, attribVals);
+                    lsdSFA = (lsdSFA == 0.0) ? 1.0 : lsdSFA;
+                    lsdSFO = (lsdSFO == 0.0) ? 1.0 : lsdSFO;
+                    //-----------------------
+                    HandleEdit functHEdit;
+                    p_ConvertUtils.CreateCurve("fct_IDP_with_shifted_abscisa_from_LCA23_ID_" + to_string(crvLCA23Id),
+                                               (int)crvPoints.size() / 2, crvPoints, functHEdit, lsdSFA, lsdSFO, lsdOFFA-lsdATMOSP ,lsdOFFO);
+
+                    if (functHEdit.IsValid())
+                    {
+                        radAirbagHEdit.SetEntityHandle(p_radiossModel, sdiIdentifier("fct_IDP",0,nvent), functHEdit);
+                        sdiConvert::SDIHandlReadList sourceConVol = { {selAirbagHybrid->GetHandle()} };
+                        sdiConvert::Convert::PushToConversionLog(std::make_pair(functHEdit, sourceConVol));
+                    }
+                }
+                else
+                {
+                    radAirbagEdit.SetValue(sdiIdentifier("Avent",0,nvent), sdiValue(lsdC23));
+                }
+            }
+        }
+
+
+        sdiString NventSurfaceName;
+        NventSurfaceName = "Venting surface_" + to_string(nvent+1);
+        radAirbagHEdit.SetValue(p_radiossModel, sdiIdentifier("vent_title",0,nvent), sdiValue(NventSurfaceName));
+
+        radAirbagHEdit.SetValue(p_radiossModel, sdiIdentifier("Nvent"), sdiValue(nvent+1));
+        NventSurfaceName = "Venting surface_" + to_string(nvent+1);
+
+        //---
+        // Global porosity
+        //---
+        int Nporsurf = 0;
+
+        double lsdCP23 = GetValue<double>(*selAirbagHybrid, "CP23");
+
+        HandleRead crvLCCP23Handle;
+        selAirbagHybrid->GetEntityHandle(sdiIdentifier("LSD_LCID5"), crvLCCP23Handle);
+
+        double lsdAP23 = GetValue<double>(*selAirbagHybrid, "AP23");
+
+        HandleRead crvLCAP23Handle;
+        selAirbagHybrid->GetEntityHandle(sdiIdentifier("LSD_LCID6"), crvLCAP23Handle);
+
+        // Get parts from *SET_PART_LIST_TITLE
+        sdiUIntList PartSetList, PartSetLocalPoroMAT58List, PartSetGlobalPoroMAT58List;
+        sdiString setType = "*SET_PART_LIST_TITLE";
+
+        p_ConvertUtils.GetPartIdsFromPartSet(setType, SID, PartSetList);
+        sdiVectorSort(PartSetList);
+        sdiVectorUnique(PartSetList);
+
+    
+        HandleRead partHread;
+        int poro_count = 0;
+        sdiString PoroSurfaceName;
+        for(int k=0; k<PartSetList.size(); k=k+1)
+        {
+            int partID = PartSetList[k];
+            HandleRead dynapartHread;
+            p_lsdynaModel->FindById(p_lsdynaModel->GetEntityType("*PART"), partID, dynapartHread);
+
+            if(dynapartHread.IsValid())
+            {
+                HandleRead dynamatHRead;
+                dynapartHread.GetEntityHandle(p_lsdynaModel, sdiIdentifier("MID"), dynamatHRead);
+                EntityRead dynamatRead(p_lsdynaModel, dynamatHRead);
+
+                double lsdMAT_FLC = GetValue<double>(dynamatRead, "LSD_MAT_FLC");
+
+                HandleRead crvLSD_LCIDHandle;
+                dynamatRead.GetEntityHandle(sdiIdentifier("LSD_LCID"), crvLSD_LCIDHandle);
+
+                double lsdMAT_FAC = GetValue<double>(dynamatRead, "LSD_MAT_FAC");
+
+                HandleRead crvLSD_LCID2Handle;
+                dynamatRead.GetEntityHandle(sdiIdentifier("LSD_LCID2"), crvLSD_LCID2Handle);
+
+                HandleEdit radmatHEdit;
+                p_radiossModel->FindById("/MAT", dynamatRead.GetId(), radmatHEdit);
+                EntityEdit radmatEdit(p_radiossModel, radmatHEdit);
+                if (airbag_sensorID > 0) 
+                  radmatHEdit.SetValue(p_radiossModel, sdiIdentifier("ISENSOR"), sdiValue(sdiValueEntity(radSensorType, airbag_sensorID)));
+                
+                if (dynamatHRead.IsValid())
+                {
+                    EntityRead crvLCID2Read(p_lsdynaModel, crvLSD_LCID2Handle);
+
+                    double lsdFORM = GetValue<double>(dynamatRead, "FORM");
+
+                    if( (lsdFORM == 14.0 || lsdFORM == -14.0) &&
+                        (lsdMAT_FLC == 0.0 && !crvLSD_LCIDHandle.IsValid() && lsdMAT_FAC == 0.0 && !crvLSD_LCID2Handle.IsValid()) &&
+                        (lsdCP23 > 0.0 || crvLCCP23Handle.IsValid() || lsdAP23 > 0.0 || crvLCAP23Handle.IsValid()) )
+                    {
+                        // tag /MAT/LAW58 with global porosity
+                        PartSetGlobalPoroMAT58List.push_back(partID);
+                    }
+                }
+            }
+        } 
+
+        // create global porous surface from all parts in PartSetGlobalPoroMAT58List
+
+        if(int(PartSetGlobalPoroMAT58List.size()) > 0)
+        {
+            HandleEdit NporPartSetHedit;
+            p_radiossModel->CreateEntity(NporPartSetHedit, "/SET/GENERAL", "Global_Porosity_Set_AIRBAG_HYBRID_" + to_string(selAirbagHybrid->GetId()));
+            EntityEdit NporPartSetEdit(p_radiossModel, NporPartSetHedit);
+
+            NporPartSetEdit.SetValue(sdiIdentifier("clausesmax"), sdiValue(1));
+            NporPartSetEdit.SetValue(sdiIdentifier("KEY_type", 0, 0), sdiValue(sdiString("PART")));
+            NporPartSetEdit.SetValue(sdiIdentifier("idsmax", 0, 0), sdiValue(int(PartSetGlobalPoroMAT58List.size())));
+            NporPartSetEdit.SetValue(sdiIdentifier("ids", 0, 0), sdiValue(sdiValueEntityList(radPartType, PartSetGlobalPoroMAT58List)));
+                
+
+            if (NporPartSetEdit.GetId())
+                    radAirbagHEdit.SetValue(p_radiossModel, sdiIdentifier("surf_IDps",0,poro_count), sdiValue(sdiValueEntity(p_radiossModel->GetEntityType("/SET/GENERAL"),NporPartSetEdit.GetId())));
+            sdiConvert::SDIHandlReadList sourceConVol = { {selAirbagHybrid->GetHandle()} };
+            sdiConvert::Convert::PushToConversionLog(std::make_pair(NporPartSetHedit, sourceConVol));
+
+            radAirbagHEdit.SetValue(p_radiossModel, sdiIdentifier("Iformps",0,poro_count), sdiValue(0));
+            radAirbagHEdit.SetValue(p_radiossModel, sdiIdentifier("Iblockage",0,poro_count), sdiValue(1));
+            radAirbagHEdit.SetValue(p_radiossModel, sdiIdentifier("Tstart_arr_Y",0,poro_count), sdiValue(0.0));
+            radAirbagHEdit.SetValue(p_radiossModel, sdiIdentifier("ABG_dPdef_ps",0,poro_count), sdiValue(pow(10,30)));
+
+            // CP23 and LCCP23 ( Define porous area scaling coefficient CP23, LCCP23 )
+            if (crvLCCP23Handle.IsValid())
+            {
+                radAirbagHEdit.SetValue(p_radiossModel, sdiIdentifier("CC1",0,poro_count), sdiValue(1.0));
+                // reference function "FUNCT_IDcps" from "LCCP23" (porous area scaling coefficient as function of time)
+                EntityId crvLCCP23Id = crvLCCP23Handle.GetId(p_lsdynaModel);
+                radAirbagHEdit.SetValue(p_radiossModel, sdiIdentifier("ABG_fct_cps",0,poro_count), sdiValue(sdiValueEntity(p_radiossModel->GetEntityType("/FUNCT"), crvLCCP23Id)));
+            }
+            else if(!crvLCCP23Handle.IsValid() && lsdCP23 > 0.0)
+            {
+                radAirbagHEdit.SetValue(p_radiossModel, sdiIdentifier("CC1",0,poro_count), sdiValue(lsdCP23));
+            }
+
+            // AP23 and LCAP23 ( Define porous area AP23, LCAP23 )
+            if(crvLCAP23Handle.IsValid())
+            {
+                // Create a new function Funct_IDcps  from LCAP23 with abscissa shifted by Pext, to switch from absolute to relative pressure
+                EntityId crvLCAP23Id = crvLCAP23Handle.GetId(p_lsdynaModel);
+                EntityRead crvLCAP23Read(p_lsdynaModel, crvLCAP23Handle);
+
+                int nPnts = 0;
+                sdiDoubleList crvPoints;
+
+                double lsdSFA = 1.0;
+                double lsdSFO = 1.0;
+                double lsdOFFA = 0.0;
+                double lsdOFFO = 0.0;
+
+                tempValue = sdiValue(crvPoints);
+                crvLCAP23Read.GetValue(sdiIdentifier("points"), tempValue);
+                tempValue.GetValue(crvPoints);
+
+                tempValue = sdiValue(nPnts);
+                crvLCAP23Read.GetValue(sdiIdentifier("numberofpoints"), tempValue);
+                tempValue.GetValue(nPnts);
+                crvPoints.reserve(2 * nPnts + 2);
+
+                vector< reference_wrapper<double>> attribVals({ lsdSFA, lsdSFO, lsdOFFA, lsdOFFO });
+                vector<sdiString> lsdQueryAttribs = { "SFA", "SFO", "OFFA", "OFFO" };
+                p_ConvertUtils.GetAttribValues(crvLCAP23Read, lsdQueryAttribs, attribVals);
+                lsdSFA = (lsdSFA == 0.0) ? 1.0 : lsdSFA;
+                lsdSFO = (lsdSFO == 0.0) ? 1.0 : lsdSFO;
+                //-----------------------
+                HandleEdit functHEdit;
+                p_ConvertUtils.CreateCurve("Porosity_shift_modified_function_" + to_string(crvLCAP23Handle.GetId(p_lsdynaModel)),
+                                (int)crvPoints.size() / 2, crvPoints, functHEdit, lsdSFA, lsdSFO, lsdOFFA-lsdATMOSP ,lsdOFFO);
+
+                if (functHEdit.IsValid())
+                {
+                    radAirbagHEdit.SetEntityHandle(p_radiossModel, sdiIdentifier("ABG_fct_aps",0,poro_count), functHEdit);
+                    sdiConvert::SDIHandlReadList sourceConVol = { {selAirbagHybrid->GetHandle()} };
+                    sdiConvert::Convert::PushToConversionLog(std::make_pair(functHEdit, sourceConVol));
+                }
+                radAirbagHEdit.SetValue(p_radiossModel, sdiIdentifier("AREA_IP",0,poro_count), sdiValue(0.0));
+            }
+            else if(!crvLCAP23Handle.IsValid() && lsdAP23 > 0.0)
+            {
+                radAirbagHEdit.SetValue(p_radiossModel, sdiIdentifier("AREA_IP",0,poro_count), sdiValue(lsdAP23));
+            }
+
+            PoroSurfaceName = "Porous surface_" + to_string(poro_count+1);
+            radAirbagHEdit.SetValue(p_radiossModel, sdiIdentifier("surface_title",0,poro_count), sdiValue(PoroSurfaceName));
+            poro_count = poro_count + 1;
+            //-----------------------*/
+        }
+        int poro_count_global = poro_count;
+
+        //---
+        // 	Create local porosity based on fabric components
+        //---
+
+        for(int k=0; k<PartSetList.size(); k=k+1)
+        {
+            int partID = PartSetList[k];
+            HandleRead dynapartHread;
+            p_lsdynaModel->FindById(p_lsdynaModel->GetEntityType("*PART"), partID, dynapartHread);
+
+            if(dynapartHread.IsValid())
+            {
+                HandleRead dynamatHRead;
+                dynapartHread.GetEntityHandle(p_lsdynaModel, sdiIdentifier("MID"), dynamatHRead);
+                EntityRead dynamatRead(p_lsdynaModel, dynamatHRead);
+
+                double lsdMAT_FLC = GetValue<double>(dynamatRead, "LSD_MAT_FLC");
+                HandleRead crvLSD_LCIDHandle;
+                dynamatRead.GetEntityHandle(sdiIdentifier("LSD_LCID"), crvLSD_LCIDHandle);
+
+                double lsdMAT_FAC = GetValue<double>(dynamatRead, "LSD_MAT_FAC");
+
+                HandleRead crvLSD_LCID2Handle;
+                dynamatRead.GetEntityHandle(sdiIdentifier("LSD_LCID2"), crvLSD_LCID2Handle);
+
+                HandleEdit radmatHEdit;
+                p_radiossModel->FindById("/MAT", dynamatRead.GetId(), radmatHEdit);
+                EntityEdit radmatEdit(p_radiossModel, radmatHEdit);
+                if (airbag_sensorID > 0) 
+                  radmatHEdit.SetValue(p_radiossModel, sdiIdentifier("ISENSOR"), sdiValue(sdiValueEntity(radSensorType, airbag_sensorID)));
+
+                if (dynamatHRead.IsValid())
+                {
+                    HandleRead crvLCIDHandle;
+                    dynamatRead.GetEntityHandle(sdiIdentifier("LSD_LCID2"), crvLCIDHandle);
+                    EntityRead crvLCIDRead(p_lsdynaModel, crvLCIDHandle);
+
+                    double lsdFORM = GetValue<double>(dynamatRead, "FORM");
+                    double lsdFVOPT = GetValue<double>(dynamatRead, "LSDYNA_FVOPT");
+
+                    if( (lsdFORM == 14.0 || lsdFORM == -14.0) && crvLCIDHandle.IsValid() &&
+                        (lsdMAT_FLC != 0.0 || crvLSD_LCIDHandle.IsValid() || lsdMAT_FAC != 0.0 || crvLSD_LCID2Handle.IsValid()) &&
+                        (lsdFVOPT ==7.0 || lsdFVOPT == 8.0) )
+                    {
+                        // convert to /MAT/LAW58 with porosity
+                        PartSetLocalPoroMAT58List.push_back(partID);
+
+                        // create function "FUNCT_IDV" --> from "LEAK_FCT_IDLC"
+                        int nPnts = 0;
+                        sdiDoubleList crvPoints;
+
+                        double lsdSFA = 1.0;
+                        double lsdSFO = 1.0;
+                        double lsdOFFA = 0.0;
+                        double lsdOFFO = 0.0;
+
+                        tempValue = sdiValue(crvPoints);
+                        crvLCIDRead.GetValue(sdiIdentifier("points"), tempValue);
+                        tempValue.GetValue(crvPoints);
+
+                        tempValue = sdiValue(nPnts);
+                        crvLCIDRead.GetValue(sdiIdentifier("numberofpoints"), tempValue);
+                        tempValue.GetValue(nPnts);
+                        crvPoints.reserve(2 * nPnts + 2);
+
+                        vector< reference_wrapper<double>> attribVals({ lsdSFA, lsdSFO, lsdOFFA, lsdOFFO });
+                        vector<sdiString> lsdQueryAttribs = { "SFA", "SFO", "OFFA", "OFFO" };
+                        p_ConvertUtils.GetAttribValues(crvLCIDRead, lsdQueryAttribs, attribVals);
+                        lsdSFA = (lsdSFA == 0.0) ? 1.0 : lsdSFA;
+                        lsdSFO = (lsdSFO == 0.0) ? 1.0 : lsdSFO;
+                        //-----------------------
+                        HandleEdit functHEdit;
+                        p_ConvertUtils.CreateCurve("Porosity_shift_modified_function_" + to_string(crvLCIDHandle.GetId(p_lsdynaModel)),
+                                        (int)crvPoints.size() / 2, crvPoints, functHEdit, lsdSFA, lsdSFO, lsdOFFA-lsdATMOSP ,lsdOFFO);
+
+                        if (functHEdit.IsValid())
+                        {
+                            radAirbagHEdit.SetEntityHandle(p_radiossModel, sdiIdentifier("ABG_fct_v",0,poro_count), functHEdit);
+                            sdiConvert::SDIHandlReadList sourceConVol = { {selAirbagHybrid->GetHandle()} };
+                            sdiConvert::Convert::PushToConversionLog(std::make_pair(functHEdit, sourceConVol));
+                        }
+
+                        PoroSurfaceName = "Porous surface_" + to_string(poro_count+1);
+                        radAirbagHEdit.SetValue(p_radiossModel, sdiIdentifier("surface_title",0,poro_count), sdiValue(PoroSurfaceName));
+                        //
+                        radAirbagHEdit.SetValue(p_radiossModel, sdiIdentifier("Iformps",0,poro_count), sdiValue(2));
+                        if(lsdFVOPT == 7.0)
+                            radAirbagHEdit.SetValue(p_radiossModel, sdiIdentifier("Iblockage",0,poro_count), sdiValue(0));
+                        else if(lsdFVOPT == 8.0)
+                            radAirbagHEdit.SetValue(p_radiossModel, sdiIdentifier("Iblockage",0,poro_count), sdiValue(1));
+                        radAirbagHEdit.SetValue(p_radiossModel, sdiIdentifier("Tstart_arr_Y",0,poro_count), sdiValue(0.0));
+                        radAirbagHEdit.SetValue(p_radiossModel, sdiIdentifier("ABG_dPdef_ps",0,poro_count), sdiValue(pow(10,30)));
+                        //
+                        poro_count = poro_count + 1;
+                        //-----------------------
+                    }
+                }
+            }
+        }  //
+
+        // create set of part for each of the porous surfaces
+        for(size_t k=0; k < int(PartSetLocalPoroMAT58List.size()); k=k+1)
+        {
+            int partID = PartSetLocalPoroMAT58List[k];
+
+            HandleEdit NporPartSetHedit;
+            p_radiossModel->CreateEntity(NporPartSetHedit, "/SET/GENERAL", "Local_Porosity_Set_AIRBAG_HYBRID_" + to_string(selAirbagHybrid->GetId()));
+            EntityEdit NporPartSetEdit(p_radiossModel, NporPartSetHedit);
+
+            NporPartSetEdit.SetValue(sdiIdentifier("clausesmax"), sdiValue(1));
+            NporPartSetEdit.SetValue(sdiIdentifier("KEY_type", 0, 0), sdiValue(sdiString("PART")));
+            NporPartSetEdit.SetValue(sdiIdentifier("idsmax", 0, 0), sdiValue(1));
+            NporPartSetEdit.SetValue(sdiIdentifier("ids", 0, 0), sdiValue(sdiValueEntity(radPartType, partID)));
+
+            if (NporPartSetEdit.GetId())
+                radAirbagHEdit.SetValue(p_radiossModel, sdiIdentifier("surf_IDps",0,k+poro_count_global), sdiValue(sdiValueEntity(p_radiossModel->GetEntityType("/SET/GENERAL"),NporPartSetEdit.GetId())));
+            sdiConvert::SDIHandlReadList sourceConVol = { {selAirbagHybrid->GetHandle()} };
+            sdiConvert::Convert::PushToConversionLog(std::make_pair(NporPartSetHedit, sourceConVol));
+        }
+
+        // Values by default:
+        radAirbagHEdit.SetValue(p_radiossModel, sdiIdentifier("Ittf"), sdiValue(3));
+        Nporsurf = poro_count;
+        radAirbagHEdit.SetValue(p_radiossModel, sdiIdentifier("ABG_Nporsurf"), sdiValue(Nporsurf));
+        
+        //----
+        sdiConvert::SDIHandlReadList sourceConVol = { {selAirbagHybrid->GetHandle()} };
+        sdiConvert::Convert::PushToConversionLog(std::make_pair(radAirbagHEdit, sourceConVol));
+    }
 }

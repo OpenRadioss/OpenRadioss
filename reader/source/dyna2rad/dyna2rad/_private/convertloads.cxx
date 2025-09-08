@@ -996,7 +996,7 @@ void sdiD2R::ConvertLoad::ConvertLoadRigidBody()
                   EntityRead dynamatRead(p_lsdynaModel, dynamatHRead);
                   sdiString matCard = dynamatRead.GetKeyword();
 
-                  if( matCard.compare(0, 13, "*MAT_RIGID"))
+                  if( matCard.compare(0, 10, "*MAT_RIGID"))
                   {
                       // "Load applied to non-rigid component"
                       DynaToRad::ShowMessage(sdiMessageHandler::Level::Error, 34,

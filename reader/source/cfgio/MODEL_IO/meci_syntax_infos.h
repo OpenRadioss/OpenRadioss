@@ -161,6 +161,9 @@ public: /** @name Parsing */
     /// if card has free format [a comma in the line]
     virtual bool isFreeSizeCard(const char* buffer) const
     {
+        if (myfreeformat == '\0')
+            return false;
+
         return (strchr(buffer, myfreeformat) != NULL);
         //return (strstr(buffer, &myfreeformat) != NULL);
     }

@@ -353,6 +353,11 @@ static int GetHMNAMEEntityNameSize(obj_type_e& etype, const char* line, int* id_
         etype = HCDI_OBJ_TYPE_ALEREFERENCESYSTEMGROUPS;
         return 23;
     }
+    else if (!strncmp(line, "ALE", 3))
+    {
+        etype = HCDI_OBJ_TYPE_ALES;
+        return 3;
+    }
 
     vector< std::pair<obj_type_e, string> > vec_type_title;
     HCDIGetAllTypesTitle(vec_type_title);
@@ -841,7 +846,7 @@ bool SolverInputInfo::IsSupportedForContinueReadWithoutHeader() const
 
 
 void SolverInputInfo::ProcessKeywordComments(std::vector<std::vector<string>>& comments,
-                                             obj_type_e& etype, IdentifierValuePairList& vallst) const
+                                             obj_type_e etype, IdentifierValuePairList& vallst) const
 {
     ApplicationMode_e appmode = (ApplicationMode_e)GetAppMode();
     bool id_read = false;
@@ -865,8 +870,8 @@ void SolverInputInfo::ProcessKeywordComments(std::vector<std::vector<string>>& c
             int sz = (int)result.size();
             if (sz > 2)
             {
-                result[2].erase(result[2].begin(), std::find_if(result[2].begin(), result[2].end(), std::bind1st(std::not_equal_to<char>(), ' ')));
-                result[2].erase(std::find_if(result[2].rbegin(), result[2].rend(), std::bind1st(std::not_equal_to<char>(), ' ')).base(), result[2].end());
+                result[2].erase(result[2].begin(), std::find_if(result[2].begin(), result[2].end(), [](char c) {return c != ' ';}));
+                result[2].erase(std::find_if(result[2].rbegin(), result[2].rend(), [](char c) { return c != ' '; }).base(), result[2].end());
                 //skwy_val.push_back(string("name=") + result[2]);
                 cfgkernel::Variant val(result[2]);
                 vallst.push_back(std::make_pair("name", val));
@@ -874,8 +879,8 @@ void SolverInputInfo::ProcessKeywordComments(std::vector<std::vector<string>>& c
             }
             if (sz > 1)
             {
-                result[1].erase(result[1].begin(), std::find_if(result[1].begin(), result[1].end(), std::bind1st(std::not_equal_to<char>(), ' ')));
-                result[1].erase(std::find_if(result[1].rbegin(), result[1].rend(), std::bind1st(std::not_equal_to<char>(), ' ')).base(), result[1].end());
+                result[1].erase(result[1].begin(), std::find_if(result[1].begin(), result[1].end(), [](char c) { return c != ' '; }));
+                result[1].erase(std::find_if(result[1].rbegin(), result[1].rend(), [](char c) { return c != ' '; }).base(), result[1].end());
                 unsigned int a_id = strtoul(result[1].c_str(), NULL, 0);
                 if (a_id > 0)
                 {

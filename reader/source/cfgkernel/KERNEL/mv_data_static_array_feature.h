@@ -45,6 +45,10 @@ public: /** @name Accessors */
   inline const string &getTitle() const { return MvDataArrayFeature_t::getTitle(); }
   /// Gets the title of a feature
   inline const string &getTitle(int ind) const { return myTitleArray[ind]; }
+  /// Sets the default value container
+  inline void setDefaultValue(vector<vector<double>> val) { myDefaultValues = val; }
+  /// Gets the default value container
+  inline vector<vector<double>> getDefaultValue() const { return myDefaultValues; }
   //@}
 
 protected: // Output in an output stream
@@ -52,6 +56,7 @@ protected: // Output in an output stream
 
 protected: // Datas
   string *myTitleArray;
+  vector<vector<double>> myDefaultValues;
 };
 
 

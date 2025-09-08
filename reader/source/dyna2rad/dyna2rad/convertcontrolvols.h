@@ -78,6 +78,8 @@ namespace sdiD2R
 
         void ConvertAirbagLinearFluid();
 
+        void ConvertAirbagHybrid();
+
     };
 }
 

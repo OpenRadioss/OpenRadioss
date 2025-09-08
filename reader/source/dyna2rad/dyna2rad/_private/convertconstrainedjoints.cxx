@@ -26,9 +26,6 @@
 #include <dyna2rad/dyna2rad.h>
 #include <dyna2rad/sdiUtils.h>
 
-#include <cfgkernel/sdi/sdiModelViewCFG.h>
-
-
 using namespace sdi;
 using namespace std;
 
@@ -60,7 +57,6 @@ void sdiD2R::ConvertJoint::ConvertStiffGenJoints()
         convertedJoints.reserve(reserveCapacity);
         PopulateConstExtraNodePartRelation();
         EntityType radCrvType = p_radiossModel->GetEntityType("/FUNCT");
-
         while (selConsStiffGen.Next())
         {
             HandleRead pidAHread;
@@ -110,7 +106,6 @@ void sdiD2R::ConvertJoint::ConvertStiffGenJoints()
             sdiString keyWord;
             int jntType = 0;
             unsigned int jntId = 0;
-            
             if (!jidHread.IsValid())
             {
                 /*find the joint*/
@@ -206,7 +201,7 @@ void sdiD2R::ConvertJoint::ConvertStiffGenJoints()
                             p_radiossModel->CreateEntity(partHEdit, "/PART", jointStiffName);
                             sdiConvert::Convert::PushToConversionLog(std::make_pair(partHEdit, sourceList));
 
-                            p_radiossModel->CreateElement(sprElemHEdit,"/SPRING",nodeList,partHEdit,p_radiossModel->GetNextAvailableId(p_radiossModel->GetEntityType("/SPRING")));
+                            p_radiossModel->CreateElement(sprElemHEdit,"/SPRING",nodeList,partHEdit,0);
 
                             if (sprElemHEdit.IsValid())
                             {
@@ -487,7 +482,7 @@ void sdiD2R::ConvertJoint::ConvertStiffGenJoints()
                     p_radiossModel->CreateEntity(partHEdit, "/PART", jointStiffName);
                     sdiConvert::Convert::PushToConversionLog(std::make_pair(partHEdit, sourceList));
                         
-                    p_radiossModel->CreateElement(sprElemHEdit,"/SPRING",nodeList,partHEdit,p_radiossModel->GetNextAvailableId(p_radiossModel->GetEntityType("/SPRING")));
+                    p_radiossModel->CreateElement(sprElemHEdit,"/SPRING",nodeList,partHEdit,0);
                     if (sprElemHEdit.IsValid())
                     {
                         sdiConvert::Convert::PushToConversionLog(std::make_pair(sprElemHEdit, sourceList));
@@ -750,7 +745,6 @@ void sdiD2R::ConvertJoint::ConvertStiffTransJoints()
         convertedJoints.reserve(reserveCapacity);
         PopulateConstExtraNodePartRelation();
         EntityType radCrvType = p_radiossModel->GetEntityType("/FUNCT");
-
         while (selConsStiffGen.Next())
         {
             HandleRead pidAHread;
@@ -893,7 +887,7 @@ void sdiD2R::ConvertJoint::ConvertStiffTransJoints()
                             p_radiossModel->CreateEntity(partHEdit, "/PART", jointStiffName);
                             sdiConvert::Convert::PushToConversionLog(std::make_pair(partHEdit, sourceList));
 
-                            p_radiossModel->CreateElement(sprElemHEdit,"/SPRING",nodeList,partHEdit,p_radiossModel->GetNextAvailableId(p_radiossModel->GetEntityType("/SPRING")));
+                            p_radiossModel->CreateElement(sprElemHEdit,"/SPRING",nodeList,partHEdit,0);
                             if (sprElemHEdit.IsValid())
                             {
                                 sdiConvert::Convert::PushToConversionLog(std::make_pair(sprElemHEdit, sourceList));
@@ -1192,7 +1186,7 @@ void sdiD2R::ConvertJoint::ConvertStiffTransJoints()
                     p_radiossModel->CreateEntity(partHEdit, "/PART", jointStiffName);
                     sdiConvert::Convert::PushToConversionLog(std::make_pair(partHEdit, sourceList));
 
-                    p_radiossModel->CreateElement(sprElemHEdit,"/SPRING",nodeList,partHEdit,p_radiossModel->GetNextAvailableId(p_radiossModel->GetEntityType("/SPRING")));
+                    p_radiossModel->CreateElement(sprElemHEdit,"/SPRING",nodeList,partHEdit,0);
                     if (sprElemHEdit.IsValid())
                     {
                         sdiConvert::Convert::PushToConversionLog(std::make_pair(sprElemHEdit, sourceList));
@@ -1581,7 +1575,6 @@ void sdiD2R::ConvertJoint::ConvertRegularJoints()
     HandleEdit planarJointPartHEdit;
     HandleEdit planarJointPropHEdit;
     SelectionRead selConstrJnts(p_lsdynaModel, srcCard);
-
     while (selConstrJnts.Next())
     {
         sdiVectorSort(convertedJoints);
@@ -1599,6 +1592,7 @@ void sdiD2R::ConvertJoint::ConvertRegularJoints()
         p_ConvertUtils.GetAttribValues(*selConstrJnts, nodeAttrNames, nodeAttrVals);
         sdiUIntList nodeList({ N1Entity.GetId(), N2Entity.GetId(), N3Entity.GetId(), N4Entity.GetId(), N5Entity.GetId() });
         int propJntType = 0;
+        double lsdRPS = GetValue<double>(*selConstrJnts, "RPS");
 
         if ((nodeList[0] != 0 && nodeList[0] != UINT_MAX) && (nodeList[1] != 0 && nodeList[1] != UINT_MAX))
         {
@@ -1617,13 +1611,17 @@ void sdiD2R::ConvertJoint::ConvertRegularJoints()
                 {
                     p_radiossModel->CreateEntity(cylJointpropHEdit, "/PROP/TYPE45", "CONSTRAINED_JOINT_CYLINDRICAL");
                     cylJointpropHEdit.SetValue(p_radiossModel, sdiIdentifier("Type"), sdiValue(3));
+                    if (lsdRPS > 0.0)
+                        cylJointpropHEdit.SetValue(p_radiossModel, sdiIdentifier("ScF"), sdiValue(lsdRPS));
+                    else
+                        cylJointpropHEdit.SetValue(p_radiossModel, sdiIdentifier("ScF"), sdiValue(0.01));
                     cylJointPartHEdit.SetEntityHandle(p_radiossModel, sdiIdentifier("prop_ID"), cylJointpropHEdit);
                     sdiConvert::Convert::PushToConversionLog(std::make_pair(cylJointpropHEdit, sourceList));
                 }
 
                 if (cylJointPartHEdit.IsValid())
                 {
-                    p_radiossModel->CreateElement(sprElemHEdit, "/SPRING", nodeList, cylJointPartHEdit,p_radiossModel->GetNextAvailableId(p_radiossModel->GetEntityType("/SPRING")));
+                    p_radiossModel->CreateElement(sprElemHEdit, "/SPRING", nodeList, cylJointPartHEdit, 0);
                     sdiConvert::Convert::PushToConversionLog(std::make_pair(sprElemHEdit, sourceList));
                 }
             }
@@ -1640,13 +1638,17 @@ void sdiD2R::ConvertJoint::ConvertRegularJoints()
                 {
                     p_radiossModel->CreateEntity(lockJointPropHEdit, "/PROP/TYPE45", "CONSTRAINED_JOINT_LOCKING");
                     lockJointPropHEdit.SetValue(p_radiossModel, sdiIdentifier("Type"), sdiValue(8));
+                    if (lsdRPS > 0.0)
+                        lockJointPropHEdit.SetValue(p_radiossModel, sdiIdentifier("ScF"), sdiValue(lsdRPS));
+                    else
+                        lockJointPropHEdit.SetValue(p_radiossModel, sdiIdentifier("ScF"), sdiValue(0.01));
                     lockJointPartHEdit.SetEntityHandle(p_radiossModel, sdiIdentifier("prop_ID"), lockJointPropHEdit);
                     sdiConvert::Convert::PushToConversionLog(std::make_pair(lockJointPropHEdit, sourceList));
                 }
 
                 if (lockJointPartHEdit.IsValid())
                 {
-                    p_radiossModel->CreateElement(sprElemHEdit, "/SPRING", nodeList, lockJointPartHEdit,p_radiossModel->GetNextAvailableId(p_radiossModel->GetEntityType("/SPRING")));
+                    p_radiossModel->CreateElement(sprElemHEdit, "/SPRING", nodeList, lockJointPartHEdit, 0);
                     sdiConvert::Convert::PushToConversionLog(std::make_pair(sprElemHEdit, sourceList));
                 }
             }
@@ -1662,13 +1664,17 @@ void sdiD2R::ConvertJoint::ConvertRegularJoints()
                 {
                     p_radiossModel->CreateEntity(revJointPropHEdit, "/PROP/TYPE45", "CONSTRAINED_JOINT_REVOLUTE");
                     revJointPropHEdit.SetValue(p_radiossModel, sdiIdentifier("Type"), sdiValue(2));
+                    if (lsdRPS > 0.0)
+                        revJointPropHEdit.SetValue(p_radiossModel, sdiIdentifier("ScF"), sdiValue(lsdRPS));
+                    else
+                        revJointPropHEdit.SetValue(p_radiossModel, sdiIdentifier("ScF"), sdiValue(0.01));
                     revJointPartHEdit.SetEntityHandle(p_radiossModel, sdiIdentifier("prop_ID"), revJointPropHEdit);
                     sdiConvert::Convert::PushToConversionLog(std::make_pair(revJointPropHEdit, sourceList));
                 }
 
                 if (revJointPartHEdit.IsValid())
                 {
-                    p_radiossModel->CreateElement(sprElemHEdit, "/SPRING", nodeList, revJointPartHEdit,p_radiossModel->GetNextAvailableId(p_radiossModel->GetEntityType("/SPRING")));
+                    p_radiossModel->CreateElement(sprElemHEdit, "/SPRING", nodeList, revJointPartHEdit, 0);
                     sdiConvert::Convert::PushToConversionLog(std::make_pair(sprElemHEdit, sourceList));
                 }
             }
@@ -1684,13 +1690,17 @@ void sdiD2R::ConvertJoint::ConvertRegularJoints()
                 {
                     p_radiossModel->CreateEntity(sphJointPropHEdit, "/PROP/TYPE45", "CONSTRAINED_JOINT_SPHERICAL");
                     sphJointPropHEdit.SetValue(p_radiossModel, sdiIdentifier("Type"), sdiValue(1));
+                    if (lsdRPS > 0.0)
+                        sphJointPropHEdit.SetValue(p_radiossModel, sdiIdentifier("ScF"), sdiValue(lsdRPS));
+                    else
+                        sphJointPropHEdit.SetValue(p_radiossModel, sdiIdentifier("ScF"), sdiValue(0.01));
                     sphJointPartHEdit.SetEntityHandle(p_radiossModel, sdiIdentifier("prop_ID"), sphJointPropHEdit);
                     sdiConvert::Convert::PushToConversionLog(std::make_pair(sphJointPropHEdit, sourceList));
                 }
 
                 if (sphJointPartHEdit.IsValid())
                 {
-                    p_radiossModel->CreateElement(sprElemHEdit, "/SPRING", nodeList, sphJointPartHEdit,p_radiossModel->GetNextAvailableId(p_radiossModel->GetEntityType("/SPRING")));
+                    p_radiossModel->CreateElement(sprElemHEdit, "/SPRING", nodeList, sphJointPartHEdit, 0);
                     sdiConvert::Convert::PushToConversionLog(std::make_pair(sprElemHEdit, sourceList));
                 }
             }
@@ -1706,13 +1716,17 @@ void sdiD2R::ConvertJoint::ConvertRegularJoints()
                 {
                     p_radiossModel->CreateEntity(traJointPropHEdit, "/PROP/TYPE45", "CONSTRAINED_JOINT_TRANSLATIONAL");
                     traJointPropHEdit.SetValue(p_radiossModel, sdiIdentifier("Type"), sdiValue(6));
+                    if (lsdRPS > 0.0)
+                        traJointPropHEdit.SetValue(p_radiossModel, sdiIdentifier("ScF"), sdiValue(lsdRPS));
+                    else
+                        traJointPropHEdit.SetValue(p_radiossModel, sdiIdentifier("ScF"), sdiValue(0.01));
                     traJointPartHEdit.SetEntityHandle(p_radiossModel, sdiIdentifier("prop_ID"), traJointPropHEdit);
                     sdiConvert::Convert::PushToConversionLog(std::make_pair(traJointPropHEdit, sourceList));
                 }
 
                 if (traJointPartHEdit.IsValid())
                 {
-                    p_radiossModel->CreateElement(sprElemHEdit, "/SPRING", nodeList, traJointPartHEdit,p_radiossModel->GetNextAvailableId(p_radiossModel->GetEntityType("/SPRING")));
+                    p_radiossModel->CreateElement(sprElemHEdit, "/SPRING", nodeList, traJointPartHEdit, 0);
                     sdiConvert::Convert::PushToConversionLog(std::make_pair(sprElemHEdit, sourceList));
                 }
             }
@@ -1728,13 +1742,17 @@ void sdiD2R::ConvertJoint::ConvertRegularJoints()
                 {
                     p_radiossModel->CreateEntity(univJointPropHEdit, "/PROP/TYPE45", "CONSTRAINED_JOINT_UNIVERSAL");
                     univJointPropHEdit.SetValue(p_radiossModel, sdiIdentifier("Type"), sdiValue(5));
+                    if (lsdRPS > 0.0)
+                        univJointPropHEdit.SetValue(p_radiossModel, sdiIdentifier("ScF"), sdiValue(lsdRPS));
+                    else
+                        univJointPropHEdit.SetValue(p_radiossModel, sdiIdentifier("ScF"), sdiValue(0.01));
                     univJointPartHEdit.SetEntityHandle(p_radiossModel, sdiIdentifier("prop_ID"), univJointPropHEdit);
                     sdiConvert::Convert::PushToConversionLog(std::make_pair(univJointPropHEdit, sourceList));
                 }
 
                 if (univJointPartHEdit.IsValid())
                 {
-                    p_radiossModel->CreateElement(sprElemHEdit, "/SPRING", nodeList, univJointPartHEdit,p_radiossModel->GetNextAvailableId(p_radiossModel->GetEntityType("/SPRING")));
+                    p_radiossModel->CreateElement(sprElemHEdit, "/SPRING", nodeList, univJointPartHEdit, 0);
                     sdiConvert::Convert::PushToConversionLog(std::make_pair(sprElemHEdit, sourceList));
                 }
             }
@@ -1750,13 +1768,17 @@ void sdiD2R::ConvertJoint::ConvertRegularJoints()
                 {
                     p_radiossModel->CreateEntity(planarJointPropHEdit, "/PROP/TYPE45", "CONSTRAINED_JOINT_PLANAR");
                     planarJointPropHEdit.SetValue(p_radiossModel, sdiIdentifier("Type"), sdiValue(4));
+                    if (lsdRPS > 0.0)
+                        planarJointPropHEdit.SetValue(p_radiossModel, sdiIdentifier("ScF"), sdiValue(lsdRPS));
+                    else
+                        planarJointPropHEdit.SetValue(p_radiossModel, sdiIdentifier("ScF"), sdiValue(0.01));
                     planarJointPartHEdit.SetEntityHandle(p_radiossModel, sdiIdentifier("prop_ID"), planarJointPropHEdit);
                     sdiConvert::Convert::PushToConversionLog(std::make_pair(planarJointPropHEdit, sourceList));
                 }
 
                 if (planarJointPartHEdit.IsValid())
                 {
-                    p_radiossModel->CreateElement(sprElemHEdit, "/SPRING", nodeList, planarJointPartHEdit,p_radiossModel->GetNextAvailableId(p_radiossModel->GetEntityType("/SPRING")));
+                    p_radiossModel->CreateElement(sprElemHEdit, "/SPRING", nodeList, planarJointPartHEdit, 0);
                     sdiConvert::Convert::PushToConversionLog(std::make_pair(sprElemHEdit, sourceList));
                 }
             }

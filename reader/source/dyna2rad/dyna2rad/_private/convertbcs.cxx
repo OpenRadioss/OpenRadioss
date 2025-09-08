@@ -42,6 +42,8 @@ void sdiD2R::ConvertBcs::ConvertEntities()
     ConvertBoundarySPC();
 
     ConvertBoundaryMotion();
+
+    ConvertBoundaryPrescribedFinalGeometry();
 }
 
 void sdiD2R::ConvertBcs::ConvertBoundarySPC()
@@ -677,6 +679,107 @@ void sdiD2R::ConvertBcs::ConvertBoundaryMotion()
             if (tempHEdit.IsValid())
                 sdiConvert::Convert::PushToConversionLog(std::make_pair(tempHEdit, sourcehandleList));
         }
+    }
+}
+
+void sdiD2R::ConvertBcs::ConvertBoundaryPrescribedFinalGeometry()
+{
+    SelectionRead selBoundaryPrescribedFinalGeometry(p_lsdynaModel, "*BOUNDARY_PRESCRIBED_FINAL_GEOMETRY");
+    EntityType radSetType = p_radiossModel->GetEntityType("/SET/GENERAL");
+    while (selBoundaryPrescribedFinalGeometry.Next())
+    {
+        sdiConvert::SDIHandlReadList sourcehandleList = { {selBoundaryPrescribedFinalGeometry->GetHandle()} };
+
+        // Get distribution information
+
+        int distribution_table_count = GetValue<int>(*selBoundaryPrescribedFinalGeometry, "distribution_table_count");
+
+        sdiUIntList NIDidEntitylist;
+        sdiUIntList nodeNSIDIdList;
+        sdiDoubleList coords_Xlist;
+        sdiDoubleList coords_Ylist;
+        sdiDoubleList coords_Zlist;
+
+        //-------
+        // Create IMPDISP card
+        //-------
+        sdiString destCard;
+        destCard = "/IMPDISP/FGEO";
+
+        unsigned int impdispId = selBoundaryPrescribedFinalGeometry->GetId();
+        HandleEdit impdispHEdit;
+        if (!p_radiossModel->IsIdAvailable(p_radiossModel->GetEntityType(destCard), impdispId))
+            impdispId = p_ConvertUtils.GetRadiossMaxEntityID(p_radiossModel->GetEntityType(destCard));
+        p_radiossModel->CreateEntity(impdispHEdit, destCard, "BOUNDARY_PRESCRIBED_FINAL_GEOMETRY_" + to_string(impdispId), impdispId);
+
+        EntityEdit impdispEdit(p_radiossModel, impdispHEdit);
+
+        impdispEdit.SetValue(sdiIdentifier("displayname"), sdiValue("BOUNDARY_PRESCRIBED_FINAL_GEOMETRY_" + to_string(impdispId)));
+        p_ConvertUtils.CopyValue(*selBoundaryPrescribedFinalGeometry, impdispEdit, "BPFGID", "impdisp_ID");
+        p_ConvertUtils.CopyValue(*selBoundaryPrescribedFinalGeometry, impdispEdit, "LCIDF", "fct_ID");
+        p_ConvertUtils.CopyValue(*selBoundaryPrescribedFinalGeometry, impdispEdit, "DEATHD", "Tstop");
+
+        if(distribution_table_count == 0)
+        {
+            // read NSID - node set ID
+            sdiValueEntity NSIDEntity = GetValue<sdiValueEntity>(*selBoundaryPrescribedFinalGeometry, "entityid");
+            unsigned int NSID=NSIDEntity.GetId();
+
+            unsigned int nsid_rad = DynaToRad::GetRadiossSetIdFromLsdSet(NSID, "*SET_NODE");
+
+            // get node IDs from nsid_rad
+            p_ConvertUtils.GetNodeIdsFromNodeSet(nsid_rad, nodeNSIDIdList);
+            nodeNSIDIdList.reserve(int(nodeNSIDIdList.size()));
+            coords_Xlist.reserve(int(nodeNSIDIdList.size()));
+            coords_Ylist.reserve(int(nodeNSIDIdList.size()));
+            coords_Zlist.reserve(int(nodeNSIDIdList.size()));
+
+            double coords_X = GetValue<double>(*selBoundaryPrescribedFinalGeometry, "dyna_final_geometry_coords_X");
+            double coords_Y = GetValue<double>(*selBoundaryPrescribedFinalGeometry, "dyna_final_geometry_coords_Y");
+            double coords_Z = GetValue<double>(*selBoundaryPrescribedFinalGeometry, "dyna_final_geometry_coords_Z");
+
+            for(int i=0; i < int(nodeNSIDIdList.size()); i++)
+            {
+                coords_Xlist.push_back(coords_X);
+                coords_Ylist.push_back(coords_Y);
+                coords_Zlist.push_back(coords_Z);
+            }
+            impdispEdit.SetValue(sdiIdentifier("distribution_table_count"), sdiValue(int(nodeNSIDIdList.size())));
+            impdispEdit.SetValue(sdiIdentifier("location_unit_node"), sdiValue(sdiValueEntityList(1, nodeNSIDIdList)));
+            impdispEdit.SetValue(sdiIdentifier("rad_node_pos_X"), sdiValue(coords_Xlist));
+            impdispEdit.SetValue(sdiIdentifier("rad_node_pos_Y"), sdiValue(coords_Ylist));
+            impdispEdit.SetValue(sdiIdentifier("rad_node_pos_Z"), sdiValue(coords_Zlist));  
+        }
+        else
+        {
+            NIDidEntitylist.reserve(distribution_table_count);
+            coords_Xlist.reserve(distribution_table_count);
+            coords_Ylist.reserve(distribution_table_count);
+            coords_Zlist.reserve(distribution_table_count);
+            for(int i=0; i < distribution_table_count; i++)
+            {
+                sdiValueEntity NIDidEntity = GetValue<sdiValueEntity>(*selBoundaryPrescribedFinalGeometry, "NID",i);
+                unsigned int NIDid=NIDidEntity.GetId();
+                NIDidEntitylist.push_back(NIDid);
+                
+                double coords_X = GetValue<double>(*selBoundaryPrescribedFinalGeometry, "dyna_final_geometry_coords_X",i);
+                double coords_Y = GetValue<double>(*selBoundaryPrescribedFinalGeometry, "dyna_final_geometry_coords_Y",i);
+                double coords_Z = GetValue<double>(*selBoundaryPrescribedFinalGeometry, "dyna_final_geometry_coords_Z",i);
+
+                coords_Xlist.push_back(coords_X);
+                coords_Ylist.push_back(coords_Y);
+                coords_Zlist.push_back(coords_Z);
+            }
+            impdispEdit.SetValue(sdiIdentifier("distribution_table_count"), sdiValue(distribution_table_count));
+            impdispEdit.SetValue(sdiIdentifier("location_unit_node"), sdiValue(sdiValueEntityList(1, NIDidEntitylist)));
+            impdispEdit.SetValue(sdiIdentifier("rad_node_pos_X"), sdiValue(coords_Xlist));
+            impdispEdit.SetValue(sdiIdentifier("rad_node_pos_Y"), sdiValue(coords_Ylist));
+            impdispEdit.SetValue(sdiIdentifier("rad_node_pos_Z"), sdiValue(coords_Zlist));
+
+        }
+        //---------------------------
+        if (impdispHEdit.IsValid())
+                sdiConvert::Convert::PushToConversionLog(std::make_pair(impdispHEdit, sourcehandleList));
     }
 }
 

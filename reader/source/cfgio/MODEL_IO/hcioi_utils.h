@@ -27,6 +27,7 @@
 #include "hcio.h"
 #include "mv_solver_input_infos.h"
 #include <UTILS/mv_string.h>
+#include <unordered_map>
 
 class IDescriptor;
 class IMECPreObject;
@@ -45,6 +46,9 @@ HCIO_DATA_DLL_API void MergeArrayAttributesToPreobject(const IDescriptor* pdescr
 void ResizeArrayAttributesToPreObject(IMECPreObject& pre_object, const IDescriptor* descr_p, int arr_ikw, int size);
 HCIO_DATA_DLL_API std::string GetAttribNameFromDrawable(const IDescriptor* pdescrp, const string& name);
 
-HCIO_DATA_DLL_API void UpdateEntityIDOffsetCFG(std::vector<IMECPreObject*>* p_preobjlst, const char* submodelsolkey, bool doUnOffset);
+struct cfglnksubdescriptor;
+HCIO_DATA_DLL_API void UpdateEntityIDOffsetCFG(
+    std::vector<IMECPreObject*>* p_preobjlst, const char* submodelsolkey, bool doUnOffset,
+    const std::unordered_map<std::string, cfglnksubdescriptor>* cfglnksubdescriptor_map = nullptr);
 
 #endif 

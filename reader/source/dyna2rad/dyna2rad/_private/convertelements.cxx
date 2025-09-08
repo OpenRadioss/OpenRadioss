@@ -171,13 +171,13 @@ void ConvertElem::ConvertEntities()
                         if (( matRead.GetKeyword().find("*MAT_NULL") != string::npos || matRead.GetKeyword().find("*MAT_009") != string::npos ) && elform == 6)
                         {
                             destElem = "/SPRING";
-                            elemNodes.erase( elemNodes.begin() + 2, elemNodes.begin() + 3 );
+                            elemNodes.resize(2);
                         }
                         else if (( matRead.GetKeyword().find("*MAT_NULL") != string::npos || matRead.GetKeyword().find("*MAT_009") != string::npos ) 
                                    && elform != 0 && elform != 1 && elform != 2)
                         {
                             destElem = "/TRUSS";
-                            elemNodes.erase( elemNodes.begin() + 2, elemNodes.begin() + 3 );
+                            elemNodes.resize(2);
                         }
                         else if (matRead.GetKeyword().find("*MAT_SPOTWELD") != string::npos || matRead.GetKeyword().find("*MAT_100") != string::npos)
                             destElem = "/SPRING";
@@ -191,11 +191,11 @@ void ConvertElem::ConvertEntities()
                             {
                             case 3:
                                 destElem = "/TRUSS";
-                                elemNodes.erase( elemNodes.begin() + 2, elemNodes.begin() + 3 );
+                                elemNodes.resize(2);
                                 break;
                             case 6:
                                 destElem = "/SPRING";
-                                elemNodes.erase( elemNodes.begin() + 2, elemNodes.begin() + 3 );
+                                elemNodes.resize(2);
                                 break;
                             default:
                                 break;
@@ -589,6 +589,7 @@ void ConvertElem::ConvertSeatbeltSlipring()
              	if (sensorTimeHedit.IsValid())
              	{
                     EntityEdit sensorTimeEntityEdit(p_radiossModel, sensorTimeHedit);
+                    if(lsdLTIME == 0.0) lsdLTIME = 1.0e20;
              	    sensorTimeEntityEdit.SetValue(sdiIdentifier("Tdelay"), sdiValue(lsdLTIME));
              	    //radSlipringHEdit.SetEntityHandle(p_radiossModel, sdiIdentifier("Sens_ID"), sensorTimeHedit);
              	    slipring_sensorID = sensorTimeHedit.GetId(p_radiossModel);

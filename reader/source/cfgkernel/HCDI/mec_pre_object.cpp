@@ -255,6 +255,11 @@ MECPreObject::~MECPreObject()
   myfree(myCryptingRef); 
   myfree(myCryptedData); 
   myfree(myCryptedKeyData);
+  // Subobjects
+  for(auto subobject : sub_preobj)
+  {
+      if(subobject) delete subobject;
+  }
 }//End MECPreObject::~MECPreObject
 
 
@@ -440,7 +445,12 @@ void MECPreObject::Copy(const IMECPreObject &pre_object) {
 
   for (size_t ii = 0; ii < a_size; ii++)
   {
-      SetSubobject(a_subobj[ii]);
+      if(!a_subobj[ii]) continue; // shouldn't happen
+      MECPreObject* subobj_clone = new MECPreObject(
+          a_subobj[ii]->GetKernelFullType(), a_subobj[ii]->GetInputFullType(),
+          a_subobj[ii]->GetTitle(), a_subobj[ii]->GetId(), a_subobj[ii]->GetUnitId());
+      subobj_clone->Copy(*a_subobj[ii]);
+      SetSubobject(subobj_clone);
   }
 }
 

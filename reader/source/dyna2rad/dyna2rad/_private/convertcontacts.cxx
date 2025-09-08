@@ -121,6 +121,8 @@ void sdiD2R::ConvertContact::ConvertEntities()
             keyWord.find("AUTOMATIC_SINGLE_SURFACE")     != keyWord.npos ||
             keyWord.find("ERODING_SINGLE_SURFACE")       != keyWord.npos ||
             keyWord.find("AUTOMATIC_BEAMS_TO_SURFACE")   != keyWord.npos ||
+            keyWord.find("AUTOMATIC_ONE_WAY_SURFACE_TO_SURFACE") != keyWord.npos ||
+            keyWord.find("AUTOMATIC_ONE_WAY_SURFACE_TO_SURFACE_SMOOTH") != keyWord.npos ||
             keyWord.find("AUTOMATIC_ONE_WAY_SURFACE_TO_SURFACE_TIEBREAK") != keyWord.npos )
         {
             if (keyWord.find("AUTOMATIC_NODES_TO_SURFACE") != keyWord.npos || keyWord.find("AUTOMATIC_BEAMS_TO_SURFACE")   != keyWord.npos)
@@ -388,12 +390,42 @@ void sdiD2R::ConvertContact::ConvertEntities()
         }
         //
 
+        if(keyWord.find("AUTOMATIC_SURFACE_TO_SURFACE") != keyWord.npos ||
+           keyWord.find("AUTOMATIC_SINGLE_SURFACE")     != keyWord.npos ||
+           keyWord.find("AUTOMATIC_NODES_TO_SURFACE")   != keyWord.npos ||
+           keyWord.find("AUTOMATIC_GENERAL")            != keyWord.npos ||
+           keyWord.find("AUTOMATIC_BEAMS_TO_SURFACE")   != keyWord.npos ||
+           keyWord.find("ERODING_NODES_TO_SURFACE")     != keyWord.npos ||
+           keyWord.find("ERODING_SINGLE_SURFACE")       != keyWord.npos ||
+           keyWord.find("ERODING_SURFACE_TO_SURFACE")   != keyWord.npos ||
+           keyWord.find("NODES_TO_SURFACE")             != keyWord.npos)
+        {
+            if(lsdSST != 0.0 || lsdSFST != 0.0 || lsdSFST != 0.0 || lsdSFMT != 0.0) 
+                radInterEdit.SetValue(sdiIdentifier("IGAP"), sdiValue(5.0));
+        }
+
         lsdSFST = (lsdSFST == 0.0) ? 1.0 : lsdSFST;
         lsdSFMT = (lsdSFMT == 0.0) ? 1.0 : lsdSFMT;
         lsdSFS = (lsdSFS == 0.0) ? 1.0 : lsdSFS;
         lsdSFM = (lsdSFM == 0.0) ? 1.0 : lsdSFM;
         lsdFSF = (lsdFSF == 0.0) ? 1.0 : lsdFSF;
 
+        if(keyWord.find("AUTOMATIC_SURFACE_TO_SURFACE") != keyWord.npos ||
+           keyWord.find("AUTOMATIC_SINGLE_SURFACE")     != keyWord.npos ||
+           keyWord.find("AUTOMATIC_NODES_TO_SURFACE")   != keyWord.npos ||
+           keyWord.find("AUTOMATIC_GENERAL")            != keyWord.npos ||
+           keyWord.find("AUTOMATIC_BEAMS_TO_SURFACE")   != keyWord.npos ||
+           keyWord.find("ERODING_NODES_TO_SURFACE")     != keyWord.npos ||
+           keyWord.find("ERODING_SINGLE_SURFACE")       != keyWord.npos ||
+           keyWord.find("ERODING_SURFACE_TO_SURFACE")   != keyWord.npos ||
+           keyWord.find("NODES_TO_SURFACE")             != keyWord.npos)
+        {
+            radInterEdit.SetValue(sdiIdentifier("THICK_S"), sdiValue(lsdSST));
+            radInterEdit.SetValue(sdiIdentifier("THICK_M"), sdiValue(lsdMST));
+            radInterEdit.SetValue(sdiIdentifier("THICK_S_SCALE"), sdiValue(lsdSFST));
+            radInterEdit.SetValue(sdiIdentifier("THICK_M_SCALE"), sdiValue(lsdSFMT));
+        }
+        
         double stfac = 0.0;
         double gapScale = 0.0;
         double slaveGapMax = lsdSST / 2.0; //Gap_max_s
@@ -547,6 +579,8 @@ void sdiD2R::ConvertContact::ConvertEntities()
                  keyWord.find("AUTOMATIC_SINGLE_SURFACE")       != keyWord.npos ||
                  keyWord.find("AUTOMATIC_NODES_TO_SURFACE")       != keyWord.npos ||
                  keyWord.find("AUTOMATIC_BEAMS_TO_SURFACE")       != keyWord.npos ||
+                 keyWord.find("AUTOMATIC_ONE_WAY_SURFACE_TO_SURFACE") != keyWord.npos ||
+                 keyWord.find("AUTOMATIC_ONE_WAY_SURFACE_TO_SURFACE_SMOOTH") != keyWord.npos ||
                  keyWord.find("AUTOMATIC_ONE_WAY_SURFACE_TO_SURFACE_TIEBREAK") != keyWord.npos)
         {
             radInterEdit.SetValue(sdiIdentifier("Istf"), sdiValue(2));

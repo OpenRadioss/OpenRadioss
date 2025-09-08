@@ -972,7 +972,7 @@ void MECDataWriter::Assign(const PseudoFileFormatCard_t *card_p,
             int a_cell_ind = -1;
             if(a_atype == ATYPE_VALUE)
             {
-                pre_object.AddStringValue(skeyword.c_str(), ind, p_exp_str);
+                pre_object.AddStringValue(skeyword.c_str(), p_exp_str);
             }
             else if(a_atype == ATYPE_DYNAMIC_ARRAY)
             {
@@ -1340,16 +1340,24 @@ void MECDataWriter::Assign(const PseudoFileFormatCard_t *card_p,
         }
         else if (assign_attrib_atype == ATYPE_DYNAMIC_ARRAY || assign_attrib_atype == ATYPE_STATIC_ARRAY) // copying Array_Att to Array_Att
         {
-            if (index_ikey == -1)
+            int start_ind_value = 0, end_ind_value = 0;
+            if (index_ikey == -1 && last_index_ikey == -1)
             {
-                if (ind < 0) index = 0;
-                else index = ind;
+                if (ind < 0)
+            {
+                    index = 0;
+                    last_index = a_size - 1;
+                }
+                else
+                {
+                    index = ind;
+                    last_index = ind;
+                }
             }
             if (index < 0 || index >= a_size || last_index >= a_size)
                 return;
 
-            int start_ind_value = 0, end_ind_value = a_size;
-            int updated_array_size = a_size;
+            int updated_array_size = 0;
             if (index >= 0)
             {
                 start_ind_value = index;
@@ -1357,6 +1365,8 @@ void MECDataWriter::Assign(const PseudoFileFormatCard_t *card_p,
                 {
                     end_ind_value = last_index + 1;
                     updated_array_size = end_ind_value - start_ind_value;
+                    if (index == ind && last_index == ind)
+                        updated_array_size = a_size;
                 }
             }
             if (assign_attrib_atype == ATYPE_DYNAMIC_ARRAY)
@@ -1377,6 +1387,17 @@ void MECDataWriter::Assign(const PseudoFileFormatCard_t *card_p,
             }
             if (ikey_des_vtype == VTYPE_STRING && assign_attrib_vtype == VTYPE_STRING)
             {
+                if (index_ikey == -1 && last_index_ikey == -1)
+                {
+                    for (int i = start_ind_value; i < end_ind_value; i++)
+                    {
+                        std::string a_value_str = "";
+                        pre_object.GetExpressionValue(a_descr_p, ikeyword, i, value, a_value_str);
+                        HCDI_UpdatePreObjectValue(pre_object, descr_p, assign_card_attrib_ikey, value, a_value_str, i);
+                    }
+                }
+                else
+                {
                 // copy the length end_ind_value, from the string at start_ind_value
                 std::string a_value_str = "";
                 pre_object.GetExpressionValue(a_descr_p, ikeyword, start_ind_value, value, a_value_str);
@@ -1385,6 +1406,7 @@ void MECDataWriter::Assign(const PseudoFileFormatCard_t *card_p,
                     end_ind_value = a_str_size;
                 a_value_str = a_value_str.substr(0, end_ind_value);
                 HCDI_UpdatePreObjectValue(pre_object, descr_p, assign_card_attrib_ikey, value, a_value_str, start_ind_value);
+            }
             }
             else
             {
@@ -1397,6 +1419,8 @@ void MECDataWriter::Assign(const PseudoFileFormatCard_t *card_p,
                     else if (atype == ASSIGN_STOF)
                         value = std::stof(a_value_str.c_str());
                 HCDI_UpdatePreObjectValue(pre_object, descr_p, assign_card_attrib_ikey, value, a_value_str, i);
+                    if (atype == ASSIGN_STOI || atype == ASSIGN_STOF)
+                        break; // copy only start_ind_value
             }
             }
             return;

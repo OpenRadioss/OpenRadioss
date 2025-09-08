@@ -22,11 +22,9 @@
 //Copyright>    commercial version may interest you: https://www.altair.com/radioss/.*/
 
 #include <unordered_set>
-#include <limits>
 #include <dyna2rad/convertsets.h>
 #include <dyna2rad/dyna2rad.h>
 #include <dyna2rad/sdiUtils.h>
-
 
 using namespace std;
 using namespace sdi;
@@ -51,9 +49,9 @@ void sdiD2R::ConvertSet::p_ConvertAllSets()
 {
     SelectionRead selDynaSetParAdd(p_lsdynaModel, "*SET_PART_ADD");
     SelectionRead selDynaSet(p_lsdynaModel, "*SET");
-    unsigned int setId = std::numeric_limits<unsigned int>::max();
-    unsigned int setIdPrevious =  std::numeric_limits<unsigned int>::max();
-    unsigned int RenumberedSetIdPrevious =  std::numeric_limits<unsigned int>::max();
+    unsigned int setId = UINT32_MAX;
+    unsigned int setIdPrevious = UINT32_MAX;
+    unsigned int RenumberedSetIdPrevious = UINT32_MAX;
     sdiString setType = "\0";
     sdiString keyWord = "\0";
     HandleEdit setHEdit;

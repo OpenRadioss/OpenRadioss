@@ -265,9 +265,50 @@ void sdiD2R::ConvertInitialVelocity::ConvertInivelGeneration()
                 FrameVect1 = FrameVect2 * FrameVect3;
                 FrameVect1 = FrameVect1.Normalize();
 
-                double Vx = FrameVect3[0] * lsdVX + FrameVect1[0] * lsdVY + FrameVect2[0] * lsdVZ;
-                double Vy = FrameVect3[1] * lsdVX + FrameVect1[1] * lsdVY + FrameVect2[1] * lsdVZ;
-                double Vz = FrameVect3[2] * lsdVX + FrameVect1[2] * lsdVY + FrameVect2[2] * lsdVZ;
+                double detFRAME = FrameVect3[0]*FrameVect1[1]*FrameVect2[2]+
+                                  FrameVect1[0]*FrameVect2[1]*FrameVect3[2]+
+                                  FrameVect2[0]*FrameVect3[1]*FrameVect1[2]-
+                                  FrameVect2[0]*FrameVect1[1]*FrameVect3[2]-
+                                  FrameVect2[1]*FrameVect1[2]*FrameVect3[0]-
+                                  FrameVect2[2]*FrameVect1[0]*FrameVect3[1];
+
+                detFRAME = max(detFRAME, 1e-20);
+
+                sdiTriple InvertFrameVect1(0.0, 0.0, 0.0);
+                sdiTriple InvertFrameVect2(0.0, 0.0, 0.0);
+                sdiTriple InvertFrameVect3(0.0, 0.0, 0.0);
+
+                InvertFrameVect3[0] = (FrameVect1[1]*FrameVect2[2]-FrameVect1[2]*FrameVect2[1])/detFRAME;
+                InvertFrameVect3[1] = (FrameVect2[1]*FrameVect3[2]-FrameVect3[1]*FrameVect2[2])/detFRAME;
+                InvertFrameVect3[2] = (FrameVect3[1]*FrameVect1[2]-FrameVect1[1]*FrameVect3[2])/detFRAME;
+
+                InvertFrameVect1[0] = (FrameVect2[0]*FrameVect1[2]-FrameVect1[0]*FrameVect2[2])/detFRAME;
+                InvertFrameVect1[1] = (FrameVect3[0]*FrameVect2[2]-FrameVect2[0]*FrameVect3[2])/detFRAME;
+                InvertFrameVect1[2] = (FrameVect1[0]*FrameVect3[2]-FrameVect3[0]*FrameVect1[2])/detFRAME;
+
+                InvertFrameVect2[0] = (FrameVect1[0]*FrameVect2[1]-FrameVect2[0]*FrameVect1[1])/detFRAME;
+                InvertFrameVect2[1] = (FrameVect2[0]*FrameVect3[1]-FrameVect3[0]*FrameVect2[1])/detFRAME;
+                InvertFrameVect2[2] = (FrameVect3[0]*FrameVect1[1]-FrameVect1[0]*FrameVect3[1])/detFRAME;
+
+                InvertFrameVect1 = InvertFrameVect1.Normalize();
+                InvertFrameVect2 = InvertFrameVect2.Normalize();
+                InvertFrameVect3 = InvertFrameVect3.Normalize();
+
+                // set local velocity vector (VX, VY, VZ) onto Global
+
+                double Vx = Vect3[0] * lsdVX + Vect1[0] * lsdVY + Vect2[0] * lsdVZ;
+                double Vy = Vect3[1] * lsdVX + Vect1[1] * lsdVY + Vect2[1] * lsdVZ;
+                double Vz = Vect3[2] * lsdVX + Vect1[2] * lsdVY + Vect2[2] * lsdVZ;
+
+                lsdVX = Vx; // global velocity
+                lsdVY = Vy;
+                lsdVZ = Vz;
+
+                // set global velocity vector (VX, VY, VZ) onto Local Fix Frame
+
+                Vx = InvertFrameVect3[0] * lsdVX + InvertFrameVect1[0] * lsdVY + InvertFrameVect2[0] * lsdVZ;  // Fix Frame velocity
+                Vy = InvertFrameVect3[1] * lsdVX + InvertFrameVect1[1] * lsdVY + InvertFrameVect2[1] * lsdVZ;
+                Vz = InvertFrameVect3[2] * lsdVX + InvertFrameVect1[2] * lsdVY + InvertFrameVect2[2] * lsdVZ;
 
                 radInivelEdit.SetValue(sdiIdentifier("Vxt"), sdiValue(Vx));
                 radInivelEdit.SetValue(sdiIdentifier("Vyt"), sdiValue(Vy));

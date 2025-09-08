@@ -104,7 +104,7 @@ public:
   virtual bool IsSupportedForContinueReadWithoutHeader() const { return false; }
   ///
   virtual void ProcessKeywordComments(std::vector<std::vector<string>>& comments,
-                                      obj_type_e& etype, IdentifierValuePairList& vallst) const
+                                      obj_type_e etype, IdentifierValuePairList& vallst) const
   { return; }
   /// Gets the keywords and object types of the elements
   virtual PseudoObjectKeywords_t *GetElementKeywords(PseudoObjectKeywords_t *elt_keywords_p=NULL) const { return nullptr; }
