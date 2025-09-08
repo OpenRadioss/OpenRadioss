@@ -9,6 +9,11 @@ project (Radioss_Starter)
 # -------
 # set (CMAKE_VERBOSE_MAKEFILE on)
 
+# Windows specific settings
+# --------------------------
+if (arch STREQUAL "win64")
+   set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+endif()
 
 # Language settings & Compiler Settings
 # -------------------------------------
