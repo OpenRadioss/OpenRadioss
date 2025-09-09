@@ -213,11 +213,11 @@ C             WRITE(IOUT,1200)IX(NIXR,J)
             ENDIF
           ENDIF ! IF (I3 /= 0)
 C
-C         Global Z axis is used as PRVC
+C         Local X axis is used for computation of RVC
           IF (IALIGN /= 1)THEN
-            RLOC(1,I)=ONE
-            RLOC(2,I)=ZERO
-            RLOC(3,I)=ZERO
+            RLOC(1,I)=SKEW(1,ISK)
+            RLOC(2,I)=SKEW(2,ISK)
+            RLOC(3,I)=SKEW(3,ISK)
             WRITE(IOUT,1450)IX(NIXR,J)
             PRVC(1,I)=Y1*RLOC(3,I)-Z1*RLOC(2,I)
             PRVC(2,I)=Z1*RLOC(1,I)-X1*RLOC(3,I)
