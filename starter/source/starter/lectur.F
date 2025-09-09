@@ -2448,6 +2448,7 @@ C--------------------------------------------
         NL_DDR2R = 4
         R2R_SIU = 1
 c       complete mlaw_tag for new void materials
+        !Material Buffer copy for R2R (rad2rad) with R2R_MATPARAM_COPY
         IF(NUMMAT > NUMMAT0) THEN
           ALLOCATE(MTAG_R2R(NUMMAT))
           ALLOCATE(MPARAM_R2R(NUMMAT))

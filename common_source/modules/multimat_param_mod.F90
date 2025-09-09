@@ -128,8 +128,18 @@
         subroutine destruct_multimat_param(this)
           implicit none
           class(MULTIMAT_PARAM_) :: this
+          integer :: i
           if (allocated(this%mid))   deallocate(this%mid)
           if (allocated(this%vfrac)) deallocate(this%vfrac)
+          if (allocated(this%eos)) then
+              do i=1,size(this%eos)
+                 call this%eos(i)%destruct()
+              end do
+              deallocate(this%eos)
+          end if
+          if (associated(this%pEOS))then
+              deallocate(this%pEOS)
+          end if
         end subroutine destruct_multimat_param
 
 !||====================================================================

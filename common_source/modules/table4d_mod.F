@@ -65,6 +65,34 @@ C=======================================================================
           my_real, DIMENSION(:,:)       ,ALLOCATABLE :: Y2D
           my_real, DIMENSION(:,:,:)     ,ALLOCATABLE :: Y3D
           my_real, DIMENSION(:,:,:,:)   ,ALLOCATABLE :: Y4D
+        CONTAINS
+          procedure :: copyto => COPY_TABLE_TO
         END TYPE TABLE_4D_
+
+      CONTAINS
+
+            SUBROUTINE COPY_TABLE_TO(THIS,TARGET_TABLE)
+              IMPLICIT NONE
+              CLASS(TABLE_4D_) ,INTENT(IN) :: THIS
+              TYPE(TABLE_4D_) ,INTENT(OUT):: TARGET_TABLE
+              TARGET_TABLE%NOTABLE = THIS%NOTABLE
+              TARGET_TABLE%NDIM    = THIS%NDIM
+              IF(.NOT.ALLOCATED(TARGET_TABLE%X))ALLOCATE(TARGET_TABLE%X(SIZE(THIS%X)))
+              TARGET_TABLE%X(:) = THIS%X(:)
+              IF(.NOT.ALLOCATED(TARGET_TABLE%Y1D))ALLOCATE(TARGET_TABLE%Y1D(SIZE(THIS%Y1D)))
+              IF(.NOT.ALLOCATED(TARGET_TABLE%Y2D))ALLOCATE(TARGET_TABLE%Y2D(SIZE(THIS%Y2D,1),
+     .                                                                      SIZE(THIS%Y2D,2)))
+              IF(.NOT.ALLOCATED(TARGET_TABLE%Y3D))ALLOCATE(TARGET_TABLE%Y3D(SIZE(THIS%Y3D,1),
+     .                                                                      SIZE(THIS%Y3D,2),
+     .                                                                      SIZE(THIS%Y3D,3)))
+              IF(.NOT.ALLOCATED(TARGET_TABLE%Y4D))ALLOCATE(TARGET_TABLE%Y4D(SIZE(THIS%Y4D,1),
+     .                                                                      SIZE(THIS%Y4D,2),
+     .                                                                      SIZE(THIS%Y4D,3),
+     .                                                                      SIZE(THIS%Y4D,4)))
+              TARGET_TABLE%Y1D(:) = THIS%Y1D(:)
+              TARGET_TABLE%Y2D(:,:) = THIS%Y2D(:,:)
+              TARGET_TABLE%Y3D(:,:,:) = THIS%Y3D(:,:,:)
+              TARGET_TABLE%Y4D(:,:,:,:) = THIS%Y4D(:,:,:,:)
+            END SUBROUTINE COPY_TABLE_TO
 C-----------------------------------------------
       END MODULE TABLE4D_MOD
