@@ -4094,7 +4094,8 @@ C--------------------------------------------
       ERR_CATEGORY='TRANSFORMATIONS'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
       CALL LECTRANS(X        ,IGRNOD  ,ITAB   ,ITABM1 ,UNITAB,
-     .              LSUBMODEL,RTRANS)
+     .              LSUBMODEL,RTRANS  ,IGRSURF,ISKWN  ,SKEW  ,
+     .              LISKN    ,LSKEW   ,NSPCOND,NUMSPH )
       CALL TRACE_OUT1()
       CLOSE(UNIT=IUSBM)
 C--------------------------------------------
