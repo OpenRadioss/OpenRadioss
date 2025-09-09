@@ -17,6 +17,7 @@ set debug_suffix=
 set build_type=
 set cbuild=0
 set use_openreader=0
+set orb=
 
 IF (%1) == () GOTO ERROR
 
@@ -55,6 +56,7 @@ IF (%1) == () GOTO END_ARG_LOOP
        set dc="-DCOM=1"
        set dc_suf=_c
        set cbuild=1
+       set orb=-c
    )
 
    IF %1==-nt (
@@ -148,7 +150,7 @@ if %use_openreader%==1 (
   echo ----------------
   echo.
   cd ..\reader
-  call build_windows.bat -arch=%arch% -nt=%jobsv% -debug=%debug% 
+  call build_windows.bat -arch=%arch% -nt=%jobsv% -debug=%debug% %orb%
   if errorLevel=1 (
     echo.
     echo.

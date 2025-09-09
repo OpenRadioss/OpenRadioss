@@ -24,6 +24,8 @@ threads=1
 verbose=""
 clean=0
 arch=none
+com=0
+cs=""
 
 number_of_arguments=$#
 if [ $number_of_arguments = 0 ]
@@ -52,10 +54,16 @@ else
          verbose="VERBOSE=1"
        fi
 
-         if [ "$arg" == "-clean" ]
-         then
+       if [ "$arg" == "-c" ]
+       then
+         com=1
+         cs="_c"
+       fi
+
+       if [ "$arg" == "-clean" ]
+       then
             clean=1
-         fi
+       fi
 
    done
 
@@ -72,7 +80,7 @@ then
 fi
 
 
-build_directory=cbuild_${arch}${db}
+build_directory=cbuild_${arch}${db}${cs}
 
 
 if [ $clean = 1 ]
@@ -109,7 +117,7 @@ fi
 
 cd ${build_directory}
 
-cmake -DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc -Darch=${arch} ..
+cmake -DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc -Darch=${arch}  -Dcom=${com} ..
 return_value=$?
 if [ $return_value -ne 0 ]
 then

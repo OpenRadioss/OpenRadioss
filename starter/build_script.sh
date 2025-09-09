@@ -66,6 +66,7 @@ com=0
 release=0
 ad=none
 use_openreader=0
+orb=""
 
 if [ "`uname -m`" == "x86_64" ]
 then
@@ -169,6 +170,7 @@ else
          com=1
          dc="-DCOM=1"
          cf="_c"
+         orb="-c"
          vers=`grep version CMake_Compilers_c/cmake_st_version.txt | awk -F '\"' '{print $2}' `
          st_vers="s_${vers}"
        fi
@@ -243,7 +245,7 @@ then
     echo "Build open_reader: ${built_in_arch} "
     echo "----------------"
     cd ../reader
-    ./build_script.bash -arch=${built_in_arch} -nt=${threads}
+    ./build_script.bash -arch=${built_in_arch} -nt=${threads} ${orb}
     return_value=$?
     if [ $return_value -ne 0 ]
     then
