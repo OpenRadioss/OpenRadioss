@@ -44,7 +44,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
 !||====================================================================
       SUBROUTINE LECTRANS(X        ,IGRNOD ,ITAB   ,ITABM1,UNITAB,
-     .                    LSUBMODEL,RTRANS )
+     .                    LSUBMODEL,RTRANS ,IGRSURF,ISKWN ,SKEW  ,
+     .                    LISKN    ,LSKEW  ,NSPCOND,NUMSPH)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -54,6 +55,9 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE HM_OPTION_READ_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARLINE, NCHARFIELD
+      USE FORMAT_MOD , ONLY : LFIELD
+      USE min_dist_grnod_to_surface_mod, ONLY : min_dist_grnod_to_surface
+      USE min_dist_grnod_to_xyzpos_mod, ONLY : min_dist_grnod_to_xyzpos
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -69,6 +73,9 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
       INTEGER ITAB(*),ITABM1(*)
+      INTEGER, INTENT(IN) :: LISKN,LSKEW,NSPCOND,NUMSPH
+      INTEGER, INTENT(IN) :: ISKWN(LISKN,NUMSKW)
+      my_real, INTENT(IN) :: SKEW(LSKEW,NUMSKW)
       my_real
      .   X(3,*)
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
@@ -76,6 +83,7 @@ C-----------------------------------------------
      .   RTRANS(NTRANSF,*)
 C-----------------------------------------------
       TYPE (GROUP_)  ,TARGET, DIMENSION(NGRNOD)  :: IGRNOD
+      TYPE (SURF_)   ,TARGET, DIMENSION(NSURF)   :: IGRSURF
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -83,21 +91,24 @@ C-----------------------------------------------
      .          N0,N1,N2,N3,N4,N5,N6,IERROR,
      .   J,IS,ID,UID,IGU,IGS,NN,NTRANS,STAT,
      .   IFLAGUNIT,ITRANSSUB,SUB_ID,K,
-     .   IBID,CPT
+     .   IBID,CPT,IGSURF,ISURF,ISKEW,IDIR,PFLAG,XYZFLAG(3),
+     .    NSEG,NNO,SURFNOD,SUB_INDEX,ISK
       my_real
      .   LX,LY,LZ,TX,TY,TZ,R,S,RX,RY,RZ,SX,SY,SZ,ANGLE,AT,FAC_L,
-     .   XP,YP,ZP
+     .   XP,YP,ZP,GAP
       my_real
      .   VR(3),X0(3),X1(3),X2(3),X3(3),X4(3),X5(3),X6(3),
      .   ROT(9),PP(3,3),QQ(3,3),P(3),NORM1, NORM2, NORM3, SCAL1, 
-     .   SCAL2, SCAL3, EPS
-      CHARACTER KEY*10
+     .   SCAL2, SCAL3, EPS,XYZPOS(3)
+      CHARACTER KEY*12
       CHARACTER(LEN=NCHARFIELD) :: MOT1
       CHARACTER(LEN=NCHARTITLE) :: TITR
       CHARACTER(LEN=NCHARLINE) ::SOLVERKEYWORD
+      CHARACTER(LEN=NCHARFIELD) :: DIR
 !
       INTEGER, DIMENSION(:), POINTER :: INGR2USR
-      LOGICAL IS_AVAILABLE
+      LOGICAL IS_AVAILABLE,IS_FOUND
+      INTEGER, DIMENSION(:), ALLOCATABLE :: INO, TAGNODE
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -125,6 +136,7 @@ C--------------------------------------------------
      .                       OPTION_ID = ID,
      .                       UNIT_ID = UID,
      .                       SUBMODEL_ID = SUB_ID,
+     .                       SUBMODEL_INDEX = SUB_INDEX,
      .                       OPTION_TITR = TITR,
      .                       KEYWORD2 = KEY)
         RTRANS(I,19) = ID
@@ -796,6 +808,143 @@ C
               WRITE(IOUT,3500) ITAB(IS),X(1,IS),X(2,IS),X(3,IS)                                
             ENDDO                                              
           ENDIF
+        ELSEIF (KEY(1:12) == 'AUTOPOSITION') THEN
+
+          RTRANS(I,2) = 7
+
+          ! read line 1
+
+          CALL HM_GET_INTV('GR_NODE',IGU,IS_AVAILABLE,LSUBMODEL)
+          CALL HM_GET_INTV('GR_SURF',IGSURF,IS_AVAILABLE,LSUBMODEL)
+          
+          CALL HM_GET_INTV('skew_ID',ISK,IS_AVAILABLE,LSUBMODEL)
+          CALL HM_GET_STRING('Dir',DIR,ncharfield,IS_AVAILABLE)
+          DO K = 1,LFIELD
+            IF(DIR(K:K) == 'X'.OR.DIR(K:K) == 'x')IDIR = 1
+            IF(DIR(K:K) == 'Y'.OR.DIR(K:K) == 'y')IDIR = 2
+            IF(DIR(K:K) == 'Z'.OR.DIR(K:K) == 'z')IDIR = 3
+          ENDDO
+          CALL HM_GET_FLOATV('Gap',GAP,IS_AVAILABLE,LSUBMODEL,UNITAB)
+          CALL HM_GET_INTV('Pflag',PFLAG,IS_AVAILABLE,LSUBMODEL)
+          !CALL HM_GET_INTV('SUBMODEL',ITRANSSUB,IS_AVAILABLE,LSUBMODEL)
+
+          ! read line 2
+
+          CALL HM_GET_FLOATV('Xpos',XYZPOS(1),IS_AVAILABLE,LSUBMODEL,UNITAB)
+          CALL HM_GET_FLOATV('Ypos',XYZPOS(2),IS_AVAILABLE,LSUBMODEL,UNITAB)
+          CALL HM_GET_FLOATV('Zpos',XYZPOS(3),IS_AVAILABLE,LSUBMODEL,UNITAB)
+          
+          CALL HM_GET_INTV('Xflag',XYZFLAG(1),IS_AVAILABLE,LSUBMODEL)
+          CALL HM_GET_INTV('Yflag',XYZFLAG(2),IS_AVAILABLE,LSUBMODEL)
+          CALL HM_GET_INTV('Zflag',XYZFLAG(3),IS_AVAILABLE,LSUBMODEL)
+
+          !---------------------
+          !IF (ITRANSSUB /= 0) CYCLE
+          !---------------------
+
+          if(PFLAG == 0) PFLAG = 1 ! by default
+          if(XYZFLAG(1) == 0) XYZFLAG(1) = 1 ! by default
+          if(XYZFLAG(2) == 0) XYZFLAG(2) = 1 ! by default
+          if(XYZFLAG(3) == 0) XYZFLAG(3) = 1 ! by default
+          !
+!
+          IF (ISK > 0) THEN
+              IS_FOUND = .FALSE.
+              DO J=0,NUMSKW+MIN(1,NSPCOND)*NUMSPH+NSUBMOD
+                IF (ISK == ISKWN(4,J+1)) THEN
+                  ISK=J+1
+                  IS_FOUND = .TRUE.
+                  EXIT
+                ENDIF
+              ENDDO
+              IF(.NOT. IS_FOUND)THEN
+                CALL ANCMSG(MSGID=3112,
+     .                      MSGTYPE=MSGERROR,
+     .                      ANMODE=ANINFO,
+     .                      I1= ID,
+     .                      C1= TITR,
+     .                      I2= ISK)
+              ENDIF
+          ENDIF
+
+          INGR2USR => IGRNOD(1:NGRNOD)%ID
+          IGS = NGR2USR(IGU,INGR2USR,NGRNOD)
+
+          IF (IGS == 0) THEN           
+            CALL ANCMSG(MSGID=1865,
+     .                  MSGTYPE=MSGERROR,
+     .                  ANMODE=ANINFO,
+     .                  I1= ID,
+     .                  C1= TITR,
+     .                  I2= IGU)
+          ENDIF
+          !
+          RTRANS(I,18)=IGS
+          !
+          ISURF = 0
+          DO J=1,NSURF
+            NSEG=IGRSURF(J)%NSEG
+            IF(IGRSURF(J)%ID == IGSURF) THEN
+              ISURF = J
+            ENDIF
+          ENDDO
+          !
+          IF (ISURF == 0 . AND. IGSURF > 0) THEN
+               CALL ANCMSG(MSGID=3110,
+     .                MSGTYPE=MSGERROR,
+     .                ANMODE=ANINFO,
+     .                I1=ID,
+     .                C1=TITR,
+     .                I2=IGSURF)
+          ENDIF
+          !
+          ! create a list of nodes from the surface group
+          !
+          NNO=0
+          ALLOCATE(INO(1:4*IGRSURF(ISURF)%NSEG))
+          INO(1:4*IGRSURF(ISURF)%NSEG)=0
+          ALLOCATE(TAGNODE(1:NUMNOD))
+          TAGNODE(1:NUMNOD)=0
+          !
+          DO J=1,IGRSURF(ISURF)%NSEG
+            DO K=1,4
+              SURFNOD = IGRSURF(ISURF)%NODES(J,K)
+              IF(SURFNOD /= 0) THEN
+                IF (TAGNODE(SURFNOD) == 0) THEN
+                  NNO=NNO+1
+                  INO(NNO)=SURFNOD
+                  TAGNODE(SURFNOD)=1
+                ENDIF
+              ENDIF
+            ENDDO
+          ENDDO
+          !
+          !--------------------------------------
+          ! igrnod is defined to be the node group to be moved
+          !--------------------------------------
+          IF (IGS > 0) THEN
+            IF (ISURF > 0) THEN
+              ! surface defined - transform nodes by positioning them at minimum distance
+              ! from the surface with a gap GAP in the direction IDIR
+              CALL min_dist_grnod_to_surface(
+     .                 IGRNOD(IGS)%ENTITY, IGRNOD(IGS)%NENTITY, INO   , NNO    ,X   ,
+     .                 NUMNOD            , PFLAG              , IDIR  , GAP    ,ISK ,
+     .                 SKEW              , LSKEW              , NUMSKW,ID      ,TITR,
+     .                 NCHARTITLE        )
+            ELSE
+              ! no surface defined - transform nodes by positioning them at XYZPOS
+              ! with flags XYZFLAG
+              CALL min_dist_grnod_to_xyzpos(
+     .                 IGRNOD(IGS)%ENTITY, IGRNOD(IGS)%NENTITY, XYZPOS, XYZFLAG, X     ,
+     .                 NUMNOD            , ISK                , SKEW  , LSKEW  , NUMSKW)
+            ENDIF
+          ENDIF
+          !
+          !---------------------------
+          !
+          IF(ALLOCATED(INO)) DEALLOCATE(INO)
+          IF(ALLOCATED(TAGNODE)) DEALLOCATE(TAGNODE)
+          !
         ENDIF
       ENDDO
 C-----------------------
