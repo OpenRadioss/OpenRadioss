@@ -2567,6 +2567,7 @@ C Frontier writing
 C     
       CALL WRITE_I_C(DD_MV,NVOLU*(NSPMD+2))
       LEN_IA = LEN_IA + NVOLU*(NSPMD+2)
+      write(6,* ) 'IAD_ELEM=',IAD_ELEM
       CALL WRITE_I_C(IAD_ELEM,2*(NSPMD+1))
       LEN_IA = LEN_IA + 2*(NSPMD+1)
       CALL WRITE_I_C(IAD_RBY,NSPMD+1)
