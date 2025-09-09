@@ -744,6 +744,7 @@ C-----------------------------------------------
               use coupling_adapter_mod
               use damping_funct_ini_mod    , only : damping_funct_ini
               USE VIPER_MOD
+              USE BCS_NRF_MOD , ONLY : BCS_NRF
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -3616,6 +3617,21 @@ C----------------------------------
      .               H3D_DATA  ,CPTREAC   ,FTHREAC   ,NODREAC   ,ELEMENT%PON%FSKY ,OUTPUT%TH%WFEXT     )
               ENDIF
 !
+C----------------------
+C         /BCS/NRF
+C----------------------
+                IF(BCS%NUM_NRF > 0)THEN
+                  CALL BCS_NRF(N2D            , NUMNOD   ,
+     .                         NODES%X        , NODES%V  , NODES%A   ,
+     .                         NIXS           , NIXTG    , NIXQ      ,
+     .                         NUMELS         , NUMELTG  , NUMELQ    ,
+     .                         IXS            , IXTG     , IXQ       ,
+     .                         IPARIT         , LSKY     , ELEMENT%PON%FSKY,
+     .                         OUTPUT%TH%WFEXT, NODA_FEXT, DT1       ,
+     .                         ANIM_V         , OUTP_V   , H3D_DATA  )
+                ENDIF
+C----------------------
+
               IF( GLOB_THERM%NUMCONV + GLOB_THERM%NUMRADIA > 0 .AND. GLOB_THERM%ITHERM_FE > 0 )THEN
 
 C========================================================================================

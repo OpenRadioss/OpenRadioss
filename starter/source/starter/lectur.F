@@ -635,7 +635,9 @@ C-----------------------------------------------
       use init_monvol_mod ,only : init_monvol
       use python_duplicate_nodes_mod
       use split_bcs_wall_mod , only : split_bcs_wall
+      use split_bcs_nrf_mod , only : split_bcs_nrf
       use hm_read_bcs_wall_mod , only : hm_read_bcs_wall
+      use hm_read_bcs_nrf_mod , only : hm_read_bcs_nrf
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -5076,6 +5078,13 @@ C--------------------------------------------
       IF(BCS%NUM_WALL /= 0) THEN
 C READ /BCS/WALL
         CALL HM_READ_BCS_WALL(UNITAB, LSUBMODEL, IGRNOD, NGRNOD, SENSORS, ITABM1, NUMNOD, MULTI_FVM)
+      ENDIF
+C--------------------------------------------
+C     /BCS/NRF - NON REFLECTING BOUNDARY CONDITION
+C--------------------------------------------
+      IF(BCS%NUM_NRF /= 0) THEN
+C READ /BCS/WALL
+        CALL HM_READ_BCS_NRF(LSUBMODEL, IGRNOD, NGRNOD, ITABM1, NUMNOD, MULTI_FVM)
       ENDIF
 
 C--------------------------------------------
@@ -10899,8 +10908,9 @@ c         start CPU timer for ddsplit
           ! -----------------------------------------            
 
           ! -----------------------------------------
-          ! split the BCs wall data structure
+          ! split the BCs data structure
           CALL SPLIT_BCS_WALL(BCS_PER_PROC, CEP, SCEP, NSPMD)
+          CALL SPLIT_BCS_NRF(BCS_PER_PROC, CEP, SCEP, NSPMD)
           ! -----------------------------------------
 
           ! -----------------------------------------

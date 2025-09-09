@@ -21,11 +21,11 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    split_bcs_wall_mod   ../starter/source/restart/ddsplit/split_bcs_wall.F90
+!||    split_bcs_nrf_mod   ../starter/source/restart/ddsplit/split_bcs_nrf.F90
 !||--- called by ------------------------------------------------------
 !||    lectur               ../starter/source/starter/lectur.F
 !||====================================================================
-      module split_bcs_wall_mod
+      module split_bcs_nrf_mod
         implicit none
       contains
 ! ======================================================================================================================
@@ -35,12 +35,12 @@
 !! \details  after domain decomposition the global data scruture must be split to keep relevant local data on each domain
 !
 !||====================================================================
-!||    split_bcs_wall   ../starter/source/restart/ddsplit/split_bcs_wall.F90
+!||    split_bcs_nrf   ../starter/source/restart/ddsplit/split_bcs_nrf.F90
 !||--- called by ------------------------------------------------------
 !||    lectur           ../starter/source/starter/lectur.F
 !||--- uses       -----------------------------------------------------
 !||====================================================================
-        subroutine split_bcs_wall(bcs_per_proc, cep, scep, nspmd)
+        subroutine split_bcs_nrf(bcs_per_proc, cep, scep, nspmd)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -65,62 +65,58 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Preconditions
 ! ----------------------------------------------------------------------------------------------------------------------
-          bcs_per_proc(1:nspmd)%num_wall = bcs%num_wall
-          if(bcs%num_wall == 0)return !nothing to allocate and nothing to initialize
+          bcs_per_proc(1:nspmd)%num_nrf = bcs%num_nrf
+          if(bcs%num_nrf == 0)return !nothing to allocate and nothing to initialize
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
 
           do p=1,nspmd
-            allocate( bcs_per_proc(p)%wall(bcs%num_wall) )
+            allocate( bcs_per_proc(p)%nrf(bcs%num_nrf) )
           end do
 
-          ! --- filling global parameters for bcs wall data structure on each domain
+          ! --- filling global parameters for bcs nrf data structure on each domain
           do p=1,nspmd
-            do ii=1,bcs%num_wall
-              bcs_per_proc(p)%wall(ii)%is_enabled = bcs%wall(ii)%is_enabled
-              bcs_per_proc(p)%wall(ii)%is_depending_on_time = bcs%wall(ii)%is_depending_on_time
-              bcs_per_proc(p)%wall(ii)%is_depending_on_sensor = bcs%wall(ii)%is_depending_on_sensor
-              bcs_per_proc(p)%wall(ii)%tstart = bcs%wall(ii)%tstart
-              bcs_per_proc(p)%wall(ii)%tstop = bcs%wall(ii)%tstop
-              bcs_per_proc(p)%wall(ii)%user_id = bcs%wall(ii)%user_id
-              bcs_per_proc(p)%wall(ii)%grnod_id = bcs%wall(ii)%grnod_id
-              bcs_per_proc(p)%wall(ii)%sensor_id = bcs%wall(ii)%sensor_id
+            do ii=1,bcs%num_nrf
+              bcs_per_proc(p)%nrf(ii)%user_id = bcs%nrf(ii)%user_id
+              bcs_per_proc(p)%nrf(ii)%set_id = bcs%nrf(ii)%set_id
             end do
           end do
 
           ! --- filling list of elems : only relevant elems on each domain
-          do ii=1,bcs%num_wall
+          do ii=1,bcs%num_nrf
 
             proc_index(1:nspmd) = 0
             size_on_proc(1:nspmd) = 0
 
             !---numbering
-            do jj=1,bcs%wall(ii)%list%size
-              p = 1 + cep( bcs%wall(ii)%list%elem(jj) )
+            do jj=1,bcs%nrf(ii)%list%size
+              p = 1 + cep( bcs%nrf(ii)%list%elem(jj) )
               size_on_proc(p) = size_on_proc(p) + 1
             end do
 
             !---allcoation of local data structure (on each domain)
             do p=1,nspmd
-              bcs_per_proc(p)%wall(ii)%list%size = size_on_proc(p)
-              allocate( bcs_per_proc(p)%wall(ii)%list%elem(size_on_proc(p)))
-              allocate( bcs_per_proc(p)%wall(ii)%list%face(size_on_proc(p)))
-              allocate( bcs_per_proc(p)%wall(ii)%list%adjacent_elem(size_on_proc(p)))
+              bcs_per_proc(p)%nrf(ii)%list%size = size_on_proc(p)
+              allocate( bcs_per_proc(p)%nrf(ii)%list%elem(size_on_proc(p)))
+              allocate( bcs_per_proc(p)%nrf(ii)%list%face(size_on_proc(p)))
+              allocate( bcs_per_proc(p)%nrf(ii)%list%rCp(size_on_proc(p)))
+              allocate( bcs_per_proc(p)%nrf(ii)%list%rCs(size_on_proc(p)))
             end do
 
             !--filling local data structure
-            do jj=1,bcs%wall(ii)%list%size
-              p = 1 + cep( bcs%wall(ii)%list%elem(jj) )
+            do jj=1,bcs%nrf(ii)%list%size
+              p = 1 + cep( bcs%nrf(ii)%list%elem(jj) )
               proc_index(p) = proc_index(p) + 1
-              bcs_per_proc(p)%wall(ii)%list%elem( proc_index(p) ) = bcs%wall(ii)%list%elem(jj) ! global elem id
-              bcs_per_proc(p)%wall(ii)%list%face( proc_index(p) ) = bcs%wall(ii)%list%face(jj)
-              bcs_per_proc(p)%wall(ii)%list%adjacent_elem( proc_index(p) ) = 0
+              bcs_per_proc(p)%nrf(ii)%list%elem( proc_index(p) ) = bcs%nrf(ii)%list%elem(jj) ! global elem id
+              bcs_per_proc(p)%nrf(ii)%list%face( proc_index(p) ) = bcs%nrf(ii)%list%face(jj)
+              bcs_per_proc(p)%nrf(ii)%list%rCp( proc_index(p) ) = bcs%nrf(ii)%list%rCp(jj)
+              bcs_per_proc(p)%nrf(ii)%list%rCs( proc_index(p) ) = bcs%nrf(ii)%list%rCs(jj)
             end do
 
           end do
 
 ! ----------------------------------------------------------------------------------------------------------------------
           return
-        end subroutine split_bcs_wall
-      end module split_bcs_wall_mod
+        end subroutine split_bcs_nrf
+      end module split_bcs_nrf_mod

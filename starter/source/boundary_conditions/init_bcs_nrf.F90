@@ -21,37 +21,39 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    init_bcs_wall_mod   ../starter/source/boundary_conditions/init_bcs_wall.F90
+!||    init_bcs_nrf_mod   ../starter/source/boundary_conditions/init_bcs_nrf.F90
 !||--- called by ------------------------------------------------------
 !||    initia              ../starter/source/elements/initia/initia.F
 !||====================================================================
-      module init_bcs_wall_mod
+      module init_bcs_nrf_mod
         implicit none
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
 ! ======================================================================================================================
-!! \brief This subroutine is initializing the sliding wall boundary conditions
-!! \details identification of related faces is done. Identified faces are recorded in specific buffer bcs%wall(id)%list(*)
+!! \brief This subroutine is initializing the nrf boundary conditions
+!! \details identification of related faces is done. Identified faces are recorded in specific buffer bcs%nrf(id)%list(*)
 !! \details binary comparison (IAND) is done to identify relevant faces
 !||====================================================================
-!||    init_bcs_wall          ../starter/source/boundary_conditions/init_bcs_wall.F90
+!||    init_bcs_nrf           ../starter/source/boundary_conditions/init_bcs_nrf.F90
 !||--- called by ------------------------------------------------------
 !||    initia                 ../starter/source/elements/initia/initia.F
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||====================================================================
-        subroutine init_bcs_wall( igrnod, ngrnod, numnod, ale_connectivity, multi_fvm,&
+        subroutine init_bcs_nrf( igrnod, ngrnod, numnod,  multi_fvm,&
           ixs,nixs,numels, ixq,nixq,numelq, ixtg,nixtg,numeltg, n2d ,  &
-          ngroup, nparg, iparg, ipri)
+          ngroup, nparg, iparg, ipri, itab, nummat, mat_param)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
           use groupdef_mod , only : group_
-          use ale_connectivity_mod , only : t_ale_connectivity
           use multi_fvm_mod , only : multi_fvm_struct
           use bcs_mod , only : bcs
           use my_alloc_mod
+          use precision_mod , only : WP
+          use matparam_def_mod, only: matparam_struct_
+          use constant_mod , only : four_over_3, half, third, fourth
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -63,7 +65,6 @@
           integer, intent(in) :: ipri                                                  !< flag from /IOFLAG input option
           integer, intent(in) :: ngrnod, numnod                                        !< sizes for array definition
           type (group_), dimension(ngrnod), target :: igrnod                           !< data buffer for group of nodes
-          TYPE(t_ale_connectivity) :: ale_connectivity                                 !< data buffer for ale connectivities
           type(multi_fvm_struct), intent(inout) :: multi_fvm                           !< data buffer for collocated scheme (multifluid law 151)
           integer, intent(in) :: nixs,nixq,nixtg                                       !< size for array definition (elem connectivities)
           integer, intent(in) :: numels,numelq,numeltg                                 !< size for array definition (elem connectivities)
@@ -71,27 +72,48 @@
           integer, intent(in) :: n2d                                                   !< flag for 2d/3d analysis
           integer, intent(in) :: ngroup,nparg                                          !< size for array definition
           integer, intent(in) :: iparg(nparg,ngroup)                                   !< data buffer for elem groups
+          integer, intent(in) :: itab(numnod)                                          !< nodes user ids
+          integer,intent(in) :: nummat
+          type(matparam_struct_), dimension(nummat), intent(in) :: mat_param !< material parameters
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: internal_grnod_id
-          integer :: ii,jj,kk,kv
+          integer :: ii,jj,kk
           integer :: num_nodes_in_group
           integer :: icode !< binary code
           integer :: ng,nseg
-          integer :: iad1,lgth,iadv,lgthv,iv,ivv,ie !< connectivity data
+          integer :: iie,ie !< connectivity data
           integer :: ity,jale,jeul,nel,nft,isolnod !< elem group parameters
           integer :: ipos
           integer :: isize !< data buffer for elem groups : allocation size for working array
-          integer,allocatable,dimension(:) :: adjacent_elem
+          integer :: imat !< internal material identifier
           integer,allocatable,dimension(:,:) :: itmp
           logical :: l_tagnod(numnod)
           logical :: is_tria
-          ! ----------------------------------------------------------------------------------------------------------------------
+          integer :: n3,n4
+          real(kind=WP) :: fac
+          real(kind=WP) :: rho0,shear,bulk  !< material parameters (elastic state / intial state)
+          integer icf3d(4,6), icf2d(2,4)
+          ! Init (lines = face )
+          data icf3d / &
+            1,2,3,4, &   ! face 1
+            3,7,8,4, &   ! face 2
+            5,6,7,8, &   ! face 3
+            1,2,6,5, &   ! face 4
+            2,3,7,6, &   ! face 5
+            1,4,8,5  /   ! face 6
+
+          data icf2d / &
+            1,2, &       ! edge 1  (2d face)
+            2,3, &       ! edge 2  (2d face)
+            3,4, &       ! edge 3  (2d face)
+            4,1  /       ! edge 4  (2d face)
+! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Preconditions
 ! ----------------------------------------------------------------------------------------------------------------------
-          if(bcs%num_wall == 0)return        ! if no option /BCS/WALL in input file then return
-          if(.NOT. MULTI_FVM%IS_USED)return  ! compatible only with collocated scheme (material law 151)
+          if(bcs%num_nrf == 0)return        ! if no option /BCS/NRF in input file then return
+          if(MULTI_FVM%IS_USED)return       ! compatible only with FEM
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -101,12 +123,12 @@
           isize = numnod
           call my_alloc(bcs%iworking_array,2,isize)
 
-          do ii = 1, bcs%num_wall
+          do ii = 1, bcs%num_nrf
 
             l_tagnod(1:numnod) = .false.
 
             !RETRIEVE RELATED GRNOD
-            internal_grnod_id = bcs%wall(ii)%grnod_id
+            internal_grnod_id = bcs%nrf(ii)%set_id
             num_nodes_in_group = igrnod(internal_grnod_id)%nentity
 
             !TAG RELATED NODES
@@ -126,7 +148,8 @@
               jale = iparg(7,ng)
               jeul = iparg(11,ng)
               isolnod = iparg(28,ng)
-              if(jale==0 .and. jeul==0)cycle
+              if(jale/=0)cycle
+              if(jeul/=0)cycle
 
               !---hexa---
               if(ity == 1 .and. isolnod == 8)then
@@ -155,7 +178,7 @@
                     bcs%iworking_array(2,1:isize/2)=itmp(2,1:isize/2)
                     deallocate(itmp)
                   end if
-                  !test binary codes to identify blocked faces
+                  !test binary codes to identify boundary faces
                   kk = 0 !number of identified faces
                   if(015 == IAND(icode,015))then; kk=kk+1 ; bcs%iworking_array(2,nseg+kk) = 1 ; end if
                   if(204 == IAND(icode,204))then; kk=kk+1 ; bcs%iworking_array(2,nseg+kk) = 2 ; end if
@@ -194,11 +217,9 @@
                     bcs%iworking_array(2,1:isize-numnod)=itmp(2,1:isize-numnod)
                     deallocate(itmp)
                   end if
-                  !test binary codes to identify blocked faces
+                  !test binary codes to identify boundary faces
                   kk = 0 !number of identified faces
-                  !if(015 == IAND(icode,015))then; kk=kk+1 ; bcs%iworking_array(2,nseg+kk) = 1 ; end if
                   if(204 == IAND(icode,204))then; kk=kk+1 ; bcs%iworking_array(2,nseg+kk) = 2 ; end if
-                  !if(240 == IAND(icode,240))then; kk=kk+1 ; bcs%iworking_array(2,nseg+kk) = 3 ; end if
                   if(051 == IAND(icode,051))then; kk=kk+1 ; bcs%iworking_array(2,nseg+kk) = 4 ; end if
                   if(102 == IAND(icode,102))then; kk=kk+1 ; bcs%iworking_array(2,nseg+kk) = 5 ; end if
                   if(153 == IAND(icode,153))then; kk=kk+1 ; bcs%iworking_array(2,nseg+kk) = 6 ; end if
@@ -230,7 +251,7 @@
                     bcs%iworking_array(2,1:isize-numnod)=itmp(2,1:isize-numnod)
                     deallocate(itmp)
                   end if
-                  !test binary codes to identify blocked faces
+                  !test binary codes to identify boundary faces
                   if(03 == IAND(icode,03))then; kk=kk+1 ; bcs%iworking_array(2,nseg+kk) = 1 ; end if
                   if(06 == IAND(icode,06))then; kk=kk+1 ; bcs%iworking_array(2,nseg+kk) = 2 ; end if
                   if(12 == IAND(icode,12))then; kk=kk+1 ; bcs%iworking_array(2,nseg+kk) = 3 ; end if
@@ -263,7 +284,7 @@
                     bcs%iworking_array(2,1:isize-numnod)=itmp(2,1:isize-numnod)
                     deallocate(itmp)
                   end if
-                  !test binary codes to identify blocked faces
+                  !test binary codes to identify boundary faces
                   if(3 == IAND(icode,3))then; kk=kk+1 ; bcs%iworking_array(2,nseg+kk) = 1 ; end if
                   if(6 == IAND(icode,6))then; kk=kk+1 ; bcs%iworking_array(2,nseg+kk) = 2 ; end if
                   if(5 == IAND(icode,5))then; kk=kk+1 ; bcs%iworking_array(2,nseg+kk) = 3 ; end if
@@ -275,68 +296,66 @@
 
             end do!next ng
 
-            allocate(bcs%wall(ii)%list%elem(nseg))
-            allocate(bcs%wall(ii)%list%face(nseg))
-            ! allocate(bcs%wall(ii)%list%adjacent_elem(nseg)) !do not need to store in global datastrucure : printout only => local alloc. / dealloc.
-            allocate(adjacent_elem(nseg)) !Starter printout only (local array)
+            allocate(bcs%nrf(ii)%list%elem(nseg))
+            allocate(bcs%nrf(ii)%list%face(nseg))
+            allocate(bcs%nrf(ii)%list%rCp(nseg))
+            allocate(bcs%nrf(ii)%list%rCs(nseg))
 
-            !searching for adjacent elems on related face (and face from this adjacent elem)
             do jj=1,nseg
               ie = bcs%iworking_array(1,jj)
-              iad1 = ale_connectivity%ee_connect%iad_connect(ie)
-              lgth = ale_connectivity%ee_connect%iad_connect(ie+1)-ale_connectivity%ee_connect%iad_connect(ie)
               kk = bcs%iworking_array(2,jj)
-              iv = ale_connectivity%ee_connect%connected(iad1 + kk - 1)
-              if (iv > 0) then
-                iadv = ale_connectivity%ee_connect%iad_connect(iv)
-                lgthv = ale_connectivity%ee_connect%iad_connect(iv+1)-ale_connectivity%ee_connect%iad_connect(iv)
-                do kv = 1, lgthv
-                  ivv = ale_connectivity%ee_connect%connected(iadv + kv - 1)
-                  if(ivv == bcs%iworking_array(1,jj) ) then
-                    ipos = ipos + 1 ! skip data when there is no adjacent elem
-                    bcs%wall(ii)%list%elem(ipos) = ie
-                    bcs%wall(ii)%list%face(ipos) = kk
-                    adjacent_elem(ipos)=iv !for user post verification from Starter listing file
-                    exit
-                  end if
-                end do
-              end if
+              bcs%nrf(ii)%list%elem(jj) = ie
+              bcs%nrf(ii)%list%face(jj) = kk
             end do !next jj
 
-            bcs%wall(ii)%list%size = ipos
+            bcs%nrf(ii)%list%size = nseg
 
-            if(ipri >= 3)then
               !effective size & printout
-              if(ipos > 0)then
-                write(iout, 2011)bcs%wall(ii)%user_id
-                write(iout, 2019)ipos/2  ! elem_i/elem_j and elem_j/elem_i related to the same internal face
+              if(nseg > 0)then
+                write(iout, 2011)bcs%nrf(ii)%user_id
+                write(iout, 2019)nseg
                 write(iout, 2020)
-                write(iout, 2021)
-                do jj=1,ipos
-                  ie = bcs%wall(ii)%list%elem(jj)
-                  iv = adjacent_elem(jj)
-                  ! convert internal ids (ie,iv) into user ids
-                  if(n2d==0)then
-                    ie = ixs(nixs,ie)
-                    iv = ixs(nixs,iv)
+                if(n2d == 0)then
+                  write(iout, 2023)
+                else
+                  write(iout, 2021)
+                end if
+                do jj=1,nseg
+                  iie = bcs%nrf(ii)%list%elem(jj)
+                  kk = bcs%nrf(ii)%list%face(jj)
+                  ! convert internal ids into user ids
+                  if(n2d == 0)then
+                    ie = ixs(nixs,iie)
+                    imat = ixs(1,iie)
+                    fac = fourth
+                    n3= ixs(1+icf3d(3,kk),iie)
+                    n4= ixs(1+icf3d(4,kk),iie)
+                    if(n3==n4 .or. n4==0)fac=third
+                    if(ipri >= 3)write(iout, fmt="(5X,I10,4X,4I10)")ie, ITAB(ixs(1+ICF3D(1:4,kk),iie))
                   else
                     if(is_tria)then
-                      ie = ixtg(nixtg,ie)
-                      iv = ixtg(nixtg,iv)
+                      ie = ixtg(nixtg,iie)
+                      imat = ixtg(1,iie)
+                      fac = half
+                      if(ipri >= 3)write(iout, fmt="(5X,I10,2X,2I10)")ie, ITAB(ixtg(1+ICF2D(1:2,kk),iie))
                     else
-                      ie = ixq(nixq,ie)
-                      iv = ixq(nixq,iv)
+                      ie = ixq(nixq,iie)
+                      imat = ixq(1,iie)
+                      fac = half
+                      if(ipri >= 3)write(iout, fmt="(5X,I10,2X,2I10)")ie, ITAB(ixq(1+ICF2D(1:2,kk),iie))
                     end if
                   end if
-                  ! print user ids
-                  !  do no print elem_i/elem_j and elem_j/elem_i it is the same internal face
-                  if(ie < iv)write(iout, fmt="(5X,I10,2X,I10)")ie,iv
+                  rho0 = mat_param(imat)%rho0
+                  shear = mat_param(imat)%shear
+                  bulk = mat_param(imat)%bulk
+                  bcs%nrf(ii)%list%rCp(jj) = sqrt((bulk + FOUR_OVER_3*shear)/rho0)
+                  bcs%nrf(ii)%list%rCs(jj) = sqrt(shear/rho0)
+                  bcs%nrf(ii)%list%rCp(jj) = fac * rho0 * bcs%nrf(ii)%list%rCp(jj) !rho.Cp/N
+                  bcs%nrf(ii)%list%rCs(jj) = fac * rho0 * bcs%nrf(ii)%list%rCs(jj) !rho*Cs/N
                 end do
-                write(iout, 2022)
+                if(ipri >= 3)write(iout, 2022)
               end if
-            end if
 
-            deallocate(adjacent_elem)
             deallocate(bcs%iworking_array)
 
           end do !next ii
@@ -347,16 +366,17 @@
           return
 ! ----------------------------------------------------------------------------------------------------------------------
 2010      FORMAT(5X, &
-            5X,/,"    INIT. WALL BOUNDARY CONDITIONS  ", /,&
+            5X,/,"    INIT. NRF BOUNDARY CONDITIONS  ", /,&
             "    ------------------------------  ", /)
 
 2011      format(5X, "bcs identifier . . . . . . . . . . . . =", I10)
 2019      format(5X, "number of identified faces . . . . . . =", I10)
 2020      format(5X, "list of identified faces :" )
-2021      format(5X, "      ELEM /      ELEM   " )
+2021      format(5X, "------ELEM  -----NODES--------" )
+2023      format(5X, "------ELEM  -----NODES----------------------------" )
 2022      format(5X)
 
 
 ! ----------------------------------------------------------------------------------------------------------------------
-        end subroutine init_bcs_wall
-      end module init_bcs_wall_mod
+        end subroutine init_bcs_nrf
+      end module init_bcs_nrf_mod

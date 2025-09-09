@@ -763,7 +763,8 @@ C---------------------------------------------------
       CALL HM_OPTION_COUNT('/BCS',NUMBCS)
       CALL HM_OPTION_COUNT('/NBCS',NUMBCSN)
       NBCSKIN = NUMBCS - NBCSLAG
-      CALL HM_OPTION_COUNT('/BCS/WALL',BCS%NUM_WALL)      
+      CALL HM_OPTION_COUNT('/BCS/WALL',BCS%NUM_WALL)
+      CALL HM_OPTION_COUNT('/BCS/NRF',BCS%NUM_NRF)
 C---------------------------------------------------
 C     KINEMATIC CONDITIONS
 C---------------------------------------------------

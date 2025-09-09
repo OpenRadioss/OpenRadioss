@@ -555,7 +555,52 @@ C-----------------------------------------------
           ENDIF
 
         END DO ! MY_CONSTRAINT=1,BCS%NUM_WALL
-      END IF      
+      END IF   
+C-----------------------------------------------
+C     /BCS/NRF
+C-----------------------------------------------
+      IF (MYQAKEY('/BCS/NRF')) THEN
+        DO MY_CONSTRAINT=1,BCS%NUM_NRF
+
+          TITR(1:nchartitle)=''
+          MY_ID = BCS%NRF(MY_CONSTRAINT)%user_id
+          IF(LEN_TRIM(TITR)/=0)THEN
+            CALL QAPRINT(TITR(1:LEN_TRIM(TITR)),MY_ID,0.0_8)
+          ELSE
+            CALL QAPRINT('A_BCS_NRF_FAKE_NAME',MY_ID,0.0_8)
+          END IF
+          !
+          WRITE(VARNAME,'(A,I0,A)') 'BCS_NRF_',MY_CONSTRAINT,'__GRNOD_ID_'
+          TEMP_INTEGER = BCS%NRF(MY_CONSTRAINT)%SET_ID
+          CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INTEGER,0.0_8)
+          !
+          WRITE(VARNAME,'(A,I0,A)') 'BCS_NRF_',MY_CONSTRAINT,'__LIST__SIZE_'
+          TEMP_INTEGER = BCS%NRF(MY_CONSTRAINT)%LIST%SIZE
+          CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INTEGER,0.0_8)
+          !
+          ITMP=TEMP_INTEGER
+          IF(ITMP == 1)THEN
+            WRITE(VARNAME,'(A,I0,A)') 'BCS_NRF_',MY_CONSTRAINT,'__LIST__ELEM_1_'
+            TEMP_INTEGER = BCS%NRF(MY_CONSTRAINT)%LIST%ELEM(1)
+            CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INTEGER,0.0_8)
+            !
+            WRITE(VARNAME,'(A,I0,A)') 'BCS_NRF_',MY_CONSTRAINT,'__LIST__FACE_1_'
+            TEMP_INTEGER = BCS%NRF(MY_CONSTRAINT)%LIST%FACE(1)
+            CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INTEGER,0.0_8)
+          ELSEIF(ITMP > 1)THEN
+            TEMP_INTEGER = BCS%NRF(MY_CONSTRAINT)%LIST%ELEM(1)
+            WRITE(VARNAME,'(A,I0,A,I0,A)') 'BCS_NRF_',MY_CONSTRAINT,'__LIST__ELEMS_  ',TEMP_INTEGER,'  ...'
+            TEMP_INTEGER = BCS%NRF(MY_CONSTRAINT)%LIST%ELEM(ITMP)
+            CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INTEGER,0.0_8)
+            !
+            TEMP_INTEGER = BCS%NRF(MY_CONSTRAINT)%LIST%FACE(1)
+            WRITE(VARNAME,'(A,I0,A,I0,A)') 'BCS_NRF_',MY_CONSTRAINT,'__LIST__FACES_  ',TEMP_INTEGER,'  ...'
+            TEMP_INTEGER = BCS%NRF(MY_CONSTRAINT)%LIST%FACE(ITMP)
+            CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INTEGER,0.0_8)
+          ENDIF
+
+        END DO ! MY_CONSTRAINT=1,BCS%NUM_NRF
+      END IF           
 C-----------------------------------------------
 C     /RWALL
 C-----------------------------------------------
