@@ -200,6 +200,7 @@ C-----------------------------------------------
       use glob_therm_mod
       use read_ale_grid_mod, only : read_ale_grid
       use read_bcs_wall_mod, only : read_bcs_wall
+      use read_bcs_nrf_mod, only : read_bcs_nrf
       use rbe3_mod
       use restart_rbe3pen_mod, only : get_nrbe3pen_l,read_rrbe3pen
       use checksum_output_option_mod
@@ -1009,6 +1010,14 @@ C----------------------------------
       IF(BCS%NUM_WALL > 0)THEN
         CALL READ_BCS_WALL()
       ENDIF
+C----------------------------------
+C /BCS/NRF
+C----------------------------------
+      CALL READ_I_C(ITMP,1)
+      BCS%NUM_NRF = ITMP
+      IF(BCS%NUM_NRF > 0)THEN
+        CALL READ_BCS_NRF()
+      ENDIF      
 C----------------------------------
 C     reading real variables
 C--------------------------------------
