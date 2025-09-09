@@ -32,6 +32,10 @@
 
 extern "C" {
 
+CDECL void hm_build_id(char *build_id,int *build_id_size, int *size);
+CDECL void hm_build_id_(char *build_id,int *build_id_size, int *size);
+CDECL void hm_build_id__(char *build_id,int *build_id_size, int *size);
+CDECL void _FCALL HM_BUILD_ID (char *build_id,int *build_id_size, int *size);
 
 // New library ID : Date_Git_Short_Sha1
 
@@ -39,9 +43,17 @@ CDECL void hm_build_id(char *build_id,int *build_id_size, int *size){
   // char* build_id:     output string recieving the Build_ID
   // int* build_id_size: input size of build_id_size
   // int *size : output size of copied string
+  char commit_id[128];
+  char * pref="or_";
 
-  char * commit_id=BUILD_ID;
-  int commit_id_size=strlen(commit_id);
+#ifdef _WIN64
+    strcpy_s(commit_id,sizeof(commit_id),pref);
+    strcat_s(commit_id,sizeof(commit_id),BUILD_ID);
+#else
+    strcpy(commit_id,pref);  
+    strcat(commit_id,BUILD_ID);
+#endif
+  int commit_id_size=(int)strlen(commit_id);
   
   if ( *build_id_size < commit_id_size){
      *size = -1;
@@ -59,61 +71,21 @@ CDECL void hm_build_id_(char *build_id,int *build_id_size, int *size){
   // char* build_id:     output string recieving the Build_ID
   // int* build_id_size: input size of build_id_size
   // int *size : output size of copied string
-
-  char * commit_id=BUILD_ID;
-  int commit_id_size=strlen(commit_id);
-  
-  if ( *build_id_size < commit_id_size){
-     *size = -1;
-  }else{
-     #ifdef _WIN64
-       strcpy_s(build_id,*build_id_size,commit_id);
-     #else
-       strcpy(build_id,commit_id);  
-     #endif
-     *size=commit_id_size;
-  }
+  hm_build_id(build_id,build_id_size,size);
 }
 
 CDECL void hm_build_id__(char *build_id,int *build_id_size, int *size){
   // char* build_id:     output string recieving the Build_ID
   // int* build_id_size: input size of build_id_size
   // int *size : output size of copied string
-
-  char * commit_id=BUILD_ID;
-  int commit_id_size=strlen(commit_id);
-  
-  if ( *build_id_size < commit_id_size){
-     *size = -1;
-  }else{
-     #ifdef _WIN64
-       strcpy_s(build_id,*build_id_size,commit_id);
-     #else
-       strcpy(build_id,commit_id);  
-     #endif
-     *size=commit_id_size;
-  }
+  hm_build_id(build_id,build_id_size,size);
 }
 
 CDECL void _FCALL HM_BUILD_ID (char *build_id,int *build_id_size, int *size){
   // char* build_id:     output string recieving the Build_ID
   // int* build_id_size: input size of build_id_size
   // int *size : output size of copied string
-
-  char * commit_id=BUILD_ID;
-  int commit_id_size=strlen(commit_id);
-  
-  if ( *build_id_size < commit_id_size){
-     *size = -1;
-  }else{
-     #ifdef _WIN64
-       strcpy_s(build_id,*build_id_size,commit_id);
-     #else
-       strcpy(build_id,commit_id);  
-     #endif
-     *size=commit_id_size;
-  }
+  hm_build_id(build_id,build_id_size,size);
 }
 
 }
-
