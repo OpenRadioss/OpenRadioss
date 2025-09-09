@@ -114,6 +114,7 @@
         contains
           procedure :: destruct => destruct_eos_param
           procedure :: construct => construct_eos_param
+          procedure :: copyto => copy_this_eosparam_to_target
 
         end type eos_param_
 
@@ -162,6 +163,46 @@
             allocate(this%table(this%ntable))
           end if
         end subroutine construct_eos_param
+
+        subroutine copy_this_eosparam_to_target(this, target)
+          implicit none
+          class(eos_param_) ,intent(in) :: this
+          type(eos_param_) ,intent(inout) :: target
+          integer :: i
+          target%nuparam = this%nuparam
+          target%niparam = this%niparam
+          target%nfunc = this%nfunc
+          target%ntable = this%ntable
+          target%isfluid = this%isfluid
+          target%cv = this%cv
+          target%cp = this%cp
+          target%psh = this%psh
+          target%e0 = this%e0
+          target%p0 = this%p0
+          target%pmin = this%pmin
+          target%title = this%title
+          call target%construct()
+          if(this%nuparam >= 0) then
+            do i= 1,this%nuparam
+              target%uparam(i) = this%uparam(i)
+            end do
+          end if
+          if(this%niparam >= 0) then
+            do i= 1,this%niparam
+              target%iparam(i) = this%iparam(i)
+            end do
+          end if
+          if(this%nfunc >= 0) then
+            do i= 1,this%nfunc
+              target%func(i) = this%func(i)
+            end do
+          end if
+          if(this%ntable >= 0) then
+            do i= 1,this%ntable
+              call this%table(i)%copyto(target%table(i))
+            end do
+          end if
+        end subroutine copy_this_eosparam_to_target
 !
 !---------------
       end module eos_param_mod

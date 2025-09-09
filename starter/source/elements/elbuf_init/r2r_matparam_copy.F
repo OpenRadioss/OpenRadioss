@@ -40,12 +40,12 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NUMMAT0,NUMMAT
-      TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT ) :: MATPARAM_TAB
+      TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT ),TARGET :: MATPARAM_TAB
       TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT0) :: MATPARAM_INI
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IFAIL,NUPARAM,NIPARAM,NFAIL,IMAT,NBMAT
+      INTEGER I,J,IFAIL,NUPARAM,NIPARAM,NFAIL,IMAT,NBMAT,MID
 C=======================================================================
 c     Copy matparam from standard materials
 c
@@ -146,13 +146,27 @@ c
             END DO
           END DO  ! NFAIL
         ENDIF
-c
+
+        IF (MATPARAM_INI(I)%IEOS > 0) THEN
+          CALL MATPARAM_INI(I)%EOS%COPYTO(MATPARAM_TAB(I)%EOS)
+        ENDIF
+
         ALLOCATE(MATPARAM_TAB(I)%MULTIMAT%MID(NBMAT))
         ALLOCATE(MATPARAM_TAB(I)%MULTIMAT%VFRAC(NBMAT))
         IF (NBMAT > 0) THEN
+          MATPARAM_TAB(I)%MULTIMAT%NB  = MATPARAM_INI(I)%MULTIMAT%NB
+          MATPARAM_TAB(I)%MULTIMAT%OLD_DATA_FORMAT  = MATPARAM_INI(I)%MULTIMAT%OLD_DATA_FORMAT
           DO IMAT=1,NBMAT
             MATPARAM_TAB(I)%MULTIMAT%MID(IMAT)   = MATPARAM_INI(I)%MULTIMAT%MID(IMAT)
             MATPARAM_TAB(I)%MULTIMAT%VFRAC(IMAT) = MATPARAM_INI(I)%MULTIMAT%VFRAC(IMAT)
+            IF(MATPARAM_INI(I)%MULTIMAT%OLD_DATA_FORMAT == 1)THEN
+              IF(.NOT. ALLOCATED(MATPARAM_INI(I)%MULTIMAT%EOS)) ALLOCATE(MATPARAM_INI(I)%MULTIMAT%EOS(NBMAT))
+              CALL MATPARAM_INI(I)%MULTIMAT%EOS(IMAT)%COPYTO(MATPARAM_TAB(I)%MULTIMAT%EOS(IMAT))
+              MATPARAM_TAB(I)%MULTIMAT%pEOS(IMAT)%EOS => MATPARAM_TAB(I)%MULTIMAT%EOS(IMAT)
+            ELSE
+              MID =  MATPARAM_INI(I)%MULTIMAT%MID(IMAT)
+              MATPARAM_TAB(I)%MULTIMAT%pEOS(IMAT)%EOS => MATPARAM_TAB(MID)%EOS
+            ENDIF
           END DO  ! IMAT
         ENDIF
 !
