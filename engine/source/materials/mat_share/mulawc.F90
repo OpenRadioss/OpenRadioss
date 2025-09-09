@@ -205,6 +205,7 @@
           use sensor_mod
           use sigeps57c_mod
           use sigeps87c_mod
+          use sigeps88c_mod
           use sigeps125c_mod
           use sigeps127c_mod
           use sigeps128c_mod
@@ -1678,16 +1679,16 @@
                 &lbuf%seq ,jthe     ,off      ,lbuf%off ,nvartmp  ,   &
                 &vartmp   )
               elseif (ilaw == 88) then
-                call sigeps88c(&
-                &jlt    , nuparam0, nuvar   , nfunc , ifunc , npf   ,&
-                &npt    , ipt     ,ngl     , off    , ismstr   , gs ,&
-                &tf     , tt     , dt1c    , bufmat(iadbuf), rho   ,&
-                &area   , eint   , thklyl  ,&
-                &depsxx , depsyy , depsxy  , depsyz, depszx,&
-                &epsxx  , epsyy  , epsxy   , epsyz , epszx ,&
-                &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
-                &signxx , signyy , signxy  , signyz, signzx,&
-                &ssp    , viscmx , thkn    , uvar )
+                call sigeps88c(                                       &
+                &jlt    ,matparam,nuvar   ,uvar    ,dt1    ,tt      , &
+                &rho    ,ssp     ,off     ,ismstr  ,israte ,ngl     , &
+                &epsxx  ,epsyy   ,epsxy   ,epspxx  ,epspyy ,epspxy  , &
+                &depsxx ,depsyy  ,depsxy  ,depsyz  ,depszx ,          &
+                &sigoxx ,sigoyy  ,sigoxy  ,sigoyz  ,sigozx ,          &
+                &signxx ,signyy  ,signxy  ,signyz  ,signzx ,          &
+                &asrate ,etse    ,lbuf%epsd,nvartmp,vartmp ,lbuf%dmg, &
+                &thkly(jpos)     ,gbuf%thk_i,thkn  ,shf    ,ipt     , & 
+                &elbuf_str%nptt  )
               elseif (ilaw == 93) then
                 call sigeps93c(&
                 &jlt      ,nuparam0  ,nuvar    ,nfunc    ,ifunc    ,&

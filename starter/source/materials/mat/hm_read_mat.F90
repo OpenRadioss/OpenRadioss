@@ -222,6 +222,7 @@
           use hm_read_mat81_mod
           use hm_read_mat87_mod
           use hm_read_mat105_mod , only : hm_read_mat105
+          use hm_read_mat88_mod
           use hm_read_mat125_mod
           use hm_read_mat126_mod
           use hm_read_mat127_mod
@@ -945,13 +946,13 @@
               &unitab   ,lsubmodel,mtag     ,iout     ,nvartmp  ,&
               &israte   ,ntable   ,table    ,maxfunc  )
 !-------
-             case ('LAW88','MLAW88')
+            case ('LAW88','MLAW88','TABULATED_HYPERELASTIC')
               ilaw = 88
               call hm_read_mat88(&
-              &uparam   ,maxuparam ,nuparam  ,israte  ,imatvis  ,&
-              &nuvar    ,ifunc     ,maxfunc  ,nfunc   ,parmat   ,&
-              &unitab   ,mat_id    ,titr     ,mtag    ,lsubmodel,&
-              &pm(1,i)  ,ipm(1,i)  ,matparam )
+              &matparam ,nvartmp  ,parmat   ,unitab   ,mat_id   ,&
+              &titr     ,mtag     ,lsubmodel,iout     ,nuvar    ,&
+              &ilaw     ,ntable   ,table    ,imatvis  ,israte   ,&
+              &maxfunc  )
 !-------
              case ('LAW90')
               ilaw = 90
