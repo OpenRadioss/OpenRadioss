@@ -23,9 +23,6 @@
 
 #include "GlobalModelSDI.h"
 #include <buildmapping.h>
-
-
-
 #include <boost/algorithm/string.hpp>
 #include <stdio.h>
 #include <string.h>
@@ -33,7 +30,6 @@
 #include <radiossblk.h>
 #include <dynamain.h>
 #include <dyna2rad/dyna2rad.h>
-#include <starter_lic.h>
 #include <map>
 #include <dll_settings.h>
 #include <sdiSelectionObserver.h>
@@ -196,17 +192,7 @@ void CDECL cpp_build_model_(char *name, int *size, int *res)
     for(i=0;i<*size;i++)  cname[i] = name[i];
     cname[*size]='\0'; 
 
-#ifdef RD_COM
-
-    ret_val = create_radflex_process();
-#endif
-
     *res = cfgreader(cname);
-
-#ifdef RD_COM
-
-    ret_val = starter_lic_checkout(cname,IS_RD_MODEL);
-#endif
 }
 
 void CDECL CPP_BUILD_MODEL(char *name, int *size, int *res)
@@ -240,17 +226,7 @@ void CDECL cpp_build_model_inc_(char *name, int *size, int *res, int *nbDynaIncl
 #endif
     globalPath[*SGLOBAL_PATH]='\0'; 
 
-#ifdef RD_COM
-
-    ret_val = create_radflex_process();
-#endif
-
     *res = cfgreader_inc(cname,nbDynaIncludes,globalPath,&globalPath_len);
-
-#ifdef RD_COM
-
-    ret_val = starter_lic_checkout(cname,IS_RD_MODEL);
-#endif
 }
 
 void CDECL CPP_BUILD_MODEL_INC(char *name, int *size, int *res, int *nbDynaIncludes, char *GLOBAL_PATH, int *SGLOBAL_PATH)

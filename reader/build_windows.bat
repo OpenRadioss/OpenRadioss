@@ -7,7 +7,8 @@ set arch=win64
 set verbose=
 set threads=1
 set clean=0
-
+set com=0
+set cs=
 
 :: Loop over arguments
 
@@ -26,9 +27,14 @@ IF (%1) == () GOTO END_ARG_LOOP
       set threads=%2
    )
 
-   IF %1==-clean (
-       set clean=1
-   )
+        IF %1==-clean (
+            set clean=1
+        )
+
+    IF %1==-c (
+        set com=1
+        set cs=_c
+    )
 
     IF %1==-help (
         GOTO HELP
@@ -44,7 +50,7 @@ echo Load external libraries
 python ..\Compiling_tools\script\load_extlib.py
 
 :: build directory
-set build_directory=cbuild_%arch%
+set build_directory=cbuild_%arch%%cs%
 
 :: clean
 if %clean% == 1 (
@@ -75,7 +81,7 @@ echo.
 
 
 set build_type=Release 
-cmake  -G Ninja -DCMAKE_CXX_COMPILER=cl -DCMAKE_C_COMPILER=cl -DCMAKE_BUILD_TYPE=%build_type% -Darch=%arch%  ..
+cmake  -G Ninja -DCMAKE_CXX_COMPILER=cl -DCMAKE_C_COMPILER=cl -DCMAKE_BUILD_TYPE=%build_type% -Darch=%arch% -Dcom=%com% ..
 if errorLevel=1 (
   echo.
   echo.

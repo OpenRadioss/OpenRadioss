@@ -35,7 +35,7 @@ if __name__ == "__main__":
 
   with open(outfile,'w') as include_file:
     include_file.write("// Library ID - generated during build process\n")
-    include_file.write("#define BUILD_ID \"or_"+build_id+"\"\n")
+    include_file.write("#define BUILD_ID \""+build_id+"\"\n")
 
 
 

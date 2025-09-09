@@ -4,22 +4,19 @@ cmake_minimum_required (VERSION 3.15)
 project(dyna2rad)
 enable_language (CXX)
 
-set (library_name "dyna2rad_${arch}" )
-
 #Include the CMake configuration file
 include ( CMake_arch/CMake_${arch}.cmake )
 
+set (library_name "dyna2rad_${arch}" )
 
 #set source directory
 set (source_directory ${CMAKE_CURRENT_SOURCE_DIR})
 
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${open_reader_root_dir}/cbuild_${arch}/libopen_reader/${arch}" )
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${open_reader_root_dir}/cbuild_${arch}/libopen_reader/${arch}" )
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${open_reader_root_dir}/${build_dir}/libopen_reader/${arch}" )
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${open_reader_root_dir}/${build_dir}/libopen_reader/${arch}" )
 
 # Add includes for project
 include ( ${open_reader_root_dir}/CMake_arch/CMake_includes.cmake )
-
-
 #CPP source files
 file(GLOB_RECURSE cpp_source_files ${source_directory}/*.cpp  ${source_directory}/*.cxx )
 
@@ -49,7 +46,6 @@ set ( cpp_flags "${CXX_FLAGS} ${PRECOM_DEFINITION}" )
 set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "${cpp_flags}")
 
 message ( STATUS "dyna2rad module: ${libp}${library_name}.${lib}")
-
 
 
 #add_library(hm_reader/libs_${arch}/libhm_reader_rd_${arch} STATIC ${cpp_source_files} )

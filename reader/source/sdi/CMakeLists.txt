@@ -6,15 +6,14 @@ enable_language (CXX)
 
 set (library_name "sdi_${arch}" )
 
-#Include the CMake configuration file
-include ( CMake_arch/CMake_${arch}.cmake )
-
-
 #set source directory
 set (source_directory ${CMAKE_CURRENT_SOURCE_DIR})
 
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${open_reader_root_dir}/cbuild_${arch}/libopen_reader/${arch}" )
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${open_reader_root_dir}/cbuild_${arch}/libopen_reader/${arch}" )
+#Include the CMake configuration file
+include ( CMake_arch/CMake_${arch}.cmake )
+
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${open_reader_root_dir}/${build_dir}/libopen_reader/${arch}" )
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${open_reader_root_dir}/${build_dir}/libopen_reader/${arch}" )
 
 # Add includes for project
 include ( ${open_reader_root_dir}/CMake_arch/CMake_includes.cmake )
@@ -43,8 +42,6 @@ set (CMAKE_CXX_FLAGS_DEBUG " " )
 set (CMAKE_CXX_FLAGS_RELEASE " " )
 set (CMAKE_CXX_FLAGS " " )
 
-
-#Windows Porting modify here the Makefiles
 set ( cpp_flags "${CXX_FLAGS} ${PRECOM_DEFINITION}" )
 set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "${cpp_flags}")
 
