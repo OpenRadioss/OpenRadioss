@@ -28,9 +28,7 @@
 !||    mulaw            ../engine/source/materials/mat_share/mulaw.F90
 !||====================================================================
       module sigeps129s_mod
-      implicit none
       contains
-
 
 !||====================================================================
 !||    sigeps129s              ../engine/source/materials/mat/mat129/sigeps129s.F90
@@ -41,7 +39,6 @@
 !||--- uses       -----------------------------------------------------
 !||    constant_mod            ../common_source/modules/constant_mod.F
 !||    matparam_def_mod        ../common_source/modules/mat_elem/matparam_def_mod.F90
-!||    precision_mod           ../common_source/modules/precision_mod.F90
 !||    sensor_mod              ../common_source/modules/sensor_mod.F90
 !||    table4d_mod             ../common_source/modules/table4d_mod.F
 !||    table_mat_vinterp_mod   ../engine/source/materials/tools/table_mat_vinterp.F
@@ -62,19 +59,15 @@
 !                                                        Modules
 ! ----------------------------------------------------------------------------------------------------------------------
           use matparam_def_mod
-          use constant_mod ,only : zero,one,two,three,half,third,two_third,four_over_3,four_over_5
-          use constant_mod ,only : em01,em20,infinity
+          use constant_mod ,only : zero,one,two,three
+          use constant_mod ,only : half,three_half,third,two_third,four_over_3,four_over_5
+          use constant_mod ,only : em01,em10,em20,infinity
           use sensor_mod
           use table4d_mod
           use table_mat_vinterp_mod
           use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
-! ----------------------------------------------------------------------------------------------------------------------
-!                                                    Included files
-! ----------------------------------------------------------------------------------------------------------------------
-
-
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   arguments
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -123,7 +116,7 @@
           integer :: i,ii,iter,niter,nindx,crp_law,isens,ndim
           integer ,dimension(nel) :: indx
           real(kind=WP) :: dpdt
-          real(kind=WP) :: epsp0,lame,ldav,epsc,deps,dcreep,p,rfact
+          real(kind=WP) :: epsp0,lame,ldav,epsc,deps,dcreep,p,rfact,seq
           real(kind=WP) :: facp
           real(kind=WP) :: asrate,dtime,tstart
           real(kind=WP) :: cr1,cr2,cx1,cx2
@@ -269,14 +262,14 @@
           else                   ! use analytic Voce hardening formula
             do i = 1,nel
               yld(i) = sigy(i)                                     &
-                + qr1(i)*(one - exp(-cr1*pla(i)))             &
-                + qr2(i)*(one - exp(-cr2*pla(i)))             &
-                + qx1(i)*(one - exp(-cx1*pla(i)))             &
-                + qx2(i)*(one - exp(-cx2*pla(i)))
+                     + qr1(i)*(one - exp(-cr1*pla(i)))             &
+                     + qr2(i)*(one - exp(-cr2*pla(i)))             &
+                     + qx1(i)*(one - exp(-cx1*pla(i)))             &
+                     + qx2(i)*(one - exp(-cx2*pla(i)))
               h(i)   = qr1(i)*cr1*exp(-cr1*pla(i))                 &
-                + qr2(i)*cr2*exp(-cr2*pla(i))                 &
-                + qx1(i)*cx1*exp(-cx1*pla(i))                 &
-                + qx2(i)*cx2*exp(-cx2*pla(i))
+                     + qr2(i)*cr2*exp(-cr2*pla(i))                 &
+                     + qx1(i)*cx1*exp(-cx1*pla(i))                 &
+                     + qx2(i)*cx2*exp(-cx2*pla(i))
             enddo
           end if
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -353,9 +346,9 @@
             endif
           enddo
 !
-          !< plastic projection - Newton iterations
-          do iter = 1,niter
-#include "vectorize.inc"
+          !< plastic projection - Newton iterations  
+          do iter = 1,niter 
+#include "vectorize.inc" 
             do ii=1,nindx
               i  = indx(ii)
               dphi_dlam  = -(three*shear(i) + h(i))
@@ -379,26 +372,26 @@
                 call table_mat_vinterp(itable,nel,nel,vartmp,xvec2,yld,h)
               end if
             else                   ! use analytic Voce hardening formula
-#include "vectorize.inc"
+#include "vectorize.inc" 
               do i = 1,nel
                 yld(i) = sigy(i)                                     &
-                  + qr1(i)*(one - exp(-cr1*pla(i)))             &
-                  + qr2(i)*(one - exp(-cr2*pla(i)))             &
-                  + qx1(i)*(one - exp(-cx1*pla(i)))             &
-                  + qx2(i)*(one - exp(-cx2*pla(i)))
+                       + qr1(i)*(one - exp(-cr1*pla(i)))             &
+                       + qr2(i)*(one - exp(-cr2*pla(i)))             &
+                       + qx1(i)*(one - exp(-cx1*pla(i)))             &
+                       + qx2(i)*(one - exp(-cx2*pla(i)))
                 h(i)   = qr1(i)*cr1*exp(-cr1*pla(i))                 &
-                  + qr2(i)*cr2*exp(-cr2*pla(i))                 &
-                  + qx1(i)*cx1*exp(-cx1*pla(i))                 &
-                  + qx2(i)*cx2*exp(-cx2*pla(i))
+                       + qr2(i)*cr2*exp(-cr2*pla(i))                 &
+                       + qx1(i)*cx1*exp(-cx1*pla(i))                 &
+                       + qx2(i)*cx2*exp(-cx2*pla(i))
               enddo
             end if
             !< Update the stress tensor
-#include "vectorize.inc"
+#include "vectorize.inc" 
             do ii=1,nindx
               i  = indx(ii)
               g3 = shear(i) * three
               rfact  = yld(i) / (g3*dlam(i) + yld(i))
-              sxx(i) = sxx(i) * rfact
+              sxx(i) = sxx(i) * rfact 
               syy(i) = syy(i) * rfact
               szz(i) = szz(i) * rfact
               sxy(i) = sxy(i) * rfact
@@ -446,13 +439,18 @@
                   ca = crpa(i)
                   n  = crpn(i)
                   m  = crpm(i)
-                  depsc(i) = m*ca**(one/m) * (svm(i)/sig_crp)**(n/m)   &
-                    * uvar(i,2)**((m-one)/m) * dtime/time_crp
+                  if (uvar(i,2) == zero) then
+!                    depsc(i) = ca*(svm(i)/sig_crp)**n * (dtime/time_crp)**m
+                    depsc(i) = em10
+                  else 
+                    depsc(i) = m*ca**(one/m) * (svm(i)/sig_crp)**(n/m)   &
+                             * uvar(i,2)**((m-one)/m) * dtime/time_crp
+                  end if
                 end do
               end if
               do i=1,nel
                 deps = (depsxx(i)**2 + depsyy(i)**2 + depszz(i)**2) * half     &
-                  +  depsxy(i)**2 + depsyz(i)**2 + depszx(i)**2
+                     +  depsxy(i)**2 + depsyz(i)**2 + depszx(i)**2
                 depsc(i) = min(depsc(i) ,sqrt(two_third*deps))   ! creep strain should be lower than elastic !
                 epsc = uvar(i,2) + depsc(i)
                 uvar(i,2) = epsc
@@ -462,25 +460,28 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           ! deviatoric stress correction due to creep
 ! ----------------------------------------------------------------------------------------------------------------------
-          do i=1,nel
-            dcreep = max(depsc(i), zero)
-            g3     = shear(i) * three
-            rfact  = yld(i) / (g3*dcreep + yld(i))
-            sxx(i) = sxx(i) * rfact
-            syy(i) = syy(i) * rfact
-            szz(i) = szz(i) * rfact
-            sxy(i) = sxy(i) * rfact
-            syz(i) = syz(i) * rfact
-            szx(i) = szx(i) * rfact
-          end do
+          if (crpa0 > zero) then
+            do i=1,nel
+              dcreep = max(depsc(i), zero)
+              seq    = max(svm(i),   em20)
+              g2     = shear(i) * two
+              rfact  = three_half * dcreep / seq 
+              sxx(i) = sxx(i) - rfact * sxx(i) * g2
+              syy(i) = syy(i) - rfact * syy(i) * g2
+              szz(i) = szz(i) - rfact * szz(i) * g2
+              sxy(i) = sxy(i) - rfact * sxy(i) * shear(i)
+              syz(i) = syz(i) - rfact * syz(i) * shear(i)
+              szx(i) = szx(i) - rfact * szx(i) * shear(i)
+            end do
+          end if
 ! ----------------------------------------------------------------------------------------------------------------------
           ! pressure correction with thermal expansion
           if (iexpan > 0) then
             do i=1,nel
               p = bulk(i) * amu(i)
-              signxx(i) = signxx(i) - p
-              signyy(i) = signyy(i) - p
-              signzz(i) = signzz(i) - p
+              signxx(i) = sxx(i) - p
+              signyy(i) = syy(i) - p
+              signzz(i) = szz(i) - p
             end do
           else
             do i=1,nel
@@ -502,7 +503,8 @@
             enddo
           end if
           soundsp(1:nel) = sqrt((bulk(1:nel) + four_over_3*shear(1:nel)) / rho0)
-          return
+! ----------------------------------------------------------------------------------------------------------------------
+        return
         end subroutine sigeps129s
 ! ----------------------------------------------------------------------------------------------------------------------
       end module sigeps129s_mod
