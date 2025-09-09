@@ -1156,11 +1156,11 @@ C .sta files
       ENDDO
 C .dynain files
       LVARINT=LVARINT+1
-      DYNAIN_DATA%IDYNAINF = 0
-      TABVINT(LVARINT)=DYNAIN_DATA%IDYNAINF
+!     DYNAIN_DATA%IDYNAINF = 0 !datarace here, multiple threads write this variable
+      TABVINT(LVARINT)= 0 !DYNAIN_DATA%IDYNAINF
       DO I=1, DYNAIN_DATA%MX_DYNAIN
        LVARINT=LVARINT+1
-       DYNAIN_DATA%DYNAIN_C(I) = 0
+!      DYNAIN_DATA%DYNAIN_C(I) = 0 !datarace here, multiple threads write this variable?
        TABVINT(LVARINT)=DYNAIN_DATA%DYNAIN_C(I)
       ENDDO
       LVARINT=LVARINT+1
