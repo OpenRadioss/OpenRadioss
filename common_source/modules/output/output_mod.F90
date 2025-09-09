@@ -377,6 +377,11 @@
           end if
           new_size2 = NUMNOD * OUTPUT%DATA%S_VECT_CONT
           call extend_array(OUTPUT%DATA%VECT_CONT, current_size1, current_size2,3, new_size2)
+          !initialize extension to 0
+          if(current_size2 .lt. new_size2) then
+            OUTPUT%DATA%VECT_CONT(:,current_size2+1:new_size2)=0.0_wp
+          end if
+
           ! Handle VECT_FINT
           if (allocated(OUTPUT%DATA%VECT_FINT)) then
             current_size1 = size(OUTPUT%DATA%VECT_FINT, 1)
@@ -387,6 +392,9 @@
           end if
           new_size2 = NUMNOD * OUTPUT%DATA%S_VECT_FINT
           call extend_array(OUTPUT%DATA%VECT_FINT, current_size1, current_size2, 3, new_size2)
+          if(current_size2 .lt. new_size2) then
+            OUTPUT%DATA%VECT_FINT(:,current_size2+1:new_size2)=0.0_wp
+          end if
           
           ! Handle VECT_FEXT
           if (allocated(OUTPUT%DATA%VECT_FEXT)) then
@@ -398,6 +406,9 @@
           end if
           new_size2 = NUMNOD * OUTPUT%DATA%S_VECT_FEXT
           call extend_array(OUTPUT%DATA%VECT_FEXT, current_size1, current_size2, 3, new_size2)
+          if(current_size2 .lt. new_size2) then
+            OUTPUT%DATA%VECT_FEXT(:,current_size2+1:new_size2)=0.0_wp
+          end if
           
           ! Handle VECT_PCONT
           if (allocated(OUTPUT%DATA%VECT_PCONT)) then
@@ -409,6 +420,9 @@
           end if
           new_size2 = NUMNOD * OUTPUT%DATA%S_VECT_PCONT
           call extend_array(OUTPUT%DATA%VECT_PCONT, current_size1, current_size2, 3, new_size2)
+          if(current_size2 .lt. new_size2) then
+            OUTPUT%DATA%VECT_PCONT(:,current_size2+1:new_size2)=0.0_wp
+          end if
           ! Handle VECT_PCONT_2
           if (allocated(OUTPUT%DATA%VECT_PCONT_2)) then
             current_size1 = size(OUTPUT%DATA%VECT_PCONT_2, 1)
@@ -419,6 +433,9 @@
           end if
           new_size2 = NUMNOD * OUTPUT%DATA%S_VECT_PCONT_2
           call extend_array(OUTPUT%DATA%VECT_PCONT_2, current_size1, current_size2, 3, new_size2)
+          if(current_size2 .lt. new_size2) then
+            OUTPUT%DATA%VECT_PCONT_2(:,current_size2+1:new_size2)=0.0_wp
+          end if
  
           
           ! Handle VECT_CONT2
@@ -431,6 +448,9 @@
           end if
           new_size2 = NUMNOD * OUTPUT%DATA%S_VECT_CONT2
           call extend_array(OUTPUT%DATA%VECT_CONT2, current_size1, current_size2, 3, new_size2)
+          if(current_size2 .lt. new_size2) then
+            OUTPUT%DATA%VECT_CONT2(:,current_size2+1:new_size2)=0.0_wp
+          end if
           
           ! Handle VECT_PCONT2
           if (allocated(OUTPUT%DATA%VECT_PCONT2)) then
@@ -442,6 +462,9 @@
           end if
           new_size2 = NUMNOD * OUTPUT%DATA%S_VECT_PCONT2
           call extend_array(OUTPUT%DATA%VECT_PCONT2, current_size1, current_size2,3, new_size2)
+          if(current_size2 .lt. new_size2) then
+            OUTPUT%DATA%VECT_PCONT2(:,current_size2+1:new_size2)=0.0_wp
+          end if
 
           ! Handle VECT_PCONT2_2
           if (allocated(OUTPUT%DATA%VECT_PCONT2_2)) then
@@ -453,8 +476,9 @@
           end if
           new_size2 = NUMNOD * OUTPUT%DATA%S_VECT_PCONT2_2
           call extend_array(OUTPUT%DATA%VECT_PCONT2_2, current_size1, current_size2,3, new_size2)
-
-
+          if(current_size2 .lt. new_size2) then
+            OUTPUT%DATA%VECT_PCONT2_2(:,current_size2+1:new_size2)=0.0_wp
+          end if  
 
            ! Handle OUTPUT%DATA%S_SCAL_DT                                                  
           if(allocated(OUTPUT%DATA%SCAL_DT)) then
@@ -464,6 +488,9 @@
           end if  
           new_size1 = NUMNOD * OUTPUT%DATA%S_SCAL_DT
           call extend_array(OUTPUT%DATA%SCAL_DT, current_size1,  new_size1)
+          if(current_size1 .lt. new_size1) then
+            OUTPUT%DATA%SCAL_DT(current_size1+1:new_size1)=0.0_wp
+          end if
 
          ! Handle OUTPUT%DATA%S_SCAL_DMAS                                                    
           if(allocated(OUTPUT%DATA%SCAL_DMAS)) then
@@ -473,6 +500,9 @@
           end if
           new_size1 = NUMNOD * OUTPUT%DATA%S_SCAL_DMAS
           call extend_array(OUTPUT%DATA%SCAL_DMAS, current_size1, new_size1)  
+          if(current_size1 .lt. new_size1) then
+            OUTPUT%DATA%SCAL_DMAS(current_size1+1:new_size1)=0.0_wp
+          end if
 
           ! Handle OUTPUT%DATA%S_SCAL_DINER                                                      
           if(allocated(OUTPUT%DATA%SCAL_DINER)) then
@@ -482,6 +512,9 @@
           end if
           new_size1 = NUMNOD * OUTPUT%DATA%S_SCAL_DINER
           call extend_array(OUTPUT%DATA%SCAL_DINER, current_size1, new_size1) 
+          if(current_size1 .lt. new_size1) then
+            OUTPUT%DATA%SCAL_DINER(current_size1+1:new_size1)=0.0_wp
+          end if  
 
            !Handle OUTPUT%DATA%S_SCAL_DAMA2                                                         
           if(allocated(OUTPUT%DATA%SCAL_DAMA2)) then
@@ -491,6 +524,9 @@
           end if
           new_size1 = NUMNOD * OUTPUT%DATA%S_SCAL_DAMA2
           call extend_array(OUTPUT%DATA%SCAL_DAMA2, current_size1, new_size1) 
+          if(current_size1 .lt. new_size1) then
+            OUTPUT%DATA%SCAL_DAMA2(current_size1+1:new_size1)=0.0_wp
+          end if
            !Handle OUTPUT%DATA%S_SCAL_SPRING                                                         
           if(allocated(OUTPUT%DATA%SCAL_SPRING)) then
             current_size1 = size(OUTPUT%DATA%SCAL_SPRING, 1)
@@ -499,5 +535,8 @@
           end if
           new_size1 = NUMNOD * OUTPUT%DATA%S_SCAL_SPRING
           call extend_array(OUTPUT%DATA%SCAL_SPRING, current_size1, new_size1) 
+          if(current_size1 .lt. new_size1) then
+            OUTPUT%DATA%SCAL_SPRING(current_size1+1:new_size1)=0.0_wp
+          end if
         END SUBROUTINE ALLOCATE_OUTPUT_DATA
       end module output_mod
