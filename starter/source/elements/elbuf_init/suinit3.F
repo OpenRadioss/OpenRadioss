@@ -114,30 +114,17 @@ C-----------------------------------------------
      .        NC5(MVSIZ), NC6(MVSIZ), NC7(MVSIZ), NC8(MVSIZ)
       CHARACTER(LEN=NCHARTITLE)::TITR1
       CHARACTER*50 OPTION
-      my_real
-     .   BID, FV,  VOLU(MVSIZ), DTX(MVSIZ),
-     .   MASS(MVSIZ),MAS(MVSIZ,8),INN(MVSIZ,8),XX(MVSIZ,8),YY(MVSIZ,8),
-     .   ZZ(MVSIZ,8),VX(MVSIZ,8),VY(MVSIZ,8),VZ(MVSIZ,8),VRX(MVSIZ,8),
-     .   VRY(MVSIZ,8),VRZ(MVSIZ,8),STI(MVSIZ),STIR(MVSIZ),VISCM(MVSIZ),
-     .   VISCR(MVSIZ),AREA(MVSIZ),
-     .   X1(MVSIZ),X2(MVSIZ),X3(MVSIZ),X4(MVSIZ),X5(MVSIZ),X6(MVSIZ),
-     .   X7(MVSIZ),X8(MVSIZ),Y1(MVSIZ),Y2(MVSIZ),Y3(MVSIZ),Y4(MVSIZ),
-     .   Y5(MVSIZ),Y6(MVSIZ),Y7(MVSIZ),Y8(MVSIZ),Z1(MVSIZ),Z2(MVSIZ),
-     .   Z3(MVSIZ),Z4(MVSIZ),Z5(MVSIZ),Z6(MVSIZ),Z7(MVSIZ),Z8(MVSIZ),
-     .   RX(MVSIZ) ,RY(MVSIZ) ,RZ(MVSIZ) ,SX(MVSIZ) ,
-     .   SY(MVSIZ) ,SZ(MVSIZ) ,TX(MVSIZ) ,TY(MVSIZ) ,TZ(MVSIZ) ,
-     .   E1X(MVSIZ),E1Y(MVSIZ),E1Z(MVSIZ),E2X(MVSIZ),
-     .   E2Y(MVSIZ),E2Z(MVSIZ),E3X(MVSIZ),E3Y(MVSIZ),E3Z(MVSIZ),
-     .   F1X(MVSIZ) ,F1Y(MVSIZ) ,F1Z(MVSIZ) ,
-     .   F2X(MVSIZ) ,F2Y(MVSIZ) ,F2Z(MVSIZ),
-     .   SIG_LOC(6,NEL), DELTAX(MVSIZ), AIRE(MVSIZ)
-      DOUBLE PRECISION 
-     .   XD1(MVSIZ), XD2(MVSIZ), XD3(MVSIZ), XD4(MVSIZ),
-     .   XD5(MVSIZ), XD6(MVSIZ), XD7(MVSIZ), XD8(MVSIZ),
-     .   YD1(MVSIZ), YD2(MVSIZ), YD3(MVSIZ), YD4(MVSIZ),
-     .   YD5(MVSIZ), YD6(MVSIZ), YD7(MVSIZ), YD8(MVSIZ),
-     .   ZD1(MVSIZ), ZD2(MVSIZ), ZD3(MVSIZ), ZD4(MVSIZ),
-     .   ZD5(MVSIZ), ZD6(MVSIZ), ZD7(MVSIZ), ZD8(MVSIZ),THICK(MVSIZ)       
+      my_real :: BID, FV
+      my_real ,DIMENSION(MVSIZ,8) :: MAS,INN,XX,YY,ZZ,VX,VY,VZ,VRX,VRY,VRZ
+      my_real ,DIMENSION(MVSIZ)   :: VOLU,AREA,AIRE,MASS,DTX,DELTAX,STI,STIR,VISCM,VISCR,
+     .   X1,X2,X3,X4,X5,X6,X7,X8,Y1,Y2,Y3,Y4,Y5,Y6,Y7,Y8,Z1,Z2,Z3,Z4,Z5,Z6,Z7,Z8,
+     .   RX ,RY ,RZ ,SX ,SY ,SZ ,TX ,TY ,TZ ,
+     .   E1X,E1Y,E1Z,E2X,E2Y,E2Z,E3X,E3Y,E3Z,F1X,F1Y,F1Z,F2X,F2Y,F2Z
+      my_real :: SIG_LOC(6,NEL)
+      DOUBLE PRECISION ,DIMENSION(MVSIZ) ::
+     .   XD1, XD2, XD3, XD4, XD5, XD6, XD7, XD8,
+     .   YD1, YD2, YD3, YD4, YD5, YD6, YD7, YD8,
+     .   ZD1, ZD2, ZD3, ZD4, ZD5, ZD6, ZD7, ZD8       
       my_real :: TEMPEL(NEL)
 C-----------------------------------------------
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
@@ -178,8 +165,7 @@ c--------------------------
      .           Y1   ,Y2   ,Y3   ,Y4   ,Y5   ,Y6   ,Y7   ,Y8   ,
      .           Z1   ,Z2   ,Z3   ,Z4   ,Z5   ,Z6   ,Z7   ,Z8   ,
      .           E1X  ,E1Y  ,E1Z  ,E2X  ,E2Y  ,E2Z  ,E3X  ,E3Y  ,E3Z  ,
-     .           AREA ,THICK)
-      IF (ELBUF_STR%GBUF%G_THK == 1) ELBUF_STR%GBUF%THK(1:NEL) = THICK(1:NEL)
+     .           AREA ,ELBUF_STR%GBUF%THK)
       ELSEIF (JCVT == 0) THEN
         CALL SCOOR3(X ,BID  ,IXS(1,NF1) ,GEO  ,MAT  ,PID  ,NGL  ,
      .           NC1  ,NC2  ,NC3  ,NC4  ,NC5  ,NC6  ,NC7  ,NC8  ,
