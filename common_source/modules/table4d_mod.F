@@ -71,6 +71,9 @@ C=======================================================================
 
       CONTAINS
 
+!||====================================================================
+!||    copy_table_to   ../common_source/modules/table4d_mod.F
+!||====================================================================
             SUBROUTINE COPY_TABLE_TO(THIS,TARGET_TABLE)
               IMPLICIT NONE
               CLASS(TABLE_4D_) ,INTENT(IN) :: THIS
