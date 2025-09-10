@@ -89,13 +89,21 @@ c---------------------------------------------------
 C
       ITYEL = 3
       IF (NNE==3) ITYEL = 7
-      F_OSET(JFT:JLT) = ONE + ZEP2*ABS(ZOFFSET(JFT:JLT))/THK0(JFT:JLT)
+      F_OSET(JFT:JLT) = ONE 
       IF (NODADT/=0) THEN
         IF(IGTYP == 52 .OR. 
      .   ((IGTYP == 11 .OR. IGTYP == 17 .OR. IGTYP == 51)
      .                                   .AND. IGMAT > 0 )) THEN
         ELSE
           IF (MTN == 58 .or. MTN == 158) CALL CSSP2A11(PM   ,IMAT  ,SSP  ,A1   ,JLT   )
+          F_OSET(JFT:JLT)=ONE + ZEP2*ABS(ZOFFSET(JFT:JLT))/THK0(JFT:JLT)
+        END IF
+      ELSE
+        IF(IGTYP==1.OR.IGTYP==9) THEN 
+          DO I=JFT,JLT
+            FAC = ONE + ZEP2*ABS(ZOFFSET(I))/THK0(I)
+            F_OSET(I) = ONE/SQRT(FAC)
+          END DO 
         END IF
       END IF
 C----- isub will add here-----
