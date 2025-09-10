@@ -125,22 +125,22 @@
           eps_sh0 = shrmax / shear + dp
 
           !condition on GC
-          if(gcten < (tenmax**2/two/young))then
-            gcten = tenmax**2/two/young
+          if(gcten < (tenmax**2/young))then
+            gcten = tenmax**2/young
             CALL ANCMSG(MSGID=3074,MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_1,     &
               I1 = MAT_ID,                                             &
               C1 = TITR,                                               &
               C2 = "GCTEN",                                            &
               R1 =  gcten  )
-
-
           end if
-          limit_sh = shrmax*dp + shrmax**2/two/shear
+!
+          limit_sh = shrmax**2 * (one + shrp) / (one - shrp) /(two*shear)
           if (gcshr < limit_sh ) then
             ! dfs must be modified
             gcshr = limit_sh
             dfs     = (two*gcshr/(one+shrp)/shrmax)
             dp      = shrp*dfs
+            eps_sh0 = shrmax / shear + dp
             CALL ANCMSG(MSGID=3075,MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_1,     &
               I1 = MAT_ID,                                             &
               C1 = TITR,                                               &
