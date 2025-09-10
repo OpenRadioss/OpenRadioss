@@ -208,7 +208,11 @@ C             WRITE(IOUT,1200)IX(NIXR,J)
      .                    ANMODE=ANINFO_BLIND_1,
      .                    I1=IX(NIXR,J))
             ELSE
-              WRITE(IOUT,1300)IX(NIXR,J)
+              IF(ISK /= 1) THEN
+                WRITE(IOUT,1300)IX(NIXR,J)
+              ELSE
+                WRITE(IOUT,1400)IX(NIXR,J)                
+              ENDIF  
               IALIGN=1
             ENDIF
           ENDIF ! IF (I3 /= 0)
@@ -218,7 +222,11 @@ C         Local X axis is used for computation of RVC
             RLOC(1,I)=SKEW(1,ISK)
             RLOC(2,I)=SKEW(2,ISK)
             RLOC(3,I)=SKEW(3,ISK)
-            WRITE(IOUT,1450)IX(NIXR,J)
+            IF(ISK /= 1) THEN
+              WRITE(IOUT,1350)IX(NIXR,J)
+            ELSE
+              WRITE(IOUT,1450)IX(NIXR,J)                
+            ENDIF
             PRVC(1,I)=Y1*RLOC(3,I)-Z1*RLOC(2,I)
             PRVC(2,I)=Z1*RLOC(1,I)-X1*RLOC(3,I)
             PRVC(3,I)=X1*RLOC(2,I)-Y1*RLOC(1,I)
@@ -241,6 +249,9 @@ C-----------------------------------------------
  1300     FORMAT(/,'  ** INFO: SPRING ELEMENT:',I10,/,
      .           ' SECOND AXIS OF SKEW FRAME AND SPRING AXIS ARE USED',
      .           ' TO DEFINE SPRING FRAME')
+ 1350     FORMAT(/,'  ** INFO: SPRING ELEMENT:',I10,/,
+     .           ' FIRST AXIS OF SKEW FRAME AND SPRING AXIS ARE USED',
+     .           ' TO DEFINE SPRING FRAME')   
  1400     FORMAT(/,'  ** INFO: SPRING ELEMENT:',I10,/,
      .           ' GLOBAL Y AXIS AND SPRING AXIS ARE USED',
      .           ' TO DEFINE SPRING FRAME'/)
