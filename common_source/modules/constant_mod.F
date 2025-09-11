@@ -258,6 +258,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sh_offset_nproj                          ../starter/source/elements/shell/shell_offset/shell_offset_nproj.F90
 !||    sh_offset_setn                           ../starter/source/elements/shell/shell_offset/sh_offset_setn.F90
 !||    shell_offset_ini                         ../starter/source/elements/shell/shell_offset/shell_offset_ini.F90
+!||    shell_offset_wm_ini                      ../engine/source/elements/shell/shell_offset_wm_ini.F90
 !||    shell_offsetp                            ../starter/source/elements/shell/shell_offset/shell_offsetp.F90
 !||    shour_ctl                                ../engine/source/elements/solid/solidez/shour_ctl.F90
 !||    sigeps01                                 ../starter/source/materials/mat/mat001/sigeps01.F90

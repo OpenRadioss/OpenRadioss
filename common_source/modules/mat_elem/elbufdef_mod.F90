@@ -415,7 +415,6 @@
 !||    multifluid_init2t                   ../starter/source/multifluid/multifluid_init2t.F
 !||    multifluid_init3                    ../starter/source/multifluid/multifluid_init3.F
 !||    multifluid_init3t                   ../starter/source/multifluid/multifluid_init3t.F
-!||    nloc_count_solnod                   ../engine/source/elements/solid/solide/nloc_count_solnod.F90
 !||    nloc_dmg_init                       ../starter/source/materials/fail/nloc_dmg_init.F
 !||    nlocal_init_sta                     ../starter/source/materials/fail/nlocal_init_sta.F
 !||    nodal_schlieren                     ../engine/source/output/anim/generate/nodal_schlieren.F

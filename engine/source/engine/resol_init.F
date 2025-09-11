@@ -52,7 +52,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    kinini                     ../engine/source/constraints/general/kinini.F
 !||    mpp_init                   ../engine/source/mpi/interfaces/spmd_i7tool.F
 !||    my_barrier                 ../engine/source/system/machine.F
-!||    nloc_count_solnod          ../engine/source/elements/solid/solide/nloc_count_solnod.F90
 !||    r2r_init                   ../engine/source/coupling/rad2rad/r2r_init.F
 !||    rbe2_init                  ../engine/source/constraints/general/rbe2/rbe2f.F
 !||    s10cnd_ini                 ../engine/source/elements/solid/solide10/s10cndf.F
@@ -86,7 +85,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    inter_sh_offset_mod        ../engine/source/modules/interfaces/sh_offset_mod.F90
 !||    inter_sorting_mod          ../engine/share/modules/inter_sorting_mod.F
 !||    loads_mod                  ../common_source/modules/loads/loads_mod.F90
-!||    nloc_count_solnod_mod      ../engine/source/elements/solid/solide/nloc_count_solnod.F90
 !||    nlocal_reg_mod             ../common_source/modules/nlocal_reg_mod.F
 !||    outmax_mod                 ../common_source/modules/outmax_mod.F
 !||    output_mod                 ../common_source/modules/output/output_mod.F90

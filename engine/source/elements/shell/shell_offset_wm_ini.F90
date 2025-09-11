@@ -21,11 +21,23 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
+!||    shell_offset_wm_ini_mod   ../engine/source/elements/shell/shell_offset_wm_ini.F90
+!||--- called by ------------------------------------------------------
+!||    mulawc                    ../engine/source/materials/mat_share/mulawc.F90
+!||====================================================================
       module shell_offset_wm_ini_mod
       contains
 ! ======================================================================================================================
 ! \brief initialization wm with offset
 ! ======================================================================================================================
+!||====================================================================
+!||    shell_offset_wm_ini   ../engine/source/elements/shell/shell_offset_wm_ini.F90
+!||--- called by ------------------------------------------------------
+!||    mulawc                ../engine/source/materials/mat_share/mulawc.F90
+!||--- uses       -----------------------------------------------------
+!||    constant_mod          ../common_source/modules/constant_mod.F
+!||    precision_mod         ../common_source/modules/precision_mod.F90
+!||====================================================================
         subroutine shell_offset_wm_ini(ipt  ,npt   ,zoffset  ,wmi)     
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                        Modules

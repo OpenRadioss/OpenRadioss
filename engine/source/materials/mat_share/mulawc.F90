@@ -84,6 +84,7 @@
 !||    prony_modelc              ../engine/source/materials/visc/prony_modelc.F
 !||    putsignorc3               ../engine/source/elements/shell/coqueba/cmatc3.F
 !||    rotov                     ../engine/source/airbag/roto.F
+!||    shell_offset_wm_ini       ../engine/source/elements/shell/shell_offset_wm_ini.F90
 !||    sigeps01c                 ../engine/source/materials/mat/mat001/sigeps01c.F
 !||    sigeps02c                 ../engine/source/materials/mat/mat002/sigeps02c.F
 !||    sigeps104c                ../engine/source/materials/mat/mat104/sigeps104c.F
@@ -157,6 +158,7 @@
 !||    nlocal_reg_mod            ../common_source/modules/nlocal_reg_mod.F
 !||    precision_mod             ../common_source/modules/precision_mod.F90
 !||    sensor_mod                ../common_source/modules/sensor_mod.F90
+!||    shell_offset_wm_ini_mod   ../engine/source/elements/shell/shell_offset_wm_ini.F90
 !||    sigeps125c_mod            ../engine/source/materials/mat/mat125/sigeps125c.F90
 !||    sigeps127c_mod            ../engine/source/materials/mat/mat127/sigeps127c.F90
 !||    sigeps128c_mod            ../engine/source/materials/mat/mat128/sigeps128c.F90

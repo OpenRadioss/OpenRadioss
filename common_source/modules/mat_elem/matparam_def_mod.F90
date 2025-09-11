@@ -261,6 +261,7 @@
 !||    multifluid_init2t                   ../starter/source/multifluid/multifluid_init2t.F
 !||    multifluid_init3                    ../starter/source/multifluid/multifluid_init3.F
 !||    multifluid_init3t                   ../starter/source/multifluid/multifluid_init3t.F
+!||    nloc_dmg_init                       ../starter/source/materials/fail/nloc_dmg_init.F
 !||    pgrtails                            ../starter/source/elements/beam/pgrtails.F
 !||    powder_burn                         ../common_source/eos/powder_burn.F
 !||    prelech3d                           ../engine/source/output/h3d/h3d_build_fortran/prelech3d.F90
