@@ -221,13 +221,11 @@ C we do nothing for the remote
           JNOD=IXSPR(K,N)
           IF(JNOD > 0) THEN
             M=NOD2SP(JNOD)
+            MS=KV(M)
+            NV(MY_ADRV+MS)=NV(MY_ADRV+MS)+1
           ELSE
             print *,'internal error'
           END IF
-
-          MS=KV(M)
-          NV(MY_ADRV+MS)=NV(MY_ADRV+MS)+1
-
         END DO
       END DO      
 C-------        
@@ -293,13 +291,14 @@ C we do nothing for the remote
           JNOD=IXSPR(K,N)
           IF(JNOD > 0) THEN
             M=NOD2SP(JNOD)
+            MS=KV(M)
+            IAUX(IV(ITASK*NUMSPH+MS))=-N
+            IV(ITASK*NUMSPH+MS)=IV(ITASK*NUMSPH+MS)+1
+
           ELSE
             print *,'internal error'
           END IF
 
-          MS=KV(M)
-          IAUX(IV(ITASK*NUMSPH+MS))=-N
-          IV(ITASK*NUMSPH+MS)=IV(ITASK*NUMSPH+MS)+1
 
         END DO
       END DO      
