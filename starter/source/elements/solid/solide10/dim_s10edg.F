@@ -658,7 +658,9 @@ C
 !||--- uses       -----------------------------------------------------
 !||    message_mod   ../starter/share/message_module/message_mod.F
 !||====================================================================
-      SUBROUTINE BCSMODIF_ND(ICODE, ITAGND,ICNDS10,ITAB)
+      SUBROUTINE BCSMODIF_ND(ICODE, ITAGND,ICNDS10,ITAB  ,
+     .                       NNPBY,SLRBODY,NRBE2L ,SLRBE2,
+     .                       NPBY ,LPBY   ,IRBE2  ,LRBE2 )
 C=======================================================================
       USE MESSAGE_MOD
 C-----------------------------------------------
@@ -675,24 +677,54 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "scr03_c.inc"
+      INTEGER, INTENT (IN) :: NNPBY,SLRBODY,NRBE2L,SLRBE2
+      INTEGER, DIMENSION(NNPBY,NRBYKIN),INTENT (IN) :: NPBY
+      INTEGER, DIMENSION(SLRBODY)      ,INTENT (IN) :: LPBY
+      INTEGER, DIMENSION(NRBE2L,NRBE2) ,INTENT (IN) :: IRBE2
+      INTEGER, DIMENSION(SLRBE2)       ,INTENT (IN) :: LRBE2
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,NG, NEL, NFT,NF1, NF2, N,ND,N1,N2,ID,IPR
-      INTEGER IS1,IS2,ISMIN
+      INTEGER IS1,IS2,ISMIN,NSL,M,K,KK
+      INTEGER, ALLOCATABLE, DIMENSION(:) :: ICODEM
 C     REAL
 C------treatment for /BCS ----------------------------
+! case of BCS by RBODY or RBE2
+      ALLOCATE(ICODEM(NUMNOD))
+      ICODEM(1:NUMNOD) = ICODE(1:NUMNOD)
+      K = 0
+      DO N = 1, NRBYKIN
+        M = NPBY(1,N)
+        IF (ICODEM(M) == 0) CYCLE
+        NSL=NPBY(2,N)
+        DO KK = 1, NSL
+          ND = LPBY(K+KK)
+          ICODEM(ND)=MAX(ICODEM(ND),ICODEM(M))
+        ENDDO
+        K = K + NSL
+      ENDDO
+      DO N = 1, NRBE2
+        K = IRBE2(1,N)
+        M = IRBE2(3,N)
+        IF (ICODEM(M) == 0) CYCLE
+        NSL = IRBE2(5,N)
+        DO KK = 1, NSL
+          ND = LRBE2(K+KK)
+          ICODEM(ND)=MAX(ICODEM(ND),ICODEM(M))
+        ENDDO
+      ENDDO
       IPR = 0
       DO N=1,NUMNOD
-       IF (ICODE(N)>0 .AND. ITAGND(N) /=0 ) THEN
+       IF (ICODEM(N)>0 .AND. ITAGND(N) /=0 ) THEN
          ID = IABS(ITAGND(N))
          ND = ICNDS10(1,ID)
          N1 = ICNDS10(2,ID)
          N2 = ICNDS10(3,ID)
-         IS1 = ICODE(N1)
-         IS2 = ICODE(N2)
+         IS1 = ICODEM(N1)
+         IS2 = ICODEM(N2)
          ISMIN = MIN(IS1,IS2)
-         IF (IS1/=ICODE(N).AND.IS2/=ICODE(N).AND.ISMIN<ICODE(N)) THEN
+         IF (IS1/=ICODEM(N).AND.IS2/=ICODEM(N).AND.ISMIN<ICODEM(N)) THEN
 C----error out  ND has more /BCS than edge node
             CALL ANCMSG(MSGID=1208,
      .                MSGTYPE=MSGERROR,
@@ -722,6 +754,7 @@ C----remove Nd from /BCS +degenerating
      .                C2='Boundary conditions',
      .                PRMOD=MSG_PRINT)
       END IF 
+      DEALLOCATE(ICODEM)
 C
       RETURN
       END
