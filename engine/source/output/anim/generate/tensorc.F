@@ -452,7 +452,7 @@ C------------------------
                 A2  = POSLY(1,IPT)
               ELSE
                 A1 = ONE
-                A2 = HALF*(((2*IPT-ONE)/MPT)-ONE)
+                A2 = POSLY(1,IPT)
               ENDIF
             ELSEIF (ITENS > 1610+ MX_PLY_ANIM  .AND. ITENS <  1611 + 2*MX_PLY_ANIM ) THEN
               IL = ITENS - (1610+ MX_PLY_ANIM)   
