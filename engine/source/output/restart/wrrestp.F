@@ -213,6 +213,7 @@ C-----------------------------------------------
       use glob_therm_mod
       use write_ale_grid_mod , only : write_ale_grid
       use write_bcs_wall_mod , only : write_bcs_wall
+      use write_bcs_nrf_mod , only : write_bcs_nrf
       use rbe3_mod
       use restart_rbe3pen_mod, only : write_rrbe3pen
       use checksum_output_option_mod, only : checksum_restart_write
@@ -1089,6 +1090,16 @@ C--------------------------------------
       IF(BCS%NUM_WALL > 0)THEN
         DO I=1, BCS%NUM_WALL
           CALL WRITE_BCS_WALL(BCS%WALL(I))
+        ENDDO
+      ENDIF
+C--------------------------------------
+C /BCS/NRF
+C--------------------------------------
+      ITMP = BCS%NUM_NRF
+      CALL WRITE_I_C(ITMP,1)
+      IF(BCS%NUM_NRF > 0)THEN
+        DO I=1, BCS%NUM_NRF
+          CALL WRITE_BCS_NRF(BCS%NRF(I))
         ENDDO
       ENDIF
 C--------------------------------------
