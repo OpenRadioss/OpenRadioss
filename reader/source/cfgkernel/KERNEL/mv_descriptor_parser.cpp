@@ -596,8 +596,8 @@ void MvDescriptorParser_t::readAttributeArray(MvDomain_e domain, MvDescriptor_t*
             throwError(getMsg(13), "{");
         vector<string> vect_subtype;
         string text = getNextString();
-        if (text != "SUBTYPES")
-            throwError(getMsg(13), "SUBTYPES");
+        if (text == "SUBTYPES")
+        {
         c = getNextChar();
         if (c != '=')
             throwError(getMsg(13), "=");
@@ -627,15 +627,6 @@ void MvDescriptorParser_t::readAttributeArray(MvDomain_e domain, MvDescriptor_t*
 
             c = getNextChar();
         }
-
-        c = getNextChar();
-        while (c != ';')
-        {
-            c = getNextChar();
-        }
-        c = getNextChar();
-        if (c != '}')
-            throwError(getMsg(13), "}");
 
         // fill the data
         const descriptor_t* cdescr_p = descr_p->getDescriptorPtr();
@@ -673,6 +664,86 @@ void MvDescriptorParser_t::readAttributeArray(MvDomain_e domain, MvDescriptor_t*
                 }
             }
         }
+    }
+        else if(text == "DEFAULT")
+        {
+            if (getNextChar() != '=') throwError(getMsg(13), "=");
+            if (getNextChar() != '(') throwError(getMsg(13), "(");
+            vector <vector<double>> default_vect;
+            char c = getNextChar();
+            if (c == '(')
+            {
+                while (1)
+                {
+                    vector<double> a_vect;
+                    while (c != ')')
+                    {
+                        string value = getNextString();
+                        a_vect.push_back(std::stod(value));
+                        c = getNextChar();
+                    }
+                    default_vect.push_back(a_vect);
+                    c = getNextChar();
+                    if (c == ',')
+                        c = getNextChar();
+                    else
+                        break;
+                    continue;
+                }
+            }
+            else
+            {
+                unreadChar();
+                vector<double> a_vect;
+                while (c != ')')
+                {
+                    string value = getNextString();
+                    a_vect.push_back(std::stod(value));
+                    c = getNextChar();
+                }
+                default_vect.push_back(a_vect);
+            }
+
+            int row_size = (int)default_vect.size();
+            int col_size = 0;
+            double** default_values = (double**)calloc(row_size, sizeof(double*));
+            // Ensure all rows have the same size
+            col_size = (int)default_vect[0].size();
+            for (int i = 0; i < row_size; i++)
+            {
+                vector<double> a_vect = default_vect[i];
+                int local_col_size = (int)a_vect.size();
+                if (local_col_size > col_size)
+                {
+                    throwError(getMsg(107));
+                }
+                else if (local_col_size < col_size)
+                {
+                    for (int k = local_col_size; k < col_size; k++)
+                    {
+                        a_vect.push_back(0.0);
+                    }
+                }
+                col_size = (int)a_vect.size();
+                default_values[i] = (double*)calloc(col_size, sizeof(double));
+                for (int j = 0; j < col_size; j++)
+                {
+                    double val = a_vect[j];
+                    default_values[i][j] = val;
+                }
+            }
+            descr_p->addValueArrayDefault(an_ikeyword, row_size, col_size, default_values);
+        }
+
+        c = getNextChar();
+        while (c != ';')
+        {
+            c = getNextChar();
+        }
+        c = getNextChar();
+        if (c != '}')
+            throwError(getMsg(13), "}");
+
     }
 }
 
@@ -1007,6 +1078,15 @@ void MvDescriptorParser_t::setFeaturesAttributes(MvDataFeature_t *feature_p, map
                 feature_p->setDisplayStatus(2);
             else
                 feature_p->setDisplayStatus(0);
+        }
+        else if (attrib == "DEFAULT")
+        {
+            double def_v = std::stod(value);
+            MvDataFeatureType_e ftype = feature_p->getType();
+            if (ftype == DFT_SCALAR || ftype == DFT_COND_SCALAR)
+            {
+                ((MvDataScalarFeature_t*)feature_p)->setDefaultValue(def_v);
+            }
         }
     }
 }
@@ -1661,6 +1741,7 @@ MvDataFeature_t* MvDescriptorParser_t::readTripleFeature(const MvDescriptor_t* d
     if (a_char != ')') throwError(getMsg(13), ")");
     // Block checking
     map<string, string> map;
+    vector<vector<double>> default_vect;
     a_char = getNextChar();
     if (a_char == '{') {
         while (getNextChar() != '}') {
@@ -1693,6 +1774,44 @@ MvDataFeature_t* MvDescriptorParser_t::readTripleFeature(const MvDescriptor_t* d
             else if (a_feature_keyword == "TYPE") {
                 a_type = getNextDifferentiatorType();
             }
+            else if (a_feature_keyword == "DEFAULT")
+            {
+                if (getNextChar() != '(') throwError(getMsg(13), "(");
+
+                char c = getNextChar();
+                if (c == '(')
+                {
+                    while (1)
+                    {
+                        vector<double> a_vect;
+                        while (c != ')')
+                        {
+                            string value = getNextString();
+                            a_vect.push_back(std::stod(value));
+                            c = getNextChar();
+                        }
+                        default_vect.push_back(a_vect);
+                        c = getNextChar();
+                        if (c == ',')
+                            c = getNextChar();
+                        else
+                            break;
+                        continue;
+                    }
+                }
+                else
+                {
+                    unreadChar();
+                    vector<double> a_vect;
+                    while (c != ')')
+                    {
+                        string value = getNextString();
+                        a_vect.push_back(std::stod(value));
+                        c = getNextChar();
+                    }
+                    default_vect.push_back(a_vect);
+                }
+            }
             else {
                 readFeaturesAttributes(false, a_feature_keyword, map);
             }
@@ -1707,10 +1826,12 @@ MvDataFeature_t* MvDescriptorParser_t::readTripleFeature(const MvDescriptor_t* d
     if (is_point)
     {
         df_p = new MvDataPointFeature_t(a_title, an_ikw, a_ikw_title, a_dimension, &argVect, a_type);
+        ((MvDataPointFeature_t*)df_p)->setDefaultValue(default_vect);
     }
     else
     {
         df_p = new MvDataTripleFeature_t(a_title, an_ikw, a_ikw_title, a_dimension, &argVect, a_type);
+        ((MvDataTripleFeature_t*)df_p)->setDefaultValue(default_vect);
     }
     setFeaturesAttributes(df_p, map);
     return df_p;
@@ -2122,6 +2243,7 @@ MvDataFeature_t* MvDescriptorParser_t::readArrayFeature(const MvDescriptor_t* de
     // Block checking
     bool a_is_optional = isOptional();
     char a_char = getNextChar();
+    vector<vector<double>> default_vect;
     if (a_char == '{') {
         bool a_is_graphical = false;
         while (getNextChar() != '}') {
@@ -2145,6 +2267,46 @@ MvDataFeature_t* MvDescriptorParser_t::readArrayFeature(const MvDescriptor_t* de
                 }
                 else {
                     throwError(getMsg(13), "=");
+                }
+                if (getNextChar() != ';') throwError(getMsg(13), ";");
+            }
+            else if (a_feature_keyword == "DEFAULT")
+            {
+                if (getNextChar() != '=') throwError(getMsg(13), "=");
+                if (getNextChar() != '(') throwError(getMsg(13), "(");
+
+                char c = getNextChar();
+                if (c == '(')
+                {
+                    while (1)
+                    {
+                        vector<double> a_vect;
+                        while (c != ')')
+                        {
+                            string value = getNextString();
+                            a_vect.push_back(std::stod(value));
+                            c = getNextChar();
+                        }
+                        default_vect.push_back(a_vect);
+                        c = getNextChar();
+                        if (c == ',')
+                            c = getNextChar();
+                        else
+                            break;
+                        continue;
+                    }
+                }
+                else
+                {
+                    unreadChar();
+                    vector<double> a_vect;
+                    while (c != ')')
+                    {
+                        string value = getNextString();
+                        a_vect.push_back(std::stod(value));
+                        c = getNextChar();
+                    }
+                    default_vect.push_back(a_vect);
                 }
                 if (getNextChar() != ';') throwError(getMsg(13), ";");
             }
@@ -2232,6 +2394,7 @@ MvDataFeature_t* MvDescriptorParser_t::readArrayFeature(const MvDescriptor_t* de
         a_daf_p = (MvDataDynamicArrayFeature_t*)a_saf_p;
         for (int i = 0; i < a_size; ++i) a_saf_p->setTitle(i, a_title_array[i]);
         delete[] a_title_array;
+        a_saf_p->setDefaultValue(default_vect);
     }
     int i;
     MvDataFeatureList_t::const_iterator it;

@@ -353,6 +353,11 @@ static int GetHMNAMEEntityNameSize(obj_type_e& etype, const char* line, int* id_
         etype = HCDI_OBJ_TYPE_ALEREFERENCESYSTEMGROUPS;
         return 23;
     }
+    else if (!strncmp(line, "ALE", 3))
+    {
+        etype = HCDI_OBJ_TYPE_ALES;
+        return 3;
+    }
 
     vector< std::pair<obj_type_e, string> > vec_type_title;
     HCDIGetAllTypesTitle(vec_type_title);
