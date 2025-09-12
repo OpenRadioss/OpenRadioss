@@ -36,6 +36,8 @@
 !||    sigeps125          ../engine/source/materials/mat/mat125/sigeps125.F90
 !||--- called by ------------------------------------------------------
 !||    mulaw              ../engine/source/materials/mat_share/mulaw.F90
+!||--- calls      -----------------------------------------------------
+!||    vinter             ../engine/source/tools/curve/vinter.F
 !||--- uses       -----------------------------------------------------
 !||    constant_mod       ../common_source/modules/constant_mod.F
 !||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
