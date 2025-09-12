@@ -415,7 +415,7 @@
             if (func_sig > 0) then
               write(iout,1200) func_sig,yfac
             else
-              write(iout,1300) qr1,cr1,qr2,cr2,qx1,cx1,qx2,cx2,func_qr,func_qx
+              write(iout,1300) sigy,qr1,cr1,qr2,cr2,qx1,cx1,qx2,cx2,func_qr,func_qx
             endif
             write(iout,1400) cc,cp,crp_law,crpa,crpn,crpm,crpq,sig_crp,time_crp
             write(iout,1500) func_young,func_nu,func_yld,func_alpha,             &
@@ -424,25 +424,26 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           return
 ! ----------------------------------------------------------------------------------------------------------------------
-1000      format(                                                                &
+1000      format(                                                                  &
             5x,a,/,                                                                &
             5x,'     THERMO-ELASTO-VISCOPLASTIC MATERIAL WITH CREEP',/,            &
             5x,'     ----------------------------------------------',//)
-1050      format(/                                                               &
+1050      format(/                                                                 &
             5x,a,/,                                                                &
             5x,'MATERIAL NUMBER . . . . . . . . . . . . .=',i10/,                  &
             5x,'MATERIAL LAW. . . . . . . . . . . . . . .=',i10/)
-1100      format(                                                                &
+1100      format(                                                                  &
             5x,'INITIAL DENSITY. . . . . . . . . . . . . . . . . . .=',1pg20.13/,  &
             5x,'YOUNG MODULUS. . . . . . . . . . . . . . . . . . . .=',1pg20.13/,  &
             5x,'POISSON RATIO. . . . . . . . . . . . . . . . . . . .=',1pg20.13/,  &
             5x,'THERMAL EXPANSION COEFFICIENT. . . . . . . . . . . .=',1pg20.13/,  &
             5x,'REFERENCE TEMPERATURE. . . . . . . . . . . . . . . .=',1pg20.13)
-1200      format(                                                                &
+1200      format(                                                                  &
             5x,'TABULATED YIELD STRESS FUNCTION ID . . . . . . . . .=',i10     /   &
             5x,'YIELD STRESS SCALE FACTOR. . . . . . . . . . . . . .=',1pg20.13/)
 
-1300      format(                                                                &
+1300      format(                                                                  &
+            5x,'INITIAL YIELD STRESS . . . . . . . . . . . . . . . .=',1pg20.13/,  &
             5x,'ISOTROPIC HARDENING PARAMETER QR1. . . . . . . . . .=',1pg20.13/,  &
             5x,'ISOTROPIC HARDENING PARAMETER CR1. . . . . . . . . .=',1pg20.13/,  &
             5x,'ISOTROPIC HARDENING PARAMETER QR2. . . . . . . . . .=',1pg20.13/,  &
@@ -453,7 +454,7 @@
             5x,'KINEMATIC HARDENING PARAMETER CX2. . . . . . . . . .=',1pg20.13/,  &
             5x,'FUNCTION OF HARDENING PARAMETERS QR VS TEMPERATURE .=',i10     /   &
             5x,'FUNCTION OF HARDENING PARAMETERS QX VS TEMPERATURE .=',i10     /)
-1400      format(                                                                &
+1400      format(                                                                  &
             5x,'COWPER-SYMONDS STRAIN RATE PARAMETER CC. . . . . . .=',1pg20.13/,  &
             5x,'COWPER-SYMONDS STRAIN RATE EXPONENT CP . . . . . . .=',1pg20.13/,  &
             5x,'CREEP LAW SELECTION FLAG . . . . . . . . . . . . . .=',i10     /   &
@@ -463,7 +464,7 @@
             5x,'CREEP ACTIVATION ENERGY Q. . . . . . . . . . . . . .=',1pg20.13/,  &
             5x,'CREEP REFERENCE STRESS . . . . . . . . . . . . . . .=',1pg20.13/,  &
             5x,'CREEP REFERENCE TIME . . . . . . . . . . . . . . . .=',1pg20.13/)
-1500      format(                                                                &
+1500      format(                                                                  &
             5x,'FUNCTION OF YOUNG MODULUS VS TEMPERATURE . . . . . .=',i10     /   &
             5x,'FUNCTION OF POISSON RATIO VS TEMPERATURE . . . . . .=',i10     /   &
             5x,'FUNCTION OF YIELD STRESS VS TEMPERATURE. . . . . . .=',i10     /   &
