@@ -159,7 +159,8 @@ C
         SVIS(I,5)= ZERO 
         SVIS(I,6)= ZERO 
         TSTAR(I) = ZERO        
-      ENDDO 
+      ENDDO
+      IMAT = MAT(1)
 C-----------------------------------------------------------------
       IF (MTN == 1) THEN
         CALL M1LAW8(
@@ -174,7 +175,7 @@ C-----------------------------------------------------------------
      9   DMELS,    BUFLY,    SSP,      ITY,
      A   NPT,      JTUR,     JTHE,     JSMS)
       ELSEIF (MTN == 2) THEN
-        CALL M2LAW8(
+        CALL M2LAW8(MAT_ELEM%MAT_PARAM(IMAT),
      1   PM,       OFF,      GBUF%SIG, GBUF%EINT,
      2   GBUF%RHO, GBUF%QVIS,GBUF%VOL, STIFN,
      3   NEL,      D1,       D2,       D3,
@@ -246,7 +247,6 @@ C --------------------------
       IF ((ITASK==0).AND.((IMON_MAT==1)))CALL STARTIME(TIMERS,121)
       IF (IFAILURE == 1)THEN
         IF (MTN < 28) THEN
-        IMAT = MAT(1)
         NUMBER_FAILURE = MAT_ELEM%MAT_PARAM(IMAT)%NFAIL
 c
         DO IR = 1,NUMBER_FAILURE 

@@ -36,7 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    message_mod              ../starter/share/message_module/message_mod.F
 !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
 !||====================================================================
-      SUBROUTINE HM_READ_EOS_SESAME(IOUT,PM,UNITAB,IUNIT,LSUBMODEL,IMIDEOS,IMID,TITR,BUFMAT,MFI,IDF)
+      SUBROUTINE HM_READ_EOS_SESAME(IOUT,PM,UNITAB,IUNIT,LSUBMODEL,IMIDEOS,IMID,TITR,BUFMAT,MFI,IDF,MAT_PARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -45,6 +45,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD  
       USE INOUTFILE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      USE MATPARAM_DEF_MOD, ONLY : MATPARAM_STRUCT_
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -71,7 +72,8 @@ C-----------------------------------------------
       INTEGER,INTENT(IN) :: IMID      
       my_real PM(NPROPM),BUFMAT(*)
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
-      INTEGER,INTENT(IN) :: IMIDEOS
+      TYPE(MATPARAM_STRUCT_),INTENT(INOUT) :: MAT_PARAM
+      INTEGER,INTENT(IN) :: IMIDEOS    
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -102,6 +104,7 @@ C-----------------------------------------------
       IF(RHO0 > ZERO) THEN
         RHOR = RHO0
         PM(1)= RHO0 
+        MAT_PARAM%RHO = RHO0
       ELSE
         RHO0=RHOR                   
       ENDIF
@@ -123,7 +126,11 @@ C----------------
       PM(33)=NR
       PM(34)=NT
       PM(35)=IDF
-      IF(PM(79) == ZERO)PM(79)=THREE100
+      IF (MAT_PARAM%THERM%TINI == ZERO) THEN
+        MAT_PARAM%THERM%TINI =THREE100
+        PM(79) = THREE100
+      END IF
+
       IDR = IDF
       IDT = IDR + NR
       IDP = IDT + NT

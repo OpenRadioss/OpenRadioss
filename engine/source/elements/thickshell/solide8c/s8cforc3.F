@@ -891,11 +891,10 @@ C
      C   NGL,        IDEG,       LBUF%VOL0DP,NEL,
      D   ISMSTR,     IPRES)
 C
-        MX = MXT(LFT)
         DO I=LFT,LLT
           RHOO(I) = LBUF%RHO(I)
-          TEMPEL(I) = PM(79,MX)
         ENDDO
+
         IF (IGTYP == 22)  
      .     CALL SCTORTH3(
      1   LFT,      LLT,      ICSIG,    NEL,
@@ -1152,8 +1151,8 @@ c    finite element heat transfert
 C--------------------------
           IF (JTHE < 0) THEN
             IF (MAT_ELEM%MAT_PARAM(MX)%HEAT_FLAG == 1) THEN
-              CALL S8ETHERM(
-     1             PM,      MX ,    VOLN,    NI,
+              CALL S8ETHERM(MAT_ELEM%MAT_PARAM(MX),
+     1             VOLN,    NI,
      2             NC1,     NC2,     NC3,     NC4,
      3             NC5,     NC6,     NC7,     NC8,
      4             PX1,     PX2,     PX3,     PX4,
@@ -1166,8 +1165,8 @@ C--------------------------
      B             THEM,    GBUF%OFF,LBUF%OFF,PARTSAV,
      C             IPARTS,  LBUF%VOL,NEL,GLOB_THERM%THEACCFACT)
             ELSE
-              CALL S8ETHERM(
-     1             PM,      MX ,    VOLN,    NI,
+              CALL S8ETHERM(MAT_ELEM%MAT_PARAM(MX),
+     1             VOLN,    NI,
      2             NC1,     NC2,     NC3,     NC4,
      3             NC5,     NC6,     NC7,     NC8,
      4             PX1,     PX2,     PX3,     PX4,

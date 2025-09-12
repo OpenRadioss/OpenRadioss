@@ -515,8 +515,11 @@ C Gather nodal variables Belytschko co-rotational formulation
      .   XGXA2,XGYA2  ,XGZA2 ,XGXYA ,XGYZA ,XGZXA,IPARG1,
      .   GBUF%GAMA_R) 
       ENDIF  ! JCVT == 0
+!
       NN_DEL = 0
-      PID = NGEO(1)
+      PID  = NGEO(1)
+      IMAT = MXT(1)  
+!
       IF (GEO(190,PID)+GEO(191,PID)+GEO(192,PID)+GEO(192,PID)>ZERO)
      .        NN_DEL=8
       IF (NN_DEL ==0 .AND. DT%IDEL_BRICK>0) NN_DEL=8
@@ -1089,7 +1092,6 @@ C Energy balance thermal material
 C
           IF (JCVT == 0) THEN  
             IFVM22      = 0
-            IMAT        = IXS(1,LFT+NFT)
             IALEFVM_FLG = IPM(251,IMAT)
             IF(IALEFVM_FLG>=2)IFVM22 = 1
             CALL SBILAN(PARTSAV,EINT,GBUF%RHO,GBUF%RK,GBUF%VOL,  
@@ -1401,7 +1403,6 @@ C Energy, momentum, mass balance by part in case of print-out
            EINT => ELBUF_TAB(NG)%GBUF%EINT(1:NEL)
            IF (JCVT == 0) THEN
             IFVM22      = 0
-            IMAT        = IXS(1,LFT+NFT)
             IALEFVM_FLG = IPM(251,IMAT)
             IF(IALEFVM_FLG>=2)IFVM22 = 1
             CALL SBILAN(PARTSAV,EINT,GBUF%RHO,GBUF%RK,GBUF%VOL,
@@ -1567,29 +1568,26 @@ c===========================================================================
 C
       IF (JTHE < 0) THEN
 C Finite element heat transfert forces
-        IMAT = MXT(1)
         IF (MAT_ELEM%MAT_PARAM(IMAT)%HEAT_FLAG == 1) THEN
-          CALL STHERM(
-     1         PM,      IMAT,    VOLN,    NC1,
-     2         NC2,     NC3,     NC4,     NC5,
-     3         NC6,     NC7,     NC8,     PX1,
-     4         PX2,     PX3,     PX4,     PY1,
-     5         PY2,     PY3,     PY4,     PZ1,
-     6         PZ2,     PZ3,     PZ4,     DT1,
-     7         TEMP,    TEMPEL,  FHEAT,   THEM,
-     8         GBUF%OFF,LBUF%OFF,PARTSAV, IPARTS,
-     9         GBUF%VOL,NEL     ,NUMNOD ,GLOB_THERM%THEACCFACT)
+          CALL STHERM(MAT_ELEM%MAT_PARAM(IMAT),
+     1         VOLN,    NC1,     NC2,     NC3,     NC4,     
+     2         NC5,     NC6,     NC7,     NC8,     PX1,
+     3         PX2,     PX3,     PX4,     PY1,
+     4         PY2,     PY3,     PY4,     PZ1,
+     5         PZ2,     PZ3,     PZ4,     DT1,
+     6         TEMP,    TEMPEL,  FHEAT,   THEM,
+     7         GBUF%OFF,LBUF%OFF,PARTSAV, IPARTS,
+     8         GBUF%VOL,NEL     ,NUMNOD ,GLOB_THERM%THEACCFACT)
         ELSE
-          CALL STHERM(
-     1         PM,      IMAT,    VOLN,    NC1,
-     2         NC2,     NC3,     NC4,     NC5,
-     3         NC6,     NC7,     NC8,     PX1,
-     4         PX2,     PX3,     PX4,     PY1,
-     5         PY2,     PY3,     PY4,     PZ1,
-     6         PZ2,     PZ3,     PZ4,     DT1,
-     7         TEMP,    TEMPEL,  DIE,     THEM,
-     8         GBUF%OFF,LBUF%OFF,PARTSAV, IPARTS,
-     9         GBUF%VOL,NEL     ,NUMNOD ,GLOB_THERM%THEACCFACT)
+          CALL STHERM(MAT_ELEM%MAT_PARAM(IMAT),
+     1         VOLN,    NC1,     NC2,     NC3,     NC4,
+     2         NC5,     NC6,     NC7,     NC8,     PX1,
+     3         PX2,     PX3,     PX4,     PY1,
+     4         PY2,     PY3,     PY4,     PZ1,
+     5         PZ2,     PZ3,     PZ4,     DT1,
+     6         TEMP,    TEMPEL,  DIE,     THEM,
+     7         GBUF%OFF,LBUF%OFF,PARTSAV, IPARTS,
+     8         GBUF%VOL,NEL     ,NUMNOD ,GLOB_THERM%THEACCFACT)
         END IF
       ENDIF
 C

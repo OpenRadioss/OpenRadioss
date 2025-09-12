@@ -32,14 +32,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    message_mod              ../starter/share/message_module/message_mod.F
 !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
 !||====================================================================
-      SUBROUTINE HM_READ_EOS_IDEAL_GAS(IOUT,PM,UNITAB,IUNIT,LSUBMODEL,IMIDEOS,EOS_STRUCT)
+      SUBROUTINE HM_READ_EOS_IDEAL_GAS(IOUT,PM,UNITAB,IUNIT,LSUBMODEL,IMIDEOS,MAT_PARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
       USE SUBMODEL_MOD
       USE MESSAGE_MOD
-      USE EOS_PARAM_MOD , ONLY : EOS_PARAM_
+      USE MATPARAM_DEF_MOD, ONLY : MATPARAM_STRUCT_
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -64,7 +64,7 @@ C-----------------------------------------------
       my_real PM(NPROPM)
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
       INTEGER,INTENT(IN) :: IMIDEOS
-      TYPE(EOS_PARAM_),INTENT(INOUT) :: EOS_STRUCT
+      TYPE(MATPARAM_STRUCT_),INTENT(INOUT) :: MAT_PARAM
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -95,6 +95,7 @@ C-----------------------------------------------
       IF(RHO0 > ZERO) THEN
         RHOR = RHO0
         PM(1)= RHO0 
+        MAT_PARAM%RHO = RHO0
       ELSE
         RHO0=RHOR                   
       ENDIF
@@ -136,7 +137,10 @@ C-----------------------------------------------
      .               C2='SPECIFIC HEAT RATIO (GAMMA) MUST BE GREATER THAN 1.0')
       ENDIF
 
-      IF(T0 == ZERO)T0=THREE100
+      IF (T0 == ZERO) T0 = THREE100
+      MAT_PARAM%THERM%TINI =THREE100
+      PM(79) = THREE100
+
       Cv = ZERO
       IF(RHO0*T0 /= ZERO) THEN
         ! this situation is not expected unless in case of input inconsistency (eos_uid does not match mat_uid)
@@ -150,18 +154,18 @@ C-----------------------------------------------
       PM(88) = PSH
       PM(104)= P0-PSH
 
-      EOS_STRUCT%NUPARAM = 3
-      EOS_STRUCT%NIPARAM = 0
-      EOS_STRUCT%NFUNC = 0
-      EOS_STRUCT%NTABLE = 0
-      CALL EOS_STRUCT%CONSTRUCT() !allocations
+      MAT_PARAM%EOS%NUPARAM = 3
+      MAT_PARAM%EOS%NIPARAM = 0
+      MAT_PARAM%EOS%NFUNC = 0
+      MAT_PARAM%EOS%NTABLE = 0
+      CALL MAT_PARAM%EOS%CONSTRUCT() !allocations
 
-      EOS_STRUCT%UPARAM(1) = GAMMA
-      EOS_STRUCT%UPARAM(2) = P0
-      EOS_STRUCT%UPARAM(3) = T0
-      EOS_STRUCT%PSH = PSH
-      EOS_STRUCT%Cv = Cv
-      EOS_STRUCT%Cp = GAMMA * Cv
+      MAT_PARAM%EOS%UPARAM(1) = GAMMA
+      MAT_PARAM%EOS%UPARAM(2) = P0
+      MAT_PARAM%EOS%UPARAM(3) = T0
+      MAT_PARAM%EOS%PSH = PSH
+      MAT_PARAM%EOS%Cv = Cv
+      MAT_PARAM%EOS%Cp = GAMMA * Cv
       
       !SSP0
       SSP0 = ZERO 

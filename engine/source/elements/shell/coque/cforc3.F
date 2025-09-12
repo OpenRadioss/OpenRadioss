@@ -198,7 +198,7 @@ C-----------------------------------------------
       INTEGER MAT(MVSIZ),PID(MVSIZ),NDT(MVSIZ),NGL(MVSIZ),FWAVE_EL(NEL),
      .   I,J,IGTYP,ICSEN,IFLAG,IUN,NPG,ILAY,NLAY,IXEL,IXLAY,NXLAY,N1,N2,N3,N4,
      .   IBID,NG,IR,IS,L_DIRA,L_DIRB,J1,J2,IGMAT,NPTTOT,IREP,IFAILWAVE,IDRAPE,
-     .   NPTT,IT,ACTIFXFEM,SEDRAPE,NUMEL_DRAPE
+     .   NPTT,IT,ACTIFXFEM,SEDRAPE,NUMEL_DRAPE,IMAT
       my_real 
      .   STI(MVSIZ),STIR(MVSIZ),SIGY(MVSIZ),RHO(MVSIZ),
      .   X2(MVSIZ),X3(MVSIZ),X4(MVSIZ),Y2(MVSIZ),Y3(MVSIZ),
@@ -694,8 +694,9 @@ C
 C--------------------------
 C     THERMAL TIME STEP
 C--------------------------
+      imat = mat(1)
       IF (JTHE /= 0 .AND. GLOB_THERM%IDT_THERM == 1) THEN
-           call dttherm(nel     ,pm(1,mat(1))  ,npropm  ,glob_therm   ,
+           call dttherm(nel     ,pm(1,imat),npropm,glob_therm,mat_elem%mat_param(imat),
      .                  jtur    ,tempel  ,vol0    ,rho       ,
      .                  aldt    ,off     ,conde   ,gbuf%re   ,gbuf%rk )
       ENDIF 

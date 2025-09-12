@@ -32,14 +32,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    message_mod                ../starter/share/message_module/message_mod.F
 !||    submodel_mod               ../starter/share/modules1/submodel_mod.F
 !||====================================================================
-      SUBROUTINE HM_READ_EOS_IDEAL_GAS_VT(IOUT,PM,UNITAB,IUNIT,LSUBMODEL,IMIDEOS,EOS_STRUCT)
+      SUBROUTINE HM_READ_EOS_IDEAL_GAS_VT(IOUT,PM,UNITAB,IUNIT,LSUBMODEL,IMIDEOS,MAT_PARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
       USE SUBMODEL_MOD
       USE MESSAGE_MOD
-      USE EOS_PARAM_MOD , ONLY : EOS_PARAM_
+      USE MATPARAM_DEF_MOD, ONLY : MATPARAM_STRUCT_
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -70,8 +70,8 @@ C-----------------------------------------------
       INTEGER IIN,IOUT,IUNIT
       my_real PM(NPROPM)
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
+      TYPE(MATPARAM_STRUCT_),INTENT(INOUT) :: MAT_PARAM
       INTEGER,INTENT(IN) :: IMIDEOS
-      TYPE(EOS_PARAM_),INTENT(INOUT) :: EOS_STRUCT
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -94,7 +94,6 @@ C-----------------------------------------------
 
       GAMMA=ZERO
             
-C      CALL HM_GET_FLOATV('MAT_R', R_GAS, IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('MAT_R', r_GAS_, IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('LAW5_P0', P0, IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('LAW5_PSH', PSH, IS_AVAILABLE,LSUBMODEL,UNITAB)
@@ -112,6 +111,7 @@ C      CALL HM_GET_FLOATV('MAT_R', R_GAS, IS_AVAILABLE,LSUBMODEL,UNITAB)
       IF(RHO0 > ZERO) THEN
         RHOR = RHO0
         PM(1)= RHO0 
+        MAT_PARAM%RHO = RHO0
       ELSE
         RHO0=RHOR                   
       ENDIF
@@ -185,28 +185,27 @@ C      CALL HM_GET_FLOATV('MAT_R', R_GAS, IS_AVAILABLE,LSUBMODEL,UNITAB)
       E0 = RHO0 * (A0 * T0 + HALF * A1 * T0**2 + THIRD * A2 * T0**3 + FOURTH * A3 * T0**4 + 
      .     ONE_FIFTH * A4 * T0**5 - r_GAS_ * T0)
      
-      IF(T0 == ZERO)T0=THREE100
-
       PM(88) = PSH
       PM(23) = E0
       PM(31) = P0-PSH   !used to init stress tensor
       PM(32) = A0
-      PM(79) = T0
-      IF(PM(79)==ZERO)PM(79)=THREE100
       PM(104)=P0-PSH
 
-      EOS_STRUCT%NUPARAM = 6
-      EOS_STRUCT%NIPARAM = 0
-      EOS_STRUCT%NFUNC = 0
-      EOS_STRUCT%NTABLE = 0
-      CALL EOS_STRUCT%CONSTRUCT() !allocations
+      MAT_PARAM%EOS%NUPARAM = 6
+      MAT_PARAM%EOS%NIPARAM = 0
+      MAT_PARAM%EOS%NFUNC = 0
+      MAT_PARAM%EOS%NTABLE = 0
+      CALL MAT_PARAM%EOS%CONSTRUCT() !allocations
 
-      EOS_STRUCT%UPARAM(1) = A0
-      EOS_STRUCT%UPARAM(2) = A1
-      EOS_STRUCT%UPARAM(3) = A2
-      EOS_STRUCT%UPARAM(4) = A3
-      EOS_STRUCT%UPARAM(5) = A4
-      EOS_STRUCT%UPARAM(6) = r_gas_ ! r=R_GAS/M
+      MAT_PARAM%EOS%UPARAM(1) = A0
+      MAT_PARAM%EOS%UPARAM(2) = A1
+      MAT_PARAM%EOS%UPARAM(3) = A2
+      MAT_PARAM%EOS%UPARAM(4) = A3
+      MAT_PARAM%EOS%UPARAM(5) = A4
+      MAT_PARAM%EOS%UPARAM(6) = r_gas_ ! r=R_GAS/M
+      IF (T0 == ZERO) T0 = THREE100
+      MAT_PARAM%THERM%TINI =THREE100
+      PM(79) = THREE100
             
       !SSP0
       CV = CP - r_gas_ 
@@ -216,8 +215,8 @@ C      CALL HM_GET_FLOATV('MAT_R', R_GAS, IS_AVAILABLE,LSUBMODEL,UNITAB)
         GAMMA = ZERO !  this error is managed above (CP < r_GAS_)
       ENDIF
 
-      EOS_STRUCT%PSH = PSH
-      EOS_STRUCT%CV = CV
+      MAT_PARAM%EOS%PSH = PSH
+      MAT_PARAM%EOS%CV = CV
 
       SSP0 = SQRT(GAMMA*r_gas_*T0)
       G0 = PM(22) ! 0.0 with physical input.However mathematical model allows any positive value.

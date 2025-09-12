@@ -63,7 +63,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,IMAT,NUMMAT,NUMTABL,NUPARAM,NIPARAM,NFAIL,ITHERM
+      INTEGER :: I,IMAT,NUMMAT,NUMTABL,NUPARAM,NIPARAM,NFAIL
       INTEGER :: IAD,NFIX,NFIXR,LEN,LENR,NMOD,MOD
       INTEGER ,DIMENSION(NCHARTITLE) :: NAME
       INTEGER ,DIMENSION(:) ,ALLOCATABLE :: IBUF
@@ -176,10 +176,7 @@ c
 c     read thermal parameters
 c
       DO IMAT = 1,NUMMAT
-        ITHERM = MAT_ELEM%MAT_PARAM(IMAT)%ITHERM
-        IF (ITHERM > 0) THEN
-          CALL READ_THERMPARAM(MAT_ELEM%MAT_PARAM(IMAT)%THERM)
-        END IF
+        CALL READ_THERMPARAM(MAT_ELEM%MAT_PARAM(IMAT)%THERM)
       END DO      
 c      
 c     read parameters of failure models per material
