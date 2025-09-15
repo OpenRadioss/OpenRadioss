@@ -99,10 +99,11 @@ C-----------------------------------------------
           IF(MU(I)<ZERO)A2_=-A2
           DENOM   = (ESPE(I)+D0)
           PP      = (A1*MU(I)+A2_*MU(I)*MU(I)+(B0+B1*MU(I)+B2*MU(I)*MU(I))*ESPE(I)+(C1*MU(I)+C0)*ESPE(I)*ESPE(I))/DENOM
+          PP      = MAX(PP,PMIN) * OFF(I)
           dPdMU   = (A1+2*A2_*MU(I)+(TWO*B2*MU(I)+B1)*ESPE(I)+C1*ESPE(I)*ESPE(I))/DENOM
           dPdE(I) = (((B2*MU(I)+B1)*MU(I)+B0)+(TWO*(C1*MU(I)+C0))*ESPE(I) - PP/DENOM)/DENOM
           DPDM(I) = dPdmu + dPdE(I)*DF(I)*DF(I)*(PP)   !total derivative
-          PNEW(I) = MAX(PP,PMIN) * OFF(I) ! P(mu[n+1],E[n])
+          PNEW(I) = PP ! P(mu[n+1],E[n])
           PNEW(I) = PNEW(I) - PSH(I)
         ENDDO
 
@@ -114,11 +115,13 @@ C-----------------------------------------------
           DVV      = HALF*DVV ! car 2 iterations
           DENOM   = (ESPE(I)+D0)
           PP      = (A1*MU(I)+A2_*MU(I)*MU(I)+(B0+B1*MU(I)+B2*MU(I)*MU(I))*ESPE(I)+(C1*MU(I)+C0)*ESPE(I)*ESPE(I))/DENOM
+          PP      = MAX(PP,PMIN) * OFF(I)
           ESPE(I) = ESPE(I) - (PP)*DVV
           DENOM   = (ESPE(I)+D0)
           PP      = (A1*MU(I)+A2_*MU(I)*MU(I)+(B0+B1*MU(I)+B2*MU(I)*MU(I))*ESPE(I)+(C1*MU(I)+C0)*ESPE(I)*ESPE(I))/DENOM
+          PP      = MAX(PP,PMIN) * OFF(I)
           ESPE(I) = ESPE(I) - (PP)*DVV
-          PNEW(I) = MAX(PP,PMIN) * OFF(I) ! P(mu[n+1],E[n+1])
+          PNEW(I) = PP ! P(mu[n+1],E[n+1])
           EINT(I) = EINT(I) - HALF*DVOL(I)*(PNEW(I))
           PNEW(I) = PNEW(I) - PSH(I)
           dPdE(I) = (((B2*MU(I)+B1)*MU(I)+B0)+(TWO*(C1*MU(I)+C0))*ESPE(I) - PP/DENOM)/DENOM
@@ -131,10 +134,11 @@ C-----------------------------------------------
             IF(MU(I)<ZERO)A2_=-A2
             DENOM   = (ESPE(I)+D0)
             PP      = (A1*MU(I)+A2_*MU(I)*MU(I)+(B0+B1*MU(I)+B2*MU(I)*MU(I))*ESPE(I)+(C1*MU(I)+C0)*ESPE(I)*ESPE(I))/DENOM
+            PP      = MAX(PP,PMIN)*OFF(I)
             dPdMU   = (A1+2*A2_*MU(I)+(TWO*B2*MU(I)+B1)*ESPE(I)+C1*ESPE(I)*ESPE(I))/DENOM
             dPdE(I) = (((B2*MU(I)+B1)*MU(I)+B0)+(TWO*(C1*MU(I)+C0))*ESPE(I) - PP/DENOM)/DENOM
             DPDM(I) = dPdmu + dPdE(I)*DF(I)*DF(I)*(PP) !total derivative
-            PNEW(I) = MAX(PP,PMIN)*OFF(I)
+            PNEW(I) = PP
             PNEW(I) = PNEW(I) - PSH(I)
           ENDIF
         ENDDO
