@@ -599,8 +599,10 @@ C------------------------------
 !
         IF (NFAIL > 0) THEN
           DO NG=1,NGROUP
-            FBUF => ELBUF_TAB(NG)%BUFLY(1)%FAIL(1,1,1)
-            NVARF  = MAX(NVARF,FBUF%FLOC(1)%NVAR) 
+            IF (ELBUF_TAB(NG)%BUFLY(1)%NFAIL > 0) THEN
+              FBUF => ELBUF_TAB(NG)%BUFLY(1)%FAIL(1,1,1)
+              NVARF = MAX(NVARF,FBUF%FLOC(1)%NVAR)
+            END IF
           ENDDO
         ENDIF ! IF (NFAIL > 0)
 !
