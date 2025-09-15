@@ -204,6 +204,7 @@ c  Indx uses locally unlike 4N shells
      .  DIMENSION(:) ,POINTER  :: DIR_A,DIR_B,CRKDIR,DADV
 !     variables for heat transfer
       my_real, dimension(mvsiz) :: fheat
+      my_real, dimension(mvsiz) :: ssp_eq
 !
 C--- Variables for non-local
       INTEGER :: NDDL, INOD(3),NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), L_NLOC, IPOS(3),INLOC
@@ -452,7 +453,7 @@ C----------------------------------------------------------------------------
      R    INDX_DRAPE ,THKE      ,SEDRAPE     ,NUMEL_DRAPE ,DT   ,
      Q    NCYCLE     ,SNPC      ,  STF ,
      S    NXLAYMAX   ,IDEL7NOK  ,USERL_AVAIL ,MAXFUNC     ,NPTTOT,
-     T    SBUFMAT    ,SDIR_A    ,SDIR_B,  GBUF%FORPG_G(PTF))
+     T    SBUFMAT    ,SDIR_A    ,SDIR_B,  GBUF%FORPG_G(PTF),SSP_EQ)
 C----------------------------------------------------------------------------
 C     THICKNESS CORRECTION 
 C----------------------------
@@ -546,7 +547,7 @@ C--------------------------
      5        IOFC   ,NNOD   ,AREA     ,G       ,SHF   ,
      6        MSTG   ,DMELTG ,JSMS     ,PTG     ,IGTYP ,
      7        IGMAT  ,A11R   ,GBUF%G_DT, GBUF%DT,MTN   ,
-     8        PM     ,MAT(JFT),NEL     ,ZOFFSET  )
+     8        PM     ,MAT(JFT),NEL     ,ZOFFSET ,SSP_EQ )
 C--------------------------
 C     THERMAL TIME STEP
 C--------------------------

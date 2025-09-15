@@ -245,6 +245,7 @@ C-----------------------------------------------
       my_real, dimension(nel)   :: epsd_pg
 !     variables for heat transfer
       my_real, dimension(mvsiz) :: fheat
+      my_real, dimension(mvsiz) :: ssp_eq
 !
 C--- Variables for non-local formulation
       INTEGER :: NDDL, K, INOD(3),NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), L_NLOC, IPOS(3),INLOC
@@ -577,7 +578,7 @@ C--------------------------
      Q   INDX_DRAPE,THKE      ,SEDRAPE     ,NUMEL_DRAPE,DT     ,
      R   NCYCLE    ,SNPC     ,STF          ,NXLAYMAX           ,
      S   IDEL7NOK  ,USERL_AVAIL ,MAXFUNC    ,NPTTOT,
-     T   SBUFMAT   ,SDIR_A    , SDIR_B   ,GBUF%FOR_G)
+     T   SBUFMAT   ,SDIR_A    , SDIR_B   ,GBUF%FOR_G,SSP_EQ )
 C--------------------------
       IF ((IMON_MAT==1).AND.ITASK == 0)CALL STOPTIME(TIMERS,35)
 C--------------------------
@@ -591,7 +592,7 @@ C--------------------------
      5        SHF    ,IGTYP     ,IGMAT   ,G      ,A11     ,
      6        A11R   ,GBUF%G_DT ,GBUF%DT ,ALDT   ,THK0    ,
      7        AREA   ,NGL       ,IMAT    ,MTN    ,NEL      , 
-     8        ZOFFSET )
+     8        ZOFFSET,SSP_EQ  )
 c
 C--------keep  GBUF%FOR,GBUF%MOM in new local sys as LBUF%SIG    
       CALL C3SROTO3(JFT    ,JLT    ,ECOS    ,ESIN      ,GBUF%FOR,

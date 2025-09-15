@@ -191,7 +191,7 @@
         & npropmi  ,npropm   ,npropg   ,imon_mat  ,numgeo    ,          &
         & numstack ,dt1      ,tt       ,nxlaymax  ,idel7nok ,userl_avail, &
         & maxfunc  ,nummat   ,varnl_npttot,sbufmat,sdir_a   ,sdir_b ,nparg,&
-        & idamp_freq_range,damp_buf)
+        & idamp_freq_range,damp_buf,ssp_eq)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -351,6 +351,7 @@
           real(kind=WP), intent(inout), dimension(sdir_a) :: dir_a
           real(kind=WP), intent(inout), dimension(sdir_b) :: dir_b
           real(kind=WP), dimension(mvsiz), intent(inout) :: fheat
+          real(kind=WP), dimension(mvsiz), intent(inout) :: ssp_eq
           !
           target :: aldt, ipm, varnl
           type(elbuf_struct_),intent(inout), target :: elbuf_str
@@ -2757,6 +2758,7 @@
                   yld(jft:jlt)     = yld(jft:jlt) + sigy(jft:jlt) * thkly(jpos:jpos+jlt-1)
                 end select
               endif
+              ssp_eq(jft:jlt)     = ssp_eq(jft:jlt) + ssp(jft:jlt) * thkly(jpos:jpos+jlt-1)
 !-----------------------------------------------
               if (impl_s > 0) then
                 call putsignorc3(jft ,jlt ,iun,ng,ipt,g_imp ,sigksi)
@@ -2871,12 +2873,14 @@
               rho(i) = geo(ipgmat+1,pid(1))
               ssp(i) = geo(ipgmat+9,pid(1))
             enddo
+            ssp_eq(jft:jlt)     = ssp(jft:jlt) 
           elseif (igtyp == 52 .or.&
           &((igtyp == 17 .or. igtyp == 51) .and. igmat > 0)) then
             do i=jft,jlt
               ssp(i) = stack%pm(9,isubstack)
               rho(i) = stack%pm(1,isubstack)
             enddo
+            ssp_eq(jft:jlt)     = ssp(jft:jlt) 
           endif
 !---
 ! special treatment for law 19
