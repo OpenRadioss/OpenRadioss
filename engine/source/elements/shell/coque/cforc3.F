@@ -253,6 +253,7 @@ C
       my_real :: dt1,dtinv,asrate,eps_m2,eps_k2
       my_real, dimension(nel)   :: epsd_pg
       my_real, dimension(mvsiz) :: fheat        ! variables for heat transfer
+      my_real, dimension(mvsiz) :: ssp_eq        
 !
 C--- Variables for non-local
       INTEGER :: NDDL, K, INOD(4),NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ),
@@ -571,7 +572,7 @@ C-----------------------------
      R  INDX_DRAPE  ,THKE        ,SEDRAPE     ,NUMEL_DRAPE  ,DT        ,
      Q  NCYCLE      ,SNPC        ,STF         ,NXLAYMAX    ,IDEL7NOK   , 
      S  USERL_AVAIL ,MAXFUNC    ,NPTTOT       ,SBUFMAT     ,SDIR_A     ,
-     T  SDIR_B      ,GBUF%FOR_G)
+     T  SDIR_B      ,GBUF%FOR_G  ,SSP_EQ )
 C-----------------------------
       IF ((IMON_MAT==1).AND. ITASK == 0)CALL STOPTIME(TIMERS,35)
 C-----------------------------

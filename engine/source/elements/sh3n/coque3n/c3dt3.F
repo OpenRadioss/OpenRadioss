@@ -35,7 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      5                 SHF   ,IGTYP  ,IGMAT  ,G      ,A1     ,
      6                 A11R  ,G_DT   ,DTEL   ,ALDT   ,THK0   ,
      7                 AREA  ,NGL    ,IMAT   ,MTN    ,NEL   ,
-     8                 ZOFFSET)
+     8                 ZOFFSET,SSP_EQ)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -69,12 +69,13 @@ C-----------------------------------------------
       INTEGER,INTENT(IN)    :: G_DT, NEL
       my_real,DIMENSION(JLT), INTENT(INOUT) :: DTEL
       my_real,DIMENSION(NEL),INTENT(IN)  :: ZOFFSET
+      my_real,DIMENSION(NEL),INTENT(IN)  :: SSP_EQ
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER INDX(MVSIZ),I, II, NINDX,IDT
       my_real DT(MVSIZ)
-      my_real ATHK, MMIN,FAC
+      my_real ATHK, MMIN,FAC,F_OSET(NEL),F_DTE(NEL)
 C=======================================================================       
       DO I=JFT,JLT
         VISCMX(I) = SQRT(ONE + VISCMX(I)*VISCMX(I)) - VISCMX(I)
@@ -82,6 +83,8 @@ C=======================================================================
       ENDDO
 c---------------------------------------------------
 C
+      F_OSET(JFT:JLT) = ONE ! factor is on stiffness 
+      F_DTE(JFT:JLT) = ONE ! factor is on element dt fat =1/sqrt(f_k)
       IF (NODADT/=0) THEN
         IF(IGTYP == 52 .OR. 
      .   ((IGTYP == 11 .OR. IGTYP == 17 .OR. IGTYP == 51)
@@ -99,21 +102,30 @@ C
                 ENDIF
           ENDDO       
         ELSE
+           F_OSET(JFT:JLT)= ONE + ZEP2*ABS(ZOFFSET(JFT:JLT))/THK0(JFT:JLT)
            DO  I=JFT,JLT
             A1(I) = PM(24,IMAT)
             G(I)  = PM(22,IMAT)
            ENDDO
-           IF (MTN == 58  .or. MTN == 158) CALL CSSP2A11(PM   ,IMAT  ,SSP  ,A1   ,JLT   )
+           IF (MTN == 58 .or. MTN == 158) THEN 
+               CALL CSSP2A11(PM   ,IMAT  ,SSP  ,A1   ,JLT   )
+           ELSEIF (MTN == 42 .or. MTN == 62 .or. MTN == 69) THEN
+             DO I=JFT,JLT
+               FAC = MAX(SSP_EQ(I),SSP(I))/SSP(I)
+               F_OSET(I) = FAC*FAC*F_OSET(I)
+             ENDDO 
+           END IF
            DO  I=JFT,JLT
                IF (OFF(I)==ZERO) THEN
                  STI(I) = ZERO
                  STIR(I) = ZERO
                ELSE
                  ATHK   = AREA(I) * THK0(I)
-                 STI(I) = ATHK * A1(I) / ALDT(I)**2
+                 STI(I) = ATHK *F_OSET(I)* A1(I) / ALDT(I)**2
                  STIR(I) = STI(I) * (THK0(I) * THK0(I) * ONE_OVER_12 
      .                   + HALF * SHF(I) * AREA(I) * G(I)/A1(I))
-c                 STI(I) = 0.5 * ATHK * A1(I) / ALDT(I)**2
+     .                       +  STI(I)*ZOFFSET(I)*ZOFFSET(I)
+c                 STI(I) = 0.5 * ATHK * A1(I) / ALDT(I)**2        
 c                 STIR(I) = STI(I) * (THK0(I) * THK0(I) / 12. 
 c     .                   + AREA(I) /9.) 
                ENDIF
@@ -175,10 +187,27 @@ c dt = 2/w = sqrt( 2*(m+dmelc)/k)
          END DO
         ENDIF
 C
+      ELSE ! NODADT=0
+        F_OSET(JFT:JLT)= ONE + ZEP2*ABS(ZOFFSET(JFT:JLT))/THK0(JFT:JLT)
+        IF(IGTYP==1.OR.IGTYP==9) THEN 
+          DO I=JFT,JLT
+            F_DTE(I) = ONE/SQRT(F_OSET(I))
+          END DO 
+        END IF
+        IF (MTN == 42 .or. MTN == 62 .or. MTN == 69) THEN
+          DO I=JFT,JLT
+            FAC = SSP(I)/MAX(SSP_EQ(I),SSP(I))
+            F_DTE(I) = FAC*F_DTE(I)
+          ENDDO 
+          DO I=JFT,JLT
+            FAC = MAX(SSP_EQ(I),SSP(I))/SSP(I)
+            F_OSET(I) = FAC*FAC*F_OSET(I)
+          ENDDO 
+        END IF
       ENDIF
 C
       DO I=JFT,JLT
-        DT(I)=DTFAC1(7)*ALDT(I)/SSP(I)
+        DT(I)=DTFAC1(7)*F_DTE(I)*ALDT(I)/SSP(I)
       END DO
       IF(G_DT/=ZERO)THEN
          DO I=JFT,JLT
@@ -262,7 +291,7 @@ C
       IF(IDTMINS==2)RETURN
 C
       DO I=JFT,JLT
-         STI(I) = AREA(I) * THK0(I) * A1(I) / ALDT(I)**2
+         STI(I) = AREA(I) * THK0(I) * F_OSET(I) * A1(I) / ALDT(I)**2
          STI(I) = ZEP81 * ZEP81 * STI(I) * OFF(I)
          STIR(I)= ZERO
       ENDDO

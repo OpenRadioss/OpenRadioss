@@ -207,6 +207,7 @@ c  Indx uses locally unlike 4N shells
       my_real :: dtinv,asrate,eps_m2,eps_k2
       my_real, dimension(nel)   :: epsd_pg
       my_real, dimension(mvsiz) :: fheat
+      my_real, dimension(mvsiz) :: ssp_eq
 !
 C--- Variables for non-local
       INTEGER :: NDDL, K, INOD(3),NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), L_NLOC, IPOS(3),INLOC
@@ -431,7 +432,7 @@ c-------------------------------------------
      R   INDX_DRAPE,THKE      ,SEDRAPE     ,NUMEL_DRAPE ,DT      ,
      Q   NCYCLE    ,SNPC      ,STF         ,NXLAYMAX    ,IDEL7NOK  ,
      R   USERL_AVAIL ,MAXFUNC ,NPTTOT      ,SBUFMAT     ,SDIR_A    ,SDIR_B    ,
-     S   GBUF%FOR_G)
+     S   GBUF%FOR_G,SSP_EQ )
 C----------------------------------------------------------------------------
 C     FORCES VISCOCITE 
 C----------------------------
@@ -467,7 +468,7 @@ C--------------------------
      5        IOFC   ,NNOD   ,AREA     ,G      ,SHF   ,
      6        MSTG   ,DMELTG ,JSMS     ,PTG    ,IGTYP ,
      7        IGMAT  ,A11R   ,GBUF%G_DT, GBUF%DT,MTN   ,
-     8        PM     ,MAT(JFT), NEL     ,ZOFFSET)
+     8        PM     ,MAT(JFT), NEL     ,ZOFFSET,SSP_EQ)
 C--------------------------
 C     THERMAL TIME STEP
 C--------------------------
