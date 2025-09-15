@@ -291,6 +291,7 @@ C-----------------------------------------------
 !     variables for heat transfer
       my_real, dimension(mvsiz) :: fheat
       my_real, dimension(mvsiz) :: epsd_pg,epsd_glob
+      my_real, dimension(mvsiz) :: ssp_eq,ssp_max
       my_real :: dtinv,asrate,eps_m2,eps_k2
 !
 C-----------------------------------------------
@@ -465,8 +466,9 @@ C
          ALLOCATE(PINCH_LOCAL%EPINCHXZ(MVSIZ))
          ALLOCATE(PINCH_LOCAL%EPINCHYZ(MVSIZ))
          ALLOCATE(PINCH_LOCAL%EPINCHZZ(MVSIZ))
-       ENDIF
-C 
+      ENDIF
+C
+      SSP_MAX = ZERO
 C--------------------------
 C     CALCULS PRELIMINAIRES 
 C--------------------------
@@ -801,7 +803,8 @@ C-----------------
      O    IBID      ,IBID      ,ISUBSTACK ,STACK     ,
      P    F_DEF(1,1,NG),ITASK  ,DRAPE_SH4N     ,VAR_REG(1,1),
      Q    PINCH_LOCAL , GBUF%FORPGPINCH(PTFP), GBUF%MOMPGPINCH(PTMP),EZZAVG  ,
-     R    AREAPINCH  )
+     R    AREAPINCH  ) 
+          SSP_EQ(JFT:JLT) = SSP(JFT:JLT)
         ELSE
           CALL CMAIN3(TIMERS,
      1    ELBUF_STR ,JFT       ,JLT       ,NFT       ,IPARG      ,
@@ -832,8 +835,9 @@ C-----------------
      R    INDX_DRAPE ,THKE     ,SEDRAPE   ,NUMEL_DRAPE  ,DT   ,
      Q    NCYCLE     ,SNPC     ,STF       ,NXLAYMAX,    IDEL7NOK    ,
      S    USERL_AVAIL ,MAXFUNC ,NPTTOT    ,SBUFMAT,     SDIR_A      ,
-     T    SDIR_B     ,GBUF%FORPG_G(PTF))        
+     T    SDIR_B     ,GBUF%FORPG_G(PTF)   ,SSP_EQ)        
         ENDIF
+        SSP_MAX(JFT:JLT) = MAX(SSP_MAX(JFT:JLT),SSP_EQ(JFT:JLT))
 C-----------------
         IF ((ITASK==0).AND.(IMON_MAT == 1)) CALL STOPTIME(TIMERS,35)
 C      
@@ -1066,7 +1070,7 @@ C
      5        IOFC   ,NNOD   ,AREA     , G      ,SHF   ,     
      6        MSC    ,DMELC  ,JSMS     , BID    ,IGTYP ,     
      7        IGMAT  ,A11R   ,GBUF%G_DT, GBUF%DT,MTN   ,
-     8        PM     ,MAT(JFT) , NEL     ,ZOFFSET)
+     8        PM     ,MAT(JFT) , NEL  ,ZOFFSET  ,SSP_MAX)
 C
       ENDIF
 C--------------------------

@@ -233,6 +233,7 @@ C---
       TARGET :: DIRA,DIRB
 !     variables for heat transfer
       my_real, dimension(mvsiz) :: fheat
+      my_real, dimension(mvsiz) :: ssp_eq
 !
 C---
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
@@ -503,7 +504,7 @@ C-----------------------------
      R       INDX_DRAPE, THKE     ,SEDRAPE     ,NUMEL_DRAPE,DT   ,
      Q       NCYCLE    ,SNPC      ,STF         ,NXLAYMAX  ,IDEL7NOK  ,
      S       USERL_AVAIL ,MAXFUNC ,NPTTOT      ,SBUFMAT   ,SDIR_A    ,
-     T       SDIR_B   ,GBUF%FOR_G)
+     T       SDIR_B   ,GBUF%FOR_G ,SSP_EQ )
 C-----------------------------
         IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STOPTIME(TIMERS,35)
 C--------------------------
@@ -534,7 +535,7 @@ C
      5             IOFC   ,NNOD   ,AREA   , G      ,SHF   ,
      6             MSC    ,DMELC  ,JSMS   , BID    ,IGTYP ,
      7             IGMAT  ,A11R   ,GBUF%G_DT, GBUF%DT,MTN   ,
-     8             PM     ,MAT(JFT),NEL     ,ZOFFSET)
+     8             PM     ,MAT(JFT),NEL     ,ZOFFSET,SSP_EQ)
         CALL CZFINTCE(JFT  ,JLT  ,THK0 ,THK02,A_I    ,X13    ,
      2                X24  ,Y13  ,Y24  ,Z1   ,MX23   ,MX13   ,
      3                MX34 ,MY13 ,MY23 ,MY34 ,FORG   ,MOMG   ,
