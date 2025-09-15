@@ -65,6 +65,7 @@ C-----------------------------------------------
       USE EBCS_MOD
       USE LOADS_MOD
       use glob_therm_mod
+      use get_fsky_address_mod , only : get_fsky_address
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -201,6 +202,39 @@ C-----------------------------------------------
       INTEGER :: LOCAL_PROC_ID ! processor id where the segment is defined
       INTEGER :: LOCAL_SEGMENT_ID ! local segment id (local to the proc LOCAL_PROC_ID)
       INTEGER :: GLOBAL_LOAD_ID,LOCAL_LOAD_ID ! load id (global and local to proc LOCAL_PROC_ID)
+
+      logical :: bool
+      integer, parameter :: nixs10 = 6
+      integer, parameter :: nixs20 = 12
+      integer, parameter :: nixs16 = 8
+      ! offset
+      integer :: solid_offset,tetra10_offset,hexa20_offset
+      integer :: solid16_offset,quad_offset,shell_offset
+      integer :: truss_offset,beam_offset,spring_offset
+      integer :: triangle_offset,low_triangle6_offset,bc_offset
+      integer :: thermal_conv_offset,thermal_rad_offset,thermal_flux_offset
+      integer :: load_offset,ig3d_offset,load_cyl_offset,last_offset
+      ! first dimension of address array
+      integer, parameter :: s_iads = 8
+      integer, parameter :: s_iads10 = 6
+      integer, parameter :: s_iads16 = 8
+      integer, parameter :: s_iads20 = 12
+      integer, parameter :: s_iadq = 4
+      integer, parameter :: s_iadc = 4
+      integer, parameter :: s_iadt = 2
+      integer, parameter :: s_iadp = 2
+      integer, parameter :: s_iadr = 3
+      integer, parameter :: s_iadtg = 3
+      integer, parameter :: s_iadib = 4
+      integer, parameter :: s_iadtg1 = 3
+      integer, parameter :: s_iadig3d = 100       
+      integer, parameter :: s_iadload = 4
+      integer, parameter :: s_iadibcv = 4
+      integer, parameter :: s_iadibfx = 4
+      integer, parameter :: s_iadibcr = 4
+
+
+      logical, parameter :: ref = .false.
 C-----------------------------------------------
 
       ALLOCATE(PROCNE(LCNE_L))
@@ -487,524 +521,444 @@ C The access is done with fortran intrinsics ISHIFT
 C Verification with fortran Intrinsics IAND.
 C-----------------------------------------------
 C
+      ! --------------------
+      ! define offsets
+      solid_offset = 0
+      tetra10_offset = numels8
+      hexa20_offset = tetra10_offset + numels10
+      solid16_offset = hexa20_offset + numels20
+      quad_offset = solid_offset + numels
+      shell_offset = quad_offset + numelq
+      truss_offset = shell_offset + numelc
+      beam_offset = truss_offset + numelt
+      spring_offset = beam_offset + numelp
+      triangle_offset = spring_offset + numelr
+      low_triangle6_offset = triangle_offset + numeltg - numeltg6
+      bc_offset = triangle_offset + numeltg + numelx ! X element are no longer supported 
+      thermal_conv_offset = bc_offset + nconld
+      thermal_rad_offset = thermal_conv_offset + glob_therm%numconv
+      thermal_flux_offset = thermal_rad_offset + glob_therm%numradia
+      load_offset = thermal_flux_offset + glob_therm%nfxflux
+      ig3d_offset = load_offset + slloadp/4
+      load_cyl_offset = ig3d_offset + numelig3d
+      last_offset = load_cyl_offset + number_load_cyl
+
+      ! --------------------
       ADDCNE_L(1) = 1
       CC_L = 0
-      DO I = 1, NUMNOD_L
-
-        N = NODGLOB(I)
-        N1 = ADDCNE(N)
-        N2 = ADDCNE(N+1)
-        ADDCNE_L(I+1) = ADDCNE_L(I) + N2-N1
-        DO CC = N1, N2-1
-          NUMG = CNE(CC)
-          NUMG_SAVE = CNE(CC)
- 
-          NUML = CEL(NUMG)
-          PROC_L = CEP(NUMG)+1 
-          CC_L = CC_L + 1
+      DO I = 1, NUMNOD_L ! loop over the local nodes
+        N = NODGLOB(I) ! get the global node id
+        N1 = ADDCNE(N) ! get the starting position in CNE array
+        N2 = ADDCNE(N+1) ! get the end position in CNE array
+        ADDCNE_L(I+1) = ADDCNE_L(I) + N2-N1 ! fill the ADDCNE_L array
+        DO CC = N1, N2-1 ! loop over the contributions of the local node I (or global node N)
+          NUMG = CNE(CC) ! get the global element id
+          NUMG_SAVE = CNE(CC) ! save for ebcs
+          NUML = CEL(NUMG) ! get the local element id
+          PROC_L = CEP(NUMG)+1 ! get the processor owning the element
+          CC_L = CC_L + 1 ! local counter, address to point to the good place in FSKY array
           PROCNE(CC_L) = PROC_L
-C
-C Remplissage IADX si elt interne
-C
-          IF (PROC==PROC_L) THEN
-C proc loc
-           IF (NUMG<=NUMELS) THEN
-             DO K = 1,8
-               SHFT = ISHFT(IUN,K-1)
-               TESTVAL = IAND(SOLTAG(NUMG),SHFT)
-               IF (IXS(K+1,NUMG)==N.AND.TESTVAL==0) THEN
-                 IADS(K,NUML) = CC_L
-                 SOLTAG(NUMG)=SOLTAG(NUMG)+SHFT
-                 GOTO 100
-               ENDIF
-             ENDDO
-C
-             IF(NUMELS10>0.AND.NUMG>NUMELS8.AND.
-     +          NUMG<=NUMELS8+NUMELS10) THEN
-               NUMG=NUMG-NUMELS8
-               DO K=1,6
-                 SHFT = ISHFT(IUN,K-1)
-                 TESTVAL = IAND(SOL10TAG(NUMG),SHFT)
-                 IF (IXS10(K,NUMG)==N.AND.TESTVAL==0) THEN
-                   IADS10(K,NUML-NUMELS8_L) = CC_L
-                   SOL10TAG(NUMG)=SOL10TAG(NUMG)+SHFT
-                   GOTO 100
-                 ENDIF
-               ENDDO
-             ELSEIF(NUMELS20>0.AND.NUMG>NUMELS8+NUMELS10.AND.
-     +          NUMG<=NUMELS8+NUMELS10+NUMELS20)THEN
-               NUMG=NUMG-NUMELS8-NUMELS10
-               DO K=1,12
-                 SHFT = ISHFT(IUN,K-1)
-                 TESTVAL = IAND(SOL20TAG(NUMG),SHFT)
-                 IF (IXS20(K,NUMG)==N.AND.TESTVAL==0 ) THEN
-                   IADS20(K,NUML-NUMELS8_L-NUMELS10_L) = CC_L
-                   SOL20TAG(NUMG)=SOL20TAG(NUMG)+SHFT
-                   GOTO 100
-                 ENDIF
-               ENDDO
-             ELSEIF(NUMELS16>0.AND.
-     +              NUMG>NUMELS8+NUMELS10+NUMELS20)THEN
-               NUMG=NUMG-NUMELS8-NUMELS10-NUMELS20
-               DO K=1,8
-                 SHFT = ISHFT(IUN,K-1)
-                 TESTVAL =IAND(SOL16TAG(NUMG),SHFT)
-                 IF (IXS16(K,NUMG)==N.AND.TESTVAL==0 ) THEN
-                   IADS16(K,NUML-NUMELS8_L-NUMELS10_L-NUMELS20_L) = CC_L
-                   SOL16TAG(NUMG)=SOL16TAG(NUMG)+SHFT
-                   GOTO 100
-                 ENDIF
-               ENDDO
-             ENDIF
+          ! --------------------
+          ! check if the element is on the current proc
+          IF (PROC==PROC_L) THEN           
+            ! -------------
+            ! Solid element
+            IF (numg>solid_offset.and.numg<=quad_offset) THEN
+              numg = numg - solid_offset ! get the solid element id (1:numels)
+              ! ------------- 
+              ! general case : 8 contributions
+              call get_fsky_address(bool,nixs,1,numg,numl,cc_l,8,n,numels,numels_l,soltag,ixs,s_iads,iads)
+              if(bool) goto 100         
 
-             ! --------------------
-             ! element belongs to an ebcs
-             IF(EBCS_TAG(NUMG_SAVE)) THEN
+              ! -------------
+              ! Specific case : tetra10, add 6 other contributions
+              if(numels10>0.and.numg>tetra10_offset.and.numg<=hexa20_offset) then
+                numg=numg-numels8 ! get the tetra10 element id (1:numels10)    
+                call get_fsky_address(bool,nixs10,0,numg,numl-numels8_l,cc_l,6,n,numels10,numels10_l,
+     .                                sol10tag,ixs10,s_iads10,iads10)
+                if(bool) goto 100       
+              ! -------------
+              ! Special case : hexa20, add 12 other contributions
+              elseif(numels20>0.and.numg>hexa20_offset.and.numg<=solid16_offset) then    
+                numg=numg-numels8-numels10 ! get the hexa20 element id (1:numels20)
+                call get_fsky_address(bool,nixs20,0,numg,numl-numels8_l-numels10_l,cc_l,12,n,numels20,numels20_l,
+     .                                sol20tag,ixs20,s_iads20,iads20)
+                if(bool) goto 100
+              ! -------------
+              ! Special case : hexa16, add 8 other contributions
+              elseif(numels16>0.and.numg>solid16_offset) then                 
+                numg=numg-numels8-numels10-numels20 ! get the solid16 element id (1:numels16)
+                call get_fsky_address(bool,nixs16,0,numg,numl-numels8_l-numels10_l-numels20_l,cc_l,8,n,numels16,numels16_l,
+     .          sol16tag,ixs16,s_iads16,iads16)
+                if(bool) goto 100
+              endif
+              ! -------------
+              
+              ! -------------
+              ! element belongs to an ebcs
+              IF(EBCS_TAG(NUMG_SAVE)) THEN
                 DO II=1,LOCAL_NEBCS
                 ! check if a surface is associated to the ebcs
-                    IF(EBCS_TAB_LOC_2%tab(II)%poly%surf_id>0) THEN
-                        ! -------------
-                        ! loop over the element of the surface
-                        DO J=1,EBCS_TAB_LOC_2%tab(II)%poly%nb_elem
-                            ELEM_ID = EBCS_TAB_LOC_2%tab(II)%poly%global_ielem(J) ! global element id
-                            ! -------------
-                            ! find the location of the node :
-                            ! 4 nodes for a solid
-                            ! 1     2
-                            ! o-----o
-                            ! |     |
-                            ! o-----o
-                            ! 4     3
-                            IF(ELEM_ID==NUMG_SAVE) THEN
-                                DO K=1,4
-                                    LOCAL_NODE_ID = EBCS_TAB_LOC_2%tab(II)%poly%elem_list(K,J)
-                                    LOCAL_NODE_ID = EBCS_TAB_LOC_2%tab(II)%poly%node_list(LOCAL_NODE_ID)
-                                    IF(N==NODGLOB(LOCAL_NODE_ID)) THEN
-                                        IF(EBCS_PARITHON_L(II)%ELEM_ADRESS(K,J)==0) THEN
-                                            EBCS_PARITHON_L(II)%ELEM_ADRESS(K,J) = CC_L
-                                            GOTO 100
-                                        ENDIF                                        
-                                    ENDIF
-                                ENDDO
-                            ENDIF
-                            ! -------------
+                  IF(EBCS_TAB_LOC_2%tab(II)%poly%surf_id>0) THEN
+                    ! -------------
+                    ! loop over the element of the surface
+                    DO J=1,EBCS_TAB_LOC_2%tab(II)%poly%nb_elem
+                      ELEM_ID = EBCS_TAB_LOC_2%tab(II)%poly%global_ielem(J) ! global element id
+                      ! -------------
+                      ! find the location of the node :
+                      ! 4 nodes for a solid
+                      ! 1     2
+                      ! o-----o
+                      ! |     |
+                      ! o-----o
+                      ! 4     3
+                      IF(ELEM_ID==NUMG_SAVE) THEN
+                        DO K=1,4
+                          LOCAL_NODE_ID = EBCS_TAB_LOC_2%tab(II)%poly%elem_list(K,J)
+                          LOCAL_NODE_ID = EBCS_TAB_LOC_2%tab(II)%poly%node_list(LOCAL_NODE_ID)
+                          IF(N==NODGLOB(LOCAL_NODE_ID)) THEN
+                            IF(EBCS_PARITHON_L(II)%ELEM_ADRESS(K,J)==0) THEN
+                              EBCS_PARITHON_L(II)%ELEM_ADRESS(K,J) = CC_L
+                              GOTO 100
+                            ENDIF                                        
+                          ENDIF
                         ENDDO
-                        ! -------------
-                    ENDIF
+                      ENDIF
+                      ! -------------
+                    ENDDO
+                    ! -------------
+                  ENDIF
                 ENDDO
-             ENDIF
-
-             ! --------------------
-C
-           ELSEIF(NUMG<=NUMELS+NUMELQ) THEN
-             DO K=1,4
-               SHFT = ISHFT(IUN,K-1)
-               TESTVAL =IAND(QUADTAG(NUMG),SHFT)
-               IF (IXQ(K+1,NUMG)==N.AND.TESTVAL==0) THEN
-                 IADQ(K,NUML) = CC_L
-                 QUADTAG(NUMG)=QUADTAG(NUMG)+SHFT
-                 GOTO 100
-               ENDIF
-             ENDDO
-             ! --------------------
-             ! element belongs to an ebcs
-             IF(EBCS_TAG(NUMG_SAVE)) THEN
-                DO II=1,LOCAL_NEBCS
-                ! check if a surface is associated to the ebcs
-                    IF(EBCS_TAB_LOC_2%tab(II)%poly%surf_id>0) THEN
-                        ! -------------
-                        ! loop over the element of the surface
-                        DO J=1,EBCS_TAB_LOC_2%tab(II)%poly%nb_elem
-                            ELEM_ID = EBCS_TAB_LOC_2%tab(II)%poly%global_ielem(J) ! global element id
-                            ! -------------
-                            ! find the location of the node for a quad :
-                            ! only 2 nodes for the surface (2D case) 
-                            ! 1     2
-                            ! o-----o
-                            ! |     |
-                            ! o-----o
-                            ! 4     3
-                            IF(ELEM_ID==NUMG_SAVE) THEN
-                                DO K=1,2
-                                    LOCAL_NODE_ID = EBCS_TAB_LOC_2%tab(II)%poly%elem_list(K,J)
-                                    LOCAL_NODE_ID = EBCS_TAB_LOC_2%tab(II)%poly%node_list(LOCAL_NODE_ID)
-                                    IF(N==NODGLOB(LOCAL_NODE_ID)) THEN
-                                        IF(EBCS_PARITHON_L(II)%ELEM_ADRESS(K,J)==0) THEN
-                                            EBCS_PARITHON_L(II)%ELEM_ADRESS(K,J) = CC_L
-                                            GOTO 100
-                                        ENDIF
-                                    ENDIF
-                                ENDDO
-                            ENDIF
-                            ! -------------
-                        ENDDO
-                        ! -------------
-                    ENDIF
-                ENDDO
-             ENDIF
-             ! --------------------
-
-           ELSEIF(NUMG<=NUMELS+NUMELQ+NUMELC) THEN
-             NUMG = NUMG - (NUMELS+NUMELQ)
-             DO K=1,4
-               SHFT = ISHFT(IUN,K-1)
-               TESTVAL =IAND(SHTAG(NUMG),SHFT)
-               IF (IXC(K+1,NUMG)==N.AND.TESTVAL==0) THEN
-                 IADC(K,NUML) = CC_L
-                 SHTAG(NUMG) = SHTAG(NUMG)+SHFT
-                 GOTO 100
-               ENDIF
-             ENDDO
-C mv coque
-             IF (NVOLU>0) THEN
-               IF(ITAGC(NUMG)>0) THEN
-                 K1 = 1
-                 K6 = 0
-                 DO NV = 1, NVOLU
-                   IS = MONVOL(K1+3)
-                   NN = IGRSURF_PROC(IS,PROC)%NSEG
-                   JJ = 0
-                   DO J = 1, NN
-                     ITY = IGRSURF_PROC(IS,PROC)%ELTYP(J)
-                     II = IGRSURF_PROC(IS,PROC)%ELEM(J)
-                     IF(ITY==3) THEN
-                       IF(CEP(OFFC+II)==PROC-1) THEN
-                         JJ = JJ+1
-                         IF (II==NUMG) THEN
-                           DO K = 2,5
-                             IF(IXC(K,II)==N.AND.
-     .                          IADMV(K-1,K6+JJ)==0) THEN
-                               IADMV(K-1,K6+JJ) = CC_L
-                               GOTO 100
-                             END IF
-                           END DO
-                         END IF
-                       END IF
-                     ELSEIF(ITY==7)THEN
-                       IF(CEP(OFFTG+II)==PROC-1) THEN
-                         JJ = JJ+1
-                       END IF
-                     END IF
-                   END DO
-                   K1 = K1 + NIMV
-                   K6 = K6 + JJ
-                 ENDDO
-               ENDIF
-             ENDIF
-C
-           ELSEIF(NUMG<=NUMELS+NUMELQ+NUMELC+NUMELT) THEN
-             NUMG = NUMG - (NUMELS+NUMELQ+NUMELC)
-             DO K=1,2
-               SHFT = ISHFT(IUN,K-1)
-               TESTVAL =IAND(TTAG(NUMG),SHFT)
-               IF (IXT(K+1,NUMG)==N.AND.TESTVAL==0) THEN
-                 IADT(K,NUML) = CC_L
-                 TTAG(NUMG)=TTAG(NUMG)+SHFT
-                 GOTO 100
-               ENDIF
-             ENDDO
-           ELSEIF(NUMG<=NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP) THEN
-             NUMG = NUMG - (NUMELS+NUMELQ+NUMELC+NUMELT)
-             DO K=1,2
-               SHFT = ISHFT(IUN,K-1)
-               TESTVAL =IAND(PTAG(NUMG),SHFT)
-               IF (IXP(K+1,NUMG)==N.AND.TESTVAL==0) THEN
-                 IADP(K,NUML) = CC_L
-                 PTAG(NUMG)=PTAG(NUMG)+SHFT
-                 GOTO 100
-               ENDIF
-             ENDDO
-           ELSEIF(NUMG<=NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+
-     .            NUMELR) THEN
-             NUMG = NUMG - (NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP)
-             DO K=1,2
-               SHFT = ISHFT(IUN,K-1)
-               TESTVAL =IAND(RTAG(NUMG),SHFT)
-               IF (IXR(K+1,NUMG)==N.AND.TESTVAL==0) THEN
-                 IADR(K,NUML) = CC_L
-                 RTAG(NUMG)=RTAG(NUMG)+SHFT
-                 GOTO 100
-               ENDIF
-             ENDDO
-             IF(IGEO(11,IXR(1,NUMG))==12) THEN
-               SHFT = ISHFT(IUN,3)
-               TESTVAL =IAND(RTAG(NUMG),SHFT)
-               IF (IXR(4,NUMG)==N.AND.TESTVAL==0) THEN
-                 IADR(3,NUML) = CC_L
-                 RTAG(NUMG)=RTAG(NUMG)+SHFT
-                 GOTO 100
-               ENDIF
-             ENDIF
-           ELSEIF(NUMG<=NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+
-     .            NUMELR+NUMELTG) THEN
-             NUMG = NUMG - (NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR)
-             DO K=1,3
-               SHFT = ISHFT(IUN,K-1)
-               TESTVAL =IAND(TGTAG(NUMG),SHFT)
-               IF (IXTG(K+1,NUMG)==N.AND.TESTVAL==0) THEN
-                 IADTG(K,NUML) = CC_L
-                 TGTAG(NUMG)=TGTAG(NUMG)+SHFT
-                 GOTO 100
-               ENDIF
-             ENDDO
-C
-             IF(NUMELTG6>0.AND.
-     .          NUMG>NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+
-     .                  NUMELR+NUMELTG-NUMELTG6.AND.
-     .          NUMG<=NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+
-     .                  NUMELR+NUMELTG)THEN
-               NUMG=NUMG-NUMELTG+NUMELTG6
-               DO K=1,3
-                 SHFT = ISHFT(IUN,K-1)
-                 TESTVAL =IAND(TG6TAG(NUMG),SHFT)
-                 IF (IXTG6(K,NUMG)==N.AND.TESTVAL==0) THEN
-                   IADTG1(K,NUML-NUMELTG_L+NUMELTG6_L) = CC_L
-                   TG6TAG(NUMG)=TG6TAG(NUMG)+SHFT
-                   GOTO 100
-                 ENDIF
-               ENDDO
-             ENDIF
-C
-C mv coque triangle
-             IF (NVOLU>0) THEN
-               IF(ITAGTG(NUMG)>0) THEN
-                 K1 = 1
-                 K6 = 0
-                 DO NV = 1, NVOLU
-                   IS = MONVOL(K1+3)
-                   NN = IGRSURF_PROC(IS,PROC)%NSEG
-                   JJ = 0
-                   DO J = 1, NN
-                     ITY = IGRSURF_PROC(IS,PROC)%ELTYP(J)
-                     II  = IGRSURF_PROC(IS,PROC)%ELEM(J)
-                     IF(ITY==7) THEN
-                       IF(CEP(OFFTG+II)==PROC-1) THEN
-                         JJ = JJ+1
-                         IF (II==NUMG) THEN
-                           DO K = 2,4
-                             IF(IXTG(K,II)==N.AND.
-     .                          IADMV(K-1,K6+JJ)==0) THEN
-                               IADMV(K-1,K6+JJ) = CC_L
-                               GOTO 100
-                             END IF
-                           END DO
-                         END IF
-                       END IF
-                     ELSEIF(ITY==3) THEN
-                       IF(CEP(OFFC+II)==PROC-1) THEN
-                         JJ = JJ+1
-                       END IF
-                     END IF
-                   END DO
-                   K1 = K1 + NIMV
-                   K6 = K6 + JJ
-                 ENDDO
-               ENDIF
-             ENDIF
-
-             ! --------------------
-             ! element belongs to an ebcs
-             IF(EBCS_TAG(NUMG_SAVE-(NUMELC+NUMELT+NUMELP+NUMELR))) THEN
-                DO II=1,LOCAL_NEBCS
-                ! check if a surface is associated to the ebcs
-                    IF(EBCS_TAB_LOC_2%tab(II)%poly%surf_id>0) THEN
-                        ! -------------
-                        ! loop over the element of the surface
-                        DO J=1,EBCS_TAB_LOC_2%tab(II)%poly%nb_elem
-                            ELEM_ID = EBCS_TAB_LOC_2%tab(II)%poly%global_ielem(J) ! global element id
-                            ! -------------
-                            ! find the location of the node for a triangle : 
-                            ! only 2 nodes for the surface (2D case) 
-                            !    1
-                            !    o
-                            !   / \
-                            !  /   \
-                            ! o-----o
-                            ! 3     2
-                            IF(ELEM_ID==NUMG_SAVE) THEN
-                                DO K=1,2
-                                    LOCAL_NODE_ID = EBCS_TAB_LOC_2%tab(II)%poly%elem_list(K,J)
-                                    IF(LOCAL_NODE_ID>0) THEN
-                                        IF(N==NODGLOB(LOCAL_NODE_ID)) THEN
-                                            IF(EBCS_PARITHON_L(II)%ELEM_ADRESS(K,J)==0) THEN
-                                                EBCS_PARITHON_L(II)%ELEM_ADRESS(K,J) = CC_L
-                                                GOTO 100
-                                            ENDIF
-                                        ENDIF
-                                    ENDIF
-                                ENDDO
-                            ENDIF
-                            ! -------------
-                        ENDDO
-                        ! -------------
-                    ENDIF
-                ENDDO
-             ENDIF
-             ! --------------------
-C
-           ELSEIF(NUMG<=NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+
-     .            NUMELR+NUMELTG+NUMELX+NCONLD)THEN
-             NUMG = NUMG - (NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR+
-     +                      NUMELTG+NUMELX)
-             IF(ITAGIB(NUMG)==0.AND.N2D==0)THEN
-               KN = 4
-             ELSEIF(ITAGIB(NUMG)==0.AND.N2D/=0)THEN
-               KN = 2
-             ELSE
-               KN = 1
-             ENDIF
-             DO K=1,KN
-               SHFT = ISHFT(IUN,K-1)
-               TESTVAL =IAND(IBTAG(NUMG),SHFT)
-               IF (IB(K,NUMG)==N.AND.TESTVAL==0) THEN
-                 IADIB(K,NUML) = CC_L
-                 IBTAG(NUMG)=IBTAG(NUMG)+SHFT
-                 GOTO 100
-               ELSE
-               ENDIF
-             ENDDO
-C
-           ELSEIF(NUMG<=NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+
-     .            NUMELR+NUMELTG+NUMELX+ NCONLD + GLOB_THERM%NUMCONV)THEN
-             NUMG = NUMG - (NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR+
-     +                      NUMELTG+NUMELX+NCONLD)
-             IF(N2D==0)THEN
-               KN = 4
-             ELSEIF(N2D/=0)THEN
-               KN = 2
-             ELSE
-               KN = 1
-             ENDIF
-             DO K=1,KN
-               SHFT = ISHFT(IUN,K-1)
-               TESTVAL =IAND(IBCVTAG(NUMG),SHFT)
-               IF (IBCV(K,NUMG)==N.AND.TESTVAL==0) THEN
-                 IADIBCV(K,NUML) = CC_L
-                 IBCVTAG(NUMG)=IBCVTAG(NUMG)+SHFT
-                 GOTO 100
-               ELSE
-               ENDIF
-             ENDDO
-C
-           ELSEIF(NUMG<=NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+
-     .            NUMELR+NUMELTG+NUMELX+ NCONLD + GLOB_THERM%NUMCONV +
-     .            GLOB_THERM%NUMRADIA)THEN
-             NUMG = NUMG - (NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR+
-     +                      NUMELTG+NUMELX+NCONLD+GLOB_THERM%NUMCONV)
-             IF(N2D==0)THEN
-               KN = 4
-             ELSEIF(N2D/=0)THEN
-               KN = 2
-             ELSE
-               KN = 1
-             ENDIF
-             DO K=1,KN
-               SHFT = ISHFT(IUN,K-1)
-               TESTVAL =IAND(IBCRTAG(NUMG),SHFT)
-               IF (IBCR(K,NUMG)==N.AND.TESTVAL==0) THEN
-                 IADIBCR(K,NUML) = CC_L
-                 IBCRTAG(NUMG)= IBCRTAG(NUMG)+SHFT
-                 GOTO 100
-               ELSE
-               ENDIF
-             ENDDO
-C             
-           ELSEIF(NUMG<=NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+
-     .            NUMELR+NUMELTG+NUMELX+ NCONLD + GLOB_THERM%NUMCONV +
-     .            GLOB_THERM%NUMRADIA+GLOB_THERM%NFXFLUX)THEN
-             NUMG = NUMG - (NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR+
-     +                      NUMELTG+NUMELX+NCONLD+GLOB_THERM%NUMCONV+GLOB_THERM%NUMRADIA)
-             IF(N2D==0)THEN
-               KN = 4
-             ELSEIF(N2D/=0)THEN
-               KN = 2
-             ELSE
-               KN = 1
-             ENDIF
-             DO K=1,KN
-               SHFT = ISHFT(IUN,K-1)
-               TESTVAL =IAND(IBFXTAG(NUMG),SHFT)
-               IF (IBFFLUX(K,NUMG)==N.AND.TESTVAL==0) THEN
-                 IADIBFX(K,NUML) = CC_L
-                 IBFXTAG(NUMG)= IBFXTAG(NUMG)+SHFT
-                 GOTO 100
-               ELSE
-               ENDIF
-             ENDDO
-C
-           ELSEIF(NUMG<=NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+
-     .            NUMELR+NUMELTG+NUMELX+ NCONLD + GLOB_THERM%NUMCONV +
-     .            GLOB_THERM%NUMRADIA+GLOB_THERM%NFXFLUX+SLLOADP/4)THEN
-             NUMG = NUMG - (NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR+
-     .                      NUMELTG+NUMELX+NCONLD+GLOB_THERM%NUMCONV+
-     .                      GLOB_THERM%NUMRADIA+GLOB_THERM%NFXFLUX)
-             IF(ITAGLOADP(NUMG)==0.AND.N2D==0)THEN
-               KN = 4
-             ELSEIF(ITAGLOADP(NUMG)==0.AND.N2D/=0)THEN
-               KN = 2
-             ELSE
-               KN = 1
-             ENDIF
-             DO K=1,KN
-               SHFT = ISHFT(IUN,K-1)
-               TESTVAL =IAND(ILTAG(NUMG),SHFT)
-               IF (LLOADP(4*(NUMG-1)+K)==N.AND.TESTVAL==0) THEN
-                 IADLOAD(K,NUML) = CC_L
-                 ILTAG(NUMG)=ILTAG(NUMG)+SHFT
-                 GOTO 100
-               ELSE
-               ENDIF
-             ENDDO
-C             
-           ELSEIF(NUMG<=NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+
-     .            NUMELR+NUMELTG+NUMELX+ NCONLD + GLOB_THERM%NUMCONV +
-     .            GLOB_THERM%NUMRADIA+GLOB_THERM%NFXFLUX+SLLOADP/4+NUMELIG3D)THEN
-             NUMG = NUMG - (NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR+
-     .                      NUMELTG+NUMELX+NCONLD+GLOB_THERM%NUMCONV+
-     .                      GLOB_THERM%NUMRADIA+GLOB_THERM%NFXFLUX+SLLOADP/4)
-             DO K = 1,20
-               SHFT = ISHFT(IUN,K-1)
-               TESTVAL = IAND(TAGIG3D(NUMG),SHFT)
-               IF (IXIG3D(KXIG3D(4,NUMG)+K-1)==N.AND.TESTVAL==0) THEN
-                 IADIG3D(K,NUML) = CC_L
-                 TAGIG3D(NUMG)=TAGIG3D(NUMG)+SHFT
-                 GOTO 100
-               ENDIF
-             ENDDO
-C             
-C     
-           ELSEIF(NUMG<=NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+
-     .            NUMELR+NUMELTG+NUMELX+ NCONLD + GLOB_THERM%NUMCONV +
-     .            GLOB_THERM%NUMRADIA+GLOB_THERM%NFXFLUX+SLLOADP/4+NUMELIG3D+NUMBER_LOAD_CYL)THEN
+              ENDIF
+              ! -------------
             ! --------------------
-            ! /LOAD/PCYL option
-            ! get the global load segment id
-            GLOBAL_SEGMENT_ID = NUMG - (NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+
-     .            NUMELR+NUMELTG+NUMELX+ NCONLD + GLOB_THERM%NUMCONV +
-     .            GLOB_THERM%NUMRADIA+GLOB_THERM%NFXFLUX+SLLOADP/4+NUMELIG3D)
-            LOCAL_PROC_ID = LOADS%GLOBAL_SEGMENT_ID(GLOBAL_SEGMENT_ID,1) ! get the proc id where the segment is defined
-            LOCAL_SEGMENT_ID = LOADS%GLOBAL_SEGMENT_ID(GLOBAL_SEGMENT_ID,2) ! get the local segment id (local to the proc P)
-            GLOBAL_LOAD_ID = LOADS%GLOBAL_SEGMENT_ID(GLOBAL_SEGMENT_ID,3) ! get the global load id
-            LOCAL_LOAD_ID = LOADS_PER_PROC%INDEX_LOAD(GLOBAL_LOAD_ID,2) ! get the local load id
-            ! --------
-            ! loop over the 4 nodes of the surfaces to save the adress
-            DO J=1,4
-                IF(N==LOADS_PER_PROC%LOAD_CYL(LOCAL_LOAD_ID)%SEGNOD(LOCAL_SEGMENT_ID,J)) THEN
-                    LOADS_PER_PROC%LOAD_CYL(LOCAL_LOAD_ID)%SEGMENT_ADRESS(J,LOCAL_SEGMENT_ID) = CC_L
-                    GO TO 100
+            ! quad element              
+            ELSEIF(numg>quad_offset.and.numg<=shell_offset)THEN  
+              ! -------------
+              call get_fsky_address(bool,nixq,1,numg,numl,cc_l,4,n,numelq,numelq_l,quadtag,ixq,s_iadq,iadq)
+              if(bool) goto 100                            
+
+              ! -------------
+              ! element belongs to an ebcs
+              IF(EBCS_TAG(NUMG_SAVE)) THEN
+                DO II=1,LOCAL_NEBCS
+                  ! check if a surface is associated to the ebcs
+                  IF(EBCS_TAB_LOC_2%tab(II)%poly%surf_id>0) THEN
+                    ! -------------
+                    ! loop over the element of the surface
+                    DO J=1,EBCS_TAB_LOC_2%tab(II)%poly%nb_elem
+                      ELEM_ID = EBCS_TAB_LOC_2%tab(II)%poly%global_ielem(J) ! global element id
+                      ! -------------
+                      ! find the location of the node for a quad :
+                      ! only 2 nodes for the surface (2D case) 
+                      ! 1     2
+                      ! o-----o
+                      ! |     |
+                      ! o-----o
+                      ! 4     3
+                      IF(ELEM_ID==NUMG_SAVE) THEN
+                        DO K=1,2
+                          LOCAL_NODE_ID = EBCS_TAB_LOC_2%tab(II)%poly%elem_list(K,J)
+                          LOCAL_NODE_ID = EBCS_TAB_LOC_2%tab(II)%poly%node_list(LOCAL_NODE_ID)
+                          IF(N==NODGLOB(LOCAL_NODE_ID)) THEN
+                            IF(EBCS_PARITHON_L(II)%ELEM_ADRESS(K,J)==0) THEN
+                              EBCS_PARITHON_L(II)%ELEM_ADRESS(K,J) = CC_L
+                              GOTO 100
+                            ENDIF
+                          ENDIF
+                        ENDDO
+                      ENDIF
+                      ! -------------
+                    ENDDO
+                    ! -------------
+                  ENDIF
+                ENDDO
+              ENDIF
+              ! -------------
+            ! --------------------
+            ! shell element   
+            ELSEIF(numg>shell_offset.and.numg<=truss_offset) THEN
+              ! -------------              
+              numg = numg - shell_offset ! get the shell element id (1:numelc)
+              call get_fsky_address(bool,nixc,1,numg,numl,cc_l,4,n,numelc,numelc_l,shtag,ixc,s_iadc,iadc)
+              if(bool) goto 100                   
+
+              ! -------------
+              ! Shell element belonging to a monitor volume
+              IF (NVOLU>0) THEN
+                IF(ITAGC(NUMG)>0) THEN
+                  K1 = 1
+                  K6 = 0
+                  DO NV = 1, NVOLU
+                    IS = MONVOL(K1+3)
+                    NN = IGRSURF_PROC(IS,PROC)%NSEG
+                    JJ = 0
+                    DO J = 1, NN
+                      ITY = IGRSURF_PROC(IS,PROC)%ELTYP(J)
+                      II = IGRSURF_PROC(IS,PROC)%ELEM(J)
+                      IF(ITY==3) THEN
+                        IF(CEP(OFFC+II)==PROC-1) THEN
+                          JJ = JJ+1
+                          IF (II==NUMG) THEN
+                            DO K = 2,5
+                              IF(IXC(K,II)==N.AND.IADMV(K-1,K6+JJ)==0) THEN
+                                IADMV(K-1,K6+JJ) = CC_L
+                                GOTO 100
+                              END IF
+                            END DO
+                          END IF
+                        END IF
+                      ELSEIF(ITY==7)THEN
+                        IF(CEP(OFFTG+II)==PROC-1) THEN
+                          JJ = JJ+1
+                        END IF
+                      END IF
+                    END DO
+                    K1 = K1 + NIMV
+                    K6 = K6 + JJ
+                  ENDDO
                 ENDIF
-            ENDDO
-            ! --------
+              ENDIF
+              ! -------------  
             ! --------------------
-           ELSE
-             print *,'**error assadd2 unknown elem type'
-           ENDIF
- 100       CONTINUE
+            ! truss element   
+            ELSEIF(numg>truss_offset.and.numg<=beam_offset) THEN
+              numg = numg - truss_offset ! get the truss element id (1:numelt)
+              call get_fsky_address(bool,nixt,1,numg,numl,cc_l,2,n,numelt,numelt_l,ttag,ixt,s_iadt,iadt)
+              if(bool) goto 100
+
+            ! --------------------
+            ! beam element                 
+            ELSEIF(numg>beam_offset.and.numg<=spring_offset) THEN
+              numg = numg - beam_offset ! get the beam element id (1:numelp)
+              call get_fsky_address(bool,nixp,1,numg,numl,cc_l,2,n,numelp,numelp_l,ptag,ixp,s_iadp,iadp)
+              if(bool) goto 100
+
+            ! --------------------
+            ! spring element                 
+            ELSEIF(numg>spring_offset.and.numg<=triangle_offset) THEN
+              numg = numg - spring_offset ! get the spring element id (1:numelr)
+              call get_fsky_address(bool,nixr,1,numg,numl,cc_l,2,n,numelr,numelr_l,rtag,ixr,s_iadr,iadr)
+              if(bool) goto 100 
+
+              ! special case : spring 1D element (beam) in 3D
+              IF(IGEO(11,IXR(1,NUMG))==12) THEN
+                SHFT = ISHFT(IUN,3)
+                TESTVAL =IAND(RTAG(NUMG),SHFT)
+                IF (IXR(4,NUMG)==N.AND.TESTVAL==0) THEN
+                  IADR(3,NUML) = CC_L
+                  RTAG(NUMG)=RTAG(NUMG)+SHFT
+                  GOTO 100
+                ENDIF
+              ENDIF
+            ! --------------------
+            ! shell 3n (triangle) element                 
+            ELSEIF(numg>triangle_offset.and.numg<=bc_offset) THEN
+              ! ------------- 
+              ! general case : triangle              
+              numg = numg - triangle_offset ! get the triangle element id (1:numeltg)
+              call get_fsky_address(bool,nixtg,1,numg,numl,cc_l,3,n,numeltg,numeltg_l,tgtag,ixtg,s_iadtg,iadtg)
+              if(bool) goto 100
+              ! ------------- 
+
+              ! ------------- 
+              ! sub-case : triangle6
+              if(numeltg6>0.and.numg>low_triangle6_offset.and.numg<=bc_offset) then
+                numg = numg - numeltg + numeltg6 ! get the triangle6 element id (1:numeltg6)
+                call get_fsky_address(bool,nixtg,0,numg,numl,cc_l,3,n,numeltg,numeltg_l,tg6tag,ixtg6,s_iadtg1,iadtg1)
+                if(bool) goto 100
+              endif
+              ! ------------- 
+
+              ! ------------- 
+              ! monitor volume : triangle
+              IF (NVOLU>0) THEN
+                IF(ITAGTG(NUMG)>0) THEN
+                  K1 = 1
+                  K6 = 0
+                  DO NV = 1, NVOLU
+                    IS = MONVOL(K1+3)
+                    NN = IGRSURF_PROC(IS,PROC)%NSEG
+                    JJ = 0
+                    DO J = 1, NN
+                      ITY = IGRSURF_PROC(IS,PROC)%ELTYP(J)
+                      II  = IGRSURF_PROC(IS,PROC)%ELEM(J)
+                      IF(ITY==7) THEN
+                        IF(CEP(OFFTG+II)==PROC-1) THEN
+                          JJ = JJ+1
+                          IF (II==NUMG) THEN
+                            DO K = 2,4
+                              IF(IXTG(K,II)==N.AND.IADMV(K-1,K6+JJ)==0) THEN
+                                IADMV(K-1,K6+JJ) = CC_L
+                                GOTO 100
+                              END IF
+                            END DO
+                          END IF
+                        END IF
+                      ELSEIF(ITY==3) THEN
+                        IF(CEP(OFFC+II)==PROC-1) THEN
+                          JJ = JJ+1
+                        END IF
+                      END IF
+                    END DO
+                    K1 = K1 + NIMV
+                    K6 = K6 + JJ
+                  ENDDO
+                ENDIF
+              ENDIF
+              ! ------------- 
+
+              ! -------------
+              ! element belongs to an ebcs
+              IF(EBCS_TAG(NUMG_SAVE-(NUMELC+NUMELT+NUMELP+NUMELR))) THEN
+                DO II=1,LOCAL_NEBCS
+                ! check if a surface is associated to the ebcs
+                  IF(EBCS_TAB_LOC_2%tab(II)%poly%surf_id>0) THEN
+                  ! -------------
+                  ! loop over the element of the surface
+                    DO J=1,EBCS_TAB_LOC_2%tab(II)%poly%nb_elem
+                      ELEM_ID = EBCS_TAB_LOC_2%tab(II)%poly%global_ielem(J) ! global element id
+                      ! -------------
+                      ! find the location of the node for a triangle : 
+                      ! only 2 nodes for the surface (2D case) 
+                      !    1
+                      !    o
+                      !   / \
+                      !  /   \
+                      ! o-----o
+                      ! 3     2
+                      IF(ELEM_ID==NUMG_SAVE) THEN
+                        DO K=1,2
+                          LOCAL_NODE_ID = EBCS_TAB_LOC_2%tab(II)%poly%elem_list(K,J)
+                          IF(LOCAL_NODE_ID>0) THEN
+                            IF(N==NODGLOB(LOCAL_NODE_ID)) THEN
+                              IF(EBCS_PARITHON_L(II)%ELEM_ADRESS(K,J)==0) THEN
+                                EBCS_PARITHON_L(II)%ELEM_ADRESS(K,J) = CC_L
+                                GOTO 100
+                              ENDIF
+                            ENDIF
+                          ENDIF
+                        ENDDO
+                      ENDIF
+                      ! -------------
+                    ENDDO
+                    ! -------------
+                  ENDIF
+                ENDDO
+              ENDIF
+              ! -------------
+            ! --------------------
+            ! Boundary conditions           
+            ELSEIF(numg>bc_offset.and.numg<=thermal_conv_offset) THEN
+              numg = numg - bc_offset ! get the pseudo element id for this boundary condition (1:nconld)              
+              IF(ITAGIB(NUMG)==0.AND.N2D==0)THEN
+                KN = 4
+              ELSEIF(ITAGIB(NUMG)==0.AND.N2D/=0)THEN
+                KN = 2
+              ELSE
+                KN = 1
+              ENDIF          
+              call get_fsky_address(bool,nibcld,0,numg,numl,cc_l,kn,n,nconld,nconld_l,ibtag,ib,s_iadib,iadib)
+              if(bool) goto 100              
+            ! --------------------
+            ! Boundary conditions : convection
+            ELSEIF(numg>thermal_conv_offset.and.numg<=thermal_rad_offset) THEN
+              numg = numg - thermal_conv_offset ! get the pseudo element id for this boundary condition (1:glob_therm%numconv)
+              IF(N2D==0)THEN
+                KN = 4
+              ELSEIF(N2D/=0)THEN
+                KN = 2
+              ELSE
+                KN = 1
+              ENDIF
+              call get_fsky_address(bool,glob_therm%niconv,0,numg,numl,cc_l,kn,n,glob_therm%numconv,nconv_l,
+     .                              ibcvtag,ibcv,s_iadibcv,iadibcv)
+              if(bool) goto 100  
+            ! --------------------
+            ! Boundary conditions : radiation
+            ELSEIF(numg>thermal_rad_offset.and.numg<=thermal_flux_offset) THEN
+              numg = numg - thermal_rad_offset ! get the pseudo element id for this boundary condition (1:glob_therm%numradia)
+              IF(N2D==0)THEN
+                KN = 4
+              ELSEIF(N2D/=0)THEN
+                KN = 2
+              ELSE
+                KN = 1
+              ENDIF
+              call get_fsky_address(bool,glob_therm%niradia,0,numg,numl,cc_l,kn,n,glob_therm%numradia,nradia_l,
+     .                              ibcrtag,ibcr,s_iadibcr,iadibcr)
+              if(bool) goto 100
+            ! --------------------
+            ! Boundary conditions : flux       
+            ELSEIF(numg>thermal_flux_offset.and.numg<=load_offset) THEN
+              numg = numg - thermal_flux_offset ! get the pseudo element id for this boundary condition (1:glob_therm%nfxflux)
+              IF(N2D==0)THEN
+                KN = 4
+              ELSEIF(N2D/=0)THEN
+                KN = 2
+              ELSE
+                KN = 1
+              ENDIF
+              call get_fsky_address(bool,glob_therm%nitflux,0,numg,numl,cc_l,kn,n,glob_therm%nfxflux,nfxflux_l,
+     .                              ibfxtag,ibfflux,s_iadibfx,iadibfx)
+              if(bool) goto 100  
+            ! --------------------
+            ! Boundary conditions : loads                                                      
+            ELSEIF(numg>load_offset.and.numg<=ig3d_offset) THEN
+              numg = numg - load_offset ! get the pseudo element id for this boundary condition (1:slloadp/4)
+              IF(ITAGLOADP(NUMG)==0.AND.N2D==0)THEN
+                KN = 4
+              ELSEIF(ITAGLOADP(NUMG)==0.AND.N2D/=0)THEN
+                KN = 2
+              ELSE
+                KN = 1
+              ENDIF
+              call get_fsky_address(bool,4,0,numg,numl,cc_l,kn,n,slloadp/4,llloadp_l,iltag,lloadp,s_iadload,iadload)
+              if(bool) goto 100                
+            ! --------------------
+            ! IG3D elements
+            ELSEIF(numg>ig3d_offset.and.numg<=load_cyl_offset) THEN
+              numg = numg - ig3d_offset ! get the pseudo element id for this boundary condition (1:numelig3d)
+              DO K = 1,20
+                SHFT = ISHFT(IUN,K-1)
+                TESTVAL = IAND(TAGIG3D(NUMG),SHFT)
+                IF (IXIG3D(KXIG3D(4,NUMG)+K-1)==N.AND.TESTVAL==0) THEN
+                  IADIG3D(K,NUML) = CC_L
+                  TAGIG3D(NUMG)=TAGIG3D(NUMG)+SHFT
+                  GOTO 100
+                ENDIF
+              ENDDO
+            ! --------------------
+            ! Boundary conditions : pcyl load  
+            ELSEIF(numg>load_cyl_offset.and.numg<=last_offset) THEN
+              ! --------------------
+              ! /LOAD/PCYL option
+              ! get the global load segment id
+              global_segment_id = numg - load_cyl_offset
+              LOCAL_PROC_ID = LOADS%GLOBAL_SEGMENT_ID(GLOBAL_SEGMENT_ID,1) ! get the proc id where the segment is defined
+              LOCAL_SEGMENT_ID = LOADS%GLOBAL_SEGMENT_ID(GLOBAL_SEGMENT_ID,2) ! get the local segment id (local to the proc P)
+              GLOBAL_LOAD_ID = LOADS%GLOBAL_SEGMENT_ID(GLOBAL_SEGMENT_ID,3) ! get the global load id
+              LOCAL_LOAD_ID = LOADS_PER_PROC%INDEX_LOAD(GLOBAL_LOAD_ID,2) ! get the local load id
+              ! --------
+              ! loop over the 4 nodes of the surfaces to save the adress
+              DO J=1,4
+                IF(N==LOADS_PER_PROC%LOAD_CYL(LOCAL_LOAD_ID)%SEGNOD(LOCAL_SEGMENT_ID,J)) THEN
+                  LOADS_PER_PROC%LOAD_CYL(LOCAL_LOAD_ID)%SEGMENT_ADRESS(J,LOCAL_SEGMENT_ID) = CC_L
+                  GO TO 100
+                ENDIF
+              ENDDO
+              ! --------
+              ! --------------------
+            ELSE
+              print *,'**error assadd2 unknown elem type'
+            ENDIF
+            ! --------------------            
+ 100        CONTINUE
           ELSE
 C proc dist
           ENDIF
-         ENDDO
-       ENDDO
+        ENDDO
+      ENDDO
 C
 Cply xfem
 C
