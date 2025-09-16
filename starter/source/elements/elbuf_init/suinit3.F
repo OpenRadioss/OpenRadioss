@@ -125,7 +125,7 @@ C-----------------------------------------------
      .   XD1, XD2, XD3, XD4, XD5, XD6, XD7, XD8,
      .   YD1, YD2, YD3, YD4, YD5, YD6, YD7, YD8,
      .   ZD1, ZD2, ZD3, ZD4, ZD5, ZD6, ZD7, ZD8       
-      my_real :: TEMPEL(NEL)
+      my_real ,DIMENSION(NEL) :: TEMPEL,THICK
 C-----------------------------------------------
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
       TYPE(G_BUFEL_) ,POINTER :: GBUF     
@@ -165,7 +165,8 @@ c--------------------------
      .           Y1   ,Y2   ,Y3   ,Y4   ,Y5   ,Y6   ,Y7   ,Y8   ,
      .           Z1   ,Z2   ,Z3   ,Z4   ,Z5   ,Z6   ,Z7   ,Z8   ,
      .           E1X  ,E1Y  ,E1Z  ,E2X  ,E2Y  ,E2Z  ,E3X  ,E3Y  ,E3Z  ,
-     .           AREA ,ELBUF_STR%GBUF%THK)
+     .           AREA ,THICK)
+        IF (ELBUF_STR%GBUF%G_THK == 1) ELBUF_STR%GBUF%THK(1:NEL) = THICK(1:NEL)
       ELSEIF (JCVT == 0) THEN
         CALL SCOOR3(X ,BID  ,IXS(1,NF1) ,GEO  ,MAT  ,PID  ,NGL  ,
      .           NC1  ,NC2  ,NC3  ,NC4  ,NC5  ,NC6  ,NC7  ,NC8  ,
