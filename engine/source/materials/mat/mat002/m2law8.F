@@ -21,13 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    m2law8         ../engine/source/materials/mat/mat002/m2law8.F
+!||    m2law8             ../engine/source/materials/mat/mat002/m2law8.F
 !||--- called by ------------------------------------------------------
-!||    mmain8         ../engine/source/materials/mat_share/mmain8.F
+!||    mmain8             ../engine/source/materials/mat_share/mmain8.F
 !||--- calls      -----------------------------------------------------
-!||    mqvisc8        ../engine/source/materials/mat_share/mqvisc8.F
+!||    mqvisc8            ../engine/source/materials/mat_share/mqvisc8.F
 !||--- uses       -----------------------------------------------------
-!||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
 !||====================================================================
       SUBROUTINE M2LAW8(mat_param ,
      1   PM,      OFF,     SIG,     EINT,

@@ -40,6 +40,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    dt_mod              ../engine/source/modules/dt_mod.F
 !||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
 !||    h3d_mod             ../engine/share/modules/h3d_mod.F
+!||    matparam_def_mod    ../common_source/modules/mat_elem/matparam_def_mod.F90
 !||    preload_axial_mod   ../engine/source/elements/spring/preload_axial.F90
 !||    sensor_mod          ../common_source/modules/sensor_mod.F90
 !||====================================================================

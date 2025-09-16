@@ -21,16 +21,17 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    m2law            ../engine/source/materials/mat/mat002/m2law.F
+!||    m2law              ../engine/source/materials/mat/mat002/m2law.F
 !||--- called by ------------------------------------------------------
-!||    mmain            ../engine/source/materials/mat_share/mmain.F90
+!||    mmain              ../engine/source/materials/mat_share/mmain.F90
 !||--- calls      -----------------------------------------------------
-!||    m2iter_imp       ../engine/source/materials/mat/mat002/m2iter_imp.F
-!||    mdtsph           ../engine/source/materials/mat_share/mdtsph.F
-!||    mqviscb          ../engine/source/materials/mat_share/mqviscb.F
-!||    mstrain_rate     ../engine/source/materials/mat_share/mstrain_rate.F
+!||    m2iter_imp         ../engine/source/materials/mat/mat002/m2iter_imp.F
+!||    mdtsph             ../engine/source/materials/mat_share/mdtsph.F
+!||    mqviscb            ../engine/source/materials/mat_share/mqviscb.F
+!||    mstrain_rate       ../engine/source/materials/mat_share/mstrain_rate.F
 !||--- uses       -----------------------------------------------------
-!||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
+!||    glob_therm_mod     ../common_source/modules/mat_elem/glob_therm_mod.F90
+!||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
 !||====================================================================
       SUBROUTINE M2LAW(mat_param ,
      1   PM,      OFF,        SIG,     EINT,

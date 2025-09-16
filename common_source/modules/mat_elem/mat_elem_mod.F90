@@ -34,6 +34,7 @@
 !||    mat_elem_mod              ../common_source/modules/mat_elem/mat_elem_mod.F90
 !||--- called by ------------------------------------------------------
 !||    alemain                   ../engine/source/ale/alemain.F
+!||    allocbuf_auto             ../engine/source/elements/elbuf/allocbuf_auto.F
 !||    bforc2                    ../engine/source/ale/bimat/bforc2.F
 !||    c3epsini                  ../starter/source/elements/sh3n/coque3n/c3epsini.F
 !||    c3forc3                   ../engine/source/elements/sh3n/coque3n/c3forc3.F

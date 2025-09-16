@@ -21,9 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    m2lawt   ../engine/source/materials/mat/mat002/m2lawt.F
+!||    m2lawt             ../engine/source/materials/mat/mat002/m2lawt.F
 !||--- called by ------------------------------------------------------
-!||    tforc3   ../engine/source/elements/truss/tforc3.F
+!||    tforc3             ../engine/source/elements/truss/tforc3.F
+!||--- uses       -----------------------------------------------------
+!||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
 !||====================================================================
       SUBROUTINE M2LAWT(mat_param ,
      1   GEO,     OFF,     FOR,     EINT,    AREA,    

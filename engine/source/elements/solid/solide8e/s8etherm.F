@@ -21,11 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    s8etherm   ../engine/source/elements/solid/solide8e/s8etherm.F
+!||    s8etherm           ../engine/source/elements/solid/solide8e/s8etherm.F
 !||--- called by ------------------------------------------------------
-!||    s8cforc3   ../engine/source/elements/thickshell/solide8c/s8cforc3.F
-!||    s8eforc3   ../engine/source/elements/solid/solide8e/s8eforc3.F
-!||    s8zforc3   ../engine/source/elements/solid/solide8z/s8zforc3.F
+!||    s8cforc3           ../engine/source/elements/thickshell/solide8c/s8cforc3.F
+!||    s8eforc3           ../engine/source/elements/solid/solide8e/s8eforc3.F
+!||    s8zforc3           ../engine/source/elements/solid/solide8z/s8zforc3.F
+!||--- uses       -----------------------------------------------------
+!||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
 !||====================================================================
       SUBROUTINE S8ETHERM(MAT_PARAM,
      1   VOL,     NI,

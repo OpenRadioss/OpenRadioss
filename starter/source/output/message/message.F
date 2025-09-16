@@ -276,7 +276,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_load_pressure               ../starter/source/loads/general/load_pressure/hm_read_load_pressure.F
 !||    hm_read_mat                         ../starter/source/materials/mat/hm_read_mat.F90
 !||    hm_read_mat01                       ../starter/source/materials/mat/mat001/hm_read_mat01.F
-!||    hm_read_mat02                       ../starter/source/materials/mat/mat002/hm_read_mat02.F
+!||    hm_read_mat02_jc                    ../starter/source/materials/mat/mat002/hm_read_mat02_jc.F90
+!||    hm_read_mat02_predef                ../starter/source/materials/mat/mat002/hm_read_mat02_predef.F90
+!||    hm_read_mat02_zerilli               ../starter/source/materials/mat/mat002/hm_read_mat02_zerilli.F90
 !||    hm_read_mat03                       ../starter/source/materials/mat/mat003/hm_read_mat03.F
 !||    hm_read_mat04                       ../starter/source/materials/mat/mat004/hm_read_mat04.F
 !||    hm_read_mat10                       ../starter/source/materials/mat/mat010/hm_read_mat10.F

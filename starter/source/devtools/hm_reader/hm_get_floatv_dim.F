@@ -55,7 +55,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_inter_type25         ../starter/source/interfaces/int25/hm_read_inter_type25.F
 !||    hm_read_load_centri          ../starter/source/loads/general/load_centri/hm_read_load_centri.F
 !||    hm_read_load_pressure        ../starter/source/loads/general/load_pressure/hm_read_load_pressure.F
-!||    hm_read_mat02                ../starter/source/materials/mat/mat002/hm_read_mat02.F
+!||    hm_read_mat02_zerilli        ../starter/source/materials/mat/mat002/hm_read_mat02_zerilli.F90
 !||    hm_read_mat100               ../starter/source/materials/mat/mat100/hm_read_mat100.F
 !||    hm_read_mat105               ../starter/source/materials/mat/mat105/hm_read_mat105.F90
 !||    hm_read_mat107               ../starter/source/materials/mat/mat107/hm_read_mat107.F

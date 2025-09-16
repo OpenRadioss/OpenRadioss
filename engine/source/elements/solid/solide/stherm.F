@@ -21,10 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    stherm    ../engine/source/elements/solid/solide/stherm.F
+!||    stherm             ../engine/source/elements/solid/solide/stherm.F
 !||--- called by ------------------------------------------------------
-!||    sforc3    ../engine/source/elements/solid/solide/sforc3.F
-!||    szforc3   ../engine/source/elements/solid/solidez/szforc3.F
+!||    sforc3             ../engine/source/elements/solid/solide/sforc3.F
+!||    szforc3            ../engine/source/elements/solid/solidez/szforc3.F
+!||--- uses       -----------------------------------------------------
+!||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
 !||====================================================================
       SUBROUTINE STHERM(MAT_PARAM,
      1   VOL,     NC1,     NC2,     NC3,     NC4,     

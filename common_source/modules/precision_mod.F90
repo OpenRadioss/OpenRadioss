@@ -149,6 +149,9 @@
 !||    hm_read_funct_python                     ../starter/source/tools/curve/hm_read_funct_python.F90
 !||    hm_read_inivol                           ../starter/source/initial_conditions/inivol/hm_read_inivol.F90
 !||    hm_read_mat                              ../starter/source/materials/mat/hm_read_mat.F90
+!||    hm_read_mat02_jc                         ../starter/source/materials/mat/mat002/hm_read_mat02_jc.F90
+!||    hm_read_mat02_predef                     ../starter/source/materials/mat/mat002/hm_read_mat02_predef.F90
+!||    hm_read_mat02_zerilli                    ../starter/source/materials/mat/mat002/hm_read_mat02_zerilli.F90
 !||    hm_read_mat102                           ../starter/source/materials/mat/mat102/hm_read_mat102.F
 !||    hm_read_mat105                           ../starter/source/materials/mat/mat105/hm_read_mat105.F90
 !||    hm_read_mat125                           ../starter/source/materials/mat/mat125/hm_read_mat125.F90
