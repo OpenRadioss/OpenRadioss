@@ -687,7 +687,7 @@ C-----------------------------------------------
       CALL MY_ALLOC(TAGK,NUMNOD)
 C-----------------------------------------------
 C
-C     Construit JDI_SMS, JADS_SMS, etc
+C     Built jdi_sms, jads_sms, etc.
 C     -----------------
       DO I=1,NUMNOD
         NAD_SMS(I)=KAD_SMS(I)
@@ -1002,7 +1002,7 @@ C
  252  CONTINUE
 C-------------------------------------------------------------------------
 C     PREPARE KOMPACTION OF ELEMENTARY MATRIX
-C     NODNX_SMS(I) devient le nb de nds connectes a I
+C     Nodnx_sms (i) becomes the nb of NDS connects a i
 C-------------------------------------------------------------------------
       TAGK(1:NUMNOD)=0
       DO I=1,NUMNOD
@@ -1118,7 +1118,7 @@ C-------------------------------------------------------------------------
       CALL MY_ALLOC(INDEX2,NUMNOD)
 C-------------------------------------------------------------------------
 C     PREPARE KOMPACTION OF ELEMENTARY MATRIX
-C     construit IDI_SMS et pointeurs KAD_SMS vers JAD_SMS 
+C     Built Idi_sms and Pointers Kad_sms to Jad_sms 
 C     KJ = KAD_SMS(I),KAD_SMS(I+1)-1 => PK_SMS(KJ) = rang de KDI_SMS(KJ) dans IDI_SMS(I),IDI_SMS(I+1)-1
 C-------------------------------------------------------------------------
       TAGK(1:NUMNOD)=0
@@ -1472,7 +1472,7 @@ C-------------------------------------------------------------------------
 C     PREPARE KOMPACTION OF ELEMENTARY MATRIX
 C     KJ = KAD_SMS(I),KAD_SMS(I+1)-1 => PK_SMS(KJ) = rang de KDI_SMS(KJ) dans JDI_SMS(I),JDI_SMS(I+1)-1
 C
-C     Reconstruit JDI_SMS :: Recopie IDI_SMS (connectivite elementaire compactee et triee)
+C     Rebuilt jdi_sms :: copy idi_sms (compact and sorting elementary connectivity)
 C-------------------------------------------------------------------------
       DO I=1,NUMNOD
         DO KJ=IAD_SMS(I),IAD_SMS(I+1)-1
@@ -1681,7 +1681,7 @@ C             Penalty node
         END IF
       END DO
 C------------
-C     Recalcule NNZ_SMS de la matrice compactee
+C     Recalculate NNZ_SMS of the compressed matrix
 C------------
       NNZ_SMS=0
       DO I=1,NUMNOD
@@ -1792,7 +1792,7 @@ C-------------------------------------------------------------------------
 C     PREPARE KOMPACTION OF ELEMENTARY MATRIX
 C     KJ = KAD_SMS(I),KAD_SMS(I+1)-1 => PK_SMS(KJ) = rang de KDI_SMS(KJ) dans JDI_SMS(I),JDI_SMS(I+1)-1
 C
-C     Reconstruit JDI_SMS :: Recopie IDI_SMS (connectivite elementaire compactee et triee)
+C     Rebuilt jdi_sms :: copy idi_sms (compact and sorting elementary connectivity)
 C-------------------------------------------------------------------------
       DO I=1,NUMNOD
         DO KJ=IAD_SMS(I),IAD_SMS(I+1)-1
@@ -1809,7 +1809,7 @@ C
           J =JDI_SMS(KJ)
 cc        IF(I < J)THEN
 C
-C         dichotomie (recherche parmi les voisins ordonnes de J)
+C         dichotomy (search among the ordered neighbors of J)
           K1=JAD_SMS(J)
           K2=JAD_SMS(J)+LAD_SMS(J)-1
  100      CONTINUE
@@ -2412,7 +2412,7 @@ C-----------------------------------------------
         IF(NOD2ADD(N)/=0)NODNX_SMS(N)=1
       END DO
 C-----------------------------------------------
-C liste des noeuds sms du mur dans NRWL_SMS (memoire non optimisee).
+C list of sms nodes of the wall in NRWL_SMS (non-optimized memory).
       IF(NRWALL/=0)THEN
         K = 1
         DO N=1,NRWALL
@@ -2430,7 +2430,7 @@ C liste des noeuds sms du mur dans NRWL_SMS (memoire non optimisee).
               END IF
             END DO
           END IF
-C nb de noeuds sms dans le mur.
+C number of sms nodes in the wall.
           NPRW(6*NRWALL+N)=ICOUNT-K
 C for sms_fixvel, etc
           IF(IMOV /= 0)THEN
@@ -2596,7 +2596,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       CALL MY_ALLOC(TAG,NUMNOD)
 C-----------------------------------------------
-C supprime nds d'interf type 2 des interfs a penalite
+C supprime nds d'interf type 2 des interfs a penalty
 C /DT/AMS or /DT/INTER/AMS
 C
       TAG(1:NUMNOD)=0

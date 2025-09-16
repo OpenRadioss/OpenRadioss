@@ -78,7 +78,7 @@ C     REAL
       my_real
      .   VIS(LLT),VISCV(LLT),FACT(LLT),XX(LLT)
 C-----------------------------------------------
-C     Coefficient d'amortissement
+C     Depreciation coefficient
 C--------------------------------
       IF (NDAMP1 > 0) THEN    ! velocity function
         DO I=LFT,LLT
@@ -133,7 +133,7 @@ C
           FY4(I)=FYI(I)*H4(I)
           FZ4(I)=FZI(I)*H4(I)
 c
-c         Force visc main        
+c         Hand visc strength        
 c
           J3=3*IRECT(1,L)
           J2=J3-1

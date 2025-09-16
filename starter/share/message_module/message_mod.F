@@ -303,7 +303,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_ale_muscl                   ../starter/source/general_controls/ale_cfd/hm_read_ale_muscl.F
 !||    hm_read_ale_solver                  ../starter/source/general_controls/ale_cfd/hm_read_ale_solver.F
 !||    hm_read_alebcs                      ../starter/source/constraints/ale/hm_read_alebcs.F
-!||    hm_read_anim                        ../starter/source/general_controls/engine/hm_read_anim.F
 !||    hm_read_bcs                         ../starter/source/constraints/general/bcs/hm_read_bcs.F
 !||    hm_read_bcs_wall                    ../starter/source/boundary_conditions/hm_read_bcs_wall.F90
 !||    hm_read_beam                        ../starter/source/elements/reader/hm_read_beam.F
@@ -334,7 +333,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_ebcs_normv                  ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_normv.F
 !||    hm_read_ebcs_nrf                    ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_nrf.F
 !||    hm_read_ebcs_pres                   ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_pres.F
-!||    hm_read_ebcs_propergol              ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_propergol.F90
+!||    hm_read_ebcs_propellant             ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_propellant.F90
 !||    hm_read_ebcs_valvin                 ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_valvin.F
 !||    hm_read_ebcs_valvout                ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_valvout.F
 !||    hm_read_ebcs_vel                    ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_vel.F
@@ -457,7 +456,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_mat                         ../starter/source/materials/mat/hm_read_mat.F90
 !||    hm_read_mat00                       ../starter/source/materials/mat/mat000/hm_read_mat00.F
 !||    hm_read_mat01                       ../starter/source/materials/mat/mat001/hm_read_mat01.F
-!||    hm_read_mat02                       ../starter/source/materials/mat/mat002/hm_read_mat02.F
+!||    hm_read_mat02_jc                    ../starter/source/materials/mat/mat002/hm_read_mat02_jc.F90
+!||    hm_read_mat02_predef                ../starter/source/materials/mat/mat002/hm_read_mat02_predef.F90
+!||    hm_read_mat02_zerilli               ../starter/source/materials/mat/mat002/hm_read_mat02_zerilli.F90
 !||    hm_read_mat03                       ../starter/source/materials/mat/mat003/hm_read_mat03.F
 !||    hm_read_mat04                       ../starter/source/materials/mat/mat004/hm_read_mat04.F
 !||    hm_read_mat05                       ../starter/source/materials/mat/mat005/hm_read_mat05.F
@@ -822,8 +823,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    inibcs_cy                           ../starter/source/constraints/general/bcs/lecbcscyc.F
 !||    iniboltprel                         ../starter/source/loads/bolt/iniboltprel.F
 !||    iniebcs                             ../starter/source/boundary_conditions/ebcs/iniebcs.F
-!||    iniebcs_propergol                   ../starter/source/boundary_conditions/ebcs/iniebcs_propergol.F90
-!||    iniebcs_propergol_get_cv            ../starter/source/boundary_conditions/ebcs/iniebcs_propergol.F90
+!||    iniebcs_propellant                  ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
+!||    iniebcs_propellant_get_cp           ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
 !||    iniend                              ../starter/source/interfaces/inter3d1/iniend.F
 !||    inigrav_load                        ../starter/source/initial_conditions/inigrav/inigrav_load.F
 !||    inigrav_part_list                   ../starter/source/initial_conditions/inigrav/inigrav_part_list.F

@@ -48,14 +48,16 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    my_barrier         ../engine/source/system/machine.F
 !||    rby_decond         ../engine/source/tools/lagmul/lag_rby_cond.F
 !||--- uses       -----------------------------------------------------
+!||    extend_array_mod   ../common_source/tools/memory/extend_array.F90
 !||    groupdef_mod       ../common_source/modules/groupdef_mod.F
 !||    h3d_mod            ../engine/share/modules/h3d_mod.F
 !||    intbufdef_mod      ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    nodal_arrays_mod   ../common_source/modules/nodal_arrays.F90
+!||    output_mod         ../common_source/modules/output/output_mod.F90
 !||    python_funct_mod   ../common_source/modules/python_mod.F90
 !||    sensor_mod         ../common_source/modules/sensor_mod.F90
 !||====================================================================
-      SUBROUTINE LAG_MULT(
+      SUBROUTINE LAG_MULT(output,
      1       IPARI  ,X        ,A        ,
      2       WAT    ,V       ,MS      ,IN       ,VR       ,
      3       ITASK  ,WAG     ,ITAB    ,IXS      ,IXS20    ,
@@ -77,6 +79,8 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE SENSOR_MOD
       USE nodal_arrays_mod
+      USE extend_array_mod
+      USE OUTPUT_MOD
 C----------------------------------------------- 
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -92,6 +96,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      type(output_), intent(inout) :: output
       INTEGER ,INTENT(IN) :: NSENSOR,ITASK
       INTEGER IPARI(NPARI,*),IXS(NIXS,*),IXS16(8,*),
      .        IXS10(6,*),IXS20(12,*),ITAB(*),
@@ -394,7 +399,7 @@ C-------------------
       CALL MY_BARRIER
 C-------------------
       IF(ITASK==0)
-     .  CALL LAG_ANITH(WAG(IP1),WAG(IP2),WAG(IP3),WAG(IP4),WAG(IP5),
+     .  CALL LAG_ANITH(output,WAG(IP1),WAG(IP2),WAG(IP3),WAG(IP4),WAG(IP5),
      .                 FANI    ,FSAV    ,N_MULT  ,H3D_DATA )
 c      IF(ITASK==0 .AND. NRBYLAG>0)
 c     .  CALL LAGTH_RBY(LPBYL ,NPBYL ,FANI  ,FSAV  ,A     ,AR    ,X     )
@@ -422,13 +427,15 @@ C
 !||    spmd_gg_mult       ../engine/source/mpi/lag_multipliers/spmd_lag.F
 !||    spmd_sg_mult       ../engine/source/mpi/lag_multipliers/spmd_lag.F
 !||--- uses       -----------------------------------------------------
+!||    extend_array_mod   ../common_source/tools/memory/extend_array.F90
 !||    h3d_mod            ../engine/share/modules/h3d_mod.F
 !||    intbufdef_mod      ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    message_mod        ../engine/share/message_module/message_mod.F
 !||    nodal_arrays_mod   ../common_source/modules/nodal_arrays.F90
+!||    output_mod         ../common_source/modules/output/output_mod.F90
 !||    python_funct_mod   ../common_source/modules/python_mod.F90
 !||====================================================================
-      SUBROUTINE LAG_MULTP(
+      SUBROUTINE LAG_MULTP(output,
      1       IPARI  ,X        ,A        ,
      2       WAT    ,V       ,MS      ,IN       ,VR       ,
      3               WAG     ,ITAB    ,IXS      ,IXS20    ,
@@ -449,6 +456,8 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE INTBUFDEF_MOD
       USE H3D_MOD
+      USE extend_array_mod
+      use output_mod
 C======================================================================|
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -467,6 +476,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      type(output_), intent(inout) :: output
       INTEGER NBNCL, NBIKL, NBNODL, NBNODLR
       INTEGER IPARI(NPARI,*),IXS(NIXS,*),IXS16(8,*),
      .        IXS10(6,*),IXS20(12,*),ITAB(*),
@@ -501,7 +511,7 @@ C-----------------------------------------------
       my_real
      .        LAGCOM(2*NBNCL+4*NBIKL),
      .        AG(3,NBNODL),VG(3,NBNODL),MSG(NBNODL),
-     .        ARG(3,NBNODLR),VRG(3,NBNODLR),ING(NBNODLR)   ! NBNODLR = NBNODL ou 0 suivant iroddl
+     .        ARG(3,NBNODLR),VRG(3,NBNODLR),ING(NBNODLR)   ! Nbnodlr = nbnodl or 0 following Iroddl
 C======================================================================|
 C
       NLAGF = FR_LAGF(3,ISPMD+1)
@@ -785,7 +795,7 @@ C
      1  A      ,AR     ,AG    ,ARG     ,FR_LAGF,
      2  ISIZ   ,NBNODL ,LLAGF ,NLAGF   )
 C
-C Echange aux noeuds frontieres Pi <=> Pj A, AR, V, VR, MS, IN
+C Exchange to the nodes Frontieres Pi <=> pj a, ar, v, vr, ms, in
 C
       IF(IRODDL==0)THEN
         ISIZ = 4
@@ -802,7 +812,7 @@ C
      3               MS      ,IN      ,RBYL    ,NPBYL   ,LPBYL  ,
      4               N_MULT  ,NCR     )
 C AG => FANIG
-      CALL LAG_ANITHP(WAG(IP1),WAG(IP2),WAG(IP3),WAG(IP4),WAG(IP5),
+      CALL LAG_ANITHP(output, WAG(IP1),WAG(IP2),WAG(IP3),WAG(IP4),WAG(IP5),
      2                FANI    ,FSAV    ,N_MULT  ,INDEXLAG,AG      ,
      3                FR_LAGF ,NBNODL  ,LLAGF   ,NLAGF   ,H3D_DATA)
 C---

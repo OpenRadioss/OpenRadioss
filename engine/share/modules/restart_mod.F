@@ -127,8 +127,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .      RIVET,   SECBUF,  VOLMON,  LAMBDA,  WA,      FV, 
      .      PARTSAV,
      .      UWA,     VAL2,    PHI,
-     .      R,       ESTIF,   CRFLSW,  FLSW,    FANI,
-     .      XCUT,    ANIN,    TANI,    SECFCUM, WASPH, 
+     .      R,       ESTIF,   CRFLSW,  FLSW,    
+     .      XCUT,     TANI,    SECFCUM, WASPH, 
      .      W16,     DRETRIO, LBVRS,   PV,      RCONX  , RCONTACT,
      .      ACONTACT,PCONTACT,
      .      FACTIV,           RBYM,
@@ -167,7 +167,7 @@ C     SH4TREE(KSHTREE,NUMELC), SH3TREE(KSHTREE,NUMELTG)
 C     1: father
 C     2: 1st son (2nd son = 1st + 1, 3rd son = 1st + 2, 4th son = 1st + 3)
 C     3:   = LEVEL SI ACTIVE
-C         = -(LEVEL+1) SINON
+C         = -(level+1) otherwise
 C     4: group Number
 C-----------------------------------------------
       INTEGER, DIMENSION(:,:),ALLOCATABLE :: SH4TREE,SH3TREE

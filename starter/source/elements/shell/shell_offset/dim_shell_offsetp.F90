@@ -27,6 +27,8 @@
 !||====================================================================
       module dim_shell_offsetp_mod
 
+      implicit none
+
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
@@ -103,16 +105,16 @@
                 do j=1,nnode
                   n = ixc(j+1,ie)
                   if (shelloff/=zero) intag(n)=1
-                enddo
+                end do
               end do
-            elseif (ity == 7)then
+            else if (ity == 7)then
               nnode =3
               do i=1,nel
                 ie = nft + i
                 do j=1,nnode
                   n = ixtg(j+1,ie)
                   if (shelloff/=zero) intag(n)=1
-                enddo
+                end do
               end do
             end if
           end do
@@ -132,10 +134,10 @@
                 do j=1,nnode
                   n = ixc(j+1,ie)
                   nn = nn + intag(n)
-                enddo
+                end do
                 if (nn>0) nshel = nshel + 1
               end do
-            elseif (ity == 7)then
+            else if (ity == 7)then
               nnode =3
               do i=1,nel
                 ie = nft + i
@@ -143,7 +145,7 @@
                 do j=1,nnode
                   n = ixtg(j+1,ie)
                   nn = nn + intag(n)
-                enddo
+                end do
                 if (nn>0) nshel = nshel + 1
               end do
             end if

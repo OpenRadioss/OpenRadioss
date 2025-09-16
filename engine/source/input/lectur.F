@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    anim_build_index_all   ../engine/source/output/anim/reader/anim_build_index_all.F
 !||    arret                  ../engine/source/system/arret.F
 !||    chkipari               ../engine/source/interfaces/interf/chkstfn3.F
+!||    finter                 ../engine/source/tools/curve/finter.F
 !||    fr_rlale               ../engine/source/mpi/kinematic_conditions/fr_rlink1.F
 !||    fr_rlink1              ../engine/source/mpi/kinematic_conditions/fr_rlink1.F
 !||    lcbcsf                 ../engine/source/constraints/general/bcs/lcbcsf.F
@@ -57,7 +58,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    ale_mod                ../common_source/modules/ale/ale_mod.F
 !||    alemuscl_mod           ../common_source/modules/ale/alemuscl_mod.F
-!||    anim_mod               ../common_source/modules/output/anim_mod.F
 !||    check_mod              ../common_source/modules/check_mod.F
 !||    dt_mod                 ../engine/source/modules/dt_mod.F
 !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
@@ -75,7 +75,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    my_alloc_mod           ../common_source/tools/memory/my_alloc.F90
 !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
 !||    output_mod             ../common_source/modules/output/output_mod.F90
-!||    outputs_mod            ../common_source/modules/outputs_mod.F
 !||    pblast_mod             ../common_source/modules/loads/pblast_mod.F90
 !||    prelech3d_mod          ../engine/source/output/h3d/h3d_build_fortran/prelech3d.F90
 !||    sensor_mod             ../common_source/modules/sensor_mod.F90
@@ -91,7 +90,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      6                  NEFLSW  ,NNFLSW,ICUT   ,INOISE ,
      7                  X       ,V     ,VR     ,MS     ,IN    ,
      8                  SKEW    ,PLD           ,RBY    ,
-     9                  WA      ,CRFLSW,XCUT   ,ANIN   ,DAMPR ,
+     9                  WA      ,CRFLSW,XCUT   ,DAMPR ,
      A                  IGRNOD  ,KXSP  ,WEIGHT ,FR_RBY2,FR_RL ,
      B                  PARTSAV,IPART  ,PM    ,
      C                  MONVOL  ,VOLMON,IPART_STATE,GEO,TABLE ,
@@ -117,14 +116,12 @@ C-----------------------------------------------
       USE FVBAG_MOD
       USE CHECK_MOD
       USE SENSOR_MOD
-      USE ANIM_MOD
-      USE OUTPUTS_MOD
+      USE OUTPUT_MOD
       USE STATE_MOD
       USE ALEMUSCL_MOD , only:ALEMUSCL_Param
       USE ALE_MOD
       USE DT_MOD
       USE LOADS_MOD
-      USE OUTPUT_MOD
       USE FXB_MOD
       USE MY_ALLOC_MOD
       USE NAMES_AND_TITLES_MOD
@@ -194,7 +191,7 @@ C-----------------------------------------------
      .   MDS_OUTPUT_TABLE(MDS_NMAT*MAX_DEPVAR),MDS_NMAT,MAX_DEPVAR,
      .   MDS_NDEPSVAR(*),IBCL(*),ILOADP(*),LLOADP(*)
       my_real
-     .    SKEW(LSKEW,*),RBY(*),MS(*),IN(*),ANIN(*),
+     .    SKEW(LSKEW,*),RBY(*),MS(*),IN(*),
      .    X(*), V(*), VR(*),WA(*),PLD(*),CRFLSW(*),XCUT(*),
      .    DAMPR(NRDAMP,*), PARTSAV(*),PM(NPROPM,*),
      .    VOLMON(*),GEO(NPROPG,*),XFRAME(NXFRAME,*)
@@ -233,7 +230,7 @@ C-----------------------------------------------
      .   IDEL2,IS,
      .   STEXT1,MULTIREST1,NLPRI1,LOWMACH_OPT,IERROR,
      .   NINTERSKID,IVOLU,IFV,IFV_TYPE,ISTATG_P,
-     .   K3,K4,K5,K6,K7,K8,K9,NINEFRICG,NS,NI,NPARTOF,K10,K11
+     .   K3,K4,K5,K6,K7,K8,K9,NINEFRICG,NS,NI,NPARTOF,IFT,ILT,K10,K11,JJ,DTFCT,Ok
 
       INTEGER :: NBPARTALEON, NBPARTALEOFF, PARTID, ISON, ION, IOFF, NBALEON_PART, NBALEOFF_PART
       INTEGER, DIMENSION(:), ALLOCATABLE :: ALEOFF_PARTIDS_TMP, ALEOFF_PARTIDS,
@@ -246,7 +243,7 @@ C-----------------------------------------------
        CHARACTER*16 ALEform(0:8),Cale1,Cale2,CHAR1,CHAR2,Label9
        CHARACTER*3 :: LABEL_DEF,LABEL_ROT
       CHARACTER(LEN=4), DIMENSION(20) :: TITLE
-      my_real eta1,eta2,MIN_ASPECT,MIN_DEFV
+      my_real eta1,eta2,MIN_ASPECT,MIN_DEFV,DYDX
       my_real, DIMENSION(:), POINTER :: OFFG
       TYPE (SENSOR_STR_) ,DIMENSION(:) ,POINTER :: SENSOR_TAB
       LOGICAL IS_ALREADY_PRINTED
@@ -257,6 +254,7 @@ C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
       INTEGER,EXTERNAL :: NGR2USR
+      my_real,EXTERNAL  :: FINTER
 C-----------------------------------------------
       ! setting NOINT in IPARI(13)
       IERR = 0
@@ -342,21 +340,7 @@ C
       DO I= 1, 9
        IF(DTH1(I) /= ZERO.AND.MCHECK == 0) OUTPUT%TH%DTHIS1(I)=DTH1(I)
       ENDDO
-c h3d files
-      H3D_DATA%DTH3D = ZERO
-      H3D_DATA%TH3D_STOP = EP30
-      IF(H3D_DATA%TH3D0 /= ZERO)  H3D_DATA%TH3D = H3D_DATA%TH3D0
-      IF(H3D_DATA%DTH3D0 > ZERO) H3D_DATA%DTH3D= H3D_DATA%DTH3D0
-      IF(H3D_DATA%TH3D_STOP0 > ZERO .AND. H3D_DATA%TH3D_STOP0 /= EP20)THEN
-        H3D_DATA%TH3D_STOP = H3D_DATA%TH3D_STOP0
-      ENDIF
-      IF(H3D_DATA%DTH3D<=ZERO)  THEN
-        H3D_DATA%TH3D = EP30
-        H3D_DATA%TH3D_STOP = EP30
-      ENDIF
-      IF (H3D_DATA%TH3D < TT-DT2.AND. H3D_DATA%DTH3D > ZERO)
-     .     H3D_DATA%TH3D = H3D_DATA%TH3D + INT((TT-DT2-H3D_DATA%TH3D)/H3D_DATA%DTH3D)*H3D_DATA%DTH3D
-      IF (H3D_DATA%TH3D < TT-DT2)H3D_DATA%TH3D = H3D_DATA%TH3D+H3D_DATA%DTH3D
+
 C
       IF(MCHECK == 0)THEN
         ALE%GRID%VGY0=ZERO
@@ -614,7 +598,7 @@ C
             END IF
 C
           ELSE
-C--        /DT/CST_AMS >- automatic element selection
+C- /DT /CST_AMS>- Automatic election
             DT_CRIT = DTMINS / MAX(EM20,DTFAC1(11))
             IF((ISPMD == 0).AND.MCHECK == 0.AND.IDTGRS<=0)THEN
               WRITE(IOUT,2109) DTFACS,DTMINS,TOL_SMS,NSMSPCG,M_VS_SMS,NCPRISMS,DT_CRIT,-IDTGRS
@@ -702,89 +686,6 @@ C
          WRITE(IOUT,*) ' ** RESETTING **  : PARITH/OFF  '
        ENDIF
       ENDIF
-C-------------------------------------------
-C     .h3d files
-C-------------------------------------------
-      CALL PRELECH3D(NUMGEO   ,NPROPGI  ,NPROPMI  ,NUMMAT   ,NUMPLY   ,
-     .               IGEO     ,IPM      ,H3D_DATA ,MULTI_FVM,MDS_OUTPUT_TABLE,
-     .               MDS_NMAT ,MAX_DEPVAR,MDS_NDEPSVAR,MAT_PARAM,NUMSPHG)
-      CALL LECH3D(GEO,IGEO,IPM,IPART,H3D_DATA,MULTI_FVM,IPARI,IPARG,TAG_SKINS6,
-     .            MDS_LABEL,MDS_OUTPUT_TABLE,MDS_NMAT,MAX_DEPVAR,MDS_NDEPSVAR,
-     .            ELBUF_STR,STACK,IBCL,ILOADP,LLOADP,LOADS,MAT_PARAM,PBLAST,
-     .            IGRPART)
-c
-      IF(H3D_DATA%N_OUTP_H3D /= 0 .AND. ISPMD == 0)THEN
-        WRITE(IOUT,5000)H3D_DATA%TH3D,H3D_DATA%DTH3D
-        WRITE(IOUT,*)'       |'
-        DO I=1,H3D_DATA%N_OUTP_H3D
-          IF( H3D_DATA%OUTPUT_LIST(I)%ETYPE == 1 .OR.
-     .        H3D_DATA%OUTPUT_LIST(I)%ETYPE == 2 .AND. NUMELCG+NUMELTGG > 0 .OR.
-     .        H3D_DATA%OUTPUT_LIST(I)%ETYPE == 3 .AND. NUMELSG > 0 .OR.
-     .        H3D_DATA%OUTPUT_LIST(I)%ETYPE == 4 .AND. NUMELTRG+NUMELPG+NUMELRG > 0 .OR.
-     .        H3D_DATA%OUTPUT_LIST(I)%ETYPE == 5 .AND. NUMSPHG > 0 .OR.
-     .        H3D_DATA%OUTPUT_LIST(I)%ETYPE == 6 .AND. NUMELQG > 0 .OR.
-     .        H3D_DATA%OUTPUT_LIST(I)%ETYPE == 7 .AND. NUMSKING > 0) THEN
-            CHAR1=' '
-            IF(H3D_DATA%OUTPUT_LIST(I)%ETYPE == 1)THEN
-              CHAR1='NODAL'
-            ELSEIF(H3D_DATA%OUTPUT_LIST(I)%ETYPE == 2)THEN
-              CHAR1='SHELL'
-            ELSEIF(H3D_DATA%OUTPUT_LIST(I)%ETYPE == 3)THEN
-              CHAR1='SOLID'
-            ELSEIF(H3D_DATA%OUTPUT_LIST(I)%ETYPE == 4)THEN
-              CHAR1='ONED'
-            ELSEIF(H3D_DATA%OUTPUT_LIST(I)%ETYPE == 5)THEN
-              CHAR1='SPH'
-            ELSEIF(H3D_DATA%OUTPUT_LIST(I)%ETYPE == 6)THEN
-              CHAR1='QUAD'
-            ELSEIF(H3D_DATA%OUTPUT_LIST(I)%ETYPE == 7)THEN
-              CHAR1='SKIN'
-            ENDIF
-c
-            CHAR2=' '
-            IF(H3D_DATA%OUTPUT_LIST(I)%OUTP_TYPE == 1)THEN
-              CHAR2='SCALAR'
-            ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OUTP_TYPE == 2)THEN
-              CHAR2='VECTOR'
-            ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OUTP_TYPE == 3)THEN
-              CHAR2='TENSOR'
-            ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OUTP_TYPE == 4)THEN
-              CHAR2='TORSOR'
-            ENDIF
-c
-            STEXT1 = H3D_DATA%OUTPUT_LIST(I)%S_STRING1
-            WRITE(IOUT,*)  '       |----'//CHAR1//' '//CHAR2//' : '
-c            WRITE(IOUT,*)  '       |----'//H3D_DATA%OUTPUT_LIST(I)%KEYWORD
-            WRITE(IOUT,*)  '       |    '//H3D_DATA%OUTPUT_LIST(I)%STRING1(1:STEXT1)
-
-            IF (H3D_DATA%OUTPUT_LIST(I)%IUVAR > 0)
-     .        WRITE(IOUT,*)  '       |        UVAR=', H3D_DATA%OUTPUT_LIST(I)%IUVAR
-
-            IF (H3D_DATA%OUTPUT_LIST(I)%PLY > 0)
-     .        WRITE(IOUT,*)  '       |        PLY=',H3D_DATA%OUTPUT_LIST(I)%PLY
-
-            IF (H3D_DATA%OUTPUT_LIST(I)%LAYER > 0)
-     .        WRITE(IOUT,*)  '       |        LAYER=',H3D_DATA%OUTPUT_LIST(I)%LAYER
-
-            IF (H3D_DATA%OUTPUT_LIST(I)%IPT > 0)
-     .        WRITE(IOUT,*)  '       |        IPT=',H3D_DATA%OUTPUT_LIST(I)%IPT
-
-            IF (H3D_DATA%OUTPUT_LIST(I)%IR > 0)
-     .        WRITE(IOUT,*)   '       |        IR=',H3D_DATA%OUTPUT_LIST(I)%IR
-
-            IF (H3D_DATA%OUTPUT_LIST(I)%IR > 0)
-     .        WRITE(IOUT,*)   '       |        IS=',H3D_DATA%OUTPUT_LIST(I)%IS
-
-            IF (H3D_DATA%OUTPUT_LIST(I)%IT > 0)
-     .        WRITE(IOUT,*)   '       |        IT=',H3D_DATA%OUTPUT_LIST(I)%IT
-
-            WRITE(IOUT,*)'       |'
-          ENDIF
-        ENDDO
-        WRITE(IOUT,*)' '
-        WRITE(IOUT,*)' '
-      ENDIF
-C-------------------------------------------
 C---------------------
 C FE THERMAL ANALYSIS
 C---------------------
@@ -804,51 +705,7 @@ C---------------------
            WRITE(IOUT,'(A,1X,G14.7/)')' FACTOR TO SPEED-UP THERMAL ANALYSIS. . . . . . .', GLOB_THERM%THEACCFACT
          ENDIF
        ENDIF
-C-------------------------------------------
-C     Animations
-C-------------------------------------------
-      IF(TANIM0 /= ZERO)  TANIM = TANIM0
-      IF(TANIM_STOP0/=ZERO .AND. TANIM_STOP0/=EP20)  TANIM_STOP = TANIM_STOP0
-      IF(DTANIM0 > ZERO)  DTANIM= DTANIM0
-      IF(DTANIM<=ZERO)  TANIM = EP30
-      IF (TANIM < TT-DT2.AND.DTANIM > ZERO)TANIM = TANIM
-     .    + INT((TT-DT2-TANIM)/DTANIM)*DTANIM
-      IF (TANIM < TT-DT2)TANIM = TANIM+DTANIM
-C-----------------------
-      IF(ANIM_V(14)+H3D_DATA%N_VECT_DROT > 0 .AND.
-     .      ((ISECUT == 0 .AND. IISROT == 0 .AND. IMPOSE_DR == 0 .AND. IDROT == 0) .OR. IRODDL == 0)) THEN
-       IF(ISPMD == 0) THEN
-         WRITE(IOUT,*) ' ** WARNING ** : /ANIM/DROT OPTION USED',
-     .                 '    WHILE ROTATIONAL DOF ARE NOT COMPUTED',
-     .                 '    (IDROT = 0 IN /IOFLAG OPTION)'
-         WRITE(ISTDO,*) ' ** WARNING ** : /ANIM/DROT OPTION USED',
-     .                 '    WHILE ROTATIONAL DOF ARE NOT COMPUTED',
-     .                 '    (IDROT = 0 IN /IOFLAG OPTION)'
-       ENDIF
-       IF(ANIM_V(14) == 1) THEN
-         ANIM_V(14) = 0
-         NV_ANI = NV_ANI - 1
-       ENDIF
-      ENDIF
-C-----------------------
-      IF(ISPMD == 0.AND.MCHECK == 0) THEN
-C-----------------------
-C       Tracing Animations cards
-C-----------------------
-       WRITE(IOUT,1120)TANIM,DTANIM,TANIM_STOP,SENSORS%ANIM_ID,SENSORS%ANIM_DT,
-     +       ANIM_E(1),ANIM_E(2),ANIM_E(3),ANIM_E(25),
-     +       ANIM_E(4),ANIM_E(5),ANIM_E(6),
-     +       ANIM_E(7),ANIM_E(8),ANIM_E(9),
-     +       ANIM_E(10)+ANIM_E(4960)+ANIM_E(4961)+ANIM_E(4962)
-        WRITE(IOUT,1129) ANIM_N(3),ANIM_N(4),ANIM_N(6)
-       WRITE(IOUT,1130)
-     +       ANIM_V(1),ANIM_V(2),ANIM_V(3),ANIM_V(4),ANIM_V(5),
-     +       ANIM_V(6),ANIM_V(7),ANIM_V(9),ANIM_V(12),
-     +       ANIM_T(1),ANIM_T(2),ANIM_T(3),ANIM_T(4)
-       WRITE(IOUT,1140)
-     +       ANIM_T(5),ANIM_T(6),ANIM_T(7),ANIM_T(8),
-     +       ANIM_M,ANIM_K
-       ENDIF
+C
 C-----------------------
 C     The correct indexes in ANIM data structures wrt integration points or layers
 C     of all actual elements will be rebuilt ::
@@ -935,27 +792,7 @@ C-------------------------------------------
           ENDDO
         ENDIF
       END IF                    !(ISPMD==0.AND.MCHECK==0)
-C-------------------------------------------
-C     H3D/SENSOR
-C-------------------------------------------
-      IF (ISPMD == 0.AND.MCHECK == 0) THEN
-        DO K=1,H3D_DATA%N_SENS_H3D
-         IOK = 0
-          IF(H3D_DATA%LSENS_H3D(K) /= 0)THEN
-           DO I=1,SENSORS%NSENSOR
-              IF(H3D_DATA%LSENS_H3D(K) == SENSOR_TAB(I)%SENS_ID)THEN
-               H3D_DATA%LSENS_H3D(K)=I
-               IOK = 1
-               EXIT
-             ENDIF
-           ENDDO
-         ENDIF
-         IF(IOK == 0) THEN
-           CALL ANCMSG(MSGID=283,ANMODE=ANINFO,I1=H3D_DATA%LSENS_H3D(K))
-           CALL ARRET(2)
-         ENDIF
-       ENDDO
-      ENDIF                     !(ISPMD==0.AND.MCHECK==0)
+
 C-------------------------------------------
 C     STATE/SENSOR
 C-------------------------------------------
@@ -1792,83 +1629,6 @@ C
 !
       END IF
 
-C-------------------------------
-C     Output by interface :
-C        1 - Skid lines
-C-------------------------------
-      IF(H3D_DATA%N_SCAL_SKID  > 0.AND.NINTSKIDOLD==0) THEN
-         NINTERSKID = H3D_DATA%N_SCAL_SKID
-         IF(NINTSTAMP/=0) THEN
-            ALLOCATE (PSKIDS(NINTERSKID,NUMNODG))
-            PSKIDS(1:NINTERSKID,1:NUMNODG) = ZERO
-         ELSE
-            ALLOCATE (PSKIDS(NINTERSKID,NUMNOD))
-            PSKIDS(1:NINTERSKID,1:NUMNOD) = ZERO
-         ENDIF
-      ELSEIF(H3D_DATA%N_SCAL_SKID  == 0.AND.NINTSKIDOLD==0)THEN
-         ALLOCATE (PSKIDS(0,0))
-      ENDIF
-C-------------------------------------------
-C        2 - Frictionnal energy: allocs tabs
-C--------------------------------------------
-         IF(H3D_DATA%N_SCAL_CSE_FRIC >0.AND.S_EFRIC == 0)THEN
-            ALLOCATE(EFRICG(NUMNOD))
-            EFRICG(1:NUMNOD) = ZERO
-            IF(NINTSTAMP/=0) THEN
-              ALLOCATE(EFRICG_STAMP(NUMNODG))
-              EFRICG_STAMP(1:NUMNODG) = ZERO
-            ELSE
-              ALLOCATE(EFRICG_STAMP(0))
-            ENDIF
-         ELSEIF(S_EFRIC==0)THEN
-            ALLOCATE(EFRICG(0))
-            ALLOCATE(EFRICG_STAMP(0))
-         ENDIF
-
-      IF(H3D_DATA%N_SCAL_CSE_FRICINT  > 0.AND.S_EFRICINT==0) THEN
-C
-         NINEFRICG = H3D_DATA%N_SCAL_CSE_FRICINT
-         NINEFRIC_STAMP = 0
-         NINEFRIC = 0
-         IF(NINTSTAMP/=0) THEN
-           DO N=1,NINTER
-               NI = H3D_DATA%N_CSE_FRIC_INTER (N)
-               IF(NI/= 0.AND.IPARI(7,N)==21) NINEFRIC_STAMP = NINEFRIC_STAMP + 1
-           ENDDO
-         ENDIF
-         IF(NINEFRIC_STAMP==NINEFRICG) THEN
-            CALL MY_ALLOC(EFRIC_STAMP,NINEFRICG,NUMNODG)
-            EFRIC_STAMP(1:NINEFRICG,1:NUMNODG) = ZERO
-            CALL MY_ALLOC(EFRIC,0,0)
-         ELSEIF(NINEFRIC_STAMP==0) THEN
-            NINEFRIC = NINEFRICG
-            CALL MY_ALLOC(EFRIC,NINEFRIC,NUMNOD)
-            EFRIC(1:NINEFRICG,1:NUMNOD) = ZERO
-            CALL MY_ALLOC(EFRIC_STAMP,0,0)
-         ELSE
-            NINEFRIC = NINEFRICG-NINEFRIC_STAMP
-            CALL MY_ALLOC(EFRIC_STAMP,NINEFRIC_STAMP,NUMNODG)
-            EFRIC_STAMP(1:NINEFRIC_STAMP,1:NUMNODG) = ZERO
-            CALL MY_ALLOC(EFRIC,NINEFRIC,NUMNOD)
-            EFRIC(1:NINEFRIC,1:NUMNOD) = ZERO
-            NS = 0
-            NN= 0
-            DO N=1,NINTER
-               NI = H3D_DATA%N_CSE_FRIC_INTER (N)
-               IF(NI/= 0.AND.IPARI(7,N)==21) THEN
-                  NS = NS+1
-                  H3D_DATA%N_CSE_FRIC_INTER (N) = NINEFRIC + NS
-               ELSEIF (NI/=0) THEN
-                  NN = NN+1
-                  H3D_DATA%N_CSE_FRIC_INTER (N) = NN
-               ENDIF
-            ENDDO
-         ENDIF
-      ELSEIF(S_EFRICINT==0)THEN
-            CALL MY_ALLOC(EFRIC,0,0)
-            CALL MY_ALLOC(EFRIC_STAMP,0,0)
-      ENDIF
-C-----------------------------------
 
 C-----------------------
 C     RESET OFF ARRAY
@@ -1893,7 +1653,7 @@ C-----------------------
                IXS(1,II)=-IXS(1,II)
                IF (MLW /= 0) THEN
                  OFFG(I)=ZERO
-               ELSE     ! loi0, pas de off
+               ELSE     ! loi0, no off
                  CALL ANCMSG(MSGID=238,ANMODE=ANINFO_BLIND,I1=IXS(NIXS,II),C1='BRICK',C2='BRICK')
                ENDIF
               ELSE
@@ -1925,7 +1685,7 @@ C-----------------------
                IXC(1,II)=-IXC(1,II)
                IF (MLW /= 0) THEN
                  OFFG(I) = ZERO
-               ELSE     ! loi0, pas de off
+               ELSE     ! loi0, no off
                 CALL ANCMSG(MSGID=238,ANMODE=ANINFO_BLIND,I1=IXC(NIXC,II), C1='SHELL',C2='SHELL')
                ENDIF
              ELSE
@@ -1937,7 +1697,7 @@ C     4. ROD ELEMS
 C-----------------------
          ELSEIF(ITY == 4.AND.NELTOF /= 0)THEN
 C          IGOF=1
-C suppression du groupe incompatible avec option gap truss
+C removal of the group incompatible with gap truss option
            IGOF=0
            DO I=1,NEL
              II=I+NFT
@@ -1985,7 +1745,7 @@ C-----------------------
              IXTG(1,II)=-IXTG(1,II)
              IF(MLW /= 0) THEN
                OFFG(I) = ZERO
-             ELSE     ! loi0, pas de off
+             ELSE     ! loi0, no off
               CALL ANCMSG(MSGID=238,ANMODE=ANINFO_BLIND,I1=IXTG(NIXTG,II), C1='SH_3N',C2='SH_3N')
              ENDIF
             ELSE
@@ -2033,64 +1793,99 @@ C----------------------------------------
            NEL = IPARG(2, NG)
            NFT = IPARG(3, NG)
            IF (NEL == 0) CYCLE
+           IGOF=0
            SELECT CASE (ITY)
              CASE(1)                                             
 !       1. SOLID ELEMS
-              PARTID = IPART(K1 + NFT)
-              IF (IPARTOF(PARTID)==1) THEN
-                IF (MLW/=0)  OFFG(1:NEL) = ZERO 
-                IPARG(8,NG)=1
-              END IF
+               IGOF=1
+               DO I=1,NEL
+                 II=I+NFT-1
+                  PARTID = IPART(K1 + II)
+                  IF (IPARTOF(PARTID)==1) THEN
+                    IF (MLW/=0)  OFFG(I) = ZERO 
+                  ELSE
+                    IGOF=0
+                  ENDIF
+               ENDDO
              CASE(2)                                             
 !       2. 2D ELEMS
-              PARTID = IPART(K2 + NFT)
-              IF (IPARTOF(PARTID)==1) THEN
-                OFFG(1:NEL) = ZERO 
-                IPARG(8,NG)=1
-              END IF
+               IGOF=1
+               DO I=1,NEL
+                 II=I+NFT-1
+                  PARTID = IPART(K2 + II)
+                  IF (IPARTOF(PARTID)==1) THEN
+                    OFFG(I) = ZERO 
+                  ELSE
+                    IGOF=0
+                  ENDIF
+               ENDDO
              CASE(3)                                             
 !       3. SHELL ELEMS
-              PARTID = IPART(K3 + NFT)
-              IF (IPARTOF(PARTID)==1) THEN
-                IF (MLW/=0)  OFFG(1:NEL) = ZERO 
-                IPARG(8,NG)=1
-              END IF
+               IGOF=1
+               DO I=1,NEL
+                 II=I+NFT-1
+                  PARTID = IPART(K3 + II)
+                  IF (IPARTOF(PARTID)==1) THEN
+                    IF (MLW/=0)  OFFG(I) = ZERO 
+                  ELSE
+                    IGOF=0
+                  ENDIF
+               ENDDO
              CASE(4)                                             
 !       4. ROD ELEMS
-              PARTID = IPART(K4 + NFT)
-              IF (IPARTOF(PARTID)==1) THEN
-                OFFG(1:NEL) = ZERO 
-                IPARG(8,NG)=1
-              END IF
+               IGOF=0
+               DO I=1,NEL
+                 II=I+NFT-1
+                  PARTID = IPART(K4 + II)
+                  IF (IPARTOF(PARTID)==1) OFFG(I) = ZERO 
+               ENDDO
              CASE(5)                                             
 !       5. BEAM ELEMS
-              PARTID = IPART(K5 + NFT)
-              IF (IPARTOF(PARTID)==1) THEN
-                OFFG(1:NEL) = ZERO 
-                IPARG(8,NG)=1
-              END IF
+               IGOF=1
+               DO I=1,NEL
+                 II=I+NFT-1
+                  PARTID = IPART(K5 + II)
+                  IF (IPARTOF(PARTID)==1) THEN
+                    OFFG(I) = ZERO 
+                  ELSE
+                    IGOF=0
+                  ENDIF
+               ENDDO
              CASE(6)                                             
 !       6. ELEMENTS RESSORTS
-              PARTID = IPART(K6 + NFT)
-              IF (IPARTOF(PARTID)==1) THEN
-                OFFG(1:NEL) = ZERO 
-                IPARG(8,NG)=1
-              END IF
+               IGOF=0
+               DO I=1,NEL
+                 II=I+NFT-1
+                  PARTID = IPART(K6 + II)
+                  IF (IPARTOF(PARTID)==1) OFFG(I) = ZERO 
+               ENDDO
              CASE(7)                                             
 !       7. 3N-SHELL-ELEMS
-              PARTID = IPART(K8 + NFT)
-              IF (IPARTOF(PARTID)==1) THEN
-                IF (MLW/=0)  OFFG(1:NEL) = ZERO 
-                IPARG(8,NG)=1
-              END IF
+               IGOF=1
+               DO I=1,NEL
+                 II=I+NFT-1
+                  PARTID = IPART(K7 + II)
+                  IF (IPARTOF(PARTID)==1) THEN
+                    IF (MLW/=0)  OFFG(I) = ZERO 
+                  ELSE
+                    IGOF=0
+                  ENDIF
+               ENDDO
              CASE(51)                                             
 !       8. SPH PARTICLES
-              PARTID = IPART(K10 + NFT)
-              IF (IPARTOF(PARTID)==1) THEN
-                OFFG(1:NEL) = ZERO 
-                IPARG(8,NG)=1
-              END IF
+               IGOF=1
+               DO I=1,NEL
+                 II=I+NFT-1
+                  PARTID = IPART(K10 + II)
+                  IF (IPARTOF(PARTID)==1) THEN
+                    OFFG(I) = ZERO 
+                    KXSP(2,NFT+I) = 0
+                  ELSE
+                    IGOF=0
+                  ENDIF
+               ENDDO
             END SELECT 
+            IPARG(8,NG)=MAX0(IPARG(8,NG),IGOF)
         ENDDO
         IF (ALLOCATED(IPARTOF)) DEALLOCATE(IPARTOF)
       END IF
@@ -2223,7 +2018,7 @@ C                      NALELK <- NALELK+NALELINK
               WRITE(IOUT,'(10I10)')(LINALE(K+I),I=1,N)
               WRITE(IOUT,2201)
             ENDIF
-c           Verification partagee et tag en - noeuds non present
+c           Verification shared and tag in - nodes not present
             CALL FR_RLALE(LINALE(K-4),LINALE(K-3),LINALE(K+1),ITABM1,N)
             K=K+N+6
          !---------------------------------!
@@ -2306,7 +2101,7 @@ C-------------------------------------------
                WRITE(IOUT,'(10I10)')(LINALE(K+I),I=1,N)
                WRITE(IOUT,2201)
              ENDIF
-              ! Verification partagee et tag en - noeuds non present
+              ! Verification shared and tag in - nodes not present
               CALL FR_RLALE(LINALE(K-4),LINALE(K-3),LINALE(K+1),ITABM1,N)
               K=K+N+6
             !---------------------------------!
@@ -2613,7 +2408,7 @@ C-------------------------------------------
       IF(NUBCSN /= 0)THEN
         CALL LCBCSF(ICODE,ISKEW,NUBCSN,ITAB,ITABM1,NPBY ,ISKWN,WEIGHT)
         IF(NSPMD > 1) THEN
-C traitement necessaire pour recuperer les noeuds cond limites
+C necessary processing to recover limit cond nodes
           IWIOUT = 0
           IF (ISPMD /= 0) CALL SPMD_CHKW(IWIOUT,IOUT)
           CALL SPMD_GLOB_ISUM9(IWIOUT,1)
@@ -2625,7 +2420,7 @@ C traitement necessaire pour recuperer les noeuds cond limites
         END IF
       END IF
 C-------------------------------------------
-C     MODIFICATION DES INTERFACES
+C     INTERFACE MODIFICATION
 C-------------------------------------------
       IF(NINTCH /= 0)THEN
         DO I=1,NINTCH
@@ -2713,9 +2508,9 @@ C---------------------------------------------------------
 C---------------------------------------------------------
 C     ANIMATION (DT ,DMAS)
 C---------------------------------------------------------
-      DO I=1,SANIN
-        ANIN(I)=ZERO
-      ENDDO
+!     DO I=1,SANIN
+!       ANIN(I)=ZERO
+!     ENDDO
 C---------------------------------------------------------
 C     FILTERED SAMPLED OUTPUT
 C---------------------------------------------------------
@@ -2795,6 +2590,283 @@ C-------------------------------------------
         K9=K8+NUMELTG
         CALL READ_DYNAIN(IPART,DYNAIN_DATA,IPART(K3),IPART(K8),IXC,IXTG)
       END IF
+C-------------------------------------------
+C     .h3d files
+C-------------------------------------------
+      CALL PRELECH3D(NUMGEO   ,NPROPGI  ,NPROPMI  ,NUMMAT   ,NUMPLY   ,
+     .               IGEO     ,IPM      ,H3D_DATA ,MULTI_FVM,MDS_OUTPUT_TABLE,
+     .               MDS_NMAT ,MAX_DEPVAR,MDS_NDEPSVAR,MAT_PARAM,NUMSPHG)
+      CALL LECH3D(OUTPUT,GEO,IGEO,IPM,IPART,H3D_DATA,MULTI_FVM,IPARI,IPARG,TAG_SKINS6,
+     .            MDS_LABEL,MDS_OUTPUT_TABLE,MDS_NMAT,MAX_DEPVAR,MDS_NDEPSVAR,
+     .            ELBUF_STR,STACK,IBCL,ILOADP,LLOADP,LOADS,MAT_PARAM,PBLAST,
+     .            IGRPART,NPC,PLD,SNPC,STF)
+c
+      IF(H3D_DATA%N_OUTP_H3D /= 0 .AND. ISPMD == 0)THEN
+        WRITE(IOUT,5000)H3D_DATA%TH3D,H3D_DATA%DTH3D
+        WRITE(IOUT,*)'       |'
+        DO I=1,H3D_DATA%N_OUTP_H3D
+          IF( H3D_DATA%OUTPUT_LIST(I)%ETYPE == 1 .OR.
+     .        H3D_DATA%OUTPUT_LIST(I)%ETYPE == 2 .AND. NUMELCG+NUMELTGG > 0 .OR.
+     .        H3D_DATA%OUTPUT_LIST(I)%ETYPE == 3 .AND. NUMELSG > 0 .OR.
+     .        H3D_DATA%OUTPUT_LIST(I)%ETYPE == 4 .AND. NUMELTRG+NUMELPG+NUMELRG > 0 .OR.
+     .        H3D_DATA%OUTPUT_LIST(I)%ETYPE == 5 .AND. NUMSPHG > 0 .OR.
+     .        H3D_DATA%OUTPUT_LIST(I)%ETYPE == 6 .AND. NUMELQG > 0 .OR.
+     .        H3D_DATA%OUTPUT_LIST(I)%ETYPE == 7 .AND. NUMSKING > 0) THEN
+            CHAR1=' '
+            IF(H3D_DATA%OUTPUT_LIST(I)%ETYPE == 1)THEN
+              CHAR1='NODAL'
+            ELSEIF(H3D_DATA%OUTPUT_LIST(I)%ETYPE == 2)THEN
+              CHAR1='SHELL'
+            ELSEIF(H3D_DATA%OUTPUT_LIST(I)%ETYPE == 3)THEN
+              CHAR1='SOLID'
+            ELSEIF(H3D_DATA%OUTPUT_LIST(I)%ETYPE == 4)THEN
+              CHAR1='ONED'
+            ELSEIF(H3D_DATA%OUTPUT_LIST(I)%ETYPE == 5)THEN
+              CHAR1='SPH'
+            ELSEIF(H3D_DATA%OUTPUT_LIST(I)%ETYPE == 6)THEN
+              CHAR1='QUAD'
+            ELSEIF(H3D_DATA%OUTPUT_LIST(I)%ETYPE == 7)THEN
+              CHAR1='SKIN'
+            ENDIF
+c
+            CHAR2=' '
+            IF(H3D_DATA%OUTPUT_LIST(I)%OUTP_TYPE == 1)THEN
+              CHAR2='SCALAR'
+            ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OUTP_TYPE == 2)THEN
+              CHAR2='VECTOR'
+            ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OUTP_TYPE == 3)THEN
+              CHAR2='TENSOR'
+            ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OUTP_TYPE == 4)THEN
+              CHAR2='TORSOR'
+            ENDIF
+c
+            STEXT1 = H3D_DATA%OUTPUT_LIST(I)%S_STRING1
+            WRITE(IOUT,*)  '       |----'//CHAR1//' '//CHAR2//' : '
+c            WRITE(IOUT,*)  '       |----'//H3D_DATA%OUTPUT_LIST(I)%KEYWORD
+            WRITE(IOUT,*)  '       |    '//H3D_DATA%OUTPUT_LIST(I)%STRING1(1:STEXT1)
+
+            IF (H3D_DATA%OUTPUT_LIST(I)%IUVAR > 0)
+     .        WRITE(IOUT,*)  '       |        UVAR=', H3D_DATA%OUTPUT_LIST(I)%IUVAR
+
+            IF (H3D_DATA%OUTPUT_LIST(I)%PLY > 0)
+     .        WRITE(IOUT,*)  '       |        PLY=',H3D_DATA%OUTPUT_LIST(I)%PLY
+
+            IF (H3D_DATA%OUTPUT_LIST(I)%LAYER > 0)
+     .        WRITE(IOUT,*)  '       |        LAYER=',H3D_DATA%OUTPUT_LIST(I)%LAYER
+
+            IF (H3D_DATA%OUTPUT_LIST(I)%IPT > 0)
+     .        WRITE(IOUT,*)  '       |        IPT=',H3D_DATA%OUTPUT_LIST(I)%IPT
+
+            IF (H3D_DATA%OUTPUT_LIST(I)%IR > 0)
+     .        WRITE(IOUT,*)   '       |        IR=',H3D_DATA%OUTPUT_LIST(I)%IR
+
+            IF (H3D_DATA%OUTPUT_LIST(I)%IR > 0)
+     .        WRITE(IOUT,*)   '       |        IS=',H3D_DATA%OUTPUT_LIST(I)%IS
+
+            IF (H3D_DATA%OUTPUT_LIST(I)%IT > 0)
+     .        WRITE(IOUT,*)   '       |        IT=',H3D_DATA%OUTPUT_LIST(I)%IT
+
+            WRITE(IOUT,*)'       |'
+          ENDIF
+        ENDDO
+        WRITE(IOUT,*)' '
+        WRITE(IOUT,*)' '
+      ENDIF
+C-------------------------------------------
+C     H3D/SENSOR
+C-------------------------------------------
+      IF (ISPMD == 0.AND.MCHECK == 0) THEN
+        DO K=1,H3D_DATA%N_SENS_H3D
+         IOK = 0
+          IF(H3D_DATA%LSENS_H3D(K) /= 0)THEN
+           DO I=1,SENSORS%NSENSOR
+              IF(H3D_DATA%LSENS_H3D(K) == SENSOR_TAB(I)%SENS_ID)THEN
+               H3D_DATA%LSENS_H3D(K)=I
+               IOK = 1
+               EXIT
+             ENDIF
+           ENDDO
+         ENDIF
+         IF(IOK == 0) THEN
+           CALL ANCMSG(MSGID=283,ANMODE=ANINFO,I1=H3D_DATA%LSENS_H3D(K))
+           CALL ARRET(2)
+         ENDIF
+       ENDDO
+      ENDIF                     !(ISPMD==0.AND.MCHECK==0)
+C-------------------------------
+C     Output by interface :
+C        1 - Skid lines
+C-------------------------------
+      IF(H3D_DATA%N_SCAL_SKID  > 0.AND.NINTSKIDOLD==0) THEN
+         NINTERSKID = H3D_DATA%N_SCAL_SKID
+         IF(NINTSTAMP/=0) THEN
+            ALLOCATE (PSKIDS(NINTERSKID,NUMNODG))
+            PSKIDS(1:NINTERSKID,1:NUMNODG) = ZERO
+         ELSE
+            ALLOCATE (PSKIDS(NINTERSKID,NUMNOD))
+            PSKIDS(1:NINTERSKID,1:NUMNOD) = ZERO
+         ENDIF
+      ELSEIF(H3D_DATA%N_SCAL_SKID  == 0.AND.NINTSKIDOLD==0)THEN
+         ALLOCATE (PSKIDS(0,0))
+      ENDIF
+C-------------------------------------------
+C        2 - Frictionnal energy: allocs tabs
+C--------------------------------------------
+         IF(H3D_DATA%N_SCAL_CSE_FRIC >0.AND.OUTPUT%DATA%S_EFRIC == 0)THEN
+            ALLOCATE(OUTPUT%DATA%EFRICG(NUMNOD))
+            OUTPUT%DATA%EFRICG(1:NUMNOD) = ZERO
+            IF(NINTSTAMP/=0) THEN
+              ALLOCATE(OUTPUT%DATA%EFRICG_STAMP(NUMNODG))
+              OUTPUT%DATA%EFRICG_STAMP(1:NUMNODG) = ZERO
+            ELSE
+              ALLOCATE(OUTPUT%DATA%EFRICG_STAMP(0))
+            ENDIF
+         ELSEIF(OUTPUT%DATA%S_EFRIC==0)THEN
+            ALLOCATE(OUTPUT%DATA%EFRICG(0))
+            ALLOCATE(OUTPUT%DATA%EFRICG_STAMP(0))
+         ENDIF
+
+      IF(H3D_DATA%N_SCAL_CSE_FRICINT  > 0.AND.OUTPUT%DATA%S_EFRICINT==0) THEN
+C
+         NINEFRICG = H3D_DATA%N_SCAL_CSE_FRICINT
+         OUTPUT%DATA%NINEFRIC_STAMP = 0
+         OUTPUT%DATA%NINEFRIC = 0
+         IF(NINTSTAMP/=0) THEN
+           DO N=1,NINTER
+               NI = H3D_DATA%N_CSE_FRIC_INTER (N)
+               IF(NI/= 0.AND.IPARI(7,N)==21) OUTPUT%DATA%NINEFRIC_STAMP = OUTPUT%DATA%NINEFRIC_STAMP + 1
+           ENDDO
+         ENDIF
+         IF(OUTPUT%DATA%NINEFRIC_STAMP==NINEFRICG) THEN
+            CALL MY_ALLOC(OUTPUT%DATA%EFRIC_STAMP,NINEFRICG,NUMNODG)
+            OUTPUT%DATA%EFRIC_STAMP(1:NINEFRICG,1:NUMNODG) = ZERO
+            CALL MY_ALLOC(OUTPUT%DATA%EFRIC,0,0)
+         ELSEIF(OUTPUT%DATA%NINEFRIC_STAMP==0) THEN
+            OUTPUT%DATA%NINEFRIC = NINEFRICG
+            CALL MY_ALLOC(OUTPUT%DATA%EFRIC,OUTPUT%DATA%NINEFRIC,NUMNOD)
+            OUTPUT%DATA%EFRIC(1:NINEFRICG,1:NUMNOD) = ZERO
+            CALL MY_ALLOC(OUTPUT%DATA%EFRIC_STAMP,0,0)
+         ELSE
+            OUTPUT%DATA%NINEFRIC = NINEFRICG-OUTPUT%DATA%NINEFRIC_STAMP
+            CALL MY_ALLOC(OUTPUT%DATA%EFRIC_STAMP,OUTPUT%DATA%NINEFRIC_STAMP,NUMNODG)
+            OUTPUT%DATA%EFRIC_STAMP(1:OUTPUT%DATA%NINEFRIC_STAMP,1:NUMNODG) = ZERO
+            CALL MY_ALLOC(OUTPUT%DATA%EFRIC,OUTPUT%DATA%NINEFRIC,NUMNOD)
+            OUTPUT%DATA%EFRIC(1:OUTPUT%DATA%NINEFRIC,1:NUMNOD) = ZERO
+            NS = 0
+            NN= 0
+            DO N=1,NINTER
+               NI = H3D_DATA%N_CSE_FRIC_INTER (N)
+               IF(NI/= 0.AND.IPARI(7,N)==21) THEN
+                  NS = NS+1
+                  H3D_DATA%N_CSE_FRIC_INTER (N) = OUTPUT%DATA%NINEFRIC + NS
+               ELSEIF (NI/=0) THEN
+                  NN = NN+1
+                  H3D_DATA%N_CSE_FRIC_INTER (N) = NN
+               ENDIF
+            ENDDO
+         ENDIF
+      ELSEIF(OUTPUT%DATA%S_EFRICINT==0)THEN
+            CALL MY_ALLOC(OUTPUT%DATA%EFRIC,0,0)
+            CALL MY_ALLOC(OUTPUT%DATA%EFRIC_STAMP,0,0)
+      ENDIF
+C-----------------------------------
+C-------------------------------------------
+C     Animations
+C-------------------------------------------
+
+C------------------------------------------------
+C     Check function load of output frequencie and initial time step
+C------------------------------------------------
+        IF(output%nb_anim_frame >0.AND.OUTPUT%DTANIM_FCT_ID==0) THEN 
+           IF(OUTPUT%TANIM_STOP0 >ZERO.AND.OUTPUT%TANIM_STOP0 /= EP20.AND.OUTPUT%TANIM0 > 0) THEN
+              OUTPUT%DTANIM0  = (OUTPUT%TANIM_STOP0 - OUTPUT%TANIM0) / output%nb_anim_frame
+           ELSEIF(OUTPUT%TANIM_STOP0 >ZERO.AND.OUTPUT%TANIM_STOP0 /= EP20) THEN
+              OUTPUT%DTANIM0  = (OUTPUT%TANIM_STOP0-TT) / output%nb_anim_frame
+           ELSEIF(OUTPUT%TANIM0 >ZERO) THEN
+              OUTPUT%DTANIM0  = (TSTOP-OUTPUT%TANIM0) / output%nb_anim_frame
+           ELSE
+              OUTPUT%DTANIM0  = (TSTOP-TT) / output%nb_anim_frame
+           ENDIF
+            IF (OUTPUT%DTANIM0 <= ZERO) THEN
+              CALL ANCMSG(MSGID=293,ANMODE=ANINFO,c1='ANIM',c2='ANIM')
+              CALL ARRET(0)
+            ENDIF
+         ENDIF
+
+         OK = 0
+         DTFCT = 0
+         IF (output%DTANIM_FCT_ID > 0) THEN    
+
+            DO JJ=1,NFUNCT                     
+              IF(OUTPUT%DTANIM_FCT_ID == NPC(NFUNCT+2+JJ-1)) THEN  
+                 DTFCT=JJ                
+                 OK = 1               
+                 EXIT                    
+              ENDIF                           
+            ENDDO   
+            IF (OK == 0) THEN                                                   
+                CALL ANCMSG(MSGID=315,            
+     .                  MSGTYPE=MSGERROR,        
+     .                  ANMODE=ANINFO_BLIND_1,   
+     .                  C1='ANIM',                 
+     .                  I2=OUTPUT%DTANIM_FCT_ID)          
+             ENDIF
+             IF (OK >0) OUTPUT%DTANIM_FCT_ID = DTFCT
+
+            IF(OUTPUT%DTANIM_FCT_ID > 0) THEN
+              OUTPUT%DTANIM0  =  FINTER(OUTPUT%DTANIM_FCT_ID,ZERO,NPC,PLD,DYDX)   
+              !need to add the python also 
+            ENDIF
+
+            IF (OUTPUT%DTANIM0 <= ZERO) THEN
+              CALL ANCMSG(MSGID=293,ANMODE=ANINFO,c1='ANIM',c2='ANIM')
+              CALL ARRET(0)
+            ENDIF
+         ENDIF
+
+      IF(OUTPUT%TANIM0 /= ZERO)  OUTPUT%TANIM = OUTPUT%TANIM0
+      IF(OUTPUT%TANIM_STOP0/=ZERO .AND. OUTPUT%TANIM_STOP0/=EP20)  OUTPUT%TANIM_STOP = OUTPUT%TANIM_STOP0
+      IF(OUTPUT%DTANIM0 > ZERO)  OUTPUT%DTANIM= OUTPUT%DTANIM0
+      IF(OUTPUT%DTANIM<=ZERO)  OUTPUT%TANIM = EP30
+      IF (OUTPUT%TANIM < TT-DT2.AND.OUTPUT%DTANIM > ZERO)OUTPUT%TANIM = OUTPUT%TANIM
+     .    + INT((TT-DT2-OUTPUT%TANIM)/OUTPUT%DTANIM)*OUTPUT%DTANIM
+      IF (OUTPUT%TANIM < TT-DT2)OUTPUT%TANIM = OUTPUT%TANIM+OUTPUT%DTANIM
+C-----------------------
+      IF(ANIM_V(14)+H3D_DATA%N_VECT_DROT > 0 .AND.
+     .      ((ISECUT == 0 .AND. IISROT == 0 .AND. IMPOSE_DR == 0 .AND. IDROT == 0) .OR. IRODDL == 0)) THEN
+       IF(ISPMD == 0) THEN
+         WRITE(IOUT,*) ' ** WARNING ** : /ANIM/DROT OPTION USED',
+     .                 '    WHILE ROTATIONAL DOF ARE NOT COMPUTED',
+     .                 '    (IDROT = 0 IN /IOFLAG OPTION)'
+         WRITE(ISTDO,*) ' ** WARNING ** : /ANIM/DROT OPTION USED',
+     .                 '    WHILE ROTATIONAL DOF ARE NOT COMPUTED',
+     .                 '    (IDROT = 0 IN /IOFLAG OPTION)'
+       ENDIF
+       IF(ANIM_V(14) == 1) THEN
+         ANIM_V(14) = 0
+         NV_ANI = NV_ANI - 1
+       ENDIF
+      ENDIF
+C-----------------------
+      IF(ISPMD == 0.AND.MCHECK == 0) THEN
+C-----------------------
+C       Tracing Animations cards
+C-----------------------
+       WRITE(IOUT,1120)OUTPUT%TANIM,OUTPUT%DTANIM,OUTPUT%TANIM_STOP,SENSORS%ANIM_ID,SENSORS%ANIM_DT,
+     +       ANIM_E(1),ANIM_E(2),ANIM_E(3),ANIM_E(25),
+     +       ANIM_E(4),ANIM_E(5),ANIM_E(6),
+     +       ANIM_E(7),ANIM_E(8),ANIM_E(9),
+     +       ANIM_E(10)+ANIM_E(4960)+ANIM_E(4961)+ANIM_E(4962)
+        WRITE(IOUT,1129) ANIM_N(3),ANIM_N(4),ANIM_N(6)
+       WRITE(IOUT,1130)
+     +       ANIM_V(1),ANIM_V(2),ANIM_V(3),ANIM_V(4),ANIM_V(5),
+     +       ANIM_V(6),ANIM_V(7),ANIM_V(9),ANIM_V(12),
+     +       ANIM_T(1),ANIM_T(2),ANIM_T(3),ANIM_T(4)
+       WRITE(IOUT,1140)
+     +       ANIM_T(5),ANIM_T(6),ANIM_T(7),ANIM_T(8),
+     +       ANIM_M,ANIM_K
+       ENDIF
+C-------------------------------------------
 c-----------------------------------------
 c     deallocate temporary SENSOR arrays
 c-----------------------------------------
@@ -3288,7 +3360,7 @@ C-----------------------------------------------
      .            MSG_ISOL
      . / 'PREC. CONJUGATE GRADIENT',
      .   'DIRECT(MUMPS) ',
-c     .   'PREC. LANZOS ',
+c     .'Prec.Lanzos',
      .   'DIRECT',
      .   'MULTI-LEVEL CONDENSATION',
      .   'MIXE SOLVERS: 1 + 3',

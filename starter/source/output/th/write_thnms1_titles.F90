@@ -65,13 +65,13 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           do i=1,nvar
             if(len_trim(var_title(i)) > 0 .and. len_trim(var_title(i)) < 100)then
-              write(io, '(2x,I10,X,a10,2x,a100)') init_id+i,var(i),var_title(i)
+              write(io, "(2x,I10,X,a10,2x,a100)") init_id+i,var(i),var_title(i)
             else if(len_trim(var(i)) > 0 .and. len_trim(var(i)) < 10)then
-              write(io, '(2x,I10,X,a10)') init_id+i,var(i)
+              write(io, "(2x,I10,X,a10)") init_id+i,var(i)
             else
-              write(io, '(2x,I10)') init_id+i
-            endif
-          enddo
+              write(io, "(2x,I10)") init_id+i
+            end if
+          end do
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine write_thnms1_titles
       end module write_thnms1_titles_mod

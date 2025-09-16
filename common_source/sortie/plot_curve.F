@@ -182,6 +182,8 @@ C=======================================================================
         CURVE(1:NB_POINTS) = 0
         INCR_X = (X_MAXVALUE-X_MINVALUE)/(SIZE_X-1)
         INCR_Y = (Y_MAXVALUE-Y_MINVALUE)/(SIZE_Y-1)
+        IF(INCR_X == 0) INCR_X = 1.0E-6
+        IF(INCR_Y == 0) INCR_Y = 1.0E-6
 c
         ALLOCATE(GRID(SIZE_X,SIZE_Y))
         DO J = 1, SIZE_Y

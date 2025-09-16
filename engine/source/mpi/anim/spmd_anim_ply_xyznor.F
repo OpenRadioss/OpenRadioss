@@ -84,7 +84,7 @@ C
         PLYSIZ  = PLYNOD (IPLY)%PLYNUMNODS
         ALLOCATE(WRTBUF(3,PLYSIZG(IPLY)))
 
-C Les plynods du proc 0
+C The plynods of proc 0
         DO ND=1,PLYSIZ
              I = PLYNOD(IPLY)%NODES(ND)
              EMPL =  PLYNOD(IPLY)%PLYNODID(ND)-EMPSIZPL
@@ -105,7 +105,7 @@ C Les plynods du proc 0
              WRTBUF(2,EMPL)= INORM(2)
              WRTBUF(3,EMPL)= INORM(3)
         END DO
-C Les plynods des autres procs
+C The plynods of other procs
            DO P=2,NSPMD
               ALLOCATE(IRECBUF(PLYIADNOD(IPLY,P)))
               ALLOCATE(FRECBUF(3,PLYIADNOD(IPLY,P)))

@@ -21,15 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    i11for3    ../engine/source/interfaces/int11/i11for3.F
+!||    i11for3      ../engine/source/interfaces/int11/i11for3.F
 !||--- called by ------------------------------------------------------
-!||    i11mainf   ../engine/source/interfaces/int11/i11mainf.F
+!||    i11mainf     ../engine/source/interfaces/int11/i11mainf.F
 !||--- calls      -----------------------------------------------------
-!||    bitget     ../engine/source/interfaces/intsort/i20sto.F
+!||    bitget       ../engine/source/interfaces/intsort/i20sto.F
 !||--- uses       -----------------------------------------------------
-!||    tri7box    ../engine/share/modules/tri7box.F
+!||    output_mod   ../common_source/modules/output/output_mod.F90
+!||    tri7box      ../engine/share/modules/tri7box.F
 !||====================================================================
-      SUBROUTINE I11FOR3(
+      SUBROUTINE I11FOR3(OUTPUT,
      1                JLT      ,FSAV     ,GAP      ,FRIC    ,MS      ,
      2                VISC     ,VISCF    ,NOINT    ,ITAB    ,CS_LOC  ,
      3                CM_LOC   ,STIF     ,DT2T     ,HS1     ,HS2     ,
@@ -56,6 +57,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE TRI7BOX
+      USE OUTPUT_MOD, ONLY : OUTPUT_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -83,6 +85,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT
       INTEGER NELTST,ITYPTST,JLT,IBC,IVIS2,INACTI,NRTS,NIN,INTTH
       INTEGER ITAB(*),
      .        NOINT,NEWFRONT,NISUB,NFT
@@ -487,9 +490,9 @@ C---------------------------------
           ENDDO
         ELSEIF(IVIS2==5)THEN
 C---------------------------------
-C         VISC = 2M/dt    => pour visc < 1 , stable : dt < 2M/visc = dt
-C         M=M1*M2/M1+M2      pour visc = 1 , choc elastique
-C                            pour visc = 0.5 , choc mou
+C         Visc = 2m/dt => For visc <1, stable: Dt <2m/visc = Dt
+C         M = m1*m2/m1+m2 for visc = 1, elastic shock
+C                            For visc = 0.5, elastic collision
 C---------------------------------
           DO I=1,JLT
             MAS2  = MS1(I)*HS1(I)
@@ -553,7 +556,7 @@ C
         ENDDO
       ENDIF
 C
-C     impulsion normale pour les sous-interfaces
+C     normal impulse for sub-interfaces
 C
       IF (NISUB > 0) THEN
 C
@@ -1016,7 +1019,7 @@ C
       ENDIF
 C
 C
-C     impulsion tangentielle dans les sous-interfaces
+C     tangential impulse in sub-interfaces
 C
       IF (NISUB > 0) THEN
 C
@@ -1357,7 +1360,7 @@ ctmp+1 mic only
         DO I = 1,JLT
           IF(CS_LOC(I)>NRTS)THEN
             NI = CS_LOC(I)-NRTS
-C tag temporaire de NSVFI a -
+C temporary tag of nsvfi a -
             NSVFI(NIN)%P(NI) = -ABS(NSVFI(NIN)%P(NI))
           ENDIF
         ENDDO

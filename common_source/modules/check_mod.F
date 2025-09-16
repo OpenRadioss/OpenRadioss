@@ -40,7 +40,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !       if /RFILE/OFF or if -norst cdl are used, then no restart files
 !       are written durint the run, even at the end of the engine
 !       RESTART_FILE = 0 --> no restart files
-!       RESTART_FILE = 1 (default value) --> restart files are written
+!       Restart_file = 1 (Default Value) -> Restart Files Are Written
 !       starter :
 !       ----------
 !       if /CHECK/RFILE/OFF is used or if -check=norst cdl is used, then

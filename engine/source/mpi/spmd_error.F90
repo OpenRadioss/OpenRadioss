@@ -57,6 +57,9 @@
 !||    spmd_isend_ints           ../engine/source/mpi/spmd_isend.F90
 !||    spmd_isend_real           ../engine/source/mpi/spmd_isend.F90
 !||    spmd_isend_reals          ../engine/source/mpi/spmd_isend.F90
+!||    spmd_pack_doubles         ../engine/source/mpi/spmd_pack.F90
+!||    spmd_pack_ints            ../engine/source/mpi/spmd_pack.F90
+!||    spmd_pack_reals           ../engine/source/mpi/spmd_pack.F90
 !||    spmd_probe                ../engine/source/mpi/spmd_mod.F90
 !||    spmd_recv_double          ../engine/source/mpi/spmd_recv.F90
 !||    spmd_recv_doubles         ../engine/source/mpi/spmd_recv.F90
@@ -74,17 +77,21 @@
 !||    spmd_reduce_reals         ../engine/source/mpi/spmd_mod.F90
 !||    spmd_send_double          ../engine/source/mpi/spmd_send.F90
 !||    spmd_send_doubles         ../engine/source/mpi/spmd_send.F90
+!||    spmd_send_doubles2d       ../engine/source/mpi/spmd_send.F90
 !||    spmd_send_int             ../engine/source/mpi/spmd_send.F90
 !||    spmd_send_ints            ../engine/source/mpi/spmd_send.F90
 !||    spmd_send_real            ../engine/source/mpi/spmd_send.F90
 !||    spmd_send_reals           ../engine/source/mpi/spmd_send.F90
+!||    spmd_send_reals2d         ../engine/source/mpi/spmd_send.F90
+!||    spmd_unpack_doubles       ../engine/source/mpi/spmd_unpack.F90
+!||    spmd_unpack_ints          ../engine/source/mpi/spmd_unpack.F90
+!||    spmd_unpack_reals         ../engine/source/mpi/spmd_unpack.F90
 !||    spmd_wait                 ../engine/source/mpi/spmd_wait.F90
 !||    spmd_waitall              ../engine/source/mpi/spmd_wait.F90
 !||    spmd_waitany              ../engine/source/mpi/spmd_wait.F90
-!||--- uses       -----------------------------------------------------
 !||====================================================================
       module spmd_error_mod
-        use iso_c_binding
+        use, intrinsic :: iso_c_binding
         implicit none
 
         interface
@@ -178,6 +185,9 @@
 !||    spmd_isend_ints           ../engine/source/mpi/spmd_isend.F90
 !||    spmd_isend_real           ../engine/source/mpi/spmd_isend.F90
 !||    spmd_isend_reals          ../engine/source/mpi/spmd_isend.F90
+!||    spmd_pack_doubles         ../engine/source/mpi/spmd_pack.F90
+!||    spmd_pack_ints            ../engine/source/mpi/spmd_pack.F90
+!||    spmd_pack_reals           ../engine/source/mpi/spmd_pack.F90
 !||    spmd_probe                ../engine/source/mpi/spmd_mod.F90
 !||    spmd_recv_double          ../engine/source/mpi/spmd_recv.F90
 !||    spmd_recv_doubles         ../engine/source/mpi/spmd_recv.F90
@@ -195,10 +205,15 @@
 !||    spmd_reduce_reals         ../engine/source/mpi/spmd_mod.F90
 !||    spmd_send_double          ../engine/source/mpi/spmd_send.F90
 !||    spmd_send_doubles         ../engine/source/mpi/spmd_send.F90
+!||    spmd_send_doubles2d       ../engine/source/mpi/spmd_send.F90
 !||    spmd_send_int             ../engine/source/mpi/spmd_send.F90
 !||    spmd_send_ints            ../engine/source/mpi/spmd_send.F90
 !||    spmd_send_real            ../engine/source/mpi/spmd_send.F90
 !||    spmd_send_reals           ../engine/source/mpi/spmd_send.F90
+!||    spmd_send_reals2d         ../engine/source/mpi/spmd_send.F90
+!||    spmd_unpack_doubles       ../engine/source/mpi/spmd_unpack.F90
+!||    spmd_unpack_ints          ../engine/source/mpi/spmd_unpack.F90
+!||    spmd_unpack_reals         ../engine/source/mpi/spmd_unpack.F90
 !||    spmd_wait                 ../engine/source/mpi/spmd_wait.F90
 !||    spmd_waitall              ../engine/source/mpi/spmd_wait.F90
 !||    spmd_waitany              ../engine/source/mpi/spmd_wait.F90
@@ -217,7 +232,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 #ifdef DEBUG_SPMD
           ! call print_traceback()
-          write(6,*) 'Entering MPI call: ', tag
+          write(6,*) "Entering MPI call: ", tag
 #endif
         end subroutine spmd_in
 
@@ -257,6 +272,9 @@
 !||    spmd_isend_ints           ../engine/source/mpi/spmd_isend.F90
 !||    spmd_isend_real           ../engine/source/mpi/spmd_isend.F90
 !||    spmd_isend_reals          ../engine/source/mpi/spmd_isend.F90
+!||    spmd_pack_doubles         ../engine/source/mpi/spmd_pack.F90
+!||    spmd_pack_ints            ../engine/source/mpi/spmd_pack.F90
+!||    spmd_pack_reals           ../engine/source/mpi/spmd_pack.F90
 !||    spmd_probe                ../engine/source/mpi/spmd_mod.F90
 !||    spmd_recv_double          ../engine/source/mpi/spmd_recv.F90
 !||    spmd_recv_doubles         ../engine/source/mpi/spmd_recv.F90
@@ -274,10 +292,15 @@
 !||    spmd_reduce_reals         ../engine/source/mpi/spmd_mod.F90
 !||    spmd_send_double          ../engine/source/mpi/spmd_send.F90
 !||    spmd_send_doubles         ../engine/source/mpi/spmd_send.F90
+!||    spmd_send_doubles2d       ../engine/source/mpi/spmd_send.F90
 !||    spmd_send_int             ../engine/source/mpi/spmd_send.F90
 !||    spmd_send_ints            ../engine/source/mpi/spmd_send.F90
 !||    spmd_send_real            ../engine/source/mpi/spmd_send.F90
 !||    spmd_send_reals           ../engine/source/mpi/spmd_send.F90
+!||    spmd_send_reals2d         ../engine/source/mpi/spmd_send.F90
+!||    spmd_unpack_doubles       ../engine/source/mpi/spmd_unpack.F90
+!||    spmd_unpack_ints          ../engine/source/mpi/spmd_unpack.F90
+!||    spmd_unpack_reals         ../engine/source/mpi/spmd_unpack.F90
 !||    spmd_wait                 ../engine/source/mpi/spmd_wait.F90
 !||    spmd_waitall              ../engine/source/mpi/spmd_wait.F90
 !||    spmd_waitany              ../engine/source/mpi/spmd_wait.F90
@@ -306,11 +329,11 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 #ifdef MPI
           if(ierr /= MPI_SUCCESS) then
-            write(6,*) 'MPI error: ', ierr,' at ',tag
+            write(6,*) "MPI error: ", ierr," at ",tag
             call MPI_Abort(SPMD_COMM_WORLD, ierr,ierror)
           end if
 #ifdef DEBUG_SPMD
-          write(6,*) 'Exiting MPI call: ', tag
+          write(6,*) "Exiting MPI call: ", tag
 #endif
 #endif
         end subroutine spmd_out

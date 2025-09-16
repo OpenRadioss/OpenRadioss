@@ -21,32 +21,33 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    lecint                       ../starter/source/interfaces/interf1/lecint.F
+!||    lecint                           ../starter/source/interfaces/interf1/lecint.F
 !||--- called by ------------------------------------------------------
-!||    lectur                       ../starter/source/starter/lectur.F
+!||    lectur                           ../starter/source/starter/lectur.F
 !||--- calls      -----------------------------------------------------
-!||    ancmsg                       ../starter/source/output/message/message.F
-!||    fretitl2                     ../starter/source/starter/freform.F
-!||    i20surfi                     ../starter/source/interfaces/inter3d1/i20surfi.F
-!||    i24surfi                     ../starter/source/interfaces/inter3d1/i24surfi.F
-!||    i25surfi                     ../starter/source/interfaces/inter3d1/i25surfi.F
-!||    i2_surfi_dim                 ../starter/source/interfaces/inter3d1/i2_surfi_dim.F90
-!||    ingrbric                     ../starter/source/interfaces/interf1/ingrbric.F
-!||    ingrbric_dx                  ../starter/source/interfaces/interf1/ingrbric_dx.F
-!||    ingrbric_nodes               ../starter/source/interfaces/interf1/ingrbric_nodes.F
-!||    inpoint                      ../starter/source/interfaces/interf1/inpoint.F
-!||    inslin                       ../starter/source/interfaces/interf1/inslin.F
-!||    insurf                       ../starter/source/interfaces/interf1/insurf.F
-!||    insurf23                     ../starter/source/interfaces/interf1/insurf23.F
-!||    insurf_dx                    ../starter/source/interfaces/interf1/insurf_dx.F
-!||    insurfigeo                   ../starter/source/interfaces/interf1/insurfigeo.F
-!||    inter1_check_ale_lag_sides   ../starter/source/interfaces/int01/inter1_check_ale_lag_sides.F90
-!||    nintri                       ../starter/source/system/nintrr.F
-!||    presegmt                     ../starter/source/interfaces/interf1/presegmt.F
+!||    ancmsg                           ../starter/source/output/message/message.F
+!||    fretitl2                         ../starter/source/starter/freform.F
+!||    i20surfi                         ../starter/source/interfaces/inter3d1/i20surfi.F
+!||    i24surfi                         ../starter/source/interfaces/inter3d1/i24surfi.F
+!||    i25surfi                         ../starter/source/interfaces/inter3d1/i25surfi.F
+!||    i2_surfi_dim                     ../starter/source/interfaces/inter3d1/i2_surfi_dim.F90
+!||    ingrbric                         ../starter/source/interfaces/interf1/ingrbric.F
+!||    ingrbric_dx                      ../starter/source/interfaces/interf1/ingrbric_dx.F
+!||    ingrbric_nodes                   ../starter/source/interfaces/interf1/ingrbric_nodes.F
+!||    inpoint                          ../starter/source/interfaces/interf1/inpoint.F
+!||    inslin                           ../starter/source/interfaces/interf1/inslin.F
+!||    insurf                           ../starter/source/interfaces/interf1/insurf.F
+!||    insurf23                         ../starter/source/interfaces/interf1/insurf23.F
+!||    insurf_dx                        ../starter/source/interfaces/interf1/insurf_dx.F
+!||    insurfigeo                       ../starter/source/interfaces/interf1/insurfigeo.F
+!||    inter1_check_ale_lag_sides       ../starter/source/interfaces/int01/inter1_check_ale_lag_sides.F90
+!||    nintri                           ../starter/source/system/nintrr.F
+!||    presegmt                         ../starter/source/interfaces/interf1/presegmt.F
 !||--- uses       -----------------------------------------------------
-!||    i2_surfi_dim_mod             ../starter/source/interfaces/inter3d1/i2_surfi_dim.F90
-!||    message_mod                  ../starter/share/message_module/message_mod.F
-!||    r2r_mod                      ../starter/share/modules1/r2r_mod.F
+!||    i2_surfi_dim_mod                 ../starter/source/interfaces/inter3d1/i2_surfi_dim.F90
+!||    inter1_check_ale_lag_sides_mod   ../starter/source/interfaces/int01/inter1_check_ale_lag_sides.F90
+!||    message_mod                      ../starter/share/message_module/message_mod.F
+!||    r2r_mod                          ../starter/share/modules1/r2r_mod.F
 !||====================================================================
       SUBROUTINE LECINT(IPARI   ,LINTER  ,IPM     ,BUFMAT  ,
      .                  NMNT    ,ITAB    ,ITABM1  ,GEO     ,
@@ -75,6 +76,7 @@ C-----------------------------------------------
       USE INTERFACES_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE I2_SURFI_DIM_MOD ,     ONLY : I2_SURFI_DIM
+      use inter1_check_ale_lag_sides_mod , only : inter1_check_ale_lag_sides
 C-----------------------------------------------      
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -886,8 +888,8 @@ C--------------------------------------------
               CALL INSURF(NRTM,NMN,IRM,IRECTM,
      .                    SURF_NODES,ITAB,MSR,ID,TITR,
      .                    NTAG,S_MSR,S_IRECTM,TYPE18)
-              IPARI(6,NI)  = NMN           !nombre de main node.
-              IPARI(33,NI) = IGRSURF(ISU2)%NSEG ! nombre de facette main
+              IPARI(6,NI)  = NMN           !number of main node.
+              IPARI(33,NI) = IGRSURF(ISU2)%NSEG ! number of main facet
               IPARI(4,NI)  = IGRSURF(ISU2)%NSEG
 C--------------------------------------------
         ELSEIF( NTYP == 23) THEN
@@ -1053,12 +1055,14 @@ C-------
           IPARI(24,NI) = NSN_FE+NSN_IGE
           IPARI(25,NI) = NSN_FE+NSN_IGE+NMN_FE+NMN_IGE
           IMAXIMP = IMAXIMP + MULTIMP*(NSN_FE+NSN_IGE)
-          NMNT =MAX0(NMNT,NSN_FE+NSN_IGE + 3) 
+          NMNT =MAX0(NMNT,NSN_IGE + 3) 
+
           IF (ILAGM > 0) THEN
             LAG_NC16 = NUMNOD
             LAG_NK16 = NUMNOD*15
             NMNT = MAX(NMNT, 4*(NMN+100)+ 2*(NSN_FE+NSN_IGE) + LAG_NC16 + 4*LAG_NK16)                       
           ENDIF
+
           MAXRTM=MAX(MAXRTM,NRTM)
 C-------
         ELSEIF (NTYP == 8) THEN
@@ -1115,7 +1119,7 @@ C-------
           IPARI(24,NI) = NSN
           IPARI(25,NI) = NSN+NMN
           IMAXIMP = IMAXIMP + MULTIMP*NSN
-          NMNT =MAX0(NMNT,NSN + 3) 
+          !NMNT =MAX0(NMNT,NSN + 3) 
           MAXRTM=MAX(MAXRTM,NRTM)
 C-------
         ELSEIF (NTYP == 20) THEN
@@ -1207,7 +1211,7 @@ C
           END IF
 C
           IMAXIMP = IMAXIMP + MULTIMP*NSN + MULTIMPE*NCONTE + MULTIMPS*NCONTE
-          NMNT =MAX0(NMNT,NSN + 3) 
+          !NMNT =MAX0(NMNT,NSN + 3) 
           IF (ILAGM > 0) THEN
             LAG_NC16 = NUMNOD
             LAG_NK16 = NUMNOD*15

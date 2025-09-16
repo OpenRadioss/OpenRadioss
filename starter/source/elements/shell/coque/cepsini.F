@@ -649,7 +649,7 @@ C
         EPST(5,I)= GSTR(I,5)*HALF
       ENDDO
 C-------------------------------------------------
-C     ROTATIONS DANS LE REPERE D ORTHOTROPIE EPST
+C     rotations in the orthotropy frame epst
 C-------------------------------------------------
       CALL ROTO(JFT,JLT,EPST,5,DIR,NEL)
 C-------------------------------------------------
@@ -665,7 +665,7 @@ C-----------------------------
        FOR(I,2)=A12(I)*EPST(1,I)+A22(I)*EPST(2,I)
        FOR(I,3)=G12(I)*EPST(3,I)*TWO
 C-----------------------------
-C     CONTRAINTES reduites en compression
+C     Reduced compression constraints
 C-----------------------------
        S  = HALF*(FOR(I,1)+FOR(I,2))
        D  = HALF*(FOR(I,1)-FOR(I,2))
@@ -698,7 +698,7 @@ C-----------------------------------------------------------
         ENDIF
       ENDDO
 C--------------------------------
-C     RETOUR DANS LE REPERE COQUE
+C     return to shell reference frame
 C--------------------------------
       CALL UROTO(JFT,JLT,FOR,5,DIR,NEL)
 C

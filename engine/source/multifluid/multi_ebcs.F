@@ -25,9 +25,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    multi_timeevolution    ../engine/source/multifluid/multi_timeevolution.F
 !||--- calls      -----------------------------------------------------
+!||    arret                  ../engine/source/system/arret.F
 !||    multi_inlet_ebcs       ../engine/source/multifluid/multi_inlet_ebcs.F
 !||    multi_nrf_ebcs         ../engine/source/multifluid/multi_nrf_ebcs.F
-!||    multi_propergol_ebcs   ../engine/source/multifluid/multi_propergol_ebcs.F90
 !||--- uses       -----------------------------------------------------
 !||    ebcs_mod               ../common_source/modules/boundary_conditions/ebcs_mod.F90
 !||    matparam_def_mod       ../common_source/modules/mat_elem/matparam_def_mod.F90
@@ -46,6 +46,7 @@ C-----------------------------------------------
       USE TH_SURF_MOD , only : TH_SURF_NUM_CHANNEL
       USE MATPARAM_DEF_MOD , ONLY : MATPARAM_STRUCT_
       USE MULTI_INLET_EBCS_MOD , ONLY : MULTI_INLET_EBCS
+      !USE multi_propellant_ebcs_mod , ONLY : MULTI_PROPELLANT_EBCS
 C-----------------------------------------------
 C     I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -107,12 +108,17 @@ C     Inlet, outlet boundary condition
      .           twf%ielem, twf%iface, twf%fvm_inlet_data,
      .           IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM, FUNC_VALUE,
      .           twf,NPF,TF,FSAVSURF,TIMESTEP, MATPARAM)
-            TYPE IS(t_ebcs_propergol)
-              CALL MULTI_PROPERGOL_EBCS(ITASK, I, MULTI_FVM, NELEM,
-     .           twf%ielem, twf%iface, twf%fvm_inlet_data,
-     .           IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM, FUNC_VALUE,
-     .           twf,NPF,TF,FSAVSURF,TIMESTEP,NIXS, NIXQ, NIXTG, NPROPMI, NPROPM, NSURF, STF, SNPC,
-     .           NUMELS, NUMELQ, NUMELTG, NUMNOD, NCYCLE, NUMMAT ,MATPARAM)
+            TYPE IS(t_ebcs_propellant)
+!             work in progress
+              write(6,*) 'MULTI_EBCS: Propellant EBCS not yet implemented'
+              write(6,*) "NUMELS=",NUMELS,"NUMELQ=",NUMELQ,"NUMELTG=",NUMELTG
+              write(6,*) "NUMNOD=",NUMNOD,"NCYCLE=",NCYCLE,"NUMMAT=",NUMMAT
+              CALL ARRET(2)
+!             CALL MULTI_PROPELLANT_EBCS(ITASK, I, MULTI_FVM, NELEM,
+!    .           twf%ielem, twf%iface, twf%fvm_inlet_data,
+!    .           IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM, FUNC_VALUE,
+!    .           twf,NPF,TF,FSAVSURF,TIMESTEP,NIXS, NIXQ, NIXTG, NPROPMI, NPROPM, NSURF, STF, SNPC,
+!    .           NUMELS, NUMELQ, NUMELTG, NUMNOD, NCYCLE, NUMMAT ,MATPARAM)
             CLASS DEFAULT
          END SELECT
       ENDDO

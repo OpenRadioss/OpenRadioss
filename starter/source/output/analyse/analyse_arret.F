@@ -284,7 +284,7 @@ C-----------------------------------------------
 C
       CALL ANPRINT()
 C
-      CALL ANFILE()  ! Closes *000.out file
+      CALL ANFILE()  ! Closes *000.ou File
       IF (OUTPUT%CHECKSUM%checksum_count >0)THEN
          IZIP=0
          CALL COMPUTE_BINARY_CHECKSUM(OUTPUT%CHECKSUM%FILES_CHECKSUM,C_LOC(FILENAME),LEN_FILENAME,IZIP )

@@ -33,7 +33,7 @@ C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
         !COMPUTE PROJECTION ZH ON A GIVEN POINT Z ALONG THE SPLINE INTERPOLATION
-        !  INPUT  - LOCAL_PT : 4 control points P0,P1,P2,P3
+        !  INPUT - Local_pt: 4 control points P0, P1, P2, P3
         !  INPUT  - Z : TEST POINt to project
         !  INPUT  - ALPHA : CCR SPLINE PARAMETER
         !  OUTPUT - Zh : projected point

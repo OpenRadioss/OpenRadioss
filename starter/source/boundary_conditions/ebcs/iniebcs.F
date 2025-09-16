@@ -295,7 +295,7 @@ C=======================================================================
              IF(IFLAG==0)ALLOCATE(EBCS%dp0(NSEG))
              EBCS%dp0(1:NSEG) = ZERO
 
-           TYPE IS (t_ebcs_propergol)
+           TYPE IS (t_ebcs_propellant)
              IF(EBCS%is_multifluid) THEN
                 SIZ = EBCS%nb_elem
              ELSE

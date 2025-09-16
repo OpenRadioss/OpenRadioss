@@ -27,6 +27,8 @@
 !||====================================================================
       module same_shellori_mod
 
+      implicit none
+
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
@@ -71,8 +73,8 @@
                 ivm = 1
               else
                 ivm = -1
-              endif
-            endif
+              end if
+            end if
           end do
           do i=1,4
             im1=ixn(i)
@@ -82,8 +84,8 @@
                 ivn = 1
               else
                 ivn = -1
-              endif
-            endif
+              end if
+            end if
           end do
           isame = -ivm*ivn
 !

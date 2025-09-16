@@ -135,7 +135,7 @@
                     call ancmsg(msgid=3055, msgtype=msgwarning, anmode=aninfo_blind,        &
                       i1=mat_param(imat)%mat_id,                                            &
                       c1=mat_param(imat)%title)
-                  endif
+                  end if
                   ! check if temperature dependency is defined twice: in inst table and fct_TEMP
                   if (mat_param(imat)%fail(ir)%table(2) > 0) then
                     if ((table(mat_param(imat)%fail(ir)%table(2))%ndim == 3) .and.          &
@@ -143,24 +143,24 @@
                       call ancmsg(msgid=3056, msgtype=msgwarning, anmode=aninfo_blind,      &
                         i1=mat_param(imat)%mat_id,                                          &
                         c1=mat_param(imat)%title)
-                    endif
-                  endif
+                    end if
+                  end if
                   ! check if strain rate dependency tables are in logarithmic scale
                   if (nint(mat_param(imat)%fail(ir)%uparam(9)) == 1) then
                     if (mat_param(imat)%fail(ir)%table(3) > 0) then
                       if (table(mat_param(imat)%fail(ir)%table(3))%ndim == 2) then
                         if (table(mat_param(imat)%fail(ir)%table(3))%x(2)%values(1) < zero) then
                           mat_param(imat)%fail(ir)%uparam(21) = 1
-                        endif
-                      endif
-                    endif
-                  endif
+                        end if
+                      end if
+                    end if
+                  end if
                   if (mat_param(imat)%fail(ir)%ifunc(2) > 0) then
                     if (table(mat_param(imat)%fail(ir)%ifunc(2))%x(1)%values(1) < zero) then
                       mat_param(imat)%fail(ir)%uparam(22) = 1
-                    endif
-                  endif
-                endif
+                    end if
+                  end if
+                end if
                 ! count number of /fail/fractal_dmg models
                 if (mat_param(imat)%fail(ir)%irupt == 12) then
                   nfail_fractal = nfail_fractal + 1
@@ -171,9 +171,9 @@
                   if (flag_brokmann == 1) nfail_brokmann = nfail_brokmann + 1
                 end if
 !
-              enddo
-            endif
-          enddo
+              end do
+            end if
+          end do
 ! ----------------------------------------------------------------------------------------------------------------------
 !     fractal damage model initialization
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -194,10 +194,10 @@
                       nixc   ,ixc    ,nixtg  ,ixtg  ,numelc ,numeltg,                           &
                       iworksh,stack  ,igeo   ,npropgi,numgeo )
                   end if
-                enddo
-              endif
-            enddo
-          endif
+                end do
+              end if
+            end do
+          end if
 ! ----------------------------------------------------------------------------------------------------------------------
 !     /fail/alter with Brokmann random crack initialization
 ! ----------------------------------------------------------------------------------------------------------------------

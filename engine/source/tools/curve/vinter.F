@@ -35,6 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    no_asso_plas76     ../engine/source/materials/mat/mat076/no_asso_plas76.F
 !||    no_asso_qplas76c   ../engine/source/materials/mat/mat076/no_asso_qplas76c.F
 !||    sigeps100          ../engine/source/materials/mat/mat100/sigeps100.F90
+!||    sigeps125          ../engine/source/materials/mat/mat125/sigeps125.F90
 !||    sigeps125c         ../engine/source/materials/mat/mat125/sigeps125c.F90
 !||    sigeps127          ../engine/source/materials/mat/mat127/sigeps127.F90
 !||    sigeps127c         ../engine/source/materials/mat/mat127/sigeps127c.F90
@@ -140,7 +141,7 @@ C
 !||    sigeps96            ../engine/source/materials/mat/mat096/sigeps96.F
 !||====================================================================
       SUBROUTINE VINTER2(TF,IAD,IPOS ,ILEN,NEL0,X,DYDX,Y)
-C IDEM VINTER AVEC POSSIBILITE DE FAIRE DECROITRE X
+C same as vinter with possibility to decrease x
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -211,7 +212,7 @@ C
 !||    sigeps68        ../engine/source/materials/mat/mat068/sigeps68.F
 !||====================================================================
       SUBROUTINE VINTER2DP(TF,IAD,IPOS ,ILEN,NEL0,X,DYDX,Y)
-C IDEM VINTER AVEC POSSIBILITE DE FAIRE DECROITRE X
+C same as vinter with possibility to decrease x
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

@@ -82,13 +82,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
 !||    mmain_mod              ../engine/source/materials/mat_share/mmain.F90
 !||    nlocal_reg_mod         ../common_source/modules/nlocal_reg_mod.F
+!||    output_mod             ../common_source/modules/output/output_mod.F90
 !||    s10get_x0_mod          ../engine/source/elements/solid/solide10/s10get_x0.F90
 !||    sdistor_ini_mod        ../engine/source/elements/solid/solide/sdistror_ini.F90
 !||    sensor_mod             ../common_source/modules/sensor_mod.F90
 !||    table_mod              ../engine/share/modules/table_mod.F
 !||    timer_mod              ../engine/source/system/timer_mod.F90
 !||====================================================================
-      SUBROUTINE S10FORC3(TIMERS,
+      SUBROUTINE S10FORC3(TIMERS, OUTPUT, 
      1   ELBUF_TAB,       NG,         PM,         GEO,
      2   IXS,             X,          A,          V,
      3   MS,              W,          FLUX,       FLU1,
@@ -114,6 +115,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE TIMER_MOD
+      USE OUTPUT_MOD, only : OUTPUT_
       USE MMAIN_MOD
       USE TABLE_MOD
       USE MAT_ELEM_MOD            
@@ -155,6 +157,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(TIMER_), INTENT(INOUT) :: TIMERS
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT
       INTEGER, INTENT(IN) :: S_SFEM_NODVAR
       INTEGER, INTENT(INOUT) :: IDEL7NOK
       INTEGER, INTENT(IN) :: SNPC
@@ -623,9 +626,10 @@ C------------------------------------------------------
 C
       IF(IBOLTP /= 0) CALL BOLTST(
      .                IP,        BPRELD,    LBUF%SIG,TT,        
-     .                NEL   ,NPT   ,SENSORS%NSENSOR,SENSORS%SENSOR_TAB)
+     .                NEL   ,NPT   ,SENSORS%NSENSOR,SENSORS%SENSOR_TAB,
+     .                IPARG(67,NG),IPARG(68,NG))
 C
-        CALL MMAIN(TIMERS,
+        CALL MMAIN(TIMERS, OUTPUT,
      1   ELBUF_TAB,   NG,          PM,          GEO,
      2                ALE_CONNECT, IXS,         IPARG,
      3   V,           TF,          NPF,         BUFMAT,

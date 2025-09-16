@@ -33,10 +33,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    fvbag_mod                ../engine/share/modules/fvbag_mod.F
 !||    fvmbag_meshcontrol_mod   ../common_source/modules/airbag/fvmbag_meshcontrol_mod.F
 !||    h3d_mod                  ../engine/share/modules/h3d_mod.F
+!||    output_mod               ../common_source/modules/output/output_mod.F90
 !||    python_funct_mod         ../common_source/modules/python_mod.F90
 !||    sensor_mod               ../common_source/modules/sensor_mod.F90
 !||====================================================================
-      SUBROUTINE FVBAG0(MONVOL,  VOLMON  , X        , SENSOR_TAB, V      ,
+      SUBROUTINE FVBAG0(OUTPUT,MONVOL,  VOLMON  , X        , SENSOR_TAB, V      ,
      .                  A     ,  NPC     , TF       , NSENSOR   ,  
      .                  FSAV  ,  IFVMESH , ICONTACT , LGAUGE    ,
      .                  GAUGE ,  IGEO    , GEO      , PM        , IPM,
@@ -53,6 +54,7 @@ C  FLAG = 2 : Scatter information from PMAIN (inc. switch to UP)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE OUTPUT_MOD, only : output_
       USE FVBAG_MOD
       USE ELBUFDEF_MOD
       USE FVMBAG_MESHCONTROL_MOD
@@ -75,6 +77,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      type(output_), intent(inout) :: output
       INTEGER,INTENT(IN) :: NSENSOR
       INTEGER, INTENT(IN) :: FLAG ! 1: gather + computations
                    ! 2: scatter      
@@ -122,7 +125,7 @@ c 6:               XSAV (SPH sorting)
 c 7:               YSAV (SPH sorting)
 c 8:               ZSAV (SPH sorting)
 c 9:               FF (sph only)
-c 10:              intantaneous Pressure
+c 10: Intantaneous Pressure
 c 11:              intantaneous PA
 c 12:              intantaneous Rho
 c 13:              intantaneous E
@@ -246,7 +249,7 @@ C
             ENDIF
             IF(FLAG == 1 .AND. NSKIP < 1) THEN
               IF (MONVOL(K1+74-1) >= 0) THEN
-                CALL FVBAG1(
+                CALL FVBAG1(output,
      1            NNS                   ,NTG                ,MONVOL(KI1)         , MONVOL(KI2)              ,NJET                  ,
      2            MONVOL(IADJET)        ,VOLMON(RADJET)     ,NVENT,MONVOL(IADHOL), VOLMON(RADHOL)           ,
      3            VOLMON(KR1)           ,VOLMON(KR2)        ,VOLMON(KR3)         , VOLMON(KR4)              ,VOLMON(KR9)           ,
@@ -271,7 +274,7 @@ C
      M            IGROUPTG              ,IGROUPC            ,ELBUF_TAB           , FEXT                     , CFL_COEF             ,
      N            FVDATA(IFV)%PDISP_OLD ,FVDATA(IFV)%PDISP  ,H3D_DATA            , ITAB                     , WFEXT, PYTHON)
               ELSE
-                CALL FV_UP_SWITCH(
+                CALL FV_UP_SWITCH(output,
      1            NNS                   ,NTG, MONVOL(KI2)   ,NJET                , FVDATA(IFV)%NPOLY        , FVDATA(IFV)%LENH ,NBA,
      2            MONVOL(IADJET)        ,VOLMON(RADJET)     ,NVENT,MONVOL(IADHOL), VOLMON(RADHOL),
      3            VOLMON(KR1)           ,VOLMON(KR2)        ,VOLMON(KR3)         , VOLMON(KR4)              , VOLMON(KR9)       ,

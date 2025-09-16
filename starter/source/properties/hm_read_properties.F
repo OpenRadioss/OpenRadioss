@@ -159,7 +159,7 @@ C-----------------------------------------------
 C----------------------
 C     GEO(3) : ISMSTR
 C     GEO(5) : DT (ISMSTR=3 SAUF SOLIDES)
-C     GEO(7) : VX  coques/solides ortho - vecteur de reference
+C     GEO (7): VX Ortho shells/Solids - Reference vector
 C     GEO(8) : VY
 C     GEO(9) : VZ
 C     GEO(11): ISTRAIN (COQUE)
@@ -171,15 +171,15 @@ C     GEO(39): IPLAST
 C     GEO(40): PROP_ID    v50  ->    IGEO(1)
 C     GEO(42): PTHK 
 C     GEO(43): FAILEXP 
-C     GEO(20:34) : Milieu poreux (briques)
-C     GEO(129): HCLOS (briques)
-C     GEO(130): HTEST (briques)
+C     GEO (20:34): porous medium (bricks)
+C     GEO (129): HCLOS (Bricks)
+C     GEO (130): Htest (bricks)
 C     GEO(131:170): LIBRE
 C     GEO(171): IHBE
 C     GEO(212): ANGLE BETWEEN two orthotropy directions (DIR1,DIR2) for 
 C               the PID with LAW58
 C-------------------
-C    nouveau stockage:
+C    New storage:
 C    IGEO(1)  : PROP_ID
 C    IGEO(2)  : ISK
 C    IGEO(3)  : ISEN
@@ -741,14 +741,14 @@ C
 C  error message for no mixed law with TYPE_17
 C
              J=STACK_INFO(NUMS)%MID(1)
-             MLAWLY = NINT(PM(19,J))
+             MLAWLY  = IPM(2,J)
              PROP_ID = IGEO(1,CPT)
 C-----OTHER ply
              DO 350 N=2,N1
                J = STACK_INFO(NUMS)%MID(N)
                MID = IPM(1,J)
                IF (IGTYP == 51) GOTO 350
-               IF (NINT(PM(19,J)) == MLAWLY) GOTO 350
+               IF (IPM(2,J) == MLAWLY) GOTO 350
                WRITE(LAW_ID,'(I2)')MLAWLY
                IF (MLAWLY==99) LAW_ID='USER'
                CALL ANCMSG(MSGID=899,
@@ -767,7 +767,7 @@ C
                 J = STACK_INFO(NUMS)%MID(N)
                 MID = IPM(1,J)
                 JPID = STACK_INFO(NUMS)%PID(N)
-                MLAWLY = NINT(PM(19,J))
+                MLAWLY = IPM(2,J)
                 IF (MLAWLY == 15 .OR. MLAWLY == 25 .OR. MLAWLY == 27 .OR.
      .             (MLAWLY >= 29 .AND.MLAWLY <= 31).OR. MLAWLY == 36 .OR.
      .              MLAWLY == 72 .OR. MLAWLY == 99) GOTO 450

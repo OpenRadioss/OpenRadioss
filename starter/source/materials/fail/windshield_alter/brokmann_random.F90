@@ -32,6 +32,7 @@
 !||    updfail               ../starter/source/materials/updfail.F90
 !||====================================================================
       module brokmann_random_mod
+      implicit none
       contains
 ! ======================================================================================================================
 ! \brief initializes random crack in /fail/alter following Ch.Brokmann extension
@@ -65,7 +66,7 @@
 
 
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   arguments 
+!                                                   arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           integer               ,intent(in)    :: numelc         !< total number of 4n shell elements
           integer               ,intent(in)    :: numeltg        !< total number of 3n shell elements

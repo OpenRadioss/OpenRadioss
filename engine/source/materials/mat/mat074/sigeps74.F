@@ -558,7 +558,7 @@ c       IF (IKT==4)
 c     .     CALL PUT_SIGE0(NEL,SIGEXX,SIGEYY,SIGEZZ,SIGEXY,
 c     .                   SIGEYZ,SIGEZX,DPLA,G   ,H     )
       ENDIF
-      ELSE !opte==1 CE/=0
+      ELSE !else if (opte==1) ce/=0
       ITABLE = IPM(227,MAT(1))
       IADBUF = IPM(7,MAT(1))-1
       FISOKIN=UPARAM(IADBUF+1)
@@ -896,7 +896,7 @@ c     .     CALL PUT_SIGE0(NEL,SIGEXX,SIGEYY,SIGEZZ,SIGEXY,
 c     .                   SIGEYZ,SIGEZX,DPLA,G   ,H     )
       ENDIF
 c
-      ENDIF ! opte==1 CE/=0
+      ENDIF ! end if (opte==1) ce/=0
 C-----------------------------------------------
 C     Update temperature due to plastic work
 C--------------------    

@@ -87,7 +87,7 @@ C optimisation spmd
       IF (M<0) RETURN
       NSN  =NBY(2)
       NSN_G = NBY(19)
-C en spmd il ne faut sommer qu'une fois la vitesse du centre d'inertie
+C en spmd il ne faut sommer qu'une fois la velocity du centre d'inertie
       FS(7)=FS(7)+VR(1,M)*DT2*WEIGHT(M)
       FS(8)=FS(8)+VR(2,M)*DT2*WEIGHT(M)
       FS(9)=FS(9)+VR(3,M)*DT2*WEIGHT(M)

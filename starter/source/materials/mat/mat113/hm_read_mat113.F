@@ -1324,7 +1324,7 @@ C------------------------
       MTAG%G_TOTDEPL = 3  ! DX (DY,DZ) - total deformation (translation)
       MTAG%G_TOTROT = 3   ! RX (RY,RZ) - total deformation (rotation)
       MTAG%G_DEP_IN_TENS = 3   ! DPX  (DPY,DPZ) - max displacement in tension
-      MTAG%G_DEP_IN_COMP = 3   ! DPX2 (DPY2,DPZ2) - max displacement in compression
+      MTAG%G_DEP_IN_COMP = 3   ! DPX2 (DPY2, DPZ2) - Max Displacement in Compression
       MTAG%G_ROT_IN_TENS = 3   ! RPX (RPY,RPZ) - max rotation in tension
       MTAG%G_ROT_IN_COMP = 3   ! RPX2 (RPY2,RPY2) - max rotation in compression
       MTAG%G_POSX = 6
@@ -1340,7 +1340,7 @@ C------------------------
       PARMAT(4) = ISRATE
       PARMAT(5) = ASRATE
       MTAG%G_YIELD_IN_COMP = SIZ_ARRAY_COMP   ! Yield in compression - H=9
-      MTAG%G_XXOLD_IN_COMP = SIZ_ARRAY_COMP   ! Previous displacement in compression
+      MTAG%G_XXOLD_IN_COMP = SIZ_ARRAY_COMP   ! Previous Displacement in Compression
 C------------------------
       ! Properties compatibility
       CALL INIT_MAT_KEYWORD(MATPARAM,"SPRING_MATERIAL")

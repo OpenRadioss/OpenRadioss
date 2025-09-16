@@ -113,13 +113,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    message_mod            ../engine/share/message_module/message_mod.F
 !||    mmain_mod              ../engine/source/materials/mat_share/mmain.F90
 !||    nlocal_reg_mod         ../common_source/modules/nlocal_reg_mod.F
+!||    output_mod             ../common_source/modules/output/output_mod.F90
 !||    sdistor_ini_mod        ../engine/source/elements/solid/solide/sdistror_ini.F90
 !||    sensor_mod             ../common_source/modules/sensor_mod.F90
 !||    sz_dt1_mod             ../engine/source/elements/solid/solidez/sz_dt1.F90
 !||    table_mod              ../engine/share/modules/table_mod.F
 !||    timer_mod              ../engine/source/system/timer_mod.F90
 !||====================================================================
-      SUBROUTINE S8EFORC3(TIMERS,
+      SUBROUTINE S8EFORC3(TIMERS, OUTPUT,
      1   ELBUF_TAB,  NG,         PM,         GEO,
      2   IXS,        X,          A,          V,
      3   MS,         W,          FLUX,       FLU1,
@@ -148,6 +149,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE TIMER_MOD
       USE MMAIN_MOD
+      USE OUTPUT_MOD, only : OUTPUT_
       USE TABLE_MOD
       USE MAT_ELEM_MOD            
       USE MESSAGE_MOD
@@ -184,6 +186,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(TIMER_) ,INTENT(INOUT) :: TIMERS
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT
       INTEGER, INTENT(IN) :: SNPC
       INTEGER, INTENT(IN) :: STF
       INTEGER, INTENT(IN) :: SBUFMAT
@@ -254,13 +257,13 @@ C-----------------------------------------------
      . VDX(MVSIZ) , VDY(MVSIZ) , VDZ(MVSIZ),SSP_EQ(MVSIZ),AIRE(MVSIZ),
      . E0(MVSIZ),C1,FAC(MVSIZ) ,PR(8,8),PS(8,8),PT(8,8)
 C-----
-C Variables utilisees en argument par les materiaux.
+C variables used as arguments by the materials.
       my_real
      .   STI(MVSIZ),STIN(MVSIZ),GAMA(MVSIZ,6),
      .   WXX(MVSIZ) , WYY(MVSIZ) , WZZ(MVSIZ),
      .   WXX0(MVSIZ) , WYY0(MVSIZ) , WZZ0(MVSIZ),
      .   CONDE(MVSIZ), CONDEN(MVSIZ)
-C Variables utilisees en argument par les materiaux si SPH uniquement.
+C Variables used in argument by materials if SPH only.
       my_real
      .   MUVOID(MVSIZ)
       INTEGER IOFFS, ITET
@@ -268,7 +271,7 @@ C Variables utilisees en argument par les materiaux si SPH uniquement.
       my_real
      .   OFFS(MVSIZ),DSV(MVSIZ),SDV(MVSIZ),L_MAX(MVSIZ)
 C-----
-C Variables utilisees dans les routines solides uniquement (en arguments).
+C variables used only in solid routines (as arguments).
       INTEGER NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ), 
      .        NC5(MVSIZ), NC6(MVSIZ), NC7(MVSIZ), NC8(MVSIZ)
      
@@ -405,7 +408,7 @@ C
       INTEGER SZ_IX
       my_real, dimension(mvsiz) :: fheat
 C-----
-C     Variables utilis  es pour le non-local
+C     variables used for the non-local
       my_real,
      .  DIMENSION(:,:), ALLOCATABLE :: VAR_REG
       INTEGER :: INLOC, L_NLOC, INOD(8), IPOS(8), IMAT,NN_DEL,PID
@@ -1533,9 +1536,10 @@ C------------------------------------------------------
 c
       IF(IBOLTP /= 0) CALL BOLTST(
      .                 IP,        BPRELD,    LBUF%SIG,TT    ,   
-     .                 NEL   ,NPT   ,SENSORS%NSENSOR,SENSORS%SENSOR_TAB)
+     .                 NEL   ,NPT   ,SENSORS%NSENSOR,SENSORS%SENSOR_TAB,
+     .                 IPARG(67,NG),IPARG(68,NG))
 c
-      CALL MMAIN(TIMERS,
+      CALL MMAIN(TIMERS, OUTPUT,
      1   ELBUF_TAB,    NG,           PM,           GEO,
      2                 ALE_CONNECT,  IXS,          IPARG,
      3   V,            TF,           NPF,          BUFMAT,
@@ -1722,8 +1726,8 @@ C
          IF (JTHE < 0) THEN
            IMAT = MXT(1)
            IF (MAT_ELEM%MAT_PARAM(IMAT)%HEAT_FLAG == 1) THEN
-             CALL S8ETHERM(
-     1            PM,       IMAT,     VOLN,     NI,
+             CALL S8ETHERM(MAT_ELEM%MAT_PARAM(IMAT),
+     1            VOLN,     NI,
      2            NC1,      NC2,      NC3,      NC4,
      3            NC5,      NC6,      NC7,      NC8,
      4            PX1(1,IP),PX2(1,IP),PX3(1,IP),PX4(1,IP),
@@ -1736,8 +1740,8 @@ C
      B            THEM,     GBUF%OFF, LBUF%OFF, PARTSAV,
      C            IPARTS,   LBUF%VOL, NEL,GLOB_THERM%THEACCFACT)
            ELSE
-             CALL S8ETHERM(
-     1            PM,       IMAT,     VOLN,     NI,
+             CALL S8ETHERM(MAT_ELEM%MAT_PARAM(IMAT),
+     1            VOLN,     NI,
      2            NC1,      NC2,      NC3,      NC4,
      3            NC5,      NC6,      NC7,      NC8,
      4            PX1(1,IP),PX2(1,IP),PX3(1,IP),PX4(1,IP),
@@ -1877,7 +1881,7 @@ C-----------------------------
      I   FLD,     NEL)
       ENDIF
 C--------------------------
-C       BILANS PAR MATERIAU
+C       balances by material
 C--------------------------
       IFLAG=MOD(NCYCLE,NCPRI)
       IF(IOUTPRT>0)THEN

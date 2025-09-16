@@ -77,7 +77,7 @@
 !||    hm_read_ebcs_normv               ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_normv.F
 !||    hm_read_ebcs_nrf                 ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_nrf.F
 !||    hm_read_ebcs_pres                ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_pres.F
-!||    hm_read_ebcs_propergol           ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_propergol.F90
+!||    hm_read_ebcs_propellant          ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_propellant.F90
 !||    hm_read_ebcs_valvin              ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_valvin.F
 !||    hm_read_ebcs_valvout             ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_valvout.F
 !||    hm_read_ebcs_vel                 ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_vel.F
@@ -166,7 +166,6 @@
 !||    multi_muscl_gradients            ../engine/source/multifluid/multi_muscl_gradients.F
 !||    multi_nrf_ebcs                   ../engine/source/multifluid/multi_nrf_ebcs.F
 !||    multi_pressure_equilibrium       ../engine/source/multifluid/multi_pressure_equilibrium.F
-!||    multi_propergol_ebcs             ../engine/source/multifluid/multi_propergol_ebcs.F90
 !||    multi_timeevolution              ../engine/source/multifluid/multi_timeevolution.F
 !||    multi_update_global              ../engine/source/multifluid/multi_update_global.F
 !||    multi_update_partial             ../engine/source/multifluid/multi_update_partial.F
@@ -285,7 +284,7 @@
           real(kind=WP), dimension(:), allocatable :: rho, eint, pres
           real(kind=WP), dimension(:), allocatable :: tburn, vol
           real(kind=WP), dimension(:, :), allocatable :: bfrac
-          integer, pointer, dimension(:) :: pcnel, paddcnel, paddtmpl
+          integer, pointer, dimension(:) :: pcnel => null(), paddcnel => null(), paddtmpl => null()
 
           ! indicates whether we run in 3d (sym = 0), or 2d (sym = 1 planar case, sym = 2 cylindrical case)
           integer :: sym
@@ -340,11 +339,11 @@
         end type multi_fvm_struct
 
         type lbuf_ptr
-          type(l_bufel_), pointer :: lbuf
+          type(l_bufel_), pointer :: lbuf => null()
         end type lbuf_ptr
 
         type ebuf_ptr
-          type(buf_eos_), pointer :: ebuf
+          type(buf_eos_), pointer :: ebuf => null()
         end type ebuf_ptr
 
         type fvm_inivel_struct

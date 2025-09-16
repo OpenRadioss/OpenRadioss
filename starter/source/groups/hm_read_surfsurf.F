@@ -98,7 +98,7 @@ C-----------------------------------------------
 !                             (computed in Radioss Engine, when receiving Datas from MaDyMo).
 !                             ID MaDyMo - for entity type which impose surface movement:
 !                             No systeme MaDyMo for entity type which impose surface movement
-!   IGRSURF(IGS)%NB_MADYMO   :: No de l'entite qui impose le mvt de la surface.
+! IGRSURF(IGS)%NB_MADYMO   :: Entity number imposing surface movement.
 !                                --> No systeme Radioss ou MaDyMO.
 !   IGRSURF(IGS)%TYPE_MADYMO   :: Entity type which impose surface movement.
 !                                  = 1 : Rigid Body.
@@ -127,7 +127,7 @@ C-----------------------------------------------
 !   IGRSURF(IGS)%ELEM(J) :: element attached to the segment of the surface
 !   IGRSURF(IGS)%NODES(J,4) :: 4 nodes of the segment for /SURF
 C-----------------------------------------------
-C SURFACES FORMEE DE SURFACES
+C SURFACES FORMED OF SURFACES
 C=======================================================================
       ALLOCATE(ITRI(5,INSEG),STAT=IERROR)
       IF(IERROR/=0)CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
@@ -146,7 +146,7 @@ C=======================================================================
 
       IF (FLAG == 0) ICOUNT=0
       IGS =0
-C     boucle sur les surfaces
+C     loop over the surfaces
       CALL HM_OPTION_START('/SURF')
       DO I = 1, NSURF
          CALL HM_OPTION_READ_KEY(LSUBMODEL,
@@ -442,7 +442,7 @@ C-----------
              ENDDO
 C-------
              !---------
-             !  3 node element surface rearrangement ( N4 = N3 ) after permutation
+             !  3 node element surface rearrangement (n4 = n3) after permutation
              !---------
              DO L=1,NSEG
                INOD(1) = BUFTMP((L-1)*NISX+1)

@@ -83,7 +83,7 @@ C     all points inside (0<=NBX<=NBOX,0<=NBY<=NBOY,0<=NBZ<=NBOZ)
        IN=KXSP(3,LONFSPH(IXP(N)))
        XI =X(1,IN)
        NBX=INT((XI-XBMIN)/DBOITEX)+1
-C      bande NBX uniquement.
+C      NBX strip only.
        IF(NBX>=1.AND.NBX<=NBOX+1)THEN
          NPX(NBX)=NPX(NBX)+1
        ENDIF
@@ -98,7 +98,7 @@ C      bande NBX uniquement.
        IN=KXSP(3,LONFSPH(IXP(N)))
        XI =X(1,IN)
        NBX=INT((XI-XBMIN)/DBOITEX)+1
-C      bande NBX uniquement.
+C      NBX strip only.
        IF(NBX>=1.AND.NBX<=NBOX+1)THEN
         NPX(NBX)=NPX(NBX)+1
         IPX(NPX(NBX))=N
@@ -168,7 +168,7 @@ C-----
         IN=KXSP(3,LONFSPH(IXP(N)))
         YI =X(2,IN)
         NBY=INT((YI-YBMIN)/DBOITEY)+1
-C       bande NBY uniquement.
+C       NBY band only.
         IF(NBY>=1.AND.NBY<=NBOY+1)THEN
           NPY(NBY)=NPY(NBY)+1
         ENDIF
@@ -184,7 +184,7 @@ C       bande NBY uniquement.
         IN=KXSP(3,LONFSPH(IXP(N)))
         YI =X(2,IN)
         NBY=INT((YI-YBMIN)/DBOITEY)+1
-C       bande NBY uniquement.
+C       NBY band only.
         IF(NBY>=1.AND.NBY<=NBOY+1)THEN
          NPY(NBY)=NPY(NBY)+1
          IPY(NPY(NBY))=N
@@ -258,7 +258,7 @@ C-------
          IN=KXSP(3,LONFSPH(IXP(N)))
          ZI =X(3,IN)
          NBZ=INT((ZI-ZBMIN)/DBOITEZ)+1
-C        bande NBZ uniquement.
+C        NBZ band only.
          IF(NBZ>=1.AND.NBZ<=NBOZ+1)THEN
            NPZ(NBZ)=NPZ(NBZ)+1
          ENDIF
@@ -274,7 +274,7 @@ C        bande NBZ uniquement.
          IN=KXSP(3,LONFSPH(IXP(N)))
          ZI =X(3,IN)
          NBZ=INT((ZI-ZBMIN)/DBOITEZ)+1
-C        bande NBZ uniquement.
+C        NBZ band only.
          IF(NBZ>=1.AND.NBZ<=NBOZ+1)THEN
           NPZ(NBZ)=NPZ(NBZ)+1
           IPZ(NPZ(NBZ))=N
@@ -396,11 +396,11 @@ C
           IF (ITYPE>1) THEN
 C       detection if the particle is crossing the surface
              IF (DPS_OLD*DPS(NP)<ZERO) THEN
-C       pur outlet/silent boundaries on permute le sens de comptage
+C       Pure outlet/Silent Boundaries we swap the counting direction
                IF (ITYPE/=4) DPS_OLD = -DPS_OLD
-C       la particule a traverse la surface dans le sens +
+C       the particle has crossed the surface in the + direction
                IF (DPS_OLD>ZERO) MASS_CUM = MASS_CUM-SPBUF(12,N)
-C       la particule a traverse la surface dans le sens -
+C       the particle has crossed the surface in the - direction
                IF (DPS_OLD<ZERO) MASS_CUM = MASS_CUM+SPBUF(12,N)
              ENDIF
           ENDIF   

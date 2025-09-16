@@ -26,6 +26,7 @@
 !||    initia               ../starter/source/elements/initia/initia.F
 !||====================================================================
       module eikonal_solver_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures
@@ -124,7 +125,7 @@
             If(I_shadow_flag == 0)cycle
             Mat_det = detonators%point(idet)%mat
             if(.not. is_printed_title55)then
-              write(istdo, '(a)') title55
+              write(istdo, "(a)") title55
               is_printed_title55 =.true.
             end if
 
@@ -135,13 +136,13 @@
                 elbuf_tab,ngroup,nparg,iparg,ale_connectivity,npropm,nummat,pm,&
                 detonators, idet, 6, nod2els, knod2els, npropmi, ipm)
 
-            elseif(numelq > 0)then
+            else if(numelq > 0)then
               call eikonal_fast_marching_method(&
                 ixq,nixq,numelq,x,numnod, &
                 elbuf_tab,ngroup,nparg,iparg,ale_connectivity,npropm,nummat,pm,&
                 detonators, idet, 4, nod2elq, knod2elq, npropmi, ipm)
 
-            elseif(numeltg > 0)then
+            else if(numeltg > 0)then
               call eikonal_fast_marching_method(&
                 ixtg,nixtg,numeltg,x,numnod, &
                 elbuf_tab,ngroup,nparg,iparg,ale_connectivity,npropm,nummat,pm,&

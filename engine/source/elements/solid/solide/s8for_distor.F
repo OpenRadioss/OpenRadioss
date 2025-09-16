@@ -154,7 +154,7 @@ C
      .            E_DISTOR,  DT1 )
        IF (IFCTL >0) THEN
          NCTL = NCTL + IFCTL
-C---- element center
+C---- Element center
          DO I=1,NEL
            XC(I) = ONE_OVER_8*(X1(I)+X2(I)+X3(I)+X4(I)+
      .                           X5(I)+X6(I)+X7(I)+X8(I))

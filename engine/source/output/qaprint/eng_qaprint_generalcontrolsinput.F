@@ -79,7 +79,7 @@ C-----------------------------------------------
       IF (MYQAKEY('/RUN')) THEN
         CALL QAPRINT(ROOTNAM(1:ROOTLEN),IRUNN,0.0_8)
 
-C       Le restart letter du run sert de nom de la variable dans le ref.extract , suivi de l'ID du run
+C       the restart letter of the run is used as the variable name in ref.extract, followed by the run ID
         IF(LEN_TRIM(CHRUN0)/=0)THEN
           CALL QAPRINT(CHRUN0(1:LEN_TRIM(CHRUN0)),IRUNN,0.0_8)
         ELSE

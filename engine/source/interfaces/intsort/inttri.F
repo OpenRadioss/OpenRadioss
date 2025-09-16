@@ -97,13 +97,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    intstamp_mod                 ../engine/share/modules/intstamp_mod.F
 !||    metric_mod                   ../common_source/modules/interfaces/metric_mod.F
 !||    multi_fvm_mod                ../common_source/modules/ale/multi_fvm_mod.F90
-!||    outputs_mod                  ../common_source/modules/outputs_mod.F
+!||    output_mod                   ../common_source/modules/output/output_mod.F90
 !||    sensor_mod                   ../common_source/modules/sensor_mod.F90
 !||    spmd_mod                     ../engine/source/mpi/spmd_mod.F90
 !||    timer_mod                    ../engine/source/system/timer_mod.F90
 !||    tri7box                      ../engine/share/modules/tri7box.F
 !||====================================================================
-      SUBROUTINE INTTRI(TIMERS,
+      SUBROUTINE INTTRI(OUTPUT ,TIMERS,
      1       IPARI    ,X       ,W       , ERRORS, 
      2       V        ,MS      ,IN      ,IAD_ELEM ,
      3       FR_ELEM  ,VR      ,ISENDTO ,IRECVFROM,
@@ -148,8 +148,8 @@ C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
       USE INTER_STRUCT_MOD
       USE INTER_SORTING_MOD
+      USE OUTPUT_MOD
       USE SENSOR_MOD
-      USE OUTPUTS_MOD
       USE INTERFACES_MOD
       USE GLOB_THERM_MOD
       USE INT18_LAW151_NSV_SHIFT_MOD , ONLY : INT18_LAW151_NSV_SHIFT
@@ -176,6 +176,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE (OUTPUT_) :: OUTPUT
       TYPE(TIMER_), INTENT(inout) :: TIMERS
       INTEGER, INTENT(INOUT) :: ERRORS !< number of interfaces that could not be sorted
       INTEGER, INTENT(in) :: NODNX_SMS_SIZ
@@ -326,7 +327,7 @@ C Single region
         SIZE_T(N)=ZERO  
         DELTA_PMAX_DGAP(N)=ZERO    
       END DO
-      ! idem pour interface 21
+      ! same for interface 21
       DO KK=1,NINTSTAMP
         N = INTSTAMP(KK)%NOINTER
         XSLV(1,N)= -EP30
@@ -354,7 +355,7 @@ C Single region
         VMSR(5,N)= EP30
         VMSR(6,N)= EP30
       END DO
-C-----int24 edge pourait etre optimis  e apres
+C----- int24 edge could be optimistic after
       NSNE_MAX=0    
       MAX_IGE = 0  
       DO KK=1,NBINTC
@@ -435,7 +436,7 @@ C       Cyle 1 : update secondary and main nodal masses
           ENDDO   
        ENDIF  
 C
-C Critere de retri interface
+C interface resorting criterion
 C
       IF(ITASK==0)CALL STARTIME(TIMERS,120)
       DO KK=1,NBINTC
@@ -571,7 +572,7 @@ C-----------------------------------------------
 C-----------------------------------------------
           I7KGLO = 1
 C         IPARI(4,N) = NRTM ; IPARI(5,N)=NSN
-          CALL I20MAIN_CRIT_TRI(
+          CALL I20MAIN_CRIT_TRI(OUTPUT ,
      1      IPARI ,X        ,N        ,
      2      ITASK ,V            ,XSLV(1,N)    ,XMSR(1,N),VSLV(1,N),
      3      VMSR(1,N),MS        ,DXANCG       ,IKINE    ,DIAG_SMS ,
@@ -615,7 +616,7 @@ C
      1          IPARI ,INTBUF_TAB(N),N     ,ITASK ,
      2          THKNOD)
 C
-C       remet a 0 le segment main le plus proche (IRTLM): avt barrier
+C       Gets the nearest main segment to 0 (IRTLM): Avt Barrier
           CALL I21RESET(
      1          IPARI ,INTBUF_TAB(N),N     ,ITASK )
 C
@@ -628,7 +629,7 @@ C
 C
        CALL MY_BARRIER
 C
-C Partie non parallele smt
+C SMT non -parallel part
 C
 !$OMP SINGLE
 
@@ -642,7 +643,7 @@ C
         CALL STARTIME(TIMERS,16)
        ENDIF 
 C
-C Communication critere de tri
+C communication sorting criterion
 C
       CALL INTCRIT(TIMERS,
      1    ERRORS, IPARI   ,NEWFRONT ,ISENDTO  ,NSENSOR  , 
@@ -653,7 +654,7 @@ C
 
 
 C
-C (barriere par interface)
+C (barrier per interface)
       IF(NINTSTAMP/=0)THEN
         CALL I21_ICRIT(
      1    INTBUF_TAB       ,IPARI   ,DT2T ,NELTST ,NSENSOR ,
@@ -672,13 +673,13 @@ C
         CALL SPMD_I7ITIED_CAND(2,NBINTC,IPARI,INTLIST,INTBUF_TAB)
       ENDIF
 
-C Fin Partie non parallele smt
+C End non -parallel part SMT
 !$OMP END SINGLE
 
       IF(IMPL_S/=1)THEN
 
-       IF((NSPMD>1.AND.ITASK==0).AND.(H3D_DATA%N_SCAL_CSE_FRIC > 0.OR.NINEFRIC > 0).AND.TT > ZERO) THEN
-         CALL SPMD_EXCH_SORTING_EFRIC(
+       IF((NSPMD>1.AND.ITASK==0).AND.(H3D_DATA%N_SCAL_CSE_FRIC > 0.OR.OUTPUT%DATA%NINEFRIC > 0).AND.TT > ZERO) THEN
+         CALL SPMD_EXCH_SORTING_EFRIC(output,
      1        IPARI   ,INTLIST ,NBINTC  ,ISLEN7 ,IRLEN7  ,
      2        IRLEN7T ,ISLEN7T ,IRLEN20 ,ISLEN20,IRLEN20T,
      3        ISLEN20T,INTBUF_TAB,H3D_DATA  )
@@ -801,7 +802,7 @@ c-----------------------------------------------------------------------
           ENDIF
        CALL I7MAIN_TRI(TIMERS,
      1 IPARI   ,PTR_X   ,PTR_V   ,
-     2 PTR_MS  ,N            ,ITASK        ,WAG     ,WEIGHT  ,
+     2 PTR_MS  ,N            ,ITASK        ,WEIGHT  ,
      3 ISENDTO ,IRECVFROM    ,RETRI        ,IAD_ELEM,FR_ELEM ,
      4 ITAB    ,PTR_KINET    ,TEMP         ,NRTM_T ,RENUM   ,
      5 NSNFIOLD,ESHIFT       ,IDUM         ,IDUM    ,NODNX_SMS ,
@@ -1064,7 +1065,7 @@ C-----------------------------------------------------------------------
           ENDIF
       CALL I7MAIN_TRI(TIMERS,
      1 IPARI   ,PTR_X   ,PTR_V   ,
-     2 PTR_MS  ,N            ,ITASK        ,WAG     ,WEIGHT  ,
+     2 PTR_MS  ,N            ,ITASK        ,WEIGHT  ,
      3 ISENDTO ,IRECVFROM    ,RETRI        ,IAD_ELEM,FR_ELEM ,
      4 ITAB    ,PTR_KINET    ,TEMP         ,NRTM_T        ,RENUM     ,
      5 NSNFIOLD,ESHIFT       ,NUM_IMP(N)   ,IND_IMP(IADI) ,NODNX_SMS ,
@@ -1250,7 +1251,7 @@ C-----------------------------------------------------------------------
         ENDDO     
 C=======================================================================
 C
-C       Calcul // des normales
+C       parallel calculation of normals
 C
 C       il FAUT garder une barriere avant i25main_norm !!!
         CALL MY_BARRIER
@@ -1305,7 +1306,7 @@ C
           CALL STARTIME(TIMERS,MACRO_TIMER_T25SLIDING)
         END IF 
 C
-C statistique interface
+C Interface Statistics
         IF (DEBUG(3)>=1.AND.NCYCLE==0) THEN
           NB25_CANDT(ITASK+1) = 0
           NB25_IMPCT(ITASK+1) = 0
@@ -1564,10 +1565,10 @@ C
       ENDIF   
 C
 C=======================================================================
-C Partie parallele
+C Parallel
       IF(NINTER25 /= 0)THEN
 C
-C       il FAUT garder une barriere apres i25main_opt_tri !!!
+C       You have to keep a barrier after i25main_opt_tri !!!
         CALL MY_BARRIER()
 C
         IF (IMON>0 .AND. ITASK==0) THEN
@@ -1597,7 +1598,7 @@ C
 ! If ifront is done at this cycle (retri or ninter25>0
 ! and not already terminated because of type25 edge2edge 
 C
-C Communication apres retri
+C Communication after Retri
 C
         IF (IMONM > 0) CALL STARTIME(TIMERS,18)
 

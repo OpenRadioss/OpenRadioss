@@ -193,14 +193,14 @@ C
 C-----------------------------------------------
       DO I=1,NEL
 C-------------------
-C     epst_spherique
+C     EPST_SPERIQUE
 C-------------------       
         EPST(I) = EPSXX(I)**2+EPSYY(I)**2 + EPSZZ(I)**2 +
      .            HALF*(EPSXY(I)**2+EPSYZ(I)**2+EPSZX(I)**2)
         EPST(I) = SQRT(EPST(I)) 
         EPST(I) = MIN(ONE, EPST(I))
 C-------------------
-C     estimation elastique
+C     Elastic estimate
 C-------------------
         EPS0(I) = UVAR(I,1)
         SIG0(I) = UVAR(I,2)
@@ -410,7 +410,7 @@ C
       ENDDO 
 C 
 C-------------------
-C projection spherique
+C Spherical projection
 C-------------------
       
       IF(IDAMAGE == 0 ) THEN

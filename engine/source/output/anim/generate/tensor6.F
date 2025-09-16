@@ -1870,7 +1870,7 @@ c----------- ISOLNOD=16 is not available w/ TYPE22 but keep here however
                   IT = IT0
                 END IF
               ENDIF
-                IF (IR>NPTR.OR.IS>NPTS) CYCLE
+                IF (IR>NPTR.OR.IS>NPTS.OR.IT>NLAY) CYCLE
               IPT = IR + ( (IS-1) + (IT-1)*NPTS )*NPTR
               IF ( IPT <= NPT ) THEN                 
                 IF (TSHELL == 1) THEN
@@ -2570,7 +2570,7 @@ c-----------
                     IT = IT0
                   END IF
                 ENDIF
-                  IF (IR>NPTR.OR.IS>NPTS) CYCLE
+                  IF (IR>NPTR.OR.IS>NPTS.OR.IT>NLAY) CYCLE
                  IPT = IR + ( (IS-1) + (IT-1)*NPTS )*NPTR
               IF (IPT  <= NPT ) THEN
                 IF (TSHELL == 1) THEN
@@ -3255,7 +3255,7 @@ c-----------
               ENDIF
              ENDDO
           ENDIF
-         ISORTHG = ISORTH   ! pour precaution
+         ISORTHG = ISORTH   ! for precaution
 C-----------------------------------------------
         ELSEIF (ISPH3D == 1.AND.ITY == 51) THEN
 C-----------------------------------------------
@@ -5514,7 +5514,7 @@ C- small strain case should use GBUF%SMSTR but we use current x() for all
              ZD8(I)=X(3,NC(8,I))
            ENDDO
 C-----------
-C     REPERE CONVECTE (ITERATIONS).
+C     convected frame (ITERATIONS).
 C-----------
            CALL SREPISOT3(
      1   XD1,     XD2,     XD3,     XD4,

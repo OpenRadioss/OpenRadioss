@@ -26,6 +26,7 @@
 !||    inter1_check_ale_lag_sides   ../starter/source/interfaces/int01/inter1_check_ale_lag_sides.F90
 !||====================================================================
       module inter1_seg_utils_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   FUNCTION

@@ -481,7 +481,7 @@ c--------------------------
         IF (fct_IDel > 0) WRITE(IOUT,7000) fct_IDel,Fscale_el
         IF (((fct_IDel > 0).OR.(fct_IDg12 > 0).OR.(fct_IDg13 > 0).OR.(fct_IDe1c > 0)
      .    .OR.(tab_IDfld > 0.AND.Itab == 2))) WRITE(IOUT,7100) El_ref
-        ! Element deletion properties
+        ! element deletion properties
         WRITE(IOUT,7101)
         WRITE(IOUT,6000) VOLFRAC,PTHK,FAILIP
         WRITE(IOUT,5001) NSTEP

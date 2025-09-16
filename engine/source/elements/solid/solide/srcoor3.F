@@ -225,7 +225,7 @@ C-----------
        VZ8(I)=V(3,NC8(I))
       ENDDO
 C-----------
-C     Prepare les sorties par part.
+C     prepares outputs by part.
 C-----------
       IF (IOUTPRT /= 0) THEN
        DO I=LFT,LLT
@@ -260,7 +260,7 @@ C-----------
        ENDIF
       ENDIF
 C-----------
-C     REPERE CONVECTE (ITERATIONS).
+C     convected frame (ITERATIONS).
 C-----------
       CALL SREPISO3(
      1   XD1,     XD2,     XD3,     XD4,
@@ -324,7 +324,7 @@ C-------sauf thick shells --------------
         ENDIF
       ENDIF
 C-----------
-C     PASSAGE AU REPERE CONVECTE.
+C     Change to the convected frame.
 C-----------
 C     X=RX' <=> X'=t(R)X chgt de base.
       IF((ISMSTR<=4.OR.(ISMSTR==12.AND.IDTMIN(1)==3)).AND.JLAG>0) THEN
@@ -520,7 +520,7 @@ C
 C
       ENDIF  ! ISMSTR    
 C-----------
-C     PASSAGE AU REPERE ORTHOTROPE.
+C     PASSAGE AU ORTHOTROPIC FRAME.
 C-----------
       IF (ISORTH/=0 .AND. JHBE/=24 .AND. JHBE/=222 .AND. JHBE/=14
      .              .AND. JHBE/=15) THEN
@@ -665,7 +665,7 @@ c copy and cast XD (DP) to C(SP) to assure coherence between XD et X
         Z8(I)= ZD8(I) 
       ENDDO          
 C-----------
-C     PASSAGE DES VITESSES AU REPERE CONVECTE (OU ORTHOTROPE).
+C     transfer of velocities to the convected (or orthotropic) frame.
 C-----------
       CALL SRROTA3(
      1   R11,     R12,     R13,     R21,

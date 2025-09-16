@@ -34,7 +34,7 @@ C
 !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
 !||====================================================================
       SUBROUTINE SPMD_EXCH_N(XNORM,IAD_ELEM,FR_ELEM,LENR)
-C realise la sommation des normales aux points frontiere
+C performs the summation of normals at boundary points
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -77,7 +77,7 @@ C-----------------------------------------------
       L = 1
       IAD_RECV(1)=1
 
-C   Mise en place des buffers de reception
+C   Setting up reception buffers
       DO I=1,NSPMD
          SIZ = 3*(IAD_ELEM(1,I+1)-IAD_ELEM(1,I))
          IF(SIZ/=0) THEN
@@ -90,7 +90,7 @@ C   Mise en place des buffers de reception
          IAD_RECV(I+1) = L
       END DO
 
-C   Remplissage des buffers d'envoi et envoi des donnees
+C   Filling of send buffers and sending of data
       L=1
       IAD_SEND(1)=1
       DO I=1,NSPMD
@@ -117,7 +117,7 @@ C   Remplissage des buffers d'envoi et envoi des donnees
        ENDIF                
       END DO
 
-C   Reception et traitement
+C   Reception and processing
       DO I = 1, NSPMD
 C
         NB_NOD = IAD_ELEM(1,I+1)-IAD_ELEM(1,I)

@@ -21,19 +21,20 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    globmat        ../starter/source/materials/globmat.F
+!||    globmat            ../starter/source/materials/globmat.F
 !||--- called by ------------------------------------------------------
-!||    lectur         ../starter/source/starter/lectur.F
+!||    lectur             ../starter/source/starter/lectur.F
 !||--- uses       -----------------------------------------------------
-!||    submodel_mod   ../starter/share/modules1/submodel_mod.F
+!||    submodel_mod       ../starter/share/modules1/submodel_mod.F
 !||====================================================================
-      SUBROUTINE GLOBMAT( IGEO       ,GEO      ,PM, PM_STACK,GEO_STACK,
-     .                    IGEO_STACK)
+      SUBROUTINE GLOBMAT( IGEO ,GEO ,PM, PM_STACK,GEO_STACK,
+     .                    IGEO_STACK,MAT_PARAM)
 C
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE SUBMODEL_MOD
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -51,6 +52,7 @@ C-----------------------------------------------
       my_real
      .       GEO(NPROPG,*),PM(NPROPM,*),GEO_STACK(6*NPT_STACK+1,*),
      .       PM_STACK(20,*)
+      TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -67,7 +69,7 @@ C=======================================================================
 C    For Shell
 C----------------------------------------------- 
 C
-C stockage de Geo
+C storage of Geo
 C 
        ICRYPT = 0
        DO I=1,NUMGEO
@@ -109,10 +111,10 @@ C
              GTHK  =  PM(22,MATLY)*THKLY
              A1THK = PM(24,MATLY)*THKLY
              A12THK = PM(25,MATLY)*THKLY
-             C1THK = PM(32,MATLY)*THKLY
-             RHOG = RHOG + PM(1,MATLY)*THKLY 
-             RHOG0 = RHOG0 + PM(89,MATLY)*THKLY 
-             RHOCPG = RHOCPG + PM(69,MATLY)*THKLY 
+             C1THK  = PM(32,MATLY)*THKLY
+             RHOG   = RHOG   + MAT_PARAM(MATLY)%RHO  * THKLY 
+             RHOG0  = RHOG0  + MAT_PARAM(MATLY)%RHO0 * THKLY 
+             RHOCPG = RHOCPG + MAT_PARAM(MATLY)%THERM%RHOCP* THKLY 
              A11   =  A11 + A1THK
              B1T2 = B1T2 + A1THK*POSLY
              A11R   = A11R + A1THK*(THKLY*THKLY*ONE_OVER_12 + POSLY*POSLY)
@@ -196,9 +198,9 @@ C
                A1THK  = PM(24,MATLY)*THKLY
                A12THK = PM(25,MATLY)*THKLY
                C1THK  = PM(32,MATLY)*THKLY
-               RHOG = RHOG + PM(1,MATLY)*THKLY 
-               RHOG0 = RHOG0 + PM(89,MATLY)*THKLY 
-               RHOCPG = RHOCPG + PM(69,MATLY)*THKLY 
+               RHOG   = RHOG   + MAT_PARAM(MATLY)%RHO  * THKLY 
+               RHOG0  = RHOG0  + MAT_PARAM(MATLY)%RHO0 * THKLY 
+               RHOCPG = RHOCPG + MAT_PARAM(MATLY)%THERM%RHOCP* THKLY 
                A11   =  A11 + A1THK
                B1T2 = B1T2 + A1THK*POSLY
                A11R   = A11R + A1THK*(THKLY*THKLY*ONE_OVER_12 + POSLY*POSLY)

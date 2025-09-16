@@ -191,7 +191,7 @@ c
       WRITE(IOUT,1000)
       PRT_OPT=0
 c
-      DO I=1,SMGRBY ! 1ERE PASSE POUR LES MERGE RBODY/RBODY
+      DO I=1,SMGRBY ! FIRST PASS FOR RBODY/RBODY MERGE
         IMAIN = MGRBY(1,I)
         M_TYPE = MGRBY(2,I)
         ISECONDARY = MGRBY(3,I)
@@ -207,7 +207,7 @@ c
             PRT_OPT = MGRBY(6,I)
           ENDIF
 C------------------------------------
-c  TESTS D'EXISTENCE SUR LES MAIN ET SECONDARYS
+c  EXISTENCE TESTS ON MAIN AND SECONDARIES
 C------------------------------------
           IRBM=0
           DO K=1,NRBYKIN
@@ -241,7 +241,7 @@ C------------------------------------
      .                  I2=ISECONDARY)                              
           ENDIF 
 C------------------------------------
-c  TRI DES RELATIONS LUES
+c  SORTING OF READ RELATIONS
 C------------------------------------
           IF((IRBM /= 0).AND.(IRBS /= 0)) THEN 
 
@@ -253,7 +253,7 @@ C------------------------------------
             IF(NB_MAIN(IRBS) >= 1) THEN 
               DO L=1,NBMERGE
                 IF(TABRB(L,2) == IRBS) THEN
-                  IF(TABRB(L,1) /= IRBM) THEN ! le SECONDARY est deja SECONDARY d'un autre
+                  IF(TABRB(L,1) /= IRBM) THEN ! IF(TABRB(L,1) /= IRBM) THEN ! the SECONDARY is already SECONDARY of another
                     CALL ANCMSG(MSGID=1028,
      .                          MSGTYPE=MSGERROR,
      .                          ANMODE=ANINFO_BLIND_1,
@@ -262,7 +262,7 @@ C------------------------------------
      .                          I2=ISECONDARY)
                     FLAG_DOUBLEMAIN = 1  
                     FLAG_ERROR = 1
-                  ELSE ! la relation de merge est en double
+                  ELSE ! ELSE ! the merge relation is a duplicate
                     CALL ANCMSG(MSGID=1027,
      .                          MSGTYPE=MSGWARNING,
      .                          ANMODE=ANINFO_BLIND_1,
@@ -291,7 +291,7 @@ c
               RBMERGE(IRBM)%ID = IMAIN
               RBMERGE(IRBM)%NBSECONDARY = RBMERGE(IRBM)%NBSECONDARY+1
               RBMERGE(IRBM)%IDSECONDARY(RBMERGE(IRBM)%NBSECONDARY) = IRBS                      
-            ELSEIF(FLAG_DOUBLON == 1) THEN ! Le flag est celui qu'on lit en dernier 
+            ELSEIF(FLAG_DOUBLON == 1) THEN ! ELSEIF(FLAG_DOUBLON == 1) THEN ! The flag is the one read last
               RBMERGE(IRBS)%FLAG_MAIN = FLAGG_OPT
             ENDIF
           ENDIF ! IRBM /= 0 IRBS /= 0
@@ -314,7 +314,7 @@ c
             PRT_OPT = MGRBY(6,I)
           ENDIF
 C------------------------------------
-c  TESTS D'EXISTENCE SUR LES MAIN ET SECONDARYS
+c  EXISTENCE TESTS ON MAIN AND SECONDARIES
 C------------------------------------
           IRBM=0
           DO K=1,NRBYKIN
@@ -366,7 +366,7 @@ C------------------------------------
               RBMERGE(IRBM)%NNODE = RBMERGE(IRBM)%NNODE+1
               RBMERGE(IRBM)%NODE(RBMERGE(IRBM)%NNODE) = IDNODE
               RBMERGE(IRBM)%FLAG_NODE(RBMERGE(IRBM)%NNODE) = FLAGG_OPT
-            ELSE ! Le flag est celui qu'on lit en dernier 
+            ELSE ! ELSE ! The flag is the one read last
               DO II=1,RBMERGE(IRBM)%NNODE
                 IF(RBMERGE(IRBM)%NODE(II) == IDNODE) THEN
                   RBMERGE(IRBM)%FLAG_NODE(II) = FLAGG_OPT
@@ -405,7 +405,7 @@ C------------------------------------
                 RBMERGE(IRBM)%NNODE = RBMERGE(IRBM)%NNODE+1
                 RBMERGE(IRBM)%NODE(RBMERGE(IRBM)%NNODE) = WORK(J)
                 RBMERGE(IRBM)%FLAG_NODE(RBMERGE(IRBM)%NNODE) = FLAGG_OPT
-              ELSE ! Le flag est celui qu'on lit en dernier 
+              ELSE ! ELSE ! The flag is the one read last
                 DO II=1,RBMERGE(IRBM)%NNODE
                   IF(RBMERGE(IRBM)%NODE(II) == WORK(J)) THEN
                     RBMERGE(IRBM)%FLAG_NODE(II) = FLAGG_OPT
@@ -419,7 +419,7 @@ C------------------------------------
 C-----             
       ENDDO
 C------------------------------------
-C TRI DES XTRA_NODES PAR FLAGS CROISSANTS
+C SORTING OF XTRA_NODES BY INCREASING FLAGS
 C------------------------------------
       DO I=1,NRBYKIN
         IF(RBMERGE(I)%NNODE > 0) THEN
@@ -445,7 +445,7 @@ C  TOUTES LES RELATIONS ONT ETE TRIEES (RBODY, NODE, GRNOD)
 C------------------------------------
       WRITE(IOUT,2000)
 C------------------------------------
-C  TAG ET RECHERCHE DES LOOPS
+C  TAGGING AND SEARCH FOR LOOPS
 C------------------------------------
       DO I=1,NRBYKIN
         IF(NB_MAIN(I) == 0) THEN
@@ -484,7 +484,7 @@ C
      .              PRMOD=MSG_PRINT)
       ENDIF
 C------------------------------------
-C SI PAS DE LOOP, CONSTRUCTION DES HIERARCHIES
+C IF NO LOOP, CONSTRUCTING HIERARCHIES
 C------------------------------------
       IF(FLAG_ERROR == 0) THEN 
         DO I=1,NRBYKIN  ! RB level calculation      
@@ -494,7 +494,7 @@ C------------------------------------
           ENDIF
         ENDDO
 C------------------------------------
-C ORDONNANCEMENT DES NPBY, LPBY ET RBY, OUTPUTS DES HIERARCHIES
+C SCHEDULING OF NPBY, LPBY AND RBY, OUTPUTS OF HIERARCHIES
 C------------------------------------
         CALL TRIRBMERGE(RBMERGE,NPBY  ,LPBY   ,SLRBODY,
      .                  RBY    ,NOM_OPT, ITAB,IBGR,IGRV)
@@ -812,9 +812,9 @@ C-----------------------------------------------
       ENDDO
 c
 C------------------------------------
-c     Ajout des XTRA_NODES en triant les doublons 
-C     entre les RB qui seront fusionnes et ceux 
-C     qui ne le seront pas
+c     Addition of XTRA_NODES by sorting duplicates
+C     between the RBs that will be merged and those
+C     that will not be
 C------------------------------------
       INODE = 0
       LPBY_TMP(1:SLRBODY)=0
@@ -898,8 +898,8 @@ C------------------------------------
         CALL SPMDSET(N,NPBY,NNPBY,LPBY,NSL_XTRA,K)
       ENDDO
 C------------------------------------
-C     tag des xtra noeuds SECONDARYs rby avec gravite
-C     pour calcul du travail des forces externes
+C     tag of extra secondary nodes rby with gravity
+C     for calculating the work of external forces
 C-------------------------------------
       DO I=1,NUMNOD
         ITAG(I)=0
@@ -925,8 +925,8 @@ C-------------------------------------
         ENDDO
       ENDDO
 C------------------------------------
-C     Sorties dans 0.out des bilans des fusions
-C     pour les top level MAIN
+C     Outputs in 0.out of the merger balances
+C     for the top level MAIN
 C-------------------------------------
       DO N=1,NRBYKIN
         NBSECONDARY=0

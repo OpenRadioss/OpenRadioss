@@ -107,10 +107,10 @@ C----------------------------
         Y8=X(2,NC8)                                                     
         Z8=X(3,NC8)                                                     
 C-----------                                                            
-C     REPERE CONVECTE.                                                  
+C     convected frame.                                                  
 C-----------  
        IF(KHBE/=15)THEN
-C        REPERE CONVECTE
+C        convected frame
          IF (KHBE==24.OR.KHBE==14) THEN
            CALL SORTHO31(
      .          X1, X2, X3, X4, X5, X6, X7, X8,               
@@ -132,7 +132,7 @@ C        REPERE CONVECTE
      .               R11, R12, R13, R21, R22, R23, R31, R32, R33)
        ENDIF  
 C-----------                                                            
-C     REPERE ORTHOTROPE.                                                
+C     ORTHOTROPIC FRAME.                                                
 C-----------                                         
       IF (KCVT==2) THEN 
         IF (ISORTH > 0) THEN                                              

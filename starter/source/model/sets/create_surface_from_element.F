@@ -93,7 +93,7 @@ C=======================================================================
 !
       IAD_SURF = 1
 !------------------
-      IEXT = EXT_SURF  ! par default (external surface)
+      IEXT = EXT_SURF  ! by default (external surface)
       IF ( OPT_A == 1 )  IEXT = ALL_SURF ! all surfaces (internal + external)
       CLAUSE%EXT_ALL = IEXT
 !------------------

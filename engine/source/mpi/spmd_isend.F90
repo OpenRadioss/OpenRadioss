@@ -64,7 +64,7 @@
             call MPI_Isend(buf, buf_count, MPI_REAL, dest, tag, comm, request, ierr)
           else
             call MPI_Isend(buf, buf_count, MPI_REAL, dest, tag, SPMD_COMM_WORLD, request, ierr)
-          endif
+          end if
           call spmd_out(tag,ierr)
 #endif
         end subroutine spmd_isend_reals
@@ -94,7 +94,7 @@
             call MPI_Isend(buf, buf_count, MPI_INTEGER, dest, tag, comm, request, ierr)
           else
             call MPI_Isend(buf, buf_count, MPI_INTEGER, dest, tag, SPMD_COMM_WORLD, request, ierr)
-          endif
+          end if
           call spmd_out(tag,ierr)
 #endif
         end subroutine spmd_isend_ints
@@ -124,10 +124,10 @@
             call MPI_Isend(buf, buf_count, MPI_DOUBLE_PRECISION, dest, tag, comm, request, ierr)
           else
             call MPI_Isend(buf, buf_count, MPI_DOUBLE_PRECISION, dest, tag, SPMD_COMM_WORLD, request, ierr)
-          endif
+          end if
           call spmd_out(tag,ierr)
 #endif
-        end subroutine
+        end subroutine spmd_isend_doubles
 
 !||====================================================================
 !||    spmd_isend_double     ../engine/source/mpi/spmd_isend.F90
@@ -154,10 +154,10 @@
             call MPI_Isend(buf, buf_count, MPI_DOUBLE_PRECISION, dest, tag, comm, request, ierr)
           else
             call MPI_Isend(buf, buf_count, MPI_DOUBLE_PRECISION, dest, tag, SPMD_COMM_WORLD, request, ierr)
-          endif
+          end if
           call spmd_out(tag,ierr)
 #endif
-        end subroutine
+        end subroutine spmd_isend_double
 
 !||====================================================================
 !||    spmd_isend_int        ../engine/source/mpi/spmd_isend.F90
@@ -184,10 +184,10 @@
             call MPI_Isend(buf, buf_count, MPI_INTEGER, dest, tag, comm, request, ierr)
           else
             call MPI_Isend(buf, buf_count, MPI_INTEGER, dest, tag, SPMD_COMM_WORLD, request, ierr)
-          endif
+          end if
           call spmd_out(tag,ierr)
 #endif
-        end subroutine
+        end subroutine spmd_isend_int
 
 !||====================================================================
 !||    spmd_isend_real       ../engine/source/mpi/spmd_isend.F90
@@ -214,14 +214,14 @@
             call MPI_Isend(buf, buf_count, MPI_REAL, dest, tag, comm, request, ierr)
           else
             call MPI_Isend(buf, buf_count, MPI_REAL, dest, tag, SPMD_COMM_WORLD, request, ierr)
-          endif
+          end if
           call spmd_out(tag,ierr)
 #endif
-        end subroutine
+        end subroutine spmd_isend_real
 
 
 
 
 
-      end module
+      end module spmd_isend_mod
 

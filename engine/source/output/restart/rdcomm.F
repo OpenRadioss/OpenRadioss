@@ -30,7 +30,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ale_mod          ../common_source/modules/ale/ale_mod.F
 !||    alefvm_mod       ../common_source/modules/ale/alefvm_mod.F
 !||    alemuscl_mod     ../common_source/modules/ale/alemuscl_mod.F
-!||    anim_mod         ../common_source/modules/output/anim_mod.F
 !||    damp_mod         ../engine/share/modules/damp_mod.F
 !||    drape_mod        ../engine/share/modules/drape_mod.F
 !||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
@@ -41,7 +40,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    multi_fvm_mod    ../common_source/modules/ale/multi_fvm_mod.F90
 !||    outmax_mod       ../common_source/modules/outmax_mod.F
 !||    output_mod       ../common_source/modules/output/output_mod.F90
-!||    outputs_mod      ../common_source/modules/outputs_mod.F
 !||    parameters_mod   ../common_source/modules/interfaces/parameters_mod.F
 !||    pblast_mod       ../common_source/modules/loads/pblast_mod.F90
 !||    pinchtype_mod    ../common_source/modules/pinchtype_mod.F
@@ -52,7 +50,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    state_mod        ../common_source/modules/state_mod.F
 !||    th_mod           ../engine/share/modules/th_mod.F
 !||====================================================================
-      SUBROUTINE RDCOMI(TABVINT,MULTI_FVM,H3D_DATA,DYNAIN_DATA,
+      SUBROUTINE RDCOMI(OUTPUT,TABVINT,MULTI_FVM,H3D_DATA,DYNAIN_DATA,
      .                  INTER_PARAMETERS,SENSORS,LOADS ,MAT_ELEM,SKEWS,
      .                  GLOB_THERM,PBLAST,RBE3 )
 C-----------------------------------------------
@@ -62,8 +60,6 @@ C-----------------------------------------------
       USE H3D_MOD 
       USE PINCHTYPE_MOD
       USE OUTMAX_MOD
-      USE ANIM_MOD
-      USE OUTPUTS_MOD
       USE PLOAD_CYL_MOD
       USE DRAPE_MOD
       USE STATE_MOD
@@ -81,12 +77,13 @@ C-----------------------------------------------
       USE PBLAST_MOD
       USE RBE3_MOD
       USE TH_MOD , ONLY : TH_HAS_NODA_PEXT
-      USE OUTPUT_MOD , ONLY : ANIM_HAS_NODA_PEXT, H3D_HAS_NODA_PEXT
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
       INTEGER TABVINT(*)
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT
       TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
       TYPE(H3D_DATABASE) :: H3D_DATA
       TYPE (DYNAIN_DATABASE),INTENT(INOUT) :: DYNAIN_DATA
@@ -151,7 +148,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
           INTEGER LWASPH44C, I, NEXT,IDUM1,ISUSED,SENS_NSTOP,SENS_NSTAT,SENS_NOUTP,SENS_NANIM
 C-----------------------------------------------
-C     LECTURE DES VARIABLES ENTIERES.
+C     reading of integer variables.
 C-----------------------------------------------
       N2D     =TABVINT(1)
       NCPRI   =TABVINT(2)
@@ -178,7 +175,7 @@ C-----------------------------------------------
       ISIGI   =TABVINT(22)
       NSPMD   =TABVINT(23)
       LENWA   =TABVINT(24)
-      ISGIFL  =TABVINT(25)
+      ! TABVINT(25)  unused
       TH_HAS_NODA_PEXT = TABVINT(26)
       NNODS   =TABVINT(27)
       NCNOIS  =TABVINT(28)
@@ -467,8 +464,8 @@ C-----1
       NANIM1D=TABVINT(292)
       NR2RLNK=TABVINT(293)
 C-----
-      ANIM_HAS_NODA_PEXT = MAX(TABVINT(294)/10     , ANIM_HAS_NODA_PEXT)   !last digit, unless /ANIM/NODA/PEXT is present
-      H3D_HAS_NODA_PEXT =  MAX(MOD(TABVINT(294),10),  H3D_HAS_NODA_PEXT)   !2nd digit, unless /H3D/NODA/PEXT is present
+      OUTPUT%DATA%ANIM_HAS_NODA_PEXT = MAX(TABVINT(294)/10     , OUTPUT%DATA%ANIM_HAS_NODA_PEXT)   !last digit, unless /ANIM/NODA/PEXT is present
+      OUTPUT%DATA%H3D_HAS_NODA_PEXT =  MAX(MOD(TABVINT(294),10),  OUTPUT%DATA%H3D_HAS_NODA_PEXT)   !2nd digit, unless /H3D/NODA/PEXT is present
       IANIM =TABVINT(295)
       IOUTP =TABVINT(296)
       NHIN2 =TABVINT(297)
@@ -538,7 +535,7 @@ C     from version 4.4c :
 C-----
       NUMELS16  =TABVINT(436)
       NUMELS8   =TABVINT(437)
-C test pour compatibilite avec anciens restarts
+C test for compatibility with old restarts
       IF(NUMELS8==0)NUMELS8 =
      .             NUMELS - (NUMELS10+NUMELS20+NUMELS16)
       NRIVF = TABVINT(438)
@@ -903,7 +900,7 @@ C--------------------------------------
       NBI18=TABVINT(NEXT)
       NEXT = NEXT+1
       NSKYI18=TABVINT(NEXT)
-C partie commun spmd cfd
+C common part SPMD CFD
       NEXT = NEXT+1
       NSVOIS=TABVINT(NEXT)
       NEXT = NEXT+1
@@ -1652,17 +1649,17 @@ C Friction interface
       NEXT       = NEXT + 1
       IFCONTP2MIN= TABVINT(NEXT) 
       NEXT       = NEXT + 1
-      S_EFRIC    = TABVINT(NEXT) 
+      OUTPUT%DATA%S_EFRIC    = TABVINT(NEXT) 
       NEXT       = NEXT + 1
-      S_EFRICINT = TABVINT(NEXT) 
+      OUTPUT%DATA%S_EFRICINT = TABVINT(NEXT) 
       NEXT       = NEXT + 1
-      S_EFRICG   = TABVINT(NEXT) 
+      OUTPUT%DATA%S_EFRICG   = TABVINT(NEXT) 
       NEXT       = NEXT + 1
-      S_EFRICINTG = TABVINT(NEXT) 
+      OUTPUT%DATA%S_EFRICINTG = TABVINT(NEXT) 
       NEXT       = NEXT + 1
-      NINEFRIC   = TABVINT(NEXT)
+      OUTPUT%DATA%NINEFRIC   = TABVINT(NEXT)
       NEXT       = NEXT + 1
-      NINEFRIC_STAMP = TABVINT(NEXT)  
+      OUTPUT%DATA%NINEFRIC_STAMP = TABVINT(NEXT)  
 C  NITSCHE METHOD
       NEXT=NEXT+1
       NITSCHE = TABVINT(NEXT)
@@ -1842,12 +1839,11 @@ C--------------------------------------
 !||    rdresb               ../engine/source/output/restart/rdresb.F
 !||--- uses       -----------------------------------------------------
 !||    ale_mod              ../common_source/modules/ale/ale_mod.F
-!||    anim_mod             ../common_source/modules/output/anim_mod.F
 !||    glob_therm_mod       ../common_source/modules/mat_elem/glob_therm_mod.F90
 !||    multimat_param_mod   ../common_source/modules/multimat_param_mod.F90
 !||    output_mod           ../common_source/modules/output/output_mod.F90
-!||    outputs_mod          ../common_source/modules/outputs_mod.F
 !||    parameters_mod       ../common_source/modules/interfaces/parameters_mod.F
+!||    sph_mod              ../engine/share/modules/sph_mod.F
 !||    state_mod            ../common_source/modules/state_mod.F
 !||====================================================================
       SUBROUTINE RDCOMR(LMXVREA,TABVREA,DYNAIN_DATA,INTER_PARAMETERS,
@@ -1855,14 +1851,14 @@ C--------------------------------------
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-       USE ANIM_MOD      
-       USE OUTPUTS_MOD        
+       USE OUTPUT_MOD      
        USE STATE_MOD  
        USE ALE_MOD
        USE PARAMETERS_MOD
        USE OUTPUT_MOD
        USE MULTIMAT_PARAM_MOD , ONLY : M51_IFLG6
        USE glob_therm_mod
+       USE SPH_MOD, ONLY : XI_RES,YI_RES,ZI_RES
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1919,12 +1915,12 @@ C-----
       DTFAC  =TABVREA(11)
       DTMIN  =TABVREA(12)
       VOLMIN =TABVREA(13)
-      OUTPUT%WFEXT  =TABVREA(14)
+      OUTPUT%TH%WFEXT  =TABVREA(14)
       REINT  =TABVREA(15)
       !TABVREA(16) no longer used
       !TABVREA(17) no longer used
-      DTANIM =TABVREA(18)
-      TANIM  =TABVREA(19)
+      OUTPUT%DTANIM =TABVREA(18)
+      OUTPUT%TANIM  =TABVREA(19)
       UREINT =TABVREA(20)
       ECONTV =TABVREA(21)
       EHOUR  =TABVREA(22)
@@ -2188,7 +2184,7 @@ C  INITIAL MASS IN STARTER
       PERCENT_ADDMASS_OLD = TABVREA(RVARINT)
 C  ANIM FILES FINAL TIME
       RVARINT = RVARINT + 1
-      TANIM_STOP = TABVREA(RVARINT)     
+      OUTPUT%TANIM_STOP = TABVREA(RVARINT)     
 C  INITIAL COORDS OF SPH RESERVE 
       RVARINT = RVARINT + 1
       XI_RES = TABVREA(RVARINT)

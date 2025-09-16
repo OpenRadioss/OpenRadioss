@@ -294,7 +294,7 @@ C     classify shell16 after brick20
 C       IGT =MY_SHIFTL(IGT,0)
         JSMS=MY_SHIFTL(JSMS,26)
         ISO =MY_SHIFTL(ISO,27)
-C       attention ISO doit rester en poids le plus fort
+C       CAUTION ISO must remain in the strongest weight
         ITRI(1,I)=ISO+JSMS+IGT
 C    2---------------------------------
 C       IPARTSPH=MY_SHIFTL(IPARTSPH,0)

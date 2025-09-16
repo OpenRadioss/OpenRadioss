@@ -117,7 +117,7 @@ C-----------------------------------------------
               ENDIF ! IF (ITY == 1 .or. ITY == 3 .or. ITY == 7)
             ENDDO ! DO NG=1,NGROUP
 C---
-          ENDIF ! IF ( part de coque & STAT_C(8) = 1) THEN
+          ENDIF ! If (shell share & stat_c (8) = 1) then
         END DO ! DO I=1,NSTATPRT
       ELSEIF (NSTATALL /= 0) THEN
         DO J=1,NPART

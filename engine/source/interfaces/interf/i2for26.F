@@ -228,7 +228,7 @@ C
           ENDIF
 C
           IF (IRODDL == 0 .OR. (MINER(I) <= EM20)) THEN
-C--------- Connection solide : calcul vitesse entrainement facette main Vi = Vi -VR ^ MS
+C-------- Solid connection: calculation Speed training main facet vi = vi -vr ^ ms
             VA(1) = VX1*E1X + VY1*E1Y + VZ1*E1Z
             VA(2) = VX1*E2X + VY1*E2Y + VZ1*E2Z
             VA(3) = VX1*E3X + VY1*E3Y + VZ1*E3Z
@@ -440,7 +440,7 @@ c--------------------------------------------
            ENDIF
 C
 C------------------------------------------------                  
-C         composantes N/T de la forces nodale -> output
+C         n/t components of the nodal force -> output
 C------------------------------------------------                  
            FNORM = E3X*FLOCX(IR) + E3Y*FLOCY(IR) + E3Z*FLOCZ(IR)
            FN(1) = E3X*FNORM

@@ -32,6 +32,7 @@
 !||    read_material_models       ../starter/source/materials/read_material_models.F
 !||====================================================================
       module hm_read_therm_stress_mod
+      implicit none
       contains
 
 !||====================================================================
@@ -52,7 +53,7 @@
 !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
 !||====================================================================
         subroutine hm_read_therm_stress(nummat   ,mat_param ,mlaw_tag ,unitab   ,lsubmodel ,   &
-          iout     ,npropm   ,npropmi   ,ipm      ,pm       )
+          iout     ,npropm   ,npropmi   ,ipm     ,pm        ,nfunct   ,snpc     ,npc       )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                        Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -73,12 +74,15 @@
 !                                                    Included files
 ! ----------------------------------------------------------------------------------------------------------------------
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   arguments 
+!                                                   arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           integer ,intent(in) :: nummat
           integer ,intent(in) :: npropm
           integer ,intent(in) :: npropmi
+          integer ,intent(in) :: nfunct
+          integer ,intent(in) :: snpc
           integer ,intent(in) :: iout
+          integer ,dimension(snpc)  ,intent(in) :: npc     !< function table
           integer ,dimension(npropmi,nummat)  ,intent(inout) :: ipm
           real(kind=WP) ,dimension(npropm ,nummat)  ,intent(inout) :: pm
           type (unit_type_)                   ,intent(in)    :: unitab
@@ -86,9 +90,9 @@
           type(submodel_data)    ,dimension(*)      ,intent(in)    :: lsubmodel
           type(matparam_struct_) ,dimension(nummat) ,intent(inout) :: mat_param
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   local variables 
+!                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: ith,mat_id,imat,ilaw,jthe,ntherm_st,ifunc_alpha
+          integer :: i,j,ith,mat_id,imat,ilaw,jthe,ntherm_st,func_id,ifunc_alpha
           real(kind=WP) ::  fscal_alpha
           character(len=nchartitle) :: titr
           character :: key*80
@@ -99,13 +103,13 @@
 !     count eos models using cfg files
 ! ----------------------------------------------------------------------------------------------------------------------
 !
-          call hm_option_count('/THERM_STRESS',ntherm_st)
+          call hm_option_count("/THERM_STRESS",ntherm_st)
 !
 ! ----------------------------------------------------------------------------------------------------------------------
 !     start browsing /therm_stress models
 ! ----------------------------------------------------------------------------------------------------------------------
 !
-          call hm_option_start('/THERM_STRESS')
+          call hm_option_start("/THERM_STRESS")
 !
 ! ----------------------------------------------------------------------------------------------------------------------
           do ith = 1,ntherm_st
@@ -113,8 +117,23 @@
             call hm_option_read_key(lsubmodel, option_id = mat_id , option_titr = titr , keyword2 = key )
 
             if (key(1:3) == 'MAT') then
-              call hm_get_intv  ('FUNCT_ID'      ,ifunc_alpha    ,is_available, lsubmodel)
-              call hm_get_floatv('CLOAD_SCALE_Y' ,fscal_alpha    ,is_available, lsubmodel, unitab)
+              call hm_get_intv  ('FUNCT_ID'      ,func_id     ,is_available, lsubmodel)
+              call hm_get_floatv('CLOAD_SCALE_Y' ,fscal_alpha ,is_available, lsubmodel, unitab)
+              
+              ifunc_alpha = func_id
+              if (func_id > 0) then
+                do i=1,nfunct 
+                  j = nfunct+1+i                 ! indx of function IDs
+                  if (func_id == npc(j))  then
+                    ifunc_alpha = i
+                    exit
+                  end if
+                end do
+                if (ifunc_alpha == 0) then
+                  call ancmsg(MSGID=126, MSGTYPE=MSGERROR, ANMODE=ANINFO_BLIND_1,      &
+                              i1=mat_id, c1=titr, i2=func_id)
+                end if
+              end if
 
               if (fscal_alpha == zero) fscal_alpha=one
               do imat=1,nummat-1
@@ -124,7 +143,7 @@
                   jthe = mat_param(imat)%itherm
                   if (jthe == 0) then
                     call ancmsg(msgid=1129, msgtype=msgerror, anmode=aninfo, i1=mat_id, c1=titr)
-                  endif
+                  end if
                   mat_param(imat)%iexpan = 1
                   mat_param(imat)%therm%func_thexp  = ifunc_alpha
                   mat_param(imat)%therm%scale_thexp = fscal_alpha
@@ -138,25 +157,25 @@
                   pm(191 ,imat)  = fscal_alpha
 
                   !-------------------------------------------------
-                  write(iout,4000) mat_id,ifunc_alpha,fscal_alpha
+                  write(iout,4000) mat_id,func_id,fscal_alpha
                   if (pm(72, imat) > one) then
                     ! euler or ale material
                     call ancmsg(msgid=1723,msgtype=msgerror,anmode=aninfo,      &
                       i1=imat,c1=titr)
-                  endif
+                  end if
 
-                endif
-              enddo    ! nummat
-            endif
-          enddo        ! ith = 1,ntherm_st
+                end if
+              end do    ! nummat
+            end if
+          end do        ! ith = 1,ntherm_st
 ! ----------------------------------------------------------------------------------------------------------------------
 4000      format(                                                         &
-            5x,'    THERMAL MATERIAL EXPANSION  ',/,                        &
-            5x,'    --------------------------  ',/,                        &
-            5x,'MATERIAL NUMBER . . . . . . . . . . . . .=',i10/,           &
-            5x,'CURVE ID DEFINING THERMAL EXPANSION COEFFICIENT '/,         &
-            5x,'   AS A FUNCTION OF TEMPERATURE         .=',i10/,           &
-            5x,'THERMAL EXPANSION FUNCTION SCALE FACTOR .=',1pg20.13//)
+            5x,"    THERMAL MATERIAL EXPANSION  ",/,                        &
+            5x,"    --------------------------  ",/,                        &
+            5x,"MATERIAL NUMBER . . . . . . . . . . . . .=",i10/,           &
+            5x,"CURVE ID DEFINING THERMAL EXPANSION COEFFICIENT "/,         &
+            5x,"   AS A FUNCTION OF TEMPERATURE         .=",i10/,           &
+            5x,"THERMAL EXPANSION FUNCTION SCALE FACTOR .=",1pg20.13//)
 ! ----------------------------------------------------------------------------------------------------------------------
           return
         end subroutine hm_read_therm_stress

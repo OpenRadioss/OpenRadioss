@@ -134,8 +134,8 @@ C
      .              ANMODE=ANINFO,
      .              C1='LAW20/2D MULTIMATERIAL')
       ENDIF
-C----- Definition des variables internes (stockage elementaire)
-      MTAG%L_FRAC = 1   ! pourcentage de phase
+C---- Definition of internal variables (Elementary storage)
+      MTAG%L_FRAC = 1   ! percentage of phase
 C-----------
       ! MATPARAM keywords
       CALL INIT_MAT_KEYWORD(MATPARAM,"INCOMPRESSIBLE")

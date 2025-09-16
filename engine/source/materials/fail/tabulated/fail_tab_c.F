@@ -295,7 +295,7 @@ c
 #include "vectorize.inc"
           DO J=1,NINDX                           
             I = INDX(J)  
-c----       element length scale function
+c---- Length Scale Function element
             LAMBDAV(J) = UVAR(I,5) / EL_REF
             IPOSV(J) = NINT(UVAR(I,8))
             IADP (J) = NPF(IFUN_EL) / 2 + 1
@@ -316,7 +316,7 @@ c
 #include "vectorize.inc"
           DO J=1,NINSTAB                           
             I = INDSTAB(J)  
-c----       element length scale function
+c---- Length Scale Function element
             LAMBDAV(J) = UVAR(I,5) / EL_REF
             IPOSV(J) = NINT(UVAR(I,8))
             IADP (J) = NPF(IFUN_EL) / 2 + 1
@@ -347,7 +347,7 @@ c
           CALL TABLE_INTERP (TABLE(ITAB_INST),XX2,YY_N)            
           EPSF_N(I) = YY_N * Y2SCALE
         ENDDO
-c       apply element scale factor
+c       Apply Scale Factor
         IF (IFUN_EL > 0 .AND. INST_FLAG /= 1) THEN
           IF (SIZE_FLAG == 0) THEN          
 #include "vectorize.inc"

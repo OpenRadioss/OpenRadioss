@@ -26,6 +26,7 @@
 !||    i7trivox1                  ../starter/source/interfaces/inter3d1/i7trivox1.F
 !||====================================================================
       module inter_save_candidate_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures
@@ -86,8 +87,8 @@
           do i=1,j_stok
             if(pene(i)/=zero)THEN
               k_stok = k_stok + 1
-            endif
-          enddo
+            end if
+          end do
           ! ---------
 
           ! ---------
@@ -108,7 +109,7 @@
               call move_alloc(tmp_array_2,local_cand_e%int_array_1d)
               local_cand_n%size_int_array_1d = my_size
               local_cand_e%size_int_array_1d = my_size
-            endif
+            end if
             ! ---------
 
             ! ---------
@@ -118,10 +119,10 @@
                 local_i_stok = local_i_stok + 1
                 local_cand_n%int_array_1d(local_i_stok) = prov_n(I)
                 local_cand_e%int_array_1d(local_i_stok) = prov_e(I)
-              endif
-            enddo
+              end if
+            end do
             ! ---------
-          endif
+          end if
           ! ---------
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine inter_save_candidate

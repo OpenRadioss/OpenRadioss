@@ -35,12 +35,14 @@
 !||====================================================================
       module checksum_output_option_mod
 
-        use iso_c_binding
+
+        use, intrinsic :: iso_c_binding
 
 !! \brief Engine checksum type
 !! \details Hosts the checksums from input file.
 !! \details item is to print them in output files : *.out, animation, H3D, TimeHistory
         use names_and_titles_mod , only : ncharline
+        implicit none
 
 
         type checksum_option_
@@ -56,13 +58,13 @@
 
         interface
 
-          function new_file_checksum_list()  bind (C, name='new_file_checksum_list')
-            use iso_c_binding
+          function new_file_checksum_list()  bind (C, name="new_file_checksum_list")
+            use, intrinsic :: iso_c_binding
             type(C_PTR) :: new_file_checksum_list
           end function new_file_checksum_list
 
-          subroutine compute_binary_checksum(checksum_list,file, len , izip)  bind (C, name='compute_binary_checksum')
-            use iso_c_binding
+          subroutine compute_binary_checksum(checksum_list,file, len , izip)  bind (C, name="compute_binary_checksum")
+            use, intrinsic :: iso_c_binding
             type(C_PTR),value :: checksum_list
             type(C_PTR),value :: file
             integer(C_INT),value :: len
@@ -70,8 +72,8 @@
 
           end subroutine compute_binary_checksum
 
-          subroutine print_checksum_list(checksum_list,unit) bind (C, name='print_checksum_list')
-            use iso_c_binding
+          subroutine print_checksum_list(checksum_list,unit) bind (C, name="print_checksum_list")
+            use, intrinsic :: iso_c_binding
             type(C_PTR),value :: checksum_list
             integer(C_INT),value :: unit
           end subroutine print_checksum_list
@@ -121,7 +123,7 @@
           end if
 
           allocate(checksum%checksums(checksum_option_count))
-          checksum%checksums(1:checksum_option_count)(:)=''
+          checksum%checksums(1:checksum_option_count)(:)=""
 
           do i=1,checksum_option_count
             call read_i_c(checksum_digest_length, 1)
@@ -211,14 +213,14 @@
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i
-          write(iout,'(a)') ' '
-          write(iout,'(a)') ' CHECKSUM DIGESTS'
-          write(iout,'(a)') ' ----------------'
-          write(iout,'(a)') ' '
+          write(iout,"(a)") " "
+          write(iout,"(a)") " CHECKSUM DIGESTS"
+          write(iout,"(a)") " ----------------"
+          write(iout,"(a)") " "
           do i=1,checksum%checksum_count
-            write(iout,'(a,a)') '    CHECKSUM : ',trim( checksum%checksums(i))
+            write(iout,"(a,a)") "    CHECKSUM : ",trim( checksum%checksums(i))
           end do
-          write(iout,'(a)') ' '
+          write(iout,"(a)") " "
         end subroutine checksum_option_outfile
 
         !! \brief writes checksum in .out file
@@ -258,37 +260,37 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-          checksum_file  = rootname(1:rootlen)//'_'//chrun//'.checksum'
-          open(unit=fchecksum,file=trim(checksum_file),access='sequential',form='formatted',status='unknown')
-          formated_date_time = checksum%date(1:4)//'/'//checksum%date(5:6)//'/'//checksum%date(7:8)//'  '// &
-          &                                  checksum%time(1:2)//':'//checksum%time(3:4)//':'//checksum%time(5:6)
-          write(fchecksum,'(a)') ' ************************************************************************'
-          write(fchecksum,'(a)') ' **                                                                    **'
-          write(fchecksum,'(a)') ' **                                                                    **'
-          write(fchecksum,'(a)') ' **                           Checksum Digest                          **'
-          write(fchecksum,'(a)') ' **                                                                    **'
-          write(fchecksum,'(a)') ' **                                                                    **'
-          write(fchecksum,'(a)') ' ************************************************************************'
-          write(fchecksum,'(a)') ' ** OpenRadioss Software                                               **'
-          write(fchecksum,'(a)') ' ** COPYRIGHT (C) 1986-2025 Altair Engineering, Inc.                   **'
-          write(fchecksum,'(a)') ' ** Licensed under GNU Affero General Public License.                  **'
-          write(fchecksum,'(a)') ' ** See License file.                                                  **'
-          write(fchecksum,'(a)') ' ************************************************************************'
-          write(fchecksum,'(a,a)') ' DECK ROOTNAME .............................:      ',rootname(1:rootlen)
-          write(fchecksum,'(a,a)') ' EXECUTION COMPLETED .......................:      ',trim(formated_date_time)
-          write(fchecksum,'(a)') ' '
-          write(fchecksum,'(a)') ' DECK FINGERPRINTS'
-          write(fchecksum,'(a)') ' -----------------'
+          checksum_file  = rootname(1:rootlen)//"_"//chrun//".checksum"
+          open(unit=fchecksum,file=trim(checksum_file),access="sequential",form="formatted",status="unknown")
+          formated_date_time = checksum%date(1:4)//"/"//checksum%date(5:6)//"/"//checksum%date(7:8)//"  "// &
+          &                                  checksum%time(1:2)//":"//checksum%time(3:4)//":"//checksum%time(5:6)
+          write(fchecksum,"(a)") " ************************************************************************"
+          write(fchecksum,"(a)") " **                                                                    **"
+          write(fchecksum,"(a)") " **                                                                    **"
+          write(fchecksum,"(a)") " **                           Checksum Digest                          **"
+          write(fchecksum,"(a)") " **                                                                    **"
+          write(fchecksum,"(a)") " **                                                                    **"
+          write(fchecksum,"(a)") " ************************************************************************"
+          write(fchecksum,"(a)") " ** OpenRadioss Software                                               **"
+          write(fchecksum,"(a)") " ** COPYRIGHT (C) 1986-2025 Altair Engineering, Inc.                   **"
+          write(fchecksum,"(a)") " ** Licensed under GNU Affero General Public License.                  **"
+          write(fchecksum,"(a)") " ** See License file.                                                  **"
+          write(fchecksum,"(a)") " ************************************************************************"
+          write(fchecksum,"(a,a)") " DECK ROOTNAME .............................:      ",rootname(1:rootlen)
+          write(fchecksum,"(a,a)") " EXECUTION COMPLETED .......................:      ",trim(formated_date_time)
+          write(fchecksum,"(a)") " "
+          write(fchecksum,"(a)") " DECK FINGERPRINTS"
+          write(fchecksum,"(a)") " -----------------"
 
           do i=1,checksum%checksum_count
-            write(fchecksum,'(a,a)') '    CHECKSUM : ',trim( checksum%checksums(i))
+            write(fchecksum,"(a,a)") "    CHECKSUM : ",trim( checksum%checksums(i))
           end do
 
-          write(fchecksum,'(a)') ' '
-          write(fchecksum,'(a)') ' OUTPUT FILES CHECKSUM DIGESTS'
-          write(fchecksum,'(a)') ' -----------------------------'
+          write(fchecksum,"(a)") " "
+          write(fchecksum,"(a)") " OUTPUT FILES CHECKSUM DIGESTS"
+          write(fchecksum,"(a)") " -----------------------------"
           call print_checksum_list(checksum%files_checksum,fchecksum )
-          write(fchecksum,'(a)') ' '
+          write(fchecksum,"(a)") " "
 
 
           close(unit=fchecksum)

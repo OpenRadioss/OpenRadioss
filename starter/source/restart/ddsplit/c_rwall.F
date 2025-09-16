@@ -85,7 +85,7 @@ C
           ENDIF
         ENDDO
         NSLAW_L = NSLAW_L + NSL_L
-C espace memoire P/ON
+C memory space p/we
         IF(IPARI0/=0.AND.MSR/=0) NSKYRW_L = NSKYRW_L + NSL_L
         K = K + NSL
 C

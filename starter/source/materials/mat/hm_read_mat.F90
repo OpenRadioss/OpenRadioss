@@ -35,158 +35,163 @@
 !! \brief Read materials cards
 ! --------------------------------------------------------------------------------------------------
 !||====================================================================
-!||    hm_read_mat               ../starter/source/materials/mat/hm_read_mat.F90
+!||    hm_read_mat                 ../starter/source/materials/mat/hm_read_mat.F90
 !||--- called by ------------------------------------------------------
-!||    read_material_models      ../starter/source/materials/read_material_models.F
+!||    read_material_models        ../starter/source/materials/read_material_models.F
 !||--- calls      -----------------------------------------------------
-!||    ancmsg                    ../starter/source/output/message/message.F
-!||    fretitl                   ../starter/source/starter/freform.F
-!||    hm_option_read_key        ../starter/source/devtools/hm_reader/hm_option_read_key.F
-!||    hm_option_start           ../starter/source/devtools/hm_reader/hm_option_start.F
-!||    hm_read_mat00             ../starter/source/materials/mat/mat000/hm_read_mat00.F
-!||    hm_read_mat01             ../starter/source/materials/mat/mat001/hm_read_mat01.F
-!||    hm_read_mat02             ../starter/source/materials/mat/mat002/hm_read_mat02.F
-!||    hm_read_mat03             ../starter/source/materials/mat/mat003/hm_read_mat03.F
-!||    hm_read_mat04             ../starter/source/materials/mat/mat004/hm_read_mat04.F
-!||    hm_read_mat05             ../starter/source/materials/mat/mat005/hm_read_mat05.F
-!||    hm_read_mat06             ../starter/source/materials/mat/mat006/hm_read_mat06.F
-!||    hm_read_mat06_keps        ../starter/source/materials/mat/mat006/hm_read_mat06_keps.F
-!||    hm_read_mat10             ../starter/source/materials/mat/mat010/hm_read_mat10.F
-!||    hm_read_mat100            ../starter/source/materials/mat/mat100/hm_read_mat100.F
-!||    hm_read_mat101            ../starter/source/materials/mat/mat101/hm_read_mat101.F
-!||    hm_read_mat102            ../starter/source/materials/mat/mat102/hm_read_mat102.F
-!||    hm_read_mat103            ../starter/source/materials/mat/mat103/hm_read_mat103.F
-!||    hm_read_mat104            ../starter/source/materials/mat/mat104/hm_read_mat104.F
-!||    hm_read_mat105            ../starter/source/materials/mat/mat105/hm_read_mat105.F90
-!||    hm_read_mat106            ../starter/source/materials/mat/mat106/hm_read_mat106.F
-!||    hm_read_mat107            ../starter/source/materials/mat/mat107/hm_read_mat107.F
-!||    hm_read_mat108            ../starter/source/materials/mat/mat108/hm_read_mat108.F
-!||    hm_read_mat109            ../starter/source/materials/mat/mat109/hm_read_mat109.F
-!||    hm_read_mat11             ../starter/source/materials/mat/mat011/hm_read_mat11.F
-!||    hm_read_mat110            ../starter/source/materials/mat/mat110/hm_read_mat110.F
-!||    hm_read_mat111            ../starter/source/materials/mat/mat111/hm_read_mat111.F
-!||    hm_read_mat112            ../starter/source/materials/mat/mat112/hm_read_mat112.F
-!||    hm_read_mat113            ../starter/source/materials/mat/mat113/hm_read_mat113.F
-!||    hm_read_mat114            ../starter/source/materials/mat/mat114/hm_read_mat114.F
-!||    hm_read_mat115            ../starter/source/materials/mat/mat115/hm_read_mat115.F
-!||    hm_read_mat116            ../starter/source/materials/mat/mat116/hm_read_mat116.F
-!||    hm_read_mat117            ../starter/source/materials/mat/mat117/hm_read_mat117.F
-!||    hm_read_mat119            ../starter/source/materials/mat/mat119/hm_read_mat119.F
-!||    hm_read_mat11_k_eps       ../starter/source/materials/mat/mat011/hm_read_mat11_k_eps.F
-!||    hm_read_mat12             ../starter/source/materials/mat/mat012/hm_read_mat12.F
-!||    hm_read_mat120            ../starter/source/materials/mat/mat120/hm_read_mat120.F
-!||    hm_read_mat121            ../starter/source/materials/mat/mat121/hm_read_mat121.F
-!||    hm_read_mat122            ../starter/source/materials/mat/mat122/hm_read_mat122.F
-!||    hm_read_mat124            ../starter/source/materials/mat/mat124/hm_read_mat124.F
-!||    hm_read_mat125            ../starter/source/materials/mat/mat125/hm_read_mat125.F90
-!||    hm_read_mat126            ../starter/source/materials/mat/mat126/hm_read_mat126.F90
-!||    hm_read_mat127            ../starter/source/materials/mat/mat127/hm_read_mat127.F90
-!||    hm_read_mat128            ../starter/source/materials/mat/mat128/hm_read_mat128.F90
-!||    hm_read_mat129            ../starter/source/materials/mat/mat129/hm_read_mat129.F90
-!||    hm_read_mat13             ../starter/source/materials/mat/mat013/hm_read_mat13.F
-!||    hm_read_mat133            ../starter/source/materials/mat/mat133/hm_read_mat133.F90
-!||    hm_read_mat134            ../starter/source/materials/mat/mat134/hm_read_mat134.F90
-!||    hm_read_mat14             ../starter/source/materials/mat/mat014/hm_read_mat14.F
-!||    hm_read_mat15             ../starter/source/materials/mat/mat015/hm_read_mat15.F
-!||    hm_read_mat151            ../starter/source/materials/mat/mat151/hm_read_mat151.F
-!||    hm_read_mat158            ../starter/source/materials/mat/mat158/hm_read_mat158.F
-!||    hm_read_mat16             ../starter/source/materials/mat/mat016/hm_read_mat16.F
-!||    hm_read_mat163            ../starter/source/materials/mat/mat163/hm_read_mat163.F90
-!||    hm_read_mat169_arup       ../starter/source/materials/mat/mat169/hm_read_mat169.F90
-!||    hm_read_mat18             ../starter/source/materials/mat/mat018/hm_read_mat18.F
-!||    hm_read_mat19             ../starter/source/materials/mat/mat019/hm_read_mat19.F
-!||    hm_read_mat190            ../starter/source/materials/mat/mat190/hm_read_mat190.F
-!||    hm_read_mat20             ../starter/source/materials/mat/mat020/hm_read_mat20.F
-!||    hm_read_mat21             ../starter/source/materials/mat/mat021/hm_read_mat21.F
-!||    hm_read_mat22             ../starter/source/materials/mat/mat022/hm_read_mat22.F
-!||    hm_read_mat23             ../starter/source/materials/mat/mat023/hm_read_mat23.F
-!||    hm_read_mat24             ../starter/source/materials/mat/mat024/hm_read_mat24.F
-!||    hm_read_mat25             ../starter/source/materials/mat/mat025/hm_read_mat25.F
-!||    hm_read_mat26             ../starter/source/materials/mat/mat026/hm_read_mat26.F
-!||    hm_read_mat27             ../starter/source/materials/mat/mat027/hm_read_mat27.F
-!||    hm_read_mat28             ../starter/source/materials/mat/mat028/hm_read_mat28.F
-!||    hm_read_mat29_31          ../starter/source/materials/mat/matuser/hm_read_mat_user29_31.F
-!||    hm_read_mat32             ../starter/source/materials/mat/mat032/hm_read_mat32.F
-!||    hm_read_mat33             ../starter/source/materials/mat/mat033/hm_read_mat33.F
-!||    hm_read_mat34             ../starter/source/materials/mat/mat034/hm_read_mat34.F
-!||    hm_read_mat35             ../starter/source/materials/mat/mat035/hm_read_mat35.F
-!||    hm_read_mat36             ../starter/source/materials/mat/mat036/hm_read_mat36.F
-!||    hm_read_mat37             ../starter/source/materials/mat/mat037/hm_read_mat37.F
-!||    hm_read_mat38             ../starter/source/materials/mat/mat038/hm_read_mat38.F
-!||    hm_read_mat40             ../starter/source/materials/mat/mat040/hm_read_mat40.F
-!||    hm_read_mat41             ../starter/source/materials/mat/mat041/hm_read_mat41.F
-!||    hm_read_mat42             ../starter/source/materials/mat/mat042/hm_read_mat42.F
-!||    hm_read_mat43             ../starter/source/materials/mat/mat043/hm_read_mat43.F
-!||    hm_read_mat44             ../starter/source/materials/mat/mat044/hm_read_mat44.F
-!||    hm_read_mat46             ../starter/source/materials/mat/mat046/hm_read_mat46.F
-!||    hm_read_mat48             ../starter/source/materials/mat/mat048/hm_read_mat48.F
-!||    hm_read_mat49             ../starter/source/materials/mat/mat049/hm_read_mat49.F
-!||    hm_read_mat50             ../starter/source/materials/mat/mat050/hm_read_mat50.F90
-!||    hm_read_mat51             ../starter/source/materials/mat/mat051/hm_read_mat51.F
-!||    hm_read_mat52             ../starter/source/materials/mat/mat052/hm_read_mat52.F
-!||    hm_read_mat53             ../starter/source/materials/mat/mat053/hm_read_mat53.F
-!||    hm_read_mat54             ../starter/source/materials/mat/mat054/hm_read_mat54.F
-!||    hm_read_mat57             ../starter/source/materials/mat/mat057/hm_read_mat57.F90
-!||    hm_read_mat58             ../starter/source/materials/mat/mat058/hm_read_mat58.F
-!||    hm_read_mat59             ../starter/source/materials/mat/mat059/hm_read_mat59.F
-!||    hm_read_mat60             ../starter/source/materials/mat/mat060/hm_read_mat60.F
-!||    hm_read_mat62             ../starter/source/materials/mat/mat062/hm_read_mat62.F
-!||    hm_read_mat63             ../starter/source/materials/mat/mat063/hm_read_mat63.F
-!||    hm_read_mat64             ../starter/source/materials/mat/mat064/hm_read_mat64.F
-!||    hm_read_mat65             ../starter/source/materials/mat/mat065/hm_read_mat65.F
-!||    hm_read_mat66             ../starter/source/materials/mat/mat066/hm_read_mat66.F
-!||    hm_read_mat68             ../starter/source/materials/mat/mat068/hm_read_mat68.F
-!||    hm_read_mat69             ../starter/source/materials/mat/mat069/hm_read_mat69.F
-!||    hm_read_mat70             ../starter/source/materials/mat/mat070/hm_read_mat70.F
-!||    hm_read_mat71             ../starter/source/materials/mat/mat071/hm_read_mat71.F
-!||    hm_read_mat72             ../starter/source/materials/mat/mat072/hm_read_mat72.F
-!||    hm_read_mat73             ../starter/source/materials/mat/mat073/hm_read_mat73.F
-!||    hm_read_mat74             ../starter/source/materials/mat/mat074/hm_read_mat74.F
-!||    hm_read_mat75             ../starter/source/materials/mat/mat075/hm_read_mat75.F
-!||    hm_read_mat76             ../starter/source/materials/mat/mat076/hm_read_mat76.F
-!||    hm_read_mat77             ../starter/source/materials/mat/mat077/hm_read_mat77.F
-!||    hm_read_mat78             ../starter/source/materials/mat/mat078/hm_read_mat78.F
-!||    hm_read_mat79             ../starter/source/materials/mat/mat079/hm_read_mat79.F
-!||    hm_read_mat80             ../starter/source/materials/mat/mat080/hm_read_mat80.F
-!||    hm_read_mat81             ../starter/source/materials/mat/mat081/hm_read_mat81.F90
-!||    hm_read_mat82             ../starter/source/materials/mat/mat082/hm_read_mat82.F
-!||    hm_read_mat83             ../starter/source/materials/mat/mat083/hm_read_mat83.F
-!||    hm_read_mat84             ../starter/source/materials/mat/mat084/hm_read_mat84.F
-!||    hm_read_mat87             ../starter/source/materials/mat/mat087/hm_read_mat87.F90
-!||    hm_read_mat88             ../starter/source/materials/mat/mat088/hm_read_mat88.F
-!||    hm_read_mat90             ../starter/source/materials/mat/mat090/hm_read_mat90.F
-!||    hm_read_mat92             ../starter/source/materials/mat/mat092/hm_read_mat92.F
-!||    hm_read_mat93             ../starter/source/materials/mat/mat093/hm_read_mat93.F
-!||    hm_read_mat94             ../starter/source/materials/mat/mat094/hm_read_mat94.F
-!||    hm_read_mat95             ../starter/source/materials/mat/mat095/hm_read_mat95.F
-!||    hm_read_mat97             ../starter/source/materials/mat/mat097/hm_read_mat97.F
-!||    hm_read_mat_99            ../starter/source/materials/mat/matuser/hm_read_mat_user_99.F
-!||    hm_read_matgas            ../starter/source/materials/mat/matgas/hm_read_matgas.F
-!||    init_mat_keyword          ../starter/source/materials/mat/init_mat_keyword.F
-!||    vdouble                   ../starter/source/system/sysfus.F
+!||    ancmsg                      ../starter/source/output/message/message.F
+!||    fretitl                     ../starter/source/starter/freform.F
+!||    hm_option_read_key          ../starter/source/devtools/hm_reader/hm_option_read_key.F
+!||    hm_option_start             ../starter/source/devtools/hm_reader/hm_option_start.F
+!||    hm_read_mat00               ../starter/source/materials/mat/mat000/hm_read_mat00.F
+!||    hm_read_mat01               ../starter/source/materials/mat/mat001/hm_read_mat01.F
+!||    hm_read_mat02_jc            ../starter/source/materials/mat/mat002/hm_read_mat02_jc.F90
+!||    hm_read_mat02_predef        ../starter/source/materials/mat/mat002/hm_read_mat02_predef.F90
+!||    hm_read_mat02_zerilli       ../starter/source/materials/mat/mat002/hm_read_mat02_zerilli.F90
+!||    hm_read_mat03               ../starter/source/materials/mat/mat003/hm_read_mat03.F
+!||    hm_read_mat04               ../starter/source/materials/mat/mat004/hm_read_mat04.F
+!||    hm_read_mat05               ../starter/source/materials/mat/mat005/hm_read_mat05.F
+!||    hm_read_mat06               ../starter/source/materials/mat/mat006/hm_read_mat06.F
+!||    hm_read_mat06_keps          ../starter/source/materials/mat/mat006/hm_read_mat06_keps.F
+!||    hm_read_mat10               ../starter/source/materials/mat/mat010/hm_read_mat10.F
+!||    hm_read_mat100              ../starter/source/materials/mat/mat100/hm_read_mat100.F
+!||    hm_read_mat101              ../starter/source/materials/mat/mat101/hm_read_mat101.F
+!||    hm_read_mat102              ../starter/source/materials/mat/mat102/hm_read_mat102.F
+!||    hm_read_mat103              ../starter/source/materials/mat/mat103/hm_read_mat103.F
+!||    hm_read_mat104              ../starter/source/materials/mat/mat104/hm_read_mat104.F
+!||    hm_read_mat105              ../starter/source/materials/mat/mat105/hm_read_mat105.F90
+!||    hm_read_mat106              ../starter/source/materials/mat/mat106/hm_read_mat106.F
+!||    hm_read_mat107              ../starter/source/materials/mat/mat107/hm_read_mat107.F
+!||    hm_read_mat108              ../starter/source/materials/mat/mat108/hm_read_mat108.F
+!||    hm_read_mat109              ../starter/source/materials/mat/mat109/hm_read_mat109.F
+!||    hm_read_mat11               ../starter/source/materials/mat/mat011/hm_read_mat11.F
+!||    hm_read_mat110              ../starter/source/materials/mat/mat110/hm_read_mat110.F
+!||    hm_read_mat111              ../starter/source/materials/mat/mat111/hm_read_mat111.F
+!||    hm_read_mat112              ../starter/source/materials/mat/mat112/hm_read_mat112.F
+!||    hm_read_mat113              ../starter/source/materials/mat/mat113/hm_read_mat113.F
+!||    hm_read_mat114              ../starter/source/materials/mat/mat114/hm_read_mat114.F
+!||    hm_read_mat115              ../starter/source/materials/mat/mat115/hm_read_mat115.F
+!||    hm_read_mat116              ../starter/source/materials/mat/mat116/hm_read_mat116.F
+!||    hm_read_mat117              ../starter/source/materials/mat/mat117/hm_read_mat117.F
+!||    hm_read_mat119              ../starter/source/materials/mat/mat119/hm_read_mat119.F
+!||    hm_read_mat11_k_eps         ../starter/source/materials/mat/mat011/hm_read_mat11_k_eps.F
+!||    hm_read_mat12               ../starter/source/materials/mat/mat012/hm_read_mat12.F
+!||    hm_read_mat120              ../starter/source/materials/mat/mat120/hm_read_mat120.F
+!||    hm_read_mat121              ../starter/source/materials/mat/mat121/hm_read_mat121.F
+!||    hm_read_mat122              ../starter/source/materials/mat/mat122/hm_read_mat122.F
+!||    hm_read_mat124              ../starter/source/materials/mat/mat124/hm_read_mat124.F
+!||    hm_read_mat125              ../starter/source/materials/mat/mat125/hm_read_mat125.F90
+!||    hm_read_mat126              ../starter/source/materials/mat/mat126/hm_read_mat126.F90
+!||    hm_read_mat127              ../starter/source/materials/mat/mat127/hm_read_mat127.F90
+!||    hm_read_mat128              ../starter/source/materials/mat/mat128/hm_read_mat128.F90
+!||    hm_read_mat129              ../starter/source/materials/mat/mat129/hm_read_mat129.F90
+!||    hm_read_mat13               ../starter/source/materials/mat/mat013/hm_read_mat13.F
+!||    hm_read_mat133              ../starter/source/materials/mat/mat133/hm_read_mat133.F90
+!||    hm_read_mat134              ../starter/source/materials/mat/mat134/hm_read_mat134.F90
+!||    hm_read_mat14               ../starter/source/materials/mat/mat014/hm_read_mat14.F
+!||    hm_read_mat15               ../starter/source/materials/mat/mat015/hm_read_mat15.F
+!||    hm_read_mat151              ../starter/source/materials/mat/mat151/hm_read_mat151.F
+!||    hm_read_mat158              ../starter/source/materials/mat/mat158/hm_read_mat158.F
+!||    hm_read_mat16               ../starter/source/materials/mat/mat016/hm_read_mat16.F
+!||    hm_read_mat163              ../starter/source/materials/mat/mat163/hm_read_mat163.F90
+!||    hm_read_mat169_arup         ../starter/source/materials/mat/mat169/hm_read_mat169.F90
+!||    hm_read_mat18               ../starter/source/materials/mat/mat018/hm_read_mat18.F
+!||    hm_read_mat19               ../starter/source/materials/mat/mat019/hm_read_mat19.F
+!||    hm_read_mat190              ../starter/source/materials/mat/mat190/hm_read_mat190.F
+!||    hm_read_mat20               ../starter/source/materials/mat/mat020/hm_read_mat20.F
+!||    hm_read_mat21               ../starter/source/materials/mat/mat021/hm_read_mat21.F
+!||    hm_read_mat22               ../starter/source/materials/mat/mat022/hm_read_mat22.F
+!||    hm_read_mat23               ../starter/source/materials/mat/mat023/hm_read_mat23.F
+!||    hm_read_mat24               ../starter/source/materials/mat/mat024/hm_read_mat24.F
+!||    hm_read_mat25               ../starter/source/materials/mat/mat025/hm_read_mat25.F
+!||    hm_read_mat26               ../starter/source/materials/mat/mat026/hm_read_mat26.F
+!||    hm_read_mat27               ../starter/source/materials/mat/mat027/hm_read_mat27.F
+!||    hm_read_mat28               ../starter/source/materials/mat/mat028/hm_read_mat28.F
+!||    hm_read_mat29_31            ../starter/source/materials/mat/matuser/hm_read_mat_user29_31.F
+!||    hm_read_mat32               ../starter/source/materials/mat/mat032/hm_read_mat32.F
+!||    hm_read_mat33               ../starter/source/materials/mat/mat033/hm_read_mat33.F
+!||    hm_read_mat34               ../starter/source/materials/mat/mat034/hm_read_mat34.F
+!||    hm_read_mat35               ../starter/source/materials/mat/mat035/hm_read_mat35.F
+!||    hm_read_mat36               ../starter/source/materials/mat/mat036/hm_read_mat36.F
+!||    hm_read_mat37               ../starter/source/materials/mat/mat037/hm_read_mat37.F
+!||    hm_read_mat38               ../starter/source/materials/mat/mat038/hm_read_mat38.F
+!||    hm_read_mat40               ../starter/source/materials/mat/mat040/hm_read_mat40.F
+!||    hm_read_mat41               ../starter/source/materials/mat/mat041/hm_read_mat41.F
+!||    hm_read_mat42               ../starter/source/materials/mat/mat042/hm_read_mat42.F
+!||    hm_read_mat43               ../starter/source/materials/mat/mat043/hm_read_mat43.F
+!||    hm_read_mat44               ../starter/source/materials/mat/mat044/hm_read_mat44.F
+!||    hm_read_mat46               ../starter/source/materials/mat/mat046/hm_read_mat46.F
+!||    hm_read_mat48               ../starter/source/materials/mat/mat048/hm_read_mat48.F
+!||    hm_read_mat49               ../starter/source/materials/mat/mat049/hm_read_mat49.F
+!||    hm_read_mat50               ../starter/source/materials/mat/mat050/hm_read_mat50.F90
+!||    hm_read_mat51               ../starter/source/materials/mat/mat051/hm_read_mat51.F
+!||    hm_read_mat52               ../starter/source/materials/mat/mat052/hm_read_mat52.F
+!||    hm_read_mat53               ../starter/source/materials/mat/mat053/hm_read_mat53.F
+!||    hm_read_mat54               ../starter/source/materials/mat/mat054/hm_read_mat54.F
+!||    hm_read_mat57               ../starter/source/materials/mat/mat057/hm_read_mat57.F90
+!||    hm_read_mat58               ../starter/source/materials/mat/mat058/hm_read_mat58.F
+!||    hm_read_mat59               ../starter/source/materials/mat/mat059/hm_read_mat59.F
+!||    hm_read_mat60               ../starter/source/materials/mat/mat060/hm_read_mat60.F
+!||    hm_read_mat62               ../starter/source/materials/mat/mat062/hm_read_mat62.F
+!||    hm_read_mat63               ../starter/source/materials/mat/mat063/hm_read_mat63.F
+!||    hm_read_mat64               ../starter/source/materials/mat/mat064/hm_read_mat64.F
+!||    hm_read_mat65               ../starter/source/materials/mat/mat065/hm_read_mat65.F
+!||    hm_read_mat66               ../starter/source/materials/mat/mat066/hm_read_mat66.F
+!||    hm_read_mat68               ../starter/source/materials/mat/mat068/hm_read_mat68.F
+!||    hm_read_mat69               ../starter/source/materials/mat/mat069/hm_read_mat69.F
+!||    hm_read_mat70               ../starter/source/materials/mat/mat070/hm_read_mat70.F
+!||    hm_read_mat71               ../starter/source/materials/mat/mat071/hm_read_mat71.F
+!||    hm_read_mat72               ../starter/source/materials/mat/mat072/hm_read_mat72.F
+!||    hm_read_mat73               ../starter/source/materials/mat/mat073/hm_read_mat73.F
+!||    hm_read_mat74               ../starter/source/materials/mat/mat074/hm_read_mat74.F
+!||    hm_read_mat75               ../starter/source/materials/mat/mat075/hm_read_mat75.F
+!||    hm_read_mat76               ../starter/source/materials/mat/mat076/hm_read_mat76.F
+!||    hm_read_mat77               ../starter/source/materials/mat/mat077/hm_read_mat77.F
+!||    hm_read_mat78               ../starter/source/materials/mat/mat078/hm_read_mat78.F
+!||    hm_read_mat79               ../starter/source/materials/mat/mat079/hm_read_mat79.F
+!||    hm_read_mat80               ../starter/source/materials/mat/mat080/hm_read_mat80.F
+!||    hm_read_mat81               ../starter/source/materials/mat/mat081/hm_read_mat81.F90
+!||    hm_read_mat82               ../starter/source/materials/mat/mat082/hm_read_mat82.F
+!||    hm_read_mat83               ../starter/source/materials/mat/mat083/hm_read_mat83.F
+!||    hm_read_mat84               ../starter/source/materials/mat/mat084/hm_read_mat84.F
+!||    hm_read_mat87               ../starter/source/materials/mat/mat087/hm_read_mat87.F90
+!||    hm_read_mat88               ../starter/source/materials/mat/mat088/hm_read_mat88.F
+!||    hm_read_mat90               ../starter/source/materials/mat/mat090/hm_read_mat90.F
+!||    hm_read_mat92               ../starter/source/materials/mat/mat092/hm_read_mat92.F
+!||    hm_read_mat93               ../starter/source/materials/mat/mat093/hm_read_mat93.F
+!||    hm_read_mat94               ../starter/source/materials/mat/mat094/hm_read_mat94.F
+!||    hm_read_mat95               ../starter/source/materials/mat/mat095/hm_read_mat95.F
+!||    hm_read_mat97               ../starter/source/materials/mat/mat097/hm_read_mat97.F
+!||    hm_read_mat_99              ../starter/source/materials/mat/matuser/hm_read_mat_user_99.F
+!||    hm_read_matgas              ../starter/source/materials/mat/matgas/hm_read_matgas.F
+!||    init_mat_keyword            ../starter/source/materials/mat/init_mat_keyword.F
+!||    vdouble                     ../starter/source/system/sysfus.F
 !||--- uses       -----------------------------------------------------
-!||    elbuftag_mod              ../starter/share/modules1/elbuftag_mod.F
-!||    file_descriptor_mod       ../starter/source/modules/file_descriptor_mod.F90
-!||    hm_option_read_mod        ../starter/share/modules1/hm_option_read_mod.F
-!||    hm_read_mat105_mod        ../starter/source/materials/mat/mat105/hm_read_mat105.F90
-!||    hm_read_mat125_mod        ../starter/source/materials/mat/mat125/hm_read_mat125.F90
-!||    hm_read_mat126_mod        ../starter/source/materials/mat/mat126/hm_read_mat126.F90
-!||    hm_read_mat127_mod        ../starter/source/materials/mat/mat127/hm_read_mat127.F90
-!||    hm_read_mat128_mod        ../starter/source/materials/mat/mat128/hm_read_mat128.F90
-!||    hm_read_mat129_mod        ../starter/source/materials/mat/mat129/hm_read_mat129.F90
-!||    hm_read_mat133_mod        ../starter/source/materials/mat/mat133/hm_read_mat133.F90
-!||    hm_read_mat134_mod        ../starter/source/materials/mat/mat134/hm_read_mat134.F90
-!||    hm_read_mat163_mod        ../starter/source/materials/mat/mat163/hm_read_mat163.F90
-!||    hm_read_mat169_arup_mod   ../starter/source/materials/mat/mat169/hm_read_mat169.F90
-!||    hm_read_mat50_mod         ../starter/source/materials/mat/mat050/hm_read_mat50.F90
-!||    hm_read_mat57_mod         ../starter/source/materials/mat/mat057/hm_read_mat57.F90
-!||    hm_read_mat81_mod         ../starter/source/materials/mat/mat081/hm_read_mat81.F90
-!||    hm_read_mat87_mod         ../starter/source/materials/mat/mat087/hm_read_mat87.F90
-!||    law_user                  ../starter/source/user_interface/law_user.F
-!||    message_mod               ../starter/share/message_module/message_mod.F
-!||    reader_old_mod            ../starter/share/modules1/reader_old_mod.F90
-!||    submodel_mod              ../starter/share/modules1/submodel_mod.F
-!||    table_mod                 ../starter/share/modules1/table_mod.F
+!||    elbuftag_mod                ../starter/share/modules1/elbuftag_mod.F
+!||    file_descriptor_mod         ../starter/source/modules/file_descriptor_mod.F90
+!||    hm_option_read_mod          ../starter/share/modules1/hm_option_read_mod.F
+!||    hm_read_mat02_jc_mod        ../starter/source/materials/mat/mat002/hm_read_mat02_jc.F90
+!||    hm_read_mat02_predef_mod    ../starter/source/materials/mat/mat002/hm_read_mat02_predef.F90
+!||    hm_read_mat02_zerilli_mod   ../starter/source/materials/mat/mat002/hm_read_mat02_zerilli.F90
+!||    hm_read_mat105_mod          ../starter/source/materials/mat/mat105/hm_read_mat105.F90
+!||    hm_read_mat125_mod          ../starter/source/materials/mat/mat125/hm_read_mat125.F90
+!||    hm_read_mat126_mod          ../starter/source/materials/mat/mat126/hm_read_mat126.F90
+!||    hm_read_mat127_mod          ../starter/source/materials/mat/mat127/hm_read_mat127.F90
+!||    hm_read_mat128_mod          ../starter/source/materials/mat/mat128/hm_read_mat128.F90
+!||    hm_read_mat129_mod          ../starter/source/materials/mat/mat129/hm_read_mat129.F90
+!||    hm_read_mat133_mod          ../starter/source/materials/mat/mat133/hm_read_mat133.F90
+!||    hm_read_mat134_mod          ../starter/source/materials/mat/mat134/hm_read_mat134.F90
+!||    hm_read_mat163_mod          ../starter/source/materials/mat/mat163/hm_read_mat163.F90
+!||    hm_read_mat169_arup_mod     ../starter/source/materials/mat/mat169/hm_read_mat169.F90
+!||    hm_read_mat50_mod           ../starter/source/materials/mat/mat050/hm_read_mat50.F90
+!||    hm_read_mat57_mod           ../starter/source/materials/mat/mat057/hm_read_mat57.F90
+!||    hm_read_mat81_mod           ../starter/source/materials/mat/mat081/hm_read_mat81.F90
+!||    hm_read_mat87_mod           ../starter/source/materials/mat/mat087/hm_read_mat87.F90
+!||    law_user                    ../starter/source/user_interface/law_user.F
+!||    message_mod                 ../starter/share/message_module/message_mod.F
+!||    reader_old_mod              ../starter/share/modules1/reader_old_mod.F90
+!||    submodel_mod                ../starter/share/modules1/submodel_mod.F
+!||    table_mod                   ../starter/share/modules1/table_mod.F
 !||====================================================================
         subroutine hm_read_mat(                                      &
         &                    mat_param   ,mlaw_tag    ,eos_tag     ,bufmat    ,&
@@ -209,6 +214,9 @@
           use matparam_def_mod
           use hm_option_read_mod
           use table_mod
+          use hm_read_mat02_jc_mod
+          use hm_read_mat02_zerilli_mod
+          use hm_read_mat02_predef_mod
           use hm_read_mat50_mod
           use hm_read_mat57_mod
           use hm_read_mat81_mod
@@ -229,7 +237,6 @@
           use precision_mod, only : WP
 ! -------------------------------------------------------------------------------------------------------
           implicit none
-
 ! -------------------------------------------------------------------------------------------------------
 !      Arguments
 ! -------------------------------------------------------------------------------------------------------
@@ -266,7 +273,7 @@
           &maxuparam,maxfunc,maxtabl,iunit,iflagunit,k
           parameter (maxuparam = 1048576)
           parameter (maxfunc  = 128, maxtabl = 9)
-          real(kind=WP) :: rho,rho0,rhor,young,nu,bulk,g,asrate,rbid
+          real(kind=WP) :: rho,young,nu,bulk,g,asrate,rbid
           integer ,dimension(maxfunc) :: ifunc
           integer ,dimension(maxtabl) :: itable
           real(kind=WP) ,dimension(:), allocatable :: uparam
@@ -390,28 +397,22 @@
               &matparam)
 !-------
              case ('LAW2','LAW02','PLAS_JOHNS','JOHNS')
-              ilaw  = 2
-              call hm_read_mat02(&
-              &uparam ,maxuparam ,nuparam  ,nuvar     ,&
-              &parmat ,0         ,&
-              &unitab ,mat_id    ,titr     ,lsubmodel ,mtag    ,&
-              &pm(1,i),ipm(1,i)  ,israte   ,matparam  )
+               ilaw  = 2
+               call hm_read_mat02_jc(matparam,mtag     ,parmat   ,           &
+                 nuvar    ,unitab  ,mat_id   ,titr     ,lsubmodel,           &
+                 npropm   ,pm(1,i) ,npropmi  ,ipm(1,i) )                 
 !-------
              case ('ZERIL','PLAS_ZERIL')
-              ilaw  = 2
-              call hm_read_mat02(&
-              &uparam ,maxuparam ,nuparam  ,nuvar     ,&
-              &parmat ,1         ,&
-              &unitab ,mat_id    ,titr     ,lsubmodel ,mtag    ,&
-              &pm(1,i),ipm(1,i)  ,israte   ,matparam  )
+               ilaw  = 2
+               call hm_read_mat02_zerilli(matparam,mtag,parmat   ,           &
+                 nuvar    ,unitab  ,mat_id   ,titr     ,lsubmodel,           &
+                 npropm   ,pm(1,i) ,npropmi  ,ipm(1,i) )                 
 !-------
              case ('PLAS_PREDEF')
-              ilaw  = 2
-              call hm_read_mat02(&
-              &uparam ,maxuparam ,nuparam  ,nuvar     ,&
-              &parmat   ,2       ,&
-              &unitab ,mat_id    ,titr     ,lsubmodel ,mtag    ,&
-              &pm(1,i),ipm(1,i)  ,israte   ,matparam  )
+               ilaw  = 2
+               call hm_read_mat02_predef(matparam,mtag     ,parmat   ,       &
+                        nuvar    ,unitab  ,mat_id   ,titr     ,              &
+                        npropm   ,pm(1,i) ,npropmi  ,ipm(1,i) ) 
 !-------
              case ('LAW3','LAW03', 'HYDPLA')
               ilaw=3
@@ -698,13 +699,14 @@
                 ntable   ,table    ,mat_id   ,iout     ,titr     ,  &
                 unitab   ,lsubmodel)
 !-------
-             case ('LAW51','MULTIMAT','TRIMAT')
-              ilaw = 51
-              call hm_read_mat51(&
-              &uparam   ,maxuparam ,nuparam  ,israte  ,imatvis  ,&
-              &nuvar    ,ifunc     ,maxfunc  ,nfunc   ,parmat   ,&
-              &unitab   ,mat_id    ,titr     ,mtag    ,lsubmodel,&
-              &pm(1,i)  ,matparam ,ipm(1,i)  ,nvartmp)
+          case ('LAW51','MULTIMAT')
+            ilaw = 51
+            call hm_read_mat51(&
+            &uparam   ,maxuparam ,nuparam  ,israte  ,imatvis  ,&
+            &nuvar    ,ifunc     ,maxfunc  ,nfunc   ,parmat   ,&
+            &unitab   ,mat_id    ,titr     ,mtag    ,lsubmodel,&
+            &pm(1,i)  ,mat_param, mat_number ,ipm(1,i)  ,nvartmp ,&
+            &nummat)
 !-------
              case ('LAW52','GURSON')
               ilaw  = 52
@@ -1016,8 +1018,8 @@
              case ('LAW102','DPRAG2')
               ilaw  = 102
               call hm_read_mat102(&
-              &uparam   ,maxuparam,nuparam  ,israte  ,imatvis  ,&
-              &nuvar    ,ifunc    ,maxfunc  ,nfunc   ,parmat   ,&
+              &uparam   ,maxuparam,nuparam  ,israte  ,&
+              &nuvar    ,nfunc    ,parmat   ,&
               &unitab   ,mat_id   ,titr     ,mtag    ,lsubmodel,&
               &pm(1,i)  ,ipm(1,i) ,matparam )
 !-------
@@ -1144,7 +1146,6 @@
               &matparam ,parmat   ,nuvar    ,mat_id   ,titr     ,&
               &maxtabl  ,numtabl  ,itable   ,unitab   ,lsubmodel,&
               &israte   )
-
 !-------
              case ('LAW120','TAPO')
               ilaw  = 120
@@ -1173,9 +1174,9 @@
              case ('LAW124','CDPM2')
               ilaw  = 124
               call hm_read_mat124(&
-              &uparam   ,maxuparam,nuparam  ,nuvar    ,mtag     ,&
-              &parmat   ,unitab   ,pm(1,i)  ,lsubmodel,israte   ,&
-              &asrate   ,mat_id   ,titr     ,matparam )
+               uparam   ,maxuparam,nuparam  ,nuvar    ,mtag     ,&
+               parmat   ,unitab   ,pm(1,i)  ,lsubmodel,israte   ,&
+               mat_id   ,titr     ,matparam )
 !-------
              case ('LAW125','LAMINATED_COMPOSITE')
               ilaw = 125
@@ -1376,13 +1377,9 @@
             if (matparam%compatibility_eos == 1 .and. pm(37,i) == zero) pm(37,i) = -ep20
 
 !-----------------------------------------------------------------------
-
-            if (ilaw == 99) then
-              write(iout,2000) titr,mat_id,iuser_law
+            if (ilaw == 99) then  ! write header info for user laws
+               write(iout,2000) titr,mat_id,iuser_law
             endif
-!--------------------------------------------
-            israte = max(israte, nint(parmat(4)))  ! just in case ...
-            asrate = two*pi*parmat(5)              ! asrate = 2*pi*fcut
 !--------------------------------------------
             matparam%ilaw   = ilaw
             matparam%mat_id = mat_id
@@ -1390,7 +1387,7 @@
             mtag%nuvar   = nuvar
             mtag%nvartmp = nvartmp
 !--------------------------------------------
-!       for user type laws (lecmuser)
+!           for user type laws (lecmuser)
 !---------------------------------------------------------
 
             if (ilaw > 27 .and. ilaw /= 32 .and. ilaw /= 49&
@@ -1413,11 +1410,6 @@
               pm(32,i) = bulk
               if (ilaw==71 ) pm(27,i)=sqrt(young/max(pm(1,i),em20))  ! sound speed
 !---------
-!         for solid elements time step computation :
-              ipm(252,i)= nint(parmat(16))   ! iformdt = 0,1,2
-              pm(105,i) = parmat(17)         ! gfac factor
-!---------
-!-------
               ipm(7,i)   = iadbuf
               ipm(8,i)   = nuvar
               ipm(9,i)   = nuparam
@@ -1456,22 +1448,31 @@
               buflen = buflen + nuparam
 !
             endif ! ilaw>=28
-!------- high stiffness for contact
+!-------    high stiffness for contact
             pm(107,i) = two*max(pm(32,i),pm(100,i))
-            if (ilaw==1) pm(107,i) = thirty*pm(107,i)
+            if (ilaw==1)  pm(107,i) = thirty*pm(107,i)
             if (ilaw==62) pm(107,i) = hundred*pm(107,i)
 !
+!---------------------------------------------------------
+            israte = max(israte, nint(parmat(4)))    ! just in case ...
+            asrate = two*pi * parmat(5)              ! asrate = 2*pi*fcut
+            ipm(3,i) = israte
+            if (asrate  == zero) asrate = ep20
+            if (pm(9,i) == zero) pm(9,i) = asrate    ! old mat laws fill it directly
+!---------------------------------------------------------
             ipm(1,i)   = mat_id
             ipm(2,i)   = ilaw
-            ipm(3,i)   = israte
 !
-            if (pm(9,i) == zero) pm(9,i) = asrate    ! old mat laws fill it directly
             pm(19,i)   = ilaw + em01     ! double stockage - a nettoyer
             pm(70,i)   = jtur + em01
             pm(71,i)   = jthe + em01
             pm(72,i)   = jale + em01
             !
             ipm(217,i) = iuser_law
+            ! for solid elements time step computation.
+            ! some laws fill directly ipm, pm, others use parmat  :
+            if (ipm(252,i) == 0)  ipm(252,i) = nint(parmat(16))   ! iformdt = 0,1,2
+            if (pm(105,i) == zero) pm(105,i) = parmat(17)         ! gfac factor
 !---------------------------------------------------------
 !
             if (matparam%rho   > zero) pm(1 ,i) = matparam%rho
@@ -1495,22 +1496,30 @@
             ! if (matparam%stiff_hglass  == zero) matparam%stiff_hglass  = pm(?,i)
             ! if (matparam%stiff_tstep   == zero) matparam%stiff_tstep   = pm(?,i)
 !---------------------------------------------------------
+            if (matparam%therm%tref  == zero) matparam%therm%tref  = pm(79,i)
+            if (matparam%therm%tini  == zero) matparam%therm%tini  = pm(79,i)
+            if (matparam%therm%tmelt == zero) matparam%therm%tmelt = pm(80,i)
+            if (matparam%therm%rhocp == zero) matparam%therm%rhocp = pm(69,i)
+!
+            if (pm(79,i) == zero) pm(79,i) = matparam%therm%tini 
+            if (pm(80,i) == zero) pm(80,i) = matparam%therm%tmelt
+            if (pm(69,i) == zero) pm(69,i) = matparam%therm%rhocp
+!---------------------------------------------------------
             !  pm(100)=bulk
             !  pour interface type 7  k=pm(32) ...
             !  pour interface type 20 k=pm(100)...
 
             if (pm(100,i) == zero) pm(100,i) = pm(32,i) ! bulk used for interf 20 stiffness
 !---------------------------------------------------------
-            rhor = pm(1 ,i)
-            rho0 = pm(89,i)
-            if (rhor == zero .and. ilaw /= 37) then
-              rhor = rho0
-              pm(1,i) = rhor
+            if (matparam%rho == zero .and. ilaw /= 37) then
+              rho = matparam%rho0 
+              pm(1,i)      = rho
+              matparam%rho = rho
             endif
 !
             if (ilaw/=0   .and. ilaw/=20 .and. ilaw/=51 .and. ilaw/=151 .and.&
               ilaw/=108 .and. ilaw /= 999) then
-              if (rho0 <= zero) then
+              if (matparam%rho0 <= zero) then
                 call ancmsg(msgid=683, msgtype=msgerror, anmode=aninfo,&
                 &i1=mat_id,&
                 &c1=titr,&

@@ -26,12 +26,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    mulaw       ../engine/source/materials/mat_share/mulaw.F90
 !||====================================================================
        SUBROUTINE SIGEPS102(
-     1      NEL    , NUPARAM, NUVAR  , UPARAM  , RHO0    , RHO    , 
+     1      NEL    , NUPARAM, UPARAM  , RHO0    , RHO    ,
      2      DEPSXX , DEPSYY , DEPSZZ , DEPSXY  , DEPSYZ  , DEPSZX ,
      3      SIGOXX , SIGOYY , SIGOZZ , SIGOXY  , SIGOYZ  , SIGOZX ,
      4      SIGNXX , SIGNYY , SIGNZZ , SIGNXY  , SIGNYZ  , SIGNZX ,
-     5      SOUNDSP, UVAR   , OFF    , ET      ,
-     6      PSH    , PNEW   , DPDM   , SSP     , PLA     )   
+     5      OFF    ,
+     6      PSH    , PNEW   , DPDM   , SSP     , PLA     , PMIN)
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
 C-----------------------------------------------
@@ -39,34 +39,26 @@ C-----------------------------------------------
 C----------------------------------------------------------------
 C  I N P U T   A R G U M E N T S
 C----------------------------------------------------------------
-      INTEGER NEL,NVARF,NUPARAM,NUVAR
-      my_real :: TIME,TIMESTEP   
-      my_real :: UPARAM(NUPARAM)
-      my_real ,DIMENSION(NEL) :: RHO, RHO0,
-     .   DEPSXX, DEPSYY, DEPSZZ, DEPSXY, DEPSYZ, DEPSZX,
-     .   SIGOXX, SIGOYY, SIGOZZ, SIGOXY, SIGOYZ, SIGOZX,
-     .   SSP   , DPDM  , PNEW, PSH, PLA
-C----------------------------------------------------------------
-C  O U T P U T   A R G U M E N T S
-C----------------------------------------------------------------
-      my_real
-     .      SIGNXX (NEL), SIGNYY (NEL), SIGNZZ(NEL),
-     .      SIGNXY (NEL), SIGNYZ (NEL), SIGNZX(NEL),
-     .      SOUNDSP(NEL), ET(NEL)
-C----------------------------------------------------------------
-C  I N P U T  O U T P U T   A R G U M E N T S
-C----------------------------------------------------------------
-      my_real
-     .      UVAR(NEL,NUVAR), OFF(NEL) ,MU(NEL),MU2(NEL)
+      INTEGER,INTENT(IN)                   :: NEL,NUPARAM
+      my_real,INTENT(IN)                   :: UPARAM(NUPARAM)
+      my_real,INTENT(IN),DIMENSION(NEL)    :: RHO, RHO0
+      my_real,INTENT(IN),DIMENSION(NEL)    :: DEPSXX, DEPSYY, DEPSZZ, DEPSXY, DEPSYZ, DEPSZX
+      my_real,INTENT(IN),DIMENSION(NEL)    :: SIGOXX, SIGOYY, SIGOZZ, SIGOXY, SIGOYZ, SIGOZX
+      my_real,INTENT(INOUT),DIMENSION(NEL) :: SIGNXX, SIGNYY, SIGNZZ, SIGNXY, SIGNYZ, SIGNZX
+      my_real,INTENT(IN),DIMENSION(NEL)    :: PNEW, PSH
+      my_real,INTENT(IN),DIMENSION(NEL)    :: OFF
+      my_real,INTENT(IN)                   :: PMIN
+      my_real,INTENT(INOUT),DIMENSION(NEL) :: SSP, DPDM, PLA
 C----------------------------------------------------------------
 C  L O C A L  V A R I B L E S
 C----------------------------------------------------------------
       my_real :: A0,A1,A2,AMAX
-      my_real :: DAV,POLD(NEL)
+      my_real :: POLD(NEL)
       my_real :: T1(NEL),T2(NEL),T3(NEL),T4(NEL),T5(NEL),T6(NEL)
       my_real :: PTOT,G0(NEL),RATIO(NEL),YIELD2(NEL)
       my_real :: PSTAR,G,GG,SCRT(NEL),AJ2(NEL),DPLA(NEL)
       my_real :: I3(NEL),COS3T(NEL),SQRT_J2,THETA,C,PHI,K
+      my_real :: MU(NEL),MU2(NEL)
       integer :: I,IFORM
 C----------------------------------------------------------------
 C  S o u r c e   L i n e s
@@ -82,7 +74,7 @@ C----------------------------------------------------------------
       GG        = TWO*G
       IFORM     = NINT(UPARAM(9))
       !----------------------------------------------------------------!
-      !  STATE INIT.                                                   !
+      !  INIT.                                                         !
       !----------------------------------------------------------------!        
       DO I=1,NEL
         POLD(I) = -(SIGOXX(I)+SIGOYY(I)+SIGOZZ(I))*THIRD 
@@ -91,7 +83,7 @@ C----------------------------------------------------------------
         MU2(I)  = MU(I) * MAX(ZERO,MU(I))
       ENDDO !next I    
       !----------------------------------------------------------------!
-      !  TEMPORARY DEVIATORIC STRESS TENSOR : T(1:6)                   !
+      !  DEVIATORIC STRESS TENSOR : T(1:6)                             !
       !----------------------------------------------------------------!  
       DO I=1,NEL
         T1(I)=SIGOXX(I)+POLD(I)+GG*(DEPSXX(I)-SCRT(I))
@@ -102,7 +94,7 @@ C----------------------------------------------------------------
         T6(I)=SIGOZX(I)        + G*DEPSZX(I)
       ENDDO !next I  
       !----------------------------------------------------------------!
-      !  SOUND SPEED                                                   !
+      !  SOUND SPEED (EOS + SHEAR)                                     !
       !----------------------------------------------------------------!      
       DO I=1,NEL
         DPDM(I) = DPDM(I) + ONEP333*G
@@ -125,6 +117,7 @@ C----------------------------------------------------------------
           PTOT     = PNEW(I)+PSH(I)
           G0(I)    = -PTOT*SIN(PHI)+SQRT_J2*(COS(THETA)-K*SIN(THETA)*SIN(PHI))-C*COS(PHI)
           G0(I)    = MAX(ZERO,G0(I))
+          IF(PTOT <= PMIN) G0(I) = ZERO !Drucker-Prager cut-off
           YIELD2(I)= AJ2(I)-G0(I)
         ENDDO
       !----SUBCASE --- FITTED DRUCKER PRAGER FROM MOHR COULOMB PARAMETERS (A0,A1,A2 CALCULATED DURING STARTER)
@@ -134,7 +127,8 @@ C----------------------------------------------------------------
           G0(I)    = A0 +A1 *PTOT+A2 *PTOT*PTOT
           G0(I)    = MIN(AMAX,G0(I))
           G0(I)    = MAX(ZERO,G0(I))
-          IF(PTOT <= PSTAR)G0(I)=ZERO
+          IF(PTOT <= PMIN) G0(I) = ZERO !Drucker-Prager cut-off
+          IF(PTOT <= PSTAR)G0(I)=ZERO !tensile cut-off (PSTAR is the root of the yield function)
           YIELD2(I)=AJ2(I)-G0(I)
         ENDDO !next I           
       ENDIF 

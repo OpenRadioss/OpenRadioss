@@ -2,8 +2,14 @@
 # CMake project file for Radioss Starter
 # --------------------------------------
  
-cmake_minimum_required (VERSION 2.8)
+cmake_minimum_required (VERSION 3.15)
 project (Radioss_Engine)
+
+# Windows specific settings
+# --------------------------
+if (arch STREQUAL "win64")
+   set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+endif()
 
 
 # Verbose

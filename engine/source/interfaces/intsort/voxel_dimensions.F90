@@ -28,6 +28,7 @@
 !||    inter_prepare_sort           ../engine/source/interfaces/generic/inter_prepare_sort.F
 !||====================================================================
       module voxel_dimensions_mod
+      implicit none
       contains
 !||====================================================================
 !||    compute_voxel_dimensions   ../engine/source/interfaces/intsort/voxel_dimensions.F90
@@ -83,7 +84,7 @@
             & (inter_struct%box_limit_main(7) - inter_struct%box_limit_main(10))))
           else
             aaa = 0
-          endif
+          end if
 
           aaa = 0.75 * aaa
 
@@ -110,7 +111,7 @@
             nbx = max(nbx, 1)
             nby = max(nby, 1)
             nbz = max(nbz, 1)
-          endif
+          end if
           nbx8=nbx
           nby8=nby
           nbz8=nbz
@@ -120,7 +121,7 @@
             nbx = min(100,max(nbx8,1))
             nby = min(100,max(nby8,1))
             nbz = min(100,max(nbz8,1))
-          endif
+          end if
           res = (nbx+2)*(nby+2)*(nbz+2)
 
 !$OMP SINGLE
@@ -129,10 +130,10 @@
             if(.not.allocated(inter_struct%voxel)) then
               call my_alloc(inter_struct%voxel,res8)
               inter_struct%voxel_size = res8
-            endif
+            end if
             do i=1,inter_struct%voxel_size
               inter_struct%voxel(i)=0
-            enddo
+            end do
             inter_struct%nbx = nbx
             inter_struct%nby = nby
             inter_struct%nbz = nbz

@@ -460,7 +460,6 @@ set_source_files_properties( ${source_directory}/source/materials/mat/mat058/law
 set_source_files_properties( ${source_directory}/source/materials/mat/mat058/cm58in3.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/materials/mat/mat087/hm_read_mat87.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/materials/mat/mat087/law87_upd.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
-set_source_files_properties( ${source_directory}/source/materials/mat/mat102/hm_read_mat102.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/materials/mat/mat022/hm_read_mat22.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/materials/mat/hm_read_mat.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/materials/mat/mat062/law62_upd.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )

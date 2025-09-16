@@ -30,13 +30,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    i22ass2          ../engine/source/interfaces/int22/i22assembly.F
 !||    i7ass3           ../engine/source/interfaces/int07/i7ass3.F
 !||--- uses       -----------------------------------------------------
-!||    anim_mod         ../common_source/modules/output/anim_mod.F
 !||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
 !||    h3d_mod          ../engine/share/modules/h3d_mod.F
 !||    i22bufbric_mod   ../common_source/modules/interfaces/cut-cell-search_mod.F
 !||    i22tri_mod       ../common_source/modules/interfaces/cut-cell-search_mod.F
+!||    output_mod       ../common_source/modules/output/output_mod.F90
 !||====================================================================
-      SUBROUTINE I22FOR3(JLT       ,A        ,V         ,IBC      ,ICODT  ,
+      SUBROUTINE I22FOR3(OUTPUT, JLT       ,A        ,V         ,IBC      ,ICODT  ,
      2                   FSAV      ,GAP      ,FRIC      ,MS       ,VISC   ,
      3                   VISCF     ,NOINT    ,STFN      ,ITAB     ,CB_LOC ,
      4                   STIGLO    ,STIFN    ,STIF      ,FSKYI    ,ISKY   ,
@@ -74,7 +74,7 @@ C-----------------------------------------------
       USE I22TRI_MOD
       USE I22BUFBRIC_MOD  
       USE H3D_MOD 
-      USE ANIM_MOD
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -100,6 +100,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
       
       INTEGER NELTST,ITYPTST,JLT,IBC,IBCM,IBCS,IVIS2,INACTI,IBAG,NIN,
@@ -390,7 +391,7 @@ c        IF(NBCUT==0) print *, "     C Y C L E"
           FFO   = DP(I) * Swet(ICUT,I)
           IF(Q<ZERO) FFO = -FFO   !sign change to adjust normal direction (non oriented surface)
 
-          !force au CoG
+          !force at cog
           FF(:) = FFO * N_SURF(:,iabs(CAND_E(I)))
           !rint *, "F_cog=", FF(:)
           
@@ -542,7 +543,7 @@ C              endif
           FFO          = DP(I) * Swet(8+J,I)
           IF(Q<ZERO) FFO = -FFO   !sign change to adjust normal direction (non oriented surface)
 
-          !force au CoG
+          !force at cog
           FF(:)        = FFO * N_SURF(:,iabs(CAND_E(I)))
           !rint *, "F_cog=", FF(:)
 
@@ -755,7 +756,7 @@ C
       !       /ANIM/VECT/PCONT          !
       !---------------------------------!   
       IF((ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT>0.AND.
-     .          ((TT>=TANIM.AND.TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
+     .          ((TT>=OUTPUT%TANIM.AND.TT<=OUTPUT%TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
      .              (MANIM>=4.AND.MANIM<=15).OR.H3D_DATA%MH3D/=0))
      .   .OR.H3D_DATA%N_VECT_PCONT_MAX>0)THEN
 #include "lockon.inc"

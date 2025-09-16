@@ -103,7 +103,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IGTYP, I, NUVAR ,VP,NINDX,IGEO(NPROPGI,*),NVARTMP,
+      INTEGER IGTYP, I, NUVAR,NINDX,IGEO(NPROPGI,*),NVARTMP,
      .        MX,IOFF_DUCT(MVSIZ),ISRATE,NUVARV,NVAR_DAMP,IMAT,
      .        FLAG_INCR
       my_real 
@@ -137,8 +137,9 @@ C
 C
       IMAT = ELBUF_STR%BUFLY(1)%IMAT
 C     for user material laws : pid(i)=pid(1)
-      IGTYP  = IGEO(11,PID(1))
-      IF(MTN==43.OR.MTN==56.OR.MTN==60.OR.MTN==86) THEN
+      IGTYP = IGEO(11,PID(1))
+      IMAT  = ELBUF_STR%BUFLY(1)%IMAT
+      IF (MTN==43.OR.MTN==56.OR.MTN==60.OR.MTN==86) THEN
         NUVAR  = ELBUF_STR%BUFLY(1)%NVAR_MAT
         UVAR  =>ELBUF_STR%BUFLY(1)%MAT(IR,IS,1)%VAR
       ENDIF
@@ -319,11 +320,10 @@ C-------------------------------------------
      4                 DEPBXY  ,SIGOXX  ,SIGOYY  ,SIGOXY  ,SIGOYZ  ,
      5                 SIGOZX  ,MOMOXX  ,MOMOYY  ,MOMOXY  ,SIGNXX  ,
      6                 SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,MOMNXX  ,
-     7                 MOMNYY  ,MOMNXY  )
+     7                 MOMNYY  ,MOMNXY  ,ZSHIFT  )
       ELSEIF (MTN == 2) THEN
-        VP = IPM(255,MX)
-        CALL SIGEPS02G(ELBUF_STR,
-     1                 JFT     ,JLT     ,PM      ,FOR     ,MOM     ,
+        CALL SIGEPS02G(ELBUF_STR,mat_elem%mat_param(imat),
+     1                 JFT     ,JLT     ,FOR     ,MOM     ,
      2                 THKN    ,EINT    ,OFF     ,DT1C    ,ISRATE  ,
      3                 G       ,A1      ,A2      ,VOL0    ,NU      ,
      4                 THK0    ,GS      ,EPSPL   ,IOFC    ,KFTS    ,
@@ -334,7 +334,7 @@ C-------------------------------------------
      9                 SIGOZX  ,MOMOXX  ,MOMOYY  ,MOMOXY  ,SIGNXX  ,
      A                 SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,MOMNXX  ,
      B                 MOMNYY  ,MOMNXY  ,ETSE    ,EXZ     ,EYZ     ,
-     C                 NEL    ,IOFF_DUCT,VP      , NUVAR  ,UVAR )
+     C                 NEL    ,IOFF_DUCT,NUVAR  ,UVAR )
       ELSEIF (MTN == 22) THEN
         CALL SIGEPS22G(ELBUF_STR,
      1            JFT     ,JLT     ,PM      ,FOR     ,MOM      ,
@@ -503,7 +503,7 @@ C-----------------------
         ENDDO
       ENDIF ! IF (IGTYP /= 1)
 C-----------------------
-C      FORCES ET MOMENTS
+C      forces and moments
 C-----------------------
       DO I=JFT,JLT
         FOR_G(I,1) = SIGNXX(I)+SIGVXX(I)
@@ -530,16 +530,7 @@ C-----------------------------------------------
         ZCFAC(I,2) = ZCFAC(I,1)
       ENDDO
 C---------------------------
-C     offset
-C---------------------------
-      IF (ZSHIFT /= ZERO) THEN
-        DO I=JFT,JLT                                                   
-          SH_OFFSET = ZSHIFT*THK(I)
-          MOM(I,1:3) = MOM(I,1:3) + FOR(I,1:3) *SH_OFFSET*SH_OFFSET      
-        ENDDO
-      ENDIF
-C---------------------------
-C     VISCOSITE DE MEMBRANE
+C     membrane viscosity
 C---------------------------
       IF (DM > ZERO) THEN
         DO I=JFT,JLT                                                   
@@ -572,8 +563,8 @@ C
         EINT(I,2) = EINT(I,2) + DEGFX(I)*THK0(I)*VOL2
       ENDDO
 C----------------------------
-C     TEST DE RUPTURE DUCTILE
-C     INDX utilise dans IELOF
+C     Ductile rupture test
+C     INDX used in IELOF
 C----------------------------
       NINDX=0
       DO I=JFT,JLT

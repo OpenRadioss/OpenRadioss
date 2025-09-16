@@ -28,15 +28,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    constant_mod       ../common_source/modules/constant_mod.F
 !||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
 !||====================================================================
-      SUBROUTINE POWDER_BURN    (
+      SUBROUTINE POWDER_BURN    ( NPROPM, NUMMAT ,
      1                            IFLAG , NEL    ,PM    ,OFF       , EINT  ,MU          ,MU2 ,
      2                            ESPE  , DVOL   ,DF    ,VNEW      , MAT   ,PSH         ,
      3                            PNEW  , DPDM   ,DPDE  ,MAT_PARAM ,
-     4                            VAREOS, NVAREOS,NPROPM,NUMMAT    ,DT1   ,RHO0   ,BFRAC)
-C-----------------------------------------------
-C   M o d u l e s
-C-----------------------------------------------
-C
+     4                            VAREOS, NVAREOS,DT1   ,RHO0      ,BFRAC )
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------

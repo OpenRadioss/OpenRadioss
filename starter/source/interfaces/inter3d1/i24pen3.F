@@ -616,7 +616,7 @@ C     REAL
       INTEGER  EL2
       my_real
      .   S
-C----add commun ID--at end--------------------------
+C---- Common Add Id--And End --------------------------------------------------------------------
 C--------eliminier some initial penetrations---------
 C------automatic for self_contact
        IELIM=0

@@ -209,7 +209,7 @@ C     Reset IFLAG to 0
 C     Find bricks connected to surface element
       DO II = 1, NSEG
          NSURFNODE = 3
-C     Flag surface element nodes
+C     Flag surface nodes
          DO KK = 1, NSURFNODE
             KKK = IBUF(ELEM(KK, II))
             IFLAG(KKK) = 1
@@ -277,7 +277,7 @@ C     Find the corresponding face
                ENDIF
             ENDDO
          ENDDO
-C     Unflag surface element nodes
+C     Unflag surface nodes element
          DO KK = 1, NSURFNODE
             KKK = IBUF(ELEM(KK, II))
             IFLAG(KKK) = 0               

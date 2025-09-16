@@ -70,11 +70,11 @@ C-----------------------------------------------
      .  TS, DERI, VF, FAC, FACX, FINTER, FINTER_SMOOTH
       EXTERNAL FINTER, FINTER_SMOOTH
 C-----------------------------------------------
-C        NC : nombre de condition cinematique
-C        IC : numero de la condition cinematique (1,NC)
+C        NC: number of cinematic condition
+C        ic: number of the kinematic condition (1,nc)
 C        IK :
 C        I  : numero global du noeud (1,NUMNOD)
-C        J  : direction 1,2,3,4,5,6
+C        J ': direction 1,2,3,4,5,6
 C------
 C        IADLL(NC)        : IAD = IADLL(IC)
 C        IK = IAD,IAD+1,IAD+2,...
@@ -208,24 +208,24 @@ C-----------------------------------------------
       EXTERNAL FINTER, FINTER_SMOOTH
       INTEGER :: node_id
 C-----------------------------------------------
-C        NC : nombre de condition cinematique
-C        IC : numero de la condition cinematique (1,NC)
+C        NC: number of cinematic condition
+C        ic: number of the kinematic condition (1,nc)
 C        IK :
 C        I  : numero global du noeud (1,NUMNOD)
-C        J  : direction 1,2,3,4,5,6
+C        J ': direction 1,2,3,4,5,6
 C------
-C        BLL => LAGCOMC(2)
-C        IADLL => LAGCOMC(1)
-C        LLL => LAGCOMK(1)
-C        JLL => LAGCOMK(2)
-C        SLL => LAGCOMK(3)
+C        BLL => Lagcomc (2)
+C        Iadll => lagcomc (1)
+C        LLL => Lagcomk (1)
+C        JLL => LAGCOMK (2)
+C        SLL => LAGCOMK (3)
 C        XLL => LAGCOMK(4)
 C======================================================================|
       DO N=1,NFXVEL
         IF (IBFV(8,N)/=0) THEN
          NNO = IABS(IBFV(1,N))
          node_id = NNO
-         IF(WEIGHT(NNO)==1) THEN  ! une seule fois en SPMD
+         IF(WEIGHT(NNO)==1) THEN  ! Only once in SPMD
 C   numerotation globale
           FACX   = VEL(5,N)
           TS = (TT + HALF*DT2)*FACX

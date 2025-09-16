@@ -151,7 +151,7 @@ C
           NNOD = NSTRF(K0+6)
           TYPE=NSTRF(K0)
           IF(TYPE>=1)THEN
-C ecriture deplacements
+C Writing displacements 
             ID_SEC=NSTRF(K0+23)
             IF(NSPMD==1) THEN
               CALL WRITE_I_C(ID_SEC,1)
@@ -165,7 +165,7 @@ C ecriture deplacements
             ENDIF
             IF(IRODDL/=0)THEN
 C-----------------------------------------------------
-C Comm SPMD + Ecriture
+C Comm SPMD + Writing
 C-----------------------------------------------------
               IF(NSPMD>1) THEN
                IF (ISPMD==0) THEN
@@ -196,7 +196,7 @@ C-----------------------------------------------------
               ENDIF
             ELSE
 C-----------------------------------------------------
-C Comm SPMD + Ecriture
+C Comm SPMD + Writing
 C-----------------------------------------------------
               IF(NSPMD>1) THEN
                IF (ISPMD==0) THEN
@@ -229,7 +229,7 @@ C-----------------------------------------------------
 C ecriture forces
             IF(IRODDL/=0)THEN
 C-----------------------------------------------------
-C Comm SPMD + Ecriture
+C Comm SPMD + Writing
 C-----------------------------------------------------
               IF(NSPMD>1) THEN
                IF (ISPMD==0) THEN
@@ -260,7 +260,7 @@ C-----------------------------------------------------
               ENDIF
             ELSE
 C-----------------------------------------------------
-C Comm SPMD + Ecriture
+C Comm SPMD + Writing
 C-----------------------------------------------------
               IF(NSPMD>1) THEN
                IF (ISPMD==0) THEN
@@ -301,7 +301,7 @@ C T = TT
 C-----------------------------------------------
       IF(NSTRF(2)>=1)THEN
 C-----------------------------------------------
-C Calcul erreur locale cummulee dans FSAVE
+C Calculation of local error combined in FSAVE
 C-----------------------------------------------
         IFRL1=NSTRF(7)
         IFRL2=MOD(IFRL1+1,2)
@@ -362,7 +362,7 @@ C-----------------------------------------------
         ENDDO
       ENDIF
 C-----------------------------------------------
-C READ FILE dans l ordre des sections lues sur le fichier
+C READ FILE in the order of the sections read from the file
 C  T = TT + DT2
 C-----------------------------------------------
        IF(NSPMD==1) THEN
@@ -377,7 +377,7 @@ C-----------------------------------------------
            END DO
          END IF
 C
-C SPMD SPECIFIC : MAJ MODIF NSTRF et SECBUF dans SECT_READP
+C SPMD SPECIFIC: UPDATE MODIFICATION NSTRF and SECBUF in SECT_READP
 C
          CALL SECTION_READP(TT+DT2,NSTRF,SECBUF,NNODT,IAD_CUT,FR_CUT)
        END IF

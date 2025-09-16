@@ -318,7 +318,7 @@ C                                     <=> mele12=dmels(mqviscb)/2/4
               TAGA(I)=TAGA(I)+1
               KMULT=MAX(KMULT,TAGA(I))
             END DO
-C peut etre instable pour les prismes
+C may be unstable for prisms
 C           MELE4 =HALF*DMELS(IE)
             MELE4 =KMULT*HALF*DMELS(IE)
 C
@@ -329,7 +329,7 @@ C  w^2 < 2k / (m+8*dmels)
 C  but dt = 2/w =sqrt( 2*(m+dmels) /k) => 8*dmels=dmels(mqviscb)/2
 C                                     <=> mele12=dmels=dmels(mqviscb)/2/8
 C
-C  Pentas (note : 2 x plus de masse que necessaire sur les nds non doubles)
+C  Pentas (note: 2x more mass than necessary on non-double nodes)
 C  Me=[ 5*dmels    -dmels   ...        -dmels ]
 C     [  -dmels   5*dmels   ...        -dmels ]
 C     [  -dmels    -dmels  5*dmels     -dmels ]
@@ -390,7 +390,7 @@ C void elements may be into contact
             IF (OFFG(J) > ZERO) THEN
              MELE4 = HALF*DMELS(IE)
 C
-C             Q : Quelles VP pour M-1K ?  M=[ Mvettex+9dm, -dm      ,.....    ]
+C             Q: What VP for M-1K?M = [mvettex+9dm, -dm, .....]
 C                     [  -dm   , Medge+9dm, -dm, ....]
 C                      .........
 C             Mvertex = Mass/32, Medge=7*Mass/48
@@ -453,7 +453,7 @@ C
 
            END DO
 
-C          nd milieu inexistant, transfert aux sommets (symetrie dans JSM_SMS...)
+C          nd nonexistent midfielder, transfer to the summits (symmetry in jsm_sms ...)
            DO K=1,6
 
              I =IXS10(K,J1)
@@ -513,7 +513,7 @@ C          nd milieu inexistant, transfert aux sommets (symetrie dans JSM_SMS...
             IF (OFFG(J) > ZERO) THEN
              MELE4 = HALF*DMELS(IE)
 C
-C             Q : Quelles VP pour M-1K ?  M=[ Mvettex+9dm, -dm      ,.....    ]
+C             Q: What VP for M-1K?M = [mvettex+9dm, -dm, .....]
 C                     [  -dm   , Medge+9dm, -dm, ....]
 C                      .........
 C             Mvertex = Mass/32, Medge=7*Mass/48
@@ -1424,7 +1424,7 @@ C
 C
         IF(TAGMSR_RBY_SMS(MSR) /= 0) THEN
 C
-C ce noeud ne sera jamais supprime des rwalls ... probleme ou pas ?
+C this node will never be removed from the rwalls ... problem or not?
          NODXI_SMS(MSR)=1
 C
          NSN=NPBY(2,M)

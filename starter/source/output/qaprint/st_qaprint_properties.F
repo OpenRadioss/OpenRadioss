@@ -66,14 +66,12 @@ C=======================================================================
         DO MY_PID=1,NUMGEO
         CALL FRETITL2(TITR,IGEO(NPROPGI-LTITR+1,MY_PID),LTITR) 
 C
-C         Le Titr de la PID sert de nom de la variable dans le ref.extract , suivi de l'ID de la PID 
-C         2 PIDs peuvent avoir le meme titre
           IF(LEN_TRIM(TITR)/=0)THEN
             CALL QAPRINT(TITR(1:LEN_TRIM(TITR)),IGEO(1,MY_PID),0.0_8)
           ELSE
             CALL QAPRINT('A_PID_FAKE_NAME',IGEO(1,MY_PID),0.0_8)
           END IF
-          DO I=1,NPROPGI-LTITR ! si on ne peut pas tester une chaine de caracteres, do i=1,npropgi
+          DO I=1,NPROPGI-LTITR 
             IF(IGEO(I,MY_PID)/=0)THEN
 C
 C             VARNAME: variable name in ref.extract (without blanks)

@@ -99,7 +99,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    table_mod              ../engine/share/modules/table_mod.F
 !||    timer_mod              ../engine/source/system/timer_mod.F90
 !||====================================================================
-      SUBROUTINE SZFORC3(TIMERS,ELBUF_TAB,NG      ,
+      SUBROUTINE SZFORC3(TIMERS,  ELBUF_TAB,NG      ,
      1                   PM       ,GEO     ,IXS     ,X      ,
      2                   A        ,V       ,MS      ,W      ,FLUX   ,
      3                   FLU1     ,VEUL      ,FV      ,ALE_CONNECT    ,IPARG    ,
@@ -125,6 +125,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE TIMER_MOD
+      USE OUTPUT_MOD, only : OUTPUT_
       USE MMAIN_MOD
       USE TABLE_MOD
       USE MAT_ELEM_MOD            
@@ -133,7 +134,6 @@ C-----------------------------------------------
       USE SENSOR_MOD
       USE ALE_MOD
       USE DT_MOD
-      USE OUTPUT_MOD
       USE ELBUFDEF_MOD
       USE SDISTOR_INI_MOD, ONLY : SDISTOR_INI
       use glob_therm_mod
@@ -250,7 +250,7 @@ C
       my_real
      .   MUVOID(MVSIZ),FAC_NU,NU_SP,NU0,DN
 C-----
-C 8-nodes solid connectivities
+C 8-nodes Solid Connectivities
       INTEGER NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ), 
      .        NC5(MVSIZ), NC6(MVSIZ), NC7(MVSIZ), NC8(MVSIZ)
       my_real
@@ -320,7 +320,6 @@ C-----
 C     IBOLTP : flag bolt preloading
       INTEGER IBOLTP,NBPRELD,IMAT,ISM12_11,NN_DEL,PID,ISCTL,ISTAB(MVSIZ)
       my_real, DIMENSION(:), ALLOCATABLE :: VAR_REG
-      my_real :: NL_NBNOD
       my_real, DIMENSION(:), POINTER :: BPRELD,DNL
       my_real :: P(MVSIZ)
       INTEGER SZ_IX
@@ -602,7 +601,7 @@ c
      6   WZZ,        BUFMAT,     NEL,        NFT,
      7   IPM,        NUMMAT,     NUMELS+NSVOIS)
       ELSE
-        CALL SDEFO3(
+        CALL SDEFO3(OUTPUT%DATA%FANI_CELL,
      1   PX1,     PX2,     PX3,     PX4,
      2   PY1,     PY2,     PY3,     PY4,
      3   PZ1,     PZ2,     PZ3,     PZ4,
@@ -691,28 +690,30 @@ c===========================================================================
         L_NLOC = NLOC_DMG%L_NLOC
         DNL  => NLOC_DMG%DNL(1:L_NLOC) ! DNL = non local variable increment
         DO I=1,NEL
-          ! Recover non-local d.o.fs position
-          INOD(1:8) = 0
-          IPOS(1:8) = 0
-          DO J = 1,ELBUF_TAB(NG)%NLOCS%NL_ISOLNOD(I)
-            INOD(J) = NLOC_DMG%IDXI(ELBUF_TAB(NG)%NLOCS%NL_SOLNOD(J,I))
+          INOD(1) = NLOC_DMG%IDXI(NC1(I))
+          INOD(2) = NLOC_DMG%IDXI(NC2(I))
+          INOD(3) = NLOC_DMG%IDXI(NC3(I))
+          INOD(4) = NLOC_DMG%IDXI(NC4(I))
+          INOD(5) = NLOC_DMG%IDXI(NC5(I))
+          INOD(6) = NLOC_DMG%IDXI(NC6(I))
+          INOD(7) = NLOC_DMG%IDXI(NC7(I))
+          INOD(8) = NLOC_DMG%IDXI(NC8(I))
+          DO J = 1, 8
             IPOS(J) = NLOC_DMG%POSI(INOD(J))
           ENDDO
-          ! Computation of non-local variable at intg. point
-          VAR_REG(I) = ZERO
-          NL_NBNOD = ELBUF_TAB(NG)%NLOCS%NL_ISOLNOD(I)
-          DO J = 1, ELBUF_TAB(NG)%NLOCS%NL_ISOLNOD(I)
-            VAR_REG(I) = VAR_REG(I) + DNL(IPOS(J))/NL_NBNOD
-          ENDDO
+          VAR_REG(I) = DNL(IPOS(1)) + DNL(IPOS(2)) + DNL(IPOS(3)) + DNL(IPOS(4)) 
+     .               + DNL(IPOS(5)) + DNL(IPOS(6)) + DNL(IPOS(7)) + DNL(IPOS(8))
+          VAR_REG(I) = VAR_REG(I)*ONE_OVER_8
         ENDDO
       ENDIF
 c===========================================================================
 C
       IF(IBOLTP /= 0) CALL BOLTST(IP    ,BPRELD    ,LBUF%SIG  ,TT     ,NEL   ,
-     .                            NPT   ,SENSORS%NSENSOR,SENSORS%SENSOR_TAB)
+     .                            NPT   ,SENSORS%NSENSOR,SENSORS%SENSOR_TAB,
+     .                            IPARG(67,NG),IPARG(68,NG))
 C
 C Compute stresses according to the material law
-      CALL MMAIN(TIMERS,
+      CALL MMAIN(TIMERS, OUTPUT,
      1   ELBUF_TAB,   NG,          PM,          GEO,
      2                ALE_CONNECT, IXS,         IPARG,
      3   V,           TF,          NPF,         BUFMAT,
@@ -1099,36 +1100,36 @@ c===========================================================================
       IF (INLOC > 0) THEN  
         CALL SFINT_REG(
      1    NLOC_DMG ,VAR_REG  ,NEL      ,OFF      ,
-     2    VOLN     ,ELBUF_TAB(NG)%NLOCS,GBUF%VOL ,
-     3    PX1      ,PX2      ,PX3      ,PX4      ,     
-     4    PY1      ,PY2      ,PY3      ,PY4      ,
-     5    PZ1      ,PZ2      ,PZ3      ,PZ4      ,
-     6    IMAT     ,ITASK    ,DT2T     ,NFT      )
+     2    VOLN     ,NC1      ,NC2      ,NC3      ,
+     3    NC4      ,NC5      ,NC6      ,NC7      ,
+     4    NC8      ,PX1      ,PX2      ,PX3      ,
+     5    PX4      ,PY1      ,PY2      ,PY3      ,
+     6    PY4      ,PZ1      ,PZ2      ,PZ3      ,
+     7    PZ4      ,IMAT     ,ITASK    ,DT2T     ,
+     8    GBUF%VOL ,NFT      )
       ENDIF    
 c===========================================================================  
 C
 C Finite element heat transfert
       IF (JTHE < 0) THEN
-        IMAT = MXT(1)
         IF (MAT_ELEM%MAT_PARAM(IMAT)%HEAT_FLAG == 1) THEN
-          CALL STHERM(
-     1         PM,      IMAT,    VOLN,    NC1,
-     2         NC2,     NC3,     NC4,     NC5,
-     3         NC6,     NC7,     NC8,     PX1,
-     4         PX2,     PX3,     PX4,     PY1,
-     5         PY2,     PY3,     PY4,     PZ1,
-     6         PZ2,     PZ3,     PZ4,     DT1,
-     7         TEMP,    TEMPEL,  FHEAT,   THEM,
-     8         GBUF%OFF,LBUF%OFF,PARTSAV, IPARTS,
-     9         GBUF%VOL,NEL     ,NUMNOD ,GLOB_THERM%THEACCFACT)
+          CALL STHERM(MAT_ELEM%MAT_PARAM(IMAT),
+     1         VOLN,    NC1,     NC2,     NC3,     NC4,
+     2         NC5,     NC6,     NC7,     NC8,     PX1,
+     3         PX2,     PX3,     PX4,     PY1,
+     4         PY2,     PY3,     PY4,     PZ1,
+     5         PZ2,     PZ3,     PZ4,     DT1,
+     6         TEMP,    TEMPEL,  FHEAT,   THEM,
+     7         GBUF%OFF,LBUF%OFF,PARTSAV, IPARTS,
+     8         GBUF%VOL,NEL     ,NUMNOD ,GLOB_THERM%THEACCFACT)
+     9         
          ELSE
-          CALL STHERM(
-     1         PM,      IMAT,    VOLN,    NC1,
-     2         NC2,     NC3,     NC4,     NC5,
-     3         NC6,     NC7,     NC8,     PX1,
-     4         PX2,     PX3,     PX4,     PY1,
-     5         PY2,     PY3,     PY4,     PZ1,
-     6         PZ2,     PZ3,     PZ4,     DT1,
+          CALL STHERM(MAT_ELEM%MAT_PARAM(IMAT),
+     1         VOLN,    NC1,     NC2,     NC3,     NC4,
+     2         NC5,     NC6,     NC7,     NC8,     PX1,
+     3         PX2,     PX3,     PX4,     PY1,
+     4         PY2,     PY3,     PY4,     PZ1,
+     5         PZ2,     PZ3,     PZ4,     DT1,
      7         TEMP,    TEMPEL,  DIE,     THEM,
      8         GBUF%OFF,LBUF%OFF,PARTSAV, IPARTS,
      9         GBUF%VOL,NEL     ,NUMNOD ,GLOB_THERM%THEACCFACT)

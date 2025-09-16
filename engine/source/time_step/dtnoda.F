@@ -359,7 +359,7 @@ C true dependency
            MASS = RBYM(1,I)
            STI  = RBYM(27,I)
            IF(STI<=ZERO)THEN
-c le rigi materiau
+c the rigid material
               ISTOP = -(I+ NUMNOD)
            ELSEIF(MASS> ZERO)THEN
               K = K + 1

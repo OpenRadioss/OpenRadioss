@@ -51,7 +51,7 @@ C-----------------------------------------------
       my_real
      .   XNOR
 C--------------------------------------------------
-C     CONNECTIVITES ET MATERIEL                   |
+C     connectivities and material
 C--------------------------------------------------
       DO I=LFT,LLT
         MXT(I)=NCP(1,I)

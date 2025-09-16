@@ -31,6 +31,7 @@
 !||    lectur                   ../starter/source/starter/lectur.F
 !||====================================================================
       module fractal_elem_renum_mod
+      implicit none
       contains
 ! ======================================================================================================================
 ! \brief renumber local element numbers in damaged element list after domain decomposition
@@ -60,13 +61,13 @@
 
 
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   arguments 
+!                                                   arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           type (fail_fractal_) ,intent(inout) :: fail_fractal !< fractal model structure
           integer ,intent(in)                 :: numelc       !< total number of 4n shell elements
           integer ,intent(in)                 :: numeltg      !< total number of 3n shell elements
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   local variables 
+!                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i,ii,ifract
           integer :: iel,iel_old,nix,id,nelem

@@ -67,13 +67,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
 !||    mmain_mod              ../engine/source/materials/mat_share/mmain.F90
 !||    nlocal_reg_mod         ../common_source/modules/nlocal_reg_mod.F
+!||    output_mod             ../common_source/modules/output/output_mod.F90
 !||    sdistor_ini_mod        ../engine/source/elements/solid/solide/sdistror_ini.F90
 !||    sensor_mod             ../common_source/modules/sensor_mod.F90
 !||    shour_ctl_mod          ../engine/source/elements/solid/solidez/shour_ctl.F90
 !||    table_mod              ../engine/share/modules/table_mod.F
 !||    timer_mod              ../engine/source/system/timer_mod.F90
 !||====================================================================
-      SUBROUTINE SCFORC3(TIMERS, ELBUF_TAB,NG      ,
+      SUBROUTINE SCFORC3(TIMERS, OUTPUT, ELBUF_TAB,NG      ,
      1                   PM       ,GEO     ,IXS      ,X       ,
      2                   A        ,V       ,MS       ,W       ,FLUX     ,
      3                   FLU1     ,VEUL    ,FV       ,ALE_CONNECT   ,IPARG    ,
@@ -97,6 +98,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE TIMER_MOD
+      USE OUTPUT_MOD, only : OUTPUT_
       USE MMAIN_MOD
       USE TABLE_MOD
       USE MAT_ELEM_MOD            
@@ -130,6 +132,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(TIMER_), INTENT(INOUT) :: TIMERS
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT
       INTEGER, INTENT(IN) :: SNPC
       INTEGER, INTENT(IN) :: STF
       INTEGER, INTENT(IN) :: SBUFMAT
@@ -299,7 +302,6 @@ C-----
       INTEGER INLOC,L_NLOC,IPOS(8),INOD(8)
       my_real, DIMENSION(:,:), ALLOCATABLE :: VAR_REG
       my_real, DIMENSION(:), POINTER :: DNL
-      my_real :: NL_NBNOD
       my_real :: STI_C(MVSIZ),LL(MVSIZ),FLD(MVSIZ),
      .           CNS2,FQMAX,DN
 C-----
@@ -666,19 +668,21 @@ c===========================================================================
         DNL => NLOC_DMG%DNL(1:L_NLOC) ! DNL = non local variable increment
         DO ILAY=1,NLAY
           DO I=1,NEL
-            ! Recover non-local d.o.fs position
-            INOD(1:8) = 0
-            IPOS(1:8) = 0
-            DO J = 1,ELBUF_TAB(NG)%NLOCS%NL_ISOLNOD(I)
-              INOD(J) = NLOC_DMG%IDXI(ELBUF_TAB(NG)%NLOCS%NL_SOLNOD(J,I))
+            INOD(1) = NLOC_DMG%IDXI(NC1(I))
+            INOD(2) = NLOC_DMG%IDXI(NC2(I))
+            INOD(3) = NLOC_DMG%IDXI(NC3(I))
+            INOD(4) = NLOC_DMG%IDXI(NC4(I))
+            INOD(5) = NLOC_DMG%IDXI(NC5(I))
+            INOD(6) = NLOC_DMG%IDXI(NC6(I))
+            INOD(7) = NLOC_DMG%IDXI(NC7(I))
+            INOD(8) = NLOC_DMG%IDXI(NC8(I))
+            DO J = 1, 8
               IPOS(J) = NLOC_DMG%POSI(INOD(J))+ILAY-1
             ENDDO
-            ! Computation of non-local variable at intg. point
-            VAR_REG(I,ILAY) = ZERO
-            NL_NBNOD = ELBUF_TAB(NG)%NLOCS%NL_ISOLNOD(I)
-            DO J = 1, ELBUF_TAB(NG)%NLOCS%NL_ISOLNOD(I)
-              VAR_REG(I,ILAY) = VAR_REG(I,ILAY) + DNL(IPOS(J))/NL_NBNOD
-            ENDDO 
+            VAR_REG(I,ILAY) = DNL(IPOS(1)) + DNL(IPOS(2)) + DNL(IPOS(3)) + 
+     .                        DNL(IPOS(4)) + DNL(IPOS(5)) + DNL(IPOS(6)) +
+     .                        DNL(IPOS(7)) + DNL(IPOS(8))
+            VAR_REG(I,ILAY) = VAR_REG(I,ILAY)*ONE_OVER_8
           ENDDO
         ENDDO     
       ENDIF 
@@ -755,7 +759,7 @@ C Compute new stresses according to constitutive laws
 C Compute time step DT2T
 C------------------------------------------------------
         CURRENT_LAYER=ILAY
-        CALL MMAIN(TIMERS,
+        CALL MMAIN(TIMERS, OUTPUT,
      1   ELBUF_TAB,    NG,          PM,        GEO,
      2                 ALE_CONNECT, IXS,       IPARG,
      3   V,            TF,          NPF,       BUFMAT,
@@ -907,13 +911,14 @@ c===========================================================================
         ! Non-local internal forces 
         CALL SCFINT_REG(
      1    NLOC_DMG ,VAR_REG  ,NEL     ,OFF     ,
-     2    VOLG     ,ELBUF_TAB(NG)%NLOCS,AREA   ,
-     3    PX1      ,PX2      ,PX3     ,PX4     ,
-     4    PY1      ,PY2      ,PY3     ,PY4     ,
-     5    PZ1      ,PZ2      ,PZ3     ,PZ4     ,
-     6    MXT(LFT) ,ITASK    ,DT2T    ,GBUF%VOL,
-     7    NFT      ,NLAY     ,W_GAUSS ,A_GAUSS ,
-     8    ELBUF_TAB(NG)%NLOCTS(1,1))
+     2    VOLG     ,NC1      ,NC2     ,NC3     ,
+     3    NC4      ,NC5      ,NC6     ,NC7     ,
+     4    NC8      ,PX1      ,PX2     ,PX3     ,
+     5    PX4      ,PY1      ,PY2     ,PY3     ,
+     6    PY4      ,PZ1      ,PZ2     ,PZ3     ,
+     7    PZ4      ,MXT(LFT) ,ITASK   ,DT2T    ,
+     8    GBUF%VOL ,NFT      ,NLAY    ,W_GAUSS ,
+     9    A_GAUSS  ,AREA     ,ELBUF_TAB(NG)%NLOCTS(1,1))
       ENDIF
 c===========================================================================  
 c

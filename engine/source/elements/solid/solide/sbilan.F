@@ -101,7 +101,7 @@ C     REAL
      .   REI(MVSIZ), REK(MVSIZ), OFF_L(MVSIZ)
       INTEGER IC, II, J, JST(MVSIZ+1)
 C-----------------------------------------------
-      FLAG = IPARG(80) ! Flag pour sorties additionnelles
+      FLAG = IPARG(80) ! flag for additional outputs
 C-----------------------------------------------
 C     CALCUL BILAN SORTIES DEF 
 C-----------------------------------------------

@@ -103,7 +103,7 @@ C
 C
             IF (K==N)THEN
                 IH=IH+1
-C recherche du ii correct
+C search for the correct ii
                 II = ((IH-1) - IADB)*NVAR
                 DO WHILE((ITHBUF(IH+NN)/=ISPMD).AND.(IH<IADB+NN))
                     IH = IH + 1

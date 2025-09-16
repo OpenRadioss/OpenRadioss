@@ -53,11 +53,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
 !||    mmain_mod              ../engine/source/materials/mat_share/mmain.F90
 !||    nlocal_reg_mod         ../common_source/modules/nlocal_reg_mod.F
+!||    output_mod             ../common_source/modules/output/output_mod.F90
 !||    sensor_mod             ../common_source/modules/sensor_mod.F90
 !||    table_mod              ../engine/share/modules/table_mod.F
 !||    timer_mod              ../engine/source/system/timer_mod.F90
 !||====================================================================
-      SUBROUTINE S20FORC3(TIMERS,
+      SUBROUTINE S20FORC3(TIMERS,OUTPUT,
      1   ELBUF_TAB,  NG,         PM,         GEO,
      2   IXS,        X,          A,          V,
      3   MS,         W,          FLUX,       FLU1,
@@ -87,6 +88,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE TIMER_MOD
+      USE OUTPUT_MOD, only : OUTPUT_
       USE MMAIN_MOD
       USE TABLE_MOD
       USE MAT_ELEM_MOD            
@@ -123,6 +125,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(TIMER_) ,INTENT(INOUT) :: TIMERS
+      TYPE(OUTPUT_) ,INTENT(INOUT) :: OUTPUT
       INTEGER ,INTENT(IN) :: IDEL7NG
       INTEGER ,INTENT(INOUT) :: IDEL7NOK
       integer,dimension(102) :: IDTMIN
@@ -188,11 +191,11 @@ C-----------------------------------------------
      . VDX(MVSIZ),VDY(MVSIZ),VDZ(MVSIZ),SSP_EQ(MVSIZ),
      . AIRE(MVSIZ),CONDE(MVSIZ),CONDEG(MVSIZ,NPE),AMU(MVSIZ),DIVDE(MVSIZ)
 
-      ! Variables utilisees en argument par les materiaux.
+      ! variables used as arguments by materials
       my_real
      .   STI(MVSIZ), WXX(MVSIZ) , WYY(MVSIZ) , WZZ(MVSIZ)
 
-      ! Variables utilisees en argument par les materiaux si SPH uniquement.
+      ! Variables used in argument by materials if SPH only.
       my_real
      .   MUVOID(MVSIZ)
 
@@ -203,7 +206,7 @@ C-----------------------------------------------
      . TEMPEL(MVSIZ),DIE(MVSIZ),THEM(MVSIZ,NPE)
       my_real, dimension(mvsiz) :: fheat
      
-      ! Variables utilisees dans les routines solides uniquement (en arguments).
+      ! variables used only in solid routines (as arguments)
       INTEGER NC(MVSIZ,NPE)
       my_real
      .  OFF(MVSIZ) , RHOO(MVSIZ),NI(NPE,NIPMAX),
@@ -280,7 +283,7 @@ c------------------------------------------------------------
      9 0.613371432700590D0,0.836031107326636D0,0.968160239507626D0/
 C
 c------------------------------------------------------------
-C     Variables utilisees en argument par les materiaux.
+C     variables used as arguments by materials
       DATA IPERM1/0,0,0,0,0,0,0,0,1,2,3,4,1,2,3,4,5,6,7,8/
       DATA IPERM2/0,0,0,0,0,0,0,0,2,3,4,1,5,6,7,8,6,7,8,5/
 C-----------------------------------------------
@@ -424,7 +427,7 @@ C
 C------------------------------------------------------
 C         CALCUL DES CONTRAINTES SUIVANT LOIS CONSTITUTIVES
 C------------------------------------------------------
-          CALL MMAIN(TIMERS,
+          CALL MMAIN(TIMERS, OUTPUT,
      1   ELBUF_TAB,   NG,          PM,          GEO,
      2                ALE_CONNECT, IXS,         IPARG,
      3   V,           TF,          NPF,         BUFMAT,
@@ -535,7 +538,7 @@ C
 
       END IF !( NN_DEL> 0) THEN
 C--------------------------
-C     BILANS PAR MATERIAU
+C     balances by material
 C--------------------------
       IFLAG=MOD(NCYCLE,NCPRI)
       IF (IOUTPRT>0)THEN

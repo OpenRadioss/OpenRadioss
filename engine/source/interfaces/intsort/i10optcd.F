@@ -135,7 +135,7 @@ C
        NLT = NLS
        NLS=0
         DO LS = NLF, NLT
-C   conserver LISTI et LIST pour optimiser le code genere (IA64)
+C   keep LISTI and LIST to optimize the generated code (IA64)
          IS = LISTI(LS)
          I=JS+IS
          L  = CAND_E(I)

@@ -36,16 +36,16 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_fvb_gath            ../engine/source/mpi/airbags/spmd_fvb_gath.F
 !||    spmd_fvb_igath           ../engine/source/mpi/airbags/spmd_fvb_igath.F
 !||--- uses       -----------------------------------------------------
-!||    anim_mod                 ../common_source/modules/output/anim_mod.F
 !||    elbufdef_mod             ../common_source/modules/mat_elem/elbufdef_mod.F90
 !||    finter_mixed_mod         ../engine/source/tools/finter_mixed.F90
 !||    fvbag_mod                ../engine/share/modules/fvbag_mod.F
 !||    fvmbag_meshcontrol_mod   ../common_source/modules/airbag/fvmbag_meshcontrol_mod.F
 !||    message_mod              ../engine/share/message_module/message_mod.F
+!||    output_mod               ../common_source/modules/output/output_mod.F90
 !||    python_funct_mod         ../common_source/modules/python_mod.F90
 !||    sensor_mod               ../common_source/modules/sensor_mod.F90
 !||====================================================================
-      SUBROUTINE FV_UP_SWITCH(NN, NEL, ELEM, NJET, NPOLY,LENH,NBA,
+      SUBROUTINE FV_UP_SWITCH(OUTPUT,NN, NEL, ELEM, NJET, NPOLY,LENH,NBA,
      2     IBAGJET, RBAGJET, NVENT    , IBAGHOL, RBAGHOL ,
      3     P      , RHO    , TK       , U      , SSPK    ,
      4     X      , V        , A      , NSENSOR, SENSOR_TAB,
@@ -71,13 +71,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M O D U L E S
 C-----------------------------------------------
+      USE OUTPUT_MOD
       USE FVBAG_MOD
       USE MESSAGE_MOD
       USE ELBUFDEF_MOD
       USE FVMBAG_MESHCONTROL_MOD
 !     USE OMP_LIB
       USE SENSOR_MOD
-      USE ANIM_MOD
+      USE OUTPUT_MOD
       USE python_funct_mod
       use finter_mixed_mod
 C-----------------------------------------------
@@ -102,6 +103,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT
       INTEGER, INTENT(IN) :: NPOLY, LENH, NPOLH, NBA,NSENSOR
       INTEGER, INTENT(IN) :: NN, NEL, NELT, ELEM(3, NELT), NJET, IBAGJET(NIBJET, NJET),
      .        NVENT, NPC(SNPC),  IFVNOD(3,NNS), IFVTRI(6,NNTR),
@@ -1140,7 +1142,7 @@ C---------------------------------------------------
 !$OMP END SINGLE
 
       !------------------------------!
-      ! --- CHARACTERISTIC LENGTH ---!
+      ! --- Characteristic Length ---!
       !------------------------------!
       IDT_FVMBAG = FVDATA(IFV)%ID_DT_OPTION  ! /DT/FVMBAG/[IDT_FVMBAG]
               
@@ -1676,7 +1678,7 @@ C     AUTOMATIC SWITCH TO UNIFORM PRESSURE WHEN DISPERSION OF PRESSURE IS LOW
 C---------------------------------------------------
 C NODAL FLUID VELOCITIES
 C---------------------------------------------------
-      IF( (TT>=TANIM .AND. TT<=TANIM_STOP) .OR.TT>=TOUTP.OR. NBGAUGE > 0 .OR.
+      IF( (TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP) .OR.TT>=TOUTP.OR. NBGAUGE > 0 .OR.
      .              (MANIM>=4.AND.MANIM<=15) ) THEN
 C     COMPUTATIONS FOR ANIM, ALSO NEEDED IF THERE ARE GAUGES.
         PREPARE_ANIM = 1

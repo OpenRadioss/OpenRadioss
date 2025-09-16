@@ -34,9 +34,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    groupdef_mod    ../common_source/modules/groupdef_mod.F
 !||    h3d_mod         ../engine/share/modules/h3d_mod.F
 !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    output_mod      ../common_source/modules/output/output_mod.F90
 !||    sensor_mod      ../common_source/modules/sensor_mod.F90
 !||====================================================================
-      SUBROUTINE INTFOP1(
+      SUBROUTINE INTFOP1(OUTPUT,
      1       IPARI ,X      ,A    ,
      2       ICODT ,FSAV    ,WA      ,V      ,MS   ,
      3       DT2T  ,NELTST  ,ITYPTST ,ITAB   ,STIFN,
@@ -48,6 +49,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
+      USE OUTPUT_MOD, ONLY : OUTPUT_
       USE INTBUFDEF_MOD
       USE H3D_MOD
       USE GROUPDEF_MOD
@@ -70,6 +72,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT
       INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER NELTST,ITYPTST 
       INTEGER NUM_IMP(*),NS_IMP(*),NE_IMP(*),NT_IMP
@@ -118,12 +121,12 @@ C
 C
          IF(N2D==0)THEN
           IF (NTY==14) THEN
-           CALL I14CMP(IPARI(1,N),INTBUF_TAB(N),IGRSURF ,BUFSF ,
+           CALL I14CMP(OUTPUT,IPARI(1,N),INTBUF_TAB(N),IGRSURF ,BUFSF ,
      2              A ,X ,V ,WA ,FSAV(1,N) ,
      3              IN ,STIFN ,FCONT ,MS ,FSKYI , 
      4              ISKY ,NPC ,TF ,H3D_DATA)
           ELSEIF (NTY==15) THEN
-           CALL I15CMP(IPARI(1,N),INTBUF_TAB(N),
+           CALL I15CMP(OUTPUT,IPARI(1,N),INTBUF_TAB(N),
      2            IGRSURF,BUFSF,A, X, V,
      3            WA, FSAV(1,N),IN, STIFN, FCONT,
      4            MS, FSKYI,ISKY, NPC, TF,
@@ -131,7 +134,7 @@ C
           ELSE
            IF(IMPL_S/=1)THEN
               IF(TT>=TS) THEN
-                CALL INTVO3(
+                CALL INTVO3(output,
      1        IPARI(1,N) ,X,A    ,
      2        ICODT      ,FSAV(1,N)    ,WA           ,V ,MS       ,
      3        FSKYI      ,ISKY         ,FCONT   ,FNCONT ,FTCONT   ,
@@ -141,7 +144,7 @@ C
            ELSE
              NUM_IMP(N) =0
               IF(TT>=TS) THEN
-                CALL INTVO3(
+                CALL INTVO3(output,
      1          IPARI(1,N) ,X ,A        ,
      2          ICODT      ,FSAV(1,N)    ,WA           ,V ,MS       ,
      3          FSKYI      ,ISKY         ,FCONT   ,FNCONT ,FTCONT   ,
@@ -153,7 +156,7 @@ C
           END IF
          ELSE
           IF(TT>=TS) THEN
-            CALL INTVO2(
+            CALL INTVO2(output,
      1        IPARI(1,N) ,INTBUF_TAB(N),X   ,A ,
      2        ICODT      ,FSAV(1,N)    ,FSKYI        ,ISKY   ,
      3        FCONT      ,FNCONT       , FTCONT     ,H3D_DATA )
@@ -167,7 +170,7 @@ C
          ELSE
            IPARI(16,N) = NCYCLE
 #include "lockoff.inc"
-           CALL I6MAIN(
+           CALL I6MAIN(output,
      1        IPARI(1,N),X ,A        ,
      2        ICODT     ,NPC          ,TF           ,V ,FSAV(1,N),
      3        DT2T      ,NELTST       ,ITYPTST      ,FSKYI ,ISKY ,

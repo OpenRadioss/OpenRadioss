@@ -31,7 +31,7 @@ C
 !||====================================================================
       SUBROUTINE DT3LAW(PM,EINT,GEO,PID,MAT, DELTAX, AIRE, VOL, DTX)
 C
-C     CALCUL DES DT ELEM. DES LOIS 3,4,23
+C     CALCULATION OF DT ELEM. OF LAWS 3,4,23
 C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -55,35 +55,27 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, MX
-C     REAL
-      my_real
-     .   RHO0(MVSIZ), G(MVSIZ),
-     .   C1(MVSIZ), C2(MVSIZ), C5(MVSIZ), C6(MVSIZ), SSP(MVSIZ),
-     .   ESPE(MVSIZ), DPDM(MVSIZ), VIS(MVSIZ)
+      INTEGER :: I, MX
+      my_real :: RHO0(MVSIZ), G(MVSIZ), SSP(MVSIZ),ESPE(MVSIZ), VIS(MVSIZ), BULK(MVSIZ)
 C=======================================================================
       DO I=LFT,LLT
-         MX      =MAT(I)
-         RHO0(I) =PM( 1,MX)
-         G(I)    =PM(22,MX)
-         C1(I)   =PM(31,MX)
-         C2(I)   =PM(32,MX)
-         C5(I)   =PM(35,MX)
-         C6(I)   =PM(36,MX)
-         ESPE(I) =EINT(I)
+         MX = MAT(I)
+         RHO0(I) = PM(1,MX)
+         G(I) = PM(22,MX)
+         BULK(I) = PM(32,MX)
+         ESPE(I) = EINT(I)
          VIS(I) = ZERO
       END DO
 
 C-----------------------
-C     CALCUL DE DP/DRHO
+C     CALCULATION OF DP/DRHO
 C-----------------------
       DO I=LFT,LLT
-         DPDM(I)=ONEP333*G(I)+C2(I)+C6(I)*ESPE(I)
-     .        +(C5(I))*(C1(I)+(C5(I))*ESPE(I))
-         SSP(I)=SQRT(ABS(DPDM(I))/RHO0(I))
+         ! more precise estimator is to call EOSMAIN to compute BULK and SHEAR modulus updated for each element
+         SSP(I)=SQRT((ABS(BULK(I))+ONEP333*G(I))/RHO0(I))
       END DO
 C----------------------------------
-C     CALCUL DES DT ELEMENTAIRES
+C     CALCULATION OF ELEMENTARY DT
 C----------------------------------
       IF(JSPH==0)THEN
          CALL DTEL(SSP,PM,GEO,PID,MAT, RHO0, VIS, DELTAX, AIRE, VOL, DTX)

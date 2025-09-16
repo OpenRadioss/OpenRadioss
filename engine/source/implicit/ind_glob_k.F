@@ -1733,7 +1733,7 @@ C----- rbe2 main------
       ENDDO
 C-----will be stored in ICOKM(NKMAX,*)    
       NKINM=NKINE
-C-----pour IND_GLOB_K, passer NKINM par include ou module, modifier dans IND_KINE_    
+C-----for IND_GLOB_K, pass NKINM via include or module, modify in IND_KINE_-----
 C      K=0
 C------interface 2-------------- 
       DO I=1,NINT2
@@ -1938,7 +1938,7 @@ C-----------------------------------------------
       INTEGER NMN,J,K
       INTEGER I,N,M,L,NS,ID,NM,NSN,IAD,ILEV,NDOFM,IROT,IC
 C-----------------------------------------------
-C------interface 2---au cas surface main est deactive----------- 
+C------ interface 2 --- In case main surface is deactivated ------------ 
       DO I=1,NINT2
        N=IINT2(I)
        NSN = IPARI(5,N)
@@ -2134,8 +2134,8 @@ C-----------------------------------------------
       INTEGER NSN,NMN,I,J,K,N,M,EP,L,NI,NJ,K12,ID,NS,NK,NM,NNOD,N1,L1,NL1,NL,J1,NM1,
      .        JI1,L10,L11,L12,L13,L14,NNOD1,I1,NSN1,M1,NKE,IAD,IC
 C     NROW(NUMNOD) :nombre of connected nodes (non sym)
-C     NROWI(NKINE) :INDICE LOCALE <=NNMAX (NROW peut eventuellement depasse NNMAX)
-C     INLOC(NUMNOD) :indice locale des "kinematic nodes"
+C     Nrow (Kine): Local index <= nnmax (Nrow can possibly exceed nnmax)
+C     INLOC (NUMNOD): Local index of "Kinematic Nodes"
 C-----------------------------------------------
 C------interface 2-------------- 
       DO I=1,NINT2
@@ -2201,7 +2201,7 @@ C-----with Kij block-(i,j have the same M)-----
         ENDIF
        ENDDO 
       ENDDO
-C+++couplage entre int2----
+C+++ coupling between int2 ----
       IF (NINT2>1) THEN
        DO J=1,NINT2
         N=IINT2(J)
@@ -2290,7 +2290,7 @@ C+++++++Knsns -> Kmns
           ENDIF 
          ENDIF 
        ENDDO 
-C+++estimation de couplage ----
+C+++coupling estimation ----
        NROW(M)=NROW(M)+1
       ENDDO
 C------RBE3-------------- 
@@ -2381,7 +2381,7 @@ C----- rigid body ------
          END IF !IF (NDOF(NS)>0)
        ENDDO 
        ENDIF 
-C+++estimation de couplage ----
+C+++coupling estimation ----
        NROW(M)=NROW(M)+NSN
       ENDDO
 C
@@ -2444,7 +2444,7 @@ C-----------------------------------------------
      .        K14,KFI,ID,NS,NK,NM,NNOD,N1,L1,NL1,NL,J1,NM1,N2,
      .        JI1,L10,L11,L12,L13,L14,NNOD1,I1,NSN1,M1,IAD,IC
 C     NROWI(NKINE) :INDICE LOCALE <=NNMAX 
-C     INLOC(NUMNOD) :indice locale des "kinematic nodes"
+C     INLOC (NUMNOD): Local index of "Kinematic Nodes"
 C-----------------------------------------------
 C------interface 2-------------- 
       NSS2=0
@@ -2633,7 +2633,7 @@ C-----due to change of RBE2- (M used ICOKM now) --
          ENDDO
         ENDIF 
       ENDDO
-C+++couplage entre int2----
+C+++ coupling between int2 ----
       NMIJ2=0
 C
       NSS=0
@@ -2686,7 +2686,7 @@ C-----create rigid body secnd nodes with Kij block-(i,j have the same M)-----
        ENDDO 
        ENDIF 
       ENDDO
-C+++couplage entre rigid bodies----
+C+++ Coupling between Rigid Bodies ----
       NMIJ=0
       IF (NRBYAC>1) THEN
        DO J=1,NRBYAC
@@ -2898,7 +2898,7 @@ C-----with Kij block-(i,j secnd)-----
        K=K+NSN
        NK=NK+2*NSC2(J)
       ENDDO
-C+++couplage entre int2----
+C+++ coupling between int2 ----
       NMC2=0
 C-----RBE2------
       K=0
@@ -3072,7 +3072,7 @@ C-----create rigid body secnd nodes with Kij block-(i,j have the same M)-----
        K=K+NSN
        NK=NK+2*NSC(J)
       ENDDO
-C+++couplage entre rigid bodies----
+C+++ Coupling between Rigid Bodies ----
       NMC=0
       IF (NRBYAC>1) THEN
        DO J=1,NRBYAC
@@ -3422,9 +3422,9 @@ C  ICOL(NKMAX,NRBYAC) for main nodes
 C  ICOL(NNMAX,NKINE-NRBYAC) for kine. nodes
 C  ICOL(NNMAX,NNSIZ) for other nodes
 C  NROW(NUMNOD) number of connected nodes use the mem. of iddl
-C----pour spmd on ne distinque plus nodes kine ---------------------------------------
+C---- For SPMD we no longer distinguish node Kine ------------------------------------------------------------------------------
 C   et INLOC(NUMNOD) : local(pi) numnod in order of IDDL
-C   actuel order : nodes fontieres avec pj(j<i); nodes; nodes fontieres avec pj(j>i)
+C   Current order: fountry nodes with pj (j <i);nodes;fountry nodes with pj (j> i)
 c-----1. calcule NNMAX,NDOF;
       DO N =1,NUMNOD
        IDDL(N)=0
@@ -3508,7 +3508,7 @@ c-----4. calcul NNZK,;
       IF (IRODDL==0) THEN
        NDOFJ=3
       ELSE
-C-------cela sur-dimensioner kij en cas du model mix (solide +coque) mais pas trop grace
+C------ This over-dimensioner Kij in case of the Mix Model (solid +shell) but not too thanks
        NDOFJ=6
       ENDIF
       NNZK = 0
@@ -3549,7 +3549,7 @@ C------d'abord frontieres avec precedent procs j<i
          ENDIF
         ENDDO
        ENDDO
-C------frontieres avec procs derierre a la fin j>i
+C------boundaries with procs behind at the end j>i------
        DO IP =ISPMD+2,NSPMD
         DO M=IAD_ELEM(1,IP),IAD_ELEM(1,IP+1)-1
          N=FR_ELEM(M)
@@ -3571,7 +3571,7 @@ C------frontieres avec procs derierre a la fin j>i
         ENDIF
        ENDDO
       ELSE
-C---------set INLOC; pour kine. nodes---
+C--------- Set INLOC;For Kine.Nodes ---
        DO N =1,NUMNOD
         IDDL(N)=INLOC(N)
        ENDDO
@@ -3767,7 +3767,7 @@ C-----------------------------------------------
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
 C=======================================================================
 C     stockage M.C.R.S (Modified Compressed Row Stockage)
-C     stockage creux : diagonale + trangle en lignes: IKPAT=0:triang_sup IKPAT=1: inf
+C     Hollow storage: Diagonal + Trangle in lines: Ikpat = 0: Triang_sup Ikpat = 1: Inf
 C        [K](id,jd)     -> DIAG(ND)+LT(IK)(exclue diag)
 C        id = 1..nddl        : ID = IADK(ID)...IADK(ID+1)-1
 C        jd = 1..NNZK        : JD = JDIK(IK)
@@ -3784,12 +3784,12 @@ C-----------------------------------------------
       INTEGER IAD_M(NSPMD+1)
       INTEGER, DIMENSION(:),ALLOCATABLE :: FR_M
       INTEGER, DIMENSION(:,:),ALLOCATABLE :: ICOKFR
-C     m:main,s:secnd NSS(NRBYAC):nombre de j: Kjm= sum(KjsCsm)
-C     NSC(NRBYAC):nombre de "secnd line": ISIJ(2,NSC,NRBYAC)--
+C     M: Main, S: send nss (nrbyac): number of J: kjm = sum (kjscsm)
+C     NSC (NRBYAC): Number of "send lines": ISIJ (2, NSC, NRBYAC)-
 C     nrowk(NKINE), icok size: NNMAX*(NKINE-NRBYAC)+NKMAX*NRBYAC:icok,icokm
-C------eventuellment actualiser NDOF due au OFF d'element-
+C-----
 C-----1. calcul IADK,JDIK,par each NNSIZ using INLOC.
-C-----IRK=0, calcul des tableux kinematiques est dispense-----
+C-----IRK=0, calculation of kinematic tables is skipped-----
       IF (NSPMD>1) THEN
        DO N = 1 , NUMNOD
          ILOC(N)=0
@@ -4175,7 +4175,7 @@ C---main nodes of rbodies first----
  100  IADK(NDDL+1) = LENK+1
         IF (LENK>NNZK.OR.NL/=(NDDL+1)) 
      .    WRITE(*,*)'--MEMERY PROBLEM 2--:',LENK,NL,NNZK,NDDL+1
-C---remet positive----
+C--- Postive put back ----
       NNZK = LENK
 C----6---------------------------------------------------------------7---------8
       RETURN
@@ -4391,7 +4391,7 @@ C
       ENDDO
       N = II
       IF (N==0) RETURN
-C-----en ordre iddl croisante-----
+C---- In an increasing iddl order -----
       DO I =1,N
        IMIN=IDIC(I)
        II=I
@@ -4456,7 +4456,7 @@ C
       ENDDO
       N = II
       IF (N==0) RETURN
-C-----en ordre iddl croisante-----
+C---- In an increasing iddl order -----
       DO I =1,N
        IMIN=IDIC(I)
        II=I
@@ -4750,7 +4750,7 @@ C
         IDDL(N)=0
        ENDIF
       ENDDO
-C-----couplage avec cond. kine ------
+C-----coupling with kinematic conditions ------
       N_IMPM=N_IMP
       CALL DIM_KINE_I(
      1    NUM_IMP   ,NS_IMP    ,NE_IMP    ,NPBY      ,LPBY      ,
@@ -4858,7 +4858,7 @@ C     REAL
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
 C=======================================================================
 C     stockage M.C.R.S (Modified Compressed Row Stockage)
-C     [K] pour interfaces : diagonale + trangle sup en lignes:
+C     [K] For interfaces: diagonal + trangle sup in lines:
 C        [K](id,jd)     -> DIAG(NDDL)+LT(IK)(exclue diag)
 C        id = 1..nddl        : ID = IADI(ID)...IADI(ID+1)-1
 C        jd = 1..NNZI        : JD = JDII(IK)
@@ -4874,7 +4874,7 @@ C-----------------------------------------------
      .        NTY,NL,NJ,NIN,LENK,IAD,ILOC(N_IMPN+N_IMPM),
      .        NSN,NRTS
 C-----------------------------------------------
-C------ILOCI est ILOC dans IND_GLOB_K -------------- 
+C------ILOCI is ILOC in IND_GLOB_K --------------
 C
       IKP=IKPAT
       NDOFI=3
@@ -6092,7 +6092,7 @@ C
          ENDIF
         ENDDO
       ENDDO
-C-----main nodes traitement spec.------
+C---- Main node treatment spect .------
       DO J=1,NRBYAC
        IF (IA(J)==1) THEN
         N=IRBYAC(J)
@@ -6917,7 +6917,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  I,J,K,ICOL(NDDL),L_NZ,NRI,JD
-C----6--------opt. envisager-creer a partir de tableux nodales--,iadm,jdim+upd_(chaque isetk)
+C---- 6 ------- OPT.Consider-Creer from nodal arrays-, IADM, JDIM+UPD_ (Each ISETK)
       L_NZ = 0
       IADM(L_NZ+1) = L_NZ+1
       DO I = 1,NDDL
@@ -6962,7 +6962,7 @@ C-----------------------------------------------
       INTEGER I,J,II,IT,IMIN
 C
       IF (N==0) RETURN
-C-----en ordre croisante-----
+C----- In increasing order -----
       DO I =1,N
        IMIN=IC(I)
        II=I
@@ -7202,7 +7202,7 @@ C-----------------------------------------------
       INTEGER  I,J,K,ICOL(NDDL),ICRI(NDDL),L_NZ,NRI,JD,NR0
       INTEGER, DIMENSION(:),ALLOCATABLE :: IADK0,JDIK0
       INTEGER, DIMENSION(:),ALLOCATABLE :: IADL,JDIL
-C----6--opt. envisager-creer a partir de tableux nodales--,iadm,jdim+upd_(chaque isetk)
+C---- 6--Opt.Consider-Creer from nodal arrays-, IADM, JDIM+UPD_ (Each ISETK)
       L_NZ = 2*(IADK(NDDL+1)-IADK(1))
 C       
       ALLOCATE(IADK0(NDDL+1),JDIK0(L_NZ))
@@ -7815,7 +7815,7 @@ C
        IDIC(I)=IDDL(IC(I))
       ENDDO
       IF (N==0) RETURN
-C-----en ordre iddl croisante-----
+C---- In an increasing iddl order -----
       DO I =1,N
        IMIN=IDIC(I)
        II=I

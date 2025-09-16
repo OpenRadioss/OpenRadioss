@@ -46,7 +46,7 @@ C
 C     NAME          DESCRIPTION                         
 C
 C     IBOX          BOX structure
-C     X             Node position 
+C     X node position 
 C     SKEW          SKEW array
 C     ELT_ARRAY     Result list of elems
 C     ELT_SIZE      number of stacked elems

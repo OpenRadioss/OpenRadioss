@@ -26,6 +26,7 @@
 !||    get_neighbour_surface         ../engine/source/interfaces/interf/get_neighbour_surface.F90
 !||====================================================================
       module get_segment_orientation_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures
@@ -46,9 +47,9 @@
 !||    shooting_node_mod         ../engine/share/modules/shooting_node_mod.F
 !||====================================================================
         subroutine get_segment_orientation( segment_id,s_elem_state,nixs,nixc,nixtg, &
-                                            numels,numelc,numeltg,numnod, &
-                                            elem_state,ixs,ixc,ixtg,x,  &
-                                            intbuf_tab,shoot_struct )
+          numels,numelc,numeltg,numnod, &
+          elem_state,ixs,ixc,ixtg,x,  &
+          intbuf_tab,shoot_struct )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -81,7 +82,7 @@
           integer, dimension(nixc,numelc), intent(in) :: ixc !< shell element data
           integer, dimension(nixtg,numeltg), intent(in) :: ixtg !< shell3n element data
           real(kind=WP), dimension(3,numnod), intent(in) :: x !< nodal position
-          type(intbuf_struct_), intent(inout) :: intbuf_tab    !< interface data 
+          type(intbuf_struct_), intent(inout) :: intbuf_tab    !< interface data
           type(shooting_node_type), intent(inout) :: shoot_struct !< structure for shooting node algo
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
@@ -123,40 +124,40 @@
           ! for shell3n : elem_id = elem_id - global number of solid + quad + shell + truss + beam + spring
           ! -----------------
           ! solid element :
-          if( (shoot_struct%offset_elem%sol_low_bound<elem_id ).and.& 
-              (elem_id<=shoot_struct%offset_elem%sol_up_bound) )then
+          if( (shoot_struct%offset_elem%sol_low_bound<elem_id ).and.&
+            (elem_id<=shoot_struct%offset_elem%sol_up_bound) )then
             elem_id = elem_id - shoot_struct%offset_elem%sol_low_bound
             node_number = 8
             ! ----------------
             do j=1,node_number
               list(j) = ixs(j+1,elem_id) ! get the node id of the solid element : a node can appeared several time in ixs... (tetra or degenerated element)
-            enddo
-            call myqsort_int(node_number,list,perm_list,error) ! sort the list 
+            end do
+            call myqsort_int(node_number,list,perm_list,error) ! sort the list
             need_orientation = .true.
             ! ----------------
-          ! -----------------
-          ! shell element : 
-          elseif( (shoot_struct%offset_elem%shell_low_bound<elem_id ).and.& 
-              (elem_id<=shoot_struct%offset_elem%shell_up_bound) )then
+            ! -----------------
+            ! shell element :
+          else if( (shoot_struct%offset_elem%shell_low_bound<elem_id ).and.&
+            (elem_id<=shoot_struct%offset_elem%shell_up_bound) )then
             elem_id = elem_id - shoot_struct%offset_elem%shell_low_bound
             node_number = 4
             do j=1,node_number
               list(j) = ixc(j+1,elem_id) ! get the node id of the shell
-            enddo
+            end do
             need_orientation = .false.
-          ! -----------------
-          ! shell3n element :
-          elseif( (shoot_struct%offset_elem%shell3n_low_bound<elem_id ).and.& 
-              (elem_id<=shoot_struct%offset_elem%shell3n_up_bound) )then
+            ! -----------------
+            ! shell3n element :
+          else if( (shoot_struct%offset_elem%shell3n_low_bound<elem_id ).and.&
+            (elem_id<=shoot_struct%offset_elem%shell3n_up_bound) )then
             elem_id = elem_id - shoot_struct%offset_elem%shell3n_low_bound
             node_number = 3
             do j=1,node_number
               list(j) = ixtg(j+1,elem_id) ! get the node id of the shell3n
-            enddo
+            end do
             need_orientation = .false.
-          endif
+          end if
           ! -----------------
-         
+
           if(need_orientation) then
             ! ----------------
             ! check the number of node of the element & save the list of node
@@ -168,8 +169,8 @@
                 real_nb_node = real_nb_node + 1
                 node_id = list(j)
                 node_id_list(real_nb_node) = node_id
-              endif
-            enddo
+              end if
+            end do
             ! ----------------
 
             ! ----------------
@@ -179,14 +180,14 @@
               xc = xc+x(1,node_id)
               yc = yc+x(2,node_id)
               zc = zc+x(3,node_id)
-            enddo
+            end do
             xc=xc*ratio
             yc=yc*ratio
             zc=zc*ratio
             ! ----------------
 
             dds=normal(1)*(xc-segment_position(1))+normal(2)*(yc-segment_position(2))+normal(3)*(zc-segment_position(3))
-            
+
             ! check if the element associated to the segment "segment_id" is deleted
             ! if the element is deleted --> need to consider the opposite condition for DDS
             !     c = barycentre of the element
@@ -195,20 +196,20 @@
             !    element is on
             !     ________
             !    |        |
-            !    |   c--->|     s----> 
+            !    |   c--->|     s---->
             !    |________|
             !
             !
             !    element is off
             !     ________
             !    |        |
-            !    |   c--->| <---- s 
+            !    |   c--->| <---- s
             !    |________|
             !
             !
             if( .not.elem_state( elem_id ) ) then
               dds = -dds
-            endif
+            end if
 
             if(dds  >= zero) then
               if(segment_node_id(3)==segment_node_id(4)) then
@@ -217,11 +218,11 @@
               else
                 do i=1,4
                   intbuf_tab%irectm(4*(segment_id-1)+i)=segment_node_id(4-i+1)
-                enddo
-              endif
-            endif
+                end do
+              end if
+            end if
             ! -------------------------
-          endif
+          end if
 !
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine get_segment_orientation

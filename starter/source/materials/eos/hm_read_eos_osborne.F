@@ -32,13 +32,15 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    message_mod              ../starter/share/message_module/message_mod.F
 !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
 !||====================================================================
-      SUBROUTINE HM_READ_EOS_OSBORNE(IOUT,PM,UNITAB,IUNIT,LSUBMODEL,IMIDEOS)
+      SUBROUTINE HM_READ_EOS_OSBORNE(IOUT,PM,UNITAB,IUNIT,LSUBMODEL,IMIDEOS,MAT_PARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
       USE SUBMODEL_MOD
-      USE MESSAGE_MOD      
+      USE MESSAGE_MOD
+      USE CONSTANT_MOD, ONLY : ZERO, ONE, TWO, THREE100, FOUR, HALF, FOUR, TWO_THIRD
+      USE MATPARAM_DEF_MOD, ONLY : MATPARAM_STRUCT_
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -54,7 +56,8 @@ C  PM(31) = P(MU0,E0) -> will be used to initialize diagonal of stress tensor SI
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-#include      "implicit_f.inc"
+      IMPLICIT NONE
+#include "my_real.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -62,6 +65,7 @@ C-----------------------------------------------
       INTEGER IIN,IOUT,IUNIT
       my_real PM(NPROPM)
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
+      TYPE(MATPARAM_STRUCT_),INTENT(INOUT) :: MAT_PARAM
       INTEGER,INTENT(IN) :: IMIDEOS
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -101,6 +105,7 @@ C-----------------------------------------------
       IF(RHO0 > ZERO) THEN
         RHOR = RHO0
         PM(1)= RHO0 
+        MAT_PARAM%RHO = RHO0
       ELSE
         RHO0=RHOR                   
       ENDIF
@@ -128,19 +133,32 @@ C-----------------------------------------------
       
       
       PM(23) = E0
-      PM(164) = A1
-      PM(32) = A2
-      PM(33) = B0
-      PM(35) = B1
-      PM(36) = B2
-      PM(160) = C0
-      PM(161) = C1
-      PM(162) = D0
-      PM(163) = P0
-      PSH = ZERO
+      PM(32) = (A1+B1+C1*E0*E0) / (E0+D0) !BULK = (1+µ)*dP/dmu (partial derivative at constant E)
+      PSH    = ZERO
       PM(88) = PSH
-      PM(31)  = P0
-      IF(PM(79)==ZERO)PM(79)=THREE100     
+      PM(31) = P0
+
+      MAT_PARAM%EOS%NUPARAM = 9
+      MAT_PARAM%EOS%NIPARAM = 0
+      MAT_PARAM%EOS%NFUNC = 0
+      MAT_PARAM%EOS%NTABLE = 0
+      CALL MAT_PARAM%EOS%CONSTRUCT() !allocations
+
+      MAT_PARAM%EOS%UPARAM(1) = A1
+      MAT_PARAM%EOS%UPARAM(2) = A2
+      MAT_PARAM%EOS%UPARAM(3) = B0
+      MAT_PARAM%EOS%UPARAM(4) = B1
+      MAT_PARAM%EOS%UPARAM(5) = B2
+      MAT_PARAM%EOS%UPARAM(6) = C0
+      MAT_PARAM%EOS%UPARAM(7) = C1
+      MAT_PARAM%EOS%UPARAM(8) = D0
+      MAT_PARAM%EOS%UPARAM(9) = P0
+
+      MAT_PARAM%EOS%PSH = PSH
+      IF (MAT_PARAM%THERM%TINI == ZERO) THEN
+        MAT_PARAM%THERM%TINI =THREE100
+        PM(79) = THREE100
+      END IF
       
       !P0
       IF(RHOI == ZERO)THEN

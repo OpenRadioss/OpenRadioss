@@ -229,7 +229,7 @@ C---
             IF (ITYPE == 1) THEN 
                 COEFF_R2R = 1
               NNOD = IGRNOD(IGRS)%NENTITY
-C-----------Multidomaines : on corrige la masse totale avec le nouveau nb de noeuds--------------
+C-----------Multidomains: the total mass is corrected with the new number of nodes--------------
               IF (NSUBDOM > 0) THEN
                    IF (IPID==0) NNOD = NNOD-IGRNOD(IGRS)%R2R_SHARE
                    COEFF_R2R=(1.00*NNOD)/(1.00*MAX(1,IGRNOD(IGRS)%R2R_ALL))
@@ -240,7 +240,7 @@ C
             IF (IGRS /= 0) THEN
               DO J=1,IGRNOD(IGRS)%NENTITY
                 NOSYS=IGRNOD(IGRS)%ENTITY(J)
-C-----------Multidomaines : les noeuds communs ne sont traites que sur 1 domaine--------------      
+C-----------Multidomains: common nodes are only processed on 1 domain--------------
                 IF ((NSUBDOM > 0).AND.(IPID == 0)) THEN
                   IF (TAGNO(NPART+NOSYS) > 1) GOTO 150
                 ENDIF
@@ -293,7 +293,7 @@ C-----------Multidomaines : les noeuds communs ne sont traites que sur 1 domaine
                 EXIT
               ENDIF
             ENDDO
-C-----------Multidomaines -> on decompte les seg communs, on ne les compte qu'une foi---
+C-----------Multidomains -> we count the common segments, we only count them once---
             IF (NSUBDOM > 0) THEN
                 IF (IDDOM > 0) NN = NN-ISURF_R2R(1,ISS)
             ENDIF
@@ -301,7 +301,7 @@ C-----------
             IF (ISS /= 0) THEN
               DO J=1,NN
                   IF (IDDOM > 0) THEN
-C-----------Multidomaines -> on elimine les seg communs, on ne les traite qu'une foi---
+C-----------Multidomains -> we eliminate the common segments, we only process them once---
                     CAPT=0
                   DO K=1,4
                       CAPT=CAPT+TAGNO(NPART+IGRSURF(ISS)%NODES(J,K))
@@ -392,7 +392,7 @@ C---
               IMASADD = IMASADD + 1
 C
               NEL = IGRPART(IGRS)%NENTITY
-C-----------Multidomaines : on ne peut pas splitter la masse dans ce cas--------------
+C-----------Multidomains: we cannot split the mass in this case--------------
               IF ((NSUBDOM > 0) .AND.(NEL /= IGRPART(IGRS)%R2R_ALL).AND.(NEL > 0)) THEN
                 CALL ANCMSG(MSGID=893,
      .                      MSGTYPE=MSGERROR,
@@ -440,7 +440,7 @@ C-----------Multidomaines : on ne peut pas splitter la masse dans ce cas--------
      .                      I2=ENTITY_MULTI(J))
               ENDIF
               NOSYS = USR2SYS(ENTITY_MULTI(J),ITABM1,MESS,ID)
-C-----------Multidomaines : les noeuds communs ne sont traits que sur 1 domaine--------------      
+C-----------multidomains: common nodes are only processed in one domain--------------
               IF ((NSUBDOM > 0) .AND. (IPID == 0)) THEN
                    IF (TAGNO(NPART+NOSYS) > 1) GOTO 170
                 ENDIF
@@ -506,7 +506,7 @@ C-----------Multidomaines : les noeuds communs ne sont traits que sur 1 domaine-
                 ENDIF
               ENDDO
 !
-C-----------Multidomaines : on ignore les parts qui ne sont pas propres au domaine--------------
+C-----------multidomains: parts that do not belong to the domain are ignored--------------
               IF (NSUBDOM > 0) THEN
                   IF (TAG_PART(IP) == 0) THEN
                   IPMAS(I)%NPART = IPMAS(I)%NPART -1

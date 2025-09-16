@@ -171,7 +171,7 @@ C
             STF  =INTSTAMP(NN)%STF
             VIS  =CVIS(NN)
 C
-C stabilite des amortisseurs (masse augment e)::
+C stabilitis of shock absorbers (mass increase e) ::
 C DM=HALF*C*DTMINS/DTFACS <=> 2*DM/C=DTMINS/DTFACS 
             DIAG_SMS(MAIN)=DIAG_SMS(MAIN)+HALF*VIS*DTMINS/DTFACS
 C

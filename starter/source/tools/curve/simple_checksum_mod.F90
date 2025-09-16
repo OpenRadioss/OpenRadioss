@@ -27,10 +27,9 @@
 !||--- called by ------------------------------------------------------
 !||    hm_read_mat70         ../starter/source/materials/mat/mat070/hm_read_mat70.F
 !||    hm_read_table2_1      ../starter/source/tools/curve/hm_read_table2_1.F
-!||--- uses       -----------------------------------------------------
 !||====================================================================
       module simple_checksum_mod
-        use iso_c_binding, only: c_int, c_double, c_ptr
+        use, intrinsic :: iso_c_binding, only: c_int, c_double, c_ptr
         implicit none
 
         interface

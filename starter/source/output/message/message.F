@@ -184,7 +184,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_ebcs_normv                  ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_normv.F
 !||    hm_read_ebcs_nrf                    ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_nrf.F
 !||    hm_read_ebcs_pres                   ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_pres.F
-!||    hm_read_ebcs_propergol              ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_propergol.F90
+!||    hm_read_ebcs_propellant             ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_propellant.F90
 !||    hm_read_ebcs_valvin                 ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_valvin.F
 !||    hm_read_ebcs_valvout                ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_valvout.F
 !||    hm_read_ebcs_vel                    ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_vel.F
@@ -276,7 +276,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_load_pressure               ../starter/source/loads/general/load_pressure/hm_read_load_pressure.F
 !||    hm_read_mat                         ../starter/source/materials/mat/hm_read_mat.F90
 !||    hm_read_mat01                       ../starter/source/materials/mat/mat001/hm_read_mat01.F
-!||    hm_read_mat02                       ../starter/source/materials/mat/mat002/hm_read_mat02.F
+!||    hm_read_mat02_jc                    ../starter/source/materials/mat/mat002/hm_read_mat02_jc.F90
+!||    hm_read_mat02_predef                ../starter/source/materials/mat/mat002/hm_read_mat02_predef.F90
+!||    hm_read_mat02_zerilli               ../starter/source/materials/mat/mat002/hm_read_mat02_zerilli.F90
 !||    hm_read_mat03                       ../starter/source/materials/mat/mat003/hm_read_mat03.F
 !||    hm_read_mat04                       ../starter/source/materials/mat/mat004/hm_read_mat04.F
 !||    hm_read_mat10                       ../starter/source/materials/mat/mat010/hm_read_mat10.F
@@ -580,7 +582,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    inibcs_cy                           ../starter/source/constraints/general/bcs/lecbcscyc.F
 !||    iniboltprel                         ../starter/source/loads/bolt/iniboltprel.F
 !||    iniebcs                             ../starter/source/boundary_conditions/ebcs/iniebcs.F
-!||    iniebcs_propergol_get_cv            ../starter/source/boundary_conditions/ebcs/iniebcs_propergol.F90
+!||    iniebcs_propellant_get_cp           ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
 !||    iniend                              ../starter/source/interfaces/inter3d1/iniend.F
 !||    inigrav_load                        ../starter/source/initial_conditions/inigrav/inigrav_load.F
 !||    iniguser                            ../starter/source/system/iniguser.F
@@ -2353,7 +2355,7 @@ C-----------------------------------------------
       CHARACTER*2 FUNCTION NL()
 C  |====================================================================
 C  | Routine to set Carriage return according to different OS flavours
-C  | Linux : CR - CHAR(10)
+C  |Linux: CR - Char (10)
 C  | Windows : CR/LF - CHAR(13)CHAR(10)
 C  |====================================================================
       CHARACTER*2 CR

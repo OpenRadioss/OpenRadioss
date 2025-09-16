@@ -412,12 +412,14 @@ c------------------
           CASE (163)
             CALL LAW163_UPD(MAT_PARAM(IMAT),PM(1,IMAT),NPROPM)
 c------------------
-          CASE (190) !PAth dependent foam (dubois)
+          CASE (190) !Path DEPENDE FAAM (DUBOIS)
             CALL LAW190_UPD(MAT_PARAM(IMAT) ,NUMTABL ,ITABLE   ,TABLE   ,PM(1,IMAT),
      .                      NPROPM, NTABLE)
 c------------------
 c
         END SELECT ! (ILAW)  
+        PM(107,IMAT) = TWO*MAX(PM(32,IMAT),PM(100,IMAT)) ! used for contact stif of Icontrol>0
+        IF (ILAW==62) PM(107,IMAT) = HUNDRED*PM(107,IMAT)
 c------------------
       ENDDO        ! IMAT=1,NUMMAT
 c-----------

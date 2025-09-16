@@ -26,6 +26,7 @@
 !||    insert_clause_in_set   ../starter/source/model/sets/insert_clause_in_set.F
 !||====================================================================
       module surface_type_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures
@@ -77,21 +78,21 @@
           if(.not.empty_condition) then ! the set already contains some data
             if(clause_operator==set_add) then ! add operator : new and old are merged
               if(old_value==all_surf.or.new_value==all_surf) set%ext_all = all_surf
-            elseif(clause_operator==set_delete) then ! delete operator : new is removed from old
+            else if(clause_operator==set_delete) then ! delete operator : new is removed from old
               if(old_value==all_surf.and.new_value==ext_surf) set%ext_all = all_surf
               if(old_value==ext_surf.and.new_value==all_surf) set%ext_all = ext_surf
               if(old_value==all_surf.and.new_value==all_surf) set%ext_all = all_surf
-            elseif(clause_operator==set_intersect) then ! intersection operator : intersection of new and old
+            else if(clause_operator==set_intersect) then ! intersection operator : intersection of new and old
               if(old_value==ext_surf.and.new_value==all_surf) set%ext_all = ext_surf
               if(old_value==all_surf.and.new_value==ext_surf) set%ext_all = ext_surf
-            endif
+            end if
           else ! the set is empty
             if(clause_operator==set_add) then ! add operator : set is now = new
               set%ext_all = new_value
-            elseif(clause_operator==set_intersect) then ! intersection operator : the set was empty, intersection = null
+            else if(clause_operator==set_intersect) then ! intersection operator : the set was empty, intersection = null
               set%ext_all = 0
-            endif
-          endif
+            end if
+          end if
 
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine surface_type

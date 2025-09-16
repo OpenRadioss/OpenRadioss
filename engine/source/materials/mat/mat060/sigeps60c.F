@@ -588,7 +588,7 @@ C-------------------
 C     PROJECTION
 C-------------------
        IF(IFLAG(1)==0)THEN
-C projection radiale 
+C radial projection 
          DO I=1,NEL0
            SVM(I)=SQRT(SIGNXX(I)*SIGNXX(I)
      .             +SIGNYY(I)*SIGNYY(I)
@@ -612,7 +612,7 @@ C projection radiale
 C
        ELSEIF(IFLAG(1)==1)THEN
 C-------------------------
-C     CRITERE DE VON MISES
+C     von mises criterion
 C-------------------------
          DO I=1,NEL0
            H(I) = MAX(ZERO,H(I))
@@ -693,10 +693,10 @@ C------------------------------------------
          ENDIF
 C-------------------------------------------
        ELSEIF(IFLAG(1)==2)THEN
-C projection radial sur le deviateur sur un critere reduit
-C projection elastique en z => sig33 = 0
-C le coef. de reduction du critere est tel que 
-C l'on se trouve sur le critere apres les 2 projections
+C radial projection on the deviator on a reduced criterion
+C Elastic projection in z => sig33 = 0
+C the criterion reduction coefficient is such that
+C one is on the criterion after the 2 projections
          DO I=1,NEL0
            P   = -(SIGNXX(I)+SIGNYY(I))*THIRD
            S11 = SIGNXX(I)+P

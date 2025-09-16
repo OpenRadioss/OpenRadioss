@@ -26,6 +26,7 @@
 !||    genstat                ../engine/source/output/sta/genstat.F
 !||====================================================================
       module stat_sphcel_spmd_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
@@ -43,10 +44,10 @@
 !||    my_alloc_mod          ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
         subroutine stat_sphcel_spmd(numnod          ,numsph      ,numsphg      ,nisp          ,npart           ,  &
-                                    ngroup          ,nparg       ,lipart1      ,stat_numelsph ,stat_numelsph_g ,  &
-                                    lengsph         ,nspmd       ,itab         ,ipart         ,kxsp            ,  &
-                                    ipartsph        ,ipart_state ,nodtag       ,stat_indxsph  ,iparg           ,  &
-                                    elbuf_tab       ,idel        )
+          ngroup          ,nparg       ,lipart1      ,stat_numelsph ,stat_numelsph_g ,  &
+          lengsph         ,nspmd       ,itab         ,ipart         ,kxsp            ,  &
+          ipartsph        ,ipart_state ,nodtag       ,stat_indxsph  ,iparg           ,  &
+          elbuf_tab       ,idel        )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -112,7 +113,7 @@
               ity = iparg(5,ng)
               if (ity == 51) then
                 nel = iparg(2,ng)
-                nft = iparg(3,ng) 
+                nft = iparg(3,ng)
                 lft=1
                 llt=nel
                 do i=lft,llt
@@ -129,16 +130,16 @@
                     clef(1,ii)=iprt
                     clef(2,ii)=kxsp(nisp,n)
                     nodtag(kxsp(3,n))=1
-                  endif ! if (ipart_state(iprt) /= 0)
-                enddo ! do i=lft,llt
-              endif ! if (ity == 51)
-            enddo ! do ng=1,ngroup
-          endif ! if (numelsph /= 0)
+                  end if ! if (ipart_state(iprt) /= 0)
+                end do ! do i=lft,llt
+              end if ! if (ity == 51)
+            end do ! do ng=1,ngroup
+          end if ! if (numelsph /= 0)
 
           stat_numelsph_g=0
           call spmd_iget_partn_sta(4,stat_numelsph,stat_numelsph_g,lengsph,np, &
-               iadg,npglob,stat_indxsph)
-          
+            iadg,npglob,stat_indxsph)
+
           if (ispmd==0) then
             do n=1,stat_numelsph_g
               stat_indxsph(n)=n
@@ -147,7 +148,7 @@
             end do
             call my_orders(0,work,clef,stat_indxsph,stat_numelsph_g,2)
 
-          
+
             iprt0=0
             do n=1,stat_numelsph_g
               k=stat_indxsph(n)
@@ -156,14 +157,14 @@
               ioff=npglob(jj+4)
               if (idel==0 .or. (idel==1 .and. ioff >= 1)) then
                 if (iprt /= iprt0) then
-                 write(iugeo,'(a,i10)')'/SPHCEL/',ipart(4,iprt)
-                  write(iugeo,'(a)')'#sphcel_id'
+                  write(iugeo,"(a,i10)")"/SPHCEL/",ipart(4,iprt)
+                  write(iugeo,"(a)")"#sphcel_id"
                   iprt0=iprt
-                endif
-                write(iugeo,'(i10)') npglob(jj+2)
-              endif !if (idel)
-            enddo ! do n=1,stat_numelsph_g
-          endif !if (ispmd)
+                end if
+                write(iugeo,"(i10)") npglob(jj+2)
+              end if !if (idel)
+            end do ! do n=1,stat_numelsph_g
+          end if !if (ispmd)
 
           deallocate(clef)
           deallocate(npglob)
@@ -173,5 +174,5 @@
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine stat_sphcel_spmd
       end module stat_sphcel_spmd_mod
-      
-      
+
+

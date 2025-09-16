@@ -233,7 +233,7 @@ C
           P_AIR(I) = PGAZ - PEXT   
           P_AIR(I)= MAX(P_AIR(I),-PEXT) 
                            
-cc pour tester ALe          P_AIR = P0*MU**GAMA 
+cc to test the p air = p0*mu ** gamma 
           UVAR(I,5) = -P_AIR(I)
           UVAR(I,6) = -P_AIR(I)
           UVAR(I,7) = -P_AIR(I)
@@ -261,13 +261,13 @@ C
 C-----------------------------------------------
       DO I=1,NEL
 C-------------------
-C     epst_spherique
+C     EPST_SPERIQUE
 C-------------------
         EPST(I) = EPSXX(I)**2+EPSYY(I)**2 + EPSZZ(I)**2 +
      .            HALF*(EPSXY(I)**2+EPSYZ(I)**2+EPSZX(I)**2)
         EPST(I) = SQRT(EPST(I))    
 C-------------------
-C     estimation elastique
+C     Elastic estimate
 C-------------------
         EPS0(I) = UVAR(I,11)  
       ENDDO   
@@ -482,7 +482,7 @@ cc     .                         .AND. DSIG < SVM )YLD(I) = SVM
 C            
          ENDDO 
 C-------------------
-C projection spherique
+C Spherical projection
 C-------------------
       IF(IDAMAGE == 1 ) THEN
        DO I=1,NEL        

@@ -77,9 +77,9 @@
                 tagnod(nod) = 1
                 ind = ind+1
                 clause_node(ind) = nod
-              endif
-            enddo
-          endif
+              end if
+            end do
+          end if
 !
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine tag_node_from_part_sphcel

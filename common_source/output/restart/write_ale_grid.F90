@@ -27,6 +27,7 @@
 !||    wrrestp              ../engine/source/output/restart/wrrestp.F
 !||====================================================================
       module write_ale_grid_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
@@ -76,7 +77,7 @@
             rtmp(10:15) = ale%grid%flow_tracking_data%beta0(1:6)
             rtmp(16) = ale%grid%flow_tracking_data%ms_elem_mean_0
             call write_db(rtmp,16)
-          endif
+          end if
 
 ! ----------------------------------------------------------------------------------------------------------------------
           return

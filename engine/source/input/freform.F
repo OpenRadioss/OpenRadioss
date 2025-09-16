@@ -81,7 +81,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sensor_mod               ../common_source/modules/sensor_mod.F90
 !||    state_mod                ../common_source/modules/state_mod.F
 !||    th_mod                   ../engine/share/modules/th_mod.F
-!||    viper_mod                ../engine/source/interfaces/viper/viper_interface_mod.F
+!||    viper_mod                ../engine/source/coupling/viper/viper_interface_mod.F90
 !||====================================================================
       SUBROUTINE FREFORM(IRUNN,IRFL,IRFE,H3D_DATA,FLAG_CST_AMS,DYNAIN_DATA,
      .                   SENSORS,DT,OUTPUT,GLOB_THERM)
@@ -1202,7 +1202,7 @@ C           if /DT/AMS is read later, then following definition can be erased
            IDTMIN(52) = ID_DT_OPTION   
          ELSEIF(KEY3(1:1)=='2')THEN
            ID_DT_OPTION = 2
-           !option requires an airbag_id.
+           !Option REQUIRS AIRBAG_ID.
          ELSE
            ID_DT_OPTION = 1
            DTFAC1(52) = DTFACA
@@ -2497,7 +2497,7 @@ C--------------------
 C-----------------------
 C     /ANIM (ANIMATION FILES)
 C-----------------------
-      CALL FREANIM(IKAD(0),KEY0,KANIM,SENSORS)
+      CALL FREANIM(output,IKAD(0),KEY0,KANIM,SENSORS)
 C-----------------------
 C     /OUTP (OUTPUT FILES)
 C-----------------------

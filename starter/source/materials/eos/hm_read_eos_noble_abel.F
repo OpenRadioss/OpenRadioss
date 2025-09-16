@@ -31,13 +31,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    message_mod              ../starter/share/message_module/message_mod.F
 !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
 !||====================================================================
-      SUBROUTINE HM_READ_EOS_NOBLE_ABEL(IOUT,PM,UNITAB,IUNIT,LSUBMODEL,IMIDEOS)
+      SUBROUTINE HM_READ_EOS_NOBLE_ABEL(IOUT,PM,UNITAB,IUNIT,LSUBMODEL,IMIDEOS,MAT_PARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
       USE SUBMODEL_MOD
       USE MESSAGE_MOD      
+      USE MATPARAM_DEF_MOD, ONLY : MATPARAM_STRUCT_
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -58,9 +59,10 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      INTEGER IIN,IOUT,IUNIT
-      my_real PM(NPROPM)
+      INTEGER,INTENT(IN) :: IOUT,IUNIT
+      my_real,INTENT(INOUT) :: PM(NPROPM)
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
+      TYPE(MATPARAM_STRUCT_),INTENT(INOUT) :: MAT_PARAM
       INTEGER,INTENT(IN) :: IMIDEOS
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -69,10 +71,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real
-     .   C0, C1, C2, C3, C4, C5, E0, PSH, RHO0,
-     .   FAC_L,FAC_T,FAC_M,FAC_C,BB,GAMMA,AA,PP,DENOM,MU,RHOI,RHOR,DPDMU,DPDE
-      my_real MU0,MU2,DF,SSP0,G0
+      my_real :: C0, C1, C2, C3, C4, C5, E0, PSH, RHO0
+      my_real :: BB,GAMMA,AA,PP,DENOM,MU,RHOI,RHOR,DPDMU,DPDE
+      my_real :: MU0,MU2,DF,SSP0,G0
       LOGICAL :: IS_ENCRYPTED, IS_AVAILABLE, IS_AVAILABLE_RHO0
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -87,23 +88,36 @@ C-----------------------------------------------
       CALL HM_GET_FLOATV('E0', E0, IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('LAW5_PSH', PSH ,IS_AVAILABLE,LSUBMODEL,UNITAB)      
       CALL HM_GET_FLOATV('Refer_Rho', RHO0 ,IS_AVAILABLE_RHO0,LSUBMODEL,UNITAB)
-
+!-------------------------------------------------------------------------------
       RHOR = PM(1)
       RHOI = PM(89)
 
       IF(RHO0 > ZERO) THEN
         RHOR = RHO0
         PM(1)= RHO0 
+        MAT_PARAM%RHO = RHO0
       ELSE
         RHO0=RHOR                   
       ENDIF
 
-      PM( 23) =  E0
-      PM( 32) =  BB
-      PM( 33) =  GAMMA-ONE     
-      PM( 34) =  RHO0         
-      PM( 88) =  PSH
-      IF(PM(79)==ZERO)PM(79)=THREE100
+      PM(23) =  E0
+      PM(32) = (GAMMA-ONE)*E0 / (ONE-BB*RHO0)**2   !BULK = (1+µ)*dP/dmu (partial derivative at constant E)
+      PM(88) = PSH
+
+      MAT_PARAM%EOS%NUPARAM = 3
+      MAT_PARAM%EOS%NIPARAM = 0
+      MAT_PARAM%EOS%NFUNC = 0
+      MAT_PARAM%EOS%NTABLE = 0
+      CALL MAT_PARAM%EOS%CONSTRUCT() !allocations
+
+      MAT_PARAM%EOS%UPARAM(1) = BB
+      MAT_PARAM%EOS%UPARAM(2) = GAMMA-ONE
+      MAT_PARAM%EOS%UPARAM(3) = RHO0
+      MAT_PARAM%EOS%PSH = PSH
+      IF (MAT_PARAM%THERM%TINI == ZERO) THEN
+        MAT_PARAM%THERM%TINI =THREE100
+        PM(79) = THREE100
+      END IF
 
       !COMPUTING INITIAL PRESSURE : PM(31) -> SIG(1:3,*)
       MU=RHOI/RHOR-ONE
@@ -137,8 +151,8 @@ C-----------------------------------------------
       RHOI = PM(89)
       DPDE = (GAMMA-ONE)*(ONE+MU0)/DENOM                                               
       DPDMU = (GAMMA-ONE)*E0/DENOM + PP/DENOM*BB*RHOI + PP*DF*DF*DPDE
-        
-      DPDMU=MAX(ZERO,DPDMU)
+      DPDMU = MAX(ZERO,DPDMU)
+
       IF(RHOR > ZERO) SSP0 = SQRT((DPDMU + TWO_THIRD*G0)/RHOR) 
       PM(27)=SSP0       
 

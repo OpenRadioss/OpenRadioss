@@ -125,7 +125,7 @@ C-----constant Exx,
          ENDDO
       ENDIF
 C---------------------------------------
-C     REPERE LOCAL
+C     LOCAL REFERENCE FRAME
 C---------------------------------------
       DO I=1,NEL
         SY(I)=HALF*(Y2(I)+Y3(I)-Y1(I)-Y4(I))
@@ -134,7 +134,7 @@ C---------------------------------------
         TZ(I)=HALF*(Z3(I)+Z4(I)-Z1(I)-Z2(I))
       END DO
 C-----------
-C     REPERE CONVECTE : Same than the shell
+C     convected frame : Same than the shell
 C-----------
       DO I=1,NEL
         CT = TY(I)*TY(I)+TZ(I)*TZ(I)
@@ -185,7 +185,7 @@ C-----------
         Z4(I)=ZL
       END DO
 C-----------
-C     PASSAGE AU REPERE ORTHOTROPE.
+C     PASSAGE AU ORTHOTROPIC FRAME.
 C-----------
       IF (ISORTH /= 0)THEN
         DO I=1,NEL

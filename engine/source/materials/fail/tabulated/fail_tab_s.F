@@ -189,7 +189,7 @@ c---- Scale functions
         DO I=1,NEL
             IFUN_EL   = IFUNC(1)
             IFUN_TEMP = IFUNC(2)
-c----   element length scale function
+c---- Length Scale Function element
             IF (IFUN_EL > 0) THEN
                 LAMBDA = ALDT(I) / EL_REF                     
                 FAC = SC_EL*FINTER(IFUN_EL,LAMBDA,NPF,TF,DF)  

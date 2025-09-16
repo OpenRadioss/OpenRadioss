@@ -48,7 +48,7 @@ C-----------------------------------------------
       my_real ,DIMENSION(LEN)  ,INTENT(IN)  :: XI   ! initial X coordinates 
       my_real ,DIMENSION(LEN)  ,INTENT(IN)  :: YI   ! initial Y values
       my_real ,DIMENSION(NPTF) ,INTENT(IN)  :: XF   ! output  X coordinates 
-      my_real ,DIMENSION(NPTF) ,INTENT(OUT) :: YF   ! output function values
+      my_real ,DIMENSION(NPTF) ,INTENT(OUT) :: YF   ! Output Function Values
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

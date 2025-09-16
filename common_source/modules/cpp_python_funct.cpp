@@ -1346,7 +1346,7 @@ extern "C"
 #endif
     }
 
-    void cpp_python_sample_function(char *name, my_real *x, my_real *y, int n)
+    void cpp_python_sample_function(char *name, double *x, double *y, int n)
     {
         //write the name
         constexpr size_t N = 10000; // Number of points
@@ -1494,7 +1494,7 @@ extern "C"
     {
         std::cout << "ERROR: python not enabled" << std::endl;
     }
-    void cpp_python_sample_function(char *name, my_real *x, my_real *y, int n)
+    void cpp_python_sample_function(char *name, double*x, double*y, int n)
     {
         std::cout << "ERROR: python not enabled" << std::endl;
     }

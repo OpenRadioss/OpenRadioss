@@ -118,6 +118,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    upgrade_remnode_edg              ../starter/source/interfaces/interf1/upgrade_remnode.F
 !||--- uses       -----------------------------------------------------
 !||    front_mod                        ../starter/share/modules1/front_mod.F
+!||    i1bcs_check_mod                  ../starter/source/interfaces/int01/i1bcs_check.F90
+!||    i9bcs_check_mod                  ../starter/source/interfaces/int09/i9bcs_check.F90
 !||    inter_cand_mod                   ../starter/share/modules1/inter_cand_mod.F
 !||    message_mod                      ../starter/share/message_module/message_mod.F
 !||====================================================================
@@ -159,6 +161,8 @@ C-----------------------------------------------
       USE INTER_CAND_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE MULTI_FVM_MOD , ONLY : MULTI_FVM_STRUCT
+      use i9bcs_check_mod , ONLY : I9BCS_CHECK
+      use i1bcs_check_mod , only : I1BCS_CHECK
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -840,7 +844,7 @@ C
         DO I=1,NUMNOD+NUMFAKENODIGEO
          INPENE=INPENE+MIN(MWA(I),1)
         ENDDO
-        IF(ISTOK==0.AND.(INACTI==5.OR.INACTI==6))IPARI(22,NIN) = -INACTI ! passage en negatif pour dimensionnenment
+        IF(ISTOK==0.AND.(INACTI==5.OR.INACTI==6))IPARI(22,NIN) = -INACTI ! Negative passage for sizing
         INTBUF_TAB(NIN)%I_STOK(1)=ISTOK
        ENDIF
 C
@@ -1918,7 +1922,8 @@ C-----------------------------------------------------------
      J INTBUF_TAB(NIN)%IPARTFRICM,INTBUF_FRIC_TAB,IVIS2   ,GAPM_MX       , GAPS_MX               ,
      K GAPM_L_MX  ,GAPS_L_MX        ,IPARTSM         ,DRAD          ,IPARTT                 ,
      J IPARTP     ,IPARTR           ,INTBUF_TAB(NIN)%IELEM_M , IPARI(100,NIN),ELEM_LINKED_TO_SEGMENT,
-     K NIN25      , FLAG_ELEM_INTER25)
+     K NIN25      , FLAG_ELEM_INTER25,INTBUF_TAB(NIN)%VARIABLES(49),INTBUF_TAB(NIN)%VARIABLES(50),
+     M INTBUF_TAB(NIN)%VARIABLES(51),INTBUF_TAB(NIN)%VARIABLES(52))
        IPARI(21,NIN) = IGAP
 C-----------------------------------------------------------
 C      ELEMENT NEIGHBROURS & FREE EDGES
@@ -1943,8 +1948,8 @@ C
      9  IPARI(100,NIN))
 
        IF(IEDGE/=0)THEN
-         NCONTE   =IPARI(68,NIN) ! cf NCONTE=NEDGE cest a voir ...
-         IPARI(88,NIN)=NCONTE ! cf NCONTE=NEDGE cest a voir ...
+         NCONTE   =IPARI(68,NIN) ! See tale = Edge is to see ...
+         IPARI(88,NIN)=NCONTE ! See tale = Edge is to see ...
        END IF
 
        ITHK25 = IPARI(91,NIN)
@@ -1954,7 +1959,7 @@ C
      3 THK   ,THK_PART,INTBUF_TAB(NIN)%GAP_NM,INTBUF_TAB(NIN)%GAP_M,NMN   ,
      4 INTBUF_TAB(NIN)%MSR,INTBUF_TAB(NIN)%GAPN_M,
      .                  INTBUF_TAB(NIN)%VARIABLES(36),GAPSCALE,IGEO  ,
-     5 INTBUF_TAB(NIN)%MSEGTYP24 ,INTBUF_TAB(NIN)%GAPMSAV, ITHK25)
+     5 INTBUF_TAB(NIN)%MSEGTYP24 ,INTBUF_TAB(NIN)%GAPMSAV, ITHK25,IGAP,INTBUF_TAB(NIN)%VARIABLES(50),INTBUF_TAB(NIN)%VARIABLES(52))
 
        NADMSR=IPARI(67,NIN)
        NEDGE =IPARI(68,NIN)

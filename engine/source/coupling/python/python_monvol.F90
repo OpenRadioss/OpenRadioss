@@ -28,17 +28,18 @@
 !||    precision_mod       ../common_source/modules/precision_mod.F90
 !||====================================================================
       module python_monvol_mod
+      implicit none
         interface
 !    void cpp_python_update_reals(char * basename, int * uid, my_real *reals, int num_reals)
-           subroutine python_update_reals(basename, uid, reals, num_reals) bind(c, name='cpp_python_update_reals')
-             use iso_c_binding, only : c_char, c_int 
-             use precision_mod, only : WP
-             implicit none
-             character(kind=c_char), intent(in) :: basename(*)
-             integer(c_int), intent(in) :: uid(*)
-             real(kind=WP), intent(inout) :: reals(*)
-             integer(c_int), intent(in) :: num_reals
-           end subroutine python_update_reals
+          subroutine python_update_reals(basename, uid, reals, num_reals) bind(c, name="cpp_python_update_reals")
+            use, intrinsic :: iso_c_binding, only : c_char, c_int
+            use precision_mod, only : WP
+            implicit none
+            character(kind=c_char), intent(in) :: basename(*)
+            integer(c_int), intent(in) :: uid(*)
+            real(kind=WP), intent(inout) :: reals(*)
+            integer(c_int), intent(in), value :: num_reals
+          end subroutine python_update_reals
 
         end interface
       contains
@@ -55,7 +56,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Module
 ! ----------------------------------------------------------------------------------------------------------------------
-          use iso_c_binding
+          use, intrinsic :: iso_c_binding
           use MONVOL_STRUCT_MOD
           use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -88,29 +89,29 @@
               reals(i) = t_monvol(i)%volume
               uid(i) = t_monvol(i)%uid
             end do
-            allocate(character(len=14) :: basename)
-            basename = 'MONVOL_VOLUME' // c_null_char
+            allocate(character(len=11) :: basename)
+            basename = "MONVOL_VOL" // c_null_char
             call python_update_reals(basename, uid, reals, nvolu)
             deallocate(basename)
             do i = 1, nvolu
               reals(i) = t_monvol(i)%pressure
             end do
-            allocate(character(len=16) :: basename)
-            basename = 'MONVOL_PRESSURE' // c_null_char
+            allocate(character(len=9) :: basename)
+            basename = "MONVOL_P" // c_null_char
             call python_update_reals(basename, uid, reals, nvolu)
             deallocate(basename)
             do i = 1, nvolu
               reals(i) = t_monvol(i)%area
             end do
-            allocate(character(len=12) :: basename)
-            basename = 'MONVOL_AREA' // c_null_char
+            allocate(character(len=9) :: basename)
+            basename = "MONVOL_A" // c_null_char
             call python_update_reals(basename, uid, reals, nvolu)
             deallocate(basename)
             do i = 1, nvolu
               reals(i) = t_monvol(i)%temperature
             end do
-            allocate(character(len=19) :: basename)
-            basename = 'MONVOL_TEMPERATURE' // c_null_char
+            allocate(character(len=9) :: basename)
+            basename = "MONVOL_T" // c_null_char
             call python_update_reals(basename, uid, reals, nvolu)
             deallocate(basename)
             deallocate(reals)

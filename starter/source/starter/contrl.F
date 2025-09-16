@@ -21,62 +21,63 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    contrl                     ../starter/source/starter/contrl.F
+!||    contrl                         ../starter/source/starter/contrl.F
 !||--- called by ------------------------------------------------------
-!||    starter0                   ../starter/source/starter/starter0.F
+!||    starter0                       ../starter/source/starter/starter0.F
 !||--- calls      -----------------------------------------------------
-!||    ancmsg                     ../starter/source/output/message/message.F
-!||    arret                      ../starter/source/system/arret.F
-!||    ascii_encoding_mu_letter   ../starter/source/starter/ascii_encoding_mu_letter.F90
-!||    contrbe2                   ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
-!||    contrbe3                   ../starter/source/constraints/general/rbe3/contrbe3.F
-!||    find_dt1brick_engine       ../starter/source/starter/contrl.F
-!||    hm_elem_count              ../starter/source/devtools/hm_reader/hm_elem_count.F
-!||    hm_get_intv                ../starter/source/devtools/hm_reader/hm_get_intv.F
-!||    hm_get_string              ../starter/source/devtools/hm_reader/hm_get_string.F
-!||    hm_option_count            ../starter/source/devtools/hm_reader/hm_option_count.F
-!||    hm_option_next             ../starter/source/devtools/hm_reader/hm_option_next.F
-!||    hm_option_read_key         ../starter/source/devtools/hm_reader/hm_option_read_key.F
-!||    hm_option_start            ../starter/source/devtools/hm_reader/hm_option_start.F
-!||    hm_prelce16s               ../starter/source/elements/reader/hm_read_solid.F
-!||    hm_preread_node            ../starter/source/elements/reader/hm_preread_node.F
-!||    hm_preread_part            ../starter/source/model/assembling/hm_read_part.F
-!||    hm_preread_properties      ../starter/source/properties/hm_preread_properties.F
-!||    hm_read_ale_grid           ../starter/source/general_controls/ale_grid/hm_read_ale_grid.F
-!||    hm_read_ale_muscl          ../starter/source/general_controls/ale_cfd/hm_read_ale_muscl.F
-!||    hm_read_ale_solver         ../starter/source/general_controls/ale_cfd/hm_read_ale_solver.F
-!||    hm_read_analy              ../starter/source/general_controls/computation/hm_read_analy.F
-!||    hm_read_caa                ../starter/source/general_controls/computation/hm_read_caa.F
-!||    hm_read_definter           ../starter/source/general_controls/default_values/hm_read_definter.F
-!||    hm_read_defshell           ../starter/source/general_controls/default_values/hm_read_defshell.F
-!||    hm_read_defsolid           ../starter/source/general_controls/default_values/hm_read_defsolid.F
-!||    hm_read_implicit           ../starter/source/general_controls/computation/hm_read_implicit.F
-!||    hm_read_inista             ../starter/source/initial_conditions/inista/hm_read_inista.F
-!||    hm_read_ioflag             ../starter/source/general_controls/inputoutput/hm_read_ioflag.F
-!||    hm_read_lagmul             ../starter/source/tools/lagmul/hm_read_lagmul.F
-!||    hm_read_refsta             ../starter/source/loads/reference_state/refsta/hm_read_refsta.F
-!||    hm_read_sms                ../starter/source/general_controls/computation/hm_read_sms.F
-!||    hm_read_sphglo             ../starter/source/general_controls/computation/hm_read_sphglo.F
-!||    hm_read_spmd               ../starter/source/general_controls/computation/hm_read_spmd.F
-!||    hm_read_unit               ../starter/source/general_controls/computation/hm_read_unit.F
-!||    hm_read_upwind             ../starter/source/general_controls/computation/hm_read_upwind.F
-!||    init_def_elem              ../starter/source/modules/defaults_mod.F90
-!||    init_def_zero              ../starter/source/modules/defaults_mod.F90
-!||    istr                       ../starter/source/tools/univ/istr.F
-!||    nbadigemesh                ../starter/source/elements/ige3d/nbadigemesh.F
-!||    nbadmesh                   ../starter/source/model/remesh/nbadmesh.F
-!||    nbsph                      ../starter/source/elements/sph/nbsph.F
+!||    ancmsg                         ../starter/source/output/message/message.F
+!||    arret                          ../starter/source/system/arret.F
+!||    ascii_encoding_mu_letter       ../starter/source/starter/ascii_encoding_mu_letter.F90
+!||    contrbe2                       ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
+!||    contrbe3                       ../starter/source/constraints/general/rbe3/contrbe3.F
+!||    find_dt1brick_engine           ../starter/source/starter/contrl.F
+!||    hm_elem_count                  ../starter/source/devtools/hm_reader/hm_elem_count.F
+!||    hm_get_intv                    ../starter/source/devtools/hm_reader/hm_get_intv.F
+!||    hm_get_string                  ../starter/source/devtools/hm_reader/hm_get_string.F
+!||    hm_option_count                ../starter/source/devtools/hm_reader/hm_option_count.F
+!||    hm_option_next                 ../starter/source/devtools/hm_reader/hm_option_next.F
+!||    hm_option_read_key             ../starter/source/devtools/hm_reader/hm_option_read_key.F
+!||    hm_option_start                ../starter/source/devtools/hm_reader/hm_option_start.F
+!||    hm_prelce16s                   ../starter/source/elements/reader/hm_read_solid.F
+!||    hm_preread_node                ../starter/source/elements/reader/hm_preread_node.F
+!||    hm_preread_part                ../starter/source/model/assembling/hm_read_part.F
+!||    hm_preread_properties          ../starter/source/properties/hm_preread_properties.F
+!||    hm_read_ale_grid               ../starter/source/general_controls/ale_grid/hm_read_ale_grid.F
+!||    hm_read_ale_muscl              ../starter/source/general_controls/ale_cfd/hm_read_ale_muscl.F
+!||    hm_read_ale_solver             ../starter/source/general_controls/ale_cfd/hm_read_ale_solver.F
+!||    hm_read_analy                  ../starter/source/general_controls/computation/hm_read_analy.F
+!||    hm_read_caa                    ../starter/source/general_controls/computation/hm_read_caa.F
+!||    hm_read_definter               ../starter/source/general_controls/default_values/hm_read_definter.F
+!||    hm_read_defshell               ../starter/source/general_controls/default_values/hm_read_defshell.F
+!||    hm_read_defsolid               ../starter/source/general_controls/default_values/hm_read_defsolid.F
+!||    hm_read_implicit               ../starter/source/general_controls/computation/hm_read_implicit.F
+!||    hm_read_inista                 ../starter/source/initial_conditions/inista/hm_read_inista.F
+!||    hm_read_ioflag                 ../starter/source/general_controls/inputoutput/hm_read_ioflag.F
+!||    hm_read_lagmul                 ../starter/source/tools/lagmul/hm_read_lagmul.F
+!||    hm_read_refsta                 ../starter/source/loads/reference_state/refsta/hm_read_refsta.F
+!||    hm_read_sms                    ../starter/source/general_controls/computation/hm_read_sms.F
+!||    hm_read_sphglo                 ../starter/source/general_controls/computation/hm_read_sphglo.F
+!||    hm_read_spmd                   ../starter/source/general_controls/computation/hm_read_spmd.F
+!||    hm_read_unit                   ../starter/source/general_controls/computation/hm_read_unit.F
+!||    hm_read_upwind                 ../starter/source/general_controls/computation/hm_read_upwind.F
+!||    init_def_elem                  ../starter/source/modules/defaults_mod.F90
+!||    init_def_zero                  ../starter/source/modules/defaults_mod.F90
+!||    istr                           ../starter/source/tools/univ/istr.F
+!||    nbadigemesh                    ../starter/source/elements/ige3d/nbadigemesh.F
+!||    nbadmesh                       ../starter/source/model/remesh/nbadmesh.F
+!||    nbsph                          ../starter/source/elements/sph/nbsph.F
 !||--- uses       -----------------------------------------------------
-!||    defaults_mod               ../starter/source/modules/defaults_mod.F90
-!||    detonators_mod             ../starter/share/modules1/detonators_mod.F
-!||    format_mod                 ../starter/share/modules1/format_mod.F90
-!||    grp_size_mod               ../starter/share/modules1/grp_size_mod.F
-!||    hm_option_read_mod         ../starter/share/modules1/hm_option_read_mod.F
-!||    inivol_def_mod             ../starter/share/modules1/inivol_mod.F
-!||    message_mod                ../starter/share/message_module/message_mod.F
-!||    refsta_mod                 ../starter/share/modules1/refsta_mod.F
-!||    restmod                    ../starter/share/modules1/restart_mod.F
-!||    submodel_mod               ../starter/share/modules1/submodel_mod.F
+!||    ascii_encoding_mu_letter_mod   ../starter/source/starter/ascii_encoding_mu_letter.F90
+!||    defaults_mod                   ../starter/source/modules/defaults_mod.F90
+!||    detonators_mod                 ../starter/share/modules1/detonators_mod.F
+!||    format_mod                     ../starter/share/modules1/format_mod.F90
+!||    grp_size_mod                   ../starter/share/modules1/grp_size_mod.F
+!||    hm_option_read_mod             ../starter/share/modules1/hm_option_read_mod.F
+!||    inivol_def_mod                 ../starter/share/modules1/inivol_mod.F
+!||    message_mod                    ../starter/share/message_module/message_mod.F
+!||    refsta_mod                     ../starter/share/modules1/refsta_mod.F
+!||    restmod                        ../starter/share/modules1/restart_mod.F
+!||    submodel_mod                   ../starter/share/modules1/submodel_mod.F
 !||====================================================================
       SUBROUTINE CONTRL(MULTI_FVM,LSUBMODEL,IS_DYNA,DETONATORS,USER_WINDOWS,MAT_ELEM,
      .           NAMES_AND_TITLES,LIPART1,DEFAULTS,GLOB_THERM,PBLAST,OUTPUT)
@@ -97,7 +98,7 @@ C-----------------------------------------------
       USE ALE_EBCS_MOD
       USE RESTMOD
       USE GRP_SIZE_MOD
-      USE ANIM_MOD
+      USE OUTPUT_MOD
       USE ALEMUSCL_MOD , only:ALEMUSCL_Param
       USE ALEFVM_MOD , only:ALEFVM_Param
       USE USER_WINDOWS_MOD
@@ -110,6 +111,7 @@ C-----------------------------------------------
       use glob_therm_mod
       USE PBLAST_MOD
       USE OUTPUT_MOD , ONLY : OUTPUT_
+      use ascii_encoding_mu_letter_mod, only : ascii_encoding_mu_letter
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -672,7 +674,7 @@ C       NUMNOD, NUMELC, NUMELTG will be changed
       END IF
 C-----
       IF(NSPMD > 1)THEN
-C       Tests option non disponible en SPMD (ie NSPMD > 1)
+C       Option tests not available in SPMD (IE NSPMD> 1)
         IF(NADMESH/=0)THEN
           CALL ANCMSG(MSGID=704,
      .                MSGTYPE=MSGERROR,
@@ -823,7 +825,7 @@ C---------------------------------------------------
       CALL HM_OPTION_COUNT('/SECT',NSECT)
 C---------------------------------------------------
 C---------------------------------------------------
-C     Box, Groups, Lines, Surfaces, Sets
+C     Box, groups, lines, surfaces, sets
 C---------------------------------------------------
       CALL HM_OPTION_COUNT('/BOX' ,NBBOX)
       CALL HM_OPTION_COUNT('/SURF',NSURF)
@@ -987,8 +989,7 @@ C---------------------------------------------------
       !********
       CALL HM_READ_UPWIND(JUPW, ALE%UPWIND%UPWMG, ALE%UPWIND%UPWOG, ALE%UPWIND%UPWSM, LSUBMODEL, UNITAB)
 C---------------------------------------------------
-C   OPTIONS DE L'ENGINE LUES DANS LE STARTER
-C   { ENGINE OPTIONS READ IN THE STARTER }
+C   ENGINE OPTIONS READ IN THE STARTER
 C---------------------------------------------------
       CALL HM_OPTION_COUNT('/RUN',NRUN_ENG)
       CALL HM_OPTION_COUNT('/ANIM',NANIM_ENG)
@@ -1102,16 +1103,16 @@ C
 C
       DTX=ZERO
       TSTOP=ZERO
-      DTANIM = ZERO
-      TANIM=ZERO
-      TANIM_STOP = EP20
+      OUTPUT%DTANIM = ZERO
+      OUTPUT%TANIM=ZERO
+      OUTPUT%TANIM_STOP = EP20
       DTOUTP = ZERO
       TOUTP=ZERO
       THIS=ZERO
       TABFIS=ZERO
       TABFWR=ZERO
       ECONTV = ZERO
-      OUTPUT%WFEXT = ZERO
+      OUTPUT%TH%WFEXT = ZERO
       REINT = ZERO
       UREINT = ZERO
       ECONTD = ZERO
@@ -1133,9 +1134,9 @@ C=======================================================================
 C     Opening of some input files (.sty, etc...)
 C=======================================================================
       IF(ISIGI==1.OR.ISIGI==2) THEN
-C--     Lecture fichier S00 supprimee
+C- Reading file S00 deleted
       ELSEIF(ISIGI==3.OR.ISIGI==4.OR.ISIGI==5) THEN
-C--     Lecture fichier Y00/Ynn
+C- Reading file y00/ynn
         IF(S0FILE==' ') THEN
           ISIGI=-ISIGI
         ELSE
@@ -1717,8 +1718,7 @@ C-----------------------------------------------
       IO_ERR1=0
       IDTTSH=0
 C-----------------------------------------------
-C     Lecture des donnees dans le fichier engine
-C     { Reading data from the engine file }
+C     Reading data from the engine file
 C-----------------------------------------------   
       FILNAM=ROOTNAM(1:ROOTLEN)//'_0001.rad'
 
@@ -1833,8 +1833,7 @@ C-----------------------------------------------
       LMAX_NSTRA = 0
       NKPART(1:NPART+1,1:NKEYMAX+1) = 0
 C-----------------------------------------------
-C     Lecture des donnees dans le fichier engine
-C     { Reading data from the engine file }
+C     Reading data from the engine file
 C-----------------------------------------------
       IH3D=1
       K_LEN = 19 
@@ -2029,7 +2028,7 @@ C-----------------------------------------------
       IO_ERR1 = 0
       NPRT = 0
 C-----------------------------------------------
-C     Lecture des donnees dans le fichier engine
+C     Reading data from the engine file
 C-----------------------------------------------   
       FILNAM=ROOTNAM(1:ROOTLEN)//'_0001.rad'
 
@@ -2080,7 +2079,7 @@ C---- read ipart_id if there are
                  NTM_PART(1:NPRT) = 1
                END IF
              END IF
-           END DO !(IC == 1) remove comments
+           END DO !(CI == 1) Remove Comments
         END IF        
 C
       END DO

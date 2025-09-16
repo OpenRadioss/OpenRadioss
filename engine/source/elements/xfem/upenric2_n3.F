@@ -96,11 +96,11 @@ c---------------------------------------
 c               new advancing crack
 c---------------------------------------
                 DO K=1,3
-                  IED  = CRKEDGE(ILAY)%IEDGETG(K,ELCRKTG)   ! = 1,2 => sequence des arretes coupes
+                  IED  = CRKEDGE(ILAY)%IEDGETG(K,ELCRKTG)   ! = 1.2 => Sequence of the cuts
                   EDGE = XEDGE3N(K,ELCRKTG)
                   IECUT = CRKEDGE(ILAY)%ICUTEDGE(EDGE)
 c                 Tip edges => NTAG = 2               
-                  IF (IED > 0 .and. IECUT == 2) THEN    ! (cas IECUT=3 traite avant)
+                  IF (IED > 0 .and. IECUT == 2) THEN    ! (IECUT CAS = 3 Treats before)
                     NTAG(K)    = 2
                     NTAG(d(K)) = 2
                     FAC = FAC + 1

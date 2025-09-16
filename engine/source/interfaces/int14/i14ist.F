@@ -62,21 +62,21 @@ C-----------------------------------------------
       DO N=1,NINTER
         NTY=IPARI(7,N)
         IF (NTY==14 .OR. NTY==15) THEN
-          !Surfaces mains (une seule surface ...).
+          !main surfaces (one surface ...).
           NRTM   = IPARI(4,N)
           ISRF   = INTBUF_TAB(N)%KSURF(1)
           ADRBUF = IGRSURF(ISRF)%IAD_BUFR
-          !Forces exercees sur l'ellipsoide (somme des ... / interfaces).
+          !forces applied to the ellipsoid (sum of ... / interfaces)
           BUFSF(ADRBUF+25)=ZERO
           BUFSF(ADRBUF+26)=ZERO
           BUFSF(ADRBUF+27)=ZERO   
-          !Moments exerces sur l'ellipsoide (somme des ... / interfaces).
+          !moments applied to the ellipsoid (sum of ... / interfaces)
           BUFSF(ADRBUF+28)=ZERO
           BUFSF(ADRBUF+29)=ZERO
           BUFSF(ADRBUF+30)=ZERO   
-          !Rigidites d'interface en translation (somme des ... / interfaces).
+          !Translation interface rigiditis (sum of ... / interfaces).
           BUFSF(ADRBUF+31)=ZERO
-          !Rigidites d'interface en rotation (somme des ... / interfaces).
+          !Rotating interface rigiditis (sum of ... / interfaces).
           BUFSF(ADRBUF+32)=ZERO
         ENDIF
       ENDDO !next N

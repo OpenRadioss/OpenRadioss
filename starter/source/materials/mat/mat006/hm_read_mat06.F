@@ -114,7 +114,7 @@ C-----------------------------------------------
       IF(INVERS_INIT<2018)IS_EOS=.TRUE.  !no embedded EoS before up to format 2017
       
       IF (IS_EOS) THEN
-         IEOS = 1   ! polynomial EOS
+         IEOS = 1   ! polynomial embedded EOS
          CALL HM_GET_FLOATV('MAT_C0'      ,C0     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
          CALL HM_GET_FLOATV('MAT_C1'      ,C1     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
          CALL HM_GET_FLOATV('MAT_C2'      ,C2     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -122,7 +122,22 @@ C-----------------------------------------------
          CALL HM_GET_FLOATV('MAT_C4'      ,C4     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
          CALL HM_GET_FLOATV('MAT_C5'      ,C5     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
          CALL HM_GET_FLOATV('MAT_EA'      ,E0     ,IS_AVAILABLE, LSUBMODEL, UNITAB)  
-         CALL HM_GET_FLOATV('MAT_PSH'     ,PSH    ,IS_AVAILABLE, LSUBMODEL, UNITAB)                                             
+         CALL HM_GET_FLOATV('MAT_PSH'     ,PSH    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+         ! allocate EoS data structure
+         MATPARAM%IEOS = 1
+         MATPARAM%EOS%NUPARAM = 6
+         MATPARAM%EOS%NIPARAM = 0
+         MATPARAM%EOS%NFUNC = 0
+         MATPARAM%EOS%NTABLE = 0
+         CALL MATPARAM%EOS%CONSTRUCT() !allocations
+         MATPARAM%EOS%UPARAM(1) = C0-PSH
+         MATPARAM%EOS%UPARAM(2) = C1
+         MATPARAM%EOS%UPARAM(3) = C2
+         MATPARAM%EOS%UPARAM(4) = C3
+         MATPARAM%EOS%UPARAM(5) = C4
+         MATPARAM%EOS%UPARAM(6) = C5
+         MATPARAM%EOS%PSH = PSH
+         MATPARAM%EOS%E0 = E0
       ELSE
          E0 = ZERO
          C0 = ZERO
@@ -154,11 +169,8 @@ C-----------------------------------------------
         PM(31) = -PSH + C0+C1*MU+C2*MU**2+C3*MU**3+(C4+C5*MU)*E0
       ENDIF
 
-      PM(32)=C1
-      PM(33)=C2
-      PM(34)=C3
-      PM(35)=C4
-      PM(36)=C5
+      PM(32)=C1 !legacy value
+      !!PM(32)=C1+C4*ABS(E0) !bulk modulus
       PM(37)=PMIN
       PM(80)=INFINITY
       PM(88)=PSH      
@@ -199,7 +211,7 @@ C-----
 
 
 c
-C---- Definition des variables internes (stockage elementaire)
+C---- Definition of internal variables (Elementary storage)
 c
       MTAG6%G_RK    = 1
       MTAG6%G_RE    = 1

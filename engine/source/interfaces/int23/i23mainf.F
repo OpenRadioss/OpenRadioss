@@ -40,9 +40,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    h3d_mod            ../engine/share/modules/h3d_mod.F
 !||    intbufdef_mod      ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    message_mod        ../engine/share/message_module/message_mod.F
+!||    output_mod         ../common_source/modules/output/output_mod.F90
 !||    timer_mod          ../engine/source/system/timer_mod.F90
 !||====================================================================
-      SUBROUTINE I23MAINF(TIMERS,
+      SUBROUTINE I23MAINF(OUTPUT,TIMERS,
      1                   IPARI  ,INTBUF_TAB         ,X        ,A      ,
      2                   ICODT  ,FSAV    ,V         ,MS       ,ITAB   ,
      3                   STIFN  ,FSKYI   ,ISKY      ,FCONT    ,NIN    ,
@@ -56,6 +57,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      use output_mod
       USE TIMER_MOD
       USE INTBUFDEF_MOD 
       USE H3D_MOD 
@@ -83,6 +85,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      type(output_), intent(inout) :: output
       TYPE(TIMER_), INTENT(inout) :: TIMERS
       INTEGER NELTST, ITYPTST, NIN, NSTRF(*), NRTMDIM, NEWFRONT,
      .        NISKYFI
@@ -194,10 +197,10 @@ C
       KMAX  =INTBUF_TAB%VARIABLES(18)
 C
 C -------------------------------------------------------------
-C     STOCKAGE DES ANCIENS CANDIDATS 
+C     STORAGE OF OLD CANDIDATES
 C -------------------------------------------------------------
 C
-C Barriere dans tous les cas pour bminma [et cur_max_max]
+C Barrier in all cases for bminma [and cur_max_max]
 C
       CALL MY_BARRIER
 C
@@ -229,7 +232,7 @@ C
       CALL MY_BARRIER
 C
 C----------------------------------------------------
-C decoupage statique
+C static decoupage
         NB_LOC = I_STOK / NTHREAD
         IF (JTASK==NTHREAD) THEN
           I_STOK_LOC = I_STOK-NB_LOC*(NTHREAD-1)
@@ -301,7 +304,7 @@ C preparation candidats retenus
           CALL I7CDCOR3(
      1         JLT,INDEX2(NFT+1),INTBUF_TAB%CAND_E,INTBUF_TAB%CAND_N,
      2         CAND_E_N,CAND_N_N)
-C cand_n et cand_e remplace par cand_n_n et cand_e_n
+C cand_n and cand_e replaced by cand_n_n and cand_e_n
             CALL I23COR3(
      1  JLT    ,NIN       ,X   ,INTBUF_TAB%IRECTM,NSN   ,
      2  INTBUF_TAB%NSV,CAND_E_N ,CAND_N_N ,INTBUF_TAB%STFM,
@@ -341,7 +344,7 @@ C
             IF (DEBUG(3)>=1)
      .        NB_JLT_NEW = NB_JLT_NEW + JLT
 C 
-              CALL I23FOR3(
+              CALL I23FOR3(output,
      1  JLT       ,NIN  ,NOINT        ,IBC  ,ICODT        ,
      2  FSAV       ,GAP  ,STIGLO       ,FRIC  ,VISC        ,
      3  INACTI       ,MFROT  ,IFQ        ,IBAG  ,

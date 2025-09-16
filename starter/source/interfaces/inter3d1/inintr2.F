@@ -176,7 +176,7 @@ C
        ENDIF
       ENDDO
 C
-C     SWITCH INTERF 2 AVEC CONDITION CINEMATIQUE => METHODE PENALITE
+C     SWITCH INTERF 2 AVEC CONDITION CINEMATIQUE => METHODE penalty
 C
       CALL ITAGSL2(IPARI ,NOM_OPT,ITAB  ,IKINE  ,INTBUF_TAB,
      .                   ITAGND,ICNDS10,NSTRF ,ITAGCYC,IRBE2     ,
@@ -304,13 +304,13 @@ C
       DO I=1,NSN
       NSV=INTBUF_TAB%NSV(I)
 C Cas1 corps rigide ou interface 2
-C Cas3 Condition au limite en translation
+C Case3 Condition at the limit in translation
       CAS1=ITF(IKINE(NSV))+IRB(IKINE(NSV))
       CAS2=CAS1+
      .  IBC(IKINE(NSV))+IKINE(NSV+NUMNOD) - 10*IKINE(NSV+NUMNOD)/10
 c        IF(ITF(IKINE(NSV))/=0 .OR. IRB(IKINE(NSV))/=0 )THEN
 c
-c si SECONDARY d'une autre interface 2 ou 9 ou 12 ou rby on tag le SECONDARY pour dsactivation
+c If SECONDARY from another interface 2, 9, 12, or rby, tag SECONDARY for deactivation
 c
         IF(     (IPARI(11)==3 .AND. CAS2/=0)
      .     .OR. (IPARI(11)==2 .AND. CAS1/=0) )THEN
@@ -436,7 +436,7 @@ C-----------------------------------------------------------------------
 C      
       USE MESSAGE_MOD
 C-----------------------------------------------------------------------
-C     LECTURE DES SURFACES ET DECOMPTE DES SEGMENTS
+C     Reading surfaces and counting segments
 C           ENTREE : 
 C                    NRT NOMBRE DE RENSEIGNEMENTS A LIRE
 C           SORTIE : 

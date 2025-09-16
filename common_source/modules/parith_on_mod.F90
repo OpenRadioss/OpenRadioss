@@ -28,19 +28,22 @@
 !||    reallocate_i_skyline   ../engine/source/system/reallocate_skyline.F
 !||    resol_init             ../engine/source/engine/resol_init.F
 !||    update_pon_shells      ../engine/source/engine/node_spliting/update_pon.F90
+!||--- uses       -----------------------------------------------------
+!||    precision_mod          ../common_source/modules/precision_mod.F90
 !||====================================================================
       module parith_on_mod
-#include "my_real.inc"
+        use precision_mod , only : WP
+      implicit none
 
         type element_pon_
           integer :: SFSKY !< second dimension of FSKY
           integer :: SADSKY !< size of ADSKY (numnod + 1 ?)
           integer :: MAX_SFSKY  !< max size of FSKY (allocated)
-          my_real, dimension(:,:), allocatable :: FSKY !< 8xSFSKY array of the skyline Forces
-          my_real, dimension(:), allocatable :: FSKYM !< mass (solid only?)
-          my_real, dimension(:), allocatable :: FTHESKY !<
-          my_real, dimension(:), allocatable :: CONDNSKY !<
-          my_real, dimension(:), allocatable :: FSKYD !< sph ?
+          real(kind=WP), dimension(:,:), allocatable :: FSKY !< 8xSFSKY array of the skyline Forces
+          real(kind=WP), dimension(:), allocatable :: FSKYM !< mass (solid only?)
+          real(kind=WP), dimension(:), allocatable :: FTHESKY !<
+          real(kind=WP), dimension(:), allocatable :: CONDNSKY !<
+          real(kind=WP), dimension(:), allocatable :: FSKYD !< sph ?
           integer, dimension(:), allocatable :: ADSKY !< pointers to FSKY
           !spmd:
           integer, dimension(:), allocatable :: PROCNE !< processor ID of each contribution to FSKY
@@ -71,10 +74,10 @@
 
 
         type interface_pon_
-          my_real, dimension(:,:), allocatable :: FSKYI
+          real(kind=WP), dimension(:,:), allocatable :: FSKYI
           integer, dimension(:), allocatable :: ISKY
           integer, dimension(:), allocatable :: ADSKYI
-        end type
+        end type interface_pon_
 
       contains
       end module parith_on_mod

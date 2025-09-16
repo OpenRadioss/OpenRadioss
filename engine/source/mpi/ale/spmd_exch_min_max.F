@@ -72,7 +72,7 @@ C-----------------------------------------------
        
        LENCOM = ( IAD_ELEM(1,NSPMD+1) - IAD_ELEM(1,1) )
 
-C Allocation des Buffers           
+C Buffer allocation
        ALLOCATE(SEND_BUF(2 * LENCOM),STAT=IERROR)
        IF(IERROR/=0) THEN
           CALL ANCMSG(MSGID=20,ANMODE=ANINFO)

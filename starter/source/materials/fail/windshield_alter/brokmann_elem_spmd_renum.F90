@@ -31,6 +31,7 @@
 !||    lectur                    ../starter/source/starter/lectur.F
 !||====================================================================
       module brokmann_elem_renum_mod
+      implicit none
       contains
 ! ======================================================================================================================
 ! \brief renumber local element numbers in randomd element list after domain decomposition
@@ -60,13 +61,13 @@
 
 
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   arguments 
+!                                                   arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           type (fail_brokmann_) ,intent(inout) :: fail_brokmann !< brokmann model structure
           integer ,intent(in)                  :: numelc        !< total number of 4n shell elements
           integer ,intent(in)                  :: numeltg       !< total number of 3n shell elements
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   local variables 
+!                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i,ifail,idebug
           integer :: iel,iel_old,nix,id,nelem
@@ -118,7 +119,7 @@
 !
             if (idebug == 1) then
               do i=1,nelem
-                write(*,'(A,3I10,F18.6)') 'id,old_n,new_n=',tag_id(i),   &
+                write(*,"(A,3I10,F18.6)") "id,old_n,new_n=",tag_id(i),   &
                   fail_brokmann%brokmann(ifail)%brokmann_elem(i)%elnum,tag_elem(i),&
                   tag_rand(i,1)
               end do

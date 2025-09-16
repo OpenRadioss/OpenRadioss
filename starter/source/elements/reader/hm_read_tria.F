@@ -278,7 +278,7 @@ C-----------
      .            ANMODE=ANINFO_BLIND_1,    
      .            PRMOD=MSG_PRINT) 
 C-------------------------------------
-C Recherche des ID doubles
+C Search for double IDs
 C-------------------------------------
       IDS = 79
       I = 0

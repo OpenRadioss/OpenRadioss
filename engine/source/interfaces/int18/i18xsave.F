@@ -31,7 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      3       XMAX     ,YMAX , ZMAX  , C_MAX , CURV_MAX,
      4       ICURV    ,IRECT, NRTM_T, SX    , SY      ,
      5       SZ       ,SX2  , SY2   , SZ2   , NMN_L   )
-C sauvegarde des XSAV et calcul borne domaine
+C saving XSAV and computing domain bounds
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

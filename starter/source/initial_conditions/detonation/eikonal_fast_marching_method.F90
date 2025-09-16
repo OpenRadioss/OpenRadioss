@@ -26,6 +26,7 @@
 !||    eikonal_solver                     ../starter/source/initial_conditions/detonation/eikonal_solver.F90
 !||====================================================================
       module eikonal_fast_marching_method_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures
@@ -41,6 +42,7 @@
 !||--- calls      -----------------------------------------------------
 !||    eikonal_compute_adjacent         ../starter/source/initial_conditions/detonation/eikonal_compute_adjacent.F90
 !||    eikonal_init_mixture_vel         ../starter/source/initial_conditions/detonation/eikonal_ini_mixture_vel.F90
+!||    eikonal_init_sorting             ../starter/source/initial_conditions/detonation/eikonal_init_sorting.F90
 !||    eikonal_init_start_list_2d       ../starter/source/initial_conditions/detonation/eikonal_init_start_list_2d.F90
 !||    eikonal_remove_first             ../starter/source/initial_conditions/detonation/eikonal_remove_first.F90
 !||    eikonal_sort_narrow_band         ../starter/source/initial_conditions/detonation/eikonal_sort_narrow_band.F90
@@ -48,6 +50,7 @@
 !||    detonators_mod                   ../starter/share/modules1/detonators_mod.F
 !||    eikonal_compute_adjacent_mod     ../starter/source/initial_conditions/detonation/eikonal_compute_adjacent.F90
 !||    eikonal_init_mixture_vel_mod     ../starter/source/initial_conditions/detonation/eikonal_ini_mixture_vel.F90
+!||    eikonal_init_sorting_mod         ../starter/source/initial_conditions/detonation/eikonal_init_sorting.F90
 !||    eikonal_init_start_list_2d_mod   ../starter/source/initial_conditions/detonation/eikonal_init_start_list_2d.F90
 !||    eikonal_remove_first_mod         ../starter/source/initial_conditions/detonation/eikonal_remove_first.F90
 !||    eikonal_sort_narrow_band_mod     ../starter/source/initial_conditions/detonation/eikonal_sort_narrow_band.F90
@@ -69,6 +72,7 @@
           use eikonal_init_mixture_vel_mod , only : eikonal_init_mixture_vel
           use detonators_mod , only : detonators_struct_
           use precision_mod, only : WP
+          use eikonal_init_sorting_mod , only : eikonal_init_sorting
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -116,7 +120,7 @@
           integer :: n_queue
           integer, allocatable, dimension(:) :: idx_ng  !< group identifier for a given solid elem
           integer, allocatable, dimension(:) :: idx_i   !< local id in group
-          integer, allocatable, dimension(:) :: elem_list
+          integer, allocatable, dimension(:) :: elem_list, uelem_list !< user identifier
           real(kind=WP), allocatable, dimension(:) :: vel
           real(kind=WP) :: vel_adj(6)   ! tria 3<6, quad:4<6, hexa 6
           real(kind=WP), allocatable, dimension(:) :: tdet   !< detonation time
@@ -159,11 +163,12 @@
                   neldet = neldet + nel
                 end if
               end if
-            endif
-          enddo
+            end if
+          end do
 
           ! size neldet
           allocate(elem_list(neldet)) ; elem_list(:) = 0
+          allocate(uelem_list(neldet)); uelem_list(:) = 0
           allocate(idx_ng(neldet))    ; idx_ng(:) = 0
           allocate(idx_i(neldet))     ; idx_i(:) = 0
           allocate(updown(neldet))    ; updown(:) = -1
@@ -195,14 +200,14 @@
             Dcj = pm(38,mid)
             if(mlw == 51)then
               multimat_id = 51
-            elseif(mlw == 151)then
+            else if(mlw == 151)then
               multimat_id = 151
-            elseif(mlw /= 5 .and. mlw /= 97)then
+            else if(mlw /= 5 .and. mlw /= 97)then
               cycle
-            endif
+            end if
             if(ity == 2)then
               fac = fourth
-            elseif(ity == 7)then
+            else if(ity == 7)then
               fac = third
             else !ity == 1
               fac = one_over_8
@@ -212,10 +217,11 @@
                 !building list
                 neldet = neldet + 1
                 lgth = lgth + 1
-                elem_list(neldet) = i+nft       ! elem_list     : [1..neldet] -> [1..numel]
+                elem_list(neldet) = i+nft         ! elem_list      : [1..neldet] -> [1..numel]
+                uelem_list(neldet) = ix(nix,i+nft)! uelem_list     : [1..neldet] -> [min_user_id..max_user_id]
                 idx_ng(neldet) = ng
                 idx_i(neldet) = i
-                elem_list_bij(i+nft) = neldet   ! elem_list_inv : [1..numel] -> [1..neldet]
+                elem_list_bij(i+nft) = neldet      ! elem_list_inv : [1..numel] -> [1..neldet]
                 !centroid coordinates
                 inod(1:nvois) = ix(2:nvois+1, i+nft)
                 xel(1, neldet) = zero ! x-center
@@ -223,13 +229,14 @@
                 xel(3, neldet) = fac * sum(x(3,inod(1:nvois))) ! z-center
                 !medium velocity
                 vel(neldet) = Dcj ! chapman jouget velocity
-              enddo
+              end do
             else ! 3d
               do i=1,nel
                 !building list
                 neldet = neldet + 1
                 lgth = lgth + 1
                 elem_list(neldet) = i+nft       ! elem_list     : [1..neldet] -> [1..numel]
+                uelem_list(neldet) = ix(nix,i+nft)
                 idx_ng(neldet) = ng
                 idx_i(neldet) = i
                 elem_list_bij(i+nft) = neldet   ! elem_list_inv : [1..numel] -> [1..neldet]
@@ -240,7 +247,7 @@
                 xel(3, neldet) = fac * sum(x(3,inod(1:8))) ! z-center
                 !medium velocity
                 vel(neldet) = Dcj ! chapman jouget velocity
-              enddo
+              end do
             end if
             if(multimat_id /= 0)then
               ! Dcj not initialized for multimaterial law
@@ -251,17 +258,21 @@
               iad1 = neldet + 1
               lgth = 0
             end if
-          enddo
+          end do
+
+          !parith/on requires same order of treatment whatever is the domain decompostion (reneumbered occured in ddsplit)
+          ! ensuring same order of treatment
+          call eikonal_init_sorting(neldet, numel, elem_list, uelem_list, idx_ng , idx_i, elem_list_bij, xel, vel)
 
           call eikonal_init_start_list_2d(nstart, start_elem_list, start_elem_tdet, detonators, numel, numnod, &
             nvois, nod2el, knod2el, ale_connectivity, elem_list_bij, neldet, xel, x,&
-            nix, ix, mat_det, vel)
+            nix, ix, mat_det, vel, uelem_list)
 
           if(nstart == 0)then
             !DEALLOCATE
             if(allocated(start_elem_list))deallocate(start_elem_list)
             if(allocated(start_elem_tdet))deallocate(start_elem_tdet)
-            if(allocated(elem_list))deallocate(elem_list)
+            if(allocated(uelem_list))deallocate(uelem_list)
             if(allocated(idx_ng))deallocate(idx_ng)
             if(allocated(idx_i))deallocate(idx_i)
             if(allocated(updown))deallocate(updown)
@@ -279,7 +290,7 @@
           do jj=1,nstart
             updown(start_elem_list(jj)) = 1
             tdet(start_elem_list(jj)) = start_elem_tdet(jj)
-          enddo ! next jj
+          end do ! next jj
 
           ! initial narrow band
           !    mark first points in the narrow band (close)
@@ -299,19 +310,19 @@
                   if(mat_det /= 0 .and. ix(1,iev) /= mat_det)cycle
                   updown(iel) = 0
                   n_queue = n_queue + 1
-                  s=max(vel(iel),vel(ie))
+                  s=max(vel(iel),vel(ii))
                   s=one/s
-                  dx = xel(1,ie)-xel(1,iel)
-                  dy = xel(2,ie)-xel(2,iel)
-                  dz = xel(3,ie)-xel(3,iel)
+                  dx = xel(1,ii)-xel(1,iel)
+                  dy = xel(2,ii)-xel(2,iel)
+                  dz = xel(3,ii)-xel(3,iel)
                   dl = sqrt(dx*dx + dy*dy + dz*dz)
                   priority_queue_id(n_queue) = iel
-                  priority_queue_tt(n_queue) = tdet(ie) + dl*s
+                  priority_queue_tt(n_queue) = tdet(ii) + dl*s
                   tdet(iel) = priority_queue_tt(n_queue)
                 end if
-              ENDDO
+              END DO
             end if
-          enddo ! next ii
+          end do ! next ii
           call eikonal_sort_narrow_band(priority_queue_id,priority_queue_tt,n_queue)
 
           ! main loop -------------------------------------------------------------------------
@@ -319,11 +330,12 @@
           do while (n_queue > 0)
 
             !freeze minimum
-            ie = priority_queue_id(1) ! list of  priority_queue_tt is already sorted
-            updown(ie) = 1
+            iel = priority_queue_id(1) ! list of  priority_queue_tt is already sorted
+            updown(iel) = 1
             call eikonal_remove_first(priority_queue_id,priority_queue_tt,n_queue)
 
             !compute adjacent (might be far)
+            ie = elem_list(iel)
             call eikonal_compute_adjacent(ie, ALE_CONNECTIVITY,neldet, &
               tdet,tdet_adj,vel,vel_adj,xel,xel_adj,numel,elem_list_bij, &
               updown, num_new_activated, list_new_activated,  mat_det, &
@@ -331,7 +343,7 @@
 
             !we may init only updated tdet from previous call above
             do ii=1,n_queue
-              priority_queue_tt(ii) = tdet(elem_list_bij(priority_queue_id(ii)))
+              priority_queue_tt(ii) = tdet(priority_queue_id(ii))
             end do
 
             do ii=1,num_new_activated
@@ -344,7 +356,7 @@
             ! reorder priority queue
             call eikonal_sort_narrow_band(priority_queue_id,priority_queue_tt,n_queue)
 
-          enddo !wend
+          end do !wend
           ! end of main loop -------------------------------------------------------------------------
 
           ! initialize element buffer (arrival times)

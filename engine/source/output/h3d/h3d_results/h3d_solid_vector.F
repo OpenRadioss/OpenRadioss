@@ -28,7 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    h3d_write_vector       ../engine/source/output/h3d/h3d_results/h3d_write_vector.F
 !||    initbuf                ../engine/share/resol/initbuf.F
 !||--- uses       -----------------------------------------------------
-!||    aleanim_mod            ../engine/share/modules/aleanim_mod.F
+!||    aleanim_mod            ../common_source/modules/aleanim_mod.F
 !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
 !||    h3d_mod                ../engine/share/modules/h3d_mod.F
 !||    initbuf_mod            ../engine/share/resol/initbuf.F

@@ -52,6 +52,7 @@
 !||    python_register            ../engine/source/tools/curve/python_register.F90
 !||====================================================================
       module user_id_mod
+      implicit none
 
         type id_limits_
           integer :: global = 1100000000                !< maximum identifier
@@ -141,22 +142,22 @@
                 local_id(j) = i
                 if(ity == 1) then ! solid
                   user_id(j) = ixs(nixs,nft+i)
-                elseif(ity == 2) then ! quad (2d)
+                else if(ity == 2) then ! quad (2d)
                   user_id(j) = ixq(nixq,nft+i)
-                elseif (ity == 3) then ! shell
+                else if (ity == 3) then ! shell
                   user_id(j) = ixc(nixc,nft+i)
-                elseif (ity == 4) then ! truss
+                else if (ity == 4) then ! truss
                   user_id(j) = ixt(nixt,nft+i)
-                elseif (ity == 5) then ! beam
+                else if (ity == 5) then ! beam
                   user_id(j) = ixp(nixp,nft+i)
-                elseif (ity == 6) then ! spring
+                else if (ity == 6) then ! spring
                   user_id(j) = ixr(nixr,nft+i)
-                elseif (ity == 7) then ! triangle
+                else if (ity == 7) then ! triangle
                   user_id(j) = ixtg(nixtg,nft+i)
-                endif
-              enddo
-            endif
-          enddo
+                end if
+              end do
+            end if
+          end do
 
 
 

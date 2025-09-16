@@ -449,7 +449,7 @@ C
       IPRI = IPRINT
       IF (ISPMD/=0) IPRI = 0
 C--------
-C routine speciale pour sauvegarder les input
+C special routine to save inputs
       IF(ISAVE==1)CALL IMP_ISAVE(
      1   NDDL,X,R,DIAG_K,DIAG_M,
      2   NNZ,LT_K,LT_K0,LT_M,LT_M0,
@@ -565,7 +565,7 @@ C        L_B2=R02
         IF(IPRI<0) WRITE(ISTDO,1000)IT,RR
         WRITE(IOUT,1000)IT,RR
        ENDIF
-C-------pour etre coherent avec lanzos for linear
+C-------to be consistent with Lanczos for linear
 C----------------------
        CALL MY_BARRIER
 C---------------------
@@ -820,7 +820,7 @@ C Code MIC simple precision
 C debut code specifique MIC double precision
 CAD
 CAD
-CAD  DIRECTIVES POUR MIC
+CAD DIRECTIVES FOR MIC
 CAD
 C init MIC
         CALL MIC_INIT(
@@ -942,7 +942,7 @@ cc        call kmp_set_blocktime_target (TARGET_MIC, MICID,INFINITE)
            ALLOCATE(TABLE(NDDL),STAT=IERR)
            IERROR=IERROR+IERR
            IF(IERROR /= 0)THEN
-C code erreur
+C Error code
            END IF
 
            DO I = 1, NDDL
@@ -1073,7 +1073,7 @@ C
           CALL MIC_DDOT(NDDL, R, Z, G0)
 !$OMP END PARALLEL
          ELSE
-C si spmd penser a faire avant D_Y = D_Z*W pour les poids
+C If SPMD think to do before d_y = d_z*w for weights
 C D_Y = D_Z * D_W
 !dir$ omp offload target(mic:MICID)
      & nocopy(z,y,w,r)
@@ -1094,7 +1094,7 @@ C D_Y = D_Z * D_W
 C---------------------
 C       CALL MAV_LTGH(
 C     1            NDDL  ,IADK  ,JDIK  ,DIAG_K,LT_K  ,   
-C     2            P     ,Y     ,F_DDL ,L_DDL ,ITASK )
+C     2 p, y, f_ddl, l_ddl, Itask)
 
 C D_Y = D_P * DIAG_K
          CALL MIC_MV(NDDL,P,DIAG_K,Y)
@@ -1138,7 +1138,7 @@ C---------------------
           CALL MIC_DDOT(NDDL, P, Y, S)
 !$OMP END PARALLEL
          ELSE
-C si spmd penser a faire avant D_Z = D_Y*D_W pour les poids
+C If SPMD think to do before d_z = d_y*d_w for weights
 !dir$ omp offload target(mic:MICID)
      & nocopy(y,w,p,z)
      & inout(S)
@@ -1172,7 +1172,7 @@ C---------------------
             CALL MIC_DDOT(NDDL, R, R, R02)
 !$OMP END PARALLEL
            ELSE
-C si spmd penser a faire avant D_Z = D_R*W pour les poids
+C If SPMD think to do before d_z = d_r*w for weights
 !dir$ omp offload target(mic:MICID)
      & nocopy(r,w,z)
      & inout(r02)
@@ -1217,7 +1217,7 @@ C          L_B2=R02
            IF(IPRI<0) WRITE(ISTDO,1000)IT,RR
            WRITE(IOUT,1000)IT,RR
          ENDIF
-C-------pour etre coherent avec lanzos for linear
+C-------to be consistent with Lanczos for linear
 C----------------------
 c       CALL MY_BARRIER
 C---------------------
@@ -1285,7 +1285,7 @@ C---------------------
           CALL MIC_DDOT(NDDL, R, Z, G1)
 !$OMP END PARALLEL
          ELSE
-C si spmd penser a faire avant D_Y = D_Z*D_W pour les poids
+C If SPMD think to do before d_y = d_z*d_w for weights
 !dir$ omp offload target(mic:MICID)
      & nocopy(z,w,r,y)
      & inout(G1)
@@ -1308,7 +1308,7 @@ C---------------------
              CALL MIC_DDOT(NDDL, R, R, R2)
 !$OMP END PARALLEL
            ELSE
-C si spmd penser a faire avant D_Y = D_R*W pour les poids
+C If SPMD think to do before d_y = d_r*w for weights
 !dir$ omp offload target(mic:MICID)
      & nocopy(r,w,y)
      & inout(R2)
@@ -1367,7 +1367,7 @@ c        CALL MY_BARRIER
 C---------------------
 C        CALL MAV_LTGH(
 C     1            NDDL  ,IADK  ,JDIK  ,DIAG_K,LT_K  ,   
-C     2            P     ,Y     ,F_DDL ,L_DDL ,ITASK )
+C     2 p, y, f_ddl, l_ddl, Itask)
 C D_Y = D_P * DIAG_K
           CALL MIC_MV(NDDL,P,DIAG_K,Y)
 C D_Y = D_Y + LT_K * D_P
@@ -1409,7 +1409,7 @@ C---------------------
             CALL MIC_DDOT(NDDL, P, Y, S)
 !$OMP END PARALLEL
           ELSE
-C si spmd penser a faire avant D_Y = D_Y*W pour les poids
+C If SPMD think about doing before d_y = d_y*w for weights
 !dir$ omp offload target(mic:MICID)
      & nocopy(y,w,p,z)
      & inout(S)
@@ -1483,7 +1483,7 @@ C---------------------
             CALL MIC_DDOT(NDDL, R, Z, G1)
 !$OMP END PARALLEL
           ELSE
-C si spmd penser a faire avant D_Y = D_Z*W pour les poids
+C If SPMD think to do before d_y = d_z*w for weights
 !dir$ omp offload target(mic:MICID)
      & nocopy(z,w,r,y)
      & inout(G1)
@@ -1509,7 +1509,7 @@ cc!$OMP end single
               CALL MIC_DDOT(NDDL, R, R, R2)
 !$OMP END PARALLEL
             ELSE
-C si spmd penser a faire avant D_Y = D_R*W pour les poids
+C If SPMD think to do before d_y = d_r*w for weights
 !dir$ omp offload target(mic:MICID)
      & nocopy(r,w,y)
      & inout(R2)
@@ -1604,7 +1604,7 @@ C!dec$ omp offload target(mic:MICID) out(X,R:alloc_if(.false.))
       DEALLOCATE(INDEX) 
 c+1 tempo
       ELSE  ! CODE NSPMD = 1
-C debut code provisoire
+C Debut provisional code
 !dec$ attributes offload: mic :: ONE,ZERO,ISTDO,IOUT
 
 !dir$ omp offload target(mic:MICID)
@@ -1703,7 +1703,7 @@ c!$OMP PARALLEL default(shared) shared(g0)
           CALL MIC_DDOT(NDDL, R, Z, G0)
 c!$OMP END PARALLEL
 c         ELSE
-C si spmd penser a faire avant D_Y = D_Z*W pour les poids
+C If SPMD think to do before d_y = d_z*w for weights
 C D_Y = D_Z * D_W
 c!dir$ omp offload target(mic:MICID)
 c     & nocopy(z,y,w,r)
@@ -1724,7 +1724,7 @@ c!$OMP PARALLEL default(shared)
 C---------------------
 C       CALL MAV_LTGH(
 C     1            NDDL  ,IADK  ,JDIK  ,DIAG_K,LT_K  ,   
-C     2            P     ,Y     ,F_DDL ,L_DDL ,ITASK )
+C     2 p, y, f_ddl, l_ddl, Itask)
 
 C D_Y = D_P * DIAG_K
          CALL MIC_MV(NDDL,P,DIAG_K,Y)
@@ -1768,7 +1768,7 @@ c!$OMP PARALLEL default(shared) shared(s)
           CALL MIC_DDOT(NDDL, P, Y, S)
 c!$OMP END PARALLEL
 c         ELSE
-C si spmd penser a faire avant D_Z = D_Y*D_W pour les poids
+C If SPMD think to do before d_z = d_y*d_w for weights
 c!dir$ omp offload target(mic:MICID)
 c     & nocopy(y,w,p,z)
 c     & inout(S)
@@ -1802,7 +1802,7 @@ c!$OMP PARALLEL default(shared) shared(r02)
             CALL MIC_DDOT(NDDL, R, R, R02)
 c!$OMP END PARALLEL
 c           ELSE
-C si spmd penser a faire avant D_Z = D_R*W pour les poids
+C If SPMD think to do before d_z = d_r*w for weights
 c!dir$ omp offload target(mic:MICID)
 c     & nocopy(r,w,z)
 c     & inout(r02)
@@ -1855,7 +1855,7 @@ c+1
          ENDIF
 c+1
 !$OMP END SINGLE
-C-------pour etre coherent avec lanzos for linear
+C-------to be consistent with Lanczos for linear
 C----------------------
 c       CALL MY_BARRIER
 C---------------------
@@ -1923,7 +1923,7 @@ c!$OMP PARALLEL default(shared) shared(G1)
           CALL MIC_DDOT(NDDL, R, Z, G1)
 c!$OMP END PARALLEL
 c         ELSE
-C si spmd penser a faire avant D_Y = D_Z*D_W pour les poids
+C If SPMD think to do before d_y = d_z*d_w for weights
 c!dir$ omp offload target(mic:MICID)
 c     & nocopy(z,w,r,y)
 c     & inout(G1)
@@ -1946,7 +1946,7 @@ c!$OMP PARALLEL default(shared) shared(R2)
              CALL MIC_DDOT(NDDL, R, R, R2)
 c!$OMP END PARALLEL
 c           ELSE
-C si spmd penser a faire avant D_Y = D_R*W pour les poids
+C If SPMD think to do before d_y = d_r*w for weights
 c!dir$ omp offload target(mic:MICID)
 c     & nocopy(r,w,y)
 c     & inout(R2)
@@ -2023,7 +2023,7 @@ c        CALL MY_BARRIER
 C---------------------
 C        CALL MAV_LTGH(
 C     1            NDDL  ,IADK  ,JDIK  ,DIAG_K,LT_K  ,   
-C     2            P     ,Y     ,F_DDL ,L_DDL ,ITASK )
+C     2 p, y, f_ddl, l_ddl, Itask)
 C D_Y = D_P * DIAG_K
           CALL MIC_MV(NDDL,P,DIAG_K,Y)
 C D_Y = D_Y + LT_K * D_P
@@ -2065,7 +2065,7 @@ c!$OMP PARALLEL default(shared) shared(S)
             CALL MIC_DDOT(NDDL, P, Y, S)
 c!$OMP END PARALLEL
 c          ELSE
-C si spmd penser a faire avant D_Y = D_Y*W pour les poids
+C If SPMD think about doing before d_y = d_y*w for weights
 c!dir$ omp offload target(mic:MICID)
 c     & nocopy(y,w,p,z)
 c     & inout(S)
@@ -2139,7 +2139,7 @@ c!$OMP PARALLEL default(shared) shared(G1)
             CALL MIC_DDOT(NDDL, R, Z, G1)
 c!$OMP END PARALLEL
 c          ELSE
-C si spmd penser a faire avant D_Y = D_Z*W pour les poids
+C If SPMD think to do before d_y = d_z*w for weights
 c!dir$ omp offload target(mic:MICID)
 c     & nocopy(z,w,r,y)
 c     & inout(G1)
@@ -2167,7 +2167,7 @@ c!$OMP PARALLEL default(shared) shared(R2)
               CALL MIC_DDOT(NDDL, R, R, R2)
 c!$OMP END PARALLEL
 c            ELSE
-C si spmd penser a faire avant D_Y = D_R*W pour les poids
+C If SPMD think to do before d_y = d_r*w for weights
 c!dir$ omp offload target(mic:MICID)
 c     & nocopy(r,w,y)
 c     & inout(R2)
@@ -2289,7 +2289,7 @@ c!$OMP END single
       print *,'Transfer Rate MIC=>CPU (MB/s)=',
      .        ((2*NDDL/(1024*1024))*8)/TF
 c      END IF ! fin NSPMD ==1
-C fin code provisoire
+C End Provisional Code
 
 c      IF(NSPMD > 1) THEN
 c        DEALLOCATE(W)
@@ -2303,8 +2303,8 @@ c      END IF
       END IF   !only task0
 C fin code specifique MIC double precision
 #endif
-C fin code specifique GPU
-C routine speciale pour sauvegarder les resultats
+C End SPECIFIC GPU code
+C special routine to save results
       IF(ISAVE==1)CALL IMP_RSAVE(NDDL,X,R)
       
 C
@@ -3202,7 +3202,7 @@ C        L_B2=R02
         IF(IPRI<0) WRITE(ISTDO,1000)IT,RR
         WRITE(IOUT,1000)IT,RR
        ENDIF
-C-------pour etre coherent avec lanzos for linear
+C-------to be consistent with Lanczos for linear
 C----------------------
        CALL MY_BARRIER
 C---------------------
@@ -3843,7 +3843,7 @@ C----------------------
       CALL MY_BARRIER
 C---------------------
         M_VS1 = NPCGPV+ 1
-C------add previous solution U ; default : IPRO_S0=2
+C------- Add previous solution u;Default: ipro_s0 = 2
 C---IPRO_S0=1 : alertory updated w/ 1 vector x
 C---IPRO_S0=2 : ini S w/ first p vectors updated w/ 2 vectors p,x
 C---IPRO_S0=3 : ini S w/ first p vectors updated w/ 2 vectors p,x (p<-RR_max)

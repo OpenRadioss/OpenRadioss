@@ -26,7 +26,7 @@
 !||    get_neighbour_surface            ../engine/source/interfaces/interf/get_neighbour_surface.F90
 !||====================================================================
       module spmd_update_frontier_int25_mod
-      implicit none
+        implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures
@@ -44,9 +44,9 @@
 !||    spmd_arrays_mod              ../common_source/modules/interfaces/spmd_arrays_mod.F
 !||====================================================================
         subroutine spmd_update_frontier_int25( ispmd,nspmd,ninter25,npari,ninter,nbintc, &
-                                               numnod,nbddedgt,nbddedg_max, &
-                                               ipari,intlist,itab,  &
-                                               intbuf_tab,spmd_arrays )
+          numnod,nbddedgt,nbddedg_max, &
+          ipari,intlist,itab,  &
+          intbuf_tab,spmd_arrays )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -72,7 +72,7 @@
           integer, dimension(npari,ninter), intent(in) :: ipari !< interface data
           integer, dimension(nbintc), intent(in) :: intlist
           integer, dimension(numnod), intent(in) :: itab !< local to global node id array
-          type(intbuf_struct_), dimension(ninter), intent(inout) :: intbuf_tab    !< interface data 
+          type(intbuf_struct_), dimension(ninter), intent(inout) :: intbuf_tab    !< interface data
           type(spmd_arrays_), intent(inout) :: spmd_arrays !< structure for interface spmd arrays
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
@@ -94,7 +94,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !
           ! --------------------------
-          ! frontiers vs edges   
+          ! frontiers vs edges
           ! first calculate frontier edges
           ni25=0
           lshift=0
@@ -104,27 +104,27 @@
             nin = intlist(ni)
             nty = ipari(7,nin)
             nrtm = ipari(4,nin)
-            if(nty==25) then                   
-              nbddedg = 0           
-              ni25=ni25+1           
-              do i=1,nrtm  
-                if(intbuf_tab(nin)%stfm(i)>zero ) then ! neighbor external surfaces      
+            if(nty==25) then
+              nbddedg = 0
+              ni25=ni25+1
+              do i=1,nrtm
+                if(intbuf_tab(nin)%stfm(i)>zero ) then ! neighbor external surfaces
                   do j=1,4
                     k = intbuf_tab(nin)%mvoisin(4*(i-1)+j)
                     if(k<0)then
                       p = intbuf_tab(nin)%proc_mvoisin(4*(i-1)+j)
                       if(p /= ispmd+1) then
                         nbddedg = nbddedg + 1
-                      endif
+                      end if
                     end if
-                  enddo
-                endif
-              enddo
+                  end do
+                end if
+              end do
               nbddedg_max = max(nbddedg_max,nbddedg)
               nbddedgt    = nbddedgt+nbddedg
-            endif
-          enddo
-          !     frontiers vs edges  : update fr_edg array 
+            end if
+          end do
+          !     frontiers vs edges  : update fr_edg array
           if(allocated(spmd_arrays%fr_edg))  deallocate(spmd_arrays%fr_edg)
           allocate(spmd_arrays%fr_edg(2*nbddedgt))
           allocate(fr_sav(2,nbddedg_max))
@@ -139,10 +139,10 @@
           do nin=1,ninter
             nty = ipari(7,nin)
             nrtm = ipari(4,nin)
-            if(nty==25) then                   
-              nbddedg = 0           
-              ni25=ni25+1           
-              do i = 1, nrtm  
+            if(nty==25) then
+              nbddedg = 0
+              ni25=ni25+1
+              do i = 1, nrtm
                 if(intbuf_tab(nin)%stfm(i)>zero ) then ! neighbor external surfaces
                   do j = 1,4
                     k = intbuf_tab(nin)%mvoisin(4*(i-1)+j)
@@ -150,7 +150,7 @@
                       p = intbuf_tab(nin)%proc_mvoisin(4*(i-1)+j)
                       if(p /= ispmd+1) then
                         nbddedg = nbddedg + 1
-                        fr_sav(1,nbddedg) = i ! sorting 
+                        fr_sav(1,nbddedg) = i ! sorting
                         fr_sav(2,nbddedg) = j
                         proc_rem25(nbddedg) = p
                         ! sorting of edges frontiers : unique order
@@ -161,36 +161,36 @@
                         itri25(3,nbddedg) =  max(-k,intbuf_tab(nin)%mseglo(i))
                         itri25(4,nbddedg) =  min(itab(n1),itab(n2))
                         itri25(5,nbddedg) =  max(itab(n1),itab(n2))
-                      endif
+                      end if
                     end if
-                  enddo
-                endif
-              enddo
+                  end do
+                end if
+              end do
 
               do i=1,nbddedg
                 index25(i) = i
-              enddo
+              end do
               call my_orders(0,work,itri25,index25,nbddedg,5)
               do i=1,nbddedg
                 proc_rem25(i) = itri25(1,index25(i))
                 spmd_arrays%fr_edg(2*(lshift+i-1)+1) = fr_sav(1,index25(i))
                 spmd_arrays%fr_edg(2*(lshift+i-1)+2) = fr_sav(2,index25(i))
-              enddo
+              end do
 
               do p=1,nspmd
                 isom(p) = 0
-              enddo
+              end do
               do i=1,nbddedg
                 p = proc_rem25(i)
                 isom(p) = isom(p) + 1
-              enddo
+              end do
 
               spmd_arrays%iad_fredg(ni25) = lshift + 1
               do p=1,nspmd
                 spmd_arrays%iad_fredg(p*ninter25+ni25) = spmd_arrays%iad_fredg((p-1)*ninter25+ni25) + isom(p)
-              enddo 
+              end do
               lshift=lshift+nbddedg
-            endif
+            end if
           end do
 
           deallocate(fr_sav)

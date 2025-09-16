@@ -27,6 +27,7 @@
 !||    python_register                ../engine/source/tools/curve/python_register.F90
 !||====================================================================
       module python_spmd_mod
+      implicit none
       contains
 !! \brief initialize the python elemental variables found in the python function
 !||====================================================================
@@ -78,15 +79,15 @@
           call c_new_hash(map_id, n)
           do i = 1, n
             call c_hash_insert(map_id, user_ids(i), i)
-          enddo
+          end do
           local_n = 0
           do i = 1, element%global%n
             j = -1
             call c_hash_find(map_id, element%global%user_ids(i), j)
             if(j > 0) then
               local_n = local_n + 1
-            endif
-          enddo
+            end if
+          end do
           element%local%n = local_n
           if(allocated(element%local%user_ids)) deallocate(element%local%user_ids)
           if(allocated(element%local%group_id)) deallocate(element%local%group_id)
@@ -119,10 +120,10 @@
                 element%local%keyword(local_n)%h3d(k:k) = element%global%keyword(i)%h3d(k:k)
                 element%local%keyword(local_n)%name(k:k) = element%global%keyword(i)%name(k:k)
                 element%local%global_id(local_n) = i
-              enddo
+              end do
               processor(i) = rank
-            endif
-          enddo
+            end if
+          end do
           call c_delete_hash(map_id)
 
           call spmd_allreduce(processor, element%global%processor, element%global%n, SPMD_MAX)
@@ -179,12 +180,12 @@
           values = -HUGE(0.0d0)
           do i = 1, element%local%n
             values(element%local%global_id(i)) = element%local%values(i)
-          enddo
+          end do
           call spmd_allreduce(values, element%global%values, element%global%n, SPMD_MAX)
           deallocate(values)
           do i = 1, element%global%n
             call python_update_elemental_entity(element%global%keyword(i)%h3d,element%global%values(i), element%global%user_ids(i))
-          enddo
+          end do
         end subroutine python_element_sync
 
       end module python_spmd_mod

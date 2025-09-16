@@ -55,12 +55,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    intbufdef_mod               ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    interfaces_mod              ../common_source/modules/interfaces/interfaces_mod.F90
 !||    message_mod                 ../engine/share/message_module/message_mod.F
-!||    outputs_mod                 ../common_source/modules/outputs_mod.F
+!||    output_mod                  ../common_source/modules/output/output_mod.F90
 !||    timer_mod                   ../engine/source/system/timer_mod.F90
 !||    tri25ebox                   ../engine/share/modules/tri25ebox.F
 !||    tri7box                     ../engine/share/modules/tri7box.F
 !||====================================================================
-      SUBROUTINE I25MAINF(TIMERS,
+      SUBROUTINE I25MAINF(output,TIMERS,
      1                   IPARI  ,INTBUF_TAB         ,X        ,A      ,
      2                   ICODT  ,FSAV    ,V         ,MS       ,DT2T   ,
      3                   NELTST ,ITYPTST ,ITAB      ,STIFN    ,FSKYI  ,
@@ -85,6 +85,7 @@ C=======================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE OUTPUT_MOD
       USE TIMER_MOD
       USE INTBUFDEF_MOD
       USE TRI7BOX
@@ -92,7 +93,6 @@ C-----------------------------------------------
       USE INTBUF_FRIC_MOD
       USE MESSAGE_MOD
       USE TRI25EBOX
-      USE OUTPUTS_MOD
       USE INTERFACES_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -119,6 +119,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      type(output_), intent(inout) :: output
       TYPE(TIMER_) :: TIMERS
       INTEGER NELTST,ITYPTST,NIN,NEWFRONT,
      .        NSTRF(*),
@@ -387,7 +388,7 @@ C
       DGAPLOADPMAX = INTBUF_TAB%VARIABLES(46)
 C
 c----------------------------------------------------
-c   Rayon de courbure : calcul des normales nodales (normees)
+c   radius of curvature: calculation of nodal normals (normalized)
 C   IADM!=0 + Icurv!=0 non available (starter error).
 c----------------------------------------------------
 C-----Press-fit 
@@ -527,7 +528,7 @@ C
         ENDIF
       END DO
 C
-C     filtrer => ne garder que les contacts vrais 
+C     filter => keep only true contacts
       CALL I25KEEPF(
      1  I_STOK   ,INDEX2 ,INTBUF_TAB%CAND_OPT_N,INTBUF_TAB%CAND_OPT_E,NIN    ,
      2  NSN      ,NSNR   ,INACTI ,INTBUF_TAB%MSEGLO ,INTBUF_TAB%IRTLM ,
@@ -539,7 +540,7 @@ C
 C
 C-----------------------------------------------------------------------
 C
-C (re)decoupage statique
+C (re) static decoupage
 C
       I_STOK_GLO = INTBUF_TAB%I_STOK(2)
 C
@@ -553,7 +554,7 @@ C
 
       I_STOK = 0
 C
-C recalcul du istok
+C recalculation of istok
 C
       DO I = JTASK, I_STOK_GLO, NTHREAD
         IF(INTBUF_TAB%CAND_OPT_N(I)>0) THEN
@@ -593,7 +594,7 @@ C preparation candidats retenus
           CALL I25CDCOR3(
      1     JLT,INDEX2(NFT+1),INTBUF_TAB%CAND_OPT_E,INTBUF_TAB%CAND_OPT_N,
      2     CAND_E_N,CAND_N_N )
-C cand_n et cand_e remplace par cand_n_n et cand_e_n
+C cand_n and cand_e replaced by cand_n_n and cand_e_n
 C         Extraction of global data to local arrays
           CALL I25COR3_3(
      1  JLT       ,X          ,INTBUF_TAB%IRECTM,INTBUF_TAB%NSV  ,CAND_E_N  ,
@@ -697,7 +698,7 @@ C-------------------------------------------------------------------------------
           ENDIF
         IF(JTASK==1) CALL STOPTIME(TIMERS,MACRO_TIMER_FRIC)
 
-          CALL I25FOR3(
+          CALL I25FOR3(output,
      1  JLT          ,A         ,V            ,IBC         ,ICODT    ,
      2  FSAV         ,MS        ,VISC     ,
      3  VISCF        ,NOINT     ,INTBUF_TAB%STFNS,ITAB     ,CN_LOC   ,
@@ -795,8 +796,8 @@ C
       CALL MY_BARRIER
 C
       I_STOK = INTBUF_TAB%I_STOK_E(1)
-C  cette partie est effectuee en // apres le calcul des forces des elem.
-C decoupage statique
+C  this part is done in parallel after the calculation of the forces of the elements
+C static decoupage
       NB_LOC = I_STOK / NTHREAD
       IF (JTASK==NTHREAD) THEN
         I_STOK_LOC = I_STOK-NB_LOC*(NTHREAD-1)
@@ -805,7 +806,7 @@ C decoupage statique
       ENDIF
       DEBUT = (JTASK-1)*NB_LOC
       I_STOK = 0
-C recalcul du istok
+C recalculation of istok
 C     WRITE(6,*) "NEDGE=",NEDGE
       DO I = DEBUT+1, DEBUT+I_STOK_LOC
 
@@ -979,8 +980,8 @@ C
       CALL MY_BARRIER
 C
       I_STOK = INTBUF_TAB%I_STOK_E(2)
-C  cette partie est effectuee en // apres le calcul des forces des elem.
-C decoupage statique
+C  this part is done in parallel after the calculation of the forces of the elements
+C static decoupage
       NB_LOC = I_STOK / NTHREAD
       IF (JTASK==NTHREAD) THEN
         I_STOK_LOC = I_STOK-NB_LOC*(NTHREAD-1)
@@ -990,7 +991,7 @@ C decoupage statique
 C     WRITE(6,*) "I_STOK_LOC=",I_STOK_LOC
       DEBUT = (JTASK-1)*NB_LOC
       I_STOK = 0
-C recalcul du istok
+C recalculation of istok
       DO I = DEBUT+1, DEBUT+I_STOK_LOC
 C  =========== DEBUG
 #ifdef D_EM

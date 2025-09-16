@@ -48,6 +48,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    compaction_tab                           ../common_source/eos/compaction_tab.F90
 !||    compaction_tab_init                      ../common_source/eos/compaction_tab.F90
 !||    compute_voxel_dimensions                 ../engine/source/interfaces/intsort/voxel_dimensions.F90
+!||    construct_multimat_eos                   ../common_source/modules/multimat_param_mod.F90
 !||    crack_depth_init                         ../starter/source/materials/fail/windshield_alter/crack_depth_init.F90
 !||    create_plane_clause                      ../starter/source/model/sets/create_plane_clause.F90
 !||    crityld2000                              ../starter/source/materials/mat/mat087/law87_upd.F90
@@ -74,11 +75,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    eikonal_godunov_operator_2d              ../starter/source/initial_conditions/detonation/eikonal_godunov_operator_2d.F90
 !||    eikonal_godunov_operator_3d              ../starter/source/initial_conditions/detonation/eikonal_godunov_operator_3d.F90
 !||    eikonal_init_mixture_vel                 ../starter/source/initial_conditions/detonation/eikonal_ini_mixture_vel.F90
+!||    eikonal_init_sorting                     ../starter/source/initial_conditions/detonation/eikonal_init_sorting.F90
 !||    eikonal_init_start_list_2d               ../starter/source/initial_conditions/detonation/eikonal_init_start_list_2d.F90
 !||    eikonal_remove_first                     ../starter/source/initial_conditions/detonation/eikonal_remove_first.F90
 !||    eikonal_solver                           ../starter/source/initial_conditions/detonation/eikonal_solver.F90
 !||    eos_table_copy                           ../starter/source/materials/tools/eos_table_copy.F90
 !||    eosexponential                           ../common_source/eos/eosexponential.F90
+!||    eoslinear                                ../common_source/eos/eoslinear.F
 !||    eospolyno                                ../common_source/eos/eospolyno.F
 !||    fail_composite_c                         ../engine/source/materials/fail/composite/fail_composite_c.F90
 !||    fail_composite_s                         ../engine/source/materials/fail/composite/fail_composite_s.F90
@@ -119,11 +122,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    h3d_quad_scalar_1                        ../engine/source/output/h3d/h3d_results/h3d_quad_scalar_1.F90
 !||    hm_preread_inivel                        ../starter/source/initial_conditions/general/inivel/hm_preread_inivel.F90
 !||    hm_read_bcs_wall                         ../starter/source/boundary_conditions/hm_read_bcs_wall.F90
-!||    hm_read_ebcs_propergol                   ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_propergol.F90
+!||    hm_read_ebcs_propellant                  ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_propellant.F90
 !||    hm_read_eos_compaction                   ../starter/source/materials/eos/hm_read_eos_compaction.F90
 !||    hm_read_eos_compaction2                  ../starter/source/materials/eos/hm_read_eos_compaction2.F90
 !||    hm_read_eos_compaction_tab               ../starter/source/materials/eos/hm_read_eos_compaction_tab.F90
 !||    hm_read_eos_exponential                  ../starter/source/materials/eos/hm_read_eos_exponential.F90
+!||    hm_read_eos_osborne                      ../starter/source/materials/eos/hm_read_eos_osborne.F
 !||    hm_read_eos_powderburn                   ../starter/source/materials/eos/hm_read_eos_powderburn.F90
 !||    hm_read_fail_composite                   ../starter/source/materials/fail/composite/hm_read_fail_composite.F90
 !||    hm_read_fail_lemaitre                    ../starter/source/materials/fail/lemaitre/hm_read_fail_lemaitre.F90
@@ -131,6 +135,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_fractal_dmg                      ../starter/source/materials/fail/fractal/hm_read_fractal_dmg.F90
 !||    hm_read_inivol                           ../starter/source/initial_conditions/inivol/hm_read_inivol.F90
 !||    hm_read_mat                              ../starter/source/materials/mat/hm_read_mat.F90
+!||    hm_read_mat02_jc                         ../starter/source/materials/mat/mat002/hm_read_mat02_jc.F90
+!||    hm_read_mat02_predef                     ../starter/source/materials/mat/mat002/hm_read_mat02_predef.F90
+!||    hm_read_mat02_zerilli                    ../starter/source/materials/mat/mat002/hm_read_mat02_zerilli.F90
+!||    hm_read_mat102                           ../starter/source/materials/mat/mat102/hm_read_mat102.F
 !||    hm_read_mat105                           ../starter/source/materials/mat/mat105/hm_read_mat105.F90
 !||    hm_read_mat125                           ../starter/source/materials/mat/mat125/hm_read_mat125.F90
 !||    hm_read_mat126                           ../starter/source/materials/mat/mat126/hm_read_mat126.F90
@@ -149,7 +157,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_therm_stress                     ../starter/source/materials/therm/hm_read_therm_stress.F90
 !||    i24intarea_fic                           ../engine/source/interfaces/int24/i24intarea_fic.F90
 !||    i2_surfi                                 ../starter/source/interfaces/inter3d1/i2_surfi.F90
-!||    iniebcs_propergol_get_cv                 ../starter/source/boundary_conditions/ebcs/iniebcs_propergol.F90
+!||    idealgas                                 ../common_source/eos/idealgas.F
+!||    idealgas_vt                              ../common_source/eos/idealgas_vt.F
+!||    iniebcs_propellant_get_cp                ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
 !||    iniphase                                 ../starter/source/initial_conditions/inivol/iniphase.F
 !||    init_inivol                              ../starter/source/initial_conditions/inivol/init_inivol.F90
 !||    init_inivol_2d_polygons                  ../starter/source/initial_conditions/inivol/init_inivol_2D_polygons.F90
@@ -176,6 +186,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    law87_upd                                ../starter/source/materials/mat/mat087/law87_upd.F90
 !||    law92_guess                              ../starter/source/materials/mat/mat092/law92_nlsqf.F90
 !||    law92_nlsqf                              ../starter/source/materials/mat/mat092/law92_nlsqf.F90
+!||    lszk                                     ../common_source/eos/lszk.F
 !||    m21law                                   ../engine/source/materials/mat/mat021/m21law.F
 !||    m5in2                                    ../starter/source/initial_conditions/detonation/m5in2.F
 !||    m5in2t                                   ../starter/source/initial_conditions/detonation/m5in2t.F
@@ -197,11 +208,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    mulaw8                                   ../engine/source/materials/mat_share/mulaw8.F90
 !||    mulawc                                   ../engine/source/materials/mat_share/mulawc.F90
 !||    multi_muscl_compute_pressure             ../engine/source/multifluid/multi_muscl_compute_pressure.F90
-!||    multi_propergol_ebcs                     ../engine/source/multifluid/multi_propergol_ebcs.F90
 !||    multi_solve_eint                         ../engine/source/multifluid/multi_solve_eint.F90
 !||    multifluid_global_tdet                   ../starter/source/multifluid/multifluid_global_tdet.F
+!||    murnaghan                                ../common_source/eos/murnaghan.F
+!||    nasg                                     ../common_source/eos/nasg.F
 !||    newman_raju                              ../common_source/fail/newman_raju.F90
+!||    noble_abel                               ../common_source/eos/noble_abel.F
 !||    offset_nproj                             ../engine/source/interfaces/shell_offset/offset_nproj.F90
+!||    osborne                                  ../common_source/eos/osborne.F
 !||    output_allocate_noda_pext                ../common_source/modules/output/output_mod.F90
 !||    pblast_load                              ../common_source/modules/loads/pblast_mod.F90
 !||    pblast_parameters__air_burst             ../common_source/modules/loads/pblast_mod.F90
@@ -215,6 +229,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    polygon_zeroing                          ../common_source/tools/clipping/polygon_mod.F90
 !||    powder_burn                              ../common_source/eos/powder_burn.F
 !||    preload_axial                            ../engine/source/elements/spring/preload_axial.F90
+!||    preload_solid_ini                        ../engine/source/elements/solid/solide/preload_solid_ini.F90
 !||    prodmat                                  ../engine/source/materials/tools/prodmat.F
 !||    prodmatvect                              ../starter/source/materials/mat/mat087/law87_upd.F90
 !||    puff                                     ../common_source/eos/puff.F
@@ -246,6 +261,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sh_offset_nproj                          ../starter/source/elements/shell/shell_offset/shell_offset_nproj.F90
 !||    sh_offset_setn                           ../starter/source/elements/shell/shell_offset/sh_offset_setn.F90
 !||    shell_offset_ini                         ../starter/source/elements/shell/shell_offset/shell_offset_ini.F90
+!||    shell_offset_wm_ini                      ../engine/source/elements/shell/shell_offset_wm_ini.F90
 !||    shell_offsetp                            ../starter/source/elements/shell/shell_offset/shell_offsetp.F90
 !||    shour_ctl                                ../engine/source/elements/solid/solidez/shour_ctl.F90
 !||    sigeps01                                 ../starter/source/materials/mat/mat001/sigeps01.F90
@@ -278,10 +294,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_gather_nodal_scalar                 ../engine/source/mpi/nodes/spmd_gather_nodal_scalar.F
 !||    spmd_update_frontier_int25               ../engine/source/mpi/interfaces/spmd_update_frontier_int25.F90
 !||    spmd_xv_inter_type1                      ../engine/source/mpi/nodes/spmd_sd_xv_inter1.F90
+!||    stiffgas                                 ../common_source/eos/stiffgas.F
 !||    stifint_icontrol                         ../starter/source/interfaces/interf1/stifint_icontrol.F90
 !||    sz_dt1                                   ../engine/source/elements/solid/solidez/sz_dt1.F90
 !||    table_mat_vinterp_c1                     ../engine/source/materials/tools/table_mat_vinterp_c1.F90
+!||    tabulated                                ../common_source/eos/tabulated.F
 !||    test_jc_shell_detach                     ../engine/source/engine/node_spliting/detach_node.F90
+!||    thsechecksum                             ../engine/source/output/th/thchecksum.F90
+!||    tillotson                                ../common_source/eos/tillotson.F
 !||    update_neighbour_segment                 ../engine/source/interfaces/interf/update_neighbour_segment.F90
 !||    updfail                                  ../starter/source/materials/updfail.F90
 !||    velrot_explicit                          ../engine/source/constraints/general/rbody/velrot_explicit.F90
@@ -449,6 +469,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
         my_real, parameter ::  FOURTH     = ONE/FOUR
         my_real, parameter ::  ONE_FIFTH    = ONE/FIVE
         my_real, parameter ::  ONE_OVER_6     = ONE/SIX
+        my_real, parameter ::  ONE_OVER_7     = ONE/SEVEN
         my_real, parameter ::  ONE_OVER_8    = ONE/EIGHT
         my_real, parameter ::  ONE_OVER_9    = ONE/NINE
         my_real, parameter ::  ONE_OVER_12   = ONE/TWELVE
@@ -736,4 +757,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
         my_real, parameter ::  TWOEM2    = ZEP02
         my_real, parameter ::  FIVEEM2   = ZEP05
         my_real, parameter ::  NINEEM2   = ZEP09
+        my_real, parameter ::  ZEP3571429 = HALF- ONE_OVER_7            ! labatto position for shell
+        my_real, parameter ::  ZEP2142857 = HALF- TWO*ONE_OVER_7
+        my_real, parameter ::  ZEP0714286 = HALF- THREE*ONE_OVER_7
+        my_real, parameter ::  ZEP375     = HALF- ONE_OVER_8
+        my_real, parameter ::  ZEP3888889 = HALF- ONE_OVER_9
+        my_real, parameter ::  ZEP2777778 = HALF- TWO*ONE_OVER_9
+        my_real, parameter ::  ZEP1666667 = HALF- THREE*ONE_OVER_9
+        my_real, parameter ::  ZEP0555555 = HALF- FOUR*ONE_OVER_9
       end module constant_mod

@@ -26,6 +26,7 @@
 !||    material_flow             ../engine/source/tools/seatbelts/material_flow.F
 !||====================================================================
       module retractor_table_inv_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
@@ -77,30 +78,30 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-!          
-!         works only for monotonic increasing tables - null slope ine table treated in starter for retractors        
-!         
+!
+!         works only for monotonic increasing tables - null slope ine table treated in starter for retractors
+!
           ndim = table%ndim
           if (ndim > 1) then
-            call ancmsg(msgid=36, anmode=aninfo, c1='table interpolation')
+            call ancmsg(msgid=36, anmode=aninfo, c1="table interpolation")
             call arret(2)
           end if
 !
           ipos = 1
           r = one
           nxk = size(table%x(1)%values)
-!  
+!
           do i = 2, nxk
-            dy2 = table%y%values(i) - yy            
+            dy2 = table%y%values(i) - yy
             if (dy2 >= zero .or. i == nxk) then
               ipos = i - 1
               if (table%y%values(i) == table%y%values(i - 1)) then
                 r = one
-              else  
+              else
                 r = (table%y%values(i) - yy) / (table%y%values(i) - table%y%values(i - 1))
-              endif  
+              end if
               exit
-            endif
+            end if
           end do
           unr = one - r
 !

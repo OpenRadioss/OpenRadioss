@@ -26,6 +26,7 @@
 !||    monvol0               ../engine/source/airbag/monvol0.F
 !||====================================================================
       module get_volume_area_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures
@@ -33,7 +34,7 @@
 !! \brief This routine computes the volume & area of monitored volumes
 !! \details * local computation of volume & area for each monitored volume
 !!          * global mpi comm (1 comm for all moniotred volumes)
-!!          * reduction of volume & area 
+!!          * reduction of volume & area
 !||====================================================================
 !||    get_volume_area       ../engine/source/airbag/get_volume_area.F90
 !||--- called by ------------------------------------------------------
@@ -50,18 +51,18 @@
 !||    precision_mod         ../common_source/modules/precision_mod.F90
 !||====================================================================
         subroutine get_volume_area(ispmd,nspmd,numelc,numeltg, &
-                       nvolu,nsurf,intbag,sporo,&
-                       numnod,sicontact,nimv,nrvolu,           &
-                       monvol,rvolu,vol,x,                     & 
-                       normal,icontact,poro,fr_mv,  &
-                       frontier_global_mv,t_monvoln,igrsurf )
+          nvolu,nsurf,intbag,sporo,&
+          numnod,sicontact,nimv,nrvolu,           &
+          monvol,rvolu,vol,x,                     &
+          normal,icontact,poro,fr_mv,  &
+          frontier_global_mv,t_monvoln,igrsurf )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   modules
 ! ----------------------------------------------------------------------------------------------------------------------
           use monvol_struct_mod , only : monvol_struct_
           use constant_mod
           use groupdef_mod , only : surf_
-          use precision_mod , only : WP 
+          use precision_mod , only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -86,7 +87,7 @@
           integer, intent(in) :: sporo !< dimension of poro array
           integer, dimension(sicontact), intent(in) :: icontact
           integer, dimension(nspmd+2,nvolu), intent(in) :: fr_mv !< mpi frontier per monitored volume
-          integer, dimension(nspmd+2), intent(in) :: frontier_global_mv !< global mpi frontier 
+          integer, dimension(nspmd+2), intent(in) :: frontier_global_mv !< global mpi frontier
           integer, dimension(nvolu*nimv), intent(in) :: monvol !< monitored volume data
           real(kind=WP), dimension(3,numnod), intent(in) :: x !< position array
           real(kind=WP), dimension(nvolu*nrvolu), intent(inout) :: rvolu !< monitored volume data (real)
@@ -142,60 +143,13 @@
                   ii=igrsurf(surf_id)%elem(i)
                   if(igrsurf(surf_id)%eltyp(i)==7)then
                     ii=ii+numelc
-                  elseif(igrsurf(surf_id)%eltyp(i)/=3)then
+                  else if(igrsurf(surf_id)%eltyp(i)/=3)then
                     ii=i+numelc+numeltg
-                  endif
+                  end if
                   nod1 = igrsurf(surf_id)%nodes(i,1)
                   nod2 = igrsurf(surf_id)%nodes(i,2)
                   nod3 = igrsurf(surf_id)%nodes(i,3)
                   nod4 = igrsurf(surf_id)%nodes(i,4)
-                  xx=half*(x(1,nod1)+x(1,nod2))
-                  yy=half*(x(2,nod1)+x(2,nod2))
-                  zz=half*(x(3,nod1)+x(3,nod2)) 
-                  x13=x(1,nod3)-x(1,nod1)
-                  y13=x(2,nod3)-x(2,nod1)
-                  z13=x(3,nod3)-x(3,nod1)
-                  x24=x(1,nod4)-x(1,nod2)
-                  y24=x(2,nod4)-x(2,nod2)
-                  z24=x(3,nod4)-x(3,nod2)
-                  t_monvoln(ijk)%normal(1,i)=half*(y13*z24-y24*z13)
-                  t_monvoln(ijk)%normal(2,i)=half*(z13*x24-z24*x13)
-                  t_monvoln(ijk)%normal(3,i)=half*(x13*y24-x24*y13)
-                  normal(1,ii) = t_monvoln(ijk)%normal(1,i)
-                  normal(2,ii) = t_monvoln(ijk)%normal(2,i)
-                  normal(3,ii) = t_monvoln(ijk)%normal(3,i)
-                  f1(i) = sqrt( t_monvoln(ijk)%normal(1,i)**2+t_monvoln(ijk)%normal(2,i)**2+t_monvoln(ijk)%normal(3,i)**2 )
-                  f2(i) = third*( t_monvoln(ijk)%normal(1,i)*xx+t_monvoln(ijk)%normal(2,i)*yy+t_monvoln(ijk)%normal(3,i)*zz )
-                enddo
-!$omp end do
-              else
-!$omp do schedule(guided)
-                do i=1,segment_number
-                  ii=igrsurf(surf_id)%elem(i)
-                  nod1 = igrsurf(surf_id)%nodes(i,1)
-                  nod2 = igrsurf(surf_id)%nodes(i,2)
-                  nod3 = igrsurf(surf_id)%nodes(i,3)
-                  nod4 = igrsurf(surf_id)%nodes(i,4)
-                  if(igrsurf(surf_id)%eltyp(i)==3)then
-                    poro(ii)=zero
-                    if(icontact(nod1)/=0)poro(ii)=poro(ii)+fourth
-                    if(icontact(nod2)/=0)poro(ii)=poro(ii)+fourth
-                    if(icontact(nod3)/=0)poro(ii)=poro(ii)+fourth
-                    if(icontact(nod4)/=0)poro(ii)=poro(ii)+fourth
-                  elseif(igrsurf(surf_id)%eltyp(i)==7)then
-                    ii=ii+numelc
-                    poro(ii)=zero
-                    if(icontact(nod1)/=0)poro(ii)=poro(ii)+third
-                    if(icontact(nod2)/=0)poro(ii)=poro(ii)+third
-                    if(icontact(nod3)/=0)poro(ii)=poro(ii)+third
-                  else
-                    ii=i+numelc+numeltg
-                    poro(ii)=zero
-                    if(icontact(nod1)/=0)poro(ii)=poro(ii)+fourth
-                    if(icontact(nod2)/=0)poro(ii)=poro(ii)+fourth
-                    if(icontact(nod3)/=0)poro(ii)=poro(ii)+fourth
-                    if(icontact(nod4)/=0)poro(ii)=poro(ii)+fourth    
-                  endif
                   xx=half*(x(1,nod1)+x(1,nod2))
                   yy=half*(x(2,nod1)+x(2,nod2))
                   zz=half*(x(3,nod1)+x(3,nod2))
@@ -213,9 +167,56 @@
                   normal(3,ii) = t_monvoln(ijk)%normal(3,i)
                   f1(i) = sqrt( t_monvoln(ijk)%normal(1,i)**2+t_monvoln(ijk)%normal(2,i)**2+t_monvoln(ijk)%normal(3,i)**2 )
                   f2(i) = third*( t_monvoln(ijk)%normal(1,i)*xx+t_monvoln(ijk)%normal(2,i)*yy+t_monvoln(ijk)%normal(3,i)*zz )
-                enddo
+                end do
 !$omp end do
-              endif
+              else
+!$omp do schedule(guided)
+                do i=1,segment_number
+                  ii=igrsurf(surf_id)%elem(i)
+                  nod1 = igrsurf(surf_id)%nodes(i,1)
+                  nod2 = igrsurf(surf_id)%nodes(i,2)
+                  nod3 = igrsurf(surf_id)%nodes(i,3)
+                  nod4 = igrsurf(surf_id)%nodes(i,4)
+                  if(igrsurf(surf_id)%eltyp(i)==3)then
+                    poro(ii)=zero
+                    if(icontact(nod1)/=0)poro(ii)=poro(ii)+fourth
+                    if(icontact(nod2)/=0)poro(ii)=poro(ii)+fourth
+                    if(icontact(nod3)/=0)poro(ii)=poro(ii)+fourth
+                    if(icontact(nod4)/=0)poro(ii)=poro(ii)+fourth
+                  else if(igrsurf(surf_id)%eltyp(i)==7)then
+                    ii=ii+numelc
+                    poro(ii)=zero
+                    if(icontact(nod1)/=0)poro(ii)=poro(ii)+third
+                    if(icontact(nod2)/=0)poro(ii)=poro(ii)+third
+                    if(icontact(nod3)/=0)poro(ii)=poro(ii)+third
+                  else
+                    ii=i+numelc+numeltg
+                    poro(ii)=zero
+                    if(icontact(nod1)/=0)poro(ii)=poro(ii)+fourth
+                    if(icontact(nod2)/=0)poro(ii)=poro(ii)+fourth
+                    if(icontact(nod3)/=0)poro(ii)=poro(ii)+fourth
+                    if(icontact(nod4)/=0)poro(ii)=poro(ii)+fourth
+                  end if
+                  xx=half*(x(1,nod1)+x(1,nod2))
+                  yy=half*(x(2,nod1)+x(2,nod2))
+                  zz=half*(x(3,nod1)+x(3,nod2))
+                  x13=x(1,nod3)-x(1,nod1)
+                  y13=x(2,nod3)-x(2,nod1)
+                  z13=x(3,nod3)-x(3,nod1)
+                  x24=x(1,nod4)-x(1,nod2)
+                  y24=x(2,nod4)-x(2,nod2)
+                  z24=x(3,nod4)-x(3,nod2)
+                  t_monvoln(ijk)%normal(1,i)=half*(y13*z24-y24*z13)
+                  t_monvoln(ijk)%normal(2,i)=half*(z13*x24-z24*x13)
+                  t_monvoln(ijk)%normal(3,i)=half*(x13*y24-x24*y13)
+                  normal(1,ii) = t_monvoln(ijk)%normal(1,i)
+                  normal(2,ii) = t_monvoln(ijk)%normal(2,i)
+                  normal(3,ii) = t_monvoln(ijk)%normal(3,i)
+                  f1(i) = sqrt( t_monvoln(ijk)%normal(1,i)**2+t_monvoln(ijk)%normal(2,i)**2+t_monvoln(ijk)%normal(3,i)**2 )
+                  f2(i) = third*( t_monvoln(ijk)%normal(1,i)*xx+t_monvoln(ijk)%normal(2,i)*yy+t_monvoln(ijk)%normal(3,i)*zz )
+                end do
+!$omp end do
+              end if
               number_entity = segment_number
               if (ispmd + 1 == fr_mv(nspmd+2,ijk)) then
                 number_entity = number_entity + t_monvoln(ijk)%nb_fill_tri
@@ -227,7 +228,7 @@
                   nod4 = nod3
                   xx=half*(x(1,nod1)+x(1,nod2))
                   yy=half*(x(2,nod1)+x(2,nod2))
-                  zz=half*(x(3,nod1)+x(3,nod2)) 
+                  zz=half*(x(3,nod1)+x(3,nod2))
                   x13=x(1,nod3)-x(1,nod1)
                   y13=x(2,nod3)-x(2,nod1)
                   z13=x(3,nod3)-x(3,nod1)
@@ -239,11 +240,11 @@
                   nz=half*(x13*y24-x24*y13)
                   f1(segment_number + i) = sqrt( nx**2+ny**2+nz**2 )
                   f2(segment_number + i) = third*( nx*xx+ny*yy+nz*zz )
-                enddo
+                end do
 !$omp end do
-              endif
-              first = 1 + number_entity * itask / nthread 
-              last = number_entity * (itask+1) / nthread 
+              end if
+              first = 1 + number_entity * itask / nthread
+              last = number_entity * (itask+1) / nthread
               frmv6_l(1:2,1:6) = zero
               call sum_6_float(first, last, f1, frmv6_l(1,1), 2)
               call sum_6_float(first, last, f2, frmv6_l(2,1), 2)
@@ -251,7 +252,7 @@
               do i=1,6
                 frmv6(1,i,ijk) = frmv6(1,i,ijk) + frmv6_l(1,i)
                 frmv6(2,i,ijk) = frmv6(2,i,ijk) + frmv6_l(2,i)
-              enddo
+              end do
 !$omp end critical
 
 !$omp barrier
@@ -259,16 +260,16 @@
 !$omp single
               deallocate( f1,f2 )
 !$omp end single
-            endif
+            end if
             monvol_address = monvol_address + nimv
             rvolu_address = rvolu_address + nrvolu
 
-          enddo
+          end do
 !$omp end parallel
 
           if(nspmd>1) then
             call spmd_exch_fr6(frontier_global_mv,frmv6,2*6*nvolu)
-          endif
+          end if
           monvol_address = 1
           rvolu_address = 1
           do ijk=1,nvolu
@@ -279,14 +280,14 @@
 
             if(computation_needed) then
               area = frmv6(1,1,ijk)+frmv6(1,2,ijk)+frmv6(1,3,ijk)+ &
-                     frmv6(1,4,ijk)+frmv6(1,5,ijk)+frmv6(1,6,ijk)
+                frmv6(1,4,ijk)+frmv6(1,5,ijk)+frmv6(1,6,ijk)
               vol(ijk)= frmv6(2,1,ijk)+frmv6(2,2,ijk)+frmv6(2,3,ijk)+ &
-                     frmv6(2,4,ijk)+frmv6(2,5,ijk)+frmv6(2,6,ijk)
+                frmv6(2,4,ijk)+frmv6(2,5,ijk)+frmv6(2,6,ijk)
               rvolu(rvolu_address-1+18) = area
-            endif
+            end if
             monvol_address = monvol_address + nimv
             rvolu_address = rvolu_address + nrvolu
-          enddo
+          end do
 
           return
 ! ----------------------------------------------------------------------------------------------------------------------

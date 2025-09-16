@@ -63,7 +63,7 @@ C     Dispersion of pressure around mean pressure
 C------------------------------------------------
           my_real PDISP_OLD, PDISP
 C-------------------------------
-C Donnees briques intersectantes
+C Interesting brick data
 C-------------------------------
           INTEGER, DIMENSION(:,:), POINTER :: BRIC, TBRIC
           my_real,
@@ -85,7 +85,7 @@ C----------------
           my_real
      .           , DIMENSION(:,:), POINTER :: NOD_ANIM
 C------------------------
-C Polygones et polyhedres
+C Polygons and polyhedra
 C------------------------
           INTEGER, DIMENSION(:), POINTER :: IFVPOLY, IFVTADR,
      .                                      IFVPOLH, IFVPADR, IDPOLH,

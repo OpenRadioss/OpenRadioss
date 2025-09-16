@@ -34,6 +34,7 @@
 !||    mat_elem_mod              ../common_source/modules/mat_elem/mat_elem_mod.F90
 !||--- called by ------------------------------------------------------
 !||    alemain                   ../engine/source/ale/alemain.F
+!||    allocbuf_auto             ../engine/source/elements/elbuf/allocbuf_auto.F
 !||    bforc2                    ../engine/source/ale/bimat/bforc2.F
 !||    c3epsini                  ../starter/source/elements/sh3n/coque3n/c3epsini.F
 !||    c3forc3                   ../engine/source/elements/sh3n/coque3n/c3forc3.F
@@ -84,6 +85,7 @@
 !||    lectur                    ../engine/source/input/lectur.F
 !||    main_beam18               ../engine/source/elements/beam/main_beam18.F
 !||    main_beam3                ../engine/source/elements/beam/main_beam3.F
+!||    mat51_associate_eos       ../starter/source/materials/mat/mat051/mat51_associate_eos.F90
 !||    mmain                     ../engine/source/materials/mat_share/mmain.F90
 !||    mmain8                    ../engine/source/materials/mat_share/mmain8.F
 !||    mulaw                     ../engine/source/materials/mat_share/mulaw.F90
@@ -163,7 +165,7 @@
           type (elbuf_struct_)    ,dimension(:,:) ,allocatable :: xfem_tab       !< element buffer for xfem elements
           type (group_param_)     ,dimension(:)   ,allocatable :: group_param    !< common element group data
 
-          type (matparam_struct_) ,dimension(:)   ,pointer     :: mat_param      !< material model data structure
+          type (matparam_struct_) ,dimension(:)   ,pointer     :: mat_param => null()      !< material model data structure
 
 !           type (prop_param_)      ,dimension(:)   ,allocatable :: prop_param     !< element property data structure
 !           type (prop_param_)      ,dimension(:)   ,allocatable :: prop_stack     !< element stack data

@@ -68,7 +68,7 @@ c---------------------
       DATA D /2,3,4,1/
       DATA DX/1,2,3,4,1,2,3,4/      
 C=======================================================================
-c     Re-build phantom element connectivities
+c     Re-built phantom connectivities
 C-----------------------------------------------
       IXEL = MOD(ILEV-1, NXEL) + 1
       ILAY = (ILEV-IXEL)/NXEL  + 1
@@ -169,11 +169,11 @@ C     SIMPLE CRACKED ELEMENT
 C     only one crack inside element  
 c-----------------------------------------------
       DO I=JFT,JLT
-        IF (ELCUTC(1,I+NFT) == 0) CYCLE    ! element standard pas coupe         
+        IF (ELCUTC(1,I+NFT) == 0) CYCLE    ! Standard element not cut         
 c
         ELCRK = IEL_CRK(I+NFT)                          
         ELCUT = XFEM_PHANTOM(ILAY)%ELCUT(ELCRK)
-        IF (ELCUT == 0) CYCLE              ! element fantome pas coupe   
+        IF (ELCUT == 0) CYCLE              ! ghost element not cut   
         ITRI = XFEM_PHANTOM(ILAY)%ITRI(1,ELCRK) 
         NX1  = XFEM_PHANTOM(ILAY)%ITRI(2,ELCRK) 
         NX2  = DX(NX1+1)                                                            
@@ -223,7 +223,7 @@ C---
                 FAC = FAC + 1
                 p1 = K
                 p2 = d(p1)
-                IF (IFI0(p1,I) > 0) POS(FAC) = p1  ! save positive nodes
+                IF (IFI0(p1,I) > 0) POS(FAC) = p1  ! Positive Save Nodes
                 IF (IFI0(p2,I) > 0) POS(FAC) = p2
                 IED(FAC) = p1
                 IF (FAC == 2) EXIT

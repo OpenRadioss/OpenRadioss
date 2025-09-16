@@ -62,7 +62,7 @@ C-----------------------------------------------
       INTEGER I, J, K, N, PX, PY, PZ
 C-----------------------------------------------
 C
-C Pre construction ADDRESSES
+C PRE CONSTRUCTION ADDRESS
 C    
       DO  K=2,9
         DO  I=1,NUMELS
@@ -213,7 +213,7 @@ C-----------------------------------------------
         ADDCNEL(N+1)=ADDCNEL(N)
       END DO
       ADDCNEL(1)=0
-c traitement a part du 3eme noeud optionnel sauf type 12
+c Treatment apart from the 3rd optional node except type 12
 c      DO I=1,NUMELR
 c        N = IXR(4,I)
 c        IF(IGEO(11,IXR(1,I))==12)  ADDCNEL(N) = ADDCNEL(N) + 1
@@ -221,7 +221,7 @@ c      END DO
 C
 C-----------------------------------------------
 C
-C Construction de la matrice Nod -> Solid elt
+C building the matrix Nod -> Solid element
 C
       DO  K=2,9
         DO  I=1,NUMELS
@@ -266,7 +266,7 @@ C
       END DO
       KNOD2ELS(1)=0
 C
-C Construction de la matrice Nod -> Shell elt
+C building the matrix Nod -> Shell element
 C
       DO K=2,5
         DO I=1,NUMELC
@@ -281,7 +281,7 @@ C
       END DO
       KNOD2ELC(1)=0
 C
-C Construction de la matrice Nod -> 3-node Shell elt
+C building the matrix Nod -> 3-node Shell element
 C
       DO K=2,4
         DO I=1,NUMELTG
@@ -373,7 +373,7 @@ C
       KNOD2ELIG3D(1)=0
 
 C------------Quad elements nodes  ----------
-C Construction de la matrice Nod -> Quad elt
+C building the matrix Nod -> Quad element
 C
       DO K=2,5
         DO I=1,NUMELQ
@@ -483,7 +483,7 @@ C
 
         DO N=1,NSN
 C
-C         IRTLM(3,-) <=> n de segment local sur IRTLM(4,-)
+C         IRTLM(3,-) <=> local segment number on IRTLM(4,-)
           K = INTBUF_TAB(NIN)%IRTLM(4*(N-1)+3)
           IF(K /= 0)THEN
             INTBUF_TAB(NIN)%IRTLM(4*(N-1)+3)=IRTLM_L(K)
@@ -528,7 +528,7 @@ C-----------------------------------------------
       INTEGER NIN, NTY, I, N, I1, I2, I3, I4, NRTM, NADMSR, ISHIFT
 C-----------------------------------------------
 C
-C Pre construction ADDRESSES
+C PRE CONSTRUCTION ADDRESS
 C   
       ADDCSRECT(0) = 0
 

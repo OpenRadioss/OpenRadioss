@@ -541,6 +541,7 @@ c-------------------------------------------
         eps_m2 = four_over_3*(exx(i)**2+eyy(i)**2+exx(i)*eyy(i) + fourth*exy(i)**2)
         epsd_pg(i) = sqrt(eps_k2 + eps_m2)*dtinv
       end do
+      gbuf%epsd(1:nel) = asrate * epsd_pg(1:nel) + (one - asrate) * gbuf%epsd(1:nel)      
 !-------------------------------------------------------------------------------
       IF (JTHE /= 0 ) CALL TEMP3CG(JFT   ,JLT   ,PM     ,MAT   ,IXTG,   
      .                             TEMP ,TEMPEL )
@@ -580,7 +581,7 @@ C--------------------------
 C--------------------------
       IF ((IMON_MAT==1).AND.ITASK == 0)CALL STOPTIME(TIMERS,35)
 C--------------------------
-C     PAS DE TEMPS
+C     TIME STEP
 C--------------------------
       IF (ISMSTR /= 3) CALL C3DT3(
      1        JFT    ,JLT       ,PM      ,OFF    ,DT2T    ,
@@ -657,9 +658,9 @@ C--------------------------
 C     THERMAL TIME STEP
 C--------------------------
       IF (JTHE > 0 .AND. GLOB_THERM%IDT_THERM == 1)THEN
-           call dttherm(nel     ,pm(1,mat(1))  ,npropm  ,glob_therm   ,
-     .                  jtur    ,tempel  ,vol0    ,rho       ,
-     .                  aldt    ,off     ,conde   ,gbuf%re   ,gbuf%rk )
+        call dttherm(nel     ,pm(1,imat),npropm,glob_therm,mat_elem%mat_param(imat),
+     .               jtur    ,tempel  ,vol0    ,rho       ,
+     .               aldt    ,off     ,conde   ,gbuf%re   ,gbuf%rk )
       ENDIF 
 C-------------------------
 C     ASSEMBLY

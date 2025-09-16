@@ -80,34 +80,34 @@ C-----------------------------------------------
 C
             PENMAX=FPENMAX*GAPV(I)
             IF(INACTI==1) THEN
-C             DESACTIVATION DES NOEUDS
+C             deactivation of nodes
               WRITE(IOUT,'(A)')'NODE STIFFNESS IS SET TO ZERO'
               STFN(J) = ZERO
             ELSE IF(INACTI==2) THEN
-C             DESACTIVATION DES ELEMENTS
+C             deactivation of elements
               WRITE(IOUT,'(A)')'ELEMENT STIFFNESS IS SET TO ZERO'
               STF(CAND_E(I)) = ZERO
             ELSE IF(INACTI==3) THEN
-C             CHANGE LES COORDONNEES DES NOEUDS SECND
+C             changes the coordinates of the secondary nodes
               WRITE(IOUT,'(A)')
      .          'INACTI=3 IS NOT AVAILABLE FOR INTERFACE TYPE23'
             ELSE IF(INACTI==4) THEN
-C             CHANGE LES COORDONNEES DES NOEUDS MAIN
+C             changes the coordinates of the main nodes
               WRITE(IOUT,'(A)')
      .          'INACTI=4 IS NOT AVAILABLE FOR INTERFACE TYPE23'
             ELSEIF(FPENMAX /= ZERO .AND. PENE(I) > PENMAX) THEN
-C               DESACTIVATION DES NOEUDS
+C               deactivation of nodes
                 WRITE(IOUT,'(A,1PG20.13,A)')
      .                ' MAX INITIAL PENETRATION ',PENMAX,' IS REACHED'
                 WRITE(IOUT,'(A)')'NODE STIFFNESS IS SET TO ZERO'
                 STFN(J) = ZERO
             ELSE IF(INACTI==5) THEN
-C             REDUCTION DU GAP 
+C             gap reduction
               JWARN = 1
               PENE(I)=PENE(I)+EM08*PENE(I)
             ELSE
 C             INACTI==6
-C             REDUCTION DU GAP 
+C             gap reduction
               JWARN = 1
               PENE(I)=PENE(I)+ZEP05*(GAPV(I)-PENE(I))
             END IF

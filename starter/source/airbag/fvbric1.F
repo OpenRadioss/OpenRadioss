@@ -339,7 +339,7 @@ C
         ENDDO
       ENDIF
 C
-C Verification de l'orientation des briques totalement internes
+C Verification of the orientation of totally internal bricks
 C
       IF (INFO==0) THEN
          DO I=1,NB_NODE
@@ -347,7 +347,7 @@ C
          ENDDO
 C
          DO I=1,NBRIC
-CFA Une brique appuye sur l'airbag a des faces internes
+CA brick pressed against the airbag has internal faces
             II=TBRIC(1,I)
             NTYPE=TBRIC(2,I)
             NFAC=NFACE(NTYPE)
@@ -438,7 +438,7 @@ C
                      ENDDO
                   ENDIF
                   IF (NALL==0) CYCLE
-C Normale a la facette du voisin
+C Normal to the neighbor facet
                   IF (NTYPE2==2) THEN
                      NN1=IXS(1+FAC4(1,K),TBRIC(1,NV))
                      NN2=IXS(1+FAC4(2,K),TBRIC(1,NV))
@@ -511,7 +511,7 @@ C
          ENDDO
       ENDIF
 C
-C Ajout des triangles airbag et interne non appuye sur une brique
+C Addition of airbag triangles and internal triangles not pressed against a brick
 C
       DO I=1,NELT
          IF (TAGELS(I)==0) NELA=NELA+1
@@ -521,7 +521,7 @@ C
         WRITE(IOUT,'(/5X,A,I10/)') 'NUMBER OF AIRBAG TRIANGLES NOT CONNECTED TO A SOLID ELEMENT . .=',NELA
       ENDIF    
 C
-C Noeuds auxiliaires
+C Auxiliary nodes
 C
       DO I=1,NB_NODE
          ITAG(I)=0

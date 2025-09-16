@@ -65,7 +65,7 @@ C-----
       V(2) = W(3)*U(1)-W(1)*U(3)
       V(3) = W(1)*U(2)-W(2)*U(1)
 C------------
-C     TESTS DE CONSISTANCE
+C     CONSISTENCY TESTS
 C------------
       PNOR1=SQRT(U(1)*U(1)+U(2)*U(2)+U(3)*U(3))
       IF (PNOR1 < EM20) THEN
@@ -78,7 +78,7 @@ C     .             I2=N1,
 C     .             I3=N2)
         RETURN
       END IF
-C     CALCUL DE COLINEARITE DES VECTEURS N1N2 ET N1N3
+C     CALCULATION OF COLLINEARITY OF VECTORS N1N2 AND N1N3
       PNOR2=SQRT(V(1)*V(1)+V(2)*V(2)+V(3)*V(3))
       IF (PNOR2 > EM20) THEN
         PNORM1=ONE/(PNOR1*PNOR2)

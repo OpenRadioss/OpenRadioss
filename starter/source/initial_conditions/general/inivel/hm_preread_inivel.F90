@@ -27,6 +27,7 @@
 !||====================================================================
       module hm_preread_inivel_mod
 !
+      implicit none
       contains
         !! \brief subroutine to get number of /INIVEL using T_start or sensor
 !||====================================================================
@@ -81,16 +82,16 @@
           is_available = .false.
 
 
-          call hm_option_start('/INIVEL')
+          call hm_option_start("/INIVEL")
           ninivelt = 0
 
           do i =1,hm_ninvel
             !---set cursor on next inivel option
             call hm_option_read_key(lsubmodel,OPTION_ID = id,KEYWORD2 = key)
 !
-            if(key(1:4)=='NODE') cycle
-            call hm_get_intv('sensor_id',sens_id,is_available,lsubmodel)
-            call hm_get_floatv('tstart',tstart,is_available,lsubmodel,unitab)
+            if(key(1:4)=="NODE") cycle
+            call hm_get_intv("sensor_id",sens_id,is_available,lsubmodel)
+            call hm_get_floatv("tstart",tstart,is_available,lsubmodel,unitab)
             if (tstart>zero .or. sens_id>0) ninivelt = ninivelt + 1
           end do
 ! ----------------------------------------------------------------------------------------------------------------------

@@ -103,6 +103,8 @@ C IMAT : relevant for multifluid eos. imat=0 => monomaterial law
       ERROR(1:NEL)     = EP30
       TOL              = EM4
       CONVERGED(1:NEL) =.FALSE.
+      DVOL(1:NEL)      = ZERO
+      THETA(1:NEL)     = ZERO
 
       !===================================================================!
       !                     BUFFER INITIALIZATION                         !

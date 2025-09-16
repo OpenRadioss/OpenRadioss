@@ -21,25 +21,26 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    hm_read_unit                ../starter/source/general_controls/computation/hm_read_unit.F
+!||    hm_read_unit                   ../starter/source/general_controls/computation/hm_read_unit.F
 !||--- called by ------------------------------------------------------
-!||    contrl                      ../starter/source/starter/contrl.F
+!||    contrl                         ../starter/source/starter/contrl.F
 !||--- calls      -----------------------------------------------------
-!||    ancmsg                      ../starter/source/output/message/message.F
-!||    ascii_encoding_mu_letter    ../starter/source/starter/ascii_encoding_mu_letter.F90
-!||    hm_get_floatv_without_uid   ../starter/source/devtools/hm_reader/hm_get_floatv_without_uid.F
-!||    hm_get_intv                 ../starter/source/devtools/hm_reader/hm_get_intv.F
-!||    hm_get_string               ../starter/source/devtools/hm_reader/hm_get_string.F
-!||    hm_option_count             ../starter/source/devtools/hm_reader/hm_option_count.F
-!||    hm_option_read_key          ../starter/source/devtools/hm_reader/hm_option_read_key.F
-!||    hm_option_start             ../starter/source/devtools/hm_reader/hm_option_start.F
-!||    udouble_wo_title            ../starter/source/system/sysfus.F
-!||    unit_code                   ../starter/source/general_controls/computation/unit_code.F
+!||    ancmsg                         ../starter/source/output/message/message.F
+!||    ascii_encoding_mu_letter       ../starter/source/starter/ascii_encoding_mu_letter.F90
+!||    hm_get_floatv_without_uid      ../starter/source/devtools/hm_reader/hm_get_floatv_without_uid.F
+!||    hm_get_intv                    ../starter/source/devtools/hm_reader/hm_get_intv.F
+!||    hm_get_string                  ../starter/source/devtools/hm_reader/hm_get_string.F
+!||    hm_option_count                ../starter/source/devtools/hm_reader/hm_option_count.F
+!||    hm_option_read_key             ../starter/source/devtools/hm_reader/hm_option_read_key.F
+!||    hm_option_start                ../starter/source/devtools/hm_reader/hm_option_start.F
+!||    udouble_wo_title               ../starter/source/system/sysfus.F
+!||    unit_code                      ../starter/source/general_controls/computation/unit_code.F
 !||--- uses       -----------------------------------------------------
-!||    format_mod                  ../starter/share/modules1/format_mod.F90
-!||    hm_option_read_mod          ../starter/share/modules1/hm_option_read_mod.F
-!||    message_mod                 ../starter/share/message_module/message_mod.F
-!||    submodel_mod                ../starter/share/modules1/submodel_mod.F
+!||    ascii_encoding_mu_letter_mod   ../starter/source/starter/ascii_encoding_mu_letter.F90
+!||    format_mod                     ../starter/share/modules1/format_mod.F90
+!||    hm_option_read_mod             ../starter/share/modules1/hm_option_read_mod.F
+!||    message_mod                    ../starter/share/message_module/message_mod.F
+!||    submodel_mod                   ../starter/share/modules1/submodel_mod.F
 !||====================================================================
       SUBROUTINE HM_READ_UNIT(UNITAB,LSUBMODEL)
 C-----------------------------------------------
@@ -52,6 +53,7 @@ C-----------------------------------------------
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARFIELD
       USE FORMAT_MOD , ONLY : FMT_F
       USE USER_ID_MOD , ONLY : ID_LIMIT
+      USE ASCII_ENCODING_MU_LETTER_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -582,7 +584,7 @@ c-----------------------------------------------------------
         ENDDO
       ENDIF
 C
-C     transformation en valeurs relatives par rapport aux unites globales
+C     transformation into relative values compared to global units
 C
       DO N=1,NUNITS
         IF (N >= 2) THEN

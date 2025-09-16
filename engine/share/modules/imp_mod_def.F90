@@ -56,17 +56,17 @@
 !=======================================================================
 ! define arrays (integers arrays)
 !=======================================================================
-          integer, dimension(:) , pointer ::  i_stok
-          integer, dimension(:) , pointer ::  cand_n
-          integer, dimension(:) , pointer ::  cand_e
-          integer, dimension(:) , pointer ::  indsubt
+          integer, dimension(:) , pointer ::  i_stok => null()
+          integer, dimension(:) , pointer ::  cand_n => null()
+          integer, dimension(:) , pointer ::  cand_e => null()
+          integer, dimension(:) , pointer ::  indsubt => null()
 !type24
 !=======================================================================
 ! define arrays (float arrays)
 !=======================================================================
-          real(kind=WP), dimension(:) , pointer ::   hj
-          real(kind=WP), dimension(:) , pointer ::   nj
-          real(kind=WP), dimension(:) , pointer ::   stif
+          real(kind=WP), dimension(:) , pointer ::   hj => null()
+          real(kind=WP), dimension(:) , pointer ::   nj => null()
+          real(kind=WP), dimension(:) , pointer ::   stif => null()
 !=======================================================================
         end type imp_intbuf_struct_
 !=======================================================================
@@ -111,6 +111,7 @@
 !||    sav_inttd    ../engine/source/implicit/imp_int_k.F
 !||====================================================================
       module imp_inttd
+        implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !! \brief Common Module for penetration detection
 ! ----------------------------------------------------------------------------------------------------------------------

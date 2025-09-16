@@ -31,7 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .    RHO     ,MASA   ,RHOA0   ,DD       ,MU     , MUP1 ,
      .    POLD    ,PEXT   ,P       ,PM       ,Q      ,
      .    RHO0E   ,EINTA  ,VISCMAX ,XL       ,SSP    ,
-     .    QA      ,QB    )
+     .    QA      ,QB     ,DPDE)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -41,7 +41,7 @@ C   I N P U T   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
       my_real,INTENT(IN) :: C0,C1,C2,C3,C5,C4,GG,VOLUME,VOLD,MASA ,RHOA0,DD, POLD,PEXT,PM
       my_real,INTENT(IN) :: RHO0E,XL, QA,QB
-      my_real,INTENT(INOUT) :: EINTA
+      my_real,INTENT(INOUT) :: EINTA,DPDE
       my_real,INTENT(INOUT) :: P, DVOL, RHO, MU, VISCMAX, Q, SSP
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -55,6 +55,7 @@ C-----------------------------------------------
       RHO     = MASA/VOLUME
       MUP1    = RHO/RHOA0
       MU      = MUP1 - ONE
+      DPDE    = (C4 + C5*MU)
 
       DPDV    = (-(C1 + (C2 + C2 + THREE*C3*MU)*MAX(ZERO,MU) + C5*RHO0E )*MUP1*MUP1 -(C4 + C5*MU)*(POLD+PEXT) )  /  V0
       DPDMU   = -DPDV*VOLUME/MUP1
@@ -96,7 +97,7 @@ C-----------------------------------------------
       SUBROUTINE POLY51 (C01,C11,C21,C31,C41,C51,GG1,
      .          V10,V1,V1OLD,MU1,MUP1,EINT1,
      .          PEXT,P1,PM1,P1I,
-     .          RHO1,RHO10,MAS1,SSP1,DVDP1,DPDV1, E_INF,
+     .          RHO1,RHO10,MAS1,SSP1,DVDP1,DPDV1, E_INF,DPDE,
      .          FLAG)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -109,7 +110,7 @@ C-----------------------------------------------
      .                       V10,V1,V1OLD,
      .                       PEXT,PM1,P1I,
      .                       RHO10,MAS1,E_INF
-      my_real,INTENT(INOUT) :: DVDP1,P1,SSP1,DPDV1,EINT1,MU1,MUP1,RHO1
+      my_real,INTENT(INOUT) :: DVDP1,P1,SSP1,DPDV1,EINT1,MU1,MUP1,RHO1,DPDE
       INTEGER FLAG
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -120,6 +121,7 @@ C------------------------
       IF (FLAG == 1) RHO1   = MAS1/V1
       MUP1 = RHO1/RHO10
       MU1 = MUP1 - ONE
+      DPDE = (C41 + C51*MU1)
       AA = (C41 + C51*MU1)/V10
       BB = HALF*(V1-V1OLD)
       IF (FLAG == 1)  EINT1  = EINT1 - (P1I+PEXT+PEXT)*BB

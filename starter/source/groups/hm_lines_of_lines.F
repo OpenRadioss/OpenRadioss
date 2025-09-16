@@ -84,11 +84,11 @@ C-----------------------------------------------
 !   2. Split lines accordingly
 !
 C-----------------------------------------------
-C     LIGNES DES LIGNES ...
+C     LINES OF LINES ...
 C=======================================================================
       IF (FLAG == 0) ICOUNT=0
 
-C     boucle sur les lignes  
+C     loop over the lines
       CALL HM_OPTION_START('/LINE')
       DO IGS=1,NSLIN
         CALL HM_OPTION_READ_KEY(LSUBMODEL,
@@ -120,7 +120,7 @@ C     boucle sur les lignes
      .                              I1=ID,
      .                              C1=TITR,
      .                              I2=JJ)
-                      !! comme les /surf/surf                      ELSEIF (IGRSLIN(IGRS)%NSEG == -1) THEN
+                      !!Like /surfing /surfing Elseif (igrslin (igrs)%nseg == -1) then
                       ELSEIF (IGRSLIN(IGRS)%LEVEL == 0)THEN
 C                       reference a une ligne non initialise     
                         IF (ITER > NSLIN) GOTO 900               

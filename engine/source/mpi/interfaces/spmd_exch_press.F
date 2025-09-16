@@ -30,12 +30,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    intbufdef_mod         ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    message_mod           ../engine/share/message_module/message_mod.F
-!||    outputs_mod           ../common_source/modules/outputs_mod.F
+!||    output_mod            ../common_source/modules/output/output_mod.F90
 !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
 !||    tri25ebox             ../engine/share/modules/tri25ebox.F
 !||    tri7box               ../engine/share/modules/tri7box.F
 !||====================================================================
-      SUBROUTINE SPMD_EXCH_PRESS(
+      SUBROUTINE SPMD_EXCH_PRESS(OUTPUT,
      1    IPARI   ,INTLIST ,NBINTC  ,FNCONT ,
      2    FTCONT  ,ISLEN7 ,IRLEN7  ,IRLEN7T ,ISLEN7T,
      3    IRLEN20 ,ISLEN20,IRLEN20T,ISLEN20T,INTBUF_TAB,
@@ -47,11 +47,11 @@ C-----------------------------------------------
       USE TRI25EBOX
       USE MESSAGE_MOD
       USE INTBUFDEF_MOD
-      USE OUTPUTS_MOD
+      USE OUTPUT_MOD
+      USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
 #include      "implicit_f.inc"
 #include      "assert.inc"
 C-----------------------------------------------
@@ -68,6 +68,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE (OUTPUT_) :: OUTPUT
       INTEGER NBINTC,ISLEN7, IRLEN7,IRLEN7T, ISLEN7T,
      .        IRLEN20, ISLEN20, IRLEN20T, ISLEN20T,
      .        IPARI(NPARI,*), INTLIST(*)
@@ -94,7 +95,7 @@ C-----------------------------------------------
         LOC_PROC = ISPMD + 1
 C
         LEN = 7
-        IF(NINEFRIC > 0) LEN = LEN +1
+        IF(OUTPUT%DATA%NINEFRIC > 0) LEN = LEN +1
         IF(N_SCAL_CSE_EFRIC > 0)  LEN = LEN +1
 C
 C Partie 1 envoi et preparation buffer reception
@@ -106,7 +107,7 @@ C
         IALLOCS = LEN*(IRLEN7+IRLEN25) + LEN*(IRLEN7T+IRLEN25T)  + LEN*IRLEN20 + LEN*IRLEN20T
         IERROR=0
         IF(IALLOCS>0)
-     +  ALLOCATE(BBUFS(IALLOCS+NBINTC*NSPMD),STAT=IERROR) ! nbintc*NSPMD majorant place supplementaire bufs
+     +  ALLOCATE(BBUFS(IALLOCS+NBINTC*NSPMD),STAT=IERROR) ! bintec*nsppd increased supplementary buds buds
         IF(IERROR/=0) THEN
           CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
           CALL ARRET(2)
@@ -114,7 +115,7 @@ C
         IALLOCR = LEN*(ISLEN7+ISLEN25) + LEN*(ISLEN7T+ISLEN25T) + LEN*ISLEN20 + LEN*ISLEN20T
         IERROR=0
         IF(IALLOCR>0)
-     +    ALLOCATE(BBUFR(IALLOCR+NBINTC*NSPMD),STAT=IERROR) ! nbintc*NSPMD majorant place supplementaire bufs
+     +    ALLOCATE(BBUFR(IALLOCR+NBINTC*NSPMD),STAT=IERROR) ! bintec*nsppd increased supplementary buds buds
         IF(IERROR/=0) THEN
           CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
           CALL ARRET(2)
@@ -129,7 +130,7 @@ C
           ADDR(P) = ADD
           SIZ = 0
           IF(P/=LOC_PROC)THEN
-C   test en plus pour savoir si com globale necessaire entre les 2 procs
+C   In addition test to know if global compartment required between the 2 procs
             DO II = 1, NBINTC
               NIN = INTLIST(II)
               NB = NSNSI(NIN)%P(P)
@@ -161,7 +162,7 @@ C
           ADDS(P) = ADD
           SIZ = 0
           IF(P/=LOC_PROC)THEN
-C   test en plus pour savoir si com globale necessaire entre les 2 procs
+C   In addition test to know if global compartment required between the 2 procs
             DO II = 1, NBINTC
               NIN = INTLIST(II)
               IDEB = DEBUT(NIN)
@@ -188,7 +189,7 @@ C node generating force
                         BBUFS(L+LF+1) = EFRICFI(NIN)%P(IDEB+N)
                         EFRICFI(NIN)%P(IDEB+N) = ZERO
                         LF=LF+1
-                    ELSEIF(NINEFRIC>0) THEN
+                    ELSEIF(OUTPUT%DATA%NINEFRIC>0) THEN
                         BBUFS(L+LF+1) = ZERO
                         LF=LF+1
                     ENDIF
@@ -217,7 +218,7 @@ C node not generating force but energy is cumulated
                         BBUFS(L+LF+1) = EFRICFI(NIN)%P(IDEB+N)
                         EFRICFI(NIN)%P(IDEB+N) = ZERO
                         LF=LF+1
-                    ELSEIF(NINEFRIC>0) THEN
+                    ELSEIF(OUTPUT%DATA%NINEFRIC>0) THEN
                         BBUFS(L+LF+1) = ZERO
                         LF=LF+1
                     ENDIF
@@ -245,7 +246,7 @@ C node not generating force but energy is cumulated
         ENDDO
         ADDS(NSPMD+1)=ADDS(NSPMD)+SIZ
 C
-C Attente reception buffer et decompactage
+C Buffer reception and decompacting
 C
 C
 C Attente IRECV
@@ -278,13 +279,13 @@ C
                       FTCONT(3,NOD) = FTCONT(3,NOD) + BBUFR(L+LEN*(I-1)+6)
                       LF = 6
                       IF(INTERFRIC>0) THEN
-                          EFRIC(INTERFRIC,NOD)= EFRIC(INTERFRIC,NOD)+ BBUFR(L+LEN*(I-1)+LF+1)
+                          OUTPUT%DATA%EFRIC(INTERFRIC,NOD)= OUTPUT%DATA%EFRIC(INTERFRIC,NOD)+ BBUFR(L+LEN*(I-1)+LF+1)
                           LF = LF+1
-                      ELSEIF(NINEFRIC>0) THEN
+                      ELSEIF(OUTPUT%DATA%NINEFRIC>0) THEN
                         LF=LF+1
                       ENDIF
                       IF(N_SCAL_CSE_EFRIC>0) THEN
-                         EFRICG(NOD)= EFRICG(NOD)+ BBUFR(L+LEN*(I-1)+LF+1)
+                         OUTPUT%DATA%EFRICG(NOD)= OUTPUT%DATA%EFRICG(NOD)+ BBUFR(L+LEN*(I-1)+LF+1)
                       ENDIF
                     ENDIF
                   ENDDO

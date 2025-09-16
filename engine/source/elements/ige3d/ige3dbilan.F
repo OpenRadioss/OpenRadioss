@@ -82,7 +82,7 @@ C     REAL
      .   IXY(MVSIZ), IYZ(MVSIZ), IZX(MVSIZ),
      .   REI(MVSIZ), REK(MVSIZ),OFF_L(MVSIZ)
 C-----------------------------------------------
-      FLAG = IPARG(80) ! Flag pour sorties additionnelles
+      FLAG = IPARG(80) ! Flag for additional outputs
 C-----------------------------------------------
 C     CALCUL BILAN SORTIES DEF 
 C-----------------------------------------------

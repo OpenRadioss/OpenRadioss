@@ -27,6 +27,8 @@
 !||====================================================================
       module shell_offset_ini_mod
 
+      implicit none
+
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
@@ -95,7 +97,7 @@
                   if (itagsh(ie)>0) elbuf_tab(ng)%gbuf%sh_ioffset(i)=1
                   if (itagsh(ie)>0) nn = nn+1
                 end do
-              elseif (ity == 7)then
+              else if (ity == 7)then
                 nnode =3
                 do i=1,nel
                   ie = nft +numelc+ i
@@ -104,7 +106,7 @@
                 end do
               end if
             end do
-          elseif (defaults_shell%ioffset>=3) then
+          else if (defaults_shell%ioffset>=3) then
 !---change offset to zero after projection
             do  ng=1,ngroup
               ity=iparg(5,ng)

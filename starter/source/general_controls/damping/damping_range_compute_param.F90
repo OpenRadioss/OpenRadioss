@@ -26,6 +26,7 @@
 !||    hm_read_damp                      ../starter/source/general_controls/damping/hm_read_damp.F
 !||====================================================================
       module damping_range_compute_param_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
@@ -92,8 +93,8 @@
               f_max = freq_sample(j)
               damp_ratio_sample = (four*damp_ratio*(freq_sample(i)/f_max))/(two + two*(freq_sample(i)/f_max)**2)
               matrix(i,j) = damp_ratio_sample
-            enddo
-          enddo
+            end do
+          end do
 !
           call invert(matrix,inv_mat,3,nerror)
 !
@@ -103,16 +104,16 @@
             e_fac = zero
             do j=1,3
               e_fac= e_fac + inv_mat(i,j)*damp_ratio*factor(j)
-            enddo
+            end do
             e_max(i) = e_fac*damp_ratio
-          enddo
+          end do
 !
 !         Computation of alpha and tau for each maxwell component
 !
           do i=1,3
             maxwell_alpha(i) = eight*e_max(i)**2+four*e_max(i)*SQRT(four*e_max(i)**2+one)
             maxwell_tau(i) = one/(sqrt(maxwell_alpha(i)+one)*two*pi*freq_sample(i))
-          enddo
+          end do
 !
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine damping_range_compute_param

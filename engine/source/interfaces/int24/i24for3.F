@@ -35,15 +35,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    i24sms2              ../engine/source/interfaces/int24/i24for3.F
 !||    ibcoff               ../engine/source/interfaces/interf/ibcoff.F
 !||--- uses       -----------------------------------------------------
-!||    anim_mod             ../common_source/modules/output/anim_mod.F
 !||    h3d_mod              ../engine/share/modules/h3d_mod.F
 !||    i24intarea_fic_mod   ../engine/source/interfaces/int24/i24intarea_fic.F90
-!||    outputs_mod          ../common_source/modules/outputs_mod.F
+!||    output_mod           ../common_source/modules/output/output_mod.F90
 !||    parameters_mod       ../common_source/modules/interfaces/parameters_mod.F
 !||    plyxfem_mod          ../engine/share/modules/plyxfem_mod.F
 !||    tri7box              ../engine/share/modules/tri7box.F
 !||====================================================================
-      SUBROUTINE I24FOR3(JLT ,A  ,V       ,IBCC        ,ICODT     ,
+      SUBROUTINE I24FOR3(OUTPUT, JLT ,A  ,V       ,IBCC        ,ICODT     ,
      2    FSAV        ,GAP       ,FRIC    ,MS          ,VISC      ,
      3    VISCF       ,NOINT     ,STFN    ,ITAB        ,CN_LOC    ,
      4    STIGLO      ,STIFN     ,STIF    ,FSKYI       ,ISKY      ,
@@ -86,8 +85,7 @@ C-----------------------------------------------
       USE TRI7BOX
       USE PLYXFEM_MOD
       USE H3D_MOD
-      USE ANIM_MOD
-      USE OUTPUTS_MOD
+      USE OUTPUT_MOD
       USE PARAMETERS_MOD
       USE I24INTAREA_FIC_MOD  , ONLY : I24INTAREA_FIC  
 C-----------------------------------------------
@@ -119,6 +117,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT
       INTEGER S_ADDSUBM                            ! Size of ADDSUBM
       INTEGER S_LISUBM                             ! Size of LISUBM
       INTEGER S_TYPSUB                             ! Size of TYPSUB
@@ -796,9 +795,9 @@ C---------------------------------
           ENDDO
         ELSEIF(IVIS2==5)THEN
 C---------------------------------
-C         VISC = 2M/dt    => pour visc < 1 , stable : dt < 2M/visc = dt
-C         M=M1*M2/M1+M2      pour visc = 1 , choc elastique
-C                            pour visc = 0.5 , choc mou
+C         Visc = 2m/dt => For visc <1, stable: Dt <2m/visc = Dt
+C         M = m1*m2/m1+m2 for visc = 1, elastic shock
+C                            For visc = 0.5, elastic collision
 C---------------------------------
           DO I=1,JLT
             IF(PENE(I) == ZERO)CYCLE
@@ -932,9 +931,9 @@ C---------------------------------
               STIF(I) = MAX(STIF0(I) ,FAC*SQRT(VISCFFRIC(I))*VIS*DT1INV)
             ELSEIF(IVIS2==5)THEN
 C---------------------------------
-C         VISC = 2M/dt    => pour visc < 1 , stable : dt < 2M/visc = dt
-C         M=M1*M2/M1+M2      pour visc = 1 , choc elastique
-C                            pour visc = 0.5 , choc mou
+C         Visc = 2m/dt => For visc <1, stable: Dt <2m/visc = Dt
+C         M = m1*m2/m1+m2 for visc = 1, elastic shock
+C                            For visc = 0.5, elastic collision
 C---------------------------------
               IF(PENE(I) == ZERO)CYCLE
               MAS2  = MS(IX1(I))*H1(I)
@@ -953,7 +952,7 @@ C---------------------------------
 
 
           ELSE
-cbb  initialisation du tableau VIS2 pour eviter des problemes
+cbb initialization of the vis2 array to avoid problems
             VIS2(I) = ZERO
           ENDIF
         ENDDO
@@ -1033,7 +1032,7 @@ C
       ENDIF
 C---------------------------------
       IF((ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT>0.AND.
-     .          ((TT>=TANIM.AND.TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
+     .          ((TT>=OUTPUT%TANIM.AND.TT<=OUTPUT%TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
      .              (MANIM>=4.AND.MANIM<=15).OR.H3D_DATA%MH3D/=0))
      .   .OR.H3D_DATA%N_VECT_PCONT_MAX>0)THEN
         IF (INCONV==1) THEN
@@ -1054,7 +1053,7 @@ C---------------------------------
             FNCONT(3,IX4(I)) =FNCONT(3,IX4(I)) + FZI(I)*H4(I)
             JG = NSVG(I)
             IF(JG>0) THEN
-C en SPMD : traitement a refaire apres reception noeud remote si JG < 0
+C In SPMD: Treatment to be redone after reception node Remote if JG <0
               IF (JG >NUMNOD) THEN
                 IG = JG - NUMNOD
                 CALL I24FOR1_FIC(3     ,IRTSE   ,NSNE    ,IS2SE   ,IS2PT   ,
@@ -2617,7 +2616,7 @@ C            IFPEN(INDEX(I)) = 1
 C
 C---------------------------------
       IF((ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT>0.AND.
-     .          ((TT>=TANIM.AND.TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
+     .          ((TT>=OUTPUT%TANIM.AND.TT<=OUTPUT%TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
      .              (MANIM>=4.AND.MANIM<=15).OR.H3D_DATA%MH3D/=0))
      .   .OR.H3D_DATA%N_VECT_PCONT_MAX>0)THEN
         IF (INCONV==1) THEN
@@ -2638,7 +2637,7 @@ C---------------------------------
             FTCONT(3,IX4(I)) =FTCONT(3,IX4(I)) + FZT(I)*H4(I)
             JG = NSVG(I)
             IF(JG>0) THEN
-C en SPMD : traitement a refaire apres reception noeud remote si JG < 0
+C In SPMD: Treatment to be redone after reception node Remote if JG <0
               IF (JG >NUMNOD) THEN
                 IG = JG - NUMNOD
                 CALL I24FOR1_FIC(3     ,IRTSE   ,NSNE    ,IS2SE   ,IS2PT   ,
@@ -2931,7 +2930,7 @@ C
           ENDIF
           IF(IE > NRTM) IE=IE-NRTM
 
-          KK  =ADDSUBM(IE) ! Addresse du M
+          KK  =ADDSUBM(IE) ! address of m
           DO WHILE(KK<ADDSUBM(IE+1))
 !             all sub interfaces of S
             KSUB=LISUBM(KK)
@@ -3170,14 +3169,14 @@ C---------------------------------
           DO I=1,JLT
             IF(PENE(I) == ZERO)CYCLE
             EFRIC_LM = HALF*EFRIC_L(I)
-            EFRIC(INTEREFRIC,IX1(I)) = EFRIC(INTEREFRIC,IX1(I)) + H1(I)*EFRIC_LM
-            EFRIC(INTEREFRIC,IX2(I)) = EFRIC(INTEREFRIC,IX2(I)) + H2(I)*EFRIC_LM
-            EFRIC(INTEREFRIC,IX3(I)) = EFRIC(INTEREFRIC,IX3(I)) + H3(I)*EFRIC_LM
-            EFRIC(INTEREFRIC,IX4(I)) = EFRIC(INTEREFRIC,IX4(I)) + H4(I)*EFRIC_LM
+            OUTPUT%DATA%EFRIC(INTEREFRIC,IX1(I)) = OUTPUT%DATA%EFRIC(INTEREFRIC,IX1(I)) + H1(I)*EFRIC_LM
+            OUTPUT%DATA%EFRIC(INTEREFRIC,IX2(I)) = OUTPUT%DATA%EFRIC(INTEREFRIC,IX2(I)) + H2(I)*EFRIC_LM
+            OUTPUT%DATA%EFRIC(INTEREFRIC,IX3(I)) = OUTPUT%DATA%EFRIC(INTEREFRIC,IX3(I)) + H3(I)*EFRIC_LM
+            OUTPUT%DATA%EFRIC(INTEREFRIC,IX4(I)) = OUTPUT%DATA%EFRIC(INTEREFRIC,IX4(I)) + H4(I)*EFRIC_LM
             JG = NSVG(I)
             EFRIC_LS = HALF*EFRIC_L(I)
             IF(JG>0) THEN
-              EFRIC(INTEREFRIC,JG) = EFRIC(INTEREFRIC,JG) + EFRIC_LS
+              OUTPUT%DATA%EFRIC(INTEREFRIC,JG) = OUTPUT%DATA%EFRIC(INTEREFRIC,JG) + EFRIC_LS
             ELSE ! node remote
               JG = -JG
               EFRICFI(NIN)%P(JG)=EFRICFI(NIN)%P(JG)+ EFRIC_LS
@@ -3193,14 +3192,14 @@ C---------------------------------
           DO I=1,JLT
             IF(PENE(I) == ZERO)CYCLE
             EFRIC_LM = HALF*EFRIC_L(I)
-            EFRICG(IX1(I)) = EFRICG(IX1(I)) + H1(I)*EFRIC_LM
-            EFRICG(IX2(I)) = EFRICG(IX2(I)) + H2(I)*EFRIC_LM
-            EFRICG(IX3(I)) = EFRICG(IX3(I)) + H3(I)*EFRIC_LM
-            EFRICG(IX4(I)) = EFRICG(IX4(I)) + H4(I)*EFRIC_LM
+            OUTPUT%DATA%EFRICG(IX1(I)) = OUTPUT%DATA%EFRICG(IX1(I)) + H1(I)*EFRIC_LM
+            OUTPUT%DATA%EFRICG(IX2(I)) = OUTPUT%DATA%EFRICG(IX2(I)) + H2(I)*EFRIC_LM
+            OUTPUT%DATA%EFRICG(IX3(I)) = OUTPUT%DATA%EFRICG(IX3(I)) + H3(I)*EFRIC_LM
+            OUTPUT%DATA%EFRICG(IX4(I)) = OUTPUT%DATA%EFRICG(IX4(I)) + H4(I)*EFRIC_LM
             JG = NSVG(I)
             EFRIC_LS = HALF*EFRIC_L(I)
             IF(JG>0) THEN
-              EFRICG(JG) = EFRICG(JG) + EFRIC_LS
+              OUTPUT%DATA%EFRICG(JG) = OUTPUT%DATA%EFRICG(JG) + EFRIC_LS
             ELSE ! node remote
               JG = -JG
               EFRICGFI(NIN)%P(JG)=EFRICGFI(NIN)%P(JG)+ EFRIC_LS
@@ -3215,7 +3214,7 @@ C---------------------------------
      .    .AND.(IVIS2==0.OR.IVIS2==1))THEN
           DO I=1,JLT
             IF(PENE(I) == ZERO)CYCLE
-C        C(I)=2.*C(I)
+C        C (i) = 2.*C (i)
 C
             IF(MSI(I)==ZERO)THEN
               KS(I) =ZERO
@@ -3327,7 +3326,7 @@ C
             IF(VISCFFRIC(I)/=ZERO
      .        .AND.(IVIS2==0.OR.IVIS2==1))THEN
               IF(PENE(I) == ZERO)CYCLE
-C        C(I)=2.*C(I)
+C        C (i) = 2.*C (i)
 C
               IF(MSI(I)==ZERO)THEN
                 KS(I) =ZERO
@@ -3548,14 +3547,14 @@ C  SPMD : do same after reception of forces for remote nodes
       ENDIF
 C
 C
-C spmd : identification des noeuds interf. utiles a envoyer
+C SPMD: Identification of interf nodes.useful to send
       IF (NSPMD>1) THEN
 ctmp+1 mic only
 #include "mic_lockon.inc"
         DO I = 1,JLT
           NN = NSVG(I)
           IF(NN<0)THEN
-C tag temporaire de NSVFI a -
+C temporary tag of nsvfi a -
             HH = H1(I)+H2(I)+H3(I)+H4(I)
             IF(HH /= ZERO.OR.TAGIP(I)==1)THEN
               IF(ISEDGE_FI(NIN)%P(-NN)==0)THEN
@@ -3621,7 +3620,7 @@ C
             FCONT(3,IX4(I)) =FCONT(3,IX4(I)) + FZ4(I)
             JG = NSVG(I)
             IF(JG>0) THEN
-C en SPMD : traitement a refaire apres reception noeud remote si JG < 0
+C In SPMD: Treatment to be redone after reception node Remote if JG <0
               IF (JG >NUMNOD) THEN
                 IG = JG - NUMNOD
                 CALL I24FOR1_FIC(3     ,IRTSE   ,NSNE    ,IS2SE   ,IS2PT   ,
@@ -3657,8 +3656,8 @@ C-----------------------------------------------------
 #include "lockon.inc"
                   DO K=1,JLT
                     IF(PENE(K) == ZERO)CYCLE
-C attention aux signes pour le cumul des efforts
-C a rendre conforme avec CFORC3
+C pay attention to the signs for the accumulation of forces
+C To make it conform with CFORC3
                     IF(SECFCUM(4,IX1(K),I)==1.)THEN
                       SECFCUM(1,IX1(K),I)=SECFCUM(1,IX1(K),I)-FX1(K)
                       SECFCUM(2,IX1(K),I)=SECFCUM(2,IX1(K),I)-FY1(K)
@@ -3681,7 +3680,7 @@ C a rendre conforme avec CFORC3
                     ENDIF
                     JG = NSVG(K)
                     IF(JG>0) THEN
-C en SPMD : traitement a refaire apres reception noeud remote si JG < 0
+C In SPMD: Treatment to be redone after reception node Remote if JG <0
                       IF (JG >NUMNOD) THEN
                         IG = JG - NUMNOD
                         IF(SECFCUM(4,JG,I)==1.)THEN
@@ -3728,11 +3727,11 @@ C-----------------------------------------------------
       IF(IBAG/=0.OR.IADM/=0)THEN
         DO I=1,JLT
           IF(PENE(I) == ZERO)CYCLE
-C test modifie pour coherence avec communication SPMD (spmd_i7tools)
+C test modified for consistency with spmd communication (spmd_i7tools)
 c        IF(FXI(I)/=ZERO.OR.FYI(I)/=ZERO.OR.FZI(I)/=ZERO)THEN
           JG = NSVG(I)
           IF(JG>0) THEN
-C en SPMD : traitement a refaire apres reception noeud remote si JG < 0
+C In SPMD: Treatment to be redone after reception node Remote if JG <0
             ICONTACT(JG)=1
           ENDIF
           ICONTACT(IX1(I))=1
@@ -3757,7 +3756,7 @@ C
           IG=NSVG(I)
 C---------obsolate option, no need to update
           IF(IG>0.AND.IG<=NUMNOD) THEN
-C en SPMD : traitement a refaire apres reception noeud remote si JG < 0
+C In SPMD: Treatment to be redone after reception node Remote if JG <0
             CALL IBCOFF(IBCS,ICODT(IG))
           ENDIF
         ENDIF
@@ -4725,7 +4724,7 @@ cc             PLY(ILY)%A(2,NN) = PLY(ILY)%A(2,NN) - FYI(I)
 cc             PLY(ILY)%A(3,NN) = PLY(ILY)%A(3,NN) - FZI(I)
 cc             PLY(ILY)%A(4,NN) = PLY(ILY)%A(4,NN) + STIF(I)
 cc           ELSE
-C avoir l'aspect spmd
+C have the SPMD appearance
 cc             IG = -IG
 cc             AFI(NIN)%P(1,IG)=AFI(NIN)%P(1,IG)-FXI(I)
 cc             AFI(NIN)%P(2,IG)=AFI(NIN)%P(2,IG)-FYI(I)

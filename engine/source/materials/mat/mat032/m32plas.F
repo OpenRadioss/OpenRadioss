@@ -101,7 +101,7 @@ C-----------------------------------------------
       EPSMAX = PM(41,IMAT)
 C
       IF (IPLA == 0) THEN
-C projection radiale 
+C radial projection 
 C-------------------
 C     CONTRAINTE ORTHO
 C-------------------
@@ -113,7 +113,7 @@ C-------------------
           S22 = D22*SIGNXX(I) + D11*SIGNYY(I) - TWO*D12*SIGNXY(I)
           S12 = D12*(SIGNYY(I) - SIGNXX(I)) + ( D11 - D22 )*SIGNXY(I)
 C----------------------------
-C     VITESSE DE DEFORMATION
+C     deformation rate
 C----------------------------
           EPSP = MAX(ABS(DEPSXX(I)),ABS(DEPSYY(I)),HALF*ABS(DEPSXY(I)))
           DTINV= DT1C(I)/MAX(DT1C(I)**2,EM20)
@@ -142,7 +142,7 @@ C------------------------------------------
           DPLA1(I) = DPLA
         ENDDO
       ELSEIF (IPLA == 2) THEN
-C projection avec p=cste + mise a zero de s33 => sig sur le critere 
+C projection with p=constant + zeroing of s33 => sig on the criterion
 C-------------------
 C     CONTRAINTE ORTHO
 C-------------------
@@ -154,7 +154,7 @@ C-------------------
           S22 = D22*SIGNXX(I) + D11*SIGNYY(I) - TWO*D12*SIGNXY(I)
           S12 = D12*(SIGNYY(I) - SIGNXX(I)) + ( D11 - D22 )*SIGNXY(I)
 C----------------------------
-C     VITESSE DE DEFORMATION
+C     deformation rate
 C----------------------------
           EPSP = MAX(ABS(DEPSXX(I)),ABS(DEPSYY(I)),HALF*ABS(DEPSXY(I)))
           DTINV= DT1C(I)/MAX(DT1C(I)**2,EM20)
@@ -208,7 +208,7 @@ C-------------------------
           S_12(I) = D12*(SIGNYY(I) - SIGNXX(I)) + ( D11 - D22 )*SIGNXY(I)
           NNU1(I) = NU / (ONE - NU)
 C----------------------------
-C     VITESSE DE DEFORMATION
+C     deformation rate
 C----------------------------
           EPSP = MAX(ABS(DEPSXX(I)),ABS(DEPSYY(I)),HALF*ABS(DEPSXY(I)))
           DTINV= DT1C(I)/MAX(DT1C(I)**2,EM20)

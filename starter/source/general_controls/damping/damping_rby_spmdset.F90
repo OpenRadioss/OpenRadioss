@@ -26,6 +26,7 @@
 !||    lectur                    ../starter/source/starter/lectur.F
 !||====================================================================
       module damping_rby_spmdset_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
@@ -99,20 +100,20 @@
                     else
                       !         secondary rbody - switch to main
                       id_rby = npby(13,j)
-                    endif
-                  endif
-                endif
-              enddo
+                    end if
+                  end if
+                end if
+              end do
               if (id_rby == 0) then!  rbody not found
                 call ancmsg(msgid=3048,                   &
                   msgtype=msgerror,             &
                   anmode=aninfo,                &
                   i1=id_damp,                   &
                   i2=id_rby_user)
-              endif
+              end if
               dampr(25,nd) = id_rby
-            endif
-          enddo
+            end if
+          end do
 !
 !         Stick main node of rigid body on proc in damped nodes are present
 !
@@ -121,8 +122,8 @@
             if (id_rby > 0) then
               igr   = nint(dampr(2,nd))
               call spmdset(id_rby,npby,nnpby,igrnod(igr)%entity,igrnod(igr)%nentity,0)
-            endif
-          enddo
+            end if
+          end do
 !
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine damping_rby_spmdset

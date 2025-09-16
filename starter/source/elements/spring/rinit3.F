@@ -449,7 +449,11 @@ C---- For mat law108 skew of property 23 is used if no skew per element
             ELSEIF (MTN == 114) THEN
 C---- For mat law114 lmin is used for mass setting of element with null length
               IMASS = 1
-              LMIN = MAX(UPARAM(IADBUF + 119),UPARAM(IADBUF + 126))
+              IF (GBUF%RETRACTOR_ID(I) < 0) THEN
+                LMIN = MAX(UPARAM(IADBUF + 119),UPARAM(IADBUF + 126))
+              ELSE
+                LMIN = UPARAM(IADBUF + 119)
+              ENDIF  
               RFAC = UPARAM(IADBUF + 124)
               IXX = UPARAM(IADBUF + 122)
               IYY = UPARAM(IADBUF + 123)
@@ -522,7 +526,7 @@ C
      .            ANMODE=ANINFO_BLIND_2,
      .            PRMOD=MSG_PRINT)
 C------------------------------------------
-C     INITIALISATION DES RIGIDITES NODALES POUR INTERFACES
+C     initialization of nodal rigidities for interfaces
 C------------------------------------------
       IF (I7STIFS /= 0) THEN
         IF (IGTYP == 4 .OR. IGTYP == 12 .OR. IGTYP == 27) THEN
@@ -1852,7 +1856,7 @@ C-----------------------------------------------
      .                  PARTSAV ,X     ,V     ,IPART ,MSR,
      .                  INR     ,MSRT  ,EMS   )
 C----------------------------------------------
-C     INITIALISATION DES MASSES NODALES
+C     initialization of nodal masses
 C----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1883,9 +1887,9 @@ C----------------------------------------------
         EMS(I)=HALF*UMASS(I)
       ENDDO
 C----------------------------------------------
-C     INITIALISATION DES MASSES NODALES
+C     initialization of nodal masses
 C----------------------------------------------
-C     traitement specifique spmd pour mass et iner parith/on
+C     specific spmd treatment for mass and iner parith/on
       DO I=LFT,LLT
         I1 = IXR(2,I+NFT)
         I2 = IXR(3,I+NFT)

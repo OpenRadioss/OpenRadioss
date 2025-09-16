@@ -167,21 +167,21 @@ C---------------------
        IF(IGAP<=1)THEN
         IF(INACTI==5)THEN
          DO I=1,JLT
-C REDUCTION DE LA PENE INITIALE
+C REDUCTION OF THE INITIAL PENETRATION 
            PENI(CAND_N_N(I))=MIN(PENI(CAND_N_N(I)),
      .            ((ONE-FIVEEM2)*PENI(CAND_N_N(I))+FIVEEM2*PENE(I))  )
-C SOUSTRACTION DE LA PENE INITIALE A LA PENE ET AU GAP
+C SUBTRACTION OF THE INITIAL PENALTY FROM THE PENALTY AND THE GAP
            PENE(I)=MAX(ZERO,PENE(I)-PENI(CAND_N_N(I)))
            IF( PENE(I)==ZERO )  STIF(I) = ZERO
            GAPV(I)=GAPV(I)-PENI(CAND_N_N(I))
          ENDDO
         ELSEIF(INACTI==6)THEN
          DO I=1,JLT
-C REDUCTION DE LA PENE INITIALE
+C REDUCTION OF THE INITIAL PENALTY
            PENI(CAND_N_N(I))=MIN(PENI(CAND_N_N(I)),
      .        ( (ONE-FIVEEM2)*PENI(CAND_N_N(I))
      .          +FIVEEM2*(PENE(I)+FIVEEM2*(GAPV(I)-PENE(I))))  )
-C SOUSTRACTION DE LA PENE INITIALE A LA PENE ET AU GAP
+C SUBTRACTION OF THE INITIAL PENALTY FROM THE PENALTY AND THE GAP
            PENE(I)=MAX(ZERO,PENE(I)-PENI(CAND_N_N(I)))
            IF( PENE(I)==ZERO )  STIF(I) = ZERO
            GAPV(I)=GAPV(I)-PENI(CAND_N_N(I))
@@ -194,13 +194,13 @@ C SOUSTRACTION DE LA PENE INITIALE A LA PENE ET AU GAP
        ELSE
         IF(INACTI==5)THEN
          DO I=1,JLT
-C REDUCTION DE LA PENE INITIALE
+C REDUCTION OF THE INITIAL PENALTY
            PENX(I)=PENE(I)
            IF(PENX(I) > MAX(GAPV(I)-GAP0(I),ZERO))
      .        PENX(I) = PENX(I)-MAX(GAPV(I)-GAP0(I),ZERO)
            PENI(CAND_N_N(I))=MIN(PENI(CAND_N_N(I)),
      .            ((ONE-FIVEEM2)*PENI(CAND_N_N(I))+FIVEEM2*PENX(I))  )
-C SOUSTRACTION DE LA PENE INITIALE A LA PENE ET AU GAP
+C SUBTRACTION OF THE INITIAL PENALTY FROM THE PENALTY AND THE GAP
            PENE(I)=MAX(ZERO,PENE(I)-PENI(CAND_N_N(I)))
            IF( PENE(I)==ZERO )  STIF(I) = ZERO
            GAPV(I)=GAPV(I)-PENI(CAND_N_N(I))
@@ -208,14 +208,14 @@ C SOUSTRACTION DE LA PENE INITIALE A LA PENE ET AU GAP
          ENDDO
         ELSEIF(INACTI==6)THEN
          DO I=1,JLT
-C REDUCTION DE LA PENE INITIALE
+C REDUCTION OF THE INITIAL PENALTY
            PENX(I)=PENE(I)
            IF(PENX(I) > MAX(GAPV(I)-GAP0(I),ZERO))
      .        PENX(I) = PENX(I)-MAX(GAPV(I)-GAP0(I),ZERO)
            PENI(CAND_N_N(I))=MIN(PENI(CAND_N_N(I)),
      .        ( (ONE-FIVEEM2)*PENI(CAND_N_N(I))
      .          +FIVEEM2*(PENX(I)+FIVEEM2*(GAP0(I)-PENX(I))))  )
-C SOUSTRACTION DE LA PENE INITIALE A LA PENE ET AU GAP
+C SUBTRACTION OF THE INITIAL PENALTY FROM THE PENALTY AND THE GAP
            PENE(I)=MAX(ZERO,PENE(I)-PENI(CAND_N_N(I)))
            IF( PENE(I)==ZERO )  STIF(I) = ZERO
            GAPV(I)=GAPV(I)-PENI(CAND_N_N(I))
@@ -232,21 +232,21 @@ C
 C----  ILEV=1
        IF(INACTI==6)THEN
         DO I=1,JLT
-C REDUCTION DE LA PENE INITIALE
+C REDUCTION OF THE INITIAL PENALTY
           PENI(CAND_N_N(I))=MIN(PENI(CAND_N_N(I)),
      .       ( (ONE-FIVEEM2)*PENI(CAND_N_N(I))
      .         +FIVEEM2*(PENE(I)+FIVEEM2*ABS(GAPV(I)-PENE(I))))  )
-C SOUSTRACTION DE LA PENE INITIALE A LA PENE ET AU GAP
+C SUBTRACTION OF THE INITIAL PENALTY FROM THE PENALTY AND THE GAP
           PENE(I)=MAX(ZERO,PENE(I)-PENI(CAND_N_N(I)))
           IF( PENE(I)==ZERO .AND. 
      .        ( IFPEN(CAND_N_N(I))/=1 .OR.TT==ZERO ) )  STIF(I) = ZERO
         ENDDO
        ELSE
         DO I=1,JLT
-C REDUCTION DE LA PENE INITIALE
+C REDUCTION OF THE INITIAL PENALTY
           PENI(CAND_N_N(I))=MIN(PENI(CAND_N_N(I)),
      .           ((ONE-FIVEEM2)*PENI(CAND_N_N(I))+FIVEEM2*PENE(I))  )
-C SOUSTRACTION DE LA PENE INITIALE A LA PENE ET AU GAP
+C SUBTRACTION OF THE INITIAL PENALTY FROM THE PENALTY AND THE GAP
           PENE(I)=MAX(ZERO,PENE(I)-PENI(CAND_N_N(I)))
           IF( PENE(I)==ZERO .AND. 
      .        (IFPEN(CAND_N_N(I))/=1 .OR.
@@ -336,7 +336,7 @@ C     IF(KDTINT==0.AND.IDTMINS/=2)THEN
         ENDDO
       END IF
 C---------------------------------
-C     CALCUL DE LA FORCE NORMALE
+C     CALCULATION OF THE NORMAL FORCE
 C---------------------------------
       DO I=1,JLT
        FXN(I)=FNI(I)*NX(I)
@@ -397,7 +397,7 @@ C---    Coulomb friction
       ELSEIF (MFROT==1) THEN
 C---    Viscous friction
         DO I=1,JLT
-C attention : normale <> normale a l'elt
+C attention : normal <> normal to the elt
           AA = NX(I)*VX(I) + NY(I)*VY(I) + NZ(I)*VZ(I)
           V2 = (VX(I) - NX(I)*AA)**2 
      .       + (VY(I) - NY(I)*AA)**2 
@@ -414,7 +414,6 @@ C should be the current nodal surface instead of the initial one.
       ELSEIF(MFROT==2)THEN
 C---    Darmstad LAW
         DO I=1,JLT
-C attention : normale <> normale a l'elt
           AA = NX(I)*VX(I) + NY(I)*VY(I) + NZ(I)*VZ(I)
           V2 = (VX(I) - NX(I)*AA)**2 
      .       + (VY(I) - NY(I)*AA)**2 
@@ -433,7 +432,6 @@ C should be the current nodal surface instead of the initial one.
       ELSEIF (MFROT==3) THEN
 C---    Renard LAW
         DO I=1,JLT
-C attention : normale <> normale a l'elt
           AA = NX(I)*VX(I) + NY(I)*VY(I) + NZ(I)*VZ(I)
           V2 = (VX(I) - NX(I)*AA)**2 
      .       + (VY(I) - NY(I)*AA)**2 

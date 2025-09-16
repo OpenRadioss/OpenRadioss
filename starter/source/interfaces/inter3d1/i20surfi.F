@@ -120,7 +120,7 @@ c-----------------------------------------------------------------
       IF(ISYM == 1) NRTM = NRTM + NRTS
 
 c---------------------------------------
-c     copie des surfaces (IALLO == 2)
+c     Copy of surfaces (Iallo == 2)
 c---------------------------------------
       IF(IALLO == 2)THEN
         IF(ISU1 /= 0)THEN
@@ -183,7 +183,7 @@ c-----------------------------------------------------------------
         ENDDO
       ENDIF
 c-----------------------------------------------------------------
-c     noeuds de la surface S2
+c     nodes of surface S2
 c-----------------------------------------------------------------
       IF(ISU2 /= 0)THEN
         DO J=1,IGRSURF(ISU2)%NSEG
@@ -205,7 +205,7 @@ c-----------------------------------------------------------------
         ENDDO
       ENDIF
 c-----------------------------------------------------------------
-c     noeuds de la surface S1 si ISYM /= 2
+c     nodes of surface S1 if isym /= 2
 c-----------------------------------------------------------------
       IF(ISU1 /= 0)THEN
         DO J=1,IGRSURF(ISU1)%NSEG
@@ -228,7 +228,7 @@ c-----------------------------------------------------------------
         ENDDO
       ENDIF
 c-----------------------------------------------------------------
-c     noeuds du groupe de noeud NOD1
+c     nodes of the node group nod1
 c-----------------------------------------------------------------
       IF(NOD1 /= 0)THEN
         DO J=1,IGRNOD(NOD1)%NENTITY
@@ -263,7 +263,7 @@ C=======================================================================
      5                TAGB    ,6       ,ISU2      ,LINE2       )
       ENDIF
 C=======================================================================
-c     BORDS POUR CORRECTION GAP=0 sur bord de coque
+c     EDGES FOR GAP=0 CORRECTION on shell edge
 C=======================================================================
       IF(IALLO == 2)THEN
         IF(ISU1  /= 0)THEN
@@ -274,7 +274,7 @@ C=======================================================================
         ENDIF
       ENDIF
 c-----------------------------------------------------------------
-c     nombre de noeuds dans l'interface(secnd+main+edge)
+c     number of nodes in the interface (secnd+main+edge)
 c-----------------------------------------------------------------
       IF(IALLO == 1)THEN
         DO I=1,NUMNOD
@@ -383,7 +383,7 @@ C=======================================================================
      .                         C1='LINEIX')
 
 c---------------------------------------
-c       recherche de toutes les lignes dans la surface
+c       search for all lines in the surface
 c---------------------------------------
       IF(ISU /= 0)THEN
         IS = 0
@@ -433,8 +433,8 @@ C
         CALL MY_ORDERS(0,IWORK,LINEIX,INDEX,LL,2)
 
 c---------------------------------------
-c       suppression des lignes doubles
-c       + calcul des angles(sin) inter-facettes
+c       removal of double lines
+c       + Calculation of angles (sin) inter-facet
 c---------------------------------------
         I1M = LINEIX(1,INDEX(1))
         I2M = LINEIX(2,INDEX(1))
@@ -473,12 +473,12 @@ c---------------------------------------
         ENDDO
 
 c---------------------------------------
-c       suppression des lignes internes (IEDGE == 1)
+c       Deletion of internal lines (iedge == 1)
 c---------------------------------------
         LL = NL
         NL = 0
         IF(IEDGE == 1)THEN
-c         seuls les bords sont conservs
+c         only the edges are kept
           DO L=1,LL
             IF(IXWORK(5,L) == 1)THEN
               NL = NL + 1
@@ -500,14 +500,14 @@ c         seuls les bords sont conservs
             ENDIF
           ENDDO
         ELSEIF(IEDGE == 2)THEN
-c         toutes les lignes sont conserves ET actives
+c         all lines are kept AND active
           DO L=1,LL
             NL = NL + 1
             IXWORK(5,L)=1 ! all on
           ENDDO
         ELSEIF(IEDGE == 3)THEN
-c         les bords sont conservs
-c         les artes vives sont conservs (EDG_COS)
+c         the edges are kept
+c         the live edges are kept (edg_cos)
           DO L=1,LL
             IF(IABS(IXWORK(5,L)) == 1)THEN
               NL = NL + 1
@@ -531,12 +531,12 @@ c         les artes vives sont conservs (EDG_COS)
         ENDIF
 C
       ELSE
-C       pas de surfaces
+C       no surfaces
         LL = 0
         NL = 0
       ENDIF
 c---------------------------------------
-c       nombre de lignes
+c       number of lines
 c---------------------------------------
       NLL    = LL      
       NLIN   = LL      
@@ -546,7 +546,7 @@ c---------------------------------------
         NACTIF = NACTIF + NLIN0
       ENDIF
 c---------------------------------------
-c     nombre de noeuds
+c     number of nodes
 c---------------------------------------
       NSME = 0
       DO I=1,NUMNOD
@@ -571,7 +571,7 @@ c---------------------------------------
         ENDIF                              
       ENDDO
 c---------------------------------------
-c     copie des lignes (IALLO == 2)
+c     Copy of lines (Iallo == 2)
 c---------------------------------------
       IF(IALLO == 2)THEN
         L = 0
@@ -581,7 +581,7 @@ c---------------------------------------
             IXLINE(1,L) = SLIN_NODES(J,1)   ! noeud 1
             IXLINE(2,L) = SLIN_NODES(J,2)   ! noeud 2
             ISLINE(1,L) = 0              ! surface
-            ISLINE(2,L) = 0              ! cot de la surface
+            ISLINE(2,L) = 0              ! side of the surface
           ENDDO
         ENDIF
 
@@ -591,18 +591,18 @@ c---------------------------------------
             IXLINE(1,L) = IXWORK(1,LL)    ! noeud 1
             IXLINE(2,L) = IXWORK(2,LL)    ! noeud 2
             ISLINE(1,L) = IXWORK(3,LL)    ! surface
-            ISLINE(2,L) = IXWORK(4,LL)    ! cot de la surface
+            ISLINE(2,L) = IXWORK(4,LL)    ! side of the surface
           ENDIF
         ENDDO
 
-c       lignes inactives
+c       inactive lines
         DO LL=1,NLL
           IF(IXWORK(5,LL) /= 1)THEN
             L = L+1                               
             IXLINE(1,L) = IXWORK(1,LL)    ! noeud 1
             IXLINE(2,L) = IXWORK(2,LL)    ! noeud 2
             ISLINE(1,L) = IXWORK(3,LL)    ! surface
-            ISLINE(2,L) = IXWORK(4,LL)    ! cot de la surface
+            ISLINE(2,L) = IXWORK(4,LL)    ! side of the surface
           ENDIF
         ENDDO
           
@@ -688,7 +688,7 @@ C=======================================================================
      .                         C1='LINEIX')
 
 c---------------------------------------
-c       recherche de toutes les lignes dans la surface
+c       search for all lines in the surface
 c---------------------------------------
       LL = 0
       IF(ISU /= 0)THEN
@@ -718,7 +718,7 @@ C
         CALL MY_ORDERS(0,IWORK,LINEIX,INDEX,LL,2)
 
 c---------------------------------------
-c       suppression des lignes doubles
+c       removal of double lines
 c---------------------------------------
         I1M = LINEIX(1,INDEX(1))
         I2M = LINEIX(2,INDEX(1))
@@ -728,10 +728,10 @@ c---------------------------------------
           I1 = LINEIX(1,INDEX(L))
           I2 = LINEIX(2,INDEX(L))
           IF(I1M == I2M)THEN
-c triangle on ne fait rien
+c triangle we do nothing
             BOLD=1
           ELSEIF(BOLD == 0)THEN
-c idem precedent on ne fait rien
+c ditto previous we do nothing
             BOLD=1
           ELSEIF(I2 == I2M .and. I1 == I1M)THEN
 c idem suivant pas de bord
@@ -748,7 +748,7 @@ c idem suivant pas de bord
         ENDDO
 
         IF(BORD==1)THEN
-c         derniere arrete est un bord
+c         last edge is an edge
           TAGB(I1) = BITSET(TAGB(I1),7)
           TAGB(I2) = BITSET(TAGB(I2),7)
         ENDIF

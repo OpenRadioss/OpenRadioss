@@ -338,7 +338,7 @@ C
 C
       IF(MTN == 19)THEN
           VISCDEF=FOURTH
-      ELSEIF(MTN == 25.OR.MTN == 27)THEN
+      ELSEIF(MTN == 25.OR.MTN == 27 .OR. MTN == 125 .OR. MTN == 127)THEN
           VISCDEF=FIVEEM2
       ELSE
           VISCDEF=ZERO

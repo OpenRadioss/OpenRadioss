@@ -162,7 +162,7 @@ C
                   ENDIF
                ENDIF
             ENDDO
-C Tri par ordre croissant de polh
+C Sorting in ascending order of polh
             DO J=1,POLH(1,NPOLH)
                JMIN=J
                PMIN=POLH(2+J,NPOLH)

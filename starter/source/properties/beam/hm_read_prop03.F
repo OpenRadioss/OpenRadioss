@@ -133,7 +133,7 @@ C----------------------
 C
         GEO(3)=ISMSTR
         IF ((ISMSTR==3).OR.(ISMSTR==1)) GEO(5)=EP06
-C  double stockage temporaire - supprimer GEO(12)=IGTYP apres tests
+C  Temporary double storage - Delete GEO (12) = Igtyp after tests
         IGEO( 1)=IG
         IGEO(10)=IHBE
         IGEO(11)=IGTYP

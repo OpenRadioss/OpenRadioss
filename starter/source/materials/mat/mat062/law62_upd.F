@@ -255,7 +255,7 @@ C         ! bi-axial  Lam1=lam2= lam, lam3 (find lam3 corresponding to (T3(lam3)
               WRITE(IOUT,2200)STRAIN_MAX
            ENDIF 
        ENDIF
-C plane test
+C Plane Test
        INDX =0                
        DO I = 1, NDATA                                        
           D11 = ZERO                                         

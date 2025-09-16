@@ -76,9 +76,9 @@ C   Variable globale NUMELTGG,NUMELCG, nombre global de triangles
       NUMELXG = NUMELX
 C   Variable globales NUMNODM (MAX des NUMNOD_L)
       NUMNODM = 0
-C Nombre global des RBE2
+C Global number of RBE2
       NRBE2G = NRBE2
-C Nombre global des RBE3
+C Global number of RBE3
       NRBE3G = NRBE3
 
       DO P = 1,NSPMD
@@ -91,7 +91,7 @@ C Nombre global des RBE3
        NUMNODM = MAX(NUMNODM,NNOD)
        ENDDO
 C
-C   calcul nu nombre Elts 1D pour animations.
+C   naked calculation and 1D number for animations.
 
         NB1DG = NUMELT + NUMELR + NUMELP
         NSKEWAG = NUMELP + NUMELT + NUMSKW
@@ -115,8 +115,8 @@ C   calcul nu nombre Elts 1D pour animations.
           ENDIF
 
         ENDDO    
-C   pour les sections et pour le proc0 on calcule le max
-C   des nombres d'elements coques pour toutes les sections
+C   for sections and for proc0 we calculate the max
+C   of the number of shell elements for all sections
 cow
       SECTIOM = 0
       IF (NSECT>0) THEN

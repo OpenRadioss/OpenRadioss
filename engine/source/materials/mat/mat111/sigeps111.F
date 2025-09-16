@@ -192,7 +192,7 @@ C
                 UVAR(I,1) = LAMT(I) - ONE
                 UVAR(I,2) = JDETF(I)*SIGNZZ(I) / LAMT(I) ! only for testing
               ENDDO
-          CASE(2)  ! equibiaxail traction test 
+          CASE(2)  ! Equibiaxial Test TRACTION 
         !
         !     solving 2*lt**6 - I*lt**4 + 1 = 0
         !      By considering lt**2 = x --> 2*x**3 - I*x**2 +1 = 0

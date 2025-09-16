@@ -198,8 +198,8 @@ C-----------------------------------------------
               NUM_CENTROIDS = NUM_CENTROIDS +1                                                                                
               DO K=1,NPT                                                                                                      
                 IF(IS_ITY_1==1)INOD=IXS(1+K,N)                                                                                
-                IF(IS_ITY_2==1)INOD=IXQ(1+K,N)  !faire passer IX (pointeur, en argument) et NIX => routine generique   
-                IF(IS_ITY_7==1)INOD=IXTG(1+K,N)  !faire passer IX (pointeur, en argument) et NIX => routine generique                          
+                IF(IS_ITY_2==1)INOD=IXQ(1+K,N)  !pass IX (pointer, argument) and nix => generic routine   
+                IF(IS_ITY_7==1)INOD=IXTG(1+K,N)  !pass IX (pointer, argument) and nix => generic routine                          
                 IF(IS_ITY_1==1)NODTAG(IXS(1+K,N)) = 1
                 IF(IS_ITY_2==1)NODTAG(IXQ(1+K,N)) = 1
                 IF(IS_ITY_7==1)NODTAG(IXTG(1+K,N)) = 1                                                                       
@@ -565,7 +565,7 @@ C-----------------------------------------------
         CALL QUICKSORT(WORK(:,5), IDX, 1, NPTS_TOT) 
         
         
-        !---remove duplicates (possible common nodes on adjacent domains)
+        !--- Remove duplicates (possible Common Nodes on Adjacent Domains)
         ! STAGGERED SCHEME ONLY
         !
         IF(MLW /= 151)THEN

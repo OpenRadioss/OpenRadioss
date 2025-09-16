@@ -128,7 +128,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    nodal_arrays_mod             ../common_source/modules/nodal_arrays.F90
 !||    outmax_mod                   ../common_source/modules/outmax_mod.F
 !||    output_mod                   ../common_source/modules/output/output_mod.F90
-!||    outputs_mod                  ../common_source/modules/outputs_mod.F
 !||    pblast_mod                   ../common_source/modules/loads/pblast_mod.F90
 !||    pinchtype_mod                ../common_source/modules/pinchtype_mod.F
 !||    python_funct_mod             ../common_source/modules/python_mod.F90
@@ -191,7 +190,6 @@ C-----------------------------------------------
       USE SEATBELT_MOD
       USE PBLAST_MOD
       USE OUTMAX_MOD
-      USE OUTPUTS_MOD
       USE LOADS_MOD
       USE STATE_MOD
       USE USER_WINDOWS_MOD
@@ -340,15 +338,15 @@ C-----------------------------------------------
      .         'S','T','U','V','W','X','Y','Z','A','B',
      .         'C','D','E','F','G','H'/
 C--------------------------------------
-C     PREPARATION DES VARIABLES ENTIERES ET REELLES.
+C     preparation of integer and real variables.
 C--------------------------------------
       IPARI0 = IPARIT
       SFR_ELEM = SIZE(NODES%BOUNDARY,1)
       SIAD_ELEM = SIZE(NODES%BOUNDARY_ADD,1) * SIZE(NODES%BOUNDARY_ADD,2)
-      CALL WRCOMI(LMXVINT,LVARINT,TABVINT,1,MULTI_FVM,H3D_DATA,DYNAIN_DATA,
+      CALL WRCOMI(OUTPUT,LMXVINT,LVARINT,TABVINT,1,MULTI_FVM,H3D_DATA,DYNAIN_DATA,
      .     INTERFACES%PARAMETERS,SENSORS,LOADS,GLOB_THERM,PBLAST)
 C
-      ENTMP(1) = OUTPUT%WFEXT
+      ENTMP(1) = OUTPUT%TH%WFEXT
       ENTMP(2) = EHOUR
       ENTMP(3) = ECONTV
       ENTMP(4) = EPOR
@@ -361,7 +359,7 @@ C
       ENTMP(11)= ECONT_CUMU
       IF(NSPMD > 1) CALL SPMD_GLOB_DSUM9(ENTMP,11)
       IF(ISPMD/=0) THEN
-        OUTPUT%WFEXT = ZERO
+        OUTPUT%TH%WFEXT = ZERO
         EHOUR = ZERO
         ECONTV = ZERO
         EPOR = ZERO
@@ -373,7 +371,7 @@ C
         ECONTD = ZERO
         ECONT_CUMU = ZERO
       ELSE
-        OUTPUT%WFEXT = ENTMP(1)
+        OUTPUT%TH%WFEXT = ENTMP(1)
         EHOUR = ENTMP(2)
         ECONTV= ENTMP(3)
         EPOR  = ENTMP(4)
@@ -445,7 +443,7 @@ C--------------------------------------
       ENDDO
       CALL WRITE_I_C(ITITLE,LTITLE)
 C--------------------------------------
-C     ECRITURE DU HEADER.
+C     writing the header.
 C--------------------------------------
 C     RADIOSS FILE R/W
       TABHEAD(1) =IRADIOS
@@ -480,7 +478,7 @@ C
       CALL WRITE_I_C(LHEADER, 1)
       CALL WRITE_I_C(TABHEAD, LHEADER)
 C--------------------------------------
-C     ECRITURE DES VARIABLES ENTIERES
+C     writing integer variables
 C--------------------------------------
       CALL WRITE_I_C(TABVINT,LVARINT)
 C--------------------------------------
@@ -488,7 +486,7 @@ C     WRITE CHECKSUM DIGEST
 C--------------------------------------
       CALL checksum_restart_write(OUTPUT%CHECKSUM)
 C--------------------------------------
-C     ECRITURE DES ENTIERS
+C     writing integers
 C--------------------------------------
       LEN_G = NPROPGI*NUMGEO
       LEN_M = NPROPMI*NUMMAT
@@ -659,7 +657,7 @@ C--------------------------------------
         LENI = 0
         LENR = 0
         IF (EBCS_TAB%nebcs > 0) THEN
-            ! write the type of /EBCS ( /EBCS/NRF --> typ = 10) ( /EBCS/PROPERGOL --> typ = 11)
+            ! write the type of /EBCS ( /EBCS/NRF --> typ = 10) ( /EBCS/PROPELLANT --> typ = 11)
             CALL WRITE_I_C(EBCS_TAB%my_typ,EBCS_TAB%nebcs)
         ENDIF
         ! -------------
@@ -973,7 +971,7 @@ C  ply xfem
 C
         IF(IPLYXFEM > 0) THEN
             CALL WRITE_I_C(ADSKY_PXFEM,NPLYXFE+1 )
-C lecture directe de PROCNE
+C direct reading of PROCNE
             CALL WRITE_I_C(PROCNE_PXFEM,LCNEPXFEM)
             CALL WRITE_I_C(IADC_PXFEM,4*EPLYXFE)
         ENDIF
@@ -1016,16 +1014,16 @@ C
         CALL WRITE_I_C(SH3TRIM,LEN)
       END IF
 C--------------------------------------
-C ecriture tableaux additionnels frontieres interfaces (partie entiere)
+C Writing Additional Tables Boundary Interfaces (entire part)
 C--------------------------------------
       CALL SPMD_SAVEFI(IPARI,1,INTBUF_TAB,SENSORS%NSENSOR,SENSORS%SENSOR_TAB,
      .                 INTERFACES%PARAMETERS)
 C--------------------------------------
-C ecriture tableaux additionnels frontieres sph (partie entiere)
+C Writing Additional Tables Frontieres SPH (integer part)
 C--------------------------------------
       CALL SPMD_SAVESPH(1)
 C--------------------------------------
-C structures int 21
+C Int 21 structures
 C--------------------------------------
       IF(NINTSTAMP /= 0)THEN
         CALL INTSTAMP_WRESTI(INTSTAMP)
@@ -1037,7 +1035,7 @@ C--------------------------------------
         CALL INTFRIC_WRESTI(INTBUF_FRIC_TAB,NINTERFRIC)
       END IF
 C--------------------------------------
-C structure tables (partie entiere)
+C Table structure (integer part)
 C--------------------------------------
       IF(NTABLE /= 0)THEN
         CALL TABLE_WRESTI(TABLE, LTABLE)
@@ -1094,11 +1092,11 @@ C--------------------------------------
         ENDDO
       ENDIF
 C--------------------------------------
-C     ECRITURE DES VARIABLES REELLES
+C     writing real variables
 C--------------------------------------
       CALL WRITE_DB(TABVREA, LVARREA)
 C--------------------------------------
-C     ECRITURE DES REELS
+C     writing reals
 C--------------------------------------
          CALL WRITE_DB(NODES%X,SX)
 
@@ -1265,19 +1263,19 @@ C  if xfem
          CALL WRITE_DB(ACONTACT,SRCONTACT)
          CALL WRITE_DB(PCONTACT,SRCONTACT)
 C--------------------------------------
-C ecriture tableaux additionnels frontieres interfaces (partie reelle)
+C Writing Additional Tables Boundary Interfaces (real part)
 C--------------------------------------
       CALL SPMD_SAVEFI(IPARI,2,INTBUF_TAB,SENSORS%NSENSOR,SENSORS%SENSOR_TAB,
      .                 INTERFACES%PARAMETERS)
 C--------------------------------------
-C ecriture tableaux additionnels frontieres sph (partie reelle)
+C Writing Additional Tables Frontieres SPH (Real part)
 C--------------------------------------
       CALL SPMD_SAVESPH(2)
 C--------------------------------------
 C     ECRITURES FACULTATIVES
 C--------------------------------------
       IF (IRESMD==0.AND.NPSAV>=25) THEN
-C   on ramene PARTSAV sur le proc et on met a zero les autres
+C   bring PARTSAV back to the proc and set the others to zero
           IF(NSPMD > 1)
      .      CALL SPMD_GLOB_DSUM9(PARTSAV,NPSAV*NPART)
           IF (ISPMD/=0)THEN
@@ -1304,8 +1302,8 @@ C
         CALL WRITE_DPDB(NODES%XDP,3*NUMNOD)
         CALL WRITE_DPDB(NODES%DDP,3*NUMNOD)
       ENDIF
-C besoin pour les check restart
-C on a besoin car les restart sont les memes des check restart
+C needed for check restart
+C needed because the restarts are the same as the check restart
         MY_ILEN = 4*NRLINK+NRLINK*(NSPMD+2)
      .           +LLLINK+LLLINK*MIN(1,IPARIT)
      .           +NSFLSW+8*NTFLSW+44*NCUTS !+LLINAL
@@ -1359,7 +1357,7 @@ C--------------------------------------
           CALL WRITE_DB(INCND,NUMNOD)
         ENDIF
 C--------------------------------------
-C structures int 21
+C Int 21 structures
 C--------------------------------------
         IF(NINTSTAMP /= 0)THEN
           CALL INTSTAMP_WRESTR(INTSTAMP)
@@ -1404,13 +1402,13 @@ C--------------------------------------
           CALL WRITE_DB(NPCONT2_MIN, 3*NUMNOD)
         ENDIF
 C--------Frictional energy output-------
-      IF(S_EFRICINT >0)THEN
-         IF(NINEFRIC > 0) CALL WRITE_DB(EFRIC, NINEFRIC*NUMNOD)
-         IF(NINEFRIC_STAMP > 0) CALL WRITE_DB(EFRIC_STAMP, NINEFRIC_STAMP*NUMNODG)
+      IF(OUTPUT%DATA%S_EFRICINT >0)THEN
+         IF(OUTPUT%DATA%NINEFRIC > 0) CALL WRITE_DB(OUTPUT%DATA%EFRIC, OUTPUT%DATA%NINEFRIC*NUMNOD)
+         IF(OUTPUT%DATA%NINEFRIC_STAMP > 0) CALL WRITE_DB(OUTPUT%DATA%EFRIC_STAMP, OUTPUT%DATA%NINEFRIC_STAMP*NUMNODG)
       ENDIF
-      IF(S_EFRIC >0)THEN
-         CALL WRITE_DB(EFRICG, NUMNOD)
-         IF(NINTSTAMP/=0) CALL WRITE_DB(EFRICG_STAMP, NUMNODG)
+      IF(OUTPUT%DATA%S_EFRIC >0)THEN
+         CALL WRITE_DB(OUTPUT%DATA%EFRICG, NUMNOD)
+         IF(NINTSTAMP/=0) CALL WRITE_DB(OUTPUT%DATA%EFRICG_STAMP, NUMNODG)
       ENDIF
 C--------------------------------------
 C  Interface friction buffer (integer )
@@ -1446,7 +1444,7 @@ C
           CALL WRITE_I_C(NATIV0_SMS,NUMNOD)
         ENDIF
 C--------------------------------------
-C structure tables (partie reelle)
+C Table structure (real part)
 C--------------------------------------
       IF(NTABLE /= 0)THEN
         CALL TABLE_WRESTR(TABLE, LTABLE)

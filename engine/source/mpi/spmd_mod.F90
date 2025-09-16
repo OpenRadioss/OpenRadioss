@@ -65,6 +65,7 @@
 !||    spmd_exch_nodnx                 ../engine/source/mpi/ams/spmd_exch_nodnx.F
 !||    spmd_exch_sms                   ../engine/source/mpi/ams/spmd_exch_sms.F
 !||    spmd_exch_sms6                  ../engine/source/mpi/ams/spmd_exch_sms6.F
+!||    spmd_exch_vnpon                 ../engine/source/mpi/nodes/spmd_exch_vnpon.F90
 !||    spmd_exchange_component         ../engine/source/mpi/interfaces/spmd_exch_component.F90
 !||    spmd_exchange_ghost_shells      ../engine/source/engine/node_spliting/ghost_shells.F90
 !||    spmd_extag                      ../engine/source/mpi/fluid/spmd_cfd.F
@@ -130,6 +131,7 @@
 !||    telesc                          ../engine/source/constraints/general/cyl_joint/telesc.F
 !||    test_jc_shell_detach            ../engine/source/engine/node_spliting/detach_node.F90
 !||    thermbilan                      ../engine/source/constraints/thermic/thermbilan.F
+!||    viper_mod                       ../engine/source/coupling/viper/viper_interface_mod.F90
 !||--- uses       -----------------------------------------------------
 !||    spmd_allgather_mod              ../engine/source/mpi/generic/spmd_allgather.F90
 !||    spmd_allgatherv_mod             ../engine/source/mpi/spmd_allgatherv.F90
@@ -137,8 +139,10 @@
 !||    spmd_comm_world_mod             ../engine/source/mpi/spmd_comm_world.F90
 !||    spmd_irecv_mod                  ../engine/source/mpi/spmd_irecv.F90
 !||    spmd_isend_mod                  ../engine/source/mpi/spmd_isend.F90
+!||    spmd_pack_mod                   ../engine/source/mpi/spmd_pack.F90
 !||    spmd_recv_mod                   ../engine/source/mpi/spmd_recv.F90
 !||    spmd_send_mod                   ../engine/source/mpi/spmd_send.F90
+!||    spmd_unpack_mod                 ../engine/source/mpi/spmd_unpack.F90
 !||    spmd_wait_mod                   ../engine/source/mpi/spmd_wait.F90
 !||====================================================================
       module spmd_mod
@@ -150,7 +154,9 @@
         use spmd_irecv_mod, only: spmd_irecv
         use spmd_wait_mod, only: spmd_wait, spmd_waitall, spmd_waitany
         use spmd_allgatherv_mod, only: spmd_allgatherv
-        use spmd_alltoall_mod, only: spmd_alltoall 
+        use spmd_alltoall_mod, only: spmd_alltoall
+        use spmd_pack_mod, only: spmd_pack
+        use spmd_unpack_mod, only: spmd_unpack
         implicit none
         ! Define the interface for spmd_send
 ! dummy tags for MPI calls that do not have a tag
@@ -167,14 +173,17 @@
         integer, parameter,public :: SPMD_PROD = 4
 #ifdef REAL8
         integer, parameter, public :: SPMD_REAL8 = 1
+#define MY_MPI_REAL MPI_DOUBLE_PRECISION
 #else
         integer, parameter, public :: SPMD_REAL8 = 0
+#define MY_MPI_REAL MPI_REAL
 #endif
 
 #ifndef MPI
         integer, parameter, public :: MPI_STATUS_IGNORE = 0
         integer, parameter, public :: MPI_STATUS_SIZE = 1
         integer, parameter, public :: MPI_REQUEST_NULL = 0
+        integer, parameter, public :: MPI_COMM_WORLD = 0
 #endif
         ! \brief Interface for spmd_reduce, a wrapper for MPI_REDUCE
         interface spmd_reduce
@@ -213,6 +222,8 @@
         public :: SPMD_COMM_WORLD
         public :: spmd_allgatherv
         public :: spmd_alltoall
+        public :: spmd_pack
+        public :: spmd_unpack
 
       contains
 ! ======================================================================================================================
@@ -423,7 +434,7 @@
             call MPI_Probe(source, tag, comm, status, ierr)
           else
             call MPI_Probe(source, tag, SPMD_COMM_WORLD, status, ierr)
-          endif
+          end if
           call spmd_out(tag,ierr)
 #endif
         end subroutine spmd_probe
@@ -455,7 +466,7 @@
             used_comm = comm
           else
             used_comm = SPMD_COMM_WORLD
-          endif
+          end if
 
           call MPI_Reduce(sendbuf, recvbuf, buf_count, MPI_REAL, mpi_op, root, used_comm, ierr)
           call spmd_out(TAG_REDUCE,ierr)
@@ -489,7 +500,7 @@
             used_comm = comm
           else
             used_comm = SPMD_COMM_WORLD
-          endif
+          end if
 
           call MPI_Reduce(sendbuf, recvbuf, buf_count, MPI_REAL, mpi_op, root, used_comm, ierr)
           call spmd_out(TAG_REDUCE,ierr)
@@ -525,7 +536,7 @@
             used_comm = comm
           else
             used_comm = SPMD_COMM_WORLD
-          endif
+          end if
 
           call MPI_Reduce(sendbuf, recvbuf, buf_count, MPI_REAL, mpi_op, root, used_comm, ierr)
           call spmd_out(TAG_REDUCE,ierr)
@@ -561,7 +572,7 @@
             used_comm = comm
           else
             used_comm = SPMD_COMM_WORLD
-          endif
+          end if
 
           call MPI_Allreduce(sendbuf, recvbuf, buf_count, MPI_INTEGER, mpi_op, used_comm, ierr)
           call spmd_out(TAG_ALLREDUCE,ierr)
@@ -597,7 +608,7 @@
             used_comm = comm
           else
             used_comm = SPMD_COMM_WORLD
-          endif
+          end if
 
           call MPI_Allreduce(sendbuf, recvbuf, buf_count, MPI_DOUBLE_PRECISION, mpi_op, used_comm, ierr)
           call spmd_out(TAG_ALLREDUCE,ierr)
@@ -633,7 +644,7 @@
             used_comm = comm
           else
             used_comm = SPMD_COMM_WORLD
-          endif
+          end if
 
           call MPI_Allreduce(sendbuf, recvbuf, buf_count, MPI_REAL, mpi_op, used_comm, ierr)
           call spmd_out(TAG_ALLREDUCE,ierr)
@@ -670,7 +681,7 @@
             used_comm = comm
           else
             used_comm = SPMD_COMM_WORLD
-          endif
+          end if
 
           call MPI_Reduce(sendbuf, recvbuf, buf_count, MPI_REAL, mpi_op, root, used_comm, ierr)
           call spmd_out(TAG_REDUCE,ierr)
@@ -704,7 +715,7 @@
             used_comm = comm
           else
             used_comm = SPMD_COMM_WORLD
-          endif
+          end if
 
           call MPI_Reduce(sendbuf, recvbuf, buf_count, MPI_REAL, mpi_op, root, used_comm, ierr)
           call spmd_out(TAG_REDUCE,ierr)
@@ -740,7 +751,7 @@
             used_comm = comm
           else
             used_comm = SPMD_COMM_WORLD
-          endif
+          end if
 
           call MPI_Reduce(sendbuf, recvbuf, buf_count, MPI_REAL, mpi_op, root, used_comm, ierr)
           call spmd_out(TAG_REDUCE,ierr)
@@ -776,7 +787,7 @@
             used_comm = comm
           else
             used_comm = SPMD_COMM_WORLD
-          endif
+          end if
 
           call MPI_Allreduce(sendbuf, recvbuf, buf_count, MPI_INTEGER, mpi_op, used_comm, ierr)
           call spmd_out(TAG_ALLREDUCE,ierr)
@@ -812,7 +823,7 @@
             used_comm = comm
           else
             used_comm = SPMD_COMM_WORLD
-          endif
+          end if
 
           call MPI_Allreduce(sendbuf, recvbuf, buf_count, MPI_DOUBLE_PRECISION, mpi_op, used_comm, ierr)
           call spmd_out(TAG_ALLREDUCE,ierr)
@@ -848,7 +859,7 @@
             used_comm = comm
           else
             used_comm = SPMD_COMM_WORLD
-          endif
+          end if
 
           call MPI_Allreduce(sendbuf, recvbuf, buf_count, MPI_DOUBLE_PRECISION, mpi_op, used_comm, ierr)
           call spmd_out(TAG_ALLREDUCE,ierr)

@@ -129,13 +129,13 @@ C
   300 CONTINUE
       ENDDO !I=2,NSN
 C--------------------------------------------------------------
-C     CALCUL DES RIGIDITES DES SEGMENTS ET DES NOEUDS
+C     CALCULATION OF THE STIFFNESSES OF SEGMENTS AND NODES
 C---------------------------------------------------------------
       DO I=1,NRT
         STF(I)=ONE
       ENDDO
 C---------------------------------------------
-C     CALCUL DES RIGIDITES NODALES
+C     CALCULATION OF NODAL STIFFNESSES
 C---------------------------------------------
       DO J=1,NSN
         STFN(J)=ONE

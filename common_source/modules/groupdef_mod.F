@@ -221,7 +221,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_ebcs_normv                ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_normv.F
 !||    hm_read_ebcs_nrf                  ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_nrf.F
 !||    hm_read_ebcs_pres                 ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_pres.F
-!||    hm_read_ebcs_propergol            ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_propergol.F90
+!||    hm_read_ebcs_propellant           ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_propellant.F90
 !||    hm_read_ebcs_valvin               ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_valvin.F
 !||    hm_read_ebcs_valvout              ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_valvout.F
 !||    hm_read_ebcs_vel                  ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_vel.F
@@ -714,7 +714,7 @@ C-----------------------------------------------------------------------
 !                                 = 1 FOR /GRNOD/NOD
 !                                 = 2 FOR /GRNOD/GNROD
 !                                 = 0 ALL THE REST
-!  For element (part) group:
+!  For element (share) Group:
 !                                 = 1 ELEM
 !                                 = 2 GRELEM
 !                                 = 3 SUBSET,PART,MAT,PROP
@@ -760,7 +760,7 @@ C-----------------------------------------------------------------------
 !                                 ID MaDyMo - for entity type which impose surface movement:
 !                                 No systeme MaDyMo for entity type which impose surface movement
           INTEGER   :: IAD_BUFR   ! Analytical Surfaces address (reals BUFSF - temp)
-          INTEGER   :: NB_MADYMO  ! No de l'entite qui impose le mvt de la surface.
+          INTEGER   :: NB_MADYMO  ! Name of the entity which requires the MVT of the surface.
 !                                --> No systeme Radioss ou MaDyMO.
           INTEGER   :: TYPE_MADYMO  ! Entity type which impose surface movement.
 !                                  = 1 : Rigid Body.

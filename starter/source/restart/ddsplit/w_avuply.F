@@ -60,7 +60,7 @@ C
 C deplacement
             CALL WRITE_DB(VELTMP1,3*NNODPXFE_L)
                LEN_AM = LEN_AM + 3*NNODPXFE_L
-C vitesse
+C velocity
             CALL WRITE_DB(VELTMP1,3*NNODPXFE_L)
                LEN_AM = LEN_AM + 3*NNODPXFE_L
 cc            CALL WRITE_DB(VELTMP2,4*NNODPXFE_L)

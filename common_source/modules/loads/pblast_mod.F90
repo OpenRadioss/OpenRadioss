@@ -70,8 +70,8 @@
         ! --- data structure for blast parameters (each segment)
         ! ------------------------------------------------------------
         type pblast_struct_
-          integer siz
-          logical is_reset
+          integer :: siz
+          logical :: is_reset
           real(kind=WP) :: dtmin
           real(kind=WP), allocatable,dimension(:)    :: pres                                      !< pressure output(workarray)
           real(kind=WP), allocatable,dimension(:)    :: cos_theta                                 !< angle on structural face
@@ -112,15 +112,15 @@
           !-----------------------------------------------------------!
           !            air burst (ground reflecion)                   !
           !-----------------------------------------------------------!
-          real(kind=WP) pra(10,256)   !< mach front pressure
-          real(kind=WP) sri(10,256)   !< scale of reflected impulse
-          real(kind=WP) shtp(10,256)  !< scaled height of triple point
-          real(kind=WP) shtp_abscissa(256)
-          real(kind=WP) angle_pra(10) !< x-bound pra
-          real(kind=WP) angle_sri(10) !< x-bound sri
-          real(kind=WP) shdc(2,10),dshdc    !< x-bounds scaled height distance from charge
-          real(kind=WP) curve_val_2_9(10), curve_val_2_10(10), curve_val_2_13(10) !< data from curve legend
-          real(kind=WP) delta_angle   !< 85 deg - 0deg / (256 points - 1)
+          real(kind=WP) :: pra(10,256)   !< mach front pressure
+          real(kind=WP) :: sri(10,256)   !< scale of reflected impulse
+          real(kind=WP) :: shtp(10,256)  !< scaled height of triple point
+          real(kind=WP) :: shtp_abscissa(256)
+          real(kind=WP) :: angle_pra(10) !< x-bound pra
+          real(kind=WP) :: angle_sri(10) !< x-bound sri
+          real(kind=WP) :: shdc(2,10),dshdc    !< x-bounds scaled height distance from charge
+          real(kind=WP) :: curve_val_2_9(10), curve_val_2_10(10), curve_val_2_13(10) !< data from curve legend
+          real(kind=WP) :: delta_angle   !< 85 deg - 0deg / (256 points - 1)
           !-----------------------------------------------------------!
           !            surface burst (hemispherical+ground)           !
           !-----------------------------------------------------------!
@@ -130,14 +130,14 @@
         ! --- data structure for pblast time step
         ! ------------------------------------------------------------
         type pblast_dt_
-          integer idt
-          real(kind=WP) ta_inf
-          real(kind=WP) dt
+          integer :: idt
+          real(kind=WP) :: ta_inf
+          real(kind=WP) :: dt
         end type pblast_dt_
 
         type pblast_
           ! ------------------------------------------------------------
-          integer nloadp_b
+          integer :: nloadp_b
           type(pblast_struct_),allocatable,dimension(:) :: pblast_tab
           type(pblast_data_) :: pblast_data
           type(pblast_dt_) :: pblast_dt
@@ -177,7 +177,7 @@
           integer :: siz,ierr1,i
           real(kind=WP),dimension(:),allocatable :: rtmp
           real(kind=WP) :: tmp(1)
-          integer iad,kk
+          integer :: iad,kk
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -3820,7 +3820,7 @@
           real(kind=WP),intent(in) :: w13,tdet,angle_g,z_struct,zc
           real(kind=WP),intent(inout) :: zg
           real(kind=WP),intent(in) :: fac_p_bb, fac_i_bb, fac_t_bb
-          character*4,intent(in)::label  !'ebcs' or 'load'
+          character(len=4),intent(in)::label  !'ebcs' or 'load'
           type(friedlander_params_), intent(out) :: output_params
           integer,intent(inout) :: nwarn !< number of segments in the warning message (for which idmodel=2 method did not converge)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -3830,10 +3830,10 @@
           real(kind=WP) :: bound1,bound2,lambda,logres,tol,zeta,res,tmp2,tmp3,kk,funct,diff
           real(kind=WP) :: p_inci,p_refl,i_inci,i_refl,t_a,dt_0,decay_inci,decay_refl
           real(kind=WP) :: cst_255_div_ln_z1_on_zn,log10_,z1_
-          real(kind=WP) tmp(3),alpha_angle,alpha_zc,alpha_zg,htp,ira,ira_refl,pra,pra_refl,shtp
-          real(kind=WP) fac_unit ! convert scaled distance from cm/g^1/3 to ft/lb^1/3
-          logical calculate
-          integer curve_id1,curve_id2,idx1,idx2,idx1_angle,idx2_angle,idx_zg1,idx_zg2,itmp
+          real(kind=WP) :: tmp(3),alpha_angle,alpha_zc,alpha_zg,htp,ira,ira_refl,pra,pra_refl,shtp
+          real(kind=WP) :: fac_unit ! convert scaled distance from cm/g^1/3 to ft/lb^1/3
+          logical :: calculate
+          integer :: curve_id1,curve_id2,idx1,idx2,idx1_angle,idx2_angle,idx_zg1,idx_zg2,itmp
           data cst_255_div_ln_z1_on_zn/-38.147316611455952998/
           data log10_ /2.30258509299405000000/
           data fac_unit/3.966977216838196139019/

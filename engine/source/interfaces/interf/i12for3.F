@@ -70,7 +70,7 @@ C-----------------------------------------------
         ENDDO
       ENDIF
 
-       !Cel sauvegarde de la masse initiale
+       !cell saves the initial mass
         DO II=1,NMN
           J=MSR(II)
           MMASS(II)=MS(J)

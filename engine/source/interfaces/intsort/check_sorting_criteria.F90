@@ -35,6 +35,7 @@
 !||    inter_sort_07                ../engine/source/interfaces/int07/inter_sort_07.F
 !||====================================================================
       module check_sorting_criteria_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures
@@ -103,10 +104,10 @@
           ! -------------------------
           my_bool = .false.
           need_computation = .false.
-          t_start = intbuf_tab%variables( t_start_index ) ! get the start time 
+          t_start = intbuf_tab%variables( t_start_index ) ! get the start time
           t_stop = intbuf_tab%variables( t_stop_index )   ! get the stop time
           distance = intbuf_tab%variables( distance_index ) ! get the distance criteria
-    
+
           t_start_condition = (t_start>time)    ! if true, computation is not needed
           t_stop_condition = (time>t_stop)      ! if true, computation is not needed
           distance_condition = (distance>zero)  ! if true, computation is not needed
@@ -114,13 +115,13 @@
           interface_type = ipari(MACRO_NTY)
           ! -------------
           if(interface_type==7.or.interface_type==10.or.interface_type==11.or.  &
-             interface_type==21.or.interface_type==23.or.interface_type==24) then
+            interface_type==21.or.interface_type==23.or.interface_type==24) then
 
             ! check the 3 conditions : start / stop / distance
             my_bool = t_start_condition.or.t_stop_condition.or.distance_condition
             need_computation = .not.(my_bool)
 
-          elseif(interface_type==20.or.interface_type==22) then
+          else if(interface_type==20.or.interface_type==22) then
 
             ! check only 2 conditions : start / stop
             my_bool = t_start_condition.or.t_stop_condition
@@ -130,22 +131,22 @@
             if(need_computation.and.interface_type==20) then
               need_computation=need_computation.and.(.not.(distance_condition))
               if(distance_condition.and.nspmd>1) then
-                 call i20xsinir( ipari(MACRO_NSNR),ipari(MACRO_NSNER),  &
-                                 task_id,interface_id,intbuf_tab%stfac )
-              endif
-            endif
+                call i20xsinir( ipari(MACRO_NSNR),ipari(MACRO_NSNER),  &
+                  task_id,interface_id,intbuf_tab%stfac )
+              end if
+            end if
             ! ------
 
-          elseif(interface_type==25) then
+          else if(interface_type==25) then
 
             ! check only 2 conditions : stop / distance
             sensor_id = ipari(MACRO_IDSENS)
             if(sensor_id==0) then
               my_bool = t_stop_condition
-            endif
+            end if
             need_computation = .not.(my_bool.or.distance_condition)
 
-          endif
+          end if
           ! -------------
           return
           ! -------------------------

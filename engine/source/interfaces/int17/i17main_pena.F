@@ -30,6 +30,7 @@ C I17MAIN_LAG split in 3 routines for SPMD reorganization
 !||--- uses       -----------------------------------------------------
 !||    groupdef_mod       ../common_source/modules/groupdef_mod.F
 !||    intbufdef_mod      ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    output_mod         ../common_source/modules/output/output_mod.F90
 !||====================================================================
       SUBROUTINE I17MAIN_CRIT_TRI(
      1          IPARI  ,INTBUF_TAB ,X       ,NIN    ,
@@ -41,6 +42,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE INTBUFDEF_MOD    
       USE GROUPDEF_MOD
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C
@@ -54,7 +56,7 @@ C   IPARI   NPARI,NINTER             PARAMETRES D'INTERFACE             E
 C                  
 C     X     3,NUMNOD                 COORDONNEES                        E
 C                  
-C     V     3,NUMNOD                 VITESSES                           E
+C     V     3,NUMNOD                 VELOCITIES                           E
 C                  
 C    EMINX  6*(NME+NMES)           MIN MAX DE CHAQUE ELEMENT        TMP_GLOBAL
 C                  
@@ -111,7 +113,7 @@ C-----------------------------------------------
       IF(TT>STOPT)  RETURN
 C -------------------------------------------------------------
 C=======================================================================
-C      TEST pour savoir s'il faut retrier + initialisation
+C      Test to know whether to retriate + initialization
 C=======================================================================
 C       SIZE_T(NIN)=ZERO init dans inttri
        CALL I17CRIT(
@@ -176,7 +178,7 @@ C   IPARI   NPARI,NINTER             PARAMETRES D'INTERFACE             E
 C                  
 C     X     3,NUMNOD                 COORDONNEES                        E
 C                  
-C     V     3,NUMNOD                 VITESSES                           E
+C     V     3,NUMNOD                 VELOCITIES                           E
 C                  
 C    EMINX  6*NME<6*NUMELS           MIN MAX DE CHAQUE ELEMENT        TMP_GLOBAL
 C                  
@@ -247,12 +249,12 @@ C
 C -------------------------------------------------------------
 C -------------------------------------------------------------
 C-----------------------------------------------
-C     frottement (deplace de i7for3 a ici pour maj avant echange SPMD)
+C     Fat (Deplace de I7for3 A here for Maje before SPMD Exchange)
 C-----------------------------------------------
       CALL I17FROT(
      1  ITASK,INTBUF_TAB%FROTM,INTBUF_TAB%FROTS,NME,NMES)
 C=======================================================================
-C      TEST pour savoir s'il faut retrier + initialisation
+C      Test to know whether to retriate + initialization
 C=======================================================================
       DIST = INTBUF_TAB%VARIABLES(5)
       CALL MY_BARRIER
@@ -262,7 +264,7 @@ C -------------------------------------------------------------
          TZINF  = INTBUF_TAB%VARIABLES(8)
          MINBOX = INTBUF_TAB%VARIABLES(12)
          INTBUF_TAB%VARIABLES(5) = ABS(INTBUF_TAB%VARIABLES(5))
-C BMINMA inverse par rapport aux autres interfaces de contact
+C bminma reversed compared to other contact interfaces
          BMINMA(1)=EP30
          BMINMA(2)=EP30
          BMINMA(3)=EP30
@@ -310,7 +312,7 @@ C BARRIER BMINMA
            NMESR = 0
            IF(NSPMD>1)THEN
 C -------------------------------------------------------------
-C recuperation des noeuds remote NMESR stockes dans XREM
+C retrieval of remote nodes nmesr stored in xrem
 C -------------------------------------------------------------
              CALL SPMD_TRI17BOX(
      1         IGRBRIC(IGN)%ENTITY  ,NMES    ,X    ,V    ,INTBUF_TAB%FROTS ,
@@ -338,11 +340,11 @@ C -------------------------------------------------------------
           IF (IMONM > 0) CALL STARTIME(TIMERS,26)
           INTBUF_TAB%VARIABLES(5) = -INTBUF_TAB%VARIABLES(5)
           RESULT = 0
-C comm SPMD apres tri (compactage)
+C Comm spmd after sorting (compacting)
           CALL SPMD_TRI17GAT(
      1      RESULT ,NMES ,INTBUF_TAB%CAND_N,IPARI(35,NIN),NIN,
      2      NMESR  )
-C sauvegarde des candidats additionnels dans IPARI(24)  pas besoin car pas de inacti
+C saving of additional candidates in ipari(24), not needed as there is no inacti
 c          IPARI(24,NIN) = NMESR
           IF (IMONM > 0) CALL STOPTIME(TIMERS,26)
 !$OMP END SINGLE
@@ -364,8 +366,9 @@ C
 !||    groupdef_mod    ../common_source/modules/groupdef_mod.F
 !||    h3d_mod         ../engine/share/modules/h3d_mod.F
 !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    output_mod      ../common_source/modules/output/output_mod.F90
 !||====================================================================
-      SUBROUTINE I17MAIN_PENA(
+      SUBROUTINE I17MAIN_PENA(output,
      1          NIN    ,IPARI  ,INTBUF_TAB    ,X      ,V      ,
      2          A      ,ITASK  ,IGRBRIC ,EMINX  ,MS     ,
      3          IXS    ,IXS16  ,IXS20   ,STIFN  ,FSKYI  ,ISKY   ,
@@ -376,6 +379,7 @@ C-----------------------------------------------
       USE INTBUFDEF_MOD   
       USE H3D_MOD
       USE GROUPDEF_MOD
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C
@@ -389,7 +393,7 @@ C   IPARI   NPARI,NINTER             PARAMETRES D'INTERFACE             E
 C                  
 C     X     3,NUMNOD                 COORDONNEES                        E
 C                  
-C     V     3,NUMNOD                 VITESSES                           E
+C     V     3,NUMNOD                 VELOCITIES                           E
 C                  
 C    EMINX  6*NME<6*NUMELS           MIN MAX DE CHAQUE ELEMENT        TMP_GLOBAL
 C                  
@@ -408,6 +412,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      type(output_), intent(inout) :: output
       INTEGER NIN,ITASK,NISKYFI   
       INTEGER IPARI(NPARI,NINTER),
      .        IXS(NIXS,*)  ,IXS16(8,*)  ,IXS20(12,*) ,ISKY(*)
@@ -440,7 +445,7 @@ C-----------------------------------------------
       MX_CAND=MULTIMP*IPARI(18,NIN)
       IF(IPARIT/=0)THEN
 C        LSKYI17=MX_CAND
-C LSKYI17 fonction de IMAXIMP : nombre d'impacts max defini dans starter/lecint
+C Lskyi17 Imaximp function: number of Max Defini impacts in Starter/Lecint
         LSKYI17=MAX(MX_CAND,MULTIMP*IPARI(5,NIN)*8)
       ELSE
         LSKYI17=0
@@ -455,7 +460,7 @@ C -------------------------------------------------------------
 C=======================================================================
 C      CONTACT
 C=======================================================================
-       CALL I17FOR3(
+       CALL I17FOR3(output,
      1   X       ,V         ,INTBUF_TAB%CAND_N,INTBUF_TAB%CAND_E,IPARI(35,NIN) ,
      2   IXS     ,IXS16     ,EMINX    ,IGRBRIC(IGN)%ENTITY,IGRBRIC(IGE)%ENTITY,
      3   ITASK   ,A         ,IPARI(30,NIN),NIN          ,EMINX(1,NME+1),
@@ -503,7 +508,7 @@ C-----------------------------------------------
       NSEF = 1 + ITASK*NSE / NTHREAD
       NSEL = (ITASK+1)*NSE / NTHREAD
 C-----------------------------------------------
-C     frottement (ancienne contrainte de frottement)
+C     Friction (old friction constraint)
 C-----------------------------------------------
       DO I=NMEF,NMEL
         AA = ONE/MAX(EM20,FROTM(4,I))

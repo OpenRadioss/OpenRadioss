@@ -95,8 +95,6 @@ C-----------------------------------------------
      . POS1,POS2,POS3,POS4,POS5,POS6,POS7,POS8
       my_real, POINTER, DIMENSION(:) :: 
      . VNL,FNL,UNL,STIFNL,MASS,MASS0,VNL0
-      ! Coefficient for non-local stability to take into account damping
-      my_real, PARAMETER :: CDAMP = 0.7D0
 C=======================================================================
       NULLIFY(MASS)
       NULLIFY(MASS0)
@@ -416,9 +414,9 @@ c
           C8 = VOL(I) * H(8) * VAR_REG(I)      
 c
 c       Fint = Vol * (L*L * BT*B*Unl + NT*N*Unl + Damp*NT*N*Vnl - NT*Vreg  )    
-c       L    = longueur stocke ds la structure 
+c       The = length stores in the structure 
 c       Unl  = cumul nodal def
-c       vnl  = vitesse non locale
+c       vnl  = velocity non locale
 c          
           F1(I) = A1 + B1 - C1
           F2(I) = A2 + B2 - C2

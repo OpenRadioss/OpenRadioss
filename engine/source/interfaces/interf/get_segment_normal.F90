@@ -28,6 +28,7 @@
 !||    get_segment_orientation                  ../engine/source/interfaces/interf/get_segment_orientation.F90
 !||====================================================================
       module get_segment_normal_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures
@@ -66,7 +67,7 @@
           integer, dimension(4),intent(inout) :: segment_node_id
           real(kind=WP), dimension(3), intent(inout) :: segment_position !< coordinates of the segment barycentre
           real(kind=WP), dimension(3), intent(inout) :: normal !< normal of the segment
-          type(intbuf_struct_), intent(in) :: intbuf_tab    !< interface data 
+          type(intbuf_struct_), intent(in) :: intbuf_tab    !< interface data
           real(kind=WP), dimension(3,numnod), intent(in) :: x !< nodal position
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
@@ -92,8 +93,8 @@
           ! -------------------------
           ! loop over the new active segment/surface
           ! normal to the segment
-          segment_position(1) = zero 
-          segment_position(2) = zero 
+          segment_position(1) = zero
+          segment_position(2) = zero
           segment_position(3) = zero
           node_number = 4
           node_id_3 = intbuf_tab%irectm(4*(segment_id-1)+3)
@@ -102,7 +103,7 @@
           if(node_id_3==node_id_4) then
             node_number = 3
             ratio = third
-          endif
+          end if
           do i=1,node_number
             node_id = intbuf_tab%irectm(4*(segment_id-1)+i) ! get the node id
             segment_node_id(i) = node_id
@@ -111,15 +112,15 @@
             xx3(i) = x(3,node_id)
             segment_position(1) = segment_position(1)+ratio*x(1,node_id)
             segment_position(2) = segment_position(2)+ratio*x(2,node_id)
-            segment_position(3) = segment_position(3)+ratio*x(3,node_id)   
-          enddo    
+            segment_position(3) = segment_position(3)+ratio*x(3,node_id)
+          end do
           if(node_id_3==node_id_4) then
             node_id = intbuf_tab%irectm(4*(segment_id-1)+4) ! get the node id
             segment_node_id(4) = node_id
             xx1(4) = x(1,node_id)
             xx2(4) = x(2,node_id)
             xx3(4) = x(3,node_id)
-          endif
+          end if
 
           xx13 =xx1(3)-xx1(1)
           yy13 =xx2(3)-xx2(1)

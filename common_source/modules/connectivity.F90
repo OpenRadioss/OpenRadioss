@@ -38,15 +38,17 @@
 !||    spmd_exchange_ghost_shells    ../engine/source/engine/node_spliting/ghost_shells.F90
 !||    test_jc_shell_detach          ../engine/source/engine/node_spliting/detach_node.F90
 !||    update_pon_shells             ../engine/source/engine/node_spliting/update_pon.F90
+!||    viper_coupling_initialize     ../engine/source/coupling/viper/viper_interface_mod.F90
 !||    wrrestp                       ../engine/source/output/restart/wrrestp.F
 !||--- uses       -----------------------------------------------------
 !||    parith_on_mod                 ../common_source/modules/parith_on_mod.F90
 !||    precision_mod                 ../common_source/modules/precision_mod.F90
 !||====================================================================
       module connectivity_mod
-        use iso_c_binding
+        use, intrinsic :: iso_c_binding
         USE parith_on_mod
         use precision_mod, only: wp
+        implicit none
 !       INTEGER, PARAMETER :: NIXS = 11
 !       INTEGER, PARAMETER :: NIXC = 7
 !       INTEGER, PARAMETER :: NIXQ = 7
@@ -169,7 +171,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-          type(shell_) :: shell!< nodal arrays
+          type(shell_), intent(inout) :: shell!< nodal arrays
           integer, intent(in) :: global_id !< global id
           integer :: local_id !< local id or 0
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -179,4 +181,4 @@
         end function get_local_shell_id
 
 
-      end module
+      end module connectivity_mod

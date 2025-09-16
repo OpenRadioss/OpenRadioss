@@ -21,73 +21,72 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    ebcs_mod                   ../common_source/modules/boundary_conditions/ebcs_mod.F90
+!||    ebcs_mod                    ../common_source/modules/boundary_conditions/ebcs_mod.F90
 !||--- called by ------------------------------------------------------
-!||    alemain                    ../engine/source/ale/alemain.F
-!||    c_iebcs                    ../starter/source/restart/ddsplit/c_iebcs.F
-!||    ddsplit                    ../starter/source/restart/ddsplit/ddsplit.F
-!||    domdec2                    ../starter/source/spmd/domdec2.F
-!||    ebcclap                    ../engine/source/boundary_conditions/ebcs/ebcclap.F
-!||    ebcs0                      ../engine/source/boundary_conditions/ebcs/ebcs0.F
-!||    ebcs1                      ../engine/source/boundary_conditions/ebcs/ebcs1.F
-!||    ebcs10                     ../engine/source/boundary_conditions/ebcs/ebcs10.F
-!||    ebcs11                     ../engine/source/boundary_conditions/ebcs/ebcs11.F90
-!||    ebcs4                      ../engine/source/boundary_conditions/ebcs/ebcs4.F
-!||    ebcs5                      ../engine/source/boundary_conditions/ebcs/ebcs5.F
-!||    ebcs6                      ../engine/source/boundary_conditions/ebcs/ebcs6.F
-!||    ebcs7                      ../engine/source/boundary_conditions/ebcs/ebcs7.F
-!||    ebcs_extrapol              ../engine/source/boundary_conditions/ebcs/ebcs_extrapol.F
-!||    ebcs_main                  ../engine/source/boundary_conditions/ebcs/ebcs_main.F
-!||    ebcs_set_tcarp             ../starter/source/boundary_conditions/ebcs/iniebcs_nrf_tcar.F
-!||    ebcvit4                    ../engine/source/boundary_conditions/ebcs/ebcvit4.F
-!||    ebcvit5                    ../engine/source/boundary_conditions/ebcs/ebcvit5.F
-!||    ebcvit7                    ../engine/source/boundary_conditions/ebcs/ebcvit7.F
-!||    fillcne                    ../starter/source/spmd/domdec2.F
-!||    hist2                      ../engine/source/output/th/hist2.F
-!||    hm_read_ebcs_fluxout       ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_fluxout.F
-!||    hm_read_ebcs_gradp0        ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_gradp0.F
-!||    hm_read_ebcs_inip          ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_inip.F
-!||    hm_read_ebcs_iniv          ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_iniv.F
-!||    hm_read_ebcs_inlet         ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_inlet.F
-!||    hm_read_ebcs_monvol        ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_monvol.F
-!||    hm_read_ebcs_normv         ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_normv.F
-!||    hm_read_ebcs_nrf           ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_nrf.F
-!||    hm_read_ebcs_pres          ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_pres.F
-!||    hm_read_ebcs_propergol     ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_propergol.F90
-!||    hm_read_ebcs_valvin        ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_valvin.F
-!||    hm_read_ebcs_valvout       ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_valvout.F
-!||    hm_read_ebcs_vel           ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_vel.F
-!||    iniebcs                    ../starter/source/boundary_conditions/ebcs/iniebcs.F
-!||    iniebcs_nrf_tcar           ../starter/source/boundary_conditions/ebcs/iniebcs_nrf_tcar.F
-!||    iniebcs_propergol          ../starter/source/boundary_conditions/ebcs/iniebcs_propergol.F90
-!||    iniebcs_propergol_get_cv   ../starter/source/boundary_conditions/ebcs/iniebcs_propergol.F90
-!||    iniebcsp0                  ../starter/source/boundary_conditions/ebcs/iniebcsp0.F
-!||    inigrav_load               ../starter/source/initial_conditions/inigrav/inigrav_load.F
-!||    inigrav_part_list          ../starter/source/initial_conditions/inigrav/inigrav_part_list.F
-!||    initia                     ../starter/source/elements/initia/initia.F
-!||    lectur                     ../engine/source/input/lectur.F
-!||    multi_ebcs                 ../engine/source/multifluid/multi_ebcs.F
-!||    multi_nrf_ebcs             ../engine/source/multifluid/multi_nrf_ebcs.F
-!||    multi_propergol_ebcs       ../engine/source/multifluid/multi_propergol_ebcs.F90
-!||    multi_timeevolution        ../engine/source/multifluid/multi_timeevolution.F
-!||    ns_fvm_diffusion           ../engine/source/multifluid/ns_fvm_diffusion.F
-!||    radioss2                   ../engine/source/engine/radioss2.F
-!||    rdresb                     ../engine/source/output/restart/rdresb.F
-!||    read_ebcs                  ../starter/source/boundary_conditions/ebcs/read_ebcs.F
-!||    resol                      ../engine/source/engine/resol.F
-!||    resol_head                 ../engine/source/engine/resol_head.F
-!||    sortie_main                ../engine/source/output/sortie_main.F
-!||    split_ebcs                 ../starter/source/boundary_conditions/ebcs/split_ebcs.F
-!||    spmd_init_ebcs             ../engine/source/mpi/fluid/spmd_cfd.F
-!||    st_qaprint_driver          ../starter/source/output/qaprint/st_qaprint_driver.F
-!||    st_qaprint_ebcs            ../starter/source/output/qaprint/st_qaprint_ebcs.F
-!||    starter0                   ../starter/source/starter/starter0.F
-!||    w_pon                      ../starter/source/restart/ddsplit/w_pon.F
-!||    wrrestp                    ../engine/source/output/restart/wrrestp.F
+!||    alemain                     ../engine/source/ale/alemain.F
+!||    c_iebcs                     ../starter/source/restart/ddsplit/c_iebcs.F
+!||    ddsplit                     ../starter/source/restart/ddsplit/ddsplit.F
+!||    domdec2                     ../starter/source/spmd/domdec2.F
+!||    ebcclap                     ../engine/source/boundary_conditions/ebcs/ebcclap.F
+!||    ebcs0                       ../engine/source/boundary_conditions/ebcs/ebcs0.F
+!||    ebcs1                       ../engine/source/boundary_conditions/ebcs/ebcs1.F
+!||    ebcs10                      ../engine/source/boundary_conditions/ebcs/ebcs10.F
+!||    ebcs11                      ../engine/source/boundary_conditions/ebcs/ebcs11.F90
+!||    ebcs4                       ../engine/source/boundary_conditions/ebcs/ebcs4.F
+!||    ebcs5                       ../engine/source/boundary_conditions/ebcs/ebcs5.F
+!||    ebcs6                       ../engine/source/boundary_conditions/ebcs/ebcs6.F
+!||    ebcs7                       ../engine/source/boundary_conditions/ebcs/ebcs7.F
+!||    ebcs_extrapol               ../engine/source/boundary_conditions/ebcs/ebcs_extrapol.F
+!||    ebcs_main                   ../engine/source/boundary_conditions/ebcs/ebcs_main.F
+!||    ebcs_set_tcarp              ../starter/source/boundary_conditions/ebcs/iniebcs_nrf_tcar.F
+!||    ebcvit4                     ../engine/source/boundary_conditions/ebcs/ebcvit4.F
+!||    ebcvit5                     ../engine/source/boundary_conditions/ebcs/ebcvit5.F
+!||    ebcvit7                     ../engine/source/boundary_conditions/ebcs/ebcvit7.F
+!||    fillcne                     ../starter/source/spmd/domdec2.F
+!||    hist2                       ../engine/source/output/th/hist2.F
+!||    hm_read_ebcs_fluxout        ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_fluxout.F
+!||    hm_read_ebcs_gradp0         ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_gradp0.F
+!||    hm_read_ebcs_inip           ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_inip.F
+!||    hm_read_ebcs_iniv           ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_iniv.F
+!||    hm_read_ebcs_inlet          ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_inlet.F
+!||    hm_read_ebcs_monvol         ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_monvol.F
+!||    hm_read_ebcs_normv          ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_normv.F
+!||    hm_read_ebcs_nrf            ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_nrf.F
+!||    hm_read_ebcs_pres           ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_pres.F
+!||    hm_read_ebcs_propellant     ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_propellant.F90
+!||    hm_read_ebcs_valvin         ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_valvin.F
+!||    hm_read_ebcs_valvout        ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_valvout.F
+!||    hm_read_ebcs_vel            ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_vel.F
+!||    iniebcs                     ../starter/source/boundary_conditions/ebcs/iniebcs.F
+!||    iniebcs_nrf_tcar            ../starter/source/boundary_conditions/ebcs/iniebcs_nrf_tcar.F
+!||    iniebcs_propellant          ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
+!||    iniebcs_propellant_get_cp   ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
+!||    iniebcsp0                   ../starter/source/boundary_conditions/ebcs/iniebcsp0.F
+!||    inigrav_load                ../starter/source/initial_conditions/inigrav/inigrav_load.F
+!||    inigrav_part_list           ../starter/source/initial_conditions/inigrav/inigrav_part_list.F
+!||    initia                      ../starter/source/elements/initia/initia.F
+!||    lectur                      ../engine/source/input/lectur.F
+!||    multi_ebcs                  ../engine/source/multifluid/multi_ebcs.F
+!||    multi_nrf_ebcs              ../engine/source/multifluid/multi_nrf_ebcs.F
+!||    multi_timeevolution         ../engine/source/multifluid/multi_timeevolution.F
+!||    ns_fvm_diffusion            ../engine/source/multifluid/ns_fvm_diffusion.F
+!||    radioss2                    ../engine/source/engine/radioss2.F
+!||    rdresb                      ../engine/source/output/restart/rdresb.F
+!||    read_ebcs                   ../starter/source/boundary_conditions/ebcs/read_ebcs.F
+!||    resol                       ../engine/source/engine/resol.F
+!||    resol_head                  ../engine/source/engine/resol_head.F
+!||    sortie_main                 ../engine/source/output/sortie_main.F
+!||    split_ebcs                  ../starter/source/boundary_conditions/ebcs/split_ebcs.F
+!||    spmd_init_ebcs              ../engine/source/mpi/fluid/spmd_cfd.F
+!||    st_qaprint_driver           ../starter/source/output/qaprint/st_qaprint_driver.F
+!||    st_qaprint_ebcs             ../starter/source/output/qaprint/st_qaprint_ebcs.F
+!||    starter0                    ../starter/source/starter/starter0.F
+!||    w_pon                       ../starter/source/restart/ddsplit/w_pon.F
+!||    wrrestp                     ../engine/source/output/restart/wrrestp.F
 !||--- uses       -----------------------------------------------------
-!||    multi_fvm_mod              ../common_source/modules/ale/multi_fvm_mod.F90
-!||    names_and_titles_mod       ../common_source/modules/names_and_titles_mod.F
-!||    precision_mod              ../common_source/modules/precision_mod.F90
+!||    multi_fvm_mod               ../common_source/modules/ale/multi_fvm_mod.F90
+!||    names_and_titles_mod        ../common_source/modules/names_and_titles_mod.F
+!||    precision_mod               ../common_source/modules/precision_mod.F90
 !||====================================================================
       MODULE EBCS_MOD
         USE MULTI_FVM_MOD
@@ -111,7 +110,7 @@
 !     Generic ebcs type
 !     -----------------
         type, public :: t_ebcs
-          character(len=nchartitle) :: title =''              !<     user title
+          character(len=nchartitle) :: title =""              !<     user title
           integer :: type = -1
           integer :: ebcs_id = -1
           integer :: surf_id = -1
@@ -306,18 +305,18 @@
           procedure, pass :: read_data => read_data_nrf
         end type t_ebcs_nrf
 
-!     type = 11 /EBCS/PROPERGOL
+!     type = 11 /EBCS/PROPELLANT
 !     ----------------------
-        type, public, extends(t_ebcs) :: t_ebcs_propergol
-          integer :: sensor_id=0, submat_id=1
-          real(kind=WP) :: a = 0., n = 0., q = 0., rho0s=0.
+        type, public, extends(t_ebcs) :: t_ebcs_propellant
+          integer :: sensor_id=0, submat_id=1, ienthalpy=1
+          real(kind=WP) :: a = 0., n = 0., q = 0., rho0s=0., gamma=1., T=300.
           integer :: ffunc_id=0, gfunc_id=0, hfunc_id=0
           real(kind=WP) :: fscaleX=1.0, fscaleY=1.0, gscaleX=1.0, gscaleY=0., hscaleX=1.0, hscaleY=1.0
           type(fvm_inlet_data_struct) :: fvm_inlet_data
         contains
-          procedure, pass :: write_data => write_data_propergol
-          procedure, pass :: read_data => read_data_propergol
-        end type t_ebcs_propergol
+          procedure, pass :: write_data => write_data_propellant
+          procedure, pass :: read_data => read_data_propellant
+        end type t_ebcs_propellant
 
 !     ----------------------
 !     Polymorphic variable (points to a specific ebcs type)
@@ -334,7 +333,7 @@
           integer, dimension(:), allocatable :: my_typ
           logical, dimension(:), allocatable :: need_to_compute
           logical :: is_created = .false.
-          integer :: nebcs_loc = 0, nebcs_fvm = 0, nebcs_parallel = 0, nebcs_propergol = 0
+          integer :: nebcs_loc = 0, nebcs_fvm = 0, nebcs_parallel = 0, nebcs_propellant = 0
         contains
           procedure, pass :: create, destroy, write_type_data, create_from_types
           procedure, nopass :: read_type_data
@@ -388,7 +387,7 @@
             this%nebcs = nebcs
             allocate(this%tab(nebcs))
             this%is_created = .true.
-          endif
+          end if
         end subroutine create
 
 !     Creation from given type numbers
@@ -446,14 +445,14 @@
                case (10) ! /EBCS/NRF
                 allocate (t_ebcs_nrf :: this%tab(ii)%poly)
                 this%tab(ii)%poly%type = 10
-               case (11) ! /EBCS/PROPERGOL
-                allocate (t_ebcs_propergol :: this%tab(ii)%poly)
+               case (11) ! /EBCS/PROPELLANT
+                allocate (t_ebcs_propellant :: this%tab(ii)%poly)
                 this%tab(ii)%poly%type = 11
                case default
                 print*, "EBCS type ", type, " unrecognized"
               end select
-            enddo
-          endif
+            end do
+          end if
         end subroutine create_from_types
 !     Deallocation
 !     ----------
@@ -471,7 +470,7 @@
 !        enddo
 ! All allocatable subobjects are deallocated here:
             deallocate(this%tab)
-          endif
+          end if
         end subroutine destroy
 
 !     Read and write methods
@@ -490,7 +489,7 @@
 
           do ii = 1, this%nebcs
             integer_data(ii) = this%tab(ii)%poly%type
-          enddo
+          end do
           call write_i_array_c(integer_data, this%nebcs)
           leni = leni + this%nebcs
           lenr = lenr + 0
@@ -531,15 +530,15 @@
           do ii = 1, nelem
             do jj = 1, 4
               tag_node(surf_node(ii, jj)) = 1
-            enddo
-          enddo
+            end do
+          end do
 !     keep track of nodes
           nnode = 0
           do ii = 1, numnod
             if (tag_node(ii) == 1) then
               nnode = nnode + 1
-            endif
-          enddo
+            end if
+          end do
 
           this%nb_node = nnode
           if(allocated(this%node_list)) deallocate(this%node_list)
@@ -551,8 +550,8 @@
               nnode = nnode + 1
               this%node_list(nnode) = ii
               tag_node(ii) = nnode
-            endif
-          enddo
+            end if
+          end do
 
 !     keep track of elems
           this%nb_elem = nelem
@@ -561,8 +560,8 @@
           do ii = 1, nelem
             do jj = 1, 4
               this%elem_list(jj, ii) = tag_node(surf_node(ii, jj))
-            enddo
-          enddo
+            end do
+          end do
 !     Allocate members
           if(.not.allocated(this%ielem)) allocate(this%ielem(nelem))
 
@@ -590,7 +589,7 @@
           leni = leni + 0
           lenr = lenr + 0
           this%type=-1
-          print*,'Should not ebter in this code'
+          print*,"Should not ebter in this code"
         end subroutine write_data
 
 !||====================================================================
@@ -600,7 +599,7 @@
           implicit none
           class (t_ebcs), intent(inout) :: this
           this%type=-1
-          print*,'Should not ebter in this code'
+          print*,"Should not ebter in this code"
         end subroutine read_data
 
 !     Common write routine
@@ -672,7 +671,7 @@
           else
             call write_i_c(0, 1)
             leni = leni + 1
-          endif
+          end if
 
 !     write la
           if (this%has_la) then
@@ -684,31 +683,31 @@
           else
             call write_i_c(0, 1)
             leni = leni + 1
-          endif
+          end if
 
 !     write p0
           if (this%has_p0) then
             call write_i_c(1, 1)
             leni = leni + 1
-            if (this%debug_print) print*, 'p0 = ', this%p0
+            if (this%debug_print) print*, "p0 = ", this%p0
             call write_db(this%p0, this%nb_node)
             leni = leni + this%nb_node
           else
             call write_i_c(0, 1)
             leni = leni + 1
-          endif
+          end if
 
 !     write dp0
           if (this%has_dp0) then
             call write_i_c(1, 1)
             leni = leni + 1
-            if (this%debug_print) print*, 'dp0 = ', this%dp0
+            if (this%debug_print) print*, "dp0 = ", this%dp0
             call write_db(this%dp0, this%nb_elem)
             leni = leni + this%nb_node
           else
             call write_i_c(0, 1)
             leni = leni + 1
-          endif
+          end if
 
 !     write ro0
           if (this%has_ro0) then
@@ -720,7 +719,7 @@
           else
             call write_i_c(0, 1)
             leni = leni + 1
-          endif
+          end if
 
 !     write en0
           if (this%has_en0) then
@@ -732,7 +731,7 @@
           else
             call write_i_c(0, 1)
             leni = leni + 1
-          endif
+          end if
 
 !     write pold
           if (this%has_pold) then
@@ -740,7 +739,7 @@
               siz=this%nb_elem
             else
               siz = this%nb_node
-            endif
+            end if
             call write_i_c(1, 1)
             leni = leni + 1
             if (this%debug_print) print*, "pold ", this%pold
@@ -749,7 +748,7 @@
           else
             call write_i_c(0, 1)
             leni = leni + 1
-          endif
+          end if
 
 !     write +
           if (this%has_vold) then
@@ -757,7 +756,7 @@
               siz=this%nb_elem
             else
               siz = this%nb_node
-            endif
+            end if
             call write_i_c(1, 1)
             leni = leni + 1
             if (this%debug_print) print*, "vold ", this%vold
@@ -766,7 +765,7 @@
           else
             call write_i_c(0, 1)
             leni = leni + 1
-          endif
+          end if
 
 !     write v0
           if (this%has_v0) then
@@ -778,7 +777,7 @@
           else
             call write_i_c(0, 1)
             leni = leni + 1
-          endif
+          end if
 
 !     write reso
           if (this%has_reso) then
@@ -790,7 +789,7 @@
           else
             call write_i_c(0, 1)
             leni = leni + 1
-          endif
+          end if
 
         end subroutine write_common_data
 
@@ -859,7 +858,7 @@
             if (this%debug_print) print*, "iface ", this%iface
           else
             this%has_iface = .false.
-          endif
+          end if
 
 !     read la
           call read_i_c(ihas_la, 1)
@@ -870,7 +869,7 @@
             if (this%debug_print) print*, "la ", this%la
           else
             this%has_la = .false.
-          endif
+          end if
 
 !     read p0
           call read_i_c(ihas_p0, 1)
@@ -878,10 +877,10 @@
             this%has_p0 = .true.
             allocate(this%p0(this%nb_node))
             call read_db_array(this%p0, this%nb_node)
-            if (this%debug_print) print*, 'p0 = ', this%p0
+            if (this%debug_print) print*, "p0 = ", this%p0
           else
             this%has_p0 = .false.
-          endif
+          end if
 
 !     read dp0
           call read_i_c(ihas_dp0, 1)
@@ -889,10 +888,10 @@
             this%has_dp0 = .true.
             allocate(this%dp0(this%nb_elem))
             call read_db_array(this%dp0, this%nb_elem)
-            if (this%debug_print) print*, 'dp0 = ', this%dp0
+            if (this%debug_print) print*, "dp0 = ", this%dp0
           else
             this%has_dp0 = .false.
-          endif
+          end if
 
 !     read ro0
           call read_i_c(ihas_ro0, 1)
@@ -903,7 +902,7 @@
             if (this%debug_print) print*, "ro0 ", this%ro0
           else
             this%has_ro0 = .false.
-          endif
+          end if
 
 !     read en0
           call read_i_c(ihas_en0, 1)
@@ -914,7 +913,7 @@
             if (this%debug_print) print*, "en0 ", this%en0
           else
             this%has_en0 = .false.
-          endif
+          end if
 
 !     read pold
           call read_i_c(ihas_pold, 1)
@@ -924,13 +923,13 @@
               siz=this%nb_elem
             else
               siz = this%nb_node
-            endif
+            end if
             allocate(this%pold(siz))
             call read_db_array(this%pold, siz)
             if (this%debug_print) print*, "pold ", this%pold
           else
             this%has_pold = .false.
-          endif
+          end if
 
 !     read vold
           call read_i_c(ihas_vold, 1)
@@ -940,13 +939,13 @@
               siz=this%nb_elem
             else
               siz = this%nb_node
-            endif
+            end if
             allocate(this%vold(siz))
             call read_db_array(this%vold, siz)
             if (this%debug_print) print*, "vold ", this%vold
           else
             this%has_vold = .false.
-          endif
+          end if
 
 !     read v0
           call read_i_c(ihas_v0, 1)
@@ -957,7 +956,7 @@
             if (this%debug_print) print*, "v0 ", this%v0
           else
             this%has_v0 = .false.
-          endif
+          end if
 
 !     read reso
           call read_i_c(ihas_reso, 1)
@@ -968,7 +967,7 @@
             if (this%debug_print) print*, "reso ", this%reso
           else
             this%has_reso = .false.
-          endif
+          end if
         end subroutine read_common_data
 
 !     /EBCS/PRES
@@ -1642,7 +1641,7 @@
             lenr = lenr + 21
             call write_db_array(this%fvm_inlet_data%val_pres, 21)
             lenr = lenr + 21
-          endif
+          end if
         end subroutine write_data_nrf
 
 !||====================================================================
@@ -1674,47 +1673,50 @@
             call read_db_array(this%fvm_inlet_data%val_alpha, 21)
             call read_db_array(this%fvm_inlet_data%val_rho, 21)
             call read_db_array(this%fvm_inlet_data%val_pres, 21)
-          endif
+          end if
         end subroutine read_data_nrf
 
-!     /EBCS/PROPERGOL
+!     /EBCS/PROPELLANT
 !     -------------
 
 !||====================================================================
-!||    write_data_propergol   ../common_source/modules/boundary_conditions/ebcs_mod.F90
+!||    write_data_propellant   ../common_source/modules/boundary_conditions/ebcs_mod.F90
 !||--- calls      -----------------------------------------------------
-!||    write_db_array         ../common_source/tools/input_output/write_db.F
-!||    write_i_c              ../common_source/tools/input_output/write_routtines.c
+!||    write_db_array          ../common_source/tools/input_output/write_db.F
+!||    write_i_c               ../common_source/tools/input_output/write_routtines.c
 !||====================================================================
-        subroutine write_data_propergol(this, leni, lenr)
+        subroutine write_data_propellant(this, leni, lenr)
           implicit none
-          class (t_ebcs_propergol), intent(inout) :: this
+          class (t_ebcs_propellant), intent(inout) :: this
           integer, intent(inout) :: leni, lenr
-          integer, dimension(5) :: integer_data
-          real(kind=WP), dimension(10) :: real_data
+          integer, dimension(6) :: integer_data
+          real(kind=WP), dimension(12) :: real_data
 
           integer_data(1) = this%sensor_id
           integer_data(2) = this%ffunc_id
           integer_data(3) = this%gfunc_id
           integer_data(4) = this%hfunc_id
           integer_data(5) = this%submat_id
+          integer_data(6) = this%ienthalpy
 
           real_data(1)  = this%a
           real_data(2)  = this%n
           real_data(3)  = this%q
-          real_data(4)  = this%rho0s
-          real_data(5)  = this%fscaleX
-          real_data(6)  = this%fscaleY
-          real_data(7)  = this%gscaleX
-          real_data(8)  = this%gscaleY
-          real_data(9)  = this%hscaleX
-          real_data(10) = this%hscaleY
+          real_data(4)  = this%gamma
+          real_data(5)  = this%T
+          real_data(6)  = this%rho0s
+          real_data(7)  = this%fscaleX
+          real_data(8)  = this%fscaleY
+          real_data(9)  = this%gscaleX
+          real_data(10) = this%gscaleY
+          real_data(11) = this%hscaleX
+          real_data(12) = this%hscaleY
 
-          call write_i_array_c(integer_data, 5)
-          leni = leni + 5
+          call write_i_array_c(integer_data, 6)
+          leni = leni + 6
 
-          call write_db_array(real_data, 10)
-          lenr = lenr + 10
+          call write_db_array(real_data, 12)
+          lenr = lenr + 12
           if(this%is_multifluid)then
             call write_i_c(this%fvm_inlet_data%vector_velocity, 1)
             leni = leni + 1
@@ -1737,29 +1739,32 @@
             lenr = lenr + 21
             call write_db_array(this%fvm_inlet_data%val_pres, 21)
             lenr = lenr + 21
-          endif
-        end subroutine write_data_propergol
+          end if
+        end subroutine write_data_propellant
 
 !||====================================================================
-!||    read_data_propergol   ../common_source/modules/boundary_conditions/ebcs_mod.F90
+!||    read_data_propellant   ../common_source/modules/boundary_conditions/ebcs_mod.F90
 !||--- calls      -----------------------------------------------------
-!||    read_db               ../common_source/tools/input_output/read_db.F
-!||    read_db_array         ../common_source/tools/input_output/read_db.F
-!||    read_i_c              ../common_source/tools/input_output/write_routtines.c
+!||    read_db                ../common_source/tools/input_output/read_db.F
+!||    read_db_array          ../common_source/tools/input_output/read_db.F
+!||    read_i_c               ../common_source/tools/input_output/write_routtines.c
 !||====================================================================
-        subroutine read_data_propergol(this)
+        subroutine read_data_propellant(this)
           implicit none
-          class (t_ebcs_propergol), intent(inout) :: this
+          class (t_ebcs_propellant), intent(inout) :: this
 
           call read_i_c(this%sensor_id, 1)
           call read_i_c(this%ffunc_id, 1)
           call read_i_c(this%gfunc_id, 1)
           call read_i_c(this%hfunc_id, 1)
           call read_i_c(this%submat_id, 1)
+          call read_i_c(this%ienthalpy, 1)
 
           call read_db(this%a, 1)
           call read_db(this%n, 1)
           call read_db(this%q, 1)
+          call read_db(this%gamma, 1)
+          call read_db(this%T, 1)
           call read_db(this%rho0s, 1)
           call read_db(this%fscaleX, 1)
           call read_db(this%fscaleY, 1)
@@ -1780,8 +1785,8 @@
             call read_db_array(this%fvm_inlet_data%val_alpha, 21)
             call read_db_array(this%fvm_inlet_data%val_rho, 21)
             call read_db_array(this%fvm_inlet_data%val_pres, 21)
-          endif
-        end subroutine read_data_propergol
+          end if
+        end subroutine read_data_propellant
 
 
       end module ebcs_mod

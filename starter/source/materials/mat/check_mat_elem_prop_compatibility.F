@@ -60,7 +60,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: NG,IGTYP,PID,PROP_ID,NLAY,IL,IMAT,ILAW,IEOS,MAT_ID,K,ITY,ISNOD,NFT,IVISC,MLW
+      INTEGER :: NG,IGTYP,PID,PROP_ID,NLAY,IL,IMAT,ILAW,IEOS,MAT_ID,ITY,ISNOD,NFT,IVISC,MLW
       LOGICAL :: COMPAT_ELEM,COMPAT_PROP,COMPAT_EOS,COMPAT_VISC
       CHARACTER (LEN = 10) :: ELTYP
       PID = -HUGE(PID)
@@ -73,7 +73,7 @@ c
       DO NG = 1,NGROUP
 c
         ! Group parameters
-        ITY   = IPARG(5,NG)         ! -> Element type 
+        ITY   = IPARG(5,NG)         ! -> Type element 
         IGTYP = ELBUF_STR(NG)%IGTYP ! -> Property type 
         NLAY  = ELBUF_STR(NG)%NLAY  ! -> Number of layers
         MLW   = IPARG(1,NG)         ! -> Material law type

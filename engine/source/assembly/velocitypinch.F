@@ -21,44 +21,48 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    m6in     ../starter/source/materials/mat/mat006/m6in.F
+!||    velocitypinch   ../engine/source/assembly/velocitypinch.F
 !||--- called by ------------------------------------------------------
-!||    matini   ../starter/source/materials/mat_share/matini.F
+!||    resol           ../engine/source/engine/resol.F
+!||--- uses       -----------------------------------------------------
+!||    pinchtype_mod   ../common_source/modules/pinchtype_mod.F
 !||====================================================================
-      SUBROUTINE M6IN(PM,MAT,SIG,RHO,NEL)
+      SUBROUTINE VELOCITYPINCH(
+     1                        APINCH  ,  VPINCH,
+     2                        NODFT   ,  NODLT )
 C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE PINCHTYPE_MOD
+C----6------------------------------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "param_c.inc"
-#include      "vect01_c.inc"
+#include      "com08_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER MAT(*),NEL
+      INTEGER NODFT, NODLT
       my_real
-     .   PM(NPROPM,*),RHO(*),SIG(NEL,6)
+     .   APINCH(3,NPINCH),VPINCH(3,NPINCH)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,MA
-      my_real
-     .   C0,C1,C4,C5,E0,P,AMU
-C=======================================================================
-      DO I=LFT,LLT
-        MA=MAT(I)
-        C0=PM(31,MA)
-        C1=PM(32,MA)
-        C4=PM(35,MA)
-        C5=PM(36,MA)
-        E0=PM(23,MA)
-        P=-(SIG(I,1)+SIG(I,2)+SIG(I,3))*THIRD
-        AMU=(P-C0-C4*E0)/(C1+C5*E0)
-        RHO(I)=RHO(I)*(ONE + AMU)
+      INTEGER  N
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------    
+#include      "vectorize.inc"
+      DO N=NODFT,NODLT
+        VPINCH(1,N)=VPINCH(1,N)+DT12*APINCH(1,N)
+        VPINCH(2,N)=VPINCH(2,N)+DT12*APINCH(2,N)
+        VPINCH(3,N)=VPINCH(3,N)+DT12*APINCH(3,N)
+        APINCH(1,N)=ZERO
+        APINCH(2,N)=ZERO
+        APINCH(3,N)=ZERO     
       ENDDO
-C-----------
       RETURN
       END

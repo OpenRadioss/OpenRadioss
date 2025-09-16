@@ -26,6 +26,7 @@
 !||    rbyfor                 ../engine/source/constraints/general/rbody/rbyfor.F
 !||====================================================================
       module damping_vref_rby_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
@@ -134,7 +135,7 @@
 !
 !             computation of damping parameters - function of time
               call damping_vref_compute_dampa(id,ndamp,nrdamp,dampr,dt1,tt,damp_a)
-!              
+!
               damp_a2(1)  = dampr(22,id)
               damp_a2(2)  = dampr(23,id)
               damp_a2(3)  = dampr(24,id)
@@ -146,9 +147,9 @@
                 numskw,skew,damp_a,dim,damp,            &
                 dw,damp_a2,iparit,size_rby6_c)
 !
-            endif
+            end if
 !
-          enddo
+          end do
 !
           wfext = wfext + dw
 !

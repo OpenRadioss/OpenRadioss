@@ -38,6 +38,8 @@
 !! \brief  module to define type for buffers use in SPHPREP and SPHINT
 !! \details
 
+      implicit none
+
         type sph_work_voxel_
           integer, dimension(:,:,:), allocatable :: nnod         ! sphprep
           real(kind=WP), dimension(:,:,:), allocatable :: dxmin        ! sphprep
@@ -123,7 +125,7 @@
             call my_alloc(sph_work%a6,6,3,size_a6)
             call my_alloc(sph_work%as,3,8*size_as)
             call my_alloc(sph_work%as6,6,3,8*size_as6)
-          endif
+          end if
           if (numsph > 0) then
             sph_work%voxel_nb = 15
             nbk = sph_work%voxel_nb
@@ -134,7 +136,7 @@
             call my_alloc(sph_work%voxel%dxmax,nbk,nbk,nbk)
             call my_alloc(sph_work%voxel%dymax,nbk,nbk,nbk)
             call my_alloc(sph_work%voxel%dzmax,nbk,nbk,nbk)
-          endif
+          end if
 
         end subroutine allocate_sph_work
 

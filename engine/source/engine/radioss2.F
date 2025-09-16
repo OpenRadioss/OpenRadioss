@@ -54,6 +54,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    my_getpid                    ../engine/source/system/pid.c
 !||    names_and_title_init         ../common_source/modules/names_and_titles_mod.F
 !||    omp_get_thread_num           ../engine/source/engine/openmp_stub.F90
+!||    omp_set_num_threads          ../engine/source/engine/openmp_stub.F90
 !||    open_c                       ../common_source/tools/input_output/write_routtines.c
 !||    open_f_scratch_file          ../engine/source/system/open_tempfile.F
 !||    printcenter                  ../engine/source/engine/radioss_title.F
@@ -89,6 +90,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ale_mod                      ../common_source/modules/ale/ale_mod.F
 !||    alefvm_mod                   ../common_source/modules/ale/alefvm_mod.F
 !||    alemuscl_mod                 ../common_source/modules/ale/alemuscl_mod.F
+!||    anim_mod                     ../common_source/modules/output/anim_mod.F90
 !||    check_mod                    ../common_source/modules/check_mod.F
 !||    checksum_output_option_mod   ../common_source/modules/output/checksum_mod.F90
 !||    connectivity_mod             ../common_source/modules/connectivity.F90
@@ -178,7 +180,7 @@ C-----------------------------------------------
       USE ALEMUSCL_MOD , only:ALEMUSCL_Param
       USE USER_INTERFACE_MOD
       USE ALE_MOD
-      USE OUTPUT_MOD , ONLY : OUTPUT_, OUTPUT_PTR, WFEXT, WFEXT_MD
+      USE OUTPUT_MOD , ONLY : OUTPUT_, OUTPUT_PTR
       USE INTERFACES_MOD
       USE DT_MOD
       USE LOADS_MOD
@@ -196,6 +198,7 @@ C-----------------------------------------------
       use checksum_output_option_mod
       use file_descriptor_mod,only : fd_bin_th,fd_bin_rd_rst,fd_bin_wr_rst           ! Contains the file descriptors for all files / same as unit_c.inc
       use coupling_adapter_mod
+      USE ANIM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -345,7 +348,7 @@ C MDS Table
       TYPE(t_segvar) :: SEGVAR
 C----------------------------------------------------------------------------------
       TYPE(NAMES_AND_TITLES_) :: NAMES_AND_TITLES  !< NAMES_AND_TITLES host the input deck names and titles for outputs
-      TYPE(UNIT_TYPE_) :: UNITAB !< units conversion
+      TYPE(UNIT_TYPE_) :: UNITAB !<Units Conversion
       TYPE(connectivity_) :: element 
       TYPE(nodal_arrays_), target :: nodes 
       TYPE(timer_) :: TIMERS
@@ -398,12 +401,8 @@ C                                   IF RELEASE WAS BUILT FROM SOURCE
       ABOUT = 0
 
       !External Foce Work
-      OUTPUT%WFEXT = 0.0D0
-      OUTPUT%WFEXT_MD = 0.0D0
-      WFEXT => OUTPUT%WFEXT
-      WFEXT_MD => OUTPUT%WFEXT_MD
-      WFEXT = ZERO
-      WFEXT_MD = ZERO
+      OUTPUT%TH%WFEXT = 0.0D0
+      OUTPUT%TH%WFEXT_MD = 0.0D0
 
       OUTPUT%CHECKSUM%CHECKSUM_COUNT = 0
       output_ptr => OUTPUT
@@ -859,7 +858,7 @@ C------------------------------------------------------------------
 C------------------------------------------------
 C     .rst file reading 1
 C------------------------------------------------
-      CALL RDRESA(ITSTV1 ,LHEADER ,LVARINT ,LVARREA ,PRADIOS ,
+      CALL RDRESA(output,ITSTV1 ,LHEADER ,LVARINT ,LVARREA ,PRADIOS ,
      .            PRESFIL, MULTI_FVM, H3D_DATA,
      .            PINCH_DATA,DYNAIN_DATA,INTERFACES,SENSORS,LOADS,
      .            MAT_ELEM,NAMES_AND_TITLES,SKEWS ,GLOB_THERM,PBLAST,
@@ -908,7 +907,7 @@ C      CALL TRACE_OUT(19)
 
       CALL TRACE_IN(17,1,ZERO)
 C end init rdresa after call xtime0
-      CALL INIRESA(H3D_DATA,PINCH_DATA,GLOB_THERM)
+      CALL INIRESA(OUTPUT,H3D_DATA,PINCH_DATA,GLOB_THERM)
       CALL TRACE_OUT(17)
 
 
@@ -965,14 +964,14 @@ C
       CALL ALE_CONNECTIVITY%ALE_CONNECTIVITY_INIT()
 
       ! Most of arrays from Restart
-      CALL RESTALLOC(ELEMENT,NODES,MULTI_FVM,H3D_DATA,PINCH_DATA,ALE_CONNECTIVITY,SEGVAR,INTERFACES,SKEWS,
+      CALL RESTALLOC(OUTPUT,ELEMENT,NODES,MULTI_FVM,H3D_DATA,PINCH_DATA,ALE_CONNECTIVITY,SEGVAR,INTERFACES,SKEWS,
      *               GLOB_THERM,RBE3)
 
       ! Initialization
       IGEO = 0
       IPM = 0
 
-      ! IAF,AF : Fluid, noise
+      ! IAF, AF: Fluid, Noise
       IF(IFIF>0)ALLOCATE (IAF(IFIF),STAT=IADIF)
       IF(MFIF>0)ALLOCATE (AF(MFIF),STAT=IADRF)
       IF(IADRF/=0.OR.IADIF/=0)THEN
@@ -1056,6 +1055,13 @@ C
      .            GLOB_THERM     ,PBLAST     ,ELEMENT       ,NODES            ,RBE3)
       ! Close restart file
        CALL CLOSE_C
+       if(python%nb_functs > 0) then
+         write(6,*) "INFO: ", python%nb_functs, " python functions: OpenMP disabled"
+         write(IOUT,*) "INFO: ", python%nb_functs, " python functions: OpenMP disabled"
+         call omp_set_num_threads(1)
+         NTHREAD = 1
+       end if
+ 
        ! --------------------------------------------------------------------------------------------
       IF (NSPMD > 1)  CALL SPMD_RST_CHECK()
 c----------
@@ -1100,11 +1106,11 @@ C--------------------------------------------
          IF (MLN==20) ILAW20=1 
       ENDDO
       !----------------------------------!
-      !  Updating contour output request !
+      !  Updating output output Request!
       !  according multimaterial law type!
       !  and usage                       !
       !----------------------------------!      
-      !COMMUN LAW51/LAW37
+      !Common Law 51/Law 37
       !Removing /ANIM/ELEM/VFRAC if no multimaterial law
       IF(MMALE==0)THEN  
         DO I=283,286
@@ -1168,7 +1174,7 @@ C--------------------------------------------
       
       NN_ANI = NN_ANI + OUTPUT%CHECKSUM%CHECKSUM_COUNT   
 
-      !COMMUN LAW51/LAW37
+      !Common Law 51/Law 37
       !if multimaterial law then removing useless phases output (phases 3 or/and 4)
       IF(MMALE==1)THEN     
           IF(N2D==0)THEN 
@@ -1470,7 +1476,7 @@ C------------------------------------------------
      6              NEFLSW , NNFLSW , ICUT ,   IAF(IF01),
      7              NODES%X  ,NODES%V,  NODES%VR, NODES%MS   ,NODES%IN  ,
      8              SKEWS%SKEW  ,TF       ,RBY  ,
-     9              WA  ,CRFLSW  ,XCUT  ,ANIN  ,DAMPR  ,
+     9              WA  ,CRFLSW  ,XCUT  ,DAMPR  ,
      A              IGRNOD ,KXSP,NODES%WEIGHT ,FR_RBY2 ,FR_RL,
      B              PARTSAV,IPART,PM,
      C              MONVOL ,VOLMON, IPART_STATE,GEO,TABLE,
@@ -1564,7 +1570,7 @@ C
           IF (IABFPIPE < 0) THEN
             SELECT CASE (IABFPIPE)
                CASE (-1)
-C---        Error: abf pas trouve
+C--- error: abf not find
                   CALL ANCMSG(MSGID=150,ANMODE=ANINFO)
                CASE (-2)
                   CALL ANCMSG(MSGID=151,ANMODE=ANINFO,I1=ABFCOMP)

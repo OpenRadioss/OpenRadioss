@@ -114,9 +114,9 @@ C-----------------------------------------------
       IF(ALE%UPWIND%UPWM==0.AND.IPARG1(64)==1)RETURN   !silent boundary
              
 C-----------------------------------------------
-C     Forces de transports calcul es par volume fini
+C     Transport forces calculated by finite volume
 C-----------------------------------------------
-C   DMi = 0.5*DT1*QMV(i,I)  masse entrant par la face i
+C   Dmi = 0.5*dt1*QMV (i, i) mass entering by the face i
       IF(MTN==51 .AND. ALE%UPWIND%UPWM/=3 .AND. IPARG1(64)==0)THEN
         IADBUF = IPM(27,MAT(1))
         IFLG = NINT(BUFMAT(31+IADBUF-1))

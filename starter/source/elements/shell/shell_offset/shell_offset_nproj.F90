@@ -27,6 +27,8 @@
 !||====================================================================
       module sh_offset_nproj_mod
 
+      implicit none
+
       contains
 ! ======================================================================================================================
 !                                                      procedures
@@ -61,7 +63,7 @@
           real(kind=WP), intent(in   ),dimension(numnod)    :: shoset_n   !< nodal offset
           real(kind=WP), intent(inout),dimension(3,numnod)  :: xyz        !< node coordinates
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   local variables 
+!                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i,j,k,n,nnod
           real(kind=WP) :: r(3),s(3),t(3),xv(3,4),norm2
@@ -95,7 +97,7 @@
               n = ix_offset(k,i)
               norm_nod(1:3,n) = norm_nod(1:3,n) + t(1:3)
             end do
-          enddo
+          end do
 !
           do n = 1, numnod
             if (itagn(n) == 0) cycle

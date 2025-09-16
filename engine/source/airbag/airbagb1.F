@@ -180,7 +180,7 @@ C
        ENDDO
        HSPEC=HSPEC/MAX(EM20,AMTOT)
 C--------------------------------
-C      FLUX SORTANT PAR LES TROUS
+C      outgoing flux through the holes
 C--------------------------------
        AISENT =ZERO
        AISENT1=ZERO
@@ -679,7 +679,7 @@ C--------------
          FSAV(18)=RVOLU(32)
        ENDIF
 C---------------------------------------------
-C      MASSE et TRAVAIL par GAZ
+C      mass and work by gas
 C---------------------------------------------
        RMWI=RVOLU(10)
        RNMI=GMI*RMWI
@@ -834,7 +834,7 @@ C
          RCBAG(8,I) = RCBAG(8,I) + DMOUT*DT1
          RCBAG(9,I) = U
 C---------------------------------------------
-C        MASSE et TRAVAIL par GAZ
+C        mass and work by gas
 C---------------------------------------------
 C        VOLG/VOL=fraction molaire=RNMG/RNM
          DGMOUT=RNMI/MAX(EM20,RNM)*DMOUT

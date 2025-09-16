@@ -292,7 +292,7 @@ C------
       NUMELC_LEV =NUMELC_OLD-NUMELC_OLD_OLD
       NUMELTG_LEV=NUMELTG_OLD-NUMELTG_OLD_OLD
 C
-C     connectivite inverse au niveau precedent
+C     Reverse connectivity at the previous level
 C
       ALLOCATE(KNOD2SH(0:NUMNOD_NEW),STAT=stat)
       IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
@@ -705,7 +705,7 @@ C      END DO
 C-------------------------------------
       NUMNOD=NUMNOD_NEW
 C--------------------------------------------------
-C     RE-CONSTITUTION DU TABLEAU INVERSE DES NOEUDS
+C     rebuilding the inverse node table
       CALL CONSTIT(ITAB,ITABM1,NUMNOD)
       RETURN
 C-------------------------------------

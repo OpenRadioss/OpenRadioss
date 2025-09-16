@@ -27,6 +27,7 @@
 !||    rdresb              ../engine/source/output/restart/rdresb.F
 !||====================================================================
       module read_bcs_wall_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
@@ -88,14 +89,14 @@
                 allocate(bcs%wall(ii)%list%elem(ilen)) ; call read_i_c(bcs%wall(ii)%list%elem(1),ilen)
                 allocate(bcs%wall(ii)%list%face(ilen)) ; call read_i_c(bcs%wall(ii)%list%face(1),ilen)
                 allocate(bcs%wall(ii)%list%adjacent_elem(ilen)) ; call read_i_c(bcs%wall(ii)%list%adjacent_elem(1),ilen)
-              endif
+              end if
 
               call read_db(rtmp,2)
               bcs%wall(ii)%tstart = rtmp(1)
               bcs%wall(ii)%tstop = rtmp(2)
 
-            enddo
-          endif
+            end do
+          end if
 
 ! ----------------------------------------------------------------------------------------------------------------------
           return

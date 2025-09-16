@@ -27,6 +27,8 @@
 !||====================================================================
       module stifint_icontrol_mod
 
+      implicit none
+
       contains
 !=======================================================================================================================
 !!\brief This subroutine do the initialization of stiffness contact interface for solid distortion control
@@ -193,7 +195,7 @@
                   if (ns>numnod) cycle
                   if (itag(ns)==0) stifint(ns) =  sfac_max*stifint(ns)
                 end do
-              endif
+              end if
             end if
           end do
 !

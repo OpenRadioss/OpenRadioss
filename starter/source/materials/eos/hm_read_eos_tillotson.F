@@ -32,7 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    message_mod              ../starter/share/message_module/message_mod.F
 !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
 !||====================================================================
-      SUBROUTINE HM_READ_EOS_TILLOTSON(IOUT,PM,UNITAB,IUNIT,LSUBMODEL,IMIDEOS,EOS_TAG,IEOS)
+      SUBROUTINE HM_READ_EOS_TILLOTSON(IOUT,PM,UNITAB,IUNIT,LSUBMODEL,IMIDEOS,EOS_TAG,IEOS,MAT_PARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -40,6 +40,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE MESSAGE_MOD      
       USE ELBUFTAG_MOD       
+      USE MATPARAM_DEF_MOD, ONLY : MATPARAM_STRUCT_
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -66,6 +67,7 @@ C-----------------------------------------------
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
       INTEGER,INTENT(IN) :: IMIDEOS
       TYPE(EOS_TAG_),DIMENSION(0:MAXEOS) ,INTENT(INOUT) :: EOS_TAG
+      TYPE(MATPARAM_STRUCT_),INTENT(INOUT) :: MAT_PARAM
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -75,7 +77,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real :: C1, C2, A, B, ER, ES, VS, E0, RHO0,RHOI,RHOR, ALPHA, BETA,
      .           FAC_L,FAC_T,FAC_M,FAC_C,FACC1,FACC2,FACPB,MU0,MU2,DF,ETA,
-     .           OMEGA,AA,BB,PP,XX,EXPA,EXPB,DPDMU, SSP0, G0
+     .           OMEGA,AA,BB,PP,XX,EXPA,EXPB,DPDMU, SSP0, G0, PSH
       LOGICAL :: IS_ENCRYPTED,IS_AVAILABLE,IS_AVAILABLE_RHO0
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -83,6 +85,7 @@ C-----------------------------------------------
       IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
       IS_AVAILABLE_RHO0 = .FALSE.
+      PSH = ZERO
 
       EOS_TAG(IEOS)%NVAR = 1  !saving Region id for H2D and ANIM output                         
 
@@ -102,27 +105,41 @@ C-----------------------------------------------
       CALL HM_GET_FLOATV('Alpha', ALPHA ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('Beta', BETA ,IS_AVAILABLE,LSUBMODEL,UNITAB)
 
-      RHOR = PM(1)
-      RHOI = PM(89)
-
-      IF(RHO0 > ZERO) THEN
+      RHOR = MAT_PARAM%RHO
+      RHOI = MAT_PARAM%RHO0
+      IF (RHO0 > ZERO) THEN
         RHOR = RHO0
+        MAT_PARAM%RHO = RHO0
         PM(1)= RHO0 
       ELSE
         RHO0=RHOR                   
       ENDIF
 
-      PM(23)  = E0
-      PM(32)  = C1
-      PM(33)  = C2
-      PM(34)  = A
-      PM(35)  = B
-      PM(36)  = ER
-      IF(PM(79)==ZERO)PM(79)=THREE100
-      PM(160) = ES
-      PM(161) = VS
-      PM(162) = ALPHA
-      PM(163) = BETA
+      PM(23) = E0
+      PM(32) = C1+B*E0   !BULK = (1+µ)*dP/dmu (partial derivative at constant E)
+      PM(88) = PSH
+
+      MAT_PARAM%EOS%NUPARAM = 9
+      MAT_PARAM%EOS%NIPARAM = 0
+      MAT_PARAM%EOS%NFUNC   = 0
+      MAT_PARAM%EOS%NTABLE  = 0
+      CALL MAT_PARAM%EOS%CONSTRUCT() !allocations
+
+      MAT_PARAM%EOS%UPARAM(1) = C1
+      MAT_PARAM%EOS%UPARAM(2) = C2
+      MAT_PARAM%EOS%UPARAM(3) = A
+      MAT_PARAM%EOS%UPARAM(4) = B
+      MAT_PARAM%EOS%UPARAM(5) = ER
+      MAT_PARAM%EOS%UPARAM(6) = ES
+      MAT_PARAM%EOS%UPARAM(7) = VS
+      MAT_PARAM%EOS%UPARAM(8) = ALPHA
+      MAT_PARAM%EOS%UPARAM(9) = BETA
+      MAT_PARAM%EOS%PSH       = PSH
+!
+      IF (MAT_PARAM%THERM%TINI == ZERO) THEN
+        MAT_PARAM%THERM%TINI =THREE100
+        PM(79) = THREE100
+      END IF
 
       !COMPUTING INITIAL PRESSURE FOR PM(31) -> SIG(1:3,*)
       
@@ -165,12 +182,10 @@ C-----------------------------------------------
         
       !SSP0
       SSP0 = ZERO 
-      G0 = PM(22)
+      G0   = PM(22)
       RHOI = PM(89)
       
-      DPDMU=FACC1*C1+TWO*FACC2*C2*MU0+BB*ETA*PP*DF*DF
-     .         +E0*( BB+(TWO*E0/ETA-PP*DF*DF)
-     .         *B*FACPB/(ER*ETA*OMEGA**2) )
+      DPDMU=FACC1*C1+TWO*FACC2*C2*MU0+BB*ETA*PP*DF*DF + E0*( BB+(TWO*E0/ETA-PP*DF*DF)*B*FACPB/(ER*ETA*OMEGA**2) )
       DPDMU=MAX(ZERO,DPDMU)
       IF(RHOR > ZERO) SSP0 = SQRT((DPDMU + TWO_THIRD*G0)/RHOR) 
       PM(27)=SSP0      

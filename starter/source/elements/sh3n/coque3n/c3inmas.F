@@ -52,7 +52,7 @@ C-----------------------------------------------
       USE DRAPE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C----------------------------------------------
-C     INITIALISATION DES MASSES ET INERTIES NODALES
+C     INITIALIZATION OF NODAL MASSES AND INERTIAS
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -449,7 +449,7 @@ C---         Test stability condition for mass
                  DO IT=1,NPTT
                    THK_IT(IT) = THKLY/NPTT  ! equally distribution of NPTT through layer
                  ENDDO 
-               ELSEIF (IINT == 2) THEN  !  Gauss distribution
+               ELSEIF (IINT == 2) THEN  !  Gauss Distribution
                  DO IT=1,NPTT
                    THK_IT(IT) = HALF*THKLY*W_GAUSS(IT,NPTT)
                  ENDDO
@@ -994,12 +994,12 @@ C             Test stability condition for inertia
       ELSE
         DO I=LFT,LLT
 C---        Exact:  XIN = EMS*(AREA(I)/(6.*SQRT(3.))+THK(I)*THK(I)/12.)
-C---        Compatibilite avec coques 4 noeuds:
+C--- Compatibility with shells 4 nodes:
           XI(I)=EM(I)*(AREA(I)/NINE_OVER_2+THK(I)*THK(I)*ONE_OVER_12)
         ENDDO        
       ENDIF
 C---------------------------------------------------
-C     INITIALISATION DES MASSES ET INERTIES NODALES
+C     INITIALIZATION OF NODAL MASSES AND INERTIAS
 C---------------------------------------------------
 C   mass and inertia spmd parith/on + adaptive meshing
       IF(JTHE == 0 ) THEN
@@ -1413,7 +1413,7 @@ C-----
          ENDIF
        ENDIF  
 C----------------------------------------------
-C     INITIALISATION DES RIGIDITES NODALES POUR INTERFACES
+C     INITIALIZATION OF NODAL RIGIDITIES FOR INTERFACES
 C----------------------------------------------
       IF (IGTYP == 52 .OR. ((IGTYP == 17 .OR. IGTYP == 51) .AND. IGMAT > 0))THEN     
            IF(I7STIFS/=0)THEN

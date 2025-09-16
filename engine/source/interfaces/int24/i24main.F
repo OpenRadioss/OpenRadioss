@@ -50,10 +50,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    intbufdef_mod               ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    interfaces_mod              ../common_source/modules/interfaces/interfaces_mod.F90
 !||    message_mod                 ../engine/share/message_module/message_mod.F
-!||    outputs_mod                 ../common_source/modules/outputs_mod.F
+!||    output_mod                  ../common_source/modules/output/output_mod.F90
 !||    timer_mod                   ../engine/source/system/timer_mod.F90
 !||====================================================================
-      SUBROUTINE I24MAINF(TIMERS,
+      SUBROUTINE I24MAINF(output,TIMERS,
      1                   IPARI  ,INTBUF_TAB         ,X        ,A      ,
      2                   ICODT  ,FSAV    ,V         ,MS       ,DT2T   ,
      3                   NELTST ,ITYPTST ,ITAB      ,STIFN    ,FSKYI  ,
@@ -84,7 +84,7 @@ C-----------------------------------------------
       USE H3D_MOD
       USE INTBUF_FRIC_MOD
       USE MESSAGE_MOD
-      USE OUTPUTS_MOD
+      USE OUTPUT_MOD
       USE INTERFACES_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -111,6 +111,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT !< output structure
       TYPE(TIMER_) :: TIMERS
       INTEGER NISUBMAX                        ! Max number of SUB INTerfaces
       INTEGER NELTST,ITYPTST,NIN,NEWFRONT,
@@ -367,12 +368,12 @@ CCC         CALL MY_BARRIER()
 CCC        END IF
 C
 c----------------------------------------------------
-c   Courbure quadratique calcul des normales nodales
+c   Quadratic curvature Calculation of nodal normal
 c----------------------------------------------------
       IF(ICURV==3)THEN
       ENDIF!(ICURV==3)
 c----------------------------------------------------
-c   Rayon de courbure : calcul des normales nodales (normees)
+c   curvature radius: calculation of nodal normals (normalized)
 C   IADM!=0 + Icurv!=0 non available (starter error).
 c----------------------------------------------------
       IF(IADM/=0)THEN
@@ -382,7 +383,7 @@ C----------------------------------------------------
 C
       I_STOK_GLO = INTBUF_TAB%I_STOK(1)
 C
-C decoupage statique
+C static decoupage
 
       NB_LOC = I_STOK_GLO / NTHREAD
       IF (JTASK==NTHREAD) THEN
@@ -394,7 +395,7 @@ C decoupage statique
 
       I_STOK = 0
 C
-C recalcul du istok
+C recalculation of istok
 C
       DO I = JTASK, I_STOK_GLO, NTHREAD
         IF(INTBUF_TAB%CAND_N(I)<0) THEN
@@ -448,7 +449,7 @@ C preparation candidats retenus
             CALL I24CDCOR3(
      1     JLT,INDEX2(NFT+1),INTBUF_TAB%CAND_E,INTBUF_TAB%CAND_N,INTBUF_TAB%CAND_T,
      2     CAND_E_N,CAND_N_N,CAND_T_N    ,IEDGE  )
-C cand_n et cand_e remplace par cand_n_n et cand_e_n
+C cand_n and cand_e replaced by cand_n_n and cand_e_n
 C-------ISPT2 change    dimension NSN, initialis   au Starter
           CALL I24COR3(
      1  JLT       ,X          ,INTBUF_TAB%IRECTM,INTBUF_TAB%NSV  ,CAND_E_N  ,
@@ -573,7 +574,7 @@ C-------------------------------------------------------------------------------
         ENDIF 
         IF(JTASK==1) CALL STOPTIME(TIMERS,MACRO_TIMER_FRIC)      
 
-          CALL I24FOR3(
+          CALL I24FOR3(output,
      1  JLT          ,A         ,V            ,IBC         ,ICODT    ,
      2  FSAV         ,GAP       ,FRIC         ,MS          ,VISC     ,
      3  VISCF        ,NOINT     ,INTBUF_TAB%STFNS,ITAB     ,CN_LOC   ,

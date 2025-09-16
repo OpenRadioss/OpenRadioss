@@ -160,12 +160,12 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-c  indx utilise localement contrairement aux coques 4n 
+c  Indx uses locally unlike 4N shells 
       INTEGER MAT(MVSIZ),PID(MVSIZ),NGL(MVSIZ),INDX(MVSIZ),IVS(MVSIZ),
      .   FWAVE_EL(NEL)
       INTEGER 
      .   I, J, NG,NPG,NNOD,PT0,PT1,PT2,NVS,IFLAG,IBID,NFAIL,
-     .   IR,IS,ILAY,NLAY,L_DIRA,L_DIRB,J1,J2,N1,N2,N3,
+     .   IR,IS,ILAY,NLAY,IMAT,L_DIRA,L_DIRB,J1,J2,N1,N2,N3,
      .   IGTYP,IGMAT,NPTTOT,IREP,IFAILWAVE,IDRAPE,IT,NPTT,
      .   ACTIFXFEM,SEDRAPE,NUMEL_DRAPE
       INTEGER ,DIMENSION(:) ,POINTER     :: FWAVE_NOD
@@ -208,7 +208,7 @@ c  indx utilise localement contrairement aux coques 4n
       my_real, dimension(nel)   :: epsd_pg
       my_real, dimension(mvsiz) :: fheat
 !
-C--- Variables pour le non-local
+C--- Variables for non-local
       INTEGER :: NDDL, K, INOD(3),NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), L_NLOC, IPOS(3),INLOC
       my_real, DIMENSION(:,:), ALLOCATABLE :: VAR_REG
       my_real, DIMENSION(:), POINTER :: DNL,UNL
@@ -400,6 +400,7 @@ c-------------------------------------------
         eps_m2 = four_over_3*(exx(i)**2+eyy(i)**2+exx(i)*eyy(i) + fourth*exy(i)**2)
         epsd_pg(i) = sqrt(eps_k2 + eps_m2)*dtinv
       end do
+      gbuf%epsd(1:nel) = asrate * epsd_pg(1:nel) + (one - asrate) * gbuf%epsd(1:nel)      
 !-------------------------------------------------------------------------------
        CALL CMAIN3(TIMERS,
      1   ELBUF_STR ,JFT       ,JLT       ,NFT       ,IPARG      ,
@@ -434,7 +435,7 @@ c-------------------------------------------
 C----------------------------------------------------------------------------
 C     FORCES VISCOCITE 
 C----------------------------
-C       uniquement membranaire pour l'instant --------
+C       only membrane for the moment --------
       CALL CBAVISC(JFT     ,JLT     ,VDEF    ,AMU ,OFF,
      2             SHF     ,NU      ,RHO     ,SSP ,AREA,
      3             THK0    ,GBUF%FOR,GBUF%MOM,IUN ,MTN,
@@ -456,7 +457,7 @@ C-------------------------
      2              F11,F12,F13,F21,F22,F23,F31,F32,F33,
      3              F14,F15,F16,F24,F25,F26,F34,F35,F36)
 C--------------------------
-C     PAS DE TEMPS
+C     TIME STEP
 C--------------------------
       CALL CNDT3(
      1        JFT    ,JLT    ,OFF      ,DT2T   ,AMU     ,
@@ -470,11 +471,12 @@ C--------------------------
 C--------------------------
 C     THERMAL TIME STEP
 C--------------------------
-         IF (JTHE /= 0 .AND. GLOB_THERM%IDT_THERM == 1)THEN
-           call dttherm(nel     ,pm(1,mat(1))  ,npropm  ,glob_therm   ,
-     .                  jtur    ,tempel  ,vol0    ,rho       ,
-     .                  aldt    ,off     ,conde   ,gbuf%re   ,gbuf%rk )
-         ENDIF
+      IMAT = MAT(1)
+      IF (JTHE /= 0 .AND. GLOB_THERM%IDT_THERM == 1)THEN
+        call dttherm(nel     ,pm(1,imat),npropm,glob_therm,mat_elem%mat_param(imat),
+     .               jtur    ,tempel  ,vol0    ,rho       ,
+     .               aldt    ,off     ,conde   ,gbuf%re   ,gbuf%rk )
+      ENDIF
 c-------------------------
 c     Virtual internal forces of regularized non local ddl 
 c--------------------------
@@ -489,7 +491,7 @@ c--------------------------
       ENDIF
 c-------------------------------
 C--------------------------
-C     BILANS PAR MATERIAU
+C     BALANCES BY MATERIAL
 C--------------------------
       IF(IPRI>0)
      +   CALL C3BILAN(

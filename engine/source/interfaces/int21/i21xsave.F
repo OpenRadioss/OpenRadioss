@@ -28,7 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
        SUBROUTINE I21XSAVE(
      1       X     ,NSV  ,NSN   ,ITASK ,XSAV ,
      2       DD    ,IROT ,ROT   ,BRACKET)
-C sauvegarde des XSAV
+C saving the XSAV
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

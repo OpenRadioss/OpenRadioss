@@ -81,7 +81,7 @@ C
 C----------------------------------------------------
 C     COMPUTE NODAL VOLUME & MASS FOR ALL TETRAHEDRON
 C----------------------------------------------------
-C Boucle parallele dynamique SMP
+C SMP dynamic parallel loop
 C
       DO NG = 1,NGROUP
         IF(IPARG(8, NG)==1) CYCLE

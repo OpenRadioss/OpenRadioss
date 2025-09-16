@@ -43,46 +43,46 @@
 !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
 !||    precision_mod          ../common_source/modules/precision_mod.F90
 !||====================================================================
-      SUBROUTINE READ_EOSPARAM(EOS)
+        SUBROUTINE READ_EOSPARAM(EOS)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
-      USE MESSAGE_MOD
-      USE EOS_PARAM_MOD , ONLY : EOS_PARAM_
-      USE NAMES_AND_TITLES_MOD
-      USE MY_ALLOC_MOD
-      use precision_mod, only : WP
+          USE MESSAGE_MOD
+          USE EOS_PARAM_MOD , ONLY : EOS_PARAM_
+          USE NAMES_AND_TITLES_MOD
+          USE MY_ALLOC_MOD
+          use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
-      implicit none
+          implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-      TYPE(EOS_PARAM_) ,INTENT(INOUT) :: EOS
+          TYPE(EOS_PARAM_) ,INTENT(INOUT) :: EOS
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local Variables
 ! ----------------------------------------------------------------------------------------------------------------------
-      INTEGER :: I,NUPARAM,NIPARAM,NUMTABL,IAD,LEN,NUMFUNC
-      INTEGER ,DIMENSION(NCHARTITLE) :: NAME
-      INTEGER ,DIMENSION(1) :: ILEN
-      INTEGER ,DIMENSION(:), ALLOCATABLE :: IBUF
-      real(kind=WP) ,DIMENSION(:), ALLOCATABLE :: RBUF
+          INTEGER :: I,NUPARAM,NIPARAM,NUMTABL,IAD,LEN,NUMFUNC
+          INTEGER ,DIMENSION(NCHARTITLE) :: NAME
+          INTEGER ,DIMENSION(1) :: ILEN
+          INTEGER ,DIMENSION(:), ALLOCATABLE :: IBUF
+          real(kind=WP) ,DIMENSION(:), ALLOCATABLE :: RBUF
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-      ! read eos model parameters (integer)
-      call read_i_c(ilen, 1)
-      len = ilen(1)
-      allocate (ibuf(len) )
-      call read_i_c(ibuf, len)
-      iad = 0
-      iad = iad+1 ; eos%nuparam = ibuf(iad)
-      iad = iad+1 ; eos%niparam = ibuf(iad)
-      iad = iad+1 ; eos%nfunc   = ibuf(iad)
-      iad = iad+1 ; eos%ntable  = ibuf(iad)
-      iad = iad+1 ; eos%isfluid = ibuf(iad)
-      deallocate( ibuf )
+          ! read eos model parameters (integer)
+          call read_i_c(ilen, 1)
+          len = ilen(1)
+          allocate (ibuf(len) )
+          call read_i_c(ibuf, len)
+          iad = 0
+          iad = iad+1 ; eos%nuparam = ibuf(iad)
+          iad = iad+1 ; eos%niparam = ibuf(iad)
+          iad = iad+1 ; eos%nfunc   = ibuf(iad)
+          iad = iad+1 ; eos%ntable  = ibuf(iad)
+          iad = iad+1 ; eos%isfluid = ibuf(iad)
+          deallocate( ibuf )
 
       ! read eos model parameters (real)
       call read_i_c(ilen, 1)
@@ -90,8 +90,12 @@
       allocate (rbuf(len))
       call read_db(rbuf, len)
       iad = 0
-      iad = iad+1 ; eos%cv = rbuf(iad)
-      iad = iad+1 ; eos%cp = rbuf(iad)
+      iad = iad+1 ; eos%cv  = rbuf(iad)
+      iad = iad+1 ; eos%cp  = rbuf(iad)
+      iad = iad+1 ; eos%psh = rbuf(iad)
+      iad = iad+1 ; eos%e0 = rbuf(iad)
+      iad = iad+1 ; eos%p0 = rbuf(iad)
+      iad = iad+1 ; eos%pmin = rbuf(iad)
       deallocate( rbuf )
       
       ! read material title                      
@@ -106,28 +110,28 @@
       call my_alloc(eos%uparam ,nuparam)         
       call my_alloc(eos%iparam ,niparam)         
 
-      if (nuparam > 0) then                      
-        call read_db(eos%uparam  ,nuparam)       
-      end if                                     
-      if (niparam > 0) then                      
-        call read_i_c(eos%iparam ,niparam)       
-      end if                                     
+          if (nuparam > 0) then
+            call read_db(eos%uparam  ,nuparam)
+          end if
+          if (niparam > 0) then
+            call read_i_c(eos%iparam ,niparam)
+          end if
 
-      ! read eos law function                    
-      numfunc  = eos%nfunc                       
-      if (numfunc > 0) then                      
-        allocate (eos%func(numfunc))             
-        call read_i_c(eos%func, numfunc)         
-      end if                                     
+          ! read eos law function
+          numfunc  = eos%nfunc
+          if (numfunc > 0) then
+            allocate (eos%func(numfunc))
+            call read_i_c(eos%func, numfunc)
+          end if
 
-      ! read eos law tables                      
-      numtabl  = eos%ntable                      
-      if (numtabl > 0) then                      
-        allocate (eos%table(numtabl))            
-        call read_mat_table(eos%table, numtabl)  
-      end if
+          ! read eos law tables
+          numtabl  = eos%ntable
+          if (numtabl > 0) then
+            allocate (eos%table(numtabl))
+            call read_mat_table(eos%table, numtabl)
+          end if
 
 !-----------
-      return
-      end subroutine READ_EOSPARAM
+          return
+        end subroutine READ_EOSPARAM
       end module read_eosparam_mod

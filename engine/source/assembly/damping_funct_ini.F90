@@ -26,13 +26,14 @@
 !||    resol                   ../engine/source/engine/resol.F
 !||====================================================================
       module damping_funct_ini_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
 ! ======================================================================================================================
 !
 !=======================================================================================================================
-!!\brief This subroutine initializes damping alpha values for /DAMP/FUNCT 
+!!\brief This subroutine initializes damping alpha values for /DAMP/FUNCT
 !=======================================================================================================================
 !||====================================================================
 !||    damping_funct_ini   ../engine/source/assembly/damping_funct_ini.F90
@@ -78,24 +79,24 @@
 !
           do nd=1,ndamp
 !
-             itype = nint(dampr(21,nd))
-             if (itype==4) then
-               id_func = nint(dampr(26,nd))
-               if (id_func > 0) then
-                 fact = get_u_func(id_func,tt,dxdy)
-               else
-                 fact = one
-               endif
-               alpha = fact*dampr(16,nd)
-                dampr(3,nd) = alpha*dampr(32,nd)
-                dampr(5,nd) = alpha*dampr(33,nd)
-                dampr(7,nd) = alpha*dampr(34,nd)
-                if(iroddl/=0)then
-                  dampr(9,nd)  = alpha*dampr(35,nd)
-                  dampr(11,nd) = alpha*dampr(36,nd)
-                  dampr(13,nd) = alpha*dampr(37,nd)
-                end if 
-            end if !(itype==4) 
+            itype = nint(dampr(21,nd))
+            if (itype==4) then
+              id_func = nint(dampr(26,nd))
+              if (id_func > 0) then
+                fact = get_u_func(id_func,tt,dxdy)
+              else
+                fact = one
+              end if
+              alpha = fact*dampr(16,nd)
+              dampr(3,nd) = alpha*dampr(32,nd)
+              dampr(5,nd) = alpha*dampr(33,nd)
+              dampr(7,nd) = alpha*dampr(34,nd)
+              if(iroddl/=0)then
+                dampr(9,nd)  = alpha*dampr(35,nd)
+                dampr(11,nd) = alpha*dampr(36,nd)
+                dampr(13,nd) = alpha*dampr(37,nd)
+              end if
+            end if !(itype==4)
 !
           end do
 !

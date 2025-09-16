@@ -26,6 +26,7 @@
 !||    cmain3       ../engine/source/materials/mat_share/cmain3.F
 !||====================================================================
       module mulawc_mod
+      implicit none
       contains
 !! \brief routine to compute the material laws for shell elements
 !||====================================================================
@@ -83,6 +84,7 @@
 !||    prony_modelc              ../engine/source/materials/visc/prony_modelc.F
 !||    putsignorc3               ../engine/source/elements/shell/coqueba/cmatc3.F
 !||    rotov                     ../engine/source/airbag/roto.F
+!||    shell_offset_wm_ini       ../engine/source/elements/shell/shell_offset_wm_ini.F90
 !||    sigeps01c                 ../engine/source/materials/mat/mat001/sigeps01c.F
 !||    sigeps02c                 ../engine/source/materials/mat/mat002/sigeps02c.F
 !||    sigeps104c                ../engine/source/materials/mat/mat104/sigeps104c.F
@@ -154,7 +156,9 @@
 !||    matparam_def_mod          ../common_source/modules/mat_elem/matparam_def_mod.F90
 !||    message_mod               ../engine/share/message_module/message_mod.F
 !||    nlocal_reg_mod            ../common_source/modules/nlocal_reg_mod.F
+!||    precision_mod             ../common_source/modules/precision_mod.F90
 !||    sensor_mod                ../common_source/modules/sensor_mod.F90
+!||    shell_offset_wm_ini_mod   ../engine/source/elements/shell/shell_offset_wm_ini.F90
 !||    sigeps125c_mod            ../engine/source/materials/mat/mat125/sigeps125c.F90
 !||    sigeps127c_mod            ../engine/source/materials/mat/mat127/sigeps127c.F90
 !||    sigeps128c_mod            ../engine/source/materials/mat/mat128/sigeps128c.F90
@@ -213,11 +217,12 @@
           use fail_param_mod
           use fail_lemaitre_c_mod
           use fail_composite_c_mod
+          use precision_mod, only : WP
+          use shell_offset_wm_ini_mod
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
-#include "my_real.inc"
 #include "comlock.inc"
 #include "mvsiz_p.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -276,9 +281,9 @@
           integer, intent(in),dimension(npropmi,nummat) :: ipm
           integer, intent(in),dimension(nparg) :: iparg
           integer, intent(in),dimension(snpc)  :: npf
-          my_real, intent(in),dimension(mvsiz) :: epsd_pg !< global element strain rate in Gauss pt
+          real(kind=WP), intent(in),dimension(mvsiz) :: epsd_pg !< global element strain rate in Gauss pt
           integer, intent(in) :: idamp_freq_range         ! flag for damping frequency range
-          !  
+          !
           integer, intent(inout) :: idel7nok    ! element deletion flag in contact interfaces
           integer, intent(inout) :: iofc
           integer, intent(inout),dimension(mvsiz*nlay_max) :: matly
@@ -286,65 +291,65 @@
           integer, intent(inout),dimension(nel)            :: fwave_el
           integer, intent(inout),dimension(nxlaymax,mvsiz) :: elcrkini
           !
-          my_real, intent(in) :: dt1
-          my_real, intent(in) :: tt
-          my_real, intent(in) :: theaccfact
-          my_real, intent(in) ,dimension(npropm,nummat) :: pm
-          my_real, intent(in) ,dimension(npropg,numgeo) :: geo
-          my_real, intent(in) ,dimension(sbufmat)       :: bufmat
-          my_real, intent(in) ,dimension(stf)           ::  tf
+          real(kind=WP), intent(in) :: dt1
+          real(kind=WP), intent(in) :: tt
+          real(kind=WP), intent(in) :: theaccfact
+          real(kind=WP), intent(in) ,dimension(npropm,nummat) :: pm
+          real(kind=WP), intent(in) ,dimension(npropg,numgeo) :: geo
+          real(kind=WP), intent(in) ,dimension(sbufmat)       :: bufmat
+          real(kind=WP), intent(in) ,dimension(stf)           ::  tf
           !
-          my_real, intent(inout) :: dm
-          my_real, intent(inout), dimension(nel,5) :: for
-          my_real, intent(inout), dimension(nel,3) :: mom
-          my_real, intent(inout), dimension(nel,8) :: gstr
-          my_real, intent(inout), dimension(nel)   :: thk
-          my_real, intent(inout), dimension(nel,2) :: eint
-          my_real, intent(inout), dimension(nel,5) :: tensx
+          real(kind=WP), intent(inout) :: dm
+          real(kind=WP), intent(inout), dimension(nel,5) :: for
+          real(kind=WP), intent(inout), dimension(nel,3) :: mom
+          real(kind=WP), intent(inout), dimension(nel,8) :: gstr
+          real(kind=WP), intent(inout), dimension(nel)   :: thk
+          real(kind=WP), intent(inout), dimension(nel,2) :: eint
+          real(kind=WP), intent(inout), dimension(nel,5) :: tensx
           !
-          my_real, intent(inout), dimension(mvsiz) :: kxx
-          my_real, intent(inout), dimension(mvsiz) :: kyy
-          my_real, intent(inout), dimension(mvsiz) :: kxy
+          real(kind=WP), intent(inout), dimension(mvsiz) :: kxx
+          real(kind=WP), intent(inout), dimension(mvsiz) :: kyy
+          real(kind=WP), intent(inout), dimension(mvsiz) :: kxy
           !
-          my_real, intent(inout), dimension(mvsiz) :: off
-          my_real, intent(inout), dimension(mvsiz) :: tempel
-          my_real, intent(inout), dimension(mvsiz) :: viscmx
-          my_real, intent(inout), dimension(mvsiz) :: area
-          my_real, intent(inout), dimension(mvsiz) :: exx
-          my_real, intent(inout), dimension(mvsiz) :: eyy
-          my_real, intent(inout), dimension(mvsiz) :: exy
-          my_real, intent(inout), dimension(mvsiz) :: exz
-          my_real, intent(inout), dimension(mvsiz) :: eyz
-          my_real, intent(inout), dimension(mvsiz) :: thk0
-          my_real, intent(inout), dimension(mvsiz) :: ssp
-          my_real, intent(inout), dimension(mvsiz) :: rho
-          my_real, intent(inout), dimension(mvsiz) :: alpe
-          my_real, intent(inout), dimension(mvsiz) :: shf
-          my_real, intent(inout), dimension(mvsiz) :: gs
-          my_real, intent(inout), dimension(mvsiz) :: sigy
-          my_real, intent(inout), dimension(mvsiz,2) :: zcfac
-          my_real, intent(inout), dimension(mvsiz,8) :: f_def
-          my_real, intent(inout), dimension(nxlaymax,mvsiz) :: dir1_crk
-          my_real, intent(inout), dimension(nxlaymax,mvsiz) :: dir2_crk
-          my_real, intent(inout), dimension(mvsiz) :: dt1c
-          my_real, intent(inout), dimension(mvsiz) :: die
-          my_real, intent(inout), dimension(mvsiz) :: etimp
-          my_real, intent(inout), dimension(mvsiz) :: aldt
-          my_real, intent(inout), dimension(mvsiz*nlay_max*laynpt_max) :: thkly
-          my_real, intent(inout), dimension(nel,nlay_max*laynpt_max) :: thk_ly
-          my_real, intent(inout), dimension(mvsiz,nlay_max*laynpt_max) :: posly
+          real(kind=WP), intent(inout), dimension(mvsiz) :: off
+          real(kind=WP), intent(inout), dimension(mvsiz) :: tempel
+          real(kind=WP), intent(inout), dimension(mvsiz) :: viscmx
+          real(kind=WP), intent(inout), dimension(mvsiz) :: area
+          real(kind=WP), intent(inout), dimension(mvsiz) :: exx
+          real(kind=WP), intent(inout), dimension(mvsiz) :: eyy
+          real(kind=WP), intent(inout), dimension(mvsiz) :: exy
+          real(kind=WP), intent(inout), dimension(mvsiz) :: exz
+          real(kind=WP), intent(inout), dimension(mvsiz) :: eyz
+          real(kind=WP), intent(inout), dimension(mvsiz) :: thk0
+          real(kind=WP), intent(inout), dimension(mvsiz) :: ssp
+          real(kind=WP), intent(inout), dimension(mvsiz) :: rho
+          real(kind=WP), intent(inout), dimension(mvsiz) :: alpe
+          real(kind=WP), intent(inout), dimension(mvsiz) :: shf
+          real(kind=WP), intent(inout), dimension(mvsiz) :: gs
+          real(kind=WP), intent(inout), dimension(mvsiz) :: sigy
+          real(kind=WP), intent(inout), dimension(mvsiz,2) :: zcfac
+          real(kind=WP), intent(inout), dimension(mvsiz,8) :: f_def
+          real(kind=WP), intent(inout), dimension(nxlaymax,mvsiz) :: dir1_crk
+          real(kind=WP), intent(inout), dimension(nxlaymax,mvsiz) :: dir2_crk
+          real(kind=WP), intent(inout), dimension(mvsiz) :: dt1c
+          real(kind=WP), intent(inout), dimension(mvsiz) :: die
+          real(kind=WP), intent(inout), dimension(mvsiz) :: etimp
+          real(kind=WP), intent(inout), dimension(mvsiz) :: aldt
+          real(kind=WP), intent(inout), dimension(mvsiz*nlay_max*laynpt_max) :: thkly
+          real(kind=WP), intent(inout), dimension(nel,nlay_max*laynpt_max) :: thk_ly
+          real(kind=WP), intent(inout), dimension(mvsiz,nlay_max*laynpt_max) :: posly
           !
-          my_real, intent(inout), dimension(mvsiz,npt) :: ply_exx    ! batoz shell delamination
-          my_real, intent(inout), dimension(mvsiz,npt) :: ply_eyy    ! batoz shell delamination
-          my_real, intent(inout), dimension(mvsiz,npt) :: ply_exy    ! batoz shell delamination
-          my_real, intent(inout), dimension(mvsiz,npt) :: ply_exz    ! batoz shell delamination
-          my_real, intent(inout), dimension(mvsiz,npt) :: ply_eyz    ! batoz shell delamination
-          my_real, intent(inout), dimension(mvsiz,5,npt) :: ply_f    ! batoz shell delamination
+          real(kind=WP), intent(inout), dimension(mvsiz,npt) :: ply_exx    ! batoz shell delamination
+          real(kind=WP), intent(inout), dimension(mvsiz,npt) :: ply_eyy    ! batoz shell delamination
+          real(kind=WP), intent(inout), dimension(mvsiz,npt) :: ply_exy    ! batoz shell delamination
+          real(kind=WP), intent(inout), dimension(mvsiz,npt) :: ply_exz    ! batoz shell delamination
+          real(kind=WP), intent(inout), dimension(mvsiz,npt) :: ply_eyz    ! batoz shell delamination
+          real(kind=WP), intent(inout), dimension(mvsiz,5,npt) :: ply_f    ! batoz shell delamination
           !
-          my_real, intent(inout), dimension(nel,varnl_npttot) :: varnl
-          my_real, intent(inout), dimension(sdir_a) :: dir_a
-          my_real, intent(inout), dimension(sdir_b) :: dir_b
-          my_real, dimension(mvsiz), intent(inout) :: fheat
+          real(kind=WP), intent(inout), dimension(nel,varnl_npttot) :: varnl
+          real(kind=WP), intent(inout), dimension(sdir_a) :: dir_a
+          real(kind=WP), intent(inout), dimension(sdir_b) :: dir_b
+          real(kind=WP), dimension(mvsiz), intent(inout) :: fheat
           !
           target :: aldt, ipm, varnl
           type(elbuf_struct_),intent(inout), target :: elbuf_str
@@ -367,38 +372,38 @@
                      iptx,ilayer,irot,dmg_flag,lf_dammx,nipar,&
                      igmat,ipgmat,nptt,ipt_all,npttot,nuvarv,ilaw,&
                      ply_id,iseq,progressive_crack,&
-                     orth_damage,l_dmg,iprony,israte,nvartmp,inloc,idrape,vp,nvar_damp,flag_incr
+                     orth_damage,l_dmg,iprony,israte,nvartmp,inloc,idrape,nvar_damp,flag_incr
           integer :: ij1,ij2,ij3,ij4,ij5
           integer :: ij(5),iflag(1)
           integer :: l_sigb
           integer ,dimension(maxfunc) :: ifunc
           integer ,dimension(mvsiz)   :: ioff_duct,nfis1,nfis2,nfis3
 !
-          my_real sigdmg(mvsiz,5),sigksi(mvsiz,5),tens(mvsiz,5)
-          my_real ,dimension(mvsiz) :: epchk,copy_pla,pla0,&
-                                       degmb ,degfx ,sigoff,thklyl,thkn  ,etse,off_old,&
-                                       depsxx,depsyy,depsxy,depsyz,depszx,epsxx ,epsyy ,epsxy,&
-                                       epsyz ,epszx ,epspxx,epspyy,epspxy,epspyz,epspzx,sigoxx,&
-                                       sigoyy,sigoxy,sigoyz,sigozx,signxx,signyy,signxy,signyz,&
-                                       signzx,sigvxx,sigvyy,sigvxy,sigvyz,sigvzx,&
-                                       wmc, epsd, yld,dpla,vol0, coef,hardm,g_imp,visc,wplar,&
-                                       tstar,  vm, vm0, seq0, &
-                                       areamin,dareamin,dmg_glob_scale,dmg_loc_scale,et_imp, epsthtot
-          my_real, dimension(nel,5) :: dmg_orth_scale
+          real(kind=WP) :: sigdmg(mvsiz,5),sigksi(mvsiz,5),tens(mvsiz,5)
+          real(kind=WP) ,dimension(mvsiz) :: epchk,copy_pla,pla0,&
+            degmb ,degfx ,sigoff,thklyl,thkn  ,etse,off_old,&
+            depsxx,depsyy,depsxy,depsyz,depszx,epsxx ,epsyy ,epsxy,&
+            epsyz ,epszx ,epspxx,epspyy,epspxy,epspyz,epspzx,sigoxx,&
+            sigoyy,sigoxy,sigoyz,sigozx,signxx,signyy,signxy,signyz,&
+            signzx,sigvxx,sigvyy,sigvxy,sigvyz,sigvzx,&
+            wmc, epsd, yld,dpla,vol0, coef,hardm,g_imp,visc,wplar,&
+            tstar,  vm, vm0, seq0, &
+            areamin,dareamin,dmg_glob_scale,dmg_loc_scale,et_imp, epsthtot
+          real(kind=WP), dimension(nel,5) :: dmg_orth_scale
 !
-          my_real :: zt,dtinv, vol2,asrate, &
-                     r1,r2,s1,s2,r12a,r22a,s12b,s22b,rs1,rs2,rs3,&
-                     t1,t2,t3,fact,r3r3,s3s3,&
-                     bidon1,bidon2,bidon3,bidon4,bidon5,vv,aa,trelax,t0,tm
-          my_real  scale1(nel)
-          my_real ,dimension(nel), target :: le_max
-          my_real tt_local
-          my_real, dimension(:) ,pointer  :: el_temp,yldfac,crklen,crkdir,dadv,tfail,el_len,&
+          real(kind=WP) :: zt,dtinv, vol2,asrate, &
+            r1,r2,s1,s2,r12a,r22a,s12b,s22b,rs1,rs2,rs3,&
+            t1,t2,t3,fact,r3r3,s3s3,&
+            bidon1,bidon2,bidon3,bidon4,bidon5,vv,aa,trelax,t0,tm
+          real(kind=WP)  :: scale1(nel)
+          real(kind=WP) ,dimension(nel), target :: le_max
+          real(kind=WP) :: tt_local
+          real(kind=WP), dimension(:) ,pointer  :: el_temp,yldfac,crklen,crkdir,dadv,tfail,el_len,&
           &el_pla
-          my_real, dimension(nel), target :: el_pla_dum
+          real(kind=WP), dimension(nel), target :: el_pla_dum
           target :: tempel,bufmat,scale1
 !----
-          type(ttable) table(*)
+          type(ttable) :: table(*)
           type(buf_lay_) ,pointer :: bufly
           type(l_bufel_) ,pointer :: lbuf
           type(g_bufel_) ,pointer :: gbuf
@@ -406,7 +411,7 @@
 !----
           integer, dimension(:) ,pointer  :: fld_idx,foff,offly,itable,ifunc_fail,&
           &itabl_fail,vartmp,iparam,iparamf
-          my_real, dimension(:) ,pointer  :: uvar,uvarf,uelr,uelr1,dam,&
+          real(kind=WP), dimension(:) ,pointer  :: uvar,uvarf,uelr,uelr1,dam,&
           &dfmax,tdel ,offl,uvarv,uparam,uparam0,uparamf,&
           &dirdmg,dir_orth,damini
           type(matparam_struct_) , pointer :: matparam
@@ -417,15 +422,15 @@
           logical :: flag_law1,flag_law2,flag_law25,flag_law22
           logical, dimension(nel) :: print_fail
 !
-          character option*256
-          integer size
+          character :: option*256
+          integer :: size
           integer :: nrate,nprony
-          my_real :: fisokin,kv,zshift
-          my_real, dimension(nel) :: eps1,eps2
-          my_real, dimension(nel), target :: vecnul
-          my_real, dimension(:), pointer  :: sigbxx,sigbyy,sigbxy
-          my_real, dimension(:), allocatable :: gv,beta
-          my_real wm(11,11)
+          real(kind=WP) :: fisokin,kv,zshift,wm_zshift,tref,tmelt
+          real(kind=WP), dimension(nel) :: eps1,eps2
+          real(kind=WP), dimension(nel), target :: vecnul
+          real(kind=WP), dimension(:), pointer  :: sigbxx,sigbyy,sigbxy
+          real(kind=WP), dimension(:), allocatable :: gv,beta
+          real(kind=WP) :: wm(11,11)
 !
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
@@ -439,7 +444,7 @@
           igmat = igeo(98,pid(1))
           inloc = iparg(78)
           !jlag = iparg(14) ! Not used for shell elements (always Lagrangian).
-                            ! Initialized to 0, but may be interpreted as 1 if needed.
+          ! Initialized to 0, but may be interpreted as 1 if needed.
           nsensor = sensors%nsensor
 !
           idrape = elbuf_str%idrape
@@ -518,7 +523,7 @@
 !
           if (flag_law25 .and. igtyp == 9 .and. npt == 1) then
             degmb(jft:jlt) = zero
-            degfx(jft:jlt) = zero 
+            degfx(jft:jlt) = zero
           elseif (npg>1) then
             degmb(jft:jlt) = degmb(jft:jlt)*off(jft:jlt)
             degfx(jft:jlt) = degfx(jft:jlt)*off(jft:jlt)
@@ -564,7 +569,7 @@
             enddo
           endif ! if ( flag_law22 )
 !       compute the inverse of dt and save the result
-      dtinv = dt1 / max(dt1**2,em20)  ! inverse of dt
+          dtinv = dt1 / max(dt1**2,em20)  ! inverse of dt
 !-----------------------------------------------------------
 !     loop over thickness integration points (layers)
 !-----------------------------------------------------------
@@ -684,7 +689,7 @@
               endif
 !----------------------------------------------------------------------
               epsd(1:nel) = zero  !< local integration pt strain rate initialization
-                                  !< calculated by material and used in failure models
+              !< calculated by material and used in failure models
 !---------------------------------------------------
               if (jthe /= 0) then
                 el_temp => tempel(1:nel)    ! calculated from nodal temp with /heat/mat
@@ -708,13 +713,18 @@
               !thly => thkly(jpos:jpos+nel-1)
               thklyl(1:nel) = thkly(jpos:jpos+nel-1)*thk0(1:nel)
 !
-              if ((igtyp == 1 .or. igtyp == 9).and.zshift==zero) then
+              if (igtyp == 1 .or. igtyp == 9) then
                 ! initialize wm matrix
-                call coqini_wm(wm)
-                wmc(1:nel) = wm(ipt,npt)
+                if (zshift==zero) then
+                  call coqini_wm(wm)
+                  wmc(1:nel) = wm(ipt,npt)
+                else
+                  call shell_offset_wm_ini(ipt,nptt,zshift,wm_zshift)
+                  wmc(1:nel) = wm_zshift
+                end if
               else
                 wmc(1:nel) = posly(1:nel,ipt)*thkly(jpos:jpos+nel-1)
-              endif
+              end if
 !-------------------------------
 !         increment de deformations
 !-------------------------------
@@ -740,12 +750,12 @@
                 !       ismstr=10 + foam laws
                 !       -----------
                 if (ismstr==10 .and. (mtn == 1 .or. mtn == 42 .or.&
-                    mtn == 69.or. mtn == 71 .or. mtn == 88)) then
+                  mtn == 69.or. mtn == 71 .or. mtn == 88)) then
                   do i=jft,jlt
                     zt=posly(i,ipt) *thk0(i)
                     depsxx(i)=exx(i)+zt*kxx(i)
                     depsyy(i)=eyy(i)+zt*kyy(i)
-                    depsxy(i)=exy(i)+zt*kxy(i)      
+                    depsxy(i)=exy(i)+zt*kxy(i)
 !
                     tens(i,1)= f_def(i,1)+zt*f_def(i,6)
                     tens(i,2)= f_def(i,2)+zt*f_def(i,7)
@@ -1028,7 +1038,7 @@
                 pla0(1:jlt) = lbuf%pla(1:jlt)
               else
                 pla0(1:jlt) = zero
-              endif   
+              endif
               !< Old stress tensor
               sigoxx(1:nel) = lbuf%sig(ij1:ij1+nel-1)
               sigoyy(1:nel) = lbuf%sig(ij2:ij2+nel-1)
@@ -1039,10 +1049,9 @@
               if (bufly%l_seq > 0) seq0(1:nel) = lbuf%seq(1:nel)
 !  
               if (jthe /= 0 .or. elbuf_str%bufly(ilayer)%l_temp > 0) then 
-                ! case of temp calculated locally in material
-                t0 = pm(79, imat)
-                tm = pm(80, imat)
-                tstar(1:nel) = max(zero, (el_temp(1:nel) - t0) / max(tm - t0, em20))
+                tref  = mat_elem%mat_param(imat)%therm%tref
+                tmelt = mat_elem%mat_param(imat)%therm%tmelt
+                tstar(1:nel) = max(zero, (el_temp(1:nel) - tref) / max(tmelt-tref, em20))
               else
                 tstar(1:nel) = zero
               end if
@@ -1051,41 +1060,40 @@
 !         plasticly admissible stress
 !------------------------------------------
               if (ilaw == 1) then
-                call sigeps01c(jft       ,jlt      ,nel      ,imat     ,gs       ,&
-                &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
-                &signxx    ,signyy   ,signxy   ,signyz   ,signzx   ,&
-                &depsxx    ,depsyy   ,depsxy   ,depsyz   ,depszx   ,&
-                &thkn      ,thklyl   ,off      ,pm       ,ismstr   ,&
-                &epsxx     ,epsyy    ,epsxy    )
+                call sigeps01c(                                         &
+                     jft       ,jlt      ,nel      ,imat     ,gs       ,&
+                     sigoxx    ,sigoyy   ,sigoxy   ,sigoyz   ,sigozx   ,&
+                     signxx    ,signyy   ,signxy   ,signyz   ,signzx   ,&
+                     depsxx    ,depsyy   ,depsxy   ,depsyz   ,depszx   ,&
+                     thkn      ,thklyl   ,off      ,pm       ,ismstr   ,&
+                     epsxx     ,epsyy    ,epsxy    )
+!
               elseif (ilaw == 2) then
-                vp =  ipm(255,imat)
-                call sigeps02c(&
-                &jft        ,jlt       ,pm       ,eint     ,thkn     ,&
-                &off        ,sigy      ,dt1      ,ipla     ,nel      ,&
-                &vol0       ,gs        ,israte   ,thklyl   ,etse     ,&
-                &ngl        ,epsd_pg   ,g_imp    ,sigksi   ,ioff_duct,&
-                &dpla       ,tstar     ,jthe     ,hardm    ,epchk    ,&
-                &imat       ,ipt       ,npttot   ,lbuf%pla ,off_old  ,&
-                &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
-                &signxx     ,signyy    ,signxy   ,signyz   ,signzx   ,&
-                &depsxx     ,depsyy    ,depsxy   ,depsyz   ,depszx   ,&
-                &epspxx     ,epspyy    ,epspxy   ,epspyz   ,epspzx ,&
-                &lbuf%sigb(ij1),lbuf%sigb(ij2),lbuf%sigb(ij3),inloc  ,varnl(1,it),&
-                &vp         ,asrate    ,lbuf%off ,lbuf%epsd  ,&
-                &el_temp   ,fheat      )
+                call sigeps02c(mat_elem%mat_param(imat),                       &
+                     nel        ,eint      ,thkn     ,el_temp  ,fheat    ,     &
+                     off        ,sigy      ,dt1      ,ipla     ,sigksi   ,     &
+                     vol0       ,gs        ,thklyl   ,etse     ,g_imp    ,     &
+                     dpla       ,tstar     ,jthe     ,hardm    ,epchk    ,     &
+                     npttot     ,lbuf%pla  ,off_old  ,lbuf%off ,ioff_duct,     &
+                     sigoxx     ,sigoyy    ,sigoxy   ,sigoyz   ,sigozx   ,     &
+                     signxx     ,signyy    ,signxy   ,signyz   ,signzx   ,     &
+                     depsxx     ,depsyy    ,depsxy   ,depsyz   ,depszx   ,     &
+                     epspxx     ,epspyy    ,epspxy   ,epsd_pg  ,lbuf%epsd,     &
+                     asrate ,lbuf%sigb(ij1),lbuf%sigb(ij2),lbuf%sigb(ij3),     &
+                     inloc      ,varnl(1,it))
 !
               elseif (ilaw == 15) then
-                call sigeps15c(&
-                 jft      ,jlt     ,pm       ,lbuf%dam   ,&
-                 imat     ,shf     ,ngl      ,dmg_flag   ,&
-                 ilayer   ,nel     ,lbuf%pla ,sigdmg     ,&
-                 israte   ,asrate  ,epsd_pg  ,lbuf%epsd  ,&
-                 depsxx   ,depsyy  ,depsxy   ,depsyz     ,depszx   ,&
-                 sigoxx   ,sigoyy  ,sigoxy   ,sigoyz     ,sigozx   ,&
-                 signxx   ,signyy  ,signxy   ,signyz     ,signzx   ,&
-                 lbuf%dsum,lbuf%tsaiwu)
+                call sigeps15c(                                           &
+                     jft      ,jlt     ,pm       ,lbuf%dam   ,            &
+                     imat     ,shf     ,ngl      ,dmg_flag   ,            &
+                     ilayer   ,nel     ,lbuf%pla ,sigdmg     ,            &
+                     israte   ,asrate  ,epsd_pg  ,lbuf%epsd  ,            &
+                     depsxx   ,depsyy  ,depsxy   ,depsyz     ,depszx     ,&
+                     sigoxx   ,sigoyy  ,sigoxy   ,sigoyz     ,sigozx     ,&
+                     signxx   ,signyy  ,signxy   ,signyz     ,signzx     ,&
+                     lbuf%dsum,lbuf%tsaiwu)
+!
               elseif (ilaw == 19) then
-
                 call sigeps19c(&
                 &nel       ,nuparam   ,niparam  ,flag_zcfac,zcfac     ,shf       ,&
                 &uparam    ,iparam    ,npttot   ,ssp       ,nsensor   ,&
@@ -1107,16 +1115,16 @@
 !
               elseif (ilaw == 27) then
                 call sigeps27c(&
-                 jft      ,jlt     ,pm       ,thkn    ,off   ,&
-                 gstr     ,imat    ,dt1      ,ipla    ,shf   ,&
-                 ngl      ,thk0    ,thklyl   ,lbuf%crak,lbuf%dam,&
-                 sigy     ,zcfac   ,dpla     ,ilayer  ,ipt   ,&
-                 israte   ,nel     ,posly(1,ipt),npttot  ,epsd_pg,&
-                 depsxx   ,depsyy  ,depsxy   ,depsyz  ,depszx,&
-                 sigoxx,sigoyy ,sigoxy,sigoyz,sigozx,&
-                 signxx   ,signyy  ,signxy   ,signyz  ,signzx,&
-                 dirdmg   ,lbuf%pla,inloc    ,varnl(1,it),lbuf%off, &
-                 lbuf%epsd,asrate  )
+                  jft      ,jlt     ,pm       ,thkn    ,off   ,&
+                  gstr     ,imat    ,dt1      ,ipla    ,shf   ,&
+                  ngl      ,thk0    ,thklyl   ,lbuf%crak,lbuf%dam,&
+                  sigy     ,zcfac   ,dpla     ,ilayer  ,ipt   ,&
+                  israte   ,nel     ,posly(1,ipt),npttot  ,epsd_pg,&
+                  depsxx   ,depsyy  ,depsxy   ,depsyz  ,depszx,&
+                  sigoxx,sigoyy ,sigoxy,sigoyz,sigozx,&
+                  signxx   ,signyy  ,signxy   ,signyz  ,signzx,&
+                  dirdmg   ,lbuf%pla,inloc    ,varnl(1,it),lbuf%off, &
+                  lbuf%epsd,asrate  )
 !
               elseif (ilaw == 32) then
                 call sigeps32c(&
@@ -1134,35 +1142,35 @@
                   if (ixfem == 1 .and. ixlay > 0) npttot = elbuf_str%bufly(ixlay)%nptt
 !         integration by layers
                   call sigeps25c(matparam ,&
-                   nel         ,pm(1,imat)  ,off      ,gstr     ,&   
-                   dir_a(jdir) ,thkly(jpos),tt        ,dt1      ,shf       ,&
-                   ngl         ,thk0        ,exx      ,off_old  ,& 
-                   eyy         ,exy      ,exz         ,eyz      ,kxx       ,&
-                   kyy         ,kxy      ,posly(1,ipt),epsd_pg  ,rho       ,&
-                   ssp         ,bufmat   ,lbuf%off    ,lbuf%epsd,asrate    ,&
-                   sigy        ,zcfac    ,nptt        ,ilayer   ,&
-                   nfis1       ,nfis2    ,nfis3       ,wplar    ,&
-                   npttot      ,igtyp    ,lbuf%visc   ,lbuf%sigply,&
-                   sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
-                   signxx      ,signyy   ,signxy      ,signyz   ,signzx    ,&
-                   sigvxx      ,sigvyy   ,sigvxy      ,sigvyz   ,sigvzx    ,&
-                   israte      ,uvarv    ,ishplyxfem  ,ipt      ,lbuf%seq  ,&
-                   ply_exx     ,ply_eyy  ,ply_exy     ,ply_exz  ,ply_eyz   ,&
-                   ply_f       ,lbuf%pla ,lbuf%crak   ,gbuf%ierr,&
-                   ioff_duct   ,ifailure ,ply_id      ,ipg      ,lbuf%tsaiwu,&
-                   imconv      ,iout     ,lbuf%dmg    ,bufly%l_dmg)
+                    nel         ,pm(1,imat)  ,off      ,gstr     ,&
+                    dir_a(jdir) ,thkly(jpos),tt        ,dt1      ,shf       ,&
+                    ngl         ,thk0        ,exx      ,off_old  ,&
+                    eyy         ,exy      ,exz         ,eyz      ,kxx       ,&
+                    kyy         ,kxy      ,posly(1,ipt),epsd_pg  ,rho       ,&
+                    ssp         ,bufmat   ,lbuf%off    ,lbuf%epsd,asrate    ,&
+                    sigy        ,zcfac    ,nptt        ,ilayer   ,&
+                    nfis1       ,nfis2    ,nfis3       ,wplar    ,&
+                    npttot      ,igtyp    ,lbuf%visc   ,lbuf%sigply,&
+                    sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
+                    signxx      ,signyy   ,signxy      ,signyz   ,signzx    ,&
+                    sigvxx      ,sigvyy   ,sigvxy      ,sigvyz   ,sigvzx    ,&
+                    israte      ,uvarv    ,ishplyxfem  ,ipt      ,lbuf%seq  ,&
+                    ply_exx     ,ply_eyy  ,ply_exy     ,ply_exz  ,ply_eyz   ,&
+                    ply_f       ,lbuf%pla ,lbuf%crak   ,gbuf%ierr,&
+                    ioff_duct   ,ifailure ,ply_id      ,ipg      ,lbuf%tsaiwu,&
+                    imconv      ,iout     ,lbuf%dmg    ,bufly%l_dmg)
 
                 elseif (igtyp == 9) then
 !           integration by points (through thickness)
                   call sigeps25cp(matparam ,&
-                   jft     ,jlt    ,off      ,dir_a(jdir) ,&
-                   shf     ,npt    ,ngl      ,ipt     ,off_old     ,&
-                   thk0    ,lbuf%epsd,sigy     ,zcfac   ,nel    ,&
-                   depsxx  ,depsyy ,depsxy   ,depsyz  ,depszx ,&
-                   sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
-                   signxx  ,signyy ,signxy   ,signyz  ,signzx ,&
-                   wplar  ,ioff_duct,lbuf%pla,israte  ,asrate ,&
-                   epsd_pg,lbuf%tsaiwu)
+                    jft     ,jlt    ,off      ,dir_a(jdir) ,&
+                    shf     ,npt    ,ngl      ,ipt     ,off_old     ,&
+                    thk0    ,lbuf%epsd,sigy     ,zcfac   ,nel    ,&
+                    depsxx  ,depsyy ,depsxy   ,depsyz  ,depszx ,&
+                    sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
+                    signxx  ,signyy ,signxy   ,signyz  ,signzx ,&
+                    wplar  ,ioff_duct,lbuf%pla,israte  ,asrate ,&
+                    epsd_pg,lbuf%tsaiwu)
                 endif ! if (igtyp)
 !
               elseif (ilaw == 34) then
@@ -1207,21 +1215,21 @@
                 endif
 
                 call sigeps36c(&
-                     jlt    ,nuvar  ,nvartmp  ,nfunc   ,&
-                     ifunc  ,npf    ,iflag   ,&
-                     tf     ,dt1c   ,uparam0   ,rho     ,&
-                     thklyl ,israte ,asrate  ,epsd_pg  ,lbuf%epsd  ,&
-                     epspxx ,epspyy ,epspxy  ,&
-                     depsxx ,depsyy ,depsxy  ,depsyz   ,depszx ,&
-                     epsxx  ,epsyy  ,epsxy   ,&
-                     sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
-                     signxx ,signyy ,signxy  ,signyz   ,signzx ,&
-                     ssp    ,viscmx ,thkn    ,lbuf%pla ,uvar   ,&
-                     vartmp ,off    ,ipm     ,imat     ,&
-                     etse   ,gs     ,sigy    ,&
-                     dpla   ,g_imp  ,sigksi  ,shf      ,hardm      ,&
-                     yldfac ,inloc ,varnl(1,it),lbuf%dmg,lbuf%planl,&
-                     bufly%l_planl,sigbxx,sigbyy,sigbxy,lbuf%off)
+                  jlt    ,nuvar  ,nvartmp  ,nfunc   ,&
+                  ifunc  ,npf    ,iflag   ,&
+                  tf     ,dt1c   ,uparam0   ,rho     ,&
+                  thklyl ,israte ,asrate  ,epsd_pg  ,lbuf%epsd  ,&
+                  epspxx ,epspyy ,epspxy  ,&
+                  depsxx ,depsyy ,depsxy  ,depsyz   ,depszx ,&
+                  epsxx  ,epsyy  ,epsxy   ,&
+                  sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
+                  signxx ,signyy ,signxy  ,signyz   ,signzx ,&
+                  ssp    ,viscmx ,thkn    ,lbuf%pla ,uvar   ,&
+                  vartmp ,off    ,ipm     ,imat     ,&
+                  etse   ,gs     ,sigy    ,&
+                  dpla   ,g_imp  ,sigksi  ,shf      ,hardm      ,&
+                  yldfac ,inloc ,varnl(1,it),lbuf%dmg,lbuf%planl,&
+                  bufly%l_planl,sigbxx,sigbyy,sigbxy,lbuf%off)
 !
               elseif (ilaw == 42) then
                 call sigeps42c(&
@@ -1250,18 +1258,18 @@
 
               elseif (ilaw == 44) then
                 call sigeps44c(&
-                 jlt    ,nuparam0,nuvar  ,nfunc    ,ifunc  ,    &
-                 npf    ,tf     ,tt      ,dt1      ,uparam0,    &
-                 rho    ,thklyl ,off     ,etse     ,epsd_pg,    &
-                 epspxx ,epspyy ,epspxy  ,epspyz   ,epspzx ,    &
-                 depsxx ,depsyy ,depsxy  ,depsyz   ,depszx ,    &
-                 epsxx  ,epsyy  ,epsxy   ,epsyz    ,epszx  ,    &
-                 sigoxx ,sigoyy ,sigoxy  ,sigoyz   ,sigozx ,    &
-                 signxx ,signyy ,signxy  ,signyz   ,signzx ,    &
-                 ssp    ,viscmx ,thkn    ,lbuf%pla ,uvar   ,    &
-                 gs     ,sigy   ,lbuf%epsd,dpla    ,asrate ,    &
-                 nvartmp,vartmp ,lbuf%sigb,inloc   ,varnl(1,it),&
-                 lbuf%off)
+                  jlt    ,nuparam0,nuvar  ,nfunc    ,ifunc  ,    &
+                  npf    ,tf     ,tt      ,dt1      ,uparam0,    &
+                  rho    ,thklyl ,off     ,etse     ,epsd_pg,    &
+                  epspxx ,epspyy ,epspxy  ,epspyz   ,epspzx ,    &
+                  depsxx ,depsyy ,depsxy  ,depsyz   ,depszx ,    &
+                  epsxx  ,epsyy  ,epsxy   ,epsyz    ,epszx  ,    &
+                  sigoxx ,sigoyy ,sigoxy  ,sigoyz   ,sigozx ,    &
+                  signxx ,signyy ,signxy  ,signyz   ,signzx ,    &
+                  ssp    ,viscmx ,thkn    ,lbuf%pla ,uvar   ,    &
+                  gs     ,sigy   ,lbuf%epsd,dpla    ,asrate ,    &
+                  nvartmp,vartmp ,lbuf%sigb,inloc   ,varnl(1,it),&
+                  lbuf%off)
 
               elseif (ilaw == 45) then
                 call sigeps45c(&
@@ -1358,19 +1366,19 @@
 !
               elseif (ilaw == 58) then
                 call sigeps58c(&
-                     jlt     ,nuparam ,nuvar   ,nfunc    ,ifunc   ,    &
-                     npf     ,npt     ,ipt     ,nsensor  ,             &
-                     tf      ,tt      ,dt1c    ,uparam   ,rho     ,    &
-                     area    ,eint    ,thklyl  ,niparam  ,iparam  ,    &
-                     depsxx  ,depsyy  ,depsxy  ,depsyz   ,depszx  ,    &
-                     epsxx   ,epsyy   ,epsxy   ,epsyz    ,epszx   ,    &
-                     sigoxx  ,sigoyy  ,sigoxy  ,sigoyz   ,sigozx  ,    &
-                     signxx  ,signyy  ,signxy  ,signyz   ,signzx  ,    &
-                     sigvxx  ,sigvyy  ,sigvxy  ,sigvyz   ,sigvzx  ,    &
-                     ssp     ,viscmx  ,thkn    ,lbuf%pla ,uvar    ,    &
-                     off     ,ngl     ,pm      ,matly(jmly),etse  ,    &
-                     shf     ,sigy    ,lbuf%ang,aldt    ,              &
-                     sensors%sensor_tab,ismstr,table    ,gbuf%off)
+                  jlt     ,nuparam ,nuvar   ,nfunc    ,ifunc   ,    &
+                  npf     ,npt     ,ipt     ,nsensor  ,             &
+                  tf      ,tt      ,dt1c    ,uparam   ,rho     ,    &
+                  area    ,eint    ,thklyl  ,niparam  ,iparam  ,    &
+                  depsxx  ,depsyy  ,depsxy  ,depsyz   ,depszx  ,    &
+                  epsxx   ,epsyy   ,epsxy   ,epsyz    ,epszx   ,    &
+                  sigoxx  ,sigoyy  ,sigoxy  ,sigoyz   ,sigozx  ,    &
+                  signxx  ,signyy  ,signxy  ,signyz   ,signzx  ,    &
+                  sigvxx  ,sigvyy  ,sigvxy  ,sigvyz   ,sigvzx  ,    &
+                  ssp     ,viscmx  ,thkn    ,lbuf%pla ,uvar    ,    &
+                  off     ,ngl     ,pm      ,matly(jmly),etse  ,    &
+                  shf     ,sigy    ,lbuf%ang,aldt    ,              &
+                  sensors%sensor_tab,ismstr,table    ,gbuf%off)
 !
               elseif (ilaw == 60) then
                 if (igtyp /= 10.and.igtyp /= 11 .and.igtyp /= 17) then
@@ -1461,19 +1469,19 @@
 !
               elseif (ilaw == 65) then
                 call sigeps65c(&
-                 jlt    ,nuparam0,nuvar   ,nfunc   ,ifunc  ,&
-                 npf    ,npt    ,ipt,iflag   ,&
-                 tf     ,tt     ,dt1c    ,bufmat   ,rho,&
-                 area   ,eint   ,thklyl  ,israte   ,asrate ,&
-                 epspxx ,epspyy ,epspxy  ,epspyz   ,epspzx ,&
-                 depsxx ,depsyy ,depsxy  ,depsyz   ,depszx ,&
-                 epsxx  ,epsyy  ,epsxy   ,epsyz    ,epszx  ,&
-                 sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
-                 signxx ,signyy ,signxy  ,signyz   ,signzx ,&
-                 sigvxx ,sigvyy ,sigvxy  ,sigvyz   ,sigvzx ,&
-                 ssp    ,viscmx ,thkn    ,lbuf%pla ,uvar   ,&
-                 off    ,ngl    ,ipm     ,matly(jmly),etse ,&
-                 gs     ,sigy   ,lbuf%epsd,dpla   )
+                  jlt    ,nuparam0,nuvar   ,nfunc   ,ifunc  ,&
+                  npf    ,npt    ,ipt,iflag   ,&
+                  tf     ,tt     ,dt1c    ,bufmat   ,rho,&
+                  area   ,eint   ,thklyl  ,israte   ,asrate ,&
+                  epspxx ,epspyy ,epspxy  ,epspyz   ,epspzx ,&
+                  depsxx ,depsyy ,depsxy  ,depsyz   ,depszx ,&
+                  epsxx  ,epsyy  ,epsxy   ,epsyz    ,epszx  ,&
+                  sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
+                  signxx ,signyy ,signxy  ,signyz   ,signzx ,&
+                  sigvxx ,sigvyy ,sigvxy  ,sigvyz   ,sigvzx ,&
+                  ssp    ,viscmx ,thkn    ,lbuf%pla ,uvar   ,&
+                  off    ,ngl    ,ipm     ,matly(jmly),etse ,&
+                  gs     ,sigy   ,lbuf%epsd,dpla   )
 !
               elseif (ilaw == 66) then
                 call sigeps66c(&
@@ -1559,16 +1567,16 @@
               elseif (ilaw == 76) then
 
                 call sigeps76c(&
-                &jlt      ,nuparam0  ,nuvar    ,nfunc    ,ifunc    ,&
-                &npf      ,tf        ,matparam ,tt       ,dt1      ,&
-                &uparam0  ,uvar      ,rho      ,off      ,ngl      ,&
-                &depsxx   ,depsyy    ,depsxy   ,depsyz   ,depszx   ,&
-                &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
-                &signxx   ,signyy   ,signxy   ,signyz   ,signzx    ,&
-                &ssp      ,thkn     ,thklyl   ,lbuf%pla ,lbuf%epsd ,&
-                &etse     ,gs       ,sigy     ,inloc    ,bufly%l_planl,&
-                &lbuf%planl,varnl(1,it),lbuf%dmg,&
-                &nvartmp  ,vartmp   ,lbuf%off)
+                 jlt      ,nuparam0 ,nuvar    ,nfunc    ,ifunc    ,&
+                 npf      ,tf       ,matparam ,tt       ,dt1      ,&
+                 uparam0  ,uvar     ,rho      ,off      ,ngl      ,&
+                 depsxx   ,depsyy   ,depsxy   ,depsyz   ,depszx   ,&
+                 sigoxx   ,sigoyy   ,sigoxy   ,sigoyz   ,sigozx   ,&
+                 signxx   ,signyy   ,signxy   ,signyz   ,signzx   ,&
+                 ssp      ,thkn     ,thklyl   ,lbuf%pla ,          &
+                 etse     ,gs       ,sigy     ,inloc    ,bufly%l_planl,&
+                 lbuf%planl,varnl(1,it),lbuf%dmg,&
+                 nvartmp  ,vartmp   ,lbuf%off)
 !
               elseif (ilaw == 78) then
                 call sigeps78c(&
@@ -1584,26 +1592,26 @@
 !
               elseif (ilaw == 80) then
                 call sigeps80c(&
-                 jlt,          nuparam0,      nuvar,        nfunc,&
-                 ifunc,        npf,          npt,          ipt,&
-                 iflag,        tf,           tt,           dt1c,&
-                 uparam0,       rho,          area,         eint,&
-                 thklyl,       epspxx,       epspyy,       epspxy,&
-                 epspyz,       epspzx,       depsxx,       depsyy,&
-                 depsxy,       depsyz,       depszx,       epsxx,&
-                 epsyy,        epsxy,        epsyz,        epszx,&
-                 sigoxx,sigoyy,sigoxy,sigoyz,&
-                 sigozx,signxx,       signyy,       signxy,&
-                 signyz,       signzx,       sigvxx,       sigvyy,&
-                 sigvxy,       sigvyz,       sigvzx,       ssp,&
-                 viscmx,       thkn,         lbuf%pla,     uvar,&
-                 off,          ngl,          pm,           ipm,&
-                 matly(jmly),  etse,         gs,           vol0,&
-                 sigy,         el_temp,      die,          coef,&
-                 shf,          epsd_pg,      table,        ithk,&
-                 nvartmp,      vartmp,       epsthtot,     jthe,&
-                 idt_therm,    theaccfact)
-                 lbuf%epsd(1:nel) = epsd_pg(1:nel)                
+                  jlt,          nuparam0,      nuvar,        nfunc,&
+                  ifunc,        npf,          npt,          ipt,&
+                  iflag,        tf,           tt,           dt1c,&
+                  uparam0,       rho,          area,         eint,&
+                  thklyl,       epspxx,       epspyy,       epspxy,&
+                  epspyz,       epspzx,       depsxx,       depsyy,&
+                  depsxy,       depsyz,       depszx,       epsxx,&
+                  epsyy,        epsxy,        epsyz,        epszx,&
+                  sigoxx,sigoyy,sigoxy,sigoyz,&
+                  sigozx,signxx,       signyy,       signxy,&
+                  signyz,       signzx,       sigvxx,       sigvyy,&
+                  sigvxy,       sigvyz,       sigvzx,       ssp,&
+                  viscmx,       thkn,         lbuf%pla,     uvar,&
+                  off,          ngl,          pm,           ipm,&
+                  matly(jmly),  etse,         gs,           vol0,&
+                  sigy,         el_temp,      die,          coef,&
+                  shf,          epsd_pg,      table,        ithk,&
+                  nvartmp,      vartmp,       epsthtot,     jthe,&
+                  idt_therm,    theaccfact)
+                lbuf%epsd(1:nel) = epsd_pg(1:nel)
 !
               elseif (ilaw == 82) then
                 call sigeps82c(&
@@ -1770,30 +1778,30 @@
 !
               elseif (ilaw == 122) then
                 call sigeps122c(&
-                 jlt      ,nuparam0 ,nuvar    ,uparam0  ,uvar     ,   &
-                 epsxx    ,epsyy    ,rho      ,lbuf%pla ,dpla     ,   &
-                 depsxx   ,depsyy   ,depsxy   ,depsyz   ,depszx   ,   &
-                 sigoxx   ,sigoyy   ,sigoxy   ,sigoyz   ,sigozx   ,   &
-                 signxx   ,signyy   ,signxy   ,signyz   ,signzx   ,   &
-                 thkn     ,thklyl   ,off      ,sigy     ,etse     ,   &
-                 lbuf%dmg ,lbuf%seq ,shf      ,ssp      ,asrate   ,   &
-                 epsd_pg  ,nfunc    ,ifunc    ,npf      ,tf       ,   &
-                 nvartmp  ,vartmp   ,ioff_duct)
-                 lbuf%epsd(1:nel) = epsd_pg(1:nel)
+                  jlt      ,nuparam0 ,nuvar    ,uparam0  ,uvar     ,   &
+                  epsxx    ,epsyy    ,rho      ,lbuf%pla ,dpla     ,   &
+                  depsxx   ,depsyy   ,depsxy   ,depsyz   ,depszx   ,   &
+                  sigoxx   ,sigoyy   ,sigoxy   ,sigoyz   ,sigozx   ,   &
+                  signxx   ,signyy   ,signxy   ,signyz   ,signzx   ,   &
+                  thkn     ,thklyl   ,off      ,sigy     ,etse     ,   &
+                  lbuf%dmg ,lbuf%seq ,shf      ,ssp      ,asrate   ,   &
+                  epsd_pg  ,nfunc    ,ifunc    ,npf      ,tf       ,   &
+                  nvartmp  ,vartmp   ,ioff_duct)
+                lbuf%epsd(1:nel) = epsd_pg(1:nel)
 !
               elseif (ilaw == 125) then
-               call sigeps125c(&
-                    jlt      ,matparam   ,nuvar    ,uvar      ,&
-                    rho      ,thkn       ,thklyl   , shf      ,&
-                    nfunc    ,ifunc      ,npf      ,tf        ,snpc    ,&
-                    stf      ,epsd_pg                                  ,&
-                    depsxx   ,depsyy     ,depsxy                       ,&
-                    epsxx    ,epsyy      ,epsxy    ,epsyz    ,epszx    ,&
-                    sigoxx   ,sigoyy     ,sigoxy                       ,&
-                    signxx   ,signyy     ,signxy   ,signzx   ,signyz   ,&
-                    off      ,sigy       ,etse     ,ssp      ,lbuf%dmg ,&
-                    gbuf%dmg ,lbuf%off  )
-                 lbuf%epsd(1:nel) = epsd_pg(1:nel)
+                call sigeps125c(&
+                  jlt      ,matparam   ,nuvar    ,uvar      ,&
+                  rho      ,thkn       ,thklyl   , shf      ,&
+                  nfunc    ,ifunc      ,npf      ,tf        ,snpc    ,&
+                  stf      ,epsd_pg                                  ,&
+                  depsxx   ,depsyy     ,depsxy                       ,&
+                  epsxx    ,epsyy      ,epsxy    ,epsyz    ,epszx    ,&
+                  sigoxx   ,sigoyy     ,sigoxy                       ,&
+                  signxx   ,signyy     ,signxy   ,signzx   ,signyz   ,&
+                  off      ,sigy       ,etse     ,ssp      ,lbuf%dmg ,&
+                  lbuf%off  )
+                lbuf%epsd(1:nel) = epsd_pg(1:nel)
 !
               elseif (ilaw == 127) then
                 ! ---
@@ -1807,17 +1815,17 @@
                 enddo
                 !---
                 call sigeps127c(&
-                 jlt      ,matparam   ,nuvar    ,uvar      ,         &
-                 rho      ,thkn       ,thklyl   ,shf       ,ncycle  ,&
-                 nfunc    ,ifunc      ,npf      ,tf        ,snpc    ,&
-                 stf      ,epsd_pg    ,npttot                       ,&
-                 depsxx   ,depsyy     ,depsxy   ,depsyz   ,depszx   ,&
-                 epsxx    ,epsyy      ,epsxy    ,epsyz    ,epszx    ,&
-                 sigoxx   ,sigoyy     ,sigoxy   ,sigozx   ,sigoyz   ,&
-                 signxx   ,signyy     ,signxy   ,signzx   ,signyz   ,&
-                 off      ,sigy       ,etse     ,ssp      ,lbuf%dmg ,&
-                 gbuf%dmg  ,lbuf%off)
-                 lbuf%epsd(1:nel) = epsd_pg(1:nel)
+                  jlt      ,matparam   ,nuvar    ,uvar      ,         &
+                  rho      ,thkn       ,thklyl   ,shf       ,ncycle  ,&
+                  nfunc    ,ifunc      ,npf      ,tf        ,snpc    ,&
+                  stf      ,epsd_pg    ,npttot                       ,&
+                  depsxx   ,depsyy     ,depsxy   ,depsyz   ,depszx   ,&
+                  epsxx    ,epsyy      ,epsxy    ,epsyz    ,epszx    ,&
+                  sigoxx   ,sigoyy     ,sigoxy   ,sigozx   ,sigoyz   ,&
+                  signxx   ,signyy     ,signxy   ,signzx   ,signyz   ,&
+                  off      ,sigy       ,etse     ,ssp      ,lbuf%dmg ,&
+                  gbuf%dmg  ,lbuf%off)
+                lbuf%epsd(1:nel) = epsd_pg(1:nel)
 !
               elseif (ilaw == 128) then
                 sigoxx(1:nel) = lbuf%sig(1:nel)
@@ -1833,7 +1841,8 @@
                   signxx   ,signyy   ,signxy   ,signyz   ,signzx   ,       &
                   ssp      ,thkn     ,lbuf%pla ,dpla     ,lbuf%epsd,       &
                   off      ,etse     ,thklyl   ,shf      ,sigy     ,       &
-                  hardm    ,lbuf%seq ,l_sigb   ,lbuf%sigb)
+                  hardm    ,lbuf%seq ,l_sigb   ,lbuf%sigb,nuvar    ,       &
+                  uvar     )
 !
               elseif (ilaw == 158) then
                 call sigeps158c(&
@@ -1877,10 +1886,10 @@
               if ((idamp_freq_range > 0) .and. ilaw /= 25) then
                 flag_incr = 0
                 call damping_range_shell(damp_buf,nel     ,nuvarv  ,nvar_damp,dt1      ,           &
-                                         rho     ,ssp     ,matparam%young,matparam%shear,          &
-                                         epspxx  ,epspyy  ,epspxy  ,epspyz  ,epspzx    ,           &
-                                         sigvxx  ,sigvyy  ,sigvxy  ,sigvyz  ,sigvzx    ,           &
-                                         uvarv   ,off     ,etse     ,flag_incr)
+                  rho     ,ssp     ,matparam%young,matparam%shear,          &
+                  epspxx  ,epspyy  ,epspxy  ,epspyz  ,epspzx    ,           &
+                  sigvxx  ,sigvyy  ,sigvxy  ,sigvyz  ,sigvzx    ,           &
+                  uvarv   ,off     ,etse     ,flag_incr)
               endif
 !-------------------------------------------
               do i=jft,jlt
@@ -1891,25 +1900,25 @@
 !-----------------------------------------------
 !------------------------------------------------------------
 !     Calculation of the Plastic Work
-!------------------------------------------------------------ 
-              if ((gbuf%g_wpla > 0).and.(bufly%l_pla > 0)) then  
+!------------------------------------------------------------
+              if ((gbuf%g_wpla > 0).and.(bufly%l_pla > 0)) then
                 !< Case where equivalent stress is computed in the material law
                 if (bufly%l_seq > 0) then
                   do i = jft,jlt
                     dpla(i) = lbuf%pla(i) - pla0(i)
                     gbuf%wpla(i) = gbuf%wpla(i) +                               &
-                        half*(seq0(i) + lbuf%seq(i))*dpla(i)*thklyl(i)*area(i)
+                      half*(seq0(i) + lbuf%seq(i))*dpla(i)*thklyl(i)*area(i)
                   enddo
-                !< Default case using Von Mises stress
+                  !< Default case using Von Mises stress
                 else
                   do i = jft,jlt
                     dpla(i) = lbuf%pla(i) - pla0(i)
                     vm0(i) = sqrt(sigoxx(i)*sigoxx(i) + sigoyy(i)*sigoyy(i) -   &
-                           sigoxx(i)*sigoyy(i) + three*sigoxy(i)*sigoxy(i))
+                      sigoxx(i)*sigoyy(i) + three*sigoxy(i)*sigoxy(i))
                     vm(i)  = sqrt(signxx(i)*signxx(i) + signyy(i)*signyy(i) -   &
-                             signxx(i)*signyy(i) + three*signxy(i)*signxy(i))
+                      signxx(i)*signyy(i) + three*signxy(i)*signxy(i))
                     gbuf%wpla(i) = gbuf%wpla(i) +                               &
-                               half*(vm0(i) + vm(i))*dpla(i)*thklyl(i)*area(i)
+                      half*(vm0(i) + vm(i))*dpla(i)*thklyl(i)*area(i)
                   enddo
                 endif
               endif
@@ -2717,8 +2726,8 @@
 !         facteurs pour coques b.l. (zeng&combescure)
 !-----------------------------------------------
               if (ilaw /= 2  .and. ilaw /= 15 .and. ilaw /= 22 .and.    &
-                           ilaw /= 25 .and. ilaw /= 27 .and. ilaw /= 32 &
-                     .and. ilaw /= 19 .and. ilaw /= 119) then  ! for law25,27 it is done inside sigeps25c.f...
+                ilaw /= 25 .and. ilaw /= 27 .and. ilaw /= 32 &
+                .and. ilaw /= 19 .and. ilaw /= 119) then  ! for law25,27 it is done inside sigeps25c.f...
                 if(flag_zcfac) then
                   zcfac(jft:jlt,1) = zcfac(jft:jlt,1) + etse(jft:jlt) * thkly(jpos:jpos+jlt-1)
                   zcfac(jft:jlt,2) = min(etse(jft:jlt),zcfac(jft:jlt,2))
@@ -2730,13 +2739,13 @@
                 select case (igtyp)
 !------------------------------------
                  case (1,9)
-                  if (flag_zcfac) then 
+                  if (flag_zcfac) then
                     zcfac(jft:jlt,1) = zcfac(jft:jlt,1) + etse(jft:jlt) / npt
                     zcfac(jft:jlt,2) = min(etse(jft:jlt),zcfac(jft:jlt,2))
                   endif
                   yld(jft:jlt)     = yld(jft:jlt) + sigy(jft:jlt) / npt
                  case default
-                  if (flag_zcfac) then 
+                  if (flag_zcfac) then
                     zcfac(jft:jlt,1) = zcfac(jft:jlt,1) + etse(jft:jlt) * thkly(jpos:jpos+jlt-1)
                     zcfac(jft:jlt,2) = min(etse(jft:jlt),zcfac(jft:jlt,2))
                   endif
@@ -3018,6 +3027,6 @@
 1100      FORMAT(1X,'-- RUPTURE OF SHELL ELEMENT :',I10,' AT TIME :',G11.4)
 !---------------------------------------------------
           return
-        end
+        end subroutine mulawc
 !-----
       end module mulawc_mod

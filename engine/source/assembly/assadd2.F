@@ -20,7 +20,7 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-C finalisation parith/on spmd (1ere partie effectuee dans Starter)
+C Parith/On SPMD finalization (1st part carried out in Starter)
 !||====================================================================
 !||    assadd2          ../engine/source/assembly/assadd2.F
 !||--- called by ------------------------------------------------------
@@ -123,11 +123,11 @@ C
         ENDDO
       ENDIF
 C
-C spmd cne et addcne deja obtenus
+C SPMD CNE and ADDCNE already obtained
 C iadx deja calcule dans RADIOSS Starter
 C
 C-----------------------------------------------
-C Calcul des tailles des comms elementaires
+C Calculation of elementary communication sizes
 C-----------------------------------------------
       DO I = 1, NSPMD+1
         FR_NBCC(1,I) = 0
@@ -297,7 +297,7 @@ C
           ENDDO
       ENDIF
 C-----------------------------------------------
-C Optimisation vectorielle de asspar4
+C Vectorial optimization of asspar4
 C-----------------------------------------------
       IF (IVECTOR==1) THEN
 C   index : 2*numnod
@@ -311,7 +311,7 @@ C   indsky : numnod
           INDSKY(N) = INDEX(N)
         ENDDO
 C
-C reperage des blocs
+C block identification
 C    
         NC1 = -1
         I = 1
@@ -349,7 +349,7 @@ C
 
       IF(I2NSNT>0) THEN
 C-----------------------------------------------
-C Calcul des tailles des comms elementaires
+C Calculation of elementary communication sizes
 C-----------------------------------------------
 C
         LOC_PROC = ISPMD+1
@@ -374,7 +374,7 @@ C
           FR_NBCCI2(2,NSPMD+1) = FR_NBCCI2(2,NSPMD+1)+FR_NBCCI2(2,I)
         ENDDO
 C-----------------------------------------------
-C Optimisation vectorielle de asspari2
+C Vectorial optimization of asspari2
 C-----------------------------------------------
         IF (IVECTOR==1) THEN
 C index : 2*numnod
@@ -388,7 +388,7 @@ C indskyi2 : numnod
             INDSKYI2(N) = INDEX(N)
           ENDDO
 C
-C reperage des blocs
+C block identification
 C    
           NC1 = -1
           I = 1
@@ -450,7 +450,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, LOC_PROC, NOD, CC, LSD, LRC
 C-----------------------------------------------
-C Calcul des tailles des comms optimis\E9es parith/on
+C Calculation of optimized communication sizes parith/on
 C-----------------------------------------------
       IF(NSPMD>0.AND.IPARIT>0)THEN
         LOC_PROC = ISPMD+1
@@ -507,7 +507,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, LOC_PROC, NOD, CC, LSD, LRC,N
 C-----------------------------------------------
-C Calcul des tailles des comms optimis\E9es parith/on
+C Calculation of optimized communication sizes parith/on
 C-----------------------------------------------
       IF(NSPMD>0.AND.IPARIT>0)THEN
         LOC_PROC = ISPMD+1
@@ -568,7 +568,7 @@ C-----------------------------------------------
       INTEGER I, J, LOC_PROC, NOD, CC, LSD, LRC,N,
      .        LENR,K
 C-----------------------------------------------
-C Calcul des tailles des comms optimis\E9es parith/on
+C Calculation of optimized communication sizes parith/on
 C-----------------------------------------------
       IF(NSPMD>0.AND.IPARIT>0)THEN
         LOC_PROC = ISPMD+1
@@ -583,9 +583,9 @@ C
             IF(NOD > 0 )THEN    ! check if node is Xfem sur proc i /= proc_loc
                DO CC = ADDCNE_CRKXFEM(NOD),ADDCNE_CRKXFEM(NOD+1)-1
                  IF(PROCNE(CC)==LOC_PROC) THEN
-                   LSD = LSD + 1           ! long de frontiere d'echange pour send
+                   LSD = LSD + 1           ! exchange boundary length for send
                  ELSEIF(PROCNE(CC)==I) THEN
-                   LRC = LRC + 1           ! long de frontiere d'echange pour rcv
+                   LRC = LRC + 1           ! exchange boundary length for receive
                  ENDIF
                ENDDO
             ENDIF 

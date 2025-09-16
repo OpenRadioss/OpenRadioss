@@ -27,6 +27,8 @@
 !||====================================================================
       module shell_offsetp_mod
 
+      implicit none
+
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
@@ -140,7 +142,7 @@
                   n = ixc(j+1,ie)
                   nn = nn + intag(n)
                   ix(j) = n
-                enddo
+                end do
                 if (nn>0) then
                   nshel = nshel + 1
                   idnneoset(nshel) = ie
@@ -153,7 +155,7 @@
                   end if
                 end if
               end do
-            elseif (ity == 7)then
+            else if (ity == 7)then
               nnode =3
               do i=1,nel
                 ie = nft + i
@@ -162,7 +164,7 @@
                   n = ixtg(j+1,ie)
                   nn = nn + intag(n)
                   ix(j) = n
-                enddo
+                end do
                 if (nn>0) then
                   nshel = nshel + 1
                   idnneoset(nshel) = ie + numelc  ! same than thke

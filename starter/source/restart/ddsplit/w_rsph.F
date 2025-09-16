@@ -81,7 +81,7 @@ C
         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR)       
         SPHVELN_L(1:SSPHVELN_L)=ZERO
-C ecriture faite sur p0 en monodomaine pour inlet/outlet
+C writing done on p0 in monodomain for inlet/outlet
         CALL WRITE_DB(VSPHIO,SVSPHIO)
         CALL WRITE_DB(SPHVELN_L,SSPHVELN_L)
         LEN_AM = LEN_AM + SVSPHIO + SSPHVELN_L

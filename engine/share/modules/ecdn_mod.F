@@ -33,7 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       MODULE ECND_MOD 
 C----------------------------------------------------------------------- 
-C    CND : CondeNsation Dynamic, ND means aussi Node_Dependent
+C    CND: Dynamic condensation, nd means also node_dependent
 C----------------------------------------------------------------------- 
 #include "my_real.inc"      
 C=======================================================================

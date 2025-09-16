@@ -97,6 +97,7 @@ c
 !||    hm_option_is_encrypted   ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
 !||    law92_nlsqf              ../starter/source/materials/mat/mat092/law92_nlsqf.F90
 !||--- uses       -----------------------------------------------------
+!||    law92_nlsqf_mod          ../starter/source/materials/mat/mat092/law92_nlsqf.F90
 !||    message_mod              ../starter/share/message_module/message_mod.F
 !||    table_mod                ../starter/share/modules1/table_mod.F
 !||====================================================================
@@ -108,6 +109,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE TABLE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      USE LAW92_NLSQF_MOD, ONLY : LAW92_NLSQF
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

@@ -51,7 +51,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local Variables
 ! ----------------------------------------------------------------------------------------------------------------------
-        INTEGER :: I,IAD,NFIX,NUPARAM,NIPARAM,NUMTABL,NUMFUNC
+        INTEGER :: I,IAD,NFIX
         INTEGER ,DIMENSION(NCHARTITLE) :: NAME
         INTEGER ,DIMENSION(:) ,ALLOCATABLE :: IBUF
         real(kind=WP) ,DIMENSION(:), ALLOCATABLE :: RBUF
@@ -79,7 +79,7 @@
         DEALLOCATE(IBUF)
 
         !REAL parameter
-        NFIX = 2
+        NFIX = 6
         ALLOCATE (RBUF(NFIX))
         ALLOCATE(IBUF(1))
         IBUF(1)=NFIX
@@ -88,6 +88,14 @@
         IAD = IAD+1
         RBUF(IAD) = EOS%CP
         IAD = IAD+1
+        RBUF(IAD) = EOS%PSH
+        IAD = IAD+1
+        RBUF(IAD) = EOS%E0
+        IAD = IAD+1
+        RBUF(IAD) = EOS%P0
+        IAD = IAD+1
+        RBUF(IAD) = EOS%PMIN
+        IAD = IAD+1                        
         CALL WRITE_I_C(IBUF,1)
         CALL WRITE_DB(RBUF,NFIX)
         DEALLOCATE(RBUF)

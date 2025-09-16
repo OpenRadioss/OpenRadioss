@@ -137,9 +137,9 @@
             dmax = zero
             if(igap==0)then
               dmax  = sqrt(two) * max(gap+dgapload,drad)
-            elseif(igap==1 .or. igap==2) then
+            else if(igap==1 .or. igap==2) then
               dmax  = sqrt(two) * max(gap_m(i)+gaps_mx+dgapload,drad)
-            elseif(igap==3) then
+            else if(igap==3) then
               dmax  = sqrt(two) * max(min(gap_m(i)+gaps_mx,gap_m_l(i)+gaps_l_mx)+dgapload,drad)
             end if
             ! ---------------
@@ -159,7 +159,7 @@
               node_id = irect(j,seg)
               tagnod(node_id) = 1
               dist1(node_id) = zero
-            enddo
+            end do
             listseg(1)=seg
 
             ! ----------------------------------
@@ -188,7 +188,7 @@
                       if(itagseg(seg1) == 0)then ! add the segment "seg1" to the list of segment
                         cpt = cpt + 1 ! number of new segment to be checked
                         listsegtmp(cpt)=seg1 ! list of new segment to be checked
-                      endif
+                      end if
                       itagseg(seg1)=level ! tag the segment seg1
 
                       do l=1,kmax ! loop over the node of the segment "seg1"
@@ -204,14 +204,14 @@
                           cptoper = cptoper + 1
                           tagnod(node_id_seg1) = 1 ! tag the node "irect(l,seg1)"
                           id_nod(cptoper)=node_id_seg1 ! save the node id
-                        endif
+                        end if
 
                         if(igap==1 .or. igap==2)then
                           gapv(irect(l,seg1))=gapsecnd(irect(l,seg1))+gap_m(i)
                           gapv(irect(l,seg1))=min(gapmax,gapv(irect(l,seg1)))
                           gapv(irect(l,seg1))=max(gapmin,gapv(irect(l,seg1)))
                           gapv(irect(l,seg1))=max(drad,gapv(irect(l,seg1))+dgapload)
-                        elseif(igap==3)then
+                        else if(igap==3)then
                           gapv(irect(l,seg1))=gapsecnd(irect(l,seg1))+gap_m(i)
                           gapv(irect(l,seg1))= min(gap_s_l_tmp(irect(l,seg1))+gap_m_l(i),gapv(irect(l,seg1)))
                           gapv(irect(l,seg1))=min(gapmax,gapv(irect(l,seg1)))
@@ -219,16 +219,16 @@
                           gapv(irect(l,seg1))=max(drad,gapv(irect(l,seg1))+dgapload)
                         end if
 
-                      enddo
-                    endif
+                      end do
+                    end if
 
-                  enddo
+                  end do
 
-                enddo
+                end do
 
                 tagnod(irect(1:4,seg))=1 ! tag the node of the segment "seg" to 1 (instead of 2)
 
-              enddo
+              end do
 
               do iseg=1,nbseg
                 seg  = listseg(iseg)
@@ -246,10 +246,10 @@
                 listseg(j)    =listsegtmp(j)
                 listsegtmp(j) = 0
                 listsegtotal(j+cpt_total) = listseg(j)
-              enddo
+              end do
               cpt_total = cpt_total + cpt
 
-            enddo
+            end do
             ! ----------------------------------
 
 
@@ -269,15 +269,15 @@
                   if(dist1(id_nod(l)) <= dmax)then ! check if the distance to the node id_nod(l) is < to dmax
                     cpt1 = cpt1 + 1
                     noddel(cpt1) = id_nod(l) ! save the node
-                  endif
-                enddo
+                  end if
+                end do
               else
                 do l=1,cptoper
                   if(dist1(id_nod(l)) <= sqrt(two)*gapv(id_nod(l)))then
                     cpt1 = cpt1 + 1
                     noddel(cpt1) = id_nod(l)
-                  endif
-                enddo
+                  end if
+                end do
               end if
 
               kremnode(i+1) = cpt1
@@ -290,22 +290,22 @@
                 deallocate( local_remnode )
                 call move_alloc( tmp_array,local_remnode )
                 local_remnode_size = my_new_size
-              endif
+              end if
               do l=1,cpt1
                 local_remnode(local_kremnode(my_seg_number,1)+l) = noddel(l) ! save the forbidden node in remnode
-              enddo
+              end do
               do l=1,cptoper
                 dist1(id_nod(l)) = ep30
-              enddo
+              end do
               do l=1,cpt_total
                 tagnod(irect(1:4, listsegtotal(l))) = 0
                 itagseg(listsegtotal(l)) = 0
                 listsegtotal(l)          = 0
-              enddo
+              end do
               tagnod(irect(1:4,i)) = 0
               itagseg(i)           = 0
-            endif
-          enddo
+            end if
+          end do
 !$omp end do
 
 !$omp barrier
@@ -313,7 +313,7 @@
 !$omp single
           do i=1,nrtm
             kremnode(i+1) = kremnode(i+1) + kremnode(i)
-          enddo
+          end do
           my_size = intbuf_tab%s_remnode
           nty = ipari(7)
           if(kremnode(nrtm+1)>my_size) call upgrade_remnode( ipari,kremnode(nrtm+1),intbuf_tab,nty )
@@ -326,8 +326,8 @@
             my_address = kremnode(my_seg_id)
             do j=1,my_size
               intbuf_tab%remnode(my_address+j) = local_remnode(my_local_address+j)
-            enddo
-          enddo
+            end do
+          end do
 
 
           deallocate(noddel,nod2expand )

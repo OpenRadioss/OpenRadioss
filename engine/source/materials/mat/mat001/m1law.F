@@ -114,7 +114,7 @@ C
        G1(I)=DT1*G(I)
        G2(I)=TWO*G1(I)
        !-----------------------
-       !     CALCUL DE DP/DRHO
+       ! calculation of dp/drho
        !-----------------------
        !     P = C1 mu, mu = rho/rho0-1 (cf Hydrodynamic pressure)
        !     d(rho)/d(mu)  = rho0

@@ -104,7 +104,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_ebcs_normv                ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_normv.F
 !||    hm_read_ebcs_nrf                  ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_nrf.F
 !||    hm_read_ebcs_pres                 ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_pres.F
-!||    hm_read_ebcs_propergol            ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_propergol.F90
+!||    hm_read_ebcs_propellant           ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_propellant.F90
 !||    hm_read_ebcs_valvin               ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_valvin.F
 !||    hm_read_ebcs_valvout              ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_valvout.F
 !||    hm_read_ebcs_vel                  ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_vel.F
@@ -217,7 +217,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_link                      ../starter/source/constraints/rigidlink/hm_read_rlink.F
 !||    hm_read_load_centri               ../starter/source/loads/general/load_centri/hm_read_load_centri.F
 !||    hm_read_load_pressure             ../starter/source/loads/general/load_pressure/hm_read_load_pressure.F
-!||    hm_read_mat02                     ../starter/source/materials/mat/mat002/hm_read_mat02.F
+!||    hm_read_mat02_jc                  ../starter/source/materials/mat/mat002/hm_read_mat02_jc.F90
+!||    hm_read_mat02_zerilli             ../starter/source/materials/mat/mat002/hm_read_mat02_zerilli.F90
 !||    hm_read_mat03                     ../starter/source/materials/mat/mat003/hm_read_mat03.F
 !||    hm_read_mat04                     ../starter/source/materials/mat/mat004/hm_read_mat04.F
 !||    hm_read_mat05                     ../starter/source/materials/mat/mat005/hm_read_mat05.F

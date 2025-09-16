@@ -26,6 +26,7 @@
 !||    eikonal_compute_adjacent          ../starter/source/initial_conditions/detonation/eikonal_compute_adjacent.F90
 !||====================================================================
       module eikonal_godunov_operator_2d_mod
+      implicit none
       contains
 
 ! ======================================================================================================================
@@ -95,7 +96,7 @@
             s = one / s
             tt_candidate = b+s*dist
             tt = min(tt, tt_candidate)
-          elseif (b == ep21) then
+          else if (b == ep21) then
             k=1
             if(a==tt_adj(3))k=3
             dy = (xel(2)-xel_adj(2,k))
@@ -116,8 +117,8 @@
             l=2
             if(b==tt_adj(4))l=4
 
-            A1 = (xel_adj(3,k)-xel_adj(3,l)) ;
-            A2 = (xel_adj(2,l)-xel_adj(2,k)) ;
+            A1 = (xel_adj(3,k)-xel_adj(3,l))
+            A2 = (xel_adj(2,l)-xel_adj(2,k))
             B1 = two*( (xel_adj(3,l)-xel(3))*tt_adj(k) - (xel_adj(3,k)-xel(3))*tt_adj(l) )*A1
             B2 = two*( (xel_adj(2,k)-xel(2))*tt_adj(l) - (xel_adj(2,l)-xel(2))*tt_adj(k) )*A2
             C1 = ( (xel_adj(3,l)-xel(3))*tt_adj(k) - (xel_adj(3,k)-xel(3))*tt_adj(l) )

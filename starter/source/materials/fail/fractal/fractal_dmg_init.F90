@@ -36,6 +36,7 @@
 !||    cinit3                 ../starter/source/elements/shell/coque/cinit3.F
 !||====================================================================
       module fractal_dmg_init_mod
+      implicit none
       contains
 ! ======================================================================================================================
 ! \brief initialize local element buffer variable dammx in shell elements calculated by /fail/fractal_dmg
@@ -69,7 +70,7 @@
 
 
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   arguments 
+!                                                   arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           integer ,intent(in)  :: nshell                                         !< total number of shell elements
           integer ,intent(in)  :: nummat                                         !< number material models
@@ -81,7 +82,7 @@
           type (matparam_struct_) ,dimension(nummat) ,intent(inout) :: mat_param !< material parameter structure
           type (fail_fractal_) :: fail_fractal                                   !< fractal model structure
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   local variables 
+!                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i,ii,jj,iel,nlay,ilay,ir,is,it,nptr,npts,nptt,nix
           integer :: nelem_dmg,nlay_dmg
@@ -143,7 +144,7 @@
             if (debug == 1 .and. nelem_dmg > 0) then
               do ii=1,nelem_dmg
                 i = elem_dmg(ii)
-                print*,'    initially damaged elem ',ngl(i)
+                print*,"    initially damaged elem ",ngl(i)
               end do
             end if
             !------------------------------------------

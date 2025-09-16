@@ -21,21 +21,21 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    i10for3    ../engine/source/interfaces/int10/i10for3.F
+!||    i10for3      ../engine/source/interfaces/int10/i10for3.F
 !||--- called by ------------------------------------------------------
-!||    i10mainf   ../engine/source/interfaces/int10/i10mainf.F
+!||    i10mainf     ../engine/source/interfaces/int10/i10mainf.F
 !||--- calls      -----------------------------------------------------
-!||    i10sms2    ../engine/source/interfaces/int10/i10sms2.F
-!||    i7ass0     ../engine/source/interfaces/int07/i7ass3.F
-!||    i7ass05    ../engine/source/interfaces/int07/i7ass3.F
-!||    i7ass2     ../engine/source/interfaces/int07/i7ass3.F
-!||    i7ass25    ../engine/source/interfaces/int07/i7ass3.F
+!||    i10sms2      ../engine/source/interfaces/int10/i10sms2.F
+!||    i7ass0       ../engine/source/interfaces/int07/i7ass3.F
+!||    i7ass05      ../engine/source/interfaces/int07/i7ass3.F
+!||    i7ass2       ../engine/source/interfaces/int07/i7ass3.F
+!||    i7ass25      ../engine/source/interfaces/int07/i7ass3.F
 !||--- uses       -----------------------------------------------------
-!||    anim_mod   ../common_source/modules/output/anim_mod.F
-!||    h3d_mod    ../engine/share/modules/h3d_mod.F
-!||    tri7box    ../engine/share/modules/tri7box.F
+!||    h3d_mod      ../engine/share/modules/h3d_mod.F
+!||    output_mod   ../common_source/modules/output/output_mod.F90
+!||    tri7box      ../engine/share/modules/tri7box.F
 !||====================================================================
-      SUBROUTINE I10FOR3(
+      SUBROUTINE I10FOR3(OUTPUT,
      1    JLT    ,A      ,MS     ,V     ,FSAV  ,
      2    CAND_F ,STIFN  ,STIF   ,FSKYI ,ISKY  ,
      3    ITIED  ,VISC   ,X1     ,X2    ,X3    ,
@@ -60,7 +60,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE TRI7BOX
       USE H3D_MOD
-      USE ANIM_MOD
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -88,6 +88,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT
       INTEGER JLT,ITIED, NISKYFI,NIN,NELTST,ITYPTST,JTASK
       INTEGER ISKY(*),ISECIN, NSTRF(*)
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
@@ -160,7 +161,7 @@ C
       IBID = 0
       BID = ZERO
 C-----------------------------------------------
-C     CALCUL DE LA PENE REELLE
+C     CALCULATION OF THE REAL PENETRATION 
 C-----------------------------------------------
       DO I=1,JLT
 C
@@ -244,7 +245,7 @@ C-----------------------------------------------
         II = INDEX(I)
         IF(CAND_F(1,II)==ZERO)THEN
 C------------------------------------
-C       1ER IMPACT ou PAS d'IMPACT
+C       1st  or no impact
 C------------------------------------
           CAND_F(4,II) = H1(I)
           CAND_F(5,II) = H2(I)
@@ -328,7 +329,7 @@ C------------------------------------
 C           REBOND
 C------------------------------------
             IF(PENE(I)==ZERO)THEN
-C   on ne devrait plus passer par ici (teste dans i10dst3)
+C   We shouldn't go here (test in i10dst3)
               CAND_F(1,INDEX(I)) =ZERO
             ELSE
               CAND_F(1,INDEX(I)) = SIGN(EM30,CAND_F(1,INDEX(I)))
@@ -371,7 +372,7 @@ C       no second order correction :
           FNI(I) = FNI(I) + VN(I)  * VIS
           FT1(I) = FT1(I) + VT1(I) * VIS
           FT2(I) = FT2(I) + VT2(I) * VIS
-C   2*C dans modsti
+C   2*C in modsti
           C(I) = VIS
 C       no second order correction :
           ECONTDT = ECONTDT
@@ -646,14 +647,14 @@ C
 C
   160 CONTINUE
 C
-C   spmd : identification des noeuds interf. utiles a envoyer (exchange_a)
+C   SPMD: Identification of interf nodes.Useful to send (Exchange_a)
       IF (NSPMD>1) THEN
 Ctmp+1 mic only to avoid compiler bug
 #include "mic_lockon.inc"
         DO I = 1,JLT
           NN = NSVG(I)
           IF(NN<0)THEN
-C tag temporaire de NSVFI a -
+C temporary tag of nsvfi a -
             NSVFI(NIN)%P(-NN) = -ABS(NSVFI(NIN)%P(-NN))
           ENDIF
         ENDDO
@@ -752,7 +753,7 @@ C
             FCONT(3,IX4(I)) =FCONT(3,IX4(I)) + FZ4(I)
             JG = NSVG(I)
             IF(JG>0) THEN
-C en SPMD : traitement a refaire apres reception noeud remote si JG < 0
+C In SPMD: Treatment to be redone after reception node Remote if JG <0
               FCONT(1,JG)=FCONT(1,JG)- FXI(I)
               FCONT(2,JG)=FCONT(2,JG)- FYI(I)
               FCONT(3,JG)=FCONT(3,JG)- FZI(I)
@@ -763,7 +764,8 @@ C en SPMD : traitement a refaire apres reception noeud remote si JG < 0
       ENDIF
 C---------------------------------
       IF((ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT>0.AND.
-     .          ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
+     .          ((TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP)
+     .           .OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
      .              (MANIM>=4.AND.MANIM<=15).OR. H3D_DATA%MH3D/=0))
      .   .OR.H3D_DATA%N_VECT_PCONT_MAX>0)THEN
         IF (INCONV==1) THEN
@@ -783,7 +785,7 @@ C---------------------------------
             FNCONT(3,IX4(I)) =FNCONT(3,IX4(I)) + FZ4(I)
             JG = NSVG(I)
             IF(JG>0) THEN
-C en SPMD : traitement a refaire apres reception noeud remote si JG < 0
+C In SPMD: Treatment to be redone after reception node Remote if JG <0
               FNCONT(1,JG)=FNCONT(1,JG)- FXI(I)
               FNCONT(2,JG)=FNCONT(2,JG)- FYI(I)
               FNCONT(3,JG)=FNCONT(3,JG)- FZI(I)
@@ -810,8 +812,8 @@ C---------------------------------
                 IF(ISECUT/=0)THEN
 #include "lockon.inc"
                   DO K=1,JLT
-C   attention aux signes pour le cumul des efforts
-C   a rendre conforme avec CFORC3
+C   attention to the signs for the accumulation of forces 
+C   To make it conform with CFORC3
                     IF(SECFCUM(4,IX1(K),I)==1.)THEN
                       SECFCUM(1,IX1(K),I)=SECFCUM(1,IX1(K),I)-FX1(K)
                       SECFCUM(2,IX1(K),I)=SECFCUM(2,IX1(K),I)-FY1(K)
@@ -834,7 +836,7 @@ C   a rendre conforme avec CFORC3
                     ENDIF
                     JG = NSVG(K)
                     IF(JG>0) THEN
-C en SPMD : traitement a refaire apres reception noeud remote si JG < 0
+C In SPMD: Treatment to be redone after reception node Remote if JG <0
                       IF(SECFCUM(4,JG,I)==1.)THEN
                         SECFCUM(1,JG,I)=SECFCUM(1,JG,I)+FXI(K)
                         SECFCUM(2,JG,I)=SECFCUM(2,JG,I)+FYI(K)
@@ -856,11 +858,11 @@ C-----------------------------------------------------
       IF (IDAMP_RDOF/=0) THEN
         DO I=1,JLT
 C       IF(PENE(I)/=ZERO)THEN
-C test modifie pour coherence avec communication SPMD (spmd_i7tools)
+C modified test for coherence with SPMD communication (spmd_i7tools)
           IF(FXI(I)/=ZERO.OR.FYI(I)/=ZERO.OR.FZI(I)/=ZERO)THEN
             JG = NSVG(I)
             IF(JG>0) THEN
-C en SPMD : traitement a refaire apres reception noeud remote si JG < 0
+C In SPMD: Treatment to be redone after reception node Remote if JG <0
               ICONTACT(JG)=1
             ENDIF
             ICONTACT(IX1(I))=1

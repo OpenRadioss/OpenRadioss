@@ -129,7 +129,7 @@ C
            CALL FRETITL2(TITR1,NOM_OPT(LNOPT1-LTITR+1,NINTER+JSUB),LTITR)
            IF(NOM_OPT(2,NINTER+JSUB) == NOINT .AND. NOM_OPT(5,NINTER+JSUB) == 1)THEN
                KSUB=KSUB+1
-C      LISUB(KSUB)=JSUB no interne de la sous-interface
+C      Lisub (ksub) = internal JSUB of the sub-interface
                INTBUF_TAB(NI)%LISUB(KSUB) = JSUB
                INTBUF_TAB(NI)%TYPSUB(KSUB) = 1
 C
@@ -179,7 +179,7 @@ C
 
                KSUB=KSUB+1
 C
-C      LISUB(KSUB)=JSUB no interne de la sous-interface
+C      Lisub (ksub) = internal JSUB of the sub-interface
                INTBUF_TAB(NI)%LISUB (KSUB) = JSUB
 C
 C      prepare ADDSUBS , LISUBS (K31) : 
@@ -310,7 +310,7 @@ C
 
                KSUB=KSUB+1
 C
-C      LISUB(KSUB)=JSUB no interne de la sous-interface
+C      Lisub (ksub) = internal JSUB of the sub-interface
                INTBUF_TAB(NI)%LISUB (KSUB) = JSUB
 C
 C      prepare ADDSUBS , LISUBS (K31) : 
@@ -482,7 +482,7 @@ C
 
                KSUB=KSUB+1
 C
-C      LISUB(KSUB)=JSUB no interne de la sous-interface
+C      Lisub (ksub) = internal JSUB of the sub-interface
                INTBUF_TAB(NI)%LISUB (KSUB) = JSUB
 C
 C      prepare ADDSUBS , LISUBS (K31) : 
@@ -612,7 +612,7 @@ C
 
                KSUB=KSUB+1
 C
-C      LISUB(KSUB)=JSUB no interne de la sous-interface
+C      Lisub (ksub) = internal JSUB of the sub-interface
                INTBUF_TAB(NI)%LISUB (KSUB) = JSUB
 C
 C      prepare ADDSUBS , LISUBS (K31) : 
@@ -743,7 +743,7 @@ C
             IF(NOM_OPT(2,NINTER+JSUB)==NOINT
      .         .AND.NOM_OPT(5,NINTER+JSUB)==1)THEN
                KSUB=KSUB+1
-C      LISUB(KSUB)=JSUB no interne de la sous-interface
+C      Lisub (ksub) = internal JSUB of the sub-interface
                INTBUF_TAB(NI)%LISUB(KSUB) = JSUB
                   INTBUF_TAB(NI)%TYPSUB(KSUB) = 1
 C
@@ -781,7 +781,7 @@ C
 
                KSUB=KSUB+1
 C
-C      LISUB(KSUB)=JSUB no interne de la sous-interface
+C      Lisub (ksub) = internal JSUB of the sub-interface
                INTBUF_TAB(NI)%LISUB (KSUB) = JSUB
 C
 C      prepare ADDSUBS , LISUBS (K31) : 
@@ -909,7 +909,7 @@ C
 
                KSUB=KSUB+1
 C
-C      LISUB(KSUB)=JSUB no interne de la sous-interface
+C      Lisub (ksub) = internal JSUB of the sub-interface
                INTBUF_TAB(NI)%LISUB (KSUB) = JSUB
 C
 C      prepare ADDSUBS , LISUBS (K31) : 
@@ -1068,7 +1068,7 @@ C
 
                KSUB=KSUB+1
 C
-C      LISUB(KSUB)=JSUB no interne de la sous-interface
+C      Lisub (ksub) = internal JSUB of the sub-interface
                INTBUF_TAB(NI)%LISUB (KSUB) = JSUB
 C
 C      prepare ADDSUBS , LISUBS (K31) : 
@@ -1195,7 +1195,7 @@ C
 
                KSUB=KSUB+1
 C
-C      LISUB(KSUB)=JSUB no interne de la sous-interface
+C      Lisub (ksub) = internal JSUB of the sub-interface
                INTBUF_TAB(NI)%LISUB (KSUB) = JSUB
 C
 C      prepare ADDSUBS , LISUBS (K31) : 

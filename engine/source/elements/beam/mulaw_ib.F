@@ -104,7 +104,7 @@ C
         II(I) = NEL*(I-1)
       ENDDO
 C-------------------------------------
-C     DEBUT DE BOUCLE SUR POINTS INTEGRATION
+C     START OF LOOP OVER INTEGRATION POINTS
 C--------------------------------------
       DO IPT=1,NPT
         ILAYER=1
@@ -216,7 +216,7 @@ C---    Save stress components
           SIGY(I,IPT) = SIGY_IPT(I)
         ENDDO
 C-------------------------------------
-C       FIN DE BOUCLE SUR POINT INTEGRATION
+C       END OF LOOP OVER INTEGRATION POINTS
 C-------------------------------------
       ENDDO
 C------------------------------------------

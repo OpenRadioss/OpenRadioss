@@ -121,7 +121,7 @@ C-------------------------------------------------
       CALL HM_GET_FLOATV('Asrate',ASRATE,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C----------------------
 C
-C  double stockage temporaire - supprimer GEO(12)=IGTYP apres tests
+C  Temporary double storage - Delete GEO (12) = Igtyp after tests
       IGEO( 1)=IG
       IGEO(11)=IGTYP
       GEO(12) =IGTYP+PUN
@@ -967,7 +967,7 @@ C
        PROP_TAG(IGTYP)%G_FOREP = 3    ! FORCE - (ELASTO PLASTIQUE (ISOTROPE))
        PROP_TAG(IGTYP)%G_MOMEP = 3    ! MOMENT - (ELASTO PLASTIQUE (ISOTROPE))
        PROP_TAG(IGTYP)%G_DEP_IN_TENS = 3   ! DPX  (DPY,DPZ) - max displacement in tension
-       PROP_TAG(IGTYP)%G_DEP_IN_COMP = 3   ! DPX2 (DPY2,DPZ2) - max displacement in compression
+       PROP_TAG(IGTYP)%G_DEP_IN_COMP = 3   ! DPX2 (DPY2, DPZ2) - Max Displacement in Compression
        PROP_TAG(IGTYP)%G_ROT_IN_TENS = 3   ! RPX (RPY,RPZ) - max rotation in tension
        PROP_TAG(IGTYP)%G_ROT_IN_COMP = 3   ! RPX2 (RPY2,RPY2) - max rotation in compression
        PROP_TAG(IGTYP)%G_POSX = 5

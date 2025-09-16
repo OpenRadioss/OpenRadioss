@@ -36,7 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    ale_connectivity_mod    ../common_source/modules/ale/ale_connectivity_mod.F
 !||    ale_mod                 ../common_source/modules/ale/ale_mod.F
-!||    aleanim_mod             ../engine/share/modules/aleanim_mod.F
+!||    aleanim_mod             ../common_source/modules/aleanim_mod.F
 !||    alefvm_mod              ../common_source/modules/ale/alefvm_mod.F
 !||    alemuscl_mod            ../common_source/modules/ale/alemuscl_mod.F
 !||    cluster_mod             ../engine/share/modules/cluster_mod.F
@@ -55,7 +55,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    my_alloc_mod            ../common_source/tools/memory/my_alloc.F90
 !||    nodal_arrays_mod        ../common_source/modules/nodal_arrays.F90
 !||    outmax_mod              ../common_source/modules/outmax_mod.F
-!||    outputs_mod             ../common_source/modules/outputs_mod.F
+!||    output_mod              ../common_source/modules/output/output_mod.F90
 !||    pinchtype_mod           ../common_source/modules/pinchtype_mod.F
 !||    rbe3_mod                ../common_source/modules/constraints/rbe3_mod.F90
 !||    restmod                 ../engine/share/modules/restart_mod.F
@@ -66,7 +66,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    stack_mod               ../engine/share/modules/stack_mod.F
 !||    trimat_mod              ../engine/share/modules/trimat.F
 !||====================================================================
-      SUBROUTINE RESTALLOC(ELEMENT, NODES,MULTI_FVM,H3D_DATA,PINCH_DATA,ALE_CONNECTIVITY,SEGVAR,INTERFACES,SKEWS,
+      SUBROUTINE RESTALLOC(OUTPUT,ELEMENT, NODES,MULTI_FVM,H3D_DATA,PINCH_DATA,ALE_CONNECTIVITY,SEGVAR,INTERFACES,SKEWS,
      .                     GLOB_THERM,RBE3)
 C-----------------------------------------------
 C   M o d u l e s
@@ -92,7 +92,7 @@ C-----------------------------------------------
       USE SEATBELT_MOD    
       USE SEGVAR_MOD 
       USE OUTMAX_MOD
-      USE OUTPUTS_MOD
+      USE OUTPUT_MOD
       USE ALE_MOD
       USE DAMP_MOD
       USE INTERFACES_MOD
@@ -132,6 +132,7 @@ C-----------------------------------------------
 #include      "inter18.inc"
 #include      "stati_c.inc"
 C-----------------------------------------------
+      type(output_), INTENT(INOUT) :: OUTPUT
       TYPE(connectivity_) :: ELEMENT
       TYPE(NODAL_ARRAYS_) :: NODES
       TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
@@ -149,10 +150,10 @@ C-----------------------------------------------
       INTEGER IERR0,IERROR, NBMAT,I,NPT,ISIZ1,ISIZ2
 C-----------------------------------------------
       IERROR = 0
-C pour eviter conflit avec IERR dans commun
+C to avoid conflict with IERR in common
       IERR0 = IERR
 C   -----------------------------------------------
-C             allocations entieres 
+C             Entirere Allowances 
 C   -----------------------------------------------
 
         CALL ALLOCATE_NODAL_ARRAYS(NODES, NUMNOD, NTHREAD, IRODDL, IPARIT, 
@@ -1350,9 +1351,9 @@ C
         IF (IERR/=0) GOTO 1000
         FLSW = 0  
 
-        ALLOCATE (FANI(SFANI),STAT=IERR)
-        IF (IERR/=0) GOTO 1000
-        FANI = 0  
+!       ALLOCATE (FANI(SFANI),STAT=IERR)
+!       IF (IERR/=0) GOTO 1000
+!       FANI = 0  
 
         ISIZ1=2
         ISIZ2=NUMELQ+NUMELTG
@@ -1361,35 +1362,35 @@ C
           ISIZ2=NUMELS
         ENDIF
         !
-        IF(FANI_CELL%IS_VORT_X_REQUESTED)THEN
-          ALLOCATE (FANI_CELL%VORT_X(ISIZ2),STAT=IERR)
+        IF(OUTPUT%DATA%FANI_CELL%IS_VORT_X_REQUESTED)THEN
+          ALLOCATE (OUTPUT%DATA%FANI_CELL%VORT_X(ISIZ2),STAT=IERR)
           IF (IERR/=0) GOTO 1000
-          FANI_CELL%VORT_X(:) = ZERO
+          OUTPUT%DATA%FANI_CELL%VORT_X(:) = ZERO
         ENDIF
-        IF(FANI_CELL%IS_VORT_Y_REQUESTED)THEN
-          ALLOCATE (FANI_CELL%VORT_Y(ISIZ2),STAT=IERR)
+        IF(OUTPUT%DATA%FANI_CELL%IS_VORT_Y_REQUESTED)THEN
+          ALLOCATE (OUTPUT%DATA%FANI_CELL%VORT_Y(ISIZ2),STAT=IERR)
           IF (IERR/=0) GOTO 1000
-          FANI_CELL%VORT_Y(:) = ZERO
+          OUTPUT%DATA%FANI_CELL%VORT_Y(:) = ZERO
         ENDIF
-        IF(FANI_CELL%IS_VORT_Z_REQUESTED)THEN
-          ALLOCATE (FANI_CELL%VORT_Z(ISIZ2),STAT=IERR)
+        IF(OUTPUT%DATA%FANI_CELL%IS_VORT_Z_REQUESTED)THEN
+          ALLOCATE (OUTPUT%DATA%FANI_CELL%VORT_Z(ISIZ2),STAT=IERR)
           IF (IERR/=0) GOTO 1000
-          FANI_CELL%VORT_Z(:) = ZERO
+          OUTPUT%DATA%FANI_CELL%VORT_Z(:) = ZERO
         ENDIF
         !
-        IF(FANI_CELL%IS_F18_FVM_REQUESTED)THEN
-          ALLOCATE (FANI_CELL%F18(ISIZ1,ISIZ2),STAT=IERR)
+        IF(OUTPUT%DATA%FANI_CELL%IS_F18_FVM_REQUESTED)THEN
+          ALLOCATE (OUTPUT%DATA%FANI_CELL%F18(ISIZ1,ISIZ2),STAT=IERR)
           IF (IERR/=0) GOTO 1000
-          FANI_CELL%F18(:,:) = ZERO
+          OUTPUT%DATA%FANI_CELL%F18(:,:) = ZERO
         ENDIF
 
         ALLOCATE (XCUT(SXCUT),STAT=IERR)
         IF (IERR/=0) GOTO 1000
         XCUT = 0  
 
-        ALLOCATE (ANIN(SANIN),STAT=IERR)
-        IF (IERR/=0) GOTO 1000
-        ANIN = 0  
+!       ALLOCATE (ANIN(SANIN),STAT=IERR)
+!       IF (IERR/=0) GOTO 1000
+!       ANIN = 0  
 
         ALLOCATE (TANI(STANI),STAT=IERR)
         IF (IERR/=0) GOTO 1000
@@ -1794,25 +1795,25 @@ C
 C        
 C----Frictional energy output  when it is coming from restart
 C
-         IF(S_EFRICINT > 0)THEN
-           IF(NINEFRIC > 0) THEN 
-            ALLOCATE(EFRIC(NINEFRIC,NUMNOD))
+         IF(OUTPUT%DATA%S_EFRICINT > 0)THEN
+           IF(OUTPUT%DATA%NINEFRIC > 0) THEN 
+            ALLOCATE(OUTPUT%DATA%EFRIC(OUTPUT%DATA%NINEFRIC,NUMNOD))
            ELSE 
-            ALLOCATE(EFRIC(0,0))
+            ALLOCATE(OUTPUT%DATA%EFRIC(0,0))
            ENDIF
-           IF(NINEFRIC_STAMP > 0) THEN
-             ALLOCATE(EFRIC_STAMP(NINEFRIC_STAMP,NUMNODG))
+           IF(OUTPUT%DATA%NINEFRIC_STAMP > 0) THEN
+             ALLOCATE(OUTPUT%DATA%EFRIC_STAMP(OUTPUT%DATA%NINEFRIC_STAMP,NUMNODG))
            ELSE
-             ALLOCATE(EFRIC_STAMP(0,0))
+             ALLOCATE(OUTPUT%DATA%EFRIC_STAMP(0,0))
            ENDIF
          END IF 
 C
-         IF(S_EFRIC > 0)THEN
-            ALLOCATE(EFRICG(NUMNOD))
+         IF(OUTPUT%DATA%S_EFRIC > 0)THEN
+            ALLOCATE(OUTPUT%DATA%EFRICG(NUMNOD))
             IF(NINTSTAMP/=0) THEN
-              ALLOCATE(EFRICG_STAMP(NUMNODG))
+              ALLOCATE(OUTPUT%DATA%EFRICG_STAMP(NUMNODG))
             ELSE
-              ALLOCATE(EFRICG_STAMP(0))
+              ALLOCATE(OUTPUT%DATA%EFRICG_STAMP(0))
             ENDIF
 c         ELSE
 c            ALLOCATE(EFRICG(0))
@@ -2716,7 +2717,7 @@ C   ICONTACT
         WRITE(IOUT,'(I4,A13,I8)') ISPMD+1,' SICONTACT : ',SICONTACT
 C
        IF(NSPMD>1) THEN
-C traitement necessaire pour recuperer les output dans l'ordre
+C necessary processing to retrieve the outputs in order
          IWIOUT = 0
          IF (ISPMD/=0) CALL SPMD_CHKW(IWIOUT,IOUT)
          CALL SPMD_GLOB_ISUM9(IWIOUT,1)
@@ -2872,7 +2873,7 @@ C   RCONTACT
         WRITE(IOUT,'(I4,A13,I8)') ISPMD+1,' SRCONTACT : ',SRCONTACT
 
        IF(NSPMD>1) THEN
-C traitement necessaire pour recuperer les output dans l'ordre
+C necessary processing to retrieve the outputs in order
          IWIOUT = 0
          IF (ISPMD/=0) CALL SPMD_CHKW(IWIOUT,IOUT)
          CALL SPMD_GLOB_ISUM9(IWIOUT,1)

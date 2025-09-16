@@ -168,7 +168,7 @@ C-----DAMPING--------------------------------------------------------
             NDAMP = 0
           ENDIF
 
-C-----Flexible BODY---------------------------------------------------
+C----- Flexible body -----------------------------------------------------------------------------
 
           IF (NFXBODY>0) THEN
             CALL ANCMSG(MSGID=837,
@@ -798,7 +798,7 @@ C ---------> case nodes/surfaces---------------------------------------
             CALL HM_GET_INTV('secondaryentityids',GRS,IS_AVAILABLE,LSUBMODEL)
             CALL HM_GET_INTV('mainentityids',GRM,IS_AVAILABLE,LSUBMODEL)
 C            
-C--         TYPE24 and TYPE25 with slave side defined by grnod         
+C--         TYPE24 and TYPE25 with secondary side defined by grnod         
             IF (FLAG_T24T25 == 1) GRS = GRNOD_T24T25
 C
 C--> type2 interfaces with penality are treated like type7  <------C

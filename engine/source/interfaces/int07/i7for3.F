@@ -21,20 +21,19 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    i7for3        ../engine/source/interfaces/int07/i7for3.F
+!||    i7for3       ../engine/source/interfaces/int07/i7for3.F
 !||--- called by ------------------------------------------------------
-!||    i7mainf       ../engine/source/interfaces/int07/i7mainf.F
+!||    i7mainf      ../engine/source/interfaces/int07/i7mainf.F
 !||--- calls      -----------------------------------------------------
-!||    bitget        ../engine/source/interfaces/intsort/i20sto.F
-!||    i7curv        ../engine/source/interfaces/int07/i7curv.F
-!||    ibcoff        ../engine/source/interfaces/interf/ibcoff.F
+!||    bitget       ../engine/source/interfaces/intsort/i20sto.F
+!||    i7curv       ../engine/source/interfaces/int07/i7curv.F
+!||    ibcoff       ../engine/source/interfaces/interf/ibcoff.F
 !||--- uses       -----------------------------------------------------
-!||    anim_mod      ../common_source/modules/output/anim_mod.F
-!||    h3d_mod       ../engine/share/modules/h3d_mod.F
-!||    outputs_mod   ../common_source/modules/outputs_mod.F
-!||    tri7box       ../engine/share/modules/tri7box.F
+!||    h3d_mod      ../engine/share/modules/h3d_mod.F
+!||    output_mod   ../common_source/modules/output/output_mod.F90
+!||    tri7box      ../engine/share/modules/tri7box.F
 !||====================================================================
-      SUBROUTINE I7FOR3(JLT       ,A         ,V          ,IBCC       ,ICODT  ,
+      SUBROUTINE I7FOR3(OUTPUT,JLT       ,A         ,V          ,IBCC       ,ICODT  ,
      2                  FSAV      ,GAP       ,FRIC       ,MS         ,VISC   ,
      3                  VISCF     ,NOINT     ,STFN       ,ITAB       ,CN_LOC ,
      4                  STIGLO    ,STIFN     ,STIF       ,FSKYI      ,ISKY   ,
@@ -82,8 +81,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE TRI7BOX
       USE H3D_MOD
-      USE ANIM_MOD
-      USE OUTPUTS_MOD
+      USE OUTPUT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -115,6 +113,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT
       INTEGER NELTST,ITYPTST,JLT,IBCC,IBCM,IBCS,IVIS2,INACTI,IBAG,NIN,
      .        IFRIC,IFORM,INTFRIC,ITIED,JLT_TIED,IORTHFRIC,NFORTH ,NFISOT ,
      .        ICODT(*), ITAB(*), ISKY(*), KINET(*),
@@ -259,7 +258,7 @@ C--------------------------------------------------------
       IF (SYM_FLAG_TYPE19 > 0) FORC_SIGN = -ONE
 C
 C--------------------------------------------------------
-C  CAS DES PAQUETS MIXTES
+C  case of mixed packets
 C--------------------------------------------------------
       IF((INTTH == 0.OR.DRAD == ZERO).AND.DGAPLOADP==ZERO) THEN ! NO HEAT EXCHANGE/No load pressure
         IF(ICURV(1) == 3) THEN
@@ -439,7 +438,7 @@ C---------------------
 C     COURBURE FIXE
 C---------------------
       IF(ICURV(1)==1)THEN
-C       spherique (que concave pour le moment)
+C       spherical (only concave for now)
         NA1 = ICURV(2)
         DO I=1,JLT-JLT_TIED
           RR = 1.E30
@@ -733,11 +732,11 @@ C      PENE INITIALE
 C---------------------
       IF(INACTI==5)THEN
         DO I=1,JLT-JLT_TIED
-C REDUCTION DE LA PENE INITIALE
+C reduction of the initial penetration
 C          CAND_P(INDEX(I))=MIN(CAND_P(INDEX(I)),PENE(I))
           CAND_P(INDEX(I))=MIN(CAND_P(INDEX(I)),
      .           ((ONE-FIVEEM2)*CAND_P(INDEX(I))+FIVEEM2*PENE(I))  )
-C SOUSTRACTION DE LA PENE INITIALE A LA PENE ET AU GAP
+C subtraction of the initial penetration from the penetration and the gap
           PENE(I)=MAX(ZERO,PENE(I)-CAND_P(INDEX(I)))
           IF( PENE(I)==ZERO )  STIF(I) = ZERO
           GAPV(I)=GAPV(I)-CAND_P(INDEX(I))
@@ -752,12 +751,12 @@ C          CAND_P does not vary during tying (IF ITIED=1, rebound occurs when PE
 
       ELSE IF(INACTI==6)THEN
         DO I=1,JLT-JLT_TIED
-C REDUCTION DE LA PENE INITIALE
+C reduction of the initial penetration
 C           CAND_P(INDEX(I))=MIN(CAND_P(INDEX(I)),PENE(I))
           CAND_P(INDEX(I))=MIN(CAND_P(INDEX(I)),
      .       ( (ONE-FIVEEM2)*CAND_P(INDEX(I))
      .         +FIVEEM2*(PENE(I)+FIVEEM2*(GAPV(I)-PENE(I))))  )
-C SOUSTRACTION DE LA PENE INITIALE A LA PENE ET AU GAP
+C subtraction of the initial penetration from the penetration and the gap
           PENE(I)=MAX(ZERO,PENE(I)-CAND_P(INDEX(I)))
           IF( PENE(I)==ZERO )  STIF(I) = ZERO
           GAPV(I)=GAPV(I)-CAND_P(INDEX(I))
@@ -1188,9 +1187,9 @@ C---------------------------------
           ENDDO
         ELSEIF(IVIS2==5)THEN
 C---------------------------------
-C         VISC = 2M/dt    => pour visc < 1 , stable : dt < 2M/visc = dt
-C         M=M1*M2/M1+M2      pour visc = 1 , choc elastique
-C                            pour visc = 0.5 , choc mou
+C         Visc = 2m/dt => For visc <1, stable: Dt <2m/visc = Dt
+C         M = m1*m2/m1+m2 for visc = 1, elastic shock
+C                            For visc = 0.5, elastic collision
 C---------------------------------
           DO I=1,JLT-JLT_TIED
             MAS2  = MS(IX1(I))*H1(I)
@@ -1298,9 +1297,9 @@ C---------------------------------
               STIF(I) = MAX(STIF(I) ,FAC*SQRT(VISCFFRIC(I))*VIS*DT1INV)
             ELSEIF(IVIS2==5)THEN
 C---------------------------------
-C         VISC = 2M/dt    => pour visc < 1 , stable : dt < 2M/visc = dt
-C         M=M1*M2/M1+M2      pour visc = 1 , choc elastique
-C                            pour visc = 0.5 , choc mou
+C         Visc = 2m/dt => For visc <1, stable: Dt <2m/visc = Dt
+C         M = m1*m2/m1+m2 for visc = 1, elastic shock
+C                            For visc = 0.5, elastic collision
 C---------------------------------
               MAS2  = MS(IX1(I))*H1(I)
      .               + MS(IX2(I))*H2(I)
@@ -1318,7 +1317,7 @@ C---------------------------------
             ELSE
             ENDIF
           ELSE
-cbb  initialisation du tableau VIS2 pour eviter des problemes
+cbb initialization of the VIS2 array to avoid problems
             VIS2(I) = ZERO
             STIF(I) = STIF(I) * GAPV(I) /
      .             MAX((GAPV(I) - PENE(I)),EM10)
@@ -1414,9 +1413,9 @@ C         VISC = 0
 C---------------------------------
           ELSEIF(IVIS2==5)THEN
 C---------------------------------
-C         VISC = 2M/dt    => pour visc < 1 , stable : dt < 2M/visc = dt
-C         M=M1*M2/M1+M2      pour visc = 1 , choc elastique
-C                            pour visc = 0.5 , choc mou
+C         Visc = 2m/dt => For visc <1, stable: Dt <2m/visc = Dt
+C         M = m1*m2/m1+m2 for visc = 1, elastic shock
+C                            For visc = 0.5, elastic collision
 C---------------------------------
             DO I=JLT-JLT_TIED+1,JLT
               FAC = GAPV(I)/MAX( EM10,( GAPV(I)-MIN(PENE(I),CAND_F(7,INDEX(I))) ) )
@@ -1500,7 +1499,7 @@ C
       ENDIF
 C---------------------------------
       IF((ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT>0.AND.
-     .          ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
+     .          ((TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
      .              (MANIM>=4.AND.MANIM<=15).OR.H3D_DATA%MH3D/=0))
      .   .OR.H3D_DATA%N_VECT_PCONT_MAX>0)THEN
         IF (INCONV==1) THEN
@@ -1520,7 +1519,7 @@ C---------------------------------
             FNCONT(3,IX4(I)) =FNCONT(3,IX4(I)) + FZI(I)*H4(I)
             JG = NSVG(I)
             IF(JG>0) THEN
-C en SPMD : traitement a refaire apres reception noeud remote si JG < 0
+C In SPMD: Treatment to be redone after reception node Remote if JG <0
               FNCONT(1,JG)=FNCONT(1,JG)- FXI(I)
               FNCONT(2,JG)=FNCONT(2,JG)- FYI(I)
               FNCONT(3,JG)=FNCONT(3,JG)- FZI(I)
@@ -3024,7 +3023,7 @@ C--------      total force
       END IF
 C---------------------------------
       IF((ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT>0.AND.
-     .          ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
+     .          ((TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
      .              (MANIM>=4.AND.MANIM<=15).OR.H3D_DATA%MH3D/=0))
      .   .OR.H3D_DATA%N_VECT_PCONT_MAX>0)THEN
         IF (INCONV==1) THEN
@@ -3044,7 +3043,7 @@ C---------------------------------
             FTCONT(3,IX4(I)) =FTCONT(3,IX4(I)) + FZT(I)*H4(I)
             JG = NSVG(I)
             IF(JG>0) THEN
-C en SPMD : traitement a refaire apres reception noeud remote si JG < 0
+C In SPMD: Treatment to be redone after reception node Remote if JG <0
               FTCONT(1,JG)=FTCONT(1,JG)- FXT(I)
               FTCONT(2,JG)=FTCONT(2,JG)- FYT(I)
               FTCONT(3,JG)=FTCONT(3,JG)- FZT(I)
@@ -3277,7 +3276,7 @@ C
 
           IE=CE_LOC(I)
 
-          KK  =ADDSUBM(IE) ! Addresse du M
+          KK  =ADDSUBM(IE) ! address of M
           DO WHILE(KK<ADDSUBM(IE+1))
 !             all sub interfaces of S
             KSUB=LISUBM(KK)
@@ -3509,14 +3508,14 @@ C---------------------------------
 #include "lockon.inc"
           DO I=1,JLT
             EFRIC_LM = HALF*EFRIC_L(I)
-            EFRIC(INTEREFRIC,IX1(I)) = EFRIC(INTEREFRIC,IX1(I)) + H1(I)*(EFRIC_LM-FHEATM*EFRICT(I))
-            EFRIC(INTEREFRIC,IX2(I)) = EFRIC(INTEREFRIC,IX2(I)) + H2(I)*(EFRIC_LM-FHEATM*EFRICT(I))
-            EFRIC(INTEREFRIC,IX3(I)) = EFRIC(INTEREFRIC,IX3(I)) + H3(I)*(EFRIC_LM-FHEATM*EFRICT(I))
-            EFRIC(INTEREFRIC,IX4(I)) = EFRIC(INTEREFRIC,IX4(I)) + H4(I)*(EFRIC_LM-FHEATM*EFRICT(I))
+            OUTPUT%DATA%EFRIC(INTEREFRIC,IX1(I)) = OUTPUT%DATA%EFRIC(INTEREFRIC,IX1(I)) + H1(I)*(EFRIC_LM-FHEATM*EFRICT(I))
+            OUTPUT%DATA%EFRIC(INTEREFRIC,IX2(I)) = OUTPUT%DATA%EFRIC(INTEREFRIC,IX2(I)) + H2(I)*(EFRIC_LM-FHEATM*EFRICT(I))
+            OUTPUT%DATA%EFRIC(INTEREFRIC,IX3(I)) = OUTPUT%DATA%EFRIC(INTEREFRIC,IX3(I)) + H3(I)*(EFRIC_LM-FHEATM*EFRICT(I))
+            OUTPUT%DATA%EFRIC(INTEREFRIC,IX4(I)) = OUTPUT%DATA%EFRIC(INTEREFRIC,IX4(I)) + H4(I)*(EFRIC_LM-FHEATM*EFRICT(I))
             JG = NSVG(I)
             EFRIC_LS = HALF*EFRIC_L(I)
             IF(JG>0) THEN
-              EFRIC(INTEREFRIC,JG) = EFRIC(INTEREFRIC,JG) + (EFRIC_LS-FHEATS*EFRICT(I))
+              OUTPUT%DATA%EFRIC(INTEREFRIC,JG) = OUTPUT%DATA%EFRIC(INTEREFRIC,JG) + (EFRIC_LS-FHEATS*EFRICT(I))
             ELSE ! node remote
               JG = -JG
               EFRICFI(NIN)%P(JG)=EFRICFI(NIN)%P(JG)+ (EFRIC_LS-FHEATS*EFRICT(I))
@@ -3531,14 +3530,14 @@ C---------------------------------
 #include "lockon.inc"
           DO I=1,JLT
             EFRIC_LM = HALF*EFRIC_L(I)
-            EFRICG(IX1(I)) = EFRICG(IX1(I)) + H1(I)*(EFRIC_LM-FHEATM*EFRICT(I))
-            EFRICG(IX2(I)) = EFRICG(IX2(I)) + H2(I)*(EFRIC_LM-FHEATM*EFRICT(I))
-            EFRICG(IX3(I)) = EFRICG(IX3(I)) + H3(I)*(EFRIC_LM-FHEATM*EFRICT(I))
-            EFRICG(IX4(I)) = EFRICG(IX4(I)) + H4(I)*(EFRIC_LM-FHEATM*EFRICT(I))
+            OUTPUT%DATA%EFRICG(IX1(I)) = OUTPUT%DATA%EFRICG(IX1(I)) + H1(I)*(EFRIC_LM-FHEATM*EFRICT(I))
+            OUTPUT%DATA%EFRICG(IX2(I)) = OUTPUT%DATA%EFRICG(IX2(I)) + H2(I)*(EFRIC_LM-FHEATM*EFRICT(I))
+            OUTPUT%DATA%EFRICG(IX3(I)) = OUTPUT%DATA%EFRICG(IX3(I)) + H3(I)*(EFRIC_LM-FHEATM*EFRICT(I))
+            OUTPUT%DATA%EFRICG(IX4(I)) = OUTPUT%DATA%EFRICG(IX4(I)) + H4(I)*(EFRIC_LM-FHEATM*EFRICT(I))
             JG = NSVG(I)
             EFRIC_LS = HALF*EFRIC_L(I)
             IF(JG>0) THEN
-              EFRICG(JG) = EFRICG(JG) + (EFRIC_LS-FHEATS*EFRICT(I))
+              OUTPUT%DATA%EFRICG(JG) = OUTPUT%DATA%EFRICG(JG) + (EFRIC_LS-FHEATS*EFRICT(I))
             ELSE ! node remote
               JG = -JG
               EFRICGFI(NIN)%P(JG)=EFRICGFI(NIN)%P(JG)+ (EFRIC_LS-FHEATS*EFRICT(I))
@@ -3552,7 +3551,7 @@ C---------------------------------
         IF(    (VISC/=ZERO)
      .    .AND.(IVIS2==0.OR.IVIS2==1))THEN
           DO I=1,JLT
-C        C(I)=2.*C(I)
+C        C (i) = 2.*C (i)
 C
             IF(MSI(I)==ZERO)THEN
               KS(I) =ZERO
@@ -4129,14 +4128,14 @@ C
         FZ4(I)=FZI(I)*H4(I)
       ENDDO
 C
-C spmd : identification des noeuds interf. utiles a envoyer
+C SPMD: Identification of interf nodes.useful to send
       IF (NSPMD>1) THEN
 Ctmp+1 mic only to avoid compiler bug
 #include "mic_lockon.inc"
         DO I = 1,JLT
           NN = NSVG(I)
           IF(NN<0)THEN
-C tag temporaire de NSVFI a -
+C temporary tag of nsvfi a -
             NSVFI(NIN)%P(-NN) = -ABS(NSVFI(NIN)%P(-NN))
           ENDIF
         ENDDO
@@ -4148,11 +4147,11 @@ C-----------------------------------------------------
       IF((IBAG/=0).OR.(IADM/=0).OR.(IDAMP_RDOF/=0)) THEN
         DO I=1,JLT
 C       IF(PENE(I)/=ZERO)THEN
-C test modifie pour coherence avec communication SPMD (spmd_i7tools)
+C test modified for consistency with SPMD communication (spmd_i7tools)
           IF(FXI(I)/=ZERO.OR.FYI(I)/=ZERO.OR.FZI(I)/=ZERO)THEN
             JG = NSVG(I)
             IF(JG>0) THEN
-C en SPMD : traitement a refaire apres reception noeud remote si JG < 0
+C In SPMD: Treatment to be redone after reception node Remote if JG <0
               ICONTACT(JG)=1
             ENDIF
             ICONTACT(IX1(I))=1
@@ -4168,7 +4167,7 @@ C
           JG = NSVG(I)
 #include "lockon.inc"
           IF(JG>0) THEN
-C en SPMD : traitement a refaire apres reception noeud remote si JG < 0
+C In SPMD: Treatment to be redone after reception node Remote if JG <0
             RCONTACT(JG)=MIN(RCONTACT(JG),RCURVI(I))
           END IF
           RCONTACT(IX1(I))=MIN(RCONTACT(IX1(I)),RCURVI(I))
@@ -4183,7 +4182,7 @@ C en SPMD : traitement a refaire apres reception noeud remote si JG < 0
           JG = NSVG(I)
 #include "lockon.inc"
           IF(JG>0) THEN
-C en SPMD : traitement a refaire apres reception noeud remote si JG < 0
+C In SPMD: Treatment to be redone after reception node Remote if JG <0
             PCONTACT(JG)=MAX(PCONTACT(JG),PENE(I)/(PADM*GAPV(I)))
             ACONTACT(JG)=MIN(ACONTACT(JG),ANGLMI(I))
           END IF
@@ -4200,7 +4199,7 @@ C
         IF(IBCS>0) THEN
           IG=NSVG(I)
           IF(IG>0) THEN
-C en SPMD : traitement a refaire apres reception noeud remote si JG < 0
+C In SPMD: Treatment to be redone after reception node Remote if JG <0
             CALL IBCOFF(IBCS,ICODT(IG))
           ENDIF
         ENDIF

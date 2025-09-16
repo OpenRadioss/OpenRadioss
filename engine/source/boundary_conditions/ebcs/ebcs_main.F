@@ -35,6 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ebcs7              ../engine/source/boundary_conditions/ebcs/ebcs7.F
 !||    ebcs_vol2seg       ../engine/source/boundary_conditions/ebcs/ebcs_vol2seg.F
 !||--- uses       -----------------------------------------------------
+!||    ebcs11_mod         ../engine/source/boundary_conditions/ebcs/ebcs11.F90
 !||    ebcs_mod           ../common_source/modules/boundary_conditions/ebcs_mod.F90
 !||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
 !||    groupdef_mod       ../common_source/modules/groupdef_mod.F
@@ -60,6 +61,7 @@ C-----------------------------------------------
       USE TH_SURF_MOD , only : TH_SURF_NUM_CHANNEL
       USE SENSOR_MOD, ONLY : SENSOR_STR_
       USE PYTHON_FUNCT_MOD
+      use ebcs11_mod , only : EBCS11
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -185,13 +187,13 @@ C-----------------------------------------------
              end select
          ELSE IF (TYP == 11) THEN
             select type (twf => EBCS)
-             type is (t_ebcs_propergol)
+             type is (t_ebcs_propellant)
               call ebcs11(nseg,twf%iseg,segvar,
-     .                    v,w,x,
+     .                    x,
      .                    twf%node_list,nod,twf%elem_list,twf%ielem,twf%iface,
      .                    twf%la,ms,stifn,twf,iparg,elbuf_tab,ixq,ixs,ixtg,
      .                    fsavsurf,time,iparit,dt1,
-     .                    numels, numelq, numeltg,numnod, nparg, ngroup, nixs, nixq, nixtg, nsurf, iale, n2d,
+     .                    numels, numelq, numeltg,numnod, nparg, ngroup, nixs, nixq, nixtg, nsurf, n2d,
      .                    nfunct, npc, tf ,snpc, stf, python,
      .                    nsensor, sensor_tab)
             end select

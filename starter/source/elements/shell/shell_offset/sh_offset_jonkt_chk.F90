@@ -27,6 +27,8 @@
 !||====================================================================
       module sh_offset_jonct_chk_mod
 
+      implicit none
+
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
@@ -93,9 +95,9 @@
               else
                 lineix(1,ll) = i2
                 lineix(2,ll) = i1
-              endif
-            enddo
-          enddo
+              end if
+            end do
+          end do
 !
           mode = 0
           CALL MY_ORDERS(mode,iwork,lineix,index,ll,2)
@@ -108,8 +110,8 @@
               if (i1==i2) cycle
               nl = nl+1
               index(ll+nl)=j
-            enddo
-          enddo
+            end do
+          end do
 !---------------------------------------
 !       check max-junction number
 !---------------------------------------
@@ -192,9 +194,9 @@
 !   check the convexibility
                   if (a_mn==a_max) then
                     ichange(ie)  = -ichange(ie)
-                  elseif(a_mi==a_max) then
+                  else if(a_mi==a_max) then
                     ichange(ien) = -ichange(ien)
-                  elseif(a_ni==a_max) then
+                  else if(a_ni==a_max) then
                     ichange(iem) = -ichange(iem)
                   end if
                   nl = nl + 1
@@ -210,14 +212,14 @@
                       end if
                     end do
                   end if
-                endif !i1 == i1n .and. i2 == i2n
+                end if !i1 == i1n .and. i2 == i2n
 !
-              endif !i1 == i1m .and. i2 == i2m
+              end if !i1 == i1m .and. i2 == i2m
               i1m = i1
               i2m = i2
               iem = ie
               n_m(1:3) = n_i(1:3)
-            enddo
+            end do
 !          print *,'triple lines nl = ',nl
           end if !(nl_max>=3) then
           deallocate(index)

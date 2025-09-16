@@ -337,6 +337,7 @@ C--------------------------------------------------
           CALL HM_GET_FLOATV('Alpha_zz',ALPHA_ZZ,IS_AVAILABLE,LSUBMODEL,UNITAB)
           ISK = 0
           TSTART = ZERO
+          TSTOP=EP30
           FULL_FORMAT = .TRUE. 
           IF (ALPHA==ZERO) ALPHA = ONE ! default =1 to add in manual
           FACTB = ALPHA

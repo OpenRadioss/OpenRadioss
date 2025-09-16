@@ -197,7 +197,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
         YEQ(I) = SQRT(YEQ(I) + MP3(I)**2)
       ENDDO
 !-------------
-!     VITESSE DE DEFORMATION
+! strain rate
 !-------------
       DO I=JFT,JLT
         EPSP(I) = ABS(DEGMB_LOC(I)+DEGFX_LOC(I)*THK0(I))/(YEQ(I)+EM20)
@@ -253,7 +253,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
         THK(I) = THK(I) * (ONE + EZZ*OFF(I))
       ENDDO
 !--------------------------------
-!     TEST DE RUPTURE DUCTILE
+! Ductile rupture test
 !--------------------------------
       DO I=JFT,JLT
         IF (OFF(I) < EM01) OFF(I) = ZERO

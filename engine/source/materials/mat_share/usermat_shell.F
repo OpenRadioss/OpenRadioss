@@ -223,7 +223,7 @@ c
      .   FPSXX(MVSIZ),FPSYY(MVSIZ),FPSZZ(MVSIZ),FPSXY(MVSIZ),FPSYX(MVSIZ),
      .   EPCHK(MVSIZ),EPSPDT(MVSIZ)
       my_real 
-     .   ZT,DTINV, VOL2,FCUT,ASRATE,EPS_M2,EPS_K2,T0,TM,
+     .   ZT,DTINV,VOL2,FCUT,ASRATE,EPS_M2,EPS_K2,TREF,TMELT,
      .   R1,R2,S1,S2,R12A,R22A,S12B,S22B,RS1,RS2,RS3,
      .   T1,T2,T3,FACT,R3R3,S3S3,TRELAX, 
      .   BIDON1,BIDON2,BIDON3,BIDON4,BIDON5,VV,AA
@@ -286,17 +286,6 @@ C-----------------------------------------------
 C      
       IPT_ALL = 0
       NPTTOT  = 0
-c
-c----- Tstar  : T* = (T-T0)/(TM-T0)----
-      IF (JTHE > 0) THEN
-        T0 = PM(79, MX) 
-        TM = PM(80, MX) 
-        DO I=JFT,JLT   
-           TSTAR(I)=MAX(ZERO,(TEMPEL(I)-T0)/(TM-T0))
-        ENDDO
-      ELSE
-        TSTAR(JFT:JLT) = ZERO
-      ENDIF  
 !
 !  Check visco elastic model 
 !             
@@ -360,8 +349,8 @@ c
       EPCHK(1:MVSIZ)  = ZERO
       VISCMX(1:MVSIZ) = ZERO
 !
-!       compute the inverse of dt and save the result 
       dtinv = dt1 / max(dt1**2,em20)  ! inverse of dt
+
 c-----------------------------------------------------------
 c---- intermediate buffer for GET_U_VAR function
       IF (TT == ZERO) THEN
@@ -450,12 +439,21 @@ c
           ENDIF 
         ENDIF
 !
-      israte = ipm(3,imat)
-      if (israte > 0) then
-        asrate = min(one, pm(9,imat)*dt1)
-      else
-        asrate = one
-      end if
+        israte = ipm(3,imat)
+        if (israte > 0) then
+          asrate = min(one, pm(9,imat)*dt1)
+        else
+          asrate = one
+        end if
+!
+c-----  Tstar  : T* = (T-T0)/(TM-T0)----
+        IF (jthe > 0 .or. elbuf_str%bufly(ilayer)%l_temp > 0) THEN
+          tref  = mat_elem%mat_param(imat)%therm%tref
+          tmelt = mat_elem%mat_param(imat)%therm%tmelt
+          tstar(1:nel) = max(zero, (tempel(1:nel) - tref) / max(tmelt-tref, em20))
+        ELSE
+          tstar(1:nel) = zero
+        ENDIF  
 c----------------------------------------------------------------------
 !---
         L_DMG = BUFLY%L_DMG
@@ -510,7 +508,7 @@ C
             WMC(1:NEL) = ZZ(1:NEL)*THLY(1:NEL)
           ENDIF
 C-------------------------------
-C         INCREMENT DE DEFORMATIONS 
+C         increment of deformations
 C-------------------------------
           SIGNXX(1:MVSIZ) = ZERO
           SIGNYY(1:MVSIZ) = ZERO
@@ -712,7 +710,7 @@ C------------------------------------------
               ! ----------------
 !!!
             ENDIF
-! recopie EINT_LOC en EINT (du buffer)
+! EINT_LOC REPOPY IN EINT (Buffer)
             DO I=JFT,JLT
               EINT(I,1) = EINT_LOC(1,I)
               EINT(I,2) = EINT_LOC(2,I)
@@ -778,7 +776,7 @@ C------------------------------------------
               ! ----------------
 !!!
             ENDIF
-! recopie EINT_LOC en EINT (du buffer)
+! EINT_LOC REPOPY IN EINT (Buffer)
             DO I=JFT,JLT
               EINT(I,1) = EINT_LOC(1,I)
               EINT(I,2) = EINT_LOC(2,I)
@@ -844,7 +842,7 @@ C------------------------------------------
               ! ----------------
 !!!
             ENDIF
-! recopie EINT_LOC en EINT (du buffer)
+! EINT_LOC REPOPY IN EINT (Buffer)
             DO I=JFT,JLT
               EINT(I,1) = EINT_LOC(1,I)
               EINT(I,2) = EINT_LOC(2,I)
@@ -863,7 +861,7 @@ C------------------------------------------
 c---------------------------------
           ELSEIF (ILAW == 99) THEN
 c---------------------------------         
-C          chrgt de la structure
+C          Load structure
           
 C
 ! copie EINT (du buffer) en local (EINT_LOC) + COPY_PLA
@@ -1100,7 +1098,7 @@ C
               IF (JTHE == 0) EL_TEMP = USERBUF%TEMP ! otherwise it's read only in user law
             ENDIF
 c
-! recopie EINT_LOC en EINT (du buffer)
+! EINT_LOC REPOPY IN EINT (Buffer)
             DO I=JFT,JLT
               EINT(I,1) = EINT_LOC(1,I)
               EINT(I,2) = EINT_LOC(2,I)
@@ -1159,7 +1157,7 @@ C
      *                            SIGVYZ  , SIGVZX  ,DPLA,
      *                            ADDITIONAL_FLT_PARAMETERS,ADDITIONAL_INT_PARAMETERS)
 !
- ! recopie EINT_LOC en EINT (du buffer)
+ ! EINT_LOC REPOPY IN EINT (Buffer)
             DO I=JFT,JLT
               EINT(I,1) = EINT_LOC(1,I)
               EINT(I,2) = EINT_LOC(2,I)
@@ -1970,7 +1968,7 @@ C-------------------------------------
         IPT_ALL = IPT_ALL + NPTT
       ENDDO  !  DO ILAY =1,NLAY
 c--------------------------------------------------
-c     FIN DE BOUCLE SUR POINTS INTEGRATION (LAYERS)
+c     end of loop on integration points (layers)
 c--------------------------------------------------
 c     TEST OF ELEMENT FAILURE 
 c--------------------------------------------------
@@ -2011,7 +2009,7 @@ c---
       IF (IXFEM == 0) THEN
         DO I=JFT,JLT
           IF (OFF(I) == FOUR_OVER_5 .and. IOFF_DUCT(I) == 0 .or.   ! rupture /fail
-     .        OFF(I) > ZERO   .and. OFF_OLD(I) < EM01 .or.   ! rupture progressive law 2,22,25
+     .        OFF(I) > ZERO   .and. OFF_OLD(I) < EM01 .or.   ! progressive rupture Law 2,22,25
      .        OFF(I) > ZERO   .and. OFF(I) < ONE .and. DMG_FLAG == 1 .and. 
      .        DMG_GLOB_SCALE(I) < EM02) THEN  
             OFF(I) = ZERO
@@ -2032,7 +2030,7 @@ c--------------------------------------------------------
         ENDIF
       ENDDO 
 c------------------------------------------------------------------
-C     VISCOSITE DE MEMBRANE
+C     membrane viscosity
 C---------------------------                                              
       IF (IGTYP == 11 .AND. IGMAT > 0) THEN
         IPGMAT = 700

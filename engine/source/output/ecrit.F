@@ -33,7 +33,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_glob_dsum9     ../engine/source/mpi/interfaces/spmd_th.F
 !||    spmd_rbcast         ../engine/source/mpi/generic/spmd_rbcast.F
 !||--- uses       -----------------------------------------------------
-!||    anim_mod            ../common_source/modules/output/anim_mod.F
 !||    h3d_mod             ../engine/share/modules/h3d_mod.F
 !||    imp_dyna            ../engine/share/modules/impbufdef_mod.F
 !||    message_mod         ../engine/share/message_module/message_mod.F
@@ -58,7 +57,6 @@ C-----------------------------------------------
       USE MULTI_FVM_MOD
       USE H3D_MOD
       USE SENSOR_MOD
-      USE ANIM_MOD
       USE STATE_MOD
       USE OUTPUT_MOD , ONLY : OUTPUT_
 C-----------------------------------------------
@@ -178,7 +176,7 @@ C
 C     initialization / see corrections rbodies...
       EAMS=ENCIN 
 C
-C GLOBAL VAR INITIALISES DANS RESOL ET MODIFIE DANS RGBCOR + passage en DOUBLE pour cumul
+C global var initialized in resol and modified in rgbcor + switched to double for accumulation
       ENCIND  = ZERO
       ENROTD  = ZERO
       ENINTD  = ZERO
@@ -343,7 +341,7 @@ C
       DO M=1,NPART
         ENROTD= ENROTD + PARTSAV(7,M)
         ENINTD = ENINTD + PARTSAV(1,M) + PARTSAV(24,M) + PARTSAV(26,M)
-        OUTPUT%WFEXT  = OUTPUT%WFEXT + PARTSAV(27,M)
+        OUTPUT%TH%WFEXT  = OUTPUT%TH%WFEXT + PARTSAV(27,M)
         WFEXTH = WFEXTH + PARTSAV(27,M)
         WPLAST = WPLAST + PARTSAV(29,M)
       ENDDO
@@ -383,7 +381,7 @@ C
         ENROT =ZERO
         ENCIN2 =ZERO
         ENROT2 =ZERO        
-        OUTPUT%WFEXT=ENINT
+        OUTPUT%TH%WFEXT=ENINT
        ELSEIF (IDY_DAMP>0) THEN
 C        IF (NSPMD>1) CALL SPMD_SUM_S(DY_EDAMP)
         ENINT = ENINT + DY_EDAMP
@@ -391,8 +389,8 @@ C        IF (NSPMD>1) CALL SPMD_SUM_S(DY_EDAMP)
       ENDIF
 C
       IF (NSPMD > 1) THEN
-C.....envoyer la contribution au proc 0
-C.....sommer les contributions puis standard
+C..... Send the contribution to Pro 0
+C..... summon the contributions then standard
         ENTMP(1) = ENCIN
         ENTMP(2) = ENROT
         ENTMP(3) = ENINT
@@ -422,7 +420,7 @@ C.....sommer les contributions puis standard
         ENDIF
 C
         IF (ISTAT==2) THEN
-C istat=2 => relaxation : broadcast de encin et enrot
+C istat=2 => relaxation: broadcast of encin and enrot
           CALL SPMD_RBCAST(ENTMP,ENTMP,1,2,0,2)
           IF (ISPMD/=0) THEN
             ENCIN = ENTMP(1)
@@ -431,7 +429,7 @@ C istat=2 => relaxation : broadcast de encin et enrot
             ENROT2 = ENTMP(11)            
           ENDIF
         ELSEIF (ISTAT==3) THEN
-C istat=3 => ADYREL : broadcast de encin et enrot ENINT
+C istat=3 => adyrel: broadcast of encin and enrot enint
           CALL SPMD_RBCAST(ENTMP,ENTMP,1,3,0,3)
           IF (ISPMD/=0) THEN
             ENCIN = ENTMP(1)
@@ -440,7 +438,7 @@ C istat=3 => ADYREL : broadcast de encin et enrot ENINT
           ENDIF
         ENDIF
 C
-        ENTMP(1) = OUTPUT%WFEXT
+        ENTMP(1) = OUTPUT%TH%WFEXT
         ENTMP(2) = EHOUR
         ENTMP(3) = ECONTV
         ENTMP(4) = DMAS
@@ -450,7 +448,7 @@ C
         ENTMP(8) = WPLAST                        
         CALL SPMD_GLOB_DSUM9(ENTMP,8)
         IF(ISPMD/=0) THEN
-          OUTPUT%WFEXT = ZERO
+          OUTPUT%TH%WFEXT = ZERO
           EHOUR = ZERO
           ECONTV = ZERO
           DMAS = ZERO  
@@ -459,7 +457,7 @@ C
           ECONT_CUMU = ZERO
           WPLAST = ZERO
         ELSE
-          OUTPUT%WFEXT = ENTMP(1)
+          OUTPUT%TH%WFEXT = ENTMP(1)
           EHOUR = ENTMP(2)
           ECONTV= ENTMP(3)
           DMAS  = ENTMP(4)
@@ -487,14 +485,14 @@ c
         ENTOT = ENCIN + ENINT + ENROT
         ENTOTB = ENTOT + ENCIN2 + ENROT2       
         IF(NCYCLE==0) THEN
-         ENTOT0=ENTOT - OUTPUT%WFEXT - OUTPUT%WFEXT_MD
+         ENTOT0=ENTOT - OUTPUT%TH%WFEXT - OUTPUT%TH%WFEXT_MD
          DELTAE=ENCIN2 + ENROT2                
          MASS0 = XMASS - DMAS
         ENDIF
         MASS0 = MASS0  + DMF
         ENTOT0= ENTOT0 + DEF       
-        ENTOT1=ENTOT0 + OUTPUT%WFEXT
-        ENTOT1B=ENTOT0 + OUTPUT%WFEXT + DELTAE + OUTPUT%WFEXT_MD
+        ENTOT1=ENTOT0 + OUTPUT%TH%WFEXT
+        ENTOT1B=ENTOT0 + OUTPUT%TH%WFEXT + DELTAE + OUTPUT%TH%WFEXT_MD
         IF(ABS(ENTOT1B)>EM20)THEN
           ERR = ENTOTB/ENTOT1B - ONE
           ERR1 = MAX(-X99, MIN(X99,ERR*HUNDRED))     
@@ -545,7 +543,7 @@ C
           ENDIF
           IF(NANIM/=0)THEN
            MDESS = 1
-           TANIM = TT
+           OUTPUT%TANIM = TT
            IPRI  = 0
           ENDIF                 
         ELSEIF((NERR_POSIT==0.AND.ABS(ERR)>DEMXS).OR.
@@ -560,7 +558,7 @@ C
           ENDIF
           IF(NANIM/=0)THEN
            MDESS = 1
-           TANIM = TT
+           OUTPUT%TANIM = TT
            IPRI  = 0
           ENDIF 
         ENDIF
@@ -575,7 +573,7 @@ C
           ENDIF
           IF(NANIM/=0)THEN
            MDESS = 1
-           TANIM = TT
+           OUTPUT%TANIM = TT
            IPRI  = 0
           ENDIF 
         ELSEIF(EMASS>DMTMXS)THEN
@@ -589,7 +587,7 @@ C
           ENDIF
           IF(NANIM/=0)THEN
            MDESS = 1
-           TANIM = TT
+           OUTPUT%TANIM = TT
            IPRI  = 0
           ENDIF 
         ENDIF
@@ -602,7 +600,7 @@ C---------------------------------
           RTMP(1)  = MSTOP
           RTMP(2)  = MREST
           RTMP(3)  = MDESS
-          RTMP(4)  = TANIM
+          RTMP(4)  = OUTPUT%TANIM
           RTMP(5)  = OUTPUT%TH%THIS
           RTMP(6)  = TSTAT
           RTMP(7)  = TOUTP
@@ -616,7 +614,7 @@ C
         MSTOP = NINT(RTMP(1))
         MREST = NINT(RTMP(2))
         MDESS = NINT(RTMP(3))
-        TANIM = RTMP(4)
+        OUTPUT%TANIM = RTMP(4)
         OUTPUT%TH%THIS =  RTMP(5)
         TSTAT = RTMP(6)
         TOUTP = RTMP(7)
@@ -635,7 +633,7 @@ C-----------------------------------------------
         IF (NLPRI /= 0) ILIGN = NLPRI
         JPRI=MOD(NCYCLE,ILIGN*IABS(NCPRI))
         IF(JPRI==0) WRITE(IOUT,1000)
-        WRITE(IOUT,1100) NCYCLE,TT,DT2,ELTYP(ITYPTS),NELTS,ERR1,ENINT,ENCIN,ENROT,OUTPUT%WFEXT,EMASS,XMASS,XMASS-MASS0
+        WRITE(IOUT,1100) NCYCLE,TT,DT2,ELTYP(ITYPTS),NELTS,ERR1,ENINT,ENCIN,ENROT,OUTPUT%TH%WFEXT,EMASS,XMASS,XMASS-MASS0
         CALL MY_FLUSH(IOUT)
         IF(NCPRI<0) THEN
           IF(DEBUG(10)/=0)THEN
@@ -666,7 +664,7 @@ C
        WRITE (IUSC3,'(A,G14.7)',ERR=990)     ' INTERNAL ENERGY   =',ENINT
        WRITE (IUSC3,'(A,G14.7)',ERR=990)     ' KINETIC ENERGY    =',ENCIN
        WRITE (IUSC3,'(A,G14.7)',ERR=990)     ' ROT. KIN. ENERGY  =',ENROT
-       WRITE (IUSC3,'(A,G14.7)',ERR=990)     ' EXTERNAL WORK     =',OUTPUT%WFEXT
+       WRITE (IUSC3,'(A,G14.7)',ERR=990)     ' EXTERNAL WORK     =',OUTPUT%TH%WFEXT
        WRITE (IUSC3,'(A,G14.7)',ERR=990)     ' MASS.ERR (M-M0)/M0=',EMASS
 
        CALL FVSTATS1(IUSC3,MONVOL,1)

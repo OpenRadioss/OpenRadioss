@@ -34,7 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    groupdef_mod   ../common_source/modules/groupdef_mod.F
 !||    initbuf_mod    ../engine/share/resol/initbuf.F
 !||    message_mod    ../engine/share/message_module/message_mod.F
-!||    outputs_mod    ../common_source/modules/outputs_mod.F
+!||    sph_mod        ../engine/share/modules/sph_mod.F
 !||====================================================================
       SUBROUTINE SPONOF1(X ,V       ,D       ,MS      ,SPBUF   ,
      2             ITAB    ,KXSP    ,IXSP    ,NOD2SP  ,NPC     ,
@@ -49,7 +49,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD            
       USE MESSAGE_MOD
       USE GROUPDEF_MOD
-      USE OUTPUTS_MOD
+      USE SPH_MOD, ONLY : XI_RES, YI_RES, ZI_RES
 C----6------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -118,7 +118,7 @@ C-----------------------------------------------
       EN = 0
       RHON = ZERO
 C-------
-C     reset active particles states.
+C     Active reset Particecutes States.
       DO I=1,NSPHIO
        IPRT   =ISPHIO(2,I)
 C      loop over active particles related to IPRT.
@@ -233,7 +233,7 @@ c default value
          DIAM= (SQR2*VOL)**THIRD
        END IF             
 C------
-C      boite englobante / surface entiere.
+C      Enclosure box / entire surface.
        XBMIN =EP20
        YBMIN =EP20
        ZBMIN =EP20
@@ -244,10 +244,10 @@ C------
        ISU =ISPHIO(3,I)
 c NSEGB on split surface (IBUFSSG)
        NSEGB=IGRSURF(ISU)%NSEG
-c NSEG on complete surface (IBUFSSG_IO)
+c Nseg we complete surface (ibufssg_io)
        NSEG=ISPHIO(10,I)
-c IAD on split surface (IBUFSSG)
-c IAD2 on complete surface (IBUFSSG_IO)
+c IAD on Split Surface (Ibufssg)
+c IAD2 we complete surface (ibufssg_io)
        IAD2 =ISPHIO(11,I)
        DMAX=VSPHIO(IVAD+3)
 

@@ -21,12 +21,13 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    array_reindex_mod          ../common_source/tools/sort/array_reindex.F90
+!||    array_reindex_mod           ../common_source/tools/sort/array_reindex.F90
 !||--- called by ------------------------------------------------------
-!||    clipping_weiler_atherton   ../common_source/tools/clipping/polygon_clipping_mod.F90
-!||    iniebcs_propergol_get_cv   ../starter/source/boundary_conditions/ebcs/iniebcs_propergol.F90
+!||    clipping_weiler_atherton    ../common_source/tools/clipping/polygon_clipping_mod.F90
+!||    iniebcs_propellant_get_cp   ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
 !||====================================================================
       module array_reindex_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
@@ -72,11 +73,11 @@
 !! \details              index = (/4 3 2 1/)
 !! \details      result will be  (/ 440.1 330.1 220.1 110.1/)
 !||====================================================================
-!||    real_array_reindex         ../common_source/tools/sort/array_reindex.F90
+!||    real_array_reindex          ../common_source/tools/sort/array_reindex.F90
 !||--- called by ------------------------------------------------------
-!||    iniebcs_propergol_get_cv   ../starter/source/boundary_conditions/ebcs/iniebcs_propergol.F90
+!||    iniebcs_propellant_get_cp   ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
 !||--- uses       -----------------------------------------------------
-!||    precision_mod              ../common_source/modules/precision_mod.F90
+!||    precision_mod               ../common_source/modules/precision_mod.F90
 !||====================================================================
         subroutine real_array_reindex(array, index, n)
           use precision_mod, only: WP

@@ -47,7 +47,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
 !||====================================================================
       SUBROUTINE SPMD_IGET_PARTN(SIZE,NBF_L,NP,NBPART,IADG,SRBUF,IFLAG)
-C gather sur p0 du tableau wa en fonction des parts (IADG)
+C gather on p0 of the wa array according to the parts (IADG)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -81,8 +81,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
+C     Bug here: The actual recieve buffer size is not the same 
+C     as the size written. Removing the initialization to -HUGE(IERROR)
+C     will cause valgrind errors about uninitialized memory.
       ALLOCATE(RBUF(SRBUF+1))
-      ALLOCATE(NPT(NBF_L))
+      RBUF(1:SRBUF) = -HUGE(IERROR)
 
       IF (ISPMD/=0) THEN
         MSGTYP= MSGOFF
@@ -130,7 +133,6 @@ C
       ENDIF
 C
       DEALLOCATE(RBUF)
-      DEALLOCATE(NPT)
 #endif
       RETURN
       END

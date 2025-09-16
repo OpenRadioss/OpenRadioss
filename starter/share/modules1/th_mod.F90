@@ -29,6 +29,8 @@
 !||====================================================================
       module th_mod
 
+      implicit none
+
         integer :: TH_HAS_NODA_PEXT
 
 

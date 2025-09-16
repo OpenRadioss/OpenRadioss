@@ -116,7 +116,7 @@ C=======================================================================
         IF (TT == ZERO) DAMT(I,2)=ONE
       ENDDO
 C-------------------------------------------------------------------
-C     REDUCTION DE SIG SUR CRITERE WPLA_OLD >= WPLAMX
+C     reduction of sig based on the criterion wpla_old >= wplamx
 C-------------------------------------------------------------------
 C-------------------------------------------------------------------
 C     DEFORMATIONS ELASTIQUES

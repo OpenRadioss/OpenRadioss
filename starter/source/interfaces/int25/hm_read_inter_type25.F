@@ -107,7 +107,8 @@ C-----------------------------------------------
      .    GAPSCALE,STMIN,STMAX,EDG_ANGL,VISC,VISCF,PERCENT_SIZE,
      .    GAPMAX_S,GAPMAX_M,PENMAX,PENMIN,SIGMAXADH,VISCADHFACT,
      .    VISCFLUID,PMAX,KTHE,TINT,XTHE,FRAD,DRAD,FHEATS,
-     .    FHEATM,DCOND,XTHE_UNIT,TPFIT,STFACM,DTSTIF
+     .    FHEATM,DCOND,XTHE_UNIT,TPFIT,STFACM,DTSTIF,THK_S,THK_M,
+     .    THK_S_SCALE,THK_M_SCALE
       CHARACTER(LEN=NCHARKEY) ::  KEY1
       CHARACTER(LEN=NCHARFIELD) ::BCFLAG
 !
@@ -176,7 +177,6 @@ C
       C5=ZERO
       C6=ZERO
 
-      GAPSCALE = ZERO
       PERCENT_SIZE = ZERO
       EDG_ANGL = ZERO
       GAPMAX_S = ZERO
@@ -196,6 +196,10 @@ C
       DCOND = ZERO
       STFACM= ZERO
       DTSTIF= ZERO
+      THK_S = ZERO
+      THK_M = ZERO
+      THK_S_SCALE = ZERO
+      THK_M_SCALE = ZERO
 C
       IASSIGN = 1
 C
@@ -306,6 +310,12 @@ C
          CALL HM_GET_FLOATV('D_COND',DCOND,IS_AVAILABLE,LSUBMODEL,UNITAB)
       ENDIF
 C
+      IF(IGAP == 5 ) THEN
+         CALL HM_GET_FLOATV('THICK_S',THK_S,IS_AVAILABLE,LSUBMODEL,UNITAB)  
+         CALL HM_GET_FLOATV('THICK_M',THK_M,IS_AVAILABLE,LSUBMODEL,UNITAB)
+         CALL HM_GET_FLOATV('THICK_S_SCALE',THK_S_SCALE,IS_AVAILABLE,LSUBMODEL,UNITAB)  
+         CALL HM_GET_FLOATV('THICK_M_SCALE',THK_M_SCALE,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      ENDIF
 C--------------------------------------------------
 C DEFAULT VALUES DEFINITION 
 C--------------------------------------------------
@@ -609,7 +619,7 @@ C------------remove BUMULT
 
         IF(BUMULT==ZERO) THEN
           BUMULT = BMUL0
-C bmult augmente pour les tres gros modeles et interface 7 ou 20
+C bmult increases for very large models and interface 7 or 20
 
             IF(NUMNOD > 2500000) THEN
               BUMULT = BMUL0*TWO
@@ -709,7 +719,7 @@ C-----
 C FRIGAP(10) is initialized but used only in engine for storing number of couples candidates  
         FRIGAP(10)=FLOAT(0)
 
-C       POUR STOCKER LE FLAG D'INACTIVATION DES PENE INITIALES
+C       TO STORE THE FLAG FOR DEACTIVATION OF INITIAL PENETRATIONS
 C       (0 = RIEN , 1 = NOEUDS , 2 = FACETTES )
         MULTIMP = 4
         IPARI(23)=MULTIMP
@@ -791,6 +801,12 @@ C
              ENDIF
         ENDIF
 
+        IF(IGAP == 5)THEN
+           IF(THK_S_SCALE == ZERO)   THK_S_SCALE = ONE
+           IF(THK_M_SCALE == ZERO)   THK_M_SCALE = ONE
+        ENDIF
+
+
         FRIGAP(20)  = KTHE
         FRIGAP(21 ) = FHEATS
         FRIGAP(22 ) = TINT
@@ -803,6 +819,26 @@ C
         IPARI(93)   = FCOND
         FRIGAP(34)  = DCOND
         IPARI(50)   = IFRICTH
+        FRIGAP(49)  = THK_S
+        FRIGAP(50 ) = THK_M
+        FRIGAP(51 ) = THK_S_SCALE
+        FRIGAP(52 ) = THK_M_SCALE
+        IF(IGAP == 5.AND.THK_S == ZERO) THEN
+          CALL ANCMSG(MSGID=3105,
+     .                MSGTYPE=MSGWARNING,
+     .                ANMODE=ANINFO,
+     .                I1=NOINT,
+     .                C1=TITR,
+     .                C2='SECONDARY')
+        ENDIF
+        IF(IGAP == 5.AND.THK_M == ZERO) THEN
+          CALL ANCMSG(MSGID=3105,
+     .                MSGTYPE=MSGWARNING,
+     .                ANMODE=ANINFO,
+     .                I1=NOINT,
+     .                C1=TITR,
+     .                C2='MAIN')
+        ENDIF
 
 C
 C------------------------------------------------------------
@@ -929,7 +965,9 @@ C Interface Adhesion
            WRITE(IOUT,2103) IKTHE,XTHE,KTHE,TINT,FRAD,DRAD,FHEATS,FHEATM,IFORM,FCOND,DCOND
          END IF
        END IF
-
+       IF(IGAP == 5 )THEN
+           WRITE(IOUT,5051) THK_S,THK_S_SCALE,THK_M,THK_M_SCALE
+       ENDIF
 C--------------------------------------------------------------
       IF(IS1==0)THEN
         WRITE(IOUT,'(6X,A)')'NO SECONDARY SURFACE INPUT'
@@ -1086,6 +1124,13 @@ C
      .       '    INTERFACE FLUID VISCOSITY . . . . . . . ',1PG20.13/,
      .       '    MAXIMUM ADHESIVE FORCE PER UNIT AREA. . ',1PG20.13/,
      .       '    TANGENTIAL VISCOUS FORCE SCALE FACTOR . ',1PG20.13/)  
+C
+ 5051 FORMAT(/
+     .       '    CONSTANT CONTACT THICKNESS              ' /,
+     .       '    SECONDARY CONTACT THICKNESS . . . . . . ',1PG20.13/,
+     .       '    SECONDARY CONTACT THICKNESS SCALE . . . ',1PG20.13/,
+     .       '    MAIN CONTACT THICKNESS  . . . . . . . . ',1PG20.13/,
+     .       '    MAIN CONTACT THICKNESS SCALE  . . . . . ',1PG20.13/)  
 C
  2102   FORMAT(//
      .      '    Thermal interface                          ' //,

@@ -48,7 +48,7 @@ C-----------------------------------------------
       INTEGER K,I1,IADNOD
 C     REAL
 C--------------------------------------------
-C     VITESSES REPERE GLOBAL.
+C     VELOCITIES GLOBAL REFERENCE FRAME.
 C--------------------------------------------
       IADNOD=KXX(4)
       DO K=1,NX

@@ -87,7 +87,7 @@ C-----------------------------------------------
      .         ETAG(*),IDDL(*)  ,NDOF(*)  ,IADK(*) ,JDIK(*)
       INTEGER, DIMENSION(SEDRAPE) :: INDX_DRAPE
      
-C     REAL OU REAL*8
+C     real or real*8
       my_real
      .   PM(NPROPM,*),GEO(NPROPG,*),BUFMAT(*),X(3,*),THKE(*),
      .   OFF(MVSIZ),K_DIAG(*) ,K_LT(*)
@@ -321,7 +321,7 @@ C--------------------------
      7              MF34,MF44,FM12,FM13,FM14,FM23,FM24,FM34, 
      8              IORTH,HMOR,HFOR,HMFOR)
 C--------------------------
-C     2. Cisaillement Transversale (const+hourglass): 
+C     2. Transversal shear (Const+Hourglass): 
 C--------------------------
        CALL CZLKECT3(JFT  ,JLT   ,VOL  ,HC   ,RX   ,
      4               RY   ,SX    ,SY   ,RX2  ,RY2  ,

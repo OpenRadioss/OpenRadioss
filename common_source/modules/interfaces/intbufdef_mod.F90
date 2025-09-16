@@ -537,7 +537,7 @@
 !||    copy_rval                                ../starter/source/restart/ddsplit/inter_tools.F
 !||    cp_impbuf                                ../engine/source/implicit/produt_v.F
 !||    ddsplit                                  ../starter/source/restart/ddsplit/ddsplit.F
-!||    deplafakeige                             ../engine/source/assembly/deplafakeige.F
+!||    deplafakeige                             ../engine/source/assembly/displfakeige.F
 !||    diag_int                                 ../engine/source/mpi/implicit/imp_fri.F
 !||    dim_glob_k                               ../engine/source/implicit/ind_glob_k.F
 !||    dim_int7                                 ../engine/source/implicit/ind_glob_k.F
@@ -1489,6 +1489,7 @@
           integer, dimension(:) , allocatable ::  e2s_actnor
 
 !----t25 sorting buffers
+          integer, dimension(:) , allocatable ::  cand_a
           integer, dimension(:) , allocatable ::  i25_cand_a
           integer, dimension(:) , allocatable ::  i25_cand_b
 !=======================================================================

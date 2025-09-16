@@ -36,6 +36,7 @@ C
 !||    format_mod             ../starter/share/modules1/format_mod.F90
 !||    hm_option_read_mod     ../starter/share/modules1/hm_option_read_mod.F
 !||    message_mod            ../starter/share/message_module/message_mod.F
+!||    sph_mod                ../starter/share/modules1/sph_mod.F
 !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
 !||====================================================================
       SUBROUTINE HM_READ_NODE(X       ,ITAB,ITABM1,CMERGE,UNITAB,
@@ -65,10 +66,10 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
-      USE OUTPUTS_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARFIELD
       USE FORMAT_MOD , ONLY : FMT_I_3F
       USE USER_ID_MOD , ONLY : ID_LIMIT
+      USE SPH_MOD, ONLY : XI_RES, YI_RES, ZI_RES
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -197,7 +198,7 @@ C----------------------------------------------------
         ENDDO
       ELSE ! IF(IS_DYNA==0)THEN
 C
-C       Possible nodes merging !
+C       Possible nodes merging!
         ALLOCATE (ITAB_TMP(NUMNUSR1),STAT=stat)
         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='ITAB_TMP')
         ALLOCATE (ITABM1_TMP(2*NUMNUSR1),STAT=stat)

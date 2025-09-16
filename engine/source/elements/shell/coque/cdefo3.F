@@ -102,7 +102,7 @@ C
 C
       IF(IHBE<=1)THEN
         DO I=JFT,JLT
-C z2 mis a zero pour non equilibre des foreces et moments d'hourglass
+C z2 set to zero for imbalance of hourglass forces and moments
           Z2(I) = ZERO
           DT1V4 = FOURTH*DT1C(I)
           IF(IMPL_S>0) DT1V4=ZERO
@@ -175,7 +175,7 @@ C    old
         DO I=JFT,JLT
           DT1V4 = HALF*DT1C(I)
           IF(IMPL_S>0) DT1V4=ZERO
-c wraping z1=z3=0 z4=z2 => modif des vitesses pour l'hourglass membrane
+c wrapping z1 = z3 = 0 z4 = z2 => velocity modification for the lurglass membrane
           ZZ2(I)=HALF*Z2(I)
 C
           GZX(I)     = EXZ(I)/AREA(I)

@@ -39,8 +39,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    h3d_mod         ../engine/share/modules/h3d_mod.F
 !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    message_mod     ../engine/share/message_module/message_mod.F
+!||    output_mod      ../common_source/modules/output/output_mod.F90
 !||====================================================================
-      SUBROUTINE I15CMP(IPARI,INTBUF_TAB,IGRSURF,BUFSF,
+      SUBROUTINE I15CMP(OUTPUT,IPARI,INTBUF_TAB,IGRSURF,BUFSF,
      2            A, X, V, WA, FSAV,
      3            IN, STIFN, FCONT, MS, FSKYI,
      4            ISKY, NPC  , PLD , DT2T, NELTST,
@@ -48,6 +49,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE OUTPUT_MOD, ONLY : OUTPUT_
       USE MESSAGE_MOD
       USE INTBUFDEF_MOD
       USE H3D_MOD
@@ -70,6 +72,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT
       INTEGER IPARI(NPARI),
      .        ISKY(*), NPC(*),
      .        NELTST, ITYPTST,
@@ -105,7 +108,7 @@ C     REAL
 C-----------------------------------------------
         NOINT=IPARI(15)
 C-----------------------------------------------
-C       Vecteurs de travail (nbre maximum de facettes).
+C       working vectors (maximum number of facets)
         MAXFCT=6*NUMELS+NUMELC+NUMELTG
         KSC    =1
         KTC    =MAXFCT +KSC
@@ -114,7 +117,7 @@ C       Vecteurs de travail (nbre maximum de facettes).
         KWNF   =KMARQND+NUMNOD
         KWTF   =KWNF   +3*NUMNOD
         KWNS   =KWTF   +3*NUMNOD
-C       Longueur totale des vecteurs de travail.
+C       total length of the working vectors
         KWLENG=KWNS+NUMNOD-1
         IF (KWLENG>LENWA) THEN
           CALL ANCMSG(MSGID=83,ANMODE=ANINFO)
@@ -212,7 +215,7 @@ C------
 C-----------------------------------------------
 C      RETURN TO GLOBAL VECTORS.
 C-----------------------------------------------
-       CALL I15ASS(A   ,X     ,V    ,INTBUF_TAB%KSURF ,IGRSURF  ,
+       CALL I15ASS(OUTPUT,A   ,X     ,V    ,INTBUF_TAB%KSURF ,IGRSURF  ,
      2           BUFSF ,STIFN ,FSAV ,FCONT      ,FSKYI  ,
      3           ISKY  ,DE    ,WA(KWNF) ,WA(KWTF) ,WA(KWNS) ,
      4           FNORMX ,FNORMY ,FNORMZ ,FTANGX ,FTANGY   ,

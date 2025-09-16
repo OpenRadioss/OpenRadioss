@@ -76,7 +76,7 @@ C-----------------------------------------------
       L = 1
       IAD_RECV(1)=1
 
-C   Mise en place des buffers de reception
+C   setting up reception buffers
       DO I=1,NSPMD
          SIZ = IAD_ELEM(1,I+1)-IAD_ELEM(1,I)
          IF(SIZ/=0) THEN
@@ -89,7 +89,7 @@ C   Mise en place des buffers de reception
          IAD_RECV(I+1) = L
       END DO
 
-! Remplissage des buffers d'envoi et envoi des donnees
+! filling send buffers and sending data
 
       L=1
       IAD_SEND(1)=1
@@ -116,7 +116,7 @@ C   Mise en place des buffers de reception
      G      SPMD_COMM_WORLD,REQ_S(I),IERROR)
        ENDIF                
       END DO
-! Reception et traitement
+! reception and processing
       DO I = 1, NSPMD
 C
         NB_NOD = IAD_ELEM(1,I+1)-IAD_ELEM(1,I)

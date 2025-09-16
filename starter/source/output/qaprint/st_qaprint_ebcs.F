@@ -76,6 +76,7 @@ C-----------------------------------------------
             CALL QAPRINT('EBCS NB_NODE ',EBCS%nb_node,0.0_8)
             CALL QAPRINT('EBCS NB_ELEM ',EBCS%nb_elem,0.0_8)
             SELECT TYPE (twf => EBCS)
+
             TYPE IS (t_ebcs_pres)
               CALL QAPRINT('IPRES ',twf%ipres,0.0_8)
               CALL QAPRINT('IRHO ',twf%irho,0.0_8)
@@ -103,6 +104,7 @@ C-----------------------------------------------
               CALL QAPRINT('R1 ', 0, TMPVAL)
               TMPVAL = twf%r2
               CALL QAPRINT('R2 ', 0, TMPVAL)
+
             TYPE IS (t_ebcs_valvin)
               CALL QAPRINT('IPRES ',twf%ipres,0.0_8)
               CALL QAPRINT('IRHO ',twf%irho,0.0_8)
@@ -121,6 +123,7 @@ C-----------------------------------------------
               CALL QAPRINT('R1 ', 0, TMPVAL)
               TMPVAL = twf%r2
               CALL QAPRINT('R2 ', 0, TMPVAL)
+
             TYPE IS (t_ebcs_valvout)
               CALL QAPRINT('IPRES ',twf%ipres,0.0_8)
               CALL QAPRINT('IRHO ',twf%irho,0.0_8)
@@ -139,6 +142,7 @@ C-----------------------------------------------
               CALL QAPRINT('R1 ', 0, TMPVAL)
               TMPVAL = twf%r2
               CALL QAPRINT('R2 ', 0, TMPVAL)
+
             TYPE IS (t_ebcs_gradp0)
               CALL QAPRINT('IPRES ',twf%ipres,0.0_8)
               CALL QAPRINT('IRHO ',twf%irho,0.0_8)
@@ -157,6 +161,7 @@ C-----------------------------------------------
               CALL QAPRINT('R1 ', 0, TMPVAL)
               TMPVAL = twf%r2
               CALL QAPRINT('R2 ', 0, TMPVAL)
+
             TYPE IS (t_ebcs_vel)
               CALL QAPRINT('IRHO ',twf%irho,0.0_8)
               CALL QAPRINT('IENER ',twf%iener,0.0_8)
@@ -181,6 +186,7 @@ C-----------------------------------------------
               CALL QAPRINT('R1 ', 0, TMPVAL)
               TMPVAL = twf%r2
               CALL QAPRINT('R2 ', 0, TMPVAL)
+
             TYPE IS (t_ebcs_normv)
               CALL QAPRINT('IRHO ',twf%irho,0.0_8)
               CALL QAPRINT('IENER ',twf%iener,0.0_8)
@@ -199,6 +205,7 @@ C-----------------------------------------------
               CALL QAPRINT('R1 ', 0, TMPVAL)
               TMPVAL = twf%r2
               CALL QAPRINT('R2 ', 0, TMPVAL)
+
             TYPE IS (t_ebcs_inip)
               TMPVAL = twf%c
               CALL QAPRINT('C ', 0, TMPVAL)
@@ -206,6 +213,7 @@ C-----------------------------------------------
               CALL QAPRINT('RHO ', 0, TMPVAL)
               TMPVAL = twf%lcar
               CALL QAPRINT('LCAR ',0, TMPVAL)
+
             TYPE IS (t_ebcs_iniv)
               TMPVAL = twf%c
               CALL QAPRINT('C ', 0, TMPVAL)
@@ -213,9 +221,11 @@ C-----------------------------------------------
               CALL QAPRINT('RHO ', 0, TMPVAL)
               TMPVAL = twf%lcar
               CALL QAPRINT('LCAR ', 0, TMPVAL)
+
             TYPE IS (t_ebcs_monvol)
               CALL QAPRINT('MONVOLID ',twf%monvol_id,0.0_8)
               CALL QAPRINT('SENSORID ',twf%sensor_id,0.0_8)
+
             TYPE IS (t_ebcs_inlet)
               CALL QAPRINT('FORMULATION ',twf%fvm_inlet_data%formulation,0.0_8)
               CALL QAPRINT('VECTOR_VELOCITY ',twf%fvm_inlet_data%vector_velocity,0.0_8)
@@ -271,9 +281,79 @@ C-----------------------------------------------
                     CALL QAPRINT(TRIM(VARNAME),0,TMPVAL)
                  ENDIF
               ENDDO
+
             TYPE IS (t_ebcs_fluxout)
               !no parameter for this option
+
+            TYPE IS (t_ebcs_nrf)
+              TMPVAL = twf%tcar_p
+              CALL QAPRINT('TCAR_P  ', 0, TMPVAL)
+              TMPVAL = twf%tcar_vf
+              CALL QAPRINT('TCAR_VF ', 0, TMPVAL)
+
+            TYPE IS (t_ebcs_propellant)
+              IF (twf%sensor_id /= 0) THEN
+                WRITE(VARNAME,'(A)') 'sensor_id '
+                CALL QAPRINT(TRIM(VARNAME),twf%sensor_id ,0.0_8)
+              ENDIF
+              IF (twf%submat_id /= 0) THEN
+                WRITE(VARNAME,'(A)') 'submat_id '
+                CALL QAPRINT(TRIM(VARNAME),twf%submat_id ,0.0_8)
+              ENDIF
+              IF (twf%ienthalpy /= 0) THEN
+                WRITE(VARNAME,'(A)') 'ienthalpy '
+                CALL QAPRINT(TRIM(VARNAME),twf%ienthalpy ,0.0_8)
+              ENDIF
+              TMPVAL = twf%a
+              CALL QAPRINT('a         ', 0, TMPVAL)
+              TMPVAL = twf%n
+              CALL QAPRINT('n         ', 0, TMPVAL)
+              TMPVAL = twf%t
+              CALL QAPRINT('Tburn     ', 0, TMPVAL)
+              TMPVAL = twf%rho0s
+              CALL QAPRINT('rho0S     ', 0, TMPVAL)
+              !---function f
+              IF (twf%ffunc_id /= 0) THEN
+                WRITE(VARNAME,'(A)') 'ffunc_id  '
+                CALL QAPRINT(TRIM(VARNAME),twf%ffunc_id ,0.0_8)
+              ENDIF
+              IF (twf%fscaleX /= 0) THEN
+                TMPVAL = twf%fscaleX
+                CALL QAPRINT('fscaleX   ', 0, TMPVAL)
+              ENDIF
+              IF (twf%fscaleY /= zero) THEN
+                TMPVAL = twf%fscaleY
+                CALL QAPRINT('fscaleY   ', 0, TMPVAL)
+              ENDIF
+              !---function g
+              IF (twf%gfunc_id /= 0) THEN
+                WRITE(VARNAME,'(A)') 'gfunc_id  '
+                CALL QAPRINT(TRIM(VARNAME),twf%gfunc_id ,0.0_8)
+              ENDIF
+              IF (twf%gscaleX /= 0) THEN
+                TMPVAL = twf%gscaleX
+                CALL QAPRINT('gscaleX   ', 0, TMPVAL)
+              ENDIF
+              IF (twf%gscaleY /= zero) THEN
+                TMPVAL = twf%gscaleY
+                CALL QAPRINT('gscaleY   ', 0, TMPVAL)
+              ENDIF
+              !---function h
+              IF (twf%hfunc_id /= 0) THEN
+                WRITE(VARNAME,'(A)') 'hfunc_id  '
+                CALL QAPRINT(TRIM(VARNAME),twf%hfunc_id ,0.0_8)
+              ENDIF
+              IF (twf%hscaleX /= 0) THEN
+                TMPVAL = twf%hscaleX
+                CALL QAPRINT('hscaleX   ', 0, TMPVAL)
+              ENDIF
+              IF (twf%hscaleY /= zero) THEN
+                TMPVAL = twf%hscaleY
+                CALL QAPRINT('hscaleY   ', 0, TMPVAL)
+              ENDIF
+
             END SELECT
+
          ENDDO
       ENDIF
 C-----------------------------------------------

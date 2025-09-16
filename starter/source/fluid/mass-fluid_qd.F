@@ -124,7 +124,7 @@ C           IF (ILVOUT>=2) CALL PROGBAR_C(IEL,NEL)
            Z2=X(3,NN2)
            Z3=X(3,NN3)
            Z4=X(3,NN4)
-C  Control point P
+C  Control Point P
            XP=WI(1,N5)*X1+WI(2,N5)*X2+WI(3,N5)*X3+WI(4,N5)*X4
            YP=WI(1,N5)*Y1+WI(2,N5)*Y2+WI(3,N5)*Y3+WI(4,N5)*Y4
            ZP=WI(1,N5)*Z1+WI(2,N5)*Z2+WI(3,N5)*Z3+WI(4,N5)*Z4
@@ -163,7 +163,7 @@ C
                 Z3=X(3,NN3)
                 Z4=X(3,NN4)
                 AREA=AF(JEL)
-C  Position de la source Q
+C  Position of source Q
                 XQ=WI(1,JN)*X1+WI(2,JN)*X2+WI(3,JN)*X3+WI(4,JN)*X4
                 YQ=WI(1,JN)*Y1+WI(2,JN)*Y2+WI(3,JN)*Y3+WI(4,JN)*Y4
                 ZQ=WI(1,JN)*Z1+WI(2,JN)*Z2+WI(3,JN)*Z3+WI(4,JN)*Z4
@@ -220,7 +220,7 @@ C           IF (ILVOUT>=2) CALL PROGBAR_C(IEL,NEL)
            Z2=X(3,NN2)
            Z3=X(3,NN3)
            Z4=X(3,NN4)
-C  Control point P
+C  Control Point P
            XP=WI(1,IN)*X1+WI(2,IN)*X2+WI(3,IN)*X3+WI(4,IN)*X4
            YP=WI(1,IN)*Y1+WI(2,IN)*Y2+WI(3,IN)*Y3+WI(4,IN)*Y4
            ZP=WI(1,IN)*Z1+WI(2,IN)*Z2+WI(3,IN)*Z3+WI(4,IN)*Z4

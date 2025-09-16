@@ -35,7 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ths_vol                        ../engine/source/output/h3d/h3d_results/h3d_solid_scalar_1.F
 !||--- uses       -----------------------------------------------------
 !||    ale_connectivity_mod           ../common_source/modules/ale/ale_connectivity_mod.F
-!||    aleanim_mod                    ../engine/share/modules/aleanim_mod.F
+!||    aleanim_mod                    ../common_source/modules/aleanim_mod.F
 !||    alefvm_mod                     ../common_source/modules/ale/alefvm_mod.F
 !||    elbufdef_mod                   ../common_source/modules/mat_elem/elbufdef_mod.F90
 !||    h3d_mod                        ../engine/share/modules/h3d_mod.F
@@ -779,7 +779,7 @@ C--------------------------------------------------
 C--------------------------------------------------
               ELSEIF(KEYWORD == 'WPLA' .AND. MLW == 25) THEN
 C--------------------------------------------------
-C               WPLA par couche pour loi 25
+C               wpla by layer for law 25
                 IOK = 0
                 DO I=1,NEL
                   EVAR(I) = ZERO
@@ -811,7 +811,7 @@ C               WPLA par couche pour loi 25
 C--------------------------------------------------
               ELSEIF (KEYWORD == 'FLAY' .AND. MLW == 25) THEN
 C--------------------------------------------------
-C---            FAILED LAYERS par elem pour loi 25
+C---            failed layers per element for law 25
                 DO I=1,NEL
                   EVAR(I) = ZERO
                 ENDDO
@@ -1006,14 +1006,14 @@ C--------------------------------------------------
 C--------------------------------------------------
 C           EULER ANGLE : rotation of ORTHOTROPIC SYSTEM wrt GLOBAL SYSTEM
 c ILAYER=NULL NPT=NULL
-                IF ( (ILAY <= NLAY .AND. ILAY > 0) .OR.
+                IF ( (ILAY <= NLAY .AND. ILAY > 0) .AND.
      .              IR <= NPTR .AND. IR > 0 .AND.  IS <= NPTS .AND. IS > 0 .AND. IT <= NPTT .AND. IT > 0) THEN
                   IF ( IGTYP == 6 .OR. IGTYP == 21 .OR. IGTYP == 22 ) THEN
                     LBUF => ELBUF_TAB(NG)%BUFLY(MAX(1,ILAY))%LBUF(1,1,1)
                     DO I=1,NEL
                       N = I + NFT
                       IF(ISORTH ==1) THEN
-C                      pour JHBE=14, valeurs moyennes est dans rep. corota.
+C                      for jhbe=14, average values are in the corota frame.
                         IF(IGTYP == 21 .OR. IGTYP == 22) THEN
                           GAMA(1)= LBUF%GAMA(JJ(1)+I)
                           GAMA(2)= LBUF%GAMA(JJ(2)+I)
@@ -1062,14 +1062,14 @@ C--------------------------------------------------
 C--------------------------------------------------
 C           EULER ANGLE : rotation of ORTHOTROPIC SYSTEM wrt GLOBAL SYSTEM
 c ILAYER=NULL NPT=NULL
-                IF ( (ILAY <= NLAY .AND. ILAY > 0) .OR.
+                IF ( (ILAY <= NLAY .AND. ILAY > 0) .AND.
      .              IR <= NPTR .AND. IR > 0 .AND.  IS <= NPTS .AND. IS > 0 .AND. IT <= NPTT .AND. IT > 0) THEN
                   IF ( IGTYP == 6 .OR. IGTYP == 21 .OR. IGTYP == 22 ) THEN
                     LBUF => ELBUF_TAB(NG)%BUFLY(MAX(1,ILAY))%LBUF(1,1,1)
                     DO I=1,NEL
                       N = I + NFT
                       IF(ISORTH ==1) THEN
-C                      pour JHBE=14, valeurs moyennes est dans rep. corota.
+C                      for jhbe=14, average values are in the corota frame.
                         IF(IGTYP == 21 .OR. IGTYP == 22) THEN
                           GAMA(1)= LBUF%GAMA(JJ(1)+I)
                           GAMA(2)= LBUF%GAMA(JJ(2)+I)
@@ -1117,14 +1117,14 @@ C--------------------------------------------------
 C--------------------------------------------------
 C           EULER ANGLE : rotation of ORTHOTROPIC SYSTEM wrt GLOBAL SYSTEM
 c ILAYER=NULL NPT=NULL
-                IF ( (ILAY <= NLAY .AND. ILAY > 0) .OR.
+                IF ( (ILAY <= NLAY .AND. ILAY > 0) .AND.
      .              IR <= NPTR .AND. IR > 0 .AND.  IS <= NPTS .AND. IS > 0 .AND. IT <= NPTT .AND. IT > 0) THEN
                   IF ( IGTYP == 6 .OR. IGTYP == 21 .OR. IGTYP == 22 ) THEN
                     LBUF => ELBUF_TAB(NG)%BUFLY(MAX(1,ILAY))%LBUF(1,1,1)
                     DO I=1,NEL
                       N = I + NFT
                       IF(ISORTH ==1) THEN
-C                      pour JHBE=14, valeurs moyennes est dans rep. corota.
+C                      for jhbe=14, average values are in the corota frame.
                         IF(IGTYP == 21 .OR. IGTYP == 22) THEN
                           GAMA(1)= LBUF%GAMA(JJ(1)+I)
                           GAMA(2)= LBUF%GAMA(JJ(2)+I)
@@ -2110,7 +2110,12 @@ C--------------------------------------------------
 C--------------------------------------------------
                 MT          = IXS(1,NFT+1)
                 IALEFVM_FLG = IPM(251,MT)
-                IF(IALEFVM_FLG >= 2)THEN
+                IF (MLW == 151) THEN
+                  DO I = 1, NEL
+                    VALUE(I) = MULTI_FVM%VEL(1, I + NFT)
+                    IS_WRITTEN_VALUE(I) = 1
+                  ENDDO
+                ELSEIF(IALEFVM_FLG >= 2)THEN
                   IF (ISOLNOD == 8)THEN
                     DO I=1,NEL
                       VALUE(I) = GBUF%MOM(JJ(1) + I) / GBUF%RHO(I)
@@ -2123,7 +2128,12 @@ C--------------------------------------------------
 C--------------------------------------------------
                 MT          = IXS(1,NFT+1)
                 IALEFVM_FLG = IPM(251,MT)
-                IF(IALEFVM_FLG >= 2)THEN
+                IF (MLW == 151) THEN
+                  DO I = 1, NEL
+                    VALUE(I) = MULTI_FVM%VEL(2, I + NFT)
+                    IS_WRITTEN_VALUE(I) = 1
+                  ENDDO
+                ELSEIF(IALEFVM_FLG >= 2)THEN
                   IF (ISOLNOD == 8)THEN
                     DO I=1,NEL
                       VALUE(I) = GBUF%MOM(JJ(2) + I) / GBUF%RHO(I)
@@ -2136,7 +2146,12 @@ C--------------------------------------------------
 C--------------------------------------------------
                 MT          = IXS(1,NFT+1)
                 IALEFVM_FLG = IPM(251,MT)
-                IF(IALEFVM_FLG >= 2)THEN
+                IF (MLW == 151) THEN
+                  DO I = 1, NEL
+                    VALUE(I) = MULTI_FVM%VEL(3, I + NFT)
+                    IS_WRITTEN_VALUE(I) = 1
+                  ENDDO
+                ELSEIF(IALEFVM_FLG >= 2)THEN
                   IF (ISOLNOD == 8)THEN
                     DO I=1,NEL
                       VALUE(I) = GBUF%MOM(JJ(3) + I) / GBUF%RHO(I)

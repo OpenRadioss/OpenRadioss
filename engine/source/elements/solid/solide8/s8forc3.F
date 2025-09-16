@@ -46,11 +46,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
 !||    glob_therm_mod         ../common_source/modules/mat_elem/glob_therm_mod.F90
 !||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
+!||    output_mod             ../common_source/modules/output/output_mod.F90
 !||    sensor_mod             ../common_source/modules/sensor_mod.F90
 !||    table_mod              ../engine/share/modules/table_mod.F
 !||    timer_mod              ../engine/source/system/timer_mod.F90
 !||====================================================================
-      SUBROUTINE S8FORC3(TIMERS,
+      SUBROUTINE S8FORC3(TIMERS, OUTPUT,
      1                   ELBUF_STR,PM       ,GEO    ,IXS      ,X      ,
      2                   A        ,V        ,MS     , 
      3                   VEUL     ,FV       ,ALE_CONNECT  ,IPARG    ,
@@ -64,6 +65,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE TIMER_MOD
+      USE OUTPUT_MOD, ONLY : OUTPUT_
       USE TABLE_MOD
       USE MAT_ELEM_MOD         
       USE ALE_CONNECTIVITY_MOD
@@ -90,6 +92,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(TIMER_), INTENT(INOUT) :: TIMERS
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT
       INTEGER,INTENT(IN) :: SNPC
       INTEGER,INTENT(IN) :: NUMGEO
       INTEGER,INTENT(IN) :: SBUFMAT
@@ -135,7 +138,7 @@ C-----------------------------------------------
      .   XGXA(MVSIZ),XGYA(MVSIZ),XGZA(MVSIZ),
      .   XGXYA(MVSIZ),XGYZA(MVSIZ),XGZXA(MVSIZ),
      .   XGXA2(MVSIZ),XGYA2(MVSIZ),XGZA2(MVSIZ)
-C Variables utilisees en arguments dans les routines solides 
+C variables used as arguments in solid routines
       my_real
      .   R11(MVSIZ),R12(MVSIZ),R13(MVSIZ),
      .   R21(MVSIZ),R22(MVSIZ),R23(MVSIZ),
@@ -178,7 +181,7 @@ C-----------------------------------------------
      .             XGXYA,XGYZA,XGZXA,IPARG(1,NG))
       ENDIF
 C-----------------------------------------------
-C FONCTIONS DE FORME, DEFORMATION, ET OBJECTIVITE 
+C shape functions, strain, and objectivity
 C PXJ(K,I) FONCTION J DU PT INTEGRATION K ELEMENT I
 C-----------------------------------------------
       CALL S8DERI3(
@@ -217,7 +220,7 @@ C------------------------------------------------------
 C     CALCUL DES CONTRAINTES SUIVANT LOIS CONSTITUTIVES
 C------------------------------------------------------
       IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STARTIME(TIMERS,35)
-      CALL MMAIN8(TIMERS, PM   ,GEO   ,ELBUF_STR,MAT_ELEM ,
+      CALL MMAIN8(TIMERS, OUTPUT, PM   ,GEO   ,ELBUF_STR,MAT_ELEM ,
      2            IXS  ,IPARG ,V        ,TF    ,    
      3            NPF  ,BUFMAT,STI    ,X     ,D1    ,
      4            D2   ,D3    ,D4     ,D5    ,D6    ,
@@ -232,7 +235,7 @@ C------------------------------------------------------
      D            NTABLE)
       IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STOPTIME(TIMERS,35)
 C--------------------------
-C     BILANS PAR MATERIAU
+C     balances by material
 C--------------------------
         IFLAG=MOD(NCYCLE,NCPRI)
         IF(IOUTPRT>0)THEN       

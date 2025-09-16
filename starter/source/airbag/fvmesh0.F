@@ -20,8 +20,8 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-C ATTENTION : toute modification dans ces routines doit etre reportee
-C             dans les routines identiques dans l'engine
+C Please note: any modification in these routines must be postponed
+C             in identical routines in the machine
 !||====================================================================
 !||    fvmesh0                  ../starter/source/airbag/fvmesh0.F
 !||--- called by ------------------------------------------------------
@@ -137,7 +137,7 @@ C
 
             T_MONVOL(N)%KR5 = 1+NRVOLU*NVOLU+LRCBAG+LRBAGJET+LRBAGHOL+T_MONVOL(N)%IVOLU(34) + NNT*6
 C----------------------------------------------
-C Parametres de decoupage automatique du volume
+C Automatic volume cutting parameters
 C----------------------------------------------
             DIRX = T_MONVOL(N)%RVOLU(35)
             DIRY = T_MONVOL(N)%RVOLU(36)
@@ -211,7 +211,7 @@ C
               NSURFI=T_MONVOL(N)%INT_SURFID
               NSEG=IGRSURF(NSURFI)%NSEG
 C-----------------------------
-C  Elements de surface interne
+C  Internal surface elements
 C-----------------------------
               T_MONVOL(N)%POROSITY(1:NTGI) = ZERO
               CALL FVELINTE(T_MONVOL(N)%NODES, T_MONVOL(N)%ELEM(1, NTG + 1), IXC, IXTG,
@@ -219,7 +219,7 @@ C-----------------------------
      .                     NSEG,IGRSURF(NSURFI)%ELTYP, NTGI, T_MONVOL(N)%ELTG,
      .                     NB_NODE,IGRSURF(NSURFI)%ELEM)
 C--------------------------------
-C  Injecteurs sur surface interne
+C  Injectors on internal surface
 C--------------------------------
               ALLOCATE(MINUS_SIGN_REVERSE(NTGI))
               MINUS_SIGN_REVERSE(:) = 0
@@ -229,7 +229,7 @@ C--------------------------------
      .               T_MONVOL(N)%ITAGEL(NTG + 1), NNS+NNI          , NTGI,NB_NODE,
      .               MINUS_SIGN_REVERSE)
 C--------------------------------
-C  Porous surface sur surface interne
+C  Porous surface on internal surface
 C--------------------------------
               CALL FVVENTHOLEINT(
      .               T_MONVOL(N)%NODES, T_MONVOL(N)%ELEM(1, NTG + 1), T_MONVOL(N)%IBAGHOL,
@@ -260,7 +260,7 @@ C------------------------------------------------------
               ENDDO
             ENDIF
 C---------------------------------
-C  Noeuds de briques additionnelles
+C  Additional brick nodes
 C---------------------------------  
             IF (NNA > 0) THEN
                NNFV = T_MONVOL(N)%IVOLU(46)
@@ -370,7 +370,7 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
             NTGT = NTG + NTGI
 
 C----------------------------------------------
-C Parametres de decoupage automatique du volume
+C Parameters for automatic volume splitting
 C----------------------------------------------
 C           PERMUTATION ELTG
             IF (NTG > 0) THEN

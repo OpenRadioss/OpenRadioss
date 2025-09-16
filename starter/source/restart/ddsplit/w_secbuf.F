@@ -77,7 +77,7 @@ C
         NNOD_S = NSTRF(K0+6)
         NSINT_S = NSTRF(K0+14)
         K2=K0+30+NSINT_S
-C noeuds locaux
+C Local nodes
         NNOD_S_L = 0
         DO J = 1, NNOD_S
           K = NSTRF(K2 + J -1)

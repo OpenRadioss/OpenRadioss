@@ -198,7 +198,7 @@ C--------------------------------------------------------------------C
         IF (IPID==0) NSUBDOM = 1
         NSUBDOM_LOC = NSUBDOM
         DO P=1,NSUBDOM_LOC
-C-----2 pass : pass 1 - contact nodes / passe 2 - connection nodes
+C----- 2 Pass: Pass 1-Nodes / Pass 2-Nodes Connection
           N = P
           IF (IPID==0) N = IDDOM
           COMPT = 0

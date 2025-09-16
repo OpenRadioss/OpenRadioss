@@ -96,6 +96,9 @@ c
       Ivisc        = NINT(UPARAM(12)) ! Viscosity formulation      
       ! Strain-rate filtering (if Ivisc = 0)
       AFILTR       = MIN(ONE, UPARAM(14)*TIMESTEP)
+!
+      if (ivisc == 0) epsd(1:nel) = uvar(1:nel,2)
+!      
       ! Initial yield stress vs strain-rate curve
       IF (IFUNC(1) > 0) THEN
         Xscale_SIG0  = UPARAM(16) ! Strain-rate scale factor
@@ -114,7 +117,7 @@ c
         Yscale_TANG  = UPARAM(21) ! Tangent modulus scale factor 
         TANG(1:NEL)  = ZERO
       ELSE
-        TANG(1:NEL)  = UPARAM(21) ! Constant tangent modulus
+        TANG(1:NEL)  = UPARAM(21) ! Constant Tangent Modulus
         DTANGDEPSD(1:NEL) = ZERO
       ENDIF
       DTINV = ONE/MAX(TIMESTEP,EM20) ! Inverse of timestep
@@ -150,6 +153,7 @@ c
      .                        TWO*(EPSPXY(I)**2))
           DEPSDT    = SQRT(DEPSDT)
           EPSD(I)   = AFILTR * DEPSDT + (ONE - AFILTR) * EPSD(I)
+          UVAR(I,2) = EPSD(I)
         ENDDO
       ELSE
         ! Reset plastic strain-rate

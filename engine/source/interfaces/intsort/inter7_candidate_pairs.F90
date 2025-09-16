@@ -27,6 +27,7 @@
 !||    main                         ../engine/unit_test/unit_test1.F
 !||====================================================================
       MODULE INTER7_CANDIDATE_PAIRS_MOD
+      implicit none
       CONTAINS
 
 !! \brief get the list of candidates pairs for all main segments
@@ -43,60 +44,60 @@
 !||    precision_mod                ../common_source/modules/precision_mod.F90
 !||====================================================================
         SUBROUTINE INTER7_CANDIDATE_PAIRS(&
-     &                                    nsn          ,&
-     &                                    oldnum       ,&
-     &                                    nsnr         ,&
-     &                                    isznsnr      ,&
-     &                                    i_mem        ,&
-     &                                    irect        ,&
-     &                                    x            ,&
-     &                                    stf          ,&
-     &                                    xyzm         ,&
-     &                                    nsv          ,&
-     &                                    ii_stok      ,&
-     &                                    cand_n       ,&
-     &                                    eshift       ,&
-     &                                    cand_e       ,&
-     &                                    mulnsn       ,&
-     &                                    tzinf        ,&
-     &                                    gap_s_l      ,&
-     &                                    gap_m_l      ,&
-     &                                    voxel        ,&
-     &                                    nbx          ,&
-     &                                    nby          ,&
-     &                                    nbz          ,&
-     &                                    inacti       ,&
-     &                                    ifq          ,&
-     &                                    cand_a       ,&
-     &                                    cand_p       ,&
-     &                                    ifpen        ,&
-     &                                    nrtm         ,&
-     &                                    nsnrold      ,&
-     &                                    igap         ,&
-     &                                    gap          ,&
-     &                                    gap_s        ,&
-     &                                    gap_m        ,&
-     &                                    gapmin       ,&
-     &                                    gapmax       ,&
-     &                                    marge        ,&
-     &                                    curv_max     ,&
-     &                                    bgapsmx      ,&
-     &                                    s_kremnod    ,&
-     &                                    kremnod      ,&
-     &                                    s_remnod     ,&
-     &                                    remnod       ,&
-     &                                    flagremnode  ,&
-     &                                    drad         ,&
-     &                                    itied        ,&
-     &                                    cand_f       ,&
-     &                                    dgapload     ,&
-     &                                    s_cand_a     ,&
-     &                                    numnod       ,&
-     &                                    xrem         ,&
-     &                                    s_xrem       ,&
-     &                                    irem         ,&
-     &                                    s_irem       ,&
-     &                                    next_nod      )
+        &                                    nsn          ,&
+        &                                    oldnum       ,&
+        &                                    nsnr         ,&
+        &                                    isznsnr      ,&
+        &                                    i_mem        ,&
+        &                                    irect        ,&
+        &                                    x            ,&
+        &                                    stf          ,&
+        &                                    xyzm         ,&
+        &                                    nsv          ,&
+        &                                    ii_stok      ,&
+        &                                    cand_n       ,&
+        &                                    eshift       ,&
+        &                                    cand_e       ,&
+        &                                    mulnsn       ,&
+        &                                    tzinf        ,&
+        &                                    gap_s_l      ,&
+        &                                    gap_m_l      ,&
+        &                                    voxel        ,&
+        &                                    nbx          ,&
+        &                                    nby          ,&
+        &                                    nbz          ,&
+        &                                    inacti       ,&
+        &                                    ifq          ,&
+        &                                    cand_a       ,&
+        &                                    cand_p       ,&
+        &                                    ifpen        ,&
+        &                                    nrtm         ,&
+        &                                    nsnrold      ,&
+        &                                    igap         ,&
+        &                                    gap          ,&
+        &                                    gap_s        ,&
+        &                                    gap_m        ,&
+        &                                    gapmin       ,&
+        &                                    gapmax       ,&
+        &                                    marge        ,&
+        &                                    curv_max     ,&
+        &                                    bgapsmx      ,&
+        &                                    s_kremnod    ,&
+        &                                    kremnod      ,&
+        &                                    s_remnod     ,&
+        &                                    remnod       ,&
+        &                                    flagremnode  ,&
+        &                                    drad         ,&
+        &                                    itied        ,&
+        &                                    cand_f       ,&
+        &                                    dgapload     ,&
+        &                                    s_cand_a     ,&
+        &                                    numnod       ,&
+        &                                    xrem         ,&
+        &                                    s_xrem       ,&
+        &                                    irem         ,&
+        &                                    s_irem       ,&
+        &                                    next_nod      )
           USE PRECISION_MOD, ONLY : WP
           USE COLLISION_MOD , ONLY : GROUP_SIZE
           USE INTER7_FILTER_CAND_MOD
@@ -104,7 +105,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   arguments 
+!                                                   arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           integer, intent(inout) :: i_mem !< error code when not enough memory
           integer, intent(in), value :: eshift !< openmp shift for main segments
@@ -166,7 +167,7 @@
           real(kind=WP), intent(inout) :: xrem(s_xrem,nsnr) !< remote (spmd) real data
 
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   local variables 
+!                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i,j, nn, ne, k, l, j_stok, jj, delnod, m
           integer, dimension(:), allocatable :: tagremnode
@@ -217,8 +218,8 @@
             allocate(tagremnode(numnod))
             do i=1,numnod
               tagremnode(i) = 0
-            enddo
-          endif
+            end do
+          end if
 !$OMP BARRIER
 !$OMP DO SCHEDULE(DYNAMIC)
           do ne=1,nrtm
@@ -230,13 +231,13 @@
                 ! the segment ne cannot be in contact with the node remnod(i)
                 ! typically, remnod(i) contains nodes of neighboring elements
                 tagremnode(remnod(i)) = 1
-              enddo
-            endif
+              end do
+            end if
             if(igap == 0)then
               aaa = tzinf+curv_max(ne)
             else
               aaa = marge+curv_max(ne)+max(min(gapmax,max(gapmin,bgapsmx+gap_m(ne)))+dgapload,drad)
-            endif
+            end if
 
             m1 = irect(1,ne)
             m2 = irect(2,ne)
@@ -277,7 +278,7 @@
             else
               ix1=-2
               ix2=1
-            endif
+            end if
 
             if(nby>1) then
               iy1=int(nby*(ymine-aaa-yminb)/(ymaxb-yminb))
@@ -285,7 +286,7 @@
             else
               iy1=-2
               iy2=1
-            endif
+            end if
 
             if(nbz>1) then
               iz1=int(nbz*(zmine-aaa-zminb)/(zmaxb-zminb))
@@ -293,7 +294,7 @@
             else
               iz1=-2
               iz2=1
-            endif
+            end if
 
             ix1=max(1,2+min(nbx,ix1))
             iy1=max(1,2+min(nby,iy1))
@@ -322,13 +323,13 @@
 
                       if(flagremnode == 2) then
                         if( tagremnode(nsv(jj)) == 1) goto 200
-                      endif
+                      end if
                       xs = x(1,nn)
                       ys = x(2,nn)
                       zs = x(3,nn)
                       if(igap /= 0)then
                         aaa = marge+curv_max(ne)+max(min(gapmax,max(gapmin,gap_s(jj)+gap_m(ne)))+dgapload,drad)
-                      endif
+                      end if
                     else
                       ! remote (SPMD) node: data are stored in irem/xrem (communicated earlier)
                       j=jj-nsn
@@ -340,18 +341,18 @@
                           if(remnod(m) == -irem(2,j) ) then
                             delnod = delnod + 1
                             exit
-                          endif
-                        enddo
+                          end if
+                        end do
                         if(delnod /= 0)goto 200
-                      endif
+                      end if
 
                       xs = xrem(1,j)
                       ys = xrem(2,j)
                       zs = xrem(3,j)
                       if(igap /= 0)then
                         aaa = marge+curv_max(ne)+max(min(gapmax,max(gapmin,xrem(9,j)+gap_m(ne)))+dgapload,drad)
-                      endif
-                    endif
+                      end if
+                    end if
 
                     if(xs<=xmine-aaa)goto 200
                     if(xs>=xmaxe+aaa)goto 200
@@ -374,54 +375,54 @@
                       d2 = min(dd1*dd1,dd2*dd2)
                       a2 = aaa*aaa*s2
                       if(d2 > a2)goto 200
-                    endif
+                    end if
 
                     j_stok = j_stok + 1
                     prov_n(j_stok) = jj
                     prov_e(j_stok) = ne
 
-                    if(j_stok == GROUP_SIZE) then 
-                       ! filter prov_n, prov_e and append to cand_n, cand_e
-                       if(i_mem == 0) call inter7_filter_cand(&
-     &                   j_stok,irect  ,x     ,nsv   ,ii_stok,&
-     &                   cand_n,cand_e ,mulnsn,marge  ,&
-     &                   i_mem ,prov_n ,prov_e,eshift,inacti ,&
-     &                   ifq   ,cand_a ,cand_p,ifpen ,nsn    ,&
-     &                   oldnum,nsnrold,igap  ,gap   ,gap_s  ,&
-     &                   gap_m ,gapmin ,gapmax,curv_max,&
-     &                   gap_s_l,gap_m_l,drad,itied    ,&
-     &                   cand_f ,dgapload, numnod,&
-     &                   nsnr, nrtm, isznsnr,&
-     &                   xrem ,s_xrem)
-                         j_stok = 0
-                    endif
- 
-  200               continue
+                    if(j_stok == GROUP_SIZE) then
+                      ! filter prov_n, prov_e and append to cand_n, cand_e
+                      if(i_mem == 0) call inter7_filter_cand(&
+                      &                   j_stok,irect  ,x     ,nsv   ,ii_stok,&
+                      &                   cand_n,cand_e ,mulnsn,marge  ,&
+                      &                   i_mem ,prov_n ,prov_e,eshift,inacti ,&
+                      &                   ifq   ,cand_a ,cand_p,ifpen ,nsn    ,&
+                      &                   oldnum,nsnrold,igap  ,gap   ,gap_s  ,&
+                      &                   gap_m ,gapmin ,gapmax,curv_max,&
+                      &                   gap_s_l,gap_m_l,drad,itied    ,&
+                      &                   cand_f ,dgapload, numnod,&
+                      &                   nsnr, nrtm, isznsnr,&
+                      &                   xrem ,s_xrem)
+                      j_stok = 0
+                    end if
+
+200                 continue
                     jj = next_nod(jj)
-                  enddo ! while(jj /= 0)
-                enddo ! x
-              enddo  ! y
-            enddo   ! z
+                  end do ! while(jj /= 0)
+                end do ! x
+              end do  ! y
+            end do   ! z
             if(flagremnode == 2) then
               k = kremnod(2*(ne-1)+1)+1
               l = kremnod(2*(ne-1)+2)
               do i=k,l
                 tagremnode(remnod(i)) = 0
-              enddo
-            endif
-          enddo
+              end do
+            end if
+          end do
 !$OMP END DO
           if(j_stok > 0 .and. i_mem == 0) call inter7_filter_cand(&
-     &                   j_stok,irect  ,x     ,nsv   ,ii_stok,&
-     &                   cand_n,cand_e ,mulnsn,marge  ,&
-     &                   i_mem ,prov_n ,prov_e,eshift,inacti ,&
-     &                   ifq   ,cand_a ,cand_p,ifpen ,nsn    ,&
-     &                   oldnum,nsnrold,igap  ,gap   ,gap_s  ,&
-     &                   gap_m ,gapmin ,gapmax,curv_max,&
-     &                   gap_s_l,gap_m_l,drad,itied    ,&
-     &                   cand_f ,dgapload, numnod,&
-     &                   nsnr, nrtm, isznsnr,&
-     &                   xrem ,s_xrem)
+          &                   j_stok,irect  ,x     ,nsv   ,ii_stok,&
+          &                   cand_n,cand_e ,mulnsn,marge  ,&
+          &                   i_mem ,prov_n ,prov_e,eshift,inacti ,&
+          &                   ifq   ,cand_a ,cand_p,ifpen ,nsn    ,&
+          &                   oldnum,nsnrold,igap  ,gap   ,gap_s  ,&
+          &                   gap_m ,gapmin ,gapmax,curv_max,&
+          &                   gap_s_l,gap_m_l,drad,itied    ,&
+          &                   cand_f ,dgapload, numnod,&
+          &                   nsnr, nrtm, isznsnr,&
+          &                   xrem ,s_xrem)
 
 !!=======================================================================
 !! 5   VOXEL RESET
@@ -439,12 +440,12 @@
 ! ======================================================================================================================
           if(flagremnode == 2) then
             if(allocated(tagremnode)) deallocate(tagremnode)
-          endif
+          end if
 !         if(itask == 0) deallocate(list_nb_voxel_on)
 
 !#ifndef NO_SERIALIZE
 !        if(nsn > 13602 .and. nrtm > 1800) then
-!        call INTER7_SERIALIZE(      "t10m.dat", 
+!        call INTER7_SERIALIZE(      "t10m.dat",
 !     &                                    nsn          ,
 !     &                                    oldnum       ,
 !     &                                    nsnr         ,
@@ -490,7 +491,7 @@
 !     &                                    s_cand_a     ,
 !     &                                    total_nb_nrtm,
 !     &                                    numnod       )
-!        stop              
+!        stop
 !        endif
 !#endif
 
@@ -504,56 +505,56 @@
 !||--- uses       -----------------------------------------------------
 !||    precision_mod      ../common_source/modules/precision_mod.F90
 !||====================================================================
-        SUBROUTINE INTER7_SERIALIZE(      filename     ,& 
-     &                                    nsn          ,&
-     &                                    oldnum       ,&
-     &                                    nsnr         ,&
-     &                                    isznsnr      ,&
-     &                                    irect        ,&
-     &                                    x            ,&
-     &                                    stf          ,&
-     &                                    stfn         ,&
-     &                                    xyzm         ,&
-     &                                    nsv          ,&
-     &                                    ii_stok      ,&
-     &                                    cand_n       ,&
-     &                                    cand_e       ,&
-     &                                    mulnsn       ,&
-     &                                    tzinf        ,&
-     &                                    gap_s_l      ,&
-     &                                    gap_m_l      ,&
-     &                                    nbx          ,&
-     &                                    nby          ,&
-     &                                    nbz          ,&
-     &                                    inacti       ,&
-     &                                    ifq          ,&
-     &                                    cand_a       ,&
-     &                                    nrtm         ,&
-     &                                    nsnrold      ,&
-     &                                    igap         ,&
-     &                                    gap          ,&
-     &                                    gap_s        ,&
-     &                                    gap_m        ,&
-     &                                    gapmin       ,&
-     &                                    gapmax       ,&
-     &                                    marge        ,&
-     &                                    curv_max     ,&
-     &                                    bgapsmx      ,&
-     &                                    s_kremnod    ,&
-     &                                    kremnod      ,&
-     &                                    s_remnod     ,&
-     &                                    remnod       ,&
-     &                                    flagremnode  ,&
-     &                                    drad         ,&
-     &                                    itied        ,&
-     &                                    dgapload     ,&
-     &                                    s_cand_a     ,&
-     &                                    total_nb_nrtm,&
-     &                                    numnod       )
+        SUBROUTINE INTER7_SERIALIZE(      filename     ,&
+        &                                    nsn          ,&
+        &                                    oldnum       ,&
+        &                                    nsnr         ,&
+        &                                    isznsnr      ,&
+        &                                    irect        ,&
+        &                                    x            ,&
+        &                                    stf          ,&
+        &                                    stfn         ,&
+        &                                    xyzm         ,&
+        &                                    nsv          ,&
+        &                                    ii_stok      ,&
+        &                                    cand_n       ,&
+        &                                    cand_e       ,&
+        &                                    mulnsn       ,&
+        &                                    tzinf        ,&
+        &                                    gap_s_l      ,&
+        &                                    gap_m_l      ,&
+        &                                    nbx          ,&
+        &                                    nby          ,&
+        &                                    nbz          ,&
+        &                                    inacti       ,&
+        &                                    ifq          ,&
+        &                                    cand_a       ,&
+        &                                    nrtm         ,&
+        &                                    nsnrold      ,&
+        &                                    igap         ,&
+        &                                    gap          ,&
+        &                                    gap_s        ,&
+        &                                    gap_m        ,&
+        &                                    gapmin       ,&
+        &                                    gapmax       ,&
+        &                                    marge        ,&
+        &                                    curv_max     ,&
+        &                                    bgapsmx      ,&
+        &                                    s_kremnod    ,&
+        &                                    kremnod      ,&
+        &                                    s_remnod     ,&
+        &                                    remnod       ,&
+        &                                    flagremnode  ,&
+        &                                    drad         ,&
+        &                                    itied        ,&
+        &                                    dgapload     ,&
+        &                                    s_cand_a     ,&
+        &                                    total_nb_nrtm,&
+        &                                    numnod       )
           USE PRECISION_MOD, ONLY : WP
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   arguments 
+!                                                   arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           character(len =*), intent(in) :: filename
 
@@ -607,12 +608,12 @@
           real(kind=WP), intent(in) :: stf(nrtm) !< stiffness of segments (quadrangles or triangles)
           real(kind=WP), intent(in) :: stfn(nsn) !< stiffness secondary nodes
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   local variables 
+!                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i, j, iostat, unitNum
           integer :: pos
 
-          open(NEWUNIT=unitNum, FILE=filename, FORM='UNFORMATTED', STATUS='REPLACE', IOSTAT=iostat)
+          open(NEWUNIT=unitNum, FILE=filename, FORM="UNFORMATTED", STATUS="REPLACE", IOSTAT=iostat)
           if (iostat /= 0) then
             write(6,*) "error opening file: ", filename
             return
@@ -647,7 +648,7 @@
 
           do i = 1, nrtm
             write(unitNum) (irect(j, i), j = 1, 4)
-          enddo
+          end do
           write(unitNum) cand_a(1:s_cand_a) !< (???)
           write(unitNum) gap !< gap (???)
           write(unitNum) gapmin !< minimum gap
@@ -675,26 +676,26 @@
           write(unitNum) ii_stok !< number of candidates found
           write(unitNum) cand_n(1:ii_stok) !< list of candidates (secondary)
           write(unitNum) cand_e(1:ii_stok) !< list of candidates (main)
-          write(6,*)  "nsn          ",nsn                             
-          write(6,*)  "nsnr         ",nsnr                                            
-          write(6,*)  "nsnrold      ",nsnrold                                        
-          write(6,*)  "isznsnr      ",isznsnr                  
-          write(6,*)  "nrtm         ",nrtm                                
-          write(6,*)  "total_nb_nrtm",total_nb_nrtm                            
-          write(6,*)  "inacti       ",inacti                                        
-          write(6,*)  "ifq          ",ifq                    
-          write(6,*)  "igap         ",igap               
-          write(6,*)  "flagremnode  ",flagremnode                           
-          write(6,*)  "itied        ",itied                  
-          write(6,*)  "numnod       ",numnod                                      
-          write(6,*)  "s_cand_a     ",s_cand_a                  
-          write(6,*)  "s_kremnod    ",s_kremnod                                  
-          write(6,*)  "s_remnod     ",s_remnod                  
-          write(6,*)  "mulnsn       ",mulnsn                                                  
-          write(6,*)  "nbx          ",nbx                         
-          write(6,*)  "nby          ",nby                         
-          write(6,*)  "nbz          ",nbz                         
-          write(6,*)  "ii_stok      ",ii_stok                         
+          write(6,*)  "nsn          ",nsn
+          write(6,*)  "nsnr         ",nsnr
+          write(6,*)  "nsnrold      ",nsnrold
+          write(6,*)  "isznsnr      ",isznsnr
+          write(6,*)  "nrtm         ",nrtm
+          write(6,*)  "total_nb_nrtm",total_nb_nrtm
+          write(6,*)  "inacti       ",inacti
+          write(6,*)  "ifq          ",ifq
+          write(6,*)  "igap         ",igap
+          write(6,*)  "flagremnode  ",flagremnode
+          write(6,*)  "itied        ",itied
+          write(6,*)  "numnod       ",numnod
+          write(6,*)  "s_cand_a     ",s_cand_a
+          write(6,*)  "s_kremnod    ",s_kremnod
+          write(6,*)  "s_remnod     ",s_remnod
+          write(6,*)  "mulnsn       ",mulnsn
+          write(6,*)  "nbx          ",nbx
+          write(6,*)  "nby          ",nby
+          write(6,*)  "nbz          ",nbz
+          write(6,*)  "ii_stok      ",ii_stok
 
           call flush(unitNum)
           close(unitNum)
@@ -705,56 +706,56 @@
 !||--- uses       -----------------------------------------------------
 !||    precision_mod        ../common_source/modules/precision_mod.F90
 !||====================================================================
-        SUBROUTINE INTER7_DESERIALIZE(    filename     ,& 
-     &                                    nsn          ,&
-     &                                    oldnum       ,&
-     &                                    nsnr         ,&
-     &                                    isznsnr      ,&
-     &                                    irect        ,&
-     &                                    x            ,&
-     &                                    stf          ,&
-     &                                    stfn         ,&
-     &                                    xyzm         ,&
-     &                                    nsv          ,&
-     &                                    ii_stok      ,&
-     &                                    cand_n       ,&
-     &                                    cand_e       ,&
-     &                                    mulnsn       ,&
-     &                                    tzinf        ,&
-     &                                    gap_s_l      ,&
-     &                                    gap_m_l      ,&
-     &                                    nbx          ,&
-     &                                    nby          ,&
-     &                                    nbz          ,&
-     &                                    inacti       ,&
-     &                                    ifq          ,&
-     &                                    cand_a       ,&
-     &                                    nrtm         ,&
-     &                                    nsnrold      ,&
-     &                                    igap         ,&
-     &                                    gap          ,&
-     &                                    gap_s        ,&
-     &                                    gap_m        ,&
-     &                                    gapmin       ,&
-     &                                    gapmax       ,&
-     &                                    marge        ,&
-     &                                    curv_max     ,&
-     &                                    bgapsmx      ,&
-     &                                    s_kremnod    ,&
-     &                                    kremnod      ,&
-     &                                    s_remnod     ,&
-     &                                    remnod       ,&
-     &                                    flagremnode  ,&
-     &                                    drad         ,&
-     &                                    itied        ,&
-     &                                    dgapload     ,&
-     &                                    s_cand_a     ,&
-     &                                    total_nb_nrtm,&
-     &                                    numnod       )
+        SUBROUTINE INTER7_DESERIALIZE(    filename     ,&
+        &                                    nsn          ,&
+        &                                    oldnum       ,&
+        &                                    nsnr         ,&
+        &                                    isznsnr      ,&
+        &                                    irect        ,&
+        &                                    x            ,&
+        &                                    stf          ,&
+        &                                    stfn         ,&
+        &                                    xyzm         ,&
+        &                                    nsv          ,&
+        &                                    ii_stok      ,&
+        &                                    cand_n       ,&
+        &                                    cand_e       ,&
+        &                                    mulnsn       ,&
+        &                                    tzinf        ,&
+        &                                    gap_s_l      ,&
+        &                                    gap_m_l      ,&
+        &                                    nbx          ,&
+        &                                    nby          ,&
+        &                                    nbz          ,&
+        &                                    inacti       ,&
+        &                                    ifq          ,&
+        &                                    cand_a       ,&
+        &                                    nrtm         ,&
+        &                                    nsnrold      ,&
+        &                                    igap         ,&
+        &                                    gap          ,&
+        &                                    gap_s        ,&
+        &                                    gap_m        ,&
+        &                                    gapmin       ,&
+        &                                    gapmax       ,&
+        &                                    marge        ,&
+        &                                    curv_max     ,&
+        &                                    bgapsmx      ,&
+        &                                    s_kremnod    ,&
+        &                                    kremnod      ,&
+        &                                    s_remnod     ,&
+        &                                    remnod       ,&
+        &                                    flagremnode  ,&
+        &                                    drad         ,&
+        &                                    itied        ,&
+        &                                    dgapload     ,&
+        &                                    s_cand_a     ,&
+        &                                    total_nb_nrtm,&
+        &                                    numnod       )
           USE PRECISION_MOD, ONLY : WP
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   arguments 
+!                                                   arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           character(len =*), intent(in) :: filename
           integer, intent(out) :: nsn !< number of secondary nodes
@@ -809,11 +810,11 @@
           real(kind=WP), intent(out) :: xyzm(12) !< bounding box
 
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   local variables 
+!                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i, j, iostat, unitNum
           integer :: pos
-          open(NEWUNIT=unitNum, FILE=filename, FORM='UNFORMATTED', STATUS='OLD', IOSTAT=iostat)
+          open(NEWUNIT=unitNum, FILE=filename, FORM="UNFORMATTED", STATUS="OLD", IOSTAT=iostat)
           if (iostat /= 0) then
             write(6,*) "error opening file: ", filename
             return
@@ -840,25 +841,25 @@
           read(unitNum) nby !< number of voxels in y
           read(unitNum) nbz !< number of voxels in z
 
-          write(6,*)  "nsn          ",nsn                             
-          write(6,*)  "nsnr         ",nsnr                                            
-          write(6,*)  "nsnrold      ",nsnrold                                        
-          write(6,*)  "isznsnr      ",isznsnr                  
-          write(6,*)  "nrtm         ",nrtm                                
-          write(6,*)  "total_nb_nrtm",total_nb_nrtm                            
-          write(6,*)  "inacti       ",inacti                                        
-          write(6,*)  "ifq          ",ifq                    
-          write(6,*)  "igap         ",igap               
-          write(6,*)  "flagremnode  ",flagremnode                           
-          write(6,*)  "itied        ",itied                  
-          write(6,*)  "numnod       ",numnod                                      
-          write(6,*)  "s_cand_a     ",s_cand_a                  
-          write(6,*)  "s_kremnod    ",s_kremnod                                  
-          write(6,*)  "s_remnod     ",s_remnod                  
-          write(6,*)  "mulnsn       ",mulnsn                                                  
-          write(6,*)  "nbx          ",nbx                         
-          write(6,*)  "nby          ",nby                         
-          write(6,*)  "nbz          ",nbz                         
+          write(6,*)  "nsn          ",nsn
+          write(6,*)  "nsnr         ",nsnr
+          write(6,*)  "nsnrold      ",nsnrold
+          write(6,*)  "isznsnr      ",isznsnr
+          write(6,*)  "nrtm         ",nrtm
+          write(6,*)  "total_nb_nrtm",total_nb_nrtm
+          write(6,*)  "inacti       ",inacti
+          write(6,*)  "ifq          ",ifq
+          write(6,*)  "igap         ",igap
+          write(6,*)  "flagremnode  ",flagremnode
+          write(6,*)  "itied        ",itied
+          write(6,*)  "numnod       ",numnod
+          write(6,*)  "s_cand_a     ",s_cand_a
+          write(6,*)  "s_kremnod    ",s_kremnod
+          write(6,*)  "s_remnod     ",s_remnod
+          write(6,*)  "mulnsn       ",mulnsn
+          write(6,*)  "nbx          ",nbx
+          write(6,*)  "nby          ",nby
+          write(6,*)  "nbz          ",nbz
 
 
           allocate(nsv(nsn))
@@ -882,7 +883,7 @@
           read(unitNum) remnod(1:s_remnod) !< list of removed nodes
           do i = 1, nrtm
             read(unitNum) (irect(j, i), j = 1, 4)
-          enddo
+          end do
           read(unitNum) cand_a(1:s_cand_a) !< (???)
 
           read(unitNum) gap !< gap (???)
@@ -917,7 +918,7 @@
           read(unitNum) cand_n(1:ii_stok) !< list of candidates (secondary)
           read(unitNum) cand_e(1:ii_stok) !< list of candidates (main)
           close(unitNum)
-          write(6,*)  "ii_stok_ref   ",ii_stok                         
+          write(6,*)  "ii_stok_ref   ",ii_stok
         end subroutine INTER7_DESERIALIZE
 
 
@@ -1005,7 +1006,7 @@
 !!         integer :: voxel(8000000)
 !          integer, dimension(:), allocatable :: voxel
 !          integer, dimension(:), allocatable :: next_nod,ifpen
-!          integer :: eshift,i_mem,i, itask, s_irem, s_xrem 
+!          integer :: eshift,i_mem,i, itask, s_irem, s_xrem
 !          real(kind=WP), dimension(:,:), allocatable :: xrem
 !          integer, dimension(:,:), allocatable :: irem
 !          double precision :: start_time, end_time, elapsed_time
@@ -1014,10 +1015,10 @@
 !          i_mem = 0
 !          eshift = 0
 !          ii_stok_ref = 0
-!    
+!
 !          allocate(voxel(8000000))
 !
-!          call INTER7_DESERIALIZE(        filename     ,& 
+!          call INTER7_DESERIALIZE(        filename     ,&
 !     &                                    nsn          ,&
 !     &                                    oldnum       ,&
 !     &                                    nsnr         ,&
@@ -1069,7 +1070,7 @@
 !        allocate(cand_f(8*mulnsn))
 !        allocate(cand_p(mulnsn))
 !        allocate(ifpen(mulnsn))
-!        s_xrem = 1 
+!        s_xrem = 1
 !        s_irem = 1
 !        allocate(xrem(s_xrem, nsnr))
 !        allocate(irem(s_irem, nsnr))
@@ -1089,8 +1090,8 @@
 !        allocate(list_nb_voxel_on((nbx+2)*(nby+2)*(nbz+2)))
 !        nb_voxel_on = 0
 !!$OMP END SINGLE
-!         ITASK = OMP_GET_THREAD_NUM() 
-!      
+!         ITASK = OMP_GET_THREAD_NUM()
+!
 !
 !        call INTER7_CANDIDATE_PAIRS(&
 !     &                                    nsn          ,&
@@ -1155,7 +1156,7 @@
 !!$OMP END PARALLEL
 !          end_time = OMP_GET_WTIME()
 !
-!          write(6,*) "Elapsed time =", end_time - start_time 
+!          write(6,*) "Elapsed time =", end_time - start_time
 !
 !          call compare_cand(cand_n, cand_e, ii_stok, cand_n_ref, cand_e_ref, ii_stok_ref)
 !

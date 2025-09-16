@@ -76,8 +76,18 @@ if ( CMAKE_C_COMPILER_VERSION VERSION_GREATER 10)
 set( portability "-fallow-argument-mismatch -fallow-invalid-boz -std=legacy")
 endif()
 
+if(CMAKE_COMPILER_IS_GNUCXX)
+    execute_process(COMMAND ${CMAKE_CXX_COMPILER} -dumpversion
+                    OUTPUT_VARIABLE GCC_VERSION
+                    OUTPUT_STRIP_TRAILING_WHITESPACE)
+    if(GCC_VERSION MATCHES "^(11|15)\\.")
+        set(error_uninitialized " -Werror=maybe-uninitialized")
+    endif()
+endif()
+
+
 #set( strict "-Waliasing -Wunused-dummy-argument -Werror=unused-dummy-argument -Wdo-subscript -Warray-bounds -Wtabs -Werror=tabs -pedantic-errors -Wsurprising -Wuse-without-only -Werror=use-without-only ") 
-set( strict "-Werror=aliasing -Werror=unused-dummy-argument -Werror=do-subscript -Werror=array-bounds -Werror=surprising -Werror=tabs -Werror=maybe-uninitialized") 
+set( strict "-Werror=aliasing -Werror=unused-dummy-argument -Werror=do-subscript -Werror=array-bounds -Werror=surprising -Werror=tabs ${error_uninitialized} " ) 
 
 #no lto, OpenMP can be used
 set( OPENMP "-fopenmp" )

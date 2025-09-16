@@ -50,15 +50,17 @@
 !||    user_windows_mod        ../common_source/modules/user_windows_mod.F
 !||====================================================================
       module user_interface_mod
-         use user_windows_mod
-         use sensor_mod
-         USE nodal_arrays_mod
+        use user_windows_mod
+        use sensor_mod
+        USE nodal_arrays_mod
+      implicit none
+
 #include "my_real.inc"
 !-----------------------------------------------------------------------------------s
 !     module dedicated to pass arrays from radioss to user routines.
 !-----------------------------------------------------------------------------------
-        
+
         type (user_windows_) :: user_windows
         type (sensors_)      :: sensors
-        TYPE(nodal_arrays_), pointer :: user_interface_nodes 
+        TYPE(nodal_arrays_), pointer :: user_interface_nodes
       end module user_interface_mod

@@ -31,31 +31,31 @@
 !||--- uses       -----------------------------------------------------
 !||    precision_mod      ../common_source/modules/precision_mod.F90
 !||====================================================================
-        module ams_work_mod
-            use precision_mod , only: WP
-            implicit none
-            private :: WP 
-            type ams_check_                                  !< replace module name in sms_fsa_inv (sms_check routine)
-                  integer, dimension(:), allocatable :: iadm
-                  integer, dimension(:), allocatable :: jadm
-                  integer, dimension(:), allocatable :: kadm
-                  integer, dimension(:), allocatable :: jdim
-                  integer, dimension(:), allocatable :: jdim2
-                  integer, dimension(:), allocatable :: isortnd
-                  integer, dimension(:), allocatable :: invnd
+      module ams_work_mod
+        use precision_mod , only: WP
+        implicit none
+        private :: WP
+        type ams_check_                                  !< replace module name in sms_fsa_inv (sms_check routine)
+          integer, dimension(:), allocatable :: iadm
+          integer, dimension(:), allocatable :: jadm
+          integer, dimension(:), allocatable :: kadm
+          integer, dimension(:), allocatable :: jdim
+          integer, dimension(:), allocatable :: jdim2
+          integer, dimension(:), allocatable :: isortnd
+          integer, dimension(:), allocatable :: invnd
 
-                  real(kind=WP), dimension(:), allocatable :: diag_m
-                  real(kind=WP), dimension(:), allocatable :: lt_m
-                  real(kind=WP), dimension(:), allocatable :: lt_m2
-                  real(kind=WP), dimension(:), allocatable :: diag_inv
-                  integer :: nndft0
-                  integer :: nndft1
-                  integer :: nnzm
-            end type ams_check_
+          real(kind=WP), dimension(:), allocatable :: diag_m
+          real(kind=WP), dimension(:), allocatable :: lt_m
+          real(kind=WP), dimension(:), allocatable :: lt_m2
+          real(kind=WP), dimension(:), allocatable :: diag_inv
+          integer :: nndft0
+          integer :: nndft1
+          integer :: nnzm
+        end type ams_check_
 
-            type ams_work_
-               type (ams_check_) :: check
-            end type ams_work_
+        type ams_work_
+          type (ams_check_) :: check
+        end type ams_work_
 
-        end module ams_work_mod
+      end module ams_work_mod
 

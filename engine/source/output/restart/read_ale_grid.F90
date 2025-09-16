@@ -27,6 +27,7 @@
 !||    rdresb              ../engine/source/output/restart/rdresb.F
 !||====================================================================
       module read_ale_grid_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
@@ -75,7 +76,7 @@
             ale%grid%flow_tracking_data%eigenvec(1:3,3) = rtmp(7:9)
             ale%grid%flow_tracking_data%beta0(1:6) = rtmp(10:15)
             ale%grid%flow_tracking_data%ms_elem_mean_0 = rtmp(16)
-          endif
+          end if
 
 ! ----------------------------------------------------------------------------------------------------------------------
           return

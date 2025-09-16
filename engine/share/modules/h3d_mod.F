@@ -501,6 +501,9 @@ C-----------------------------------------------
         my_real  :: TH3D_STOP0= 0.
         my_real  :: PERCENTAGE_ERROR= 0.
 
+        INTEGER DTH3D_FCT_ID           ! Function defining frequence of h3d outputs over time
+        INTEGER NB_H3D_FRAME           ! TOtal number of H3D in the run
+
         INTEGER, DIMENSION(:), ALLOCATABLE :: N_SKID_INTER   
         INTEGER, DIMENSION(:), ALLOCATABLE :: ITITLE 
         INTEGER, DIMENSION(:), ALLOCATABLE :: LSENS_H3D      

@@ -66,7 +66,7 @@
             call MPI_Alltoall(sendbuf, sendcount, MPI_REAL, recvbuf, recvcount, MPI_REAL, comm, ierr)
           else
             call MPI_Alltoall(sendbuf, sendcount, MPI_REAL, recvbuf, recvcount, MPI_REAL, SPMD_COMM_WORLD, ierr)
-          endif
+          end if
           call spmd_out(tag,ierr)
 #else
           recvbuf(1:sendcount) = sendbuf(1:sendcount)
@@ -99,7 +99,7 @@
             call MPI_Alltoall(sendbuf, sendcount, MPI_INT, recvbuf, recvcount, MPI_INT, comm, ierr)
           else
             call MPI_Alltoall(sendbuf, sendcount, MPI_INT, recvbuf, recvcount, MPI_INT, SPMD_COMM_WORLD, ierr)
-          endif
+          end if
           call spmd_out(tag,ierr)
 #else
           recvbuf(1:sendcount) = sendbuf(1:sendcount)
@@ -130,11 +130,11 @@
           call spmd_in(tag)
           if (present(comm)) then
             call MPI_Alltoall(sendbuf, sendcount, MPI_DOUBLE_PRECISION, recvbuf, recvcount,&
-               MPI_DOUBLE_PRECISION, comm, ierr)
+              MPI_DOUBLE_PRECISION, comm, ierr)
           else
             call MPI_Alltoall(sendbuf, sendcount, MPI_DOUBLE_PRECISION, recvbuf, recvcount,&
-             MPI_DOUBLE_PRECISION, SPMD_COMM_WORLD, ierr)
-          endif
+              MPI_DOUBLE_PRECISION, SPMD_COMM_WORLD, ierr)
+          end if
           call spmd_out(tag,ierr)
 #else
           recvbuf(1:sendcount) = sendbuf(1:sendcount)
@@ -164,11 +164,11 @@
           call spmd_in(tag)
           if (present(comm)) then
             call MPI_Alltoall(sendbuf, sendcount, MPI_DOUBLE_PRECISION, recvbuf,&
-             recvcount, MPI_DOUBLE_PRECISION, comm, ierr)
+              recvcount, MPI_DOUBLE_PRECISION, comm, ierr)
           else
             call MPI_Alltoall(sendbuf, sendcount, MPI_DOUBLE_PRECISION, recvbuf,&
-             recvcount, MPI_DOUBLE_PRECISION, SPMD_COMM_WORLD, ierr)
-          endif
+              recvcount, MPI_DOUBLE_PRECISION, SPMD_COMM_WORLD, ierr)
+          end if
           call spmd_out(tag,ierr)
 #endif
         end subroutine spmd_alltoall_double
@@ -198,8 +198,8 @@
             call MPI_Alltoall(sendbuf, sendcount, MPI_INT, recvbuf, recvcount, MPI_INT, comm, ierr)
           else
             call MPI_Alltoall(sendbuf, sendcount, MPI_INT, recvbuf, recvcount,&
-             MPI_INT, SPMD_COMM_WORLD, ierr)
-          endif
+              MPI_INT, SPMD_COMM_WORLD, ierr)
+          end if
           call spmd_out(tag,ierr)
 #endif
         end subroutine spmd_alltoall_int
@@ -229,8 +229,8 @@
             call MPI_Alltoall(sendbuf, sendcount, MPI_REAL, recvbuf, recvcount, MPI_REAL, comm, ierr)
           else
             call MPI_Alltoall(sendbuf, sendcount, MPI_REAL, recvbuf, recvcount,&
-             MPI_REAL, SPMD_COMM_WORLD, ierr)
-          endif
+              MPI_REAL, SPMD_COMM_WORLD, ierr)
+          end if
           call spmd_out(tag,ierr)
 #endif
         end subroutine spmd_alltoall_real

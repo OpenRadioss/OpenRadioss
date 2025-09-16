@@ -25,12 +25,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    i15cmp         ../engine/source/interfaces/int15/i15cmp.F
 !||--- uses       -----------------------------------------------------
-!||    anim_mod       ../common_source/modules/output/anim_mod.F
 !||    groupdef_mod   ../common_source/modules/groupdef_mod.F
 !||    h3d_mod        ../engine/share/modules/h3d_mod.F
 !||    output_mod     ../common_source/modules/output/output_mod.F90
 !||====================================================================
-      SUBROUTINE I15ASS(AF    ,X     ,V    ,KSURF ,IGRSURF ,
+      SUBROUTINE I15ASS(OUTPUT,AF    ,X     ,V    ,KSURF ,IGRSURF ,
      2                  BUFSF ,STIFN ,FS   ,FCONT ,FSKYI ,
      3                  ISKY  ,DE    ,WNF  ,WTF   ,WNS   ,
      4                  FNORMX ,FNORMY ,FNORMZ ,FTANGX ,FTANGY ,
@@ -40,8 +39,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE H3D_MOD
       USE GROUPDEF_MOD
-      USE ANIM_MOD
-      USE OUTPUT_MOD , ONLY : WFEXT
+      USE OUTPUT_MOD, ONLY : OUTPUT_ 
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -62,6 +60,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT
       INTEGER KSURF,ISKY(*),NNC,KNC(*)
       my_real
      .  AF(*) , X(3,*), V(3,*),BUFSF(*),
@@ -87,7 +86,7 @@ C-----------------------------------------------
        ROT(I)=BUFSF(ADRBUF+7+I-1)
       END DO
 C---------------------------------
-C     SORTIES dans le rep. global.
+C     outputs in the global coordinate system
 C---------------------------------
       FN1=ROT(1)*FNORMX+ROT(4)*FNORMY+ROT(7)*FNORMZ
       FN2=ROT(2)*FNORMX+ROT(5)*FNORMY+ROT(8)*FNORMZ
@@ -115,7 +114,7 @@ C------------------------------------------------------------
       WNF(3,IN)=ROT(3)*FX+ROT(6)*FY+ROT(9)*FZ
       ENDDO
 C------------------------------------------------------------
-C     ASSEMBLAGE AU NOEUD MAIN DE LA SURFACE.
+C     assembly at the main node of the surface
 C------------------------------------------------------------
       DO I=1,NNC
       IN=KNC(I)
@@ -142,7 +141,7 @@ C-----
       BUFSF(ADRBUF+32)=BUFSF(ADRBUF+32)+DD*STF
       ENDDO
 C---------------------------------
-C     ASSEMBLAGE des FORCES aux NOEUDS SECONDS.
+C     Assembly of forces with second nodes.
 C---------------------------------
       IF (IPARIT/=0) THEN
 #include "lockon.inc"
@@ -196,10 +195,10 @@ C---------------------------------
        ENDIF
       ENDIF
 C------------------------------------------------------------
-C     ANIM (FORCES DE CONTACT).
+C     animation (contact forces)
 C------------------------------------------------------------
       IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT>0.AND.
-     .    ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
+     .    ((TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.
      .   (MANIM>=4.AND.MANIM<=15).OR. H3D_DATA%MH3D /= 0))THEN
 #include "lockon.inc"
 #include "vectorize.inc"
@@ -212,7 +211,7 @@ C------------------------------------------------------------
 #include "lockoff.inc"
       ENDIF
 C---------------------------------
-C     Pour Travail des forces sur noeuds seconds
+C     for work of forces on secondary nodes
 C     1ere partie : ici
 C     2eme partie : apres calcul de DT2.
 C---------------------------------
@@ -230,7 +229,7 @@ C---------------------------------
       IF (IGRSURF(KSURF)%TYPE==100) THEN
 C     Madymo Ellipsoids
 !$OMP ATOMIC
-          WFEXT=WFEXT+DE*DT1*HALF
+          OUTPUT%TH%WFEXT=OUTPUT%TH%WFEXT+DE*DT1*HALF
       ENDIF
 C----------------------------------
       RETURN

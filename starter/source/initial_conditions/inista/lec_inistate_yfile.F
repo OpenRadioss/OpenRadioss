@@ -463,7 +463,7 @@ C
  199   CONTINUE
 C
 C--------------------------------------------------------
-C     CONTRAINTES INITIALES + energies densites eps-plast
+C     Initial constraints + EPS-PLAST density energy
 C     SHELL 4N/3N
 C--------------------------------------------------------
 C
@@ -751,7 +751,7 @@ C
           ENDIF
 C-----------------------
 C  COQUE STANDARD
-C  IHBE different de 11
+C  IHBE different from 11
 C-----------------------
          IF(NPG == 0)THEN
           IF(NIP == 0)THEN
@@ -872,7 +872,7 @@ C-----------------------
 C
 C--------------------------------------------------------
 C     CONTRAINTES INITIALES + ENERGIES DENSITES EPS-PLAST
-C     SPH particles
+C     Sph particles 
 C--------------------------------------------------------
 C
 C      FICHIER Y000
@@ -1073,7 +1073,7 @@ C
  699    CONTINUE
 C
 C--------------------------------------------------------------
-C     EFFORT et MOMENTS INITIALES + energies densites eps-plast
+C      
 C     Ressort
 C--------------------------------------------------------------
 C

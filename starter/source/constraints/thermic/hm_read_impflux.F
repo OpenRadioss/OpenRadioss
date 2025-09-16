@@ -173,8 +173,8 @@ C          true triangles (not segments built from 3 nodes).
             ENDIF                                                
             IB(5,K)  = IFU                                           
             IB(6,K)  = ISENS 
-            IB(7,K)  = IGRSURF(IS)%ELTYP(IS)
-            IB(8,K)  = IGRSURF(IS)%ELEM(IS)
+            IB(7,K)  = IGRSURF(IS)%ELTYP(J)
+            IB(8,K)  = IGRSURF(IS)%ELEM(J)
             IF(ITY == 1) THEN
               IB(9,K)  = IXS(11,IGRSURF(IS)%ELEM(J))
             ELSE

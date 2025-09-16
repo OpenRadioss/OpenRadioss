@@ -65,88 +65,88 @@ C On utlise PANE_OLD
       INTEGER :: CURRENT_FI_SIZE
 
 C buffer envoi/reception forces interfaces
-C tableau de pointeurs NSVFI de taille NINTER
-C indiquant liste noeuds remote a recevoir du "proc main"
+C pointer array NSVFI of size NINTER
+C indicating nodes list Remote to receive "proc main"
       TYPE(int_pointer) :: NSVFI
 
 C Proc main of the secnd node. Assumes that only the main processor sends
 C secnds nodes
       TYPE(int_pointer) PMAINFI
 
-C tableau de pointeurs NSNFI de taille NINTER
-C indiquant pour chaque interface type7 le nb de noeuds secnd dans NSVFI
-C par processeur
+C pointer array NSNFI of size NINTER
+C indicating for each interface type7 the number of secondary nodes in NSVFI
+C per processor
       TYPE(int_pointer) :: 
      .  NSNFI, NSNFI_SAV, ITAFI, KINFI, MATSFI,
 C tableau i20 specifique (flag nodal)
      .  NBINFLFI,
      .  NODNXFI, NODAMSFI, PROCAMSFI,
-C tableau i20 partie edge
+C Table I20 Part Edge
      .  NSNFIE,NSVFIE,ITAFIE,NODNXFIE, NODAMSFIE, PROCAMSFIE,
 C Friction model : secnd parts id
      .  IPARTFRICSFI,IPARTFRIC_FIE,
 C type25 interface adhesion
      .  IF_ADHFI
-C tableaux frontieres interfaces pour MS, STFN, STIFN
+C arrays front interfaces for MS, STFN, STIFN
       TYPE(int_pointer) :: ICODT_FI,ISKEW_FI
       TYPE(real_pointer) :: 
      .  MSFI, STIFI, STNFI, GAPFI,VSCFI, FTHEFI, FTHESKYFI,
      .  AREASFI, TEMPFI, ALPHAKFI, DIAG_SMSFI,GAP_LFI,CONDNFI,
      .  CONDNSKYFI,
-C tableau i20 partie edge
+C Table I20 Part Edge
      .  MSFIE, STIFIE, STNFIE, GAPFIE, VSCFIE, ALPHAKFIE,
      .  DIAG_SMSFIE,
 C tableau I18 Kine
      .  MTFI_PENE,MTFI_PENEMIN
-C tableaux frontieres interfaces pour X, V A ou FSKY
+C interface boundary arrays for X, V A or FSKY
       TYPE(real_pointer2) :: 
      .  XFI, VFI, AFI, FSKYFI, PENFI, PENFIA,MTFI_V,MTFI_A,
      .  I18KAFI,MTFI_N,DAANCFI
-C tableau i20 partie edge
+C Table I20 Part Edge
      .  XFIE, VFIE, AFIE, FSKYFIE, PENFIE, PENFIAE, DAANCFIE
-C tableaux frontieres interfaces 17 pour
+C Tables front interfaces 17 for
       TYPE(real_pointer2) :: 
      .  EMINXFI, KSFI, FROTSFI, STNFI17
-C tableaux frontieres interfaces 17 pour XFI17, VFI17, AFI17
+C Tables Frontieres Interfaces 17 for XFI17, VFI17, AFI17
       TYPE(real_pointer3) :: 
      .  XFI17, VFI17, AFI17
-C tableaux frontieres interfaces 20 pour DXANC,DVANC
+C Tables boundary interfaces 20 for DXANC, DVANC
       TYPE(real_pointer2) :: 
      .  DXANCFI, DVANCFI, DXANCFIE, DVANCFIE
-C tableaux frontieres interfaces 20 pour DAANC6
+C Boundary Tables Interfaces 20 for DAANC6
       TYPE(r8_pointer3) :: 
      .  DAANC6FI, DAANC6FIE
-C tableau de pointeurs ISKYFI de taille NINTER indiquant pour chaque interface
-C la liste des noeuds remote associe a une force dans FSKYI
+C pointer array ISKYFI of size NINTER indicating for each interface
+C the list of remote nodes associated with a force in FSKYI
       TYPE(int_pointer) :: ISKYFI,
-C tableau i20 partie edge
+C Table I20 Part Edge
      .  ISKYFIE
-C tableau de pointeurs NSVSI de taille NINTER
-C indiquant liste noeuds remote a envoyer au "proc secnd"
+C pointer array NSVSI of size NINTER
+C Saying the noded list Remote to send to the "Prof Second"
       TYPE(int_pointer) :: NSVSI,
-C tableau i20 partie edge
+C Table I20 Part Edge
      .  NSVSIE
-C tableau de pointeurs NSNSI de taille NINTER
-C indiquant pour chaque interface type7, 10, 11 le nb de noeuds secnd dans NSVSI
-C par processeur
+C pointer array NSNSI of size NINTER
+C indicating for each interface type7, 10, 11 the number of secondary nodes in NSVSI
+C per processor
       TYPE(int_pointer) :: NSNSI,
-C tableau i20 partie edge
+C Table I20 Part Edge
      .  NSNSIE
-C tableau de pointeurs NISUBSFI de taille NINTER
-C indiquant pour chaque interface type7, 10 le nbre d elt dans LISUBSFI
-C par processeur
+C pointer array NISUBSFI of size NINTER
+C indicating for each interface type7, 10 the number of elements in LISUBSFI
+C per processor
       TYPE(int_pointer) :: NISUBSFI
-C tableau de pointeurs LISUBSFI de taille NINTER
-C indiquant pour chaque interface type7, 10, et pour chaque noeud remote de cette interface
-C la liste des sous interfaces
+C pointer array LISUBSFI of size NINTER
+C indicating for each interface type7, 10, and for each remote node of this interface
+C the list of sub-interfaces
       TYPE(int_pointer) :: LISUBSFI
-C tableau de pointeurs INFLG_SUBSFI de taille NINTER
-C indiquant pour chaque interface type25 et pour chaque noeud remote de cette interface
-C l appartenance a S1, S2, ou GRNOD
+C pointer array INFLG_SUBSFI of size NINTER
+C indicating for each interface type25 and for each remote node of this interface
+C belonging to S1, S2, or Grnod
       TYPE(int_pointer), DIMENSION(:), ALLOCATABLE :: INFLG_SUBSFI
-C tableau de pointeurs ADDSUBSFI de taille NINTER
-C indiquant pour chaque interface type7, 10, et pour chaque noeud remote de cette interface
-C son adresse de depart dans LISUBSFI et INFLG_SUBSFI(tableau dimensionne a NSNR+1 (noeud remote + 1)
+C pointer array ADDSUBSFI of size NINTER
+C indicating for each interface type7, 10, and for each remote node of this interface
+C Its departure address in lisubsfi and inflg_subsfi (Table dimensioning a nsnr + 1 (Remote node + 1)
       TYPE(int_pointer) :: ADDSUBSFI
       TYPE(real_pointer2) :: FNCONTI, FTCONTI
       TYPE(real_pointer) :: EFRICFI, EFRICGFI

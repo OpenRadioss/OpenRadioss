@@ -97,7 +97,7 @@ C-------
         BOXTYPE = 1
       END IF
 C-------
-C get box de box ID'S dans grshel:
+C get box from box ID'S in grshel:
 C-------
       ISU = 0
       DO I=1,NBBOX
@@ -122,7 +122,7 @@ C super box activated:
        END IF
       END IF
 C---
-C   simple box dans grshel:
+C   simple box in grshel:
 C---
       BOOL =.FALSE.
       IF(ISU>0)THEN

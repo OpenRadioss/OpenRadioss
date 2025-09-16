@@ -120,6 +120,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    func2d_mod                      ../starter/share/modules1/func2d_mod.F
 !||    inimap1d_mod                    ../starter/share/modules1/inimap1d_mod.F
 !||    inimap2d_mod                    ../starter/share/modules1/inimap2d_mod.F
+!||    init_bcs_wall_mod               ../starter/source/boundary_conditions/init_bcs_wall.F90
+!||    init_inivol_mod                 ../starter/source/initial_conditions/inivol/init_inivol.F90
 !||    init_seatbelt_rbodies_mod       ../starter/source/tools/seatbelts/init_seatbelt_rbodies.F90
 !||    inivol_def_mod                  ../starter/share/modules1/inivol_mod.F
 !||    message_mod                     ../starter/share/message_module/message_mod.F
@@ -222,6 +224,8 @@ C-----------------------------------------------
       USE DAMPING_RANGE_INIT_MOD
       USE EIKONAL_SOLVER_MOD, ONLY : EIKONAL_SOLVER
       USE DETONATION_TIMES_PRINTOUT_MOD , ONLY : DETONATION_TIMES_PRINTOUT
+      USE INIT_BCS_WALL_MOD , ONLY : INIT_BCS_WALL
+      use init_inivol_mod , only : INIT_INIVOL
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -785,13 +789,13 @@ C--------------------------------------------
      .                     NGROUP,NPARG,IPARG,IPRI)
       ENDIF
 C---------------------------------------------------------
-C     Tri du vecteur de bolt Preloading
+C     Sorting of the bolt preloading vector
 C---------------------------------------------------------
       IF (NPRELOAD > 0) THEN
         CALL INIBOLTPREL(IXS,IPRELOAD ,PRELOAD  ,VPRELOAD, IFLAG_BPRELOAD)
       ENDIF
 C-----------------------------------------------------
-C     PREPARATION DU CALCUL DES MASSES PAR PARTICULE SI CONDITION(S) DE
+C     PREPARATION OF THE CALCULATION OF MASSES BY PARTICLE IF CONDITION(S) OF
 C     SYMETRIE
 C-----------------------------------------------------
       IF (NUMSPH/=0.AND.NSPCOND/=0)
@@ -806,8 +810,8 @@ C--------------------------------------------
      .                                      X,ITAB,IPM,ALEA,KNOD2ELC,
      .                                      NOD2ELC,IXC)
 C-----------------------------------------------------
-C     INITIALISATION DES BUFFERS DES ELEMENTS
-C     INITIALISATION DES MASSES ET DES INERTIES
+C     INITIALIZATION OF ELEMENT BUFFERS
+C     INITIALIZATION OF MASSES AND INERTIAS
 C-----------------------------------------------------
 C
 C  for heat transfer
@@ -959,7 +963,7 @@ C
      E        GROUP_PARAM_TAB(NG)    ,IGTYP      ,DEFAULTS  ,GLOB_THERM)
 C
        ELSE
-C Element types
+C Type element
         LFT=1
         LLT=NEL
         OFFSET=0
@@ -1740,7 +1744,8 @@ C---------------------------------
          CALL INI_INIMAP2D(INIMAP2D    ,ELBUF_TAB ,IPART   ,IPARG   ,IPART(I15A),
      .                     IPART(I15B) ,X         ,V       ,IXS     ,IXQ        , 
      .                     IXTG        ,PM        ,IPM     ,BUFMAT  ,MULTI_FVM  ,
-     .                     FUNC2D      ,IGRBRIC   ,IGRQUAD ,IGRSH3N )
+     .                     FUNC2D      ,IGRBRIC   ,IGRQUAD ,IGRSH3N ,NPC,
+     .                     PLD         ,MAT_PARAM)
       ENDIF
 C---------------------------------
 C Initialization of FVM velocities
@@ -2139,7 +2144,7 @@ C-------------------------------------------------------------------------------
       CALL NLOC_DMG_INIT(ELBUF_TAB,NLOC_DMG ,IPARG    ,IXC      ,
      .                   IXS      ,IXTG     ,ELE_AREA ,DTELEM   ,
      .                   NUMEL    ,IPM      ,X        ,XREFS    ,
-     .                   XREFC    ,XREFTG   ,BUFMAT   ,PM       )
+     .                   XREFC    ,XREFTG   ,MAT_PARAM)
 c
 c-----------------------------------------------------------------------------------
 

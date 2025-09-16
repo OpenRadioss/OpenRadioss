@@ -120,10 +120,10 @@
                 if(allocated(this%wall(ii)%list%elem)) deallocate(this%wall(ii)%list%elem)
                 if(allocated(this%wall(ii)%list%face)) deallocate(this%wall(ii)%list%face)
                 if(allocated(this%wall(ii)%list%adjacent_elem)) deallocate(this%wall(ii)%list%adjacent_elem)
-              endif
-            enddo
+              end if
+            end do
             if(allocated(this%wall))deallocate(this%wall)
-          endif
+          end if
 
           if(allocated(this%iworking_array))deallocate(this%iworking_array)
 ! ----------------------------------------------------------------------------------------------------------------------

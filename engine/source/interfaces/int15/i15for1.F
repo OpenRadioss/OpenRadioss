@@ -111,7 +111,7 @@ C-----------------------------------------------
        ROT(I)=BUFSF(ADRBUF+7+I-1)
       END DO
 C-----------------------------------------------
-C     Noeud main dans le repere de l'ellipsoide :
+C     main node in the ellipsoid coordinate system
 C-----------------------------------------------
       X1=BUFSF(ADRBUF+16)-BUFSF(ADRBUF+4)
       X2=BUFSF(ADRBUF+17)-BUFSF(ADRBUF+5)
@@ -120,7 +120,7 @@ C-----------------------------------------------
       YM=ROT(4)*X1+ROT(5)*X2+ROT(6)*X3
       ZM=ROT(7)*X1+ROT(8)*X2+ROT(9)*X3
 C-----------------------------------------------
-C     Vitesse du noeud main en local.
+C     main node velocity locally.
 C-----------------------------------------------
       V1=BUFSF(ADRBUF+19)
       V2=BUFSF(ADRBUF+20)
@@ -129,7 +129,7 @@ C-----------------------------------------------
       VYM=ROT(4)*V1+ROT(5)*V2+ROT(6)*V3
       VZM=ROT(7)*V1+ROT(8)*V2+ROT(9)*V3
 C-----------------------------------------------
-C     Vitesse  de rotation du noeud main en local.
+C     rotation velocity of the main node in local coordinates
 C-----------------------------------------------
       V1=BUFSF(ADRBUF+22)
       V2=BUFSF(ADRBUF+23)
@@ -138,8 +138,8 @@ C-----------------------------------------------
       VRY=ROT(4)*V1+ROT(5)*V2+ROT(6)*V3
       VRZ=ROT(7)*V1+ROT(8)*V2+ROT(9)*V3
 C----------------------------------------------------------
-C     PASSAGE DES VITESSES EN LOCAL.
-C     non optimise (plusieurs fois / noeud).
+C     PASSAGE DES VELOCITIES EN LOCAL.
+C     Not optimized (several times / node).
 C----------------------------------------------------------
       DO 100 NLS=NDEB+1,MIN(NDEB+MVSIZ,NSC)
       IL =KSC(NLS)
@@ -195,13 +195,13 @@ C       STF(1,I)=STFAC*DEPTH(1,I)/MAX(DEPTH(1,I)-PENET(1,I),EM20)
       FZN(1,I)=STF(1,I)*PENET(1,I)*NZI(1,I)
  200  CONTINUE
 C-------------------------------
-C     1ER TRIANGLE / Extraction du pt de contact au cycle precedent.
+C     1st triangle / extraction of the contact PT in the previous cycle.
 C-------------------------------
       DO 250 NLS=NDEB+1,MIN(NDEB+MVSIZ,NSC)
       IL =KSC(NLS)
       IF (IACTIV(1,IL)<=0) GOTO 250
       I  =NLS-NDEB
-C     Point sur le triangle tq D(P,L) etait maximum au cycle precedent.
+C     Point on the TQ D triangle (P, L) was maximum at the previous cycle.
       L1(I)=IOLD(1,4*(IL-1)+1)
       L2(I)=IOLD(2,4*(IL-1)+1)
       L3(I)=IOLD(3,4*(IL-1)+1)
@@ -219,7 +219,7 @@ C------------------------------
       FYT(1,I)=ZERO
       FZT(1,I)=ZERO      
 C-------------------------------
-C     TOURNER DELTA(T-1) DANS LE PLAN TANGENT.
+C     rotate delta(t-1) in the tangent plane
 C-------------------------------
       IF (IACTIV(1,IL)>2) THEN
        DELTX=DOLD(1,4*(IL-1)+1)
@@ -242,7 +242,7 @@ C-------------------------------
        DELTZ=ZERO     
       ENDIF
 C-------------------------------
-C     INCREMENT SUR DELTA (T-1 -> T) : VITESSE RELATIVE TANGENTE DE POLD * DT
+C     INCREMENT SUR DELTA (T-1 -> T) : VELOCITY RELATIVE TANGENTE DE POLD * DT
 C-------------------------------
       XH=HOLD(1,4*(IL-1)+1)
       YH=HOLD(2,4*(IL-1)+1)
@@ -299,13 +299,13 @@ C       STF(2,I)=STFAC*DEPTH(2,I)/MAX(DEPTH(2,I)-PENET(2,I),EM20)
       FZN(2,I)=STF(2,I)*PENET(2,I)*NZI(2,I)
  300  CONTINUE
 C-------------------------------
-C     2EME TRIANGLE / Extraction du pt de contact au cycle precedent.
+C     2nd triangle / extraction of the contact PT in the previous cycle.
 C-------------------------------
       DO 350 NLS=NDEB+1,MIN(NDEB+MVSIZ,NSC)
       IL =KSC(NLS)
       IF (IACTIV(2,IL)<=0) GOTO 350
       I  =NLS-NDEB
-C     Point sur le triangle tq D(P,L) etait maximum au cycle precedent.
+C     Point on the TQ D triangle (P, L) was maximum at the previous cycle.
       L1(I)=IOLD(1,4*(IL-1)+2)
       L2(I)=IOLD(2,4*(IL-1)+2)
       L3(I)=IOLD(3,4*(IL-1)+2)
@@ -322,7 +322,7 @@ C----------------------------------------------------------
       FYT(2,I)=ZERO
       FZT(2,I)=ZERO    
 C-------------------------------
-C     TOURNER DELTA(T-1) DANS LE PLAN TANGENT.
+C     rotate delta(t-1) in the tangent plane
 C-------------------------------
       IF (IACTIV(2,IL)>2) THEN
        DELTX=DOLD(1,4*(IL-1)+2)
@@ -345,7 +345,7 @@ C-------------------------------
        DELTZ=ZERO     
       ENDIF
 C-------------------------------
-C     INCREMENT SUR DELTA (T-1 -> T) : VITESSE RELATIVE TANGENTE DE POLD * DT
+C     INCREMENT SUR DELTA (T-1 -> T) : VELOCITY RELATIVE TANGENTE DE POLD * DT
 C-------------------------------
       XH=HOLD(1,4*(IL-1)+2)
       YH=HOLD(2,4*(IL-1)+2)
@@ -402,13 +402,13 @@ C       STF(3,I)=STFAC*DEPTH(3,I)/MAX(DEPTH(3,I)-PENET(3,I),EM20)
       FZN(3,I)=STF(3,I)*PENET(3,I)*NZI(3,I)
  400  CONTINUE
 C-------------------------------
-C     3EME TRIANGLE / Extraction du pt de contact au cycle precedent.
+C     3rd triangle / extraction of the contact PT in the previous cycle.
 C-------------------------------
       DO 450 NLS=NDEB+1,MIN(NDEB+MVSIZ,NSC)
       IL =KSC(NLS)
       IF (IACTIV(3,IL)<=0) GOTO 450
       I  =NLS-NDEB
-C     Point sur le triangle tq D(P,L) etait maximum au cycle precedent.
+C     Point on the TQ D triangle (P, L) was maximum at the previous cycle.
       L1(I)=IOLD(1,4*(IL-1)+3)
       L2(I)=IOLD(2,4*(IL-1)+3)
       L3(I)=IOLD(3,4*(IL-1)+3)
@@ -426,7 +426,7 @@ C------------------------------
       FYT(3,I)=ZERO
       FZT(3,I)=ZERO    
 C-------------------------------
-C     TOURNER DELTA(T-1) DANS LE PLAN TANGENT.
+C     rotate delta(t-1) in the tangent plane
 C-------------------------------
       IF (IACTIV(3,IL)>2) THEN
        DELTX=DOLD(1,4*(IL-1)+3)
@@ -449,7 +449,7 @@ C-------------------------------
        DELTZ=ZERO    
       ENDIF
 C-------------------------------
-C     INCREMENT SUR DELTA (T-1 -> T) : VITESSE RELATIVE TANGENTE DE POLD * DT
+C     INCREMENT SUR DELTA (T-1 -> T) : VELOCITY RELATIVE TANGENTE DE POLD * DT
 C-------------------------------
       XH=HOLD(1,4*(IL-1)+3)
       YH=HOLD(2,4*(IL-1)+3)
@@ -506,13 +506,13 @@ C       STF(4,I)=STFAC*DEPTH(4,I)/MAX(DEPTH(4,I)-PENET(4,I),EM20)
       FZN(4,I)=STF(4,I)*PENET(4,I)*NZI(4,I)
  500  CONTINUE
 C-------------------------------
-C     4EME TRIANGLE / Extraction du pt de contact au cycle precedent.
+C     4th triangle / extraction of the contact PT in the previous cycle.
 C-------------------------------
       DO 550 NLS=NDEB+1,MIN(NDEB+MVSIZ,NSC)
       IL =KSC(NLS)
       IF (IACTIV(4,IL)<=0) GOTO 550
       I  =NLS-NDEB
-C     Point sur le triangle tq D(P,L) etait maximum au cycle precedent.
+C     Point on the TQ D triangle (P, L) was maximum at the previous cycle.
       L1(I)=IOLD(1,4*(IL-1)+4)
       L2(I)=IOLD(2,4*(IL-1)+4)
       L3(I)=IOLD(3,4*(IL-1)+4)
@@ -530,7 +530,7 @@ C------------------------------
       FYT(4,I)=ZERO
       FZT(4,I)=ZERO    
 C-------------------------------
-C     TOURNER DELTA(T-1) DANS LE PLAN TANGENT.
+C     rotate delta(t-1) in the tangent plane
 C-------------------------------
       IF (IACTIV(4,IL)>2) THEN
        DELTX=DOLD(1,4*(IL-1)+4)
@@ -553,7 +553,7 @@ C-------------------------------
        DELTZ=ZERO    
       ENDIF
 C-------------------------------
-C     INCREMENT SUR DELTA (T-1 -> T) : VITESSE RELATIVE TANGENTE DE POLD * DT
+C     INCREMENT SUR DELTA (T-1 -> T) : VELOCITY RELATIVE TANGENTE DE POLD * DT
 C-------------------------------
       XH=HOLD(1,4*(IL-1)+4)
       YH=HOLD(2,4*(IL-1)+4)
@@ -706,7 +706,7 @@ C-----
         SCALE=ONE
       ENDIF
       IF (IACTIV(3,IL)>1) THEN
-C      Glissement DELTA=scale.DELTA
+C      Delta shift = scale.delta
        DELTX=SCALE*DOLD(1,4*(IL-1)+3)
        DELTY=SCALE*DOLD(2,4*(IL-1)+3)
        DELTZ=SCALE*DOLD(3,4*(IL-1)+3)
@@ -746,7 +746,7 @@ C-----
         SCALE=ONE
       ENDIF
       IF (IACTIV(4,IL)>1) THEN
-C      Glissement DELTA=scale.DELTA
+C      Delta shift = scale.delta
        DELTX=SCALE*DOLD(1,4*(IL-1)+4)
        DELTY=SCALE*DOLD(2,4*(IL-1)+4)
        DELTZ=SCALE*DOLD(3,4*(IL-1)+4)
@@ -953,7 +953,7 @@ C-----
 C------------------------------------------------------------
 C     MISE EN MEMOIRE (VECTEURS DE TRAVAIL -> ASSEMBLAGE).
 C------------------------------------------------------------
-C     non vectoriel.
+C     non -vector.
       DO 600 NLS=NDEB+1,MIN(NDEB+MVSIZ,NSC)
       IL =KSC(NLS)
       I  =NLS-NDEB
@@ -1003,7 +1003,7 @@ C-----
 C-----
  600  CONTINUE
 C------------------------------------------------------------
-C     non vectoriel.
+C     non -vector.
       DO 800 NLS=NDEB+1,MIN(NDEB+MVSIZ,NSC)
       IL =KSC(NLS)
       I  =NLS-NDEB
@@ -1138,7 +1138,7 @@ C-----
 C-----
  800  CONTINUE
 C------------------------------------------------------------
-C     non vectoriel.
+C     non -vector.
       DO 825 NLS=NDEB+1,MIN(NDEB+MVSIZ,NSC)
       IL =KSC(NLS)
       I  =NLS-NDEB

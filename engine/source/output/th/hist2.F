@@ -78,6 +78,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    stack_mod               ../engine/share/modules/stack_mod.F
 !||    th_mod                  ../engine/share/modules/th_mod.F
 !||    th_surf_mod             ../common_source/modules/interfaces/th_surf_mod.F
+!||    thsechecksum_mod        ../engine/source/output/th/thchecksum.F90
 !||====================================================================
       SUBROUTINE HIST2(PM      ,D         ,X        ,V           ,A         ,
      2                 IXS     ,BUFEL     ,WA       ,IPARG       ,SENSOR_TAB,
@@ -304,7 +305,7 @@ C------------------------
           WA(II+6) =XMASS
           WA(II+7) =DT2
           WA(II+8) =ENROT
-          WA(II+9) =OUTPUT%WFEXT
+          WA(II+9) =OUTPUT%TH%WFEXT
           WA(II+10)=REINT
           WA(II+11)=ECONT+ECONT_CUMU+ECONTV+ECONTD   ! Global contact energy : Sum of contact energies
           WA(II+12)=EHOUR
@@ -312,7 +313,6 @@ C------------------------
           WA(II+14)= ECONTV ! Contact Frictional Energy
           WA(II+15)= ECONTD ! Damping Frictional Energy
           WA(II+16)= WPLAST ! Plastic Work
-C         NGLOBTH depends on /TH/VERS
           IF(IUNIT==IUHIS) CALL WRTDES(WA,WA,NGLOBTH,ITTYP,1)
         ENDIF  ! ISPMD==0
 C-----------------------------
@@ -632,7 +632,7 @@ C
        END IF
 
 C---------------------------------------------------------
-C      /TH/SURF : 6 output channels
+C      /Th/surfing: 6 output channels
 C---------------------------------------------------------
       !FSAVSURF(1, 1:NSURF) : area                        (ebcs + monvol + ploads)
       !FSAVSURF(2, 1:NSURF) : massflow                    (ebcs + monvol         )
@@ -646,7 +646,7 @@ C-----------------------------------
        DO I=1,NSURF
          IF(IGRSURF(I)%TH_SURF == 1 .AND. FSAVSURF(1,I) == ZERO) THEN
            NN = IGRSURF(I)%NSEG
-           CALL SURF_AREA(X, NN, IGRSURF(I)%NODES, FSAVSURF(1,I), NUMNOD)
+           CALL SURF_AREA(X, NN, IGRSURF(I)%NODES, FSAVSURF(1,I), NUMNOD, N2D)
          ENDIF
        ENDDO
 
@@ -726,14 +726,14 @@ C--------------------------------------------
 C      PRE-TREATMENT ACCELEROMETERS (SPMD ONLY)
 C--------------------------------------------
        IF(NACCELM>0 .AND. NSPMD > 1)THEN
-C gather sur p0 des valeurs a jour pour les accelerometres
+C gather on proc 0 of up-to-date values for the accelerometers
          CALL SPMD_SD_ACC(ACCELM,IACCP,NACCP)
        END IF
 C--------------------------------------------
 C      PRE-TREATMENT GAUGES (SPMD ONLY)
 C--------------------------------------------
        IF(NBGAUGE>0 .AND. NSPMD > 1)THEN
-C gather sur p0 des valeurs a jour pour les gauges
+C gather on proc 0 of up-to-date values for the gauges
          CALL SPMD_SD_GAU(GAUGE,IGAUP,NGAUP)
        END IF
 C--------------------------------------------
@@ -794,7 +794,7 @@ C-------------------------------------------------------
 !   TH optimization for node elements
         !   initialization of local array       
         WA_NOD(ID_HIST)%WA_REAL( 1:WA_NOD_SIZE(ID_HIST) ) = ZERO
-        CALL THNOD(ITHBUF ,
+        CALL THNOD(OUTPUT, ITHBUF ,
      2   WA_NOD(ID_HIST)%WA_REAL,X       ,D       ,V      ,A      ,
      3             VR      ,AR      ,ISKWN   ,IFRAME  ,SKEW   ,
      4             XFRAME  ,WEIGHT  ,TEMP    ,INOD    ,FTHREAC,

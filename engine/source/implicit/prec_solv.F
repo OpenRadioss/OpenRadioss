@@ -65,7 +65,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 c     iprec=1 => [I] 
 c     iprec=2 => jacobien NNZ=0
-c     iprec=3 => I.C.(0) :[LT_M]-->strict upper triangle [L]^t en c.r.s.
+c     IPREC = 3 => I.C. (0): [LT_M]-> Strict upper triangle [l]^t'a c.r.s.
 c     iprec=4 => I.C.(0)_Stab :item
 c     iprec=5 => fsai .r same indice than [K]
 c     iprec=12 => I.C.(J) :[LT_M]-->strict upper triangle [L]^t en c.r.s.
@@ -308,7 +308,7 @@ C-----------------------------------------------
       my_real
      .  TMP(NDDL) 
 C--[LT_M]-->[Z]^t strict lower triangle c.c.s.(= transpose of strict upper tria c.r.s.)--- 
-C--------- tmp est utilisee pour la raison //-------- 
+C--------- tmp is used for the reason //--------
        DO I=1,NDDL
         Z(I) = V(I)
        ENDDO
@@ -364,7 +364,7 @@ C-----------------------------------------------
       my_real
      .  TMP(NDDL) 
 C--[LT_M]-->[Z]^t strict lower triangle c.r.s.(= transpose of strict upper tria c.c.s.)--- 
-C--------- tmp est utilisee pour la raison //-------- 
+C--------- tmp is used for the reason //--------
 C-----------------------------
        DO I=1,NDDL
         Z(I) = V(I)
@@ -421,7 +421,7 @@ C-----------------------------------------------
       my_real
      .  TMP(NDDL) 
 C--[LT_M]-->[Z]^t strict lower triangle c.r.s.(= transpose of strict upper tria c.c.s.)--- 
-C--------- tmp est utilisee pour la raison //-------- 
+C--------- tmp is used for the reason //--------
 C-----------------------------
        DO I=F_DDL ,L_DDL
         Z(I) = V(I)

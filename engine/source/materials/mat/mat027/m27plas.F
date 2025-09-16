@@ -91,7 +91,7 @@ C
         ETSE(I) = ONE
       ENDDO
 C-----------------------------------
-C     VITESSE DE DEFORMATION & YIELD
+C     strain rate & yield
 C-----------------------------------
       DO I=JFT,JLT
         IF (ISRATE == 0) THEN
@@ -129,7 +129,7 @@ C-------------------
      .           +THREE*SIG(I,3)*SIG(I,3))
         ENDDO
 C
-C projection radiale 
+C radial projection 
 C
 #include "vectorize.inc" 
         DO I=JFT,JLT
@@ -148,7 +148,7 @@ C
 C-------------------------
       ELSEIF (IPLA == 1) THEN
 C-------------------------
-C     CRITERE DE VON MISES
+C     von mises criterion
 C-------------------------
         DO  I=JFT,JLT
           S1 = SIG(I,1) + SIG(I,2)

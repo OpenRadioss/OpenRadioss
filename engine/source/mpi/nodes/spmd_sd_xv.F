@@ -31,11 +31,11 @@ C
 !||    arret                 ../engine/source/system/arret.F
 !||--- uses       -----------------------------------------------------
 !||    ale_mod               ../common_source/modules/ale/ale_mod.F
-!||    anim_mod              ../common_source/modules/output/anim_mod.F
 !||    message_mod           ../engine/share/message_module/message_mod.F
+!||    output_mod            ../common_source/modules/output/output_mod.F90
 !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
 !||====================================================================
-      SUBROUTINE SPMD_SD_XV(
+      SUBROUTINE SPMD_SD_XV(OUTPUT,
      1  X     ,D       ,V      ,VR    ,MS   ,
      2  IN    ,IAD_ELEM,FR_ELEM,WEIGHT,IMSCH,
      3  W     ,ISIZXV  ,ILENXV ,XDP)
@@ -43,7 +43,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD  
-      USE ANIM_MOD   
+      USE OUTPUT_MOD   
       USE ALE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -70,6 +70,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(OUTPUT_) :: OUTPUT
       INTEGER IMSCH, ISIZXV, ILENXV,
      .        IAD_ELEM(2,*), FR_ELEM(*), WEIGHT(*)
      
@@ -106,7 +107,7 @@ C-----------------------------------------------
       ENDIF
       IF ((IRAD2R==1).AND.(NCYCLE<2)) DT_CST = 1
       IF ((ALE%SUB%IALESUB/=0).OR.(IALE/=0).OR.
-     .    (TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.
+     .    (TT>=OUTPUT%TANIM .AND. TT<=OUTPUT%TANIM_STOP).OR.TT>=TOUTP.OR.
      .    (MANIM>=1.AND.MANIM<=15)) THEN
         NEW_D = 1
         IF(IALE/=0.AND.NINTER>0) NEW_D = 2
@@ -192,7 +193,7 @@ C
               L = L + E_LEN
             END DO
            ENDIF
-C   D est a envoyer pour sorties
+C   d is to be sent for outputs
           ELSEIF(NEW_D==1) THEN
            IF(IRODDL/=0.AND.DT_CST/=0) THEN
 #include      "vectorize.inc"
@@ -363,7 +364,7 @@ C   NEW_D==2 => Envoyer D et W
             ENDIF    
         ENDDO
 C
-C   Envoi messages
+C   Sending messages
 C
        L = 1
        L2= 1
@@ -554,7 +555,7 @@ C   D a recevoir
               END DO
             ENDIF
 
-CD et W a recevoir
+Cfrom and w to receive
           ELSE
             IF(IRODDL/=0.AND.DT_CST/=0) THEN
 #include      "vectorize.inc"

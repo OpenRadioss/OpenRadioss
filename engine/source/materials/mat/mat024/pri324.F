@@ -48,7 +48,7 @@ C-----------------------------------------------
       DATA FTPI,TTPI / 4.188790205, 2.094395102 /
       DATA IPERM/2,3,1/
 C=======================================================================
-C       DEVIATEUR PRINCIPAL DE CONTRAINTE
+C       principal deviator of stress
 C . . . . . . . . . . . . . . . . . . .
       DO I=1,6
         VEC(I)=ZERO

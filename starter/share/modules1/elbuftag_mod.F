@@ -57,7 +57,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_inter_type10         ../starter/source/interfaces/int10/hm_read_inter_type10.F
 !||    hm_read_mat                  ../starter/source/materials/mat/hm_read_mat.F90
 !||    hm_read_mat00                ../starter/source/materials/mat/mat000/hm_read_mat00.F
-!||    hm_read_mat02                ../starter/source/materials/mat/mat002/hm_read_mat02.F
+!||    hm_read_mat02_jc             ../starter/source/materials/mat/mat002/hm_read_mat02_jc.F90
+!||    hm_read_mat02_predef         ../starter/source/materials/mat/mat002/hm_read_mat02_predef.F90
+!||    hm_read_mat02_zerilli        ../starter/source/materials/mat/mat002/hm_read_mat02_zerilli.F90
 !||    hm_read_mat03                ../starter/source/materials/mat/mat003/hm_read_mat03.F
 !||    hm_read_mat04                ../starter/source/materials/mat/mat004/hm_read_mat04.F
 !||    hm_read_mat05                ../starter/source/materials/mat/mat005/hm_read_mat05.F
@@ -240,7 +242,7 @@ c
         INTEGER ::  G_EPSD         !  
         INTEGER ::  G_TB           !  Time Burn   
         INTEGER ::  G_RK           !  Turbulent Energy   (K - kinetic)
-        INTEGER ::  G_RE           !  Turbulent Dissipation (epsilon)
+        INTEGER ::  G_RE           !  Turbulent dissipation (Epsilon)
         INTEGER ::  G_BFRAC        !  Burn fraction   law 5, 51, 41 
         INTEGER ::  G_SIGI
         INTEGER ::  G_EPSQ         !  lo10 -51 Drucker-Prager
@@ -333,7 +335,7 @@ c
         INTEGER ::  L_XST      
         INTEGER ::  L_SSP      
         INTEGER ::  L_Z
-        INTEGER ::  L_FRAC        !    pourcentage de phase (multimat) 
+        INTEGER ::  L_FRAC        ! percentage of phase (multimat)
         INTEGER ::  L_BFRAC
         INTEGER ::  L_DMG
         INTEGER ::  L_ABURN
@@ -425,7 +427,7 @@ C    - 1D - elem buffer (TRUSS, BEAM, SPRING, NSTRAND)
         INTEGER ::  G_POSZZ
         INTEGER ::  G_YIELD
         INTEGER ::  G_LENGTH_ERR
-        INTEGER ::  G_DV  ! filtrage des vitesses
+        INTEGER ::  G_DV  ! filtering of velocitys
         INTEGER ::  G_DFS   ! dF = E*dF + F*dE
         INTEGER ::  G_SKEW_ERR
         INTEGER ::  G_E6

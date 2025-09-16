@@ -27,6 +27,7 @@
 !||    i24for3              ../engine/source/interfaces/int24/i24for3.F
 !||====================================================================
       module i24intarea_fic_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures
@@ -39,6 +40,7 @@
 !||    i24for3          ../engine/source/interfaces/int24/i24for3.F
 !||--- uses       -----------------------------------------------------
 !||    constant_mod     ../common_source/modules/constant_mod.F
+!||    precision_mod    ../common_source/modules/precision_mod.F90
 !||====================================================================
         subroutine i24intarea_fic(irtse, nsne, is2se, is2pt, ns, nrtse, numnod, arean, arean_fic)
 
@@ -46,12 +48,11 @@
 !                                                   Modules
 ! --------------------------------------------------------------------------------------------------
           use constant_mod
+          use precision_mod , only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
-
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -62,47 +63,47 @@
           integer,                                   intent(in) :: is2se(2,nsne )
           integer,                                   intent(in) :: is2pt(nsne )
           integer,                                   intent(in) :: irtse(5,nrtse )
-          my_real,                                   intent(in) :: arean(numnod) ! nodal areas
-          my_real,                                   intent(inout) :: arean_fic  ! nodal area of fictif node
+          real(kind=WP),                                   intent(in) :: arean(numnod) ! nodal areas
+          real(kind=WP),                                   intent(inout) :: arean_fic  ! nodal area of fictif node
 
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: ie,ie1,ie2,ied,ns1,ns2,ip,is1,is2
-          integer :: ik1(4),ik2(4) 
+          integer :: ik1(4),ik2(4)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-         ik1 = (/1, 2, 3, 4/)
-         ik2 = (/2, 3, 4, 1/)
-         ie = -huge(ie)
-         ns1 = -huge(ns1)
-         ns2 = -huge(ns2)
-         if (ns >= 0) THEN
+          ik1 = (/1, 2, 3, 4/)
+          ik2 = (/2, 3, 4, 1/)
+          ie = -huge(ie)
+          ns1 = -huge(ns1)
+          ns2 = -huge(ns2)
+          if (ns >= 0) THEN
             ik1 = (/1, 2, 3, 4/)
             ik2 = (/2, 3, 4, 1/)
             ip = is2pt(ns)
             ie1 = is2se(1, ns)
             ie2 = is2se(2, ns)
             if (ie1 /= 0) then
-               ie = ie1
-               ied = irtse(5, ie)
-               ns1 = ik1(ied)
-               ns2 = ik2(ied)
-             else if (ie2 /= 0) then
-               ie = ie2
-               ied = irtse(5, ie)
-               ns1 = ik2(ied)
-               ns2 = ik1(ied)
-             else
-                print *, 'probleme EDGES,IE1,IE2=', ns, ie1, ie2
-             end if
-             is1 = irtse(ns1, ie)
-             is2 = irtse(ns2, ie)
+              ie = ie1
+              ied = irtse(5, ie)
+              ns1 = ik1(ied)
+              ns2 = ik2(ied)
+            else if (ie2 /= 0) then
+              ie = ie2
+              ied = irtse(5, ie)
+              ns1 = ik2(ied)
+              ns2 = ik1(ied)
+            else
+              print *, 'probleme EDGES,IE1,IE2=', ns, ie1, ie2
+            end if
+            is1 = irtse(ns1, ie)
+            is2 = irtse(ns2, ie)
 
-             arean_fic = half*(arean(is1)+arean(is2))
-           endif
-       return
+            arean_fic = half*(arean(is1)+arean(is2))
+          endif
+          return
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine i24intarea_fic
       end module i24intarea_fic_mod

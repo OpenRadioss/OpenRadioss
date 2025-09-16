@@ -71,11 +71,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    message_mod            ../engine/share/message_module/message_mod.F
 !||    mmain_mod              ../engine/source/materials/mat_share/mmain.F90
 !||    nlocal_reg_mod         ../common_source/modules/nlocal_reg_mod.F
+!||    output_mod             ../common_source/modules/output/output_mod.F90
 !||    sensor_mod             ../common_source/modules/sensor_mod.F90
 !||    table_mod              ../engine/share/modules/table_mod.F
 !||    timer_mod              ../engine/source/system/timer_mod.F90
 !||====================================================================
-      SUBROUTINE S8SFORC3(TIMERS, ELBUF_TAB,NG     ,
+      SUBROUTINE S8SFORC3(TIMERS, OUTPUT, ELBUF_TAB,NG     ,
      1                    PM       ,GEO    ,IXS     ,X       ,
      2                    A        ,V      ,MS      ,W       ,FLUX    ,
      3                    FLU1     ,VEUL   ,FV      ,ALE_CONNECT   ,IPARG   ,
@@ -98,6 +99,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE TIMER_MOD
+      USE OUTPUT_MOD, only : OUTPUT_
       USE MMAIN_MOD
       USE TABLE_MOD
       USE MAT_ELEM_MOD            
@@ -133,6 +135,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(TIMER_) , INTENT(INOUT) :: TIMERS
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT
       INTEGER, INTENT(IN) :: SNPC
       INTEGER, INTENT(IN) :: STF
       INTEGER, INTENT(IN) :: SBUFMAT
@@ -203,13 +206,13 @@ C-----------------------------------------------
      . VDX(MVSIZ) , VDY(MVSIZ) , VDZ(MVSIZ),SSP_EQ(MVSIZ),AIRE(MVSIZ),
      . E0(MVSIZ),C1,FAC(MVSIZ) ,PR(8,8),PS(8,8),PT(8,8)
 C-----
-C   Variables utilisees en argument par les materiaux.
+C   variables used as arguments by the materials.
       my_real
      .   STI(MVSIZ),STIN(MVSIZ),GAMA(MVSIZ,6),
      .   WXX(MVSIZ) , WYY(MVSIZ) , WZZ(MVSIZ),
      .   WXX0(MVSIZ) , WYY0(MVSIZ) , WZZ0(MVSIZ),
      .   CONDE(MVSIZ), CONDEN(MVSIZ),DIVDE(MVSIZ)
-C   Variables utilisees en argument par les materiaux si SPH uniquement.
+C   Variables used in argument by materials if SPH only.
       my_real
      .   MUVOID(MVSIZ)
       INTEGER IOFFS, N,ITET
@@ -217,7 +220,7 @@ C   Variables utilisees en argument par les materiaux si SPH uniquement.
      .   OFFS(MVSIZ),DSV(MVSIZ),SDV(MVSIZ)
       INTEGER SZ_R1_FREE
 C-----
-C   Variables utilisees dans les routines solides uniquement (en arguments).
+C   variables used only in solid routines (as arguments).
       INTEGER NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ), 
      .        NC5(MVSIZ), NC6(MVSIZ), NC7(MVSIZ), NC8(MVSIZ),
      .        MAT(MVSIZ)
@@ -351,9 +354,9 @@ C
      .   BB(6,24,MVSIZ),AMU(MVSIZ)
       DOUBLE PRECISION
      .   VOLP(MVSIZ,NNPT)
-C----- Variables utilisees pour le calcul de puissance iteree
+C----- Variables used for iterative power calculation
 C-----
-C     Variables utilis  es pour le non-local
+C     variables used for the non-local
       my_real,
      .  DIMENSION(:,:), ALLOCATABLE :: VAR_REG
       INTEGER :: INLOC, L_NLOC, INOD(8), IPOS(8), IMAT
@@ -834,7 +837,7 @@ C------------------------------------------------------
       IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STARTIME(TIMERS,35)
 c
 c
-      CALL MMAIN(TIMERS,
+      CALL MMAIN(TIMERS,OUTPUT,
      1   ELBUF_TAB,    NG,           PM,           GEO,
      2                 ALE_CONNECT,  IXS,          IPARG,
      3   V,            TF,           NPF,          BUFMAT,
@@ -1008,7 +1011,7 @@ C-----------------------------
        END IF
 
 C--------------------------
-C       BILANS PAR MATERIAU
+C       balances by material
 C--------------------------
       IFLAG=MOD(NCYCLE,NCPRI)
       IF(IOUTPRT>0)THEN

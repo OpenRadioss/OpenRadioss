@@ -164,7 +164,7 @@ C   IVOIS
                  PROC2 = CEP(IV)
                  IV_LOC = CEL(IV)
                  IF(PROC2/=PROC) THEN
-C   element frontiere
+C   boundary element
                    IF(TAGE(IV)==0) THEN
                      IFS = IFS + 1
                      TAGE(IV) = NUMELS_L+IFS
@@ -182,20 +182,20 @@ C   recopie IXS + chgt no local des noeuds
 C   ivois     
                    ee_connect_l%connected(IAD2) = TAGE(IV)
                    
-                   ID_GLOBAL_VOIS( (IE_LOC-1)*6+J ) = IXS(NIXS,IV) ! pas sur le proc courant
+                   ID_GLOBAL_VOIS( (IE_LOC-1)*6+J ) = IXS(NIXS,IV) ! not on the current proc
                    DO K=1,INDX_S(IE)
                         IF( IXS(NIXS,IV)==FACE_ELM_S(6*(IE-1)+K,2) ) THEN
-                            FACE_VOIS( (IE_LOC-1)*6+J ) = FACE_ELM_S(6*(IE-1)+K,1) ! pas sur le proc courant
+                            FACE_VOIS( (IE_LOC-1)*6+J ) = FACE_ELM_S(6*(IE-1)+K,1) ! not on the current proc
                         ENDIF                     
                    ENDDO
                  ELSE
 C   element interne
                    ee_connect_l%connected(IAD2) = IV_LOC
-                   ID_GLOBAL_VOIS( (IE_LOC-1)*6+J ) = IXS(NIXS,IV) ! sur le proc courant
+                   ID_GLOBAL_VOIS( (IE_LOC-1)*6+J ) = IXS(NIXS,IV) ! on the current proc
                  ENDIF
                ELSE
                  ee_connect_l%connected(IAD2) = IV
-                 ID_GLOBAL_VOIS( (IE_LOC-1)*6+J ) = 0  ! pas de voisin
+                 ID_GLOBAL_VOIS( (IE_LOC-1)*6+J ) = 0  ! no neighbor
                ENDIF
                ee_connect_l%type(IAD2) = ALE_CONNECTIVITY%ee_connect%type(IAD1 + J - 1)
                ee_connect_l%iface2(IAD2) = ALE_CONNECTIVITY%ee_connect%iface2(IAD1 + J - 1)  
@@ -218,7 +218,7 @@ C   IVOIS
                  PROC2  = CEP(IV)
                  IV_LOC = CEL(IV)
                  IF(PROC2/=PROC) THEN
-C   element frontiere
+C   boundary element
                    IF(TAGE(IV)==0) THEN
                      IFQ = IFQ + 1
                      TAGE(IV) = NUMELQ_L+IFQ
@@ -238,7 +238,7 @@ C   ivois
                    ID_GLOBAL_VOIS( (IE_LOC-1)*4+J ) = IXQ(NIXQ,IV)
                    DO K=1,INDX_Q(IE)
                         IF( IXQ(NIXQ,IV)==FACE_ELM_Q(4*(IE-1)+K,2) ) THEN
-                            FACE_VOIS( (IE_LOC-1)*4+J ) = FACE_ELM_Q(4*(IE-1)+K,1) ! pas sur le proc courant
+                            FACE_VOIS( (IE_LOC-1)*4+J ) = FACE_ELM_Q(4*(IE-1)+K,1) ! not on the current proc
                         ENDIF                       
                    ENDDO
                  ELSE
@@ -271,7 +271,7 @@ C   IVOIS
                  PROC2  = CEP(IV)
                  IV_LOC = CEL(IV)
                  IF(PROC2/=PROC) THEN
-C   element frontiere
+C   boundary element
                    IF(TAGE(IV)==0) THEN
                      IFTG = IFTG + 1
                      TAGE(IV) = NUMELTG_L+IFTG
@@ -292,7 +292,7 @@ C   ivois
 
                    DO K=1,INDX_TG(IE)
                         IF( IXTG(NIXTG,IV)==FACE_ELM_TG(3*(IE-1)+K,2) ) THEN
-                            FACE_VOIS( (IE_LOC-1)*3+J ) = FACE_ELM_TG(3*(IE-1)+K,1) ! pas sur le proc courant
+                            FACE_VOIS( (IE_LOC-1)*3+J ) = FACE_ELM_TG(3*(IE-1)+K,1) ! not on the current proc
                         ENDIF                      
                    ENDDO
 

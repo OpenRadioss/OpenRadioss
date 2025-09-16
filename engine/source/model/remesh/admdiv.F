@@ -115,7 +115,7 @@ C-----------------------------------------------
           TAGNOD = 0
           NODNORM= ZERO
 c
-c         parcours des feuilles
+c         traversal of the leaves
           LEVEL=LEVELMAX
           DO NN=PSH4KIN(LEVEL)+1,PSH4KIN(LEVEL+1)
             N   =LSH4KIN(NN)
@@ -814,7 +814,7 @@ C
 C
       END IF
 C
-C     compactage de LSH4ACT
+C     compaction of LSH4ACT
       IF(IADMESH==1)THEN
         IF(ITASK==0)THEN
           NTMP   =NSH4ACT

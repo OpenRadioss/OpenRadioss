@@ -28,6 +28,9 @@
 !||    hm_read_checksum                ../starter/source/output/checksum/checksum_option.F90
 !||    hm_read_inivol                  ../starter/source/initial_conditions/inivol/hm_read_inivol.F90
 !||    hm_read_mat                     ../starter/source/materials/mat/hm_read_mat.F90
+!||    hm_read_mat02_jc                ../starter/source/materials/mat/mat002/hm_read_mat02_jc.F90
+!||    hm_read_mat02_predef            ../starter/source/materials/mat/mat002/hm_read_mat02_predef.F90
+!||    hm_read_mat02_zerilli           ../starter/source/materials/mat/mat002/hm_read_mat02_zerilli.F90
 !||    hm_read_thchecksum              ../starter/source/output/th/hm_read_thchecksum.F90
 !||    st_checksum_file_print          ../starter/source/output/checksum/checksum_option.F90
 !||====================================================================
@@ -35,6 +38,7 @@
         !=======================================================================================================================
         !!\brief default type : Hosts the parameters for Starter File Descriptors
         !=======================================================================================================================
+      implicit none
         integer, parameter :: istdo = 6
         integer, parameter :: iout = 7
         integer, parameter :: fchecksum = 4566

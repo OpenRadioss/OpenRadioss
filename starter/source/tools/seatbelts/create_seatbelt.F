@@ -379,14 +379,14 @@ C--     if nshell = 2 and nspring = 1     -> node on edge of 2D belt
 C--     if nshell = 0 and nspring = 1     -> node at end of 1D belt
 C--     if nspring = 2 and nspring_2D = 1 -> node common between 1D and 2D seatblet
 C
-C       common nodes between 1D and 2D seatblet are tagged and stored in list
+C       common nodes between 1D and 2D seatblet are tagged and stored in list 
         IF (IDDLEVEL == 0) CALL MY_ALLOC(COMN_1D2D,N_COMN_1D2D)
         CALL MY_ALLOC(TAG_COMN_1D_2D,NUMNOD)
         COMN_1D2D(1:N_COMN_1D2D) = 0
         TAG_COMN_1D_2D(1:NUMNOD) = 0
         J = 0
         DO I=1,NUMNOD
-          IF (((TAG_NOD_SPRI2D(I))==1).AND.(TAG_NOD_SPRING(I)==2)) THEN
+          IF ((TAG_NOD_SPRING(I) > TAG_NOD_SPRI2D(I)).and.(TAG_NOD_SPRI2D(I) > 0)) THEN
             J = J + 1
             COMN_1D2D(J) = I
             TAG_COMN_1D_2D(I) = 1

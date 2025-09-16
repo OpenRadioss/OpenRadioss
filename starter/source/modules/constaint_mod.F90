@@ -118,7 +118,7 @@
           do n=1,nrwall
             allocate( constraint_struct%rwall%spmd(n)%m_proc_list(nspmd) )
             constraint_struct%rwall%spmd(n)%m_proc_list(1:nspmd) = 0
-          enddo
+          end do
           ! ------------
 
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -161,7 +161,7 @@
           ! ------------
           do n=1,nrwall
             deallocate( constraint_struct%rwall%spmd(n)%m_proc_list )
-          enddo
+          end do
           ! ------------
           deallocate( constraint_struct%rwall%spmd )
 

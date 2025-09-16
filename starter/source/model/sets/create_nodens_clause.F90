@@ -86,7 +86,7 @@
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
 !
-          call hm_get_int_array_index('idsmax' ,ids_max ,jclause,is_available,lsubmodel)
+          call hm_get_int_array_index("idsmax" ,ids_max ,jclause,is_available,lsubmodel)
 
           allocate(nodens_read_tmp(ids_max))
           nodens_read_tmp(1:ids_max) = 0
@@ -97,17 +97,17 @@
 !         Read & convert Nodens
 !         ---------------------
           do i=1,ids_max
-            call hm_get_int_array_2indexes('ids',ids,jclause,i,is_available,lsubmodel)
+            call hm_get_int_array_2indexes("ids",ids,jclause,i,is_available,lsubmodel)
             nodsys = set_usrtos(ids,itabm1,numnod)
             if(nodsys == 0)then
 !             Nodens was not found. Issue a Warning & Skip.
-              call ancmsg(msgid=1902,anmode=aninfo,msgtype=msgwarning,i1= clause%set_id,i2=ids,c1=trim(clause%title),c2='NODENS')
+              call ancmsg(msgid=1902,anmode=aninfo,msgtype=msgwarning,i1= clause%set_id,i2=ids,c1=trim(clause%title),c2="NODENS")
             else
               nodsys = itabm1(nodsys,2)
               nindx = nindx+1    !   nb of CLAUSE nodens
               nodens_read_tmp(nindx) = nodsys
-            endif
-          enddo
+            end if
+          end do
 
           list_size = nindx
 
@@ -118,7 +118,7 @@
 
           do i=1,list_size
             clause%nodens(i) = nodens_read_tmp(i)
-          enddo
+          end do
 !
           deallocate(nodens_read_tmp)
 ! ----------------------------------------------------------------------------------------------------------------------

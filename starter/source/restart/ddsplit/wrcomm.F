@@ -25,14 +25,15 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    ddsplit              ../starter/source/restart/ddsplit/ddsplit.F
 !||--- uses       -----------------------------------------------------
+!||    sph_mod              ../starter/share/modules1/sph_mod.F
 !||====================================================================
       SUBROUTINE WRCOMR(LMXVREA,LVARREA,TABVREA,MS_ND,P,INTER_PARAMETERS, 
      .                  UNITAB ,GLOB_THERM, OUTPUT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ANIM_MOD
-      USE OUTPUTS_MOD
+      USE OUTPUT_MOD
+      USE SPH_MOD, ONLY : XI_RES, YI_RES, ZI_RES
       USE ALE_MOD
       USE PARAMETERS_MOD
       USE UNITAB_MOD
@@ -71,7 +72,7 @@ C-----------------------------------------------
       INTEGER IVAR,J,RVARINT,P
       TYPE (PARAMETERS_) ,INTENT(IN):: INTER_PARAMETERS
 C--------------------------------------
-C     PREPARATION DES VARIABLES REELLES POUR ECRITURE SUR RFILE.
+C     PREPARATION OF REAL VARIABLES FOR WRITING TO RFILE.
 C--------------------------------------
 C-----
       DO IVAR=1,LMXVREA
@@ -92,12 +93,12 @@ C-----
       TABVREA(11)=DTFAC
       TABVREA(12)=DTMIN
       TABVREA(13)=VOLMIN
-      TABVREA(14)=OUTPUT%WFEXT
+      TABVREA(14)=OUTPUT%TH%WFEXT
       TABVREA(15)=REINT
       TABVREA(16)=0 !no longer used
       TABVREA(17)=0 !no longer used
-      TABVREA(18)=DTANIM
-      TABVREA(19)=TANIM
+      TABVREA(18)=OUTPUT%DTANIM
+      TABVREA(19)=OUTPUT%TANIM
       TABVREA(20)=UREINT
       TABVREA(21)=ECONTV
       TABVREA(22)=EHOUR
@@ -132,7 +133,7 @@ C-----
       TABVREA(63)=LAG_ALPHS
       LVARREA=63
 C 
-C---- debut check point restart
+C---- Debut Check Point Restart
 C
       DO I = 1, 42
        TABVREA(63+I)=ZERO
@@ -277,7 +278,7 @@ C
       RVARINT = RVARINT + 1
       TABVREA(RVARINT) = ZERO ! MSI20 Itet=2
 C      
-C---- debut check point restart      
+C---- Debut Check Point Restart      
 C
 C     DTFAC1(51) and DTMIN1(51)
       RVARINT = RVARINT + 1
@@ -320,7 +321,7 @@ C  INITIAL MASS FROM STARTER
       TABVREA(RVARINT) = ZERO    
 C ANIM FILES STOP TIME
       RVARINT = RVARINT + 1
-      TABVREA(RVARINT) = TANIM_STOP       
+      TABVREA(RVARINT) = OUTPUT%TANIM_STOP       
 C INITIAL COORDS OF SPH RESERVE 
       RVARINT = RVARINT + 1
       TABVREA(RVARINT) = XI_RES  

@@ -143,6 +143,7 @@ C--         message deactivated for seatbelts
      .                  I1=IX(NIXR,J))
           ENDIF
         ELSE
+C         First step - computation of vector PRVC with N3 if available or skew 
           IF (I3 /= 0) THEN
             RLOC(1,I)=X(1,I3)-X(1,I1)
             RLOC(2,I)=X(2,I3)-X(2,I1)
@@ -153,9 +154,9 @@ C--         message deactivated for seatbelts
             PRVC(3,I)=X1*RLOC(2,I)-Y1*RLOC(1,I)
             NPRVC(I)=PRVC(1,I)**2+PRVC(2,I)**2+PRVC(3,I)**2
             IF (SQRT(NPRVC(I))/NRLOC(I)/X0(I) < EM5) THEN
-C         IWARN=IWARN+1
-C         WRITE(ISTDO,*) '** WARNING: THREE SPRING NODES ON A LINE',
-C     .                  ', CANNOT DEFINE FRAME'
+C             IWARN=IWARN+1
+C             WRITE(ISTDO,*) '** WARNING: THREE SPRING NODES ON A LINE',
+C     .       ', CANNOT DEFINE FRAME'
               CALL ANCMSG(MSGID=326,
      .                    MSGTYPE=MSGWARNING,
      .                    ANMODE=ANINFO_BLIND_1,
@@ -163,46 +164,33 @@ C     .                  ', CANNOT DEFINE FRAME'
      .                    I2=ITAB(I1),
      .                    I3=ITAB(I2),
      .                    I4=ITAB(I3))
-              IF (ISK /= 1) THEN
-                RLOC(1,I)=SKEW(4,ISK)
-                RLOC(2,I)=SKEW(5,ISK)
-                RLOC(3,I)=SKEW(6,ISK)
-                NRLOC(I)=RLOC(1,I)**2+RLOC(2,I)**2+RLOC(3,I)**2
-                PRVC(1,I)=Y1*RLOC(3,I)-Z1*RLOC(2,I)
-                PRVC(2,I)=Z1*RLOC(1,I)-X1*RLOC(3,I)
-                PRVC(3,I)=X1*RLOC(2,I)-Y1*RLOC(1,I)
-                NPRVC(I)=PRVC(1,I)**2+PRVC(2,I)**2+PRVC(3,I)**2
-                IF (SQRT(NPRVC(I)/NRLOC(I))/X0(I) < EM5) THEN
-C           WRITE(ISTDO,*) '** WARNING: SECOND AXIS OF SKEW FRAME',
-C     .     '  IS PARALLEL TO SPRING AXIS, CANNOT DEFINE FRAME'
-C           WRITE(IOUT,1200)IX(NIXR,J)
-                CALL ANCMSG(MSGID=327,
+C
+               RLOC(1,I)=SKEW(4,ISK)
+               RLOC(2,I)=SKEW(5,ISK)
+               RLOC(3,I)=SKEW(6,ISK)
+               NRLOC(I)=RLOC(1,I)**2+RLOC(2,I)**2+RLOC(3,I)**2
+               PRVC(1,I)=Y1*RLOC(3,I)-Z1*RLOC(2,I)
+               PRVC(2,I)=Z1*RLOC(1,I)-X1*RLOC(3,I)
+               PRVC(3,I)=X1*RLOC(2,I)-Y1*RLOC(1,I)
+               NPRVC(I)=PRVC(1,I)**2+PRVC(2,I)**2+PRVC(3,I)**2
+C
+               IF (SQRT(NPRVC(I)/NRLOC(I))/X0(I) < EM5) THEN
+C                WRITE(ISTDO,*) '** WARNING: SECOND AXIS OF SKEW FRAME',
+C     .     '    IS PARALLEL TO SPRING AXIS, CANNOT DEFINE FRAME'
+C                WRITE(IOUT,1200)IX(NIXR,J)
+                 CALL ANCMSG(MSGID=327,
      .                      MSGTYPE=MSGWARNING,
      .                      ANMODE=ANINFO_BLIND_1,
      .                      I1=IX(NIXR,J))
-                ELSE
+               ELSE
                   WRITE(IOUT,1300)IX(NIXR,J)
-                  RLOC(1,I)=PRVC(2,I)*Z1-PRVC(3,I)*Y1
-                  RLOC(2,I)=PRVC(3,I)*X1-PRVC(1,I)*Z1
-                  RLOC(3,I)=PRVC(1,I)*Y1-PRVC(2,I)*X1
-                  NRLOC(I)=SQRT(RLOC(1,I)**2+RLOC(2,I)**2+RLOC(3,I)**2)
-                  RLOC(1,I)=RLOC(1,I)/NRLOC(I)
-                  RLOC(2,I)=RLOC(2,I)/NRLOC(I)
-                  RLOC(3,I)=RLOC(3,I)/NRLOC(I)
                   IALIGN=1
-                ENDIF
-              ENDIF
+               ENDIF
+C
             ELSE
-              RLOC(1,I)=PRVC(2,I)*Z1-PRVC(3,I)*Y1
-              RLOC(2,I)=PRVC(3,I)*X1-PRVC(1,I)*Z1
-              RLOC(3,I)=PRVC(1,I)*Y1-PRVC(2,I)*X1
-              NRLOC(I)=SQRT(RLOC(1,I)**2+RLOC(2,I)**2+RLOC(3,I)**2)
-              RLOC(1,I)=RLOC(1,I)/NRLOC(I)
-              RLOC(2,I)=RLOC(2,I)/NRLOC(I)
-              RLOC(3,I)=RLOC(3,I)/NRLOC(I)
               IALIGN=1
             ENDIF
-          ELSEIF (ISK /= 1) THEN
+          ELSE
             RLOC(1,I)=SKEW(4,ISK)
             RLOC(2,I)=SKEW(5,ISK)
             RLOC(3,I)=SKEW(6,ISK)
@@ -212,40 +200,48 @@ C           WRITE(IOUT,1200)IX(NIXR,J)
             PRVC(3,I)=X1*RLOC(2,I)-Y1*RLOC(1,I)
             NPRVC(I)=PRVC(1,I)**2+PRVC(2,I)**2+PRVC(3,I)**2
             IF (SQRT(NPRVC(I)/NRLOC(I))/X0(I) < EM5) THEN
-C         WRITE(ISTDO,*) '** WARNING: SECOND AXIS OF SKEW FRAME',
-C     .   '  IS PARALLEL TO SPRING AXIS, CANNOT DEFINE FRAME'
-C         WRITE(IOUT,1200)IX(NIXR,J)
+C             WRITE(ISTDO,*) '** WARNING: SECOND AXIS OF SKEW FRAME',
+C     .   '   IS PARALLEL TO SPRING AXIS, CANNOT DEFINE FRAME'
+C             WRITE(IOUT,1200)IX(NIXR,J)
               CALL ANCMSG(MSGID=327,
      .                    MSGTYPE=MSGWARNING,
      .                    ANMODE=ANINFO_BLIND_1,
      .                    I1=IX(NIXR,J))
             ELSE
-              WRITE(IOUT,1300)IX(NIXR,J)
-              RLOC(1,I)=PRVC(2,I)*Z1-PRVC(3,I)*Y1
-              RLOC(2,I)=PRVC(3,I)*X1-PRVC(1,I)*Z1
-              RLOC(3,I)=PRVC(1,I)*Y1-PRVC(2,I)*X1
-              NRLOC(I)=SQRT(RLOC(1,I)**2+RLOC(2,I)**2+RLOC(3,I)**2)
-              RLOC(1,I)=RLOC(1,I)/NRLOC(I)
-              RLOC(2,I)=RLOC(2,I)/NRLOC(I)
-              RLOC(3,I)=RLOC(3,I)/NRLOC(I)
+              IF(ISK /= 1) THEN
+                WRITE(IOUT,1300)IX(NIXR,J)
+              ELSE
+                WRITE(IOUT,1400)IX(NIXR,J)                
+              ENDIF  
               IALIGN=1
             ENDIF
           ENDIF ! IF (I3 /= 0)
 C
+C         Local X axis is used for computation of RVC
           IF (IALIGN /= 1)THEN
-            IF (ABS(Y1) < HALF*X0(I)) THEN
-              RLOC(1,I)=ZERO
-              RLOC(2,I)=ONE
-              RLOC(3,I)=ZERO
-              WRITE(IOUT,1400)IX(NIXR,J)
+            RLOC(1,I)=SKEW(1,ISK)
+            RLOC(2,I)=SKEW(2,ISK)
+            RLOC(3,I)=SKEW(3,ISK)
+            IF(ISK /= 1) THEN
+              WRITE(IOUT,1350)IX(NIXR,J)
             ELSE
-              RLOC(1,I)=ONE
-              RLOC(2,I)=ZERO
-              RLOC(3,I)=ZERO
-              WRITE(IOUT,1450)IX(NIXR,J)
+              WRITE(IOUT,1450)IX(NIXR,J)                
             ENDIF
+            PRVC(1,I)=Y1*RLOC(3,I)-Z1*RLOC(2,I)
+            PRVC(2,I)=Z1*RLOC(1,I)-X1*RLOC(3,I)
+            PRVC(3,I)=X1*RLOC(2,I)-Y1*RLOC(1,I)
           ENDIF ! IF (IALIGN /= 1)
         ENDIF ! IF (X0(I) < EM15 .OR. X0(I) <= NOISE)
+
+C       Second step - computation the second axis of the local skew - Ylocal = Xlocal^PRVC
+        RLOC(1,I)=PRVC(2,I)*Z1-PRVC(3,I)*Y1
+        RLOC(2,I)=PRVC(3,I)*X1-PRVC(1,I)*Z1
+        RLOC(3,I)=PRVC(1,I)*Y1-PRVC(2,I)*X1
+        NRLOC(I)=SQRT(RLOC(1,I)**2+RLOC(2,I)**2+RLOC(3,I)**2)
+        RLOC(1,I)=RLOC(1,I)/NRLOC(I)
+        RLOC(2,I)=RLOC(2,I)/NRLOC(I)
+        RLOC(3,I)=RLOC(3,I)/NRLOC(I)
+
       ENDDO
 C-----------------------------------------------
       RETURN
@@ -253,6 +249,9 @@ C-----------------------------------------------
  1300     FORMAT(/,'  ** INFO: SPRING ELEMENT:',I10,/,
      .           ' SECOND AXIS OF SKEW FRAME AND SPRING AXIS ARE USED',
      .           ' TO DEFINE SPRING FRAME')
+ 1350     FORMAT(/,'  ** INFO: SPRING ELEMENT:',I10,/,
+     .           ' FIRST AXIS OF SKEW FRAME AND SPRING AXIS ARE USED',
+     .           ' TO DEFINE SPRING FRAME')   
  1400     FORMAT(/,'  ** INFO: SPRING ELEMENT:',I10,/,
      .           ' GLOBAL Y AXIS AND SPRING AXIS ARE USED',
      .           ' TO DEFINE SPRING FRAME'/)

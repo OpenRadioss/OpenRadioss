@@ -126,7 +126,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    nodal_arrays_mod             ../common_source/modules/nodal_arrays.F90
 !||    outmax_mod                   ../common_source/modules/outmax_mod.F
 !||    output_mod                   ../common_source/modules/output/output_mod.F90
-!||    outputs_mod                  ../common_source/modules/outputs_mod.F
 !||    pblast_mod                   ../common_source/modules/loads/pblast_mod.F90
 !||    pinchtype_mod                ../common_source/modules/pinchtype_mod.F
 !||    pload_cyl_mod                ../common_source/modules/loads/pload_cyl_mod.F
@@ -181,7 +180,6 @@ C-----------------------------------------------
       USE SEATBELT_MOD
       USE PBLAST_MOD
       USE OUTMAX_MOD
-      USE OUTPUTS_MOD
       USE PLOAD_CYL_MOD
       USE STATE_MOD
       USE USER_WINDOWS_MOD
@@ -308,7 +306,7 @@ C-----------------------------------------------
 C--------------------------------------
 C     READING INTEGERS
 C--------------------------------------
-C fichier de restart au format binaire ieee
+C Restart file in binary format ieee
       LEN_G = NPROPGI*NUMGEO
       LEN_M = NPROPMI*NUMMAT
 C
@@ -529,18 +527,18 @@ C
            CALL EBCS_TAB%read_type_data(INT0, INTEGER_DATA)
            ALLOCATE(EBCS_TAB%my_typ(INT0))
            ALLOCATE(EBCS_TAB%need_to_compute(INT0))
-           ! save the type of /EBCS ( /EBCS/NRF --> typ = 10) ( /EBCS/PROPERGOL --> typ = 11)
+           ! save the type of /EBCS ( /EBCS/NRF --> typ = 10) ( /EBCS/PROPELLANT --> typ = 11)
            EBCS_TAB%my_typ(1:INT0) = INTEGER_DATA(1:INT0)
            ! -------------
            ! check if the current proc needs to compute an /EBCS
-           ! multifluid /EBCS, /EBCS/NRF, and /EBCS/PROPERGOL are parallelized, can be computed by several proc
+           ! multifluid /EBCS, /EBCS/NRF, and /EBCS/PROPELLANT are parallelized, can be computed by several proc
            ! the others are sequential, only the main proc (ispmd=0) computes the other /EBCS
            DO II=1,INT0
                 EBCS_TAB%need_to_compute(II) = .FALSE.
                 IF(ISPMD /= 0) THEN
                     IS_EBCS_PARALLEL = .FALSE.
                     IF(EBCS_TAB%my_typ(II) == 10 .or. EBCS_TAB%my_typ(II) == 11)IS_EBCS_PARALLEL = .TRUE.
-                    IF(IS_EBCS_PARALLEL) EBCS_TAB%need_to_compute(II) = .TRUE. ! /EBCS/NRF and /EBCS/PROPERGOL are //
+                    IF(IS_EBCS_PARALLEL) EBCS_TAB%need_to_compute(II) = .TRUE. ! /EBCS/NRF and /EBCS/PROPELLANT are //
                 ELSE
                     EBCS_TAB%need_to_compute(II) = .TRUE.   ! other /EBCS sequential
                 ENDIF
@@ -816,12 +814,12 @@ C
         CALL READ_I_C(IAD_CNDM,SIAD_CNDM)
         CALL READ_I_C(FR_CNDM,SFR_CNDM)
 C
-C Partie Parith/ON lue en SPM dans tous les cas
+C Part Parith/We read in SPM in all cases
 C
-C lecture directe de ADDCNE
+C direct reading of ADDCNE
         IF(IPARIT==1) THEN
           CALL READ_I_C(ELEMENT%PON%ADSKY,NUMNOD+1)
-C lecture directe de PROCNE
+C direct reading of PROCNE
           CALL READ_I_C(ELEMENT%PON%PROCNE,LCNE0)
 C lecture directe structure interface type2
           IF (I2NSNT > 0) THEN
@@ -833,7 +831,7 @@ C---Itet2 of S10
            CALL READ_I_C(ADDCNCND,SADDCNCND)
           ENDIF
           CALL READ_I_C(PROCNCND,SPROCNCND)
-C lecture directe de IADS+IADWAL+IADRBK+IADI2+IADMV2+IADMV3+IADLL+IADRBM+IADI18+
+C Direct reading of IADS+IADWAL+IADRBK+IADI2+IADMV2+IADMV3+IADLL+IADRBM+IADI18+
 C  IADRBMK
           CALL READ_I_C(ELEMENT%PON%IADS       ,SIZE(ELEMENT%PON%IADS))       !< 1 ; 8xNUMELS  solid indexes to FSKY
           CALL READ_I_C(ELEMENT%PON%IADS10     ,SIZE(ELEMENT%PON%IADS10 ))    !< 6* NUMELS10 
@@ -877,7 +875,7 @@ C  ply xfem
 C
           IF(IPLYXFEM > 0) THEN
             CALL READ_I_C(ADSKY_PXFEM,NPLYXFE+1 )
-C lecture directe de PROCNE
+C direct reading of PROCNE
             CALL READ_I_C(PROCNE_PXFEM,LCNEPXFEM)
             CALL READ_I_C(IADC_PXFEM,4*EPLYXFE)
           ENDIF
@@ -893,7 +891,7 @@ C
           ENDIF
 C
         ELSEIF(IPARI0==1)THEN
-C saut de lecture
+C skip reading
           LEN = NUMNOD+1+LCNE0+(NUMNOD+1)*MIN(1,I2NSNT)+LCNI2
      +        + NISKY0+NSKYRW0+NSKYRBK0+NISKYI2+NSKYMV0+NSKYMVC0
      +        + NSKYLL0+NSKYRBM0+NSKYI18+NSKYRBE30+NSKYRBMK0
@@ -939,13 +937,13 @@ C--------------------------------------
         CALL READ_I_C(SH3TRIM,LEN)
       END IF
 C--------------------------------------
-C allocation + lecture struture interface partie entiere
+C Allowance + Reading Structure Interface Entiere Party
 C--------------------------------------
         CALL SPMD_INITFI(IPARI,1,H3D_DATA,INTERFACES%PARAMETERS,
      .                   GLOB_THERM%IDT_THERM,GLOB_THERM%INTHEAT)
 C
 C--------------------------------------
-C     Lecture + Init Frontiere SPMD pour SPH (partie entiere)
+C     Reading + Intit Frontiere SPMD for SPH (integer part)
 C--------------------------------------
       CALL SPMD_INISPH(1)
 C--------------------------------------
@@ -959,7 +957,7 @@ C--------------------------------------
         CALL INTFRIC_RRESTI(INTERFACES%INTBUF_FRIC_TAB,NINTERFRIC)
       END IF
 C--------------------------------------
-C  Structure table partie entiere
+C  Table structure
 C--------------------------------------
       IF(NTABLE /= 0)THEN
         CALL TABLE_RRESTI(TABLE)
@@ -1012,7 +1010,7 @@ C----------------------------------
         CALL READ_BCS_WALL()
       ENDIF
 C----------------------------------
-C     LECTURE DES VARIABLES REELLES
+C     reading real variables
 C--------------------------------------
 C      warning to radioss developers :
 C      IF(LVARREA>LMXVREA)THEN
@@ -1184,7 +1182,7 @@ C lecture struture interface partie reelle si irunn > 1
         IF(IRUNN>1.OR.MCHECK/=0) CALL SPMD_INITFI(IPARI,2,H3D_DATA,INTERFACES%PARAMETERS,
      .                                            GLOB_THERM%IDT_THERM,GLOB_THERM%INTHEAT)
 C--------------------------------------
-C     Lecture + Init Frontiere SPMD pour SPH (partie reelle)
+C     Reading + Intit Frontier SPMD for SPH (real part)
 C--------------------------------------
         CALL SPMD_INISPH(2)
 C--------------------------------------
@@ -1224,7 +1222,7 @@ C Read DDP
        ENDIF
        NPSAV = 29
 C   ----------------------------------------------------------------------
-C     Utilise pour les checks point restart.
+C     used for checkpoint restarts.
        IF(MCHECK/=0)THEN
         CALL READ_I_C(MY_ILEN,1)
         CALL READ_I_C(MY_RLEN,1)
@@ -1330,13 +1328,13 @@ C   ----------------------------------------------------------------------
          CALL READ_DB(NPCONT2_MIN, 3*NUMNOD)
       ENDIF
 C--------Frictional energy output-------
-      IF(S_EFRICINT >0)THEN
-         IF(NINEFRIC > 0) CALL READ_DB(EFRIC, NINEFRIC*NUMNOD)
-         IF(NINEFRIC_STAMP > 0) CALL READ_DB(EFRIC_STAMP, NINEFRIC_STAMP*NUMNODG)
+      IF(OUTPUT%DATA%S_EFRICINT >0)THEN
+         IF(OUTPUT%DATA%NINEFRIC > 0) CALL READ_DB(OUTPUT%DATA%EFRIC, OUTPUT%DATA%NINEFRIC*NUMNOD)
+         IF(OUTPUT%DATA%NINEFRIC_STAMP > 0) CALL READ_DB(OUTPUT%DATA%EFRIC_STAMP, OUTPUT%DATA%NINEFRIC_STAMP*NUMNODG)
       ENDIF
-      IF(S_EFRIC >0)THEN
-         CALL READ_DB(EFRICG, NUMNOD)
-         IF(NINTSTAMP/=0) CALL READ_DB(EFRICG_STAMP, NUMNODG)
+      IF(OUTPUT%DATA%S_EFRIC >0)THEN
+         CALL READ_DB(OUTPUT%DATA%EFRICG, NUMNOD)
+         IF(NINTSTAMP/=0) CALL READ_DB(OUTPUT%DATA%EFRICG_STAMP, NUMNODG)
       ENDIF
 C--------------------------------------
 C  Interface friction buffer (Reals )
@@ -1371,7 +1369,7 @@ Cfor TYPE2
         CALL READ_I_C(NATIV0_SMS,NUMNOD)
       ENDIF
 C--------------------------------------
-C structure tables partie reelle
+C Structure Tables Real Party
 C--------------------------------------
       IF(NTABLE /= 0)THEN
         CALL TABLE_RRESTR(TABLE)
@@ -1744,7 +1742,7 @@ C--------------------------------------
         IF (LENSIG>0) CALL READ_DB(FXBSIG,LENSIG)
         IF (LENGRVR>0) CALL READ_DB(FXBGRVR,LENGRVR)
       ENDIF
-C Lecture des fichiers de modes et de contraintes
+C reading mode and constraint files
       INQUIRE(IOLENGTH=RCLEN) VV
 
       TLEN=4096
@@ -1851,7 +1849,7 @@ C--------------------------------------
       ELSE
         CALL READ_DB(EIGRPM,NEIG*NERPM)
       ENDIF
-C Lecture du fichier de modes additionnels
+C reading the additional modes file
       INQUIRE(IOLENGTH=RCLEN) VV
 
       CALL MY_GETPID(MY_PID)
@@ -1919,7 +1917,7 @@ C-----------------------------------------------
 C
       DO I=1,NSPROC
 C--------------------------------------
-C Lecture des parametres entiers
+C reading integer parameters
 C--------------------------------------
          N=7
          IF (IRFORM/5<=1) THEN
@@ -2697,7 +2695,7 @@ C
       RETURN
       END
 C
-C convection flux
+C convection flow
 !||====================================================================
 !||    convrrest        ../engine/source/output/restart/rdresb.F
 !||--- called by ------------------------------------------------------

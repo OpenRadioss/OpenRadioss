@@ -95,6 +95,7 @@ C-----------------------------------------------
       IF(RHO0 > ZERO) THEN
         RHOR = RHO0
         PM(1)= RHO0 
+        MAT_PARAM%RHO = RHO0
       ELSE
         RHO0=RHOR                   
       ENDIF
@@ -125,35 +126,44 @@ C-----------------------------------------------
       ! P0 <=0
       ! GAMMA <=ONE
       IF(P0 <= ZERO)THEN
-         CALL ANCMSG(MSGID=67,MSGTYPE=MSGERROR,ANMODE=ANINFO,
-     .               I1=IMIDEOS,
+         CALL ANCMSG(MSGID=67,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=IMIDEOS,
      .               C1='/EOS/IDEAL-GAS',
      .               C2='INITIAL PRESSURE MUST BE POSITIVE')
       ENDIF
       
       IF(GAMMA <= ONE)THEN
-         CALL ANCMSG(MSGID=67,MSGTYPE=MSGERROR,ANMODE=ANINFO,
-     .               I1=IMIDEOS,
+         CALL ANCMSG(MSGID=67,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=IMIDEOS,
      .               C1='/EOS/IDEAL-GAS',
      .               C2='SPECIFIC HEAT RATIO (GAMMA) MUST BE GREATER THAN 1.0')
       ENDIF
 
-      IF(T0 == ZERO)T0=THREE100
+      IF (T0 == ZERO) T0 = THREE100
+      MAT_PARAM%THERM%TINI =THREE100
+      PM(79) = THREE100
+
       Cv = ZERO
       IF(RHO0*T0 /= ZERO) THEN
         ! this situation is not expected unless in case of input inconsistency (eos_uid does not match mat_uid)
         Cv = E0/RHO0/T0
       ENDIF
-      
-      PM(32) = GAMMA
-      PM(88) = PSH
-      PM(23) = E0
-      PM(35) = T0
-      PM(36) = Cv
-      PM(31) = P0-PSH
-      PM(79) = T0
-      PM(104)=P0-PSH
 
+      PM(23) = E0
+      PM(31) = P0-PSH
+      PM(32) = (GAMMA-ONE)*E0 !BULK = (1+µ)*dP/dmu (partial derivative at constant E)
+      PM(79) = T0
+      PM(88) = PSH
+      PM(104)= P0-PSH
+
+      MAT_PARAM%EOS%NUPARAM = 3
+      MAT_PARAM%EOS%NIPARAM = 0
+      MAT_PARAM%EOS%NFUNC = 0
+      MAT_PARAM%EOS%NTABLE = 0
+      CALL MAT_PARAM%EOS%CONSTRUCT() !allocations
+
+      MAT_PARAM%EOS%UPARAM(1) = GAMMA
+      MAT_PARAM%EOS%UPARAM(2) = P0
+      MAT_PARAM%EOS%UPARAM(3) = T0
+      MAT_PARAM%EOS%PSH = PSH
       MAT_PARAM%EOS%Cv = Cv
       MAT_PARAM%EOS%Cp = GAMMA * Cv
       

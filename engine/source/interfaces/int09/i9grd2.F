@@ -68,7 +68,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       IERR = 0
 C---------------------------------
-C         RECHERCHE DE L'ELEMENT DANS LE BUFFER
+C         search for the element in the buffer
 C---------------------------------
           DO 200 NG=1,NGROUP
             CALL INITBUF(IPARG    ,NG      ,                  
@@ -107,13 +107,13 @@ C
             Z2=X(3,N2)
 C
 C------------------------------------------
-C         CALCUL DE LA SURFACE VECTORIELLE (*1.)
+C         calculation of the vector surface (*1.)
 C------------------------------------------
             NY= (Z2-Z1)
             NZ=-(Y2-Y1)
             NORM = SQRT(NY**2 + NZ**2)
 C--------+---------+---------+---------+---------+---------+---------+--
-C         CALCUL DE LA DISTANCE ENTRE CENTRE ET SURFACE ( * 4. )
+C         calculation of the distance between center and surface (*4.)
 C-------------------------------------------------------------
             DY = TWO*(Y1 + Y2)
      .          -X(2,IXQ(2))-X(2,IXQ(3))
@@ -128,7 +128,7 @@ C----------------------------------------------------------
             DIST = FOURTH*(DY*NY+DZ*NZ) / MAX(EM15,NORM) 
             AREA = HALF*NORM
 C--------------------------------------------
-C         CALCUL DE LA RESISTANCE THERMIQUE
+C         calculation of the thermal resistance
 C--------------------------------------------
             T = ELBUF_TAB(NG)%GBUF%TEMP(I)
             MAT  =IXQ(1)

@@ -32,6 +32,7 @@
 !||    fail_brokmann         ../engine/source/materials/fail/alter/fail_brokmann.F
 !||====================================================================
       module newman_raju_mod
+      implicit none
       contains
 ! ========================================================================================
 ! \brief calculates geometry correction factor according to NewmanRaju 1981 for /fail/alter

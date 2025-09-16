@@ -78,12 +78,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
 !||    mmain_mod              ../engine/source/materials/mat_share/mmain.F90
 !||    nlocal_reg_mod         ../common_source/modules/nlocal_reg_mod.F
+!||    output_mod             ../common_source/modules/output/output_mod.F90
 !||    sdistor_ini_mod        ../engine/source/elements/solid/solide/sdistror_ini.F90
 !||    sensor_mod             ../common_source/modules/sensor_mod.F90
 !||    table_mod              ../engine/share/modules/table_mod.F
 !||    timer_mod              ../engine/source/system/timer_mod.F90
 !||====================================================================
-      SUBROUTINE S4FORC3(TIMERS,
+      SUBROUTINE S4FORC3(TIMERS, OUTPUT,
      1   ELBUF_TAB,  NG,               PM,         GEO,
      2   IXS,        X,                A,          V,
      3   MS,         W,                FLUX,       FLU1,
@@ -109,6 +110,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE TIMER_MOD
+      USE OUTPUT_MOD, only : OUTPUT_
       USE MMAIN_MOD
       USE TABLE_MOD
       USE MAT_ELEM_MOD         
@@ -145,6 +147,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(TIMER_) ,INTENT(INOUT) :: TIMERS
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT
       INTEGER, INTENT(IN)    :: S_SFEM_NODVAR
       INTEGER, INTENT(IN)    :: SNPC
       INTEGER, INTENT(IN)    :: STF
@@ -218,18 +221,18 @@ C-----------------------------------------------
      .   YD1(MVSIZ), YD2(MVSIZ), YD3(MVSIZ), YD4(MVSIZ),
      .   ZD1(MVSIZ), ZD2(MVSIZ), ZD3(MVSIZ), ZD4(MVSIZ),VOLDP(MVSIZ)
           
-      ! Variables utilisees en argument par les materiaux.
+      ! variables used as arguments by materials
       my_real
      .   STI(MVSIZ), GAMA(MVSIZ,6),
      .   WXX(MVSIZ) , WYY(MVSIZ) , WZZ(MVSIZ),AIRE(MVSIZ)
-      ! Variables utilisees en argument par les materiaux (SPH seulement).
+      ! variables used as arguments by materials (sph only)
       my_real
      . MUVOID(MVSIZ)
 
       ! Variables void MMAIN 
       my_real
      . SIGY(MVSIZ),ET(MVSIZ),R3_FREE(MVSIZ),R4_FREE(MVSIZ)
-      ! Variables utilisees dans les routines solides uniquement(en arguments).
+      ! variables used only in solid routines (as arguments)
       INTEGER NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ),MAT(MVSIZ)
       my_real
      .  OFF(MVSIZ) , RHOO(MVSIZ),OFFG0(MVSIZ) ,
@@ -585,7 +588,7 @@ c-------------------------------------------
 C------------------------------------------------------
 C     CALCUL DES CONTRAINTES SUIVANT LOIS CONSTITUTIVES
 C------------------------------------------------------
-Cpour le fluide en SPMD : BUFVOIS LOI11
+Cfor fluid in spmd: bufvois loi11
       IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STARTIME(TIMERS,35)
 
       ILAY = 1                                                
@@ -603,10 +606,11 @@ Cpour le fluide en SPMD : BUFVOIS LOI11
 
         CALL BOLTST(
      1       IP,        BPRELD,    LBUF%SIG,TT,   NEL,     
-     2       NPT,   SENSORS%NSENSOR,SENSORS%SENSOR_TAB)
+     2       NPT,   SENSORS%NSENSOR,SENSORS%SENSOR_TAB,
+     3      IPARG(67,NG),IPARG(68,NG))
       END IF
 
-      CALL MMAIN(TIMERS,
+      CALL MMAIN(TIMERS,OUTPUT,
      1   ELBUF_TAB,   NG,          PM,          GEO,
      2                ALE_CONNECT, IXS,         IPARG,
      3   V,           TF,          NPF,         BUFMAT,
@@ -668,7 +672,7 @@ C-----------  return to global system
      4   JCVT)
       ENDIF
 C--------------------------
-C     BILANS PAR MATERIAU
+C     balances by material
 C--------------------------
       IFLAG=MOD(NCYCLE,NCPRI)
       IF(IOUTPRT>0)THEN
@@ -711,7 +715,7 @@ C-----------------------------
         END IF
       END IF
 C--------------------------
-C     UPDATE DES MASSES
+C     update of masses
 C     TRANSPORT FORCES
 C----------------------------
       IF (JALE+JEUL > 0 .AND. ALE%GLOBAL%INCOMP == 0)THEN

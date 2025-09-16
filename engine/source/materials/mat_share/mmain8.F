@@ -49,10 +49,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    fail_spalling_s_mod   ../engine/source/materials/fail/spalling/fail_spalling_s.F90
 !||    mat_elem_mod          ../common_source/modules/mat_elem/mat_elem_mod.F90
 !||    mulaw8_mod            ../engine/source/materials/mat_share/mulaw8.F90
+!||    output_mod            ../common_source/modules/output/output_mod.F90
 !||    table_mod             ../engine/share/modules/table_mod.F
 !||    timer_mod             ../engine/source/system/timer_mod.F90
 !||====================================================================
-      SUBROUTINE MMAIN8(TIMERS, PM     ,GEO      ,ELBUF_STR,MAT_ELEM ,
+      SUBROUTINE MMAIN8(TIMERS , OUTPUT, PM     ,GEO      ,ELBUF_STR,MAT_ELEM ,
      2                  IX     ,IPARG    ,V        ,TF       ,
      3                  NPF    ,BUFMAT   ,STIFN    ,X        ,D1      ,
      4                  D2     ,D3       ,D4       ,D5       ,D6      ,
@@ -69,6 +70,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE TIMER_MOD
+      USE OUTPUT_MOD, ONLY : OUTPUT_
       USE TABLE_MOD
       USE MAT_ELEM_MOD         
       USE MULAW8_MOD
@@ -95,6 +97,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(TIMER_), INTENT(INOUT) :: TIMERS
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT
       INTEGER, INTENT(IN) :: SNPC
       INTEGER, INTENT(IN) :: NUMGEO
       INTEGER, INTENT(IN) :: SBUFMAT
@@ -142,7 +145,7 @@ C=======================================================================
         JJ(I) = NEL*(I-1)
       ENDDO
 !
-C     tangent module
+C     module
       DO I=1,NEL
         ET(I)=ZERO
       ENDDO 
@@ -156,7 +159,8 @@ C
         SVIS(I,5)= ZERO 
         SVIS(I,6)= ZERO 
         TSTAR(I) = ZERO        
-      ENDDO 
+      ENDDO
+      IMAT = MAT(1)
 C-----------------------------------------------------------------
       IF (MTN == 1) THEN
         CALL M1LAW8(
@@ -171,7 +175,7 @@ C-----------------------------------------------------------------
      9   DMELS,    BUFLY,    SSP,      ITY,
      A   NPT,      JTUR,     JTHE,     JSMS)
       ELSEIF (MTN == 2) THEN
-        CALL M2LAW8(
+        CALL M2LAW8(MAT_ELEM%MAT_PARAM(IMAT),
      1   PM,       OFF,      GBUF%SIG, GBUF%EINT,
      2   GBUF%RHO, GBUF%QVIS,GBUF%VOL, STIFN,
      3   NEL,      D1,       D2,       D3,
@@ -212,7 +216,7 @@ c     user-type laws
           NUVAR  = MAX(NUVAR,IPM(8,MAT(I)))  
         ENDDO
 c
-        CALL MULAW8(TIMERS,
+        CALL MULAW8(TIMERS,OUTPUT,
      1   1,        NEL,      MTN,
      2   NPT,      D1,       D2,       D3,
      3   D4,       D5,       D6,       PM,
@@ -243,7 +247,6 @@ C --------------------------
       IF ((ITASK==0).AND.((IMON_MAT==1)))CALL STARTIME(TIMERS,121)
       IF (IFAILURE == 1)THEN
         IF (MTN < 28) THEN
-        IMAT = MAT(1)
         NUMBER_FAILURE = MAT_ELEM%MAT_PARAM(IMAT)%NFAIL
 c
         DO IR = 1,NUMBER_FAILURE 

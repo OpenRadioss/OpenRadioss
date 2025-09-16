@@ -1201,11 +1201,16 @@ void csvFileWrite(char* csvFilename,char* titleFilename,int *nbglobVar,int *nbPa
     fprintf(csvFile,"\"CONTACT ENERGY\",");
     fprintf(csvFile,"\"HOURGLASS ENERGY\",");
 
-    if (*nbglobVar == 15)
+    if (*nbglobVar >= 15)
     {
         fprintf(csvFile,"\"ELASTIC CONTACT ENERGY\",");
         fprintf(csvFile,"\"FRICTIONAL CONTACT ENERGY\",");
         fprintf(csvFile,"\"DAMPING CONTACT ENERGY \",");
+    }
+    
+    if (*nbglobVar >= 16)
+    {
+        fprintf(csvFile,"\"PLASTIC WORK\",");
     }
 
     if (!titlesFile)

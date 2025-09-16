@@ -218,7 +218,7 @@ c-----------------------------
         IF (IFAILS > 0) THEN
           FUNN = IFUNC(1)                                              
           FUNT = IFUNC(2)
-          ! eps2=epszx et eps3 epsxy
+          ! EPS2 = EPSZX and EPS3 Epsxy
           EPST(I) = SQRT(EPS2(I)**2 + EPS3(I)**2)                                     
           C3 = FAC1*EPS1(I)/MAXDN  
           C4 = FAC2*EPST(I)/MAXDT

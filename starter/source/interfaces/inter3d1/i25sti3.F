@@ -54,7 +54,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      J IPARTFRICM,INTBUF_FRIC_TAB,IVIS2 ,GAPM_MX   ,GAPS_MX    ,
      K GAPM_L_MX ,GAPS_L_MX  ,IPARTSM   ,DRAD      ,IPARTT     ,
      J IPARTP    ,IPARTR     ,IELEM_M   ,IDEL_SOLID,ELEM_LINKED_TO_SEGMENT,
-     K NIN25     , FLAG_ELEM_INTER25)
+     K NIN25     , FLAG_ELEM_INTER25,THK_S,THK_M   ,THK_S_SCALE,
+     L THK_M_SCALE)
 C-----------------------------------------------
       USE MY_ALLOC_MOD
       USE INTBUF_FRIC_MOD
@@ -109,6 +110,7 @@ C     REAL
       INTEGER, DIMENSION(NUMELS), INTENT(INOUT):: ELEM_LINKED_TO_SEGMENT !< working array, dim=numels
       INTEGER, INTENT(IN) :: NIN25
       INTEGER, INTENT(IN) :: FLAG_ELEM_INTER25(NINTER25,NUMELS)
+      my_real, INTENT(IN) :: THK_S,THK_M   ,THK_S_SCALE,THK_M_SCALE
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -127,10 +129,10 @@ C     REAL
       DATA JPERM/2,3,4,1/
       INTEGER, DIMENSION(:),ALLOCATABLE ::INRTIE
 C--------------------------------------------------------------
-C     CALCUL DES RIGIDITES DES SEGMENTS
-C     V16 : DANS LE CAS OU ONE SEGMENT APPARTIENT A LA FOIS
-C           A UNE BRIQUE ET A UNE COQUE ON CHOISIT LA RIGIDITE
-C           DE LA COQUE SAUF SI LE MATERIAU COQUE EST NUL.
+C     CALCULATION OF SEGMENT STIFFNESSES
+C     V16: IN CASE A SEGMENT BELONGS TO BOTH
+C           A BRICK AND A SHELL, WE CHOOSE THE STIFFNESS OF THE SHELL
+C           OF THE SHELL UNLESS THE SHELL MATERIAL IS NULL.
 C---------------------------------------------------------------
 C      NRT->NRT0
       ALLOCATE(TAGB(NUMNOD))
@@ -209,7 +211,9 @@ C------------------------------------
         MG=IXC(6,I)
         IP = IPARTC(I)
         IGTYP = IGEO(11,MG)
-        IF ( THK_PART(IP) /= ZERO .AND. IINTTHICK == 0) THEN
+        IF ( IGAP == 5.AND.THK_S /= ZERO) THEN
+          DX=HALF*THK_S
+        ELSEIF ( THK_PART(IP) /= ZERO .AND. IINTTHICK == 0) THEN
           DX=HALF*THK_PART(IP)
         ELSEIF ( THK(I) /= ZERO .AND. IINTTHICK == 0) THEN
           DX=HALF*THK(I)
@@ -227,7 +231,9 @@ C------------------------------------
         MG=IXTG(5,I)
         IP = IPARTTG(I)
         IGTYP = IGEO(11,MG)
-        IF ( THK_PART(IP) /= ZERO .AND. IINTTHICK == 0) THEN
+        IF ( IGAP == 5.AND.THK_S /= ZERO ) THEN
+          DX=HALF*THK_S
+        ELSEIF ( THK_PART(IP) /= ZERO .AND. IINTTHICK == 0) THEN
           DX=HALF*THK_PART(IP)
         ELSEIF ( THK(NUMELC+I) /= ZERO .AND. IINTTHICK == 0) THEN
           DX=HALF*THK(NUMELC+I)
@@ -262,7 +268,9 @@ C-------
       DO I=1,NUMELT
         MG=IXT(4,I)
         IP = IPARTT(I)
-        IF ( THK_PART(IP) > ZERO ) THEN
+        IF ( IGAP == 5.AND.THK_S /= ZERO) THEN
+          DX=HALF*THK_S
+        ELSEIF  ( THK_PART(IP) > ZERO ) THEN
           DX=HALF*THK_PART(IP)
         ELSE
           DX=HALF*SQRT(GEO(1,MG))
@@ -273,7 +281,9 @@ C-------
       DO I=1,NUMELP
         MG=IXP(5,I)
         IP = IPARTP(I)
-        IF ( THK_PART(IP) > ZERO ) THEN
+        IF ( IGAP == 5.AND.THK_S /= ZERO) THEN
+          DX=HALF*THK_S
+        ELSEIF  ( THK_PART(IP) > ZERO ) THEN
           DX=HALF*THK_PART(IP)
         ELSE
           DX=HALF*SQRT(GEO(1,MG))
@@ -283,9 +293,14 @@ C-------
       ENDDO
       DO I=1,NUMELR
         IP = IPARTR(I)
-        IF ( THK_PART(IP) > ZERO ) THEN
-          MG=IXR(1,I)
-          IGTYP = IGEO(11,MG)
+        MG=IXR(1,I)
+        IGTYP = IGEO(11,MG)
+        IF ( IGAP == 5.AND.THK_S /= ZERO) THEN
+          DX=HALF*THK_S
+          WA(IXR(2,I))=MAX(WA(IXR(2,I)),DX)
+          WA(IXR(3,I))=MAX(WA(IXR(3,I)),DX)
+          IF (IGTYP==12) WA(IXR(4,I))=MAX(WA(IXR(4,I)),DX)
+        ELSEIF  ( THK_PART(IP) > ZERO ) THEN
           DX=HALF*THK_PART(IP)
           WA(IXR(2,I))=MAX(WA(IXR(2,I)),DX)
           WA(IXR(3,I))=MAX(WA(IXR(3,I)),DX)
@@ -293,7 +308,11 @@ C-------
        END IF
       ENDDO
       DO I=1,NSN
-        GAP_S(I)=GAPSCALE * WA(NSV(I))
+        IF ( IGAP == 5.AND.THK_S /= ZERO) THEN
+            GAP_S(I)= THK_S_SCALE*WA(NSV(I))
+        ELSE
+            GAP_S(I)=GAPSCALE * WA(NSV(I))
+        ENDIF
         GAP_S(I)=MIN(GAP_S(I),GAPMAX_S)
       ENDDO
 C---------put SECONDARY node on the free edge to GAP=0
@@ -303,7 +322,7 @@ C---------put SECONDARY node on the free edge to GAP=0
         ENDDO
 C
         IF(ILEV /= 3 )THEN
-          CALL I25BORD(NRT     ,IRECT ,TAGB    ) ! provisoire (Igap0=1)
+          CALL I25BORD(NRT     ,IRECT ,TAGB    ) ! provisional (igap0 = 1)
 C         IAD =ISURF2(3)
 C         CALL I24BORD(ISURF2  ,IBUFSSG(IAD) ,TAGB    )
         ENDIF
@@ -328,7 +347,7 @@ C
         END IF
       ENDDO
 C
-C -----Friction model  SECONDARY nodes parts------
+C ---- FRUCTION Model Secondary Nodes Parts ------
 C-----------if node connects to both shell and solid -> takes shells
 
       IF(INTFRIC > 0) THEN
@@ -428,7 +447,7 @@ C------------------------------------
      H PM_STACK, IWORKSH,INTFRIC,TAGPRT_FRIC,IPARTFRICS,
      I IPARTFRICM,IPARTS,INTBUF_FRIC_TAB,IPARTSM,INRTIE,
      J IVIS2  ,IELEM_M  ,IDEL_SOLID,ELEM_LINKED_TO_SEGMENT,
-     K NIN25  ,FLAG_ELEM_INTER25  )
+     K NIN25  ,FLAG_ELEM_INTER25  ,THK_M   ,THK_M_SCALE)
 C---------------------------
 C     GAP
 C---------------------------
@@ -463,7 +482,7 @@ C------recalculate GAP_MIN,MAX
         END IF
       END IF!(IPRI>=1) THEN
 C
-C SUP DES GAPS VARIABLES
+C ABOVE VARIABLE GAPS
       IF( IGAP == 3) THEN
         GAP = MIN(GAPS_MX+GAPM_MX,GAPS_L_MX+GAPM_L_MX)
       ELSE
@@ -506,7 +525,7 @@ C-------supposing only small segments (sub-triangles) for 10 nodes tetras ------
         CALL I24NORMNS(
      1  X     ,IRECT ,NRT   ,NSN   ,NSV   ,PEN_OLD,STF )
       END IF
-C calcul du surface second. ---
+C calculation of the second surface. ---
       IF(INTTH > 0 .OR. IVIS2==-1) THEN
 
         IF(NUMELC/=0) THEN
@@ -732,7 +751,7 @@ C
      H PM_STACK, IWORKSH,INTFRIC,TAGPRT_FRIC,IPARTFRICS,
      I IPARTFRICM,IPARTS,INTBUF_FRIC_TAB,IPARTSM,INRTIE,
      J IVIS2  ,IELEM_M  ,IDEL_SOLID,ELEM_LINKED_TO_SEGMENT,
-     F NIN25  ,FLAG_ELEM_INTER25)
+     F NIN25  ,FLAG_ELEM_INTER25,THK_M   ,THK_M_SCALE)
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE INTBUF_FRIC_MOD
@@ -779,6 +798,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(NUMELS), INTENT(INOUT):: ELEM_LINKED_TO_SEGMENT !< working array, dim=numels
       INTEGER, INTENT(IN) :: NIN25
       INTEGER, INTENT(INOUT) :: FLAG_ELEM_INTER25(NINTER25,NUMELS)
+      my_real, INTENT(IN) :: THK_M   ,THK_M_SCALE
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -947,7 +967,9 @@ C
           IELEM_M(1,I) = OFTG+NELTG
 
           IF(INTTH > 0 ) IELEM(I) = MT
-          IF ( THK_PART(IP) /= ZERO .AND. IINTTHICK == 0) THEN
+          IF ( IGAP == 5.AND.THK_M /= ZERO) THEN
+            DX=THK_M_SCALE*THK_M
+          ELSEIF ( THK_PART(IP) /= ZERO .AND. IINTTHICK == 0) THEN
             DX=THK_PART(IP)*GAPSCALE
           ELSEIF ( THK(NUMELC+NELTG) /= ZERO .AND. IINTTHICK == 0)THEN
             DX=THK(NUMELC+NELTG)*GAPSCALE
@@ -1038,7 +1060,9 @@ C
           IELEM_M(1,I) = OFC+NELC
 
           IF(INTTH > 0 ) IELEM(I) = MT
-          IF ( THK_PART(IP) /= ZERO .AND. IINTTHICK == 0) THEN
+          IF ( IGAP == 5.AND.THK_M /= ZERO) THEN
+            DX=THK_M_SCALE*THK_M
+          ELSEIF (THK_PART(IP) /= ZERO .AND. IINTTHICK == 0) THEN
             DX=THK_PART(IP)*GAPSCALE
           ELSEIF ( THK(NELC) /= ZERO .AND. IINTTHICK == 0) THEN
             DX=THK(NELC)*GAPSCALE
@@ -1123,7 +1147,7 @@ C
         ENDIF
 C
         IF(NELS+NELC+NELTG==0)THEN
-C      en SPMD il faut un element associe a l'arrete sinon erreur
+C      In SPMD you need an element associated with the edge otherwise error
           IF(NINT>0) THEN
             CALL ANCMSG(MSGID=481,
      .                  MSGTYPE=MSGERROR,
@@ -1228,7 +1252,7 @@ C=======================================================================
       ALLOCATE (LINEIX(2,NLMAX)    ,STAT=stat)
       ALLOCATE (INDEX(2*NLMAX)     ,STAT=stat)
 c---------------------------------------
-c       recherche de toutes les lignes dans la surface
+c       search for all lines on the surface
 c---------------------------------------
       IS = 0
       LL = 0
@@ -1268,7 +1292,7 @@ C
       CALL MY_ORDERS(0,IWORK,LINEIX,INDEX,LL,2)
 
 c---------------------------------------
-c       suppression des lignes doubles
+c       removal of double lines
 c---------------------------------------
       I1M = LINEIX(1,INDEX(1))
       I2M = LINEIX(2,INDEX(1))
@@ -1278,11 +1302,11 @@ c---------------------------------------
         I1 = LINEIX(1,INDEX(L))
         I2 = LINEIX(2,INDEX(L))
         IF(I2 == I2M .and. I1 == I1M)THEN
-C nest pas sur le bord
+C is not on the edge
           BORD=0
           BOLD=0
         ELSEIF(BOLD == 0)THEN
-C on vient de recoller, on repart avec cette nouvelle arete.
+C just reattached, we proceed with this new edge.
 C           BORD=0
           BOLD=1
         ELSE
@@ -1296,7 +1320,7 @@ C           BORD=0
       ENDDO
 
       IF(BORD==1)THEN
-c         derniere arrete est un bord
+c         last edge is an edge
         TAGB(I1) = 1
         TAGB(I2) = 1
       ENDIF

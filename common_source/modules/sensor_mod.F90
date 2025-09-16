@@ -190,6 +190,7 @@
 !||    pfluid                             ../engine/source/loads/general/pfluid/pfluid.F
 !||    pforc3                             ../engine/source/elements/beam/pforc3.F
 !||    preload_axial                      ../engine/source/elements/spring/preload_axial.F90
+!||    preload_solid_ini                  ../engine/source/elements/solid/solide/preload_solid_ini.F90
 !||    pressure_cyl                       ../engine/source/loads/general/load_pcyl/pressure_cyl.F
 !||    q4forc2                            ../engine/source/elements/solid_2d/quad4/q4forc2.F
 !||    qbilan                             ../engine/source/elements/solid_2d/quad/qbilan.F

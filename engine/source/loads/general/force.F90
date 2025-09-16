@@ -27,6 +27,7 @@
 !||    resol       ../engine/source/engine/resol.F
 !||====================================================================
       module force_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
@@ -199,24 +200,24 @@
                 if (idir<=3) then
                   disp = d(idir,n1)
                   vel  = v(idir,n1)
-                elseif (idir<=6) then
+                else if (idir<=6) then
                   disp = dr(idir-3,n1)
                   vel  = vr(idir-3,n1)
-                endif
-              endif
+                end if
+              end if
 !----------------------------------------
 !
               isens   = 0
               xsens   = one
               do k=1,nsensor
                 if(ib(6,nl) == sensor_tab(k)%sens_id) isens=k
-              enddo
+              end do
               if(isens==0)then
                 ts=tt
               else
                 ts = tt-sensor_tab(isens)%tstart
                 if(ts < zero) cycle
-              endif
+              end if
 !
               if(n4==-1)then
 !----------------
@@ -239,11 +240,11 @@
                         fid = -ismooth ! the id the python function is saved in the position of ismooth in the npc array
                         call python_call_funct_cload(python,fid,(ts-dt1)*fcx,f1,n1,nodes)
                         call python_call_funct_cload(python,fid,ts*fcx,f2,n1,nodes)
-                      endif
-                    endif ! if (ismooth == 0)
+                      end if
+                    end if ! if (ismooth == 0)
                     n_old = n3
                     x_old = ts
-                  endif
+                  end if
                 else if(ifun == 2)then
                   !! displacement dependent abscisa
                   !! disp_old  !! previous cycle displacement
@@ -263,11 +264,11 @@
                         fid = -ismooth ! the id the python function is saved in the position of ismooth in the npc array
                         call python_call_funct_cload(python,fid,disp_old*fcx,f1,n1,nodes)
                         call python_call_funct_cload(python,fid,disp*fcx,f2,n1,nodes)
-                      endif
-                    endif ! if (ismooth == 0)
+                      end if
+                    end if ! if (ismooth == 0)
                     n_old = n3
                     x_old = disp
-                  endif
+                  end if
                 else if(ifun == 3)then
                   !! velocity dependent abscisa
                   !! vel_old   !! previous cycle velocity
@@ -289,12 +290,12 @@
 !                       call python_call_funct1d(python, fid,vel*fcx,f2)
                         call python_call_funct_cload(python,fid,vel_old*fcx,f1,n1,nodes)
                         call python_call_funct_cload(python,fid,vel*fcx,f2,n1,nodes)
-                      endif
-                    endif ! if (ismooth == 0)
+                      end if
+                    end if ! if (ismooth == 0)
                     n_old = n3
                     x_old = vel
-                  endif
-                endif
+                  end if
+                end if
                 !!--------------------
                 a0  = fcy*f1
                 aa  = fcy*f2
@@ -305,19 +306,19 @@
                     axi=one
                   else
                     axi=x(2,n1)
-                  endif
+                  end if
                   if(isk<=1)then
                     a(n2,n1)=a(n2,n1)+aa
 !
                     if (cptreac > 0)  then
                       if(nodreac(n1)/=0) then
                         fthreac(n2,nodreac(n1)) = fthreac(n2,nodreac(n1)) + aa*dt1
-                      endif
-                    endif
+                      end if
+                    end if
 !
                     if(ianim >0 .and.impl_s==0) then
                       fext(n2,n1)=fext(n2,n1)+aa
-                    endif
+                    end if
                     wfexc = wfexc+half*(a0+aa)*v(n2,n1)*axi
                   else
                     k1=3*n2-2
@@ -331,7 +332,7 @@
                       fext(1,n1) = fext(1,n1)+skews%skew(k1,isk)*aa
                       fext(2,n1) = fext(2,n1)+skews%skew(k2,isk)*aa
                       fext(3,n1) = fext(3,n1)+skews%skew(k3,isk)*aa
-                    endif
+                    end if
 !
 !
                     if (cptreac > 0 ) then
@@ -339,11 +340,11 @@
                         fthreac(1,nodreac(n1)) = fthreac(1,nodreac(n1)) + skews%skew(k1,isk)*aa*dt1
                         fthreac(2,nodreac(n1)) = fthreac(2,nodreac(n1)) + skews%skew(k2,isk)*aa*dt1
                         fthreac(3,nodreac(n1)) = fthreac(3,nodreac(n1)) + skews%skew(k3,isk)*aa*dt1
-                      endif
-                    endif!
+                      end if
+                    end if!
 !
-                  endif
-                elseif(n2<=6)then
+                  end if
+                else if(n2<=6)then
                   n2 = n2 - 3
                   if(isk<=1)then
                     ar(n2,n1)=ar(n2,n1)+aa
@@ -352,8 +353,8 @@
                     if (cptreac > 0) then
                       if(nodreac(n1)/=0) then
                         fthreac(n2+3,nodreac(n1)) = fthreac(n2+3,nodreac(n1)) + aa*dt1
-                      endif
-                    endif!
+                      end if
+                    end if!
 !
                   else
                     k1       = 3*n2-2
@@ -369,12 +370,12 @@
                         fthreac(4,nodreac(n1)) = fthreac(4,nodreac(n1)) + skews%skew(k1,isk)*aa*dt1
                         fthreac(5,nodreac(n1)) = fthreac(5,nodreac(n1)) + skews%skew(k2,isk)*aa*dt1
                         fthreac(6,nodreac(n1)) = fthreac(6,nodreac(n1)) + skews%skew(k3,isk)*aa*dt1
-                      endif
-                    endif
+                      end if
+                    end if
 !
                     wfexc    = wfexc+half*(a0+aa)*vv
-                  endif
-                endif
+                  end if
+                end if
 !
               else
 !----------------
@@ -396,12 +397,12 @@
                       if(present(python)) then
                         fid = -ismooth ! the id the python function is saved in the position of ismooth in the npc array
                         call python_call_funct_cload(python, fid,ts*fcx,f1,n1,nodes)
-                      endif
-                    endif ! if (ismooth == 0)
+                      end if
+                    end if ! if (ismooth == 0)
                     n_old = n5
                     x_old = ts
-                  endif
-                elseif(ifun == 2)then
+                  end if
+                else if(ifun == 2)then
                   !! displacement dependent abscisa
                   !! disp      !! current cycle displacement
                   !-------
@@ -418,12 +419,12 @@
                       if(present(python)) then
                         fid = -ismooth ! the id the python function is saved in the position of ismooth in the npc array
                         call python_call_funct_cload(python, fid,disp*fcx,f1,n1,nodes)
-                      endif
-                    endif ! if (ismooth == 0)
+                      end if
+                    end if ! if (ismooth == 0)
                     n_old = n5
                     x_old = disp
-                  endif
-                elseif(ifun == 3)then
+                  end if
+                else if(ifun == 3)then
                   !! velocity dependent abscisa
                   !! vel       !! current cycle velocity
                   !-------
@@ -440,12 +441,12 @@
                       if(present(python)) then
                         fid = -ismooth ! the id the python function is saved in the position of ismooth in the npc array
                         call python_call_funct_cload(python, fid,vel*fcx,f1,n1,nodes)
-                      endif
-                    endif ! if (ismooth == 0)
+                      end if
+                    end if ! if (ismooth == 0)
                     n_old = n5
                     x_old = vel
-                  endif
-                endif
+                  end if
+                end if
 !
                 aa = fcy*f1*xsens
 !
@@ -466,15 +467,15 @@
                       fext(1,n1) = fext(1,n1)+fx
                       fext(2,n1) = fext(2,n1)+fy
                       fext(3,n1) = fext(3,n1)+fz
-                    endif
+                    end if
 !
                     if (cptreac > 0) then
                       if(nodreac(n1)/=0) then
                         fthreac(1,nodreac(n1)) = fthreac(1,nodreac(n1)) + fx*dt1
                         fthreac(2,nodreac(n1)) = fthreac(2,nodreac(n1)) + fy*dt1
                         fthreac(3,nodreac(n1)) = fthreac(3,nodreac(n1)) + fz*dt1
-                      endif
-                    endif
+                      end if
+                    end if
 !
                     if(th_surf%pload_flag >0 ) then
                       nsegpl = nsegpl + 1
@@ -483,8 +484,8 @@
                         ksurf = th_surf%pload_segs(ns)
                         th_surf%channels(4,ksurf)= th_surf%channels(4,ksurf) + area*aa
                         th_surf%channels(5,ksurf)= th_surf%channels(5,ksurf) + area
-                      enddo
-                    endif
+                      end do
+                    end if
 !
                     a(1,n2)=a(1,n2)+fx
                     a(2,n2)=a(2,n2)+fy
@@ -493,15 +494,15 @@
                       fext(1,n2) = fext(1,n2)+fx
                       fext(2,n2) = fext(2,n2)+fy
                       fext(3,n2) = fext(3,n2)+fz
-                    endif
+                    end if
 !
                     if (cptreac > 0) then
                       if(nodreac(n2)/=0) then
                         fthreac(1,nodreac(n2)) = fthreac(1,nodreac(n2)) + fx*dt1
                         fthreac(2,nodreac(n2)) = fthreac(2,nodreac(n2)) + fy*dt1
                         fthreac(3,nodreac(n2)) = fthreac(3,nodreac(n2)) + fz*dt1
-                      endif
-                    endif
+                      end if
+                    end if
 !
 !
                     a(1,n3)=a(1,n3)+fx
@@ -511,15 +512,15 @@
                       fext(1,n3) = fext(1,n3)+fx
                       fext(2,n3) = fext(2,n3)+fy
                       fext(3,n3) = fext(3,n3)+fz
-                    endif
+                    end if
 !
                     if (cptreac > 0) then
                       if(nodreac(n3)/=0) then
                         fthreac(1,nodreac(n3)) = fthreac(1,nodreac(n3)) + fx*dt1
                         fthreac(2,nodreac(n3)) = fthreac(2,nodreac(n3)) + fy*dt1
                         fthreac(3,nodreac(n3)) = fthreac(3,nodreac(n3)) + fz*dt1
-                      endif
-                    endif!
+                      end if
+                    end if!
 !
 !
                     a(1,n4)=a(1,n4)+fx
@@ -529,15 +530,15 @@
                       fext(1,n4) = fext(1,n4)+fx
                       fext(2,n4) = fext(2,n4)+fy
                       fext(3,n4) = fext(3,n4)+fz
-                    endif
+                    end if
 !
                     if (cptreac > 0) then
                       if (nodreac(n4)/=0) then
                         fthreac(1,nodreac(n4)) = fthreac(1,nodreac(n4)) + fx*dt1
                         fthreac(2,nodreac(n4)) = fthreac(2,nodreac(n4)) + fy*dt1
                         fthreac(3,nodreac(n4)) = fthreac(3,nodreac(n4)) + fz*dt1
-                      endif
-                    endif
+                      end if
+                    end if
 !
 !
                     wfextt=wfextt+dt1*(fx*(v(1,n1)+v(1,n2)+v(1,n3)+v(1,n4))&
@@ -560,15 +561,15 @@
                       fext(1,n1) = fext(1,n1)+fx
                       fext(2,n1) = fext(2,n1)+fy
                       fext(3,n1) = fext(3,n1)+fz
-                    endif
+                    end if
 !
                     if (cptreac > 0) then
                       if (nodreac(n1)/=0) then
                         fthreac(1,nodreac(n1)) = fthreac(1,nodreac(n1)) + fx*dt1
                         fthreac(2,nodreac(n1)) = fthreac(2,nodreac(n1)) + fy*dt1
                         fthreac(3,nodreac(n1)) = fthreac(3,nodreac(n1)) + fz*dt1
-                      endif
-                    endif
+                      end if
+                    end if
 !
                     if(th_surf%pload_flag >0 ) then
                       nsegpl = nsegpl + 1
@@ -577,8 +578,8 @@
                         ksurf = th_surf%pload_segs(ns)
                         th_surf%channels(4,ksurf)= th_surf%channels(4,ksurf) + area*aa
                         th_surf%channels(5,ksurf)= th_surf%channels(5,ksurf) + area
-                      enddo
-                    endif
+                      end do
+                    end if
 !
                     a(1,n2) = a(1,n2)+fx
                     a(2,n2) = a(2,n2)+fy
@@ -587,15 +588,15 @@
                       fext(1,n2) = fext(1,n2)+fx
                       fext(2,n2) = fext(2,n2)+fy
                       fext(3,n2) = fext(3,n2)+fz
-                    endif
+                    end if
 !
                     if (cptreac > 0) then
                       if(nodreac(n2)/=0) then
                         fthreac(1,nodreac(n2)) = fthreac(1,nodreac(n2)) + fx*dt1
                         fthreac(2,nodreac(n2)) = fthreac(2,nodreac(n2)) + fy*dt1
                         fthreac(3,nodreac(n2)) = fthreac(3,nodreac(n2)) + fz*dt1
-                      endif
-                    endif
+                      end if
+                    end if
 !
 !
                     a(1,n3) = a(1,n3)+fx
@@ -605,20 +606,20 @@
                       fext(1,n3) = fext(1,n3)+fx
                       fext(2,n3) = fext(2,n3)+fy
                       fext(3,n3) = fext(3,n3)+fz
-                    endif
+                    end if
 !
                     if (cptreac > 0 ) then
                       if (nodreac(n3)/=0) then
                         fthreac(1,nodreac(n3)) = fthreac(1,nodreac(n3)) + fx*dt1
                         fthreac(2,nodreac(n3)) = fthreac(2,nodreac(n3)) + fy*dt1
                         fthreac(3,nodreac(n3)) = fthreac(3,nodreac(n3)) + fz*dt1
-                      endif
-                    endif
+                      end if
+                    end if
 !
 !
                     wfextt=wfextt+dt1*(fx*(v(1,n1)+v(1,n2)+v(1,n3)) + fy*(v(2,n1)+v(2,n2)+v(2,n3)) + fz*(v(3,n1)+v(3,n2)+v(3,n3)))
 
-                  endif
+                  end if
                 else
 !        analyse 2d
                   ny      = -x(3,n2)+x(3,n1)
@@ -638,18 +639,18 @@
 !
                     fext(2,n2) = fext(2,n2)+fy
                     fext(3,n2) = fext(3,n2)+fz
-                  endif
+                  end if
 !
                   if (cptreac > 0) then
                     if(nodreac(n1)/=0) then
                       fthreac(2,nodreac(n1)) = fthreac(2,nodreac(n1)) + fy*dt1
                       fthreac(3,nodreac(n1)) = fthreac(3,nodreac(n1)) + fz*dt1
-                    endif
+                    end if
                     if (nodreac(n2)/=0) then
                       fthreac(2,nodreac(n2)) = fthreac(2,nodreac(n2)) + fy*dt1
                       fthreac(3,nodreac(n2)) = fthreac(3,nodreac(n2)) + fz*dt1
-                    endif
-                  endif
+                    end if
+                  end if
 !
                   if(th_surf%pload_flag >0 ) then
                     nsegpl = nsegpl + 1
@@ -658,19 +659,19 @@
                       ksurf = th_surf%pload_segs(ns)
                       th_surf%channels(4,ksurf)= th_surf%channels(4,ksurf) + area*aa
                       th_surf%channels(5,ksurf)= th_surf%channels(5,ksurf) + area
-                    enddo
-                  endif
+                    end do
+                  end if
 !
                   if(n2d==1)then
                     ax     = half*(x(2,n1)+x(2,n2))
                   else
                     ax     = one
-                  endif
+                  end if
                   wfextt  = wfextt+dt1*(fy*(v(2,n1)+v(2,n2))+fz*(v(3,n1)+v(3,n2)))*ax
 
-                endif
-              endif
-            enddo
+                end if
+              end if
+            end do
 !
 !$OMP atomic
             wfext = wfext + wfextt
@@ -702,12 +703,12 @@
                     up_bound = 4
                   else
                     up_bound = 3
-                  endif
+                  end if
                 else
                   ! 2d
                   up_bound = 2
-                endif
-              endif
+                end if
+              end if
               fsky(1:8,iadc(1:up_bound,nl))=zero
               ! -------------
 !---------------------------------------
@@ -717,22 +718,22 @@
                 if (idir<=3) then
                   disp = d(idir,n1)
                   vel  = v(idir,n1)
-                elseif (idir<=6) then
+                else if (idir<=6) then
                   disp = dr(idir-3,n1)
                   vel  = vr(idir-3,n1)
-                endif
-              endif
+                end if
+              end if
 !----------------------------------------
               isens=0
               do k=1,nsensor
                 if(ib(6,nl) == sensor_tab(k)%sens_id) isens=k
-              enddo
+              end do
               if(isens==0)then
                 ts=tt
               else
                 ts = tt - sensor_tab(isens)%tstart
                 if(ts<zero) cycle
-              endif
+              end if
 !
               if(n4==-1)then
 !-------------------------
@@ -755,11 +756,11 @@
                         fid = -ismooth ! the id the python function is saved in the position of ismooth in the npc array
                         call python_call_funct_cload(python, fid,(ts-dt1)*fcx,f1,n1,nodes)
                         call python_call_funct_cload(python, fid,ts*fcx,f2,n1,nodes)
-                      endif
-                    endif ! if (ismooth == 0)
+                      end if
+                    end if ! if (ismooth == 0)
                     n_old = n3
                     x_old = ts
-                  endif
+                  end if
                 else if(ifun == 2)then
                   !! displacement dependent abscisa
                   !! disp_old  !! previous cycle displacement
@@ -779,11 +780,11 @@
                         fid = -ismooth ! the id the python function is saved in the position of ismooth in the npc array
                         call python_call_funct_cload(python,fid,disp_old*fcx,f1,n1,nodes)
                         call python_call_funct_cload(python,fid,disp*fcx,f2,n1,nodes)
-                      endif
-                    endif ! if (ismooth == 0)
+                      end if
+                    end if ! if (ismooth == 0)
                     n_old = n3
                     x_old = disp
-                  endif
+                  end if
                 else if(ifun == 3)then
                   !! velocity dependent abscisa
                   !! vel_old   !! previous cycle velocity
@@ -806,12 +807,12 @@
                         call python_call_funct_cload(python,fid,vel_old*fcx,f1,n1,nodes)
                         call python_call_funct_cload(python,fid,vel*fcx,f2,n1,nodes)
 
-                      endif
-                    endif ! if (ismooth == 0)
+                      end if
+                    end if ! if (ismooth == 0)
                     n_old = n3
                     x_old = vel
-                  endif
-                endif
+                  end if
+                end if
 !!--------------------
                 a0  = fcy*f1
                 aa  = fcy*f2
@@ -822,18 +823,18 @@
                     axi=one
                   else
                     axi=x(2,n1)
-                  endif
+                  end if
                   if(isk<=1)then
                     fsky(n2,iadc(1,nl)) = aa
                     if(ianim >0 .and.impl_s==0) then
                       fext(n2,n1)=fext(n2,n1)+aa
-                    endif
+                    end if
 !
                     if (cptreac > 0) then
                       if(nodreac(n1)/=0) then
                         fthreac(n2,nodreac(n1)) = fthreac(n2,nodreac(n1)) + aa*dt1
-                      endif
-                    endif
+                      end if
+                    end if
 !
                     wfexc = wfexc+half*(a0+aa)*v(n2,n1)*axi
                   else
@@ -849,19 +850,19 @@
                       fext(1,n1) = fext(1,n1)+skews%skew(k1,isk)*aa
                       fext(2,n1) = fext(2,n1)+skews%skew(k2,isk)*aa
                       fext(3,n1) = fext(3,n1)+skews%skew(k3,isk)*aa
-                    endif
+                    end if
 !
                     if (cptreac > 0) then
                       if(nodreac(n1)/=0) then
                         fthreac(1,nodreac(n1)) = fthreac(1,nodreac(n1)) + skews%skew(k1,isk)*aa*dt1
                         fthreac(2,nodreac(n1)) = fthreac(2,nodreac(n1)) + skews%skew(k2,isk)*aa*dt1
                         fthreac(3,nodreac(n1)) = fthreac(3,nodreac(n1)) + skews%skew(k3,isk)*aa*dt1
-                      endif
-                    endif
+                      end if
+                    end if
 !
                     wfexc = wfexc+half*(a0+aa)*vv*axi
-                  endif
-                elseif(n2<=6)then
+                  end if
+                else if(n2<=6)then
                   n2 = n2 - 3
                   if(isk<=1)then
                     fsky(3+n2,iadc(1,nl)) = aa
@@ -869,8 +870,8 @@
                     if (cptreac > 0) then
                       if(nodreac(n1)/=0) then
                         fthreac(n2+3,nodreac(n1)) = fthreac(n2+3,nodreac(n1)) + aa*dt1
-                      endif
-                    endif
+                      end if
+                    end if
 !
                     wfexc=wfexc+half*(a0+aa)*vr(n2,n1)
                   else
@@ -888,12 +889,12 @@
                         fthreac(4,nodreac(n1)) = fthreac(4,nodreac(n1)) + skews%skew(k1,isk)*aa*dt1
                         fthreac(5,nodreac(n1)) = fthreac(5,nodreac(n1)) + skews%skew(k2,isk)*aa*dt1
                         fthreac(6,nodreac(n1)) = fthreac(6,nodreac(n1)) + skews%skew(k3,isk)*aa*dt1
-                      endif
-                    endif
+                      end if
+                    end if
 !
                     wfexc=wfexc+half*(a0+aa)*vv
-                  endif
-                endif
+                  end if
+                end if
 !
               else
 !--------------------
@@ -909,18 +910,18 @@
                     if (n5 > 0) ismooth = npc(2*nfunct+n5+1)
                     if (ismooth == 0) then
                       f1 = finter(n5,ts*fcx,npc,tf,dydx)
-                    elseif(ismooth > 0) then
+                    else if(ismooth > 0) then
                       f1 = finter_smooth(n5,ts*fcx,npc,tf,dydx)
-                    elseif(ismooth < 0) then
+                    else if(ismooth < 0) then
                       if(present(python)) then
                         fid = -ismooth ! the id the python function is saved in the position of ismooth in the npc array
                         call python_call_funct_cload(python,fid,ts*fcx,f1,n1,nodes)
-                      endif
-                    endif ! if (ismooth == 0)
+                      end if
+                    end if ! if (ismooth == 0)
                     n_old = n5
                     x_old = ts
-                  endif
-                elseif(ifun == 2)then
+                  end if
+                else if(ifun == 2)then
                   !! displacement dependent abscisa
                   !! disp      !! current cycle displacement
                   !-------
@@ -931,18 +932,18 @@
                     if (n5 > 0) ismooth = npc(2*nfunct+n5+1)
                     if (ismooth == 0) then
                       f1 = finter(n5,disp*fcx,npc,tf,dydx)
-                    elseif(ismooth > 0) then
+                    else if(ismooth > 0) then
                       f1 = finter_smooth(n5,disp*fcx,npc,tf,dydx)
-                    elseif(ismooth < 0) then
+                    else if(ismooth < 0) then
                       if(present(python)) then
                         fid = -ismooth ! the id the python function is saved in the position of ismooth in the npc array
                         call python_call_funct_cload(python,fid,disp*fcx,f1,n1,nodes)
-                      endif
-                    endif ! if (ismooth == 0)
+                      end if
+                    end if ! if (ismooth == 0)
                     n_old = n5
                     x_old = disp
-                  endif
-                elseif(ifun == 3)then
+                  end if
+                else if(ifun == 3)then
                   !! velocity dependent abscisa
                   !! vel       !! current cycle velocity
                   !-------
@@ -953,18 +954,18 @@
                     if (n5 > 0) ismooth = npc(2*nfunct+n5+1)
                     if (ismooth == 0) then
                       f1 = finter(n5,vel*fcx,npc,tf,dydx)
-                    elseif(ismooth > 0) then
+                    else if(ismooth > 0) then
                       f1 = finter_smooth(n5,vel*fcx,npc,tf,dydx)
-                    elseif(ismooth < 0) then
+                    else if(ismooth < 0) then
                       if(present(python)) then
                         fid = -ismooth ! the id the python function is saved in the position of ismooth in the npc array
                         call python_call_funct_cload(python,fid,vel*fcx,f1,n1,nodes)
-                      endif
-                    endif ! if (ismooth == 0)
+                      end if
+                    end if ! if (ismooth == 0)
                     n_old = n5
                     x_old = vel
-                  endif
-                endif
+                  end if
+                end if
 !
                 aa = fcy*f1
                 if(n2d==0)then
@@ -986,15 +987,15 @@
                       fext(1,n1) = fext(1,n1)+fx
                       fext(2,n1) = fext(2,n1)+fy
                       fext(3,n1) = fext(3,n1)+fz
-                    endif
+                    end if
 !
                     if (cptreac > 0) then
                       if(nodreac(n1)/=0) then
                         fthreac(1,nodreac(n1)) = fthreac(1,nodreac(n1)) + fx*dt1
                         fthreac(2,nodreac(n1)) = fthreac(2,nodreac(n1)) + fy*dt1
                         fthreac(3,nodreac(n1)) = fthreac(3,nodreac(n1)) + fz*dt1
-                      endif
-                    endif
+                      end if
+                    end if
 !
                     if(th_surf%pload_flag >0 ) then
                       nsegpl = nsegpl + 1
@@ -1003,8 +1004,8 @@
                         ksurf = th_surf%pload_segs(ns)
                         th_surf%channels(4,ksurf)= th_surf%channels(4,ksurf) + area*aa
                         th_surf%channels(5,ksurf)= th_surf%channels(5,ksurf) + area
-                      enddo
-                    endif
+                      end do
+                    end if
 !
                     iad = iadc(2,nl)
                     fsky(1,iad) = fx
@@ -1014,15 +1015,15 @@
                       fext(1,n2) = fext(1,n2)+fx
                       fext(2,n2) = fext(2,n2)+fy
                       fext(3,n2) = fext(3,n2)+fz
-                    endif
+                    end if
 !
                     if (cptreac > 0) then
                       if(nodreac(n2)/=0) then
                         fthreac(1,nodreac(n2)) = fthreac(1,nodreac(n2)) + fx*dt1
                         fthreac(2,nodreac(n2)) = fthreac(2,nodreac(n2)) + fy*dt1
                         fthreac(3,nodreac(n2)) = fthreac(3,nodreac(n2)) + fz*dt1
-                      endif
-                    endif
+                      end if
+                    end if
 !
 !
                     iad = iadc(3,nl)
@@ -1033,15 +1034,15 @@
                       fext(1,n3) = fext(1,n3)+fx
                       fext(2,n3) = fext(2,n3)+fy
                       fext(3,n3) = fext(3,n3)+fz
-                    endif
+                    end if
 !
                     if (cptreac > 0) then
                       if(nodreac(n3)/=0) then
                         fthreac(1,nodreac(n3)) = fthreac(1,nodreac(n3)) + fx*dt1
                         fthreac(2,nodreac(n3)) = fthreac(2,nodreac(n3)) + fy*dt1
                         fthreac(3,nodreac(n3)) = fthreac(3,nodreac(n3)) + fz*dt1
-                      endif
-                    endif
+                      end if
+                    end if
 !
 !
                     iad = iadc(4,nl)
@@ -1052,15 +1053,15 @@
                       fext(1,n4) = fext(1,n4)+fx
                       fext(2,n4) = fext(2,n4)+fy
                       fext(3,n4) = fext(3,n4)+fz
-                    endif
+                    end if
 !
                     if (cptreac > 0) then
                       if(nodreac(n4)/=0) then
                         fthreac(1,nodreac(n4)) = fthreac(1,nodreac(n4)) + fx*dt1
                         fthreac(2,nodreac(n4)) = fthreac(2,nodreac(n4)) + fy*dt1
                         fthreac(3,nodreac(n4)) = fthreac(3,nodreac(n4)) + fz*dt1
-                      endif
-                    endif
+                      end if
+                    end if
 !
 !
                     wfextt=wfextt+dt1*(fx*(v(1,n1)+v(1,n2)+v(1,n3)+v(1,n4))&
@@ -1084,15 +1085,15 @@
                       fext(1,n1) = fext(1,n1)+fx
                       fext(2,n1) = fext(2,n1)+fy
                       fext(3,n1) = fext(3,n1)+fz
-                    endif
+                    end if
 !
                     if (cptreac > 0) then
                       if(nodreac(n1)/=0) then
                         fthreac(1,nodreac(n1)) = fthreac(1,nodreac(n1)) + fx*dt1
                         fthreac(2,nodreac(n1)) = fthreac(2,nodreac(n1)) + fy*dt1
                         fthreac(3,nodreac(n1)) = fthreac(3,nodreac(n1)) + fz*dt1
-                      endif
-                    endif
+                      end if
+                    end if
 !
                     if(th_surf%pload_flag >0 ) then
                       nsegpl = nsegpl + 1
@@ -1101,8 +1102,8 @@
                         ksurf = th_surf%pload_segs(ns)
                         th_surf%channels(4,ksurf)= th_surf%channels(4,ksurf) + area*aa
                         th_surf%channels(5,ksurf)= th_surf%channels(5,ksurf) + area
-                      enddo
-                    endif
+                      end do
+                    end if
 !
                     iad = iadc(2,nl)
                     fsky(1,iad) = fx
@@ -1112,15 +1113,15 @@
                       fext(1,n2) = fext(1,n2)+fx
                       fext(2,n2) = fext(2,n2)+fy
                       fext(3,n2) = fext(3,n2)+fz
-                    endif
+                    end if
 !
                     if (cptreac > 0) then
                       if(nodreac(n2)/=0) then
                         fthreac(1,nodreac(n2)) = fthreac(1,nodreac(n2)) + fx*dt1
                         fthreac(2,nodreac(n2)) = fthreac(2,nodreac(n2)) + fy*dt1
                         fthreac(3,nodreac(n2)) = fthreac(3,nodreac(n2)) + fz*dt1
-                      endif
-                    endif
+                      end if
+                    end if
 !
 !
                     iad = iadc(3,nl)
@@ -1131,19 +1132,19 @@
                       fext(1,n3) = fext(1,n3)+fx
                       fext(2,n3) = fext(2,n3)+fy
                       fext(3,n3) = fext(3,n3)+fz
-                    endif
+                    end if
 !
                     if (cptreac > 0) then
                       if(nodreac(n3)/=0) then
                         fthreac(1,nodreac(n3)) = fthreac(1,nodreac(n3)) + fx*dt1
                         fthreac(2,nodreac(n3)) = fthreac(2,nodreac(n3)) + fy*dt1
                         fthreac(3,nodreac(n3)) = fthreac(3,nodreac(n3)) + fz*dt1
-                      endif
-                    endif
+                      end if
+                    end if
 !
 !
                     wfextt=wfextt+dt1*(fx*(v(1,n1)+v(1,n2)+v(1,n3)) + fy*(v(2,n1)+v(2,n2)+v(2,n3)) + fz*(v(3,n1)+v(3,n2)+v(3,n3)))
-                  endif
+                  end if
                 else
 !        analyse 2d
                   ny  = -x(3,n2)+x(3,n1)
@@ -1166,18 +1167,18 @@
 !
                     fext(2,n2) = fext(2,n2)+fy
                     fext(3,n2) = fext(3,n2)+fz
-                  endif
+                  end if
 !
                   if (cptreac > 0) then
                     if(nodreac(n1)/=0) then
                       fthreac(2,nodreac(n1)) = fthreac(2,nodreac(n1)) + fy*dt1
                       fthreac(3,nodreac(n1)) = fthreac(3,nodreac(n1)) + fz*dt1
-                    endif
+                    end if
                     if (nodreac(n2)/=0) then
                       fthreac(2,nodreac(n2)) = fthreac(2,nodreac(n2)) + fy*dt1
                       fthreac(3,nodreac(n2)) = fthreac(3,nodreac(n2)) + fz*dt1
-                    endif
-                  endif
+                    end if
+                  end if
 !
                   if(th_surf%pload_flag >0 ) then
                     nsegpl = nsegpl + 1
@@ -1186,22 +1187,22 @@
                       ksurf = th_surf%pload_segs(ns)
                       th_surf%channels(4,ksurf)= th_surf%channels(4,ksurf) + area*aa
                       th_surf%channels(5,ksurf)= th_surf%channels(5,ksurf) + area
-                    enddo
-                  endif
+                    end do
+                  end if
 !
                   if(n2d==1)then
                     ax=half*(x(2,n1)+x(2,n2))
                   else
                     ax=one
-                  endif
+                  end if
                   wfextt=wfextt+dt1*(fy*(v(2,n1)+v(2,n2))+fz*(v(3,n1)+v(3,n2)))*ax
-                endif
-              endif
-            enddo
+                end if
+              end if
+            end do
 !
             wfext = wfext + wfextt
 !
-          endif
+          end if
           return
         end subroutine force
       end module force_mod
