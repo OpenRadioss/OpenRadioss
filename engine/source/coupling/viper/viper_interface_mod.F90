@@ -147,7 +147,7 @@
             CALL RadiossViper_SendInitialStatus(viper%numon,NELEML,VIPER%NUMELE,&
               NPARG,NGROUP,VIPER%IXEM1,IPARG,ELBUF_TAB)  ! required to tell Viper of void elements
             TT_DOUBLE = TT
-            TANIM     = TT
+            TANIM     = 0.
             IF (TT > 0.) THEN
 !                Viper is starting from a remap; need to set animation times correctly
               WRITE(ISTDO,"(a,F12.6,a)") &
