@@ -176,7 +176,7 @@
         & pid      ,tf       ,npf      ,mtn       ,dt1c     ,dm       , &
         & bufmat   ,ssp      ,rho      ,viscmx    ,ipla     ,iofc     , &
         & indx     ,ngl      ,thkly    ,matly     ,zcfac    ,mat_elem , &
-        & shf      ,gs       ,sigy     ,thk0      ,epsd_pg,           &
+        & shf      ,gs       ,sigy     ,thk0      ,epsd_pg  ,volpg    , &
         & posly    ,igeo     ,ipm      ,failwave  ,fwave_el ,           &
         & ifailure ,aldt     ,tempel   ,die       ,fheat    ,           &
         & table     ,ixfem   ,elcrkini ,                                &
@@ -282,6 +282,7 @@
           integer, intent(in),dimension(nparg) :: iparg
           integer, intent(in),dimension(snpc)  :: npf
           real(kind=WP), intent(in),dimension(mvsiz) :: epsd_pg !< global element strain rate in Gauss pt
+          real(kind=WP), intent(in),dimension(mvsiz) :: volpg   !< Gauss pt volume
           integer, intent(in) :: idamp_freq_range         ! flag for damping frequency range
           !
           integer, intent(inout) :: idel7nok    ! element deletion flag in contact interfaces
@@ -387,7 +388,7 @@
             sigoyy,sigoxy,sigoyz,sigozx,signxx,signyy,signxy,signyz,&
             signzx,sigvxx,sigvyy,sigvxy,sigvyz,sigvzx,&
             wmc, epsd, yld,dpla,vol0, coef,hardm,g_imp,visc,wplar,&
-            tstar,  vm, vm0, seq0, &
+            tstar,  vm, vm0, seq0, vol_ipt,&
             areamin,dareamin,dmg_glob_scale,dmg_loc_scale,et_imp, epsthtot
           real(kind=WP), dimension(nel,5) :: dmg_orth_scale
 !
@@ -1055,6 +1056,10 @@
               else
                 tstar(1:nel) = zero
               end if
+              ! integration point volume for heat energy calculation
+              do i=1,nel
+                vol_ipt(i) = volpg(i)*thklyl(i)/thk0(i)
+              end do
 !------------------------------------------
 !         elastic stress +
 !         plasticly admissible stress
@@ -1072,7 +1077,7 @@
                 call sigeps02c(mat_elem%mat_param(imat),                       &
                      nel        ,eint      ,thkn     ,el_temp  ,fheat    ,     &
                      off        ,sigy      ,dt1      ,ipla     ,sigksi   ,     &
-                     vol0       ,gs        ,thklyl   ,etse     ,g_imp    ,     &
+                     vol_ipt      ,gs        ,thklyl   ,etse     ,g_imp    ,     &
                      dpla       ,tstar     ,jthe     ,hardm    ,epchk    ,     &
                      npttot     ,lbuf%pla  ,off_old  ,lbuf%off ,ioff_duct,     &
                      sigoxx     ,sigoyy    ,sigoxy   ,sigoyz   ,sigozx   ,     &
@@ -1444,7 +1449,7 @@
                 &sigvxy,       sigvyz,       sigvzx,       ssp,&
                 &viscmx,       thkn,         lbuf%pla,     uvar,&
                 &off,          ngl,          etse,         gs,&
-                &vol0,         sigy,         el_temp,       die,&
+                &vol_ipt,        sigy,         el_temp,       die,&
                 &coef,         inloc,        varnl(1,it),  jthe,&
                 &lbuf%off)
               elseif (ilaw == 64) then
@@ -1463,7 +1468,7 @@
                 &sigvxy,       sigvyz,       sigvzx,       ssp,&
                 &viscmx,       thkn,         lbuf%pla,     uvar,&
                 &off,          ngl,          ipm,          matly(jmly),&
-                &etse,         gs,           vol0,         sigy,&
+                &etse,         gs,           vol_ipt,        sigy,&
                 &el_temp,       die,          coef,         inloc,&
                 &varnl(1,it),  jthe,         lbuf%off)
 !
@@ -1531,7 +1536,7 @@
                 &sigvxy,       sigvyz,       sigvzx,       ssp,&
                 &viscmx,       thkn,         lbuf%pla,     uvar,&
                 &off,          ngl,          ipm,          matly(jmly),&
-                &etse,         gs,           sigy,         vol0,&
+                &etse,         gs,           sigy,         vol_ipt,&
                 &el_temp,       ismstr,       jthe)
               elseif (ilaw == 72) then
                 call sigeps72c(&
@@ -1558,7 +1563,7 @@
                 &ssp,          viscmx,       thkn,         lbuf%pla,&
                 &uvar,         off,          ngl,          itable,&
                 &etse,         gs,           sigy,         dpla,&
-                &lbuf%epsd,    table,        vol0,         el_temp,&
+                &lbuf%epsd,    table,        vol_ipt,        el_temp,&
                 &die,          coef,         npf,          nfunc,&
                 &ifunc,        tf,           shf,          hardm,&
                 &lbuf%seq,     inloc,        varnl(1,it),  jthe,&
