@@ -404,21 +404,15 @@
                 signxy(i) = slimt1*sigoxy(i)
               elseif(dmg(i,3) == one .and. signxx(i)  <= - slimc1*xc(i)) then ! dir 11 (compression)
                 signxx(i) = - slimc1*xc(i)
-                signyy(i) = slimc1*sigoyy(i)
-                signxy(i) = slimc1*sigoxy(i)
               elseif(dmg(i,4) == one  .and. signyy(i) >=  slimt2*yt(i)) then ! dir 22 ! Tension
                 signyy(i) = slimt2*yt(i)
-                signxx(i) = slimt2*sigoxx(i)
                 signxy(i) = slimt2*sigoxy(i)
               elseif(dmg(i,5) == one  .and. signyy(i) <= -slimc2*yc(i)) then ! dir 22 ! Compression
                 signyy(i) = - slimc2*yc(i)
-                signxx(i) = slimc2*sigoxx(i)
                 signxy(i) = slimc2*sigoxy(i)
               elseif(dmg(i,6) == one .and. abs(signxy(i)) >=  slims*sc(i) ) then  ! shear
                 limit_sig = slims*sc(i)
                 signxy(i) = sign(limit_sig, signxy(i))
-               !! signxx(i) = slims*sigoxx(i)
-               !! signyy(i) = slims*sigoyy(i)
               endif
             else ! unloading check < 0
               ! dir 11
