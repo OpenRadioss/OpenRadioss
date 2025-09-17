@@ -3615,13 +3615,6 @@ C----------------------------------
      .               DT1       ,NODES%X         ,NODES%V         ,NODES%A         ,NODA_FEXT ,
      .               H3D_DATA  ,CPTREAC   ,FTHREAC   ,NODREAC   ,ELEMENT%PON%FSKY ,OUTPUT%TH%WFEXT     )
               ENDIF
-!-------------------------------------------------------------------
-!       offset projection for contact ! add smp // after
-!----------------------------------
-              IF (SH_OFFSET_TAB%NNSH_OSET > 0) THEN
-                XYZ(1:3,1:NUMNOD) = NODES%X(1:3,1:NUMNOD)
-                CALL offset_nPROJ(NSPMD,NUMNOD,XYZ,SH_OFFSET_TAB,IPARIT)
-              ENDIF
 !
               IF( GLOB_THERM%NUMCONV + GLOB_THERM%NUMRADIA > 0 .AND. GLOB_THERM%ITHERM_FE > 0 )THEN
 
@@ -3734,7 +3727,7 @@ C----------------------------------------
      5             IGRBRIC ,NODES%TEMP    ,2       ,IRLEN7T ,ISLEN7T ,
      6             IRLEN20 ,ISLEN20 ,IRLEN20T,ISLEN20T,IRLEN20E,
      7             ISLEN20E,NODES%IKINE   ,DIAG_SMS,SENSORS%SENSOR_TAB,INTERFACES%INTBUF_TAB ,INT24E2EUSE,
-     8             FORNEQS ,MULTI_FVM,INTERFACES)
+     8             FORNEQS ,MULTI_FVM,INTERFACES,SH_OFFSET_TAB%NNSH_OSET)
               END IF
               IF (IMONM > 0) CALL STOPTIME(TIMERS,24)
               IF (IMON>0) CALL STOPTIME(TIMERS,13)
@@ -9359,6 +9352,13 @@ C                Send positions to Viper
 C========================================================================================
 C                                   NON PARALLEL SECTION (SMP)
 C========================================================================================
+!-------------------------------------------------------------------
+!       offset projection for contact ! add smp // after
+!----------------------------------
+              IF (SH_OFFSET_TAB%NNSH_OSET > 0) THEN
+                XYZ(1:3,1:NUMNOD) = NODES%X(1:3,1:NUMNOD)
+                CALL offset_nPROJ(NSPMD,NUMNOD,XYZ,SH_OFFSET_TAB,IPARIT)
+              ENDIF
 
 C-------------------------------------
 C     UPDATE XFEM CONFIGURATION
@@ -9572,7 +9572,7 @@ C mass & velocity
      5             IGRBRIC ,NODES%TEMP   ,1       ,IRLEN7T ,ISLEN7T ,
      6             IRLEN20 ,ISLEN20,IRLEN20T,ISLEN20T,IRLEN20E,
      7             ISLEN20E,NODES%IKINE  ,DIAG_SMS,SENSORS%SENSOR_TAB,INTERFACES%INTBUF_TAB ,INT24E2EUSE,
-     8             FORNEQS ,MULTI_FVM,INTERFACES)
+     8             FORNEQS ,MULTI_FVM,INTERFACES,SH_OFFSET_TAB%NNSH_OSET)
                 IF (IMONM > 0) CALL STOPTIME(TIMERS,23)
                 IF (IMON>0) CALL STOPTIME(TIMERS,13)
               ENDIF
@@ -9680,7 +9680,7 @@ C--- //0 ----------------
      5                    IGRBRIC ,NODES%TEMP   ,2       ,IRLEN7T ,ISLEN7T ,
      6                    IRLEN20 ,ISLEN20,IRLEN20T,ISLEN20T,IRLEN20E,
      7                    ISLEN20E,NODES%IKINE  ,DIAG_SMS,SENSORS%SENSOR_TAB,INTERFACES%INTBUF_TAB ,INT24E2EUSE,
-     8                    FORNEQS ,MULTI_FVM,INTERFACES)
+     8                    FORNEQS ,MULTI_FVM,INTERFACES,SH_OFFSET_TAB%NNSH_OSET)
                 END IF
 
                 ! Finalize T24 Communication to fill Buffers before restarts
@@ -9826,7 +9826,7 @@ C--- //0 ----------------
      5                IGRBRIC ,NODES%TEMP    ,2       ,IRLEN7T ,ISLEN7T ,
      6                IRLEN20 ,ISLEN20 ,IRLEN20T,ISLEN20T,IRLEN20E,
      7                ISLEN20E,NODES%IKINE   ,DIAG_SMS,SENSORS%SENSOR_TAB,INTERFACES%INTBUF_TAB ,INT24E2EUSE ,
-     8                FORNEQS ,MULTI_FVM,INTERFACES)
+     8                FORNEQS ,MULTI_FVM,INTERFACES,SH_OFFSET_TAB%NNSH_OSET)
                 END IF
 
                 IF(coupling%active) THEN
@@ -9931,7 +9931,7 @@ C /KILL
      5               IGRBRIC ,NODES%TEMP   ,2       ,IRLEN7T ,ISLEN7T ,
      6               IRLEN20 ,ISLEN20,IRLEN20T,ISLEN20T,IRLEN20E,
      7               ISLEN20E,NODES%IKINE  ,DIAG_SMS,SENSORS%SENSOR_TAB,INTERFACES%INTBUF_TAB,INT24E2EUSE,
-     8               FORNEQS ,MULTI_FVM,INTERFACES)
+     8               FORNEQS ,MULTI_FVM,INTERFACES,SH_OFFSET_TAB%NNSH_OSET)
                 ENDIF
 
                 IF(ALLOCATED(ISENDTO))DEALLOCATE(ISENDTO)
