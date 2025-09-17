@@ -52,7 +52,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      5   IGRBRIC ,TEMP   ,IFLAG   ,IRLEN7T ,ISLEN7T ,
      6   IRLEN20 ,ISLEN20,IRLEN20T,ISLEN20T,IRLEN20E,
      7   ISLEN20E,IKINE  ,DIAG_SMS,SENSOR_TAB,INTBUF_TAB,INT24E2EUSE,
-     8   FORNEQS ,MULTI_FVM,INTERFACES)
+     8   FORNEQS ,MULTI_FVM,INTERFACES,ISH_OFFSET)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -91,7 +91,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ,INTENT(IN) :: NSENSOR
+      INTEGER ,INTENT(IN) :: NSENSOR,ISH_OFFSET
       INTEGER IMSCH, I2MSCH, IFLAG, NBINTC,
      .        ISLEN7, IRLEN7, ISLEN11, IRLEN11, ISLEN17, IRLEN17,
      .        IRLEN7T, ISLEN7T,IRLEN20,ISLEN20,IRLEN20T,ISLEN20T,
@@ -132,7 +132,7 @@ C
      .        D4, BN, BX, CN, CX, D8, DN, DX, STARTT, STOPT, TS,INTAREA_FIC
       my_real       ,DIMENSION(:), ALLOCATABLE :: BBUFS, BBUFR
 C type 25
-      INTEGER IEDGE,LEN25E
+      INTEGER IEDGE,LEN25E,INCLUD_X
       INTEGER I1,I2,IE,JE,IG
       DOUBLE PRECISION
      *   ZERODP
@@ -154,7 +154,10 @@ C
       ENDIF
       IF ((IRAD2R==1).AND.(NCYCLE<2)) DT_CST = 1
       IF(I2MSCH==1) DT_CST = 1
-      LEN = 3 + 3*MAX(IRESP,IMPL_S,MIN(NBI18,1),INT24E2EUSE) + DT_CST
+! S/R directly X
+      INCLUD_X = 0
+      IF (IRESP==1.OR.IMPL_S==1.OR.NBI18>0.OR.INT24E2EUSE==1.OR.ISH_OFFSET>0) INCLUD_X=1
+      LEN = 3 + 3*INCLUD_X + DT_CST
 C type 7 + heat
       LEN7T  = LEN + 1
 C  NITSCHE
@@ -376,7 +379,7 @@ C
                  ! ---------------------------------
                  IF(DT_CST/=0)THEN
                   ! ---------------------------------
-                  IF(IRESP==1.OR.IMPL_S==1.OR.NBI18>0.OR.INT24E2EUSE==1) THEN
+                  IF(INCLUD_X==1) THEN
                     DO I = 1, NB
                       N = NSVSI(NIN)%P(IDEB+I)
                       NOD = INTBUF_TAB(NIN)%NSV(N)
@@ -433,7 +436,7 @@ C T24 E2E fictive nodes have ID higher than Numnod. Position & Mass are stored i
                  ! ---------------------------------
                  ELSE   ! dt_cst/=0
                   ! ---------------------------------
-                  IF (IRESP==1.OR.IMPL_S==1.OR.NBI18>0.OR.INT24E2EUSE==1) THEN
+                  IF (INCLUD_X==1) THEN
                     DO I = 1, NB
                       N=NSVSI(NIN)%P(IDEB+I)
                       NOD = INTBUF_TAB(NIN)%NSV(N)
@@ -514,7 +517,7 @@ C
                  ! ---------------------------------
                  IF(DT_CST/=0)THEN
                   ! ---------------------------------
-                  IF (IRESP==1.OR.IMPL_S==1.OR.NBI18>0.OR.INT24E2EUSE==1) THEN
+                  IF (INCLUD_X==1) THEN
                     DO I = 1, NB
                       N = NSVSI(NIN)%P(IDEB+I)
                       NOD = INTBUF_TAB(NIN)%NSV(N)
@@ -571,7 +574,7 @@ C
                   ! ---------------------------------
                  ! ---------------------------------
                  ELSE ! dt_cst /=0
-                  IF (IRESP==1.OR.IMPL_S==1.OR.NBI18>0.OR.INT24E2EUSE==1) THEN
+                  IF (INCLUD_X==1) THEN
                   ! ---------------------------------
                     DO I = 1, NB
                       N=NSVSI(NIN)%P(IDEB+I)
@@ -630,7 +633,7 @@ C
 C--------Nitsche
                 ELSEIF(NTY==24 .AND. INTTH ==0.AND.INTNITSCHE > 0) THEN
                  IF(DT_CST/=0)THEN
-                  IF(IRESP==1.OR.IMPL_S==1.OR.NBI18>0.OR.INT24E2EUSE==1) THEN
+                  IF(INCLUD_X==1) THEN
                     DO I = 1, NB
                       N = NSVSI(NIN)%P(IDEB+I)
                       NOD = INTBUF_TAB(NIN)%NSV(N)
@@ -675,7 +678,7 @@ C T24 E2E fictive nodes have ID higher than Numnod. Position & Mass are stored i
                     POINT = 7
                   ENDIF
                  ELSE
-                  IF (IRESP==1.OR.IMPL_S==1.OR.NBI18>0.OR.INT24E2EUSE==1) THEN
+                  IF (INCLUD_X==1) THEN
                     DO I = 1, NB
                       N=NSVSI(NIN)%P(IDEB+I)
                       NOD = INTBUF_TAB(NIN)%NSV(N)
@@ -739,7 +742,7 @@ C----Nitsche
 C
                 ELSEIF(NTY==24.AND.INTTH>0.AND.INTNITSCHE > 0) THEN
                  IF(DT_CST/=0)THEN
-                  IF (IRESP==1.OR.IMPL_S==1.OR.NBI18>0.OR.INT24E2EUSE==1) THEN
+                  IF (INCLUD_X==1) THEN
                     DO I = 1, NB
                       N = NSVSI(NIN)%P(IDEB+I)
                       NOD = INTBUF_TAB(NIN)%NSV(N)
@@ -784,7 +787,7 @@ C
                     POINT = 8
                   ENDIF
                  ELSE
-                  IF (IRESP==1.OR.IMPL_S==1.OR.NBI18>0.OR.INT24E2EUSE==1) THEN
+                  IF (INCLUD_X==1) THEN
                     DO I = 1, NB
                       N=NSVSI(NIN)%P(IDEB+I)
                       NOD = INTBUF_TAB(NIN)%NSV(N)
@@ -2124,7 +2127,7 @@ C            DO NIN = 1, NINTER
      .             (NTY==24.AND.INTTH == 0.AND.INTNITSCHE == 0).OR.
      .             (NTY==25.AND.INTTH == 0)  )THEN
                  IF(DT_CST/=0)THEN
-                  IF (IRESP==1.OR.IMPL_S==1.OR.NBI18>0.OR.INT24E2EUSE==1) THEN
+                  IF (INCLUD_X==1) THEN
                     DO I = 1, NB
                       XFI(NIN)%P(1,I+IDEB) = BBUFR(L+1)
                       XFI(NIN)%P(2,I+IDEB) = BBUFR(L+2)
@@ -2153,7 +2156,7 @@ C            DO NIN = 1, NINTER
                     POINT=4
                   ENDIF
                  ELSE
-                  IF (IRESP==1.OR.IMPL_S==1.OR.NBI18>0.OR.INT24E2EUSE==1) THEN
+                  IF (INCLUD_X==1) THEN
                     DO I = 1, NB
                       XFI(NIN)%P(1,I+IDEB) = BBUFR(L+1)
                       XFI(NIN)%P(2,I+IDEB) = BBUFR(L+2)
@@ -2265,7 +2268,7 @@ C
 C--- Nitsche
                 ELSEIF(NTY==24.AND.INTTH == 0.AND.INTNITSCHE > 0)THEN
                  IF(DT_CST/=0)THEN
-                  IF (IRESP==1.OR.IMPL_S==1.OR.NBI18>0.OR.INT24E2EUSE==1) THEN
+                  IF (INCLUD_X==1) THEN
                     DO I = 1, NB
                       XFI(NIN)%P(1,I+IDEB) = BBUFR(L+1)
                       XFI(NIN)%P(2,I+IDEB) = BBUFR(L+2)
@@ -2300,7 +2303,7 @@ C--- Nitsche
                     POINT=6
                   ENDIF
                  ELSE
-                  IF (IRESP==1.OR.IMPL_S==1.OR.NBI18>0.OR.INT24E2EUSE==1) THEN
+                  IF (INCLUD_X==1) THEN
                     DO I = 1, NB
                       XFI(NIN)%P(1,I+IDEB) = BBUFR(L+1)
                       XFI(NIN)%P(2,I+IDEB) = BBUFR(L+2)
