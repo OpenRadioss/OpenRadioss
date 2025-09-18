@@ -157,7 +157,7 @@
             call unify_abscissa_2d(nfunc,len,lmax,nptx ,xi  ,xf  )
 
             do i = 1,nfunc
-              call table_values_2d(len(i) ,nptx ,xf ,yi(1,i) ,xf ,yf(1,i) )
+              call table_values_2d(len(i) ,nptx ,xi(1,i) ,yi(1,i) ,xf ,yf(1,i) )
             end do
             len(1:nfunc) = nptx
 !
