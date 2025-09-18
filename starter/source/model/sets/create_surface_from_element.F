@@ -38,7 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                       KNOD2ELTG ,NOD2ELTG ,IPARTC    ,IPARTG    ,IPARTS    ,
      .                       IPART     ,CLAUSE   ,OPT_A     ,OPT_O     ,IXQ       ,
      .                       KNOD2ELQ  ,NOD2ELQ  ,X         ,KEYSET    ,DELBUF    ,
-     .                       GO_IN_ARRAY)
+     .                       GO_IN_ARRAY,IPARTQ)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -61,7 +61,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: IXS(NIXS,*),IXS10(6,*),IXC(NIXC,*),IXTG(NIXTG,*),
      .  KNOD2ELS(*),KNOD2ELC(*),KNOD2ELTG(*),NOD2ELS(*),NOD2ELC(*),
      .  NOD2ELTG(*),IPARTS(*),IPARTC(*),IPARTG(*),SH4TREE(*),SH3TREE(*),
-     .  IPART(LIPART1,*),KNOD2ELQ(*),NOD2ELQ(*),IXQ(NIXQ,*)
+     .  IPART(LIPART1,*),KNOD2ELQ(*),NOD2ELQ(*),IXQ(NIXQ,*),IPARTQ(NUMELQ)
       my_real X(3,*)
       CHARACTER(LEN=NCHARFIELD) :: KEYSET
 !
@@ -108,7 +108,7 @@ C=======================================================================
      .             KNOD2ELTG ,NOD2ELTG ,NSEG      ,IEXT      ,IPARTC    ,
      .             IPARTS    ,IPARTG   ,CLAUSE    ,BUFTMPSURF,IAD_SURF  ,
      .             OPT_O     ,IPART    ,KNOD2ELQ  ,NOD2ELQ   ,X         ,
-     .             IXQ       ,KEYSET)
+     .             IXQ       ,KEYSET   ,IPARTQ)
 !----
 !
       NIX = 6

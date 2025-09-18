@@ -30,10 +30,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE QUAD_SURFACE_BUFFER(
      .                        IXQ     ,IAD_SURF ,BUFTMPSURF ,NSEG  ,KNOD2ELQ ,
-     .                        NOD2ELQ ,IEXT     ,X          ,CLAUSE)
+     .                        NOD2ELQ ,IEXT     ,X          ,CLAUSE,IPARTQ)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
       USE SETDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -44,7 +45,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IXQ(NIXQ,*),KNOD2ELQ(*),NOD2ELQ(*),BUFTMPSURF(*)
+      INTEGER IXQ(NIXQ,*),KNOD2ELQ(*),NOD2ELQ(*),BUFTMPSURF(*),IPARTQ(NUMELQ)
       INTEGER IEXT,IAD_SURF
       INTEGER, INTENT(INOUT) :: NSEG
       my_real
@@ -63,11 +64,18 @@ C-----------------------------------------------
       my_real
      .   Y1,Z1,Y2,Z2,Y3,Z3,Y4,Z4,
      .   YG,ZG,PVECT,PSCA,DY,DZ,NY,NZ   
+      INTEGER, DIMENSION(:), ALLOCATABLE:: PART_TAG
 C=======================================================================
 C
       IF(IEXT==1)THEN
 C
 C       External surface only.
+        CALL MY_ALLOC(PART_TAG,NPART)
+        PART_TAG(1:NPART)=0
+        DO J=1, CLAUSE%NB_PART
+          PART_TAG(CLAUSE%PART(J))=1
+        ENDDO
+
         DO J=1,CLAUSE%NB_QUAD
           JQ = CLAUSE%QUAD(J)
           NODTAG(1:4)=1
@@ -81,7 +89,7 @@ c         NQ(N) = IXQ(JJ-1,JQ)
             DO K=KNOD2ELQ(NQQ1)+1,KNOD2ELQ(NQQ1+1)            
               KQ=NOD2ELQ(K)
               IF (KQ==JQ .OR. KQ > NUMELQ) CYCLE
-              IF (CLAUSE%QUAD(KQ)==0) CYCLE
+              IF (PART_TAG(IPARTQ(KQ))==0) CYCLE
               DO KK=1,4
                 IF (IXQ(LINES(1,KK)+1,KQ)==NQQ1.AND.IXQ(LINES(2,KK)+1,KQ)==NQQ2) THEN
                   NODTAG(L)=0
@@ -149,6 +157,7 @@ C           check external normal
 
 
         ENDDO
+        IF(ALLOCATED(PART_TAG)) DEALLOCATE(PART_TAG)
       ENDIF
 C-----------
       RETURN

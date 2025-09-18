@@ -325,7 +325,7 @@ C-----------------------------------------------
      .                       KNOD2ELTG ,NOD2ELTG ,IPARTC    ,IPARTG    ,IPARTS    ,
      .                       IPART     ,CLAUSE   ,OPT_A     ,OPT_O     ,IXQ       ,
      .                       KNOD2ELQ  ,NOD2ELQ  ,X         ,KEYSET    ,DELBUF    ,
-     .                       .FALSE.   )
+     .                       .FALSE.   ,IPARTQ   )
 
 
                   ! Line from 1D_ELEMENT
@@ -375,7 +375,7 @@ C-----------------------------------------------
      .                       KNOD2ELTG ,NOD2ELTG ,IPARTC    ,IPARTG    ,IPARTS    ,
      .                       IPART     ,CLAUSE   ,OPT_A     ,OPT_O     ,IXQ       ,
      .                       KNOD2ELQ  ,NOD2ELQ  ,X         ,KEYSET    ,DELBUF    ,
-     .                       .FALSE.   )
+     .                       .FALSE.   ,IPARTQ   )
 
                   ! Line from SURFACE
                   CALL CREATE_LINE_FROM_SURFACE(CLAUSE,KEYSET,OPT_A,OPT_E,DELBUF    ,
@@ -410,7 +410,7 @@ C-----------------------------------------------
      .                       KNOD2ELTG ,NOD2ELTG ,IPARTC    ,IPARTG    ,IPARTS    ,
      .                       IPART     ,CLAUSE   ,OPT_A     ,OPT_O     ,IXQ       ,
      .                       KNOD2ELQ  ,NOD2ELQ  ,X         ,KEYSET    ,DELBUF    ,
-     .                       .FALSE.   )
+     .                       .FALSE.   ,IPARTQ   )
 
                   ! Line from SURFACE
                   CALL CREATE_LINE_FROM_SURFACE(CLAUSE,KEYSET,OPT_A,OPT_E,DELBUF    ,
@@ -446,7 +446,7 @@ C-----------------------------------------------
      .                       KNOD2ELTG ,NOD2ELTG ,IPARTC    ,IPARTG    ,IPARTS    ,
      .                       IPART     ,CLAUSE   ,OPT_A     ,OPT_O     ,IXQ       ,
      .                       KNOD2ELQ  ,NOD2ELQ  ,X         ,KEYSET    ,DELBUF    ,
-     .                       .FALSE.   )
+     .                       .FALSE.   ,IPARTQ   )
 
                   ! Line from SURFACE
                   CALL CREATE_LINE_FROM_SURFACE(CLAUSE,KEYSET,OPT_A,OPT_E,DELBUF    ,
@@ -481,7 +481,7 @@ C-----------------------------------------------
      .                       KNOD2ELTG ,NOD2ELTG ,IPARTC    ,IPARTG    ,IPARTS    ,
      .                       IPART     ,CLAUSE   ,OPT_A     ,OPT_O     ,IXQ       ,
      .                       KNOD2ELQ  ,NOD2ELQ  ,X         ,KEYSET    ,DELBUF    ,
-     .                       .FALSE.   )
+     .                       .FALSE.   ,IPARTQ   )
 
                   ! Line from SURFACE
                   CALL CREATE_LINE_FROM_SURFACE(CLAUSE,KEYSET,OPT_A,OPT_E,DELBUF    ,
@@ -611,7 +611,8 @@ C-----------------------------------------------
      *                                    SH3TREE   ,KNOD2ELS ,NOD2ELS   ,KNOD2ELC  ,NOD2ELC,
      *                                    KNOD2ELTG ,NOD2ELTG ,IPARTC    ,IPARTG    ,IPARTS ,
      *                                    IPART     ,OPT_A    ,OPT_O     ,KNOD2ELQ  ,NOD2ELQ,
-     *                                    X         ,KEYSET   ,OPT_E     ,DELBUF    )
+     *                                    X         ,KEYSET   ,OPT_E     ,DELBUF    ,IPARTQ ,
+     *                                    NUMELQ    )
 
                   DEALLOCATE(SETL)
 
@@ -637,7 +638,8 @@ C-----------------------------------------------
      *                                    SH3TREE   ,KNOD2ELS ,NOD2ELS   ,KNOD2ELC  ,NOD2ELC,
      *                                    KNOD2ELTG ,NOD2ELTG ,IPARTC    ,IPARTG    ,IPARTS ,
      *                                    IPART     ,OPT_A    ,OPT_O     ,KNOD2ELQ  ,NOD2ELQ,
-     *                                    X         ,KEYSET   ,OPT_E     ,DELBUF    )
+     *                                    X         ,KEYSET   ,OPT_E     ,DELBUF    ,IPARTQ ,
+     *                                    NUMELQ    )
 
               CASE ( 'SEG' )
                   
@@ -675,7 +677,7 @@ C-----------------------------------------------
      .                       KNOD2ELTG ,NOD2ELTG ,IPARTC    ,IPARTG    ,IPARTS    ,
      .                       IPART     ,CLAUSE   ,OPT_A     ,OPT_O     ,IXQ       ,
      .                       KNOD2ELQ  ,NOD2ELQ  ,X         ,KEYSET    ,DELBUF    ,
-     .                       .FALSE.   )
+     .                       .FALSE.   ,IPARTQ   )
 
 
                   ! Line from 1D_ELEMENT
@@ -741,7 +743,7 @@ C-----------------------------------------------
      .                       KNOD2ELTG ,NOD2ELTG ,IPARTC    ,IPARTG    ,IPARTS    ,
      .                       IPART     ,CLAUSE   ,OPT_A     ,OPT_O     ,IXQ       ,
      .                       KNOD2ELQ  ,NOD2ELQ  ,X         ,KEYSET    ,DELBUF    ,
-     .                       .FALSE.   )
+     .                       .FALSE.   ,IPARTQ   )
 
 
                   ! Line from 1D_ELEMENT
@@ -782,7 +784,7 @@ C-----------------------------------------------
      .                       KNOD2ELTG ,NOD2ELTG ,IPARTC    ,IPARTG    ,IPARTS    ,
      .                       IPART     ,CLAUSE   ,OPT_A     ,OPT_O     ,IXQ       ,
      .                       KNOD2ELQ  ,NOD2ELQ  ,X         ,KEYSET    ,DELBUF    ,
-     .                       .FALSE.   )
+     .                       .FALSE.   ,IPARTQ   )
 
 
                   ! Line from 1D_ELEMENT
@@ -851,7 +853,7 @@ C -----------------------------------------------------
      .                              SH3TREE   ,KNOD2ELS ,NOD2ELS   ,KNOD2ELC  ,NOD2ELC,
      .                              KNOD2ELTG ,NOD2ELTG ,IPARTC    ,IPARTG    ,IPARTS ,
      .                              IPART     ,OPT_A    ,OPT_O     ,KNOD2ELQ  ,NOD2ELQ,
-     .                              X         ,KEYSET   ,OPT_E     ,DELBUF    )
+     .                              X         ,KEYSET   ,OPT_E     ,DELBUF    ,IPARTQ)
 C -----------------------------------------------------
 !
         ENDDO ! DO J=1,CLAUSES_MAX
@@ -867,7 +869,8 @@ C -----------------------------------------------------
      .                              SH3TREE   ,KNOD2ELS ,NOD2ELS ,KNOD2ELC    ,NOD2ELC,
      .                              KNOD2ELTG ,NOD2ELTG ,IPARTC  ,IPARTG      ,IPARTS ,
      .                              IPART     ,OPT_A    ,OPT_O   ,KNOD2ELQ    ,NOD2ELQ,
-     .                              X         ,KEYSET   ,OPT_E   ,DELBUF      )
+     .                              X         ,KEYSET   ,OPT_E   ,DELBUF      ,IPARTQ ,
+     *                              NUMELQ    )
 
            ENDIF
 

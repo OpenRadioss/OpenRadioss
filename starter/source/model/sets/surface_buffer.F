@@ -37,7 +37,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                          KNOD2ELTG ,NOD2ELTG ,NSEG      ,IEXT      ,IPARTC    ,
      .                          IPARTS    ,IPARTG   ,CLAUSE    ,BUFTMPSURF,IAD_SURF  ,
      .                          OPT_O     ,IPART    ,KNOD2ELQ  ,NOD2ELQ   ,X         ,
-     .                          IXQ       ,KEYSET)
+     .                          IXQ       ,KEYSET   ,IPARTQ)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -58,7 +58,7 @@ C-----------------------------------------------
      .        KNOD2ELC(*),NOD2ELC(*),KNOD2ELTG(*),NOD2ELTG(*),
      .        IXC(NIXC,*),IXTG(NIXTG,*),IPARTC(*),IPARTG(*),
      .        BUFTMPSURF(*),IPARTS(*),SH4TREE(*),SH3TREE(*),
-     .        IPART(LIPART1,*),KNOD2ELQ(*),NOD2ELQ(*),IXQ(NIXQ,*)
+     .        IPART(LIPART1,*),KNOD2ELQ(*),NOD2ELQ(*),IXQ(NIXQ,*),IPARTQ(NUMELQ)
       INTEGER IEXT,NSEG,IAD_SURF,OPT_O
       CHARACTER(LEN=NCHARFIELD) :: KEYSET
       my_real X(3,*)
@@ -105,7 +105,7 @@ C=======================================================================
 !
       IF ( CLAUSE%NB_QUAD > 0 ) CALL QUAD_SURFACE_BUFFER(
      .                           IXQ     ,IAD_SURF ,BUFTMPSURF ,NSEG  ,KNOD2ELQ ,
-     .                           NOD2ELQ ,IEXT     ,X          ,CLAUSE)
+     .                           NOD2ELQ ,IEXT     ,X          ,CLAUSE,IPARTQ)
 !---
       RETURN
       END
