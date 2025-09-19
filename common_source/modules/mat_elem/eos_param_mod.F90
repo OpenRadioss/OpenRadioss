@@ -76,7 +76,9 @@
 !
 !
 !=======================================================================      
-      
+
+      INTEGER ANALY_TEMP
+
       type eos_param_
         character(len=nchartitle) :: title = ''  !< eos model input name
         integer :: nuparam                       !< number of real value paraameters

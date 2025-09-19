@@ -112,6 +112,7 @@ C-----------------------------------------------
       USE PBLAST_MOD
       USE OUTPUT_MOD , ONLY : OUTPUT_
       use ascii_encoding_mu_letter_mod, only : ascii_encoding_mu_letter
+      USE EOS_PARAM_MOD , ONLY : ANALY_TEMP
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1416,6 +1417,7 @@ C                                                                    012
      .                IOFFSET_D,
      .                ICONTROL_D
       WRITE(IOUT,5501)ISHFRAM
+      IF(ANALY_TEMP /= 0)WRITE(IOUT,5505)ANALY_TEMP
       IF(ISH3NFRAM>0)WRITE(IOUT,5901)ISH3NFRAM
       IF(JALE/=0 .AND. ALEFVM_Param%IEnabled/=0)WRITE(IOUT,5502)ALEFVM_Param%ISOLVER
       IF(JALE/=0 .AND. ALE%GLOBAL%ISFINT/=0) WRITE(IOUT,5503)ALE%GLOBAL%ISFINT
@@ -1647,6 +1649,8 @@ c     & 4X,'MEMORY AVAILABLE FOR REALS. . . . . . . . . . . . . .',I10)
      & 4X,'----------------------------------------------------------------'/
      & 5X,'COMPRESSION COEFFICIENT (BETA). . . . . . . . . . . : ',1PG20.13/  
      & 5X,'FORMULATION FLAG (IFLAG). . . . . . . . . . . . . . : ',I10)
+ 5505 FORMAT(
+     & 4X,'ITEMP  : TEMPERATURE CUTOFF FLAG . . . . . . . . . . .',I10)
  5700 FORMAT(//
      & 4X,'LAGRANGE MULTIPLIER OPTIONS'/
      & 4X,'---------------------------'/
