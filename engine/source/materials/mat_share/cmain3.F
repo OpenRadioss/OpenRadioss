@@ -83,7 +83,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      R           INDX_DRAPE,THKE      ,SEDRAPE   ,NUMEL_DRAPE,DT        ,
      Q           NCYCLE    , SNPC     ,STF       ,NXLAYMAX  ,IDEL7NOK   ,
      S           USERL_AVAIL, MAXFUNC ,VARNL_NPTTOT, SBUFMAT   ,SDIR_A    ,
-     T          SDIR_B    ,FOR_G)
+     T          SDIR_B    ,FOR_G      ,SSP_EQ   )
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -158,6 +158,7 @@ C-----------------------------------------------
      .   F_DEF(MVSIZ,*),ALDT(MVSIZ),VARNL(NEL,*)
       my_real, DIMENSION(NEL), INTENT(IN) :: THKE
       my_real, dimension(mvsiz), intent(inout) :: fheat
+      my_real, dimension(mvsiz), intent(  out) :: SSP_EQ
       TYPE (TTABLE) TABLE(*)
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
       TYPE (STACK_PLY) :: STACK
@@ -205,6 +206,7 @@ C=======================================================================
       IDAMP_FREQ_RANGE = IPARG(93)
       DAMP_BUF => ELBUF_STR%DAMP_RANGE
       ZCFAC(1:MVSIZ,1:2) = ZERO
+      SSP_EQ = ZERO
 C--------------------------------------------------
 C     add source terme for law not user
       IF (JTHE > 0 .AND. (MTN < 28 .OR. MTN == 32)) THEN
@@ -264,6 +266,7 @@ c
      9       IR      ,IS      ,F_DEF   ,ISMSTR  ,NU      ,VOL0    ,
      A       KFTS    ,ZSHIFT  ,IDAMP_FREQ_RANGE,MAT_ELEM,DAMP_BUF ,
      B       FOR_G )
+             SSP_EQ(JFT:JLT) = SSP(JFT:JLT)
 c----------------------------
       ELSE IF (MTN > 28 .AND. MTN < 32 .or. MTN == 99 .or. MTN == 200) THEN
 c---    user material law libraries here
@@ -292,7 +295,7 @@ c
      F       IXEL    ,ITHK    ,F_DEF   ,ISHPLYXFEM,
      G       ITASK   ,STACK%PM ,ISUBSTACK,STACK ,ALPE    ,
      H       PLY_EXX ,PLY_EYY ,PLY_EXY ,PLY_EXZ ,PLY_EYZ ,PLY_F   ,
-     I       VARNL   ,NLOC_DMG,NLAY_MAX,LAYNPT_MAX,DT    )
+     I       VARNL   ,NLOC_DMG,NLAY_MAX,LAYNPT_MAX,DT    ,SSP_EQ  )
 cc----------------------------
       ELSE   ! User-type Radioss laws , NPT > 0
 c----------------------------
@@ -328,7 +331,7 @@ c
      *       NPROPMI ,NPROPM  ,NPROPG,IMON_MAT,NUMGEO  ,
      *       NUMSTACK, DT1    ,TT  ,NXLAYMAX ,IDEL7NOK,USERL_AVAIL,
      *       MAXFUNC,NUMMAT,VARNL_NPTTOT,    SBUFMAT ,SDIR_A  ,SDIR_B  ,NPARG,
-     *       IDAMP_FREQ_RANGE,DAMP_BUF)
+     *       IDAMP_FREQ_RANGE,DAMP_BUF ,SSP_EQ  )
       ENDIF ! IF (NPT == 0) 
 C----------------------------------------------------------------------
       IF (IEXPAN > 0 .AND. JTHE > 0. AND. IDT_THERM==0) THEN

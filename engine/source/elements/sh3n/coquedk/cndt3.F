@@ -38,7 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      4                 IOFC  ,NNE     ,AREA ,G    ,SHF   ,
      5                 MSC   ,DMELC   ,JSMS ,PTG  ,IGTYP ,
      6                 IGMAT ,A11R    ,G_DT ,DTEL ,MTN   ,
-     7                 PM    ,IMAT    ,NEL  ,ZOFFSET)
+     7                 PM    ,IMAT    ,NEL  ,ZOFFSET,SSP_EQ)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -73,12 +73,13 @@ C     REAL
      .   MSC(*), DMELC(*), PTG(3,*),A11R(*),DTEL(MVSIZ)
       my_real, DIMENSION(NPROPM,NUMMAT) ,INTENT(IN):: PM
       my_real, DIMENSION(NEL) , INTENT(IN) :: ZOFFSET
+      my_real, DIMENSION(MVSIZ),INTENT(IN) :: SSP_EQ
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER INDXOF(MVSIZ),
      .        I, J, II, NINDX,IDT,ITYEL
-      my_real DT(MVSIZ),FAC,MAS,DIVM,MMIN  ,IZ ,F_OSET(NEL)  
+      my_real DT(MVSIZ),FAC,MAS,DIVM,MMIN ,IZ ,F_OSET(NEL),F_DTE(NEL)  
 C=======================================================================
       DO I=JFT,JLT
         VISCMX(I) = MAX(VISCMX(I), AMU(I))
@@ -89,21 +90,41 @@ c---------------------------------------------------
 C
       ITYEL = 3
       IF (NNE==3) ITYEL = 7
-      F_OSET(JFT:JLT) = ONE 
+      F_OSET(JFT:JLT) = ONE ! factor is on stiffness 
+      F_DTE(JFT:JLT) = ONE ! factor is on element dt fat =1/sqrt(f_k)
       IF (NODADT/=0) THEN
         IF(IGTYP == 52 .OR. 
      .   ((IGTYP == 11 .OR. IGTYP == 17 .OR. IGTYP == 51)
      .                                   .AND. IGMAT > 0 )) THEN
         ELSE
-          IF (MTN == 58 .or. MTN == 158) CALL CSSP2A11(PM   ,IMAT  ,SSP  ,A1   ,JLT   )
-          F_OSET(JFT:JLT)=ONE + ZEP2*ABS(ZOFFSET(JFT:JLT))/THK0(JFT:JLT)
+! take into account nonlinear stiffnening laws      
+          F_OSET(JFT:JLT)= ONE + ZEP2*ABS(ZOFFSET(JFT:JLT))/THK0(JFT:JLT)
+          IF (MTN == 58 .or. MTN == 158) THEN 
+              CALL CSSP2A11(PM   ,IMAT  ,SSP  ,A1   ,JLT   )
+          ELSEIF (MTN == 42 .or. MTN == 62 .or. MTN == 69) THEN
+            DO I=JFT,JLT
+              FAC = MAX(SSP_EQ(I),SSP(I))/SSP(I)
+              F_OSET(I) = FAC*FAC*F_OSET(I)
+            ENDDO 
+          END IF
         END IF
       ELSE
+        F_OSET(JFT:JLT)= ONE + ZEP2*ABS(ZOFFSET(JFT:JLT))/THK0(JFT:JLT)
         IF(IGTYP==1.OR.IGTYP==9) THEN 
           DO I=JFT,JLT
-            FAC = ONE + ZEP2*ABS(ZOFFSET(I))/THK0(I)
-            F_OSET(I) = ONE/SQRT(FAC)
+            FAC = F_OSET(I)
+            F_DTE(I) = ONE/SQRT(FAC)
           END DO 
+        END IF
+        IF (MTN == 42 .or. MTN == 62 .or. MTN == 69) THEN
+          DO I=JFT,JLT
+            FAC = SSP(I)/MAX(SSP_EQ(I),SSP(I))
+            F_DTE(I) = FAC*F_OSET(I)
+          ENDDO 
+          DO I=JFT,JLT
+            FAC = MAX(SSP_EQ(I),SSP(I))/SSP(I)
+            F_OSET(I) = FAC*FAC*F_OSET(I)
+          ENDDO 
         END IF
       END IF
 C----- isub will add here-----
@@ -196,11 +217,11 @@ c dt = 2/w = sqrt( 2*(m+dmelc)/k)
       ENDIF
 C
       DO I=JFT,JLT
-        DT(I)=DTFAC1(ITYEL)*F_OSET(I)*ALDT(I)/SSP(I)   
+        DT(I)=DTFAC1(ITYEL)*F_DTE(I)*ALDT(I)/SSP(I)   
       ENDDO
       IF(G_DT>0)THEN
         DO I=JFT,JLT
-          DTEL(I)=F_OSET(I)*ALDT(I)/SSP(I)     ! DT=ALDT(I)/SSP(I) & DT=DT*DTFAC1 does not lead to same digits, so operation is made again here.
+          DTEL(I)=F_DTE(I)*ALDT(I)/SSP(I)     ! DT=ALDT(I)/SSP(I) & DT=DT*DTFAC1 does not lead to same digits, so operation is made again here.
         ENDDO
       ENDIF
       IF((NODADT/=0.OR.IDTMINS==2).AND.IDTMIN(ITYEL)==0)RETURN

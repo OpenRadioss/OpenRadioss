@@ -228,6 +228,7 @@ C---
 C
 !     variables for heat transfer
       my_real, dimension(mvsiz) :: fheat
+      my_real, dimension(mvsiz) :: ssp_eq
 !
       my_real,
      .  DIMENSION(:) ,POINTER  ::  OFFG,THKG,STRAG,FORG,MOMG,
@@ -478,7 +479,7 @@ C--------------------------
      R   INDX_DRAPE , THKE    ,SEDRAPE   ,NUMEL_DRAPE,     DT  ,
      Q   NCYCLE     ,SNPC      ,  STF    ,NXLAYMAX   ,IDEL7NOK ,
      S   USERL_AVAIL, MAXFUNC,      NPTTOT,BUFMAT     ,SDIR_A   ,
-     T   SDIR_B     ,GBUF%FOR_G)
+     T   SDIR_B     ,GBUF%FOR_G,SSP_EQ )
 
 C--------------------------
         IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STOPTIME(TIMERS,35)
@@ -493,7 +494,7 @@ C--------------------------
      5          SHF      ,IGTYP     ,IGMAT   ,G     ,A11      ,
      6          A11R     ,GBUF%G_DT ,GBUF%DT ,ALDT  ,THK0     ,
      7          AREA     ,NGL       ,IMAT    ,MTN   ,NEL      ,
-     8          ZOFFSET)
+     8          ZOFFSET  ,SSP_EQ   )
 
 C--------------------------
 C     BALANCES BY MATERIAL
