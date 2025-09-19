@@ -143,6 +143,7 @@
 !||    pre_i2                             ../starter/source/interfaces/inter3d1/i7remnode.F
 !||    prerbe3p0                          ../engine/source/constraints/general/rbe3/rbe3f.F
 !||    presegmt                           ../starter/source/interfaces/interf1/presegmt.F
+!||    quad_surface_buffer                ../starter/source/model/sets/quad_surface_buffer.F
 !||    r2r_group                          ../starter/source/coupling/rad2rad/r2r_group.F
 !||    r2r_speedup                        ../starter/source/coupling/rad2rad/r2r_speedup.F
 !||    r2r_split                          ../starter/source/coupling/rad2rad/r2r_split.F
