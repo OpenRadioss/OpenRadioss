@@ -6,15 +6,14 @@ enable_language (CXX)
 
 set (library_name "io_${arch}" )
 
-#Include the CMake configuration file
-include ( CMake_arch/CMake_${arch}.cmake )
-
-
 #set source directory
 set (source_directory ${CMAKE_CURRENT_SOURCE_DIR})
 
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${open_reader_root_dir}/cbuild_${arch}/libopen_reader/${arch}" )
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${open_reader_root_dir}/cbuild_${arch}/libopen_reader/${arch}" )
+#Include the CMake configuration file
+include ( CMake_arch/CMake_${arch}.cmake )
+
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${open_reader_root_dir}/${build_dir}/libopen_reader/${arch}" )
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${open_reader_root_dir}/${build_dir}/libopen_reader/${arch}" )
 
 # Add includes for project
 set ( Build_includes_directory ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/includes_${arch} )

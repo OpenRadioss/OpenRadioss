@@ -97,14 +97,6 @@ bool ReadDynaAndConvert(const char *modelfilename, const char *outfilename)
     std::string str_error;
     int ret_val;
 
-#ifdef RD_COM
-
-    ret_val = create_radflex_process();
-
-
-    ret_val = starter_lic_checkout((char *)modelfilename,IS_DYNA_MODEL);
-#endif
-
     // Read Dyna deck and populate model
     try
     {
