@@ -313,7 +313,7 @@ c
      5       PID     ,TF      ,NPF     ,MTN     ,DT1C    ,DM      ,
      6       BUFMAT  ,SSP     ,RHO     ,VISCMX  ,IPLA    ,IOFC    ,
      7       INDXDEL ,NGL     ,THKLY   ,MATLY   ,ZCFAC   ,MAT_ELEM,
-     8       SHF     ,GS      ,SIGY    ,THK0    ,EPSD_PG,
+     8       SHF     ,GS      ,SIGY    ,THK0    ,EPSD_PG ,VOL0    ,
      9       POSLY   ,IGEO    ,IPM     ,FAILWAVE,FWAVE_EL,
      A       IFAILURE,ALDT    ,TEMPEL  ,DIE     ,FHEAT   ,
      B       TABLE   ,IXFEM   ,ELCRKINI,
