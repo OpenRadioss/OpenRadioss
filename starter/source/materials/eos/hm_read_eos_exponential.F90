@@ -65,7 +65,7 @@
       integer,intent(in) :: npropm                                     !< size for pm array
       integer,intent(in) :: iout                                       !< file unit of starter listing
       type (unit_type_),intent(in) :: unitab                           !< data structure for unit systems required by reader subroutines
-      real(kind=WP), intent(inout) :: pm(npropm)                             !< material parameters
+      real(kind=WP), intent(inout) :: pm(npropm)                       !< material parameters
       type(submodel_data), dimension(nsubmod), intent(in) :: lsubmodel !< submodel data structure required for reader subroutines
       type(eos_param_),intent(inout) :: eos_struct
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -100,7 +100,9 @@
       eos_struct%ntable = 0
       call eos_struct%construct() !allocations
       eos_struct%psh = psh
+      eos_struct%e0 = zero
       eos_struct%uparam(1) = alpha
+      eos_struct%p0 = p0
 
       write(iout,1000)
       if(is_encrypted)then
