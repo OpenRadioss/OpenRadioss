@@ -45,7 +45,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      3   IPARG  ,CEL    ,IXS    ,IXS10 ,IXS20 ,
      4   IXS16  ,IXQ    ,IXC    ,IXT   ,IXP   ,
      5   IXR    ,IXTG   ,IXTG6 ,T_MONVOL,
-     6   IGRSURF,ADSKY  ,LCNE   ,GEO   ,
+     6   IGRSURF,ADDCNE ,LCNE   ,GEO   ,
      7   NPRW   ,LPRW   ,LCNI2  ,ADSKYI2,CEPI2,
      8   CELI2  ,I2NSNT ,ISKN   ,ISKWP,NSKWP  ,
      9   ISENSP ,NSENSP ,IACCP  ,NACCP  ,
@@ -101,7 +101,7 @@ C-----------------------------------------------
      .        IXT(NIXT,*),IXP(NIXP,*),IXR(NIXR,*),
      .        IXS10(6,*),IXS20(12,*),IXS16(8,*),IXTG6(4,*),IB(NIBCLD,*),
      .        I2NSNT,ISKN(LISKN,*),ISKWP(*),NSKWP(*),
-     .        ADSKY(0:*), LCNE, LCNI2, ADSKYI2(0:*),CEPI2(*),CELI2(*),
+     .        ADDCNE(0:*), LCNE, LCNI2, ADSKYI2(0:*),CEPI2(*),CELI2(*),
      .        ISENSP(2,*), NSENSP(*), IACCP(*), NACCP(*),
      .        LACCELM(3,*),IBCV(NICONV, *),IRBE3(NRBE3L,*), LRBE3(*),
      .        FRONT_RM(NRBYM,NSPMD), IRBYM(NIRBYM,*) ,LCRBYM(*), CEP(LEN_CEP),
@@ -1315,13 +1315,13 @@ C-----------------------------------------------------
 C Preparing ADDCNE : CNE matrix address
 C-----------------------------------------------------
       DO N=0,NUMNOD+1
-        ADSKY(N) = 0
+        ADDCNE(N) = 0
       ENDDO
 C
       DO K=2,9
         DO I=1,NUMELS
           N = IXS(K,I) + 1
-          ADSKY(N) = ADSKY(N) + 1
+          ADDCNE(N) = ADDCNE(N) + 1
         ENDDO
       ENDDO
 C
@@ -1329,7 +1329,7 @@ C
         DO K=1,6
           DO I=1,NUMELS10
             N = IXS10(K,I) + 1
-            ADSKY(N) = ADSKY(N) + 1
+            ADDCNE(N) = ADDCNE(N) + 1
           ENDDO
         ENDDO
       ENDIF
@@ -1337,7 +1337,7 @@ C
         DO K=1,12
           DO I=1,NUMELS20
             N = IXS20(K,I) + 1
-            ADSKY(N) = ADSKY(N) + 1
+            ADDCNE(N) = ADDCNE(N) + 1
           ENDDO
         ENDDO
       ENDIF
@@ -1346,7 +1346,7 @@ C
         DO K=1,8
           DO I=1,NUMELS16
             N = IXS16(K,I) + 1
-            ADSKY(N) = ADSKY(N) + 1
+            ADDCNE(N) = ADDCNE(N) + 1
           ENDDO
         ENDDO
       ENDIF
@@ -1354,7 +1354,7 @@ C
       DO K=2,5
         DO I=1,NUMELQ
           N = IXQ(K,I) + 1
-          ADSKY(N) = ADSKY(N) + 1
+          ADDCNE(N) = ADDCNE(N) + 1
         ENDDO
       ENDDO
 C
@@ -1362,21 +1362,21 @@ C
       DO K=2,5
         DO I=1,NUMELC
           N = IXC(K,I) + 1
-          ADSKY(N) = ADSKY(N) + 1
+          ADDCNE(N) = ADDCNE(N) + 1
         ENDDO
       ENDDO
 C
       DO K=2,3
         DO I=1,NUMELT
           N = IXT(K,I) + 1
-          ADSKY(N) = ADSKY(N) + 1
+          ADDCNE(N) = ADDCNE(N) + 1
         ENDDO
       ENDDO
 C
       DO K=2,3
         DO I=1,NUMELP
           N = IXP(K,I) + 1
-          ADSKY(N) = ADSKY(N) + 1
+          ADDCNE(N) = ADDCNE(N) + 1
         ENDDO
       ENDDO
 C
@@ -1384,19 +1384,19 @@ C   separate treatment of 3rd optional node except type 12
       DO K=2,3
         DO I=1,NUMELR
           N = IXR(K,I) + 1
-          ADSKY(N) = ADSKY(N) + 1
+          ADDCNE(N) = ADDCNE(N) + 1
         ENDDO
       ENDDO
       DO I=1,NUMELR
         N = IXR(4,I) + 1
         IF(IGEO(11,IXR(1,I))/=12) N = 0
-        ADSKY(N) = ADSKY(N) + 1
+        ADDCNE(N) = ADDCNE(N) + 1
       ENDDO
 C
       DO K=2,4
         DO I=1,NUMELTG
           N = IXTG(K,I) + 1
-          ADSKY(N) = ADSKY(N) + 1
+          ADDCNE(N) = ADDCNE(N) + 1
         ENDDO
       ENDDO
 C elem penta6
@@ -1404,7 +1404,7 @@ C elem penta6
         DO K=1,3
           DO I=1,NUMELTG6
             N = IXTG6(K,I)+1
-            ADSKY(N) = ADSKY(N) + 1
+            ADDCNE(N) = ADDCNE(N) + 1
           END DO
         END DO
       END IF
@@ -1424,12 +1424,12 @@ C--------------------------------------
             IF (ITY==3) THEN
               DO K = 2,5
                NN = IXC(K,I) + 1
-               ADSKY(NN) = ADSKY(NN) + 1
+               ADDCNE(NN) = ADDCNE(NN) + 1
               ENDDO
             ELSE
               DO K=2,4
                NN = IXTG(K,I) + 1
-               ADSKY(NN) = ADSKY(NN) + 1
+               ADDCNE(NN) = ADDCNE(NN) + 1
               END DO
             ENDIF
           ENDDO
@@ -1446,16 +1446,16 @@ C--------------------------------------
           N3=IB(3,NL)
           N4=IB(4,NL)
           NN = N1 + 1
-          ADSKY(NN) = ADSKY(NN) + 1
+          ADDCNE(NN) = ADDCNE(NN) + 1
           IF(N4/=-1)THEN
             NN = N2 + 1
-            ADSKY(NN) = ADSKY(NN) + 1
+            ADDCNE(NN) = ADDCNE(NN) + 1
             IF(N2D==0)THEN
               NN = N3 + 1
-              ADSKY(NN) = ADSKY(NN) + 1
+              ADDCNE(NN) = ADDCNE(NN) + 1
               IF(N4/=0) THEN
                 NN = N4 + 1
-                ADSKY(NN) = ADSKY(NN) + 1
+                ADDCNE(NN) = ADDCNE(NN) + 1
               ENDIF
             ENDIF
           ENDIF
@@ -1471,16 +1471,16 @@ C-----------------------------------------------
           N3=IBCV(3,NL)
           N4=IBCV(4,NL)
           NN = N1 + 1
-          ADSKY(NN) = ADSKY(NN) + 1
+          ADDCNE(NN) = ADDCNE(NN) + 1
           IF(N4/=-1)THEN
             NN = N2 + 1
-            ADSKY(NN) = ADSKY(NN) + 1
+            ADDCNE(NN) = ADDCNE(NN) + 1
             IF(N2D==0)THEN
               NN = N3 + 1
-              ADSKY(NN) = ADSKY(NN) + 1
+              ADDCNE(NN) = ADDCNE(NN) + 1
               IF(N4/=0) THEN
                 NN = N4 + 1
-                ADSKY(NN) = ADSKY(NN) + 1
+                ADDCNE(NN) = ADDCNE(NN) + 1
               ENDIF
             ENDIF
           ENDIF
@@ -1496,15 +1496,15 @@ C-----------------------------------------------
           N3=IBCR(3,NL)
           N4=IBCR(4,NL)
           NN = N1 + 1
-          ADSKY(NN) = ADSKY(NN) + 1
+          ADDCNE(NN) = ADDCNE(NN) + 1
           NN = N2 + 1
-          ADSKY(NN) = ADSKY(NN) + 1
+          ADDCNE(NN) = ADDCNE(NN) + 1
           IF(N2D==0)THEN
             NN = N3 + 1
-            ADSKY(NN) = ADSKY(NN) + 1
+            ADDCNE(NN) = ADDCNE(NN) + 1
             IF(N4/=0) THEN
               NN = N4 + 1
-              ADSKY(NN) = ADSKY(NN) + 1
+              ADDCNE(NN) = ADDCNE(NN) + 1
             ENDIF
           ENDIF
         ENDDO
@@ -1520,16 +1520,16 @@ C-----------------------------------------------
           N3=IBFFLUX(3,NL)
           N4=IBFFLUX(4,NL)
           NN = N1 + 1
-          ADSKY(NN) = ADSKY(NN) + 1
+          ADDCNE(NN) = ADDCNE(NN) + 1
           IF(N4/=-1)THEN
             NN = N2 + 1
-            ADSKY(NN) = ADSKY(NN) + 1
+            ADDCNE(NN) = ADDCNE(NN) + 1
             IF(N2D==0)THEN
               NN = N3 + 1
-              ADSKY(NN) = ADSKY(NN) + 1
+              ADDCNE(NN) = ADDCNE(NN) + 1
               IF(N4/=0) THEN
                 NN = N4 + 1
-                ADSKY(NN) = ADSKY(NN) + 1
+                ADDCNE(NN) = ADDCNE(NN) + 1
               ENDIF
             ENDIF
           ENDIF
@@ -1546,16 +1546,16 @@ C--------------------------------------
          N3=LLOADP(ILOADP(4,NL)+4*(I-1)+2)
          N4=LLOADP(ILOADP(4,NL)+4*(I-1)+3)
           NN = N1 + 1
-          ADSKY(NN) = ADSKY(NN) + 1
+          ADDCNE(NN) = ADDCNE(NN) + 1
           IF(N4/=-1)THEN
             NN = N2 + 1
-            ADSKY(NN) = ADSKY(NN) + 1
+            ADDCNE(NN) = ADDCNE(NN) + 1
             IF(N2D==0)THEN
               NN = N3 + 1
-              ADSKY(NN) = ADSKY(NN) + 1
+              ADDCNE(NN) = ADDCNE(NN) + 1
               IF(N4/=0) THEN
                 NN = N4 + 1
-                ADSKY(NN) = ADSKY(NN) + 1
+                ADDCNE(NN) = ADDCNE(NN) + 1
               ENDIF             
             ENDIF
           ENDIF
@@ -1581,7 +1581,7 @@ C--------------------------------------
                 ! loop over the 4 nodes of the surfaces
                 DO IJK=1,NUMBER_NODE
                     NODE_ID = IGRSURF(SURF_ID)%NODES(J,IJK) + 1
-                    ADSKY(NODE_ID) = ADSKY(NODE_ID) + 1
+                    ADDCNE(NODE_ID) = ADDCNE(NODE_ID) + 1
                 ENDDO
             ENDDO
             ! ------------
@@ -1599,7 +1599,7 @@ C--------------------------------------
                 DO K=1,4
                     NODE_ID = LOADS%LOAD_CYL(I)%SEGNOD(J,K) + 1! get the node id + 1 (if the segment is a triangle, NODE_ID(node 4) = 0))
                     NUMBER_PROC = 0
-                    IF(NODE_ID/=0) ADSKY(NODE_ID) = ADSKY(NODE_ID) + 1
+                    IF(NODE_ID/=0) ADDCNE(NODE_ID) = ADDCNE(NODE_ID) + 1
                 ENDDO
             ENDDO
             ! ------------
@@ -1609,12 +1609,12 @@ C--------------------------------------
 C-----------------------------------------------
 C   CALCULATING SKYLINE VECTOR ADDRESSES
 C-----------------------------------------------
-      ADSKY(1) = 1
+      ADDCNE(1) = 1
       DO I=2,NUMNOD+1
-        ADSKY(I)=ADSKY(I)+ADSKY(I-1)
+        ADDCNE(I)=ADDCNE(I)+ADDCNE(I-1)
       ENDDO
 C
-      LCNE = ADSKY(NUMNOD+1)-1
+      LCNE = ADDCNE(NUMNOD+1)-1
 C
 C-----------------------------------------------
 C Filling Cel: Element/Local Connection
