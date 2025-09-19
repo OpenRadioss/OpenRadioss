@@ -1,3 +1,4 @@
+
 !Copyright>        OpenRadioss
 !Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
 !Copyright>
@@ -63,27 +64,27 @@
 ! ------------------------------------------------------------------------------
 !         Local variables
 ! ------------------------------------------------------------------------------
-          integer :: i,ipfun,pfun,nrate
+          integer :: i,ipfun,pfun,nrate,vp
           real(kind=WP) :: dydx,yld,yfac,yscale,pscale,pfac
           real(kind=WP) ,external :: finter
 !===============================================================================
           ipfun  = ifunc(nfunc-1)
           nrate  = nint(uparam(1))
           pfun   = nint(uparam(16+2*nrate))
+          vp     = nint(uparam(26+2*nrate))
           yfac   = uparam(7+nrate)
 !------------------------------------------
-!         pressure dependent yield function factor
+!         calculate initial yield and save in state variable if vp==1
 !------------------------------------------
-          if (pfun > 0) then                                      
-            pfac = finter(ipfun ,zero,npf,tf,dydx) 
-          else                   
-            pfac = one
+          if (vp == 1) then
+            if (pfun > 0) then                                    
+              pfac = finter(ipfun ,zero,npf,tf,dydx) 
+            else                   
+              pfac = one
+            endif                                                 
+            yld = yfac*finter(ifunc(1),zero,npf,tf,dydx) 
+            uvar(1:nel,3) = yld*pfac*yldfac(1:nel)
           endif                                                   
-!------------------------------------------
-!         calculate initial yield and save in state variable
-!------------------------------------------
-          yld = yfac*finter(ifunc(1),zero,npf,tf,dydx) 
-          uvar(1:nel,3) = yld*pfac*yldfac(1:nel)
 !-------------
           return
         end subroutine m36init
