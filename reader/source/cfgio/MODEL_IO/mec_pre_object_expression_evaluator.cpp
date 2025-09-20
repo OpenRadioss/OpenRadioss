@@ -24,6 +24,7 @@
 
 #include "HCDI/hcdi_mec_pre_object.h"
 #include <HCDI/hcdi_mv_descriptor.h>
+#include <HCDI/hcdi_utils.h>
 
 MECPreObjectExpressionEvaluator::MECPreObjectExpressionEvaluator(
     const IMECPreObject* preobject_p, const IDescriptor *descriptor_p,
@@ -39,28 +40,27 @@ bool MECPreObjectExpressionEvaluator::GetValue(const char* name, double& value) 
     if(ikey <= 0)  return false;
 
     attribute_type_e a_att_type = myDescriptorPtr->getAttributeType(ikey);
-    IMECPreObject::MyValueType_e attrib_vtype = IMECPreObject::VTY_UNKNOWN;
+    value_type_e attrib_vtype = myDescriptorPtr->getValueType(ikey);
 
     if(a_att_type == ATYPE_VALUE || a_att_type == ATYPE_SIZE)
     {
-        attrib_vtype = myPreObjectPtr->GetValueType(IMECPreObject::ATY_SINGLE,name);
-        if(attrib_vtype == IMECPreObject::VTY_BOOL)
+        if(attrib_vtype == VTYPE_BOOL)
         {
             value = (double)myPreObjectPtr->GetBoolValue(name);
         }
-        else if(attrib_vtype == IMECPreObject::VTY_INT)
+        else if(attrib_vtype == VTYPE_INT)
         {
             value = (double)myPreObjectPtr->GetIntValue(name);
         }
-        else if(attrib_vtype == IMECPreObject::VTY_UINT)
+        else if(attrib_vtype == VTYPE_UINT)
         {
             value = (double)myPreObjectPtr->GetUIntValue(name);
         }
-        else if(attrib_vtype == IMECPreObject::VTY_FLOAT)
+        else if(attrib_vtype == VTYPE_FLOAT)
         {
             value = myPreObjectPtr->GetFloatValue(name);
         }
-        else if(attrib_vtype == IMECPreObject::VTY_OBJECT)
+        else if(attrib_vtype == VTYPE_OBJECT)
         {
             int attrib_ind = myPreObjectPtr->GetIndex(IMECPreObject::ATY_SINGLE,IMECPreObject::VTY_OBJECT,name);
             value = myPreObjectPtr->GetObjectId(attrib_ind);
@@ -69,25 +69,24 @@ bool MECPreObjectExpressionEvaluator::GetValue(const char* name, double& value) 
     } 
     else if(index >= 0 && (a_att_type == ATYPE_STATIC_ARRAY || a_att_type == ATYPE_DYNAMIC_ARRAY))
     {
-        attrib_vtype = myPreObjectPtr->GetValueType(IMECPreObject::ATY_ARRAY,name);
-        int att_ind = myPreObjectPtr->GetIndex(IMECPreObject::ATY_ARRAY, attrib_vtype, name);
-        if(attrib_vtype == IMECPreObject::VTY_BOOL)
+        int att_ind = myPreObjectPtr->GetIndex(IMECPreObject::ATY_ARRAY, HCDIGetPVTypeFromDVType(attrib_vtype), name);
+        if(attrib_vtype == VTYPE_BOOL)
         {
             value = (double)myPreObjectPtr->GetBoolValue(att_ind, index);
         }
-        else if(attrib_vtype == IMECPreObject::VTY_INT)
+        else if(attrib_vtype == VTYPE_INT)
         {
             value = (double)myPreObjectPtr->GetIntValue(att_ind, index);
         }
-        else if(attrib_vtype == IMECPreObject::VTY_UINT)
+        else if(attrib_vtype == VTYPE_UINT)
         {
             value = (double)myPreObjectPtr->GetUIntValue(att_ind, index);
         }
-        else if(attrib_vtype == IMECPreObject::VTY_FLOAT)
+        else if(attrib_vtype == VTYPE_FLOAT)
         {
             value = myPreObjectPtr->GetFloatValue(att_ind, index);
         }
-        else if(attrib_vtype == IMECPreObject::VTY_OBJECT)
+        else if(attrib_vtype == VTYPE_OBJECT)
         {
             value = myPreObjectPtr->GetObjectId(att_ind, index);
         }

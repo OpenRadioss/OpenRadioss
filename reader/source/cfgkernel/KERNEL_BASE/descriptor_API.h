@@ -198,6 +198,10 @@ extern "C" {
 				      value_type_e vtype,int ikeyword,const char *skeyword,const char *comment,
 				      attribute_type_e array_type,
                                       int dimension , dimension_size_t *size_array);
+  
+  int MCDS_add_descriptor_value_array_default(descriptor_t* descr_p, int ikeyword, attribute_type_e array_type, int nb_row, int nb_col, double** values);
+  
+  int MCDS_get_descriptor_value_array_default(descriptor_t* descr_p, int ikeyword, attribute_type_e array_type, int *nb_row, int *nb_col, double*** values);
 
   /** Adds an array of objects. <br>
       Returns the error code.<br>
