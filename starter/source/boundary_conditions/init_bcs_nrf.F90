@@ -23,7 +23,7 @@
 !||====================================================================
 !||    init_bcs_nrf_mod   ../starter/source/boundary_conditions/init_bcs_nrf.F90
 !||--- called by ------------------------------------------------------
-!||    initia              ../starter/source/elements/initia/initia.F
+!||    initia             ../starter/source/elements/initia/initia.F
 !||====================================================================
       module init_bcs_nrf_mod
         implicit none
@@ -35,9 +35,9 @@
 !! \details identification of related faces is done. Identified faces are recorded in specific buffer bcs%nrf(id)%list(*)
 !! \details binary comparison (IAND) is done to identify relevant faces
 !||====================================================================
-!||    init_bcs_nrf           ../starter/source/boundary_conditions/init_bcs_nrf.F90
+!||    init_bcs_nrf       ../starter/source/boundary_conditions/init_bcs_nrf.F90
 !||--- called by ------------------------------------------------------
-!||    initia                 ../starter/source/elements/initia/initia.F
+!||    initia             ../starter/source/elements/initia/initia.F
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||====================================================================

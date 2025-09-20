@@ -22,9 +22,9 @@
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 ! ======================================================================================================================
 !||====================================================================
-!||    bcs_nrf_mod            ../engine/source/boundary_conditions/bcs_nrf_mod.F90
+!||    bcs_nrf_mod   ../engine/source/boundary_conditions/bcs_nrf.F90
 !||--- called by ------------------------------------------------------
-!||    alemain                ../engine/source/ale/alemain.F
+!||    resol         ../engine/source/engine/resol.F
 !||====================================================================
       module bcs_nrf_mod
       implicit none
@@ -34,6 +34,21 @@
 ! ======================================================================================================================
 !! \brief boundary condition /BCS/NRF
 !! \details  lagrange FEM only
+!||====================================================================
+!||    bcs_nrf         ../engine/source/boundary_conditions/bcs_nrf.F90
+!||--- called by ------------------------------------------------------
+!||    resol           ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg          ../engine/source/output/message/message.F
+!||    arret           ../engine/source/system/arret.F
+!||--- uses       -----------------------------------------------------
+!||    bcs_mod         ../common_source/modules/boundary_conditions/bcs_mod.F90
+!||    constant_mod    ../common_source/modules/constant_mod.F
+!||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    h3d_mod         ../engine/share/modules/h3d_mod.F
+!||    message_mod     ../engine/share/message_module/message_mod.F
+!||    precision_mod   ../common_source/modules/precision_mod.F90
+!||====================================================================
           subroutine bcs_nrf(n2d      , numnod  , &
                              x        , v       , a     , &
                              nixs     , nixtg   , nixq  ,&

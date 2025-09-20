@@ -34,6 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    anivflowp                                ../engine/source/output/anim/generate/monvol_anim.F90
 !||    arruda_boyce                             ../starter/source/materials/mat/mat092/law92_nlsqf.F90
 !||    arruda_boyce_dyda                        ../starter/source/materials/mat/mat092/law92_nlsqf.F90
+!||    bcs_nrf                                  ../engine/source/boundary_conditions/bcs_nrf.F90
 !||    bcs_wall_trigger                         ../engine/source/boundary_conditions/bcs_wall_trigger.F90
 !||    brent_algo                               ../common_source/modules/root_finding_algo_mod.F90
 !||    brokmann_crack_init                      ../starter/source/materials/fail/windshield_alter/brokmann_crack_init.F90
@@ -121,6 +122,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    h3d_oned_scalar                          ../engine/source/output/h3d/h3d_results/h3d_oned_scalar.F90
 !||    h3d_quad_scalar_1                        ../engine/source/output/h3d/h3d_results/h3d_quad_scalar_1.F90
 !||    hm_preread_inivel                        ../starter/source/initial_conditions/general/inivel/hm_preread_inivel.F90
+!||    hm_read_bcs_nrf                          ../starter/source/boundary_conditions/hm_read_bcs_nrf.F90
 !||    hm_read_bcs_wall                         ../starter/source/boundary_conditions/hm_read_bcs_wall.F90
 !||    hm_read_ebcs_propellant                  ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_propellant.F90
 !||    hm_read_eos_compaction                   ../starter/source/materials/eos/hm_read_eos_compaction.F90
@@ -161,6 +163,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    idealgas_vt                              ../common_source/eos/idealgas_vt.F
 !||    iniebcs_propellant_get_cp                ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
 !||    iniphase                                 ../starter/source/initial_conditions/inivol/iniphase.F
+!||    init_bcs_nrf                             ../starter/source/boundary_conditions/init_bcs_nrf.F90
 !||    init_inivol                              ../starter/source/initial_conditions/inivol/init_inivol.F90
 !||    init_inivol_2d_polygons                  ../starter/source/initial_conditions/inivol/init_inivol_2D_polygons.F90
 !||    initemp_shell                            ../starter/source/materials/therm/initemp_shell.F90
@@ -188,6 +191,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    law92_nlsqf                              ../starter/source/materials/mat/mat092/law92_nlsqf.F90
 !||    lszk                                     ../common_source/eos/lszk.F
 !||    m21law                                   ../engine/source/materials/mat/mat021/m21law.F
+!||    m36init                                  ../starter/source/materials/mat/mat036/m36init.F90
 !||    m5in2                                    ../starter/source/initial_conditions/detonation/m5in2.F
 !||    m5in2t                                   ../starter/source/initial_conditions/detonation/m5in2t.F
 !||    m5in3                                    ../starter/source/initial_conditions/detonation/m5in3.F

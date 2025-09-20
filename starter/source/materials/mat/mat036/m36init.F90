@@ -22,11 +22,9 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    m36init   ../starter/source/materials/mat/mat036/m36init.F
+!||    m36init_mod   ../starter/source/materials/mat/mat036/m36init.F90
 !||--- called by ------------------------------------------------------
-!||    matini    ../starter/source/materials/mat_share/matini.F
-!||--- calls      -----------------------------------------------------
-!||    finter    ../starter/source/tools/curve/finter.F
+!||    matini        ../starter/source/materials/mat_share/matini.F
 !||====================================================================
       module m36init_mod
 
@@ -35,6 +33,9 @@
 !||====================================================================
 !||    m36init         ../starter/source/materials/mat/mat036/m36init.F90
 !||--- called by ------------------------------------------------------
+!||    matini          ../starter/source/materials/mat_share/matini.F
+!||--- calls      -----------------------------------------------------
+!||    finter          ../starter/source/tools/curve/finter.F
 !||--- uses       -----------------------------------------------------
 !||====================================================================
       subroutine m36init(nel    ,nuparam,nuvar  ,nfunc  ,ifunc  ,yldfac ,          &

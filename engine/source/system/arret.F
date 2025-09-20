@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    animx                            ../engine/source/output/anim/generate/animx.F
 !||    arret_message                    ../engine/source/system/arret_message.F
 !||    arret_message_slid               ../engine/source/system/arret_message.F
+!||    bcs_nrf                          ../engine/source/boundary_conditions/bcs_nrf.F90
 !||    bemsolv                          ../engine/source/fluid/bemsolv.F
 !||    bforc2                           ../engine/source/ale/bimat/bforc2.F
 !||    blero2                           ../engine/source/ale/bimat/blero2.F

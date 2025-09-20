@@ -42,6 +42,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ass2sort                           ../engine/source/assembly/ass2sort.F
 !||    ass2sort_pxfem                     ../engine/source/assembly/ass2sort.F
 !||    balph2                             ../engine/source/ale/bimat/balph2.F
+!||    bcs_nrf                            ../engine/source/boundary_conditions/bcs_nrf.F90
 !||    bcsdtth                            ../engine/source/constraints/general/bcs/bcsdtth.F
 !||    bforc2                             ../engine/source/ale/bimat/bforc2.F
 !||    blero2                             ../engine/source/ale/bimat/blero2.F

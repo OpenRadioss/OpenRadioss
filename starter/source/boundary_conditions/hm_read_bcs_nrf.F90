@@ -23,7 +23,7 @@
 !||====================================================================
 !||    hm_read_bcs_nrf_mod   ../starter/source/boundary_conditions/hm_read_bcs_nrf.F90
 !||--- called by ------------------------------------------------------
-!||    lectur                 ../starter/source/starter/lectur.F
+!||    lectur                ../starter/source/starter/lectur.F
 !||====================================================================
       module hm_read_bcs_nrf_mod
         implicit none
@@ -39,7 +39,6 @@
 !||    lectur                 ../starter/source/starter/lectur.F
 !||--- calls      -----------------------------------------------------
 !||    ancmsg                 ../starter/source/output/message/message.F
-!||    hm_get_floatv          ../starter/source/devtools/hm_reader/hm_get_floatv.F
 !||    hm_get_intv            ../starter/source/devtools/hm_reader/hm_get_intv.F
 !||    hm_option_read_key     ../starter/source/devtools/hm_reader/hm_option_read_key.F
 !||    hm_option_start        ../starter/source/devtools/hm_reader/hm_option_start.F

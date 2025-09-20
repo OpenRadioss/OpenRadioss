@@ -24,19 +24,25 @@
 !||    bcs_mod                  ../common_source/modules/boundary_conditions/bcs_mod.F90
 !||--- called by ------------------------------------------------------
 !||    alemain                  ../engine/source/ale/alemain.F
+!||    bcs_nrf                  ../engine/source/boundary_conditions/bcs_nrf.F90
 !||    bcs_wall_trigger         ../engine/source/boundary_conditions/bcs_wall_trigger.F90
 !||    contrl                   ../starter/source/starter/contrl.F
 !||    ddsplit                  ../starter/source/restart/ddsplit/ddsplit.F
+!||    hm_read_bcs_nrf          ../starter/source/boundary_conditions/hm_read_bcs_nrf.F90
 !||    hm_read_bcs_wall         ../starter/source/boundary_conditions/hm_read_bcs_wall.F90
+!||    init_bcs_nrf             ../starter/source/boundary_conditions/init_bcs_nrf.F90
 !||    init_bcs_wall            ../starter/source/boundary_conditions/init_bcs_wall.F90
 !||    initia                   ../starter/source/elements/initia/initia.F
 !||    lectur                   ../engine/source/input/lectur.F
 !||    rdresb                   ../engine/source/output/restart/rdresb.F
+!||    read_bcs_nrf             ../engine/source/output/restart/read_bcs_nrf.F90
 !||    read_bcs_wall            ../engine/source/output/restart/read_bcs_wall.F90
 !||    resol                    ../engine/source/engine/resol.F
+!||    split_bcs_nrf            ../starter/source/restart/ddsplit/split_bcs_nrf.F90
 !||    split_bcs_wall           ../starter/source/restart/ddsplit/split_bcs_wall.F90
 !||    st_qaprint_constraints   ../starter/source/output/qaprint/st_qaprint_constraints.F
 !||    w_bcs_proc               ../starter/source/restart/ddsplit/w_bcs_proc.F90
+!||    write_bcs_nrf            ../common_source/output/restart/write_bcs_nrf.F90
 !||    write_bcs_wall           ../common_source/output/restart/write_bcs_wall.F90
 !||    wrrestp                  ../engine/source/output/restart/wrrestp.F
 !||--- uses       -----------------------------------------------------

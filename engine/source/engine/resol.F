@@ -63,6 +63,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    asspart                                      ../engine/source/assembly/asspart.F
 !||    assparxx                                     ../engine/source/assembly/assparxx.F
 !||    bcs10                                        ../engine/source/constraints/general/bcs/bcs10.F
+!||    bcs_nrf                                      ../engine/source/boundary_conditions/bcs_nrf.F90
 !||    bcscyc                                       ../engine/source/constraints/general/bcs/bcscyc.F
 !||    bcsdtth_copy                                 ../engine/source/constraints/general/bcs/bcsdtth.F
 !||    bcsn                                         ../engine/source/constraints/general/bcs/bcsn.F
@@ -446,6 +447,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ams_work_mod                                 ../engine/source/modules/ams_work_mod.F90
 !||    array_mod                                    ../common_source/modules/array_mod.F
 !||    bcs_mod                                      ../common_source/modules/boundary_conditions/bcs_mod.F90
+!||    bcs_nrf_mod                                  ../engine/source/boundary_conditions/bcs_nrf.F90
 !||    check_mod                                    ../common_source/modules/check_mod.F
 !||    cluster_mod                                  ../engine/share/modules/cluster_mod.F
 !||    connectivity_mod                             ../common_source/modules/connectivity.F90

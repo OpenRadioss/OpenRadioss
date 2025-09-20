@@ -23,7 +23,7 @@
 !||====================================================================
 !||    split_bcs_nrf_mod   ../starter/source/restart/ddsplit/split_bcs_nrf.F90
 !||--- called by ------------------------------------------------------
-!||    lectur               ../starter/source/starter/lectur.F
+!||    lectur              ../starter/source/starter/lectur.F
 !||====================================================================
       module split_bcs_nrf_mod
         implicit none
@@ -37,7 +37,7 @@
 !||====================================================================
 !||    split_bcs_nrf   ../starter/source/restart/ddsplit/split_bcs_nrf.F90
 !||--- called by ------------------------------------------------------
-!||    lectur           ../starter/source/starter/lectur.F
+!||    lectur          ../starter/source/starter/lectur.F
 !||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine split_bcs_nrf(bcs_per_proc, cep, scep, nspmd)

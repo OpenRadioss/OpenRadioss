@@ -80,6 +80,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    wrcomi                       ../engine/source/output/restart/wrcomm.F
 !||    wrcomr                       ../engine/source/output/restart/wrcomm.F
 !||    write_ale_grid               ../common_source/output/restart/write_ale_grid.F90
+!||    write_bcs_nrf                ../common_source/output/restart/write_bcs_nrf.F90
 !||    write_bcs_wall               ../common_source/output/restart/write_bcs_wall.F90
 !||    write_c_c                    ../common_source/tools/input_output/write_routtines.c
 !||    write_db                     ../common_source/tools/input_output/write_db.F
@@ -146,6 +147,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    unitab_mod                   ../common_source/modules/unitab_mod.F
 !||    user_windows_mod             ../common_source/modules/user_windows_mod.F
 !||    write_ale_grid_mod           ../common_source/output/restart/write_ale_grid.F90
+!||    write_bcs_nrf_mod            ../common_source/output/restart/write_bcs_nrf.F90
 !||    write_bcs_wall_mod           ../common_source/output/restart/write_bcs_wall.F90
 !||    write_inivel_mod             ../engine/source/output/restart/write_inivel.F90
 !||    xfem2vars_mod                ../engine/share/modules/xfem2vars_mod.F

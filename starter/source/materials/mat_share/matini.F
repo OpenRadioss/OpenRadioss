@@ -53,6 +53,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    m24in2                 ../starter/source/materials/mat/mat024/m24in2.F
 !||    m24in3                 ../starter/source/materials/mat/mat024/m24in3.F
 !||    m24insph               ../starter/source/elements/sph/m24insph.F
+!||    m36init                ../starter/source/materials/mat/mat036/m36init.F90
 !||    m37init                ../starter/source/materials/mat/mat037/m37init.F
 !||    m38init                ../starter/source/materials/mat/mat038/m38init.F
 !||    m51init                ../starter/source/materials/mat/mat051/m51init.F
@@ -67,6 +68,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    mating                 ../starter/source/materials/mat_share/mating.F
 !||--- uses       -----------------------------------------------------
 !||    detonators_mod         ../starter/share/modules1/detonators_mod.F
+!||    m36init_mod            ../starter/source/materials/mat/mat036/m36init.F90
 !||    message_mod            ../starter/share/message_module/message_mod.F
 !||====================================================================
       SUBROUTINE MATINI(PM       ,IX               ,NIX         ,X         ,

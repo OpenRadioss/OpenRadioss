@@ -124,6 +124,7 @@
 !||    ini_seatbelt                       ../starter/source/tools/seatbelts/ini_seatbelt.F
 !||    inint3                             ../starter/source/interfaces/inter3d1/inint3.F
 !||    inintr                             ../starter/source/interfaces/interf1/inintr.F
+!||    init_bcs_nrf                       ../starter/source/boundary_conditions/init_bcs_nrf.F90
 !||    init_bcs_wall                      ../starter/source/boundary_conditions/init_bcs_wall.F90
 !||    init_monvol                        ../starter/source/airbag/init_monvol.F
 !||    insert_clause_in_set               ../starter/source/model/sets/insert_clause_in_set.F

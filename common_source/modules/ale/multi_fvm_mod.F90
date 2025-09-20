@@ -67,6 +67,7 @@
 !||    h3d_solid_scalar_1               ../engine/source/output/h3d/h3d_results/h3d_solid_scalar_1.F
 !||    h3d_solid_vector                 ../engine/source/output/h3d/h3d_results/h3d_solid_vector.F
 !||    hist2                            ../engine/source/output/th/hist2.F
+!||    hm_read_bcs_nrf                  ../starter/source/boundary_conditions/hm_read_bcs_nrf.F90
 !||    hm_read_bcs_wall                 ../starter/source/boundary_conditions/hm_read_bcs_wall.F90
 !||    hm_read_ebcs_fluxout             ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_fluxout.F
 !||    hm_read_ebcs_gradp0              ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_gradp0.F
@@ -118,6 +119,7 @@
 !||    inint3                           ../starter/source/interfaces/inter3d1/inint3.F
 !||    inintr                           ../starter/source/interfaces/interf1/inintr.F
 !||    iniphase                         ../starter/source/initial_conditions/inivol/iniphase.F
+!||    init_bcs_nrf                     ../starter/source/boundary_conditions/init_bcs_nrf.F90
 !||    init_bcs_wall                    ../starter/source/boundary_conditions/init_bcs_wall.F90
 !||    init_inivol                      ../starter/source/initial_conditions/inivol/init_inivol.F90
 !||    init_inivol_2d_polygons          ../starter/source/initial_conditions/inivol/init_inivol_2D_polygons.F90

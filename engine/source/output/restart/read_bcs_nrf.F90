@@ -24,7 +24,7 @@
 !||====================================================================
 !||    read_bcs_nrf_mod   ../engine/source/output/restart/read_bcs_nrf.F90
 !||--- called by ------------------------------------------------------
-!||    rdresb              ../engine/source/output/restart/rdresb.F
+!||    rdresb             ../engine/source/output/restart/rdresb.F
 !||====================================================================
       module read_bcs_nrf_mod
       implicit none
@@ -36,7 +36,7 @@
 !! \details  necessary buffer specific to option /BCS/NRF/...
 !
 !||====================================================================
-!||    read_bcs_nrf   ../engine/source/output/restart/read_bcs_nrf.F90
+!||    read_bcs_nrf    ../engine/source/output/restart/read_bcs_nrf.F90
 !||--- called by ------------------------------------------------------
 !||    rdresb          ../engine/source/output/restart/rdresb.F
 !||--- calls      -----------------------------------------------------
