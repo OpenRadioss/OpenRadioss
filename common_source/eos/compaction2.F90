@@ -54,10 +54,10 @@
 !||    eos_param_mod   ../common_source/modules/mat_elem/eos_param_mod.F90
 !||    precision_mod   ../common_source/modules/precision_mod.F90
 !||====================================================================
-      subroutine compaction2(npropm, nummat,&
-                             iflag  , nel   , pm   , off   , eint  , mu    , &
-                             dvol   , mat   , psh  , &
-                             pnew   , dpdm  , dpde , mu_bak,&
+      subroutine compaction2(&
+                             iflag  , nel   , pmin , off    , eint  , mu    , &
+                             dvol   , psh  , &
+                             pnew   , dpdm  , dpde , nvareos, vareos,&
                              npf    , tf    , snpc , stf   , &
                              eos_struct)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -74,21 +74,22 @@
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
       integer,intent(in) :: nel !< number of element in the currenbt group
-      integer,intent(in) :: npropm, nummat !< array sizes
-      integer,intent(in) :: mat(nel), iflag
-      real(kind=WP),intent(inout) :: pm(npropm,nummat) !< material data (real parameters)
-      real(kind=WP),intent(inout) :: off(nel),eint(nel),mu(nel),dvol(nel)
+      integer,intent(in) :: iflag
+      real(kind=WP),intent(in) :: pmin !< minimum pressure
+      real(kind=WP),intent(in) :: off(nel),mu(nel),dvol(nel)
+      real(kind=WP),intent(inout) :: eint(nel)
       real(kind=WP),intent(inout) :: pnew(nel),dpdm(nel),dpde(nel)
       integer,intent(in) :: snpc, stf !< array sizes
       integer,intent(in)::npf(snpc) !< data structure for /FUNCT
+      integer,intent(in)::nvareos !< number of variables for eos
+      real(kind=WP),intent(inout)::vareos(nel,nvareos) !< ueos user variable (mu_bak
       real(kind=WP),intent(in)::tf(stf) !< data structure for /FUNCT
       type(eos_param_),intent(in) :: eos_struct !< data structure for EoS parameters
-      real(kind=WP),intent(inout) :: mu_bak(nel) !< backup of mu for unloading
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local Variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: i, mx, iform, p_func_id
-          real(kind=WP) :: p0,psh(nel),e0,sph, b(nel),pne1,pfrac
+          integer :: i, iform, p_func_id
+          real(kind=WP) :: psh(nel), b(nel),pne1,pfrac
           real(kind=WP) :: p(nel),p_
           real(kind=WP) :: alpha
           real(kind=WP) :: bmin, bmax, mumin, mumax,Fscale,Xscale
@@ -106,12 +107,8 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-       mx         = mat(1)
-       e0         = pm(23,mx)
        psh(1:nel) = eos_struct%psh
-       sph        = pm(69,mx)
-       p0         = pm(31,mx)
-       pfrac      = pm(37,mx)
+       pfrac      = pmin
 
        bmin  = eos_struct%uparam(1)
        bmax  = eos_struct%uparam(2)
@@ -124,6 +121,8 @@
 
        p_func_id = eos_struct%func(1)
 
+       !vareos(:,1) is mu_bak for loading hsitory (load/unload/reload)
+
           !----------------------------------------------------------------!
           !  COMPACTION EOS                                                !
           !----------------------------------------------------------------!
@@ -132,11 +131,11 @@
             do i=1,nel
               p(i) = finter(p_func_id,xscale*mu(i),npf,tf,dpdm(i))
               p(i) = fscale * p(i)
-              p_   = finter(p_func_id,xscale*mu_bak(i),npf,tf,dpdm(i))
+              p_   = finter(p_func_id,xscale*vareos(i,1),npf,tf,dpdm(i))
               p_   = p_ * Fscale
               b(i) = bmax
-              pne1 = p_-(mu_bak(i)-mu(i))*b(i)
-              if(mu_bak(i) > mumin) p(i) = min(pne1, p(i))
+              pne1 = p_-(vareos(i,1)-mu(i))*b(i)
+              if(vareos(i,1) > mumin) p(i) = min(pne1, p(i))
               p(i) = max(p(i),pfrac)*off(i)
             enddo !next i
             !--- continuous unload slope (increases with compaction) ---!
@@ -144,16 +143,16 @@
             do i=1,nel
               p(i) = finter(p_func_id,xscale*mu(i),npf,tf,dpdm(i))
               p(i) = fscale * p(i)
-              p_   = finter(p_func_id,xscale*mu_bak(i),npf,tf,dpdm(i))
+              p_   = finter(p_func_id,xscale*vareos(i,1),npf,tf,dpdm(i))
               p_   = p_ * Fscale
               !linear unload modulus
               alpha = one
               if(mumax > zero)then
-                alpha=mu_bak(i)/mumax
+                alpha=vareos(i,1)/mumax
               endif
               b(i) = alpha*bmax+(one-alpha)*bmin
-              pne1 = p_-(mu_bak(i)-mu(i))*b(i)
-              if(mu_bak(i) > mumin) p(i) = min(pne1, p(i))
+              pne1 = p_-(vareos(i,1)-mu(i))*b(i)
+              if(vareos(i,1) > mumin) p(i) = min(pne1, p(i))
               p(i) = max(p(i),pfrac)  *off(i)
             enddo !next i
           endif
@@ -183,7 +182,7 @@
             !  FRACTURE  - MU_BAK                                            !
             !----------------------------------------------------------------!
             do i=1,nel
-              if(mu(i) > mu_bak(i)) mu_bak(i) = min(mumax,mu(i))
+              if(mu(i) > vareos(i,1)) vareos(i,1) = min(mumax,mu(i))
             enddo !next i
             !----------------------------------------------------------------!
             !  OUTPUT                                                        !
@@ -204,7 +203,7 @@
             !  FRACTURE  - MU_BAK                                            !
             !----------------------------------------------------------------!
             do i=1,nel
-              if(mu(i) > mu_bak(i)) mu_bak(i) = min(mumax,mu(i))
+              if(mu(i) > vareos(i,1)) vareos(i,1) = min(mumax,mu(i))
             enddo !next i
             !----------------------------------------------------------------!
             !  OUTPUT                                                        !

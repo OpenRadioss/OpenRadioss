@@ -85,9 +85,11 @@ C-----------------------------------------------
       my_real, INTENT(INOUT) :: EINT(NEL), RHO(NEL), THETA(NEL)
       my_real, INTENT(OUT) :: PRES(NEL), SSP(NEL)
       my_real, INTENT(IN) :: BURNTIME(NEL), DELTAX(NEL), CURRENT_TIME
-      my_real, INTENT(INOUT) :: BURNFRAC(NEL), BUFMAT(*)
+      my_real, INTENT(INOUT) :: BURNFRAC(NEL)
+      my_real, INTENT(IN) :: BUFMAT(*)
       INTEGER, INTENT(IN) :: NPF(SNPC),NVAREOS
-      my_real, INTENT(IN) :: TF(STF),VAREOS(NVAREOS*NEL)
+      my_real, INTENT(IN) :: TF(STF)
+      my_real, INTENT(INOUT) :: VAREOS(NVAREOS*NEL)
       TYPE(MATPARAM_STRUCT_), INTENT(IN) :: MAT_PARAM !material data structure
       INTEGER,INTENT(IN) :: NVARTMP_EOS
       INTEGER,INTENT(INOUT) :: VARTMP_EOS(NEL,NVARTMP_EOS)

@@ -72,10 +72,12 @@
           INTEGER, INTENT(IN) :: IPM(NPROPMI, NUMMAT)
           real(kind=WP), INTENT(INOUT) :: RHO(1)
           real(kind=WP), INTENT(INOUT) :: SSP(1), PRES(1), EINT(1)
-          real(kind=WP), INTENT(INOUT) :: BURNFRAC(1), BURNTIME(1), DELTAX(1), CURRENT_TIME, BUFMAT(*)
+          real(kind=WP), INTENT(INOUT) :: BURNFRAC(1), BURNTIME(1), DELTAX(1), CURRENT_TIME
+          real(kind=WP), INTENT(IN) ::  BUFMAT(*)
           real(kind=WP), INTENT(INOUT) :: OFF(1)
           INTEGER, INTENT(IN) :: NPF(SNPC),NVAREOS
-          real(kind=WP), INTENT(IN) :: TF(STF),VAREOS(NVAREOS*1)
+          real(kind=WP), INTENT(IN) :: TF(STF)
+          real(kind=WP), INTENT(INOUT) :: VAREOS(NVAREOS*1)
           TYPE(MATPARAM_STRUCT_), INTENT(IN) :: MAT_PARAM !material data structure
           INTEGER,INTENT(IN) :: NVARTMP_EOS
           INTEGER,INTENT(INOUT) :: VARTMP_EOS(1,NVARTMP_EOS)
