@@ -78,6 +78,7 @@ C-----------------------------------------------
       USE RBE3_MOD
       USE TH_MOD , ONLY : TH_HAS_NODA_PEXT
       USE OUTPUT_MOD
+      USE EOS_PARAM_MOD , ONLY : ANALY_TEMP
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -175,7 +176,7 @@ C-----------------------------------------------
       ISIGI   =TABVINT(22)
       NSPMD   =TABVINT(23)
       LENWA   =TABVINT(24)
-      ! TABVINT(25)  unused
+      ANALY_TEMP = TABVINT(25)
       TH_HAS_NODA_PEXT = TABVINT(26)
       NNODS   =TABVINT(27)
       NCNOIS  =TABVINT(28)

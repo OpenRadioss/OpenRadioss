@@ -78,8 +78,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      6                     NPF   ,TF     ,VAREOS ,NVAREOS ,MAT_PARAM,
      7                     BFRAC ,NVARTMP,VARTMP)
 C-----------------------------------------------
-          use eosexponential_mod
-C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
 C This subroutines call the expected EOS solver
@@ -116,10 +114,12 @@ C depending on EOSTYP(INTEGER) value.
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+          USE EOS_PARAM_MOD ,ONLY : ANALY_TEMP
           USE MATPARAM_DEF_MOD   , ONLY : MATPARAM_STRUCT_
           USE COMPACTION_MOD     , ONLY : COMPACTION
           USE COMPACTION2_MOD    , ONLY : COMPACTION2
           USE COMPACTION_TAB_MOD , ONLY : COMPACTION_TAB
+          USE EOSEXPONENTIAL_MOD , ONLY : EOSEXPONENTIAL
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -414,8 +414,8 @@ C-----------------------------------------------
            CASE DEFAULT
             !gruneisen parameter is strictly positive (most of EoS)
             DO I=1,NEL
-              IF(OFF(I) == ONE .AND. VNEW(I) > ZERO) THEN
-                DTEMP(I) = -(THETA(I)*DPDE(I)*DF(I))*DVOL(I)/VNEW(I) ! no conduction => Cv does not play any role
+              IF(PNEW(I) > PMIN .AND. VNEW(I) > ZERO) THEN
+                DTEMP(I) = -OFF(I)*(THETA(I)*DPDE(I)*DF(I))*DVOL(I)/VNEW(I) ! no conduction => Cv does not play any role
               ENDIF
             ENDDO
 
@@ -423,10 +423,10 @@ C-----------------------------------------------
 
 
           isfluid = mat_param%eos%isfluid
-          if(isfluid == 0)then
-            !solid material modeling
+          if(isfluid == 0 .AND. ANALY_TEMP == 0)then
+            !solid material modeling - cutoff in expansion
             do i=1,nel
-              IF(DTEMP(I) > ZERO)THEN
+              IF(MU(I) > ZERO)THEN
                 THETA(I) = THETA(I) + DTEMP(I)
               endif
               THETA(I) = MAX(ZERO,THETA(I))
