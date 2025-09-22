@@ -24,7 +24,7 @@
  COMPUTATION HARDWARE DESCRIPTION
   
  HOSTNAME     CPU TYPE, FREQUENCY AND MEMORY
- fr-lap281-1.europe.altair.com   Intel(R) Core(TM) i7-9750H CPU @ 2.60GHz (x86_64), 2592 MHz,  16016 MB RAM,      0 MB swap
+ fr-lap510-1.europe.altair.com   13th Gen Intel(R) Core(TM) i7-13850HX (x86_64), 2303 MHz,  24331 MB RAM,      0 MB swap
   
  STACKSIZE  . . . . . . . . . . . . . . . . . . . . 16 MB
  THREAD STACKSIZE . . . . . . . . . . . . . . . . . 400 mB
@@ -3544,20 +3544,20 @@ IE        KE        XMOM      YMOM      ZMOM      MASS      HE        ERODED    
  CPU USER TIME
  -------------
  TRANSLATOR  FREEFORM    LECTURE     DDSPLIT     IPARI_L_INI INTBUF_INI  SPL_INTS    W_FI        
-.0000E+00   .2392E+00   .2241E+00   .2759E-02   .2027E-05   .3010E-05   .1060E-03   .3010E-05
+.0000E+00   .1358E+00   .9940E-01   .1160E-03   .1100E-04   .0000E+00   .0000E+00   .0000E+00
   
   
  ELAPSED TIME
  ------------
  TRANSLATOR  FREEFORM    LECTURE     DDSPLIT     IPARI_L_INI INTBUF_INI  SPL_INTS    W_FI        
-.0000E+00   .6883E+04   .2667E+00   .3871E-02   .2303E-05   .2529E-05   .1059E-03   .1948E-05
+.0000E+00   .2510E+06   .1227E+00   .2187E-02   .1640E-04   .1220E-04   .1008E-03   .1140E-04
   
                    ** COMPUTE TIME INFORMATION **
   
- EXECUTION STARTED      :      2025/04/18  11:53:05
- EXECUTION COMPLETED    :      2025/04/18  11:53:05
+ EXECUTION STARTED      :      2025/09/17  15:35:44
+ EXECUTION COMPLETED    :      2025/09/17  15:35:44
   
- ELAPSED TIME...........=          0.58 s
+ ELAPSED TIME...........=          0.33 s
                                00:00:00
   
 ------------------------------------------------------------------------
