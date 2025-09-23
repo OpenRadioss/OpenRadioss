@@ -301,12 +301,6 @@ c------------------
             IF (FLAG_FIT == 1) THEN 
               CALL LAW87_UPD(IOUT   ,TITR    ,MAT_ID ,MAT_PARAM(IMAT)     )
             ENDIF
-c-------------------------
-          CASE (88) 
-c
-            CALL LAW88_UPD(IOUT,TITR,UPARAM,NPC,PLD,
-     .                     NFUNC,IFUNC,MAT_ID,FUNC_ID,PM(1,IMAT),
-     .                     NFUNCT )
 c------------------
           CASE (90) 
 c
