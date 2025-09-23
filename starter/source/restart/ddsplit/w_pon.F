@@ -22,12 +22,14 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
 !||====================================================================
-!||    w_pon            ../starter/source/restart/ddsplit/w_pon.F
+!||    w_pon                  ../starter/source/restart/ddsplit/w_pon.F
 !||--- called by ------------------------------------------------------
-!||    ddsplit          ../starter/source/restart/ddsplit/ddsplit.F
+!||    ddsplit                ../starter/source/restart/ddsplit/ddsplit.F
 !||--- calls      -----------------------------------------------------
-!||    nlocal           ../starter/source/spmd/node/ddtools.F
+!||    get_fsky_address       ../starter/source/restart/ddsplit/get_fsky_address.F90
+!||    nlocal                 ../starter/source/spmd/node/ddtools.F
 !||--- uses       -----------------------------------------------------
+!||    get_fsky_address_mod   ../starter/source/restart/ddsplit/get_fsky_address.F90
 !||====================================================================
       SUBROUTINE W_PON(
      1      ADDCNE   ,CNE      ,LCNE      ,NUMNOD_L  ,NODGLOB   ,

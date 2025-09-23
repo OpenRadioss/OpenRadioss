@@ -67,6 +67,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    compaction2_mod      ../common_source/eos/compaction2.F90
 !||    compaction_mod       ../common_source/eos/compaction.F90
 !||    compaction_tab_mod   ../common_source/eos/compaction_tab.F90
+!||    eos_param_mod        ../common_source/modules/mat_elem/eos_param_mod.F90
 !||    eosexponential_mod   ../common_source/eos/eosexponential.F90
 !||    matparam_def_mod     ../common_source/modules/mat_elem/matparam_def_mod.F90
 !||====================================================================
