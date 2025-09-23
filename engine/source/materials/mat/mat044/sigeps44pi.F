@@ -33,7 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      3               SIGOXX  ,SIGOXY  ,SIGOXZ  ,EPST    ,EPSP    ,      
      4               SIGNXX  ,SIGNXY  ,SIGNXZ  ,ETSE    ,NUVAR   ,
      5               UVAR    ,IFUNC   ,NVARTMP ,VARTMP  ,NPF     ,
-     6               TF      ,NFUNC   ,SIGY)      
+     6               TF      ,NFUNC   ,SIGY, NGL,IPT)      
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -45,10 +45,12 @@ C-----------------------------------------------
 #include      "scr17_c.inc"
 #include      "com04_c.inc"
 #include      "com08_c.inc"
+#include      "units_c.inc"
+#include      "comlock.inc"
 C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ,INTENT(IN) :: IMAT
+      INTEGER ,INTENT(IN) :: IMAT,NGL(NEL),IPT
       INTEGER ,INTENT(IN) :: NEL,NUPARAM,NUVAR,
      .   NFUNC,IFUNC(NFUNC),NPF(*),NVARTMP
       INTEGER ,DIMENSION(NPROPMI,NUMMAT) ,INTENT(IN) :: IPM
@@ -205,6 +207,10 @@ c--------------------------------
 c         test strain failure
           IF (DMG == ZERO .or. PLA(I) >= EPMAX(I)) THEN
             OFF(I)   = FOUR_OVER_5
+!#include "lockon.inc"
+            WRITE(IOUT, 1000) NGL(I),IPT
+            WRITE(ISTDO,1000) NGL(I),IPT
+!#include "lockoff.inc"
           ENDIF
           IF (VFLAG(I) == 1) THEN 
             ALPHA   = MIN(ONE, ASRATE(I)*DT1)
@@ -216,5 +222,8 @@ c
         ENDIF
       ENDDO                                          
 c-----------
+c---------------------------------------------------------
+ 1000 FORMAT(5X,' FAILURE BEAM ELEMENT NUMBER',I3,',  INTEGRATION POINT NUMBER ',I3)
+c---------------------------------------------------------
       RETURN
       END
