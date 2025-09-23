@@ -1352,7 +1352,7 @@ C
      .               GEO(23,I0)*GEO(57,I0),
      .               GEO(27,I0)*GEO(61,I0)))/XL(I)
           XCR= (XCR+MAX(GEO(20,I0),GEO(24,I0),GEO(28,I0))
-     .        +   MAX(GEO(144,I0),GEO(145,I0),GEO(146,I0)) )/XL(I)
+     .        +     MAX(GEO(144,I0),GEO(145,I0),GEO(146,I0)) )/XL(I)
           XM=GEO(1,I0)*XL(I)
           XINE=GEO(9,I0)*XL(I)
           IF (XCM+XKM<EM15) XM =ONE
@@ -1424,10 +1424,10 @@ C
      .              MAX(UPARAM(IADBUF + K14 + 2),UPARAM(IADBUF + K14 + 3)))* AL2
               XKR= ( XKR
      .              + MAX(UPARAM(IADBUF + K11 + 4)*UPARAM(IADBUF + K1 + 4),
-     .                   UPARAM(IADBUF + K11 + 5)*UPARAM(IADBUF + K1 + 5),
-     .                   UPARAM(IADBUF + K11 + 6)*UPARAM(IADBUF + K1 + 6)))/XL(I)
-              XCR= (XCR+MAX(UPARAM(IAD + K12 + 1),UPARAM(IADBUF + K12 + 2),UPARAM(IADBUF + K12 + 3))
-     .            +     MAX(UPARAM(IAD + K14 + 4),UPARAM(IADBUF + K14 + 5),UPARAM(IADBUF + K14 + 6)) )/XL(I)
+     .                    UPARAM(IADBUF + K11 + 5)*UPARAM(IADBUF + K1 + 5),
+     .                    UPARAM(IADBUF + K11 + 6)*UPARAM(IADBUF + K1 + 6)))/XL(I)
+              XCR= (XCR+MAX(UPARAM(IADBUF + K12 + 4),UPARAM(IADBUF + K12 + 5),UPARAM(IADBUF + K12 + 6))
+     .            +     MAX(UPARAM(IADBUF + K14 + 4),UPARAM(IADBUF + K14 + 5),UPARAM(IADBUF + K14 + 6)) )/XL(I)
               XM  =GBUF%MASS(I)
               XINE=GEO(2,I0)*XL(I)
               IF (XCM+XKM<EM15) XM  =ONE
