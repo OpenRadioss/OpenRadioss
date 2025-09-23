@@ -237,7 +237,7 @@ c
           E2D = EPSYY(I) - DAV
           E3D = - DAV
           E4D = HALF*EPSXY(I)
-          EFF_STRAIN(I) = E1D**2 + E2D**2 + E3D**3 + TWO*(E4D**2)
+          EFF_STRAIN(I) = E1D**2 + E2D**2 + E3D**2 + TWO*(E4D**2)
           EFF_STRAIN(I) = SQRT(TWO_THIRD*EFF_STRAIN(I))
 c
           ! --------------------------------------------------------------------------
