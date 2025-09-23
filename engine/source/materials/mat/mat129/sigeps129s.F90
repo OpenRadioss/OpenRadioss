@@ -20,7 +20,7 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-! ======================================================================================================================
+! ==================================================================================================
 
 !||====================================================================
 !||    sigeps129s_mod   ../engine/source/materials/mat/mat129/sigeps129s.F90
@@ -53,12 +53,12 @@
           temp0    ,temp     ,off      ,time     ,iexpan   ,amu      ,         &
           sensors  )
 !
-! ======================================================================================================================
+! ==================================================================================================
 ! \brief thermo-elasto-viscoplastic material with creep, for solid elements
 
-! ======================================================================================================================
+! ==================================================================================================
 !                                                        Modules
-! ----------------------------------------------------------------------------------------------------------------------
+! --------------------------------------------------------------------------------------------------
           use matparam_def_mod
           use constant_mod ,only : zero,one,two,three
           use constant_mod ,only : half,three_half,third,two_third,four_over_3,four_over_5
@@ -67,11 +67,11 @@
           use table4d_mod
           use table_mat_vinterp_mod
           use precision_mod, only : WP
-! ----------------------------------------------------------------------------------------------------------------------
+! --------------------------------------------------------------------------------------------------
           implicit none
-! ----------------------------------------------------------------------------------------------------------------------
+! --------------------------------------------------------------------------------------------------
 !                                                   arguments
-! ----------------------------------------------------------------------------------------------------------------------
+! --------------------------------------------------------------------------------------------------
           integer ,intent(in) :: nel                           !< element group size
           integer ,intent(in) :: nuvar                         !< number of state variables
           integer ,intent(in) :: nvartmp                       !< number of temporary internal variables
@@ -111,14 +111,14 @@
           type (matparam_struct_)         ,intent(in)    :: mat_param !< material parameter structure
           type (sensors_)                 ,intent(in)    :: sensors   !< sensor structure
           target :: mat_param,temp,pla
-! ----------------------------------------------------------------------------------------------------------------------
+! --------------------------------------------------------------------------------------------------
 !                                                   local variables
-! ----------------------------------------------------------------------------------------------------------------------
+! --------------------------------------------------------------------------------------------------
           integer :: i,ii,iter,niter,nindx,crp_law,isens,ndim
           integer ,dimension(nel) :: indx
           real(kind=WP) :: dpdt
           real(kind=WP) :: epsp0,lame,ldav,epsc,deps,dcreep,p,rfact,seq
-          real(kind=WP) :: facp
+          real(kind=WP) :: facp,crit,dcr0
           real(kind=WP) :: asrate,dtime,tstart
           real(kind=WP) :: cr1,cr2,cx1,cx2
           real(kind=WP) :: j2,g2,g3,rho0
@@ -127,15 +127,19 @@
           real(kind=WP) :: ca,n,m,cq
           real(kind=WP) :: fsig,ftime
           real(kind=WP) :: alpha0,crpa0
+          real(kind=WP) :: dsig
           real(kind=WP) ,dimension(nel)   :: pla0,dlam
           real(kind=WP) ,dimension(nel)   :: sxx,syy,szz,sxy,syz,szx !< deviatoric stress components
+          real(kind=WP) ,dimension(nel)   :: stxx,styy,stzz,stxy,styz,stzx !< elastic trial deviatoric stress
+          real(kind=WP) ,dimension(nel)   :: dxx,dyy,dzz,dxy,dyz,dzx
+          real(kind=WP) ,dimension(nel)   :: normxx,normyy,normzz,normxy,normyz,normzx ! flow direction
           real(kind=WP) ,dimension(nel)   :: crpa,crpm,crpn,crpq     !< creep parameters
           real(kind=WP) ,dimension(nel)   :: cc,cp,cowp              !< strain rate parameters
           real(kind=WP) ,dimension(nel)   :: young,shear,bulk,nu     !< elastic moduli
           real(kind=WP) ,dimension(nel)   :: h                       !< hardening tangent stiffness
           real(kind=WP) ,dimension(nel)   :: phi                     !< plastic yield criterion
           real(kind=WP) ,dimension(nel)   :: sigy                    !< yield stress
-          real(kind=WP) ,dimension(nel)   :: svm                     !< Von Mises stress
+          real(kind=WP) ,dimension(nel)   :: svm0,svm                !< Von Mises stress
           real(kind=WP) ,dimension(nel)   :: sigm                    !< pressure
           real(kind=WP) ,dimension(nel)   :: fscale                  !< scale factor
           real(kind=WP) ,dimension(nel)   :: alpha                   ! thermal expansion coeff
@@ -144,12 +148,12 @@
           real(kind=WP) ,dimension(:,:) ,pointer :: xvec1
           real(kind=WP) ,dimension(:,:) ,pointer :: xvec2
           type (table_4d_)        ,pointer :: itable
-! ----------------------------------------------------------------------------------------------------------------------
+! --------------------------------------------------------------------------------------------------
 !   state  v a r i a b l e s (uvar)
-! ----------------------------------------------------------------------------------------------------------------------
+! --------------------------------------------------------------------------------------------------
 !     uvar(1) = plastic strain rate, saved for filtering
 !     uvar(2) = accumulated creep strain
-! ======================================================================================================================
+! ==================================================================================================
           niter = 3   ! max number of newton iterations
           dtime = max(timestep, em20)
           rho0  = mat_param%rho0
@@ -186,9 +190,15 @@
 !
           alpha(1:nel) = alpha0
           crpa(1:nel)  = crpa0
-! ----------------------------------------------------------------------------------------------------------------------
+
+          if (crpa0 > zero .and. isens > zero) then
+            tstart = sensors%sensor_tab(isens)%tstart
+          else
+            tstart = infinity
+          end if
+! ---------------------------------------------------------------------------------------------
           ! check material parameters dependency on temperature and apply scale factors
-! ----------------------------------------------------------------------------------------------------------------------
+! ---------------------------------------------------------------------------------------------
           xvec1(1:nel,1:1) => temp(1:nel)
 !
           if (mat_param%table(2)%notable > 0) then   ! young modulus evolution
@@ -248,7 +258,7 @@
           if (mat_param%table(13)%notable > 0) then  ! alpha parameters evolution
             call table_mat_vinterp(mat_param%table(13),nel,nel,vartmp(1,14),xvec1,alpha,h)
           end if
-! ----------------------------------------------------------------------------------------------------------------------
+! ---------------------------------------------------------------------------------------------
           if (mat_param%table(1)%notable > 0) then  ! tabulated input of equivalent stress
             itable => mat_param%table(1)
             ndim   = itable%ndim
@@ -273,8 +283,14 @@
                      + qx2(i)*cx2*exp(-cx2*pla(i))
             enddo
           end if
-! ----------------------------------------------------------------------------------------------------------------------
+! ---------------------------------------------------------------------------------------------
           epsp(1:nel) = uvar(1:nel,1)  ! filtered plastic strain rate from previous time step
+          ! initial Von Mises stress = sqrt(3*J2)
+          do i=1,nel
+            j2 = (sigoxx(i)**2 + sigoyy(i)**2 + sigozz(i)**2)*half &
+               +  sigoxy(i)**2 + sigoyz(i)**2 + sigozx(i)**2
+            svm(i) = sqrt(three*j2)
+          enddo
 !
           ! apply strain rate scaling factor on yield stress
           if (epsp0 > zero)  then
@@ -284,15 +300,23 @@
               h(i)    = h(i)   * cowp(i)
             enddo
           end if
-! ----------------------------------------------------------------------------------------------------------------------
+! ---------------------------------------------------------------------------------------------
           ! element deletion condition
           do i=1,nel
             if (off(i) < one)  off(i) = four_over_5*off(i)
             if (off(i) < em01) off(i) = zero
           enddo
-! ----------------------------------------------------------------------------------------------------------------------
+! ---------------------------------------------------------------------------------------------
+          ! initial von Mises stress
+! ---------------------------------------------------------------------------------------------
+          do i=1,nel
+            j2 = (sigoxx(i)**2 + sigoyy(i)**2 + sigozz(i)**2)*half    &
+               +  sigoxy(i)**2 + sigoyz(i)**2 + sigozx(i)**2
+            svm0(i) = sqrt(three*j2)
+          enddo
+! ---------------------------------------------------------------------------------------------
           ! elastic trial stress tensor
-! ----------------------------------------------------------------------------------------------------------------------
+! ---------------------------------------------------------------------------------------------
           do i=1,nel
             g2 = shear(i) * two
             lame = g2 * nu(i) / (one - two*nu(i))
@@ -304,7 +328,7 @@
             signyz(i) = sigoyz(i) + depsyz(i)*shear(i)
             signzx(i) = sigozx(i) + depszx(i)*shear(i)
           enddo
-! ----------------------------------------------------------------------------------------------------------------------
+! ---------------------------------------------------------------------------------------------
           ! thermal strain increment and thermal stress correction
           if (iexpan == 0 .and. alpha0 > zero) then
             depsth(1:nel) = alpha(1:nel) * (temp(1:nel) - temp0(1:nel))
@@ -324,18 +348,35 @@
             sxy(i)  = signxy(i)
             syz(i)  = signyz(i)
             szx(i)  = signzx(i)
+            stxx(i) = sxx(i)
+            styy(i) = syy(i)
+            stzz(i) = szz(i)
+            stxy(i) = sxy(i)
+            styz(i) = syz(i)
+            stzx(i) = szx(i)
             ! Von Mises stress = sqrt(3*J2)
             j2 = (sxx(i)**2 + syy(i)**2 + szz(i)**2)*half + sxy(i)**2 + syz(i)**2 + szx(i)**2
             svm(i) = sqrt(three*j2)
           enddo
-! ----------------------------------------------------------------------------------------------------------------------
+! ---------------------------------------------------------------------------------------------
           et(1:nel)    = one
           dpla(1:nel)  = zero
           pla0(1:nel)  = pla(1:nel)
           depsc(1:nel) = zero
-! ----------------------------------------------------------------------------------------------------------------------
+!
+          !< plastic and creep flow direction - normal to the yield surface    
+          do i=1,nel
+            seq = max(svm(i), em20)
+            normxx(i) = three_half * sxx(i) / seq
+            normyy(i) = three_half * syy(i) / seq
+            normzz(i) = three_half * szz(i) / seq
+            normxy(i) = three_half * sxy(i) / seq
+            normyz(i) = three_half * syz(i) / seq
+            normzx(i) = three_half * szx(i) / seq
+          end do
+! ---------------------------------------------------------------------------------------------
           ! check yield condition and calculate plastic strain
-! ----------------------------------------------------------------------------------------------------------------------
+! ---------------------------------------------------------------------------------------------
           phi(1:nel) = svm(1:nel) - yld(1:nel)
 !
           nindx   = 0
@@ -405,74 +446,84 @@
               phi(i) = svm(i) - yld(i)
               et(i) = h(i) / (h(i) + young(i))
             enddo
-          end do     ! end of the Newton iterations
-! ----------------------------------------------------------------------------------------------------------------------
+          end do     ! end of the Newton iterations over plastic strain
+! ---------------------------------------------------------------------------------------------
           ! calculation of creep strain increment and total creep strain
           ! stop creep evolution if sensor is activated
-! ----------------------------------------------------------------------------------------------------------------------
-          tstart = infinity
-          if (crpa0 > zero) then
-            if (isens > zero) then
-              tstart = sensors%sensor_tab(isens)%tstart
-            end if
-            if (time > zero .and. time < tstart) then
-              if (crp_law == 1) then           ! use transient Norton power law
+! ---------------------------------------------------------------------------------------------
+          if (crpa0 > zero .and. time - dtime > zero .and. time < tstart) then
+            niter = 20   ! number of iterations for creep 
+            svm(1:nel) = svm0(1:nel)
+!
+            if (crp_law == 1) then           ! use transient Norton power law
+              do iter=1,niter
                 do i=1,nel
-                  ca = crpa(i)
-                  n  = crpn(i)
-                  m  = crpm(i)
-                  fsig  = (svm(i)/sig_crp)**n
-                  ftime = (time/time_crp)**m
-                  depsc(i) = ca * fsig * ftime * dtime
+                  fsig  = (svm(i)/sig_crp)**crpn(i)
+                  ftime = (time /time_crp)**crpm(i)
+                  depsc(i) = crpa(i) * fsig * ftime * dtime
+                  depsc(i) = max(depsc(i) ,zero) 
+                  seq      = max(svm(i),   em20)
+                  rfact   = one / (one + three*depsc(i)*shear(i)/seq)
+                  sxx(i)  = stxx(i) * rfact 
+                  syy(i)  = styy(i) * rfact
+                  szz(i)  = stzz(i) * rfact
+                  sxy(i)  = stxy(i) * rfact
+                  syz(i)  = styz(i) * rfact
+                  szx(i)  = stzx(i) * rfact
+                  j2 = (sxx(i)**2+syy(i)**2+szz(i)**2)*half + sxy(i)**2+syz(i)**2+szx(i)**2
+                  svm(i) = sqrt(three*j2)
                 end do
-              else if (crp_law == 2) then      ! use Garfallo steady state law
+              end do
+            else if (crp_law == 2) then           ! use Garfallo law
+              do iter=1,niter
                 do i=1,nel
-                  ca = crpa(i)
-                  n  = crpn(i)
-                  m  = crpm(i)
-                  cq = crpq(i)
-                  fsig  = (sinh(svm(i)/sig_crp))**n
-                  ftime = exp(-cq/max(temp(i),em20))
-                  depsc(i) = ca * fsig * ftime * dtime
+                  fsig  = (sinh(svm(i)/sig_crp))**crpn(i)
+                  ftime = exp(-crpq(i)/max(temp(i),em20))
+                  depsc(i) = crpa(i) * fsig * ftime * dtime
+                  depsc(i) = max(depsc(i) ,zero) 
+                  seq      = max(svm(i),   em20)
+                  rfact   = one / (one + three*depsc(i)*shear(i)/seq)
+                  sxx(i)  = stxx(i) * rfact 
+                  syy(i)  = styy(i) * rfact
+                  szz(i)  = stzz(i) * rfact
+                  sxy(i)  = stxy(i) * rfact
+                  syz(i)  = styz(i) * rfact
+                  szx(i)  = stzx(i) * rfact
+                  j2 = (sxx(i)**2+syy(i)**2+szz(i)**2)*half + sxy(i)**2+syz(i)**2+szx(i)**2
+                  svm(i) = sqrt(three*j2)
                 end do
-              else if (crp_law == 3) then      ! use strain hardening Norton formulation
-                do i=1,nel
-                  ca = crpa(i)
-                  n  = crpn(i)
-                  m  = crpm(i)
-                  if (uvar(i,2) == zero) then
-!                    depsc(i) = ca*(svm(i)/sig_crp)**n * (dtime/time_crp)**m
-                    depsc(i) = em10
-                  else 
-                    depsc(i) = m*ca**(one/m) * (svm(i)/sig_crp)**(n/m)   &
-                             * uvar(i,2)**((m-one)/m) * dtime/time_crp
-                  end if
-                end do
-              end if
+              end do
+            else if (crp_law == 3) then           ! use transient Norton power law
+              svm(1:nel) = svm0(1:nel)
               do i=1,nel
-                deps = (depsxx(i)**2 + depsyy(i)**2 + depszz(i)**2) * half     &
-                     +  depsxy(i)**2 + depsyz(i)**2 + depszx(i)**2
-                depsc(i) = min(depsc(i) ,sqrt(two_third*deps))   ! creep strain should be lower than elastic !
-                epsc = uvar(i,2) + depsc(i)
-                uvar(i,2) = epsc
+                if (uvar(i,2) == zero) then
+                  depsc(i) = crpa(i)*(svm0(i)/sig_crp)**crpn(i)*(dtime/time_crp)**crpm(i)
+                end if
+              end do
+              do iter=1,niter
+                do i=1,nel
+                  ca = crpa(i)
+                  n  = crpn(i)
+                  m  = crpm(i)
+                  depsc(i) = m*ca**(one/m) * (svm(i)/sig_crp)**(n/m)   &
+                           * uvar(i,2)**((m-one)/m) * dtime/time_crp
+                  depsc(i) = max(depsc(i) ,zero) 
+                  seq      = max(svm(i),   em20)
+                  rfact   = one / (one + three*depsc(i)*shear(i)/seq)
+                  sxx(i)  = stxx(i) * rfact 
+                  syy(i)  = styy(i) * rfact
+                  szz(i)  = stzz(i) * rfact
+                  sxy(i)  = stxy(i) * rfact
+                  syz(i)  = styz(i) * rfact
+                  szx(i)  = stzx(i) * rfact
+                  j2 = (sxx(i)**2+syy(i)**2+szz(i)**2)*half + sxy(i)**2+syz(i)**2+szx(i)**2
+                  svm(i) = sqrt(three*j2)
+                end do
               end do
             end if
-          end if
-! ----------------------------------------------------------------------------------------------------------------------
-          ! deviatoric stress correction due to creep
-! ----------------------------------------------------------------------------------------------------------------------
-          if (crpa0 > zero) then
             do i=1,nel
-              dcreep = max(depsc(i), zero)
-              seq    = max(svm(i),   em20)
-              g2     = shear(i) * two
-              rfact  = three_half * dcreep / seq 
-              sxx(i) = sxx(i) - rfact * sxx(i) * g2
-              syy(i) = syy(i) - rfact * syy(i) * g2
-              szz(i) = szz(i) - rfact * szz(i) * g2
-              sxy(i) = sxy(i) - rfact * sxy(i) * shear(i)
-              syz(i) = syz(i) - rfact * syz(i) * shear(i)
-              szx(i) = szx(i) - rfact * szx(i) * shear(i)
+              epsc = uvar(i,2) + depsc(i)
+              uvar(i,2) = epsc
             end do
           end if
 ! ----------------------------------------------------------------------------------------------------------------------
