@@ -147,7 +147,7 @@
             CALL RadiossViper_SendInitialStatus(viper%numon,NELEML,VIPER%NUMELE,&
               NPARG,NGROUP,VIPER%IXEM1,IPARG,ELBUF_TAB)  ! required to tell Viper of void elements
             TT_DOUBLE = TT
-            TANIM     = TT
+            TANIM     = 0.
             IF (TT > 0.) THEN
 !                Viper is starting from a remap; need to set animation times correctly
               WRITE(ISTDO,"(a,F12.6,a)") &
@@ -296,11 +296,11 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 
           if (iverbose) print*, "Radioss2Viper: Entering ReceiveSendInitialNumbers: ", t_max
-          call SPMD_SEND(numnodes,   1,1, 9940)
-          call SPMD_SEND(numsolids,  1,1, 9941)
-          call SPMD_SEND(num4shells, 1,1, 9942)
-          call SPMD_SEND(num3shells, 1,1, 9943)
-          call SPMD_RECV(ikill,      1,1, 9944)
+          call SPMD_SEND(numnodes,   1,1, 9940, MPI_COMM_WORLD)
+          call SPMD_SEND(numsolids,  1,1, 9941, MPI_COMM_WORLD)
+          call SPMD_SEND(num4shells, 1,1, 9942, MPI_COMM_WORLD)
+          call SPMD_SEND(num3shells, 1,1, 9943, MPI_COMM_WORLD)
+          call SPMD_RECV(ikill,      1,1, 9944, MPI_COMM_WORLD)
           if (ikill == 1) then
             print*, "Radioss2Viper: ReceiveSendInitialNumbers: ABORTING due to number mismatch"
             t_max = 0.
@@ -336,7 +336,7 @@
           do i = 1,numnod     ! tests show tha this is slower if openmp-parallel
             MSviper(i) = MS(itabm1(i))
           end do
-          call SPMD_SEND(MSviper,numnod,  1, 9930)
+          call SPMD_SEND(MSviper,numnod,  1, 9930, MPI_COMM_WORLD)
           if (iverbose) print*, "Radioss2Viper: SendMass: exiting"
           deallocate(MSviper)
         end subroutine RadiossViper_SendMass
@@ -552,7 +552,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 
           dt_rad_in = dt_rad
-          call SPMD_RECV(dt_viper, 1,  1, 9925, MPI_COMM_WORLD )
+          call SPMD_RECV(dt_viper, 1,  1, 9925, MPI_COMM_WORLD)
           dt_rad = min(dt_rad,dt_viper)
           call SPMD_SEND(dt_rad,   1,  1, 9926, MPI_COMM_WORLD)
           print*, "Radioss2Viper: ReceiveSendDT: exiting: dt_rad_in, dt_viper_in, dt_out: ", &
