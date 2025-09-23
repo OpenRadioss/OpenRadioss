@@ -53,6 +53,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -360,6 +361,7 @@ C-----------
 !||    checkvolume_4n   ../starter/source/elements/solid/solide/checksvolume.F
 !||====================================================================
       SUBROUTINE SGSAVINI(NPE,X,IXS,SAV,NEL)
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

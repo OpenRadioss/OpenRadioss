@@ -57,6 +57,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !                                                                            apply it to the other nodes   
 !                   * if at least one node is near a surface --> need to compute the real distance
 !$ENDCOMMENT
+        use element_mod , only :nixs,nixq,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

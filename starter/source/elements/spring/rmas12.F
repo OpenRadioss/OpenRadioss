@@ -27,6 +27,7 @@ C
 !||    rinit3   ../starter/source/elements/spring/rinit3.F
 !||====================================================================
       SUBROUTINE RMAS12(IXR,GEO,PARTSAV,X  ,V  ,IPART,XL ,MSR    ,INR,MSRT)
+      use element_mod , only : nixr
 C----------------------------------------------
 C     initialization of nodal masses
 C----------------------------------------------

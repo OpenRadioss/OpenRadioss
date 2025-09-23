@@ -45,6 +45,7 @@ C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE FORMAT_MOD , ONLY : FMW_10I
+      use element_mod , only :nixs,nixc,nixtg
 C-----------------------------------
 C     CHECK ELEMENT FOR TYPE 12
 C------------------------------------

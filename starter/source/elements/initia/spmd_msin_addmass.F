@@ -42,6 +42,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE OPTIONDEF_MOD
+      use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -498,6 +499,7 @@ C---
      5               INDEX  ,ITRI   ,GEO    ,PARTSAV1_PON ,IPARTS ,
      6               IPARTQ ,IPARTC ,IPARTT ,IPARTP       ,IPARTR ,
      7               IPARTTG,IPART  )
+      use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

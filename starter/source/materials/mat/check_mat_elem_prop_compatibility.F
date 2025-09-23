@@ -42,6 +42,7 @@ C-----------------------------------------------
       USE STACK_MOD
       USE MESSAGE_MOD      
       USE MATPARAM_DEF_MOD
+      use element_mod , only : nixt,nixp,nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

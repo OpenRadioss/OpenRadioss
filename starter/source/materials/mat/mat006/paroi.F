@@ -26,6 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    lectur   ../starter/source/starter/lectur.F
 !||====================================================================
       SUBROUTINE PAROI(PM,IXS,IXQ,ICODE,NALE)
+      use element_mod , only : nixs,nixq
 C
 C   TAG THE WALL ELEMENTS FOR TURBULENCE
 C   SI NOEUD FIXE OU LAGRANGIEN

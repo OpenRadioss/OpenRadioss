@@ -120,6 +120,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
+      use element_mod , only : nixs, nixs10, nixs20, nixs16
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -131,7 +132,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IXS(NIXS,*),IXS10(6,*),IXS20(12,*),IXS16(8,*),
+      INTEGER IXS(NIXS,*),IXS10(nixs10,*),IXS20(nixs20,*),IXS16(nixs16,*),
      .        TAGBUF(*)
       INTEGER NGRELE,ID,FLAG
       CHARACTER ELCHAR*(*)

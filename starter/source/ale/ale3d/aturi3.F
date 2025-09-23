@@ -29,6 +29,7 @@ C
 !||    sinit3             ../starter/source/elements/solid/solide/sinit3.F
 !||====================================================================
       SUBROUTINE ATURI3(IPARG,RHO,PM,IX,X,RK,RE,VOLU)
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------

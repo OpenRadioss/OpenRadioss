@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE PREPLYXFEM(
      1      MS_PLY0,ZI_PLY0,IEL, INOD , IXC ,MS_PLY,ZI_PLY,ADDCNE ,
      2      MSZ20,MSZ2)
+      use element_mod , only : nixc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -98,6 +99,7 @@ C
 !||====================================================================
       SUBROUTINE FILLCNE_PXFEM(
      1   IEL , INOD, IXC,CEP, ADDCNE, CNE,CEL   )
+      use element_mod , only : nixc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

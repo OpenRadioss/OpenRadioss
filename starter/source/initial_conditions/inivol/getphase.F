@@ -39,6 +39,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                    LEADING_DIMENSION,NB_CELL_X    ,NB_CELL_Y  ,NB_CELL_Z      ,
      .                    IPARG            ,IXS          ,IXQ        ,IXTG           ,
      .                    CELL             ,CELL_POSITION,NODAL_PHASE,NB_BOX_LIMIT)
+        use element_mod , only :nixs,nixq,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

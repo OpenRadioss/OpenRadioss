@@ -27,6 +27,7 @@ C-------------------------------------------------------------------------
 !||    matini   ../starter/source/materials/mat_share/matini.F
 !||====================================================================
       SUBROUTINE M24IN3(PM,IX,ANG,SF,VK0,ROB,NEL)
+      use element_mod , only : nixs
 C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

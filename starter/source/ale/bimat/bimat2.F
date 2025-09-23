@@ -26,6 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    binit2   ../starter/source/ale/bimat/binit2.F
 !||====================================================================
       SUBROUTINE BIMAT2(VOLT,ALPH,FILL,VOL,OFF,IX)
+      use element_mod , only :nixq
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

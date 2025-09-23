@@ -263,6 +263,7 @@ C-----------
       SUBROUTINE TAGNODS_R2R(IXS,IXS10,IXS20,IXS16,IPARTS,
      .                   TAGBUF,FLAG,IDOM)
         USE MESSAGE_MOD
+        use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

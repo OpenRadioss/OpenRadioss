@@ -30,6 +30,7 @@ C
      2                  Z0   ,IX    ,SKEW  ,IPOSX ,IPOSY,
      3                  IPOSZ,IPOSXX,IPOSYY,IPOSZZ,IGEO,
      4                  SKEW_ID)
+      use element_mod , only : nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

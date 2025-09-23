@@ -55,7 +55,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      A                  KNOD2EL1D ,IXS10     ,INTER_CAND        ,FRIGAP          ,IXS16       ,
      B                  IXS20     ,IPM       ,NOM_OPT           ,IPARTS          ,SISKWN      ,
      C                  KXX       ,IXX       ,IGEO              ,INTERCEP        ,LELX        ,
-     D                  INTBUF_TAB,FILLSOL   ,PM_STACK          ,IWORKSH         ,NSNT        ,
+     D                  INTBUF_TAB,FILLSOL   ,stack             ,IWORKSH         ,NSNT        ,
      E                  NMNT      ,KXIG3D    ,IXIG3D            ,KNOD2ELQ        ,NOD2ELQ     ,
      F                  SEGQUADFR,TAGPRT_FRIC,INTBUF_FRIC_TAB   ,IPARTT          ,
      G                  IPARTP    ,IPARTX    ,IPARTR            ,NSN_MULTI_CONNEC,T2_NB_CONNEC,
@@ -78,6 +78,7 @@ C-----------------------------------------------
       USE INTER_CAND_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE INT18_LAW151_NSV_SHIFT_MOD , ONLY : INT18_LAW151_NSV_SHIFT
+      use stack_mod , only : stack_ply       
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -113,7 +114,7 @@ C-----------------------------------------------
      .   ICODE(*), ISKEW(SISKWN)
       my_real X(3,*),V(3,*), PM(*), GEO(*), MS(*), RWA(6,*),
      .        THK(*),THK_PART(*),FRIGAP(NPARIR,NINTER),
-     .        LELX(*), FILLSOL(*),PM_STACK(*)
+     .        LELX(*), FILLSOL(*)
       INTEGER NOM_OPT(LNOPT1,*),KXX(*),IXX(*)
       INTEGER, INTENT(IN) :: LIST_NIN25(NINTER)
       INTEGER, INTENT(IN) :: FLAG_ELEM_INTER25(NINTER25,NUMELS)   
@@ -127,6 +128,7 @@ C-----------------------------------------------
       TYPE(t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
       TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
       TYPE(INTER_CAND_), INTENT(inout) :: INTER_CAND
+      type(stack_ply), intent(inout) :: stack !< stack data structure             
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -354,7 +356,7 @@ C---     Initial dimension of REMNODE arrays
      A               I_MEM                   , RESORT                , INTER_CAND            , IXS16          , IXS20            ,
      B               ID                      , TITR                  , IREMNODE              , NREMNODE       , IPARTS           ,
      C               KXX                     , IXX                   , IGEO                  , INTERCEP       , LELX             ,
-     D               INTBUF_TAB              , FILLSOL               , PM_STACK              , IWORKSH        , KXIG3D           ,
+     D               INTBUF_TAB              , FILLSOL               , stack                 , IWORKSH        , KXIG3D           ,
      E               IXIG3D                  , TAGPRT_FRIC           , INTBUF_FRIC_TAB       , IPARTT         , IPARTP           ,
      F               IPARTX                  , IPARTR                , NSN_MULTI_CONNEC      , T2_ADD_CONNEC  , T2_NB_CONNEC     ,
      G               T2_CONNEC               , NOM_OPT               , ICODE                 , ISKEW          , IREMNODE_EDG     ,

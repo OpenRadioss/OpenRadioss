@@ -136,7 +136,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      A                  I_MEM         ,RESORT              ,INTER_CAND            ,IXS16        ,IXS20   ,
      B                  ID            ,TITR                ,IREMNODE              ,NREMNODE     ,IPARTS  ,
      C                  KXX           ,IXX                 ,IGEO                  ,INTERCEP     ,LELX    ,
-     D                  INTBUF_TAB    ,FILLSOL             ,PM_STACK              ,IWORKSH      ,KXIG3D  ,
+     D                  INTBUF_TAB    ,FILLSOL             ,stack                 ,IWORKSH      ,KXIG3D  ,
      E                  IXIG3D        ,TAGPRT_FRIC         ,INTBUF_FRIC_TAB       ,IPARTT       ,IPARTP  ,
      F                  IPARTX        ,IPARTR              ,NSN_MULTI_CONNEC      ,T2_ADD_CONNEC,T2_NB_CONNEC,
      G                  T2_CONNEC     ,NOM_OPT             ,ICODE                 ,ISKEW        ,IREMNODE_EDG,
@@ -163,6 +163,8 @@ C-----------------------------------------------
       USE MULTI_FVM_MOD , ONLY : MULTI_FVM_STRUCT
       use i9bcs_check_mod , ONLY : I9BCS_CHECK
       use i1bcs_check_mod , only : I1BCS_CHECK
+      use stack_mod , only : stack_ply      
+      use element_mod , only :nixs,nixc,nixtg,nixt,nixp,nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -213,8 +215,7 @@ C-----------------------------------------------
       INTEGER, INTENT(in) :: INTER_TYPE2_NUMBER !<number of interface type 2
       my_real
      .   PM(*), GEO(*), RWA(6,*),
-     .   THK(*),THK_PART(*), LELX(*), FILLSOL(*),
-     .   PM_STACK(*)
+     .   THK(*),THK_PART(*), LELX(*), FILLSOL(*)
       my_real, TARGET :: MS(NUMNOD)
       my_real, TARGET :: X(3*NUMNOD)
       INTEGER, INTENT(in) :: S_APPEND_ARRAY !< size of X/MASS _APPEND
@@ -233,6 +234,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(NUMELS), INTENT(INOUT):: ELEM_LINKED_TO_SEGMENT
       INTEGER, INTENT(IN) ::  NIN25
       INTEGER, INTENT(IN) :: FLAG_ELEM_INTER25(NINTER25,NUMELS)
+      type(stack_ply), intent(inout) :: stack !< stack data structure            
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -296,7 +298,7 @@ C-----------------------------------------------
       INTEGER :: FLAG_OUTPUT
       INTEGER, DIMENSION(NINTER) :: NREMN
       LOGICAL :: LOCAL_FLAG_REMOVED_NODE
-      INTEGER :: NN, NNI
+      INTEGER :: NN, NNI,ijk
       LOGICAL :: IS_USED_WITH_LAW151
 C=======================================================================
       INPENE   = 0
@@ -380,14 +382,14 @@ C
      3    GEO              ,PM                 ,KNOD2ELS         ,KNOD2ELC       ,KNOD2ELTG     ,
      4    NOD2ELS          , NOD2ELC           ,NOD2ELTG         ,IGRSURF(ISU1)  ,
      5    THK              ,NTY                ,IXS10            ,IXS16          ,IXS20         ,
-     6    ID               ,TITR               ,IGEO             ,PM_STACK        ,IWORKSH )
+     6    ID               ,TITR               ,IGEO             ,stack%pm        ,IWORKSH )
        CALL I1CHK3(
      1    X                ,INTBUF_TAB(NIN)%IRECTM  ,IXS              ,NRTM           ,IXC ,
      2    -NIN          ,NMN                ,INTBUF_TAB(NIN)%MSR   ,NOINT          ,IXTG,
      3    GEO              ,PM                 ,KNOD2ELS         ,KNOD2ELC       ,KNOD2ELTG     ,
      4    NOD2ELS          , NOD2ELC           ,NOD2ELTG         ,IGRSURF(ISU2)  ,
      5    THK              ,NTY                ,IXS10            ,IXS16          ,IXS20         ,
-     6    ID               ,TITR               , IGEO            ,PM_STACK        ,IWORKSH)
+     6    ID               ,TITR               , IGEO            ,stack%pm        ,IWORKSH)
        CALL INVOI3(
      1    X                ,INTBUF_TAB(NIN)%IRECTM  ,INTBUF_TAB(NIN)%NRT   ,INTBUF_TAB(NIN)%MSR ,INTBUF_TAB(NIN)%NSV,
      2    INTBUF_TAB(NIN)%ILOCS ,INTBUF_TAB(NIN)%IRTLM   ,INTBUF_TAB(NIN)%NSEGM ,NSN            ,NMN ,
@@ -421,7 +423,7 @@ C-----------------------------------------------------------------------
      3    GEO             ,PM                       ,KNOD2ELS              ,KNOD2ELC            ,KNOD2ELTG     ,
      4    NOD2ELS         ,NOD2ELC                  ,NOD2ELTG              ,IGRSURF(ISU2)       ,
      5    THK             ,NTY                      ,IXS10                 ,IXS16               ,IXS20         ,
-     6    ID              ,TITR                     ,IGEO                  ,PM_STACK            ,IWORKSH      )
+     6    ID              ,TITR                     ,IGEO                  ,stack%pm            ,IWORKSH      )
        END IF 
        CALL INVOI3(
      1    X               ,INTBUF_TAB(NIN)%IRECTM   ,INSCR(L23)            ,INTBUF_TAB(NIN)%MSR ,INTBUF_TAB(NIN)%NSV,
@@ -495,7 +497,7 @@ C
      4   PM                ,KNOD2ELS          ,KNOD2ELC           ,KNOD2ELTG              ,NOD2ELS         ,
      5   NOD2ELC           ,NOD2ELTG          ,IGRSURF(ISU2)      ,THK                    ,
      6   NTY               ,IXS10             ,IXS16              ,IXS20                  ,IGEO            ,
-     7   PM_STACK          ,IWORKSH )
+     7   stack%pm          ,IWORKSH )
        END IF 
 C
 C      STILL ONE BUCKET SORT
@@ -510,7 +512,7 @@ C
      5   NOD2ELS           ,NOD2ELC           ,NOD2ELTG          ,
      6   -NIN           ,IXC               ,IXTG              ,THK_PART                ,IPARTC          ,
      7   GEO               ,IXS               ,IXS10             ,PM                      ,IXS16           ,
-     8   IXS20             ,IPARTTG           ,ID,TITR           ,IGEO                    ,PM_STACK        ,
+     8   IXS20             ,IPARTTG           ,ID,TITR           ,IGEO                    ,stack        ,
      9   IWORKSH ,
      1   IX1    ,IX2    ,IX3,IX4 ,NSVG      ,
      2   PROV_N ,PROV_E ,N11,N21 ,N31       ,
@@ -585,7 +587,7 @@ C-----------------------------------------------------------------------
      5 KNOD2ELS  ,KNOD2ELC  ,KNOD2ELTG ,NOD2ELS      ,NOD2ELC   ,
      6 NOD2ELTG  ,IGRSURF(ISU1),THK     ,IXS10   ,
      7 IXS16 ,IXS20        ,ID,TITR,BIDON     ,BIDON   ,
-     8 BIDON ,BIDON        ,IGEO   ,FILLSOL  ,PM_STACK, IWORKSH )
+     8 BIDON ,BIDON        ,IGEO   ,FILLSOL  ,stack%pm, IWORKSH )
 
        CALL I3STI3(
      1 X         ,INTBUF_TAB(NIN)%IRECTM,INTBUF_TAB(NIN)%STFM,IXS       ,PM        ,
@@ -595,7 +597,7 @@ C-----------------------------------------------------------------------
      5 KNOD2ELS  ,KNOD2ELC  ,KNOD2ELTG ,NOD2ELS      ,NOD2ELC   ,
      6 NOD2ELTG  ,IGRSURF(ISU2),THK          ,IXS10     ,
      7 IXS16     ,IXS20        ,ID,TITR,BIDON       ,BIDON     ,
-     8 BIDON     ,BIDON        ,IGEO   ,FILLSOL    ,PM_STACK, IWORKSH  ) 
+     8 BIDON     ,BIDON        ,IGEO   ,FILLSOL    ,stack%pm, IWORKSH  ) 
 
        CALL INVOI3(
      1    X,INTBUF_TAB(NIN)%IRECTM,INTBUF_TAB(NIN)%LMSR,INTBUF_TAB(NIN)%MSR,INTBUF_TAB(NIN)%NSV,
@@ -642,7 +644,7 @@ C-----------------------------------------------------------------------
      5 KNOD2ELS  ,KNOD2ELC  ,KNOD2ELTG    ,NOD2ELS      ,NOD2ELC   ,
      6 NOD2ELTG  ,IGRSURF(ISU2),THK             ,IXS10     ,
      7 IXS16     ,IXS20        ,ID,TITR,BIDON           ,BIDON     ,
-     8 BIDON     ,BIDON        ,IGEO   ,FILLSOL         ,PM_STACK, IWORKSH)
+     8 BIDON     ,BIDON        ,IGEO   ,FILLSOL         ,stack%pm, IWORKSH)
        CALL INVOI3(
      1    X,INTBUF_TAB(NIN)%IRECTM,INTBUF_TAB(NIN)%LMSR,INTBUF_TAB(NIN)%MSR,INTBUF_TAB(NIN)%NSV,
      2    INTBUF_TAB(NIN)%ILOCS,INTBUF_TAB(NIN)%IRTLM,INTBUF_TAB(NIN)%NSEGM,NSN       ,NMN ,
@@ -707,7 +709,7 @@ C----------------
      C    THK_PART         ,INTBUF_TAB(NIN)%VARIABLES(28),INTBUF_TAB(NIN)%GAP_SL,INTBUF_TAB(NIN)%GAP_ML,NOD2EL1D         ,
      D    KNOD2EL1D        ,IXR                     ,ITAB             ,INTBUF_TAB(NIN)%VARIABLES(7),IXS10      ,
      E    IXS16            ,IXS20                   ,ID               ,TITR             , IDDLEVEL        ,
-     F    DRAD             ,IGEO                    ,FILLSOL          ,PM_STACK         , IWORKSH         ,
+     F    DRAD             ,IGEO                    ,FILLSOL          ,stack%pm         , IWORKSH         ,
      G    IT19             ,KXIG3D                  ,IXIG3D           ,IPARI(72,NIN)    , IPARTS          ,
      H    TAGPRT_FRIC      ,INTBUF_TAB(NIN)%IPARTFRICS   ,INTBUF_TAB(NIN)%IPARTFRICM ,INTBUF_FRIC_TAB,NRTM_IGE      ,
      I    IPARI(63,NIN)    ,GAPM_MX                 ,GAPS_MX          ,GAPM_L_MX        ,GAPS_L_MX        ,
@@ -862,7 +864,7 @@ C
      6 NOD2ELTG  ,IGRSURF(ISU2),THK       ,IXS10     ,
      7 IXS16     ,IXS20        ,ID,TITR,INTBUF_TAB(NIN)%GAPN,INTBUF_TAB(NIN)%STF8  ,
      8 INTBUF_TAB(NIN)%VARIABLES(5),INTBUF_TAB(NIN)%VARIABLES(4), IGEO ,FILLSOL    ,
-     9 PM_STACK , IWORKSH)
+     9 stack%pm , IWORKSH)
        CALL INVOI3(
      1    X,INTBUF_TAB(NIN)%IRECTM,INTBUF_TAB(NIN)%LMSR,INTBUF_TAB(NIN)%MSR,INTBUF_TAB(NIN)%NSV,
      2    INTBUF_TAB(NIN)%ILOCS,INTBUF_TAB(NIN)%IRTLM,INTBUF_TAB(NIN)%NSEGM,NSN       ,NMN ,
@@ -952,7 +954,7 @@ C
      C            THK_PART   ,INTBUF_TAB(NIN)%VARIABLES(27),RDUM             ,RDUM            ,NOD2EL1D,
      D            KNOD2EL1D  ,IXR                     ,ITAB     ,INTBUF_TAB(NIN)%VARIABLES(7) ,IXS10   ,
      E            IXS16      ,IXS20                   ,ID               ,TITR            ,IDDLEVEL,
-     F            DRAD       ,IGEO                    ,FILLSOL          ,PM_STACK        ,IWORKSH ,
+     F            DRAD       ,IGEO                    ,FILLSOL          ,stack%pm        ,IWORKSH ,
      G            IT19       ,BID                     ,BID              ,IBIDON          ,IPARTS  ,
      H            IBIDON     ,IBIDON                  ,IBIDON           ,IBIDON          ,IBIDON  ,
      I            IPARI(63,NIN),GAPM_MX               ,GAPS_MX          ,GAPM_L_MX        ,GAPS_L_MX,
@@ -1073,7 +1075,7 @@ C      INTBUF_TAB(NIN)%VARIABLES(1) EST MODIFIE PAR I11STI3; GAP0 NON
      8 KXX       ,IXX           ,IGEO       ,KNOD2ELS  ,KNOD2ELC     ,
      9 KNOD2ELTG ,NOD2ELS       ,NOD2ELC    ,NOD2ELTG  ,LELX         ,
      A FILLSOL   ,INTTH         ,DRAD       ,INTBUF_TAB(NIN)%AREAM ,INTBUF_TAB(NIN)%IELES ,
-     B PM_STACK  ,IWORKSH       ,IT19 ,INTBUF_TAB(NIN)%VARIABLES(7),IPARI(72,NIN)  ,
+     B stack%pm  ,IWORKSH       ,IT19 ,INTBUF_TAB(NIN)%VARIABLES(7),IPARI(72,NIN)  ,
      C IPARTS    ,TAGPRT_FRIC   ,INTBUF_TAB(NIN)%IPARTFRICM,INTBUF_FRIC_TAB,
      D IPARTT    ,IPARTP        ,IPARTX     ,IPARTR, IPARI(63,NIN))
 C 
@@ -1089,7 +1091,7 @@ C
      8 KXX       ,IXX           ,IGEO       ,KNOD2ELS ,KNOD2ELC     ,
      9 KNOD2ELTG ,NOD2ELS       ,NOD2ELC    ,NOD2ELTG  ,LELX         ,
      A FILLSOL   ,INTTH         , DRAD      ,INTBUF_TAB(NIN)%AREAS,INTBUF_TAB(NIN)%IELEC,
-     B PM_STACK  ,IWORKSH       ,IT19       ,INTBUF_TAB(NIN)%VARIABLES(7),IPARI(72,NIN)  ,
+     B stack%pm  ,IWORKSH       ,IT19       ,INTBUF_TAB(NIN)%VARIABLES(7),IPARI(72,NIN)  ,
      C IPARTS    ,TAGPRT_FRIC,INTBUF_TAB(NIN)%IPARTFRICS,INTBUF_FRIC_TAB,
      D IPARTT    ,IPARTP        ,IPARTX     ,IPARTR, IPARI(63,NIN))
 C
@@ -1267,7 +1269,7 @@ C-----------------------------------------------------------------------
      A              IWPENE  ,IXS10,I_MEM     ,
      B              INTER_CAND,IXS16   ,IXS20   ,ID   ,TITR      ,
      C              KXX     ,IXX     ,IGEO  ,NOD2EL1D,KNOD2EL1D,
-     D              LELX    ,INTBUF_TAB(NIN) , PM_STACK , IWORKSH,NSPMD)
+     D              LELX    ,INTBUF_TAB(NIN) , stack%pm , IWORKSH,NSPMD)
        IF (I_MEM ==2) RETURN
 C-----------------------------------------------------------------------
       ELSEIF(NTY==21) THEN
@@ -1303,7 +1305,7 @@ C
      6 NOD2ELTG  ,IGRSURF(ISU1),IGRSURF(ISU2),IELEM21   ,
      7 THK       ,INTBUF_TAB(NIN)%AS,INTBUF_TAB(NIN)%BS,IXS10    ,IXS16      ,
      8 IXS20     ,ID,TITR,IGEO,SH4TREE   ,
-     9 SH3TREE   ,IPART        ,IPARTC       ,IPARTTG  , PM_STACK ,
+     9 SH3TREE   ,IPART        ,IPARTC       ,IPARTTG  , stack%pm ,
      A IWORKSH   ,IPARI(72,NIN)  ,TAGPRT_FRIC   , INTBUF_TAB(NIN)%IPARTFRICS,
      G INTBUF_TAB(NIN)%IPARTFRICM,INTBUF_FRIC_TAB,IPARTS)
 C
@@ -1371,7 +1373,7 @@ C
      8 INTBUF_TAB(NIN)%VARIABLES(13),INTBUF_TAB(NIN)%VARIABLES(6),INTBUF_TAB(NIN)%VARIABLES(16),
      .       INTBUF_TAB(NIN)%VARIABLES(19),INTBUF_TAB(NIN)%VARIABLES(7),     
      9 INTBUF_TAB(NIN)%STFNS,INTBUF_TAB(NIN)%STFM,ID,TITR,INTBUF_TAB(NIN)%GAP_M, IGEO  ,
-     A  PM_STACK , IWORKSH)
+     A  stack%pm , IWORKSH)
 C
 C      STILL ONE BUCKET SORT
 C
@@ -1501,7 +1503,7 @@ C----  INTBUF_TAB(NIN)%CRIT V/A is used temporarily for sorting and Pen-max
      E NRTM_SH    ,IXS16    ,IXS20    ,INTBUF_TAB(NIN)%GAP_NM,INTBUF_TAB(NIN)%MVOISIN    ,
      F ILEV      ,IGRSURF(MAX(1,ISU1)),INTBUF_TAB(NIN)%VARIABLES(36),ID,TITR ,IPARI(53,NIN) ,
      G INTBUF_TAB(NIN)%PENE_OLD  ,IPARTNS     ,IPARTS      , IGEO      ,FILLSOL   ,
-     H PM_STACK  ,IWORKSH    ,IPARI(72,NIN)  ,TAGPRT_FRIC   , INTBUF_TAB(NIN)%IPARTFRICS,
+     H stack%pm  ,IWORKSH    ,IPARI(72,NIN)  ,TAGPRT_FRIC   , INTBUF_TAB(NIN)%IPARTFRICS,
      G INTBUF_TAB(NIN)%IPARTFRICM,INTBUF_FRIC_TAB,IPARI(86,NIN) , NRTS   ,INTBUF_TAB(NIN)%IRECTS ,
      I INTBUF_TAB(NIN)%IELNRTS,INTBUF_TAB(NIN)%ADRECTS,INTBUF_TAB(NIN)%FACNRTS,NMN,INTBUF_TAB(NIN)%MSR ,
      J IPARTT   ,IPARTP   ,IPARTR  ,ELEM_LINKED_TO_SEGMENT,IGSTI, FLAG_ELEM_INTER25 )  
@@ -1917,7 +1919,7 @@ C-----------------------------------------------------------
      E NRTM_SH    ,IXS16            ,IXS20           ,INTBUF_TAB(NIN)%GAP_NM,
      F ILEV       ,INTBUF_TAB(NIN)%VARIABLES(36),ID       ,TITR           ,IGAP0                 ,
      G INTBUF_TAB(NIN)%PENE_OLD          ,IPARTS          ,IGEO           ,FILLSOL               ,
-     H PM_STACK   ,IWORKSH          ,INTBUF_TAB(NIN)%VARIABLES(28),INTBUF_TAB(NIN)%GAP_SL,INTBUF_TAB(NIN)%GAP_ML,
+     H stack%pm   ,IWORKSH          ,INTBUF_TAB(NIN)%VARIABLES(28),INTBUF_TAB(NIN)%GAP_SL,INTBUF_TAB(NIN)%GAP_ML,
      I KNOD2EL1D  ,NOD2EL1D         ,IPARI(72,NIN)       ,TAGPRT_FRIC    ,INTBUF_TAB(NIN)%IPARTFRICS   ,
      J INTBUF_TAB(NIN)%IPARTFRICM,INTBUF_FRIC_TAB,IVIS2   ,GAPM_MX       , GAPS_MX               ,
      K GAPM_L_MX  ,GAPS_L_MX        ,IPARTSM         ,DRAD          ,IPARTT                 ,

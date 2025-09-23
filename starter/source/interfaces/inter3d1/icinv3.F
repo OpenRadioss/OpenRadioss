@@ -27,6 +27,7 @@ C
 !||    i12chk3   ../starter/source/interfaces/inter3d1/i12chk3.F
 !||====================================================================
       SUBROUTINE ICINV3(IXS,IXC,IXTG,IADD,INVC)
+      use element_mod , only :nixs,nixc,nixtg
 C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

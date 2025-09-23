@@ -38,6 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                  X1   ,X2   ,X3   ,X4   ,Y1   ,Y2   ,
      .                  Y3   ,Y4   ,Z1   ,Z2   ,Z3   ,Z4   )
       USE MESSAGE_MOD
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

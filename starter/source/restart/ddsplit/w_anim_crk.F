@@ -37,6 +37,7 @@ C
      .               CRKEDGE ,XFEM_PHANTOM,NUMNODCRK_L)
 C-----------------------------------------------
       USE XFEM2DEF_MOD
+      use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

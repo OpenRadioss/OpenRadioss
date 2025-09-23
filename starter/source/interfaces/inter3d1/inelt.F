@@ -36,6 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE INELTS(X        ,IRECT ,IXS   ,NINT ,NEL       ,
      .                  I        ,AREA  ,NOINT ,IR   ,SURF_ELTYP,
      .                  SURF_ELEM)
+      use element_mod , only :nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -165,6 +166,7 @@ C-----------------------------------------------
       SUBROUTINE I20NELTS(X        ,IRECT ,IXS   ,NINT ,NEL       ,
      .                    I        ,AREA  ,NOINT ,IR   ,SURF_ELTYP,
      .                    SURF_ELEM)
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -256,6 +258,7 @@ C
       SUBROUTINE INELTIGEO(XE     ,IRECT  ,IXS   ,NINT     ,NELIG3D   ,
      .                     I      ,AREA   ,NOINT ,IR       ,SURF_ELTYP_IGE,
      .                     IXIG3D ,KXIG3D ,IGEO  ,SURF_ELEM_IGE)
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

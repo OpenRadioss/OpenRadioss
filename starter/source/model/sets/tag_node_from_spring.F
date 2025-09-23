@@ -26,6 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    create_node_from_element   ../starter/source/model/sets/create_node_from_element.F
 !||====================================================================
       SUBROUTINE TAG_NODE_FROM_SPRING(IXR,GEO,NUMELR,ELEM,TAGNOD,CLAUSE_NODE,IND)
+      use element_mod , only : nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

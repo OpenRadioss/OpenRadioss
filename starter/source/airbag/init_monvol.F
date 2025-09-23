@@ -76,6 +76,7 @@ C-----------------------------------------------
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
       USE FVBRIC1_MOD , ONLY : FVBRIC1
       USE FVBRIC2_MOD , ONLY : FVBRIC2
+      use element_mod , only : nixs,nixc,nixtg
 C-----------------------------------------------
 C     I m p l i c i t   T y p e s
 C-----------------------------------------------

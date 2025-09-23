@@ -46,6 +46,7 @@ C-----------------------------------------------
       USE CLUSTER_MOD
       USE SEATBELT_MOD
       USE BPRELOAD_MOD
+      use element_mod , only : nixr
 C-----------------------------------------------
 C            A R G U M E N T S
 C-----------------------------------------------

@@ -73,6 +73,7 @@ C-----------------------------------------------
       USE BPRELOAD_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE FORMAT_MOD , ONLY : FMT_10I
+      use element_mod , only : nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1668,6 +1669,7 @@ C-----
 !||====================================================================
       SUBROUTINE RINI3U(OFF  ,GEO  ,X     ,X0    ,IX   ,
      .                  SKEW ,RLOC ,ITAB  ,UIX   ,IGEO )
+      use element_mod , only : nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1766,6 +1768,7 @@ C
 !||====================================================================
       SUBROUTINE RINI1U(OFF  ,GEO  ,X     ,X0    ,IX   ,
      .                  SKEW ,RLOC ,ITAB  ,UIX   ,IGEO )
+      use element_mod , only : nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1855,6 +1858,7 @@ C-----------------------------------------------
       SUBROUTINE RINI2U(IXR     ,UMASS ,UINER,
      .                  PARTSAV ,X     ,V     ,IPART ,MSR,
      .                  INR     ,MSRT  ,EMS   )
+      use element_mod , only : nixr
 C----------------------------------------------
 C     initialization of nodal masses
 C----------------------------------------------
@@ -1945,6 +1949,7 @@ C
      .                 DL    ,FEP  ,DPL   ,DPL2  ,XL0 ,
      .                 DFS   ,DV   ,IGTYP ,PTSPRI,DL0 ,
      .                 F0    )
+      use element_mod , only : nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2019,6 +2024,7 @@ C---
      .                 PTSPRI,DX0  ,DY0   ,DZ0   ,RX0  ,
      .                 RY0   ,RZ0  ,FX0   ,FY0   ,FZ0  ,
      .                 MX0   ,MY0  ,MZ0   )
+      use element_mod , only : nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

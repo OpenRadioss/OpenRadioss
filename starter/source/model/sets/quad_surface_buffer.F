@@ -36,6 +36,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MY_ALLOC_MOD
       USE SETDEF_MOD
+      use element_mod , only : nixq
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

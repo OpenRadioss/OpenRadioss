@@ -51,6 +51,7 @@ C-----------------------------------------------
 #endif
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE FORMAT_MOD , ONLY : FMT_I_3F
+      use element_mod , only :nixs
 C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -591,6 +592,7 @@ C
 !||====================================================================
       SUBROUTINE I24PENMAX(PEN  ,PENMAX,ETYP  ,EL    ,NS   ,
      +                     IXS   ,IXS10 ,IXS16 , IXS20  ,IELIM )
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -648,6 +650,7 @@ C-------
 !||====================================================================
       SUBROUTINE ICONNET(IRECT ,IXS   ,KNOD2ELS,NOD2ELS,
      .                   IXS10 ,IXS16 ,IXS20 ,NS  ,ICONN   )
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

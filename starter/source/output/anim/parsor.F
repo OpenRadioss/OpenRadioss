@@ -32,6 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                  BUFEL,IPARG,IXS   ,IXQ  ,IXC  ,
      .                  IXTG ,IXT  ,IXP   ,IXR  ,INVERT,
      .                  KXSP ,IXSP  )
+      use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

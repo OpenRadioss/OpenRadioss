@@ -41,7 +41,8 @@ C-----------------------------------------------
       USE MY_ALLOC_MOD
       USE MESSAGE_MOD
       USE SEATBELT_MOD
-      USE ELBUFDEF_MOD  
+      USE ELBUFDEF_MOD
+      use element_mod , only : nixc,nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE RMASS(IXR  ,GEO  ,MS   ,XIN ,PARTSAV,
      2                 X    ,V    ,IPART,XL  ,MSR    ,
      3                 INR  ,MSRT ,EMS  )
+      use element_mod , only : nixr
 C----------------------------------------------
 C     initialization of nodal masses
 C----------------------------------------------
@@ -119,6 +120,7 @@ C----------------------------------------------
       SUBROUTINE R23MASS(IXR  ,GEO  ,MS   ,XIN ,PARTSAV,
      2                 X    ,V    ,IPART,XL  ,MSR    ,
      3                 INR  ,MSRT ,EMS , MASS ,UINER,MTYP)
+      use element_mod , only : nixr
 C----------------------------------------------
 C     initialization of nodal masses
 C----------------------------------------------

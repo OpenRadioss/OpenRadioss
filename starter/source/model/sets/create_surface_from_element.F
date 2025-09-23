@@ -48,6 +48,7 @@ C-----------------------------------------------
       USE SET_SCRATCH_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARFIELD
       USE SURF_MOD , ONLY : EXT_SURF,ALL_SURF
+            use element_mod , only : nixs,nixq,nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

@@ -40,6 +40,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE CLUSTER_MOD
       USE SEATBELT_MOD
+      use element_mod , only : nixr
 C-----------------------------------------------
 C            A R G U M E N T S
 C-----------------------------------------------

@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .              FXBNOD , NSN, IPARG, ITAG  , FXBELM,
      .              IXS    , IXC, IXTG , IPARTS, IPARTC,
      .              IPARTTG, IXT, IXP  , IPARTT, IPARTP)
+      use element_mod , only : nixs,nixc,nixtg,nixt,nixp
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

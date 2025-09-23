@@ -95,6 +95,7 @@ C-----------------------------------------------
       use brokmann_random_def_mod
       use glob_therm_mod
       use initemp_shell_mod
+      use element_mod , only : nixc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

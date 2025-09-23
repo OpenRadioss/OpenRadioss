@@ -62,6 +62,7 @@ C-----------------------------------------------
       USE QA_OUT_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE ALE_MOD , ONLY : ALE
+      use element_mod , only : nixs
 C-----------------------------------------------
 C            A R G U M E N T S
 C-----------------------------------------------

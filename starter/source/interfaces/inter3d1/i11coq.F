@@ -31,6 +31,7 @@ C
      .                  NELTG,IS ,GEO,PM,THK,IGEO,
      .                  KNOD2ELC,KNOD2ELTG,NOD2ELC,NOD2ELTG,
      .                  PM_STACK, IWORKSH)
+      use element_mod , only :nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -162,6 +163,7 @@ C
       SUBROUTINE I11FIL(IRECT,IXT,IXP,IXR,NINT,NELT,
      .                  NELP,NELR,NELX,IS,NOD2EL1D,
      .                  KNOD2EL1D,KXX,IXX)
+      use element_mod , only : nixt,nixp,nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

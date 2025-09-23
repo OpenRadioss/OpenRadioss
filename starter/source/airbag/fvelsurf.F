@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE FVELSURF(IBUF, ELEM, ELEM_ID, IXC, IXTG, NEL,
      .     ELTG, MATTG, NB_NODE, FLAG)
+      use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE DSDIM0(NDOF  ,IXS   , IXQ    , IXC    , IXT    ,
      2                  IXP   ,IXR   , IXTG   , KXX    ,
      3                  IXX   ,GEO   )
+      use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

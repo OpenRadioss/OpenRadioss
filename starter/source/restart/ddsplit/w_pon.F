@@ -68,6 +68,7 @@ C-----------------------------------------------
       USE LOADS_MOD
       use glob_therm_mod
       use get_fsky_address_mod , only : get_fsky_address
+      use element_mod , only : nixs,nixq,nixc,nixp,nixt,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

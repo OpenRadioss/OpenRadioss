@@ -93,6 +93,7 @@ C-----------------------------------------------
       USE PBLAST_MOD
       USE TH_MOD , ONLY : TH_HAS_NODA_PEXT
       USE EOS_PARAM_MOD , ONLY : ANALY_TEMP
+      use element_mod , only : nixs,nixq,nixc,nixp,nixt,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

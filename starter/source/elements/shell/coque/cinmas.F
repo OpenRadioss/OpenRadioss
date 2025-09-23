@@ -100,6 +100,7 @@ C-----------------------------------------------
       USE STACK_MOD
       USE DRAPE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use element_mod , only : nixc
 C----------------------------------------------
 C     initialization of nodal masses and inertias
 C----------------------------------------------
