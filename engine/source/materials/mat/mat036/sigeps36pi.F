@@ -327,14 +327,15 @@ C---
           IF (PLA(I) > EPSMAX(I) .AND. OFF(I)==ONE) THEN
             OFF(I) = FOUR_OVER_5
 #include "lockon.inc"
-            WRITE(IOUT, 1000) NGL(I),PLA(I),EPSP(I)
+            WRITE(IOUT, 1000) NGL(I),IPT,PLA(I),EPSP(I)
+            WRITE(ISTDO,1000) NGL(I),IPT,PLA(I),EPSP(I)
 #include "lockoff.inc"
           END IF
         ENDDO
       END IF                                         
 c---------------------------------------------------------
- 1000 FORMAT(5X,'FAILURE BEAM ELEMENT NUMBER ',I10,
-     .          ' PLASTIC STRAIN =',1PE16.9,' STRAIN RATE =',1PE16.9)
+ 1000 FORMAT(5X,'FAILURE BEAM ELEMENT NUMBER',I3,',  INTEGRATION POINT NUMBER',I3,
+     .          ',  PLASTIC STRAIN = ',1PE16.9,',  STRAIN RATE = ',1PE16.9)
 c---------------------------------------------------------
       RETURN
       END
