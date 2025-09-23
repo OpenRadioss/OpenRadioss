@@ -73,6 +73,7 @@ C-----------------------------------------------
       USE EBCS_MOD
       USE LOADS_MOD
       USE SUBMODEL_MOD , ONLY : NSUBMOD
+      use element_mod , only : nixs,nixq,nixc,nixp,nixt,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2045,6 +2046,7 @@ C-----------------------------------------------
       USE ALE_EBCS_MOD
       USE EBCS_MOD
       USE LOADS_MOD
+      use element_mod , only : nixs,nixq,nixc,nixp,nixt,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

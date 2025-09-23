@@ -39,6 +39,7 @@ C-----------------------------------------------
       USE INIGRAV 
       USE EBCS_MOD
       USE MATPARAM_DEF_MOD, ONLY : MATPARAM_STRUCT_
+      use element_mod , only : nixs,nixq,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

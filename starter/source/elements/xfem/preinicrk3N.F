@@ -39,6 +39,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE XFEM2DEF_MOD
       USE ELBUFDEF_MOD
+      use element_mod , only : nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

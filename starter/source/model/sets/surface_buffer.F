@@ -43,6 +43,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE SETDEF_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARFIELD
+      use element_mod , only : nixs,nixq,nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

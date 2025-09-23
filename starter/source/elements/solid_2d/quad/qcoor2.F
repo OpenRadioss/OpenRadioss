@@ -34,6 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .     Y1, Y2, Y3, Y4, 
      .     Z1, Z2, Z3, Z4,
      .     SY, SZ, TY, TZ)
+      use element_mod , only : nixq
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

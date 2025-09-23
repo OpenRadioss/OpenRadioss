@@ -29,6 +29,7 @@ C
 !||====================================================================
       SUBROUTINE I11SOL(X,IRECT,IXS,NINT,NEL,I,
      .                  AREA,NOINT,KNOD2ELS,NOD2ELS,IXS10)
+      use element_mod , only :nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

@@ -28,7 +28,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE DPARRWS(NESBW,NSTRF,IXC   ,                            
      2                  IXTG ,X ,NODCUT,RWBUF,NPRW,                     
-     3                  IXS   )                                         
+     3                  IXS   )            
+      use element_mod , only : nixs,nixc,nixtg
 C-----------------------------------------------                        
 C   I m p l i c i t   T y p e s                                         
 C-----------------------------------------------                        

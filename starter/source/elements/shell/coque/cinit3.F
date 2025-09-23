@@ -94,6 +94,7 @@ C-----------------------------------------------
       use brokmann_random_def_mod
       use glob_therm_mod
       use initemp_shell_mod
+      use element_mod , only : nixc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -643,6 +644,7 @@ C-----------------------------
       SUBROUTINE CSMS11_INI(
      1           JFT    ,JLT   ,IXC   ,X      ,X2S     ,
      2           Y2S    ,X3S   ,Y3S   ,X4S    ,Y4S     )
+      use element_mod , only : nixc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

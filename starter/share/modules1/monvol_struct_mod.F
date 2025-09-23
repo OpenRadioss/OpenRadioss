@@ -659,6 +659,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE MESSAGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : nchartitle
+      use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -795,6 +796,7 @@ C-----------------------------------------------
       SUBROUTINE MONVOL_CHECK_VENTHOLE_SURF(IPRI, T_MONVOLN, IGRSURF, IHOL, SHOL, X, IXC, IXTG)
       USE GROUPDEF_MOD
       USE MESSAGE_MOD
+      use element_mod , only : nixc,nixtg      
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1107,6 +1109,7 @@ C-----------------------------------------------
 !||    monvol_struct_mod       ../starter/share/modules1/monvol_struct_mod.F
 !||====================================================================
       SUBROUTINE MONVOL_ORIENT_SURF(T_MONVOLN, TITLE, IVOLU, ITAB, SURF, IXC, IXTG, X, ITYPE)
+      use element_mod , only : nixc,nixtg        
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -1789,6 +1792,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE MESSAGE_MOD
       USE MONVOL_STRUCT_MOD
+      use element_mod , only : nixc,nixtg      
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

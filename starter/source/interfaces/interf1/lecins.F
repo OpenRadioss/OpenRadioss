@@ -66,6 +66,7 @@ C-----------------------------------------------
       USE INTERFACES_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE I2_SURFI_MOD ,         ONLY : I2_SURFI
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

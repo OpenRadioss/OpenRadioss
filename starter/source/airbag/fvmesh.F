@@ -58,6 +58,7 @@ C-----------------------------------------------
       USE REORDER_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE FVBAG_GPOLCUT_MOD, ONLY : FVBAG_GPOLCUT
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

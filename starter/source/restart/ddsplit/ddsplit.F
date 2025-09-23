@@ -393,6 +393,7 @@ C-----------------------------------------------
       USE DETONATORS_MOD , ONLY : DETONATORS_STRUCT_
       use checksum_starter_option_mod, only : checksum_write_starter_restart
       use w_bcs_proc_mod , only : w_bcs_proc
+      use element_mod , only : nixs,nixq,nixc,nixp,nixt,nixr,nixtg
 
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

@@ -31,6 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2                               IXS,IXQ,IXTG,CEP,ALE_CONNECTIVITY,BOOL_ALE_TG )
       USE MULTI_FVM_MOD
       USE ALE_CONNECTIVITY_MOD
+      use element_mod , only : nixs,nixq,nixtg
 !$COMMENT
 !       MULTI_CONNECTIVITY description :
 !           creation of reverse connectivity

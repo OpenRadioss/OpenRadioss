@@ -34,6 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .     IEBCS_NELEM_L, IEBCS_TYPE, IEBCS_LISTELEM_L, IEBCS_LISTFAC_L,IEBCS_LISTDP0_L, LENGTH, N2D,
      .     MULTI_FVM_IS_USED,FLAG,EBCS_TAB)
        USE EBCS_MOD
+       use element_mod , only : nixs,nixq,nixtg
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------

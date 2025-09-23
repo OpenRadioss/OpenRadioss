@@ -113,6 +113,7 @@ C-----------------------------------------------
       USE OUTPUT_MOD , ONLY : OUTPUT_
       use ascii_encoding_mu_letter_mod, only : ascii_encoding_mu_letter
       USE EOS_PARAM_MOD , ONLY : ANALY_TEMP
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

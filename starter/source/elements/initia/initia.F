@@ -229,6 +229,7 @@ C-----------------------------------------------
       USE INIT_BCS_WALL_MOD , ONLY : INIT_BCS_WALL
       USE INIT_BCS_NRF_MOD , ONLY : INIT_BCS_NRF
       use init_inivol_mod , only : INIT_INIVOL
+      use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2949,6 +2950,7 @@ C
 !||====================================================================
       SUBROUTINE SGSAVINIEREFQ(NPE,STRAGLOB,SIGSP,NSIGI,PTSOL,SAV,OFFG,
      .                         IXS,DR,NDR,NEL)
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

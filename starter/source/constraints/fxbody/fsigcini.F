@@ -33,7 +33,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    cpxpyi     ../starter/source/elements/shell/coque/cepsini.F
 !||====================================================================
       SUBROUTINE FSIGCINI(FXBELM, IPARG , X     , PM, IXC , 
-     .                    GEO   , FXBMOD, FXBSIG, R , NELC) 
+     .                    GEO   , FXBMOD, FXBSIG, R , NELC)
+      use element_mod , only : nixc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

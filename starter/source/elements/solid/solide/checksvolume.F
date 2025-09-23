@@ -35,6 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    srcoor3          ../starter/source/elements/solid/solide/srcoor3.F
 !||====================================================================
       FUNCTION CHECKVOLUME_8N(X,IXS)
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -126,6 +127,7 @@ C
 !||    s6ccoor3         ../starter/source/elements/thickshell/solide6c/s6ccoor3.F
 !||====================================================================
       FUNCTION CHECKVOLUME_6N(X,IXS)
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -209,6 +211,7 @@ C
 !||    soltosphx4       ../starter/source/elements/sph/soltosph.F
 !||====================================================================
       FUNCTION CHECKVOLUME_4N(X,IXS)
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

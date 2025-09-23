@@ -41,6 +41,7 @@ C-----------------------------------------------
       USE DDWEIGHTS_MOD
       USE MID_PID_MOD
       USE MATPARAM_DEF_MOD
+      use element_mod , only : nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE FVELPRINT(IXC,  IXTG,  NEL,  ITAGEL,  ELTG, 
      .                     IBAGHOL,  ILVOUT,  IFLAG )
+      use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

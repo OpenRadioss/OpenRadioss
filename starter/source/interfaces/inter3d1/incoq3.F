@@ -42,6 +42,7 @@ C
      .                  NELTG ,IS  ,GEO  ,PM   ,KNOD2ELC ,
      .              KNOD2ELTG ,NOD2ELC ,NOD2ELTG,THK,NTY,
      .              IGEO ,PM_STACK , IWORKSH )
+      use element_mod , only :nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

@@ -43,6 +43,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      E               KXIG3D   ,IXIG3D  ,MSIG3D,NCTRLMAX,STRC,
      F               STRP,STRR,STRTG,STIFINTR,NSHNOD,VNIGE,BNIGE,
      G               MCPP ,ITHERM_FE)
+        use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr
 C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

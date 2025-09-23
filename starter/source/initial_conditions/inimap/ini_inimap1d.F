@@ -49,6 +49,7 @@ C-----------------------------------------------
       USE MATPARAM_DEF_MOD
       USE MULTIMAT_PARAM_MOD , ONLY : M51_N0PHAS, M51_NVPHAS
       USE MULTI_SOLVE_EINT_MOD , ONLY : MULTI_SOLVE_EINT
+      use element_mod , only : nixs,nixq,nixtg
 C-----------------------------------------------
 C     I m p l i c i t   T y p e s
 C-----------------------------------------------

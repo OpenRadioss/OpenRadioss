@@ -34,6 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE FVINJNORMAL(IBUF, ELEM, IXC, IXTG, ELTG,
      .                       NEL, ILVOUT, MINUS_SIGN_REVERSE)
+      use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

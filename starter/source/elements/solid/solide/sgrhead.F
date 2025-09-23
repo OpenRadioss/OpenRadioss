@@ -71,6 +71,7 @@ C-----------------------------------------------
       USE CLUSTER_MOD
       USE MATPARAM_DEF_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
 C-----------------------------------------------

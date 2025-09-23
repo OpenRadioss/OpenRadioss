@@ -41,6 +41,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD , ONLY : ELBUF_STRUCT_
       USE MULTI_FVM_MOD , ONLY : MULTI_FVM_STRUCT
+      use element_mod , only :nixs,nixq,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

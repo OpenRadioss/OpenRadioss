@@ -28,7 +28,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE DELNUMBF(IPARG ,IXT  ,IXP  ,IXR  ,               
      .                    EL2FA,NBF   ,INUM ,                           
-     .                    INUMX1 )                                  
+     .                    INUMX1 )        
+      use element_mod , only : nixt,nixr,nixp
 C-----------------------------------------------                        
 C   I m p l i c i t   T y p e s                                         
 C-----------------------------------------------                        

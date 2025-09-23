@@ -87,6 +87,7 @@ C-----------------------------------------------
       USE INTER_CAND_MOD
       USE MATPARAM_DEF_MOD
       USE FORMAT_MOD , ONLY : FMW_A_I
+      use element_mod , only : nixs,nixq,nixc,nixp,nixt,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -3037,6 +3038,7 @@ C
 !||    inint3         ../starter/source/interfaces/inter3d1/inint3.F
 !||====================================================================
       SUBROUTINE IWCONTDD_151(BUFBRIC,NBRIC,MSR,NMN,IWCONT,NSNT,NMNT,NUMNOD,IXS,NUMELS,NALE)
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -3397,6 +3399,7 @@ C     Reading the pointer
 !||====================================================================
       SUBROUTINE REINI_MATPROP(TAILLE,TAILLE2,TAB_UMP_LOC,TAB_UMP_LOC2,
      .           IXS,IXQ,IXC,IXT,IXP,IXR,IXTG,ISOLNOD,POIN_UMP)
+      use element_mod , only : nixs,nixq,nixc,nixp,nixt,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -3817,6 +3820,7 @@ C-----------------------------------------------
 C            M o d u l e s
 C-----------------------------------------------
        USE CONSIDER_EDGE_MOD , ONLY : MAX_NB_NODES_PER_ELT
+       use element_mod , only : nixs,nixq,nixc,nixp,nixt,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -3978,6 +3982,7 @@ C-----------------------------------------------
       USE FVMBAG_MESHCONTROL_MOD
       USE GROUPDEF_MOD
       USE MONVOL_STRUCT_MOD
+      use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

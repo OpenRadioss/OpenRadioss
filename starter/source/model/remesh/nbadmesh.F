@@ -50,6 +50,7 @@ C-----------------------------------------------
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
       USE READER_OLD_MOD , ONLY : LINE, IREC
       USE USER_ID_MOD , ONLY : ID_LIMIT
+      use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

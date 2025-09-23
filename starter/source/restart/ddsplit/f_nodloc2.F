@@ -31,6 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE F_NODLOC2(NUMNOD,P  ,NODGLOB,NODLOCAL,IGEO ,
      2                     IPARG,IXS   ,IXQ,IXC    ,IXTG    ,
      3                     IXT  ,IXP   ,IXR,GEO    ,NUMNOD_L)
+      use element_mod , only : nixs,nixq,nixc,nixp,nixt,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

@@ -36,6 +36,7 @@ C-----------------------------------------------
       USE MY_ALLOC_MOD
       USE QA_OUT_MOD
       USE MESSAGE_MOD
+      use element_mod , only : nixs,nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

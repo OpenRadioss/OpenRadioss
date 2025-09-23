@@ -27,7 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE THSKEWC(
      1       RTHBUF   ,ITHGRP   ,ITHBUF,X     ,IXC     ,IXTG   ,SKEW,NTHGRP)
-
+      use element_mod , only : nixc,nixtg
 
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

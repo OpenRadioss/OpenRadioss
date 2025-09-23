@@ -32,7 +32,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sortho31    ../starter/source/output/anim/sortho31.F
 !||====================================================================
       SUBROUTINE SROTA6_M1(X,IXS,KCVT,                                     
-     .                   TENS,GAMA,KHBE  ,ITYP  )                                     
+     .                   TENS,GAMA,KHBE  ,ITYP  )
+      use element_mod , only : nixs
 C-----------------------------------------------                        
 C   I m p l i c i t   T y p e s                                         
 C-----------------------------------------------                        

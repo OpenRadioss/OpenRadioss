@@ -86,6 +86,7 @@ C-----------------------------------------------
       USE HM_READ_MONVOL_TYPE9_MOD  ,ONLY : HM_READ_MONVOL_TYPE9
       USE HM_READ_MONVOL_TYPE10_MOD ,ONLY : HM_READ_MONVOL_TYPE10
       USE HM_READ_MONVOL_TYPE11_MOD ,ONLY : HM_READ_MONVOL_TYPE11
+      use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

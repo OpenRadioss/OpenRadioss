@@ -77,9 +77,11 @@ C---------------------------------------------
 C Structures needed for stack (PID17) properties 
 C---------------------------------------------
 C PLY  Nodes structures for animations
+      integer, parameter :: stack_s_pm1 = 20 !< first dimension of pm array
       TYPE STACK_PLY
-         INTEGER , DIMENSION (:,:), ALLOCATABLE :: IGEO        ! IGEO TABLE
-         my_real , DIMENSION (:,:), ALLOCATABLE :: GEO  , PM       ! GEO, PM 
+        integer :: s_pm2 !< second dimension of pm array
+        INTEGER , DIMENSION (:,:), ALLOCATABLE :: IGEO        ! IGEO TABLE
+        my_real , DIMENSION (:,:), ALLOCATABLE :: GEO  , PM       ! GEO, PM 
       END TYPE STACK_PLY        
 C      
       TYPE STACK_INFO_ 

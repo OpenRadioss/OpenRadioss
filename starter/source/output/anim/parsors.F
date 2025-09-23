@@ -30,7 +30,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2                  EL2FA ,                                         
      3                                    INSPH  ,KXSP  ,IPARTSP,       
      4                  IXS10 ,IXS20     ,IXS16  ,NNSPH ,ISPH3D,        
-     5                  SHFT16   ,SHFTSPH ,NNSPHG)                      
+     5                  SHFT16   ,SHFTSPH ,NNSPHG)   
+      use element_mod , only : nixs
 C-----------------------------------------------                        
 C   I m p l i c i t   T y p e s                                         
 C-----------------------------------------------                        

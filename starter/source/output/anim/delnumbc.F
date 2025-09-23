@@ -28,7 +28,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE DELNUMBC(IPARG,IXQ  ,IXC  ,IXTG  ,                          
      2                    EL2FA,NBF  ,INUM ,NELCUT,                       
-     3                    NBPART,IDCMAX)                                         
+     3                    NBPART,IDCMAX)             
+      use element_mod , only : nixq,nixc,nixtg
 C-----------------------------------------------                        
 C   I m p l i c i t   T y p e s                                         
 C-----------------------------------------------                        

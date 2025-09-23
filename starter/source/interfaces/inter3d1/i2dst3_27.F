@@ -29,11 +29,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    choose_main_segment   ../starter/source/interfaces/inter3d1/i2dst3_27.F
 !||    i2bar3                ../starter/source/interfaces/inter3d1/i2dst3.F
 !||====================================================================
-      SUBROUTINE I2DST3_27(GAPV,CAND_E  ,CAND_N,TZINF,IRTL,ST,DMIN,IGNORE,
-     .                  THK  ,KNOD2ELS,KNOD2ELC,KNOD2ELTG,NOD2ELS,
-     .                  NOD2ELC,NOD2ELTG,X,IRECT,
-     .                  NINT,IXC ,IXTG  ,THK_PART,IPARTC,GEO   , 
-     .                  NOINT,IXS,IXS10 ,PM,IX3,
+      SUBROUTINE I2DST3_27(first,last,
+     .                  GAPV,CAND_E  ,CAND_N,TZINF,IRTL,ST,DMIN,IGNORE,
+     .                  IRECT,
+     .                  IX3,
      1                  IX4,X1 ,X2 ,X3 ,X4 ,
      1                  Y1 ,Y2 ,Y3 ,Y4 ,Z1 ,
      2                  Z2 ,Z3 ,Z4 ,XI ,YI ,
@@ -60,14 +59,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      integer, intent(in) :: first !< first index of the candidates
+      integer, intent(in) :: last  !< last index of the candidates
       INTEGER CAND_E(*),CAND_N(*),IRTL(*),IGNORE,
-     .    KNOD2ELS(*), KNOD2ELC(*),KNOD2ELTG(*), NOD2ELS(*), NOD2ELC(*), 
-     .    NOD2ELTG(*),IRECT(4,*),NINT,
-     .    IXC(NIXC,*),IXTG(NIXTG,*),IPARTC(*),NOINT,IXS(NIXS,*),
-     .    IXS10(*)
+     .    IRECT(4,*)
       my_real
-     .   GAPV(*),TZINF,ST(2,*),DMIN(*),THK(*),X(3,*),THK_PART(*),
-     .   GEO(NPROPG,*),PM(*)
+     .   GAPV(*),TZINF,ST(2,*),DMIN(*)
       INTEGER, DIMENSION(MVSIZ), INTENT(IN) :: IX3,IX4
       my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: X1,X2,X3,X4
       my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: Y1,Y2,Y3,Y4
@@ -100,13 +97,13 @@ C-----------------------------------------------
 C     DERIVED FROM I2DST3 - improved projection on triangles
 C-----------------------------------------------
 C
-      DO I=LFT,LLT
+      DO I=first,last
        X0(I) = FOURTH*(X1(I)+X2(I)+X3(I)+X4(I))
        Y0(I) = FOURTH*(Y1(I)+Y2(I)+Y3(I)+Y4(I))
        Z0(I) = FOURTH*(Z1(I)+Z2(I)+Z3(I)+Z4(I))
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=first,last
         IF (IX3(I) == IX4(I)) THEN
           X0(I) = X3(I)
           Y0(I) = Y3(I)
@@ -117,27 +114,31 @@ C
         ENDIF
       ENDDO
 C
-      CALL I2BAR3(XI  ,YI  ,ZI ,X0 ,Y0 ,
+      CALL I2BAR3(first,last,
+     .            XI  ,YI  ,ZI ,X0 ,Y0 ,
      .            Z0  ,X1  ,Y1 ,Z1 ,X2 ,
      .            Y2  ,Z2  ,NX1,NY1,NZ1,
      .            LB1 ,LC1 ,P1 ,GAPV, TFLAG )
 C
-      CALL I2BAR3(XI  ,YI  ,ZI ,X0 ,Y0 ,
+      CALL I2BAR3(first,last,
+     .            XI  ,YI  ,ZI ,X0 ,Y0 ,
      .            Z0  ,X2  ,Y2 ,Z2 ,X3 ,
      .            Y3  ,Z3  ,NX2,NY2,NZ2,
      .            LB2 ,LC2 ,P2 ,GAPV, TFLAG )
 C
-      CALL I2BAR3(XI  ,YI  ,ZI ,X0 ,Y0 ,
+      CALL I2BAR3(first,last,
+     .            XI  ,YI  ,ZI ,X0 ,Y0 ,
      .            Z0  ,X3  ,Y3 ,Z3 ,X4 ,
      .            Y4  ,Z4  ,NX3,NY3,NZ3,
      .            LB3 ,LC3 ,P3 ,GAPV, TFLAG )
 C
-      CALL I2BAR3(XI  ,YI  ,ZI ,X0 ,Y0 ,
+      CALL I2BAR3(first,last,
+     .            XI  ,YI  ,ZI ,X0 ,Y0 ,
      .            Z0  ,X4  ,Y4 ,Z4 ,X1 ,
      .            Y1  ,Z1  ,NX4,NY4,NZ4,
      .            LB4 ,LC4 ,P4 ,GAPV, TFLAG )
 C
-      DO I=LFT,LLT
+      DO I=first,last
         IF (TFLAG(I) ==  1) THEN
           PENE(I) = P1(I)
           S(I) = LB1(I)
@@ -164,7 +165,7 @@ C
       ENDDO
 C   
       IF(IGNORE==2 .OR. IGNORE == 3)THEN
-        DO I=LFT,LLT
+        DO I=first,last
           IF(PENE(I)>ZERO  .AND.
      .          (S(I) < ONEP5 .AND. 
      .           T(I) < ONEP5 .AND.
@@ -177,12 +178,12 @@ C
               ST(1,II) = S(I)
               ST(2,II) = T(I)
             ELSEIF(GAPV(I) - PENE(I)==DMIN(II))THEN
-              CALL CHOOSE_MAIN_SEGMENT(IRECT,IRTL(II),CAND_E(I),S(I),T(I),ST(1,II),ST(2,II),TFLAG(I),II)
+              CALL CHOOSE_MAIN_SEGMENT(IRECT,IRTL(II),CAND_E(I),S(I),T(I),ST(1,II),ST(2,II),TFLAG(I))
             ENDIF
           ENDIF
         ENDDO
       ELSEIF(IGNORE==1)THEN
-        DO I=LFT,LLT
+        DO I=first,last
 C
         IF(PENE(I)>ZERO  .AND.
      .          (S(I) < ONEP5 .AND. 
@@ -197,12 +198,12 @@ C
             ST(1,II) = S(I)
             ST(2,II) = T(I)
           ELSEIF(TZINF - PENE(I)==DMIN(II))THEN
-             CALL CHOOSE_MAIN_SEGMENT(IRECT,IRTL(II),CAND_E(I),S(I),T(I),ST(1,II),ST(2,II),TFLAG(I),II) 
+             CALL CHOOSE_MAIN_SEGMENT(IRECT,IRTL(II),CAND_E(I),S(I),T(I),ST(1,II),ST(2,II),TFLAG(I)) 
           ENDIF
          ENDIF
         ENDDO
       ELSE
-        DO I=LFT,LLT
+        DO I=first,last
 C
         IF(PENE(I)>ZERO)  THEN
           II=CAND_N(I)
@@ -213,7 +214,7 @@ C
             ST(1,II) = S(I)
             ST(2,II) = T(I)
           ELSEIF(TZINF - PENE(I)==DMIN(II))THEN
-             CALL CHOOSE_MAIN_SEGMENT(IRECT,IRTL(II),CAND_E(I),S(I),T(I),ST(1,II),ST(2,II),TFLAG(I),II)
+             CALL CHOOSE_MAIN_SEGMENT(IRECT,IRTL(II),CAND_E(I),S(I),T(I),ST(1,II),ST(2,II),TFLAG(I))
           ENDIF
          ENDIF
         ENDDO
@@ -227,7 +228,7 @@ C
 !||--- called by ------------------------------------------------------
 !||    i2dst3_27             ../starter/source/interfaces/inter3d1/i2dst3_27.F
 !||====================================================================
-      SUBROUTINE CHOOSE_MAIN_SEGMENT(IRECT,M_OLD,M_NEW,S_NEW,T_NEW,S,T,TFLAG,II)
+      SUBROUTINE CHOOSE_MAIN_SEGMENT(IRECT,M_OLD,M_NEW,S_NEW,T_NEW,S,T,TFLAG)
 C============================================================================
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -236,15 +237,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IRECT(4,*),M_OLD,M_NEW,TFLAG,II
+      INTEGER IRECT(4,*),M_OLD,M_NEW,TFLAG
       my_real
      .    S_NEW,T_NEW,S,T
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  TFLAG_OLD,INTERIOR_OLD,INTERIOR,SWITCH
-      my_real
-     .    S1,T1,S2,T2
 C-----------------------------------------------
 C
       IF (IRECT(3,M_OLD)==IRECT(4,M_OLD)) THEN

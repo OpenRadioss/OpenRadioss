@@ -1079,6 +1079,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE GROUPDEF_MOD
+      use element_mod , only : nixs,nixc,nixtg,nixt,nixp,nixr
 C-------------------------------------
 C    PRE LECTURE STRUCTURE RIGIDES POUR OPTIMIZATION
 C-----------------------------------------------
@@ -1188,6 +1189,7 @@ C-----------------------------------------------
       USE HM_OPTION_READ_MOD
       USE SUBMODEL_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use element_mod , only : nixs,nixc,nixtg
 C-------------------------------------
 C    PRE LECTURE STRUCTURE RIGIDES POUR OPTIMIZATION
 C-----------------------------------------------

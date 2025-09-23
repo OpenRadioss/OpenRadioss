@@ -47,6 +47,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -388,6 +389,7 @@ C-----------------------------------------------
      7  IPARTTG ,IPARTX  ,TAGPRT_SMS,TAGREL_SMS,ITAB    ,
      8  IRBE2   ,IRBE3     ,LRBE2    ,LRBE3    ,
      9  NPRW    ,LPRW      ,IPART    ,IGEO     ,NATIV_SMS)
+        use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -775,6 +777,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INTBUFDEF_MOD 
+      use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1179,6 +1182,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INTBUFDEF_MOD 
+      use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1570,6 +1574,7 @@ C-----------------------------------------------
       USE INTSTAMP_MOD
       USE INTBUFDEF_MOD 
       USE MESSAGE_MOD
+      use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1873,7 +1878,8 @@ C   M o d u l e s
 C-----------------------------------------------
       USE INTSTAMP_MOD
       USE INTBUFDEF_MOD
-      USE MESSAGE_MOD  
+      USE MESSAGE_MOD
+      use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

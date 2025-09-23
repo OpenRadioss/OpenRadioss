@@ -31,8 +31,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    volint   ../starter/source/interfaces/inter3d1/volint.F
 !||====================================================================
       SUBROUTINE I2COR3(X     ,IRECT ,NSV   ,CAND_E  ,CAND_N,
-     2                  STF   ,STFN  ,GAPV  ,IGAP    ,GAP   ,
-     3                  GAP_S ,GAP_M ,ISTF  ,NINT    ,IXC   , 
+     2                  GAPV  ,IGAP    ,GAP   ,first,last,
+     3                  NINT    ,IXC   , 
      4                  IXTG  ,THK_PART,IPARTC,GEO   , NOINT,
      5                  IXS   ,IXS10 ,PM    ,THK     ,KNOD2ELS,
      6                  KNOD2ELC,KNOD2ELTG,NOD2ELS,NOD2ELC,NOD2ELTG,
@@ -41,7 +41,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      5                  IX3    ,IX4    ,NSVG,X1      ,X2    ,
      6                  X3     ,X4     ,Y1  ,Y2      ,Y3    ,
      7                  Y4     ,Z1     ,Z2  ,Z3      ,Z4    ,
-     8                  XI     ,YI     ,ZI  ,STIF    ,IFLAG )
+     8                  XI     ,YI     ,ZI  ,IFLAG )
 C============================================================================
 C  this routine is called by: I7BUC1(/inter3d1/i7buc1.F)
 C                                  I7TRI(/inter3d1/i7tri.F)
@@ -51,6 +51,7 @@ C                                  ININT3(/inter3d1/inint3.F)
 C----------------------------------------------------------------------------
 C  this routine calls: -
 C============================================================================
+      use element_mod , only :nixs,nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -62,24 +63,25 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IGAP, IRECT(4,*), NSV(*), CAND_E(*), CAND_N(*),ISTF,
+      INTEGER IGAP, IRECT(4,*), NSV(*), CAND_E(*), CAND_N(*),
      .        IXC(NIXC,*),IXTG(NIXTG,*),IPARTC(*),NOINT,
      .        IXS(NIXS,*), IXS10(*),KNOD2ELS(*), 
      .        KNOD2ELC(*),KNOD2ELTG(*), NOD2ELS(*), NOD2ELC(*), 
      .        NOD2ELTG(*),NINT,IGNORE,
      .        IXS16(*), IXS20(*),IPARTTG(*),IGEO(NPROPGI,*),
      .        IWORKSH(*)
+      integer, intent(in) :: first !< first index of the candidates
+      integer, intent(in) :: last  !< last index of the candidates
       INTEGER, INTENT(IN) :: IFLAG
 C     REAL
       my_real
-     .   GAP, X(3,*), STF(*), STFN(*), GAPV(*), GAP_S(*), GAP_M(*),
+     .   GAP, X(3,*), GAPV(*),
      .   GEO(NPROPG,*),THK(*),THK_PART(*),PM(*),DSEARCH,PM_STACK(*)
       INTEGER, DIMENSION(MVSIZ), INTENT(INOUT) :: IX1,IX2,IX3,IX4,NSVG
       my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: X1,X2,X3,X4
       my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: Y1,Y2,Y3,Y4
       my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: Z1,Z2,Z3,Z4
       my_real, DIMENSION(MVSIZ), INTENT(OUT) :: XI,YI,ZI
-      my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: STIF
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -98,7 +100,7 @@ C     REAL
      .     THKSECND,THKMAIN,DD,DX1,DY1,DZ1,DX3,DY3,DZ3,VOL,AREA,GAPMIN,GAPMAX
 C-----------------------------------------------
 C
-      DO I=LFT,LLT
+      DO I=first,last
        IG = NSV(CAND_N(I))
        NSVG(I) = IG
        XI(I) = X(1,IG)
@@ -109,17 +111,17 @@ C
       GAPMIN = EP30
       GAPMAX = ZERO
       IF(IGAP==0 .AND. IGNORE <= 1)THEN
-        DO I=LFT,LLT
+        DO I=first,last
          GAPV(I) = GAP
         ENDDO 
         IF(IFLAG==1) WRITE(IOUT,2001) GAP
       ELSEIF((IGNORE == 2 .OR. IGNORE == 3) .AND. DSEARCH /= ZERO)THEN
-        DO I=LFT,LLT
+        DO I=first,last
           GAPV(I) = GAP
         ENDDO
         IF(IFLAG==1) WRITE(IOUT,2001) GAP
       ELSEIF(IGNORE >= 2)THEN
-        DO I=LFT,LLT
+        DO I=first,last
           THKSECND = ZERO
           THKMAIN = ZERO
           II=CAND_N(I)
@@ -209,23 +211,9 @@ C         LONGUEUR DIAG 2
           GAPMAX = MAX(GAPMAX,GAPV(I))
         ENDDO
         IF(IFLAG==1) WRITE(IOUT,2002) GAPMIN,GAPMAX
-      ELSE
-        DO I=LFT,LLT
-         GAPV(I) = GAP_S(CAND_N(I))+GAP_M(CAND_E(I))
-         GAPV(I) = MAX(GAP,GAPV(I))
-          GAPMIN = MIN(GAPMIN,GAPV(I))
-          GAPMAX = MAX(GAPMAX,GAPV(I))
-        ENDDO
-        IF(IFLAG==1) WRITE(IOUT,2002) GAPMIN,GAPMAX
       ENDIF
 C
-      IF(ISTF/=0)THEN
-        DO I=LFT,LLT
-          STIF(I)=STF(CAND_E(I))*STFN(CAND_N(I))
-        ENDDO
-      ENDIF
-C
-      DO I=LFT,LLT
+      DO I=first,last
 C
         L  = CAND_E(I)
 C
@@ -236,7 +224,7 @@ C
 C
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=first,last
 C
         NN=IX1(I)
         X1(I)=X(1,NN)
