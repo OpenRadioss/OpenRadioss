@@ -281,7 +281,7 @@ c
           E4D = HALF*EPSXY(I)
           E5D = HALF*EPSYZ(I)
           E6D = HALF*EPSZX(I)
-          EFF_STRAIN(I) = E1D**2 + E2D**2 + E3D**3 + TWO*(E4D**2 + E5D**2 + E6D**2)
+          EFF_STRAIN(I) = E1D**2 + E2D**2 + E3D**2 + TWO*(E4D**2 + E5D**2 + E6D**2)
           EFF_STRAIN(I) = SQRT(TWO_THIRD*EFF_STRAIN(I))
 c
           ! --------------------------------------------------------------------------
