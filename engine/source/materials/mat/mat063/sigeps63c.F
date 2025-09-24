@@ -122,7 +122,7 @@ C-----------------------------------------------
      .   SIGOXX(NEL0),SIGOYY(NEL0),
      .   SIGOXY(NEL0),SIGOYZ(NEL0),SIGOZX(NEL0),
      .   GS(*),VOL(NEL0) ,TEMPEL(NEL0),
-     .   DIE(NEL0),COEF(NEL0),DPLANL(NEL0)
+     .   DIE(NEL0),COEF,DPLANL(NEL0)
       my_real ,DIMENSION(NUPARAM) :: UPARAM
       INTEGER, INTENT(IN) :: JTHE
       my_real, DIMENSION(NEL0), INTENT(IN) :: LOFF
@@ -198,6 +198,7 @@ C-----------------------------------------------
          EPS0= UPARAM(20)
          CP  = UPARAM(21)
          HL  = UPARAM(23)
+         COEF= UPARAM(24)                     
          G3  = THREE*G
 C
          NNU1 = NU / (ONE  - NU)
@@ -210,17 +211,12 @@ C
          NU6 = HALF - NNU2 + HALF*NNU1
          DO I=1,NEL0
            TEMP(I) = UPARAM(22)
-C latent heat            
-           COEF(I)  = UPARAM(24)                     
          ENDDO
 C
        IF (ISIGI==0) THEN
        IF(TIME==0.0)THEN
          DO I=1,NEL0
-           UVAR(I,1) = ZERO
            UVAR(I,2) = VM0
-           UVAR(I,3) = ZERO  
-           UVAR(I,4) = ZERO
          ENDDO
        ENDIF
        ENDIF
@@ -239,46 +235,30 @@ C
        ENDDO
 C
         IF(JTHE > 0 ) THEN
-         DO I=1,NEL0              
-           TEMP(I) = TEMPEL(I)
-         ENDDO  
+          DO I=1,NEL0              
+            TEMP(I) = TEMPEL(I)
+          ENDDO  
         ELSE
           DO I=1,NEL0
-            VOL0 = VOL(I) * RHO0(I)
+            VOL0  = VOL(I) * RHO0(I)
             VM(I) = UVAR(I,2)      
-            TEMP(I) = TEMP(I) 
-     .              + (   COEF(I)*(EINT(I,1)+ EINT(I,2))
-     .                  + VM(I)*HL ) * CP /VOL0
-clm     .                + COEF(I)*CP(I)*(EINT(I,1)+ EINT(I,2))/VOL0 
-clm     .                + CP(I)*VM(I)*HL(I)/VOL0
+            TEMP(I) = TEMP(I) + (COEF*(EINT(I,1)+EINT(I,2)) + VM(I)*HL) * CP/VOL0
           ENDDO
         ENDIF
 C
 C compute YLD stress
        DO I=1,NEL0
          VM(I) = UVAR(I,2)  
+         AUX0 = PLA(I)+EPS0
+         AUX1 = LOG(MAX(EM20,AUX0))
+         AUX2 = EXP( (CN - ONE)*AUX1 )
+         AUX3 = (BHS - AHS) * EXP(-CM * AUX0 * AUX2)
+         KT(I)= K1 + K2*TEMP(I)
 
-clm         YLD(I) = ( BHS(I) - (BHS(I) - AHS(I))*
-clm     .          EXP(-CM(I) * EXP(CN(I)*LOG(MAX(EM20,PLA(I)+EPS0(I))))))
-clm     .          *( K1(I) + K2(I)*TEMP(I) ) + DH(I)*VM(I)        
-clm        H(I) = CM(I)*CN(I)*( BHS(I) - AHS(I) )
-clm     .          * EXP( (CN(I) - 1)*LOG( MAX(EM20,PLA(I) + EPS0(I))))
-clm     .          * EXP(-CM(I)*EXP(CN(I)*LOG(MAX(EM20, PLA(I)+EPS0(I)))))
-clm     .          * (K1(I)+K2(I)*TEMP(I))          
-
-        AUX0 = PLA(I)+EPS0
-        AUX1 = LOG(MAX(EM20,AUX0))
-        AUX2 = EXP( (CN - ONE)*AUX1 )
-        AUX3 = (BHS - AHS) * EXP(-CM * AUX0 * AUX2)
-        KT(I)= K1 + K2*TEMP(I)
-
-        YLD(I) = ( BHS - AUX3 ) * KT(I)
-     .         + DH*VM(I)        
-        H(I)   = CM*CN* AUX2 * AUX3 * KT(I)
-
-c       H(I)  = H(I) 
-ctmp + DH(I)*UVAR(I,3)
-        DPLA(I) =ZERO
+         YLD(I) = ( BHS - AUX3 ) * KT(I)
+     .          + DH*VM(I)        
+         H(I)   = CM*CN* AUX2 * AUX3 * KT(I)
+         DPLA(I) =ZERO
        ENDDO      
 C-------------------
 C     PROJECTION
