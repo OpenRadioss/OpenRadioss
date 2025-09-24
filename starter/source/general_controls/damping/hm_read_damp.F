@@ -167,6 +167,8 @@ C--------------------------------------------------
         FL_FREQ_RANGE = 0
         ITYPE = 0
         FACTB = ONE
+        ALPHA = ZERO
+        BETA = ZERO
 C        
         IF(KEY(1:5)=='INTER')THEN
           FLINT = 1
@@ -522,6 +524,7 @@ C
               ALPHA_X = ALPHA
               DAMPR(3,I) = ALPHA_X
               ALPHA = FACTB
+              DAMPR(4,I) = BETA
               DAMPR(5,I) = ALPHA_Y
               DAMPR(7,I) = ALPHA_Z
               DAMPR(9,I)  = ALPHA_XX
