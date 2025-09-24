@@ -220,7 +220,7 @@ C-----------------
       IF (JTHE /= 0) THEN
         ! heat increment due to plastic work for /heat/mat
         DO I=1,NEL
-          FHEAT(I) = FHEAT(I) + SIGY(I)*DPLA(I)*VOL(I)
+          FHEAT(I) = FHEAT(I) + SIGY(I)*DPLA(I)*VOL(I) * MAT_PARAM%THERM%EFRAC
         ENDDO
       ELSEIF (RHOCP > ZERO) THEN   ! adiabatic conditions => temp is updated locally
         DO I=1,NEL

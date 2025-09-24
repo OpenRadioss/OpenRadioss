@@ -46,7 +46,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      C   UVAR,      OFF,       NGL,       ITABLE,
      D   ETSE,      GS,        SIGY,      DPLA1,
      E   EPSP,      TABLE,     VOL,       TEMPEL,
-     F   DIE,       COEF,      NPF,       NFUNC,
+     F   DIE,       NPF,       NFUNC,
      G   IFUNC,     TF,        SHF,       HARDM,
      H   SEQ_OUTPUT,INLOC,     DPLANL,    JTHE,
      I   LOFF)
@@ -79,7 +79,7 @@ C-----------------------------------------------
      .   EPSXY(NEL) ,EPSYZ(NEL) ,EPSZX(NEL) ,
      .   SIGOXX(NEL),SIGOYY(NEL),
      .   SIGOXY(NEL),SIGOYZ(NEL),SIGOZX(NEL),SHF(NEL),
-     .   GS(NEL),VOL(NEL),TEMPEL(NEL),DIE(NEL),COEF(NEL),HARDM(*),
+     .   GS(NEL),VOL(NEL),TEMPEL(NEL),DIE(NEL),HARDM(*),
      .   SEQ_OUTPUT(NEL),DPLANL(NEL)
       TYPE(TTABLE) TABLE(*)
       my_real, DIMENSION(NEL), INTENT(IN) :: LOFF
@@ -208,10 +208,6 @@ C
 C-----------------------------------------------
 C  calculation of the temperature (conduction or adiabatic)
 C--------------------    
-        DO I=1,NEL    
-          COEF(I) = ONE
-        END DO
-C
         IF(JTHE > 0 ) THEN
          DO I=1,NEL     
            TEMP(I) = TEMPEL(I)
@@ -221,8 +217,7 @@ C
          DO I=1,NEL
            TEMP(I) = UPARAM(20)
            VOL0    = VOL(I) * RHO0(I)
-           TEMP(I) = TEMP(I) 
-     .             + COEF(I)*RHOCP*(EINT(I,1)+ EINT(I,2))/VOL0
+           TEMP(I) = TEMP(I) + (EINT(I,1)+ EINT(I,2)) * RHOCP/VOL0
          ENDDO
         ENDIF
 C
@@ -483,10 +478,6 @@ C
 C-----------------------------------------------
 C  calculation of the temperature (conduction or adiabatic)
 C--------------------    
-        DO I=1,NEL    
-          COEF(I) = ONE
-        END DO
-C
         IF(JTHE > 0 ) THEN
          DO I=1,NEL     
            TEMP(I) = TEMPEL(I)
@@ -496,8 +487,7 @@ C
          DO I=1,NEL
            TEMP(I) = UPARAM(20)
            VOL0    = VOL(I) * RHO0(I)
-           TEMP(I) = TEMP(I) 
-     .             + COEF(I)*RHOCP*(EINT(I,1)+ EINT(I,2))/VOL0
+           TEMP(I) = TEMP(I) + (EINT(I,1)+ EINT(I,2)) * RHOCP/VOL0
          ENDDO
         ENDIF
 C
