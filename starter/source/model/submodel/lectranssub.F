@@ -651,7 +651,21 @@ C--------------------------------------------------
      .                    I1=ID,
      .                    C1=TITR,
      .                    I2=N0)
+              X0(1) = ZERO
+              X0(2) = ZERO
+              X0(3) = ZERO
+            ELSE
+C
+              X0(1) = X(1,I0)
+              X0(2) = X(2,I0) 
+              X0(3) = X(3,I0)
+              IF(TAGNODSUB(I0) == ITRANSSUB) THEN
+                DO J=1,I-1
+                  IF(RTRANS(J,1) == ITRANSSUB) CALL RTRANSPOS(X0,J,RTRANS)
+                END DO
+              END IF
             END IF
+
             IF (I1 == 0) THEN
               CALL ANCMSG(MSGID=694,
      .                    MSGTYPE=MSGERROR,
@@ -659,13 +673,19 @@ C--------------------------------------------------
      .                    I1=ID,
      .                    C1=TITR,
      .                    I2=N1)
+              X1(1) = ZERO
+              X1(2) = ZERO
+              X1(3) = ZERO
+            ELSE
+              X1(1) = X(1,I1)
+              X1(2) = X(2,I1) 
+              X1(3) = X(3,I1)
+              IF(TAGNODSUB(I1) == ITRANSSUB) THEN
+                DO J=1,I-1
+                  IF(RTRANS(J,1) == ITRANSSUB) CALL RTRANSPOS(X1,J,RTRANS)
+                END DO
+              END IF
             END IF
-            X0(1) = X(1,I0)
-            X0(2) = X(2,I0) 
-            X0(3) = X(3,I0)
-            X1(1) = X(1,I1)
-            X1(2) = X(2,I1) 
-            X1(3) = X(3,I1)
           ELSE
             X0(1) = X0(1) * FAC_L 
             X0(2) = X0(2) * FAC_L  
@@ -674,18 +694,6 @@ C--------------------------------------------------
             X1(2) = X1(2) * FAC_L  
             X1(3) = X1(3) * FAC_L 
           ENDIF
-C
-          IF(TAGNODSUB(I0) == ITRANSSUB) THEN
-            DO J=1,I-1
-              IF(RTRANS(J,1) == ITRANSSUB) CALL RTRANSPOS(X0,J,RTRANS)
-            END DO
-          END IF
-C
-          IF(TAGNODSUB(I1) == ITRANSSUB) THEN
-            DO J=1,I-1
-              IF(RTRANS(J,1) == ITRANSSUB) CALL RTRANSPOS(X1,J,RTRANS)
-            END DO
-          END IF
 C
           DO J=1,3
             RTRANS(I,J+11) = X0(J)
@@ -725,6 +733,11 @@ c
               X0(1) = X(1,I0)
               X0(2) = X(2,I0) 
               X0(3) = X(3,I0)
+              IF(TAGNODSUB(I0) == ITRANSSUB) THEN
+                DO J=1,I-1
+                  IF(RTRANS(J,1) == ITRANSSUB) CALL RTRANSPOS(X0,J,RTRANS)
+                END DO
+              END IF
             ENDIF
           ELSE
             X0(1) = ZERO
@@ -736,11 +749,6 @@ C
             RTRANS(I,J+11) = X0(J)
           ENDDO
 C
-          IF(TAGNODSUB(I0) == ITRANSSUB) THEN
-            DO J=1,I-1
-              IF(RTRANS(J,1) == ITRANSSUB) CALL RTRANSPOS(X0,J,RTRANS)
-            END DO
-          END IF
 C
           WRITE(IOUT,1000) ID,ID_TRANSSUB   
           WRITE(IOUT,1010) RTRANS(I,12),RTRANS(I,13),RTRANS(I,14),RTRANS(I,20),RTRANS(I,21),RTRANS(I,22)
