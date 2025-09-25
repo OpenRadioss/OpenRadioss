@@ -173,59 +173,61 @@ C-----------------------------------------------
 
         ! GRID FORMULATION PARAMETERS
         TYPE ALE_GRID_
-          my_real ALPHA
-          my_real GAMMA
-          my_real VGX
-          my_real VGY
-          my_real VGZ
-          my_real VGY0
-          my_real VGZ0
-          INTEGER NWALE_ENGINE       !        read from Engine input file with /ALE/GRID/...
-          INTEGER NWALE_RST          !        read from RESTART FILE
-          INTEGER NWALE              !        effective value used in numerical scheme
-          TYPE(FLOW_TRACKING_DATA_) FLOW_TRACKING_DATA
+          my_real :: ALPHA
+          my_real :: GAMMA
+          my_real :: VGX
+          my_real :: VGY
+          my_real :: VGZ
+          my_real :: VGY0
+          my_real :: VGZ0
+          INTEGER :: NWALE_ENGINE       !        read from Engine input file with /ALE/GRID/...
+          INTEGER :: NWALE_RST          !        read from RESTART FILE
+          INTEGER :: NWALE              !        effective value used in numerical scheme
+          TYPE(FLOW_TRACKING_DATA_) :: FLOW_TRACKING_DATA
         END TYPE ALE_GRID_
 
         ! UPWIND PARAMETERS
         TYPE ALE_UPWIND_
-          my_real UPWMG
-          my_real UPWOG
-          my_real UPWSM
-          my_real CUPWM
-          my_real UPWMG2
-          my_real UPWOG2
-          my_real UPWSM2
-          INTEGER I_SUPG_ON_OFF
-          INTEGER UPWM
-          INTEGER UPW_UPDATE
+          my_real :: UPWMG
+          my_real :: UPWOG
+          my_real :: UPWSM
+          my_real :: CUPWM
+          my_real :: UPWMG2
+          my_real :: UPWOG2
+          my_real :: UPWSM2
+          INTEGER :: I_SUPG_ON_OFF
+          INTEGER :: UPWM
+          INTEGER :: UPW_UPDATE
         END TYPE ALE_UPWIND_
 
         !GLOBAL PARAMETERS
         TYPE ALE_GLOBAL_
-          INTEGER NALENOVS
-          INTEGER ICAA
-          INTEGER INCOMP
-          INTEGER ISFINT
-          INTEGER I_DT_NODA_ALE_ON
-          INTEGER I_DT_NODA_ALE_ON_KEY
-          INTEGER IDT_ALE
-          LOGICAL IS_BOUNDARY_MATERIAL
-          INTEGER LCONV
-          INTEGER CODV(10)
-          INTEGER NVCONV
-          INTEGER SNALE
-          INTEGER SIELVS
+          INTEGER :: NALENOVS
+          INTEGER :: ICAA
+          INTEGER :: INCOMP
+          INTEGER :: ISFINT
+          INTEGER :: I_DT_NODA_ALE_ON
+          INTEGER :: I_DT_NODA_ALE_ON_KEY
+          INTEGER :: IDT_ALE
+          LOGICAL :: IS_BOUNDARY_MATERIAL
+          INTEGER :: LCONV
+          INTEGER :: CODV(10)
+          INTEGER :: NVCONV
+          INTEGER :: SNALE
+          INTEGER :: SIELVS
+          INTEGER :: IS_DEFINED_ALE    !not needed for RST
+          INTEGER :: IS_DEFINED_EULER  !not needed for RST
         END TYPE ALE_GLOBAL_
 
         !ALE SUBCCLING (obsolete)
         TYPE ALE_SUB_
-          INTEGER IALESUB
-          INTEGER IFSUB
-          INTEGER IFSUBM
-          INTEGER NODSUBDT
-          my_real DT1SAVE
-          my_real DTFSUB
-          my_real DTMSUB
+          INTEGER :: IALESUB
+          INTEGER :: IFSUB
+          INTEGER :: IFSUBM
+          INTEGER :: NODSUBDT
+          my_real :: DT1SAVE
+          my_real :: DTFSUB
+          my_real :: DTMSUB
         END TYPE ALE_SUB_
 
         !ALE REZONING (variable to rezone)
@@ -301,6 +303,8 @@ C-----------------------------------------------
           this%GLOBAL%NVCONV = 0
           this%GLOBAL%SNALE = 0
           this%GLOBAL%SIELVS = 0
+          this%GLOBAL%IS_DEFINED_ALE = 0
+          this%GLOBAL%IS_DEFINED_EULER = 0
           !---ALE%SUB
           this%SUB%IALESUB = 0
           this%SUB%IFSUB = 0
