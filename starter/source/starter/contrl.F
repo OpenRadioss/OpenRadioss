@@ -192,6 +192,7 @@ C-----------------------------------------------
      .        NPYFUN
       INTEGER IARCHS(8)
       INTEGER IS_BEGIN,SCHAR
+      INTEGER :: NPROP,NALEMAT,NEULERMAT
       INTEGER     IHBE_DS,ISST_DS,IPLA_DS,IFRAME_DS,ITET4_D,ITET10_D,ICPRE_D,IMAS_DS,ICONTROL_D,
      .            IHBE_D,IPLA_D,ISTR_D,ITHK_D,ISHEA_D,ISST_D,
      .            ISH3N_D, ISTRA_D,NPTS_D,IDRIL_D,IOFFSET_D,DEF_INTER(100)
@@ -951,15 +952,25 @@ C---------------------------------------------------
       NLASER = 0
       CALL HM_OPTION_COUNT('/DFS/LASER',NLASER)
 C---------------------------------------------------
-      JEUL=0
-      CALL HM_OPTION_COUNT('/EULER/MAT', JEUL)
-      JEUL=MIN(JEUL,1)
+!  DETECT ALE OR EULER FRAMEWORK
+C---------------------------------------------------
+      CALL HM_OPTION_COUNT('/ALE/MAT',NALEMAT)
+      CALL HM_OPTION_COUNT('/EULER/MAT',NEULERMAT)
+      IF(NALEMAT > 0)  ALE%GLOBAL%IS_DEFINED_ALE = 1
+      IF(NEULERMAT > 0)ALE%GLOBAL%IS_DEFINED_EULER = 1
+      CALL HM_OPTION_COUNT('/PROP', NPROP)
+      DO I=1,NPROP
+        CALL HM_OPTION_START('/PROP')
+        CALL HM_OPTION_NEXT()
+        CALL HM_GET_INTV('Iale',JALE,IS_AVAILABLE,LSUBMODEL)
+        IF(JALE == 1) ALE%GLOBAL%IS_DEFINED_ALE = 1
+        IF(JALE == 2) ALE%GLOBAL%IS_DEFINED_EULER = 1
+        IF(ALE%GLOBAL%IS_DEFINED_EULER == 1 .AND. ALE%GLOBAL%IS_DEFINED_EULER == 1)EXIT
+      ENDDO
+      JEUL = ALE%GLOBAL%IS_DEFINED_EULER ! =1 : if /EULER/MAT or /PROP/SOLID (IALE=2) is defined within the input file
+      JALE = ALE%GLOBAL%IS_DEFINED_ALE   ! =1 : if /ALE/MAT or /PROP/SOLID (IALE=1) is defined within the input file
       LVEUL=32
       IF(INTEG8==1)LVEUL=52
-C---------------------------------------------------
-      JALE=0
-      CALL HM_OPTION_COUNT('/ALE/MAT', JALE)
-      JALE=MIN(JALE,1)
 C---------------------------------------------------
       NALEBCS = 0
       CALL HM_OPTION_COUNT('/ALE/BCS', NALEBCS)
