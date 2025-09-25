@@ -262,6 +262,8 @@ C-----------------------------------------------
 
            CALL HM_GET_STRING_INDEX('KEY_type', KEYSET, J, ncharline, IS_AVAILABLE)
 
+           IF(KEYSET(1:LEN_TRIM(KEYSET)) == '') CYCLE
+
            CALL HM_GET_INT_ARRAY_INDEX('opt_D',OPT_D,J,IS_AVAILABLE,LSUBMODEL)
            CALL HM_GET_INT_ARRAY_INDEX('opt_O',OPT_O,J,IS_AVAILABLE,LSUBMODEL)
            CALL HM_GET_INT_ARRAY_INDEX('opt_G',OPT_G,J,IS_AVAILABLE,LSUBMODEL)
