@@ -186,7 +186,7 @@ C---
      3         SIGOXX   ,SIGOXY   ,SIGOXZ   ,EPSXX    ,EPSP     ,
      4         SIGNXX   ,SIGNXY   ,SIGNXZ   ,ETSE     ,NUVAR    ,
      5         UVAR     ,IFUNC    ,NVARTMP  ,VARTMP   ,NPF      ,
-     6         TF       ,NFUNC    ,SIGY_IPT)
+     6         TF       ,NFUNC    ,SIGY_IPT,NGL ,IPT)
 C---
           CASE (71)
             CALL SIGEPS71PI(
