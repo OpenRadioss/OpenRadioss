@@ -46,7 +46,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      I   QM,      EPLASM,  ZI,      WI,
      J   VOLG,    OFF,     NU,      VOL0,
      K   VOL0G,   G_PLA,   G_EPSD,  NEL,
-     L   SVIS,    G_WPLA,  L_WPLA,  G_WPLA_FLAG)
+     L   SVIS,    G_WPLA,  L_WPLA,  G_WPLA_FLAG,
+     M   NLAY)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -58,7 +59,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER G_PLA,G_EPSD,NEL
+      INTEGER G_PLA,G_EPSD,NEL,NLAY
 C     REAL
       my_real
      .   SIG(NEL,6),
@@ -221,6 +222,7 @@ C
        ENDDO
 C----------------------------------------------    /
 C   -Average post-processing in the sense A '= (_ / a dv) / V
+      IF (NLAY > 1) THEN 
       DO I=1,NEL
          FAC(I) = OFF(I)*VOL(I)/VOLG(I)
          SIGM(I,1) = SIGM(I,1) + FAC(I) * SIG(I,1)
@@ -244,6 +246,8 @@ C   -Average post-processing in the sense A '= (_ / a dv) / V
           EPSDM(I) = EPSDM(I) + FAC(I) * EPSD(I)
         ENDDO
       ENDIF
+      ENDIF
+
 C-----------
       RETURN
       END
