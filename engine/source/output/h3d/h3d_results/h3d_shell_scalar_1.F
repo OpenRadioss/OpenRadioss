@@ -2455,23 +2455,15 @@ c ILAYER=NULL NPT=NULL
                         ENDDO
                       ENDIF ! igtyp
                     ELSE ! ITY == 7
-                      IF(IGTYP == 51 .OR. IGTYP == 52) THEN
-                        NPTT = BUFLY%NPTT
-                        DO IT = 1,NPTT
-                          DO IR =1,NPG
-                            DO  I=1,NEL
-                              VALUE(I) =  VALUE(I) + THIRD*BUFLY%LBUF(IR,1,IT)%PLA(I)/NPTT
-                              IS_WRITTEN_VALUE(I) = 1
-                            ENDDO
+                      NPTT = BUFLY%NPTT
+                      DO IT = 1,NPTT
+                        DO IR =1,NPG
+                          DO  I=1,NEL
+                            VALUE(I) =  VALUE(I) + THIRD*BUFLY%LBUF(IR,1,IT)%PLA(I)/NPTT
+                            IS_WRITTEN_VALUE(I) = 1
                           ENDDO
                         ENDDO
-                      ELSE
-                        DO I=1,NEL
-                          VALUE(I) = THIRD*(BUFLY%LBUF(1,1,1)%PLA(I) + BUFLY%LBUF(1,1,1)%PLA(I) +
-     .                                       BUFLY%LBUF(1,1,1)%PLA(I))
-                          IS_WRITTEN_VALUE(I) = 1
-                        ENDDO
-                      ENDIF ! igtyp
+                      ENDDO
                     ENDIF  ! ity
                   ELSE ! NPG == 1
                     IF(IGTYP == 51 .OR. IGTYP == 52)THEN
