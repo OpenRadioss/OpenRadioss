@@ -20,45 +20,36 @@
 //Copyright>    As an alternative to this open-source version, Altair also offers Altair Radioss
 //Copyright>    software under a commercial license.  Contact Altair to discuss further if the
 //Copyright>    commercial version may interest you: https://www.altair.com/radioss/.*/
-#ifndef MECI_PARAMETER_H
-#define MECI_PARAMETER_H
-#include "hcio.h"
+#ifndef MECI_MODEL_FACTORY_PARAMETER_EVALUATOR_H
+#define MECI_MODEL_FACTORY_PARAMETER_EVALUATOR_H
 
-class IParameter
+#include "mec_expression_evaluator.h"
+#include <vector>
+#include <string>
+class MECIModelFactory;
+class MECMsgManager;
+
+class HCIO_DATA_DLL_API MECIModelFactoryParameterEvaluator : public IValueExpressionEvaluator
 {
 public:
-    //!Three types of parameters are supported: Integer, Double and String
-    enum Type
-    {
-        TYPE_DOUBLE = 0,
-        TYPE_INTEGER = 1,
-        TYPE_STRING = 2,
-        TYPE_DOUBLE_EXPRESSION = 10,
-        TYPE_INTEGER_EXPRESSION = 11,
-        TYPE_UNKNOWN
-    };
 
-    //!enum to know the type of the parameter keyword
-    enum Keywordtype
-    {
-        REGULAR,
-        EXPRESSION,
-        DUPLICATION,
-        LOCAL
-    };
+    MECIModelFactoryParameterEvaluator(MECIModelFactory* modelFactory, int fileIndex,
+                                       const IExpressionEvaluator* pEvaluator,
+                                       const MECMsgManager* pMsgManager,
+                                       const std::vector<std::string>& paramStack = std::vector<std::string>());
 
-    IParameter() {}
-    virtual ~IParameter() { }
-    virtual int GetFileIndex() const = 0;
-    virtual int GetIntValue() const = 0;
-    virtual double GetDoubleValue() const = 0;
-    virtual std::string GetStringValue() const = 0;
-    virtual std::string GetName() const = 0;
-    virtual Type GetType() const = 0;
-    virtual Keywordtype GetKeywordType() const = 0;
-    virtual std::string GetExpression() const { return std::string(); }
-    virtual void SetExpressionValue(double value) {}
+    virtual bool GetValue(const char* name, double& value) const;
+
+private:
+
+
+private:
+    MECIModelFactory*           p_pModelFactory;
+    int                         p_fileIndex;
+    const MECMsgManager*        p_pMsgManager;
+    mutable std::vector<std::string> p_paramStack;
 };
 
+//@}
 
-#endif //MECI_PARAMETER_H
+#endif //MECI_MODEL_FACTORY_PARAMETER_EVALUATOR_H

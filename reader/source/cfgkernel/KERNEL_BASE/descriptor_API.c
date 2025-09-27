@@ -219,6 +219,27 @@ int MCDS_add_descriptor_value_array(descriptor_t *descr_p,
   return 0;
 }
 
+int MCDS_add_descriptor_value_array_default(descriptor_t* descr_p, int ikeyword, attribute_type_e array_type, int nb_row, int nb_col, double** values)
+{
+    if (descr_p == NULL) return 1;
+    if (array_type != ATYPE_STATIC_ARRAY) return 2;
+    array_descriptor_t* arrdescr_p = (array_descriptor_t*)descr_p->attdescr_array[ikeyword];
+    arrdescr_p->nb_row_defaults = nb_row;
+    arrdescr_p->nb_col_defaults = nb_col;
+    arrdescr_p->default_values = values;
+    return 0;
+}
+
+int MCDS_get_descriptor_value_array_default(descriptor_t* descr_p, int ikeyword, attribute_type_e array_type, int *nb_row, int *nb_col, double*** values)
+{
+    if (descr_p == NULL) return 1;
+    if (array_type != ATYPE_STATIC_ARRAY) return 2;
+    array_descriptor_t* arrdescr_p = (array_descriptor_t*)descr_p->attdescr_array[ikeyword];
+    *nb_row = arrdescr_p->nb_row_defaults;
+    *nb_col = arrdescr_p->nb_col_defaults;
+    *values = arrdescr_p->default_values;
+    return 0;
+}
 
 int MCDS_add_descriptor_object_array(descriptor_t *descr_p,
 				     obj_type_e otype,int ikeyword,const char *skeyword,const char *comment,
@@ -704,6 +725,18 @@ int MCDS_delete_descriptor(descriptor_t *descr_p) {
       if(attdescr_p->atype==ATYPE_SIZE) {
 	size_descriptor_t *sizedescr_p=(size_descriptor_t *)attdescr_p;
 	my_free(sizedescr_p->ikeyword_array);
+      }
+      else if (attdescr_p->atype == ATYPE_STATIC_ARRAY)
+      {
+          array_descriptor_t* array_descr_p = (array_descriptor_t*)attdescr_p;
+          if (array_descr_p != NULL)
+          {
+              for (j = 0; j < array_descr_p->nb_row_defaults; j++)
+              {
+                  my_free(array_descr_p->default_values[j]);
+              }
+              my_free(array_descr_p->default_values);
+          }
       }
       /* The attribute descriptor itself */
       my_free(descr_p->attdescr_array[i]);

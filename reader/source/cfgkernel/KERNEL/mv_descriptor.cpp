@@ -425,6 +425,33 @@ void MvDescriptor_t::addValueArray(MvDomain_e domain,value_type_e vtype,
   addDomainIKeyword(domain,ikeyword);
 }
 
+void MvDescriptor_t::addValueArrayDefault(int ikeyword, int nb_row, int nb_col, double** values)
+{
+    string skeyword = getSKeyword(ikeyword);
+    attribute_type_e array_type = getAttributeType(ikeyword);
+    if(MCDS_add_descriptor_value_array_default(myDescriptorPtr, ikeyword, array_type, nb_row, nb_col, values))
+        throw MvError_t(string("MvDescriptor_t::addValueArrayDefault -> Error when adding ") + skeyword);
+}
+
+void MvDescriptor_t::getStaticArrayDefaultAttributeValue(int ikeyword, vector<vector<double>> &default_vect)
+{
+    string skeyword = getSKeyword(ikeyword);
+    attribute_type_e array_type = getAttributeType(ikeyword);
+    int nb_row = 0, nb_col = 0;
+    double** values = NULL;
+    if (MCDS_get_descriptor_value_array_default(myDescriptorPtr, ikeyword, array_type, &nb_row, &nb_col, &values))
+        throw MvError_t(string("MvDescriptor_t::getStaticArrayDefaultAttributeValue -> Error when adding ") + skeyword);
+
+    for (int i = 0; i < nb_row; i++)
+    {
+        vector<double> a_vect;
+        for (int j = 0; j < nb_col; j++)
+        {
+            a_vect.push_back(values[i][j]);
+        }
+        default_vect.push_back(a_vect);
+    }
+}
 void MvDescriptor_t::addObjectArray(MvDomain_e domain,object_type_e otype,
 				    int ikeyword,const string &skeyword,const string &comment,
 				    attribute_type_e array_type,
@@ -1080,8 +1107,13 @@ bool MvDescriptor_t::isMultiType(int ikeyword) const {
 }
 bool MvDescriptor_t::hasObjectAttribSubtype(int ikeyword, int *nb_subtype) const {
     object_descriptor_t *objdescr_p = (object_descriptor_t *)(myDescriptorPtr->attdescr_array[ikeyword]);
-    *nb_subtype = objdescr_p->num;
+    if(nb_subtype != nullptr) *nb_subtype = objdescr_p->num;
     return (objdescr_p->num == 0) ? false : true;
+}
+string MvDescriptor_t::getObjectAttribSubtype(int ikeyword, int index) const {
+    object_descriptor_t *objdescr_p = (object_descriptor_t *)(myDescriptorPtr->attdescr_array[ikeyword]);
+    if(0 <= index && objdescr_p->num > index) return string(objdescr_p->subtypes[index]);
+    else return string("");
 }
 /* --------- Array data --------- */
 

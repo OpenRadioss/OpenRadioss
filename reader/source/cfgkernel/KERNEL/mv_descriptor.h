@@ -144,6 +144,10 @@ public: /**@name Creation*/
   void addObjectArray(MvDomain_e domain,object_type_e otype,int ikw,const string &skw,const string &comment,
 		      attribute_type_e array_type,
                       const MvSizeVector & sizeArrayVector);
+  /// Add default values in STATIC array attribute
+  void addValueArrayDefault(int ikeyword, int nb_row, int nb_col, double** values);
+  /// Gets default array values in STATIC array attribute
+  void getStaticArrayDefaultAttributeValue(int ikeyword, vector<vector<double>>& default_vect);
   //@}
 
 public: /**@name Acces to descriptor*/
@@ -232,7 +236,8 @@ public: /**@name Object data*/
   /// Gets the type of object (for an object value or an object array)
   object_type_e getObjectType(int ikeyword) const;
   bool isMultiType(int ikeyword) const;
-  bool hasObjectAttribSubtype(int ikeyword, int *nb_subtype) const;
+  bool hasObjectAttribSubtype(int ikeyword, int *nb_subtype = NULL) const;
+  virtual string getObjectAttribSubtype(int ikeyword, int index) const;
   //@}
 
 public: /**@name Array data*/

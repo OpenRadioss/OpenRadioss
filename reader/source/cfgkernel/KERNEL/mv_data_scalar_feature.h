@@ -43,11 +43,22 @@ public: /** @name Constructors & destructor */
 
  public: /** @name Consulting (high level) */
   //@{
+  /// Sets the default value container
+  void setDefaultValue(double val) { myDefaultValue = val; myHasDefaultValue = true; }
+  /// Gets the default value container
+  double getDefaultValue(bool *is_default = NULL) const {
+      if (is_default != NULL)
+      {
+          *is_default = myHasDefaultValue;
+      }
+      return myDefaultValue;
+  }
   //@}
 
 protected: /// Output in an output stream
   virtual ostream &display(ostream &os,const MvDescriptor_t &descr,int level=0) const=0;
-
+  double myDefaultValue;
+  bool   myHasDefaultValue;
 };
 
 

@@ -29,7 +29,9 @@
 /* --------- Constructors & destructor --------- */
 
 MvDataScalarFeature_t::MvDataScalarFeature_t(MvDataFeatureType_e type,const string &name,int ikeyword) :
-  MvDataSingleFeature_t(type,name,ikeyword)
+  MvDataSingleFeature_t(type,name,ikeyword),
+  myDefaultValue(0.0),
+  myHasDefaultValue(false)
 {}
 
 MvDataScalarFeature_t::~MvDataScalarFeature_t() {
