@@ -190,13 +190,12 @@ C-----------------------------------------------
      7   E2X,      E2Y,      E2Z,      E3X,
      8   E3Y,      E3Z,      NEL)
       IF (ISMSTR /= 0) CALL PPXPY3(GBUF%LENGTH,AL,NEL)
-      CALL PDLEN3(
-     1   JFT,      JLT,      PM,       GEO,
+      CALL PDLEN3(MAT_PARAM(IMAT),
+     1   NEL,      GEO,
      2   GBUF%OFF, DT2T,     NELTST,   ITYPTST,
      3   STI,      STIR,     MSP,      DMELP,
-     4   GBUF%G_DT,GBUF%DT,  AL,       MAT,
-     5   PID,      NGL,      NEL,      IGTYP,
-     6   JSMS)
+     4   GBUF%G_DT,GBUF%DT,  AL,       
+     5   PID,      NGL,      IGTYP,    JSMS)
       CALL PDEFO3(
      1   V,       EXX,     EXY,     EXZ,
      2   AL,      NC1,     NC2,     NC3,

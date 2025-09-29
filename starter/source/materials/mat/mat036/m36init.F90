@@ -1,4 +1,3 @@
-
 !Copyright>        OpenRadioss
 !Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
 !Copyright>

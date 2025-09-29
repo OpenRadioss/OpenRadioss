@@ -25,13 +25,16 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    pforc3   ../engine/source/elements/beam/pforc3.F
 !||====================================================================
-      SUBROUTINE PDLEN3(
-     1   JFT,     JLT,     PM,      GEO,
+      SUBROUTINE PDLEN3(MAT_PARAM,
+     1   NEL,     GEO,
      2   OFFG,    DT2T,    NELTST,  ITYPTST,
      3   STI,     STIR,    MSP,     DMELP,
-     4   G_DT,    DTEL,    AL,      MAT,
-     5   PID,     NGL,     NEL,     IGTYP,
-     6   JSMS)
+     4   G_DT,    DTEL,    AL,      
+     5   PID,     NGL,     IGTYP,   JSMS)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -58,36 +61,37 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: NEL
       INTEGER, INTENT(IN) :: IGTYP
       INTEGER, INTENT(IN) :: JSMS
-      my_real,INTENT(INOUT) :: DTEL(JFT:JLT)
-      INTEGER,INTENT(IN)    :: G_DT
-      INTEGER JFT,JLT,NELTST ,ITYPTST,MAT(MVSIZ),PID(MVSIZ),
-     .   NGL(MVSIZ)
-      my_real DT2T ,
-     .   PM(NPROPM,*), GEO(NPROPG,*), OFFG(*), STI(*), STIR(*),
+      INTEGER, INTENT(IN) :: G_DT
+      INTEGER, INTENT(INOUT) :: NELTST,ITYPTST
+      INTEGER PID(MVSIZ),NGL(MVSIZ)
+      my_real, INTENT(INOUT) :: DTEL(1:NEL)
+      my_real :: DT2T
+      my_real :: GEO(NPROPG,*), OFFG(*), STI(*), STIR(*),
      .   MSP(*), DMELP(*),AL(MVSIZ)
+      TYPE (MATPARAM_STRUCT_) ,INTENT(IN) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I
-      my_real
-     .   SSP(MVSIZ), DT(MVSIZ), DMP(MVSIZ), FAC(MVSIZ),
+      INTEGER :: I
+      my_real :: ssp
+      my_real :: DT(MVSIZ), DMP(MVSIZ), FAC(MVSIZ),
      .   A1, B1, B2, B3, YOUNG,G,AA,BB,   
      .   PHI,SHF,DSH(MVSIZ),SL2I(MVSIZ),
      .   FACDT(MVSIZ),PHII(MVSIZ),CST,PHMAX,
      .   KPHI(MVSIZ),PHMIN,FSH(MVSIZ)
-C-----------------------------------------------
-      DT(1:MVSIZ) = ZERO
+!===============================================================================
+      YOUNG = MAT_PARAM%YOUNG
+      G     = MAT_PARAM%SHEAR
+      SSP   = SQRT(YOUNG / MAT_PARAM%RHO)
 !
       DO I=1,NEL
         DMP(I)=MAX(GEO(16,PID(I)),GEO(17,PID(I)))
       ENDDO
-!
+      DT(1:MVSIZ) = ZERO
 C----------------------------------------------
 C     for new dt
 C----------------------------------------------
       DO I=1,NEL
-        YOUNG = PM (20,MAT(I))
-        G = PM (22,MAT(I))
         CST = SIX_OVER_5*YOUNG/G
         A1  =GEO(1,PID(I))
         B1  =GEO(2,PID(I))
@@ -109,14 +113,11 @@ C----------------------------------------------
       END IF
       IF (IDTMINS /= 2 .OR. JSMS == 0) THEN
         IF (NODADT /= 0 .OR. IDTMINS == 2) THEN
-          DO I=JFT,JLT
+          DO I=1,NEL
             STI(I) = ZERO
             STIR(I) = ZERO
-            SSP(I) =PM(27,MAT(I))
             FAC(I)=ZERO
             IF (OFFG(I) /= ZERO) THEN
-              YOUNG  =PM(20,MAT(I))
-              G      =PM(22,MAT(I))
               A1  =GEO(1,PID(I))
               B1  =GEO(2,PID(I))
               B2  =GEO(18,PID(I))
@@ -131,11 +132,9 @@ C----------------------------------------------
           ENDDO
           IF (IDTMIN(5) == 0) RETURN
         ELSE
-          DO I=JFT,JLT
+          DO I=1,NEL
             STI(I) = ZERO
             STIR(I) = ZERO
-            SSP(I) =PM(27,MAT(I))
-            YOUNG  =PM(20,MAT(I))
             A1  =GEO(1,PID(I))
             DMP(I)=DMP(I)*SQRT(TWO)
             IF (OFFG(I) > ZERO) STI(I) = FSH(I)*A1 * YOUNG / AL(I)
@@ -143,14 +142,11 @@ C----------------------------------------------
         ENDIF ! IF (NODADT /= 0 .OR. IDTMINS == 2)
       ELSE  ! IF (IDTMINS /= 2 .OR. JSMS == 0)
 ! IDTMINS=2 & JSMS=1 <=> AMS & elementary time step
-        DO I=JFT,JLT
+        DO I=1,NEL
           STI(I) = ZERO
           STIR(I) = ZERO
-          SSP(I) =PM(27,MAT(I))
           FAC(I)=ZERO
           IF (OFFG(I) /= ZERO) THEN
-            YOUNG  =PM(20,MAT(I))
-            G      =PM(22,MAT(I))
             A1  =GEO(1,PID(I))
             B1  =GEO(2,PID(I))
             B2  =GEO(18,PID(I))
@@ -174,7 +170,7 @@ C----------------------------------------------
           ENDIF ! IF (OFFG(I) /= ZERO)
         ENDDO
 
-        DO I=JFT,JLT
+        DO I=1,NEL
           IF (OFFG(I) /= ZERO) THEN
 !         DT(I)  = DTFACS*
 !      .           SQRT(TWO*(MSP(I)+DMELP(I))/MAX(EM20,STI(I)))
@@ -192,12 +188,12 @@ C----------------------------------------------
        RETURN
       ENDIF
 !
-      DO I=JFT,JLT
+      DO I=1,NEL
         FAC(I) =SQRT(ONE+DMP(I)*DMP(I))-DMP(I)
-        DT(I)=DTFAC1(5)*FAC(I)*AL(I)/SSP(I)/SQRT(FSH(I))
-      ENDDO ! DO I=JFT,JLT
+        DT(I)=DTFAC1(5)*FAC(I)*AL(I)/SSP/SQRT(FSH(I))
+      ENDDO ! DO I=1,NEL
 C
-      DO I=JFT,JLT
+      DO I=1,NEL
         IF (DT(I) < DTMIN1(5) .AND. OFFG(I) == ONE) THEN
           IF (IDTMIN(5) == 1 ) THEN
             TSTOP = TT
@@ -223,20 +219,20 @@ C
 #include "lockoff.inc"
           ENDIF ! IF (IDTMIN(5) == 1 )
         ENDIF ! IF (DT(I) < DTMIN1(5) .AND. OFFG(I) == ONE)
-      ENDDO ! DO I=JFT,JLT
+      ENDDO ! DO I=1,NEL
 !
       IF (NODADT /= 0) RETURN
 !
-      DO I=JFT,JLT
+      DO I=1,NEL
         IF (DT(I) < DT2T .and. OFFG(I) > ZERO) THEN
           DT2T=DT(I)
           NELTST =NGL(I)
           ITYPTST=5
         ENDIF ! IF (DT(I) < DT2T .OR. OFFG(I) > ZERO)
-      ENDDO ! DO I=JFT,JLT
+      ENDDO ! DO I=1,NEL
 C------------------------------
       IF (G_DT /= ZERO) THEN
-        DO I=JFT,JLT
+        DO I=1,NEL
           DTEL(I) = DT(I)
         ENDDO
       ENDIF

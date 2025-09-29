@@ -187,7 +187,7 @@
         & dir1_crk ,dir2_crk ,iparg    ,jhbe      ,ismstr   ,jthe     , &
         & tensx    ,ir       ,is       ,nlay      ,npt      ,ixlay    , &
         & ixel     ,ithk     ,f_def    ,ishplyxfem                    , &
-        & itask    ,isubstack,stack    ,alpe                ,           &
+        & itask    ,isubstack,stack    ,alpe      ,ikt      ,           &
         & ply_exx  ,ply_eyy  ,ply_exy  ,ply_exz   ,ply_eyz  ,ply_f    , &
         & varnl    ,etimp    ,nloc_dmg ,nlay_max  ,laynpt_max,dt      , &
         & ncycle   ,snpc     ,stf      ,impl_s    ,imconv    ,npropgi , &
@@ -206,6 +206,7 @@
           use message_mod
           use nlocal_reg_mod
           use sensor_mod
+          use sigeps36c_mod
           use sigeps57c_mod
           use sigeps87c_mod
           use sigeps88c_mod
@@ -279,6 +280,7 @@
           integer, intent(in) :: snpc
           integer, intent(in) :: ncycle
           integer, intent(in) :: idt_therm
+          integer, intent(in) :: ikt
           integer, intent(in),dimension(mvsiz) :: mat
           integer, intent(in),dimension(mvsiz) :: pid
           integer, intent(in),dimension(mvsiz) :: ngl
@@ -431,7 +433,7 @@
 !
           character :: option*256
           integer :: size
-          integer :: nrate,nprony
+          integer :: nprony
           real(kind=WP) :: fisokin,kv,zshift,wm_zshift,tref,tmelt
           real(kind=WP), dimension(nel) :: eps1,eps2
           real(kind=WP), dimension(nel), target :: vecnul
@@ -1213,9 +1215,8 @@
                 &lbuf%epsd)
 !
               elseif (ilaw == 36) then
-                nrate = nint(uparam0(1))
-                fisokin = uparam0(2*nrate + 14)
-                if(fisokin>0) then
+                fisokin = mat_elem%mat_param(imat)%uparam(7)
+                if (fisokin > 0) then
                   sigbxx => lbuf%sigb(1      :  nel)
                   sigbyy => lbuf%sigb(nel+1  :2*nel)
                   sigbxy => lbuf%sigb(3*nel+1:4*nel)
@@ -1225,21 +1226,18 @@
                   sigbxy => vecnul(1:nel)
                 endif
 
-                call sigeps36c(&
-                  jlt    ,nuvar  ,nvartmp  ,nfunc   ,&
-                  ifunc  ,npf    ,iflag   ,&
-                  tf     ,dt1c   ,uparam0   ,rho     ,&
-                  thklyl ,israte ,asrate  ,epsd_pg  ,lbuf%epsd  ,&
-                  epspxx ,epspyy ,epspxy  ,&
-                  depsxx ,depsyy ,depsxy  ,depsyz   ,depszx ,&
-                  epsxx  ,epsyy  ,epsxy   ,&
-                  sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
-                  signxx ,signyy ,signxy  ,signyz   ,signzx ,&
-                  ssp    ,viscmx ,thkn    ,lbuf%pla ,uvar   ,&
-                  vartmp ,off    ,ipm     ,imat     ,&
-                  etse   ,gs     ,sigy    ,&
-                  dpla   ,g_imp  ,sigksi  ,shf      ,hardm      ,&
-                  yldfac ,inloc ,varnl(1,it),lbuf%dmg,lbuf%planl,&
+                call sigeps36c(mat_elem%mat_param(imat),             &
+                  nel     ,nuvar   ,nvartmp ,ipla    ,dt1     ,      &
+                  thklyl  ,epsd_pg ,lbuf%epsd,     &
+                  epspxx  ,epspyy  ,epspxy  ,uvar    ,vartmp  ,      &
+                  depsxx  ,depsyy  ,depsxy  ,depsyz  ,depszx  ,      &
+                  epsxx   ,epsyy   ,epsxy   ,                        &
+                  sigoxx  ,sigoyy  ,sigoxy  ,sigoyz  ,sigozx  ,      &
+                  signxx  ,signyy  ,signxy  ,signyz  ,signzx  ,      &
+                  ssp     ,thkn    ,lbuf%pla,impl_s  ,ikt     ,      &
+                  off     ,etse    ,gs      ,sigy    ,               &
+                  dpla    ,g_imp   ,sigksi  ,shf     ,hardm   ,      &
+                  yldfac  ,inloc   ,varnl(1,it),lbuf%dmg,lbuf%planl, &
                   bufly%l_planl,sigbxx,sigbyy,sigbxy,lbuf%off)
 !
               elseif (ilaw == 42) then
@@ -2970,9 +2968,14 @@
             mom(jft:jlt,3)=mom(jft:jlt,3)*gbuf%intvar(jft:jlt)
           endif
 !
-          degmb(jft:jlt) = degmb(jft:jlt)+ for(jft:jlt,1)*exx(jft:jlt)+for(jft:jlt,2)*eyy(jft:jlt)&
-          &+ for(jft:jlt,3)*exy(jft:jlt)+for(jft:jlt,4)*eyz(jft:jlt)+ for(jft:jlt,5)*exz(jft:jlt)
-          degfx(jft:jlt) = degfx(jft:jlt)+ mom(jft:jlt,1)*kxx(jft:jlt)+mom(jft:jlt,2)*kyy(jft:jlt)+mom(jft:jlt,3)*kxy(jft:jlt)
+          degmb(jft:jlt) = degmb(jft:jlt) + for(jft:jlt,1)*exx(jft:jlt)    &
+                                          + for(jft:jlt,2)*eyy(jft:jlt)    &
+                                          + for(jft:jlt,3)*exy(jft:jlt)    &
+                                          + for(jft:jlt,4)*eyz(jft:jlt)    &
+                                          + for(jft:jlt,5)*exz(jft:jlt)
+          degfx(jft:jlt) = degfx(jft:jlt) + mom(jft:jlt,1)*kxx(jft:jlt)    &
+                                          + mom(jft:jlt,2)*kyy(jft:jlt)    &
+                                          + mom(jft:jlt,3)*kxy(jft:jlt)
 !-----------------------------------------------------------------------
 !---
           if (mtn == 25) then
