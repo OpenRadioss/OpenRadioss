@@ -192,7 +192,7 @@ c---------------------------
 c
       ELSE
 c     
-        CALL MULAW_IB(ELBUF_STR,
+        CALL MULAW_IB(ELBUF_STR,MAT_PARAM,
      1                NEL     ,NPT     ,MTN     ,IMAT    ,
      2                PID     ,NGL     ,IPM     ,
      3                GEO     ,OFF     ,
