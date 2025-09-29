@@ -34,6 +34,7 @@ namespace cdr
     const std::string g_AttribParamValueString =     "_PARAM_VALUE_STRING";
     const std::string g_AttribParamScope =           "_PARAM_SCOPE";
     const std::string g_AttribParamType =            "_PARAM_TYPE";
+    const std::string g_AttribParamExpression =      "_PARAM_EXPRESSION";
     const std::string g_AttribFileName =             "_FILENAME";
     const std::string g_AttribFullFileName =         "_FULLFILENAME";
     const std::string g_AttribFormatType =           "_FORMATTYPE";
