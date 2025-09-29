@@ -87,7 +87,7 @@ C-----------------------------------------------
       my_real
      .        MU(100),AL(100),NU,NU0,RHO0,
      .        GS,P,D(100),ZEP495,RHOR
-      INTEGER I,NORDRE,ILAW
+      INTEGER I,NORDRE,ILAW,COUNT
 C=======================================================================
       IS_ENCRYPTED   = .FALSE.
       IS_AVAILABLE = .FALSE.
@@ -98,36 +98,41 @@ C=======================================================================
 
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 
-      CALL HM_GET_FLOATV('MAT_RHO'   ,RHO0     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('Refer_Rho' ,RHOR     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_RHO'   ,RHO0  ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('Refer_Rho' ,RHOR  ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 
-      CALL HM_GET_FLOATV('MAT_NU'    ,NU0       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_INTV('ORDER'    ,NORDRE    ,IS_AVAILABLE,LSUBMODEL)
+      CALL HM_GET_FLOATV('MAT_NU'    ,NU0   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_INTV('ORDER'    ,NORDRE   ,IS_AVAILABLE,LSUBMODEL)
 
-      IF(NORDRE == 0)THEN
-        CALL ANCMSG(MSGID=559,
-     .              MSGTYPE=MSGERROR,
-     .              ANMODE=ANINFO_BLIND_1,
-     .              I1=MAT_ID,
-     .              C1=TITR)
-      ENDIF
       DO I=1,NORDRE
-        CALL HM_GET_FLOAT_ARRAY_INDEX('Mu_arr'            ,MU(I)     ,I,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        CALL HM_GET_FLOAT_ARRAY_INDEX('Alpha_arr'         ,AL(I)     ,I,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        CALL HM_GET_FLOAT_ARRAY_INDEX('Gamma_arr'         ,D(I)      ,I,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOAT_ARRAY_INDEX('Mu_arr'    ,MU(I)  ,I,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOAT_ARRAY_INDEX('Alpha_arr' ,AL(I)  ,I,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOAT_ARRAY_INDEX('Gamma_arr' ,D(I)   ,I,IS_AVAILABLE, LSUBMODEL, UNITAB)
       ENDDO
+!---------------------------------------------------------------------------------------
+      COUNT = 0
+      DO I=1,NORDRE
+        IF (MU(I) /= ZERO .and. AL(I) /= ZERO) THEN
+          COUNT = COUNT + 1   !< count first non zero Ogden parameters from the input lines
+        ELSE
+          EXIT
+        END IF
+      ENDDO
+      NORDRE = COUNT
+!
+      IF(NORDRE == 0)THEN
+        CALL ANCMSG(MSGID=559, MSGTYPE=MSGERROR, ANMODE=ANINFO_BLIND_1,
+     .              I1=MAT_ID, C1=TITR)
+      ENDIF
 C
       GS = ZERO
       DO I=1,NORDRE
         GS = GS + MU(I)
       ENDDO
 C
-      IF(GS < ZERO) THEN
-        CALL ANCMSG(MSGID=846,
-     .              MSGTYPE=MSGERROR,
-     .              ANMODE=ANINFO,
-     .              I1=MAT_ID,
-     .              C1=TITR)
+      IF (GS < ZERO) THEN
+        CALL ANCMSG(MSGID=846, MSGTYPE=MSGERROR, ANMODE=ANINFO,
+     .              I1=MAT_ID, C1=TITR)
       ENDIF
 C ...
       IF(NU0 == HALF) NU0= ZEP495
