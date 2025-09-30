@@ -97,6 +97,12 @@ c
                 END IF
               CASE (25, 125, 127)
                 IF (IHBE == 23) DM = EM01
+              CASE (42, 69)
+                IF (IHBE == 11) THEN
+                  DM = ZEP04
+                ELSE
+                  DM = ZEP03
+                END IF
               CASE DEFAULT
                 IF (IHBE == 23 .AND. (IGTYP == 1 .or. IGTYP == 9)) DM = ZEP015
             END SELECT
