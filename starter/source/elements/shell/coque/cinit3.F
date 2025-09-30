@@ -95,6 +95,7 @@ C-----------------------------------------------
       use glob_therm_mod
       use initemp_shell_mod
       use element_mod , only : nixc
+      use law42c_ini_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -466,6 +467,21 @@ C
             ENDIF ! IF (ILAW == 58) THEN
           ENDDO ! DO IL = 1,NLAY      
         ENDIF 
+      END IF !(IGTYP == 51 .OR. IGTYP == 52 .AND. IGMAT > 0) THEN
+      IF (MTN == 42 .OR. IGTYP == 51 .OR. IGTYP == 52) THEN
+          DO IL = 1,NLAY
+            NPTT  = ELBUF_STR%BUFLY(IL)%NPTT
+            ILAW  = ELBUF_STR%BUFLY(IL)%ILAW
+            NUVAR = ELBUF_STR%BUFLY(IL)%NVAR_MAT
+!
+            IF (ILAW == 42) THEN
+              DO IT=1,NPTT
+                LBUF => ELBUF_STR%BUFLY(IL)%LBUF(IR,IS,IT)
+                UVAR => ELBUF_STR%BUFLY(IL)%MAT(IR,IS,IT)%VAR 
+                CALL law42c_ini(NUVAR,UVAR,LLT)
+              ENDDO
+            ENDIF ! IF (ILAW == 42) THEN
+          ENDDO ! DO IL = 1,NLAY      
       ENDIF
 C-----------------------------------------------------------------------
 C     calculation of initial constraints
@@ -636,15 +652,17 @@ C-----------------------------
       RETURN
       END SUBROUTINE CINIT3      
 !||====================================================================
-!||    csms11_ini    ../starter/source/elements/shell/coque/cinit3.F
+!||    csms11_ini   ../starter/source/elements/shell/coque/cinit3.F
 !||--- called by ------------------------------------------------------
-!||    cbainit3      ../starter/source/elements/shell/coqueba/cbainit3.F
-!||    cinit3        ../starter/source/elements/shell/coque/cinit3.F
-!||--- uses       -----------------------------------------------------
+!||    cbainit3     ../starter/source/elements/shell/coqueba/cbainit3.F
+!||    cinit3       ../starter/source/elements/shell/coque/cinit3.F
 !||====================================================================
       SUBROUTINE CSMS11_INI(
      1           JFT    ,JLT   ,IXC   ,X      ,X2S     ,
      2           Y2S    ,X3S   ,Y3S   ,X4S    ,Y4S     )
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       use element_mod , only : nixc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
