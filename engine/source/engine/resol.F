@@ -2457,9 +2457,10 @@ C ---------------------
               ! -------------------------
               ! initialization of SPH_WORK
               call ALLOCATE_SPH_WORK(SPH_WORK,
-     *                               NUMSPH,NUMSPH,         ! Flag & size for WREDUCE
-     *                               SOL2SPH_FLAG, NUMNOD,  ! Flag for other arrays
-     *                               NSPHACT,NUMNOD,NSPHACT ) ! Size of as6, a6, as
+     *                               NUMSPH,NUMSPH,          ! Flag & size for WREDUCE
+     *                               SOL2SPH_FLAG, NUMNOD,   ! Flag for other arrays
+     *                               NSPHACT,NUMNOD,NSPHACT, ! Size of as6, a6, as
+     *                               NUMSPHG ) 
 C========================================================================================
 C                                     NON PARALLEL SECTION (SMP)
 C========================================================================================
