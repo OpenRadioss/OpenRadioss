@@ -94,6 +94,7 @@ C-----------------------------------------------
       use brokmann_random_def_mod
       use glob_therm_mod
       use initemp_shell_mod
+      use law42c_ini_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -465,6 +466,21 @@ C
             ENDIF ! IF (ILAW == 58) THEN
           ENDDO ! DO IL = 1,NLAY      
         ENDIF 
+      ENDIF
+      IF (MTN == 42 .OR. IGTYP == 51 .OR. IGTYP == 52) THEN
+          DO IL = 1,NLAY
+            NPTT  = ELBUF_STR%BUFLY(IL)%NPTT
+            ILAW  = ELBUF_STR%BUFLY(IL)%ILAW
+            NUVAR = ELBUF_STR%BUFLY(IL)%NVAR_MAT
+!
+            IF (ILAW == 42) THEN
+              DO IT=1,NPTT
+                LBUF => ELBUF_STR%BUFLY(IL)%LBUF(IR,IS,IT)
+                UVAR => ELBUF_STR%BUFLY(IL)%MAT(IR,IS,IT)%VAR 
+                CALL law42c_ini(NUVAR,UVAR,LLT)
+              ENDDO
+            ENDIF ! IF (ILAW == 42) THEN
+          ENDDO ! DO IL = 1,NLAY      
       ENDIF
 C-----------------------------------------------------------------------
 C     calculation of initial constraints
