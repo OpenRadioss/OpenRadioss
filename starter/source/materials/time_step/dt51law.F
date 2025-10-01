@@ -56,91 +56,41 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER                                :: I, MX, IADBUF,IFLG(MVSIZ), BIJ(4)
-      my_real,DIMENSION(:),POINTER           :: UPARAM
-      
-      my_real
-     .   SSP(MVSIZ)  , DPDM(MVSIZ) , RHO0(MVSIZ) , G(MVSIZ)    , 
-     .   BULK(MVSIZ) , C1(MVSIZ)   , G43(MVSIZ)  , P           ,
-     .   AV1(MVSIZ)  , AV2(MVSIZ)  , AV3(MVSIZ)  , AV4(MVSIZ)  ,
-     .   RHO10(MVSIZ), RHO20(MVSIZ), RHO30(MVSIZ), RHO40(MVSIZ),     
-     .   C01(MVSIZ)  , C02(MVSIZ)  , C03(MVSIZ)  , C04(MVSIZ)  ,
-     .   C11(MVSIZ)  , C12(MVSIZ)  , C13(MVSIZ)  , C14(MVSIZ)  ,          
-     .   C21(MVSIZ)  , C22(MVSIZ)  , C23(MVSIZ)  , C24(MVSIZ)  ,         
-     .   C31(MVSIZ)  , C32(MVSIZ)  , C33(MVSIZ)  , C34(MVSIZ)  ,         
-     .   C41(MVSIZ)  , C42(MVSIZ)  , C43(MVSIZ)  , C44(MVSIZ)  ,         
-     .   C51(MVSIZ)  , C52(MVSIZ)  , C53(MVSIZ)  , C54(MVSIZ)  ,                             
-     .   G1 (MVSIZ)  , G2(MVSIZ)   , G3 (MVSIZ)  , G4 (MVSIZ)  ,    
-     .   E01(MVSIZ)  , E02(MVSIZ)  , E03(MVSIZ)  , E04(MVSIZ)  , 
-     .   PM1(MVSIZ)  , PM2(MVSIZ)  , PM3(MVSIZ)  , PM4(MVSIZ)  ,    
-     .   DPDM1(MVSIZ), DPDM2(MVSIZ), DPDM3(MVSIZ), DPDM4(MVSIZ),      
-     .   PEXT        , PFAR        , VDET(MVSIZ) ,
-     .   SSP1(MVSIZ) , SSP2(MVSIZ) , SSP3(MVSIZ) , SSP4(MVSIZ), 
-     .   VIS(MVSIZ)  , RHO0_BAK(MVSIZ)
+      INTEGER :: I, IADBUF,IFLG(MVSIZ), BIJ(4)
+      my_real,DIMENSION(:),POINTER :: UPARAM
+      my_real :: SSP(MVSIZ)  , RHO0(MVSIZ) , BULK(MVSIZ) ,
+     .           AV1(MVSIZ)  , AV2(MVSIZ)  , AV3(MVSIZ)  , AV4(MVSIZ)  ,
+     .           RHO10(MVSIZ), RHO20(MVSIZ), RHO30(MVSIZ), RHO40(MVSIZ),
+     .           SSP1(MVSIZ) , SSP2(MVSIZ) , SSP3(MVSIZ) , SSP4(MVSIZ),
+     .           VIS(MVSIZ)  , RHO0_BAK(MVSIZ)
+      INTEGER :: IAV(4),IRHO(4),ISSP(4)
 
-      INTEGER :: IAV(4),IRHO(4)
-
-     
 c-----------------------------------------------
        IAV(1:4)  = (/ 4,5,6,46 /)
        IRHO(1:4) = (/ 9,10,11,47 /)
+       ISSP(1:4)  = (/ 124,174,224,273 /)
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-      IFLG(1) = ZERO
+      IFLG(1) = 0
       DO I=1,LLT
         IADBUF   = IPM(7,MAT(I))
         UPARAM   =>BUFMAT(IADBUF:IADBUF+280)
-        BIJ(1:4) = UPARAM(277:280)
+        BIJ(1:4) = NINT(UPARAM(277:280))
         AV1(I)   = UPARAM(IAV(BIJ(1)))
         AV2(I)   = UPARAM(IAV(BIJ(2)))
         AV3(I)   = UPARAM(IAV(BIJ(3)))
         AV4(I)   = UPARAM(IAV(BIJ(4)))
-        PFAR     = UPARAM(07)  
-        PEXT     = UPARAM(08)  
         RHO10(I) = UPARAM(IRHO(BIJ(1)))
         RHO20(I) = UPARAM(IRHO(BIJ(2)))
         RHO30(I) = UPARAM(IRHO(BIJ(3)))
         RHO40(I) = UPARAM(IRHO(BIJ(4)))
-        C11(I)   = UPARAM(12) 
-        C12(I)   = UPARAM(13) 
-        C13(I)   = UPARAM(14) 
-        C14(I)   = ZERO
-        C21(I)   = UPARAM(15) 
-        C22(I)   = UPARAM(16) 
-        C23(I)   = UPARAM(17)
-        C24(I)   = ZERO 
-        C31(I)   = UPARAM(18) 
-        C32(I)   = UPARAM(20) 
-        C33(I)   = UPARAM(21)
-        C34(I)   = ZERO 
-        C41(I)   = UPARAM(22) 
-        C42(I)   = UPARAM(23) 
-        C43(I)   = UPARAM(24) 
-        C44(I)   = ZERO
-        C51(I)   = UPARAM(25) 
-        C52(I)   = UPARAM(26) 
-        C53(I)   = UPARAM(27) 
-        C54(I)   = ZERO
-        G1(I)    = UPARAM(28)*TWO_THIRD 
-        G2(I)    = UPARAM(29)*TWO_THIRD 
-        G3(I)    = UPARAM(30)*TWO_THIRD 
-        G4(I)    = ZERO
-        IFLG(I)  = UPARAM(31) 
-        E01(I)   = UPARAM(32) 
-        E02(I)   = UPARAM(33) 
-        E03(I)   = UPARAM(34) 
-        E04(I)   = UPARAM(48)      
-        C01(I)   = UPARAM(35) 
-        C02(I)   = UPARAM(36) 
-        C03(I)   = UPARAM(37) 
-        C04(I)   = UPARAM(49)      
-        PM1(I)   = UPARAM(39) 
-        PM2(I)   = UPARAM(40) 
-        PM3(I)   = UPARAM(41)
-        PM4(I)   = UPARAM(56) 
-        VDET(I)  = UPARAM(42)
-        VIS(I) = ZERO
+        IFLG(I)  = NINT(UPARAM(31))
+        VIS(I)   = ZERO
+        SSP1(I)  = UPARAM(ISSP(BIJ(1)))
+        SSP2(I)  = UPARAM(ISSP(BIJ(2)))
+        SSP3(I)  = UPARAM(ISSP(BIJ(3)))
+        SSP4(I)  = UPARAM(ISSP(BIJ(4)))
       ENDDO!next I
 
       IF (IFLG(1) == 6) THEN
@@ -151,60 +101,9 @@ C-----------------------------------------------
       ENDIF
 
       DO I=LFT,LLT
-        !---submat-1---!
-        IF(AV1(I)>ZERO .AND. RHO10(I) > ZERO) THEN
-          DPDM1(I) = C11(I)+C51(I)*E01(I)+C41(I)*(C01(I)+C41(I)*E01(I))
-          DPDM1(I) = G1(I) + MAX(DPDM1(I), C11(I))
-        ELSE
-          DPDM1(I) = ZERO
-        ENDIF
-        !---submat-2---!
-        IF(AV2(I)>ZERO  .AND. RHO20(I) > ZERO) THEN
-          DPDM2(I) = C12(I)+C52(I)*E02(I)+C42(I)*(C02(I)+C42(I)*E02(I))
-          DPDM2(I) = G2(I) + MAX(DPDM2(I), C12(I))
-        ELSE
-          DPDM2(I) = ZERO
-        ENDIF
-        !---submat-3---!
-        IF(AV3(I)>ZERO .AND. RHO30(I) > ZERO) THEN
-          DPDM3(I) = C13(I)+C53(I)*E03(I)+C43(I)*(C03(I)+C43(I)*E03(I))
-          DPDM3(I) = G3(I) + MAX(DPDM3(I), C13(I))
-        ELSE
-          DPDM3(I) = ZERO
-        ENDIF
-      ENDDO!next I
-
-      DO I=LFT,LLT
-        !---submat-1---!      
-        IF(AV1(I)>ZERO) THEN
-          SSP1(I) = SQRT(ABS(DPDM1(I))/RHO10(I))
-        ELSE
-          SSP1(I) = ZERO
-        ENDIF
-        !---submat-2---!        
-        IF(AV2(I)>ZERO) THEN        
-          SSP2(I)=SQRT(ABS(DPDM2(I))/RHO20(I))
-        ELSE
-          SSP2(I)=ZERO
-        ENDIF
-        !---submat-3---!        
-        IF(AV3(I)>ZERO) THEN        
-          SSP3(I)=SQRT(ABS(DPDM3(I))/RHO30(I))
-        ELSE
-          SSP3(I)=ZERO
-        ENDIF        
-        !---submat-4---!
-        IF(AV4(I)>ZERO) THEN        
-          SSP4(I)=VDET(I)
-        ELSE
-          SSP4(I)=ZERO
-        ENDIF                                          
-      END DO!next I
-      
-      DO I=LFT,LLT
         RHO0(I) = AV1(I)*RHO10(I) + AV2(I)*RHO20(I) + AV3(I)*RHO30(I) + AV4(I)*RHO40(I)
       ENDDO
-            
+
       DO I=LFT,LLT
         BULK(I) =   AV1(I)*RHO10(I)*SSP1(I)**2 
      .            + AV2(I)*RHO20(I)*SSP2(I)**2 
@@ -218,7 +117,7 @@ C-----------------------------------------------
            RHO0_BAK(I)=EM20
         ENDIF
       ENDDO!next I
-      
+
       !----------------------------------------------!
       !  ELEMENTARY TIME STEP (ARTIFICIAL VISCOSITY) !
       !----------------------------------------------!

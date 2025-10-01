@@ -180,6 +180,7 @@
       eos_struct%nfunc = 2
       eos_struct%func(1) = func_b
       eos_struct%func(2) = func_gam
+      EOS_STRUCT%E0 = ZERO
       ipm(10)= 2
       ipm(10+1) = func_b     !set internal id
       ipm(10+2) = func_gam   ! internal id

@@ -49,7 +49,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      4                  NEL         ,SKEW     ,MSQ          ,IPART      ,IPARTQ,
      5                  IPM         ,NSIGS    ,WMA          ,PTQUAD     ,BUFMAT,
      6                  NPF         ,TF       ,IPARGG       ,ILOADP     ,FACLOAD,
-     7                  PARTSAV     ,V        )
+     7                  PARTSAV     ,V        ,MAT_PARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -58,6 +58,7 @@ C-----------------------------------------------
       USE DETONATORS_MOD
       USE ALE_CONNECTIVITY_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -89,6 +90,7 @@ C-----------------------------------------------
       my_real,INTENT(IN) :: FACLOAD(LFACLOAD,*)
       TYPE(DETONATORS_STRUCT_) :: DETONATORS
       TYPE(t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
+      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
 C-----------------------------------------------
 C FUNCTION:
 C ARGUMENTS:  (I: input, O: output, IO: input & output, W: workspace)
@@ -269,7 +271,7 @@ C
      .            MAT       ,IPM      ,NSIGS      ,NUMQUAD      ,PTQUAD  ,
      .            IP        ,NGL      ,NPF        ,TF           ,BUFMAT  ,
      .            GBUF      ,LBUF     ,MBUF       ,ELBUF_STR    ,ILOADP  ,
-     .            FACLOAD   ,DELTAX   ,TEMPEL  )
+     .            FACLOAD   ,DELTAX   ,TEMPEL     ,MAT_PARAM )
 
 C     ENTER THE INTEGRATION POINTS LOOP -->
       NPTR = 2
@@ -297,7 +299,7 @@ C
      .            MAT     ,IPM     ,NSIGS      ,NUMQUAD      ,PTQUAD  ,
      .            IP      ,NGL     ,NPF        ,TF           ,BUFMAT  ,
      .            GBUF    ,LBUF    ,MBUF       ,ELBUF_STR    ,ILOADP  ,
-     .            FACLOAD, DELTAX  ,TEMPEL  )
+     .            FACLOAD, DELTAX  ,TEMPEL     ,MAT_PARAM )
 C
         ENDDO
       ENDDO
