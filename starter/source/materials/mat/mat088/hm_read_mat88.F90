@@ -20,8 +20,39 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    hm_read_mat88_mod   ../starter/source/materials/mat/mat088/hm_read_mat88.F90
+!||--- called by ------------------------------------------------------
+!||    hm_read_mat         ../starter/source/materials/mat/hm_read_mat.F90
+!||====================================================================
       module hm_read_mat88_mod
       contains
+!||====================================================================
+!||    hm_read_mat88                     ../starter/source/materials/mat/mat088/hm_read_mat88.F90
+!||--- called by ------------------------------------------------------
+!||    hm_read_mat                       ../starter/source/materials/mat/hm_read_mat.F90
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                            ../starter/source/output/message/message.F
+!||    func_table_copy                   ../starter/source/materials/tools/func_table_copy.F90
+!||    hm_get_float_array_index          ../starter/source/devtools/hm_reader/hm_get_float_array_index.F
+!||    hm_get_float_array_index_dim      ../starter/source/devtools/hm_reader/hm_get_float_array_index_dim.F
+!||    hm_get_floatv                     ../starter/source/devtools/hm_reader/hm_get_floatv.F
+!||    hm_get_floatv_dim                 ../starter/source/devtools/hm_reader/hm_get_floatv_dim.F
+!||    hm_get_int_array_index            ../starter/source/devtools/hm_reader/hm_get_int_array_index.F
+!||    hm_get_intv                       ../starter/source/devtools/hm_reader/hm_get_intv.F
+!||    hm_option_is_encrypted            ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
+!||    init_mat_keyword                  ../starter/source/materials/mat/init_mat_keyword.F
+!||    monotone_in_rate_signed_highfix   ../starter/source/materials/mat/mat088/hm_read_mat88.F90
+!||    table_mat2d_intersect             ../starter/source/materials/mat/mat088/hm_read_mat88.F90
+!||--- uses       -----------------------------------------------------
+!||    elbuftag_mod                      ../starter/share/modules1/elbuftag_mod.F
+!||    func_table_copy_mod               ../starter/source/materials/tools/func_table_copy.F90
+!||    hm_option_read_mod                ../starter/share/modules1/hm_option_read_mod.F
+!||    message_mod                       ../starter/share/message_module/message_mod.F
+!||    submodel_mod                      ../starter/share/modules1/submodel_mod.F
+!||    table_mat_spline_fit_mod          ../starter/source/materials/mat/mat088/table_mat_spline_fit_mod.F90
+!||    table_mod                         ../starter/share/modules1/table_mod.F
+!||====================================================================
       subroutine hm_read_mat88(                                                &
                    matparam ,nvartmp  ,parmat   ,unitab   ,mat_id   ,titr     ,&
                    mtag     ,lsubmodel,iout     ,nuvar    ,ilaw     ,ntable   ,&
@@ -806,6 +837,12 @@
       !<========================================================================
       !< Find intersection between two curves in a 2D material table
       !<========================================================================
+!||====================================================================
+!||    table_mat2d_intersect   ../starter/source/materials/mat/mat088/hm_read_mat88.F90
+!||--- called by ------------------------------------------------------
+!||    hm_read_mat88           ../starter/source/materials/mat/mat088/hm_read_mat88.F90
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       subroutine table_mat2d_intersect(                                        &
         table_mat,i_low    ,i_high   ,npt      ,use_abs  ,lock_neg ,lock_pos , &
         epsx, epsy, found, xint, yint)
@@ -893,6 +930,14 @@
       !<========================================================================
       !< Ensure monotonicity in rate between two curves (y_high above y_low)
       !<========================================================================
+!||====================================================================
+!||    monotone_in_rate_signed_highfix   ../starter/source/materials/mat/mat088/hm_read_mat88.F90
+!||--- called by ------------------------------------------------------
+!||    hm_read_mat88                     ../starter/source/materials/mat/mat088/hm_read_mat88.F90
+!||--- calls      -----------------------------------------------------
+!||    light_edge_smooth                 ../starter/source/materials/mat/mat088/hm_read_mat88.F90
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       subroutine monotone_in_rate_signed_highfix(                              &
         n        ,x        ,y_low    ,y_high   ,eps_rel  ,eps_abs  ,lock_neg,  &
         lock_pos )
@@ -946,6 +991,11 @@
       contains
 !      
         !< Small smoothing of edges to avoid local "steps"
+!||====================================================================
+!||    light_edge_smooth                 ../starter/source/materials/mat/mat088/hm_read_mat88.F90
+!||--- called by ------------------------------------------------------
+!||    monotone_in_rate_signed_highfix   ../starter/source/materials/mat/mat088/hm_read_mat88.F90
+!||====================================================================
         subroutine light_edge_smooth(n, y)
           implicit none
           integer, intent(in)    :: n

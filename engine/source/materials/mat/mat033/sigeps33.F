@@ -786,7 +786,6 @@ C
 !||--- called by ------------------------------------------------------
 !||    alew7      ../engine/source/ale/grid/alew7.F
 !||    epsf2u     ../engine/source/materials/mat/mat033/sigeps33.F
-!||    sigeps88   ../engine/source/materials/mat/mat088/sigeps88.F
 !||--- calls      -----------------------------------------------------
 !||    floatmin   ../common_source/tools/math/precision.c
 !||====================================================================
@@ -1104,7 +1103,6 @@ C
 !||    valpvecdp   ../engine/source/materials/mat/mat033/sigeps33.F
 !||--- called by ------------------------------------------------------
 !||    epsf2u      ../engine/source/materials/mat/mat033/sigeps33.F
-!||    sigeps88    ../engine/source/materials/mat/mat088/sigeps88.F
 !||--- calls      -----------------------------------------------------
 !||    floatmin    ../common_source/tools/math/precision.c
 !||====================================================================
@@ -1892,6 +1890,7 @@ C Str uses temporary table instead of temporary scalars
 !||    sigeps69    ../engine/source/materials/mat/mat069/sigeps69.F
 !||    sigeps71    ../engine/source/materials/mat/mat071/sigeps71.F
 !||    sigeps82    ../engine/source/materials/mat/mat082/sigeps82.F
+!||    sigeps88    ../engine/source/materials/mat/mat088/sigeps88.F90
 !||    sigeps90    ../engine/source/materials/mat/mat090/sigeps90.F
 !||    sigeps92    ../engine/source/materials/mat/mat092/sigeps92.F
 !||    sigeps94    ../engine/source/materials/mat/mat094/sigeps94.F
@@ -2221,6 +2220,7 @@ C
 !||    sigeps69          ../engine/source/materials/mat/mat069/sigeps69.F
 !||    sigeps71          ../engine/source/materials/mat/mat071/sigeps71.F
 !||    sigeps82          ../engine/source/materials/mat/mat082/sigeps82.F
+!||    sigeps88          ../engine/source/materials/mat/mat088/sigeps88.F90
 !||    sigeps90          ../engine/source/materials/mat/mat090/sigeps90.F
 !||    sigeps92          ../engine/source/materials/mat/mat092/sigeps92.F
 !||    sigeps94          ../engine/source/materials/mat/mat094/sigeps94.F

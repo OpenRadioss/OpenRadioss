@@ -155,6 +155,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_mat57                            ../starter/source/materials/mat/mat057/hm_read_mat57.F90
 !||    hm_read_mat81                            ../starter/source/materials/mat/mat081/hm_read_mat81.F90
 !||    hm_read_mat87                            ../starter/source/materials/mat/mat087/hm_read_mat87.F90
+!||    hm_read_mat88                            ../starter/source/materials/mat/mat088/hm_read_mat88.F90
 !||    hm_read_preload_axial                    ../starter/source/loads/general/preload/hm_read_preload_axial.F90
 !||    hm_read_therm_stress                     ../starter/source/materials/therm/hm_read_therm_stress.F90
 !||    i24intarea_fic                           ../engine/source/interfaces/int24/i24intarea_fic.F90
@@ -206,6 +207,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    mat_table_table_copy                     ../starter/source/materials/tools/mat_table_table_copy.F90
 !||    minter1d_rat                             ../common_source/eos/minter1d_rat.F
 !||    mmain                                    ../engine/source/materials/mat_share/mmain.F90
+!||    monotone_in_rate_signed_highfix          ../starter/source/materials/mat/mat088/hm_read_mat88.F90
 !||    mrqcof_law92                             ../starter/source/materials/mat/mat092/law92_nlsqf.F90
 !||    mrqmin_law92                             ../starter/source/materials/mat/mat092/law92_nlsqf.F90
 !||    mulaw                                    ../engine/source/materials/mat_share/mulaw.F90
@@ -288,6 +290,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sigeps57c                                ../engine/source/materials/mat/mat057/sigeps57c.F90
 !||    sigeps81                                 ../engine/source/materials/mat/mat081/sigeps81.F90
 !||    sigeps87c                                ../engine/source/materials/mat/mat087/sigeps87c.F90
+!||    sigeps88                                 ../engine/source/materials/mat/mat088/sigeps88.F90
+!||    sigeps88c                                ../engine/source/materials/mat/mat088/sigeps88c.F90
 !||    sph_crit_voxel                           ../engine/source/elements/sph/sph_crit_voxel.F90
 !||    spmd_exch_flow_tracking_data             ../engine/source/ale/grid/spmd_exch_flow_tracking_data.F90
 !||    spmd_exch_flow_tracking_data2            ../engine/source/ale/grid/spmd_exch_flow_tracking_data2.F90
@@ -301,6 +305,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    stiffgas                                 ../common_source/eos/stiffgas.F
 !||    stifint_icontrol                         ../starter/source/interfaces/interf1/stifint_icontrol.F90
 !||    sz_dt1                                   ../engine/source/elements/solid/solidez/sz_dt1.F90
+!||    table_mat2d_intersect                    ../starter/source/materials/mat/mat088/hm_read_mat88.F90
 !||    table_mat_vinterp_c1                     ../engine/source/materials/tools/table_mat_vinterp_c1.F90
 !||    tabulated                                ../common_source/eos/tabulated.F
 !||    test_jc_shell_detach                     ../engine/source/engine/node_spliting/detach_node.F90

@@ -562,7 +562,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_mat83                       ../starter/source/materials/mat/mat083/hm_read_mat83.F
 !||    hm_read_mat84                       ../starter/source/materials/mat/mat084/hm_read_mat84.F
 !||    hm_read_mat87                       ../starter/source/materials/mat/mat087/hm_read_mat87.F90
-!||    hm_read_mat88                       ../starter/source/materials/mat/mat088/hm_read_mat88.F
+!||    hm_read_mat88                       ../starter/source/materials/mat/mat088/hm_read_mat88.F90
 !||    hm_read_mat90                       ../starter/source/materials/mat/mat090/hm_read_mat90.F
 !||    hm_read_mat92                       ../starter/source/materials/mat/mat092/hm_read_mat92.F
 !||    hm_read_mat93                       ../starter/source/materials/mat/mat093/hm_read_mat93.F
@@ -904,7 +904,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    law76_upd                           ../starter/source/materials/mat/mat076/law76_upd.F
 !||    law77_upd                           ../starter/source/materials/mat/mat077/law77_upd.F
 !||    law87_upd                           ../starter/source/materials/mat/mat087/law87_upd.F90
-!||    law88_upd                           ../starter/source/materials/mat/mat088/law88_upd.F
 !||    law90_upd                           ../starter/source/materials/mat/mat090/law90_upd.F
 !||    law92_nlsqf                         ../starter/source/materials/mat/mat092/law92_nlsqf.F90
 !||    law92_upd                           ../starter/source/materials/mat/mat092/law92_upd.F

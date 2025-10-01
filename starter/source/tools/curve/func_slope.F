@@ -27,7 +27,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    law158_upd    ../starter/source/materials/mat/mat158/law158_upd.F
 !||    law58_upd     ../starter/source/materials/mat/mat058/law58_upd.F
 !||    law77_upd     ../starter/source/materials/mat/mat077/law77_upd.F
-!||    law88_upd     ../starter/source/materials/mat/mat088/law88_upd.F
 !||    law90_upd     ../starter/source/materials/mat/mat090/law90_upd.F
 !||--- uses       -----------------------------------------------------
 !||    message_mod   ../starter/share/message_module/message_mod.F

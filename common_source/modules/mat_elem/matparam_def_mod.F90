@@ -202,7 +202,7 @@
 !||    hm_read_mat83                       ../starter/source/materials/mat/mat083/hm_read_mat83.F
 !||    hm_read_mat84                       ../starter/source/materials/mat/mat084/hm_read_mat84.F
 !||    hm_read_mat87                       ../starter/source/materials/mat/mat087/hm_read_mat87.F90
-!||    hm_read_mat88                       ../starter/source/materials/mat/mat088/hm_read_mat88.F
+!||    hm_read_mat88                       ../starter/source/materials/mat/mat088/hm_read_mat88.F90
 !||    hm_read_mat90                       ../starter/source/materials/mat/mat090/hm_read_mat90.F
 !||    hm_read_mat92                       ../starter/source/materials/mat/mat092/hm_read_mat92.F
 !||    hm_read_mat93                       ../starter/source/materials/mat/mat093/hm_read_mat93.F
@@ -333,6 +333,8 @@
 !||    sigeps76c                           ../engine/source/materials/mat/mat076/sigeps76c.F
 !||    sigeps81                            ../engine/source/materials/mat/mat081/sigeps81.F90
 !||    sigeps87c                           ../engine/source/materials/mat/mat087/sigeps87c.F90
+!||    sigeps88                            ../engine/source/materials/mat/mat088/sigeps88.F90
+!||    sigeps88c                           ../engine/source/materials/mat/mat088/sigeps88c.F90
 !||    sinit3                              ../starter/source/elements/solid/solide/sinit3.F
 !||    spgrhead                            ../starter/source/elements/sph/spgrhead.F
 !||    spgrtails                           ../starter/source/elements/sph/spgrtails.F

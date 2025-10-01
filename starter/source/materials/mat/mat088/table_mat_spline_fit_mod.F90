@@ -12,6 +12,12 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.      
+!||====================================================================
+!||    table_mat_spline_fit_mod   ../starter/source/materials/mat/mat088/table_mat_spline_fit_mod.F90
+!||--- called by ------------------------------------------------------
+!||    hm_read_mat88              ../starter/source/materials/mat/mat088/hm_read_mat88.F90
+!||--- uses       -----------------------------------------------------
+!||====================================================================
       module table_mat_spline_fit_mod
         use iso_c_binding
         implicit none

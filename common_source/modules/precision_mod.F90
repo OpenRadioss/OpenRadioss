@@ -169,6 +169,7 @@
 !||    hm_read_mat57                            ../starter/source/materials/mat/mat057/hm_read_mat57.F90
 !||    hm_read_mat81                            ../starter/source/materials/mat/mat081/hm_read_mat81.F90
 !||    hm_read_mat87                            ../starter/source/materials/mat/mat087/hm_read_mat87.F90
+!||    hm_read_mat88                            ../starter/source/materials/mat/mat088/hm_read_mat88.F90
 !||    hm_read_preload_axial                    ../starter/source/loads/general/preload/hm_read_preload_axial.F90
 !||    hm_read_therm_stress                     ../starter/source/materials/therm/hm_read_therm_stress.F90
 !||    hm_read_visc_plas                        ../starter/source/materials/visc/hm_read_visc_plas.F90
@@ -319,6 +320,8 @@
 !||    sigeps57c                                ../engine/source/materials/mat/mat057/sigeps57c.F90
 !||    sigeps81                                 ../engine/source/materials/mat/mat081/sigeps81.F90
 !||    sigeps87c                                ../engine/source/materials/mat/mat087/sigeps87c.F90
+!||    sigeps88                                 ../engine/source/materials/mat/mat088/sigeps88.F90
+!||    sigeps88c                                ../engine/source/materials/mat/mat088/sigeps88c.F90
 !||    skew_mod                                 ../common_source/modules/skew_mod.F90
 !||    sph_work_mod                             ../common_source/modules/mat_elem/sph_work.F90
 !||    spmd_exch_flow_tracking_data             ../engine/source/ale/grid/spmd_exch_flow_tracking_data.F90

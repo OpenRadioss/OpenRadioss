@@ -55,7 +55,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    initia                  ../starter/source/elements/initia/initia.F
 !||    law111_upd              ../starter/source/materials/mat/mat111/law111_upd.F
 !||    law69_upd               ../starter/source/materials/mat/mat069/law69_upd.F
-!||    law88_upd               ../starter/source/materials/mat/mat088/law88_upd.F
 !||    lecstack_ply            ../starter/source/properties/composite_options/stack/lecstack_ply.F
 !||    lectur                  ../starter/source/starter/lectur.F
 !||    m20dcod                 ../starter/source/system/fsdcod.F
