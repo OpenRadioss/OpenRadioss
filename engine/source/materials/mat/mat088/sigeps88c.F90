@@ -166,7 +166,7 @@
         young    = matparam%young     !< Young's modulus
         rbulk    = matparam%bulk      !< Bulk modulus
         nu       = matparam%nu        !< Poisson's ratio
-        if (nu >= 0.495d0) nu = 0.5d0 
+        if (nu >= 0.49d0) nu = 0.5d0 
         gs       = matparam%shear     !< Shear modulus
         hys      = matparam%uparam(1) !< Hysteresis parameter
         shape    = matparam%uparam(2) !< Shape parameter
@@ -281,7 +281,7 @@
                       eigv(i,1,2)*eigv(i,2,2)*epspxy(i) +                      &
                       eigv(i,2,2)*eigv(i,2,2)*epspyy(i)
           !< Third principal strain rate
-          if (nu > 0.495d0) then
+          if (nu > 0.49d0) then
             evvp(i,3) = - (evvp(i,1) + evvp(i,2))
           else
             evvp(i,3) = zero
@@ -484,7 +484,7 @@
               dpdrv(i) = zero
             enddo
           ! -> Compressible pressure (Foam version)
-          elseif ((nu > zero) .and. (nu < 0.495d0)) then
+          elseif ((nu > zero) .and. (nu < 0.49d0)) then
             do i = 1,nel
               p(i) = rbulk*log(rv(i))
               dpdrv(i) = rbulk/rv(i)
@@ -894,7 +894,7 @@
                   p(i) = uvar(i,12)*exp(-beta*tstep) +                         &
                          rbulk*ldav*((one-exp(-beta*tstep))/beta)
                   dpdrv(i) = zero
-                elseif ((nu > zero) .and. (nu < 0.495d0)) then
+                elseif ((nu > zero) .and. (nu < 0.49d0)) then
                   p(i) = rbulk*log(rv(i))
                   dpdrv(i) = rbulk/rv(i)
                 else
