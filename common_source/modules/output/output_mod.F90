@@ -227,6 +227,14 @@
         use ALEANIM_MOD, only : FANI_CELL_
 
       implicit none
+
+        type bcs_inout_hist
+          real(kind=WP) :: de_in = 0.
+          real(kind=WP) :: de_out = 0.
+          real(kind=WP) :: dm_in = 0.
+          real(kind=WP) :: dm_out = 0.
+        end type bcs_inout_hist
+
         type working_arrays_
           ! /H3D/NODA/PEXT and /ANIM/NODA/PEXT and /TH/NODE(PEXT)
           real(kind=WP), dimension(:), allocatable :: NODA_SURF, NODA_PEXT       !domain array
@@ -277,7 +285,9 @@
           real(kind=wp), dimension(:), allocatable :: SCAL_DMAS                                                    
           real(kind=wp), dimension(:), allocatable :: SCAL_DINER                                                      
           real(kind=wp), dimension(:), allocatable :: SCAL_DAMA2                                                         
-          real(kind=wp), dimension(:), allocatable :: SCAL_SPRING ! 
+          real(kind=wp), dimension(:), allocatable :: SCAL_SPRING !
+
+          type(bcs_inout_hist) :: INOUT ! history of inlet/outlet (mass, energy, for printout ecrit.F)
  
         end type working_arrays_
 

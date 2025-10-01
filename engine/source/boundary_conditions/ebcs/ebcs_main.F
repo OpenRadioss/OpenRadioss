@@ -49,7 +49,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                     FSAV,FV,MS,STIFN,IPARG,ELBUF_TAB,EBCS_TAB,MULTI_FVM,IXQ,IXS,IXTG,
      .                     FSKY,FSAVSURF,TIME,DT1,
      .                     NSENSOR,SENSOR_TAB,PYTHON,
-     .                     NPC, TF ,SNPC, STF)
+     .                     NPC, TF ,SNPC, STF, OUTPUT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -57,11 +57,20 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD  
       USE GROUPDEF_MOD
       USE EBCS_MOD
-      USE MULTI_FVM_MOD
+      USE MULTI_FVM_MOD , only : MULTI_FVM_STRUCT
       USE TH_SURF_MOD , only : TH_SURF_NUM_CHANNEL
       USE SENSOR_MOD, ONLY : SENSOR_STR_
       USE PYTHON_FUNCT_MOD
-      use ebcs11_mod , only : EBCS11
+      USE OUTPUT_MOD , only : OUTPUT_
+      USE EBCS0_GRADP0_MOD      , ONLY : EBCS0_GRADP0
+      USE EBCS123_PRES_MOD      , ONLY : EBCS123_PRES
+      USE EBCS4_VEL_MOD         , ONLY : EBCS4_VEL
+      USE EBCS5_NORMV_MOD       , ONLY : EBCS5_NORMV
+      USE EBCS6_INIP_MOD        , ONLY : EBCS6_INIP
+      USE EBCS7_INIV_MOD        , ONLY : EBCS7_INIV
+      !USE EBCS8_INLET_MOD       , ONLY : EBCS8_INLET
+      USE EBCS10_NRF_MOD        , ONLY : EBCS10_NRF
+      USE EBCS11_PROPELLANT_MOD , ONLY : EBCS11_PROPELLANT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -81,8 +90,7 @@ C-----------------------------------------------
       my_real,INTENT(INOUT) :: FSAVSURF(TH_SURF_NUM_CHANNEL,NSURF)
       INTEGER IPARG(NPARG,NGROUP)
       INTEGER,INTENT(IN) :: IXQ(NIXQ,NUMELQ),IXS(NIXS,NUMELS),IXTG(NIXTG,NUMELTG)
-      my_real VOLMON(*),V(3,NUMNOD),W(3,NUMNOD),A(3,NUMNOD),X(3,NUMNOD),FSAV(NTHVKI,*),
-     .        FV(*),STIFN(NUMNOD)
+      my_real VOLMON(*),V(3,NUMNOD),W(3,NUMNOD),A(3,NUMNOD),X(3,NUMNOD),FSAV(NTHVKI,*),FV(*),STIFN(NUMNOD)
       my_real,intent(inout) :: MS(NUMNOD)
       TYPE(ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
@@ -96,6 +104,7 @@ C-----------------------------------------------
       INTEGER,INTENT(IN) :: NPC(SNPC)
       my_real :: tf(STF)
       TYPE(t_segvar) :: SEGVAR
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT !< output structure
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -105,7 +114,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r  c e   L i n e s
 C-----------------------------------------------
-
       !/TH/SURF (RESET)
       DO I = 1, NEBCS
          IF(.NOT.EBCS_TAB%need_to_compute(I)) CYCLE     !EBCS may be on domain 0 only depending on ebcs type
@@ -129,73 +137,73 @@ C-----------------------------------------------
          IF (TYP == 0) THEN
             select type (twf => EBCS_TAB%tab(i)%poly)
             type is (t_ebcs_gradp0) 
-            CALL EBCS0(NSEG, EBCS%iseg, SEGVAR,
+            CALL EBCS0_GRADP0(NSEG, EBCS%iseg, SEGVAR,
      .           A, V, X, 
      .           EBCS%node_list, NOD, EBCS%elem_list,EBCS%ielem,
      .           EBCS%vold, EBCS%pold, EBCS%p0,
-     .           EBCS%la, FV, MS, STIFN, IPARG, ELBUF_TAB, twf)
+     .           EBCS%la, FV, MS, STIFN, IPARG, ELBUF_TAB, twf, OUTPUT, DT1, TIME)
             end select
          ELSE IF (TYP <= 3)THEN
-            CALL EBCS1(NSEG,EBCS%iseg,SEGVAR,
+            CALL EBCS123_PRES(NSEG,EBCS%iseg,SEGVAR,
      .           A,V,X,
      .           EBCS%node_list,NOD,EBCS%elem_list,
      .           EBCS%vold,EBCS%pold,EBCS%la,
-     .           FV,MS,STIFN,EBCS_TAB, I)
+     .           FV,MS,STIFN,EBCS_TAB, I,OUTPUT, DT1, TIME)
          ELSE IF (TYP == 4) THEN
             select type (twf => EBCS_TAB%tab(i)%poly)
             type is (t_ebcs_vel) 
-            CALL EBCS4(NSEG,EBCS%iseg,SEGVAR,
+            CALL EBCS4_VEL(NSEG,EBCS%iseg,SEGVAR,
      .           A,V,X,
      .           EBCS%node_list,NOD,EBCS%elem_list,
-     .           EBCS%la,FV,MS,STIFN,twf)     
+     .           EBCS%la,FV,MS,STIFN,twf,OUTPUT, DT1, TIME)
             end select
          ELSE IF (TYP == 5) THEN
             select type (twf => EBCS_TAB%tab(i)%poly)
             type is (t_ebcs_normv) 
-            CALL EBCS5(NSEG,EBCS%iseg,SEGVAR,
+            CALL EBCS5_NORMV(NSEG,EBCS%iseg,SEGVAR,
      .           A,V,X,
      .           EBCS%node_list,NOD,EBCS%elem_list,
-     .           EBCS%la,FV,MS,STIFN,twf)     
+     .           EBCS%la,FV,MS,STIFN,twf,OUTPUT, DT1, TIME)
             end select
          ELSE IF (TYP == 6) THEN
             select type (twf => EBCS_TAB%tab(i)%poly)
             type is (t_ebcs_inip) 
-            CALL EBCS6(NSEG,EBCS%iseg,SEGVAR,
+            CALL EBCS6_INIP(NSEG,EBCS%iseg,SEGVAR,
      .           A,V,X,
      .           EBCS%node_list,NOD,EBCS%elem_list,
      .           EBCS%ro0,EBCS%en0,EBCS%p0,
      .           EBCS%vold,EBCS%pold,EBCS%la,
-     .           MS,STIFN,twf)
+     .           MS,STIFN,twf,OUTPUT, DT1, TIME)
             end select
          ELSE IF (TYP == 7) THEN
             select type (twf => EBCS_TAB%tab(i)%poly)
             type is (t_ebcs_iniv) 
-            CALL EBCS7(NSEG,EBCS%iseg,SEGVAR,
+            CALL EBCS7_INIV(NSEG,EBCS%iseg,SEGVAR,
      .           A,V,X,
      .           EBCS%node_list,NOD,EBCS%elem_list,
      .           EBCS%ro0,EBCS%en0,EBCS%v0,
-     .           EBCS%la,MS,STIFN,twf)     
+     .           EBCS%la,MS,STIFN,twf,OUTPUT, DT1, TIME)
              end select
          ELSE IF (TYP == 10) THEN
             select type (twf => EBCS)
              type is (t_ebcs_nrf)
-              CALL EBCS10(NSEG,twf%iseg,SEGVAR,
+              CALL EBCS10_NRF(NSEG,twf%iseg,SEGVAR,
      .             A,V,W,X,
      .             twf%node_list,NOD,twf%elem_list,twf%ielem,twf%iface,
      .             twf%la,twf,IPARG,ELBUF_TAB,MULTI_FVM,IXQ,IXS,IXTG,
-     .             EBCS_PARITHON(I)%ELEM_ADRESS,FSKY,FSAVSURF)
+     .             EBCS_PARITHON(I)%ELEM_ADRESS,FSKY,FSAVSURF, OUTPUT, DT1, TIME)
              end select
          ELSE IF (TYP == 11) THEN
             select type (twf => EBCS)
              type is (t_ebcs_propellant)
-              call ebcs11(nseg,twf%iseg,segvar,
+              call ebcs11_propellant(nseg,twf%iseg,segvar,
      .                    x,
      .                    twf%node_list,nod,twf%elem_list,twf%ielem,twf%iface,
      .                    twf%la,ms,stifn,twf,iparg,elbuf_tab,ixq,ixs,ixtg,
      .                    fsavsurf,time,iparit,dt1,
      .                    numels, numelq, numeltg,numnod, nparg, ngroup, nixs, nixq, nixtg, nsurf, n2d,
      .                    nfunct, npc, tf ,snpc, stf, python,
-     .                    nsensor, sensor_tab)
+     .                    nsensor, sensor_tab, output)
             end select
          ELSE IF (TYP == 100) THEN
             SELECT TYPE(EBCS)
