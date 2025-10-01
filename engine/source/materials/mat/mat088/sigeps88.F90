@@ -173,7 +173,7 @@
         !< Recovering real model parameters
         rbulk    = matparam%bulk      !< Bulk modulus
         nu       = matparam%nu        !< Poisson's ratio
-        if (nu >= 0.495d0) nu = 0.5d0 
+        if (nu >= 0.49d0) nu = 0.5d0 
         gs       = matparam%shear     !< Shear modulus
         hys      = matparam%uparam(1) !< Hysteresis parameter
         shape    = matparam%uparam(2) !< Shape parameter
@@ -455,7 +455,7 @@
             uvar(i,12) = p(i)
           enddo
         ! -> Compressible pressure (Foam version)
-        elseif ((nu > zero) .and. (nu < 0.495d0)) then
+        elseif ((nu > zero) .and. (nu < 0.49d0)) then
           do i = 1,nel
             p(i) = rbulk*log(rv(i))
           enddo

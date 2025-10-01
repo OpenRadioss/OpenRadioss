@@ -953,7 +953,7 @@
               &matparam ,nvartmp  ,parmat   ,unitab   ,mat_id   ,&
               &titr     ,mtag     ,lsubmodel,iout     ,nuvar    ,&
               &ilaw     ,ntable   ,table    ,imatvis  ,israte   ,&
-              &maxfunc  )
+              &maxfunc  ,iunit    )
 !-------
              case ('LAW90')
               ilaw = 90

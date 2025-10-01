@@ -56,7 +56,7 @@
       subroutine hm_read_mat88(                                                &
                    matparam ,nvartmp  ,parmat   ,unitab   ,mat_id   ,titr     ,&
                    mtag     ,lsubmodel,iout     ,nuvar    ,ilaw     ,ntable   ,&
-                   table    ,imatvis  ,israte   ,maxfunc  )
+                   table    ,imatvis  ,israte   ,maxfunc  ,iunit    )
 !-----------------------------------------------
 !   M o d u l e s
 !-----------------------------------------------
@@ -95,6 +95,7 @@
         integer, intent(inout) :: imatvis                !< Material viscosity flag
         integer, intent(inout) :: israte                 !< Strain rate filtering flag
         integer, intent(in) :: maxfunc                   !< Maximum number of functions
+        integer, intent(in) :: iunit                     !< Input unit
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
@@ -187,6 +188,7 @@
         beta = zero
         if (nu <= zero) then
           beta = abs(nu)
+          if (iunit > 0) beta = beta/unitab%fac_t(iunit)
           nu = 0.495d0
         endif
         !< Check values and set default values
@@ -212,8 +214,8 @@
         if (st == zero) then
           call hm_get_floatv_dim('LAW88_ST',st,is_available,lsubmodel,unitab)
         endif
-        areafac = one/(sgl*sw)
-        lengthfac = one/st
+        areafac = one/(st*sw)
+        lengthfac = one/sgl
         !< Damage softening parameter
         eh = max(min(eh,one),zero)
         !< Number of failed integration points prior to element deletion
@@ -496,7 +498,7 @@
         !<======================================================================
         !< Specific treatment for compressible materials
         !<======================================================================  
-        if ((nu > zero) .and. (nu < 0.495d0)) then
+        if ((nu > zero) .and. (nu < 0.49d0)) then
           !< Effective bulk modulus
           do i = 1, nout+1
             if (table_mat(1)%x(1)%values(i) /= zero) then
@@ -644,10 +646,12 @@
         gs = three*bulk*e/(nine*bulk - e)
         if (gs < zero) then 
           call ancmsg(msgid=3109,                                             &
-                      msgtype=msgerror,                                       &
+                      msgtype=msgwarning,                                     &
                       anmode=aninfo_blind_1,                                  &
                       i1=mat_id,                                              &
                       c1=titr)
+          bulk = four*(e/nine)*(one + em3)
+          gs = three*bulk*e/(nine*bulk - e)
         endif
 !
         !< Default strain rate filtering cut-off frequency 
