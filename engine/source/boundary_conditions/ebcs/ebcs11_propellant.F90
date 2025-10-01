@@ -25,7 +25,7 @@
 !||--- called by ------------------------------------------------------
 !||    ebcs_main    ../engine/source/boundary_conditions/ebcs/ebcs_main.F
 !||====================================================================
-      module ebcs11_mod
+      module ebcs11_propellant_mod
         implicit none
       contains
 ! ======================================================================================================================
@@ -49,14 +49,14 @@
 !||    sensor_mod            ../common_source/modules/sensor_mod.F90
 !||    th_surf_mod           ../common_source/modules/interfaces/th_surf_mod.F
 !||====================================================================
-        subroutine ebcs11(nseg,iseg,segvar, &
+        subroutine ebcs11_propellant(nseg,iseg,segvar, &
           x, &
           liste,nod,irect,ielem,iface, &
           la,ms,stifn,ebcs,iparg,elbuf_tab,ixq,ixs,ixtg, &
           fsavsurf,time,iparit,dt1, &
           numels, numelq, numeltg, numnod, nparg, ngroup, nixs, nixq, nixtg, nsurf, n2d, &
           nfunct, npc, tf ,snpc, stf, python, &
-          nsensor, sensor_tab)
+          nsensor, sensor_tab, output)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -69,6 +69,8 @@
           use sensor_mod, only : sensor_str_
           use python_funct_mod
           use precision_mod, only : WP
+          use output_mod, only : output_
+          use multimat_param_mod , only : m51_n0phas, m51_nvphas
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -103,6 +105,7 @@
           integer,intent(in) :: nsensor !< number of sensor(s) in input file
           type (sensor_str_) ,dimension(nsensor) ,intent(in) :: sensor_tab  !< data stucture for sensors
           type (python_), intent(in) :: python !< may be needed for user functions
+          type(output_), intent(inout) :: output !< output structure
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -130,6 +133,8 @@
           real(kind=WP) :: dydx
           real(kind=WP) :: temp
           real(kind=WP) :: eint_new
+          real(kind=WP) :: roou, enou, fluxi
+          real(kind=WP) :: dm_in, de_in
 
           logical :: bfound
           type(buf_mat_)  ,pointer :: mbuf
@@ -142,12 +147,6 @@
           data icf_2d  /1,2,2,3,3,4,4,1/
           data icf_3d  /1,4,3,2,3,4,8,7,5,6,7,8,1,2,6,5,2,3,7,6,1,5,8,4/
 
-          INTEGER :: N0PHAS
-          PARAMETER (N0PHAS = 04)
-
-          INTEGER :: NVPHAS
-          PARAMETER (NVPHAS = 23)
-
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   External Functions
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -155,6 +154,8 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   body
 ! ----------------------------------------------------------------------------------------------------------------------
+          de_in = zero
+          dm_in = zero
 
           !--- user parameters
           param_a = ebcs%a
@@ -340,19 +341,19 @@
               do isubmat=1,nbsubmat
                 !volume fraction
                 ipos = 1
-                kk = (n0phas + (isubmat-1)*nvphas +ipos-1) * klt  +  iloc+1
+                kk = (m51_n0phas + (isubmat-1)*m51_nvphas +ipos-1) * klt  +  iloc+1
                 phase_alpha(isubmat) = mbuf%var(kk)
                 !mass density
                 ipos = 9
-                kk = (n0phas + (isubmat-1)*nvphas +ipos-1) * klt  +  iloc+1
+                kk = (m51_n0phas + (isubmat-1)*m51_nvphas +ipos-1) * klt  +  iloc+1
                 phase_rho(isubmat) = mbuf%var(kk)
                 !energy density
                 ipos = 8
-                kk = (n0phas + (isubmat-1)*nvphas +ipos-1) * klt  +  iloc+1
+                kk = (m51_n0phas + (isubmat-1)*m51_nvphas +ipos-1) * klt  +  iloc+1
                 phase_eint(isubmat) = mbuf%var(kk)
                 !energy density
                 ipos = 16
-                kk = (n0phas + (isubmat-1)*nvphas +ipos-1) * klt  +  iloc+1
+                kk = (m51_n0phas + (isubmat-1)*m51_nvphas +ipos-1) * klt  +  iloc+1
                 tadj = mbuf%var(kk)
               enddo
               isubmat = ebcs%submat_id
@@ -417,6 +418,8 @@
               vold = zero
             endif
 
+            roou = segvar%rho(kseg)
+            enou = segvar%eint(kseg)
 
             ! ghost cell update ( upwind/aconve() )
             if(mtn == 51 )then
@@ -425,25 +428,25 @@
               mbuf => elbuf_tab(ngrp)%bufly(1)%mat(1,1,1)
               !init volume fraction to non zero (submaterial presence triggered inside the cell)
               ipos = 1
-              kk = (n0phas + (isubmat-1)*nvphas +ipos-1) * klt  +  iloc+1
+              kk = (m51_n0phas + (isubmat-1)*m51_nvphas +ipos-1) * klt  +  iloc+1
               mbuf%var(kk) = vol/volg  !initialize to non zero for sigeps51 subroutine
               segvar%phase_alpha(isubmat,kseg) = mbuf%var(kk)
 
               !volume (must be initialize for conveective fluxes, otherwise mass en energy is rho*0 and rho.e.0)
               ipos = 11
-              kk = (n0phas + (isubmat-1)*nvphas +ipos-1) * klt  +  iloc+1
+              kk = (m51_n0phas + (isubmat-1)*m51_nvphas +ipos-1) * klt  +  iloc+1
               mbuf%var(kk) = vol
               !no related entry in segvar
 
               !mass density
               ipos = 9
-              kk = (n0phas + (isubmat-1)*nvphas +ipos-1) * klt  +  iloc+1
+              kk = (m51_n0phas + (isubmat-1)*m51_nvphas +ipos-1) * klt  +  iloc+1
               mbuf%var(kk) = (mass + dmass_g)/vol
               segvar%phase_rho(isubmat,kseg)=mbuf%var(kk)
 
               !energy density
               ipos = 8
-              kk = (n0phas + (isubmat-1)*nvphas +ipos-1) * klt  +  iloc+1
+              kk = (m51_n0phas + (isubmat-1)*m51_nvphas +ipos-1) * klt  +  iloc+1
               eint_new = mbuf%var(kk)*vol + param_q*param_rho0s*dvol_s
               mbuf%var(kk) = eint_new /vol
               segvar%phase_eint(isubmat,kseg)=mbuf%var(kk)
@@ -470,7 +473,13 @@
 
               segvar%rho(kseg) = gbuf%rho(iloc+1)  !param_rho0s
               segvar%eint(kseg) = gbuf%eint(iloc+1) !param_q*param_rho0s
+
             endif
+
+            !-- post-treatment for mass and energy balance
+            fluxi=dvol_s
+            dm_in=dm_in + fluxi*        param_rho0s
+            de_in=de_in + fluxi*param_q*param_rho0s
 
             !temperature update
             !temp =  (mass*tadj + dmass_g*param_gamma*param_t) / (mass+dmass_g)   ! This fromula embedded the enthalpy (additional term corresponding to the work required to inlet the burnt volume)
@@ -478,7 +487,7 @@
             if(mtn == 51 )then
               !temperature
               ipos = 16
-              kk = (n0phas + (isubmat-1)*nvphas +ipos-1) * klt  +  iloc+1
+              kk = (m51_n0phas + (isubmat-1)*m51_nvphas +ipos-1) * klt  +  iloc+1
               mbuf%var(kk) = temp
             else
               gbuf%temp(iloc+1) = temp
@@ -520,7 +529,7 @@
               ! enddo
             endif
             ! -------------
-          enddo
+          enddo !next is
 
           ! numerical staggered scheme : vitesse.F ;  v[n+1] = v[n] + int(acc, t=t[n],t[n+1] )   ;   acc = F/m
           !   to impose v[n+1] = Vel_Front
@@ -540,7 +549,12 @@
 
           ! -------------
 
+!$OMP CRITICAL
+      OUTPUT%DATA%INOUT%DM_IN  = OUTPUT%DATA%INOUT%DM_IN + DM_IN
+      OUTPUT%DATA%INOUT%DE_IN = OUTPUT%DATA%INOUT%DE_IN + DE_IN
+!$OMP END CRITICAL
 
-          return
-        end subroutine ebcs11
-      end module ebcs11_mod
+        return
+        end subroutine ebcs11_propellant
+
+      end module ebcs11_propellant_mod

@@ -20,6 +20,9 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      MODULE EBCS10_NRF_MOD
+        IMPLICIT NONE
+        CONTAINS
 !||====================================================================
 !||    ebcs10               ../engine/source/boundary_conditions/ebcs/ebcs10.F
 !||--- called by ------------------------------------------------------
@@ -33,18 +36,22 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    segvar_mod           ../engine/share/modules/segvar_mod.F
 !||    th_surf_mod          ../common_source/modules/interfaces/th_surf_mod.F
 !||====================================================================
-      SUBROUTINE EBCS10(NSEG,ISEG,SEGVAR,
+      SUBROUTINE EBCS10_NRF(NSEG,ISEG,SEGVAR,
      .                 A,V,W,X,
      .                 LISTE,NOD,IRECT,IELEM,IFACE,
      .                 LA,EBCS,IPARG,ELBUF_TAB,MULTI_FVM,IXQ,IXS,IXTG,
-     .                 ELEM_ADRESS,FSKY,FSAVSURF)
-      USE EBCS_MOD
-      USE ELBUFDEF_MOD
-      USE MULTI_FVM_MOD
-      USE SEGVAR_MOD
-      USE ALE_MOD , only : ALE
-      USE TH_SURF_MOD , only : TH_SURF_NUM_CHANNEL
+     .                 ELEM_ADRESS,FSKY,FSAVSURF,OUTPUT,DT1,TIME)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE EBCS_MOD , ONLY : T_EBCS_NRF
+      USE ELBUFDEF_MOD , ONLY : ELBUF_STRUCT_, L_BUFEL_, G_BUFEL_, BUF_MAT_
+      USE MULTI_FVM_MOD , ONLY : MULTI_FVM_STRUCT
+      USE SEGVAR_MOD , ONLY : T_SEGVAR
+      USE ALE_MOD , ONLY : ALE
+      USE TH_SURF_MOD , ONLY : TH_SURF_NUM_CHANNEL
       USE MULTIMAT_PARAM_MOD , ONLY : M51_N0PHAS, M51_NVPHAS
+      USE OUTPUT_MOD , ONLY : OUTPUT_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -55,7 +62,6 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "com08_c.inc"
 #include      "parit_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -72,19 +78,24 @@ C-----------------------------------------------
       TYPE(t_segvar),INTENT(INOUT) :: SEGVAR
       INTEGER, DIMENSION(4,NSEG), INTENT(IN) :: ELEM_ADRESS ! adress for fsky array (only used with parith/on)
       my_real, DIMENSION(8,LSKY), INTENT(INOUT) :: FSKY ! acceleration array for parith/on option
+      my_real,INTENT(IN) :: DT1 !< time step
+      my_real,INTENT(IN) :: TIME !< current time
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT !< output structure
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       TYPE(G_BUFEL_), POINTER :: GBUF
       TYPE(L_BUFEL_)  ,POINTER :: LBUF     
-      INTEGER II,IS,KK,KSEG,NN(4),NNG(4),NUM,KTY,KLT,MFT,NGRP,ILOC,NPT,IVOI,IDX(6),IX(4)
-      INTEGER ICF_2d(2,4), ICF_3d(4,6), JJ, ISUBMAT, IPOS, NBMAT, MTN
-      my_real ORIENT,RHO,ROC,FAC1,FAC2,VOL,MASS,
+      INTEGER :: II,IS,KK,KSEG,NN(4),NNG(4),NUM,KTY,KLT,MFT,NGRP,ILOC,NPT,IVOI,IDX(6),IX(4)
+      INTEGER :: ICF_2d(2,4), ICF_3d(4,6), JJ, ISUBMAT, IPOS, NBMAT, MTN
+      my_real :: ORIENT,RHO,ROC,FAC1,FAC2,VOL,MASS,
      .        X13,Y13,Z13,X24,Y24,Z24,
      .        ALPHA, BETA, V0(3,NOD),
      .        XN, YN, ZN, TMP(3), Vold, Vnew, Pold, Pvois,
      .        DP0,MACH,PP,SSP,RHOC2,
-     .        TCAR_P, TCAR_VF, SURF, TIME, EINT,PHASE_ALPHA(21),PHASE_RHO(21), PHASE_EINT(21)
+     .        TCAR_P, TCAR_VF, SURF, EINT,PHASE_ALPHA(21),PHASE_RHO(21), PHASE_EINT(21)
+      my_real :: DE_IN, DE_OUT, DM_IN, DM_OUT
+      my_real :: roou, enou, fluxo, fluxi
       LOGICAL bFOUND
       TYPE(BUF_MAT_)  ,POINTER :: MBUF  
       INTEGER :: ADRESS ! adress for parit/on array
@@ -97,8 +108,11 @@ C   S o u r  c e   L i n e s
 C-----------------------------------------------
       TCAR_P = EBCS%TCAR_P
       TCAR_VF = EBCS%TCAR_VF
-      TIME = TT
       SURF_ID = EBCS%SURF_ID
+      DE_IN = ZERO
+      DE_OUT = ZERO
+      DM_IN = ZERO
+      DM_OUT = ZERO
       
       ALPHA = DT1/TCAR_P
       BETA = DT1/MAX(DT1,TCAR_VF)
@@ -163,7 +177,7 @@ C-----------------------------------------------
             FAC1=HALF
             NPT=2
             JJ = IFACE(IS)
-            IF(NUMELTG>0)THEN
+            IF(NUMELTG > 0)THEN
               IX(1)  = IXTG(ICF_2d(1,JJ)+1,IELEM(IS))
               IX(2)  = IXTG(ICF_2d(2,JJ)+1,IELEM(IS))
             ELSE
@@ -207,7 +221,7 @@ C-----------------------------------------------
           EBCS%vold(IS) = Vnew  
           !Static-PRessure (increment)
           DP0 = EBCS%DP0(IS)
-                    
+
           !-- ADJACENT STATE
           bFOUND = .FALSE.
           IVOI = IELEM(IS)                                  
@@ -215,7 +229,7 @@ C-----------------------------------------------
             KTY = IPARG(5,NGRP)                                
             KLT = IPARG(2,NGRP)                                
             MFT = IPARG(3,NGRP)
-            IF(N2D==0)THEN
+            IF(N2D == 0)THEN
               IF(KTY /= 1)CYCLE
             ELSE
               IF(KTY /= 2 .AND. KTY /= 7)CYCLE
@@ -279,12 +293,23 @@ C-----------------------------------------------
           ENDIF
           NBMAT=EBCS%NBMAT
 
-          !segment data for flux of volumes ( upwind/ACONVE() )
+          !-- ghost cell data for advection step ( inlet/outlet )
           SEGVAR%RHO(KSEG)=RHO
           SEGVAR%EINT(KSEG)=EINT          
           IF(SEGVAR%has_phase_alpha)SEGVAR%PHASE_ALPHA(1:4,KSEG)=PHASE_ALPHA(1:4)          
           IF(SEGVAR%has_phase_rho)SEGVAR%PHASE_RHO(1:4,KSEG)=PHASE_RHO(1:4)          
-          IF(SEGVAR%has_phase_eint)SEGVAR%PHASE_EINT(1:4,KSEG)=PHASE_EINT(1:4)          
+          IF(SEGVAR%has_phase_eint)SEGVAR%PHASE_EINT(1:4,KSEG)=PHASE_EINT(1:4)
+
+          !-- post-treatment for mass and energy balance
+          ROOU = SEGVAR%RHO(KSEG)
+          ENOU = SEGVAR%EINT(KSEG)
+          FLUXO=Vnew*SURF*DT1
+          FLUXI=MIN(FLUXO,ZERO)
+          FLUXO=MAX(FLUXO,ZERO)
+          DM_OUT=DM_OUT-FLUXO*ROOU
+          DM_IN=DM_IN-FLUXI*RHO
+          DE_OUT=DE_OUT-FLUXO*ENOU
+          DE_IN=DE_IN-FLUXI*EINT
 
           !-- FORMULATION  
             MACH = ONE
@@ -357,5 +382,13 @@ C              PP    = Pold + (ROC*(Vnew-Vold)) !+ALPHA*(Pvois+DP0)/(ALPHA + ONE
         ENDIF
         ! -------------
 
+!$OMP CRITICAL
+      OUTPUT%DATA%INOUT%DM_IN  = OUTPUT%DATA%INOUT%DM_IN + DM_IN
+      OUTPUT%DATA%INOUT%DM_OUT = OUTPUT%DATA%INOUT%DM_OUT + DM_OUT
+      OUTPUT%DATA%INOUT%DE_IN = OUTPUT%DATA%INOUT%DE_IN + DE_IN
+      OUTPUT%DATA%INOUT%DE_OUT = OUTPUT%DATA%INOUT%DE_OUT + DE_OUT
+!$OMP END CRITICAL
+
       RETURN
-      END
+      END SUBROUTINE EBCS10_NRF
+      END MODULE EBCS10_NRF_MOD
