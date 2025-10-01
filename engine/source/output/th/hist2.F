@@ -313,6 +313,8 @@ C------------------------
           WA(II+14)= ECONTV ! Contact Frictional Energy
           WA(II+15)= ECONTD ! Damping Frictional Energy
           WA(II+16)= WPLAST ! Plastic Work
+          WA(II+17)= XMASS-MASS0 ! Added mass
+          WA(II+18)= (XMASS - MASS0) / MAX(MASS0,EM20) ! Added mass % (mass error)
           IF(IUNIT==IUHIS) CALL WRTDES(WA,WA,NGLOBTH,ITTYP,1)
         ENDIF  ! ISPMD==0
 C-----------------------------

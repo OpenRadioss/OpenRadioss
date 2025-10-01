@@ -245,6 +245,8 @@
           write(io, *) "         14 CE_FRIC   FRICTIONAL CONTACT ENERGY"
           write(io, *) "         15 CE_DAMP   DAMPING CONTACT ENERGY"
           write(io, *) "         16 WPLA      PLASTIC WORK"
+          write(io, *) "         17 DMASS     ADDED MASS"
+          write(io, *) "         18 EMASS     ADDED MASS %"
 
 
           write(io, *) "$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
