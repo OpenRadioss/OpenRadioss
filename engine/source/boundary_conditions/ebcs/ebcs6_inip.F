@@ -20,17 +20,31 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      MODULE EBCS6_INIP_MOD
+        IMPLICIT NONE
+        CONTAINS
 !||====================================================================
-!||    ebcs4        ../engine/source/boundary_conditions/ebcs/ebcs4.F
+!||    ebcs6        ../engine/source/boundary_conditions/ebcs/ebcs6.F
 !||--- called by ------------------------------------------------------
 !||    ebcs_main    ../engine/source/boundary_conditions/ebcs/ebcs_main.F
 !||--- uses       -----------------------------------------------------
 !||    ebcs_mod     ../common_source/modules/boundary_conditions/ebcs_mod.F90
 !||    segvar_mod   ../engine/share/modules/segvar_mod.F
 !||====================================================================
-      SUBROUTINE EBCS4(NSEG,ISEG,SEGVAR,A,V,X,LISTE,NOD,IRECT,LA,FV,MS,STIFN,EBCS)
+      SUBROUTINE EBCS6_INIP(NSEG,ISEG,SEGVAR,
+     .                 A,V,X,
+     .                 LISTE,NOD,IRECT,
+     .                 RO0,EN0,P0,
+     .                 VO,PO,LA,
+     .                 MS,STIFN,EBCS,OUTPUT,DT1,TIME)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       USE EBCS_MOD
       USE SEGVAR_MOD
+      USE OUTPUT_MOD , ONLY : OUTPUT_
+C-----------------------------------------------
+C Pression arret initiale imposee avec impedance
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -38,66 +52,52 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com08_c.inc"
-#include      "scr11_c.inc"
+#include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSEG,NOD,ISEG(NSEG),LISTE(NOD),IRECT(4,NSEG)
-      my_real A(3,*),V(3,*),X(3,*),LA(3,NOD),MS(*),STIFN(*),FV(*)
-      TYPE(t_ebcs_vel), INTENT(IN) :: EBCS
+      my_real :: A(3,*),X(3,*),V(3,*),LA(3,NOD),RO0(NSEG),EN0(NSEG),P0(NOD),VO(NOD),PO(NOD),MS(*),STIFN(*)
+      TYPE(t_ebcs_inip), INTENT(IN) :: EBCS
       TYPE(t_segvar) :: SEGVAR
+      my_real,INTENT(IN) :: DT1 !< time step
+      my_real,INTENT(IN) :: TIME !< current time
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT !< output structure
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,IS,KSEG,N1,N2,N3,N4,NG1,NG2,NG3,NG4,N,
-     . IVX,IVY,IVZ,IRHO,IENER
-      my_real
-     .       ORIENT,RHO,C,ROC,FAC,
-     .       X13,Y13,Z13,X24,Y24,Z24,NX,NY,NZ,S,
-     .       ROOU,ENOU,VMX,VMY,VMZ,FLUXI,FLUXO,P,DVX,DVY,DVZ,ENER,
-     .       VX,VY,VZ
+      INTEGER :: I,IS,KSEG,N1,N2,N3,N4,NG1,NG2,NG3,NG4,N
+      my_real :: ORIENT,RHO,C,LCAR,ROC,ALP,FAC,
+     .           X13,Y13,Z13,X24,Y24,Z24,NX,NY,NZ,S,
+     .           ROOU,ENOU,VMX,VMY,VMZ,FLUXI,FLUXO,VN,PN,DU,DP,P,DPDV
+      my_real :: DE, DE_IN, DE_OUT, DM_IN, DM_OUT
 C-----------------------------------------------
-      IVX=EBCS%ivx
-      IVY=EBCS%ivy
-      IVZ=EBCS%ivz
-      IRHO=EBCS%irho
-      IENER=EBCS%iener
-      IF(IVX > 0)THEN
-        VX=EBCS%vx*FV(IVX)
-      ELSE
-        VX=EBCS%vx
-      ENDIF
-      IF(IVY > 0)THEN
-        VY=EBCS%vy*FV(IVY)
-      ELSE
-        VY=EBCS%vy
-      ENDIF
-      IF(IVZ > 0)THEN
-        VZ=EBCS%vz*FV(IVZ)
-      ELSE
-        VZ=EBCS%vz
-      ENDIF
-       IF(IRHO > 0)THEN
-        RHO=EBCS%rho*FV(IRHO)
-      ELSE
-        RHO=EBCS%rho
-      ENDIF
-      IF(IENER > 0)THEN
-        ENER=EBCS%ener*FV(IENER)
-      ELSE
-        ENER=EBCS%ener
-      ENDIF
       C=EBCS%c
+      RHO=EBCS%rho
       ROC=RHO*C
+      LCAR=EBCS%lcar
+      ALP=ZERO
+      DE_IN = ZERO
+      DE_OUT = ZERO
+      DM_IN = ZERO
+      DM_OUT = ZERO
 
-!INIT. MASS DENSITY AND ENERGY
-! NORMAL AT NODES
+      IF (LCAR > ZERO) ALP=C*DT1/LCAR
+C Save densite and initial energy
+      IF(TIME == ZERO)THEN
+        DO IS=1,NSEG
+          KSEG=ABS(ISEG(IS))
+          RO0(IS) = SEGVAR%RHO(KSEG)
+          EN0(IS) = SEGVAR%EINT(KSEG)
+        ENDDO            
+      ENDIF
+C SURFACE NORMALE NODALES
       DO I=1,NOD
          LA(1,I)=ZERO
          LA(2,I)=ZERO
          LA(3,I)=ZERO
       ENDDO
+
       DO IS=1,NSEG
         KSEG=ABS(ISEG(IS))
         ORIENT=FLOAT(ISEG(IS)/KSEG)
@@ -105,12 +105,13 @@ C-----------------------------------------------
         N2=IRECT(2,IS)
         N3=IRECT(3,IS)
         N4=IRECT(4,IS)
-        IF(N4==0 .OR. N4==N3) THEN
+        IF(N4 == 0 .OR. N4 == N3) THEN
           FAC=ONE_OVER_6*ORIENT
-          N4=N3
+                   N4=N3
         ELSE
           FAC=ONE_OVER_8*ORIENT
         ENDIF
+c
         NG1=LISTE(N1)
         NG2=LISTE(N2)
         NG3=LISTE(N3)
@@ -121,9 +122,11 @@ C-----------------------------------------------
         X24=X(1,NG4)-X(1,NG2)
         Y24=X(2,NG4)-X(2,NG2)
         Z24=X(3,NG4)-X(3,NG2)
+c
         NX=(Y13*Z24-Z13*Y24)*FAC
         NY=(Z13*X24-X13*Z24)*FAC
         NZ=(X13*Y24-Y13*X24)*FAC
+c
         LA(1,N1)=LA(1,N1)+NX
         LA(2,N1)=LA(2,N1)+NY
         LA(3,N1)=LA(3,N1)+NZ
@@ -132,7 +135,8 @@ C-----------------------------------------------
         LA(3,N2)=LA(3,N2)+NZ
         LA(1,N3)=LA(1,N3)+NX
         LA(2,N3)=LA(2,N3)+NY
-        LA(3,N3)=LA(3,N3)+NZ
+        LA(3,N3)=LA(3,N3)+NZ 
+C
         VMX=V(1,NG1)+V(1,NG2)+V(1,NG3)
         VMY=V(2,NG1)+V(2,NG2)+V(2,NG3)
         VMZ=V(3,NG1)+V(3,NG2)+V(3,NG3)
@@ -144,58 +148,85 @@ C-----------------------------------------------
            VMY=VMY+V(2,NG4)
            VMZ=VMZ+V(3,NG4)
         ENDIF
-! mass and energy balance
+C
+c bilan masse et energie totale
+c
         ROOU = SEGVAR%RHO(KSEG)
         ENOU = SEGVAR%EINT(KSEG)
+C
+        ! post-treatment
         FLUXO=(VMX*NX+VMY*NY+VMZ*NZ)*DT1
         FLUXI=MIN(FLUXO,ZERO)
         FLUXO=MAX(FLUXO,ZERO)
-        DMF=DMF-FLUXO*ROOU-FLUXI*RHO
-        DEF=DEF-FLUXO*ENOU-FLUXI*ENER
-! masse density and incoming energy stored in face buffer
-        SEGVAR%RHO(KSEG)=RHO
-        SEGVAR%EINT(KSEG)=ENER
+        DM_OUT=DM_OUT-FLUXO*ROOU
+        DM_IN=DM_IN-FLUXI*RO0(IS)
+        DE_OUT=DE_OUT-FLUXO*ENOU
+        DE_IN=DE_IN-FLUXI*EN0(IS)
+
+C
+C storage of density and incoming energy in facet buffer
+C
+        SEGVAR%RHO(KSEG)=RO0(IS)
+        SEGVAR%EINT(KSEG)=EN0(IS)
+
       ENDDO
-      IF(TT == 0)THEN
+
+C
+C calcul pression initiale nodale
+C
+      IF (TIME == ZERO) THEN
         DO I=1,NOD
           N=LISTE(I)
-          V(1,N)=VX
-          V(2,N)=VY
-          V(3,N)=VZ
+          S=LA(1,I)**2+LA(2,I)**2+LA(3,I)**2
+          VN=(V(1,N)*LA(1,I)+V(2,N)*LA(2,I)+V(3,N)*LA(3,I))/SQRT(S)
+c We memorize the stop pressure
+          P0(I)=P0(I)/S
+          IF(VN<ZERO)P0(I)=P0(I)+HALF*RHO*VN**2
+c          write(6,*)'P nodale', P0(I) 
+          VO(I)=VN
+          PO(I)=P0(I)
         ENDDO
       ENDIF
-
+C
       DO I=1,NOD
         N=LISTE(I)
         S=SQRT(LA(1,I)**2+LA(2,I)**2+LA(3,I)**2)
-        DVX=V(1,N)-VX
-        DVY=V(2,N)-VY
-        DVZ=V(3,N)-VZ
-        P=ROC*(DVX*LA(1,I)+DVY*LA(2,I)+DVZ*LA(3,I))/S
+        VN=(V(1,N)*LA(1,I)+V(2,N)*LA(2,I)+V(3,N)*LA(3,I))/S
+        DPDV=ROC
+c condition darret
+        PN=P0(I)
+        IF(VN<0)THEN
+          PN=P0(I)-HALF*RHO*VN**2
+          DPDV=DPDV-RHO*VN
+        ENDIF
+c silent boundary
+        DU=ROC*(VN-VO(I))
+        DP=ALP*(PN-PO(I))
+        P=PO(I)+DP+DU
+c        write(6,*)'calcul', P,P0(I)
+c
         A(1,N)=A(1,N)-P*LA(1,I)
         A(2,N)=A(2,N)-P*LA(2,I)
         A(3,N)=A(3,N)-P*LA(3,I)
-        STIFN(N)=STIFN(N)+(TWO*(S*ROC)**2)/MS(N)
+        STIFN(N)=STIFN(N)+(TWO*(S*DPDV)**2)/MS(N)
+C
+        DE=-HALF*(PO(I)+P)*DT1*VN*S
+        DE_IN = DE_IN + MAX(DE, ZERO)
+        DE_OUT = DE_OUT + MIN(DE, ZERO)
+C
+        VO(I)=VN
+        PO(I)=P
       ENDDO
 
+!$OMP CRITICAL
+      OUTPUT%DATA%INOUT%DM_IN  = OUTPUT%DATA%INOUT%DM_IN + DM_IN
+      OUTPUT%DATA%INOUT%DM_OUT = OUTPUT%DATA%INOUT%DM_OUT + DM_OUT
+      OUTPUT%DATA%INOUT%DE_IN = OUTPUT%DATA%INOUT%DE_IN + DE_IN
+      OUTPUT%DATA%INOUT%DE_OUT = OUTPUT%DATA%INOUT%DE_OUT + DE_OUT
+!$OMP END CRITICAL
+
+c-----------
       RETURN
-      END
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+      END SUBROUTINE EBCS6_INIP
+      END MODULE EBCS6_INIP_MOD
