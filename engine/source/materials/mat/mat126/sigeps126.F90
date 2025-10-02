@@ -104,56 +104,64 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: i,j,nindx,indx(nel),idel,ifail,noff(nel)
-          real(kind=WP)                                                              &
-            :: g,g2,aa,bb,nn,fc,t0,cc,eps0,sfmax,efmin,pc,muc,pl,mul,             &
-            k0,k1,k2,k3,d1,d2,emax,h
-          real(kind=WP)                                                              &
-            :: pold(nel),vm(nel),mup(nel),pnew(nel),dpdmu(nel),dmup(nel),         &
+          integer :: i,j,nindx,indx(nel),idel,ifail,noff(nel),icowpsym
+          real(kind=WP)                                                        &
+            :: g,g2,aa,bb,nn,fc,t0,cc,eps0,sfmax,efmin,pc,muc,pl,mul,          &
+            k0,k1,k2,k3,d1,d2,emax,h,cst,powt,csc,powc
+          real(kind=WP)                                                        &
+            :: pold(nel),vm(nel),mup(nel),pnew(nel),dpdmu(nel),dmup(nel),      &
             pstar(nel),phard(nel),scale(nel),dav(nel)
-          real(kind=WP)                                                              &
+          real(kind=WP)                                                        &
             :: j2,kav,pmin,mubar,sigstar,epfail,ratio
+          logical :: dmg_on
 !
-          !=======================================================================
+          !========================================================================
           !< Initialisation of computation on time step
-          !=======================================================================
+          !========================================================================
           !< Recovering integer model parameter
-          nindx = -huge(nindx)
-          idel  = matparam%iparam(1)  !< Element failure flag
-          ifail = matparam%iparam(2)  !< Element failure behavior flag
+          idel     = matparam%iparam(1)  !< Element failure flag
+          ifail    = matparam%iparam(2)  !< Element failure behavior flag
+          icowpsym = matparam%iparam(3)  !< Cowper-Symonds strain rate dependency flag
           !< Recovering real model parameters
-          g     = matparam%shear      !< Shear modulus
-          g2    = two*g               !< 2*Shear modulus
-          k0    = matparam%bulk       !< Initial bulk modulus
-          aa    = matparam%uparam(1)  !< Normalized cohesive strength
-          bb    = matparam%uparam(2)  !< Normalized pressure hardening modulus
-          nn    = matparam%uparam(3)  !< Pressure hardening exponent
-          fc    = matparam%uparam(4)  !< Compressive strength
-          t0    = matparam%uparam(5)  !< Tensile strength
-          cc    = matparam%uparam(6)  !< Strain rate dependency parameter
-          eps0  = matparam%uparam(7)  !< Reference strain rate
-          sfmax = matparam%uparam(8)  !< Normalized maximum strength
-          efmin = matparam%uparam(9)  !< Minimum fracture strain
-          pc    = matparam%uparam(10) !< Crushing pressure
-          muc   = matparam%uparam(11) !< Crushing volumetric strain
-          pl    = matparam%uparam(12) !< Locking pressure
-          mul   = matparam%uparam(13) !< Locking volumetric plastic strain
-          k1    = matparam%uparam(14) !< Linear bulk modulus
-          k2    = matparam%uparam(15) !< Quadratic bulk modulus
-          k3    = matparam%uparam(16) !< Cubic bulk modulus
-          d1    = matparam%uparam(17) !< 1st damage parameter
-          d2    = matparam%uparam(18) !< 2nd damage parameter
-          emax  = matparam%uparam(19) !< Maximum plastic strain
-          h     = matparam%uparam(20) !< Tangent bulk modulus
+          g        = matparam%shear      !< Shear modulus
+          g2       = two*g               !< 2*Shear modulus
+          k0       = matparam%bulk       !< Initial bulk modulus
+          aa       = matparam%uparam(1)  !< Normalized cohesive strength
+          bb       = matparam%uparam(2)  !< Normalized pressure hardening modulus
+          nn       = matparam%uparam(3)  !< Pressure hardening exponent
+          fc       = matparam%uparam(4)  !< Compressive strength
+          t0       = matparam%uparam(5)  !< Tensile strength
+          cc       = matparam%uparam(6)  !< Strain rate dependency parameter
+          eps0     = matparam%uparam(7)  !< Reference strain rate
+          sfmax    = matparam%uparam(8)  !< Normalized maximum strength
+          efmin    = matparam%uparam(9)  !< Minimum fracture strain
+          pc       = matparam%uparam(10) !< Crushing pressure
+          muc      = matparam%uparam(11) !< Crushing volumetric strain
+          pl       = matparam%uparam(12) !< Locking pressure
+          mul      = matparam%uparam(13) !< Locking volumetric plastic strain
+          k1       = matparam%uparam(14) !< Linear bulk modulus
+          k2       = matparam%uparam(15) !< Quadratic bulk modulus
+          k3       = matparam%uparam(16) !< Cubic bulk modulus
+          d1       = matparam%uparam(17) !< 1st damage parameter
+          d2       = matparam%uparam(18) !< 2nd damage parameter
+          emax     = matparam%uparam(19) !< Maximum plastic strain
+          h        = matparam%uparam(20) !< Tangent bulk modulus
+          cst      = matparam%uparam(21) !< Cowper-Symonds tension parameter
+          powt     = matparam%uparam(22) !< Cowper-Symonds tension exponent
+          csc      = matparam%uparam(23) !< Cowper-Symonds compression parameter
+          powc     = matparam%uparam(24) !< Cowper-Symonds compression exponent
           !< Recovering user variables and initialization of local variables
+          nindx = 0
+          dmg_on = (d1 > zero)
           do i=1,nel
             if (uvar(i,2) == zero) uvar(i,2) = pc
-            if (tt == zero) uvar(i,3) = aa
+            if (tt == zero) uvar(i,3) = fc*aa
             mup(i)   = uvar(i,1)
             phard(i) = uvar(i,2)
             noff(i)  = nint(uvar(i,4))
             dpla(i)  = zero
             dmup(i)  = zero
+            if (.not.dmg_on) dmg(i) = zero
           end do
 !
           !========================================================================
@@ -169,7 +177,7 @@
             signyz(i) = sigoyz(i) + g*depsyz(i)
             signzx(i) = sigozx(i) + g*depszx(i)
             j2        = half*(signxx(i)**2+signyy(i)**2+signzz(i)**2)           &
-              + signxy(i)**2+signyz(i)**2+signzx(i)**2
+                            + signxy(i)**2+signyz(i)**2+signzx(i)**2
             vm(i)     = sqrt(three*j2)
           end do
 !
@@ -180,7 +188,8 @@
             nindx = 0
             indx(1:nel) = 0
             do i=1,nel
-              if ((off(i) == one).and.(noff(i) == 0)) then
+              !< Update damage
+              if ((off(i) == one).and.(noff(i) == 0).and. dmg_on) then
                 !< Compute plastic strain at failure
                 if ((pold(i)/fc+t0/fc) >= zero) then
                   epfail = d1*(pold(i)/fc+t0/fc)**d2
@@ -191,7 +200,9 @@
                 !< Update plastic strain and damage
                 dmg(i) = dmg(i) + varnl(i)/epfail
                 dmg(i) = min(dmg(i),one)
-                ! Check element failure
+              endif
+              !< Check element deletion
+              if ((off(i) == one).and.(noff(i) == 0)) then
                 if (idel == 1) then
                   if ((pold(i)/fc+t0/fc) <= zero) then
                     noff(i) = 1
@@ -226,7 +237,7 @@
           !========================================================================
           do i=1,nel
             !< Minimum pressure for tension
-            pmin = -t0*(one-dmg(i))
+            pmin = -t0
             !< New pressure
             ! -> Region I and II: elasticity + air voids crushing plasticity
             if (mup(i) < mul) then
@@ -260,16 +271,28 @@
             !< For compression loadings
             if (pstar(i) > zero) then
               sigy(i) = aa*(one-dmg(i)) + bb*exp(nn*log(pstar(i)))
-              if (epsd(i) > eps0) then
-                sigy(i) = sigy(i)*(one + cc*log(epsd(i)/eps0))
+              !< Cowper-Symonds strain rate dependency
+              if (icowpsym == 1) then 
+                sigy(i) = sigy(i)*(one + exp((one/powc)*log((epsd(i)+em20)/csc)))
+              !< Johnson-Cook strain rate dependency
+              else
+                if (epsd(i) > eps0) then
+                  sigy(i) = sigy(i)*(one + cc*log(epsd(i)/eps0))
+                end if
               end if
               sigy(i) = min(sfmax,sigy(i))
-              !< For tension loadings
+            !< For tension loadings
             else
-              sigy(i) = aa*(one + (pnew(i)/t0))*(one - dmg(i))
-              if (epsd(i) > eps0) then
-                sigy(i) = sigy(i)*(one + cc*log(epsd(i)/eps0))
-              end if
+              sigy(i) = aa * max(zero, one + pnew(i)/t0) * (one - dmg(i))
+              !< Cowper-Symonds strain rate dependency
+              if (icowpsym == 1) then 
+                sigy(i) = sigy(i)*(one + exp((one/powt)*log((epsd(i)+em20)/cst)))
+              !< Johnson-Cook strain rate dependency
+              else
+                if (epsd(i) > eps0) then
+                  sigy(i) = sigy(i)*(one + cc*log(epsd(i)/eps0))
+                end if
+              endif
             end if
           end do
 !
@@ -308,7 +331,8 @@
             nindx = 0
             indx(1:nel) = 0
             do i=1,nel
-              if ((off(i) == one).and.(noff(i) == 0)) then
+              !< Update damage
+              if ((off(i) == one).and.(noff(i) == 0).and. dmg_on) then
                 !< Compute plastic strain at failure
                 if ((pstar(i)+t0/fc) >= zero) then
                   epfail = d1*(pstar(i)+t0/fc)**d2
@@ -317,9 +341,11 @@
                 end if
                 epfail = max(epfail,efmin)
                 !< Update plastic strain and damage
-                dmg(i) = dmg(i) + (dpla(i) + dmup(i))/epfail
+                dmg(i) = dmg(i) + max((dpla(i) + dmup(i)),zero)/epfail
                 dmg(i) = min(dmg(i),one)
-                !< Check element deletion
+              endif
+              !< Check element deletion
+              if ((off(i) == one).and.(noff(i) == 0)) then
                 if (idel == 1) then
                   if ((pstar(i)+t0/fc) <= zero) then
                     noff(i) = 1
@@ -391,32 +417,32 @@
               if (off(i) <  one) off(i) = off(i)*four_over_5
               if ((noff(i) == 1).and.(off(i) == one)) off(i) = four_over_5
             end do
-            !< Set to zero the deviatoric stress tensor
+          !< Set to zero the deviatoric stress tensor
           else if (ifail == 2) then
             do i = 1,nel
               if (noff(i) == 1) then
-                signxx(i) = pnew(i)
-                signyy(i) = pnew(i)
-                signzz(i) = pnew(i)
+                signxx(i) = -pnew(i)
+                signyy(i) = -pnew(i)
+                signzz(i) = -pnew(i)
                 signxy(i) = zero
                 signyz(i) = zero
                 signzx(i) = zero
               end if
             end do
-            !< Set to zero the deviatoric stress tensor
-            !< Keep pressure only in compression
+          !< Set to zero the deviatoric stress tensor
+          !< Keep pressure only in compression
           else if (ifail == 3) then
             do i = 1,nel
               if (noff(i) == 1) then
-                signxx(i) = max(pnew(i),zero)
-                signyy(i) = max(pnew(i),zero)
-                signzz(i) = max(pnew(i),zero)
+                signxx(i) = -max(pnew(i),zero)
+                signyy(i) = -max(pnew(i),zero)
+                signzz(i) = -max(pnew(i),zero)
                 signxy(i) = zero
                 signyz(i) = zero
                 signzx(i) = zero
               end if
             end do
-            !< Set to zero the whole stress tensor
+          !< Set to zero the whole stress tensor
           else if (ifail == 4) then
             do i = 1,nel
               if (noff(i) == 1) then
@@ -442,22 +468,22 @@
                 write(iout, 1000) ngl(i),tt
                 write(istdo,1000) ngl(i),tt
               end do
-              !< Set to zero the deviatoric stress tensor
+            !< Set to zero the deviatoric stress tensor
             else if (ifail == 2) then
               do j=1,nindx
                 i = indx(j)
                 write(iout, 2000) ngl(i),tt
                 write(istdo,2000) ngl(i),tt
               end do
-              !< Set to zero the deviatoric stress tensor
-              !< Keep pressure only in compression
+            !< Set to zero the deviatoric stress tensor
+            !< Keep pressure only in compression
             else if (ifail == 3) then
               do j=1,nindx
                 i = indx(j)
                 write(iout, 3000) ngl(i),tt
                 write(istdo,3000) ngl(i),tt
               end do
-              !< Set to zero the whole stress tensor
+            !< Set to zero the whole stress tensor
             else if (ifail == 4) then
               do j=1,nindx
                 i = indx(j)
@@ -471,7 +497,7 @@
 2000      format(1X,"-- FAILURE (JHC) OF SOLID ELEMENT :",I10," AT TIME :",1PE12.4,/,&
             2X," - DEVIATORIC STRESS TENSOR WILL BE VANISHED")
 3000      format(1X,"-- FAILURE (JHC) OF SOLID ELEMENT :",I10," AT TIME :",1PE12.4,/,&
-            2X," - DEVIATORIC STRESS TENSOR WILL BE VANISHED IN COMPRESSION" ,/,s&
+            2X," - DEVIATORIC STRESS TENSOR WILL BE VANISHED IN COMPRESSION" ,/,     &
             2X," - WHOLE STRESS TENSOR WILL BE VANISHED IN TENSION")
 4000      format(1X,"-- FAILURE (JHC) OF SOLID ELEMENT :",I10," AT TIME :",1PE12.4,/,&
             2X," - STRESS TENSOR WILL BE VANISHED")

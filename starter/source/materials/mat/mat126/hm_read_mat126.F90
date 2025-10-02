@@ -79,11 +79,10 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: idel,ifailso
-          real(kind=WP)                                                  &
-            :: rho0,shear,aa,bb,nn,fc,t0,cc,eps0,asrate,sfmax,        &
-            efmin,pc,muc,pl,mul,k0,k1,k2,k3,d1,d2,young,nu,        &
-            eps_max,h
+          integer :: idel,ifailso,icowpsym
+          real(kind=WP) ::                                                     &
+            rho0,shear,aa,bb,nn,fc,t0,cc,eps0,asrate,sfmax,efmin,pc,muc,       &
+            pl,mul,k0,k1,k2,k3,d1,d2,young,nu,eps_max,h,cst,powt,csc,powc
           logical :: is_encrypted, is_available
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                      body
@@ -130,6 +129,12 @@
           call hm_get_intv  ("IDEL"      ,idel   ,is_available, lsubmodel)
           call hm_get_floatv("MAT_EPSMAX",eps_max,is_available, lsubmodel, unitab)
           call hm_get_intv  ("IFAILSO"   ,ifailso,is_available, lsubmodel)
+! ----------------------------------------------------------------------------------------------------------------------
+!         #ct powt cp powc
+          call hm_get_floatv("MAT_CT"    ,cst    ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_POWT"  ,powt   ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_CC"    ,csc    ,is_available, lsubmodel, unitab)
+          call hm_get_floatv("MAT_POWC"  ,powc   ,is_available, lsubmodel, unitab)
 !
           !< Bulk modulus in region 1
           k0 = pc/muc
@@ -156,14 +161,27 @@
           if (cc      == zero) eps0    = one
           if (sfmax   == zero) sfmax   = infinity
           if (eps_max == zero) eps_max = infinity
+          if (cst == zero) then
+            icowpsym = 0
+            csc  = zero
+            powc = one
+            powt = one
+          else
+            icowpsym = 1
+            if (powt == zero) powt = one
+            if (csc == zero) then
+              csc = cst
+            endif
+            if (powc == zero) powc = powt
+          endif
 !
 ! ----------------------------------------------------------------------------------------------------------------------
 !     Filling buffer tables
 ! ----------------------------------------------------------------------------------------------------------------------
           !< Number of integer material parameters
-          matparam%niparam = 2
+          matparam%niparam = 3
           !< Number of real material parameters
-          matparam%nuparam = 20
+          matparam%nuparam = 24
           !< Number of user variables
           nuvar = 4
 !
@@ -174,6 +192,7 @@
           !< Integer material parameter
           matparam%iparam(1)  = idel
           matparam%iparam(2)  = ifailso
+          matparam%iparam(3)  = icowpsym
 !
           !< Real material parameters
           matparam%young      = young
@@ -200,6 +219,10 @@
           matparam%uparam(18) = d2
           matparam%uparam(19) = eps_max
           matparam%uparam(20) = h
+          matparam%uparam(21) = cst
+          matparam%uparam(22) = powt
+          matparam%uparam(23) = csc
+          matparam%uparam(24) = powc
 !
           !< PARMAT table
           parmat(1) = k1
@@ -243,9 +266,17 @@
             write(iout,1200) shear,young,nu
             write(iout,1300) aa,bb,nn,fc,t0
             if (israte > 0) then
-              write(iout,1400) cc,eps0,asrate,sfmax,efmin
+              if (icowpsym == 1) then
+                write(iout,1450) cst,powt,csc,powc,asrate,sfmax,efmin
+              else
+                write(iout,1400) cc,eps0,asrate,sfmax,efmin
+              end if
             else
-              write(iout,1500) cc,eps0,sfmax,efmin
+              if (icowpsym == 1) then
+                write(iout,1550) cst,powt,csc,powc,sfmax,efmin
+              else
+                write(iout,1500) cc,eps0,sfmax,efmin
+              end if
             end if
             write(iout,1600) pc,muc,pl,mul,k0,k1,k2,k3
             write(iout,1700) d1,d2,idel,eps_max,ifailso
@@ -277,11 +308,26 @@
             5X,"STRAIN RATE FILTERING FREQUENCY (FCUT) . . .=",1PG20.13/, &
             5X,"NORMALIZED MAXIMUM STRENGTH (SFMAX)  . . . .=",1PG20.13/, &
             5X,"MINIMUM FRACTURE STRAIN (EFMIN). . . . . . .=",1PG20.13/)
+1450      format(/                                                        &
+            5X,"COWPER-SYMONDS TENSION PARAMETER (CT). . . .=",1PG20.13/, &
+            5X,"COWPER-SYMONDS TENSION EXPONENT  (POWT). . .=",1PG20.13/, &
+            5X,"COWPER-SYMONDS COMPRESSION PARAMETER (CC). .=",1PG20.13/, &
+            5X,"COWPER-SYMONDS COMPRESSION EXPONENT (POWC) .=",1PG20.13/, &
+            5X,"STRAIN RATE FILTERING FREQUENCY (FCUT) . . .=",1PG20.13/, &
+            5X,"NORMALIZED MAXIMUM STRENGTH (SFMAX)  . . . .=",1PG20.13/, &
+            5X,"MINIMUM FRACTURE STRAIN (EFMIN). . . . . . .=",1PG20.13/)
 1500      format(/                                                        &
             5X,"STRAIN RATE DEPENDENCY PARAMETER (C) . . . .=",1PG20.13/, &
             5X,"REFERENCE STRAIN RATE (EPS0) . . . . . . . .=",1PG20.13/, &
             5X,"NORMALIZED MAXIMUM STRENGTH (SFMAX)  . . . .=",1PG20.13/, &
             5X,"MINIMUM FRACTURE STRAIN (EFMIN). . . . . . .=",1PG20.13/)
+1550      format(/                                                        &
+            5X,"COWPER-SYMONDS TENSION PARAMETER (CT). . . .=",1PG20.13/, &
+            5X,"COWPER-SYMONDS TENSION EXPONENT  (POWT). . .=",1PG20.13/, &
+            5X,"COWPER-SYMONDS COMPRESSION PARAMETER (CC). .=",1PG20.13/, &
+            5X,"COWPER-SYMONDS COMPRESSION EXPONENT (POWC) .=",1PG20.13/, &
+            5X,"NORMALIZED MAXIMUM STRENGTH (SFMAX)  . . . .=",1PG20.13/, &
+            5X,"MINIMUM FRACTURE STRAIN (EFMIN). . . . . . .=",1PG20.13/)            
 1600      format(/                                                        &
             5X,"CRUSHING PRESSURE (PC) . . . . . . . . . . .=",1PG20.13/, &
             5X,"CRUSHING VOLUMETRIC STRAIN (MUC) . . . . . .=",1PG20.13/, &
