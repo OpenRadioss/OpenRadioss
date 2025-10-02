@@ -5135,7 +5135,7 @@ c
        IF(STAT /= 0) CALL ANCMSG(MSGID= 268,ANMODE=ANINFO,
      .                          MSGTYPE= MSGERROR,
      .                               C1= 'IFLAG_BPRELOAD')
-       ALLOCATE(IPRELOAD_FUN(2*NPRELOAD)    ,STAT=stat)
+       ALLOCATE(IPRELOAD_FUN(2*NUMPRELOAD)    ,STAT=stat)
        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='IPRELOAD_FUN')
@@ -5148,7 +5148,7 @@ c
        CALL HM_READ_PRELOAD(IXS   ,IXS10     ,IPRELOAD ,PRELOAD,IFLAG_BPRELOAD,
      .                      NSTRF ,SENSORS   ,UNITAB ,X        ,
      .                      EANI  ,ITAB      ,LSUBMODEL,
-     .                     SNPC   ,NPC       ,IPRELOAD_FUN)        
+     .                     SNPC   ,NPC       ,IPRELOAD_FUN)
 c
        IF(ALLOCATED(NSTRF))  DEALLOCATE(NSTRF)
        IF(ALLOCATED(SECBUF)) DEALLOCATE(SECBUF)
