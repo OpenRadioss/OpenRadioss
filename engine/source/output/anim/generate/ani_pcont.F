@@ -193,22 +193,26 @@ C
                 NI=  ITAGN(N1) 
                 IF (NI > 0 ) THEN 
                   NORMAL(1:3)= NORM_N(1:3,NI) 
-                  NODAREA(N1)=NODAREA(N1)+NORMAL(1)*E3X+NORMAL(2)*E3Y+NORMAL(3)*E3Z
+                  AREA = ABS(NORMAL(1)*E3X+NORMAL(2)*E3Y+NORMAL(3)*E3Z)
+                  NODAREA(N1)=NODAREA(N1)+AREA
                 ENDIF
                 NI=  ITAGN(N2) 
                 IF (NI > 0 ) THEN 
                   NORMAL(1:3)= NORM_N(1:3,NI) 
-                  NODAREA(N2)=NODAREA(N2)+NORMAL(1)*E3X+NORMAL(2)*E3Y+NORMAL(3)*E3Z
+                  AREA = ABS(NORMAL(1)*E3X+NORMAL(2)*E3Y+NORMAL(3)*E3Z)
+                  NODAREA(N2)=NODAREA(N2)+AREA
                 ENDIF
                 NI=  ITAGN(N3) 
                 IF (NI > 0 ) THEN 
                   NORMAL(1:3)= NORM_N(1:3,NI) 
-                  NODAREA(N3)=NODAREA(N3)+NORMAL(1)*E3X+NORMAL(2)*E3Y+NORMAL(3)*E3Z
+                  AREA = ABS(NORMAL(1)*E3X+NORMAL(2)*E3Y+NORMAL(3)*E3Z)
+                  NODAREA(N3)=NODAREA(N3)+AREA
                 ENDIF
                 NI=  ITAGN(N4) 
                 IF (NI > 0 ) THEN 
                   NORMAL(1:3)= NORM_N(1:3,NI) 
-                  NODAREA(N4)=NODAREA(N4)+NORMAL(1)*E3X+NORMAL(2)*E3Y+NORMAL(3)*E3Z
+                  AREA = ABS(NORMAL(1)*E3X+NORMAL(2)*E3Y+NORMAL(3)*E3Z)
+                  NODAREA(N4)=NODAREA(N4)+AREA
                 ENDIF
               ELSE
                 E3X=ONE_OVER_6*E3X
@@ -218,27 +222,31 @@ C
                 NI=  ITAGN(N1) 
                 IF (NI > 0 ) THEN 
                   NORMAL(1:3)= NORM_N(1:3,NI) 
-                  NODAREA(N1)=NODAREA(N1)+NORMAL(1)*E3X+NORMAL(2)*E3Y+NORMAL(3)*E3Z
+                  AREA = ABS(NORMAL(1)*E3X+NORMAL(2)*E3Y+NORMAL(3)*E3Z)
+                  NODAREA(N1)=NODAREA(N1)+AREA
                 ENDIF
                 IF (N2 /= N1 ) THEN 
                   NI=  ITAGN(N2) 
                   IF (NI > 0 ) THEN 
                     NORMAL(1:3)= NORM_N(1:3,NI) 
-                    NODAREA(N2)=NODAREA(N2)+NORMAL(1)*E3X+NORMAL(2)*E3Y+NORMAL(3)*E3Z
+                    AREA = ABS(NORMAL(1)*E3X+NORMAL(2)*E3Y+NORMAL(3)*E3Z)
+                    NODAREA(N2)=NODAREA(N2)+AREA
                   ENDIF
                 ENDIF
                 IF (N3 /= N2 .AND. N3 /= N1 ) THEN 
                   NI=  ITAGN(N3) 
                   IF (NI > 0 ) THEN 
                     NORMAL(1:3)= NORM_N(1:3,NI) 
-                    NODAREA(N3)=NODAREA(N3)+NORMAL(1)*E3X+NORMAL(2)*E3Y+NORMAL(3)*E3Z
+                    AREA = ABS(NORMAL(1)*E3X+NORMAL(2)*E3Y+NORMAL(3)*E3Z)
+                    NODAREA(N3)=NODAREA(N3)+AREA
                   ENDIF
                 ENDIF
                 IF (N4 /= N3 .AND. N4 /= N2 .AND. N4 /= N1 ) THEN 
                   NI=  ITAGN(N4) 
                   IF (NI > 0 ) THEN 
                     NORMAL(1:3)= NORM_N(1:3,NI) 
-                    NODAREA(N4)=NODAREA(N4)+NORMAL(1)*E3X+NORMAL(2)*E3Y+NORMAL(3)*E3Z
+                    AREA = ABS(NORMAL(1)*E3X+NORMAL(2)*E3Y+NORMAL(3)*E3Z)
+                    NODAREA(N4)=NODAREA(N4)+AREA
                   ENDIF
                 ENDIF
               END IF
@@ -310,17 +318,20 @@ C
                   NI=  ITAGN(N1) 
                   IF (NI > 0 ) THEN 
                     NORMAL(1:3)= NORM_N(1:3,NI) 
-                    NODAREA(N1)=NODAREA(N1)+NORMAL(1)*E3X+NORMAL(2)*E3Y+NORMAL(3)*E3Z
+                    AREA = ABS(NORMAL(1)*E3X+NORMAL(2)*E3Y+NORMAL(3)*E3Z)
+                    NODAREA(N1)=NODAREA(N1)+AREA
                   ENDIF
                   NI=  ITAGN(N2) 
                   IF (NI > 0 ) THEN 
                     NORMAL(1:3)= NORM_N(1:3,NI) 
-                    NODAREA(N2)=NODAREA(N2)+NORMAL(1)*E3X+NORMAL(2)*E3Y+NORMAL(3)*E3Z
+                    AREA = ABS(NORMAL(1)*E3X+NORMAL(2)*E3Y+NORMAL(3)*E3Z)
+                    NODAREA(N2)=NODAREA(N2)+AREA
                   ENDIF
                   NI=  ITAGN(N3) 
                   IF (NI > 0 ) THEN 
                     NORMAL(1:3)= NORM_N(1:3,NI) 
-                    NODAREA(N3)=NODAREA(N3)+NORMAL(1)*E3X+NORMAL(2)*E3Y+NORMAL(3)*E3Z
+                    AREA = ABS(NORMAL(1)*E3X+NORMAL(2)*E3Y+NORMAL(3)*E3Z)
+                    NODAREA(N3)=NODAREA(N3)+AREA
                   ENDIF
                 ENDIF
               ENDDO
@@ -365,22 +376,26 @@ C
 !              AREA=SQRT(E3X*E3X+E3Y*E3Y+E3Z*E3Z)
                 IF (NI > 0 ) THEN 
                   NORMAL(1:3)= NORM_N(1:3,NI) 
-                  NODAREA(N1)=NODAREA(N1)+NORMAL(1)*E3X+NORMAL(2)*E3Y+NORMAL(3)*E3Z
+                  AREA = ABS(NORMAL(1)*E3X+NORMAL(2)*E3Y+NORMAL(3)*E3Z)
+                  NODAREA(N1)=NODAREA(N1)+AREA
                 ENDIF
                 NI=  ITAGN(N2) 
                 IF (NI > 0 ) THEN 
                   NORMAL(1:3)= NORM_N(1:3,NI) 
-                  NODAREA(N2)=NODAREA(N2)+NORMAL(1)*E3X+NORMAL(2)*E3Y+NORMAL(3)*E3Z
+                  AREA = ABS(NORMAL(1)*E3X+NORMAL(2)*E3Y+NORMAL(3)*E3Z)
+                  NODAREA(N2)=NODAREA(N2)+AREA
                 ENDIF
                 NI=  ITAGN(N3) 
                 IF (NI > 0 ) THEN 
                   NORMAL(1:3)= NORM_N(1:3,NI) 
-                  NODAREA(N3)=NODAREA(N3)+NORMAL(1)*E3X+NORMAL(2)*E3Y+NORMAL(3)*E3Z
+                  AREA = ABS(NORMAL(1)*E3X+NORMAL(2)*E3Y+NORMAL(3)*E3Z)
+                  NODAREA(N3)=NODAREA(N3)+AREA
                 ENDIF
                 NI=  ITAGN(N4) 
                 IF (NI > 0 ) THEN 
                   NORMAL(1:3)= NORM_N(1:3,NI) 
-                  NODAREA(N4)=NODAREA(N4)+NORMAL(1)*E3X+NORMAL(2)*E3Y+NORMAL(3)*E3Z
+                  AREA = ABS(NORMAL(1)*E3X+NORMAL(2)*E3Y+NORMAL(3)*E3Z)
+                  NODAREA(N4)=NODAREA(N4)+AREA
                 ENDIF
 C         
             ELSE
@@ -410,17 +425,20 @@ C
 !              AREA=SQRT(E3X*E3X+E3Y*E3Y+E3Z*E3Z)
                 IF (NI > 0 ) THEN 
                   NORMAL(1:3)= NORM_N(1:3,NI) 
-                  NODAREA(N1)=NODAREA(N1)+NORMAL(1)*E3X+NORMAL(2)*E3Y+NORMAL(3)*E3Z
+                  AREA = ABS(NORMAL(1)*E3X+NORMAL(2)*E3Y+NORMAL(3)*E3Z)
+                  NODAREA(N1)=NODAREA(N1)+AREA
                 ENDIF
                 NI=  ITAGN(N2) 
                 IF (NI > 0 ) THEN 
                   NORMAL(1:3)= NORM_N(1:3,NI) 
-                  NODAREA(N2)=NODAREA(N2)+NORMAL(1)*E3X+NORMAL(2)*E3Y+NORMAL(3)*E3Z
+                  AREA = ABS(NORMAL(1)*E3X+NORMAL(2)*E3Y+NORMAL(3)*E3Z)
+                  NODAREA(N2)=NODAREA(N2)+AREA
                 ENDIF
                 NI=  ITAGN(N3) 
                 IF (NI > 0 ) THEN 
                   NORMAL(1:3)= NORM_N(1:3,NI) 
-                  NODAREA(N3)=NODAREA(N3)+NORMAL(1)*E3X+NORMAL(2)*E3Y+NORMAL(3)*E3Z
+                  AREA = ABS(NORMAL(1)*E3X+NORMAL(2)*E3Y+NORMAL(3)*E3Z)
+                  NODAREA(N3)=NODAREA(N3)+AREA
                 ENDIF
             END IF
           END DO
@@ -455,17 +473,20 @@ C
 !            AREA=SQRT(E3X*E3X+E3Y*E3Y+E3Z*E3Z)
             IF (NI > 0 ) THEN 
               NORMAL(1:3)= NORM_N(1:3,NI) 
-              NODAREA(N1)=NODAREA(N1)+NORMAL(1)*E3X+NORMAL(2)*E3Y+NORMAL(3)*E3Z
+              AREA = ABS(NORMAL(1)*E3X+NORMAL(2)*E3Y+NORMAL(3)*E3Z)
+              NODAREA(N1)=NODAREA(N1)+AREA
             ENDIF
             NI=  ITAGN(N2) 
             IF (NI > 0 ) THEN 
               NORMAL(1:3)= NORM_N(1:3,NI) 
-              NODAREA(N2)=NODAREA(N2)+NORMAL(1)*E3X+NORMAL(2)*E3Y+NORMAL(3)*E3Z
+              AREA = ABS(NORMAL(1)*E3X+NORMAL(2)*E3Y+NORMAL(3)*E3Z)
+              NODAREA(N2)=NODAREA(N2)+AREA
             ENDIF
             NI=  ITAGN(N3) 
             IF (NI > 0 ) THEN 
               NORMAL(1:3)= NORM_N(1:3,NI) 
-              NODAREA(N3)=NODAREA(N3)+NORMAL(1)*E3X+NORMAL(2)*E3Y+NORMAL(3)*E3Z
+              AREA = ABS(NORMAL(1)*E3X+NORMAL(2)*E3Y+NORMAL(3)*E3Z)
+              NODAREA(N3)=NODAREA(N3)+AREA
             ENDIF
           END DO
 C         
