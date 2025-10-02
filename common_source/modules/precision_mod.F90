@@ -176,6 +176,7 @@
 !||    i24intarea_fic                           ../engine/source/interfaces/int24/i24intarea_fic.F90
 !||    i2_surfi                                 ../starter/source/interfaces/inter3d1/i2_surfi.F90
 !||    i2_surfi_dim                             ../starter/source/interfaces/inter3d1/i2_surfi_dim.F90
+!||    i2trivox                                 ../starter/source/interfaces/inter3d1/i2trivox.F90
 !||    imp_intbufdef                            ../engine/share/modules/imp_mod_def.F90
 !||    iniebcs_propellant                       ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90
 !||    iniebcs_propellant_get_cp                ../starter/source/boundary_conditions/ebcs/iniebcs_propellant.F90

@@ -934,6 +934,7 @@ C------------------------------------------------------------
 !||    i25surfi       ../starter/source/interfaces/inter3d1/i25surfi.F
 !||--- calls      -----------------------------------------------------
 !||    seg_ins        ../starter/source/interfaces/inter3d1/i24surfi.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE IN24COQ_SOL3(IRECT ,IXC ,IXTG ,MSEGTYP   ,X  ,
      .                   KNOD2ELC ,KNOD2ELTG ,NOD2ELC ,NOD2ELTG,

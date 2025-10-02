@@ -21,10 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    tmass     ../starter/source/elements/truss/tmass.F
+!||    tmass         ../starter/source/elements/truss/tmass.F
 !||--- called by ------------------------------------------------------
-!||    inivoid   ../starter/source/elements/initia/inivoid.F
-!||    tinit3    ../starter/source/elements/truss/tinit3.F
+!||    inivoid       ../starter/source/elements/initia/inivoid.F
+!||    tinit3        ../starter/source/elements/truss/tinit3.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE TMASS(X      ,NC      ,GEO  ,PM   ,MS ,
      .     STIFN  ,PARTSAV ,V    ,IPART,MST,

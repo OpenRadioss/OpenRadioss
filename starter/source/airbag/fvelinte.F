@@ -28,11 +28,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       MODULE FVELINTE_MOD
       CONTAINS
 !||====================================================================
-!||    fvelinte    ../starter/source/airbag/fvelinte.F
+!||    fvelinte      ../starter/source/airbag/fvelinte.F
 !||--- called by ------------------------------------------------------
-!||    fvmesh0     ../starter/source/airbag/fvmesh0.F
+!||    fvmesh0       ../starter/source/airbag/fvmesh0.F
 !||--- uses       -----------------------------------------------------
-!||    fvbag_mod   ../starter/share/modules1/fvbag_mod.F
+!||    fvbag_mod     ../starter/share/modules1/fvbag_mod.F
 !||====================================================================
       SUBROUTINE FVELINTE(IBUF, ELEM, IXC, IXTG, PM, IPM, ILVOUT, IFV, 
      .                    NNT, NTG, POROSITY, NSEG,SURF_ELTYP,

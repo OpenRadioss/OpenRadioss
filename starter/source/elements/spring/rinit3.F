@@ -1663,9 +1663,10 @@ C-----
       RETURN
       END
 !||====================================================================
-!||    rini3u   ../starter/source/elements/spring/rinit3.F
+!||    rini3u        ../starter/source/elements/spring/rinit3.F
 !||--- called by ------------------------------------------------------
-!||    rinit3   ../starter/source/elements/spring/rinit3.F
+!||    rinit3        ../starter/source/elements/spring/rinit3.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE RINI3U(OFF  ,GEO  ,X     ,X0    ,IX   ,
      .                  SKEW ,RLOC ,ITAB  ,UIX   ,IGEO )
@@ -1762,9 +1763,10 @@ C
       RETURN
       END
 !||====================================================================
-!||    rini1u   ../starter/source/elements/spring/rinit3.F
+!||    rini1u        ../starter/source/elements/spring/rinit3.F
 !||--- called by ------------------------------------------------------
-!||    rinit3   ../starter/source/elements/spring/rinit3.F
+!||    rinit3        ../starter/source/elements/spring/rinit3.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE RINI1U(OFF  ,GEO  ,X     ,X0    ,IX   ,
      .                  SKEW ,RLOC ,ITAB  ,UIX   ,IGEO )
@@ -1851,9 +1853,10 @@ C-----------------------------------------------
       RETURN
       END
 !||====================================================================
-!||    rini2u   ../starter/source/elements/spring/rinit3.F
+!||    rini2u        ../starter/source/elements/spring/rinit3.F
 !||--- called by ------------------------------------------------------
-!||    rinit3   ../starter/source/elements/spring/rinit3.F
+!||    rinit3        ../starter/source/elements/spring/rinit3.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE RINI2U(IXR     ,UMASS ,UINER,
      .                  PARTSAV ,X     ,V     ,IPART ,MSR,
@@ -1941,9 +1944,10 @@ C
       RETURN
       END
 !||====================================================================
-!||    r4ini    ../starter/source/elements/spring/rinit3.F
+!||    r4ini         ../starter/source/elements/spring/rinit3.F
 !||--- called by ------------------------------------------------------
-!||    rinit3   ../starter/source/elements/spring/rinit3.F
+!||    rinit3        ../starter/source/elements/spring/rinit3.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE R4INI(SIGRS ,IXR  ,NSIGI ,EINT  ,F   ,
      .                 DL    ,FEP  ,DPL   ,DPL2  ,XL0 ,
@@ -2009,9 +2013,10 @@ C---
       RETURN
       END
 !||====================================================================
-!||    r8ini    ../starter/source/elements/spring/rinit3.F
+!||    r8ini         ../starter/source/elements/spring/rinit3.F
 !||--- called by ------------------------------------------------------
-!||    rinit3   ../starter/source/elements/spring/rinit3.F
+!||    rinit3        ../starter/source/elements/spring/rinit3.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE R8INI(IGTYP ,NEL  ,SIGRS ,IXR   ,NSIGI,
      .                 FX    ,FY   ,FZ    ,MX    ,MY   ,

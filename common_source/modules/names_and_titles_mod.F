@@ -649,7 +649,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    i2buc1                            ../starter/source/interfaces/inter3d1/i2buc1.F
 !||    i2surfs                           ../starter/source/interfaces/inter3d1/i2surfs.F
 !||    i2tid3                            ../starter/source/interfaces/inter3d1/i2tid3.F
-!||    i2tri                             ../starter/source/interfaces/inter3d1/i2tri.F
 !||    i3pen2                            ../starter/source/interfaces/inter2d1/i3pen2.F
 !||    i3pen3                            ../starter/source/interfaces/inter3d1/i3pen3.F
 !||    i3sti2                            ../starter/source/interfaces/inter2d1/i3sti2.F

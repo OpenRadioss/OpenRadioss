@@ -21,9 +21,10 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    qrcoor2   ../starter/source/elements/solid_2d/quad/qrcoor2.F
+!||    qrcoor2       ../starter/source/elements/solid_2d/quad/qrcoor2.F
 !||--- called by ------------------------------------------------------
-!||    qinit2    ../starter/source/elements/solid_2d/quad/qinit2.F
+!||    qinit2        ../starter/source/elements/solid_2d/quad/qinit2.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE QRCOOR2(X,IXQ,NGL  ,MXT   , 
      .         PID, IX1, IX2, IX3, IX4,

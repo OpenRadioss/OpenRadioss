@@ -31,6 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    fvinjnormal   ../starter/source/airbag/fvinjnormal.F
 !||--- called by ------------------------------------------------------
 !||    fvmesh0       ../starter/source/airbag/fvmesh0.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE FVINJNORMAL(IBUF, ELEM, IXC, IXTG, ELTG,
      .                       NEL, ILVOUT, MINUS_SIGN_REVERSE)

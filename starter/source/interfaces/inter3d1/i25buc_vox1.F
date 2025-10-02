@@ -506,6 +506,7 @@ C
 !||    insol25       ../starter/source/interfaces/inter3d1/i25buc_vox1.F
 !||--- called by ------------------------------------------------------
 !||    i25buc_vox1   ../starter/source/interfaces/inter3d1/i25buc_vox1.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE INSOL25(IRECT   ,IXS    ,IXS10,IXS16,IXS20,
      .                   KNOD2ELS,NOD2ELS,NEL  ,I    )

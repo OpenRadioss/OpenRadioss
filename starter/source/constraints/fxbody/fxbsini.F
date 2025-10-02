@@ -21,15 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    fxbsini     ../starter/source/constraints/fxbody/fxbsini.F
+!||    fxbsini       ../starter/source/constraints/fxbody/fxbsini.F
 !||--- called by ------------------------------------------------------
-!||    initia      ../starter/source/elements/initia/initia.F
+!||    initia        ../starter/source/elements/initia/initia.F
 !||--- calls      -----------------------------------------------------
-!||    fsigcini    ../starter/source/constraints/fxbody/fsigcini.F
-!||    fsigpini    ../starter/source/constraints/fxbody/fsigpini.F
-!||    fsigsini    ../starter/source/constraints/fxbody/fsigsini.F
-!||    fsigtini    ../starter/source/constraints/fxbody/fsigtini.F
-!||    fsigtrini   ../starter/source/constraints/fxbody/fsigtrini.F
+!||    fsigcini      ../starter/source/constraints/fxbody/fsigcini.F
+!||    fsigpini      ../starter/source/constraints/fxbody/fsigpini.F
+!||    fsigsini      ../starter/source/constraints/fxbody/fsigsini.F
+!||    fsigtini      ../starter/source/constraints/fxbody/fsigtini.F
+!||    fsigtrini     ../starter/source/constraints/fxbody/fsigtrini.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE FXBSINI(FXBELM, FXBSIG, NELS , NELC  , NELTG,
      .                   X     , IPARG , PM   , FXBMOD, NML  ,

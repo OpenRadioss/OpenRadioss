@@ -21,9 +21,10 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    bimat2   ../starter/source/ale/bimat/bimat2.F
+!||    bimat2        ../starter/source/ale/bimat/bimat2.F
 !||--- called by ------------------------------------------------------
-!||    binit2   ../starter/source/ale/bimat/binit2.F
+!||    binit2        ../starter/source/ale/bimat/binit2.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE BIMAT2(VOLT,ALPH,FILL,VOL,OFF,IX)
       use element_mod , only :nixq

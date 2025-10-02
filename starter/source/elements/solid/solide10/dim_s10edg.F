@@ -82,9 +82,10 @@ C
       RETURN
       END
 !||====================================================================
-!||    ind_s10edg   ../starter/source/elements/solid/solide10/dim_s10edg.F
+!||    ind_s10edg    ../starter/source/elements/solid/solide10/dim_s10edg.F
 !||--- called by ------------------------------------------------------
-!||    lectur       ../starter/source/starter/lectur.F
+!||    lectur        ../starter/source/starter/lectur.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE IND_S10EDG(ICNDS10, IXS, IXS10 ,IPARG,ITAGND)
 C=======================================================================

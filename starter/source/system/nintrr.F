@@ -617,10 +617,11 @@ C-----------
       RETURN
       END
 !||====================================================================
-!||    sortgroup   ../starter/source/system/nintrr.F
+!||    sortgroup     ../starter/source/system/nintrr.F
 !||--- called by ------------------------------------------------------
-!||    lectur      ../starter/source/starter/lectur.F
+!||    lectur        ../starter/source/starter/lectur.F
 !||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE SORTGROUP(
      1 IXS_S ,IXS_S_IND,IXQ_S,IXQ_S_IND,IXC_S,IXC_S_IND,

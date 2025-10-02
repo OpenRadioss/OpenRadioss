@@ -810,9 +810,10 @@ C
       RETURN
       END
 !||====================================================================
-!||    lce16s4   ../starter/source/elements/reader/hm_read_solid.F
+!||    lce16s4       ../starter/source/elements/reader/hm_read_solid.F
 !||--- called by ------------------------------------------------------
-!||    lectur    ../starter/source/starter/lectur.F
+!||    lectur        ../starter/source/starter/lectur.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE LCE16S4(IXS,PM,ICODE)
       use element_mod , only : nixs

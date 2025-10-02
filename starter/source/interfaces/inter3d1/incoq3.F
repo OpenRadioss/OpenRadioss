@@ -37,6 +37,7 @@ C
 !||    i7sti3               ../starter/source/interfaces/inter3d1/i7sti3.F
 !||    inintr_orthdirfric   ../starter/source/interfaces/interf1/inintr_orthdirfric.F
 !||    r2r_count            ../starter/source/coupling/rad2rad/r2r_count.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE INCOQ3(IRECT ,IXC ,IXTG ,NINT ,NEL      ,
      .                  NELTG ,IS  ,GEO  ,PM   ,KNOD2ELC ,

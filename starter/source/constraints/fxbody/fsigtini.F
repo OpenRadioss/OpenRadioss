@@ -21,16 +21,17 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    fsigtini   ../starter/source/constraints/fxbody/fsigtini.F
+!||    fsigtini      ../starter/source/constraints/fxbody/fsigtini.F
 !||--- called by ------------------------------------------------------
-!||    fxbsini    ../starter/source/constraints/fxbody/fxbsini.F
+!||    fxbsini       ../starter/source/constraints/fxbody/fxbsini.F
 !||--- calls      -----------------------------------------------------
-!||    c3curvi    ../starter/source/constraints/fxbody/fsigtini.F
-!||    c3defli    ../starter/source/constraints/fxbody/fsigtini.F
-!||    c3evec3    ../starter/source/elements/sh3n/coque3n/c3evec3.F
-!||    c3pxpyi    ../starter/source/elements/sh3n/coque3n/c3epsini.F
-!||    ccoefi     ../starter/source/constraints/fxbody/fsigcini.F
-!||    cm1inif    ../starter/source/elements/shell/coque/cm1inif.F
+!||    c3curvi       ../starter/source/constraints/fxbody/fsigtini.F
+!||    c3defli       ../starter/source/constraints/fxbody/fsigtini.F
+!||    c3evec3       ../starter/source/elements/sh3n/coque3n/c3evec3.F
+!||    c3pxpyi       ../starter/source/elements/sh3n/coque3n/c3epsini.F
+!||    ccoefi        ../starter/source/constraints/fxbody/fsigcini.F
+!||    cm1inif       ../starter/source/elements/shell/coque/cm1inif.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE FSIGTINI(FXBELM, IPARG , X     , PM, IXTG , 
      .                    GEO   , FXBMOD, FXBSIG, R , NELTG)

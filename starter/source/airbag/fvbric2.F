@@ -31,6 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    fvbric2       ../starter/source/airbag/fvbric2.F
 !||--- called by ------------------------------------------------------
 !||    init_monvol   ../starter/source/airbag/init_monvol.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE FVBRIC2(ELEM  , IXS , NEL    , NBRIC,
      .                   TBRIC , TFAC, TAGELS , NELA ,

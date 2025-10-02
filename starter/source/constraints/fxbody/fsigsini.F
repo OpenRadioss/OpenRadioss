@@ -21,15 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    fsigsini   ../starter/source/constraints/fxbody/fsigsini.F
+!||    fsigsini      ../starter/source/constraints/fxbody/fsigsini.F
 !||--- called by ------------------------------------------------------
-!||    fxbsini    ../starter/source/constraints/fxbody/fxbsini.F
+!||    fxbsini       ../starter/source/constraints/fxbody/fxbsini.F
 !||--- calls      -----------------------------------------------------
-!||    schrep     ../starter/source/constraints/fxbody/fsigsini.F
-!||    sdefoi     ../starter/source/constraints/fxbody/fsigsini.F
-!||    sderii     ../starter/source/constraints/fxbody/fsigsini.F
-!||    sm1inif    ../starter/source/constraints/fxbody/fsigsini.F
-!||    srhoi      ../starter/source/constraints/fxbody/fsigsini.F
+!||    schrep        ../starter/source/constraints/fxbody/fsigsini.F
+!||    sdefoi        ../starter/source/constraints/fxbody/fsigsini.F
+!||    sderii        ../starter/source/constraints/fxbody/fsigsini.F
+!||    sm1inif       ../starter/source/constraints/fxbody/fsigsini.F
+!||    srhoi         ../starter/source/constraints/fxbody/fsigsini.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE FSIGSINI(FXBELM, IPARG , X     , PM, IXS, 
      .                    GEO   , FXBMOD, FXBSIG, R , NELS)

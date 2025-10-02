@@ -20,6 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    i2trivox_mod   ../starter/source/interfaces/inter3d1/i2trivox.F90
+!||--- called by ------------------------------------------------------
+!||    i2buc1         ../starter/source/interfaces/inter3d1/i2buc1.F
+!||====================================================================
       module i2trivox_mod       
       contains
 ! ======================================================================================================================
@@ -27,6 +32,17 @@
 ! ======================================================================================================================
 !! \brief Here is a small description of the routine, [after the header]
 !! \details if needed, more details can be added here
+!||====================================================================
+!||    i2trivox        ../starter/source/interfaces/inter3d1/i2trivox.F90
+!||--- called by ------------------------------------------------------
+!||    i2buc1          ../starter/source/interfaces/inter3d1/i2buc1.F
+!||--- calls      -----------------------------------------------------
+!||    i2cor3          ../starter/source/interfaces/inter3d1/i2cor3.F
+!||    i2dst3          ../starter/source/interfaces/inter3d1/i2dst3.F
+!||    i2dst3_27       ../starter/source/interfaces/inter3d1/i2dst3_27.F
+!||--- uses       -----------------------------------------------------
+!||    stack_mod       ../starter/share/modules1/stack_mod.F
+!||====================================================================
         subroutine i2trivox(nvsiz,numnod,numels,numels10, &
                             numels16,numels20,numelc,numeltg, &
                             nint,noint, &

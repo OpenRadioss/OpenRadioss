@@ -544,6 +544,7 @@ C-----------------------------------------------
 !||    surfext_tagn   ../starter/source/groups/ssurftag.F
 !||--- called by ------------------------------------------------------
 !||    lectur         ../starter/source/starter/lectur.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE SURFEXT_TAGN(IXS    ,KNOD2ELS,NOD2ELS  ,IXS10   ,FASTAG,itab)
       use element_mod , only : nixs

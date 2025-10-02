@@ -2687,10 +2687,11 @@ C
       RETURN
       END 
 !||====================================================================
-!||    xyz16       ../starter/source/output/anim/genani1.F
+!||    xyz16         ../starter/source/output/anim/genani1.F
 !||--- called by ------------------------------------------------------
-!||    genani1     ../starter/source/output/anim/genani1.F
+!||    genani1       ../starter/source/output/anim/genani1.F
 !||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE XYZ16(IXS,IXS10,IXS20,IXS16,X)
       use element_mod , only : nixs
@@ -2774,10 +2775,11 @@ C
       RETURN
       END
 !||====================================================================
-!||    xyznor16    ../starter/source/output/anim/genani1.F
+!||    xyznor16      ../starter/source/output/anim/genani1.F
 !||--- called by ------------------------------------------------------
-!||    genani1     ../starter/source/output/anim/genani1.F
+!||    genani1       ../starter/source/output/anim/genani1.F
 !||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE XYZNOR16(IXS,IXS10,IXS20,IXS16,X)
       use element_mod , only : nixs

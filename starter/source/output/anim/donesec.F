@@ -21,9 +21,10 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    donesec   ../starter/source/output/anim/donesec.F
+!||    donesec       ../starter/source/output/anim/donesec.F
 !||--- called by ------------------------------------------------------
-!||    genani1   ../starter/source/output/anim/genani1.F
+!||    genani1       ../starter/source/output/anim/genani1.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE DONESEC(ISECT,NESCT,NSTRF,IXS)      
       use element_mod , only : nixs

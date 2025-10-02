@@ -21,12 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    i2dst3   ../starter/source/interfaces/inter3d1/i2dst3.F
+!||    i2dst3     ../starter/source/interfaces/inter3d1/i2dst3.F
 !||--- called by ------------------------------------------------------
-!||    i2buc1   ../starter/source/interfaces/inter3d1/i2buc1.F
-!||    i2tri    ../starter/source/interfaces/inter3d1/i2tri.F
+!||    i2trivox   ../starter/source/interfaces/inter3d1/i2trivox.F90
 !||--- calls      -----------------------------------------------------
-!||    i2bar3   ../starter/source/interfaces/inter3d1/i2dst3.F
+!||    i2bar3     ../starter/source/interfaces/inter3d1/i2dst3.F
 !||====================================================================
       SUBROUTINE I2DST3(first,last,
      .                  GAPV,CAND_E  ,CAND_N,TZINF,IRTL,ST,DMIN,IGNORE,

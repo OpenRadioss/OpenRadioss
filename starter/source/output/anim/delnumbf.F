@@ -21,10 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    delnumbf    ../starter/source/output/anim/delnumbf.F
+!||    delnumbf      ../starter/source/output/anim/delnumbf.F
 !||--- called by ------------------------------------------------------
-!||    genani1     ../starter/source/output/anim/genani1.F
+!||    genani1       ../starter/source/output/anim/genani1.F
 !||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE DELNUMBF(IPARG ,IXT  ,IXP  ,IXR  ,               
      .                    EL2FA,NBF   ,INUM ,                           

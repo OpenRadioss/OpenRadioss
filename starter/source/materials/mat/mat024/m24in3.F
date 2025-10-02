@@ -22,9 +22,10 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C-------------------------------------------------------------------------
 !||====================================================================
-!||    m24in3   ../starter/source/materials/mat/mat024/m24in3.F
+!||    m24in3        ../starter/source/materials/mat/mat024/m24in3.F
 !||--- called by ------------------------------------------------------
-!||    matini   ../starter/source/materials/mat_share/matini.F
+!||    matini        ../starter/source/materials/mat_share/matini.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE M24IN3(PM,IX,ANG,SF,VK0,ROB,NEL)
       use element_mod , only : nixs

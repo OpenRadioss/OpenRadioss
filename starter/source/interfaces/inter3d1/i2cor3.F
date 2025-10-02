@@ -21,14 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    i2cor3   ../starter/source/interfaces/inter3d1/i2cor3.F
+!||    i2cor3        ../starter/source/interfaces/inter3d1/i2cor3.F
 !||--- called by ------------------------------------------------------
-!||    i2buc1   ../starter/source/interfaces/inter3d1/i2buc1.F
-!||    i2tri    ../starter/source/interfaces/inter3d1/i2tri.F
+!||    i2trivox      ../starter/source/interfaces/inter3d1/i2trivox.F90
 !||--- calls      -----------------------------------------------------
-!||    incoq3   ../starter/source/interfaces/inter3d1/incoq3.F
-!||    insol3   ../starter/source/interfaces/inter3d1/insol3.F
-!||    volint   ../starter/source/interfaces/inter3d1/volint.F
+!||    incoq3        ../starter/source/interfaces/inter3d1/incoq3.F
+!||    insol3        ../starter/source/interfaces/inter3d1/insol3.F
+!||    volint        ../starter/source/interfaces/inter3d1/volint.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE I2COR3(X     ,IRECT ,NSV   ,CAND_E  ,CAND_N,
      2                  GAPV  ,IGAP    ,GAP   ,first,last,

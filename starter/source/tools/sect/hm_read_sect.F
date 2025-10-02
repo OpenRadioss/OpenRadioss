@@ -786,6 +786,7 @@ C=========================================================================
 !||--- called by ------------------------------------------------------
 !||    lecsec42      ../starter/source/tools/sect/hm_read_sect.F
 !||    lecsec4bolt   ../starter/source/tools/sect/lecsec4bolt.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE SECSTRI(NSEG,ISECBUF,IXS,IXS10,IXS16,IXS20,
      .                   NOD ,NNOD ,ITAB ,ISEC, NOPRINT )

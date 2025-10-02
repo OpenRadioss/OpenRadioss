@@ -3036,6 +3036,7 @@ C
 !||    iwcontdd_151   ../starter/source/spmd/domain_decomposition/grid2mat.F
 !||--- called by ------------------------------------------------------
 !||    inint3         ../starter/source/interfaces/inter3d1/inint3.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE IWCONTDD_151(BUFBRIC,NBRIC,MSR,NMN,IWCONT,NSNT,NMNT,NUMNOD,IXS,NUMELS,NALE)
       use element_mod , only : nixs
@@ -3396,6 +3397,7 @@ C     Reading the pointer
 !||    reini_matprop   ../starter/source/spmd/domain_decomposition/grid2mat.F
 !||--- called by ------------------------------------------------------
 !||    lectur          ../starter/source/starter/lectur.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE REINI_MATPROP(TAILLE,TAILLE2,TAB_UMP_LOC,TAB_UMP_LOC2,
      .           IXS,IXQ,IXC,IXT,IXP,IXR,IXTG,ISOLNOD,POIN_UMP)

@@ -21,9 +21,10 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    build_cnel   ../starter/source/model/mesh/build_cnel.F
+!||    build_cnel    ../starter/source/model/mesh/build_cnel.F
 !||--- called by ------------------------------------------------------
-!||    lectur       ../starter/source/starter/lectur.F
+!||    lectur        ../starter/source/starter/lectur.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE BUILD_CNEL(
      2   IXS        ,IXQ        ,IXC        ,IXT      ,IXP      ,

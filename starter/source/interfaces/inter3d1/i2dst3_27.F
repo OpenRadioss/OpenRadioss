@@ -23,8 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
 !||    i2dst3_27             ../starter/source/interfaces/inter3d1/i2dst3_27.F
 !||--- called by ------------------------------------------------------
-!||    i2buc1                ../starter/source/interfaces/inter3d1/i2buc1.F
-!||    i2tri                 ../starter/source/interfaces/inter3d1/i2tri.F
+!||    i2trivox              ../starter/source/interfaces/inter3d1/i2trivox.F90
 !||--- calls      -----------------------------------------------------
 !||    choose_main_segment   ../starter/source/interfaces/inter3d1/i2dst3_27.F
 !||    i2bar3                ../starter/source/interfaces/inter3d1/i2dst3.F

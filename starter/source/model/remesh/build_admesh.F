@@ -21,9 +21,10 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    father   ../starter/source/model/remesh/build_admesh.F
+!||    father        ../starter/source/model/remesh/build_admesh.F
 !||--- called by ------------------------------------------------------
-!||    origin   ../starter/source/model/remesh/build_admesh.F
+!||    origin        ../starter/source/model/remesh/build_admesh.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       INTEGER FUNCTION FATHER(NN,IXC,IPARTC,IPART,SONTYPE)
       use element_mod , only : nixc
@@ -66,6 +67,7 @@ C-----------------------------------------------
 !||    th_titles              ../starter/source/output/th/th_titles.F90
 !||--- calls      -----------------------------------------------------
 !||    father                 ../starter/source/model/remesh/build_admesh.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       INTEGER FUNCTION ORIGIN(NN,IXC,IPARTC,IPART)
       use element_mod , only : nixc

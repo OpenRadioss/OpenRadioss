@@ -21,9 +21,10 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    r1buf3   ../starter/source/elements/spring/r1buf3.F
+!||    r1buf3        ../starter/source/elements/spring/r1buf3.F
 !||--- called by ------------------------------------------------------
-!||    rinit3   ../starter/source/elements/spring/rinit3.F
+!||    rinit3        ../starter/source/elements/spring/rinit3.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE R1BUF3(OFF   ,GEO   ,X   ,AL  ,IX,
      .                  IPOS  ,IGEO  )

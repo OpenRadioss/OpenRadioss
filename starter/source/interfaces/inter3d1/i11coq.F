@@ -22,10 +22,11 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
 !||====================================================================
-!||    i11coq     ../starter/source/interfaces/inter3d1/i11coq.F
+!||    i11coq        ../starter/source/interfaces/inter3d1/i11coq.F
 !||--- called by ------------------------------------------------------
-!||    i11sti3    ../starter/source/interfaces/inter3d1/i11sti3.F
-!||    i20sti3e   ../starter/source/interfaces/inter3d1/i20sti3.F
+!||    i11sti3       ../starter/source/interfaces/inter3d1/i11sti3.F
+!||    i20sti3e      ../starter/source/interfaces/inter3d1/i20sti3.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE I11COQ(IRECT,IXC,IXTG,NINT,NEL,
      .                  NELTG,IS ,GEO,PM,THK,IGEO,
@@ -155,10 +156,11 @@ C
       END
 C
 !||====================================================================
-!||    i11fil     ../starter/source/interfaces/inter3d1/i11coq.F
+!||    i11fil        ../starter/source/interfaces/inter3d1/i11coq.F
 !||--- called by ------------------------------------------------------
-!||    i11sti3    ../starter/source/interfaces/inter3d1/i11sti3.F
-!||    i20sti3e   ../starter/source/interfaces/inter3d1/i20sti3.F
+!||    i11sti3       ../starter/source/interfaces/inter3d1/i11sti3.F
+!||    i20sti3e      ../starter/source/interfaces/inter3d1/i20sti3.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE I11FIL(IRECT,IXT,IXP,IXR,NINT,NELT,
      .                  NELP,NELR,NELX,IS,NOD2EL1D,

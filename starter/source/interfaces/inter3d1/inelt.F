@@ -21,17 +21,18 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    inelts     ../starter/source/interfaces/inter3d1/inelt.F
+!||    inelts        ../starter/source/interfaces/inter3d1/inelt.F
 !||--- called by ------------------------------------------------------
-!||    i1chk3     ../starter/source/interfaces/inter3d1/i1chk3.F
-!||    i21els3    ../starter/source/interfaces/inter3d1/i21els3.F
-!||    i2_surfi   ../starter/source/interfaces/inter3d1/i2_surfi.F90
-!||    i2chk3     ../starter/source/interfaces/inter3d1/i2chk3.F
-!||    i3sti3     ../starter/source/interfaces/inter3d1/i3sti3.F
-!||    i7sti3     ../starter/source/interfaces/inter3d1/i7sti3.F
-!||    i9sti3     ../starter/source/interfaces/int09/i9sti3.F
+!||    i1chk3        ../starter/source/interfaces/inter3d1/i1chk3.F
+!||    i21els3       ../starter/source/interfaces/inter3d1/i21els3.F
+!||    i2_surfi      ../starter/source/interfaces/inter3d1/i2_surfi.F90
+!||    i2chk3        ../starter/source/interfaces/inter3d1/i2chk3.F
+!||    i3sti3        ../starter/source/interfaces/inter3d1/i3sti3.F
+!||    i7sti3        ../starter/source/interfaces/inter3d1/i7sti3.F
+!||    i9sti3        ../starter/source/interfaces/int09/i9sti3.F
 !||--- calls      -----------------------------------------------------
-!||    norma1     ../starter/source/interfaces/inter3d1/norma1.F
+!||    norma1        ../starter/source/interfaces/inter3d1/norma1.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE INELTS(X        ,IRECT ,IXS   ,NINT ,NEL       ,
      .                  I        ,AREA  ,NOINT ,IR   ,SURF_ELTYP,
@@ -157,11 +158,12 @@ C-----------------------------------------------
       RETURN
       END
 !||====================================================================
-!||    i20nelts   ../starter/source/interfaces/inter3d1/inelt.F
+!||    i20nelts      ../starter/source/interfaces/inter3d1/inelt.F
 !||--- called by ------------------------------------------------------
-!||    i20sti3    ../starter/source/interfaces/inter3d1/i20sti3.F
+!||    i20sti3       ../starter/source/interfaces/inter3d1/i20sti3.F
 !||--- calls      -----------------------------------------------------
-!||    norma1     ../starter/source/interfaces/inter3d1/norma1.F
+!||    norma1        ../starter/source/interfaces/inter3d1/norma1.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE I20NELTS(X        ,IRECT ,IXS   ,NINT ,NEL       ,
      .                    I        ,AREA  ,NOINT ,IR   ,SURF_ELTYP,
@@ -249,11 +251,12 @@ C
 C
       END
 !||====================================================================
-!||    ineltigeo   ../starter/source/interfaces/inter3d1/inelt.F
+!||    ineltigeo     ../starter/source/interfaces/inter3d1/inelt.F
 !||--- called by ------------------------------------------------------
-!||    i7sti3      ../starter/source/interfaces/inter3d1/i7sti3.F
+!||    i7sti3        ../starter/source/interfaces/inter3d1/i7sti3.F
 !||--- calls      -----------------------------------------------------
-!||    norma1      ../starter/source/interfaces/inter3d1/norma1.F
+!||    norma1        ../starter/source/interfaces/inter3d1/norma1.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE INELTIGEO(XE     ,IRECT  ,IXS   ,NINT     ,NELIG3D   ,
      .                     I      ,AREA   ,NOINT ,IR       ,SURF_ELTYP_IGE,

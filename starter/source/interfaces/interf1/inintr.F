@@ -43,6 +43,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    intbufscratch_mod            ../starter/source/interfaces/interf1/intbufscratch_mod.F
 !||    inter_cand_mod               ../starter/share/modules1/inter_cand_mod.F
 !||    message_mod                  ../starter/share/message_module/message_mod.F
+!||    stack_mod                    ../starter/share/modules1/stack_mod.F
 !||====================================================================
       SUBROUTINE ININTR(IPARI     ,INSCR     ,X                 ,V               ,IXS         ,IXQ   ,
      2                  IXC       ,PM        ,GEO               ,ITAB            ,MS          ,

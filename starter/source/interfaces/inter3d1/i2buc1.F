@@ -25,16 +25,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    inint3                 ../starter/source/interfaces/inter3d1/inint3.F
 !||--- calls      -----------------------------------------------------
-!||    ancmsg                 ../starter/source/output/message/message.F
-!||    i2cor3                 ../starter/source/interfaces/inter3d1/i2cor3.F
-!||    i2dst3                 ../starter/source/interfaces/inter3d1/i2dst3.F
-!||    i2dst3_27              ../starter/source/interfaces/inter3d1/i2dst3_27.F
-!||    i2tri                  ../starter/source/interfaces/inter3d1/i2tri.F
+!||    i2trivox               ../starter/source/interfaces/inter3d1/i2trivox.F90
 !||    incoq3                 ../starter/source/interfaces/inter3d1/incoq3.F
 !||    insol3                 ../starter/source/interfaces/inter3d1/insol3.F
 !||    volint                 ../starter/source/interfaces/inter3d1/volint.F
 !||--- uses       -----------------------------------------------------
+!||    i2trivox_mod           ../starter/source/interfaces/inter3d1/i2trivox.F90
 !||    message_mod            ../starter/share/message_module/message_mod.F
+!||    stack_mod              ../starter/share/modules1/stack_mod.F
 !||====================================================================
       SUBROUTINE I2BUC1(
      1   X     ,IRECT,NSV   ,NSEG  ,IRTL,

@@ -27,7 +27,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    i21tri   ../starter/source/interfaces/inter3d1/i21tri.F
 !||    i23tri   ../starter/source/interfaces/inter3d1/i23tri.F
 !||    i24tri   ../starter/source/interfaces/inter3d1/i24tri.F
-!||    i2tri    ../starter/source/interfaces/inter3d1/i2tri.F
 !||    i7tri    ../starter/source/interfaces/inter3d1/i7tri.F
 !||====================================================================
         SUBROUTINE I7DSTK(I_ADD,NB_NC,NB_EC,ADD,BPN,PN,BPE,PE)

@@ -954,6 +954,7 @@ C-------shell elements
 !||    i24sti3       ../starter/source/interfaces/inter3d1/i24sti3.F
 !||    i25sti3       ../starter/source/interfaces/inter3d1/i25sti3.F
 !||    remn_self24   ../starter/source/interfaces/inter3d1/remn_self24.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE INSOL3ET(X   ,IRECT ,IXS     ,NINT   ,NEL,I ,
      .                  AREA ,NOINT ,KNOD2ELS,NOD2ELS,IXS10 ,
@@ -2221,11 +2222,12 @@ C-----------------------------------------------
       RETURN
       END
 !||====================================================================
-!||    inelts_np   ../starter/source/interfaces/inter3d1/i24sti3.F
+!||    inelts_np     ../starter/source/interfaces/inter3d1/i24sti3.F
 !||--- called by ------------------------------------------------------
-!||    i24gapm     ../starter/source/interfaces/inter3d1/i24sti3.F
+!||    i24gapm       ../starter/source/interfaces/inter3d1/i24sti3.F
 !||--- calls      -----------------------------------------------------
-!||    norma1      ../starter/source/interfaces/inter3d1/norma1.F
+!||    norma1        ../starter/source/interfaces/inter3d1/norma1.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE INELTS_NP(X        ,IRECT ,IXS   ,NREV ,NEL       ,
      .                     I        ,AREA  ,NOINT ,IR   ,SURF_ELTYP,
@@ -2309,7 +2311,8 @@ C
        RETURN
       END
 !||====================================================================
-!||    insolbox   ../starter/source/interfaces/inter3d1/i24sti3.F
+!||    insolbox      ../starter/source/interfaces/inter3d1/i24sti3.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE INSOLBOX(X    ,S_TYPE  ,S_EL   ,NOINT ,IXS   ,
      .                   IXS10 ,IXS16   ,IXS20  ,NS    ,GAP   ,

@@ -21,9 +21,10 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    fxbelnum   ../starter/source/constraints/fxbody/fxbelnum.F
+!||    fxbelnum      ../starter/source/constraints/fxbody/fxbelnum.F
 !||--- called by ------------------------------------------------------
-!||    lectur     ../starter/source/starter/lectur.F
+!||    lectur        ../starter/source/starter/lectur.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE FXBELNUM(
      .              FXBNOD , NSN, IPARG, ITAG  , FXBELM,

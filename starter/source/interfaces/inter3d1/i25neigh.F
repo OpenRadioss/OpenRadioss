@@ -1128,6 +1128,7 @@ C-------------------------------------
 !||    i25ini_gap_n   ../starter/source/interfaces/inter3d1/i25neigh.F
 !||--- called by ------------------------------------------------------
 !||    inint3         ../starter/source/interfaces/inter3d1/inint3.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE I25INI_GAP_N(
      1 NRTM  ,IRECT ,IXS   ,GEO   ,IXC   ,IXTG  ,

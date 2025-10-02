@@ -606,9 +606,10 @@ C-----------
       END
 c
 !||====================================================================
-!||    elcut4n   ../starter/source/elements/xfem/lslocal.F
+!||    elcut4n       ../starter/source/elements/xfem/lslocal.F
 !||--- called by ------------------------------------------------------
-!||    lslocal   ../starter/source/elements/xfem/lslocal.F
+!||    lslocal       ../starter/source/elements/xfem/lslocal.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE ELCUT4N(IEL   ,IXC ,XNOD, EDGEC, FAC , IED)
       use element_mod , only : nixc
@@ -641,9 +642,10 @@ C---
       RETURN
       END
 !||====================================================================
-!||    elcut3n   ../starter/source/elements/xfem/lslocal.F
+!||    elcut3n       ../starter/source/elements/xfem/lslocal.F
 !||--- called by ------------------------------------------------------
-!||    lslocal   ../starter/source/elements/xfem/lslocal.F
+!||    lslocal       ../starter/source/elements/xfem/lslocal.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE ELCUT3N(IEL   ,IXTG ,XNOD, EDGETG, FAC , IED)
       use element_mod , only : nixtg

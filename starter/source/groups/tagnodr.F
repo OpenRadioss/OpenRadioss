@@ -21,9 +21,10 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    tagnodr     ../starter/source/groups/tagnodr.F
+!||    tagnodr       ../starter/source/groups/tagnodr.F
 !||--- called by ------------------------------------------------------
-!||    hm_lecgrn   ../starter/source/groups/hm_lecgrn.F
+!||    hm_lecgrn     ../starter/source/groups/hm_lecgrn.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE TAGNODR(IXR,GEO,NUMELR,IPARTR,TAGBUF,NPART)
       use element_mod , only : nixr

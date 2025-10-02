@@ -122,10 +122,11 @@ C
 
 
 !||====================================================================
-!||    admbcs4   ../starter/source/model/remesh/admbcs.F
+!||    admbcs4       ../starter/source/model/remesh/admbcs.F
 !||--- called by ------------------------------------------------------
-!||    admbcs    ../starter/source/model/remesh/admbcs.F
+!||    admbcs        ../starter/source/model/remesh/admbcs.F
 !||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       RECURSIVE SUBROUTINE ADMBCS4(DIR,ICOD ,ISK  ,N    ,IXC    ,
      .                          IPARTC,IPART,ICODE,ISKEW,SH4TREE)
@@ -180,10 +181,11 @@ C-----------------------------------------------
       RETURN
       END     
 !||====================================================================
-!||    admbcs3   ../starter/source/model/remesh/admbcs.F
+!||    admbcs3       ../starter/source/model/remesh/admbcs.F
 !||--- called by ------------------------------------------------------
-!||    admbcs    ../starter/source/model/remesh/admbcs.F
+!||    admbcs        ../starter/source/model/remesh/admbcs.F
 !||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       RECURSIVE SUBROUTINE ADMBCS3(DIR,ICOD,ISK,N,IXTG,
      .                         IPARTTG,IPART,ICODE,ISKEW,SH3TREE)

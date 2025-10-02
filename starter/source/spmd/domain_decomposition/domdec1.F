@@ -21,15 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    domdec1   ../starter/source/spmd/domain_decomposition/domdec1.F
+!||    domdec1       ../starter/source/spmd/domain_decomposition/domdec1.F
 !||--- called by ------------------------------------------------------
-!||    lectur    ../starter/source/starter/lectur.F
+!||    lectur        ../starter/source/starter/lectur.F
 !||--- calls      -----------------------------------------------------
-!||    dd_ani    ../starter/source/output/anim/dd_ani.F
-!||    dd_fr     ../starter/source/spmd/domain_decomposition/domdec1.F
-!||    dd_fr_2   ../starter/source/spmd/domain_decomposition/domdec1.F
-!||    dd_frx    ../starter/source/spmd/domain_decomposition/domdec1.F
-!||    nlocal    ../starter/source/spmd/node/ddtools.F
+!||    dd_ani        ../starter/source/output/anim/dd_ani.F
+!||    dd_fr         ../starter/source/spmd/domain_decomposition/domdec1.F
+!||    dd_fr_2       ../starter/source/spmd/domain_decomposition/domdec1.F
+!||    dd_frx        ../starter/source/spmd/domain_decomposition/domdec1.F
+!||    nlocal        ../starter/source/spmd/node/ddtools.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE DOMDEC1(
      1     IPARG ,IXS   ,IXQ        ,IXC   ,IXT    ,

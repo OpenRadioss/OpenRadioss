@@ -21,9 +21,10 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    thskewc   ../starter/source/output/th/thskewc.F
+!||    thskewc       ../starter/source/output/th/thskewc.F
 !||--- called by ------------------------------------------------------
-!||    lectur    ../starter/source/starter/lectur.F
+!||    lectur        ../starter/source/starter/lectur.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE THSKEWC(
      1       RTHBUF   ,ITHGRP   ,ITHBUF,X     ,IXC     ,IXTG   ,SKEW,NTHGRP)

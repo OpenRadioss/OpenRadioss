@@ -21,9 +21,10 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    paroi    ../starter/source/materials/mat/mat006/paroi.F
+!||    paroi         ../starter/source/materials/mat/mat006/paroi.F
 !||--- called by ------------------------------------------------------
-!||    lectur   ../starter/source/starter/lectur.F
+!||    lectur        ../starter/source/starter/lectur.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE PAROI(PM,IXS,IXQ,ICODE,NALE)
       use element_mod , only : nixs,nixq

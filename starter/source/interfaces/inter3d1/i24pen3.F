@@ -584,11 +584,12 @@ C
       RETURN
       END
 !||====================================================================
-!||    i24penmax   ../starter/source/interfaces/inter3d1/i24pen3.F
+!||    i24penmax     ../starter/source/interfaces/inter3d1/i24pen3.F
 !||--- called by ------------------------------------------------------
-!||    i24pen3     ../starter/source/interfaces/inter3d1/i24pen3.F
+!||    i24pen3       ../starter/source/interfaces/inter3d1/i24pen3.F
 !||--- calls      -----------------------------------------------------
-!||    intab       ../starter/source/interfaces/inter3d1/i24tools.F
+!||    intab         ../starter/source/interfaces/inter3d1/i24tools.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE I24PENMAX(PEN  ,PENMAX,ETYP  ,EL    ,NS   ,
      +                     IXS   ,IXS10 ,IXS16 , IXS20  ,IELIM )
@@ -644,9 +645,10 @@ C-------
       RETURN
       END
 !||====================================================================
-!||    iconnet   ../starter/source/interfaces/inter3d1/i24pen3.F
+!||    iconnet       ../starter/source/interfaces/inter3d1/i24pen3.F
 !||--- called by ------------------------------------------------------
-!||    i24pen3   ../starter/source/interfaces/inter3d1/i24pen3.F
+!||    i24pen3       ../starter/source/interfaces/inter3d1/i24pen3.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE ICONNET(IRECT ,IXS   ,KNOD2ELS,NOD2ELS,
      .                   IXS10 ,IXS16 ,IXS20 ,NS  ,ICONN   )

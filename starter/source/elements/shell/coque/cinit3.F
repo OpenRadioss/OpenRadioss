@@ -636,10 +636,11 @@ C-----------------------------
       RETURN
       END SUBROUTINE CINIT3      
 !||====================================================================
-!||    csms11_ini   ../starter/source/elements/shell/coque/cinit3.F
+!||    csms11_ini    ../starter/source/elements/shell/coque/cinit3.F
 !||--- called by ------------------------------------------------------
-!||    cbainit3     ../starter/source/elements/shell/coqueba/cbainit3.F
-!||    cinit3       ../starter/source/elements/shell/coque/cinit3.F
+!||    cbainit3      ../starter/source/elements/shell/coqueba/cbainit3.F
+!||    cinit3        ../starter/source/elements/shell/coque/cinit3.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE CSMS11_INI(
      1           JFT    ,JLT   ,IXC   ,X      ,X2S     ,
