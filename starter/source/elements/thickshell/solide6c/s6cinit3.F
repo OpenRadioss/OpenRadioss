@@ -238,6 +238,8 @@ C
      .     X1, X2, X3, X4, X5, X6, 
      .     Y1, Y2, Y3, Y4, Y5, Y6,
      .     Z1, Z2, Z3, Z4, Z5, Z6)
+      
+
       IF (IGTYP == 21 .OR. IGTYP == 22) THEN
         DO I=1,NEL
          ANGLE(I) =  GEO(1,PID(I))
@@ -265,6 +267,7 @@ C
      .     X1, X2, X3, X4, X5, X6, 
      .     Y1, Y2, Y3, Y4, Y5, Y6,
      .     Z1, Z2, Z3, Z4, Z5, Z6)
+     
       IF (IDTTSH > 0) THEN
          CALL SDLENSH3N(NEL,LLSH,
      .                  X1, X2, X3, X4, X5, X6,
