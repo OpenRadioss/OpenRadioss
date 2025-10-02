@@ -113,7 +113,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: DAMP_RANGE_PART(NPART)     !< flag to compute the damping range
       TYPE(MATPARAM_STRUCT_) , TARGET, DIMENSION(NUMMAT),INTENT(IN) :: MATPARAM_TAB
       MY_REAL  PM(NPROPM,NUMMAT), GEO(NPROPG,NUMGEO), RNOISE(NPERTURB,NUMELS)
-      INTEGER, DIMENSION(2,NPRELOAD),INTENT(IN) :: IPRELOAD_FUN
+      INTEGER, DIMENSION(2,NUMPRELOAD),INTENT(IN) :: IPRELOAD_FUN
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRBRIC) :: IGRBRIC
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
