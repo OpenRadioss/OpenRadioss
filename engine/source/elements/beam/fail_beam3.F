@@ -138,7 +138,7 @@ c-----------------------------------------
 c------------------------------------   
         CASE (1)     !    Johnson-Cook                                                   
           !  Tstar computation for Jhonson-Cook failure : T* = (T-T0)/(TM-T0)
-          IF (jthe > 0 .or. elbuf_str%bufly(1)%l_temp > 0) THEN
+          IF (jthe > 0 .or. elbuf_str%gbuf%g_temp > 0) THEN
             T0 = MAT_PARAM%THERM%TREF
             TM = MAT_PARAM%THERM%TMELT
             TSTAR(1:NEL) = MAX(ZERO,(TEMPEL(1:NEL)-T0)) / MAX((TM-T0),EM20)
@@ -152,7 +152,7 @@ c------------------------------------
      .         ELBUF_STR%GBUF%FAIL(1)%TDEL  ,IOUT    ,ISTDO    )
 c---------------      
         CASE (10)     !    Tension Strain failure model
-          IF (jthe > 0 .or. elbuf_str%bufly(1)%l_temp > 0) THEN
+          IF (jthe > 0 .or. elbuf_str%gbuf%g_temp > 0) THEN
             T0 = MAT_PARAM%THERM%TREF
             TM = MAT_PARAM%THERM%TMELT
             TSTAR(1:NEL) = MAX(ZERO,(TEMPEL(1:NEL)-T0)) / MAX((TM-T0),EM20)
