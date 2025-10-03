@@ -271,11 +271,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      T   LBUFSF       ,LENXLAS                      ,LNOM_OPT     ,LENLAS      ,           
      U   LENVOLU                    ,NPTS           ,CNE          ,LCNE        ,           
      V   ADDCNE       ,CNI2         ,LCNI2G         ,ADDCNI2      ,CEPI2       ,           
-     W   CELI2        ,I2NSNT       ,PROBINT        ,DDSTAT       ,           
+     W   CELI2        ,I2NSNT       ,PROBINT        ,DDSTAT       ,PM1SHF      ,           
      X   DD_IAD       ,
      Z                 KXSP         ,IXSP           ,NOD2SP       ,CEPSP       ,
      a   NTHWA        ,NAIRWA       ,NMNT           ,L_MUL_LAG1   ,L_MUL_LAG   ,
-     b   LWASPIO      ,IPARTSP      ,ISPCOND        ,
+     b   LWASPIO      ,IPARTSP      ,ISPCOND        ,PM1SPH       ,
      c   WMA          ,
      d   EIGIPM       ,EIGIBUF      ,EIGRPM         ,
      e   IFLOW        ,RFLOW        ,MEMFLOW        ,IEXLNK       ,FASOLFR     ,
@@ -447,8 +447,8 @@ C-----------------------------------------------
      .        LIBAGALE, LENTHG, LENLAS, NPTS,LEN,
      .        LBUFMAT, LBUFGEO, LBUFSF, LENXLAS, LNOM_OPT,
      .        LENVOLU, NTHWA, NAIRWA, NMNT, I2NSNT,
-     .        L_MUL_LAG1, L_MUL_LAG, LWASPIO,
-     .        LCNI2G,  I11FLAG,LENTHGR,NCRKPART,
+     .        L_MUL_LAG1, L_MUL_LAG, LWASPIO,PM1SPH,
+     .        LCNI2G, PM1SHF, I11FLAG,LENTHGR,NCRKPART,
      .        CEP(LEN_CEP),IGEO(*), IPM(*),
      .        ICODE(*),ISKEW(*),ISKN(*),INSEL(*),IBCSLAG(*),
      .        IPART(*),IPARTS(*),IPARTQ(*),IPARTC(*),IPARTT(*),
@@ -900,14 +900,14 @@ C--------------------------------------------
       OFF = OFF + NUMELX
       CALL C_ELTLOC(CEP(MIN(OFF+1,LEN_CEP)),P-1,NUMELIG3D,NUMELIG3D_L)
       OFF = OFF + NUMELIG3D
-C     OpenMP Bug here (datarace on PM1SHF)
-!     IF (P==1) THEN
+C
+      IF (P==1) THEN
         NUM16SHIFT_L = 1
-!       PM1SHF = 2*NUMELS16_L + 1
-!     ELSE
-!       NUM16SHIFT_L = PM1SHF
-!       PM1SHF =  PM1SHF + 2*NUMELS16_L
-!     ENDIF
+        PM1SHF = 2*NUMELS16_L + 1
+      ELSE
+        NUM16SHIFT_L = PM1SHF
+        PM1SHF =  PM1SHF + 2*NUMELS16_L
+      ENDIF
 C--------------------------------------------
 C Counting local cluster
 C--------------------------------------------
@@ -1161,7 +1161,7 @@ C--------------------------------------------
       NUMNOR_L = 0
       IF(NINTER>0) THEN
 c      start CPU timer for IPARI_L_INI
-!      CALL STARTIME(5,1)
+       CALL STARTIME(5,1)
 
        CALL IPARI_L_INI(IPARI  ,P-1    ,NUMNOD_L ,
      +                NBDDI2M  ,I2NSN_L,PROBINT  ,IMAXIMP_L,NBI18_L ,
@@ -1171,7 +1171,7 @@ c      start CPU timer for IPARI_L_INI
      +                I24MAXNSNE, MULTI_FVM,TAG_SCRATCH,INDX_SCRT,NINDX_SCRT)
 
 c      stop CPU timer for IPARI_L_INI
-!      CALL STOPTIME(5,1)
+       CALL STOPTIME(5,1)
       ENDIF
 
 C--------------------------------------------
@@ -1264,7 +1264,7 @@ C--------------------------------------
       FIRST_SPHSOL_L = 0
 C--   SOL2SPH_FLAG : general flag for all CPUS for SOL2SPH - communications are required for proc having common nodes on elements having SOL2SPH
       IF (NSPHSOL > 0) THEN
-        SOL2SPH_FLAG = 1 ! seems to be a bug in OpenMP (datarace on SOL2SPH_FLAG)
+        SOL2SPH_FLAG = 1
       ELSE
         SOL2SPH_FLAG = 0
       ENDIF
@@ -1274,14 +1274,14 @@ C
      .           SLONFSPH_L,SLPRTSPH,SLPRTSPH_L,IPARTSP,SSPHVELN_L,
      .           NSPHSOL_L ,FIRST_SPHSOL_L)
       ENDIF
-!      OpenMP Bug here (datarace on PM1SPH)
-!     IF (P==1) THEN
+
+      IF (P==1) THEN
         SPHSHIFT_L = 1
-!       PM1SPH = 4*NUMSPH_L + 1
-!     ELSE
-!       SPHSHIFT_L = PM1SPH
-!       PM1SPH =  PM1SPH + 4*NUMSPH_L
-!     ENDIF
+        PM1SPH = 4*NUMSPH_L + 1
+      ELSE
+        SPHSHIFT_L = PM1SPH
+        PM1SPH =  PM1SPH + 4*NUMSPH_L
+      ENDIF
 C--------------------------------------
 C counts IBCL
 C--------------------------------------
@@ -2364,7 +2364,7 @@ C--------------------------------------
         ENDIF
 
 c       start CPU timer for INTBUF_INI
-!       CALL STARTIME(6,1)
+        CALL STARTIME(6,1)
 
         !allocate local structure INTBUF_TAB_L to stock local sizes for interfaces
         ALLOCATE(INTBUF_TAB_L(NINTER))
@@ -2382,7 +2382,7 @@ c       start CPU timer for INTBUF_INI
         !write local IPARI_L
         CALL WRITE_I_C(IPARI_L,NPARI*NINTER)
 c       stop CPU timer for INTBUF_INI
-!       CALL STOPTIME(6,1)
+        CALL STOPTIME(6,1)
 
         IF (I22LEN_L>0)THEN
           !initialize table to 0

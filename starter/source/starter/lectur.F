@@ -751,7 +751,7 @@ C-----------------------------------------------
      .   MAXRTM,LWAT, L_MUL_LAG1,ISHIF,LIBAGALE,
      .   LENTHG, LBUFMAT, LBUFGEO, LBUFSF,
      .   LNOM_OPT, LENVOLU, ILEN, LCNE, LCNI2G,LENPOR,
-     .   NFX, AIPM, ANOD, AMOD, NBNO, NBMO,
+     .   PM1SHF, NFX, AIPM, ANOD, AMOD, NBNO, NBMO,
      .   ALM, NELS, NELC, NELTG, NLGRAV, AGRVI, AGRVR,
      .   NNT, RCLEN,PM1SPH, STAT, NELDMAX, VERSDD,
      .   DSNISM, NSLEVEL,NSDEC,NSVMAX,NSPRI,DSARCH,NELT,NELP,NSEGS,
@@ -10756,6 +10756,8 @@ Clength of bufmat and bufgeo
           LBUFMAT = SBUFMAT
           LBUFGEO = SBUFGEO
           LBUFSF  = SBUFSF
+          PM1SHF = 1
+          PM1SPH = 1
 
 C----------------------------------------------------------------------
           ! Allocation and filling of specific ADDCNE and CNE for non-local
@@ -11021,11 +11023,11 @@ c
      T         LBUFSF       ,SXLAS                       ,LNOM_OPT    ,SILAS      ,    
      U         LENVOLU                   ,NPTS           ,CNE         ,LCNE       ,    
      V         ADDCNE       ,CNI2        ,LCNI2G         ,ADDCNI2     ,CEPI2      ,    
-     W         CELI2        ,I2NSNT      ,PROBINT        ,DDSTAT(1,P) ,         
+     W         CELI2        ,I2NSNT      ,PROBINT        ,DDSTAT(1,P) ,PM1SHF,         
      X         DD_IAD       ,
      Z                       KXSP        ,IXSP           ,NOD2SP      ,CEPSP      ,    
      a         NTHWA        ,NAIRWA      ,NMNT           ,L_MUL_LAG1  ,L_MUL_LAG  ,    
-     b         LWASPIO      ,IPARTSP     ,ISPCOND        ,                
+     b         LWASPIO      ,IPARTSP     ,ISPCOND        ,PM1SPH      ,                
      c         WMA          ,
      d         EIGIPM       ,EIGIBUF     ,EIGRPM         ,    
      e         IFLOW        ,RFLOW       ,pMEMFLOW       ,IEXLNK      ,FASOLFR    ,    
