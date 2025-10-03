@@ -25,7 +25,7 @@
 !||--- called by ------------------------------------------------------
 !||    ebcs_main    ../engine/source/boundary_conditions/ebcs/ebcs_main.F
 !||====================================================================
-      module ebcs11_mod
+      module ebcs11_propellant_mod
         implicit none
       contains
 ! ======================================================================================================================
@@ -49,14 +49,14 @@
 !||    sensor_mod            ../common_source/modules/sensor_mod.F90
 !||    th_surf_mod           ../common_source/modules/interfaces/th_surf_mod.F
 !||====================================================================
-        subroutine ebcs11(nseg,iseg,segvar, &
+        subroutine ebcs11_propellant(nseg,iseg,segvar, &
           x, &
           liste,nod,irect,ielem,iface, &
           la,ms,stifn,ebcs,iparg,elbuf_tab,ixq,ixs,ixtg, &
           fsavsurf,time,iparit,dt1, &
           numels, numelq, numeltg, numnod, nparg, ngroup, nixs, nixq, nixtg, nsurf, n2d, &
           nfunct, npc, tf ,snpc, stf, python, &
-          nsensor, sensor_tab)
+          nsensor, sensor_tab, output)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -69,6 +69,7 @@
           use sensor_mod, only : sensor_str_
           use python_funct_mod
           use precision_mod, only : WP
+          use output_mod, only : output_
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -103,6 +104,7 @@
           integer,intent(in) :: nsensor !< number of sensor(s) in input file
           type (sensor_str_) ,dimension(nsensor) ,intent(in) :: sensor_tab  !< data stucture for sensors
           type (python_), intent(in) :: python !< may be needed for user functions
+          type(output_), intent(inout) :: output !< output structure
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -130,6 +132,8 @@
           real(kind=WP) :: dydx
           real(kind=WP) :: temp
           real(kind=WP) :: eint_new
+          real(kind=WP) :: roou, enou, fluxi
+          real(kind=WP) :: dm_in, de_in
 
           logical :: bfound
           type(buf_mat_)  ,pointer :: mbuf
@@ -155,6 +159,8 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   body
 ! ----------------------------------------------------------------------------------------------------------------------
+          de_in = zero
+          dm_in = zero
 
           !--- user parameters
           param_a = ebcs%a
@@ -417,6 +423,8 @@
               vold = zero
             endif
 
+            roou = segvar%rho(kseg)
+            enou = segvar%eint(kseg)
 
             ! ghost cell update ( upwind/aconve() )
             if(mtn == 51 )then
@@ -470,7 +478,13 @@
 
               segvar%rho(kseg) = gbuf%rho(iloc+1)  !param_rho0s
               segvar%eint(kseg) = gbuf%eint(iloc+1) !param_q*param_rho0s
+
             endif
+
+            !-- post-treatment for mass and energy balance
+            fluxi=dvol_s
+            dm_in=dm_in + fluxi*        param_rho0s
+            de_in=de_in + fluxi*param_q*param_rho0s
 
             !temperature update
             !temp =  (mass*tadj + dmass_g*param_gamma*param_t) / (mass+dmass_g)   ! This fromula embedded the enthalpy (additional term corresponding to the work required to inlet the burnt volume)
@@ -520,7 +534,7 @@
               ! enddo
             endif
             ! -------------
-          enddo
+          enddo !next is
 
           ! numerical staggered scheme : vitesse.F ;  v[n+1] = v[n] + int(acc, t=t[n],t[n+1] )   ;   acc = F/m
           !   to impose v[n+1] = Vel_Front
@@ -540,7 +554,12 @@
 
           ! -------------
 
+!$OMP CRITICAL
+      OUTPUT%DATA%INOUT%DM_IN  = OUTPUT%DATA%INOUT%DM_IN + DM_IN
+      OUTPUT%DATA%INOUT%DE_IN = OUTPUT%DATA%INOUT%DE_IN + DE_IN
+!$OMP END CRITICAL
 
-          return
-        end subroutine ebcs11
-      end module ebcs11_mod
+        return
+        end subroutine ebcs11_propellant
+
+      end module ebcs11_propellant_mod

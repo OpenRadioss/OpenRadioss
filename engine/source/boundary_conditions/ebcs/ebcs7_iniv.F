@@ -20,21 +20,25 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      MODULE EBCS7_INIV_MOD
+      IMPLICIT NONe
+      CONTAINS
 !||====================================================================
-!||    ebcs1        ../engine/source/boundary_conditions/ebcs/ebcs1.F
+!||    ebcs7        ../engine/source/boundary_conditions/ebcs/ebcs7.F
 !||--- called by ------------------------------------------------------
 !||    ebcs_main    ../engine/source/boundary_conditions/ebcs/ebcs_main.F
 !||--- uses       -----------------------------------------------------
 !||    ebcs_mod     ../common_source/modules/boundary_conditions/ebcs_mod.F90
 !||    segvar_mod   ../engine/share/modules/segvar_mod.F
 !||====================================================================
-      SUBROUTINE EBCS1(NSEG,ISEG,SEGVAR,
+      SUBROUTINE EBCS7_INIV(NSEG,ISEG,SEGVAR,
      .                 A,V,X,
      .                 LISTE,NOD,IRECT,
-     .                 VO,PO,LA,
-     .                 FV,MS,STIFN,EBCS_TAB, IEBCS)
+     .                 RO0,EN0,V0,
+     .                 LA,MS,STIFN,EBCS,OUTPUT,DT1,TIME)
       USE EBCS_MOD
       USE SEGVAR_MOD
+      USE OUTPUT_MOD, ONLY : OUTPUT_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -42,120 +46,48 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com08_c.inc"
-#include      "scr11_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NSEG,NOD,ISEG(NSEG),LISTE(NOD),IRECT(4,NSEG)
-      my_real
-     .        A(3,*),X(3,*),V(3,*),LA(3,NOD),
-     .        VO(NOD),PO(NOD),FV(*),MS(*),STIFN(*)
-      TYPE(t_ebcs_tab), TARGET, INTENT(IN) :: EBCS_TAB
-      INTEGER, INTENT(IN) :: IEBCS
+      INTEGER :: NSEG,NOD,ISEG(NSEG),LISTE(NOD),IRECT(4,NSEG)
+      my_real :: A(3,*),V(3,*),X(3,*),RO0(NSEG),EN0(NSEG),V0(3,NOD),LA(3,NOD),MS(*),STIFN(*)
+      TYPE(t_ebcs_iniv), INTENT(IN) :: EBCS
       TYPE(t_segvar) :: SEGVAR
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT !< output structure
+      my_real,INTENT(IN) :: DT1 !< time step
+      my_real,INTENT(IN) :: TIME !< current time
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IPRES,IRHO,I,IS,KSEG,N1,N2,N3,N4,NG1,NG2,NG3,NG4,
-     .        N,IENER
-      my_real
-     .       ORIENT,PRES,RHO,C,LCAR,R1,R2,ROC,ALP,FAC,
-     .       X13,Y13,Z13,X24,Y24,Z24,NX,NY,NZ,S,
-     .       ROOU,ENOU,VMX,VMY,VMZ,FLUXI,FLUXO,VN,PN,DU,DP,P,
-     .       ENER,DPDV
-      CLASS(t_ebcs), POINTER :: EBCS
+      INTEGER :: I,IS,KSEG,N1,N2,N3,N4,NG1,NG2,NG3,NG4,N
+      my_real :: ORIENT,RHO,C,ROC,FAC,
+     .           X13,Y13,Z13,X24,Y24,Z24,NX,NY,NZ,S,
+     .           ROOU,ENOU,VMX,VMY,VMZ,FLUXI,FLUXO,P,DVX,DVY,DVZ
+      my_real :: DE_IN, DE_OUT, DM_IN, DM_OUT
 C-----------------------------------------------
-C imposed pressure and density
-      EBCS => EBCS_TAB%tab(IEBCS)%poly
-      C = zero
-      LCAR = zero
-      ener = zero
-      PRES = ZERO
-      RHO = ZERO
-      R1 = ZERO
-      R2 = ZERO
-      IPRES = 0 
-      IRHO = 0 
-      IENER = 0 
-      SELECT TYPE (EBCS)
-      TYPE IS (t_ebcs_pres)
-        IPRES=EBCS%ipres
-        IRHO=EBCS%irho
-        IENER=EBCS%iener
-        IF(IPRES>0)THEN
-           PRES=EBCS%pres*FV(IPRES)
-        ELSE
-           PRES=EBCS%pres
-        ENDIF
-        IF(IRHO>0)THEN
-           RHO=EBCS%rho*FV(IRHO)
-        ELSE
-           RHO=EBCS%rho
-        ENDIF
-        IF(IENER>0)THEN
-           ENER=EBCS%ener*FV(IENER)
-        ELSE
-           ENER=EBCS%ener
-        ENDIF
-        C=EBCS%c
-        LCAR=EBCS%lcar
-        R1=EBCS%r1
-        R2=EBCS%r2
-      TYPE IS (t_ebcs_valvin)
-        IPRES=EBCS%ipres
-        IRHO=EBCS%irho
-        IENER=EBCS%iener
-        IF(IPRES>0)THEN
-           PRES=EBCS%pres*FV(IPRES)
-        ELSE
-           PRES=EBCS%pres
-        ENDIF
-        IF(IRHO>0)THEN
-           RHO=EBCS%rho*FV(IRHO)
-        ELSE
-           RHO=EBCS%rho
-        ENDIF
-        IF(IENER>0)THEN
-           ENER=EBCS%ener*FV(IENER)
-        ELSE
-           ENER=EBCS%ener
-        ENDIF
-        C=EBCS%c
-        LCAR=EBCS%lcar
-        R1=EBCS%r1
-        R2=EBCS%r2
-      TYPE IS (t_ebcs_valvout)
-        IPRES=EBCS%ipres
-        IRHO=EBCS%irho
-        IENER=EBCS%iener
-        IF(IPRES>0)THEN
-           PRES=EBCS%pres*FV(IPRES)
-        ELSE
-           PRES=EBCS%pres
-        ENDIF
-        IF(IRHO>0)THEN
-           RHO=EBCS%rho*FV(IRHO)
-        ELSE
-           RHO=EBCS%rho
-        ENDIF
-        IF(IENER>0)THEN
-           ENER=EBCS%ener*FV(IENER)
-        ELSE
-           ENER=EBCS%ener
-        ENDIF
-        C=EBCS%c
-        LCAR=EBCS%lcar
-        R1=EBCS%r1
-        R2=EBCS%r2
-      END SELECT
-
+      C=EBCS%c
+      RHO=EBCS%rho
       ROC=RHO*C
-c
-c      write(6,*)R1,R2,LCAR
-c
-      ALP=ZERO
-      IF (LCAR>0)ALP=C*DT1/LCAR
+      DE_IN = ZERO
+      DE_OUT = ZERO
+      DM_IN = ZERO
+      DM_OUT = ZERO
+C
+C     initialization of initial densities and energies
+C
+      IF(TIME == ZERO)THEN
+        DO IS=1,NSEG
+          KSEG=ABS(ISEG(IS))
+          RO0(IS) = SEGVAR%RHO(KSEG)
+          EN0(IS) = SEGVAR%EINT(KSEG)
+        ENDDO            
+        DO I=1,NOD
+          N=LISTE(I)
+          V0(1,I)=V(1,N)
+          V0(2,I)=V(2,N)
+          V0(3,I)=V(3,N)
+        ENDDO
+      ENDIF
 C SURFACE NORMALE NODALES
       DO I=1,NOD
          LA(1,I)=ZERO
@@ -204,6 +136,7 @@ C
         VMX=V(1,NG1)+V(1,NG2)+V(1,NG3)
         VMY=V(2,NG1)+V(2,NG2)+V(2,NG3)
         VMZ=V(3,NG1)+V(3,NG2)+V(3,NG3)
+
         IF(N4/=N3) THEN
            LA(1,N4)=LA(1,N4)+NX
            LA(2,N4)=LA(2,N4)+NY
@@ -217,58 +150,47 @@ c bilan masse et energie totale
 c
         ROOU = SEGVAR%RHO(KSEG)
         ENOU = SEGVAR%EINT(KSEG)
-C
+c
         FLUXO=(VMX*NX+VMY*NY+VMZ*NZ)*DT1
         FLUXI=MIN(FLUXO,ZERO)
         FLUXO=MAX(FLUXO,ZERO)
-        DMF=DMF-FLUXO*ROOU-FLUXI*RHO
-        DEF=DEF-FLUXO*ENOU-FLUXI*ENER
+        DM_OUT=DM_OUT-FLUXO*ROOU
+        DM_IN=DM_IN-FLUXI*RO0(IS)
+        DE_OUT=DE_OUT-FLUXO*ENOU
+        DE_IN=DE_IN-FLUXI*EN0(IS)
 C
 C storage of density and incoming energy in facet buffer
 C
-        SEGVAR%RHO(KSEG)=RHO
-        SEGVAR%EINT(KSEG)=ENER
+        SEGVAR%RHO(KSEG)=RO0(IS)
+        SEGVAR%EINT(KSEG)=EN0(IS)
       ENDDO
-C
+
+!$OMP CRITICAL
+      OUTPUT%DATA%INOUT%DM_IN  = OUTPUT%DATA%INOUT%DM_IN + DM_IN
+      OUTPUT%DATA%INOUT%DM_OUT = OUTPUT%DATA%INOUT%DM_OUT + DM_OUT
+      OUTPUT%DATA%INOUT%DE_IN = OUTPUT%DATA%INOUT%DE_IN + DE_IN
+      OUTPUT%DATA%INOUT%DE_OUT = OUTPUT%DATA%INOUT%DE_OUT + DE_OUT
+!$OMP END CRITICAL
+
+
       DO I=1,NOD
         N=LISTE(I)
         S=SQRT(LA(1,I)**2+LA(2,I)**2+LA(3,I)**2)
-        VN=(V(1,N)*LA(1,I)+V(2,N)*LA(2,I)+V(3,N)*LA(3,I))/S
-C Adding Resistance
-        PN=PRES+R1*VN+R2*VN*ABS(VN)
-        DPDV=ROC+R1+TWO*R2*ABS(VN)
-c condition darret
-c        write(6,*)i,n,pn,pres,-0.5*RHO*VN**2
-        IF(VN<0)THEN
-          PN=PN-HALF*RHO*VN**2
-          DPDV=DPDV-RHO*VN
-        ENDIF
-c silent boundary
-        IF(TT>0)THEN
-          DU=ROC*(VN-VO(I))
-        ELSE
-          DU=ZERO
-          PO(I)=PN
-        ENDIF
-        DP=ALP*(PN-PO(I))
-c        write(6,*)'velocity',vn,vo(i)
-        VO(I)=VN
-        P=PO(I)+DP+DU
-        IF(C==ZERO)P=PN
-c        write(6,*)'ebcs1 pression',p,'vn',vn,'dp',dp,'du',du
+        DVX=V(1,N)-V0(1,I)
+        DVY=V(2,N)-V0(2,I)
+        DVZ=V(3,N)-V0(3,I)
+c        write(6,*)I,N,v(3,N),v0(3,I),roc
+        P=ROC*(DVX*LA(1,I)+DVY*LA(2,I)+DVZ*LA(3,I))/S
 c
         A(1,N)=A(1,N)-P*LA(1,I)
         A(2,N)=A(2,N)-P*LA(2,I)
         A(3,N)=A(3,N)-P*LA(3,I)
-C contribution of forces to the global energy loss
-        DEF=DEF-HALF*(PO(I)+P)*DT1*VN*S
-        PO(I)=P
-        STIFN(N)=STIFN(N)+(TWO*(S*DPDV)**2)/MS(N)
-c        write(6,*)'stifn',STIFN(N)
+        STIFN(N)=STIFN(N)+(TWO*(S*ROC)**2)/MS(N)
       ENDDO
 c
       RETURN
-      END
+      END SUBROUTINE EBCS7_INIV
+      END MODULE EBCS7_INIV_MOD
 
 
 
