@@ -2208,6 +2208,7 @@ C===============================================================================
               NEED_COMM_INT25_SOLID_EROSION = .FALSE.
               COMM_INT25_SOLID_EROSION = 0
 
+              CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL
 !$OMP+ PRIVATE(ITSK,NODFTSK,NODLTSK,NUMNTSK,NDTSK,IPMTSK,IGMTSK)
 !$OMP+ PRIVATE(PARTFTSK,PARTLTSK,NWAFTSK,N1,GREFTSK,GRELTSK)
@@ -2289,6 +2290,7 @@ C
      9         ISKWN  ,IFRAME  ,LOADS ,GLOB_THERM,PBLAST,RBE3)
 
 !$OMP END PARALLEL
+              CALL PYTHON_END_OPENMP(PYTHON)
               IF (ALEMUSCL_Param%IALEMUSCL == 0) DEALLOCATE(ADDTMPL)
 C========================================================================================
 C                                  NON PARALLEL SECTION (SMP)
@@ -2553,6 +2555,7 @@ C------------IF adaptive Mesh : check if there are elements eroded after trimmin
                 ENDIF
 c         allocate(nodes%deleted_node(2*numnod)) ! working array to mark nodes connected to deleted element
 c         allocate(nodes%work_array_node(nthread*numnod)) ! working array to mark nodes (connected to active element or deleted element)
+              CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL
 !$OMP+ PRIVATE(ITSK,NODFTSK,NODLTSK,NUMNTSK,NDTSK,IPMTSK,IGMTSK)
 !$OMP+ PRIVATE(PARTFTSK,PARTLTSK,NWAFTSK,N1,GREFTSK,GRELTSK,omp_address)
@@ -2664,6 +2667,7 @@ C Init var parallel SMP
 
 
 !$OMP END PARALLEL
+                CALL PYTHON_END_OPENMP(PYTHON)
                 CALL DEALLOC_SHOOT_INTER( SHOOT_STRUCT )
               ENDIF
 
@@ -3576,6 +3580,7 @@ C-------------------------------------------------------------------
                 CALL TRACE_IN(10,0,ZERO)
                 IF (IMON>0) CALL STARTIME(TIMERS,TIMER_KIN)
                 IF (IMONM > 0) CALL STARTIME(TIMERS,41)
+               CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL
                 CALL PFLUID(ILOADP  ,LOADP             ,NPC        ,TF          ,NODES%A               ,
      2                      NODES%V       ,NODES%X                 ,XFRAME      ,NODES%MS              ,
@@ -3583,6 +3588,7 @@ C-------------------------------------------------------------------
      4                      ELEMENT%PON%FSKY , ELEMENT%PON%FSKY                 ,LLOADP                ,NODA_FEXT   ,H3D_DATA  ,
      5                      OUTPUT%TH%TH_SURF, PYTHON)
 !$OMP END PARALLEL
+                CALL PYTHON_END_OPENMP(PYTHON)
                 IF (IMONM > 0) CALL STOPTIME(TIMERS,41)
                 IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_KIN)
                 CALL TRACE_OUT(10)
@@ -4070,7 +4076,7 @@ C-----------------------------
 C========================================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
-
+              CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL
 !$OMP+ PRIVATE(ITSK,NODFTSK,NODLTSK,NUMNTSK,NDTSK,IPMTSK,IGMTSK)
 !$OMP+ PRIVATE(PARTFTSK,PARTLTSK,NWAFTSK,DT2TT,NELTSTT,ITYPTSTT)
@@ -4139,6 +4145,7 @@ C
 #include "lockoff.inc"
 
 !$OMP END PARALLEL
+               CALL PYTHON_END_OPENMP(PYTHON)
 
                 IF(NEED_COMM_INTER18) THEN
                   CALL SPMD_EXCH_INTER_18(NINTER,NSPMD,NUMBER_INTER18,SXCELL,INTER18_LIST,
@@ -4182,7 +4189,7 @@ C----------------------------------
 C========================================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
-
+              CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL
 !$OMP+ PRIVATE(ITSK,NODFTSK,NODLTSK,NUMNTSK,NDTSK,IPMTSK,IGMTSK)
 !$OMP+ PRIVATE(PARTFTSK,PARTLTSK,NWAFTSK,GREFTSK,GRELTSK)
@@ -4223,6 +4230,7 @@ C int 24+pxfem
               ENDIF
 C
 !$OMP END PARALLEL
+              CALL PYTHON_END_OPENMP(PYTHON)
 
               IF(ANIM_PLY > 0) VN_NOD = ZERO
 
@@ -4289,7 +4297,7 @@ C----------------------------------------
 C=======================================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
-
+                CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL
 !$OMP+ PRIVATE(ITSK,NODFTSK,NODLTSK,NUMNTSK,NDTSK,IPMTSK,IGMTSK)
 !$OMP+ PRIVATE(PARTFTSK,PARTLTSK,NWAFTSK,IADISK)
@@ -4338,6 +4346,7 @@ C Init var parallel SMP
 #include "lockoff.inc"
 
 !$OMP END PARALLEL
+                CALL PYTHON_END_OPENMP(PYTHON)
 
                 IF(IMPL_S>0) THEN
                   CALL RE2INT5(NT_IMP,NUM_IMP,NS_IMP,NE_IMP,NUM_IMPL,IPARI,NINT7)
@@ -4387,7 +4396,7 @@ C===============================================================================
                 ELSE
                   CALL ASSIGN_PTRX(ptrX,NODES%X,NUMNOD)
                 ENDIF
-
+                CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL
 !$OMP+ PRIVATE(ITSK,NODFTSK,NODLTSK,NUMNTSK,NDTSK,IPMTSK,IADISK,IGMTSK)
 !$OMP+ PRIVATE(PARTFTSK,PARTLTSK,NWAFTSK,DT2TT,NELTSTT,ITYPTSTT)
@@ -4470,6 +4479,7 @@ C Init var parallel SMP
                   CALL ASSPARXX(ITSK, INTLIST,NBINTC,IPARI,GLOB_THERM%NODADT_THERM)
                 ENDIF
 !$OMP END PARALLEL
+                CALL PYTHON_END_OPENMP(PYTHON)
 
 C========================================================================================
 C                                     NON PARALLEL SECTION (SMP)
@@ -4671,6 +4681,7 @@ C   User Libraries get the possibility to use GET_U_NOD_X & GET_U_NOD_V in user 
               GETUNOD_NOCOM=1
 C -------------------------------------------------------------------
               LLT1 = I87G+3*NUMELTG
+              CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL
 !$OMP+ PRIVATE(ITSK,NODFTSK,NODLTSK,NUMNTSK,NDTSK,IPMTSK,IGMTSK)
 !$OMP+ PRIVATE(PARTFTSK,PARTLTSK,NWAFTSK,DT2TT,NELTSTT,ITYPTSTT)
@@ -4728,6 +4739,7 @@ C Init var parallel SMP
               END IF
 #include "lockoff.inc"
 !$OMP END PARALLEL
+              CALL PYTHON_END_OPENMP(PYTHON)
               CALL TRACE_OUT(14)
               IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_ELEMENT)
 
@@ -4752,6 +4764,7 @@ C
 C========================================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
+           CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL
 !$OMP+ PRIVATE(ITSK,NODFTSK,NODLTSK,NUMNTSK,NDTSK,IPMTSK)
 !$OMP+ PRIVATE(PARTFTSK,PARTLTSK,NWAFTSK,DT2TT,NELTSTT,ITYPTSTT)
@@ -4818,6 +4831,7 @@ C
               END IF
 #include "lockoff.inc"
 !$OMP END PARALLEL
+              CALL PYTHON_END_OPENMP(PYTHON)
               CALL TRACE_OUT(14)
 
               IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_ELEMENT)
@@ -4832,6 +4846,7 @@ C-----------------------------------------------
 C========================================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
+              CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL
 !$OMP+ PRIVATE(ITSK,NODFTSK,NODLTSK,NUMNTSK,NDTSK,IPMTSK,IGMTSK)
 !$OMP+ PRIVATE(PARTFTSK,PARTLTSK,NWAFTSK,GREFTSK,GRELTSK)
@@ -4856,6 +4871,7 @@ C Init var parallel SMP
      B            WASPH(KSPACTIV),ICONTACT_OLD,OFF_SPH_R2R,WSMCOMP,IRUNN_BIS,
      C            SPH_IORD1,SPH_WORK,OUTPUT%TH%WFEXT)
 !$OMP END PARALLEL
+              CALL PYTHON_END_OPENMP(PYTHON)
 
                 IF (IMONM > 0) CALL STOPTIME(TIMERS,87)
 C========================================================================================
@@ -4863,6 +4879,7 @@ C                                     PARALLEL SECTION (SMP)
 C========================================================================================
                 IF (IMONM > 0) CALL STARTIME(TIMERS,88)
 
+                CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL
 !$OMP+ PRIVATE(ITSK,NODFTSK,NODLTSK,NUMNTSK,NDTSK,IPMTSK)
 !$OMP+ PRIVATE(PARTFTSK,PARTLTSK,NWAFTSK)
@@ -4913,6 +4930,7 @@ C----------------------------------
 #include "lockoff.inc"
 
 !$OMP END PARALLEL
+                CALL PYTHON_END_OPENMP(PYTHON)
 C -------------------------------------------------------------------
 C   User Libraries get the possibility to use GET_U_NOD_X & GET_U_NOD_V in user elements properties (Solids & Springs)
                 GETUNOD_NOCOM=0
@@ -5138,7 +5156,7 @@ C===============================================================================
               IF(NUMSPH /= 0 .AND. NSPHSOL /= 0 )THEN
                 IF (IMONM > 0) CALL STARTIME(TIMERS,48)
                 IF (IMONM > 0) CALL STARTIME(TIMERS,89)
-
+                CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL
 !$OMP+PRIVATE(ITSK,NODFTSK,NODLTSK)
                 ITSK = OMP_GET_THREAD_NUM()
@@ -5153,6 +5171,7 @@ C===============================================================================
      5           SOL2SPH_TYP)
 
 !$OMP END PARALLEL
+                CALL PYTHON_END_OPENMP(PYTHON)
 
                 IF (IMONM > 0) CALL STOPTIME(TIMERS,89)
                 IF (IMONM > 0) CALL STOPTIME(TIMERS,48)
@@ -5334,6 +5353,7 @@ C                                     PARALLEL SECTION (SMP)
 C========================================================================================
               IF(IPARIT==1) ALLOCATE( FSKY_L(NISKY) )
               DTNOD_NLOCAL = EP20
+              CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL
 !$OMP+PRIVATE(ITSK,NODFTSK,NODLTSK,PARTFTSK,PARTLTSK,GREFTSK,GRELTSK,NODFTSK_2,NODLTSK_2,NODFT_NL,NODLT_NL)
               ITSK = OMP_GET_THREAD_NUM()
@@ -5424,6 +5444,7 @@ C
               IF(KDTINT/=0) CALL MODSTI(NODFTSK,NODLTSK,NODES%STIFN,NODES%VISCN,NODES%MS)
 
 !$OMP END PARALLEL
+              CALL PYTHON_END_OPENMP(PYTHON)
 C
               IF(IPARIT==1) DEALLOCATE( FSKY_L )
               IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_ASM)
@@ -5458,6 +5479,7 @@ C                                     PARALLEL SECTION (SMP)
 C========================================================================================
 
               IF (NS10E > 0) THEN
+              CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL
 !$OMP+PRIVATE(ITSK,NODFTSK,NODLTSK,GREFTSK,GRELTSK)
                 ITSK = OMP_GET_THREAD_NUM()
@@ -5470,13 +5492,14 @@ C===============================================================================
      2                       ITAGND  ,NODFTSK,NODLTSK,GREFTSK,GRELTSK,
      3                       ITSK  ,NODES%ITAB   ,NODES%STIFN, STIFND)
 !$OMP END PARALLEL
+                CALL PYTHON_END_OPENMP(PYTHON)
               END IF
 c--------------------------------------
               IF(SOL2SPH_FLAG/=0)THEN
 C========================================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
-
+              CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL PRIVATE(ITSK,NODFTSK,NODLTSK)
                 ITSK = OMP_GET_THREAD_NUM()
                 NODFTSK   = 1+ITSK*NUMNOD/ NTHREAD
@@ -5492,6 +5515,7 @@ C===============================================================================
                   DMSPH(I)=ZERO
                 ENDDO
 !$OMP END PARALLEL
+                CALL PYTHON_END_OPENMP(PYTHON)
               ENDIF
 
 C========================================================================================
@@ -5664,6 +5688,7 @@ C===============================================================================
 
 c         allocate(nodes%deleted_node(2*numnod)) ! working array to mark nodes connected to deleted element
 c         allocate(nodes%work_array_node(nthread*numnod)) ! working array to mark nodes (connected to active element or deleted element)
+                CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL
 !$OMP+ PRIVATE(ITSK,NODFTSK,NODLTSK,NUMNTSK,NDTSK,IPMTSK,IGMTSK)
 !$OMP+ PRIVATE(PARTFTSK,PARTLTSK,NWAFTSK,GREFTSK,GRELTSK,omp_address)
@@ -5792,6 +5817,7 @@ C Init var parallel SMP
                   ENDIF
 
 !$OMP END PARALLEL
+                  CALL PYTHON_END_OPENMP(PYTHON)
                   IF (IMONM > 0 ) CALL STOPTIME(TIMERS,29)
                   CALL DEALLOC_SHOOT_INTER( SHOOT_STRUCT )
                 ENDIF
@@ -5946,7 +5972,7 @@ C-----------------------------------------------------
 C========================================================================================
 C                    PARALLEL SECTION (SMP)
 C========================================================================================
-
+                CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL PRIVATE(ITSK)
                 ITSK = OMP_GET_THREAD_NUM()
 
@@ -5959,6 +5985,7 @@ C        /---------------/
      4                   MTF        ,CAND_SAV  ,INT18ADD ,NODES%BOUNDARY_ADD,NODES%BOUNDARY ,
      5                   TAGPENE    ,H3D_DATA  ,MULTI_FVM,ALE_CONNECTIVITY%NE_CONNECT,XCELL,XCELL_REMOTE)
 !$OMP END PARALLEL
+                CALL PYTHON_END_OPENMP(PYTHON)
               ENDIF
 C------------------------
 C         INTERFACES TIED
@@ -6005,6 +6032,7 @@ C                    PARALLEL SECTION (SMP)
 C========================================================================================
 
               IF (NS10E > 0) THEN
+              CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL
 !$OMP+PRIVATE(ITSK,NODFTSK,NODLTSK,GREFTSK,GRELTSK)
                 ITSK = OMP_GET_THREAD_NUM()
@@ -6017,6 +6045,7 @@ C===============================================================================
      2                       ITAGND  ,NODFTSK,NODLTSK,GREFTSK,GRELTSK,
      3                       ITSK  ,NODES%ITAB   ,NODES%STIFN  , STIFND)
 !$OMP END PARALLEL
+              CALL PYTHON_END_OPENMP(PYTHON)
 
 C========================================================================================
 C                                     NON PARALLEL SECTION (SMP)
@@ -6071,12 +6100,14 @@ C===============================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
 
+               CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL PRIVATE(ITSK,NODFTSK,NODLTSK)
                 ITSK = OMP_GET_THREAD_NUM()
                 NODFTSK   = 1+ITSK*NUMNOD/ NTHREAD
                 NODLTSK   = (ITSK+1)*NUMNOD/NTHREAD
                 CALL CHKMSIN(NODFTSK,NODLTSK,NODES%ITAB,NODES%MS,NODES%IN,NEGMAS)
 !$OMP END PARALLEL
+                CALL PYTHON_END_OPENMP(PYTHON)
 C Implicit barrier on NEGMAS
                 IF(NEGMAS/=0) CALL ARRET(2)
               ENDIF
@@ -6117,6 +6148,7 @@ C===============================================================================
 C========================================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
+                CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL
 
                 CALL RBYFOR(TIMERS,
@@ -6132,6 +6164,7 @@ C===============================================================================
      A            RBY6_C)
 
 !$OMP END PARALLEL
+                CALL PYTHON_END_OPENMP(PYTHON)
                 IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_KIN)
                 IF (IMONM > 0) CALL STOPTIME(TIMERS,40)
 C-----------------------------------------------------
@@ -6175,6 +6208,7 @@ C===============================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
 
+                CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL
                 CALL RMATFORP(TIMERS,
      1          NODES%A        ,NODES%AR        ,NODES%X           ,NODES%VR          ,NODES%IN      ,
@@ -6184,6 +6218,7 @@ C===============================================================================
      5          KINDRBYM ,RBYM6  )
 
 !$OMP END PARALLEL
+                CALL PYTHON_END_OPENMP(PYTHON)
 
               ENDIF
 
@@ -6236,6 +6271,7 @@ C
                   sz_mw6 = 1
                   CALL MY_ALLOC(MW6,6,1)
                 endif
+                CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL PRIVATE(ITSK,NODFTSK,NODLTSK)
                 ITSK = OMP_GET_THREAD_NUM()
                 NODFTSK   = 1+ITSK*NUMNOD/ NTHREAD
@@ -6267,6 +6303,7 @@ C
      M                     MSKYI_FI_SMS, LIST_SMS,LIST_RMS,SZ_mw6,MW6)
 c
 !$OMP END PARALLEL
+                CALL PYTHON_END_OPENMP(PYTHON)
 
                 PTR_SMS => NODXI_SMS
 
@@ -6418,7 +6455,7 @@ C
 C========================================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
-
+              CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL
 !$OMP+PRIVATE(ITSK,DT2TT,NELTSTT,ITYPTSTT,NODFTSK,NODLTSK)
 !$OMP+PRIVATE(DMAST,DINERT)
@@ -6487,6 +6524,7 @@ C------------Need to stop computation at Tstop for /DT/THERM----------
 #include "lockoff.inc"
 
 !$OMP END PARALLEL
+             CALL PYTHON_END_OPENMP(PYTHON)
 
 C ----RAZ of NODES%STIFN AND NODES%STIFR for kjoints with element time step----------------------
               IF ((FLG_KJ2_RAZ==1).AND.(I7KGLO==0).AND.(IDTMINS==0).AND.(NODADT==0)) THEN
@@ -6539,6 +6577,7 @@ C-----------------------------
 C========================================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
+               CALL PYTHON_BEGIN_OPENMP(PYTHON) 
 !$OMP PARALLEL
 !$OMP+ PRIVATE(ITSK,NODFTSK,NODLTSK,NUMNTSK,NDTSK,IPMTSK,IGMTSK)
 !$OMP+ PRIVATE(PARTFTSK,PARTLTSK,NWAFTSK,DT2TT,NELTSTT,ITYPTSTT)
@@ -6562,6 +6601,7 @@ C Init var parallel SMP
                 END IF
 #include "lockoff.inc"
 !$OMP END PARALLEL
+                CALL PYTHON_END_OPENMP(PYTHON)
 C========================================================================================
 C                                     NON PARALLEL SECTION (SMP)
 C========================================================================================
@@ -6746,6 +6786,7 @@ C--------------------------------------------------------------C
                 CALL R2R_SENDKINE(IEXLNK,IGRNOD,NODES%MS,NODES%IN)
                 IF (NSPMD>1) CALL SPMD_BARRIER()
 C--------------------------------------------------------------C
+             CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL PRIVATE(ITSK)
 !$OMP MASTER
 C--------------------------------------------------------------C
@@ -6806,6 +6847,7 @@ C--------------------------------------------------------------C
                 CALL R2R_BLOCK_C()
 C--------------------------------------------------------------C
 !$OMP END PARALLEL
+               CALL PYTHON_END_OPENMP(PYTHON)
 C--------------------------------------------------------------C
 C--------------------------------------------------------------C
 
@@ -6878,6 +6920,7 @@ C                                     PARALLEL SECTION (SMP)
 C========================================================================================
               IF (IMON>0) CALL STARTIME(TIMERS,TIMER_IO)
 
+              CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL PRIVATE(ITSK,NODFTSK,NODLTSK)
 
               ITSK = OMP_GET_THREAD_NUM()
@@ -6898,6 +6941,7 @@ C-----------------------------------------------
               CALL FORANI2(OUTPUT,NODES%A,NODFTSK,NODLTSK,H3D_DATA)
 
 !$OMP END PARALLEL
+              CALL PYTHON_END_OPENMP(PYTHON)
 
               IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_IO)
 C-----------------------------------------------
@@ -6917,7 +6961,7 @@ C===============================================================================
                 CALL MY_ALLOC(CJWORK,18,NJOINT)
                 CALL MY_ALLOC(FREA,3,NUMNOD)
                 CALL MY_ALLOC(IRWL_WORK,SLPRW)
-
+                CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL PRIVATE(ITSK,NODFTSK,NODLTSK)
                 ITSK = OMP_GET_THREAD_NUM()
                 NODFTSK   = 1+ITSK*NUMNOD/ NTHREAD
@@ -6953,6 +6997,7 @@ C===============================================================================
      S                IRWL_WORK,SMS_VFI,sz_mw6,MW6,OUTPUT%TH%WFEXT,ams_work)
 
 !$OMP END PARALLEL
+                CALL PYTHON_END_OPENMP(PYTHON)
 
                 IF (ALLOCATED(CJWORK)) DEALLOCATE(CJWORK)
                 IF (ALLOCATED(FREA)) DEALLOCATE(FREA)
@@ -6995,7 +7040,7 @@ C-----------------------
 C========================================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
-
+                CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL PRIVATE(ITSK,NODFTSK,NODLTSK)
                 ITSK = OMP_GET_THREAD_NUM()
                 NODFTSK   = 1+ITSK*NUMNOD/ NTHREAD
@@ -7033,6 +7078,7 @@ C-----------------------------------------------
                 ENDIF ! ILAG+IALE+IEULER/=0
 
 !$OMP END PARALLEL
+                CALL PYTHON_END_OPENMP(PYTHON)
 
                 IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_INTEG)
 C-----------------------------------------------
@@ -7043,7 +7089,7 @@ C-----------------------------------------------
 C========================================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
-
+                CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL
 
                   CALL RBYCOR(
@@ -7052,6 +7098,7 @@ C===============================================================================
      3                 NODES%AR  ,NODES%MS  ,NODES%IN   ,KINDRBY,IRBKIN_L,NRBYKIN_L ,
      4                 NODES%WEIGHT_MD,MS_2D)
 !$OMP END PARALLEL
+                CALL PYTHON_END_OPENMP(PYTHON)
 
                   IF(IMON>0) CALL STOPTIME(TIMERS,TIMER_KIN)
                   IF(IMONM > 0) CALL STOPTIME(TIMERS,40)
@@ -7064,11 +7111,13 @@ C===============================================================================
                   IF(IMONM > 0) CALL STARTIME(TIMERS,40)
 C
 
+                  CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL
                   CALL RBE2COR(IRBE2 ,LRBE2 ,NODES%X    ,NODES%V     ,NODES%VR    ,
      2                         SKEWS%SKEW  ,NODES%ISKEW ,NODES%ITAB ,NODES%WEIGHT,NODES%A     ,
      3                         NODES%AR    ,NODES%MS0   ,NODES%IN   ,NODES%WEIGHT_MD)
 !$OMP END PARALLEL
+                  CALL PYTHON_END_OPENMP(PYTHON)
 
                   IF(IMON>0) CALL STOPTIME(TIMERS,TIMER_KIN)
                   IF(IMONM > 0) CALL STOPTIME(TIMERS,40)
@@ -7133,6 +7182,7 @@ C===============================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
 
+                CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL PRIVATE(ITSK,NODFTSK,NODLTSK)
                 ITSK = OMP_GET_THREAD_NUM()
                 NODFTSK   = 1+ITSK*NUMNOD/ NTHREAD
@@ -7146,7 +7196,7 @@ C-------  ----------------
                 ENDIF
 
 !$OMP END PARALLEL
-
+                CALL PYTHON_END_OPENMP(PYTHON)
 
 
 C-----------------------------------------------
@@ -7167,7 +7217,7 @@ C------------------------
 C========================================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
-
+                 CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL PRIVATE(ITSK,IPMTSK)
                   ITSK = OMP_GET_THREAD_NUM()
                   IPMTSK = 1 + ITSK*NPSAV*NPART
@@ -7184,6 +7234,7 @@ C===============================================================================
      9            IGEO      ,SOL2SPH_TYP,SPH_WORK)
 
 !$OMP END PARALLEL
+                  CALL PYTHON_END_OPENMP(PYTHON)
                   DEALLOCATE(WASPSYM)
 
 C========================================================================================
@@ -7207,6 +7258,7 @@ C===============================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
 
+                  CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL
 !$OMP+ PRIVATE(ITSK,NODFTSK,NODLTSK,NUMNTSK,NDTSK,IPMTSK,IGMTSK)
 !$OMP+ PRIVATE(PARTFTSK,PARTLTSK,NWAFTSK,GREFTSK,GRELTSK)
@@ -7221,6 +7273,7 @@ C Init var parallel SMP
      2               PARTFTSK,PARTLTSK,PARTSAV,GREFTSK,GRELTSK,GRESAV)
 
 !$OMP END PARALLEL
+                  CALL PYTHON_END_OPENMP(PYTHON)
 
                 ENDIF  ! (NUMSPH/=0).OR.(SOL2SPH_FLAG==1)
 C========================================================================================
@@ -7254,6 +7307,7 @@ C===============================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
 
+                CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL PRIVATE(ITSK,NODFTSK,NODLTSK,NODFT_NL,NODLT_NL)
                 ITSK = OMP_GET_THREAD_NUM()
                 NODFTSK   = 1+ITSK*NUMNOD/ NTHREAD
@@ -7318,6 +7372,7 @@ C-----------------------------------------------
                 IF (GLOB_THERM%ITHERM_FE > 0 )
      .             CALL TEMPUR(NODES%TEMP ,NODES%MCP,FTHE,NODFTSK,NODLTSK,NODES%WEIGHT,MCP_OFF,GLOB_THERM%HEAT_STORED)
 !$OMP END PARALLEL
+                CALL PYTHON_END_OPENMP(PYTHON)
 
 C------------------------------------------
 C       DT_DC for thick-shell
@@ -7330,6 +7385,7 @@ C===============================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
 
+                CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL
 !$OMP+PRIVATE(ITSK,NODFTSK,NODLTSK,GREFTSK,GRELTSK)
                   ITSK = OMP_GET_THREAD_NUM()
@@ -7337,6 +7393,7 @@ C===============================================================================
                   GRELTSK   = (ITSK+1)*NTSHEG/NTHREAD
                   CALL ACCDTDC(GREFTSK,GRELTSK,IENUNL ,ALPHA_DC,NODES%A       ,NODES%MS   ,NODES%ITAB )
 !$OMP END PARALLEL
+                CALL PYTHON_END_OPENMP(PYTHON)
                 ENDIF
 
                 IF(NTSHEGG>0.AND.NSPMD > 1)
@@ -7436,6 +7493,7 @@ C===============================================================================
 
                 IF(COMPTREAC/=0.AND.(IMPL_S==0 .OR. INCONV==1)) THEN
 
+                   CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL PRIVATE(ITSK,NODFTSK,NODLTSK)
 
                   ITSK = OMP_GET_THREAD_NUM()
@@ -7451,7 +7509,7 @@ C-----------------------------------------------
                   CALL REACTION_FORCES_2(NODFTSK,NODLTSK,NODES%A,NODES%AR,NODES%MS,NODES%IN,FREAC,IFLAG)
 
 !$OMP END PARALLEL
-
+                    CALL PYTHON_END_OPENMP(PYTHON)  
                 END IF
 
                 IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_IO)
@@ -7468,6 +7526,7 @@ C===============================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
 
+                CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL PRIVATE(ITSK)
                   ITSK = OMP_GET_THREAD_NUM()
                   IF(MULTI_FVM%IS_USED)THEN
@@ -7482,6 +7541,7 @@ C===============================================================================
      3                          NODES%WEIGHT ,LGRAV   ,ITSK  ,NSENSOR, PYTHON, OUTPUT%TH%WFEXT)
                   ENDIF
 !$OMP END PARALLEL
+                CALL PYTHON_END_OPENMP(PYTHON)
 
 C========================================================================================
 C                                     NON PARALLEL SECTION (SMP)
@@ -7514,12 +7574,14 @@ C===============================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
 
+                CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL PRIVATE(ITSK)
                   ITSK = OMP_GET_THREAD_NUM()
                   CALL CFIELD_1(PYTHON,ICFIELD  ,CFIELD,NPC   ,TF    ,NODES%A,
      2                            NODES%V     ,NODES%X     ,XFRAME  ,NODES%MS,SENSORS%SENSOR_TAB,
      3                            NODES%WEIGHT,LCFIELD,ITSK ,IFRAME,NSENSOR, OUTPUT%TH%WFEXT)
 !$OMP END PARALLEL
+                CALL PYTHON_END_OPENMP(PYTHON)
 
                   IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_KIN)
                 ENDIF
@@ -7531,7 +7593,7 @@ C===============================================================================
                 IF (IMON>0) CALL STARTIME(TIMERS,TIMER_IO)
 
                 IF(COMPTREAC/=0.AND.(IMPL_S==0 .OR. INCONV==1)) THEN
-
+                    CALL PYTHON_BEGIN_OPENMP(PYTHON)  
 !$OMP PARALLEL PRIVATE(ITSK,NODFTSK,NODLTSK)
 
                   ITSK = OMP_GET_THREAD_NUM()
@@ -7547,6 +7609,7 @@ C-----------------------------------------------
                   CALL REACTION_FORCES_2(NODFTSK,NODLTSK,NODES%A,NODES%AR,NODES%MS,NODES%IN,FREAC,IFLAG)
 
 !$OMP END PARALLEL
+                    CALL PYTHON_END_OPENMP(PYTHON)
 
                 END IF
 
@@ -7561,12 +7624,14 @@ C       EXTERNAL FORCES ADDITIONAL CONTRIBUTIONS  before adding in A other kinem
 C         (ANIM, OUTP, H3D)
 C-----------------------------------------------
                 IF (IMON>0) CALL STARTIME(TIMERS,TIMER_IO)
+                CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL PRIVATE(ITSK,NODFTSK,NODLTSK)
                 ITSK = OMP_GET_THREAD_NUM()
                 NODFTSK   = 1+ITSK*NUMNOD/ NTHREAD
                 NODLTSK   = (ITSK+1)*NUMNOD/NTHREAD
                 CALL FORANI3(OUTPUT,NODES%A,NODES%MS,NODFTSK,NODLTSK,H3D_DATA)
 !$OMP END PARALLEL
+                CALL PYTHON_END_OPENMP(PYTHON)
                 IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_IO)
 
 C========================================================================================
@@ -7604,6 +7669,7 @@ C----------------------
 C========================================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
+                  CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL PRIVATE(ITSK)
                   ITSK = OMP_GET_THREAD_NUM()
 C        /---------------/
@@ -7615,6 +7681,7 @@ C        /---------------/
      4                          NODES%STIFN,MTF,CAND_SAV,OUTPUT%DATA%VECT_CONT,INT18ADD,
      5                          NODES%BOUNDARY_ADD,NODES%BOUNDARY,H3D_DATA )
 !$OMP END PARALLEL
+                  CALL PYTHON_END_OPENMP(PYTHON)
                 ENDIF
 C========================================================================================
 C                                     NON PARALLEL SECTION (SMP)
@@ -7652,6 +7719,7 @@ C===============================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
 
+                CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL PRIVATE(ITSK,NODFTSK,NODLTSK)
                 ITSK = OMP_GET_THREAD_NUM()
                 NODFTSK   = 1+ITSK*NUMNOD/ NTHREAD
@@ -7665,6 +7733,7 @@ C---
      .            CALL PLY_BCS(NODFTSK, NODLTSK,ICODT_PLY,ISKEW_PLY,SKEWS%SKEW,
      .                         INOD_PXFEM,MS_PLY,IBC_PLY)
 !$OMP END PARALLEL
+                CALL PYTHON_END_OPENMP(PYTHON)
 
                 IF (IMONM > 0) THEN
                   CALL STOPTIME(TIMERS,42)
@@ -7678,6 +7747,8 @@ C      [RLINK1][RLINK2]...   (ON FREE TASK)
 C      [RIVETS]                     -
 C      [JOINT1][JOINT2]...          -
 
+C-------------------
+                CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL PRIVATE(ITSK)
                 ITSK = OMP_GET_THREAD_NUM()
 
@@ -7712,6 +7783,7 @@ C-- // -----------
                 ENDIF
 
 !$OMP END PARALLEL
+                CALL PYTHON_END_OPENMP(PYTHON)
 
                 IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_KIN)
                 IF (IMONM > 0) CALL STOPTIME(TIMERS,43)
@@ -7744,6 +7816,7 @@ C---------------------------------------
               ENDIF
 !$OMP END PARALLEL
 
+
               IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_IO)
 
 C-----------------------------------------------
@@ -7762,6 +7835,7 @@ C===============================================================================
 
               IF(COMPTREAC/=0.AND.(IMPL_S==0 .OR. INCONV==1)) THEN
 
+                    CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL PRIVATE(ITSK,NODFTSK,NODLTSK)
 
                 ITSK = OMP_GET_THREAD_NUM()
@@ -7777,13 +7851,14 @@ C-----------------------------------------------
                 CALL REACTION_FORCES_2(NODFTSK,NODLTSK,NODES%A,NODES%AR,NODES%MS,NODES%IN,FREAC,IFLAG)
 
 !$OMP END PARALLEL
-
+                    CALL PYTHON_END_OPENMP(PYTHON)
               END IF
 
               IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_IO)
 C-----------------------------------------------
               IF (IMONM > 0) CALL STARTIME(TIMERS,52)
 
+              CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL PRIVATE(ITSK,NODFTSK,NODLTSK)
 
               ITSK = OMP_GET_THREAD_NUM()
@@ -7832,6 +7907,7 @@ C-----------------------------------------------
               END IF
 
 !$OMP END PARALLEL
+              CALL PYTHON_END_OPENMP(PYTHON)
 
               IF(IMON>0) CALL STOPTIME(TIMERS,52)
 C-----------------------------------------------
@@ -7839,6 +7915,7 @@ C-----------------------------------------------
 
               IF(COMPTREAC/=0.AND.(IMPL_S==0 .OR. INCONV==1)) THEN
 
+                CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL PRIVATE(ITSK,NODFTSK,NODLTSK)
 
                 ITSK = OMP_GET_THREAD_NUM()
@@ -7854,6 +7931,7 @@ C-----------------------------------------------
                 CALL REACTION_FORCES_2(NODFTSK,NODLTSK,NODES%A,NODES%AR,NODES%MS,NODES%IN,FREAC,IFLAG)
 
 !$OMP END PARALLEL
+                CALL PYTHON_END_OPENMP(PYTHON)
 
               END IF
 
@@ -7866,7 +7944,7 @@ C===============================================================================
               IF (IMON>0) CALL STARTIME(TIMERS,TIMER_IO)
 
               IF(CPTREAC/=0.AND.(IMPL_S==0 .OR. INCONV==1)) THEN
-
+                CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL PRIVATE(ITSK,NODFTSK,NODLTSK)
 
                 ITSK = OMP_GET_THREAD_NUM()
@@ -7882,7 +7960,7 @@ C-----------------------------------------------
      .                                    NODES%IN     ,FTHREAC ,IFLAG,NODREAC)
 
 !$OMP END PARALLEL
-
+                CALL PYTHON_END_OPENMP(PYTHON)
               END IF
 
               IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_IO)
@@ -7947,6 +8025,7 @@ C===============================================================================
 
               IF(CPTREAC/=0.AND.(IMPL_S==0 .OR. INCONV==1)) THEN
 
+                CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL PRIVATE(ITSK,NODFTSK,NODLTSK)
 
                 ITSK = OMP_GET_THREAD_NUM()
@@ -7961,6 +8040,7 @@ C----------------------------------------------
                 CALL REACTION_FORCES_TH(NODFTSK,NODLTSK ,NODES%A  ,NODES%AR   ,NODES%MS  ,NODES%IN   ,FTHREAC ,IFLAG,NODREAC)
 
 !$OMP END PARALLEL
+                CALL PYTHON_END_OPENMP(PYTHON)
 
               END IF
 
@@ -7973,6 +8053,7 @@ C===============================================================================
               IF (IMON>0) CALL STARTIME(TIMERS,TIMER_KIN)
               IF (IMONM > 0) CALL STARTIME(TIMERS,43)
 
+              CALL PYTHON_BEGIN_OPENMP(PYTHON)  
 !$OMP PARALLEL
 
 C-------------------
@@ -8002,6 +8083,7 @@ C         Obsolete
               ENDIF
 
 !$OMP END PARALLEL
+              CALL PYTHON_END_OPENMP(PYTHON)
 
               IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_KIN)
               IF (IMONM > 0) CALL STOPTIME(TIMERS,43)
@@ -8049,6 +8131,7 @@ C===============================================================================
 
               IF(ISTATCND/=0)THEN
                 IF (IMON>0) CALL STARTIME(TIMERS,38)
+                CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL PRIVATE(ITSK,NODFTSK,NODLTSK)
                 ITSK = OMP_GET_THREAD_NUM()
                 NODFTSK   = 1+ITSK*NUMNOD/ NTHREAD
@@ -8059,6 +8142,7 @@ C===============================================================================
      4                    SH4TREE,SH3TREE ,NODES%ITAB  ,NODES%STIFN ,NODES%STIFR ,
      5                    MSCND  ,INCND   )
 !$OMP END PARALLEL
+                CALL PYTHON_END_OPENMP(PYTHON)
 
                 IF (IMON>0) CALL STOPTIME(TIMERS,38)
 C
@@ -8069,7 +8153,7 @@ C         reimpose bcs.
 C========================================================================================
 C                                          PARALLEL SECTION (SMP)
 C========================================================================================
-
+                CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL PRIVATE(ITSK,NODFTSK,NODLTSK)
 
                 ITSK = OMP_GET_THREAD_NUM()
@@ -8081,6 +8165,7 @@ C===============================================================================
      3                       NODES%VR  )
 
 !$OMP END PARALLEL
+                CALL PYTHON_END_OPENMP(PYTHON)
 
                 IF (IMONM > 0) CALL STOPTIME(TIMERS,42)
                 IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_KIN)
@@ -8098,6 +8183,7 @@ C===============================================================================
 C                                          PARALLEL SECTION (SMP)
 C========================================================================================
 
+                CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL PRIVATE(ITSK)
                 ITSK = OMP_GET_THREAD_NUM()
 
@@ -8106,6 +8192,7 @@ C===============================================================================
      2                    SH4TREE,SH3TREE ,NODES%TEMP ,GLOB_THERM%ITHERM_FE)
 
 !$OMP END PARALLEL
+                CALL PYTHON_END_OPENMP(PYTHON)
 
                 IF (IMON>0) CALL STOPTIME(TIMERS,38)
               END IF
@@ -8127,6 +8214,7 @@ C  CALCUL //
 C      [NRBODY1][NRBODY2]...   (ON FREE TASK)
 C // --------------------------
 
+             CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL
 
                 CALL RBYVIT(
@@ -8137,6 +8225,7 @@ C // --------------------------
      5            FREAC  )
 
 !$OMP END PARALLEL
+                CALL PYTHON_END_OPENMP(PYTHON)
 
 C--------------------------------------------------
                 IF(IMON>0) CALL STOPTIME(TIMERS,TIMER_KIN)
@@ -8153,6 +8242,7 @@ C===============================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
 
+              CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL
 
                 CALL RMATACCE(RBYM , ARBYM, ARRBYM, VRBYM, VRRBYM ,
@@ -8160,6 +8250,7 @@ C===============================================================================
      2                        NODES%V    ,NODES%VR    ,KINDRBYM)
 
 !$OMP END PARALLEL
+              CALL PYTHON_END_OPENMP(PYTHON)
 
               ENDIF
 
@@ -8274,6 +8365,7 @@ C===============================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
 
+                CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL PRIVATE(ITSK)
                 ITSK = OMP_GET_THREAD_NUM()
 
@@ -8284,6 +8376,7 @@ C===============================================================================
      4          NGROUNC ,IGROUNC ,ELBUF_TAB ,IGEO)
 
 !$OMP END PARALLEL
+                CALL PYTHON_END_OPENMP(PYTHON)
 
                 IF (IMONM > 0) CALL STOPTIME(TIMERS,89)
                 IF (IMONM > 0) CALL STOPTIME(TIMERS,48)
@@ -8297,6 +8390,7 @@ C--------------------
 C       ACCELEROMETRE
 C-- // --------------
               IF (NACCELM > 0) THEN
+                 CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL DO PRIVATE(K,N,ISK)
                 DO K=1,NACCELM
 C check that proc is concerned. Otherwise necessary exchange for sensor, th
@@ -8312,6 +8406,7 @@ C check that proc is concerned. Otherwise necessary exchange for sensor, th
                 ENDDO
 C implicit barrier on end do
 !$OMP END PARALLEL DO
+                  CALL PYTHON_END_OPENMP(PYTHON)
 
               END IF ! Fin NACCELM > 0
 
@@ -8319,6 +8414,7 @@ C--------------------
 C       SPH Gauges
 C-- // --------------
               IF (NBGAUGE > 0) THEN
+                CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL DO SCHEDULE(DYNAMIC,1) PRIVATE(N)
                 DO K=1,NBGAUGE
                   IF(IGAUP(K)==ISPMD+1)THEN
@@ -8334,6 +8430,7 @@ C SPH Gauges
                 ENDDO
 C implicit barrier on end do
 !$OMP END PARALLEL DO
+              CALL PYTHON_END_OPENMP(PYTHON)
 
               END IF ! Fin NBGAUGE > 0
 
@@ -8341,6 +8438,7 @@ C--------------------
 C       SPH Flow
 C-- // --------------
               IF (NSPHIO > 0) THEN
+                CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL DO SCHEDULE(DYNAMIC,1) PRIVATE(IVAD)
                 DO K=1,NSPHIO
                   IF (ISPHIO(1,K)>1) THEN
@@ -8352,8 +8450,9 @@ C-- // --------------
                 ENDDO
 C implicit barrier on end do
 !$OMP END PARALLEL DO
+                CALL PYTHON_END_OPENMP(PYTHON)
               END IF
-
+            CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL
               IF(NRBYKIN>0)THEN
                 CALL RBYCOR(
@@ -8370,6 +8469,7 @@ C
      3                       NODES%AR    ,NODES%MS0   ,NODES%IN   ,NODES%WEIGHT_MD)
               ENDIF
 !$OMP END PARALLEL
+              CALL PYTHON_END_OPENMP(PYTHON)
 C========================================================================================
 C                                     NON PARALLEL SECTION (SMP)
 C========================================================================================
@@ -8441,7 +8541,7 @@ C case NSPMD == 1 and options supported only in SMP
 C========================================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
-
+                  CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL
 !$OMP+ PRIVATE(ITSK,NODFTSK,NODLTSK,NUMNTSK,NDTSK,IPMTSK,IGMTSK)
 !$OMP+ PRIVATE(PARTFTSK,PARTLTSK,NWAFTSK,GREFTSK,GRELTSK)
@@ -8466,6 +8566,7 @@ C Init var parallel SMP
      B               PYTHON,NODES)
 
 !$OMP END PARALLEL
+                  CALL PYTHON_END_OPENMP(PYTHON)
 
 C========================================================================================
 C                                     NON PARALLEL SECTION (SMP)
@@ -8534,7 +8635,7 @@ C--------------------------------------------------
 C========================================================================================
 C                                         PARALLEL SECTION (SMP)
 C========================================================================================
-
+                CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL PRIVATE(ITSK,NODFTSK,NODLTSK)
 
                 ITSK = OMP_GET_THREAD_NUM()
@@ -8549,7 +8650,7 @@ C===============================================================================
      .                       THICK_SH4, THICK_SH3, THICK_NOD)
 
 !$OMP END PARALLEL
-
+                CALL PYTHON_END_OPENMP(PYTHON)
               END IF
 
               K1=1+LIPART1*(NPART+NTHPART)+2*9*(NPART+NTHPART)
@@ -8590,7 +8691,7 @@ C        Obsolete
                 ELSEIF(IDTMINS==2.OR.IDTMINS_INT/=0)THEN
 C--------------------------------------------------
                   IF (IMON>0) CALL STARTIME(TIMERS,39)
-
+                  CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL PRIVATE(ITSK,NODFTSK,NODLTSK)
 
                   ITSK = OMP_GET_THREAD_NUM()
@@ -8617,6 +8718,7 @@ C--------------------------------------------------
      H                  LIST_RMS ,SMS_VFI,sz_mw6,mw6)
 
 !$OMP END PARALLEL
+                  CALL PYTHON_END_OPENMP(PYTHON)
 
                   IF (IMON>0) CALL STOPTIME(TIMERS,39)
 
@@ -8646,6 +8748,7 @@ C FINITE VOLUME METHOD FOR ALE
 C-----------------------------
 
               IF(ALEFVM_Param%IEnabled>0)THEN
+                CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL
 !$OMP+ PRIVATE(ITSK,NODFTSK,NODLTSK,NUMNTSK,NDTSK,IPMTSK,IGMTSK)
 !$OMP+ PRIVATE(PARTFTSK,PARTLTSK,NWAFTSK,DT2TT,NELTSTT,ITYPTSTT)
@@ -8668,6 +8771,7 @@ C Init var parallel SMP
      5           ITSK                  ,NODFTSK      , NODLTSK    ,IPM , NV46  ,MSNF     )
 
 !$OMP END PARALLEL
+                CALL PYTHON_END_OPENMP(PYTHON)
               ENDIF
 C========================================================================================
 C                                     PARALLEL SECTION (SMP)
@@ -8676,7 +8780,7 @@ C===============================================================================
               IF (IMON>0) CALL STARTIME(TIMERS,TIMER_IO)
 
               IF(COMPTREAC/=0.AND.(IMPL_S==0 .OR. INCONV==1)) THEN
-
+                CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL PRIVATE(ITSK,NODFTSK,NODLTSK)
 
                 ITSK = OMP_GET_THREAD_NUM()
@@ -8689,6 +8793,7 @@ C-----------------------------------------------
                 CALL REACTION_FORCES_3(NODFTSK,NODLTSK,NODES%A,NODES%AR,NODES%MS,NODES%IN,FREAC)
 
 !$OMP END PARALLEL
+                CALL PYTHON_END_OPENMP(PYTHON)
               END IF
 
               IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_IO)
@@ -8701,6 +8806,7 @@ C===============================================================================
                 L1 = 1+NIXS*NUMELS + NSVOIS*NIXS
                 L2 = L1+6*NUMELS10
                 L3 = L2+12*NUMELS20
+                CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL PRIVATE(ITSK,NODFTSK,NODLTSK)
 c
                 ITSK = OMP_GET_THREAD_NUM()
@@ -8714,6 +8820,7 @@ C--------------------------------------------------
      .                     NODES%WEIGHT ,IPM   ,IGEO    ,STACK   ,ITSK    )
 
 !$OMP END PARALLEL
+                CALL PYTHON_END_OPENMP(PYTHON)
                 IF (IMON>0) CALL STOPTIME(TIMERS,MACRO_TIMER_GENH3D1)
               END IF
 
@@ -9114,6 +9221,7 @@ C===============================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
 
+           CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL
 
 C----------------------------
@@ -9132,6 +9240,7 @@ C===============================================================================
                 ENDIF
 
 !$OMP END PARALLEL
+            CALL PYTHON_END_OPENMP(PYTHON)
 C----------------------------------------------------------------
 C         CLOAD - Save Displacements and Velocities for concentrated loads and pressure loads
 C----------------------------------------------------------------
@@ -9169,6 +9278,7 @@ C===============================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
 
+                CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL PRIVATE(ITSK,NODFTSK,NODLTSK,NODFT_NL,NODLT_NL)
                 ITSK = OMP_GET_THREAD_NUM()
                 NODFTSK   = 1+ITSK*NUMNOD/ NTHREAD
@@ -9200,6 +9310,7 @@ C
 C
 CC
 !$OMP END PARALLEL
+            CALL PYTHON_END_OPENMP(PYTHON)
 
 ! inivel w/ Tstart or sensor
                 IF (LOADS%NINIVELT > 0) THEN
@@ -9235,6 +9346,7 @@ C===============================================================================
                   NTHOLD= NTHREAD
                   NTHREAD=1
                   call omp_set_num_threads(NTHREAD)
+                  CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL PRIVATE(ITSK,NODFTSK,NODLTSK)
                   ITSK = OMP_GET_THREAD_NUM()
                   NODFTSK   = 1+ITSK*NUMNOD/ NTHREAD
@@ -9242,6 +9354,7 @@ C===============================================================================
 c for smp parallel is not parit on
                   CALL PLY_VELOCITY(NODFTSK,NODLTSK,NPLYMAX,INOD_PXFEM,NUMNOD)
 !$OMP END PARALLEL
+                  CALL PYTHON_END_OPENMP(PYTHON)
                   NTHREAD= NTHOLD
                   call omp_set_num_threads(NTHREAD)
                 ENDIF
@@ -9259,6 +9372,7 @@ C===============================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
 
+                  CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL PRIVATE(ITSK,NODFTSK,NODLTSK,NODFT_NL,NODLT_NL)
 
                   ITSK = OMP_GET_THREAD_NUM()
@@ -9291,6 +9405,7 @@ C
                   ENDIF
 C
 !$OMP END PARALLEL
+                  CALL PYTHON_END_OPENMP(PYTHON)
 
                   IF(IMON>0) CALL STOPTIME(TIMERS,TIMER_INTEG)
 C
@@ -9303,6 +9418,7 @@ C===============================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
 
+                  CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL PRIVATE(ITSK,NODFTSK,NODLTSK)
 
                   ITSK = OMP_GET_THREAD_NUM()
@@ -9327,8 +9443,8 @@ C===============================================================================
      G              NE_LERCVOIS     ,NE_LESDVOIS           ,XCELL       ,XFACE       , OUTPUT%TH%WFEXT)
 
 !$OMP END PARALLEL
+                  CALL PYTHON_END_OPENMP(PYTHON)
 
-C-------------------------
 C       -EULER+LAGRANGE-
 C No displacements computed if pure Euler
 C-------------------------
@@ -9340,6 +9456,7 @@ C===============================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
 
+                  CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL PRIVATE(ITSK,NODFTSK,NODLTSK)
 
                   ITSK = OMP_GET_THREAD_NUM()
@@ -9349,6 +9466,7 @@ C===============================================================================
                   CALL EULDX(NODES%V,NODES%D,NODES%X,NODES%DDP,ALE_CONNECTIVITY%NALE,NODFTSK,NODLTSK)
 
 !$OMP END PARALLEL
+                  CALL PYTHON_END_OPENMP(PYTHON)
 
                   IF(IMON>0) CALL STOPTIME(TIMERS,TIMER_INTEG)
                 ENDIF
@@ -9397,6 +9515,7 @@ C===============================================================================
 C                                   PARALLEL SECTION (SMP)
 C========================================================================================
 
+                  CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL PRIVATE(ITSK,NODFTSK,NODLTSK)
                   ITSK = OMP_GET_THREAD_NUM()
                   NODFTSK   = 1+ITSK*NUMNOD/ NTHREAD
@@ -9405,12 +9524,14 @@ c         Use enrtag => positive set enrichments
                   CALL UPENR_CRK(ADSKY_CRK,INOD_CRK ,NODFTSK    ,NODLTSK       ,
      .                           NODENR   ,ENRTAG   ,NODLEVXF   ,PROCNE_CRK    )
 !$OMP END PARALLEL
+                  CALL PYTHON_END_OPENMP(PYTHON)
 
 c         set TAGXP after updating enrichments
                   CALL UPXFEM_TAGXP(XFEM_TAB,
      .                 IPARG        ,ELEMENT%SHELL%IXC        ,NGROUC      ,IGROUC  ,IXTG    ,
      .                 IADC_CRK     ,IEL_CRK    ,INOD_CRK    ,ELCUTC  ,NODEDGE ,
      .                 ENRTAG       ,CRKEDGE    ,XEDGE4N     ,XEDGE3N ,NODES%ITAB    )
+                 CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL PRIVATE(ITSK,NODFTSK,NODLTSK)
                   ITSK = OMP_GET_THREAD_NUM()
                   NODFTSK   = 1+ITSK*NUMNOD/ NTHREAD
@@ -9420,6 +9541,7 @@ c         update velocities of phantom elements
      .                             NODES%X        ,NODES%V        ,NODES%VR       ,NODES%A        ,NODES%AR       ,
      .                             NODES%ITAB     )
 !$OMP END PARALLEL
+                  CALL PYTHON_END_OPENMP(PYTHON)
 
 C========================================================================================
 C                                   NON PARALLEL SECTION (SMP)
@@ -9439,12 +9561,14 @@ C===============================================================================
 C                                   PARALLEL SECTION (SMP)
 C========================================================================================
 
+                  CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL PRIVATE(ITSK,NODFTSK,NODLTSK)
                   ITSK = OMP_GET_THREAD_NUM()
                   NODFTSK   = 1+ITSK*NUMNOD/ NTHREAD
                   NODLTSK   = (ITSK+1)*NUMNOD/NTHREAD
                   CALL CRK_ZERO_ACCEL(ADSKY_CRK,INOD_CRK ,NODFTSK  ,NODLTSK  ,NODLEVXF )
 !$OMP END PARALLEL
+                  CALL PYTHON_END_OPENMP(PYTHON)
 c----------------------------------------------------------------------
 
 C========================================================================================
@@ -9462,7 +9586,7 @@ C===============================================================================
 C========================================================================================
 C                                   PARALLEL SECTION (SMP)
 C========================================================================================
-
+                  CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL PRIVATE(ITSK,NODFTSK,NODLTSK)
                   ITSK = OMP_GET_THREAD_NUM()
                   NODFTSK   = 1+ITSK*NUMNOD/ NTHREAD
@@ -9470,6 +9594,7 @@ C===============================================================================
                   CALL CRK_COORD_INI(ADSKY_CRK,INOD_CRK ,NODFTSK,NODLTSK,NODES%X        ,
      .                               NODLEVXF )
 !$OMP END PARALLEL
+                  CALL PYTHON_END_OPENMP(PYTHON)
                 END IF
 C---
               END IF  ! XFEM
@@ -9494,7 +9619,7 @@ C===============================================================================
 C========================================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
-
+                CALL PYTHON_BEGIN_OPENMP(PYTHON) 
 !$OMP PARALLEL PRIVATE(ITSK)
                 ITSK = OMP_GET_THREAD_NUM()
                 CALL INT18_LAW151_UPDATE(ITSK   ,MULTI_FVM,IGRBRIC  ,IPARI,IXS,
@@ -9502,13 +9627,15 @@ C===============================================================================
      2                   NODES%X       ,          NODES%V       ,          NODES%MS         ,          KINET       ,
      3          MULTI_FVM%X_APPEND,MULTI_FVM%V_APPEND,MULTI_FVM%MASS_APPEND,MULTI_FVM%KINET_APPEND)
 !$OMP END PARALLEL
+                CALL PYTHON_END_OPENMP(PYTHON)
 
               ENDIF
-
+              CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL PRIVATE(ITSK)
               ITSK = OMP_GET_THREAD_NUM()
               CALL MULTI_VELOCITY_BACKUP(ITSK,MULTI_FVM,N2D,NUMELS,NUMELQ,NUMELTG)
 !$OMP END PARALLEL
+              CALL PYTHON_END_OPENMP(PYTHON)
 C========================================================================================
 C                                     NON PARALLEL SECTION (SMP)
 C========================================================================================
