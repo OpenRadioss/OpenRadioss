@@ -77,21 +77,18 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                    Included files
-! ----------------------------------------------------------------------------------------------------------------------
-! ----------------------------------------------------------------------------------------------------------------------
 !                                              D u m m y a r g u m e n t s
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer                     ,intent(in)     :: iout
-          integer                     ,intent(in)     :: ntable
-          integer                     ,intent(out)    :: nuvar
-          integer                     ,intent(out)    :: nvartmp
-          real(kind=WP), dimension(128)     ,intent(inout)  :: parmat
-          type(ttable) ,dimension(ntable) ,intent(in) :: table
-          type(unit_type_)           ,intent(in)      :: unitab
-          type(matparam_struct_)     ,intent(inout)   :: mat_param
-          type(mlaw_tag_)            ,intent(inout)   :: mtag
+          integer                     ,intent(in)      :: iout
+          integer                     ,intent(in)      :: ntable
+          integer                     ,intent(out)     :: nuvar
+          integer                     ,intent(out)     :: nvartmp
+          type(ttable)  ,dimension(ntable) ,intent(in) :: table
+          type(unit_type_)           ,intent(in)       :: unitab
+          type(matparam_struct_)     ,intent(inout)    :: mat_param
+          type(mlaw_tag_)            ,intent(inout)    :: mtag
           type(submodel_data), dimension(nsubmod),intent(in) :: lsubmodel
+          real(kind=WP) ,dimension(128)    ,intent(inout)  :: parmat
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -101,6 +98,7 @@
           integer :: func_qr,func_qx
           integer :: func_cc,func_cp
           integer :: func_a,func_n,func_q,func_m,func_alpha
+          integer :: func_t
           integer :: crp_law,sens_id
           real(kind=WP) :: rho0,young,shear,bulk,nu,sigy
           real(kind=WP) :: qr1,qr2,qx1,qx2,cr1,cr2,cx1,cx2
@@ -169,6 +167,7 @@
           call hm_get_floatv('MAT_CRPQ'    ,crpq     ,is_available, lsubmodel, unitab)
           call hm_get_intv  ('MAT_fq'      ,func_q   ,is_available, lsubmodel)
           call hm_get_intv  ('ISENSOR'     ,sens_id  ,is_available, lsubmodel)
+          call hm_get_intv  ('MAT_ft'      ,func_t   ,is_available, lsubmodel)
 ! ----------------------------------------------------------------------------------------------------------------------
           ! stress and strain rate units
           call hm_get_floatv_dim('MAT_CC'   ,epsp_unit  ,is_available, lsubmodel, unitab)
@@ -198,9 +197,9 @@
 !     => conversion of sensor_id to internal numbet is done in updmat()
 ! ----------------------------------------------------------------------------------------------------------------------
           nuvar   = 2
-          nvartmp = 14
+          nvartmp = 15
           mat_param%nfunc  = 0
-          mat_param%ntable = 13
+          mat_param%ntable = 14
           allocate (mat_param%table(mat_param%ntable))           ! allocate material table array
 !
           mat_param%table(1)%notable  = func_sig
@@ -216,6 +215,7 @@
           mat_param%table(11)%notable = func_m
           mat_param%table(12)%notable = func_q
           mat_param%table(13)%notable = func_alpha
+          mat_param%table(14)%notable = func_t
 ! ----------------------------------------------------------------------------------------------------------------------
           ! create local function table for tabulated yield hardening
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -253,7 +253,6 @@
             call func_table_copy(mat_param%table(3),mat_param%title ,mat_param%mat_id  ,     &
               nfunc   ,ifunc   ,x2vect  ,x1scale ,x2scale  ,yscale  ,     &
               ntable  ,table   ,ierror    )
-            mat_param%table(3)%notable = func_nu
           end if
           if (func_yld > 0) then
             ifunc(:)  = func_yld
@@ -261,7 +260,6 @@
             call func_table_copy(mat_param%table(4),mat_param%title ,mat_param%mat_id  ,     &
               nfunc   ,ifunc   ,x2vect  ,x1scale ,x2scale  ,yscale  ,     &
               ntable  ,table   ,ierror    )
-            mat_param%table(4)%notable = func_yld
           end if
           if (func_qr > 0) then
             ifunc(1)  = func_qr
@@ -269,7 +267,6 @@
             call func_table_copy(mat_param%table(5),mat_param%title ,mat_param%mat_id  ,     &
               nfunc   ,ifunc   ,x2vect  ,x1scale ,x2scale  ,yscale  ,     &
               ntable  ,table   ,ierror    )
-            mat_param%table(5)%notable = func_qr
           end if
           if (func_qx > 0) then
             ifunc(1)  = func_qx
@@ -277,7 +274,6 @@
             call func_table_copy(mat_param%table(6),mat_param%title ,mat_param%mat_id  ,     &
               nfunc   ,ifunc   ,x2vect  ,x1scale ,x2scale  ,yscale  ,     &
               ntable  ,table   ,ierror    )
-            mat_param%table(6)%notable = func_qx
           end if
           if (func_cc > 0) then
             ifunc(1)  = func_cc
@@ -285,7 +281,6 @@
             call func_table_copy(mat_param%table(7),mat_param%title ,mat_param%mat_id  ,     &
               nfunc   ,ifunc   ,x2vect  ,x1scale ,x2scale  ,yscale  ,     &
               ntable  ,table   ,ierror    )
-            mat_param%table(7)%notable = func_cc
           end if
           if (func_cp > 0) then
             ifunc(1)  = func_cp
@@ -293,7 +288,6 @@
             call func_table_copy(mat_param%table(8),mat_param%title ,mat_param%mat_id  ,     &
               nfunc   ,ifunc   ,x2vect  ,x1scale ,x2scale  ,yscale  ,     &
               ntable  ,table   ,ierror    )
-            mat_param%table(8)%notable = func_cp
           end if
           if (func_a > 0) then
             ifunc(1)  = func_a
@@ -301,7 +295,6 @@
             call func_table_copy(mat_param%table(9),mat_param%title ,mat_param%mat_id  ,     &
               nfunc   ,ifunc   ,x2vect  ,x1scale ,x2scale  ,yscale  ,     &
               ntable  ,table   ,ierror    )
-            mat_param%table(9)%notable = func_a
           end if
           if (func_n > 0) then
             ifunc(1)  = func_n
@@ -309,7 +302,6 @@
             call func_table_copy(mat_param%table(10),mat_param%title ,mat_param%mat_id  ,     &
               nfunc   ,ifunc   ,x2vect  ,x1scale ,x2scale  ,yscale  ,     &
               ntable  ,table   ,ierror    )
-            mat_param%table(10)%notable = func_n
           end if
           if (func_m > 0) then
             ifunc(1)  = func_m
@@ -317,7 +309,6 @@
             call func_table_copy(mat_param%table(11),mat_param%title,mat_param%mat_id  ,     &
               nfunc   ,ifunc   ,x2vect  ,x1scale ,x2scale  ,yscale  ,     &
               ntable  ,table   ,ierror    )
-            mat_param%table(11)%notable = func_m
           end if
           if (func_q > 0) then
             ifunc(1)  = func_q
@@ -325,7 +316,6 @@
             call func_table_copy(mat_param%table(12),mat_param%title,mat_param%mat_id  ,     &
               nfunc   ,ifunc   ,x2vect  ,x1scale ,x2scale  ,yscale  ,     &
               ntable  ,table   ,ierror    )
-            mat_param%table(12)%notable = func_q
           end if
           if (func_alpha > 0) then
             ifunc(1)  = func_alpha
@@ -333,7 +323,13 @@
             call func_table_copy(mat_param%table(13),mat_param%title,mat_param%mat_id  ,     &
               nfunc   ,ifunc   ,x2vect  ,x1scale ,x2scale  ,yscale  ,     &
               ntable  ,table   ,ierror    )
-            mat_param%table(13)%notable = func_alpha
+          end if
+          if (func_t > 0) then
+            ifunc(1)  = func_t
+            yscale(1) = one
+            call func_table_copy(mat_param%table(14),mat_param%title,mat_param%mat_id  ,     &
+              nfunc   ,ifunc   ,x2vect  ,x1scale ,x2scale  ,yscale  ,     &
+              ntable  ,table   ,ierror    )
           end if
 ! ----------------------------------------------------------------------------------------------------------------------
           mat_param%niparam = 2
@@ -418,8 +414,8 @@
               write(iout,1300) sigy,qr1,cr1,qr2,cr2,qx1,cx1,qx2,cx2,func_qr,func_qx
             endif
             write(iout,1400) cc,cp,crp_law,crpa,crpn,crpm,crpq,sig_crp,time_crp
-            write(iout,1500) func_young,func_nu,func_yld,func_alpha,             &
-              func_cc,func_cp,func_a,func_n,func_m,func_q,sens_id
+            write(iout,1500) func_young,func_nu,func_yld,func_alpha,            &
+              func_cc,func_cp,func_a,func_n,func_m,func_q,func_t,sens_id
           endif
 ! ----------------------------------------------------------------------------------------------------------------------
           return
@@ -475,6 +471,7 @@
             5x,'FUNCTION OF CREEP EXPONENT N VS TEMPERATURE. . . . .=',i10     /   &
             5x,'FUNCTION OF CREEP EXPONENT M VS TEMPERATURE. . . . .=',i10     /   &
             5x,'FUNCTION OF CREEP ENERGY Q VS TEMPERATURE. . . . . .=',i10     /   &
+            5x,'TIME FACTOR FUNCTION FOR NEWTON CREEP LAW. . . . . .=',i10     /   &
             5x,'SENSOR ID TO DEACTIVATE CREEP EVOLUTION. . . . . . .=',i10     /)
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine hm_read_mat129
