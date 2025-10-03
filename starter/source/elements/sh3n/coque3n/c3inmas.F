@@ -263,7 +263,7 @@ c
             ELSE
               THK(I)=THKE(I)
             ENDIF
-            THKI(I) =GEO(1,IPROP)
+            THKI(I) = THK(I)
 c      
             IF (NPERTURB /= 0) THEN
              DO J=1,NPERTURB
