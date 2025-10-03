@@ -84,6 +84,16 @@ typedef PyObject *(*T_PyLong_FromLong)(long int);
 typedef PyObject *(*T_PyLong_FromVoidPtr)(void *); 
 typedef PyObject *(*T_PyUnicode_FromString)(const char *); // Added this line to declare the function pointer
 
+struct _ts;  // Forward declaration for PyThreadState
+typedef struct _ts PyThreadState;
+typedef int PyGILState_STATE;
+
+typedef PyThreadState *(*T_PyEval_SaveThread)();
+typedef void (*T_PyEval_RestoreThread)(PyThreadState *);
+typedef PyGILState_STATE (*T_PyGILState_Ensure)();
+typedef void (*T_PyGILState_Release)(PyGILState_STATE);
+
+
 
 // Python library handle
 #ifdef _WIN32
@@ -141,6 +151,11 @@ T_PyErr_Clear MyErr_Clear;
 T_PyLong_FromLong MyLong_FromLong;
 T_PyLong_FromVoidPtr MyLong_FromVoidPtr; // Added this line to declare the function pointer
 T_PyUnicode_FromString MyUnicode_FromString; // Added this line to declare the function pointer
+T_PyEval_SaveThread MyEval_SaveThread;
+T_PyEval_RestoreThread MyEval_RestoreThread;
+T_PyGILState_Ensure MyGILState_Ensure;
+T_PyGILState_Release MyGILState_Release;
+
 
 constexpr std::array<const char*, 89> ELEMENT_KEYWORDS = {
 "ALPHA",
