@@ -8,347 +8,225 @@
 
 using namespace std;
 
-double bspline_basis(int i, int k, double t, const vector<double>& knots) {
+// --- Isotone regression by the Pool Adjacent Violators (PAV) algorithm
+void isotone_project_pav(const std::vector<double>& y,
+                         const std::vector<double>& w,
+                         std::vector<double>& z)
+{
+    const int n = (int)y.size();
+    z = y;
+    std::vector<double> sum_w(n), sum_y(n);
+    std::vector<int>    blkL(n), blkR(n);
+    for (int i=0;i<n;++i){ sum_w[i]=w[i]; sum_y[i]=w[i]*y[i]; blkL[i]=blkR[i]=i; }
 
-    const double tol = 1e-12;
-    int n_bases = knots.size() - k - 1;
-
-    if (std::abs(t - knots.back()) < tol) {
-        return (i == n_bases - 1) ? 1.0 : 0.0;
-    }
-
-    if (k == 0) {
-        if (t >= knots[i] && t < knots[i + 1])
-            return 1.0;
-        else
-            return 0.0;
-    }
-
-    double a = 0.0, b = 0.0;
-    double denom1 = knots[i + k] - knots[i];
-    double denom2 = knots[i + k + 1] - knots[i + 1];
-
-    if (denom1 > 0.0)
-        a = ((t - knots[i]) / denom1) * bspline_basis(i, k - 1, t, knots);
-    if (denom2 > 0.0)
-        b = ((knots[i + k + 1] - t) / denom2) * bspline_basis(i + 1, k - 1, t, knots);
-
-    return a + b;
-}
-
-void build_bspline_matrix(const vector<double>& x, const vector<double>& knots, int degree,
-                          vector<vector<double>>& B) {
-    int n = x.size();
-    int n_bases = knots.size() - degree - 1;
-    B.assign(n, vector<double>(n_bases, 0.0));
-
-    for (int i = 0; i < n; ++i)
-        for (int j = 0; j < n_bases; ++j)
-            B[i][j] = bspline_basis(j, degree, x[i], knots);
-}
-
-double bspline_derivative(int i, int k, double x, const vector<double>& knots) {
-    double left = 0.0, right = 0.0;
-
-    if (k == 0) return 0.0;
-
-    double denom_left = knots[i + k] - knots[i];
-    if (denom_left > 0.0)
-        left = k / denom_left * bspline_basis(i, k - 1, x, knots);
-
-    double denom_right = knots[i + k + 1] - knots[i + 1];
-    if (denom_right > 0.0)
-        right = k / denom_right * bspline_basis(i + 1, k - 1, x, knots);
-
-    return x*(left - right);
-}
-
-void build_second_derivative_matrix(int n, vector<vector<double>>& D) {
-    D.assign(n - 2, vector<double>(n, 0.0));
-    for (int i = 0; i < n - 2; ++i) {
-        D[i][i] = 1.0;
-        D[i][i + 1] = -2.0;
-        D[i][i + 2] = 1.0;
-    }
-}
-
-void transpose(const vector<vector<double>>& A, vector<vector<double>>& At) {
-    int m = A.size(), n = A[0].size();
-    At.assign(n, vector<double>(m));
-    for (int i = 0; i < m; ++i)
-        for (int j = 0; j < n; ++j)
-            At[j][i] = A[i][j];
-}
-
-void matmul(const vector<vector<double>>& A, const vector<vector<double>>& B, vector<vector<double>>& C) {
-    int m = A.size(), n = B[0].size(), p = A[0].size();
-    C.assign(m, vector<double>(n, 0.0));
-    for (int i = 0; i < m; ++i)
-        for (int j = 0; j < n; ++j)
-            for (int k = 0; k < p; ++k)
-                C[i][j] += A[i][k] * B[k][j];
-}
-
-void matvec(const vector<vector<double>>& A, const vector<double>& x, vector<double>& y) {
-    int m = A.size(), n = A[0].size();
-    y.assign(m, 0.0);
-    for (int i = 0; i < m; ++i)
-        for (int j = 0; j < n; ++j)
-            y[i] += A[i][j] * x[j];
-}
-
-void solve_symmetric_system(vector<vector<double>> A, vector<double> b, vector<double>& x) {
-    int n = A.size();
-    x = b;
-    for (int i = 0; i < n; ++i) {
-        double pivot = A[i][i];
-        for (int j = i + 1; j < n; ++j) {
-            double alpha = A[j][i] / pivot;
-            for (int k = i; k < n; ++k)
-                A[j][k] -= alpha * A[i][k];
-            x[j] -= alpha * x[i];
-        }
-    }
-    for (int i = n - 1; i >= 0; --i) {
-        for (int j = i + 1; j < n; ++j)
-            x[i] -= A[i][j] * x[j];
-        x[i] /= A[i][i];
-    }
-}
-
-void project_halfspaces_dykstra(const vector<vector<double>>& A,
-                                const vector<double>& b,
-                                vector<double>& x,
-                                int max_iters = 200,
-                                double tol = 1e-12) {
-    const int m = (int)A.size();
-    if (m == 0) return;
-    const int n = (int)A[0].size();
-
-    vector<vector<double>> p(m, vector<double>(n, 0.0)); // “corrections” Dykstra
-    vector<double> xk = x, xprev(n);
-
-    for (int it=0; it<max_iters; ++it){
-        xprev = xk;
-        for (int i=0; i<m; ++i){
-            vector<double> y(n);
-            for (int j=0;j<n;++j) y[j] = xk[j] + p[i][j];
-
-            const vector<double>& ai = A[i];
-            double ai2 = 0.0, dot = 0.0;
-            for (int j=0;j<n;++j){ ai2 += ai[j]*ai[j]; dot += ai[j]*y[j]; }
-            if (ai2 <= 1e-20) continue;
-
-            vector<double> z = y;
-            if (dot < b[i]){
-                double corr = (b[i] - dot) / ai2;
-                for (int j=0;j<n;++j) z[j] += corr * ai[j];
+    int k = 0;
+    for (int i=0;i<n;++i){
+        k = i;
+        while (k>0){
+            int l1=blkL[k-1], r1=blkR[k-1];
+            int l2=blkL[k  ], r2=blkR[k  ];
+            double m1 = sum_y[k-1]/sum_w[k-1];
+            double m2 = sum_y[k  ]/sum_w[k  ];
+            if (m1 <= m2) break;
+            sum_w[k-1] += sum_w[k];
+            sum_y[k-1] += sum_y[k];
+            blkR[k-1]   = r2;
+            for (int j=k; j<i; ++j){
+                sum_w[j] = sum_w[j+1];
+                sum_y[j] = sum_y[j+1];
+                blkL[j]  = blkL[j+1];
+                blkR[j]  = blkR[j+1];
             }
-
-            for (int j=0;j<n;++j){
-                p[i][j] = y[j] - z[j]; 
-                xk[j]   = z[j];
-            }
-
+            --i; --k;
         }
-        double diff = 0.0;
-        for (int j=0;j<n;++j){ double d = xk[j]-xprev[j]; diff += d*d; }
-        if (sqrt(diff) < tol) break;
     }
-    x = xk;
-}
-
-void solve_qp_pgd(const vector<vector<double>>& H, const vector<double>& rhs,
-                  const vector<vector<double>>& Bp, vector<double>& c,
-                  int max_iters, double tol, double alpha) {
-    
-    int n = H.size();
-    c.assign(n, 0.0);
-
-    vector<double> c_prev(n,0.0), yk(n,0.0), grad(n,0.0);
-    solve_symmetric_system(H, rhs, c); 
-    c_prev = c;
-    double tk = 1.0;
-    for (int it=0; it<max_iters; ++it){
-        // yk = c + ((t_{k-1}-1)/t_k)*(c - c_prev)
-        double tk1 = 0.5*(1.0 + sqrt(1.0 + 4.0*tk*tk));
-        double beta = (tk - 1.0)/tk1;
-        for(int i=0;i<n;++i) yk[i] = c[i] + beta*(c[i]-c_prev[i]);
-    
-        // grad = H*yk - rhs
-        for(int i=0;i<n;++i){ double s=0.0; for(int j=0;j<n;++j) s += H[i][j]*yk[j]; grad[i] = s - rhs[i]; }
-
-        double grad_norm = 0.0;
-        for (double g : grad) grad_norm += g*g;
-        grad_norm = sqrt(grad_norm);      
-        if (grad_norm > 1e-2) {      
-            alpha *= 0.5;            
-        } else if (grad_norm < 1e-6) { 
-            alpha *= 1.1;            
-        }
-        if (alpha < 1e-6) alpha = 1e-6;
-        if (alpha > 1.0)  alpha =  1.0;
-    
-        vector<double> cnew(n);
-        for(int i=0;i<n;++i) cnew[i] = yk[i] - alpha*grad[i];
-    
-        vector<vector<double>> A = Bp;  
-        vector<double> b(A.size(), 0.0);
-        
-        for (int i=0; i<(int)A.size(); ++i) {
-            double norm = 0.0;
-            for (double v : A[i]) norm += v*v;
-            norm = sqrt(norm);
-            if (norm > 1e-12) {
-                for (double &v : A[i]) v /= norm;
-                b[i] /= norm;
-            }
-        }
-        project_halfspaces_dykstra(Bp, b, cnew, 200, 1e-12);
-    
-        // Convergence & update
-        double pg_norm = 0.0;
-        for (int i=0;i<n;++i){ double d = yk[i] - cnew[i]; pg_norm += d*d; }
-        pg_norm = sqrt(pg_norm);
-        if (it == 0) tol = 1.0e-8*pg_norm; // tol relatif sur la première itération
-        if (pg_norm < tol) break;
-        
-        // Update variables
-        c_prev = c;
-        c = cnew;
-        tk = tk1;
+    int idx = 0;
+    for (int b=0; idx<n; ++b){
+        double m = sum_y[b]/sum_w[b];
+        for (int j=blkL[b]; j<=blkR[b]; ++j) z[idx++] = m;
     }
 }
 
-void build_monotonic_sigma_derivative_matrix(const vector<double>& x_eval, const vector<double>& knots, int degree,
-                                             vector<vector<double>>& Bp) {
-    int rows = x_eval.size();
-    int cols = knots.size() - degree - 1;
-    Bp.assign(rows - 1, vector<double>(cols, 0.0));
+// --- Isotone smoothing (one wheel mu). Fix y(0)=0 if one x equals 0.
+void smooth_isotone(const std::vector<double>& x,
+                    const std::vector<double>& y_in,
+                    std::vector<double>& z,
+                    double mu = 1e-2,
+                    int maxit = 500, double tol = 1e-9)
+{
+    const int n = (int)x.size();
+    std::vector<double> w(n,1.0);
+    z = y_in;
 
-    vector<vector<double>> B;
-    build_bspline_matrix(x_eval, knots, degree, B);
+    int i0 = -1; for (int i=0;i<n;++i) if (std::abs(x[i])<1e-15) { i0=i; break; }
+    if (i0>=0) z[i0]=0.0;
 
-    for (int i = 1; i < rows; ++i) {
-        double dx = x_eval[i] - x_eval[i - 1];
-        for (int j = 0; j < cols; ++j) {
-            double sig_i   = x_eval[i]     * B[i][j];
-            double sig_im1 = x_eval[i - 1] * B[i - 1][j];
-            Bp[i - 1][j] = (sig_i - sig_im1) / dx;
+    const double eta = 1.0 / (1.0 + 4.0*mu);
+    std::vector<double> g(n), zprev(n);
+
+    auto add_Lap1D = [&](const std::vector<double>& v, std::vector<double>& out){
+        out[0]     += mu * ( v[0] - v[1] );
+        for (int i=1;i<n-1;++i) out[i] += mu * (2*v[i] - v[i-1] - v[i+1]);
+        out[n-1]   += mu * ( v[n-1] - v[n-2] );
+    };
+
+    for (int it=0; it<maxit; ++it){
+        zprev = z;
+        g.assign(n, 0.0);
+        for (int i=0;i<n;++i) g[i] = (z[i]-y_in[i]); 
+        add_Lap1D(z, g);
+
+        for (int i=0;i<n;++i) z[i] -= eta * g[i];
+
+        if (i0>=0) z[i0] = 0.0;
+
+        isotone_project_pav(z, w, z);
+
+        double diff=0.0;
+        for (int i=0;i<n;++i){ double d=z[i]-zprev[i]; diff+=d*d; }
+        if (diff < tol) break;
+    }
+}
+
+void prepare_monotone_points(std::vector<double>& x, std::vector<double>& y)
+{
+    const int n0 = (int)x.size();
+    std::vector<int> idx(n0); for(int i=0;i<n0;++i) idx[i]=i;
+
+    std::vector<double> xs, ys; xs.reserve(n0); ys.reserve(n0);
+    for(int i=0;i<n0;++i){
+        if (std::isfinite(x[i]) && std::isfinite(y[i])){ xs.push_back(x[i]); ys.push_back(y[i]); }
+    }
+    x.swap(xs); y.swap(ys);
+    if (x.empty()){ x={0.0}; y={0.0}; return; }
+
+    std::vector<int> order(x.size()); for(size_t i=0;i<x.size();++i) order[i]= (int)i;
+    std::sort(order.begin(), order.end(), [&](int a,int b){ return x[a] < x[b]; });
+    std::vector<double> xt, yt; xt.resize(x.size()); yt.resize(y.size());
+    for(size_t k=0;k<order.size();++k){ xt[k]=x[order[k]]; yt[k]=y[order[k]]; }
+    x.swap(xt); y.swap(yt);
+
+    std::vector<double> x2, y2; x2.reserve(x.size()); y2.reserve(y.size());
+    x2.push_back(x[0]); y2.push_back(y[0]); 
+    for(size_t i=1;i<x.size();++i){
+        if (std::abs(x[i]-x2.back()) < 1e-15){
+            y2.back() = 0.5*(y2.back()+y[i]);
+        }else{
+            x2.push_back(x[i]); y2.push_back(y[i]);
+        }
+    }
+    x.swap(x2); y.swap(y2);
+
+    // bool has0=false; size_t pos0=0;
+    // for(size_t i=0;i<x.size();++i){ if (std::abs(x[i])<1e-15){ has0=true; pos0=i; break; } }
+    // if (!has0){
+    //     if (0.0 < x.front()){
+    //         x.insert(x.begin(), 0.0); y.insert(y.begin(), 0.0);
+    //     }else if (0.0 > x.back()){
+    //         x.push_back(0.0); y.push_back(0.0);
+    //     }else{
+    //         // insère au bon endroit
+    //         size_t k = (size_t)(std::upper_bound(x.begin(), x.end(), 0.0) - x.begin());
+    //         x.insert(x.begin()+k, 0.0);
+    //         y.insert(y.begin()+k, 0.0);
+    //     }
+    // }else{
+    //     y[pos0] = 0.0; // force passage exact par l'origine
+    // }
+}
+
+// --- PCHIP (Fritsch–Carlson) slopes
+void pchip_slopes(const std::vector<double>& x,
+                  const std::vector<double>& z,
+                  std::vector<double>& m)
+{
+    const int n = (int)x.size();
+    m.assign(n, 0.0);
+    if (n==1){ m[0]=0.0; return; }
+    std::vector<double> h(n-1), d(n-1);
+    for (int i=0;i<n-1;++i){
+        h[i] = x[i+1]-x[i];
+        d[i] = (z[i+1]-z[i])/h[i];
+    }
+    m[0] = d[0];
+    m[n-1] = d[n-2];
+    for (int i=1;i<n-1;++i){
+        if ( (d[i-1]*d[i]) <= 0.0 ) { m[i]=0.0; }
+        else {
+            double w1 = 2.0*h[i] + h[i-1];
+            double w2 = h[i] + 2.0*h[i-1];
+            m[i] = (w1 + w2) / ( (w1/d[i-1]) + (w2/d[i]) );
         }
     }
 }
+
+// --- PCHIP evaluation
+double pchip_eval(const std::vector<double>& x,
+                  const std::vector<double>& z,
+                  const std::vector<double>& m,
+                  double xi)
+{
+    const int n = (int)x.size();
+    if (xi <= x.front()) return z.front();
+    if (xi >= x.back())  return z.back();
+    int k = (int)(std::upper_bound(x.begin(), x.end(), xi) - x.begin()) - 1; // k in [0..n-2]
+    double h = x[k+1]-x[k];
+    double t = (xi - x[k]) / h;
+    double t2 = t*t, t3 = t2*t;
+
+    double h00 = ( 2*t3 - 3*t2 + 1);
+    double h10 = (   t3 - 2*t2 + t)*h;
+    double h01 = (-2*t3 + 3*t2     );
+    double h11 = (   t3 -   t2    )*h;
+
+    return h00*z[k] + h10*m[k] + h01*z[k+1] + h11*m[k+1];
+}
+
 
 //----------------------------------------------------------------------------------------------------------------
 // C Interface to Fortran
 // ---------------------------------------------------------------------------------------------------------------
 extern "C" {
     void cpp_table_mat_spline_fit(int s_inp, double* x_inp,double* y_inp,int nout, double* x_out, 
-                                  double* y_out, double lambda, double& info) {
- 
-        vector<double> x_raw, y_raw;
-        double x, y;
+                                  double* y_out, double lambda) {
 
-        x_raw.clear();
-        y_raw.clear();
-        for (int i = 0; i < s_inp; ++i) {
-          x = x_inp[i];
-          y = y_inp[i];
-          if (x != 0.0 && y != 0.0) {
-              x_raw.push_back(x);
-              y_raw.push_back(y/x);
-          } else if (x == 0.0 && y == 0.0) {
-              x_raw.push_back(0.0);
-              y_raw.push_back(0.0);
-          }
-        }
-
-        int degree = 3;
-        int n = x_raw.size();
-        int n_knots = std::max(10, std::min(n / 10, 30));
-
-        double xmin = x_raw.front(), xmax = x_raw.back();
-        vector<double> knots;
-        for (int i = 0; i < degree; ++i) knots.push_back(xmin);
-        for (int i = 0; i < n_knots; ++i)
-            knots.push_back(xmin + i * (xmax - xmin) / (n_knots - 1));
-        for (int i = 0; i < degree; ++i) knots.push_back(xmax);
-        int n_bases = knots.size() - degree - 1;
+        std::vector<double> x_raw(s_inp), y_raw(s_inp);
+        for (int i=0;i<s_inp;++i){ x_raw[i]=x_inp[i]; y_raw[i]=y_inp[i]; }
        
-        vector<vector<double>> B, D, Bt, Dt, H, tmp;
-        build_bspline_matrix(x_raw, knots, degree, B);
-        build_second_derivative_matrix(n_bases, D);
-
-        transpose(B, Bt);    
-        transpose(D, Dt);
+        prepare_monotone_points(x_raw, y_raw);
+        const int n = (int)x_raw.size();
+        if (n==0){
+            x_out[0]=0.0; y_out[0]=0.0; return;
+        }
+        if (n==1){
+            for (int i=0;i<nout;++i){ x_out[i]=x_raw[0]; y_out[i]=y_raw[0]; }
+            return;
+        }
     
-        matmul(Bt, B, H);
-        matmul(Dt, D, tmp);
-        for (int i = 0; i < n_bases; ++i)
-            for (int j = 0; j < n_bases; ++j)
-                H[i][j] += lambda * tmp[i][j];
-
-
-        // For numerical stability, add a small value to diagonal
-        double maxdiag = 0.0;
-        for (int i=0;i<n_bases;++i) maxdiag = max(maxdiag, H[i][i]);
-        double eps = 1e-4 * maxdiag;
-        for (int i = 0; i < n_bases; ++i)
-          H[i][i] += eps;
+        std::vector<double> z;
+        smooth_isotone(x_raw, y_raw, z, /*mu=*/std::max(0.0,lambda));
     
-        // Right-hand side: B^T * y_raw
-        vector<double> rhs;
-        matvec(Bt, y_raw, rhs);
-        
-        // Build derivative constraint matrix
-        int nderiv = 100;
+        std::vector<double> m;
+        pchip_slopes(x_raw, z, m);
+    
+        double xmin = x_raw.front(), xmax = x_raw.back();
+        if (nout<2) nout=2;
 
-        // Points where to enforce derivative constraints
-        vector<double> x_eval(nderiv);
-        for (int i = 0; i < nderiv; ++i)
-            x_eval[i] = xmin + i * (xmax - xmin) / (nderiv - 1);
-        vector<vector<double>> Bp;
-        build_monotonic_sigma_derivative_matrix(x_eval, knots, degree, Bp);
-
-        // Compute the solver step size
-        double maxHii = 0.0;
-        for (int i=0;i<(int)H.size();++i) maxHii = max(maxHii, H[i][i]);
-        double alpha = (maxHii > 0.0) ? 0.25 / maxHii : 1e-3;
-
-        // Max iterations and tolerance
-        int max_iters = 10000;
-        double tol = 1e-09;
-
-        // Solve the QP problem using projected gradient descent
-        vector<double> c;
-        solve_qp_pgd(H, rhs, Bp, c, max_iters, tol, alpha);
-        
-        // Compute and report the constraint violation
-        vector<double> deriv;
-        matvec(Bp, c, deriv);
-        double violation_sum = 0.0;
-        for (double d : deriv) if (d < 0) violation_sum += -d;
-        info = violation_sum;
-
-        // Evaluate the fitted spline at output points
         int nd = 0;
-        for (int i = 0; i < nout; ++i) {
-            double x = xmin + (xmax - xmin) * i / (nout - 1);
-            double sig = 0.0;
-            for (int j = 0; j < n_bases; ++j) {
-                sig += c[j] * bspline_basis(j, degree, x, knots);
-            }
-            x_out[nd] = x;
-            y_out[nd] = x*sig;
+        for (int i=0;i<nout;++i){
+            double xi = xmin + (xmax - xmin) * (double)i / (double)(nout-1);
+            x_out[nd] = xi;
+            y_out[nd] = pchip_eval(x_raw, z, m, xi);
             nd = nd + 1;
             if (i < nout - 1) {
               double x_next = xmin + (xmax - xmin) * (i+1) / (nout - 1);
-              if (x <= 0.0 && x_next >= 0.0) {
+              if (xi <= 0.0 && x_next >= 0.0) {
                 x_out[nd] = 0.0;
                 y_out[nd] = 0.0;
                 nd = nd + 1;
               }
             }
         }
+    
     }
 }
