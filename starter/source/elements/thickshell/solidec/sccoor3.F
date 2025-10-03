@@ -42,6 +42,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .         F1X  ,F1Y  ,F1Z  ,F2X  ,F2Y  ,F2Z  ,TEMP0, TEMP,NINTEMP)
 
       USE MESSAGE_MOD
+      use element_mod , only : nixs
 C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

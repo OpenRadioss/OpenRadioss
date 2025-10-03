@@ -54,7 +54,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    law77_upd              ../starter/source/materials/mat/mat077/law77_upd.F
 !||    law81_upd              ../starter/source/materials/mat/mat081/law81_upd.F90
 !||    law87_upd              ../starter/source/materials/mat/mat087/law87_upd.F90
-!||    law88_upd              ../starter/source/materials/mat/mat088/law88_upd.F
 !||    law90_upd              ../starter/source/materials/mat/mat090/law90_upd.F
 !||    law92_upd              ../starter/source/materials/mat/mat092/law92_upd.F
 !||    matfun_usr2sys         ../starter/source/materials/tools/matfun_usr2sys.F
@@ -301,12 +300,6 @@ c------------------
             IF (FLAG_FIT == 1) THEN 
               CALL LAW87_UPD(IOUT   ,TITR    ,MAT_ID ,MAT_PARAM(IMAT)     )
             ENDIF
-c-------------------------
-          CASE (88) 
-c
-            CALL LAW88_UPD(IOUT,TITR,UPARAM,NPC,PLD,
-     .                     NFUNC,IFUNC,MAT_ID,FUNC_ID,PM(1,IMAT),
-     .                     NFUNCT )
 c------------------
           CASE (90) 
 c

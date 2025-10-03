@@ -337,6 +337,7 @@
             end if
 
             deallocate(adjacent_elem)
+            deallocate(bcs%iworking_array)
 
           end do !next ii
 

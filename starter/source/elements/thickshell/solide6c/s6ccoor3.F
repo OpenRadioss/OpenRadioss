@@ -40,6 +40,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .     Z1, Z2, Z3, Z4, Z5, Z6)
 
       USE MESSAGE_MOD
+      use element_mod , only : nixs
 C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

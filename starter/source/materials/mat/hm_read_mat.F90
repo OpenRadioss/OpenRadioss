@@ -155,7 +155,7 @@
 !||    hm_read_mat83               ../starter/source/materials/mat/mat083/hm_read_mat83.F
 !||    hm_read_mat84               ../starter/source/materials/mat/mat084/hm_read_mat84.F
 !||    hm_read_mat87               ../starter/source/materials/mat/mat087/hm_read_mat87.F90
-!||    hm_read_mat88               ../starter/source/materials/mat/mat088/hm_read_mat88.F
+!||    hm_read_mat88               ../starter/source/materials/mat/mat088/hm_read_mat88.F90
 !||    hm_read_mat90               ../starter/source/materials/mat/mat090/hm_read_mat90.F
 !||    hm_read_mat92               ../starter/source/materials/mat/mat092/hm_read_mat92.F
 !||    hm_read_mat93               ../starter/source/materials/mat/mat093/hm_read_mat93.F
@@ -187,6 +187,7 @@
 !||    hm_read_mat57_mod           ../starter/source/materials/mat/mat057/hm_read_mat57.F90
 !||    hm_read_mat81_mod           ../starter/source/materials/mat/mat081/hm_read_mat81.F90
 !||    hm_read_mat87_mod           ../starter/source/materials/mat/mat087/hm_read_mat87.F90
+!||    hm_read_mat88_mod           ../starter/source/materials/mat/mat088/hm_read_mat88.F90
 !||    law_user                    ../starter/source/user_interface/law_user.F
 !||    message_mod                 ../starter/share/message_module/message_mod.F
 !||    reader_old_mod              ../starter/share/modules1/reader_old_mod.F90
@@ -222,6 +223,7 @@
           use hm_read_mat81_mod
           use hm_read_mat87_mod
           use hm_read_mat105_mod , only : hm_read_mat105
+          use hm_read_mat88_mod
           use hm_read_mat125_mod
           use hm_read_mat126_mod
           use hm_read_mat127_mod
@@ -945,13 +947,13 @@
               &unitab   ,lsubmodel,mtag     ,iout     ,nvartmp  ,&
               &israte   ,ntable   ,table    ,maxfunc  )
 !-------
-             case ('LAW88','MLAW88')
+            case ('LAW88','MLAW88','TABULATED_HYPERELASTIC')
               ilaw = 88
               call hm_read_mat88(&
-              &uparam   ,maxuparam ,nuparam  ,israte  ,imatvis  ,&
-              &nuvar    ,ifunc     ,maxfunc  ,nfunc   ,parmat   ,&
-              &unitab   ,mat_id    ,titr     ,mtag    ,lsubmodel,&
-              &pm(1,i)  ,ipm(1,i)  ,matparam )
+              &matparam ,nvartmp  ,parmat   ,unitab   ,mat_id   ,&
+              &titr     ,mtag     ,lsubmodel,iout     ,nuvar    ,&
+              &ilaw     ,ntable   ,table    ,imatvis  ,israte   ,&
+              &maxfunc  ,iunit    )
 !-------
              case ('LAW90')
               ilaw = 90

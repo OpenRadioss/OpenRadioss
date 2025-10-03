@@ -84,6 +84,7 @@ C-----------------------------------------------
       USE FORMAT_MOD , ONLY : FMT_10I
       use glob_therm_mod
       USE DRAPE_MOD
+      use element_mod , only : nixs,nixc,nixt,nixp,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

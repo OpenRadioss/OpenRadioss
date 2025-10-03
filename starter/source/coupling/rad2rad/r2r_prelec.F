@@ -73,6 +73,7 @@ C-----------------------------------------------
         USE DETONATORS_MOD
         USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY, NCHARFIELD
         USE READER_OLD_MOD , ONLY : KINTER, KCUR, LINE, NSLASH
+        use element_mod , only : nixc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

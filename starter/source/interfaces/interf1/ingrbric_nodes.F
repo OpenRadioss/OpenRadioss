@@ -38,6 +38,7 @@ C   M o d u l e s
 C-----------------------------------------------
         USE ALE_MOD
         USE FORMAT_MOD , ONLY : FMW_10I
+        use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

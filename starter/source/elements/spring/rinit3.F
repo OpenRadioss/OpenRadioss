@@ -73,6 +73,7 @@ C-----------------------------------------------
       USE BPRELOAD_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE FORMAT_MOD , ONLY : FMT_10I
+      use element_mod , only : nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1352,7 +1353,7 @@ C
      .               GEO(23,I0)*GEO(57,I0),
      .               GEO(27,I0)*GEO(61,I0)))/XL(I)
           XCR= (XCR+MAX(GEO(20,I0),GEO(24,I0),GEO(28,I0))
-     .        +   MAX(GEO(144,I0),GEO(145,I0),GEO(146,I0)) )/XL(I)
+     .        +     MAX(GEO(144,I0),GEO(145,I0),GEO(146,I0)) )/XL(I)
           XM=GEO(1,I0)*XL(I)
           XINE=GEO(9,I0)*XL(I)
           IF (XCM+XKM<EM15) XM =ONE
@@ -1424,10 +1425,10 @@ C
      .              MAX(UPARAM(IADBUF + K14 + 2),UPARAM(IADBUF + K14 + 3)))* AL2
               XKR= ( XKR
      .              + MAX(UPARAM(IADBUF + K11 + 4)*UPARAM(IADBUF + K1 + 4),
-     .                   UPARAM(IADBUF + K11 + 5)*UPARAM(IADBUF + K1 + 5),
-     .                   UPARAM(IADBUF + K11 + 6)*UPARAM(IADBUF + K1 + 6)))/XL(I)
-              XCR= (XCR+MAX(UPARAM(IAD + K12 + 1),UPARAM(IADBUF + K12 + 2),UPARAM(IADBUF + K12 + 3))
-     .            +     MAX(UPARAM(IAD + K14 + 4),UPARAM(IADBUF + K14 + 5),UPARAM(IADBUF + K14 + 6)) )/XL(I)
+     .                    UPARAM(IADBUF + K11 + 5)*UPARAM(IADBUF + K1 + 5),
+     .                    UPARAM(IADBUF + K11 + 6)*UPARAM(IADBUF + K1 + 6)))/XL(I)
+              XCR= (XCR+MAX(UPARAM(IADBUF + K12 + 4),UPARAM(IADBUF + K12 + 5),UPARAM(IADBUF + K12 + 6))
+     .            +     MAX(UPARAM(IADBUF + K14 + 4),UPARAM(IADBUF + K14 + 5),UPARAM(IADBUF + K14 + 6)) )/XL(I)
               XM  =GBUF%MASS(I)
               XINE=GEO(2,I0)*XL(I)
               IF (XCM+XKM<EM15) XM  =ONE
@@ -1662,12 +1663,14 @@ C-----
       RETURN
       END
 !||====================================================================
-!||    rini3u   ../starter/source/elements/spring/rinit3.F
+!||    rini3u        ../starter/source/elements/spring/rinit3.F
 !||--- called by ------------------------------------------------------
-!||    rinit3   ../starter/source/elements/spring/rinit3.F
+!||    rinit3        ../starter/source/elements/spring/rinit3.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE RINI3U(OFF  ,GEO  ,X     ,X0    ,IX   ,
      .                  SKEW ,RLOC ,ITAB  ,UIX   ,IGEO )
+      use element_mod , only : nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1760,12 +1763,14 @@ C
       RETURN
       END
 !||====================================================================
-!||    rini1u   ../starter/source/elements/spring/rinit3.F
+!||    rini1u        ../starter/source/elements/spring/rinit3.F
 !||--- called by ------------------------------------------------------
-!||    rinit3   ../starter/source/elements/spring/rinit3.F
+!||    rinit3        ../starter/source/elements/spring/rinit3.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE RINI1U(OFF  ,GEO  ,X     ,X0    ,IX   ,
      .                  SKEW ,RLOC ,ITAB  ,UIX   ,IGEO )
+      use element_mod , only : nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1848,13 +1853,15 @@ C-----------------------------------------------
       RETURN
       END
 !||====================================================================
-!||    rini2u   ../starter/source/elements/spring/rinit3.F
+!||    rini2u        ../starter/source/elements/spring/rinit3.F
 !||--- called by ------------------------------------------------------
-!||    rinit3   ../starter/source/elements/spring/rinit3.F
+!||    rinit3        ../starter/source/elements/spring/rinit3.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE RINI2U(IXR     ,UMASS ,UINER,
      .                  PARTSAV ,X     ,V     ,IPART ,MSR,
      .                  INR     ,MSRT  ,EMS   )
+      use element_mod , only : nixr
 C----------------------------------------------
 C     initialization of nodal masses
 C----------------------------------------------
@@ -1937,14 +1944,16 @@ C
       RETURN
       END
 !||====================================================================
-!||    r4ini    ../starter/source/elements/spring/rinit3.F
+!||    r4ini         ../starter/source/elements/spring/rinit3.F
 !||--- called by ------------------------------------------------------
-!||    rinit3   ../starter/source/elements/spring/rinit3.F
+!||    rinit3        ../starter/source/elements/spring/rinit3.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE R4INI(SIGRS ,IXR  ,NSIGI ,EINT  ,F   ,
      .                 DL    ,FEP  ,DPL   ,DPL2  ,XL0 ,
      .                 DFS   ,DV   ,IGTYP ,PTSPRI,DL0 ,
      .                 F0    )
+      use element_mod , only : nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2004,9 +2013,10 @@ C---
       RETURN
       END
 !||====================================================================
-!||    r8ini    ../starter/source/elements/spring/rinit3.F
+!||    r8ini         ../starter/source/elements/spring/rinit3.F
 !||--- called by ------------------------------------------------------
-!||    rinit3   ../starter/source/elements/spring/rinit3.F
+!||    rinit3        ../starter/source/elements/spring/rinit3.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE R8INI(IGTYP ,NEL  ,SIGRS ,IXR   ,NSIGI,
      .                 FX    ,FY   ,FZ    ,MX    ,MY   ,
@@ -2019,6 +2029,7 @@ C---
      .                 PTSPRI,DX0  ,DY0   ,DZ0   ,RX0  ,
      .                 RY0   ,RZ0  ,FX0   ,FY0   ,FZ0  ,
      .                 MX0   ,MY0  ,MZ0   )
+      use element_mod , only : nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

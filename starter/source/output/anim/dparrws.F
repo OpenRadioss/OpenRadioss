@@ -21,14 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    dparrws     ../starter/source/output/anim/dparrws.F
+!||    dparrws       ../starter/source/output/anim/dparrws.F
 !||--- called by ------------------------------------------------------
-!||    genani1     ../starter/source/output/anim/genani1.F
+!||    genani1       ../starter/source/output/anim/genani1.F
 !||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE DPARRWS(NESBW,NSTRF,IXC   ,                            
      2                  IXTG ,X ,NODCUT,RWBUF,NPRW,                     
-     3                  IXS   )                                         
+     3                  IXS   )            
+      use element_mod , only : nixs,nixc,nixtg
 C-----------------------------------------------                        
 C   I m p l i c i t   T y p e s                                         
 C-----------------------------------------------                        

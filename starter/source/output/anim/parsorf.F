@@ -21,14 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    parsorf     ../starter/source/output/anim/parsorf.F
+!||    parsorf       ../starter/source/output/anim/parsorf.F
 !||--- called by ------------------------------------------------------
-!||    genani1     ../starter/source/output/anim/genani1.F
+!||    genani1       ../starter/source/output/anim/genani1.F
 !||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE PARSORF(IADD ,IPARG,IXT  ,IXP  ,IXR  ,                  
      .                  MATER,EL2FA,                                    
-     .                  IPARTT,IPARTP,IPARTR,NFACPTX,IXEDGE)                                
+     .                  IPARTT,IPARTP,IPARTR,NFACPTX,IXEDGE)   
+      use element_mod , only : nixt,nixp,nixr                          
 C-----------------------------------------------                        
 C   I m p l i c i t   T y p e s                                         
 C-----------------------------------------------                        

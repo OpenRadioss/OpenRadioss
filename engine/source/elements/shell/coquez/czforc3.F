@@ -256,6 +256,7 @@ C--------------------------------
       my_real :: dtinv,asrate,eps_m2,eps_k2
       my_real, dimension(nel)   :: epsd_pg
       my_real, dimension(mvsiz) :: fheat    !  variable for heat transfer
+      my_real, dimension(mvsiz) :: ssp_eq    !  for time step compute
 !
 C--- variables for the non-local
       INTEGER :: NDDL, K, INOD(4),NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ),
@@ -614,7 +615,7 @@ C-----------------------------------------------
      R      INDX_DRAPE,THKE      ,SEDRAPE     ,NUMEL_DRAPE,DT    ,
      Q      NCYCLE    ,SNPC      ,STF         ,NXLAYMAX  ,IDEL7NOK  ,
      S      USERL_AVAIL ,MAXFUNC ,NPTTOT      ,SBUFMAT   ,SDIR_A    ,
-     T      SDIR_B   ,GBUF%FOR_G )
+     T      SDIR_B   ,GBUF%FOR_G ,SSP_EQ      )
 
 C-----------------------------------------------
 c        
@@ -648,7 +649,7 @@ C
      5        IOFC  ,NNOD ,AREA,G  ,SHF   ,
      6        MSC   ,DMELC,JSMS,BID , IGTYP ,
      7        IGMAT  ,A11R   ,GBUF%G_DT, GBUF%DT,MTN   ,
-     8        PM     ,MAT(JFT),NEL, ZOFFSET)
+     8        PM     ,MAT(JFT),NEL, ZOFFSET,SSP_EQ )
 c-------------------------------
          CALL CZFINTCE(JFT  ,JLT  ,THK0 ,THK02,A_I     ,X13     ,
      2                 X24  ,Y13  ,Y24  ,Z1   ,MX23    ,MX13    ,

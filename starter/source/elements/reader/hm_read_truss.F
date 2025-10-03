@@ -62,6 +62,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD , ONLY : NSUBMOD, SUBMODEL_DATA
       USE READER_OLD_MOD , ONLY : LINE
       USE USER_ID_MOD , ONLY : ID_LIMIT
+      use element_mod , only : nixt
 C---------------------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

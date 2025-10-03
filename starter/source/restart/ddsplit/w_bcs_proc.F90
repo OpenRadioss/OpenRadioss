@@ -33,7 +33,7 @@
 !                                                   PROCEDURES
 ! ======================================================================================================================
 !! \brief Data pre-treatment before saving in RESTART FILE
-!! \details  necessary buffer specific to option /BCS/WALL/...
+!! \details  necessary buffer specific to option /BCS/WALL/, /BCS/NRF , ...
 !
 !||====================================================================
 !||    w_bcs_proc           ../starter/source/restart/ddsplit/w_bcs_proc.F90
@@ -48,6 +48,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           use bcs_mod , only : bcs_struct_
           use write_bcs_wall_mod , only : write_bcs_wall
+          use write_bcs_nrf_mod , only : write_bcs_nrf
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -68,10 +69,12 @@
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
 
+          !-------------------------------------
+          !        /BCS/WALL
+          !-------------------------------------
           itmp(1) = bcs_per_proc%num_wall
           call write_i_c(itmp,1)
           len_ia = len_ia + 1
-
           if(bcs_per_proc%num_wall > 0)then
             do ii=1,bcs_per_proc%num_wall
               ilen = bcs_per_proc%wall(ii)%list%size
@@ -81,16 +84,37 @@
                   bcs_per_proc%wall(ii)%list%elem(jj) = cel(ielem) !local numbering
                 end do
               end if
-
               call write_bcs_wall(bcs_per_proc%wall(ii))
               len_ia = len_ia + 7 + 3*ilen
               len_am = len_am + 2
+            end do!next ii
+          end if
 
+          !-------------------------------------
+          !        /BCS/NRF
+          !-------------------------------------
+          itmp(1) = bcs_per_proc%num_nrf
+          call write_i_c(itmp,1)
+          len_ia = len_ia + 1
+          if(bcs_per_proc%num_nrf > 0)then
+            do ii=1,bcs_per_proc%num_nrf
+              ilen = bcs_per_proc%nrf(ii)%list%size
+              if(ilen > 0)then
+                do jj=1, ilen
+                  ielem = bcs_per_proc%nrf(ii)%list%elem(jj)
+                  bcs_per_proc%nrf(ii)%list%elem(jj) = cel(ielem) !local numbering
+                end do
+              end if
+              call write_bcs_nrf(bcs_per_proc%nrf(ii))
+              len_ia = len_ia + 7 + 3*ilen
+              len_am = len_am + 2
             end do!next ii
           end if
 
 ! ----------------------------------------------------------------------------------------------------------------------
           return
         end subroutine w_bcs_proc
+
+
 ! ======================================================================================================================
       end module w_bcs_proc_mod

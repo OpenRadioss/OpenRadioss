@@ -38,6 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                   Z1  ,Z2  ,Z3  ,IX1 ,IX2 ,IX3 )
 C-----------------------------------------------
       USE MESSAGE_MOD
+      use element_mod , only : nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

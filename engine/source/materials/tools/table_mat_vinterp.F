@@ -43,6 +43,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sigeps50s                     ../engine/source/materials/mat/mat050/sigeps50s.F90
 !||    sigeps57c                     ../engine/source/materials/mat/mat057/sigeps57c.F90
 !||    sigeps70                      ../engine/source/materials/mat/mat070/sigeps70.F
+!||    sigeps88                      ../engine/source/materials/mat/mat088/sigeps88.F90
+!||    sigeps88c                     ../engine/source/materials/mat/mat088/sigeps88c.F90
 !||====================================================================
       MODULE TABLE_MAT_VINTERP_MOD
       CONTAINS
@@ -69,6 +71,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sigeps50s                     ../engine/source/materials/mat/mat050/sigeps50s.F90
 !||    sigeps57c                     ../engine/source/materials/mat/mat057/sigeps57c.F90
 !||    sigeps70                      ../engine/source/materials/mat/mat070/sigeps70.F
+!||    sigeps88                      ../engine/source/materials/mat/mat088/sigeps88.F90
+!||    sigeps88c                     ../engine/source/materials/mat/mat088/sigeps88c.F90
 !||--- calls      -----------------------------------------------------
 !||    ancmsg                        ../engine/source/output/message/message.F
 !||    arret                         ../engine/source/system/arret.F

@@ -44,7 +44,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      D   VISCMAX, THK,     PLA,     UVAR,
      E   OFF,     NGL,     IPM,     MAT,
      F   ETSE,    GS,      VOL,     YLD,
-     G   TEMPEL,  DIE,     COEF,    INLOC,
+     G   TEMPEL,  DIE,     INLOC,
      H   DPLANL,  JTHE,    LOFF)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -125,7 +125,7 @@ C-----------------------------------------------
      .   SIGOXX(NEL0),SIGOYY(NEL0),
      .   SIGOXY(NEL0),SIGOYZ(NEL0),SIGOZX(NEL0),
      .   GS(*),VOL(NEL0),TEMPEL(NEL0),
-     .   DIE(NEL0),COEF(NEL0),DPLANL(NEL0)
+     .   DIE(NEL0),DPLANL(NEL0)
       my_real, DIMENSION(NEL0), INTENT(IN) :: LOFF
 C-----------------------------------------------
 C   O U T P U T   A r g u m e n t s
@@ -201,6 +201,7 @@ C
          CP  = UPARAM(11)
          YFAC(1) = UPARAM(13)
          YFAC(2) = UPARAM(14) 
+         HL  = UPARAM(15)
          G3  = THREE*G
          NNU1 = NU / (ONE - NU)
          NNU2    = NNU1*NNU1
@@ -212,24 +213,7 @@ C
          NU6 = HALF - NNU2 + HALF*NNU1
          DO I=1,NEL0
            TEMP(I)  = UPARAM(12)
-C latent heat            
-           HL  = UPARAM(15)
-           COEF(I)  = ONE
-C
          ENDDO
-C
-       IF (ISIGI==0) THEN
-       IF(TIME==0.0)THEN
-         DO I=1,NEL0
-           UVAR(I,1)=ZERO
-           UVAR(I,2)=ZERO
-           UVAR(I,3) = ZERO  
-           UVAR(I,4) = ZERO
-           UVAR(I,5) = ZERO
-           UVAR(I,6) = ZERO
-         ENDDO
-       ENDIF
-       ENDIF
 C-----------------------------------------------
 C  Calculation of temperature. (conduction or adiabatic)
 C--------------------    
@@ -241,9 +225,7 @@ C--------------------
           DO I=1,NEL0
             VOL0 = VOL(I) * RHO0(I)
             VM(I) = UVAR(I,2)      
-            TEMP(I) = TEMP(I) 
-     .                       + COEF(I)*CP*(EINT(I,1)+ EINT(I,2))/VOL0
-     .                       + CP*VM(I)*HL/VOL0
+            TEMP(I) = TEMP(I) + (EINT(I,1)+ EINT(I,2) + VM(I)*HL) * CP / VOL0
           ENDDO
         ENDIF
 C

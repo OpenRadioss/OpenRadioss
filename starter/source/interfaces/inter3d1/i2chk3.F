@@ -45,6 +45,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE GROUPDEF_MOD
+      use element_mod , only :nixs,nixc,nixtg
 C---------------------------------------------------------------------
 C     CHECK ELEMENT FOR TYPE 2 (ISEARCH=2)
 C     THE GLOBAL NODE IS NOT REPLACED BY THE LOCAL NODE IN IRECT

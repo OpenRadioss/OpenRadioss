@@ -21,11 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    c_iebcs    ../starter/source/restart/ddsplit/c_iebcs.F
+!||    c_iebcs       ../starter/source/restart/ddsplit/c_iebcs.F
 !||--- called by ------------------------------------------------------
-!||    ddsplit    ../starter/source/restart/ddsplit/ddsplit.F
+!||    ddsplit       ../starter/source/restart/ddsplit/ddsplit.F
 !||--- calls      -----------------------------------------------------
-!||    iface      ../starter/source/ale/ale3d/iface.F
+!||    iface         ../starter/source/ale/ale3d/iface.F
 !||--- uses       -----------------------------------------------------
 !||====================================================================
        SUBROUTINE C_IEBCS(IXS, IXQ, IXTG, 
@@ -34,6 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .     IEBCS_NELEM_L, IEBCS_TYPE, IEBCS_LISTELEM_L, IEBCS_LISTFAC_L,IEBCS_LISTDP0_L, LENGTH, N2D,
      .     MULTI_FVM_IS_USED,FLAG,EBCS_TAB)
        USE EBCS_MOD
+       use element_mod , only : nixs,nixq,nixtg
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------

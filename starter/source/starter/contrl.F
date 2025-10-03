@@ -112,6 +112,8 @@ C-----------------------------------------------
       USE PBLAST_MOD
       USE OUTPUT_MOD , ONLY : OUTPUT_
       use ascii_encoding_mu_letter_mod, only : ascii_encoding_mu_letter
+      USE EOS_PARAM_MOD , ONLY : ANALY_TEMP
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -191,6 +193,7 @@ C-----------------------------------------------
      .        NPYFUN
       INTEGER IARCHS(8)
       INTEGER IS_BEGIN,SCHAR
+      INTEGER :: NPROP,NALEMAT,NEULERMAT
       INTEGER     IHBE_DS,ISST_DS,IPLA_DS,IFRAME_DS,ITET4_D,ITET10_D,ICPRE_D,IMAS_DS,ICONTROL_D,
      .            IHBE_D,IPLA_D,ISTR_D,ITHK_D,ISHEA_D,ISST_D,
      .            ISH3N_D, ISTRA_D,NPTS_D,IDRIL_D,IOFFSET_D,DEF_INTER(100)
@@ -763,7 +766,8 @@ C---------------------------------------------------
       CALL HM_OPTION_COUNT('/BCS',NUMBCS)
       CALL HM_OPTION_COUNT('/NBCS',NUMBCSN)
       NBCSKIN = NUMBCS - NBCSLAG
-      CALL HM_OPTION_COUNT('/BCS/WALL',BCS%NUM_WALL)      
+      CALL HM_OPTION_COUNT('/BCS/WALL',BCS%NUM_WALL)
+      CALL HM_OPTION_COUNT('/BCS/NRF',BCS%NUM_NRF)
 C---------------------------------------------------
 C     KINEMATIC CONDITIONS
 C---------------------------------------------------
@@ -949,15 +953,25 @@ C---------------------------------------------------
       NLASER = 0
       CALL HM_OPTION_COUNT('/DFS/LASER',NLASER)
 C---------------------------------------------------
-      JEUL=0
-      CALL HM_OPTION_COUNT('/EULER/MAT', JEUL)
-      JEUL=MIN(JEUL,1)
+!  DETECT ALE OR EULER FRAMEWORK
+C---------------------------------------------------
+      CALL HM_OPTION_COUNT('/ALE/MAT',NALEMAT)
+      CALL HM_OPTION_COUNT('/EULER/MAT',NEULERMAT)
+      IF(NALEMAT > 0)  ALE%GLOBAL%IS_DEFINED_ALE = 1
+      IF(NEULERMAT > 0)ALE%GLOBAL%IS_DEFINED_EULER = 1
+      CALL HM_OPTION_COUNT('/PROP', NPROP)
+      DO I=1,NPROP
+        CALL HM_OPTION_START('/PROP')
+        CALL HM_OPTION_NEXT()
+        CALL HM_GET_INTV('Iale',JALE,IS_AVAILABLE,LSUBMODEL)
+        IF(JALE == 1) ALE%GLOBAL%IS_DEFINED_ALE = 1
+        IF(JALE == 2) ALE%GLOBAL%IS_DEFINED_EULER = 1
+        IF(ALE%GLOBAL%IS_DEFINED_EULER == 1 .AND. ALE%GLOBAL%IS_DEFINED_EULER == 1)EXIT
+      ENDDO
+      JEUL = ALE%GLOBAL%IS_DEFINED_EULER ! =1 : if /EULER/MAT or /PROP/SOLID (IALE=2) is defined within the input file
+      JALE = ALE%GLOBAL%IS_DEFINED_ALE   ! =1 : if /ALE/MAT or /PROP/SOLID (IALE=1) is defined within the input file
       LVEUL=32
       IF(INTEG8==1)LVEUL=52
-C---------------------------------------------------
-      JALE=0
-      CALL HM_OPTION_COUNT('/ALE/MAT', JALE)
-      JALE=MIN(JALE,1)
 C---------------------------------------------------
       NALEBCS = 0
       CALL HM_OPTION_COUNT('/ALE/BCS', NALEBCS)
@@ -1415,6 +1429,7 @@ C                                                                    012
      .                IOFFSET_D,
      .                ICONTROL_D
       WRITE(IOUT,5501)ISHFRAM
+      IF(ANALY_TEMP /= 0)WRITE(IOUT,5505)ANALY_TEMP
       IF(ISH3NFRAM>0)WRITE(IOUT,5901)ISH3NFRAM
       IF(JALE/=0 .AND. ALEFVM_Param%IEnabled/=0)WRITE(IOUT,5502)ALEFVM_Param%ISOLVER
       IF(JALE/=0 .AND. ALE%GLOBAL%ISFINT/=0) WRITE(IOUT,5503)ALE%GLOBAL%ISFINT
@@ -1646,6 +1661,8 @@ c     & 4X,'MEMORY AVAILABLE FOR REALS. . . . . . . . . . . . . .',I10)
      & 4X,'----------------------------------------------------------------'/
      & 5X,'COMPRESSION COEFFICIENT (BETA). . . . . . . . . . . : ',1PG20.13/  
      & 5X,'FORMULATION FLAG (IFLAG). . . . . . . . . . . . . . : ',I10)
+ 5505 FORMAT(
+     & 4X,'ITEMP  : TEMPERATURE CUTOFF FLAG . . . . . . . . . . .',I10)
  5700 FORMAT(//
      & 4X,'LAGRANGE MULTIPLIER OPTIONS'/
      & 4X,'---------------------------'/

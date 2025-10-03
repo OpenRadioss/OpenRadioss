@@ -72,6 +72,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    radiarrest                   ../engine/source/output/restart/rdresb.F
 !||    rdcomr                       ../engine/source/output/restart/rdcomm.F
 !||    read_ale_grid                ../engine/source/output/restart/read_ale_grid.F90
+!||    read_bcs_nrf                 ../engine/source/output/restart/read_bcs_nrf.F90
 !||    read_bcs_wall                ../engine/source/output/restart/read_bcs_wall.F90
 !||    read_cluster                 ../engine/source/output/cluster/read_cluster.F
 !||    read_db                      ../common_source/tools/input_output/read_db.F
@@ -132,6 +133,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    python_funct_mod             ../common_source/modules/python_mod.F90
 !||    rbe3_mod                     ../common_source/modules/constraints/rbe3_mod.F90
 !||    read_ale_grid_mod            ../engine/source/output/restart/read_ale_grid.F90
+!||    read_bcs_nrf_mod             ../engine/source/output/restart/read_bcs_nrf.F90
 !||    read_bcs_wall_mod            ../engine/source/output/restart/read_bcs_wall.F90
 !||    read_inivel_mod              ../engine/source/output/restart/read_inivel.F90
 !||    restart_rbe3pen_mod          ../engine/source/output/restart/restart_rbe3pen.F90
@@ -200,6 +202,7 @@ C-----------------------------------------------
       use glob_therm_mod
       use read_ale_grid_mod, only : read_ale_grid
       use read_bcs_wall_mod, only : read_bcs_wall
+      use read_bcs_nrf_mod, only : read_bcs_nrf
       use rbe3_mod
       use restart_rbe3pen_mod, only : get_nrbe3pen_l,read_rrbe3pen
       use checksum_output_option_mod
@@ -1009,6 +1012,14 @@ C----------------------------------
       IF(BCS%NUM_WALL > 0)THEN
         CALL READ_BCS_WALL()
       ENDIF
+C----------------------------------
+C /BCS/NRF
+C----------------------------------
+      CALL READ_I_C(ITMP,1)
+      BCS%NUM_NRF = ITMP
+      IF(BCS%NUM_NRF > 0)THEN
+        CALL READ_BCS_NRF()
+      ENDIF      
 C----------------------------------
 C     reading real variables
 C--------------------------------------

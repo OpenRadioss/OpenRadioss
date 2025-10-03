@@ -51,6 +51,7 @@ C-----------------------------------------------
 #endif
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE FORMAT_MOD , ONLY : FMT_I_3F
+      use element_mod , only :nixs
 C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -583,14 +584,16 @@ C
       RETURN
       END
 !||====================================================================
-!||    i24penmax   ../starter/source/interfaces/inter3d1/i24pen3.F
+!||    i24penmax     ../starter/source/interfaces/inter3d1/i24pen3.F
 !||--- called by ------------------------------------------------------
-!||    i24pen3     ../starter/source/interfaces/inter3d1/i24pen3.F
+!||    i24pen3       ../starter/source/interfaces/inter3d1/i24pen3.F
 !||--- calls      -----------------------------------------------------
-!||    intab       ../starter/source/interfaces/inter3d1/i24tools.F
+!||    intab         ../starter/source/interfaces/inter3d1/i24tools.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE I24PENMAX(PEN  ,PENMAX,ETYP  ,EL    ,NS   ,
      +                     IXS   ,IXS10 ,IXS16 , IXS20  ,IELIM )
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -642,12 +645,14 @@ C-------
       RETURN
       END
 !||====================================================================
-!||    iconnet   ../starter/source/interfaces/inter3d1/i24pen3.F
+!||    iconnet       ../starter/source/interfaces/inter3d1/i24pen3.F
 !||--- called by ------------------------------------------------------
-!||    i24pen3   ../starter/source/interfaces/inter3d1/i24pen3.F
+!||    i24pen3       ../starter/source/interfaces/inter3d1/i24pen3.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE ICONNET(IRECT ,IXS   ,KNOD2ELS,NOD2ELS,
      .                   IXS10 ,IXS16 ,IXS20 ,NS  ,ICONN   )
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

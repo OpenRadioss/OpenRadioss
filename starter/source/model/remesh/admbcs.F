@@ -34,6 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE ADMBCS(IXC,IPARTC,IXTG,IPARTTG,IPART,
      .                  ICODE,ISKEW,ITAB,SH4TREE,SH3TREE)
       USE MESSAGE_MOD
+      use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -121,13 +122,15 @@ C
 
 
 !||====================================================================
-!||    admbcs4   ../starter/source/model/remesh/admbcs.F
+!||    admbcs4       ../starter/source/model/remesh/admbcs.F
 !||--- called by ------------------------------------------------------
-!||    admbcs    ../starter/source/model/remesh/admbcs.F
+!||    admbcs        ../starter/source/model/remesh/admbcs.F
 !||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       RECURSIVE SUBROUTINE ADMBCS4(DIR,ICOD ,ISK  ,N    ,IXC    ,
      .                          IPARTC,IPART,ICODE,ISKEW,SH4TREE)
+      use element_mod , only : nixc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -178,13 +181,15 @@ C-----------------------------------------------
       RETURN
       END     
 !||====================================================================
-!||    admbcs3   ../starter/source/model/remesh/admbcs.F
+!||    admbcs3       ../starter/source/model/remesh/admbcs.F
 !||--- called by ------------------------------------------------------
-!||    admbcs    ../starter/source/model/remesh/admbcs.F
+!||    admbcs        ../starter/source/model/remesh/admbcs.F
 !||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       RECURSIVE SUBROUTINE ADMBCS3(DIR,ICOD,ISK,N,IXTG,
      .                         IPARTTG,IPART,ICODE,ISKEW,SH3TREE)
+      use element_mod , only : nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

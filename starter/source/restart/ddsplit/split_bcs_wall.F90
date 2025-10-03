@@ -113,7 +113,7 @@
             do jj=1,bcs%wall(ii)%list%size
               p = 1 + cep( bcs%wall(ii)%list%elem(jj) )
               proc_index(p) = proc_index(p) + 1
-              bcs_per_proc(p)%wall(ii)%list%elem( proc_index(p) ) = bcs%wall(ii)%list%elem(jj) ! id global de l element
+              bcs_per_proc(p)%wall(ii)%list%elem( proc_index(p) ) = bcs%wall(ii)%list%elem(jj) ! global elem id
               bcs_per_proc(p)%wall(ii)%list%face( proc_index(p) ) = bcs%wall(ii)%list%face(jj)
               bcs_per_proc(p)%wall(ii)%list%adjacent_elem( proc_index(p) ) = 0
             end do

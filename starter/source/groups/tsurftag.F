@@ -32,6 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE TSURFTAG(IXS     ,IXS10  ,IGRSURF,FLAG ,NSEG  ,
      2                    KNOD2ELS,NOD2ELS,N1     ,N2   ,N3    ,
      3                    NSEG0   )
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------

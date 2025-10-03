@@ -76,6 +76,7 @@ C-----------------------------------------------
       USE UNITAB_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARLINE, NCHARFIELD
       USE RESTMOD, ONLY : NSTRF
+      use element_mod , only : nixs,nixq,nixc,nixp,nixt,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -785,9 +786,11 @@ C=========================================================================
 !||--- called by ------------------------------------------------------
 !||    lecsec42      ../starter/source/tools/sect/hm_read_sect.F
 !||    lecsec4bolt   ../starter/source/tools/sect/lecsec4bolt.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE SECSTRI(NSEG,ISECBUF,IXS,IXS10,IXS16,IXS20,
      .                   NOD ,NNOD ,ITAB ,ISEC, NOPRINT )
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

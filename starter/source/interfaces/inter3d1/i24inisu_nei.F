@@ -412,6 +412,7 @@ C----6---------------------------------------------------------------7---------8
 !||    i24ini_gap_n   ../starter/source/interfaces/inter3d1/i24inisu_nei.F
 !||--- called by ------------------------------------------------------
 !||    inint3         ../starter/source/interfaces/inter3d1/inint3.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE I24INI_GAP_N(
      1 NRTM  ,IRECT ,IXS   ,GEO   ,IXC   ,IXTG  ,
@@ -419,6 +420,7 @@ C----6---------------------------------------------------------------7---------8
      3 THK   ,THK_PART,NVOISIN ,GAP_N ,GAP_M    ,
      4 NMN   ,MSR   ,GAPN_M,GAP_N0,INTPLY  ,
      5 GAPMAX_M ,IGEO,MSEGTYP)
+      use element_mod , only :nixs,nixc,nixtg,nixt,nixp
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

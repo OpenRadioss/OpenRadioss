@@ -93,6 +93,7 @@ C-----------------------------------------------
       use brokmann_random_def_mod
       use glob_therm_mod
       use initemp_shell_mod
+      use element_mod , only : nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -669,6 +670,7 @@ C
       SUBROUTINE C3EPSCHK(JFT,JLT,NFT,PM,GEO,IXTG,GSTR,THK,
      .            NEL,CPT_ELTENS)
       USE MESSAGE_MOD
+      use element_mod , only : nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -723,10 +725,12 @@ c-----------
 !||    c3eps11_ini   ../starter/source/elements/sh3n/coque3n/c3init3.F
 !||--- called by ------------------------------------------------------
 !||    c3init3       ../starter/source/elements/sh3n/coque3n/c3init3.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE C3EPS11_INI(
      1           JFT    ,JLT   ,IXTG  ,X      ,X2S     ,
      2           X3S    ,Y3S   )
+      use element_mod , only : nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

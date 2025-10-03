@@ -60,6 +60,7 @@ C-----------------------------------------------
       USE DRAPE_MOD
       USE QA_OUT_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use element_mod , only : nixc
 C-----------------------------------------------
 C            A R G U M E N T S
 C-----------------------------------------------

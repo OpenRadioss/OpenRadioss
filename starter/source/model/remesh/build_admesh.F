@@ -21,11 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    father   ../starter/source/model/remesh/build_admesh.F
+!||    father        ../starter/source/model/remesh/build_admesh.F
 !||--- called by ------------------------------------------------------
-!||    origin   ../starter/source/model/remesh/build_admesh.F
+!||    origin        ../starter/source/model/remesh/build_admesh.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       INTEGER FUNCTION FATHER(NN,IXC,IPARTC,IPART,SONTYPE)
+      use element_mod , only : nixc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -65,8 +67,10 @@ C-----------------------------------------------
 !||    th_titles              ../starter/source/output/th/th_titles.F90
 !||--- calls      -----------------------------------------------------
 !||    father                 ../starter/source/model/remesh/build_admesh.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       INTEGER FUNCTION ORIGIN(NN,IXC,IPARTC,IPART)
+      use element_mod , only : nixc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -111,6 +115,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE USER_ID_MOD , ONLY : ID_LIMIT
+      use element_mod , only : nixc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -167,6 +172,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
         USE USER_ID_MOD , ONLY : ID_LIMIT
+        use element_mod , only : nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -233,6 +239,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
+      use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

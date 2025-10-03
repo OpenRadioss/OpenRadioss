@@ -32,8 +32,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    vinter2       ../engine/source/tools/curve/vinter.F
 !||====================================================================
       SUBROUTINE SIGEPS36(
-     1     NEL    ,NUVAR   ,MFUNC   ,KFUNC   ,NPF    ,
-     2     TF     ,TIME   ,TIMESTEP,UPARAM  ,RHO0    ,
+     1     NEL    ,NUVAR   ,MFUNC   ,KFUNC   ,NPF    ,TF     ,
+     2     TIMESTEP,UPARAM  ,RHO0    ,
      4     DEPSXX ,DEPSYY ,DEPSZZ  ,DEPSXY  ,DEPSYZ  ,DEPSZX ,
      5     EPSXX  ,EPSYY  ,EPSZZ   ,EPSXY   ,EPSYZ   ,EPSZX  ,
      6     SIGOXX ,SIGOYY ,SIGOZZ  ,SIGOXY  ,SIGOYZ  ,SIGOZX ,
@@ -64,7 +64,6 @@ C KFUNC   | NFUNC   | I | R | FUNCTION INDEX not used
 C NPF     |  *      | I | R | FUNCTION ARRAY   
 C TF      |  *      | F | R | FUNCTION ARRAY 
 C---------+---------+---+---+--------------------------------------------
-C TIME    |  1      | F | R | CURRENT TIME
 C TIMESTEP|  1      | F | R | CURRENT TIME STEP
 C UPARAM  | NUPARAM | F | R | USER MATERIAL PARAMETER ARRAY
 C RHO0    | NEL     | F | R | INITIAL DENSITY
@@ -101,9 +100,7 @@ C=======================================================================
       INTEGER, INTENT(IN) :: IEOS
       INTEGER ,DIMENSION(NEL), INTENT(IN) :: NGL,MAT
       INTEGER ,DIMENSION(NPROPMI,NUMMAT), INTENT(IN) :: IPM
-      my_real
-     .   TIME,TIMESTEP,UPARAM(*),
-     .   RHO0(NEL),
+      my_real :: TIMESTEP,UPARAM(*),RHO0(NEL),
      .   EPSXX(NEL),EPSYY(NEL),EPSZZ(NEL),
      .   EPSXY(NEL),EPSYZ(NEL),EPSZX(NEL),
      .   DEPSXX(NEL),DEPSYY(NEL),DEPSZZ(NEL),
@@ -636,19 +633,6 @@ C=======================================================================
       ELSE  ! VP=1
 C=======================================================================
 C=======================================================================
-        IF (ISIGI == 0) THEN
-          IF(TIME == ZERO)THEN
-           DO I=1,NEL
-                YFAC(I,1) = UPARAM(6+NRATE+1)*FACYLDI(I)
-                YLD(I) = YFAC(I,1)*FINTER(IFUNC(1)  ,ZERO,NPF,TF,DYDX1(I)) 
-            H(I)   = DYDX1(I) 
-            YLD(I) = YLD(I)*MAX(ZERO,PFAC(I))
-            H(I)   = H(I)  *MAX(ZERO,PFAC(I))          
-            UVAR(I,3) = YLD(I)     
-           ENDDO
-          ENDIF
-        ENDIF
-C
         DO I=1,NEL
          PLAOLD(I) = PLA(I)                                          
          PLAP(I) = UVAR(I,2)                              

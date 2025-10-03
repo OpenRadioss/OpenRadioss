@@ -112,7 +112,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      F       IXEL     ,ITHK     ,F_DEF    ,ISHPLYXFEM,                        
      G       ITASK    ,PM_STACK , ISUBSTACK,STACK    ,ALPE     ,
      H       PLY_EXX  ,PLY_EYY  ,PLY_EXY  ,PLY_EXZ   ,PLY_EYZ  ,PLY_F    ,
-     I       VARNL    ,NLOC_DMG ,NLAY_MAX ,LAYNPT_MAX,DT       )
+     I       VARNL    ,NLOC_DMG ,NLAY_MAX ,LAYNPT_MAX,DT       ,SSP_EQ )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -164,6 +164,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: NLAY_MAX, LAYNPT_MAX
       my_real DM
       my_real, intent(in),dimension(mvsiz) :: epsd_pg !< global strain rate by Gauss pt
+      my_real, intent(inout),dimension(mvsiz) :: SSP_EQ   ! for time step compute 
       my_real FOR(NEL,5),MOM(NEL,3),GSTR(NEL,8),THK(*),EINT(JLT,2),OFF(*),
      .   DIR_A(*),DIR_B(*),VISCMX(*),PM(NPROPM,*),THK_LY(NEL,*),
      .   AREA(*),GEO(NPROPG,*),TF(*),DT1C(*),THKLY(*),ALDT(*),
@@ -1929,6 +1930,7 @@ C-----------------------------------------------
               ZCFAC(JFT:JLT,2) = MIN(ETSE(JFT:JLT),ZCFAC(JFT:JLT,2))  
           ENDIF
           YLD(JFT:JLT) = YLD(JFT:JLT) + SIGY(JFT:JLT)*THLY(JFT:JLT)
+          SSP_EQ(JFT:JLT) = SSP_EQ(JFT:JLT) + SSP(JFT:JLT)*THLY(JFT:JLT)
 c-----------------------------------------------
           IF (IMPL_S > 0) THEN
             CALL PUTSIGNORC3(JFT ,JLT ,IUN,NG,IPT,G_IMP ,SIGKSI)
@@ -2038,12 +2040,14 @@ C---------------------------
           RHO(I) = GEO(IPGMAT+1,PID(1))
           SSP(I) = GEO(IPGMAT+9,PID(1))
         ENDDO
+        SSP_EQ(JFT:JLT) = SSP(JFT:JLT)
       ELSEIF (IGTYP == 52 .OR.
      .      ((IGTYP == 17 .OR. IGTYP == 51) .AND. IGMAT > 0)) THEN
         DO I=JFT,JLT
           SSP(I) = PM_STACK(9,ISUBSTACK)
           RHO(I) = PM_STACK(1,ISUBSTACK) 
         ENDDO
+        SSP_EQ(JFT:JLT) = SSP(JFT:JLT)
       ENDIF   
 !---
 ! Special treatment for law 19

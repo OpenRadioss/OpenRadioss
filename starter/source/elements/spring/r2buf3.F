@@ -22,14 +22,16 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
 !||====================================================================
-!||    r2buf3   ../starter/source/elements/spring/r2buf3.F
+!||    r2buf3        ../starter/source/elements/spring/r2buf3.F
 !||--- called by ------------------------------------------------------
-!||    rinit3   ../starter/source/elements/spring/rinit3.F
+!||    rinit3        ../starter/source/elements/spring/rinit3.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE R2BUF3(OFF  ,GEO   ,X     ,X0    ,Y0   ,
      2                  Z0   ,IX    ,SKEW  ,IPOSX ,IPOSY,
      3                  IPOSZ,IPOSXX,IPOSYY,IPOSZZ,IGEO,
      4                  SKEW_ID)
+      use element_mod , only : nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

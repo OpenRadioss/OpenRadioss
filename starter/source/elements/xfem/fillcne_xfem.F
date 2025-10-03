@@ -25,10 +25,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    lectur         ../starter/source/starter/lectur.F
 !||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE FILLCNE_XFEM(LCNE_CRKXFEM,IPARG,
      .   IEL_CRKXFEM   ,INOD_CRKXFEM   ,IXC    ,IXTG , CEP,
      .   ADDCNE_CRKXFEM,CNE_XFE,CEL_XFE,CEP_XFE,CRKNODIAD )
+      use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

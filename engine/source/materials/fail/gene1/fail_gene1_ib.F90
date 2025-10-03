@@ -320,7 +320,7 @@
               e4d = epsxy(i)
               e5d = 0.
               e6d = epszx(i)
-              eff_strain(i) = e1d**2 + e2d**2 + e3d**3 + two*(e4d**2 + e5d**2 + e6d**2)
+              eff_strain(i) = e1d**2 + e2d**2 + e3d**2 + two*(e4d**2 + e5d**2 + e6d**2)
               eff_strain(i) = sqrt(two_third*eff_strain(i))
 
 !c******************************************************************about strain finished

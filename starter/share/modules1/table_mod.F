@@ -54,6 +54,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_mat76                ../starter/source/materials/mat/mat076/hm_read_mat76.F
 !||    hm_read_mat80                ../starter/source/materials/mat/mat080/hm_read_mat80.F
 !||    hm_read_mat87                ../starter/source/materials/mat/mat087/hm_read_mat87.F90
+!||    hm_read_mat88                ../starter/source/materials/mat/mat088/hm_read_mat88.F90
 !||    hm_read_mat90                ../starter/source/materials/mat/mat090/hm_read_mat90.F
 !||    hm_read_move_funct           ../starter/source/tools/curve/hm_read_move_funct.F
 !||    hm_read_pcyl                 ../starter/source/loads/general/load_pcyl/hm_read_pcyl.F
@@ -83,7 +84,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    law69_upd                    ../starter/source/materials/mat/mat069/law69_upd.F
 !||    law77_upd                    ../starter/source/materials/mat/mat077/law77_upd.F
 !||    law87_upd                    ../starter/source/materials/mat/mat087/law87_upd.F90
-!||    law88_upd                    ../starter/source/materials/mat/mat088/law88_upd.F
 !||    law90_upd                    ../starter/source/materials/mat/mat090/law90_upd.F
 !||    law92_upd                    ../starter/source/materials/mat/mat092/law92_upd.F
 !||    lm_least_square_prony        ../starter/source/materials/visc/hm_read_visc_prony.F

@@ -203,6 +203,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_ale_link                  ../starter/source/constraints/ale/hm_read_ale_link_vel.F
 !||    hm_read_alebcs                    ../starter/source/constraints/ale/hm_read_alebcs.F
 !||    hm_read_bcs                       ../starter/source/constraints/general/bcs/hm_read_bcs.F
+!||    hm_read_bcs_nrf                   ../starter/source/boundary_conditions/hm_read_bcs_nrf.F90
 !||    hm_read_bcs_wall                  ../starter/source/boundary_conditions/hm_read_bcs_wall.F90
 !||    hm_read_bem                       ../starter/source/loads/bem/hm_read_bem.F
 !||    hm_read_cload                     ../starter/source/loads/general/cload/hm_read_cload.F
@@ -404,6 +405,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    inisms                            ../starter/source/general_controls/computation/hm_read_sms.F
 !||    inisoldist                        ../starter/source/initial_conditions/inivol/inisoldist.F
 !||    inisrf                            ../starter/source/constraints/general/rbody/inisrf.F
+!||    init_bcs_nrf                      ../starter/source/boundary_conditions/init_bcs_nrf.F90
 !||    init_bcs_wall                     ../starter/source/boundary_conditions/init_bcs_wall.F90
 !||    init_global_frontier_monvol       ../engine/source/airbag/init_global_monvol_frontier.F90
 !||    init_inivol                       ../starter/source/initial_conditions/inivol/init_inivol.F90

@@ -319,7 +319,7 @@
               e4d = half*epsxy(i)
 
               e6d = half*epszx(i)
-              eff_strain(i) = e1d**2 + e2d**2 + e3d**3 + two*(e4d**2 + e6d**2)
+              eff_strain(i) = e1d**2 + e2d**2 + e3d**2 + two*(e4d**2 + e6d**2)
               eff_strain(i) = sqrt(two_third*eff_strain(i))
 
               ! --------------------------------------------------------------------------

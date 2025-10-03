@@ -34,6 +34,7 @@ C
      .                         MID_PID_SHELL,MID_PID_TRI,MID_PID_SOL,
      .                         IPARTC,IPARTG,IPARTS)
         USE MID_PID_MOD
+        use element_mod , only : nixs,nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

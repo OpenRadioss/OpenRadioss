@@ -21,19 +21,21 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    fsigcini   ../starter/source/constraints/fxbody/fsigcini.F
+!||    fsigcini      ../starter/source/constraints/fxbody/fsigcini.F
 !||--- called by ------------------------------------------------------
-!||    fxbsini    ../starter/source/constraints/fxbody/fxbsini.F
+!||    fxbsini       ../starter/source/constraints/fxbody/fxbsini.F
 !||--- calls      -----------------------------------------------------
-!||    ccoefi     ../starter/source/constraints/fxbody/fsigcini.F
-!||    ccurvi     ../starter/source/constraints/fxbody/fsigcini.F
-!||    cdefli     ../starter/source/constraints/fxbody/fsigcini.F
-!||    ceveci     ../starter/source/elements/shell/coque/ceveci.F
-!||    cm1inif    ../starter/source/elements/shell/coque/cm1inif.F
-!||    cpxpyi     ../starter/source/elements/shell/coque/cepsini.F
+!||    ccoefi        ../starter/source/constraints/fxbody/fsigcini.F
+!||    ccurvi        ../starter/source/constraints/fxbody/fsigcini.F
+!||    cdefli        ../starter/source/constraints/fxbody/fsigcini.F
+!||    ceveci        ../starter/source/elements/shell/coque/ceveci.F
+!||    cm1inif       ../starter/source/elements/shell/coque/cm1inif.F
+!||    cpxpyi        ../starter/source/elements/shell/coque/cepsini.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE FSIGCINI(FXBELM, IPARG , X     , PM, IXC , 
-     .                    GEO   , FXBMOD, FXBSIG, R , NELC) 
+     .                    GEO   , FXBMOD, FXBSIG, R , NELC)
+      use element_mod , only : nixc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

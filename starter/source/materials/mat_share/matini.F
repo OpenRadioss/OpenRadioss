@@ -53,6 +53,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    m24in2                 ../starter/source/materials/mat/mat024/m24in2.F
 !||    m24in3                 ../starter/source/materials/mat/mat024/m24in3.F
 !||    m24insph               ../starter/source/elements/sph/m24insph.F
+!||    m36init                ../starter/source/materials/mat/mat036/m36init.F90
 !||    m37init                ../starter/source/materials/mat/mat037/m37init.F
 !||    m38init                ../starter/source/materials/mat/mat038/m38init.F
 !||    m51init                ../starter/source/materials/mat/mat051/m51init.F
@@ -67,6 +68,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    mating                 ../starter/source/materials/mat_share/mating.F
 !||--- uses       -----------------------------------------------------
 !||    detonators_mod         ../starter/share/modules1/detonators_mod.F
+!||    m36init_mod            ../starter/source/materials/mat/mat036/m36init.F90
 !||    message_mod            ../starter/share/message_module/message_mod.F
 !||====================================================================
       SUBROUTINE MATINI(PM       ,IX               ,NIX         ,X         ,
@@ -85,6 +87,7 @@ C-----------------------------------------------
       USE DETONATORS_MOD   
       USE ALE_CONNECTIVITY_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use m36init_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -103,6 +106,7 @@ C-----------------------------------------------
 #include      "units_c.inc"
 #include      "vect01_c.inc"
 #include      "scr17_c.inc"
+#include      "tabsiz_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -128,9 +132,9 @@ C-----------------------------------------------
       INTEGER I,IADBUF,NPAR,NFUNC,NUVAR,IFORM,NUMEL
       INTEGER IFUNC(MAXFUNC)
       INTEGER ID
-      my_real RHO0(MVSIZ)
+      my_real ,DIMENSION(MVSIZ) :: RHO0,YLDFAC
       my_real ,DIMENSION(MVSIZ) ,TARGET :: TMP,EPL,FILLO
-      my_real ,DIMENSION(:) ,POINTER ::
+      my_real ,DIMENSION(:) ,POINTER :: 
      .   OFF,SIG,EINT,RHO,VOL,EPSD,DELTAX,TB,ANG,SF,VK,ROB,UVAR,EPLAS,FILL,DTEL,UPARAM,TEMP
 C=======================================================================
       TMP(1:NEL)=ZERO
@@ -313,7 +317,17 @@ C=======================================================================
           IFUNC(I) = IPM(10+I,MAT(1))
         ENDDO
 
-        IF (MTN == 37) THEN
+        IF (MTN == 36) THEN
+          if (elbuf_str%bufly(1)%l_fac_yld > 0) then
+            yldfac(1:nel) = lbuf%fac_yld(1:nel)
+          else
+            yldfac(1:nel) = one
+          end if
+          
+          CALL M36INIT(NEL   ,NPAR  ,NUVAR ,NFUNC ,IFUNC  ,YLDFAC  ,
+     .                 SNPC  ,STF   ,NPF   ,TF    ,UPARAM ,MBUF%VAR)
+
+        ELSEIF (MTN == 37) THEN
           IPARG(63) = 1 !Loi fluide
           CALL M37INIT(IPM     ,PM      ,
      .                 NGL     ,NUVAR   ,MBUF%VAR ,UPARAM   ,X      ,

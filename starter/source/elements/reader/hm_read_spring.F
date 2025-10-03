@@ -62,6 +62,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD , ONLY : NSUBMOD, SUBMODEL_DATA
       USE READER_OLD_MOD , ONLY : LINE
       USE USER_ID_MOD , ONLY : ID_LIMIT
+      use element_mod , only : nixr
 C----------------------------------------------------------
 C     LECTURE ELEMENT RESSORT
 C     VERSION NUMEROTATION DES NOEUDS LIBRE/MARS 90/DIM

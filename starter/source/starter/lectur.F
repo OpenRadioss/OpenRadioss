@@ -150,6 +150,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_ale_link                    ../starter/source/constraints/ale/hm_read_ale_link_vel.F
 !||    hm_read_alebcs                      ../starter/source/constraints/ale/hm_read_alebcs.F
 !||    hm_read_bcs                         ../starter/source/constraints/general/bcs/hm_read_bcs.F
+!||    hm_read_bcs_nrf                     ../starter/source/boundary_conditions/hm_read_bcs_nrf.F90
 !||    hm_read_bcs_wall                    ../starter/source/boundary_conditions/hm_read_bcs_wall.F90
 !||    hm_read_beam                        ../starter/source/elements/reader/hm_read_beam.F
 !||    hm_read_bem                         ../starter/source/loads/bem/hm_read_bem.F
@@ -424,6 +425,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sphdcod                             ../starter/source/elements/sph/sphdcod.F
 !||    sphonf0                             ../starter/source/elements/sph/sphonf0.F
 !||    spinih                              ../starter/source/elements/sph/spinih.F
+!||    split_bcs_nrf                       ../starter/source/restart/ddsplit/split_bcs_nrf.F90
 !||    split_bcs_wall                      ../starter/source/restart/ddsplit/split_bcs_wall.F90
 !||    split_cfd_solide                    ../starter/source/spmd/split_cfd_solide.F
 !||    split_pcyl                          ../starter/source/loads/general/load_pcyl/split_pcyl.F
@@ -483,6 +485,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    group_mod                           ../starter/share/modules1/group_mod.F
 !||    hm_option_read_mod                  ../starter/share/modules1/hm_option_read_mod.F
 !||    hm_preread_inivel_mod               ../starter/source/initial_conditions/general/inivel/hm_preread_inivel.F90
+!||    hm_read_bcs_nrf_mod                 ../starter/source/boundary_conditions/hm_read_bcs_nrf.F90
 !||    hm_read_bcs_wall_mod                ../starter/source/boundary_conditions/hm_read_bcs_wall.F90
 !||    hm_read_inivol_mod                  ../starter/source/initial_conditions/inivol/hm_read_inivol.F90
 !||    hm_read_preload_axial_mod           ../starter/source/loads/general/preload/hm_read_preload_axial.F90
@@ -517,6 +520,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    shell_offsetp_mod                   ../starter/source/elements/shell/shell_offset/shell_offsetp.F90
 !||    sms_mod                             ../starter/share/modules1/sms_mod.F
 !||    sph_mod                             ../starter/share/modules1/sph_mod.F
+!||    split_bcs_nrf_mod                   ../starter/source/restart/ddsplit/split_bcs_nrf.F90
 !||    split_bcs_wall_mod                  ../starter/source/restart/ddsplit/split_bcs_wall.F90
 !||    split_cfd_mod                       ../starter/share/modules1/split_cfd_mod.F
 !||    split_rwall_mod                     ../starter/source/constraints/general/rwall/split_rwall.F90
@@ -635,7 +639,10 @@ C-----------------------------------------------
       use init_monvol_mod ,only : init_monvol
       use python_duplicate_nodes_mod
       use split_bcs_wall_mod , only : split_bcs_wall
+      use split_bcs_nrf_mod , only : split_bcs_nrf
       use hm_read_bcs_wall_mod , only : hm_read_bcs_wall
+      use hm_read_bcs_nrf_mod , only : hm_read_bcs_nrf
+      use element_mod , only : nixs,nixq,nixc,nixp,nixt,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -3755,6 +3762,7 @@ C--------------------------------------------
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
       NUMELC_DRAPE = 0
       NUMELTG_DRAPE = 0
+      stack%s_pm2 = 0      
       IF(NDRAPE > 0) THEN
         WRITE(ISTDO,'(A)')' .. DRAPE'
         ALLOCATE(DRAPE_WRK(NUMELC + NUMELTG),DRAPEG%INDX(NUMELC + NUMELTG))
@@ -3835,10 +3843,11 @@ C-------------------------
      .                   IGEO       ,GEO        ,THKE       , STACK    ,
      .                   IGEO_STACK ,GEO_STACK , STACK_INFO ,
      .                   NUMGEOSTACK,NPROP_STACK,PLY_INFO)
+            stack%s_pm2 = size(stack%pm,dim=2)
          ELSE
             ALLOCATE(STACK%GEO(0,0))
             ALLOCATE(STACK%IGEO(0,0))
-            ALLOCATE(STACK%PM(0,0))
+            ALLOCATE(STACK%PM(stack_s_pm1,stack%s_pm2))
          ENDIF        
       ELSE ! with out drape
         ALLOCATE(DRAPE(0))
@@ -3849,10 +3858,11 @@ C-------------------------
      .                   IGEO       ,GEO        ,IWORKSH    ,THKE      ,
      .                   STACK      ,IPM        ,IGEO_STACK ,GEO_STACK ,
      .                   STACK_INFO ,NUMGEOSTACK,NPROP_STACK)
+            stack%s_pm2 = size(stack%pm,dim=2)     
          ELSE
             ALLOCATE(STACK%GEO(0,0))
             ALLOCATE(STACK%IGEO(0,0))
-            ALLOCATE(STACK%PM(0,0))
+            ALLOCATE(STACK%PM(stack_s_pm1,stack%s_pm2))
          ENDIF  
       ENDIF
 C--------------------------------------------
@@ -4084,7 +4094,8 @@ C--------------------------------------------
       ERR_CATEGORY='TRANSFORMATIONS'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
       CALL LECTRANS(X        ,IGRNOD  ,ITAB   ,ITABM1 ,UNITAB,
-     .              LSUBMODEL,RTRANS)
+     .              LSUBMODEL,RTRANS  ,IGRSURF,ISKWN  ,SKEW  ,
+     .              LISKN    ,LSKEW   ,NSPCOND,NUMSPH )
       CALL TRACE_OUT1()
       CLOSE(UNIT=IUSBM)
 C--------------------------------------------
@@ -5077,6 +5088,13 @@ C--------------------------------------------
 C READ /BCS/WALL
         CALL HM_READ_BCS_WALL(UNITAB, LSUBMODEL, IGRNOD, NGRNOD, SENSORS, ITABM1, NUMNOD, MULTI_FVM)
       ENDIF
+C--------------------------------------------
+C     /BCS/NRF - NON REFLECTING BOUNDARY CONDITION
+C--------------------------------------------
+      IF(BCS%NUM_NRF /= 0) THEN
+C READ /BCS/WALL
+        CALL HM_READ_BCS_NRF(LSUBMODEL, IGRNOD, NGRNOD, ITABM1, NUMNOD, MULTI_FVM)
+      ENDIF
 
 C--------------------------------------------
 C     READING PRELOADS
@@ -5118,7 +5136,7 @@ c
        IF(STAT /= 0) CALL ANCMSG(MSGID= 268,ANMODE=ANINFO,
      .                          MSGTYPE= MSGERROR,
      .                               C1= 'IFLAG_BPRELOAD')
-       ALLOCATE(IPRELOAD_FUN(2*NPRELOAD)    ,STAT=stat)
+       ALLOCATE(IPRELOAD_FUN(2*NUMPRELOAD)    ,STAT=stat)
        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='IPRELOAD_FUN')
@@ -5131,7 +5149,7 @@ c
        CALL HM_READ_PRELOAD(IXS   ,IXS10     ,IPRELOAD ,PRELOAD,IFLAG_BPRELOAD,
      .                      NSTRF ,SENSORS   ,UNITAB ,X        ,
      .                      EANI  ,ITAB      ,LSUBMODEL,
-     .                     SNPC   ,NPC       ,IPRELOAD_FUN)        
+     .                     SNPC   ,NPC       ,IPRELOAD_FUN)
 c
        IF(ALLOCATED(NSTRF))  DEALLOCATE(NSTRF)
        IF(ALLOCATED(SECBUF)) DEALLOCATE(SECBUF)
@@ -7671,7 +7689,7 @@ C
      A               KNOD2EL1D ,IXS10      ,INTER_CAND                   ,FRIGAP           ,IXS16       ,
      B               IXS20     ,IPM        ,NOM_OPT(LNOPT1*INOM_OPT(3)+1),IPARTS           ,SISKWN      ,
      C               KXX       ,IXX        ,IGEO                         ,INTERCEP         ,LELX        ,
-     D               INTBUF_TAB,FILLSOL    ,STACK%PM                     ,IWORKSH          ,NSNT        ,
+     D               INTBUF_TAB,FILLSOL    ,STACK                        ,IWORKSH          ,NSNT        ,
      E               NMNT_2    ,KXIG3D     ,IXIG3D                       ,KNOD2ELQ         ,NOD2ELQ     ,
      F               SEGQUADFR ,TAGPRT_FRIC,INTBUF_FRIC_TAB              ,IPARTT           ,
      G               IPARTP    ,IPARTX     ,IPARTR                       ,NSN_MULTI_CONNEC ,T2_NB_CONNEC,
@@ -10899,8 +10917,9 @@ c         start CPU timer for ddsplit
           ! -----------------------------------------            
 
           ! -----------------------------------------
-          ! split the BCs wall data structure
+          ! split the BCs data structure
           CALL SPLIT_BCS_WALL(BCS_PER_PROC, CEP, SCEP, NSPMD)
+          CALL SPLIT_BCS_NRF(BCS_PER_PROC, CEP, SCEP, NSPMD)
           ! -----------------------------------------
 
           ! -----------------------------------------

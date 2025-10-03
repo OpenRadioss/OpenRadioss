@@ -88,10 +88,11 @@
 !||--- uses       -----------------------------------------------------
 !||    my_alloc_mod        ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
-        subroutine allocate_sph_work(sph_work,                              &
+        subroutine allocate_sph_work(sph_work,                                &
         &                              numsph,size_wreduce,                   &
         &                              flag_sol_to_sph, size_itag,            &
-        &                              size_as6, size_a6, size_as )
+        &                              size_as6, size_a6, size_as,            &
+        &                              numsphg)
 !=======================================================================================
 !! \brief  subroutine to allocate the buffers used in SPHPREP and SPHINT
           use my_alloc_mod
@@ -107,6 +108,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           integer,intent(in) :: size_wreduce
           integer,intent(in) :: numsph
+          integer,intent(in) :: numsphg
           integer,intent(in) :: flag_sol_to_sph
           integer,intent(in) :: size_itag
           integer,intent(in) :: size_as6
@@ -126,7 +128,7 @@
             call my_alloc(sph_work%as,3,8*size_as)
             call my_alloc(sph_work%as6,6,3,8*size_as6)
           end if
-          if (numsph > 0) then
+          if (numsphg > 0) then
             sph_work%voxel_nb = 15
             nbk = sph_work%voxel_nb
             call my_alloc(sph_work%voxel%nnod,nbk,nbk,nbk)

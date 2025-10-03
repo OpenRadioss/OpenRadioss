@@ -54,6 +54,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE MESSAGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -605,11 +606,13 @@ C-----------
       END
 c
 !||====================================================================
-!||    elcut4n   ../starter/source/elements/xfem/lslocal.F
+!||    elcut4n       ../starter/source/elements/xfem/lslocal.F
 !||--- called by ------------------------------------------------------
-!||    lslocal   ../starter/source/elements/xfem/lslocal.F
+!||    lslocal       ../starter/source/elements/xfem/lslocal.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE ELCUT4N(IEL   ,IXC ,XNOD, EDGEC, FAC , IED)
+      use element_mod , only : nixc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -639,11 +642,13 @@ C---
       RETURN
       END
 !||====================================================================
-!||    elcut3n   ../starter/source/elements/xfem/lslocal.F
+!||    elcut3n       ../starter/source/elements/xfem/lslocal.F
 !||--- called by ------------------------------------------------------
-!||    lslocal   ../starter/source/elements/xfem/lslocal.F
+!||    lslocal       ../starter/source/elements/xfem/lslocal.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE ELCUT3N(IEL   ,IXTG ,XNOD, EDGETG, FAC , IED)
+      use element_mod , only : nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

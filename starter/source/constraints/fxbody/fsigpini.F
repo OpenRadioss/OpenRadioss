@@ -21,18 +21,20 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    fsigpini   ../starter/source/constraints/fxbody/fsigpini.F
+!||    fsigpini      ../starter/source/constraints/fxbody/fsigpini.F
 !||--- called by ------------------------------------------------------
-!||    fxbsini    ../starter/source/constraints/fxbody/fxbsini.F
+!||    fxbsini       ../starter/source/constraints/fxbody/fxbsini.F
 !||--- calls      -----------------------------------------------------
-!||    pcurvi     ../starter/source/constraints/fxbody/fsigpini.F
-!||    pdefoi     ../starter/source/constraints/fxbody/fsigpini.F
-!||    pevecii    ../starter/source/constraints/fxbody/fsigpini.F
-!||    pm1inif    ../starter/source/constraints/fxbody/fsigpini.F
+!||    pcurvi        ../starter/source/constraints/fxbody/fsigpini.F
+!||    pdefoi        ../starter/source/constraints/fxbody/fsigpini.F
+!||    pevecii       ../starter/source/constraints/fxbody/fsigpini.F
+!||    pm1inif       ../starter/source/constraints/fxbody/fsigpini.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE FSIGPINI(FXBELM, IPARG , X     , PM, IXP ,
      .                    GEO   , FXBMOD, FXBSIG, R , NELP,
      .                    IBEAM_VECTOR,RBEAM_VECTOR)
+      use element_mod , only : nixp
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

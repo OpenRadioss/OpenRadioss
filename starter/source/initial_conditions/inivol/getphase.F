@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    mean_node_norm2   ../starter/source/initial_conditions/inivol/mean_node_norm2.F
 !||    nfacette          ../starter/source/initial_conditions/inivol/nfacette.F
 !||    phase_detection   ../starter/source/initial_conditions/inivol/phase_detection.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE GETPHASE(MVSIZ            ,NUMELS       ,NUMELTG    ,NUMELQ         ,NUMNOD    ,
      .                    NPARG            ,NGROUP       ,NSURF      ,N2D            ,
@@ -39,6 +40,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                    LEADING_DIMENSION,NB_CELL_X    ,NB_CELL_Y  ,NB_CELL_Z      ,
      .                    IPARG            ,IXS          ,IXQ        ,IXTG           ,
      .                    CELL             ,CELL_POSITION,NODAL_PHASE,NB_BOX_LIMIT)
+        use element_mod , only :nixs,nixq,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

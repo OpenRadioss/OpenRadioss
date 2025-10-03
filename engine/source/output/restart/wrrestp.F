@@ -80,6 +80,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    wrcomi                       ../engine/source/output/restart/wrcomm.F
 !||    wrcomr                       ../engine/source/output/restart/wrcomm.F
 !||    write_ale_grid               ../common_source/output/restart/write_ale_grid.F90
+!||    write_bcs_nrf                ../common_source/output/restart/write_bcs_nrf.F90
 !||    write_bcs_wall               ../common_source/output/restart/write_bcs_wall.F90
 !||    write_c_c                    ../common_source/tools/input_output/write_routtines.c
 !||    write_db                     ../common_source/tools/input_output/write_db.F
@@ -146,6 +147,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    unitab_mod                   ../common_source/modules/unitab_mod.F
 !||    user_windows_mod             ../common_source/modules/user_windows_mod.F
 !||    write_ale_grid_mod           ../common_source/output/restart/write_ale_grid.F90
+!||    write_bcs_nrf_mod            ../common_source/output/restart/write_bcs_nrf.F90
 !||    write_bcs_wall_mod           ../common_source/output/restart/write_bcs_wall.F90
 !||    write_inivel_mod             ../engine/source/output/restart/write_inivel.F90
 !||    xfem2vars_mod                ../engine/share/modules/xfem2vars_mod.F
@@ -213,6 +215,7 @@ C-----------------------------------------------
       use glob_therm_mod
       use write_ale_grid_mod , only : write_ale_grid
       use write_bcs_wall_mod , only : write_bcs_wall
+      use write_bcs_nrf_mod , only : write_bcs_nrf
       use rbe3_mod
       use restart_rbe3pen_mod, only : write_rrbe3pen
       use checksum_output_option_mod, only : checksum_restart_write
@@ -1089,6 +1092,16 @@ C--------------------------------------
       IF(BCS%NUM_WALL > 0)THEN
         DO I=1, BCS%NUM_WALL
           CALL WRITE_BCS_WALL(BCS%WALL(I))
+        ENDDO
+      ENDIF
+C--------------------------------------
+C /BCS/NRF
+C--------------------------------------
+      ITMP = BCS%NUM_NRF
+      CALL WRITE_I_C(ITMP,1)
+      IF(BCS%NUM_NRF > 0)THEN
+        DO I=1, BCS%NUM_NRF
+          CALL WRITE_BCS_NRF(BCS%NRF(I))
         ENDDO
       ENDIF
 C--------------------------------------

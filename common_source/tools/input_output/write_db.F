@@ -103,6 +103,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    w_stack                   ../starter/source/restart/ddsplit/w_stack.F
 !||    w_tabmat_prop             ../starter/source/restart/ddsplit/w_tabmat_prop.F
 !||    write_ale_grid            ../common_source/output/restart/write_ale_grid.F90
+!||    write_bcs_nrf             ../common_source/output/restart/write_bcs_nrf.F90
 !||    write_bcs_wall            ../common_source/output/restart/write_bcs_wall.F90
 !||    write_common_data         ../common_source/modules/boundary_conditions/ebcs_mod.F90
 !||    write_data_gradp0         ../common_source/modules/boundary_conditions/ebcs_mod.F90

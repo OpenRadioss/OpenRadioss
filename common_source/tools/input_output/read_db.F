@@ -55,6 +55,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    radiarrest             ../engine/source/output/restart/rdresb.F
 !||    rdresb                 ../engine/source/output/restart/rdresb.F
 !||    read_ale_grid          ../engine/source/output/restart/read_ale_grid.F90
+!||    read_bcs_nrf           ../engine/source/output/restart/read_bcs_nrf.F90
 !||    read_bcs_wall          ../engine/source/output/restart/read_bcs_wall.F90
 !||    read_cluster           ../engine/source/output/cluster/read_cluster.F
 !||    read_data_nrf          ../common_source/modules/boundary_conditions/ebcs_mod.F90

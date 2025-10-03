@@ -32,6 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    alemuscl_mod     ../common_source/modules/ale/alemuscl_mod.F
 !||    damp_mod         ../engine/share/modules/damp_mod.F
 !||    drape_mod        ../engine/share/modules/drape_mod.F
+!||    eos_param_mod    ../common_source/modules/mat_elem/eos_param_mod.F90
 !||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
 !||    h3d_mod          ../engine/share/modules/h3d_mod.F
 !||    intbufdef_mod    ../common_source/modules/interfaces/intbufdef_mod.F90
@@ -78,6 +79,7 @@ C-----------------------------------------------
       USE RBE3_MOD
       USE TH_MOD , ONLY : TH_HAS_NODA_PEXT
       USE OUTPUT_MOD
+      USE EOS_PARAM_MOD , ONLY : ANALY_TEMP
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -175,7 +177,7 @@ C-----------------------------------------------
       ISIGI   =TABVINT(22)
       NSPMD   =TABVINT(23)
       LENWA   =TABVINT(24)
-      ! TABVINT(25)  unused
+      ANALY_TEMP = TABVINT(25)
       TH_HAS_NODA_PEXT = TABVINT(26)
       NNODS   =TABVINT(27)
       NCNOIS  =TABVINT(28)

@@ -172,8 +172,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sigeps83                     ../engine/source/materials/mat/mat083/sigeps83.F
 !||    sigeps85c_void               ../engine/source/materials/mat/mat085/sigeps85c_void.F
 !||    sigeps86c                    ../engine/source/materials/mat/mat086/sigeps86c.F
-!||    sigeps88                     ../engine/source/materials/mat/mat088/sigeps88.F
-!||    sigeps88c                    ../engine/source/materials/mat/mat088/sigeps88c.F
 !||    sigeps92                     ../engine/source/materials/mat/mat092/sigeps92.F
 !||    sigeps94                     ../engine/source/materials/mat/mat094/sigeps94.F
 !||    sigeps95                     ../engine/source/materials/mat/mat095/sigeps95.F

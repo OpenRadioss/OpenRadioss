@@ -63,6 +63,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    asspart                                      ../engine/source/assembly/asspart.F
 !||    assparxx                                     ../engine/source/assembly/assparxx.F
 !||    bcs10                                        ../engine/source/constraints/general/bcs/bcs10.F
+!||    bcs_nrf                                      ../engine/source/boundary_conditions/bcs_nrf.F90
 !||    bcscyc                                       ../engine/source/constraints/general/bcs/bcscyc.F
 !||    bcsdtth_copy                                 ../engine/source/constraints/general/bcs/bcsdtth.F
 !||    bcsn                                         ../engine/source/constraints/general/bcs/bcsn.F
@@ -446,6 +447,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ams_work_mod                                 ../engine/source/modules/ams_work_mod.F90
 !||    array_mod                                    ../common_source/modules/array_mod.F
 !||    bcs_mod                                      ../common_source/modules/boundary_conditions/bcs_mod.F90
+!||    bcs_nrf_mod                                  ../engine/source/boundary_conditions/bcs_nrf.F90
 !||    check_mod                                    ../common_source/modules/check_mod.F
 !||    cluster_mod                                  ../engine/share/modules/cluster_mod.F
 !||    connectivity_mod                             ../common_source/modules/connectivity.F90
@@ -744,6 +746,7 @@ C-----------------------------------------------
               use coupling_adapter_mod
               use damping_funct_ini_mod    , only : damping_funct_ini
               USE VIPER_MOD
+              USE BCS_NRF_MOD , ONLY : BCS_NRF
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2454,9 +2457,10 @@ C ---------------------
               ! -------------------------
               ! initialization of SPH_WORK
               call ALLOCATE_SPH_WORK(SPH_WORK,
-     *                               NUMSPH,NUMSPH,         ! Flag & size for WREDUCE
-     *                               SOL2SPH_FLAG, NUMNOD,  ! Flag for other arrays
-     *                               NSPHACT,NUMNOD,NSPHACT ) ! Size of as6, a6, as
+     *                               NUMSPH,NUMSPH,          ! Flag & size for WREDUCE
+     *                               SOL2SPH_FLAG, NUMNOD,   ! Flag for other arrays
+     *                               NSPHACT,NUMNOD,NSPHACT, ! Size of as6, a6, as
+     *                               NUMSPHG ) 
 C========================================================================================
 C                                     NON PARALLEL SECTION (SMP)
 C========================================================================================
@@ -3615,14 +3619,22 @@ C----------------------------------
      .               DT1       ,NODES%X         ,NODES%V         ,NODES%A         ,NODA_FEXT ,
      .               H3D_DATA  ,CPTREAC   ,FTHREAC   ,NODREAC   ,ELEMENT%PON%FSKY ,OUTPUT%TH%WFEXT     )
               ENDIF
-!-------------------------------------------------------------------
-!       offset projection for contact ! add smp // after
-!----------------------------------
-              IF (SH_OFFSET_TAB%NNSH_OSET > 0) THEN
-                XYZ(1:3,1:NUMNOD) = NODES%X(1:3,1:NUMNOD)
-                CALL offset_nPROJ(NSPMD,NUMNOD,XYZ,SH_OFFSET_TAB,IPARIT)
-              ENDIF
 !
+C----------------------
+C         /BCS/NRF
+C----------------------
+                IF(BCS%NUM_NRF > 0)THEN
+                  CALL BCS_NRF(N2D            , NUMNOD   ,
+     .                         NODES%X        , NODES%V  , NODES%A   ,
+     .                         NIXS           , NIXTG    , NIXQ      ,
+     .                         NUMELS         , NUMELTG  , NUMELQ    ,
+     .                         IXS            , IXTG     , IXQ       ,
+     .                         IPARIT         , LSKY     , ELEMENT%PON%FSKY,
+     .                         OUTPUT%TH%WFEXT, NODA_FEXT, DT1       ,
+     .                         ANIM_V         , OUTP_V   , H3D_DATA  )
+                ENDIF
+C----------------------
+
               IF( GLOB_THERM%NUMCONV + GLOB_THERM%NUMRADIA > 0 .AND. GLOB_THERM%ITHERM_FE > 0 )THEN
 
 C========================================================================================
@@ -3734,7 +3746,7 @@ C----------------------------------------
      5             IGRBRIC ,NODES%TEMP    ,2       ,IRLEN7T ,ISLEN7T ,
      6             IRLEN20 ,ISLEN20 ,IRLEN20T,ISLEN20T,IRLEN20E,
      7             ISLEN20E,NODES%IKINE   ,DIAG_SMS,SENSORS%SENSOR_TAB,INTERFACES%INTBUF_TAB ,INT24E2EUSE,
-     8             FORNEQS ,MULTI_FVM,INTERFACES)
+     8             FORNEQS ,MULTI_FVM,INTERFACES,SH_OFFSET_TAB%NNSH_OSET)
               END IF
               IF (IMONM > 0) CALL STOPTIME(TIMERS,24)
               IF (IMON>0) CALL STOPTIME(TIMERS,13)
@@ -9359,6 +9371,13 @@ C                Send positions to Viper
 C========================================================================================
 C                                   NON PARALLEL SECTION (SMP)
 C========================================================================================
+!-------------------------------------------------------------------
+!       offset projection for contact ! add smp // after
+!----------------------------------
+              IF (SH_OFFSET_TAB%NNSH_OSET > 0) THEN
+                XYZ(1:3,1:NUMNOD) = NODES%X(1:3,1:NUMNOD)
+                CALL offset_nPROJ(NSPMD,NUMNOD,XYZ,SH_OFFSET_TAB,IPARIT)
+              ENDIF
 
 C-------------------------------------
 C     UPDATE XFEM CONFIGURATION
@@ -9572,7 +9591,7 @@ C mass & velocity
      5             IGRBRIC ,NODES%TEMP   ,1       ,IRLEN7T ,ISLEN7T ,
      6             IRLEN20 ,ISLEN20,IRLEN20T,ISLEN20T,IRLEN20E,
      7             ISLEN20E,NODES%IKINE  ,DIAG_SMS,SENSORS%SENSOR_TAB,INTERFACES%INTBUF_TAB ,INT24E2EUSE,
-     8             FORNEQS ,MULTI_FVM,INTERFACES)
+     8             FORNEQS ,MULTI_FVM,INTERFACES,SH_OFFSET_TAB%NNSH_OSET)
                 IF (IMONM > 0) CALL STOPTIME(TIMERS,23)
                 IF (IMON>0) CALL STOPTIME(TIMERS,13)
               ENDIF
@@ -9680,7 +9699,7 @@ C--- //0 ----------------
      5                    IGRBRIC ,NODES%TEMP   ,2       ,IRLEN7T ,ISLEN7T ,
      6                    IRLEN20 ,ISLEN20,IRLEN20T,ISLEN20T,IRLEN20E,
      7                    ISLEN20E,NODES%IKINE  ,DIAG_SMS,SENSORS%SENSOR_TAB,INTERFACES%INTBUF_TAB ,INT24E2EUSE,
-     8                    FORNEQS ,MULTI_FVM,INTERFACES)
+     8                    FORNEQS ,MULTI_FVM,INTERFACES,SH_OFFSET_TAB%NNSH_OSET)
                 END IF
 
                 ! Finalize T24 Communication to fill Buffers before restarts
@@ -9826,7 +9845,7 @@ C--- //0 ----------------
      5                IGRBRIC ,NODES%TEMP    ,2       ,IRLEN7T ,ISLEN7T ,
      6                IRLEN20 ,ISLEN20 ,IRLEN20T,ISLEN20T,IRLEN20E,
      7                ISLEN20E,NODES%IKINE   ,DIAG_SMS,SENSORS%SENSOR_TAB,INTERFACES%INTBUF_TAB ,INT24E2EUSE ,
-     8                FORNEQS ,MULTI_FVM,INTERFACES)
+     8                FORNEQS ,MULTI_FVM,INTERFACES,SH_OFFSET_TAB%NNSH_OSET)
                 END IF
 
                 IF(coupling%active) THEN
@@ -9931,7 +9950,7 @@ C /KILL
      5               IGRBRIC ,NODES%TEMP   ,2       ,IRLEN7T ,ISLEN7T ,
      6               IRLEN20 ,ISLEN20,IRLEN20T,ISLEN20T,IRLEN20E,
      7               ISLEN20E,NODES%IKINE  ,DIAG_SMS,SENSORS%SENSOR_TAB,INTERFACES%INTBUF_TAB,INT24E2EUSE,
-     8               FORNEQS ,MULTI_FVM,INTERFACES)
+     8               FORNEQS ,MULTI_FVM,INTERFACES,SH_OFFSET_TAB%NNSH_OSET)
                 ENDIF
 
                 IF(ALLOCATED(ISENDTO))DEALLOCATE(ISENDTO)

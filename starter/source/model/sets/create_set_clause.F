@@ -352,7 +352,8 @@ C=======================================================================
      .                             SH3TREE   ,KNOD2ELS ,NOD2ELS   ,KNOD2ELC  ,NOD2ELC,
      .                             KNOD2ELTG ,NOD2ELTG ,IPARTC    ,IPARTG    ,IPARTS ,
      .                             IPART     ,OPT_A    ,OPT_O     ,KNOD2ELQ  ,NOD2ELQ,
-     .                             X         ,KEYSET   ,OPT_E     ,DELBUF    )
+     .                             X         ,KEYSET   ,OPT_E     ,DELBUF    ,IPARTQ ,
+     .                             NUMELQ    )
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
@@ -377,6 +378,7 @@ C-----------------------------------------------
       USE SET_SCRATCH_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARFIELD
       USE SET_MOD , ONLY : SET_ADD
+      use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -387,7 +389,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER SETL_SIZE
+      INTEGER SETL_SIZE,NUMELQ
       INTEGER  OPT_A,OPT_O,OPT_E
       INTEGER, DIMENSION(NSETS),    INTENT(IN) :: SETL
       TYPE (SET_),DIMENSION(NSETS), INTENT(IN) :: SET
@@ -399,7 +401,7 @@ C
      .        IXP(NIXP,*),IXR(NIXR,*),
      .        SH4TREE(*),SH3TREE(*),KNOD2ELS(*),KNOD2ELC(*),KNOD2ELTG(*),
      .        KNOD2ELQ(*),NOD2ELS(*),NOD2ELC(*),NOD2ELTG(*),NOD2ELQ(*),
-     .        IPARTS(*),IPARTC(*),IPARTG(*),IPART(LIPART1,*)
+     .        IPARTS(*),IPARTC(*),IPARTG(*),IPART(LIPART1,*),IPARTQ(NUMELQ)
       my_real X(3,*)
       CHARACTER(LEN=NCHARFIELD) :: KEYSET
 C-----------------------------------------------
@@ -420,7 +422,7 @@ C-----------------------------------------------
      .                              SH3TREE   ,KNOD2ELS ,NOD2ELS ,KNOD2ELC  ,NOD2ELC,
      .                              KNOD2ELTG ,NOD2ELTG ,IPARTC  ,IPARTG    ,IPARTS ,
      .                              IPART     ,OPT_A    ,OPT_O   ,KNOD2ELQ  ,NOD2ELQ,
-     .                              X         ,KEYSET   ,OPT_E   ,DELBUF    )
+     .                              X         ,KEYSET   ,OPT_E   ,DELBUF    ,IPARTQ)
 C
        ENDDO
 C-----------------------------------------------

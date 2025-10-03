@@ -59,6 +59,7 @@ C-----------------------------------------------
       USE INTBUF_FRIC_MOD  
       USE GROUPDEF_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use element_mod , only : nixs,nixc,nixtg,nixt,nixp,nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -953,10 +954,12 @@ C-------shell elements
 !||    i24sti3       ../starter/source/interfaces/inter3d1/i24sti3.F
 !||    i25sti3       ../starter/source/interfaces/inter3d1/i25sti3.F
 !||    remn_self24   ../starter/source/interfaces/inter3d1/remn_self24.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE INSOL3ET(X   ,IRECT ,IXS     ,NINT   ,NEL,I ,
      .                  AREA ,NOINT ,KNOD2ELS,NOD2ELS,IXS10 ,
      .                  IXS16,IXS20 ,NNOD    )
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1110,6 +1113,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE INTBUF_FRIC_MOD  
       USE GROUPDEF_MOD
+       use element_mod , only : nixs,nixc,nixtg,nixt,nixp,nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2056,6 +2060,7 @@ C~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
      J IPARTT,IPARTP,IPARTR,IGEO  )
 C-----------------------------------------------
       USE MESSAGE_MOD
+      use element_mod , only : nixs,nixc,nixtg,nixt,nixp,nixr
 C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -2217,15 +2222,17 @@ C-----------------------------------------------
       RETURN
       END
 !||====================================================================
-!||    inelts_np   ../starter/source/interfaces/inter3d1/i24sti3.F
+!||    inelts_np     ../starter/source/interfaces/inter3d1/i24sti3.F
 !||--- called by ------------------------------------------------------
-!||    i24gapm     ../starter/source/interfaces/inter3d1/i24sti3.F
+!||    i24gapm       ../starter/source/interfaces/inter3d1/i24sti3.F
 !||--- calls      -----------------------------------------------------
-!||    norma1      ../starter/source/interfaces/inter3d1/norma1.F
+!||    norma1        ../starter/source/interfaces/inter3d1/norma1.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE INELTS_NP(X        ,IRECT ,IXS   ,NREV ,NEL       ,
      .                     I        ,AREA  ,NOINT ,IR   ,SURF_ELTYP,
      .                     SURF_ELEM)
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2304,11 +2311,13 @@ C
        RETURN
       END
 !||====================================================================
-!||    insolbox   ../starter/source/interfaces/inter3d1/i24sti3.F
+!||    insolbox      ../starter/source/interfaces/inter3d1/i24sti3.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE INSOLBOX(X    ,S_TYPE  ,S_EL   ,NOINT ,IXS   ,
      .                   IXS10 ,IXS16   ,IXS20  ,NS    ,GAP   ,
      .                   IPART_E,IPART_NS,IPEN0 ,INS     )
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

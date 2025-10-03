@@ -661,17 +661,17 @@
               endif
 
               call sigeps36(&
-              &llt      ,nuvar    ,nfunc    ,ifunc    ,npf ,&
-              &tf       ,tt       ,dt1      ,uparam0   ,rho0,&
-              &de1      ,de2      ,de3      ,de4      ,de5      ,de6   ,&
-              &es1      ,es2      ,es3      ,es4      ,es5      ,es6   ,&
-              &so1      ,so2      ,so3      ,so4      ,so5      ,so6   ,&
-              &s1       ,s2       ,s3       ,s4       ,s5       ,s6    ,&
-              &sspp     ,vis      ,uvar     ,off      ,ngl      ,ieos  ,&
-              &ipm      ,mat      ,epsd     ,ipla     ,sigy     ,lbuf%pla,&
-              &dpla     ,et       ,bidon    ,bidon    ,amu      ,bidv      ,&
-              &cst1     ,nvartmp  ,vartmp   ,lbuf%dmg ,inloc    ,lbuf%planl,&
-              &sigbxx,sigbyy,sigbzz,sigbxy,sigbyz,sigbzx )
+               llt      ,nuvar    ,nfunc    ,ifunc    ,npf      ,tf       ,&
+               dt1      ,uparam0  ,rho0     ,&
+               de1      ,de2      ,de3      ,de4      ,de5      ,de6   ,&
+               es1      ,es2      ,es3      ,es4      ,es5      ,es6   ,&
+               so1      ,so2      ,so3      ,so4      ,so5      ,so6   ,&
+               s1       ,s2       ,s3       ,s4       ,s5       ,s6    ,&
+               sspp     ,vis      ,uvar     ,off      ,ngl      ,ieos  ,&
+               ipm      ,mat      ,epsd     ,ipla     ,sigy     ,lbuf%pla,&
+               dpla     ,et       ,bidon    ,bidon    ,amu      ,bidv      ,&
+               cst1     ,nvartmp  ,vartmp   ,lbuf%dmg ,inloc    ,lbuf%planl,&
+               sigbxx,sigbyy,sigbzz,sigbxy,sigbyz,sigbzx )
 !
               defp(1:llt)   =  lbuf%pla(1:llt)
 !

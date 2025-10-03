@@ -100,6 +100,7 @@ C-----------------------------------------------
       USE STACK_MOD
       USE DRAPE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use element_mod , only : nixc
 C----------------------------------------------
 C     initialization of nodal masses and inertias
 C----------------------------------------------
@@ -327,7 +328,7 @@ c-----------------------------
               THK(I)=THKE(I)
             ENDIF 
 c                            
-            THKI(I) = GEO(1,IPROP)
+            THKI(I) = THK(I)
 c      
             IF (NPERTURB /= 0) THEN
              DO J=1,NPERTURB

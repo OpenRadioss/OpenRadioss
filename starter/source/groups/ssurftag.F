@@ -42,6 +42,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE SURF_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARKEY
+      use element_mod , only : nixs,nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -543,8 +544,10 @@ C-----------------------------------------------
 !||    surfext_tagn   ../starter/source/groups/ssurftag.F
 !||--- called by ------------------------------------------------------
 !||    lectur         ../starter/source/starter/lectur.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE SURFEXT_TAGN(IXS    ,KNOD2ELS,NOD2ELS  ,IXS10   ,FASTAG,itab)
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

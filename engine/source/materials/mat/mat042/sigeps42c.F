@@ -68,17 +68,17 @@ C----------------------------------------------------------------
 C  L O C A L  V A R I B L E S
 C----------------------------------------------------------------
       INTEGER :: I,J,II,NPRONY,NORDER,ITER,JNV
-      my_real :: SUM,FAC,FSCAL,TENSCUT,SUMDWDL,SUMDDWDDL,PARTP
+      my_real :: SUM,FAC,FSCAL,TENSCUT,SUMDWDL,SUMDDWDDL,PARTP,AMAX
       my_real :: E11,E22,E12,EMAX,GMAX,GVMAX,NU,RBULK,A11,PUI11,PUI22,ALMA1,ALMA2,ALMA3
-      my_real ,DIMENSION(3)       :: DDWDDL,DWDL
+      my_real ,DIMENSION(3)       :: DDWDDL,DWDL,LAM_AL
       my_real ,DIMENSION(10)      :: MU,AL    
       my_real ,DIMENSION(100)     :: GI,TAUX,H1,H2,H12,H10,H20,H120
       my_real ,DIMENSION(NEL,100) :: H30,H31
-      my_real ,DIMENSION(NEL)     :: RVT,C30,C31,DC3EV3,CD10,CD20,CD120
-      my_real ,DIMENSION(NEL)     :: CP1,CP2,CD1,CD2,CD12,EA,INVRV,INVV3,DEZZ,RV,TRAV,ROOTV
+      my_real ,DIMENSION(NEL)     :: RVT,C30,C31,DC3EV3,CD10,CD20,CD120,GTMAX
+      my_real ,DIMENSION(NEL)     :: CP1,CP2,CD1,CD2,CD12,INVRV,INVV3,DEZZ,RV,TRAV,ROOTV
       my_real ,DIMENSION(NEL)     :: S2,CS,KT3,EPSZZ,RHO
-      my_real ,DIMENSION(NEL,10)  :: EVMA1,EVMA2,EVMA3,C11,C22,C12
-      my_real ,DIMENSION(NEL,3)   :: T,SV,SIGPRV,EVV,EV,EVM        
+      my_real ,DIMENSION(NEL,10)  :: EVMA1,EVMA2,EVMA3
+      my_real ,DIMENSION(NEL,3)   :: T,SV,SIGPRV,EVV,EV,EVM,CII        
       my_real ,DIMENSION(NEL,3,2) :: EIGV(NEL,3,2)      
 C=======================================================================
 C SET INITIAL MATERIAL CONSTANTS
@@ -128,7 +128,6 @@ C     principal stretch (def gradient eigenvalues)
         EVV(I,1) = HALF*(TRAV(I)+ROOTV(I))
         EVV(I,2) = HALF*(TRAV(I)-ROOTV(I))
         EVV(I,3) = ZERO
-        EA(I) = ZERO
       ENDDO
 C-- avoid NaN---------        
       IF (ISMSTR == 10) THEN
@@ -439,63 +438,20 @@ c         principal cauchy stress
           T(I,3) = ZERO            
         ENDDO                                                     
 !       -----------------------
-!       compute stifness 
-        DO J = 1,NORDER
-           ! CXX = 1/2 * MU * [1/2 * AL - 1] * EVX ** (AL - 4)
-           ! CXY = 1/2 * MU * [1/2 * AL + 1] * (EVX * EVY) **(-AL - 4)
-           ! AL - 4 = 0 --> CXX =  1/2 * MU * [1/2 * AL - 1]
-           !            --> CXY = 1/2 * MU * [1/2 * AL + 1] * (EVX * EVY) **(-8)
-           ! AL = 0     --> CXX =  1/2 * MU * [1/2 * AL - 1]* EVX ** (- 4)
-           !            --> CXY = 1/2 * MU * [1/2 * AL + 1] * (EVX * EVY) **(-4)
-           ! else       --> CXX =  1/2 * MU * [1/2 * AL - 1]* PUIXX / EVX**(4)
-           !                 with PUIXX = exp( AL * ln(EVX) )
-           !            --> CXY = 1/2 * MU * [1/2 * AL + 1] / ( PUIXX*PUIYY*(EVX**(4)*EVY**(4) )
-          DO I=1,NEL
-            IF (AL(J) == FOUR) THEN
-              C11(I,J) = HALF*MU(J)*(HALF*AL(J)-ONE)
-              C22(I,J) = HALF*MU(J)*(HALF*AL(J)-ONE)
-              C12(I,J) = HALF*MU(J)*(HALF*AL(J) + ONE) / (EV(I,1)*EV(I,2))**(8)
-            ELSEIF (AL(J) == ZERO) THEN
-              C11(I,J) = HALF*MU(J)*(HALF*AL(J)-ONE)   /  EV(I,1)**(4)
-              C22(I,J) = HALF*MU(J)*(HALF*AL(J)-ONE)   /  EV(I,2)**(4)
-              C12(I,J) = HALF*MU(J)*(HALF*AL(J) + ONE) / (EV(I,1)*EV(I,2))**(4)
-            ELSE
-              IF(EV(I,1) /= ZERO) THEN
-                PUI11 = EXP((AL(J) )* LOG(EV(I,1)) )
-                C11(I,J) = HALF*MU(J)*(HALF*AL(J) - ONE)*PUI11 / EV(I,1)**(4)
-              ELSE
-                C11(I,J) = ZERO
-                PUI11 = ONE
-              ENDIF
-              IF(EV(I,2) /= ZERO) THEN
-                PUI22 = EXP((AL(J))* LOG(EV(I,2)) )
-                C22(I,J) = HALF*MU(J)*(HALF*AL(J) - ONE)*PUI22 / EV(I,2)**(4)
-              ELSE
-                C22(I,J) = ZERO
-                PUI22 = ONE
-              ENDIF
-              IF(EV(I,1)*EV(I,2) /= ZERO) THEN
-                C12(I,J) = HALF*MU(J)*(HALF*AL(J) + ONE)       /
-     .                   ( (PUI11 * PUI22)*(EV(I,1)**4 * EV(I,2)**4) )
-              ELSE
-                C12(I,J) = ZERO
-              ENDIF
-            ENDIF     
-          ENDDO  ! 1,NEL
-        ENDDO    ! 1,NORDER
+!       compute stifness ! old formulation suspicious
+!        DO J = 1,NORDER
+!           ! CXX = 1/2 * MU * [1/2 * AL - 1] * EVX ** (AL - 4)
+!           ! CXY = 1/2 * MU * [1/2 * AL + 1] * (EVX * EVY) **(-AL - 4)
+!           ! AL - 4 = 0 --> CXX =  1/2 * MU * [1/2 * AL - 1]
+!           !            --> CXY = 1/2 * MU * [1/2 * AL + 1] * (EVX * EVY) **(-8)
+!           ! AL = 0     --> CXX =  1/2 * MU * [1/2 * AL - 1]* EVX ** (- 4)
+!           !            --> CXY = 1/2 * MU * [1/2 * AL + 1] * (EVX * EVY) **(-4)
+!           ! else       --> CXX =  1/2 * MU * [1/2 * AL - 1]* PUIXX / EVX**(4)
+!           !                 with PUIXX = exp( AL * ln(EVX) )
+!           !            --> CXY = 1/2 * MU * [1/2 * AL + 1] / ( PUIXX*PUIYY*(EVX**(4)*EVY**(4) )
+!        ENDDO    ! 1,NORDER
 !       -----------------------             
         DO I=1,NEL
-          E11 = ZERO
-          E22 = ZERO
-          E12 = ZERO
-          DO J=1,NORDER
-            E11 = E11 + C11(I,J)
-            E22 = E22 + C22(I,J)
-            E12 = E12 + C12(I,J)
-          END DO
-          E11 = E11 + E12 * EV(I,2)**4
-          E22 = E22 + E12 * EV(I,1)**4
-          EA(I) = MAX(E11,E22)
           SV(I,1) = ZERO
           SV(I,2) = ZERO
           SV(I,3) = ZERO
@@ -531,7 +487,26 @@ C-------------------------------------------------------------
           EPSZZ(I)  = LOG(EV(I,3))
           UVAR(I,3) = EV(I,3)
         ENDDO
-      ENDIF
+      ENDIF 
+! new gt      
+      DO I=1,NEL
+        RV(I) = EV(I,1)*EV(I,2)*EV(I,3)                                    
+        AMAX = EXP((-THIRD)*LOG(RV(I))) ! -> J^(-1/3)
+        EVM(I,1:3) = EV(I,1:3)*AMAX 
+      ENDDO
+      CII(1:NEL,1:3) = ZERO
+      DO II = 1,NORDER
+        IF (MU(II)*AL(II) /= ZERO) THEN
+          DO I=1,NEL
+            LAM_AL(1:3) = EXP(AL(II)*LOG(EVM(I,1:3)))
+            AMAX = THIRD*(LAM_AL(1)+LAM_AL(2)+LAM_AL(3))
+            CII(I,1:3) = CII(I,1:3) + MU(II)*AL(II)*(LAM_AL(1:3)+AMAX) 
+          ENDDO
+        ENDIF
+      ENDDO
+      DO I = 1,NEL
+        GTMAX(I) = GVMAX+HALF*MAX(CII(I,1),CII(I,2),CII(I,3)) 
+      ENDDO
 c
       DO I=1,NEL
         RV(I)   = EV(I,1)*EV(I,2)*EV(I,3)
@@ -552,8 +527,7 @@ c
         THKN(I)   = THKN(I) + DEZZ(I)*THKLYL(I)*OFF(I)
         UVAR(I,4) = EPSZZ(I)  
 C         
-        EMAX = GMAX*(ONE + NU)
-        EMAX = MAX(EMAX,EA(I))
+        EMAX = MAX(GMAX,GTMAX(I))*(ONE + NU)
         A11  = EMAX/(ONE - NU**2)
         SOUNDSP(I)= SQRT(A11/RHO0(I))
       ENDDO

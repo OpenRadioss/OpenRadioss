@@ -719,6 +719,7 @@ c               PLY=IPLY NPT=IPT
                              VALUE(2) = VALUE(2)+ GBUF%STRPG(PTS + JJ(2)+I) + FACTOR*GBUF%STRPG(PTS + JJ(7)+I) * THK
                              VALUE(3) = VALUE(3)+ GBUF%STRPG(PTS + JJ(3)+I) + FACTOR*GBUF%STRPG(PTS + JJ(8)+I) * THK
                           ENDDO
+                            VALUE(1:3) = VALUE(1:3)/NPG
                             VALUE(3) = VALUE(3) * HALF 
                             CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,
      .                                           SHELL_TENSOR,I,OFFSET,NFT,VALUE)
@@ -798,6 +799,7 @@ c               NPT=IPT    PLY=NULL ILAYER=NULL
                       VALUE(2) = VALUE(2)+ GBUF%STRPG(PTS + JJ(2)+I) + FACTOR*GBUF%STRPG(PTS + JJ(7)+I) * THK
                       VALUE(3) = VALUE(3)+ GBUF%STRPG(PTS + JJ(3)+I) + FACTOR*GBUF%STRPG(PTS + JJ(8)+I) * THK
                     ENDDO 
+                    VALUE(1:3) = VALUE(1:3)/NPG
                     VALUE(3) = VALUE(3) * HALF 
                     CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,
      .                                       SHELL_TENSOR,I,OFFSET,NFT,VALUE)

@@ -21,13 +21,15 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    rmass    ../starter/source/elements/spring/rmass.F
+!||    rmass         ../starter/source/elements/spring/rmass.F
 !||--- called by ------------------------------------------------------
-!||    rinit3   ../starter/source/elements/spring/rinit3.F
+!||    rinit3        ../starter/source/elements/spring/rinit3.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE RMASS(IXR  ,GEO  ,MS   ,XIN ,PARTSAV,
      2                 X    ,V    ,IPART,XL  ,MSR    ,
      3                 INR  ,MSRT ,EMS  )
+      use element_mod , only : nixr
 C----------------------------------------------
 C     initialization of nodal masses
 C----------------------------------------------
@@ -111,14 +113,16 @@ C----------------------------------------------
       RETURN
       END
 !||====================================================================
-!||    r23mass   ../starter/source/elements/spring/rmass.F
+!||    r23mass       ../starter/source/elements/spring/rmass.F
 !||--- called by ------------------------------------------------------
-!||    inivoid   ../starter/source/elements/initia/inivoid.F
-!||    rinit3    ../starter/source/elements/spring/rinit3.F
+!||    inivoid       ../starter/source/elements/initia/inivoid.F
+!||    rinit3        ../starter/source/elements/spring/rinit3.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE R23MASS(IXR  ,GEO  ,MS   ,XIN ,PARTSAV,
      2                 X    ,V    ,IPART,XL  ,MSR    ,
      3                 INR  ,MSRT ,EMS , MASS ,UINER,MTYP)
+      use element_mod , only : nixr
 C----------------------------------------------
 C     initialization of nodal masses
 C----------------------------------------------

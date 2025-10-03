@@ -21,15 +21,17 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    precrkxfem   ../starter/source/elements/xfem/precrkxfem.F
+!||    precrkxfem    ../starter/source/elements/xfem/precrkxfem.F
 !||--- called by ------------------------------------------------------
-!||    lectur       ../starter/source/starter/lectur.F
+!||    lectur        ../starter/source/starter/lectur.F
 !||--- calls      -----------------------------------------------------
-!||    addcne_xfe   ../starter/source/elements/xfem/precrkxfem.F
+!||    addcne_xfe    ../starter/source/elements/xfem/precrkxfem.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE PRECRKXFEM(
      .           IPARG      ,IXC         ,IXTG          , NCRKXFE    ,      
      .           IEL_CRKXFEM,INOD_CRKXFEM,ADDCNE_CRKXFEM)  
+      use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

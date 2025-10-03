@@ -25,7 +25,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    law36_upd              ../starter/source/materials/mat/mat036/law36_upd.F
 !||    law58_upd              ../starter/source/materials/mat/mat058/law58_upd.F
-!||    law88_upd              ../starter/source/materials/mat/mat088/law88_upd.F
 !||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE FUNC_INTERS(TITR,MAT_ID,FUNC1,FUNC2,FAC1,FAC2,NPC,PLD,XINT,YINT)
@@ -269,8 +268,6 @@ c-----------
       END
 !||====================================================================
 !||    func_inters_c          ../starter/source/tools/curve/func_inters.F
-!||--- called by ------------------------------------------------------
-!||    law88_upd              ../starter/source/materials/mat/mat088/law88_upd.F
 !||--- uses       -----------------------------------------------------
 !||    message_mod            ../starter/share/message_module/message_mod.F
 !||    table_mod              ../starter/share/modules1/table_mod.F

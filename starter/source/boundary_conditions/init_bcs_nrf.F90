@@ -1,0 +1,382 @@
+!Copyright>        OpenRadioss
+!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>
+!Copyright>        This program is free software: you can redistribute it and/or modify
+!Copyright>        it under the terms of the GNU Affero General Public License as published by
+!Copyright>        the Free Software Foundation, either version 3 of the License, or
+!Copyright>        (at your option) any later version.
+!Copyright>
+!Copyright>        This program is distributed in the hope that it will be useful,
+!Copyright>        but WITHOUT ANY WARRANTY; without even the implied warranty of
+!Copyright>        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+!Copyright>        GNU Affero General Public License for more details.
+!Copyright>
+!Copyright>        You should have received a copy of the GNU Affero General Public License
+!Copyright>        along with this program.  If not, see <https://www.gnu.org/licenses/>.
+!Copyright>
+!Copyright>
+!Copyright>        Commercial Alternative: Altair Radioss Software
+!Copyright>
+!Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
+!Copyright>        software under a commercial license.  Contact Altair to discuss further if the
+!Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    init_bcs_nrf_mod   ../starter/source/boundary_conditions/init_bcs_nrf.F90
+!||--- called by ------------------------------------------------------
+!||    initia             ../starter/source/elements/initia/initia.F
+!||====================================================================
+      module init_bcs_nrf_mod
+        implicit none
+      contains
+! ======================================================================================================================
+!                                                   PROCEDURES
+! ======================================================================================================================
+!! \brief This subroutine is initializing the nrf boundary conditions
+!! \details identification of related faces is done. Identified faces are recorded in specific buffer bcs%nrf(id)%list(*)
+!! \details binary comparison (IAND) is done to identify relevant faces
+!||====================================================================
+!||    init_bcs_nrf       ../starter/source/boundary_conditions/init_bcs_nrf.F90
+!||--- called by ------------------------------------------------------
+!||    initia             ../starter/source/elements/initia/initia.F
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||====================================================================
+        subroutine init_bcs_nrf( igrnod, ngrnod, numnod,  multi_fvm,&
+          ixs,nixs,numels, ixq,nixq,numelq, ixtg,nixtg,numeltg, n2d ,  &
+          ngroup, nparg, iparg, ipri, itab, nummat, mat_param)
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Modules
+! ----------------------------------------------------------------------------------------------------------------------
+          use groupdef_mod , only : group_
+          use multi_fvm_mod , only : multi_fvm_struct
+          use bcs_mod , only : bcs
+          use my_alloc_mod
+          use precision_mod , only : WP
+          use matparam_def_mod, only: matparam_struct_
+          use constant_mod , only : four_over_3, half, third, fourth
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Included files
+! ----------------------------------------------------------------------------------------------------------------------
+          implicit none
+#include "units_c.inc"
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Arguments
+! ----------------------------------------------------------------------------------------------------------------------
+          integer, intent(in) :: ipri                                                  !< flag from /IOFLAG input option
+          integer, intent(in) :: ngrnod, numnod                                        !< sizes for array definition
+          type (group_), dimension(ngrnod), target :: igrnod                           !< data buffer for group of nodes
+          type(multi_fvm_struct), intent(inout) :: multi_fvm                           !< data buffer for collocated scheme (multifluid law 151)
+          integer, intent(in) :: nixs,nixq,nixtg                                       !< size for array definition (elem connectivities)
+          integer, intent(in) :: numels,numelq,numeltg                                 !< size for array definition (elem connectivities)
+          integer, intent(in) :: ixs(nixs,numels),ixq(nixq,numelq),ixtg(nixtg,numeltg) !< data for elems connectivities
+          integer, intent(in) :: n2d                                                   !< flag for 2d/3d analysis
+          integer, intent(in) :: ngroup,nparg                                          !< size for array definition
+          integer, intent(in) :: iparg(nparg,ngroup)                                   !< data buffer for elem groups
+          integer, intent(in) :: itab(numnod)                                          !< nodes user ids
+          integer,intent(in) :: nummat
+          type(matparam_struct_), dimension(nummat), intent(in) :: mat_param !< material parameters
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Local variables
+! ----------------------------------------------------------------------------------------------------------------------
+          integer :: internal_grnod_id
+          integer :: ii,jj,kk
+          integer :: num_nodes_in_group
+          integer :: icode !< binary code
+          integer :: ng,nseg
+          integer :: iie,ie !< connectivity data
+          integer :: ity,jale,jeul,nel,nft,isolnod !< elem group parameters
+          integer :: ipos
+          integer :: isize !< data buffer for elem groups : allocation size for working array
+          integer :: imat !< internal material identifier
+          integer,allocatable,dimension(:,:) :: itmp
+          logical :: l_tagnod(numnod)
+          logical :: is_tria
+          integer :: n3,n4
+          real(kind=WP) :: fac
+          real(kind=WP) :: rho0,shear,bulk  !< material parameters (elastic state / intial state)
+          integer icf3d(4,6), icf2d(2,4)
+          ! Init (lines = face )
+          data icf3d / &
+            1,2,3,4, &   ! face 1
+            3,7,8,4, &   ! face 2
+            5,6,7,8, &   ! face 3
+            1,2,6,5, &   ! face 4
+            2,3,7,6, &   ! face 5
+            1,4,8,5  /   ! face 6
+
+          data icf2d / &
+            1,2, &       ! edge 1  (2d face)
+            2,3, &       ! edge 2  (2d face)
+            3,4, &       ! edge 3  (2d face)
+            4,1  /       ! edge 4  (2d face)
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Preconditions
+! ----------------------------------------------------------------------------------------------------------------------
+          if(bcs%num_nrf == 0)return        ! if no option /BCS/NRF in input file then return
+          if(MULTI_FVM%IS_USED)return       ! compatible only with FEM
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Body
+! ----------------------------------------------------------------------------------------------------------------------
+          if(ipri >= 3)write(iout, 2010)
+          is_tria = .false.
+
+          isize = numnod
+          call my_alloc(bcs%iworking_array,2,isize)
+
+          do ii = 1, bcs%num_nrf
+
+            l_tagnod(1:numnod) = .false.
+
+            !RETRIEVE RELATED GRNOD
+            internal_grnod_id = bcs%nrf(ii)%set_id
+            num_nodes_in_group = igrnod(internal_grnod_id)%nentity
+
+            !TAG RELATED NODES
+            do jj=1, num_nodes_in_group
+              l_tagnod(igrnod(internal_grnod_id)%entity(jj)) = .true.
+            end do
+
+            !INIT
+            nseg = 0
+            ipos = 0
+            bcs%iworking_array(1:2,1:NUMNOD) = 0
+            !LOOP OVER ALL ELEMS
+            do ng=1,ngroup
+              nel = iparg(2,ng)
+              nft = iparg(3,ng)
+              ity = iparg(5,ng)
+              jale = iparg(7,ng)
+              jeul = iparg(11,ng)
+              isolnod = iparg(28,ng)
+              if(jale/=0)cycle
+              if(jeul/=0)cycle
+
+              !---hexa---
+              if(ity == 1 .and. isolnod == 8)then
+                do jj=1,nel
+                  ! tag switched on for node in user list
+                  icode = 0
+                  kk = 0 ! number of identified nodes
+                  if(l_tagnod(ixs(2,jj+nft)))then; icode = IBSET(icode,0); kk=kk+1 ; end if
+                  if(l_tagnod(ixs(3,jj+nft)))then; icode = IBSET(icode,1); kk=kk+1 ; end if
+                  if(l_tagnod(ixs(4,jj+nft)))then; icode = IBSET(icode,2); kk=kk+1 ; end if
+                  if(l_tagnod(ixs(5,jj+nft)))then; icode = IBSET(icode,3); kk=kk+1 ; end if
+                  if(l_tagnod(ixs(6,jj+nft)))then; icode = IBSET(icode,4); kk=kk+1 ; end if
+                  if(l_tagnod(ixs(7,jj+nft)))then; icode = IBSET(icode,5); kk=kk+1 ; end if
+                  if(l_tagnod(ixs(8,jj+nft)))then; icode = IBSET(icode,6); kk=kk+1 ; end if
+                  if(l_tagnod(ixs(9,jj+nft)))then; icode = IBSET(icode,7); kk=kk+1 ; end if
+                  if(kk < 4)cycle ! at least 4 nodes are requires to define a face
+                  !check allocated size & reallocate if needed
+                  if(nseg+6 > isize)then
+                    call my_alloc(itmp,2,isize)
+                    itmp(1,1:isize) = bcs%iworking_array(1,1:isize)
+                    itmp(2,1:isize) = bcs%iworking_array(2,1:isize)
+                    deallocate(bcs%iworking_array)
+                    isize=isize+numnod
+                    call my_alloc(bcs%iworking_array,2,isize)
+                    bcs%iworking_array(1,1:isize/2)=itmp(1,1:isize/2)
+                    bcs%iworking_array(2,1:isize/2)=itmp(2,1:isize/2)
+                    deallocate(itmp)
+                  end if
+                  !test binary codes to identify boundary faces
+                  kk = 0 !number of identified faces
+                  if(015 == IAND(icode,015))then; kk=kk+1 ; bcs%iworking_array(2,nseg+kk) = 1 ; end if
+                  if(204 == IAND(icode,204))then; kk=kk+1 ; bcs%iworking_array(2,nseg+kk) = 2 ; end if
+                  if(240 == IAND(icode,240))then; kk=kk+1 ; bcs%iworking_array(2,nseg+kk) = 3 ; end if
+                  if(051 == IAND(icode,051))then; kk=kk+1 ; bcs%iworking_array(2,nseg+kk) = 4 ; end if
+                  if(102 == IAND(icode,102))then; kk=kk+1 ; bcs%iworking_array(2,nseg+kk) = 5 ; end if
+                  if(153 == IAND(icode,153))then; kk=kk+1 ; bcs%iworking_array(2,nseg+kk) = 6 ; end if
+                  bcs%iworking_array(1,nseg+1:nseg+kk) = jj+nft
+                  nseg = nseg + kk
+                end do!next jj
+
+                !---tetra---
+              else if(ity == 1 .and. isolnod == 4)then
+                do jj=1,nel
+                  ! tag switched on for node in user list
+                  icode = 0
+                  kk = 0 ! number of identified nodes
+                  if(l_tagnod(ixs(2,jj+nft)))then; icode = IBSET(icode,0); kk=kk+1 ; end if
+                  if(l_tagnod(ixs(3,jj+nft)))then; icode = IBSET(icode,1); kk=kk+1 ; end if
+                  if(l_tagnod(ixs(4,jj+nft)))then; icode = IBSET(icode,2); kk=kk+1 ; end if
+                  if(l_tagnod(ixs(5,jj+nft)))then; icode = IBSET(icode,3); kk=kk+1 ; end if
+                  if(l_tagnod(ixs(6,jj+nft)))then; icode = IBSET(icode,4); kk=kk+1 ; end if
+                  if(l_tagnod(ixs(7,jj+nft)))then; icode = IBSET(icode,5); kk=kk+1 ; end if
+                  if(l_tagnod(ixs(8,jj+nft)))then; icode = IBSET(icode,6); kk=kk+1 ; end if
+                  if(l_tagnod(ixs(9,jj+nft)))then; icode = IBSET(icode,7); kk=kk+1 ; end if
+                  if(kk < 3)cycle ! at least 3 nodes are requires to define a face
+                  !check allocated size & reallocate if needed
+                  if(nseg+4 > isize)then
+                    call my_alloc(itmp,2,isize)
+                    itmp(1,1:isize) = bcs%iworking_array(1,1:isize)
+                    itmp(2,1:isize) = bcs%iworking_array(2,1:isize)
+                    deallocate(bcs%iworking_array)
+                    isize=isize+numnod
+                    call my_alloc(bcs%iworking_array,2,isize)
+                    bcs%iworking_array(1,1:isize-numnod)=itmp(1,1:isize-numnod)
+                    bcs%iworking_array(2,1:isize-numnod)=itmp(2,1:isize-numnod)
+                    deallocate(itmp)
+                  end if
+                  !test binary codes to identify boundary faces
+                  kk = 0 !number of identified faces
+                  if(204 == IAND(icode,204))then; kk=kk+1 ; bcs%iworking_array(2,nseg+kk) = 2 ; end if
+                  if(051 == IAND(icode,051))then; kk=kk+1 ; bcs%iworking_array(2,nseg+kk) = 4 ; end if
+                  if(102 == IAND(icode,102))then; kk=kk+1 ; bcs%iworking_array(2,nseg+kk) = 5 ; end if
+                  if(153 == IAND(icode,153))then; kk=kk+1 ; bcs%iworking_array(2,nseg+kk) = 6 ; end if
+                  bcs%iworking_array(1,nseg+1:nseg+kk) = jj+nft
+                  nseg = nseg + kk
+                end do!next j
+
+                !---quad---
+              else if(ity == 2)then
+                do jj=1,nel
+                  ! tag switched on for node in user list
+                  icode = 0
+                  kk = 0 ! number of identified nodes
+                  if(l_tagnod(ixq(2,jj+nft)))then; icode = IBSET(icode,0); kk=kk+1 ; end if
+                  if(l_tagnod(ixq(3,jj+nft)))then; icode = IBSET(icode,1); kk=kk+1 ; end if
+                  if(l_tagnod(ixq(4,jj+nft)))then; icode = IBSET(icode,2); kk=kk+1 ; end if
+                  if(l_tagnod(ixq(5,jj+nft)))then; icode = IBSET(icode,3); kk=kk+1 ; end if
+                  if(kk < 2)cycle ! at least 4 nodes are requires to define a face
+                  kk = 0 ! number of identified faces
+                  !check allocated size & reallocate if needed
+                  if(nseg+4 > isize)then
+                    call my_alloc(itmp,2,isize)
+                    itmp(1,1:isize) = bcs%iworking_array(1,1:isize)
+                    itmp(2,1:isize) = bcs%iworking_array(2,1:isize)
+                    deallocate(bcs%iworking_array)
+                    isize=isize+numnod
+                    call my_alloc(bcs%iworking_array,2,isize)
+                    bcs%iworking_array(1,1:isize-numnod)=itmp(1,1:isize-numnod)
+                    bcs%iworking_array(2,1:isize-numnod)=itmp(2,1:isize-numnod)
+                    deallocate(itmp)
+                  end if
+                  !test binary codes to identify boundary faces
+                  if(03 == IAND(icode,03))then; kk=kk+1 ; bcs%iworking_array(2,nseg+kk) = 1 ; end if
+                  if(06 == IAND(icode,06))then; kk=kk+1 ; bcs%iworking_array(2,nseg+kk) = 2 ; end if
+                  if(12 == IAND(icode,12))then; kk=kk+1 ; bcs%iworking_array(2,nseg+kk) = 3 ; end if
+                  if(09 == IAND(icode,09))then; kk=kk+1 ; bcs%iworking_array(2,nseg+kk) = 4 ; end if
+                  bcs%iworking_array(1,nseg+1:nseg+kk) = jj+nft
+                  nseg = nseg + kk
+                end do!next jj
+
+                !---tria---
+              else if(ity == 7 .and. n2d /= 0)then
+                is_tria = .true.
+                do jj=1,nel
+                  ! tag switched on for node in user list
+                  icode = 0
+                  kk = 0 ! number of identified nodes
+                  if(l_tagnod(ixtg(2,jj+nft)))then; icode = IBSET(icode,0); kk=kk+1 ; end if
+                  if(l_tagnod(ixtg(3,jj+nft)))then; icode = IBSET(icode,1); kk=kk+1 ; end if
+                  if(l_tagnod(ixtg(4,jj+nft)))then; icode = IBSET(icode,2); kk=kk+1 ; end if
+                  if(kk < 3)cycle ! at least 3 nodes are requires to define a face
+                  kk = 0 !number of identified faces
+                  !check allocated size & reallocate if needed
+                  if(nseg+3 > isize)then
+                    call my_alloc(itmp,2,isize)
+                    itmp(1,1:isize) = bcs%iworking_array(1,1:isize)
+                    itmp(2,1:isize) = bcs%iworking_array(2,1:isize)
+                    deallocate(bcs%iworking_array)
+                    isize=isize+numnod
+                    call my_alloc(bcs%iworking_array,2,isize)
+                    bcs%iworking_array(1,1:isize-numnod)=itmp(1,1:isize-numnod)
+                    bcs%iworking_array(2,1:isize-numnod)=itmp(2,1:isize-numnod)
+                    deallocate(itmp)
+                  end if
+                  !test binary codes to identify boundary faces
+                  if(3 == IAND(icode,3))then; kk=kk+1 ; bcs%iworking_array(2,nseg+kk) = 1 ; end if
+                  if(6 == IAND(icode,6))then; kk=kk+1 ; bcs%iworking_array(2,nseg+kk) = 2 ; end if
+                  if(5 == IAND(icode,5))then; kk=kk+1 ; bcs%iworking_array(2,nseg+kk) = 3 ; end if
+                  bcs%iworking_array(1,nseg+1:nseg+kk) = jj+nft
+                  nseg = nseg + kk
+                end do!next jj
+
+              end if! ity
+
+            end do!next ng
+
+            allocate(bcs%nrf(ii)%list%elem(nseg))
+            allocate(bcs%nrf(ii)%list%face(nseg))
+            allocate(bcs%nrf(ii)%list%rCp(nseg))
+            allocate(bcs%nrf(ii)%list%rCs(nseg))
+
+            do jj=1,nseg
+              ie = bcs%iworking_array(1,jj)
+              kk = bcs%iworking_array(2,jj)
+              bcs%nrf(ii)%list%elem(jj) = ie
+              bcs%nrf(ii)%list%face(jj) = kk
+            end do !next jj
+
+            bcs%nrf(ii)%list%size = nseg
+
+              !effective size & printout
+              if(nseg > 0)then
+                write(iout, 2011)bcs%nrf(ii)%user_id
+                write(iout, 2019)nseg
+                write(iout, 2020)
+                if(n2d == 0)then
+                  write(iout, 2023)
+                else
+                  write(iout, 2021)
+                end if
+                do jj=1,nseg
+                  iie = bcs%nrf(ii)%list%elem(jj)
+                  kk = bcs%nrf(ii)%list%face(jj)
+                  ! convert internal ids into user ids
+                  if(n2d == 0)then
+                    ie = ixs(nixs,iie)
+                    imat = ixs(1,iie)
+                    fac = fourth
+                    n3= ixs(1+icf3d(3,kk),iie)
+                    n4= ixs(1+icf3d(4,kk),iie)
+                    if(n3==n4 .or. n4==0)fac=third
+                    if(ipri >= 3)write(iout, fmt="(5X,I10,4X,4I10)")ie, ITAB(ixs(1+ICF3D(1:4,kk),iie))
+                  else
+                    if(is_tria)then
+                      ie = ixtg(nixtg,iie)
+                      imat = ixtg(1,iie)
+                      fac = half
+                      if(ipri >= 3)write(iout, fmt="(5X,I10,2X,2I10)")ie, ITAB(ixtg(1+ICF2D(1:2,kk),iie))
+                    else
+                      ie = ixq(nixq,iie)
+                      imat = ixq(1,iie)
+                      fac = half
+                      if(ipri >= 3)write(iout, fmt="(5X,I10,2X,2I10)")ie, ITAB(ixq(1+ICF2D(1:2,kk),iie))
+                    end if
+                  end if
+                  rho0 = mat_param(imat)%rho0
+                  shear = mat_param(imat)%shear
+                  bulk = mat_param(imat)%bulk
+                  bcs%nrf(ii)%list%rCp(jj) = sqrt((bulk + FOUR_OVER_3*shear)/rho0)
+                  bcs%nrf(ii)%list%rCs(jj) = sqrt(shear/rho0)
+                  bcs%nrf(ii)%list%rCp(jj) = fac * rho0 * bcs%nrf(ii)%list%rCp(jj) !rho.Cp/N
+                  bcs%nrf(ii)%list%rCs(jj) = fac * rho0 * bcs%nrf(ii)%list%rCs(jj) !rho*Cs/N
+                end do
+                if(ipri >= 3)write(iout, 2022)
+              end if
+
+            deallocate(bcs%iworking_array)
+
+          end do !next ii
+
+
+
+
+          return
+! ----------------------------------------------------------------------------------------------------------------------
+2010      FORMAT(5X, &
+            5X,/,"    INIT. NRF BOUNDARY CONDITIONS  ", /,&
+            "    ------------------------------  ", /)
+
+2011      format(5X, "bcs identifier . . . . . . . . . . . . =", I10)
+2019      format(5X, "number of identified faces . . . . . . =", I10)
+2020      format(5X, "list of identified faces :" )
+2021      format(5X, "------ELEM  -----NODES--------" )
+2023      format(5X, "------ELEM  -----NODES----------------------------" )
+2022      format(5X)
+
+
+! ----------------------------------------------------------------------------------------------------------------------
+        end subroutine init_bcs_nrf
+      end module init_bcs_nrf_mod

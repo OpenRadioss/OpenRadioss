@@ -72,6 +72,7 @@ C-----------------------------------------------
       USE OPTIONDEF_MOD
       USE SET_SCRATCH_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARFIELD
+      use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -222,7 +223,7 @@ C-----------------------------------------------
      *                KNOD2ELTG ,NOD2ELTG ,IPARTC    ,IPARTG    ,IPARTS    ,
      *                IPART     ,CLAUSE   ,OPT_A     ,OPT_O     ,IXQ       ,
      *                KNOD2ELQ  ,NOD2ELQ  ,X         ,KEYSET    ,DELBUF    ,
-     *                .FALSE.   )
+     *                .FALSE.   ,IPARTQ   )
 !
           ! Line from SURFACE
           CALL CREATE_LINE_FROM_SURFACE(CLAUSE ,KEYSET,OPT_A,OPT_E,DELBUF,

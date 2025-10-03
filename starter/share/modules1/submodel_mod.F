@@ -150,6 +150,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_alebcs                    ../starter/source/constraints/ale/hm_read_alebcs.F
 !||    hm_read_analy                     ../starter/source/general_controls/computation/hm_read_analy.F
 !||    hm_read_bcs                       ../starter/source/constraints/general/bcs/hm_read_bcs.F
+!||    hm_read_bcs_nrf                   ../starter/source/boundary_conditions/hm_read_bcs_nrf.F90
 !||    hm_read_bcs_wall                  ../starter/source/boundary_conditions/hm_read_bcs_wall.F90
 !||    hm_read_beam                      ../starter/source/elements/reader/hm_read_beam.F
 !||    hm_read_bem                       ../starter/source/loads/bem/hm_read_bem.F
@@ -430,7 +431,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_mat83                     ../starter/source/materials/mat/mat083/hm_read_mat83.F
 !||    hm_read_mat84                     ../starter/source/materials/mat/mat084/hm_read_mat84.F
 !||    hm_read_mat87                     ../starter/source/materials/mat/mat087/hm_read_mat87.F90
-!||    hm_read_mat88                     ../starter/source/materials/mat/mat088/hm_read_mat88.F
+!||    hm_read_mat88                     ../starter/source/materials/mat/mat088/hm_read_mat88.F90
 !||    hm_read_mat90                     ../starter/source/materials/mat/mat090/hm_read_mat90.F
 !||    hm_read_mat92                     ../starter/source/materials/mat/mat092/hm_read_mat92.F
 !||    hm_read_mat93                     ../starter/source/materials/mat/mat093/hm_read_mat93.F

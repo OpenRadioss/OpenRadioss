@@ -21,13 +21,15 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    dsdim0   ../starter/source/implicit/dsolve/dsdim.F
+!||    dsdim0        ../starter/source/implicit/dsolve/dsdim.F
 !||--- called by ------------------------------------------------------
-!||    lectur   ../starter/source/starter/lectur.F
+!||    lectur        ../starter/source/starter/lectur.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE DSDIM0(NDOF  ,IXS   , IXQ    , IXC    , IXT    ,
      2                  IXP   ,IXR   , IXTG   , KXX    ,
      3                  IXX   ,GEO   )
+      use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

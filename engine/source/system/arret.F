@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    animx                            ../engine/source/output/anim/generate/animx.F
 !||    arret_message                    ../engine/source/system/arret_message.F
 !||    arret_message_slid               ../engine/source/system/arret_message.F
+!||    bcs_nrf                          ../engine/source/boundary_conditions/bcs_nrf.F90
 !||    bemsolv                          ../engine/source/fluid/bemsolv.F
 !||    bforc2                           ../engine/source/ale/bimat/bforc2.F
 !||    blero2                           ../engine/source/ale/bimat/blero2.F
@@ -37,7 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    c_fortran_dgssv                  ../engine/stub/superlu_stub.F
 !||    c_freemem                        ../engine/stub/superlu_stub.F
 !||    c_tricall                        ../engine/stub/fvmbags_stub.F
-!||    check_error_and_write            ../common_source/tools/memory/my_alloc.F90
+!||    check_error_and_write            ../common_source/tools/memory/shrink_array.F90
 !||    cp_ifront                        ../engine/source/implicit/produt_v.F
 !||    create_h3d_1d_scalar             ../engine/source/output/h3d/h3d_build_fortran/create_h3d_1d_scalar.F
 !||    create_h3d_1d_tensor             ../engine/source/output/h3d/h3d_build_fortran/create_h3d_1d_tensor.F

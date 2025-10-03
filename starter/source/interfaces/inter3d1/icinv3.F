@@ -22,11 +22,13 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
 !||====================================================================
-!||    icinv3    ../starter/source/interfaces/inter3d1/icinv3.F
+!||    icinv3        ../starter/source/interfaces/inter3d1/icinv3.F
 !||--- called by ------------------------------------------------------
-!||    i12chk3   ../starter/source/interfaces/inter3d1/i12chk3.F
+!||    i12chk3       ../starter/source/interfaces/inter3d1/i12chk3.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE ICINV3(IXS,IXC,IXTG,IADD,INVC)
+      use element_mod , only :nixs,nixc,nixtg
 C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

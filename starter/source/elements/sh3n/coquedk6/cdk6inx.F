@@ -32,6 +32,7 @@ C
 !||====================================================================
       SUBROUTINE CDK6INX(IXTG,IXTG1,ICNOD)
       USE MESSAGE_MOD
+      use element_mod , only : nixtg
 C--------------------------------------------------------
 C     Construction of the upper connectivities OF TRIANGULAR SHELL ELEMENTS
 C--------------------------------------------------------

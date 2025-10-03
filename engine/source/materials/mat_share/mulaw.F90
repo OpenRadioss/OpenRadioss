@@ -143,7 +143,7 @@
 !||    sigeps81               ../engine/source/materials/mat/mat081/sigeps81.F90
 !||    sigeps82               ../engine/source/materials/mat/mat082/sigeps82.F
 !||    sigeps84               ../engine/source/materials/mat/mat084/sigeps84.F
-!||    sigeps88               ../engine/source/materials/mat/mat088/sigeps88.F
+!||    sigeps88               ../engine/source/materials/mat/mat088/sigeps88.F90
 !||    sigeps90               ../engine/source/materials/mat/mat090/sigeps90.F
 !||    sigeps92               ../engine/source/materials/mat/mat092/sigeps92.F
 !||    sigeps93               ../engine/source/materials/mat/mat093/sigeps93.F
@@ -183,6 +183,7 @@
 !||    sigeps50s_mod          ../engine/source/materials/mat/mat050/sigeps50s.F90
 !||    sigeps51_mod           ../engine/source/materials/mat/mat051/sigeps51.F90
 !||    sigeps81_mod           ../engine/source/materials/mat/mat081/sigeps81.F90
+!||    sigeps88_mod           ../engine/source/materials/mat/mat088/sigeps88.F90
 !||    table_mod              ../engine/share/modules/table_mod.F
 !||    timer_mod              ../engine/source/system/timer_mod.F90
 !||====================================================================
@@ -246,6 +247,7 @@
           use nlocal_reg_mod
           use sigeps50s_mod
           use sigeps81_mod
+          use sigeps88_mod
           use sigeps100_mod
           use sigeps125_mod
           use sigeps126_mod
@@ -1126,17 +1128,17 @@
               sigbyz => vecnul(1:nel)
               sigbzx => vecnul(1:nel)
             end if
-            call sigeps36(nel    ,nuvar  ,nfunc  ,ifunc  ,npf ,&
-            &tf     ,tt     ,dt1    ,uparam0 ,rho0,&
-            &de1    ,de2    ,de3    ,de4    ,de5    ,de6   ,&
-            &es1    ,es2    ,es3    ,es4    ,es5    ,es6   ,&
-            &so1    ,so2    ,so3    ,so4    ,so5    ,so6   ,&
-            &s1     ,s2     ,s3     ,s4     ,s5     ,s6    ,&
-            &ssp    ,vis    ,uvar   ,off    ,ngl    ,matparam%ieos, &
-            &ipm    ,mat    ,epsd   ,ipla   ,sigy   ,defp  ,&
-            &dpla   ,et     ,al_imp ,signor ,amu    ,dpdm  ,&
-            &yldfac ,nvartmp,vartmp ,lbuf%dmg,inloc,lbuf%planl,&
-            &sigbxx ,sigbyy ,sigbzz ,sigbxy ,sigbyz ,sigbzx )
+            call sigeps36(nel    ,nuvar  ,nfunc  ,ifunc  ,npf    ,tf    ,&
+                          dt1    ,uparam0,rho0   ,                       &
+                          de1    ,de2    ,de3    ,de4    ,de5    ,de6   ,&
+                          es1    ,es2    ,es3    ,es4    ,es5    ,es6   ,&
+                          so1    ,so2    ,so3    ,so4    ,so5    ,so6   ,&
+                          s1     ,s2     ,s3     ,s4     ,s5     ,s6    ,&
+                          ssp    ,vis    ,uvar   ,off    ,ngl    ,matparam%ieos, &
+                          ipm    ,mat    ,epsd   ,ipla   ,sigy   ,defp  ,&
+                          dpla   ,et     ,al_imp ,signor ,amu    ,dpdm  ,&
+                          yldfac ,nvartmp,vartmp ,lbuf%dmg,inloc,lbuf%planl,&
+                          sigbxx ,sigbyy ,sigbzz ,sigbxy ,sigbyz ,sigbzx )
 
           else if (mtn == 37) then
             if (n2d == 0) then
@@ -1638,19 +1640,18 @@
               sigy,    defp,    dpla,    et ,  fheat )
 !
           else if (mtn == 88) then
-            call sigeps88(nel ,npar,nuvar,nfunc,ifunc,&
-            &npf ,tf  ,tt,dt1,uparam0,&
-            &rho0,rho ,voln,eint,ngl,&
-            &ep1 ,ep2 ,ep3 ,ep4  ,ep5  ,ep6 ,&
-            &de1 ,de2 ,de3 ,de4  ,de5  ,de6 ,&
-            &es1 ,es2 ,es3 ,es4  ,es5  ,es6 ,&
-            &so1 ,so2 ,so3 ,so4  ,so5  ,so6 ,&
-            &s1  ,s2  ,s3  ,s4   ,s5   ,s6  ,&
-            &sv1 ,sv2 ,sv3 ,sv4  ,sv5  ,sv6 ,&
-            &ssp ,vis ,uvar,off  ,ismstr,israte,&
-            &asrate,et ,ihet,gbuf%off,epsth3,iexpan,&
-            &epsd )
-          else if (mtn == 90) then
+            call sigeps88(&
+            &nel    ,matparam,nuvar   ,uvar    ,dt1    ,tt      ,&
+            &rho0   ,rho     ,ssp     ,off     ,ismstr ,israte  ,&
+            &es1    ,es2     ,es3     ,es4     ,es5    ,es6     ,&
+            &de1    ,de2     ,de3     ,de4     ,de5    ,de6     ,&
+            &ep1    ,ep2     ,ep3     ,ep4     ,ep5    ,ep6     ,&
+            &so1    ,so2     ,so3     ,so4     ,so5    ,so6     ,&
+            &s1     ,s2      ,s3      ,s4      ,s5     ,s6      ,&
+            &asrate ,et      ,gbuf%off,epsd   ,iresp   ,nvartmp ,&
+            &vartmp ,lbuf%dmg,ngl     ,npg    )
+!            
+          elseif (mtn == 90) then
 
 !-------------------
 !     visco-hypereslatic law defined by stress strain curve

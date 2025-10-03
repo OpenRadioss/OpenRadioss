@@ -33,8 +33,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    scoor3           ../starter/source/elements/solid/solide/scoor3.F
 !||    spcoor3          ../starter/source/elements/solid/sconnect/spcoor3.F
 !||    srcoor3          ../starter/source/elements/solid/solide/srcoor3.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       FUNCTION CHECKVOLUME_8N(X,IXS)
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -124,8 +126,10 @@ C
 !||--- called by ------------------------------------------------------
 !||    hm_read_solid    ../starter/source/elements/reader/hm_read_solid.F
 !||    s6ccoor3         ../starter/source/elements/thickshell/solide6c/s6ccoor3.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       FUNCTION CHECKVOLUME_6N(X,IXS)
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -207,8 +211,10 @@ C
 !||    s4coor3          ../starter/source/elements/solid/solide4/s4coor3.F
 !||    sgsavini         ../starter/source/elements/solid/solide/scoor3.F
 !||    soltosphx4       ../starter/source/elements/sph/soltosph.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       FUNCTION CHECKVOLUME_4N(X,IXS)
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

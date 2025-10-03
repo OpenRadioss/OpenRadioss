@@ -173,20 +173,18 @@ c
           END DO  ! IMAT
         ENDIF
 !
-        IF (MATPARAM_TAB(I)%ITHERM > 0 .or. MATPARAM_TAB(I)%IEXPAN > 0) THEN
-          MATPARAM_TAB(I)%THERM%iform       = MATPARAM_INI(I)%THERM%iform      
-          MATPARAM_TAB(I)%THERM%tini        = MATPARAM_INI(I)%THERM%tini         
-          MATPARAM_TAB(I)%THERM%tref        = MATPARAM_INI(I)%THERM%tref         
-          MATPARAM_TAB(I)%THERM%tmelt       = MATPARAM_INI(I)%THERM%tmelt      
-          MATPARAM_TAB(I)%THERM%rhocp       = MATPARAM_INI(I)%THERM%rhocp      
-          MATPARAM_TAB(I)%THERM%as          = MATPARAM_INI(I)%THERM%as         
-          MATPARAM_TAB(I)%THERM%bs          = MATPARAM_INI(I)%THERM%bs         
-          MATPARAM_TAB(I)%THERM%al          = MATPARAM_INI(I)%THERM%al         
-          MATPARAM_TAB(I)%THERM%bl          = MATPARAM_INI(I)%THERM%bl         
-          MATPARAM_TAB(I)%THERM%efrac       = MATPARAM_INI(I)%THERM%efrac      
-          MATPARAM_TAB(I)%THERM%func_thexp  = MATPARAM_INI(I)%THERM%func_thexp 
-          MATPARAM_TAB(I)%THERM%scale_thexp = MATPARAM_INI(I)%THERM%scale_thexp
-        END IF
+        MATPARAM_TAB(I)%THERM%iform       = MATPARAM_INI(I)%THERM%iform      
+        MATPARAM_TAB(I)%THERM%tini        = MATPARAM_INI(I)%THERM%tini         
+        MATPARAM_TAB(I)%THERM%tref        = MATPARAM_INI(I)%THERM%tref         
+        MATPARAM_TAB(I)%THERM%tmelt       = MATPARAM_INI(I)%THERM%tmelt      
+        MATPARAM_TAB(I)%THERM%rhocp       = MATPARAM_INI(I)%THERM%rhocp      
+        MATPARAM_TAB(I)%THERM%as          = MATPARAM_INI(I)%THERM%as         
+        MATPARAM_TAB(I)%THERM%bs          = MATPARAM_INI(I)%THERM%bs         
+        MATPARAM_TAB(I)%THERM%al          = MATPARAM_INI(I)%THERM%al         
+        MATPARAM_TAB(I)%THERM%bl          = MATPARAM_INI(I)%THERM%bl         
+        MATPARAM_TAB(I)%THERM%efrac       = MATPARAM_INI(I)%THERM%efrac      
+        MATPARAM_TAB(I)%THERM%func_thexp  = MATPARAM_INI(I)%THERM%func_thexp 
+        MATPARAM_TAB(I)%THERM%scale_thexp = MATPARAM_INI(I)%THERM%scale_thexp
       ENDDO
 !
         ! copy of matparam between subdomains must be completed with further evolution of MATPARAM structure

@@ -49,6 +49,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_prop51                      ../starter/source/properties/shell/hm_read_prop51.F
 !||    hm_read_properties                  ../starter/source/properties/hm_read_properties.F
 !||    hm_read_stack                       ../starter/source/stack/hm_read_stack.F
+!||    i2buc1                              ../starter/source/interfaces/inter3d1/i2buc1.F
+!||    i2trivox                            ../starter/source/interfaces/inter3d1/i2trivox.F90
+!||    inint3                              ../starter/source/interfaces/inter3d1/inint3.F
+!||    inintr                              ../starter/source/interfaces/interf1/inintr.F
 !||    inirig_mat                          ../starter/source/elements/initia/inirig_mat.F
 !||    initia                              ../starter/source/elements/initia/initia.F
 !||    inivoid                             ../starter/source/elements/initia/inivoid.F
@@ -77,9 +81,11 @@ C---------------------------------------------
 C Structures needed for stack (PID17) properties 
 C---------------------------------------------
 C PLY  Nodes structures for animations
+      integer, parameter :: stack_s_pm1 = 20 !< first dimension of pm array
       TYPE STACK_PLY
-         INTEGER , DIMENSION (:,:), ALLOCATABLE :: IGEO        ! IGEO TABLE
-         my_real , DIMENSION (:,:), ALLOCATABLE :: GEO  , PM       ! GEO, PM 
+        integer :: s_pm2 !< second dimension of pm array
+        INTEGER , DIMENSION (:,:), ALLOCATABLE :: IGEO        ! IGEO TABLE
+        my_real , DIMENSION (:,:), ALLOCATABLE :: GEO  , PM       ! GEO, PM 
       END TYPE STACK_PLY        
 C      
       TYPE STACK_INFO_ 

@@ -27,8 +27,10 @@ C
 !||    multifluid_init3   ../starter/source/multifluid/multifluid_init3.F
 !||    s4init3            ../starter/source/elements/solid/solide4/s4init3.F
 !||    sinit3             ../starter/source/elements/solid/solide/sinit3.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE ATURI3(IPARG,RHO,PM,IX,X,RK,RE,VOLU)
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------

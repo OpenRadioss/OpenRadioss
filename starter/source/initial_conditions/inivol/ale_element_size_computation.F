@@ -24,6 +24,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ale_element_size_computation   ../starter/source/initial_conditions/inivol/ale_element_size_computation.F
 !||--- called by ------------------------------------------------------
 !||    init_inivol                    ../starter/source/initial_conditions/inivol/init_inivol.F90
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         SUBROUTINE ALE_ELEMENT_SIZE_COMPUTATION(NPARG, NGROUP, NUMELS,NUMELTG,NUMELQ,NUMNOD,N2D,
      .                                          IPARG,IXS,IXQ,IXTG,
@@ -41,6 +42,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !               - compute the maximum element size 
 !               - compute the min/max node's positions & save the ALE node id
 !$ENDCOMMENT
+        use element_mod , only :nixs,nixq,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

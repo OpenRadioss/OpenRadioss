@@ -21,16 +21,18 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    globvars   ../starter/source/spmd/globvars.F
+!||    globvars      ../starter/source/spmd/globvars.F
 !||--- called by ------------------------------------------------------
-!||    lectur     ../starter/source/starter/lectur.F
+!||    lectur        ../starter/source/starter/lectur.F
 !||--- calls      -----------------------------------------------------
-!||    nlocal     ../starter/source/spmd/node/ddtools.F
+!||    nlocal        ../starter/source/spmd/node/ddtools.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE GLOBVARS(IGEO,IXR,NSTRF)
 C-----------------------------------------------
 C   M o d u l e s
-C-----------------------------------------------    
+C-----------------------------------------------   
+      use element_mod , only : nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

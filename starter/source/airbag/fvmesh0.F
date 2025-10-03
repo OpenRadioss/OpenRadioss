@@ -67,6 +67,7 @@ C-----------------------------------------------
       USE FVVOLU_MOD , ONLY : FVVOLU
       USE FVINJNORMAL_MOD , ONLY : FVINJNORMAL
       USE FVLENGTH_MOD , ONLY : FVLENGTH
+      use element_mod , only : nixs,nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

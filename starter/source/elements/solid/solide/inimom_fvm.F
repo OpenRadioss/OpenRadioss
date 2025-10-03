@@ -21,11 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    inimom_fvm   ../starter/source/elements/solid/solide/inimom_fvm.F
+!||    inimom_fvm    ../starter/source/elements/solid/solide/inimom_fvm.F
 !||--- called by ------------------------------------------------------
-!||    sinit3       ../starter/source/elements/solid/solide/sinit3.F
+!||    sinit3        ../starter/source/elements/solid/solide/sinit3.F
 !||--- calls      -----------------------------------------------------
-!||    finter       ../starter/source/tools/curve/finter.F
+!||    finter        ../starter/source/tools/curve/finter.F
 !||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE INIMOM_FVM( 
@@ -37,6 +37,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ALEFVM_MOD
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

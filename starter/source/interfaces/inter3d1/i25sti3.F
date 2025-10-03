@@ -61,6 +61,7 @@ C-----------------------------------------------
       USE INTBUF_FRIC_MOD
       USE MESSAGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use element_mod , only :nixs,nixc,nixtg,nixt,nixp,nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -757,6 +758,7 @@ C-----------------------------------------------
       USE INTBUF_FRIC_MOD
       USE MY_ALLOC_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+       use element_mod , only : nixs,nixc,nixtg,nixt,nixp,nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
