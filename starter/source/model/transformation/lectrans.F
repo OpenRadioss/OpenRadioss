@@ -97,15 +97,15 @@ C-----------------------------------------------
      .          N0,N1,N2,N3,N4,N5,N6,IERROR,
      .   J,IS,ID,UID,IGU,IGS,NN,NTRANS,STAT,
      .   IFLAGUNIT,ITRANSSUB,SUB_ID,K,
-     .   IBID,CPT,IGSURF,ISURF,ISKEW,IDIR,PFLAG,XYZFLAG(3),
-     .    NSEG,NNO,SURFNOD,SUB_INDEX,ISK
+     .   IBID,CPT,IGSURF,ISURF,ISKEW,IDIR,PFLAG,PFLAG0,XYZFLAG(3),
+     .    NSEG,NNO,SURFNOD,SUB_INDEX,ISK,ISK0,XYZFLAG0(3)
       my_real
      .   LX,LY,LZ,TX,TY,TZ,R,S,RX,RY,RZ,SX,SY,SZ,ANGLE,AT,FAC_L,
      .   XP,YP,ZP,GAP
       my_real
      .   VR(3),X0(3),X1(3),X2(3),X3(3),X4(3),X5(3),X6(3),
      .   ROT(9),PP(3,3),QQ(3,3),P(3),NORM1, NORM2, NORM3, SCAL1, 
-     .   SCAL2, SCAL3, EPS,XYZPOS(3)
+     .   SCAL2, SCAL3, EPS,XYZPOS(3),XYZPOS0(3)
       CHARACTER KEY*12
       CHARACTER(LEN=NCHARFIELD) :: MOT1
       CHARACTER(LEN=NCHARTITLE) :: TITR
@@ -823,7 +823,7 @@ C
           CALL HM_GET_INTV('GR_NODE',IGU,IS_AVAILABLE,LSUBMODEL)
           CALL HM_GET_INTV('GR_SURF',IGSURF,IS_AVAILABLE,LSUBMODEL)
           
-          CALL HM_GET_INTV('skew_ID',ISK,IS_AVAILABLE,LSUBMODEL)
+          CALL HM_GET_INTV('skew_ID',ISK0,IS_AVAILABLE,LSUBMODEL)
           CALL HM_GET_STRING('Dir',DIR,ncharfield,IS_AVAILABLE)
           DO K = 1,LFIELD
             IF(DIR(K:K) == 'X'.OR.DIR(K:K) == 'x')IDIR = 1
@@ -847,17 +847,20 @@ C
           !---------------------
           !IF (ITRANSSUB /= 0) CYCLE
           !---------------------
-
+          PFLAG0 = PFLAG
+          XYZPOS0(:) = XYZPOS(:)
+          XYZFLAG0(:) = XYZFLAG(:)
+          !---------------------
           if(PFLAG == 0) PFLAG = 1 ! by default
           if(XYZFLAG(1) == 0) XYZFLAG(1) = 1 ! by default
           if(XYZFLAG(2) == 0) XYZFLAG(2) = 1 ! by default
           if(XYZFLAG(3) == 0) XYZFLAG(3) = 1 ! by default
           !
-!
-          IF (ISK > 0) THEN
+          ISK = 0
+          IF (ISK0 > 0) THEN
               IS_FOUND = .FALSE.
               DO J=0,NUMSKW+MIN(1,NSPCOND)*NUMSPH+NSUBMOD
-                IF (ISK == ISKWN(4,J+1)) THEN
+                IF (ISK0 == ISKWN(4,J+1)) THEN
                   ISK=J+1
                   IS_FOUND = .TRUE.
                   EXIT
@@ -869,7 +872,7 @@ C
      .                      ANMODE=ANINFO,
      .                      I1= ID,
      .                      C1= TITR,
-     .                      I2= ISK)
+     .                      I2= ISK0)
               ENDIF
           ENDIF
 
@@ -951,6 +954,18 @@ C
           IF(ALLOCATED(INO)) DEALLOCATE(INO)
           IF(ALLOCATED(TAGNODE)) DEALLOCATE(TAGNODE)
           !
+          WRITE(IOUT,2000) ID,IGU   
+          WRITE(IOUT,2100) IGSURF,ISK0,DIR(1:1),GAP,PFLAG0,
+     .                     XYZPOS0(1),XYZPOS0(2),XYZPOS0(3),
+     .                     XYZFLAG0(1),XYZFLAG0(2),XYZFLAG0(3)
+          !
+          IF (IPRI > 3) THEN                                          
+            WRITE (IOUT,3000)                                            
+            DO J=1,IGRNOD(IGS)%NENTITY
+              IS=IGRNOD(IGS)%ENTITY(J)
+              WRITE(IOUT,3500) ITAB(IS),X(1,IS),X(2,IS),X(3,IS)                                
+            ENDDO
+          ENDIF 
         ENDIF
       ENDDO
 C-----------------------
@@ -1027,6 +1042,20 @@ C-----------------------
      .         3E20.13/,
      . ' . . . . . . . . M31 . . . . . . . . M32 . . . . . . . . M33',/,
      .         3E20.13/)
+ 2000  FORMAT(/
+     . '    NODAL AUTOPOSITION, TRANSFORMATION ID  = ',I10/,                        
+     . '       NODE GROUP ID. . . . . . . . . . . .= ',I10)
+ 2100  FORMAT(10X,'   Surf_ID            . . . . . .= ',I10/,
+     .        10X,'   Skew_ID            . . . . . .= ',I10/,
+     .        10X,'   Motion direction   . . . . . .= ',A10/,
+     .        10X,'   Minimum distance Gap . . . . .= ',E20.13/,
+     .        10X,'   Positioning flag   . . . . . .= ',I10/,
+     .        10X,'   Xpos               . . . . . .= ',E20.13/,
+     .        10X,'   Ypos               . . . . . .= ',E20.13/,
+     .        10X,'   Zpos               . . . . . .= ',E20.13/,
+     .        10X,'   Xflag              . . . . . .= ',I10/,
+     .        10X,'   Yflag              . . . . . .= ',I10/,
+     .        10X,'   Zflag              . . . . . .= ',I10)
  3000 FORMAT(/10X,'NEW NODE COORDINATES',14X,'X',24X,'Y',24X,'Z')
  3500 FORMAT( 17X,I10,3(5X,E20.13))
 C-----------------------
