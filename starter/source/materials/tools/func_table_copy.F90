@@ -76,7 +76,7 @@
           integer                         ,intent(in)    :: nfunc      !< number of functions to convert
           real(kind=WP)                         ,intent(in)    :: x1scale    !< scale factor for function abscissa
           real(kind=WP)                         ,intent(in)    :: x2scale    !< scale factor for second abscissa dimension
-          integer      ,dimension(nfunc)  ,intent(in)    :: ifunc      !< liste of functions Ids
+          integer            ,dimension(nfunc)  ,intent(in)    :: ifunc      !< liste of functions Ids
           real(kind=WP)      ,dimension(nfunc)  ,intent(in)    :: x2vect     !< second variable values for each function
           real(kind=WP)      ,dimension(nfunc)  ,intent(in)    :: fscale     !< scale factor for values of each function
           type(ttable) ,dimension(ntable) ,intent(in)    :: table      !< input table array
@@ -124,7 +124,10 @@
             func_n = ifunc(1)
             npi = size(table(func_n)%x(1)%values)
             allocate (mat_table%x(1)%values(npi) )
-            allocate (mat_table%y1d(npi) )
+            allocate (mat_table%y1d(npi))
+            allocate (mat_table%y2d(0,0))
+            allocate (mat_table%y3d(0,0,0))
+            allocate (mat_table%y4d(0,0,0,0))
             mat_table%x(1)%values(1:npi) = x1scale   * table(func_n)%x(1)%values(1:npi)
             mat_table%y1d(1:npi)         = fscale(1) * table(func_n)%y%values(1:npi)
 !
@@ -166,6 +169,9 @@
             allocate (mat_table%x(1)%values(nptx) )
             allocate (mat_table%x(2)%values(nfunc) )
             allocate (mat_table%y2d(nptx,nfunc) )
+            allocate (mat_table%y1d(0))
+            allocate (mat_table%y3d(0,0,0))
+            allocate (mat_table%y4d(0,0,0,0))
             mat_table%x(1)%values(1:nptx)  = xf(1:nptx)
             mat_table%x(2)%values(1:nfunc) = x2scale * x2vect(1:nfunc)
             do i = 1,nfunc

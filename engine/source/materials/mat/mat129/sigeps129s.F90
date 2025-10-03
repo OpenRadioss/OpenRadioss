@@ -142,7 +142,8 @@
           real(kind=WP) ,dimension(nel)   :: svm0,svm                !< Von Mises stress
           real(kind=WP) ,dimension(nel)   :: sigm                    !< pressure
           real(kind=WP) ,dimension(nel)   :: fscale                  !< scale factor
-          real(kind=WP) ,dimension(nel)   :: alpha                   ! thermal expansion coeff
+          real(kind=WP) ,dimension(nel)   :: alpha                   !< thermal expansion coeff
+          real(kind=WP) ,dimension(1)     :: fact                    !< time factor
           real(kind=WP) ,dimension(nel)   :: depsth,depsc
           real(kind=WP) ,dimension(nel)   :: qr1,qr2,qx1,qx2
           real(kind=WP) ,dimension(:,:) ,pointer :: xvec1
@@ -451,29 +452,51 @@
           ! calculation of creep strain increment and total creep strain
           ! stop creep evolution if sensor is activated
 ! ---------------------------------------------------------------------------------------------
-          if (crpa0 > zero .and. time - dtime > zero .and. time < tstart) then
+          if (crpa0 > zero .and. time > zero .and. time < tstart) then
             niter = 20   ! number of iterations for creep 
-            svm(1:nel) = svm0(1:nel)
 !
             if (crp_law == 1) then           ! use transient Norton power law
-              do iter=1,niter
-                do i=1,nel
-                  fsig  = (svm(i)/sig_crp)**crpn(i)
-                  ftime = (time /time_crp)**crpm(i)
-                  depsc(i) = crpa(i) * fsig * ftime * dtime
-                  depsc(i) = max(depsc(i) ,zero) 
-                  seq      = max(svm(i),   em20)
-                  rfact   = one / (one + three*depsc(i)*shear(i)/seq)
-                  sxx(i)  = stxx(i) * rfact 
-                  syy(i)  = styy(i) * rfact
-                  szz(i)  = stzz(i) * rfact
-                  sxy(i)  = stxy(i) * rfact
-                  syz(i)  = styz(i) * rfact
-                  szx(i)  = stzx(i) * rfact
-                  j2 = (sxx(i)**2+syy(i)**2+szz(i)**2)*half + sxy(i)**2+syz(i)**2+szx(i)**2
-                  svm(i) = sqrt(three*j2)
+              if (mat_param%table(14)%notable > 0) then
+                xvec1(1,1:1) = time
+                call table_mat_vinterp(mat_param%table(14),1,1,vartmp(1,15),xvec1,fact,h)
+                ftime = fact(1) * dtime
+                do iter=1,niter
+                  do i=1,nel
+                    fsig  = (svm(i)/sig_crp)**crpn(i)
+                    depsc(i) = crpa(i) * fsig * ftime
+                    depsc(i) = max(depsc(i) ,zero) 
+                    seq      = max(svm(i),   em20)
+                    rfact   = one / (one + three*depsc(i)*shear(i)/seq)
+                    sxx(i)  = stxx(i) * rfact 
+                    syy(i)  = styy(i) * rfact
+                    szz(i)  = stzz(i) * rfact
+                    sxy(i)  = stxy(i) * rfact
+                    syz(i)  = styz(i) * rfact
+                    szx(i)  = stzx(i) * rfact
+                    j2 = (sxx(i)**2+syy(i)**2+szz(i)**2)*half + sxy(i)**2+syz(i)**2+szx(i)**2
+                    svm(i) = sqrt(three*j2)
+                  end do
                 end do
-              end do
+              else
+                do iter=1,niter
+                  do i=1,nel
+                    fsig  = (svm(i)/sig_crp)**crpn(i)
+                    ftime = (time/time_crp)**m
+                    depsc(i) = crpa(i) * fsig * ftime * dtime
+                    depsc(i) = max(depsc(i) ,zero) 
+                    seq      = max(svm(i),   em20)
+                    rfact   = one / (one + three*depsc(i)*shear(i)/seq)
+                    sxx(i)  = stxx(i) * rfact 
+                    syy(i)  = styy(i) * rfact
+                    szz(i)  = stzz(i) * rfact
+                    sxy(i)  = stxy(i) * rfact
+                    syz(i)  = styz(i) * rfact
+                    szx(i)  = stzx(i) * rfact
+                    j2 = (sxx(i)**2+syy(i)**2+szz(i)**2)*half + sxy(i)**2+syz(i)**2+szx(i)**2
+                    svm(i) = sqrt(three*j2)
+                  end do
+                end do
+              end if
             else if (crp_law == 2) then           ! use Garfallo law
               do iter=1,niter
                 do i=1,nel
