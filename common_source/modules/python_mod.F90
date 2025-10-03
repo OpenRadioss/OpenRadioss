@@ -297,6 +297,19 @@
             type(c_ptr), value, intent(in) :: pcontext
           end subroutine python_sync
 
+
+        function python_begin_allow_threads() bind(c, name="py_begin_allow_threads")
+            use , intrinsic :: iso_c_binding
+            type(c_ptr) :: python_begin_allow_threads
+        end function python_begin_allow_threads
+
+
+        ! Interface for py_end_allow_threads  
+        subroutine python_end_allow_threads(saved_state) bind(c, name="py_end_allow_threads")
+            use , intrinsic :: iso_c_binding
+            type(c_ptr), value :: saved_state
+        end subroutine python_end_allow_threads
+
         end interface
         interface python_call_funct1D
           module procedure python_call_funct1D_sp
@@ -332,6 +345,7 @@
           integer :: nb_sensors = 0!< the number of python sensors
           type(python_element) :: elements !< element quantities requested from Python code
           type(c_ptr) :: context
+          type(c_ptr) :: saved_state !< saved state for releasing GIL
         end type python_
 ! ----------------------------------------------------------------------------------------------------------------------
 
@@ -1056,5 +1070,15 @@
           temp_name(name_len+1:name_len+1) = c_null_char
           call python_add_doubles_to_dict(py%context, temp_name, name_len, val, len_val)
         end subroutine python_expose_doubles
+        subroutine python_begin_openmp(python)
+          type(python_), intent(inout) :: python
+          if(python%nb_functs == 0) return
+          python%saved_state = python_begin_allow_threads()
+        end subroutine python_begin_openmp
+        subroutine python_end_openmp(python)
+          type(python_), intent(inout) :: python
+          if(python%nb_functs == 0) return
+          call python_end_allow_threads(python%saved_state)
+        end subroutine python_end_openmp
 
       end module python_funct_mod

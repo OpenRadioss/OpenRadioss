@@ -191,6 +191,10 @@ void load_functions(T h, bool &python_initialized)
     load_function(h, "PyLong_FromLong", MyLong_FromLong, python_initialized);
     load_function(h, "PyLong_FromVoidPtr", MyLong_FromVoidPtr, python_initialized);
     load_function(h, "PyUnicode_FromString", MyUnicode_FromString, python_initialized);
+    load_function(h, "PyEval_SaveThread", MyEval_SaveThread, python_initialized);
+    load_function(h, "PyEval_RestoreThread", MyEval_RestoreThread, python_initialized);
+    load_function(h, "PyGILState_Ensure", MyGILState_Ensure, python_initialized);
+    load_function(h, "PyGILState_Release", MyGILState_Release, python_initialized);
 }
 
 
@@ -915,8 +919,9 @@ extern "C"
         {
             return;
         }
+        //GIL
+        PyGILState_STATE gstate = MyGILState_Ensure();  
         check_error(__LINE__);
-        // skip if name is initialize_environment
         if (strcmp(name, "initialize_environment") == 0) return;
         PyObject *result = call_python_function(name, args, num_args);
         if (result)
@@ -928,6 +933,7 @@ extern "C"
             exit_with_message("ERROR: Python function failed");
         }
         check_error(__LINE__);
+        MyGILState_Release(gstate);
     }
 
     void cpp_python_call_function_with_state(char *name, double *return_values)
@@ -936,6 +942,7 @@ extern "C"
         {
             return;
         }
+        PyGILState_STATE gstate = MyGILState_Ensure();
         check_error(__LINE__);
         PyObject *result = call_python_function_with_state(name);
         if (result)
@@ -946,6 +953,7 @@ extern "C"
             exit_with_message("ERROR: Python function failed");
         }
         check_error(__LINE__);
+        MyGILState_Release(gstate);
     }
     // this function checks if a function exists in the python dictionary
     void cpp_python_check_function(char *name, int *error)
@@ -979,6 +987,8 @@ extern "C"
         {
             return;
         }
+
+        PyGILState_STATE gstate = MyGILState_Ensure();
         check_error(__LINE__);
         // Convert C++ doubles to Python objects
         for (int i = 0; i < num_reals; i++)
@@ -999,6 +1009,7 @@ extern "C"
         }
         // Release the Python object
         check_error(__LINE__);
+        MyGILState_Release(gstate);
     }
 
     void cpp_python_update_time(my_real TIME, my_real DT)
@@ -1008,11 +1019,12 @@ extern "C"
             // std::cerr << "ERROR: Python is not initialized." << std::endl;
             return;
         }
-
+        PyGILState_STATE gstate = MyGILState_Ensure();
         check_error(__LINE__);
         if (!pDict)
         {
             std::cerr << "ERROR: Python main module dictionary not initialized." << std::endl;
+            MyGILState_Release(gstate);
             return;
         }
         // donvert TIME and DT to double precision in TIME2 and DT2
@@ -1025,6 +1037,7 @@ extern "C"
         if (!py_TIME || !py_DT)
         {
             std::cerr << "ERROR: Failed to create Python objects from C++ doubles." << std::endl;
+            MyGILState_Release(gstate);
             return;
         }
 
@@ -1038,7 +1051,7 @@ extern "C"
         if (py_DT != nullptr)
             My_DecRef(py_DT);
         check_error(__LINE__);
-
+        MyGILState_Release(gstate);
     }
     // return the number of nodes that are used in the python functions
     void cpp_python_get_number_of_nodes(int *num_nodes)
@@ -1465,7 +1478,13 @@ void cpp_python_free_context(void* context) {
         My_DecRef(static_cast<PyObject*>(context));
     }
 }
+PyThreadState* py_begin_allow_threads() {
+    return MyEval_SaveThread();
+}
 
+void py_end_allow_threads(PyThreadState* saved_state) {
+    MyEval_RestoreThread(saved_state);
+}
 } // extern "C"
 
 #else
@@ -1517,6 +1536,9 @@ extern "C"
     void cpp_python_get_elemental_entity(int nb, char *name, int *uid) {}
     void cpp_python_load_environment() {}
     void cpp_python_update_sensors(int types, int *uids, int *statuses, double *results, int *num_sensors){}
+    void* py_begin_allow_threads() {return nullptr;}
+    void py_end_allow_threads(void* saved_state) {}
+
 }
 
 #endif
