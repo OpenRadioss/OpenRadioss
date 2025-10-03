@@ -131,8 +131,8 @@
 !||====================================================================
       module python_funct_mod
         use, intrinsic :: iso_c_binding
-        use python_element_mod
         use precision_mod, only : WP
+        use python_element_mod
         implicit none
         private :: WP
         integer, parameter :: max_line_length = 500 !< the maximum length of a line of code of python function
