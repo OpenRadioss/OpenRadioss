@@ -115,7 +115,6 @@
         real(kind=8), dimension(:,:), allocatable :: x_out,y_out
         real(kind=8), dimension(:)  , allocatable :: x_out2,y_out2
         integer, parameter :: nout = 300
-        real(kind=8), parameter :: tol_deriv = 1.0d-8
 !-----------------------------------------------
 !     S o u r c e 
 !-----------------------------------------------
@@ -298,19 +297,7 @@
           !< Smoothing spline fit
           call table_mat_spline_fit(npt     ,x_raw(1:npt),y_raw(1:npt,1),nout, &
                                       x_out(1:nout+1,1)  ,y_out(1:nout+1,1)  , &
-                                      real(lambda(1),kind=8),info   )
-!
-          !< Check if spline fit was successful
-          if (abs(info) > tol_deriv) then
-            call ancmsg(msgid=3107,                                            &
-                        msgtype=msgerror,                                      &
-                        anmode=aninfo_blind_1,                                 &
-                        i1=mat_id,                                             &
-                        c1=titr,                                               &
-                        i2=ifunc_out(1),                                       &
-                        r1=rate(1),                                            &
-                        r2=lambda(1))
-          endif
+                                      real(lambda(1),kind=8))                          
 !
           !< Rescale back to original values
           x_out(1:nout+1,1) = x_out(1:nout+1,1)*xscale
@@ -372,19 +359,7 @@
             y_raw(1:npt,j) = table_mat(1)%y2d(1:npt,j)
             call table_mat_spline_fit(                                         &
               npt      ,x_raw(1:npt),y_raw(1:npt,j),nout    ,x_out(1:nout+1,j),&
-              y_out(1:nout+1,j),real(lambda(j),kind=8),info     ) 
-! 
-            !< Check if spline fit was successful
-            if (abs(info) > tol_deriv) then
-              call ancmsg(msgid=3107,                                          &
-                          msgtype=msgerror,                                    &
-                          anmode=aninfo_blind_1,                               &
-                          i1=mat_id,                                           &
-                          c1=titr,                                             &
-                          i2=ifunc_out(j),                                     &
-                          r1=rate(j),                                          &
-                          r2=lambda(j))
-            endif
+              y_out(1:nout+1,j),real(lambda(j),kind=8)) 
 !
             !< Rescale back to original values
             x_out(1:nout+1,j) = x_out(1:nout+1,j)*xscale
@@ -450,18 +425,7 @@
           !     through the origin (0,0)
           call table_mat_spline_fit(npt2    ,x_raw(1:npt2),y_raw(1:npt2,1),    &
                                     nout    ,x_out2       ,y_out2         ,    &
-                                    real(lambda(1),kind=8),info           )
-!
-          !< Check if spline fit was successful
-          if (abs(info) > tol_deriv) then
-            call ancmsg(msgid=3108,                                            &
-                        msgtype=msgerror,                                      &
-                        anmode=aninfo_blind_1,                                 &
-                        i1=mat_id,                                             &
-                        c1=titr,                                               &
-                        i2=ifunc_unload,                                       &
-                        r2=lambda(1))
-          endif
+                                    real(lambda(1),kind=8))
 !
           !< Rescale back to original values
           x_out2(1:nout+1) = x_out2(1:nout+1)*xscale
@@ -538,7 +502,7 @@
         !< Initialize the slope measure
         dydx = zero
         !< Maximum stress
-        sigpeak = zero
+        sigpeak = infinity
         !< Loop over the loading curves points
         if (ndim == 1) then
           do i = 1,nout-1
@@ -546,9 +510,9 @@
             dy = table_mat(1)%y1d(i+1) - table_mat(1)%y1d(i)
             !< Compute the true stress vs true strain slope
             dydx = max((dy/dx)*(one + (table_mat(1)%x(1)%values(i+1)))**2,dydx)
-            sigpeak = max(sigpeak,abs(table_mat(1)%y1d(i+1)),                  &
-                                  abs(table_mat(1)%y1d(i)))
           enddo
+          sigpeak = min(sigpeak,abs(table_mat(1)%y1d(1)),                      &
+                                abs(table_mat(1)%y1d(nout+1)))
         elseif (ndim == 2) then
           do j = 1,nl
             do i = 1,nout-1
@@ -556,9 +520,9 @@
               dy = table_mat(1)%y2d(i+1,j) - table_mat(1)%y2d(i,j)
               !< Compute the true stress vs true strain slope
               dydx = max((dy/dx)*(one+(table_mat(1)%x(1)%values(i+1)))**2,dydx)
-              sigpeak = max(sigpeak,abs(table_mat(1)%y2d(i,j)),                &
-                                    abs(table_mat(1)%y2d(i+1,j)))
             enddo
+            sigpeak = min(sigpeak,abs(table_mat(1)%y2d(1,j)),                  &
+                                  abs(table_mat(1)%y2d(nout+1,j)))
           enddo
         endif
         !< If there is a second table, compute the slope for the unloading curve
@@ -567,9 +531,9 @@
             dx = table_mat(2)%x(1)%values(i+1) - table_mat(2)%x(1)%values(i)
             dy = table_mat(2)%y1d(i+1) - table_mat(2)%y1d(i)
             dydx = max((dy/dx)*(one + table_mat(2)%x(1)%values(i+1))**2,dydx)
-            sigpeak = max(sigpeak,abs(table_mat(2)%y1d(i)),                    &
-                                  abs(table_mat(2)%y1d(i+1)))
           enddo
+          sigpeak = min(sigpeak,abs(table_mat(2)%y1d(1)),                      &
+                                abs(table_mat(2)%y1d(nout+1)))         
         endif
 !
         !<======================================================================
