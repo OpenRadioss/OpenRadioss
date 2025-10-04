@@ -21,9 +21,10 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    min_dist_grnod_to_surface_mod   ../starter/source/model/transformation/min_dist_grnod_to_surface.f90
+!||    min_dist_grnod_to_surface_mod   ../starter/source/model/transformation/min_distance_grnod_to_surface.F90
 !||--- called by ------------------------------------------------------
-!||    lerctrans                       ../starter/source/model/transformation/lerctrans.F
+!||    lectrans                        ../starter/source/model/transformation/lectrans.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       module min_dist_grnod_to_surface_mod
         use precision_mod, only : WP
@@ -37,11 +38,11 @@
 !||====================================================================
 !||    min_dist_grnod_to_surface   ../starter/source/model/transformation/min_distance_grnod_to_surface.F90
 !||--- called by ------------------------------------------------------
-!||    lerctrans                   ../starter/source/model/transformation/lerctrans.F
+!||    lectrans                    ../starter/source/model/transformation/lectrans.F
 !||--- calls      -----------------------------------------------------
 !||    ancmsg                      ../starter/source/output/message/message.F
 !||--- uses       -----------------------------------------------------
-!||    precision_mod               ../starter/share/precision_module/precision_mod.F
+!||    message_mod                 ../starter/share/message_module/message_mod.F
 !||====================================================================
         subroutine min_dist_grnod_to_surface(nodes , n_nodes, surf_nodes, n_surf_nodes,x    , &
                                          &   numnod, pflag  , idir      , gap         ,isk  , &

@@ -226,6 +226,10 @@
 !||    mat_table_copy                           ../starter/source/materials/tools/mat_table_copy.F90
 !||    mat_table_table_copy                     ../starter/source/materials/tools/mat_table_table_copy.F90
 !||    matparam_def_mod                         ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||    min_dist_grnod_to_surface                ../starter/source/model/transformation/min_distance_grnod_to_surface.F90
+!||    min_dist_grnod_to_surface_mod            ../starter/source/model/transformation/min_distance_grnod_to_surface.F90
+!||    min_dist_grnod_to_xyzpos                 ../starter/source/model/transformation/min_distance_grnod_to_xyzpos.F90
+!||    min_dist_grnod_to_xyzpos_mod             ../starter/source/model/transformation/min_distance_grnod_to_xyzpos.F90
 !||    mmain                                    ../engine/source/materials/mat_share/mmain.F90
 !||    monvol_struct_mod                        ../engine/share/modules/monvol_struct_mod.F
 !||    mrqcof_law92                             ../starter/source/materials/mat/mat092/law92_nlsqf.F90

@@ -956,6 +956,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    merge_bucket_search                 ../starter/source/elements/nodes/merge_bucket_search.F
 !||    merge_cnod_cnod                     ../starter/source/model/submodel/merge_cnod_cnod.F
 !||    merge_node                          ../starter/source/elements/nodes/merge_node.F
+!||    min_dist_grnod_to_surface           ../starter/source/model/transformation/min_distance_grnod_to_surface.F90
 !||    monvol_build_edges                  ../starter/share/modules1/monvol_struct_mod.F
 !||    monvol_check_delete_duplicated      ../starter/source/airbag/monvol_check_delete_duplicated.F
 !||    monvol_check_surfclose              ../starter/share/modules1/monvol_struct_mod.F

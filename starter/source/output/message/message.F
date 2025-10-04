@@ -683,6 +683,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    matini                              ../starter/source/materials/mat_share/matini.F
 !||    mattab_usr2sys                      ../starter/source/materials/tools/mattab_usr2sys.F
 !||    merge_node                          ../starter/source/elements/nodes/merge_node.F
+!||    min_dist_grnod_to_surface           ../starter/source/model/transformation/min_distance_grnod_to_surface.F90
 !||    monvol_check_delete_duplicated      ../starter/source/airbag/monvol_check_delete_duplicated.F
 !||    monvol_check_surfclose              ../starter/share/modules1/monvol_struct_mod.F
 !||    monvol_check_venthole_surf          ../starter/share/modules1/monvol_struct_mod.F

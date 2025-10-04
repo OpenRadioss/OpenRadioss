@@ -21,27 +21,33 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    lectrans               ../starter/source/model/transformation/lectrans.F
+!||    lectrans                        ../starter/source/model/transformation/lectrans.F
 !||--- called by ------------------------------------------------------
-!||    lectur                 ../starter/source/starter/lectur.F
+!||    lectur                          ../starter/source/starter/lectur.F
 !||--- calls      -----------------------------------------------------
-!||    ancmsg                 ../starter/source/output/message/message.F
-!||    euler_mrot             ../starter/source/model/submodel/euler_mrot.F
-!||    euler_vrot             ../starter/source/model/submodel/euler_vrot.F
-!||    hm_get_floatv          ../starter/source/devtools/hm_reader/hm_get_floatv.F
-!||    hm_get_intv            ../starter/source/devtools/hm_reader/hm_get_intv.F
-!||    hm_option_count        ../starter/source/devtools/hm_reader/hm_option_count.F
-!||    hm_option_read_key     ../starter/source/devtools/hm_reader/hm_option_read_key.F
-!||    hm_option_start        ../starter/source/devtools/hm_reader/hm_option_start.F
-!||    ngr2usr                ../starter/source/system/nintrr.F
-!||    points_to_frame        ../starter/source/model/submodel/3points_to_frame.F
-!||    subrotpoint            ../starter/source/model/submodel/subrot.F
-!||    subrotvect             ../starter/source/model/submodel/subrot.F
-!||    usrtos                 ../starter/source/system/sysfus.F
+!||    ancmsg                          ../starter/source/output/message/message.F
+!||    euler_mrot                      ../starter/source/model/submodel/euler_mrot.F
+!||    euler_vrot                      ../starter/source/model/submodel/euler_vrot.F
+!||    hm_get_floatv                   ../starter/source/devtools/hm_reader/hm_get_floatv.F
+!||    hm_get_intv                     ../starter/source/devtools/hm_reader/hm_get_intv.F
+!||    hm_get_string                   ../starter/source/devtools/hm_reader/hm_get_string.F
+!||    hm_option_count                 ../starter/source/devtools/hm_reader/hm_option_count.F
+!||    hm_option_read_key              ../starter/source/devtools/hm_reader/hm_option_read_key.F
+!||    hm_option_start                 ../starter/source/devtools/hm_reader/hm_option_start.F
+!||    min_dist_grnod_to_surface       ../starter/source/model/transformation/min_distance_grnod_to_surface.F90
+!||    min_dist_grnod_to_xyzpos        ../starter/source/model/transformation/min_distance_grnod_to_xyzpos.F90
+!||    ngr2usr                         ../starter/source/system/nintrr.F
+!||    points_to_frame                 ../starter/source/model/submodel/3points_to_frame.F
+!||    subrotpoint                     ../starter/source/model/submodel/subrot.F
+!||    subrotvect                      ../starter/source/model/submodel/subrot.F
+!||    usrtos                          ../starter/source/system/sysfus.F
 !||--- uses       -----------------------------------------------------
-!||    hm_option_read_mod     ../starter/share/modules1/hm_option_read_mod.F
-!||    message_mod            ../starter/share/message_module/message_mod.F
-!||    submodel_mod           ../starter/share/modules1/submodel_mod.F
+!||    format_mod                      ../starter/share/modules1/format_mod.F90
+!||    hm_option_read_mod              ../starter/share/modules1/hm_option_read_mod.F
+!||    message_mod                     ../starter/share/message_module/message_mod.F
+!||    min_dist_grnod_to_surface_mod   ../starter/source/model/transformation/min_distance_grnod_to_surface.F90
+!||    min_dist_grnod_to_xyzpos_mod    ../starter/source/model/transformation/min_distance_grnod_to_xyzpos.F90
+!||    submodel_mod                    ../starter/share/modules1/submodel_mod.F
 !||====================================================================
       SUBROUTINE LECTRANS(X        ,IGRNOD ,ITAB   ,ITABM1,UNITAB,
      .                    LSUBMODEL,RTRANS ,IGRSURF,ISKWN ,SKEW  ,

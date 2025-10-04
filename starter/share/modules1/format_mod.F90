@@ -95,6 +95,7 @@
 !||    lecig3d                      ../starter/source/elements/ige3d/lecig3d.F
 !||    leclas                       ../starter/source/loads/laser/leclas.F
 !||    leclas1                      ../starter/source/loads/laser/leclas1.F
+!||    lectrans                     ../starter/source/model/transformation/lectrans.F
 !||    nbadigemesh                  ../starter/source/elements/ige3d/nbadigemesh.F
 !||    prelecig3d                   ../starter/source/elements/ige3d/prelecig3d.F
 !||    printgroup                   ../starter/source/output/outfile/printgroup.F

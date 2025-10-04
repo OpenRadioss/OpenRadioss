@@ -21,9 +21,10 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    min_dist_grnod_to_xyzpos_mod    ../starter/source/model/transformation/min_dist_grnod_to_xyzpos.f90
+!||    min_dist_grnod_to_xyzpos_mod   ../starter/source/model/transformation/min_distance_grnod_to_xyzpos.F90
 !||--- called by ------------------------------------------------------
-!||    lerctrans                       ../starter/source/model/transformation/lerctrans.F
+!||    lectrans                       ../starter/source/model/transformation/lectrans.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
       module min_dist_grnod_to_xyzpos_mod
         use precision_mod, only : WP
@@ -37,12 +38,10 @@
 !! \brief Compute minimum distance from a group of nodes to a skew (local/global)
 !=======================================================================================================================
 !||====================================================================
-!||    min_dist_grnod_to_xyzpos    ../starter/source/model/transformation/min_distance_grnod_to_xyzpos.F90
+!||    min_dist_grnod_to_xyzpos   ../starter/source/model/transformation/min_distance_grnod_to_xyzpos.F90
 !||--- called by ------------------------------------------------------
-!||    create_node_from_element    ../starter/source/model/sets/create_node_from_element.F
-!||    lerctrans                   ../starter/source/model/transformation/lerctrans.F
+!||    lectrans                   ../starter/source/model/transformation/lectrans.F
 !||--- uses       -----------------------------------------------------
-!||    precision_mod               ../starter/share/precision_module/precision_mod.F
 !||====================================================================
         subroutine min_dist_grnod_to_xyzpos(nodes , n_nodes, xyzpos,xyzflag, x     , &
                                          &  numnod, isk    , skew  , lskew , numskw)

@@ -56,6 +56,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_setfxrbyon                ../starter/source/constraints/fxbody/hm_setfxrbyon.F
 !||    lecsec42                     ../starter/source/tools/sect/hm_read_sect.F
 !||    lecsec4bolt                  ../starter/source/tools/sect/lecsec4bolt.F
+!||    lectrans                     ../starter/source/model/transformation/lectrans.F
 !||    read_impdisp                 ../starter/source/constraints/general/impvel/read_impdisp.F
 !||    read_impvel                  ../starter/source/constraints/general/impvel/read_impvel.F
 !||    read_impvel_lagmul           ../starter/source/constraints/general/impvel/read_impvel_lagmul.F
