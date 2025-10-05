@@ -38,6 +38,7 @@
 #endif 
 
 class MvSubset_t;
+class MECMsgManager;
 
 typedef const vector<string> MyVecString;
 typedef pair< IMECPreObject*, InputInfos::IdentifierValuePairList *>  MyPairPreobjString;
@@ -90,6 +91,8 @@ public: /** @name Managing current Offset)*/
     void inline SetCurrentOffset(MECOffset* a_offset) { myCurrentOffsetPtr = a_offset; }
 public: /** @name Managing parameter*/
    //@{
+    virtual IParameter* GetParameterObject(const char* param_str, const int file_index, void** ent_ptr=nullptr)
+    { return nullptr; }
     /// Get integer parameter value
     virtual bool SetParameterData(vector<IParameter*>* param_data) = 0;
     /// Get integer parameter value
@@ -100,6 +103,8 @@ public: /** @name Managing parameter*/
     virtual string GetTextParameter(const char* param_str, const int file_index) = 0;
     /// Get parameter type
     virtual IParameter::Type GetParameterValueType(const char* param_str, const int file_index) = 0;
+    /// Evaluate expression parameters, to be called by reader
+    virtual void EvaluateExpressionParameters(const MECMsgManager* pMsgManager) {}
 
     virtual IMECPreObject* FindByFullType(const string& fulltype) = 0;
     virtual IMECPreObject* FindByObjectId(int entity_type, int id) = 0;
@@ -107,6 +112,8 @@ public: /** @name Managing parameter*/
 public:
     /// Reserving memory for objects of given type
     virtual void Alloc(const char* otype, int nb_objects) = 0;
+    virtual IMECPreObject* CreateObject(const char *kernel_full_type, const char *input_full_type,
+                                        const char *title = "", int id = 0, int unit_id = 0) = 0;
     virtual int AddObject(const IMECPreObject& pre_object, const InputInfos::IdentifierValuePairList *metaarg=NULL) = 0;
     virtual int AddObjects(const char* otype)=0;
     virtual void PreTreatObject(const char* otype) = 0;
