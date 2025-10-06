@@ -315,6 +315,10 @@ C------------------------
           WA(II+16)= WPLAST ! Plastic Work
           WA(II+17)= XMASS-MASS0 ! Added mass
           WA(II+18)= (XMASS - MASS0) / MAX(MASS0,EM20) ! Added mass % (mass error)
+          WA(II+19)= OUTPUT%DATA%INOUT%DM_IN    !inlet mass
+          WA(II+20)= OUTPUT%DATA%INOUT%DM_OUT   !outlet mass
+          WA(II+21)= OUTPUT%DATA%INOUT%DE_IN    !inlet energy
+          WA(II+22)= OUTPUT%DATA%INOUT%DE_OUT   !outlet energy
           IF(IUNIT==IUHIS) CALL WRTDES(WA,WA,NGLOBTH,ITTYP,1)
         ENDIF  ! ISPMD==0
 C-----------------------------

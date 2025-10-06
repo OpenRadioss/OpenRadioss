@@ -62,7 +62,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .     ITAB, ITABM1, CURRENT_TIME,
      .     STIFN, FSKY, IADS, FSKYM, 
      .     CONDN, CONDNSKY, BUFMAT, FUNC_VALUE, PRED,ID_GLOBAL_VOIS,FACE_VOIS,EBCS_TAB,NPF,TF,FSAVSURF,MATPARAM,
-     .     WFEXT)
+     .     WFEXT, OUTPUT)
 C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------
@@ -77,6 +77,7 @@ C-----------------------------------------------
       USE TH_SURF_MOD , only : TH_SURF_NUM_CHANNEL
       USE MATPARAM_DEF_MOD, ONLY : MATPARAM_STRUCT_
       USE MULTI_MUSCL_FLUXES_COMPUTATION_MOD , ONLY : MULTI_MUSCL_FLUXES_COMPUTATION
+      USE OUTPUT_MOD , ONLY : OUTPUT_
 C-----------------------------------------------
 C     I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -125,6 +126,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: NPF(SNPC)
       my_real, INTENT(IN) :: TF(STF)
       DOUBLE PRECISION,INTENT(INOUT) :: WFEXT
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT !< output structure
 C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -295,7 +297,7 @@ C---------------------
          CALL MY_BARRIER
          CALL MULTI_EBCS(ITASK, MULTI_FVM, IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM, FUNC_VALUE, 
      .        EBCS_TAB,NPF,TF,FSAVSURF,NSURF,TIMESTEP,
-     .        NUMELS, NUMELQ, NUMELTG, NUMNOD, NCYCLE, NUMMAT, MATPARAM)
+     .        NUMELS, NUMELQ, NUMELTG, NUMNOD, NCYCLE, NUMMAT, MATPARAM, OUTPUT)
          CALL MY_BARRIER
       ENDIF
 C     ------------------------- 

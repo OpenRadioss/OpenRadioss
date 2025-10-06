@@ -36,7 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE MULTI_NRF_EBCS(ITASK, EBCS_ID, MULTI_FVM, NELEM, ELEM_LIST, FACE_LIST, 
      .                          FVM_INLET_DATA, IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM, FUNC_VALUE,
-     .                          EBCS,NPF,TF,FSAVSURF,TIMESTEP,MATPARAM)
+     .                          EBCS,NPF,TF,FSAVSURF,TIMESTEP,MATPARAM,OUTPUT)
 C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------
@@ -45,6 +45,7 @@ C-----------------------------------------------
       USE TH_SURF_MOD , ONLY : TH_SURF_NUM_CHANNEL
       USE MATPARAM_DEF_MOD , ONLY : MATPARAM_STRUCT_
       USE MULTI_SUBMATLAW_MOD , ONLY : MULTI_SUBMATLAW
+      USE OUTPUT_MOD , ONLY : OUTPUT_
 C-----------------------------------------------
 C     I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -79,6 +80,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: NPF(SNPC)
       my_real, INTENT(IN) :: TF(STF), TIMESTEP
       TYPE(MATPARAM_STRUCT_),DIMENSION(NUMMAT), INTENT(IN) :: MATPARAM !material data structure
+      TYPE(OUTPUT_),INTENT(INOUT) :: OUTPUT
 C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -102,11 +104,17 @@ C-----------------------------------------------
       INTEGER :: VARTMP_EOS(1,128) !nel=1
       INTEGER :: NVARTMP_EOS !upper bound
       my_real :: ABURN(1)
+      my_real :: M_IN, M_OUT, E_IN, E_OUT
 C-----------------------------------------------
 C     B o d y
 C-----------------------------------------------
       NVARTMP_EOS = 128
       VARTMP_EOS(1,:) = 1
+
+      M_IN = ZERO
+      M_OUT = ZERO
+      E_IN = ZERO
+      E_OUT = ZERO
 
       TCAR_P = EBCS%TCAR_P
       TCAR_VF = EBCS%TCAR_VF
@@ -452,7 +460,20 @@ C
           FSAVSURF(4,ID_SURF) = FSAVSURF(4,ID_SURF) + SURF*PSURF                                    ! += S.P
           FSAVSURF(6,ID_SURF) = FSAVSURF(6,ID_SURF) + MULTI_FVM%FLUXES(1, KFACE, ELEMID)            ! m <- m+dm (cumulative value)
 
+          ! FLUX > 0 if flow is exiting (OUTWARD NORMAL)
+          M_IN = M_IN   - Min(ZERO, MULTI_FVM%FLUXES(1, KFACE, ELEMID) )
+          M_OUT = M_OUT - Max(ZERO, MULTI_FVM%FLUXES(1, KFACE, ELEMID) )
+          E_IN = E_IN   - Min(ZERO, MULTI_FVM%FLUXES(5, KFACE, ELEMID) )
+          E_OUT = E_OUT - Max(ZERO, MULTI_FVM%FLUXES(5, KFACE, ELEMID) )
+
       ENDDO !next IELEM
+
+!$OMP CRITICAL
+      OUTPUT%DATA%INOUT%DM_IN  = OUTPUT%DATA%INOUT%DM_IN + M_IN
+      OUTPUT%DATA%INOUT%DM_OUT = OUTPUT%DATA%INOUT%DM_OUT + M_OUT
+      OUTPUT%DATA%INOUT%DE_IN = OUTPUT%DATA%INOUT%DE_IN + E_IN
+      OUTPUT%DATA%INOUT%DE_OUT = OUTPUT%DATA%INOUT%DE_OUT + E_OUT
+!$OMP END CRITICAL
 C-----------------------------------------------
 C     E n d   o f   s u b r o u t i n e 
 C-----------------------------------------------
