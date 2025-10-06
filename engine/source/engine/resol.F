@@ -3484,8 +3484,7 @@ C----------------------------------
 C       FUNCTIONS
 C----------------------------------
 
-!             IF(NFUNCT /= 0.AND.IALE+IEULER+GLOB_THERM%ITHERM+NEBCS>0) THEN
-              IF(.TRUE.) then
+              IF(NFUNCT /= 0.AND.IALE+IEULER+GLOB_THERM%ITHERM+NEBCS>0) THEN
                 CALL TIMFUN(PYTHON,FV, NPC, TF)
                 IF(EBCS_TAB%nebcs_loc/=0) THEN
                   !!! Need to "extrapolate values" whenever current time
