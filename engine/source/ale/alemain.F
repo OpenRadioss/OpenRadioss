@@ -642,7 +642,7 @@ C     --------------------------------------------------
      .                 ITAB, ITABM1, TT - DT1, 
      .                 STIFN, FSKY, IADS, FSKYM, 
      .                 CONDN, CONDNSKY, BUFMAT, FV, PRED,ID_GLOBAL_VOIS,FACE_VOIS,EBCS_TAB,NPC,TF,FSAVSURF,MATPARAM,
-     .                 OUTPUT%TH%WFEXT)
+     .                 OUTPUT%TH%WFEXT, OUTPUT)
 
                   CALL MY_BARRIER
 C     -------------------------
@@ -664,7 +664,7 @@ C     --------------------------------------------------
      .                 ITAB, ITABM1, TT - DT1, 
      .                 STIFN, FSKY, IADS, FSKYM, 
      .                 CONDN, CONDNSKY, BUFMAT, FV, PRED,ID_GLOBAL_VOIS,FACE_VOIS,EBCS_TAB,NPC,TF,FSAVSURF,MATPARAM,
-     .                 OUTPUT%TH%WFEXT)
+     .                 OUTPUT%TH%WFEXT, OUTPUT)
 
                   CALL MY_BARRIER
 C     -------------------------
@@ -684,7 +684,7 @@ C     -------------------------
      .                 ITAB, ITABM1, TT - DT1, 
      .                 STIFN, FSKY, IADS, FSKYM, 
      .                 CONDN, CONDNSKY, BUFMAT, FV, .FALSE.,ID_GLOBAL_VOIS,FACE_VOIS,EBCS_TAB,NPC,TF,FSAVSURF,MATPARAM,
-     .                 OUTPUT%TH%WFEXT)
+     .                 OUTPUT%TH%WFEXT, OUTPUT)
                   CALL MY_BARRIER
 
                   IF (MULTI_FVM%NS_DIFF) THEN
