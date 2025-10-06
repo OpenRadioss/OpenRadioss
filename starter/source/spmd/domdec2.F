@@ -3086,15 +3086,9 @@ C
         MEMTOTAL=DDSTAT(19,P)*RTOBYTES + DDSTAT(18,P) * ITOBYTES
         IF( GOT_INSPIRE_ALM == 1)THEN
           WRITE(IOUT,1201)P,
-     .          DDSTAT(19,P)*RTOBYTES/MBYTE,
-     .          DDSTAT(18,P)*ITOBYTES/MBYTE,
-     .          MEMTOTAL/MBYTE,
      .          DDSTAT(25,P)/1024
         ELSE
           WRITE(IOUT,1200)P,
-     .          DDSTAT(19,P)*RTOBYTES/MBYTE,
-     .          DDSTAT(18,P)*ITOBYTES/MBYTE,
-     .          MEMTOTAL/MBYTE,
      .          DDSTAT(25,P)/1024
         ENDIF
 
@@ -3111,7 +3105,7 @@ C
      .'       -------------------------------------------'
            MEMTOTAL=MEMTOTAL+MEMFLOW(1,P)*4+MEMFLOW(2,P)*RTOBYTES
            WRITE(IOUT,1400) MEMFLOW(2,P)*RTOBYTES/1048576,
-     *                      MEMFLOW(1,P)*4/1048576,
+     *                      MEMFLOW(1,P)/1048576*4,
      *                      MEMTOTAL/1048576
         ENDIF
        ENDDO
@@ -3123,14 +3117,10 @@ C
         MEMTOTAL=DDSTAT(19,P)*RTOBYTES+DDSTAT(18,P)*ITOBYTES
 
         IF( GOT_INSPIRE_ALM == 1)THEN
-          WRITE(IOUT,1201)P,DDSTAT(19,P)*RTOBYTES/1048576,
-     .                    DDSTAT(18,P)*4/1048576,
-     .                    MEMTOTAL/1048576,
+          WRITE(IOUT,1201)P,
      .                    DDSTAT(25,P)/1024
         ELSE
-          WRITE(IOUT,1200)P,DDSTAT(19,P)*RTOBYTES/1048576,
-     .                    DDSTAT(18,P)*4/1048576,
-     .                    MEMTOTAL/1048576,
+          WRITE(IOUT,1200)P,
      .                    DDSTAT(25,P)/1024
         ENDIF
 
@@ -3157,18 +3147,10 @@ C
  1200 FORMAT(/,
      . '     LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR',I6,/
      . '     --------------------------------------------------------'/
-     . '        MEMORY USED FOR REALS   ',I10,' MB ',/
-     . '        MEMORY USED FOR INTEGERS',I10,' MB ',/
-     . '        TOTAL MEMORY EVALUATION ',I10,' MB ',/
-     . '                                            '/,
      . '        RESTART FILE SIZE',I10,' MB')
  1201 FORMAT(/,
      . '     LOCAL SOLVER STORAGE EVALUATION FOR SPMD PROCESSOR',I6,/
      . '     --------------------------------------------------------'/
-     . '        MEMORY USED FOR REALS   ',I10,' MB ',/
-     . '        MEMORY USED FOR INTEGERS',I10,' MB ',/
-     . '        TOTAL MEMORY EVALUATION ',I10,' MB ',/
-     . '                                            '/,
      . '        RESTART FILE SIZE',I10,' MB')
 
  1300 FORMAT(
