@@ -52,12 +52,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    fretitl2                  ../starter/source/starter/freform.F
 !||    initemp_shell             ../starter/source/materials/therm/initemp_shell.F90
 !||    law158_init               ../starter/source/materials/mat/mat158/law158_init.F
+!||    law42c_ini                ../starter/source/materials/mat/mat042/law42c_ini.F90
 !||    layini1                   ../starter/source/elements/shell/coqueba/layini1.F
 !||    thickini                  ../starter/source/elements/shell/coqueba/thickini.F
 !||--- uses       -----------------------------------------------------
 !||    drape_mod                 ../starter/share/modules1/drape_mod.F
 !||    fractal_dmg_init_mod      ../starter/source/materials/fail/fractal/fractal_dmg_init.F90
 !||    initemp_shell_mod         ../starter/source/materials/therm/initemp_shell.F90
+!||    law42c_ini_mod            ../starter/source/materials/mat/mat042/law42c_ini.F90
 !||    message_mod               ../starter/share/message_module/message_mod.F
 !||    stack_mod                 ../starter/share/modules1/stack_mod.F
 !||====================================================================

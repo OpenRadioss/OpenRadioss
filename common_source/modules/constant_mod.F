@@ -186,6 +186,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    law133_upd                               ../starter/source/materials/mat/mat133/law133_upd.F90
 !||    law163_upd                               ../starter/source/materials/mat/mat163/law163_upd.F90
 !||    law190_upd                               ../starter/source/materials/mat/mat190/law190_upd.F90
+!||    law42c_ini                               ../starter/source/materials/mat/mat042/law42c_ini.F90
 !||    law81_upd                                ../starter/source/materials/mat/mat081/law81_upd.F90
 !||    law87_upd                                ../starter/source/materials/mat/mat087/law87_upd.F90
 !||    law92_guess                              ../starter/source/materials/mat/mat092/law92_nlsqf.F90

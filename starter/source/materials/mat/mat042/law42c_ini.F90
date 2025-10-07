@@ -20,12 +20,26 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    law42c_ini_mod   ../starter/source/materials/mat/mat042/law42c_ini.F90
+!||--- called by ------------------------------------------------------
+!||    c3init3          ../starter/source/elements/sh3n/coque3n/c3init3.F
+!||    cinit3           ../starter/source/elements/shell/coque/cinit3.F
+!||    cmaini3          ../starter/source/elements/sh3n/coquedk/cmaini3.F
+!||====================================================================
       module law42c_ini_mod
       implicit none
       contains
         ! ======================================================================================================================
         ! \brief initialization UVAR of law42c
         ! ======================================================================================================================
+!||====================================================================
+!||    law42c_ini      ../starter/source/materials/mat/mat042/law42c_ini.F90
+!||--- called by ------------------------------------------------------
+!||    c3init3         ../starter/source/elements/sh3n/coque3n/c3init3.F
+!||    cinit3          ../starter/source/elements/shell/coque/cinit3.F
+!||    cmaini3         ../starter/source/elements/sh3n/coquedk/cmaini3.F
+!||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine law42c_ini(nuvar,uvar,nel)
 ! ----------------------------------------------------------------------------------------------------------------------

@@ -32,8 +32,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    corthdir               ../starter/source/elements/shell/coque/corthdir.F
 !||    corthini               ../starter/source/elements/shell/coque/corthini.F
 !||    law158_init            ../starter/source/materials/mat/mat158/law158_init.F
+!||    law42c_ini             ../starter/source/materials/mat/mat042/law42c_ini.F90
 !||--- uses       -----------------------------------------------------
 !||    drape_mod              ../starter/share/modules1/drape_mod.F
+!||    law42c_ini_mod         ../starter/source/materials/mat/mat042/law42c_ini.F90
 !||    message_mod            ../starter/share/message_module/message_mod.F
 !||    stack_mod              ../starter/share/modules1/stack_mod.F
 !||====================================================================
