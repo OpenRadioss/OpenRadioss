@@ -507,7 +507,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-          !write(6,*) "detach_node",node_id,nodes%itab(node_id),"from:",shell_list(1:list_size)
+           write(6,*) "detach_node",node_id,nodes%itab(node_id),"from:",shell_list(1:list_size)
           !call flush(6)
 !         new_uid = nodes%max_uid + 1
 !         nodes%max_uid = new_uid
