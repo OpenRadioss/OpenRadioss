@@ -103,17 +103,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N,M,I,J,J1,NN, IOUTN, IERROR, STAT
-      INTEGER NUMNUSR,NUMNUSR1,NUMNAUX,KSPHRES,NUMNUSR2
-      INTEGER CHID, CNT1, CNT2, UID, IFLAGUNIT, ID
-      INTEGER FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP
-      my_real X1,X2,X3,XMIN,YMIN,ZMIN,XMAX,YMAX,ZMAX,FAC_L,W
+      INTEGER :: N,I,J,STAT
+      INTEGER :: NUMNUSR,NUMNUSR1,NUMNAUX,KSPHRES,NUMNUSR2
+      INTEGER :: UID, IFLAGUNIT, ID
+      my_real :: X1,X2,X3,XMIN,YMIN,ZMIN,XMAX,YMAX,ZMAX,FAC_L,W
       CHARACTER(LEN=NCHARLINE) :: LLINE
-      CHARACTER(LEN=NCHARFIELD) :: MOT1, KEY
       INTEGER, DIMENSION(:), ALLOCATABLE :: SUB_NOD,UID_NOD,ITAB_TMP,ITABM1_TMP
       REAL*8, DIMENSION(:,:), ALLOCATABLE :: HM_X
       my_real, DIMENSION(:,:), ALLOCATABLE :: X_TMP
-      LOGICAL IS_AVAILABLE
+      LOGICAL :: IS_AVAILABLE
       REAL*8, DIMENSION(:), ALLOCATABLE :: DMERGE
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s

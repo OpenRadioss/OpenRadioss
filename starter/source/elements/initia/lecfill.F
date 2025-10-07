@@ -67,17 +67,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER 
-     .      INI,J,N,ID_ELEM,IE,UID,SUB_ID,STAT,NB_INIBRI,
-     .      IFLAGUNIT,IUNIT,NB_ELEMENTS
-      INTEGER WORKS(70000)
+      INTEGER :: INI,J,N,ID_ELEM,IE,UID,SUB_ID,STAT,NB_INIBRI, IFLAGUNIT,IUNIT,NB_ELEMENTS
+      INTEGER :: WORKS(70000)
       INTEGER, DIMENSION(:), ALLOCATABLE :: KSYSUSRS,INDEXS,ITRIS
-      CHARACTER MESS*40
       CHARACTER(LEN=NCHARKEY) :: KEY
-      my_real FILL
-      LOGICAL IS_AVAILABLE
-      INTEGER UEL2SYS
-      EXTERNAL UEL2SYS
+      my_real :: FILL
+      LOGICAL :: IS_AVAILABLE
+      INTEGER, EXTERNAL ::  UEL2SYS
 C=======================================================================
       DO N=1,NUMELS
         FILLSOL(N)=ONE

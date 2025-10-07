@@ -67,8 +67,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,M,N,NUMNOD1,NM,FLAG,N_DEST,N_DEST_DEST,NN1,NN2,CUR_ID,GR_IDS,ALL_VS_ALL,
-     .        NM_L,ISS
+      INTEGER I,J,K,N,NUMNOD1,NM,FLAG,N_DEST,N_DEST_DEST,NN1,NN2,CUR_ID,GR_IDS,ALL_VS_ALL,NM_L,ISS
 C
       INTEGER, DIMENSION(:),ALLOCATABLE :: IMERGE0,IADMERGE2TMP,LIST1,LIST2,LIST1_INV,LIST2_INV
       INTEGER, DIMENSION(:),ALLOCATABLE :: LIST1_IDMERGE,LIST2_IDMERGE,LIST1_NBMERGE,LIST2_NBMERGE

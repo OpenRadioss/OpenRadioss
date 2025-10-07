@@ -63,7 +63,7 @@
           use bcs_mod , only : bcs
           use precision_mod , only : WP
           use elbufdef_mod , only : elbuf_struct_
-          use constant_mod , only : zero, em14, half
+          use constant_mod , only : zero, em14, half, em20
           use h3d_mod , only : h3d_database
           use message_mod , only : aninfo, ancmsg
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -198,23 +198,12 @@
                 END IF
 
                 L = SQRT(NX*NX + NY*NY + NZ*NZ)
-                AREA = HALF*L
-
-                if (L <= eps) then
-                  ! quasi-degenerated qued : simple fallback
-                  NX =  Y12*Z14 - Z12*Y14
-                  NY =  Z12*X14 - X12*Z14
-                  NZ =  X12*Y14 - Y12*X14
-                  L = SQRT(NX*NX + NY*NY + NZ*NZ)
-                  if (L <= eps) then
-                     ! degenerated case
-                     nx=zero ; ny=zero ; nz=zero
-                     cycle
-                  end if
-                end if
+                L = MAX(EM20,L) ! not supposed to be 0.0, otherwise time step is 0.0
                 NX = NX / L   ! normale unitaire
                 NY = NY / L   ! normale unitaire
                 NZ = NZ / L   ! normale unitaire
+
+                AREA = HALF*L
                 
                 NOD(1:4) = (/NOD1,NOD2,NOD3,NOD4/)
                 fx(4) = zero

@@ -53,7 +53,7 @@
           use ale_connectivity_mod , only : t_ale_connectivity
           use precision_mod, only : WP
           use insertion_sort_mod , only : integer_insertion_sort_with_index
-          use RESTMOD , only : itab
+          !use RESTMOD , only : itab  !for debug prurpose (user identifiers of nodes)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------

@@ -375,7 +375,6 @@
           TYPE(output_) :: OUTPUT
           INTEGER,INTENT(IN) :: NUMNOD
           INTEGER :: current_size1, current_size2, new_size2, new_size1
-          INTEGER :: ierr
           
           ! Handle VECT_CONT
           if (allocated(OUTPUT%DATA%VECT_CONT)) then

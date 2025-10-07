@@ -55,12 +55,8 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, K, N, NG, IEL, ITEL, NUMFAKECP,
-     .        OFFSET_IGBUFSSG, OFFSET_NUMFAKENOD, ITSURF
-C     REAL
-      my_real
-     .   AV1,CV1, VOL(NUMELIG3D), 
-     .   VNIGE(NUMFAKENODIGEO), BNIGE(NUMFAKENODIGEO)
+      INTEGER :: J, K, N, NG, IEL, ITEL, NUMFAKECP, ITSURF
+      my_real :: AV1,CV1, VOL(NUMELIG3D), VNIGE(NUMFAKENODIGEO), BNIGE(NUMFAKENODIGEO)
       TYPE(G_BUFEL_) ,POINTER :: GBUF 
 C-----------------------------------------------------------------------
 C 

@@ -80,11 +80,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,KK,IBID,ISAV,IGU,IGUS,IGUQ,IGUC,IGUT,IGUP,IGUR,IGUTG,
-     .   NNOD,NBINTER,NSEGQ,NSEGS,NSEGC,NSEGT,NSEGP,NSEGR,NSEGTG,NFRAM,
-     .   ID,UID,L,ISTYP,
-     .   FLAG_R2R,N1,N2,N3,POS_SEC_R2R,NSEG0,NSEG,
-     .   COMPT,NG
+      INTEGER :: I,ISAV,IGU,IGUS,IGUQ,IGUC,IGUT,IGUP,IGUR,IGUTG,
+     .           NNOD,NBINTER,NSEGQ,NSEGS,NSEGC,NSEGT,NSEGP,NSEGR,NSEGTG,NFRAM,
+     .           ID,UID,L,ISTYP,
+     .           FLAG_R2R,N1,N2,N3,POS_SEC_R2R,NSEG0,NSEG,
+     .           COMPT,NG
       CHARACTER(LEN=NCHARTITLE)::TITR
       CHARACTER(LEN=NCHARKEY) :: KEY2
       CHARACTER MESS*40

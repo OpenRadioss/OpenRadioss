@@ -27,7 +27,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- calls      -----------------------------------------------------
 !||    ancmsg             ../starter/source/output/message/message.F
 !||    fredec0            ../starter/source/starter/freform.F
-!||    nodgrnr5           ../starter/source/starter/freform.F
 !||    udouble            ../starter/source/system/sysfus.F
 !||    usr2sys            ../starter/source/system/sysfus.F
 !||--- uses       -----------------------------------------------------
@@ -87,16 +86,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,N,J,ID,IDS,IDEX,IDGU,IGS,NNOD,IAD,
-     .        I1, I2,MID,PID,IDX1,IDY1,IDZ1,NCTRL,NBLINE,
-     .        NRAFX,NRAFY,NRAFZ,NBIG3D_PATCH
-      INTEGER TABIDS(NUMELIG3D0),J10(10)
-      CHARACTER MESS*40
-      my_real BID
+      INTEGER :: I,N,J,ID,IDS,IAD,
+     .           I1, I2,MID,PID,IDX1,IDY1,IDZ1,NCTRL,NBLINE,
+     .           NRAFX,NRAFY,NRAFZ,NBIG3D_PATCH
+      INTEGER :: TABIDS(NUMELIG3D0),J10(10)
+      CHARACTER :: MESS*40
+      my_real :: BID
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER  NODGRNR5,USR2SYS
+      INTEGER  USR2SYS
 C-----------------------------------------------
       DATA MESS /'ISO-GEOMETRIC ELEMENTS DEFINITION       '/
 C=======================================================================

@@ -40,7 +40,6 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE SEATBELT_MOD
-      USE SUBMODEL_MOD , ONLY : NSUBMOD
       use element_mod , only : nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -61,7 +60,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER K,NODE_CUR,NRES_FOUND,ELEM_NEWT,NODE_NEXT,ELEM_NEXT,ID_PREV,MTYP,MID,ELEM_TEST
+      INTEGER K,NODE_CUR,NRES_FOUND,NODE_NEXT,ELEM_NEXT,ID_PREV,MTYP,MID,ELEM_TEST
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------

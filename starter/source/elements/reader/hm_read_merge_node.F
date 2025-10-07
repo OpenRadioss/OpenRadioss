@@ -30,7 +30,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_get_intv            ../starter/source/devtools/hm_reader/hm_get_intv.F
 !||    hm_option_read_key     ../starter/source/devtools/hm_reader/hm_option_read_key.F
 !||    hm_option_start        ../starter/source/devtools/hm_reader/hm_option_start.F
-!||    ngr2usr                ../starter/source/system/nintrr.F
 !||--- uses       -----------------------------------------------------
 !||    hm_option_read_mod     ../starter/share/modules1/hm_option_read_mod.F
 !||    message_mod            ../starter/share/message_module/message_mod.F
@@ -68,16 +67,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,ID,UID,IDN,GR_ID,GR_IDS,MERGE_TYPE,FLAG_FULL_MERGE
+      INTEGER :: I,J,ID,UID,GR_ID,GR_IDS,MERGE_TYPE,FLAG_FULL_MERGE
       CHARACTER(LEN=NCHARTITLE) :: TITR
       INTEGER, DIMENSION(:),ALLOCATABLE :: TAGNOD1,TAGNOD2,TAGNOD_TEMP
-      LOGICAL   IS_AVAILABLE
-      my_real TOL,XN,XMIN,XMAX,YMIN,YMAX,ZMIN,ZMAX,DX,DY,DZ,TOL_DEF
-C-----------------------------------------------
-C   E x t e r n a l   F u n c t i o n s
-C-----------------------------------------------
-      INTEGER NGR2USR
-      INTEGER, DIMENSION(:), POINTER :: INGR2USR
+      LOGICAL :: IS_AVAILABLE
+      my_real :: TOL,XN,XMIN,XMAX,YMIN,YMAX,ZMIN,ZMAX,DX,DY,DZ,TOL_DEF
 C=======================================================================
 C
       WRITE(IOUT,1000)

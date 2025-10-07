@@ -71,7 +71,6 @@
           integer :: ii      !< loop
           integer :: num_bcs !< number of boundary conditions
           integer :: jbc(3)  !< working array
-          integer :: icodt   !< current code (translation)
           integer :: lcod    !< code in [1,7] which is a 3-bit-integer
           integer :: inod    !< current node
 ! ----------------------------------------------------------------------------------------------------------------------

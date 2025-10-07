@@ -53,17 +53,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IL,IR,IS,IT,Stat,NPG,ILAYER,IPT,IMAT,
-     .        LEN1,LEN2,LEN_PLAPT,LEN_SIGPT,NPTTOT,IDRAPE
-      my_real :: T_REF   ! reference (initial) temperature
-      TYPE(BUF_MAT_)     , POINTER :: MATBUF
+      INTEGER I,IR,IS,IT,Stat,NPG,ILAYER,IPT,IMAT,LEN1,LEN2,LEN_PLAPT,LEN_SIGPT,NPTTOT,IDRAPE
       TYPE(BUF_LAY_)     , POINTER :: BUFLY
       TYPE(BUF_INTLAY_)  , POINTER :: INTLAY
-      TYPE(BUF_VISC_)    , POINTER :: VISCBUF
       TYPE(G_BUFEL_)     , POINTER :: GBUF
       TYPE(L_BUFEL_)     , POINTER :: LBUF
       TYPE(BUF_INTLOC_)  , POINTER :: ILBUF
-      TYPE(FAIL_LOC_)    , POINTER :: FLOC
       TYPE (L_BUFEL_DIR_), POINTER :: LBUF_DIR
 C=======================================================================
       Stat = 0

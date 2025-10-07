@@ -61,8 +61,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, N, NTY , NN0, NSN, ILAGM, NRTS,NRTM, NMN, NAD, IGN
-      INTEGER ID
+      INTEGER :: I, N, NTY , NN0, NSN, ILAGM, NRTM, NMN, IGN, ID
       CHARACTER(LEN=NCHARTITLE) :: TITR
 C======================================================================|
       DO N=1,NINTER

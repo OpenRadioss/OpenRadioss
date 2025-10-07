@@ -58,9 +58,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IPARG(NPARG,NGROUP),KNOD2EL1D(*),NOD2EL1D(*),IXR(NIXR,*),ITAB(*),IPM(NPROPMI,*),
+      INTEGER :: IPARG(NPARG,NGROUP),KNOD2EL1D(*),NOD2EL1D(*),IXR(NIXR,*),ITAB(*),IPM(NPROPMI,*),
      .        KNOD2ELC(*),NOD2ELC(*),IXC(NIXC,*)
-      my_real               :: X(3,*),ALEA(*)
+      my_real  :: X(3,*),ALEA(*)
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
 C-----------------------------------------------
 C   F u n c t i o n
@@ -70,16 +70,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,L,M,N,NG,NEL,ITY,IAD,LFT,LLT,NFT,MTN,NODE,NODE_NEXT,
-     .        ELEM_NEXT,N1,N2,NTOOL,KK,NOT_USED,FLAG,ELEM_CUR,NN,ID,NNOD,
-     .        MID,MTYP,P,NB_SHELL,NFRAM,N3,N4,MS,NODES,ISEATBELT,NSL,IDRB,
-     .        NOD,NFOUND_RBY,NFOUND_BCS,BCS_X,BCS_Y,BCS_Z,IC,IC1,IC2,N1SP,
-     .        N2SP,ELEM,ORIENT
-C
-      my_real DIST1,DIST2,ALEA_MAX,TOLE_2
-C
-      INTEGER , DIMENSION(:), ALLOCATABLE:: TAG_RETRACTOR,TAGN_RETRACTOR,TAG_RES
-C
+      INTEGER :: I,J,K,L,M,NG,NEL,ITY,IAD,LFT,LLT,NFT,MTN,NODE,NODE_NEXT,
+     .           ELEM_NEXT,N1,N2,NTOOL,KK,NOT_USED,FLAG,ELEM_CUR,NN,ID,NNOD,
+     .           MID,MTYP,P,NB_SHELL,NFRAM,N3,N4,NODES,ISEATBELT,N1SP,N2SP,ELEM
+      my_real :: DIST1,DIST2,ALEA_MAX,TOLE_2
+      INTEGER, DIMENSION(:), ALLOCATABLE:: TAG_RETRACTOR,TAGN_RETRACTOR,TAG_RES
       TYPE(G_BUFEL_),POINTER :: GBUF
 C-----------------------------------------------
 C   S o u r c e   L i n e s

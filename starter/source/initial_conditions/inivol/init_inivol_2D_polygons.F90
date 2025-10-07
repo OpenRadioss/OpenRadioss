@@ -135,7 +135,6 @@
           integer :: mid                                                             !< material internal identifier
           integer :: iter
           integer :: iStatus                                                         !< return code from CLipping Algorithm
-          integer :: prod_tag !< product of tag for point of elem mesh               !prod > 0 => elem indise the polygon
           integer :: sum_tag                                                         !sum = 0 => elem outside the polygon
           integer :: iad0                                                            !< index for buffer bufsf
           integer :: npt_superellipse                                                !< number of points for superellipse

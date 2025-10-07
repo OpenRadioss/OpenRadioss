@@ -1148,7 +1148,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
         INTEGER ITY,IFQ,INACTI,MFROT,NSN,NRTM
-        INTEGER I,OLD_SIZE,NEW_SIZE,MULTIMP,IERR
+        INTEGER I,OLD_SIZE,NEW_SIZE,IERR
 
         INTEGER, DIMENSION (:), ALLOCATABLE :: OLD_TAB_I
         my_real, DIMENSION (:), ALLOCATABLE :: OLD_TAB_R

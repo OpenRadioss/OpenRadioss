@@ -65,8 +65,8 @@
 ! ------------------------------------------------------------------------------
 !         Local variables
 ! ------------------------------------------------------------------------------
-          integer :: i,ipfun,pfun,nrate,vp
-          real(kind=WP) :: dydx,yld,yfac,yscale,pscale,pfac
+          integer :: ipfun,pfun,nrate,vp
+          real(kind=WP) :: dydx,yld,yfac,pfac
           real(kind=WP) ,external :: finter
 !===============================================================================
           ipfun  = ifunc(nfunc-1)
