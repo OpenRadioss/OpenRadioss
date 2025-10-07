@@ -5874,6 +5874,7 @@ C  uncomment the following code for an example of node splitting (using non-phys
 !     5              ADDTMPL    ,IPARG     )
 !
 !               ENDIF
+!               CALL ALLOCATE_OUTPUT_DATA(OUTPUT,NUMNOD)
 !               LCNE0 = SIZE(ELEMENT%PON%PROCNE)
 !             endif
 
