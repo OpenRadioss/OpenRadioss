@@ -1899,9 +1899,9 @@ C-----------------------------------------------------------
        GAPSCALE=INTBUF_TAB(NIN)%VARIABLES(13) 
        ! Warning : VARIABLES(13) is modified after, to store GAPMIN
 
-       IF(IPARI(72,NIN) > 0) THEN ! friction model : saving parts id of main segments 
-          ALLOCATE(IPARTSM(NRTM0))
-          IPARTSM(1:NRTM0)=0
+       IF(IPARI(72,NIN) > 0) THEN ! friction model : 
+          ALLOCATE(IPARTSM(NRTM)) ! saving parts id of main segments :friction mode + mvoisin research
+          IPARTSM(1:NRTM)=0
        ELSE
           ALLOCATE(IPARTSM(0))
        ENDIF

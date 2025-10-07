@@ -939,13 +939,13 @@ C--------Correction for different elements
 C -----Friction model ------
           IF(INTFRIC > 0) THEN
             IP= IPARTS(NELS)
+            IPARTSM(I) = IP
             IPG = TAGPRT_FRIC(IP)
             IF(IPG > 0) THEN
               CALL FRICTION_PARTS_SEARCH (
      .             IPG,INTBUF_FRIC_TAB(INTFRIC)%S_TABPARTS_FRIC,
      .             INTBUF_FRIC_TAB(INTFRIC)%TABPARTS_FRIC,IPL )
               IPARTFRICM(I) = IPL
-              IPARTSM(I) = IP
             ENDIF
           ENDIF
 C -----Case of internal segment : put stiffness to negative ------
@@ -960,6 +960,7 @@ C---------------------
      .              NELTG,I   ,GEO  ,PM   ,KNOD2ELC ,
      .              KNOD2ELTG ,NOD2ELC ,NOD2ELTG,THK,NTY,IGEO,
      .              PM_STACK  , IWORKSH)
+
         IF(NELTG/=0) THEN
 C
           MT=IXTG(1,NELTG)
@@ -967,6 +968,7 @@ C
           IGTYP = IGEO(11,MG)
           IP = IPARTTG(NELTG)
           IELEM_M(1,I) = OFTG+NELTG
+          IELEM_M(2,I) =  0
 
           IF(INTTH > 0 ) IELEM(I) = MT
           IF ( IGAP == 5.AND.THK_M /= ZERO) THEN
@@ -989,13 +991,14 @@ C
 C -----Friction model ------
           IF(INTFRIC > 0) THEN
             IP= IPARTTG(NELTG)
+            IPARTSM(I) = IP
             IPG = TAGPRT_FRIC(IP)
             IF(IPG > 0) THEN
               CALL FRICTION_PARTS_SEARCH (
      .             IPG,INTBUF_FRIC_TAB(INTFRIC)%S_TABPARTS_FRIC,
      .             INTBUF_FRIC_TAB(INTFRIC)%TABPARTS_FRIC,IPL )
               IPARTFRICM(I) = IPL
-              IPARTSM(I) = IP
+
             ENDIF
           ENDIF
 C------------------------------------
@@ -1029,6 +1032,8 @@ C
               IF(INTTH > 0 ) IELEM(J) = IELEM(I)
               IF(INTFRIC > 0) IPARTFRICM(J)=IPARTFRICM(I)
               IELEM_M(1,J) = IELEM_M(1,I)
+              IELEM_M(2,J) =  0
+              IF(INTFRIC > 0)IPARTSM(J) = IP
             END IF
 C
           ELSE
@@ -1060,6 +1065,7 @@ C
           IGTYP = IGEO(11,MG)
           IGMAT = IGEO(98,MG)
           IELEM_M(1,I) = OFC+NELC
+          IELEM_M(2,I) =  0
 
           IF(INTTH > 0 ) IELEM(I) = MT
           IF ( IGAP == 5.AND.THK_M /= ZERO) THEN
@@ -1082,13 +1088,14 @@ C
 C -----Friction model ------
           IF(INTFRIC > 0) THEN
             IP= IPARTC(NELC)
+            IPARTSM(I) = IP
             IPG = TAGPRT_FRIC(IP)
             IF(IPG > 0) THEN
               CALL FRICTION_PARTS_SEARCH (
      .             IPG,INTBUF_FRIC_TAB(INTFRIC)%S_TABPARTS_FRIC,
      .             INTBUF_FRIC_TAB(INTFRIC)%TABPARTS_FRIC,IPL )
               IPARTFRICM(I) = IPL
-              IPARTSM(I) = IP
+
             ENDIF
           ENDIF
 C------------------------------------
@@ -1122,6 +1129,8 @@ C
               IF(INTTH > 0 ) IELEM(J) = IELEM(I)
               IF(INTFRIC > 0) IPARTFRICM(J)=IPARTFRICM(I)
               IELEM_M(1,J) = IELEM_M(1,I)
+              IELEM_M(2,J) =  0
+              IF(INTFRIC > 0) IPARTSM(J) = IP
             END IF
 C
           ELSE
