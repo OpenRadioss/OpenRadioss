@@ -274,9 +274,7 @@ C
 C
         IRM=I+FIRST-1
 C
-        IF(IELEM_M(2,IRM) ==0)THEN
-
-          ISH=MSEGTYP(IRM)
+        ISH=MSEGTYP(IRM)
           IF(ISH > 0) THEN
             IF(ISH > NRTM)ISH=ISH-NRTM
 C
@@ -314,8 +312,6 @@ C
 C
             ENDIF
           END IF
-        END IF
-
       ENDDO
 
 
@@ -429,7 +425,8 @@ C
       DO IRM=1,NRTM
 
             IF(IELEM_M(2,IRM) ==0)THEN
-                  DO IEDG=1,4
+              DO IEDG=1,4
+
                IF(MVOISIN(IEDG,IRM)==0)THEN
                 IF(.NOT.(IRECTM(3,IRM)==IRECTM(4,IRM).AND.IEDG==3))THEN
         
@@ -449,7 +446,7 @@ C                 LBOUND(IS1)=1
                        VTX_BISECTOR(1,2,IS1)=VX
                        VTX_BISECTOR(2,2,IS1)=VY
                        VTX_BISECTOR(3,2,IS1)=VZ
-                  END IF	
+                  END IF
 C
                   IS2=ADMSR(MOD(IEDG,4)+1,IRM)
 C         LBOUND(IS2)=1
@@ -463,7 +460,7 @@ C         LBOUND(IS2)=1
                       VTX_BISECTOR(1,2,IS2)=VX
                       VTX_BISECTOR(2,2,IS2)=VY
                       VTX_BISECTOR(3,2,IS2)=VZ
-                  END IF	
+                  END IF
         
                  END IF
                 END IF

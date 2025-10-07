@@ -77,7 +77,7 @@ C-----------------------------------------------
      .   X(3,*), EDG_COS
       CHARACTER(LEN=NCHARTITLE) :: TITR
       INTEGER  , INTENT(IN) :: IDEL_SOLID         ! solid erosion
-      INTEGER  , INTENT(IN) :: IELEM_M(2,NRTM)    ! elements connected to the segment (especially solid)
+      INTEGER  , INTENT(IN) :: IELEM_M(2,NRTM)   ! elements connected to the segment (especially solid)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -204,7 +204,7 @@ C----seg 3-4------
           I2 =IRECT(4,I)
           CALL I25NEIGH_SEG_EN(ITAG(I1),EIDNOD(1,I1),ITAG(I2),EIDNOD(1,I2),MVOISIN,
      1                  N_EI,MVOI ,I   ,I1 ,I2 ,IRECT,
-     2                  X  ,MVOISIN(1,I),NRTM,MSEGTYP,IRR  )
+     2                  X  ,MVOISIN(1,I),NRTM,MSEGTYP,IRR   )
           IF (IRR >0) CALL I25NEIGH_MSG_ERR(I1,I2,ITAB,IRR)
 C----seg 1-4------
           I1 =IRECT(4,I)
@@ -1334,6 +1334,7 @@ C      MVOISIN already filled due to symetrization ::
          NE=NE0+1
          RETURN
        END IF
+
 C------------- Neighbour Segments --------------       
        CALL I25NEIGH_SEG_E(N1,IED1,N2,IED2,NE,ICE,ISELF,
      .                I1,I2,IRECT,NRTM,MSEGTYP ,MVOISIN)
@@ -1430,7 +1431,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,NEW,K,M,LING,NE,NN,JJ,J1,J2
+      INTEGER I,J,NEW,K,M,LING,NE,NN,JJ,J1,J2,NOK,KK
       DATA LING/0/
 C----add I25NEIGH_un ID--at end--------------------------
       IF (I1==I2) THEN
@@ -1469,9 +1470,33 @@ C
      .                    (IABS(MSEGTYP(ISELF)) <= NRTM .AND. IABS(MSEGTYP(NEW)) > NRTM))) THEN
 C            Triangles ::
              IF(IRECT(3,NEW)==IRECT(4,NEW).AND.J2==3.AND.J1==1) J2=4
+             NOK = 0
+
+             IF(IRECT(3,ISELF)==IRECT(4,ISELF)) THEN
+                DO JJ=1,4
+                   IF(IRECT(JJ,ISELF)/=I1.AND.IRECT(JJ,ISELF)/=I2) THEN
+                     DO KK=1,4
+                        IF(KK/=J1.AND.KK/=J2) THEN
+                          IF (IRECT(JJ,ISELF)==IRECT(KK,NEW)) NOK = 1 
+                        ENDIF
+                     ENDDO
+                   ENDIF
+                ENDDO
+             ENDIF
+             IF(IRECT(3,NEW)==IRECT(4,NEW)) THEN
+                DO JJ=1,4
+                   IF(JJ/=J1.AND.JJ/=J2) THEN
+                     DO KK=1,4
+                        IF(IRECT(KK,ISELF)/=I1.AND.IRECT(KK,ISELF)/=I2) THEN
+                          IF (IRECT(JJ,NEW)==IRECT(KK,ISELF)) NOK = 1 
+                        ENDIF
+                     ENDDO
+                   ENDIF
+                ENDDO
+             ENDIF
 C
 C            Does not consider NEW if NEW is already neighbor of another segment.            
-             IF(MVOISIN(J2,NEW)==0) CALL ADD_ID(N,IC,NEW)
+             IF(MVOISIN(J2,NEW)==0.AND.NOK==0) CALL ADD_ID(N,IC,NEW)
 C
           end if
         END IF
@@ -1508,7 +1533,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,J1,J2,INV,ipr
+      INTEGER I,J,J1,J2,INV
       my_real
      .   S,YJ(3,N),YI(3),Y0(3),YJNI(N),ANGLE(N),SMIN,NORM,
      .   NXI,NYI,NZI,X12,Y12,Z12,NXJ,NYJ,NZJ,SMAX

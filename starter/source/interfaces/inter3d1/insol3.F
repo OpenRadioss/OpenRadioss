@@ -360,10 +360,14 @@ C
           IF(NTY==25) THEN
             IF(FLAG_ELEM_INTER25(NIN25,IELEM_M(1)) ==1.AND.FLAG_ELEM_INTER25(NIN25,IELEM_M(2)) ==0) THEN
               IC = 1  
+              IELEM_M(2) = 0
             ELSEIF(FLAG_ELEM_INTER25(NIN25,IELEM_M(1)) ==0.AND.FLAG_ELEM_INTER25(NIN25,IELEM_M(2)) ==1) THEN
               IC = 1
               NEL = IELEM_M(2)
               IELEM_M(1) = IELEM_M(2)
+              IELEM_M(2) = 0
+            ELSEIF(FLAG_ELEM_INTER25(NIN25,IELEM_M(1)) ==0.AND.FLAG_ELEM_INTER25(NIN25,IELEM_M(2)) ==0) THEN
+              IC = 1
               IELEM_M(2) = 0
             ENDIF
           ENDIF
