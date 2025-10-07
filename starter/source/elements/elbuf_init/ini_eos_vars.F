@@ -43,7 +43,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER                 :: ILAW,IEOS
+      INTEGER                 :: IEOS
       TYPE(EOS_TAG_), POINTER :: ETAG
 C=======================================================================
 C     Set default variables used in all equation of state (eos)

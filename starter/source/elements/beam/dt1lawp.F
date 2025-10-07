@@ -42,19 +42,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER MAT(MVSIZ), MXG(MVSIZ),IGTYP
-C     REAL
-      my_real
-     .   PM(NPROPM,*), GEO(NPROPG,*), DELTAX(MVSIZ), DTX(MVSIZ)
+      INTEGER :: MAT(MVSIZ), MXG(MVSIZ),IGTYP
+      my_real :: PM(NPROPM,*), GEO(NPROPG,*), DELTAX(MVSIZ), DTX(MVSIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, MX, IG,INEW
-C     REAL
-      my_real
-     .   RHO0, G, C1, SSP, C,
-     .   IYY, IZZ, SL2I, SHF, DMP, 
-     .   DSH, PHI, F1, F2, FAC, YOUNG,CST,FSH
+      INTEGER :: I, MX, IG
+      my_real :: RHO0, G, C1, SSP, IYY, IZZ, SL2I, DMP, FAC, CST,FSH
 C=======================================================================
         DO I=LFT,LLT
          MX   = MAT(I)

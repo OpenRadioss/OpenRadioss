@@ -49,20 +49,16 @@ C-------------------------------------------------------------------------------
 C--------------------------------------------------------------------------------------------------------
 C Dummy Arguments 
 C--------------------------------------------------------------------------------------------------------
-      INTEGER PXI, IDXI, IDXII
-      my_real, 
-     .  INTENT(IN) :: XI
-      my_real, 
-     .  DIMENSION(*), INTENT(IN) :: KXI
-      my_real DERS1
+      INTEGER :: PXI, IDXI, IDXII
+      my_real, INTENT(IN) :: XI
+      my_real, DIMENSION(*), INTENT(IN) :: KXI
+      my_real :: DERS1
 C--------------------------------------------------------------------------------------------------------
 C Local variables 
 C--------------------------------------------------------------------------------------------------------
-      INTEGER J, JJ, K, L, NDERS
-      my_real 
-     .  SAVED, TEMP, ALEFT, RIGHT
-      my_real, 
-     .  DIMENSION(PXI+1,PXI+1) :: ANDU
+      INTEGER :: J, K
+      my_real :: SAVED, TEMP, ALEFT, RIGHT
+      my_real, DIMENSION(PXI+1,PXI+1) :: ANDU
 
       ANDU(:,:)=ZERO
       ANDU(IDXII,1)=ONE

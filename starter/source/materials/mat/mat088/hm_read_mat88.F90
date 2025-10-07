@@ -100,12 +100,12 @@
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
         real(kind=WP) ::                                                       &
-          k,nu,g,rate(maxfunc+1),hys,rho0,rhor,bulk,fcut,yfac(maxfunc+1),      &
+          nu,rate(maxfunc+1),hys,rho0,rhor,bulk,fcut,yfac(maxfunc+1),      &
           yfac_unl,shape,gs,e,x1scale,x2scale,dx,dy,dydx,sgl,sw,st,gdamp,      &
           sigf,kfail,gam1,gam2,eh,areafac,lengthfac,beta,xscale,yscale,        &
           lam,rv,lambda(maxfunc+1),sigpeak,ssp     
         integer ::                                                             &
-          i,ii,nl,ifunc(maxfunc+1),ifunc_unload,itens,iunl_for,                &
+          i,nl,ifunc(maxfunc+1),ifunc_unload,itens,iunl_for,                &
           ifunc_out(maxfunc+1),npt,npt2,ndim,rtype,j,failip,nv_base
         logical is_available,is_encrypted,found
         type(table_4d_), dimension(:), pointer :: table_mat   

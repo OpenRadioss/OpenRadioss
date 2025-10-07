@@ -83,7 +83,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IDX,LB_MAX,ND
+      INTEGER IDX,ND
       INTEGER ITR1(*),IXP(6,*),IPARG(NPARG,*),EADD(*),IPARTP(*),
      .        DD_IAD(NSPMD+1,*),CEP(*),INUM(9,*),INDEX(*),
      .        IPM(NPROPMI,*),IPOUOFF(*),

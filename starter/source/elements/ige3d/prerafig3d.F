@@ -68,15 +68,15 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       TYPE(MESHSURFIG3D_), DIMENSION(:), ALLOCATABLE, TARGET :: MESHSURF
       TYPE(MESHSURFIG3D_), POINTER :: PMESHSURF, P2MESHSURF
-      INTEGER I,J,K,L,M,N,P,ITNCTRL,INCTRL,ITKSI,ITETA,ITZETA,
-     .        IPID,IAD_KNOT,ITTEST,ITEL,OFFSET_KNOT,
-     .        PX,PY,PZ,IDX,IDY,IDZ,IEL,
-     .        N1,N2,N3,NKNOT1,NKNOT2,NKNOT3,NELX,NELY,NELZ,
-     .        DIR,DECALGEO_TMP,DECALGEOFINAL,NBCUT,IDNBCUT,
-     .        IDKNOT1,IDKNOT2,PDIR,PTANG1,PTANG2,
-     .        NELDIR,NELTANG1,NELTANG2,
-     .        P2DIR,P2TANG1,P2TANG2,L_TAB_NEWFCTCUT,ITPATCH,
-     .        NBPATCH_IG3D,FLAG_DEBUG
+      INTEGER :: I,J,L,M,N,P,ITNCTRL,INCTRL,ITKSI,ITETA,ITZETA,
+     .           IPID,IAD_KNOT,ITTEST,OFFSET_KNOT,
+     .           PX,PY,PZ,IDX,IDY,IDZ,IEL,
+     .           N1,N2,N3,NKNOT1,NKNOT2,NKNOT3,NELX,NELY,NELZ,
+     .           DIR,DECALGEO_TMP,DECALGEOFINAL,NBCUT,IDNBCUT,
+     .           IDKNOT1,IDKNOT2,PDIR,PTANG1,PTANG2,
+     .           NELDIR,NELTANG1,NELTANG2,
+     .           P2DIR,P2TANG1,P2TANG2,L_TAB_NEWFCTCUT,
+     .           FLAG_DEBUG
       my_real, DIMENSION(:), ALLOCATABLE :: GAMA
 C-----------------------------------------------
 C   arrays representing the elementary structure of the patches

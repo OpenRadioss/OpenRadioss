@@ -66,16 +66,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,IP,I1,I2,J,K,IPY,IPZ,IPA,IGTYP,NIP
-      my_real
-     .   XX,YY,ZZ,XY,YZ,ZX,
-     .   STI, E, G, AA, BB, DX,DY,DZ, ARI,INI,RYI,RZI,
-     .   STIR, PHI, SHF, DSH, DMP, SL2I, FAC,LL,TEMP0
-      my_real
-     .   RHO(MVSIZ), EMS(MVSIZ),COEFI(MVSIZ),
-     .   TIN(MVSIZ), TIXX(MVSIZ), TIYY(MVSIZ), TIZZ(MVSIZ),RHOCP(MVSIZ)
-      my_real
-     .   FACDT(MVSIZ), PHII(MVSIZ),KPHI(MVSIZ),CST,PHMAX,PHMIN,FSH(MVSIZ)
+      INTEGER :: I,IP,I1,I2,J,IPY,IPZ,IPA,IGTYP,NIP
+      my_real :: XX,YY,ZZ,XY,YZ,ZX,STI, E, G, AA, BB, ARI,INI,RYI,RZI,STIR, DMP, SL2I, LL,TEMP0
+      my_real :: RHO(MVSIZ), EMS(MVSIZ),COEFI(MVSIZ),TIN(MVSIZ), TIXX(MVSIZ), TIYY(MVSIZ), TIZZ(MVSIZ),RHOCP(MVSIZ)
+      my_real :: FACDT(MVSIZ), PHII(MVSIZ),KPHI(MVSIZ),CST,PHMAX,PHMIN,FSH(MVSIZ)
 C=======================================================================
       IPY = 200  
       IPZ = 300  

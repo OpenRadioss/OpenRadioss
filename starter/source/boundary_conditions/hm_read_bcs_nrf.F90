@@ -77,14 +77,13 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          real(kind=WP) :: tstart,tstop
           integer :: user_grnod_id
           integer :: internal_grnod_id
-          integer :: ii,jj
+          integer :: ii
           integer :: id,uid,sub_id
           integer :: num_nodes_in_group
           integer :: ibufnodes(numnod)
-          logical :: is_found, is_available_grnod
+          logical :: is_available_grnod
           character(len=nchartitle) :: titr
           character :: label*31, mess*40
 ! ----------------------------------------------------------------------------------------------------------------------

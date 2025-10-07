@@ -72,13 +72,12 @@
           INTEGER :: MAXA
           PARAMETER (MAXA=2)
 
-          INTEGER :: LAWID, NPT, NMULA,  NSTART,ITEST
+          INTEGER :: NPT, NMULA,  NSTART,ITEST
           real(kind=WP) :: ERRTOL
-          INTEGER :: I,NONZERO(MAXA),IDUM,ITER,ICOUNT,J,K
-          real(kind=WP) :: GAMMA,ERRNOW,GASDEV,ERRPRE,STRETCH(NPT),AMULA(*)
+          INTEGER :: I,NONZERO(MAXA),ITER,J
+          real(kind=WP) :: GAMMA,ERRNOW,ERRPRE,STRETCH(NPT),AMULA(*)
           real(kind=WP) :: A(MAXA),COVAR(MAXA,MAXA),ALPHA(MAXA,MAXA),Y(NPT)
-          real(kind=WP) :: MCOF_MIN(MAXA), MCOF_MAX(MAXA)
-          real(kind=WP) :: YOGD,XOGD
+          real(kind=WP) :: YOGD
 
           INTEGER :: ID
           CHARACTER(LEN=NCHARTITLE) :: TITR
@@ -100,11 +99,8 @@
 
           INTEGER :: LMSTOP
 
-          INTEGER :: IFUNCS
-
-          INTEGER :: NGUESS
           real(kind=WP) :: A0(MAXA),Y0(NPT)
-          real(kind=WP) :: ERRMIN, ERRMAX, ERRAVE, ERRAVE_MIN, ERR,ERR2
+          real(kind=WP) :: ERRAVE, ERRAVE_MIN, ERR
 
           INTEGER :: ISTART, NPSAVED, IVALID
 
@@ -124,7 +120,7 @@
           data ICHECK_GUESS /0/
           save ICHECK_GUESS
 
-          INTEGER :: JCHECK, IFIT_SUCCESS
+          INTEGER :: IFIT_SUCCESS
 
 !     if enforce mu(i) < mu(i+1) in generating initial guess
 !     we don't need this anymore since we are using random numbers instead of loop through all
@@ -139,7 +135,6 @@
           real(kind=WP), DIMENSION(:), ALLOCATABLE :: SIG
           real(kind=WP) :: SPREADY
           INTEGER :: IRET
-          INTEGER :: IRND1
 
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
@@ -447,13 +442,13 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-          INTEGER :: NDATA,ITEST
+          INTEGER :: ITEST
           real(kind=WP) :: STRETCH, A(*),SIG
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local Variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          INTEGER :: K,J
-          real(kind=WP) :: C(5),MU,LAM,EV2,TRACE,FAC,AA,BB,CC,A1,A2,A3,A4,FLAM,EV
+          INTEGER :: J
+          real(kind=WP) :: C(5),MU,LAM,EV2,TRACE,FAC,AA,BB,CC,EV
 ! ----------------------------------------------------------------------------------------------------------------------
           MU   = A(1)
           LAM  = A(2)
@@ -521,13 +516,13 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-          INTEGER :: NDATA,ITEST
+          INTEGER :: ITEST
           real(kind=WP) :: STRETCH, A(*),DYDA(*)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local Variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          INTEGER :: K,J
-          real(kind=WP) :: C(5),MU,LAM,EV2,TRACE,FAC,AA,BB,CC,DD,SIG,EV
+          INTEGER :: J
+          real(kind=WP) :: C(5),MU,LAM,EV2,TRACE,FAC,AA,BB,CC,DD,EV
 ! ----------------------------------------------------------------------------------------------------------------------
           MU = A(1)
           LAM = A(2)
@@ -612,12 +607,12 @@
 !                                                   Local Variables
 ! ----------------------------------------------------------------------------------------------------------------------
           INTEGER :: NCA,NDATA,MMAX,ITEST
-          real(kind=WP) :: GAMMA,ERRNOW,A(*),ALPHA(NCA,NCA),COVAR(NCA,NCA),X(NDATA),Y(NDATA),SIG(NDATA),INVJTJ(2,2),DMU,DLAM,DET
+          real(kind=WP) :: GAMMA,ERRNOW,A(*),ALPHA(NCA,NCA),COVAR(NCA,NCA),X(NDATA),Y(NDATA),SIG(NDATA)
           PARAMETER (MMAX=2)
           INTEGER :: J,K,L,MFIT
-          real(kind=WP) :: ERRPRE,ATRY(MMAX),BETA(MMAX),DA(MMAX),EV
+          real(kind=WP) :: ERRPRE,ATRY(MMAX),BETA(MMAX),DA(MMAX)
           SAVE ERRPRE,ATRY,BETA,DA,MFIT
-          INTEGER :: IFUNCS, IRET,IFLAG
+          INTEGER :: IRET,IFLAG
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -726,7 +721,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           INTEGER :: MFIT,I,J,K,L,M,MMAX
           PARAMETER (MMAX=20)
-          real(kind=WP)  :: DY,WT,YMOD,DYDA(MMAX),WT1,JTJ11,JTJ12,JTJ22,JTJ21
+          real(kind=WP)  :: DY,WT,YMOD,DYDA(MMAX)
           real(kind=WP) :: Y_MIN
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
@@ -793,7 +788,7 @@
 !                                                   Local Variables
 ! ----------------------------------------------------------------------------------------------------------------------
           INTEGER :: K,J
-          real(kind=WP) :: C(5),MU,LAM,EV2,TRACE,FAC,AA,BB,CC,DD,DYDA(NDATA)
+          real(kind=WP) :: C(5),MU,LAM,EV2,TRACE,FAC,AA,BB,CC,DYDA(NDATA)
 !=======================================================================
           MU = A(1)
           LAM = A(2)

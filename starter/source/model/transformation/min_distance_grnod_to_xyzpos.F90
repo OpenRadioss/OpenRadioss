@@ -70,7 +70,6 @@
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i, igrnod                                             !< local entities id's
-          real(kind=WP) :: min_pos, max_pos                                !< min and max positions of group nodes
           real(kind=WP) :: minx_igrnod, miny_igrnod, minz_igrnod           !< min coordinates of group nodes
           real(kind=WP) :: maxx_igrnod, maxy_igrnod, maxz_igrnod           !< max coordinates of group nodes
           real(kind=WP) :: dist_x, dist_y, dist_z                          !< distances to apply in each direction

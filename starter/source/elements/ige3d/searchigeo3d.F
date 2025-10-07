@@ -44,28 +44,21 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER PERMIGE(*)
-C     REAL
-      my_real 
-     .  xigetmp(*)
-      TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
+      INTEGER :: PERMIGE(*)
+      my_real :: xigetmp(*)
+      TYPE (SURF_), DIMENSION(NSURF) :: IGRSURF
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IGS,J,NBTABIGE,IADTABIGE
+      INTEGER IGS,NBTABIGE,IADTABIGE
 C-----------------------------------------------
-c      NBTABIGE=0
       IADTABIGE = 0
 c
       DO IGS=1,NSURF
         IF(IGRSURF(IGS)%NSEG_IGE>0) THEN !we are on a surface where there are isogeometric elements
-c          NBTABIGE=NBTABIGE+16*IGRSURF(IGS)%NSEG_IGE ! number of unsorted points on this surface
           NBTABIGE=16*IGRSURF(IGS)%NSEG_IGE/9 ! number of unsorted points on this surface
-
           CALL MYQSORT3D(NBTABIGE,XIGETMP(3*(IADTABIGE)+1),PERMIGE(IADTABIGE+1))
-
           IADTABIGE = IADTABIGE + NBTABIGE
-
         ENDIF
       ENDDO
 
@@ -301,18 +294,12 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NVALEURS, PERMUTE(N-1),NDOUBLONS,NBTABIGE,IADTABIGE,
-     .        IADTABIGEINI
-      INTEGER I,J,ITSURF,DECALSURF,DECAL
-C     REAL
-      my_real
-     .     TOL
+      INTEGER :: NVALEURS, PERMUTE(N-1),NDOUBLONS,NBTABIGE, IADTABIGEINI
+      INTEGER :: I,J,ITSURF,DECALSURF,DECAL
+      my_real :: TOL
 C-----------------------------------------------
       TOL=EM06
-c      IADTABIGEINI=N-1
-
       IADTABIGEINI=N
-c
       ITSURF=1
       NDOUBLONSTOT=0
       I=1

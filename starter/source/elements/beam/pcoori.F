@@ -64,9 +64,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I
-      my_real XP1, XP2, XP3, XNOR1, XP4, XP5, XP6,
-     .        XNOR2, XNORM, DET1, DET2, DET3, DET, XX,YY,ZZ,TOL
+      INTEGER :: I
+      my_real :: XP1, XP2, XP3, XNOR1, XP4, XP5, XP6, XNOR2,  DET1, DET2, DET3, DET, XX,YY,ZZ,TOL
 C=======================================================================
 C     connectivities and material
 C--------------------------------------------------
