@@ -32,7 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    inter_struct_mod        ../engine/share/modules/inter_struct_mod.F
 !||    spmd_comm_world_mod     ../engine/source/mpi/spmd_comm_world.F90
 !||====================================================================
-      SUBROUTINE SPMD_SPLIT_COMM_INTER( NBINTC,INTLIST,IPARI,ISENDTO,IRCVFROM,SORT_COMM ,
+      SUBROUTINE SPMD_SPLIT_COMM_INTER(INTBUF_TAB, NBINTC,INTLIST,IPARI,ISENDTO,IRCVFROM,SORT_COMM ,
      .                                  NEED_COMM_INT25_SOLID_EROSION,COMM_INT25_SOLID_EROSION )
 !$COMMENT
 !       SPMD_SPLIT_COMM_INTER :
@@ -71,6 +71,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(INTBUF_STRUCT_) INTBUF_TAB(NINTER)
       integer, intent(in) :: NBINTC
       integer, dimension(NINTER), intent(in) :: INTLIST
       integer, dimension(NPARI,NINTER), intent(in) :: IPARI
@@ -90,6 +91,7 @@ C-----------------------------------------------
       INTEGER :: COLOR_INACTI,COLOR_INT25_SOLID_EROSION
       INTEGER :: INACTI,IFQ,ITIED
       INTEGER :: IDEL,IDELKEEP,ITY,SOLID_EROSION
+      INTEGER :: COLOR_CRIT
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
@@ -106,6 +108,16 @@ C-----------------------------------------------
         DO KK=1,NBINTC
           NIN = INTLIST(KK)
           NTY   =IPARI(7,NIN)
+          IF(IRCVFROM(NIN,ispmd+1)==0.or.ISENDTO(NIN,ispmd+1)==0) THEN
+              COLOR_CRIT = MPI_UNDEFINED
+              INTBUF_TAB(NIN)%belongs_to_comm_crit = .false.
+              KEY = 0
+          ELSE
+              COLOR_CRIT = 1
+              INTBUF_TAB(NIN)%belongs_to_comm_crit = .true.
+              KEY = ISPMD
+          ENDIF       
+          CALL MPI_COMM_SPLIT(SPMD_COMM_WORLD,COLOR_CRIT,KEY,INTBUF_TAB(NIN)%MPI_COMM_CRIT,CODE)
 !         -----------------------------
 !         only tag the TYPE07 interface
           IF(NTY==7) THEN
