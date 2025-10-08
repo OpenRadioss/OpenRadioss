@@ -1012,7 +1012,7 @@ C-----------------------------------------------
 
               my_real
      .                RDUM1,MADUF,RBUF(10)
-              INTEGER LLT1,IWIOUT
+              INTEGER LLT1,IWIOUT,IWIOUT_RESULT
               INTEGER KSPH1,KSPH21,KSPH22,KSPH23,IUN,
      .                KSPACTIV,KSP2SORT,NELTSA,ITYPTSA,IDTNOD
               INTEGER NEGMAS
@@ -6376,11 +6376,13 @@ C---------------NODAL TIME STEP FOR DAMPING-----------------
      1                          IGRNOD   ,DAMPR )
               ENDIF
 C --------------------------
-
+              
               IF (I_EXCH_FLG_RAZ==0) THEN
-C--- Flag for reset of stifn and stifr - must be set only at first cycle - ncycle=0 not enough because of chkpt
+                ! Flag for reset of stifn and stifr - must be set only at first cycle - ncycle=0 not enough because of chkpt
+                ! I_EXCH_FLG_RAZ ensures that it is set only once
+
                 FLG_KJ2_RAZ = FLG_KJ2
-                IF (NSPMD > 1) CALL SPMD_GLOB_ISUM9(FLG_KJ2_RAZ,1)
+                IF (NSPMD > 1) call spmd_allreduce(FLG_KJ2,FLG_KJ2_RAZ,1,SPMD_SUM)
                 I_EXCH_FLG_RAZ = 1
               ENDIF
 C
@@ -6570,6 +6572,12 @@ C-----------------------------
                   CALL SPMD_GLOB_MIN5(DT2  ,ITYPTS,NELTS ,NODES%ICODT ,IMSCH,
      .                                TSTOP,IWIOUT,MSTOP, ISMSCH,
      .                                INT24USE,NBINTC,INTLIST,IPARI,INTERFACES%INTBUF_TAB)
+
+                  IF(NSPMD>1.AND.IWIOUT>0) THEN
+                      CALL SPMD_WIOUT(IOUT,IWIOUT)
+                      IWIOUT = 0
+                  ENDIF
+
                   IF(IEXICODT>0) THEN
                     LENGTH = 1
                     LENR = NODES%BOUNDARY_ADD(1,NSPMD+1)-NODES%BOUNDARY_ADD(1,1)
@@ -6615,10 +6623,6 @@ C===============================================================================
 C-----------------------------
 C  SPMD update restart writing
 C-----------------------------
-                IF(NSPMD>1.AND.IWIOUT>0) THEN
-                  CALL SPMD_WIOUT(IOUT,IWIOUT)
-                  IWIOUT = 0
-                ENDIF
                 GOTO 21
               ENDIF
               IF (IMON>0) CALL STARTIME(TIMERS,6)
@@ -6712,15 +6716,6 @@ C--           IF no node/elemt on proc - dt2=10E6 -> dt2 can be equal to zero
 
               IF (IMONM > 0) CALL STOPTIME(TIMERS,52)
 
-C-----------------------------
-C       Write L01
-C-----------------------------
-
-              IF (IMONM > 0) CALL STARTIME(TIMERS,53)
-              IF(NSPMD>1) THEN
-                IWIOUT = 0
-                IF (ISPMD/=0) CALL SPMD_CHKW(IWIOUT,IOUT)
-              ENDIF
 
               ! ----------------------
               ! user library : check out
@@ -6751,11 +6746,26 @@ C-----------------------------
 #endif
 
               ! ----------------------
+              ! *.out file check tmp files for other domains
+
+              IF (IMONM > 0) CALL STARTIME(TIMERS,53)
+              IF(NSPMD>1) THEN
+                IWIOUT = 0
+                IF (ISPMD/=0) CALL SPMD_CHKW(IWIOUT,IOUT)
+              ENDIF
 
               IF(NSPMD>1)THEN
                 CALL SPMD_GLOB_MIN5(DT2  ,ITYPTS,NELTS ,NODES%ICODT ,IMSCH,
      .                              TSTOP,IWIOUT,MSTOP ,ISMSCH,
      .                              INT24USE,NBINTC,INTLIST,IPARI,INTERFACES%INTBUF_TAB)
+
+              ! -------------------------------------------------------------------
+              !  Writing content of tmp file in output file for other MPI domains
+              ! -------------------------------------------------------------------
+                IF(IWIOUT>0) THEN
+                   CALL SPMD_WIOUT(IOUT,IWIOUT)
+                   IWIOUT = 0
+                ENDIF
 
 C If FVMBAGS switch to UP using NPOLH criterion, then
 C an SPMD communication must be made to warn all processors (only
@@ -6776,14 +6786,35 @@ C processes in charge of the FVMBAGS know NPOLH)
               IF (IMONM > 0) CALL STOPTIME(TIMERS,53)
 
 C --------------------------
+              IF ( NCYCLE == 0 .AND. FLG_KJ2_RAZ > 0  ) THEN     ! All processes should go in this block
 
-              IF ((NCYCLE==0).AND.(FLG_KJ2==1)) THEN
-                CALL JOINT_BLOCK_STIFFNESS(NODES%ITAB,NODES%MS,NODES%IN,STK_SN,STK_SR,
+                if (ispmd==0)then
+                   write(iout,'(A)') ' '
+                   write(iout,'(A)') ' AUTOMATIC STIFFNESS COMPUTATION FOR JOINTS'
+                   write(iout,'(A)') ' JOINT ID           TYPE      KNN                KNR'
+                endif
+                
+                IF (FLG_KJ2 == 1) then                        
+                    CALL JOINT_BLOCK_STIFFNESS(NODES%ITAB,NODES%MS,NODES%IN,STK_SN,STK_SR,
      1                    NODES%WEIGHT,IXR,IPART,NODES%X,IPART(K6),
      2                    IGEO,GEO,NPBY,IPARG,ELBUF_TAB,DMAST,DINERT)
-                DEALLOCATE(STK_SN,STK_SR)
-              ENDIF
+                    DEALLOCATE(STK_SN,STK_SR)
+                ENDIF
 
+                ! After joint_block_stiffness : Flush .tmp files in *.out for all domains except ispmd=0
+
+                IWIOUT = 0
+                IF (ISPMD/=0) CALL SPMD_CHKW(IWIOUT,IOUT)
+                call spmd_allreduce(IWIOUT,IWIOUT_RESULT,1,SPMD_SUM)
+                IWIOUT = IWIOUT_RESULT
+                IF(IWIOUT>0) CALL SPMD_WIOUT(IOUT,IWIOUT) 
+                IWIOUT = 0
+
+                if (ispmd==0)then
+                   write(iout,'(A)') ' '
+                endif
+
+              ENDIF
 C--------------------------------------------------------------C
 C      RADIOSS 2 RADIOSS COUPLING
 C--------------------------------------------------------------C
@@ -6899,13 +6930,6 @@ C-----------------------------
                 DT3=DT1
               ENDIF
               IF(ALE%SUB%IALESUB==0)DT2S=DT2
-C-----------------------------
-C       L01
-C-----------------------------
-              IF(NSPMD>1.AND.IWIOUT>0) THEN
-                CALL SPMD_WIOUT(IOUT,IWIOUT)
-                IWIOUT = 0
-              ENDIF
 
               IF (IRAD2R /= 0) THEN
                 IF(ISPMD==0)THEN
