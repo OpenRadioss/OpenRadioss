@@ -121,12 +121,6 @@ C--------> Loop over spring elements -------
             FLAG = NINT(GET_U_GEO(10,IG))
             FLAG_S = 0                  
               IF (FLAG==0) THEN
-C
-            IF (FLAG_PR==0) THEN
-              WRITE(IOUT,100)
-              WRITE(IOUT,200)
-                FLAG_PR = 1      
-              ENDIF
 C                                                
             N1 = IXR(2,J)
             N2 = IXR(3,J)
@@ -280,15 +274,11 @@ C
 250     CONTINUE   
       ENDDO
 
-      WRITE(IOUT,'( )')
 C----------------------------------------------------------       
             
       ENDIF      
 C
       RETURN
-100   FORMAT(/,
-     & 1X,'AUTOMATIC STIFFNESS COMPUTATION FOR JOINTS'/)
-200   FORMAT(1X,'JOINT ID',11X,'TYPE',6X,'KNN',16X,'KNR')
 C
 300   FORMAT(1X,'WARNING TRANS. STIFF. IMPOSED BY STIFF. ON RBODY')
 400   FORMAT(1X,'WARNING ROT. STIFF. IMPOSED BY STIFF. ON RBODY')
