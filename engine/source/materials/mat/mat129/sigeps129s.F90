@@ -481,7 +481,7 @@
                 do iter=1,niter
                   do i=1,nel
                     fsig  = (svm(i)/sig_crp)**crpn(i)
-                    ftime = (time/time_crp)**m
+                    ftime = (time/time_crp)**crpm(i)
                     depsc(i) = crpa(i) * fsig * ftime * dtime
                     depsc(i) = max(depsc(i) ,zero) 
                     seq      = max(svm(i),   em20)
