@@ -37,8 +37,8 @@
 !||    dfunc0                           ../engine/source/output/anim/generate/dfunc0.F
 !||    dfuncc                           ../engine/source/output/anim/generate/dfuncc.F
 !||    dfuncs                           ../engine/source/output/anim/generate/dfunc6.F
-!||    ebcs10                           ../engine/source/boundary_conditions/ebcs/ebcs10.F
-!||    ebcs11                           ../engine/source/boundary_conditions/ebcs/ebcs11.F90
+!||    ebcs10_nrf                       ../engine/source/boundary_conditions/ebcs/ebcs10_nrf.F
+!||    ebcs11_propellant                ../engine/source/boundary_conditions/ebcs/ebcs11_propellant.F90
 !||    ebcs_main                        ../engine/source/boundary_conditions/ebcs/ebcs_main.F
 !||    ebcs_mod                         ../common_source/modules/boundary_conditions/ebcs_mod.F90
 !||    ecrit                            ../engine/source/output/ecrit.F

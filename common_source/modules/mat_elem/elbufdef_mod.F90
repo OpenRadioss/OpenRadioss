@@ -193,9 +193,9 @@
 !||    dynain_shel_mp                      ../engine/source/output/dynain/dynain_shel_mp.F
 !||    dynain_shel_spmd                    ../engine/source/output/dynain/dynain_shel_spmd.F
 !||    dynain_size_c                       ../engine/source/output/dynain/dynain_size.F
-!||    ebcs0                               ../engine/source/boundary_conditions/ebcs/ebcs0.F
-!||    ebcs10                              ../engine/source/boundary_conditions/ebcs/ebcs10.F
-!||    ebcs11                              ../engine/source/boundary_conditions/ebcs/ebcs11.F90
+!||    ebcs0_gradp0                        ../engine/source/boundary_conditions/ebcs/ebcs0_gradp0.F
+!||    ebcs10_nrf                          ../engine/source/boundary_conditions/ebcs/ebcs10_nrf.F
+!||    ebcs11_propellant                   ../engine/source/boundary_conditions/ebcs/ebcs11_propellant.F90
 !||    ebcs_main                           ../engine/source/boundary_conditions/ebcs/ebcs_main.F
 !||    eflux3_int22_fvm                    ../engine/source/ale/alefvm/cut_cells/eflux3_int22_fvm.F
 !||    eig                                 ../engine/stub/eig.F

@@ -36,6 +36,15 @@
 !||    contrl                             ../starter/source/starter/contrl.F
 !||    cutcnt                             ../engine/source/tools/sect/cutcnt.F
 !||    ddsplit                            ../starter/source/restart/ddsplit/ddsplit.F
+!||    ebcs0_gradp0                       ../engine/source/boundary_conditions/ebcs/ebcs0_gradp0.F
+!||    ebcs10_nrf                         ../engine/source/boundary_conditions/ebcs/ebcs10_nrf.F
+!||    ebcs11_propellant                  ../engine/source/boundary_conditions/ebcs/ebcs11_propellant.F90
+!||    ebcs123_pres                       ../engine/source/boundary_conditions/ebcs/ebcs123_pres.F
+!||    ebcs4_vel                          ../engine/source/boundary_conditions/ebcs/ebcs4_vel.F
+!||    ebcs5_normv                        ../engine/source/boundary_conditions/ebcs/ebcs5_normv.F
+!||    ebcs6_inip                         ../engine/source/boundary_conditions/ebcs/ebcs6_inip.F
+!||    ebcs7_iniv                         ../engine/source/boundary_conditions/ebcs/ebcs7_iniv.F
+!||    ebcs_main                          ../engine/source/boundary_conditions/ebcs/ebcs_main.F
 !||    ecrit                              ../engine/source/output/ecrit.F
 !||    eng_qaprint_animinput              ../engine/source/output/qaprint/eng_qaprint_animinput.F
 !||    eng_qaprint_driver                 ../engine/source/output/qaprint/eng_qaprint_driver.F

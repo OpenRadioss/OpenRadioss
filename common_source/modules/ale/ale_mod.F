@@ -51,7 +51,7 @@ C-----------------------------------------------
 !||    ddsplit                         ../starter/source/restart/ddsplit/ddsplit.F
 !||    definter                        ../starter/source/interfaces/interf1/definter.F
 !||    dtnoda                          ../engine/source/time_step/dtnoda.F
-!||    ebcs10                          ../engine/source/boundary_conditions/ebcs/ebcs10.F
+!||    ebcs10_nrf                      ../engine/source/boundary_conditions/ebcs/ebcs10_nrf.F
 !||    ebcs_vol2seg                    ../engine/source/boundary_conditions/ebcs/ebcs_vol2seg.F
 !||    emomt2                          ../engine/source/ale/euler2d/emomt2.F
 !||    emomt3b                         ../engine/source/elements/solid/solide/emomt3b.F

@@ -21,9 +21,9 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    ebcs11_mod   ../engine/source/boundary_conditions/ebcs/ebcs11.F90
+!||    ebcs11_propellant_mod   ../engine/source/boundary_conditions/ebcs/ebcs11_propellant.F90
 !||--- called by ------------------------------------------------------
-!||    ebcs_main    ../engine/source/boundary_conditions/ebcs/ebcs_main.F
+!||    ebcs_main               ../engine/source/boundary_conditions/ebcs/ebcs_main.F
 !||====================================================================
       module ebcs11_propellant_mod
         implicit none
@@ -32,7 +32,7 @@
 !                                                   PROCEDURES
 ! ======================================================================================================================
 !||====================================================================
-!||    ebcs11                ../engine/source/boundary_conditions/ebcs/ebcs11.F90
+!||    ebcs11_propellant     ../engine/source/boundary_conditions/ebcs/ebcs11_propellant.F90
 !||--- called by ------------------------------------------------------
 !||    ebcs_main             ../engine/source/boundary_conditions/ebcs/ebcs_main.F
 !||--- calls      -----------------------------------------------------
@@ -43,6 +43,8 @@
 !||    ebcs_mod              ../common_source/modules/boundary_conditions/ebcs_mod.F90
 !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
 !||    multi_fvm_mod         ../common_source/modules/ale/multi_fvm_mod.F90
+!||    multimat_param_mod    ../common_source/modules/multimat_param_mod.F90
+!||    output_mod            ../common_source/modules/output/output_mod.F90
 !||    precision_mod         ../common_source/modules/precision_mod.F90
 !||    python_funct_mod      ../common_source/modules/python_mod.F90
 !||    segvar_mod            ../engine/share/modules/segvar_mod.F

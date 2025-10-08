@@ -20,11 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    ebcs10_nrf_mod   ../engine/source/boundary_conditions/ebcs/ebcs10_nrf.F
+!||--- called by ------------------------------------------------------
+!||    ebcs_main        ../engine/source/boundary_conditions/ebcs/ebcs_main.F
+!||====================================================================
       MODULE EBCS10_NRF_MOD
         IMPLICIT NONE
         CONTAINS
 !||====================================================================
-!||    ebcs10               ../engine/source/boundary_conditions/ebcs/ebcs10.F
+!||    ebcs10_nrf           ../engine/source/boundary_conditions/ebcs/ebcs10_nrf.F
 !||--- called by ------------------------------------------------------
 !||    ebcs_main            ../engine/source/boundary_conditions/ebcs/ebcs_main.F
 !||--- uses       -----------------------------------------------------
@@ -33,6 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    elbufdef_mod         ../common_source/modules/mat_elem/elbufdef_mod.F90
 !||    multi_fvm_mod        ../common_source/modules/ale/multi_fvm_mod.F90
 !||    multimat_param_mod   ../common_source/modules/multimat_param_mod.F90
+!||    output_mod           ../common_source/modules/output/output_mod.F90
 !||    segvar_mod           ../engine/share/modules/segvar_mod.F
 !||    th_surf_mod          ../common_source/modules/interfaces/th_surf_mod.F
 !||====================================================================

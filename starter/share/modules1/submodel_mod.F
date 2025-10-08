@@ -629,7 +629,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    nbadmesh                          ../starter/source/model/remesh/nbadmesh.F
 !||    nbfunct                           ../starter/source/tools/curve/nbfunc.F
 !||    nbsph                             ../starter/source/elements/sph/nbsph.F
-!||    new_seatbelt                      ../starter/source/tools/seatbelts/new_seatbelt.F
 !||    pre_stackgroup                    ../starter/source/stack/pres_stackgroup.F
 !||    prelecdet                         ../starter/source/initial_conditions/detonation/prelecdet.F
 !||    preleclas                         ../starter/source/loads/laser/lpreleclas.F

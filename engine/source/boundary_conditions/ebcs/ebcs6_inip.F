@@ -20,15 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    ebcs6_inip_mod   ../engine/source/boundary_conditions/ebcs/ebcs6_inip.F
+!||--- called by ------------------------------------------------------
+!||    ebcs_main        ../engine/source/boundary_conditions/ebcs/ebcs_main.F
+!||====================================================================
       MODULE EBCS6_INIP_MOD
         IMPLICIT NONE
         CONTAINS
 !||====================================================================
-!||    ebcs6        ../engine/source/boundary_conditions/ebcs/ebcs6.F
+!||    ebcs6_inip   ../engine/source/boundary_conditions/ebcs/ebcs6_inip.F
 !||--- called by ------------------------------------------------------
 !||    ebcs_main    ../engine/source/boundary_conditions/ebcs/ebcs_main.F
 !||--- uses       -----------------------------------------------------
 !||    ebcs_mod     ../common_source/modules/boundary_conditions/ebcs_mod.F90
+!||    output_mod   ../common_source/modules/output/output_mod.F90
 !||    segvar_mod   ../engine/share/modules/segvar_mod.F
 !||====================================================================
       SUBROUTINE EBCS6_INIP(NSEG,ISEG,SEGVAR,

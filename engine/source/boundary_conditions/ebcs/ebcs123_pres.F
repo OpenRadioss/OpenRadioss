@@ -21,16 +21,22 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    ebcs123_pres_mod   ../engine/source/boundary_conditions/ebcs/ebcs123_pres.F
+!||--- called by ------------------------------------------------------
+!||    ebcs_main          ../engine/source/boundary_conditions/ebcs/ebcs_main.F
+!||====================================================================
       MODULE EBCS123_PRES_MOD
         IMPLICIT NONE
         CONTAINS
 !||====================================================================
-!||    ebcs1        ../engine/source/boundary_conditions/ebcs/ebcs1.F
+!||    ebcs123_pres   ../engine/source/boundary_conditions/ebcs/ebcs123_pres.F
 !||--- called by ------------------------------------------------------
-!||    ebcs_main    ../engine/source/boundary_conditions/ebcs/ebcs_main.F
+!||    ebcs_main      ../engine/source/boundary_conditions/ebcs/ebcs_main.F
 !||--- uses       -----------------------------------------------------
-!||    ebcs_mod     ../common_source/modules/boundary_conditions/ebcs_mod.F90
-!||    segvar_mod   ../engine/share/modules/segvar_mod.F
+!||    ebcs_mod       ../common_source/modules/boundary_conditions/ebcs_mod.F90
+!||    output_mod     ../common_source/modules/output/output_mod.F90
+!||    segvar_mod     ../engine/share/modules/segvar_mod.F
 !||====================================================================
       SUBROUTINE EBCS123_PRES(NSEG,ISEG,SEGVAR,
      .                 A,V,X,

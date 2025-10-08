@@ -40,7 +40,6 @@
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||    detonators_mod                      ../starter/share/modules1/detonators_mod.F
-!||    restmod                             ../starter/share/modules1/restart_mod.F
 !||====================================================================
         subroutine eikonal_init_start_list_2d(nstart, start_elem_list, start_elem_tdet, detonators, numel, numnod, &
           nvois, nod2el, knod2el, ale_connectivity, elem_list_bij, neldet, xel, x, &

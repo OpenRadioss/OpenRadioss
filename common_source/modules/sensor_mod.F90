@@ -55,7 +55,7 @@
 !||    domdec2                            ../starter/source/spmd/domdec2.F
 !||    dyna_ina                           ../engine/source/implicit/imp_dyna.F
 !||    dyna_wex                           ../engine/source/implicit/imp_dyna.F
-!||    ebcs11                             ../engine/source/boundary_conditions/ebcs/ebcs11.F90
+!||    ebcs11_propellant                  ../engine/source/boundary_conditions/ebcs/ebcs11_propellant.F90
 !||    ebcs_main                          ../engine/source/boundary_conditions/ebcs/ebcs_main.F
 !||    ecrit                              ../engine/source/output/ecrit.F
 !||    eng_qaprint_animinput              ../engine/source/output/qaprint/eng_qaprint_animinput.F

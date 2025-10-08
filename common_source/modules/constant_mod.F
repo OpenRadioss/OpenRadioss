@@ -70,7 +70,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    detonation_times_printout                ../starter/source/initial_conditions/detonation/detonation_times_printout.F90
 !||    dim_shell_offsetp                        ../starter/source/elements/shell/shell_offset/dim_shell_offsetp.F90
 !||    dttherm                                  ../engine/source/time_step/dttherm.F90
-!||    ebcs11                                   ../engine/source/boundary_conditions/ebcs/ebcs11.F90
+!||    ebcs11_propellant                        ../engine/source/boundary_conditions/ebcs/ebcs11_propellant.F90
 !||    eikonal_compute_adjacent                 ../starter/source/initial_conditions/detonation/eikonal_compute_adjacent.F90
 !||    eikonal_fast_marching_method             ../starter/source/initial_conditions/detonation/eikonal_fast_marching_method.F90
 !||    eikonal_godunov_operator_2d              ../starter/source/initial_conditions/detonation/eikonal_godunov_operator_2d.F90

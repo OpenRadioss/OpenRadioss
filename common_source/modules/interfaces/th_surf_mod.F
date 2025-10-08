@@ -29,8 +29,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    alemain                   ../engine/source/ale/alemain.F
 !||    dyna_ina                  ../engine/source/implicit/imp_dyna.F
 !||    dyna_wex                  ../engine/source/implicit/imp_dyna.F
-!||    ebcs10                    ../engine/source/boundary_conditions/ebcs/ebcs10.F
-!||    ebcs11                    ../engine/source/boundary_conditions/ebcs/ebcs11.F90
+!||    ebcs10_nrf                ../engine/source/boundary_conditions/ebcs/ebcs10_nrf.F
+!||    ebcs11_propellant         ../engine/source/boundary_conditions/ebcs/ebcs11_propellant.F90
 !||    ebcs_main                 ../engine/source/boundary_conditions/ebcs/ebcs_main.F
 !||    force                     ../engine/source/loads/general/force.F90
 !||    force_imp                 ../engine/source/loads/general/force_imp.F

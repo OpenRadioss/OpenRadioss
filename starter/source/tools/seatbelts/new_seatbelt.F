@@ -29,7 +29,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ancmsg            ../starter/source/output/message/message.F
 !||--- uses       -----------------------------------------------------
 !||    message_mod       ../starter/share/message_module/message_mod.F
-!||    submodel_mod      ../starter/share/modules1/submodel_mod.F
 !||====================================================================
       SUBROUTINE NEW_SEATBELT(IXR,ITAB,KNOD2EL1D,NOD2EL1D,NOD_START,
      .                        ELEM_CUR,TAG_RES,TAG_NOD,ID,FLAG,

@@ -76,7 +76,7 @@
 !||    dim_shell_offsetp                        ../starter/source/elements/shell/shell_offset/dim_shell_offsetp.F90
 !||    double_to_my_real                        ../common_source/modules/cast_mod.F90
 !||    dttherm                                  ../engine/source/time_step/dttherm.F90
-!||    ebcs11                                   ../engine/source/boundary_conditions/ebcs/ebcs11.F90
+!||    ebcs11_propellant                        ../engine/source/boundary_conditions/ebcs/ebcs11_propellant.F90
 !||    ebcs_mod                                 ../common_source/modules/boundary_conditions/ebcs_mod.F90
 !||    eikonal_compute_adjacent                 ../starter/source/initial_conditions/detonation/eikonal_compute_adjacent.F90
 !||    eikonal_fast_marching_method             ../starter/source/initial_conditions/detonation/eikonal_fast_marching_method.F90

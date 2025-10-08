@@ -296,7 +296,6 @@ C
 !||    hm_read_inter_type25          ../starter/source/interfaces/int25/hm_read_inter_type25.F
 !||    hm_read_intsub                ../starter/source/output/subinterface/hm_read_intsub.F
 !||    hm_read_link                  ../starter/source/constraints/rigidlink/hm_read_rlink.F
-!||    hm_read_merge_node            ../starter/source/elements/reader/hm_read_merge_node.F
 !||    hm_read_nbcs                  ../starter/source/constraints/general/bcs/hm_read_nbcs.F
 !||    hm_read_pblast                ../starter/source/loads/pblast/hm_read_pblast.F
 !||    hm_read_pcyl                  ../starter/source/loads/general/load_pcyl/hm_read_pcyl.F

@@ -20,15 +20,21 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    ebcs4_vel_mod   ../engine/source/boundary_conditions/ebcs/ebcs4_vel.F
+!||--- called by ------------------------------------------------------
+!||    ebcs_main       ../engine/source/boundary_conditions/ebcs/ebcs_main.F
+!||====================================================================
       MODULE EBCS4_VEL_MOD
         IMPLICIT NONE
         CONTAINS
 !||====================================================================
-!||    ebcs4        ../engine/source/boundary_conditions/ebcs/ebcs4.F
+!||    ebcs4_vel    ../engine/source/boundary_conditions/ebcs/ebcs4_vel.F
 !||--- called by ------------------------------------------------------
 !||    ebcs_main    ../engine/source/boundary_conditions/ebcs/ebcs_main.F
 !||--- uses       -----------------------------------------------------
 !||    ebcs_mod     ../common_source/modules/boundary_conditions/ebcs_mod.F90
+!||    output_mod   ../common_source/modules/output/output_mod.F90
 !||    segvar_mod   ../engine/share/modules/segvar_mod.F
 !||====================================================================
       SUBROUTINE EBCS4_VEL(NSEG,ISEG,SEGVAR,A,V,X,LISTE,NOD,IRECT,LA,FV,MS,STIFN,EBCS,OUTPUT,DT1,TIME)

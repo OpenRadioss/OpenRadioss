@@ -283,7 +283,6 @@ C
 !||    hm_read_merge          ../starter/source/constraints/general/merge/hm_read_merge.F
 !||    hm_read_rbe3           ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
 !||    hm_read_xelem          ../starter/source/elements/reader/hm_read_xelem.F
-!||    lecig3d                ../starter/source/elements/ige3d/lecig3d.F
 !||    lecsec42               ../starter/source/tools/sect/hm_read_sect.F
 !||    lecsec4bolt            ../starter/source/tools/sect/lecsec4bolt.F
 !||    read_dfs_detcord       ../starter/source/initial_conditions/detonation/read_dfs_detcord.F
