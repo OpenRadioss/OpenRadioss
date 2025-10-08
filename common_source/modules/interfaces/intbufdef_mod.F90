@@ -1647,6 +1647,8 @@
 
 ! mpi communicators
           integer :: mpi_comm
+          integer :: mpi_comm_crit
+          logical :: belongs_to_comm_crit
           integer :: rank
           integer :: nspmd
 !
