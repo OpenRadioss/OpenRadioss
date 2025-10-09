@@ -41,6 +41,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    subrotpoint                     ../starter/source/model/submodel/subrot.F
 !||    subrotvect                      ../starter/source/model/submodel/subrot.F
 !||    usrtos                          ../starter/source/system/sysfus.F
+!||    transform_translate_in_local_skew   ../starter/source/model/transformation/transform_translate_in_local_skew.F90
 !||--- uses       -----------------------------------------------------
 !||    format_mod                      ../starter/share/modules1/format_mod.F90
 !||    hm_option_read_mod              ../starter/share/modules1/hm_option_read_mod.F
@@ -64,6 +65,7 @@ C-----------------------------------------------
       USE FORMAT_MOD , ONLY : LFIELD
       USE min_dist_grnod_to_surface_mod, ONLY : min_dist_grnod_to_surface
       USE min_dist_grnod_to_xyzpos_mod, ONLY : min_dist_grnod_to_xyzpos
+      USE transform_translate_in_local_skew_mod, ONLY : transform_translate_in_local_skew
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -155,6 +157,7 @@ C--------------------------------------------------
           CALL HM_GET_INTV('node1',N0,IS_AVAILABLE,LSUBMODEL)
           CALL HM_GET_INTV('node2',N1,IS_AVAILABLE,LSUBMODEL)
           CALL HM_GET_INTV('SUBMODEL',ITRANSSUB,IS_AVAILABLE,LSUBMODEL)
+          CALL HM_GET_INTV('skew_ID',ISK0,IS_AVAILABLE,LSUBMODEL)
 C--------------------------------------------------
 C EXTRACT DATAS (REAL VALUES)
 C--------------------------------------------------
@@ -182,6 +185,27 @@ c---------------------
      .                  I2= IGU)
           ENDIF
           RTRANS(I,18)=IGS
+
+          ISK = 0
+          IF (ISK0 > 0) THEN
+              IS_FOUND = .FALSE.
+              DO J=0,NUMSKW+MIN(1,NSPCOND)*NUMSPH+NSUBMOD
+                IF (ISK0 == ISKWN(4,J+1)) THEN
+                  ISK=J+1
+                  IS_FOUND = .TRUE.
+                  EXIT
+                ENDIF
+              ENDDO
+              IF(.NOT. IS_FOUND)THEN
+                CALL ANCMSG(MSGID=3112,
+     .                      MSGTYPE=MSGERROR,
+     .                      ANMODE=ANINFO,
+     .                      I1= ID,
+     .                      C1= TITR,
+     .                      I2= ISK0)
+              ENDIF
+          ENDIF
+
           IF (N0 > 0 .OR. N1 > 0) THEN
             I0 = USRTOS(N0,ITABM1)
             I1 = USRTOS(N1,ITABM1)
@@ -209,17 +233,22 @@ c---------------------
             TY = TY * FAC_L 
             TZ = TZ * FAC_L 
           ENDIF
-          DO J=1,IGRNOD(IGS)%NENTITY
-            IS=IGRNOD(IGS)%ENTITY(J)
-            X(1,IS)=X(1,IS)+TX
-            X(2,IS)=X(2,IS)+TY
-            X(3,IS)=X(3,IS)+TZ
-          ENDDO
+          !DO J=1,IGRNOD(IGS)%NENTITY
+          !  IS=IGRNOD(IGS)%ENTITY(J)
+          !  X(1,IS)=X(1,IS)+TX
+          !  X(2,IS)=X(2,IS)+TY
+          !  X(3,IS)=X(3,IS)+TZ
+          !ENDDO
+          CALL transform_translate_in_local_skew(
+     .                 IGRNOD(IGS)%ENTITY ,IGRNOD(IGS)%NENTITY ,X    ,NUMNOD   , ISK  ,
+     .                 TX                 ,TY                  ,TZ   ,SKEW     , LSKEW,
+     .                 NUMSKW             )
+
           S = SQRT(TX*TX + TY*TY + TZ*TZ)
 C
           WRITE(IOUT,500) ID,IGU   
           IF (N0 > 0 .AND. N1 > 0) WRITE(IOUT,200) N0,N1
-          WRITE(IOUT,510) S,TX,TY,TZ
+          WRITE(IOUT,510) S,TX,TY,TZ,ISK0
           IF (IPRI > 3) THEN                                          
             WRITE (IOUT,3000)                                            
             DO J=1,IGRNOD(IGS)%NENTITY
@@ -985,7 +1014,8 @@ C-----------------------
  510  FORMAT(10X,'   VALUE. . . . . . . . . . . . .= ',E20.13/,
      . '             COORDINATES     X. . . . . . .= ',E20.13/,
      . '                             Y. . . . . . .= ',E20.13/,
-     . '                             Z. . . . . . .= ',E20.13)
+     . '                             Z. . . . . . .= ',E20.13/,
+     . '             Skew_ID  . . . . . . . . . . .= ',I10)
  600  FORMAT(/
      . '    NODAL ROTATION, TRANSFORMATION ID.     = ',I10/,                       
      . '       NODE GROUP ID. . . . . . . . . . . .= ',I10/,

@@ -531,11 +531,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    table_glob_mod                      ../starter/share/modules1/table_glob_mod.F
 !||    updfail_mod                         ../starter/source/materials/updfail.F90
 !||    user_sensor_mod                     ../starter/source/modules/user_interface_mod.F90
+!||    hm_preread_skw_mod                  ../starter/source/tools/skew/hm_preread_skw.F90
 !||====================================================================
       SUBROUTINE LECTUR(MULTI_FVM                   ,LSUBMODEL          ,IS_DYNA         ,DETONATORS   ,EBCS_TAB,
      .                  SEATBELT_CONVERTED_ELEMENTS ,NB_SEATBELT_SHELLS ,NB_DYNA_INCLUDE ,USER_WINDOWS ,OUTPUT  ,
      .                  MAT_ELEM,NAMES_AND_TITLES,DEFAULTS,glob_therm,pblast,
-     .                  SENSOR_USER_STRUCT)
+     .                  SENSOR_USER_STRUCT,CHECK_USED)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -643,6 +644,7 @@ C-----------------------------------------------
       use hm_read_bcs_wall_mod , only : hm_read_bcs_wall
       use hm_read_bcs_nrf_mod , only : hm_read_bcs_nrf
       use element_mod , only : nixs,nixq,nixc,nixp,nixt,nixr,nixtg
+      use hm_preread_skw_mod, ONLY : hm_preread_skw
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -665,6 +667,7 @@ C-----------------------------------------------
       type(glob_therm_) ,intent(inout)      :: glob_therm
       TYPE(PBLAST_),INTENT(INOUT)           :: PBLAST
       TYPE(SENSOR_USER_STRUCT_)              :: SENSOR_USER_STRUCT
+      INTEGER,INTENT(IN)                     :: CHECK_USED                          !< Flag to check if node is used
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
@@ -932,6 +935,8 @@ C-----------------------------------------------
       LOGICAL MAT20_DISCRETE_FILL
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: FLAG_ELEM_INTER25     
       INTEGER, DIMENSION(:), ALLOCATABLE :: LIST_NIN25
+      INTEGER, DIMENSION(:), ALLOCATABLE :: ISKEW_TMP
+      my_real, DIMENSION(:), ALLOCATABLE :: SKEW_TMP
 C-----------------------------------------------
 C Model Checker Memory
       DATA IUN/1/
@@ -2197,6 +2202,26 @@ C
 
       CALL TRACE_OUT1()
 C--------------------------------------------
+C     PRE-READING SKEW DEFINITIONS
+C--------------------------------------------
+      IF(NUMSKW > 0) THEN
+        ALLOCATE(ISKEW_TMP(SISKWN)     ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+     .                             MSGTYPE=MSGERROR,
+     .                             C1='SKEW')
+        ALLOCATE(SKEW_TMP(SSKEW)     ,STAT=stat)
+        IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+     .                             MSGTYPE=MSGERROR,
+     .                             C1='SKEW')
+        SKEW_TMP = 0
+        CALL HM_PREREAD_SKW(SKEW_TMP  ,ISKEW_TMP ,X      ,ITAB   ,ITABM1    ,
+     .                      LSUBMODEL ,UNITAB    ,NUMNOD ,NUMSKW ,CHECK_USED,
+     .                      LISKN     ,LSKEW     ,N2D)
+      ELSE
+        ALLOCATE(ISKEW_TMP(0))
+        ALLOCATE(SKEW_TMP(0))
+      ENDIF
+C--------------------------------------------
 C     READING SUBMODELS & SUBMODEL TRANSFORMATION
 C--------------------------------------------
       ERR_MSG='SUBMODELS'
@@ -2213,9 +2238,12 @@ C--------------------------------------------
         IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='RTRANS')
-        CALL LECTRANSSUB(X      ,IGRNOD  ,ITAB   ,ITABM1 ,UNITAB,
-     .                 RTRANS   ,LSUBMODEL,IS_DYNA)
-        CALL LECSUBMOD(ISUBMOD,X,UNITAB,ITABM1,RTRANS,ITAB,LSUBMODEL,IS_DYNA)
+        CALL LECTRANSSUB(X      ,IGRNOD   ,ITAB   ,ITABM1   ,UNITAB,
+     .                 RTRANS   ,LSUBMODEL,IS_DYNA,ISKEW_TMP,LISKN ,
+     .                 NSPCOND  ,NUMSPH)
+        CALL LECSUBMOD(ISUBMOD  ,X         ,UNITAB  ,ITABM1    ,RTRANS,
+     .                 ITAB     ,LSUBMODEL ,IS_DYNA ,ISKEW_TMP ,LISKN ,
+     .                 SKEW_TMP ,LSKEW)
       ENDIF
 
       CALL TRACE_OUT1()
@@ -2224,6 +2252,8 @@ C     READING OBLIQUE COORDINATE SYSTEMS
 C   + READING REFERENCE FRAMES
 C--------------------------------------------
 C     SKEWS
+      IF(ALLOCATED(ISKEW_TMP)) DEALLOCATE(ISKEW_TMP)
+      IF(ALLOCATED(SKEW_TMP)) DEALLOCATE(SKEW_TMP)
       ERR_MSG='SKEWS'
       ERR_CATEGORY='SKEWS'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))

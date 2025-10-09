@@ -42,7 +42,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    submodel_mod            ../starter/share/modules1/submodel_mod.F
 !||====================================================================
       SUBROUTINE LECTRANSSUB(X      ,IGRNOD,ITAB,ITABM1,UNITAB,
-     .                       RTRANS ,LSUBMODEL,IS_DYNA)
+     .                       RTRANS ,LSUBMODEL,IS_DYNA,ISKWN,LISKN,
+     .                       NSPCOND  ,NUMSPH)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -70,6 +71,8 @@ C-----------------------------------------------
      .   X(3,*),RTRANS(NTRANSF,*)
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
       INTEGER IS_DYNA
+      INTEGER, INTENT(IN) :: LISKN,NSPCOND,NUMSPH
+      INTEGER, INTENT(IN) :: ISKWN(LISKN,NUMSKW)
 C-----------------------------------------------
       TYPE (GROUP_)  ,TARGET, DIMENSION(NGRNOD)  :: IGRNOD
 C-----------------------------------------------
@@ -79,7 +82,7 @@ C-----------------------------------------------
      .          N0,N1,N2,N3,N4,N5,N6,IERROR,
      .   J,IS,ID,UID,IGU,IGS,NN,NTRANS,STAT,ITRANSSUB,IBID,
      .   NTAG,CTAG,ISU,IDU,IDNOD,
-     .   INUM,K,CPT,ID_TRANSSUB,NUMNUSR
+     .   INUM,K,CPT,ID_TRANSSUB,NUMNUSR,ISK0,ISK,SUB_INDEX
       INTEGER, DIMENSION(:), ALLOCATABLE :: TAGNODSUB !NUMNOD
       INTEGER :: WORK(70000)
       INTEGER, DIMENSION(:), ALLOCATABLE :: INDEX,INDEX1,TAGNODSUB_TMP,IDNODSUB
@@ -90,13 +93,13 @@ C-----------------------------------------------
      .   VR(3),X0(3),X1(3),X2(3),X3(3),X4(3),X5(3),X6(3),
      .   ROT(9),PP(3,3),QQ(3,3),P(3),NORM1, NORM2, NORM3, SCAL1, 
      .   SCAL2, SCAL3, EPS,XC(3)
-      CHARACTER KEY*10
+      CHARACTER(LEN=NCHARFIELD) :: KEY
       CHARACTER(LEN=NCHARLINE) ::CART,SOLVERKEYWORD
       CHARACTER(LEN=NCHARTITLE) :: TITR
       CHARACTER(LEN=NCHARFIELD) ::VERS_IN,STRING
 !
       INTEGER, DIMENSION(:), POINTER :: INGR2USR
-      LOGICAL IS_AVAILABLE
+      LOGICAL IS_AVAILABLE,IS_FOUND
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -168,6 +171,7 @@ C--------------------------------------------------
         CALL HM_OPTION_READ_KEY(LSUBMODEL,
      .                       OPTION_ID = ID,
      .                       UNIT_ID = UID,
+     .                       SUBMODEL_INDEX = SUB_INDEX,
      .                       OPTION_TITR = TITR,
      .                       KEYWORD2 = KEY)
         RTRANS(I,19) = ID
@@ -214,6 +218,29 @@ C
           CALL HM_GET_FLOATV('translation_x',TX,IS_AVAILABLE,LSUBMODEL,UNITAB)
           CALL HM_GET_FLOATV('translation_y',TY,IS_AVAILABLE,LSUBMODEL,UNITAB)
           CALL HM_GET_FLOATV('translation_z',TZ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+          CALL HM_GET_INTV('skew_ID',ISK0,IS_AVAILABLE,LSUBMODEL)
+          !!IF (ISK0 == 0 .AND. SUB_INDEX > 0) ISK = LSUBMODEL(SUB_INDEX)%SKEW
+
+          ISK = 0
+          IF (ISK0 > 0) THEN
+              IS_FOUND = .FALSE.
+              DO J=0,NUMSKW+MIN(1,NSPCOND)*NUMSPH+NSUBMOD
+                IF (ISK0 == ISKWN(4,J+1)) THEN
+                  ISK=J+1
+                  IS_FOUND = .TRUE.
+                  EXIT
+                ENDIF
+              ENDDO
+              IF(.NOT. IS_FOUND)THEN
+                CALL ANCMSG(MSGID=3112,
+     .                      MSGTYPE=MSGERROR,
+     .                      ANMODE=ANINFO,
+     .                      I1= ID,
+     .                      C1= TITR,
+     .                      I2= ISK0)
+              ENDIF
+          ENDIF
+          RTRANS(I,23) = ISK
 c
           IF (N0 > 0 .OR. N1 > 0) THEN
             I0 = USRTOS(N0,ITABM1)
