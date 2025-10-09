@@ -601,7 +601,7 @@ c 2 new values for ISPHIO, NSEG and IAS for inlet outlet in spmd
       NIFV = 16
       ALE%GLOBAL%NALENOVS = 6
       NLEDGE  = 15
-      NRTRANS = 22
+      NRTRANS = 23
 C
       NEXMAD=0
       NMADPRT=0
@@ -830,7 +830,7 @@ C--------------------------------------------------
         CALL LECTUR(
      .       MULTI_FVM                   ,LSUBMODEL         ,IS_DYNA          ,DETONATORS   ,EBCS_TAB,
      .       SEATBELT_CONVERTED_ELEMENTS ,NB_SEATBELT_SHELLS,NB_DYNA_INCLUDE  ,USER_WINDOWS ,OUTPUT  ,
-     .       MAT_ELEM,NAMES_AND_TITLES,DEFAULTS,glob_therm,PBLAST,SENSOR_USER_STRUCT)
+     .       MAT_ELEM,NAMES_AND_TITLES,DEFAULTS,glob_therm,PBLAST,SENSOR_USER_STRUCT,CHECK_USED)
 
 c       stop CPU timer for lectur
         CALL STOPTIME(2,1)

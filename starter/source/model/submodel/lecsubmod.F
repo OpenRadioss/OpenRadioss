@@ -32,12 +32,15 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_option_read_key      ../starter/source/devtools/hm_reader/hm_option_read_key.F
 !||    hm_option_start         ../starter/source/devtools/hm_reader/hm_option_start.F
 !||    usrtos                  ../starter/source/system/sysfus.F
+!||    transform_translate_in_local_skew   ../starter/source/model/transformation/transform_translate_in_local_skew.F90
 !||--- uses       -----------------------------------------------------
 !||    hm_option_read_mod      ../starter/share/modules1/hm_option_read_mod.F
 !||    message_mod             ../starter/share/message_module/message_mod.F
 !||    submodel_mod            ../starter/share/modules1/submodel_mod.F
 !||====================================================================
-      SUBROUTINE LECSUBMOD(ISUBMOD,X,UNITAB,ITABM1,RTRANS,ITAB,LSUBMODEL,IS_DYNA)
+      SUBROUTINE LECSUBMOD(ISUBMOD,X,UNITAB,ITABM1,RTRANS,
+     .                     ITAB,LSUBMODEL,IS_DYNA,ISKWN,LISKN,
+     .                     SKEW,LSKEW)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -46,6 +49,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE HM_OPTION_READ_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARLINE, NCHARKEY, NCHARFIELD
+      USE transform_translate_in_local_skew_mod, ONLY : transform_translate_in_local_skew
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -63,6 +67,9 @@ C-----------------------------------------------
      .   X(3,*),RTRANS(NTRANSF,*)
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
       INTEGER  IS_DYNA
+      INTEGER, INTENT(IN) :: LISKN,LSKEW
+      INTEGER, INTENT(IN) :: ISKWN(LISKN,NUMSKW)
+      my_real, INTENT(IN) :: SKEW(LSKEW,NUMSKW)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -70,8 +77,8 @@ C-----------------------------------------------
      .           ITRANSSUB,IDSUBOK(NSUBMOD),ISUBOK,IGU,I0,
      .           I1,N0,N1,IFLAGUNIT,IDNOD,NTAG,CTAG,INUM,SIDTRANS,
      .           IDSUB,ITY,K,
-     .           CUR_SUBMOD,SUB_LEVEL,NUMNUSR,NUMNUSR2
-      INTEGER, DIMENSION(:), ALLOCATABLE :: TAGNODSUB ! NUMNOD
+     .           CUR_SUBMOD,SUB_LEVEL,NUMNUSR,NUMNUSR2,ISK,CNT
+      INTEGER, DIMENSION(:), ALLOCATABLE :: TAGNODSUB,NODESSUB ! NUMNOD
       INTEGER :: WORK(70000)
       INTEGER, DIMENSION(:), ALLOCATABLE :: INDEX,INDEX1,TAGNODSUB_TMP,IDNODSUB
       CHARACTER(LEN=NCHARKEY) ::  KEY
@@ -97,6 +104,9 @@ C=======================================================================
       UID = 0
       TAGNODSUB = 0
       NUMNUSR = 0
+
+      ALLOCATE(NODESSUB(NUMNOD))
+      NODESSUB = 0
 
       IF(IS_DYNA /= 0)THEN
         CALL CPP_NODES_COUNT(NUMNUSR,NUMNUSR2)
@@ -231,13 +241,25 @@ C-------------------------
             TX=RTRANS(LSUBMODEL(CUR_SUBMOD)%IDTRANS(J),15)
             TY=RTRANS(LSUBMODEL(CUR_SUBMOD)%IDTRANS(J),16)
             TZ=RTRANS(LSUBMODEL(CUR_SUBMOD)%IDTRANS(J),17)
+            ISK = int(RTRANS(LSUBMODEL(CUR_SUBMOD)%IDTRANS(J),23))
+            !DO K=1,NUMNOD
+            !  IF(TAGNODSUB(K) == I) THEN
+            !      X(1,K)=X(1,K)+TX
+            !      X(2,K)=X(2,K)+TY
+            !      X(3,K)=X(3,K)+TZ
+            !  ENDIF
+            !ENDDO
+            CNT = 0
             DO K=1,NUMNOD
               IF(TAGNODSUB(K) == I) THEN
-                  X(1,K)=X(1,K)+TX
-                  X(2,K)=X(2,K)+TY
-                  X(3,K)=X(3,K)+TZ
+                CNT = CNT + 1
+                NODESSUB(CNT) = K
               ENDIF
             ENDDO
+            CALL transform_translate_in_local_skew(
+     .            NODESSUB     ,CNT        ,X   ,NUMNOD     , ISK  ,
+     .            TX           ,TY         ,TZ  ,SKEW       , LSKEW,
+     .            NUMSKW       )
           ELSEIF(ITY == 2)THEN
             DO K=1,9
               ROT(K)=RTRANS(LSUBMODEL(CUR_SUBMOD)%IDTRANS(J),K+2)
@@ -340,6 +362,7 @@ C-------------------------
         IF (ALLOCATED(IDNODSUB)) DEALLOCATE(IDNODSUB)
       ENDIF
       DEALLOCATE(TAGNODSUB)
+      IF(ALLOCATED(NODESSUB)) DEALLOCATE(NODESSUB)
 C-------------------------
 c MAKE TRANSFORMATION ON SUBMODEL NODES
 C-------------------------   
