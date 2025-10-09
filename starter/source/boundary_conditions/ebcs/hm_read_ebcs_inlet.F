@@ -86,7 +86,10 @@ C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
       EBCS%title = TRIM(TITR)
-      EBCS%IS_MULTIFLUID = .TRUE.
+      EBCS%HAS_IELEM = .TRUE.
+
+      EBCS%IS_MULTIFLUID = .FALSE.
+      IF(MULTI_FVM%IS_USED)EBCS%IS_MULTIFLUID = .TRUE.
       EBCS%HAS_IELEM = .TRUE.             
       EBCS%FVM_INLET_DATA%FORMULATION = -1
       EBCS%FVM_INLET_DATA%VECTOR_VELOCITY = 0
@@ -184,7 +187,7 @@ C-----------------------------------------------
         IF(IVX > 0)THEN
           FOUND = .FALSE.
           DO J=1,NFUNCT
-            IF(IVX==NPC(J)) THEN
+            IF(IVX == NPC(J)) THEN
               WRITE(IOUT,1133)IVX,VX
               IVX=J
               FOUND = .TRUE.
@@ -298,7 +301,7 @@ C-----------------------------------------------
          U_IRHO  =IRHO
          U_IPRES =IPRES
          !check and get internal function id
-         IF(IALPHA>0)THEN
+         IF(IALPHA > 0)THEN
            FOUND = .FALSE.
            DO J=1,NFUNCT
               IF(IALPHA==NPC(J)) THEN
@@ -360,22 +363,19 @@ C-----------------------------------------------
          EBCS%fvm_inlet_data%VAL_ALPHA(IMAT)  = ALPHA
          EBCS%fvm_inlet_data%VAL_RHO(IMAT)    = RHO
          EBCS%fvm_inlet_data%VAL_PRES(IMAT)   = PRES
+         EBCS%NBMAT = NBMAT
          WRITE(IOUT,1130)IMAT
          WRITE(IOUT,1131)U_IALPHA,U_IRHO,U_IPRES
          WRITE(IOUT,1132)ALPHA,RHO,PRES
       ENDDO
       WRITE(IOUT, FMT='(/)' )
-      IF(CHECK_CUMUL_VF(1)==ZERO .AND. CHECK_CUMUL_VF(2)==ZERO)THEN
-        CALL ANCMSG(MSGID=1602, MSGTYPE=MSGERROR, ANMODE=ANINFO, I1= ID, C1=TRIM(TITR), C2="INPUT VOLUME FRACTIONS ARE EMPTY")
+      IF(CHECK_CUMUL_VF(1) == ZERO .AND. CHECK_CUMUL_VF(2) == ZERO)THEN
+        CALL ANCMSG(MSGID=1602, MSGTYPE=MSGERROR, ANMODE=ANINFO,I1=ID, C1=TRIM(TITR), C2= "INPUT VOLUME FRACTIONS ARE EMPTY")
       ENDIF
 
         
       WRITE(IOUT,1118)SURF,NSEG
-         
-      IF (.NOT. MULTI_FVM%IS_USED) THEN
-         CALL ANCMSG(MSGID=1602, MSGTYPE=MSGERROR, ANMODE=ANINFO, I1 = ID, C1=TRIM(TITR), C2 = "ONLY COMPATIBLE WITH LAW 151")
-      ENDIF
-      
+
 C-----------
       RETURN
 C-----------

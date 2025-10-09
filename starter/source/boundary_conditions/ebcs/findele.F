@@ -135,15 +135,25 @@ C-----------------------------------------------
         XS1=ZERO
         YS1=ZERO
         ZS1=ZERO
-        DO JJ=1,4
-          NN=IRECT(JJ)
-          XX1(JJ)=X(1,NN)
-          XX2(JJ)=X(2,NN)
-          XX3(JJ)=X(3,NN)
-          XS1=XS1+FOURTH*X(1,NN)
-          YS1=YS1+FOURTH*X(2,NN)
-          ZS1=ZS1+FOURTH*X(3,NN)
-        ENDDO
+        IF(N2D == 0)THEN
+          DO JJ=1,4
+            NN=IRECT(JJ)
+            IF(NN==0)NN=IRECT(3) ! case N4=0 => N4=N3 (same result)
+            XX1(JJ)=X(1,NN)
+            XX2(JJ)=X(2,NN)
+            XX3(JJ)=X(3,NN)
+            XS1=XS1+FOURTH*X(1,NN)
+            YS1=YS1+FOURTH*X(2,NN)
+            ZS1=ZS1+FOURTH*X(3,NN)
+          ENDDO
+        ELSE
+          XX2(1)=X(2,IRECT(1))
+          XX3(1)=X(3,IRECT(1))
+          XX2(2)=X(2,IRECT(2))
+          XX3(2)=X(3,IRECT(2))
+          YS1=HALF*(X(2,IRECT(1)) + X(2,IRECT(2)))
+          ZS1=HALF*(X(3,IRECT(1)) + X(3,IRECT(2)))
+        ENDIF
 
         IF (N2D == 0) THEN               
            CALL NORMA1(N1,N2,N3,AREA,XX1,XX2,XX3)      

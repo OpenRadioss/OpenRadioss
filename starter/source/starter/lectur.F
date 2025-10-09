@@ -6028,7 +6028,7 @@ C
      6       TAGPRT_SMS,SPH2SOL,SOL2SPH,MAT_ELEM%MAT_PARAM,
      7       SOL2SPH_TYP    ,IFLAG_BPRELOAD, CLUSTERS ,
      8       RNOISE(1,MIN(SRNOISE2,NUMELC+NUMELTG+1)),
-     9       DAMP_RANGE_PART)
+     9       DAMP_RANGE_PART,TRIMAT)
 C---------------------------------
 C-  GROUPAGE SPMD
 C---------------------------------
@@ -6097,7 +6097,7 @@ C
      1      IXQ       ,PM       ,GEO       ,INUM     ,BID13    ,
      2      ITR1      ,EADD     ,INDEX1    ,ITRI1    ,IPARTQ   ,
      4      ND        ,IGRSURF  ,IGRQUAD   ,CEP(OFF) ,MAT_ELEM%MAT_PARAM,
-     5      XEP       ,IGEO      ,IPM      ,IQUAOFF  )
+     5      XEP       ,IGEO      ,IPM      ,IQUAOFF  ,TRIMAT)
 C---------------------------------
 C-  GROUPAGE SPMD
 C---------------------------------

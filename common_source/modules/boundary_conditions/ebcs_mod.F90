@@ -124,11 +124,15 @@
           integer, dimension(:), allocatable :: iseg          !<     iseg
           logical :: has_iface = .false.                      !<     Local id of the face of ielem
           integer, dimension(:), allocatable :: iface
+          integer, dimension(:), allocatable :: ng            !<     number of group for ielem
+          integer, dimension(:), allocatable :: iloc          !<     local number of ielem in this group
 
           logical :: debug_print = .false.                    !<     debug print
           logical :: is_multifluid = .false.
           logical :: has_ielem = .false.
           logical :: has_th = .false.
+          logical :: has_ng = .false.
+          logical :: has_iloc = .false.
 
 !     work tables
           logical :: has_la = .false.
@@ -149,6 +153,10 @@
           real(kind=WP), dimension(:, :), allocatable :: v0
           logical :: has_reso = .false.
           real(kind=WP), dimension(:, :), allocatable :: reso
+          logical :: has_area = .false.
+          real(kind=WP), dimension(:), allocatable :: area
+          logical :: has_dvnf = .false.
+          real(kind=WP), dimension(:), allocatable :: dvnf  !normal grid velocity
 
         contains
 
@@ -273,6 +281,7 @@
 !     --------------------
         type, public, extends(t_ebcs) :: t_ebcs_inlet
           type(fvm_inlet_data_struct) :: fvm_inlet_data
+          integer :: nbmat=1
 
         contains
 
@@ -367,6 +376,10 @@
           if(allocated(this%pold)) deallocate(this%pold)
           if(allocated(this%v0)) deallocate(this%v0)
           if(allocated(this%reso)) deallocate(this%reso)
+          if(allocated(this%area)) deallocate(this%area)
+          if(allocated(this%dvnf)) deallocate(this%dvnf)
+          if(allocated(this%ng)) deallocate(this%ng)
+          if(allocated(this%iloc)) deallocate(this%iloc)
         end subroutine ebcs_destroy
 
 !     ******************     !
@@ -616,7 +629,7 @@
           class (t_ebcs), intent(inout) :: this
           integer, intent(inout) :: leni, lenr
 
-          integer, dimension(8) :: integer_data
+          integer, dimension(10) :: integer_data
           integer :: siz
           integer_data(1) = this%type
           integer_data(2) = this%ebcs_id
@@ -629,12 +642,16 @@
           if(this%has_ielem)integer_data(7) = 1
           integer_data(8) = 0
           if(this%has_th)integer_data(8) = 1
+          integer_data(9) = 0
+          if(this%has_ng)integer_data(9) = 1
+          integer_data(10) = 0
+          if(this%has_iloc)integer_data(10) = 1
           if (this%debug_print) print*, "integer_data ", integer_data
 
           lenr = lenr + 0
 
-          call write_i_array_c(integer_data, 8)
-          leni = leni + 8
+          call write_i_array_c(integer_data, 10)
+          leni = leni + 10
 
 !     write node list
           if (this%debug_print) print*, "node_list ", this%node_list
@@ -791,6 +808,26 @@
             leni = leni + 1
           end if
 
+!     no need to write area, only has_area
+          if (this%has_area) then
+            call write_i_c(1, 1)
+            leni = leni + 1
+            if (this%debug_print) print*, "area ", "not in restart file"
+          else
+            call write_i_c(0, 1)
+            leni = leni + 1
+          end if
+
+!     no need to write dvnf, only has_dvnf
+          if (this%has_dvnf) then
+            call write_i_c(1, 1)
+            leni = leni + 1
+            if (this%debug_print) print*, "dvnf  ", "not in restart file"
+          else
+            call write_i_c(0, 1)
+            leni = leni + 1
+          end if
+
         end subroutine write_common_data
 
 !     Common read routine
@@ -803,14 +840,15 @@
 !||    read_i_c           ../common_source/tools/input_output/write_routtines.c
 !||====================================================================
         subroutine read_common_data(this)
+          use constant_mod , only : zero
           implicit none
           class (t_ebcs), intent(inout) :: this
 
-          integer, dimension(8) :: integer_data
+          integer, dimension(10) :: integer_data
           integer :: ihas_la, ihas_iface, ihas_p0, ihas_dp0, ihas_ro0, ihas_en0,&
-          &ihas_pold, ihas_vold, ihas_v0, ihas_reso,siz
+          &ihas_pold, ihas_vold, ihas_v0, ihas_reso,ihas_area,ihas_dvnf,siz
 
-          call read_i_array_c(integer_data, 8)
+          call read_i_array_c(integer_data, 10)
           this%type = integer_data(1)
           this%ebcs_id = integer_data(2)
           this%surf_id = integer_data(3)
@@ -822,7 +860,14 @@
           if(integer_data(7) == 1)this%has_ielem=.true.
           this%has_th=.false.
           if(integer_data(8) == 1)this%has_th=.true.
+          this%has_ng=.false.
+          if(integer_data(9) == 1)this%has_ng=.true.
+          if(this%has_ng)allocate(this%ng(this%nb_elem))
+          this%has_iloc=.false.
+          if(integer_data(10) == 1)this%has_iloc=.true.
+          if(this%has_iloc)allocate(this%iloc(this%nb_elem))
           if (this%debug_print) print*, "integer_data ", integer_data
+
 
 !     read node list
           allocate(this%node_list(this%nb_node))
@@ -968,6 +1013,30 @@
           else
             this%has_reso = .false.
           end if
+
+!     no need to read area, only has_area
+          call read_i_c(ihas_area, 1)
+          if (ihas_area == 1) then
+            this%has_area = .true.
+            allocate(this%area(this%nb_elem))
+            this%area(1:this%nb_elem)= zero
+            if(this%debug_print) print *, "area ", "not in restart file"
+          else
+            this%has_area = .false.
+          end if
+
+!     no need to read dvnf, only has_dvnf
+          call read_i_c(ihas_dvnf, 1)
+          if (ihas_dvnf == 1) then
+            this%has_dvnf = .true.
+            allocate(this%dvnf(this%nb_elem))
+            this%dvnf(1:this%nb_elem)= zero
+            if(this%debug_print) print *, "dvnf  ", "not in restart file"
+          else
+            this%has_dvnf = .false.
+          end if
+
+
         end subroutine read_common_data
 
 !     /EBCS/PRES
@@ -1490,6 +1559,9 @@
           class (t_ebcs_inlet), intent(inout) :: this
           integer, intent(inout) :: leni, lenr
 
+          call write_i_c(this%nbmat, 1)
+          leni = leni + 1
+
           call write_i_c(this%fvm_inlet_data%vector_velocity, 1)
           leni = leni + 1
           call write_i_c(this%fvm_inlet_data%formulation, 1)
@@ -1522,6 +1594,8 @@
         subroutine read_data_inlet(this)
           implicit none
           class (t_ebcs_inlet), intent(inout) :: this
+
+          call read_i_c(this%nbmat, 1)
 
           call read_i_c(this%fvm_inlet_data%vector_velocity, 1)
           call read_i_c(this%fvm_inlet_data%formulation, 1)

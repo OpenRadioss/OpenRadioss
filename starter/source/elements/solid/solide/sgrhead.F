@@ -40,7 +40,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      5       IGEO       ,IPM           ,NOD2ELS   ,ISOLOFF ,
      6       TAGPRT_SMS ,SPH2SOL       ,SOL2SPH   ,MAT_PARAM,
      7       SOL2SPH_TYP,IFLAG_BPRELOAD,CLUSTERS  ,RNOISE  ,
-     8       DAMP_RANGE_PART)
+     8       DAMP_RANGE_PART,TRIMAT)
 C-----------------------------------------------
 C            A R G U M E N T S
 C-----------------------------------------------
@@ -106,6 +106,7 @@ C-----------------------------------------------
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
       TYPE (CLUSTER_) ,DIMENSION(NCLUSTER) :: CLUSTERS
       TYPE(MATPARAM_STRUCT_) , TARGET, DIMENSION(NUMMAT),INTENT(IN) :: MAT_PARAM
+      INTEGER,INTENT(INOUT) :: TRIMAT
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
@@ -185,6 +186,7 @@ C
         JPOR=0
         MID = IXS(1,II)
         MLN = NINT(PM(19,ABS(MID)))
+        IF(MLN == 51)TRIMAT=4
         IF (MID < 0) THEN
           IF (MLN==6.AND.JPOR/=2) MLN=17
           IF (MLN==46) MLN=47

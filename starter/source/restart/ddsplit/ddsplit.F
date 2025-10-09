@@ -1027,7 +1027,7 @@ C        ALLOCATE
          IPT = 1
         ! --------------------
         ! loop over the ebcs, 3 cases :
-        ! (1) multifluid ebcs : parallel 
+        ! (1) multifluid ebcs : parallel
         ! (2) non-reflecting ebcs (/EBCS/NRF) : parallel
         ! (3) other ebcs  : sequential --> all the elements/nodes of the ebcs are on main processor
         ! for cases (1) & (2) : need to convert global id into local processor id
@@ -1065,7 +1065,7 @@ C        ALLOCATE
             ELSEIF(IS_EBCS_PARALLEL)THEN
                NEBCS_PARALLEL = NEBCS_PARALLEL + 1
                ALLOCATE(EBCS_TAB_LOC_2%tab(NEBCS_PARALLEL)%poly, source = EBCS_TAB%tab(II)%poly)
-               IF(EBCS_TAB%tab(II)%poly%has_ielem) THEN     
+               IF(EBCS_TAB%tab(II)%poly%has_ielem) THEN
                     EBCS_TAB_LOC_2%tab(NEBCS_PARALLEL)%poly%nb_elem = IEBCS_NELEM_L(II)
                     IF (ALLOCATED(EBCS_TAB_LOC_2%tab(NEBCS_PARALLEL)%poly%iface)) THEN
                        DEALLOCATE(EBCS_TAB_LOC_2%tab(NEBCS_PARALLEL)%poly%iface)
@@ -1344,7 +1344,7 @@ C--------------------------------------
         CALL C_IBMPC(IBMPC,IBMPC(INUM),IBMPC(IDDL),IBMPC(ISKW),DD_LAGF)
       END IF
 C--------------------------------------
-C counts nb of local elts 
+C counts nb of local elts
 C--------------------------------------
       NUMEL_L = NUMELS_L + NUMELQ_L + NUMELC_L + NUMELT_L + NUMELP_L
      +        + NUMELR_L + NUMELTG_L+ NUMELX_L + NUMSPH_L
@@ -1396,7 +1396,7 @@ C--------------------------------------------
 C counts and split FLEXIBLE BODY
 C--------------------------------------------
       IF (NFXBODY>0) THEN
-C Split arrays 
+C Split arrays
          CALL C_FXBODY1(
      .     FXBIPM,    FXBNOD,   NODLOCAL, IPARG,    FXBELM,
      .     LENNOD_L,  LENMOD_L, LENELM_L, LENSIG_L, P-1,
@@ -1490,7 +1490,7 @@ C--------------------------------------------
          ENDIF
       ENDIF
 C--------------------------------------------
-C count external solids faces 
+C count external solids faces
 C--------------------------------------------
       NFASOLFR_L= 0
       IF(NFASOLFR/=0 .AND. NUMELS_L/=0)THEN
@@ -1510,13 +1510,13 @@ C--------------------------------------
       IF (GLOB_THERM%NUMCONV > 0)
      .    CALL C_ICONV(IBCV,CEP,P-1,NCONV_L,GLOB_THERM%NUMCONV,GLOB_THERM%NICONV)
 C--------------------------------------
-C counts radiative fluxes              
+C counts radiative fluxes
 C--------------------------------------
       NRADIA_L = 0
       IF (GLOB_THERM%NUMRADIA > 0) CALL C_IRADIA(IBCR,CEP,P-1,NRADIA_L,
      .           GLOB_THERM%NUMRADIA,GLOB_THERM%NUMCONV,GLOB_THERM%NIRADIA)
 C--------------------------------------
-C counts imposed fluxes 
+C counts imposed fluxes
 C--------------------------------------
       NFXFLUX_L = 0
       IF (GLOB_THERM%NFXFLUX > 0) CALL C_ITHFLUX(IBFFLUX,CEP,P-1,NFXFLUX_L,
@@ -1627,7 +1627,7 @@ C
      1      LENWA_L ,NTHWA    ,NAIRWA    ,NUMELS_L ,NUMELQ_L,
      2      NUMELC_L,NUMELTG_L,NUMELT_L  ,NUMELP_L ,NUMELR_L,
      3      NUMNOD_L,NMNT     ,L_MUL_LAG1,L_MUL_LAG,MAXNX   ,
-     4      LWASPH_L,NUMSPH_L  ,LWASPIO, NRCVVOIS,NGROUP_L, 
+     4      LWASPH_L,NUMSPH_L  ,LWASPIO, NRCVVOIS,NGROUP_L,
      5      LWAMP_L, LWANMP_L,GLOB_THERM%ITHERM )
 C--------------------------------------
 C counts LLCFIELD
@@ -1672,14 +1672,14 @@ C--------------------------------------------
             CALL C_DRAPE(DRAPEG%INDX,CEP(MIN(OFF+1,LEN_CEP)),P-1,
      .                  NUMELC,NUMSH4N_L)
          ENDIF
-         
+
          OFF = OFF + NUMELC + NUMELT + NUMELP + NUMELR
-         
+
          IF(NUMELTG_DRAPE > 0) THEN
             CALL C_DRAPE(DRAPEG%INDX(NUMELC+1),CEP(MIN(OFF+1,LEN_CEP)),P-1,
      .                    NUMELTG,NUMSH3N_L)
          ENDIF
-       ENDIF      
+       ENDIF
 C--------------------------------------
 C counts CLOAD
 C--------------------------------------
@@ -1697,17 +1697,17 @@ C counts INIVEL
 C--------------------------------------
        NINIVELT_L = 0
       IF (LOADS%NINIVELT>0) THEN
-        CALL C_INIVELL(                                              
-     .                 NGRNOD,  NGRBRIC,    NGRQUAD,       NGRSH3N,           
-     .                 IGRNOD,  IGRBRIC,    IGRQUAD,       IGRSH3N,           
-     .                   P-1 ,      CEP,       SCEP,      NODLOCAL,           
+        CALL C_INIVELL(
+     .                 NGRNOD,  NGRBRIC,    NGRQUAD,       NGRSH3N,
+     .                 IGRNOD,  IGRBRIC,    IGRQUAD,       IGRSH3N,
+     .                   P-1 ,      CEP,       SCEP,      NODLOCAL,
      .                 NUMNOD,LOADS%NINIVELT,LOADS%INIVELT,NINIVELT_L)
       ENDIF
 C--------------------------------------
 C counts /DAMP/VREL
-C--------------------------------------    
-      NDAMP_VREL_L = 0 
-      IDAMP_VREL_L(1:NDAMP) = 0 
+C--------------------------------------
+      NDAMP_VREL_L = 0
+      IDAMP_VREL_L(1:NDAMP) = 0
       IF (NDAMP > 0) CALL C_DAMPVREL(DAMPR,IGRNOD,P,IDAMP_VREL_L,NDAMP_VREL_L,
      .                               NGRNOD,NDAMP,NRDAMP)
 C--------------------------------------------
@@ -1743,7 +1743,7 @@ C  Skippon_l for obsolide "modif" option.
       SKIPPON_L = NUMNOD_L+1 + LCNE_L + LCNI2_L +
      .  8*NUMELS_L + 6*NUMELS10_L + 8*NUMELS16_L + 12*NUMELS20_L +
      .  4*NUMELQ_L + 4*NUMELC_L   + 2*NUMELT_L + 2*NUMELP_L +
-     .  3*NUMELR_L + 3*NUMELTG_L  + 3*NUMELTG6_L + 
+     .  3*NUMELR_L + 3*NUMELTG_L  + 3*NUMELTG6_L +
      .  4*NNMV_L   + 4*NCONLD_L  + 4*NCONV_L  + NSKYRW_L + NSKYRBK_L +
      .  NISKYI2_L +
      .  NNMV_L     + NNMVC_L      + NSKYLL_L + NSKYRBM_L + NSKYI18_L +
@@ -1754,7 +1754,7 @@ C  Skippon_l for obsolide "modif" option.
        ENDIF
 
 C--------------------------------------------
-C     SPMD: variables preparation 
+C     SPMD: variables preparation
 C--------------------------------------------
 
       CALL WRCOMIP(
@@ -1800,7 +1800,7 @@ C--------------------------------------------
      5   NUMSH4N_L,NUMSH3N_L,INTERFACES%PARAMETERS,SENSORS,LOADS_PER_PROC%NLOAD_CYL,
      6   NCLOAD_L,NPLOAD_L,NDAMP_VREL_L, UNITAB,
      7   LWAMP_L,LWANMP_L,NINIVELT_L,GLOB_THERM,PBLAST)
-     
+
 
       CALL WRCOMR(LMXVREA,LVARREA,TABVREA,MSNDP(P),P,INTERFACES%PARAMETERS,
      .            UNITAB ,GLOB_THERM, OUTPUT)
@@ -1873,7 +1873,7 @@ C--------------------------------------
       CALL W_MAIN_PROC_WEIGHT(NODGLOB,NUMNOD_L,NSPMD,P)
       LEN_IA = LEN_IA + 2*NUMNOD_L
 C--------------------------------------
-C     Integers 
+C     Integers
 C--------------------------------------
       LEN_G = NPROPGI*NUMGEO
       LEN_M = NPROPMI*NUMMAT
@@ -1997,7 +1997,7 @@ C
      +        DEALLOCATE(IXSF)
       ENDIF
 C--------------------------------------------
-C Solids                                
+C Solids
 C--------------------------------------------
       OFF = OFF+NUMELS8
       CALL W_IXALOC(IXS10,6,CEP(MIN(OFF+1,LEN_CEP)),P-1,
@@ -2172,7 +2172,7 @@ C--------------------------------------------
          CALL WRITE_I_C(KLOADPINTER, NINTER+1)
          LEN_IA = LEN_IA + NINTER + 1
          CALL WRITE_I_C(LOADPINTER,S_LOADPINTER )
-         LEN_IA = LEN_IA + S_LOADPINTER 
+         LEN_IA = LEN_IA + S_LOADPINTER
       ENDIF
 C--------------------------------------
 C IBFV
@@ -2194,7 +2194,7 @@ C--------------------------------------
       CALL WRITE_I_C(NEBCS_PARALLEL, 1)  ! /NRF or /PROPELLANT ebcs number
       CALL WRITE_I_C(OTHER_NEBCS, 1) ! other ebcs
       ! ---------------
-      ! common data 
+      ! common data
       IF (NEBCS > 0)THEN
          CALL EBCS_TAB%write_type_data(LEN_IA, LEN_AM)
       ENDIF

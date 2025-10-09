@@ -3320,11 +3320,6 @@ C----------------------------------
               XMOMT=ZERO
               YMOMT=ZERO
               ZMOMT=ZERO
-              OUTPUT%DATA%INOUT%DM_IN =  ZERO
-              OUTPUT%DATA%INOUT%DM_OUT =  ZERO
-              OUTPUT%DATA%INOUT%DE_IN =  ZERO
-              OUTPUT%DATA%INOUT%DE_OUT =  ZERO
-C
               WPLAST=ZERO
 C
               DT1=DT2
