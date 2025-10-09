@@ -102,6 +102,7 @@ C-----------------------------------------------
      .        TCAR_P, TCAR_VF, SURF, EINT,PHASE_ALPHA(21),PHASE_RHO(21), PHASE_EINT(21)
       my_real :: DE_IN, DE_OUT, DM_IN, DM_OUT
       my_real :: roou, enou, fluxo, fluxi
+      my_real :: YM
       LOGICAL bFOUND
       TYPE(BUF_MAT_)  ,POINTER :: MBUF  
       INTEGER :: ADRESS ! adress for parit/on array
@@ -119,6 +120,7 @@ C-----------------------------------------------
       DE_OUT = ZERO
       DM_IN = ZERO
       DM_OUT = ZERO
+      YM = ONE
       
       ALPHA = DT1/TCAR_P
       BETA = DT1/MAX(DT1,TCAR_VF)
@@ -193,10 +195,11 @@ C-----------------------------------------------
             XN = ZERO
             YN = -(-X(3,IX(2))+X(3,IX(1)))
             ZN =  (-X(2,IX(2))+X(2,IX(1)))                     
-            FAC2 = ONE/SQRT(YN*YN+ZN*ZN) 
+            FAC2 = ONE/SQRT(YN*YN+ZN*ZN)
+            IF(N2D==1)YM = HALF*(X(2,IX(1))+X(2,IX(2)))
             YN=YN*FAC2
-            ZN=ZN*FAC2                          
-            SURF = ONE/FAC2               
+            ZN=ZN*FAC2
+            SURF = ONE/FAC2
           ENDIF
 
           !-- VELOCITY
@@ -309,12 +312,12 @@ C-----------------------------------------------
           !-- post-treatment for mass and energy balance
           ROOU = SEGVAR%RHO(KSEG)
           ENOU = SEGVAR%EINT(KSEG)
-          FLUXO=Vnew*SURF*DT1
+          FLUXO=Vnew*SURF*DT1*YM
           FLUXI=MIN(FLUXO,ZERO)
           FLUXO=MAX(FLUXO,ZERO)
-          DM_OUT=DM_OUT-FLUXO*ROOU
+          DM_OUT=DM_OUT-FLUXO*RHO
           DM_IN=DM_IN-FLUXI*RHO
-          DE_OUT=DE_OUT-FLUXO*ENOU
+          DE_OUT=DE_OUT-FLUXO*EINT
           DE_IN=DE_IN-FLUXI*EINT
 
           !-- FORMULATION  
