@@ -1070,11 +1070,22 @@
           temp_name(name_len+1:name_len+1) = c_null_char
           call python_add_doubles_to_dict(py%context, temp_name, name_len, val, len_val)
         end subroutine python_expose_doubles
+!||====================================================================
+!||    python_begin_openmp   ../common_source/modules/python_mod.F90
+!||--- called by ------------------------------------------------------
+!||    resol                 ../engine/source/engine/resol.F
+!||====================================================================
         subroutine python_begin_openmp(python)
           type(python_), intent(inout) :: python
           if(python%nb_functs == 0) return
           python%saved_state = python_begin_allow_threads()
         end subroutine python_begin_openmp
+!||====================================================================
+!||    python_end_openmp          ../common_source/modules/python_mod.F90
+!||--- called by ------------------------------------------------------
+!||    resol                      ../engine/source/engine/resol.F
+!||--- calls      -----------------------------------------------------
+!||====================================================================
         subroutine python_end_openmp(python)
           type(python_), intent(inout) :: python
           if(python%nb_functs == 0) return

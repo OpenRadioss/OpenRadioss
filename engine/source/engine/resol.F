@@ -259,7 +259,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    printime                                     ../engine/source/system/timer.F
 !||    printime_interf                              ../engine/source/system/timer_interf.F
 !||    printimeg                                    ../engine/source/system/timer.F
+!||    python_begin_openmp                          ../common_source/modules/python_mod.F90
 !||    python_dummy_active_node                     ../engine/source/loads/general/python_call_funct_cload.F90
+!||    python_end_openmp                            ../common_source/modules/python_mod.F90
 !||    python_monvol                                ../engine/source/coupling/python/python_monvol.F90
 !||    python_register                              ../engine/source/tools/curve/python_register.F90
 !||    python_share_memory                          ../engine/source/coupling/python/python_share_memory.F90
