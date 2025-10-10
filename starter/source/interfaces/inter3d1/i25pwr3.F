@@ -30,9 +30,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    message_mod            ../starter/share/message_module/message_mod.F
 !||====================================================================
       SUBROUTINE I25PWR3(ITAB  ,INACTI,CAND_E,CAND_N ,STFN     ,
-     1                   X     ,I_STOK,NSV   ,IWPENE ,PENE_OLD,
+     1                   X     ,I_STOK,NSV   ,IWPENE ,PENE_OLD ,
      2                   NOINT ,NTY   ,MSR   ,IRTLM  ,IRECT    ,
-     4                   NSN   ,ID    ,TITR   ,MSEGLO,ICONT_I)
+     4                   NSN   ,ID    ,TITR   ,MSEGLO,ICONT_I  ,
+     5                   IWPENE0,PENMIN,IRESP)
       USE MESSAGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
@@ -51,6 +52,9 @@ C-----------------------------------------------
      .        MSEGLO(*)
       INTEGER I_STOK,NSV(*),MSR(*),IWPENE,INACTI,NOINT,NTY,NSN
       INTEGER , INTENT(OUT) :: ICONT_I(NSN)
+      INTEGER , INTENT(IN) :: IRESP
+      INTEGER , INTENT(INOUT) :: IWPENE0
+      my_real , INTENT(INOUT) :: PENMIN
 C     REAL
       my_real
      .   STFN(*),X(3,*),PENE_OLD(5,*)
@@ -61,12 +65,14 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, L
       INTEGER IX1, IX2, IX3, IX4, NSVG
+      my_real TOL
 C     REAL
 C-----------------------------------------------
+      IF (IRESP==1.AND.PENMIN<=EM06) PENMIN = TWO*EM06
+      TOL = PENMIN
        DO 100 I=1,I_STOK
          J=CAND_N(I)
          L=CAND_E(I)
-
 
          IF(IRTLM(1,J)==MSEGLO(CAND_E(I)))THEN
 
@@ -77,6 +83,7 @@ C-----------------------------------------------
            NSVG=NSV(J)
 
 C
+
            IF(PENE_OLD(5,J)/=ZERO)THEN
 C            True initial penetration
              IWPENE=IWPENE+1
@@ -95,9 +102,13 @@ C            True initial penetration
              IF(INACTI==0)THEN
 C              Ignore initial penetrations
                ICONT_I(J)=-IRTLM(1,J)
-               IRTLM(1,J)   = 0
-               IRTLM(2,J)   = 0
-               IRTLM(3,J)   = 0
+               IF (PENE_OLD(5,J)<=TOL) THEN
+                  IWPENE0=IWPENE0+1
+               ELSE
+                  IRTLM(1,J)   = 0
+                  IRTLM(2,J)   = 0
+                  IRTLM(3,J)   = 0
+               ENDIF
                PENE_OLD(5,J)= ZERO
              ELSEIF(INACTI==1) THEN
 C              DEACTIVATION OF NODES
