@@ -118,7 +118,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      Y    H3D_DATA  ,IFTHE     ,ICONDN     ,DT        ,OUTPUT,
      Z    SBUFMAT   ,SNPC      ,STF        ,NODADT    ,DTFAC1,
      .    DTMIN1    ,IDTMIN    ,IOUT       ,ISTDO     ,IDTMINS,DTFACS,NSVOIS,
-     *    IRESP     ,MAXFUNC   ,USERL_AVAIL,GLOB_THERM,IMON_MAT,DTMINS,SANIN)
+     *    IRESP     ,MAXFUNC   ,USERL_AVAIL,GLOB_THERM,IMON_MAT,DTMINS,SANIN,
+     *    NGRTH     ,NELEM     )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -140,6 +141,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD
       use glob_therm_mod
       USE PRELOAD_SOLID_INI_MOD
+      USE S6ZFORC3_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -165,6 +167,7 @@ C-----------------------------------------------
 #include      "task_c.inc"
 #include      "impl1_c.inc"
 #include      "stati_c.inc"
+#include      "parit_c.inc"
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -200,6 +203,8 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: USERL_AVAIL
       INTEGER, INTENT(IN) :: IMON_MAT
       INTEGER, INTENT(IN) :: IDTMINS
+      INTEGER, INTENT(IN) :: NGRTH
+      INTEGER, INTENT(IN) :: NELEM
       my_real, INTENT(IN) :: DTMINS
       my_real, INTENT(IN) :: DTFACS
       my_real
@@ -239,7 +244,7 @@ C-----------------------------------------------
       DOUBLE PRECISION, POINTER :: pFBSAV6
       INTEGER INDXOF(MVSIZ), IERROR, NV46,IPREID,FUN_ID,SENS_ID
       INTEGER I,II,J,N, NG, NVC, MLW, JFT, JLT,ISOLNOD,ITHK,IPLA,IFAIL,
-     .   K1, K2, KAD,NF1,IPRI, NELEM, OFFSET, NSGRP, K,
+     .   K1, K2, KAD,NF1,IPRI, OFFSET, NSGRP, K,
      .   K0, K3, K5, K6, K7, K8, K9, NSG, NEL, KFTS,IOFC, ISTRA,
      .   JJ19,NPE,NIPMAX,ICNOD,NFT1,IBID,NN,
      .   L1,L2,L3,L4,L5,L6,L7,L8,L9,L10,L11,L12,L13,L14,L15,L16,
@@ -665,6 +670,59 @@ C
                 K0=NSTRF(K0+24)
                ENDDO
               ENDIF
+C
+C-------------------------------------------------------------------7---------8
+          ELSEIF (JHBE == 24 .AND. ISOLNOD == 6) THEN 
+C-------------------------
+            CALL S6ZFORC3(
+     .        TIMERS   ,OUTPUT   ,NGROUP   ,ELBUF_TAB,NPROPM   ,NUMMAT   ,PM       , 
+     .        NG       ,NPROPG   ,NUMGEO   ,GEO      ,NIXS     ,NUMELS   ,NUMELQ   ,
+     .        NSVOIS   ,IXS      ,NUMNOD   ,X        ,A        ,V        ,
+     .        W        ,WA       ,VAL2     ,ALE_CONNECT,NPARG  ,IPARG    ,
+     .        STF      ,TF       ,SNPC     ,NPC      ,SBUFMAT  ,BUFMAT   ,NPSAV    ,
+     .        NPART    ,PARTSAV  ,DT2T     ,NELTST   ,ITYPTST  ,STIFN    ,LSKY     ,
+     .        FSKY     ,IADS     ,OFFSET   ,NEL      ,IPARTS(NF1),
+     .        FX(1,1) ,FY(1,1)   ,FZ(1,1)  ,FX(1,2)  ,FY(1,2)  ,FZ(1,2)  ,
+     .        FX(1,3) ,FY(1,3)   ,FZ(1,3)  ,FX(1,4)  ,FY(1,4)  ,FZ(1,4)  ,
+     .        FX(1,5) ,FY(1,5)   ,FZ(1,5)  ,FX(1,6)  ,FY(1,6)  ,FZ(1,6)  ,
+     .        NLOC_DMG,NPROPMI   ,IPM      ,ISTRA    ,NPROPGI  ,IGEO     ,NGPE     ,
+     .        NTHREAD ,GRESAV    ,NGRTH    ,NELEM    ,GRTH     ,IGRTH(NF1),NTABLE  , 
+     .        TABLE   ,MSSA(NF1) ,DMELS(NF1),VOLN    ,ITASK    ,IPRI     ,MAT_ELEM ,
+     .        IBID    ,IFTHE     ,FTHE     ,FTHESKY  ,ICONDN   ,CONDN    ,CONDNSKY ,
+     .        IEXPAN  ,DT        ,SVIS     ,IRESP    ,idel7nok ,MAXFUNC  ,IMON_MAT ,
+     .        USERL_AVAIL,GLOB_THERM,XDP   ,SENSORS  ,DT1      ,VOLMIN   ,TH_STRAIN,
+     .        IDTMIN  ,TT        ,IDYNA    ,IMPL_S   ,INEG_V   ,IPARIT   ,IREP     , 
+     .        ISCAU   ,ISMDISP   ,ISMSTR   ,ISORTH   ,ISORTHG  ,JALE     ,JCVT     ,
+     .        JEUL    ,JLAG      ,JSPH     ,JPLASOL  ,JTHE     ,MSTOP    ,MTN      , 
+     .        N2D     ,NCPRI     ,NCYCLE   ,NFILSOL  ,NFT      ,IINT     ,NODADT   ,
+     .        DTFAC1  )
+c
+              IF (NSECT>0) THEN
+                K0 = NSTRF(25)
+                N = NINTER+NRWALL+NRBODY
+                DO I=1,NSECT
+                  N  = N+1
+                  K2 = K0+30+NSTRF(K0+14)
+                  K3 = K0+30+NSTRF(K0+14)+NSTRF(K0+6)
+                  IPARSENS = 0
+                  ISECT = 0
+                  IF (SENSORS%STABSEN > 0) ISECT = SENSORS%TABSENSOR(I+1)-SENSORS%TABSENSOR(I)
+                  NULLIFY(pFBSAV6)
+                  IF (ISECT/=0) THEN
+                    IPARSENS=1
+                    pFBSAV6 => SENSORS%FSAV(1,1,ISECT)
+                  ENDIF
+C 
+                  CALL SECTION_S6(JFT, JLT, NFT, NSTRF(K0+7), NSTRF(K0+3),
+     .              NSTRF(K0+4), NSTRF(K0+5), NSTRF(K3), X, V,
+     .              FSAV(1,N), IXS, FANI(1,1+2*(I-1)), SECFCUM(1,1,I), FX,
+     .              FY, FZ, NSTRF(K0), NSTRF(K0+14), NSTRF(K0+26),
+     .              NSTRF(K0+6), NSTRF(K2), MS,XSEC(1,1,I),
+     .              pFBSAV6,IPARSENS)
+                  K0 = NSTRF(K0+24)
+                ENDDO
+              ENDIF
+C
 C-------------------------------------------------------------------7---------8
           ELSEIF(JHBE == 15)THEN
 C-------------------------

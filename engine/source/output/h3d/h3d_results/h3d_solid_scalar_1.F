@@ -319,7 +319,8 @@ C--------------------------------------------------
                 ENDDO
                 IF (ISOLNOD == 16 .OR. ISOLNOD == 20.OR.
      .             (ISOLNOD == 8  .AND.JHBE == 14).OR.
-     .             ((ISOLNOD == 6 .OR.I SOLNOD == 8).AND.JHBE == 15))THEN
+     .             ((ISOLNOD == 6 .OR.ISOLNOD == 8).AND.JHBE == 15).OR. 
+     .             ((ISOLNOD == 6).AND.JHBE == 24))THEN
                   DO IL=1,NLAY
                     IF (ELBUF_TAB(NG)%BUFLY(IL)%L_PLA > 0) THEN
                       DO IS=1,NPTS
@@ -787,8 +788,8 @@ C               wpla by layer for law 25
                 IUS = INFO1
                 IF (ISOLNOD == 16.OR.ISOLNOD == 20.OR.
      .             (ISOLNOD == 8.AND.JHBE == 14).OR.
-     .             ((ISOLNOD == 6.OR.ISOLNOD == 8).AND.JHBE == 15))THEN
-
+     .             ((ISOLNOD == 6.OR.ISOLNOD == 8).AND.JHBE == 15).OR. 
+     .             ((ISOLNOD == 6).AND.JHBE == 24))THEN
                   IF (IUS <= NPTG) THEN
                     DO IL=1,NLAY
                       IF (ELBUF_TAB(NG)%BUFLY(IL)%L_PLA > 0) THEN
@@ -817,7 +818,8 @@ C---            failed layers per element for law 25
                 ENDDO
                 IF( ISOLNOD == 16.OR.ISOLNOD == 20.OR.
      .             (ISOLNOD == 8.AND.JHBE == 14).OR.
-     .            ((ISOLNOD == 6 .OR. ISOLNOD == 8).AND.JHBE == 15))THEN
+     .            ((ISOLNOD == 6 .OR. ISOLNOD == 8).AND.JHBE == 15).OR. 
+     .             ((ISOLNOD == 6).AND.JHBE == 24)) THEN
 c
                   NPG_PLANE = NPTR * NPTS * NPTT
                   DO I=1,NEL
