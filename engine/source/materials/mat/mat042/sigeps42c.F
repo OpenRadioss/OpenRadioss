@@ -311,7 +311,7 @@ C     Strain definition
         THKN(I)   = THKN(I) + DEZZ(I)*THKLYL(I)*OFF(I)
          
 ! 
-        EMAX = GTMAX(I)*(ONE + NU)
+        EMAX = MAX(GMAX,GTMAX(I))*(ONE + NU)
         A11  = EMAX/(ONE - NU**2)
         SOUNDSP(I)= SQRT(A11/RHO0(I))
       ENDDO

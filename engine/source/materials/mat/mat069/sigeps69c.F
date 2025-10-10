@@ -73,17 +73,15 @@ C----------------------------------------------------------------
 C----------------------------------------------------------------
 C  L O C A L  V A R I B L E S
 C----------------------------------------------------------------
-      INTEGER :: I,J,K,ITER,NORDER
-      my_real :: NU,RBULK,TENSCUT,GMAX,RVT,SUM,SUMDWDL,PARTP,EMAX,A11         
-      my_real
-     .   MU(5),AL(5),EVMA1(NEL,5),EVMA2(NEL,5),EVMA3(NEL,5),EVM(NEL,3),
-     .   EIGV(NEL,3,2),TRAV(NEL),ROOTV(NEL),EVV(NEL,3),EV(NEL,3),
-     .   RHO(NEL),DEZZ(NEL),DWDL(3),DDWDDL(3),RV(NEL),T(NEL,3),
-     .   EPSZZ(NEL),SV(NEL,3),
-     .   H30(100),H31(NEL,100),H1(100),H10(100),
-     .   H2(100),H20(100),H12(100),H120(100),
-     .   CD1(NEL),CD2(NEL),CD12(NEL),CD10(NEL),
-     .   CD20(NEL),CD120(NEL), DC3EV3(NEL),C31(NEL),C30(NEL),KT3(NEL)
+      INTEGER :: I,J,K,ITER,NORDER,NITER,II
+      my_real :: NU,RBULK,TENSCUT,GMAX,SUM,SUMDWDL,PARTP,EMAX,A11         
+      my_real :: E11,E22,E12,PUI11,PUI22,ALMA1,ALMA2,ALMA3,AMAX
+      my_real ,DIMENSION(3)       :: DDWDDL,DWDL,LAM_AL
+      my_real ,DIMENSION(5)       :: MU,AL    
+      my_real ,DIMENSION(NEL)     :: RVT,GTMAX,DLAM3,KT3,RHO,KIR3
+      my_real ,DIMENSION(NEL)     :: INVRV,INVV3,DEZZ,RV,TRAV,ROOTV
+      my_real ,DIMENSION(NEL,3)   :: T,EVV,EV,EVM,CII,S_LDWDL      
+      my_real ,DIMENSION(NEL,3,2) :: EIGV(NEL,3,2)      
 C=======================================================================
       MU(1)  = UPARAM(1)
       MU(2)  = UPARAM(2)
@@ -104,15 +102,7 @@ C
       DO I=1,NORDER
         GMAX = GMAX + MU(I)*AL(I)
       ENDDO                               
-C     User variables initialisation
-      IF (TIME == ZERO .AND. ISIGI == 0) THEN 
-        DO I=1,NEL                            
-          DO J=1,NUVAR                         
-            UVAR(I,J) = ZERO                   
-          ENDDO                                
-          UVAR(I,3) = ONE                      
-        ENDDO                                 
-      ENDIF                                   
+! initialization of uvar(,3) in Starter
 C     principal stretch (def gradient eigenvalues)
       DO I=1,NEL
         TRAV(I)  = EPSXX(I)+EPSYY(I)
@@ -122,6 +112,16 @@ C     principal stretch (def gradient eigenvalues)
         EVV(I,2) = HALF*(TRAV(I)-ROOTV(I))
         EVV(I,3) = ZERO
       ENDDO
+C-- avoid NaN---------        
+      IF (ISMSTR == 10) THEN
+        DO I=1,NEL
+          IF (MIN(EVV(I,1),EVV(I,2)) <= -ONE) THEN
+           EVV(I,1) = ZERO
+           EVV(I,2) = ZERO
+           OFF(I) = FOUR_OVER_5
+          END IF
+        ENDDO
+      END IF  
 C     rot matrix (eigenvectors)
       DO I=1,NEL
         IF(ABS(EVV(I,2)-EVV(I,1))<EM10) THEN
@@ -160,97 +160,65 @@ C     Strain definition
           EV(I,3)=UVAR(I,3)
         ENDDO
       ENDIF
-C--------------------------------------
-C     Newton method =>  Find EV(3) : T3(EV(3)) = 0
-C--------------------------------------
-         DO ITER = 1,5
-!       ----------------
-          DO I=1,NEL  
-            RV(I) = EV(I,1)*EV(I,2)*EV(I,3)  
-c----       normalized stretch => unified compressible/uncompressible formution                   
-!            RVT    = RV(I)**(-THIRD)
-            IF(RV(I)> ZERO) THEN
-             RVT    = EXP((-THIRD)*LOG(RV(I)))
-            ELSE
-             RVT = ZERO
-            ENDIF                                               
-            EVM(I,1) = EV(I,1)*RVT                                        
-            EVM(I,2) = EV(I,2)*RVT                                        
-            EVM(I,3) = EV(I,3)*RVT
-         ENDDO  ! 1,NEL  
-!       ----------------                                      
-C----       partial derivatives of strain energy
-!       ----------------
-         DO J=1,5
-          DO I=1,NEL
-             IF(EVM(I,1)>ZERO) THEN
-              IF(AL(J)/=ZERO) THEN
-               EVMA1(I,J) = MU(J) * EXP(AL(J)*LOG(EVM(I,1)))
-              ELSE 
-               EVMA1(I,J) = MU(J)
-              ENDIF
-             ELSE
-              EVMA1(I,J) = ZERO
-             ENDIF
-             IF(EVM(I,2)>ZERO) THEN
-              IF(AL(J)/=ZERO) THEN
-               EVMA2(I,J) = MU(J) * EXP(AL(J)*LOG(EVM(I,2)))
-              ELSE
-               EVMA2(I,J) = MU(J)
-              ENDIF
-             ELSE
-              EVMA2(I,J) = ZERO
-             ENDIF
-             IF(EVM(I,3)>ZERO) THEN
-              IF(AL(J)/=ZERO) THEN
-               EVMA3(I,J) = MU(J) * EXP(AL(J)*LOG(EVM(I,3))) 
-              ELSE
-               EVMA3(I,J) = MU(J)
-              ENDIF
-             ELSE
-              EVMA3(I,J) = ZERO
-             ENDIF
-           ENDDO        ! 1,NEL
-          ENDDO   ! j=1,5             
-!       ----------------  
-          DO I=1,NEL                                               
-            DWDL(1) = EVMA1(I,1)+EVMA1(I,2)+EVMA1(I,3)+EVMA1(I,4)+EVMA1(I,5)                              
-            DWDL(2) = EVMA2(I,1)+EVMA2(I,2)+EVMA2(I,3)+EVMA2(I,4)+EVMA2(I,5)                                  
-            DWDL(3) = EVMA3(I,1)+EVMA3(I,2)+EVMA3(I,3)+EVMA3(I,4)+EVMA3(I,5)                                                
-            SUMDWDL = (DWDL(1)+DWDL(2)+DWDL(3))* THIRD                                
-            PARTP   = RBULK*(RV(I)- ONE)                                                     
-c------  ---
-c           principal cauchy stress
-            T(I,1)  = (DWDL(1) - SUMDWDL) / RV(I) + PARTP 
-            T(I,2)  = (DWDL(2) - SUMDWDL) / RV(I) + PARTP 
-            T(I,3)  = (DWDL(3) - SUMDWDL) / RV(I) + PARTP 
-c------  ---
-
-            KT3(I) = -THIRD*(EVMA1(I,1)+EVMA1(I,2)+EVMA1(I,3)+EVMA1(I,4)+EVMA1(I,5))
-     .            -THIRD*(EVMA2(I,1)+EVMA2(I,2)+EVMA2(I,3)+EVMA2(I,4)+EVMA2(I,5))    
-     .            +TWO_THIRD*(EVMA3(I,1)+EVMA3(I,2)+EVMA3(I,3)+EVMA3(I,4)+EVMA3(I,5))
-            KT3(I) =-EV(I,1)*EV(I,2)*KT3(I)/(RV(I)**2) + RBULK*EV(I,1)*EV(I,2)
-            KT3(I) = KT3(I) 
-     .            +(ONE_OVER_9*(AL(1)*EVMA1(I,1)+AL(2)*EVMA1(I,2)+AL(3)*EVMA1(I,3) 
-     .            +  AL(4)*EVMA1(I,4)+AL(5)*EVMA1(I,5) 
-     .            +  AL(1)*EVMA2(I,1)+AL(2)*EVMA2(I,2) + AL(3)*EVMA2(I,3) 
-     .            +  AL(4)*EVMA2(I,4)+AL(5)*EVMA2(I,5) 
-     .            +  FOUR*(AL(1)*EVMA3(I,1) + AL(2)*EVMA3(I,2)
-     .            +  AL(3)*EVMA3(I,3)
-     .            +  AL(4)*EVMA3(I,4)+AL(5)*EVMA3(I,5))))/EV(I,3)/RV(I)                                                    
-C
-            EV(I,3) = EV(I,3)  - T(I,3)/KT3(I) 
-            RV(I)   = EV(I,1)*EV(I,2)*EV(I,3) 
-          ENDDO ! 1,NEL
-      ENDDO    ! ITER = 1,5   
-C-----------------------
-      SV(1:NEL,1) = ZERO
-      SV(1:NEL,2) = ZERO
-      SV(1:NEL,3) = ZERO
-C-----------------------
+      NITER = 4
+!--------------------------------------
+!       Newton method =>  Find EV(3) : Kirchoff J*T3(EV(3)) = 0
+!--------------------------------------
+      DLAM3(1:NEL) =ZERO
+      DO ITER = 1,NITER
+        EV(1:NEL,3) = UVAR(1:NEL,3)+DLAM3(1:NEL) ! initial value takes lamda3(t)
+        DO I=1,NEL 
+          RV(I) = EV(I,1)*EV(I,2)*EV(I,3)                                    
+          RVT(I) = EXP( (-THIRD)* LOG(RV(I)) )
+          EVM(I,1:3) = EV(I,1:3)*RVT(I)                                      
+        ENDDO  ! 1,NEL    
+        KIR3(1:NEL) = ZERO
+        KT3(1:NEL) = ZERO
+        DO II = 1,NORDER
+          IF (MU(II)*AL(II) /= ZERO) THEN
+            DO I=1,NEL
+              IF (OFF(I)==ZERO.OR.OFF(I)==FOUR_OVER_5) CYCLE
+              LAM_AL(1:3) = EXP(AL(II)*LOG(EVM(I,1:3)))
+              SUMDWDL = THIRD*(LAM_AL(1)+LAM_AL(2)+LAM_AL(3))
+              SUM = MU(II)*(LAM_AL(3)-SUMDWDL) 
+              KIR3(I) = KIR3(I) + SUM 
+              KT3(I)  = KT3(I) + AL(II)*SUM
+            ENDDO
+          ENDIF
+        ENDDO
+        DO I=1,NEL 
+          IF (OFF(I)==ZERO.OR.OFF(I)==FOUR_OVER_5) CYCLE
+          PARTP = RBULK*(RV(I)- ONE)                                           
+          T(I,3)= KIR3(I)  + PARTP*RV(I)    !Kirchoff                     
+          KT3(I)= TWO_THIRD*KT3(I)/EV(I,3)+ RBULK*(TWO*RV(I)-ONE)*EV(I,1)*EV(I,2)          
+          IF (KT3(I)>EM20) DLAM3(I) = DLAM3(I) -T(I,3)/KT3(I)
+        ENDDO
+      END DO ! ITER = 1,NITER
+      EV(1:NEL,3) = UVAR(1:NEL,3)+DLAM3(1:NEL) 
+      DEZZ(1:NEL) = LOG(ONE+DLAM3(1:NEL)/UVAR(1:NEL,3))
+      UVAR(1:NEL,3) =  EV(1:NEL,3) 
+! compute T1,T2 Cauchy stress
       DO I=1,NEL
-        UVAR(I,3) = EV(I,3)
+        RV(I) = EV(I,1)*EV(I,2)*EV(I,3)                                    
+        RVT(I) = EXP((-THIRD)*LOG(RV(I))) ! -> J^(-1/3)
+        EVM(I,1:3) = EV(I,1:3)*RVT(I) 
+        INVRV(I) = ONE / RV(I)
+      END DO
+      S_LDWDL(1:NEL,1:3) = ZERO
+      DO II = 1,NORDER
+         IF (MU(II)*AL(II) /= ZERO) THEN
+           DO I=1,NEL
+             LAM_AL(1:3) = EXP(AL(II)*LOG(EVM(I,1:3)))
+             S_LDWDL(I,1:3)  = S_LDWDL(I,1:3) + MU(II)*LAM_AL(1:3)
+           ENDDO
+         ENDIF
       ENDDO
+      DO I=1,NEL
+        SUMDWDL = (S_LDWDL(I,1) + S_LDWDL(I,2) + S_LDWDL(I,3)) * THIRD                            
+        PARTP   = RBULK*(RV(I)- ONE)                                           
+        T(I,1)  = (S_LDWDL(I,1) - SUMDWDL) *INVRV(I)  + PARTP                         
+        T(I,2)  = (S_LDWDL(I,2) - SUMDWDL) *INVRV(I)  + PARTP                         
+      ENDDO                                                     
 C--------------------------------------
 c     tension cut                                                            
       DO I=1,NEL                                                             
@@ -262,45 +230,33 @@ c     tension cut
           OFF(I) = FOUR_OVER_5                                                     
         ENDIF                                                                
       ENDDO                                                                  
+! new gt      
+      CII(1:NEL,1:3) = ZERO
+      DO II = 1,NORDER
+        IF (MU(II)*AL(II) /= ZERO) THEN
+          DO I=1,NEL
+            LAM_AL(1:3) = EXP(AL(II)*LOG(EVM(I,1:3)))
+            AMAX = THIRD*(LAM_AL(1)+LAM_AL(2)+LAM_AL(3))
+            CII(I,1:3) = CII(I,1:3) + MU(II)*AL(II)*(LAM_AL(1:3)+AMAX) 
+          ENDDO
+        ENDIF
+      ENDDO
+      DO I = 1,NEL
+        GTMAX(I) = HALF*MAX(CII(I,1),CII(I,2),CII(I,3)) 
+      ENDDO
 C-------------------------------------------------------------
-C     set sound speed & viscosity
-    !  DO I=1,NEL
-    !    DEZZ(I)    =-NU/(ONE-NU)*(DEPSXX(I)+DEPSYY(I))
-    !    THKN(I)    = THKN(I) + DEZZ(I)*THKLYL(I)
-    !    RHO(I)     = RHO0(I)/RV(I)
-    !    SOUNDSP(I) = SQRT((TWO_THIRD*GMAX+RBULK)/RHO(I))
-    !    VISCMAX(I) = ZERO
-    !  ENDDO
-      IF (ISMSTR == 1 .OR. ISMSTR == 3 .OR. ISMSTR == 11) THEN  ! engineering strain
-        DO I=1,NEL
-          EPSZZ(I) =EV(I,3) - ONE
-          UVAR(I,3) = EV(I,3)
-        ENDDO
-      ELSEIF (ISMSTR == 10) THEN  ! left gauchy-green strain
-        DO I=1,NEL
-          EPSZZ(I) =EV(I,3) - ONE
-          UVAR(I,3) = EV(I,3)
-        ENDDO
-      ELSE  ! true strain
-        DO I=1,NEL
-          EPSZZ(I) =LOG(EV(I,3))
-          UVAR(I,3) = EV(I,3)
-        ENDDO
-      ENDIF
       DO I=1,NEL
-        RV(I)   = EV(I,1)*EV(I,2)*EV(I,3)  
-        DEZZ(I) =-NU/(ONE-NU)*(DEPSXX(I)+DEPSYY(I))
-        SIGNXX(I) =EIGV(I,1,1)*T(I,1)+EIGV(I,1,2)*T(I,2) + SV(I,1)/RV(I)
-        SIGNYY(I) =EIGV(I,2,1)*T(I,1)+EIGV(I,2,2)*T(I,2) + SV(I,2)/RV(I)
-        SIGNXY(I) =EIGV(I,3,1)*T(I,1)+EIGV(I,3,2)*T(I,2) + SV(I,3)/RV(I)
-C
-        SIGNYZ(I) = SIGOYZ(I)+GS(I)*DEPSYZ(I)
-        SIGNZX(I) = SIGOZX(I)+GS(I)*DEPSZX(I)
-        RHO(I)    = RHO0(I)/RV(I)
-        THKN(I) = THKN(I) + DEZZ(I)*THKLYL(I)*OFF(I)
-        VISCMAX(I)= ZERO
-C                
-        EMAX = GMAX*(ONE + NU)
+        SIGNXX(I) = EIGV(I,1,1)*T(I,1) + EIGV(I,1,2)*T(I,2) 
+        SIGNYY(I) = EIGV(I,2,1)*T(I,1) + EIGV(I,2,2)*T(I,2) 
+        SIGNXY(I) = EIGV(I,3,1)*T(I,1) + EIGV(I,3,2)*T(I,2) 
+! 
+        SIGNYZ(I) = SIGOYZ(I)+GS(I)*DEPSYZ(I) 
+        SIGNZX(I) = SIGOZX(I)+GS(I)*DEPSZX(I) 
+        RHO(I)    = RHO0(I)*INVRV(I)
+        THKN(I)   = THKN(I) + DEZZ(I)*THKLYL(I)*OFF(I)
+        VISCMAX(I)= ZERO         
+! 
+        EMAX = MAX(GMAX,GTMAX(I))*(ONE + NU)
         A11  = EMAX/(ONE - NU**2)
         SOUNDSP(I)= SQRT(A11/RHO0(I))
       ENDDO
