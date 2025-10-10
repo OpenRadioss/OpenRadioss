@@ -7728,7 +7728,7 @@ C
      F               SEGQUADFR ,TAGPRT_FRIC,INTBUF_FRIC_TAB              ,IPARTT           ,
      G               IPARTP    ,IPARTX     ,IPARTR                       ,NSN_MULTI_CONNEC ,T2_NB_CONNEC,
      H               SICODE    ,ICODE      ,ISKEW                        ,MULTI_FVM        ,S_NOD2ELS   ,
-     I               SITAB     ,SITABM1    ,FLAG_ELEM_INTER25            ,LIST_NIN25  )
+     I               SITAB     ,SITABM1    ,FLAG_ELEM_INTER25            ,LIST_NIN25       ,IRESP       )
       IF(IDDLEVEL == 0) CALL STOPTIME(12,1)
       IF(IDDLEVEL == 1) CALL STOPTIME(13,1)
 

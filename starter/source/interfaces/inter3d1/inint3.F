@@ -143,7 +143,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      G                  T2_CONNEC     ,NOM_OPT             ,ICODE                 ,ISKEW        ,IREMNODE_EDG,
      H                  S_APPEND_ARRAY,X_APPEND            ,MASS_APPEND           ,N2D          ,FLAG_REMOVED_NODE,
      I                  NSPMD         ,INTER_TYPE2_NUMBER  ,ELEM_LINKED_TO_SEGMENT,SINSCR       ,SICODE  ,
-     J                  SITAB         ,NIN25               ,FLAG_ELEM_INTER25     ,MULTI_FVM)
+     J                  SITAB         ,NIN25               ,FLAG_ELEM_INTER25     ,MULTI_FVM    ,IRESP   )
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -222,6 +222,7 @@ C-----------------------------------------------
       INTEGER, INTENT(in) :: S_APPEND_ARRAY !< size of X/MASS _APPEND
       my_real, DIMENSION(3*S_APPEND_ARRAY), TARGET :: X_APPEND !< extended position array for interface 18 + law 151
       my_real, DIMENSION(S_APPEND_ARRAY), TARGET :: MASS_APPEND !< extended mass array for interface 18 + law 151
+      INTEGER , INTENT(IN) :: IRESP
       CHARACTER(LEN=NCHARTITLE)::TITR
       TYPE(INTERSURFP) :: INTERCEP(3,NINTER)
       TYPE(INTBUF_STRUCT_), DIMENSION(NINTER), INTENT(inout) :: INTBUF_TAB !< interface data 
@@ -2007,7 +2008,7 @@ C
        I_MEM = 0
        CALL I25BUC_VOX1(
      1 X        ,INTBUF_TAB(NIN)%IRECTM  ,INTBUF_TAB(NIN)%NSV,INTBUF_TAB(NIN)%VARIABLES(4),
-     2 NMN      ,NRTM0             ,NSN        ,intbuf_tab(nin)  ,
+     2 NMN      ,NRTM             ,NSN        ,intbuf_tab(nin)  ,
      3 INTBUF_TAB(NIN)%VARIABLES(2),I_STOK ,
      4 INTBUF_TAB(NIN)%VARIABLES(5),INTBUF_TAB(NIN)%VARIABLES(8),MAXBOX  ,MINBOX,INTBUF_TAB(NIN)%MSR,
      5 INTBUF_TAB(NIN)%STFM  ,INTBUF_TAB(NIN)%STFNS  ,IDDLEVEL    ,
@@ -2019,7 +2020,7 @@ C
      B INTBUF_TAB(NIN)%KREMNODE,INTBUF_TAB(NIN)%REMNODE,
      C IXS, IXS10, IXS16, IXS20,ICODE,ISKEW, 
      D DRAD,INTBUF_TAB(NIN)%VARIABLES(46),NRTM,LOCAL_FLAG_REMOVED_NODE,
-     E INTBUF_TAB(NIN)%IELEM_M,nin,npari,ipari(1,nin) )
+     E INTBUF_TAB(NIN)%IELEM_M,nin,npari,ipari(1,nin))
 
 C       
        IF(IEDGE/=0)THEN
@@ -2193,11 +2194,13 @@ C
 
            ENDDO
 C
+           IWPENE0 = 0
            CALL I25PWR3(
      .      ITAB   ,INACTI,INTBUF_TAB(NIN)%CAND_E,INTBUF_TAB(NIN)%CAND_N,INTBUF_TAB(NIN)%STFNS,
      1      X      ,I_STOK,INTBUF_TAB(NIN)%NSV,IWPENE ,INTBUF_TAB(NIN)%PENE_OLD,
      2      NOINT  ,NTY   ,INTBUF_TAB(NIN)%MSR,INTBUF_TAB(NIN)%IRTLM,INTBUF_TAB(NIN)%IRECTM ,
-     3      NSN    ,ID    ,TITR    ,INTBUF_TAB(NIN)%MSEGLO,INTBUF_TAB(NIN)%ICONT_I)
+     3      NSN    ,ID    ,TITR    ,INTBUF_TAB(NIN)%MSEGLO,INTBUF_TAB(NIN)%ICONT_I,
+     4      IWPENE0,INTBUF_TAB(NIN)%VARIABLES(38),IRESP)
 C
          END IF !(NGROUS>0) THEN
 C-------------------------------------------------------------
@@ -2205,7 +2208,7 @@ C-------------------------------------------------------------
 C
          IF(IWPENE /= 0.AND. IDDLEVEL == 1)THEN
            IF(INACTI==0)THEN
-             CALL ANCMSG(MSGID=1166,MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_1,I1=ID,C1=TITR,I2=IWPENE)
+             CALL ANCMSG(MSGID=1166,MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_1,I1=ID,C1=TITR,I2=IWPENE,I3=IWPENE0)
            ELSEIF(INACTI==5.AND. IDDLEVEL == 1)THEN
              CALL ANCMSG(MSGID=1167,MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_1,I1=ID,C1=TITR,I2=IWPENE)
            ELSEIF(INACTI==-1.AND. IDDLEVEL == 1)THEN
