@@ -241,13 +241,13 @@ C
           ENDDO ! DO IL = 1,NLAY
         ENDIF  
       ENDIF
-      IF (MTN == 42 .OR. IGTYP == 51 .OR. IGTYP == 52) THEN
+      IF (MTN == 42 .OR. MTN == 69 .OR. IGTYP == 51 .OR. IGTYP == 52) THEN
           DO IL = 1,NLAY
             NPTT  = ELBUF_STR%BUFLY(IL)%NPTT
             ILAW  = ELBUF_STR%BUFLY(IL)%ILAW
             NUVAR = ELBUF_STR%BUFLY(IL)%NVAR_MAT
 !
-            IF (ILAW == 42) THEN
+            IF (ILAW == 42 .OR. MTN == 69) THEN
               DO IT=1,NPTT
                 LBUF => ELBUF_STR%BUFLY(IL)%LBUF(IR,IS,IT)
                 UVAR => ELBUF_STR%BUFLY(IL)%MAT(IR,IS,IT)%VAR 
