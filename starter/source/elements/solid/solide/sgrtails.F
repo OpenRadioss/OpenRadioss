@@ -1034,7 +1034,7 @@ c          IF (JHBE == 14 .AND. (IKSNOD0 == 16 .OR. IKSNOD0 == 20)) THEN
            ENDIF
             JHBE = 0
           ENDIF
-          IF (JHBE == 24 .AND. IKSNOD0 /= 8) THEN
+          IF (JHBE == 24 .AND. IKSNOD0 /= 8.AND. IKSNOD0 /= 6) THEN  
            IF(IKSNOD0 /= 4.AND.IKSNOD0 /= 10)THEN
             CALL ANCMSG(MSGID=758,
      .                  MSGTYPE=MSGWARNING,
@@ -1055,7 +1055,8 @@ c          IF (JHBE == 14 .AND. (IKSNOD0 == 16 .OR. IKSNOD0 == 20)) THEN
      .                  I2=JHBE,
      .                  I3=IGT)
           ENDIF
-          IF (JHBE/=15 .AND. IKSNOD0==6 ) THEN
+          IF (JHBE/=15 .AND. 
+     .    (IGT == 20 .OR. IGT == 21 .OR. IGT == 22 ).AND. IKSNOD0==6 ) THEN
             CALL ANCMSG(MSGID=639,
      .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO_BLIND_1,
