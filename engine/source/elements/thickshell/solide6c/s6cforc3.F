@@ -508,7 +508,7 @@ C
      4   F15,        F25,        F35,        F16,
      5   F26,        F36,        GBUF%SIG,   GBUF%EINT,
      6   GBUF%RHO,   GBUF%QVIS,  GBUF%PLA,   GBUF%EPSD,
-     7   GBUF%G_PLA, GBUF%G_EPSD,NEL)
+     7   GBUF%G_PLA, GBUF%G_EPSD,NEL,NLAY)
 C ------------------------------------------------------------------------------
 C  Update reference configuration (possible future change to small strain option)
 C -------------------------------------------------------------------------------

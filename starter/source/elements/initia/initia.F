@@ -226,6 +226,7 @@ C-----------------------------------------------
       USE DAMPING_RANGE_INIT_MOD
       USE EIKONAL_SOLVER_MOD, ONLY : EIKONAL_SOLVER
       USE DETONATION_TIMES_PRINTOUT_MOD , ONLY : DETONATION_TIMES_PRINTOUT
+      USE S6ZINIT3_MOD
       USE INIT_BCS_WALL_MOD , ONLY : INIT_BCS_WALL
       USE INIT_BCS_NRF_MOD , ONLY : INIT_BCS_NRF
       use init_inivol_mod , only : INIT_INIVOL
@@ -262,6 +263,7 @@ C-----------------------------------------------
 #include      "boltpr_c.inc"
 #include      "titr_c.inc"
 #include      "tabsiz_c.inc"
+#include      "scry_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -1040,6 +1042,38 @@ C Case total strain
      .                             GBUF%SMSTR,GBUF%OFF,NEL)
                END IF
             ENDIF
+
+         ELSEIF( (ISOLNOD == 6) .AND. (IGTYP == 14 .OR. IGTYP == 6))THEN
+             !for the moment, there is no orthotropic penta solid element (IGTYP == 6)
+             JHBE=IPARG(23,NG)
+
+
+             IF(JHBE /=24)  THEN
+             CALL ANCMSG(MSGID=3110,             
+     .       MSGTYPE=MSGERROR,       
+     .       ANMODE=ANINFO,                                 
+     .       I1=JHBE)      ! PROPERTY TITLE)      
+             ENDIF
+          CALL S6ZINIT3(
+     .             ELBUF_TAB(NG),MS       ,IXS      ,PM         ,X    ,
+     .             DETONATORS   ,GEO      ,ALE_CONNECTIVITY      ,IPARG(1,NG),
+     .             DTELEM       ,SIGI     ,NEL      ,SKEW       ,IGEO       ,
+     .             STIFN        ,PARTSAV  ,V        ,IPART(I15A),MSS,
+     .             IPART        ,GLOB_THERM,
+     .             SIGSP        ,NSIGI    ,IPM      ,IUSER      ,NSIGS   ,
+     .             VOLNOD       ,BVOLNOD  ,VNS      ,BNS        ,PTSOL   ,
+     .             BUFMAT       ,MCP      ,MCPS     ,TEMP    ,
+     .             NPC          ,PLD      ,STRSGLOB(NF1),STRAGLOB(NF1),MSSA    ,
+     .             FAIL_INI     ,ILOADP   ,FACLOAD  ,RNOISE  ,
+     .             PERTURB      ,MAT_PARAM,DEFAULTS%SOLID,
+     .             NPROPM       ,NPROPG   ,NPROPGI  ,NPROPMI   ,
+     .             LSKEW        ,SIZLOADP ,LFACLOAD ,
+     .             NIXS         ,NPERTURB , 
+     .             NUMMAT       ,NUMSOL   ,    LIPART1  ,
+     .             I7STIFS      ,ISORTH   ,ISTRAIN   ,
+     .             JTHE         ,MTN      ,NFT)
+
+
          ELSEIF(ISOLNOD == 10 .OR.(ISOLNOD == 4 .AND.ISROT == 1))THEN
           KK1=1+NUMELS*NIXS
           CALL S10INIT3(ELBUF_TAB(NG),
@@ -1092,7 +1126,7 @@ C Case total strain
      9         NPC         ,PLD       ,STRSGLOB(NF1),STRAGLOB(NF1),FAIL_INI   ,
      A         ILOADP      ,FACLOAD   ,PERTURB ,RNOISE     ,MAT_PARAM  ,              
      B         GLOB_THERM  )
-         ELSEIF(ITY==1)THEN
+         ELSE 
           JHBE=IPARG(23,NG)
           JCLOS=IPARG(33,NG)
           IINT =IPARG(36,NG)

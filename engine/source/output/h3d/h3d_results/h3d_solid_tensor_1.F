@@ -141,6 +141,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C       SOLID 8N
 C-----------------------------------------------
+
         IF (ITY == 1) THEN
 
 
@@ -802,7 +803,7 @@ c-----------
             ELSEIF ( ILAY >= 0 .AND. ILAY <= NLAY .AND. IR >= 0 .AND. IR <= NPTR .AND. 
      .                   IS >= 0 .AND.  IS <= NPTS) THEN
 c-----------
-              IF((ISOLNOD == 6.OR.ISOLNOD == 8).AND.JHBE == 15)THEN
+              IF(((ISOLNOD == 6.OR.ISOLNOD == 8).AND.JHBE == 15) .OR. ((ISOLNOD == 6).AND.JHBE == 24))THEN
 c-----------
                 IPT = IS
                 IF ( ILAY <= NPT) THEN
@@ -1025,7 +1026,7 @@ c-----------
 c ILAY= IS= IT=
               EVAR(1:6,1:NEL) = ZERO
 c-----------
-              IF((ISOLNOD == 6.OR.ISOLNOD == 8).AND.JHBE == 15)THEN
+              IF(((ISOLNOD == 6.OR.ISOLNOD == 8).AND.JHBE == 15) .OR. ((ISOLNOD == 6).AND.JHBE == 24))THEN
 c-----------
                 IPT = IS
                 IF ( ILAY <= NPT) THEN
@@ -1635,7 +1636,7 @@ C                 STRAIN TENSOR IN GLOBAL SYSTEM
                   ENDDO             
                 ENDIF
 c-----------
-              ELSEIF((ISOLNOD == 6.OR.ISOLNOD == 8).AND.JHBE == 15)THEN
+              ELSEIF(((ISOLNOD == 6.OR.ISOLNOD == 8).AND.JHBE == 15) .OR. ((ISOLNOD == 6).AND.JHBE == 24))THEN
 c-----------
                 IF (MLW>=28.AND.MLW /= 49.AND.ISTRAIN > 0) THEN
                   DO I=1,NEL               
@@ -2140,7 +2141,7 @@ c-----------
      .                   IS >= 0 .AND.  IS <= NPTS) THEN 
 
               EVAR(1:6,1:NEL) = ZERO
-              IF ((ISOLNOD == 6.OR.ISOLNOD == 8).AND.JHBE == 15) THEN
+              IF (((ISOLNOD == 6.OR.ISOLNOD == 8).AND.JHBE == 15) .OR. ((ISOLNOD == 6).AND.JHBE == 24)) THEN
 c-----------
                 IF ( ILAY <= NPT ) THEN
                   LBUF =>  ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(1,1,1) 
@@ -2385,7 +2386,7 @@ C                STRAIN TENSOR IN GLOBAL SYSTEM
             ELSEIF ( ILAY >= 0 .AND. ILAY <= NLAY) THEN 
 c ILAY= IS= IT=
               EVAR(1:6,1:NEL) = ZERO
-              IF ((ISOLNOD == 6.OR.ISOLNOD == 8).AND.JHBE == 15) THEN
+              IF (((ISOLNOD == 6.OR.ISOLNOD == 8).AND.JHBE == 15) .OR. ((ISOLNOD == 6).AND.JHBE == 24)) THEN
 c-----------
                 IF ( ILAY <= NPT ) THEN
                   LBUF =>  ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(1,1,1)  
@@ -2897,7 +2898,7 @@ C               PLASTIC STRAIN TENSOR IN GLOBAL SYSTEM
                   ENDDO             
                 ENDIF
 c-----------
-              ELSEIF((ISOLNOD == 6.OR.ISOLNOD == 8).AND.JHBE == 15)THEN
+              ELSEIF(((ISOLNOD == 6.OR.ISOLNOD == 8).AND.JHBE == 15) .OR. ((ISOLNOD == 6).AND.JHBE == 24))THEN
 c-----------
                 IF (MLW == 24 .and. ISTRAIN > 0) THEN
                   DO I=1,NEL               
@@ -3210,7 +3211,7 @@ c-----------
             ELSEIF ( ILAY >= 0 .AND. ILAY <= NLAY  .AND. IR >= 0 .AND. IR <= NPTR .AND. 
      .                   IS >= 0 .AND.  IS <= NPTS) THEN 
               EVAR(1:6,1:NEL)=ZERO
-              IF ((ISOLNOD == 6.OR.ISOLNOD == 8).AND.JHBE == 15) THEN
+              IF (((ISOLNOD == 6.OR.ISOLNOD == 8).AND.JHBE == 15) .OR. ((ISOLNOD == 6).AND.JHBE == 24)) THEN
 c-----------
                 IF ( ILAY <= NPT ) THEN
                   LBUF =>  ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(1,1,1)  
@@ -3408,7 +3409,7 @@ C               PLASTIC STRAIN TENSOR IN GLOBAL SYSTEM
             ELSEIF ( ILAY >= 0 .AND. ILAY <= NLAY) THEN 
 c ILAY= IS= IT=
               EVAR(1:6,1:NEL)=ZERO
-              IF ((ISOLNOD == 6.OR.ISOLNOD == 8).AND.JHBE == 15) THEN
+              IF (((ISOLNOD == 6.OR.ISOLNOD == 8).AND.JHBE == 15) .OR. ((ISOLNOD == 6).AND.JHBE == 24)) THEN
 c-----------
                 IF ( ILAY <= NPT ) THEN
                   LBUF =>  ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(1,1,1)  
@@ -4052,7 +4053,7 @@ C                 STRAIN TENSOR IN GLOBAL SYSTEM
                   ENDDO             
                 ENDIF
 c-----------
-              ELSEIF((ISOLNOD == 6.OR.ISOLNOD == 8).AND.JHBE == 15)THEN
+              ELSEIF(((ISOLNOD == 6.OR.ISOLNOD == 8).AND.JHBE == 15) .OR. ((ISOLNOD == 6).AND.JHBE == 24))THEN
 c-----------
                 IF (MLW>=28.AND.MLW /= 49.AND.ISTRAIN > 0) THEN
                   DO I=1,NEL               
@@ -4451,7 +4452,7 @@ c-----------
             ELSEIF ( ILAY >= 0 .AND. ILAY <= NLAY) THEN 
 c-----------
               EVAR(1:6,1:NEL) = ZERO
-              IF((ISOLNOD == 6.OR.ISOLNOD == 8).AND.JHBE == 15)THEN
+              IF(((ISOLNOD == 6.OR.ISOLNOD == 8).AND.JHBE == 15) .OR. ((ISOLNOD == 6).AND.JHBE == 24))THEN
                 IPT = IS                                           
                 IF ( ILAY <= NPT) THEN                             
                   LBUF =>  ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(1,1,1)   
