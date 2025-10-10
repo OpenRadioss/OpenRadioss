@@ -514,6 +514,11 @@ C to be checked for IGTYP = 51 : ok
      6       E2X     ,E3X      ,E1Y      ,E2Y       ,E3Y       ,
      7       E1Z     ,E2Z      ,E3Z      ,ISIGSH    ,DIR_A     ,
      8       DIR_B   ,POSLY    ,IGTYP    )    
+           IF (MTN == 1) THEN
+             DO I=LFT,LLT
+               GBUF%FOR_G(I+JJ(1:5))=GBUF%FOR(I+JJ(1:5))
+             END DO
+           END IF 
       ELSEIF ( ITHKSHEL == 1 ) THEN
         CALL THICKINI(LFT     ,LLT   ,NFT    ,PTSHEL,NUMELC,
      2                GBUF%THK,THK   ,IXC    ,NIXC  ,NSIGSH,

@@ -162,7 +162,7 @@ C
             ENDDO
             MPT  = MAX(1,NPT_ALL)
           ENDIF
-          IF (MLW == 1 .OR. MLW == 3 .OR. MLW == 23) MPT=0
+          IF (MLW == 1 ) MPT=0
 C
 c------- loop over 4 node shell elements
 C
@@ -424,6 +424,9 @@ c
      .                   + SHT(1)*QPG(2,IPG)+SHK(1)*QPG(1,IPG)
 c
                   JJ = JJ + 1
+                  WA(JJ) = ZERO
+!                  
+                  JJ = JJ + 1
                   WA(JJ) = GBUF%MOM(KK(1)+I)
      .                    + MT(1)*QPG(2,IPG)+MK(1)*QPG(1,IPG)
                   JJ = JJ + 1
@@ -651,7 +654,7 @@ C
             ENDDO
             MPT  = MAX(1,NPT_ALL)
           ENDIF
-          IF (MLW == 1 .OR. MLW == 3 .OR. MLW == 23) MPT=0
+          IF (MLW == 1 ) MPT=0
 C
 c------- loop over 3 node shell elements
 C
