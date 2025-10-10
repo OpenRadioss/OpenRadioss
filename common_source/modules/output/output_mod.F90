@@ -154,6 +154,10 @@
 !||    monvol0                            ../engine/source/airbag/monvol0.F
 !||    mulaw                              ../engine/source/materials/mat_share/mulaw.F90
 !||    mulaw8                             ../engine/source/materials/mat_share/mulaw8.F90
+!||    multi_ebcs                         ../engine/source/multifluid/multi_ebcs.F
+!||    multi_inlet_ebcs                   ../engine/source/multifluid/multi_inlet_ebcs.F
+!||    multi_nrf_ebcs                     ../engine/source/multifluid/multi_nrf_ebcs.F
+!||    multi_timeevolution                ../engine/source/multifluid/multi_timeevolution.F
 !||    pblast_1                           ../engine/source/loads/pblast/pblast_1.F
 !||    pblast_2                           ../engine/source/loads/pblast/pblast_2.F
 !||    pblast_3                           ../engine/source/loads/pblast/pblast_3.F

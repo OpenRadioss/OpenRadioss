@@ -52,6 +52,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    message_mod                          ../engine/share/message_module/message_mod.F
 !||    multi_fvm_mod                        ../common_source/modules/ale/multi_fvm_mod.F90
 !||    multi_muscl_fluxes_computation_mod   ../engine/source/multifluid/multi_muscl_fluxes_computation.F
+!||    output_mod                           ../common_source/modules/output/output_mod.F90
 !||    th_surf_mod                          ../common_source/modules/interfaces/th_surf_mod.F
 !||    timer_mod                            ../engine/source/system/timer_mod.F90
 !||====================================================================
