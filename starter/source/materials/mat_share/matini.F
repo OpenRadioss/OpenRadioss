@@ -343,7 +343,7 @@ C=======================================================================
      .                 NUVAR              ,MBUF%VAR   ,UPARAM   ,X   ,
      .                 MAT                ,IPARG      ,IFORM    ,IX         ,NIX ,
      .                 ALE_CONNECTIVITY   ,BUFMAT     ,RHO0     ,
-     .                 GBUF               ,NEL        ,SIG)
+     .                 LBUF               ,GBUF       ,NEL      ,SIG)
         ELSEIF (MTN == 70) THEN
           CALL M70INIT(NEL   ,NPAR   ,NUVAR    ,UPARAM   ,MBUF%VAR)
 

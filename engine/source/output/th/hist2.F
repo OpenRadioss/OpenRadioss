@@ -114,11 +114,11 @@ C-----------------------------------------------
       USE SEATBELT_MOD  
       USE SENSOR_MOD
       USE MATPARAM_DEF_MOD
-      USE EBCS_MOD , only : t_ebcs_tab
-      USE TH_SURF_MOD , only : TH_SURF_NUM_CHANNEL
-      use glob_therm_mod
+      USE EBCS_MOD , ONLY : T_EBCS_TAB
+      USE TH_SURF_MOD , ONLY : TH_SURF_NUM_CHANNEL
+      USE GLOB_THERM_MOD
       USE OUTPUT_MOD , ONLY : OUTPUT_
-      use thsechecksum_mod
+      USE THSECHECKSUM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

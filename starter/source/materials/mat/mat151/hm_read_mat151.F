@@ -77,6 +77,7 @@ C-----------------------------------------------
       INTEGER :: II
       my_real :: FRAC_VOL, SUM_FRAC_VOL
       my_real :: VFRAC(21)
+      my_real :: FAC
       INTEGER :: IMID(21)
 C-----------------------------------------------
 C     B o d y
@@ -118,8 +119,8 @@ C-----------------------------------------------
          ENDIF
       ENDDO
 
-      ! Warning and Error messages
-      IF (SUM_FRAC_VOL /= ONE) THEN
+      ! Warning and Error messages SUM_FRAC_VOL /= 1.0
+      IF (ABS(ONE-SUM_FRAC_VOL) > EM14) THEN
          IF (NUM_INIVOL == 0) THEN
             CALL ANCMSG(MSGID = 1512, MSGTYPE = MSGERROR, ANMODE = ANINFO, C1 = "ERROR", I1 = ID, R1 = SUM_FRAC_VOL)
          ELSE

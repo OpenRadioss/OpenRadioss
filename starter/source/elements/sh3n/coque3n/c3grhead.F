@@ -333,6 +333,7 @@ C
         MID= IXTG(1,II)
         PID= IXTG(5,II)
         MLN = NINT(PM(19,MID))
+        IF(MLN == 51)TRIMAT=4
 C
         JTHE = NINT(PM(71,MID))
         IGTYP = IGEO(11,PID)

@@ -265,6 +265,28 @@ C=======================================================================
              EBCS%has_iface = .TRUE.
              IF(IFLAG==0)ALLOCATE(EBCS%iface(EBCS%nb_elem))
              EBCS%iface(1:EBCS%nb_elem) = 0
+             IF(.NOT. MULTI_FVM_IS_USED)THEN
+               !     la
+               EBCS%has_la = .true.
+               IF(IFLAG==0)ALLOCATE(EBCS%la(3, EBCS%nb_node))
+               EBCS%la(1:3, 1:EBCS%nb_node) = ZERO
+               !     area
+               EBCS%has_area = .true.
+               IF(IFLAG==0)ALLOCATE(EBCS%area(EBCS%nb_elem))
+               EBCS%area(1:EBCS%nb_elem) = ZERO
+               !     dvnf
+               EBCS%has_dvnf = .true.
+               IF(IFLAG==0)ALLOCATE(EBCS%dvnf(EBCS%nb_elem))
+               EBCS%dvnf(1:EBCS%nb_elem) = ZERO
+               !     ng
+               EBCS%has_ng = .true.
+               IF(IFLAG==0)ALLOCATE(EBCS%ng(EBCS%nb_elem))
+               EBCS%ng(1:EBCS%nb_elem) = 0
+               !     iloc
+               EBCS%has_iloc = .true.
+               IF(IFLAG==0)ALLOCATE(EBCS%iloc(EBCS%nb_elem))
+               EBCS%iloc(1:EBCS%nb_elem) = 0
+             ENDIF
            TYPE IS (t_ebcs_fluxout)
              EBCS%has_iface = .TRUE.
              IF(IFLAG==0)ALLOCATE(EBCS%iface(EBCS%nb_elem))
@@ -341,7 +363,7 @@ C=======================================================================
      .            IGRSURF(ISU)%NODES,MWA,MWA(1+(2+NUMNOD)),PM,X,TYP,IGEO)                  
           ENDIF
           
-          IF(.NOT.EBCS%is_multifluid .AND. (TYP == 0 .OR. TYP == 10 .OR. TYP == 11))THEN
+          IF(.NOT.EBCS%is_multifluid .AND. (TYP == 0 .OR. TYP == 8 .OR. TYP == 10 .OR. TYP == 11))THEN
             !2D quads & trias EBCS : all on domain 1 (ispmd=0)  --> TAG with  EBCS_TAG_CELL_SPMD
             !-------------------------------------------------                      
             DO KK=1,EBCS%nb_elem              

@@ -452,7 +452,8 @@ C
      .                          ELBUF_TAB,EBCS_TAB,MULTI_FVM,IXQ,IXS,IXTG,
      .                          FSKY,FSAVSURF,TT,DT1,
      .                          SENSORS%NSENSOR,SENSORS%SENSOR_TAB,PYTHON,
-     .                          NPC, TF ,SNPC, STF, OUTPUT)
+     .                          NPC, TF ,SNPC, STF, OUTPUT, MATPARAM,  PM,
+     .                          BUFMAT)
                ENDIF
                CALL MY_BARRIER
             ENDIF

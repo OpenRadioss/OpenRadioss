@@ -177,8 +177,7 @@ C-----------------------------------------------
       NITER  = 10
       N_LC   = 0
       IOPT   = 0
-      TRIMAT = 4 !MAX(TRIMAT,3)
-      NUVAR  = (M51_N0PHAS + TRIMAT*M51_NVPHAS)
+      NUVAR  = (M51_N0PHAS + 4*M51_NVPHAS)
       PEXT   = ZERO
       PFAR   = ZERO
       VIS    = ZERO

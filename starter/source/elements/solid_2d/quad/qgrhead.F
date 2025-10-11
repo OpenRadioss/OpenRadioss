@@ -34,7 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      1       IXQ     ,PM      ,GEO     ,INUM    ,ISEL    ,
      2       ITR1    ,EADD    ,INDEX   ,ITRI    ,IPARTQ  ,     
      3       ND      ,IGRSURF ,IGRQUAD ,CEP     ,MAT_PARAM,
-     5       XEP     ,IGEO    ,IPM     ,IQUAOFF )     
+     5       XEP     ,IGEO    ,IPM     ,IQUAOFF ,TRIMAT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -81,6 +81,7 @@ C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRQUAD)  :: IGRQUAD
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
       TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT),INTENT(IN) :: MAT_PARAM
+      INTEGER,INTENT(INOUT) :: TRIMAT
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
@@ -151,6 +152,7 @@ C
           JCVT = IGEO(16,PID)
         ENDIF
         MLN = NINT(PM(19,ABS(MID)))
+         IF(MLN == 51)TRIMAT=4
         IF(MID<0)THEN
           IF(MLN==6.AND.JPOR/=2)MLN=17
           IF(MLN==46)MLN=47
