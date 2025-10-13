@@ -63,17 +63,18 @@ C-----------------------------------------------
             LOCAL_SIZE = size(INTBUF_TAB(N)%KREMNODE)
             INTBUF_TAB(N)%KREMNODE(1:LOCAL_SIZE) = 0
             INTBUF_TAB(N)%S_REMNODE = 0
-
-            LOCAL_SIZE = size(INTBUF_TAB(N)%KREMNODE_EDG)
-            INTBUF_TAB(N)%KREMNODE_EDG(1:LOCAL_SIZE) = 0
-            INTBUF_TAB%S_KREMNODE_EDG = 0
-
-            LOCAL_SIZE = size(INTBUF_TAB(N)%KREMNODE_E2S)
-            INTBUF_TAB(N)%KREMNODE_E2S(1:LOCAL_SIZE) = 0
-            INTBUF_TAB%S_KREMNODE_E2S = 0
-
-            INTBUF_TAB(N)%S_REMNODE_EDG = 0
-            INTBUF_TAB(N)%S_REMNODE_E2S = 0
+            IF(INTERFACE_TYPE == 24) THEN
+              LOCAL_SIZE = size(INTBUF_TAB(N)%KREMNODE_EDG)
+              INTBUF_TAB(N)%KREMNODE_EDG(1:LOCAL_SIZE) = 0
+              INTBUF_TAB%S_KREMNODE_EDG = 0
+             
+              LOCAL_SIZE = size(INTBUF_TAB(N)%KREMNODE_E2S)
+              INTBUF_TAB(N)%KREMNODE_E2S(1:LOCAL_SIZE) = 0
+              INTBUF_TAB%S_KREMNODE_E2S = 0
+             
+              INTBUF_TAB(N)%S_REMNODE_EDG = 0
+              INTBUF_TAB(N)%S_REMNODE_E2S = 0
+            ENDIF
           ENDIF
         ENDDO
         ! ---------------------------
