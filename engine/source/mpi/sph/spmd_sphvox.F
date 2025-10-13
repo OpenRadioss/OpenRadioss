@@ -64,7 +64,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER KXSP(NISP,*), WSP2SORT(*)
       my_real 
-     .        X(3,*),BMINMAL(*), SPBUF(NSPBUF,*)
+     .        X(3,*),BMINMAL(6), SPBUF(NSPBUF,*)
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
@@ -80,9 +80,10 @@ C-----------------------------------------------
      .        INDEX(NSP2SORT), STATUS(MPI_STATUS_SIZE),
      .        MSGOFF,MSGOFF2,MSGOFF3,MSGOFF4
       my_real 
-     .        BMINMA(6,NSPMD),ALPHA_MARGE,
+     .        ALPHA_MARGE,
      .        XMAXB,YMAXB,ZMAXB,XMINB,YMINB,ZMINB,
      .        AAA
+      my_real BMINMA(6,NSPMD)
       TYPE(real_pointer), DIMENSION(NSPMD) :: BUF
       my_real, dimension(:), allocatable :: sbuf,rbuf
       DATA MSGOFF/2023/
