@@ -70,7 +70,7 @@ C
 C-----------------------------------------------
 C     SPRING
 C-----------------------------------------------
-      CALL MY_ALLOC(NP,5*NUMELR)
+      CALL MY_ALLOC(NP,6*NUMELR)
       CALL MY_ALLOC(CLEF,2,NUMELR)
 C-----------------------------------------------
       JJ = 0
@@ -94,12 +94,17 @@ c
               NP(JJ+1) = IXR(NIXR,N)
               NP(JJ+2) = ITAB(IXR(2,N))
               NP(JJ+3) = ITAB(IXR(3,N))
-              NP(JJ+4) = IPRT
-              NP(JJ+5) = IABS(NINT(GBUF%OFF(I)))
+              IF(IXR(4,N) > 0) THEN
+                NP(JJ+4) = ITAB(IXR(4,N))
+              ELSE
+                NP(JJ+4) = 0
+              ENDIF
+              NP(JJ+5) = IPRT
+              NP(JJ+6) = IABS(NINT(GBUF%OFF(I)))
 c
               II = II + 1
 c
-              JJ = JJ + 5
+              JJ = JJ + 6
 c
               STAT_NUMELR =STAT_NUMELR+1
               CLEF(1,STAT_NUMELR)=IPRT
@@ -107,6 +112,7 @@ c
 c
               NODTAG(IXR(2,N))=1
               NODTAG(IXR(3,N))=1
+              IF(IXR(4,N) > 0)NODTAG(IXR(4,N))=1
             ENDDO ! DO I=LFT,LLT
           ENDIF ! IF (ITY == 6)
         ENDDO ! DO NG=1,NGROUP
@@ -120,17 +126,21 @@ C----
       IPRT0=0
       DO N=1,STAT_NUMELR
         K=STAT_INDXR(N)
-        JJ=5*(K-1)
-        IPRT=NP(JJ+4)
-        IOFF=NP(JJ+5)
+        JJ=6*(K-1)
+        IPRT=NP(JJ+5)
+        IOFF=NP(JJ+6)
         IF (IDEL==0 .OR. (IDEL==1 .AND. IOFF >= 1)) THEN
           IF (IPRT /= IPRT0) THEN
             WRITE(IUGEO,'(A,I10)')'/SPRING/',IPART(4,IPRT)
             WRITE(IUGEO,'(A)')
-     .    '#SPRING_ID      NOD1      NOD2'
+     .    '#SPRING_ID      NOD1      NOD2      NOD3'
             IPRT0=IPRT
           ENDIF
-          WRITE(IUGEO,'(3I10)') NP(JJ+1),NP(JJ+2),NP(JJ+3)
+          IF(NP(JJ+4) > 0) THEN
+            WRITE(IUGEO,'(4I10)') NP(JJ+1),NP(JJ+2),NP(JJ+3),NP(JJ+4)
+          ELSE
+            WRITE(IUGEO,'(3I10)') NP(JJ+1),NP(JJ+2),NP(JJ+3)
+          ENDIF
         ENDIF !IF (IDEL)
       ENDDO ! DO N=1,STAT_NUMELR
 C----
