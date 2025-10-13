@@ -1024,7 +1024,7 @@ C--------------------------------------
 C--------------------------------------
 C Writing Additional Tables Frontieres SPH (integer part)
 C--------------------------------------
-      CALL SPMD_SAVESPH(1)
+      CALL SPMD_SAVESPH(1,NUMSPHG)
 C--------------------------------------
 C Int 21 structures
 C--------------------------------------
@@ -1283,7 +1283,7 @@ C--------------------------------------
 C--------------------------------------
 C Writing Additional Tables Frontieres SPH (Real part)
 C--------------------------------------
-      CALL SPMD_SAVESPH(2)
+      CALL SPMD_SAVESPH(2,NUMSPHG)
 C--------------------------------------
 C     ECRITURES FACULTATIVES
 C--------------------------------------

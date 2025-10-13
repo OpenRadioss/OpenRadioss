@@ -954,7 +954,7 @@ C
             CALL ZERO1(FTHE(NODFT),NUMNTHREAD)
           ENDIF 
 C
-          IF(NSPHSOL/=0)THEN
+          IF(SOL2SPH_FLAG/=0)THEN
             CALL ZERO1(DMSPH(NODFT),NUMNTHREAD)
           ENDIF
 
