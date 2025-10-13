@@ -100,14 +100,14 @@
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
         real(kind=WP) ::                                                       &
-          nu,rate(maxfunc+1),hys,rho0,rhor,bulk,fcut,yfac(maxfunc+1),      &
+          nu,rate(maxfunc+1),hys,rho0,rhor,bulk,fcut,yfac(maxfunc+1),          &
           yfac_unl,shape,gs,e,x1scale,x2scale,dx,dy,dydx,sgl,sw,st,gdamp,      &
           sigf,kfail,gam1,gam2,eh,areafac,lengthfac,beta,xscale,yscale,        &
           lam,rv,lambda(maxfunc+1),sigpeak,ssp     
         integer ::                                                             &
-          i,nl,ifunc(maxfunc+1),ifunc_unload,itens,iunl_for,                &
+          i,nd,nl,ifunc(maxfunc+1),ifunc_unload,itens,iunl_for,                &
           ifunc_out(maxfunc+1),npt,npt2,ndim,rtype,j,failip,nv_base
-        logical is_available,is_encrypted,found
+        logical is_available,is_encrypted,found,insert_origin
         type(table_4d_), dimension(:), pointer :: table_mat   
         real(kind=8) :: info,xint,yint
         real(kind=8), dimension(:)  , allocatable :: x_raw
@@ -271,7 +271,7 @@
         !     through the origin (0,0)
         ndim = table_mat(1)%ndim
         npt = size(table_mat(1)%x(1)%values)
-        allocate(x_out(nout+1,nl),y_out(nout+1,nl))
+        allocate(x_out(nout,nl),y_out(nout,nl))
 !
         ! ---> No strain rate dependency
         !-----------------------------------------------------------------------
@@ -280,9 +280,9 @@
           !< Normalize abscissa and ordinate prior to spline fitting
           xscale = max(abs(table_mat(1)%x(1)%values(1)),                       &
                            table_mat(1)%x(1)%values(npt))
-          table_mat(1)%x(1)%values(1:npt) = table_mat(1)%x(1)%values(1:npt)/   &
-                                                                     xscale  
-          yscale = max(abs(table_mat(1)%y1d(1)),table_mat(1)%y1d(npt))
+          table_mat(1)%x(1)%values(1:npt) =                                    &
+                           table_mat(1)%x(1)%values(1:npt)/xscale  
+          yscale = max(abs(table_mat(1)%y1d(1)),abs(table_mat(1)%y1d(npt)))
           table_mat(1)%y1d(1:npt) = table_mat(1)%y1d(1:npt)/yscale
 !
           !< Allocate temporary arrays
@@ -296,18 +296,45 @@
 !
           !< Smoothing spline fit
           call table_mat_spline_fit(npt     ,x_raw(1:npt),y_raw(1:npt,1),nout, &
-                                      x_out(1:nout+1,1)  ,y_out(1:nout+1,1)  , &
-                                      real(lambda(1),kind=8))                          
+                                    x_out(1:nout,1)      ,y_out(1:nout,1)    , &
+                                    real(lambda(1),kind=8))                          
 !
           !< Rescale back to original values
-          x_out(1:nout+1,1) = x_out(1:nout+1,1)*xscale
-          y_out(1:nout+1,1) = y_out(1:nout+1,1)*yscale
+          x_out(1:nout,1) = x_out(1:nout,1)*xscale
+          y_out(1:nout,1) = y_out(1:nout,1)*yscale
+!
+          !< Check if the origin (0,0) is included in the smoothed curve
+          insert_origin = .false.
+          do i = 1, nout-1
+            if ((x_out(i,1) < zero) .and. (x_out(i+1,1) > zero)) then
+              insert_origin = .true.
+              exit
+            endif
+          enddo
 !
           !< Copy the smoothed curve to the material table
-          deallocate(table_mat(1)%x(1)%values,table_mat(1)%y1d)
-          allocate(table_mat(1)%x(1)%values(nout+1),table_mat(1)%y1d(nout+1))
-          table_mat(1)%x(1)%values(1:nout+1) = x_out(1:nout+1,1)
-          table_mat(1)%y1d(1:nout+1) = y_out(1:nout+1,1)  
+          if (insert_origin) then
+            deallocate(table_mat(1)%x(1)%values,table_mat(1)%y1d)
+            allocate(table_mat(1)%x(1)%values(nout+1),table_mat(1)%y1d(nout+1))
+            nd = 1
+            do i = 1, nout
+              table_mat(1)%x(1)%values(nd) = x_out(i,1)
+              table_mat(1)%y1d(nd) = y_out(i,1)
+              nd = nd + 1
+              if (i < nout) then
+                if ((x_out(i,1) < zero) .and. (x_out(i+1,1) > zero)) then
+                  table_mat(1)%x(1)%values(nd) = zero
+                  table_mat(1)%y1d(nd) = zero
+                  nd = nd + 1
+                endif
+              endif
+            enddo
+          else
+            deallocate(table_mat(1)%x(1)%values,table_mat(1)%y1d)
+            allocate(table_mat(1)%x(1)%values(nout),table_mat(1)%y1d(nout))
+            table_mat(1)%x(1)%values(1:nout) = x_out(1:nout,1)
+            table_mat(1)%y1d(1:nout) = y_out(1:nout,1)
+          endif  
 !
         ! ---> Strain rate dependency  
         !-----------------------------------------------------------------------
@@ -333,10 +360,14 @@
               if (found) then 
                 call monotone_in_rate_signed_highfix(                          &
                   npt      ,x_raw(1:npt),y_raw(1:npt,i),y_raw(1:npt,j),        &
-                  0.02d0   ,50.0d0      ,.true.        , .true.       )                
+                  0.02d0   ,50.0d0      ,.true.        , .true.       )   
               endif
             enddo
           enddo
+
+          !< Copy back to material table 
+          table_mat(1)%x(1)%values(1:npt) = x_raw(1:npt)
+          table_mat(1)%y2d(1:npt,1:nl) = y_raw(1:npt,1:nl)
 !
           !< Normalize common abscissa prior to spline fitting
           xscale = max(abs(table_mat(1)%x(1)%values(1)),                       &
@@ -344,35 +375,59 @@
           table_mat(1)%x(1)%values(1:npt) = table_mat(1)%x(1)%values(1:npt)/   &
                                                                      xscale 
 !
-          !< Re-allocate temporary arrays
-          if (allocated(x_raw)) deallocate(x_raw)
-          if (allocated(y_raw)) deallocate(y_raw)
-          allocate(x_raw(npt),y_raw(npt,nl))   
-!
           !< Copy raw data into temporary arrays
           x_raw(1:npt) = table_mat(1)%x(1)%values(1:npt)  
 !
           do j = 1,nl
             !< Normalize current ordinate prior to spline fitting
-            yscale = max(abs(table_mat(1)%y2d(1,j)),table_mat(1)%y2d(1,j))
+            yscale = max(abs(table_mat(1)%y2d(1,j)),abs(table_mat(1)%y2d(npt,j)))
             table_mat(1)%y2d(1:npt,j) = table_mat(1)%y2d(1:npt,j)/yscale
             y_raw(1:npt,j) = table_mat(1)%y2d(1:npt,j)
             call table_mat_spline_fit(                                         &
-              npt      ,x_raw(1:npt),y_raw(1:npt,j),nout    ,x_out(1:nout+1,j),&
-              y_out(1:nout+1,j),real(lambda(j),kind=8)) 
+              npt      ,x_raw(1:npt),y_raw(1:npt,j),nout    ,x_out(1:nout,j),  &
+              y_out(1:nout,j),real(lambda(j),kind=8)) 
 !
             !< Rescale back to original values
-            x_out(1:nout+1,j) = x_out(1:nout+1,j)*xscale
-            y_out(1:nout+1,j) = y_out(1:nout+1,j)*yscale
+            x_out(1:nout,j) = x_out(1:nout,j)*xscale
+            y_out(1:nout,j) = y_out(1:nout,j)*yscale
           enddo
 !
-          !< Copy the smoothed curves to the material table
-          deallocate(table_mat(1)%x(1)%values,table_mat(1)%y2d)
-          allocate(table_mat(1)%x(1)%values(nout+1),table_mat(1)%y2d(nout+1,nl))
-          do j = 1,nl
-            table_mat(1)%x(1)%values(1:nout+1) = x_out(1:nout+1,j)
-            table_mat(1)%y2d(1:nout+1,j) = y_out(1:nout+1,j)    
-          enddo
+          !< Check if the origin (0,0) is included in the smoothed curve
+          insert_origin = .false.
+          do i = 1, nout-1
+            if ((x_out(i,1) < zero) .and. (x_out(i+1,1) > zero)) then
+              insert_origin = .true.
+              exit
+            endif
+          enddo 
+!
+          !< Copy the smoothed curve to the material table
+          if (insert_origin) then
+            deallocate(table_mat(1)%x(1)%values,table_mat(1)%y2d)
+            allocate(table_mat(1)%x(1)%values(nout+1),table_mat(1)%y2d(nout+1,nl))
+            do j = 1, nl
+              nd = 1
+              do i = 1, nout
+                table_mat(1)%x(1)%values(nd) = x_out(i,j)
+                table_mat(1)%y2d(nd,j) = y_out(i,j)
+                nd = nd + 1
+                if (i < nout) then 
+                  if ((x_out(i,j) < zero) .and. (x_out(i+1,j) > zero)) then
+                    table_mat(1)%x(1)%values(nd) = zero
+                    table_mat(1)%y2d(nd,j) = zero
+                    nd = nd + 1
+                  endif
+                endif
+              enddo
+            enddo
+          else
+            deallocate(table_mat(1)%x(1)%values,table_mat(1)%y2d)
+            allocate(table_mat(1)%x(1)%values(nout),table_mat(1)%y2d(nout,nl))
+            do j = 1,nl
+              table_mat(1)%x(1)%values(1:nout) = x_out(1:nout,j)
+              table_mat(1)%y2d(1:nout,j) = y_out(1:nout,j)
+            enddo
+          endif
 !
         endif
 !
@@ -392,16 +447,17 @@
                                yfac(nl+1)   ,ntable    ,table    ,ierr     )  
 !
           !< Ensure the closed loop between quasi-static loading and unloading curves
-          allocate(x_out2(nout+1),y_out2(nout+1))
+          allocate(x_out2(nout),y_out2(nout))
+          npt  = size(table_mat(1)%x(1)%values)
           npt2 = size(table_mat(2)%x(1)%values)
           table_mat(2)%x(1)%values(1) = table_mat(1)%x(1)%values(1)
-          table_mat(2)%x(1)%values(npt2) = table_mat(1)%x(1)%values(nout+1)
+          table_mat(2)%x(1)%values(npt2) = table_mat(1)%x(1)%values(npt)
           if (ndim == 1) then
             table_mat(2)%y1d(1) = table_mat(1)%y1d(1)
-            table_mat(2)%y1d(npt2) = table_mat(1)%y1d(nout+1)
+            table_mat(2)%y1d(npt2) = table_mat(1)%y1d(npt)
           else
             table_mat(2)%y1d(1) = table_mat(1)%y2d(1,1)
-            table_mat(2)%y1d(npt2) = table_mat(1)%y2d(nout+1,1)
+            table_mat(2)%y1d(npt2) = table_mat(1)%y2d(npt,1)
           endif
 !
           !< Normalize abscissa and ordinate prior to spline fitting
@@ -409,7 +465,7 @@
                            table_mat(2)%x(1)%values(npt2))
           table_mat(2)%x(1)%values(1:npt2) = table_mat(2)%x(1)%values(1:npt2)/ &
                                                                    xscale
-          yscale = max(abs(table_mat(2)%y1d(1)),table_mat(2)%y1d(npt2))
+          yscale = max(abs(table_mat(2)%y1d(1)),abs(table_mat(2)%y1d(npt2)))
           table_mat(2)%y1d(1:npt2) = table_mat(2)%y1d(1:npt2)/yscale
 !
           !< Re-allocate temporary arrays
@@ -424,12 +480,12 @@
           ! --> Spline interpolation, smoothing, ensure monotonicity and go 
           !     through the origin (0,0)
           call table_mat_spline_fit(npt2    ,x_raw(1:npt2),y_raw(1:npt2,1),    &
-                                    nout    ,x_out2       ,y_out2         ,    &
+                                    nout    ,x_out2(1:nout),y_out2(1:nout),    &
                                     real(lambda(1),kind=8))
 !
           !< Rescale back to original values
-          x_out2(1:nout+1) = x_out2(1:nout+1)*xscale
-          y_out2(1:nout+1) = y_out2(1:nout+1)*yscale
+          x_out2(1:nout) = x_out2(1:nout)*xscale
+          y_out2(1:nout) = y_out2(1:nout)*yscale
 !
           !< Make sure again the unloading curve makes a closed loop with the 
           !  loading curve
@@ -439,32 +495,54 @@
           else
             y_out2(1) = table_mat(1)%y2d(1,1)
           endif
-          x_out2(nout+1) = table_mat(1)%x(1)%values(nout+1)
+          x_out2(nout) = table_mat(1)%x(1)%values(npt)
           if (ndim == 1) then 
-            y_out2(nout+1) = table_mat(1)%y1d(nout+1)
+            y_out2(nout) = table_mat(1)%y1d(npt)
           else
-            y_out2(nout+1) = table_mat(1)%y2d(nout+1,1)
+            y_out2(nout) = table_mat(1)%y2d(npt,1)
           endif
 !
-          !< Copy the unloading curve to the material table
-          deallocate(table_mat(2)%x(1)%values,table_mat(2)%y1d)
-          allocate(table_mat(2)%x(1)%values(nout+1),table_mat(2)%y1d(nout+1))
-          table_mat(2)%x(1)%values(1:nout+1) = x_out2(1:nout+1)
-          table_mat(2)%y1d(1:nout+1) = y_out2(1:nout+1)
-        ! --> Hysteretic unloading parameters
-        elseif (hys /= zero) then
-          iunl_for = 2
-          hys = abs(hys)
-          hys = max(hys,zero)
-          hys = min(hys,one)
-        endif 
+          !< Check if the origin (0,0) is included in the smoothed curve
+          insert_origin = .false.
+          do i = 1, nout-1
+            if ((x_out2(i) < zero) .and. (x_out2(i+1) > zero)) then
+              insert_origin = .true.
+              exit
+            endif
+          enddo
+!
+          !< Copy the smoothed curve to the material table
+          if (insert_origin) then
+            deallocate(table_mat(2)%x(1)%values,table_mat(2)%y1d)
+            allocate(table_mat(2)%x(1)%values(nout+1),table_mat(2)%y1d(nout+1))
+            nd = 1
+            do i = 1, nout
+              table_mat(2)%x(1)%values(nd) = x_out2(i)
+              table_mat(2)%y1d(nd) = y_out2(i)
+              nd = nd + 1
+              if (i < nout) then
+                if ((x_out2(i) < zero) .and. (x_out2(i+1) > zero)) then
+                  table_mat(2)%x(1)%values(nd) = zero
+                  table_mat(2)%y1d(nd) = zero
+                  nd = nd + 1
+                endif
+              endif
+            enddo
+          else
+            deallocate(table_mat(2)%x(1)%values,table_mat(2)%y1d)
+            allocate(table_mat(2)%x(1)%values(nout),table_mat(2)%y1d(nout))
+            table_mat(2)%x(1)%values(1:nout) = x_out2(1:nout)
+            table_mat(2)%y1d(1:nout) = y_out2(1:nout)
+          endif
+        endif
 !
         !<======================================================================
         !< Specific treatment for compressible materials
         !<======================================================================  
+        npt = size(table_mat(1)%x(1)%values)
         if ((nu > zero) .and. (nu < 0.49d0)) then
           !< Effective bulk modulus
-          do i = 1, nout+1
+          do i = 1, npt
             if (table_mat(1)%x(1)%values(i) /= zero) then
               lam = table_mat(1)%x(1)%values(i) + one
               rv  = lam**(one - two*nu)
@@ -478,7 +556,7 @@
             endif
           enddo
           !< Remove the volumetric part from the stress-strain curve
-          do i = 1, nout+1         
+          do i = 1, npt   
             lam = table_mat(1)%x(1)%values(i) + one
             rv  = lam**(one - two*nu)
             if (ndim == 1) then
@@ -488,10 +566,15 @@
                 table_mat(1)%y2d(i,j) = table_mat(1)%y2d(i,j) - bulk*(log(rv))
               enddo
             endif 
-            if (iunl_for == 1) then
-              table_mat(2)%y1d(i) = table_mat(2)%y1d(i) - bulk*(log(rv))
-            endif
           enddo
+          if (iunl_for == 1) then
+            npt2 = size(table_mat(2)%x(1)%values)
+            do i = 1, npt2
+              lam = table_mat(2)%x(1)%values(i) + 1d0
+              rv  = lam**(1d0 - 2d0*nu)
+              table_mat(2)%y1d(i) = table_mat(2)%y1d(i) - bulk*(log(rv))
+            enddo
+          endif
         endif
 !
         !<======================================================================
@@ -505,77 +588,89 @@
         sigpeak = infinity
         !< Loop over the loading curves points
         if (ndim == 1) then
-          do i = 1,nout-1
+          do i = 1,npt-1
             dx = table_mat(1)%x(1)%values(i+1) - table_mat(1)%x(1)%values(i)
             dy = table_mat(1)%y1d(i+1) - table_mat(1)%y1d(i)
             !< Compute the true stress vs true strain slope
             dydx = max((dy/dx)*(one + (table_mat(1)%x(1)%values(i+1)))**2,dydx)
           enddo
-          sigpeak = min(sigpeak,abs(table_mat(1)%y1d(1)),                      &
-                                abs(table_mat(1)%y1d(nout+1)))
+          if (abs(table_mat(1)%y1d(1)) > zero) then 
+            sigpeak = min(sigpeak,abs(table_mat(1)%y1d(1)))
+          endif
+          if (abs(table_mat(1)%y1d(npt)) > zero) then
+            sigpeak = min(sigpeak,abs(table_mat(1)%y1d(npt)))
+          endif
         elseif (ndim == 2) then
           do j = 1,nl
-            do i = 1,nout-1
+            do i = 1,npt-1
               dx = table_mat(1)%x(1)%values(i+1) - table_mat(1)%x(1)%values(i)
               dy = table_mat(1)%y2d(i+1,j) - table_mat(1)%y2d(i,j)
               !< Compute the true stress vs true strain slope
               dydx = max((dy/dx)*(one+(table_mat(1)%x(1)%values(i+1)))**2,dydx)
             enddo
-            sigpeak = min(sigpeak,abs(table_mat(1)%y2d(1,j)),                  &
-                                  abs(table_mat(1)%y2d(nout+1,j)))
+            if (abs(table_mat(1)%y2d(1,j)) > zero) then 
+              sigpeak = min(sigpeak,abs(table_mat(1)%y2d(1,j)))
+            endif
+            if (abs(table_mat(1)%y2d(npt,j)) > zero) then
+              sigpeak = min(sigpeak,abs(table_mat(1)%y2d(npt,j)))
+            endif
           enddo
         endif
         !< If there is a second table, compute the slope for the unloading curve
         if (matparam%ntable > 1) then 
-          do i = 1,nout-1
+          npt2 = size(table_mat(2)%x(1)%values)
+          do i = 1,npt2-1
             dx = table_mat(2)%x(1)%values(i+1) - table_mat(2)%x(1)%values(i)
             dy = table_mat(2)%y1d(i+1) - table_mat(2)%y1d(i)
             dydx = max((dy/dx)*(one + table_mat(2)%x(1)%values(i+1))**2,dydx)
           enddo
-          sigpeak = min(sigpeak,abs(table_mat(2)%y1d(1)),                      &
-                                abs(table_mat(2)%y1d(nout+1)))         
+          if (abs(table_mat(2)%y1d(1)) > zero) then
+            sigpeak = min(sigpeak,abs(table_mat(2)%y1d(1)))
+          endif
+          if (abs(table_mat(2)%y1d(npt2)) > zero) then
+            sigpeak = min(sigpeak,abs(table_mat(2)%y1d(npt2)))
+          endif   
         endif
 !
         !<======================================================================
         !< Normalization of the loading and unloading curves    
         !<======================================================================
         if (matparam%ntable > 1) then
+          
           !< Normalize the unloading curve
           where (table_mat(2)%x(1)%values < zero) & 
              table_mat(2)%x(1)%values = table_mat(2)%x(1)%values/abs(x_out2(1))
           where (table_mat(2)%x(1)%values >= zero) & 
-             table_mat(2)%x(1)%values = table_mat(2)%x(1)%values/x_out2(nout+1)
+             table_mat(2)%x(1)%values = table_mat(2)%x(1)%values/x_out2(nout)
           where (table_mat(2)%y1d < zero) & 
              table_mat(2)%y1d = table_mat(2)%y1d/abs(y_out2(1))
           where (table_mat(2)%y1d >= zero) &
-             table_mat(2)%y1d = table_mat(2)%y1d/y_out2(nout+1)
+             table_mat(2)%y1d = table_mat(2)%y1d/y_out2(nout)
           !< Normalize the loading curve
           table_mat(3)%ndim = ndim
           allocate(table_mat(3)%x(ndim))
           if (ndim == 1) then
-            allocate(table_mat(3)%x(1)%values(nout+1),                         &
-                             table_mat(3)%y1d(nout+1))
-            table_mat(3)%x(1)%values(1:nout+1) =                               &
-                             table_mat(1)%x(1)%values(1:nout+1)
-            table_mat(3)%y1d(1:nout+1) = table_mat(1)%y1d(1:nout+1)
+            npt = size(table_mat(1)%x(1)%values)
+            allocate(table_mat(3)%x(1)%values(npt),table_mat(3)%y1d(npt))
+            table_mat(3)%x(1)%values(1:npt) = table_mat(1)%x(1)%values(1:npt)                         
+            table_mat(3)%y1d(1:npt) = table_mat(1)%y1d(1:npt)
             where (table_mat(3)%x(1)%values < zero)                            & 
               table_mat(3)%x(1)%values =                                       &
                       table_mat(3)%x(1)%values/abs(x_out(1,1))
             where (table_mat(3)%x(1)%values >= zero)                           & 
-              table_mat(3)%x(1)%values =                                       &
-                      table_mat(3)%x(1)%values/x_out(nout+1,1)
+              table_mat(3)%x(1)%values = table_mat(3)%x(1)%values/x_out(nout,1)                
             where (table_mat(3)%y1d < zero) & 
                    table_mat(3)%y1d = table_mat(3)%y1d/abs(y_out(1,1))
             where (table_mat(3)%y1d >= zero) & 
-                   table_mat(3)%y1d = table_mat(3)%y1d/y_out(nout+1,1)
+                   table_mat(3)%y1d = table_mat(3)%y1d/y_out(nout,1)
           elseif (ndim == 2) then
-            allocate(table_mat(3)%x(1)%values(nout+1),                         &
+            allocate(table_mat(3)%x(1)%values(npt),                            &
                      table_mat(3)%x(2)%values(nl),                             &
-                     table_mat(3)%y2d(nout+1,nl))
-            table_mat(3)%x(1)%values(1:nout+1) =                               &
-                     table_mat(1)%x(1)%values(1:nout+1)
-            table_mat(3)%y2d(1:nout+1,1:nl) =                                  &
-                     table_mat(1)%y2d(1:nout+1,1:nl)
+                     table_mat(3)%y2d(npt,nl))
+            table_mat(3)%x(1)%values(1:npt) =                                  &
+                     table_mat(1)%x(1)%values(1:npt)
+            table_mat(3)%y2d(1:npt,1:nl) =                                     &
+                     table_mat(1)%y2d(1:npt,1:nl)
             table_mat(3)%x(2)%values(1:nl) =                                   &
                      table_mat(1)%x(2)%values(1:nl)
             where (table_mat(3)%x(1)%values < zero)                            & 
@@ -583,14 +678,14 @@
                      table_mat(3)%x(1)%values/abs(x_out(1,1))
             where (table_mat(3)%x(1)%values >= zero)                           & 
                    table_mat(3)%x(1)%values =                                  &
-                     table_mat(3)%x(1)%values/x_out(nout+1,1)
+                     table_mat(3)%x(1)%values/x_out(nout,1)
             do i = 1, nl 
               where (table_mat(3)%y2d(:,i) < zero)                             & 
                      table_mat(3)%y2d(:,i) =                                   &
                        table_mat(3)%y2d(:,i)/abs(y_out(1,i))
               where (table_mat(3)%y2d(:,i) >= zero)                            & 
                      table_mat(3)%y2d(:,i) =                                   &
-                       table_mat(3)%y2d(:,i)/y_out(nout+1,i)
+                       table_mat(3)%y2d(:,i)/y_out(nout,i)
             enddo
           endif
         endif
@@ -598,8 +693,7 @@
         !<======================================================================
         !< Convert then engineering strain abscissa to stretches
         !<======================================================================
-        table_mat(1)%x(1)%values(1:nout+1) = one +                             &
-                                             table_mat(1)%x(1)%values(1:nout+1)
+        table_mat(1)%x(1)%values(1:npt) = one + table_mat(1)%x(1)%values(1:npt)
 !
         !<======================================================================
         !< Fill parameters table

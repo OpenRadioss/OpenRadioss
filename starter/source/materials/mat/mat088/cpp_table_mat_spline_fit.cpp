@@ -88,53 +88,6 @@ void smooth_isotone(const std::vector<double>& x,
     }
 }
 
-void prepare_monotone_points(std::vector<double>& x, std::vector<double>& y)
-{
-    const int n0 = (int)x.size();
-    std::vector<int> idx(n0); for(int i=0;i<n0;++i) idx[i]=i;
-
-    std::vector<double> xs, ys; xs.reserve(n0); ys.reserve(n0);
-    for(int i=0;i<n0;++i){
-        if (std::isfinite(x[i]) && std::isfinite(y[i])){ xs.push_back(x[i]); ys.push_back(y[i]); }
-    }
-    x.swap(xs); y.swap(ys);
-    if (x.empty()){ x={0.0}; y={0.0}; return; }
-
-    std::vector<int> order(x.size()); for(size_t i=0;i<x.size();++i) order[i]= (int)i;
-    std::sort(order.begin(), order.end(), [&](int a,int b){ return x[a] < x[b]; });
-    std::vector<double> xt, yt; xt.resize(x.size()); yt.resize(y.size());
-    for(size_t k=0;k<order.size();++k){ xt[k]=x[order[k]]; yt[k]=y[order[k]]; }
-    x.swap(xt); y.swap(yt);
-
-    std::vector<double> x2, y2; x2.reserve(x.size()); y2.reserve(y.size());
-    x2.push_back(x[0]); y2.push_back(y[0]); 
-    for(size_t i=1;i<x.size();++i){
-        if (std::abs(x[i]-x2.back()) < 1e-15){
-            y2.back() = 0.5*(y2.back()+y[i]);
-        }else{
-            x2.push_back(x[i]); y2.push_back(y[i]);
-        }
-    }
-    x.swap(x2); y.swap(y2);
-
-    // bool has0=false; size_t pos0=0;
-    // for(size_t i=0;i<x.size();++i){ if (std::abs(x[i])<1e-15){ has0=true; pos0=i; break; } }
-    // if (!has0){
-    //     if (0.0 < x.front()){
-    //         x.insert(x.begin(), 0.0); y.insert(y.begin(), 0.0);
-    //     }else if (0.0 > x.back()){
-    //         x.push_back(0.0); y.push_back(0.0);
-    //     }else{
-    //         // insère au bon endroit
-    //         size_t k = (size_t)(std::upper_bound(x.begin(), x.end(), 0.0) - x.begin());
-    //         x.insert(x.begin()+k, 0.0);
-    //         y.insert(y.begin()+k, 0.0);
-    //     }
-    // }else{
-    //     y[pos0] = 0.0; // force passage exact par l'origine
-    // }
-}
-
 // --- PCHIP (Fritsch–Carlson) slopes
 void pchip_slopes(const std::vector<double>& x,
                   const std::vector<double>& z,
@@ -193,7 +146,6 @@ extern "C" {
         std::vector<double> x_raw(s_inp), y_raw(s_inp);
         for (int i=0;i<s_inp;++i){ x_raw[i]=x_inp[i]; y_raw[i]=y_inp[i]; }
        
-        prepare_monotone_points(x_raw, y_raw);
         const int n = (int)x_raw.size();
         if (n==0){
             x_out[0]=0.0; y_out[0]=0.0; return;
@@ -212,20 +164,10 @@ extern "C" {
         double xmin = x_raw.front(), xmax = x_raw.back();
         if (nout<2) nout=2;
 
-        int nd = 0;
         for (int i=0;i<nout;++i){
             double xi = xmin + (xmax - xmin) * (double)i / (double)(nout-1);
-            x_out[nd] = xi;
-            y_out[nd] = pchip_eval(x_raw, z, m, xi);
-            nd = nd + 1;
-            if (i < nout - 1) {
-              double x_next = xmin + (xmax - xmin) * (i+1) / (nout - 1);
-              if (xi <= 0.0 && x_next >= 0.0) {
-                x_out[nd] = 0.0;
-                y_out[nd] = 0.0;
-                nd = nd + 1;
-              }
-            }
+            x_out[i] = xi;
+            y_out[i] = pchip_eval(x_raw, z, m, xi);
         }
     
     }
