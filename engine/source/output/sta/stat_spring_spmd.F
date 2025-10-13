@@ -78,7 +78,7 @@ C     SPRING
 C-----------------------------------------------
       CALL MY_ALLOC(IADG,NSPMD,NPART)
       CALL MY_ALLOC(IADD,NPART+1)
-      CALL MY_ALLOC(NP,5*NUMELR)
+      CALL MY_ALLOC(NP,6*NUMELR)
       CALL MY_ALLOC(NPGLOB,7*LENGR)
       CALL MY_ALLOC(CLEF,2,NUMELRG)
 C-----------------------------------------------
@@ -104,47 +104,59 @@ c
             NP(JJ+1) = IXR(NIXR,N)
             NP(JJ+2) = ITAB(IXR(2,N))
             NP(JJ+3) = ITAB(IXR(3,N))
-            NP(JJ+4) = IPRT
-            NP(JJ+5) = IABS(NINT(GBUF%OFF(I)))
+            IF(IXR(4,N) > 0) THEN
+              NP(JJ+4) = ITAB(IXR(4,N))
+            ELSE
+              NP(JJ+4) = 0
+            ENDIF
+            NP(JJ+5) = IPRT
+            NP(JJ+6) = IABS(NINT(GBUF%OFF(I)))
 c
             II = II + 1
 c
-            JJ = JJ + 5
+            JJ = JJ + 6
 c
             STAT_NUMELR = STAT_NUMELR + 1
 c
             NODTAG(IXR(2,N))=1
             NODTAG(IXR(3,N))=1
+            IF(IXR(4,N) > 0)NODTAG(IXR(4,N))=1
           ENDDO ! DO I=LFT,LLT
         ENDIF ! IF (ITY == 6)
       ENDDO ! DO NG=1,NGROUP
 C----
       STAT_NUMELR_G = 0
-      CALL SPMD_IGET_PARTN_STA(5,STAT_NUMELR,STAT_NUMELR_G,LENGR,NP,
+      CALL SPMD_IGET_PARTN_STA(6,STAT_NUMELR,STAT_NUMELR_G,LENGR,NP,
      .             IADG,NPGLOB,STAT_INDXR)
 C----
       IF (ISPMD == 0) THEN
         DO N=1,STAT_NUMELR_G
           STAT_INDXR(N)=N
-          CLEF(1,N)=NPGLOB(5*(N-1)+5)
-          CLEF(2,N)=NPGLOB(5*(N-1)+1)
+          CLEF(1,N)=NPGLOB(6*(N-1)+6)
+          CLEF(2,N)=NPGLOB(6*(N-1)+1)
         ENDDO
         CALL MY_ORDERS(0,WORK,CLEF,STAT_INDXR,STAT_NUMELR_G,2)
 C----
         IPRT0=0
         DO N=1,STAT_NUMELR_G
           K=STAT_INDXR(N)
-          JJ=5*(K-1)
-          IPRT=NPGLOB(JJ+4)
-          IOFF=NPGLOB(JJ+5)
+          JJ=6*(K-1)
+          IPRT=NPGLOB(JJ+5)
+          IOFF=NPGLOB(JJ+6)
           IF (IDEL==0 .OR. (IDEL==1 .AND. IOFF >= 1)) THEN
             IF (IPRT /= IPRT0) THEN
               WRITE(IUGEO,'(A,I10)')'/SPRING/',IPART(4,IPRT)
               WRITE(IUGEO,'(A)')
-     .      '#SPRING_ID      NOD1      NOD2'
+     .      '#SPRING_ID      NOD1      NOD2      NOD3'
               IPRT0=IPRT
             ENDIF
-            WRITE(IUGEO,'(3I10)') NPGLOB(JJ+1),NPGLOB(JJ+2),NPGLOB(JJ+3)
+            IF (NPGLOB(JJ+4) > 0) THEN
+              WRITE(IUGEO,'(4I10)') NPGLOB(JJ+1),NPGLOB(JJ+2),
+     .        NPGLOB(JJ+3),NPGLOB(JJ+4)
+            ELSE
+              WRITE(IUGEO,'(3I10)') NPGLOB(JJ+1),NPGLOB(JJ+2),
+     .        NPGLOB(JJ+3)
+            ENDIF
           ENDIF !IF (IDEL)
         ENDDO ! DO N=1,STAT_NUMELR_G
       ENDIF ! IF (ISPMD == 0)
