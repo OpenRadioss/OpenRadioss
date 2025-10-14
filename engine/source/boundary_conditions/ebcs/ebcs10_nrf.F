@@ -175,11 +175,12 @@ C-----------------------------------------------
             XN=Y13*Z24-Z13*Y24             
             YN=Z13*X24-X13*Z24             
             ZN=X13*Y24-Y13*X24             
-            FAC2=ONE/SQRT(XN**2+YN**2+ZN**2)  
+            FAC2=ONE/SQRT(XN**2+YN**2+ZN**2)  * ORIENT
+
             XN = XN*FAC2                     
             YN = YN*FAC2                     
-            ZN = ZN*FAC2                               
-            SURF = HALF/FAC2 
+            ZN = ZN*FAC2
+            SURF = HALF/FAC2
             IF(IX(4) == IX(3))THEN ; NPT=3;FAC1=THIRD; ELSE; NPT=4;FAC1=FOURTH; ENDIF
           ELSE
             FAC1=HALF
@@ -195,7 +196,7 @@ C-----------------------------------------------
             XN = ZERO
             YN = -(-X(3,IX(2))+X(3,IX(1)))
             ZN =  (-X(2,IX(2))+X(2,IX(1)))                     
-            FAC2 = ONE/SQRT(YN*YN+ZN*ZN)
+            FAC2 = ONE/SQRT(YN*YN+ZN*ZN)*ORIENT
             IF(N2D==1)YM = HALF*(X(2,IX(1))+X(2,IX(2)))
             YN=YN*FAC2
             ZN=ZN*FAC2
@@ -319,8 +320,7 @@ C-----------------------------------------------
           DM_IN=DM_IN-FLUXI*RHO
           DE_OUT=DE_OUT-FLUXO*EINT
           DE_IN=DE_IN-FLUXI*EINT
-
-          !-- FORMULATION  
+          !-- FORMULATION
             MACH = ONE
             IF(SSP /= ZERO)MACH = ABS(Vnew / SSP)
           

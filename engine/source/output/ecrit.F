@@ -110,17 +110,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IPRI, INFO, I,M, JPRI, ILIGN,ITHIS, ADRRPM, ISENS,
-     .         NTY,INTHE,IABFIS
-      my_real
-     .   ENTOT, ENTOT1, ERR, ERR1, X99, EMASS,MAS,ENINTOT,EKINTOT,
-     .   VX,VY,VZ,DT05,ENTMP(12)  ,RTMP(10),
-     .   MVX, MVY, MVZ, TS, MAS2, WEWE2, ENTOT1B,DMASND
+      INTEGER IPRI, INFO, I,M, JPRI, ILIGN,ITHIS, ADRRPM, ISENS,NTY,INTHE,IABFIS
+      my_real :: ENTOT, ENTOT1, ERR, ERR1, X99, EMASS,MAS,ENINTOT,EKINTOT,
+     .           VX,VY,VZ,DT05,ENTMP(12)  ,RTMP(10),
+     .           MVX, MVY, MVZ, TS, MAS2, WEWE2, ENTOT1B,DMASND
+      my_real :: DM_IN, DM_OUT, DE_IN, DE_OUT, DM_INOUT, DE_INOUT
 
-      DOUBLE PRECISION ETIME, RETIME, TT0,
-     .                 ENCIND, XMOMTD, YMOMTD, ZMOMTD,
-     .                 XMASSD, ENROTD, ENINTD, ENCIND2,
-     .                 ENROTD2, ENTOTB, EAMSD
+      DOUBLE PRECISION :: ETIME, RETIME, TT0,
+     .                    ENCIND, XMOMTD, YMOMTD, ZMOMTD,
+     .                    XMASSD, ENROTD, ENINTD, ENCIND2,
+     .                    ENROTD2, ENTOTB, EAMSD
 
       DATA X99/99.9/
       DATA TT0/-1./
@@ -445,9 +444,13 @@ C
         ENTMP(5) = WFEXTH
         ENTMP(6) = ECONTD   
         ENTMP(7) = ECONT_CUMU
-        ENTMP(8) = WPLAST                        
-        CALL SPMD_GLOB_DSUM9(ENTMP,8)
-        IF(ISPMD/=0) THEN
+        ENTMP(8) = WPLAST
+        ENTMP(9)  = OUTPUT%DATA%INOUT%DM_IN
+        ENTMP(10) = OUTPUT%DATA%INOUT%DM_OUT
+        ENTMP(11) = OUTPUT%DATA%INOUT%DE_IN
+        ENTMP(12) = OUTPUT%DATA%INOUT%DE_OUT
+        CALL SPMD_GLOB_DSUM9(ENTMP,12)
+        IF(ISPMD /= 0) THEN
           OUTPUT%TH%WFEXT = ZERO
           EHOUR = ZERO
           ECONTV = ZERO
@@ -456,6 +459,10 @@ C
           ECONTD = ZERO
           ECONT_CUMU = ZERO
           WPLAST = ZERO
+          OUTPUT%DATA%INOUT%DM_IN = ZERO
+          OUTPUT%DATA%INOUT%DM_OUT = ZERO
+          OUTPUT%DATA%INOUT%DE_IN = ZERO
+          OUTPUT%DATA%INOUT%DE_OUT = ZERO
         ELSE
           OUTPUT%TH%WFEXT = ENTMP(1)
           EHOUR = ENTMP(2)
@@ -464,7 +471,11 @@ C
           WFEXTH= ENTMP(5)
           ECONTD = ENTMP(6)    
           ECONT_CUMU = ENTMP(7)  
-          WPLAST = ENTMP(8)              
+          WPLAST = ENTMP(8)
+          OUTPUT%DATA%INOUT%DM_IN = ENTMP(9)
+          OUTPUT%DATA%INOUT%DM_OUT = ENTMP(10)
+          OUTPUT%DATA%INOUT%DE_IN = ENTMP(11)
+          OUTPUT%DATA%INOUT%DE_OUT = ENTMP(12)
         ENDIF
       ENDIF
 C
@@ -482,17 +493,18 @@ C     EAMS = [ 1/2 v.Mv - 1/2 m v^2 ]/ 1/2 m v^2
 c----------------------------------------------------
       IF (ISPMD == 0) THEN
 c
+        DM_INOUT = OUTPUT%DATA%INOUT%DM_IN+OUTPUT%DATA%INOUT%DM_OUT
+        DE_INOUT = OUTPUT%DATA%INOUT%DE_IN+OUTPUT%DATA%INOUT%DE_OUT
+c
         ENTOT = ENCIN + ENINT + ENROT
-        ENTOTB = ENTOT + ENCIN2 + ENROT2       
+        ENTOTB = ENTOT + ENCIN2 + ENROT2
         IF(NCYCLE==0) THEN
-         ENTOT0=ENTOT - OUTPUT%TH%WFEXT - OUTPUT%TH%WFEXT_MD
+         ENTOT0=ENTOT - OUTPUT%TH%WFEXT - OUTPUT%TH%WFEXT_MD - DE_INOUT
          DELTAE=ENCIN2 + ENROT2                
-         MASS0 = XMASS - DMAS
+         MASS0 = XMASS - DMAS - DM_INOUT
         ENDIF
-        MASS0 = MASS0  + OUTPUT%DATA%INOUT%DM_IN + OUTPUT%DATA%INOUT%DM_OUT
-        ENTOT0= ENTOT0 + OUTPUT%DATA%INOUT%DE_IN + OUTPUT%DATA%INOUT%DE_OUT
-        ENTOT1=ENTOT0 + OUTPUT%TH%WFEXT
-        ENTOT1B=ENTOT0 + OUTPUT%TH%WFEXT + DELTAE + OUTPUT%TH%WFEXT_MD
+        ENTOT1=ENTOT0 + OUTPUT%TH%WFEXT + DE_INOUT
+        ENTOT1B=ENTOT0 + OUTPUT%TH%WFEXT + DELTAE + OUTPUT%TH%WFEXT_MD + DE_INOUT
         IF(ABS(ENTOT1B)>EM20)THEN
           ERR = ENTOTB/ENTOT1B - ONE
           ERR1 = MAX(-X99, MIN(X99,ERR*HUNDRED))     
@@ -500,7 +512,8 @@ c
          ERR = ZERO
          ERR1 =ZERO
         ENDIF
-        EMASS = (XMASS - MASS0) / MAX(MASS0,EM20)
+        EMASS = (XMASS - (MASS0+DM_INOUT)) / MAX(MASS0+DM_INOUT,EM20)
+        !EMASS = (XMASS - MASS0) / MAX(MASS0,EM20)
         ENINTOT = ENINT
         EKINTOT = ENCIN
 C-----------------------------------------------
@@ -633,7 +646,7 @@ C-----------------------------------------------
         IF (NLPRI /= 0) ILIGN = NLPRI
         JPRI=MOD(NCYCLE,ILIGN*IABS(NCPRI))
         IF(JPRI==0) WRITE(IOUT,1000)
-        WRITE(IOUT,1100) NCYCLE,TT,DT2,ELTYP(ITYPTS),NELTS,ERR1,ENINT,ENCIN,ENROT,OUTPUT%TH%WFEXT,EMASS,XMASS,XMASS-MASS0
+        WRITE(IOUT,1100) NCYCLE,TT,DT2,ELTYP(ITYPTS),NELTS,ERR1,ENINT,ENCIN,ENROT,OUTPUT%TH%WFEXT,EMASS,XMASS,XMASS-MASS0-DM_INOUT
         CALL MY_FLUSH(IOUT)
         IF(NCPRI<0) THEN
           IF(DEBUG(10)/=0)THEN
