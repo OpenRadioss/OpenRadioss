@@ -163,7 +163,7 @@ c-------------------------------------------------------------------
      .     MAT_ELEM%MAT_PARAM       ,MLAW_TAG    ,EOS_TAG     ,BUFMAT      ,
      .     BUFLEN      ,IADBUF      ,IPM         ,PM          ,
      .     MULTI_FVM   ,UNITAB      ,LSUBMODEL   ,TABLE       ,
-     .     SBUFMAT     ,NPROPMI     ,NPROPM      ,TRIMAT      ,
+     .     SBUFMAT     ,NPROPMI     ,NPROPM      ,
      .     IALELAG     ,NTABLE      ,NUMMAT      ,HM_NUMMAT   ,
      .     LTITR       ,USERL_AVAIL,MAT_NUMBER   )
 

@@ -112,8 +112,6 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ITRIMAT,NVAR,I, LENCOMN,LENCOM
-      INTEGER :: NVAR_MAT !< number of MAT variable(s) : %VAR(1:NEL, 1:NVAR_MAT)
-      INTEGER :: NVAR_EOS !< number of EoS variable(s) : %VAR(1:NEL, 1:NVAR_EOS)
       my_real,DIMENSION(:,:),ALLOCATABLE:: FLUX_SAV
 C-----------------------------------------------
 C   S o u r c e   L i n e s
