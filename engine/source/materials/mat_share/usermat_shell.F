@@ -201,6 +201,7 @@ C-----------------------------------------------
       INTEGER :: IJ1,IJ2,IJ3,IJ4,IJ5
       INTEGER IFAIL(MVSIZ),
      .   IFUNC(MAXFUNC),IFLAG(1),IOFF_DUCT(MVSIZ)
+      INTEGER :: MAT_ID
 c
       my_real 
      .   DEGMB(MVSIZ) ,DEGFX(MVSIZ) ,SIGOFF(MVSIZ),
@@ -418,6 +419,7 @@ c
         UPARAM => BUFMAT(IADBUF:IADBUF+NUPARAM)
         NUMTABL= IPM(226,IMAT) 
         ITABLE => IPM(226+1:226+NUMTABL,IMAT)    
+        MAT_ID = MAT_ELEM%MAT_PARAM(IMAT)%MAT_ID
 c
         DO I=1,NFUNC
           IFUNC(I)=IPM(10+I,IMAT)
@@ -1140,7 +1142,7 @@ C
                END DO
              END IF
 
-           CALL ENG_MDS_SIGEPS_C( NCYCLE , BUFLY%IMAT, NGL ,
+           CALL ENG_MDS_SIGEPS_C( NCYCLE , MAT_ID, NGL ,
      *                            NEL    , NPT      , IT ,ILAY, IPG     , IFLAG,
      *                            UPARAM  , NUPARAM  , UVAR    , NUVAR,
      *                            NFUNC   , IFUNC    , TF      , NPF ,
