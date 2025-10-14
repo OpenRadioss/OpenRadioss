@@ -2387,7 +2387,7 @@ C------------------------------------
                           SIGSH(PT+2,I) = TMPVAL3(N)
                           SIGSH(PT+3,I) = TMPVAL4(N)
                           SIGSH(PT+4,I) = TMPVAL5(N)
-                          SIGSH(PT+6,I) = TMPVAL6(N)
+                          SIGSH(PT+5,I) = TMPVAL6(N)
                         ENDDO ! DO K=1,NIP
                       ENDIF ! IF (NIP = 0) THEN
 !----
