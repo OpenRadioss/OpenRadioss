@@ -51,7 +51,7 @@
                             ilev,npropgi,npropg,numgeo,npropm,nummat,npart,ignore,cell_nb,nsv,irtl,ipartc,iparttg,& 
                             knod2els,knod2elc,knod2eltg,nod2els,nod2elc,nod2eltg,irect, &
                             igeo,dsearch,bound,tzinf,segment_data, &
-                            dmin,thk,thk_part,x,geo,st,pm,stack)
+                            dmin,thk,thk_part,x,geo,st,pm,stack,gapmin,gapmax)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -113,6 +113,8 @@
           integer, dimension(3,numelc+numeltg), intent(in) :: iworksh
 
           real(kind=WP), intent(in) :: dsearch !< search distance for the projection
+          real(kind=WP), intent(inout) :: gapmin !< minimum gap
+          real(kind=WP), intent(inout) :: gapmax !< maximum gap          
           real(kind=WP), dimension(6), intent(in) :: bound !< bounding box of the
           real(kind=WP), intent(in) :: tzinf !< influence zone thickness
           real(kind=WP), dimension(nrtm,2), intent(in) :: segment_data !< length & gap of each main segment 
@@ -132,7 +134,6 @@
           integer :: total_cell_nb
           integer :: jx,jy,jz
           integer :: i,j,k,first,last
-          integer :: iflag
           integer :: my_cell_id,my_address
           integer :: node_id,nodes_id(4),node_index
           integer, dimension(3) :: ix,ix_min,ix_max
@@ -243,7 +244,6 @@
                         first = 1                        
                         last = nvsiz
                         j_stok = 0
-                        iflag = 0
                       call i2cor3(x     ,irect ,nsv   ,prov_e  ,prov_n, &
                              gapv  ,0       ,tzinf,first,last, &
                              nint    ,ixc   ,  &
@@ -255,7 +255,7 @@
                              ix3    ,ix4    ,nsvg,x1      ,x2    , &
                              x3     ,x4     ,y1  ,y2      ,y3    , &
                              y4     ,z1     ,z2  ,z3      ,z4    , &
-                             xi     ,yi     ,zi  ,iflag )
+                             xi     ,yi     ,zi   ,gapmin,gapmax)
                         if (ilev == 27) then
                           call i2dst3_27(first,last, &
                               gapv,prov_e ,prov_n,tzinf,irtl,st,dmin, &
@@ -296,7 +296,6 @@
             first = 1
             last = j_stok
             j_stok = 0
-            iflag = 0
             call i2cor3(x     ,irect ,nsv   ,prov_e  ,prov_n, &
                         gapv  ,0       ,tzinf,first,last, &
                         nint    ,ixc   ,  &
@@ -308,7 +307,7 @@
                         ix3    ,ix4    ,nsvg,x1      ,x2    , &
                         x3     ,x4     ,y1  ,y2      ,y3    , &
                         y4     ,z1     ,z2  ,z3      ,z4    , &
-                        xi     ,yi     ,zi  ,iflag )
+                        xi     ,yi     ,zi   ,gapmin,gapmax)
             if (ilev == 27) then
               call i2dst3_27(first,last, &
                              gapv,prov_e ,prov_n,tzinf,irtl,st,dmin, &
