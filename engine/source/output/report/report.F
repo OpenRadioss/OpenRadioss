@@ -30,13 +30,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
 !||    user_interface_mod     ../engine/source/modules/user_interface_mod.F90
 !||====================================================================
-      SUBROUTINE REPORT(IH3DREADER,N,IMVW,WFEXT,WFEXT_MD)
+      SUBROUTINE REPORT(IH3DREADER,N,IMVW,WFEXT,WFEXT_MD,OUTPUT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INOUTFILE_MOD
       USE USER_INTERFACE_MOD
       USE NAMES_AND_TITLES_MOD, ONLY: LPATH
+      USE OUTPUT_MOD , ONLY : OUTPUT_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -73,10 +74,11 @@ C-----------------------------------------------
       CHARACTER ELTYP(0:105)*5
       CHARACTER*256 OUTNAME
       CHARACTER*120 CART  
-      my_real ENTOT, ENTOT1, ERR, ERR1, X99, EMASS,ENTOT1B
+      my_real ENTOT, ENTOT1, ERR, ERR1, X99, EMASS,ENTOT1B,DM_INOUT,DE_INOUT
       DOUBLE PRECISION ENTOTB
       INTEGER :: LEN_TMP_NAME
       CHARACTER(len=2148) :: TMP_NAME
+      TYPE(OUTPUT_),INTENT(IN) :: OUTPUT
 C-----------------------------------------------
       DATA ELTYP/'FIXED',
      1           'SOLID','QUAD ','SHELL','TRUSS','BEAM ',
@@ -107,9 +109,10 @@ C=======================================================================
       IF(ISPMD == 0) THEN 
 c
        ENTOT = ENCIN + ENINT + ENROT
-       ENTOTB = ENTOT + ENCIN2 + ENROT2 
-       ENTOT1=ENTOT0 + WFEXT
-       ENTOT1B=ENTOT0 + WFEXT + DELTAE + WFEXT_MD
+       ENTOTB = ENTOT + ENCIN2 + ENROT2
+       DE_INOUT = OUTPUT%DATA%INOUT%DE_IN + OUTPUT%DATA%INOUT%DE_OUT
+       ENTOT1=ENTOT0 + WFEXT + DE_INOUT
+       ENTOT1B=ENTOT0 + WFEXT + DELTAE + WFEXT_MD + DE_INOUT
        IF(ABS(ENTOT1B)>EM20)THEN
          ERR = ENTOTB/ENTOT1B - ONE
          ERR1 = MAX(-X99, MIN(X99,ERR*HUNDRED))     
@@ -117,7 +120,8 @@ c
         ERR = ZERO
         ERR1 =ZERO
        ENDIF
-       EMASS = (XMASS - MASS0) / MASS0
+       DM_INOUT = OUTPUT%DATA%INOUT%DM_IN + OUTPUT%DATA%INOUT%DM_OUT
+       EMASS = (XMASS - (MASS0+DM_INOUT)) / (MASS0+DM_INOUT)
         
        CALL DATE_AND_TIME(DATE,TIME)
        STATUS = GETCWD(CWD)
