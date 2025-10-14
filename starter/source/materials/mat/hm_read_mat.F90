@@ -198,7 +198,7 @@
         &                    mat_param   ,mlaw_tag    ,eos_tag     ,bufmat    ,&
         &                    buflen      ,iadbuf      ,ipm         ,pm        ,&
         &                    multi_fvm   ,unitab      ,lsubmodel   ,table     ,&
-        &                    sbufmat     ,npropmi     ,npropm      ,trimat    ,&
+        &                    sbufmat     ,npropmi     ,npropm      ,           &
         &                    ialelag     ,ntable      ,nummat      ,hm_nummat ,&
         &                    ltitr       ,userl_avail ,mat_number  )
 ! --------------------------------------------------------------------------------------------------
@@ -252,7 +252,6 @@
           integer, intent(in)                  :: userl_avail
           type (unit_type_),intent(in)         :: unitab
           type(submodel_data),intent(in)       :: lsubmodel(nsubmod)
-          integer, intent(inout)               :: trimat
           integer, intent(inout)               :: ialelag
           integer, intent(inout)               :: mat_number
           integer ,intent(inout) :: buflen,iadbuf
@@ -297,7 +296,6 @@
           ilaw          = 0
           iuser_law     = 0
           imatvis       = 0
-          trimat        = 0
           m51_lset_iflg6 = 0
 
           m51_ssp0max = zero

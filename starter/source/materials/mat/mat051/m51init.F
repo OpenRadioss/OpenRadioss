@@ -36,7 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .               NUVAR              ,UVAR       ,UPARAM  ,X       ,
      .               MAT                ,IPARG      ,IFORM   ,IX      ,NIX     ,
      .               ALE_CONNECTIVITY   ,BUFMAT     ,RHO0    ,
-     .               GBUF               ,NEL        ,SIG     )
+     .               LBUF               ,GBUF       ,NEL     ,SIG     )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -61,7 +61,8 @@ C-----------------------------------------------
       my_real PM(NPROPM,NUMMAT),UVAR(NEL,NUVAR),UPARAM(*), X(3,NUMNOD), BUFMAT(*), RHO0
       INTEGER,INTENT(IN) :: NEL
       my_real,INTENT(INOUT) :: SIG(NEL,6)
-      TYPE(G_BUFEL_), INTENT(INOUT),TARGET :: GBUF  
+      TYPE(G_BUFEL_), INTENT(INOUT),TARGET :: GBUF
+      TYPE(L_BUFEL_), INTENT(INOUT),TARGET :: LBUF
       TYPE(DETONATORS_STRUCT_) :: DETONATORS
       TYPE(t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
 C-----------------------------------------------
@@ -71,14 +72,21 @@ C-----------------------------------------------
       INTEGER NPH,IFLG,NV46
       INTEGER IMAT
       INTEGER KK,NUMEL
-      my_real :: GG1, GG2, GG3
       my_real VOLD,T0_(4),C0_(4),C1_(4),C2_(4),C3_(4),C4_(4),C5_(4),E0_(4),RHO0_(4),VF(4),P0(4),PEXT,PRES_0
       my_real,intent(inout) :: TB(NEL)
+      my_real :: SPH1,SPH2,SPH3,SPH4
+      my_real :: V1,V2,V3,V4,DENOM
+      my_real :: GG1,GG2,GG3,GG4
+      my_real :: DPDM(4),SSP(4),K_mix
       LOGICAL IS_IFORM12
 C-----------------------------------------------
 
       IFLG  = NINT(UPARAM(55))
       IFORM = NINT(UPARAM(31))
+      SPH1  = UPARAM(112)
+      SPH2  = UPARAM(162)
+      SPH3  = UPARAM(212)
+      SPH4  = UPARAM(262)
 
       !need to initialize element buffer with initial density for this specific case.
       IS_IFORM12 = .FALSE.
@@ -96,6 +104,7 @@ C-----------------------------------------------
       GG1 = UPARAM(101)
       GG2 = UPARAM(151)
       GG3 = UPARAM(201)
+      GG4 = ZERO
       ISFLUID = 0      
       IF (GG1 == ZERO .AND. GG2 == ZERO .AND. GG3 == ZERO) ISFLUID=1
       IF (ISFLUID==1) THEN 
@@ -144,8 +153,17 @@ C-----------------------------------------------
       P0(1)     = C0_(1)+C4_(1)*E0_(1)                                  
       P0(2)     = C0_(2)+C4_(2)*E0_(2)                                  
       P0(3)     = C0_(3)+C4_(3)*E0_(3)                                  
-      P0(4)     = C0_(4)                                  
-                                                                        
+      P0(4)     = C0_(4)
+      DPDM(1)   = C1_(1)+C5_(1)*E0_(1)+P0(1)*C4_(1)
+      DPDM(2)   = C1_(2)+C5_(2)*E0_(2)+P0(2)*C4_(2)
+      DPDM(3)   = C1_(3)+C5_(3)*E0_(3)+P0(3)*C4_(3)
+      DPDM(4)   = C1_(4)+C5_(4)*E0_(4)+P0(4)*C4_(4)
+      SSP(1:4)=ZERO
+      IF(RHO0_(1) > ZERO)SSP(1) = SQRT( (ABS(DPDM(1))+TWO*TWO_THIRD*GG1)/RHO0_(1) )
+      IF(RHO0_(2) > ZERO)SSP(2) = SQRT( (ABS(DPDM(2))+TWO*TWO_THIRD*GG2)/RHO0_(2) )
+      IF(RHO0_(3) > ZERO)SSP(3) = SQRT( (ABS(DPDM(3))+TWO*TWO_THIRD*GG3)/RHO0_(3) )
+      IF(RHO0_(4) > ZERO)SSP(4) = SQRT( (ABS(DPDM(4))+TWO*TWO_THIRD*GG4)/RHO0_(4) )
+
       !===========================!                                     
       ! material IMAT : TIME=0    ! 
       ! default :                 !                                    
@@ -166,7 +184,8 @@ C-----------------------------------------------
         UVAR(I,9+KK)  = RHO0_(IMAT)  ! rho for ACONVE
         UVAR(I,10+KK) = ZERO                                            
         UVAR(I,11+KK) = VOLD                                           
-        UVAR(I,12+KK) = RHO0_(IMAT)          ! rho_old IN rho OUT        
+        UVAR(I,12+KK) = RHO0_(IMAT)          ! rho_old IN rho OUT
+        UVAR(I,14+KK) = SSP(IMAT)
         UVAR(I,15+KK) = ZERO                ! Plastic EPS             
         UVAR(I,16+KK) = T0_(IMAT)            ! temperature              
         UVAR(I,17+KK) = ZERO                ! diffuse heat          
@@ -175,7 +194,7 @@ C-----------------------------------------------
         UVAR(I,20+KK) = RHO0_(IMAT)  !rho0 initial state is element dependent and can be updated by /INIGRAV
         UVAR(I,21+KK) = E0_(IMAT)    !E0
         UVAR(I,22+KK) = ZERO !SSP0 to introduce if needed
-          UVAR(I,23+KK) = VF(IMAT)                      !alpha0                   
+        UVAR(I,23+KK) = VF(IMAT)                      !alpha0
        ENDDO                                                            
       ENDDO 
       !particular case of submaterial 4 (burning time to initialize)
@@ -200,6 +219,24 @@ C-----------------------------------------------
       IF(IS_IFORM12)THEN
         DO I=1,NEL
           GBUF%RHO(I) = VF(1)*RHO0_(1)+VF(2)*RHO0_(2)+VF(3)*RHO0_(3)+VF(4)*RHO0_(4)
+          GBUF%EINT(I) = VF(1)*E0_(1)+VF(2)*E0_(2)+VF(3)*E0_(3)+VF(4)*E0_(4)
+          !Temperature
+          V1=GBUF%VOL(I)*VF(1)
+          V2=GBUF%VOL(I)*VF(2)
+          V3=GBUF%VOL(I)*VF(3)
+          V4=GBUF%VOL(I)*VF(4)
+          DENOM = (SPH1*V1+SPH2*V2+SPH3*V3+SPH4*V4)
+          IF(DENOM /= ZERO)THEN
+            GBUF%TEMP(I) = (SPH1*V1*T0_(1)+SPH2*V2*T0_(2)+SPH3*V3*T0_(3)+SPH4*V4*T0_(4)) / DENOM
+          ENDIF
+          !Sound Speed
+          K_mix = zero
+          if (RHO0_(1) > zero .and. SSP(1) > zero) K_mix = K_mix + VF(1) / ( RHO0_(1) * SSP(1)**2 )
+          if (RHO0_(2) > zero .and. SSP(2) > zero) K_mix = K_mix + VF(2) / ( RHO0_(2) * SSP(2)**2 )
+          if (RHO0_(3) > zero .and. SSP(3) > zero) K_mix = K_mix + VF(3) / ( RHO0_(3) * SSP(3)**2 )
+          if (RHO0_(4) > zero .and. SSP(4) > zero) K_mix = K_mix + VF(4) / ( RHO0_(4) * SSP(4)**2 )
+          If(K_mix > zero)K_mix=one/K_mix
+          if(gbuf%rho(i) > zero) LBUF%SSP(I) = SQRT(K_mix / GBUF%RHO(I))
         ENDDO
       ENDIF
 
