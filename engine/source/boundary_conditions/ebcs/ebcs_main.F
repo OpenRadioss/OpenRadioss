@@ -57,7 +57,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                     FSAV,FV,MS,STIFN,IPARG,ELBUF_TAB,EBCS_TAB,MULTI_FVM,IXQ,IXS,IXTG,
      .                     FSKY,FSAVSURF,TIME,DT1,
      .                     NSENSOR,SENSOR_TAB,PYTHON,
-     .                     NPC, TF ,SNPC, STF, OUTPUT)
+     .                     NPC, TF ,SNPC, STF, OUTPUT, MATPARAM, PM,
+     .                     BUFMAT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -70,13 +71,14 @@ C-----------------------------------------------
       USE SENSOR_MOD, ONLY : SENSOR_STR_
       USE PYTHON_FUNCT_MOD
       USE OUTPUT_MOD , only : OUTPUT_
+      USE MATPARAM_DEF_MOD, ONLY : MATPARAM_STRUCT_
       USE EBCS0_GRADP0_MOD      , ONLY : EBCS0_GRADP0
       USE EBCS123_PRES_MOD      , ONLY : EBCS123_PRES
       USE EBCS4_VEL_MOD         , ONLY : EBCS4_VEL
       USE EBCS5_NORMV_MOD       , ONLY : EBCS5_NORMV
       USE EBCS6_INIP_MOD        , ONLY : EBCS6_INIP
       USE EBCS7_INIV_MOD        , ONLY : EBCS7_INIV
-      !USE EBCS8_INLET_MOD       , ONLY : EBCS8_INLET
+      USE EBCS8_INLET_MOD       , ONLY : EBCS8_INLET
       USE EBCS10_NRF_MOD        , ONLY : EBCS10_NRF
       USE EBCS11_PROPELLANT_MOD , ONLY : EBCS11_PROPELLANT
 C-----------------------------------------------
@@ -113,6 +115,9 @@ C-----------------------------------------------
       my_real :: tf(STF)
       TYPE(t_segvar) :: SEGVAR
       TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT !< output structure
+      TYPE(MATPARAM_STRUCT_),DIMENSION(NUMMAT),INTENT(IN) :: MATPARAM !< material buffer
+      my_real,INTENT(IN) :: PM(NPROPM, NUMMAT)
+      my_real,INTENT(IN) :: BUFMAT(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -192,6 +197,18 @@ C-----------------------------------------------
      .           EBCS%ro0,EBCS%en0,EBCS%v0,
      .           EBCS%la,MS,STIFN,twf,OUTPUT, DT1, TIME)
              end select
+         ELSE IF (TYP == 8) THEN
+            select type (twf => EBCS_TAB%tab(i)%poly)
+            type is (t_ebcs_inlet)
+              CALL EBCS8_INLET(
+     .           NUMNOD, NSEG,EBCS%ISEG,SEGVAR,
+     .           A,V,W,X,
+     .           EBCS%NODE_LIST,NOD,EBCS%ELEM_LIST,
+     .           EBCS%LA, FV,TWF,OUTPUT,DT1,TIME,
+     .           NGROUP, ELBUF_TAB, NPARG, IPARG, N2D,
+     .           TWF%SURF_ID,NSURF,FSAVSURF,NUMMAT,MATPARAM,SNPC,NPC,STF,TF,
+     .           NPROPM, PM, BUFMAT, NCYCLE, IALE)
+            end select
          ELSE IF (TYP == 10) THEN
             select type (twf => EBCS)
              type is (t_ebcs_nrf)
