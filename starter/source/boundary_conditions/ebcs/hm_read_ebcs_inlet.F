@@ -75,7 +75,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: ISU,SURF,IPRES,IRHO,J,NSEG,IENER,IVX,IVY,IVZ,IALPHA
       INTEGER :: IMAT,IVEL_TYP,U_IALPHA,U_IRHO,U_IPRES,IFLAGUNIT,OFF_DEF
-      INTEGER :: NBMAT
+      INTEGER :: NBMAT, NBMAT_MIN, NBMAT_MAX
       my_real :: CHECK_CUMUL_VF(2)
       my_real :: C,PRES,RHO,LCAR,R1,R2,ENER,VX,VY,VZ, ALPHA
       CHARACTER :: chain*9, chain1*64
@@ -86,8 +86,9 @@ C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
       EBCS%title = TRIM(TITR)
-      EBCS%IS_MULTIFLUID = .TRUE.
-      EBCS%HAS_IELEM = .TRUE.             
+      EBCS%IS_MULTIFLUID = .FALSE.
+      IF(MULTI_FVM%IS_USED)EBCS%IS_MULTIFLUID = .TRUE.
+      EBCS%HAS_IELEM = .TRUE.
       EBCS%FVM_INLET_DATA%FORMULATION = -1
       EBCS%FVM_INLET_DATA%VECTOR_VELOCITY = 0
       EBCS%FVM_INLET_DATA%FUNC_VEL(1:3) = 0
@@ -184,7 +185,7 @@ C-----------------------------------------------
         IF(IVX > 0)THEN
           FOUND = .FALSE.
           DO J=1,NFUNCT
-            IF(IVX==NPC(J)) THEN
+            IF(IVX == NPC(J)) THEN
               WRITE(IOUT,1133)IVX,VX
               IVX=J
               FOUND = .TRUE.
@@ -277,6 +278,7 @@ C-----------------------------------------------
       CHECK_CUMUL_VF(1:2) = ZERO
 
       CALL HM_GET_INTV('matLawArrCnt',NBMAT,IS_AVAILABLE,LSUBMODEL)
+      EBCS%NBMAT = NBMAT
 
       DO IMAT = 1, NBMAT
          CALL HM_GET_FLOAT_ARRAY_INDEX('Fscalevf_n', ALPHA ,IMAT,IS_AVAILABLE,LSUBMODEL,UNITAB)
@@ -285,12 +287,12 @@ C-----------------------------------------------
          CALL HM_GET_INT_ARRAY_INDEX('fct_IDvf_n',   IALPHA,IMAT,IS_AVAILABLE,LSUBMODEL)
          CALL HM_GET_INT_ARRAY_INDEX('fct_IDrho_n',  IRHO  ,IMAT,IS_AVAILABLE,LSUBMODEL)
          CALL HM_GET_INT_ARRAY_INDEX('fct_IDp_e_n',  IPRES ,IMAT,IS_AVAILABLE,LSUBMODEL)
-      IF(SUB_INDEX /= 0 ) THEN
-        OFF_DEF = LSUBMODEL(SUB_INDEX)%OFF_DEF
-        IF(IALPHA > 0) IALPHA = IALPHA + OFF_DEF
-        IF(IRHO > 0) IRHO = IRHO + OFF_DEF
-        IF(IPRES > 0) IPRES = IPRES + OFF_DEF
-      ENDIF
+         IF(SUB_INDEX /= 0 ) THEN
+           OFF_DEF = LSUBMODEL(SUB_INDEX)%OFF_DEF
+           IF(IALPHA > 0) IALPHA = IALPHA + OFF_DEF
+           IF(IRHO > 0) IRHO = IRHO + OFF_DEF
+           IF(IPRES > 0) IPRES = IPRES + OFF_DEF
+         ENDIF
          CHECK_CUMUL_VF(1)=CHECK_CUMUL_VF(1)+ABS(IALPHA)
          CHECK_CUMUL_VF(2)=CHECK_CUMUL_VF(2)+ABS(ALPHA)
          !user ids backup
@@ -298,7 +300,7 @@ C-----------------------------------------------
          U_IRHO  =IRHO
          U_IPRES =IPRES
          !check and get internal function id
-         IF(IALPHA>0)THEN
+         IF(IALPHA > 0)THEN
            FOUND = .FALSE.
            DO J=1,NFUNCT
               IF(IALPHA==NPC(J)) THEN
@@ -365,17 +367,13 @@ C-----------------------------------------------
          WRITE(IOUT,1132)ALPHA,RHO,PRES
       ENDDO
       WRITE(IOUT, FMT='(/)' )
-      IF(CHECK_CUMUL_VF(1)==ZERO .AND. CHECK_CUMUL_VF(2)==ZERO)THEN
-        CALL ANCMSG(MSGID=1602, MSGTYPE=MSGERROR, ANMODE=ANINFO, I1= ID, C1=TRIM(TITR), C2="INPUT VOLUME FRACTIONS ARE EMPTY")
+      IF(CHECK_CUMUL_VF(1) == ZERO .AND. CHECK_CUMUL_VF(2) == ZERO)THEN
+        CALL ANCMSG(MSGID=1602, MSGTYPE=MSGERROR, ANMODE=ANINFO,I1=ID, C1=TRIM(TITR), C2= "INPUT VOLUME FRACTIONS ARE EMPTY")
       ENDIF
 
         
       WRITE(IOUT,1118)SURF,NSEG
-         
-      IF (.NOT. MULTI_FVM%IS_USED) THEN
-         CALL ANCMSG(MSGID=1602, MSGTYPE=MSGERROR, ANMODE=ANINFO, I1 = ID, C1=TRIM(TITR), C2 = "ONLY COMPATIBLE WITH LAW 151")
-      ENDIF
-      
+
 C-----------
       RETURN
 C-----------
