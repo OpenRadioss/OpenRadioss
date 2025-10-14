@@ -2071,11 +2071,11 @@ C              STRAIN TENSOR IN GLOBAL SYSTEM
 c-----------
             ELSEIF (ISOLNOD==10 .OR. (ISOLNOD==4 .AND. ISROT==1)) THEN
 c-----------
-              IPT = IR
-c              IF (IR == 1 .AND. IS == 1 .AND. IT == 1) IPT = 1 
-c              IF (IR == 2 .AND. IS == 1 .AND. IT == 1) IPT = 2 
-c              IF (IR == 1 .AND. IS == 2 .AND. IT == 1) IPT = 3 
-c              IF (IR == 1 .AND. IS == 1 .AND. IT == 2) IPT = 4 
+              IPT = 0
+              IF (IR == 1 .AND. IS == 1 .AND. IT == 1) IPT = 1 
+              IF (IR == 2 .AND. IS == 1 .AND. IT == 1) IPT = 2 
+              IF (IR == 1 .AND. IS == 2 .AND. IT == 1) IPT = 3 
+              IF (IR == 1 .AND. IS == 1 .AND. IT == 2) IPT = 4 
               IF ( IPT > 0) THEN
                 LBUF =>  ELBUF_TAB(NG)%BUFLY(1)%LBUF(IPT,1,1)          
                 IF (MLW>=28.AND.MLW /= 49 .OR. MLW == 24) THEN 
