@@ -41,15 +41,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      5                  IX3    ,IX4    ,NSVG,X1      ,X2    ,
      6                  X3     ,X4     ,Y1  ,Y2      ,Y3    ,
      7                  Y4     ,Z1     ,Z2  ,Z3      ,Z4    ,
-     8                  XI     ,YI     ,ZI  ,IFLAG )
-C============================================================================
-C  this routine is called by: I7BUC1(/inter3d1/i7buc1.F)
-C                                  I7TRI(/inter3d1/i7tri.F)
-C                                  I2TRI(/inter3d1/i2tri.F)
-C                                  I2BUC1(/inter3d1/i2buc1.F)
-C                                  ININT3(/inter3d1/inint3.F)
-C----------------------------------------------------------------------------
-C  this routine calls: -
+     8                  XI     ,YI     ,ZI   ,gapmin,gapmax)
 C============================================================================
       use element_mod , only :nixs,nixc,nixtg
 C-----------------------------------------------
@@ -72,11 +64,11 @@ C-----------------------------------------------
      .        IWORKSH(*)
       integer, intent(in) :: first !< first index of the candidates
       integer, intent(in) :: last  !< last index of the candidates
-      INTEGER, INTENT(IN) :: IFLAG
 C     REAL
       my_real
      .   GAP, X(3,*), GAPV(*),
      .   GEO(NPROPG,*),THK(*),THK_PART(*),PM(*),DSEARCH,PM_STACK(*)
+      my_real, intent(inout) :: GAPMIN,GAPMAX
       INTEGER, DIMENSION(MVSIZ), INTENT(INOUT) :: IX1,IX2,IX3,IX4,NSVG
       my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: X1,X2,X3,X4
       my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: Y1,Y2,Y3,Y4
@@ -97,7 +89,7 @@ C-----------------------------------------------
      .        IEL,MG,IP,NELS,NELC,NELTG
 C     REAL
       my_real
-     .     THKSECND,THKMAIN,DD,DX1,DY1,DZ1,DX3,DY3,DZ3,VOL,AREA,GAPMIN,GAPMAX
+     .     THKSECND,THKMAIN,DD,DX1,DY1,DZ1,DX3,DY3,DZ3,VOL,AREA
 C-----------------------------------------------
 C
       DO I=first,last
@@ -108,18 +100,14 @@ C
        ZI(I) = X(3,IG)
       ENDDO
 C
-      GAPMIN = EP30
-      GAPMAX = ZERO
       IF(IGAP==0 .AND. IGNORE <= 1)THEN
         DO I=first,last
          GAPV(I) = GAP
         ENDDO 
-        IF(IFLAG==1) WRITE(IOUT,2001) GAP
       ELSEIF((IGNORE == 2 .OR. IGNORE == 3) .AND. DSEARCH /= ZERO)THEN
         DO I=first,last
           GAPV(I) = GAP
         ENDDO
-        IF(IFLAG==1) WRITE(IOUT,2001) GAP
       ELSEIF(IGNORE >= 2)THEN
         DO I=first,last
           THKSECND = ZERO
@@ -210,7 +198,6 @@ C         LONGUEUR DIAG 2
           GAPMIN = MIN(GAPMIN,GAPV(I))
           GAPMAX = MAX(GAPMAX,GAPV(I))
         ENDDO
-        IF(IFLAG==1) WRITE(IOUT,2002) GAPMIN,GAPMAX
       ENDIF
 C
       DO I=first,last
@@ -249,8 +236,4 @@ C
       ENDDO
 C
       RETURN
-C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
- 2001 FORMAT(//,1X,'SEARCH DISTANCE . . . . . . . . . . . . . .',1PG20.13/)
- 2002 FORMAT(//,1X,'SEARCH DISTANCE . . . . . . . . . . . . . .BETWEEN',1PG20.13,' AND ',1PG20.13/)
-C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
       END

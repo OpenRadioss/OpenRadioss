@@ -61,6 +61,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       use element_mod , only :nixs,nixc,nixtg
       use stack_mod , only : stack_ply
       use i2trivox_mod , only : i2trivox
+      use file_descriptor_mod , only : iout
 C============================================================================
 C  this routine is called by: inint3(/inter3d1/inint3.f)
 C----------------------------------------------------------------------------
@@ -133,7 +134,7 @@ C-----------------------------------------------
       integer, dimension(3) :: cell_nb
       my_real, dimension(3) :: distance
       my_real, dimension(6) :: bound
-      my_real :: cell_size,margin
+      my_real :: cell_size,margin,gapmin,gapmax
       my_real, dimension(:,:), allocatable :: segment_data
 C
 C=======================================================================
@@ -347,6 +348,8 @@ C
       cell_size = four * dd
       cell_nb(1:3) = int(distance(1:3)/cell_size)
       cell_nb(1:3) = max(cell_nb(1:3),1)
+      gapmin = huge(gapmin)
+      gapmax = -huge(gapmax)
       call i2trivox(nvsiz,numnod,numels,numels10, 
      .              numels16,numels20,numelc,numeltg, 
      .              nint,noint, 
@@ -355,8 +358,18 @@ C
      .              ilev,npropgi,npropg,numgeo,npropm,nummat,npart,ignore,cell_nb,nsv,irtl,ipartc,iparttg,
      .              knod2els,knod2elc,knod2eltg,nod2els,nod2elc,nod2eltg,irect, 
      .              igeo,dsearch,bound,tzinf05,segment_data, 
-     .              dmin,thk,thk_part,x,geo,st,pm,stack)
+     .              dmin,thk,thk_part,x,geo,st,pm,stack,gapmin,gapmax)
 
       deallocate(segment_data)
+
+      if((ignore<=1).or.((ignore==2.or.ignore==3).and.dsearch/=zero)) then
+        write(iout,2001) tzinf05
+      elseif(ignore>=2) then
+        write(iout,2002) gapmin,gapmax
+      else
+      endif
+      
+ 2001 format(//,1X,'SEARCH DISTANCE . . . . . . . . . . . . . .',1PG20.13/)
+ 2002 format(//,1X,'SEARCH DISTANCE . . . . . . . . . . . . . .BETWEEN',1PG20.13,' AND ',1PG20.13/)
       RETURN
       END
