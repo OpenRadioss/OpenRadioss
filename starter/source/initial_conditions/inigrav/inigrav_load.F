@@ -632,10 +632,13 @@ C-----------------------------------------------
       NTRIA=4
       IF(lTRIA)NTRIA=1
       ISONTRIA(1:4)=0
-        TOLCRIT = EM06
-        TOL = TOLCRIT      
+      TOLCRIT = EM06
+      TOL = TOLCRIT
       IA=0
       IB=1
+      ZH(1) = H(1) - Z(1)
+      ZH(2) = H(2) - Z(2)
+      ZH(3) = H(3) - Z(3)
       
       DO I=1,NTRIA
         IA=IA+1
@@ -652,15 +655,9 @@ C-----------------------------------------------
         NORM_ZA_2 = (ZA(1)*ZA(1)+ZA(2)*ZA(2)+ZA(3)*ZA(3))
         NORM_ZB_2 = (ZB(1)*ZB(1)+ZB(2)*ZB(2)+ZB(3)*ZB(3))
 
-        ZH(1) = H(1) - Z(1)
-        ZH(2) = H(2) - Z(2)
-        ZH(3) = H(3) - Z(3)      
-
         PS1 =  ZA(1)*ZH(1)+ZA(2)*ZH(2)+ZA(3)*ZH(3)
-      
         PS2 =  ZB(1)*ZH(1)+ZB(2)*ZH(2)+ZB(3)*ZH(3)
-
-        PS3 =  ZB(1)*ZH(1)+ZB(2)*ZA(2)+ZB(3)*ZA(3)
+        PS3 =  ZB(1)*ZA(1)+ZB(2)*ZA(2)+ZB(3)*ZA(3)
       
         COEF = ONE-PS3*PS3/NORM_ZA_2/NORM_ZB_2
         COEF = ONE / COEF
@@ -684,7 +681,7 @@ C-----------------------------------------------
       
       ENDDO
       
-      lTEST=.FALSE.
-      IF(SUM(ISONTRIA(1:NTRIA))>=1)lTEST=.TRUE.
+      lTEST = .FALSE.
+      IF(SUM(ISONTRIA(1:NTRIA)) >= 1) lTEST = .TRUE.
       
       END SUBROUTINE CHECK_IS_ON_SEGMENT
