@@ -40,6 +40,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                      IADPLYG, PLYNUMC, NBF_PXFEMG)
       USE PLYXFEM_MOD
       USE my_alloc_mod
+      use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

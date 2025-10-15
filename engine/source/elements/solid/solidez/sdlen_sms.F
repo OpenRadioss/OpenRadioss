@@ -39,6 +39,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      6   Z2,         Z3,         Z4,         Z5,
      7   Z6,         Z7,         Z8,         IPARTS,
      8   TAGPRT_SMS, TAGELEM_SMS,NEL)
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

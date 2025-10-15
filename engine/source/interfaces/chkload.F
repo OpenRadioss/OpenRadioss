@@ -40,6 +40,7 @@ C
      5    ILOADP ,LLOADP  ,IAD_ELEM)
 C-----------------------------------------------
       USE nodal_arrays_mod
+      use element_mod , only : nixs,nixq,nixc,nixt,nixr,nixp,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

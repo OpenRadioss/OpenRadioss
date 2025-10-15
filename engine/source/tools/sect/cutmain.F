@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE CUTMAIN(ICUT,XCUT,IXS,XYZ0,D,
      .                       NODCUT,NELCUT,ICBUF,CBUF,LEN,NBF)
+      use element_mod , only : nixs
 C------------------------------------------
 C COMPTAGE DU NOMBRE D'ELEMENTS COUPES
 C-----------------------------------------------

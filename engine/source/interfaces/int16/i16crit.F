@@ -39,6 +39,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      4       XSLVG )
 C-----------------------------------------------
       USE INTBUFDEF_MOD
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -223,6 +224,7 @@ C
       SUBROUTINE I16BOX(LFT ,LLT  ,NELEM,EMINX,NMEF,NMEL,
      2                  X   ,V    ,A    ,IXS ,IXS16,SIZE,
      3                  XMSR,INDEX,XSAV )
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -528,6 +530,7 @@ C
       SUBROUTINE I20BOX(LFT ,LLT  ,NELEM,EMINX,NMEF,NMEL,
      2                  X   ,V    ,A    ,IXS ,IXS20,SIZE,
      3                  XMSR,INDEX,XSAV )
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -855,6 +858,7 @@ C
       SUBROUTINE I10BOX(LFT ,LLT  ,NELEM,EMINX,NMEF,NMEL,
      2                  X   ,V    ,A    ,IXS ,IXS10,SIZE,
      3                  XMSR,INDEX,XSAV )
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -976,6 +980,7 @@ C
       SUBROUTINE I8BOX(LFT ,LLT  ,NELEM,EMINX,NMEF,NMEL,
      2                  X   ,V    ,A    ,IXS ,SIZE,
      3                  XMSR,INDEX,XSAV )
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

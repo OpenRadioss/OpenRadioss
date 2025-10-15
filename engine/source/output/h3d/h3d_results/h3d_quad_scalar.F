@@ -64,6 +64,7 @@ C-----------------------------------------------
       USE h3d_quad_scalar_1_mod, ONLY: H3D_QUAD_SCALAR_1
       USE MULTIMAT_PARAM_MOD , ONLY : M51_N0PHAS, M51_NVPHAS
       USE MATPARAM_DEF_MOD , ONLY : MATPARAM_STRUCT_
+      use element_mod , only : nixq
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

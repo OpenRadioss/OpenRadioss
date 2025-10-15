@@ -39,6 +39,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      B   IHBE    ,NFT   ,ISMSTR,KFTS  ,
      C   SRH1  ,SRH2  ,SRH3   ,IGTYP ,
      D   IGMAT   ,A11R,NEL)
+      use element_mod , only : nixc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

@@ -47,6 +47,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
         USE nodal_arrays_mod
         USE INTBUFDEF_MOD   
         USE SHOOTING_NODE_MOD
+        use element_mod , only : nixs,nixc,nixt,nixp,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

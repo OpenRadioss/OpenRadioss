@@ -59,6 +59,7 @@ C-----------------------------------------------
       USE I22EDGE_MOD    
       USE I22TRI_MOD           
       USE ALE_CONNECTIVITY_MOD
+      use element_mod , only : nixs,nixq
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

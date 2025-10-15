@@ -81,6 +81,7 @@ C-----------------------------------------------
       USE nodal_arrays_mod
       USE extend_array_mod
       USE OUTPUT_MOD
+      use element_mod , only : nixs
 C----------------------------------------------- 
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -458,6 +459,7 @@ C-----------------------------------------------
       USE H3D_MOD
       USE extend_array_mod
       use output_mod
+      use element_mod , only : nixs
 C======================================================================|
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE CUPDTN3PINCH(
      1                        JFT  ,JLT    ,NVC  ,IXC       , 
      2                        FP   ,FPINCH ,STI  ,STIFPINCH ,FACP )
+      use element_mod , only : nixc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

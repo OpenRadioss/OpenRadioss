@@ -39,6 +39,7 @@ C
      5    OFQ   ,LINDEX,IXP    ,IXR    ,IXT    ,
      6    GEO   ,IAD_ELEM)
        USE nodal_arrays_mod
+       use element_mod , only : nixs,nixq,nixc,nixp,nixr,nixt,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

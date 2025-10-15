@@ -35,6 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      4                  IXS10 ,IXS20     ,IXS16  ,NNSPH ,ISPH3D,
      5                  NODGLOB,SHFT16   ,SHFTSPH ,NNSPHG,IPARTIG3D,
      6                  KXIG3D,IGEO,IG3DSOLID)
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

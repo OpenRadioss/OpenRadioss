@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2   X1DP,    X2DP,    X3DP,    NGL,
      3   MGN,     NC1,     NC2,     NC3,
      4   NEL)
+      use element_mod , only : nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

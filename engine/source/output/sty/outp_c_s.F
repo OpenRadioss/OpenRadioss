@@ -36,6 +36,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD
+      use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -657,7 +658,8 @@ c
 !||    genoutp         ../engine/source/output/sty/genoutp.F
 !||    outp_arsz_cs    ../engine/source/mpi/interfaces/spmd_outp.F
 !||====================================================================
-      SUBROUTINE COUNT_ARSZ_CS(IPARG,IXC,IXTG,IGEO,IPM,DD_IAD,WASZ,SIZ_WRITE_LOC) 
+      SUBROUTINE COUNT_ARSZ_CS(IPARG,IXC,IXTG,IGEO,IPM,DD_IAD,WASZ,SIZ_WRITE_LOC)
+      use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

@@ -121,6 +121,7 @@ C-----------------------------------------------
       USE stat_sphcel_spmd_mod
       USE stat_sphcel_full_mod
       USE MY_ALLOC_MOD
+      use element_mod , only : nixs,nixq,nixc,nixp,nixr,nixt,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

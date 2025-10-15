@@ -66,6 +66,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE STACK_MOD
       USE DRAPE_MOD
+      use element_mod , only : nixs,nixq,nixc,nixt,nixtg,nixp,nixr
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1313,6 +1314,7 @@ C----6---------------------------------------------------------------7---------8
      6                   K48   ,K55   ,K56    ,K57    ,K58   ,
      7                   K66   ,K67   ,K68    ,K77    ,K78   ,
      8                   K88   )
+      use element_mod , only : nixs
 C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1432,6 +1434,7 @@ C  | --- new routine -----
       SUBROUTINE IMPKCOUT( IXC,NFT,NEL,IUGEO,
      1                    KE11   ,KE12   ,KE13   ,KE14   ,KE22 ,
      2                    KE23   ,KE24   ,KE33   ,KE34   ,KE44 )
+      use element_mod , only : nixc
 C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -2871,6 +2874,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE STACK_MOD
       USE DRAPE_MOD
+      use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -3078,6 +3082,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE STACK_MOD
       USE DRAPE_MOD
+      use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

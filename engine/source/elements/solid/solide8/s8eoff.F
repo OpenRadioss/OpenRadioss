@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    s8zke3   ../engine/source/elements/solid/solide8z/s8zke3.F
 !||====================================================================
       SUBROUTINE S8EOFF(JFT, JLT, IXS, ETAG, OFF)
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

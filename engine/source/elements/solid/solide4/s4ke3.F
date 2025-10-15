@@ -47,6 +47,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      4   NEL,     IPM,     IGEO,    IKGEO,
      5   BUFMAT,  NFT,     MTN,     ISMSTR,
      6   JHBE,    IREP,    ISORTH,  IFORMDT)
+      use element_mod , only : nixs
 C----------------------------------------------- 
 C   M o d u l e s
 C-----------------------------------------------

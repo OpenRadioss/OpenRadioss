@@ -29,7 +29,6 @@
 !||====================================================================
       MODULE ANIM_MONVOL_MOD
       implicit none
-        integer, parameter, private :: NIXS=11
       CONTAINS
 !||====================================================================
 !||    xyz16               ../engine/source/output/anim/generate/monvol_anim.F90
@@ -46,6 +45,7 @@
         &NUMELS20,NUMELS16G)
           use precision_mod, only: WP
           use constant_mod
+          use element_mod , only : nixs
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   arguments

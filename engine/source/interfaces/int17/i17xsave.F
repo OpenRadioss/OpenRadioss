@@ -31,6 +31,7 @@ C  |         I17MAIN_TRI                       /int17/i17main_lag.F
      2       NMES  ,NME_T ,ESH_T ,NELEM ,NELES ,
      3       EMINXM,ITASK ,XSAV  ,XMIN  ,YMIN  ,
      4       ZMIN  ,XMAX  ,YMAX  ,ZMAX  )
+      use element_mod , only : nixs
 C saving of xsav and calculation of domain bounds
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
