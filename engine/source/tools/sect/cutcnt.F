@@ -31,7 +31,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE OUTPUT_MOD      
+      USE OUTPUT_MOD
+      use element_mod , only : nixs  
 C------------------------------------------
 C NUMBERING CUT ELEMS
 C-----------------------------------------------

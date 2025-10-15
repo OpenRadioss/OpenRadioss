@@ -38,10 +38,11 @@ C
      5    LINDEX,IXP   ,IXR    ,IXT    ,GEO    ,
      6    TAGEL ,IAD_ELEM)
        USE nodal_arrays_mod
+       USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+       use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
 #include      "implicit_f.inc"
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g

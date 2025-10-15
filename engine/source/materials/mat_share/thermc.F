@@ -31,6 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE THERMC(JFT  ,JLT   ,PM   ,MAT   ,THK   ,IXC , 
      2                  PX1  ,PX2   ,PY1  ,PY2   ,AREA  ,DT1C ,
      3                  TEMPNC ,TEMPEL   ,DIE  ,FPHI    ,THEACCFACT)
+      use element_mod , only : nixc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

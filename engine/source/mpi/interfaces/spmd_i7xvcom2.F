@@ -64,6 +64,7 @@ C-----------------------------------------------
       USE MULTI_FVM_MOD
       USE SENSOR_MOD
       USE INTERFACES_MOD
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

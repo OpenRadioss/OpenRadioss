@@ -45,6 +45,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      E   K33,     K34,     K35,     K36,
      F   K44,     K45,     K46,     K55,
      G   K56,     K66,     NEL,     ISMSTR)
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

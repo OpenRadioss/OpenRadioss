@@ -42,6 +42,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      6   Z3,      Z4,      Z5,      Z6,
      7   Z7,      Z8,      IXS,     IDEGE,
      8   NEL)
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

@@ -33,6 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2                   K_LT  ,IADK  ,JDIK  ,K11   ,K12   ,     
      3                   K13   ,K14   ,K22   ,K23   ,K24   ,
      4                   K33   ,K34   ,K44   ,OFF   )
+      use element_mod , only : nixs
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

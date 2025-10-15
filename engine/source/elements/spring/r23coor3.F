@@ -34,6 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      4   Z2,      PID,     MAT,     RX1,
      5   RY1,     RZ1,     RX2,     RY2,
      6   RZ2,     NC1,     NC2,     NEL)
+      use element_mod , only : nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

@@ -123,6 +123,7 @@ C-----------------------------------------------
       USE MATPARAM_DEF_MOD
       use glob_therm_mod
       USE OUTPUT_MOD , ONLY : OUTPUT_
+      use element_mod , only : nixs,nixq,nixc,nixt,nixtg,nixp,nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

@@ -31,6 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      3                         NPLAT   ,IPLAT     ,THK    ,DT1C,
      4                         FACP    ,LC        ,
      5                         VPINCHT1,VPINCHT2)
+      use element_mod , only : nixc
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
 C-----------------------------------------------

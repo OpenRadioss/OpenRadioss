@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE CBATHERM(JFT  ,JLT    ,PM    ,THK    ,IXC   , 
      2                  BM     ,AREA   ,DTIME ,TEMPNC ,TEL   ,DHEAT  ,
      3                  NPLAT  ,IPLAT  ,FPHI  ,THEACCFACT)
+      use element_mod , only : nixc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

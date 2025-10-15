@@ -140,6 +140,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD
       use glob_therm_mod
       USE PRELOAD_SOLID_INI_MOD
+      use element_mod , only : nixs,nixq,nixt,nixr,nixp
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

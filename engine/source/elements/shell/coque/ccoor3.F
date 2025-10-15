@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      3                  VRL1,VRL2,VRL3,VRL4,MAT,DT1C,THKE,THK0,NGL,
      4                  X1  ,X2  ,X3  ,X4  ,Y1  ,Y2    ,
      5                  Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4    )
+      use element_mod , only : nixc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -166,6 +167,7 @@ C
      3                    E2Z    ,E3X   ,E3Y   ,E3Z    ,AREA   , 
      4                    V13X   ,V24X  ,V13Y  ,V24Y   ,SMSTR  ,
      5                    NEL    )
+      use element_mod , only : nixc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

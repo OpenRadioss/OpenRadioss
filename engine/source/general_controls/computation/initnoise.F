@@ -26,7 +26,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    noise       ../engine/source/general_controls/computation/noise.F
 !||====================================================================
       SUBROUTINE INITNOISE(IN,NOIADD,IXS,IWA,LENGTH,IXQ)
-C
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------        
+      use element_mod , only : nixs,nixq
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -96,7 +99,10 @@ c-----------
 !||    noise        ../engine/source/general_controls/computation/noise.F
 !||====================================================================
       SUBROUTINE INITNOISE2(IN,ELNOI,ELG,NOIADD,IXS,IWA,IPARG,IXQ)
-C
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------        
+      use element_mod , only : nixs,nixq
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
