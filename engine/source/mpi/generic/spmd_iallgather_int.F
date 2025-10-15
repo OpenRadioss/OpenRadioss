@@ -39,11 +39,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-        INTEGER, INTENT(in) :: SEND_SIZE,TOTAL_RCV_SIZE
-        INTEGER, INTENT(in) :: COMM
+        INTEGER, INTENT(inout) :: SEND_SIZE,TOTAL_RCV_SIZE
+        INTEGER, INTENT(inout) :: COMM
         INTEGER, INTENT(inout) :: REQUEST
-        INTEGER, INTENT(in) :: RCV_SIZE
-        my_real, DIMENSION(SEND_SIZE), INTENT(in) :: SENDBUF
+        INTEGER, INTENT(inout) :: RCV_SIZE
+        my_real, DIMENSION(SEND_SIZE), INTENT(inout) :: SENDBUF
         my_real, DIMENSION(TOTAL_RCV_SIZE), INTENT(inout) :: RECVBUF
 
 #ifdef MPI

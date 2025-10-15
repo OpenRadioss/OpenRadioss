@@ -33,6 +33,7 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -40,11 +41,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-        INTEGER, INTENT(in) :: SEND_SIZE,TOTAL_SEND_SIZE
-        INTEGER, INTENT(in) :: REQUEST,COMM
-        INTEGER, INTENT(in) :: RCV_SIZE,TOTAL_RCV_SIZE
-        my_real, DIMENSION(TOTAL_SEND_SIZE), INTENT(in) :: SENDBUF
-        my_real, DIMENSION(TOTAL_RCV_SIZE), INTENT(out) :: RECVBUF
+        INTEGER, INTENT(inout) :: SEND_SIZE,TOTAL_SEND_SIZE
+        INTEGER, INTENT(inout) :: REQUEST,COMM
+        INTEGER, INTENT(inout) :: RCV_SIZE,TOTAL_RCV_SIZE
+        my_real, DIMENSION(TOTAL_SEND_SIZE), INTENT(inout) :: SENDBUF
+        my_real, DIMENSION(TOTAL_RCV_SIZE), INTENT(inout) :: RECVBUF
 
 #ifdef MPI
 C-----------------------------------------------
@@ -66,21 +67,11 @@ C-----------------------------------------------
 !       size =         N        N                N
 !       ------------------------------------------
 
-!   PLMPI uses MPI-2.x version : MPI_IALLTOALL was introduced in MPI-3.0 version
-#if _PLMPI
-!       mpi comm alltoall
         CALL MPI_ALLTOALL(SENDBUF,SEND_SIZE,REAL,
      .                     RECVBUF,RCV_SIZE,REAL,
      .                     COMM,error)
+        REQUEST = MPI_REQUEST_NULL
 !       ------------------
-#else
-!       ------------------
-!       mpi comm alltoall
-        CALL MPI_IALLTOALL(SENDBUF,SEND_SIZE,REAL,
-     .                     RECVBUF,RCV_SIZE,REAL,
-     .                     COMM,REQUEST,error)
-!       ------------------
-#endif
 #else
         RECVBUF = 0
 #endif
