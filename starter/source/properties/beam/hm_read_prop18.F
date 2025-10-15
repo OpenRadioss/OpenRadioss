@@ -693,6 +693,7 @@ c---------------
           ENDIF   
 c---------------
         CASE (4)    ! circular section    Lobatto 5 OR 7 in radius 8 in circonference
+          AREA = PI*L(1)*L(1)                                                     
           !POINTS RADIALS ALIGNES
           IF (INTR == 17) THEN
              NIP = 17
