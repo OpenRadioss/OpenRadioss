@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    insol3                 ../starter/source/interfaces/inter3d1/insol3.F
 !||    volint                 ../starter/source/interfaces/inter3d1/volint.F
 !||--- uses       -----------------------------------------------------
+!||    file_descriptor_mod    ../starter/source/modules/file_descriptor_mod.F90
 !||    i2trivox_mod           ../starter/source/interfaces/inter3d1/i2trivox.F90
 !||    message_mod            ../starter/share/message_module/message_mod.F
 !||    stack_mod              ../starter/share/modules1/stack_mod.F

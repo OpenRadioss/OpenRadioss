@@ -171,6 +171,7 @@
 !||    rdcomr                             ../engine/source/output/restart/rdcomm.F
 !||    rdresa                             ../engine/source/output/restart/rdresa.F
 !||    rdresb                             ../engine/source/output/restart/rdresb.F
+!||    report                             ../engine/source/output/report/report.F
 !||    resol                              ../engine/source/engine/resol.F
 !||    resol_head                         ../engine/source/engine/resol_head.F
 !||    resol_init                         ../engine/source/engine/resol_init.F
