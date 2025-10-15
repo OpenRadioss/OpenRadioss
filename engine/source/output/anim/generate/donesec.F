@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_glob_isum9   ../engine/source/mpi/interfaces/spmd_th.F
 !||====================================================================
       SUBROUTINE DONESEC(ISECT,NESCT,NSTRF,IXS)
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

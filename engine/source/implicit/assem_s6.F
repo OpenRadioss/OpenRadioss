@@ -35,6 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      4                   K23   ,K24   ,K25   ,K26   ,K33   ,
      5                   K34   ,K35   ,K36   ,K44   ,K45   ,
      6                   K46   ,K55   ,K56   ,K66   ,OFF   )
+      use element_mod , only : nixs
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

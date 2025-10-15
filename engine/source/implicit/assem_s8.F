@@ -40,6 +40,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      7                   K45   ,K46   ,K47   ,K48   ,K55   ,
      8                   K56   ,K57   ,K58   ,K66   ,K67   ,
      9                   K68   ,K77   ,K78   ,K88   ,OFF   )
+      use element_mod , only : nixs
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

@@ -58,6 +58,7 @@ C-----------------------------------------------
       USE MAT_ELEM_MOD
       USE MESSAGE_MOD
       USE ELBUFDEF_MOD
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -609,6 +610,7 @@ c-----------
      .                   XX , YY, ZZ, UX, UY, UZ, 
      .                   VX , VY, VZ, VRX, VRY, VRZ,
      .                   OFFG,OFF,NC ,SID,IMAT,IPROP)
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

@@ -51,6 +51,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      L   MY6,     MZ6,     MX7,     MY7,
      M   MZ7,     MX8,     MY8,     MZ8,
      N   IXS,     NEL,     ISMSTR,  SVIS)
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

@@ -43,6 +43,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .   IOUTPRT, VGAX, VGAY, VGAZ, VGA2,DI,
      .   NEL, XGAX, XGAY, XGAZ, XGXA2, XGYA2, XGZA2,
      .   XGXYA, XGYZA, XGZXA, IPARG,GAMA_R)
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

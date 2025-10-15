@@ -56,6 +56,7 @@ C-----------------------------------------------
       USE MATPARAM_DEF_MOD
       USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100
       USE DRAPE_MOD
+      use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

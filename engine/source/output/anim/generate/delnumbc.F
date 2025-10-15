@@ -33,6 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2                    EL2FA,NBF  ,INUM ,NELCUT,
      3                    DD_IAD  ,IADD ,NBF_L,
      4                    NBPART,IADG,NODGLOB,IDCMAX          )
+      use element_mod , only : nixq,nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

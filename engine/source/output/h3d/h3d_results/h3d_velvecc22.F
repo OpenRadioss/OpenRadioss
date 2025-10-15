@@ -52,7 +52,8 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD  
       USE I22BUFBRIC_MOD   
       USE I22EDGE_MOD    
-      USE I22TRI_MOD         
+      USE I22TRI_MOD        
+      use element_mod , only : nixs,nixq 
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

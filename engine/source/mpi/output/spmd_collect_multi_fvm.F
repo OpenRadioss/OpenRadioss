@@ -50,10 +50,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       USE INOUTFILE_MOD
       USE DEBUG_MOD
       USE MULTI_FVM_MOD
+      use element_mod , only : nixs
+      USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
 #include      "implicit_f.inc"
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -114,7 +115,6 @@ C-----------------------------------------------
       IF (ISPMD/=0) THEN
  
       DO I = 1,NUMELS
-!        SDNODG(I) = IXS(NIXS,I)
         AGLOB(1,I) = IXS(NIXS,I)
         AGLOB(2,I) = MULTI_FVM%VEL(1,I)
         AGLOB(3,I) = MULTI_FVM%VEL(2,I)

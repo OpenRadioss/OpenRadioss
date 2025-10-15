@@ -47,6 +47,7 @@ C-----------------------------------------------
       USE MATPARAM_DEF_MOD , ONLY : MATPARAM_STRUCT_
       USE MULTI_SUBMATLAW_MOD , ONLY : MULTI_SUBMATLAW
       USE OUTPUT_MOD , ONLY : OUTPUT_
+      use element_mod , only : nixs,nixq,nixtg
 C-----------------------------------------------
 C     I m p l i c i t   T y p e s
 C-----------------------------------------------

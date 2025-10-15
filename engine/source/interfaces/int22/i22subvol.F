@@ -53,6 +53,7 @@ C-----------------------------------------------
       USE I22EDGE_MOD
       USE ELBUFDEF_MOD
       USE GROUPDEF_MOD
+      use element_mod , only : nixs,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

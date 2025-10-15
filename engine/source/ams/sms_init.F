@@ -212,6 +212,7 @@ C-----------------------------------------------
      A  IGEO    ,NATIV_SMS)
 C-----------------------------------------------
         USE MY_ALLOC_MOD
+        use element_mod , only : nixs,nixq,nixc,nixt,nixr,nixp,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -623,6 +624,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE INTBUFDEF_MOD
       USE MY_ALLOC_MOD
+      use element_mod , only : nixs,nixq,nixc,nixt,nixr,nixp,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1059,6 +1061,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE INTBUFDEF_MOD
       USE MY_ALLOC_MOD
+      use element_mod , only : nixs,nixq,nixc,nixt,nixr,nixp,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1411,6 +1414,7 @@ C-----------------------------------------------
       USE INTBUFDEF_MOD 
       USE MESSAGE_MOD
       USE MY_ALLOC_MOD
+      use element_mod , only : nixs,nixq,nixc,nixt,nixr,nixp,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1732,6 +1736,7 @@ C-----------------------------------------------
       USE INTBUFDEF_MOD
       USE MESSAGE_MOD
       USE MY_ALLOC_MOD
+      use element_mod , only : nixs,nixq,nixc,nixt,nixr,nixp,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

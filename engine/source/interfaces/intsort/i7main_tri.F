@@ -75,6 +75,7 @@ C-----------------------------------------------
       USE INTER_SORTING_MOD
       use check_sorting_criteria_mod , only : check_sorting_criteria
       use glob_therm_mod
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

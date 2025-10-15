@@ -48,6 +48,7 @@ C-----------------------------------------------
       USE MATPARAM_DEF_MOD , ONLY : MATPARAM_STRUCT_
       USE OUTPUT_MOD , ONLY : OUTPUT_
       USE MULTI_INLET_EBCS_MOD , ONLY : MULTI_INLET_EBCS
+      use element_mod , only : nixs,nixq,nixtg
       !USE multi_propellant_ebcs_mod , ONLY : MULTI_PROPELLANT_EBCS
 C-----------------------------------------------
 C     I m p l i c i t   T y p e s

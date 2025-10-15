@@ -45,6 +45,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD         
       USE SOLTOSPH_MOD         
       USE MESSAGE_MOD
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -523,7 +524,8 @@ C
      .   SOL2SPH,WA       ,PM)
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD         
+      USE ELBUFDEF_MOD 
+      use element_mod , only : nixs        
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

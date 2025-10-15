@@ -32,6 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .      IEL_CRKTG,ELCUTC,NXLAY ,CRKEDGE )
 C-----------------------------------------------
       USE CRACKXFEM_MOD
+      use element_mod , only : nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

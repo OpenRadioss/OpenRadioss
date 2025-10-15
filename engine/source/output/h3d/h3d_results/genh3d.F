@@ -242,6 +242,7 @@ C-----------------------------------------------
         USE PBLAST_MOD 
         USE h3d_gather_id_val_mod
         USE SPMD_MOD
+        use element_mod , only : nixs,nixq,nixc,nixt,nixr,nixp,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

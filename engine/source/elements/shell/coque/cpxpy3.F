@@ -31,6 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      3                  IXC  ,AREA,X2  ,X3  ,X4  , 
      4                  Y2   ,Y3  ,Y4  ,Z2  ,THK0,  
      5                  MAT  ,NEL )
+      use element_mod , only : nixc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

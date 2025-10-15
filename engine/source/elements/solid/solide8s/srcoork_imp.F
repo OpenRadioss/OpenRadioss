@@ -38,7 +38,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .   K24,K25,K26,K27,K28,K33,K34,K35,K36,K37,
      .   K38,K44,K45,K46,K47,K48,K55,K56,K57,K58,
      .   K66,K67,K68,K77,K78,K88,KHBE,GAMA0 ,GAMA,
-     .   NEL,TRM,KL)      !
+     .   NEL,TRM,KL)     
+      use element_mod , only : nixs !
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

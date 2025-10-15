@@ -40,6 +40,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      C   NEL,     CONDEG,  G_EPSD,  JALE,
      D   ISMSTR,  JEUL,    JLAG,    ISRAT,
      E   ISROT)
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

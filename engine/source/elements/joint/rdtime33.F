@@ -34,6 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      6   YMOM,    ZMOM,    ROT1,    ROT2,
      7   MSRT,    DMELRT,  NUVAR,   UVAR,
      8   JNTYP,   JSMS)
+      use element_mod , only : nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE R3COORK3(JFT    ,JLT    ,X      ,NCC   ,PID    ,
      1                    NGL    ,R11    ,R21   ,R31    ,R12    ,
      2                    R22    ,R32   ,BETA   ,OFFG   ,OFF    )
+      use element_mod , only : nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

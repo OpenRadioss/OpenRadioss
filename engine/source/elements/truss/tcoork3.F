@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE TCOORK3(JFT    ,JLT    ,X      ,NCC   ,MAT    ,
      1                   NGL    ,AL     ,R11    ,R21   ,R31    ,
      2                   OFFG   ,OFF    )
+      use element_mod , only : nixt
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

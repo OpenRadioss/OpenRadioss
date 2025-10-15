@@ -32,6 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      3                  IADLL  ,EMINX  ,NSV    ,NELEM   ,
      4                  N_MUL_MX,ITASK ,A       ,ITIED ,
      5                  NINT   ,NKMAX  ,COMNTAG)
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

@@ -36,6 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      8                  M31  ,M32  ,M33 ,M34 ,EINT,
      A                  PARTSAV,MAT,IPARTC,FAC,JTHE,
      B                  THEM ,FTHE ,CONDN,CONDE,NODADT_THERM)
+      use element_mod , only : nixc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -490,6 +491,7 @@ C
      A                   EINT ,PARTSAV,MAT,IPARTC,PM,
      B                   AREA ,THK  ,FAC , JTHE , THEM,
      C                   FTHESKY,CONDNSKY,CONDE ,NODADT_THERM)  
+      use element_mod , only : nixc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

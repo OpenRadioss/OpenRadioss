@@ -27,6 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE QNORM2 (NEL, NFT, JALE, SYM, IXQ, XGRID, WGRID, 
      .     NORM, WFAC, SURF)
+      use element_mod , only : nixq
 C-----------------------------------------------
 C     D e s c r i p t i o n
 C-----------------------------------------------

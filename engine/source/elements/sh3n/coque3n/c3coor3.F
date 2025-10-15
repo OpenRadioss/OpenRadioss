@@ -30,7 +30,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                   V        ,VR       ,VL1     ,VL2      ,VL3      ,
      .                   VRL1     ,VRL2     ,VRL3    ,SIGY     ,
      .                   X1       ,X2       ,X3      ,Y1       ,Y2       ,
-     .                   Y3       ,Z1       ,Z2      ,Z3       ,XDP      )  
+     .                   Y3       ,Z1       ,Z2      ,Z3       ,XDP      )
+      use element_mod , only : nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -186,6 +187,7 @@ C-----------
      5                    V21X   ,V31X   ,V21Y  ,V31Y   ,RZ13   ,
      6                    RZ23   ,X2_T   ,X3_T  ,Y2_T   ,Y3_T   ,
      7                    AREA   ,SMSTR  ,ISROT )
+      use element_mod , only : nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

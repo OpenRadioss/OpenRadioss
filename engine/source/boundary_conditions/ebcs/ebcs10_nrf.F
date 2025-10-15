@@ -58,6 +58,7 @@ C-----------------------------------------------
       USE TH_SURF_MOD , ONLY : TH_SURF_NUM_CHANNEL
       USE MULTIMAT_PARAM_MOD , ONLY : M51_N0PHAS, M51_NVPHAS
       USE OUTPUT_MOD , ONLY : OUTPUT_
+      use element_mod , only : nixs,nixq,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

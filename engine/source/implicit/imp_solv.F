@@ -195,6 +195,7 @@ C-----------------------------------------------
         USE SKEW_MOD
         use glob_therm_mod
         use python_funct_mod, only: python_
+        use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -3148,6 +3149,7 @@ C-----------------------------------------------
         USE TH_SURF_MOD , ONLY : TH_SURF_
         USE SKEW_MOD , ONLY : SKEW_
         USE GROUPDEF_MOD
+        use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -7485,6 +7487,7 @@ C   M o d u l e s
 C-----------------------------------------------
         USE ELBUFDEF_MOD
         USE IMP_SPBRM
+        use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -7757,6 +7760,7 @@ C
 !||====================================================================
       SUBROUTINE SPB_REFSH4ID(JFT,JLT,NEL,IXC,X,XC,YC,ZC,IE,
      +                        XMIN0,YMIN0,ZMIN0,DMIN)
+      use element_mod , only : nixc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -7855,6 +7859,7 @@ C
 !||====================================================================
       SUBROUTINE SPB_REFSH3ID(JFT,JLT,NEL,IXTG,X,XC,YC,ZC,IE,
      +                        XMIN0,YMIN0,ZMIN0,DMIN)
+      use element_mod , only : nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -7972,6 +7977,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
         USE IMP_SPBRM
+        use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -8186,6 +8192,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
         USE IMP_SPBRM
+        use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -8444,6 +8451,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
         USE IMP_SPBRM
+        use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

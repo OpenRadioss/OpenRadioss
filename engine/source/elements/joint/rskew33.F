@@ -42,6 +42,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------  
       USE SENSOR_MOD
+      use element_mod , only : nixr
 C-----------------------------------------------
 C IXR      | 5*NEL   | I | R | SPRING CONNECTIVITY
 C                            | IXR(1,I) IPROP

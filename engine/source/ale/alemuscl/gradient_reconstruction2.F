@@ -42,6 +42,7 @@ C-----------------------------------------------
       USE ALEMUSCL_MOD
       USE SEGVAR_MOD
       USE ALE_CONNECTIVITY_MOD
+      use element_mod , only :nixq
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

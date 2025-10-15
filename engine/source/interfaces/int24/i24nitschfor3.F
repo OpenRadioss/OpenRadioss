@@ -40,6 +40,7 @@ C-----------------------------------------------
       USE TRI7BOX
       USE MESSAGE_MOD
       USE INTBUFDEF_MOD
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

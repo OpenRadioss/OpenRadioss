@@ -99,6 +99,7 @@ C-----------------------------------------------
       use glob_therm_mod
       use dttherm_mod
       USE TIMER_MOD
+      use element_mod , only : nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

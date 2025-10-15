@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE SNORM3T (NEL, NFT, JALE, IXS, XGRID, WGRID, 
      .     NORM, WFAC, SURF)
+      use element_mod , only : nixs
 C-----------------------------------------------
 C     D e s c r i p t i o n
 C-----------------------------------------------

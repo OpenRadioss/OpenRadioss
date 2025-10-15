@@ -127,6 +127,7 @@ C-----------------------------------------------
       USE SDISTOR_INI_MOD, ONLY : SDISTOR_INI
       use glob_therm_mod
       USE S10GET_X0_MOD, ONLY : S10GET_X0
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
