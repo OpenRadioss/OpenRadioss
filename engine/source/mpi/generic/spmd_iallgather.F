@@ -68,19 +68,10 @@ C-----------------------------------------------
 !       ------------------------------------------
 
 !   PLMPI uses MPI-2.x version : MPI_IALLGATHER was introduced in MPI-3.0 version
-#if _PLMPI
-!       ------------------
-        CALL MPI_ALLGATHER(SENDBUF,SEND_SIZE,REAL,
-     .                   RECVBUF,RCV_SIZE,REAL,
-     .                   COMM,error)
-!       ------------------
-#else
-!       ------------------
         CALL MPI_IALLGATHER(SENDBUF,SEND_SIZE,REAL,
      .                   RECVBUF,RCV_SIZE,REAL,
      .                   COMM,REQUEST,error)
 !       ------------------
-#endif
 #else
         RECVBUF = 0
 #endif
