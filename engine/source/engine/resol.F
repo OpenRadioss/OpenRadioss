@@ -6785,8 +6785,8 @@ C --------------------------
 
                 if (ispmd==0)then
                    write(iout,'(A)') ' '
-                   write(iout,'(A)') ' AUTOMATIC STIFFNESS COMPUTATION FOR JOINTS'
-                   write(iout,'(A)') ' JOINT ID           TYPE      KNN                KNR'
+                   write(iout,'(A/)') ' AUTOMATIC STIFFNESS COMPUTATION FOR JOINTS'
+                   write(iout,'(A)') '  JOINT ID      TYPE                KNN                KNR'
                 endif
                 
                 IF (FLG_KJ2 == 1) then                        

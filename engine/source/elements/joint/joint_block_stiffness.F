@@ -70,6 +70,7 @@ C-----------------------------------------------
       my_real MASS,INER1,INER2,KM1,KRM1,KM2,KRM2,XX,KX1,KX2,KR1,DTC,ALPHA,
      .        XL,KXMAX,KRMAX,KXMIN1,KXMIN2,KX,KR,DTCG,SCF,GET_U_GEO,
      .        XX1,XX2,DTA,MASS1,MASS2     
+      CHARACTER(LEN=30) :: INFO_MESSAGE
 C
       TYPE(G_BUFEL_),POINTER :: GBUF
 C-----------------------------------------------
@@ -194,13 +195,14 @@ C--         Raideur en rotation mise    zero si kjoint attach      un noeud de s
                 KR = MAX(KR,2*KRM1,2*KRM2)
             ENDIF
 C
-            IF ((IRB1 > 0) .AND.(IRB2 > 0)) THEN 
-                IF ((KX - KXMAX)>1e-8) WRITE(IOUT,300)
-                IF ((KR - KRMAX)>1e-8) WRITE(IOUT,400)
-            ELSE
-                IF ((KX - KXMAX)>1e-8) WRITE(IOUT,1300)
-                IF ((KR - KRMAX)>1e-8) WRITE(IOUT,1400)
-            ENDIF            
+            INFO_MESSAGE = '' 
+            IF ((KX-KXMAX)>1e-8 .OR. (KR-KRMAX)>1e-8) THEN
+              IF ((IRB1 > 0).AND.(IRB2 > 0)) THEN 
+                INFO_MESSAGE = '(FROM RIGID BODIES)'
+              ELSE  
+                INFO_MESSAGE = '(FROM CONNECTED STRUCTURES)'
+              ENDIF    
+            ENDIF  
 C
             IF (FLAG_S==1) THEN
                 KR = MAX(KR,1.3*KX*(XX+XL))
@@ -209,8 +211,8 @@ C
               KX = SCF*KX      
               KR = SCF*KR        
 C
-            WRITE(IOUT,'(4X,I10,5X,I2,8X,1PE11.4,8X,1PE11.4)') 
-     .            IXR(NIXR,J),JNTYP,KX,KR                 
+            WRITE(IOUT,'(I10,I10,8X,1PE11.4,8X,1PE11.4,1X,A)') 
+     .            IXR(NIXR,J),JNTYP,KX,KR,INFO_MESSAGE                 
 C
             GBUF%VAR(NV + 16) = KX
             GBUF%VAR(NV + 17) = KR
@@ -276,13 +278,8 @@ C
 
 C----------------------------------------------------------       
             
-      ENDIF      
+      ENDIF
 C
       RETURN
-C
-300   FORMAT(1X,'WARNING TRANS. STIFF. IMPOSED BY STIFF. ON RBODY')
-400   FORMAT(1X,'WARNING ROT. STIFF. IMPOSED BY STIFF. ON RBODY')
-C
-1300   FORMAT(1X,'WARNING TRANS. STIFF. IMPOSED BY STIFF. ON CONNECTED STRUCTURES')
-1400   FORMAT(1X,'WARNING ROT. STIFF. IMPOSED BY STIFF. ON CONNECTED STRUCTURES')                    
+C                 
       END    
