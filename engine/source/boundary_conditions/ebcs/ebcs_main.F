@@ -87,6 +87,7 @@ C-----------------------------------------------
       USE EBCS10_NRF_MOD        , ONLY : EBCS10_NRF
       USE EBCS11_PROPELLANT_MOD , ONLY : EBCS11_PROPELLANT
       USE EBCS12_CYCLIC_MOD     , ONLY : EBCS12_CYCLIC
+      use element_mod , only : nixs,nixq,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

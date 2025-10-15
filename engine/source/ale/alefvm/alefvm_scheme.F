@@ -51,6 +51,7 @@ C-----------------------------------------------
       USE ALEFVM_MOD
       USE I22TRI_MOD
       USE I22BUFBRIC_MOD
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

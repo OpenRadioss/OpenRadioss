@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    czforc3_crk   ../engine/source/elements/xfem/czforc3_crk.F
 !||====================================================================
       SUBROUTINE TEMPCG(NUMNOD, NEL  ,IXC ,TEMP ,TEMPEL)
+      use element_mod , only : nixc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

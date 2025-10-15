@@ -27,6 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE CDK6BC3(ICODR ,ISKEW ,ISKWN ,IXTG  ,IXTG1   ,
      1                   NPBY ,X     ,SKEW )
+      use element_mod , only : nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

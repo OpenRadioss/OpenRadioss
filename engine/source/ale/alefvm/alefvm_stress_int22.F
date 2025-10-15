@@ -51,6 +51,7 @@ C-----------------------------------------------
       USE ALEFVM_MOD
       USE ELBUFDEF_MOD     !TYPE(ELBUF_STRUCT_)
       USE I22BUFBRIC_MOD   !BRICK_LIST
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

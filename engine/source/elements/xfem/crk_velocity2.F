@@ -37,6 +37,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                        IADC_CRK ,IEL_CRK  ,INOD_CRK ,ITAB     )
 C-----------------------------------------------
       USE CRACKXFEM_MOD
+      use element_mod , only : nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -317,6 +318,7 @@ c-----------
      .                     ELCUTC   ,ITAB     )
 C-----------------------------------------------
       USE CRACKXFEM_MOD
+      use element_mod , only : nixc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -418,6 +420,7 @@ c
      .                     ELCUTG   ,ITAB     )
 C-----------------------------------------------
       USE CRACKXFEM_MOD
+      use element_mod , only : nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

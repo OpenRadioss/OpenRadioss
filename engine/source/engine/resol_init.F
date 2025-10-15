@@ -197,6 +197,7 @@ C-----------------------------------------------
       use spmd_xv_inter_type1_mod , only : is_present_inter1
       USE parith_on_mod, only: element_pon_
       use rbe3_mod
+      use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1225,6 +1226,7 @@ C-----------------------------------------------
       SUBROUTINE  GRPSPLIT(
      1     IPARG, IGROUC, NGROUC, IGROUNC, NGROUNC,
      2     IXC,IXS,IXTG,IPM,IGEO,PM,GEO,TABMP_L,TAB_MAT)
+      use element_mod , only : nixc,nixtg,nixs
 C----6------------------------------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

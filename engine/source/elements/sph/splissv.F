@@ -57,6 +57,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE SPHBOX
       USE SPH_WORK_MOD
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

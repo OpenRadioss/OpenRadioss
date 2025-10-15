@@ -49,6 +49,7 @@ C-----------------------------------------------
       USE SEGVAR_MOD     
       USE ALE_CONNECTIVITY_MOD
       USE ALE_MOD
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

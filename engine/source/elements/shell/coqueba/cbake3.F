@@ -59,7 +59,8 @@ C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD   
       USE STACK_MOD
-      USE DRAPE_MOD         
+      USE DRAPE_MOD  
+      use element_mod , only : nixc       
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
 C-----------------------------------------------

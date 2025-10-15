@@ -27,7 +27,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE CBAFINT_PLY(JFT,JLT,NPT,NG,NPLAT,IPLAT,CDET,THKLY,TH12,
      .                        VOL,FF0,BM,BC,TC,SIG_IPLY,VNI,AREA,
-     .                        VF,VFI,IXC) 
+     .                        VF,VFI,IXC)
+      use element_mod , only : nixc
 C--------------------------------------------------------------------------------------------------
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 C  CALCUL DES FORCES INTERNES AUX NOEUDS 

@@ -1448,8 +1448,12 @@ C
 !||    printtet4        ../engine/source/system/timer.F
 !||    printtriangles   ../engine/source/system/timer.F
 !||====================================================================
-      SUBROUTINE PRINTIMEG(IPARG,PM,IPM,IXC,IXTG,IXS)
+      SUBROUTINE PRINTIMEG(IPARG,PM,IPM,IXC,IXTG,IXS)        
 C     timers display routine
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+        use element_mod , only : nixs,nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1846,6 +1850,10 @@ C
 !||====================================================================
       SUBROUTINE PRINTCOQUES(IPARG,IXC,IPM,THEOGP,NUMSHG)
 C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      use element_mod , only : nixc
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include    "implicit_f.inc"
@@ -1967,6 +1975,10 @@ c     .                '         TIMETHEO             DIFF      PCT'
 !||====================================================================
       SUBROUTINE PRINTSOLIDES(IPARG,THEOGP,NUMSOLG,IPM,IXS)
 C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+        use element_mod , only : nixs
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include    "implicit_f.inc"
@@ -2074,6 +2086,10 @@ C-----------------------------------------------
 !||    my_fsort    ../engine/source/system/timer.F
 !||====================================================================
       SUBROUTINE PRINTTET4(IPARG,THEOGP,NUMSOLG,IPM,IXS)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+        use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2590,7 +2606,10 @@ C
      4          IGEO,GEO,POIN_UMP,CPUTIME_MP,
      5          NBR_GPMP,CPUTIME_MP_GLOB,TAB_UMP,PM,
      6          BUFMAT,TABMP_L,TAB_MAT )
-C     
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+        use element_mod , only : nixs,nixq,nixc,nixtg,nixq,nixp,nixr,nixt
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

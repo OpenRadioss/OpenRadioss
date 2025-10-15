@@ -35,6 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      4                      TYPE,NSINT,IFRAM,NNOD,NOD,MS,
      6                      IXS20,IXS16,ISOLNOD,XSEC,FBSAV6,
      7                      IPARSENS)
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

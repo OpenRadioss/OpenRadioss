@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE TEMP3CG(JFT ,JLT   , PM   ,MAT   ,IXTG ,   
      3                  TEMP ,TEMPEL)
+      use element_mod , only : nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

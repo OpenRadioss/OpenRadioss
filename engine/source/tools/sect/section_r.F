@@ -35,6 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      4                      FX,FY,FZ,MX,MY,MZ,
      5                      ITYPE,NSINT,IFRAM,NNOD,NOD,MS,
      7                      XSEC,FBSAV6,IPARSENS)
+      use element_mod , only : nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

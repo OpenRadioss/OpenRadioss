@@ -65,7 +65,7 @@
           use select_s2s_mod,   only : select_s2s
           use message_mod
           use constant_mod,     only : nine,ep20
-          use connectivity_size_mod, only : nixs,nixc,nixtg
+          use element_mod, only : nixs,nixc,nixtg
           use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none

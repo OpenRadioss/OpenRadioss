@@ -35,6 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      7                    Z1     ,DI     ,DB     ,COREL  ,RLZ    ,
      8                    LL     ,
      9                    L13    ,L24    ,IDRIL  ,DIZ    )
+      use element_mod , only : nixc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

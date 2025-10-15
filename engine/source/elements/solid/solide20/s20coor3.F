@@ -39,6 +39,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      A   QG,      EPLASM,  EPSDG,   G_PLA,
      B   G_EPSD,  NEL,     CONDEN,  JALE,
      C   ISMSTR,  JEUL,    JLAG)
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

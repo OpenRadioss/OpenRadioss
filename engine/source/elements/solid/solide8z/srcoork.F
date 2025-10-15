@@ -57,6 +57,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      M   K88,     KHBE,    GAMA0,   GAMA,
      N   NEL,     ISMSTR,  JHBE,    JCVT,
      O   IREP,    IGTYP,   ISORTH)
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

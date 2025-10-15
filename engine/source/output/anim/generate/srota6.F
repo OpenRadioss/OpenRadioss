@@ -45,6 +45,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE SROTA6(
      1   X,       IXS,     KCVT,    TENS,
      2   GAMA,    KHBE,    ITYP,    ISORTH)
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

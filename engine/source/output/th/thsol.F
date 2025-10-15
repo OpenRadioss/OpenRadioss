@@ -111,6 +111,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD 
       USE MULTI_FVM_MOD
       USE ALEFVM_MOD , only:ALEFVM_Param
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

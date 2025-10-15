@@ -26,6 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    s20ke3    ../engine/source/elements/solid/solide20/s20ke3.F
 !||====================================================================
       SUBROUTINE S20EOFF(JFT , JLT , IXS ,IXS20, ETAG, OFF)
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

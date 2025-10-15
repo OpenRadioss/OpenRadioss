@@ -259,6 +259,7 @@ C-----------------------------------------------
         use drape_mod
         USE OUTPUT_MOD , ONLY : OUTPUT_
         USE ANIM_MONVOL_MOD
+        use element_mod , only : nixs,nixq,nixc,nixtg,nixr,nixt,nixp
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

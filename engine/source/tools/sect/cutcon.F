@@ -27,6 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE CUTCON(ITYP,X0,VN,XYZ0,IXS,D,
      .                  NUMTOT,NUMEL,NC,NVOIS,NA,XYZ,AL,NODCUT)
+      use element_mod , only : nixs
 C------------------------------------------
 C generation of the geometry of the cuts
 C------------------------------------------
