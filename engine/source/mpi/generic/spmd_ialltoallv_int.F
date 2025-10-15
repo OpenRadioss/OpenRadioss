@@ -43,13 +43,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-        INTEGER, INTENT(in) :: REQUEST,COMM
-        INTEGER, INTENT(in) :: TOTAL_SEND_SIZE,TOTAL_RCV_SIZE,NB_PROC
-        INTEGER, DIMENSION(NB_PROC), INTENT(in) :: SEND_SIZE
-        INTEGER, DIMENSION(NB_PROC), INTENT(in) :: RCV_SIZE
-        INTEGER, DIMENSION(NB_PROC), INTENT(in) :: SDISPLS,RDISPLS
-        INTEGER, DIMENSION(TOTAL_SEND_SIZE), INTENT(in) :: SENDBUF
-        INTEGER, DIMENSION(TOTAL_RCV_SIZE), INTENT(out) :: RECVBUF
+        INTEGER, INTENT(inout) :: REQUEST,COMM
+        INTEGER, INTENT(inout) :: TOTAL_SEND_SIZE,TOTAL_RCV_SIZE,NB_PROC
+        INTEGER, DIMENSION(NB_PROC), INTENT(inout) :: SEND_SIZE
+        INTEGER, DIMENSION(NB_PROC), INTENT(inout) :: RCV_SIZE
+        INTEGER, DIMENSION(NB_PROC), INTENT(inout) :: SDISPLS,RDISPLS
+        INTEGER, DIMENSION(TOTAL_SEND_SIZE), INTENT(inout) :: SENDBUF
+        INTEGER, DIMENSION(TOTAL_RCV_SIZE), INTENT(inout) :: RECVBUF
 
 #ifdef MPI
 C-----------------------------------------------
@@ -71,22 +71,12 @@ C-----------------------------------------------
 !       size =         M(1)     M(2)             M(n)
 !       ------------------------------------------
 
-!   PLMPI uses MPI-2.x version : MPI_IALLTOALLV was introduced in MPI-3.0 version
-#if _PLMPI
-!       ------------------
-!       mpi comm alltoall with different amount of data
         CALL MPI_ALLTOALLV(SENDBUF,SEND_SIZE,SDISPLS,MPI_INTEGER,
      .                     RECVBUF,RCV_SIZE,RDISPLS,MPI_INTEGER,
      .                     COMM,error)
+       
+        REQUEST = MPI_REQUEST_NULL
 !       ------------------
-#else
-!       ------------------
-!       mpi comm alltoall with different amount of data
-        CALL MPI_IALLTOALLV(SENDBUF,SEND_SIZE,SDISPLS,MPI_INTEGER,
-     .                     RECVBUF,RCV_SIZE,RDISPLS,MPI_INTEGER,
-     .                     COMM,REQUEST,error)
-!       ------------------
-#endif
 #else
         RECVBUF = 0
 #endif

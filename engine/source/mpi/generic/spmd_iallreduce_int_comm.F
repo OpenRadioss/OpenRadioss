@@ -38,10 +38,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-        CHARACTER(len=4), INTENT(in) :: MY_OPERATION
-        INTEGER, INTENT(in) :: MY_SIZE,MY_COMM,MY_REQUEST
-        INTEGER, DIMENSION(MY_SIZE), INTENT(in) :: VALUE
-        INTEGER, DIMENSION(MY_SIZE), INTENT(out) :: RES
+        CHARACTER(len=4), INTENT(inout) :: MY_OPERATION
+        INTEGER, INTENT(inout) :: MY_SIZE,MY_COMM,MY_REQUEST
+        INTEGER, DIMENSION(MY_SIZE), INTENT(inout) :: VALUE
+        INTEGER, DIMENSION(MY_SIZE), INTENT(inout) :: RES
 
 #ifdef MPI
 C-----------------------------------------------
