@@ -45,7 +45,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE MULTI_INLET_EBCS(ITASK, EBCS_ID, MULTI_FVM, NELEM, ELEM_LIST, FACE_LIST, 
      .                            FVM_INLET_DATA, IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM,
-     .                            FUNC_VALUE, ID_SURF, NPF,TF,FSAVSURF, TIMESTEP, MATPARAM, OUTPUT)
+     .                            FUNC_VALUE, ID_SURF, NPF,TF,FSAVSURF, TIMESTEP, MATPARAM, OUTPUT, PRED)
 C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------
@@ -88,6 +88,7 @@ C-----------------------------------------------
       my_real, INTENT(INOUT) :: FSAVSURF(TH_SURF_NUM_CHANNEL,NSURF)
       TYPE(MATPARAM_STRUCT_), DIMENSION(NUMMAT),INTENT(IN) :: MATPARAM !material data structure
       TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT !< output structure
+      LOGICAL,INTENT(IN) :: PRED
 C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -505,25 +506,32 @@ C     Submaterial fluxes
 C     
          ENDIF
 
-         ! /TH/SURF (massflow,velocity,pressure,acceleration)
-         FSAVSURF(2,ID_SURF) = FSAVSURF(2,ID_SURF) + MULTI_FVM%FLUXES(1, KFACE, ELEMID)            ! += rho.S.un
-         FSAVSURF(3,ID_SURF) = FSAVSURF(3,ID_SURF) + MULTI_FVM%FLUXES(1, KFACE, ELEMID) / VII(1)   ! += S.un
-         FSAVSURF(4,ID_SURF) = FSAVSURF(4,ID_SURF) + SURF*PSURF                                    ! += S.P
-         FSAVSURF(6,ID_SURF) = FSAVSURF(6,ID_SURF) + MULTI_FVM%FLUXES(1, KFACE, ELEMID) * TIMESTEP ! m <- m+dm (cumulative value)
 
-         ! FLUX > 0 if flow is exiting (OUTWARD NORMAL)
-         M_IN = M_IN   - Min(ZERO, MULTI_FVM%FLUXES(1, KFACE, ELEMID) )
-         M_OUT = M_OUT - Max(ZERO, MULTI_FVM%FLUXES(1, KFACE, ELEMID) )
-         E_IN = E_IN   - Min(ZERO, MULTI_FVM%FLUXES(5, KFACE, ELEMID) )
-         E_OUT = E_OUT - Max(ZERO, MULTI_FVM%FLUXES(5, KFACE, ELEMID) )
+         IF(.NOT.PRED)THEN
+           !muscl 'off', or muscl 'on' after 2nd step of prediction/correction
+
+           ! /TH/SURF (massflow,velocity,pressure,acceleration)
+           FSAVSURF(2,ID_SURF) = FSAVSURF(2,ID_SURF) + MULTI_FVM%FLUXES(1, KFACE, ELEMID)            ! += rho.S.un
+           FSAVSURF(3,ID_SURF) = FSAVSURF(3,ID_SURF) + MULTI_FVM%FLUXES(1, KFACE, ELEMID) / VII(1)   ! += S.un
+           FSAVSURF(4,ID_SURF) = FSAVSURF(4,ID_SURF) + SURF*PSURF                                    ! += S.P
+           FSAVSURF(6,ID_SURF) = FSAVSURF(6,ID_SURF) + MULTI_FVM%FLUXES(1, KFACE, ELEMID) * TIMESTEP ! m <- m+dm (cumulative value)
+
+           ! FLUX > 0 if flow is exiting (OUTWARD NORMAL)
+           M_IN = M_IN   - TIMESTEP * Min(ZERO, MULTI_FVM%FLUXES(1, KFACE, ELEMID) )
+           M_OUT = M_OUT - TIMESTEP * Max(ZERO, MULTI_FVM%FLUXES(1, KFACE, ELEMID) )
+           E_IN = E_IN   - TIMESTEP * Min(ZERO, MULTI_FVM%FLUXES(5, KFACE, ELEMID) )
+           E_OUT = E_OUT - TIMESTEP * Max(ZERO, MULTI_FVM%FLUXES(5, KFACE, ELEMID) )
+         ENDIF
       ENDDO
 
+      IF(.NOT. PRED)THEN
 !$OMP CRITICAL
-      OUTPUT%DATA%INOUT%DM_IN  = OUTPUT%DATA%INOUT%DM_IN + M_IN
-      OUTPUT%DATA%INOUT%DM_OUT = OUTPUT%DATA%INOUT%DM_OUT + M_OUT
-      OUTPUT%DATA%INOUT%DE_IN = OUTPUT%DATA%INOUT%DE_IN + E_IN
-      OUTPUT%DATA%INOUT%DE_OUT = OUTPUT%DATA%INOUT%DE_OUT + E_OUT
+        OUTPUT%DATA%INOUT%DM_IN  = OUTPUT%DATA%INOUT%DM_IN + M_IN
+        OUTPUT%DATA%INOUT%DM_OUT = OUTPUT%DATA%INOUT%DM_OUT + M_OUT
+        OUTPUT%DATA%INOUT%DE_IN = OUTPUT%DATA%INOUT%DE_IN + E_IN
+        OUTPUT%DATA%INOUT%DE_OUT = OUTPUT%DATA%INOUT%DE_OUT + E_OUT
 !$OMP END CRITICAL
+      ENDIF
 
 C-----------------------------------------------
 C     E n d   o f   s u b r o u t i n e 

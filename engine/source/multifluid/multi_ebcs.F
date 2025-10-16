@@ -38,7 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE MULTI_EBCS(ITASK, MULTI_FVM, IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM,
      .     FUNC_VALUE, EBCS_TAB,NPF,TF,FSAVSURF,NSURF,TIMESTEP,
-     .     NUMELS, NUMELQ, NUMELTG, NUMNOD, NCYCLE, NUMMAT, MATPARAM, OUTPUT)
+     .     NUMELS, NUMELQ, NUMELTG, NUMNOD, NCYCLE, NUMMAT, MATPARAM, OUTPUT, PRED)
 C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------
@@ -81,6 +81,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: NPF(SNPC)
       my_real, INTENT(IN) :: TF(STF), TIMESTEP
       TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT !< output structure
+      LOGICAL, INTENT(IN) :: PRED !< predictor step if true, corrector step if false
 C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -100,17 +101,17 @@ C     Inlet, outlet boundary condition
               CALL MULTI_INLET_EBCS(ITASK, I, MULTI_FVM, NELEM,
      .           twf%ielem, twf%iface, twf%fvm_inlet_data,
      .           IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM, FUNC_VALUE,
-     .           twf%surf_id,NPF,TF,FSAVSURF, TIMESTEP, MATPARAM, OUTPUT)
+     .           twf%surf_id,NPF,TF,FSAVSURF, TIMESTEP, MATPARAM, OUTPUT, PRED)
             TYPE IS(t_ebcs_fluxout)
               CALL MULTI_INLET_EBCS(ITASK, I, MULTI_FVM, NELEM,
      .           twf%ielem, twf%iface, twf%fvm_inlet_data,
      .           IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM, FUNC_VALUE,
-     .           twf%surf_id,NPF,TF,FSAVSURF,TIMESTEP, MATPARAM, OUTPUT)
+     .           twf%surf_id,NPF,TF,FSAVSURF,TIMESTEP, MATPARAM, OUTPUT, PRED)
             TYPE IS(t_ebcs_nrf)
               CALL MULTI_NRF_EBCS(ITASK, I, MULTI_FVM, NELEM,
      .           twf%ielem, twf%iface, twf%fvm_inlet_data,
      .           IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM, FUNC_VALUE,
-     .           twf,NPF,TF,FSAVSURF,TIMESTEP, MATPARAM, OUTPUT)
+     .           twf,NPF,TF,FSAVSURF,TIMESTEP, MATPARAM, OUTPUT, PRED)
             TYPE IS(t_ebcs_propellant)
 !             work in progress
               write(6,*) 'MULTI_EBCS: Propellant EBCS not yet implemented'
