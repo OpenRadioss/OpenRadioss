@@ -2284,7 +2284,8 @@ C
      .                          DBRWORK    , SBUFGEO     , ISKWN    , IGEO     ,IPM       ,
      .                          NPC        , TF          , UNITAB   , RTRANS   ,LSUBMODEL ,
      .                          PROP_TAG   , IPART       , KNOT     , IDRAPEID ,STACK_INFO,
-     .                          NUMGEOSTACK, NPROP_STACK , MULTI_FVM, IADGEO   ,DEFAULTS)
+     .                          NUMGEOSTACK, NPROP_STACK , MULTI_FVM, IADGEO   ,DEFAULTS  ,
+     .                          MAT_ELEM%MAT_PARAM)
 C
         ALLOCATE(BUFGEO(SBUFGEO)    ,STAT=stat)
         IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,

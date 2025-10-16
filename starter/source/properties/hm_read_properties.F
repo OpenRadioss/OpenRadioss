@@ -76,7 +76,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                  BUFGEO,LBUFGEO   ,ISKN ,IGEO ,IPM    ,
      .                  NPC   ,PLD   ,UNITAB ,RTRANS,LSUBMODEL  ,
      .                  PROP_TAG ,IPART ,KNOT,IDRAPEID,STACK_INFO,
-     .                  NUMGEO_STACK,NPROP_STACK, MULTI_FVM,IADBUF,DEFAULTS)
+     .                  NUMGEO_STACK,NPROP_STACK, MULTI_FVM,IADBUF,DEFAULTS,
+     .                  MAT_PARAM  )
 C============================================================================
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
@@ -95,6 +96,7 @@ C-----------------------------------------------
       USE ALE_MOD
       USE DEFAULTS_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARLINE, NCHARKEY, NCHARFIELD
+      use matparam_def_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -124,11 +126,12 @@ C-----------------------------------------------
       TYPE(STACK_INFO_ ) , DIMENSION (NPROP_STACK) :: STACK_INFO
       TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
       TYPE(DEFAULTS_), INTENT(INOUT) :: DEFAULTS
+      type(matparam_struct_) ,dimension(nummat) ,intent(in) :: mat_param
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       CHARACTER LAW_ID*4
-      INTEGER I, PROP_ID, IGTYP, ISMSTR, NIP, J, IR1X, IR1Y, IR1Z, IREP,
+      INTEGER I, PROP_ID, IGTYP, IMAT,ISMSTR, NIP, J, IR1X, IR1Y, IR1Z, IREP,
      .   IR2X, IR2Y, IR2Z, ISHEAR, IRX, IROT, IMODE, IP, ISTRAIN,I8PT,
      .   ISK,ITU,IRB,IHON,IHBE,IPLAST,ITHK,IBID,IHBEOUTP,K,N,
      .   IGFLU, IDS, NSHELL, NSHSUP, NSHINF, FLGBADI, NBADI,IUNIT,UID,
@@ -138,6 +141,7 @@ C-----------------------------------------------
      .        IPPOS, JPID,N1,IPOS,ISROT,MLAWLY,MID,SUB_ID,
      .        PROP_SHELL,PROP_TSHEL,PROP_SOLID,PROP_SPH,PROP_BEAM,
      .        IAD_KNOT,IPDIR,ISTACK,PROP_TRUSS,PROP_SPRING,PROP_NSTRAND,IPINCH
+      INTEGER MAT_USR,MAT_RAD
      
       INTEGER JPID1,JPID2,NISUB,IPISUB,IFRAM,E_TYPE,OFF_DEF(NSUBMOD),CPT,
      .        CPT1,SUB_INDEX
@@ -404,8 +408,8 @@ C      HM READING PROPERTY TYPE11 (Orthotropic shell)
 C--------------------------------------------------
              IGTYP=11
              CALL HM_READ_PROP11(GEO(1,I)       ,IGEO(1,I)     ,PM       ,IPM      ,ISKN     ,
-     .                   UNITAB    ,RTRANS   ,LSUBMODEL,SUB_ID   ,IDTITL   ,
-     .                   PROP_TAG  ,PROP_ID       ,IGTYP ,DEFAULTS%SHELL  )
+     .                   UNITAB    ,RTRANS      ,LSUBMODEL,SUB_ID   ,IDTITL   ,
+     .                   PROP_TAG  ,PROP_ID     ,IGTYP ,DEFAULTS%SHELL  )
 c
           CASE ('TYPE12','SPR_PUL')
 C--------------------------------------------------
@@ -786,6 +790,34 @@ C
             ENDIF !IF (IGTYP == 17) THEN
          ENDIF ! begin igtype = 17   
       ENDDO ! DO CPT = 1, HM_NUMGEO
+C
+C  check composite shell properties for mix of user and radioss material laws in different layers
+C
+      DO CPT = 1, HM_NUMGEO
+        IGTYP   = IGEO(11,CPT)
+        PROP_ID = IGEO(1,CPT)
+        N1      = IGEO(4,CPT)
+        NUMS    = NUMGEO_STACK(CPT)
+!
+        IF (IGTYP == 17 .OR. IGTYP == 51) THEN
+          MAT_USR = 0
+          MAT_RAD = 0
+          DO N =1,N1
+            IMAT = STACK_INFO(NUMS)%MID(N)
+            MLAWLY = MAT_PARAM(IMAT)%ILAW
+            IF (MLAWLY > 28 .and. MLAWLY < 32 .or. MLAWLY == 99 .or. MLAWLY == 200) THEN
+              MAT_USR = 1
+            ELSE
+              MAT_RAD = 1
+            END IF
+          ENDDO
+          ! Error if mixing user material laws with internal radioss laws in composite stack
+          IF (MAT_USR == 1 .AND. MAT_RAD == 1) THEN
+              CALL ANCMSG(MSGID=3113,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_2,
+     .                    I1=IGTYP, I2=PROP_ID)
+          END IF      
+        ENDIF ! IGTYP     
+      ENDDO   ! NUMGEO
 C------------------------------
 C SQRT precalculation
 C------------------------------
