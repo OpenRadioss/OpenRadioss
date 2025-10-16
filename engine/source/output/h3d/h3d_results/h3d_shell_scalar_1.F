@@ -1127,11 +1127,12 @@ c
                     IPT =  IABS(NPT)/2 + 1
                   ENDIF
                   IMAT = ELBUF_TAB(NG)%BUFLY(IL)%IMAT
+                  MAT_ID = MATPARAM(IMAT)%MAT_ID
                   NUVAR = ELBUF_TAB(NG)%BUFLY(IL)%NVAR_MAT
 c
                   IF(KEYWORD == 'USER') USER_OK = 1
                   IF(IDMDS > 0)THEN
-                    IF(IMAT == MDS_MATID(IDMDS))USER_OK = 1
+                    IF(MAT_ID == MDS_MATID(IDMDS))USER_OK = 1
                   ENDIF
 c
                   IF(USER_OK == 1)THEN
@@ -1182,10 +1183,11 @@ c
 c
                     IF (ID_PLY  == IPLY ) THEN
                       IMAT = ELBUF_TAB(NG)%BUFLY(J)%IMAT
+                      MAT_ID = MATPARAM(IMAT)%MAT_ID
 c
                       IF(KEYWORD == 'USER') USER_OK = 1
                       IF(IDMDS > 0)THEN
-                        IF(IMAT == MDS_MATID(IDMDS))USER_OK = 1
+                        IF(MAT_ID == MDS_MATID(IDMDS))USER_OK = 1
                       ENDIF
 c
                       IF(USER_OK == 1)THEN
@@ -1232,10 +1234,11 @@ c
                     IF (ID_PLY  == IPLY ) THEN
                       BUFLY => ELBUF_TAB(NG)%BUFLY(J)
                       IMAT = ELBUF_TAB(NG)%BUFLY(J)%IMAT
+                      MAT_ID = MATPARAM(IMAT)%MAT_ID
 c
                       IF(KEYWORD == 'USER') USER_OK = 1
                       IF(IDMDS > 0)THEN
-                        IF(IMAT == MDS_MATID(IDMDS))USER_OK = 1
+                        IF(MAT_ID == MDS_MATID(IDMDS))USER_OK = 1
                       ENDIF
 c
                       IF(USER_OK == 1)THEN
@@ -1272,10 +1275,11 @@ c ILAYER=IL NPT=IPT
                     NUVAR = ELBUF_TAB(NG)%BUFLY(ILAY)%NVAR_MAT
                     BUFLY => ELBUF_TAB(NG)%BUFLY(ILAY)
                     IMAT = ELBUF_TAB(NG)%BUFLY(ILAY)%IMAT
+                    MAT_ID = MATPARAM(IMAT)%MAT_ID
 c
                     IF(KEYWORD == 'USER') USER_OK = 1
                     IF(IDMDS > 0)THEN
-                      IF(IMAT == MDS_MATID(IDMDS))USER_OK = 1
+                      IF(MAT_ID == MDS_MATID(IDMDS))USER_OK = 1
                     ENDIF
 c
                     IF(USER_OK == 1)THEN
@@ -1295,10 +1299,11 @@ c ILAYER=IL NPT=NULL
               ELSEIF ( ILAY <= NLAY .AND. ILAY > 0 .AND. IUVAR > 0) THEN
                 NUVAR = ELBUF_TAB(NG)%BUFLY(ILAY)%NVAR_MAT
                 IMAT = ELBUF_TAB(NG)%BUFLY(ILAY)%IMAT
+                MAT_ID = MATPARAM(IMAT)%MAT_ID
 c
                 IF(KEYWORD == 'USER') USER_OK = 1
                 IF(IDMDS > 0)THEN
-                  IF(IMAT == MDS_MATID(IDMDS))USER_OK = 1
+                  IF(MAT_ID == MDS_MATID(IDMDS))USER_OK = 1
                 ENDIF
 c
                 IF(USER_OK == 1)THEN
