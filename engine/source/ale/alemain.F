@@ -802,6 +802,7 @@ C
 !$OMP SINGLE
              ALE%GRID%flow_tracking_data%EP(1:9)=ZERO
              ALE%GRID%flow_tracking_data%SUM_M = ZERO
+             ALE%GRID%flow_tracking_data%SUM_VOL = ZERO
              ALE%GRID%flow_tracking_data%NUM_ELEM_ALE = 0
 !$OMP END SINGLE
           ENDIF
