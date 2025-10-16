@@ -154,7 +154,7 @@ C-----------------------------------------------
      .   E1X(MVSIZ), E1Y(MVSIZ), E1Z(MVSIZ),
      .   E2X(MVSIZ), E2Y(MVSIZ), E2Z(MVSIZ),
      .   E3X(MVSIZ), E3Y(MVSIZ), E3Z(MVSIZ),OFFI(MVSIZ,*),
-     .   DIR1_CRK(*),DIR2_CRK(*),DMG_SCALE(MVSIZ),
+     .   DIR1_CRK(*),DIR2_CRK(*),
      .   F_DEF(MVSIZ,*),ALDT(MVSIZ),VARNL(NEL,*)
       my_real, DIMENSION(NEL), INTENT(IN) :: THKE
       my_real, dimension(mvsiz), intent(inout) :: fheat
@@ -173,24 +173,17 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IT,MX,IGTYP,IFUNC_ALPHA,IPMAT_IPLY,ILAY,LAYNPT_MAX,NLAY_MAX
+      INTEGER I,J,IT,MX,IGTYP,IFUNC_ALPHA,IPMAT_IPLY,ILAW,ILAY,LAYNPT_MAX,NLAY_MAX
       INTEGER MAT_IPLY(MVSIZ,NPT),IDAMP_FREQ_RANGE
+      INTEGER MAT_USR,MAT_RAD
       INTEGER, DIMENSION(:) , ALLOCATABLE :: MATLY   !!  MATLY(MVSIZ*LAY_MAX)
       my_real, DIMENSION(:) , ALLOCATABLE :: THKLY   !!  THKLY(MVSIZ*LAY_MAX*LAYNPT_MAX)
       my_real, DIMENSION(:,:), ALLOCATABLE :: POSLY,THK_LY
-        !!         POSLY(MVSIZ,LAY_MAX*LAYNPT_MAX) THK_LY(NEL,LAY_MAX*LAYNPT_MAX)
-      my_real
-     .   DTEMP(MVSIZ),
-     .   SXX(MVSIZ),SYY(MVSIZ), SXY(MVSIZ),SYZ(MVSIZ),SZX(MVSIZ),
-     .   EPSXX(MVSIZ),EPSYY(MVSIZ),EPSXY(MVSIZ),EPSYZ(MVSIZ),EPSZX(MVSIZ),
-     .   DEPSXX(MVSIZ),DEPSYY(MVSIZ),DEPSXY(MVSIZ),DEPSYZ(MVSIZ),
-     .   DEPSZX(MVSIZ), EPSPXX(MVSIZ),EPSPYY(MVSIZ),EPSPXY(MVSIZ),
-     .   EPSPYZ(MVSIZ), EPSPZX(MVSIZ),ETIMP(MVSIZ),TENS(NEL,5),ETH(MVSIZ)
-      my_real ALPHA,DF,DEINTTH,T0,TM,FSCAL_ALPHA,DM,ZSHIFT
-      INTEGER, DIMENSION(:) ,POINTER :: FLD_IDX
+      my_real DTEMP(MVSIZ),ETIMP(MVSIZ),TENS(NEL,5),ETH(MVSIZ)
+      my_real EPSYZ(MVSIZ),EPSZX(MVSIZ)
+      my_real ALPHA,DF,DEINTTH,FSCAL_ALPHA,DM,ZSHIFT
 C-------------------------------------
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
-      TYPE(BUF_FAIL_),POINTER :: FBUF
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
       TYPE(G_BUFEL_) ,POINTER :: GBUF     
       TYPE(BUF_DAMP_RANGE_)  ,POINTER :: DAMP_BUF
@@ -207,6 +200,18 @@ C=======================================================================
       DAMP_BUF => ELBUF_STR%DAMP_RANGE
       ZCFAC(1:MVSIZ,1:2) = ZERO
       SSP_EQ = ZERO
+!
+      ! check material type used in shell layers    
+      mat_usr = 0
+      mat_rad = 0
+      do ilay=1,nlay
+        ilaw = elbuf_str%bufly(ilay)%ilaw
+        if (ilaw > 28 .and. ilaw < 32 .or. ilaw == 99 .or. ilaw == 200) then
+          mat_usr = 1
+        else
+          mat_rad = 1
+        end if
+      end do
 C--------------------------------------------------
 C     add source terme for law not user
       IF (JTHE > 0 .AND. (MTN < 28 .OR. MTN == 32)) THEN
@@ -268,7 +273,7 @@ c
      B       FOR_G )
              SSP_EQ(JFT:JLT) = SSP(JFT:JLT)
 c----------------------------
-      ELSE IF (MTN > 28 .AND. MTN < 32 .or. MTN == 99 .or. MTN == 200) THEN
+      ELSE IF (MAT_USR == 1) THEN
 c---    user material law libraries here
 c
         CALL LAYINI(ELBUF_STR,JFT      ,JLT      ,GEO      ,IGEO     ,
@@ -282,22 +287,20 @@ c
      2       GSTR    ,THK     ,EINT    ,OFF     ,DIR_A   ,DIR_B   ,
      3       MAT     ,AREA    ,EXX     ,EYY     ,EXY     ,EXZ     ,
      4       EYZ     ,KXX     ,KYY     ,KXY     ,GEO     ,THK_LY  ,
-     5       PID     ,TF      ,NPF     ,MTN     ,DT1C    ,DM      ,
+     5       PID     ,TF      ,NPF     ,DT1C    ,DM      ,
      6       BUFMAT  ,SSP     ,RHO     ,VISCMX  ,IPLA    ,IOFC    ,
-     7       INDXDEL ,NGL     ,THKLY   ,MATLY   ,ZCFAC   ,NG      ,
-     8       SHF     ,GS      ,SIGY    ,THK0    ,EPSD_PG,
+     7       INDXDEL ,NGL     ,THKLY   ,ZCFAC   ,NG      ,
+     8       SHF     ,SIGY    ,THK0    ,EPSD_PG,
      9       POSLY   ,IGEO    ,IPM     ,FAILWAVE,FWAVE_EL,
      A       IFAILURE,ALDT    ,TEMPEL  ,DIE     ,
      B       E1X     ,E1Y     ,E1Z     ,E2X     ,E2Y     ,E2Z     ,
      C       E3X     ,E3Y     ,E3Z     ,TABLE   ,IXFEM   ,ELCRKINI,
      D       DIR1_CRK,DIR2_CRK,IPARG   ,JHBE    ,ISMSTR  ,JTHE    ,
      E       TENS    ,IR      ,IS      ,NLAY    ,NPT     ,IXLAY   ,
-     F       IXEL    ,ITHK    ,F_DEF   ,ISHPLYXFEM,
-     G       ITASK   ,STACK%PM ,ISUBSTACK,STACK ,ALPE    ,
-     H       PLY_EXX ,PLY_EYY ,PLY_EXY ,PLY_EXZ ,PLY_EYZ ,PLY_F   ,
-     I       VARNL   ,NLOC_DMG,NLAY_MAX,LAYNPT_MAX,DT    ,SSP_EQ  )
+     F       IXEL    ,F_DEF   ,ITASK   ,STACK%PM ,ISUBSTACK,STACK ,
+     G       VARNL   ,NLOC_DMG,NLAY_MAX,LAYNPT_MAX,DT    ,SSP_EQ  )
 cc----------------------------
-      ELSE   ! User-type Radioss laws , NPT > 0
+      ELSE   ! Radioss material laws , NPT > 0
 c----------------------------
 !
 !       position, thickness and material in integration points
