@@ -71,6 +71,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    dim_shell_offsetp                        ../starter/source/elements/shell/shell_offset/dim_shell_offsetp.F90
 !||    dttherm                                  ../engine/source/time_step/dttherm.F90
 !||    ebcs11_propellant                        ../engine/source/boundary_conditions/ebcs/ebcs11_propellant.F90
+!||    ebcs8_inlet                              ../engine/source/boundary_conditions/ebcs/ebcs8_inlet.F90
 !||    eikonal_compute_adjacent                 ../starter/source/initial_conditions/detonation/eikonal_compute_adjacent.F90
 !||    eikonal_fast_marching_method             ../starter/source/initial_conditions/detonation/eikonal_fast_marching_method.F90
 !||    eikonal_godunov_operator_2d              ../starter/source/initial_conditions/detonation/eikonal_godunov_operator_2d.F90
@@ -245,6 +246,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    rbe3f_pen                                ../engine/source/constraints/general/rbe3/rbe3f_pen.F90
 !||    rbe3fpen_ininp                           ../engine/source/constraints/general/rbe3/rbe3pen_init.F90
 !||    rbe3pen_init                             ../engine/source/constraints/general/rbe3/rbe3pen_init.F90
+!||    read_common_data                         ../common_source/modules/boundary_conditions/ebcs_mod.F90
 !||    read_mat25_crasurv                       ../starter/source/materials/mat/mat025/read_mat25_crasurv.F90
 !||    read_mat25_tsaiwu                        ../starter/source/materials/mat/mat025/read_mat25_tsaiwu.F90
 !||    read_sensor_python                       ../starter/source/tools/sensor/hm_read_sensor_python.F90

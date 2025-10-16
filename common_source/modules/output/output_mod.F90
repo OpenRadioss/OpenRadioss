@@ -44,6 +44,7 @@
 !||    ebcs5_normv                        ../engine/source/boundary_conditions/ebcs/ebcs5_normv.F
 !||    ebcs6_inip                         ../engine/source/boundary_conditions/ebcs/ebcs6_inip.F
 !||    ebcs7_iniv                         ../engine/source/boundary_conditions/ebcs/ebcs7_iniv.F
+!||    ebcs8_inlet                        ../engine/source/boundary_conditions/ebcs/ebcs8_inlet.F90
 !||    ebcs_main                          ../engine/source/boundary_conditions/ebcs/ebcs_main.F
 !||    ecrit                              ../engine/source/output/ecrit.F
 !||    eng_qaprint_animinput              ../engine/source/output/qaprint/eng_qaprint_animinput.F

@@ -45,6 +45,8 @@
 !||    dometis                             ../starter/source/spmd/domain_decomposition/grid2mat.F
 !||    dttherm                             ../engine/source/time_step/dttherm.F90
 !||    dynain_c_strsg                      ../engine/source/output/dynain/dynain_c_strsg.F
+!||    ebcs8_inlet                         ../engine/source/boundary_conditions/ebcs/ebcs8_inlet.F90
+!||    ebcs_main                           ../engine/source/boundary_conditions/ebcs/ebcs_main.F
 !||    eig                                 ../engine/stub/eig.F
 !||    eig1                                ../engine/stub/eig1.F
 !||    eigp                                ../engine/stub/eigp.F

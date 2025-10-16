@@ -20,6 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    ebcs8_inlet_mod   ../engine/source/boundary_conditions/ebcs/ebcs8_inlet.F90
+!||--- called by ------------------------------------------------------
+!||    ebcs_main         ../engine/source/boundary_conditions/ebcs/ebcs_main.F
+!||====================================================================
       module ebcs8_inlet_mod
         implicit none
         contains
@@ -29,12 +34,24 @@
 !! \brief Here is a small description of the routine, [after the header]
 !! \details if needed, more details can be added here
 !||====================================================================
-!||    ebcs8        ../engine/source/boundary_conditions/ebcs/ebcs5.F
+!||    ebcs8_inlet           ../engine/source/boundary_conditions/ebcs/ebcs8_inlet.F90
 !||--- called by ------------------------------------------------------
-!||    ebcs_main    ../engine/source/boundary_conditions/ebcs/ebcs_main.F
+!||    ebcs_main             ../engine/source/boundary_conditions/ebcs/ebcs_main.F
+!||--- calls      -----------------------------------------------------
+!||    ebcs_get_group_info   ../engine/source/boundary_conditions/ebcs/ebcs8_inlet.F90
+!||    eosmain               ../common_source/eos/eosmain.F
 !||--- uses       -----------------------------------------------------
-!||    ebcs_mod     ../common_source/modules/boundary_conditions/ebcs_mod.F90
-!||    segvar_mod   ../engine/share/modules/segvar_mod.F
+!||    constant_mod          ../common_source/modules/constant_mod.F
+!||    debug_mod             ../engine/share/modules/debug_mod.F
+!||    ebcs_mod              ../common_source/modules/boundary_conditions/ebcs_mod.F90
+!||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    eosmain_mod           ../common_source/eos/eosmain.F
+!||    matparam_def_mod      ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||    multimat_param_mod    ../common_source/modules/multimat_param_mod.F90
+!||    output_mod            ../common_source/modules/output/output_mod.F90
+!||    precision_mod         ../common_source/modules/precision_mod.F90
+!||    segvar_mod            ../engine/share/modules/segvar_mod.F
+!||    th_surf_mod           ../common_source/modules/interfaces/th_surf_mod.F
 !||====================================================================
       SUBROUTINE EBCS8_INLET( &
                        NUMNOD, NSEG,ISEG,SEGVAR, &
@@ -700,6 +717,11 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Procedure
 ! ----------------------------------------------------------------------------------------------------------------------
+!||====================================================================
+!||    ebcs_get_group_info   ../engine/source/boundary_conditions/ebcs/ebcs8_inlet.F90
+!||--- called by ------------------------------------------------------
+!||    ebcs8_inlet           ../engine/source/boundary_conditions/ebcs/ebcs8_inlet.F90
+!||====================================================================
       SUBROUTINE EBCS_GET_GROUP_INFO(NSEG, IELEM, NG, ILOC, NGROUP, NPARG, IPARG, N2D)
         IMPLICIT NONE
 ! ----------------------------------------------------------------------------------------------------------------------

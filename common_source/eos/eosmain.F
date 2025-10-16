@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
 !||    eosmain_mod        ../common_source/eos/eosmain.F
 !||--- called by ------------------------------------------------------
+!||    ebcs8_inlet        ../engine/source/boundary_conditions/ebcs/ebcs8_inlet.F90
 !||    inigrav_eos        ../starter/source/initial_conditions/inigrav/inigrav_eos.F
 !||    m12law             ../engine/source/materials/mat/mat012/m12law.F
 !||    mmain              ../engine/source/materials/mat_share/mmain.F90
@@ -35,6 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
 !||    eosmain              ../common_source/eos/eosmain.F
 !||--- called by ------------------------------------------------------
+!||    ebcs8_inlet          ../engine/source/boundary_conditions/ebcs/ebcs8_inlet.F90
 !||    inigrav_eos          ../starter/source/initial_conditions/inigrav/inigrav_eos.F
 !||    m12law               ../engine/source/materials/mat/mat012/m12law.F
 !||    mmain                ../engine/source/materials/mat_share/mmain.F90

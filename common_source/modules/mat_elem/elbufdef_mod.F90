@@ -196,6 +196,7 @@
 !||    ebcs0_gradp0                        ../engine/source/boundary_conditions/ebcs/ebcs0_gradp0.F
 !||    ebcs10_nrf                          ../engine/source/boundary_conditions/ebcs/ebcs10_nrf.F
 !||    ebcs11_propellant                   ../engine/source/boundary_conditions/ebcs/ebcs11_propellant.F90
+!||    ebcs8_inlet                         ../engine/source/boundary_conditions/ebcs/ebcs8_inlet.F90
 !||    ebcs_main                           ../engine/source/boundary_conditions/ebcs/ebcs_main.F
 !||    eflux3_int22_fvm                    ../engine/source/ale/alefvm/cut_cells/eflux3_int22_fvm.F
 !||    eig                                 ../engine/stub/eig.F

@@ -33,6 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ebcs5_normv             ../engine/source/boundary_conditions/ebcs/ebcs5_normv.F
 !||    ebcs6_inip              ../engine/source/boundary_conditions/ebcs/ebcs6_inip.F
 !||    ebcs7_iniv              ../engine/source/boundary_conditions/ebcs/ebcs7_iniv.F
+!||    ebcs8_inlet             ../engine/source/boundary_conditions/ebcs/ebcs8_inlet.F90
 !||    ebcs_vol2seg            ../engine/source/boundary_conditions/ebcs/ebcs_vol2seg.F
 !||--- uses       -----------------------------------------------------
 !||    ebcs0_gradp0_mod        ../engine/source/boundary_conditions/ebcs/ebcs0_gradp0.F
@@ -43,9 +44,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ebcs5_normv_mod         ../engine/source/boundary_conditions/ebcs/ebcs5_normv.F
 !||    ebcs6_inip_mod          ../engine/source/boundary_conditions/ebcs/ebcs6_inip.F
 !||    ebcs7_iniv_mod          ../engine/source/boundary_conditions/ebcs/ebcs7_iniv.F
+!||    ebcs8_inlet_mod         ../engine/source/boundary_conditions/ebcs/ebcs8_inlet.F90
 !||    ebcs_mod                ../common_source/modules/boundary_conditions/ebcs_mod.F90
 !||    elbufdef_mod            ../common_source/modules/mat_elem/elbufdef_mod.F90
 !||    groupdef_mod            ../common_source/modules/groupdef_mod.F
+!||    matparam_def_mod        ../common_source/modules/mat_elem/matparam_def_mod.F90
 !||    multi_fvm_mod           ../common_source/modules/ale/multi_fvm_mod.F90
 !||    output_mod              ../common_source/modules/output/output_mod.F90
 !||    python_funct_mod        ../common_source/modules/python_mod.F90

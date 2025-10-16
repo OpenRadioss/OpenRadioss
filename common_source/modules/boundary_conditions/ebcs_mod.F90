@@ -36,6 +36,7 @@
 !||    ebcs5_normv                 ../engine/source/boundary_conditions/ebcs/ebcs5_normv.F
 !||    ebcs6_inip                  ../engine/source/boundary_conditions/ebcs/ebcs6_inip.F
 !||    ebcs7_iniv                  ../engine/source/boundary_conditions/ebcs/ebcs7_iniv.F
+!||    ebcs8_inlet                 ../engine/source/boundary_conditions/ebcs/ebcs8_inlet.F90
 !||    ebcs_extrapol               ../engine/source/boundary_conditions/ebcs/ebcs_extrapol.F
 !||    ebcs_main                   ../engine/source/boundary_conditions/ebcs/ebcs_main.F
 !||    ebcs_set_tcarp              ../starter/source/boundary_conditions/ebcs/iniebcs_nrf_tcar.F
@@ -838,6 +839,8 @@
 !||--- calls      -----------------------------------------------------
 !||    read_db_array      ../common_source/tools/input_output/read_db.F
 !||    read_i_c           ../common_source/tools/input_output/write_routtines.c
+!||--- uses       -----------------------------------------------------
+!||    constant_mod       ../common_source/modules/constant_mod.F
 !||====================================================================
         subroutine read_common_data(this)
           use constant_mod , only : zero
