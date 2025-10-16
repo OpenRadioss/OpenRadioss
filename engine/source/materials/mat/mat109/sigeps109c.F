@@ -304,7 +304,7 @@ c
 !
             !   c) Assemble the derivation of the yield function w.r.t. lambda
             !   ----------------------------------------------------------------
-            DPHI_DLAM = - DFDSIG2 + HARDP(I)*DPLA_DLAM(I)
+            DPHI_DLAM = - DFDSIG2 - HARDP(I)*DPLA_DLAM(I)
             DPHI_DLAM = SIGN(MAX(ABS(DPHI_DLAM),EM20),DPHI_DLAM)  
 !
             !< 3 - Computation of the plastic multiplier
