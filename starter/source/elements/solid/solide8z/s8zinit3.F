@@ -460,7 +460,7 @@ C
      .            MAT      ,IPM    ,NSIGS      ,NUMSOL     ,PTSOL  ,
      .            IP       ,NGL    ,NPF        ,TF         ,BUFMAT ,
      .            GBUF     ,LBUF   ,MBUF       ,ELBUF_STR  ,IlOADP ,
-     .            FACLOAD, DELTAX  ,TEMPEL    )
+     .            FACLOAD, DELTAX  ,TEMPEL     ,MAT_PARAM )
           ENDDO
         ENDDO
       ENDDO
@@ -534,7 +534,7 @@ c
      .               MAT     ,IPM    ,NSIGS     ,NUMSOL    ,PTSOL  ,
      .               IP      ,NGL    ,NPF       ,TF        ,BUFMAT ,
      .               GBUF    ,LBUF   ,MBUF      ,ELBUF_STR ,ILOADP ,
-     .               FACLOAD, DELTAX,TEMPEL    )
+     .               FACLOAD, DELTAX,TEMPEL     ,MAT_PARAM)
 C
          IF(JTHE /=0) CALL ATHERI(MAT,PM,LBUF%TEMP)
 C

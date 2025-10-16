@@ -86,6 +86,7 @@ C-----------------------------------------------
         IF(IFORM == 12)THEN
           CALL FILL_BUFFER_51( IPM, PM, UPARAM, BUFMAT, MAT_ID, TITR, II, MAT_PARAM, MLAW_TAG)
           PM(38,II) = UPARAM(42)
+          IF(PM(38,II)==ZERO)PM(38,II)=-1E20
         ENDIF
       ENDDO
 C-----------------------------------------------

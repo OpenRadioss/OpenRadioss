@@ -148,6 +148,7 @@ C-----------------------------------------------
 
       MAT_PARAM%EOS%PSH = PSH
       MAT_PARAM%EOS%CV = Cv
+      MAT_PARAM%EOS%E0 = E0
       IF (T0 == ZERO) T0 = THREE100
       MAT_PARAM%THERM%TINI =T0
       PM(79) = T0

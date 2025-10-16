@@ -20,6 +20,9 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      MODULE STIFFGAS_MOD
+      IMPLICIT NONE
+      CONTAINS
 !||====================================================================
 !||    stiffgas        ../common_source/eos/stiffgas.F
 !||--- called by ------------------------------------------------------
@@ -28,9 +31,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    constant_mod    ../common_source/modules/constant_mod.F
 !||    eos_param_mod   ../common_source/modules/mat_elem/eos_param_mod.F90
 !||====================================================================
-      SUBROUTINE STIFFGAS(NPROPM,NUMMAT,
-     1                    IFLAG,NEL, PM    ,OFF  ,EINT ,MU   ,MU2 ,
-     2                    ESPE ,DVOL ,DF   ,VNEW ,MAT  ,PSH ,
+      SUBROUTINE STIFFGAS(
+     1                    IFLAG,NEL  ,PMIN ,OFF  ,EINT ,MU   ,MU2 ,
+     2                    ESPE ,DVOL ,DF   ,VNEW ,PSH ,
      3                    PNEW ,DPDM ,DPDE ,EOS_STRUCT)
 C-----------------------------------------------
 C   M o d u l e s
@@ -64,15 +67,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER,INTENT(IN) :: MAT(NEL), IFLAG, NEL, NPROPM, NUMMAT
-      my_real,INTENT(IN) :: PM(NPROPM,NUMMAT),OFF(NEL),MU(NEL),MU2(NEL),ESPE(NEL),DVOL(NEL),DF(NEL),VNEW(NEL)
+      INTEGER,INTENT(IN) :: IFLAG, NEL
+      my_real,INTENT(IN) :: OFF(NEL),MU(NEL),MU2(NEL),ESPE(NEL),DVOL(NEL),DF(NEL),VNEW(NEL)
       my_real, INTENT(INOUT) :: PSH(NEL),PNEW(NEL) ,DPDM(NEL), DPDE(NEL),EINT(NEL)
+      my_real,INTENT(IN) :: PMIN
       TYPE(EOS_PARAM_),INTENT(IN) :: EOS_STRUCT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, MX
-      my_real :: P0,GAMMA,T0,E0,AA, BB, DVV, PP, PSTAR, PC
+      my_real :: P0,GAMMA,T0,E0,AA, BB, DVV, PP, PSTAR
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
@@ -80,15 +84,14 @@ C-----------------------------------------------
       P0         = EOS_STRUCT%UPARAM(2)
       PSTAR      = EOS_STRUCT%UPARAM(3)
       PSH(1:NEL) = EOS_STRUCT%PSH
-      E0         = PM(23,MAT(1))
-      PC         = PM(37,MAT(1))
+      E0         = EOS_STRUCT%E0
 
       IF(IFLAG == 0) THEN
         DO I=1,NEL
           PP      = -GAMMA*PSTAR-PSH(I) + (GAMMA-ONE)*(ONE+MU(I))*ESPE(I)
           DPDM(I) =  (GAMMA-ONE) *ESPE(I)+(GAMMA-ONE)*(ONE+MU(I))*DF(I)*DF(I)*(PP+PSH(I) )
           DPDE(I) = (GAMMA-ONE)*(ONE+MU(I))
-          PNEW(I) = MAX(PP,PC-PSH(I))*OFF(I)
+          PNEW(I) = MAX(PP,PMIN-PSH(I))*OFF(I)
         ENDDO
 
       ELSEIF(IFLAG == 1) THEN
@@ -98,7 +101,7 @@ C-----------------------------------------------
           DPDE(I) = (GAMMA-ONE)*(ONE+MU(I))
           DVV     = HALF*DVOL(I)*DF(I) / MAX(EM15,VNEW(I))
           PNEW(I) = (AA+BB*(ESPE(I)-PSH(I) *DVV))/(ONE+BB*DVV)
-          PNEW(I) = MAX(PNEW(I),PC-PSH(I) )*OFF(I)
+          PNEW(I) = MAX(PNEW(I),PMIN-PSH(I) )*OFF(I)
           EINT(I) = EINT(I) - HALF*DVOL(I)*(PNEW(I)+PSH(I) )
         ENDDO
 
@@ -106,7 +109,7 @@ C-----------------------------------------------
         DO I=1, NEL
           IF (VNEW(I) > ZERO) THEN
             PNEW(I) = (GAMMA-ONE)*(ONE+MU(I))*ESPE(I) - GAMMA*PSTAR
-            PNEW(I) = MAX(PNEW(I),PC)*OFF(I)
+            PNEW(I) = MAX(PNEW(I),PMIN)*OFF(I)
             !EINT(I) = (PNEW(I) + PSH(I) + GAMMA * PSTAR) / (GAMMA - ONE)
             DPDM(I) = (GAMMA-ONE)*(ESPE(I)+PNEW(I)*DF(I)) !total derivative
             DPDE(I) = (GAMMA-ONE)*(ONE+MU(I)) !partial derivative
@@ -116,4 +119,5 @@ C-----------------------------------------------
       ENDIF
 C-----------------------------------------------
         RETURN
-      END
+      END SUBROUTINE STIFFGAS
+      END MODULE STIFFGAS_MOD

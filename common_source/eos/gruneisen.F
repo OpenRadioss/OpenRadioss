@@ -20,6 +20,9 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      MODULE GRUNEISEN_MOD
+      IMPLICIT NONE
+      CONTAINS
 !||====================================================================
 !||    gruneisen       ../common_source/eos/gruneisen.F
 !||--- called by ------------------------------------------------------
@@ -28,9 +31,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    eos_param_mod   ../common_source/modules/mat_elem/eos_param_mod.F90
 !||    precision_mod   ../common_source/modules/precision_mod.F90
 !||====================================================================
-      SUBROUTINE GRUNEISEN(NPROPM,NUMMAT,
-     1                     IFLAG , NEL    ,PM   ,OFF   ,EINT  ,MU   ,MU2 ,
-     2                     ESPE  , DVOL   ,DF   ,VNEW  ,MAT   ,RHO0,
+      SUBROUTINE GRUNEISEN(
+     1                     IFLAG , NEL    ,PMIN ,OFF   ,EINT  ,MU   ,MU2 ,
+     2                     ESPE  , DVOL   ,DF   ,VNEW  ,RHO0,
      3                     PNEW  , DPDM   ,DPDE ,PSH   ,
      4                     EOS_STRUCT)
 C-----------------------------------------------
@@ -66,12 +69,9 @@ C
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER,INTENT(IN) :: NUMMAT              !< number of material laws  (size for PM array)
-      INTEGER,INTENT(IN) :: NPROPM              !< size for PM array
       INTEGER,INTENT(IN) :: IFLAG               !< flag for the operation (staggered scheme IFLAG=0,1 ; collocated scheme IFLAG=2)
       INTEGER,INTENT(IN) :: NEL                 !< number of elements in the current group
-      INTEGER,INTENT(IN) :: MAT(NEL)            !< material identifier of each element
-      my_real,INTENT(IN) :: PM(NPROPM,NUMMAT)   !< material buffer
+      my_real, INTENT(IN) :: PMIN               !< minimum pressure allowed
       my_real,INTENT(IN) :: OFF(NEL)            !< OFF=1 if element is active, OFF=0 if element is inactive
       my_real,INTENT(IN) :: MU(NEL)             !< volumetric strain : rho/rho0-1
       my_real,INTENT(IN) :: MU2(NEL)            !< MU**2 IF MU > 0 , 0 otherwise
@@ -89,9 +89,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, MX
+      INTEGER I
       real(kind=WP) :: AA, BB, DVV, FF, FG, FAC, XX, DFF, DFG, FAC1, PP
-      real(kind=WP) :: CC,S1,S2,S3,G0,GA,PC
+      real(kind=WP) :: CC,S1,S2,S3,G0,GA
 C-----------------------------------------------
 C   B o d y
 C-----------------------------------------------
@@ -102,8 +102,6 @@ C-----------------------------------------------
       G0     = EOS_STRUCT%UPARAM(5)
       GA     = EOS_STRUCT%UPARAM(6)
       PSH(:) = EOS_STRUCT%PSH
-      MX = MAT(1)
-      PC = PM(37,MX)
 
       IF(IFLAG == 0) THEN !--- SOUND SPEED DERIVATIVE (DPDE is partial derivative, DPDM is total derivative)
         ! Derivative
@@ -121,10 +119,10 @@ C-----------------------------------------------
          ENDIF
          AA=FAC*RHO0(I)*CC*CC*MU(I)
          BB=G0+GA*MU(I)
-         PP=MAX(AA+BB*ESPE(I),PC)*OFF(I) ! total pressure need for sound speed calculation (=> no pressure shift)
+         PP=MAX(AA+BB*ESPE(I),PMIN)*OFF(I) ! total pressure need for sound speed calculation (=> no pressure shift)
          DPDM(I)=FAC1*RHO0(I)*CC*CC+PP*DF(I)*DF(I)*BB+GA*ESPE(I)
          DPDE(I)=BB
-         PNEW(I) = MAX(PP,PC)*OFF(I)! P(mu[n+1],E[n])
+         PNEW(I) = MAX(PP,PMIN)*OFF(I)! P(mu[n+1],E[n])
          PNEW(I) = PNEW(I) - PSH(I)
         ENDDO
 
@@ -144,7 +142,7 @@ C-----------------------------------------------
          DPDE(I) = BB
          DVV=HALF*DVOL(I)*DF(I) / MAX(EM15,VNEW(I))
          PNEW(I)=(AA+BB*ESPE(I))/(ONE+BB*DVV)
-         PNEW(I)= MAX(PNEW(I),PC)*OFF(I) ! P(mu[n+1],E[n+1])
+         PNEW(I)= MAX(PNEW(I),PMIN)*OFF(I) ! P(mu[n+1],E[n+1])
          EINT(I)=EINT(I) - HALF*DVOL(I)*PNEW(I) !total pressure for energy integration
          PNEW(I) = PNEW(I) - PSH(I)
         ENDDO
@@ -166,7 +164,7 @@ C-----------------------------------------------
             ENDIF
             AA=FAC*RHO0(I)*CC*CC*MU(I)
             BB=G0+GA*MU(I)
-            PNEW(I)=MAX(AA+BB*ESPE(I),PC)*OFF(I)
+            PNEW(I)=MAX(AA+BB*ESPE(I),PMIN)*OFF(I)
             DPDM(I)=FAC1*RHO0(I)*CC*CC+PNEW(I)*DF(I)*DF(I)*BB+GA*ESPE(I)
             DPDE(I)=BB
             PNEW(I)=PNEW(I)-PSH(I)
@@ -176,4 +174,5 @@ C-----------------------------------------------
         ENDIF
 
         RETURN
-      END
+      END SUBROUTINE GRUNEISEN
+      END MODULE GRUNEISEN_MOD

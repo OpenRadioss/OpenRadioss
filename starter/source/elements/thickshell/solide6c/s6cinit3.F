@@ -297,7 +297,7 @@ C
      .            MAT     ,IPM    ,NSIGS  ,NUMSOL     ,PTSOL  ,
      .            IP      ,NGL    ,NPF    ,TF         ,BUFMAT , 
      .            GBUF    ,LBUF   ,MBUF   ,ELBUF_STR  ,ILOADP ,
-     .            FACLOAD, DELTAX ,TEMPEL )                         
+     .            FACLOAD, DELTAX ,TEMPEL ,MAT_PARAM )
 C
       IF (IGTYP == 22) CALL SCZERO3(GBUF%RHO,GBUF%SIG,GBUF%EINT,NEL)
 C----------------------------------------
@@ -356,7 +356,7 @@ c
      .              MAT     ,IPM    ,NSIGS  ,NUMSOL    ,PTSOL  ,
      .              ILAY    ,NGL    ,NPF    ,TF        ,BUFMAT ,
      .              GBUF    ,LBUF   ,MBUF   ,ELBUF_STR ,ILOADP ,
-     .              FACLOAD, DELTAX ,TEMPEL )
+     .              FACLOAD, DELTAX ,TEMPEL ,MAT_PARAM )
         IF (MTN >= 28) THEN
            NUVAR = IPM(8,IXS(1,NFT+1))
            IDEF =1
