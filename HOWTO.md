@@ -28,8 +28,6 @@
 
 ### System prerequisites
 
-Linux system with glibc version 2.17 or higher:
-
 * CentOS Stream 8, RHEL 8, Rocky Linux 8, Rocky Linux 9
 * Ubuntu 20.0.4 or higher
 * [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/install): OpenRadioss works with WSL/WSL2 Ubuntu 20.04 LTS, WSL2 Ubuntu 22.x
