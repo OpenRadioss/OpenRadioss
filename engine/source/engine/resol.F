@@ -557,7 +557,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      3        IFILL  ,MAT_ELEM,
      4        IMS    ,NPC    ,IBCL    ,
      5        IBFV   ,IDUM   ,LAS     ,LACCELM,NNLINK ,LNLINK ,
-     6        IPARG  ,DD_IAD  ,IGRV   ,IEXLNK ,KINET  ,
+     6        IPARG  ,DD_IAD  ,IGRV   ,IEXLNK ,
      7        IPARI  ,        NPRW    ,ICONX  ,NPBY   ,
      8        LPBY   ,LRIVET ,NSTRF   ,LJOINT ,NODPOR ,MONVOL ,
      9        ILINK  ,
@@ -817,7 +817,6 @@ C-----------------------------------------------
      .           IPART(*),NOM_OPT(LNOPT1,*),IXS(*),
      .           IXQ(NIXQ,*), IXT(NIXT,*), IXP(NIXP,*),
      .           IXR(NIXR,*),IXTG(NIXTG,*), IXTG1(4,*),
-     .           KINET(*),
      .           IFILL(NUMNOD,*), IMS(*), NPC(*), IBCL(*), IBFV(*),
      .           IDUM(*), LAS(*),IPARG(NPARG,*),
      .           NPRW(*), LPRW(*), ICONX(*), NPBY(NNPBY,*),
@@ -2276,7 +2275,7 @@ C
      s         IADSDP_CRK,IADRCP_CRK ,INT24USE,NDAMA2    ,
      t         IGROUPC  ,IGROUPTG ,IGROUPS   ,IGROUPFLG ,DMINT2  ,IRBKIN_L ,
      u         NRBYKIN_L,KINDRBY  ,ELBUF_TAB ,SENSORS ,DD_R2R_ELEM,
-     v         SDD_R2R_ELEM,KINET, NODES%WEIGHT_MD ,DMSPH   ,IOLDSECT,LBUFSEGLO,
+     v         SDD_R2R_ELEM,NODES%KINET, NODES%WEIGHT_MD ,DMSPH   ,IOLDSECT,LBUFSEGLO,
      w         INTERFACES%INTBUF_TAB  ,NUMSPH_GLO_R2R, FLG_SPHINOUT_R2R,I15K,
      y         CONDN       ,CONDNSKY,KXFENOD2ELC  ,ELCUTC ,NODEDGE,
      z         IAD_EDGE ,CRKNODIAD,FR_EDGE     ,FR_NBEDGE ,NODLEVXF,
@@ -2321,7 +2320,7 @@ C===============================================================================
               CALL INT18_ALLOC(NUMBER_INTER18,INTER18_LIST,MULTI_FVM,IPARI,XCELL_REMOTE,NSPMD)
               CALL INT18_LAW151_INIT(MULTI_FVM,IGRBRIC,IPARI    ,IXS,
      1                               IGROUPS  ,IPARG  ,ELBUF_TAB,MULTI_FVM%FORCE_INT    ,
-     2                   ptrX     ,     NODES%V       ,          NODES%MS         ,    KINET   ,
+     2                   ptrX     ,     NODES%V       ,          NODES%MS         ,    NODES%KINET   ,
      3           MULTI_FVM%X_APPEND,MULTI_FVM%V_APPEND,MULTI_FVM%MASS_APPEND,MULTI_FVM%KINET_APPEND,
      4           MULTI_FVM%FORCE_INT_PON)
 
@@ -2694,7 +2693,7 @@ C----------------------------------------------------------
               IF(IDTMINS_INT /= 0)THEN
 C
 C           /DT/INTER/AMS
-                CALL SMS_INI_ERR(NPRW ,LPRW ,KINET )
+                CALL SMS_INI_ERR(NPRW ,LPRW ,NODES%KINET )
 C
               END IF
 C----------------------------------------------------------
@@ -2710,14 +2709,14 @@ C
 
                 IF(IDTMINS_INT==0)
      .          CALL SMS_INI_RBY(
-     1          KINET   ,NPRW     ,LPRW    ,NPBY    , LPBY     ,
+     1          NODES%KINET   ,NPRW     ,LPRW    ,NPBY    , LPBY     ,
      2          TAGMSR_RBY_SMS,TAGSLV_RBY_SMS)
 
                 CALL SMS_INI_KAD(
      1          IXS     ,IXQ      ,ELEMENT%SHELL%IXC     ,IXT     ,IXP       ,
      2          IXR     ,IXTG     ,IXTG1   ,IXS(L1) ,IXS(L3)   ,
      3          IXS(L2) ,IPARG    ,NODES%MS      ,NODES%MS0     ,TAGNOD_SMS,
-     4          NODES%ICODT    ,NODES%ICODR   ,KINET   ,INDX1_SMS,
+     4          NODES%ICODT    ,NODES%ICODR   ,NODES%KINET   ,INDX1_SMS,
      5          KAD_SMS ,IPART(I15A),IPART(I15B),
      6          IPART(I15C),IPART(I15D),IPART(I15E),IPART(I15F),IPART(I15G),
      7          IPART(I15H),IPART(I15I),TAGPRT_SMS ,TAGREL_SMS ,NODES%ITAB       ,
@@ -2741,7 +2740,7 @@ C
      6                 JADR_SMS,JADTG_SMS,INDX1_SMS,TAGPRT_SMS,IAD_SMS ,
      7           TAGREL_SMS,IPART(I15A),IPART(I15B),IPART(I15C),IPART(I15D),
      8          IPART(I15E),IPART(I15F),IPART(I15G),IPART(I15H),IPART(I15I),
-     9                 NODES%BOUNDARY_ADD  ,NODES%BOUNDARY,NPBY     ,LPBY     ,KINET    ,
+     9                 NODES%BOUNDARY_ADD  ,NODES%BOUNDARY,NPBY     ,LPBY     ,NODES%KINET    ,
      A                 TAGSLV_RBY_SMS,IPARI  ,INTERFACES%INTBUF_TAB,IADI2,
      B                 LAD_SMS   ,IPART,IGEO     ,NODES%WEIGHT    ,
      C                 NATIV_SMS)
@@ -2762,7 +2761,7 @@ C
      6                 KAD_SMS,KDI_SMS    ,PK_SMS     ,
      7           TAGREL_SMS,IPART(I15A),IPART(I15B),IPART(I15C),IPART(I15D),
      8          IPART(I15E),IPART(I15F),IPART(I15G),IPART(I15H),IPART(I15I),
-     9                 NODES%BOUNDARY_ADD  ,NODES%BOUNDARY,NPBY     ,LPBY     ,KINET    ,
+     9                 NODES%BOUNDARY_ADD  ,NODES%BOUNDARY,NPBY     ,LPBY     ,NODES%KINET    ,
      A                 TAGSLV_RBY_SMS,IPARI  ,INTERFACES%INTBUF_TAB,IADI2,
      B                 LAD_SMS   ,IPART      ,IGEO      ,NODES%WEIGHT  ,NATIV_SMS,
      C                 IAD_SMS   ,IDI_SMS,JAD_SMS  ,JDI_SMS   ,T2MAIN_SMS)
@@ -2783,7 +2782,7 @@ C
      5                 JADTG_SMS,INDX1_SMS,TAGPRT_SMS,KAD_SMS ,KDI_SMS  ,
      6           TAGREL_SMS,IPART(I15A),IPART(I15B),IPART(I15C),IPART(I15D),
      7          IPART(I15E),IPART(I15F),IPART(I15G),IPART(I15H),IPART(I15I),
-     8                 NODES%BOUNDARY_ADD  ,NODES%BOUNDARY,NPBY     ,LPBY     ,KINET    ,
+     8                 NODES%BOUNDARY_ADD  ,NODES%BOUNDARY,NPBY     ,LPBY     ,NODES%KINET    ,
      9                 TAGSLV_RBY_SMS,IPARI  ,INTERFACES%INTBUF_TAB,IADI2    ,
      A                 LAD_SMS   ,NPRW ,LPRW,TAGMSR_RBY_SMS,
      B             TAGSLV_I21_SMS ,TAGMSR_I21_SMS, JADI21_SMS,INTSTAMP  ,
@@ -2812,7 +2811,7 @@ C
      5                 JADTG_SMS,INDX1_SMS,TAGPRT_SMS,KAD_SMS,KDI_SMS  ,
      6           TAGREL_SMS,IPART(I15A),IPART(I15B),IPART(I15C),IPART(I15D),
      7          IPART(I15E),IPART(I15F),IPART(I15G),IPART(I15H),IPART(I15I),
-     8                 NODES%BOUNDARY_ADD  ,NODES%BOUNDARY,NPBY     ,LPBY     ,KINET    ,
+     8                 NODES%BOUNDARY_ADD  ,NODES%BOUNDARY,NPBY     ,LPBY     ,NODES%KINET    ,
      9                 TAGSLV_RBY_SMS,IPARI  ,INTERFACES%INTBUF_TAB,IADI2    ,
      A                 LAD_SMS ,JSM_SMS ,TAGSLV_I21_SMS,INTSTAMP  ,IPART    ,
      B                 IGEO    ,TAGMSR_RBY_SMS,NODES%WEIGHT,NATIV_SMS,
@@ -2849,7 +2848,7 @@ C             Obsolete
                 IF(IDTMINS_INT/=0)THEN
 C re-tag rigid bodies (all nodes)
                   CALL SMS_INI_RBY(
-     1            KINET   ,NPRW     ,LPRW    ,NPBY    , LPBY     ,
+     1            NODES%KINET   ,NPRW     ,LPRW    ,NPBY    , LPBY     ,
      2            TAGMSR_RBY_SMS,TAGSLV_RBY_SMS)
                 END IF
 
@@ -2880,7 +2879,7 @@ C           /DT/INTER/AMS
      4          NRWL_SMS  ,NODES%BOUNDARY_ADD ,NODES%BOUNDARY   )
 
                 CALL SMS_INI_RBY(
-     1          KINET   ,NPRW     ,LPRW    ,NPBY    , LPBY     ,
+     1          NODES%KINET   ,NPRW     ,LPRW    ,NPBY    , LPBY     ,
      2          TAGMSR_RBY_SMS,TAGSLV_RBY_SMS)
 
                 CALL SMS_INI_INT(
@@ -3844,7 +3843,7 @@ C===============================================================================
      3             NODES%BOUNDARY ,NODES%VR      ,ISENDTO ,IRCVFROM  ,
      4             NEWFRONT  ,ITSK    ,WA      ,DT2TT     ,
      5             NODES%ITAB      ,NELTSTT ,ITYPTSTT,NODES%WEIGHT    ,
-     6             INTLIST ,NBINTC  ,KINET   ,DRETRI    ,
+     6             INTLIST ,NBINTC  ,NODES%KINET   ,DRETRI    ,
      7             ISLEN7  ,IRLEN7  ,ISLEN11 ,IRLEN11   ,
      8             NODES%TEMP    ,IGRBRIC ,IGRSH3N ,EMINX     ,
      9             IXS     ,IXS(L3) ,IXS(L2) ,ISLEN17   ,
@@ -4428,7 +4427,7 @@ C Init var parallel SMP
      2            NODES%ICODT             ,FSAV           ,NODES%V        ,NODES%MS              ,DT2TT           ,
      3            NELTSTT           ,ITYPTSTT       ,NODES%ITAB     ,NODES%STIFN(NDTSK)    ,TF              ,
      4            INTERFACES%PON%FSKYI             ,INTERFACES%PON%ISKY           ,NODES%VR       ,OUTPUT%DATA%VECT_CONT,SECFCUM,
-     5            ITSK+1            ,NISKYFI        ,KINET          ,NEWFRONT        ,NSTRF           ,
+     5            ITSK+1            ,NISKYFI        ,NODES%KINET          ,NEWFRONT        ,NSTRF           ,
      6            ICONTACT          ,NODES%VISCN(NDTSK),XCELL       ,
      8            NUM_IMPL(1,ITSK+1),NS_IMP(IADISK) ,NE_IMP(IADISK) ,IND_IMP(IADISK) ,NT_IMP          ,
      9            FR_I18            ,IGRBRIC        ,EMINX          ,
@@ -5835,53 +5834,53 @@ c ==============================================================================
 C                                     node splitting
 C  uncomment the following code for an example of node splitting (using non-physical deformation critera)
 
-!             numnod_old = numnod
-!             numnodm_old = numnodm
-!             call test_jc_shell_detach(nodes, element, interfaces, npari, ninter, ipari, numnod,
-!     .                numnodg, elbuf_tab, ngroup, ngrouc, nparg, iparg, igrouc, numelc, ispmd, nspmd,
-!     .                new_crack)
-!
-!
-!             if(new_crack > 0) then
-!               ! if at least 1 node has been detached, some data must be re-initialized
-!               numnodm = numnodm_old + new_crack
-!               CALL INIT_NODAL_STATE( IPARI,SHOOT_STRUCT,INTERFACES%INTBUF_TAB,NODES%BOUNDARY_ADD,NODES%BOUNDARY,
-!     .                              NODES%ITAB,NODES,GEO,ADDCNEL,CNEL,
-!     .                              IXS,ELEMENT%SHELL%IXC,IXT,IXP,IXR,IXTG,
-!     .                              SIZE_ADDCNEL,SIZE_CNEL ,
-!     .                              numelsg,numelqg,numelcg,numeltrg,numelpg,
-!     .                              numelrg,numeltgg , IXS(L1))
-!
-!
-!               IF(IDEL7NG>0.OR.IRAD2R>0.OR.ALEMUSCL_Param%IALEMUSCL>0.OR.PDEL>0) THEN
-!                 SIZE_ADDCNEL = NUMNOD+1
-!                 SIZE_CNEL = LCNEL
-!                 NELEML = NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR+NUMELTG
-!                 S_ELEM_STATE = NELEML
-!                 DEALLOCATE(CNEL)
-!                 ALLOCATE(CNEL(0:SIZE_CNEL))
-!                 DEALLOCATE(ADDCNEL)
-!                 ALLOCATE(ADDCNEL(0:SIZE_ADDCNEL))
-!                 DEALLOCATE(ADDTMPL)
-!                 ALLOCATE(ADDTMPL(0:NUMNOD+1))
-!                 NELEML = NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR+NUMELTG
-!                 ALEMUSCL_Buffer%pCNEL => CNEL
-!                 ALEMUSCL_Buffer%pADDCNEL => ADDCNEL
-!                 ALEMUSCL_Buffer%pADDTMPL => ADDTMPL
-!                 L1 = 1+NIXS*NUMELS + NSVOIS*NIXS
-!                 L2 = L1+6*NUMELS10
-!                 L3 = L2+12*NUMELS20
-!
-!                 CALL CHKINIT(
-!     2              IXS        ,IXQ       ,ELEMENT%SHELL%IXC       ,IXT         ,IXP       ,
-!     3              IXR        ,IXTG      ,IXS(L1)       ,IXS(L2)     ,
-!     4              IXS(L3)      ,IXTG1     ,GEO       ,ADDCNEL     ,CNEL      ,
-!     5              ADDTMPL    ,IPARG     )
-!
-!               ENDIF
-!               CALL ALLOCATE_OUTPUT_DATA(OUTPUT,NUMNOD)
-!               LCNE0 = SIZE(ELEMENT%PON%PROCNE)
-!             endif
+C            numnod_old = numnod
+C            numnodm_old = numnodm
+C            call test_jc_shell_detach(nodes, element, interfaces, npari, ninter, ipari, numnod,
+C    .                numnodg, elbuf_tab, ngroup, ngrouc, nparg, iparg, igrouc, numelc, ispmd, nspmd,
+C    .                new_crack)
+
+
+C            if(new_crack > 0) then
+C              ! if at least 1 node has been detached, some data must be re-initialized
+C              numnodm = numnodm_old + new_crack
+C              CALL INIT_NODAL_STATE( IPARI,SHOOT_STRUCT,INTERFACES%INTBUF_TAB,NODES%BOUNDARY_ADD,NODES%BOUNDARY,
+C    .                              NODES%ITAB,NODES,GEO,ADDCNEL,CNEL,
+C    .                              IXS,ELEMENT%SHELL%IXC,IXT,IXP,IXR,IXTG,
+C    .                              SIZE_ADDCNEL,SIZE_CNEL ,
+C    .                              numelsg,numelqg,numelcg,numeltrg,numelpg,
+C    .                              numelrg,numeltgg , IXS(L1))
+
+
+C              IF(IDEL7NG>0.OR.IRAD2R>0.OR.ALEMUSCL_Param%IALEMUSCL>0.OR.PDEL>0) THEN
+C                SIZE_ADDCNEL = NUMNOD+1
+C                SIZE_CNEL = LCNEL
+C                NELEML = NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR+NUMELTG
+C                S_ELEM_STATE = NELEML
+C                DEALLOCATE(CNEL)
+C                ALLOCATE(CNEL(0:SIZE_CNEL))
+C                DEALLOCATE(ADDCNEL)
+C                ALLOCATE(ADDCNEL(0:SIZE_ADDCNEL))
+C                DEALLOCATE(ADDTMPL)
+C                ALLOCATE(ADDTMPL(0:NUMNOD+1))
+C                NELEML = NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR+NUMELTG
+C                ALEMUSCL_Buffer%pCNEL => CNEL
+C                ALEMUSCL_Buffer%pADDCNEL => ADDCNEL
+C                ALEMUSCL_Buffer%pADDTMPL => ADDTMPL
+C                L1 = 1+NIXS*NUMELS + NSVOIS*NIXS
+C                L2 = L1+6*NUMELS10
+C                L3 = L2+12*NUMELS20
+
+C                CALL CHKINIT(
+C    2              IXS        ,IXQ       ,ELEMENT%SHELL%IXC       ,IXT         ,IXP       ,
+C    3              IXR        ,IXTG      ,IXS(L1)       ,IXS(L2)     ,
+C    4              IXS(L3)      ,IXTG1     ,GEO       ,ADDCNEL     ,CNEL      ,
+C    5              ADDTMPL    ,IPARG     )
+
+C              ENDIF
+C              CALL ALLOCATE_OUTPUT_DATA(OUTPUT,NUMNOD)
+C              LCNE0 = SIZE(ELEMENT%PON%PROCNE)
+C            endif
 
 C========================================================================================
 C                                     NON PARALLEL SECTION (SMP)
@@ -5989,7 +5988,7 @@ C        /---------------/
 C        /---------------/
                 CALL I18MAIN_KINE_1(OUTPUT, IPARI,INTERFACES%INTBUF_TAB,NODES%X       ,NODES%V       ,
      2                   NODES%A          ,NODES%ISKEW     ,SKEWS%SKEW     ,NODES%ICODT   ,WA      ,
-     3                   NODES%MS         ,NODES%ITAB      ,ITSK+1   ,KINET   ,NODES%STIFN   ,
+     3                   NODES%MS         ,NODES%ITAB      ,ITSK+1   ,NODES%KINET   ,NODES%STIFN   ,
      4                   MTF        ,CAND_SAV  ,INT18ADD ,NODES%BOUNDARY_ADD,NODES%BOUNDARY ,
      5                   TAGPENE    ,H3D_DATA  ,MULTI_FVM,ALE_CONNECTIVITY%NE_CONNECT,XCELL,XCELL_REMOTE)
 !$OMP END PARALLEL
@@ -6009,7 +6008,7 @@ C===============================================================================
                 IF (IMONM > 0)CALL STARTIME(TIMERS,28)
 !0.
                 DO K=0,NHIN2
-                  CALL INTTI1(
+                  CALL INTTI1(nodes,
      1               IPARI  ,NODES%X      ,NODES%V        ,NODES%A      ,
      2               NODES%VR     ,NODES%AR     ,WA       ,NODES%MS     ,NODES%IN     ,NODES%WEIGHT      ,
      3               NODES%STIFN  ,NODES%STIFR  ,K        ,NODES%ITAB   ,FR_I2M ,IAD_I2M     ,
@@ -6300,7 +6299,7 @@ C
      B                     ISKYI_SMS,JADI_SMS,JDII_SMS  ,LTI_SMS    ,NODXI_SMS,
      C                     DMELS    ,DMELTR  ,DMELP     ,DMELRT     ,IGEO     ,
      D                     FR_SMS   ,FR_RMS  ,ELBUF     ,IPARI      ,INTERFACES%INTBUF_TAB,
-     E                     KINET    ,TAGSLV_I21_SMS,JADI21_SMS,INTSTAMP,
+     E                     NODES%KINET    ,TAGSLV_I21_SMS,JADI21_SMS,INTSTAMP,
      F                     IXS(L1),JADS10_SMS,ILINK     ,LLINK      ,NNLINK   ,
      G                     LNLINK   ,TAG_LNK_SMS,LJOINT ,IADCJ      ,FR_CJ    ,
      H                     NODES%ITAB  ,NODES%WEIGHT  ,DMINT2    ,ELBUF_TAB,TAGMSR_RBY_SMS,
@@ -7016,7 +7015,7 @@ C===============================================================================
      F                NODES%AR       ,NODES%VR       ,NODES%IN       ,FRL       ,FNL        ,
      G                NPRW     ,LPRW     ,RWBUF    ,RWSAV     ,
      H                OUTPUT%DATA%FOPT(1,1+(NSECT+NRBODY)),FR_WALL ,NRWL_SMS   ,
-     I                INTSTAMP ,KINET    ,ELEMENT%SHELL%IXC      ,IXTG      ,SH4TREE    ,
+     I                INTSTAMP ,NODES%KINET    ,ELEMENT%SHELL%IXC      ,IXTG      ,SH4TREE    ,
      J                SH3TREE  ,CPTREAC  ,NODREAC  ,FTHREAC   ,
      K                FRWL6    ,3+IRODDL*3,NODES%TAG_S_RBY,DAMPR   , DAMP      ,
      L                IGRNOD   ,NODES%DR       ,RBY      ,TAGMSR_RBY_SMS,
@@ -7709,7 +7708,7 @@ C        /---------------/
 C        /---------------/
                   CALL I18MAIN_KINE_2(OUTPUT, IPARI,INTERFACES%INTBUF_TAB,NODES%X  ,NODES%V  ,
      2                          NODES%A    ,NODES%ISKEW,SKEWS%SKEW ,NODES%ICODT,WA,
-     3                          NODES%MS   ,NODES%ITAB ,FSAV ,ITSK+1,KINET,
+     3                          NODES%MS   ,NODES%ITAB ,FSAV ,ITSK+1,NODES%KINET,
      4                          NODES%STIFN,MTF,CAND_SAV,OUTPUT%DATA%VECT_CONT,INT18ADD,
      5                          NODES%BOUNDARY_ADD,NODES%BOUNDARY,H3D_DATA )
 !$OMP END PARALLEL
@@ -8593,7 +8592,7 @@ C Init var parallel SMP
      6               IXS(L1)  ,GJBUFI   ,GJBUFR   ,IBMPC    ,RBMPC    ,
      7               NPBYL    ,LPBYL    ,IBFV     ,VEL      ,NPC      ,
      8               TF         ,NEWFRONT ,ICONTACT ,RWBUF    ,LPRW     ,
-     9               NPRW     ,RBYL     ,NODES%D        ,NODES%DR       ,KINET    ,
+     9               NPRW     ,RBYL     ,NODES%D        ,NODES%DR       ,NODES%KINET    ,
      A               NSENSOR  ,SENSORS%SENSOR_TAB,INTERFACES%INTBUF_TAB, H3D_DATA ,IGRBRIC,
      B               PYTHON,NODES)
 
@@ -8625,7 +8624,7 @@ C===============================================================================
      6               IXS(L1)  ,GJBUFI   ,GJBUFR   ,IBMPC    ,RBMPC    ,
      7               NPBYL    ,LPBYL    ,IBFV     ,VEL      ,NPC      ,
      8               TF       ,NEWFRONT ,ICONTACT ,RWBUF    ,LPRW     ,
-     9               NPRW     ,RBYL     ,NODES%D        ,NODES%DR       ,KINET    ,
+     9               NPRW     ,RBYL     ,NODES%D        ,NODES%DR       ,NODES%KINET    ,
      A               NODES%NODGLOB  ,NODES%WEIGHT   ,NBNCL    ,NBIKL    ,NBNODL   ,
      B               NBNODLR  ,FR_LAGF  ,LLAGF    ,NODES%BOUNDARY_ADD ,NODES%BOUNDARY  ,
      C               INTERFACES%INTBUF_TAB ,H3D_DATA, PYTHON, NODES)
@@ -9157,7 +9156,7 @@ C----       10,11,12:ELBUF_C,BUFMAT_C,X_C,13,14:DD,DDR,15,16:X_ac,V_zero,23,24:A
      O            MONVOL ,IGRSURF,FR_MV  ,VOLMON ,DIRUL,
      P            NODES%NODGLOB,MUMPS_PAR,CDDLP ,ISENDTO,IRCVFROM,NEWFRONT,IMSCH  ,
      Q            I2MSCH ,ISIZXV,ILENXV ,ISLEN7  ,IRLEN7 ,ISLEN11,IRLEN11,ISLEN17,
-     R            IRLEN17,IRLEN7T,ISLEN7T,KINET  ,NUM_IMP1,NODES%TEMP  ,DT2PREV,WA     ,
+     R            IRLEN17,IRLEN7T,ISLEN7T,NODES%KINET  ,NUM_IMP1,NODES%TEMP  ,DT2PREV,WA     ,
      S            LGRAV  ,SH4TREE,SH3TREE,IRLEN20,ISLEN20,IRLEN20T,ISLEN20T,
      T            IRLEN20E,ISLEN20E,RBE3%IRBE3,RBE3%LRBE3  ,RBE3%FRBE3  ,FR_I2M,IAD_I2M,rbe3%mpi%FR_RBE3,
      U            RBE3%mpi%IAD_RBE3,FRWL6,IRBE2  ,LRBE2,INTBUF_TAB_CP,
@@ -9656,7 +9655,7 @@ C===============================================================================
                 ITSK = OMP_GET_THREAD_NUM()
                 CALL INT18_LAW151_UPDATE(ITSK   ,MULTI_FVM,IGRBRIC  ,IPARI,IXS,
      1                                   IGROUPS,IPARG    ,ELBUF_TAB,MULTI_FVM%FORCE_INT         ,
-     2                   NODES%X       ,          NODES%V       ,          NODES%MS         ,          KINET       ,
+     2                   NODES%X       ,          NODES%V       ,          NODES%MS         ,          NODES%KINET       ,
      3          MULTI_FVM%X_APPEND,MULTI_FVM%V_APPEND,MULTI_FVM%MASS_APPEND,MULTI_FVM%KINET_APPEND)
 !$OMP END PARALLEL
                 CALL PYTHON_END_OPENMP(PYTHON)

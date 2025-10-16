@@ -66,7 +66,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .      IBFV,    IECRAN,  ILAS,     LACCELM, 
      .      NNLINK,  LNLINK,  IPARG,   DD_IAD,  IGRV, 
      .      IEXLNK,  IBVEL,    LBVEL,   IACTIV,  IBMPC, 
-     .      KINET,   IPARI,   NPRW,    LPRW,    
+     .      IPARI,   NPRW,    LPRW,    
      .      ICONX,   LGAUGE,
      .      MADPRT,  MADSH4,  MADSH3,   MADSOL,  MADNOD,  MADFAIL, 
      .      NPBY,    NPBYL,   LPBY,     LPBYL,   LRIVET,  NSTRF,

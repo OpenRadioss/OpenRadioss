@@ -726,7 +726,7 @@ C--------------------------------------
 
         CALL WRITE_I_C(IBMPC,SIBMPC)
 
-        CALL WRITE_I_C(KINET,SKINET)
+        CALL WRITE_I_C(NODES%KINET,NUMNOD)
 
         CALL WRITE_I_C(FASOLFR,SFASOLFR)
 
