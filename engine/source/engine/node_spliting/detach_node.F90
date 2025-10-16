@@ -77,6 +77,93 @@
 
         end function find_segment_in_list
 
+
+        subroutine inter11_duplicate_edge(flag,old_edge_id, new_edge_id, intbuf_tab, ipari,npari)
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Modules
+! ----------------------------------------------------------------------------------------------------------------------
+          use extend_array_mod
+          use intbufdef_mod
+          use constant_mod, only : zero
+          implicit none
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Arguments
+! ----------------------------------------------------------------------------------------------------------------------
+          integer , intent(in) :: flag !< 1: main edge, 2:secondary edge
+          integer, intent(in) :: old_edge_id !< id of the old edge
+          integer, intent(in) :: new_edge_id !< id of the new edge
+          type(intbuf_struct_), intent(inout) :: intbuf_tab !< interface buffer
+          integer, intent(in) :: npari
+          integer, intent(in) :: ipari(npari) !< interface parameters
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Local variables
+! ----------------------------------------------------------------------------------------------------------------------
+          integer :: igap
+          integer :: intth
+          integer :: intfric
+          integer :: nrtm, nrts
+! ----------------------------------------------------------------------------------------------------------------------
+          igap = ipari(21)
+          intth = ipari(47)
+          intfric = ipari(72)
+          nrtm = new_edge_id
+          nrts = new_edge_id
+
+          if(flag == 1) then
+            call extend_array(intbuf_tab%gap_m,intbuf_tab%s_gap_m,nrtm)
+            intbuf_tab%gap_m(nrtm) = intbuf_tab%gap_m(old_edge_id)
+            intbuf_tab%s_gap_m   = nrtm
+            call extend_array(intbuf_tab%stfm,intbuf_tab%s_stfm,nrtm)
+            intbuf_tab%stfm(nrtm) = intbuf_tab%stfm(old_edge_id)
+            intbuf_tab%s_stfm    = nrtm
+            if (igap == 3 ) then
+              call extend_array(intbuf_tab%gap_ml,intbuf_tab%s_gap_ml,nrtm)
+              intbuf_tab%gap_ml(nrtm) = intbuf_tab%gap_ml(old_edge_id)
+              intbuf_tab%s_gap_ml  = nrtm
+            endif
+            if(intth > 0 ) then
+              call extend_array(intbuf_tab%ieles,intbuf_tab%s_ieles,nrtm)
+              intbuf_tab%ieles(nrtm) = intbuf_tab%ieles(old_edge_id)
+              intbuf_tab%s_ieles = nrtm
+              call extend_array(intbuf_tab%areas,intbuf_tab%s_aream,nrtm)
+              intbuf_tab%areas(nrtm) = intbuf_tab%areas(old_edge_id)
+              intbuf_tab%s_aream = nrtm
+            endif
+            if (intfric/=0) then
+              call extend_array(intbuf_tab%ipartfricm,intbuf_tab%s_ipartfricm,nrtm)
+              intbuf_tab%ipartfricm(nrtm) = intbuf_tab%ipartfricm(old_edge_id)
+              intbuf_tab%s_ipartfricm  = nrtm
+            endif
+          else if (flag == 2) then
+            call extend_array(intbuf_tab%gap_s,intbuf_tab%s_gap_s,nrts)
+            intbuf_tab%gap_s(nrts) = intbuf_tab%gap_s(old_edge_id)
+            intbuf_tab%s_stfs    = zero! nrts
+            call extend_array(intbuf_tab%stfs,intbuf_tab%s_stfs,nrts)
+            intbuf_tab%stfs(nrts) = zero ! intbuf_tab%stfs(old_edge_id)
+            intbuf_tab%s_gap_s   = nrts
+            if (igap == 3 ) then
+              call extend_array(intbuf_tab%gap_sl,intbuf_tab%s_gap_sl,nrts)
+              intbuf_tab%gap_sl(nrts) = intbuf_tab%gap_sl(old_edge_id)
+              intbuf_tab%s_gap_sl  = nrts
+            endif
+            if(intth > 0 ) then
+              call extend_array(intbuf_tab%ielec,intbuf_tab%s_ielec,nrts)
+              intbuf_tab%ielec(nrts) = intbuf_tab%ielec(old_edge_id)
+              intbuf_tab%s_ielec = nrts
+              call extend_array(intbuf_tab%areas,intbuf_tab%s_areas,nrts)
+              intbuf_tab%areas(nrts) = intbuf_tab%areas(old_edge_id)
+              intbuf_tab%s_areas = nrts
+            endif
+            if (intfric/=0) then
+              call extend_array(intbuf_tab%ipartfrics,intbuf_tab%s_ipartfrics,nrts)
+              intbuf_tab%ipartfrics(nrts) = intbuf_tab%ipartfrics(old_edge_id)
+              intbuf_tab%s_ipartfrics  = nrts
+            endif
+          endif
+
+        end subroutine inter11_duplicate_edge
+
+
 !||====================================================================
 !||    detach_node_from_interfaces   ../engine/source/engine/node_spliting/detach_node.F90
 !||--- called by ------------------------------------------------------
@@ -115,7 +202,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: i,j
+          integer :: i,j,i1,i2
           integer :: itype
           integer :: nsn
           integer :: nmn
@@ -147,7 +234,7 @@
               if(is_found) then
                 ! extend the arrays MSR
                 call extend_array(interf%intbuf_tab(i)%MSR,nmn,nmn+1)
-                interf%intbuf_tab(i)%MSR(nmn+1) = nodes%numnod + 1
+                interf%intbuf_tab(i)%MSR(nmn+1) = -  (nodes%numnod + 1) ! remove from contact search
                 IPARI(INDEX_NMN,i) = nmn + 1
                 ! large value in xsav should trigger the contact search
                 interf%intbuf_tab(i)%S_MSR = interf%intbuf_tab(i)%S_MSR + 1
@@ -172,7 +259,8 @@
                 end if
                 interf%intbuf_tab(i)%s_stfns   = nsn + 1
                 call extend_array(interf%intbuf_tab(i)%stfns,nsn,nsn+1)
-                interf%intbuf_tab(i)%stfns(nsn+1) = - interf%intbuf_tab(i)%stfns(old_secondary_node)
+                ! Ignore new nodes from the interface
+                interf%intbuf_tab(i)%stfns(nsn+1) = ZERO ! - interf%intbuf_tab(i)%stfns(old_secondary_node)
                 IF(IGAP > 0) THEN
                   interf%intbuf_tab(i)%s_gap_s   = nsn + 1
                   call extend_array(interf%intbuf_tab(i)%gap_s,nsn,nsn+1)
@@ -239,9 +327,43 @@
                 end if
               end do
             else if (itype == 11) then
+
+               ! search if node_id is in interf%intbuf_tab(i)%MSR(1:NMN)
+              is_found = any(interf%intbuf_tab(i)%MSR(1:nmn) == node_id)
+              if(is_found) then
+                ! extend the arrays MSR
+                call extend_array(interf%intbuf_tab(i)%MSR,nmn,nmn+1)
+                interf%intbuf_tab(i)%MSR(nmn+1) = nodes%numnod + 1
+                IPARI(INDEX_NMN,i) = nmn + 1
+                ! large value in xsav should trigger the contact search
+                interf%intbuf_tab(i)%S_MSR = -(interf%intbuf_tab(i)%S_MSR + 1)
+                nmn = nmn + 1
+              end if
+              is_found = any(interf%intbuf_tab(i)%NSV(1:nsn) == node_id)
+              if(is_found) then
+                ! old_secondary_node is j such as interf%intbuf_tab(i)%NSV(j) == node_id
+                do j = 1, nsn
+                  if(interf%intbuf_tab(i)%NSV(j) == node_id) then
+                    old_secondary_node = j
+                    exit
+                  end if
+                end do
+                call extend_array(interf%intbuf_tab(i)%NSV,nsn,nsn+1)
+                interf%intbuf_tab(i)%NSV(nsn+1) = nodes%numnod + 1
+                interf%intbuf_tab(i)%S_NSV = nsn + 1
+                IPARI(INDEX_NSN,i) = nsn + 1
+                nsn = nsn + 1
+              end if
+              if(interf%intbuf_tab(i)%s_xsav  < 3*min(nodes%numnod,nsn+nmn)) then
+                call extend_array(interf%intbuf_tab(i)%xsav,interf%intbuf_tab(i)%s_xsav,3*min(nodes%numnod,nsn+nmn))
+                interf%intbuf_tab(i)%s_xsav = 3*min(nodes%numnod,nsn+nmn)
+                interf%intbuf_tab(i)%xsav = - HUGE(interf%intbuf_tab(i)%xsav(1))
+              end if
+
+
               !edge 2 edge interface irectm = two nodes of the edge
               new_edges = 0
-              do j =1, nrtm
+              do j =1, nrtm ! loop over edges
                 if(interf%intbuf_tab(i)%irectm((j-1)*2 + 1) == node_id) then
                   !if the node is splited, then a new node is created, and new edges are created
                   new_edges = new_edges + 1
@@ -258,13 +380,19 @@
                 IPARI(INDEX_NRTM,i) = nrtm + new_edges
                 new_edges = 0
                 do j = 1, nrtm
+                  i1 = interf%intbuf_tab(i)%irectm((j-1)*2 + 1)
+                  i2 = interf%intbuf_tab(i)%irectm((j-1)*2 + 2)
                   if(interf%intbuf_tab(i)%irectm((j-1)*2 + 1) == node_id) then
                     ! a new edge is created, with the new node
-                    new_edges = new_edges + 1
                     interf%intbuf_tab(i)%irectm((nrtm+new_edges)*2 + 1) = nodes%numnod + 1
-                  else if(interf%intbuf_tab(i)%irectm((j-1)*2 + 2) == node_id) then
+                    interf%intbuf_tab(i)%irectm((nrtm+new_edges)*2 + 2) = i2
                     new_edges = new_edges + 1
+                    call inter11_duplicate_edge(1,j, nrtm+new_edges, interf%intbuf_tab(i), ipari(:,i),npari)
+                  else if(interf%intbuf_tab(i)%irectm((j-1)*2 + 2) == node_id) then
+                    interf%intbuf_tab(i)%irectm((nrtm+new_edges)*2 + 1) = i1
                     interf%intbuf_tab(i)%irectm((nrtm+new_edges)*2 + 2) = nodes%numnod + 1
+                    new_edges = new_edges + 1
+                    call inter11_duplicate_edge(1,j, nrtm+new_edges, interf%intbuf_tab(i), ipari(:,i),npari)
                   end if
                 end do
               end if
@@ -284,13 +412,20 @@
                   interf%intbuf_tab(i)%s_irects, &
                   interf%intbuf_tab(i)%s_irects + 2*new_edges)
                 interf%intbuf_tab(i)%s_irects = interf%intbuf_tab(i)%s_irects + 2*new_edges
+                new_edges = 0
                 do j=1,nrts
+                  i1 = interf%intbuf_tab(i)%irects((j-1)*2 + 1)
+                  i2 = interf%intbuf_tab(i)%irects((j-1)*2 + 2)
                   if(interf%intbuf_tab(i)%irects((j-1)*2 + 1) == node_id) then
-                    new_edges = new_edges + 1
                     interf%intbuf_tab(i)%irects((nrts+new_edges)*2 + 1) = nodes%numnod + 1
-                  else if(interf%intbuf_tab(i)%irects((j-1)*2 + 2) == node_id) then
+                    interf%intbuf_tab(i)%irects((nrts+new_edges)*2 + 2) = i2
                     new_edges = new_edges + 1
+                    call inter11_duplicate_edge(2,j, nrts+new_edges, interf%intbuf_tab(i), ipari(:,i),npari)
+                  else if(interf%intbuf_tab(i)%irects((j-1)*2 + 2) == node_id) then
                     interf%intbuf_tab(i)%irects((nrts+new_edges)*2 + 2) = nodes%numnod + 1
+                    interf%intbuf_tab(i)%irects((nrts+new_edges)*2 + 1) = i1
+                    new_edges = new_edges + 1
+                    call inter11_duplicate_edge(2,j, nrts+new_edges, interf%intbuf_tab(i), ipari(:,i),npari)
                   end if
                 end do
               end if
@@ -507,7 +642,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-           write(6,*) "detach_node",node_id,nodes%itab(node_id),"from:",shell_list(1:list_size)
+           !write(6,*) "detach_node",node_id,nodes%itab(node_id),"from:",shell_list(1:list_size)
           !call flush(6)
 !         new_uid = nodes%max_uid + 1
 !         nodes%max_uid = new_uid
@@ -557,7 +692,7 @@
           use spmd_mod
           use ghost_shells_mod
           use precision_mod, only : wp
-          USE constant_mod, only : TWO
+          USE constant_mod, only : TWO, ONE, four_over_5
           USE connectivity_mod
           USE nodal_arrays_mod
           USE interfaces_mod
@@ -596,7 +731,7 @@
           double precision :: normal(3),  vec(3), distance
           double precision, dimension(:), allocatable :: nodal_damage
           double precision :: v(3)
-          double precision, parameter :: treshold = 1.04D0
+          double precision, parameter :: treshold = 1.75D0
           double precision :: dmax
           integer :: nGhostShells
           real(kind=wp), dimension(:), allocatable :: ghostShellDamage
@@ -663,6 +798,19 @@
                 end do
               end do
             end do
+            do n = 1, size(elbuf(ng)%GBUF%OFF)
+              detach_shell(nft+n) = max(detach_shell(nft+n), ONE - abs(elbuf(ng)%GBUF%OFF(n)))
+              if(elbuf(ng)%GBUF%OFF(n) .lt. -99.0 ) then
+                write(6,*) "detaching shell ", element%shell%user_id(n), " with OFF=", elbuf(ng)%GBUF%OFF(n)
+                detach_shell(nft+n) = 0.98d0 
+                elbuf(ng)%GBUF%OFF(n) = one
+              end if
+!             if(element%shell%user_id(nft+n) == 100344279) then
+!               write(6,*) "shell 100344279 detach value=",detach_shell(nft+n)," OFF=",elbuf(ng)%GBUF%OFF(n)
+
+!             endif
+            end do
+ 
             ! detach_shell(nft+1: nft+nel) = detach_shell(nft+1: nft+nel) - element%shell%damage(nft+1: nft+nel)
           end do
 
@@ -722,6 +870,7 @@
             v(1) = (nodes%X(1,n1) + nodes%X(1,n2) + nodes%X(1,n3) + nodes%X(1,n4))/4.0D0
             v(2) = (nodes%X(2,n1) + nodes%X(2,n2) + nodes%X(2,n3) + nodes%X(2,n4))/4.0D0
             v(3) = (nodes%X(3,n1) + nodes%X(3,n2) + nodes%X(3,n3) + nodes%X(3,n4))/4.0D0
+            !if(element%shell%user_id(ii) == 100344279 .and. detach_shell(i) >0 ) write(6,*) "detach_shell(i)=",detach_shell(i)
             distance = 0.0D0
             if(detach_shell(i) >= 0.99999d0) cycle ! deleted shell
             do j = 1,4
@@ -731,15 +880,29 @@
               if(nodes%nchilds(nodes%parent_node(element%shell%ixc(j+1,i))) < 1) then
                 dmax = max(dmax,distance / element%shell%dist_to_center(i))
               end if
-              if(distance > treshold * element%shell%dist_to_center(i)) then
+            enddo
+
+            do j = 1,4
+              distance = sqrt((v(1) - nodes%X(1,element%shell%ixc(j+1,i)))**2 + &
+                (v(2) - nodes%X(2,element%shell%ixc(j+1,i)))**2 + &
+                (v(3) - nodes%X(3,element%shell%ixc(j+1,i)))**2)
+!             if(nodes%nchilds(nodes%parent_node(element%shell%ixc(j+1,i))) < 1) then
+!               dmax = max(dmax,distance / element%shell%dist_to_center(i))
+!             end if
+              !if(distance > treshold * element%shell%dist_to_center(i)) then
+              if(distance == dmax) then
                 if(nodes%nchilds(nodes%parent_node(element%shell%ixc(j+1,i))) > 3) cycle ! this node has not been splitted more than 3 times
-                if(nodal_damage(element%shell%ixc(j+1,i)) < .001 ) cycle
+                if(nodal_damage(element%shell%ixc(j+1,i)) < 1.0D-1 ) cycle
                 crack(1) = element%shell%ixc(j+1,i)
                 shell_list(1) = i
                 shells_to_detach = 1
                 element%shell%damage(i) = 1.0D0 !
                 nb_detached_nodes_local = nb_detached_nodes_local + 1
                 detached_nodes_local(nb_detached_nodes_local) = nodes%itab(crack(1))
+                 !write(6,*) "detach_node",node_id,nodes%itab(node_id),"from:",shell_list(1:list_size)
+                write(6,*) "DETACH NODE",nodes%itab(crack(1)),"damage",nodal_damage(crack(1)), &
+                  "ratio",distance / element%shell%dist_to_center(i)
+
                 call detach_node(nodes,crack(1),element,shell_list,shells_to_detach,npari,ninter, ipari, interf)
                 numnod = numnod + 1
                 if(ispmd == 0) numnodg = numnodg + 1

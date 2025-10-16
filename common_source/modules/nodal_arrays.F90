@@ -114,6 +114,7 @@
           integer, dimension(:), allocatable :: parent_node
           integer, dimension(:), allocatable :: nchilds
           integer, dimension(:), allocatable :: nodglob !<global internal id (starter id?)
+          integer, dimension(:), allocatable :: KINET
 
           real(kind=wp), dimension(:,:), allocatable :: A !< accelerations: 3 x numnod (x nthreads if parith/off)
           real(kind=wp), dimension(:,:), allocatable :: AR !< accelerations
@@ -281,6 +282,7 @@
           call my_alloc(arrays%WEIGHT,numnod)
           call my_alloc(arrays%MAIN_PROC,numnod)
           call my_alloc(arrays%WEIGHT_MD,numnod)
+          call my_alloc(arrays%KINET,numnod)
           call my_alloc(arrays%ITABM1,2*numnod)
 
 
@@ -319,6 +321,7 @@
           arrays%DDP = 0
           arrays%XDP = 0
           arrays%WEIGHT = 0
+          arrays%KINET = 0
           arrays%MAIN_PROC = 0
           arrays%WEIGHT_MD = 0
           arrays%ITABM1 = 0
@@ -425,6 +428,7 @@
             end if
 #endif
             call extend_array(arrays%WEIGHT, size(arrays%WEIGHT), arrays%max_numnod)
+            call extend_array(arrays%KINET, size(arrays%KINET), arrays%max_numnod)
             call extend_array(arrays%MAIN_PROC, size(arrays%MAIN_PROC), arrays%max_numnod)
             call extend_array(arrays%WEIGHT_MD, size(arrays%WEIGHT_MD), arrays%max_numnod)
             call extend_array(arrays%ITABM1, size(arrays%ITABM1), 2*arrays%max_numnod)

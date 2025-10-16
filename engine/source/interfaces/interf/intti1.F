@@ -43,7 +43,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    intbufdef_mod           ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    my_alloc_mod            ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
-      SUBROUTINE INTTI1(
+      SUBROUTINE INTTI1(NODES,
      1   IPARI    ,X        ,V        ,A       ,
      2   VR       ,AR       ,WA       ,MS      ,IN       ,WEIGHT  ,
      3   STIFN    ,STIFR    ,KHIE     ,ITAB    ,FR_I2M   ,IAD_I2M ,
@@ -61,6 +61,7 @@ C-----------------------------------------------
       USE H3D_MOD
       use glob_therm_mod
       USE MY_ALLOC_MOD
+      USE NODAL_ARRAYS_MOD, ONLY : nodal_arrays_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -80,6 +81,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      type(nodal_arrays_) :: nodes
       INTEGER IPARI(NPARI,*), WEIGHT(*), FR_I2M(*), IAD_I2M(*),
      .        ITAB(*),KHIE,ADDCNI2(*),PROCNI2(*),IADI2(*),IGEO(*),
      .        FR_NBCCI2(2,*),NPF(*),IAD_ELEM(2,*),FR_ELEM(*),
@@ -359,7 +361,7 @@ C Routine assemblage parith/ON
 C
 C Rare case where type2 interfaces are defined with no more active secnd nodes
         IF(I2NSNT > 0)
-     *    CALL ASSPARI2(
+     *    CALL ASSPARI2(nodes%NUMNOD0,
      1       A    ,AR    ,STIFN ,STIFR  ,MS               ,
      2       IN   ,FSKYI2,I2SIZE,ADDCNI2,ADDCNI2(NUMNOD+2),
      3       FTHESKYI2, FTHE ,CONDNSKYI2,CONDN,GLOB_THERM)
