@@ -319,7 +319,7 @@ c    .  I8A(3,3,*),I8AR(3,3,*),I8STIFN(3,*),I8STIFR(3,*),
 c    .  I8VISCN(3,*)
 C
 
-      LOGICAL, INTENT(inout) :: NEED_COMM_INT25_SOLID_EROSION !< boolean, true if the proc needs to comm some values related to interface type 25 with solid erosion
+      LOGICAL, DIMENSION(NSPMD), INTENT(inout) :: NEED_COMM_INT25_SOLID_EROSION !< boolean, true if the proc needs to comm some values related to interface type 25 with solid erosion
       INTEGER, INTENT(inout) :: COMM_INT25_SOLID_EROSION !< integer, sub-communicator related to interface type 25 with solid erosion
 C
       DOUBLE PRECISION XDP(3,*)     

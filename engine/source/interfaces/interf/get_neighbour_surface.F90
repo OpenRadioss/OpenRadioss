@@ -79,7 +79,8 @@
           elem_state,ipari,intlist,nodes, &
           newfront,ixs,ixc,ixtg,  &
           iad_elem,x,         &
-          intbuf_tab,spmd_arrays,shoot_struct  )
+          intbuf_tab,spmd_arrays,shoot_struct, &
+          need_comm  )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -106,6 +107,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   arguments
 ! ----------------------------------------------------------------------------------------------------------------------
+          logical, dimension(nspmd), intent(in) :: need_comm !< boolean, true if the proc needs to comm some values related to interface type 25 with solid erosion
           integer, intent(in) :: ispmd !< processor id
           integer, intent(in) :: nspmd !< number of mpi processors
           integer, intent(in) :: ninter25 !< total number of interface /TYPE25
@@ -535,7 +537,7 @@
             s_buffer_size,r_buffer_size,s_buffer_2_size,r_buffer_2_size,&
             iad_elem,nodes,x, &
             s_buffer,r_buffer,s_buffer_2,r_buffer_2, &
-            intbuf_tab,shoot_struct)
+            intbuf_tab,shoot_struct,need_comm)
           ! --------------------------
 
           ! --------------------------

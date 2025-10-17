@@ -77,7 +77,7 @@ C-----------------------------------------------
       integer,dimension(NINTER+1,NSPMD+1), intent(in) :: ISENDTO,IRCVFROM
       TYPE(sorting_comm_type), DIMENSION(NINTER), INTENT(inout) :: SORT_COMM   ! structure for interface sorting comm
 
-      LOGICAL, INTENT(inout) :: NEED_COMM_INT25_SOLID_EROSION !< boolean, true if the proc needs to comm some values related to interface type 25 with solid erosion
+      LOGICAL, DIMENSION(NSPMD), INTENT(inout) :: NEED_COMM_INT25_SOLID_EROSION !< boolean, true if the proc needs to comm some values related to interface type 25 with solid erosion
       INTEGER, INTENT(inout) :: COMM_INT25_SOLID_EROSION !< integer, sub-communicator related to interface type 25 with solid erosion
       
 C-----------------------------------------------
@@ -100,110 +100,111 @@ C-----------------------------------------------
         NB_INTER_7_INACTI = 0
         ALLOCATE( LIST_INTER_7_INACTI(NINTER) )
         LIST_INTER_7_INACTI(1:NINTER) = 0
-        NEED_COMM_INT25_SOLID_EROSION = .FALSE.
-!           -----------------------------
+        NEED_COMM_INT25_SOLID_EROSION(1:NSPMD) = .FALSE.
+        ! -----------------------------
 !       loop over the interface        
         DO KK=1,NBINTC
-            NIN = INTLIST(KK)
-            NTY   =IPARI(7,NIN)
-!           -----------------------------
-!           only tag the TYPE07 interface
-            IF(NTY==7) THEN
-                IF(COMM_TRI7VOX(NIN)%INIT) THEN
-                    I=0
-                    ALLOCATE(COMM_TRI7VOX(NIN)%PROC_LIST(NSPMD))
-                    ALLOCATE(SORT_COMM(NIN)%PROC_LIST(NSPMD))
-                    COMM_TRI7VOX(NIN)%PROC_LIST(1:NSPMD) = 0
-                    COMM_TRI7VOX(NIN)%RANK = -1
-                    !   list of processor for a given interface
-                    DO P=1,NSPMD
-                        IF(IRCVFROM(NIN,p)/=0.or.ISENDTO(NIN,P)/=0) THEN
-                            I=I+1
-                            COMM_TRI7VOX(NIN)%PROC_LIST(I) = P
-                        ENDIF
-                    ENDDO
-                    SORT_COMM(NIN)%PROC_LIST(1:NSPMD) = COMM_TRI7VOX(NIN)%PROC_LIST(1:NSPMD)
-                    COMM_TRI7VOX(NIN)%PROC_NUMBER = I
-                    SORT_COMM(NIN)%PROC_NUMBER = I
-                    COMM_TRI7VOX(NIN)%PROC_MIN = -1
-                    COMM_TRI7VOX(NIN)%RANK=-1
-                    COMM_TRI7VOX(NIN)%COMM=-1
-                    !   compute the main proc for a given interface
-                    DO I = 1,COMM_TRI7VOX(NIN)%PROC_NUMBER
-                        COMM_TRI7VOX(NIN)%PROC_MIN = min(COMM_TRI7VOX(NIN)%PROC_MIN,COMM_TRI7VOX(NIN)%PROC_LIST(I))
-                    ENDDO
-                    !   color the processor
-                    IF(IRCVFROM(NIN,ispmd+1)==0.and.ISENDTO(NIN,ispmd+1)==0) THEN
-                        COMM_TRI7VOX(NIN)%COLOR=0
-                        KEY = 0
-                    ELSE
-                        COMM_TRI7VOX(NIN)%COLOR=1
-                        KEY = 1
-                    ENDIF       
-                    !   create the communicator
-                    CALL MPI_COMM_SPLIT(SPMD_COMM_WORLD,COMM_TRI7VOX(NIN)%COLOR,KEY,COMM_TRI7VOX(NIN)%COMM,CODE)
-                    CALL MPI_COMM_SPLIT(SPMD_COMM_WORLD,COMM_TRI7VOX(NIN)%COLOR,KEY,SORT_COMM(NIN)%COMM,CODE)
-                    IF(COMM_TRI7VOX(NIN)%COLOR==1) THEN
-                        CALL MPI_COMM_RANK(COMM_TRI7VOX(NIN)%comm,COMM_TRI7VOX(NIN)%RANK,CODE)
-                    ENDIF
-                    COMM_TRI7VOX(NIN)%INIT = .false.
+          NIN = INTLIST(KK)
+          NTY   =IPARI(7,NIN)
+!         -----------------------------
+!         only tag the TYPE07 interface
+          IF(NTY==7) THEN
+            IF(COMM_TRI7VOX(NIN)%INIT) THEN
+              I=0
+              ALLOCATE(COMM_TRI7VOX(NIN)%PROC_LIST(NSPMD))
+              ALLOCATE(SORT_COMM(NIN)%PROC_LIST(NSPMD))
+              COMM_TRI7VOX(NIN)%PROC_LIST(1:NSPMD) = 0
+              COMM_TRI7VOX(NIN)%RANK = -1
+              !   list of processor for a given interface
+              DO P=1,NSPMD
+                IF(IRCVFROM(NIN,p)/=0.or.ISENDTO(NIN,P)/=0) THEN
+                  I=I+1
+                  COMM_TRI7VOX(NIN)%PROC_LIST(I) = P
                 ENDIF
-                !   ------------------------------
-                INACTI = IPARI(22,NIN)
-                IFQ = IPARI(31,NIN)
-                ITIED = IPARI(85,NIN)
-                IF(IMPL_S==0.OR.NEIG==0) THEN       
-                    IF( INACTI==5.OR.INACTI==6.OR.IFQ>0.OR.ITIED/=0)THEN
-                        NEED_COMM_INACTI = .TRUE.
-                        NB_INTER_7_INACTI = NB_INTER_7_INACTI + 1
-                        LIST_INTER_7_INACTI(NIN) = NB_INTER_7_INACTI
-                    ENDIF
-                ENDIF
-                !   ------------------------------
-            ENDIF
-
-           !   ------------------------------
-           ! communicator for interface type 25 with solid erosion
-            SOLID_EROSION = IPARI(100,NIN)
-            IDEL = IPARI(17,NIN)! idel option
-            IDELKEEP = IPARI(61,NIN)
-            IF(NTY==25.AND.IPARI(100,NIN)>0.AND.IDELKEEP/=1) THEN
-              ! ---------------
-              ! check if the proc has S or M node
-              IF(ISENDTO(NIN,ISPMD+1)>0.OR.IRCVFROM(NIN,ISPMD+1)>0) THEN 
-                        NEED_COMM_INT25_SOLID_EROSION = .TRUE.
+              ENDDO
+              SORT_COMM(NIN)%PROC_LIST(1:NSPMD) = COMM_TRI7VOX(NIN)%PROC_LIST(1:NSPMD)
+              COMM_TRI7VOX(NIN)%PROC_NUMBER = I
+              SORT_COMM(NIN)%PROC_NUMBER = I
+              COMM_TRI7VOX(NIN)%PROC_MIN = -1
+              COMM_TRI7VOX(NIN)%RANK=-1
+              COMM_TRI7VOX(NIN)%COMM=-1
+              !   compute the main proc for a given interface
+              DO I = 1,COMM_TRI7VOX(NIN)%PROC_NUMBER
+                COMM_TRI7VOX(NIN)%PROC_MIN = min(COMM_TRI7VOX(NIN)%PROC_MIN,COMM_TRI7VOX(NIN)%PROC_LIST(I))
+              ENDDO
+              !   color the processor
+              IF(IRCVFROM(NIN,ispmd+1)==0.and.ISENDTO(NIN,ispmd+1)==0) THEN
+                COMM_TRI7VOX(NIN)%COLOR=0
+                KEY = 0
+              ELSE
+                COMM_TRI7VOX(NIN)%COLOR=1
+                KEY = 1
+              ENDIF       
+              !   create the communicator
+              CALL MPI_COMM_SPLIT(SPMD_COMM_WORLD,COMM_TRI7VOX(NIN)%COLOR,KEY,COMM_TRI7VOX(NIN)%COMM,CODE)
+              CALL MPI_COMM_SPLIT(SPMD_COMM_WORLD,COMM_TRI7VOX(NIN)%COLOR,KEY,SORT_COMM(NIN)%COMM,CODE)
+              IF(COMM_TRI7VOX(NIN)%COLOR==1) THEN
+                CALL MPI_COMM_RANK(COMM_TRI7VOX(NIN)%comm,COMM_TRI7VOX(NIN)%RANK,CODE)
               ENDIF
-              ! ---------------
+                COMM_TRI7VOX(NIN)%INIT = .false.
+              ENDIF
+              !   ------------------------------
+              INACTI = IPARI(22,NIN)
+              IFQ = IPARI(31,NIN)
+              ITIED = IPARI(85,NIN)
+              IF(IMPL_S==0.OR.NEIG==0) THEN       
+                IF( INACTI==5.OR.INACTI==6.OR.IFQ>0.OR.ITIED/=0)THEN
+                  NEED_COMM_INACTI = .TRUE.
+                  NB_INTER_7_INACTI = NB_INTER_7_INACTI + 1
+                  LIST_INTER_7_INACTI(NIN) = NB_INTER_7_INACTI
+              ENDIF
             ENDIF
-        ENDDO
-!           -----------------------------
+            !   ------------------------------
+          ENDIF
 
-!           -----------------------------
+          !   ------------------------------
+          ! communicator for interface type 25 with solid erosion
+          SOLID_EROSION = IPARI(100,NIN)
+          IDEL = IPARI(17,NIN)! idel option
+          IDELKEEP = IPARI(61,NIN)
+          IF(NTY==25.AND.IPARI(100,NIN)>0.AND.IDELKEEP/=1) THEN
+            ! ---------------
+            ! check if the proc has S or M node
+            DO P=1,NSPMD
+              IF(ISENDTO(NIN,P)>0.OR.IRCVFROM(NIN,P)>0) THEN 
+                NEED_COMM_INT25_SOLID_EROSION(P) = .TRUE.
+              ENDIF
+            ENDDO
+            ! ---------------
+          ENDIF
+        ENDDO
+        ! -----------------------------
+
+        ! -----------------------------
         !   color the processor for inacti option
         IF(.NOT.NEED_COMM_INACTI) THEN
-            COLOR_INACTI = 0
-            KEY = 0
+          COLOR_INACTI = 0
+          KEY = 0
         ELSE
-            COLOR_INACTI = 1
-            KEY = 1
+          COLOR_INACTI = 1
+          KEY = 1
         ENDIF       
         !   create the communicator for the spmd_get_inacti communication
         CALL MPI_COMM_SPLIT(SPMD_COMM_WORLD,COLOR_INACTI,KEY,COMM_INACTI,CODE)  
-!           -----------------------------
+        ! -----------------------------
 
-!           -----------------------------
+        ! -----------------------------
         !   color the processor for interface type 25 + solid erosion option
-        IF(.NOT.NEED_COMM_INT25_SOLID_EROSION) THEN
-            COLOR_INT25_SOLID_EROSION = 0
-            KEY = 0
+        IF(.NOT.NEED_COMM_INT25_SOLID_EROSION(ISPMD+1)) THEN
+          COLOR_INT25_SOLID_EROSION = 0
+          KEY = 0
         ELSE
-            COLOR_INT25_SOLID_EROSION = 1
-            KEY = 1
+          COLOR_INT25_SOLID_EROSION = 1
+          KEY = 1
         ENDIF       
         !   create the communicator for the type25+solid erosion communication
         CALL MPI_COMM_SPLIT(SPMD_COMM_WORLD,COLOR_INT25_SOLID_EROSION,KEY,COMM_INT25_SOLID_EROSION,CODE)  
-c       write(*,*) 'need comm',ispmd,NEED_COMM_INT25_SOLID_EROSION
-!           -----------------------------
+        ! -----------------------------
 #endif
       RETURN
       END SUBROUTINE SPMD_SPLIT_COMM_INTER

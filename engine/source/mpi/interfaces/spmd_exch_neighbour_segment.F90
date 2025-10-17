@@ -74,7 +74,7 @@
           s_buffer_size,r_buffer_size,s_buffer_2_size,r_buffer_2_size,&
           iad_elem,nodes,x, &
           s_buffer,r_buffer,s_buffer_2,r_buffer_2, &
-          intbuf_tab,shoot_struct)
+          intbuf_tab,shoot_struct,need_comm)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -96,6 +96,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   arguments
 ! ----------------------------------------------------------------------------------------------------------------------
+          logical, dimension(nspmd), intent(in) :: need_comm !< boolean, true if the proc needs to comm some values related to interface type 25 with solid erosion
           integer, intent(in) :: nspmd !< number of processor
           integer, intent(in) :: ispmd !< processor id
           integer, intent(in) :: ninter !< number of interface
@@ -147,7 +148,7 @@
           recv_nb_1 = 0
           do i=1,nspmd
             frontier_elm = iad_elem(1,i+1)-iad_elem(1,i) ! check if the proc "i" is a neighbour
-            if(frontier_elm>0) then
+            if(frontier_elm>0.and.need_comm(i)) then
               recv_nb_1 = recv_nb_1 + 1
               index_r_proc(recv_nb_1) = i
               call spmd_irecv(r_buffer_size(1:2,i),2,i-1,spmd_tag_1,request_r_1(recv_nb_1),SPMD_COMM_WORLD)
@@ -163,7 +164,7 @@
           ! send the data : "size if my S buffer"
           do i=1,nspmd
             frontier_elm = iad_elem(1,i+1)-iad_elem(1,i) ! check if the proc "i" is a neighbour
-            if(frontier_elm>0) then
+            if(frontier_elm>0.and.need_comm(i)) then
               call spmd_isend(s_buffer_size(1:2,i),2,i-1,spmd_tag_1,request_s_1(i),SPMD_COMM_WORLD)
             end if
           end do
@@ -196,7 +197,7 @@
           ! send the data : "list of potential remote segment"
           do i=1,nspmd
             frontier_elm = iad_elem(1,i+1)-iad_elem(1,i) ! check if the proc "i" is a neighbour
-            if(s_buffer_size(1,i)>0) then
+            if(s_buffer_size(1,i)>0.and.need_comm(i)) then
               my_size = s_buffer_size(1,i)
               call spmd_isend(s_buffer(i)%my_real_array_1d,my_size,i-1,spmd_tag_2,request_s_2(i),SPMD_COMM_WORLD)
             end if
@@ -229,7 +230,7 @@
 
           do i=1,nspmd
             frontier_elm = iad_elem(1,i+1)-iad_elem(1,i) ! check if the proc "i" is a neighbour
-            if(frontier_elm>0) then
+            if(frontier_elm>0.and.need_comm(i)) then
               call spmd_isend(s_buffer_2_size(:,i),3,i-1,spmd_tag_3,request_s_3(i),SPMD_COMM_WORLD)
               if(s_buffer_2_size(1,i)>0) then
                 call spmd_isend(s_buffer_2(i)%my_real_array_1d,s_buffer_2_size(1,i),i-1,  &
@@ -245,7 +246,7 @@
           recv_nb_3 = 0
           do i=1,nspmd
             frontier_elm = iad_elem(1,i+1)-iad_elem(1,i) ! check if the proc "i" is a neighbour
-            if(frontier_elm>0) then
+            if(frontier_elm>0.and.need_comm(i)) then
               call spmd_wait(request_s_1(i), status_mpi)
               if(s_buffer_size(1,i)>0) call spmd_wait(request_s_2(i), status_mpi)
               recv_nb_3 = recv_nb_3 + 1
@@ -291,7 +292,7 @@
           ! wait the S comm "size of my S_2 buffer" & "list of connected segment"
           do i=1,nspmd
             frontier_elm = iad_elem(1,i+1)-iad_elem(1,i) ! check if the proc "i" is a neighbour
-            if(frontier_elm>0) then
+            if(frontier_elm>0.and.need_comm(i)) then
               call spmd_wait(request_s_3(i),status_mpi)
               if(s_buffer_2_size(1,i)>0) then
                 call spmd_wait(request_s_4(i),status_mpi)
