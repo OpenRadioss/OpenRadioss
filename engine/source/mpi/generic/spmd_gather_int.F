@@ -43,11 +43,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-        INTEGER, INTENT(in) :: SEND_SIZE
-        INTEGER, INTENT(in) :: PROC
-        INTEGER, INTENT(in) :: RCV_SIZE
-        INTEGER, DIMENSION(SEND_SIZE), INTENT(in) :: SENDBUF
-        INTEGER, DIMENSION(RCV_SIZE), INTENT(out) :: RECVBUF
+        INTEGER, INTENT(inout) :: SEND_SIZE
+        INTEGER, INTENT(inout) :: PROC
+        INTEGER, INTENT(inout) :: RCV_SIZE
+        INTEGER, DIMENSION(SEND_SIZE), INTENT(inout) :: SENDBUF
+        INTEGER, DIMENSION(RCV_SIZE), INTENT(inout) :: RECVBUF
 
 #ifdef MPI
 C-----------------------------------------------
