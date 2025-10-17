@@ -99,20 +99,18 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2       GSTR     ,THK      ,EINT     ,OFF       ,DIR_A    ,DIR_B    ,    
      3       MAT      ,AREA     ,EXX      ,EYY       ,EXY      ,EXZ      ,    
      4       EYZ      ,KXX      ,KYY      ,KXY       ,GEO      ,THK_LY   ,             
-     5       PID      ,TF       ,NPF      ,MTN       ,DT1C     ,DM       ,           
+     5       PID      ,TF       ,NPF      ,DT1C      ,DM       ,           
      6       BUFMAT   ,SSP      ,RHO      ,VISCMX    ,IPLA     ,IOFC     ,    
-     7       INDX     ,NGL      ,THKLY    ,MATLY     ,ZCFAC    ,NG       ,               
-     8       SHF      ,GS       ,SIGY     ,THK0      ,epsd_pg  ,              
+     7       INDX     ,NGL      ,THKLY    ,ZCFAC     ,NG       ,               
+     8       SHF      ,SIGY     ,THK0      ,epsd_pg  ,              
      9       POSLY    ,IGEO     ,IPM      ,FAILWAVE  ,FWAVE_EL ,                                   
      A       IFAILURE ,ALDT     ,TEMPEL   ,DIE       ,                        
      B       R11      ,R12      ,R13      ,R21       ,R22      ,R23      ,    
      C       R31      ,R32      ,R33      ,TABLE     ,IXFEM    ,ELCRKINI ,    
      D       DIR1_CRK ,DIR2_CRK ,IPARG    ,JHBE      ,ISMSTR   ,JTHE     ,                        
      E       TENSX    ,IR       ,IS       ,NLAY      ,NPT      ,IXLAY    ,             
-     F       IXEL     ,ITHK     ,F_DEF    ,ISHPLYXFEM,                        
-     G       ITASK    ,PM_STACK , ISUBSTACK,STACK    ,ALPE     ,
-     H       PLY_EXX  ,PLY_EYY  ,PLY_EXY  ,PLY_EXZ   ,PLY_EYZ  ,PLY_F    ,
-     I       VARNL    ,NLOC_DMG ,NLAY_MAX ,LAYNPT_MAX,DT       ,SSP_EQ )
+     F       IXEL     ,F_DEF    ,ITASK    ,PM_STACK ,ISUBSTACK ,STACK    ,
+     G       VARNL    ,NLOC_DMG ,NLAY_MAX ,LAYNPT_MAX,DT       ,SSP_EQ )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -155,10 +153,10 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(TIMER_), INTENT(INOUT) :: TIMERS
-      INTEGER IR,IS,IPT,JFT,JLT,NEL,NPT,MTN,IPLA,IOFC,NG,NLAY,
-     .  ISMSTR,IXFEM,IFAILURE,JHBE,IXLAY,IXEL,ITHK,JTHE,
-     .  IREP,ISUBSTACK,ITASK,ISHPLYXFEM,NUMTABL
-      INTEGER MAT(*),MATLY(*),PID(*),NPF(*),NGL(MVSIZ),INDX(MVSIZ),
+      INTEGER IR,IS,IPT,JFT,JLT,NEL,NPT,IPLA,IOFC,NG,NLAY,
+     .  ISMSTR,IXFEM,IFAILURE,JHBE,IXLAY,IXEL,JTHE,
+     .  IREP,ISUBSTACK,ITASK,NUMTABL
+      INTEGER MAT(*),PID(*),NPF(*),NGL(MVSIZ),INDX(MVSIZ),
      .   IGEO(NPROPGI,*),IPM(NPROPMI,*),ELCRKINI(NXLAYMAX,*),
      .   IPARG(*),FWAVE_EL(NEL)
       INTEGER, INTENT(IN) :: NLAY_MAX, LAYNPT_MAX
@@ -170,15 +168,13 @@ C-----------------------------------------------
      .   AREA(*),GEO(NPROPG,*),TF(*),DT1C(*),THKLY(*),ALDT(*),
      .   EXX(*), EYY(*), EXY(*), EXZ(*), EYZ(*), 
      .   KXX(*), KYY(*), KXY(*),BUFMAT(*),SSP(*),RHO(*),
-     .   ZCFAC(MVSIZ,2),SHF(*),GS(*),SIGY(*),THK0(*),
+     .   ZCFAC(MVSIZ,2),SHF(*),SIGY(*),THK0(*),
      .   POSLY(MVSIZ,*),TEMPEL(MVSIZ),DIE(*),VARNL(NEL,*),
      .   R11(MVSIZ), R12(MVSIZ), R13(MVSIZ),
      .   R21(MVSIZ), R22(MVSIZ), R23(MVSIZ),
      .   R31(MVSIZ), R32(MVSIZ), R33(MVSIZ),
      .   DIR1_CRK(*),DIR2_CRK(*),TENSX(NEL,5),
-     .   F_DEF(MVSIZ,8),PM_STACK(20,*),ALPE(MVSIZ),
-     .   PLY_EXX(MVSIZ,*),PLY_EYY(MVSIZ,*),PLY_EXY(MVSIZ,*), 
-     .   PLY_EXZ(MVSIZ,*),PLY_EYZ(MVSIZ,*),PLY_F(MVSIZ,5,*)
+     .   F_DEF(MVSIZ,8),PM_STACK(20,*)
       TYPE(ELBUF_STRUCT_), TARGET :: ELBUF_STR
       TARGET :: ALDT, IPM, VARNL
       TYPE (STACK_PLY) :: STACK
@@ -189,18 +185,17 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,II,JJ,IC,J,JMLY,IPG,IT,IFL,ILAY,NPG,MPT,IMAT,
-     .   IRUPT,NFAIL,IADBUF,IADBUFR,IGTYP,NUVAR,NVARF,JDIR,
-     .   NFUNC, JPOS, NINDX,NUPAR,NUPARAM,NFUNC_FAIL,NTABL_FAIL,IFAILWV,NLOCAL,
+      INTEGER I,II,JJ,J,JMLY,IPG,IT,IFL,ILAY,NPG,MPT,IMAT,
+     .   IRUPT,NFAIL,IADBUF,IGTYP,NUVAR,NVARF,JDIR,
+     .   NFUNC, JPOS, NINDX,NUPAR,NUPARAM,NFUNC_FAIL,NTABL_FAIL,IFAILWV,
      .   IUN,IBID,IBIDON1,IBIDON2,IBIDON3,IBIDON4,IBIDON5,
-     .   FAC,ICUT,ILAW_USER,IPTX,FAILEND,ILAYER,IROT,DMG_FLAG,
-     .   IGMAT,IPGMAT,KK,MX,NPTT,IPT_ALL,NPTTOT,NUVARV,ILAW,
+     .   FAC,ILAW_USER,IPTX,ILAYER,IROT,DMG_FLAG,
+     .   IGMAT,IPGMAT,KK,NPTT,IPT_ALL,NPTTOT,NUVARV,ILAW,
      .   FAILNPT,JOFF,SIZNUL,PLY_ID,IJ(5),K,ISEQ,PROGRESSIVE_CRACK,
      .   ORTH_DAMAGE,L_DMG,IPRONY,ISRATE,NVARTMP,INLOC,IDRAPE,
      .   LF_DAMMX,NIPAR
       INTEGER :: IJ1,IJ2,IJ3,IJ4,IJ5
-      INTEGER IFAIL(MVSIZ),
-     .   IFUNC(MAXFUNC),IFLAG(1),IOFF_DUCT(MVSIZ)
+      INTEGER :: IFUNC(MAXFUNC),IFLAG(1),IOFF_DUCT(MVSIZ)
       INTEGER :: MAT_ID
 c
       my_real 
@@ -217,24 +212,22 @@ c
      .   WMC(MVSIZ), EPSPL(MVSIZ), YLD(MVSIZ),DPLA(MVSIZ),
      .   VOL0(MVSIZ), COEF(MVSIZ),HARDM(MVSIZ),TSTAR(MVSIZ),
      .   PLA0(MVSIZ),G_IMP(MVSIZ), SIGKSI(MVSIZ,5),
-     .   DAMCR(MVSIZ,2),DMAXT(MVSIZ),
      .   VISC(MVSIZ),OFF_OLD(MVSIZ),EPSP_LOC(MVSIZ),EINT_LOC(2,MVSIZ),
-     .   AREAMIN(MVSIZ),DAREAMIN(MVSIZ),DMG_GLOB_SCALE(MVSIZ),
-     .   DMG_LOC_SCALE(MVSIZ),BID_ARR(MVSIZ)
+     .   DMG_GLOB_SCALE(MVSIZ),DMG_LOC_SCALE(MVSIZ),BID_ARR(MVSIZ)
       my_real 
      .   FPSXX(MVSIZ),FPSYY(MVSIZ),FPSZZ(MVSIZ),FPSXY(MVSIZ),FPSYX(MVSIZ),
      .   EPCHK(MVSIZ),EPSPDT(MVSIZ)
       my_real 
-     .   ZT,DTINV,VOL2,FCUT,ASRATE,EPS_M2,EPS_K2,TREF,TMELT,
+     .   ZT,DTINV,VOL2,ASRATE,TREF,TMELT,
      .   R1,R2,S1,S2,R12A,R22A,S12B,S22B,RS1,RS2,RS3,
      .   T1,T2,T3,FACT,R3R3,S3S3,TRELAX, 
-     .   BIDON1,BIDON2,BIDON3,BIDON4,BIDON5,VV,AA
+     .   BIDON1,BIDON2,BIDON3,BIDON4,BIDON5
       my_real COPY_PLA(MVSIZ)
       my_real, DIMENSION(NEL,5) :: DMG_ORTH_SCALE
       my_real  SCALE1(NEL)
       my_real ,DIMENSION(NEL), TARGET :: LE_MAX
       my_real TT_LOCAL
-      my_real, DIMENSION(:) ,POINTER  :: EL_TEMP,YLDFAC,CRKLEN,CRKDIR,DADV,TFAIL,EL_LEN,
+      my_real, DIMENSION(:) ,POINTER  :: EL_TEMP,CRKLEN,CRKDIR,DADV,TFAIL,EL_LEN,
      .                                   EL_PLA
       TARGET :: TEMPEL,BUFMAT,EPSXX,EPSYY,DEPSXX,DEPSYY,SCALE1,POSLY,THKLY
 C
@@ -318,7 +311,6 @@ C
       IBIDON5 = 0
       IBID = 0
       ILAW_USER = IPM(217, MAT(1))
-c      IMAT = IPM(1, MAT(1))
       IUN=1
 c
       DMG_FLAG = 0
@@ -340,7 +332,6 @@ c
       MOM(JFT:JLT,2)  = ZERO
       MOM(JFT:JLT,3)  = ZERO
       YLD(JFT:JLT)    = ZERO
-      IF(FLAG_ZCFAC .AND. MTN /= 22) ZCFAC(JFT:JLT,1)= ZERO
       IF(FLAG_ZCFAC) ZCFAC(JFT:JLT,2)= ONE
       ETSE(JFT:JLT)   = ONE
       COEF(JFT:JLT)   = ONE 
@@ -1109,7 +1100,7 @@ c
             ENDDO 
 c--------------------------------
 #ifdef DNC
-        ELSEIF (MTN == 200 ) THEN  ! MDS
+        ELSEIF (ILAW == 200 ) THEN  ! MDS
   
 c--------------------------------
          IF(MDS_AVAIL == 1) THEN
@@ -2051,44 +2042,6 @@ C---------------------------
         ENDDO
         SSP_EQ(JFT:JLT) = SSP(JFT:JLT)
       ENDIF   
-!---
-! Special treatment for law 19
-!---
-!  --- start treatment law 19---
-C-----------------------------------------------------------
-C     DESACTIVATION SI SURFACE < SURFACE MIN
-C-----------------------------------------------------------
-      IF (MTN == 19) THEN
-        MX = MAT(JFT)
-        DO I=JFT,JLT
-          AREAMIN(I)  = PM(53,MX)
-          DAREAMIN(I) = PM(54,MX)
-        ENDDO
-        IF (ISMSTR == 3) THEN
-          DO I=JFT,JLT
-            IF (AREAMIN(I) > ZERO) THEN
-              AA = (ONE+GSTR(I,1)+GSTR(I,2) - AREAMIN(I)) * DAREAMIN(I)
-              AA = MIN(MAX(AA,ZERO),ONE)
-              FOR(I,1)=FOR(I,1)*AA
-              FOR(I,2)=FOR(I,2)*AA
-              FOR(I,3)=FOR(I,3)*AA
-            ENDIF
-          ENDDO
-        ELSE
-          DO I=JFT,JLT
-           IF(AREAMIN(I) > ZERO)THEN
-             VV = GSTR(I,1)+GSTR(I,2)
-             VV = ONE + (ONE + (HALF + ONE_OVER_6*VV)*VV)*VV
-             AA = (VV - AREAMIN(I)) * DAREAMIN(I)
-             AA = MIN(MAX(AA,ZERO),ONE)
-             FOR(I,1)=FOR(I,1)*AA
-             FOR(I,2)=FOR(I,2)*AA
-             FOR(I,3)=FOR(I,3)*AA
-           ENDIF
-          ENDDO
-        ENDIF ! IF (ISMSTR == 3)
-      ENDIF  ! IF (MTN == 19)
-!  --- end treatment law 19---
 c
       THK(JFT:JLT) = MAX(THKN(JFT:JLT),EM30)
 c
@@ -2114,52 +2067,13 @@ c
         DEGFX(JFT:JLT) = DEGFX(JFT:JLT)+ MOM(JFT:JLT,1)*KXX(JFT:JLT)+MOM(JFT:JLT,2)*KYY(JFT:JLT)
      .                     + MOM(JFT:JLT,3)*KXY(JFT:JLT)
 !---
-      IF (MTN == 25) THEN
-C----------------------------
-C  SHEAR DELAMINATION
-C----------------------------
-C is an obsolete option (just for the past)
-        IF (IGMAT == 0) 
-     .    CALL M25DELAM(JFT,JLT,PM,GSTR,GBUF%DAMDL,MAT,NGL,NEL)
-!
-        IF (ISHPLYXFEM > 0) THEN
-          MX = MAT(JFT)
-          IPT_ALL = 0
-          DO ILAY=1,NLAY
-            ILAYER = ILAY
-C  cas xfem multilayer
-            IF (IXFEM == 1 .AND. IXLAY > 0) ILAYER = IXLAY
-            NPTT = ELBUF_STR%BUFLY(ILAYER)%NPTT
-            DO IT=1,NPTT
-              IPT = IPT_ALL + IT        ! count all NPTT through all layers
-              DO I=JFT,JLT
-!
-                PLY_F(I,1,IPT) = PLY_F(I,1,IPT) + VISC(I)*(PLY_EXX(I,IPT)+HALF*PLY_EYY(I,IPT))
-                PLY_F(I,2,IPT) = PLY_F(I,2,IPT) + VISC(I)*(PLY_EYY(I,IPT)+HALF*PLY_EXX(I,IPT))
-                PLY_F(I,3,IPT) = PLY_F(I,3,IPT) + VISC(I)* PLY_EXY(I,IPT)*THIRD
-              ENDDO
-!
-              DO I=JFT,JLT
-                PLY_F(I,1,IPT) = PLY_F(I,1,IPT)*OFF(I)
-                PLY_F(I,2,IPT) = PLY_F(I,2,IPT)*OFF(I)
-                PLY_F(I,3,IPT) = PLY_F(I,3,IPT)*OFF(I)
-                PLY_F(I,4,IPT) = PLY_F(I,4,IPT)*OFF(I)
-                PLY_F(I,5,IPT) = PLY_F(I,5,IPT)*OFF(I)
-              ENDDO     
-            ENDDO ! DO IT=1,NPTT
-            IPT_ALL = IPT_ALL + NPTT
-          ENDDO ! DO ILAY=1,NLAY
-        ENDIF ! IF (ISHPLYXFEM /= 0)
-      ENDIF ! IF (MTN == 25)
-!---
       DO I=JFT,JLT
         VOL2 = HALF*VOL0(I)
-        IF (MTN == 22) VOL2 = VOL2*OFF(I)
         EINT(I,1) = EINT(I,1) + DEGMB(I)*VOL2
         EINT(I,2) = EINT(I,2) + DEGFX(I)*THK0(I)*VOL2
       ENDDO
 !
-      IF (JTHE > 0 .AND. MTN /= 2) DIE(JFT:JLT) = DIE(JFT:JLT) + 
+      IF (JTHE > 0) DIE(JFT:JLT) = DIE(JFT:JLT) + 
      .             COEF(JFT:JLT)*( DEGMB(JFT:JLT)*HALF*VOL0(JFT:JLT) + 
      .                             DEGFX(JFT:JLT)*THK0(JFT:JLT)*HALF*VOL0(JFT:JLT) )
 c---------------------------------------------------
