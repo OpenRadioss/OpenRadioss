@@ -124,6 +124,7 @@ C-----------------------------------------------
       CHARACTER(LEN=NCHARTITLE) :: TITR
       CHARACTER(LEN=NCHARKEY) :: KEY
       CHARACTER(LEN=NCHARFIELD) ::XYZ
+      CHARACTER*16 :: LABEL
       LOGICAL IS_AVAILABLE, IS_FOUND_UNIT_ID, IS_FOUND
       my_real :: TSTART
 C-----------------------------------------------
@@ -182,24 +183,32 @@ C--------------------------------------------------
         FVM_INIVEL(I)%FLAG = .FALSE.
         TSTART = ZERO
         SENS_ID = 0
+        LABEL='/INIVEL'
         IF(KEY(1:3)=='TRA')THEN
           ITYPE=0
+          LABEL='/INIVEL/TRA'
         ELSEIF(KEY(1:3)=='ROT')THEN
           ITYPE=1
+          LABEL='/INIVEL/ROT'
         ELSEIF(KEY(1:3)=='T+G')THEN
           ITYPE=2
+          LABEL='/INIVEL/T+G'
         ELSEIF(KEY(1:3)=='GRI')THEN
           ITYPE=3
+          LABEL='/INIVEL/GRID'
         ELSEIF(KEY(1:4)=='AXIS')THEN
           IF(INVERS < 120) THEN
             CALL ANCMSG(MSGID=2046,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='/INIVEL/AXIS',I1=INVERS)
           ENDIF
           ITYPE=4
+          LABEL='/INIVEL/AXIS'
         ELSEIF(KEY(1:3) == 'FVM') THEN
           ITYPE=5
 !          FVM_INIVEL(I)%FLAG = .TRUE.
+          LABEL='/INIVEL/FVM'
         ELSEIF(KEY(1:4)=='NODE')THEN
           ITYPE=6
+          LABEL='/INIVEL/NODE'
         ELSE
           CALL FREERR(1)
           RETURN
@@ -212,13 +221,12 @@ C--------------------------------------------------
        IF(ITYPE < 6) THEN 
           CALL HM_GET_FLOATV('tstart',TSTART,IS_AVAILABLE,LSUBMODEL,UNITAB)
           CALL HM_GET_INTV('sensor_id',SENSID,IS_AVAILABLE,LSUBMODEL)
-          IF (SENSID>0) THEN
+          IF (SENSID > 0) THEN
             DO J=1,SENSORS%NSENSOR
-              IF(SENSORS%SENSOR_TAB(J)%SENS_ID==SENSID) SENS_ID=J
+              IF(SENSORS%SENSOR_TAB(J)%SENS_ID == SENSID) SENS_ID=J
             ENDDO
-            IF(SENS_ID==0)THEN
-              CALL ANCMSG(MSGID=521,ANMODE=ANINFO,MSGTYPE=MSGERROR,             
-     .                    I2=SENSID,I1=ID,C1=TITR)
+            IF(SENS_ID == 0)THEN
+              CALL ANCMSG(MSGID=1252,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1=LABEL, I1=ID, C2=LABEL, C3=TITR, I2=SENSID)
             ENDIF
           END IF
        END IF 
