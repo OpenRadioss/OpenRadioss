@@ -4821,7 +4821,8 @@ C
      Y         H3D_DATA       ,IFTHE         ,ICONDN      ,DT      ,OUTPUT,
      Z         SBUFMAT        ,SNPC          ,STF         ,NODADT  ,DTFAC1,
      .         DTMIN1         ,IDTMIN        ,IOUT        ,ISTDO   ,IDTMINS,DTFACS,NSVOIS,
-     .         IRESP          ,MAXFUNC       ,USERL_AVAIL ,GLOB_THERM,IMON_MAT,DTMINS,SANIN)
+     .         IRESP          ,MAXFUNC       ,USERL_AVAIL ,GLOB_THERM,IMON_MAT,DTMINS,SANIN,
+     .         NGRTH          ,NELEM         )
 C
 #include "lockon.inc"
               IF(DT2TT<DT2T)THEN
