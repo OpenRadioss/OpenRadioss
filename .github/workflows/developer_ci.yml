@@ -19,7 +19,8 @@ jobs:
   test-sytem:
     runs-on: ["starter_linux64_gf","fr-shady"]
     container: 
-      image: fr-qafactorydev.europe.altair.com/common-linux64
+      # image: fr-qafactorydev.europe.altair.com/common-linux64
+      image: oraclelinux:10
     steps:
       - name: Test system info
         run: |
