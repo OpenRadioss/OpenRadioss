@@ -3,12 +3,9 @@ name: Developer CI
 on:
   
   pull_request:
-    paths:    
-      - '.github/workflows/*.yml'
-
-  pull_request_target:
-    paths-ignore:    
-      - '.github/workflows/*.yml'    
+    # CI is disbabled if ONLY workflow files are changed
+    paths-ignore:
+      - '.github/workflows/**'
 
 env:
   QA_TIMEOUT_PER_TEST: 150
@@ -17,7 +14,30 @@ env:
 
 jobs:
 
+  # This job is a guard to avoid running CI if workflows files are changed (even if they are not the only ones)
+  guard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Detect workflow changes
+        run: |
+          # fetch base branch
+          git fetch origin ${{ github.event.pull_request.base.ref }} --depth=1
+          
+          # list changed files in the PR
+          changed=$(git diff --name-only origin/${{ github.event.pull_request.base.ref }})
+          echo "Files changed in this PR:"
+          echo "$changed"
+          echo "-----"
+
+          # check if workflow or other sensitive dirs were modified
+          if echo "$changed" | grep -E '^\.github/workflows/'; then
+            echo "::error::Workflow files modified — stopping CI for safety."
+            exit 1
+          fi
+
   build:
+    needs: guard
     if: ${{ github.repository_owner == 'OpenRadioss' }}
     # concurrency: 
     #   group: ${{ github.ref_name }}
@@ -130,6 +150,7 @@ jobs:
         if: ${{ matrix.build == 'starter_linux64_gf' }}
 
   code-analysis:
+    needs: guard
     # We execute after all builds (in // with QA)
     if: ${{ github.repository_owner == 'OpenRadioss' }}
 
@@ -212,9 +233,6 @@ jobs:
     runs-on: ["qa_${{ matrix.os }}","developer_ci"]
     container: 
       image: fr-qafactorydev.europe.altair.com/qa-linux64_gf:cos8-ompi411
-      credentials: 
-        username: ${{secrets.DOCKER_REGISTRY_USER}}
-        password: ${{secrets.DOCKER_REGISTRY_PASSWD}}
       volumes: 
         - /etc/localtime:/etc/localtime:ro
 
