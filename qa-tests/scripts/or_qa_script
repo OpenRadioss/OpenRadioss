@@ -34,7 +34,7 @@ $prog_name =~ s/.*\/// ;
 
 # open(my $trace_fh,">>/tmp/mytrace.log");
 # print $trace_fh "\n\n\n#####################################################################\n";
-# print $trace_fh "       STARTING at ".localtime."\n";
+# print $trace_fh "       STARTING at ".localtime."\n";   
 # print $trace_fh "#####################################################################\n\n\n";
 
 
