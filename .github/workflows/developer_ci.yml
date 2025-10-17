@@ -16,7 +16,10 @@ jobs:
 
   # This job is a guard to avoid running CI if workflows files are changed (even if they are not the only ones)
   guard:
-    runs-on: ubuntu-latest
+    runs-on: developer_ci   
+    container: 
+      image: fr-qafactorydev.europe.altair.com/common-linux64
+
     steps:
       - uses: actions/checkout@v4
       - name: Detect workflow changes
