@@ -1314,7 +1314,7 @@ C-------------------------------------------------------------------------------
               TYPE(array_type), DIMENSION(:), ALLOCATABLE :: XCELL_REMOTE ! remote data structure for interface 18
               ! ----------
               my_real, DIMENSION(:), ALLOCATABLE :: FSKY_L
-              LOGICAL :: NEED_COMM_INT25_SOLID_EROSION !< boolean, true if the proc needs to comm some values related to interface type 25 with solid erosion
+              LOGICAL, DIMENSION(NSPMD) :: NEED_COMM_INT25_SOLID_EROSION !< boolean, true if the proc needs to comm some values related to interface type 25 with solid erosion
               INTEGER :: COMM_INT25_SOLID_EROSION !< integer, sub-communicator related to interface type 25 with solid erosion
 
               INTEGER :: CHECK_NEIGH_FLAG,CHECK_NEIGH_FLAG_RES
@@ -2207,7 +2207,7 @@ C===============================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
 
-              NEED_COMM_INT25_SOLID_EROSION = .FALSE.
+              NEED_COMM_INT25_SOLID_EROSION(1:NSPMD) = .FALSE.
               COMM_INT25_SOLID_EROSION = 0
 
               CALL PYTHON_BEGIN_OPENMP(PYTHON)
@@ -2638,7 +2638,7 @@ C Init var parallel SMP
                   IF(NINTER25/=0.AND.INTERFACES%PARAMETERS%INT25_EROSION_SOLID > 0) THEN
                     IF(ITSK==0) THEN
                       CHECK_NEIGH_FLAG = SHOOT_STRUCT%NUMBER_NEW_SURF + shoot_struct%NUMBER_REMOTE_SURF
-                      IF(NEED_COMM_INT25_SOLID_EROSION) THEN
+                      IF(NEED_COMM_INT25_SOLID_EROSION(ISPMD+1)) THEN
                         CALL SPMD_ALLREDUCE(CHECK_NEIGH_FLAG,CHECK_NEIGH_FLAG_RES,1,SPMD_MAX,COMM_INT25_SOLID_EROSION)
                       ELSEIF(NSPMD==1) THEN
                         CHECK_NEIGH_FLAG_RES = CHECK_NEIGH_FLAG 
@@ -2651,7 +2651,8 @@ C Init var parallel SMP
      .                                                ELEM_STATE,IPARI,INTLIST,NODES,
      .                                                NEWFRONT,IXS,ELEMENT%SHELL%IXC,IXTG,
      .                                                NODES%BOUNDARY_ADD,ptrX,
-     .                                                INTERFACES%INTBUF_TAB,INTERFACES%SPMD_ARRAYS,SHOOT_STRUCT  )
+     .                                                INTERFACES%INTBUF_TAB,INTERFACES%SPMD_ARRAYS,SHOOT_STRUCT,
+     .                                                NEED_COMM_INT25_SOLID_EROSION )
                       ENDIF
                     ENDIF
                     CALL MY_BARRIER()
@@ -5771,7 +5772,7 @@ C Init var parallel SMP
                       IF(NINTER25/=0.AND.INTERFACES%PARAMETERS%INT25_EROSION_SOLID > 0) THEN
                         IF(ITSK==0) THEN
                           CHECK_NEIGH_FLAG = SHOOT_STRUCT%NUMBER_NEW_SURF + shoot_struct%NUMBER_REMOTE_SURF
-                          IF(NEED_COMM_INT25_SOLID_EROSION) THEN
+                          IF(NEED_COMM_INT25_SOLID_EROSION(ISPMD+1)) THEN
                             CHECK_NEIGH_FLAG = SHOOT_STRUCT%NUMBER_NEW_SURF + shoot_struct%NUMBER_REMOTE_SURF
                             CALL SPMD_ALLREDUCE(CHECK_NEIGH_FLAG,CHECK_NEIGH_FLAG_RES,1,SPMD_MAX,COMM_INT25_SOLID_EROSION)
                           ELSEIF(NSPMD==1) THEN
@@ -5785,7 +5786,8 @@ C Init var parallel SMP
      .                                                  ELEM_STATE,IPARI,INTLIST,NODES,
      .                                                  NEWFRONT,IXS,ELEMENT%SHELL%IXC,IXTG,
      .                                                  NODES%BOUNDARY_ADD,NODES%X,
-     .                                                  INTERFACES%INTBUF_TAB,INTERFACES%SPMD_ARRAYS,SHOOT_STRUCT  )
+     .                                                  INTERFACES%INTBUF_TAB,INTERFACES%SPMD_ARRAYS,SHOOT_STRUCT,
+     .                                                  NEED_COMM_INT25_SOLID_EROSION)
                           ENDIF
                         ENDIF
                         CALL MY_BARRIER()
