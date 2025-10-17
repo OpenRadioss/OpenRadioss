@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE THERM3C(NEL   ,PM    ,THK   ,IXTG   , 
      2                   PX1   ,PY1   ,PY2   ,AREA   ,DT     ,
      3                   TEMPNC,TEMPEL,DHEAT ,FPHI   ,THEACCFACT)
+      use element_mod , only : nixtg
 C-----------------------------------------------
 C  calculates nodal thermic force from heat energy increment
 C-----------------------------------------------

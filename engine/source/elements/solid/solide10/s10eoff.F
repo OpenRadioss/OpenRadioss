@@ -26,6 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    s10ke3    ../engine/source/elements/solid/solide10/s10ke3.F
 !||====================================================================
       SUBROUTINE S10EOFF(JFT , JLT , IXS ,IXS10, ETAG, OFF)
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

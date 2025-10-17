@@ -33,6 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      3   NOINT    ,I_STOK_GLOB,TZINF    ,MINBOX   ,EMINX    ,
      4   XSAV     ,ITASK      ,X        ,V        ,A        ,
      5   MX_CAND  ,IXS10      ,ESH_T)
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

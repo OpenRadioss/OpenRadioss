@@ -52,6 +52,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .   ZD1   ,ZD2   ,ZD3   ,ZD4   ,ZD5   ,ZD6   ,ZD7   ,ZD8   ,         
      .   XDP   ,X0    ,Y0    ,Z0    ,NEL   ,XGAX  ,XGAY  ,XGAZ  ,
      .   XGXA2,XGYA2  ,XGZA2 ,XGXYA ,XGYZA ,XGZXA ,IPARG ,GAMA_R) 
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

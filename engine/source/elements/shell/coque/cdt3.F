@@ -33,6 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      5                VOL0  ,VOL00  ,RHO  ,ALDT ,ALPE,
      6                INDXOF,NGL    ,ISMSTR,IOFC,MSC ,
      7                DMELC ,JSMS   ,G_DT ,DTEL)
+      use element_mod , only : nixc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

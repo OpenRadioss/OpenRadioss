@@ -260,6 +260,7 @@ C
      3   IXR        ,IXTG       ,IXS10    ,IXS20    ,
      4   IXS16      ,IXTG1      ,GEO        ,ADDCNEL  ,CNEL     ,
      5   ADSKY      ,IPARG      )
+      use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -579,6 +580,7 @@ C-----------------------------------------------
       USE REMESH_MOD
       USE GROUPDEF_MOD
       USE SHOOTING_NODE_MOD
+      use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1278,6 +1280,7 @@ C-----------------------------------------------
       USE nodal_arrays_mod
       USE ELBUFDEF_MOD
       USE INTBUFDEF_MOD    
+      use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1927,6 +1930,7 @@ C
      8    INDSEGLO ,IBUFSEGLO)
 C-----------------------------------------------
        USE MY_ALLOC_MOD
+       use element_mod , only : nixs,nixq,nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2124,6 +2128,7 @@ C
      5    OFC  ,OFT   ,OFTG  ,OFUR ,NINDG   ,
      6    BUFS ,NINDEX,TAGEL ,NG,MSEGLO,
      7    MVOISIN,INDSEGLO,IBUFSEGLO)
+      use element_mod , only : nixs,nixq,nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2303,6 +2308,7 @@ C
      4    NTY  ,ITAB  ,ITABM1,CNEL ,ADDCNEL ,
      5    OFC  ,OFT   ,OFTG  ,OFUR ,NINDG   ,
      6    BUFS ,NINDEX,NLG   ,TAGEL)
+      use element_mod , only : nixs,nixq,nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2460,6 +2466,7 @@ C
      4    NTY  ,ITAB  ,ITABM1,CNEL ,ADDCNEL ,
      5    OFC  ,OFT   ,OFTG  ,OFUR ,NINDG   ,
      6    BUFS ,NINDEX,NLG   ,TAGEL)
+      use element_mod , only : nixs,nixq,nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2620,6 +2627,7 @@ C
      6    ADDCNEL,OFC     ,OFT   ,OFTG   ,OFUR   ,
      7    OFR    ,OFP     ,NINDG ,BUFS   ,NINDEX ,
      8    TAGEL  )
+      use element_mod , only : nixs,nixq,nixc,nixtg,nixt,nixr,nixp
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2691,6 +2699,7 @@ C
      6    ADDCNEL,OFC   ,OFT   ,OFTG    ,OFUR  ,
      7    OFR    ,OFP   ,NINDG ,BUFS    ,NINDEX,
      8    TAGEL  )
+      use element_mod , only : nixs,nixq,nixc,nixtg,nixt,nixr,nixp
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2765,6 +2774,7 @@ C
      6    ADDCNEL,OFC     ,OFT   ,OFTG   ,OFUR   ,
      7    OFR    ,OFP     ,NINDG ,BUFS   ,NINDEX ,
      8    NLG    ,TAGEL   )
+      use element_mod , only : nixs,nixq,nixc,nixtg,nixt,nixr,nixp
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2943,6 +2953,7 @@ C
      6    ADDCNEL,OFC   ,OFT   ,OFTG    ,OFUR  ,
      7    OFR    ,OFP   ,NINDG ,BUFS    ,NINDEX,
      8    NLG    ,TAGEL )
+      use element_mod , only : nixs,nixq,nixc,nixtg,nixt,nixr,nixp
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -3120,6 +3131,7 @@ C
      4    IN     ,SMAS ,SINER,ADM  ,CNEL ,
      5    ADDCNEL,OFC  ,OFT  ,OFTG ,OFUR ,
      6    TAGEL  ,ILEV )
+      use element_mod , only : nixs,nixq,nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -3244,6 +3256,7 @@ C
      5    ADDCNEL,OFC  ,OFT  ,OFTG ,OFUR ,
      6    NINDG  ,BUFS ,NINDEX,TAGEL,ITAB  ,
      7    ILEV   )
+      use element_mod , only : nixs,nixq,nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -3393,6 +3406,7 @@ C
      5    ITABM1,CNEL ,ADDCNEL,OFC  ,OFT   ,
      6    OFTG  ,OFUR ,NINDG  ,BUFS ,INDEX ,
      7    IDEL  )
+      use element_mod , only : nixs,nixq,nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -3493,6 +3507,7 @@ C
      4    NTY  ,ITAB  ,ITABM1,CNEL ,ADDCNEL ,
      5    OFC  ,OFT   ,OFTG  ,OFUR ,NINDG   ,
      6    BUFS ,NINDEX,TAGEL )
+      use element_mod , only : nixs,nixq,nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -3640,6 +3655,7 @@ C
      4    NTY  ,ITAB  ,ITABM1,CNEL ,ADDCNEL ,
      5    OFC  ,OFT   ,OFTG  ,OFUR ,NINDG   ,
      6    BUFS ,NINDEX,TAGEL )
+      use element_mod , only : nixs,nixq,nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

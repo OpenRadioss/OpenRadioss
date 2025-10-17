@@ -45,6 +45,7 @@ C   M o d u l e s
 C----------------------------------------------- 
       USE INTBUFDEF_MOD
       USE GROUPDEF_MOD
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C

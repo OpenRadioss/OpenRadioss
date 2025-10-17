@@ -44,6 +44,7 @@ C   OLD TH V3 RADIOSS INPUT V3 or V4
 C=======================================================================
       USE INOUTFILE_MOD
       USE NAMES_AND_TITLES_MOD,only:NAMES_AND_TITLES_,LTITLE
+      use element_mod , only : nixs,nixq,nixc,nixp,nixr,nixt,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

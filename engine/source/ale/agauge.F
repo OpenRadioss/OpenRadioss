@@ -50,6 +50,7 @@ C-----------------------------------------------
       USE INITBUF_MOD
       USE ELBUFDEF_MOD            
       USE ALE_CONNECTIVITY_MOD
+      use element_mod , only : nixs,nixq,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -463,6 +464,7 @@ c in case of multiple solutions do not need to choose the best one : AGAUG3 will
 !||====================================================================
       SUBROUTINE AGAUG3(LGAUGE,GAUGE,PHI,IXS  ,X    ,ALE_CONNECT )
       USE ALE_CONNECTIVITY_MOD
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -557,6 +559,7 @@ c element associated to the gauge
 !||    spmd_sd_gau   ../engine/source/mpi/output/spmd_sd_gau.F
 !||====================================================================
       SUBROUTINE AGAUGE0(LGAUGE ,GAUGE,X ,IXC,IGAUP,NGAUP)
+      use element_mod , only : nixc
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------

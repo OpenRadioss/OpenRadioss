@@ -40,6 +40,7 @@ C-----------------------------------------------
       USE I22TRI_MOD  ! , use only : ibug22_convec
       USE ALEFVM_MOD
       USE ALE_CONNECTIVITY_MOD
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

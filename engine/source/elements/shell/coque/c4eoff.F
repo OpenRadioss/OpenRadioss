@@ -27,6 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    czke3    ../engine/source/elements/shell/coquez/czke3.F
 !||====================================================================
       SUBROUTINE C4EOFF(JFT , JLT , IXC , ETAG, OFF)
+      use element_mod , only : nixc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

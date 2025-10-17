@@ -41,6 +41,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       USE DIFFUSION_MOD
       USE EBCS_MOD
       USE ELBUFDEF_MOD
+      use element_mod , only : nixs
 c-----------------------------------------------
 c   i m p l i c i t   t y p e s
 c-----------------------------------------------

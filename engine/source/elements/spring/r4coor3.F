@@ -32,6 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      4   RX1,     RY1,     RZ1,     RX2,
      5   RY2,     RZ2,     NC1,     NC2,
      6   NEL)
+      use element_mod , only : nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

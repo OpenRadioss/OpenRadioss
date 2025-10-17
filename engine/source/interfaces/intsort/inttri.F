@@ -153,6 +153,7 @@ C-----------------------------------------------
       USE INTERFACES_MOD
       USE GLOB_THERM_MOD
       USE INT18_LAW151_NSV_SHIFT_MOD , ONLY : INT18_LAW151_NSV_SHIFT
+      use element_mod , only : nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

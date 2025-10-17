@@ -32,6 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      1         IXTG     ,NEL       ,IDDL      ,NDOF      ,K_DIAG    ,
      2         K_LT     ,IADK      ,JDIK      ,KC11      ,KC12      ,
      3         KC13     ,KC22      , KC23     ,KC33      ,OFF       )
+      use element_mod , only : nixtg
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

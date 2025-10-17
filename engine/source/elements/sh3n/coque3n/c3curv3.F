@@ -30,7 +30,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                   IXTG,WXY,ISMSTR,KXX,KYY,KXY,
      .                   PX1 ,PY1 ,PY2  ,EYZ   ,EZX  ,
      .                   E1X      ,E1Y      ,E1Z     ,E2X      ,                 
-     .                   E2Y      ,E2Z      ,E3X     ,E3Y      ,E3Z      )       
+     .                   E2Y      ,E2Z      ,E3X     ,E3Y      ,E3Z      )      
+      use element_mod , only : nixtg 
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

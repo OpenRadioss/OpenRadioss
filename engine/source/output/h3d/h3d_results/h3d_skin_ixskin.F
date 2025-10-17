@@ -47,6 +47,7 @@ C-----------------------------------------------
       USE H3D_INC_MOD
       USE LOADS_MOD
       USE PBLAST_MOD
+      use element_mod , only : nixs,nixq
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -755,6 +756,7 @@ C-----------------------------------------------
       USE H3D_INC_MOD
       USE LOADS_MOD
       USE PBLAST_MOD
+      use element_mod , only : nixq
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -931,6 +933,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
       USE ELBUFDEF_MOD    
+      use element_mod , only : nixs,nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

@@ -73,6 +73,7 @@ C-----------------------------------------------
       USE MATPARAM_DEF_MOD, ONLY : MATPARAM_STRUCT_
       USE MULTI_SUBMATLAW_MOD , ONLY : MULTI_SUBMATLAW
       USE MULTI_MUSCL_COMPUTE_PRESSURE_MOD , ONLY : MULTI_MUSCL_COMPUTE_PRESSURE
+      use element_mod , only : nixs,nixq,nixtg
 C-----------------------------------------------
 C     I m p l i c i t   T y p e s
 C-----------------------------------------------

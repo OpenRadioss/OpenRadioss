@@ -111,6 +111,7 @@ C-----------------------------------------------
       USE H3D_MOD
       USE MESSAGE_MOD
       USE PRELOAD_AXIAL_MOD
+      use element_mod , only : nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

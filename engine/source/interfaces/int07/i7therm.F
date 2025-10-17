@@ -39,6 +39,7 @@ C
      6                   CONDINT,PHI1,PHI2  ,PHI3   ,PHI4  ,FHEATS,
      7                   FHEATM,EFRICT,TEMP ,H1     ,H2     ,H3   ,
      8                   H4   ,theaccfact)     
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

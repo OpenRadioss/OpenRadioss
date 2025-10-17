@@ -26,6 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    c3ke3    ../engine/source/elements/sh3n/coque3n/c3ke3.F
 !||====================================================================
       SUBROUTINE C3EOFF(JFT , JLT , IXTG, ETAG, OFF)
+      use element_mod , only : nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

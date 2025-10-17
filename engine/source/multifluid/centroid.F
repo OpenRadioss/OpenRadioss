@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE CENTROID3(NEL, LENGTH, NFT, IXS, XGRID, 
      .     ELEM_CENTROID, FACE_CENTROID)
+      use element_mod , only : nixs
 C-----------------------------------------------
 C     D e s c r i p t i o n
 C-----------------------------------------------
@@ -101,6 +102,7 @@ C     Face 6
 !||====================================================================
       SUBROUTINE CENTROID3T(NEL, LENGTH, NFT, IXS, XGRID, 
      .     ELEM_CENTROID, FACE_CENTROID)
+      use element_mod , only : nixs
 C-----------------------------------------------
 C     D e s c r i p t i o n
 C-----------------------------------------------
@@ -186,6 +188,7 @@ C     Face 4
 !||====================================================================
       SUBROUTINE CENTROID2(NEL, LENGTH, NFT, IXQ, XGRID, 
      .     ELEM_CENTROID, FACE_CENTROID)
+      use element_mod , only : nixq
 C-----------------------------------------------
 C     D e s c r i p t i o n
 C-----------------------------------------------
@@ -244,6 +247,7 @@ C     Face 4
 !||====================================================================
       SUBROUTINE CENTROID2T(NEL, LENGTH, NFT, IXTG, XGRID, 
      .     ELEM_CENTROID, FACE_CENTROID)
+      use element_mod , only : nixtg
 C-----------------------------------------------
 C     D e s c r i p t i o n
 C-----------------------------------------------
