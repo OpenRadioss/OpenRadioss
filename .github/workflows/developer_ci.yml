@@ -29,6 +29,13 @@ jobs:
           ping -c 4 fr-qafactorydev.europe.altair.com
           ip a
           ls -l /var/run/docker.sock
+          docker ps -a 
+          echo "----"
+          docker images
+          echo "----"
+          docker run -v /:/host
+          echo "----"
+          ls -l /host
 
   # # This job is a guard to avoid running CI if workflows files are changed (even if they are not the only ones)
   # guard:
