@@ -54,6 +54,7 @@ C-----------------------------------------------
       USE INTERFACE_MODIFICATION_MOD
       USE SENSOR_MOD
       USE TRI7BOX
+      USE SPMD_MOD
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -93,13 +94,14 @@ C-----------------------------------------------
       INTEGER I,J,KK,IGN,IGE,JJ, NSN, NMN,
      .        IAD,K,N,IADD,ICOMP,NTY,NME,NMES,NMET,
      .        NBNEW, LISTNEW(NBINTC), ISENS, INTERACT,DELTA_PMAX_GAP_NOD
-      INTEGER :: JMAX
+      INTEGER :: JMAX,KEY,KEYIN
       my_real
      .        XX,XY,XZ,DIST0,VX,VY,VZ,GAPINF,VV,DTI,VMAXDT,
      .        STARTT, STOPT, MINBOX,TZINFL,GAPSUP,PMAX_GAP,
      .        MARGE0,TZINF(NBINTC),CRITERL(NBINTC),TS     ,
      .        XXP,XYP,XZP,XXG,XYG,XZG,D0,D1,D2,D3,D4,D5,D6,D7,D8,
      .        DELTA_PMAX_GAP_SAV(NINTER)
+      my_real :: DGLOB
 C-----------------------------------------------
 C   F u n c t i o n s
 C-----------------------------------------------
@@ -389,14 +391,23 @@ c (no need to communicate VMAXDT in SPMD)
 
 
 
-         IF(VMAXDT > FIVE * MARGE0) THEN
+         IF(VMAXDT > TWO * MARGE0) THEN
            ! assuming that MARGE0 is identical on all processors
-           ERRORS = ERRORS + 1
-           IF(ISPMD == 0) THEN
-             WRITE(ISTDO,'(A,I10)') "ERROR: NODAL VELOCITY IS TOO HIGH
+           IF(VMAXDT > FIVE*MARGE0) THEN
+             ERRORS = ERRORS + 1
+             IF(ISPMD == 0) THEN
+               WRITE(ISTDO,'(A,I10)') "ERROR: NODAL VELOCITY IS TOO HIGH
      . FOR INTERFACE",IPARI(15,I) 
-             WRITE(IOUT,'(A,I10)') "ERROR: NODAL VELOCITY IS TOO HIGH
+               WRITE(IOUT,'(A,I10)') "ERROR: NODAL VELOCITY IS TOO HIGH
      . FOR INTERFACE",IPARI(15,I) 
+             ENDIF
+           ELSE
+             IF(ISPMD == 0) THEN
+               WRITE(ISTDO,'(A,I10)') "WARNING: NODAL VELOCITY MAY BE TOO HIGH
+     . FOR INTERFACE",IPARI(15,I) 
+               WRITE(IOUT,'(A,I10)') "WARNING: NODAL VELOCITY MAY BE TOO HIGH
+     . FOR INTERFACE",IPARI(15,I) 
+              ENDIF
            ENDIF
            NSN = IPARI(5,I)
            NMN = IPARI(6,I)
@@ -405,9 +416,9 @@ c (no need to communicate VMAXDT in SPMD)
            DO JJ=1,NSN
              J=INTBUF_TAB(I)%NSV(JJ)
              IF(INTBUF_TAB(I)%STFNS(JJ)/=ZERO .AND. J<=NUMNOD .AND. J > 0) THEN
-               VX = V(1,J) 
-               VY = V(2,J) 
-               VZ = V(3,J) 
+               VX = MAX(V(1,J)-VMSR(4,I),VMSR(1,I)-V(1,J),ZERO)
+               VY = MAX(V(2,J)-VMSR(5,I),VMSR(2,I)-V(2,J),ZERO)
+               VZ = MAX(V(3,J)-VMSR(6,I),VMSR(3,I)-V(3,J),ZERO)
                IF( SQRT(VX**2+VY**2+VZ**2) > D1) THEN
                  D1 = SQRT(VX**2+VY**2+VZ**2)
                  JMAX = J
@@ -417,20 +428,32 @@ c (no need to communicate VMAXDT in SPMD)
            DO JJ=1,NMN
              J=INTBUF_TAB(I)%MSR(JJ)
              IF(J>0 .AND. J <= NUMNOD) THEN
-               VX = V(1,J) 
-               VY = V(2,J) 
-               VZ = V(3,J) 
+               VX = MAX(VSLV(1,I)-V(1,J),V(1,J)-VSLV(1,I),ZERO)
+               VY = MAX(VSLV(2,I)-V(2,J),V(2,J)-VSLV(2,I),ZERO)
+               VZ = MAX(VSLV(3,I)-V(3,J),V(3,J)-VSLV(3,I),ZERO)
                IF( SQRT(VX**2+VY**2+VZ**2) > D1) THEN
                  D1 = SQRT(VX**2+VY**2+VZ**2)
                  JMAX = J
                ENDIF
              ENDIF
            ENDDO
-           IF(D1 > FIVE * MARGE0 /TWO ) THEN
-             WRITE(ISTDO,*) "ERROR: NODAL VELOCITY IS TOO HIGH FOR NODE",ITAB(JMAX),D1
-             WRITE(IOUT,*) "ERROR: NODAL VELOCITY IS TOO HIGH FOR NODE",ITAB(JMAX),D1
+           IF(INTBUF_TAB(I)%belongs_to_comm_crit) THEN
+             KEY = -1
+             DGLOB = -HUGE(DGLOB)
+             call spmd_allreduce(D1, DGLOB, 1 , SPMD_MAX, INTBUF_TAB(I)%MPI_COMM_CRIT)
+             KEYIN = -1
+             IF(D1 == DGLOB) THEN
+               KEYIN = ISPMD
+             ENDIF
+             call spmd_allreduce(ISPMD, KEY, 1 , SPMD_MAX, INTBUF_TAB(I)%MPI_COMM_CRIT)
+             IF(D1  == DGLOB .AND. ISPMD == KEY) THEN
+               WRITE(ISTDO,*) "NODE WITH HIGHEST RELATIVE VELOCITY:",ITAB(JMAX),D1
+               WRITE(IOUT,*)  "NODE WITH HIGHEST RELATIVE VELOCITY:",ITAB(JMAX),D1
+             ENDIF
            ENDIF
-           INTBUF_TAB(I)%VARIABLES(24) = MARGE0
+           IF(VMAXDT > FIVE*MARGE0) THEN
+             INTBUF_TAB(I)%VARIABLES(24) = MARGE0
+           ENDIF
          ENDIF
 
 
