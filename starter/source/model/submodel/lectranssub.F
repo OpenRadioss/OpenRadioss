@@ -293,7 +293,7 @@ C
 C
           WRITE(IOUT,500) ID,ID_TRANSSUB   
           IF (N0 > 0 .AND. N1 > 0) WRITE(IOUT,200) N0,N1
-          WRITE(IOUT,510) S,TX,TY,TZ
+          WRITE(IOUT,510) S,TX,TY,TZ,ISK0
 C----
         ELSEIF (KEY(1:3) == 'ROT') THEN
 C
@@ -806,7 +806,8 @@ C-----------------------
  510  FORMAT(10X,'   VALUE. . . . . . . . . . . . .= ',E20.13/,
      . '             COORDINATES     X. . . . . . .= ',E20.13/,
      . '                             Y. . . . . . .= ',E20.13/,
-     . '                             Z. . . . . . .= ',E20.13)
+     . '                             Z. . . . . . .= ',E20.13/,
+     . '             Skew_ID  . . . . . . . . . . .= ',I10)
  600  FORMAT(/
      . '    SUBMODEL ROTATION, TRANSFORMATION ID.     = ',I10/,                       
      . '       SUBMODEL ID. . . . . . . . . . . .= ',I10/,
