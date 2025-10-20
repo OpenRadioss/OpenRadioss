@@ -72,7 +72,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER MGRBY(NMGRBY,*),NPBY(NNPBY,*),LPBY(*),SLRBODY,SMGRBY,ITABM1(*),ITAB(*)
+      INTEGER MGRBY(NMGRBY,SMGRBY),NPBY(NNPBY,*),LPBY(*),SLRBODY,SMGRBY,ITABM1(*),ITAB(*)
       my_real RBY(NRBY,*)
       INTEGER NOM_OPT(LNOPT1,*),PTR_NOPT_RBMERGE
       INTEGER IGRV(NIGRV,*),IBGR(*)
@@ -145,26 +145,25 @@ C--------------------------------------------------
         CALL HM_GET_INTV('NB_SUBOBJVE',NOBJ,IS_AVAILABLE,LSUBMODEL)
 C
         DO J=1,NOBJ
+          CALL HM_GET_INT_ARRAY_INDEX('Main_ID',IMAIN,J,IS_AVAILABLE,LSUBMODEL)
+          CALL HM_GET_INT_ARRAY_INDEX('M_type',M_TYPE,J,IS_AVAILABLE,LSUBMODEL)
+          CALL HM_GET_INT_ARRAY_INDEX('Secon_ID',ISECONDARY,J,IS_AVAILABLE,LSUBMODEL)
+          CALL HM_GET_INT_ARRAY_INDEX('S_type',S_TYPE,J,IS_AVAILABLE,LSUBMODEL)
+          CALL HM_GET_INT_ARRAY_INDEX('Iflag',FLAGG_OPT,J,IS_AVAILABLE,LSUBMODEL)
+          IF (IMAIN /= 0) THEN
             N = N + 1
-            CALL HM_GET_INT_ARRAY_INDEX('Main_ID',IMAIN,J,IS_AVAILABLE,LSUBMODEL)
-            CALL HM_GET_INT_ARRAY_INDEX('M_type',M_TYPE,J,IS_AVAILABLE,LSUBMODEL)
-            CALL HM_GET_INT_ARRAY_INDEX('Secon_ID',ISECONDARY,J,IS_AVAILABLE,LSUBMODEL)
-            CALL HM_GET_INT_ARRAY_INDEX('S_type',S_TYPE,J,IS_AVAILABLE,LSUBMODEL)
-            CALL HM_GET_INT_ARRAY_INDEX('Iflag',FLAGG_OPT,J,IS_AVAILABLE,LSUBMODEL)
-            IF (IMAIN /= 0) THEN 
-              IF(M_TYPE == 0) M_TYPE=1                   
-              IF(S_TYPE == 0) S_TYPE=1 
-              IF(FLAGG_OPT == 0) FLAGG_OPT=2  
-              MGRBY(1,N)=IMAIN
-              MGRBY(2,N)=M_TYPE
-              MGRBY(3,N)=ISECONDARY
-              MGRBY(4,N)=S_TYPE
-              MGRBY(5,N)=FLAGG_OPT
-              MGRBY(6,N)=ID!NOPT
-              MGRBY(7,N)=NOPT
-            ENDIF  ! IMAIN /= 0
+            IF(M_TYPE == 0) M_TYPE=1                   
+            IF(S_TYPE == 0) S_TYPE=1 
+            IF(FLAGG_OPT == 0) FLAGG_OPT=2  
+            MGRBY(1,N)=IMAIN
+            MGRBY(2,N)=M_TYPE
+            MGRBY(3,N)=ISECONDARY
+            MGRBY(4,N)=S_TYPE
+            MGRBY(5,N)=FLAGG_OPT
+            MGRBY(6,N)=ID!NOPT
+            MGRBY(7,N)=NOPT
+          ENDIF  ! IMAIN /= 0
         ENDDO
-
       ENDDO
 C
       ALLOCATE (RBMERGE(NRBYKIN))
