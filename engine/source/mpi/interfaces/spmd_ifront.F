@@ -624,7 +624,7 @@ C subtracting the number of nodes to find the length of sub-interfaces
                 IF(IPARI(7,NIN)==25) THEN
                   IF(IPARI(58,NIN) /= 0) THEN ! edge to edge
                     NISUBSFIE(NIN)%P(P) = ISUBTMP2(NIN,2,P) - NSNFIE(NIN)%P(P)
-C                   WRITE(6,*) "NISUBSFIE(NIN)%P(",P-1,")=",NISUBSFIE(NIN)%P(P),ISUBTMP2(NIN,2,P)
+C                   WRITE(6,*) "NISUBSFIE(NIN)%P(",P-1,")=",NIN,NISUBSFIE(NIN)%P(P),ISUBTMP2(NIN,2,P), NSNFIE(NIN)%P(P)
                     LENOUT = LENOUT + 2*ISUBTMP2(NIN,2,P) - NSNFIE(NIN)%P(P)
 ! Buffer is [ Size , I_1, I_2, ...., wize]
                   ENDIF
@@ -913,7 +913,7 @@ C                     WRITE(6,*) P-1,"INFLG --- MSGBUF_R(",IDEB2+J,")=", MSGBUF_
                 IF(ASSOCIATED(ADDSUBSFIE(NIN)%P))
      .            DEALLOCATE(ADDSUBSFIE(NIN)%P)
                 DO P = 1, NSPMD
-                  LEN = LEN + NSNFI(NIN)%P(P)
+                  LEN = LEN + NSNFIE(NIN)%P(P)
                 END DO
                 ALLOCATE(ADDSUBSFIE(NIN)%P(LEN),STAT=IERROR)
                 IF(IERROR/=0) THEN
@@ -923,11 +923,11 @@ C                     WRITE(6,*) P-1,"INFLG --- MSGBUF_R(",IDEB2+J,")=", MSGBUF_
                 IDEB3 = 0
                 ADDSUBSFIE(NIN)%P(1) = 1
                 DO P = 1, NSPMD
-                  DO I = 1, NSNFI(NIN)%P(P)
+                  DO I = 1, NSNFIE(NIN)%P(P)
                     ADDSUBSFIE(NIN)%P(IDEB3+I+1) = 
      +                ADDSUBSFIE(NIN)%P(IDEB3+I)
                   END DO
-                  IDEB3 = IDEB3 + NSNFI(NIN)%P(P)
+                  IDEB3 = IDEB3 + NSNFIE(NIN)%P(P)
                 END DO
               END IF
             ENDIF ! TYPE25 EDGE PART
