@@ -920,42 +920,44 @@ C
           RTRANS(I,18)=IGS
           !
           ISURF = 0
-          DO J=1,NSURF
-            NSEG=IGRSURF(J)%NSEG
-            IF(IGRSURF(J)%ID == IGSURF) THEN
-              ISURF = J
-            ENDIF
-          ENDDO
+          NNO=0
+          IF (IGSURF > 0) THEN
+            DO J=1,NSURF
+              NSEG=IGRSURF(J)%NSEG
+              IF(IGRSURF(J)%ID == IGSURF) THEN
+                ISURF = J
+              ENDIF
+            ENDDO
           !
-          IF (ISURF == 0 . AND. IGSURF > 0) THEN
-               CALL ANCMSG(MSGID=3110,
-     .                MSGTYPE=MSGERROR,
-     .                ANMODE=ANINFO,
-     .                I1=ID,
-     .                C1=TITR,
-     .                I2=IGSURF)
-          ENDIF
+            IF (ISURF == 0 . AND. IGSURF > 0) THEN
+                 CALL ANCMSG(MSGID=3110,
+     .                  MSGTYPE=MSGERROR,
+     .                  ANMODE=ANINFO,
+     .                  I1=ID,
+     .                  C1=TITR,
+     .                  I2=IGSURF)
+            ENDIF
           !
           ! create a list of nodes from the surface group
           !
-          NNO=0
-          ALLOCATE(INO(1:4*IGRSURF(ISURF)%NSEG))
-          INO(1:4*IGRSURF(ISURF)%NSEG)=0
-          ALLOCATE(TAGNODE(1:NUMNOD))
-          TAGNODE(1:NUMNOD)=0
+            ALLOCATE(INO(1:4*IGRSURF(ISURF)%NSEG))
+            INO(1:4*IGRSURF(ISURF)%NSEG)=0
+            ALLOCATE(TAGNODE(1:NUMNOD))
+            TAGNODE(1:NUMNOD)=0
           !
-          DO J=1,IGRSURF(ISURF)%NSEG
-            DO K=1,4
-              SURFNOD = IGRSURF(ISURF)%NODES(J,K)
-              IF(SURFNOD /= 0) THEN
-                IF (TAGNODE(SURFNOD) == 0) THEN
-                  NNO=NNO+1
-                  INO(NNO)=SURFNOD
-                  TAGNODE(SURFNOD)=1
+            DO J=1,IGRSURF(ISURF)%NSEG
+             DO K=1,4
+                SURFNOD = IGRSURF(ISURF)%NODES(J,K)
+                IF(SURFNOD /= 0) THEN
+                  IF (TAGNODE(SURFNOD) == 0) THEN
+                    NNO=NNO+1
+                    INO(NNO)=SURFNOD
+                    TAGNODE(SURFNOD)=1
+                  ENDIF
                 ENDIF
-              ENDIF
+              ENDDO
             ENDDO
-          ENDDO
+          ENDIF
           !
           !--------------------------------------
           ! igrnod is defined to be the node group to be moved
