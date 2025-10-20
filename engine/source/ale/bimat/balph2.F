@@ -294,7 +294,7 @@ C-----------------------------------------------
           ALPHN=(VOLO2(I)-DT1*HALF*(FLU12(I)
      .    +FLUX2(1,I)+FLUX2(2,I)+FLUX2(3,I)+FLUX2(4,I)))/VOLN(I)
           ALPHNN=ALPHN*(ONE+(D1(I)+D2(I)+D3(I))*DT1)
-          IF((SIG2(I,1)+SIG2(I,2)+SIG2(I,3))>ONE)THEN
+          IF((SIG2(I,1)+SIG2(I,2)+SIG2(I,3))>ZERO)THEN
            ALPHN= MIN(ALPHN,ALPHNN)
           ELSE
            ALPHN= MAX(ALPHN,ALPHNN)
