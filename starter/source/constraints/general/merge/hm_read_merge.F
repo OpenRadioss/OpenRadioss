@@ -72,7 +72,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER MGRBY(NMGRBY,SMGRBY),NPBY(NNPBY,*),LPBY(*),SLRBODY,SMGRBY,ITABM1(*),ITAB(*)
+      INTEGER :: SMGRBY
+      INTEGER MGRBY(NMGRBY,SMGRBY),NPBY(NNPBY,*),LPBY(*),SLRBODY,ITABM1(*),ITAB(*)
       my_real RBY(NRBY,*)
       INTEGER NOM_OPT(LNOPT1,*),PTR_NOPT_RBMERGE
       INTEGER IGRV(NIGRV,*),IBGR(*)
