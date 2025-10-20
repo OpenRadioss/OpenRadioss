@@ -490,22 +490,27 @@ C              IUS = (n-1)'th user variable in UVAR
                  NUPARAM= IPM(9,IMAT)                       
                  UPARAM => BUFMAT(IADBUF:IADBUF+NUPARAM) 
                  ISUBMAT = (IFUNC-282)
-                 ISUBMAT = UPARAM(276+ISUBMAT) !bijective order
-                 IUS=M51_N0PHAS+(ISUBMAT-1)*M51_NVPHAS 
+                 !ISUBMAT = UPARAM(276+ISUBMAT) !bijective order
+                 IUS=M51_N0PHAS+(ISUBMAT-1)*M51_NVPHAS
+                   !
+                  LLT       = IPARG(2,NG)
+                  IPOS      = 1 !vfrac ! 8 !eint    !12 dens
+                  K         = LLT * ((IUS )+IPOS-1)
+
 !               ELSEIF(MLW==20)THEN
 !                 IUS=1+(IFUNC-10248)
                ENDIF
                IFRAC=IFUNC-283+1
 
-c--------------                
-               IF (MLW==51 .OR. (MLW==37.AND.IFRAC<=2))THEN                                                                       
-                 DO IL=1,NLAY                                              
-                   DO IS=1,NPTS                                            
-                     DO IT=1,NPTT                                          
-                       DO IR=1,NPTR                                        
-                         MBUF => ELBUF_TAB(NG)%BUFLY(IL)%MAT(IR,IS,IT)     
-                         DO I=LFT,LLT                                                                 
-                           USER(I) = USER(I) + MBUF%VAR(I+IUS*NEL)/NPTG 
+c--------------
+               IF (MLW==51 .OR. (MLW==37.AND.IFRAC<=2))THEN
+                 DO IL=1,NLAY
+                   DO IS=1,NPTS
+                     DO IT=1,NPTT
+                       DO IR=1,NPTR
+                         MBUF => ELBUF_TAB(NG)%BUFLY(IL)%MAT(IR,IS,IT)
+                         DO I=LFT,LLT
+                           USER(I) = MBUF%VAR(K+I)!/NPTG
                          ENDDO                                             
                        ENDDO                                               
                      ENDDO                                                 

@@ -357,7 +357,7 @@ c
      5            MAT      ,IPM    ,NSIGS      ,NUMSOL    ,PTSOL  ,
      6            IPT      ,NGL    ,NPF        ,TF        ,BUFMAT ,
      7            GBUF     ,LBUF   ,MBUF       ,ELBUF_STR ,ILOADP ,
-     8            FACLOAD, DELTAX  ,TEMPEL     )
+     8            FACLOAD, DELTAX  ,TEMPEL     ,MAT_PARAM )
           END DO
         END DO
       END DO

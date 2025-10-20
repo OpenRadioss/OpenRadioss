@@ -123,16 +123,6 @@ C-----------------------------------------------
       MAT_PARAM%EOS%NTABLE = 0
       CALL MAT_PARAM%EOS%CONSTRUCT() !allocations
 
-      MAT_PARAM%EOS%UPARAM(1) = GAMMA
-      MAT_PARAM%EOS%UPARAM(2) = P0
-      MAT_PARAM%EOS%UPARAM(3) = A
-      MAT_PARAM%EOS%UPARAM(4) = B
-      MAT_PARAM%EOS%PSH = PSH
-      IF (MAT_PARAM%THERM%TINI == ZERO) THEN
-        MAT_PARAM%THERM%TINI =THREE100
-        PM(79) = THREE100
-      END IF
-
       IF(RHOI == ZERO)THEN
         MU0 = ZERO ! error 683 already displayed
       ELSE
@@ -169,7 +159,18 @@ C-----------------------------------------------
       PM(23) = E0
       PM(31) = P0-PSH
       PM(104)= P0-PSH
-      
+
+      MAT_PARAM%EOS%UPARAM(1) = GAMMA
+      MAT_PARAM%EOS%UPARAM(2) = P0
+      MAT_PARAM%EOS%UPARAM(3) = A
+      MAT_PARAM%EOS%UPARAM(4) = B
+      MAT_PARAM%EOS%PSH = PSH
+      MAT_PARAM%EOS%E0 = E0
+      IF (MAT_PARAM%THERM%TINI == ZERO) THEN
+        MAT_PARAM%THERM%TINI =THREE100
+        PM(79) = THREE100
+      END IF
+
       !SSP0
       SSP0 = ZERO 
       G0 = PM(22)

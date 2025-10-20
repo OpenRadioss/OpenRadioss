@@ -126,7 +126,7 @@ C-----------------------------------------------
      .   NGR1, MLN, NG, ISSN, ISSN_, N, MID, PID, II,ILOC,IL,NEL, NE1,IREP,IINT,
      .   P, NEL_PREC, IGT, JHBE, I, IKSNOD0,NB,IEOS,NLAY,
      .   MODE, WORK(70000), NN, J, NPTR,NPTS,NPTT,NPG,
-     .   IPLAST,NUVARP, IALEL, INEG, JIVF,ICPRE,ICSTR,
+     .   IPLAST,NUVARP, INEG, JIVF,ICPRE,ICSTR,
      .   IFAIL,IMATVIS,NLY,NL,ILAW,IM,IPMAT,ITET4,ITET10,
      .   NGP(NSPMD+1),JJ,IFAILMODEL,NFAIL,ISVIS,IVISC,IMAT,
      .   INUM_R2R(1+R2R_SIU*NUMELS),IPARTSPH,IPARTR2R,MFT,IBOLTP,ICP0,ISM0,
@@ -713,8 +713,8 @@ C Multidomains - JALE of JEUL is set to 0 for dupplicated parts with void materi
           !  With ALE framework, since the Mesh is arbitrary, the variable must be updated to map thei expected location and not follow the arbitrary mesh displacement
           !  this numbering here will be used in arezon.F to loop over variables to rezon/remap
           IF(JALE == 1)THEN
-            ALE%REZON%NUM_NUVAR_MAT = ALE%REZON%NUM_NUVAR_MAT + MATPARAM%REZON%NUM_NUVAR_MAT
-            ALE%REZON%NUM_NUVAR_EOS = ALE%REZON%NUM_NUVAR_EOS + MATPARAM%REZON%NUM_NUVAR_EOS
+            ALE%REZON%NUM_NUVAR_MAT = MAX(ALE%REZON%NUM_NUVAR_MAT, MATPARAM%REZON%NUM_NUVAR_MAT)
+            ALE%REZON%NUM_NUVAR_EOS = MAX(ALE%REZON%NUM_NUVAR_EOS, MATPARAM%REZON%NUM_NUVAR_EOS)
           ENDIF
 
           !ALE UVAR REZONING  (81:MAT,  82:EOS)

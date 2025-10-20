@@ -97,7 +97,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 ! [ no comment on the same line as #include #define #ifdef, #endif ]
         INTEGER, PARAMETER :: M51_N0PHAS = 04
-        INTEGER, PARAMETER :: M51_NVPHAS = 23
+        INTEGER, PARAMETER :: M51_NVPHAS = 29  ! including nvareos_max at the end
         INTEGER, PARAMETER :: M51_IFLG6_SIZE = 37
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
@@ -156,8 +156,10 @@
           integer :: i
           this%nb = 4
           allocate(this%eos(4))
+          allocate(this%pEOS(4))
           do i=1,4
              this%eos(i)%title = 'embedded EoS'
+             this%eos(i)%eostype = 1
              this%eos(i)%nuparam = 6
              this%eos(i)%niparam = 0
              this%eos(i)%nfunc = 0
