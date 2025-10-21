@@ -820,54 +820,7 @@ C -- IDTMINS_INT /= 0
               END DO
               ISHIFT = ISHIFT + 1             
             ENDIF
-             
-c INT24
-            IF(ITYP==24)THEN
-
-              L = 0
-              I24XREMP = RSHIFT
-#include      "vectorize.inc"
-              DO J = 1, NB
-                I = INDEX(J)
-                RBUF(P)%p(L+RSHIFT)    =I24_TIME_S(I)
-                RBUF(P)%p(L+RSHIFT+1)  =I24_FRFI(1,I)
-                RBUF(P)%p(L+RSHIFT+2)  =I24_FRFI(2,I)
-                RBUF(P)%p(L+RSHIFT+3)  =I24_FRFI(3,I)
-                RBUF(P)%p(L+RSHIFT+4)  =I24_PENE_OLD(1,I)
-                RBUF(P)%p(L+RSHIFT+5)  =I24_STIF_OLD(1,I) 
-                RBUF(P)%p(L+RSHIFT+6)  =I24_PENE_OLD(3,I)
-                RBUF(P)%p(L+RSHIFT+7)  =I24_PENE_OLD(5,I)
-                L = L + RSIZ
-              END DO          
-              RSHIFT = RSHIFT + 8  
-                
-              L2 = 0      
-              I24IREMP = ISHIFT 
-#include      "vectorize.inc"
-              DO J = 1, NB
-                I = INDEX(J)
-C               IRTLM(2,NSN) in TYPE24
-                IBUF(P)%p(L2+ISHIFT)  =IRTLM(2*(I-1)+1)
-                IBUF(P)%p(L2+ISHIFT+1)=IRTLM(2*(I-1)+2)
-                IBUF(P)%p(L2+ISHIFT+2)=I24_ICONT_I(I)
-                L2 = L2 + ISIZ
-              END DO          
-              ISHIFT = ISHIFT + 3
-C---pay attention in i24sto.F IREM(I24IREMP+3,N-NSN) is used, 
-C----change the shift value when new table was added like I24_ICONT_I           
-              IF (ILEV==2) THEN  
-                L2 = 0                
-#include      "vectorize.inc"       
-                DO J = 1, NB
-                  I = INDEX(J)
-                  IBUF(P)%p(L2+ISHIFT)=NBINFLG(I)
-                  L2 = L2 + ISIZ
-                END DO        
-              END IF
-              ISHIFT = ISHIFT + 1
-
-            END IF !(ITYP==24)                
-             
+                                      
 c INT25
             IF(ITYP==25)THEN
               L = 0
