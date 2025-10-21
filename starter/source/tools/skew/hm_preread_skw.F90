@@ -56,7 +56,7 @@
 !||====================================================================
         subroutine hm_preread_skw(skew      ,iskn   ,x      ,itab   ,itabm1    , &
                                &  lsubmodel ,unitab ,numnod ,numskw ,check_used, &
-                               &  liskn     ,lskew ,n2d)
+                               &  liskn     ,lskew  ,n2d    ,siskwn ,sskew     )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! -------------------------------------------------------------------, ---------------------------------------------------
@@ -77,18 +77,20 @@
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           type (unit_type_),                         intent(in) :: unitab                              !< Unit table
-          integer,                                   intent(inout) :: iskn(liskn,numskw)               !< skew system connectivity
           integer,                                   intent(in) :: numnod                              !< Number of nodes
           integer,                                   intent(in) :: numskw                              !< Number of skew systems
           integer,                                   intent(in) :: liskn                               !< Max number of nodes per skew system
           integer,                                   intent(in) :: lskew                               !< Max number of skew systems
+          integer,                                   intent(in) :: sskew                               !< Sum of skews
+          integer,                                   intent(in) :: siskwn                              !< Skew system index
           integer,                                   intent(in) :: itab(numnod)                        !< Global to local node number conversion table
           integer,                                   intent(in) :: itabm1(2*numnod)                    !< Local to global node number conversion table
           integer,                                   intent(in) :: check_used                          !< Flag to check if node is used
           !integer,                                   intent(in) :: nsubmod                             !< Number of submodels
           integer,                                   intent(in) :: n2d                                 !< 2D model flag
-          type (submodel_data),                      intent(in) :: lsubmodel(nsubmod)                  !< Submodel data  
-          real(kind=WP),                             intent(inout) :: skew(lskew,numskw)               !< skew system definition
+          type (submodel_data),                      intent(in) :: lsubmodel(nsubmod)                  !< Submodel data
+          integer,                                   intent(inout) :: iskn(liskn,siskwn/liskn)         !< skew system connectivity  
+          real(kind=WP),                             intent(inout) :: skew(lskew,sskew/lskew)          !< skew system definition
           real(kind=WP),                             intent(inout) :: x(3, numnod)                     !< Coordinates of all nodes
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables

@@ -46,7 +46,7 @@
         subroutine transform_translate_in_local_skew( &
                           &   nodes  ,n_nodes ,x    ,numnod ,isk   ,&
                           &   tx     ,ty      ,tz   ,skew   ,lskew ,&
-                          &   numskw )
+                          &   sskew  )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -66,9 +66,9 @@
           real(kind=WP),                             intent(in) :: ty                           !< Translation distance in Y direction
           real(kind=WP),                             intent(in) :: tz                           !< Translation distance in Z direction
           integer,                                   intent(in) :: lskew                        !< Length of skew
-          integer,                                   intent(in) :: numskw                       !< Number of skews
+          integer,                                   intent(in) :: sskew                        !< Sum of skews
           real(kind=WP),                             intent(inout) :: x(3, numnod)              !< Coordinates of all nodes in model
-          real(kind=WP),                             intent(in) :: skew(lskew,numskw)           !< Skew matrices
+          real(kind=WP),                             intent(in) :: skew(lskew,sskew/lskew)      !< Skew matrices
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------

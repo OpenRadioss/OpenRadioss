@@ -2217,7 +2217,7 @@ C--------------------------------------------
         SKEW_TMP = 0
         CALL HM_PREREAD_SKW(SKEW_TMP  ,ISKEW_TMP ,X      ,ITAB   ,ITABM1    ,
      .                      LSUBMODEL ,UNITAB    ,NUMNOD ,NUMSKW ,CHECK_USED,
-     .                      LISKN     ,LSKEW     ,N2D)
+     .                      LISKN     ,LSKEW     ,N2D    ,SISKWN ,SSKEW     )
       ELSE
         ALLOCATE(ISKEW_TMP(0))
         ALLOCATE(SKEW_TMP(0))
@@ -2241,10 +2241,10 @@ C--------------------------------------------
      .                         C1='RTRANS')
         CALL LECTRANSSUB(X      ,IGRNOD   ,ITAB   ,ITABM1   ,UNITAB,
      .                 RTRANS   ,LSUBMODEL,IS_DYNA,ISKEW_TMP,LISKN ,
-     .                 NSPCOND  ,NUMSPH)
+     .                 NSPCOND  ,NUMSPH   ,SISKWN )
         CALL LECSUBMOD(ISUBMOD  ,X         ,UNITAB  ,ITABM1    ,RTRANS,
      .                 ITAB     ,LSUBMODEL ,IS_DYNA ,ISKEW_TMP ,LISKN ,
-     .                 SKEW_TMP ,LSKEW)
+     .                 SKEW_TMP ,LSKEW     ,SISKWN  ,SSKEW     )
       ENDIF
 
       CALL TRACE_OUT1()
@@ -4127,7 +4127,8 @@ C--------------------------------------------
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
       CALL LECTRANS(X        ,IGRNOD  ,ITAB   ,ITABM1 ,UNITAB,
      .              LSUBMODEL,RTRANS  ,IGRSURF,ISKWN  ,SKEW  ,
-     .              LISKN    ,LSKEW   ,NSPCOND,NUMSPH )
+     .              LISKN    ,LSKEW   ,NSPCOND,NUMSPH ,SISKWN,
+     .              SSKEW    )
       CALL TRACE_OUT1()
       CLOSE(UNIT=IUSBM)
 C--------------------------------------------

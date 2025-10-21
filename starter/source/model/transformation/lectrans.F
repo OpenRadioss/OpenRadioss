@@ -53,7 +53,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE LECTRANS(X        ,IGRNOD ,ITAB   ,ITABM1,UNITAB,
      .                    LSUBMODEL,RTRANS ,IGRSURF,ISKWN ,SKEW  ,
-     .                    LISKN    ,LSKEW  ,NSPCOND,NUMSPH)
+     .                    LISKN    ,LSKEW  ,NSPCOND,NUMSPH,SISKWN,
+     .                    SSKEW    )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -82,9 +83,9 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
       INTEGER ITAB(*),ITABM1(*)
-      INTEGER, INTENT(IN) :: LISKN,LSKEW,NSPCOND,NUMSPH
-      INTEGER, INTENT(IN) :: ISKWN(LISKN,NUMSKW)
-      my_real, INTENT(IN) :: SKEW(LSKEW,NUMSKW)
+      INTEGER, INTENT(IN) :: LISKN,LSKEW,NSPCOND,NUMSPH,SISKWN,SSKEW
+      INTEGER, INTENT(IN) :: ISKWN(LISKN,SISKWN/LISKN)
+      my_real, INTENT(IN) :: SKEW(LSKEW,SSKEW/LSKEW)
       my_real
      .   X(3,*)
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
@@ -243,7 +244,7 @@ c---------------------
           CALL transform_translate_in_local_skew(
      .                 IGRNOD(IGS)%ENTITY ,IGRNOD(IGS)%NENTITY ,X    ,NUMNOD   , ISK  ,
      .                 TX                 ,TY                  ,TZ   ,SKEW     , LSKEW,
-     .                 NUMSKW             )
+     .                 SSKEW              )
 
           S = SQRT(TX*TX + TY*TY + TZ*TZ)
 C
