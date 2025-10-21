@@ -138,7 +138,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JCLAUSE, ARRAY_SIZE,NSET_GENERAL,FLAG
       LOGICAL :: IS_AVAILABLE
-      INTEGER, INTENT(IN), DIMENSION(NSETS,2) :: ISETM
+      INTEGER, INTENT(IN), DIMENSION(NSET_GENERAL,2) :: ISETM
       INTEGER ARRAY(*)
       TYPE (SET_) ::  CLAUSE
       TYPE(SUBMODEL_DATA),INTENT(IN):: LSUBMODEL(*)
