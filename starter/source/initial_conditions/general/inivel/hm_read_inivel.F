@@ -91,17 +91,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,INTENT(IN) :: NINIVELT
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
-      INTEGER ITAB(*), ITABM1(*),ISKN(LISKN,*),
-     .        INIVIDS(*),IFRAME(LISKN,*),KXSP(NISP,*),RBY_MSN(2,*)
+      TYPE (UNIT_TYPE_),INTENT(IN) :: UNITAB
+      INTEGER :: ITAB(*), ITABM1(*),ISKN(LISKN,*),INIVIDS(*),IFRAME(LISKN,*),KXSP(NISP,*),RBY_MSN(2,*)
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
-      my_real
-     .   V(3,*),W(3,*),VR(3,*),SKEW(LSKEW,*),X(3,*),
-     .   RTRANS(NTRANSF,*),XFRAME(NXFRAME,*),VFLOW(3,*) ,WFLOW(3,*),
-     .   RBY_INIAXIS(7,*)
+      my_real :: V(3,*),W(3,*),VR(3,*),SKEW(LSKEW,*),X(3,*),RTRANS(NTRANSF,*),XFRAME(NXFRAME,*),VFLOW(3,*) ,WFLOW(3,*)
+      my_real :: RBY_INIAXIS(7,*)
       TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
       TYPE(FVM_INIVEL_STRUCT), INTENT(INOUT) :: FVM_INIVEL(*)
-      TYPE (SENSORS_) ,INTENT(IN)                       :: SENSORS          
+      TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
       TYPE(INIVEL_), DIMENSION(NINIVELT), INTENT(INOUT) :: INIVEL_T
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRNOD)  :: IGRNOD
@@ -244,8 +241,14 @@ C--------------------------------------------------
           IF(ISK == 0 .AND. SUB_INDEX /= 0 ) ISK = LSUBMODEL(SUB_INDEX)%SKEW
           CALL HM_GET_FLOATV('vector_X',VL1,IS_AVAILABLE,LSUBMODEL,UNITAB)
           CALL HM_GET_FLOATV('vector_Y',VL2,IS_AVAILABLE,LSUBMODEL,UNITAB)
-          CALL HM_GET_FLOATV('vector_Z',VL3,IS_AVAILABLE,LSUBMODEL,UNITAB)    
-          
+          CALL HM_GET_FLOATV('vector_Z',VL3,IS_AVAILABLE,LSUBMODEL,UNITAB)
+          IF(N2D /= 0 .AND. ISK == 0)THEN
+            IF(VL1 /= 0)THEN
+              !2D plane strain warning about X-velocity
+              CALL ANCMSG(MSGID=1256, ANMODE=ANINFO, MSGTYPE=MSGWARNING, C1=LABEL, I1=ID, C2=LABEL, C3=TITR)
+              VL1 = ZERO
+            ENDIF
+          ENDIF
           IF (TSTART>ZERO .OR. SENS_ID>0) THEN 
             NINIT = NINIT + 1
             INIVEL_T(NINIT)%ID = ID
@@ -269,7 +272,15 @@ C--------------------------------------------------
           CALL HM_GET_FLOATV('vector_X',VL1,IS_AVAILABLE,LSUBMODEL,UNITAB)
           CALL HM_GET_FLOATV('vector_Y',VL2,IS_AVAILABLE,LSUBMODEL,UNITAB)
           CALL HM_GET_FLOATV('vector_Z',VL3,IS_AVAILABLE,LSUBMODEL,UNITAB)
-          CALL HM_GET_FLOATV('rad_rotational_velocity',VRA,IS_AVAILABLE,LSUBMODEL,UNITAB)                                                 
+          CALL HM_GET_FLOATV('rad_rotational_velocity',VRA,IS_AVAILABLE,LSUBMODEL,UNITAB)
+          IF(N2D /= 0 .AND. IFRA == 0)THEN
+            IF(VL2 /=0 .OR. VL3 /= 0)THEN
+              !2D plane strain warning about Y or Z rotation (resulting into X-velocity)
+              CALL ANCMSG(MSGID=1256, ANMODE=ANINFO, MSGTYPE=MSGWARNING, C1=LABEL, I1=ID, C2=LABEL, C3=TITR)
+              VL2 = ZERO
+              VL3 = ZERO
+            ENDIF
+          ENDIF
           IF(IFRA == 0 .AND. SUB_INDEX  /=  0) CALL SUBROTVECT(VL1,VL2,VL3,RTRANS,SUB_ID,LSUBMODEL)
           IF(XYZ(1:1)=='X') THEN
             IDIR=1
@@ -305,7 +316,13 @@ C--------------------------------------------------
           CALL HM_GET_INTV('grqd_ID', IDGRQUAD, IS_AVAILABLE, LSUBMODEL)
           CALL HM_GET_INTV('grtria_ID', IDGRTRIA, IS_AVAILABLE, LSUBMODEL)
           CALL HM_GET_INTV('skew_ID', ISK, IS_AVAILABLE, LSUBMODEL)
-
+          IF(N2D /= 0 .AND. ISK == 0)THEN
+            IF(VL1 /= 0)THEN
+              !2D plane strain warning about X-velocity
+              CALL ANCMSG(MSGID=1256, ANMODE=ANINFO, MSGTYPE=MSGWARNING, C1=LABEL, I1=ID, C2=LABEL, C3=TITR)
+              VL1 = ZERO
+            ENDIF
+          ENDIF
           IF (TSTART>ZERO .OR. SENS_ID>0) THEN 
             NINIT = NINIT + 1
             INIVEL_T(NINIT)%ID = ID
@@ -320,7 +337,8 @@ C--------------------------------------------------
             INIVEL_T(NINIT)%FVM%SENSOR_ID = SENSID
             INIVEL_T(NINIT)%FVM%TSTART = TSTART
           END IF
-         !---READER /INIVEL/NODE (6)
+
+       !---READER /INIVEL/NODE (6)
         ELSEIF (ITYPE == 6) THEN
           CALL HM_GET_INTV('NB_NODES', NB_NODES, IS_AVAILABLE, LSUBMODEL)
           DO N=1,NB_NODES
@@ -332,6 +350,15 @@ C--------------------------------------------------
             CALL HM_GET_FLOAT_ARRAY_INDEX('VXRA', VR1, N, IS_AVAILABLE, LSUBMODEL, UNITAB)
             CALL HM_GET_FLOAT_ARRAY_INDEX('VYRA', VR2, N, IS_AVAILABLE, LSUBMODEL, UNITAB)
             CALL HM_GET_FLOAT_ARRAY_INDEX('VZRA', VR3, N, IS_AVAILABLE, LSUBMODEL, UNITAB)
+            IF(N2D /= 0 .AND. ISK == 0)THEN
+              IF(VL1 /=0 .OR. VR2 /= 0 .OR. VR3 /= 0)THEN
+                !plane strain warning about X-direction
+                CALL ANCMSG(MSGID=1256, ANMODE=ANINFO, MSGTYPE=MSGWARNING, C1=LABEL, I1=ID, C2=LABEL, C3=TITR)
+                VL1 = ZERO
+                VR2 = ZERO
+                VR3 = ZERO
+              ENDIF
+            ENDIF
             IOK = 0
             KROT = 1
             IF (ID_NODE > 0) THEN
