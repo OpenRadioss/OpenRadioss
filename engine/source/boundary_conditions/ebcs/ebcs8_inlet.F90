@@ -172,7 +172,11 @@
       logical :: CONT
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
-! ----------------------------------------------------------------------------------------------------------------------
+! ---------------------------------------------------------------------------------------------------------------------- 
+      VN = -HUGE(VN) ! GCC15 warning about uninitialized variable for those 4 variables
+      VX = -HUGE(VN)
+      VY = -HUGE(VN)
+      VZ = -HUGE(VN)
       nbmat = ebcs%nbmat
       iform = ebcs%fvm_inlet_data%formulation  ! 1:VP  2:VE
       vel_flag = ebcs%fvm_inlet_data%vector_velocity  ! 0:Vn  1:Vxyz
