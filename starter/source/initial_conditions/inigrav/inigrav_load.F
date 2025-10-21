@@ -114,7 +114,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real :: GRAV0,BX,BY,BZ,NX,NY,NZ,DOTPROD,DOTP,RHO0,NGX,NGY,NGZ,ALPHA,INTERP(3),ValA,ValB,NORM
       my_real :: Z(3), DEPTH(MVSIZ), N(3,8),VEC(3), DELTA_P(MVSIZ),PSURF,PGRAV(MVSIZ),VFRAC,P(3,1:4)
-      my_real :: LAMBDA,DIAG1(3),DIAG2(3),TOL,DIST,B(3),VOLFRAC
+      my_real :: LAMBDA,DIAG1(3),DIAG2(3),TOL,DIST,B(3),VOLFRAC,DEPT
       my_real,ALLOCATABLE,DIMENSION(:,:) :: MIN_COOR, MAX_COOR, N_SURF, ZF
       INTEGER :: K,KK,IGRP,ISURF,IGRAV,NPART_IN_GROUP,MLW,NG,IAD0,II,NEL,J,IE,I,IERROR,IMAT,M(MVSIZ),Q,NSEG,ISEG
       INTEGER :: USERID
@@ -274,6 +274,7 @@ C-----------------------------------------------
             !===================================================================!
             ! CENTROID CALCULATION
             !===================================================================! 
+            DEPTH(:) = EP20
             DO KK=1,NEL2
               I = LIST(KK)
               IE                    = I + NFT
@@ -381,8 +382,10 @@ C-----------------------------------------------
                    !CHECK INTERP IS INSIDE FACE, OTHERWISE SKIP IT
                    CALL CHECK_IS_ON_SEGMENT(P(1:3,1:4),B,INTERP,lTRIA,lTEST)
                    IF(.NOT.lTEST)CYCLE
-                   DEPTH(KK)= (INTERP(1)-Z(1))*NGX+(INTERP(2)-Z(2))*NGY+(INTERP(3)-Z(3))*NGZ
-                   DEPTH(KK) = -DEPTH(KK)
+                   DEPT = -((INTERP(1)-Z(1))*NGX+(INTERP(2)-Z(2))*NGY+(INTERP(3)-Z(3))*NGZ)
+                   IF(ABS(DEPT) < ABS(DEPTH(KK)))THEN
+                     DEPTH(KK) = DEPT
+                   ENDIF
                    lFOUND_PROJ=.TRUE.                                     
                  ENDDO           
                  IF(lERROR)EXIT
