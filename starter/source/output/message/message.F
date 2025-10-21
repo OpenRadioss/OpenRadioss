@@ -157,6 +157,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_preread_load_pressure            ../starter/source/loads/general/load_pressure/hm_preread_load_pressure.F
 !||    hm_preread_node                     ../starter/source/elements/reader/hm_preread_node.F
 !||    hm_preread_pfluid                   ../starter/source/loads/general/pfluid/hm_preread_pfluid.F
+!||    hm_preread_skw                      ../starter/source/tools/skew/hm_preread_skw.F90
 !||    hm_preread_xelem                    ../starter/source/elements/reader/hm_preread_xelem.F
 !||    hm_prop_read21                      ../starter/source/properties/thickshell/hm_read_prop21.F
 !||    hm_read_activ                       ../starter/source/tools/activ/hm_read_activ.F

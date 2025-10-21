@@ -123,6 +123,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    h3d_oned_scalar                          ../engine/source/output/h3d/h3d_results/h3d_oned_scalar.F90
 !||    h3d_quad_scalar_1                        ../engine/source/output/h3d/h3d_results/h3d_quad_scalar_1.F90
 !||    hm_preread_inivel                        ../starter/source/initial_conditions/general/inivel/hm_preread_inivel.F90
+!||    hm_preread_skw                           ../starter/source/tools/skew/hm_preread_skw.F90
 !||    hm_read_bcs_nrf                          ../starter/source/boundary_conditions/hm_read_bcs_nrf.F90
 !||    hm_read_bcs_wall                         ../starter/source/boundary_conditions/hm_read_bcs_wall.F90
 !||    hm_read_ebcs_propellant                  ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_propellant.F90

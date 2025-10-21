@@ -137,6 +137,7 @@
 !||    h3d_quad_scalar_1                        ../engine/source/output/h3d/h3d_results/h3d_quad_scalar_1.F90
 !||    hm_pre_read_preload_axial                ../starter/source/loads/general/preload/hm_read_preload_axial.F90
 !||    hm_preread_inivel                        ../starter/source/initial_conditions/general/inivel/hm_preread_inivel.F90
+!||    hm_preread_skw                           ../starter/source/tools/skew/hm_preread_skw.F90
 !||    hm_read_bcs_nrf                          ../starter/source/boundary_conditions/hm_read_bcs_nrf.F90
 !||    hm_read_bcs_wall                         ../starter/source/boundary_conditions/hm_read_bcs_wall.F90
 !||    hm_read_ebcs_propellant                  ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_propellant.F90
@@ -349,6 +350,8 @@
 !||    therm_param_mod                          ../common_source/modules/mat_elem/therm_param_mod.F90
 !||    thsechecksum                             ../engine/source/output/th/thchecksum.F90
 !||    tillotson                                ../common_source/eos/tillotson.F
+!||    transform_translate_in_local_skew        ../starter/source/model/transformation/transform_translate_in_local_skew.F90
+!||    transform_translate_in_local_skew_mod    ../starter/source/model/transformation/transform_translate_in_local_skew.F90
 !||    update_neighbour_segment                 ../engine/source/interfaces/interf/update_neighbour_segment.F90
 !||    velrot_explicit                          ../engine/source/constraints/general/rbody/velrot_explicit.F90
 !||    vinter_mixed                             ../engine/source/tools/curve/vinter_mixed.F90

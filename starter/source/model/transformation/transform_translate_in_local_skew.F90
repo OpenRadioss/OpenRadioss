@@ -21,10 +21,10 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    transform_translate_in_local_skew      ../starter/source/model/transformation/transform_translate_in_local_skew.F90
+!||    transform_translate_in_local_skew_mod   ../starter/source/model/transformation/transform_translate_in_local_skew.F90
 !||--- called by ------------------------------------------------------
-!||    lectrans                        ../starter/source/model/transformation/lectrans.F
-!||    lecsubmod                       ../starter/source/model/submodel/lecsubmod.F
+!||    lecsubmod                               ../starter/source/model/submodel/lecsubmod.F
+!||    lectrans                                ../starter/source/model/transformation/lectrans.F
 !||--- uses       -----------------------------------------------------
 !||====================================================================
       module transform_translate_in_local_skew_mod
@@ -39,9 +39,8 @@
 !||====================================================================
 !||    transform_translate_in_local_skew   ../starter/source/model/transformation/transform_translate_in_local_skew.F90
 !||--- called by ------------------------------------------------------
-!||    lectrans                    ../starter/source/model/transformation/lectrans.F
-!||    lecsubmod                   ../starter/source/model/submodel/lecsubmod.F
-!||--- calls      -----------------------------------------------------
+!||    lecsubmod                           ../starter/source/model/submodel/lecsubmod.F
+!||    lectrans                            ../starter/source/model/transformation/lectrans.F
 !||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine transform_translate_in_local_skew( &

@@ -47,6 +47,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_preread_node                 ../starter/source/elements/reader/hm_preread_node.F
 !||    hm_preread_radiation            ../starter/source/loads/thermic/hm_preread_radiation.F
 !||    hm_preread_rbe3                 ../starter/source/constraints/general/rbe3/hm_preread_rbe3.F
+!||    hm_preread_skw                  ../starter/source/tools/skew/hm_preread_skw.F90
 !||    hm_prop_read21                  ../starter/source/properties/thickshell/hm_read_prop21.F
 !||    hm_read_activ                   ../starter/source/tools/activ/hm_read_activ.F
 !||    hm_read_admas                   ../starter/source/tools/admas/hm_read_admas.F

@@ -143,6 +143,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_preread_rbe2                     ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
 !||    hm_preread_rbe3                     ../starter/source/constraints/general/rbe3/hm_preread_rbe3.F
 !||    hm_preread_rbody                    ../starter/source/constraints/general/rbody/hm_preread_rbody.F
+!||    hm_preread_skw                      ../starter/source/tools/skew/hm_preread_skw.F90
 !||    hm_preread_sphio                    ../starter/source/loads/sph/hm_preread_sphio.F
 !||    hm_preread_xelem                    ../starter/source/elements/reader/hm_preread_xelem.F
 !||    hm_read_activ                       ../starter/source/tools/activ/hm_read_activ.F
@@ -485,6 +486,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    group_mod                           ../starter/share/modules1/group_mod.F
 !||    hm_option_read_mod                  ../starter/share/modules1/hm_option_read_mod.F
 !||    hm_preread_inivel_mod               ../starter/source/initial_conditions/general/inivel/hm_preread_inivel.F90
+!||    hm_preread_skw_mod                  ../starter/source/tools/skew/hm_preread_skw.F90
 !||    hm_read_bcs_nrf_mod                 ../starter/source/boundary_conditions/hm_read_bcs_nrf.F90
 !||    hm_read_bcs_wall_mod                ../starter/source/boundary_conditions/hm_read_bcs_wall.F90
 !||    hm_read_inivol_mod                  ../starter/source/initial_conditions/inivol/hm_read_inivol.F90
@@ -531,7 +533,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    table_glob_mod                      ../starter/share/modules1/table_glob_mod.F
 !||    updfail_mod                         ../starter/source/materials/updfail.F90
 !||    user_sensor_mod                     ../starter/source/modules/user_interface_mod.F90
-!||    hm_preread_skw_mod                  ../starter/source/tools/skew/hm_preread_skw.F90
 !||====================================================================
       SUBROUTINE LECTUR(MULTI_FVM                   ,LSUBMODEL          ,IS_DYNA         ,DETONATORS   ,EBCS_TAB,
      .                  SEATBELT_CONVERTED_ELEMENTS ,NB_SEATBELT_SHELLS ,NB_DYNA_INCLUDE ,USER_WINDOWS ,OUTPUT  ,

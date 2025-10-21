@@ -29,6 +29,7 @@
 !||    init_ghost_shells               ../engine/source/engine/node_spliting/ghost_shells.F90
 !||    init_global_frontier_monvol     ../engine/source/airbag/init_global_monvol_frontier.F90
 !||    init_global_node_id             ../common_source/modules/nodal_arrays.F90
+!||    intcrit                         ../engine/source/interfaces/intsort/intcrit.F
 !||    inter_init_component            ../engine/source/interfaces/generic/inter_init_component.F90
 !||    inttri                          ../engine/source/interfaces/intsort/inttri.F
 !||    python_element_init             ../engine/source/mpi/python_spmd_mod.F90

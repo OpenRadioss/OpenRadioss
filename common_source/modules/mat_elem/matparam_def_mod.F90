@@ -213,6 +213,7 @@
 !||    hm_read_mat97                       ../starter/source/materials/mat/mat097/hm_read_mat97.F
 !||    hm_read_mat_99                      ../starter/source/materials/mat/matuser/hm_read_mat_user_99.F
 !||    hm_read_nonlocal                    ../starter/source/materials/nonlocal/hm_read_nonlocal.F
+!||    hm_read_properties                  ../starter/source/properties/hm_read_properties.F
 !||    hm_read_therm                       ../starter/source/materials/therm/hm_read_therm.F
 !||    hm_read_therm_stress                ../starter/source/materials/therm/hm_read_therm_stress.F90
 !||    hm_read_visc                        ../starter/source/materials/visc/hm_read_visc.F
