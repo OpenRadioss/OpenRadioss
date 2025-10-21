@@ -43,7 +43,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE LECTRANSSUB(X      ,IGRNOD,ITAB,ITABM1,UNITAB,
      .                       RTRANS ,LSUBMODEL,IS_DYNA,ISKWN,LISKN,
-     .                       NSPCOND  ,NUMSPH)
+     .                       NSPCOND  ,NUMSPH ,SISKWN)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -71,8 +71,8 @@ C-----------------------------------------------
      .   X(3,*),RTRANS(NTRANSF,*)
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
       INTEGER IS_DYNA
-      INTEGER, INTENT(IN) :: LISKN,NSPCOND,NUMSPH
-      INTEGER, INTENT(IN) :: ISKWN(LISKN,NUMSKW)
+      INTEGER, INTENT(IN) :: LISKN,NSPCOND,NUMSPH,SISKWN
+      INTEGER, INTENT(IN) :: ISKWN(LISKN,SISKWN/LISKN)
 C-----------------------------------------------
       TYPE (GROUP_)  ,TARGET, DIMENSION(NGRNOD)  :: IGRNOD
 C-----------------------------------------------

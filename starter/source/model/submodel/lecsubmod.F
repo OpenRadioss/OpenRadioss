@@ -41,7 +41,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE LECSUBMOD(ISUBMOD,X,UNITAB,ITABM1,RTRANS,
      .                     ITAB,LSUBMODEL,IS_DYNA,ISKWN,LISKN,
-     .                     SKEW,LSKEW)
+     .                     SKEW,LSKEW,SISKWN,SSKEW)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -68,9 +68,9 @@ C-----------------------------------------------
      .   X(3,*),RTRANS(NTRANSF,*)
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
       INTEGER  IS_DYNA
-      INTEGER, INTENT(IN) :: LISKN,LSKEW
-      INTEGER, INTENT(IN) :: ISKWN(LISKN,NUMSKW)
-      my_real, INTENT(IN) :: SKEW(LSKEW,NUMSKW)
+      INTEGER, INTENT(IN) :: LISKN,LSKEW,SISKWN,SSKEW
+      INTEGER, INTENT(IN) :: ISKWN(LISKN,SISKWN/LISKN)
+      my_real, INTENT(IN) :: SKEW(LSKEW,SSKEW/LSKEW)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -260,7 +260,7 @@ C-------------------------
             CALL transform_translate_in_local_skew(
      .            NODESSUB     ,CNT        ,X   ,NUMNOD     , ISK  ,
      .            TX           ,TY         ,TZ  ,SKEW       , LSKEW,
-     .            NUMSKW       )
+     .            SSKEW        )
           ELSEIF(ITY == 2)THEN
             DO K=1,9
               ROT(K)=RTRANS(LSUBMODEL(CUR_SUBMOD)%IDTRANS(J),K+2)
