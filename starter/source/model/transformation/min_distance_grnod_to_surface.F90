@@ -181,7 +181,7 @@
             else if (idir == 2) then
               max_pos = miny_isurfnod
               min_pos = maxy_igrnod
-            else if (idir == 3) then
+            else ! if (idir == 3) then
               max_pos = minz_isurfnod
               min_pos = maxz_igrnod
             end if
@@ -200,7 +200,7 @@
             else if (idir == 2) then
               max_pos = miny_igrnod
               min_pos = maxy_isurfnod
-            else if (idir == 3) then
+            else ! if (idir == 3) then
               max_pos = minz_igrnod
               min_pos = maxz_isurfnod
             end if
@@ -291,7 +291,7 @@
                 x(idir,igrnod) = xn(idir,i) - dist
               end if
             end do
-          else
+          else if (isk > 0) then
             ! skewed translation of group nodes in idir direction
             do i=1, n_nodes
               igrnod = nodes(i)
