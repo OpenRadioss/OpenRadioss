@@ -460,12 +460,11 @@
 
         ! ---------------------------
         !if(updated_interface_bool) then
-        if(.true.) then
           do nin=1,ninter
-            !if(updated_interface(nin)) call get_hashtable_for_neighbour_segment( nin,npari,ninter,ipari,intbuf_tab,shoot_struct )
-            call get_hashtable_for_neighbour_segment( nin,npari,ninter,ipari,intbuf_tab,shoot_struct )
+         !   if(updated_interface(nin)) call get_hashtable_for_neighbour_segment( nin,npari,ninter,ipari,intbuf_tab,shoot_struct )
+               call get_hashtable_for_neighbour_segment( nin,npari,ninter,ipari,intbuf_tab,shoot_struct )
           enddo
-        endif
+        !endif
         ! ---------------------------          
 
           deallocate( list_new_segment )

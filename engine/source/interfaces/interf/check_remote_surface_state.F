@@ -142,10 +142,12 @@ C-----------------------------------------------
             ELSEIF(ITY==24) THEN
                 GLOBAL_SURFACE_ID = INTBUF_TAB(NIN)%MSEGLO(K)
             ENDIF
-            if(ity==24.or.ity==25) then
+            if(ity==24) then!.or.ity==25) then
                 call surface_deactivation(ity,nrtm,global_surface_id,intbuf_tab(nin)%mseglo,intbuf_tab(nin)%mvoisin)
-            !elseif(ity==25) then
-              !call remove_neighbour_segment( nin,global_surface_id,intbuf_tab(nin),shoot_struct )
+            elseif(ity==25) then
+              call remove_neighbour_segment( nin,global_surface_id,intbuf_tab(nin),shoot_struct )
+              call surface_deactivation_print(ity,nrtm,
+     .        global_surface_id,intbuf_tab(nin)%mvoisin)
             endif
 
             IF(NSPMD>1) THEN            
@@ -258,10 +260,12 @@ C-----------------------------------------------
                 NRTM = IPARI(4,NIN)     ! get the number of surfaces of the interface NIN
                 ! --------------
                 GLOBAL_SURFACE_ID = R_BUFFER(PROC_ID)%INT_ARRAY_2D(1,J) ! get the global deleted surface id
-                if(ity==24.or.ity==25) then
+                if(ity==24)then!.or.ity==25) then
                   call surface_deactivation(ity,nrtm,global_surface_id,intbuf_tab(nin)%mseglo,intbuf_tab(nin)%mvoisin)
-                !elseif(ity==25) then
-                !  call remove_neighbour_segment( nin,global_surface_id,intbuf_tab(nin),shoot_struct )
+                elseif(ity==25) then
+                  call remove_neighbour_segment( nin,global_surface_id,intbuf_tab(nin),shoot_struct )
+                  call surface_deactivation_print(ity,
+     .             nrtm,global_surface_id,intbuf_tab(nin)%mvoisin)
                 endif
                 ! --------------
             ENDDO
