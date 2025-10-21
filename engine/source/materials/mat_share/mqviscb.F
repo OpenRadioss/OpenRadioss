@@ -95,26 +95,27 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: JTUR
       INTEGER, INTENT(IN) :: JTHE
       INTEGER, INTENT(IN) :: JSMS,NPG
-      INTEGER NELTST,ITYPTST,PID(*),MAT(*), NGL(*),IGEO(NPROPGI,NUMGEO),G_DT,IPM(NPROPMI,NUMMAT)
-      my_real DT2T
-      my_real PM(NPROPM,NUMMAT), OFF(*), RHO(*), RK(*), TEMP(*), RE(*),STI(*),
-     .        OFFG(*),GEO(NPROPG,NUMGEO),
-     .        VOL(*), VD2(*), DELTAX(*), SSP(*), AIRE(*), VIS(*), 
-     .        PSH(*), PNEW(*),QVIS(*) ,SSP_EQ(*),CONDE(*), 
-     .        D1(*), D2(*), D3(*), VOL0(*), MSSA(*), DMELS(*),FACQ0
+      INTEGER :: NELTST,ITYPTST,PID(*),MAT(*), NGL(*),IGEO(NPROPGI,NUMGEO),G_DT,IPM(NPROPMI,NUMMAT)
+      my_real :: DT2T
+      my_real :: PM(NPROPM,NUMMAT), OFF(*), RHO(*), RK(*), TEMP(*), RE(*),STI(*),
+     .           OFFG(*),GEO(NPROPG,NUMGEO),
+     .           VOL(*), VD2(*), DELTAX(*), SSP(*), AIRE(*), VIS(*),
+     .           PSH(*), PNEW(*),QVIS(*) ,SSP_EQ(*),CONDE(*),
+     .           D1(*), D2(*), D3(*), VOL0(*), MSSA(*), DMELS(*),FACQ0
       my_real, INTENT(IN) :: RHOREF(MVSIZ), RHOSP(MVSIZ)
       my_real, INTENT(INOUT) :: DTEL(MVSIZ)
       type (glob_therm_) ,intent(inout) :: glob_therm
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J, MT, K,ICOUNT,LIST(MVSIZ),ERROR, ALE_OR_EULER, ID_MIN
-      my_real DD(MVSIZ), AL(MVSIZ),
-     .        DTX(MVSIZ), AD(MVSIZ), QX(MVSIZ), CX(MVSIZ), RHO0(MVSIZ), NRHO(MVSIZ),
-     .        DTY(MVSIZ), QA, QB, VISI, FACQ,QAA,
-     .        CNS1, CNS2, SPH, AK1, BK1, AK2, BK2, TLI, AKK, XMU, TMU, RPR,
-     .        ATU, QAD, QBD, QAAP, DT, NUI
-      my_real TIDT,TVOL,TRHO,TAIRE,  DTMIN(MVSIZ), RHOS(MVSIZ),FACPG
+      INTEGER :: I,J, MT, K,ICOUNT,LIST(MVSIZ),ERROR, ALE_OR_EULER, ID_MIN
+      INTEGER :: JALE_FROM_MAT, JALE_FROM_PROP
+      my_real :: DD(MVSIZ), AL(MVSIZ),
+     .           DTX(MVSIZ), AD(MVSIZ), QX(MVSIZ), CX(MVSIZ), RHO0(MVSIZ), NRHO(MVSIZ),
+     .           DTY(MVSIZ), QA, QB, VISI, FACQ,QAA,
+     .           CNS1, CNS2, SPH, AK1, BK1, AK2, BK2, TLI, AKK, XMU, TMU, RPR,
+     .           ATU, QAD, QBD, QAAP, DT, NUI
+      my_real :: TIDT,TVOL,TRHO,TAIRE,  DTMIN(MVSIZ), RHOS(MVSIZ),FACPG
       my_real :: CNS1_0,CNS2_0,QAA_0
 #ifdef MYREAL8 
       my_real, PARAMETER :: REAL_THREE = 3.0D0
@@ -128,9 +129,12 @@ C=======================================================================
 
        ! by default don't apply /DT/NODA/* to ALE/EULER cells ; unless if /DT/NODA/ALEON is enabled (hidden card introduced for backward compatibility)
        MT = MAT(1)
-       ALE_OR_EULER = 0 
-       IF(NINT(PM(72,MT))==1 .OR. NINT(PM(72,MT))==2)ALE_OR_EULER = 1
-       IF( ALE%GLOBAL%I_DT_NODA_ALE_ON==1) ALE_OR_EULER = 0   
+       ALE_OR_EULER = 0
+       JALE_FROM_MAT = NINT(PM(72,MT))   !ALE/EULER framework defined from /ALE/MAT or /EULER/MAT
+       JALE_FROM_PROP = IGEO(62,PID(1))  !ALE/EULER framework defined from /PROP/SOLID from 3D and 2d solid elems.
+       IF(JALE_FROM_MAT == 1  .OR. JALE_FROM_MAT == 2) ALE_OR_EULER = 1
+       IF(JALE_FROM_PROP == 1 .OR. JALE_FROM_PROP == 2)ALE_OR_EULER = 1
+       IF(ALE%GLOBAL%I_DT_NODA_ALE_ON==1) ALE_OR_EULER = 0
 
       IF(IMPL==ZERO)THEN
           DO I=1,NEL
