@@ -58,7 +58,7 @@
 !||    shooting_node_mod          ../engine/share/modules/shooting_node_mod.F
 !||====================================================================
         subroutine update_neighbour_segment( ispmd,nspmd,ninter,r_buffer_size,r_buffer_2_size, &
-          r_buffer,r_buffer_2,intbuf_tab,shoot_struct)
+          r_buffer,r_buffer_2,intbuf_tab,shoot_struct,npari,ipari)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -67,6 +67,7 @@
           use get_segment_criteria_mod , only : get_segment_criteria
           use constant_mod !, only : ep30,-ONEP01,zero
           use shooting_node_mod , only : shooting_node_type
+          use get_hashtable_for_neighbour_segment_mod , only : get_hashtable_for_neighbour_segment
           use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   implicit none
@@ -78,12 +79,14 @@
           integer, intent(in) :: ispmd !< processor id
           integer, intent(in) :: nspmd !< number of mpi tasks
           integer, intent(in) :: ninter !< number of interface
+          integer, intent(in) :: npari !< number of parameters
+          integer, dimension(npari,ninter), intent(in) :: ipari !< interface parameters                    
           integer, dimension(2,nspmd), intent(in) :: r_buffer_size
           integer, dimension(3,nspmd), intent(in) :: r_buffer_2_size
           type(array_type), dimension(nspmd), intent(in) :: r_buffer
           type(array_type), dimension(nspmd), intent(in) :: r_buffer_2
           type(intbuf_struct_), dimension(ninter), intent(inout) :: intbuf_tab
-          type(shooting_node_type), intent(in) :: shoot_struct !< structure for shooting node algo
+          type(shooting_node_type), intent(inout) :: shoot_struct !< structure for shooting node algo
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -121,6 +124,8 @@
           integer, dimension(:,:), allocatable :: list_new_segment
           integer, dimension(:,:,:), allocatable :: segment_pair
           real(kind=WP), dimension(:,:), allocatable :: criteria
+          logical :: updated_interface_bool
+          logical, dimension(:), allocatable :: updated_interface
 
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   external functions
@@ -147,6 +152,9 @@
           allocate( permutation(nb_new_segment) )
           new_segment_id(1:nb_new_segment) = 0
           permutation(1:nb_new_segment) = 0
+          updated_interface_bool = .false. ! global flag to know if the neighbourhood is changing
+          allocate( updated_interface(ninter) ) ! flag per interfaces
+          updated_interface(1:ninter) = .false.
           ! ------------
 
           ! ------------
@@ -470,6 +478,8 @@
                   my_id = -n_segment_id
                 end if
                 intbuf_tab(nin)%mvoisin(4*(local_segment_id-1)+my_iedge) = my_id
+                updated_interface_bool = .true. ! neighbourhood is changing : global flag
+                updated_interface(nin) = .true. ! neighbourhood is changing : tag the interface
               end if
               ! ---------------------
 
@@ -487,12 +497,23 @@
                 end if
 
                 intbuf_tab(nin)%mvoisin(4*(local_n_segment_id-1)+n_iedge_id) = my_id
+                updated_interface_bool = .true. ! neighbourhood is changing : global flag
+                updated_interface(nin) = .true. ! neighbourhood is changing : tag the interface
               end if
               ! ---------------------
             end if
-
           end do
           ! --------------------------
+
+
+        ! ---------------------------
+          ! if the neighbourhood of at least 1 segment changes, --> need to re-build the hash table
+        if(updated_interface_bool) then
+          do nin=1,ninter
+            if(updated_interface(nin)) call get_hashtable_for_neighbour_segment( nin,npari,ninter,ipari,intbuf_tab,shoot_struct )         
+          enddo
+        endif
+        ! ---------------------------          
 
           deallocate( list_new_segment )
           deallocate( new_segment_id )

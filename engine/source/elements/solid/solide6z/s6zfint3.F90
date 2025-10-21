@@ -59,7 +59,6 @@
 !-------------------------------------------------------------------------------
 !   M o d u l e s
 !-------------------------------------------------------------------------------
-      use debug_mod, only : nc_debug
       use precision_mod, only : wp
       use mvsiz_mod, only : mvsiz
       use constant_mod, only : one, half, three

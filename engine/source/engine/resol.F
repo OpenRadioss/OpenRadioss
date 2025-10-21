@@ -1356,7 +1356,7 @@ C coupling coupling
               double precision :: dt2max_coupling
 C-----------------------------------------------------------------------------------
               ELEMENT%SHELL%OFFSET = NUMELS + NUMELQ
-              CALL PREPARE_DEBUG(NODES%ITAB,NUMNOD)
+              CALL PREPARE_DEBUG(NODES%ITAB,NUMNOD,ispmd)
               interfaces%NINTER = NINTER
               interfaces%npari = npari
 c
@@ -3274,7 +3274,7 @@ C                 BEGINNING OF EXPLICIT ITERATION LOOP
 C===========================================================================
  100          CONTINUE
 
-              NC_DEBUG = NCYCLE
+              NCYCLE_DEBUG = NCYCLE
 
 C========================================================================================
 C                                     NON PARALLEL SECTION (SMP)
