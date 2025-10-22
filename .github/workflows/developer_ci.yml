@@ -2,10 +2,7 @@ name: Developer CI
 
 on:
   
-  pull_request:
-    # CI is disbabled if ONLY workflow files are changed
-    paths-ignore:
-      - '.github/workflows/**'
+  push:
 
 env:
   QA_TIMEOUT_PER_TEST: 150
