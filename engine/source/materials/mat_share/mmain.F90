@@ -827,7 +827,7 @@
             &off,        ipm,        rhoref,     rhosp,&
             &lbuf%vol0dp,ismstr,     jsph,       jtur,&
             &ity,        jthe,       jsms,       npg ,&
-              glob_therm)
+             glob_therm, numgeo,     igeo)
           else if (mtn == 1) then
 !
             if (jhbe==17.and.iint==3.and.ismstr == 1) then
@@ -846,7 +846,8 @@
               &vol_avg,  gbuf%dt,  gbuf%g_dt,nel,&
               &ipm,      rhoref,   rhosp,    ity,&
               &jtur,     jthe,     jsph,     ismstr,&
-              &jsms,     npg ,     glob_therm)
+              &jsms,     npg ,     glob_therm,&
+               numgeo,   igeo)
             else if(ismstr >= 10.and.ismstr <= 12)then
               call m1lawtot(&
               &pm,         off,        lbuf%sig,   lbuf%eint,&
@@ -867,7 +868,7 @@
               &iselect,    ipm,        rhoref,     rhosp,&
               &lbuf%sigl,  ity,        ismstr,     jtur,&
               &jthe,       jcvt,       jsph,       jsms,&
-              &npg ,       glob_therm)
+              &npg ,       glob_therm, numgeo,     igeo)
             else
               call m1law(&
               &pm,       off,      lbuf%sig, lbuf%eint,&
@@ -884,7 +885,8 @@
               &vol_avg,  gbuf%dt,  gbuf%g_dt,nel,&
               &ipm,      rhoref,   rhosp,    ity,&
               &jtur,     jthe,     jsph,     ismstr,&
-              &jsms,     npg ,     glob_therm)
+              &jsms,     npg ,     glob_therm,&
+              &numgeo,   igeo)
             end if
 !
           elseif (mtn == 2) then
@@ -907,7 +909,8 @@
                  nel,      ipm,      rhoref,   rhosp,      &
                  ipg,      lbuf%dmg, ity,      jtur,       &
                  jthe,     jsph,     ismstr,   jsms,       &
-                 npg ,     dpdm  ,   fheat ,   glob_therm)
+                 npg ,     dpdm  ,   fheat ,   glob_therm,&
+                 numgeo,   igeo)
 !----------------
             if (istrain > 0 .and.&
             &(h3d_strain == 1 .or. th_strain == 1 )) then
@@ -1640,7 +1643,8 @@
             &gbuf%dt,  gbuf%g_dt,nel,      ipm,&
             &rhoref,   rhosp,    nft,      jsph,&
             &ity,      jtur,     jthe,     ismstr,&
-            &jsms,     npg ,     glob_therm)
+            &jsms,     npg ,     glob_therm,&
+            numgeo,    igeo)
           else if (mtn == 23) then
             call m22law(&
             &pm,       off,      lbuf%sig, lbuf%eint,&
@@ -1659,7 +1663,8 @@
             &gbuf%dt,  gbuf%g_dt,nel,      ipm,&
             &rhoref,   rhosp,    nft,      jsph,&
             &ity,      jtur,     jthe,     ismstr,&
-            &jsms,     npg ,     glob_therm)
+            &jsms,     npg ,     glob_therm,&
+             numgeo,   igeo)
           else if (mtn == 24) then
             call m24law(&
             &lbuf,     pm,       off,      lbuf%sig,&
@@ -1679,7 +1684,8 @@
             &gbuf%g_dt,ipm,      rhoref,   rhosp,&
             &lbuf%epsd,ity,      jtur,     jthe,&
             &jhbe,     jcvt,     jsph,     ismstr,&
-            &jsms,     npg,      svis ,    glob_therm)
+            &jsms,     npg,      svis ,    glob_therm,&
+             numgeo,   igeo)
 !     like law25 for shell + s33 = eps33*e33
           else if (mtn == 25) then
             call m25law(mat_elem%mat_param(imat),&
@@ -1783,7 +1789,8 @@
             &vol_avg,  gbuf%dt,  gbuf%g_dt,nel,&
             &d4,       d5,       d6,       rhoref,&
             &rhosp,    ismstr,   ity,      jsms,&
-            &jtur,     jthe,     npg,svis ,glob_therm)
+            &jtur,     jthe,     npg,svis ,glob_therm,&
+             igeo)
 !
           else if (mtn == 49) then
             call m49law (mat      ,pm       ,off     ,lbuf%sig,lbuf%pla, &

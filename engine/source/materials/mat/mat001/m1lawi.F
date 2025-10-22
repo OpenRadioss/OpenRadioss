@@ -45,11 +45,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      C   VOL_AVG, DTEL,    G_DT,    NEL,
      D   IPM,     RHOREF,  RHOSP,   ITY,
      E   JTUR,    JTHE,    JSPH,    ISMSTR,
-     F   JSMS,    NPG ,    glob_therm)
+     F   JSMS,    NPG ,    glob_therm,
+     G   NUMGEO,  IGEO)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       use glob_therm_mod
+      USE prop_param_mod , only : n_var_igeo
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -72,6 +74,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: JTUR
       INTEGER, INTENT(IN) :: JTHE
       INTEGER, INTENT(IN) :: JSPH,NPG
+      INTEGER,INTENT(IN) :: NUMGEO
 C
       INTEGER NELTST,ITYPTST,PID(*),G_DT,NEL
       INTEGER MAT(*),NGL(*), IPM(NPROPMI,*)
@@ -88,10 +91,11 @@ C
      .   D1(*), D2(*), D3(*), D4(*), D5(*), D6(*),
      .   MSSA(*), DMELS(*),CONDE(*),AMU(*),VOL_AVG(*),DTEL(*), RHOREF(*), RHOSP(*)
       type (glob_therm_) ,intent(inout) :: glob_therm
+      integer,dimension(n_var_igeo,numgeo),intent(in)  :: igeo
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, MX, J,IBID
+      INTEGER I, MX, J
       my_real
      .   RHO0(MVSIZ), 
      .   G(MVSIZ), G1(MVSIZ), G2(MVSIZ),
@@ -142,7 +146,7 @@ C
      5   VD2,     DELTAX,  VIS,     D1,
      6   D2,      D3,      PNEW,    PSH,
      7   MAT,     NGL,     QNEW,    SSP_EQ,
-     8   VOL,     MSSA,    DMELS,   IBID,
+     8   VOL,     MSSA,    DMELS,   IGEO,
      9   FACQ0,   CONDE,   DTEL,    G_DT,
      A   IPM,     RHOREF,  RHOSP,   NEL,
      B   ITY,     ISMSTR,  JTUR,    JTHE,
