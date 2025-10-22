@@ -267,7 +267,7 @@
             bind(c, name="cpp_python_add_ints_to_dict")
             use, intrinsic :: iso_c_binding
             type(c_ptr), value, intent(in) :: context
-            integer(kind=c_int), value, intent(in) :: nvalues
+            integer(kind=c_int), value, intent(in) :: nvalues, len_name
             character(kind=c_char), dimension(len_name), intent(in) :: name
             type(c_ptr), value , intent(in) :: values
           end subroutine python_add_ints_to_dict
@@ -276,7 +276,7 @@
             bind(c, name="cpp_python_add_doubles_to_dict")
             use, intrinsic :: iso_c_binding
             type(c_ptr), value, intent(in) :: context
-            integer(kind=c_int), value, intent(in) :: nvalues
+            integer(kind=c_int), value, intent(in) :: nvalues, len_name
             character(kind=c_char), dimension(len_name), intent(in) :: name
             type(c_ptr), value :: values
           end subroutine python_add_doubles_to_dict
