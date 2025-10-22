@@ -52,12 +52,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      G   NEL,     IPM,        RHOREF,  RHOSP,
      H   IPG,     DMG,        ITY,     JTUR,
      I   JTHE,    JSPH,       ISMSTR,  JSMS,
-     J   NPG ,    DPDM ,      FHEAT,   glob_therm)
+     J   NPG ,    DPDM ,      FHEAT,   glob_therm,
+     H   NUMGEO,  IGEO)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       use glob_therm_mod
       use matparam_def_mod
+      USE prop_param_mod , only : n_var_igeo
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -85,6 +87,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: JTHE
       INTEGER, INTENT(IN) :: JSPH
       INTEGER, INTENT(IN) :: JLAG
+      INTEGER,INTENT(IN) :: NUMGEO
 C
       INTEGER NELTST,ITYPTST,PID(NEL),G_DT,NEL,IPG
       INTEGER MAT(NEL),NGL(NEL), IPM(NPROPMI,*)
@@ -105,6 +108,7 @@ C
      .        RHOREF(NEL)  ,RHOSP(NEL)
       type (glob_therm_)      ,intent(inout) :: glob_therm
       type (matparam_struct_) ,intent(in)    :: mat_param
+      integer,dimension(n_var_igeo,numgeo),intent(in)  :: igeo
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -394,7 +398,7 @@ c-----------------------------------------
      5   VD2,     DELTAX,  VIS,     D1,
      6   D2,      D3,      PNEW,    PSH,
      7   MAT,     NGL,     QNEW,    SSP_EQ,
-     8   VOL,     MSSA,    DMELS,   IBID,
+     8   VOL,     MSSA,    DMELS,   IGEO,
      9   FACQ0,   CONDE,   DTEL,    G_DT,
      A   IPM,     RHOREF,  RHOSP,   NEL,
      B   ITY,     ISMSTR,  JTUR,    JTHE,
