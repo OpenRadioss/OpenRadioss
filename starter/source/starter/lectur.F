@@ -7137,6 +7137,7 @@ C    CHECK ENGINE FILE DYNAIN or STATE if to use F.I. total strain for QEPH
 C-------------------------------------------
       ISTR_24 = 0
       IF(NUMELC/=0) CALL CHECK_QEPH_STRA(ISTR_24)
+      IF (ISIGI < 0) ISTR_24=1 
 C--------------------------------------------
 C     Reading deactivatable elements
 C--------------------------------------------

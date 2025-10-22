@@ -307,7 +307,7 @@ C------------
      .            PERTURB,IX1     ,IX2      ,IX3     ,IX4     ,
      .            IDRAPE  ,DRAPEG%INDX)
 C-----------------------------------------------
-      IF (MTN == 1 .OR. MTN == 3 .OR. MTN == 23 .OR. MTN == 91) NPT = 0
+      IF (MTN == 1 .OR. MTN == 91 .AND. NPT/=1) NPT = 0
 C---------------------------
       CALL CDERII(PX1G,PX2G,PY1G,PY2G,
      .            X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  , 
@@ -386,7 +386,7 @@ c
      6          GBUF%PLA,THKE    ,IGTYP    ,NEL   ,ISIGSH  ,
      7          E1X   ,E2X      ,E3X      ,E1Y   ,E2Y  ,E3Y,
      8          E1Z   ,E2Z      ,E3Z     ,DIR_A  ,DIR_B,POSLY )
-           IF (MTN == 1) THEN
+           IF (MPT == 0) THEN
              DO I=LFT,LLT
                GBUF%FORPG_G(PTF+I+JJ(1:5))=GBUF%FORPG(PTF+I+JJ(1:5))
              END DO
@@ -542,7 +542,7 @@ c---
      6         GBUF%PLA,THKE    ,IGTYP    ,NEL   ,ISIGSH  ,
      7          E1X   ,E2X      ,E3X      ,E1Y   ,E2Y  ,E3Y,
      8          E1Z   ,E2Z      ,E3Z     ,DIR_A  ,DIR_B,POSLY )
-           IF (MTN == 1) THEN
+           IF (MPT == 0) THEN
              DO I=LFT,LLT
                GBUF%FOR_G(I+JJ(1:5))=GBUF%FOR(I+JJ(1:5))
              END DO
