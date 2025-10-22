@@ -65,7 +65,7 @@ Install as sudo or root
 
   To enable the devtoolset-11, you can run `source /opt/rh/gcc-toolset-11/enable`
 
-* Ubuntu
+* Ubuntu / Debian 12
 
            apt-get update
            apt-get upgrade
