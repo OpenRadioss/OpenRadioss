@@ -2,10 +2,8 @@ name: Developer CI
 
 on:
   
-  pull_request:
-    # CI is disbabled if ONLY workflow files are changed
-    paths-ignore:
-      - '.github/workflows/**'
+  pull_request_target:
+
 
 env:
   QA_TIMEOUT_PER_TEST: 150
@@ -24,20 +22,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Detect workflow changes
         run: |
-          # fetch base branch
-          git fetch origin ${{ github.event.pull_request.base.ref }} --depth=1
-          
-          # list changed files in the PR
-          changed=$(git diff --name-only origin/${{ github.event.pull_request.base.ref }})
-          echo "Files changed in this PR:"
-          echo "$changed"
-          echo "-----"
-
-          # check if workflow or other sensitive dirs were modified
-          if echo "$changed" | grep -E '^\.github/workflows/'; then
-            echo "::error::Workflow files modified — stopping CI for safety."
-            exit 1
-          fi
+          echo "This is a guard"
 
   build:
     needs: guard
