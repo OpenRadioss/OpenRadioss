@@ -61,7 +61,7 @@
           integer, intent (inout  ),dimension(recv_size)   :: irecv_buffer         !< integer buffer to receive
           real, intent (inout  ),dimension(recv_size)      :: irec_buffer_real     !< float buffer to receive
           integer, intent(inout)                           :: shell_stacksize_p0   !< Size of stack after gather
-          integer, intent (in   ),dimension(nspmd)         :: p0_sizes             !< size to recieve from each mpi domain
+          integer, intent (in   ),dimension(nspmd)         :: p0_sizes             !< size to receive from each mpi domain
           integer, intent (in   ),dimension(nspmd+1)       :: p0_offsets           !< offset to apply on integer buffer
           integer, intent (in   )                          :: nspmd                !< number of spmd domain
           integer, intent (in   )                          :: ispmd                !< spmd rank id
@@ -73,7 +73,7 @@
           integer :: integer_size                         !< Size of integer in bytes
           integer :: real_size                            !< Size of real in bytes
           integer :: buffer_size                          !< Size of the buffer in bytes
-          character, dimension(:),allocatable :: buffer   !< recieve buffer for packed data
+          character, dimension(:),allocatable :: buffer   !< receive buffer for packed data
           integer :: iad_recv(nspmd+1)
 
           integer :: i
@@ -82,9 +82,8 @@
           integer :: rec_dim
           integer :: msgtag
           integer :: pos
-          integer :: ierror,msgoff,                     &
+          integer :: ierror,                     &
             status(mpi_status_size)
-          data msgoff/231/
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------

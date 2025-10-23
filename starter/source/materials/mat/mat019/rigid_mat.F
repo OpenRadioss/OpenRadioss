@@ -267,7 +267,6 @@ C
      .       /10X,'NEW MASS             ',1G14.7)
 c     .       /10X,'NEW INERTIA xx yy zz ',3G14.7
 c     .       /10X,'NEW INERTIA xy yz zx ',3G14.7)
-1200  FORMAT(10X,'PRINCIPAL INERTIE ',1P3G14.7)
 1300  FORMAT(10X,'SECONDARY NODES ')
 1400  FORMAT(10X,10I10)
       END

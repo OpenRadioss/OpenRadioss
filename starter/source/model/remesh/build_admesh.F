@@ -716,6 +716,4 @@ C     rebuilding the inverse node table
       CALL CONSTIT(ITAB,ITABM1,NUMNOD)
       RETURN
 C-------------------------------------
-  999 CALL FREERR(1)
-      RETURN
       END

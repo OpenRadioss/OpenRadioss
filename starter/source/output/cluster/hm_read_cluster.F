@@ -364,7 +364,4 @@ C-------------------------------------
  9000 FORMAT(10X/)
 C-----------
       RETURN
-  998 CALL ANCMSG(MSGID=55,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1=KEY0(KCUR),C2=KLINE,C3=LINE)
-C-----------
-      RETURN
       END

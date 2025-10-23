@@ -228,9 +228,6 @@ C   if (IUTYP = 1 .or. NINT(GEO(25,I)) > 0 )  --> see lecg36.F
       IF(NINT(GEO(25)) > 0) PROP_TAG(IGTYP)%G_NUVAR = NINT(GEO(25))
 C
       RETURN
- 999  CONTINUE
-      WRITE(IOUT,*)' **ERROR IN PROPERTY 36 INPUT'
-      RETURN
  1000 FORMAT(
      & 5X,'  USER PROPERTY TYPE 1 (used by spring elements) ',/,
      & 5X,'  --------------------  ',//,
@@ -248,9 +245,6 @@ C
      & 5X,'BENDING SECTION INERTIA IZZ. . . . . . .=',1PG20.13/,
      & 5X,'BENDING SECTION  RAYON  RY . . . . . . .=',1PG20.13/,
      & 5X,'BENDING SECTION  RAYON  RZ . . . . . . .=',1PG20.13//)
- 3000 FORMAT(
-     & 5X,'USER PROPERTY SET'/,
-     & 5X,'PROPERTY SET NUMBER . . . . . . . . . .=',I10)
       END
 !||====================================================================
 !||    rini36      ../starter/source/properties/spring/hm_read_prop36.F

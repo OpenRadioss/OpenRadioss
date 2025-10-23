@@ -1608,7 +1608,7 @@
               &gbuf%g_dt,gbuf%dt,  nel,      ity,&
               &jtur,     jthe)
             end if
-            !no need to call eosmain since it is no energy dependant. p and psh are already calculated
+            !no need to call eosmain since it is no energy dependent. p and psh are already calculated
             call meint(output,&
             &off,      lbuf%sig, lbuf%qvis,lbuf%eint,&
             &voln,     espe,     s1,       s2,&
@@ -2017,7 +2017,7 @@
 
 
 !---------------------------------------------------------------------
-! --- needed for finite element transfert.
+! --- needed for finite element transfer.
 !
           if (jthe < 0) then
             heat_meca_l = zero

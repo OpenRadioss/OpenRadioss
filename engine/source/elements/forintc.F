@@ -440,7 +440,7 @@ c
      O   ELCUTC(1,NF1),      INOD_CRK,           IEL_CRK,            IBORDNODE,
      P   NODENR,             IADC_CRK,           NODEDGE,            CRKNODIAD,
      Q   CONDN,              CONDNSKY,           STACK,              ISUBSTACK,
-     R   XFEM_TAB(NG,1:NXEL),CRKEDGE,            DRAPE_SH4N,         IPRI,
+     R   XFEM_TAB, NG  ,CRKEDGE,      DRAPE_SH4N,         IPRI,
      S   NLOC_DMG,           DRAPEG%INDX_SH4N,   IGRE,               JTUR,
      T   OUTPUT,             DT,                 SNPC,               STF  , 
      U   GLOB_THERM,         USERL_AVAIL,        MAXFUNC,            SBUFMAT )

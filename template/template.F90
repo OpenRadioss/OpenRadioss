@@ -32,7 +32,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
-!  [ the module names in use must be in uppercase for now, it will change latter]
+!  [ the module names in use must be in uppercase for now, it will change later]
 !  [ ONLY is mandatory, note the space before the ,]
           use intbuf_def_mod, only: intbuf_struct
           use constant_mod, only : PI
@@ -47,7 +47,7 @@
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
 ! [ no comment on the same line as #include #define #ifdef, #endif ]
-! [ generally spealing, #include is forbidden, there are only few exceptions: ]
+! [ generally speaking, #include is forbidden, there are only few exceptions: ]
 #include "task_c.inc"
 #include "units_c.inc"
 ! ----------------------------------------------------------------------------------------------------------------------

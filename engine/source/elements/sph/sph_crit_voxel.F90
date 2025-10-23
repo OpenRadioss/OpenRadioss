@@ -101,7 +101,7 @@
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: inod
-          integer :: bnbnod(nbk, nbk, nbk),bnbnod2(nbk, nbk, nbk)
+          integer :: bnbnod(nbk, nbk, nbk)
           integer :: ibx, iby, ibz, n, ns, ippx, ippz, ippy
           real(kind=WP) :: dx,dy,dz,majord_vox_g
           real(kind=WP) :: xminl, yminl, zminl, xmaxl, ymaxl, zmaxl

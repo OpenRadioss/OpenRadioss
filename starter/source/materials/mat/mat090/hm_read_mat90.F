@@ -265,7 +265,4 @@ c-----------------
      & 5X,'LOADING STRESS FUNCTION NUMBER  . . . .=',I10/,
      & 5X,'STRAIN RATE . . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'SCALE FACTOR. . . . . . . . . . . . . .=',1PG20.13/)
- 1500 FORMAT(
-     & 5X,'PRESSURE DEPENDENT YIELD FUNCTION . . .=',I10/
-     & 5X,'PRESSURE SCALE FACTOR . . . . . . . . .=',1PG20.13)
       END

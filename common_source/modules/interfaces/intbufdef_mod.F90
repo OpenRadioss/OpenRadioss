@@ -1067,7 +1067,7 @@
           integer ::   s_i_stok     !             : ii_stok                                : 7    10,11,20,24
           integer ::   s_i_stok_e   !             : ii_stok_e                              : 7    10,11,20,24
           integer ::   s_ifpen      !  multimp*nsn:ifpen :flag penetr. (filtr frottement)  :           7
-          integer ::   s_kremnode   !  nrtm+1     :kremnode:adress nodes removed from contact in remnode array :      7
+          integer ::   s_kremnode   !  nrtm+1     :kremnode:address nodes removed from contact in remnode array :      7
           integer ::   s_remnode    !  nremnode   :remnode: nodes removed from contact     :      7
           integer ::   s_adccm      !  nrtm       :addcm :adresse dans chaine du 1er main:                  11
           integer ::   s_chain      !  2*multimp*nsn:chaine(1,adds) : bord second.     :                  11
@@ -1128,7 +1128,7 @@
           integer ::   s_adskyn     !  4*nrtm+1          :adskyn : skyline pour assemblage parith/on des normales : 25
           integer ::   s_iadnor     !  4*nrtm            :iadnor : skyline pour assemblage parith/on des normales : 25
           integer ::   s_islide     !  4*nsn             :islide : sommets (0  4) sur lesquels le noeud secnd glisse : 25
-          integer ::   s_knor2msr   !  nadmsr+1          :knor2msr: adress of connected segments to normals in nor2msr : 25
+          integer ::   s_knor2msr   !  nadmsr+1          :knor2msr: address of connected segments to normals in nor2msr : 25
           integer ::   s_nor2msr    !  ...               :nor2msr : connected segments to normals in nor2msr : 25
           integer ::   s_cand_opt_n !  multimp*nsn       :cand_opt_n : candidats apres optimisation <=> nd second. (i25optcd.f)
           integer ::   s_cand_opt_e !  multimp*nsn       :cand_opt_e : candidats apres optimisation <=> segment main (i25optcd.f)
@@ -1182,7 +1182,7 @@
           integer ::   s_remnode_e2s    !  nremnode_e2s   :remnode_edg: lines removed from contact     :      25
 !----nitsche method
           integer ::   s_ielnrts!  nrts      :ielnrts : number of secnd element
-          integer ::   s_adrects!  4*nrts    :adrects : adress of each secnd node of the segment in ixs/ixs10/ixs20/ixs16
+          integer ::   s_adrects!  4*nrts    :adrects : address of each secnd node of the segment in ixs/ixs10/ixs20/ixs16
           integer ::   s_facnrts!  nrts      :facnrts : corresponding facet in element ielnrts
           integer ::   s_e2s_actnor!
 !=======================================================================

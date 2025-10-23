@@ -523,7 +523,7 @@
             if(iparit > 0) then
               ! do not update reaction force as coupling with inter1 is expected : vn_fluid = vn_wall
               ! do kk=1,npt
-              !   adress = elem_adress(kk,is) ! adress of fsky array for element is and node kk
+              !   adress = elem_adress(kk,is) ! address of fsky array for element is and node kk
               !   fsky(1,adress) = -face_force*xn*fac1
               !   fsky(2,adress) = -face_force*yn*fac1
               !   fsky(3,adress) = -face_force*zn*fac1

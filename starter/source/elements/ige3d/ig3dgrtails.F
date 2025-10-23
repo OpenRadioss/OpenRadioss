@@ -289,14 +289,12 @@ C
       WRITE(IOUT,1001)(N,IPARG(1,N),IPARG(2,N),IPARG(3,N)+1,
      +                IPARG(4,N),IPARG(5,N),
      +              N=NGR1,NGROUP)
-c      WRITE(IOUT,1002) LBUFEL
 C
  1000 FORMAT(10X,' 3D - ISO-GEOMETRIC ELEMENT GROUPS '/
      +       10X,' ----------------------------------'/
      +' GROUP   ELEMENT    ELEMENT   FIRST    BUFFER   ELEMENT  '/
      +'         MATERIAL   NUMBER    ELEMENT  ADDRESS  TYPE     '/)
  1001 FORMAT(6(1X,I7,1X))
- 1002 FORMAT(' BUFFER LENGTH : ',I10 )
 C
 
       RETURN

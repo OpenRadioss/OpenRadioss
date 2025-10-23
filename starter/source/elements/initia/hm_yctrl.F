@@ -1201,10 +1201,4 @@ C------------------------------------
       ENDIF ! IF (ISIGI==-3.OR.ISIGI==-4.OR.ISIGI==-5)
 !
       RETURN
- 399  CONTINUE
-       CALL ANCMSG(MSGID=557,
-     .             MSGTYPE=MSGERROR,
-     .             ANMODE=ANINFO_BLIND_1)
-       
-      RETURN
       END

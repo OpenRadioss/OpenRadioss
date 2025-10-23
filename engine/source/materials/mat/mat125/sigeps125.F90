@@ -96,22 +96,22 @@
           !-----------------------------------------------
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: fs, i,damage,updat,updat1,updat2
+          integer :: fs, i
           integer , dimension(nel) :: iad,ipos,ilen
           real(kind=WP)                                                    &
             :: e1,e2,nu12,nu21,slimt1,slimc1, slimt2,slimc2,               &
-            slims,gammaf,gammar, tsdm, erods,tsize,e1d,e2d,g12d,d,         &
-            w11,w22,w12,e12d,invd,                                         &
-            e21d,g12,limit_sig, eint, deint,a11,tauxy, w33,w13,w23,        &
+            slims,gammaf,gammar, tsdm, d,                                  &
+            w11,w22,w12,invd,                                              &
+            g12,limit_sig, eint, deint,a11,tauxy, w33,w13,w23,             &
             g13,g23,nu13,nu31,nu23,nu32,slimt3,slimc3,tauzx,               &
             tauyz,c11,c12,c13,c21,c22,c23,c31,c32,c33,                     &
             e3, slims13,slims23,scale,limit_strain
           real(kind=WP) , dimension(nel) ::  em11t,xt,em11c,xc, em22t,yt,  &
                                              em22c,yc,gamma,tau,ems,sc,    &
                                              ef11t,ef11c, m1t,m1c,al1t,    & 
-                                             al2t,al2c,als,mfs,m3t,m3c,    &
-                                             al3t,al3c,als13, als23,mfs13, &
-                                             mfs23,ms13,ms23,al1c,ef22c,   &
+                                             al2t,al2c,als,m3t,m3c,        &
+                                             al3t,al3c,als13, als23,       &
+                                             ms13,ms23,al1c,ef22c,         &
                                              ef22t,ef33c,ef33t, efs13,efs23, &
                                              em33c,em33t, ems13,ems23,      &
                                              sc13,sc23,zc,zt,gamma1, gamma2, &

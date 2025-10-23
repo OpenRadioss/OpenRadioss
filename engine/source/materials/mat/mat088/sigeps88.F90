@@ -130,13 +130,13 @@
         real(kind=WP) :: nu,hys,shape,rbulk(nel),gs,gdamp,sigf,kfail,gam1,gam2,&
           eh,beta
         !< Integer working variables
-        integer :: i,j,n,ne_load,ne_unload,ne_fail,jj,nindx_dam,nindx_fail
+        integer :: i,j,n,ne_load,ne_unload,jj,nindx_dam,nindx_fail
         integer, dimension (nel) :: indx_l,indx_unl,jdom,indx_dam,indx_fail
         integer, dimension(nel,6) :: ipos
         integer, parameter :: niter = 6 !< Number of recursive iterations
         !< Real working variables
-        real(kind=WP) :: ldav,scale,lam_r,denom,fr,lam_tg,prev,sgnR,taper,     &
-          xhat,xmag,amax,xhat_raw,sgnR_dom,denom_dom,dlam_eff,gdir,lamj,       &
+        real(kind=WP) :: ldav,scale,lam_r,denom,lam_tg,prev,taper,     &
+          xhat,xmag,amax,dlam_eff,gdir,lamj,       &
           dlam_tg,Rblend
         real(kind=WP), dimension(nel) :: deint0,deint,p,epseq,emax,loadflg,    &
           sigdxx,sigdyy,sigdzz,sigdxy,sigdyz,sigdzx,sigdeff,erate,rv,rv_mth,   &
