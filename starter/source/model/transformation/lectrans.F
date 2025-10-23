@@ -971,14 +971,14 @@ C
               CALL min_dist_grnod_to_surface(
      .                 IGRNOD(IGS)%ENTITY, IGRNOD(IGS)%NENTITY, INO   , NNO    ,X   ,
      .                 NUMNOD            , PFLAG              , IDIR  , GAP    ,ISK ,
-     .                 SKEW              , LSKEW              , NUMSKW,ID      ,TITR,
+     .                 SKEW              , LSKEW              , SSKEW ,ID      ,TITR,
      .                 NCHARTITLE        )
             ELSE
               ! no surface defined - transform nodes by positioning them at XYZPOS
               ! with flags XYZFLAG
               CALL min_dist_grnod_to_xyzpos(
      .                 IGRNOD(IGS)%ENTITY, IGRNOD(IGS)%NENTITY, XYZPOS, XYZFLAG, X     ,
-     .                 NUMNOD            , ISK                , SKEW  , LSKEW  , NUMSKW)
+     .                 NUMNOD            , ISK                , SKEW  , LSKEW  , SSKEW )
             ENDIF
           ENDIF
           !

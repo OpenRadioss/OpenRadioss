@@ -46,7 +46,7 @@
 !||====================================================================
         subroutine min_dist_grnod_to_surface(nodes , n_nodes, surf_nodes, n_surf_nodes,x    , &
                                          &   numnod, pflag  , idir      , gap         ,isk  , &
-                                         &   skew  , lskew  , numskw    ,id           ,titr , &
+                                         &   skew  , lskew  , sskew     ,id           ,titr , &
                                          &   nchartitle)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
@@ -69,10 +69,10 @@
           integer,                                   intent(in) :: idir                         !< Direction (1,2,3) in which to position grnod with respect to surface
           integer,                                   intent(in) :: isk                          !< Index of skew (0 if no skew)
           integer,                                   intent(in) :: lskew                        !< Length of skew
-          integer,                                   intent(in) :: numskw                       !< Number of skews
+          integer,                                   intent(in) :: sskew                        !< Sum of skews
           real(kind=WP),                             intent(inout) :: x(3, numnod)              !< Coordinates of all nodes in model
           real(kind=WP),                             intent(in) :: gap                          !< Gap between grnod and surface in idir direction
-          real(kind=WP),                             intent(in) :: skew(lskew,numskw)           !< Skew matrices
+          real(kind=WP),                             intent(in) :: skew(lskew,sskew/lskew)      !< Skew matrices
           integer,                                   intent(in) ::  nchartitle                  !< Length of title string
           character(len=nchartitle),                 intent(in) ::  titr                        !< Title of transformation
           integer,                                   intent(in) ::  id                          !< ID of transformation
@@ -133,11 +133,11 @@
             do i=1, n_surf_nodes
               isurfnod = surf_nodes(i)
               xsn(1,i) = skew(1,isk)*(x(1,isurfnod) - orig(1)) + skew(2,isk)*(x(2,isurfnod) - orig(2)) + &
-                     &  skew(3,isk)*(x(3,isurfnod) - orig(3))
+                     &   skew(3,isk)*(x(3,isurfnod) - orig(3))
               xsn(2,i) = skew(4,isk)*(x(1,isurfnod) - orig(1)) + skew(5,isk)*(x(2,isurfnod) - orig(2)) + &
-                     &  skew(6,isk)*(x(3,isurfnod) - orig(3))
+                     &   skew(6,isk)*(x(3,isurfnod) - orig(3))
               xsn(3,i) = skew(7,isk)*(x(1,isurfnod) - orig(1)) + skew(8,isk)*(x(2,isurfnod) - orig(2)) + &
-                     &  skew(9,isk)*(x(3,isurfnod) - orig(3))
+                     &   skew(9,isk)*(x(3,isurfnod) - orig(3))
             end do
           else
             do i=1, n_nodes
