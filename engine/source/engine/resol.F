@@ -749,6 +749,7 @@ C-----------------------------------------------
               use damping_funct_ini_mod    , only : damping_funct_ini
               USE VIPER_MOD
               USE BCS_NRF_MOD , ONLY : BCS_NRF
+              use toto
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2558,6 +2559,9 @@ C------------IF adaptive Mesh : check if there are elements eroded after trimmin
 c         allocate(nodes%deleted_node(2*numnod)) ! working array to mark nodes connected to deleted element
 c         allocate(nodes%work_array_node(nthread*numnod)) ! working array to mark nodes (connected to active element or deleted element)
               CALL PYTHON_BEGIN_OPENMP(PYTHON)
+
+              my_ispmd = ispmd
+              my_ncycle = ncycle
 !$OMP PARALLEL
 !$OMP+ PRIVATE(ITSK,NODFTSK,NODLTSK,NUMNTSK,NDTSK,IPMTSK,IGMTSK)
 !$OMP+ PRIVATE(PARTFTSK,PARTLTSK,NWAFTSK,N1,GREFTSK,GRELTSK,omp_address)
@@ -5685,6 +5689,8 @@ C===============================================================================
                   IF (IMONM > 0 ) CALL STARTIME(TIMERS,29)
                   NINDEXP = 0
                   CHECK_NEIGH_FLAG_RES = 0
+              my_ispmd = ispmd
+              my_ncycle = ncycle
 
 c         allocate(nodes%deleted_node(2*numnod)) ! working array to mark nodes connected to deleted element
 c         allocate(nodes%work_array_node(nthread*numnod)) ! working array to mark nodes (connected to active element or deleted element)

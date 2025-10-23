@@ -77,3 +77,51 @@ C-----------------------------------------------
         ! ----------------------
         RETURN
         END SUBROUTINE SURFACE_DEACTIVATION
+
+
+
+        SUBROUTINE SURFACE_DEACTIVATION_print(ITY,NRTM,GLOCAL_SURFACE_ID,MVOISIN)
+!$COMMENT
+!       SURFACE_DEACTIVATION description
+!           deactivation of neighbour surface
+!       SURFACE_DEACTIVATION organization
+!           - for a given K deactivated surface :
+!              loop over the surfaces to deactivate the neighbour K
+!$ENDCOMMENT
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
+#include      "implicit_f.inc"
+C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
+
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+        INTEGER, INTENT(in) :: ITY ! kind of interface
+        INTEGER, INTENT(in) :: NRTM ! number of surface
+        INTEGER, INTENT(in) :: GLOCAL_SURFACE_ID ! global id of the surface
+        INTEGER, DIMENSION(4,NRTM), INTENT(inout) :: MVOISIN ! neighbouring array
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------
+        INTEGER :: J,i
+C-----------------------------------------------
+        ! ----------------------
+        DO J=1,NRTM
+            ! --------------
+            ! deactivation of neighbouring 
+          do i=1,4
+            IF(MVOISIN(i,J)==GLOCAL_SURFACE_ID) then
+                print*,ity," PB 1",i,j,MVOISIN(1,J)
+                stop
+            endif
+          enddo
+            ! --------------
+                
+            ! --------------
+        ENDDO
+        ! ----------------------
+        RETURN
+        END SUBROUTINE SURFACE_DEACTIVATION_print        
