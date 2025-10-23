@@ -224,6 +224,7 @@
           use hm_read_mat87_mod
           use hm_read_mat105_mod , only : hm_read_mat105
           use hm_read_mat88_mod
+          use hm_read_mat106_mod
           use hm_read_mat125_mod
           use hm_read_mat126_mod
           use hm_read_mat127_mod
@@ -1049,10 +1050,9 @@
              case ('LAW106','JCOOK_ALM')
               ilaw  = 106
               call hm_read_mat106(&
-              &uparam   ,maxuparam,nuparam  ,israte  ,imatvis  ,&
-              &nuvar    ,ifunc    ,maxfunc  ,nfunc   ,parmat   ,&
-              &unitab   ,mat_id   ,titr     ,mtag    ,lsubmodel,&
-              &pm(1,i)  ,ipm(1,i) ,matparam )
+              &matparam ,nuvar    ,nfunc    ,parmat  ,unitab   ,&
+              &mat_id   ,titr     ,mtag     ,nvartmp ,lsubmodel,&
+              &ntable   ,table    ,iout     ,israte  )      
 !-------
              case ('LAW107','PAPER_LIGHT','PFEIFFER')
               ilaw = 107

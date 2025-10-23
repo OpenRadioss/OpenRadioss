@@ -90,7 +90,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: tab_id,ncycle,nrs,ierr
+          integer :: tab_id,ncycle,nrs
           real(kind=WP) :: rho0,shear,young,nu,bulk,tsc,damp,srclmt,lam,cii,cij,       &
             x1scale,x2scale,x3scale,x4scale,x2vect(1),x3vect(1),x4vect(1),       &
             fscale(1)
@@ -186,7 +186,7 @@
           x4vect(1) = zero
           call mat_table_copy(matparam ,x2vect   ,x3vect   ,x4vect   ,         &
             x1scale  ,x2scale  ,x3scale  ,x4scale  ,fscale   ,         &
-            ntable   ,table    ,ierr     )
+            ntable   ,table    ,ilaw     )
 !
           !< PARMAT table
           parmat(1)  = bulk

@@ -52,6 +52,7 @@ c===============================================
       DO N=1,NUMTABL
         LEN  = 1
         CALL WRITE_I_C(TABLE(N)%NOTABLE,LEN)
+        IF (TABLE(N)%NOTABLE <= 0) CYCLE
         NDIM = TABLE(N)%NDIM
         CALL WRITE_I_C(NDIM,LEN)
         DO I=1,NDIM
