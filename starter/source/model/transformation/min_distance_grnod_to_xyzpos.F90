@@ -44,7 +44,7 @@
 !||--- uses       -----------------------------------------------------
 !||====================================================================
         subroutine min_dist_grnod_to_xyzpos(nodes , n_nodes, xyzpos,xyzflag, x     , &
-                                         &  numnod, isk    , skew  , lskew , numskw)
+                                         &  numnod, isk    , skew  , lskew , sskew )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -62,9 +62,9 @@
           integer,                                   intent(in) :: numnod                       !< Total number of nodes in model
           integer,                                   intent(in) :: isk                          !< Index of skew (0 if no skew)
           integer,                                   intent(in) :: lskew                        !< Length of skew
-          integer,                                   intent(in) :: numskw                       !< Number of skews
+          integer,                                   intent(in) :: sskew                        !< Sum of skews
           real(kind=WP),                             intent(inout) :: x(3, numnod)              !< Coordinates of all nodes
-          real(kind=WP),                             intent(in) :: skew(lskew,numskw)           !< Skew matrices
+          real(kind=WP),                             intent(in) :: skew(lskew,sskew/lskew)      !< Skew matrices
           real(kind=WP),                             intent(in) :: xyzpos(3)                    !< Position to apply (min or max)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
@@ -211,7 +211,7 @@
               if(xyzflag(2) > 0 .and. xyzpos(2) /= 0.0_WP) x(2,igrnod) = xn(2,i) - dist_y
               if(xyzflag(3) > 0 .and. xyzpos(3) /= 0.0_WP) x(3,igrnod) = xn(3,i) - dist_z
             end do
-          else
+          else if (isk > 0) then
             ! skewed translation of group nodes in all concerned directions
             do i=1, n_nodes
               igrnod = nodes(i)
