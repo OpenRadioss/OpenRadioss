@@ -580,7 +580,7 @@ C-----------------------------------------------
             EDGES_TMP(1, II) = EDGES(1, II)
             EDGES_TMP(2, II) = EDGES(2, II)
           ENDDO
-          CALL QUICKSORT_I2(EDGES_TMP(1, :), IDX, 1, NB_EDGE)
+          CALL QUICKSORT_I2(EDGES_TMP(1, :), IDX, 1, NB_EDGE)! hidden copies
           DO II = 1, NB_EDGE
             EDGES_TMP(1, II) = EDGES(1, IDX(II))
             EDGES_TMP(2, II) = EDGES(2, IDX(II))
@@ -603,7 +603,7 @@ C-----------------------------------------------
               EDGES(2, NB_EDGE_NEW) = EDGES_TMP(2, II)
               II = II + 1
             ELSE
-              CALL QUICKSORT_I(EDGES_TMP(2, II : II + IAD1 - 1), 1, IAD1)
+              CALL QUICKSORT_I(EDGES_TMP(2, II : II + IAD1 - 1), 1, IAD1) !hidden copies
               NODE1 = EDGES_TMP(1, II)
               NODE2 = EDGES_TMP(2, II)
               NB_EDGE_NEW = NB_EDGE_NEW + 1

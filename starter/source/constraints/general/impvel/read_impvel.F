@@ -374,13 +374,6 @@ c--------------------------------------------------
      .'            START_TIME                 STOP_TIME',
      .'         COORDINATE SYSTEM')
 c--------------------------------------------------
- 2000 FORMAT(//
-     .'     IMPOSED VELOCITIES BY LAGRANGE MULTIPLIERS  '/
-     .'     ------------------------------------------  '/
-     .'         NODE         SKEW        FRAME  DIRECTION   LOAD_CURVE',
-     .'       SENSOR            FSCALE                ASCALE',
-     .'            START_TIME                 STOP_TIME',
-     .'         COORDINATE SYSTEM')
  3000 FORMAT(3X,I10,3X,I10,3X,I10,9X,A2,3X,I10,3X,I10,
      .       2X,1PG20.13,2X,1PG20.13,2X,G20.13,2X,G20.13,16X,I10)
  4000 FORMAT(3X,I10,3X,I10,3X,I10,9X,A2,3X,I10,3X,I10,

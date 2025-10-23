@@ -115,7 +115,6 @@
           real(kind=WP) :: tmp(3)                                                          !< temporary array
           real(kind=WP) :: theta
 
-          integer :: iadbuf                                                          !< index for buffer bufmat
           integer :: nsegsurf                                                           !< number of segments for a given 2d surface
           integer :: npoints                                                            !< number of points for ordered list of nodes
           integer :: ng,nel,mtn,imat,icumu,I15_,nft,ity,isolnod,invol,iad,part_id,idp   !< local variables

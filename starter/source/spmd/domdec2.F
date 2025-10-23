@@ -3153,20 +3153,6 @@ C
      . '     --------------------------------------------------------'/
      . '        RESTART FILE SIZE',I10,' MB')
 
- 1300 FORMAT(
-     . '        NODAL FIELDS. . . . . . ',I10,/
-     . '        CONDENSED DATA. . . . . ',I10)
- 1310 FORMAT(
-     . '        TEMPORARY STORAGE . . . ',I10,' -> CONDENSED PROBLEM')
- 1320 FORMAT(
-     . '        TEMPORARY STORAGE . . . ',I10,' ->  SUP. ELEM: ',I10)
- 1340 FORMAT(
-     . '        NEW TOTAL . . . . . . . ',I10,' MB'/)
- 1350 FORMAT(
-     . '        SUP. ELEM MODES . . . . ',I10,' MB',/
-     . '        CONDENSED MATRICES. . . ',I10,' MB',/
-     . '                                 ---------'/
-     . '        TOTAL . . . . . . . . . ',I10,' MB')
  1400 FORMAT(
      . '        ADD. MEMORY FOR REALS . ',I10,' MB',/
      . '        ADD. MEMORY FOR INTEGERS',I10,' MB',/

@@ -513,45 +513,6 @@ C File Rec Length
       NSTRF(6)=LREC*4
       
 C-------------------------------------------------------------
- 2900 FORMAT(/' SECTION',I10,' ID',I10/
-     +        ' ---------------'/
-     + '        TYPE . . . . . . . . . . . . . . .',I10/
-     + '        FILENAME . . . . . . . . . . . . .',A/
-     + '        DELTAT . . . . . . . . . . . . . .',1PG20.13/
-     + '        ALPHA. . . . . . . . . . . . . . .',1PG20.13/
-     + '        FRAME TYPE . . . . . . . . . . . .',I10/
-     + '        NUMBER OF INTERFACES . . . . . . .',I10/
-     + '        INTERFACES:')
- 2901 FORMAT(/' SECTION',I10,' ID',I10/
-     +        ' ---------------'/
-     + '        TYPE . . . . . . . . . . . . . . .',I8/
-     + '        FRAME TYPE . . . . . . . . . . . .',I8/)
- 3000 FORMAT(/
-     + '        NUMBER OF NODES. . . . . . . . . .',I10/
-     + '        NODES:')
- 3100 FORMAT(/
-     + '        NUMBER OF SHELL ELEMENTS . . . . .',I10/
-     + '   SHELL      N1      N2      N3      N4')
- 3200 FORMAT(/
-     + '        NUMBER OF 3 NODES SHELL ELEMENTS .',I10/
-     + '   SHELL      N1      N2      N3')
- 3300 FORMAT(/
-     + '        NUMBER OF BRICK ELEMENTS . . . . .',I10/
-     + '   BRICK      N1      N2      N3      N4',
-     + '     N5      N6      N7      N8')
- 3400 FORMAT(/
-     + '        NUMBER OF QUAD ELEMENTS . . . . .',I10/
-     + '   QUAD      N1      N2      N3      N4')
- 3500 FORMAT(/
-     + '        NUMBER OF TRUSS ELEMENTS . . . . .',I10/
-     + '   TRUSS      N1      N2')
- 3600 FORMAT(/
-     + '        NUMBER OF BEAM ELEMENTS . . . . .',I10/
-     + '   BEAM      N1      N2')
- 3700 FORMAT(/
-     + '        NUMBER OF SPRING ELEMENTS . . . . .',I8/
-     + '   SPRING      N1      N2')
-C
       DEALLOCATE(NODTAG)  
       DEALLOCATE(TAGELEMS)
       RETURN

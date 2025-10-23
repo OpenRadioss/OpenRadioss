@@ -98,6 +98,10 @@
           allocate(xn(3, n_nodes), xsn(3, n_surf_nodes))
           xn(:,:) = 0.0_WP
           xsn(:,:) = 0.0_WP
+          max_pos = -huge(1.0_WP)
+          min_pos = huge(1.0_WP)
+          orig(:) = huge(1.0_WP)
+
 
           ! Initialize min and max coordinates
 

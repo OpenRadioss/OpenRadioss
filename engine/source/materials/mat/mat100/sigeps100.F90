@@ -135,42 +135,40 @@
           integer , intent(in) :: nfunc
           integer , intent(in) :: ifunc(nfunc)
           real(kind=WP) , intent(in) :: tf(stf)
-          real(kind=WP) :: fint2v
           real(kind=WP) :: finter,fintte
           external finter,fintte
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                        local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer    :: i,j,kk,ll,n,flagbb,direct,iter,niter,tab,tabn,shift,nindx
-          integer  :: n_network, flag_he, flag_mul, flag_t,nhyper,nplas,iform,&
-          &flag_pl,net,exppl, nvisc(10),&
+          integer    :: i,n,tab,tabn,shift
+          integer  :: n_network, flag_he, flag_mul, flag_t,nplas,iform,&
+          &flag_pl,exppl, nvisc(10),&
           &flag_visc(10),&
           &ipos1(nel),ilen1(nel),iad1(nel),&
           &ipos2(nel),ilen2(nel),iad2(nel)
 
-          real(kind=WP) :: et1,et2,et3,g,rbulk,aa,bb,cc,sb, factor,&
-          &maxl,stiff0,dsig,deps,coef1,coef2,coef3,coef4,coef5,coef6,&
-          &c10,c01,c20,c11,c02,c30,c21,c12,c03,d1,d2,d3,tauy0,ff, epshat,&
-          &temp1,facpl,hh,r3r3,&
-!
+          real(kind=WP) :: g,rbulk, factor,ff,                                       &
+          &stiff0,dsig,deps,&
+          &c10,c01,c20,c11,c02,c30,c21,c12,c03,d1,d2,d3,tauy0, epshat,            &
+          &temp1,facpl,r3r3,&
           &bi1(nel),bi2(nel),jdet(nel),gammaold(nel),stiff(nel),&
           &traceb(nel),&
-          &sb1(nel), sb2(nel),sb3(nel),sb4(nel), sb5(nel),sb6(nel),ww(nel),&
+          &sb1(nel), sb2(nel),sb3(nel),sb4(nel), sb5(nel),sb6(nel),              &
           &sa1(nel), sa2(nel),sa3(nel),sa4(nel), sa5(nel),sa6(nel),tanorm(nel),&
-          &tbnorm(nel),dgamma(nel),pla(nel),yld(nel), tauy(nel),&
+          &tbnorm(nel),dgamma(nel),pla(nel), tauy(nel),&
           &tracea(nel),plap(nel),dpla(nel),munh(nel),dnh(nel),dydx1(nel),dydx2(nel),&
           &r1x(nel),r1y(nel),r1z(nel),r2x(nel),r2y(nel),r2z(nel),r3x(nel),r3y(nel),r3z(nel),&
-          &f(nel,3,3),ft(nel,3,3),fe(nel,3,3),fp(nel,3,3),&
+          &f(nel,3,3),fe(nel,3,3),fp(nel,3,3),&
           &fft(nel,3,3),invfpo(nel,3,3),matb(nel,3,3),fpo(nel,3,3),&
-          &sig(nel,3,3),sigb(nel,3,3),siga(nel,3,3),sn(nel,3,3),&
+          &sigb(nel,3,3),siga(nel,3,3),sn(nel,3,3),&
           &fth(nel,3,3), ftot(nel,3,3),fmec(nel,3,3),invfth(nel,3,3),&
           &fftn(nel,3,3),fpeq(nel,3,3),fpeqo(nel,3,3),s(nel,3,3),fedp(nel,3,3),&
-          &dfp(nel,3,3),lb(nel,3,3),dfp2(nel,3,3),invfe(nel,3,3)
+          &dfp(nel,3,3),lb(nel,3,3),invfe(nel,3,3)
           !
           real(kind=WP) :: a1(10),expc(10),expm(10),ksi(10),a10(10),stiffn(10),&
           &b0(10),expn(10),tauref(10)
           !
-          real(kind=WP) :: c1,c2,c3,c4,c5,mu,lm,d,beta,scale1,scale2,cmax
+          real(kind=WP) :: c1,c2,c3,c4,c5,mu,d,beta,scale1,scale2
           real(kind=WP) :: coefr,betaf ,coefm
 !----------------------------------------------------------------
 !     material model : prf : parallel rheological framework

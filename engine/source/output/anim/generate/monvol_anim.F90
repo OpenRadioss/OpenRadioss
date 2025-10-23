@@ -62,7 +62,7 @@
           real(kind=WP)&
           &:: XX,YY,ZZ
           REAL :: R4,R4NP(6*NUMELS16)
-          INTEGER :: I, J, K,N1,N2,N3,N4,N5,N6,N7,N8,&
+          INTEGER :: I, J, N1,N2,N3,N4,N5,N6,N7,N8,&
           &JJ,BUF
 ! ----------------------------------------------------------------------------------------------------------------------
           JJ = 0
@@ -165,7 +165,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          INTEGER :: I, J, K,N1,N2,N3,N4,N5,N6,N7,N8,I3000,SIZ
+          INTEGER :: J, I3000,SIZ
 ! ----------------------------------------------------------------------------------------------------------------------
           I3000 = 3000
           SIZ = NUMELS16G
@@ -218,12 +218,12 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          INTEGER :: I,ITYP,K1,K2,K3,KK1,KK2,N,NG,N1,N2
-          INTEGER :: NNOD_ALE,NTETRA_MX,KR1,KR2,KR3,KR9,KRA1,KRA2,KRA3,KRA8
-          INTEGER :: KIBJET,KRBJET,KIBHOL,KRBHOL,NJET,IADJET,RADJET,NVENT,IADHOL,RADHOL
-          real(kind=WP) :: CV
-          INTEGER :: NNBEM, NTG, KIBALE, KRBALE
-          real(kind=WP) :: GAMAI, CPAI, CPBI, CPCI, PINI, TI, CPI, CVI, RHOEI, RHOI, COEFA, RHO, PRES
+          INTEGER :: I,ITYP,K1,KK1,N,N1,N2
+          INTEGER :: KR1,KR2,KR3,KR9,KRA1,KRA2,KRA3,KRA8
+          INTEGER :: KIBHOL,KRBHOL
+
+          INTEGER :: NTG, KIBALE, KRBALE
+
           INTEGER :: NNS, NBA, NNA, NNI, NTGI,NNT
           INTEGER :: IFV
 !
@@ -375,7 +375,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          INTEGER :: I, II,N,N1,N2
+          INTEGER :: N,N1,N2
 !
           IF (NSPMD > 1)THEN
             CALL SPMD_FVB_SCAT_NUM_NODA(IFV,UA,NNA*3)
