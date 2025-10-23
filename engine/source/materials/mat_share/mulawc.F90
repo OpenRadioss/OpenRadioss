@@ -207,6 +207,7 @@
           use sigeps57c_mod
           use sigeps87c_mod
           use sigeps88c_mod
+          use sigeps106c_mod
           use sigeps125c_mod
           use sigeps127c_mod
           use sigeps128c_mod
@@ -1715,6 +1716,18 @@
                 &etse    ,varnl(1,it),lbuf%dmg,bufly%l_dmg,lbuf%temp,lbuf%seq,inloc,&
                 &elbuf_str%nptr,elbuf_str%npts,elbuf_str%nptt,bufly    ,lbuf%planl,&
                 &bufly%l_planl ,lbuf%epsdnl,bufly%l_epsdnl,ioff_duct   )
+!
+              elseif (ilaw == 106) then
+                call sigeps106c(& 
+                &jlt      ,matparam ,nuvar    ,tt       ,rho      ,vol_ipt  ,    &
+                &depsxx   ,depsyy   ,depsxy   ,depsyz   ,depszx   ,              &
+                &sigoxx   ,sigoyy   ,sigoxy   ,sigoyz   ,sigozx   ,              &
+                &signxx   ,signyy   ,signxy   ,signyz   ,signzx   ,              &
+                &epspxx   ,epspyy   ,epspxy   ,israte   ,asrate   ,              &
+                &ssp      ,uvar     ,off      ,lbuf%pla ,dpla     ,lbuf%seq ,    &
+                &el_temp  ,jthe     ,shf      ,fheat    ,etse     ,sigy     ,    &
+                &nvartmp  ,vartmp   ,dt1      ,lbuf%epsd,thkn     ,thklyl   ,    &
+                &inloc    ,varnl(1,it),lbuf%off,ioff_duct,ngl     )
 !
               elseif (ilaw == 107 )then
                 call sigeps107c(&
