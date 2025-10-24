@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    ale_mod          ../common_source/modules/ale/ale_mod.F
 !||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
+!||    prop_param_mod   ../common_source/modules/mat_elem/prop_param_mod.F90
 !||====================================================================
       SUBROUTINE M46LAW(
      1   LFT,     LLT,     NFT,     MTN,

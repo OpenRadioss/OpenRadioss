@@ -34,6 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
 !||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
+!||    prop_param_mod   ../common_source/modules/mat_elem/prop_param_mod.F90
 !||====================================================================
       SUBROUTINE M24LAW(
      1   LBUF,    PM,      OFF,     SIG,

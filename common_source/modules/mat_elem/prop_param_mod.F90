@@ -23,8 +23,16 @@
 !||====================================================================
 !||    prop_param_mod               ../common_source/modules/mat_elem/prop_param_mod.F90
 !||--- called by ------------------------------------------------------
+!||    m1law                        ../engine/source/materials/mat/mat001/m1law.F
+!||    m1lawi                       ../engine/source/materials/mat/mat001/m1lawi.F
+!||    m1lawtot                     ../engine/source/materials/mat/mat001/m1lawtot.F
+!||    m22law                       ../engine/source/materials/mat/mat022/m22law.F
+!||    m24law                       ../engine/source/materials/mat/mat024/m24law.F
+!||    m2law                        ../engine/source/materials/mat/mat002/m2law.F
+!||    m46law                       ../engine/source/materials/mat/mat046/m46law.F
 !||    mat_elem_mod                 ../common_source/modules/mat_elem/mat_elem_mod.F90
 !||    mulaw                        ../engine/source/materials/mat_share/mulaw.F90
+!||    sboltlaw                     ../engine/source/elements/solid/solide/sboltlaw.F
 !||    sigeps51                     ../engine/source/materials/mat/mat051/sigeps51.F90
 !||    sigeps51_boundary_material   ../engine/source/materials/mat/mat051/sigeps51_boundary_material.F90
 !||--- uses       -----------------------------------------------------

@@ -32,6 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    glob_therm_mod     ../common_source/modules/mat_elem/glob_therm_mod.F90
 !||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||    prop_param_mod     ../common_source/modules/mat_elem/prop_param_mod.F90
 !||====================================================================
       SUBROUTINE M2LAW(mat_param ,
      1   PM,      OFF,        SIG,     EINT,

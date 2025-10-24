@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    mqviscb          ../engine/source/materials/mat_share/mqviscb.F
 !||--- uses       -----------------------------------------------------
 !||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
+!||    prop_param_mod   ../common_source/modules/mat_elem/prop_param_mod.F90
 !||====================================================================
       SUBROUTINE M1LAW(
      1   PM,      OFF,     SIG,     EINT,
