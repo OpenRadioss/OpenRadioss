@@ -2498,6 +2498,10 @@ C----look at how to orginase SIGSH(,I)
 C                     CALL ANCERR(58,ANINFO_BLIND_2)
                     ENDIF ! IF (NPG == 0 .OR. NPG == 1)
                     PT = INISHVAR1
+                    IF (IHBE==24) THEN 
+                       SIGSH(INISHVAR1,I) = MAX(1,NPG) !have to use this since SIGSH(NVSHELL,I) is used also for stress
+                       PT = PT +1 
+                    END IF
                     NPP = NIP
                     IF (NPP==0) NPP=2
 !===============================================

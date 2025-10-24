@@ -322,7 +322,7 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
      6               GBUF%PLA,THK     ,IGTYP   ,NEL     ,ISIGSH ,
      7               E1X   ,E2X      ,E3X      ,E1Y   ,E2Y  ,E3Y,
      8               E1Z   ,E2Z      ,E3Z      ,DIR_A  ,DIR_B,POSLY )
-           IF (MTN == 1) THEN
+           IF (MPT == 0) THEN
              DO I=LFT,LLT
                GBUF%FOR_G(I+JJ(1:5))=GBUF%FOR(I+JJ(1:5))
              END DO

@@ -73,7 +73,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,II,J,JJ,N,NPTI,I1,I2,PT,PID1,IPID1,L_PLA,NLAY,
      .   ILAY,LAYNPT_MAX,LAY_MAX,NPTT,NPTMX,IP,PTS,LENS,IPT_ALL,
-     .   IPT,PTN,JDIR,ILAW,NPGI,NPG
+     .   IPT,PTN,JDIR,ILAW,NPGI,NPG,NPGII
       INTEGER LI(MVSIZ)
       my_real 
      .    E1(6),E2(6),Z1,Z2,Z0,AA,E1G(6,4),E2G(6,4),Z1G(4),Z2G(4),UNG,R1
@@ -102,12 +102,13 @@ C=======================================================================
         ENDIF
         LI(I) = II
         NPTI=NINT(SIGSH(2,II))
-        NPGI=NINT(SIGSH(NVSHELL,II))
+        NPGII=NINT(SIGSH(NVSHELL,II))
+        NPGI = NINT(SIGSH(INISHVAR1,II)) ! NPGI could be 1
 C--- in global sys NPGI=4 for QEPH like stress now
-         IF(SIGSH(17,II) == ONE .AND. NPGI==NPG )THEN
-            PT = INISHVAR1          
+         IF(SIGSH(17,II) == ONE .AND. NPGII==NPG )THEN
+            PT = INISHVAR1 + 1         
              IF (NPTI==1) THEN
-               DO IP = 1,NPG
+               DO IP = 1,NPGI
                  E1(1:6) = SIGSH(PT:PT+5,II)
                  Z1 = SIGSH(PT+6,II)
                    CALL CG2LEPS(
@@ -118,17 +119,17 @@ C--- in global sys NPGI=4 for QEPH like stress now
                END DO 
              ELSE
                AA = HALF*THKE(I)
-               DO IP = 1,NPG
+               DO IP = 1,NPGI
                  E1G(1:6,IP) = SIGSH(PT:PT+5,II)
                  Z1G(IP) = SIGSH(PT+6,II)
                  PT = PT + 7
                END DO 
-               DO IP = 1,NPG
+               DO IP = 1,NPGI
                  E2G(1:6,IP) = SIGSH(PT:PT+5,II)
                  Z2G(IP) = SIGSH(PT+6,II)
                  PT = PT + 7
                END DO 
-               DO IP = 1,NPG
+               DO IP = 1,NPGI
                  CALL CG2LEPS(
      7              E1X(I) ,E2X(I),E3X(I),E1Y(I),E2Y(I),E3Y(I),
      8              E1Z(I) ,E2Z(I),E3Z(I),E1G(1,IP))
@@ -158,6 +159,11 @@ c                error out
                  END IF
                END DO 
              END IF
+             IF (NPG>NPGI) THEN 
+                DO IP = NPGI+1,NPG
+                  GSTR(I,1:8,IP) = GSTR(I,1:8,NPGI)
+                END DO 
+             END IF 
            GSTRM(I,1:8) = ZERO
            UNG = ONE/NPG          
            DO IP = 1,NPG
