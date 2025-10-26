@@ -537,51 +537,12 @@
         endif
 !
         !<======================================================================
-        !< Specific treatment for compressible materials
-        !<======================================================================  
-        npt = size(table_mat(1)%x(1)%values)
-        if ((nu > zero) .and. (nu < 0.49d0)) then
-          !< Effective bulk modulus
-          do i = 1, npt
-            if (table_mat(1)%x(1)%values(i) /= zero) then
-              lam = table_mat(1)%x(1)%values(i) + one
-              rv  = lam**(one - two*nu)
-              if (ndim == 1) then            
-                bulk = min(bulk,(1.0d0 - 0.02d0)*table_mat(1)%y1d(i)*rv/log(rv))
-              elseif (ndim == 2) then
-                do j = 1,nl
-                  bulk = min(bulk,(1.0d0 - 0.02d0)*table_mat(1)%y2d(i,j)*rv/log(rv))
-                enddo
-              endif
-            endif
-          enddo
-          !< Remove the volumetric part from the stress-strain curve
-          do i = 1, npt   
-            lam = table_mat(1)%x(1)%values(i) + one
-            rv  = lam**(one - two*nu)
-            if (ndim == 1) then
-              table_mat(1)%y1d(i) = table_mat(1)%y1d(i) - bulk*(log(rv))
-            elseif (ndim == 2) then
-              do j = 1,nl
-                table_mat(1)%y2d(i,j) = table_mat(1)%y2d(i,j) - bulk*(log(rv))
-              enddo
-            endif 
-          enddo
-          if (iunl_for == 1) then
-            npt2 = size(table_mat(2)%x(1)%values)
-            do i = 1, npt2
-              lam = table_mat(2)%x(1)%values(i) + 1d0
-              rv  = lam**(1d0 - 2d0*nu)
-              table_mat(2)%y1d(i) = table_mat(2)%y1d(i) - bulk*(log(rv))
-            enddo
-          endif
-        endif
-!
-        !<======================================================================
         !< Automatic estimation of the elastic parameters
         !<======================================================================
         !< Number of dimensions (> 1 if strain rate dependent)         
-        ndim = table_mat(1)%ndim      
+        ndim = table_mat(1)%ndim     
+        !< Number of points in the loading curve 
+        npt = size(table_mat(1)%x(1)%values)
         !< Initialize the slope measure
         dydx = zero
         !< Maximum stress
@@ -635,8 +596,7 @@
         !<======================================================================
         !< Normalization of the loading and unloading curves    
         !<======================================================================
-        if (matparam%ntable > 1) then
-          
+        if (matparam%ntable > 1) then      
           !< Normalize the unloading curve
           where (table_mat(2)%x(1)%values < zero) & 
              table_mat(2)%x(1)%values = table_mat(2)%x(1)%values/abs(x_out2(1))
@@ -649,8 +609,8 @@
           !< Normalize the loading curve
           table_mat(3)%ndim = ndim
           allocate(table_mat(3)%x(ndim))
+          npt = size(table_mat(1)%x(1)%values)
           if (ndim == 1) then
-            npt = size(table_mat(1)%x(1)%values)
             allocate(table_mat(3)%x(1)%values(npt),table_mat(3)%y1d(npt))
             table_mat(3)%x(1)%values(1:npt) = table_mat(1)%x(1)%values(1:npt)                         
             table_mat(3)%y1d(1:npt) = table_mat(1)%y1d(1:npt)
@@ -693,6 +653,7 @@
         !<======================================================================
         !< Convert then engineering strain abscissa to stretches
         !<======================================================================
+        npt = size(table_mat(1)%x(1)%values)
         table_mat(1)%x(1)%values(1:npt) = one + table_mat(1)%x(1)%values(1:npt)
 !
         !<======================================================================
@@ -701,16 +662,7 @@
         !< Young modulus
         e = dydx
         !< Shear modulus 
-        gs = three*bulk*e/(nine*bulk - e)
-        if (gs < zero) then 
-          call ancmsg(msgid=3109,                                             &
-                      msgtype=msgwarning,                                     &
-                      anmode=aninfo_blind_1,                                  &
-                      i1=mat_id,                                              &
-                      c1=titr)
-          bulk = four*(e/nine)*(one + em3)
-          gs = three*bulk*e/(nine*bulk - e)
-        endif
+        gs = half*e/(one + nu)
 !
         !< Default strain rate filtering cut-off frequency 
         israte = 1 
@@ -771,7 +723,11 @@
         mtag%g_dmg  = 1
 ! 
         !< Material model keywords
-        call init_mat_keyword(matparam,"INCOMPRESSIBLE")
+        if (nu > zero .and. nu < 0.49d0) then
+          call init_mat_keyword(matparam,"COMPRESSIBLE")
+        else
+          call init_mat_keyword(matparam,"INCOMPRESSIBLE")
+        endif
         call init_mat_keyword(matparam,"INCREMENTAL")
         call init_mat_keyword(matparam,"LARGE_STRAIN")
 !
@@ -780,7 +736,10 @@
         call init_mat_keyword(matparam,"SHELL_ISOTROPIC")
 !
         !< Table deallocation
-        deallocate(x_out,y_out)
+        if (allocated(x_out))  deallocate(x_out)
+        if (allocated(y_out))  deallocate(y_out)
+        if (allocated(x_out2)) deallocate(x_out2)
+        if (allocated(y_out2)) deallocate(y_out2)
 !
 !-------------------------------------------------------------------------------
         !< Printing out the material data
