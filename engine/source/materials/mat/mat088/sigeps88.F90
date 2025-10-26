@@ -127,8 +127,8 @@
         !< Integer parameters
         integer :: itens,nload,iunl_for,rtype,failip,nv_base
         !< Real parameters
-        real(kind=WP) :: nu,hys,shape,rbulk,gs,gdamp,sigf,kfail,gam1,gam2,eh,  &
-          beta
+        real(kind=WP) :: nu,hys,shape,rbulk(nel),gs,gdamp,sigf,kfail,gam1,gam2,&
+          eh,beta
         !< Integer working variables
         integer :: i,j,n,ne_load,ne_unload,ne_fail,jj,nindx_dam,nindx_fail
         integer, dimension (nel) :: indx_l,indx_unl,jdom,indx_dam,indx_fail
@@ -141,7 +141,7 @@
         real(kind=WP), dimension(nel) :: deint0,deint,p,epseq,emax,loadflg,    &
           sigdxx,sigdyy,sigdzz,sigdxy,sigdyz,sigdzx,sigdeff,erate,rv,rv_mth,   &
           gmax,ecurent,unl,dunldlam,loadflg_old,gunl,dgunldlam,ratioR,fcrit,   &
-          i1,i2
+          i1,i2,fJ,dfJdx,gJ,dgJdlam,dgJsqrdlam,gJsqr,xhat_dom,xfoam
         real(kind=WP), dimension(3,3) :: epsp
         real(kind=WP), dimension(nel,3) :: lam,evvp,ee,eep,f,dfdlam,t,g,gsqr,  &
           dgdlam,dgsqrdlam
@@ -171,7 +171,7 @@
         failip   = min(failip,npg)    !< Limit to max number of integration points
         nv_base  = matparam%iparam(6) !< Base number of user variables
         !< Recovering real model parameters
-        rbulk    = matparam%bulk      !< Bulk modulus
+        rbulk(1:nel) = matparam%bulk  !< Bulk modulus
         nu       = matparam%nu        !< Poisson's ratio
         if (nu >= 0.49d0) nu = 0.5d0 
         gs       = matparam%shear     !< Shear modulus
@@ -357,6 +357,10 @@
           else
             rv_mth(i) = zero
           endif
+          ! -> For compressible materials 
+          if ((nu > zero) .and. (nu < 0.49d0)) then
+            rv_mth(i) = one
+          endif
           !< Normalized stretch (isochoric stretch)
           lam(i,1) = lam(i,1)*rv_mth(i)
           lam(i,2) = lam(i,2)*rv_mth(i)
@@ -451,18 +455,53 @@
             ldav = epspxx(i) + epspyy(i) + epspzz(i)
             !< Viscous pressure
             p(i) = uvar(i,12)*exp(-beta*tstep) +                               &
-                      rbulk*ldav*((one - exp(-beta*tstep))/beta)
+                      rbulk(i)*ldav*((one - exp(-beta*tstep))/beta)
             uvar(i,12) = p(i)
           enddo
-        ! -> Compressible pressure (Foam version)
-        elseif ((nu > zero) .and. (nu < 0.49d0)) then
-          do i = 1,nel
-            p(i) = rbulk*log(rv(i))
+        ! -> Specific formulation for low Poisson's ratio (foam-like)
+        elseif (nu > zero .and. nu < 0.49d0) then 
+          !< Interpolation abscissa (based on relative volume and strain rate)
+          do i = 1,nel 
+            xfoam(i)  = rv(i)**((-nu/(one - two*nu)))
+            xvec(i,1) = xfoam(i)
+            xvec(i,2) = epsd(i)
+            ipos(i,1:6) = 1
           enddo
-        ! -> Incompressible pressure (Rubber version)
+          !< Interpolation of the uniaxial loading stresses
+          call table_mat_vinterp(matparam%table(1),nel,nel,ipos(1:nel,1),      & 
+                                 xvec(1:nel,1),gJ(1:nel),dgJdlam(1:nel))
+          !< Initialize loading function value
+          do i = 1, nel
+            fJ(i) = gJ(i)*xvec(i,1)
+            dfJdx(i) = gJ(i) + xvec(i,1)*dgJdlam(i)
+          enddo
+          !< Recursive integration for higher-order stretches (niter iterations)
+          do n = 1, niter
+            do i = 1,nel
+              xvec(i,1) = xfoam(i)**((-nu)**n)
+              xvec(i,2) = epsd(i) 
+              ipos(i,1:6) = 1
+            enddo
+            !< Interpolation of the uniaxial loading stresses
+            call table_mat_vinterp(matparam%table(1),nel,nel,ipos(1:nel,1),    & 
+                                   xvec(1:nel,1),gJsqr(1:nel),dgJsqrdlam(1:nel))
+            do i = 1, nel
+              !< Loading functions recursive update
+              fJ(i) = fJ(i) + xvec(i,1)*gJsqr(i)
+              dfJdx(i) = dfJdx(i) + ((-nu)**n) *                               &
+                         (xfoam(i)**(((-nu)**n) - one)) *                      &
+                         (gJsqr(i) + xvec(i,1) * dgJsqrdlam(i))
+            enddo
+          enddo
+          !< Effective bulk modulus computation
+          do i = 1, nel
+            rbulk(i) = (-nu/(one - two*nu)) * xfoam(i) * dfJdx(i)
+            if (rbulk(i) < em12) rbulk(i) = em12
+          enddo
+        ! -> Standard hydrostatic pressure for incompressible-like case
         else
           do i = 1,nel
-            p(i) = rbulk*(rv(i) - one)
+            p(i) = rbulk(i)*(rv(i) - one)
           enddo
         endif
 !
@@ -479,9 +518,17 @@
             !< Compute equivalent total strain (for energy tracking)
             epseq(i) = sqrt(ee(i,1)**2 + ee(i,2)**2 + ee(i,3)**2)
             !< Compute trial principal Cauchy stresses t(i,j) for each direction:
-            t(i,1) = (two_third*f(i,1) - third*(f(i,2) + f(i,3)) + p(i))/rv(i)
-            t(i,2) = (two_third*f(i,2) - third*(f(i,1) + f(i,3)) + p(i))/rv(i)
-            t(i,3) = (two_third*f(i,3) - third*(f(i,1) + f(i,2)) + p(i))/rv(i)
+            ! -> Incompressible-like case (nu <= 0 or nu >= 0.49)
+            if (nu <= zero .or. nu >= 0.49d0) then 
+              t(i,1) = (two_third*f(i,1) - third*(f(i,2) + f(i,3)) + p(i))/rv(i)
+              t(i,2) = (two_third*f(i,2) - third*(f(i,1) + f(i,3)) + p(i))/rv(i)
+              t(i,3) = (two_third*f(i,3) - third*(f(i,1) + f(i,2)) + p(i))/rv(i)
+            ! -> Compressible case (0 < nu < 0.49)
+            else
+              t(i,1) = (f(i,1) - fJ(i))/rv(i)
+              t(i,2) = (f(i,2) - fJ(i))/rv(i)
+              t(i,3) = (f(i,3) - fJ(i))/rv(i)
+            endif
             !< Compute strain energy increment (using trial stresses)
             deint(i) = deint0(i) + half*(                                        &
                           t(i,1)*evvp(i,1) +                                     &
@@ -649,6 +696,8 @@
 !
               !< Find dominant direction jdom(i) with max amplitude
               amax = -one
+              xhat_dom(i) = zero
+              jdom(i) = 1
               do j = 1,3
                 !< Stretch at unload start
                 lam_r  = uvar(i,nv_base+j)   
@@ -666,12 +715,12 @@
                 if (xmag > amax) then
                   amax = xmag
                   jdom(i) = j
-                end if
+                  xhat_dom(i) = sign(one,xhat)*xmag
+                endif
               end do
 !
               !< Fill interpolation abscissa for dominant direction only
-              xvec(i,1) = amax
-              xvec(i,1) = sign(one,xvec(i,1))*min(abs(xvec(i,1)),one - em08)
+              xvec(i,1) = sign(one,xhat_dom(i))*min(abs(xhat_dom(i)),one - em08)
 !
               !< Strain rate dependency type
               ! -> If itens = -1, no strain rate effect during unloading
@@ -726,9 +775,17 @@
               dfdlam(i,3) = dfdlam(i,3) * ratioR(i)
 !
               !< Recompute principal stresses with scaled loading functions
-              t(i,1) = (two_third*f(i,1) - third *(f(i,2)+f(i,3)) + p(i))/rv(i)
-              t(i,2) = (two_third*f(i,2) - third *(f(i,1)+f(i,3)) + p(i))/rv(i)
-              t(i,3) = (two_third*f(i,3) - third *(f(i,1)+f(i,2)) + p(i))/rv(i)
+              ! -> Incompressible-like case (nu <= 0 or nu >= 0.49)
+              if (nu <= zero .or. nu >= 0.49d0) then 
+                t(i,1) = (two_third*f(i,1) - third *(f(i,2)+f(i,3)) + p(i))/rv(i)
+                t(i,2) = (two_third*f(i,2) - third *(f(i,1)+f(i,3)) + p(i))/rv(i)
+                t(i,3) = (two_third*f(i,3) - third *(f(i,1)+f(i,2)) + p(i))/rv(i)
+              ! -> Compressible case (0 < nu < 0.49)
+              else
+                t(i,1) = (f(i,1) - fJ(i)*ratioR(i))/rv(i)
+                t(i,2) = (f(i,2) - fJ(i)*ratioR(i))/rv(i)
+                t(i,3) = (f(i,3) - fJ(i)*ratioR(i))/rv(i)
+              endif 
             enddo
 !
           !<--------------------------------------------------------------------
@@ -788,18 +845,18 @@
             end select
             !< Safety boundary on the denominator
             lamj  = max(lam(i,j),tiny(one))
-            denom = nine*rbulk - dlam_eff*lamj
+            denom = nine*rbulk(i) - dlam_eff*lamj
             if (denom < em12) then
-              dlam_eff = min(dlam_eff,(0.98d0*nine*rbulk)/lamj)
-              denom    = nine*rbulk - dlam_eff*lamj
+              dlam_eff = min(dlam_eff,(0.98d0*nine*rbulk(i))/lamj)
+              denom    = nine*rbulk(i) - dlam_eff*lamj
             endif
             if (denom > zero) then
-              gdir = three*rbulk*dlam_eff*lamj / denom
+              gdir = three*rbulk(i)*dlam_eff*lamj / denom
               gmax(i) = max(gmax(i), gdir)
             endif
           enddo
           !< Update the sound speed
-          soundsp(i) = sqrt((four_over_3*(gmax(i) + gdamp) + rbulk)/           &
+          soundsp(i) = sqrt((four_over_3*(gmax(i) + gdamp) + rbulk(i))/        &
                                            min(rho(i),rho0(i)))
           !< Hourglass control factor
           et(i) = (gmax(i) + gdamp) / gs
