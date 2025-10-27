@@ -131,7 +131,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                        Modules
 ! ----------------------------------------------------------------------------------------------------------------------
-          use constant_mod,          only : one,two,zero,zep05,em6,em20,third,fourth,four,ten
+          use constant_mod,          only : one,two,zero,zep05,em6,em20,third,fourth,four,ten,em10
           use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
@@ -195,6 +195,9 @@
           if (stifn(ns)<=em20) then ! free node w/ spc
             rrbe3pen_stf(1) = two*stfnm
             rrbe3pen_stf(2) = four*stfrm
+          elseif (stifn(ns)<=em10) then ! small stif
+            rrbe3pen_stf(1) = fourth*ms(ns)*stfnm/msbar
+            rrbe3pen_stf(2) = em20 ! only have translation stif
           else
             rrbe3pen_stf(1) = stfnm*stifn(ns)/(stfnm+stifn(ns))
 !         stfnr_p is fixed to rrbe3pen_stf(1,n_p)*rndotrn (Lsm2) excepting for spc case
