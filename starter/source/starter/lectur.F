@@ -10367,7 +10367,6 @@ C---------------------------------
      .                   IQUAOFF)
       ENDIF
 C--------------------------------------------
-      DEALLOCATE(STIFFN)
       DEALLOCATE(STIFINT)
       DEALLOCATE(STIFINTR)
       DEALLOCATE(MS_B)
@@ -10382,9 +10381,10 @@ C--------------------------------------------
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
       IF(SIRBE3 > 0) THEN
         CALL INIRBE3(IRBE3  ,LRBE3  ,FRBE3  ,SKEW   ,X     ,
-     .               MS     ,IN     ,
-     .               NOM_OPT(LNOPT1*INOM_OPT(14)+1))
+     .               MS     ,IN     ,NOM_OPT(LNOPT1*INOM_OPT(14)+1),
+     .               STIFFN,STIFFN(NUMNOD+1))
       ENDIF
+      DEALLOCATE(STIFFN)
       CALL TRACE_OUT1()
 C--------------------------------------------
       ERR_MSG='KINEMATIC CONDITIONS CHECK'

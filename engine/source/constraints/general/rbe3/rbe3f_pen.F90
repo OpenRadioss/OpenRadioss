@@ -235,7 +235,7 @@
           fac_ref = fac_vi*rrbe3pen_fac
           stifn(ns) = stifn(ns)+fac_ref*rrbe3pen_stf(1)
           if (iroddl>0) then
-            if (in(ns)>zero) then
+            if (in(ns)>zero.and.rrbe3pen_stf(2)>em20) then
               drot(1:3) = (vr(1:3,ns)-omgRb(1:3))*dt1
               mom(1:3) = rrbe3pen_m(1:3)+ rrbe3pen_stf(2)*drot(1:3)
               rrbe3pen_m(1:3) = mom(1:3)
