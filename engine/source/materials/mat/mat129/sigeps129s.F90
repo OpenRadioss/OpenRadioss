@@ -146,8 +146,8 @@
           real(kind=WP) ,dimension(1)     :: fact                    !< time factor
           real(kind=WP) ,dimension(nel)   :: depsth,depsc
           real(kind=WP) ,dimension(nel)   :: qr1,qr2,qx1,qx2
-          real(kind=WP) ,dimension(:,:) ,pointer :: xvec1
-          real(kind=WP) ,dimension(:,:) ,pointer :: xvec2
+          real(kind=WP) ,dimension(:,:) ,pointer, contiguous :: xvec1
+          real(kind=WP) ,dimension(:,:) ,pointer, contiguous :: xvec2
           type (table_4d_)        ,pointer :: itable
 ! --------------------------------------------------------------------------------------------------
 !   state  v a r i a b l e s (uvar)

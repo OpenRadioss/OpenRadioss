@@ -516,7 +516,7 @@
           real(kind=WP), dimension(nel), target  :: le_max
           real(kind=WP) :: wfextt !< external force work accumulation
 !----
-          real(kind=WP), dimension(:), pointer   :: uparam,uparam0,uparf,uvarf,dfmax,&
+          real(kind=WP), dimension(:), pointer, contiguous   :: uparam,uparam0,uparf,uvarf,dfmax,&
           &tdel,yldfac,dam,el_len,&
           &el_pla,damini
           real(kind=WP), dimension(nel), target :: el_pla_dum
@@ -528,7 +528,7 @@
           type(fail_param_) , pointer :: failparam
           logical :: logical_userl_avail
           real(kind=WP) :: user_uelr(mvsiz)
-          integer, dimension(:) ,pointer   :: fld_idx,foff,ifunc,itable,itabl_fail,iparf,iparam
+          integer, dimension(:) ,pointer, contiguous   :: fld_idx,foff,ifunc,itable,itabl_fail,iparf,iparam
           integer                          :: mat_comp,mat_smstr,mat_formu
           integer                          :: dmg_flag,lf_dammx,niparf
           integer :: nvartmp_eos
@@ -539,7 +539,7 @@
           integer :: k1,k2,k3,k4,k5,k6
           real(kind=WP) :: fisokin
           real(kind=WP), dimension(nel), target :: vecnul
-          real(kind=WP), dimension(:), pointer  :: sigbxx,sigbyy,sigbzz,sigbxy,sigbyz,sigbzx
+          real(kind=WP), dimension(:), contiguous, pointer  :: sigbxx,sigbyy,sigbzz,sigbxy,sigbyz,sigbzx
           real(kind=WP), dimension(nel) :: off_old
 !=======================================================================
           gbuf   => elbuf_tab(ng)%gbuf

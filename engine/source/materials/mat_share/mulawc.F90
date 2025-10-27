@@ -402,7 +402,7 @@
           real(kind=WP)  :: scale1(nel)
           real(kind=WP) ,dimension(nel), target :: le_max
           real(kind=WP) :: tt_local
-          real(kind=WP), dimension(:) ,pointer  :: el_temp,yldfac,crklen,crkdir,dadv,tfail,el_len,&
+          real(kind=WP), dimension(:) ,pointer, contiguous  :: el_temp,yldfac,crklen,crkdir,dadv,tfail,el_len,&
           &el_pla
           real(kind=WP), dimension(nel), target :: el_pla_dum
           target :: tempel,bufmat,scale1
@@ -413,9 +413,9 @@
           type(g_bufel_) ,pointer :: gbuf
           type(buf_fail_),pointer :: fbuf
 !----
-          integer, dimension(:) ,pointer  :: fld_idx,foff,offly,itable,ifunc_fail,&
+          integer, dimension(:) ,pointer, contiguous  :: fld_idx,foff,offly,itable,ifunc_fail,&
           &itabl_fail,vartmp,iparam,iparamf
-          real(kind=WP), dimension(:) ,pointer  :: uvar,uvarf,uelr,uelr1,dam,&
+          real(kind=WP), dimension(:) ,pointer, contiguous  :: uvar,uvarf,uelr,uelr1,dam,&
           &dfmax,tdel ,offl,uvarv,uparam,uparam0,uparamf,&
           &dirdmg,dir_orth,damini
           type(matparam_struct_) , pointer :: matparam
@@ -432,7 +432,7 @@
           real(kind=WP) :: fisokin,kv,zshift,wm_zshift,tref,tmelt
           real(kind=WP), dimension(nel) :: eps1,eps2
           real(kind=WP), dimension(nel), target :: vecnul
-          real(kind=WP), dimension(:), pointer  :: sigbxx,sigbyy,sigbxy
+          real(kind=WP), dimension(:), pointer, contiguous  :: sigbxx,sigbyy,sigbxy
           real(kind=WP), dimension(:), allocatable :: gv,beta
           real(kind=WP) :: wm(11,11)
 !

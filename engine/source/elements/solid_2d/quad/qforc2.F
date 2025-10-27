@@ -220,7 +220,7 @@ C-----------------------------------------------
      .         R31(MVSIZ),R32(MVSIZ),R33(MVSIZ),
      .         Y234(MVSIZ),Y124(MVSIZ),BIDM(MVSIZ)
       my_real VARNL(NEL)
-      my_real, DIMENSION(:), POINTER :: EINT
+      my_real, DIMENSION(:), CONTIGUOUS, POINTER :: EINT
 
       ! ale grid formulation 7 (flow-tracking)
       my_real :: ELEM_MASS

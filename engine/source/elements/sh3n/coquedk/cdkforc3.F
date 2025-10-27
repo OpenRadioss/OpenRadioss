@@ -201,7 +201,7 @@ c  Indx uses locally unlike 4N shells
       my_real, 
      :    ALLOCATABLE, DIMENSION(:), TARGET :: DIRA,DIRB
       my_real,
-     .  DIMENSION(:) ,POINTER  :: DIR_A,DIR_B,CRKDIR,DADV
+     .  DIMENSION(:), CONTIGUOUS, POINTER :: DIR_A,DIR_B,CRKDIR,DADV
 !     variables for heat transfer
       my_real, dimension(mvsiz) :: fheat
       my_real, dimension(mvsiz) :: ssp_eq
@@ -209,7 +209,7 @@ c  Indx uses locally unlike 4N shells
 C--- Variables for non-local
       INTEGER :: NDDL, INOD(3),NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), L_NLOC, IPOS(3),INLOC
       my_real, DIMENSION(:,:), ALLOCATABLE :: VAR_REG
-      my_real, DIMENSION(:), POINTER :: DNL,UNL
+      my_real, DIMENSION(:), CONTIGUOUS, POINTER :: DNL,UNL
       my_real
      .   KSI,ETA
       INTEGER SDIR_A    ! Size of DIR_A

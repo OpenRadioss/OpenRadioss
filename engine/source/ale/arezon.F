@@ -89,7 +89,7 @@ C-----------------------------------------------
       INTEGER :: NG, IRS, IRE, I, J, K, NM, NMN, NFX, ADD, ADD0,IDX,INDX,NEL
       INTEGER :: NUVAR_MAT !< number of user variable (MATERIAL) to rezon
       INTEGER :: NUVAR_EOS !< number of user variable (EOS) to rezon
-      my_real, DIMENSION(:), POINTER :: VAR,SIG,VOL, TAG22,TEMP
+      my_real, DIMENSION(:), contiguous, POINTER :: VAR,SIG,VOL, TAG22,TEMP
       INTEGER :: FLAG_MAT_EOS
 C-----------------------------------------------
 C     S o u r c e   L i n e s

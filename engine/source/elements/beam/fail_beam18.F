@@ -117,8 +117,8 @@ C-----------------------------------------------
 C
       TYPE(L_BUFEL_) ,POINTER :: LBUF
       TYPE(BUF_FAIL_),POINTER :: FBUF
-      my_real, DIMENSION(:), POINTER :: UVARF,DFMAX,TDEL
-      INTEGER, DIMENSION(:), POINTER :: FOFF
+      my_real, DIMENSION(:), contiguous, POINTER :: UVARF,DFMAX,TDEL
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS :: FOFF
 C=======================================================================
 c      to avoid compilation error with unused arguments
 c      they will be necessary for next development step

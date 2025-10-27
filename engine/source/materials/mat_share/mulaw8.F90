@@ -280,10 +280,10 @@
           real(kind=WP) :: bidon,bidon1,bidon2,bidon3,bidon4,bidon5
           real(kind=WP) tt_local
           !
-          real(kind=WP), dimension(:)  ,pointer :: sigp,siglp,strain,uvar,uvarf
-          real(kind=WP), dimension(:)  ,pointer :: dfmax,tdele,uparam0,uparam,uparamf
+          real(kind=WP), dimension(:),contiguous  ,pointer :: sigp,siglp,strain,uvar,uvarf
+          real(kind=WP), dimension(:),contiguous  ,pointer :: dfmax,tdele,uparam0,uparam,uparamf
           !
-          integer, dimension(:), pointer :: vartmp,itabl_fail,iparam,iparamf
+          integer, dimension(:), pointer, contiguous :: vartmp,itabl_fail,iparam,iparamf
           type(l_bufel_)  ,pointer :: lbuf
           !
           character option*256
@@ -291,7 +291,7 @@
           integer :: nrate
           real(kind=WP) :: fisokin
           real(kind=WP), dimension(nel), target :: vecnul
-          real(kind=WP), dimension(:), pointer  :: sigbxx,sigbyy,sigbzz,sigbxy,sigbyz,sigbzx
+          real(kind=WP), dimension(:), pointer, contiguous  :: sigbxx,sigbyy,sigbzz,sigbxy,sigbyz,sigbzx
           real(kind=WP), target :: nothing(1)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body

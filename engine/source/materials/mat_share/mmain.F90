@@ -439,8 +439,8 @@
           real(kind=WP) :: q1,q2,q3,str1,str2,str3,str4,str5,str6,wxxf,wyyf,wzzf
 
           real(kind=WP), dimension(nel), target :: le_max
-          integer, dimension(:) ,pointer  :: itabl_fail
-          real(kind=WP), dimension(:) ,pointer  :: strd1,strd2,el_len,el_pla
+          integer, dimension(:) ,pointer, contiguous  :: itabl_fail
+          real(kind=WP), dimension(:) ,pointer, contiguous  :: strd1,strd2,el_len,el_pla
           real(kind=WP) :: Pturb(nel)
           logical :: logical_userl_avail, l_mulaw_called, l_eos_called
 !
@@ -459,18 +459,18 @@
           type(buf_damp_range_)  ,pointer :: damp_buf
           type(fail_param_) ,pointer :: failparam
           real(kind=WP),&
-          &dimension(:), pointer  :: uvarf,uparamf,dfmax,tdel,damini
-          real(kind=WP) ,dimension(:), pointer  :: el_temp
+          &dimension(:), pointer, contiguous  :: uvarf,uparamf,dfmax,tdel,damini
+          real(kind=WP) ,dimension(:), contiguous, pointer  :: el_temp
 !     bolt preloading
           integer :: iboltp, nbpreld
           real(kind=WP),&
-          &dimension(:), pointer  :: bpreld
+          &dimension(:), pointer, contiguous  :: bpreld
           integer                  :: dmg_flag
           integer :: lft,mtn,llt,nft,iad,ity,npt,jale,ismstr,&
           &jeul,jtur,jthe,jlag,mid,jmult,jhbe,jivf,jpor,jpla,jclose,&
           &irep,iint,igtyp,jcvt,isrot,israt,isorth,isorthg,icsen,ifailure,&
           &jsms, ihet, ipartsph,lf_dammx,niparam
-          integer, dimension(:) ,pointer  :: iparamf
+          integer, dimension(:) ,pointer, contiguous  :: iparamf
           real(kind=WP) :: cv,cp     !< specific heat capacity (J/K)
           real(kind=WP) :: mcv       !< mass.Cv (J/K)
           real(kind=WP) :: qheat     !< HEat due to pseudo-viscosity
