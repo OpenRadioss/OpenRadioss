@@ -197,7 +197,7 @@
 !card17
           call hm_get_floatv  ("LSD_MAT_EPSF"       ,gammaf     ,is_available, lsubmodel, unitab)
           call hm_get_floatv  ("LSD_MAT_EPSR"       ,gammar       ,is_available, lsubmodel, unitab)
-          call hm_get_floatv  ("MAT_LSD_MAT_TSMD"   ,tsmd      ,is_available, lsubmodel, unitab)
+          call hm_get_floatv  ("LSD_MAT_TSMD"       ,tsmd      ,is_available, lsubmodel, unitab)
 !card18
           call hm_get_intv  ("LSD_LCID16"        ,iferods  ,is_available, lsubmodel)
           call hm_get_floatv  ("MATL58_ERODS"    ,erods       ,is_available, lsubmodel, unitab)
