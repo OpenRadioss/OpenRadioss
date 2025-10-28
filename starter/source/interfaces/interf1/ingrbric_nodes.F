@@ -95,8 +95,8 @@ C-----------------------------------------------
           IF(ILAW == 51)THEN
             NPAR   = IPM(9,IMAT)                
             IADBUF = IPM(7,IMAT)                
-            IADBUF = MAX(1,IADBUF)                
-            UPARAM => BUFMAT(IADBUF:IADBUF+NPAR)  
+            IADBUF = MAX(1,IADBUF)        
+            UPARAM => BUFMAT(IADBUF:IADBUF+NPAR-1)  
             IFORM  = NINT(UPARAM(31))
             IF(IFORM>=2 .AND. IFORM<=6)IS_ELEM_A_BOUNDARY_MAT=.TRUE.
           ELSEIF(ILAW == 11)THEN
