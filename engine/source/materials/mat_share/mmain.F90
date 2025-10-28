@@ -167,8 +167,6 @@
 !||    glob_therm_mod         ../common_source/modules/mat_elem/glob_therm_mod.F90
 !||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
 !||    matparam_def_mod       ../common_source/modules/mat_elem/matparam_def_mod.F90
-!||    message_mod            ../engine/share/message_module/message_mod.F
-!||    mulaw_mod              ../engine/source/materials/mat_share/mulaw.F90
 !||    mvsiz_mod              ../engine/share/spe_inc/mvsiz_mod.F90
 !||    nlocal_reg_mod         ../common_source/modules/nlocal_reg_mod.F
 !||    output_mod             ../common_source/modules/output/output_mod.F90
@@ -239,6 +237,7 @@
           use precision_mod, only : WP
           use mvsiz_mod, only : mvsiz
           use sensor_mod
+          use m2law_mod, only : m2law
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -476,6 +475,7 @@
           real(kind=WP) :: qheat     !< HEat due to pseudo-viscosity
           real(kind=WP) :: dtemp     !< temperature increment
           real(kind=WP) :: qold(nel) !< pseudo viscosity terms from previous cycle
+
 !-----------------------------------------------
 !   s o u r c e   l i n e s
 !-----------------------------------------------

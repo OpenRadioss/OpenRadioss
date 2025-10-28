@@ -34,8 +34,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
 !||    prop_param_mod     ../common_source/modules/mat_elem/prop_param_mod.F90
 !||====================================================================
+      module m2law_mod
+      contains 
       SUBROUTINE M2LAW(mat_param ,
-     1   PM,      OFF,        SIG,     EINT,
+     1   PM,      OFF,        pSIG,     EINT,
      2   RHO,     QOLD,       EPXE,    EPSD,
      3   VOL,     STIFN,      DT2T,    NELTST,
      4   ITYPTST, OFFG,       GEO,     PID,
@@ -48,7 +50,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      B   SOLD3,   SOLD4,      SOLD5,   SOLD6,
      C   SIGY,    DEFP,       DPLA,    JLAG,
      D   EPSP,    TSTAR,      ETSE,    MSSA,
-     E   DMELS,   TEMPEL,     SIGBAK,  AL_IMP,
+     E   DMELS,   TEMPEL,     pSIGBAK,  AL_IMP,
      F   SIGNOR,  CONDE,      DTEL,    G_DT,
      G   NEL,     IPM,        RHOREF,  RHOSP,
      H   IPG,     DMG,        ITY,     JTUR,
@@ -58,6 +60,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      use iso_c_binding, only : c_loc, c_ptr, c_f_pointer
       use glob_therm_mod
       use matparam_def_mod
       USE prop_param_mod , only : n_var_igeo
@@ -93,19 +96,22 @@ C
       INTEGER NELTST,ITYPTST,PID(NEL),G_DT,NEL,IPG
       INTEGER MAT(NEL),NGL(NEL), IPM(NPROPMI,*)
       my_real :: DT2T
-      my_real PM(NPROPM,*), OFF(NEL), SIG(NEL,6), EINT(NEL), RHO(NEL), QOLD(NEL),
-     .        EPXE(NEL), EPSD(NEL), VOL(NEL), STIFN(NEL), OFFG(NEL),GEO(NPROPG,*),
+      my_real, pointer, contiguous :: pSIG(:),pSIGBAK(:) 
+      my_real, pointer, contiguous :: eint(:), rho(:), qold(:), epxe(:), epsd(:)
+      my_real, pointer, contiguous :: vol(:), offG(:), DTEL(:), DMG(:)
+      my_real PM(NPROPM,*), OFF(NEL), 
+     .        STIFN(NEL), GEO(NPROPG,*),
      .        MUMAX(NEL),AMU(NEL),VOL_AVG(NEL)
       my_real VNEW(NEL), VD2(NEL), DELTAX(NEL), SSP(NEL), AIRE(NEL), VIS(NEL),
      .        PSH(NEL), PNEW(NEL),QNEW(NEL) ,SSP_EQ(NEL), DVOL(NEL),
      .        D1(NEL), D2(NEL), D3(NEL), D4(NEL), D5(NEL), D6(NEL),
      .        SOLD1(MVSIZ), SOLD2(MVSIZ), SOLD3(MVSIZ),
      .        SOLD4(MVSIZ), SOLD5(MVSIZ), SOLD6(MVSIZ),
-     .        TSTAR(MVSIZ), DPLA(MVSIZ), EPSP(MVSIZ), DMG(NEL)
+     .        TSTAR(MVSIZ), DPLA(MVSIZ), EPSP(MVSIZ)
       my_real, DIMENSION(MVSIZ) ,INTENT(IN) :: DPDM
       my_real, DIMENSION(NEL) ,INTENT(INOUT) :: FHEAT ! Heat due to plastic work for Heat Equation with lagrangian framework
       my_real SIGY(NEL) ,DEFP(NEL),ETSE(NEL), MSSA(NEL), DMELS(NEL), TEMPEL(NEL),
-     .        SIGBAK(NEL,6),AL_IMP(NEL),SIGNOR(MVSIZ,6),CONDE(NEL),DTEL(NEL),
+     .        AL_IMP(NEL),SIGNOR(MVSIZ,6),CONDE(NEL)
      .        RHOREF(NEL)  ,RHOSP(NEL)
       type (glob_therm_)      ,intent(inout) :: glob_therm
       type (matparam_struct_) ,intent(in)    :: mat_param
@@ -113,6 +119,7 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
+      my_real, pointer, contiguous :: SIG(: , :), SIGBACK(: , :)
       INTEGER :: I, J, ICC,IFORM,ISRATE,VP,IDEV,IBID,NINDX
       INTEGER :: INDX(NEL)
       my_real RHO0, PLAP,POLD,PSHIFT,BULK,P, EPMX,CC,CN,EPDR,
@@ -129,6 +136,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   B o d y
 C-----------------------------------------------
+      call c_f_pointer(c_loc(pSIG), SIG, [NEL,6]) ! reshape to 2D array without copy
       FACQ0   = ONE
 C
       IFORM   = mat_param%iparam(1)
@@ -178,6 +186,7 @@ C------------------------------------------
 C     ECROUISSAGE CINE
 C------------------------------------------
       IF (FISOKIN > ZERO) THEN
+        call c_f_pointer(c_loc(pSIGBAK), SIGBAK, [NEL,6]) ! reshape to 2D array without copy
         DO I=1,NEL
          SIG(I,1)=SIG(I,1)-SIGBAK(I,1)
          SIG(I,2)=SIG(I,2)-SIGBAK(I,2)
@@ -577,3 +586,4 @@ C----------------------------------------------
 !-----------
       RETURN
       END
+      END MODULE m2law_mod
