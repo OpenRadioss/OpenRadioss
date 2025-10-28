@@ -73,7 +73,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER INDX(MVSIZ),I, II, NINDX,IDT
+      INTEGER INDX(MVSIZ),I, II, NINDX,IDT,IFLAG
       my_real DT(MVSIZ)
       my_real ATHK, MMIN,FAC,F_OSET(NEL),F_DTE(NEL)
 C=======================================================================       
@@ -108,8 +108,11 @@ C
             G(I)  = PM(22,IMAT)
            ENDDO
            IF (MTN == 58 .or. MTN == 158) THEN 
-               CALL CSSP2A11(PM   ,IMAT  ,SSP  ,A1   ,JLT   )
+               IFLAG = 1
+               CALL CSSP2A11(PM   ,IMAT  ,SSP  ,A1   ,JLT   ,IFLAG)
            ELSEIF (MTN == 42 .or. MTN == 62 .or. MTN == 69) THEN
+               IFLAG = 2
+               CALL CSSP2A11(PM   ,IMAT  ,SSP  ,A1   ,JLT   ,IFLAG)
              DO I=JFT,JLT
                FAC = MAX(SSP_EQ(I),SSP(I))/SSP(I)
                F_OSET(I) = FAC*FAC*F_OSET(I)

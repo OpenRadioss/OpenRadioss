@@ -582,7 +582,7 @@ C-----------------------------
         VISCMX(I) = SQRT(ONE + VISCMX(I)*VISCMX(I)) - VISCMX(I)
       ENDDO
       IF (NODADT /= 0 .AND. MTN ==58 ) 
-     .            CALL CSSP2A11(PM,MAT(JFT),SSP ,A11  ,JLT   )
+     .            CALL CSSP2A11(PM,MAT(JFT),SSP ,A11  ,JLT   ,1 )
 c---------------------------------------------------
       IF (IABS(NPTTOT) == 1) THEN
         CALL MHVIS3(JFT    ,JLT    ,PM     ,GBUF%THK,GBUF%HOURG,
