@@ -262,7 +262,7 @@ C
      .               MAT      ,IPM      ,NSIGS     ,NUMSOL    ,PTSOL  ,
      .               IP       ,NGL      ,NPF       ,TF        ,BUFMAT ,
      .               GBUF     ,LBUF     ,MBUF      ,ELBUF_STR ,ILOADP ,
-     .               FACLOAD, DELTAX    ,TEMPEL)
+     .               FACLOAD, DELTAX    ,TEMPEL    ,MAT_PARAM )
 C----------------------------------------
           AIRE(:) = ZERO
           CALL DTMAIN(GEO       ,PM        ,IPM         ,PID     ,MAT     ,FV    ,

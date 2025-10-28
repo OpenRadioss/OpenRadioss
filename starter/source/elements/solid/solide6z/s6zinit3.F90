@@ -255,7 +255,7 @@
         detonators,iparg   ,sigi     ,nel      ,skew     ,igeo     ,           &
         ipart    ,iparts   ,mat      ,ipm      ,nsigs    ,numsol   ,ptsol   ,  &
         ilay     ,ngl      ,npf      ,tf       ,bufmat   ,gbuf     ,lbuf    ,  &
-        mbuf     ,elbuf_str,iloadp   ,facload  ,deltax   ,tempel   )
+        mbuf     ,elbuf_str,iloadp   ,facload  ,deltax   ,tempel   ,mat_param   )
 !
       if (mtn >= 28) then
         nuvar = ipm(8,ixs(1,nft+1))

@@ -166,6 +166,7 @@ C-----------------------------------------------
       MAT_PARAM%EOS%PSH = PSH
       MAT_PARAM%EOS%Cv = Cv
       MAT_PARAM%EOS%Cp = GAMMA * Cv
+      MAT_PARAM%EOS%E0 = E0
       
       !SSP0
       SSP0 = ZERO 

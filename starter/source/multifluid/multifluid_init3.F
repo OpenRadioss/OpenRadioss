@@ -288,7 +288,7 @@ C     Fill partial volumes
      5        MAT      ,IPM    ,NSIGS     ,NUMSOL    ,PTSOL  ,
      6        IPT      ,NGL    ,NPF       ,TF        ,BUFMAT ,
      7        GBUF     ,LBUF   ,MBUF      ,ELBUF_STR ,ILOADP ,
-     8        FACLOAD, DELTAX  ,TEMPEL)
+     8        FACLOAD, DELTAX  ,TEMPEL    ,MAT_PARAM )
      
          VFRAC = MAT_PARAM( IXS(1,1+NFT) )%MULTIMAT%VFRAC(ILAY)
          PRES  = PM(104, MAT_PARAM( IXS(1,1+NFT) )%MULTIMAT%MID(ILAY))

@@ -20,6 +20,9 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      MODULE TILLOTSON_MOD
+      IMPLICIT NONE
+      CONTAINS
 !||====================================================================
 !||    tillotson       ../common_source/eos/tillotson.F
 !||--- called by ------------------------------------------------------
@@ -29,9 +32,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    eos_param_mod   ../common_source/modules/mat_elem/eos_param_mod.F90
 !||    precision_mod   ../common_source/modules/precision_mod.F90
 !||====================================================================
-      SUBROUTINE TILLOTSON(NPROPM, NUMMAT,
-     1                     IFLAG,NEL  ,PM   ,OFF   ,EINT ,MU    , MU2, 
-     2                     ESPE ,DVOL ,DF   ,VNEW  ,MAT  ,PSH   ,
+      SUBROUTINE TILLOTSON(
+     1                     IFLAG,NEL  ,PMIN ,OFF   ,EINT    ,MU    , MU2,
+     2                     ESPE ,DVOL ,DF   ,VNEW  ,PSH     ,
      3                     PNEW ,DPDM ,DPDE ,VAREOS, NVAREOS, EOS_STRUCT)
 C-----------------------------------------------
 C   M o d u l e s
@@ -77,26 +80,24 @@ C         !ENDIF
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER,INTENT(IN) :: MAT(NEL), IFLAG, NEL, NVAREOS,NPROPM,NUMMAT
-      real(kind=WP) :: PM(NPROPM,NUMMAT),
+      INTEGER,INTENT(IN) ::  IFLAG, NEL, NVAREOS
+      real(kind=WP) :: PMIN,
      .           OFF(NEL) , EINT(NEL), MU(NEL)  ,
      .           MU2(NEL) , ESPE(NEL), DVOL(NEL), DF(NEL),
      .           VNEW(NEL), PNEW(NEL), DPDM(NEL), DPDE(NEL)
       real(kind=WP),INTENT(INOUT) :: VAREOS(NEL,NVAREOS)
       real(kind=WP),INTENT(INOUT) :: PSH(NEL)
-      TYPE(EOS_PARAM_),INTENT(INOUT) :: EOS_STRUCT
+      TYPE(EOS_PARAM_),INTENT(IN) :: EOS_STRUCT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, MX
-      real(kind=WP) AA, BB, DVV, ETA, ENEW, OMEGA, XX, EXPA, EXPB,
-     .              PP, FACC1, FACC2, FACPB,
-     .              C1,C2,PTIA,PTIB,EZERO,
-     .              ALPHA,BETA,ESUBL,VSUBL,
-     .              PC, REGION
+      INTEGER :: I
+      real(kind=WP) :: AA, BB, DVV, ETA, ENEW, OMEGA, XX, EXPA, EXPB,
+     .                 PP, FACC1, FACC2, FACPB,
+     .                 C1,C2,PTIA,PTIB,EZERO,
+     .                 ALPHA,BETA,ESUBL,VSUBL,
+     .                 REGION
 C--------------------------------------------------------------------
-      MX      = MAT(1)
-      PC      = PM(37,MX)
       C1      = EOS_STRUCT%UPARAM(1)
       C2      = EOS_STRUCT%UPARAM(2)
       PTIA    = EOS_STRUCT%UPARAM(3)
@@ -130,13 +131,13 @@ C--------------------------------------------------------------------
           OMEGA= ONE+ESPE(I)/(EZERO*ETA**2)
           AA=FACC1*C1*MU(I)+FACC2*C2*MU2(I)
           BB=PTIA+FACPB*PTIB/OMEGA
-          PP=MAX(AA+BB*ETA*ESPE(I),PC)*OFF(I)
+          PP=MAX(AA+BB*ETA*ESPE(I),PMIN)*OFF(I)
           DPDM(I)=FACC1*C1+TWO*FACC2*C2*MU(I)+BB*ETA*PP*DF(I)*DF(I)
      .           +ESPE(I)*( BB+(TWO*ESPE(I)/ETA-PP*DF(I)*DF(I))
      .           *PTIB*FACPB/(EZERO*ETA*OMEGA**2) )
           DPDE(I)=BB*ETA
           VAREOS(I,1)=REGION
-          PNEW(I) = MAX(PP,PC)*OFF(I)! P(mu[n+1],E[n])
+          PNEW(I) = MAX(PP,PMIN)*OFF(I)! P(mu[n+1],E[n])
         ENDDO
 
       ELSEIF(IFLAG == 1) THEN
@@ -169,7 +170,7 @@ C--------------------------------------------------------------------
           OMEGA= ONE+ENEW/(EZERO*ETA**2)
           BB=(PTIA+FACPB*PTIB/OMEGA)*ETA
           PNEW(I)=(AA +BB*ESPE(I))/(ONE+ BB*DVV)
-          PNEW(I)= MAX(PNEW(I),PC)*OFF(I)! P(mu[n+1],E[n+1])
+          PNEW(I)= MAX(PNEW(I),PMIN)*OFF(I)! P(mu[n+1],E[n+1])
           EINT(I)= EINT(I) - HALF*DVOL(I)*PNEW(I)
           DPDE(I) = BB
           VAREOS(I,1)=REGION
@@ -200,7 +201,7 @@ C--------------------------------------------------------------------
             OMEGA= ONE+ESPE(I)/(EZERO*ETA**2)
             AA=FACC1*C1*MU(I)+FACC2*C2*MU2(I)
             BB=PTIA+FACPB*PTIB/OMEGA
-            PP=MAX(AA+BB*ETA*ESPE(I),PC)*OFF(I)
+            PP=MAX(AA+BB*ETA*ESPE(I),PMIN)*OFF(I)
             DPDM(I)=FACC1*C1+TWO*FACC2*C2*MU(I)+BB*ETA*PP*DF(I)*DF(I)
      .             +ESPE(I)*( BB+(TWO*ESPE(I)/ETA-PP*DF(I)*DF(I))
      .             *PTIB*FACPB/(EZERO*ETA*OMEGA**2) )
@@ -211,4 +212,5 @@ C--------------------------------------------------------------------
         ENDDO
       ENDIF
       RETURN
-      END
+      END SUBROUTINE TILLOTSON
+      END MODULE TILLOTSON_MOD

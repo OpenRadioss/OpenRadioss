@@ -95,6 +95,7 @@
         integer :: nfunc                         !< number of local functions in material
         integer :: ntable                        !< number of local function tables
         integer :: isfluid                       !< indicated if EoS is designed for fluid
+        integer :: eostype                       !< eos model type
         real(kind=WP) :: cv                      !< specific heat capacity (constant volume)
         real(kind=WP) :: cp                      !< specific heat capacity (constant pressure)
         real(kind=WP) :: psh                     !< pressure shift

@@ -1273,21 +1273,22 @@
             end if
             !numerical viscosity is managed inside sigeps51.f
             !facq0 = zero
-            call sigeps51(nel       ,npar        ,nuvar   ,nfunc ,ifunc     ,lbuf%tb   ,&
-            &             npf       ,tf          ,tt      ,dt1   ,uparam0   ,numel     ,&
-            &             rho       ,vol         ,eint    ,vk    ,output%th%wfext     ,&
-            &             ep1       ,ep2         ,ep3     ,ep4   ,ep5       ,ep6       ,&
-            &             de1       ,de2         ,de3     ,de4   ,de5       ,de6       ,&
-            &             so1       ,so2         ,so3     ,so4   ,so5       ,so6       ,&
-            &             s1        ,s2          ,s3      ,s4    ,s5        ,s6        ,&
-            &             sv1       ,sv2         ,sv3     ,sv4   ,sv5       ,sv6       ,&
-            &             ssp       ,vis         ,uvar    ,off   ,nft       ,v         ,&
-            &             w         ,x           ,ix      ,n48   ,nix       ,jthe      ,&
-            &             geo       ,pid         ,ilay    ,ng    ,elbuf_tab , pm       ,&
-            &             iparg     ,ale_connect ,bufvois ,ipm   ,bufmat    ,stifn     ,&
-            &             vd2       ,vdx         ,vdy     ,vdz   ,&
-            &             gbuf%qvis ,dvol        ,qold    ,nv46  ,numgeo    ,n2d       , &
-            &             numnod    ,ngroup      ,nummat  ,mat_elem%mat_param,nvartmp, vartmp   )
+            call sigeps51( snpc, stf, &
+                          nel       ,npar        ,nuvar   ,nfunc ,ifunc     ,lbuf%tb   ,&
+                          npf       ,tf          ,tt      ,dt1   ,uparam0   ,numel     ,&
+                          rho       ,vol         ,eint    ,vk    ,output%th%wfext     ,&
+                          ep1       ,ep2         ,ep3     ,ep4   ,ep5       ,ep6       ,&
+                          de1       ,de2         ,de3     ,de4   ,de5       ,de6       ,&
+                          so1       ,so2         ,so3     ,so4   ,so5       ,so6       ,&
+                          s1        ,s2          ,s3      ,s4    ,s5        ,s6        ,&
+                          sv1       ,sv2         ,sv3     ,sv4   ,sv5       ,sv6       ,&
+                          ssp       ,vis         ,uvar    ,off   ,nft       ,v         ,&
+                          w         ,x           ,ix      ,n48   ,nix       ,jthe      ,&
+                          geo       ,pid         ,ilay    ,ng    ,elbuf_tab , pm       ,&
+                          iparg     ,ale_connect ,bufvois ,ipm   ,bufmat    ,stifn     ,&
+                          vd2       ,vdx         ,vdy     ,vdz   ,sbufmat   ,&
+                          gbuf%qvis ,dvol        ,qold    ,nv46  ,numgeo    ,n2d       , &
+                          numnod    ,ngroup      ,nummat  ,mat_elem%mat_param,nvartmp, vartmp   )
           else if (mtn == 52) then
             idev = 1
             call mstrain_rate(nel    ,israte ,asrate ,epsd   ,idev   ,&

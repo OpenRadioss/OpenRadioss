@@ -38,7 +38,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
       USE SUBMODEL_MOD
-      USE MESSAGE_MOD      
+      USE MESSAGE_MOD
       USE MATPARAM_DEF_MOD, ONLY : MATPARAM_STRUCT_
 C-----------------------------------------------
 C   D e s c r i p t i o n
@@ -94,7 +94,7 @@ C-----------------------------------------------
       IF (RHO0 > ZERO) THEN
         RHOR = RHO0
         MAT_PARAM%RHO = RHO0
-        PM(1)= RHO0 
+        PM(1)= RHO0
       ELSE
         RHO0=RHOR                   
       ENDIF
@@ -126,6 +126,7 @@ C-----------------------------------------------
       MAT_PARAM%EOS%UPARAM(2) = P0
       MAT_PARAM%EOS%UPARAM(3) = PSTAR
       MAT_PARAM%EOS%PSH = PSH
+      MAT_PARAM%EOS%E0 = E0
       
       !P0
       IF(RHOI == ZERO)THEN
@@ -151,7 +152,7 @@ C-----------------------------------------------
         MAT_PARAM%THERM%TINI =THREE100
         PM(79) = THREE100
       END IF
-      
+
       !SSP0
       SSP0 = ZERO 
       G0 = PM(22)

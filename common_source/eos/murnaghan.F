@@ -20,6 +20,9 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      MODULE MURNAGHAN_MOD
+      IMPLICIT NONE
+      CONTAINS
 !||====================================================================
 !||    murnaghan       ../common_source/eos/murnaghan.F
 !||--- called by ------------------------------------------------------
@@ -28,9 +31,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    constant_mod    ../common_source/modules/constant_mod.F
 !||    eos_param_mod   ../common_source/modules/mat_elem/eos_param_mod.F90
 !||====================================================================
-      SUBROUTINE MURNAGHAN(NPROPM, NUMMAT,
-     1                     IFLAG,NEL  ,PM   ,OFF  ,EINT ,MU  ,
-     2                     DVOL ,VNEW ,MAT  ,PSH ,
+      SUBROUTINE MURNAGHAN(
+     1                     IFLAG,NEL  ,PMIN ,OFF  ,EINT ,MU  ,
+     2                     DVOL ,VNEW ,PSH ,
      3                     PNEW ,DPDM ,DPDE ,EOS_STRUCT)
 C-----------------------------------------------
 C   M o d u l e s
@@ -64,14 +67,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER MAT(NEL), IFLAG, NEL, NPROPM, NUMMAT
-      my_real,INTENT(IN) ::  PM(NPROPM,NUMMAT), OFF(NEL) ,MU(NEL), DVOL(NEL) ,VNEW(NEL)
+      INTEGER,INTENT(IN) ::  IFLAG, NEL
+      my_real,INTENT(IN) ::  PMIN,  OFF(NEL) ,MU(NEL), DVOL(NEL) ,VNEW(NEL)
       my_real, INTENT(INOUT) :: PSH(NEL),PNEW(NEL) ,DPDM(NEL),DPDE(NEL),EINT(NEL)
       TYPE(EOS_PARAM_),INTENT(IN) :: EOS_STRUCT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER I, MX
+        INTEGER I
         my_real :: P0,K0,K1,PC
 C-----------------------------------------------
 C   S o u r c e  L i n e s
@@ -80,21 +83,20 @@ C-----------------------------------------------
       P0         = EOS_STRUCT%UPARAM(2)
       PSH(1:NEL) = EOS_STRUCT%PSH
       K1         = EOS_STRUCT%UPARAM(3)
-      PC         = PM(37,MAT(1))
 
       IF(IFLAG == 0) THEN
         DO I=1,NEL
           DPDM(I) = K0*EXP( K1*LOG(1+MU(I)) )/(ONE+MU(I))     !total derivative
           DPDE(I) = ZERO                                      !partial derivative
           PNEW(I) = K0/K1 * (EXP(K1*LOG(ONE+MU(I))) - ONE )  + P0
-          PNEW(I) = MAX(PNEW(I),PC)*OFF(I)
+          PNEW(I) = MAX(PNEW(I),PMIN)*OFF(I)
           PNEW(I) = PNEW(I)-PSH(I)
         ENDDO
 
       ELSEIF(IFLAG == 1) THEN
         DO I=1,NEL
           PNEW(I) = K0/K1 * (EXP(K1*LOG(ONE+MU(I))) - ONE )  + P0
-          PNEW(I) = MAX(PNEW(I),PC)*OFF(I)
+          PNEW(I) = MAX(PNEW(I),PMIN)*OFF(I)
           EINT(I) = EINT(I) - HALF*DVOL(I)*(PNEW(I)+PSH(I))
           PNEW(I) = PNEW(I)-PSH(I)
           DPDE(I) = ZERO
@@ -106,11 +108,12 @@ C-----------------------------------------------
              PNEW(I) = K0/K1 * (EXP(K1*LOG(1+MU(I))) - ONE )  + P0
              DPDM(I) = K0*EXP( K1*LOG(1+MU(I)) )/(ONE+MU(I)) !total derivative
              DPDE(I) = ZERO
-             PNEW(I) = MAX(PNEW(I),PC)*OFF(I)
+             PNEW(I) = MAX(PNEW(I),PMIN)*OFF(I)
              PNEW(I) = PNEW(I)-PSH(I)
            ENDIF
          ENDDO
       ENDIF
 C------------------------      
       RETURN
-      END
+      END SUBROUTINE MURNAGHAN
+      END MODULE MURNAGHAN_MOD

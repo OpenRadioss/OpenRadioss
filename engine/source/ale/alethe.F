@@ -245,10 +245,10 @@ C-----------------------
         !------------------------------!
         !     REZONING : EPS_PLAS      !
         !------------------------------!
-          CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI   ,ALE_CONNECT,
-     2                10       ,1       ,ITASK ,NERCVOIS   ,
-     3                NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM,BHOLE      ,
-     4                ITRIMAT)
+        CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI   ,ALE_CONNECT,
+     2              10       ,1       ,ITASK ,NERCVOIS   ,
+     3              NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM,BHOLE      ,
+     4              ITRIMAT)
         !-------------------------------!
         !     REZONING : %VAR (MAT/EOS) !
         !-------------------------------!
@@ -362,6 +362,16 @@ C----------------------
      2                  12      ,1        ,ITASK ,NERCVOIS,
      3                  NESDVOIS,LERCVOIS,LESDVOIS,LENCOM ,BHOLE   ,
      4                  ITRIMAT)
+        !-----------------------------!
+        !     LAW51 REZONING :        !
+        !      VAREOS                 !
+        !-----------------------------!
+            DO I = 1,ALE%REZON%NUM_NUVAR_EOS
+              CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI      ,ALE_CONNECT,
+     2                    11      ,I        ,ITASK   ,NERCVOIS ,
+     3                    NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM   ,BHOLE      ,
+     4                    ITRIMAT,2) ! OPT_FALG_MAT_EOS = 2 : rezoning for EoS
+            ENDDO
         !-----------------------------!
         !     LAW51 :                 !
         !        EINT CONVECTION      !

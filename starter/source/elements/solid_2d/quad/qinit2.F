@@ -48,7 +48,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                  NEL         ,SKEW   ,MSQ       ,IPART   ,IPARTQ ,
      .                  IPM         ,NSIGS  ,
      .                  WMA         ,PTQUAD ,BUFMAT    ,NPF     ,TF     ,
-     .                  IPARGG      ,ILOADP ,FACLOAD   ,PARTSAV ,V      )
+     .                  IPARGG      ,ILOADP ,FACLOAD   ,PARTSAV ,V      ,MAT_PARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -57,6 +57,7 @@ C-----------------------------------------------
       USE DETONATORS_MOD
       USE ALE_CONNECTIVITY_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      USE MATPARAM_DEF_MOD
       use element_mod , only : nixq
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -89,6 +90,7 @@ C-----------------------------------------------
       my_real,INTENT(IN) :: FACLOAD(LFACLOAD,*)
       TYPE(DETONATORS_STRUCT_)::DETONATORS
       TYPE(t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
+      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -156,7 +158,7 @@ C
      .            MAT     ,IPM     ,NSIGS     ,NUMQUAD   ,PTQUAD  ,
      .            IP      ,NGL     ,NPF       ,TF        ,BUFMAT  ,
      .            GBUF    ,LBUF    ,MBUF      ,ELBUF_STR ,ILOADP  ,
-     .            FACLOAD, DELTAX  ,TEMPEL    )
+     .            FACLOAD, DELTAX  ,TEMPEL    ,MAT_PARAM )
 C----------------------------------------
 C     initialization of thermal and turbulence
 C----------------------------------------

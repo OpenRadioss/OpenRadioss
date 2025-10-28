@@ -48,14 +48,15 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                   SIGSPH  ,ISPTAG   ,IPART,
      .                   IPM     ,NSIGSPH  ,PTSPH  ,NPF   ,
      .                   TF      ,ELBUF_STR,MCP    ,TEMP  ,ILOADP ,
-     .                   FACLOAD ,STIFINT  ,I7STIFS,GLOB_THERM)
+     .                   FACLOAD ,STIFINT  ,I7STIFS,GLOB_THERM,MAT_PARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD    
       USE DETONATORS_MOD              
       USE ALE_CONNECTIVITY_MOD
-      use glob_therm_mod
+      USE GLOB_THERM_MOD
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -93,6 +94,7 @@ C-----------------------------------------------
       my_real,INTENT(INOUT) :: STIFINT(NUMNOD)
       TYPE(DETONATORS_STRUCT_)::DETONATORS
       type (glob_therm_) ,intent(inout) :: glob_therm
+      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -227,7 +229,7 @@ C--------------------------------------------------
      .            MXT     ,IPM    ,NSIGSPH    ,NUMSPHY   ,PTSPH  ,
      .            IP      ,NGL    ,NPF        ,TF        ,BUFMAT ,
      .            GBUF    ,LBUF   ,MBUF       ,ELBUF_STR,ILOADP ,
-     .            FACLOAD, DELTAX ,TEMPEL     )
+     .            FACLOAD, DELTAX ,TEMPEL     ,MAT_PARAM )
 C--------------------------------------------------
 C      INITIAL DIAMETER (Y files )
 C--------------------------------------------------

@@ -26,6 +26,7 @@
 !||    eosmain              ../common_source/eos/eosmain.F
 !||====================================================================
       module eosexponential_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
@@ -55,9 +56,9 @@
 !||    eos_param_mod    ../common_source/modules/mat_elem/eos_param_mod.F90
 !||    precision_mod    ../common_source/modules/precision_mod.F90
 !||====================================================================
-      subroutine eosexponential(npropm,nummat,&
-                                iflag ,nel   ,pm   ,off  ,eint ,&
-                                dvol  ,vnew  ,mat  ,psh  ,      &
+      subroutine eosexponential( &
+                                iflag ,nel   ,off  ,eint ,&
+                                dvol  ,vnew  ,psh  ,      &
                                 pnew  ,dpdm  ,dpdE ,time ,&
                                 eos_struct)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -73,12 +74,9 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-      integer,intent(in) :: npropm , nummat            !< size for pm array
-      integer,intent(in) :: mat(nel)                   !< material identifiers for elems 1 to nel
       integer,intent(in) :: IFLAG                      !< flag mentioning what needs to be computed
       integer,intent(in) :: NEL                        !< number of elems in group (current group size)
       real(kind=WP), intent(in) :: time                !< simulation current time
-      real(kind=WP), intent(in) :: pm(npropm,nummat)   !< parameters of all materials
       real(kind=WP), intent(in) :: vnew(nel)           !< current volume of elems
       real(kind=WP), intent(in) :: off(nel)            !< state of elems (0.0 if deleted)
       real(kind=WP), intent(in) :: dvol(nel)           !< volume change of elems
@@ -91,14 +89,13 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: i, mx
+          integer :: i
           real(kind=WP) :: p0,alpha
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-      mx = mat(1)
-      p0 = pm(104,mx) !starter:p0-psh
       alpha = eos_struct%uparam(1)
+      p0 = eos_struct%p0 - eos_struct%psh
       psh(1:nel) = eos_struct%psh
 
       if(iflag == 0) then

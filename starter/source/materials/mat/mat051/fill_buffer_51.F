@@ -79,14 +79,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER          :: IDX_AV, IDX_RHO, IDX_C1, IDX_C2, IDX_C3(3), IDX_C4, IDX_C5, IDX_G
-      INTEGER          :: IDX_E0, IDX_C0, IDX_PM, IDX_IPLA, IDX_EINF, IDX_VISC
+      INTEGER          :: IDX_AV, IDX_RHO, IDX_C1, IDX_C2, IDX_C3(3), IDX_C4, IDX_C5, IDX_G, IDX_P0
+      INTEGER          :: IDX_E0, IDX_C0, IDX_PM, IDX_IPLA, IDX_VISC
       INTEGER          :: IDX_YIELD(4)
       INTEGER          :: MID(4),MID_VALID(4),IEXP,NPAR,IADBUF,IDX_PSH_TAB
       INTEGER          :: IMID, MLN, EOS_TYPE, I, J, NJWL, COUNT_VALID_MAT, COUNT_NONEXPLO, ID,  NBMAT, TAG(4),IPLA,NITER
       INTEGER,EXTERNAL :: NINTRI
 
-      my_real                        :: AV(4),E1_INF,E2_INF,E3_INF,E4_INF,PEXT,RATIO,TMP1,TMP2,PSH_TAB(4),RHO_MAX
+      my_real                        :: AV(4),PEXT,RATIO,TMP1,TMP2,PSH_TAB(4),RHO_MAX
       my_real, POINTER, DIMENSION(:) :: PM_
       my_real, EXTERNAL              :: IE_BOUND
       my_real, DIMENSION(:), POINTER :: UPARAM_
@@ -94,7 +94,7 @@ C-----------------------------------------------
       CHARACTER(LEN=NCHARTITLE) :: chain1
 
       !====================================POLYNOMIAL EOS
-      my_real :: RHO,C0,C1,C2,C3,C4,C5,E0,PSH,P0,DPDMU,SSP
+      my_real :: RHO,C0,C1,C2,C3,C4,C5,E0,PSH,P0,SSP
 
       !====================================LAW05 - PARAMETERS
       my_real :: VDET,PCJ,VCJ,B1,B2,R1,R2,W,
@@ -134,7 +134,7 @@ C-----------------------------------------------
       IDX_E0       = 031
       IDX_C0       = 034
       IDX_PM       = 038
-      IDX_EINF     = 056
+      IDX_P0       = 056
       IDX_IPLA     = 063
       IDX_VISC     = 080
       IDX_YIELD(1) = 100
@@ -193,7 +193,10 @@ C-----------------------------------------------
             ID       = IPM(1,IMID)
             EOS_TYPE = IPM(4,IMID)
           ENDIF
-          IF(MLN == 5)NJWL=NJWL+1
+          IF(MLN == 5)THEN
+            NJWL=NJWL+1
+            EOS_TYPE = 15
+          ENDIF
           IF(IMID == 0)THEN
               chain1='NON EXISTING SUBMATERIAL IDENTIFIER:          '
               write(chain1(37:46),'(i10)')MID(I)
@@ -205,10 +208,12 @@ C-----------------------------------------------
           ELSE
             IF(MLN == 2 .OR. MLN == 3 .OR. MLN == 4 .OR. MLN == 5 .OR. MLN == 6 .OR. MLN == 10 .OR. MLN == 102 .OR. MLN == 133)THEN
               IF(MLN /= 5)THEN
-                IF(EOS_TYPE == 18 .OR. EOS_TYPE == 1 .OR. EOS_TYPE == 7 .OR. EOS_TYPE == 10)THEN
+
+                 IF(EOS_TYPE /= 0  .AND. EOS_TYPE /= 12  .AND. EOS_TYPE /= 15 .AND. EOS_TYPE <= 21 )THEN
+                   !all EoS expected <=0, 12, 15, >21
                 ELSE
-                chain1='SUBMATERIAL COMPATIBLE EOS:POLYNOMIAL, IDEAL-GAS, STIFFENED-GAS, LINEAR'
-                CALL ANCMSG(MSGID=99,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=ID,C1=TITR,C2=chain1)
+                  chain1='SUBMATERIAL EOS IS NOT COMPATIBLE WITH MATERIAL LAW 51'
+                  CALL ANCMSG(MSGID=99,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=ID,C1=TITR,C2=chain1)
                 ENDIF
               ELSE
                 IEXP=1
@@ -217,7 +222,7 @@ C-----------------------------------------------
               IF(IMID > 0)THEN
                 COUNT_VALID_MAT = COUNT_VALID_MAT + 1    !take into account only line with MID>0
                 MID_VALID(COUNT_VALID_MAT) = IMID
-                !--UPARAM(276:280) is BIJECTION TO RETRIEVE PHASE ORDER FROM USER
+                !--UPARAM(277:280) is BIJECTION TO RETRIEVE PHASE ORDER FROM USER
                 IF(MLN /= 5)THEN
                   COUNT_NONEXPLO=COUNT_NONEXPLO + 1
                   UPARAM(276+COUNT_VALID_MAT)=MINLOC(TAG(1:4),1)
@@ -271,13 +276,17 @@ C-----------------------------------------------
          IMID     = NINTRI(MID(I),IPM,NPROPMI,NUMMAT,1)
          MAT_PARAM(INTERNAL_ID)%MULTIMAT%MID(I) = IMID !user ID -> internal ID
          EOS_TYPE = IPM(4,IMID)
-         IF(EOS_TYPE == 0)THEN
+         MLN      = IPM(2,IMID)
+         IF(EOS_TYPE == 0 .AND. MLN /= 5)THEN
             chain1='MISSING SUBMATERIAL EOS'
             CALL ANCMSG(MSGID=99,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=USER_ID,C1=TITR,C2=chain1)
          ENDIF
        ENDDO
 
        CALL mat51_associate_eos(mat_param,nummat,INTERNAL_ID)
+
+       MAT_PARAM(INTERNAL_ID)%REZON%NUM_NUVAR_EOS = 0
+       MAT_PARAM(INTERNAL_ID)%REZON%NUM_NUVAR_MAT = 0
 
        RHO_MAX=ZERO
        DO I=1,COUNT_VALID_MAT
@@ -349,16 +358,16 @@ C-----------------------------------------------
                  PSH    = PM_(88)
                  T0     = PM_(79)
                CASE DEFAULT
-                 RHO    = -HUGE(RHO)
-                 E0     = -HUGE(E0)
-                 C0     = -HUGE(C0)
-                 C1     = -HUGE(C1)
-                 C2     = -HUGE(C2)
-                 C3     = -HUGE(C3)
-                 C4     = -HUGE(C4)
-                 C5     = -HUGE(C5)
-                 PSH    = -HUGE(PSH)
-                 T0     = -HUGE(T0)
+                 RHO    = PM_(1)
+                 E0     = PM_(23)
+                 PSH    = PM_(88)
+                 T0     = PM_(79)
+                 C0     = ZERO !cannot be huge as it is stored in UPARAM for legacy input format
+                 C1     = ZERO
+                 C2     = ZERO
+                 C3     = ZERO
+                 C4     = ZERO
+                 C5     = ZERO
             END SELECT
             !----update PSH
             IDX_PSH_TAB = IDX_PSH_TAB + 1
@@ -371,15 +380,15 @@ C-----------------------------------------------
             ENDIF
             PMIN   = PM_(37)
             SPH    = PM_(69)
-            P0     = C0+C4*E0
-            G      =  PM_(22)
-            DPDMU  = (C1+C5*E0) + C4*(P0)
-            SSP    = SQRT( (DPDMU + TWO_THIRD*G) / RHO )
+            P0     = PM_(31)
+            G   = PM_(22)
+            SSP = PM_(27)
             PM(27,INTERNAL_ID) = MAX( PM(27,INTERNAL_ID), SSP  )
             !---WRITING LAW51 SUBMATERIAL BUFFER FOR EOS
             J = NINT(UPARAM(276+I))
             UPARAM(IDX_AV      +J) = AV(I)
             UPARAM(IDX_RHO     +J) = RHO
+            UPARAM(IDX_P0      +J) = P0
             UPARAM(IDX_C0      +J) = C0
             UPARAM(IDX_C1      +J) = C1
             UPARAM(IDX_C2      +J) = C2
@@ -387,6 +396,7 @@ C-----------------------------------------------
             UPARAM(IDX_C4      +J) = C4
             UPARAM(IDX_C5      +J) = C5
             UPARAM(IDX_E0      +J) = E0
+            IF(T0 == ZERO)T0=THREE100
             UPARAM(IDX_YIELD(J)+13)= T0
             UPARAM(IDX_PM      +J) = PMIN
             UPARAM(IDX_YIELD(J)+12)= SPH
@@ -398,6 +408,7 @@ C-----------------------------------------------
          SELECT CASE(MLN)
            CASE (5) ! /MAT/JWL
               !---READING MATERIAL LAW5 BUFFER
+              EOS_TYPE       = 15
               VDET           = PM_(38)
               PCJ            = PM_(39)
               B1             = PM_(33)
@@ -497,7 +508,7 @@ C-----------------------------------------------
              SPH    =  PM_(69)
              T0     =  PM_(79)
              GG     =  TWO*G
-             SSP    = SQRT( (DPDMU + TWO_THIRD*G) / RHO )
+             SSP    = PM_(27)
              !---WRITING LAW51 SUBMATERIAL BUFFER
              J = NINT(UPARAM(276+I))
              UPARAM(IDX_IPLA    +J)  = 1
@@ -516,6 +527,7 @@ C-----------------------------------------------
              UPARAM(IDX_YIELD(J)+08) = TMELT
              UPARAM(IDX_YIELD(J)+09) = TMAX
              UPARAM(IDX_YIELD(J)+12) = SPH
+             IF(T0 == ZERO)T0=THREE100
              UPARAM(IDX_YIELD(J)+13) = T0
              ENDIF
              UPARAM(IDX_YIELD(J)+10) = EPSM
@@ -555,7 +567,7 @@ C-----------------------------------------------
              SPH    =  PM_(69)
              T0     =  PM_(79)
              GG     =  TWO*G
-             SSP    = SQRT( (DPDMU + TWO_THIRD*G) / RHO )
+             SSP    = PM_(27)
              !---WRITING LAW51 SUBMATERIAL BUFFER
              J = NINT(UPARAM(276+I))
              UPARAM(IDX_IPLA    +J)  = 1
@@ -574,6 +586,7 @@ C-----------------------------------------------
              UPARAM(IDX_YIELD(J)+08) = TMELT
              UPARAM(IDX_YIELD(J)+09) = TMAX
              UPARAM(IDX_YIELD(J)+12) = SPH
+             IF(T0 == ZERO)T0=THREE100
              UPARAM(IDX_YIELD(J)+13) = T0
              ENDIF
              UPARAM(IDX_YIELD(J)+10) = EPSM
@@ -616,7 +629,7 @@ C-----------------------------------------------
              A1    = ZERO
              A2    = ZERO
              AMX   = ZERO
-             SSP   = SQRT( (DPDMU + ZERO) / RHO )
+             SSP   = PM_(27)
              !---WRITING LAW51 SUBMATERIAL BUFFER
              J = NINT(UPARAM(276+I))
              UPARAM(IDX_IPLA    +J)  = 0
@@ -675,7 +688,7 @@ C-----------------------------------------------
                PSTAR  =  UPARAM_(03)
              ENDIF
              GG     =  TWO*G
-             SSP    = SQRT( (DPDMU + TWO_THIRD*G) / RHO )
+             SSP    = PM_(27)
              !---WRITING LAW51 SUBMATERIAL BUFFER
              J = NINT(UPARAM(276+I))
              UPARAM(IDX_IPLA    +J)  = 2
@@ -709,7 +722,7 @@ C-----------------------------------------------
 
              G = YOUNG / TWO / (ONE+ANU)
              GG = TWO*G
-             SSP    = SQRT( (DPDMU + TWO_THIRD*GG) / RHO )
+             SSP    = PM_(27)
              !---WRITING LAW51 SUBMATERIAL BUFFER
              J = NINT(UPARAM(276+I))
              UPARAM(IDX_IPLA    +J)  = 3
@@ -735,6 +748,11 @@ C-----------------------------------------------
              !not expected, pre-condition tested above, error message if MLN is not relevant
 
          END SELECT
+
+         IMID = NINTRI(MID(I),IPM,NPROPMI,NUMMAT,1)
+         IF(IMID > 0)THEN
+           MAT_PARAM(INTERNAL_ID)%REZON%NUM_NUVAR_EOS = MAX(   MAT_PARAM(INTERNAL_ID)%REZON%NUM_NUVAR_EOS  ,  MAT_PARAM(IMID)%REZON%NUM_NUVAR_EOS  )
+         ENDIF
 
        ENDDO! next SUBMAT
 
@@ -816,19 +834,6 @@ C-----------------------------------------------
       IF(UPARAM(121) == ZERO)  UPARAM(121) = UPARAM(12)
       IF(UPARAM(171) == ZERO)  UPARAM(171) = UPARAM(13)
       IF(UPARAM(221) == ZERO)  UPARAM(221) = UPARAM(14)
-
-      !E_INF
-      PEXT   = ZERO
-      E1_INF = IE_BOUND(PEXT,UPARAM(39),UPARAM(35),UPARAM(12),UPARAM(15),UPARAM(18),UPARAM(22),UPARAM(25),UPARAM(32))
-      E2_INF = IE_BOUND(PEXT,UPARAM(40),UPARAM(36),UPARAM(13),UPARAM(16),UPARAM(20),UPARAM(23),UPARAM(26),UPARAM(33))
-      E3_INF = IE_BOUND(PEXT,UPARAM(41),UPARAM(37),UPARAM(14),UPARAM(17),UPARAM(21),UPARAM(24),UPARAM(27),UPARAM(34))
-      E4_INF = ZERO
-      UPARAM(57) = E1_INF
-      UPARAM(58) = E2_INF
-      UPARAM(59) = E3_INF
-      UPARAM(60) = E4_INF
-
-
 
       !GLOBAL PARAMETERS
        !IF(UPARAM(30)==ZERO)    UPARAM(30)=ZEP2

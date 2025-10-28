@@ -20,6 +20,9 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      MODULE OSBORNE_MOD
+      IMPLICIT NONE
+      CONTAINS
 !||====================================================================
 !||    osborne         ../common_source/eos/osborne.F
 !||--- called by ------------------------------------------------------
@@ -28,9 +31,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    constant_mod    ../common_source/modules/constant_mod.F
 !||    eos_param_mod   ../common_source/modules/mat_elem/eos_param_mod.F90
 !||====================================================================
-      SUBROUTINE OSBORNE  (NPROPM, NUMMAT,
-     1                     IFLAG , NEL   ,PMIN ,PM   ,OFF  ,EINT ,MU   ,
-     2                     ESPE  , DVOL  ,DF   ,VNEW ,MAT  ,PSH  ,
+      SUBROUTINE OSBORNE  (
+     1                     IFLAG , NEL   ,PMIN ,OFF  ,EINT ,MU   ,
+     2                     ESPE  , DVOL  ,DF   ,VNEW ,RHO0 ,PSH  ,
      3                     PNEW  , DPDM  ,DPDE ,EOS_STRUCT)
 C-----------------------------------------------
 C   M o d u l e s
@@ -56,7 +59,6 @@ C of OSBORNE EOS
 !! \details  COLLOCATED SCHEME
 !! \details     EOSMAIN / IFLG = 2 : SINGLE PASS FOR P[n+1] AND DERIVATIVES
 !----------------------------------------------------------------------------
-
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -65,8 +67,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER,INTENT(IN) :: MAT(NEL), IFLAG, NEL, NPROPM, NUMMAT
-      my_real,INTENT(IN) :: PMIN, PM(NPROPM,NUMMAT), OFF(NEL) ,MU(NEL) ,DVOL(NEL) ,DF(NEL) ,VNEW(NEL)
+      INTEGER,INTENT(IN) :: IFLAG, NEL
+      my_real,INTENT(IN) :: OFF(NEL) ,MU(NEL) ,DVOL(NEL) ,DF(NEL) ,VNEW(NEL), RHO0(NEL), PMIN
       my_real,INTENT(INOUT) :: PNEW(NEL), DPDM(NEL), DPDE(NEL),PSH(NEL),EINT(NEL),ESPE(NEL)
       TYPE(EOS_PARAM_),INTENT(IN):: EOS_STRUCT
 C-----------------------------------------------
@@ -74,14 +76,13 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
         INTEGER I, MX
         my_real :: P0,E0,DVV,PP,dPdMU
-        my_real :: A1,A2,B0,B1,B2,C0,C1,D0, A2_,RHO0
+        my_real :: A1,A2,B0,B1,B2,C0,C1,D0, A2_
         my_real :: DENOM
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-        RHO0       = PM(01,MAT(1))
-        E0         = PM(23,MAT(1))
-        PSH(1:NEL) = PM(88,MAT(1))
+        E0         = EOS_STRUCT%E0
+        PSH(1:NEL) = EOS_STRUCT%PSH
 
         A1 = EOS_STRUCT%UPARAM(1)
         A2 = EOS_STRUCT%UPARAM(2)
@@ -147,4 +148,5 @@ C-----------------------------------------------
 
 C-----------------------------------------------
         RETURN
-      END
+      END SUBROUTINE OSBORNE
+      END MODULE OSBORNE_MOD

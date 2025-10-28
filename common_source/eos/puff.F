@@ -20,6 +20,9 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      MODULE PUFF_MOD
+      IMPLICIT NONE
+      CONTAINS
 !||====================================================================
 !||    puff            ../common_source/eos/puff.F
 !||--- called by ------------------------------------------------------
@@ -28,9 +31,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    constant_mod    ../common_source/modules/constant_mod.F
 !||    eos_param_mod   ../common_source/modules/mat_elem/eos_param_mod.F90
 !||====================================================================
-      SUBROUTINE PUFF(NPROPM,NUMMAT,
-     1                IFLAG ,NEL   ,PM   ,OFF  ,EINT ,MU   ,MU2,
-     2                ESPE  ,DVOL  ,DF   ,VNEW ,MAT  ,
+      SUBROUTINE PUFF(
+     1                IFLAG ,NEL   ,PMIN ,OFF  ,EINT ,MU   ,MU2,
+     2                ESPE  ,DVOL  ,DF   ,VNEW ,
      3                PNEW  ,DPDM  ,DPDE ,EOS_STRUCT)
 C-----------------------------------------------
 C   D e s c r i p t i o n
@@ -68,17 +71,17 @@ C
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER,INTENT(IN) :: MAT(NEL), IFLAG, NEL,NUMMAT,NPROPM
-      my_real,INTENT(INOUT) :: PM(NPROPM,NUMMAT), DPDM(NEL), DPDE(NEL), PNEW(NEL)
-      my_real,INTENT(INOUT) ::  OFF(NEL) , EINT(NEL), MU(NEL)  ,
-     .        MU2(NEL) , ESPE(NEL), DVOL(NEL), DF(NEL), VNEW(NEL)
+      INTEGER,INTENT(IN) ::  IFLAG, NEL
+      my_real,INTENT(IN) :: PMIN, OFF(NEL), MU(NEL),DVOL(NEL),MU2(NEL),DF(NEL),VNEW(NEL),ESPE(NEL)
+      my_real,INTENT(INOUT) ::  DPDM(NEL), DPDE(NEL), PNEW(NEL)
+      my_real,INTENT(INOUT) ::  EINT(NEL)
       TYPE(EOS_PARAM_) , INTENT(IN) :: EOS_STRUCT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
       my_real AA, BB, DVV, ETA, XX, GX, PRES, CC, EXPA, EE
-      my_real C1,C2,C3,T1,T2, G0,ESUBL,HH,PC,PSH(NEL)
+      my_real C1,C2,C3,T1,T2, G0,ESUBL,HH,PSH(NEL)
 C--------------------------------------------------------------------
 
       C1    = EOS_STRUCT%UPARAM(1)
@@ -91,7 +94,6 @@ C--------------------------------------------------------------------
       HH    = EOS_STRUCT%UPARAM(8)
 
       PSH(1:NEL)  = EOS_STRUCT%PSH
-      PC           = PM(37,MAT(1))
 
 
       IF(IFLAG == 0) THEN
@@ -101,13 +103,13 @@ C--------------------------------------------------------------------
             AA=(C1+C3*MU2(I))*MU(I)+C2*MU2(I)
             GX=ONE-G0*HALF*XX
             BB=G0
-            PRES=MAX(AA*GX+BB*ESPE(I),PC)*OFF(I)
+            PRES=MAX(AA*GX+BB*ESPE(I),PMIN)*OFF(I)
             DPDM(I)=(C1+TWO*C2*MU(I)+THREE*C3*MU2(I))*GX+G0*DF(I)*DF(I)*(PRES-HALF*AA)
           ELSEIF(ESPE(I) < ESUBL)THEN
             AA=(T1+T2*MU(I))*MU(I)
             GX=ONE-G0*HALF*XX
             BB=G0
-            PRES=MAX(AA*GX+BB*ESPE(I),PC)*OFF(I)
+            PRES=MAX(AA*GX+BB*ESPE(I),PMIN)*OFF(I)
             DPDM(I)=(T1+TWO*T2*MU(I))*GX+G0*DF(I)*DF(I)*(PRES-HALF*AA)
           ELSE
             ETA=ONE+MU(I)
@@ -116,11 +118,11 @@ C--------------------------------------------------------------------
             CC= C1/(G0*ESUBL)
             EXPA=EXP(CC*XX)
             AA= BB*ESUBL*(EXPA-ONE)
-            PRES=MAX(AA+BB*ESPE(I),PC)*OFF(I)
+            PRES=MAX(AA+BB*ESPE(I),PMIN)*OFF(I)
             DPDM(I)=BB*DF(I)*DF(I)*(PRES+ESUBL*EXPA*CC) +(ESPE(I)+ESUBL*(EXPA-ONE))*(HH+THREE_HALF*EE*(G0-HH))
           ENDIF
           DPDE(I)=BB
-          PNEW(I) = MAX(PRES,PC)*OFF(I)! P(mu[n+1],E[n])
+          PNEW(I) = MAX(PRES,PMIN)*OFF(I)! P(mu[n+1],E[n])
         ENDDO
 
       ELSEIF(IFLAG == 1) THEN
@@ -144,7 +146,7 @@ C--------------------------------------------------------------------
           ENDIF
           DPDE(I)=BB
           PNEW(I)=(AA +BB*ESPE(I))/(ONE+ BB*DVV)
-          PNEW(I)=MAX(PNEW(I),PC)*OFF(I)! P(mu[n+1],E[n+1])
+          PNEW(I)=MAX(PNEW(I),PMIN)*OFF(I)! P(mu[n+1],E[n+1])
           EINT(I)=EINT(I)-HALF*DVOL(I)*PNEW(I)
         ENDDO
 
@@ -156,13 +158,13 @@ C--------------------------------------------------------------------
                AA=(C1+C3*MU2(I))*MU(I)+C2*MU2(I)
                GX=ONE-G0*HALF*XX
                BB=G0
-               PRES=MAX(AA*GX+BB*ESPE(I),PC)*OFF(I)
+               PRES=MAX(AA*GX+BB*ESPE(I),PMIN)*OFF(I)
                DPDM(I)=(C1+TWO*C2*MU(I)+THREE*C3*MU2(I))*GX+G0*DF(I)*DF(I)*(PRES-HALF*AA)
             ELSEIF(ESPE(I)<ESUBL)THEN
                AA=(T1+T2*MU(I))*MU(I)
                GX=ONE-G0*HALF*XX
                BB=G0
-               PRES=MAX(AA*GX+BB*ESPE(I),PC)*OFF(I)
+               PRES=MAX(AA*GX+BB*ESPE(I),PMIN)*OFF(I)
                DPDM(I)=(T1+TWO*T2*MU(I))*GX+G0*DF(I)*DF(I)*(PRES-HALF*AA)
             ELSE
                ETA=ONE+MU(I)
@@ -171,9 +173,8 @@ C--------------------------------------------------------------------
                CC= C1/(G0*ESUBL)
                EXPA=EXP(CC*XX)
                AA= BB*ESUBL*(EXPA-ONE)
-               PRES=MAX(AA+BB*ESPE(I),PC)*OFF(I)
-               DPDM(I)=BB*DF(I)*DF(I)*(PRES+ESUBL*EXPA*CC) +
-     .              (ESPE(I)+ESUBL*(EXPA-ONE))*(HH+THREE_HALF*EE*(G0-HH))
+               PRES=MAX(AA+BB*ESPE(I),PMIN)*OFF(I)
+               DPDM(I)=BB*DF(I)*DF(I)*(PRES+ESUBL*EXPA*CC) + (ESPE(I)+ESUBL*(EXPA-ONE))*(HH+THREE_HALF*EE*(G0-HH))
             ENDIF
             DPDE(I)=BB
             PNEW(I) = PRES
@@ -182,4 +183,5 @@ C--------------------------------------------------------------------
       ENDIF
 C-----------------------------------------------
         RETURN
-      END
+      END SUBROUTINE PUFF
+      END MODULE PUFF_MOD

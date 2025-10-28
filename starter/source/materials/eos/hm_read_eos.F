@@ -286,7 +286,7 @@ c---
           CASE ('COMPACTION2')
             IEOS = 20
             CALL HM_READ_EOS_COMPACTION2(IOUT,PM(1,IMAT),UNITAB,LSUBMODEL,EOS_uid,EOS_TAG,IEOS,NPROPM,MAXEOS,
-     .                                    EOS_STRUCT, NFUNCT, NPC, TF ,SNPC , NPTS)
+     .                                    EOS_STRUCT, NFUNCT, NPC, TF ,SNPC , NPTS, MAT_PARAM(IMAT)%REZON)
           CASE ('COMPACTION_TAB')
             IEOS = 21
             CALL HM_READ_EOS_COMPACTION_TAB(IOUT,PM(1,IMAT),UNITAB,LSUBMODEL,EOS_uid,EOS_TAG,IEOS,NPROPM,MAXEOS,
@@ -300,6 +300,7 @@ c---
 
         IPM(4,IMAT) = IEOS
         MAT_PARAM(IMAT)%IEOS = IEOS
+        MAT_PARAM(IMAT)%EOS%EOSTYPE = IEOS
         MAT_PARAM(IMAT)%EOS%ISFLUID = ISFLUID
 c--------------------------------------------------
       ENDDO      !  HM_NEOS

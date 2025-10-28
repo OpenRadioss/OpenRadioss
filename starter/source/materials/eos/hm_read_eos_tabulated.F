@@ -175,6 +175,9 @@ C-----------------------------------------------
       EOS_STRUCT%IPARAM(1) = A_fun_id
       EOS_STRUCT%IPARAM(2) = B_fun_id
 
+      EOS_STRUCT%E0 = E0
+      EOS_STRUCT%PSH = PSH
+
       WRITE(IOUT,1000)
 
       IF(IS_ENCRYPTED)THEN
