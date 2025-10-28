@@ -28,7 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    cforc3_crk   ../engine/source/elements/xfem/cforc3_crk.F
 !||    cndt3        ../engine/source/elements/sh3n/coquedk/cndt3.F
 !||====================================================================
-      SUBROUTINE CSSP2A11(PM    ,IMAT  ,SSP  ,A11   ,NEL   )
+      SUBROUTINE CSSP2A11(PM    ,IMAT  ,SSP  ,A11   ,NEL   ,IFLAG)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -45,6 +45,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER , INTENT(IN) :: IFLAG ! 1:from PM  2:from SSP
       INTEGER IMAT   ,NEL
       my_real,DIMENSION(NPROPM,NUMMAT), INTENT(IN) :: PM
       my_real,DIMENSION(MVSIZ), INTENT(IN) :: SSP
@@ -57,7 +58,11 @@ C-----------------------------------------------
 C=======================================================================       
       RHO0 = PM(1,IMAT)
 C      A11(1:NEL) = RHO0*SSP(1:NEL)*SSP(1:NEL)
-      A11(1:NEL) = PM(24,IMAT)
+      IF (IFLAG .EQ. 2) THEN
+        A11(1:NEL) = RHO0*SSP(1:NEL)*SSP(1:NEL)
+      ELSE
+        A11(1:NEL) = PM(24,IMAT)
+      END IF
 C-----------
       RETURN
       END
