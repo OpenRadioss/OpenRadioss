@@ -31,8 +31,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
 !||    prop_param_mod   ../common_source/modules/mat_elem/prop_param_mod.F90
 !||====================================================================
+      module m1law_mod
+      contains
       SUBROUTINE M1LAW(
-     1   PM,      OFF,     SIG,     EINT,
+     1   PM,      OFF,     pSIG,     EINT,
      2   RHO,     QOLD,    VOL,     STIFN,
      3   DT2T,    NELTST,  ITYPTST, OFFG,
      4   GEO,     PID,     MUMAX,   MAT,
@@ -51,6 +53,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      use iso_c_binding, only : c_loc, c_f_pointer
       use glob_therm_mod
       USE prop_param_mod , only : n_var_igeo
 C-----------------------------------------------
@@ -81,15 +84,19 @@ C
       INTEGER MAT(*),NGL(*), IPM(NPROPMI,*)
       my_real
      .   DT2T
+      my_real, pointer, contiguous :: pSIG(:)
+      my_real, pointer, contiguous :: eint(:), rho(:), qold(:)
+      my_real, pointer, contiguous :: vol(:), offG(:), DTEL(:)
+ 
       my_real
-     .   PM(NPROPM,*), OFF(*), SIG(NEL,6), EINT(*), RHO(*), QOLD(*),
-     .   VOL(*),STIFN(*), OFFG(*),GEO(NPROPG,*),MUMAX(*)
+     .   PM(NPROPM,*), OFF(*),
+     .   STIFN(*), GEO(NPROPG,*),MUMAX(*)
       my_real
      .   VNEW(*), VD2(*), DELTAX(*), SSP(*), AIRE(*), VIS(*), 
      .   PSH(*), PNEW(*),QNEW(*) ,SSP_EQ(*), DVOL(*),
      .   SOLD1(*), SOLD2(*), SOLD3(*), SOLD4(*), SOLD5(*), SOLD6(*),
      .   D1(*), D2(*), D3(*), D4(*), D5(*), D6(*),
-     .   MSSA(*), DMELS(*),CONDE(*),AMU(*),VOL_AVG(*),DTEL(*), RHOREF(*), RHOSP(*)
+     .   MSSA(*), DMELS(*),CONDE(*),AMU(*),VOL_AVG(*), RHOREF(*), RHOSP(*)
       type (glob_therm_) ,intent(inout) :: glob_therm
       integer,dimension(n_var_igeo,numgeo),intent(in)  :: igeo
 C-----------------------------------------------
@@ -104,6 +111,10 @@ C-----------------------------------------------
      .   E1, E2, E3, E4, E5, E6, EINC, P2,
      .    BID1, BID2, BID3, DTA,  YM, DPDMP,FACQ0,
      .    RHO0_1,C1_1
+      my_real, pointer, contiguous :: SIG(: , :)
+
+      call c_f_pointer(c_loc(pSIG), SIG, [NEL,6]) ! reshape to 2D array without copy
+
 C-----------------------------------------------
       FACQ0 = ONE
       MX = MAT(1)
@@ -190,3 +201,4 @@ C
 
       RETURN
       END
+      END MODULE m1law_mod
