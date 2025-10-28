@@ -20,6 +20,9 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+       MODULE SESAME_MOD
+       IMPLICIT NONE
+       CONTAINS
 !||====================================================================
 !||    sesame      ../common_source/eos/sesame.F
 !||--- called by ------------------------------------------------------
@@ -29,9 +32,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    mintp_re    ../common_source/eos/mintp_re.F
 !||    mintp_rt    ../common_source/eos/mintp_rt.F
 !||====================================================================
-      SUBROUTINE SESAME(IFLAG,NEL, PM   ,OFF  ,EINT ,RHO  ,RHO0  ,
-     2                  ESPE ,DVOL ,MAT  ,PNEW ,DPDM ,DPDE  ,THETA ,
-     3                  BUFMAT)
+      SUBROUTINE SESAME(IFLAG , NEL,      PMIN  ,OFF  ,EINT  ,RHO   ,RHO0  ,
+     2                  ESPE  , DVOL,     PNEW  ,DPDM ,DPDE  ,THETA ,
+     3                  BUFMAT, EOS_STRUCT)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE EOS_PARAM_MOD , ONLY : EOS_PARAM_
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -57,34 +64,34 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "param_c.inc"
+!#include      "param_c.inc"
 #include      "vect01_c.inc"
 #include      "com04_c.inc"
 #include      "tabsiz_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-        INTEGER MAT(NEL), IFLAG, NEL
-        my_real PM(NPROPM,NUMMAT), BUFMAT(SBUFMAT),
-     .          OFF(NEL) , EINT(NEL), RHO(NEL) , RHO0(NEL),
-     .          ESPE(NEL), DVOL(NEL), PNEW(NEL),
-     .          DPDM(NEL), DPDE(NEL), THETA(NEL)
+        INTEGER :: IFLAG, NEL
+        my_real :: BUFMAT(SBUFMAT),
+     .             OFF(NEL) , EINT(NEL), RHO(NEL) , RHO0(NEL),
+     .             ESPE(NEL), DVOL(NEL), PNEW(NEL),
+     .             DPDM(NEL), DPDE(NEL), THETA(NEL)
+        TYPE(EOS_PARAM_),INTENT(IN) :: EOS_STRUCT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER I, MX, NR, NT, IDR, IDT, IDP, IDE
-        my_real ESPEM, PRES, DTDE, DPDR, DPDT
-        my_real PC(NEL)
+        INTEGER :: I, NR, NT, IDR, IDT, IDP, IDE
+        my_real :: ESPEM, PRES, DTDE, DPDR, DPDT
+        my_real :: PMIN
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
+        NR  = EOS_STRUCT%IPARAM(1)
+        NT  = EOS_STRUCT%IPARAM(2)
+        IDR = EOS_STRUCT%IPARAM(3)
+
         IF(IFLAG == 0) THEN
           DO I=1,NEL
-            MX  = MAT(I)
-            PC(I)   = PM(37,MX)
-            NR  = NINT(PM(33,MX))
-            NT  = NINT(PM(34,MX))
-            IDR = NINT(PM(35,MX))
             IDT = IDR + NR
             IDP = IDT + NT
             IDE = IDP + NR * NT
@@ -94,33 +101,23 @@ C-----------------------------------------------
             CALL MINTP1_RT(BUFMAT(IDR),NR,BUFMAT(IDT),NT,BUFMAT(IDP),RHO(I),THETA(I),PRES,DPDR,DPDT)
             DPDM(I) = RHO0(I)*DPDR
             DPDE(I) = DPDT*DTDE/RHO0(I)
-            PNEW(I) = MAX(PRES,PC(I))*OFF(I)! P(mu[n+1],E[n])
+            PNEW(I) = MAX(PRES,PMIN)*OFF(I)! P(mu[n+1],E[n])
           ENDDO
 
         ELSEIF(IFLAG == 1) THEN
           DO I=1,NEL
-            MX      = MAT(I)
-            PC(I)   = PM(37,MX)
-            NR  = NINT(PM(33,MX))
-            NT  = NINT(PM(34,MX))
-            IDR = NINT(PM(35,MX))
             IDT = IDR + NR
             IDP = IDT + NT
             IDE = IDP + NR * NT
             ESPEM=ESPE(I)/RHO0(I)
             CALL MINTP_RE(BUFMAT(IDR),NR,BUFMAT(IDT),NT,BUFMAT(IDE),RHO(I),THETA(I),ESPEM,DTDE)
             CALL MINTP_RT(BUFMAT(IDR),NR,BUFMAT(IDT),NT,BUFMAT(IDP),RHO(I),THETA(I),PNEW(I),DPDR)
-            PNEW(I)= MAX(PNEW(I),PC(I))*OFF(I)! P(mu[n+1],E[n+1])
+            PNEW(I)= MAX(PNEW(I),PMIN)*OFF(I)! P(mu[n+1],E[n+1])
             EINT(I)= EINT(I)-HALF*DVOL(I)*PNEW(I)
           ENDDO
 
         ELSEIF(IFLAG == 2) THEN
           DO I=1, NEL
-            MX  = MAT(I)
-            NR  = NINT(PM(33,MX))
-            NT  = NINT(PM(34,MX))
-            PC(I)   = PM(37,MX)
-            IDR = NINT(PM(35,MX))
             IDT = IDR + NR
             IDP = IDT + NT
             IDE = IDP + NR * NT
@@ -129,9 +126,10 @@ C-----------------------------------------------
             CALL MINTP1_RT(BUFMAT(IDR),NR,BUFMAT(IDT),NT,BUFMAT(IDP),RHO(I),THETA(I),PRES,DPDR,DPDT)
             DPDM(I) = RHO0(I)*DPDR
             DPDE(I) = DPDT*DTDE/RHO0(I)
-            PNEW(I) = MAX(PRES,PC(I))*OFF(I)
+            PNEW(I) = MAX(PRES,PMIN)*OFF(I)
           ENDDO
         ENDIF
 C-----------------------------------------------
         RETURN
-      END
+      END SUBROUTINE SESAME
+      END MODULE SESAME_MOD

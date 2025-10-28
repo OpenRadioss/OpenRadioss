@@ -226,7 +226,7 @@ C
      .              MAT     ,IPM    ,NSIGS     ,NUMSOL    ,PTSOL  ,  
      .              IP      ,NGL    ,NPF       ,TF        ,BUFMAT ,  
      .              GBUF    ,LBUF   ,MBUF      ,ELBUF_STR ,ILOADP ,
-     .              FACLOAD, DELTAX ,TEMPEL    )
+     .              FACLOAD, DELTAX ,TEMPEL    ,MAT_PARAM )
       ENDIF      
 C-----------------------------------------------
       DO J=1,8

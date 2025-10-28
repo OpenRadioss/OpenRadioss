@@ -148,7 +148,7 @@ C     Material initialization
      .        MAT, IPM, NSIGS, NUMQUAD, PTQUAD,
      .        IP, NGL,NPF, TF, BUFMAT,
      .        GBUF, LBUF, MBUF, ELBUF_STR, ILOADP,
-     .        FACLOAD, GBUF%DELTAX,TEMPEL)
+     .        FACLOAD, GBUF%DELTAX,TEMPEL,MAT_PARAM )
      
          VFRAC = MAT_PARAM( IXQ(1,1+NFT) )%MULTIMAT%VFRAC(ILAY)
          PRES  = PM(104, MAT_PARAM( IXQ(1,1+NFT) )%MULTIMAT%MID(ILAY) )

@@ -59,7 +59,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (MAT_ELEM_) ,INTENT(INOUT) :: MAT_ELEM
+      TYPE (MAT_ELEM_) ,INTENT(INOUT), TARGET :: MAT_ELEM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -69,6 +69,7 @@ C-----------------------------------------------
       INTEGER ,DIMENSION(:) ,ALLOCATABLE :: IBUF
       INTEGER :: NBSUBMAT
       my_real ,DIMENSION(:) ,ALLOCATABLE :: RBUF
+      INTEGER :: OLDFORMAT,ISUB
 c=======================================================================
 c     read MATPARAM data
       NFIX   = 24
@@ -207,23 +208,6 @@ c
         ENDIF
       ENDDO
 
-      ! Read multimaterial buffer
-      ALLOCATE (IBUF(21) ) !< mex is 21 submaterials
-      ALLOCATE (RBUF(21) )
-      DO IMAT = 1,NUMMAT
-        CALL READ_I_C(IBUF, 1)
-        NBSUBMAT = IBUF(1)
-        MAT_ELEM%MAT_PARAM(IMAT)%MULTIMAT%NB = NBSUBMAT
-        IF(NBSUBMAT > 0)THEN
-          CALL READ_I_C(IBUF, NBSUBMAT)
-          CALL READ_DB(RBUF, NBSUBMAT)
-          MAT_ELEM%MAT_PARAM(IMAT)%MULTIMAT%mid = IBUF(1:NBSUBMAT)
-          MAT_ELEM%MAT_PARAM(IMAT)%MULTIMAT%vfrac = RBUF(1:NBSUBMAT)
-        ENDIF
-      ENDDO
-      DEALLOCATE(IBUF)
-      DEALLOCATE(RBUF)
-
       ! read eos model parameters
       DO IMAT = 1,NUMMAT
         MAT_ELEM%MAT_PARAM(IMAT)%EOS%CV=ZERO
@@ -236,6 +220,45 @@ c
           CALL READ_EOSPARAM(MAT_ELEM%MAT_PARAM(IMAT)%EOS)
         END IF
       END DO
+
+      ! Read multimaterial buffer
+      ALLOCATE (IBUF(21) ) !< mex is 21 submaterials
+      ALLOCATE (RBUF(21) )
+      DO IMAT = 1,NUMMAT
+        CALL READ_I_C(IBUF, 2)
+        NBSUBMAT = IBUF(1)
+        OLDFORMAT = IBUF(2)
+        MAT_ELEM%MAT_PARAM(IMAT)%MULTIMAT%NB = NBSUBMAT
+        MAT_ELEM%MAT_PARAM(IMAT)%MULTIMAT%old_data_format = OLDFORMAT
+        IF(NBSUBMAT > 0)THEN
+          CALL READ_I_C(IBUF, NBSUBMAT)
+          CALL READ_DB(RBUF, NBSUBMAT)
+          MAT_ELEM%MAT_PARAM(IMAT)%MULTIMAT%mid = IBUF(1:NBSUBMAT)
+          MAT_ELEM%MAT_PARAM(IMAT)%MULTIMAT%vfrac = RBUF(1:NBSUBMAT)
+           ALLOCATE (MAT_ELEM%MAT_PARAM(IMAT)%MULTIMAT%pEOS(NBSUBMAT))
+           IF(OLDFORMAT == 1)THEN
+             !embedded EOS parameters
+             ALLOCATE (MAT_ELEM%MAT_PARAM(IMAT)%MULTIMAT%EOS(NBSUBMAT))
+             DO I = 1,NBSUBMAT
+               CALL READ_EOSPARAM(MAT_ELEM%MAT_PARAM(IMAT)%MULTIMAT%EOS(I))
+               MAT_ELEM%MAT_PARAM(IMAT)%MULTIMAT%pEOS(I)%EOS => MAT_ELEM%MAT_PARAM(IMAT)%MULTIMAT%EOS(I)
+             END DO
+           ELSE
+             ! pointers to user /EOS
+             DO I=1,NBSUBMAT
+               ISUB = MAT_ELEM%MAT_PARAM(IMAT)%MULTIMAT%mid(I)
+               MAT_ELEM%MAT_PARAM(IMAT)%MULTIMAT%pEOS(I)%EOS => MAT_ELEM%MAT_PARAM(ISUB)%EOS
+             ENDDO
+          ENDIF
+        ENDIF
+      ENDDO
+      DEALLOCATE(IBUF)
+      DEALLOCATE(RBUF)
+
+
+
+      !ASSOCIATE MULTIMAT_EOS
+
       
       ! read ALE rezoning parameters
       DO IMAT = 1,NUMMAT

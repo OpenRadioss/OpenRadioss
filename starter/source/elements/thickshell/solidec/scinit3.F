@@ -55,7 +55,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                  BNS       ,WMA       ,PTSOL    ,BUFMAT    ,MCP   ,
      .                  MCPS      ,TEMP      ,NPF      ,TF        ,MSSA  ,
      .                  STRSGLOB  ,STRAGLOB ,ORTHOGLOB ,FAIL_INI  ,ILOADP,
-     .                  FACLOAD   ,RNOISE   ,PERTURB   ,GLOB_THERM)
+     .                  FACLOAD   ,RNOISE   ,PERTURB   ,GLOB_THERM,MAT_PARAM)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C   Initialize 8-nodes thick shell HQEPH, co-rotational formulation
@@ -67,7 +67,8 @@ C-----------------------------------------------
       USE DETONATORS_MOD             
       USE ALE_CONNECTIVITY_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
-      use glob_therm_mod
+      USE GLOB_THERM_MOD
+      USE MATPARAM_DEF_MOD
       use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -106,6 +107,7 @@ C-----------------------------------------------
       TYPE(DETONATORS_STRUCT_)::DETONATORS
       TYPE(t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
       type (glob_therm_) ,intent(in)      :: glob_therm
+      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -298,7 +300,7 @@ C
      .            MAT     ,IPM    ,NSIGS      ,NUMSOL    ,PTSOL  ,
      .            IP      ,NGL    ,NPF        ,TF        ,BUFMAT ,
      .            GBUF    ,LBUF   ,MBUF       ,ELBUF_STR ,ILOADP ,
-     .            FACLOAD, DELTAX ,TEMPEL     )
+     .            FACLOAD, DELTAX ,TEMPEL     ,MAT_PARAM )
 C
       IF (IGTYP == 22) CALL SCZERO3(GBUF%RHO,GBUF%SIG,GBUF%EINT,NEL)
 C----------------------------------------
@@ -355,7 +357,7 @@ C
      .             MAT     ,IPM    ,NSIGS       ,NUMSOL   ,PTSOL,
      .             IS      ,NGL    ,NPF         ,TF       ,BUFMAT,
      .             GBUF    ,LBUF   ,MBUF        ,ELBUF_STR,ILOADP,
-     .             FACLOAD, DELTAX ,TEMPEL      )
+     .             FACLOAD, DELTAX ,TEMPEL      ,MAT_PARAM )
 c
          NUVAR = ELBUF_STR%BUFLY(IS)%NVAR_MAT
          IF(MTN>=28)THEN

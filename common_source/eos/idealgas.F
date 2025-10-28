@@ -20,6 +20,9 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      MODULE IDEALGAS_MOD
+      IMPLICIT NONE
+      CONTAINS
 !||====================================================================
 !||    idealgas        ../common_source/eos/idealgas.F
 !||--- called by ------------------------------------------------------
@@ -28,9 +31,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    constant_mod    ../common_source/modules/constant_mod.F
 !||    eos_param_mod   ../common_source/modules/mat_elem/eos_param_mod.F90
 !||====================================================================
-      SUBROUTINE IDEALGAS( NPROPM, NUMMAT,
-     1                     IFLAG ,NEL  ,PM   ,OFF   ,EINT  ,MU   ,
-     2                     ESPE ,DVOL ,DF   ,VNEW  ,MAT   ,PSH  ,
+      SUBROUTINE IDEALGAS(
+     1                     IFLAG ,NEL  ,OFF  ,EINT  ,MU   ,
+     2                     ESPE ,DVOL ,DF   ,VNEW    ,PSH  ,
      3                     PNEW ,DPDM ,DPDE ,EOS_STRUCT)
 C-----------------------------------------------
 C   M o d u l e s
@@ -65,9 +68,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER,INTENT(IN) :: MAT(NEL), IFLAG, NEL, NPROPM, NUMMAT
+      INTEGER,INTENT(IN) ::  IFLAG, NEL
       my_real,INTENT(INOUT) :: EINT(NEL), DPDM(NEL), DPDE(NEL), PNEW(NEL), PSH(NEL)
-      my_real,INTENT(IN) :: PM(NPROPM,NUMMAT),OFF(NEL),MU(NEL),ESPE(NEL),DVOL(NEL),DF(NEL),VNEW(NEL)
+      my_real,INTENT(IN) :: OFF(NEL),MU(NEL),ESPE(NEL),DVOL(NEL),DF(NEL),VNEW(NEL)
       TYPE(EOS_PARAM_),INTENT(IN) :: EOS_STRUCT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -81,7 +84,7 @@ C-----------------------------------------------
       GAMMA      = EOS_STRUCT%UPARAM(1)
       P0         = EOS_STRUCT%UPARAM(2)
       T0         = EOS_STRUCT%UPARAM(3)
-      E0         = PM(23,MAT(1))
+      E0         = EOS_STRUCT%E0
       PSH(1:NEL) = EOS_STRUCT%PSH
 
       IF(IFLAG == 0) THEN
@@ -114,4 +117,5 @@ C-----------------------------------------------
         ENDIF
 C-----------------------------------------------
         RETURN
-      END
+      END SUBROUTINE IDEALGAS
+      END MODULE IDEALGAS_MOD

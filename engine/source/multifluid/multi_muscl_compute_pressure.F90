@@ -67,7 +67,8 @@
           real(kind=WP), INTENT(INOUT) :: OFF(1)
           real(kind=WP), INTENT(INOUT) :: BUFMAT(*)
           INTEGER,INTENT(IN)::NPF(SNPC),NVAREOS
-          real(kind=WP),INTENT(IN)::TF(STF),VAREOS(NVAREOS*1)
+          real(kind=WP),INTENT(IN)::TF(STF)
+          real(kind=WP),INTENT(INOUT)::VAREOS(NVAREOS*1)
           TYPE(MATPARAM_STRUCT_), INTENT(IN) :: MAT_PARAM !material data structure
           INTEGER,INTENT(IN) :: NVARTMP_EOS
           INTEGER,INTENT(INOUT) :: VARTMP_EOS(1,NVARTMP_EOS)

@@ -1,4 +1,5 @@
 Copyright>        OpenRadioss
+Copyright>        OpenRadioss
 Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
@@ -73,7 +74,7 @@ C-----------------------------------------------
       my_real PM(NPROPM),BUFMAT(*)
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
       TYPE(MATPARAM_STRUCT_),INTENT(INOUT) :: MAT_PARAM
-      INTEGER,INTENT(IN) :: IMIDEOS    
+      INTEGER,INTENT(IN) :: IMIDEOS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -123,20 +124,29 @@ C----------------
       REWIND(31)
       NR = NINT(XNR)
       NT = NINT(XNT)
-      PM(33)=NR
-      PM(34)=NT
-      PM(35)=IDF
+
+      MAT_PARAM%EOS%NUPARAM = 0
+      MAT_PARAM%EOS%NIPARAM = 3
+      MAT_PARAM%EOS%NFUNC = 0
+      MAT_PARAM%EOS%NTABLE = 0
+      CALL MAT_PARAM%EOS%CONSTRUCT() !allocations
+
       IF (MAT_PARAM%THERM%TINI == ZERO) THEN
         MAT_PARAM%THERM%TINI =THREE100
         PM(79) = THREE100
       END IF
 
+      IF(PM(79) == ZERO)PM(79)=THREE100
       IDR = IDF
       IDT = IDR + NR
       IDP = IDT + NT
       IDE = IDP + NR * NT
       IDF = IDE + NR * NT
       MFI = MFI + IDF - IDR
+
+      MAT_PARAM%EOS%IPARAM(1) = NR  ! PM(33)
+      MAT_PARAM%EOS%IPARAM(2) = NT  ! PM(34)
+      MAT_PARAM%EOS%IPARAM(3) = IDR ! PM(35)
 C
       BUFMAT(IDR:IDF-1) = ZERO
 C

@@ -26,6 +26,7 @@
 !||    eosmain          ../common_source/eos/eosmain.F
 !||====================================================================
       module compaction_mod
+      implicit none
       contains
 ! ======================================================================================================================
 !                                                   procedures
@@ -61,9 +62,9 @@
 !||    eos_param_mod   ../common_source/modules/mat_elem/eos_param_mod.F90
 !||    precision_mod   ../common_source/modules/precision_mod.F90
 !||====================================================================
-      subroutine compaction(npropm, nummat,&
-                            iflag , nel   , pm    , off  , eint , mu   , mu2 , &
-                            dvol  , mat   , psh   , &
+      subroutine compaction( &
+                            iflag , nel   , pfrac , off  , eint , mu   , mu2 , &
+                            dvol  , psh   , &
                             pnew  , dpdm  , dpde  , mu_bak,&
                             eos_struct)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -83,16 +84,15 @@
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
       integer,intent(in) :: nel !< number of element in the currenbt group
-      integer,intent(in) :: npropm, nummat !< array sizes
-      integer,intent(in) :: mat(nel), iflag
-      real(kind=WP),intent(inout) :: pm(npropm,nummat),off(nel),eint(nel),mu(nel),mu2(nel),dvol(nel)
-      real(kind=WP),intent(inout) :: pnew(nel),dpdm(nel),dpde(nel),mu_bak(nel)
+      integer,intent(in) :: iflag
+      real(kind=WP),intent(in) :: pfrac, off(nel),mu(nel),mu2(nel),dvol(nel)
+      real(kind=WP),intent(inout) :: pnew(nel),dpdm(nel),dpde(nel),mu_bak(nel),eint(nel)
       type(eos_param_),intent(in) :: eos_struct !< data structure for EoS parameters
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local Variables
 ! ----------------------------------------------------------------------------------------------------------------------
       integer :: i, iform
-      real(kind=WP) :: psh(nel),e0,b(nel),pne1,pfrac
+      real(kind=WP) :: psh(nel),e0,b(nel),pne1
       real(kind=WP) :: c0,c1,c2,c3,bunl,p(nel),p_
       real(kind=WP) :: alpha,mu_min,mu_max
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -102,15 +102,14 @@
        mu_min = eos_struct%uparam(2)
        bunl = eos_struct%uparam(3)
 
-       c0 = eos_struct%uparam(4) ! pm(49,mx)
-       c1 = eos_struct%uparam(5) ! pm(32,mx)
-       c2 = eos_struct%uparam(6) ! pm(33,mx)
-       c3 = eos_struct%uparam(7) ! pm(34,mx)
-       e0 = pm(23,mat(1))
+       c0 = eos_struct%uparam(4)
+       c1 = eos_struct%uparam(5)
+       c2 = eos_struct%uparam(6)
+       c3 = eos_struct%uparam(7)
+       e0 = eos_struct%e0
 
        !new format
        psh(1:nel) = eos_struct%psh
-       pfrac = pm(37,mat(1))
        mu_max = eos_struct%uparam(1)
        mu_min = eos_struct%uparam(2)
        bunl = eos_struct%uparam(3)

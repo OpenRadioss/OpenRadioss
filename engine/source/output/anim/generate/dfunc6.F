@@ -483,29 +483,33 @@ C              IUS = (n-1)'th user variable in UVAR
                USER(LFT:LLT) = ZERO   
 
                IF(MLW==37)THEN
-                 IUS=3+(IFUNC-283) !law37 user4 and user5   for vfrac              
+                 IUS=3+(IFUNC-283) !law37 user4 and user5   for vfrac
+                 K=IUS*NEL
                ELSEIF(MLW==51)THEN
                  IMAT = IXS(1,NFT+1)                        
                  IADBUF = IPM(7,IMAT)                       
                  NUPARAM= IPM(9,IMAT)                       
                  UPARAM => BUFMAT(IADBUF:IADBUF+NUPARAM) 
                  ISUBMAT = (IFUNC-282)
-                 ISUBMAT = UPARAM(276+ISUBMAT) !bijective order
-                 IUS=M51_N0PHAS+(ISUBMAT-1)*M51_NVPHAS 
+                 !ISUBMAT = UPARAM(276+ISUBMAT) !bijective order
+                 IUS=M51_N0PHAS+(ISUBMAT-1)*M51_NVPHAS
+                 LLT       = IPARG(2,NG)
+                 IPOS      = 1 !vfrac ! 8 !eint    !12 dens
+                 K         = LLT * ((IUS )+IPOS-1)
 !               ELSEIF(MLW==20)THEN
 !                 IUS=1+(IFUNC-10248)
                ENDIF
                IFRAC=IFUNC-283+1
 
-c--------------                
-               IF (MLW==51 .OR. (MLW==37.AND.IFRAC<=2))THEN                                                                       
-                 DO IL=1,NLAY                                              
-                   DO IS=1,NPTS                                            
-                     DO IT=1,NPTT                                          
-                       DO IR=1,NPTR                                        
-                         MBUF => ELBUF_TAB(NG)%BUFLY(IL)%MAT(IR,IS,IT)     
-                         DO I=LFT,LLT                                                                 
-                           USER(I) = USER(I) + MBUF%VAR(I+IUS*NEL)/NPTG 
+c--------------
+               IF (MLW==51 .OR. (MLW==37.AND.IFRAC<=2))THEN
+                 DO IL=1,NLAY
+                   DO IS=1,NPTS
+                     DO IT=1,NPTT
+                       DO IR=1,NPTR
+                         MBUF => ELBUF_TAB(NG)%BUFLY(IL)%MAT(IR,IS,IT)
+                         DO I=LFT,LLT
+                           USER(I) = MBUF%VAR(K+I)!/NPTG
                          ENDDO                                             
                        ENDDO                                               
                      ENDDO                                                 

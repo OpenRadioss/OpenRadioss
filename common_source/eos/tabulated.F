@@ -20,6 +20,9 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+       MODULE TABULATED_MOD
+       IMPLICIT NONE
+       CONTAINS
 !||====================================================================
 !||    tabulated       ../common_source/eos/tabulated.F
 !||--- called by ------------------------------------------------------
@@ -28,9 +31,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    constant_mod    ../common_source/modules/constant_mod.F
 !||    eos_param_mod   ../common_source/modules/mat_elem/eos_param_mod.F90
 !||====================================================================
-      SUBROUTINE TABULATED(NPROPM, NUMMAT,
-     1                     IFLAG,NEL  ,PM   ,OFF  ,EINT ,MU  ,
-     2                     ESPE ,DVOL ,DF   ,VNEW ,MAT  ,PSH ,
+      SUBROUTINE TABULATED(
+     1                     IFLAG,NEL  ,PMIN ,OFF  ,EINT ,MU  ,
+     2                     ESPE ,DVOL ,DF   ,VNEW ,PSH ,
      3                     PNEW ,DPDM ,DPDE ,
      4                     NPF  ,TF   ,SNPC,STF, EOS_STRUCT)
 C-----------------------------------------------
@@ -68,11 +71,10 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: SNPC,STF
-      INTEGER, INTENT(IN) :: MAT(NEL), IFLAG, NEL,NPF(SNPC),NPROPM,NUMMAT
-      my_real, INTENT(IN) :: PM(NPROPM,NUMMAT),
-     .   OFF(NEL)   ,MU(NEL), ESPE(NEL) ,DVOL(NEL) ,DF(NEL)  ,
-     .   VNEW(NEL)  ,TF(STF)
-      my_real,INTENT(INOUT) :: PSH(NEL),EINT(NEL),DPDM(NEL),DPDE(NEL),PNEW(NEL)
+      INTEGER, INTENT(IN) :: IFLAG, NEL,NPF(SNPC)
+      my_real, INTENT(IN) :: OFF(NEL), MU(NEL), ESPE(NEL), DVOL(NEL), DF(NEL), VNEW(NEL), TF(STF)
+      my_real,INTENT(INOUT) :: PSH(NEL), EINT(NEL), DPDM(NEL), DPDE(NEL), PNEW(NEL)
+      my_real,INTENT(IN) :: PMIN
       TYPE(EOS_PARAM_ ),INTENT(IN) :: EOS_STRUCT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -81,13 +83,12 @@ C-----------------------------------------------
         my_real :: E0,AA,BB,DVV,PP
         my_real :: XSCALE_A,XSCALE_B,FSCALE_A,FSCALE_B
         INTEGER :: A_fun_id, B_fun_id
-        my_real :: RES_A(NEL),RES_B(NEL),DERI_A(NEL),DERI_B(NEL),PC
+        my_real :: RES_A(NEL),RES_B(NEL),DERI_A(NEL),DERI_B(NEL)
         my_real,EXTERNAL :: FINTER
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-      E0 = PM(23,MAT(1))
-      PC  = PM( 37,MAT(1))
+      E0 = EOS_STRUCT%E0
       PSH(1:NEL) = EOS_STRUCT%PSH
       XSCALE_A = EOS_STRUCT%UPARAM(1)
       XSCALE_B = EOS_STRUCT%UPARAM(2)
@@ -120,7 +121,7 @@ C-----------------------------------------------
            PP      = RES_A(I) + RES_B(I) * ESPE(I) - PSH(I) ! A(MU(I))+B(MU(I))*ESPE(I)
            DPDM(I) = DERI_A(I)+DERI_B(I)*ESPE(I) + RES_B(I)*(PP+PSH(I))/( (ONE+MU(I))*(ONE+MU(I)) ) ! A'(MU0) + B'(MU0)*E0+B(MU0)/(ONE+MU0)/(ONE+MU0)*P0     !total derivative
            DPDE(I) = RES_B(I) ! B(MU(I))                                               !partial derivative
-           PNEW(I) = MAX(PP,PC)*OFF(I)    ! P(mu[n+1],E[n])
+           PNEW(I) = MAX(PP,PMIN)*OFF(I)    ! P(mu[n+1],E[n])
          ENDDO
 
 C-----------------------------------------------
@@ -149,7 +150,7 @@ C-----------------------------------------------
           DVV     = HALF*DVOL(I)*DF(I) / MAX(EM15,VNEW(I))
           PP      = AA + BB * ESPE(I)
           PNEW(I) = (AA+BB*(ESPE(I)-PSH(I)*DVV))/(ONE+BB*DVV)
-          PNEW(I) = MAX(PNEW(I),PC )*OFF(I)    ! P(mu[n+1],E[n+1])
+          PNEW(I) = MAX(PNEW(I),PMIN )*OFF(I)    ! P(mu[n+1],E[n+1])
           EINT(I) = EINT(I) - HALF*DVOL(I)*(PNEW(I)+PSH(I) )
         ENDDO
 
@@ -186,4 +187,5 @@ C-----------------------------------------------
         ENDIF
 C-----------------------------------------------
         RETURN
-      END
+      END SUBROUTINE TABULATED
+      END MODULE TABULATED_MOD

@@ -79,7 +79,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                  MAT      ,IPM              ,NSIG        ,NUMS      ,PT     ,
      .                  IPT      ,NGL              ,NPF         ,TF        ,BUFMAT ,
      .                  GBUF     ,LBUF             ,MBUF        ,ELBUF_STR ,ILOADP ,
-     .                  FACLOAD  ,DDELTAX          ,TEMPEL      )   
+     .                  FACLOAD  ,DDELTAX          ,TEMPEL      ,MAT_PARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -88,7 +88,8 @@ C-----------------------------------------------
       USE DETONATORS_MOD   
       USE ALE_CONNECTIVITY_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
-      use m36init_mod
+      USE M36INIT_MOD
+      USE MATPARAM_DEF_MOD , ONLY : MATPARAM_STRUCT_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -126,6 +127,7 @@ C-----------------------------------------------
       TYPE(DETONATORS_STRUCT_)::DETONATORS
       TYPE(t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
       TARGET  :: BUFMAT
+      TYPE (MATPARAM_STRUCT_),DIMENSION(NUMMAT), INTENT(IN) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -133,9 +135,9 @@ C-----------------------------------------------
       INTEGER I,IADBUF,NPAR,NFUNC,NUVAR,IFORM,NUMEL
       INTEGER IFUNC(MAXFUNC)
       INTEGER ID
-      my_real ,DIMENSION(MVSIZ) :: RHO0,YLDFAC
-      my_real ,DIMENSION(MVSIZ) ,TARGET :: TMP,EPL,FILLO
-      my_real ,DIMENSION(:) ,POINTER :: 
+      my_real, DIMENSION(MVSIZ) :: RHO0,YLDFAC
+      my_real, DIMENSION(MVSIZ) ,TARGET :: TMP,EPL,FILLO
+      my_real, DIMENSION(:) ,POINTER ::
      .   OFF,SIG,EINT,RHO,VOL,EPSD,DELTAX,TB,ANG,SF,VK,ROB,UVAR,EPLAS,FILL,DTEL,UPARAM,TEMP
 C=======================================================================
       TMP(1:NEL)=ZERO
@@ -193,7 +195,7 @@ C=======================================================================
      .            SIG     ,IX      ,NIX     ,SIGI     ,EPLAS    ,
      .            NSIG    ,MAT     ,NUMS    ,PT       ,NEL      ,
      .            FILL    ,TEMP    ,TEMPEL  )
-     
+
 !--------------------
       IF(JMULT <= 1)THEN  !reset only once
         IPARG(15)=0   !  FLAG REZONE SIG
@@ -342,9 +344,9 @@ C=======================================================================
         ELSEIF (MTN == 51) THEN
           CALL M51INIT(IPM                ,DETONATORS ,PM       ,TB  ,
      .                 NUVAR              ,MBUF%VAR   ,UPARAM   ,X   ,
-     .                 MAT                ,IPARG      ,IFORM    ,IX         ,NIX ,
+     .                 MAT                ,IPARG      ,IFORM    ,IX       ,NIX ,
      .                 ALE_CONNECTIVITY   ,BUFMAT     ,RHO0     ,
-     .                 LBUF               ,GBUF       ,NEL      ,SIG)
+     .                 GBUF       ,NEL      ,SIG      ,MAT_PARAM , NPF, TF )
         ELSEIF (MTN == 70) THEN
           CALL M70INIT(NEL   ,NPAR   ,NUVAR    ,UPARAM   ,MBUF%VAR)
 

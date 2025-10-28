@@ -104,7 +104,6 @@ C
       VISCMAX       = RHO*(QAL*MAX(ZERO,DD) + QBL*SSP1)
       Q1            = VISCMAX*MAX(ZERO,DD)
       BB            = HALF*(VOLUME-V1OLD)
-!      EINT1         = EINT1 - (P1OLD+PEXT+PEXT)*BB
       AA            = AA
       P1            = ( P0-PEXT + AA*EINT1 )!  /  (ONE+AA*BB)
 
@@ -144,8 +143,8 @@ C
 !||====================================================================
       SUBROUTINE JWL51 (UPARAM,
      .          V1,V1OLD,MU1,MUP1,EINT1,
-     .          P1OLD,PEXT,P1,PM1,
-     .          RHO1,RHO10,MAS1,SSP1,DVDP1,DPDV1,BFRAC,V10, DPDE1, FLAG)
+     .          PEXT,P1,PM1,
+     .          RHO1,RHO10,MAS1,SSP1,BFRAC,V10, DPDE1)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -154,18 +153,17 @@ C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
       my_real,INTENT(IN) :: V1,V1OLD,
-     .                      P1OLD,PEXT,PM1,
+     .                      PEXT,PM1,
      .                      RHO10,MAS1,
      .                      UPARAM(*),BFRAC, V10
-      INTEGER,INTENT(IN) :: FLAG
-      my_real,INTENT(INOUT) :: RHO1, MU1, EINT1, P1, SSP1, DVDP1,DPDV1, DPDE1
+      my_real,INTENT(INOUT) :: RHO1, MU1, EINT1, P1, SSP1,  DPDE1
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IBFRAC
       my_real AA,BB,P0,VDET,BHE,B1,B2,W1,R1,R2,R1M,ER1M,R2M,ER2M,
-     .        MUP1,DVDP1I,C11,C01,SSP_PRODUCTS,SSP_UNREACTED,
-     .        Psol, Pgas, Psol_min, Pgas_min,DPDMU,DPDV1_REACTED,DPDV1_UNREACTED
+     .        MUP1,C11,C01,SSP_PRODUCTS,SSP_UNREACTED,
+     .        Psol, Pgas, Psol_min, Pgas_min,DPDMU
 C-----------------------------------------------
       VDET   = UPARAM(42)
       BHE    = UPARAM(44)
@@ -178,7 +176,6 @@ C-----------------------------------------------
       W1     = UPARAM(54)
       IBFRAC = NINT(UPARAM(68))
 C------------------------
-      DVDP1I = DVDP1
       RHO1   = MAS1/V1
       MUP1   = RHO1/RHO10
       MU1    = MUP1 - ONE
@@ -188,17 +185,11 @@ C------------------------
       ER1M   = EXP(-R1M)
       ER2M   = EXP(-R2M)
 
-
       AA       = W1*MUP1/V10 !W1/V1    same digits this way
       AA       = AA
       BB       = HALF*(V1-V1OLD)
-      IF (FLAG == 1) EINT1    = EINT1 - (P1OLD+PEXT+PEXT)*BB
       P0       = B1*(ONE-W1/R1M)*ER1M + B2*(ONE-W1/R2M)*ER2M
-      IF (FLAG == 1) THEN
-         P1       = ( P0-PEXT + AA*EINT1 )  /  (ONE+AA*BB)
-      ELSE
-         P1 = P0 - PEXT + AA * EINT1
-      ENDIF
+      P1 = P0 - PEXT + AA * EINT1
 
       !--------------------------------!
       ! Linear and jwl eos             !
@@ -212,8 +203,6 @@ C------------------------
       Pgas     = MAX(Pgas,Pgas_min)
 
       P1       = BFRAC*Pgas + (ONE-BFRAC)*Psol
-      IF (FLAG == 1) EINT1    = EINT1 - P1*BB
-      IF (FLAG == 1) EINT1    = MAX(EINT1, ZERO)
 
       !--------------------------------!
       ! Sound Speed                    !
@@ -225,19 +214,7 @@ C------------------------
       SSP_UNREACTED = SQRT(C11/RHO10)
       SSP1          = (ONE-BFRAC)*SSP_UNREACTED + BFRAC*SSP_PRODUCTS
 
-      !--------------------------------!
-      ! DPDV                           !
-      !--------------------------------!
-      DPDV1_REACTED    = -DPDMU*MUP1/V1
-      DPDV1_UNREACTED  = -C11*MUP1/V1
-      DPDV1            = BFRAC*DPDV1_REACTED + (ONE-BFRAC)*DPDV1_UNREACTED
       DPDE1 = BFRAC * W1/MUP1
-
-      IF(ABS(DPDV1)<EM20)THEN
-        DVDP1 = ZERO
-      ELSE
-        DVDP1 = ONE/DPDV1
-      ENDIF
 
       RETURN
       END

@@ -279,15 +279,12 @@ C-----------------------------------------------
       !----------------!
       tAV(1:4) = ZERO
       tMID(1:4)= 0
+      MATPARAM%multimat%old_data_format = 1
       SELECT CASE(IFLG)
       !============================!
       ! IFLG == 0                  !
       !============================!
       CASE(0)
-        MATPARAM%multimat%old_data_format = 1
-        !ALLOCATE(MATPARAM%multimat%EOS(4))
-        CALL MATPARAM%multimat%EOS_CONSTRUCT
-        CALL mat51_associate_eos(MAT_PARAM,NUMMAT,MAT_IID)
         !necessarily INVERS_SRC < 2023 : otherwise default leads to IFLG=12
         !line-3
         CALL HM_GET_FLOATV('PEXT'     , PEXT , IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -305,17 +302,6 @@ C-----------------------------------------------
           CALL HM_GET_FLOAT_ARRAY_INDEX('MAT_C4_Iflg0_phas'    , C4(I)    ,I ,IS_AVAILABLE, LSUBMODEL, UNITAB)
           CALL HM_GET_FLOAT_ARRAY_INDEX('MAT_C5_Iflg0_phas'    , C5(I)    ,I ,IS_AVAILABLE, LSUBMODEL, UNITAB)
           CALL HM_GET_FLOAT_ARRAY_INDEX('MAT_G_Iflg0_phas'     , GG(I)    ,I ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        ENDDO
-        DO I=1,3
-          MATPARAM%multimat%eos(I)%PSH = PEXT
-          MATPARAM%multimat%eos(I)%E0 = E0(I)
-          MATPARAM%multimat%eos(I)%PMIN = PMIN_(I)
-          MATPARAM%multimat%eos(I)%UPARAM(1) = C0(I)-PEXT
-          MATPARAM%multimat%eos(I)%UPARAM(2) = C1(I)
-          MATPARAM%multimat%eos(I)%UPARAM(3) = C2(I)
-          MATPARAM%multimat%eos(I)%UPARAM(4) = C3(I)
-          MATPARAM%multimat%eos(I)%UPARAM(5) = C4(I)
-          MATPARAM%multimat%eos(I)%UPARAM(6) = C5(I)
         ENDDO
         CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('MAT_P_Iflg0_phas' ,FAC_UNIT_SPH   ,1 ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         IF(GG(1)+GG(2)+GG(3)==ZERO)THEN
@@ -607,6 +593,7 @@ C-----------------------------------------------
       ! IFLG == 12                 !
       !============================!
       CASE(12)
+        MATPARAM%multimat%old_data_format = 0
         IFLG  = 12
         IEXP  = 1
         NBMAT = 0
@@ -840,6 +827,25 @@ C     !============================!
         P0(4)  = C0(4)
         SSP(4) = VDET
       ENDIF
+
+      !filling data structure for EMBEDDED EoS (OLD FORMAT)
+      ! this way we can use the generic datastructure %MULTIMAT%pEOS%EOS(submat_id) to retrieve EoS parameters
+      IF(MATPARAM%multimat%old_data_format == 1)THEN
+        CALL MATPARAM%multimat%EOS_CONSTRUCT  !allocate 4 EoS with NUPARAM=6 etc...
+        DO I=1,3
+          MATPARAM%multimat%eos(I)%PSH = +PEXT
+          MATPARAM%multimat%eos(I)%E0 = E0(I)
+          MATPARAM%multimat%eos(I)%PMIN = PMIN_(I)
+          MATPARAM%multimat%eos(I)%UPARAM(1) = (C0(I)+PEXT)-PEXT
+          MATPARAM%multimat%eos(I)%UPARAM(2) = C1(I)
+          MATPARAM%multimat%eos(I)%UPARAM(3) = C2(I)
+          MATPARAM%multimat%eos(I)%UPARAM(4) = C3(I)
+          MATPARAM%multimat%eos(I)%UPARAM(5) = C4(I)
+          MATPARAM%multimat%eos(I)%UPARAM(6) = C5(I)
+        ENDDO
+        CALL mat51_associate_eos(MAT_PARAM,NUMMAT,MAT_IID)
+      ENDIF
+
       !============================!
       ! Output through UPARAM(*)   !
       !============================! 
@@ -856,6 +862,7 @@ C     !============================!
       UPARAM(31) = IFLG
       UPARAM(73) = NITER
       UPARAM(74) = RATIO
+      UPARAM(76) = IFLG
       IF (IFLG /= 12) THEN
         UPARAM(9)  = RHO0_(1)
         UPARAM(10) = RHO0_(2)
@@ -909,10 +916,10 @@ C     !============================!
         UPARAM(54) = W
         UPARAM(55) = IEXP
         UPARAM(56) = PMIN_(4)
-        UPARAM(57) = EINF(1)
-        UPARAM(58) = EINF(2)
-        UPARAM(59) = EINF(3)
-        UPARAM(60) = EINF(4)               
+        UPARAM(57) = C0(1)+C4(1)*E0(1)
+        UPARAM(58) = C0(2)+C4(2)*E0(2)
+        UPARAM(59) = C0(3)+C4(3)*E0(3)
+        UPARAM(60) = C0(4)
         UPARAM(61) = IOPT  
         UPARAM(62) = ONE/N_LC
         UPARAM(63) = IPLA_

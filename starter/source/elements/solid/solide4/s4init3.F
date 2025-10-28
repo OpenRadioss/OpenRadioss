@@ -225,7 +225,7 @@ C
      .            MAT     ,IPM     ,NSIGS      ,NUMSOL    ,PTSOL  ,
      .            IP      ,NGL     ,NPF        ,TF        ,BUFMAT ,
      .            GBUF    ,LBUF    ,MBUF       ,ELBUF_STR ,ILOADP ,
-     .            FACLOAD, DELTAX  ,TEMPEL     )
+     .            FACLOAD, DELTAX  ,TEMPEL     ,MAT_PARAM )
 C
       ! Density perturbation for /MAT/LAW115
       IF (MTN == 115) THEN 

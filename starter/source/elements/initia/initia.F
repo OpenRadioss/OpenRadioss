@@ -1167,7 +1167,7 @@ C Case total strain
      .             BNS        ,WMA       ,PTSOL     ,BUFMAT      ,MCP        ,
      .             MCPS       ,TEMP      ,NPC       ,PLD         ,MSSA       ,
      .             STRSGLOB(NF1),STRAGLOB(NF1),ORTHOGLOB ,FAIL_INI    ,ILOADP     ,
-     .             FACLOAD   ,RNOISE     ,PERTURB   ,GLOB_THERM)
+     .             FACLOAD   ,RNOISE     ,PERTURB   ,GLOB_THERM, MAT_PARAM)
             ENDIF
           ELSEIF (JHBE == 14 .AND. 
      .           (IGTYP == 20 .OR. IGTYP == 21 .OR. IGTYP == 22)) THEN
@@ -1325,7 +1325,7 @@ C Case total strain: conf_ref <- XREF
      4                NEL   ,SKEW   , MSQ  ,IPART  ,IPART(I15B),
      5                IPM   ,NSIGS  ,WMA   ,PTQUAD ,BUFMAT     ,
      6                NPC   ,PLD    ,IPARG ,ILOADP ,FACLOAD    ,
-     7                PARTSAV,V     )
+     7                PARTSAV,V     ,MAT_PARAM)
               ELSE
                  CALL QINIT2(
      .                ELBUF_TAB(NG),MS,IXQ   ,PM   ,X       ,
@@ -1334,7 +1334,7 @@ C Case total strain: conf_ref <- XREF
      .                NEL   ,SKEW, MSQ, IPART, IPART(I15B),
      .                IPM     ,NSIGS  ,
      .                WMA     ,PTQUAD ,BUFMAT  ,NPC  ,PLD,
-     .                IPARG   ,ILOADP ,FACLOAD ,PARTSAV,V)
+     .                IPARG   ,ILOADP ,FACLOAD ,PARTSAV,V, MAT_PARAM)
               ENDIF
            ELSE  ! JMULT > 0
               IF (MTN == 20) THEN
@@ -1531,7 +1531,7 @@ C         SPH cells
      7             SIGSPH  ,ISPTAG     ,IPART      ,
      8             IPM     ,NSIGSPH    ,PTSPH      ,NPC   ,
      9             PLD     ,ELBUF_TAB(NG),MCP,TEMP ,ILOADP,
-     A             FACLOAD ,STIFINT    ,I7STIFS,GLOB_THERM)
+     A             FACLOAD ,STIFINT    ,I7STIFS,GLOB_THERM , MAT_PARAM)
         !----------------------------------------------------------!
         !   ITY == 100   Pulley PID28 + User elements PID 29-30-31 !
         !----------------------------------------------------------!
@@ -1572,7 +1572,7 @@ c
      .             VNIGE  ,BNIGE   ,PTSOL   ,
      .             BUFMAT ,NPC     ,PLD    ,FAIL_INI,NCTRL,
      .             MSIG3D ,KNOT    ,NCTRLMAX,WIGE ,PX,PY,PZ,
-     .             KNOTLOCPC,KNOTLOCEL)
+     .             KNOTLOCPC,KNOTLOCEL,MAT_PARAM)
         ENDIF          
 C
         IF (ITY == 3) THEN

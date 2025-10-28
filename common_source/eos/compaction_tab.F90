@@ -61,10 +61,10 @@
 !||    precision_mod           ../common_source/modules/precision_mod.F90
 !||    table_mat_vinterp_mod   ../engine/source/materials/tools/table_mat_vinterp.F
 !||====================================================================
-      subroutine compaction_tab(npropm , nummat , &
-                                iflag  , nel    , pm     , off    , eint   , &
-                                dvol   , mat    , psh    , dt1    , rho    , rho0  , &
-                                pnew   , dpdm   , dpde   , rho_bak, &
+      subroutine compaction_tab( &
+                                iflag  , nel    , pmin   , off    , eint   , &
+                                dvol   , psh    , dt1    , rho    , rho0  , &
+                                pnew   , dpdm   , dpde   , &
                                 nvareos, vareos , nvartmp, vartmp, &
                                 eos_struct)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -100,33 +100,31 @@
       integer,intent(in) :: nvareos
       real(kind=WP),intent(inout) :: vareos(nel,nvareos)
       integer,intent(in) :: nel !< number of element in the currenbt group
-      integer,intent(in) :: npropm, nummat !< array sizes
-      integer,intent(in) :: mat(nel), iflag
-      real(kind=WP),intent(inout) :: pm(npropm,nummat) !< material data (real parameters)
-      real(kind=WP),intent(inout) :: off(nel),eint(nel),dvol(nel)
+      integer,intent(in) :: iflag
+      real(kind=WP),intent(in) :: off(nel),dvol(nel)
+      real(kind=WP),intent(inout) :: eint(nel)
       real(kind=WP),intent(inout) :: pnew(nel),dpdm(nel),dpde(nel)
       type(eos_param_),intent(in) :: eos_struct !< data structure for EoS parameters
-      real(kind=WP),intent(inout) :: rho_bak(nel) !< backup of mu for unloading
       real(kind=WP),intent(in) :: dt1 !< time step
       real(kind=WP),intent(in) :: rho(nel)  !< current density
       real(kind=WP),intent(in) :: rho0(nel) !< initial density
+      real(kind=WP),intent(in) :: pmin      !< minimum pressure
       integer ,intent(in) :: nvartmp                       !< size for vartmp
       integer ,dimension(nel,nvartmp) ,intent(inout) :: vartmp    !< vartmp is the history of index position on the user curve (optimization in order not to loop from first point at each cycle)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local Variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: i,mx,iter,niter
+          integer :: i,iter,niter
           integer :: iform
           integer :: plasexp
           real(kind=WP) :: residu, ff, df
-          real(kind=WP) :: p0,psh(nel)
+          real(kind=WP) :: psh(nel)
           real(kind=WP) :: p(nel)
           real(kind=WP) :: rho_tmd
           real(kind=WP) :: gamma_tmd
           real(kind=WP) :: c_solid
           real(kind=WP) :: lambda
           real(kind=WP) :: tol
-          real(kind=WP) :: pmin
           real(kind=WP) :: rhomax_plastic
           real(kind=WP) :: cunl(nel), c_prime(nel)
           real(kind=WP) :: Pc(nel)
@@ -138,10 +136,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-       mx             = mat(1)
        psh(1:nel)     = eos_struct%psh
-       p0             = pm(31,mx)
-       pmin           = pm(37,mx)
 
        rho_tmd        = eos_struct%uparam(1)
        c_solid        = eos_struct%uparam(2)
@@ -159,7 +154,8 @@
 
             do i=1,nel
 
-              if(rho(i) > rho_bak(i) .and. rho(i) < rhomax_plastic)then
+              !vareos(i,6) is rho_bak
+              if(rho(i) > vareos(i,6) .and. rho(i) < rhomax_plastic)then
                 ! --- path along compaction curve ---------------------------------------------------------------------------
 
                ! Read pressure on compaction Curve
@@ -198,7 +194,8 @@
                 dpdm(i) = rho0(i)*dPdr(i)   ! total derivative dP/d(mu) = rho0*dP/d(rho)
 
                 ! History variable: density at current plastic state
-                rho_bak(i) = min(rhomax_plastic,rho(i))  ! history rho_plastic
+                !vareos(i,6) is rho_bak
+                vareos(i,6) = min(rhomax_plastic,rho(i))  ! history rho_plastic
 
               else
                 ! --- unloading path (or P=Pmin path)------------------------------------------------------------------------
@@ -208,7 +205,7 @@
                   vareos(i,2) = c_solid*c_solid
                   vareos(I,4) = gamma_tmd
                 end if
-                lambda = vareos(1,i)
+                lambda = vareos(i,1)
 
                 gl = vareos(i,4)
                 if(iform == 1 .or. gl < em10)then
@@ -260,7 +257,7 @@
                    iter = iter + 1
                  enddo
                  vareos(i,5) = Pc(1)
-                 rho_bak(i) = xx
+                 vareos(i,6) = xx !rho_bak
                end if
 
               endif
@@ -348,6 +345,7 @@
          !solve the zero-crossing of the current unloading
          call table_mat_vinterp(eos_struct%table(1),nel,nel,vartmp(1,1),xvec1,Pc,dPdr) !The current compaction pressure
           DO I=1,NEL
+            VAREOS(I,6) = RHO(I)
             IF(Pc(i) == zero)THEN
               VAREOS(I,1) = min(RHO(I),rho_tmd) ! LAMBDA
             ELSE

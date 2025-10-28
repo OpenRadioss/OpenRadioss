@@ -335,7 +335,7 @@ C
      .            MAT      ,IPM    ,NSIGS      ,NUMSOL    ,PTSOL  ,
      .            IP       ,NGL    ,NPF        ,TF        ,BUFMAT ,
      .            GBUF     ,LBUF   ,MBUF       ,ELBUF_STR ,ILOADP ,
-     .            FACLOAD, DELTAX  ,TEMPEL     )
+     .            FACLOAD, DELTAX  ,TEMPEL     ,MAT_PARAM )
 C
       CALL SCZERO3(GBUF%RHO,GBUF%SIG,GBUF%EINT,NEL)
 C
@@ -425,7 +425,7 @@ C
      .               MAT    ,IPM    ,NSIGS     ,NUMSOL     ,PTSOL  ,
      .               IP     ,NGL    ,NPF       ,TF         ,BUFMAT ,
      .               GBUF   ,LBUF   ,MBUF      ,ELBUF_STR  ,ILOADP ,
-     .               FACLOAD,DELTAX ,TEMPEL)
+     .               FACLOAD,DELTAX ,TEMPEL    ,MAT_PARAM )
 c
           IDEF =0
           IF (MTN >= 28) THEN

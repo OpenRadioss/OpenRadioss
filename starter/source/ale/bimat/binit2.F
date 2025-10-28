@@ -157,7 +157,7 @@ C---------------------------------------
      .            MAT    ,IPM    ,NSIGS  ,NUMQUAD   ,PTQUAD ,
      .            IP     ,NGL    ,NPF    ,TF        ,BUFMAT ,
      .            GBUF   ,LBUF   ,MBUF   ,ELBUF_STR ,ILOADP ,
-     .            FACLOAD, DELTAX,TEMPEL )
+     .            FACLOAD, DELTAX,TEMPEL ,MAT_PARAM )
       !----------------------------------------
       ! initialization of thermal and turbulence
       !----------------------------------------
@@ -198,7 +198,7 @@ C---------------------------------------
      .            MAT    , IPM               ,NSIGS     ,NUMQUAD   ,PTQUAD ,
      .            IP     , NGL               ,NPF       ,TF        ,BUFMAT ,
      .            GBUF   , LBUF              ,MBUF      ,ELBUF_STR ,ILOADP ,
-     .            FACLOAD, DELTAX,TEMPEL )
+     .            FACLOAD, DELTAX,TEMPEL     ,MAT_PARAM )
       !----------------------------------------
       ! initialization of thermal and turbulence
       !----------------------------------------
