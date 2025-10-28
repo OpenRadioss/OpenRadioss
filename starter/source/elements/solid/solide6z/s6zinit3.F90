@@ -101,6 +101,7 @@
       integer, intent(in) :: iuser
       integer, intent(in) :: nsigs
       integer, dimension(nel), intent(in) :: npf
+      integer, intent(in) :: sizloadp     !< Size of load parameter
       integer, dimension(sizloadp, nel), intent(in)    :: iloadp
       integer, dimension(npropgi, nel),  intent(inout) :: igeo
       integer, dimension(nel), intent(inout) :: strsglob
@@ -146,7 +147,6 @@
       integer, intent(in) :: npropgi      !< Number of geometric integration properties
       integer, intent(in) :: npropmi      !< Number of material integration properties
       integer, intent(in) :: lskew        !< Logical flag for skew
-      integer, intent(in) :: sizloadp     !< Size of load parameter
       integer, intent(in) :: lfacload     !< Load factor
       integer, intent(in) :: nixs         !< Number of integration points
       integer, intent(in) :: nperturb     !< Number of perturbations
