@@ -626,7 +626,7 @@ C-----------------------------------------------
             NN_NB_CONNECT(EDGES(1, II)) = NN_NB_CONNECT(EDGES(1, II)) + 1
             NN_NB_CONNECT(EDGES(2, II)) = NN_NB_CONNECT(EDGES(2, II)) + 1
           ENDDO
-          NE_NB_CONNECT(NODE_ID) = NE_NB_CONNECT(NODE_ID) + 1
+          !NE_NB_CONNECT(NODE_ID) = NE_NB_CONNECT(NODE_ID) + 1
 !       indirection tab
           ALLOCATE(THIS%NN_CONNECT%IAD_CONNECT(NUMNOD + 1))
           THIS%NN_CONNECT%IAD_CONNECT(1) = 1
