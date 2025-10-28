@@ -111,7 +111,7 @@ C
       my_real, DIMENSION(MVSIZ) ,INTENT(IN) :: DPDM
       my_real, DIMENSION(NEL) ,INTENT(INOUT) :: FHEAT ! Heat due to plastic work for Heat Equation with lagrangian framework
       my_real SIGY(NEL) ,DEFP(NEL),ETSE(NEL), MSSA(NEL), DMELS(NEL), TEMPEL(NEL),
-     .        AL_IMP(NEL),SIGNOR(MVSIZ,6),CONDE(NEL)
+     .        AL_IMP(NEL),SIGNOR(MVSIZ,6),CONDE(NEL),
      .        RHOREF(NEL)  ,RHOSP(NEL)
       type (glob_therm_)      ,intent(inout) :: glob_therm
       type (matparam_struct_) ,intent(in)    :: mat_param
@@ -119,7 +119,7 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real, pointer, contiguous :: SIG(: , :), SIGBACK(: , :)
+      my_real, pointer, contiguous :: SIG(: , :), SIGBAK(: , :)
       INTEGER :: I, J, ICC,IFORM,ISRATE,VP,IDEV,IBID,NINDX
       INTEGER :: INDX(NEL)
       my_real RHO0, PLAP,POLD,PSHIFT,BULK,P, EPMX,CC,CN,EPDR,
