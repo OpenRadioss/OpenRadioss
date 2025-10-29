@@ -91,7 +91,7 @@
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           logical :: is_available,is_encrypted
-          integer :: ilaw,func_id,ndim,ierr
+          integer :: ilaw,func_id,ndim
           real(kind=WP) :: rho0,young,shear,bulk,nu
           real(kind=WP) :: qr1,qr2,qx1,qx2,cr1,cr2,cx1,cx2
           real(kind=WP) :: r00,r45,r90,rr
@@ -209,14 +209,12 @@
             fscale(1) = yfac
             call mat_table_copy(mat_param,x2vect    ,x3vect   ,x4vect   ,          &
               x1scale  ,x2scale   ,x3scale  ,x4scale  ,          &
-              fscale   ,ntable    ,table    ,ierr     )
-            if (ierr == 0) then
-              cc = zero
-              cp = zero ! Cowper-Symonds strain rate is not used with tabulated input
-              nvartmp = mat_param%table(1)%ndim
-              if (mat_param%table(1)%ndim == 1) then
-                sigy = mat_param%table(1)%y1d(1)    !< initial yield stress from hardening function
-              end if
+              fscale   ,ntable    ,table    ,ilaw     )
+            cc = zero
+            cp = zero ! Cowper-Symonds strain rate is not used with tabulated input
+            nvartmp = mat_param%table(1)%ndim
+            if (mat_param%table(1)%ndim == 1) then
+              sigy = mat_param%table(1)%y1d(1)    !< initial yield stress from hardening function
             end if
           end if
 !

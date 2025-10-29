@@ -570,7 +570,7 @@
             fscale(3) = fscale90
             call mat_table_copy(matparam ,x2vect   ,x3vect   ,x4vect   ,         &
               x1scale  ,x2scale  ,x3scale  ,x4scale  ,fscale   ,         &
-              ntable   ,table    ,ierr     )
+              ntable   ,table    ,ilaw     )
           end if
           !< Kinematic hardening parameters
           if ((ikin == 1).and.(fisokin > zero)) then
