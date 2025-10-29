@@ -63,7 +63,7 @@ C-----------------------------------------------
      .           RHO10(MVSIZ), RHO20(MVSIZ), RHO30(MVSIZ), RHO40(MVSIZ),
      .           SSP1(MVSIZ) , SSP2(MVSIZ) , SSP3(MVSIZ) , SSP4(MVSIZ),
      .           VIS(MVSIZ)  , RHO0_BAK(MVSIZ)
-      INTEGER :: IAV(4),IRHO(4),ISSP(4)
+      INTEGER :: IAV(4),IRHO(4),ISSP(4),NUPARAM
 
 c-----------------------------------------------
        IAV(1:4)  = (/ 4,5,6,46 /)
@@ -75,7 +75,8 @@ C-----------------------------------------------
       IFLG(1) = 0
       DO I=1,LLT
         IADBUF   = IPM(7,MAT(I))
-        UPARAM   =>BUFMAT(IADBUF:IADBUF+280)
+        NUPARAM  = IPM(9,MAT(I))
+        UPARAM   =>BUFMAT(IADBUF:IADBUF+NUPARAM-1)
         BIJ(1:4) = NINT(UPARAM(277:280))
         AV1(I)   = UPARAM(IAV(BIJ(1)))
         AV2(I)   = UPARAM(IAV(BIJ(2)))

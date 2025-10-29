@@ -406,7 +406,7 @@ c
         IADBUF = MAX(1,IPM(7,IMAT))
         NUPARAM= IPM(9,IMAT)       
         NFUNC  = IPM(10,IMAT) 
-        UPARAM => BUFMAT(IADBUF:IADBUF+NUPARAM)
+        uparam => bufmat(iadbuf:iadbuf+nuparam-1)
         NUMTABL= IPM(226,IMAT) 
         ITABLE => IPM(226+1:226+NUMTABL,IMAT)    
         MAT_ID = MAT_ELEM%MAT_PARAM(IMAT)%MAT_ID

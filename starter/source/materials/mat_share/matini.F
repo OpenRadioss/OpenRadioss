@@ -309,7 +309,7 @@ C=======================================================================
         NPAR   = IPM(9,MAT(1))
         IADBUF = IPM(7,MAT(1))
         IADBUF = MAX(1,IADBUF)
-        UPARAM => BUFMAT(IADBUF:IADBUF+NPAR)
+        UPARAM => BUFMAT(IADBUF:IADBUF+NPAR-1)
 
         DO I=LFT,LLT
           RHO0(I)= PM( 1,MAT(I))

@@ -674,7 +674,7 @@ C-----------------------------------------------
                NPAR   = IPM(9,IMID)
                IADBUF = IPM(7,IMID)
                IADBUF = MAX(1,IADBUF)
-               UPARAM_ => BUFMAT(IADBUF:IADBUF+NPAR)
+               UPARAM_ => BUFMAT(IADBUF:IADBUF+NPAR-1)
                YOUNG  =  UPARAM_(10)
                ANU    =  UPARAM_(11)
                G      =  UPARAM_(08)
