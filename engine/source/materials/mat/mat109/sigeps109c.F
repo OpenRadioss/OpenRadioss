@@ -403,8 +403,7 @@ c
       IF (INLOC > 0) THEN 
         DO I = 1,NEL   
           IF (LOFF(I) == ONE) THEN   
-            DEZZ(I) = MAX(DPLANL(I),ZERO)*HALF*(SIGNXX(I)+SIGNYY(I))/MAX(YLD(I),EM20)
-            DEZZ(I) = - NU*((SIGNXX(I)-SIGOXX(I)+SIGNYY(I)-SIGOYY(I))/YOUNG) - DEZZ(I)
+            DEZZ(I) = - MAX(DPLANL(I),ZERO)*HALF*(SIGNXX(I)+SIGNYY(I))/MAX(YLD(I),EM20)
             IF (JTHE == 0 .AND. ETA > ZERO) THEN 
               TEMP(I) = TEMP(I) + FTHERM(I)*YLD(I)*MAX(DPLANL(I),ZERO)
             ENDIF
@@ -425,15 +424,8 @@ c
         EPSD(I)   = ALPHA*DPLA(I)*DTINV + ALPHI*EPSD(I)
         UVAR(I,1) = EPSD(I) 
         !< Thickness variation
-        IF (INLOC > 0) THEN
-          IF (LOFF(I) == ONE) THEN 
-            DEZZ(I) = -NU*(SIGNXX(I)-SIGOXX(I)+SIGNYY(I)-SIGOYY(I))/YOUNG
-            DEZZ(I) = DEZZ(I) - MAX(DPLANL(I),ZERO)*HALF*(SIGNXX(I)+SIGNYY(I))/MAX(YLD(I),EM20)
-          ENDIF
-        ELSE
-          DEZZ(I) = -NU*(SIGNXX(I)-SIGOXX(I)+SIGNYY(I)-SIGOYY(I))/YOUNG + DEZZ(I)
-        ENDIF
-        THK(I) = THK(I) + DEZZ(I)*THKLY(I)*OFF(I)  
+        DEZZ(I) = -NU*(SIGNXX(I)-SIGOXX(I)+SIGNYY(I)-SIGOYY(I))/YOUNG + DEZZ(I)
+        THK(I)  = THK(I) + DEZZ(I)*THKLY(I)*OFF(I)  
       ENDDO
 !
       END SUBROUTINE SIGEPS109C

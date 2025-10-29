@@ -249,6 +249,7 @@
           use sigeps81_mod
           use sigeps88_mod
           use sigeps100_mod
+          use sigeps106_mod
           use sigeps125_mod
           use sigeps126_mod
           use sigeps127_mod
@@ -1892,20 +1893,20 @@
             &gbuf%qvis ,dvol   ,qold     ,psh)
 !
           else if (mtn == 106) then
-            idev = 1
-            call mstrain_rate(nel    ,israte ,asrate ,epsd   ,idev   ,&
-            &ep1    ,ep2    ,ep3    ,ep4    ,ep5    ,ep6)
+            idev = matparam%iparam(2) - 2
+            call mstrain_rate(                                                 &
+            &nel      ,israte   ,asrate   ,epsd     ,idev     ,                &
+            &ep1      ,ep2      ,ep3      ,ep4      ,ep5      ,ep6      )
 !
-            call sigeps106(nel    ,npar     ,nuvar  ,nfunc  , ifunc,   &
-              npf    ,tf       ,tt     ,dt1    , uparam0,           &
-              rho0   ,rho      ,voln   ,eint   ,                    &
-              de1    ,de2      ,de3    ,de4    ,de5       ,de6  ,   &
-              es1    ,es2      ,es3    ,es4    ,es5       ,es6  ,   &
-              so1    ,so2      ,so3    ,so4    ,so5       ,so6  ,   &
-              s1     ,s2       ,s3     ,s4     ,s5        ,s6   ,   &
-              sv1    ,sv2      ,sv3    ,sv4    ,sv5       ,sv6  ,   &
-              ssp    ,vis      ,uvar   ,off    ,lbuf%pla  ,dpla ,   &
-              epsd   ,el_temp  ,jthe   ,jlag   ,fheat     )
+            call sigeps106(                                                    &
+            &nel      ,matparam ,nuvar    ,tt       ,rho      ,voln     ,      &
+            &de1      ,de2      ,de3      ,de4      ,de5      ,de6      ,      &
+            &so1      ,so2      ,so3      ,so4      ,so5      ,so6      ,      &
+            &s1       ,s2       ,s3       ,s4       ,s5       ,s6       ,      &
+            &ssp      ,uvar     ,off      ,lbuf%pla ,dpla     ,lbuf%seq ,      &
+            &el_temp  ,jthe     ,jlag     ,fheat    ,et       ,sigy     ,      &
+            &nvartmp  ,vartmp   ,dt1      ,lbuf%epsd,inloc    ,varnl    ,      &
+            &ngl      )
 !
           else if (mtn == 107) then
 !
