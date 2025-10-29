@@ -255,7 +255,7 @@ C   sending xrem
 C
 C computation of real and integer sending buffers sizes
 c general case
-      RSIZ = 8    
+      RSIZ = 9    
       ISIZ = 6
 
       IF(.TRUE.) THEN
