@@ -259,7 +259,7 @@ C   attention triangles
            NY2 = YN(I,2)
            NZ2 = ZN(I,2)
            AAA = GAPS(I)+GAP_NM(2,I)
-           AAA = AAA/SQRT(NX2*NX2+NY2*NY2+NZ2*NZ2)
+           AAA = AAA/MAX(EM30,SQRT(NX2*NX2+NY2*NY2+NZ2*NZ2))
            NX2 = NX2 * AAA
            NY2 = NY2 * AAA
            NZ2 = NZ2 * AAA
@@ -269,7 +269,7 @@ C   attention triangles
              NY3 = YN(I,3)
              NZ3 = ZN(I,3)
              AAA = GAPS(I)+GAP_NM(3,I)
-             AAA = AAA/SQRT(NX3*NX3+NY3*NY3+NZ3*NZ3)
+             AAA = AAA/MAX(EM30,SQRT(NX3*NX3+NY3*NY3+NZ3*NZ3))
              NX3 = NX3 * AAA
              NY3 = NY3 * AAA
              NZ3 = NZ3 * AAA
@@ -278,7 +278,7 @@ C   attention triangles
              NY4 = YN(I,4)
              NZ4 = ZN(I,4)
              AAA = GAPS(I)+GAP_NM(4,I)
-             AAA = AAA/SQRT(NX4*NX4+NY4*NY4+NZ4*NZ4)
+             AAA = AAA/MAX(EM30,SQRT(NX4*NX4+NY4*NY4+NZ4*NZ4))
              NX4 = NX4 * AAA
              NY4 = NY4 * AAA
              NZ4 = NZ4 * AAA
@@ -308,7 +308,7 @@ C   attention triangles
              NY3 = YN(I,3)
              NZ3 = ZN(I,3)
              AAA = GAPS(I)+GAP_NM(3,I)
-             AAA = AAA/SQRT(NX3*NX3+NY3*NY3+NZ3*NZ3)
+             AAA = AAA/MAX(EM30,SQRT(NX3*NX3+NY3*NY3+NZ3*NZ3))
              NX3 = NX3 * AAA
              NY3 = NY3 * AAA
              NZ3 = NZ3 * AAA
