@@ -304,7 +304,7 @@ C=======================================================================
       IADBUF = IPM(7,MX)                   
       NFUNC  = IPM(10,MX)                  
       NUMTABL= IPM(226,MX)                 
-      UPARAM => BUFMAT(IADBUF:IADBUF+NPAR) 
+      UPARAM => BUFMAT(IADBUF:IADBUF+NPAR-1)
       IFUNC  => IPM(10+1:10+NFUNC,MX)      
       ITABLE => IPM(226+1:226+NUMTABL,MX)    
 c

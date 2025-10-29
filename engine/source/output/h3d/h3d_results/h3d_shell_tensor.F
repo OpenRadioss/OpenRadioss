@@ -1241,7 +1241,7 @@ C--------------------------------------------------
                IMAT = IXC(1,NFT+1)                    
                IADBUF = IPM(7,IMAT)                       
                NUPARAM= IPM(9,IMAT)                       
-               UPARAM => BUFMAT(IADBUF:IADBUF+NUPARAM)
+               uparam => bufmat(iadbuf:iadbuf+nuparam-1)
                NBFUNCT = UPARAM(25) 
                NCHARD = 34 + 2*NBFUNCT +  22
                CHARD  = UPARAM (NCHARD)
@@ -1249,7 +1249,7 @@ C--------------------------------------------------
                IMAT = IXC(1,NFT+1)                        
                IADBUF = IPM(7,IMAT)                       
                NUPARAM= IPM(9,IMAT)                       
-               UPARAM => BUFMAT(IADBUF:IADBUF+NUPARAM)
+               uparam => bufmat(iadbuf:iadbuf+nuparam-1)
                NBFUNCT = UPARAM(1) 
                NCHARD = 2*NBFUNCT + 14
                CHARD  = UPARAM (NCHARD)

@@ -476,8 +476,9 @@ C=======================================================================
             IMAT   = IX(1,I)
             MLN    = IPM(2,IMAT)
             IADBUF = IPM(7,IMAT)
+            NUPARAM = IPM(9,IMAT)
             IF(MLN/=51)CYCLE
-            UPRM => BUFMAT(IADBUF:IADBUF+275)
+            UPRM => BUFMAT(IADBUF:IADBUF+NUPARAM-1)
             TMP  = UPRM(31)
             IFORM = NINT(TMP)
             IF(IFORM>1)CYCLE

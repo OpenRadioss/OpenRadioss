@@ -847,7 +847,7 @@ C--------------------------------------------------
                   IMAT = IXS(1,NFT+1)
                   IADBUF = IPM(7,IMAT)
                   NUPARAM= IPM(9,IMAT)
-                  UPARAM => BUFMAT(IADBUF:IADBUF+NUPARAM)
+                  uparam => bufmat(iadbuf:iadbuf+nuparam-1)
                   ISUBMAT=UPARAM(276+1)
                   IUS=M51_N0PHAS+(ISUBMAT-1)*M51_NVPHAS
                 ENDIF
@@ -875,7 +875,7 @@ C--------------------------------------------------
                   IMAT = IXS(1,NFT+1)
                   IADBUF = IPM(7,IMAT)
                   NUPARAM= IPM(9,IMAT)
-                  UPARAM => BUFMAT(IADBUF:IADBUF+NUPARAM)
+                  uparam => bufmat(iadbuf:iadbuf+nuparam-1)
                   ISUBMAT=UPARAM(276+2)
                   IUS=M51_N0PHAS+(ISUBMAT-1)*M51_NVPHAS
                 ENDIF
@@ -903,7 +903,7 @@ C--------------------------------------------------
                   IMAT = IXS(1,NFT+1)
                   IADBUF = IPM(7,IMAT)
                   NUPARAM= IPM(9,IMAT)
-                  UPARAM => BUFMAT(IADBUF:IADBUF+NUPARAM)
+                  uparam => bufmat(iadbuf:iadbuf+nuparam-1)
                   ISUBMAT=UPARAM(276+3)
                   IUS=M51_N0PHAS+(ISUBMAT-1)*M51_NVPHAS
                 ENDIF
@@ -931,7 +931,7 @@ C--------------------------------------------------
                   IMAT = IXS(1,NFT+1)
                   IADBUF = IPM(7,IMAT)
                   NUPARAM= IPM(9,IMAT)
-                  UPARAM => BUFMAT(IADBUF:IADBUF+NUPARAM)
+                  uparam => bufmat(iadbuf:iadbuf+nuparam-1)
                   ISUBMAT=UPARAM(276+4)
                   IUS=M51_N0PHAS+(ISUBMAT-1)*M51_NVPHAS
                 ENDIF
@@ -2734,7 +2734,7 @@ C--------------------------------------------------
                   IMAT = IXS(1,NFT+1)
                   IADBUF = IPM(7,IMAT)
                   NUPARAM= IPM(9,IMAT)
-                  UPARAM => BUFMAT(IADBUF:IADBUF+NUPARAM)
+                  uparam => bufmat(iadbuf:iadbuf+nuparam-1)
                   !bijective order           !indexes
                   ISUBMAT=UPARAM(276+1);     IU(1)=M51_N0PHAS+(ISUBMAT-1)*M51_NVPHAS
                   ISUBMAT=UPARAM(276+2);     IU(2)=M51_N0PHAS+(ISUBMAT-1)*M51_NVPHAS
@@ -2890,7 +2890,7 @@ C--------------------------------------------------
                     imat   = ixs(1,nft+1)
                     iadbuf = ipm(7,imat)
                     nuparam= ipm(9,imat)
-                    uparam => bufmat(iadbuf:iadbuf+nuparam)
+                    uparam => bufmat(iadbuf:iadbuf+nuparam-1)
                     mbuf => elbuf_tab(ng)%bufly(1)%mat(1,1,1)
                     ipos = 1
                     !bijective order           !indexes
@@ -2933,7 +2933,7 @@ C--------------------------------------------------
                     imat   = ixs(1,nft+1)
                     iadbuf = ipm(7,imat)
                     nuparam= ipm(9,imat)
-                    uparam => bufmat(iadbuf:iadbuf+nuparam)
+                    uparam => bufmat(iadbuf:iadbuf+nuparam-1)
                     mbuf => elbuf_tab(ng)%bufly(1)%mat(1,1,1)
                     rho0i(1) = uparam(11)
                     rho0i(2) = uparam(12)
@@ -3013,7 +3013,7 @@ C--------------------------------------------------
                       imat = ixs(1,nft+1)
                       iadbuf = ipm(7,imat)
                       nuparam= ipm(9,imat)
-                      uparam => bufmat(iadbuf:iadbuf+nuparam)
+                      uparam => bufmat(iadbuf:iadbuf+nuparam-1)
                       mbuf => elbuf_tab(ng)%bufly(1)%mat(1,1,1)
                       mid = mat_param(mt)%multimat%mid(ilay)
                       rho0i(ilay) = pm(89,mid)
@@ -3035,7 +3035,7 @@ C--------------------------------------------------
                       imat = ixs(1,nft+1)
                       iadbuf = ipm(7,imat)
                       nuparam= ipm(9,imat)
-                      uparam => bufmat(iadbuf:iadbuf+nuparam)
+                      uparam => bufmat(iadbuf:iadbuf+nuparam-1)
                       mbuf => elbuf_tab(ng)%bufly(1)%mat(1,1,1)
                       rho0i(ilay) = uparam(10+ilay)
                       Vi(ilay) = mbuf%var(i+(ilay+2)*nel) * gbuf%vol(i)
