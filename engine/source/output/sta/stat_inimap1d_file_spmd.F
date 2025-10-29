@@ -171,7 +171,7 @@ C-----------------------------------------------
           !---bricks                                                                                                          
           IS_ITY_1=1                                                                                                          
           NPT=ISOLNOD                                                                                                         
-          IPART_PTR => IPARTS(1:NUMELS)                                                                                       
+          IPART_PTR => IPARTS(1:NUMELS)
         ELSEIF(ITY == 2)THEN                                                                                                  
           !---quads                                                                                                           
           IS_ITY_2=1                                                                                                          
@@ -445,7 +445,7 @@ C-----------------------------------------------
               IADBUF = IPM(7,IMAT)                                                                                            
               NPAR = IPM(9,IMAT)                                                                                              
               NUVAR = IPM(8,IMAT)                                                                                             
-              UPARAM => BUFMAT(IADBUF:IADBUF+NPAR)             
+              UPARAM => BUFMAT(IADBUF:IADBUF+NPAR-1)
               KK = M51_N0PHAS + (UPARAM(276+ISUBMAT)-1)*M51_NVPHAS  
               MBUF => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)  
               STATE_INIMAP_BUF(1)%SUBMAT(ISUBMAT)%VFRAC(K) = MBUF%VAR(NEL*(01+KK-1)+I)
