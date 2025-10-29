@@ -196,7 +196,7 @@
             rrbe3pen_stf(1) = two*stfnm
             rrbe3pen_stf(2) = four*stfrm
           elseif (stifn(ns)<=em10) then ! small stif
-            rrbe3pen_stf(1) = fourth*ms(ns)*stfnm/msbar
+            rrbe3pen_stf(1) = fourth*stfnm*min(one,ms(ns)/msbar)
             rrbe3pen_stf(2) = em20 ! only have translation stif
           else
             rrbe3pen_stf(1) = stfnm*stifn(ns)/(stfnm+stifn(ns))
