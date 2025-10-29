@@ -19,20 +19,20 @@
 !Copyright>
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
-      !||====================================================================
-      !||    s6zrrota3     ../engine/source/elements/solid/solide6z/s6zrrota3.F90
-      !||--- purpose  -------------------------------------------------------
-      !||    Apply rotation matrices (r11..r33) to 6 node coordinate triplets
-      !||    (xk, yk, zk), k = 1..6, for nel elements (in-place transform).
-      !||--- called by ------------------------------------------------------
-      !||    s6zforc3   ../engine/source/elements/solid/solide6z/s6zforc3.F90 
-      !||--- calls      -----------------------------------------------------
-      !||    (none)
-      !||--- uses       -----------------------------------------------------
-      !||    precision_mod ../engine/source/share/precision_module/precision_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    s6zrrota3_mod   ../engine/source/elements/solid/solide6z/s6zrrota3.F90
+!||--- called by ------------------------------------------------------
+!||    s6zforc3        ../engine/source/elements/solid/solide6z/s6zforc3.F90
+!||====================================================================
       module s6zrrota3_mod
             contains
+!||====================================================================
+!||    s6zrrota3       ../engine/source/elements/solid/solide6z/s6zrrota3.F90
+!||--- called by ------------------------------------------------------
+!||    s6zforc3        ../engine/source/elements/solid/solide6z/s6zforc3.F90
+!||--- uses       -----------------------------------------------------
+!||    precision_mod   ../common_source/modules/precision_mod.F90
+!||====================================================================
             subroutine s6zrrota3(r11, r12, r13, r21, r22, r23, r31, r32, r33, &
                                x1, x2, x3, x4, x5, x6, &
                                y1, y2, y3, y4, y5, y6, &

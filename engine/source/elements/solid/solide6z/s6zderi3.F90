@@ -20,15 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    s6zderi3      ../engine/source/elements/solid/solide6z/s6zderi3.F90
-      !||--- called by ------------------------------------------------------
-      !||    s6cforc3   ../engine/source/elements/thickshell/solide6c/s6cforc3.F                                      
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg        ../engine/source/output/message/message.F90
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod   ../engine/share/message_module/message_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    s6zderi3_mod   ../engine/source/elements/solid/solide6z/s6zderi3.F90
+!||--- called by ------------------------------------------------------
+!||    s6zforc3       ../engine/source/elements/solid/solide6z/s6zforc3.F90
+!||====================================================================
       module s6zderi3_mod
       contains
       ! ======================================================================================================================
@@ -37,6 +33,18 @@
       !          shape function derivatives for 6-node solid elements. It also handles
       !          negative volume detection and correction.
       ! ======================================================================================================================
+!||====================================================================
+!||    s6zderi3        ../engine/source/elements/solid/solide6z/s6zderi3.F90
+!||--- called by ------------------------------------------------------
+!||    s6zforc3        ../engine/source/elements/solid/solide6z/s6zforc3.F90
+!||--- calls      -----------------------------------------------------
+!||    ancmsg          ../engine/source/output/message/message.F
+!||--- uses       -----------------------------------------------------
+!||    constant_mod    ../common_source/modules/constant_mod.F
+!||    message_mod     ../engine/share/message_module/message_mod.F
+!||    mvsiz_mod       ../engine/share/spe_inc/mvsiz_mod.F90
+!||    precision_mod   ../common_source/modules/precision_mod.F90
+!||====================================================================
       subroutine s6zderi3(                                                     &
         off      ,det      ,ngl      ,                                         &
         x1       ,x2       ,x3       ,x4       ,x5       ,x6       ,           &

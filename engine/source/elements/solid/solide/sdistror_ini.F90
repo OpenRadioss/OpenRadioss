@@ -26,6 +26,7 @@
 !||    s10forc3          ../engine/source/elements/solid/solide10/s10forc3.F
 !||    s4forc3           ../engine/source/elements/solid/solide4/s4forc3.F
 !||    s6cforc3          ../engine/source/elements/thickshell/solide6c/s6cforc3.F
+!||    s6zforc3          ../engine/source/elements/solid/solide6z/s6zforc3.F90
 !||    s8cforc3          ../engine/source/elements/thickshell/solide8c/s8cforc3.F
 !||    s8eforc3          ../engine/source/elements/solid/solide8e/s8eforc3.F
 !||    scforc3           ../engine/source/elements/thickshell/solidec/scforc3.F
@@ -44,6 +45,7 @@
 !||    s10forc3        ../engine/source/elements/solid/solide10/s10forc3.F
 !||    s4forc3         ../engine/source/elements/solid/solide4/s4forc3.F
 !||    s6cforc3        ../engine/source/elements/thickshell/solide6c/s6cforc3.F
+!||    s6zforc3        ../engine/source/elements/solid/solide6z/s6zforc3.F90
 !||    s8cforc3        ../engine/source/elements/thickshell/solide8c/s8cforc3.F
 !||    s8eforc3        ../engine/source/elements/solid/solide8e/s8eforc3.F
 !||    scforc3         ../engine/source/elements/thickshell/solidec/scforc3.F

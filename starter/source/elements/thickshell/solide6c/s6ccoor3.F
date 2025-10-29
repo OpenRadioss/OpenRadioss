@@ -24,6 +24,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    s6ccoor3         ../starter/source/elements/thickshell/solide6c/s6ccoor3.F
 !||--- called by ------------------------------------------------------
 !||    s6cinit3         ../starter/source/elements/thickshell/solide6c/s6cinit3.F
+!||    s6zinit3         ../starter/source/elements/solid/solide6z/s6zinit3.F90
 !||--- calls      -----------------------------------------------------
 !||    checkvolume_6n   ../starter/source/elements/solid/solide/checksvolume.F
 !||    s6cortho3        ../starter/source/elements/thickshell/solide6c/s6cortho3.F

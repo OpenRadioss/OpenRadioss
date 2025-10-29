@@ -27,6 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_mat133               ../starter/source/materials/mat/mat133/hm_read_mat133.F90
 !||    law133_upd                   ../starter/source/materials/mat/mat133/law133_upd.F90
 !||    law87_upd                    ../starter/source/materials/mat/mat087/law87_upd.F90
+!||    s6zinit3                     ../starter/source/elements/solid/solide6z/s6zinit3.F90
 !||    sigeps70                     ../starter/source/materials/mat/mat070/sigeps70.F
 !||====================================================================
       MODULE TABLE_MAT_VINTERP_MOD

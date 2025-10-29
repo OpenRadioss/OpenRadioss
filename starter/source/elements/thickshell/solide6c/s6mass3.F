@@ -24,6 +24,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    s6mass3    ../starter/source/elements/thickshell/solide6c/s6mass3.F
 !||--- called by ------------------------------------------------------
 !||    s6cinit3   ../starter/source/elements/thickshell/solide6c/s6cinit3.F
+!||    s6zinit3   ../starter/source/elements/solid/solide6z/s6zinit3.F90
 !||--- calls      -----------------------------------------------------
 !||    s6fraca    ../starter/source/elements/thickshell/solide6c/s6fraca3.F
 !||====================================================================

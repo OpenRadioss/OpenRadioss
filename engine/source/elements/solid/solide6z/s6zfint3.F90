@@ -23,6 +23,11 @@
 !! \details Computes internal forces for solid elements using stress and strain data
 !!          Includes multi-layer averaging and various material properties
 
+!||====================================================================
+!||    s6zfint3_mod   ../engine/source/elements/solid/solide6z/s6zfint3.F90
+!||--- called by ------------------------------------------------------
+!||    s6zforc3       ../engine/source/elements/solid/solide6z/s6zforc3.F90
+!||====================================================================
       module s6zfint3_mod
       contains
       ! ======================================================================================================================
@@ -30,6 +35,16 @@
       ! \details Computes internal forces for solid elements using stress and strain data
       !          Includes multi-layer averaging and various material properties
       ! ======================================================================================================================
+!||====================================================================
+!||    s6zfint3        ../engine/source/elements/solid/solide6z/s6zfint3.F90
+!||--- called by ------------------------------------------------------
+!||    s6zforc3        ../engine/source/elements/solid/solide6z/s6zforc3.F90
+!||--- uses       -----------------------------------------------------
+!||    constant_mod    ../common_source/modules/constant_mod.F
+!||    debug_mod       ../engine/share/modules/debug_mod.F
+!||    mvsiz_mod       ../engine/share/spe_inc/mvsiz_mod.F90
+!||    precision_mod   ../common_source/modules/precision_mod.F90
+!||====================================================================
       subroutine s6zfint3(                                                     &
         sig      ,px1      ,px2      ,px3      ,px4      ,px5      ,           &
         px6      ,py1      ,py2      ,py3      ,py4      ,py5      ,           &

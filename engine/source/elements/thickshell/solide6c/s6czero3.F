@@ -24,6 +24,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    s6czero3   ../engine/source/elements/thickshell/solide6c/s6czero3.F
 !||--- called by ------------------------------------------------------
 !||    s6cforc3   ../engine/source/elements/thickshell/solide6c/s6cforc3.F
+!||    s6zforc3   ../engine/source/elements/solid/solide6z/s6zforc3.F90
 !||====================================================================
       SUBROUTINE S6CZERO3(
      1   FX1,     FY1,     FZ1,     FX2,

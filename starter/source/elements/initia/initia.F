@@ -91,6 +91,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    s4init3                         ../starter/source/elements/solid/solide4/s4init3.F
 !||    s4refsta3                       ../starter/source/elements/solid/solide4/s4refsta3.F
 !||    s6cinit3                        ../starter/source/elements/thickshell/solide6c/s6cinit3.F
+!||    s6zinit3                        ../starter/source/elements/solid/solide6z/s6zinit3.F90
 !||    s8cinit3                        ../starter/source/elements/thickshell/solide8c/s8cinit3.F
 !||    s8zinit3                        ../starter/source/elements/solid/solide8z/s8zinit3.F
 !||    scaleini                        ../starter/source/elements/initia/scaleini.F
@@ -127,6 +128,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    init_seatbelt_rbodies_mod       ../starter/source/tools/seatbelts/init_seatbelt_rbodies.F90
 !||    inivol_def_mod                  ../starter/share/modules1/inivol_mod.F
 !||    message_mod                     ../starter/share/message_module/message_mod.F
+!||    s6zinit3_mod                    ../starter/source/elements/solid/solide6z/s6zinit3.F90
 !||    stack_mod                       ../starter/share/modules1/stack_mod.F
 !||    submodel_mod                    ../starter/share/modules1/submodel_mod.F
 !||====================================================================

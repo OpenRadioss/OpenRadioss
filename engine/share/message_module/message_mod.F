@@ -352,6 +352,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    s20deri3                           ../engine/source/elements/solid/solide20/s20deri3.F
 !||    s4jac_i                            ../engine/source/elements/solid/solide4/s4jac_i.F
 !||    s6cderi3                           ../engine/source/elements/thickshell/solide6c/s6cderi3.F
+!||    s6zderi3                           ../engine/source/elements/solid/solide6z/s6zderi3.F90
 !||    s8deri3                            ../engine/source/elements/solid/solide8/s8deri3.F
 !||    s8ederic3                          ../engine/source/elements/solid/solide8e/s8ederic3.F
 !||    s8edericm3                         ../engine/source/elements/solid/solide8e/s8edericm3.F

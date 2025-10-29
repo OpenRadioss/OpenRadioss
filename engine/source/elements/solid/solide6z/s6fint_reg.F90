@@ -20,6 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    s6fint_reg_mod   ../engine/source/elements/solid/solide6z/s6fint_reg.F90
+!||--- called by ------------------------------------------------------
+!||    s6zforc3         ../engine/source/elements/solid/solide6z/s6zforc3.F90
+!||====================================================================
       module s6fint_reg_mod
       contains
       ! ======================================================================================================================
@@ -27,6 +32,17 @@
       ! \details Computation of non-local internal forces and equivalent nodal stiffness accounting for 
       !          gradient effects in the material behaviour.
       ! ======================================================================================================================
+!||====================================================================
+!||    s6fint_reg       ../engine/source/elements/solid/solide6z/s6fint_reg.F90
+!||--- called by ------------------------------------------------------
+!||    s6zforc3         ../engine/source/elements/solid/solide6z/s6zforc3.F90
+!||--- uses       -----------------------------------------------------
+!||    constant_mod     ../common_source/modules/constant_mod.F
+!||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    mvsiz_mod        ../engine/share/spe_inc/mvsiz_mod.F90
+!||    nlocal_reg_mod   ../common_source/modules/nlocal_reg_mod.F
+!||    precision_mod    ../common_source/modules/precision_mod.F90
+!||====================================================================
       subroutine s6fint_reg(                                                   &
          nloc_dmg ,var_reg ,nel      ,off      ,vol      ,nodadt   ,           &
          nc1      ,nc2     ,nc3      ,nc4      ,nc5      ,nc6      ,           &

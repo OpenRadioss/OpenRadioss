@@ -24,6 +24,7 @@
 !||    s6chour_ctl_mod   ../engine/source/elements/thickshell/solide6c/s6chour_ctl.F90
 !||--- called by ------------------------------------------------------
 !||    s6cforc3          ../engine/source/elements/thickshell/solide6c/s6cforc3.F
+!||    s6zforc3          ../engine/source/elements/solid/solide6z/s6zforc3.F90
 !||====================================================================
       module s6chour_ctl_mod
       implicit none
@@ -35,6 +36,7 @@
 !||    s6chour_ctl     ../engine/source/elements/thickshell/solide6c/s6chour_ctl.F90
 !||--- called by ------------------------------------------------------
 !||    s6cforc3        ../engine/source/elements/thickshell/solide6c/s6cforc3.F
+!||    s6zforc3        ../engine/source/elements/solid/solide6z/s6zforc3.F90
 !||--- calls      -----------------------------------------------------
 !||    shour_ctl       ../engine/source/elements/solid/solidez/shour_ctl.F90
 !||--- uses       -----------------------------------------------------

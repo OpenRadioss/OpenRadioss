@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
 !||    srepiso3     ../engine/source/elements/solid/solide/srepiso3.F
 !||--- called by ------------------------------------------------------
+!||    s6zrcoor3    ../engine/source/elements/solid/solide6z/s6zrcoor3.F90
 !||    scoor3       ../engine/source/elements/solid/solide/scoor3.F
 !||    scoor3_fvm   ../engine/source/ale/alefvm/scoor3_fvm.F
 !||    srcoor3      ../engine/source/elements/solid/solide/srcoor3.F

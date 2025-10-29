@@ -333,6 +333,7 @@ C.....
 !||    s16init3    ../starter/source/elements/thickshell/solide16/s16init3.F
 !||    s20init3    ../starter/source/elements/solid/solide20/s20init3.F
 !||    s6cinit3    ../starter/source/elements/thickshell/solide6c/s6cinit3.F
+!||    s6zinit3    ../starter/source/elements/solid/solide6z/s6zinit3.F90
 !||    s8cinit3    ../starter/source/elements/thickshell/solide8c/s8cinit3.F
 !||    s8zinit3    ../starter/source/elements/solid/solide8z/s8zinit3.F
 !||    scinit3     ../starter/source/elements/thickshell/solidec/scinit3.F

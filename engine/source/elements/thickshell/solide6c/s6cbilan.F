@@ -24,6 +24,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    s6cbilan              ../engine/source/elements/thickshell/solide6c/s6cbilan.F
 !||--- called by ------------------------------------------------------
 !||    s6cforc3              ../engine/source/elements/thickshell/solide6c/s6cforc3.F
+!||    s6zforc3              ../engine/source/elements/solid/solide6z/s6zforc3.F90
 !||--- calls      -----------------------------------------------------
 !||    grelem_sav            ../engine/source/output/th/grelem_sav.F
 !||    sensor_energy_bilan   ../engine/source/tools/sensor/sensor_energy_bilan.F

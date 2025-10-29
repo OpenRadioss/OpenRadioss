@@ -24,6 +24,7 @@
 !||    s6for_distor_mod   ../engine/source/elements/thickshell/solide6c/s6for_distor.F90
 !||--- called by ------------------------------------------------------
 !||    s6cforc3           ../engine/source/elements/thickshell/solide6c/s6cforc3.F
+!||    s6zforc3           ../engine/source/elements/solid/solide6z/s6zforc3.F90
 !||====================================================================
       module s6for_distor_mod
       implicit none
@@ -35,6 +36,7 @@
 !||    s6for_distor       ../engine/source/elements/thickshell/solide6c/s6for_distor.F90
 !||--- called by ------------------------------------------------------
 !||    s6cforc3           ../engine/source/elements/thickshell/solide6c/s6cforc3.F
+!||    s6zforc3           ../engine/source/elements/solid/solide6z/s6zforc3.F90
 !||--- calls      -----------------------------------------------------
 !||    sfor_3n2s3         ../engine/source/elements/solid/solide/sfor_4n2s4.F90
 !||    sfor_n2s4          ../engine/source/elements/solid/solide/sfor_n2s4.F

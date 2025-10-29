@@ -24,6 +24,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    s6fillopt   ../engine/source/elements/thickshell/solide6c/s6fillopt.F
 !||--- called by ------------------------------------------------------
 !||    s6cforc3    ../engine/source/elements/thickshell/solide6c/s6cforc3.F
+!||    s6zforc3    ../engine/source/elements/solid/solide6z/s6zforc3.F90
 !||====================================================================
       SUBROUTINE S6FILLOPT(
      1   FILL,    STI,     F11,     F21,

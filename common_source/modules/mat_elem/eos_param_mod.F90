@@ -56,6 +56,8 @@
 !||    puff                         ../common_source/eos/puff.F
 !||    rdcomi                       ../engine/source/output/restart/rdcomm.F
 !||    read_eosparam                ../engine/source/output/restart/read_eosparam.F90
+!||    s6zforc3                     ../engine/source/elements/solid/solide6z/s6zforc3.F90
+!||    s6zinit3                     ../starter/source/elements/solid/solide6z/s6zinit3.F90
 !||    stiffgas                     ../common_source/eos/stiffgas.F
 !||    tabulated                    ../common_source/eos/tabulated.F
 !||    tillotson                    ../common_source/eos/tillotson.F

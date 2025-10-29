@@ -55,6 +55,7 @@
 !||    s10init3                      ../starter/source/elements/solid/solide10/s10init3.F
 !||    s4init3                       ../starter/source/elements/solid/solide4/s4init3.F
 !||    s6cinit3                      ../starter/source/elements/thickshell/solide6c/s6cinit3.F
+!||    s6zinit3                      ../starter/source/elements/solid/solide6z/s6zinit3.F90
 !||    shell_offset_ini              ../starter/source/elements/shell/shell_offset/shell_offset_ini.F90
 !||    shell_offsetp                 ../starter/source/elements/shell/shell_offset/shell_offsetp.F90
 !||    st_qaprint_driver             ../starter/source/output/qaprint/st_qaprint_driver.F

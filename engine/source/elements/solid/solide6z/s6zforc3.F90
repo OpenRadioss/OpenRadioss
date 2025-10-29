@@ -21,73 +21,9 @@
 !copyright>        software under a commercial license.  contact altair to discuss further if the
 !copyright>        commercial version may interest you: https://www.altair.com/radioss/.k
 !||====================================================================
-!||    s6cforc3               ../engine/source/elements/thickshell/solide6c/s6cforc3.F
+!||    s6zforc3_mod   ../engine/source/elements/solid/solide6z/s6zforc3.F90
 !||--- called by ------------------------------------------------------
-!||    forint                 ../engine/source/elements/forint.F
-!||--- calls      -----------------------------------------------------
-!||    csmall3                ../engine/source/elements/solid/solide/csmall3.F
-!||    mmain                  ../engine/source/materials/mat_share/mmain.F90
-!||    s6cbilan               ../engine/source/elements/thickshell/solide6c/s6cbilan.F
-!||    s6zdefc3               ../engine/source/elements/solid/solide6z/s6zdefc3.F90
-!||    s6zderi3               ../engine/source/elements/solid/solide6z/s6zderi3.F90
-!||    s6zdefo3               ../engine/source/elements/solid/solide6z/s6zdefo3.F90
-!||    s6zrcoor3              ../engine/source/elements/solid/solide6z/s6zrcoor3.F90
-!||    s6zfint3               ../engine/source/elements/solid/solide6z/s6zfint3.F90
-!||    s6cfint3               ../engine/source/elements/thickshell/solide6c/s6cfint3.F
-!||    s6cfint_reg            ../engine/source/elements/thickshell/solide6c/s6cfint_reg.F
-!||    s6zhour3               ../engine/source/elements/solid/solide6z/s6zhour3.F90
-!||    s6chour_ctl            ../engine/source/elements/thickshell/solide6c/s6chour_ctl.F90
-!||    s6ctherm               ../engine/source/elements/thickshell/solide6c/s6ctherm.F
-!||    s6cumu3                ../engine/source/elements/thickshell/solide6c/s6cumu3.F
-!||    s6cumu3p               ../engine/source/elements/thickshell/solide6c/s6cumu3p.F
-!||    s6czero3               ../engine/source/elements/thickshell/solide6c/s6czero3.F
-!||    s6fillopt              ../engine/source/elements/thickshell/solide6c/s6fillopt.F
-!||    s6for_distor           ../engine/source/elements/thickshell/solide6c/s6for_distor.F90
-!||    s6get_xv               ../engine/source/elements/thickshell/solide6c/s6get_xv.F90
-!||    s6sav3                 ../engine/source/elements/thickshell/solide6c/s6sav3.F
-!||    s6zrrota3              ../engine/source/elements/solid/solide6z/s6zrrota3.F90
-!||    s8csigp3               ../engine/source/elements/thickshell/solide8c/s8csigp3.F
-!||    scordef3               ../engine/source/elements/thickshell/solidec/scordef3.F
-!||    scroto_sig             ../engine/source/elements/thickshell/solidec/scroto_sig.F
-!||    sdistor_ini            ../engine/source/elements/solid/solide/sdistror_ini.F90
-!||    sdlen3                 ../engine/source/elements/solid/solide/sdlen3.F
-!||    sdlensh3n              ../engine/source/elements/thickshell/solidec/sdlensh3n.F
-!||    sdlensh3n2             ../engine/source/elements/thickshell/solide6c/sdlensh3n2.F
-!||    sgparav3               ../engine/source/elements/solid/solide/sgparav3.F
-!||    smallb3                ../engine/source/elements/solid/solide/smallb3.F
-!||    srho3                  ../engine/source/elements/solid/solide/srho3.F
-!||    sstra3                 ../engine/source/elements/solid/solide/sstra3.F
-!||    tshgeodel3             ../engine/source/elements/thickshell/solidec/tshgeodel3.F
-!||--- uses       -----------------------------------------------------
-!||    ale_connectivity_mod     ../common_source/modules/ale/ale_connectivity_mod.F
-!||    constant_mod             ../common_source/modules/constant_mod.F
-!||    dt_mod                   ../engine/source/modules/dt_mod.F
-!||    elbufdef_mod             ../common_source/modules/mat_elem/elbufdef_mod.F90
-!||    eos_param_mod            ../engine/source/materials/eos/eos_param_mod.F90
-!||    glob_therm_mod           ../common_source/modules/mat_elem/glob_therm_mod.F90
-!||    mat_elem_mod             ../common_source/modules/mat_elem/mat_elem_mod.F90
-!||    matparam_def_mod         ../common_source/modules/mat_elem/matparam_def_mod.F90
-!||    mmain_mod                ../engine/source/materials/mat_share/mmain.F90
-!||    mvsiz_mod                ../common_source/modules/mvsiz_mod.F
-!||    names_and_titles_mod     ../common_source/modules/names_and_titles_mod.F
-!||    nlocal_reg_mod           ../common_source/modules/nlocal_reg_mod.F
-!||    output_mod               ../common_source/modules/output/output_mod.F90
-!||    precision_mod            ../common_source/modules/precision_mod.F90
-!||    s6chour_ctl_mod          ../engine/source/elements/thickshell/solide6c/s6chour_ctl.F90
-!||    s6for_distor_mod         ../engine/source/elements/thickshell/solide6c/s6for_distor.F90
-!||    s6get_xv_mod             ../engine/source/elements/thickshell/solide6c/s6get_xv.F90
-!||    s6zdefc3_mod             ../engine/source/elements/solid/solide6z/s6zdefc3.F90
-!||    s6zdefo3_mod             ../engine/source/elements/solid/solide6z/s6zdefo3.F90
-!||    s6zderi3_mod             ../engine/source/elements/solid/solide6z/s6zderi3.F90
-!||    s6zfint3_mod             ../engine/source/elements/solid/solide6z/s6zfint3.F90
-!||    s6zhour3_mod             ../engine/source/elements/solid/solide6z/s6zhour3.F90
-!||    s6zrcoor3_mod            ../engine/source/elements/solid/solide6z/s6zrcoor3.F90
-!||    s6zrrota3_mod            ../engine/source/elements/solid/solide6z/s6zrrota3.F90
-!||    sdistor_ini_mod          ../engine/source/elements/solid/solide/sdistror_ini.F90
-!||    sensor_mod               ../common_source/modules/sensor_mod.F90
-!||    table_mat_vinterp_mod    ../engine/source/materials/mat_share/table_mat_vinterp_mod.F90
-!||    table_mod                ../engine/share/modules/table_mod.F
-!||    timer_mod                ../engine/source/system/timer_mod.F90
+!||    forint         ../engine/source/elements/forint.F
 !||====================================================================
       module s6zforc3_mod
       contains
@@ -95,6 +31,67 @@
       ! \brief /PENTA6 solid elements
       ! \details 6 nodes PENTA6 solid elements
       ! ======================================================================================================================
+!||====================================================================
+!||    s6zforc3                ../engine/source/elements/solid/solide6z/s6zforc3.F90
+!||--- called by ------------------------------------------------------
+!||    forint                  ../engine/source/elements/forint.F
+!||--- calls      -----------------------------------------------------
+!||    csmall3                 ../engine/source/elements/solid/solide/csmall3.F
+!||    mmain                   ../engine/source/materials/mat_share/mmain.F90
+!||    s6cbilan                ../engine/source/elements/thickshell/solide6c/s6cbilan.F
+!||    s6chour_ctl             ../engine/source/elements/thickshell/solide6c/s6chour_ctl.F90
+!||    s6cumu3                 ../engine/source/elements/thickshell/solide6c/s6cumu3.F
+!||    s6cumu3p                ../engine/source/elements/thickshell/solide6c/s6cumu3p.F
+!||    s6czero3                ../engine/source/elements/thickshell/solide6c/s6czero3.F
+!||    s6fillopt               ../engine/source/elements/thickshell/solide6c/s6fillopt.F
+!||    s6fint_reg              ../engine/source/elements/solid/solide6z/s6fint_reg.F90
+!||    s6for_distor            ../engine/source/elements/thickshell/solide6c/s6for_distor.F90
+!||    s6get_xv                ../engine/source/elements/thickshell/solide6c/s6get_xv.F90
+!||    s6sav3                  ../engine/source/elements/thickshell/solide6c/s6sav3.F
+!||    s6zdefc3                ../engine/source/elements/solid/solide6z/s6zdefc3.F90
+!||    s6zdefo3                ../engine/source/elements/solid/solide6z/s6zdefo3.F90
+!||    s6zderi3                ../engine/source/elements/solid/solide6z/s6zderi3.F90
+!||    s6zfint3                ../engine/source/elements/solid/solide6z/s6zfint3.F90
+!||    s6zhour3                ../engine/source/elements/solid/solide6z/s6zhourg3.F90
+!||    s6zrcoor3               ../engine/source/elements/solid/solide6z/s6zrcoor3.F90
+!||    s6zrrota3               ../engine/source/elements/solid/solide6z/s6zrrota3.F90
+!||    sdistor_ini             ../engine/source/elements/solid/solide/sdistror_ini.F90
+!||    sdlen3                  ../engine/source/elements/solid/solide/sdlen3.F
+!||    smallb3                 ../engine/source/elements/solid/solide/smallb3.F
+!||    srho3                   ../engine/source/elements/solid/solide/srho3.F
+!||    sstra3                  ../engine/source/elements/solid/solide/sstra3.F
+!||--- uses       -----------------------------------------------------
+!||    ale_connectivity_mod    ../common_source/modules/ale/ale_connectivity_mod.F
+!||    constant_mod            ../common_source/modules/constant_mod.F
+!||    dt_mod                  ../engine/source/modules/dt_mod.F
+!||    elbufdef_mod            ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    eos_param_mod           ../common_source/modules/mat_elem/eos_param_mod.F90
+!||    glob_therm_mod          ../common_source/modules/mat_elem/glob_therm_mod.F90
+!||    mat_elem_mod            ../common_source/modules/mat_elem/mat_elem_mod.F90
+!||    matparam_def_mod        ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||    mmain_mod               ../engine/source/materials/mat_share/mmain.F90
+!||    mvsiz_mod               ../engine/share/spe_inc/mvsiz_mod.F90
+!||    names_and_titles_mod    ../common_source/modules/names_and_titles_mod.F
+!||    nlocal_reg_mod          ../common_source/modules/nlocal_reg_mod.F
+!||    output_mod              ../common_source/modules/output/output_mod.F90
+!||    precision_mod           ../common_source/modules/precision_mod.F90
+!||    s6chour_ctl_mod         ../engine/source/elements/thickshell/solide6c/s6chour_ctl.F90
+!||    s6fint_reg_mod          ../engine/source/elements/solid/solide6z/s6fint_reg.F90
+!||    s6for_distor_mod        ../engine/source/elements/thickshell/solide6c/s6for_distor.F90
+!||    s6get_xv_mod            ../engine/source/elements/thickshell/solide6c/s6get_xv.F90
+!||    s6zdefc3_mod            ../engine/source/elements/solid/solide6z/s6zdefc3.F90
+!||    s6zdefo3_mod            ../engine/source/elements/solid/solide6z/s6zdefo3.F90
+!||    s6zderi3_mod            ../engine/source/elements/solid/solide6z/s6zderi3.F90
+!||    s6zfint3_mod            ../engine/source/elements/solid/solide6z/s6zfint3.F90
+!||    s6zhour3_mod            ../engine/source/elements/solid/solide6z/s6zhourg3.F90
+!||    s6zrcoor3_mod           ../engine/source/elements/solid/solide6z/s6zrcoor3.F90
+!||    s6zrrota3_mod           ../engine/source/elements/solid/solide6z/s6zrrota3.F90
+!||    sdistor_ini_mod         ../engine/source/elements/solid/solide/sdistror_ini.F90
+!||    sensor_mod              ../common_source/modules/sensor_mod.F90
+!||    table_mat_vinterp_mod   ../engine/source/materials/tools/table_mat_vinterp.F
+!||    table_mod               ../engine/share/modules/table_mod.F
+!||    timer_mod               ../engine/source/system/timer_mod.F90
+!||====================================================================
       subroutine s6zforc3(                                                     &
         timers   ,output   ,ngroup   ,elbuf_tab,npropm   ,nummat   ,pm       , &
         ng       ,npropg   ,numgeo   ,geo      ,nixs     ,numels   ,numelq   , &

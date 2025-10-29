@@ -20,11 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    s6zdefc3   ../engine/source/elements/solid/solide6z/s6zdefc3.F90
-      !||--- called by ------------------------------------------------------
-      !||    s6zforc3   ../engine/source/elements/solid/solide6z/s6zforc3.F90
-      !||====================================================================
+!||====================================================================
+!||    s6zdefc3_mod   ../engine/source/elements/solid/solide6z/s6zdefc3.F90
+!||--- called by ------------------------------------------------------
+!||    s6zforc3       ../engine/source/elements/solid/solide6z/s6zforc3.F90
+!||====================================================================
       module s6zdefc3_mod
       contains
       ! ======================================================================================================================
@@ -33,6 +33,13 @@
       !          and hourglass control strain rates for 6-node thick shell/solid elements.
       !          Includes volumetric strain rate and spin rate calculations.
       ! ======================================================================================================================
+!||====================================================================
+!||    s6zdefc3        ../engine/source/elements/solid/solide6z/s6zdefc3.F90
+!||--- called by ------------------------------------------------------
+!||    s6zforc3        ../engine/source/elements/solid/solide6z/s6zforc3.F90
+!||--- uses       -----------------------------------------------------
+!||    precision_mod   ../common_source/modules/precision_mod.F90
+!||====================================================================
       subroutine s6zdefc3( &
         px1      , px2      , px3      , px4      , px5      , px6      ,      &
         py1      , py2      , py3      , py4      , py5      , py6      ,      &

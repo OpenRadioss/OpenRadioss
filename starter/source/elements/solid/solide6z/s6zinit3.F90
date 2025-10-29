@@ -24,29 +24,9 @@
 ! \brief   initiation of penta solid element
 ! ======================================================================================================================
 !||====================================================================
-!||    s6init3               ../starter/source/elements/solid/solide6z/s6zinit3.F90
+!||    s6zinit3_mod   ../starter/source/elements/solid/solide6z/s6zinit3.F90
 !||--- called by ------------------------------------------------------
-!||    initia                 ../starter/source/elements/initia/initia.F
-!||--- calls      -----------------------------------------------------
-!||    ancmsg                 ../starter/source/output/message/message.F
-!||    atheri                 ../starter/source/ale/atheri.F
-!||    dtmain                 ../starter/source/materials/time_step/dtmain.F
-!||    failini                ../starter/source/elements/solid/solide/failini.F
-!||    fretitl2               ../starter/source/starter/freform.F
-!||    matini                 ../starter/source/materials/mat_share/matini.F
-!||    s6ccoor3               ../starter/source/elements/thickshell/solide6c/s6ccoor3.F
-!||    s6cderi3               ../starter/source/elements/thickshell/solide6c/s6cderi3.F
-!||    s6mass3                ../starter/source/elements/thickshell/solide6c/s6mass3.F
-!||    sbulk3                 ../starter/source/elements/solid/solide/sbulk3.F
-!||    scmorth3               ../starter/source/elements/thickshell/solidec/scmorth3.F
-!||    sczero3                ../starter/source/elements/thickshell/solidec/scinit3.F
-!||    sdlensh3n              ../starter/source/elements/thickshell/solide6c/s6cinit3.F
-!||    sigin20b               ../starter/source/elements/solid/solide20/s20mass3.F
-!||    svalue0                ../starter/source/elements/thickshell/solidec/scinit3.F
-!||--- uses       -----------------------------------------------------
-!||    defaults_mod           ../starter/source/modules/defaults_mod.F90
-!||    detonators_mod         ../starter/share/modules1/detonators_mod.F
-!||    message_mod            ../starter/share/message_module/message_mod.F
+!||    initia         ../starter/source/elements/initia/initia.F
 !||====================================================================
       module s6zinit3_mod
       contains
@@ -54,6 +34,26 @@
       ! \brief Initialization of 6-node solid elements
       ! \details Initializes element variables, material model, mass, etc ... for 6-node solid elements
       ! ======================================================================================================================
+!||====================================================================
+!||    s6zinit3                ../starter/source/elements/solid/solide6z/s6zinit3.F90
+!||--- called by ------------------------------------------------------
+!||    initia                  ../starter/source/elements/initia/initia.F
+!||--- calls      -----------------------------------------------------
+!||    atheri                  ../starter/source/ale/atheri.F
+!||    dtmain                  ../starter/source/materials/time_step/dtmain.F
+!||    failini                 ../starter/source/elements/solid/solide/failini.F
+!||    matini                  ../starter/source/materials/mat_share/matini.F
+!||    s6ccoor3                ../starter/source/elements/thickshell/solide6c/s6ccoor3.F
+!||    s6cderi3                ../starter/source/elements/thickshell/solide6c/s6cderi3.F
+!||    s6mass3                 ../starter/source/elements/thickshell/solide6c/s6mass3.F
+!||    sbulk3                  ../starter/source/elements/solid/solide/sbulk3.F
+!||    sigin20b                ../starter/source/elements/solid/solide20/s20mass3.F
+!||--- uses       -----------------------------------------------------
+!||    defaults_mod            ../starter/source/modules/defaults_mod.F90
+!||    detonators_mod          ../starter/share/modules1/detonators_mod.F
+!||    message_mod             ../starter/share/message_module/message_mod.F
+!||    table_mat_vinterp_mod   ../starter/source/materials/tools/table_mat_vinterp.F
+!||====================================================================
       subroutine s6zinit3(                                                     &                       
         elbuf_str,mas      ,ixs      ,pm       ,x        ,detonators,          &
         geo      ,ale_connectivity   ,iparg    ,dtelem   ,sigi      ,          &

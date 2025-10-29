@@ -36,6 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    m10law                   ../engine/source/materials/mat/mat010/m10law.F
 !||    prepare_debug            ../engine/share/modules/debug_mod.F
 !||    resol                    ../engine/source/engine/resol.F
+!||    s6zfint3                 ../engine/source/elements/solid/solide6z/s6zfint3.F90
 !||    spmd_collect_multi_fvm   ../engine/source/mpi/output/spmd_collect_multi_fvm.F
 !||    spmd_collect_nlocal      ../engine/source/mpi/output/spmd_collect_nlocal.F
 !||    spmd_fiadd25e_poff       ../engine/source/mpi/interfaces/spmd_fiadd25e_poff.F

@@ -23,21 +23,26 @@
 !! \details Transforms nodal coordinates and velocities to corotational frame
 !!          for 6-node solid elements (pentahedral elements)
 
-      !||====================================================================
-      !||    s6zrcoor3     ../engine/source/elements/solid/solide6z/s6zrcoor3.F90
-      !||--- called by ------------------------------------------------------
-      !||    s6zforc3      ../engine/source/elements/solid/solide6z/s6zforc3.F90
-      !||--- calls      -----------------------------------------------------
-      !||    srepiso3     ../engine/source/elements/solid/solide6z/srepiso3.F90
-      !||    sortho3      ../engine/source/elements/solid/solide6z/sortho3.F90
-      !||    sorthdir3    ../engine/source/elements/solid/solide6z/sorthdir3.F90
-      !||    srrota3      ../engine/source/elements/solid/solide6z/srrota3.F90
-      !||--- uses       -----------------------------------------------------
-      !||    precision_mod ../engine/source/share/precision_module/precision_mod.F90
-      !||    constant_mod  ../engine/source/share/constants/constant_mod.F90
-      !||====================================================================
+!||====================================================================
+!||    s6zrcoor3_mod   ../engine/source/elements/solid/solide6z/s6zrcoor3.F90
+!||--- called by ------------------------------------------------------
+!||    s6zforc3        ../engine/source/elements/solid/solide6z/s6zforc3.F90
+!||====================================================================
       module s6zrcoor3_mod
       contains
+!||====================================================================
+!||    s6zrcoor3       ../engine/source/elements/solid/solide6z/s6zrcoor3.F90
+!||--- called by ------------------------------------------------------
+!||    s6zforc3        ../engine/source/elements/solid/solide6z/s6zforc3.F90
+!||--- calls      -----------------------------------------------------
+!||    sorthdir3       ../engine/source/elements/solid/solide/sorthdir3.F
+!||    sortho3         ../engine/source/elements/solid/solide/sortho3.F
+!||    srepiso3        ../engine/source/elements/solid/solide/srepiso3.F
+!||    srrota3         ../engine/source/elements/solid/solide/srrota3.F
+!||--- uses       -----------------------------------------------------
+!||    constant_mod    ../common_source/modules/constant_mod.F
+!||    precision_mod   ../common_source/modules/precision_mod.F90
+!||====================================================================
       subroutine s6zrcoor3(                                                   &
         numnod  , x       , ixs     , v       , gama0   , gama    ,           &
         x1      , x2      , x3      , x4      , x5      , x6      ,           &

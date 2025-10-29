@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
 !||    mdama24        ../engine/source/elements/solid/solidez/mdama24.F
 !||--- called by ------------------------------------------------------
+!||    s6zhour3       ../engine/source/elements/solid/solide6z/s6zhourg3.F90
 !||    szhour3        ../engine/source/elements/solid/solidez/szhour3.F
 !||    szhour3_or     ../engine/source/elements/solid/solidez/szhour3_or.F
 !||--- calls      -----------------------------------------------------

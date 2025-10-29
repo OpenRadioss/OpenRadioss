@@ -20,13 +20,21 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-     !||====================================================================
-     !||    s6zdefo3   ../engine/source/elements/solid/solide6z/s6zdefo3.F90
-     !||--- called by ------------------------------------------------------
-     !||    s6cforc3   ../engine/source/elements/thickshell/solide6c/s6cforc3.F
-     !||====================================================================
+!||====================================================================
+!||    s6zdefo3_mod   ../engine/source/elements/solid/solide6z/s6zdefo3.F90
+!||--- called by ------------------------------------------------------
+!||    s6zforc3       ../engine/source/elements/solid/solide6z/s6zforc3.F90
+!||====================================================================
      module s6zdefo3_mod
      contains
+!||====================================================================
+!||    s6zdefo3        ../engine/source/elements/solid/solide6z/s6zdefo3.F90
+!||--- called by ------------------------------------------------------
+!||    s6zforc3        ../engine/source/elements/solid/solide6z/s6zforc3.F90
+!||--- uses       -----------------------------------------------------
+!||    constant_mod    ../common_source/modules/constant_mod.F
+!||    precision_mod   ../common_source/modules/precision_mod.F90
+!||====================================================================
      subroutine s6zdefo3( &
        dxx      , dxy      , dxz      , dyx      ,                             &
        dyy      , dyz      , dzx      , dzy      ,                             &

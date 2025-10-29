@@ -110,6 +110,7 @@
 !||    s4forc3                   ../engine/source/elements/solid/solide4/s4forc3.F
 !||    s4refsta3                 ../starter/source/elements/solid/solide4/s4refsta3.F
 !||    s6cforc3                  ../engine/source/elements/thickshell/solide6c/s6cforc3.F
+!||    s6zforc3                  ../engine/source/elements/solid/solide6z/s6zforc3.F90
 !||    s8cforc3                  ../engine/source/elements/thickshell/solide8c/s8cforc3.F
 !||    s8eforc3                  ../engine/source/elements/solid/solide8e/s8eforc3.F
 !||    s8forc3                   ../engine/source/elements/solid/solide8/s8forc3.F

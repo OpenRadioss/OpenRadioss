@@ -43,6 +43,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    s20forc3                ../engine/source/elements/solid/solide20/s20forc3.F
 !||    s4forc3                 ../engine/source/elements/solid/solide4/s4forc3.F
 !||    s6cforc3                ../engine/source/elements/thickshell/solide6c/s6cforc3.F
+!||    s6zforc3                ../engine/source/elements/solid/solide6z/s6zforc3.F90
 !||    s8cforc3                ../engine/source/elements/thickshell/solide8c/s8cforc3.F
 !||    s8eforc3                ../engine/source/elements/solid/solide8e/s8eforc3.F
 !||    s8forc3                 ../engine/source/elements/solid/solide8/s8forc3.F
@@ -79,6 +80,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    preload_axial_mod       ../engine/source/elements/spring/preload_axial.F90
 !||    preload_solid_ini_mod   ../engine/source/elements/solid/solide/preload_solid_ini.F90
 !||    python_funct_mod        ../common_source/modules/python_mod.F90
+!||    s6zforc3_mod            ../engine/source/elements/solid/solide6z/s6zforc3.F90
 !||    sensor_mod              ../common_source/modules/sensor_mod.F90
 !||    table_mod               ../engine/share/modules/table_mod.F
 !||    timer_mod               ../engine/source/system/timer_mod.F90

@@ -20,6 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    s6zhour3_mod   ../engine/source/elements/solid/solide6z/s6zhourg3.F90
+!||--- called by ------------------------------------------------------
+!||    s6zforc3       ../engine/source/elements/solid/solide6z/s6zforc3.F90
+!||====================================================================
       module s6zhour3_mod
       contains
       ! ======================================================================================================================
@@ -28,6 +33,19 @@
       !          to prevent spurious zero-energy modes. It computes the hourglass forces and
       !          updates the nodal forces and internal energy.
       ! ======================================================================================================================
+!||====================================================================
+!||    s6zhour3        ../engine/source/elements/solid/solide6z/s6zhourg3.F90
+!||--- called by ------------------------------------------------------
+!||    s6zforc3        ../engine/source/elements/solid/solide6z/s6zforc3.F90
+!||--- calls      -----------------------------------------------------
+!||    mdama24         ../engine/source/elements/solid/solidez/mdama24.F
+!||    szsvm           ../engine/source/elements/solid/solidez/szsvm.F
+!||--- uses       -----------------------------------------------------
+!||    constant_mod    ../common_source/modules/constant_mod.F
+!||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    mvsiz_mod       ../engine/share/spe_inc/mvsiz_mod.F90
+!||    precision_mod   ../common_source/modules/precision_mod.F90
+!||====================================================================
       subroutine s6zhour3(                                                     &
         npropm  , nummat , pm      , rho     , vol     , ssp     ,             &
         x1i     , x2i    , x3i     , x4i     , x5i     , x6i     ,             &
