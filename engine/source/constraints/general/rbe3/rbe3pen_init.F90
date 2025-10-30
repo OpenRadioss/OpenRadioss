@@ -131,7 +131,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                        Modules
 ! ----------------------------------------------------------------------------------------------------------------------
-          use constant_mod,          only : one,two,zero,zep05,em6,em20,third,fourth,four,ten,em10
+          use constant_mod,          only : one,two,zero,zep05,em6,em20,third,fourth,four,ten,em10,em03
           use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
@@ -196,7 +196,7 @@
             rrbe3pen_stf(1) = two*stfnm
             rrbe3pen_stf(2) = four*stfrm
           elseif (stifn(ns)<=em10) then ! small stif
-            rrbe3pen_stf(1) = fourth*stfnm*min(one,ms(ns)/msbar)
+            rrbe3pen_stf(1) = em03*stfnm*min(one,ms(ns)/msbar)
             rrbe3pen_stf(2) = em20 ! only have translation stif
           else
             rrbe3pen_stf(1) = stfnm*stifn(ns)/(stfnm+stifn(ns))
