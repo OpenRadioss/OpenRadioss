@@ -88,11 +88,11 @@
 !c-----------------------------------------------
 !                                                  local variables
 !c-----------------------------------------------
-          integer :: i,j,nindx,nindxd,type_max,f_flag,strdef,strflag
+          integer :: i,j,nindx,nindxd,type_max,f_flag,strdef
           integer ,dimension(nel) :: indx,indxd
-          real(kind=WP) :: rfac,r1,r2,ie_sp,dydx,rief1,rief2,xfac,finter,fact, &
+          real(kind=WP) :: finter, &
             eps11,eps22,eps33,eps12,eps13,eps23,i1,i2,i3, &
-            e_eq,e_eq1,e11,e22,e33,e_eq2,q,r,r_inter,phi, &
+            e11,e22,e33,q,r,r_inter,phi, &
             c_min,c_max,ema,f,ff, &
             sig11,sig22,sig33,sig12,sig13,sig23
           external finter
