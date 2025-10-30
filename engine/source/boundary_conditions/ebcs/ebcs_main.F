@@ -84,6 +84,7 @@ C-----------------------------------------------
       USE EBCS8_INLET_MOD       , ONLY : EBCS8_INLET
       USE EBCS10_NRF_MOD        , ONLY : EBCS10_NRF
       USE EBCS11_PROPELLANT_MOD , ONLY : EBCS11_PROPELLANT
+      USE EBCS12_CYCLIC_MOD     , ONLY : EBCS12_CYCLIC
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -232,6 +233,17 @@ C-----------------------------------------------
      .                    numels, numelq, numeltg,numnod, nparg, ngroup, nixs, nixq, nixtg, nsurf, n2d,
      .                    nfunct, npc, tf ,snpc, stf, python,
      .                    nsensor, sensor_tab, output)
+            end select
+         ELSE IF (TYP == 12) THEN
+            select type (twf => EBCS)
+             type is (t_ebcs_cyclic)
+              call ebcs12_cyclic(nseg,twf%iseg,segvar,
+     .                    x,v,w,a,
+     .                    twf%node_list,nod,twf%elem_list,twf%ielem,twf%iface,
+     .                    twf%la,ms,stifn,twf,iparg,elbuf_tab,ixq,ixs,ixtg,
+     .                    fsavsurf,iparit,dt1,
+     .                    numels, numelq, numeltg,numnod, nparg, ngroup, nixs, nixq, nixtg, nsurf, n2d,
+     .                     ncycle, iale,ebcs_parithon(i)%elem_adress,lsky,fsky)
             end select
          ELSE IF (TYP == 100) THEN
             SELECT TYPE(EBCS)

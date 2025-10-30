@@ -109,8 +109,9 @@ C-----------------------------------------------
           KK = M51_N0PHAS + (IMAT-1)*M51_NVPHAS
           DO I=1,NEL
             IF(IPART(I+NFT) /= IDP)CYCLE
-            UVAR(I,1+KK)   = KVOL(IMAT,I)
-            UVAR(I,23+KK)  = KVOL(IMAT,I)
+            RATIO = MIN(MAX(ZERO,KVOL(IMAT,I)), ONE)
+            UVAR(I,1+KK)   = RATIO
+            UVAR(I,23+KK)  = RATIO
           ENDDO
         ENDDO
         DO I=1,NEL
