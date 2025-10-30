@@ -52,7 +52,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    submodel_mod                  ../starter/share/modules1/submodel_mod.F
 !||    table_mod                     ../starter/share/modules1/table_mod.F
 !||====================================================================
-      SUBROUTINE READ_EBCS(IGRSURF,MULTI_FVM,NPC1,LSUBMODEL,EBCS_TAB)
+      SUBROUTINE READ_EBCS(IGRSURF,MULTI_FVM,NPC1,LSUBMODEL,EBCS_TAB,N2D)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -69,6 +69,7 @@ C-----------------------------------------------
       USE HM_OPTION_READ_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
       use hm_read_ebcs_propellant_mod, only : hm_read_ebcs_propellant
+      use hm_read_ebcs_cyclic_mod, only : hm_read_ebcs_cyclic
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -87,11 +88,12 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: NPC1
       TYPE(SUBMODEL_DATA) LSUBMODEL(NSUBMOD)
       TYPE(T_EBCS_TAB), INTENT(INOUT) :: EBCS_TAB
+      INTEGER,INTENT(IN) :: N2D
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: LOCAL_ID
-      INTEGER :: ID,TYP,UID
+      INTEGER :: ID,TYP,UID,SURF_ID2
       INTEGER :: II, SURF_ID, JJ, SUB_INDEX
       CHARACTER(LEN=NCHARTITLE) :: TITR
       CHARACTER(LEN=NCHARKEY) :: KEY, KEY2
@@ -223,6 +225,15 @@ C-----------------------------------------------
               CALL HM_READ_EBCS_PROPELLANT(IGRSURF, MULTI_FVM, UNITAB, ID, TITR, UID, LSUBMODEL,NSURF, twf)
             end select
 
+         CASE ('CYCLIC')
+
+            TYP = 12
+            allocate (t_ebcs_cyclic :: EBCS_TAB%tab(ii)%poly)
+            select type (twf => EBCS_TAB%tab(ii)%poly)
+            type is (t_ebcs_cyclic)
+              CALL HM_READ_EBCS_CYCLIC(IGRSURF, MULTI_FVM, ID, TITR, LSUBMODEL,NSURF, twf, N2D, numnod, itab )
+            end select
+
          CASE ('MONVOL')
 
             TYP = 100
@@ -253,7 +264,12 @@ C-----------------------------------------------
             ENDDO
          ENDIF
          IF (EBCS_TAB%tab(II)%poly%surf_id > 0) THEN
-            CALL EBCS_TAB%tab(II)%poly%set_nodes_elems(IGRSURF(JJ)%NSEG, NUMNOD, IGRSURF(JJ)%NODES)         
+            CALL EBCS_TAB%tab(II)%poly%set_nodes_elems(IGRSURF(JJ)%NSEG, NUMNOD, IGRSURF(JJ)%NODES)
+            !secondary surface with  EBCS/CYCLIC
+            IF(EBCS_TAB%tab(II)%poly%type == 12)then
+              surf_id2 = EBCS_TAB%tab(II)%poly%surf_id2
+              CALL EBCS_TAB%tab(II)%poly%set_nodes_elems_secondary_surface(IGRSURF(surf_id2)%NSEG, NUMNOD, IGRSURF(surf_id2)%NODES)
+            endif
 
             IS_EBCS_PARALLEL = .FALSE.
             IF(EBCS_TAB%tab(II)%poly%type == 10 .OR. EBCS_TAB%tab(II)%poly%type == 11)THEN

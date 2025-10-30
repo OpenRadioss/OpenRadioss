@@ -44,6 +44,7 @@ C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
       USE SENSOR_MOD
       use element_mod , only : nixs,nixc,nixq,nixtg
+      USE EBCS_CYCLIC_SURFACE_MATCHING_MOD, ONLY : EBCS_CYCLIC_SURFACE_MATCHING
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -79,6 +80,7 @@ C-----------------------------------------------
       INTEGER IMID, IPID !< material and property iid
       INTEGER, DIMENSION(:, :), POINTER :: IX
       INTEGER :: NIX
+      INTEGER :: ISU2, IDSU2
       integer, target :: nothing(1,1) !< dummy for indirection
 C=======================================================================
       EBCS_TAG_CELL_SPMD(1:NUMELQ+NUMELTG+NUMELS)=0
@@ -319,11 +321,6 @@ C=======================================================================
              EBCS%dp0(1:NSEG) = ZERO
 
            TYPE IS (t_ebcs_propellant)
-             IF(EBCS%is_multifluid) THEN
-                SIZ = EBCS%nb_elem
-             ELSE
-                SIZ = EBCS%nb_node
-             ENDIF
              !     iface
              EBCS%has_iface = .TRUE.
              IF(IFLAG==0)ALLOCATE(EBCS%iface(NSEG))
@@ -344,6 +341,25 @@ C=======================================================================
              EBCS%has_dp0 = .true.
              IF(IFLAG==0)ALLOCATE(EBCS%dp0(NSEG))
              EBCS%dp0(1:NSEG) = ZERO
+
+          TYPE IS (t_ebcs_cyclic)
+             !     iface
+             EBCS%has_iface = .TRUE.
+             IF(IFLAG==0)ALLOCATE(EBCS%iface(2*NSEG))
+             EBCS%iface(1:2*NSEG) = 0
+             !     la
+             EBCS%has_la = .true.
+             IF(IFLAG==0)ALLOCATE(EBCS%la(3, 2*EBCS%nb_node))
+             EBCS%la(1:3, 1:2*EBCS%nb_node) = ZERO
+             !     ng
+             EBCS%has_ng = .true.
+             print *, "allocate ng with size", 2*EBCS%nb_elem
+             IF(IFLAG==0)ALLOCATE(EBCS%ng(2*EBCS%nb_elem))
+             EBCS%ng(1:2*EBCS%nb_elem) = 0
+             !     iloc
+             EBCS%has_iloc = .true.
+             IF(IFLAG==0)ALLOCATE(EBCS%iloc(2*EBCS%nb_elem))
+             EBCS%iloc(1:2*EBCS%nb_elem) = 0
                                                           
         END SELECT
       
@@ -357,11 +373,44 @@ C=======================================================================
              CALL FINDELE(ALE_CONNECTIVITY, 4, NIXQ, IDSU,ID,NSEG,IXQ,
      .            EBCS%iseg, EBCS%ielem,EBCS%itype, EBCS%iface,
      .            IGRSURF(ISU)%NODES,MWA,MWA(1+(2+NUMNOD)),PM,X,TYP,IGEO)           
-          ELSEIF (NUMELTG /= 0 .AND. MULTI_FVM_IS_USED) THEN
+          ELSEIF (NUMELTG /= 0) THEN
              CALL FINDELE(ALE_CONNECTIVITY, 3, NIXTG, IDSU,ID,NSEG,IXTG,
      .            EBCS%iseg, EBCS%ielem,EBCS%itype, EBCS%iface,
      .            IGRSURF(ISU)%NODES,MWA,MWA(1+(2+NUMNOD)),PM,X,TYP,IGEO)                  
           ENDIF
+
+          ! second suface treatment for /EBCS/CYCLIC
+          ! use same storage but starting from nseg+1 (allocation done with 2*nseg)
+          IF(EBCS%TYPE == 12)THEN
+            select type (twf => EBCS_TAB%tab(i)%poly)
+              TYPE IS (t_ebcs_cyclic)
+                ISU2 = twf%surf_id2
+                IF(ISU2>0)THEN
+                  IDSU2 = IGRSURF(ISU2)%ID
+                  IF (N2D == 0) THEN
+                     CALL FINDELE(ALE_CONNECTIVITY, 8, NIXS, IDSU2,ID,NSEG,IXS,
+     .                     EBCS%iseg(NSEG+1), EBCS%ielem(NSEG+1), EBCS%itype(nseg+1),EBCS%iface(nseg+1),
+     .                     IGRSURF(ISU2)%NODES,MWA,MWA(1+(2+NUMNOD)),PM,X,TYP,IGEO)
+                  ELSEIF (NUMELQ /= 0) THEN
+                     CALL FINDELE(ALE_CONNECTIVITY, 4, NIXQ, IDSU2,ID,NSEG,IXQ,
+     .                     EBCS%iseg(NSEG+1), EBCS%ielem(NSEG+1),EBCS%itype(NSEG+1), EBCS%iface(NSEG+1),
+     .                     IGRSURF(ISU2)%NODES,MWA,MWA(1+(2+NUMNOD)),PM,X,TYP,IGEO)
+                  ELSEIF (NUMELTG /= 0) THEN
+                     CALL FINDELE(ALE_CONNECTIVITY, 3, NIXTG, IDSU2,ID,NSEG,IXTG,
+     .                     EBCS%iseg(NSEG+1), EBCS%ielem(NSEG+1),EBCS%itype(NSEG+1), EBCS%iface(NSEG+1),
+     .                     IGRSURF(ISU2)%NODES,MWA,MWA(1+(2+NUMNOD)),PM,X,TYP,IGEO)
+                  ENDIF
+                  ! check link between two surfaces and order faces consequently
+                  CALL EBCS_CYCLIC_SURFACE_MATCHING(TWF, EBCS, N2D, NUMNOD, X)
+                  IF(IFLAG/=0)THEN
+                    EBCS%NB_ELEM = 2*EBCS%NB_ELEM
+                    EBCS%NB_NODE = 2*EBCS%NB_NODE
+                  ENDIF
+                ENDIF
+            END SELECT
+          ENDIF
+
+
           
           IF(.NOT.EBCS%is_multifluid .AND. (TYP == 0 .OR. TYP == 8 .OR. TYP == 10 .OR. TYP == 11))THEN
             !2D quads & trias EBCS : all on domain 1 (ispmd=0)  --> TAG with  EBCS_TAG_CELL_SPMD

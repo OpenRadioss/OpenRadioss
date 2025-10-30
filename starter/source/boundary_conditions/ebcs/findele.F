@@ -188,7 +188,7 @@ C-----------------------------------------------
  
         IELE(J)=NEL
         ITYPE(J)=NNODE
-        IF (TYPE == 8 .OR. TYPE == 9 .OR. TYPE == 10 .OR. TYPE == 11) THEN
+        IF (TYPE == 8 .OR. TYPE == 9 .OR. TYPE == 10 .OR. TYPE == 11 .OR. TYPE == 12) THEN
            IFAC(J) = NF
         ENDIF
         M=IX(1,NEL)

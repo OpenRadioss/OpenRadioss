@@ -115,6 +115,7 @@
           integer :: type = -1
           integer :: ebcs_id = -1
           integer :: surf_id = -1
+          integer :: surf_id2 = -1
           integer :: nb_node = 0                              !<     number of nodes
           integer :: nb_elem = 0                              !<     number of elements
           integer, dimension(:), allocatable :: node_list     !<     node list
@@ -162,6 +163,7 @@
         contains
 
           procedure, pass :: set_nodes_elems
+          procedure, pass :: set_nodes_elems_secondary_surface
           procedure, pass :: write_data, read_data
           procedure, pass :: write_common_data, read_common_data
           procedure, pass :: ebcs_destroy
@@ -328,6 +330,18 @@
           procedure, pass :: read_data => read_data_propellant
         end type t_ebcs_propellant
 
+!     type = 12 /EBCS/CYCLIC
+!     ----------------------
+        type, public, extends(t_ebcs) :: t_ebcs_cyclic
+          integer :: nbmat=21
+          integer :: node_id(6)=0 !Starter only. No need to transmit to Engine (used to build surface elems and nodes)
+
+        contains
+
+          procedure, pass :: write_data => write_data_cyclic
+          procedure, pass :: read_data => read_data_cyclic
+        end type t_ebcs_cyclic
+
 !     ----------------------
 !     Polymorphic variable (points to a specific ebcs type)
 !     ----------------------
@@ -462,6 +476,9 @@
                case (11) ! /EBCS/PROPELLANT
                 allocate (t_ebcs_propellant :: this%tab(ii)%poly)
                 this%tab(ii)%poly%type = 11
+               case (12) ! /EBCS/CYCLIC
+                allocate (t_ebcs_cyclic :: this%tab(ii)%poly)
+                this%tab(ii)%poly%type = 12
                case default
                 print*, "EBCS type ", type, " unrecognized"
               end select
@@ -556,7 +573,12 @@
 
           this%nb_node = nnode
           if(allocated(this%node_list)) deallocate(this%node_list)
-          allocate(this%node_list(nnode))
+          if(this%type ==12)then
+            ! BCS/CYCLIC has 2 surfaces
+            allocate(this%node_list(2*nnode))
+          else
+            allocate(this%node_list(nnode))
+          end if
 
           nnode = 0
           do ii = 1, numnod
@@ -570,22 +592,82 @@
 !     keep track of elems
           this%nb_elem = nelem
           if(allocated(this%elem_list)) deallocate(this%elem_list)
-          allocate(this%elem_list(4, nelem))
+          if(this%type ==12)then
+          ! BCS/CYCLIC has 2 surfaces
+            allocate(this%elem_list(4, 2*nelem))
+          else
+            allocate(this%elem_list(4, nelem))
+          end if
           do ii = 1, nelem
             do jj = 1, 4
               this%elem_list(jj, ii) = tag_node(surf_node(ii, jj))
             end do
           end do
 !     Allocate members
-          if(.not.allocated(this%ielem)) allocate(this%ielem(nelem))
+          if(this%type == 12 ) then
+            ! BCS/CYCLIC has 2 surfaces
+            if(.not.allocated(this%ielem)) allocate(this%ielem(2*nelem))
+            if(.not.allocated(this%itype)) allocate(this%itype(2*nelem))
+            if(.not.allocated(this%iseg)) allocate(this%iseg(2*nelem))
+          else
+            if(.not.allocated(this%ielem)) allocate(this%ielem(nelem))
+            if(.not.allocated(this%itype)) allocate(this%itype(nelem))
+            if(.not.allocated(this%iseg)) allocate(this%iseg(nelem))
+          end if
 
-          if(.not.allocated(this%itype)) allocate(this%itype(nelem))
-
-          if(.not.allocated(this%iseg)) allocate(this%iseg(nelem))
 
 !     memory deallocation
           deallocate(tag_node)
         end subroutine set_nodes_elems
+
+
+!||====================================================================
+       subroutine set_nodes_elems_secondary_surface(this, nelem, numnod, surf_node)
+          implicit none
+!     Dummy
+          class (t_ebcs), intent(inout) :: this
+          integer, intent(in) :: numnod, nelem
+          integer, dimension(nelem, 4), intent(in) :: surf_node
+!     Local
+          integer :: ii, jj, nnode
+          integer, dimension(:), allocatable :: tag_node
+!     tag surface nodes
+          allocate(tag_node(0:numnod))
+          tag_node(0:numnod) = 0
+          do ii = 1, nelem
+            do jj = 1, 4
+              tag_node(surf_node(ii, jj)) = 1
+            end do
+          end do
+!     keep track of nodes
+          nnode = 0
+          do ii = 1, numnod
+            if (tag_node(ii) == 1) then
+              nnode = nnode + 1
+            end if
+          end do
+          this%nb_node = nnode
+          nnode = 0
+          do ii = 1, numnod
+            if (tag_node(ii) == 1) then
+              nnode = nnode + 1
+              this%node_list(this%nb_node+nnode) = ii
+              tag_node(ii) = nnode
+            end if
+          end do
+!     keep track of elems
+          this%nb_elem = nelem
+          do ii = 1, nelem
+            do jj = 1, 4
+              this%elem_list(jj, nelem+ii) = tag_node(surf_node(ii, jj))
+            end do
+          end do
+!     memory deallocation
+          deallocate(tag_node)
+        end subroutine set_nodes_elems_secondary_surface
+!||====================================================================
+
+
 
 !     ***********************     !
 !     read and write routines     !
@@ -1864,6 +1946,44 @@
             call read_db_array(this%fvm_inlet_data%val_pres, 21)
           end if
         end subroutine read_data_propellant
+
+
+!     /EBCS/CYCLIC
+!     -------------
+
+!||====================================================================
+!||    write_data_cyclic   ../common_source/modules/boundary_conditions/ebcs_mod.F90
+!||--- calls      -----------------------------------------------------
+!||    write_db_array          ../common_source/tools/input_output/write_db.F
+!||    write_i_c               ../common_source/tools/input_output/write_routtines.c
+!||====================================================================
+        subroutine write_data_cyclic(this, leni, lenr)
+          implicit none
+          class (t_ebcs_cyclic), intent(inout) :: this
+          integer,intent(inout) :: leni, lenr
+          integer :: integer_data(1)
+          lenr = 0
+          leni = 0
+
+          integer_data(1) = this%surf_id2
+          call write_i_array_c(integer_data, 1)
+          leni = leni + 1
+
+        end subroutine write_data_cyclic
+
+!||====================================================================
+!||    read_data_cyclic   ../common_source/modules/boundary_conditions/ebcs_mod.F90
+!||--- calls      -----------------------------------------------------
+!||    read_db                ../common_source/tools/input_output/read_db.F
+!||    read_db_array          ../common_source/tools/input_output/read_db.F
+!||    read_i_c               ../common_source/tools/input_output/write_routtines.c
+!||====================================================================
+        subroutine read_data_cyclic(this)
+          implicit none
+          class (t_ebcs_cyclic), intent(inout) :: this
+          call read_i_c(this%surf_id2, 1)
+
+        end subroutine read_data_cyclic
 
 
       end module ebcs_mod
