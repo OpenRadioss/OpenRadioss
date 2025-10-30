@@ -9,41 +9,56 @@
 using namespace std;
 
 // --- Isotone regression by the Pool Adjacent Violators (PAV) algorithm
-void isotone_project_pav(const std::vector<double>& y,
-                         const std::vector<double>& w,
+void isotone_project_pav(std::vector<double> y,
+                         std::vector<double> w_in,
                          std::vector<double>& z)
 {
     const int n = (int)y.size();
-    z = y;
-    std::vector<double> sum_w(n), sum_y(n);
-    std::vector<int>    blkL(n), blkR(n);
-    for (int i=0;i<n;++i){ sum_w[i]=w[i]; sum_y[i]=w[i]*y[i]; blkL[i]=blkR[i]=i; }
+    z.assign(n, 0.0);
+    if (n==0) return;
+    if (n==1){ z[0]=y[0]; return; }
 
-    int k = 0;
+    double ymin = y[0], ymax = y[0];
+    for (int i=1;i<n;++i){ ymin = std::min(ymin,y[i]); ymax = std::max(ymax,y[i]); }
+    const double range_y = std::max(1.0, ymax - ymin);
+    const double abs_tol = 1e-12 * range_y;     
+    const double rel_tol = 1e-12;               
+    const double eps_w   = 1e-15;               
+
+    struct Block{ int L, R; double sw, sy; };
+    std::vector<Block> S; S.reserve(n);
+
     for (int i=0;i<n;++i){
-        k = i;
-        while (k>0){
-            int l1=blkL[k-1], r1=blkR[k-1];
-            int l2=blkL[k  ], r2=blkR[k  ];
-            double m1 = sum_y[k-1]/sum_w[k-1];
-            double m2 = sum_y[k  ]/sum_w[k  ];
-            if (m1 <= m2) break;
-            sum_w[k-1] += sum_w[k];
-            sum_y[k-1] += sum_y[k];
-            blkR[k-1]   = r2;
-            for (int j=k; j<i; ++j){
-                sum_w[j] = sum_w[j+1];
-                sum_y[j] = sum_y[j+1];
-                blkL[j]  = blkL[j+1];
-                blkR[j]  = blkR[j+1];
-            }
-            --i; --k;
+        double yi = y[i];
+        double wi = std::isfinite(w_in[i]) ? w_in[i] : 1.0;
+        if (!std::isfinite(yi)) {
+            yi = (i>0 ? z[i-1] : 0.0);
         }
+        wi = std::max(wi, 0.0);
+        if (wi==0.0) wi = eps_w;
+
+        S.push_back({i,i,wi,wi*yi});
+
+        while (S.size()>=2){
+            auto &B2 = S.back();
+            auto &B1 = S[S.size()-2];
+            double m1 = B1.sy / B1.sw;
+            double m2 = B2.sy / B2.sw;
+
+            double eps_pav = abs_tol + rel_tol*std::max(std::abs(m1), std::abs(m2));
+            if (m1 <= m2 + eps_pav) break; 
+
+            B1.sw += B2.sw;
+            B1.sy += B2.sy;
+            B1.R   = B2.R;
+            S.pop_back();
+        }
+        z[i] = yi;
     }
-    int idx = 0;
-    for (int b=0; idx<n; ++b){
-        double m = sum_y[b]/sum_w[b];
-        for (int j=blkL[b]; j<=blkR[b]; ++j) z[idx++] = m;
+
+    for (const auto& B : S){
+        double m = B.sy / B.sw;
+        for (int j=B.L; j<=B.R; ++j) z[j] = m;
     }
 }
 

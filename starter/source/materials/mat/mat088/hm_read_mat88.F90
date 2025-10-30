@@ -662,7 +662,16 @@
         !< Young modulus
         e = dydx
         !< Shear modulus 
-        gs = half*e/(one + nu)
+        gs = three*bulk*e/(nine*bulk - e)
+        if (gs < zero) then 
+          call ancmsg(msgid=3109,                                             &
+                      msgtype=msgwarning,                                     &
+                      anmode=aninfo_blind_1,                                  &
+                      i1=mat_id,                                              &
+                      c1=titr)
+          bulk = four*(e/nine)*(one + em3)
+          gs = three*bulk*e/(nine*bulk - e)
+        endif
 !
         !< Default strain rate filtering cut-off frequency 
         israte = 1 
