@@ -1071,3 +1071,25 @@ execute -starter
 input ../miniqa/PYTHON/FUNCT_PYTHON/data/test_torsion_orthstrain_shell_0001.rad
 extract ../miniqa/PYTHON/FUNCT_PYTHON/data/ref.extract
 go -engine
+
+#--------------------------------------------------------------------------------
+#1.90
+test aa
+## path=miniqa/INTERF/INT_25/hexa8/data/
+keywords int25 miniqa
+input ../miniqa/INTERF/INT_25/hexa8/data/model_00_0000.rad
+execute -starter
+input ../miniqa/INTERF/INT_25/hexa8/data/model_00_0001.rad
+extract ../miniqa/INTERF/INT_25/hexa8/data/ref.extract
+go -engine
+
+#--------------------------------------------------------------------------------
+#1.91
+test aa
+## path=miniqa/INTERF/INT_25/tetra4/data/
+keywords int25 miniqa
+input ../miniqa/INTERF/INT_25/tetra4/data/model_00_0000.rad
+execute -starter
+input ../miniqa/INTERF/INT_25/tetra4/data/model_00_0001.rad
+extract ../miniqa/INTERF/INT_25/tetra4/data/ref.extract
+go -engine
