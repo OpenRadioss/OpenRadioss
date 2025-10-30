@@ -135,7 +135,7 @@ C-----------------------------------------------
       ENDIF 
       IF(TFLAG == 0) TFLAG = 1
       IF(ECONT == ZERO) ECONT = E0
-      IF(TCUT == ZERO) TCUT = EP20
+      IF(TCUT <=  ZERO) TCUT = EP20
 !
 !... load function
 !
