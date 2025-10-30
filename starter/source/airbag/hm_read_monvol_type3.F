@@ -93,7 +93,8 @@ C-----------------------------------------------
       my_real :: SCAL_T, SCAL_P, SCAL_S, SCAL_A, SCAL_D
       LOGICAL :: FOUND
       my_real :: SA, ROT, VOL, VMIN, VEPS, AMU, SV, RHOI
-      my_real :: GAMMA, T_RELAX, PEXT, PINI, PMAX, VINC, MI, EI, AVENT, BVENT, TVENT, DPDEF, DTPDEF, FPORT, FPORP, FPORA, TI
+      my_real :: GAMMA, T_RELAX, PEXT, PINI, PMAX, VINC, MI, EI, AVENT
+      my_real :: BVENT, TVENT, DPDEF, DTPDEF, FPORT, FPORP, FPORA, TI
       INTEGER :: NVENT, IPVENT, IDEF, IPORT, IPORP, IPORA, IEQUI
       LOGICAL :: IS_AVAILABLE
 C-----------------------------------------------

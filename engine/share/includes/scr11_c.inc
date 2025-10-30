@@ -21,5 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 C.../SCR11/
-      COMMON /SCR11/ ENINT, ENCIN, XMOMT, YMOMT, ZMOMT, XMASS, ENROT, ECONT, MASS0, ENTOT0, ENCIN2, ENROT2, DELTAE, EAMS, WPLAST
-      my_real ::     ENINT, ENCIN, XMOMT, YMOMT, ZMOMT, XMASS, ENROT, ECONT, MASS0, ENTOT0 ,ENCIN2, ENROT2, DELTAE, EAMS, WPLAST
+      COMMON /SCR11/ ENINT, ENCIN, XMOMT, YMOMT, ZMOMT, XMASS, ENROT,
+     .               ECONT, MASS0, ENTOT0, ENCIN2, ENROT2, DELTAE, EAMS, WPLAST
+      my_real ::     ENINT, ENCIN, XMOMT, YMOMT, ZMOMT, XMASS, ENROT,
+     .               ECONT, MASS0, ENTOT0 ,ENCIN2, ENROT2, DELTAE, EAMS, WPLAST
