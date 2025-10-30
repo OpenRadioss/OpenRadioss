@@ -543,7 +543,7 @@
           ! --------------------------
           ! everybody (local proc + remote proc) : criteria computation + choose a neighbour
           call update_neighbour_segment( ispmd,nspmd,ninter,r_buffer_size,r_buffer_2_size,  &
-            r_buffer,r_buffer_2,intbuf_tab,shoot_struct)
+            r_buffer,r_buffer_2,intbuf_tab,shoot_struct,npari,ipari)
           ! --------------------------
 
           ! --------------------------
