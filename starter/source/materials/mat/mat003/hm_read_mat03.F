@@ -84,12 +84,10 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED,IS_EOS, EOS_EMBEDDED
-      INTEGER JTUR, I, EMPTY_LINE,COUNT,IEOS,LAW6_OPT
+      INTEGER COUNT,IEOS
       my_real
      .   YOUNG, ANU, CA, CB, CN, EPSM, SIGM, BULK,
-     .   PMIN, E0, G, FAC_L, FAC_T, FAC_M, FAC_C,
-     .   BID2 ,BID3 ,BID4 ,BID5 ,
-     .   BID2_,BID3_,BID4_,BID5_,
+     .   PMIN, E0, G,
      .   C0,C1,C2,C3,C4,C5,PSH,RHO0,RHOR
 C-----------------------------------------------
 C   S o u r c e   L i n e s
