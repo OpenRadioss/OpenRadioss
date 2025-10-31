@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      1   X,       V,       IXR,     XDP,
      2   X3DP,    NC3,     VX3,     VY3,
      3   VZ3,     NEL)
+      use element_mod , only : nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

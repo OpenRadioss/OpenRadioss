@@ -48,6 +48,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      K   YD4,     ZD1,     ZD2,     ZD3,
      L   ZD4,     XDP,     NEL,     JALE,
      M   ISMSTR,  JEUL,    JLAG)
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

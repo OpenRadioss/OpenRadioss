@@ -749,6 +749,7 @@ C-----------------------------------------------
               use damping_funct_ini_mod    , only : damping_funct_ini
               USE VIPER_MOD
               USE BCS_NRF_MOD , ONLY : BCS_NRF
+              use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

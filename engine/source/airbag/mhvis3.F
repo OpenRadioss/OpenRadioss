@@ -43,6 +43,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      F                  H31,H32,H33,H34,H1 , 
      G                  H2,IGEO,NEL,MTN,A1 )
 C-----------------------------------------------
+C   M o d u l e s 
+C-----------------------------------------------
+      use element_mod , only : nixc
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"

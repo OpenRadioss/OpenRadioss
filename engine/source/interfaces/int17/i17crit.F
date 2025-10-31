@@ -34,6 +34,7 @@ Cas|         I17MAIN_PENA            /int17/i17main_pena.F
      1       X      ,V      ,A       ,NELEM ,EMINX  ,
      2       NME    ,ITASK  ,XSAV    ,IXS   ,IXS16  ,
      3       IXS20  ,XMSR_G ,SIZE_T_G)
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

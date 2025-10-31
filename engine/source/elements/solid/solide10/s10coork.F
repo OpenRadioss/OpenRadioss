@@ -44,6 +44,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      G   K79,     K70,     K88,     K89,
      H   K80,     K99,     K90,     K00,
      I   NEL,     ISMSTR)
+      use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

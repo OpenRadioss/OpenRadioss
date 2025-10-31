@@ -45,10 +45,11 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE MESSAGE_MOD
       USE MY_ALLOC_MOD
+      use element_mod , only : nixr
+      USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-        USE SPMD_COMM_WORLD_MOD, ONLY : SPMD_COMM_WORLD
+C-----------------------------------------------      
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s

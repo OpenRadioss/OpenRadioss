@@ -32,6 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      5                   F31    ,F32  ,F33 ,F14 ,F15  ,
      7                   F16    ,F24  ,F25 ,F26 ,F34 ,
      8                   F35    ,F36  ,NVS ,IVS )
+      use element_mod , only : nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

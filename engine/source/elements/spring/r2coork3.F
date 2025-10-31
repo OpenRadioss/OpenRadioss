@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      3                    R22    ,R23    ,R31   ,R32    ,R33    ,
      4                    SKEW   ,GEO    ,OFFG  ,OFF    ,AL    ,
      5                    IGEO )
+      use element_mod , only : nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

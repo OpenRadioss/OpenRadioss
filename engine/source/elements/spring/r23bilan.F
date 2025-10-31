@@ -35,6 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      3   GRTH,    IGRTH,   OFF_DUM, NC1,
      4   NC2,     X,       VR,      NEL,
      5   IGRE)
+      use element_mod , only : nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

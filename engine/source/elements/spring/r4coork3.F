@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2                    NGL    ,AL     ,R11    ,R12   ,R13    , 
      3                    R21    ,R22    ,R23    ,R31   ,R32    ,
      4                    R33    ,RLOC   ,OFFG   ,OFF   )
+      use element_mod , only : nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

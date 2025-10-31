@@ -26,6 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    h3d_quad_vector   ../engine/source/output/h3d/h3d_results/h3d_quad_vector.F
 !||====================================================================
       SUBROUTINE QROTA_VECT(X, IXQ, KCVT, VECT, GAMA, NEL)
+      use element_mod , only : nixq
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

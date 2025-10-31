@@ -45,6 +45,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE TH_MOD
       USE TIME_HISTORY_MOD
+      use element_mod , only : nixr
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

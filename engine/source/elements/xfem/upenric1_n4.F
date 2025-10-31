@@ -32,6 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                       NODEDGE,ENRTAG  ,CRKEDGE ,XEDGE4N )
 C-----------------------------------------------
       USE CRACKXFEM_MOD
+      use element_mod , only : nixc
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

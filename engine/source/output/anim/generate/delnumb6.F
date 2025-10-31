@@ -32,6 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                    DD_IAD  ,IADD ,NBPART,IADG ,KXSP ,
      .                    ISPH3D)
 C=======================================================================
+      use element_mod , only : nixs
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
