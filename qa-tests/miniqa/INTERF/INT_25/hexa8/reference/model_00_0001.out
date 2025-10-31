@@ -1,0 +1,339 @@
+ model_00_0001.out
+************************************************************************
+**                                                                    **
+**                                                                    **
+**                         OpenRadioss Engine                         **
+**                                                                    **
+**            Non-linear Finite Element Analysis Software             **
+**                                                                    **
+**                                                                    **
+**                                                                    **
+**                Linux 64 bits, GNU compiler, OpenMPI                **
+**                      Double Precision Version                      **
+**                                                                    **
+**                                                                    **
+**                                                                    **
+************************************************************************
+** OpenRadioss Software                                               **
+** COPYRIGHT (C) 1986-2025 Altair Engineering, Inc.                   **
+** Licensed under GNU Affero General Public License.                  **
+** See License file.                                                  **
+************************************************************************
+ 
+ NUMBER OF SPMD DOMAINS           2
+ NUMBER OF THREADS PER DOMAIN     1
+ NUMBER OF HMPP PROCESSES         2
+  
+ COMPUTATION HARDWARE DESCRIPTION
+  
+ CPU#  HOSTNAME     CPU TYPE, FREQUENCY AND MEMORY
+   1   FR-LAP327   11th Gen Intel(R) Core(TM) i7-11850H @ 2.50GHz (x86_64), 2495 MHz,  31698 MB RAM,   8192 MB swap
+   2   FR-LAP327   11th Gen Intel(R) Core(TM) i7-11850H @ 2.50GHz (x86_64), 2495 MHz,  31698 MB RAM,   8192 MB swap
+  
+ STACKSIZE  . . . . . . . . . . . . . . . . . . . . 8 MB
+ THREAD STACKSIZE . . . . . . . . . . . . . . . . . 400 MB
+ 
+************************************************************************
+
+
+ model_00D01                                                                     
+
+
+ FINAL TIME . . . . . . . . . . . . . . . . . . .   10.00000    
+
+ TIME INTERVAL FOR TIME HISTORY PLOTS . . . . . .  0.1000000E+31
+
+ TIME STEP SCALE FACTOR . . . . . . . . . . . . .  0.9000000    
+
+ MINIMUM TIME STEP  . . . . . . . . . . . . . . .   0.000000    
+
+
+ BRICK TIME STEP SCALE FACTOR . . . . . . . . . .  0.9000000    
+ BRICK MINIMUM TIME STEP. . . . . . . . . . . . .   0.000000    
+ MIN. TIME STEP FLAG (1:STOP RUN, 2:DELETE BRICK)     1
+
+ QUAD TIME STEP SCALE FACTOR. . . . . . . . . . .  0.9000000    
+ QUAD MINIMUM TIME STEP . . . . . . . . . . . . .   0.000000    
+ MIN. TIME STEP FLAG (1:STOP RUN, 2:DELETE QUAD).     1
+
+ SHELL TIME STEP SCALE FACTOR . . . . . . . . . .  0.9000000    
+ SHELL MINIMUM TIME STEP. . . . . . . . . . . . .   0.000000    
+ MIN. TIME FLAG (1:STOP, 2:DELETE, 3:SMALL STRAIN)    2
+
+ TRUSS TIME STEP SCALE FACTOR . . . . . . . . . .  0.9000000    
+ TRUSS MINIMUM TIME STEP. . . . . . . . . . . . .   0.000000    
+ MIN. TIME FLAG (1:STOP, 2:DELETE). . . . . . . .     0
+
+ BEAM TIME STEP SCALE FACTOR. . . . . . . . . . .  0.9000000    
+ BEAM MINIMUM TIME STEP . . . . . . . . . . . . .   0.000000    
+ MIN. TIME FLAG (1:STOP, 2:DELETE). . . . . . . .     0
+
+ SPRING TIME STEP SCALE FACTOR. . . . . . . . . .  0.9000000    
+ SPRING MINIMUM TIME STEP . . . . . . . . . . . .   0.000000    
+ MIN. TIME FLAG (1:STOP, 2:DELETE). . . . . . . .     0
+
+ AIRBAG TIME STEP SCALE FACTOR. . . . . . . . . .  0.9000000    
+ AIRBAG MINIMUM TIME STEP . . . . . . . . . . . .   0.000000    
+ MIN. TIME FLAG (1:STOP). . . . . . . . . . . . .     0
+
+ CONTACT TIME STEP SCALE FACTOR . . . . . . . . .  0.9000000    
+ CONTACT MINIMUM TIME STEP. . . . . . . . . . . .   0.000000    
+ MIN. TIME FLAG(1:STOP, 2:REMOVE NODE FROM INTERF)    0
+
+ PRINTOUT CYCLE FREQUENCY . . . . . . . . . . . . -1000
+
+ RESTART CYCLE FREQUENCY. . . . . . . . . . . . .   10000000
+
+ MAXIMUM RESTART WRITE BEFORE OVERWRITE . . . . .     0
+
+ INVERS: INPUT DECK VERSION . . . . . . . . . . .   101
+ ITTYP : FLAG FOR TYPE OF T-FILE. . . . . . . . .     4
+
+ INITIAL TIME STEP. . . . . . . . . . . . . . . .   0.000000    
+ MAXIMUM TIME STEP. . . . . . . . . . . . . . . .  0.1000000E+21
+
+ PARALLEL ARITHMETIC ON
+ NUMBER OF INTERFACES TO BE ELIMINATED. . . . . .        0
+
+ NUMBER OF PARTS TO BE ELIMINATED . . . . . . . .        0
+
+ NUMBER OF SOLID  ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF QUAD   ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF SHELL  ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF TRUSS  ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF BEAM   ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF SPRING ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF SH_3N  ELEMENT BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF  SPH PARTICLES BLOCKS TO BE ELIMINATED        0
+
+ NUMBER OF RIGID LINKS. . . . . . . . . . . . . .        0
+
+ NUMBER OF NEW BOUNDARY CONDITIONS. . . . . . . .        0
+
+
+ TIME FOR FIRST ANIMATION-FILE PLOT . . . . . . .  0.1000000E+31
+ TIME INTERVAL FOR ANIMATION-FILE PLOTS . . . . .   0.000000    
+ TIME TO STOP ANIMATION-FILE PLOTS. . . . . . . .  0.1000000E+21
+ SENSOR FOR ANIMATION-FILE PLOTS. . . . . . . . .          0
+ TIME INTERVAL FOR SENSOR ANIMATION-FILE PLOTS. .   0.000000    
+
+ VARIABLE SAVED ON ANIMATION FILES (1: YES) :
+      PLASTIC STRAIN. . . . . .     0
+      DENSITY     (SOLID ONLY).     0
+      SPECIFIC ENERGY . . . . .     0
+      HOURGLASS ENERGY. . . . .     0
+      TEMPERATURE (SOLID ONLY).     0
+      THICKNESS   (SHELL ONLY).     0
+      PRESSURE    (SOLID ONLY).     0
+      VON MISES . . . . . . . .     0
+      TURBULENT ENERGY (FLUID).     0
+      TURBULENT VISCOSITY(FLUID)    0
+      VORTICITY (FLUID) . . . .     0
+ NODAL VALUES SAVED ON ANIMATION FILES (1: YES) :
+      PRESSURE. . . . . . . . .     0
+      DENSITY . . . . . . . . .     0
+      TEMPERATURE . . . . . . .     0
+ VECTOR SAVED ON ANIMATION FILES (1: YES) :
+      VELOCITY VECTOR . . . . .     0
+      DISPLACEMENT VECTOR . . .     0
+      ACCELERATION VECTOR . . .     0
+      CONTACT FORCES. . . . . .     0
+      INTERNAL FORCES . . . . .     0
+      EXTERNAL FORCES . . . . .     0
+      SECTION RBY RWALL FORCES.     0
+      ROTATIONAL VELOCITY VECTOR    0
+      CONTACT PRESSURE (VECTORS)    0
+ SHELL TENSOR SAVED ON ANIMATION FILES (1: YES) :
+      MEMBRANE STRESS . . . . .     0
+      BENDING STRESS(MOMENT/T^2)    0
+      UPPER LAYER STRESS. . . .     0
+      LOWER LAYER STRESS. . . .     0
+      MEMBRANE STRAIN . . . . .     0
+      CURVATURE . . . . . . . .     0
+      UPPER LAYER STRAIN. . . .     0
+      LOWER LAYER STRAIN. . . .     0
+ NODAL MASS SAVED ON ANIMATION FILES (1: YES) :    0
+ KEEP DELETED ELEMENT (1: YES) :    0
+
+
+ 
+ CHECKSUM DIGESTS
+ ----------------
+ 
+ 
+ 30/10/2025
+   CYCLE    TIME      TIME-STEP  ELEMENT          ERROR  I-ENERGY    K-ENERGY T  K-ENERGY R  EXT-WORK     MAS.ERR     TOTAL MASS  MASS ADDED
+       0   0.000      0.7583E-03 NODE         522   0.0%   0.000       0.000       0.000       0.000       0.000      0.1004       0.000    
+    1000  0.6569      0.6367E-03 NODE           5  -2.6%   65.19      0.6277E-01   0.000       66.96       0.000      0.1004       0.000    
+    2000   1.286      0.6181E-03 NODE           5  -9.9%   161.8      0.4226E-01   0.000       179.6       0.000      0.1004       0.000    
+ DELETE SOLID ELEMENT NUMBER        239
+ DELETE SOLID ELEMENT NUMBER        219
+ DELETE SOLID ELEMENT NUMBER         81
+ DELETE SOLID ELEMENT NUMBER        273
+ DELETE SOLID ELEMENT NUMBER        115
+ DELETE SOLID ELEMENT NUMBER         61
+ DELETE SOLID ELEMENT NUMBER        231
+ DELETE SOLID ELEMENT NUMBER         73
+ DELETE SOLID ELEMENT NUMBER        207
+ DELETE SOLID ELEMENT NUMBER        140
+ DELETE SOLID ELEMENT NUMBER         49
+ DELETE SOLID ELEMENT NUMBER         41
+ DELETE SOLID ELEMENT NUMBER        160
+ DELETE SOLID ELEMENT NUMBER        199
+ DELETE SOLID ELEMENT NUMBER        152
+ DELETE SOLID ELEMENT NUMBER        194
+ DELETE SOLID ELEMENT NUMBER        113
+ DELETE SOLID ELEMENT NUMBER         79
+ DELETE SOLID ELEMENT NUMBER        271
+ DELETE SOLID ELEMENT NUMBER        237
+ DELETE SOLID ELEMENT NUMBER        211
+ DELETE SOLID ELEMENT NUMBER        267
+ DELETE SOLID ELEMENT NUMBER        109
+ DELETE SOLID ELEMENT NUMBER        209
+ DELETE SOLID ELEMENT NUMBER         53
+ DELETE SOLID ELEMENT NUMBER        215
+ DELETE SOLID ELEMENT NUMBER         57
+ DELETE SOLID ELEMENT NUMBER         51
+ DELETE SOLID ELEMENT NUMBER        188
+ DELETE SOLID ELEMENT NUMBER        132
+    3000   1.903      0.6178E-03 NODE           5  -7.6%   227.9       1.095       0.000       247.8       0.000      0.1004       0.000    
+    4000   2.517      0.6119E-03 NODE           5  -7.6%   227.9       1.097       0.000       247.8       0.000      0.1004       0.000    
+    5000   3.130      0.6119E-03 NODE           5  -7.6%   227.9       1.086       0.000       247.7       0.000      0.1004       0.000    
+ DELETE SOLID ELEMENT NUMBER        136
+ DELETE SOLID ELEMENT NUMBER        130
+    6000   3.748      0.6195E-03 NODE         467  -7.7%   229.4       1.291       0.000       250.1       0.000      0.1004       0.000    
+    7000   4.367      0.6195E-03 NODE         467  -7.7%   229.4       1.291       0.000       250.1       0.000      0.1004       0.000    
+    8000   4.987      0.6195E-03 NODE         467  -7.7%   229.5       1.291       0.000       250.1       0.000      0.1004       0.000    
+ DELETE SOLID ELEMENT NUMBER        120
+ DELETE SOLID ELEMENT NUMBER        128
+ DELETE SOLID ELEMENT NUMBER        154
+ DELETE SOLID ELEMENT NUMBER        162
+ DELETE SOLID ELEMENT NUMBER        233
+ DELETE SOLID ELEMENT NUMBER         75
+ DELETE SOLID ELEMENT NUMBER        241
+ DELETE SOLID ELEMENT NUMBER         83
+    9000   5.617      0.6486E-03 NODE         418 -10.8%   252.9       2.021       0.000       285.8       0.000      0.1004       0.000    
+   10000   6.265      0.6486E-03 NODE         418 -10.8%   252.9       2.020       0.000       285.8       0.000      0.1004       0.000    
+   11000   6.914      0.6485E-03 NODE         418 -10.8%   253.1       2.035       0.000       286.1       0.000      0.1004       0.000    
+ DELETE SOLID ELEMENT NUMBER        158
+ DELETE SOLID ELEMENT NUMBER        192
+ DELETE SOLID ELEMENT NUMBER        235
+ DELETE SOLID ELEMENT NUMBER        205
+ DELETE SOLID ELEMENT NUMBER         77
+ DELETE SOLID ELEMENT NUMBER         47
+ DELETE SOLID ELEMENT NUMBER        156
+ DELETE SOLID ELEMENT NUMBER        126
+   12000   7.565      0.6604E-03 NODE          39 -12.7%   264.5       3.392       0.000       307.1       0.000      0.1004       0.000    
+   13000   8.226      0.6604E-03 NODE          39 -12.7%   264.6       3.389       0.000       307.1       0.000      0.1004       0.000    
+ DELETE SOLID ELEMENT NUMBER         55
+   14000   8.878      0.6102E-03 NODE           5 -16.5%   274.4       3.460       0.000       332.9       0.000      0.1004       0.000    
+ DELETE SOLID ELEMENT NUMBER        213
+ DELETE SOLID ELEMENT NUMBER        134
+ DELETE SOLID ELEMENT NUMBER        251
+ DELETE SOLID ELEMENT NUMBER        223
+ DELETE SOLID ELEMENT NUMBER        277
+ DELETE SOLID ELEMENT NUMBER         89
+ DELETE SOLID ELEMENT NUMBER        168
+ DELETE SOLID ELEMENT NUMBER        247
+ DELETE SOLID ELEMENT NUMBER        243
+ DELETE SOLID ELEMENT NUMBER         93
+ DELETE SOLID ELEMENT NUMBER        164
+ DELETE SOLID ELEMENT NUMBER        172
+ DELETE SOLID ELEMENT NUMBER         85
+ DELETE SOLID ELEMENT NUMBER        119
+   15000   9.484      0.6087E-03 NODE           5 -16.9%   319.4       4.738       0.000       390.2       0.000      0.1004       0.000    
+
+     RESTART FILES: model_00_0001_[0001-0002].rst WRITTEN
+     -------------
+
+  
+                           ** CPU USER TIME **
+  
+  
+                        ** SUMMARY **
+  
+ #PROC  CONTSORT  CONTFOR   ELEMENT   KINCOND   INTEG     IO        T0        ASM       RESOL    
+   1   .3982E+00 .1559E+01 .2953E+01 .1789E+00 .6321E-01 .8078E-01 .2745E+00 .3530E+00 .6561E+01
+   2   .3817E+00 .1450E+01 .2787E+01 .1866E+00 .6526E-01 .8113E-01 .2789E+00 .1705E+00 .6691E+01
+  
+                 ** SPMD COM. TIME **
+  
+ #PROC  FORCES    RBYFOR    RBYVEL    VEL       TOT       %        
+   1   .4623E+00 .4004E-01 .0000E+00 .4842E-01 .5508E+00 .8395E+01
+   2   .1043E+01 .2356E-01 .0000E+00 .6085E-01 .1127E+01 .1685E+02
+  
+ 
+                   ** CUMULATIVE CPU TIME SUMMARY **
+  
+ CONTACT SORTING.............: .7799E+00     5.88 % 
+ CONTACT FORCES..............: .3009E+01    22.70 % 
+ .. INCLUDING CONTACT NORMALS: .7244E+00     5.47 % 
+ ELEMENT FORCES..............: .5740E+01    43.31 % 
+ KINEMATIC COND..............: .3654E+00     2.76 % 
+ INTEGRATION.................: .1285E+00     0.97 % 
+ ASSEMBLING..................: .5235E+00     3.95 % 
+ OTHERS (including I/O)......: .2706E+01    20.42 % 
+ TOTAL.......................: .1325E+02   100.00 % 
+  
+  
+                           ** ELAPSED TIME **
+  
+  
+                        ** SUMMARY **
+  
+ #PROC  CONTSORT  CONTFOR   ELEMENT   KINCOND   INTEG     IO        T0        ASM       RESOL    
+   1   .4395E+00 .1722E+01 .3272E+01 .1993E+00 .7031E-01 .9028E-01 .3064E+00 .3919E+00 .7262E+01
+   2   .4169E+00 .1573E+01 .3030E+01 .2041E+00 .7166E-01 .8891E-01 .3037E+00 .1854E+00 .7262E+01
+  
+                 ** SPMD COM. TIME **
+  
+ #PROC  FORCES    RBYFOR    RBYVEL    VEL       TOT       %        
+   1   .5163E+00 .4458E-01 .0000E+00 .5421E-01 .6151E+00 .8470E+01
+   2   .1131E+01 .2562E-01 .0000E+00 .6595E-01 .1222E+01 .1683E+02
+  
+                   ** MEMORY USAGE STATISTICS **
+  
+ TOTAL MEMORY USED .........................:      148 MB
+ MAXIMUM MEMORY PER PROCESSOR...............:       74 MB
+ MINIMUM MEMORY PER PROCESSOR...............:       74 MB
+ AVERAGE MEMORY PER PROCESSOR...............:       74 MB
+  
+                   ** DISK USAGE STATISTICS **
+  
+ TOTAL DISK SPACE USED .....................:          1 MB
+ ANIMATION/H3D/TH/OUTP SIZE ................:          0 MB
+ RESTART FILE SIZE .........................:          1 MB
+  
+                   ** COMPUTE TIME INFORMATION **
+                        ** CURRENT ENGINE **
+  
+ EXECUTION STARTED .........................:      2025/10/30  16:45:37
+ EXECUTION COMPLETED .......................:      2025/10/30  16:45:44
+  
+ ELAPSED TIME     =          7.29 s
+                          0:00:07
+ ESTIMATED SPEEDUP=          1.82
+
+
+
+     NORMAL TERMINATION      
+
+
+
+     TOTAL NUMBER OF CYCLES  :   15848
+
+  
+                   ** COMPUTE RUNTIME INFORMATION SUMMARY **
+  
+        STARTER RUNTIME =          0.30s (00:00:00)
+ # 001   ENGINE RUNTIME =          7.29s (00:00:07)
+ ------------------------------ 
+ STARTER+ENGINE RUNTIME =          7.59s (00:00:07)
+  
