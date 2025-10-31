@@ -73,7 +73,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: i,j,n,m,iad,ipen,nml,ns,irot,n_p
+          integer :: n,iad,ipen,nml,ns,irot,n_p
 ! ======================================================================================================================
 !! 1.  rrbe3pen_d, rrbe3pen_stf, rrbe3pen_fac, rrbe3pen_vi, rrbe3pen_m, init only with TT=zero
           if (time==zero) then
@@ -158,10 +158,10 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: i,j,m,icoline
+          integer :: i,m,icoline
           real(kind=WP), dimension(3) :: xbar,wri,rR,rn
           real(kind=WP) :: wi(nml),rndotrn,facn,facr,det,gamma(9),gminv(9),gamma_max,jgamma,wmax
-          real(kind=WP) :: msbar,dk_m,rdummy,stfnm,stfrm,stif,damp,lsm2,ins
+          real(kind=WP) :: msbar,dk_m,rdummy,stfnm,stfrm,stif,damp,lsm2
           real(kind=WP) ::  srR(3,3),srRT(3,3),srn(3,3),omgsrn(3,3),A(3,3),Ar(3,3)
           double precision :: disdp(3)
 ! ======================================================================================================================

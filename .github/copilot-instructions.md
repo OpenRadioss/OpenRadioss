@@ -57,6 +57,7 @@
 - **Routine Length**: 
   - Leaf routines: ≤ 200 lines
   - Main routines: ≤ 1000 lines
+- **DO NOT USE POINTER** when this can be avoided. In particular pointers to noncontiguous data are forbidden because of performance issues.
 
 ## Template Structure
 

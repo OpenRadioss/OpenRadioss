@@ -67,7 +67,6 @@
           use names_and_titles_mod , only : nchartitle, ncharkey, ncharfield
           use format_mod , only : lfield
           use precision_mod, only : WP
-          use message_mod, only : ancmsg, msgerror, aninfo, aninfo_blind_1
           use constant_mod, only : zero, em5, em20, one, ten
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
@@ -95,24 +94,21 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: i,n,imov,j,n1,n2,n3,k,nsk,iun,sub_id, &                                           !< local entities id's
-                  &  ity,l,j1,j2,numsph_tmp,sub_level,cur_submod, &
+          integer :: i,n,imov,j,n1,n2,n3,k,sub_id, &                                               !< local entities id's
                   &  idir,iflagunit,id,uid,cpt
-          real(kind=WP) :: p(12), pnor1, pnor2, pnorm1, det1, det2, det3, det, pp,bid, &               !< local real variables
-                  &        x0(3),rot(9)
-          character(len=nchartitle) :: nomsg                                                           !< skew message title
-          character(len=40) :: mess                                                                    !< message string
+          real(kind=WP) :: p(12), pnor1, pnor2, pnorm1, det1, det2, det3, det, pp                      !< local real variables
           character(len=nchartitle) :: titr                                                            !< Title string
           character(len=ncharfield) :: key                                                             !< key string
           character(len=ncharfield) :: dir                                                             !< Direction string
           logical :: is_available                                                                      !< Logical flag
           integer :: usr2sys                                                                           !< External function
-          data iun/1/                                                                                  !< Input unit number
-          data mess/'MOVING skew SYSTEM DEFINITION           '/                                        !< message string
-          data nomsg/'global skew system                     '/                                        !< skew message title
+          character(len=40), parameter :: mess = 'MOVING skew SYSTEM DEFINITION           '           !< message string
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
+          det1 = huge(det1)
+          det2 = huge(det2)
+          det3 = huge(det3)
 !
           do i=1,liskn
             iskn(i,1)=0

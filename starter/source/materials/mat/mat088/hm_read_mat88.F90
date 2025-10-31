@@ -109,7 +109,7 @@
           ifunc_out(maxfunc+1),npt,npt2,ndim,rtype,j,failip,nv_base
         logical is_available,is_encrypted,found,insert_origin
         type(table_4d_), dimension(:), pointer :: table_mat   
-        real(kind=8) :: info,xint,yint
+        real(kind=8) :: xint,yint
         real(kind=8), dimension(:)  , allocatable :: x_raw
         real(kind=8), dimension(:,:), allocatable :: y_raw
         real(kind=8), dimension(:,:), allocatable :: x_out,y_out

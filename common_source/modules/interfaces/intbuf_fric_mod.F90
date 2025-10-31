@@ -86,7 +86,7 @@
 
           integer, dimension(:), allocatable :: tabcoupleparts_fric    ! table of couple of parts
           integer, dimension(:), allocatable :: tabparts_fric          ! table of parts
-          integer, dimension(:), allocatable :: adparts_fric           ! table of adress of couple of parts
+          integer, dimension(:), allocatable :: adparts_fric           ! table of address of couple of parts
           integer, dimension(:), allocatable :: ifricorth              ! table of orthotropic type of couple of parts
           real(kind=WP),dimension(:), allocatable :: tabcoef_fric            ! table of friction coefficients
 

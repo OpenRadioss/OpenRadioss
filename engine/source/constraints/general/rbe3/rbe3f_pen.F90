@@ -96,12 +96,12 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: i,j,k,m,icoline,iel,el(3,3,nml)
-          real(kind=WP), dimension(3) :: xbar,vts,wrv,dwrv,omgRb,tmrn,vit,disp,          &
+          integer :: i,k,m,icoline,iel,el(3,3,nml)
+          real(kind=WP), dimension(3) :: xbar,vts,wrv,dwrv,omgRb,tmrn,vit,          &
             for,mom,drot,rR,rn,vl,vrl,gminvmR,                    &
             frefb,mrefb,mrefr,mrefbr,mref0,fn,vrg,vrt
           real(kind=WP) :: wi(nml),rndotrn,det,gamma(9),gminv(9),gamma_max,jgamma,wmax
-          real(kind=WP) :: wri(3,nml),stfn,stfr,facn,facr,fac_vi,fac_ref,rdummy,lms2
+          real(kind=WP) :: wri(3,nml),stfn,stfr,facn,facr,fac_vi,fac_ref
           real(kind=WP) :: srR(3,3),srRT(3,3),srn(3,3),omgsrn(3,3),aa(3,3),aar(3,3)
           double precision :: disdp(3)
 ! ======================================================================================================================

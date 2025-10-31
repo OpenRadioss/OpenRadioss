@@ -120,7 +120,7 @@
         real(kind=WP) :: nu,hys,shape,rbulk(nel),gs,gdamp,sigf,kfail,gam1,     &
           gam2,eh,beta
         !< Integer working variables
-        integer :: i,j,n,ne_load,ne_unload,ne_fail,jj,nindx_dam,nindx_fail,    &
+        integer :: i,j,n,ne_load,ne_unload,jj,nindx_dam,nindx_fail,           &
           iter2d
         integer, dimension (nel) :: indx_l,indx_unl,jdom,indx_dam,indx_fail
         integer, dimension(nel,6) :: ipos

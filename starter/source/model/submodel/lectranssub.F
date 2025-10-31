@@ -798,7 +798,6 @@ C-----------------------
      .'  ---------------------- ')
  200  FORMAT(10X,'   NODES           N0   . . . . .= ',I10/,
      .       10X,'                   N1   . . . . .= ',I10)
- 300  FORMAT(10X,'   CENTER NODE     N0   . . . . .= ',I10)
  500  FORMAT(/
      . '    SUBMODEL TRANSLATION, TRANSFORMATION ID   = ',I10/,                        
      . '       SUBMODEL ID. . . . . . . . . . . .= ',I10/,
@@ -870,7 +869,6 @@ C-----------------------
      . '                             Y  . . . . . .= ',E20.13/,
      . '                             Z  . . . . . .= ',E20.13)
 
- 3000 FORMAT(/10X,'NEW NODE COORDINATES',14X,'X',24X,'Y',24X,'Z')
  3500 FORMAT( 17X,I10,3(5X,E20.13))
 C-----------------------
       RETURN

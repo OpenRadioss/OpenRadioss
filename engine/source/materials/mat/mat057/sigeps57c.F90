@@ -127,7 +127,7 @@
           real(kind=WP) :: dseq_dk1,dseq_dk2,dk1_dsigxx,dk1_dsigyy,dk2_dsigxx,         &
             dk2_dsigyy,dk2_dsigxy,dseq_dsigxx,dseq_dsigyy,dseq_dsigxy,           &
             normxx,normyy,normxy,dphi_dseq,dphidsig_dsigdlam,dphi_dyld,dphi_dpla,&
-            sig_dphidsig,dpla_dlam,dphi_dlam,dlam,ddep,dpdt,alpha,dsigxx_dlam,   &
+            sig_dphidsig,dpla_dlam,dphi_dlam,dlam,ddep,dpdt,dsigxx_dlam,   &
             dsigyy_dlam,dsigxy_dlam,dphidsig_dsigbdlam,dphi_dsigbxx,dphi_dsigbyy,&
             dphi_dsigbxy,dsigbxx_dlam,dsigbyy_dlam,dsigbxy_dlam,epst
           real(kind=WP) :: deelzz(nel),deplzz(nel),normsig(nel),xvec(nel,2),yld_i(nel),&

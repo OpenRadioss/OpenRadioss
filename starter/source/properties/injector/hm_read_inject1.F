@@ -396,6 +396,5 @@ C----------------------
      & 10X,'TIME FUNCTION FOR INCOMING GAS TEMP . .=',I10,/,
      & 10X,'SCALE FACTOR FOR INCOMING MASS. . . . .=',1PG20.13,/,
      & 10X,'SCALE FACTOR FOR INCOMING GAS TEMP. . .=',1PG20.13,/)
- 999  CALL FREERR(3)
       RETURN
       END

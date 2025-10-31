@@ -99,7 +99,7 @@ C-----------------------------------------------
       TYPE(MONVOL_STRUCT_), DIMENSION(NVOLU), INTENT(INOUT) :: T_MONVOL
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR), INTENT(IN) :: SENSOR_TAB
       TYPE(OUTPUT_),INTENT(INOUT) :: OUTPUT
-      TYPE(PYTHON_), INTENT(IN) :: PYTHON     
+      TYPE(PYTHON_), INTENT(INOUT) :: PYTHON     
 C-----------------------------------------------
 C     N(3,*)  NORMALE STOCKEE DANS WA
 C     PORO(*) STORED IN WA

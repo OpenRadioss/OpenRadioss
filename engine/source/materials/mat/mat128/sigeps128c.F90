@@ -111,12 +111,12 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: i,ii,iter,niter,nindx,ifunc,ndim
+          integer :: i,ii,iter,niter,nindx,ndim
           integer ,dimension(nel) :: indx
           real(kind=WP) :: sigy,young,shear,bulk,nu,a11,a12,rho0
           real(kind=WP) :: dlam,ddep,sig_dfdsig,dfdsig2,dpdt,seq
-          real(kind=WP) :: normxx,normyy,normzz,normxy,normyz,normzx
-          real(kind=WP) :: dsigbxx_dlam,dsigbyy_dlam,dsigbzz_dlam,dsigbxy_dlam,dsigbyz_dlam,dsigbzx_dlam
+          real(kind=WP) :: normxx,normyy,normxy
+          real(kind=WP) :: dsigbxx_dlam,dsigbyy_dlam,dsigbxy_dlam
           real(kind=WP) :: cc,cp,asrate,fisokin,beta,dtime
           real(kind=WP) :: qr1,qr2,qx1,qx2,cr1,cr2,cx1,cx2
           real(kind=WP) :: ff,gg,hh,nn

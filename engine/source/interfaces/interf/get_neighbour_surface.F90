@@ -246,7 +246,7 @@
           r_buffer_size(1:2,1:nspmd) = 0 ! size of R buffer
           s_buffer_2_size(1:3,1:nspmd) = 0 ! size of S buffer
           r_buffer_2_size(1:3,1:nspmd) = 0 ! size of R buffer
-          my_address_proc(1:nspmd) = 0 ! adress for the mpi buffer
+          my_address_proc(1:nspmd) = 0 ! address for the mpi buffer
           number_inter = shoot_struct%shift_interface(ninter+1,2)
           ! --------------------------
 

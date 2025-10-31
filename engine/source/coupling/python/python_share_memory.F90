@@ -26,7 +26,7 @@
 !||    resol                     ../engine/source/engine/resol.F
 !||====================================================================
       module python_share_memory_mod
-      implicit none
+        implicit none
       contains
 !||====================================================================
 !||    python_share_memory     ../engine/source/coupling/python/python_share_memory.F90

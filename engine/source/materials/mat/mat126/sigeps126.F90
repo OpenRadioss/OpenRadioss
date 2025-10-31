@@ -112,7 +112,7 @@
             :: pold(nel),vm(nel),mup(nel),pnew(nel),dpdmu(nel),dmup(nel),      &
             pstar(nel),phard(nel),scale(nel),dav(nel)
           real(kind=WP)                                                        &
-            :: j2,kav,pmin,mubar,sigstar,epfail,ratio
+            :: j2,kav,pmin,mubar,sigstar,epfail
           logical :: dmg_on
 !
           !========================================================================

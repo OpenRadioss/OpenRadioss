@@ -398,7 +398,7 @@
           real(kind=WP) :: zt,dtinv, vol2,asrate,coef, &
             r1,r2,s1,s2,r12a,r22a,s12b,s22b,rs1,rs2,rs3,&
             t1,t2,t3,fact,r3r3,s3s3,&
-            bidon1,bidon2,bidon3,bidon4,bidon5,vv,aa,trelax,t0,tm
+            bidon1,bidon2,bidon3,bidon4,bidon5,vv,aa,trelax
           real(kind=WP)  :: scale1(nel)
           real(kind=WP) ,dimension(nel), target :: le_max
           real(kind=WP) :: tt_local

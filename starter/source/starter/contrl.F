@@ -1621,12 +1621,6 @@ c     & 4X,'MEMORY AVAILABLE FOR REALS. . . . . . . . . . . . . .',I10)
      & 5X,'UPWIND FOR OTHER TRANSPORT. . . . . . .=',1PG20.13/)
  5380 FORMAT(/
      & 4X,'CAA FLUID FORMULATION ACTIVATED')
- 5400 FORMAT(
-     & 4X,'alpha M + beta K DAMPING'/,
-     & 4X,'------------------------'/,
-     . 4X,'NODE GROUP ID (=0 ALL NODES). . . . . . ',I5/,
-     & 5X,'ALPHA . . . . . . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'BETA. . . . . . . . . . . . . . . . . .=',1PG20.13)
  5500 FORMAT(//4X,'ANALYSIS OPTIONS'/
      &         4X,'----------------'//
      & 4X,'INTEG8 : 8 GAUSS POINT CONDENSED INTEGRATION . . . . .',I10/

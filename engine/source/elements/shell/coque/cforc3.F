@@ -105,7 +105,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      O   ELCUTC,      INOD_CRK,    IEL_CRK,     IBORDNODE,
      P   NODENR,      IADC_CRK,    NODEDGE,     CRKNODIAD,
      Q   CONDN,       CONDNSKY,    STACK,       ISUBSTACK,
-     R   XFEM_STR,    CRKEDGE,     DRAPE_SH4N,  IPRI,
+     R   XFEM_STR, IG,  CRKEDGE,     DRAPE_SH4N,  IPRI,
      S   NLOC_DMG,    INDX_DRAPE,  IGRE,        JTUR,
      T   OUTPUT,      DT,          SNPC,        STF  ,
      T   GLOB_THERM,  USERL_AVAIL, MAXFUNC,     SBUFMAT )
@@ -157,6 +157,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: SNPC        ! size of SNPC
       INTEGER, INTENT(IN) :: JTUR
       INTEGER, INTENT(IN) :: IGRE
+      INTEGER, INTENT(IN) :: IG
       INTEGER JFT,JLT,NVC,MTN,NELTST,ITYPTST,OFFSET,
      .   NEL,ISTRAIN,IHBE,ITASK,JTHE,JSMS,
      .   ITHK,IOFC,IPLA,NFT,ISMSTR,NPT,KFTS,IFAILURE,IEXPAN,
@@ -181,7 +182,7 @@ C-----------------------------------------------
 C
       TYPE (TTABLE) TABLE(*)
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
-      TYPE (ELBUF_STRUCT_), DIMENSION(NXEL), TARGET :: XFEM_STR  ! take xfem_str
+      TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP,NXEL) :: XFEM_STR  ! take xfem_str
       TYPE (XFEM_EDGE_)   , DIMENSION(*) :: CRKEDGE
       TYPE (FAILWAVE_STR_) :: FAILWAVE 
       TYPE (NLOCAL_STR_), TARGET :: NLOC_DMG
@@ -767,7 +768,7 @@ c
      .           ALDT      )
 c
           CALL CRKLAYER4N_ADV(
-     .         XFEM_STR ,NEL      ,NFT      ,IXC      ,ELCUTC   ,    
+     .         XFEM_STR(IG,1:NXEL) ,NEL      ,NFT      ,IXC      ,ELCUTC   ,    
      .         ILAY     ,NXLAY    ,IEL_CRK  ,INOD_CRK ,                
      .         IADC_CRK ,NODENR   ,ELCRKINI ,DIR1_CRK ,DIR2_CRK ,                 
      .         NODEDGE  ,CRKNODIAD,KNOD2ELC ,CRKEDGE  ,A_I      ,
@@ -775,7 +776,7 @@ c
      .         Y4       ,XEDGE4N  ,NGL      )                                                         
 c
           CALL CRKLAYER4N_INI(
-     .         XFEM_STR ,NEL      ,NFT      ,IXC      ,ELCUTC   ,
+     .         XFEM_STR(IG,1:NXEL) ,NEL      ,NFT      ,IXC      ,ELCUTC   ,
      .         ILAY     ,NXLAY    ,IEL_CRK  ,INOD_CRK ,
      .         IADC_CRK ,NODENR   ,ELCRKINI ,DIR1_CRK ,DIR2_CRK ,
      .         NODEDGE  ,CRKNODIAD,KNOD2ELC ,CRKEDGE  ,A_I      ,
@@ -783,7 +784,7 @@ c
      .         Y4       ,XEDGE4N  ,NGL      )                                                         
         ENDDO                                                                   
 C
-        CALL CRKOFFC(ELBUF_STR,XFEM_STR  ,
+        CALL CRKOFFC(ELBUF_STR,XFEM_STR(IG,1:NXEL)  ,
      .               JFT      ,JLT       ,NFT    ,IR      ,IS        ,
      .               NXLAY    ,IEL_CRK   ,CRKEDGE,XEDGE4N )
       END IF                                                             

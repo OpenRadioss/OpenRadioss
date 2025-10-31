@@ -117,21 +117,18 @@
           integer :: i,ii,iter,niter,nindx,crp_law,isens,ndim
           integer ,dimension(nel) :: indx
           real(kind=WP) :: dpdt
-          real(kind=WP) :: epsp0,lame,ldav,epsc,deps,dcreep,p,rfact,seq
-          real(kind=WP) :: facp,crit,dcr0
+          real(kind=WP) :: epsp0,lame,ldav,epsc,p,rfact,seq
           real(kind=WP) :: asrate,dtime,tstart
           real(kind=WP) :: cr1,cr2,cx1,cx2
           real(kind=WP) :: j2,g2,g3,rho0
           real(kind=WP) :: sig_crp,time_crp,tref
           real(kind=WP) :: dphi_dlam
-          real(kind=WP) :: ca,n,m,cq
+          real(kind=WP) :: ca,n,m
           real(kind=WP) :: fsig,ftime
           real(kind=WP) :: alpha0,crpa0
-          real(kind=WP) :: dsig
           real(kind=WP) ,dimension(nel)   :: pla0,dlam
           real(kind=WP) ,dimension(nel)   :: sxx,syy,szz,sxy,syz,szx !< deviatoric stress components
           real(kind=WP) ,dimension(nel)   :: stxx,styy,stzz,stxy,styz,stzx !< elastic trial deviatoric stress
-          real(kind=WP) ,dimension(nel)   :: dxx,dyy,dzz,dxy,dyz,dzx
           real(kind=WP) ,dimension(nel)   :: normxx,normyy,normzz,normxy,normyz,normzx ! flow direction
           real(kind=WP) ,dimension(nel)   :: crpa,crpm,crpn,crpq     !< creep parameters
           real(kind=WP) ,dimension(nel)   :: cc,cp,cowp              !< strain rate parameters

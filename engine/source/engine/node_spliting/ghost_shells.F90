@@ -140,10 +140,7 @@
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i,j,p,n,offset
-          integer :: ierr
           type(c_ptr) :: ghosts
-          type(c_ptr) :: cpp_ptr
-          integer(c_int), pointer :: shells_to_send(:)
           integer :: nb_shells !< number of shells
           integer :: numnodes !< number of nodes
           integer, dimension(:,:), allocatable :: mask!< mask for the nodes
@@ -370,10 +367,9 @@
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           type(spmd_real_buffer_type), dimension(nspmd) :: spmd_buffer
-          integer :: ierr
           integer :: p
-          integer :: i,j,n,ns,nr
-          integer :: offset,recv_offset,send_offset
+          integer :: n,ns,nr
+          integer :: recv_offset,send_offset
           integer, parameter :: TAG = 1000 !< tag for the MPI messages
 !-----------------------------------------------------------------------------------------------------------------------
 !                                                   Body

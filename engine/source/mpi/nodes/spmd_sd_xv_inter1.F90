@@ -78,7 +78,7 @@
           integer,intent(in) :: SFR_ELEM
           real(kind=WP), dimension(3,numnod), intent(inout) :: a,v
           INTEGER, DIMENSION(SFR_ELEM), INTENT(in) :: FR_ELEM    !< frontier node id
-          INTEGER, DIMENSION(2,NSPMD+1), INTENT(in) :: IAD_ELEM  !< adress for frontier node
+          INTEGER, DIMENSION(2,NSPMD+1), INTENT(in) :: IAD_ELEM  !< address for frontier node
           INTEGER,INTENT(IN) :: NPARI, NINTER
           INTEGER,INTENT(IN) :: IPARI(NPARI,NINTER)
 ! ----------------------------------------------------------------------------------------------------------------------

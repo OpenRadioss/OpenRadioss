@@ -546,10 +546,6 @@ C-----------------------
      .            C2=NWLINE)
       RETURN
 C      
-2000  FORMAT(/
-     .       /
-     . '      EIGEN AND STATIC MODES COMPUTATION '/
-     . '      ---------------------------------- '/)
 2100  FORMAT( /5X,'EIGENPROBLEM ID ',I10,1X,A
      .       /10X,'TYPE             ',A33
      .       /10X,'NUMBER OF EIGENMODES                    ',I10

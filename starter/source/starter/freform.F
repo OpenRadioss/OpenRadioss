@@ -266,8 +266,6 @@ C
       COPT2=KLINE(J1:J2)
 C
       RETURN
- 999  CALL FREERR(0)
-      CALL MY_EXIT(2)
       END
 !||====================================================================
 !||    nodgrnr5               ../starter/source/starter/freform.F

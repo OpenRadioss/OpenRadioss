@@ -235,11 +235,6 @@ C--------------------------------
      & 5X,'H COEFFICIENT . . . . . . . . . . . . .=',1PG20.13/
      & 5X,'F COEFFICIENT . . . . . . . . . . . . .=',1PG20.13//)
 C-----------
- 2000 FORMAT(
-     & 5X,'  POLYNOMIAL EOS                       ',/,
-     & 5X,'  --------------                       ',/,   
-     & 5X,'    INPUT 100 IS OBSOLETE              ',/,         
-     & 5X,'    IT CAN BE REPLACED BY /EOS CARD    ',/)
  2001 FORMAT(/
      & 5X,A,/,
      & 5X,'   MATERIAL NUMBER . . . . . . . . . . . .=',I10/,

@@ -293,7 +293,7 @@
             end do
           end if
 !-------------------------------------
-!        vector interpolation (adress)
+!        vector interpolation (address)
 !-------------------------------------
           jecrou(-1)  = 0
           jecrou(0)  = 0

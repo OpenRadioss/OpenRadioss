@@ -155,9 +155,6 @@ C-----------
      .            C3=TITR,
      .            I2=IBOX(IB)%ID,C4='BOXBOX')
       RETURN
- 999  CALL FREERR(1)
-C-----------
-      RETURN
       END
 !||====================================================================
 !||    boxbox2         ../starter/source/model/box/boxbox.F
@@ -302,9 +299,6 @@ C-----------
      .            C3=TITR,
      .            I2=IBOX(IB)%ID,C4='BOXBOX2')
       RETURN
- 999  CALL FREERR(1)
-C-----------
-      RETURN
       END
 !||====================================================================
 !||    boxboxs         ../starter/source/model/box/boxbox.F
@@ -444,9 +438,6 @@ C-----------
      .            C2=MESS,
      .            C3=TITR,
      .            I2=IBOX(IB)%ID,C4='BOXBOX3')
-      RETURN
- 999  CALL FREERR(1)
-C-----------
       RETURN
       END
 !||====================================================================
@@ -601,8 +592,5 @@ C-----------
      .            C2='SURFACE',
      .            C3=TITR,
      .            I2=IBOX(IB)%ID,C4='BOXBOX4')
-      RETURN
- 999  CALL FREERR(1)
-C-----------
       RETURN
       END

@@ -234,15 +234,15 @@ C
      & 5X,'INITIAL SHEAR MODULUS . . . . . . . . . .=',1PG20.13/
      & 5X,'BULK MODULUS. . . . . . . . . . . . . . .=',1PG20.13/
      & 5X,'POISSON RATIO . . . . . . . . . . . . . .=',1PG20.13/)      
- 1300 FORMAT(
-     & 5X,'UNIAXIAL DATA TEST CURVE. . . . . . . . .=',I10/
-     & 5X,'POISSON RATIO . . . . . . . . . . . . . .=',1PG20.13///) 
- 1310 FORMAT(
-     & 5X,'EQUIBIAXIAL DATA TEST CURVE . . . . . . .=',I10/
-     & 5X,'POISSON RATIO . . . . . . . . . . . . . .=',1PG20.13///)
- 1320 FORMAT(
-     & 5X,'PLANAR DATA TEST CURVE. . . . . . . . . .=',I10/
-     & 5X,'POISSON RATIO . . . . . . . . . . . . . .=',1PG20.13///)
+C1300 FORMAT(
+C    & 5X,'UNIAXIAL DATA TEST CURVE. . . . . . . . .=',I10/
+C    & 5X,'POISSON RATIO . . . . . . . . . . . . . .=',1PG20.13///) 
+C1310 FORMAT(
+C    & 5X,'EQUIBIAXIAL DATA TEST CURVE . . . . . . .=',I10/
+C    & 5X,'POISSON RATIO . . . . . . . . . . . . . .=',1PG20.13///)
+C 1320 FORMAT(
+C     & 5X,'PLANAR DATA TEST CURVE. . . . . . . . . .=',I10/
+C     & 5X,'POISSON RATIO . . . . . . . . . . . . . .=',1PG20.13///)
 C
       RETURN
       END

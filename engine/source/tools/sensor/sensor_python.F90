@@ -28,7 +28,7 @@
 !||    sensor_init         ../engine/source/tools/sensor/sensor_init.F
 !||====================================================================
       module sensor_python_mod
-      implicit none
+        implicit none
       contains
 !||====================================================================
 !||    sensor_python                     ../engine/source/tools/sensor/sensor_python.F90

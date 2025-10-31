@@ -298,17 +298,17 @@
           end subroutine python_sync
 
 
-        function python_begin_allow_threads() bind(c, name="py_begin_allow_threads")
+          function python_begin_allow_threads() bind(c, name="py_begin_allow_threads")
             use , intrinsic :: iso_c_binding
             type(c_ptr) :: python_begin_allow_threads
-        end function python_begin_allow_threads
+          end function python_begin_allow_threads
 
 
-        ! Interface for py_end_allow_threads  
-        subroutine python_end_allow_threads(saved_state) bind(c, name="py_end_allow_threads")
+          ! Interface for py_end_allow_threads
+          subroutine python_end_allow_threads(saved_state) bind(c, name="py_end_allow_threads")
             use , intrinsic :: iso_c_binding
             type(c_ptr), value :: saved_state
-        end subroutine python_end_allow_threads
+          end subroutine python_end_allow_threads
 
         end interface
         interface python_call_funct1D

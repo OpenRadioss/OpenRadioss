@@ -93,6 +93,7 @@
           maxx_igrnod = -huge(1.0_WP)
           maxy_igrnod = -huge(1.0_WP)
           maxz_igrnod = -huge(1.0_WP)
+          orig(:) = -huge(1.0_WP)
 
           if(isk > 0)then
             orig(1)=skew(10,isk)

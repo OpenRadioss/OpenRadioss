@@ -111,7 +111,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: i,ii,j,k,nindx,indx(nel),iter,iflagsr,ipos(nel,2),ikin
+          integer :: i,ii,j,nindx,indx(nel),iter,iflagsr,ipos(nel,2),ikin
           real(kind=WP) ::                                                               &
             young,nu,a1,a2,g,al1,al2,al3,al4,al5,al6,al7,al8,fisokin,expa,ckh(4),  &
             akh(4),lp11,lp12,lp21,lp22,lp66,lpp11,lpp12,lpp21,lpp22,lpp66,akck
@@ -125,7 +125,7 @@
             dphippdsigyy,dphippdsigxy,dseqdphip,dseqdphipp,dseqdsigxx,dseqdsigyy,  &
             dseqdsigxy,normxx,normyy,normxy,dsigxxdlam,dsigyydlam,dsigxydlam,      &
             dphidsig_dsigdlam,dphidpla,sig_dphidsig,dphidlam,dlam,                 &
-            ddep,dpladlam,dphidyld,dphidseq,sig1,sig2,dpdt,alpha,                  &
+            ddep,dpladlam,dphidyld,dphidseq,dpdt,                                  &
             dphidsigb_dsigbdlam,dsigbxxdlam,dsigbyydlam,dsigbxydlam
           real(kind=WP) ::                                                               &
             deplzz(nel),sigbxx(nel),sigbyy(nel),sigbxy(nel),normsig(nel),          &
