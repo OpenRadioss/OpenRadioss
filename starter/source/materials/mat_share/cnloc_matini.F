@@ -89,7 +89,7 @@ C
       ! Material properties and parameters
       IADBUF  = MAX(1,IPM(7,IMAT))
       NUPARAM = IPM(9,IMAT) 
-      UPARAM  => BUFMAT(IADBUF:IADBUF+NUPARAM)       
+      UPARAM  => BUFMAT(IADBUF:IADBUF+NUPARAM-1)
 C
       DO K=1,5
         IJ(K) = NEL*(K-1)
