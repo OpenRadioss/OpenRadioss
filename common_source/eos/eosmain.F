@@ -26,6 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ebcs8_inlet        ../engine/source/boundary_conditions/ebcs/ebcs8_inlet.F90
 !||    inigrav_eos        ../starter/source/initial_conditions/inigrav/inigrav_eos.F
 !||    m12law             ../engine/source/materials/mat/mat012/m12law.F
+!||    m51init            ../starter/source/materials/mat/mat051/m51init.F
 !||    mmain              ../engine/source/materials/mat_share/mmain.F90
 !||    multi_solve_eint   ../engine/source/multifluid/multi_solve_eint.F90
 !||    multi_submatlaw    ../engine/source/multifluid/multi_submatlaw.F
@@ -39,6 +40,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ebcs8_inlet          ../engine/source/boundary_conditions/ebcs/ebcs8_inlet.F90
 !||    inigrav_eos          ../starter/source/initial_conditions/inigrav/inigrav_eos.F
 !||    m12law               ../engine/source/materials/mat/mat012/m12law.F
+!||    m51init              ../starter/source/materials/mat/mat051/m51init.F
 !||    mmain                ../engine/source/materials/mat_share/mmain.F90
 !||    multi_solve_eint     ../engine/source/multifluid/multi_solve_eint.F90
 !||    multi_submatlaw      ../engine/source/multifluid/multi_submatlaw.F
@@ -71,7 +73,24 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    compaction_tab_mod   ../common_source/eos/compaction_tab.F90
 !||    eos_param_mod        ../common_source/modules/mat_elem/eos_param_mod.F90
 !||    eosexponential_mod   ../common_source/eos/eosexponential.F90
+!||    eoslinear_mod        ../common_source/eos/eoslinear.F
+!||    eospolyno_mod        ../common_source/eos/eospolyno.F
+!||    gruneisen_mod        ../common_source/eos/gruneisen.F
+!||    idealgas_mod         ../common_source/eos/idealgas.F
+!||    idealgas_vt_mod      ../common_source/eos/idealgas_vt.F
+!||    jwl_mod              ../common_source/eos/jwl.F
+!||    lszk_mod             ../common_source/eos/lszk.F
 !||    matparam_def_mod     ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||    murnaghan_mod        ../common_source/eos/murnaghan.F
+!||    nasg_mod             ../common_source/eos/nasg.F
+!||    noble_abel_mod       ../common_source/eos/noble_abel.F
+!||    osborne_mod          ../common_source/eos/osborne.F
+!||    powder_burn_mod      ../common_source/eos/powder_burn.F
+!||    puff_mod             ../common_source/eos/puff.F
+!||    sesame_mod           ../common_source/eos/sesame.F
+!||    stiffgas_mod         ../common_source/eos/stiffgas.F
+!||    tabulated_mod        ../common_source/eos/tabulated.F
+!||    tillotson_mod        ../common_source/eos/tillotson.F
 !||====================================================================
         SUBROUTINE EOSMAIN(IFLAG ,NEL    ,EOSTYP ,PM      ,OFF      ,EINT  ,
      2                     RHO   ,RHO0   ,MU     ,MU2     ,ESPE     ,

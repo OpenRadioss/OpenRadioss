@@ -20,6 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    noble_abel_mod   ../common_source/eos/noble_abel.F
+!||--- called by ------------------------------------------------------
+!||    eosmain          ../common_source/eos/eosmain.F
+!||    eosmain51        ../engine/source/materials/mat/mat051/eosmain51.F90
+!||====================================================================
       MODULE NOBLE_ABEL_MOD
       IMPLICIT NONE
       CONTAINS
@@ -27,6 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    noble_abel      ../common_source/eos/noble_abel.F
 !||--- called by ------------------------------------------------------
 !||    eosmain         ../common_source/eos/eosmain.F
+!||    eosmain51       ../engine/source/materials/mat/mat051/eosmain51.F90
 !||--- uses       -----------------------------------------------------
 !||    constant_mod    ../common_source/modules/constant_mod.F
 !||    eos_param_mod   ../common_source/modules/mat_elem/eos_param_mod.F90

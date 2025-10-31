@@ -20,6 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    eosmain51_mod   ../engine/source/materials/mat/mat051/eosmain51.F90
+!||--- called by ------------------------------------------------------
+!||    sigeps51        ../engine/source/materials/mat/mat051/sigeps51.F90
+!||====================================================================
       module eosmain51_mod
         implicit none
       contains
@@ -28,6 +33,54 @@
 ! ======================================================================================================================
 !! \brief Here is a small description of the routine, [after the header]
 !! \details if needed, more details can be added here
+!||====================================================================
+!||    eosmain51            ../engine/source/materials/mat/mat051/eosmain51.F90
+!||--- called by ------------------------------------------------------
+!||    sigeps51             ../engine/source/materials/mat/mat051/sigeps51.F90
+!||--- calls      -----------------------------------------------------
+!||    compaction           ../common_source/eos/compaction.F90
+!||    compaction2          ../common_source/eos/compaction2.F90
+!||    compaction_tab       ../common_source/eos/compaction_tab.F90
+!||    eosexponential       ../common_source/eos/eosexponential.F90
+!||    eoslinear            ../common_source/eos/eoslinear.F
+!||    eospolyno            ../common_source/eos/eospolyno.F
+!||    gruneisen            ../common_source/eos/gruneisen.F
+!||    idealgas             ../common_source/eos/idealgas.F
+!||    idealgas_vt          ../common_source/eos/idealgas_vt.F
+!||    lszk                 ../common_source/eos/lszk.F
+!||    murnaghan            ../common_source/eos/murnaghan.F
+!||    nasg                 ../common_source/eos/nasg.F
+!||    noble_abel           ../common_source/eos/noble_abel.F
+!||    osborne              ../common_source/eos/osborne.F
+!||    puff                 ../common_source/eos/puff.F
+!||    sesame               ../common_source/eos/sesame.F
+!||    stiffgas             ../common_source/eos/stiffgas.F
+!||    tabulated            ../common_source/eos/tabulated.F
+!||    tillotson            ../common_source/eos/tillotson.F
+!||--- uses       -----------------------------------------------------
+!||    compaction2_mod      ../common_source/eos/compaction2.F90
+!||    compaction_mod       ../common_source/eos/compaction.F90
+!||    compaction_tab_mod   ../common_source/eos/compaction_tab.F90
+!||    constant_mod         ../common_source/modules/constant_mod.F
+!||    eos_param_mod        ../common_source/modules/mat_elem/eos_param_mod.F90
+!||    eosexponential_mod   ../common_source/eos/eosexponential.F90
+!||    eoslinear_mod        ../common_source/eos/eoslinear.F
+!||    eospolyno_mod        ../common_source/eos/eospolyno.F
+!||    gruneisen_mod        ../common_source/eos/gruneisen.F
+!||    idealgas_mod         ../common_source/eos/idealgas.F
+!||    idealgas_vt_mod      ../common_source/eos/idealgas_vt.F
+!||    lszk_mod             ../common_source/eos/lszk.F
+!||    murnaghan_mod        ../common_source/eos/murnaghan.F
+!||    nasg_mod             ../common_source/eos/nasg.F
+!||    noble_abel_mod       ../common_source/eos/noble_abel.F
+!||    osborne_mod          ../common_source/eos/osborne.F
+!||    precision_mod        ../common_source/modules/precision_mod.F90
+!||    puff_mod             ../common_source/eos/puff.F
+!||    sesame_mod           ../common_source/eos/sesame.F
+!||    stiffgas_mod         ../common_source/eos/stiffgas.F
+!||    tabulated_mod        ../common_source/eos/tabulated.F
+!||    tillotson_mod        ../common_source/eos/tillotson.F
+!||====================================================================
          subroutine eosmain51(pmin, off, eint, mu, espe, dvol, df, v, psh, p, dpdm, dpde, rho0, &
                               temp, v0 , sbufmat, bufmat, eos_struct, vareos, &
                               time, dt, npf   ,tf   ,snpf ,stf )

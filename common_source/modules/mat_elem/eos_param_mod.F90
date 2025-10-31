@@ -33,6 +33,7 @@
 !||    eosexponential               ../common_source/eos/eosexponential.F90
 !||    eoslinear                    ../common_source/eos/eoslinear.F
 !||    eosmain                      ../common_source/eos/eosmain.F
+!||    eosmain51                    ../engine/source/materials/mat/mat051/eosmain51.F90
 !||    eospolyno                    ../common_source/eos/eospolyno.F
 !||    gruneisen                    ../common_source/eos/gruneisen.F
 !||    hm_read_analy                ../starter/source/general_controls/computation/hm_read_analy.F
@@ -58,6 +59,7 @@
 !||    read_eosparam                ../engine/source/output/restart/read_eosparam.F90
 !||    s6zforc3                     ../engine/source/elements/solid/solide6z/s6zforc3.F90
 !||    s6zinit3                     ../starter/source/elements/solid/solide6z/s6zinit3.F90
+!||    sesame                       ../common_source/eos/sesame.F
 !||    stiffgas                     ../common_source/eos/stiffgas.F
 !||    tabulated                    ../common_source/eos/tabulated.F
 !||    tillotson                    ../common_source/eos/tillotson.F

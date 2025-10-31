@@ -20,9 +20,17 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    polynomial51_mod   ../engine/source/materials/mat/mat051/polynomial51.F
+!||--- called by ------------------------------------------------------
+!||    sigeps51           ../engine/source/materials/mat/mat051/sigeps51.F90
+!||====================================================================
       MODULE POLYNOMIAL51_MOD
       CONTAINS
 
+!||====================================================================
+!||    polynomial51   ../engine/source/materials/mat/mat051/polynomial51.F
+!||====================================================================
       SUBROUTINE POLYNOMIAL51 (
      .    C0      ,C1     ,C2      ,C3       ,C4     , C5   ,
      .    VOLUME  ,DVOL   ,MU      ,EINTA    ,

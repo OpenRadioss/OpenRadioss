@@ -218,6 +218,7 @@
 !||    hm_read_therm_stress                ../starter/source/materials/therm/hm_read_therm_stress.F90
 !||    hm_read_visc                        ../starter/source/materials/visc/hm_read_visc.F
 !||    ig3dgrtails                         ../starter/source/elements/ige3d/ig3dgrtails.F
+!||    ig3dinit3                           ../starter/source/elements/ige3d/ig3dinit3.F
 !||    imp_buck                            ../engine/source/implicit/imp_buck.F
 !||    ini_inimap1d                        ../starter/source/initial_conditions/inimap/ini_inimap1d.F
 !||    ini_inimap2d                        ../starter/stub/ini_inimap2d.F
@@ -261,6 +262,7 @@
 !||    m2lawp                              ../engine/source/materials/mat/mat002/m2lawp.F
 !||    m2lawpi                             ../engine/source/materials/mat/mat002/m2lawpi.F
 !||    m2lawt                              ../engine/source/materials/mat/mat002/m2lawt.F
+!||    m51init                             ../starter/source/materials/mat/mat051/m51init.F
 !||    mat25_crasurv_c                     ../engine/source/materials/mat/mat025/mat25_crasurv_c.F90
 !||    mat25_crasurv_s                     ../engine/source/materials/mat/mat025/mat25_crasurv_s.F90
 !||    mat25_tsaiwu_c                      ../engine/source/materials/mat/mat025/mat25_tsaiwu_c.F90
@@ -271,6 +273,7 @@
 !||    mat87c_tabulated_3dir_ortho         ../engine/source/materials/mat/mat087/mat87c_tabulated_3dir_ortho.F90
 !||    mat_elem_mod                        ../common_source/modules/mat_elem/mat_elem_mod.F90
 !||    mat_table_copy                      ../starter/source/materials/tools/mat_table_copy.F90
+!||    matini                              ../starter/source/materials/mat_share/matini.F
 !||    mmain                               ../engine/source/materials/mat_share/mmain.F90
 !||    mmodul                              ../engine/source/elements/solid/solidez/mmodul.F
 !||    mulaw                               ../engine/source/materials/mat_share/mulaw.F90
@@ -292,8 +295,10 @@
 !||    pgrtails                            ../starter/source/elements/beam/pgrtails.F
 !||    powder_burn                         ../common_source/eos/powder_burn.F
 !||    prelech3d                           ../engine/source/output/h3d/h3d_build_fortran/prelech3d.F90
+!||    q4init2                             ../starter/source/elements/solid_2d/quad4/q4init2.F
 !||    qgrhead                             ../starter/source/elements/solid_2d/quad/qgrhead.F
 !||    qgrtails                            ../starter/source/elements/solid_2d/quad/qgrtails.F
+!||    qinit2                              ../starter/source/elements/solid_2d/quad/qinit2.F
 !||    r2r_group                           ../starter/source/coupling/rad2rad/r2r_group.F
 !||    r2r_matparam_copy                   ../starter/source/elements/elbuf_init/r2r_matparam_copy.F
 !||    read_mat25_crasurv                  ../starter/source/materials/mat/mat025/read_mat25_crasurv.F90
@@ -309,6 +314,7 @@
 !||    s8cinit3                            ../starter/source/elements/thickshell/solide8c/s8cinit3.F
 !||    s8etherm                            ../engine/source/elements/solid/solide8e/s8etherm.F
 !||    s8zinit3                            ../starter/source/elements/solid/solide8z/s8zinit3.F
+!||    scinit3                             ../starter/source/elements/thickshell/solidec/scinit3.F
 !||    sgrhead                             ../starter/source/elements/solid/solide/sgrhead.F
 !||    sgrtails                            ../starter/source/elements/solid/solide/sgrtails.F
 !||    sigeps02c                           ../engine/source/materials/mat/mat002/sigeps02c.F
@@ -343,6 +349,7 @@
 !||    sinit3                              ../starter/source/elements/solid/solide/sinit3.F
 !||    spgrhead                            ../starter/source/elements/sph/spgrhead.F
 !||    spgrtails                           ../starter/source/elements/sph/spgrtails.F
+!||    spinit3                             ../starter/source/elements/sph/spinit3.F
 !||    stat_inimap1d_file_spmd             ../engine/source/output/sta/stat_inimap1d_file_spmd.F
 !||    stat_inimap1d_spmd                  ../engine/source/output/sta/stat_inimap1d_spmd.F
 !||    stat_inimap2d_file_spmd             ../engine/source/output/sta/stat_inimap2d_file_spmd.F

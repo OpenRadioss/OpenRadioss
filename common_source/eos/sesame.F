@@ -20,17 +20,26 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    sesame_mod   ../common_source/eos/sesame.F
+!||--- called by ------------------------------------------------------
+!||    eosmain      ../common_source/eos/eosmain.F
+!||    eosmain51    ../engine/source/materials/mat/mat051/eosmain51.F90
+!||====================================================================
        MODULE SESAME_MOD
        IMPLICIT NONE
        CONTAINS
 !||====================================================================
-!||    sesame      ../common_source/eos/sesame.F
+!||    sesame          ../common_source/eos/sesame.F
 !||--- called by ------------------------------------------------------
-!||    eosmain     ../common_source/eos/eosmain.F
+!||    eosmain         ../common_source/eos/eosmain.F
+!||    eosmain51       ../engine/source/materials/mat/mat051/eosmain51.F90
 !||--- calls      -----------------------------------------------------
-!||    mintp1_rt   ../common_source/eos/mintp1_rt.F
-!||    mintp_re    ../common_source/eos/mintp_re.F
-!||    mintp_rt    ../common_source/eos/mintp_rt.F
+!||    mintp1_rt       ../common_source/eos/mintp1_rt.F
+!||    mintp_re        ../common_source/eos/mintp_re.F
+!||    mintp_rt        ../common_source/eos/mintp_rt.F
+!||--- uses       -----------------------------------------------------
+!||    eos_param_mod   ../common_source/modules/mat_elem/eos_param_mod.F90
 !||====================================================================
       SUBROUTINE SESAME(IFLAG , NEL,      PMIN  ,OFF  ,EINT  ,RHO   ,RHO0  ,
      2                  ESPE  , DVOL,     PNEW  ,DPDM ,DPDE  ,THETA ,

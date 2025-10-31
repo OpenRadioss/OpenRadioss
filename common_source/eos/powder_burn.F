@@ -20,6 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    powder_burn_mod   ../common_source/eos/powder_burn.F
+!||--- called by ------------------------------------------------------
+!||    eosmain           ../common_source/eos/eosmain.F
+!||====================================================================
        MODULE POWDER_BURN_MOD
        IMPLICIT NONE
        CONTAINS

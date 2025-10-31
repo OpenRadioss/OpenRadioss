@@ -24,6 +24,7 @@
 !||    eosexponential_mod   ../common_source/eos/eosexponential.F90
 !||--- called by ------------------------------------------------------
 !||    eosmain              ../common_source/eos/eosmain.F
+!||    eosmain51            ../engine/source/materials/mat/mat051/eosmain51.F90
 !||====================================================================
       module eosexponential_mod
       implicit none
@@ -51,6 +52,7 @@
 !||    eosexponential   ../common_source/eos/eosexponential.F90
 !||--- called by ------------------------------------------------------
 !||    eosmain          ../common_source/eos/eosmain.F
+!||    eosmain51        ../engine/source/materials/mat/mat051/eosmain51.F90
 !||--- uses       -----------------------------------------------------
 !||    constant_mod     ../common_source/modules/constant_mod.F
 !||    eos_param_mod    ../common_source/modules/mat_elem/eos_param_mod.F90

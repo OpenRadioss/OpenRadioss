@@ -84,6 +84,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    eos_table_copy                           ../starter/source/materials/tools/eos_table_copy.F90
 !||    eosexponential                           ../common_source/eos/eosexponential.F90
 !||    eoslinear                                ../common_source/eos/eoslinear.F
+!||    eosmain51                                ../engine/source/materials/mat/mat051/eosmain51.F90
 !||    eospolyno                                ../common_source/eos/eospolyno.F
 !||    fail_composite_c                         ../engine/source/materials/fail/composite/fail_composite_c.F90
 !||    fail_composite_s                         ../engine/source/materials/fail/composite/fail_composite_s.F90

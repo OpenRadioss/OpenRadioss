@@ -24,6 +24,7 @@
 !||    compaction_tab_mod   ../common_source/eos/compaction_tab.F90
 !||--- called by ------------------------------------------------------
 !||    eosmain              ../common_source/eos/eosmain.F
+!||    eosmain51            ../engine/source/materials/mat/mat051/eosmain51.F90
 !||====================================================================
       module compaction_tab_mod
       contains
@@ -52,6 +53,7 @@
 !||    compaction_tab          ../common_source/eos/compaction_tab.F90
 !||--- called by ------------------------------------------------------
 !||    eosmain                 ../common_source/eos/eosmain.F
+!||    eosmain51               ../engine/source/materials/mat/mat051/eosmain51.F90
 !||--- calls      -----------------------------------------------------
 !||    compaction_tab_init     ../common_source/eos/compaction_tab.F90
 !||    table_mat_vinterp       ../engine/source/materials/tools/table_mat_vinterp.F

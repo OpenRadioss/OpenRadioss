@@ -68,6 +68,7 @@ C-----------------------------------------------
 !||    gravit_fvm_fem                  ../engine/source/loads/general/grav/gravit_fvm_fem.F
 !||    hm_read_ale_grid                ../starter/source/general_controls/ale_grid/hm_read_ale_grid.F
 !||    hm_read_caa                     ../starter/source/general_controls/computation/hm_read_caa.F
+!||    hm_read_eos_compaction2         ../starter/source/materials/eos/hm_read_eos_compaction2.F90
 !||    hm_read_eos_compaction_tab      ../starter/source/materials/eos/hm_read_eos_compaction_tab.F90
 !||    hm_read_inter_type02            ../starter/source/interfaces/int02/hm_read_inter_type02.F
 !||    hm_read_mat11                   ../starter/source/materials/mat/mat011/hm_read_mat11.F
