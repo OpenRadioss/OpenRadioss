@@ -383,10 +383,6 @@ c       ITABM1 = 0
         IF (IERR/=0) GOTO 1000
         IBMPC = 0  
 
-        ALLOCATE (KINET(SKINET),STAT=IERR)
-        IF (IERR/=0) GOTO 1000
-        KINET = 0  
-
         ALLOCATE (FASOLFR(SFASOLFR),STAT=IERR)
         IF (IERR/=0) GOTO 1000
         FASOLFR = 0
@@ -2519,7 +2515,6 @@ C   I56
 C   I57
         WRITE(IOUT,'(I4,A13,I8)') ISPMD+1,' SIBMPC :  ',SIBMPC
 C   I58
-        WRITE(IOUT,'(I4,A13,I8)') ISPMD+1,' SKINET :  ',SKINET
 C   I59
 C
 C   I60

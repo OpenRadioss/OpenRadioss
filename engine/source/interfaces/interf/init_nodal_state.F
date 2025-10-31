@@ -438,9 +438,13 @@ C-----------------------------------------------
                     DO I=1,NRTM
                         DO J=1,2              
                             NODE_ID = INTBUF_TAB(NIN)%IRECTM((I-1)*2+J)
-                            WORK_ARRAY_2(NODE_ID) = WORK_ARRAY_2(NODE_ID) + 1
-                            SHIFT = WORK_ARRAY_2(NODE_ID) + SHOOT_STRUCT%SHIFT_M_NODE_EDGE(NODE_ID) ! index for M_NODE_EDGE
-                            SHOOT_STRUCT%M_NODE_EDGE( SHIFT ) = SHIFT_INTER  - 1 + I     ! save the edge ID
+                            IF(NODE_ID<1.OR.NODE_ID>NUMNOD) THEN
+                               write(6,*) NIN,"ERROR INIT_NODAL_STATE: NODE_ID=",NODE_ID," I=",I," J=",J," NIN=",NIN
+                            ELSE
+                              WORK_ARRAY_2(NODE_ID) = WORK_ARRAY_2(NODE_ID) + 1
+                              SHIFT = WORK_ARRAY_2(NODE_ID) + SHOOT_STRUCT%SHIFT_M_NODE_EDGE(NODE_ID) ! index for M_NODE_EDGE
+                              SHOOT_STRUCT%M_NODE_EDGE( SHIFT ) = SHIFT_INTER  - 1 + I     ! save the edge ID
+                            ENDIF
                         ENDDO
                     ENDDO
                 ENDIF
@@ -496,6 +500,7 @@ C-----------------------------------------------
             ! ----------------------------------------
             IF((TYPE_INTER.AND.(IDEL==1)).OR.(ITY==25.AND.IPARI(100,NIN)/=0)) THEN
                 IF(.NOT.ALLOCATED(SHOOT_STRUCT%INTER)) ALLOCATE(SHOOT_STRUCT%INTER(NINTER))
+                IF(ALLOCATED(SHOOT_STRUCT%INTER(NIN)%REMOTE_ELM_M)) DEALLOCATE( SHOOT_STRUCT%INTER(NIN)%REMOTE_ELM_M )
                 if(.NOT.ALLOCATED(SHOOT_STRUCT%INTER(NIN)%REMOTE_ELM_M)) THEN
                   ALLOCATE( SHOOT_STRUCT%INTER(NIN)%REMOTE_ELM_M(NRTM) )
                 ENDIF

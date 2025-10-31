@@ -222,7 +222,7 @@ C
      3  IFILL          ,MAT_ELEM       ,
      4  IMS             ,NPC            ,IBCL           ,
      5  IBFV            ,IECRAN         ,ILAS           ,LACCELM        ,NNLINK         ,LNLINK      ,
-     6  IPARG           ,DD_IAD         ,IGRV           ,IEXLNK         ,KINET       ,
+     6  IPARG           ,DD_IAD         ,IGRV           ,IEXLNK         ,
      7  IPARI           ,NPRW           ,ICONX          ,NPBY           ,
      8  LPBY            ,LRIVET         ,NSTRF          ,LJOINT         ,NODPOR         ,MONVOL      ,
      9  ILINK     ,

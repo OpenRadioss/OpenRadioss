@@ -1009,7 +1009,7 @@ C
 !||--- uses       -----------------------------------------------------
 !||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
 !||====================================================================
-      SUBROUTINE ASSPARI2(
+      SUBROUTINE ASSPARI2(initial_numnod,
      1  A    ,AR    ,STIFN  ,STIFR  ,MS  ,
      2  IN   ,FSKYI2,I2SIZE ,ADDCNI2,INDSKY,
      3  FTHESKYI2,FTHE,CONDNSKYI2,CONDN,GLOB_THERM)
@@ -1028,6 +1028,7 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "parit_c.inc"
 #include      "scr18_c.inc"
+        integer, intent(in) :: initial_numnod
         INTEGER MAXBLOCI2,NBLOCI2,NBVALI2,NBCOLI2
         PARAMETER (MAXBLOCI2=1000)
         COMMON/PTMPARI2/NBLOCI2,NBVALI2(1:MAXBLOCI2),NBCOLI2(1:MAXBLOCI2)
@@ -1054,7 +1055,7 @@ C
 C scalaire
           IF(GLOB_THERM%INTHEAT == 0 ) THEN
             IF(IRODDL/=0)THEN
-              DO N = 1, NUMNOD
+              DO N = 1, initial_numnod
                 NCT = ADDCNI2(N)-1
                 NC = ADDCNI2(N+1)-ADDCNI2(N)
                 DO K = NCT+1, NCT+NC
@@ -1071,7 +1072,7 @@ C scalaire
                 ENDDO
               ENDDO
             ELSE
-              DO N = 1, NUMNOD
+              DO N = 1, initial_numnod
                 NCT = ADDCNI2(N)-1
                 NC = ADDCNI2(N+1)-ADDCNI2(N)
                 DO K = NCT+1, NCT+NC
@@ -1085,7 +1086,7 @@ C scalaire
             ENDIF
           ELSE
             IF(IRODDL/=0)THEN
-              DO N = 1, NUMNOD
+              DO N = 1, initial_numnod
                 NCT = ADDCNI2(N)-1
                 NC = ADDCNI2(N+1)-ADDCNI2(N)
                 DO K = NCT+1, NCT+NC
@@ -1103,7 +1104,7 @@ C scalaire
                 ENDDO
               ENDDO
             ELSE
-              DO N = 1, NUMNOD
+              DO N = 1, initial_numnod
                 NCT = ADDCNI2(N)-1
                 NC = ADDCNI2(N+1)-ADDCNI2(N)
                 DO K = NCT+1, NCT+NC
