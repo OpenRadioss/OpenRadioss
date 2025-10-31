@@ -97,8 +97,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local Variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: fctID_g, fctID_y
-          integer :: ierror
+          integer :: fctID_g, fctID_y,ilaw
           integer :: ipos1(1,1)
           real(kind=WP) :: xvec1(1,1)
           real(kind=WP) :: g(1)
@@ -116,6 +115,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           is_encrypted = .false.
           is_available = .false.
+          ilaw = 133
           mtl_msg = ""
 
           matparam%ieos = 18  ! linear eos is used by default
@@ -187,7 +187,7 @@
           fscale(2) = Fscale_y
           call mat_table_copy(matparam ,x2vect   ,x3vect   ,x4vect   ,         &
             x1scale  ,x2scale  ,x3scale  ,x4scale  ,fscale   ,         &
-            ntable   ,table    ,ierror   )
+            ntable   ,table    ,ilaw     )
 
           xvec1(1,1) = rho0
           ipos1 = 1
