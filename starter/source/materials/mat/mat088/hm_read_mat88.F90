@@ -534,7 +534,13 @@
             table_mat(2)%x(1)%values(1:nout) = x_out2(1:nout)
             table_mat(2)%y1d(1:nout) = y_out2(1:nout)
           endif
-        endif
+        ! --> Hysteretic unloading parameters
+        elseif (hys /= zero) then
+          iunl_for = 2
+          hys = abs(hys)
+          hys = max(hys,zero)
+          hys = min(hys,one)
+        endif 
 !
         !<======================================================================
         !< Automatic estimation of the elastic parameters
@@ -562,13 +568,13 @@
             sigpeak = min(sigpeak,abs(table_mat(1)%y1d(npt)))
           endif
         elseif (ndim == 2) then
+          do i = 1,npt-1
+            dx = table_mat(1)%x(1)%values(i+1) - table_mat(1)%x(1)%values(i)
+            dy = table_mat(1)%y2d(i+1,1) - table_mat(1)%y2d(i,1)
+            !< Compute the true stress vs true strain slope
+            dydx = max((dy/dx)*(one+(table_mat(1)%x(1)%values(i+1)))**2,dydx)
+          enddo
           do j = 1,nl
-            do i = 1,npt-1
-              dx = table_mat(1)%x(1)%values(i+1) - table_mat(1)%x(1)%values(i)
-              dy = table_mat(1)%y2d(i+1,j) - table_mat(1)%y2d(i,j)
-              !< Compute the true stress vs true strain slope
-              dydx = max((dy/dx)*(one+(table_mat(1)%x(1)%values(i+1)))**2,dydx)
-            enddo
             if (abs(table_mat(1)%y2d(1,j)) > zero) then 
               sigpeak = min(sigpeak,abs(table_mat(1)%y2d(1,j)))
             endif
