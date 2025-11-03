@@ -2355,6 +2355,11 @@ C--------------------------------------------------
 C--------------------------------------------------
               JMAX=MAX(H3D_NUM_KEY%SPH_SCALAR, H3D_NUM_KEY%SPH_TENSOR)
               DO J=1,JMAX
+                IS_SCALAR = 0
+                IS_TENSOR = 0
+                IF ( KEY3_GLOB == H3D_KEYWORD_SPH_SCALAR(J)%KEY3) IS_SCALAR = 1
+                IF ( KEY3_GLOB == H3D_KEYWORD_SPH_TENSOR(J)%KEY3) IS_TENSOR = 1
+                IF ( IS_SCALAR == 1 .OR. IS_TENSOR == 1) IOK_H3DKEY = 1
                 CPT_H3D = 0
                 IF (H3D_KEYWORD_SPH_SCALAR(J)%IS_ID   /= 0 .OR.
      .              H3D_KEYWORD_SPH_SCALAR(J)%IS_MODE /= 0) THEN
