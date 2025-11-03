@@ -868,6 +868,7 @@ C--------------------------------------------------
               CALL CREATE_H3D_PARTS(H3D_DATA,ID_INPUT,IPART,IGRPART)
               H3D_DATA%IPART_SELECT = 1
               IOK_H3DKEY_COMBINATION = 1
+              IOK_H3DKEY = 1
             ENDIF
 C--------------------------------------------------
             IF(KEY2 == 'NODA') THEN
