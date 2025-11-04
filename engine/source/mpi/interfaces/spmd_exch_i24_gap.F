@@ -86,7 +86,7 @@ C-----------------------------------------------
       IAD_SEND(1) = 1
 C
       DO I=1,NSPMD
-C preparation envoi  partie fixe (elem) a proc I
+C Prepare to send fixed part (elem) to proc I
 #include  "vectorize.inc"
           DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
             NOD = FR_ELEM(J)

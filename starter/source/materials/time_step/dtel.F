@@ -44,7 +44,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .     RHO0, VIS,
      .     DELTAX, AIRE, VOL, DTX)
 C------------------------
-C     CALCUL DT ELEMENT
+C     CALCULATION OF ELEMENT DT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -108,7 +108,7 @@ C-----------
      .     RHO0, VIS,
      .     DELTAX, AIRE, VOL, DTX,IGEO)
 C------------------------
-C     CALCUL DT ELEMENT
+C     CALCULATION OF ELEMENT DT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

@@ -45,7 +45,7 @@ C---------------------------------------------
 
         TYPE SPMD_ARRAYS_
           INTEGER , DIMENSION(:), ALLOCATABLE :: FR_EDG      ! List of frontier edges of main segments of int25 contacts
-          INTEGER , DIMENSION(:), ALLOCATABLE :: IAD_FREDG   ! Adress of frontier edges of main segments of int25 contacts per proc spmd
+          INTEGER , DIMENSION(:), ALLOCATABLE :: IAD_FREDG   ! Address of frontier edges of main segments of int25 contacts per proc spmd
         END TYPE SPMD_ARRAYS_
 
 C

@@ -84,7 +84,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,ITYPE,ID,UID,IGR,IGRS,NOSYS,ISU,NNOD,
      .        ISS,NN,IBUFN(4),CAPT,ITY,IPA,IP,IGRPA,IDP,
-     .        NEL,IFLAG,JCURR,FIRST,CPT_LAST,IMS,ENTITYMAX
+     .        NEL,IFLAG,JCURR,CPT_LAST,IMS,ENTITYMAX
       my_real
      .   AMAS,COEFF_R2R
       LOGICAL LOOP_2

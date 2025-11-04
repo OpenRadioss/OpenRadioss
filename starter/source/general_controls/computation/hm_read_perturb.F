@@ -76,17 +76,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER FLAG_FMT,I,J,K,ICOUNT,
-     .   NUMA,I_METHOD,UID,
-     .   CPT_PART,NB_RANDOM,I_SEED,DISTRIB(50),
-     .   II,NB_INTERV,SIZEY,IGRPRT,N,
-     .   IOK,SEED,SEED_RANDOM,IFAILCRIT,ITYP,IFAILMAT,
-     .   L,IFAILTYPE,I_PERTURB_VAR,EMPTY,IDPERTURB(NPERTURB),
-     .   IGRPRTS,NPART_SHELL,NPART_SOLID,OFFS
+      INTEGER ITYP,IDPERTURB(NPERTURB),
+     .   NPART_SHELL,NPART_SOLID,OFFS
       INTEGER, DIMENSION(:), ALLOCATABLE :: INDEX,INDEX_ITYP
-      my_real :: MEAN,SD,MEAN_INPUT,SD_INPUT,MAX_DISTRIB,TEMP,MIN_VALUE,
-     . MAX_VALUE,INTERV,VALUE,MAX_VALUE1,MINVAL,MAXVAL,BID
-      my_real, DIMENSION(:), ALLOCATABLE :: ARRAY
+      my_real BID
       CHARACTER MESS*40
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s

@@ -141,13 +141,13 @@ C Print Nb Errors
 C-----------------------------------------------
       WRITE(ISTDO,'(5X,I10,1X,A)') IERR,TITRE(7)(41:60)
       WRITE(IOUT ,'(5X,I10,1X,A)') IERR,TITRE(7)(41:60)
-c      CALL ANCHECK(90)
+C      CALL ANCHECK(90)
 C-----------------------------------------------
 C Print Nb Warnings
 C-----------------------------------------------
       WRITE(ISTDO,'(5X,I10,1X,A//)') IWARN,TITRE(8)(41:60)
       WRITE(IOUT ,'(5X,I10,1X,A//)') IWARN,TITRE(8)(41:60)
-c      CALL ANCHECK(91)
+C      CALL ANCHECK(91)
 C
 C-----------------------------------------------
 C Print CHECK L00

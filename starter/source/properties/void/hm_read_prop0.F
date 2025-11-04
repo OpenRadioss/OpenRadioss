@@ -81,7 +81,7 @@ C MODIFIED ARGUMENT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, IP, K, N, IHBE, ISMSTR, ISORTH, ISHEAR
+      INTEGER IHBE, ISMSTR, ISORTH, ISHEAR
       my_real
      .   PUN
       LOGICAL IS_AVAILABLE, IS_ENCRYPTED

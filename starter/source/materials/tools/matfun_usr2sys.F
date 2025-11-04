@@ -63,7 +63,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,ID,OK
 C=======================================================================
-        !NFUNC =  IPM(10,IMAT)+IPM(6,IMAT)in updmat.f
+        !NFUNC =  IPM(10,IMAT)+IPM(6,IMAT) in updmat.f
         !IFUNC => IPM(10+1:10+NFUNC,IMAT) in updmat.f
 c-----------------------------------------------------
       DO I=1,NFUNC                           

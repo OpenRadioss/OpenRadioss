@@ -64,7 +64,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: ISU10,ISU20,IDUM,MULTIMP,ITIED,NTYP,IS1,IS2
+      INTEGER :: ISU10,ISU20,MULTIMP,ITIED,NTYP,IS1,IS2
       my_real :: STARTT,BUMULT,STOPT,GAP
       INTEGER, DIMENSION(:), POINTER :: INGR2USR
       LOGICAL IS_AVAILABLE

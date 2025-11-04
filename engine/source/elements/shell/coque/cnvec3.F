@@ -70,7 +70,7 @@ C     REAL
       my_real
      .   SUMA,S1,S2,X21,X32,X34,X41,Y21,Y32,Y34,Y41,Z21,Z32,Z34,Z41
       my_real, DIMENSION(MVSIZ) :: 
-     .   E11,E12,E13,E21,E22,E23,RX,RY,RZ,SX,SY,SZ
+     .   RX,RY,RZ,SX,SY,SZ
 C=======================================================================
       DO I=JFT,JLT                          
         X21 = X2(I)-X1(I)                   

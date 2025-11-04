@@ -78,11 +78,11 @@ C=======================================================================
 ! check for type 4 and 7 :
 ! if AMAS (replacing mass) < MSP (structured mass of concerned parts or list of parts)
         IF (ITYPE == 4) THEN
-          MSP = ZERO ! structured mass of liste of parts
+          MSP = ZERO ! structured mass of list of parts
           AMAS = ZERO
           DO II = 1,NMAS
             IP = IPMAS(I)%PARTID(II)
-            MSP = MSP + PARTSAV_PON(IP) ! structured mass (of list of parts)
+            MSP = MSP + PARTSAV_PON(IP) ! structured mass of list of parts
             AMAS = IPMAS(I)%PART(II)%RPMAS
           ENDDO ! DO II = 1,NMAS
           IF (AMAS > MSP) THEN

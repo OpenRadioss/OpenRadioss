@@ -48,7 +48,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JFT, JLT,J,IREP,NLAY,NEL
+      INTEGER JFT, JLT,IREP,NLAY,NEL
       my_real
      .   X1(*), X2(*), X3(*), X4(*), Y1(*), Y2(*), Y3(*), Y4(*),
      .   Z1(*), Z2(*), Z3(*), Z4(*), E1X(*), E1Y(*), E1Z(*), E2X(*),
@@ -64,7 +64,7 @@ C     REAL
       my_real
      .   X31(MVSIZ), Y31(MVSIZ), Z31(MVSIZ), X42(MVSIZ), Y42(MVSIZ),
      .   Z42(MVSIZ), X21(MVSIZ), Y21(MVSIZ), Z21(MVSIZ),
-     .   SUM(MVSIZ), SUMA
+     .   SUMA
 C=======================================================================
       DO I=JFT,JLT                                      
         X21(I)=X2(I)-X1(I)                              

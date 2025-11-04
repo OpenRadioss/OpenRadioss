@@ -78,7 +78,7 @@ C=======================================================================
       ENDIF
       IDRAPE = ELBUF_TAB(NG)%IDRAPE
 c-------------------------------------------------
-c     layer buffer allocation
+C     layer buffer allocation
 c-------------------------------------------------
       DO I = 1, NLAY                                                        
         BUFLY => ELBUF_TAB(NG)%BUFLY(I)                                     
@@ -132,7 +132,7 @@ C
       ENDDO                                                                 
 c---
 c-------------------------------------------------
-c     LAYER Local variables per integration point
+C     LAYER Local variables per integration point
 c-------------------------------------------------
           IDRAPE = ELBUF_TAB(NG)%IDRAPE
           DO I = 1, NLAY
@@ -337,7 +337,7 @@ C
         ENDIF
       ENDDO
 c-------------------------------------------------
-c     Inter layers (ply xfem)
+C     Inter layers (ply xfem)
 c-------------------------------------------------
       DO I = 1, NINTLAY                                                    
         INTLAY => ELBUF_TAB(NG)%INTLAY(I)                                  
@@ -416,7 +416,7 @@ c-------------------------------------------------
         ELBUF_TAB(NG)%GBUF%MAXEPS = ZERO
       CALL MY_ALLOC(GBUF%GAMA_R,NEL*GBUF%G_GAMA_R)                                      
         ELBUF_TAB(NG)%GBUF%GAMA_R = ZERO
-c           Allocate Orthotropic Beta angle (dyna input format)
+C           Allocate Orthotropic Beta angle (dyna input format)
       CALL MY_ALLOC(GBUF%BETAORTH,NEL*GBUF%G_BETAORTH)                                     
         ELBUF_TAB(NG)%GBUF%BETAORTH= ZERO
       CALL MY_ALLOC(GBUF%AMU,NEL*GBUF%G_AMU)                                    
@@ -473,7 +473,7 @@ C
       ENDIF
 c
 c-------------------------------------------------
-c      IF (NPT == 1) THEN  ! NPT = 1 ! global variables are pointing to local ones    
+C      IF (NPT == 1) THEN  ! NPT = 1 ! global variables are pointing to local ones    
       IF (NPTTOT == 1) THEN  ! NPTTOT = 1 ! global variables are pointing to local ones, BEAM3 not included    
         LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)                                   
 c
@@ -550,7 +550,7 @@ c---
         ELBUF_TAB(NG)%GBUF%FILL = ONE    
                                                    
 c---
-c 1-D elements (TRUSS, BEAM, SPRING, NSTRAND)
+C 1-D elements (TRUSS, BEAM, SPRING, NSTRAND)
 c---
       IF(IGTYP == 3 .and. ITY == 5) THEN 
         ALLOCATE (GBUF%DMGSCL(NEL*GBUF%G_DMGSCL)           ,STAT=Stat)
@@ -640,7 +640,7 @@ C
       ALLOCATE (GBUF%XXOLD_IN_COMP(NEL*GBUF%G_XXOLD_IN_COMP)     ,STAT=Stat)
         GBUF%XXOLD_IN_COMP = ZERO
 c---
-c seatbelt elements
+C seatbelt elements
 c---
       ALLOCATE (GBUF%SLIPRING_ID(NEL*GBUF%G_SLIPRING_ID)             ,STAT=Stat)
         GBUF%SLIPRING_ID = 0

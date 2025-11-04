@@ -84,7 +84,7 @@ c
         ENDDO 
       ENDIF                                 
 C-----------------------------
-C     AMORTISSEMENT
+C     DAMPING
 C-----------------------------
       DO I=1,NEL
         DMM = VOL(I)*RHOE

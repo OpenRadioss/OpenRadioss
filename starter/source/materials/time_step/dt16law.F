@@ -30,7 +30,7 @@ C
 !||====================================================================
       SUBROUTINE DT16LAW(PM,GEO,PID,MAT, DELTAX, AIRE, VOL, DTX)
 C
-C     CALCUL DES DT ELEM. LOI NO 16 TYPE JOHNSON - COOK - GRAY
+C     CALCULATION OF ELEMENT DT FOR LAW NO 16 TYPE JOHNSON - COOK - GRAY
 C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

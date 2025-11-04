@@ -70,6 +70,5 @@ c        print *,'I,PARTS(1)%PART(I)',I,H3D_DATA%PARTS(1)%PART(I)
 
 
       RETURN
- 999  print *,'error lecture'
       CALL ARRET(0)
       END

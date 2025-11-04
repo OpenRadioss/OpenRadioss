@@ -557,8 +557,6 @@ C
         DP6(I)=TWO*F66(I)*SO6(I)
       ENDDO
 
- 3101 FORMAT(/' 205 WVEC SIGMY T1-T6 ',2E11.4/6E11.4)
- 3102 FORMAT(' F1 F2 F11 F22 F12 F23 F44 F55',3E11.4/5E11.4)
 C
       DO  I=1,NEL
          DS1(I)=T1(I)-SO1(I)
@@ -574,7 +572,6 @@ C
      .        +DP4(I)*DS4(I)+DP5(I)*DS5(I)+DP6(I)*DS6(I))*COEF(I)
       ENDDO
 C ***********      
- 3103 FORMAT(' 207 LAMDA DS1-DS6 ',E11.4/6E11.4)
 C
       DO  I=1,NEL
         CNN(I)=CN(I)-ONE
@@ -598,7 +595,6 @@ C
          ENDIF
       ENDDO
 c************
- 3104 FORMAT(' 208 LAMDA ',E11.4)
 C
       DO  I=1,NEL
          DP1(I)=LAMDA(I)*DP1(I)
@@ -608,7 +604,6 @@ C
          DP5(I)=LAMDA(I)*DP5(I)
          DP6(I)=LAMDA(I)*DP6(I)
       ENDDO
- 3105 FORMAT(' 209 PLA DP1-DP6',E11.4/6E11.4)
 C
       DO  I=1,NEL
         EPE(I,1)=EPE(I,1)-DP1(I)
@@ -680,6 +675,5 @@ C
       ENDDO 
 C------------------------------------------------------------------------
  1000 FORMAT(1X,'RUPTURE OF SOLID ELEMENT NUMBER ',I10)
- 6001 FORMAT(I6,' FAIL(14)   E(',I5,')   M(',A3,')   T(',6E10.3,')')
       RETURN
       END

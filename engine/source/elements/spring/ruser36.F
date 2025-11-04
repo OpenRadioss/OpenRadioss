@@ -392,26 +392,5 @@ C
         ZMOM(I) = MOMNZZ(I)*OFF(I)/FACZ
       ENDDO
 C---
- 1110 FORMAT(
-     & 5X,'N. . . . . . . =',I5/,
-     & 5X,'ERR. . . . . . =',E12.4/,
-     & 5X,'DPPLAS . . . . =',E12.4/,
-     & 5X,'F PLAS . . . . =',E12.4/,
-     & 5X,'DF PLAS. . . . =',E12.4///)
- 1120 FORMAT(
-     & 5X,'MODULE YOUNG . . . . . ..=',E12.4/,
-     & 5X,'PPLAS CUMULEE. . . . . . =',E12.4/,
-     & 5X,'PPLAS TORSION . . . .  . =',E12.4/,
-     & 5X,'PPLAS FLEXION. . . . . . =',E12.4/,
-     & 5X,'ENDOMMAGEMENT . . . . .  =',E12.4///)
- 1130 FORMAT(
-     & 5X,'PPLAS CUMULEE. . . . . . =',E12.4/,
-     & 5X,'DEVOL . . . .  . =',E12.4/,
-     & 5X,'PS . . . . . ..=',E12.4/,
-     & 5X,'PR . . . . .  =',E12.4///)
- 1140 FORMAT(
-     & 3X,E16.10,
-     & 3X,F14.4)
-C---
       RETURN
       END

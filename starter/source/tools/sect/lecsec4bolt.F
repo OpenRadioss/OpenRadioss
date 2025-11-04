@@ -364,9 +364,9 @@ C
           KK=1+NGRNOD                                                    
             NNOD = 0                                                       
             CPT = 1                                                        
-            CALL SEC_NODES_SOL(IGUS,ISTYP,NGRBRIC,IGRBRIC,X0,A,            
-     2                  B,C,D,E,F,ITAB,IXS,IXS10,IXS16,IXS20,            
-     3                  NIXS,KK,NNOD,NSTRF,NBINTER,N1 ,K1,               
+            CALL SEC_NODES_SOL(IGUS,ISTYP,IGRBRIC,X0,A,            
+     2                  B,C,D,E,F,IXS,IXS10,IXS16,IXS20,            
+     3                  NIXS,NNOD,NSTRF,NBINTER,K1,               
      4                  CPT,NODTAG,ISOLNOD,TAGELEMS,                     
      5                  X1,Y1,Z1,X2,Y2,Z2,R)                             
 
@@ -453,7 +453,7 @@ C
 C-------------------------------------------------------------------------
 C      SOLIDES
 C--------------------------------------------------------------
-       CALL SECSTRI(NSEGS,NSTRF(K3),IXS,IXS10,IXS16,IXS20,NSTRF(K2),NNOD,ITAB,I,NOPRINT)
+       CALL SECSTRI(NSEGS,NSTRF(K3),IXS,IXS10,IXS16,IXS20,NSTRF(K2),NNOD,NOPRINT)
        IF(NSTRF(K0)>=102)THEN
          CALL ZERORE(1,10+30*NNOD,SECBUF(KR0))
        ELSEIF(NSTRF(K0)>=101)THEN

@@ -59,7 +59,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ISU1,ISU2,NOINT,NI
+      INTEGER ISU1,ISU2,NOINT
       INTEGER IPARI(*)
       my_real
      .   FRIGAP(*), STFAC
@@ -72,11 +72,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,L, NTYP,MULTIMP,FLAGREMNOD,
+      INTEGER NTYP,MULTIMP,FLAGREMNOD,
      .    IREM7I2,IS1,IS2
       my_real
      .   STARTT,BUMULT,STOPT,GAPMAX,GAP
-      CHARACTER MESS*40
+
 !
       INTEGER, DIMENSION(:), POINTER :: INGR2USR
       LOGICAL IS_AVAILABLE

@@ -72,11 +72,10 @@ C-----------------------------------------------
      .         ILENG,FTAB_ID,IFRIC
 C     REAL
       my_real
-     .  A, B, D, E, F, DN, DX, FRIC, LSCALE, FSCALE, RSCALE, PUN, GF3,
+     .  A, B, D, E, F, DN, DX, FRIC, LSCALE, PUN, GF3,
      .  YSCALEF,XSCALEF,FMAX,FMIN
       my_real
      .   A_UNIT,D_UNIT,E_UNIT,F_UNIT,LSCALE_UNIT,GF3_UNIT,RUP_UNIT,XSCALE_UNIT,FMIN_UNIT
-      CHARACTER(LEN=NCHARTITLE) :: SLASH
       LOGICAL IS_AVAILABLE, IS_ENCRYPTED
 C=======================================================================
 c

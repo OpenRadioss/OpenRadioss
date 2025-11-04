@@ -3385,7 +3385,6 @@ C-----------------------------------------------
         CALL SPMD_R4GET_PARTN(6,6*NBF,NBPART,IADG,WA,BUF)
       ENDIF
 C-----------------------------------------------
- 600  CONTINUE
 C-----------
       DEALLOCATE(WA)
       RETURN

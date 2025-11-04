@@ -68,10 +68,10 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real FRIC,GAP,STARTT,STOPT !< interface parameters
       INTEGER ISU1,ISU2 !<Identifiers surface
-      INTEGER I,J,L, NTYP,IS1,IS2,IGSTI,ILEV,IVOID
+      INTEGER NTYP,IS1,IS2,IGSTI,ILEV
       INTEGER, DIMENSION(:), POINTER :: INGR2USR
       LOGICAL :: IS_AVAILABLE
-      CHARACTER(len=nchartitle) :: MSGTITL
+
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -149,7 +149,6 @@ C--------------------------------------------------------------
       ENDIF
 C
 C--------------------------------------------------------------
- 1000 FORMAT(/1X,'  INTERFACE NUMBER :',I10,1X,A)
 C------------
       RETURN
 

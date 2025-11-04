@@ -5049,8 +5049,8 @@ c
       PYTHON%NB_SENSORS = 0
       CALL HM_READ_SENSORS(PYTHON,
      .     SENSORS   ,LACCELM  ,ITABM1    ,IPART     ,LGAUGE    ,
-     .     SUBSETS   ,NSETS    ,IGRSURF   ,IGRNOD    ,BUFSF     ,
-     .     SKEW      ,ISKWN    ,UNITAB    ,LSUBMODEL ,HM_NSENSOR,
+     .     SUBSETS   ,NSETS    ,IGRNOD    ,
+     .     ISKWN    ,UNITAB    ,LSUBMODEL ,HM_NSENSOR,
      .     SENSOR_USER_STRUCT)
       ! -----------------
       ! check if a user sensor is used with a list of node
@@ -7088,7 +7088,7 @@ C--------------------------------------------
       ENDDO
 
 C--------------------------------------------
-C     LECTURE DES RBE3 Interpolation Constraints
+C     READING RBE3 Interpolation Constraints
 C--------------------------------------------
       CALL TRACE_OUT1()
       ERR_MSG='RBE3'
@@ -7952,7 +7952,7 @@ C--------------------------------------------
      2       D      ,IDDLEVEL,NOM_OPT,SLRBODY)
       ENDIF
 C--------------------------------------------
-C     LECTURE RB LAGRANGE
+C     READING RB LAGRANGE
 C--------------------------------------------
       IF(NRBYLAG > 0) THEN
          CALL HM_READ_RBODY_LAGMUL(RBYL    ,NPBYL   ,LPBYL   ,IGRNOD   ,LSUBMODEL ,
@@ -8004,7 +8004,7 @@ C---------------------------------
 C---------------------------------
 #ifdef DNC
 C--------------------------------------------
-C     LECTURE et PREPARATION DES ELEMENTS FINIS A ENVOYER A MADYMO :
+C     READING and PREPARATION OF FINITE ELEMENTS TO SEND TO MADYMO :
 C     "EXTENDED COUPLING".
 C--------------------------------------------
       ERR_MSG='MADYMO INTERFACED FEM'
@@ -8643,7 +8643,7 @@ C----
         ALLOCATE(NSHNOD(0)     ,STAT=stat)
       ENDIF
 
-C-- Rot. Stiffness parithon computation -> allocated even if no interfaces, to avoid "if" in element routines
+C-- Rot. Stiffness parith/on computation -> allocated even if no interfaces, to avoid "if" in element routines
       ALLOCATE(STRC(NUMELC)       ,STAT=stat)
       ALLOCATE(STRP(NUMELP)       ,STAT=stat)
       ALLOCATE(STRR(NUMELR)       ,STAT=stat)
@@ -8675,7 +8675,7 @@ C
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
 C
 C----------------------------------
-C -- LECTURE OF INITIAL STATE DATA
+C   READING OF INITIAL STATE DATA
 C----------------------------------
 C
       ALLOCATE(SIGI(NSIGS,LSIGI)                  ,STAT=stat)
@@ -9455,7 +9455,7 @@ C----------------------------------
 c      CALL ANCHECK(83)
       CALL TRACE_OUT1()
 C-------------------------------------------------
-C     BLOCAGE DES NOEUDS MAT 11 HORS DOMAINE CALCULE
+C     BLOCKING MAT 11 NODES OUTSIDE COMPUTED DOMAIN
 C-------------------------------------------------
       ERR_MSG='BLOCK BOUNDARY MATERIAL NODES'
       ERR_CATEGORY='BLOCK BOUNDARY MATERIAL NODES'
@@ -9634,7 +9634,7 @@ C---
       IF(SLAMBDA > 0)  LAMBDA = ZERO
       CALL TRACE_OUT1()
 C----------------------------------
-C     CALCUL FORCES GRAVITE MODALES
+C     COMPUTATION OF MODAL GRAVITY FORCES
 C----------------------------------
       ERR_MSG='GRAVITY NODAL FORCES'
       ERR_CATEGORY='GRAVITY NODAL FORCES'
@@ -10281,7 +10281,7 @@ C--------------------------------------------
       ALLOCATE(RCONX(SRCONX)    ,STAT=stat)
       RCONX = ZERO
 C--------------------------------------------
-C     RECALCUL DE NRBODY (NRBYKIN MIS A JOUR EN AMONT)
+C     RECOMPUTATION OF NRBODY (NRBYKIN UPDATED UPSTREAM)
 C---------------------------------------------------------------------
       IF(NRBMERGE > 0) THEN
         NRBODY = NRBYKIN + NRBYLAG
@@ -10888,7 +10888,7 @@ C LINES : SET A CPU for splitting
           CALL LINE_DECOMP(IGRSLIN)
 !--------------------------------------------
 C--------------------------------------------
-C Calcul de variables globales SPMD
+C Computation of SPMD global variables
 C--------------------------------------------
 C CARE TO be computed right before DDSPLIT
 C This routine computes array sizes for Animation file.

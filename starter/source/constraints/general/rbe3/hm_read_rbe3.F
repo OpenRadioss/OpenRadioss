@@ -91,23 +91,22 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, N, K, NSL, NSLT, ITYP, NUSER,  NM, NI, NI_OK,
-     .        ISK, ISENS, INGU, IGM, J, P,IAD,NS,NN,J6(6),JJ,II,
-     .        IC,IC1,IC2,IROT,ISKS,IADS,IERR1,IMODIF,
+      INTEGER I, N, K, NSL, NUSER,  NM, NI, NI_OK,
+     .        ISK, INGU, IGM, J, IAD,NS,NN,J6(6),JJ,II,
+     .        IC,IC1,IC2,IROT,ISKS,IADS,IMODIF,
      .        IDIR,NRB,ID,UID,SUB_INDEX,IFORM
       my_real W
       INTEGER, DIMENSION(:),ALLOCATABLE   :: IKINE1
       INTEGER, DIMENSION(:),ALLOCATABLE   :: ISKEW0
       my_real, DIMENSION(:,:),ALLOCATABLE :: WI
       CHARACTER(LEN=NCHARTITLE) ::  TITR
-      CHARACTER(LEN=NCHARKEY) :: KEY
       CHARACTER(LEN=NCHARFIELD) :: STRING
-      CHARACTER :: CODE*7,MESS*40
+      CHARACTER :: MESS*40
       LOGICAL IS_AVAILABLE
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER USR2SYS,NODGRNR5
+      INTEGER USR2SYS
 C
       DATA MESS/'INTERPOLATION CONSTRAINT BODY  '/
 C-----------------------------------------------
@@ -420,12 +419,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, N, K, NSL,NM, NI, NMT,M,IROT,IMO,ICR,
-     .        J, P,IAD,NS,NN,J6(6),JJ,II,IADS,IERR1,NP,IC,ICT
+      INTEGER I, NM, NMT,M,IROT,IMO,ICR,
+     .        J, P,IAD,NS,IADS,IERR1,IC,ICT
       INTEGER ID,IPEN
       CHARACTER(LEN=NCHARTITLE)::TITR
 C
-      my_real W,WMIN,IN_T
+      my_real WMIN,IN_T
 C-----------------------------------------------
 C     FRBE3(1-3,I) : tw(i)
 C     FRBE3(4-6,I) : rw(i)
@@ -564,7 +563,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, K,N, M ,NML, IAD,JJ,KG,NSNGLR,IELSUB,KDIAG
+      INTEGER I, J, K,KG,NSNGLR,IELSUB,KDIAG
 C     REAL
       my_real
      *        TW(3,NG), RW(3,NG),
@@ -1367,7 +1366,7 @@ c       !DECLARATIONS
      *     , INTENT(OUT), DIMENSION(N,N) :: INVERSE !INVERTED MATRIX
 
         LOGICAL :: FLAG = .TRUE.
-        INTEGER :: I, J, K, L
+        INTEGER :: I, J, K
       my_real
      *     :: M
       my_real
@@ -1463,7 +1462,7 @@ C----------------------------
 c       !DECLARATIONS
       INTEGER N
       my_real
-     .        R(N),RMAX
+     .        R(N)
       CHARACTER TITLE*(*)
 C----------------------------
       INTEGER I
@@ -1515,7 +1514,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J,IC,ICT,ICR
+      INTEGER J,IC,ICT,ICR
 C======================================================================|
         IC=IRBE3(4,N)
         ICT=IC/512
@@ -1606,7 +1605,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, N, J,K, NS,NM, NI, NMT,M,NFT,JLT,IAD,II,M2,III,IPEN
+      INTEGER I, N, J,K, NS,NM, NI, NMT,M,NFT,IAD,II,M2,III,IPEN
 C
       INTEGER ID, INDEX(NRBE3),NZ,IAD1,IADS,
      .        LCOPY(SLRBE3),ICOPY(NRBE3L,NRBE3)

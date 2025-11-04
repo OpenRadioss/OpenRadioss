@@ -165,19 +165,8 @@
 !    L o c a l   v a r i a b l e s
 !-------------------------------------------------------------------------------
       integer :: i                                                   !< Loop counter
-      real(kind=WP) :: dt05                                          !< Time step parameter
-      real(kind=WP), dimension(nel) :: g11, g12, g13                 !< Geometry matrix components row 1
-      real(kind=WP), dimension(nel) :: g21, g22, g23                 !< Geometry matrix components row 2
-      real(kind=WP), dimension(nel) :: g31, g32, g33                 !< Geometry matrix components row 3
-      real(kind=WP), dimension(nel) :: t11, t12, t13                 !< Transformation matrix components row 1
-      real(kind=WP), dimension(nel) :: t21, t22, t23                 !< Transformation matrix components row 2
-      real(kind=WP), dimension(nel) :: t31, t32, t33                 !< Transformation matrix components row 3
       real(kind=WP) :: xl, yl, zl                                    !< Local centroid coordinates
-      real(kind=WP) :: xx, yy, zz, xy, xz, yz                        !< Coordinate products
-      real(kind=WP), dimension(6) :: rtr                             !< Rotation tensor array
-      real(kind=WP) :: abc, xxyz2, zzxy2, yyxz2, deta                !< Determinant calculation variables
       real(kind=WP) :: off_l                                         !< Local offset flag
-      real(kind=WP), dimension(nel,8) :: x0, y0, z0                  !< Initial coordinates
       real(kind=WP), dimension(nel) :: xd1, xd2, xd3, xd4            !< Degenerated x-coordinates 1-4
       real(kind=WP), dimension(nel) :: xd5, xd6, xd7, xd8            !< Degenerated x-coordinates 5-8
       real(kind=WP), dimension(nel) :: yd1, yd2, yd3, yd4            !< Degenerated y-coordinates 1-4

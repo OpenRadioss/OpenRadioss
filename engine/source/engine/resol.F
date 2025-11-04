@@ -1213,7 +1213,7 @@ C-------------------------------------------------------------------------------
 C     FVMBAG: switch to UP
               INTEGER :: NFVBAG0
               LOGICAL :: CHECK_NPOLH
-C---ADMESH + TRIMING----
+C---ADMESH + TRIMMING----
               INTEGER, DIMENSION(:),ALLOCATABLE :: TAGTRIMC,TAGTRIMTG
 
 
@@ -8237,7 +8237,7 @@ C                                          PARALLEL SECTION (SMP)
 C========================================================================================
 
 C----------------------------
-C  CALCUL //
+C  COMPUTATION //
 C      [NRBODY1][NRBODY2]...   (ON FREE TASK)
 C // --------------------------
 
@@ -8975,7 +8975,7 @@ C-------ADYREL----
                 IF (ISTAT==3) CALL ENER_W0
                 IF(coupling%active) CALL COUPLING_ADVANCE(coupling,DT2)
 C------------
-C       TEMPS
+C       TIME
 C------------
 C     ILASTANIM=0 No additional animation
 C     ILASTANIM=1 One more cycle needed

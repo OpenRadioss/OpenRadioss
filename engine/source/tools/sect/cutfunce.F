@@ -132,10 +132,10 @@ c-----------
             ENDIF
 c-----------
            ELSEIF (IFUNC==8 . AND. JTURB/=0) THEN
-C            ENERGIE TURBULENTE     
+C            TURBULENT ENERGY     
              VALUE = GBUF%RK(I) 
            ELSEIF (IFUNC==9) THEN
-C           VISCOSITE TURBULENTE
+C           TURBULENT VISCOSITY
             IF((MLW==6 .OR. MLW==17).AND.JTURB/=0)THEN
                 MT=IXS(1,N)
                 VALUE=PM(81,MT)*GBUF%RK(I)**2/
@@ -147,7 +147,7 @@ C           VISCOSITE TURBULENTE
                ENDIF
 C
            ELSEIF(IFUNC==10)THEN
-C            VORTICITE
+C            VORTICITY
              IF(MLW==6 .OR. MLW==17)THEN
                VALUE = LBUF%VK(I)     
              ELSEIF(MLW==46 .OR. MLW==47)THEN

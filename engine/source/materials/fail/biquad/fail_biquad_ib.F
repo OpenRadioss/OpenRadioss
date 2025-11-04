@@ -236,8 +236,6 @@ c--------------------
 c------------------
  1000 FORMAT(5X,'FAILURE (BIQUAD) OF BEAM ELEMENT ',I10,1X,',INTEGRATION PT',I5
      .      ,2X,'AT TIME :',1PE12.4,1X )
- 2000 FORMAT(5X,'START DAMAGE (BIQUAD) OF BEAM ELEMENT ',I10,1X,',INTEGRATION PT',I5
-     .      ,2X,'AT TIME :',1PE12.4 )     
  1111 FORMAT(1X,'DELETED BEAM ELEMENT ',I10,1X,'AT TIME :',1PE12.4)    
 c------------------
       RETURN

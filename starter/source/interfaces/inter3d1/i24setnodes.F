@@ -90,7 +90,7 @@ C domain than MAIN surface
           I24MAXNSNE = MAX(I24MAXNSNE,NSNE)
           IF (IEDGE4 > 0 ) THEN
             IF (.NOT.(ASSOCIATED(INTERCEP(2,NI)%P)))THEN
-C             In Type24 INTERCEP(2 gives Edge MPI Domain
+C             In Type24 INTERCEP(2) gives Edge MPI Domain
               ALLOCATE(INTERCEP(2,NI)%P(NRTSE))
             ENDIF    
 C 

@@ -28,9 +28,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE AGRAD2(IXQ,X,ALE_CONNECTIVITY,GRAD,NEL)
 C-----------------------------------------------
-C   D e s c r i p t i on
+C   D e s c r i p t i o n
 C-----------------------------------------------
-C This subroutine is calculating 2D gradient on faces
+C This subroutine computes 2D gradients at element faces for ALE
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------

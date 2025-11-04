@@ -20,12 +20,6 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-Cbm|====================================================================
-Cbm|  SZSIGPARA                     src/solidez/szhour3.F         
-Cbm|-- called by -----------
-Cbm|        TENSGPS3                      src/anim/tensor6.F            
-Cbm|-- calls ---------------
-Cbm|====================================================================
 !||====================================================================
 !||    sig_heph1   ../engine/source/elements/sph/soltosph_hour.F
 !||--- called by ------------------------------------------------------

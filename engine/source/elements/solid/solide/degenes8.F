@@ -67,7 +67,7 @@ C-----------------------------------------------
         IF (INTAB(8,NC,NJ)) IDEGE(I)=IDEGE(I)+1
         NC(J)=NJ
        END DO
-C------number of degene nodes       
+C------number of degenerate nodes       
        IDEGE(I)=IDEGE(I)/2 
       ENDDO
 C      

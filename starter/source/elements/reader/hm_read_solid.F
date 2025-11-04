@@ -103,10 +103,9 @@ C OUTPUT ARGUMENTS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, MT, MLAW, JTUR, I1, I2, INEW,I10,I20,I16
-      INTEGER IC,IC1,IC2,IC3,IC4,IPID,ID,IDS,N,JC,NSPHDIR,STAT
-      INTEGER FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP,NUMELS_READ,
-     .        IOUTN, IERROR, INDEX_PART,IXS10_SAV(6),IC5,IC6,
+      INTEGER I, J, MT, I10,I20,I16
+      INTEGER IC1,IC2,IC3,IC4,IPID,N,STAT
+      INTEGER INDEX_PART,IXS10_SAV(6),IC5,IC6,
      .        IC7,IC8
       my_real BID
       CHARACTER MESS*40, MESS2*40
@@ -562,13 +561,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, MT, MLAW, JTUR, I1, I2, INEW, K, N, IAD, NN
-      INTEGER IC,IC1,IC2,IC3,IC4,MID,PID
+      INTEGER I, J, MT, MLAW, JTUR, I1, I2, INEW, K, N, NN
+      INTEGER IC,IC1,IC2,IC3,IC4
       CHARACTER MESS*40, MESS2*40
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER USR2SYS
 C
       DATA MESS/'3D SOLID ELEMENTS DEFINITION            '/
       DATA MESS2/'3D SOLID ELEMENTS SELECTION FOR TH PLOT '/
@@ -903,17 +901,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, K, IT, NT
-      INTEGER IPID,ID,IDS,N,NSPHDIR,STAT
-      INTEGER FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP,INDEX_PART
-      my_real BID
+      INTEGER I, J, IT, NT
+      INTEGER NSPHDIR,STAT
+      INTEGER FLAG_FMT,INDEX_PART
       CHARACTER MESS*40
       INTEGER, DIMENSION(:), ALLOCATABLE :: IPARTS
       INTEGER, DIMENSION(:), ALLOCATABLE :: SUB_SOL
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER USR2SYS
 C
       DATA MESS/'3D SOLID ELEMENTS DEFINITION            '/
 C=======================================================================

@@ -40,7 +40,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    submodel_mod                   ../starter/share/modules1/submodel_mod.F
 !||====================================================================
       SUBROUTINE HM_READ_PROP26(GEO     , IGEO  , UNITAB   , IG   , IGTYP,
-     .                          PROP_TAG, IDTITL, LSUBMODEL)
+     .                          PROP_TAG, LSUBMODEL)
 C-----------------------------------------------
       USE UNITAB_MOD
       USE ELBUFTAG_MOD    
@@ -62,17 +62,16 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      INTEGER  IGEO(NPROPGI),IG,IGTYP,FLAG_FMT
+      INTEGER  IGEO(NPROPGI),IG,IGTYP
 C     REAL
       my_real
      .   GEO(NPROPG)
-      CHARACTER(LEN=NCHARTITLE)::IDTITL
       TYPE(PROP_TAG_) , DIMENSION(0:MAXPROP) :: PROP_TAG
       TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-       INTEGER I,J,NFUNC,NFUND,IFUN,IAD,ISENS,IFL,ILENG,IRTYP
+       INTEGER I,NFUNC,NFUND,IFUN,IAD,ISENS,IFL,ILENG,IRTYP
 C     REAL
       my_real
      .   MASS,KMAX,DMAX,XFAC,YFAC,RATE,ALPHA,DMIN,

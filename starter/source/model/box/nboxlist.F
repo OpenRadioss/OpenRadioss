@@ -36,7 +36,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
-C      FONCTION DONNE N0 SYSTEME D'UNE LISTE DE BOXES USER
+C      Function returns system number from a list of user boxes
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

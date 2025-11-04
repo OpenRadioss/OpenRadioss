@@ -139,7 +139,6 @@ C--------------------------------------------
             ENDIF
             TSTIF = DIST / COND
 C
- 600  CONTINUE
 C
       RETURN
       END

@@ -61,7 +61,7 @@ C-----------------------------------------------
       INTEGER,INTENT(IN) :: NPARI, NPARIR !< array sizes IPARI and FRIGAP
       INTEGER ISU1,ISU2,NOINT
       INTEGER IPARI(NPARI),DEF_INTER(100)
-      my_real FRIGAP(NPARIR) , STFAC
+      my_real FRIGAP(NPARIR)
       CHARACTER(LEN=NCHARTITLE)::TITR
 C-----------------------------------------------
       TYPE (GROUP_)  ,TARGET, DIMENSION(NGRNOD)  :: IGRNOD

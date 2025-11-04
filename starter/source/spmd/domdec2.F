@@ -1176,7 +1176,7 @@ C
         ELSEIF(TYP==1)THEN
         ELSEIF(TYP==2)THEN
 C--------------------------------
-C         CAPTEUR - DEPLACEMENT
+C         SENSOR - DISPLACEMENT
 C--------------------------------
           N1 = SENSORS%SENSOR_TAB(I)%IPARAM(1)
           DO P = 1, NSPMD
@@ -2933,19 +2933,19 @@ C 9 : -
 C 10: NUMELTG_L
 C 11: NUMELX_L
 C 12: NBDDPROC: NB PORC BORD
-C 13: NBDDBOUN :  nb de noeud frontiere
+C 13: NBDDBOUN :  number of boundary nodes
 C 14: NBDDNOD :   size of comm in number of nodes
 C 15: NBDDNRB :   size of comm in number of main rby nodes
-C 16: NRBYKIN_L : nombre de rigid body MAIN locaux
+C 16: NRBYKIN_L : number of local MAIN rigid bodies
 C 17: NUMSPH_L: Number of local sphine particles
 C 18: memi: whole local memory size my
-C 19: Memr: Size Local Memoire Reel AM
+C 19: Memr: Size Local Real Memory AM
 C 20: NSNT_L: Number of secondary contact interface nodes (7,10,11)
 C 21: NMNT_L: Number of nodes Contact interface (7,10,11)
 C 22: NSNT2_L: Number of secondary interface interface nodes
 C 23: NMNT2_L: Number of Type2 Interface Main Nodes
 C 24: Restaurants: Restart size in MB
-C 24: NSLARB_L : nombre de noeuds SECONDARY rigid body 
+C 24: NSLARB_L : number of SECONDARY rigid body nodes 
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

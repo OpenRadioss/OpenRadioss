@@ -95,8 +95,8 @@ c
       ENDDO
 
 Cnote: the volume can be distributed differently depending on whether the points are at the corners, in the middle
-cor on an edge, with px, py, pz you can find the place of each one
-CThis is the elements 20 neoud, there are 3/192 * flight to corners and 14/192 * Vol at the backgrounds
+Cor on an edge, with px, py, pz you can find the place of each one
+CThis is for 20-node elements, there are 3/192 * volume at corners and 14/192 * volume at the mid-nodes
 C
 Cnote: it seems that numfakenodigeo is too large here and so the arrays are too large and end with 0
 

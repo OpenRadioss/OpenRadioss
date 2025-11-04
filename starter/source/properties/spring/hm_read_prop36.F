@@ -259,7 +259,7 @@ C
 !||    get_u_pnu   ../starter/source/user_interface/uaccess.F
 !||====================================================================
       SUBROUTINE RINI36(NEL   ,IOUT   ,IPROP ,
-     3                  IX    ,XL     ,MASS  ,XINER  ,STIFM ,
+     3                  XL     ,MASS  ,XINER  ,STIFM ,
      4                  STIFR ,VISCM  ,VISCR ,UVAR   ,NUVAR )
 C-------------------------------------------------------------------------
 C     This subroutine initialize springs using user properties.
@@ -338,7 +338,6 @@ C----------------------------------------------------------
 C   D u m m y   A r g u m e n t s   a n d   F u n c t i o n
 C----------------------------------------------------------
       INTEGER IOUT,NUVAR,NEL,IPROP,
-     .        IX(4,NEL) ,
      .        GET_U_PNU,GET_U_PID,GET_U_MID,GET_U_MNU,
      .        KFUNC,KMAT,KPROP
       my_real
@@ -356,10 +355,9 @@ C-----------------------------------------------
      .        FAC,RHO,AREA,IXX,IYY,IZZ,IMYZ,YOUNG,G,
      .        AREA1,IXX1,IYY1,IZZ1,RHO1,YOUNG1,G1,
      .        AREA2,IXX2,IYY2,IZZ2,RHO2,YOUNG2,G2,
-     .        RY1,RZ1,RY2,RZ2,RY,RZ,xl3,ktran,krot,
-     .        K11,K22,K26,K33,K35,K44,K55,K5B,K66,K6C,
-     .        dt1,dt2,XL2,ATMP,ARY,ARZ
-      INTEGER I,IUTYP,n0,
+     .        RY1,RZ1,RY2,RZ2,RY,RZ,ktran,krot,
+     .        XL2,ATMP,ARY,ARZ
+      INTEGER I,n0,
      .        IMAT1,IPROP1,IUTYP1,
      .        IMAT2,IPROP2,IUTYP2
 C-----------------------------------------------

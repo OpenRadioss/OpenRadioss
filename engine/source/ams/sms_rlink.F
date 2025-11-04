@@ -112,7 +112,6 @@ C calculation routine Parith/ON of A rigid link
 !$OMP END SINGLE
           END IF
 
- 100      CONTINUE
 C parallel loop on SMP threads
 !$OMP DO SCHEDULE(DYNAMIC,1)
           DO N=1,NRLINK
@@ -241,7 +240,6 @@ C calculation routine Parith/ON of A rigid link
 !$OMP END SINGLE
           END IF
 
- 100      CONTINUE
 C parallel loop on SMP threads
 !$OMP DO SCHEDULE(DYNAMIC,1)
           DO N=1,NLINK

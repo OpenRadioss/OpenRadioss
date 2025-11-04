@@ -30,7 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE DT6LAW(PM,EINT,RK,RE,GEO,PID,MAT, DELTAX, AIRE, VOL, DTX)
 C
-C     CALCUL DES DT ELEMENTAIRES FLUIDE NEWTONIEN
+C     CALCULATION OF ELEMENTARY DT FOR NEWTONIAN FLUID
 C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -77,7 +77,7 @@ C-----------------------------------------------
       END DO
 
       DO I=LFT,LLT
-         ! more precise estimator is to call EOSMAIN to compute BULK modulus updated for each element
+         ! More precise estimator is to call EOSMAIN to compute BULK modulus updated for each element
          SSP(I)=SQRT(BULK(I)/RHO0(I))   ! G=0 with law6
       END DO
       

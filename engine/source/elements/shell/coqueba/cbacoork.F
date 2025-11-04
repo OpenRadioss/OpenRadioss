@@ -73,7 +73,7 @@ C-----------------------------------------------
       INTEGER IREP,NPT,ISMSTR,PID(*),MAT(*),NGL(*)
       TYPE(ELBUF_STRUCT_) :: ELBUF_STR
 C-----------------------------------------------
-c FUNCTION: premilitary compute for QBAT [K] build
+c FUNCTION: preliminary compute for QBAT [K] build
 c
 c Note:
 c ARGUMENTS:  (I: input, O: output, IO: input * output, W: workspace)
@@ -88,7 +88,7 @@ c  O   AREA(NEL) ,NPT     - Area (element), num. of integrating points in thickn
 c  O   VCORE(3,4,NEL)     - coordinates of 4 nodes in local system
 c                           BX0(2),BY0(2),GAMA(2),MX23,MY23,MX34,MY34,MX13,MY13
 c                           for plat element
-c  O  JAC,HX,HY(4,NEL)    - Jacobien,asymmetric part(hourglass) at 4 Gauss points
+c  O  JAC,HX,HY(4,NEL)    - Jacobian,asymmetric part(hourglass) at 4 Gauss points
 c  O  VQ(9,NEL),VQN,VQG(9,4,NEL) - local system of element, nodal(4) and Gauss points(4)
 c  O  VJFI,VNRM,VASTN     - terms used for assumed strains
 c  O  NPLAT,IPLAT(NEL)    - num. of plat element and indice

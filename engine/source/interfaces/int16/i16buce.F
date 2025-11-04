@@ -127,7 +127,7 @@ C-----------------------------------------------
       ENDDO
 C-----------------------------------------------
       NB_N_B = 1
-C Fin initialisation
+C End initialization
 C-----------------------------------------------
 C
 C-----2- sorting by boxes of elements and nodes

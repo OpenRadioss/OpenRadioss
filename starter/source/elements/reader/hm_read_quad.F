@@ -106,16 +106,14 @@ C OUTPUT ARGUMENTS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, I1, I2, ID,IDS,IPID,MT,N,MID,PID,UID,NDEGEN,JC,STAT,
-     .   IFLAGUNIT,FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP,ISHXFEM,IOUTN,IERROR,INDEX_PART
+      INTEGER I, J, I1, I2, ID,IDS,IPID,MT,MID,PID,UID,NDEGEN,STAT,
+     .   IFLAGUNIT,INDEX_PART
       CHARACTER MESS*40, MESS2*40
-      CHARACTER(LEN=NCHARTITLE) :: TITR
       my_real BID,FAC_L
       INTEGER, DIMENSION(:), ALLOCATABLE :: SUB_QUAD,UID_QUAD
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER NINTRN
       INTEGER USR2SYS
       DATA MESS/'2D QUAD ELEMENTS DEFINITION            '/
       DATA MESS2/'2D QUAD ELEMENTS SELECTION FOR TH PLOT '/

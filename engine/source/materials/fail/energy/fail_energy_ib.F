@@ -88,7 +88,7 @@ C=======================================================================
       RIEF1    = UPARAM(1)             
       RIEF2    = UPARAM(2)           
       XFAC     = UPARAM(4)        
-      FAILIP  = MIN(NINT(UPARAM(6)),NPG) ! 	number of failed integration point prior to solid element deletion. default = 1 (integer)
+      FAILIP  = MIN(NINT(UPARAM(6)),NPG) ! 	number of failed integration points prior to solid element deletion. default = 1 (integer)
 
       DO I=1,NEL
         DAMAGE(I) = ZERO

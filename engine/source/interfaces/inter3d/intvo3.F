@@ -399,8 +399,6 @@ C
 C
       ELSEIF(NTY==8)THEN
 
- 180    CONTINUE
-
 C
       ENDIF
 

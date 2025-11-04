@@ -65,7 +65,7 @@ C----------------------------------
        DO I=JFT,JLT 
          EP=IPLAT(I)
 C----------------------------------
-C     MATRIX [BCP] FOR TRNASVERSE SHEAR DUE TO PINCHING
+C     MATRIX [BCP] FOR TRANSVERSE SHEAR DUE TO PINCHING
 C----------------------------------
 
 C-------Node 1 contribution

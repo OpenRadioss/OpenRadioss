@@ -57,7 +57,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER,INTENT(IN) :: NPARI, NPARIR !< array sizes (IPARI and FRIGAP)
-      INTEGER ISU1,ISU2,ILAGM,NOINT
+      INTEGER ISU1,ISU2,NOINT
       INTEGER IPARI(NPARI)
       my_real STFAC
       my_real FRIGAP(NPARIR)
@@ -74,15 +74,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,L, NTYP,IS1, IS2,IDELKEEP,ILEV,
+      INTEGER NTYP,IS1, IS2,IDELKEEP,ILEV,
      .    INACTI, IBC1, IBC2, IBC3,IBC1M, IBC2M, IBC3M,
-     .    IGSTI,IDEL3,IVOID,IRS,IRM,INTKG
+     .    IGSTI,IDEL3,IRS,IRM,INTKG
       my_real
      .   FRIC,GAP,STARTT,STOPT,VISC,VISCF,GAPSCALE,PTMAX
-      CHARACTER(LEN=40)::MESS
-      CHARACTER(LEN=NCHARTITLE)::MSGTITL
-      CHARACTER(LEN=NCHARKEY)::OPT,KEY,KEY1
-      CHARACTER(LEN=NCHARFIELD)::BCFLAG,BCFLAGM
+
 !
       INTEGER, DIMENSION(:), POINTER :: INGR2USR
 C-----------------------------------------------
@@ -258,7 +255,6 @@ C--------------------------------------------------------------
       ENDIF
 C
 C--------------------------------------------------------------
- 1000 FORMAT(/1X,'  INTERFACE NUMBER :',I10,1X,A)
 C------------
       RETURN
 

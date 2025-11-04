@@ -3049,7 +3049,6 @@ C------------------------------------------
  1000   FORMAT(' ND. =',I8,5X,'WITH POSSIBLE FREE CONNECTION CHECKED',/)
  1001   FORMAT(' NODE NUM. =',I10,5X,'TRA_DIR = ',1A,5X,'VAL.= ',G14.7)
  1002   FORMAT(' NODE NUM. =',I10,5X,'ROT_DIR = ',1A,5X,'VAL.= ',G14.7)
- 1003   FORMAT(/,' LOOK AT CONNECTIVITY FOR NODE NUM. =',I10)
       END
 !||====================================================================
 !||    imp_chkm           ../engine/source/implicit/imp_solv.F

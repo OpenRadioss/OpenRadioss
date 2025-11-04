@@ -101,14 +101,14 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C     REAL
       INTEGER IHBE,ISMSTR,IPLAST,ICPRE,ICSTR,IINT,JCVT,
-     .   NPG,NPT,NPTR,NPTS,NPTT, ISTRAIN,IET,IHBE_OLD,ID,
+     .   NPT,NPTR,NPTS,NPTT, ISTRAIN,ID,
      .   IREP,IPOS,IHBE_DS,ISST_DS,ICONTROL_D,ICONTROL
       my_real
-     .    CVIS,QA,QB,QH,VNS1,VNS2,DTMIN,ASHEAR
-      INTEGER NUML(200), NLY, NLYMAX, N, J, M1, M2, M3,ICOMPA,
-     .   K,  N1,IDSK, IPANG, IPTHK, IPPOS, IPMAT,IERRS,IP,ISK
+     .    CVIS,QA,QB,DTMIN,ASHEAR
+      INTEGER NUML(200), NLY, NLYMAX, J, M1, M2, M3,ICOMPA,
+     .   K,IDSK, IPANG, IPTHK, IPPOS, IPMAT,IERRS,IP,ISK
       my_real
-     .   AN,  DT, THK, TMIN, TMAX,ANG,VX,VY,VZ,
+     .   AN,  DT, THK, TMIN, TMAX,VX,VY,VZ,
      .   VDEFMIN,VDEFMAX,ASPMAX,ASPTET
       LOGICAL IS_AVAILABLE, IS_ENCRYPTED
 C-----------------------------------------------

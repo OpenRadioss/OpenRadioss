@@ -39,7 +39,7 @@ C   When FORANI3 is called, A is containing:(FEXT+FINT+FGRAV)/m
 C
 C                        forani1       forani2                   forani3
 C       FANI(:,N+NFIA) =   -FEXT  +(FEXT+FINT)                               = FINT
-C       FANI(:,N+NFEA) =   +FEXT  -(FEXT+FINT)  + [(FEXT+FINT+FRAV)/m]*m     = FEXT+FGRAV
+C       FANI(:,N+NFEA) =   +FEXT  -(FEXT+FINT)  + [(FEXT+FINT+FGRAV)/m]*m    = FEXT+FGRAV
 C-----------------------------------------------
 C
 C  ANIM_V(5)            : /ANIM/VECT/FINT

@@ -117,7 +117,7 @@ C=======================================================================
       DO I=1,NDDL0
          LB(I)=ZERO
       ENDDO
-C Pas de velocity imposee (ni de rigid wall) en analyse modale
+C No imposed velocity (or rigid wall) in modal analysis
       NFXVEL=0
       NT_RW=0
 C

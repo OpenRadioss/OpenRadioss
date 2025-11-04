@@ -131,33 +131,26 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       CHARACTER LAW_ID*4
-      INTEGER I, PROP_ID, IGTYP, IMAT,ISMSTR, NIP, J, IR1X, IR1Y, IR1Z, IREP,
-     .   IR2X, IR2Y, IR2Z, ISHEAR, IRX, IROT, IMODE, IP, ISTRAIN,I8PT,
-     .   ISK,ITU,IRB,IHON,IHBE,IPLAST,ITHK,IBID,IHBEOUTP,K,N,
-     .   IGFLU, IDS, NSHELL, NSHSUP, NSHINF, FLGBADI, NBADI,IUNIT,UID,
-     .   NSST_D, NSST_DS, NPSH, ICPRE, ICSTR ,NPTS,ISEN,ISORTH,
-     .   PID1,IPID1, IHGFLU, IHBE_OLD,NSTACK,NN,NUMS
-      INTEGER ISH3N,IFLAGUNIT,ICXFEM, IPPID,IPMAT,IPANG,IPTHK,
-     .        IPPOS, JPID,N1,IPOS,ISROT,MLAWLY,MID,SUB_ID,
-     .        PROP_SHELL,PROP_TSHEL,PROP_SOLID,PROP_SPH,PROP_BEAM,
-     .        IAD_KNOT,IPDIR,ISTACK,PROP_TRUSS,PROP_SPRING,PROP_NSTRAND,IPINCH
+      INTEGER I, PROP_ID, IGTYP, IMAT,ISMSTR, J, K,N,
+     .   IGFLU, NSHELL, NSHSUP, NSHINF, NBADI,IUNIT,UID,
+     .   NSST_D, NSST_DS, NPSH, ISORTH,
+     .   IHGFLU, NSTACK,NUMS,IHBE
+      INTEGER IFLAGUNIT, JPID,N1,IPOS,ISROT,MLAWLY,MID,SUB_ID,
+     .        PROP_SHELL,
+     .        IAD_KNOT,ISTACK,IPINCH
       INTEGER MAT_USR,MAT_RAD
      
-      INTEGER JPID1,JPID2,NISUB,IPISUB,IFRAM,E_TYPE,OFF_DEF(NSUBMOD),CPT,
-     .        CPT1,SUB_INDEX
-      my_real FN, FT, DX, ANGL,PUN,HTEST,HCLOS,CVIS,RBID,VX,VY,VZ,
-     .        FAC_L,FAC_T,FAC_M, TMIN,TMAX,DT,THICKT,IERREL,DN_P,ZSHIFT,PTHK
+      INTEGER JPID1,JPID2,NISUB,E_TYPE,CPT,
+     .        SUB_INDEX
+      my_real PUN,CVIS,RBID,
+     .        FAC_L,FAC_T,FAC_M, ZSHIFT,PTHK
       CHARACTER(LEN=NCHARLINE) :: IDTITL,KEY,SOLVERKEYWORD
       CHARACTER MESS*40
-      CHARACTER(LEN=NCHARKEY) :: KEY2
-      CHARACTER(LEN=NCHARFIELD) ::STRING
       CHARACTER(LEN=NCHARTITLE) :: TITR1
-      CHARACTER CHROT*7
       DATA NSHELL /0/, NSHSUP /0/, NSHINF /0/
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER USR2SYS
       DATA MESS/'PID DEFINITION                          '/
       DATA PUN/0.1/
 C----------------------
@@ -361,7 +354,7 @@ C--------------------------------------------------
 C      HM READING PROPERTY TYPE4 (SPRING)
 C--------------------------------------------------
              IGTYP=4
-             CALL HM_READ_PROP04(GEO(1,I),IGEO(1,I),UNITAB,PROP_ID,IGTYP,IDTITL,PROP_TAG,LSUBMODEL,IUNIT)
+             CALL HM_READ_PROP04(GEO(1,I),IGEO(1,I),UNITAB,PROP_ID,IGTYP,PROP_TAG,LSUBMODEL)
 
           CASE ('TYPE6','TYPE06','SOL_ORTH')
 c------------------------------
@@ -538,7 +531,7 @@ C            HM READING PROPERTY TYPE26 (SPR_TAB)
 C--------------------------------------------------
              IGTYP=26
              CALL HM_READ_PROP26(GEO(1,I), IGEO(1,I), UNITAB, PROP_ID,IGTYP, 
-     .                           PROP_TAG,IDTITL,LSUBMODEL)
+     .                           PROP_TAG,LSUBMODEL)
 c
           CASE ('TYPE27','SPR_BDAMP')
 C--------------------------------------------------

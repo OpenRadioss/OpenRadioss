@@ -118,7 +118,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,N,J,ID,IDS,K,
+      INTEGER I,N,J,ID,IDS,
      .        MID,PID,IPRT,IPIDS,NSPHDIR,
      .        NSPHCEL,NCELL,IDNOD,INOD,IDMAX,KSPHRES,
      .        NBP,IT,NT,NP,NN,ITOPO,STAT,
@@ -132,8 +132,7 @@ C-----------------------------------------------
       INTEGER :: MID_SPH,MID_SOL
       INTEGER :: LAW_SPH,LAW_SOL
       INTEGER :: ERROR_NUM
-      INTEGER :: I1,I2,I3,I4,I5
-      CHARACTER(LEN=NCHARTITLE) :: C1
+      INTEGER :: I1,I2
       CHARACTER(LEN=NCHARTITLE) :: TITR
       INTEGER :: USER_PART_SPH,USER_PART_SOL
       INTEGER :: USER_MID_SPH,USER_MID_SOL

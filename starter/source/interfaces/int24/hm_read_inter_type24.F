@@ -96,22 +96,20 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,L,IBC1, IBC2, IBC3, IBUC, NOINT, NTYP, IBID,
+      INTEGER I,IBC1, IBC2, IBC3, IBUC, NOINT, NTYP,
      .    INACTI, IBC1M, IBC2M, IBC3M, IGSTI, IVIS2,IS1, IS2,
-     .    ILEV, IGAP,MULTIMP,HIERA,MFROT,IFQ,IBAG,MODFR,IERR1, 
-     .    IFLAGUNIT,ISYM,IEDGE,NOD1,IDUM,IGNORE,IDEL24,KK,II, 
+     .    ILEV, IGAP,MULTIMP,MFROT,IFQ,IBAG,MODFR, 
+     .    ISYM,IEDGE,NOD1,IDUM,IDEL24, 
      .    IGAP0,FLAGREMNOD,IDSENS,IDELKEEP,INTKG,IREM24I2,IPRINT,    
      .    INTFRIC,MULTIMPE,IASSIGN,ICURV,INTPLY,INTTH,NPREF,
      .    INTNITSCHE,IPEN0,NA1,NA2,IADM,NRADM,IFORM,IPSTIF
       my_real
      .    FRIC,GAP,STARTT,BUMULT,STOPT,C1,C2,C3,C4,C5,C6,ALPHA,
-     .    GAPSCALE,GAPMAX,STMIN,STMAX,STIFF,EDG_ANGL,
+     .    GAPSCALE,STMIN,STMAX,EDG_ANGL,
      .    PERCENT_SIZE,GAPMAX_S,GAPMAX_M,PENMAX,PENMIN,VISC,VISCF,
      .    ETEN_M,PADM,ANGLADM,RSTH,FHEAT,TINT,CADM,TPFIT,STFACM,
      .    DTSTIF
-      CHARACTER(LEN=40)::MESS
-      CHARACTER(LEN=NCHARTITLE)::MSGTITL
-      CHARACTER(LEN=NCHARKEY)::OPT,KEY,KEY1
+      CHARACTER(LEN=NCHARKEY)::KEY1
       CHARACTER(LEN=NCHARFIELD)::BCFLAG,BCFLAGM
 !
       INTEGER, DIMENSION(:), POINTER :: INGR2USR
@@ -930,7 +928,6 @@ C--------------------------------------------------------------
       ENDIF
 C
 C--------------------------------------------------------------
- 1000 FORMAT(/1X,'  INTERFACE NUMBER :',I10,1X,A)
 C------------
       RETURN
  999  CALL FREERR(3)
@@ -967,11 +964,7 @@ C------------
  1524 FORMAT(/
      .    '    FRICTION MODEL 0 (Coulomb Law) :'/,
      .    '      FRICTION COEFFICIENT . . . . . . . . . ',1PG20.13/)
- 1525   FORMAT(//
-     .    '    FRICTION MODEL 0 (Coulomb Law) :'/,
-     .  '   Function for FRICTION COEFFICIENT wrt TEMPERATURE',I10/,
-     .      '    Abscissa scale factor on IFUNTCF. . . .  . ',1PG20.13/,
-     .      '    Ordinate scale factor on IFUNTCF .  . .  . ',1PG20.13/)
+
  1526 FORMAT(/
      .    '     EXPONENTIAL DECAY FRICTION LAW   '/
      .    '      MU = c1+(MUo-c1)*exp(-c2*v)'/
@@ -979,10 +972,7 @@ C------------
      .    '      DYNAMIC COEFFICIENT C1 . . . . . . . . . ',1PG20.13/,
      .    '      EXPONENTIAL DECAY COEFFICIENT C2 . . . . ',1PG20.13/)
 
- 1518 FORMAT( '    FRICTION FORMULATION: INCREMENTAL (STIFFNESS) ',
-     .             'FORMULATION')
- 1519 FORMAT( '    FRICTION FORMULATION: TOTAL (VISCOUS) ',
-     .             'FORMULATION')
+
  1520 FORMAT(
      .    '    FRICTION FILTERING FLAG. . . . . . . . . ',I10/,
      .    '    FILTERING FACTOR . . . . . . . . . . . . ',1PG20.13)
