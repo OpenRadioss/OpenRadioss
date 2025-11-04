@@ -460,8 +460,7 @@ C             sorting elements of D00 by ascending id (sorted only once)
                         PTSHEL(IE) = NUMSHEL 
                     ENDIF ! IE > 0   
 C---------store only up to 2 pts of NIP eij(6)+T, pointer= INISHVAR1             
-                    NVSH_STRA = MAX(NVSH_STRA,1+2*MAX(1,NPG)*7)
-!!                    NVSH_STRA = MAX(NVSH_STRA,NIP*MAX(1,NPG)*7)
+                    NVSH_STRA = MAX(NVSH_STRA,2+2*MAX(1,NPG)*7) ! QEPH used 1 and NVSHELL-1 is used 
                   ENDDO ! DO J=1,NB_ELEMENTS
 !
                 ELSEIF ( .NOT. GLOB ) THEN
