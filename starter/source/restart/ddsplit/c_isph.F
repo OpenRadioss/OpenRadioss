@@ -66,7 +66,7 @@ C
 C
       NUMSPH_L = NB_L
 C
-c inlet spmd calcul SLONFSPH_L
+c inlet spmd calculation SLONFSPH_L
       SLONFSPH_L = 0
 
       DO IPRT=1,NPART

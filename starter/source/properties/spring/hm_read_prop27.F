@@ -66,7 +66,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IFUNC,IFUNC2,ISENS,IFL,IFAIL,J,ILENG,ITENS,Fsmooth
+      INTEGER IFUNC,IFUNC2,ISENS,IFL,IFAIL,ILENG,ITENS,Fsmooth
 C     REAL
       my_real
      .   MASS,STIFF,DAMP,GAP,MIN_RUP,MAX_RUP,

@@ -67,7 +67,7 @@ C-----------------------------------------------
         EPINCHYZ(EP) = VDEFPINCH(EP,2) * DT1C(EP)
         EZZ(EP)      = VDEFPINCH(EP,3) * DT1C(EP)
         EZZPG(EP,NG) = EZZ(EP)
-C       for outputs in TH, strains are accumulated strains
+C       For outputs in TH, strains are accumulated strains
         EPGPINCHXZ(EP) = EPGPINCHXZ(EP) + EPINCHXZ(EP)
         EPGPINCHYZ(EP) = EPGPINCHYZ(EP) + EPINCHYZ(EP)
         EPGPINCHZZ(EP) = EPGPINCHZZ(EP) + EZZPG(EP,NG)

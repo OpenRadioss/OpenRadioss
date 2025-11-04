@@ -91,7 +91,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,L,NTYP,UID,IFLAGUNIT,FLAG_FMT,FLAG_FMT_TMP,IERR1,SUB_ID,IFIX_TMP
+      INTEGER NTYP
       CHARACTER(len=ncharkey) :: KEY
 C-----------------------------------------------
 C   S o u r c e   L i n e s

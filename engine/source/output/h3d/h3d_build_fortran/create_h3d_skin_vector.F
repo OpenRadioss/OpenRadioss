@@ -110,6 +110,5 @@ c
 
 
       RETURN
- 999  print *,'error lecture'
       CALL ARRET(0)
       END

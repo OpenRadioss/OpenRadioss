@@ -63,7 +63,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER,INTENT(IN) :: NPARI, NPARIR !< array sizes IPARI and FRIGAP
       INTEGER NOM_OPT(LNOPT1,*)
-      INTEGER ISU1,ISU2,ILAGM,NI,NOINT
+      INTEGER ILAGM,NI,NOINT
       INTEGER IPARI(NPARI),DEF_INTER(100)
       my_real STFAC
       my_real FRIGAP(NPARIR)
@@ -83,7 +83,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER UID,NTYP,USR_TYP
+      INTEGER NTYP,USR_TYP
 C=======================================================================
 C     READING LAGRANGE MULTIPLIER INTERFACES (/INTER/LAGMUL/TYPE2, 
 C         /INTER/LAGMUL/TYPE7, /INTER/LAGMUL/TYPE16,/INTER/LAGMUL/TYPE17)

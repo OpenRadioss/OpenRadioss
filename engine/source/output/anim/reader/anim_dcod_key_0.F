@@ -285,7 +285,7 @@ C---------------------------------------
              ENDIF           
         ELSE IF(KEY3(1:3)=='CRK') THEN
           ! XFEM for layered shell (real crack path visualisation)
-c          ANIM_CRK = 1
+C          ANIM_CRK = 1
 C--------------------------
 C        SHELL:TENSOR
 C--------------------------
@@ -1560,8 +1560,8 @@ C--------------------------
               ENDIF
             ENDIF
           ELSEIF(KEY4(1:5)=='EPSDO')THEN
-c             IEPSDOT = 1
-c             ANIM_ST(3) = 1
+C             IEPSDOT = 1
+C             ANIM_ST(3) = 1
           ELSEIF(KEY4(1:4)=='DAMA')THEN
              ANIM_ST(4) = 1
           ELSEIF(KEY4(1:4)=='EPSP')THEN

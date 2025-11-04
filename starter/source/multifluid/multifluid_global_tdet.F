@@ -31,7 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
-C CASE OF SUBMATERIAL BASED ON JWL MATERIAL LAW (HIGH EXPLISIVE WITH TIME CONTROL DETONATION)
+C CASE OF SUBMATERIAL BASED ON JWL MATERIAL LAW (HIGH EXPLOSIVE WITH TIME CONTROL DETONATION)
 C
 C This subroutine is computing detonation times in global buffer from detonation times of layers (submaterials
 C Global detonation time is relevant when there are several explosive submaterial laws.

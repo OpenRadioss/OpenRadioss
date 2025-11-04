@@ -87,7 +87,7 @@ c
             RF = (-BB+DF)/AA                                                   
             FA(I)=(SQRT(R2)-VK(I)*RF)/FC                                          
 c
-!!            IF (ICRIT_OUTP == 0) THEN ! (EQUIVALENT STRESS)/CTITERION FOR OUTPUT  
+!!            IF (ICRIT_OUTP == 0) THEN ! (EQUIVALENT STRESS)/CRITERION FOR OUTPUT  
 !!              SEQ(I) = FA(I)                                               
 !!              ICRIT_OUTP = 1                                                      
 !!            ENDIF ! IF (ICRIT_OUTP == 0)                                          

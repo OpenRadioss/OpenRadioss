@@ -66,10 +66,10 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER 
-     .        I, MX, J, K
+     .        I, K
 C     REAL
       my_real
-     .   FAC1(MVSIZ), FAC2, Q1(MVSIZ), R1(MVSIZ), R2(MVSIZ),FC1P,
+     .   FAC1(MVSIZ), Q1(MVSIZ), R1(MVSIZ), R2(MVSIZ),
      .   FTMP1(MVSIZ),FTMP2(MVSIZ),FTMP5(MVSIZ),MTMP1(MVSIZ),
      .   MTMP2(MVSIZ),FTMP4(MVSIZ),MTMP3(MVSIZ),FTMP3(MVSIZ),
      .   GTMP1(MVSIZ),GTMP2(MVSIZ),GTMP3(MVSIZ),GTMP4(MVSIZ),

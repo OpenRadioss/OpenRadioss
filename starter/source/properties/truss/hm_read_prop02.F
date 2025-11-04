@@ -66,11 +66,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IG, J
+      INTEGER IG
      
       my_real
      .    PUN,GAP
-      CHARACTER(LEN=NCHARTITLE) :: TITR
       LOGICAL IS_AVAILABLE, IS_ENCRYPTED
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s

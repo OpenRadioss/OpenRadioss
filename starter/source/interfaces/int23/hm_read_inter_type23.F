@@ -383,7 +383,6 @@ C--------------------------------------------------------------
       ENDIF
 C
 C--------------------------------------------------------------
- 1000 FORMAT(/1X,'  INTERFACE NUMBER :',I10,1X,A)
 C------------
       RETURN
 
@@ -418,21 +417,14 @@ C------------
  1524 FORMAT(/
      .    '    FRICTION MODEL 0 (Coulomb Law) :'/,
      .    '      FRICTION COEFFICIENT . . . . . . . . . ',1PG20.13/)
- 1525   FORMAT(//
-     .    '    FRICTION MODEL 0 (Coulomb Law) :'/,
-     .  '   Function for FRICTION COEFFICIENT wrt TEMPERATURE',I10/,
-     .      '    Abscissa scale factor on IFUNTCF. . . .  . ',1PG20.13/,
-     .      '    Ordinate scale factor on IFUNTCF .  . .  . ',1PG20.13/)
+
  1526 FORMAT(/
      .    '     EXPONENTIAL DECAY FRICTION LAW   '/
      .    '      MU = c1+(MUo-c1)*exp(-c2*v)'/
      .    '      STATIC COEFFICIENT MUo . . . . . . . . . ',1PG20.13/,
      .    '      DYNAMIC COEFFICIENT C1 . . . . . . . . . ',1PG20.13/,
      .    '      EXPONENTIAL DECAY COEFFICIENT C2 . . . . ',1PG20.13/)
- 1518 FORMAT( '    FRICTION FORMULATION: INCREMENTAL (STIFFNESS) ',
-     .             'FORMULATION')
- 1519 FORMAT( '    FRICTION FORMULATION: TOTAL (VISCOUS) ',
-     .             'FORMULATION')
+
  1520 FORMAT(
      .    '    FRICTION FILTERING FLAG. . . . . . . . . ',I10/,
      .    '    FILTERING FACTOR . . . . . . . . . . . . ',1PG20.13)

@@ -82,7 +82,7 @@ c
                 CRKNOD(ILEV)%NOD2IAD(NCOUNT) = IADC(J)
               ENDIF
             ENDDO
-c           ! need one more additional node to reconstruct triangle cut elem
+C           ! need one more additional node to reconstruct triangle cut elem
             NCOUNT  = NCOUNT  + 1
             CRKNOD(ILEV)%NOD2IAD(NCOUNT) = IADC(3)
           ENDIF

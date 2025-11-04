@@ -159,9 +159,6 @@ C-----------------------------
       PROP_TAG(IGTYP)%G_NUVAR = NUVAR
 C
       RETURN
- 999  CONTINUE
-        WRITE(IOUT,*)' **ERROR IN PROPERTY 35 INPUT'
-      RETURN
  1000 FORMAT(
      & 5X,'MASS PER UNIT LENGTH. . . . . . . . . .=',1PG20.13/,
      & 5X,'STIFFNESS PER UNIT LENGTH . . . . . . .=',1PG20.13/,

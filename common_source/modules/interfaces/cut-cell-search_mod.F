@@ -435,7 +435,7 @@ C-----------------------------------------------
 
 
         INTEGER ::
-     .          MIN_IX, MIN_IY, MIN_IZ,            !indice voxel min utilise
+     .          MIN_IX, MIN_IY, MIN_IZ,            !voxel min index used
      .          MAX_IX, MAX_IY, MAX_IZ             !Voxel Max index uses
 
         INTEGER ::

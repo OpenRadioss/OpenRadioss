@@ -96,8 +96,8 @@ C OUTPUT ARGUMENTS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, I1, I2, MID, PID,MT,IPID,ID,IDS,J,N,JC,STAT
-      INTEGER CPT,INDEX_PART
+      INTEGER I, I1, I2, MID, PID,MT,IPID,IDS,J,STAT
+      INTEGER INDEX_PART
       CHARACTER MESS*40, MESS2*40
       my_real BID,NORM
       INTEGER, DIMENSION(:), ALLOCATABLE :: SUB_BEAM
@@ -107,7 +107,6 @@ C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
       INTEGER USR2SYS
-      INTEGER NINTRN
       DATA MESS /'3D BEAM ELEMENTS DEFINITION             '/
       DATA MESS2/'3D BEAM ELEMENTS SELECTION FOR TH PLOT  '/
 C=======================================================================

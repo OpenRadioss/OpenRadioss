@@ -65,19 +65,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ITYPE, IBID
-      INTEGER I, J, K, II, N, ID, NDIM, NX(4), NY,
-     .        JREC, NPTS, STAT, IDS, LL, LX(2)
-      INTEGER,DIMENSION(:),ALLOCATABLE :: JPERM1,JPERM2
-      INTEGER,DIMENSION(:,:),ALLOCATABLE :: ITAG
-      INTEGER IERROR, NF
-      my_real  BID, XK, XX, X1, X2, X234(3), YY, Y1, Y2, R, XMIN, XMAX,TIME, FUNCT,SCALEY
-      my_real, DIMENSION(2) :: XD2
-      my_real, DIMENSION(:),ALLOCATABLE :: XV1, XSTOR1, XSTOR2
-      my_real,DIMENSION(:,:),ALLOCATABLE :: XV2
+      INTEGER I, K, N, ID, NDIM, NX(4), NY, STAT
+      my_real  XK, YY
       CHARACTER(LEN=NCHARTITLE) :: TITR
       CHARACTER MESS*40
-      CHARACTER(LEN=NCHARFIELD) :: KEY
       DATA MESS/' FUNCTION & TABLE DEFINITION            '/
       LOGICAL :: IS_ENCRYPTED, IS_AVAILABLE
 C======================================================================|
@@ -100,7 +91,7 @@ C-----------------------------------------------
          CALL ANCMSG(MSGID=777,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_1,
-     .               I1=LL,
+     .               I1=ID,
      .               C1=TITR)
        END IF
        IF(NDIM > 0)CALL HM_GET_INTV('N1', NX(1), IS_AVAILABLE, LSUBMODEL)
@@ -211,10 +202,6 @@ C
       RETURN
 
 C-----------------------------------------------------------------
-2000  FORMAT(//
-     .        '    TABLES'/
-     .        '    ------'/
-     .        '    NUMBER OF TABLES . . . . . . . . . . =',I10/)
 2100  FORMAT(/'    TABLE ID . . . . . . . . . . . . . . =',I10/
      .        '    NUMBER OF PARAMETERS . . . . . . . . =',I10/)
 2200  FORMAT(/'    VALUES FOR PARAMETER NUMBER. . . . . .',I4,':'/)

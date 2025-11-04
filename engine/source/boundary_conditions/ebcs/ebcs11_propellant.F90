@@ -526,7 +526,7 @@
             ! -------------
           enddo !next is
 
-          ! numerical staggered scheme : vitesse.F ;  v[n+1] = v[n] + int(acc, t=t[n],t[n+1] )   ;   acc = F/m
+          ! numerical staggered scheme : velocity.F ;  v[n+1] = v[n] + int(acc, t=t[n],t[n+1] )   ;   acc = F/m
           !   to impose v[n+1] = Vel_Front
           !           -->  v[n] is reset in velocity subroutine for nodes related to /EBCS/PROPELLANT
 

@@ -65,7 +65,6 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: SUB_INDEX
 C     REAL
       my_real GEO(NPROPG)
-      my_real FAC_M, FAC_L, FAC_T
       TYPE(PROP_TAG_) , DIMENSION(0:MAXPROP) :: PROP_TAG
       TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
       CHARACTER(LEN=NCHARTITLE)::IDTITL

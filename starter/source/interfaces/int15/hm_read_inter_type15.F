@@ -74,7 +74,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       CHARACTER(LEN=NCHARTITLE) :: TITR1
-      INTEGER I,J,L, NTYP,IS1, IS2,ISU20,INTKG
+      INTEGER NTYP,IS1, IS2,ISU20,INTKG
       my_real FRIC,GAP,STARTT,STOPT,VISC
       INTEGER, DIMENSION(:), POINTER :: INGR2USR
       LOGICAL IS_AVAILABLE
@@ -189,7 +189,6 @@ C--------------------------------------------------------------
       ENDIF
 C
 C--------------------------------------------------------------
- 1000 FORMAT(/1X,'  INTERFACE NUMBER :',I10,1X,A)
 C------------
       RETURN
 

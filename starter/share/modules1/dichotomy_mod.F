@@ -38,7 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   Module DESCRIPTION :
 C   ===================
-C   Structure which hosts all dochotomy Mappting tables.
+C   Structure which hosts all dichotomy Mapping tables.
 C-----------------------------------------------
 C   DUMMY ARGUMENTS DESCRIPTION:
 C   ===================

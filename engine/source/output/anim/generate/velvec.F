@@ -221,7 +221,6 @@ c----------------------------
         ENDIF                      
       ENDIF
 C-------------
- 300  CONTINUE
       RETURN
       END
 
@@ -629,7 +628,6 @@ c----------------------------
         ENDIF
       ENDIF!(ISPMD==0) 
 c----------------------------  
- 300  CONTINUE
       DEALLOCATE(VG)
       RETURN
       END

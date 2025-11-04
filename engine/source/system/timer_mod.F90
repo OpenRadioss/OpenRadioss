@@ -195,36 +195,36 @@
 !     timer                       signification
 !
 !     1                           resol
-!     2                           interfaces (total ou tri fop) [tri type 7, ALE]
+!     2                           interfaces (total or tri fop) [tri type 7, ALE]
 !     3                           elements
 !     4                           cond. cin.
 !     5                           integration
-!     6                           non parallel sur p0
+!     6                           non parallel on p0
 !     7                           IO
 !     8                           interfaces (forces fop) [i7opcd,i7dst3,i7for3,shooting nodes]
-!     9                           assemblage forces
-!    10                           echange forces spmd
-!    11                           echange rigid bodies forces
-!    12                           echange rigid bodies vitesses
-!    13                           echange vitesse spmd
+!     9                           assembly forces
+!    10                           exchange forces spmd
+!    11                           exchange rigid bodies forces
+!    12                           exchange rigid bodies velocities
+!    13                           exchange velocity spmd
 !    14                           -----
-!********* TIMERS 15 A 25 ACTIVE sur /DEBUG/CAND + /MON/ON ***************
+!********* TIMERS 15 TO 25 ACTIVE on /DEBUG/CAND + /MON/ON ***************
 !    15                           interface i7buce_crit
-!    16                           interface icomcrit (comm critere de tris)
+!    16                           interface icomcrit (comm criterion of sorting)
 !    17                           interface i7main_tri (tri)
-!    18                           interface spmd_ifront     (maj frontieres)
+!    18                           interface spmd_ifront     (update boundaries)
 !    19                           interface i7optcd
 !    20                           interface force i7for3
-!    21                           interface envoi force
-!    22                           interface reception force
-!    23                           interface envoi vitesse
-!    24                           interface reception vitesse
-!    25                           interface envoi XV tri (TRI7BOX)
-!    26                           interface maj cand tri (no comm, included in i7maindb)
+!    21                           interface send force
+!    22                           interface receive force
+!    23                           interface send velocity
+!    24                           interface receive velocity
+!    25                           interface send XV tri (TRI7BOX)
+!    26                           interface update cand tri (no comm, included in i7maindb)
 !    27                           interface tri mmx (comm only, included in spmd_i7crit)
 !    28                           interface tied type 2
 !    29                           interface shooting nodes
-!    30                           interface i7buce pure (sans comm)
+!    30                           interface i7buce pure (without comm)
 !    31                           [K] setup
 !    32                           [M] setup
 !    33                           implicit solver
@@ -234,7 +234,7 @@
 !    37                           adaptive meshing : kinematic conditions forces
 !    38                           adaptive meshing : kinematic conditions velocities
 !    39                           selective mass scaling
-!********* TIMERS 40 A 60 ACTIVE sur /DEBUG/CAND + /MON/ON ***************
+!********* TIMERS 40 TO 60 ACTIVE on /DEBUG/CAND + /MON/ON ***************
 !    40                           cond cine rbodies + sensors + accelerometres
 !    41                           cond cine concentrated load forces
 !    42                           cond cine boundary conditions
@@ -251,15 +251,15 @@
 !    53                           task0 DT2
 !    54                           task0 R2R
 !    55                           -----
-!    56                           synchro avant critere tri
-!    57                           synchro apres critere tri
-!    58                           synchro fin de tri
-!    59                           synchro apres element+interf forces
-!    60                           synchro fin cycle si cc a envoyer
+!    56                           synchro before sorting criterion
+!    57                           synchro after sorting criterion
+!    58                           synchro end of sorting
+!    59                           synchro after element+interf forces
+!    60                           synchro end cycle if cc to send
 !********* TIMERS 61 A 70 ACTIVE sur /MON/FULL ***************
 !    61                           AMS PCG  PCG       :: PCG sauf produits matrice-vecteur W=MV
 !    62                           AMS PCG  PARIT F   :: calcul des normes et produits scalaires P/ON (sum_6_float)
-!    63                           AMS PCG  COMM R    :: comm. pour calcul des normes et produiys scalaires
+!    63                           AMS PCG  COMM R    :: comm. for calculation of norms and scalar products
 !    64                           AMS PCG  COMP M.V  :: calcul W=MV hors communications
 !    65                           AMS PCG  COMM VFI  :: COMM. ECHANGE VFI cf contacts
 !    66                           IMP PCG
@@ -277,7 +277,7 @@
 !
 !    75 - 86                      utilise, mais non decrit ..
 !
-!    80                           AMS PCG COMM M.V   :: COMM. pour ASSEMBLAGE de W=MV
+!    80                           AMS PCG COMM M.V   :: COMM. for ASSEMBLY of W=MV
 !
 !    87                           sph preparation (sorting, ...)
 !    88                           sph interactions (forintp)

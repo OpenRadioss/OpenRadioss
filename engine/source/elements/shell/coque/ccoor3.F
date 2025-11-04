@@ -46,7 +46,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JFT, JLT, J
+      INTEGER JFT, JLT
       INTEGER NGL(MVSIZ), IXC(NIXC,*),MAT(MVSIZ), PID(MVSIZ)
 C     REAL
       my_real
@@ -188,7 +188,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, II(9),NN(4)
+      INTEGER I, II(9),NN(4)
       my_real 
      .   X0G2(MVSIZ),X0G3(MVSIZ),X0G4(MVSIZ),Y0G2(MVSIZ),
      .   Y0G3(MVSIZ),Y0G4(MVSIZ),Z0G2(MVSIZ),Z0G3(MVSIZ),Z0G4(MVSIZ),

@@ -255,7 +255,7 @@
               KRA3=KRA2+NNA
               KRA8=KRA1+12*NNA+NTGI
               IF (IAN==3) THEN
-! pression
+! pressure
                 IF (NSPMD > 1)THEN
                   CALL SPMD_FVB_SCAT_NUM_NODA(IFV,VOLMON(KRA1),NNA)
                   CALL SPMD_FVB_SCAT_NUM_NODA(IFV,VOLMON(KR1),NNT)

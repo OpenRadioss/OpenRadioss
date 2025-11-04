@@ -410,7 +410,7 @@
             endif
           endif
 !--------------------------------------------------
-!     boucle sur les points de gauss
+!     loop over gauss points
 !--------------------------------------------------
           do ipt=1,npt
             lbuf   => bufly%lbuf(1,1,ipt)
@@ -1233,7 +1233,7 @@
 !
           enddo  !  ipt=1,npt
 !--------------------------------------------------
-!     egalisation de la pression
+!     pressure equalization
 !--------------------------------------------------
           do i=lft,llt
             pnew(i) = -(sig(i,1) + sig(i,2) + sig(i,3)) * third

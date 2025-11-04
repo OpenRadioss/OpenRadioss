@@ -167,7 +167,7 @@ C     rupture property for interface type 2
 C          ( not a true user property )
 C--------------------------------------------------
           IGTYP=37
-          CALL HM_READ_PROP_USER4(IOUT  ,NUVAR ,PARGEO ,UNITAB ,LSUBMODEL)
+          CALL HM_READ_PROP_USER4(IOUT  ,NUVAR ,UNITAB ,LSUBMODEL)
 
              
         CASE ('TYPE43','CONNECT')
@@ -180,7 +180,7 @@ C--------------------------------------------------
           IGTYP=44
           CALL HM_READ_PROP44(IOUT  ,IG   ,NUVAR ,PARGEO,
      .                        UNITAB,ISKN  ,IGEO ,TITR  ,IGTYP ,
-     .                        PROP_TAG,LSUBMODEL ,SUB_INDEX,IUNIT)
+     .                        PROP_TAG,LSUBMODEL ,SUB_INDEX)
 
         CASE ('TYPE45','KJOINT2')              
           IGTYP     =45
@@ -190,7 +190,7 @@ C--------------------------------------------------
         CASE ('TYPE46','SPR_MUSCLE')              
           IGTYP     =46
           CALL HM_READ_PROP46(IOUT , NUVAR ,PARGEO,UNITAB,IGTYP,
-     .                        IG,PROP_TAG,TITR,LSUBMODEL,IUNIT)
+     .                        IG,PROP_TAG,LSUBMODEL,IUNIT)
 
         CASE ('TYPE29','TYPE30','TYPE31',
      .        'USER1' ,'USER2' ,'USER3')

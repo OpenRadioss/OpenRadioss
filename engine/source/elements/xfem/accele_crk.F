@@ -73,7 +73,7 @@ c
             IF (EN0 > 0) FAC(EN0) = FAC(EN0) + 1                        
           END DO                                                        
         END DO                                                          
-c                                                                      
+C                                                                      
         DO ILEV=1,NLEV                                                  
           DO KK = NCT_CRK+1, NCT_CRK+NC_CRK                             
             EN0 = CRKLVSET(ILEV)%ENR0(2,KK)                             

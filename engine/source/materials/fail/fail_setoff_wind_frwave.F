@@ -205,9 +205,6 @@ c------------------
 c----------------------------------------
       ENDIF       ! PROPERTY TYPE
 c-------------------------------
- 2000 FORMAT(1X,'-- FAILURE OF LAYER',I3, ' ,SHELL ELEMENT NUMBER ',I10)
- 2100 FORMAT(1X,'-- FAILURE OF LAYER',I3, ' ,SHELL ELEMENT NUMBER ',I10,
-     .       1X,'AT TIME :',G11.4)
 c-----------
       RETURN
       END

@@ -112,6 +112,5 @@ C   deplacer apres SORTIES :
 !$OMP END DO
 
 C-----------------------------------------------
- 200  CONTINUE
       RETURN
       END

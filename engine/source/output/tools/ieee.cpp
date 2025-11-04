@@ -158,7 +158,7 @@ void IEEE_ASCII_to_real(float *reel,unsigned char octet[4])
   mantisse /= ldexp(1.,24);
   mantisse += 0.5;
 
-  /* nombre */
+  /* number */
   *reel = (float) signe * mantisse * ldexp(1.,exposant);
 
 } /* fin IEEE_ASCII_to_real */
@@ -174,7 +174,7 @@ void double_to_IEEE_ASCII(double *reel,unsigned char octet[1000][8],int len)
         {
           if (reel[i] < 0. )
           {
-                if (reel[i] > -4.e-308 ){ /* valeur exacte -2.22e-308 */
+                if (reel[i] > -4.e-308 ){ /* exact value -2.22e-308 */
                         /* -0. */
                         octet[i][0] = 0x80;
                         octet[i][1] = 0x00;
@@ -185,7 +185,7 @@ void double_to_IEEE_ASCII(double *reel,unsigned char octet[1000][8],int len)
                         octet[i][6] = 0x00;
                         octet[i][7] = 0x00;
                         continue;
-                } else if( reel[i] < -1.e+308){ /* valeur exacte -1.79e+308 */
+                } else if( reel[i] < -1.e+308){ /* exact value -1.79e+308 */
                         /* -Infinity */
                         octet[i][0] = 0xff;
                         octet[i][1] = 0xf0;
@@ -205,7 +205,7 @@ void double_to_IEEE_ASCII(double *reel,unsigned char octet[1000][8],int len)
           }
           else
           {
-                if (reel[i] < 4.e-308 ){ /* valeur exacte 2.22e-308 */
+                if (reel[i] < 4.e-308 ){ /* exact value 2.22e-308 */
                         /* +0. */
                         octet[i][0] = 0x00;
                         octet[i][1] = 0x00;
@@ -216,7 +216,7 @@ void double_to_IEEE_ASCII(double *reel,unsigned char octet[1000][8],int len)
                         octet[i][6] = 0x00;
                         octet[i][7] = 0x00;
                         continue;
-                } else if( reel[i] > 1.e+308){ /* valeur exacte 1.79e+308 */
+                } else if( reel[i] > 1.e+308){ /* exact value 1.79e+308 */
                         /* +Infinity */
                         octet[i][0] = 0x7f;
                         octet[i][1] = 0xf0;
@@ -296,7 +296,7 @@ void IEEE_ASCII_to_double(double *reel,unsigned char octet[1000][8],int len)
     mantisse /= 9.0071992547409920E15;
     mantisse += 0.5;
 
-    /* nombre */
+    /* number */
     reel[i] = signe * mantisse * ldexp(1.,exposant);
   } /* fin for */
 

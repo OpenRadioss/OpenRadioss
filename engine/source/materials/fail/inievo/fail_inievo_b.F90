@@ -117,7 +117,7 @@
           !c! user variable # 2,              positive stress triaxiality bounded plastic strain
           !c! user variable # 3+(j-1)*3,      damage initiation variable
           !c! user variable # 4+(j-1)*3,      damage evolution variable
-          !c! user variable # 5,              pla ou sigy
+          !c! user variable # 5,              pla or sigy
 !c===============================================================================================
           !step1: recovering failure criterion parameters and initiation
           !=======================================================================

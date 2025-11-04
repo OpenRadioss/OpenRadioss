@@ -98,7 +98,7 @@ C OUTPUT ARGUMENTS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, I1, I2,PID,N,ID,IDS,J,STAT,MID,IAD,NNOD,IGS
+      INTEGER I, I1, I2,PID,N,J,STAT,MID,IAD,NNOD,IGS
       INTEGER INDEX_PART
       INTEGER TABIDS(NUMELX)
       CHARACTER MESS*40

@@ -82,7 +82,6 @@ C-----------------------------------------------
          GOTO 9990
       END IF
 C
- 9999 CONTINUE
       RETURN
 C
  9990 CONTINUE

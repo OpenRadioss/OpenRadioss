@@ -77,7 +77,7 @@ C
 C      
       S3000 = THREE1000
 C
-Calcul connectivite sph pour A000 domdec
+Calculate sph connectivity for A000 domdec
 C
       NBCSPH = 0
       DO I = 1, NUMSPH

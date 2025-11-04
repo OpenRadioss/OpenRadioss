@@ -62,7 +62,7 @@ C-----------------------------------------------
      .   STFAC
       my_real
      .   FRIGAP(*)
-      CHARACTER(LEN=NCHARTITLE) :: TITR,TITR1
+      CHARACTER(LEN=NCHARTITLE) :: TITR
       TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
 C-----------------------------------------------
@@ -75,17 +75,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,L, NTYP, IBID,INACTI,IS1, IS2,ILEV,NCURS,NLO,       
-     .    NFRIC, NDAMP1,NDAMP2,IRS,IRM,IFUN1,IFUN2,HFLAG,IKK,II,  
+      INTEGER J, NTYP,INACTI,IS1, IS2,ILEV,       
+     .    NDAMP1,NDAMP2,IRS,IRM,IFUN1,IFUN2,HFLAG,  
      .    INTKG, NFRIC1,NFRIC2,ICOR,IERR1,IERR2,IFRIC1,IFRIC2,
      .    IDAMP1,IDAMP2,IGSTI
       my_real
-     .   FAC,FAC1,FAC2,FAC3,FACF,FACV,FRIC,GAP,STARTT,STOPT,SFRIC,
+     .   FAC1,FAC2,FAC3,FACF,FACV,FRIC,GAP,STARTT,STOPT,SFRIC,
      .   VISC,FACX,STIFF
-      CHARACTER(LEN=40)::MESS
-      CHARACTER(LEN=NCHARTITLE)::MSGTITL
-      CHARACTER(LEN=NCHARKEY)::OPT,KEY,KEY1
-      CHARACTER(LEN=NCHARFIELD)::BCFLAG,BCFLAGM
+
 !
       INTEGER, DIMENSION(:), POINTER :: INGR2USR
       LOGICAL IS_AVAILABLE
@@ -363,9 +360,6 @@ C--------------------------------------------------------------
       ENDIF
 C
 C--------------------------------------------------------------
- 1000 FORMAT(/1X,'  INTERFACE NUMBER :',I10,1X,A)
- 1300 FORMAT(    /1X,'   INTERFACES               ' /
-     .            1X,' --------------             '// )
 C------------
       RETURN
 

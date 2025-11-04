@@ -102,8 +102,7 @@ C OUTPUT ARGUMENTS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, I1, I2,PID,N,ID,IDS,J,IPID,JC,STAT,IMID,IGTYP,MID
-      INTEGER FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP
+      INTEGER I, I1, I2,PID,N,IDS,J,IPID,STAT,IMID,IGTYP,MID
       INTEGER FLAG_KJ(NUMELR),IKJ_TMP(3,NUMELR),NUMEL_KJ,CPT,
      .        INDEX_PART
       CHARACTER MESS*40, MESS2*40, CHAR_MAT*11, CHAR_SKEW*11
@@ -113,7 +112,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER NINTRN
       INTEGER USR2SYS
       DATA MESS /'3D SPRING ELEMENTS DEFINITION           '/
       DATA MESS2/'3D SPRING ELEMENTS SELECTION FOR TH PLOT'/

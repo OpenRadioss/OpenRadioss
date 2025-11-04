@@ -37,8 +37,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-        INTEGER, INTENT(inout) :: NELEMINT !< number of new weight for rbe3
-        INTEGER, INTENT(inout) :: IFIEND !< adress of the last weight
+        INTEGER, INTENT(inout) :: NELEMINT !< number of new weights for rbe3
+        INTEGER, INTENT(inout) :: IFIEND !< address of the last weight
         INTEGER, INTENT(in) :: S_LRBE3 !< size of LRBE3 array
         INTEGER, INTENT(in) :: NRBE3L !< 1rst dim of size of IRBE3
         INTEGER, INTENT(in) :: NRBE3 !< 2nd dim of size of IRBE3, number of RBE3

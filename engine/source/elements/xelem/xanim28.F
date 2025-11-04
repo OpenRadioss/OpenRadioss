@@ -189,7 +189,4 @@ C-----
 C-----
       RETURN
 C-----
- 999  CONTINUE
-      CALL ANCMSG(MSGID=141,ANMODE=ANINFO)
-      CALL ARRET(2)
       END

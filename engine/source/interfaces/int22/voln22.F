@@ -38,9 +38,9 @@ C-----------------------------------------------
 C Interface Type22 (/INTER/TYPE22) is an FSI coupling method based on cut cell method. 
 C   This experimental cut cell method is not completed, abandoned, and is not an official option.
 C
-C this subroutines update VOLN for cut cells.
+C this subroutine updates VOLN for cut cells.
 C Main cells have extended values of volume due
-C to secnd cell merging. This extension data is 
+C to second cell merging. This extension data is 
 C stored in cut cell buffer and is now used here
 C to update VOLN(*)
 C-----------------------------------------------
@@ -70,8 +70,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I, II, IB, NCELL, IPOS, MCELL, NIN , NSecnds, IBV, ICELLv, NumSecnd,ISECND
-      my_real :: VAR, AREAM, VOLM, VOLsecnds
+      INTEGER :: I, II, IB, NCELL, IPOS, MCELL, NIN , NSeconds, IBV, ICELLv, NumSecond,ISECOND
+      my_real :: VAR, AREAM, VOLM, VOLseconds
 C-----------------------------------------------
 C   P r e - C o n d i t i o n s
 C-----------------------------------------------

@@ -478,7 +478,6 @@ C check if -dylib has got an argument or if the next string is an input command
 
          ENDIF     !         IF (PUSERLNAMI+1  > ARGN) THEN
        ENDIF
- 3000  CONTINUE
 C------------------------------------------------
 C -MDS_LIBPATH
 C------------------------------------------------

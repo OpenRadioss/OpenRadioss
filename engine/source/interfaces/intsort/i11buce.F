@@ -217,8 +217,6 @@ C Reduction of the number of voxels
 
         CALL MY_BARRIER
 
-  100 CONTINUE
-
 C
 C     I_MEM = 1 ==> N/A
 C     I_MEM = 2 ==> PAS ASSEZ DE MEMOIRE CANDIDATS

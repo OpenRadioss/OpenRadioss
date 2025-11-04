@@ -179,10 +179,10 @@
           &anim_v(6)+outp_v(6)+h3d_data%n_vect_fext
 !
           if(iparit==0) then
-! code spmd parith/off ou smp ne pas oublier le code p/on !               { spmd parith/off or smp code fo not forget the p/on code! }
-            ! en parith/on pour le spmd il faut calculer sur chaque proc  { in parith/on for the spmd it is necessary to calculate on each proc }
-            ! en parith/off pour le spmd il ne faut calculer qu'une fois  { in parith/off for the spmd you only have to calculate once }
-            ! noeud servant sur ce proc                                   { node serving on this proc }
+! spmd parith/off or smp code do not forget the p/on code!
+            ! in parith/on for the spmd it is necessary to calculate on each proc
+            ! in parith/off for the spmd you only have to calculate once
+            ! node serving on this proc
             do nl=1,nconld-nploadpinch
               n1      = ib(1,nl)
               n2      = ib(2,nl)
@@ -379,7 +379,7 @@
 !
               else
 !----------------
-!       pression
+!       pressure
 !----------------
 
                 if(idel > 0 ) cycle  ! segment deleted
@@ -898,7 +898,7 @@
 !
               else
 !--------------------
-!         pression
+!         pressure
 !--------------------
 
                 if(idel > 0 ) cycle  ! segment deleted

@@ -211,11 +211,6 @@ C
 C
  2000  FORMAT(' RAYLEIGH DAMPING'  /
      .  '  NUMBER OF NEW DAMPING PARAMETERS. . . . . . =' ,I8 /)
- 2050  FORMAT(' ** ERROR:  INPUT ERROR IN OPTION DAMP',/
-     .'    WRONG NUMBER OF DAMPING PARAMETERS FOR /DAMP/ID NUMBER:',
-     .   I10/)
- 2100  FORMAT(' ** ERROR:  INPUT ERROR IN OPTION DAMP',/
-     .        '    /DAMP/ID NUMBER:',I10,' NOT FOUND'/)
  2200  FORMAT('DAMPING ID . . . . . . . . . . . . .',I10
      .        /5X,'ALPHA. . . . . . . . . . . . . .',1PG20.13
      .        /5X,'BETA . . . . . . . . . . . . . .',1PG20.13

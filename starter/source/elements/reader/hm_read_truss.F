@@ -94,9 +94,8 @@ C OUTPUT ARGUMENTS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, I1, I2, MID, PID,MT,IPID,ID,IDS,J,N,JC,STAT
-      INTEGER FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP,CPT,
-     .        INDEX_PART
+      INTEGER I, I1, I2, MID, PID,MT,IPID,IDS,J,N,STAT
+      INTEGER INDEX_PART
       CHARACTER MESS*40, MESS2*40
       my_real
      .   BID 
@@ -104,7 +103,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER NINTRN
       INTEGER USR2SYS
 C
       DATA MESS/'3D TRUSS ELEMENTS DEFINITION            '/
@@ -202,7 +200,5 @@ C----
  300  FORMAT(/' TRUSS ELEMENTS'            /
      +        ' --------------'            /
      + '  LOC-EL  GLO-EL   MATER    GEOM   NODE1   NODE2')
- 310  FORMAT(' TRUSS ELEMENT TH SELECTION'/
-     +       ' --------------------------'/)
       RETURN
       END

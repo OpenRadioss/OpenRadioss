@@ -2577,7 +2577,6 @@ c with overweighting of the central point (quadrangles)
 c with overweighting of the facet (triangles)
 c        goto 2345
 c          add ici
- 2345     continue
           IF (IKEEP==1) THEN
            PENE(I) = ZERO
            ICONTACT(I) = 0
@@ -2897,7 +2896,6 @@ c            TIME_S(N) = ADT0(I)
 
 c debug
 !!!      goto 123      
- 123  continue
 C=======================================================================
 c       special plan/plan: node/edge
 C=======================================================================

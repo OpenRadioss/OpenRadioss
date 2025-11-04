@@ -111,7 +111,7 @@ C-----------------------------------------------
       my_real, PARAMETER :: SFAC = 1.05D0 ! Security factor of ICONV
 C
       !=======================================================================
-      ! - INITIALISATION OF COMPUTATION ON TIME STEP
+      ! - INITIALIZATION OF COMPUTATION ON TIME STEP
       !=======================================================================
       ! Recovering model parameters
       ! -> Elastic parameters
@@ -161,7 +161,7 @@ c
         DPLAT(I) = ZERO
         DPLAS(I) = ZERO
       ENDDO
-c     Initialize plastic Poisson ratio
+C     Initialize plastic Poisson ratio
       IF (TIME == ZERO) THEN
         NUP(1:NEL)    = NUPC
         UVAR(1:NEL,7) = NUPC
@@ -228,7 +228,7 @@ C
      .       +           (SDXY(I)**2 + SDZX(I)**2 + SDYZ(I)**2)
         SVM(I)  = SQRT(THREE*SVM(I))
       ENDDO
-c      
+C      
       !========================================================================
       ! - COMPUTATION OF YIELD FONCTION
       !======================================================================== 
@@ -260,19 +260,19 @@ c
           INDX(NINDX) = I
         ENDIF
       ENDDO
-c      
+C      
       !====================================================================
       ! - PLASTIC RETURN MAPPING WITH CUTTING PLANE METHOD
       !====================================================================
       IF (NINDX > 0) THEN
-c  
+C  
         ! Loop over the iterations   
         DO ITER = 1,3
 c
           ! Loop over yielding elements
           DO II = 1,NINDX         
             I = INDX(II)
-c        
+C        
             ! Note     : in this part, the purpose is to compute for each iteration
             ! a plastic multiplier allowing to update internal variables to satisfy
             ! the consistency condition using the cutting plane algorithm
@@ -281,7 +281,7 @@ c
             ! -> DPHI_DLAMBDA : derivative of PHI with respect to DLAMBDA by taking
             !                   into account of internal variables kinetic : 
             !                   plasticity ... 
-c        
+C        
             ! 1 - Computation of DPHI_DSIG the normal to the yield surface
             !-------------------------------------------------------------
 C                  
@@ -305,7 +305,7 @@ C
 C                     
             ! 2 - Computation of DPHI_DLAMBDA
             !---------------------------------------------------------
-c        
+C        
             !   a) Derivative with respect stress increments tensor DSIG
             !   --------------------------------------------------------
             DFDSIG2 = NORMXX*(AA1*NORMXX_N + AA2*(NORMYY_N + NORMZZ_N)) +
@@ -352,7 +352,7 @@ C
             DA2_DSIGC = TWENTY7*CC*SIGS(I)/SIGC(I)  
             !   -> With respect to SIGT                       
             DA2_DSIGT = TWENTY7*CC*SIGS(I)/SIGT(I)                     
-c            
+C            
             ! -> A parameters derivatives with respect to lambda        
             !   -> A0 with respect to lambda                                               
             DA0_DLAM = SIX*SIGS(I)*DSIGS_DLAM      
@@ -360,16 +360,16 @@ c
             DA1_DLAM = DA1_DSIGS*DSIGS_DLAM + DA1_DSIGT*DSIGT_DLAM + DA1_DSIGC*DSIGC_DLAM
             !   -> A2 with respect to lambda                     
             DA2_DLAM = DA2_DSIGS*DSIGS_DLAM + DA2_DSIGT*DSIGT_DLAM + DA2_DSIGC*DSIGC_DLAM                                                
-c          
-c            
+C          
+C            
             ! 3 - Computation of plastic multiplier and variables update
             !----------------------------------------------------------
-c          
+C          
             ! Derivative of PHI with respect to DLAM
             DPHI_DLAM = - DFDSIG2 - DA0_DLAM - P(I)*DA1_DLAM - (P(I)**2)*DA2_DLAM   
             DPHI_DLAM = SIGN(MAX(ABS(DPHI_DLAM),EM20),DPHI_DLAM)                 
             DLAM = -PHI(I)/DPHI_DLAM    
-c          
+C          
             ! Plastic strains tensor update
             DPXX = DLAM*NORMXX_N                          
             DPYY = DLAM*NORMYY_N                          
@@ -377,7 +377,7 @@ c
             DPXY = DLAM*NORMXY_N                          
             DPYZ = DLAM*NORMYZ_N                          
             DPZX = DLAM*NORMZX_N                 
-c          
+C          
             ! Elasto-plastic stresses update   
             SIGNXX(I) = SIGNXX(I) - (AA1*DPXX + AA2*(DPYY + DPZZ)) 
             SIGNYY(I) = SIGNYY(I) - (AA1*DPYY + AA2*(DPXX + DPZZ))
@@ -385,7 +385,7 @@ c
             SIGNXY(I) = SIGNXY(I) - TWO*G*DPXY     
             SIGNYZ(I) = SIGNYZ(I) - TWO*G*DPYZ  
             SIGNZX(I) = SIGNZX(I) - TWO*G*DPZX
-c          
+C          
             ! Cumulated plastic strains update       
             PLAT(I)  = PLAT(I) + DLAM*(SVM(I)/NORM)*THREE/(ONE + NUP(I))
             PLAC(I)  = PLAT(I)    
@@ -467,7 +467,7 @@ C
         ENDDO 
       ENDIF
 c-----------------------------------------------
-c     Update plastic Poisson coefficient
+C     Update plastic Poisson coefficient
 c-----------------------------------------------
       IF (IFUNC(1) > 0) THEN
         IAD(1:NEL)  = NPF(IFUNC(1))   / 2 + 1
@@ -478,7 +478,7 @@ c-----------------------------------------------
         UVAR(1:NEL,7) = YFAC(1) * NUP(1:NEL)
         UVAR(1:NEL,7) = MAX(ZERO, MIN(NUP(1:NEL), HALF))
       END IF
-c      
+C      
       !====================================================================
       ! - STORING NEW VALUES
       !====================================================================
@@ -501,5 +501,5 @@ c
         ! Computation of the hourglass coefficient
         ET(I)     = HALF
       ENDDO         
-c         
+C         
       END

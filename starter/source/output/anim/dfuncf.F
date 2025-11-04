@@ -252,7 +252,7 @@ C
           ENDIF
         ENDIF ! IF (ITY)
 C-----------------------------------------------                        
-C       FIN DE BOUCLE SUR LES OFFSET
+C       END OF LOOP ON OFFSETS
 C-----------------------------------------------                        
        ENDDO ! DO OFFSET = 0,NEL-1,NVSIZ
       ENDDO !       DO NG=1,NGROUP

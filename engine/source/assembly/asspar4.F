@@ -109,7 +109,7 @@ C-----------------------------------------------
         INTEGER :: CHUNK_NODE,CHUNK_NODE_1
         INTEGER, PARAMETER :: IVSIZE = 32
 C-----------------------------------------------
-C Element
+C element
 C-----------------------------------------------
 
         VIND_SIZE=MAX(NODLT-NODFT+1,IVSIZE)
@@ -134,7 +134,7 @@ C-----------------------------------------------
           ADSKYI(N) = ADSKYI(N)+1
         ENDDO
 C-----------------------------------------------
-C   CALCULATION OF SKYLINE VECTOR ADDRESSES
+C Computing SKYLINE VECTOR ADDRESSES
 C-----------------------------------------------
         ADSKYI(0) = 1
         ADSKYI(1) = 1
@@ -960,7 +960,7 @@ C
             ENDDO
           ENDDO
 !$OMP END DO
-c ftheskyi and condnskyi are nor all reset to zero
+C ftheskyi and condnskyi are nor all reset to zero
 c
 C fin nisky/=0
         ENDIF

@@ -222,7 +222,6 @@ C (in // SMP there is possibility of processing redundancy but no pb)
      7   NRTM    ,NSNROLD  ,IGAP     ,GAP      ,GAP_S   ,
      8   GAP_M   ,GAPMIN   ,GAPMAX   ,MARGE    ,CURV_MAX,
      9   NIN     ,ITASK    ,BGAPSMX  ,INTHEAT,IDT_THERM,NODADT_THERM)
- 234  continue
 
 C
 C     I_MEM = 1 ==> PAS ASSEZ DE MEMOIRE PILE

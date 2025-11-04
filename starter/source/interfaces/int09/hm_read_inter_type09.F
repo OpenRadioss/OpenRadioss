@@ -69,13 +69,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,L, NTYP,IS1, IS2,IEULT,IGSTI,ILEV,IBUC,
+      INTEGER NTYP,IS1, IS2,IEULT,IGSTI,ILEV,IBUC,
      .   IBC1, IBC2, IBC3,IBC1M, IBC2M, IBC3M,INTKG
       my_real
      .   FRIC,GAP,STARTT,STOPT,FHEAT,STENS,VISC
-      CHARACTER(LEN=40)::MESS
-      CHARACTER(LEN=NCHARTITLE)::MSGTITL
-      CHARACTER(LEN=NCHARKEY) ::  OPT,KEY,KEY1
+
 !
       INTEGER, DIMENSION(:), POINTER :: INGR2USR
       LOGICAL :: IS_AVAILABLE
@@ -201,7 +199,6 @@ C
       ENDIF
 C
 C--------------------------------------------------------------
- 1000 FORMAT(/1X,'  INTERFACE NUMBER :',I10,1X,A)
 C------------
  1509 FORMAT(//
      .    '    TYPE==9  ALE-THERMAL SLIDING AND VOIDS  ' //,

@@ -65,7 +65,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
       USE MESSAGE_MOD
-      USE SUBMODEL_MOD , ONLY : NSUBMOD, SUBMODEL_DATA
+      USE SUBMODEL_MOD , ONLY : SUBMODEL_DATA
       USE READER_OLD_MOD , ONLY : LINE
       USE USER_ID_MOD , ONLY : ID_LIMIT
       use element_mod , only : nixtg
@@ -113,7 +113,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real
      .   BID,FAC_L
-      INTEGER I, J, I1, I2, ID,IDS,IPID,MT,N,MID,PID,UID,JC,STAT,IPARTTG_TMP
+      INTEGER I, J, I1, I2, ID,IDS,IPID,MT,N,MID,PID,UID,STAT,IPARTTG_TMP
       INTEGER INDEX_PART
       CHARACTER*40 MESS
       DATA MESS /'2D TRIANGULAR ELEMENT DEFINITION '/
@@ -124,7 +124,6 @@ C-----------------------------------------------
 C   FUNCTION
 C-----------------------------------------------
       INTEGER USR2SYS
-      INTEGER NINTRN
 C=======================================================================
 C--------------------------------------------------
 C      ALLOCS & INITS

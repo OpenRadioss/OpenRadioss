@@ -44,9 +44,9 @@ C dimensions : size,title(=1)/desc(=2)
       PARAMETER (SMESSAGESMAX=210000)
 C This SMESSAGESMAX could be increased without problem
 C it is just a security because message structured object
-C is sized according maxid message read (to avoid to hanble an index)
+C is sized according maxid message read (to avoid to handle an index)
 C so in case of error during read this bound will head to a clean error
-C better than a durty one
+C better than a dirty one
 
       INTEGER ANINFO,ANINFO_BLIND,ANINFO_MSG,ANINFO_BLIND_1,ANINFO_BLIND_2
       INTEGER MSGINFO,MSGWARNING,MSGERROR,ANSTOP,MSG_CUMU,MSG_PRINT

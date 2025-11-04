@@ -212,7 +212,7 @@
           integer :: j3ad(mvsiz)
           integer :: j3func
           integer :: j2k
-!     real ou real*8
+!     real or real*8
           real(kind=WP) :: b1
           real(kind=WP) :: ddx(mvsiz)
           real(kind=WP) :: fold(mvsiz)
@@ -1015,7 +1015,7 @@
 !     non linear damping
 !--------------------------------------------------------------------
           if(impl_s==0.or.idyna>0) then
-!  rentrer un func4 (ou 3)
+!  enter a func4 (or 3)
             if(jdmp>0)then
               do i=1,nel
                 jpos(i) = nint(pos(4,i))

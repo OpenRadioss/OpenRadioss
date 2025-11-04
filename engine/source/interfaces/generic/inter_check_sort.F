@@ -34,7 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                               LIST_INTER_SORTED,INTER_STRUCT)
 !$COMMENT
 !       INTER_CHECK_SORT description
-!       check if a interface must be sorted
+!       check if an interface must be sorted
 !       
 !       INTER_CHECK_SORT organization :
 !       loop over the NBINTC interfaces and if

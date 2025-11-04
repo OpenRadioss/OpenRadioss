@@ -76,7 +76,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
         TYPE PINCH
           INTEGER :: SAPINCH  ! since acceleration size is 3*NUMNOD*NTHREAD
 c       INTEGER ,DIMENSION(:), ALLOCATABLE :: INDEXPINCH
-C       [PM] future : mapping of NUMNOD to NUMPINCH
+C       [PM] future : mapping of NUMNOD to NPINCH
           my_real ,DIMENSION(:,:), ALLOCATABLE :: XPINCH
           my_real ,DIMENSION(:,:), ALLOCATABLE :: DPINCH
           my_real ,DIMENSION(:,:), ALLOCATABLE :: VPINCH

@@ -78,7 +78,7 @@ C--------------------------------------------------
       END DO
 
 C----------------------------
-C     COORDONNEES NOEUDS    |
+C     NODE COORDINATES      |
 C----------------------------
       DO I=LFT,LLT
       Y1(I)=X(2,IX1(I))
@@ -91,7 +91,7 @@ C----------------------------
       Z4(I)=X(3,IX4(I))
       END DO
 C---------------------------------------
-C     LOCAL REFERENCE FRAME (ISOPARAMETRIQUE)
+C     LOCAL REFERENCE FRAME (ISOPARAMETRIC)
 C---------------------------------------
       DO I=LFT,LLT
         SY(I)=HALF*(Y2(I)+Y3(I)-Y1(I)-Y4(I))

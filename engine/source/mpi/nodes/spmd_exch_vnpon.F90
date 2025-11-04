@@ -122,7 +122,7 @@
             iad_send(i+1)  = l
           end do
 !
-!   echange messages
+!   exchange messages
 !
           do i=1,nspmd
             it_spmd = i - 1

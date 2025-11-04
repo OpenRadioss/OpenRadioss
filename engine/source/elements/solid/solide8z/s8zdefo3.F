@@ -335,7 +335,5 @@ C
         WXX(1:NEL)=DT1D2*(DZY(1:NEL)-DYZ(1:NEL))
       ENDIF
 C
- 2000 FORMAT(/' ZERO OR NEGATIVE SUB-VOLUME : DELETE 3D-ELEMENT NB',
-     .          I8/)
       RETURN
       END

@@ -88,14 +88,14 @@ C-----------------------------------------------
      .               YI    ,ZI     ,PENE  ,IX1    ,IX2  ,
      .               IX3   ,IX4    ,IGAP  ,GAP    ,GAPV )
 C-----------------------------------------------
-C SUPPRESSION DES ANCIENS CANDIDATS DEJE STOCKES (PENE INITIALE)
+C REMOVAL OF OLD CANDIDATES ALREADY STORED (INITIAL PENETRATION)
 C-----------------------------------------------
         DO I=1,J_STOK
           IF(PENE(I)/=ZERO)THEN
             N  = PROV_N(I)
             NE = PROV_E(I)+ESHIFT
             IF(N>NSN) THEN
-C numbering previous tris for non-local nodes (SPMD)
+C Numbering of previous triangles for non-local nodes (SPMD)
               N = OLDNUM(N-NSN)+NSN
               IF(N==NSN) N = NSN+NSNROLD+1
             END IF
@@ -138,7 +138,7 @@ C-----------------------------------------------
         ENDDO
         RETURN
 
-C a refaire
+C To be redone
 c        DO I=1,J_STOK
 c          IF(PENE(I)/=ZERO)THEN
 c            I_STOK = I_STOK + 1
@@ -156,7 +156,7 @@ c      ITAGP(N2)=1
 c      ITAGP(N3)=1
 c      ITAGP(N4)=1
 c            IF(N>NSN) THEN
-cThis is sorted preceding for non -local nodes (SPMD)
+c This is sorted previously for non-local nodes (SPMD)
 c              N = OLDNUM(N-NSN)+NSN
 c              IF(N==NSN) N = NSN+NSNROLD+1
 c            END IF
@@ -178,8 +178,8 @@ c     .             (M4/=M3.AND.ITAGP(M3)/=0.AND.ITAGP(M4)/=0).OR.
 c     .             (M4/=M3.AND.ITAGP(M4)/=0.AND.ITAGP(M1)/=0).OR.
 c     .             (M4==M3.AND.ITAGP(M3)/=0.AND.ITAGP(M1)/=0))THEN
 cC
-cC retains information from 1 neighbor only (1st penetrated)
-cIt must be redone / sort
+c Retains information from 1 neighbor only (1st penetrated)
+c It must be redone / sorted
 c                  IF(ABS(IFPEN(J)) > ABS(IFPEN(I_STOK)))THEN
 c                    IFPEN(I_STOK)  = IFPEN(J)
 c                    CAND_P(I_STOK) = CAND_P(J)

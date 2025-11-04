@@ -1587,7 +1587,7 @@
             !---------------------------------------------------------------------------------------------!
             !ENERGY INTEGRATION WITH PRESSURE CONTRIBUTION IS DONE AT ENT OF MULAW SUBROUTINE             !
             !---------------------------------------------------------------------------------------------!
-            !EINT(I) = EINT(I) - (PEXT+PEXT+QOLD+Q)*DVOL*HALF !Attention : Q est retranche ici car stocke dans Svis pour mulaw et sfint
+            !EINT(I) = EINT(I) - (PEXT+PEXT+QOLD+Q)*DVOL*HALF !Warning: Q is removed here because stored in Svis for mulaw and sfint
 
             !---------------------------!
             !   TOTAL STRESS TENSOR     !

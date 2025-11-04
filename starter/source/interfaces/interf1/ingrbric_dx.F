@@ -72,7 +72,7 @@ C-----------------------------------------------
       my_real, INTENT(INOUT) :: AUTO_RHO, AUTO_LENGTH
       TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM      
 C-----------------------------------------------
-C   L o c a l   V a r a i b l e s
+C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I, J, J2, IEDG, CONNECT1(12), CONNECT2(12),IE,IMAT, ENUM, ILAW
       my_real :: MIN_X,MIN_Y,MIN_Z

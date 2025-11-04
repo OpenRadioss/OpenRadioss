@@ -100,7 +100,6 @@ C
      .      VRBYM(2,M) + VX2+HALF*DT2*(VG(3)*VX1-VG(1)*VX3)-V(2,N))
           A(3,N)= ARBYM(3,M) + USDT*(
      .      VRBYM(3,M)+VX3+HALF*DT2*(VG(1)*VX2-VG(2)*VX1)-V(3,N))
-C compute rotational velocity
 C
         ENDDO
         

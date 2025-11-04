@@ -98,7 +98,7 @@ C-----------------------------------------------
       INTEGER I,IBC1, IBC2, IBC3, IBUC, NOINT, NTYP,INACTI,
      .    IBC1M, IBC2M, IBC3M, IGSTI, IVIS2,IS1, IS2,ILEV,
      .    IGAP,MULTIMP,MFROT,IFQ,IBAG,MODFR,ISYM,IEDGE,NOD1,
-     .    IDEL25,KK,IGAP0,FLAGREMNOD,IDSENS,IDELKEEP,INTKG,
+     .    IDEL25,IGAP0,FLAGREMNOD,IDSENS,IDELKEEP,INTKG,
      .    IREM25I2,IPRINT,INTFRIC,MULTIMPE,IASSIGN,ISHARP,   
      .    ITHK,NOTUSED,INTTH,IFORM,IKTHE,FCOND,IFRICTH,NPREF,
      .    IPSTIF
@@ -996,7 +996,6 @@ C--------------------------------------------------------------
       ENDIF
 C
 C--------------------------------------------------------------
- 1000 FORMAT(/1X,'  INTERFACE NUMBER :',I10,1X,A)
 C------------
       RETURN
 
@@ -1035,10 +1034,7 @@ C------------
      .    '    FRICTION MODEL 0 (Coulomb Law) :'/,
      .  '   Function for FRICTION COEFFICIENT wrt TEMPERATURE',I10/,
      .      '    Ordinate scale factor on IFUNTCF .  . .  . ',1PG20.13/)
- 1518 FORMAT( '    FRICTION FORMULATION: INCREMENTAL (STIFFNESS) ',
-     .             'FORMULATION')
- 1519 FORMAT( '    FRICTION FORMULATION: TOTAL (VISCOUS) ',
-     .             'FORMULATION')
+
  1520 FORMAT(
      .    '    FRICTION FILTERING FLAG. . . . . . . . . ',I10/,
      .    '    FILTERING FACTOR . . . . . . . . . . . . ',1PG20.13)

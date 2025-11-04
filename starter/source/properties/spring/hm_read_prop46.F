@@ -37,7 +37,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
 !||====================================================================
       SUBROUTINE HM_READ_PROP46(IOUT,NUVAR ,PARGEO, UNITAB,IGTYP,
-     .                          ID,PROP_TAG,TITR,LSUBMODEL,IUNIT)
+     .                          ID,PROP_TAG,LSUBMODEL,IUNIT)
 C-----------------------------------------------
       USE UNITAB_MOD
       USE MESSAGE_MOD

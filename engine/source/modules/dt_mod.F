@@ -93,7 +93,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
         
         CONTAINS        
           
-C INITIALISATION : CALL DT%INIT_IDEL_BRICK()
+C INITIALIZATION : CALL DT%INIT_IDEL_BRICK()
 !||====================================================================
 !||    init_idel_brick   ../engine/source/modules/dt_mod.F
 !||--- called by ------------------------------------------------------

@@ -31,10 +31,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
-C   SENS sensor : Starts when IS1 Starts,
+C   SENS sensor : starts when IS1 starts,
 C                 Remains active for at least TDELAY
-C                 IF IS2 is defined : Stops when IS2 Starts
-C                 ELSE Stops after TDELAY.
+C                 IF IS2 is defined : stops when IS2 starts
+C                 ELSE stops after TDELAY.
 C                 IS1 and IS2 are the sensors given as definition
 C----------------------------------------------------------------
 C   DUMMY ARGUMENTS DESCRIPTION:
@@ -48,7 +48,7 @@ C----------------------------------------------------------------
 C    Sensor activation flag:
 C 
 C    Sensor inactive & cannot be reactivated afterwards
-C    SENSOR_TAB(SENS)%TSART = INFINITY (1.E+20)
+C    SENSOR_TAB(SENS)%TSTART = INFINITY (1.E+20)
 C    SENSOR_TAB(SENS)%STATUS = -1
 C
 C    Sensor inactive :

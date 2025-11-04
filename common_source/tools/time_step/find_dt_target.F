@@ -52,7 +52,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
         INTEGER I,N,COMPT,K
         INTEGER :: CPT
-        my_real SUMK,SUMK_OLD,SUMM,SUMM_OLD,PER_ADM,TARGET_DT,SEUIL,CHUNK
+        my_real SUMK,SUMK_OLD,SUMM,SUMM_OLD,PER_ADM,TARGET_DT,THRESHOLD,CHUNK
 C=======================================================================
 C
 C--------------------------------------------------------------------------------------
@@ -64,7 +64,7 @@ C
         SUMK_OLD = ZERO
         SUMM_OLD = ZERO
         COMPT = 1
-        SEUIL = PER_ADM_TAB(1)
+        THRESHOLD = PER_ADM_TAB(1)
 C
         DO I=1,NNOD
           N=NINT(TMP(I))
@@ -80,20 +80,20 @@ C
           N=NINT(TMP(I))
           PER_ADM = (DT(I)*SUMK_OLD - SUMM_OLD)/(MAX(EM20,TOTMAS))
           IF (I>1) THEN
-            DO WHILE ((PER_ADM > SEUIL).AND.(COMPT<=NVAL))
-              TARGET_DT_TAB(COMPT) = DTSCA*SQRT(TWO*(TOTMAS*SEUIL+SUMM_OLD)/MAX(EM20,SUMK_OLD))
+            DO WHILE ((PER_ADM > THRESHOLD).AND.(COMPT<=NVAL))
+              TARGET_DT_TAB(COMPT) = DTSCA*SQRT(TWO*(TOTMAS*THRESHOLD+SUMM_OLD)/MAX(EM20,SUMK_OLD))
               COMPT = COMPT+1
-              IF(COMPT<=NVAL) SEUIL = PER_ADM_TAB(COMPT)
+              IF(COMPT<=NVAL) THRESHOLD = PER_ADM_TAB(COMPT)
             ENDDO
             IF (COMPT > NVAL) EXIT
           ENDIF
           SUMK = SUMK + STIFN(N)
           SUMM = SUMM + MS(N)
-C-- If threshold are not crossed target dt values must be computed for the last node
+C-- If thresholds are not crossed target dt values must be computed for the last node
           IF (I==NNOD) THEN
             DO K=COMPT,NVAL
-              TARGET_DT_TAB(K) = DTSCA*SQRT(TWO*(TOTMAS*SEUIL+SUMM)/MAX(EM20,SUMK))
-              IF(K+1 <= NVAL) SEUIL = PER_ADM_TAB(K+1)
+              TARGET_DT_TAB(K) = DTSCA*SQRT(TWO*(TOTMAS*THRESHOLD+SUMM)/MAX(EM20,SUMK))
+              IF(K+1 <= NVAL) THRESHOLD = PER_ADM_TAB(K+1)
             ENDDO
           ENDIF
         ENDDO

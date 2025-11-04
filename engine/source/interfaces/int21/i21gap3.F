@@ -60,7 +60,7 @@ C     REAL
       my_real
      .   GAPM, CRITERL, GAPSUPL
 C------------------------------------
-C     GAP VARIABLE NOEUDS SECONDS
+C     GAP VARIABLE FOR SECONDARY NODES
 C------------------------------------
       NSNF = 1 + ITASK*NSN / NTHREAD
       NSNL = (ITASK+1)*NSN / NTHREAD

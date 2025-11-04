@@ -929,7 +929,7 @@ C     Tag element that are inactifs and one of its sons is actif for Idel in int
                 LELT1 =LELT2
                 LELT2 =LELT
                ENDDO
-c            ELSEIF (LEVEL==(-LEVELMAX-1)) THEN
+C            ELSEIF (LEVEL==(-LEVELMAX-1)) THEN
             ELSEIF (LEVEL <0.AND.ITRIM == -1) THEN
                 TAGTRIMC(N) = 1
                 NG   =SH4TREE(4,N)

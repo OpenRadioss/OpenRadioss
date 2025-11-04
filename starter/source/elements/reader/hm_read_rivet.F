@@ -113,9 +113,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, I1, I2, PID,MT,IPID,J,N,STAT,P,IF1,IF2
-      INTEGER CPT,INDEX_PART
-      CHARACTER MESS*40, MESS2*40
+      INTEGER I, I1, I2, PID,MT,IPID,J,STAT,P,IF1,IF2
+      INTEGER INDEX_PART
+      CHARACTER MESS*40
       my_real BID
       INTEGER, DIMENSION(:), ALLOCATABLE :: SUB_RIVET,IPART_RIVET
 C-----------------------------------------------

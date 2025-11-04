@@ -86,7 +86,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C     REAL
       my_real
-     .   A1,A2,A3,THK,ZSHIFT
+     .   A1,A2,A3,THK
       REAL R4(18)
       INTEGER I,NG,NEL,NFT,ITY,LFT,NPT,MPT,IPT,
      .        N,J,LLT,MLW,ISTRAIN,IL,IR,IS,IT,NPTR,NPTS,NLAY,
@@ -214,7 +214,6 @@ C
             IPT   = 1
             NPT   = IABS(IPARG(6,NG))
             MPT   = MAX(1,NPT)
-            ZSHIFT = GEO(199, IPID)
 !
             LAYNPT_MAX = 1
             IF (IGTYP == 51 .OR. IGTYP == 52) THEN
@@ -282,7 +281,8 @@ C------------------------
               IPT = MPT
               IL  = NLAY
               IF (MLW == 1) THEN
-                A1 = ONE -SIX*ZSHIFT
+                A1 = ONE
+c                A2 = 0
                 A2 = SIX
               ELSEIF (MLW == 2  .OR. MLW == 19 .OR.
      .                MLW == 15 .OR.
@@ -301,7 +301,7 @@ C------------------------
               IPT = 1
               IL  = 1
               IF (MLW == 1) THEN
-                A1 = ONE + SIX*ZSHIFT
+                A1 = ONE
                 A2 = -SIX
               ELSEIF (MLW == 2  .OR. MLW == 19 .OR.
      .                MLW == 15 .OR.
@@ -429,7 +429,6 @@ C------------------------
               IPT = MPT   
               A1 = ONE
               A2 = HALF
-              IF (MLW == 1) A2 = HALF + ZSHIFT
             ELSEIF (ITENS == 8) THEN   ! lower
               ISTRE = 0
               NS1 = 8
@@ -437,7 +436,6 @@ C------------------------
               IPT = 1  
               A1 = ONE
               A2  = -HALF
-              IF (MLW == 1) A2 = -HALF + ZSHIFT
             ELSEIF (ITENS >  200 .AND. ITENS < 301) THEN   ! layer
               ISTRE = 0
               NS1 = 8
@@ -452,7 +450,7 @@ C------------------------
                 A2  = POSLY(1,IPT)
               ELSE
                 A1 = ONE
-                A2 = POSLY(1,IPT)
+                A2 = HALF*(((2*IPT-ONE)/MPT)-ONE)
               ENDIF
             ELSEIF (ITENS > 1610+ MX_PLY_ANIM  .AND. ITENS <  1611 + 2*MX_PLY_ANIM ) THEN
               IL = ITENS - (1610+ MX_PLY_ANIM)   
