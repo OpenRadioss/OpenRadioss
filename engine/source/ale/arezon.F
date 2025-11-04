@@ -323,7 +323,7 @@ C     ALE ON / OFF
             VOL => ELBUF_STR(NG)%BUFLY(NM)%LBUF(1,1,1)%VOL(1:LLT)
           ENDIF
           IF (N2D == 0) THEN
-            TAG22  => ELBUF_STR(NG)%GBUF%TAG22(1:LLT)
+            TAG22  => ELBUF_STR(NG)%GBUF%TAG22(1:) !inter22 only (cut cell)
             CALL AREZO3(ALE_CONNECT,SIG,PHI,FLUX(6*NFT+1),VOL,TAG22)
           ELSE
             NFX = NFT+(NM-1)*NUMELQ
@@ -364,7 +364,7 @@ C     ALE ON / OFF
             VAR => ELBUF_STR(NG)%BUFLY(NM)%LBUF(1,1,1)%PLA(1:LLT)
           ENDIF        
           IF (N2D == 0) THEN 
-            TAG22  => ELBUF_STR(NG)%GBUF%TAG22(1:LLT) 
+            TAG22  => ELBUF_STR(NG)%GBUF%TAG22(1:) !inter22 only
             CALL AREZO3(ALE_CONNECT,VAR,PHI,FLUX(6*NFT+1),VOL,TAG22)
           ELSE                                                        
             NFX=NFT+(NM-1)*NUMELQ                                     
@@ -408,7 +408,7 @@ C     ALE ON / OFF
             PHI(J) = VAR(I)
           ENDDO  
           IF (N2D == 0) THEN                                   
-            TAG22  => ELBUF_STR(NG)%GBUF%TAG22(1:LLT)
+            TAG22  => ELBUF_STR(NG)%GBUF%TAG22(1:LLT) !inter22 only
             CALL AREZO3(ALE_CONNECT,VAR,PHI,FLUX(6*NFT+1),VOL,TAG22)
           ELSE                                                        
             NFX=NFT+(NM-1)*NUMELQ                                     
@@ -441,7 +441,7 @@ C     ALE ON / OFF
             VOL => ELBUF_STR(NG)%BUFLY(NM)%LBUF(1,1,1)%VOL(1:LLT)
           ENDIF
           IF (N2D == 0) THEN
-            TAG22  => ELBUF_STR(NG)%GBUF%TAG22(1:LLT)
+            TAG22  => ELBUF_STR(NG)%GBUF%TAG22(1:)
             CALL AREZO3(ALE_CONNECT,TEMP,PHI,FLUX(6*NFT+1),VOL,TAG22)
           ELSE
             NFX=NFT+(NM-1)*NUMELQ

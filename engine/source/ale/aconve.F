@@ -356,7 +356,7 @@ C     ALE ON / OFF
          !Fill Secnd cells linked to current main cell with main cell value.
          IF(INT22 > 0)THEN
            NIN = 1
-           pIAD22 => ELBUF_TAB(NG)%GBUF%TAG22(LFT:LLT) 
+           pIAD22 => ELBUF_TAB(NG)%GBUF%TAG22(1:)
            DO I=LFT,LLT                   
              J                                      = I+NFT          
              IB                                     = NINT(pIAD22(I))
@@ -586,7 +586,7 @@ C     ALE ON / OFF
            !----------------------------!                                                    
            !        CALL ACONVE3        !                                                    
            !----------------------------!                                                    
-           pIAD22 => ELBUF_TAB(NG)%GBUF%TAG22(LFT:LLT)                                       
+           pIAD22 => ELBUF_TAB(NG)%GBUF%TAG22(1:)
            IF (N2D == 0) THEN                                                                
              NF1=NFT+1+(NM-1)*NUMELS                                                         
              NFX=NFT+(NM-1)*NUMELS                                                           

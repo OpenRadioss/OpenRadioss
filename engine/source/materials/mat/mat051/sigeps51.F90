@@ -1455,6 +1455,7 @@
                   call eosmain51(pm5, off(i), eint1, mu1, espe1, dvol, df1, v1, pext, p1, dpdmu1, dpde1, rho10, &
                                  temp1, v10, sbufmat, bufmat, matparam(imid)%multimat%peos(isubmat)%eos, vareos1 ,&
                                  time, timestep, npf   ,tf   ,snpf ,stf )
+                                 SSP1 = SQRT((DPDMU1 + TWO_THIRD*GG1(I))/RHO10)
                 ENDIF
                 !===========================================
                 !       material 2 - Polynomial EOS
@@ -1469,6 +1470,7 @@
                   call eosmain51(pm5, off(i), eint2, mu2, espe2, dvol, df2, v2, pext, p2, dpdmu2, dpde2, rho20, &
                                  temp2, v20, sbufmat, bufmat, matparam(imid)%multimat%peos(isubmat)%eos, vareos2, &
                                  time, timestep, npf   ,tf   ,snpf ,stf )
+                                 SSP2 = SQRT((DPDMU2 + TWO_THIRD*GG2(I))/RHO20)
                 ENDIF
                 !===========================================
                 !       material 3 - Polynomial EOS
@@ -1483,6 +1485,7 @@
                   call eosmain51(pm5, off(i), eint3, mu3, espe3, dvol, df3, v3, pext, p3, dpdmu3, dpde3, rho30, &
                                  temp3, v30, sbufmat, bufmat, matparam(imid)%multimat%peos(isubmat)%eos, vareos3, &
                                  time, timestep, npf   ,tf   ,snpf ,stf )
+                                 SSP3 = SQRT((DPDMU3 + TWO_THIRD*GG3(I))/RHO30)
                 ENDIF
                 !===========================================
                 !       material 4 - Polynomial EOS
