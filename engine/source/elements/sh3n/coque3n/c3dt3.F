@@ -110,7 +110,7 @@ C
            IF (MTN == 58 .or. MTN == 158) THEN 
                IFLAG = 1
                CALL CSSP2A11(PM   ,IMAT  ,SSP  ,A1   ,JLT   ,IFLAG)
-           ELSEIF (MTN == 42 .or. MTN == 62 .or. MTN == 69) THEN
+           ELSEIF (MTN == 42 .or. MTN == 62 .or. MTN == 69 .or. MTN == 88) THEN
                IFLAG = 2
                CALL CSSP2A11(PM   ,IMAT  ,SSP  ,A1   ,JLT   ,IFLAG)
              DO I=JFT,JLT
