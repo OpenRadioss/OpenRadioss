@@ -576,7 +576,7 @@
                     ZN  = ZN*FAC
                   END IF
                 END IF
-                ! sauvegarde de la quantite de mouvement imposee
+                ! save the imposed momentum
                 IF(ALEFVM_Param%IEnabled /= 0)THEN
                   MOM = RHO(I) * VEL_IN * VOLUME(I)
                   GBUF%MOM(NEL*(1-1)+I) = -MOM * XN
@@ -764,7 +764,7 @@
             !   LIQUID (IFLG = 5)                       !
             !===========================================!
           ELSE IF(IFLG == 4 .OR. IFLG == 5)THEN
-            ! Conditions d'arret pour gaz parfait ou liquide selon la phase
+            ! Stop conditions for perfect gas or liquid according to the phase
             ABCS  = TIME / UPARAM(38)
             IAV1  = IFUNC(1)
             IRHO1 = IFUNC(2)
@@ -877,7 +877,7 @@
               !     material 1                !
               !===============================!
               IF(AV1(I) > ZERO)THEN
-                !---GAZ
+                !---GAS
                 IF((IFLG == 4.and.C41 /= ZERO).or. (IFLG == 5 .AND. C41 /= ZERO .AND. C11 == ZERO))THEN
                   U21 = MIN(U2,VCRT1)
                   GV1 = C41/2/(C41+1)*RHO1A*U21/P1A
@@ -887,7 +887,7 @@
                     BBB  = AAA**((C41+ONE)/C41)
                     E01  = E01A * BBB
                     P1   = P1A * BBB
-                    !yann     test sur 0.0001 pour cas incompressible (Bernouilli classique)
+                    ! test on 0.0001 for incompressible case (classical Bernouilli)
                   ELSE
                     RV1  = HALF*RHO1A*U21
                     RHO1 = RHO1A *(ONE- RV1/(C41+ONE)/P1A)

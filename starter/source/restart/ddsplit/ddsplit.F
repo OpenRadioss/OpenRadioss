@@ -750,7 +750,7 @@ c SPH inlet spmd structure
       INTEGER :: LEN_TMP_NAME
       CHARACTER(len=4096) :: TMP_NAME
 C-----------------------------------------------
-C structure de fichier v44 a modifier
+C file structure v44 to modify
 C-----------------------------------------------
       INTEGER LHEADER,LVARINT,LVARREA,LMXVINT,LMXVREA,LEN_G,LEN_M,
      .        LEN_S,LEN_ADM,LEN_IG,LEN_PM
@@ -856,7 +856,7 @@ C--------------------------------------------
        DD_LAGF(2,PROC) = 0
       END DO
 C--------------------------------------------
-C Tableaux numeration nodale
+C Node numbering tables
 C--------------------------------------------
       IF(NUMNOD_L>0) ALLOCATE(NODGLOB(NUMNOD_L))
       CALL F_NODLOC2(NUMNOD,P  ,NODGLOB,NODLOCAL,IGEO ,
@@ -916,7 +916,7 @@ C--------------------------------------------
         CALL C_CLUSTER(CLUSTERS,P-1,CEP,NCLUSTER_L,NUMLOCCLUSTER)
       ENDIF
 C--------------------------------------------
-C count neighbo elements CFD/ALE
+C count neighbor elements CFD/ALE
 C--------------------------------------------
       NSVOIS   = 0
       NQVOIS   = 0
@@ -1186,7 +1186,7 @@ C--------------------------------------------
      2               CEP    ,P-1     ,NSLAW_L ,NESLAW_L,
      3               LWSAV_L,NSKYRW_L)
 C--------------------------------------------
-C count Stockage Madymo
+C count Madymo storage
 C--------------------------------------------
       NMADSH4_L = 0
       NMADSH3_L = 0
@@ -1250,7 +1250,7 @@ C--------------------------------------------
         INTBAG_L = INTBAG
       ENDIF
 C--------------------------------------
-C counts  Elem multi-brins
+C counts  Multi-wire element
 C--------------------------------------
       ISUMNX_L = 0
       IF (NUMELX_L>0)
@@ -1641,7 +1641,7 @@ C--------------------------------------
         NISKY0_L=NISKY0_L+4*LLLOADP_L
       ENDIF
 C--------------------------------------
-C     counts ELEMENTS ISO GEOMETRIQUES
+C     counts ISO GEOMETRIC ELEMENTS
 C--------------------------------------
       ISUMNIG3D_L = 0
       IF (NUMELIG3D>0)
@@ -1739,7 +1739,7 @@ C Restart file in binary format ieee 64 bits
       CALL WRITE_C_C(IFILNAM2,ROOTLEN+14)
       LEN_IA = LEN_IA + ROOTLEN+14
 C--------------------------------------------
-C  Skippon_l for obsolide "modif" option.
+C  Skippon_l for obsolete "modif" option.
       SKIPPON_L = NUMNOD_L+1 + LCNE_L + LCNI2_L +
      .  8*NUMELS_L + 6*NUMELS10_L + 8*NUMELS16_L + 12*NUMELS20_L +
      .  4*NUMELQ_L + 4*NUMELC_L   + 2*NUMELT_L + 2*NUMELP_L +
@@ -2142,7 +2142,7 @@ C--------------------------------------
 
       CALL W_ISLIN_STR(IGRSLIN ,LEN_IA , P-1, NODLOCAL)
 C--------------------------------------
-C Elem multi-brins
+C Multi-wire element
 C--------------------------------------
       IF (NUMELX>0)
      .  CALL W_ELMX(KXX,NUMELX_L,ISUMNX_L,IXX,CEP,
@@ -2470,7 +2470,7 @@ C--------------------------------------------
         LEN_IA = LEN_IA + LAG_NHF+3*LAG_NCF+2
       END IF
 C--------------------------------------
-C     ECRITURE ICNDS10 Itet=2 of S10
+C     WRITE ICNDS10 Itet=2 of S10
 C--------------------------------------
       IF (NS10E_L > 0) THEN
         IF(NBDDCNDM > 0) THEN
@@ -3551,7 +3551,7 @@ C WIGE (ISO-GEOM ELEMENTS)
 C--------------------------------------------
        IF(NUMELIG3D > 0) CALL W_RNLOC(WIGE,NODGLOB,NUMNOD,LEN_AM)
 C--------------------------------------------
-C STACK proprerties
+C STACK properties
 C--------------------------------------------
        IF(IPART_STACK > 0 .OR. IPART_PCOMPP > 0 ) THEN
           LEN_IG  = (4*NPT_STACK + 2)*NS_STACK
@@ -3638,18 +3638,18 @@ C 10: NUMELTG_L
 C 11: NUMELX_L
 C 12: NBDDPROC :  nb of boundary proc 
 C 13: NBDDBOUN :  nb of boundary node 
-C 14: NBDDNOD :   size of comm:nb de nodes
-C 15: NBDDNRB :   size of comm: nb de nodes main de rby
+C 14: NBDDNOD :   size of comm:nb of nodes
+C 15: NBDDNRB :   size of comm: nb of nodes main of rby
 C 16: NRBYKIN_L : number of local rigid body main
 C 17: NUMSPH_L : number of particles SPH (local) 
 C 18: MEMI : size memory local int MA
 C 19: MEMR : size memory local float AM
-C 20: NSNT_L : number of nodes secnds (interface de contact 7,10,11)
-C 21: NMNT_L : number of nodes main (interface de contact 7,10,11)
-C 22: NSNT2_L : number of nodes secnds (interface type2)
+C 20: NSNT_L : number of nodes seconds (contact interface 7,10,11)
+C 21: NMNT_L : number of nodes main (contact interface 7,10,11)
+C 22: NSNT2_L : number of nodes seconds (interface type2)
 C 23: NMNT2_L : number of nodes main (interface type2)
 C 24: RESTSIZE : restart size in KB
-C 24: NSLARB_L : number of nodes secnd rigid body
+C 24: NSLARB_L : number of nodes second rigid body
       DDSTAT(1) = NUMNOD_L
       DDSTAT(2) = NUMEL_L
       DDSTAT(3) = NUMELS_L

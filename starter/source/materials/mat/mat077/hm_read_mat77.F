@@ -56,7 +56,7 @@ C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
 C   READ MAT LAW77 WITH HM READER
-C   this law is Ale law for air and foam is in lagrangian and is not activated thru ale option. 
+C   this law is Ale law for air and foam is in lagrangian and is not activated through ale option. 
 C-----------------------------------------------
 C   DUMMY ARGUMENTS DESCRIPTION:
 C   ===================
@@ -360,7 +360,7 @@ c-----------------------------------------------------------------------
      & 5X,'DENSITY. . . . . . . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'PEXT. . . . . . . .. . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'FLAG FOR CLOSED FOAM . . . . . . . . . . . .=',I10/
-     & 5X,'INCOMNIG GAS FLAG. . . . . . . . . . . . . .=',I10/ )
+     & 5X,'INCOMING GAS FLAG. . . . . . . . . . . . . .=',I10/ )
  3000 FORMAT(
      & 5X,'  DARCY PARAMETERS ',/,
      & 5X,'  -----------------',/)  

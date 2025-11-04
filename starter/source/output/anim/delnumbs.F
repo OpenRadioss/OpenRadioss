@@ -63,7 +63,7 @@ C
         LFT=1                                                           
         LLT=NEL                                                         
 C-----------------------------------------------                        
-C       SOLIDES 16N                                                     
+C       16-NODE SOLID ELEMENTS                                                     
 C-----------------------------------------------                        
         IF(ITY==1.AND.ISOLNOD==16)THEN                              
           DO I=LFT,LLT                                                  
@@ -76,7 +76,7 @@ C-----------------------------------------------
            ENDIF                                                        
           ENDDO                                                         
 C-----------------------------------------------                        
-C       AUTRES SOLIDES                                                  
+C       OTHER SOLID ELEMENTS                                                  
 C-----------------------------------------------                        
         ELSEIF(ITY==1)THEN                                            
           DO I=LFT,LLT                                                  

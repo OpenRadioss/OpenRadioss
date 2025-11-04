@@ -66,7 +66,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J
+      INTEGER I
       my_real
      .     ZZ2(MVSIZ), EXZZ2(MVSIZ), EYZZ2(MVSIZ), EXZ2PY2(MVSIZ), 
      .     EXZ2PY1(MVSIZ), EYZ2PX2(MVSIZ), EYZ2PX1(MVSIZ),ZZZ(MVSIZ), 
@@ -242,9 +242,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J
-      my_real
-     .     S
+      INTEGER I
 C=======================================================================
         DO I=JFT,JLT
           F_DEF(I,1)=PX1(I)*VX13(I)+PX2(I)*VX24(I)

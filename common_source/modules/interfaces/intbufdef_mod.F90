@@ -1126,8 +1126,8 @@
           integer ::   s_lbound     !  nadmsr            :lbound : index des sommets sur les aretes libres : 25
           integer ::   s_actnor     !  nadmsr            :actnor : tag des normales actives (0/1) : 25
           integer ::   s_farm       !  4*multimp*nsn     :farm   :flag in/out wrt 4 sub-triangles : 25
-          integer ::   s_adskyn     !  4*nrtm+1          :adskyn : skyline pour assemblage parith/on des normales : 25
-          integer ::   s_iadnor     !  4*nrtm            :iadnor : skyline pour assemblage parith/on des normales : 25
+          integer ::   s_adskyn     !  4*nrtm+1          :adskyn : skyline for assembly parith/on of normals : 25
+          integer ::   s_iadnor     !  4*nrtm            :iadnor : skyline for assembly parith/on of normals : 25
           integer ::   s_islide     !  4*nsn             :islide : sommets (0  4) sur lesquels le noeud secnd glisse : 25
           integer ::   s_knor2msr   !  nadmsr+1          :knor2msr: address of connected segments to normals in nor2msr : 25
           integer ::   s_nor2msr    !  ...               :nor2msr : connected segments to normals in nor2msr : 25
@@ -1249,7 +1249,7 @@
           integer ::   s_stfa         !
           integer ::   s_penia        !  5*nln      :penia :pene initiale points d'ancrages  :     20
           integer ::   s_alphak       !  3*nln      :alphak:reduction de rigidite d'ancrages :     20
-          integer ::   s_gap_sh       !  nrtm       :gap_sh:shift de gap pour gap nul solides:     20
+          integer ::   s_gap_sh       !  nrtm       :gap_sh:gap shift for zero gap solids:     20
           integer ::   s_avx_ancr     !  9*nln :a-v-x-ancr :accel vit deplacement point d'ancrage: 20
           integer ::   s_critx        !
           integer ::   s_gap_me       !

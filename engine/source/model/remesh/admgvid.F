@@ -251,8 +251,8 @@ C----6---------------------------------------------------------------7---------8
        END IF
       END DO
 !$OMP END DO
-c      GOTO 100
-c 101  CONTINUE
+C      GOTO 100
+C 101  CONTINUE
 
       RETURN
       END     

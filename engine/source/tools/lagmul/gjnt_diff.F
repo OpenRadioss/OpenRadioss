@@ -314,7 +314,7 @@ C --- (vz)
       LLL(IK) = INOD(4)
       JLL(IK) = 3
       SLL(IK) = 0
-2      XLL(IK) = -ONE
+      XLL(IK) = -ONE
 C
 c      rotational dof of secnd
 C ---  (wx)

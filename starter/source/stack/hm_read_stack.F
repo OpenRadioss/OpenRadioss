@@ -42,7 +42,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    submodel_mod                  ../starter/share/modules1/submodel_mod.F
 !||====================================================================
       SUBROUTINE HM_READ_STACK(
-     .           GEO_STACK ,IGEO_STACK ,PM        ,IPM       ,ISKN     ,  
+     .           GEO_STACK ,IGEO_STACK ,IPM       ,ISKN     ,  
      .           PROP_ID   ,RTRANS     ,SUB_ID    ,STACK_INFO,
      .           TITR      ,UNITAB     ,LSUBMODEL ,DEFAULTS_SHELL)
 C-----------------------------------------------
@@ -75,7 +75,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: IPM(NPROPMI,NUMMAT)
       INTEGER :: ISKN(LISKN,*)
       my_real, INTENT(INOUT) :: GEO_STACK(NPROPG)
-      my_real, INTENT(IN) ::  PM(NPROPM,NUMMAT),RTRANS(NTRANSF,*)
+      my_real, INTENT(IN) ::  RTRANS(NTRANSF,*)
       CHARACTER(LEN = NCHARTITLE) :: TITR
       TYPE (UNIT_TYPE_), INTENT(IN) :: UNITAB
       TYPE (SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
@@ -85,14 +85,14 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I,J,K,KK,M1,ISHELL,ISH3N,ISMSTR,ISROT,ISTRAIN,IINT,ITHK,
-     .   IORTH,IPOS,IGMAT,ISHEAR,IPLAST,NPLY,NP,NSUB,NISUB,IGTYP,IMID,
-     .   ISK,IDSK,PLY_ID,IPID0,IDSUB,INTER,IS,LAMIN,IPID1,IPID2,NPT_SUB,IRP,
+     .   IORTH,IPOS,IGMAT,ISHEAR,IPLAST,NPLY,NSUB,NISUB,IGTYP,IMID,
+     .   ISK,IDSK,PLY_ID,IPID0,IDSUB,IS,LAMIN,IPID1,IPID2,NPT_SUB,IRP,
      .   NPLY_MAX
-      INTEGER    IHBE_D,IPLA_D,ISTR_D,ITHK_D,ISHEA_D,ISST_D,
+      INTEGER    IHBE_D,IPLA_D,ITHK_D,ISHEA_D,ISST_D,
      .           ISH3N_D, ISTRA_D,NPTS_D,IDRIL_D
-      my_real :: PTHK,ZSHIFT,HM,HF,HR,DM,DN,ASHEAR,VX,VY,VZ,FAILEXP,CVIS,
+      my_real :: PTHK,ZSHIFT,HM,HF,HR,DM,DN,ASHEAR,VX,VY,VZ,CVIS,
      .           NORM,ANG,POS,PTHKLY,WEIGHT
-      LOGICAL :: IS_AVAILABLE, IS_ENCRYPTED, LFOUND
+      LOGICAL :: IS_AVAILABLE, IS_ENCRYPTED
 C=======================================================================
       IS_AVAILABLE = .FALSE.
       IS_ENCRYPTED = .FALSE.

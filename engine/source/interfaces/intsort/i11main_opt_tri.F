@@ -71,7 +71,7 @@ C-----------------------------------------------
 C  calculation of interface buffer addresses.
 C  the addresses of buffers J10-JFI and K10-KFI
 C  are systematically replaced by arrays
-C  JD(i) et KD(i), en gardant les memes numeros d'indexes.
+C  JD(i) and KD(i), keeping the same index numbers.
 C  the old direct addresses Jn, Kn are modified
 C  in the routine without usual additional comments
 C----------------------------------------------------
@@ -86,8 +86,8 @@ C
       DGAPLOADP = INTBUF_TAB%VARIABLES(46)
       NRTS   =IPARI(3,NIN)
 C-----------------------------------------------------------
-C     Filtrage des candidats a l'impact
-C     (si candidat retenu, cand_n(i) = - cand_n(i))
+C     Filtering of impact candidates
+C     (if candidate retained, cand_n(i) = - cand_n(i))
 C-----------------------------------------------------------
       CALL I11OPTCD(
      1  INTBUF_TAB%CAND_E, INTBUF_TAB%CAND_N, X  , INTBUF_TAB%I_STOK(1),

@@ -119,7 +119,7 @@ C-------------------------------------------------------
         ENDDO                                                           
        ENDDO                                                            
 C-------------------------------------------------------                
-C      - Calcul de la normale : radial projection.
+C      - Calculation of the normal : radial projection.
 C-------------------------------------------------------                
        AN=A**DGR                                                        
        BN=B**DGR                                                        

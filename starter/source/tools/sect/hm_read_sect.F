@@ -123,15 +123,14 @@ C-----------------------------------------------
       INTEGER ,DIMENSION(NSECT) :: SECTIDS
       INTEGER K1, I, J, L, KK, K2, K,LREC,
      .   NNOD, NBINTER,K0,K3,K4,K5,K6,K7,K8,K9,KR0,
-     .   NSEGQ,NSEGS,NSEGC,NSEGT,NSEGP,NSEGR,NSEGTG,I0,ID,
+     .   NSEGQ,NSEGS,NSEGC,NSEGT,NSEGP,NSEGR,NSEGTG,ID,
      .   IGU,IGS,IGUS,IGUQ,IGUC,IGUT,IGUP,IGUR,IGUTG,IFRAM,
-     .   NNSK1,NNSK2,NNSK3,UID,IFLAGUNIT,IE,IADV,
-     .   ISU,NFRAM,JJ,IUN,
-     .   TAGELEM1,TAGELEM2,TAGELEM3,
+     .   UID,IFLAGUNIT,
+     .   NFRAM,JJ,IUN,
      .   N1,CPT,
      .   NG,NOPRINT
       INTEGER L0,ISTYP,SUB_ID,ILEN
-      my_real DELTAT,ALPHA,FAC_T,A,B,C,D,E,F,POS,R,MAXDT
+      my_real DELTAT,ALPHA,FAC_T,A,B,C,D,E,F,R,MAXDT
       INTEGER, DIMENSION(:), ALLOCATABLE :: TAGNODES !NUMNOD*2+NPART
       INTEGER, DIMENSION(:), ALLOCATABLE :: TAGNDOUBL !NUMNOD
       INTEGER, DIMENSION(:), ALLOCATABLE :: TAGELEMS ! 1+NUMELC+NUMELS+NUMELT+NUMELQ+NUMELP+NUMELR+NUMELTG
@@ -144,7 +143,7 @@ C-----------------------------------------------
       my_real BID, XM, YM, ZM, X1, Y1, Z1, X2, Y2, Z2, NORM
       my_real X3, Y3, Z3, N3, PNOR1, PNOR2, PNORM1, DET, DET1, DET2, DET3
       LOGICAL :: IS_AVAILABLE
-      INTEGER :: NUMSECT,SNSTRF1
+      INTEGER :: SNSTRF1
       integer :: max_extension
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
@@ -439,9 +438,9 @@ C
          CPT = 1
          max_extension = 22 * GRSIZE_ELE(IGUS,IGRBRIC,NGRBRIC)     
          call extend_array(NSTRF,size(nstrf),K0 + max_extension)
-         CALL SEC_NODES_SOL(IGUS,ISTYP,NGRBRIC,IGRBRIC,X0,A,
-     2                 B,C,D,E,F,ITAB,IXS,IXS10,IXS16,IXS20,
-     3                 NIXS,KK,NNOD,NSTRF,NBINTER,N1 ,K1,
+         CALL SEC_NODES_SOL(IGUS,ISTYP,IGRBRIC,X0,A,
+     2                 B,C,D,E,F,IXS,IXS10,IXS16,IXS20,
+     3                 NIXS,NNOD,NSTRF,NBINTER,K1,
      4                 CPT,NODTAG,ISOLNOD,TAGELEMS,
      5                 X1,Y1,Z1,X2,Y2,Z2,R)
 
@@ -449,16 +448,16 @@ C
          max_extension = 6 * GRSIZE_ELE(IGUQ,IGRQUAD,NGRQUAD)
          call extend_array(NSTRF,size(nstrf),CPT + max_extension)
          CALL SEC_NODES(IGUQ,ISTYP,NGRQUAD,IGRQUAD,X0,A,
-     2                 B,C,D,E,F,ITAB,IXQ,NIXQ,KK,NNOD,NSTRF,
-     3                 NBINTER,N1,K1,4,CPT,NODTAG,TAGELEMS(1+NUMELS),
+     2                 B,C,D,E,F,IXQ,NIXQ,NNOD,NSTRF,
+     3                 NBINTER,K1,4,CPT,NODTAG,TAGELEMS(1+NUMELS),
      4                 X1,Y1,Z1,X2,Y2,Z2,R)
 
          KK=KK+NGRQUAD
          max_extension = 6 * GRSIZE_ELE(IGUC,IGRSH4N,NGRSHEL)
          call extend_array(NSTRF,size(nstrf),CPT + max_extension)
          CALL SEC_NODES(IGUC,ISTYP,NGRSHEL,IGRSH4N,X0,A,
-     2                 B,C,D,E,F,ITAB,IXC,NIXC,KK,NNOD,NSTRF,
-     3                 NBINTER,N1,K1,4,CPT,NODTAG,TAGELEMS(1+NUMELS
+     2                 B,C,D,E,F,IXC,NIXC,NNOD,NSTRF,
+     3                 NBINTER,K1,4,CPT,NODTAG,TAGELEMS(1+NUMELS
      .               +NUMELQ),
      4               X1,Y1,Z1,X2,Y2,Z2,R)
          KK=KK+NGRSHEL
@@ -466,8 +465,8 @@ C
          max_extension = 4 * GRSIZE_ELE(IGUT,IGRTRUSS,NGRTRUS)
          call extend_array(NSTRF,size(nstrf),CPT + max_extension)
          CALL SEC_NODES(IGUT,ISTYP,NGRTRUS,IGRTRUSS,X0,A,
-     2                 B,C,D,E,F,ITAB,IXT,NIXT,KK,NNOD,NSTRF,
-     3                 NBINTER,N1,K1,2,CPT,NODTAG,TAGELEMS(1+NUMELS
+     2                 B,C,D,E,F,IXT,NIXT,NNOD,NSTRF,
+     3                 NBINTER,K1,2,CPT,NODTAG,TAGELEMS(1+NUMELS
      .              +NUMELQ+NUMELC),
      4               X1,Y1,Z1,X2,Y2,Z2,R)
          KK=KK+NGRTRUS
@@ -476,8 +475,8 @@ C
          max_extension = 4 * GRSIZE_ELE(IGUP,IGRBEAM,NGRBEAM)
          call extend_array(NSTRF,size(nstrf),CPT + max_extension)
          CALL SEC_NODES(IGUP,ISTYP,NGRBEAM,IGRBEAM,X0,A,
-     2                 B,C,D,E,F,ITAB,IXP,NIXP,KK,NNOD,NSTRF,
-     3                 NBINTER,N1,K1,2,CPT,NODTAG,TAGELEMS(1+NUMELS
+     2                 B,C,D,E,F,IXP,NIXP,NNOD,NSTRF,
+     3                 NBINTER,K1,2,CPT,NODTAG,TAGELEMS(1+NUMELS
      .              +NUMELQ+NUMELC+NUMELT),
      4               X1,Y1,Z1,X2,Y2,Z2,R)
          KK=KK+NGRBEAM
@@ -485,8 +484,8 @@ C
          max_extension = 4 * GRSIZE_ELE(IGUR,IGRSPRING,NGRSPRI)     
          call extend_array(NSTRF,size(nstrf),CPT + max_extension)
          CALL SEC_NODES(IGUR,ISTYP,NGRSPRI,IGRSPRING,X0,A,
-     2                 B,C,D,E,F,ITAB,IXR,NIXR,KK,NNOD,NSTRF,
-     3                 NBINTER,N1,K1,2,CPT,NODTAG,TAGELEMS(1+NUMELS
+     2                 B,C,D,E,F,IXR,NIXR,NNOD,NSTRF,
+     3                 NBINTER,K1,2,CPT,NODTAG,TAGELEMS(1+NUMELS
      .              +NUMELQ+NUMELC+NUMELT+NUMELP),
      4               X1,Y1,Z1,X2,Y2,Z2,R)
          KK=KK+NGRSPRI
@@ -494,8 +493,8 @@ C
          max_extension = 6 * GRSIZE_ELE(IGUTG,IGRSH3N,NGRSH3N)
          call extend_array(NSTRF,size(nstrf),CPT + max_extension)
          CALL SEC_NODES(IGUTG,ISTYP,NGRSH3N,IGRSH3N,X0,A,
-     2                B,C,D,E,F,ITAB,IXTG,NIXTG,KK,NNOD,NSTRF,
-     3                 NBINTER,N1,K1,3,CPT,NODTAG,TAGELEMS(1+NUMELS
+     2                B,C,D,E,F,IXTG,NIXTG,NNOD,NSTRF,
+     3                 NBINTER,K1,3,CPT,NODTAG,TAGELEMS(1+NUMELS
      .              +NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR),
      4               X1,Y1,Z1,X2,Y2,Z2,R)
        ENDIF
@@ -631,43 +630,43 @@ C      SOLIDES
 C--------------------------------------------------------------
        WRITE (IOUT,3300) NSEGS
        CALL SECSTRI(NSEGS,NSTRF(K3),IXS,IXS10,IXS16,IXS20,
-     .              NSTRF(K2),NNOD,ITAB,I,NOPRINT)
+     .              NSTRF(K2),NNOD,NOPRINT)
 C-------------------------------------------------------------
 C      QUADS
 C--------------------------------------------------------------
        WRITE (IOUT,3400) NSEGQ
        CALL SEC_TRI(NSEGQ,NSTRF(K4),IXQ,NIXQ,4,NSTRF(K2),
-     .              NNOD,ITAB,NUMELQ,I,' QUADS')
+     .              NNOD)
 C-------------------------------------------------------------
 C      COQUES
 C--------------------------------------------------------------
        WRITE (IOUT,3100) NSEGC
        CALL SEC_TRI(NSEGC,NSTRF(K5),IXC,NIXC,4,NSTRF(K2),
-     .              NNOD,ITAB,NUMELC,I,' SHELLS')
+     .              NNOD)
 C-------------------------------------------------------------
 C      BARRES
 C--------------------------------------------------------------
        WRITE (IOUT,3500) NSEGT
        CALL SEC_TRI(NSEGT,NSTRF(K6),IXT,NIXT,2,NSTRF(K2),
-     .              NNOD,ITAB,NUMELT,I,' TRUSSES')
+     .              NNOD)
 C-------------------------------------------------------------
 C      POUTRES
 C--------------------------------------------------------------
        WRITE (IOUT,3600) NSEGP
        CALL SEC_TRI(NSEGP,NSTRF(K7),IXP,NIXP,2,NSTRF(K2),
-     .              NNOD,ITAB,NUMELP,I,' BEAMS')
+     .              NNOD)
 C-------------------------------------------------------------
 C      RESSORTS
 C--------------------------------------------------------------
        WRITE (IOUT,3700) NSEGR
        CALL SEC_TRI(NSEGR,NSTRF(K8),IXR,NIXR,2,NSTRF(K2),
-     .              NNOD,ITAB,NUMELR,I,' SPRINGS')
+     .              NNOD)
 C-------------------------------------------------------------
 C      COQUES 3N
 C--------------------------------------------------------------
        WRITE (IOUT,3200) NSEGTG
        CALL SEC_TRI(NSEGTG,NSTRF(K9),IXTG,NIXTG,3,NSTRF(K2),
-     .              NNOD,ITAB,NUMELTG,I,' 3 NODES SHELLS')
+     .              NNOD)
 
 C-------------------------------------------------------------
 C
@@ -748,10 +747,6 @@ C-------------------------------------------------------------
      + '        FRAME TYPE . . . . . . . . . . . .',I10/
      + '        NUMBER OF INTERFACES . . . . . . .',I10/
      + '        INTERFACES:')
- 2901 FORMAT(/' SECTION',I10,' ID',I10/
-     +        ' ---------------'/
-     + '        TYPE . . . . . . . . . . . . . . .',I8/
-     + '        FRAME TYPE . . . . . . . . . . . .',I8/)
  3000 FORMAT(/
      + '        NUMBER OF NODES. . . . . . . . . .',I10/
      + '        NODES:')
@@ -789,7 +784,7 @@ C=========================================================================
 !||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE SECSTRI(NSEG,ISECBUF,IXS,IXS10,IXS16,IXS20,
-     .                   NOD ,NNOD ,ITAB ,ISEC, NOPRINT )
+     .                   NOD ,NNOD ,NOPRINT )
       use element_mod , only : nixs
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -803,8 +798,8 @@ C-----------------------------------------------
 
       INTEGER NSEG,ISECBUF(2,*),IXS(NIXS,NUMELS),
      .        IXS10(6,*),IXS16(8,*),IXS20(12,*),
-     .        NOD(*),NNOD,ITAB(NUMNOD),ISEC,NOPRINT
-      INTEGER I,J,JJ,K,N,NN,L,POWER2(20)
+     .        NOD(*),NNOD,NOPRINT
+      INTEGER J,JJ,K,N,NN,L,POWER2(20)
 
       DATA POWER2/1,2,4,8,16,32,64,128,256,512,
      .            1024,2048,4096,8192,16384,
@@ -919,7 +914,7 @@ C
 !||    lecsec42   ../starter/source/tools/sect/hm_read_sect.F
 !||====================================================================
       SUBROUTINE SEC_TRI(NSEG,ISECBUF,IX,NIX,NNE,NOD,
-     .                   NNOD,ITAB   ,NUMEL,ISEC,TXT)
+     .                   NNOD)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -929,10 +924,8 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "units_c.inc"
 C
-      INTEGER NIX,NSEG,ISECBUF(2,*),IX(NIX,*),NNE,NOD(*),NNOD,
-     .        ITAB(*),NUMEL,ISEC
+      INTEGER NIX,NSEG,ISECBUF(2,*),IX(NIX,*),NNE,NOD(*),NNOD
       INTEGER I,J,JJ,K,N,NN,L,POWER2(10),UNPACK(0:1023,10),IFIRST
-      CHARACTER*(*) TXT
 C
       DATA POWER2/1,2,4,8,16,32,64,128,256,512/
       DATA IFIRST/0/
@@ -1051,8 +1044,8 @@ C
 !||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE SEC_NODES(IGU1,ISTYP,NGRELE,IGRELE,X0,A,
-     2                  B,C,D,E,F,ITAB,IX,NIX,KK,NNOD,NSTRF,
-     3                  NBINTER,N1 ,K1,NBNODES,J,NODTAG,TAGELEMS,
+     2                  B,C,D,E,F,IX,NIX,NNOD,NSTRF,
+     3                  NBINTER,K1,NBNODES,J,NODTAG,TAGELEMS,
      4                  X1,Y1,Z1,X2,Y2,Z2,R)
 C-----------------------------------------------
 C   M o d u l e s
@@ -1069,15 +1062,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IGU1,ISTYP,NGRELE,NIX,KK,NNOD,NBINTER,N1,K1,NBNODES,J
-      INTEGER ITAB(NUMNOD), IX(NIX,*), NSTRF(*),  NODTAG(NUMNOD),TAGELEMS(*)
+      INTEGER IGU1,ISTYP,NGRELE,NIX,NNOD,NBINTER,K1,NBNODES,J
+      INTEGER IX(NIX,*), NSTRF(*),  NODTAG(NUMNOD),TAGELEMS(*)
       my_real  X0(3,*),A,B,C,D,E,F,X1,Y1,Z1,X2,Y2,Z2,R
 C-----------------------------------------------
       TYPE (GROUP_)  ,DIMENSION(NGRELE)   :: IGRELE
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER K,L,ISU,IADV,IE,TAGELEM1,TAGELEM2,TAGELEM3,NBPROJOK
+      INTEGER K,L,ISU,IE,TAGELEM1,TAGELEM2,TAGELEM3,NBPROJOK
       !TAGNDOUBL(NUMNOD),TAGNODES(NUMNOD*2+NPART)
       INTEGER, DIMENSION(:), ALLOCATABLE :: TAGNDOUBL, TAGNODES
       my_real  POS,PROJX,PROJY,PROJZ,P1,P2
@@ -1209,9 +1202,9 @@ C
 !||    lecsec4bolt     ../starter/source/tools/sect/lecsec4bolt.F
 !||--- uses       -----------------------------------------------------
 !||====================================================================
-      SUBROUTINE SEC_NODES_SOL(IGU1,ISTYP,NGR,IGRBRIC,X0,A,
-     2                   B,C,D,E,F,ITAB,IXS,IXS10,IXS16,IXS20,
-     3                   NIX,KK,NNOD,NSTRF,NBINTER,N1 ,K1,
+      SUBROUTINE SEC_NODES_SOL(IGU1,ISTYP,IGRBRIC,X0,A,
+     2                   B,C,D,E,F,IXS,IXS10,IXS16,IXS20,
+     3                   NIX,NNOD,NSTRF,NBINTER,K1,
      4                   J,NODTAG,ISOLNOD,TAGELEMS,
      5                   X1,Y1,Z1,X2,Y2,Z2,R)
 C-----------------------------------------------
@@ -1229,8 +1222,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IGU1,ISTYP,NGR,NIX,KK,NNOD,NBINTER,N1,K1,J
-      INTEGER ITAB(NUMNOD),IXS(NIX,NUMELS), NSTRF(*),
+      INTEGER IGU1,ISTYP,NIX,NNOD,NBINTER,K1,J
+      INTEGER IXS(NIX,NUMELS), NSTRF(*),
      .        NODTAG(NUMNOD), IXS10(6,*),IXS16(8,*),IXS20(12,*),
      .        ISOLNOD(*),TAGELEMS(*)
       my_real X0(3,*),A,B,C,D,E,F,X1,Y1,Z1,X2,Y2,Z2,R
@@ -1239,7 +1232,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER K,L,ISU,IADV,IE,TAGELEM1,TAGELEM2,TAGELEM3, NBNODES,NBPROJOK,OFFSET
+      INTEGER K,L,ISU,IE,TAGELEM1,TAGELEM2,TAGELEM3, NBNODES,NBPROJOK,OFFSET
       INTEGER, DIMENSION(:), ALLOCATABLE :: TAGNDOUBL,TAGNODES
       my_real POS,PROJX,PROJY,PROJZ,P1,P2
 C-----------------------------------------------

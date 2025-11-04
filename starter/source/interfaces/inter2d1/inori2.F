@@ -59,16 +59,16 @@ C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
       IF(NEL==0) RETURN ! NO ELEM CONNECTED TO CURRENT SEGMENT
-      !segment vector p1->p2
+      ! Segment vector p1->p2
       N2= ZM2-ZM1
       N3= YM1-YM2
-      !elem centroid
+      ! Element centroid
       YM= FOURTH*(YE(1)+YE(2)+YE(3)+YE(4))
       ZM= FOURTH*(ZE(1)+ZE(2)+ZE(3)+ZE(4))
-      !Dot Product
+      ! Dot product
       DDS=N2*(YM-YM1)+ N3*(ZM-ZM1)
       IF(DDS >= ZERO)THEN
-        !switch the segment connectivity to get outward normal
+        ! Switch the segment connectivity to get outward normal
         IR=IRECT(1,ISG)
         IRECT(1,ISG)=IRECT(2,ISG)
         IRECT(2,ISG)=IR

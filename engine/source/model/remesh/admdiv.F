@@ -115,7 +115,7 @@ C-----------------------------------------------
           TAGNOD = 0
           NODNORM= ZERO
 c
-c         traversal of the leaves
+C         traversal of the leaves
           LEVEL=LEVELMAX
           DO NN=PSH4KIN(LEVEL)+1,PSH4KIN(LEVEL+1)
             N   =LSH4KIN(NN)

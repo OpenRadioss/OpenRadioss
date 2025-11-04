@@ -78,22 +78,19 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      CHARACTER(LEN=NCHARTITLE) :: TITR1
-      INTEGER I,J,L,IBC1, IBC2, IBC3, NOINT, NTYP, IBID,
+
+      INTEGER I,IBC1, IBC2, IBC3, NOINT, NTYP,
      .    INACTI, IBC1M, IBC2M, IBC3M, IGSTI,IS1,IS2,
-     .    IGAP,MULTIMP,MFROT,IFQ,IBAG,MODFR,IERR1,IVIS2, 
-     .    ISYM,NOD1,IDUM,IGNORE,KK,II,IGAP0,IDELKEEP,
-     .    IRSTH,ICURV,NA1,NA2,IFORM,IADM,IEDGE,NRADM,ISU10,ISU20,
-     .    NOD10,NOD20,LINE10,LINE20,IBID1,IBID2,IDEL7N,LINE1,
+     .    IGAP,MULTIMP,MFROT,IFQ,IBAG,MODFR,IVIS2, 
+     .    ISYM,NOD1,IDELKEEP,
+     .    IFORM,IADM,IEDGE,NRADM,ISU10,ISU20,
+     .    NOD10,NOD20,LINE10,LINE20,IDEL7N,LINE1,
      .    LINE2
       my_real
      .   FRIC,GAP,STARTT,BUMULT,STOPT,C1,C2,C3,C4,C5,C6,ALPHA,
-     .   VISC,VISCF,EGDE_ANGL,FPENMAX,EDG_ANGL,GAPSOL,STMIN,STMAX,
+     .   VISC,VISCF,FPENMAX,EDG_ANGL,GAPSOL,STMIN,STMAX,
      .   PADM,ANGLADM,CADM,GAPMAX,GAPSCALE
-      CHARACTER(LEN=40)::MESS
-      CHARACTER(LEN=NCHARTITLE)::MSGTITL
-      CHARACTER(LEN=NCHARKEY)::OPT,KEY,KEY1
-      CHARACTER(LEN=NCHARFIELD)::BCFLAG,BCFLAGM
+
 !
       INTEGER, DIMENSION(:), POINTER :: INGR2USR
 C-----------------------------------------------
@@ -504,9 +501,6 @@ C--------------------------------------------------------------
       ENDIF
 C
 C--------------------------------------------------------------
- 1000 FORMAT(/1X,'  INTERFACE NUMBER :',I10,1X,A)
- 1300 FORMAT(    /1X,'   INTERFACES               ' /
-     .            1X,' --------------             '// )
 C------------
       RETURN
  3507 FORMAT(//

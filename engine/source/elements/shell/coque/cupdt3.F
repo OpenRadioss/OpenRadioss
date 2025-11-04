@@ -79,7 +79,7 @@ C-----------------------------------------------
      .  I8M21(3,MVSIZ), I8M22(3,MVSIZ), I8M23(3,MVSIZ), I8M24(3,MVSIZ),
      .  I8M31(3,MVSIZ), I8M32(3,MVSIZ), I8M33(3,MVSIZ), I8M34(3,MVSIZ)
 C-----------------------------------------------
-      INTEGER NVC1, NVC2, NVC3, NVC4, I, J,N,MX,MT
+      INTEGER NVC1, NVC2, NVC3, NVC4, I, N
       my_real OFF_L
 C=======================================================================
 C cumulative energy of deleted elements at the moment of deletion
@@ -549,9 +549,9 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NVC1, NVC2, NVC3, NVC4, I, J,MX, MT
+      INTEGER NVC1, NVC2, NVC3, NVC4, I
       my_real
-     .   OFF_L,CF(MVSIZ)
+     .   OFF_L
 C=======================================================================
 C
 C cumulative energy of deleted elements at the moment of deletion
@@ -1002,7 +1002,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, II, K, J,MX,MT
+      INTEGER I, K
       my_real OFF_L
 C=======================================================================
 C cumulative energy of deleted elements at the moment of deletion

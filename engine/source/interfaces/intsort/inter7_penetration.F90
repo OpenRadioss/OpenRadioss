@@ -219,7 +219,7 @@
               nz1(i) = zi(i)-(z3(i) + lb1(i)*z01(i) + lc1(i)*z02(i))
               p1(i) = nx1(i)*nx1(i) + ny1(i)*ny1(i) +nz1(i)*nz1(i)
 ! !!!!!!!!!!!!!!!!!!!!!!!
-!  pene = gap^2 - dist^2 utilise pour tester si non nul
+!  pene = gap^2 - dist^2 used for testing if non-zero
 !!!!!!!!!!!!!!!!!!!!!!!!!
               pene(i) = max(zero, gap2(i) - p1(i))
 !
@@ -456,7 +456,7 @@
               p4(i) = nx4(i)*nx4(i) + ny4(i)*ny4(i) +nz4(i)*nz4(i)
               d4 = max(zero, gap2(i) - p4(i))
 ! !!!!!!!!!!!!!!!!!!!!!!!
-!  pene = gap^2 - dist^2 utilise pour tester si non nul
+!  pene = gap^2 - dist^2 used for testing if non-zero
 !!!!!!!!!!!!!!!!!!!!!!!!!
               pene(i) = max(d1,d2,d3,d4)
             end do

@@ -53,7 +53,7 @@ c-----------------------------------------------------------------------
           ! ---------
           ! parith/on option : starter and engine
           INTEGER :: S_SEGMENT_ADRESS ! second dimension of SEGMENT_ADRESS
-          INTEGER, DIMENSION(:,:), ALLOCATABLE :: SEGMENT_ADRESS ! adress to point to the adsky array, dim =(4,S_SEGMENT_ADRESS) (parith/on option)
+          INTEGER, DIMENSION(:,:), ALLOCATABLE :: SEGMENT_ADRESS ! address to point to the adsky array, dim =(4,S_SEGMENT_ADRESS) (parith/on option)
           ! ---------
         END TYPE PRESS_CYL_
 c-----------------------------------------------------------------------

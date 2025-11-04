@@ -95,7 +95,6 @@ C     Minimum allowance (in the absence of Madymo coupling).
 C-----------------------------------------------
       CALL RADIOSS2(IDATA, MIDATA, RDATA, MRDATA)
 C-----------------------------------------------
-9999  CONTINUE
       RETURN
       END 
 

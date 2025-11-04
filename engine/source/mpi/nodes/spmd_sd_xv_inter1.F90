@@ -126,7 +126,7 @@
                 call spmd_irecv(rcv_buff%my_real_array_2d(:,1),array_size,0,my_tag,my_request,SPMD_COMM_WORLD) ! post the R comm, sent by the processor 0
                 call spmd_wait(my_request) ! wait the R comm, sent by the processor 0
                 do k=1,my_size
-                  ! index pour noeuds frontieres appartement au interface /TYPE1
+                  ! index for boundary nodes belonging to interface /TYPE1
                   a(1:3,FR_ELEM(IAD_ELEM(1,0+1)-1+k)) = rcv_buff%my_real_array_2d(1:3,k)
                   v(1:3,FR_ELEM(IAD_ELEM(1,0+1)-1+k)) = rcv_buff%my_real_array_2d(4:6,k)
                 end do
@@ -142,7 +142,7 @@
                 send_buff(j)%size_my_real_array_2d(2) = my_size_0(j)
                 call alloc_my_real_2D_array(send_buff(j)) ! allocate the S buffer
                 do k=1,my_size_0(j)
-                  ! index pour noeuds frontieres appartement au interface /TYPE1
+                  ! index for boundary nodes belonging to interface /TYPE1
                   send_buff(j)%my_real_array_2d(1:3,k) = a(1:3, fr_elem(IAD_ELEM(1,J)+k-1)) ! save acceleration into the S buffer
                   send_buff(j)%my_real_array_2d(4:6,k) = v(1:3, fr_elem(IAD_ELEM(1,J)+k-1)) ! save velocity into the S buffer
                 end do

@@ -267,7 +267,6 @@ C---------------------------
  1003 FORMAT(5X,'--NEXT TIMESTEP IS DETERMINED BY INPUT FIX POINT--')
  1004 FORMAT(5X,'--RESET TIMESTEP DUE TO INPUT FIX POINT--')
  1005 FORMAT(5X,'--TIMESTEP IS ADJUSTED BY RIKS METHOD TO:',E11.4/)
- 1006 FORMAT(5X,'--TERMINAL LOADING TIME BY RIKS METHOD IS:',E11.4/)
       RETURN
       END
 !||====================================================================

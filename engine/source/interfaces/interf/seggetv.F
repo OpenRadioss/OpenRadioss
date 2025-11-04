@@ -130,7 +130,6 @@ c
 
              ENDIF
            ENDDO
-   50    CONTINUE
          ENDDO
   100  CONTINUE
 c

@@ -76,16 +76,14 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real
-     .   FCX,FCY,FAC_M,FAC_L,FAC_T,NGX,NGY,NGZ,DOTPROD
-      INTEGER I, NOD, NCUR, NOSKEW,NSKW,NN,IGS,UID,
-     .        IAD,NS,IWA,J,K,ID,K1,K2,NCURS,N1,N2,NC,L,
-     .        ITAG, IFLAGUNIT,FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP,IADPL
-      CHARACTER(LEN=NCHARFIELD) :: XYZ
+     .   NGX,NGY,NGZ,DOTPROD
+      INTEGER UID,
+     .        IAD,J,K,ID,IFLAGUNIT,IADPL
       CHARACTER X*1, Y*1, Z*1, XX*2, YY*2, ZZ*2, MESS*40
       CHARACTER(LEN=NCHARTITLE)::TITR
       
-      INTEGER     :: IGU,ISU,IGRAV,IBID, IG, IS, IDIR, PN1, ICURS, IIGRAV,IIG,IIS
-      my_real     :: BX_,BY_,BZ_, GRAV0,NX,NY,NZ,NORM,PSURF,BID
+      INTEGER     :: IGU,ISU,IGRAV, IG, IS, IDIR, PN1, ICURS, IIGRAV,IIG,IIS
+      my_real     :: BX_,BY_,BZ_, GRAV0,NX,NY,NZ,NORM,PSURF
       LOGICAL     :: lFOUND, lPLANAR_SURF, lUSER_SURF, lOUTP, lGRAV, lUNIQUE, IS_AVAILABLE
       CHARACTER*2 :: CDIR
 

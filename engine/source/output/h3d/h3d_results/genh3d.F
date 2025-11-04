@@ -389,7 +389,7 @@ C-----------------------------------------------
         INTEGER, DIMENSION(:), ALLOCATABLE :: IS_WRITEN_NODE_FVM,NODE_ID_FVM
         INTEGER  INFO1,INFO2,IS_CORNER_DATA, COMPID_RBODIES, COMPID_RBE2S, COMPID_RBE3S, MAX_PART_ID
         INTEGER  ERROR_LOAD,NUMNOD_H3DPART
-c a mettre en allocatable
+c to be made allocatable
         INTEGER, DIMENSION(:,:), ALLOCATABLE ::
      .           IXC_P,
      .           IXC_TMP,

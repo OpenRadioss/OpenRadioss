@@ -83,7 +83,7 @@ C-----------------------------------------------
      7        ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )            
         IF (ITY == 51) THEN
 C-----------------------------------------------
-C          PARTICULES SPH.
+C          SPH PARTICLES.
 C-----------------------------------------------
            LFT=1
            LLT=NEL

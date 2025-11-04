@@ -71,8 +71,8 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IERROR,IDSK1,IDSK2,ZEROI
       my_real
-     .   XK,XTYP,XFLG,XSK1,XSK2,KNN,KRX,CR,MASS,INER,
-     .   FAC_M,FAC_L,FAC_T,FAC_C,FAC_KT,FAC_CTX,FAC_CRX,FAC_CT
+     .   XK,XTYP,XFLG,XSK1,XSK2,KNN,CR,MASS,INER,
+     .   FAC_M,FAC_L,FAC_T,FAC_KT,FAC_CTX,FAC_CRX,FAC_CT
 C-----------------------------------------------
       INTEGER SET_U_PNU,SET_U_GEO,KFUNC
       EXTERNAL SET_U_PNU,SET_U_GEO

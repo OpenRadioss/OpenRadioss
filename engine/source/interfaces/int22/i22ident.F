@@ -210,7 +210,6 @@ C=======================================================================
         ! 3 Potential Polyhedron Detection : stored in SecTypeList in [1,106]
         !===================================================================
         Iremoved = 0
-   10   CONTINUE
         IB = I        
         SecTypeList(:) = 0
         UsedNodes = 0

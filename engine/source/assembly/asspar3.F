@@ -91,7 +91,7 @@ C-----------------------------------------------
         ENDIF
         NISKYFT   = 1+ITASK*NISKY/ NTHREAD
         NISKYLT   = (ITASK+1)*NISKY/NTHREAD
-c      print *,' nisky=',nisky,' nodlt=',nodlt
+C      print *,' nisky=',nisky,' nodlt=',nodlt
 C
         DO N=NODFT,NODLT
           ADSKYI(N) = 0
@@ -120,7 +120,7 @@ C
             ADSKYI(N) = ADSKYI(N) + 1
           ENDDO
 C-----------------------------------------------
-C   CALCULATION OF SKYLINE VECTOR ADDRESSES
+C Computing SKYLINE VECTOR ADDRESSES
 C-----------------------------------------------
           ADSKYI(0) = 1
           ADSKYI(1) = 1

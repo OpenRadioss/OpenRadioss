@@ -70,14 +70,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ITYPE, IBID, NFUNCT0
-      INTEGER I, J, K, II, N, NDIM, NX(4), NY,
-     .        JREC, NPTS, STAT, LL,NPT,IPT
-      INTEGER IERROR, NF, IDFUNC, NP
-      my_real BID, F5(5), TIME, FUNCT
+      INTEGER I, K, N, NDIM, NX(4), NY,
+     .        NPTS, STAT, LL,NPT,IPT
+      my_real TIME, FUNCT
       CHARACTER(LEN=NCHARTITLE) :: TITR,TITR1
       CHARACTER MESS*40
-      CHARACTER(LEN=NCHARFIELD) :: KEY
       DATA MESS/' FUNCTION & TABLE DEFINITION            '/
       LOGICAL :: IS_ENCRYPTED, IS_AVAILABLE
 C======================================================================|
@@ -181,10 +178,6 @@ C
   
       RETURN
 C-----------------------------------------------------------------
-2000  FORMAT(//
-     .        '    TABLES'/
-     .        '    ------'/
-     .        '    NUMBER OF TABLES . . . . . . . . . . =',I10/)
 2100  FORMAT(/'    TABLE ID . . . . . . . . . . . . . . =',I10/
      .        '    NUMBER OF PARAMETERS . . . . . . . . =',I10/)
 2200  FORMAT(/'    VALUES FOR PARAMETER NUMBER. . . . . .',I4,':'/)

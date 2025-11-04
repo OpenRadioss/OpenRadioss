@@ -166,7 +166,6 @@ C
 C
 2000  FORMAT(' NEW LOAD CURVES'  //
      .  '  NUMBER OF NEW LOAD CURVES. . . . . . =' ,I10 /)
-2100  FORMAT(' ** ERROR: LOAD CURVE NUMBER' )
 2200  FORMAT(///' LOAD FUNCTION NUMBER. . . . . =',I10/
      .          ' NUMBER OF TIME POINTS . . . . =',I8//
      .          ' TIME            VALUE          '   /)

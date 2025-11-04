@@ -116,6 +116,5 @@ C     Frottement calcule apres amortissement.
      5      WA(2*NUMNOD+1),WA(3*NUMNOD+1),INTBUF_TAB%VARIABLES(9),MS,STIFN ,
      6      FSAV   ,FCONT  ,FSKYI ,ISKY  ,H3D_DATA)
 C-----------------------------------------------
-9999  CONTINUE
       RETURN
       END

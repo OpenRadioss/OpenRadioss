@@ -164,7 +164,6 @@ C
      
      
 
- 234  CONTINUE
 c     WRITE(6,*) "IMEM=",I_MEM 
 C
 C     I_MEM = 1 ==> PAS ASSEZ DE MEMOIRE PILE
@@ -388,7 +387,6 @@ C (in // SMP there is possibility of processing redundancy but no pb)
      B   DGAPLOAD,REMOTE_S_NODE,LIST_REMOTE_S_NODE,
      C   TOTAL_NB_NRTM,INTHEAT,IDT_THERM,NODADT_THERM)
  
- 234  CONTINUE
 
 C
 C     I_MEM = 1 ==> PAS ASSEZ DE MEMOIRE PILE

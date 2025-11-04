@@ -3691,7 +3691,7 @@ C
           IF (SCAL_DTN == ZERO) SCAL_DTN=TWO_THIRD
           IF (SCAL_DTP == ZERO) SCAL_DTP=ONEP1
          ENDIF
-C-------ALEN=ALEN0 IF ALEN0=0 sinon ALEN est calcule auto
+C-------ALEN=ALEN0 IF ALEN0=0 otherwise ALEN is computed automatically
 C-------RIKS ARC LENGTH METHOD ------
         ELSEIF (IDTC == 3) THEN
          IF (NL_DTP == 0) NL_DTP=12

@@ -38,9 +38,8 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE MESSAGE_MOD
 C=======================================================================
-C    * Verifie qu'il n'y a pas deux RIGID BODIES (.../... deux conditions
-C      cinematiques)
-C    which define the movement of the same surface.
+C    * Verifies that there are not two RIGID BODIES (or two kinematic
+C      conditions) which define the movement of the same surface.
 C    * Initializes the position and velocities of the point where forces are calculated
 C      in the interfaces.
 C-----------------------------------------------

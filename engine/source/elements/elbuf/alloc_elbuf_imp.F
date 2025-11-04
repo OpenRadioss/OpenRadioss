@@ -136,9 +136,9 @@ c
          ALLOCATE(ELBUF_IMP(NG)%BUFLY(IL)%PORO(NPTR,NPTS,NPTT),STAT=ERR)              
         ENDDO                                                           
 c-------------------------------------------------
-c       skip interlayer buffer for PLY_XFEM
+C       skip interlayer buffer for PLY_XFEM
 c-------------------------------------------------
-c       allocation & read of local buffer variables
+C       allocation & read of local buffer variables
 c-------------------------------------------------
         DO IL = 1, NLAY                                                            
          BUFLY => ELBUF_TAB(NG)%BUFLY(IL)                         
@@ -335,7 +335,7 @@ c
           ENDDO                                                                     
          ENDDO                                                                      
         ENDDO       
-c        
+C        
 c-----    Material buffer - per integration point                                                                  
 c
         DO IL = 1, NLAY                                                     
@@ -358,7 +358,7 @@ c
           ENDDO                                                             
         ENDDO                                                               
 c-------------------------------
-c         failure model variables                            
+C         failure model variables                            
 c-------------------------------
         DO IL = 1, NLAY                                                      
           NFAIL = ELBUF_TAB(NG)% BUFLY(IL)%NFAIL                                   
@@ -403,7 +403,7 @@ c-------------------------------
           ENDDO                                                              
         ENDDO                                                                
 c-------------------------------
-c         Viscosity model variables                            
+C         Viscosity model variables                            
 c-------------------------------
         DO IL = 1, NLAY                                                    
           NUVAR = ELBUF_TAB(NG)% BUFLY(IL)%NVAR_VISC                                   
@@ -421,7 +421,7 @@ c-------------------------------
           ENDDO                                                           
         ENDDO     
 c-------------------------------
-c         Non-local regularization in the shell thickness                 
+C         Non-local regularization in the shell thickness                 
 c-------------------------------
         IF ((ITY==3).OR.(ITY==7)) THEN
           ! Number of integration points in the thickness
@@ -452,7 +452,7 @@ c-------------------------------
             ENDDO  
           ENDIF
 c-------------------------------
-c         Non-local regularization in the thickshell thickness                 
+C         Non-local regularization in the thickshell thickness                 
 c-------------------------------
         ELSEIF (ITY==1) THEN
           ! Number of integration points in the thickness
@@ -481,7 +481,7 @@ c-------------------------------
         ENDIF
         
 c-------------------------------
-c         EoS buffer
+C         EoS buffer
 c-------------------------------
       DO IL = 1, NLAY 
         NVAR_EOS = ELBUF_TAB(NG)%BUFLY(IL)%NVAR_EOS 
@@ -501,11 +501,11 @@ c-------------------------------
         ENDDO                                                             
       ENDDO       
 c-------------------------------------------------
-c       allocation of global buffer variables
+C       allocation of global buffer variables
 c-------------------------------------------------
         GBUF  => ELBUF_TAB(NG)%GBUF                                                  
         ELBUF_IMP(NG)%GBUF%NVAR_GLOB = GBUF%NVAR_GLOB
-c  
+C  
         ELBUF_IMP(NG)%GBUF%G_NOFF   = GBUF%G_NOFF     
         ELBUF_IMP(NG)%GBUF%G_IERR   = GBUF%G_IERR     
         ELBUF_IMP(NG)%GBUF%G_OFF    = GBUF%G_OFF      
@@ -570,7 +570,7 @@ C
         ELBUF_IMP(NG)%GBUF%G_FOR_G  = GBUF%G_FOR_G
         ELBUF_IMP(NG)%GBUF%G_FORPG_G= GBUF%G_FORPG_G
 c---
-c 1-D elements (TRUSS, BEAM, SPRING, NSTRAND)
+C 1-D elements (TRUSS, BEAM, SPRING, NSTRAND)
 c---
         ELBUF_IMP(NG)%GBUF%G_AREA   = GBUF%G_AREA
         ELBUF_IMP(NG)%GBUF%G_SKEW   = GBUF%G_SKEW
@@ -609,7 +609,7 @@ c---
         ELBUF_IMP(NG)%GBUF%G_YIELD_IN_COMP = GBUF%G_YIELD_IN_COMP
         ELBUF_IMP(NG)%GBUF%G_XXOLD_IN_COMP = GBUF%G_XXOLD_IN_COMP
 c---
-c seatbelt elements
+C seatbelt elements
 c---
         ELBUF_IMP(NG)%GBUF%G_SLIPRING_ID = GBUF%G_SLIPRING_ID
         ELBUF_IMP(NG)%GBUF%G_SLIPRING_FRAM_ID = GBUF%G_SLIPRING_FRAM_ID
@@ -620,7 +620,7 @@ c---
         ELBUF_IMP(NG)%GBUF%G_UPDATE      = GBUF%G_UPDATE
         ELBUF_IMP(NG)%GBUF%G_FRAM_FACTOR = GBUF%G_FRAM_FACTOR
         ELBUF_IMP(NG)%GBUF%G_INTVAR      = GBUF%G_INTVAR
-c       
+C       
         ALLOCATE (ELBUF_IMP(NG)%GBUF%NOFF(NEL*GBUF%G_NOFF)       ,STAT=ERR)                         
         ALLOCATE (ELBUF_IMP(NG)%GBUF%IERR(NEL*GBUF%G_IERR)       ,STAT=ERR)                         
         ALLOCATE (ELBUF_IMP(NG)%GBUF%GAMA(NEL*GBUF%G_GAMA)       ,STAT=ERR)                  
@@ -691,7 +691,7 @@ C
         ENDIF
 C
 c---
-c 1-D elements (TRUSS, BEAM, SPRING, NSTRAND)
+C 1-D elements (TRUSS, BEAM, SPRING, NSTRAND)
 c---
         IF(IGTYP == 3 .and. ITY == 5) THEN 
           ALLOCATE (ELBUF_IMP(NG)%GBUF%DMGSCL(NEL*GBUF%G_DMGSCL)          ,STAT=ERR)
@@ -733,7 +733,7 @@ c---
         ALLOCATE (ELBUF_IMP(NG)%GBUF%YIELD_IN_COMP(NEL*GBUF%G_YIELD_IN_COMP),STAT=ERR)
         ALLOCATE (ELBUF_IMP(NG)%GBUF%XXOLD_IN_COMP(NEL*GBUF%G_XXOLD_IN_COMP),STAT=ERR)
 c---
-c seatbelt elements
+C seatbelt elements
 c---
         ALLOCATE (ELBUF_IMP(NG)%GBUF%SLIPRING_ID(NEL*GBUF%G_SLIPRING_ID))
         ALLOCATE (ELBUF_IMP(NG)%GBUF%SLIPRING_FRAM_ID(NEL*GBUF%G_SLIPRING_FRAM_ID))

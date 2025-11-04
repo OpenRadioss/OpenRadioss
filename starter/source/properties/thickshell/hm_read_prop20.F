@@ -93,11 +93,11 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C     REAL
       INTEGER IHBE,ISMSTR,IPLAST,ICPRE,ICSTR,IINT,JCVT,
-     .   NPG,NPT,NPTR,NPTS,NPTT, ISTRAIN,IET,IHBE_OLD,ID,
+     .   NPG,NPT,NPTR,NPTS,NPTT, ISTRAIN,ID,
      .   NLY
       INTEGER     IHBE_DS,ISST_DS,ICONTROL_D,ICONTROL
       my_real
-     .    CVIS,QA,QB,QH,VNS1,VNS2,DTMIN,VDEFMIN,VDEFMAX,ASPMAX,ASPTET 
+     .    CVIS,QA,QB,DTMIN,VDEFMIN,VDEFMAX,ASPMAX,ASPTET 
       LOGICAL IS_AVAILABLE, IS_ENCRYPTED
 C=======================================================================
       IS_ENCRYPTED = .FALSE.

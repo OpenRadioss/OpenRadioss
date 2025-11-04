@@ -84,7 +84,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER GRBRIC_ID,IBAG,IDEL7N,IGAP,IGAP0,NTYP,INACTI,
+      INTEGER GRBRIC_ID,IDEL7N,IGAP,IGAP0,NTYP,INACTI,
      .        IDELKEEP,ISU1_user,ISU2_user,ISU3_user,ISTIFF
       my_real GAP,STARTT,STOPT,BUMULT,VISC,FRIC,VREF,SCALE
       CHARACTER(LEN=NCHARTITLE)::MSGTITL

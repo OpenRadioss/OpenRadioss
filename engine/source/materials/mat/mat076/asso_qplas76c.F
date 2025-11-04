@@ -106,25 +106,25 @@ C-----------------------------------------------
       LOGICAL :: CONV(NEL)
       my_real, PARAMETER :: SFAC = 1.05D0 ! Security factor of ICONV
 c-----------------------------------------------
-c     associated plasticity with quadratic yield function
+C     associated plasticity with quadratic yield function
 c-----------------------------------------
-c     icas      ifunt   | ifunc   | ifuncs
-c       -1         1    |    1    |    1
-c        0         1    |    0    |    0
-c        1         1    |    1    |    0
-c        2         1    |    0    |    1   
+C     icas      ifunt   | ifunc   | ifuncs
+C       -1         1    |    1    |    1
+C        0         1    |    0    |    0
+C        1         1    |    1    |    0
+C        2         1    |    0    |    1   
 c-----------------------------------------
-c     UVAR(1)  : EPSPT
-c     UVAR(2)  : EPSPC
-c     UVAR(3)  : EPSPS
-c     UVAR(4)  : EPDT
-c     UVAR(5)  : EPDC
-c     UVAR(6)  : EPDS
-c     UVAR(7)  : NUP
+C     UVAR(1)  : EPSPT
+C     UVAR(2)  : EPSPC
+C     UVAR(3)  : EPSPS
+C     UVAR(4)  : EPDT
+C     UVAR(5)  : EPDC
+C     UVAR(6)  : EPDS
+C     UVAR(7)  : NUP
 C=======================================================================
 c
       !=======================================================================
-      ! - INITIALISATION OF COMPUTATION ON TIME STEP
+      ! - INITIALIZATION OF COMPUTATION ON TIME STEP
       !=======================================================================
       ! Recovering model parameters
       ! -> Elastic parameters
@@ -242,7 +242,7 @@ c
         DEZZ(I) = -NU1 * (DEPSXX(I) + DEPSYY(I))
         SOUNDSP(I) = SQRT(A11_2D(I)/RHO(I))
       ENDDO
-c      
+C      
       !========================================================================
       ! - COMPUTATION OF YIELD FONCTION
       !======================================================================== 
@@ -258,19 +258,19 @@ c
           INDX(NINDX) = I
         ENDIF
       ENDDO
-c      
+C      
       !====================================================================
       ! - PLASTIC RETURN MAPPING WITH CUTTING PLANE METHOD
       !====================================================================
       IF (NINDX > 0) THEN
-c  
+C  
         ! Loop over the iterations  
         DO ITER = 1,NITER
 c
           ! Loop over yielding elements
           DO II = 1,NINDX         
             I = INDX(II)   
-c        
+C        
             ! Note     : in this part, the purpose is to compute for each iteration
             ! a plastic multiplier allowing to update internal variables to satisfy
             ! the consistency condition using the cutting plane algorithm
@@ -279,7 +279,7 @@ c
             ! -> DPHI_DLAMBDA : derivative of PHI with respect to DLAMBDA by taking
             !                   into account of internal variables kinetic : 
             !                   plasticity ... 
-c       
+C       
             ! df/dsig
             CB = A1(I) + TWO*A2(I)*P(I)                                                          
             NORM = ONE/MAX(EM20, SQRT(SIX*SVM(I)**2  + THIRD*CB**2)) ! norm df/dsig
@@ -311,7 +311,7 @@ c
      .                       (DFC(I)*SIGT(I) + SIGC(I)*DFT(I))
               ENDIF 
             ENDIF
-c                                     
+C                                     
             ! derivatives dAi/dlam                
             CC = SIGS(I)/SIGC(I)/SIGT(I)
 C
@@ -322,14 +322,14 @@ C
             A2S = -CINQUANTE4*CC                                           
             A2C = TWENTY7*CC*SIGS(I)/SIGC(I)                         
             A2T = TWENTY7*CC*SIGS(I)/SIGT(I)                         
-c                                                                   
+C                                                                   
             DA0 = SIX*SIGS(I)*DFS(I)                                  
             DA1 = A1S*DFS(I) + A1T*DFT(I)  + A1C*DFC(I)                     
             DA2 = A2S*DFS(I) + A2T*DFT(I)  + A2C*DFC(I)         
-c 
+C 
             FF(I) = DFDSIGDLAM + DA0 + P(I)*DA1 + P(I)**2 * DA2        
             FF(I) = SIGN(MAX(ABS(FF(I)),EM20) ,FF(I))      
-c                 
+C                 
             DLAM    = YLDS(I)/FF(I)                          
             DPLA(I) = MAX(ZERO, DPLA(I) + TWO*DLAM*YLD_NORM )
             PLA(I)  = PLA(I) + TWO*DLAM*YLD_NORM
@@ -344,18 +344,18 @@ c
             DPYY(I) = DLAM * NORMYY * NORM
             DPZZ(I) = DLAM * NORMZZ * NORM
             DPXY(I) = DLAM * NORMXY * NORM
-c           
+C           
             ! Elasto-plastic stresses update   
             SIGNXX(I) = SIGNXX(I) - (A11_2D(I)*DPXX(I) + A12_2D(I)*DPYY(I))
             SIGNYY(I) = SIGNYY(I) - (A11_2D(I)*DPYY(I) + A12_2D(I)*DPXX(I))
             SIGNXY(I) = SIGNXY(I) - DPXY(I)*G(I)
-c            
+C            
             ! compute EPSPC(I), EPSPT(I), EPSPS(I)
             EPSPT(I) = EPSPT(I) + DPT
             EPSPC(I) = EPSPC(I) + DPT                   
             EPSPS(I) = EPSPS(I) + DPS 
           ENDDO
-c            
+C            
           ! Update Yld values and criterion with new plastic strain and strain rate    
           XVEC(1:NEL,1) = EPSPT(1:NEL)
           XVEC(1:NEL,2) = EPDT(1:NEL)
@@ -435,7 +435,7 @@ c
         UVAR(1:NEL,7) = YFAC(1) * NUP(1:NEL)
         UVAR(1:NEL,7) = MAX(ZERO, MIN(NUP(1:NEL), HALF))
       END IF
-c 
+C 
       !====================================================================
       ! - NON-LOCAL THICKNESS VARIATION
       !====================================================================

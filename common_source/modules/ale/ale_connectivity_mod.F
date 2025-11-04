@@ -313,7 +313,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C     D e s c r i p t i o n
 C-----------------------------------------------
-!     Comptes Node to Element connectivities,    !
+!     Comptes Node to element connectivities,    !
 !     and Node to Node connectivities for ALE    !
 !     grid velocity formulations                 !
 !     ---------------------------------------    !
@@ -679,7 +679,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     D e s c r i p t i o n
 C-----------------------------------------------
-!     Computes Element to Element connectivities  !
+!     Computes element to element connectivities  !
 !     for ALE, and EULER computations             !
 !     ---------------------------------------     !
 C-----------------------------------------------

@@ -791,7 +791,7 @@ C=======================================================================
         NUPARAM =  NINT(GEO(26,I0))
         IF (IGTYP == 32) THEN
           CALL RINI32(
-     1                NEL      ,IOUT  ,I0       ,
+     1                NEL      ,I0       ,
      2                UIX      ,UL    ,GBUF%MASS,UINER   ,USTIFM ,
      3                USTIFR   ,UVISM ,UVISR    ,GBUF%VAR,NUVAR  ,ID,TITR,
      4                GBUF%EINT,NPC   ,PLD      )
@@ -880,7 +880,7 @@ C---
         ELSEIF (IGTYP == 36) THEN
            CALL RINI36(
      1       NEL    ,IOUT  ,I0       ,
-     2       UIX    ,UL    ,GBUF%MASS,UINER   ,USTIFM ,
+     2       UL    ,GBUF%MASS,UINER   ,USTIFM ,
      3       USTIFR ,UVISM ,UVISR    ,GBUF%VAR,NUVAR  )
         ENDIF
 C---

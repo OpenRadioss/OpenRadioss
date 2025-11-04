@@ -105,7 +105,7 @@ C-----------------------------------------------
         E0 = ZERO ! error managed below
       ENDIf
       
-      !ERREURS :
+      !ERRORS :
       ! GAMMA <=0
       
       IF(GAMMA <= ONE)THEN

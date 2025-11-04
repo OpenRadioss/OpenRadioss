@@ -63,7 +63,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------.
-      INTEGER :: KK, ID, UID, NPT, IPT, DIM, REC_START
+      INTEGER :: KK, ID, NPT, IPT, DIM
       CHARACTER(LEN=NCHARLINE) :: TITR
       LOGICAL :: IS_AVAILABLE
 

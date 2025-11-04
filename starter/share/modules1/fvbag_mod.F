@@ -75,7 +75,7 @@ C Dimensions
 C-----------
           INTEGER NNS, NNTR, LENP, NPOLY, LENH, NPOLH
 C----------------
-C Anim polyhedres
+C Anim polyhedra
 C----------------
           INTEGER NPOLH_ANIM, NNS_ANIM, ID
           INTEGER, DIMENSION(:), POINTER :: IFVPOLY_ANIM, IFVTADR_ANIM,
@@ -94,7 +94,7 @@ C------------------------
           my_real
      .           , DIMENSION(:,:), POINTER :: RFVNOD
 C------------------------
-C Variables volumes finis
+C Finite volume variables
 C------------------------
           my_real
      .           , DIMENSION(:), POINTER :: MPOLH,   EPOLH,   PPOLH,

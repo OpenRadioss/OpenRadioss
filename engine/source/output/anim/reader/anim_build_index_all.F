@@ -158,12 +158,12 @@ C-------------------------------------------
              ANIM_CT(4)    = 1
              NCT_ANI = NCT_ANI + 1
            ENDIF
-c           IF(NIPMAX<=100)THEN
+C           IF(NIPMAX<=100)THEN
              DO I=1,NIPMAX
                ANIM_CT(100+I) = 1
                NCT_ANI = NCT_ANI + 1
              ENDDO
-c           ENDIF
+C           ENDIF
          ENDIF
          IF (ISTRAIALL == 1)THEN
            IF (ANIM_CT(7) == 0) THEN
@@ -703,9 +703,9 @@ C--------due to existing Anim designs: fix thickness dir to J and limite other d
                   CASE(1)
                     IF (N14R==0) N14R= IGEO(15,I)
                 END SELECT
-c              NPTR= MAX(NPTR,N14R)
-c              NPTS= MAX(NPTS,N14S)
-c              NPTT= MAX(NPTT,N14T)
+C              NPTR= MAX(NPTR,N14R)
+C              NPTS= MAX(NPTS,N14S)
+C              NPTT= MAX(NPTT,N14T)
               N14S=MAX(N14R,N14S,N14T)
               NPTR= MAX(NPTR,2)
               NPTS= MAX(NPTS,IGEO(15,I),N14S)

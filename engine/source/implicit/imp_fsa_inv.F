@@ -900,11 +900,6 @@ C--------X->R--------
         R(I) = X(I) 
        ENDDO 
 C--------------------------------------------
- 1002 FORMAT(3X,'TOTAL C.G. ITERATION=',I8,5X,
-     .          ' RELATIVE RESIDUAL NORM=',E11.4)
- 1003 FORMAT(5X,
-     . '---WARNING : THE ITERATION LIMIT NUMBER WAS REACHED',
-     . 1X,'IN PRECONDITIONER')
        RETURN
       END
 !||====================================================================

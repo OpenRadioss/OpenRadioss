@@ -87,13 +87,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, N, K, NSL, NSLT, ITYP, NUSER,  NM,M, NI,
-     .        ISK, ISENS, INGU, IGM, J, P,IAD,NS,NN,J6(6),JJ,II,
-     .        IC,IC1,IC2,IROT,ISKS,IADS,IERR1,NC,ID,IDIR,
-     .        IKINE1(3*NUMNOD),IRAD,NRB,ICP,IER,NMOVE,SUB_INDEX
+      INTEGER I, K, NUSER,  NM,M,
+     .        ISK, INGU, IGM, J, P,IAD,NS,J6(6),JJ,
+     .        IC,IC1,IC2,ISKS,IDIR,
+     .        IKINE1(3*NUMNOD),IRAD,NRB,NMOVE,SUB_INDEX,NSL
       INTEGER, DIMENSION(NUMNOD) :: ITAGM,ITAGIC
       CHARACTER(LEN=NCHARTITLE) :: TITR
-      CHARACTER(LEN=NCHARKEY) :: KEY
       CHARACTER :: MESS*40
       LOGICAL IS_AVAILABLE
 C-----------------------------------------------
@@ -354,9 +353,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,IGU,IGS,NI,NN,NJ,JJ, NUSER, NUM,NRB
+      INTEGER I,IGU,IGS,NN, NUSER, NRB
       CHARACTER(LEN=NCHARTITLE) :: TITR
-      INTEGER NGR2USRN,ISK
+      INTEGER NGR2USRN
       LOGICAL IS_AVAILABLE
 C========================================================================|
       LNUM  = 0
@@ -411,11 +410,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, N, K, NSL,NM, NI, NMT,M,IROT,ID,IMO,IC0,NZ,
-     .        J, P,IAD,NS,NN,II,IT,IADS,IERR1,IAD1,IC,NIT,I0,I1
+      INTEGER I, N, K, NSL,M,IC0,NZ,
+     .        J, IAD,NS,II,IT,IERR1,IAD1,IC,NIT,I0,I1
 C
       INTEGER LCOPY(SLRBE2),ICOPY(NRBE2L,NRBE2),
-     .        NHIE,IORDER(NRBE2),INDICE(NRBE2),ITAG1(NRBE2)
+     .        IORDER(NRBE2),INDICE(NRBE2),ITAG1(NRBE2)
       INTEGER, DIMENSION(:), ALLOCATABLE :: ITAG,IAD_N
 C========================================================================|
 C--------re-ordering if with hierarchy---------------------------------------
@@ -560,7 +559,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, N, NM,NS,J,NSL,IAD,M
+      INTEGER I, N, NM,J,M
 C
       INTEGER IADM_CP(NZ)
       INTEGER, DIMENSION(:), ALLOCATABLE :: ITAG
@@ -750,9 +749,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J ,N, K, NSL,M, NC,NS,ICT,ICR,IC,IAD,ID,J6(6),IRAD
+      INTEGER I, J, NSL,M, NC,NS,ICT,ICR,IC,IAD,ID,J6(6),IRAD
 C
-      my_real XX, XY, XZ, YY, YZ, ZZ,IXX,IYY,IZZ,DD,MASRB,INRB,INS,INS0
+      my_real XX, XY, XZ, YY, YZ, ZZ,IXX,IYY,IZZ,DD,MASRB,INRB,INS
       CHARACTER(LEN=NCHARTITLE) :: TITR
 C========================================================================|
       CALL RBE2_MERGE(IRBE2  ,LRBE2  )
@@ -1020,11 +1019,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, N, K, NSL, NSLT, ITYP, NUSER,  NM,M, NI,
-     .        ISK, ISENS, INGU, IGM, J, P,IAD,NS,NN,J6(6),JJ,II,
-     .        IC,IC1,IC2,IROT,ISKS,IADS,IERR1,NC,ID,IRAD
+      INTEGER I, NUSER,  NM,
+     .        ISK, INGU, J6(6),IRAD
       CHARACTER(LEN=NCHARTITLE) :: TITR
-      CHARACTER(LEN=NCHARKEY) :: KEY
       LOGICAL IS_AVAILABLE
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
@@ -1107,8 +1104,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NG, MLW, ITY, NEL, NFT, IAD, I, II, IGOF, NR, IG,
-     .        NSN, NALL, ISHFT, IOK, IRBYON,M,IC,IC0,
+      INTEGER I, II, NR, IG,
+     .        NSN, NALL, IRBYON,M,IC,IC0,
      .        ITAG(NUMNOD)
 C-----------------------
 C     MISE DE OFF A -OFF
@@ -1211,9 +1208,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NR, IDUM, I, L, ISENS, IGS,NSN,IAD,II,NALL,
-     .        IGU,ID,ILAGM,ISU,UID,IRBYON,
-     .        ITAG(NUMNOD),NN,NM, NUSER, NUM,M,J6(6),IC
+      INTEGER NR, I, IGS,NSN,II,NALL,
+     .        IGU,IRBYON,
+     .        ITAG(NUMNOD),NN,NM, NUSER, M,J6(6),IC
       CHARACTER(LEN=NCHARTITLE) :: TITR
       CHARACTER :: MESS*40
       INTEGER NGR2USRN
@@ -1221,7 +1218,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER USR2SYS,NODGRNR,NGR2USR
+      INTEGER USR2SYS
 C-----------------------------------
       IF (NRBE2==0) RETURN
 C
@@ -1351,8 +1348,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, N, K, NSL,NM, NI, NMT,M,IROT,ID,IMO,IC0,NZ,NSLN,NSLJ,
-     .        J, P,IAD,NS,NN,II,IT,IADS,IERR1,IAD1,IC,MJ,ICJ,NSJ,IADJ
+      INTEGER I, NSL,M,NZ,NSLJ,
+     .        J, IAD,NS,II,IC,MJ,IADJ
 C
       INTEGER ISAME
       INTEGER, DIMENSION(:), ALLOCATABLE :: ITAG
@@ -1490,7 +1487,6 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J
 C======================================================================|
 C        ICT=IC/512
 C        ICR=(IC-512*(ICT))/64

@@ -125,7 +125,7 @@ C-----------------------------------------------
         A1(I) =YM2(I)*(ZM3(I)-ZM4(I))+YM3(I)*(ZM4(I)-ZM2(I))+YM4(I)*(ZM2(I)-ZM3(I))
         A2(I) =YM2(I)*(ZM4(I)-ZM1(I))+YM4(I)*(ZM1(I)-ZM2(I))+YM1(I)*(ZM2(I)-ZM4(I))
         AIREM(I)=(A1(I)+A2(I))*HALF
-        !AUTRE FORMULE AIREM(I)=2.*(PZ2(I)*PY1(I)-PZ1(I)*PY2(I))
+        !ALTERNATIVE FORMULA AIREM(I)=2.*(PZ2(I)*PY1(I)-PZ1(I)*PY2(I))
         YAVG(I) =YM1(I)+YM2(I)+YM3(I)+YM4(I)
       ENDDO
 
@@ -177,7 +177,7 @@ C---------------------------------------
         PZ2(I)=HALF*(Y1(I)-Y3(I))      
       ENDDO
 C---------------------------------------
-C     LOCAL REFERENCE FRAME POUR MATERIAUX NON ISOTROPES
+C     LOCAL REFERENCE FRAME FOR NON-ISOTROPIC MATERIALS
 C---------------------------------------
       DO I=1,NEL
         RX(I)=ONE

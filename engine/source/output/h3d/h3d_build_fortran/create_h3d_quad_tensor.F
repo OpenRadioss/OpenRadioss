@@ -113,6 +113,5 @@ c        print *,'ds la construct',H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%PAR
 c      ENDDO
 
       RETURN
- 999  print *,'error lecture'
       CALL ARRET(0)
       END

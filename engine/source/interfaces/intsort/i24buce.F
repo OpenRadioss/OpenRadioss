@@ -193,7 +193,6 @@ c      write(iout,*)'i24buce 2'
      9   ISEADD  ,ISEDGE   ,CAND_T  ,FLAGREMNODE,KREMNOD,
      A   REMNOD  ,CAND_A   ,RENUM   ,NSNROLD  ,IRTSE    ,
      B   IS2SE   ,NSNE     ,DGAPLOAD,INTHEAT,IDT_THERM,NODADT_THERM)
- 234  continue
 c      write(iout,*)'i24buce 3'
 
 C

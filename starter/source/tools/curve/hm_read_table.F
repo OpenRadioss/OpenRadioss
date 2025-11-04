@@ -68,14 +68,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ITYPE, IBID, NFUNCT0, NTABLE0,NTABLE1, NFUNCT_PYTHON
-      INTEGER I, J, K, II, N, L, NDIM, NX(4), NY,
-     .        JREC, NPTS, STAT, LL
-      INTEGER IERROR, NF, IDFUNC, NP
-      my_real BID, F5(5), TIME, FUNCT
-      CHARACTER(LEN=NCHARTITLE) :: TITR,TITR1
+      INTEGER NFUNCT0, NTABLE0,NTABLE1, NFUNCT_PYTHON
+      INTEGER L
       CHARACTER :: MESS*40
-      CHARACTER(LEN=NCHARFIELD)::KEY
       DATA MESS/' FUNCTION & TABLE DEFINITION            '/
       LOGICAL :: IS_ENCRYPTED, IS_AVAILABLE     
 C======================================================================|
@@ -115,12 +110,6 @@ C-----------------------------------------------------------------
      .        '    TABLES'/
      .        '    ------'/
      .        '    NUMBER OF TABLES . . . . . . . . . . =',I10/)
-2100  FORMAT(/'    TABLE ID . . . . . . . . . . . . . . =',I10/
-     .        '    NUMBER OF PARAMETERS . . . . . . . . =',I10/)
-2200  FORMAT(/'    VALUES FOR PARAMETER NUMBER. . . . . .',I4,':'/)
-2250  FORMAT((3X,5(1X,G20.13))/)
-2300  FORMAT(/'    ORDINATE VALUES . . . . . . . . . . . :'/)
-2350  FORMAT((3X,5(1X,G20.13))/)
       END
 !||====================================================================
 !||    hm_read_table2         ../starter/source/tools/curve/hm_read_table.F
@@ -161,19 +150,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NTABLE1, NTABLE0,ITYPE, IBID, IDTAB(NTABLE)
-      INTEGER I, J, K, II, N, L, ID, NDIM, NX(4), NY,
-     .        JREC, NPTS, STAT, IDS, LL, LX(2), NOK(4)
-      INTEGER,DIMENSION(:),ALLOCATABLE :: JPERM1,JPERM2
-      INTEGER,DIMENSION(:,:),ALLOCATABLE :: ITAG
-      INTEGER IERROR, NF, IDFUNC, NP, KK, IDEB, IFIN, IOK, NN, N1, N2, N11, N12, N13, KK1
-      my_real BID, F5(5), XX, X1, X2, X234(3), YY, Y1, Y2, R, XMIN, XMAX, TIME, FUNCT,SCALEY
-      my_real,DIMENSION(2) :: XD2
-      my_real,DIMENSION(:),ALLOCATABLE :: XV1, XSTOR1, XSTOR2
-      my_real,DIMENSION(:,:),ALLOCATABLE :: XV2
-      CHARACTER(LEN=NCHARTITLE) :: TITR
+      INTEGER NTABLE1, NTABLE0, IDTAB(NTABLE)
+      INTEGER I, J, L, IDS
+      my_real BID
       CHARACTER :: MESS*40
-      CHARACTER(LEN=NCHARFIELD) :: KEY
       DATA MESS/' FUNCTION & TABLE DEFINITION            '/
       LOGICAL :: IS_ENCRYPTED, IS_AVAILABLE
 C======================================================================|
@@ -215,15 +195,4 @@ c      CALL ANCNTG(IDS,I,J)
       IDS = 56
 c      CALL ANCHECK(IDS)
       RETURN
-C-----------------------------------------------------------------
-2000  FORMAT(//
-     .        '    TABLES'/
-     .        '    ------'/
-     .        '    NUMBER OF TABLES . . . . . . . . . . =',I10/)
-2100  FORMAT(/'    TABLE ID . . . . . . . . . . . . . . =',I10/
-     .        '    NUMBER OF PARAMETERS . . . . . . . . =',I10/)
-2200  FORMAT(/'    VALUES FOR PARAMETER NUMBER. . . . . .',I4,':'/)
-2250  FORMAT((3X,5(1X,G20.13))/)
-2300  FORMAT(/'    ORDINATE VALUES . . . . . . . . . . . :'/)
-2350  FORMAT((3X,5(1X,G20.13))/)
       END

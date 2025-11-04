@@ -286,6 +286,5 @@ C      relative angular acceleration in local frame at time T.
        ARL(2)=ROT(4)*ARREL(1)+ROT(5)*ARREL(2)+ROT(6)*ARREL(3)
        ARL(3)=ROT(7)*ARREL(1)+ROT(8)*ARREL(2)+ROT(9)*ARREL(3)
 C-----------------------------------------------
- 999  CONTINUE
       RETURN
       END

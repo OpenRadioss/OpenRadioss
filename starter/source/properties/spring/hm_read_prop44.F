@@ -39,7 +39,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE HM_READ_PROP44(IOUT  ,IG   ,NUVAR ,PARGEO,
      .                          UNITAB,ISKN  ,IGEO ,TITR  ,IGTYP ,
-     .                          PROP_TAG,LSUBMODEL ,SUB_ID,IUNIT)
+     .                          PROP_TAG,LSUBMODEL ,SUB_ID)
 C-----------------------------------------------
       USE UNITAB_MOD
       USE MESSAGE_MOD

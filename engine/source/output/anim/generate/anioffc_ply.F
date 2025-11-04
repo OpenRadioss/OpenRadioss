@@ -179,7 +179,7 @@ C-----------------------------------------------
 C       COQUES 3 N
 C-----------------------------------------------
            ELSEIF(ITY==7)THEN
-c it's not available for T3  
+C it's not available for T3  
            ENDIF
 C-----------------------------------------------
            IF(ITY == 3)THEN

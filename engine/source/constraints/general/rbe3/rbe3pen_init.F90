@@ -245,7 +245,7 @@
           gamma_max = max(em20,gamma(1),gamma(5),gamma(9))
           if(abs(det/(gamma_max*gamma_max*gamma_max)) < em6) then!elements with colinear master nodes
 !
-!         if (irot==0) write(*,*)'error :RBE3: colinear master nodes' ! error out, add check in Starter si possible
+!         if (irot==0) write(*,*)'error :RBE3: colinear master nodes' ! error out, add check in Starter if possible
             icoline = 1
 !
           else

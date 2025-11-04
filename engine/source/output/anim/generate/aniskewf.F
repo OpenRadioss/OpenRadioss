@@ -154,7 +154,7 @@ C-----------------------------------------------
       IF (ISPMD==0) THEN
         CALL WRITE_I_C(SRBUF,LEN)
       ENDIF
-c      ENDIF
+C      ENDIF
 
 C
       RETURN

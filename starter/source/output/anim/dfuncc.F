@@ -214,7 +214,7 @@ C
           CONTINUE                                                        
         ENDIF                                                           
 C-----------------------------------------------                        
-C       FIN DE BOUCLE SUR LES OFFSET
+C       END OF LOOP ON OFFSETS
 C-----------------------------------------------                        
        END DO                                                           
  900  CONTINUE                                                          

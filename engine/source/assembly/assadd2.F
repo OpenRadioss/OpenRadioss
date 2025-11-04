@@ -124,10 +124,10 @@ C
       ENDIF
 C
 C SPMD CNE and ADDCNE already obtained
-C iadx deja calcule dans RADIOSS Starter
+C iadx already computed in RADIOSS Starter
 C
 C-----------------------------------------------
-C Calculation of elementary communication sizes
+C Computing elementary communication sizes
 C-----------------------------------------------
       DO I = 1, NSPMD+1
         FR_NBCC(1,I) = 0
@@ -265,7 +265,7 @@ c
                     ENDIF                                                     
                   ENDDO                                                       
                         ENDIF                                                         
-c                                                                              
+C                                                                              
               ENDIF                                                           
 c---
             ENDDO !  loop over frontier nodes                                                            
@@ -349,7 +349,7 @@ C
 
       IF(I2NSNT>0) THEN
 C-----------------------------------------------
-C Calculation of elementary communication sizes
+C Computing elementary communication sizes
 C-----------------------------------------------
 C
         LOC_PROC = ISPMD+1
@@ -450,7 +450,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, LOC_PROC, NOD, CC, LSD, LRC
 C-----------------------------------------------
-C Calculation of optimized communication sizes parith/on
+C Computing optimized communication sizes parith/on
 C-----------------------------------------------
       IF(NSPMD>0.AND.IPARIT>0)THEN
         LOC_PROC = ISPMD+1
@@ -507,7 +507,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, LOC_PROC, NOD, CC, LSD, LRC,N
 C-----------------------------------------------
-C Calculation of optimized communication sizes parith/on
+C Computing optimized communication sizes parith/on
 C-----------------------------------------------
       IF(NSPMD>0.AND.IPARIT>0)THEN
         LOC_PROC = ISPMD+1
@@ -568,7 +568,7 @@ C-----------------------------------------------
       INTEGER I, J, LOC_PROC, NOD, CC, LSD, LRC,N,
      .        LENR,K
 C-----------------------------------------------
-C Calculation of optimized communication sizes parith/on
+C Computing optimized communication sizes parith/on
 C-----------------------------------------------
       IF(NSPMD>0.AND.IPARIT>0)THEN
         LOC_PROC = ISPMD+1

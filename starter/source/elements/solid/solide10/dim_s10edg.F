@@ -1208,7 +1208,7 @@ C
 C Itet=2 of Tetra10 same than int2
 C
 C-----------------------------------------------------
-C Preparation de ADDCNCND : Adresse matrice CNCND 
+C Preparation of ADDCNCND : Address matrix CNCND 
 C-----------------------------------------------------
         DO N=0,NUMNOD+1
           ADSKYCND(N) = 0

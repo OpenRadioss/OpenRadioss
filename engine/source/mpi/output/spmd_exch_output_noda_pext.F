@@ -30,7 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 ! ======================================================================================================================
 !                                                   procedures
 ! ======================================================================================================================
-!! \brief spmd exchange between domain which have comon nodes
+!! \brief spmd exchange between domain which have common nodes
 !! \details
 !||====================================================================
 !||    spmd_exch_output_noda_pext     ../engine/source/mpi/output/spmd_exch_output_noda_pext.F

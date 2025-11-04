@@ -1124,133 +1124,17 @@ C      SECS = SECS/CLOCKRATE
  2000 FORMAT(' #PROC  ','CONT.SORT  ','CONT. F   ','ELEMENT  ',
      .       'KIN.COND.  ','INTEGR.','    I/O     ','TASK0     ',
      .       'ASSEMB.   ','RESOL  ')
- 2001 FORMAT(' #PROC  ','CONT.SORT  ','CONT. F   ','ELEMENT  ',
-     .       'KIN.COND.  ','INTEGR.','    I/O     ','TASK0     ',
-     .       'ASSEMB.   ','AMS      ','RESOL  ')
- 2050 FORMAT(I4,3x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,
-     .       1x,E9.4,1x,E9.4,1x,E9.4)
- 2051 FORMAT(I4,3x,F6.2,A,1x,F6.2,A,1x,F6.2,A,1x,F6.2,A,1x,F6.2,A,
-     .       1x,F6.2,A,1x,F6.2,A,1x,F6.2,A,1x,F6.2,A)
- 2055 FORMAT(I4,3x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,
-     .       1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4)
- 2057 FORMAT(I4,3x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,
-     .       1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4)
- 2100 FORMAT(' #PROC  ','CONT.SORT  ','CONT. F   ','ELEMENT  ',
-     .       'KIN.COND.  ','INTEGR.','    I/O     ','TASK0     ',
-     .       'ASSEMB.   ','RESOL  ')
- 2101 FORMAT(' #PROC  ','CONT.SORT  ','CONT. F   ','ELEMENT  ',
-     .       'KIN.COND.  ','INTEGR.','    I/O     ','TASK0     ',
-     .       'ASSEMB.   ' ,'AMS      ','RESOL  ')
- 2102 FORMAT('        ','CONT.SORT  ','CONT. F   ','ELEMENT  ',
-     .       'KIN.COND.  ','INTEGR.','    I/O     ','TASK0     ',
-     .       'ASSEMB.   ','RESOL  ')
- 2103 FORMAT('        ','CONT.SORT  ','CONT. F   ','ELEMENT  ',
-     .       'KIN.COND.  ','INTEGR.','    I/O     ','TASK0     ',
-     .       'ASSEMB.   ' ,'AMS      ','RESOL  ')
- 2110 FORMAT(' #PROC  ','[K]SETUP ','[M]SETUP ','IMPL.SOLV ',
-     .       'IMPL.TOTAL')
- 2120 FORMAT(' #PROC  ',' COMM DOT',' COMM V ','COMM GPU>CPU ',
-     .       'COMM CPU>GPU ')
- 2121 FORMAT('        ',' COMM DOT',' COMM V ','COMM GPU>CPU ',
-     .       'COMM CPU>GPU ')
- 2125 FORMAT(I4,3x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4)
- 2126 FORMAT(1x,A4,2x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4)
- 2150 FORMAT(I4,3x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,1x,
-     .       E9.4,1x,E9.4,1x,E9.4)
- 2151 FORMAT(1x,A4,2x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,1x,
-     .       E9.4,1x,E9.4,1x,E9.4)
- 2155 FORMAT(I4,3x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,
-     .       1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4)
- 2156 FORMAT(1x,A4,2x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,
-     .       1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4)
- 2157 FORMAT(I4,3x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,
-     .       1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4)
- 2158 FORMAT(1x,A4,2x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,
-     .       1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4)
- 2160 FORMAT(I4,3x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4)
- 2200 FORMAT(' #PROC  ','CRITER  ','ADAPT FOR ','ADAPT VEL ')
- 2201 FORMAT('        ','CRITER  ','ADAPT FOR ','ADAPT VEL ')
- 2250 FORMAT(I4,3x,E9.4,1x,E9.4,1x,E9.4)
- 2251 FORMAT(1x,A4,2x,E9.4,1x,E9.4,1x,E9.4)
  3000 FORMAT(' #PROC  ','FORCES    ','RBY.FOR.  ','RBY.VEL.  ',
      .       'VELOCITIES','   TOTAL   ','% CPU')
- 3001 FORMAT('        ','FORCES    ','RBY.FOR.  ','RBY.VEL.  ',
-     .       'VELOCITIES','   TOTAL   ')
- 3050 FORMAT(I4,3x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,2x,F6.2)
- 3051 FORMAT(1x,A4,2x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4)
- 3330 FORMAT(' #PROC  ',' PCG     ',' PARIT F ','  COMM R  ',
-     .       '  COMP M.V ',' COMM VFI ',' COMM M.V ',' TOT PROJ ',
-     .       ' MAV_LT2  ',' MAM_NM    ',' MAV_N,MN ',' COMP MV/E',
-     .       ' BUILD M  ')
- 3331 FORMAT('        ',' PCG     ',' PARIT F ','  COMM R  ',
-     .       '  COMP M.V ',' COMM VFI ',' COMM M.V ',' TOT PROJ ',' MAV_LT2  ',
-     .       ' MAM_NM    ',' MAV_N,MN ',' COMP MV/E',' BUILD M  ')
- 3335 FORMAT(I4,3x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,
-     .       1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4)
- 3336 FORMAT(1x,A4,2x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,
-     .       1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4)
- 4000 FORMAT(' #PROC  ','BUCKCRIT ',' COMMCRIT','  BUCKET  ',
-     .       '  GFRONT   ',' CONT.OPT ',' CONT.F** ',
-     .       ' CONT.DST ',' C+E FORCE',' CONT.NORML')
- 4001 FORMAT('        ','BUCKCRIT ',' COMMCRIT','  BUCKET  ',
-     .       '  GFRONT   ',' CONT.OPT ',' CONT.F** ',
-     .       ' CONT.DST ',' C+E FORCE')
- 4050 FORMAT(I4,3x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,1x,
-     .       E9.4,1x,E9.4,1x,E9.4)
- 4051 FORMAT(1x,A4,2x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,1x,
-     .       E9.4,1x,E9.4)
- 4500 FORMAT(' #PROC  ','RB+SENS ','  CLOADS  ','  BCS    ',
-     .       '   RL+RW   ','  FIXVEL  ','   RBE3   ','   GRAV')
- 4501 FORMAT('        ','RB+SENS ','  CLOADS  ','  BCS    ',
-     .       '   RL+RW   ','  FIXVEL  ','   RBE3   ','   GRAV')
- 4550 FORMAT(I4,3x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,2x,E9.4,1x,
-     .       E9.4,1x,E9.4,1x,E9.4)
- 4551 FORMAT(1x,A4,2x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,2x,E9.4,1x,
-     .       E9.4,1x,E9.4,1x,E9.4)
- 5000 FORMAT(' #PROC  ','FICOM1   ',' FICOM2  ','  ISDXV1   ',
-     .                  ' ISDXV2  ',' TRI MMX**','  TRI BOX  ',
-     .                  ' TRI BUC**',' TRI GAT**',' SYNC COM ',
-     .                  ' SHOOTING ',' INT2 F+V')
- 5001 FORMAT('        ','FICOM1   ',' FICOM2  ','  ISDXV1   ',
-     .                  ' ISDXV2  ',' TRI MMX**','  TRI BOX  ',
-     .                  ' TRI BUC**',' TRI GAT**',' SYNC COM ',
-     .                  ' SHOOTING ',' INT2 F+V')
- 5050 FORMAT(I4,3x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,
-     +       1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4)
- 5051 FORMAT(1x,A4,2x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,
-     +       1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4)
- 5500 FORMAT(' #PROC  ','MANCTR  ','  MONVOL  ','  DAMP   ',
-     .                  '   INT2*   ','  FIXVEL* ','  CLOADS* ',
-     .                  '  DT2   ','    AUX   ','    FORINTS ',
-     .                  '    R2R   ','    R2M')
- 5501 FORMAT('        ','MANCTR  ','  MONVOL  ','  DAMP   ',
-     .                  '   INT2*   ','  FIXVEL* ','  CLOADS* ',
-     .                  '  DT2   ','    AUX   ','    FORINTS ',
-     .                  '    R2R   ','    R2M')
  5550 FORMAT(I4,3x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,
      +       1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,
      +       1x,E9.4,1x,E9.4)
- 5551 FORMAT(1x,A4,2x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,
-     +       1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,
-     +       1x,E9.4,1x,E9.4)
- 5600 FORMAT(' #PROC ',' SPH/TOTAL',' SPH/SORT ','SPH/FORCES',
-     .       ' SPH/OTHER',' SPH/SORT1',' COMM.SORT1',' SPH/SORT0',
-     .       ' COMM.SORT0',' COMM.FORCES')
- 5601 FORMAT('       ',' SPH/TOTAL',' SPH/SORT ','SPH/FORCES',
-     .       ' SPH/OTHER',' SPH/SORT1',' COMM.SORT1',' SPH/SORT0',
-     .       ' COMM.SORT0',' COMM.FORCES')
  6000 FORMAT(' ELAPSED TIME     =',F14.2,' s')
  6100 FORMAT('                   ',I8,':',I2.2,':',I2.2)
  6200 FORMAT(' EXECUTION STARTED .........................:      ',
      .        A4,'/',A2,'/',A2,'  ',A2,':',A2,':',A2)
  6300 FORMAT(' EXECUTION COMPLETED .......................:      ',
      .        A4,'/',A2,'/',A2,'  ',A2,':',A2,':',A2)
- 6500 FORMAT(' #PROC  ','BEG CRIT  ','EOF CRIT  ','EOF SORT ',
-     .                  ' EOF FORCE',' EOF CYCLE','   EOF SPH')
- 6501 FORMAT('        ','BEG CRIT  ','EOF CRIT  ','EOF SORT ',
-     .                  ' EOF FORCE',' EOF CYCLE','   EOF SPH')
- 6550 FORMAT(I4,3x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4)
- 6551 FORMAT(1x,A4,2x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4,1x,E9.4)
  8000 FORMAT(' ESTIMATED SPEEDUP=',F14.2)
 C
       RETURN
@@ -3127,12 +3011,6 @@ C opening of the DDW file by proc
  1500 FORMAT(
      & /' '/' '/4X,'ISPMD. . . . . . . . . . . . . .',I10)
 
- 1200 FORMAT(
-     & 4X,'SOLID, SHELL, TRIANGULAR GROUP TIME'/,
-     & 4X,'-----------------------------------'/,
-     & 4X,'TOTAL GROUP TIME . . . . . . . . . . . . .  . . .',1PG20.13/
-     & 4X,'STARTER ESTIMATED GROUP TIME . . . . . . .  . . .',1PG20.13)
-
  1300   FORMAT (4X,' DD ANALYSIS FILE:',1X,A,' WRITTEN')
  
  3000 FORMAT(
@@ -3140,10 +3018,6 @@ C opening of the DDW file by proc
      &         10X,' --------------------'/
      &        ' '/
      &        ' '/
-     &        '    LAW_NUMB      ELEM_TYP      NUM_ELEM      MAT_NUMB      MAT_USER',
-     &        '     PROP_NUMB     PROP_USER          CPUTIME')
-     
- 3100 FORMAT(
      &        '    LAW_NUMB      ELEM_TYP      NUM_ELEM      MAT_NUMB      MAT_USER',
      &        '     PROP_NUMB     PROP_USER          CPUTIME')
      

@@ -94,7 +94,7 @@ C
       IENRNOD = MAX(IENRNOD,4)
       IENRNOD = IENRNOD * NLEVMAX
 C--------------------
-C     INITIALISATION
+C     INITIALIZATION
 C--------------------
 C  crack xfem for layered shell
 C--------------------

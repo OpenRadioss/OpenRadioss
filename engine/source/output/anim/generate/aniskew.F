@@ -130,7 +130,7 @@ C-----------------------------------------------
                 WA(II+5) = NINT(Y2*S)
                 WA(II+6) = NINT(Z2*S)
                 II = II + 6
-c              ENDIF
+C              ENDIF
             ENDDO
 C-----------------------------------------------
 C       POUTRES
@@ -248,7 +248,7 @@ C-----------------------------------------------
                 WA(II+5) = NINT(Y2*S)
                 WA(II+6) = NINT(Z2*S)
                 II = II + 6
-c              ENDIF
+C              ENDIF
             ENDDO
 
           ELSEIF(IGTYP==13 .OR. IGTYP == 23)THEN
@@ -269,7 +269,7 @@ c              ENDIF
                WA(II+5) = NINT(Y2*S3000)
                WA(II+6) = NINT(Z2*S3000)
                II = II + 6
-c             ENDIF
+C             ENDIF
             ENDDO
           ELSEIF(IGTYP == 25)THEN
             DO I=LFT,LLT
@@ -289,7 +289,7 @@ c             ENDIF
                WA(II+5) = NINT(Y2*S3000)
                WA(II+6) = NINT(Z2*S3000)
                II = II + 6
-c             ENDIF
+C             ENDIF
             ENDDO
           ELSEIF(IGTYP>=29.AND.IGTYP<=32)THEN
             DO I=LFT,LLT
@@ -309,7 +309,7 @@ c             ENDIF
                WA(II+5) = NINT(Y2*S3000)
                WA(II+6) = NINT(Z2*S3000)
                II = II + 6
-c             ENDIF
+C             ENDIF
             ENDDO
 
           ELSEIF ((IGTYP==33).OR.(IGTYP==45))THEN

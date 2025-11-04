@@ -62,8 +62,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE HM_READ_SENSORS(PYTHON,
      .           SENSORS   ,LACCELM   ,ITABM1    ,IPART     ,LGAUGE    ,
-     .           SUBSET    ,NSETS     ,IGRSURF   ,IGRNOD    ,BUFSF     ,
-     .           SKEW      ,ISKWN     ,UNITAB    ,LSUBMODEL ,HM_NSENS  ,
+     .           SUBSET    ,NSETS     ,IGRNOD    ,
+     .           ISKWN     ,UNITAB    ,LSUBMODEL ,HM_NSENS  ,
      .           SENSOR_USER_STRUCT)
 C-----------------------------------------------
 C   M o d u l e s
@@ -101,23 +101,16 @@ C-----------------------------------------------
       INTEGER ,DIMENSION(3,*) ,INTENT(IN) :: LACCELM,LGAUGE
       INTEGER ,DIMENSION(LISKN,*)   ,INTENT(IN) :: ISKWN
       INTEGER ,DIMENSION(LIPART1,*) ,INTENT(IN) :: IPART
-      my_real ,DIMENSION(LSKEW,*) :: SKEW
-      my_real ,DIMENSION(*)       :: BUFSF
       TYPE (SENSORS_) ,INTENT(INOUT) ,TARGET   :: SENSORS
-      TYPE (SURF_)       ,DIMENSION(NSURF+NSETS)     :: IGRSURF
       TYPE (GROUP_)      ,DIMENSION(NGRNOD)    :: IGRNOD
       TYPE (SUBSET_)     ,DIMENSION(NSUBS)     :: SUBSET
       TYPE (SUBMODEL_DATA) ,DIMENSION(NSUBMOD) :: LSUBMODEL
       TYPE (UNIT_TYPE_)  ,INTENT(IN) ::UNITAB 
       TYPE(SENSOR_USER_STRUCT_) ,INTENT(INOUT) :: SENSOR_USER_STRUCT
 C-----------------------------------------------
-C   E x t e r n a l   F u n c t i o n s
-C-----------------------------------------------
-      INTEGER USR2SYS
-C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ISEN,IUNIT,IFLAGUNIT,NS,TYP,UNIT_ID,SENS_ID
+      INTEGER ISEN,IUNIT,IFLAGUNIT,NS,UNIT_ID,SENS_ID
       my_real :: BID
       CHARACTER(LEN=NCHARTITLE) :: TITR
       CHARACTER KEY*40,MESS*40

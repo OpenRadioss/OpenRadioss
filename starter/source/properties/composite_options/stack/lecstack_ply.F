@@ -191,7 +191,7 @@ C----------------------------------------------------------------
           CALL FRETITL(IDTITL,IGEO_STACK(NPROPGI-LTITR+1,I),LTITR)    
           NUMS = NUMGEO_STACK(NUMGEO + I)
           CALL HM_READ_STACK(
-     .           GEO_STACK(1,I) ,IGEO_STACK(1,I) ,PM       ,IPM      ,ISKN     ,
+     .           GEO_STACK(1,I) ,IGEO_STACK(1,I) ,IPM      ,ISKN     ,
      .           IG             ,RTRANS          ,SUB_ID   ,STACK_INFO(NUMS)   ,
      .           IDTITL         ,UNITAB          ,LSUBMODEL,DEFAULTS%SHELL )
      

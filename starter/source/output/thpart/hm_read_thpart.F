@@ -183,7 +183,7 @@ C        7 SHELL_3N
       ENDDO
 
       !-------------------------------------
-      ! Recherche des ID doubles
+      ! Search for duplicate IDs
       !-------------------------------------
       CALL UDOUBLE(IPART(4,1),LIPART1,NPART+NTHPART,MESS,0,BID)
 

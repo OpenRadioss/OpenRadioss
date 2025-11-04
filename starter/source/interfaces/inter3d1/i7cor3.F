@@ -53,7 +53,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IGAP, IRECT(4,*), NSV(*), CAND_E(*), CAND_N(*),ISTF
-      INTEGER, INTENT(IN) :: LAST !< last candidat
+      INTEGER, INTENT(IN) :: LAST !< last candidate
 C     REAL
       my_real
      .        GAP, GAPMIN, GAPMAX,DRAD

@@ -88,7 +88,7 @@ C-----------------------------------------------
 C
       TYPE(ELBUF_STRUCT_) :: ELBUF_STR
 C-----------------------------------------------
-c FUNCTION: premilitary compute for QBAT
+c FUNCTION: preliminary compute for QBAT
 c
 c Note:
 c ARGUMENTS:  (I: input, O: output, IO: input * output, W: workspace)
@@ -110,7 +110,7 @@ c                           for plat element
 c  O   RXYZ(NEL,2,4)      - nodal rotational velocity (4 nodes) in local system 5 dof
 C                           R13->RXYZ(,1,),R24->RXYZ(,2,),RHI->RXYZ(,3,),RTI->RXYZ(,4,)----
 c                           for plat element
-c  O  JAC,HX,HY(4,NEL)    - Jacobien,asymmetric part(hourglass) at 4 Gauss points
+c  O  JAC,HX,HY(4,NEL)    - Jacobian,asymmetric part(hourglass) at 4 Gauss points
 c  O   VKSI,VETA(4,4)     - derivation of shape functions------
 c  O  VQ(NEL,9),VQN,VQG(NEL,9,4) - local system of element, nodal(4) and Gauss points(4)
 c  O  VJFI,VNRM,VASTN     - terms used for assumed strains
@@ -134,26 +134,26 @@ C-----------------------------------------------
      .   XX2,XX3,XX4,YY1,YY2,YY3,YY4,ZZ1,ZZ2,ZZ3,ZZ4
       MY_REAL
      .   C1,C2,L13(MVSIZ),L24(MVSIZ),
-     .   AA,VV(3,NNOD),RR(3,NNOD)
+     .   RR(3,NNOD)
       MY_REAL
-     .    TOL,PG,J0,J1,J2,DETA,COREL(3,4),X1,Y1,S1
+     .    TOL,PG,J0,J1,J2,DETA,COREL(3,4),S1
       MY_REAL
-     .    X13,X24,Y13,MX13,MX23,MX34,MY13,Y13_2,Z1,Z2,GAMA1,GAMA2,
-     .    X21,X34,Y21,Y34,Z21,Z34,X41,X32,Y41,Y32,Z_2,Z41,Z32,L12,L34,
-     .    A_4,SL,SZ2,SZ,JMX13,JMY13,JMZ13,J2MYZ,LM(MVSIZ),Y24,Y24_2,
+     .    X13,X24,Y13,MX13,MX23,MX34,MY13,Z1,Z2,GAMA1,GAMA2,
+     .    X21,X34,Y21,Y34,Z21,Z34,X41,X32,Y41,Y32,Z41,Z32,L12,L34,
+     .    A_4,SL,SZ2,SZ,JMX13,JMY13,JMZ13,J2MYZ,LM(MVSIZ),Y24,
      .    MY23,MY34,SCAL,G1X1,G1X3,G1Y1,G1Y3,G2X1,G2X2,G2Y1,G2Y2,
      .   AR(3),AD(NNOD),BTB(6),XX1,YY,ZZ,XY,XZ1,YZ,D(6), 
      .   ALR(3),ALD(NNOD),DBAD(3),ABC,XXYZ2,ZZXY2,YYXZ2
       my_real 
      .   LXYZ0(3),DETA1(MVSIZ),RX(MVSIZ), RY(MVSIZ), RZ(MVSIZ),
      .   SX(MVSIZ),SY(MVSIZ),
-     .   XX,AREA_I(MVSIZ),SSZ(MVSIZ)
+     .   AREA_I(MVSIZ),SSZ(MVSIZ)
 C
       my_real 
      .   VG13(3),VG24(3),VGHI(3),V13(MVSIZ,3),V24(MVSIZ,3),VHI(MVSIZ,3),
      .   FACI,FAC1,FAC2,
      .   DT05,DT025,EXZ,EYZ,DDRX,DDRY,V13X,V24X,VHIX,DDRZ1,DDRZ2,DDRZ,
-     .    VNX1, VNY1, VNZ1,VNX2,VNY2,VNZ2,VNX3,VNY3,VNZ3,VNX4,VNY4,VNZ4,
+     .    VNX1, VNY1, VNZ1,VNX2,VNY2,VNZ2,VNX3,VNY3,VNZ3,VNX4,VNY4,
      .    NORM
         DATA   PG/.577350269189626/
 C=======================================================================
@@ -526,7 +526,7 @@ C
         J1=(MX23*MY13-MX13*MY23)*PG
         J2=-(MX13*MY34-MX34*MY13)*PG
         J0=AREA(EP)*FOURTH
-C----   JAC(jacobiens aux points d'integration)peut etre negative------        
+C----   JAC(jacobiens aux points d'integration) peut etre negative------        
         JAC(EP,1)=ABS(J0+J2-J1)
         JAC(EP,2)=ABS(J0+J2+J1)
         JAC(EP,3)=ABS(J0-J2+J1)
@@ -1208,7 +1208,7 @@ C-----------------------------------------------
       TYPE(ELBUF_STRUCT_) :: ELBUF_STR
 C-----RLZ(NNOD,*)
 C-----------------------------------------------
-c FUNCTION: premilitary compute for QBAT and Ismstr=10
+c FUNCTION: preliminary compute for QBAT and Ismstr=10
 c
 c Note:
 c ARGUMENTS:  (I: input, O: output, IO: input * output, W: workspace)
@@ -1229,7 +1229,7 @@ c                           for plat element
 c  O   RXYZ(3,4,NEL)      - nodal rotational velocity (4 nodes) in local system 5 dof
 C                           R13->RXYZ(,1,),R24->RXYZ(,2,),RHI->RXYZ(,3,),RTI->RXYZ(,4,)----
 c                           for plat element
-c  O  JAC,HX,HY(4,NEL)    - Jacobien,asymmetric part(hourglass) at 4 Gauss points
+c  O  JAC,HX,HY(4,NEL)    - Jacobian,asymmetric part(hourglass) at 4 Gauss points
 c  O  VQ(9,NEL),VQN,VQG(9,4,) - local system of element, nodal(4) and Gauss points(4)
 c  O  Xij_T,Yij_T(NEL)    - [B] components used for in-plane shear assumed strain
 c  IO XiS,YiS,ZiS(NEL)    - reference configurations used for small strain options
@@ -1240,22 +1240,22 @@ c                          (used only Idril active )
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER I,II(9),J,K,L,M,I1,I2,I3,I4,EP,SPLAT,JJ
+      INTEGER I,II(9),K,EP,SPLAT
       INTEGER NN(4),JPLAT(MVSIZ),IFPROJ
       MY_REAL 
      .   XX2,XX3,XX4,YY1,YY2,YY3,YY4,ZZ1,ZZ2,ZZ3,ZZ4
       MY_REAL
      .   C1,C2,L13(MVSIZ),L24(MVSIZ),
-     .   AA,VV(3,NNOD),RR(3,NNOD),OFF_L
+     .   RR(3,NNOD),OFF_L
       MY_REAL
-     .    TOL,PG,J0,J1,J2,DETA,COREL(3,4),X1,Y1,S1,LL(MVSIZ)
+     .    TOL,PG,J0,J1,J2,COREL(3,4),X1,Y1,LL(MVSIZ)
       MY_REAL
-     .    X13,X24,Y13,MX13,MX23,MX34,MY13,Y13_2,Z1,Z2,GAMA1,GAMA2,
-     .    X21,X34,Y21,Y34,Z21,Z34,X41,X32,Y41,Y32,Z_2,Z41,Z32,L12,L34,
-     .    A_4,SL,SZ2,SZ,JMX13,JMY13,JMZ13,J2MYZ,LM(MVSIZ),Y24,Y24_2,
-     .    MY23,MY34,SCAL,G1X1,G1X3,G1Y1,G1Y3,G2X1,G2X2,G2Y1,G2Y2,
-     .   AR(3),AD(NNOD),BTB(6),XX1,YY,ZZ,XY,XZ1,YZ,D(6), 
-     .   ALR(3),ALD(NNOD),DBAD(3),ABC,XXYZ2,ZZXY2,YYXZ2
+     .    X13,X24,Y13,MX13,MX23,MX34,MY13,Z1,Z2,GAMA1,GAMA2,
+     .    X21,X34,Y21,Y34,Z21,Z34,X41,X32,Y41,Y32,Z41,Z32,L12,L34,
+     .    A_4,SL,SZ2,SZ,JMX13,JMY13,JMZ13,J2MYZ,Y24,
+     .    MY23,MY34,G1X1,G1X3,G1Y1,G1Y3,G2X1,G2X2,G2Y1,G2Y2,
+     .   XX1,YY,ZZ,XY,XZ1,YZ,
+     .   XXYZ2,ZZXY2,YYXZ2
       my_real 
      .   LXYZ0(3),DETA1(MVSIZ),
      .   XL2(MVSIZ),XL3(MVSIZ),XL4(MVSIZ),YL2(MVSIZ),
@@ -1264,16 +1264,16 @@ C-----------------------------------------------
      .   Y0G3(MVSIZ),Y0G4(MVSIZ),Z0G2(MVSIZ),Z0G3(MVSIZ),Z0G4(MVSIZ)
 C
       my_real 
-     .   VG13(3),VG24(3),VGHI(3),V13(MVSIZ,3),V24(MVSIZ,3),VHI(MVSIZ,3),
-     .   FACI,FAC1,FAC2,VR1_12,VR1_21,
-     .   DT05,DT025,EXZ,EYZ,DDRX,DDRY,V13X,V24X,VHIX,DDRZ1,DDRZ2,DDRZ,
+     .   VG24(3),VGHI(3),V13(MVSIZ,3),V24(MVSIZ,3),VHI(MVSIZ,3),
+     .   VR1_12,VR1_21,
+     .   VHIX,
      .    VNX1, VNY1, VNZ1,VNX2,VNY2,VNZ2,VNX3,VNY3,VNZ3,VNX4,VNY4,VNZ4,
-     .    NORM,DI(MVSIZ,6),ZL1(MVSIZ),SSZ(MVSIZ),
+     .    NORM,ZL1(MVSIZ),SSZ(MVSIZ),
      .   RX(MVSIZ),RY(MVSIZ),RZ(MVSIZ),SX(MVSIZ),SY(MVSIZ),
      .   R11(MVSIZ),R12(MVSIZ),R13(MVSIZ),R21(MVSIZ),R22(MVSIZ),
      .   R23(MVSIZ),R31(MVSIZ),R32(MVSIZ),R33(MVSIZ),DIRZ(MVSIZ,2),
      .   X0L2(MVSIZ),X0L3(MVSIZ),X0L4(MVSIZ),Y0L2(MVSIZ),
-     .   Y0L3(MVSIZ),Y0L4(MVSIZ),NX,NY,NZ,DET,VQ0(MVSIZ,3,3),DET_1
+     .   Y0L3(MVSIZ),Y0L4(MVSIZ),VQ0(MVSIZ,3,3)
 C-------- [F] will contains only Rz ->2D 
       my_real
      .   AXYZ(MVSIZ,3,NNOD)

@@ -79,7 +79,7 @@ C
         LLT=NEL                                                         
         IF(ITY==51)THEN                                               
 C-----------------------------------------------                        
-C         PARTICULES SPH.                                               
+C         SPH PARTICLES                                               
 C-----------------------------------------------                        
           DO 20 I=LFT,LLT                                               
            N = I + NFT                                                  

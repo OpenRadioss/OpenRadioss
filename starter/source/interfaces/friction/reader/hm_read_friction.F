@@ -85,9 +85,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I ,J ,L ,IP ,IP1 ,IP2 ,N ,N1 ,N2 ,KK ,NL ,
+      INTEGER I ,J ,IP ,N ,N1 ,N2 ,KK ,NL ,
      .    GRPART1 ,GRPART2 ,IPART1 ,IPART2 ,FLAGP1 ,FLAGP2,FLAGGRP1, 
-     .    FLAGGRP2  ,IDTGRS1 ,IGRPART1 ,IDTGRS2 ,IGRPART2 ,NCOUPLE ,
+     .    FLAGGRP2  ,IDTGRS1 ,IDTGRS2 ,NCOUPLE ,
      .    IPP ,IPP1 ,IPP2  ,IDIR ,NTAB ,LENF ,GRPN ,GRPN1 ,GRPN2 ,
      .    NP0 ,NGR0 ,K ,NGR ,J1 ,J2 ,STAT ,WORK(70000),NINPUT
        INTEGER, DIMENSION(:),   ALLOCATABLE :: 

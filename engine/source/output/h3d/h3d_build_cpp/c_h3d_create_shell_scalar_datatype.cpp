@@ -165,7 +165,7 @@ extern "C"
                                 RES_STRING = strcat(RES_STRING, NUVAR_STRING);
 #endif
                         }
-                        // a commenter pour test
+                        // to comment for testing
                         //        sprintf(NUVAR_STRING, " (%d) \0",*idMdsVar);
                         //        RES_STRING = strcat(RES_STRING,NUVAR_STRING);
                 }

@@ -277,7 +277,7 @@ C velocity N-1/2
 
       ENDIF
 C-----------------------------------------------
-C    1. Pression incidente
+C    1. Incident pressure
 C-----------------------------------------------
       DO I=1,NEL
          OFF(I) = ZERO
@@ -354,7 +354,7 @@ C-----------------------------------------------
         ENDIF
       ENDIF    
 C-----------------------------------------------
-C     Vitesse onde incidente
+C     Incident wave velocity
 C-----------------------------------------------
       DO I=1,NEL
          VI(I)=PP(I)*COSG(I)/RHOC
@@ -378,7 +378,7 @@ C add afterflow velocity, no afterflow velocity for plane wave
          ENDIF
       ENDIF
 C-----------------------------------------------
-C   2. Pression Onde Reflechie
+C   2. Reflected wave pressure
 C-----------------------------------------------
       IF(FREESURF == 2) THEN
         DO I=1,NEL
@@ -422,7 +422,7 @@ C-----------------------------------------------
           ENDDO
         ENDIF    
 C-----------------------------------------------
-C    Vitesse onde reflechie
+C    Reflected wave velocity
 C-----------------------------------------------
         DO I=1,NEL
            VR(I)=PR(I)*COSG(I+NEL)/RHOC

@@ -172,7 +172,7 @@
               plas(i) = zero
             else if(VFRAC(I) > two*em02) then
               !--------------
-              ! critere
+              ! criterion
               !--------------
               r = one-em02 ! 1-epsilon
               if(vm2(i) > y(i)*y(i) .and. y(i) /= zero)then

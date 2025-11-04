@@ -163,7 +163,7 @@ C shift of 1 on ixtg6
         ELSE IF(ITY==51) THEN
           ICON = 1
           DIM  = NISP
-C kxsp shifted to retrieve KXSP(3) = noeud id
+C kxsp shifted to retrieve KXSP(3) = node id
           CALL DD_FR(KXSP(2,NFT+1),P,NEL,ICON,DIM)
         ELSE IF(ITY==100) THEN
           DIM = NIXX 

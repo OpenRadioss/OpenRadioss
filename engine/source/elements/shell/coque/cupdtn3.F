@@ -71,9 +71,9 @@ CMasParINCLUDE 'cupdt3.intmap.inc'
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NVC1, NVC2, NVC3, NVC4, I, J, MX,MT
+      INTEGER NVC1, NVC2, NVC3, NVC4, I
       my_real
-     .   OFF_L,CF(MVSIZ)
+     .   OFF_L
 C-----------------------------------------------
 C
 C cumulative energy of deleted elements at the moment of deletion

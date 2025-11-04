@@ -93,10 +93,10 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, MX, II, J, IC, JST(MVSIZ+1),FLAG,
-     .        IXCTMP2,IXCTMP3,IXCTMP4,IXCTMP5,IJK
+     .        IXCTMP2,IXCTMP3,IXCTMP4,IXCTMP5
 C     REAL
       my_real
-     .   IN25,XX,YY,ZZ,XY,YZ,ZX,VA2, INEL,
+     .   IN25,XX,YY,ZZ,VA2, INEL,
      .   VXA(MVSIZ), VYA(MVSIZ), VZA(MVSIZ), 
      .   XMAS(MVSIZ), RHO, EI(MVSIZ),REI(MVSIZ),REK(MVSIZ),
      .   EK(MVSIZ), XM(MVSIZ), YM(MVSIZ), ZM(MVSIZ), XMAS25(MVSIZ),
@@ -105,8 +105,7 @@ C     REAL
      .   IXX(MVSIZ), IYY(MVSIZ), IZZ(MVSIZ),
      .   IXY(MVSIZ), IYZ(MVSIZ), IZX(MVSIZ),
      .   RBIDON(1)
-      INTEGER :: K,IPART,LOCAL_INDEX
-      my_real, DIMENSION(MVSIZ,2) :: FSTPARIT   
+
 C-----------------------------------------------
       FLAG = 0
       RBIDON = ZERO
