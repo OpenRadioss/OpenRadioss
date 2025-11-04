@@ -145,6 +145,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_mat02_zerilli                    ../starter/source/materials/mat/mat002/hm_read_mat02_zerilli.F90
 !||    hm_read_mat102                           ../starter/source/materials/mat/mat102/hm_read_mat102.F
 !||    hm_read_mat105                           ../starter/source/materials/mat/mat105/hm_read_mat105.F90
+!||    hm_read_mat106                           ../starter/source/materials/mat/mat106/hm_read_mat106.F90
 !||    hm_read_mat125                           ../starter/source/materials/mat/mat125/hm_read_mat125.F90
 !||    hm_read_mat126                           ../starter/source/materials/mat/mat126/hm_read_mat126.F90
 !||    hm_read_mat127                           ../starter/source/materials/mat/mat127/hm_read_mat127.F90
@@ -285,6 +286,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    shour_ctl                                ../engine/source/elements/solid/solidez/shour_ctl.F90
 !||    sigeps01                                 ../starter/source/materials/mat/mat001/sigeps01.F90
 !||    sigeps100                                ../engine/source/materials/mat/mat100/sigeps100.F90
+!||    sigeps106                                ../engine/source/materials/mat/mat106/sigeps106.F90
+!||    sigeps106c                               ../engine/source/materials/mat/mat106/sigeps106c.F90
 !||    sigeps125                                ../engine/source/materials/mat/mat125/sigeps125.F90
 !||    sigeps125c                               ../engine/source/materials/mat/mat125/sigeps125c.F90
 !||    sigeps126                                ../engine/source/materials/mat/mat126/sigeps126.F90

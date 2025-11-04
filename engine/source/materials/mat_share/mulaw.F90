@@ -86,7 +86,7 @@
 !||    sigeps103              ../engine/source/materials/mat/mat103/sigeps103.F
 !||    sigeps104              ../engine/source/materials/mat/mat104/sigeps104.F
 !||    sigeps105              ../engine/source/materials/mat/mat105/sigeps105.F
-!||    sigeps106              ../engine/source/materials/mat/mat106/sigeps106.F
+!||    sigeps106              ../engine/source/materials/mat/mat106/sigeps106.F90
 !||    sigeps107              ../engine/source/materials/mat/mat107/sigeps107.F
 !||    sigeps109              ../engine/source/materials/mat/mat109/sigeps109.F
 !||    sigeps111              ../engine/source/materials/mat/mat111/sigeps111.F
@@ -172,6 +172,7 @@
 !||    prop_param_mod         ../common_source/modules/mat_elem/prop_param_mod.F90
 !||    sensor_mod             ../common_source/modules/sensor_mod.F90
 !||    sigeps100_mod          ../engine/source/materials/mat/mat100/sigeps100.F90
+!||    sigeps106_mod          ../engine/source/materials/mat/mat106/sigeps106.F90
 !||    sigeps125_mod          ../engine/source/materials/mat/mat125/sigeps125.F90
 !||    sigeps126_mod          ../engine/source/materials/mat/mat126/sigeps126.F90
 !||    sigeps127_mod          ../engine/source/materials/mat/mat127/sigeps127.F90

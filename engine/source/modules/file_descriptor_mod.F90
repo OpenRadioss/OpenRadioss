@@ -34,6 +34,8 @@
 !||    pblast_alloc_error              ../common_source/modules/loads/pblast_mod.F90
 !||    pblast_parameters__air_burst    ../common_source/modules/loads/pblast_mod.F90
 !||    radioss2                        ../engine/source/engine/radioss2.F
+!||    sigeps106                       ../engine/source/materials/mat/mat106/sigeps106.F90
+!||    sigeps106c                      ../engine/source/materials/mat/mat106/sigeps106c.F90
 !||    sigeps88                        ../engine/source/materials/mat/mat088/sigeps88.F90
 !||    sigeps88c                       ../engine/source/materials/mat/mat088/sigeps88c.F90
 !||    sigeps90                        ../engine/source/materials/mat/mat090/sigeps90.F

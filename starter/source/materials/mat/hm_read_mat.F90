@@ -60,7 +60,7 @@
 !||    hm_read_mat103              ../starter/source/materials/mat/mat103/hm_read_mat103.F
 !||    hm_read_mat104              ../starter/source/materials/mat/mat104/hm_read_mat104.F
 !||    hm_read_mat105              ../starter/source/materials/mat/mat105/hm_read_mat105.F90
-!||    hm_read_mat106              ../starter/source/materials/mat/mat106/hm_read_mat106.F
+!||    hm_read_mat106              ../starter/source/materials/mat/mat106/hm_read_mat106.F90
 !||    hm_read_mat107              ../starter/source/materials/mat/mat107/hm_read_mat107.F
 !||    hm_read_mat108              ../starter/source/materials/mat/mat108/hm_read_mat108.F
 !||    hm_read_mat109              ../starter/source/materials/mat/mat109/hm_read_mat109.F
@@ -174,6 +174,7 @@
 !||    hm_read_mat02_predef_mod    ../starter/source/materials/mat/mat002/hm_read_mat02_predef.F90
 !||    hm_read_mat02_zerilli_mod   ../starter/source/materials/mat/mat002/hm_read_mat02_zerilli.F90
 !||    hm_read_mat105_mod          ../starter/source/materials/mat/mat105/hm_read_mat105.F90
+!||    hm_read_mat106_mod          ../starter/source/materials/mat/mat106/hm_read_mat106.F90
 !||    hm_read_mat125_mod          ../starter/source/materials/mat/mat125/hm_read_mat125.F90
 !||    hm_read_mat126_mod          ../starter/source/materials/mat/mat126/hm_read_mat126.F90
 !||    hm_read_mat127_mod          ../starter/source/materials/mat/mat127/hm_read_mat127.F90

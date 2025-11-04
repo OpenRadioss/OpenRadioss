@@ -36,6 +36,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    no_asso_plas76                ../engine/source/materials/mat/mat076/no_asso_plas76.F
 !||    no_asso_qplas76c              ../engine/source/materials/mat/mat076/no_asso_qplas76c.F
 !||    s6zforc3                      ../engine/source/elements/solid/solide6z/s6zforc3.F90
+!||    sigeps106                     ../engine/source/materials/mat/mat106/sigeps106.F90
+!||    sigeps106c                    ../engine/source/materials/mat/mat106/sigeps106c.F90
 !||    sigeps128c                    ../engine/source/materials/mat/mat128/sigeps128c.F90
 !||    sigeps128s                    ../engine/source/materials/mat/mat128/sigeps128s.F90
 !||    sigeps129s                    ../engine/source/materials/mat/mat129/sigeps129s.F90
@@ -64,6 +66,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    no_asso_lplas76c              ../engine/source/materials/mat/mat076/no_asso_lplas76c.F
 !||    no_asso_plas76                ../engine/source/materials/mat/mat076/no_asso_plas76.F
 !||    no_asso_qplas76c              ../engine/source/materials/mat/mat076/no_asso_qplas76c.F
+!||    sigeps106                     ../engine/source/materials/mat/mat106/sigeps106.F90
+!||    sigeps106c                    ../engine/source/materials/mat/mat106/sigeps106c.F90
 !||    sigeps128c                    ../engine/source/materials/mat/mat128/sigeps128c.F90
 !||    sigeps128s                    ../engine/source/materials/mat/mat128/sigeps128s.F90
 !||    sigeps129s                    ../engine/source/materials/mat/mat129/sigeps129s.F90
