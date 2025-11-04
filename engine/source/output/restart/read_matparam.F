@@ -247,7 +247,11 @@ c
              ! pointers to user /EOS
              DO I=1,NBSUBMAT
                ISUB = MAT_ELEM%MAT_PARAM(IMAT)%MULTIMAT%mid(I)
-               MAT_ELEM%MAT_PARAM(IMAT)%MULTIMAT%pEOS(I)%EOS => MAT_ELEM%MAT_PARAM(ISUB)%EOS
+               IF(ISUB>0)THEN
+                 MAT_ELEM%MAT_PARAM(IMAT)%MULTIMAT%pEOS(I)%EOS => MAT_ELEM%MAT_PARAM(ISUB)%EOS
+               ELSE
+                 NULLIFY(MAT_ELEM%MAT_PARAM(IMAT)%MULTIMAT%pEOS(I)%EOS)
+               ENDIF
              ENDDO
           ENDIF
         ENDIF

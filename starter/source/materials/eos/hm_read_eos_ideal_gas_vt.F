@@ -191,7 +191,7 @@ C-----------------------------------------------
       PM(32) = A0
       PM(104)=P0-PSH
 
-      MAT_PARAM%EOS%NUPARAM = 6
+      MAT_PARAM%EOS%NUPARAM = 7
       MAT_PARAM%EOS%NIPARAM = 0
       MAT_PARAM%EOS%NFUNC = 0
       MAT_PARAM%EOS%NTABLE = 0
