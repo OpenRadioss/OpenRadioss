@@ -2545,7 +2545,7 @@ C--------------------------------------------------
                 IF ( KEY3_GLOB == H3D_KEYWORD_QUAD_SCALAR(J)%KEY3) IS_SCALAR = 1
                 IF ( KEY3_GLOB == H3D_KEYWORD_QUAD_VECTOR(J)%KEY3) IS_VECTOR = 1
                 IF ( KEY3_GLOB == H3D_KEYWORD_QUAD_TENSOR(J)%KEY3) IS_TENSOR = 1
-                IF ( IS_SCALAR == 1 .OR. IS_VECTOR == 1 .OR. IS_TORSOR == 1) IOK_H3DKEY = 1
+                IF ( IS_SCALAR == 1 .OR. IS_VECTOR == 1 .OR. IS_TENSOR == 1) IOK_H3DKEY = 1
 
                 IF ( IS_SCALAR == 1 .OR. IS_VECTOR == 1 .OR. IS_TENSOR == 1 ) THEN
                   IF(IS_SCALAR == 1) H3D_KEYWORD_QUAD = H3D_KEYWORD_QUAD_SCALAR(J)
