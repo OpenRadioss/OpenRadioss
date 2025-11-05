@@ -73,7 +73,7 @@ C VISCM    |   NX    | F | W | NODAL VISCOSITY (TIME STEP)
 C VISCR    |   NX    | F | W | NODAL ROTATION VISCOSITY (TIME STEP)
 C----------+---------+---+---+--------------------------------------------
 C FORC     | 3*NX    | F | W | NODAL FORCES
-C TORQ     | 3*NX    | F | W | NODAL TORQUS
+C TORQ     | 3*NX    | F | W | NODAL TORQUE
 C----------+---------+---+---+--------------------------------------------
 C NUVAR    |  1      | I | R | NUMBER OF USER ELEMENT VARIABLES
 C UVAR     |NUVAR    | F |R/W| USER ELEMENT VARIABLES 
