@@ -237,6 +237,9 @@ c-----------------------------------------------
       H3D_KEYWORD_SPH_SCALAR(I)%TEXT1  = 'Volumetric Strain'
       H3D_KEYWORD_SPH_SCALAR(I)%COMMENT  = 'mu=rho/rho0-1'
 c-----------------------------------------------
-
-      NKEY=I
+      I = I + 1
+      H3D_KEYWORD_SPH_SCALAR(I)%KEY3  = 'DT'
+      H3D_KEYWORD_SPH_SCALAR(I)%TEXT1 = 'Time Step'
+c-----------------------------------------------  
+      NKEY=I   
       END

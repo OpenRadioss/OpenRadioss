@@ -115,7 +115,7 @@ void c_h3d_eroded_sph_(my_real *TT,int *IH3D, int *NUMSPH, my_real *FUNC , int *
           {
               elem_id = ID_ELEM[i];
               elem_result[0] = 0.0f;
-              if(  FUNC[i] < 0.0f ) 
+              if(  FUNC[i] <= 0.0f ) 
               {
                 elem_result[0] = 1.0f;
                 rc = Hyper3DDatasetWrite(h3d_file, elem_id, &elem_result[0]);
