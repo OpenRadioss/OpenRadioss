@@ -345,30 +345,6 @@
           if (allocated(y_raw)) deallocate(y_raw)
           allocate(x_raw(npt),y_raw(npt,nl))
 !
-          !< Copy raw data into temporary arrays
-          x_raw(1:npt) = table_mat(1)%x(1)%values(1:npt)
-          do j = 1,nl
-            y_raw(1:npt,j) = table_mat(1)%y2d(1:npt,j)
-          enddo
-!
-          !< Correct curves to avoid intersection between them
-          do i = 1,nl 
-            do j = i+1,nl
-              call table_mat2d_intersect(table_mat(1),i,j,npt,.true.,          &
-                .true.  ,.true.  ,1.d-12  ,1.d-8  ,found  ,xint  ,yint   )
-              !< If intersection found, correct the curves
-              if (found) then 
-                call monotone_in_rate_signed_highfix(                          &
-                  npt      ,x_raw(1:npt),y_raw(1:npt,i),y_raw(1:npt,j),        &
-                  0.02d0   ,50.0d0      ,.true.        , .true.       )   
-              endif
-            enddo
-          enddo
-
-          !< Copy back to material table 
-          table_mat(1)%x(1)%values(1:npt) = x_raw(1:npt)
-          table_mat(1)%y2d(1:npt,1:nl) = y_raw(1:npt,1:nl)
-!
           !< Normalize common abscissa prior to spline fitting
           xscale = max(abs(table_mat(1)%x(1)%values(1)),                       &
                            table_mat(1)%x(1)%values(npt))
@@ -428,6 +404,38 @@
               table_mat(1)%y2d(1:nout,j) = y_out(1:nout,j)
             enddo
           endif
+!
+          !< Update number of points after smoothing
+          npt = size(table_mat(1)%x(1)%values)
+!
+          !< Re-allocate temporary arrays
+          if (allocated(x_raw)) deallocate(x_raw)
+          if (allocated(y_raw)) deallocate(y_raw)
+          allocate(x_raw(npt),y_raw(npt,nl))
+!
+          !< Copy raw data into temporary arrays
+          x_raw(1:npt) = table_mat(1)%x(1)%values(1:npt)
+          do j = 1,nl
+            y_raw(1:npt,j) = table_mat(1)%y2d(1:npt,j)
+          enddo
+!
+          !< Correct curves to avoid intersection between them
+          do i = 1,nl 
+            do j = i+1,nl
+              call table_mat2d_intersect(table_mat(1),i,j,npt,.true.,          &
+                .true.  ,.true.  ,1.d-12  ,1.d-8  ,found  ,xint  ,yint   )
+              !< If intersection found, correct the curves
+              if (found) then 
+                call monotone_in_rate_signed_highfix(                          &
+                  npt      ,x_raw(1:npt),y_raw(1:npt,i),y_raw(1:npt,j),        &
+                  0.02d0   ,0.0d0       ,.true.        , .true.       )   
+              endif
+            enddo
+          enddo
+!
+          !< Copy back to material table 
+          table_mat(1)%x(1)%values(1:npt) = x_raw(1:npt)
+          table_mat(1)%y2d(1:npt,1:nl) = y_raw(1:npt,1:nl)
 !
         endif
 !
@@ -1020,9 +1028,6 @@
             y_high(j) = sgn * need_abs
           end if
         end do
-!      
-        !< Light smoothing of edges to avoid local "steps"
-        call light_edge_smooth(n, y_high)
 !      
       contains
 !      
