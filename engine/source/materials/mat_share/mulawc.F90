@@ -1722,7 +1722,7 @@
               elseif (ilaw == 106) then
                 call sigeps106c(& 
                 &jlt      ,matparam ,nuvar    ,tt       ,rho      ,vol_ipt  ,    &
-                &depsxx   ,depsyy   ,depsxy   ,depsyz   ,depszx   ,              &
+                &epsxx    ,epsyy    ,depsxy   ,depsyz   ,depszx   ,              &
                 &sigoxx   ,sigoyy   ,sigoxy   ,sigoyz   ,sigozx   ,              &
                 &signxx   ,signyy   ,signxy   ,signyz   ,signzx   ,              &
                 &epspxx   ,epspyy   ,epspxy   ,israte   ,asrate   ,              &

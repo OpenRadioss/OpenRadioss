@@ -42,7 +42,7 @@
 !||====================================================================
       subroutine sigeps106c(                                                   &
         nel      ,matparam ,nuvar    ,time     ,rho      ,volume   ,           &
-        depsxx   ,depsyy   ,depsxy   ,depsyz   ,depszx   ,                     &
+        epsxx    ,epsyy    ,depsxy   ,depsyz   ,depszx   ,                     &
         sigoxx   ,sigoyy   ,sigoxy   ,sigoyz   ,sigozx   ,                     &
         signxx   ,signyy   ,signxy   ,signyz   ,signzx   ,                     &
         epspxx   ,epspyy   ,epspxy   ,israte   ,asrate   ,                     &
@@ -71,8 +71,8 @@
       real(kind=WP), intent(in)                    :: time     !< Current time
       real(kind=WP), dimension(nel), intent(in)    :: rho      !< Density at current time
       real(kind=WP), dimension(nel), intent(in)    :: volume   !< Volume at current time
-      real(kind=WP), dimension(nel), intent(in)    :: depsxx   !< Strain increment xx
-      real(kind=WP), dimension(nel), intent(in)    :: depsyy   !< Strain increment yy
+      real(kind=WP), dimension(nel), intent(in)    :: epsxx    !< Total strain xx
+      real(kind=WP), dimension(nel), intent(in)    :: epsyy    !< Total strain yy
       real(kind=WP), dimension(nel), intent(in)    :: depsxy   !< Strain increment xy
       real(kind=WP), dimension(nel), intent(in)    :: depsyz   !< Strain increment yz
       real(kind=WP), dimension(nel), intent(in)    :: depszx   !< Strain increment zx
@@ -121,9 +121,10 @@
       real(kind = WP) :: young(nel),nu(nel),shear(nel),bulk(nel),a,b,cm,cn,    &
         tmelt,tref,epsm,sigm,cs,cjc,deps0,eta,tol,t0,dav,deve1,deve2,deve3,deve4
       real(kind = WP) :: ddep,dfdsig2,sig_dfdsig,tempr,dphi_dlam
-      real(kind = WP), dimension(nel) :: pla0,hardp,dlam,normxx,normyy,normxy,   &
+      real(kind = WP), dimension(nel) :: pla0,hardp,dlam,normxx,normyy,normxy, &
         dpxx,dpyy,dpxy,temp0,lam,aii,aij,thsoft,phi,dpla_dlam,eheat,ecool,     &
-        nutemp,dedt,dnudt,srdep,hard,dezz,epsdot,off0
+        nutemp,dedt,dnudt,srdep,hard,dezz,epsdot,off0,young0,nu0,shear0,epspzz,&
+        eplaxx,eplayy
       real(kind=WP), dimension(nel,1) :: xvec
       logical, dimension(nel) :: converged
 !
@@ -160,38 +161,6 @@
       !< Initialization of ductile rupture flag
       ioff_duct(1:nel) = 1
 !
-      !< Computation of strain rate from tensor components if needed
-      if (vp > 1) then 
-        !< Total strain rate
-        if (vp == 2) then
-          do i = 1,nel 
-            epsdot(i) = epspxx(i)**2 + epspyy(i)**2 + two*((half*epspxy(i))**2)
-            epsdot(i) = sqrt(epsdot(i))
-          enddo   
-        !< Deviatoric strain rate    
-        elseif (vp == 3) then
-          do i = 1,nel
-            dav   = (epspxx(i) + epspyy(i))*third
-            deve1 = epspxx(i) - dav
-            deve2 = epspyy(i) - dav
-            deve3 = - dav
-            deve4 = half*epspxy(i)
-            epsdot(i) = half*(deve1**2 + deve2**2 + deve3**2) + deve4**2
-            epsdot(i) = sqrt(three*epsdot(i))/three_half
-          enddo 
-        endif
-        !< Strain rate filtering if needed
-        if (israte > 0) then 
-          do i = 1,nel
-            epsd(i) = asrate*epsdot(i) + (one - asrate)*uvar(i,2)
-          enddo 
-        else
-          epsd(1:nel) = epsdot(1:nel)
-        endif
-        !< Save the filtered strain rate
-        uvar(1:nel,2) = epsd(1:nel)
-      endif
-!
       !< Recovering internal variables and initializations of local variables
       do i = 1,nel
         pla0(i)  = pla(i) !< Initial plastic strain
@@ -209,7 +178,9 @@
           if (jthe == 0) temp(i) = t0
           uvar(i,1) = temp(i) 
         endif
-        temp0(i) = uvar(i,1) !< Recovering previous temperature
+        temp0(i)  = uvar(i,1) !< Recovering previous temperature
+        eplaxx(i) = uvar(i,5) !< Recovering previous plastic strain xx
+        eplayy(i) = uvar(i,6) !< Recovering previous plastic strain yy
       enddo
 !
       !< Update the non-local temperature due to plastic dissipation
@@ -249,7 +220,7 @@
       else
         nutemp(1:nel) = nu(1:nel)
       endif
-      !< Compute the current young modulus
+      !< Compute the current young modulus and Poisson ratio
       do i = 1,nel 
         if (matparam%table(1)%notable > 0) then 
           if (matparam%table(2)%notable == 0 .or. temp(i) > temp0(i)) then
@@ -261,24 +232,71 @@
         if (matparam%table(3)%notable > 0) then 
           nu(i) = min(nutemp(i),0.495d0)
         endif
+        !< Save initial Young modulus
+        if (uvar(i,3) == zero) then
+          uvar(i,3) = young(i)
+        endif
+        !< Save initial Poisson ratio
+        if (uvar(i,4) == zero) then
+          uvar(i,4) = nu(i)
+        endif
       enddo
       !< Elastic stiffness constants
       do i = 1,nel 
+        !< Old elastic constants
+        young0(i) = uvar(i,3)
+        nu0(i)    = uvar(i,4)
+        shear0(i) = young0(i)/(two*(one+nu0(i))) 
+        !< Current elastic constants
         shear(i)  = young(i)/(two*(one+nu(i)))
-        bulk(i)   = young(i)/(three*(one - two*nu(i)))
         aii(i)    = young(i)/(one - nu(i)*nu(i))
         aij(i)    = aii(i)*nu(i)
         uvar(i,1) = temp(i)
       enddo
+!
+      !< Computation of strain rate from tensor components if needed
+      if (vp > 1) then 
+        !< Total strain rate
+        if (vp == 2) then
+          do i = 1,nel 
+            epspzz(i) = -(nu(i)/(one - nu(i)))*(epspxx(i) + epspyy(i))
+            epsdot(i) = epspxx(i)**2 + epspyy(i)**2 + epspzz(i)**2 +           &
+                                          two*((half*epspxy(i))**2)
+            epsdot(i) = sqrt(epsdot(i))
+          enddo   
+        !< Deviatoric strain rate    
+        elseif (vp == 3) then
+          do i = 1,nel
+            epspzz(i) = -(nu(i)/(one - nu(i)))*(epspxx(i) + epspyy(i))
+            dav   = (epspxx(i) + epspyy(i) + epspzz(i))*third
+            deve1 = epspxx(i) - dav
+            deve2 = epspyy(i) - dav
+            deve3 = epspzz(i) - dav
+            deve4 = half*epspxy(i)
+            epsdot(i) = half*(deve1**2 + deve2**2 + deve3**2) + deve4**2
+            epsdot(i) = sqrt(three*epsdot(i))/three_half
+          enddo 
+        endif
+        !< Strain rate filtering if needed
+        if (israte > 0) then 
+          do i = 1,nel
+            epsd(i) = asrate*epsdot(i) + (one - asrate)*uvar(i,2)
+          enddo 
+        else
+          epsd(1:nel) = epsdot(1:nel)
+        endif
+        !< Save the filtered strain rate
+        uvar(1:nel,2) = epsd(1:nel)
+      endif
 !
       !=========================================================================   
       !< - Computation of trial stress tensor and Von Mises stress
       !=========================================================================   
       do i = 1,nel
         !< Trial stress tensor
-        signxx(i) = sigoxx(i) +   aii(i)*depsxx(i) +   aij(i)*depsyy(i)
-        signyy(i) = sigoyy(i) +   aij(i)*depsxx(i) +   aii(i)*depsyy(i)
-        signxy(i) = sigoxy(i) + shear(i)*depsxy(i)
+        signxx(i) = aii(i)*(epsxx(i) - eplaxx(i)) + aij(i)*(epsyy(i) - eplayy(i))
+        signyy(i) = aij(i)*(epsxx(i) - eplaxx(i)) + aii(i)*(epsyy(i) - eplayy(i))
+        signxy(i) = sigoxy(i)*(shear(i)/shear0(i)) + shear(i)*depsxy(i)
         signyz(i) = sigoyz(i) + shear(i)*shf(i)*depsyz(i)
         signzx(i) = sigozx(i) + shear(i)*shf(i)*depszx(i)
         !< Von Mises stress
@@ -400,6 +418,9 @@
               dpxx(i) = dlam(i)*normxx(i)
               dpyy(i) = dlam(i)*normyy(i)
               dpxy(i) = dlam(i)*normxy(i)
+              !< Update the plastic strain tensor components
+              eplaxx(i) = eplaxx(i) + dpxx(i)
+              eplayy(i) = eplayy(i) + dpyy(i)
 !  
               !< 5 - Update the stress tensor
               !-----------------------------------------------------------------
@@ -467,10 +488,20 @@
         endif
       enddo
 !
+      !< Save elastic constant and plastic strain components in user variables
+      !-------------------------------------------------------------------------   
+      do i = 1,nel
+        uvar(i,3) = young(i)
+        uvar(i,4) = nu(i)
+        uvar(i,5) = eplaxx(i)
+        uvar(i,6) = eplayy(i)
+      enddo
+!
       !< Update the user variables
       !-------------------------------------------------------------------------        
       do i = 1,nel
         !< Sound speed
+        aii(i) = max(aii(i),matparam%young/(one - matparam%nu*matparam%nu))
         soundsp(i) = sqrt(aii(i)/rho(i))
         !< Thickness variation
         if (inloc > 0) then

@@ -203,7 +203,7 @@
       !< Number of real material parameters
       matparam%nuparam = 14
       !< Number of user variables
-      nuvar = 2
+      nuvar = 6
       !< Number of functions
       nfunc = 0
       !< Number of tables and temporary variables
