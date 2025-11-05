@@ -115,9 +115,10 @@
         tmelt,tref,epsm,sigm,cs,cjc,deps0,eta,tol,t0
       real(kind = WP) :: ddep,dfdsig2,sig_dfdsig,tempr,dphi_dlam
       real(kind=WP), dimension(nel) :: pla0,hardp,dlam,normxx,normyy,normzz,   &
-        normxy,normyz,normzx,dpxx,dpyy,dpzz,dpxy,dpyz,dpzx,temp0,lam,cii,cij,  &
-        sxx,syy,szz,sxy,syz,szx,thsoft,phi,dpla_dlam,eheat,ecool,nutemp,dedt,  &
-        dnudt,srdep,hard,off0
+        normxy,normyz,normzx,dpxx,dpyy,dpzz,dpxy,dpyz,dpzx,temp0,sxx,syy,szz,  &
+        sxy,syz,szx,thsoft,phi,dpla_dlam,eheat,ecool,nutemp,dedt,dnudt,srdep,  &
+        hard,off0,young0,nu0,pold,sxx0,syy0,szz0,sxy0,syz0,szx0,devxx,devyy,   &
+        devzz,pnew,shear0,bulk0
       real(kind=WP), dimension(nel,1) :: xvec
       logical, dimension(nel) :: converged
 !
@@ -207,7 +208,7 @@
       else
         nutemp(1:nel) = nu(1:nel)
       endif
-      !< Compute the current young modulus
+      !< Compute the current young modulus and Poisson ratio
       do i = 1,nel 
         if (matparam%table(1)%notable > 0) then 
           if (matparam%table(2)%notable == 0 .or. temp(i) > temp0(i)) then
@@ -219,14 +220,25 @@
         if (matparam%table(3)%notable > 0) then 
           nu(i) = min(nutemp(i),0.495d0)
         endif
+        !< Save initial Young modulus
+        if (uvar(i,3) == zero) then
+          uvar(i,3) = young(i)
+        endif
+        !< Save initial Poisson ratio
+        if (uvar(i,4) == zero) then
+          uvar(i,4) = nu(i)
+        endif
       enddo
       !< Elastic stiffness constants
       do i = 1,nel 
-        lam(i)    = young(i)*nu(i)/(one+nu(i))/(one - two*nu(i))
+        !< Old elastic constants
+        young0(i) = uvar(i,3)
+        nu0(i)    = uvar(i,4)
+        shear0(i) = young0(i)/(two*(one+nu0(i)))
+        bulk0(i)  = young0(i)/(three*(one - two*nu0(i)))
+        !< Current elastic constants
         shear(i)  = young(i)/(two*(one+nu(i)))
         bulk(i)   = young(i)/(three*(one - two*nu(i)))
-        cii(i)    = lam(i) + shear(i)*two
-        cij(i)    = lam(i)
         uvar(i,1) = temp(i)
       enddo
 !
@@ -234,26 +246,30 @@
       !< - Computation of trial stress tensor and Von Mises stress
       !=========================================================================   
       do i = 1,nel
-        !< Trial stress tensor
-        signxx(i) = sigoxx(i) +   cii(i)*depsxx(i)                             &
-                              +   cij(i)*depsyy(i)                             &
-                              +   cij(i)*depszz(i)
-        signyy(i) = sigoyy(i) +   cij(i)*depsxx(i)                             &
-                              +   cii(i)*depsyy(i)                             &
-                              +   cij(i)*depszz(i)
-        signzz(i) = sigozz(i) +   cij(i)*depsxx(i)                             &
-                              +   cij(i)*depsyy(i)                             &
-                              +   cii(i)*depszz(i)
-        signxy(i) = sigoxy(i) + shear(i)*depsxy(i)
-        signyz(i) = sigoyz(i) + shear(i)*depsyz(i)
-        signzx(i) = sigozx(i) + shear(i)*depszx(i)
+        !< Old hydrostatic stress
+        pold(i) = (sigoxx(i) + sigoyy(i) + sigozz(i)) * third
+        !< Old deviatoric stress tensor
+        sxx0(i) = sigoxx(i) - pold(i)
+        syy0(i) = sigoyy(i) - pold(i)
+        szz0(i) = sigozz(i) - pold(i)
+        sxy0(i) = sigoxy(i)
+        syz0(i) = sigoyz(i)
+        szx0(i) = sigozx(i)
+        !< Deviatoric strain tensor
+        devxx(i) = depsxx(i) - third*(depsxx(i)+depsyy(i)+depszz(i))
+        devyy(i) = depsyy(i) - third*(depsxx(i)+depsyy(i)+depszz(i))
+        devzz(i) = depszz(i) - third*(depsxx(i)+depsyy(i)+depszz(i))
+        !< Trial deviatoric stress tensor
+        sxx(i) = sxx0(i)*(shear(i)/shear0(i)) + two*shear(i)* devxx(i)
+        syy(i) = syy0(i)*(shear(i)/shear0(i)) + two*shear(i)* devyy(i)
+        szz(i) = szz0(i)*(shear(i)/shear0(i)) + two*shear(i)* devzz(i)
+        sxy(i) = sxy0(i)*(shear(i)/shear0(i)) +     shear(i)*depsxy(i)
+        syz(i) = syz0(i)*(shear(i)/shear0(i)) +     shear(i)*depsyz(i)
+        szx(i) = szx0(i)*(shear(i)/shear0(i)) +     shear(i)*depszx(i)
+        !< Trial pressure
+        pnew(i) = pold(i)*(bulk(i)/bulk0(i)) +                                 &
+                               bulk(i)*(depsxx(i)+depsyy(i)+depszz(i))
         !< Von Mises stress
-        sxx(i) = signxx(i) - third*(signxx(i)+signyy(i)+signzz(i))
-        syy(i) = signyy(i) - third*(signxx(i)+signyy(i)+signzz(i))
-        szz(i) = signzz(i) - third*(signxx(i)+signyy(i)+signzz(i))
-        sxy(i) = signxy(i)
-        syz(i) = signyz(i)
-        szx(i) = signzx(i)
         seq(i) = sxx(i)**2 + syy(i)**2 + szz(i)**2 +                           &
             two*(sxy(i)**2 + syz(i)**2 + szx(i)**2)
         seq(i) = sqrt(three_half*seq(i))
@@ -327,18 +343,12 @@
 !          
               !   a) Derivative with respect stress increments tensor DSIG
               !   --------------------------------------------------------------
-              dfdsig2 = normxx(i) * (cii(i) * normxx(i) +                      &
-                                     cij(i) * normyy(i) +                      &
-                                     cij(i) * normzz(i)) +                     &
-                      + normyy(i) * (cij(i) * normxx(i) +                      &
-                                     cii(i) * normyy(i) +                      &
-                                     cij(i) * normzz(i)) +                     &
-                      + normzz(i) * (cij(i) * normxx(i) +                      &
-                                     cij(i) * normyy(i) +                      &
-                                     cii(i) * normzz(i)) +                     &
-                      + normxy(i) * normxy(i) *     shear(i)                   &
-                      + normyz(i) * normyz(i) *     shear(i)                   &
-                      + normzx(i) * normzx(i) *     shear(i)      
+              dfdsig2 = normxx(i) * normxx(i) * two*shear(i) +                 &
+                        normyy(i) * normyy(i) * two*shear(i) +                 &
+                        normzz(i) * normzz(i) * two*shear(i) +                 &
+                        normxy(i) * normxy(i) *     shear(i) +                 &
+                        normyz(i) * normyz(i) *     shear(i) +                 &
+                        normzx(i) * normzx(i) *     shear(i)
 !            
               !   b) Derivative of dPLA with respect to DLAM
               !   --------------------------------------------------------------   
@@ -390,27 +400,15 @@
 !  
               !< 5 - Update the stress tensor
               !-----------------------------------------------------------------
-              signxx(i) = signxx(i) -   cii(i)*dpxx(i)                         &
-                                    -   cij(i)*dpyy(i)                         &
-                                    -   cij(i)*dpzz(i)
-              signyy(i) = signyy(i) -   cij(i)*dpxx(i)                         &
-                                    -   cii(i)*dpyy(i)                         & 
-                                    -   cij(i)*dpzz(i)
-              signzz(i) = signzz(i) -   cij(i)*dpxx(i)                         &
-                                    -   cij(i)*dpyy(i)                         & 
-                                    -   cii(i)*dpzz(i)
-              signxy(i) = signxy(i) - shear(i)*dpxy(i)
-              signyz(i) = signyz(i) - shear(i)*dpyz(i)
-              signzx(i) = signzx(i) - shear(i)*dpzx(i)
+              sxx(i) = sxx(i) - two*shear(i)*dpxx(i)
+              syy(i) = syy(i) - two*shear(i)*dpyy(i)
+              szz(i) = szz(i) - two*shear(i)*dpzz(i)
+              sxy(i) = sxy(i) -     shear(i)*dpxy(i)
+              syz(i) = syz(i) -     shear(i)*dpyz(i)
+              szx(i) = szx(i) -     shear(i)*dpzx(i)
 !  
               !< 6 - Recompute the Von Mises stress
               !-----------------------------------------------------------------
-              sxx(i) = signxx(i) - third*(signxx(i)+signyy(i)+signzz(i))
-              syy(i) = signyy(i) - third*(signxx(i)+signyy(i)+signzz(i))
-              szz(i) = signzz(i) - third*(signxx(i)+signyy(i)+signzz(i))
-              sxy(i) = signxy(i)
-              syz(i) = signyz(i)
-              szx(i) = signzx(i)
               seq(i) = sxx(i)**2 + syy(i)**2 + szz(i)**2 +                     &
                   two*(sxy(i)**2 + syz(i)**2 + szx(i)**2)
               seq(i) = sqrt(three_half*seq(i))
@@ -463,11 +461,28 @@
         if (off(i) == one .and. pla(i) >= epsm) then
           off(i) = four_over_5
         endif
-      enddo      
+      enddo   
+!
+      !< Save elastic constant and compute new stress tensor
+      !-------------------------------------------------------------------------   
+      do i = 1,nel
+        !< Save elastic constants
+        uvar(i,3) = young(i)
+        uvar(i,4) = nu(i)
+        !< New stress tensor
+        signxx(i) = sxx(i) + pnew(i)
+        signyy(i) = syy(i) + pnew(i)
+        signzz(i) = szz(i) + pnew(i)
+        signxy(i) = sxy(i)
+        signyz(i) = syz(i)
+        signzx(i) = szx(i)
+      enddo
 !
       !< Update the soundspeed
       !-------------------------------------------------------------------------        
       do i = 1,nel
+        bulk(i)    = max(bulk(i) ,matparam%bulk)
+        shear(i)   = max(shear(i),matparam%shear)
         soundsp(i) = sqrt((bulk(i) + four_over_3*shear(i)) / rho(i))
       enddo
 !
