@@ -300,6 +300,12 @@ void ConvertElem::ConvertEntities()
                         if (radThick != 0.0)
                             radElem.SetValue(p_radiossModel,sdiIdentifier("Thick"),sdiValue(radThick));
                     }
+                    else
+                    {
+                        double defaultThick = 0.0;
+                        radElem.SetValue(p_radiossModel,sdiIdentifier("Thick"),sdiValue(defaultThick));
+                    }
+
                     double elemBeta = 0.0;
                     sdiValue tempVal(elemBeta);
                     elemSelect->GetValue(sdiIdentifier("BETA"), tempVal);
