@@ -2451,9 +2451,9 @@
             "DELTAP",&
             "VOL",&
             "SURF",&
-            "X TORQUS (IMPULSE)",&
-            "Y TORQUS (IMPULSE)",&
-            "Z TORQUS (IMPULSE)",&
+            "X-TORQUE IMPULSE",&
+            "Y-TORQUE IMPULSE",&
+            "Z-TORQUE IMPULSE",&
             "FRICTIONAL ENERGY CONVERTED INTO HEAT",&
             "ELASTIC CONTACT ENERGY",&
             "FRICTIONAL CONTACT ENERGY",&

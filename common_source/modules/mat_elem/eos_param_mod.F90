@@ -184,6 +184,7 @@
           target%p0 = this%p0
           target%pmin = this%pmin
           target%title = this%title
+          target%eostype = this%eostype
           call target%construct()
           if(this%nuparam >= 0) then
             do i= 1,this%nuparam
