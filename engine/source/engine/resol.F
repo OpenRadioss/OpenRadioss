@@ -1098,7 +1098,7 @@ C
               INTEGER, DIMENSION(:),  ALLOCATABLE ::MAD_TAG_SOL, MAD_TAG_SH,MAD_TAG_TG,MAD_FAIL_ELEMENTS
 C
 C OpenMP specific
-              INTEGER ITSK, NODFTSK, NODLTSK, NUMNTSK, NDTSK, IPMTSK,
+              INTEGER ITSK, NODFTSK, NODLTSK, NUMNTSK, NDTSK, NDTSKR, IPMTSK,
      .                PARTFTSK, PARTLTSK, NWAFTSK, I16TSK,
      .                NELTSTT, ITYPTSTT,IGMTSK,NGROUC, NGROUNC,
      .                NSNFIOLD(NSPMD),
@@ -1390,7 +1390,7 @@ c
               IF (NDAMP>0) THEN
                 DO I=1,NDAMP
                   IF(NINT(DAMPR(21,I))==4) FLG_DAMP_FUNCT=1
-                END DO 
+                END DO
               END IF
               FLG_KJ2 = 0
               I_EXCH_FLG_RAZ = 0
@@ -2151,7 +2151,7 @@ C save the Python functions into the Python interpreter dictionarry
      .                             IXTG, NIXTG, NUMELTG,
      .                             IXR, NIXR, NUMELR,
      .                             IPARG, NGROUP, NPARG)
- 
+
 
 
               K1=1+LIPART1*(NPART+NTHPART)+2*9*(NPART+NTHPART)
@@ -2457,14 +2457,14 @@ C ---------------------
               allocate(component(ninter))
               call inter_init_component(ninter,npari,numnod,ispmd,nspmd,ipari,nodes%x,interfaces%intbuf_tab,component)
               ! -------------------------
-              
+
               ! -------------------------
               ! initialization of SPH_WORK
               call ALLOCATE_SPH_WORK(SPH_WORK,
      *                               NUMSPH,NUMSPH,          ! Flag & size for WREDUCE
      *                               SOL2SPH_FLAG, NUMNOD,   ! Flag for other arrays
      *                               NSPHACT,NUMNOD,NSPHACT, ! Size of as6, a6, as
-     *                               NUMSPHG ) 
+     *                               NUMSPHG )
 C========================================================================================
 C                                     NON PARALLEL SECTION (SMP)
 C========================================================================================
@@ -2641,7 +2641,7 @@ C Init var parallel SMP
                       IF(NEED_COMM_INT25_SOLID_EROSION(ISPMD+1)) THEN
                         CALL SPMD_ALLREDUCE(CHECK_NEIGH_FLAG,CHECK_NEIGH_FLAG_RES,1,SPMD_MAX,COMM_INT25_SOLID_EROSION)
                       ELSEIF(NSPMD==1) THEN
-                        CHECK_NEIGH_FLAG_RES = CHECK_NEIGH_FLAG 
+                        CHECK_NEIGH_FLAG_RES = CHECK_NEIGH_FLAG
                       ENDIF
                       IF(CHECK_NEIGH_FLAG_RES > 0 ) THEN
                         CALL GET_NEIGHBOUR_SURFACE( ISPMD,NSPMD,NINTER25,NPARI,NINTER,
@@ -3232,7 +3232,7 @@ C First: try with reduced bounding box
               CALL PYTHON_UPDATE_NODAL_ENTITIES(NUMNOD, NODES, X=NODES%X,A=NODES%A,V=NODES%V,D=NODES%D,DR=NODES%DR,VR=NODES%VR)
               CALL PYTHON_SYNC(PYTHON%CONTEXT)
               IF(NVOLU > 0)THEN
-                IF(PYTHON%NB_FUNCTS > 0) THEN 
+                IF(PYTHON%NB_FUNCTS > 0) THEN
                   K1 = 1
                   KK1 = 0
                   DO I=1,NVOLU
@@ -3252,27 +3252,27 @@ C
               ! ALLOCATION AND INITIALIZATION OF COUPLING COUPLING
                 ALLOCATE(NODES%FORCES(3,NUMNOD))
                 NODES%FORCES = ZERO
-                call coupling_set_interface(coupling, igrnod, ngrnod, igrsurf, nsurf,  nodes)   
+                call coupling_set_interface(coupling, igrnod, ngrnod, igrsurf, nsurf,  nodes)
                 CALL COUPLING_INITIALIZE(coupling,NODES%X,NUMNOD,ISPMD,NSPMD)
                 CALL COUPLING_ONGOING(coupling,ongoing)
               ENDIF
 
               ! Node Splitting
               CALL init_ghost_shells(nodes, element,ispmd,nspmd,nodes%boundary_add,nodes%boundary_size,nodes%boundary)
-              
+
               ! ----------------------
               ! Initialize coupling to Viper
               IF (ViperCoupling) THEN
                  call viper_coupling_initialize(VIPER, NODES, ELEMENT, NUMNOD,
-     .                                          NIXS, NUMELS, IXS, NIXC, NUMELC,NIXTG, NUMELTG,IXTG, 
-     .                                          ISTDO, NELEML, NUMELQ, NUMELT, NUMELP, NUMELR, 
-     .                                          DTMIN, TSTOP, OUTPUT%DTANIM, TT, NPARG, NGROUP, IPARG, ELBUF_TAB, 
+     .                                          NIXS, NUMELS, IXS, NIXC, NUMELC,NIXTG, NUMELTG,IXTG,
+     .                                          ISTDO, NELEML, NUMELQ, NUMELT, NUMELP, NUMELR,
+     .                                          DTMIN, TSTOP, OUTPUT%DTANIM, TT, NPARG, NGROUP, IPARG, ELBUF_TAB,
      .                                          TT_DOUBLE, OUTPUT%TANIM)
               ENDIF
-            
+
 C===========================================================================
 C                 BEGINNING OF EXPLICIT ITERATION LOOP
-C===========================================================================                                        
+C===========================================================================
  100          CONTINUE
 
               NC_DEBUG = NCYCLE
@@ -4276,7 +4276,7 @@ C----------------------------------------
                 ELSE
                   CALL ASSIGN_PTRX(ptrX,NODES%X,NUMNOD)
                 ENDIF
-                CALL INTFOP8(OUTPUT, 
+                CALL INTFOP8(OUTPUT,
      1              IPARI  ,ptrX ,NODES%A ,
      2              NODES%ICODT  ,FSAV    ,WA(1),NODES%V         ,NODES%MS             ,
      3              DT2TT  ,NELTSTT ,ITYPTSTT   ,NODES%ITAB    ,NODES%STIFN   ,
@@ -4683,7 +4683,7 @@ C -------------------------------------------------------------------
               LLT1 = I87G+3*NUMELTG
               CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL
-!$OMP+ PRIVATE(ITSK,NODFTSK,NODLTSK,NUMNTSK,NDTSK,IPMTSK,IGMTSK)
+!$OMP+ PRIVATE(ITSK,NODFTSK,NODLTSK,NUMNTSK,NDTSK,NDTSKR,IPMTSK,IGMTSK)
 !$OMP+ PRIVATE(PARTFTSK,PARTLTSK,NWAFTSK,DT2TT,NELTSTT,ITYPTSTT)
 !$OMP+ PRIVATE(GREFTSK,GRELTSK)
 !$OMP+ PRIVATE(IDX_FTHE,IDX_CONDN,IDX_PINCH)
@@ -4704,10 +4704,13 @@ C Init var parallel SMP
               IDX_PINCH = NDTSK
               IF(NPINCH == 0 )IDX_PINCH = 1
               IF(IPARIT == 1) NDTSK = 1
+
+              NDTSKR=NDTSK ; IF(IRODDL == 0)NDTSKR=1
+
               CALL FORINTC(TIMERS,
      1           PM           ,GEO             ,NODES%X               ,NODES%A(1,NDTSK)     ,NODES%AR(1,NDTSK)  ,
      2           NODES%V            ,NODES%VR              ,NODES%MS              ,NODES%IN             ,NLOC_DMG     ,
-     3           WA(NWAFTSK)  ,NODES%STIFN(NDTSK)    ,NODES%STIFR(NDTSK)    ,ELEMENT%PON%FSKY           ,CRKSKY       ,
+     3           WA(NWAFTSK)  ,NODES%STIFN(NDTSK)    ,NODES%STIFR(NDTSKR)    ,ELEMENT%PON%FSKY           ,CRKSKY       ,
      4           TF           ,BUFMAT          ,PARTSAV(IPMTSK) ,NODES%D              ,MAT_ELEM     ,
      5           NODES%DR           ,EANI            ,TANI            ,OUTPUT%DATA%FOPT ,
      6           FSAV         ,SENSORS         ,SKEWS%SKEW      ,FAILWAVE     ,
@@ -4766,7 +4769,7 @@ C                                     PARALLEL SECTION (SMP)
 C========================================================================================
            CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL
-!$OMP+ PRIVATE(ITSK,NODFTSK,NODLTSK,NUMNTSK,NDTSK,IPMTSK)
+!$OMP+ PRIVATE(ITSK,NODFTSK,NODLTSK,NUMNTSK,NDTSK,NDTSKR,IPMTSK)
 !$OMP+ PRIVATE(PARTFTSK,PARTLTSK,NWAFTSK,DT2TT,NELTSTT,ITYPTSTT)
 !$OMP+ PRIVATE(I16TSK,IGMTSK,GREFTSK,GRELTSK)
 !$OMP+ PRIVATE(IDX_FTHE,IDX_CONDN)
@@ -4785,12 +4788,14 @@ C Init var parallel SMP
               IF(NDTSK>IFTHE) IDX_FTHE  = 1
               IDX_CONDN = NDTSK
               IF(NDTSK>ICONDN)IDX_CONDN = 1
+
+              NDTSKR = NDTSK ; IF(IRODDL == 0)NDTSKR = 1
 C
               CALL FORINT(TIMERS, PYTHON,
      1         PM             ,GEO           ,NODES%X           ,NODES%A(1,NDTSK) ,NODES%AR(1,NDTSK)     ,
      2         NODES%V              ,NODES%VR            ,NODES%MS          ,NODES%IN         ,W               ,
      3         ELBUF          ,WA(NWAFTSK)   ,VAL2        ,VEUL       ,FV              ,
-     4         NODES%STIFN(NDTSK)   ,NODES%STIFR(NDTSK)  ,ELEMENT%PON%FSKY        ,TF         ,BUFMAT          ,
+     4         NODES%STIFN(NDTSK)   ,NODES%STIFR(NDTSKR)  ,ELEMENT%PON%FSKY        ,TF         ,BUFMAT          ,
      5         PARTSAV(IPMTSK),NODES%D             ,NODES%DR          ,EANI       ,ELBUF_TAB       ,
      6         TANI           ,OUTPUT%DATA%FOPT,FSAV        ,SENSORS    ,NLOC_DMG        ,
      7         SKEWS%SKEW     ,OUTPUT%DATA%SCAL_SPRING ,DT2TT       ,BUFGEO     ,NODES%ITAB            ,
