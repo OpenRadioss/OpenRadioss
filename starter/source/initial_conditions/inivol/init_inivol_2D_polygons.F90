@@ -114,6 +114,7 @@
           real(kind=WP) :: skw(9)                                                             !< skew data for superell transformation
           real(kind=WP) :: tmp(3)                                                          !< temporary array
           real(kind=WP) :: theta
+          real(kind=WP) :: midpoint(3)
 
           integer :: nsegsurf                                                           !< number of segments for a given 2d surface
           integer :: npoints                                                            !< number of points for ordered list of nodes
@@ -228,11 +229,20 @@
               tangent(1)=0
               tangent(2)=normal(3)
               tangent(3)=-normal(2)
+              ! midpoint
+              midpoint(1) = zero
+              midpoint(2) = half*(GLOBAL_xyz(5)+GLOBAL_xyz(2))
+              midpoint(3) = half*(GLOBAL_xyz(6)+GLOBAL_xyz(3))
+              ! project midpoint to user surface. New basis.
+              ! more convenient to have a basis point in the middle of the user mesh to build a corresponnding polygonal box
+              theta = normal(2)*(yp1 - midpoint(2)) + normal(3)*(zp1 - midpoint(3))
+              yp1 = midpoint(2) + theta * normal(2)
+              zp1 = midpoint(3) + theta * normal(3)
               !building corresponding polygon (box)
               call polygon_create( user_polygon, 4+1)
               user_polygon%numpoint = 4 + 1
               user_polygon%area = zero
-              DL=(one+fourth)*max(abs(GLOBAL_xyz(5)-GLOBAL_xyz(2)),abs(GLOBAL_xyz(6)-GLOBAL_xyz(3)))
+              DL=two*max(abs(GLOBAL_xyz(5)-GLOBAL_xyz(2)),abs(GLOBAL_xyz(6)-GLOBAL_xyz(3)))
               user_polygon%point(1)%y = YP1 + half*DL*tangent(2)
               user_polygon%point(1)%z = ZP1 + half*DL*tangent(3)
               user_polygon%point(2)%y = user_polygon%point(1)%y + DL*normal(2)
