@@ -257,57 +257,47 @@
 
             v_convexity(1:3) = r_buffer(proc_id)%my_real_array_1d(my_offset_7+1:my_offset_7+3)
 
+            if(segment_pair(new_segment_id(i),my_iedge,1) == 0) then
+
             ! ---------------------
             ! local neighbour segments (=same processor than "segment_id"'s processor)
-            do j=1,nb_connected_segment
-              my_integer = transfer(r_buffer(proc_id)%my_real_array_1d(my_offset_1 + j),my_int_variable) ! get global neighbour segment id
-              n_segment_id = abs(my_integer)
+              do j=1,nb_connected_segment
+                my_integer = transfer(r_buffer(proc_id)%my_real_array_1d(my_offset_1 + j),my_int_variable) ! get global neighbour segment id
+                n_segment_id = abs(my_integer)
 !(8+5*number of connected segment+3:8+6*number of connected segment+3)
-              my_integer = transfer(r_buffer(proc_id)%my_real_array_1d(my_offset_4 + j),my_int_variable) ! get edge id of the neighbour segment
-              n_iedge_id = my_integer
-              my_integer = transfer(r_buffer(proc_id)%my_real_array_1d(my_offset_2 + j),my_int_variable) ! get local neighbour segment id
-              local_n_segment_id = abs(my_integer)
-              my_integer = transfer(r_buffer(proc_id)%my_real_array_1d(my_offset_6 + 4*(j-1) + n_iedge_id),my_int_variable) ! check if the n_segment has already a neighbour
-              already_a_neighbour = my_integer
+                my_integer = transfer(r_buffer(proc_id)%my_real_array_1d(my_offset_4 + j),my_int_variable) ! get edge id of the neighbour segment
+                n_iedge_id = my_integer
+                my_integer = transfer(r_buffer(proc_id)%my_real_array_1d(my_offset_2 + j),my_int_variable) ! get local neighbour segment id
+                local_n_segment_id = abs(my_integer)
+                my_integer = transfer(r_buffer(proc_id)%my_real_array_1d(my_offset_6 + 4*(j-1) + n_iedge_id),my_int_variable) ! check if the n_segment has already a neighbour
+                already_a_neighbour = my_integer
 
-              ierror = -1
-              call c_hash_find( segment_hash_id,n_segment_id+ &
+                ierror = -1
+                call c_hash_find( segment_hash_id,n_segment_id+ &
                    shoot_struct%shift_interface2(list_new_segment(permutation(i),5)) ,ierror ) ! check if "n_segment id" is already in the hash table
-              if(ierror==-1) then  ! no --> need to add it
-                 seg_id = seg_id + 1
-                 call c_hash_insert( segment_hash_id,n_segment_id+  &
+                if(ierror==-1) then  ! no --> need to add it
+                   seg_id = seg_id + 1
+                   call c_hash_insert( segment_hash_id,n_segment_id+  &
                             shoot_struct%shift_interface2(list_new_segment(permutation(i),5)),seg_id )
-                 n_seg_id = seg_id
-              else
-                 n_seg_id = ierror
-              endif
+                   n_seg_id = seg_id
+                else
+                   n_seg_id = ierror
+                endif
 
-              n_normal(1) = r_buffer(proc_id)%my_real_array_1d(my_offset_3 + 3*(j-1)+1)
-              n_normal(2) = r_buffer(proc_id)%my_real_array_1d(my_offset_3 + 3*(j-1)+2)
-              n_normal(3) = r_buffer(proc_id)%my_real_array_1d(my_offset_3 + 3*(j-1)+3)
+                n_normal(1) = r_buffer(proc_id)%my_real_array_1d(my_offset_3 + 3*(j-1)+1)
+                n_normal(2) = r_buffer(proc_id)%my_real_array_1d(my_offset_3 + 3*(j-1)+2)
+                n_normal(3) = r_buffer(proc_id)%my_real_array_1d(my_offset_3 + 3*(j-1)+3)
 
-              n_vconvexity(1) = r_buffer(proc_id)%my_real_array_1d(my_offset_8 + 3*(j-1)+1)
-              n_vconvexity(2) = r_buffer(proc_id)%my_real_array_1d(my_offset_8 + 3*(j-1)+2)
-              n_vconvexity(3) = r_buffer(proc_id)%my_real_array_1d(my_offset_8 + 3*(j-1)+3)
-
+                n_vconvexity(1) = r_buffer(proc_id)%my_real_array_1d(my_offset_8 + 3*(j-1)+1)
+                n_vconvexity(2) = r_buffer(proc_id)%my_real_array_1d(my_offset_8 + 3*(j-1)+2)
+                n_vconvexity(3) = r_buffer(proc_id)%my_real_array_1d(my_offset_8 + 3*(j-1)+3)
+  
               ! -------
-              if(segment_id/=n_segment_id.and.already_a_neighbour==0.and.segment_pair(n_seg_id,n_iedge_id,1)==0) then
-                call get_segment_criteria( convexity,normal,n_vconvexity )
-                call get_segment_criteria( my_criteria,v_convexity,n_vconvexity )
+                if(segment_id/=n_segment_id.and.already_a_neighbour==0.and.segment_pair(n_seg_id,n_iedge_id,1)==0) then
+                  call get_segment_criteria( convexity,normal,n_vconvexity )
+                  call get_segment_criteria( my_criteria,v_convexity,n_vconvexity )
 
-                if(my_criteria>criteria(new_segment_id(i),my_iedge)) then
-
-                  criteria(new_segment_id(i),my_iedge) = my_criteria
-
-                  segment_pair(new_segment_id(i),my_iedge,1) = n_segment_id
-                  segment_pair(new_segment_id(i),my_iedge,2) = proc_id
-                  segment_pair(new_segment_id(i),my_iedge,3) = n_seg_id
-                  segment_pair(new_segment_id(i),my_iedge,4) = n_iedge_id
-                  segment_pair(new_segment_id(i),my_iedge,5) = local_n_segment_id
-
-                else if(my_criteria==criteria(new_segment_id(i),my_iedge)) then
-
-                  if(n_segment_id<segment_pair(new_segment_id(i),my_iedge,1)) then
+                  if(my_criteria>criteria(new_segment_id(i),my_iedge)) then
 
                     criteria(new_segment_id(i),my_iedge) = my_criteria
 
@@ -317,106 +307,97 @@
                     segment_pair(new_segment_id(i),my_iedge,4) = n_iedge_id
                     segment_pair(new_segment_id(i),my_iedge,5) = local_n_segment_id
 
+                  else if(my_criteria==criteria(new_segment_id(i),my_iedge)) then
 
+                    if(n_segment_id<segment_pair(new_segment_id(i),my_iedge,1)) then
+
+                      criteria(new_segment_id(i),my_iedge) = my_criteria
+
+                      segment_pair(new_segment_id(i),my_iedge,1) = n_segment_id
+                      segment_pair(new_segment_id(i),my_iedge,2) = proc_id
+                      segment_pair(new_segment_id(i),my_iedge,3) = n_seg_id
+                      segment_pair(new_segment_id(i),my_iedge,4) = n_iedge_id
+                      segment_pair(new_segment_id(i),my_iedge,5) = local_n_segment_id
+
+
+                    end if
                   end if
+
                 end if
-
-              end if
               ! -------
-            end do
+              end do
 
-            if(segment_pair(new_segment_id(i),my_iedge,1) /= 0) then
-               n_seg_id=segment_pair(new_segment_id(i),my_iedge,3) 
-               n_iedge_id = segment_pair(new_segment_id(i),my_iedge,4)
-               criteria(n_seg_id,n_iedge_id) = criteria(new_segment_id(i),my_iedge)
-
-               segment_pair(n_seg_id,n_iedge_id,1) = segment_id
-               segment_pair(n_seg_id,n_iedge_id,2) = proc_id
-               segment_pair(n_seg_id,n_iedge_id,3) = new_segment_id(i)
-               segment_pair(n_seg_id,n_iedge_id,4) = my_iedge
-               segment_pair(n_seg_id,n_iedge_id,5) = local_segment_id
-            endif
 
             ! ---------------------
 
 
             ! ---------------------
             ! remote neighbour segments (=different processor than "segment_id"'s processor)
-            do k=1,proc_number
+              do k=1,proc_number
 
-              my_integer = transfer(r_buffer(proc_id)%my_real_array_1d(my_offset_5 + k),my_int_variable) ! get the remote proc id
-              r_proc_id = my_integer
-              r_address = 0
+                my_integer = transfer(r_buffer(proc_id)%my_real_array_1d(my_offset_5 + k),my_int_variable) ! get the remote proc id
+                r_proc_id = my_integer
+                r_address = 0
 
-              do j=1,r_buffer_2_size(3,r_proc_id)
-                my_integer = transfer(r_buffer_2(r_proc_id)%my_real_array_1d(r_address + 1),my_int_variable) ! get the id of the new segment
-                segment_id_2 = abs(my_integer)
-                my_integer = transfer(r_buffer_2(r_proc_id)%my_real_array_1d(r_address + 6),my_int_variable) ! get the edge of the new segment
-                my_iedge_2 = my_integer
-                my_integer = transfer(r_buffer_2(r_proc_id)%my_real_array_1d(r_address + 7),my_int_variable) ! get the number of r connected segment
-                nb_r_connected_segment = my_integer
+                do j=1,r_buffer_2_size(3,r_proc_id)
+                  my_integer = transfer(r_buffer_2(r_proc_id)%my_real_array_1d(r_address + 1),my_int_variable) ! get the id of the new segment
+                  segment_id_2 = abs(my_integer)
+                  my_integer = transfer(r_buffer_2(r_proc_id)%my_real_array_1d(r_address + 6),my_int_variable) ! get the edge of the new segment
+                  my_iedge_2 = my_integer
+                  my_integer = transfer(r_buffer_2(r_proc_id)%my_real_array_1d(r_address + 7),my_int_variable) ! get the number of r connected segment
+                  nb_r_connected_segment = my_integer
 
                 ! check if the segment in the r_buffer_2 is the same new segment
-                if((segment_id_2==segment_id).and.(my_iedge_2==my_iedge)) then
+                  if((segment_id_2==segment_id).and.(my_iedge_2==my_iedge)) then
 
 
-                  my_offset_1 = r_address + 7
-                  my_offset_2 = r_address + 7+nb_r_connected_segment
-                  my_offset_3 = r_address + 7+2*nb_r_connected_segment
-                  my_offset_4 = r_address + 7+5*nb_r_connected_segment
-                  my_offset_6 = r_address + 7+6*nb_r_connected_segment
-                  my_offset_7 = r_address + 7+10*nb_r_connected_segment
-!                  my_offset_8 = r_address + 7+10*nb_r_connected_segment+3+proc_number + 3
+                    my_offset_1 = r_address + 7
+                    my_offset_2 = r_address + 7+nb_r_connected_segment
+                    my_offset_3 = r_address + 7+2*nb_r_connected_segment
+                    my_offset_4 = r_address + 7+5*nb_r_connected_segment
+                    my_offset_6 = r_address + 7+6*nb_r_connected_segment
+                    my_offset_7 = r_address + 7+10*nb_r_connected_segment
+!                   my_offset_8 = r_address + 7+10*nb_r_connected_segment+3+proc_number + 3
 
-                  do ijk=1,nb_r_connected_segment
-                    my_integer = transfer(r_buffer_2(r_proc_id)%my_real_array_1d(my_offset_1 + ijk),my_int_variable) ! get global neighbour segment id
-                    n_segment_id = abs(my_integer)
-                    my_integer = transfer(r_buffer_2(r_proc_id)%my_real_array_1d(my_offset_2 + ijk),my_int_variable) ! get local neighbour segment id
-                    local_n_segment_id = abs(my_integer)
-                    my_integer = transfer(r_buffer_2(r_proc_id)%my_real_array_1d(my_offset_4 + ijk),my_int_variable) ! get edge id of the neighbour segment
-                    n_iedge_id = my_integer
+                    do ijk=1,nb_r_connected_segment
+                      my_integer = transfer(r_buffer_2(r_proc_id)%my_real_array_1d(my_offset_1 + ijk),my_int_variable) ! get global neighbour segment id
+                      n_segment_id = abs(my_integer)
+                      my_integer = transfer(r_buffer_2(r_proc_id)%my_real_array_1d(my_offset_2 + ijk),my_int_variable) ! get local neighbour segment id
+                      local_n_segment_id = abs(my_integer)
+                      my_integer = transfer(r_buffer_2(r_proc_id)%my_real_array_1d(my_offset_4 + ijk),my_int_variable) ! get edge id of the neighbour segment
+                      n_iedge_id = my_integer
 
-                    my_integer = transfer(r_buffer_2(r_proc_id)%my_real_array_1d &
-                      (my_offset_6 + 4*(ijk-1) + n_iedge_id),my_int_variable) ! check if the n_segment has already a neighbour
-                    already_a_neighbour = my_integer
+                      my_integer = transfer(r_buffer_2(r_proc_id)%my_real_array_1d &
+                        (my_offset_6 + 4*(ijk-1) + n_iedge_id),my_int_variable) ! check if the n_segment has already a neighbour
+                      already_a_neighbour = my_integer
 
-                    n_normal(1) = r_buffer_2(r_proc_id)%my_real_array_1d(my_offset_3 + 3*(ijk-1)+1)
-                    n_normal(2) = r_buffer_2(r_proc_id)%my_real_array_1d(my_offset_3 + 3*(ijk-1)+2)
-                    n_normal(3) = r_buffer_2(r_proc_id)%my_real_array_1d(my_offset_3 + 3*(ijk-1)+3)
+                      n_normal(1) = r_buffer_2(r_proc_id)%my_real_array_1d(my_offset_3 + 3*(ijk-1)+1)
+                      n_normal(2) = r_buffer_2(r_proc_id)%my_real_array_1d(my_offset_3 + 3*(ijk-1)+2)
+                      n_normal(3) = r_buffer_2(r_proc_id)%my_real_array_1d(my_offset_3 + 3*(ijk-1)+3)
 
-                    n_vconvexity(1) = r_buffer_2(r_proc_id)%my_real_array_1d(my_offset_7 + 3*(ijk-1)+1)
-                    n_vconvexity(2) = r_buffer_2(r_proc_id)%my_real_array_1d(my_offset_7 + 3*(ijk-1)+2)
-                    n_vconvexity(3) = r_buffer_2(r_proc_id)%my_real_array_1d(my_offset_7 + 3*(ijk-1)+3)
+                      n_vconvexity(1) = r_buffer_2(r_proc_id)%my_real_array_1d(my_offset_7 + 3*(ijk-1)+1)
+                      n_vconvexity(2) = r_buffer_2(r_proc_id)%my_real_array_1d(my_offset_7 + 3*(ijk-1)+2)
+                      n_vconvexity(3) = r_buffer_2(r_proc_id)%my_real_array_1d(my_offset_7 + 3*(ijk-1)+3)
 
-                    ierror = -1
-                    call c_hash_find( segment_hash_id,n_segment_id+ &
-                          shoot_struct%shift_interface2(list_new_segment(permutation(i),5)) ,ierror ) ! check if "n_segment id" is already in the hash table
-                    if(ierror==-1) then  ! no --> need to add it
-                      seg_id = seg_id + 1
-                      call c_hash_insert( segment_hash_id,n_segment_id+  &
+                      ierror = -1
+                      call c_hash_find( segment_hash_id,n_segment_id+ &
+                            shoot_struct%shift_interface2(list_new_segment(permutation(i),5)) ,ierror ) ! check if "n_segment id" is already in the hash table
+                      if(ierror==-1) then  ! no --> need to add it
+                        seg_id = seg_id + 1
+                        call c_hash_insert( segment_hash_id,n_segment_id+  &
                               shoot_struct%shift_interface2(list_new_segment(permutation(i),5)),seg_id )
-                      n_seg_id = seg_id
-                    else
-                      n_seg_id = ierror
-                    endif
+                        n_seg_id = seg_id
+                      else
+                        n_seg_id = ierror
+                      endif
 
                     ! -------
-                    if(segment_id/=n_segment_id.and.already_a_neighbour==0.and.segment_pair(n_seg_id,n_iedge_id,1)==0) then
-                      call get_segment_criteria( convexity,normal,n_vconvexity )
-                      call get_segment_criteria( my_criteria,v_convexity,n_vconvexity )
+                      if(segment_id/=n_segment_id.and.already_a_neighbour==0.and.segment_pair(n_seg_id,n_iedge_id,1)==0) then
+                        call get_segment_criteria( convexity,normal,n_vconvexity )
+                        call get_segment_criteria( my_criteria,v_convexity,n_vconvexity )
 
-                      if(my_criteria >criteria(new_segment_id(i),my_iedge)) then
+                        if(my_criteria >criteria(new_segment_id(i),my_iedge)) then
 
-                        criteria(new_segment_id(i),my_iedge) = my_criteria
-
-                        segment_pair(new_segment_id(i),my_iedge,1) = n_segment_id
-                        segment_pair(new_segment_id(i),my_iedge,2) = r_proc_id
-                        segment_pair(new_segment_id(i),my_iedge,3) = n_seg_id
-                        segment_pair(new_segment_id(i),my_iedge,4) = n_iedge_id
-                        segment_pair(new_segment_id(i),my_iedge,5) = local_n_segment_id
-
-                      else if(my_criteria==criteria(new_segment_id(i),my_iedge)) then
-                        if(n_segment_id<segment_pair(new_segment_id(i),my_iedge,1)) then
                           criteria(new_segment_id(i),my_iedge) = my_criteria
 
                           segment_pair(new_segment_id(i),my_iedge,1) = n_segment_id
@@ -425,14 +406,31 @@
                           segment_pair(new_segment_id(i),my_iedge,4) = n_iedge_id
                           segment_pair(new_segment_id(i),my_iedge,5) = local_n_segment_id
 
+                        else if(my_criteria==criteria(new_segment_id(i),my_iedge)) then
+                          if(n_segment_id<segment_pair(new_segment_id(i),my_iedge,1)) then
+                            criteria(new_segment_id(i),my_iedge) = my_criteria
+
+                            segment_pair(new_segment_id(i),my_iedge,1) = n_segment_id
+                            segment_pair(new_segment_id(i),my_iedge,2) = r_proc_id
+                            segment_pair(new_segment_id(i),my_iedge,3) = n_seg_id
+                            segment_pair(new_segment_id(i),my_iedge,4) = n_iedge_id
+                            segment_pair(new_segment_id(i),my_iedge,5) = local_n_segment_id
+
+                          end if
                         end if
+
                       end if
-
-                    end if
                     ! -------
-                  end do
+                    end do
 
-                  if(segment_pair(new_segment_id(i),my_iedge,1) /= 0) then
+
+
+                  end if
+                  r_address = r_address + 7+13*nb_r_connected_segment
+                end do
+              end do
+
+              if(segment_pair(new_segment_id(i),my_iedge,1) /= 0) then
                     n_seg_id=segment_pair(new_segment_id(i),my_iedge,3) 
                     n_iedge_id = segment_pair(new_segment_id(i),my_iedge,4)
                     criteria(n_seg_id,n_iedge_id) = criteria(new_segment_id(i),my_iedge)
@@ -442,12 +440,8 @@
                     segment_pair(n_seg_id,n_iedge_id,3) = new_segment_id(i)
                     segment_pair(n_seg_id,n_iedge_id,4) = my_iedge
                     segment_pair(n_seg_id,n_iedge_id,5) = local_segment_id
-                  endif
-
-                end if
-                r_address = r_address + 7+13*nb_r_connected_segment
-              end do
-            end do
+              endif
+            endif
             ! ---------------------c
           end do
           ! --------------------------
