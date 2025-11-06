@@ -1764,7 +1764,7 @@ C--------------------
        ENDIF
        K = K + 1 + NBC
       ENDDO
-      WRITE(IIN,'(I8)') LOWMACH_OPT
+      ALE%GLOBAL%HLLC_LOWMACH = LOWMACH_OPT
 
 C--------------------------
 C     /DEL
