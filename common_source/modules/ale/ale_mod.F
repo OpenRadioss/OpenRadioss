@@ -205,6 +205,7 @@ C-----------------------------------------------
         TYPE ALE_GLOBAL_
           INTEGER :: NALENOVS
           INTEGER :: ICAA
+          INTEGER :: HLLC_LOWMACH
           INTEGER :: INCOMP
           INTEGER :: ISFINT
           INTEGER :: I_DT_NODA_ALE_ON
@@ -293,6 +294,7 @@ C-----------------------------------------------
           !---ALE%GLOBAL
           this%GLOBAL%NALENOVS = 0
           this%GLOBAL%ICAA = 0
+          this%GLOBAL%HLLC_LOWMACH = 0
           this%GLOBAL%INCOMP = 0
           this%GLOBAL%ISFINT = 3
           this%GLOBAL%I_DT_NODA_ALE_ON = 0

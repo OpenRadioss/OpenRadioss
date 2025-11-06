@@ -228,7 +228,7 @@ C-----------------------------------------------
      .   NFVMODI,IOK, ALEStrL(0:8), NALELINK0, GR_ID,
      .   NALELK_starter, uID, NALELK_removed, JALE,USERL_COUNT,
      .   IDEL2,IS,
-     .   STEXT1,MULTIREST1,NLPRI1,LOWMACH_OPT,IERROR,
+     .   STEXT1,MULTIREST1,NLPRI1,IERROR,
      .   NINTERSKID,IVOLU,IFV,IFV_TYPE,ISTATG_P,
      .   K3,K4,K5,K6,K7,K8,K9,NINEFRICG,NS,NI,NPARTOF,IFT,ILT,K10,K11,JJ,DTFCT,Ok
 
@@ -272,7 +272,6 @@ C-----------------------------------------------
       READ (IIN,'(5F16.0)')(DTH1(I),I=1,5)
       READ (IIN,'(4F16.0)')(DTH1(I+5),I=1,4)
       READ (IIN,'(6F10.0)')ALP,GAM,CV1,CV2,CV3,VOLM
-      READ (IIN,'(I8)') LOWMACH_OPT
       READ (IIN,'(10I8)') NSLIOF,NELSOF,NELQOF,NELCOF,NELTOF,NELPOF,NELROF,NELTGOF,NSLIOFN,NSLIOFS
       READ (IIN,'(I8)') NSPHOF
       READ (IIN,'(4I8)') NALEOF,NEULEROF,NTHERMOF,NPARTOF
@@ -939,7 +938,7 @@ C----------------------------------------
            Label8='2ND-ORDER'
          ENDIF
          MULTI_FVM%LOWMACH_OPT = .FALSE.
-         IF (LOWMACH_OPT == 1 .AND. MULTI_FVM%IS_USED) THEN
+         IF (ALE%GLOBAL%HLLC_LOWMACH == 1 .AND. MULTI_FVM%IS_USED) THEN
             MULTI_FVM%LOWMACH_OPT = .TRUE.
          ENDIF
          ALEform=(/'DONEA           ','DISP            ','SPRING          ', 'ZERO            ',
