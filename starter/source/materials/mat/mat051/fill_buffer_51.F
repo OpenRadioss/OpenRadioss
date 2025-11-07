@@ -321,6 +321,14 @@ C-----------------------------------------------
                  PSH    = PM_(88)
                  T0     = PM_(79)
                CASE(18) !18: /EOS/LINEAR
+                 IF(MAT_PARAM(INTERNAL_ID)%MULTIMAT%pEOS(I)%EOS%NUPARAM == 0)THEN
+                   !associate linear eos by default
+                   MAT_PARAM(INTERNAL_ID)%MULTIMAT%pEOS(I)%EOS%TITLE = 'Default Linear EoS'
+                   MAT_PARAM(INTERNAL_ID)%MULTIMAT%pEOS(I)%EOS%NUPARAM = 2
+                   ALLOCATE(MAT_PARAM(INTERNAL_ID)%MULTIMAT%pEOS(I)%EOS%UPARAM(2))
+                   MAT_PARAM(INTERNAL_ID)%MULTIMAT%pEOS(I)%EOS%UPARAM(1) = PM_(104) !P0
+                   MAT_PARAM(INTERNAL_ID)%MULTIMAT%pEOS(I)%EOS%UPARAM(2) = PM_(32)  !bulk modulus
+                 ENDIF
                  RHO    = PM_(1)
                  E0     = ZERO
                  C0     = MAT_PARAM(INTERNAL_ID)%MULTIMAT%pEOS(I)%EOS%UPARAM(1)
