@@ -322,8 +322,8 @@ c
                     WA(JJ) = ZERO              
                   ENDIF                        
                 ELSE  ! NPG > 1
-                  DO IR=1,NPTR                                                         
-                    DO IS=1,NPTS 
+                  DO IS=1,NPTS 
+                    DO IR=1,NPTR                                                         
                       LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,1)
                       IPG = NPTR*(IS-1) + IR
                       K = (IPG-1)*NEL*5
@@ -646,6 +646,7 @@ c
                   CALL TAB_STRS_TXT50(WAP0(1),9,J,SIZP0,3)
                   CALL TAB_STRS_TXT50(WAP0(10),4,J,SIZP0,4)
                 ENDIF
+                J = J + 13
               ENDDO
             ELSE
               DO IT=1,NPT
@@ -840,10 +841,8 @@ c
                     WA(JJ) = ZERO              
                   ENDIF                        
               ELSE                                              
-                  DO IR=1,NPTR                                                         
-                    DO IS=1,NPTS 
-                      LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,1)
-                      IPG = NPTR*(IS-1) + IR
+                  DO IPG=1,NPG                                     
+                      LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IPG,1,1)
                       K = (IPG-1)*NEL*5
 C                      
                       TENS(1:5) = GBUF%FORPG(K+KK(1:5)+I)
@@ -855,7 +854,7 @@ C
 c
                       JJ = JJ + 1
                       IF (GBUF%G_PLA > 0) THEN    
-                  WA(JJ) = LBUF%PLA(I)
+                        WA(JJ) = LBUF%PLA(I)
                       ELSE                         
                         WA(JJ) = ZERO              
                       ENDIF                        
@@ -867,7 +866,6 @@ c
                        JJ = JJ + 1                                      
                        WA(JJ) = TENS(J)             
                       END DO
-                    ENDDO                                                               
                   ENDDO
               ENDIF  !  IF (MLW == 0 .or. MLW == 13)
             ELSE ! MPT > 0
@@ -1045,6 +1043,7 @@ C
                   CALL TAB_STRS_TXT50(WAP0(1),9,J,SIZP0,3)
                   CALL TAB_STRS_TXT50(WAP0(10),4,J,SIZP0,4)
                 ENDIF
+                J = J + 13
               ENDDO
             ELSE
               DO IT=1,NPT

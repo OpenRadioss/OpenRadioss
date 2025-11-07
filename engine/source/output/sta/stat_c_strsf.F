@@ -260,8 +260,8 @@ c
                   JJ = JJ + 1                                
                   WA(JJ) = GBUF%MOM(KK(3)+I)             
                 ELSE  ! NPG > 1
-                  DO IR=1,NPTR                                                         
-                    DO IS=1,NPTS 
+                  DO IS=1,NPTS 
+                    DO IR=1,NPTR                                                         
                       LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,1)
                       IPG = NPTR*(IS-1) + IR
                       K = (IPG-1)*NEL*5
@@ -602,6 +602,7 @@ c
                   CALL TAB_STRS_TXT50(WAP0(1),5,J,SIZP0,5)
                   CALL TAB_STRS_TXT50(WAP0(6),4,J,SIZP0,4)
                 ENDIF
+                J = J + 9
               ENDDO
             ELSE
               IF (IZIPSTRS == 0) THEN
@@ -922,6 +923,7 @@ C
                   CALL TAB_STRS_TXT50(WAP0(1),5,J,SIZP0,5)
                   CALL TAB_STRS_TXT50(WAP0(6),4,J,SIZP0,4)
                 ENDIF
+                J = J + 9
               ENDDO
             ELSE
               IF (IZIPSTRS == 0) THEN
