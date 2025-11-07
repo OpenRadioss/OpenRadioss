@@ -133,8 +133,9 @@ C     REAL
      .   GAP,
      .   XMAXL, YMAXL, ZMAXL, XMINL, YMINL, ZMINL, GAPMIN, GAPMAX,DRAD,
      .   C_MAXL,PMAX_GAP,VMAXDT,MARGE,TZINF,SX,SY,SZ,SX2,SY2,SZ2,DGAPLOAD,
-     .   CURV_MAX(NRTM_T),BMINMA_OLD(6),BGAPEMX,BSAV(6)
-      INTEGER :: NMN,NRTM,NSN,NTY
+     .   BMINMA_OLD(6),BGAPEMX,BSAV(6)
+      my_real, dimension(:), allocatable :: CURV_MAX
+      INTEGER :: NMN,NRTM,NSN,NTY,SSHIFT_ML
       logical :: need_computation
 C-----------------------------------------------
       ! --------------
@@ -142,6 +143,7 @@ C-----------------------------------------------
       call check_sorting_criteria( need_computation,nin,npari,nspmd,  
      .                             itask,ipari(1,nin),tt,intbuf_tab )
       if( .not.need_computation ) return
+      allocate(curv_max(nrtm_t)     )
       ! --------------
       I_MEM = 0
 !$OMP SINGLE
@@ -262,6 +264,7 @@ C
 C -------------------------------------------------------------
 C     Bounds of the domains                                         
 C -------------------------------------------------------------
+      
       CALL I7XSAVE(
      1       X            ,INTBUF_TAB%NSV,INTBUF_TAB%MSR,NSN ,NMN     ,
      2       ITASK        ,INTBUF_TAB%XSAV,XMINL      ,YMINL ,ZMINL   ,
@@ -408,6 +411,8 @@ C
 C     NCONT additional candidates (if all secondary nodes are already impacted, cf i25optcd)
       MULTIMP = IPARI(23,NIN)
       MULNSN  = INTBUF_TAB%S_CAND_N - NCONT
+      SSHIFT_ML = SSHIFT
+      IF(SSHIFT_ML > INTBUF_TAB%S_GAP_ML) SSHIFT_ML = 0 
       CALL I25BUCE(
      1 X      ,V           ,INTBUF_TAB%IRECTM(1+4*SSHIFT),INTBUF_TAB%NSV,
      +                                                 INTBUF_TAB%STFNS,
@@ -419,7 +424,7 @@ C     NCONT additional candidates (if all secondary nodes are already impacted, 
      7 I_MEM  ,INTBUF_TAB%PENE_OLD,ITAB          ,INTBUF_TAB%NBINFLG,INTBUF_TAB%MBINFLG,
      8 ILEV   ,INTBUF_TAB%MSEGTYP24,
      9 FLAGREMN,INTBUF_TAB%KREMNODE(1+2*SSHIFT),INTBUF_TAB%REMNODE,
-     A IGAP   ,INTBUF_TAB%GAP_SL,INTBUF_TAB%GAP_ML(1+SSHIFT),ICODT,ISKEW   ,
+     A IGAP   ,INTBUF_TAB%GAP_SL,INTBUF_TAB%GAP_ML(1+SSHIFT_ML),ICODT,ISKEW   ,
      B DRAD   ,DGAPLOAD    )
 C
 C Upgrade MultiMP
@@ -471,9 +476,11 @@ C--------------------------------------------------------------
 
       END IF
 C
+#include "lockon.inc"
       I_MEME(1:2)=0
       I_MEMG_E = 0
       I_MEMG_S = 0
+#include "lockoff.inc"
 C
  140  continue
 C
@@ -584,5 +591,6 @@ C
         ENDIF
 C
       CALL MY_BARRIER
+      if(allocated(curv_max)) deallocate(curv_max)
       RETURN
       END

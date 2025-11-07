@@ -251,7 +251,8 @@ C         candidates for sliding (IRTLM /= 0 and IRTLM /= MG) & non previously i
         END IF
       ENDDO
 C
-C     CALL MY_BARRIER
+C     barrier is needed, because will IRTLM be updated in i25dst3_22 
+      CALL MY_BARRIER
 C
       IF (DEBUG(3)>=1) THEN
           NB_DST2 = NB_DST2 + I_STOK
