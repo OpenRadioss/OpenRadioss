@@ -40,7 +40,6 @@ int ConvertUtils::GetComponentType(const EntityRead& compHRead) const
 {
     int retVal = -2;
     SelectionElementRead elems(compHRead);
-
     while (elems.Next())
     {
         size_t startPos = std::string("*ELEMENT_").length();

@@ -100,8 +100,6 @@ namespace sdiD2R
 
         void p_ConvertMatL57(const sdi::EntityRead& dynaMat, sdiString& destCard, std::multimap<std::string, std::string>& attribMap, sdi::HandleEdit& radMat);
 
-        void p_ConvertMatL58(const sdi::EntityRead& dynaMat, sdiString& destCard, std::multimap<std::string, std::string>& attribMap, sdi::HandleEdit& radMat);
-
         void p_ConvertMatL61(const sdi::EntityRead& dynaMat, sdiString& destCard, std::multimap<std::string, std::string>& attribMap, sdi::HandleEdit& radMat);
 
         void p_ConvertMatL66(const sdi::EntityRead& dynaMat, sdiString& destCard, std::multimap<std::string, std::string>& attribMap, sdi::HandleEdit& radMat);
@@ -134,6 +132,8 @@ namespace sdiD2R
         void p_ConvertMatL99(const sdi::EntityRead& dynaMat, sdiString& destCard, sdi::HandleEdit& radMat);
 
         void p_ConvertMatL100(const sdi::EntityRead& dynaMat, sdiString &destCard, std::multimap<std::string, std::string>& attribMap, sdi::HandleEdit& radMat);
+
+        void p_ConvertMatL110(const sdi::EntityRead& dynaMat, sdiString& destCard, std::multimap<std::string, std::string>& attribMap, sdi::HandleEdit& radMat);
 
         void p_ConvertMatL111(const sdi::EntityRead& dynaMat, sdiString& destCard, std::multimap<std::string, std::string>& attribMap, sdi::HandleEdit& radMat);
 
