@@ -978,8 +978,6 @@
 !||    monotone_in_rate_signed_highfix   ../starter/source/materials/mat/mat088/hm_read_mat88.F90
 !||--- called by ------------------------------------------------------
 !||    hm_read_mat88                     ../starter/source/materials/mat/mat088/hm_read_mat88.F90
-!||--- calls      -----------------------------------------------------
-!||    light_edge_smooth                 ../starter/source/materials/mat/mat088/hm_read_mat88.F90
 !||--- uses       -----------------------------------------------------
 !||====================================================================
       subroutine monotone_in_rate_signed_highfix(                              &
@@ -1033,9 +1031,7 @@
 !      
         !< Small smoothing of edges to avoid local "steps"
 !||====================================================================
-!||    light_edge_smooth                 ../starter/source/materials/mat/mat088/hm_read_mat88.F90
-!||--- called by ------------------------------------------------------
-!||    monotone_in_rate_signed_highfix   ../starter/source/materials/mat/mat088/hm_read_mat88.F90
+!||    light_edge_smooth   ../starter/source/materials/mat/mat088/hm_read_mat88.F90
 !||====================================================================
         subroutine light_edge_smooth(n, y)
           implicit none
