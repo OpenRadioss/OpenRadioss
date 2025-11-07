@@ -4679,7 +4679,7 @@ C
                   CALL READ_I_C(LEDGE_FIE(I)%P,E_LEDGE_SIZE*LENR_EDGE)
                   IPARI(69,I) = LENR_EDGE
                   IF(INTFRIC > 0) THEN
-                     ALLOCATE(IPARTFRIC_FIE(I)%P(LENR),STAT=IERROR1)
+                     ALLOCATE(IPARTFRIC_FIE(I)%P(LENR_EDGE),STAT=IERROR1)
                      CALL READ_I_C(IPARTFRIC_FIE(I)%P,LENR_EDGE)
                   ENDIF
                   IF(IPARI(97,I) > 0) THEN
