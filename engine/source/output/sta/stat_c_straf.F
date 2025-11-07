@@ -272,6 +272,7 @@ C         Find the address in WAP0
                 CALL TAB_STRS_TXT50(WAP0(1),5,J,SIZP0,5)
                 CALL TAB_STRS_TXT50(WAP0(6),3,J,SIZP0,3)
               ENDIF
+              J = J + 8
             END DO
           END IF
         ENDDO        
@@ -459,6 +460,7 @@ C         Find the address in WAP0
                 CALL TAB_STRS_TXT50(WAP0(1),5,J,SIZP0,5)
                 CALL TAB_STRS_TXT50(WAP0(6),3,J,SIZP0,3)
               ENDIF
+              J = J + 8
             END DO
           END IF
 
