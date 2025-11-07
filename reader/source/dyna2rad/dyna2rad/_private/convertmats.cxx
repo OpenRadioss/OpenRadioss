@@ -366,9 +366,6 @@ void ConvertMat::p_ConvertMatBasedOnCard(const EntityRead& dynaMat, HandleEdit& 
         case 57:
             p_ConvertMatL57(dynaMat, destCard, attribMap, radMat);
             break;
-        case 58:
-            p_ConvertMatL58(dynaMat, destCard, attribMap, radMat);
-            break;
         case 61:
             p_ConvertMatL61(dynaMat, destCard, attribMap, radMat);
             break;
@@ -439,6 +436,9 @@ void ConvertMat::p_ConvertMatBasedOnCard(const EntityRead& dynaMat, HandleEdit& 
         case 105:
             p_ConvertMatL105(dynaMat, destCard, attribMap, radMat, matLawNum);
             break;
+        case 110:
+            p_ConvertMatL110(dynaMat, destCard, attribMap, radMat);
+            break;
         case 111:
             p_ConvertMatL111(dynaMat, destCard, attribMap, radMat);
             break;
@@ -463,7 +463,7 @@ void ConvertMat::p_ConvertMatBasedOnCard(const EntityRead& dynaMat, HandleEdit& 
         case 126:
             destCard = "/MAT/LAW50";
             attribMap = { {"RHO", "RHO_I"}, {"TSEF", "Eps_max11"}, {"TSEF","Eps_max22"}, {"TSEF", "Eps_max33"}, {"SSEF" , "Eps_max12"},
-                          {"SSEF" , "Eps_max23"}, {"SSEF" , "Eps_max31"} };
+                          {"SSEF" , "Eps_max23"}, {"SSEF" , "Eps_max31"}, {"E" , "ECOMP"}, {"PR" , "NU"}, {"SIGY" , "SIGY"}, {"VF" , "VCOMP"}};
             p_ConvertMatL26(dynaMat, radMat);
             break;
         case 138:
@@ -545,9 +545,10 @@ void ConvertMat::p_ConvertMatBasedOnCard(const EntityRead& dynaMat, HandleEdit& 
 
                 cnvrtUtil.Convert1To1(dynaMat, optionKey,  matnum, newOptionId);
                 
-                p_lsdynaModel->FindById(p_lsdynaModel->GetEntityType("*MAT"), newOptionId, radMat);
+                p_radiossModel->FindById(p_radiossModel->GetEntityType("/MAT"), newOptionId, radMat);
 
-                p_convertedMats.push_back(dynaMatId);
+                //p_convertedMats.push_back(dynaMatId);
+                p_convertedMats.push_back(newOptionId);
             }
             break;
         }
@@ -3185,12 +3186,37 @@ void ConvertMat::p_ConvertMatL54(const EntityRead& dynaMat, sdiString& destCard,
 
         EntityEdit radMatEntityEdit(p_radiossModel, radMat);
 
+        double lsdPFL = GetValue<double>(dynaMat, "PFL");
+        radMatEntityEdit.SetValue(sdiIdentifier("RATIO"), sdiValue(abs(lsdPFL)));
+
+        double lsdTFAIL = GetValue<double>(dynaMat, "TFAIL");
+        if (lsdTFAIL > 0.0 && lsdTFAIL < 1.0)
+        {
+            // Create /FAIL/GENE1 card
+            HandleEdit failgene1Edit;
+            p_radiossModel->CreateEntity(failgene1Edit, "/FAIL/GENE1", dynaMatName);
+            if (failgene1Edit.IsValid())
+            {
+                EntityEdit failgene1EntityEdit(p_radiossModel, failgene1Edit);
+
+                // Set material reference
+                failgene1EntityEdit.SetEntityHandle(sdiIdentifier("mat_id"), radMat);
+
+                // Set TFAIL value
+                failgene1EntityEdit.SetValue(sdiIdentifier("MAT_DTMIN"), sdiValue(lsdTFAIL));
+
+                // Add to conversion log
+                sdiConvert::SDIHandlReadList sourcemat = { {dynaMat.GetHandle()} };
+                sdiConvert::Convert::PushToConversionLog(std::make_pair(failgene1Edit, sourcemat));
+            }
+        }
+
         sdiStringList DynaRadAttrFunc({"LSD_LCXC","LSD_LCXT","LSD_LCYC","LSD_LCYT","LSD_LCSC"});
 
         sdiConvert::SDIHandlReadList sourcemat = { {dynaMat.GetHandle()} };
         EntityType radFunctEntType = p_radiossModel->GetEntityType("/FUNCT");
-    
-        for (int i = 0; i < 4; i++)
+
+        for (size_t i = 0; i < int(DynaRadAttrFunc.size()); i++)
         {
             HandleRead lcHandle;
             dynaMat.GetEntityHandle(sdiIdentifier(DynaRadAttrFunc[i]), lcHandle);
@@ -3273,107 +3299,6 @@ void ConvertMat::p_ConvertMatL57(const EntityRead& dynaMat, sdiString& destCard,
         p_ConvertUtils.CopyValue(dynaMat, radMatEntityEdit, "TC", "Tcut");
         p_ConvertUtils.CopyValue(dynaMat, radMatEntityEdit, "FAIL", "FAIL");
     }
-}
-
-void ConvertMat::p_ConvertMatL58(const EntityRead& dynaMat, sdiString& destCard, multimap<string, string>& attribMap, HandleEdit& radMat)
-{
-    sdiString dynaMatName = dynaMat.GetName();
-    unsigned int dynaMatId = dynaMat.GetId();
-    attribMap = { {"RHO", "RHO_I"}, {"EA", "E11"}, {"EB", "E22"}, {"PRBA", "NU12"}, {"GAB", "G12"}, {"GBC", "G23"}, {"GCA", "G31"},
-                  {"E11C", "EPS_1c1"}, {"E11T", "EPS_1t1"},{"E22C", "EPS_1c2"},{"E22T", "EPS_1t2"},};
-    destCard = "/MAT/LAW25"; 
-
-    if (matToPropsReferenceCount > 1)
-        p_radiossModel->CreateEntity(radMat, destCard, dynaMatName, p_ConvertUtils.GetDynaMaxEntityID(srcEntityType));
-    else
-        p_radiossModel->CreateEntity(radMat, destCard, dynaMatName, dynaMatId);
-
-    if (radMat.IsValid())
-    {
-         EntityEdit radMatEntityEdit(p_radiossModel, radMat);
-         radMatEntityEdit.SetValue(sdiIdentifier("Iform"), sdiValue(1));
-         p_ConvertUtils.SetExpressionValue(dynaMat, radMatEntityEdit, "SLIMT1 * XT ", "SIGMA_rst1");
-         p_ConvertUtils.SetExpressionValue(dynaMat, radMatEntityEdit, "SLIMC1 * XC ", "sig_rsc1");
-         p_ConvertUtils.SetExpressionValue(dynaMat, radMatEntityEdit, "SLIMT2 * YT ", "sig_rst2");
-         p_ConvertUtils.SetExpressionValue(dynaMat, radMatEntityEdit, "SLIMC2 * YC ", "sig_rsc2");
-         p_ConvertUtils.SetExpressionValue(dynaMat, radMatEntityEdit, "SLIMS * SC ", "sig_rst12");
-         radMatEntityEdit.SetValue(sdiIdentifier("n_12t"), sdiValue(0.75));
-         radMatEntityEdit.SetValue(sdiIdentifier("dmax"), sdiValue(0.9999));
-         p_ConvertUtils.SetExpressionValue(dynaMat, radMatEntityEdit, "E11C * 2 ", "EPS_2c1");
-         p_ConvertUtils.SetExpressionValue(dynaMat, radMatEntityEdit, "E11T * 2 ", "EPS_2t1");
-         p_ConvertUtils.SetExpressionValue(dynaMat, radMatEntityEdit, "E22C * 2 ", "EPS_2c2");
-         p_ConvertUtils.SetExpressionValue(dynaMat, radMatEntityEdit, "E22T * 2 ", "EPS_2t2");
-         p_ConvertUtils.SetExpressionValue(dynaMat, radMatEntityEdit, "ABS(ERODS)", "MAT_EPSF1");
-         p_ConvertUtils.SetExpressionValue(dynaMat, radMatEntityEdit, "ABS(ERODS)", "MAT_EPSF2");
-         p_ConvertUtils.SetExpressionValue(dynaMat, radMatEntityEdit, "ABS(ERODS) * 0.9 ", "MAT_EPST1");
-         p_ConvertUtils.SetExpressionValue(dynaMat, radMatEntityEdit, "ABS(ERODS) * 0.9 ", "MAT_EPST2");
-         p_ConvertUtils.SetExpressionValue(dynaMat, radMatEntityEdit, "ABS(ERODS) * 0.95", "MAT_EPSM1");
-         p_ConvertUtils.SetExpressionValue(dynaMat, radMatEntityEdit, "ABS(ERODS) * 0.95", "MAT_EPSM2");
-
-         sdiValue tempValue;
-
-         double lsdFS = 0.0;
-         tempValue = sdiValue(lsdFS);
-         dynaMat.GetValue(sdiIdentifier("FS"), tempValue);
-         tempValue.GetValue(lsdFS);
-
-         double lsdTAU1 = 0.0;
-         tempValue = sdiValue(lsdTAU1);
-         dynaMat.GetValue(sdiIdentifier("TAU1"), tempValue);
-         tempValue.GetValue(lsdTAU1);
-
-         double lsdGAMMA1 = 0.0;
-         tempValue = sdiValue(lsdGAMMA1);
-         dynaMat.GetValue(sdiIdentifier("GAMMA1"), tempValue);
-         tempValue.GetValue(lsdGAMMA1);
-
-         double lsdSC = 0.0;
-         tempValue = sdiValue(lsdSC);
-         dynaMat.GetValue(sdiIdentifier("SC"), tempValue);
-         tempValue.GetValue(lsdSC);
-
-         double lsdXC = 0.0;
-         tempValue = sdiValue(lsdXC);
-         dynaMat.GetValue(sdiIdentifier("XC"), tempValue);
-         tempValue.GetValue(lsdXC);
-
-         double lsdXT = 0.0;
-         tempValue = sdiValue(lsdXT);
-         dynaMat.GetValue(sdiIdentifier("XT"), tempValue);
-         tempValue.GetValue(lsdXT);
-
-         double lsdYC = 0.0;
-         tempValue = sdiValue(lsdYC);
-         dynaMat.GetValue(sdiIdentifier("YC"), tempValue);
-         tempValue.GetValue(lsdYC);
-
-         double lsdYT = 0.0;
-         tempValue = sdiValue(lsdYT);
-         dynaMat.GetValue(sdiIdentifier("YT"), tempValue);
-         tempValue.GetValue(lsdYT);
-
-         if((lsdFS == -1.0 || lsdFS == 1.0) &&  lsdTAU1 > 0.0 && lsdGAMMA1 > 0.0)
-         {
-           p_ConvertUtils.CopyValue(dynaMat, radMatEntityEdit, "TAU1", "sig_12yt");
-           p_ConvertUtils.SetExpressionValue(dynaMat, radMatEntityEdit, "(SC/TAU1-1.0)/(((SC-TAU1)*(GMS-GAMMA1)) ^ 0.75) ", "b_12t");
-         }
-         else
-         {
-           p_ConvertUtils.CopyValue(dynaMat, radMatEntityEdit, "SC", "sig_12yt");
-           radMatEntityEdit.SetValue(sdiIdentifier("b_12t"), sdiValue(0.0));
-         }
-         if(lsdSC == 0.0) radMatEntityEdit.SetValue(sdiIdentifier("sig_12yt"), sdiValue(1E10));
-         if(lsdXC == 0.0) radMatEntityEdit.SetValue(sdiIdentifier("sig_1yc"), sdiValue(1E10));
-         else p_ConvertUtils.CopyValue(dynaMat, radMatEntityEdit, "XC", "sig_1yc");
-         if(lsdXT == 0.0) radMatEntityEdit.SetValue(sdiIdentifier("sig_1yt"), sdiValue(1E10));
-         else p_ConvertUtils.CopyValue(dynaMat, radMatEntityEdit, "XT", "sig_1yt");
-         if(lsdYC == 0.0) radMatEntityEdit.SetValue(sdiIdentifier("sig_2yc"), sdiValue(1E10));
-         else p_ConvertUtils.CopyValue(dynaMat, radMatEntityEdit, "YC", "sig_2yc");
-         if(lsdYT == 0.0) radMatEntityEdit.SetValue(sdiIdentifier("sig_2yt"), sdiValue(1E10));
-         else p_ConvertUtils.CopyValue(dynaMat, radMatEntityEdit, "YT", "sig_2yt");
-
-         radMatEntityEdit.SetValue(sdiIdentifier("Ioff"), sdiValue(6));
-     }
 }
 
 void ConvertMat::p_ConvertMatL61(const EntityRead& dynaMat, sdiString& destCard, multimap<string, string>& attribMap, HandleEdit& radMat)
@@ -12521,4 +12446,21 @@ void ConvertMat::p_ConvertMatAddDamageGissmo()
         sdiConvert::SDIHandlReadList sourcehandleList = { {selMatAddDamageGissmo->GetHandle()} };
         sdiConvert::Convert::PushToConversionLog(std::make_pair(failTAB2HEdit, sourcehandleList));
     } // while (selMatAddDamageGissmo.Next())
+}
+
+void ConvertMat::p_ConvertMatL110(const EntityRead& dynaMat, sdiString& destCard, multimap<string, string>& attribMap, HandleEdit& radMat)
+{
+    destCard = "/MAT/LAW79";
+    sdiConvert::SDIHandlReadList sourcemat = { {dynaMat.GetHandle()} };
+    sdiString dynaMatName = dynaMat.GetName();
+    if (matToPropsReferenceCount > 1)
+        p_radiossModel->CreateEntity(radMat, destCard, dynaMat.GetName(), p_ConvertUtils.GetDynaMaxEntityID(srcEntityType));
+    else
+        p_radiossModel->CreateEntity(radMat, destCard, dynaMat.GetName(), dynaMat.GetId());
+
+    EntityEdit radmatEntityEdit(p_radiossModel, radMat);
+    attribMap = { {"Rho","MAT_RHO"}, {"LSD_G","G"}, {"LSD_A","MAT_A"}, {"LSD_B1","MAT_B"}, {"LSD_C","MAT_C"}, {"LSD_MAT_M","MAT_M"}, {"LSD_MAT_N","MAT_N"},
+                  {"LSD_MAT110_EPSI","MAT_Epsilon_F"}, {"LSD_MAT52_T","MAT_T0"}, {"LSD_MAT110_SFMAX","MAT_SIG1max_t"}, {"LSD_MAT110_HEL","MAT_E"},
+                  {"LSD_MAT110_PHEL","MAT_EPS"}, {"LSD_BETA","MAT_Beta"}, {"LSDYNA_D1","D1"}, {"LSDYNA_D2","D2"}, {"LSD_MATT2_K1","K1"}, {"LSD_MATT2_K2","K2"},
+                  {"LSD_MATT2_K3","K3"} };
 }

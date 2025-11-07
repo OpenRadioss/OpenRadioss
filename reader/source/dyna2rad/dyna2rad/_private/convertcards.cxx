@@ -215,23 +215,26 @@ void sdiD2R::ConvertCard::p_ConvertCtrlTimeStep()
             }
         }
 
-        HandleRead imsclHandle;
-        selectCtrlTS->GetEntityHandle(sdiIdentifier("IMSCL"), imsclHandle);
-        if (imsclHandle.IsValid())
+
+        int IMSCLOptFlag = GetValue<int>(*selectCtrlTS, "IMSCLOptFlag");
+        if(IMSCLOptFlag == 3)
         {
-            EntityRead imsclRead(p_lsdynaModel, imsclHandle);
-            unsigned int grPartId = imsclHandle.GetId(p_lsdynaModel);
+            sdiValueEntity LSD_IMSCL = GetValue<sdiValueEntity>(*selectCtrlTS, "LSD_IMSCL");
+            unsigned int grPartId=LSD_IMSCL.GetId();
 
-            HandleEdit amsHandleEdit;
-            p_radiossModel->CreateEntity(amsHandleEdit, "/AMS");
-            amsHandleEdit.SetValue(p_radiossModel, sdiIdentifier("GRPART_ID"), sdiValue(sdiValueEntity(radSetType, 
-                DynaToRad::GetRadiossSetIdFromLsdSet(imsclRead.GetId(), "*SET_PART" ))));
+            if(grPartId > 0)
+            {
+                HandleEdit amsHandleEdit;
+                p_radiossModel->CreateEntity(amsHandleEdit, "/AMS");
+                amsHandleEdit.SetValue(p_radiossModel, sdiIdentifier("GRPART_ID"), sdiValue(sdiValueEntity(radSetType, 
+                    DynaToRad::GetRadiossSetIdFromLsdSet(grPartId, "*SET_PART" ))));          
 
-            HandleEdit dtAmsHandleEdit;
-            p_radiossModel->CreateEntity(dtAmsHandleEdit, "/DT/AMS");
+                HandleEdit dtAmsHandleEdit;
+                p_radiossModel->CreateEntity(dtAmsHandleEdit, "/DT/AMS");
 
-            dtAmsHandleEdit.SetValue(p_radiossModel, sdiIdentifier("SCALE"), sdiValue(0.67));
-            dtAmsHandleEdit.SetValue(p_radiossModel, sdiIdentifier("Tmin"), sdiValue(abs(lsdDT2MS)));
+                dtAmsHandleEdit.SetValue(p_radiossModel, sdiIdentifier("SCALE"), sdiValue(0.67));
+                dtAmsHandleEdit.SetValue(p_radiossModel, sdiIdentifier("Tmin"), sdiValue(abs(lsdDT2MS)));
+            }
         }
         
 
@@ -246,7 +249,7 @@ void sdiD2R::ConvertCard::p_ConvertCtrlTimeStep()
                 {
                     EntityEdit dtBrickEdit(p_radiossModel, dtBrickDelHandleEdit);
                     dtBrickEdit.SetValue(sdiIdentifier("ENG_DT_BRICK_DEL"), sdiValue(1));
-                    dtBrickEdit.SetValue(sdiIdentifier("FScale22"), sdiValue(0.67));
+                    dtBrickEdit.SetValue(sdiIdentifier("FScale22"), sdiValue(lsdTSSFAC));
                     dtBrickEdit.SetValue(sdiIdentifier("Tmin2"), sdiValue(lsdTSLIMIT));
                     sdiConvert::Convert::PushToConversionLog(std::make_pair(dtBrickDelHandleEdit, sourceCards));
                 }
@@ -261,7 +264,7 @@ void sdiD2R::ConvertCard::p_ConvertCtrlTimeStep()
                 {
                     EntityEdit dtShellEdit(p_radiossModel, dtShellDelHandleEdit);
                     dtShellEdit.SetValue(sdiIdentifier("ENG_DT_SHELL_DEL"), sdiValue(1));
-                    dtShellEdit.SetValue(sdiIdentifier("FScale22"), sdiValue(0.67));
+                    dtShellEdit.SetValue(sdiIdentifier("FScale22"), sdiValue(lsdTSSFAC));
                     dtShellEdit.SetValue(sdiIdentifier("Tmin2"), sdiValue(lsdTSLIMIT));
                     sdiConvert::Convert::PushToConversionLog(std::make_pair(dtShellDelHandleEdit, sourceCards));
                 }
@@ -276,7 +279,7 @@ void sdiD2R::ConvertCard::p_ConvertCtrlTimeStep()
                 {
                     EntityEdit dtBrickEdit(p_radiossModel, dtBrickDelHandleEdit);
                     dtBrickEdit.SetValue(sdiIdentifier("ENG_DT_BRICK_DEL"), sdiValue(1));
-                    dtBrickEdit.SetValue(sdiIdentifier("FScale22"), sdiValue(0.67));
+                    dtBrickEdit.SetValue(sdiIdentifier("FScale22"), sdiValue(lsdTSSFAC));
                     dtBrickEdit.SetValue(sdiIdentifier("Tmin2"), sdiValue(lsdTSLIMIT));
                     sdiConvert::Convert::PushToConversionLog(std::make_pair(dtBrickDelHandleEdit, sourceCards));
                 }
@@ -287,7 +290,7 @@ void sdiD2R::ConvertCard::p_ConvertCtrlTimeStep()
                 {
                     EntityEdit dtShellEdit(p_radiossModel, dtShellDelHandleEdit);
                     dtShellEdit.SetValue(sdiIdentifier("ENG_DT_SHELL_DEL"), sdiValue(1));
-                    dtShellEdit.SetValue(sdiIdentifier("FScale22"), sdiValue(0.67));
+                    dtShellEdit.SetValue(sdiIdentifier("FScale22"), sdiValue(lsdTSSFAC));
                     dtShellEdit.SetValue(sdiIdentifier("Tmin2"), sdiValue(lsdTSLIMIT));
                     sdiConvert::Convert::PushToConversionLog(std::make_pair(dtShellDelHandleEdit, sourceCards));
                 }

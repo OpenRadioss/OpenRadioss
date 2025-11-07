@@ -56,7 +56,7 @@ void sdiD2R::ConvertControlVolume::ConvertEntities()
 void sdiD2R::ConvertControlVolume::ConvertAirbagPressureVolume()
 {
     EntityType radFunctType = p_radiossModel->GetEntityType("/FUNCT");
-    EntityType radSurfType = p_radiossModel->GetEntityType("/SURF");
+    EntityType radSetType = p_radiossModel->GetEntityType("/SET/GENERAL");
 
     SelectionRead selAirbagPressure(p_lsdynaModel, "*AIRBAG_SIMPLE_PRESSURE_VOLUME");
     while (selAirbagPressure.Next())
@@ -90,11 +90,11 @@ void sdiD2R::ConvertControlVolume::ConvertAirbagPressureVolume()
 
             if(lsdSSTYP == 0)
             {
-                radAirbagEdit.SetValue(sdiIdentifier("surf_IDex"), sdiValue(sdiValueEntity(radSurfType, DynaToRad::GetRadiossSetIdFromLsdSet(surfSet.GetId(), "*SET_SEGMENT"))));
+                radAirbagEdit.SetValue(sdiIdentifier("surf_IDex"), sdiValue(sdiValueEntity(radSetType, DynaToRad::GetRadiossSetIdFromLsdSet(surfSet.GetId(), "*SET_SEGMENT"))));
             }
             else
             {
-                radAirbagEdit.SetValue(sdiIdentifier("surf_IDex"), sdiValue(sdiValueEntity(radSurfType, DynaToRad::GetRadiossSetIdFromLsdSet(surfSet.GetId(), "*SET_PART"))));
+                radAirbagEdit.SetValue(sdiIdentifier("surf_IDex"), sdiValue(sdiValueEntity(radSetType, DynaToRad::GetRadiossSetIdFromLsdSet(surfSet.GetId(), "*SET_PART"))));
             }
 
             tempValue = sdiValue(lsdBETA);
@@ -153,7 +153,7 @@ void sdiD2R::ConvertControlVolume::ConvertAirbagSimpleModel()
     EntityType radFunctType =  p_radiossModel->GetEntityType("/FUNCT");
     EntityType radMatType = p_radiossModel->GetEntityType("/MAT");
     EntityType radPropType = p_radiossModel->GetEntityType("/PROP");
-    EntityType radSurfType = p_radiossModel->GetEntityType("/SURF");
+    EntityType radSetType = p_radiossModel->GetEntityType("/SET/GENERAL");
     SelectionRead selSimpleAirbag(p_lsdynaModel, "*AIRBAG_SIMPLE_AIRBAG_MODEL");
     while (selSimpleAirbag.Next())
     {
@@ -212,11 +212,11 @@ void sdiD2R::ConvertControlVolume::ConvertAirbagSimpleModel()
 
         if(lsdSSTYP == 0)
         {
-            radAirbagEdit.SetValue(sdiIdentifier("surf_IDex"), sdiValue(sdiValueEntity(radSurfType, DynaToRad::GetRadiossSetIdFromLsdSet(surfSet.GetId(), "*SET_SEGMENT"))));
+            radAirbagEdit.SetValue(sdiIdentifier("surf_IDex"), sdiValue(sdiValueEntity(radSetType, DynaToRad::GetRadiossSetIdFromLsdSet(surfSet.GetId(), "*SET_SEGMENT"))));
         }
         else
         {
-            radAirbagEdit.SetValue(sdiIdentifier("surf_IDex"), sdiValue(sdiValueEntity(radSurfType, DynaToRad::GetRadiossSetIdFromLsdSet(surfSet.GetId(), "*SET_PART"))));
+            radAirbagEdit.SetValue(sdiIdentifier("surf_IDex"), sdiValue(sdiValueEntity(radSetType, DynaToRad::GetRadiossSetIdFromLsdSet(surfSet.GetId(), "*SET_PART"))));
         }
             
         radAirbagEdit.SetValue(sdiIdentifier("Pext"), sdiValue(lsdPE));
@@ -357,7 +357,7 @@ void sdiD2R::ConvertControlVolume::ConvertAirbagSimpleModel()
 
 void sdiD2R::ConvertControlVolume::ConvertAirbagAdiabaticGasModel()
 {
-    EntityType radSurfType = p_radiossModel->GetEntityType("/SURF");
+    EntityType radSetType = p_radiossModel->GetEntityType("/SET/GENERAL");
     SelectionRead selAirbagAdiabaticGasModel(p_lsdynaModel, "*AIRBAG_ADIABATIC_GAS_MODEL");
     while (selAirbagAdiabaticGasModel.Next())
     {
@@ -402,11 +402,11 @@ void sdiD2R::ConvertControlVolume::ConvertAirbagAdiabaticGasModel()
 
             if(lsdSSTYP == 0)
             {
-                radAirbagEdit.SetValue(sdiIdentifier("surf_IDex"), sdiValue(sdiValueEntity(radSurfType, DynaToRad::GetRadiossSetIdFromLsdSet(surfSet.GetId(), "*SET_SEGMENT"))));
+                radAirbagEdit.SetValue(sdiIdentifier("surf_IDex"), sdiValue(sdiValueEntity(radSetType, DynaToRad::GetRadiossSetIdFromLsdSet(surfSet.GetId(), "*SET_SEGMENT"))));
             }
             else
             {
-                radAirbagEdit.SetValue(sdiIdentifier("surf_IDex"), sdiValue(sdiValueEntity(radSurfType, DynaToRad::GetRadiossSetIdFromLsdSet(surfSet.GetId(), "*SET_PART"))));
+                radAirbagEdit.SetValue(sdiIdentifier("surf_IDex"), sdiValue(sdiValueEntity(radSetType, DynaToRad::GetRadiossSetIdFromLsdSet(surfSet.GetId(), "*SET_PART"))));
             }
 //
             sdiConvert::SDIHandlReadList sourceConVol = { {selAirbagAdiabaticGasModel->GetHandle()} };
@@ -450,7 +450,7 @@ void sdiD2R::ConvertControlVolume::ConvertAirbagLoadCurve()
 {
     SelectionRead selAirbagLoadFunc(p_lsdynaModel, "*AIRBAG_LOAD_CURVE");
     EntityType radFunctType = p_radiossModel->GetEntityType("/FUNCT");
-    EntityType radSurfType = p_radiossModel->GetEntityType("/SURF");
+    EntityType radSetType = p_radiossModel->GetEntityType("/SET/GENERAL");
 
     HandleEdit functEdit;
 
@@ -473,11 +473,11 @@ void sdiD2R::ConvertControlVolume::ConvertAirbagLoadCurve()
 
         if(lsdSSTYP == 0)
         {
-            radAirbagEdit.SetValue(sdiIdentifier("surf_IDex"), sdiValue(sdiValueEntity(radSurfType, DynaToRad::GetRadiossSetIdFromLsdSet(surfSet.GetId(), "*SET_SEGMENT"))));
+            radAirbagEdit.SetValue(sdiIdentifier("surf_IDex"), sdiValue(sdiValueEntity(radSetType, DynaToRad::GetRadiossSetIdFromLsdSet(surfSet.GetId(), "*SET_SEGMENT"))));
         }
         else
         {
-            radAirbagEdit.SetValue(sdiIdentifier("surf_IDex"), sdiValue(sdiValueEntity(radSurfType, DynaToRad::GetRadiossSetIdFromLsdSet(surfSet.GetId(), "*SET_PART"))));
+            radAirbagEdit.SetValue(sdiIdentifier("surf_IDex"), sdiValue(sdiValueEntity(radSetType, DynaToRad::GetRadiossSetIdFromLsdSet(surfSet.GetId(), "*SET_PART"))));
         }
 
         double LSD_STIME = 0.0;
@@ -2795,7 +2795,7 @@ void sdiD2R::ConvertControlVolume::ConvertAirbagHybrid()
 {
     SelectionRead selAirbagHybrid(p_lsdynaModel, "*AIRBAG_HYBRID");
 
-    EntityType radSurfType = p_radiossModel->GetEntityType("/SURF");
+    EntityType radSetType = p_radiossModel->GetEntityType("/SET/GENERAL");
     EntityType radMatType = p_radiossModel->GetEntityType("/MAT");
     EntityType radPropType = p_radiossModel->GetEntityType("/PROP");
     EntityType radSensorType = p_radiossModel->GetEntityType("/SENSOR");
@@ -2825,11 +2825,11 @@ void sdiD2R::ConvertControlVolume::ConvertAirbagHybrid()
 
          if(lsdSIDTYP == 0)
         {
-            radAirbagEdit.SetValue(sdiIdentifier("surf_IDex"), sdiValue(sdiValueEntity(radSurfType, DynaToRad::GetRadiossSetIdFromLsdSet(SID, "*SET_SEGMENT"))));
+            radAirbagEdit.SetValue(sdiIdentifier("surf_IDex"), sdiValue(sdiValueEntity(radSetType, DynaToRad::GetRadiossSetIdFromLsdSet(SID, "*SET_SEGMENT"))));
         }
         else
         {
-            radAirbagEdit.SetValue(sdiIdentifier("surf_IDex"), sdiValue(sdiValueEntity(radSurfType, DynaToRad::GetRadiossSetIdFromLsdSet(SID, "*SET_PART"))));
+            radAirbagEdit.SetValue(sdiIdentifier("surf_IDex"), sdiValue(sdiValueEntity(radSetType, DynaToRad::GetRadiossSetIdFromLsdSet(SID, "*SET_PART"))));
         }
 
         // Conversion of gas materials
@@ -2840,7 +2840,10 @@ void sdiD2R::ConvertControlVolume::ConvertAirbagHybrid()
         sdiUIntList lsdmatIDList;
         sdiUIntList lsdLCIDMiIDList;
         sdiUIntList lsdLCIDTiIDList;
+        sdiUIntList radIDMiIDList;
+        sdiUIntList radIDTiIDList;
         sdiDoubleList TTFList;
+        int cnt = 0;
         if(lsd_NGAS > 0)
         {
             // Create a new material /MAT/GAS/MOLE with gas mixture property (initially fills the airbag). 
@@ -2868,9 +2871,8 @@ void sdiD2R::ConvertControlVolume::ConvertAirbagHybrid()
 
                radINITM = radINITM + lsdINITMList[i];
             }
-
             if(radINITM > 0.0)
-            {
+            { 
                 for (int i = 0; i < lsd_NGAS; ++i)
                 {
                    if (lsdINITMList[i] >= 1.0)
@@ -2879,6 +2881,10 @@ void sdiD2R::ConvertControlVolume::ConvertAirbagHybrid()
                        radCpa = radCpa + (lsdAList[i]*lsdINITMList[i])/radINITM;
                        radCpb = radCpb + (lsdBList[i]*lsdINITMList[i])/radINITM;
                        radCpc = radCpc + (lsdCList[i]*lsdINITMList[i])/radINITM;
+                   }
+                   else
+                   {
+                       cnt++;
                    }
                 }
 
@@ -2895,6 +2901,7 @@ void sdiD2R::ConvertControlVolume::ConvertAirbagHybrid()
                     radMatGasEdit.SetValue(sdiIdentifier("Cpd"), sdiValue(0));
                     radMatGasEdit.SetValue(sdiIdentifier("Cpe"), sdiValue(0));
                     radAirbagHEdit.SetEntityHandle(p_radiossModel, sdiIdentifier("mat_ID"), radMatGasHEdit);
+                    if(cnt == 0) lsdmatIDList.push_back(radMatGasHEdit.GetId(p_radiossModel));
 
                     sdiConvert::SDIHandlReadList sourceConVol = { {selAirbagHybrid->GetHandle()} };
                     sdiConvert::Convert::PushToConversionLog(std::make_pair(radMatGasHEdit, sourceConVol));
@@ -2905,7 +2912,16 @@ void sdiD2R::ConvertControlVolume::ConvertAirbagHybrid()
 
             for (int i = 0; i < lsd_NGAS; ++i)
             {
-                if (lsdINITMList[i] == 0.0)
+                // get curves LCIDM and LCIDT
+                sdiValueEntity lsdLCIDMiEntity = GetValue<sdiValueEntity>(*selAirbagHybrid, "LCIDM",i);
+                unsigned int lsdLCIDMiId=lsdLCIDMiEntity.GetId();
+                lsdLCIDMiIDList.push_back(lsdLCIDMiId);
+                sdiValueEntity lsdLCIDTiEntity = GetValue<sdiValueEntity>(*selAirbagHybrid, "LCIDT",i);
+                unsigned int lsdLCIDTiId=lsdLCIDTiEntity.GetId();
+                lsdLCIDTiIDList.push_back(lsdLCIDTiId);
+
+                //if (lsdINITMList[i] == 0.0)
+                if (lsdINITMList[i] == 0.0 && lsdLCIDMiId > 0 && lsdLCIDTiId > 0)
                 {
                     p_radiossModel->CreateEntity(radMatGasiHEdit, "/MAT/GAS/MOLE", selAirbagHybrid->GetName() + "_GAS_" + to_string(i+1));
                     matGasType = 2;
@@ -2952,11 +2968,12 @@ void sdiD2R::ConvertControlVolume::ConvertAirbagHybrid()
                 if(int(lsdmatIDList.size()) > 0)
                    radPropInjectEdit.SetValue(sdiIdentifier("Mat_ID"), sdiValue(sdiValueEntityList(radMatType, lsdmatIDList)));
 
-                int cnt = 0;
+                cnt = 0;
                 for (int i = 0; i < lsd_NGAS; ++i)
                 {
-                    double lsdINITML = GetValue<double>(*selAirbagHybrid, "INITM",i);
-                    if(lsdINITML == 0) // Here we account only for gases with INITM=0 (injected gases)
+                    //double lsdINITML = GetValue<double>(*selAirbagHybrid, "INITM",i);
+                    //if(lsdINITML == 0) // Here we account only for gases with INITM=0 (injected gases)
+                    if (lsdLCIDMiIDList[i] > 0 && lsdLCIDTiIDList[i] > 0)
                     {
                         cnt++;
 
@@ -3060,7 +3077,7 @@ void sdiD2R::ConvertControlVolume::ConvertAirbagHybrid()
                             HandleEdit fctHEdit;
                             p_ConvertUtils.CreateCurve(selAirbagHybrid->GetName()+ "_curve_LCIDM_" + to_string(lsdLCIDMiId), 
                                        (int)nPointsLCIDMi, crvPointsLCIDMi, fctHEdit, lsdSFA, lsdSFO, lsdOFFA ,lsdOFFO);
-                            if (lsdLCIDMiId > 0) lsdLCIDMiIDList.push_back(fctHEdit.GetId(p_radiossModel));
+                            if (lsdLCIDMiId > 0) radIDMiIDList.push_back(fctHEdit.GetId(p_radiossModel));
 
                             sdiConvert::SDIHandlReadList sourceConVol = { {selAirbagHybrid->GetHandle()} };
                             sdiConvert::Convert::PushToConversionLog(std::make_pair(fctHEdit, sourceConVol));
@@ -3099,7 +3116,7 @@ void sdiD2R::ConvertControlVolume::ConvertAirbagHybrid()
                             HandleEdit fctHEdit;
                             p_ConvertUtils.CreateCurve(selAirbagHybrid->GetName()+ "_curve_LCIDT_" + to_string(lsdLCIDTiId), 
                                        (int)nPointsLCIDTi, crvPointsLCIDTi, fctHEdit, lsdSFA, lsdSFO, lsdOFFA ,lsdOFFO);
-                            if (lsdLCIDTiId > 0) lsdLCIDTiIDList.push_back(fctHEdit.GetId(p_radiossModel));
+                            if (lsdLCIDTiId > 0) radIDTiIDList.push_back(fctHEdit.GetId(p_radiossModel));
 
                             sdiConvert::SDIHandlReadList sourceConVol = { {selAirbagHybrid->GetHandle()} };
                             sdiConvert::Convert::PushToConversionLog(std::make_pair(fctHEdit, sourceConVol));
@@ -3110,10 +3127,10 @@ void sdiD2R::ConvertControlVolume::ConvertAirbagHybrid()
 
                     } // if(lsdINITML == 0)
                 } // for (int i = 0; i < lsd_NGAS; ++i)
-                if (lsdLCIDMiIDList.size() > 0)
-                     radPropInjectEdit.SetValue(sdiIdentifier("fun_ID_M"), sdiValue(sdiValueEntityList(radMatType, lsdLCIDMiIDList)));
-                if (lsdLCIDTiIDList.size() > 0)
-                     radPropInjectEdit.SetValue(sdiIdentifier("fun_ID_T"), sdiValue(sdiValueEntityList(radMatType, lsdLCIDTiIDList)));
+                if (radIDMiIDList.size() > 0)
+                     radPropInjectEdit.SetValue(sdiIdentifier("fun_ID_M"), sdiValue(sdiValueEntityList(radMatType, radIDMiIDList)));
+                if (radIDTiIDList.size() > 0)
+                     radPropInjectEdit.SetValue(sdiIdentifier("fun_ID_T"), sdiValue(sdiValueEntityList(radMatType, radIDTiIDList)));
             } // if(lsd_NGAS > 0)
 
             //---
