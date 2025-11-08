@@ -20,6 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    ebcs12_cyclic_mod   ../engine/source/boundary_conditions/ebcs/ebcs12_cyclic.F90
+!||--- called by ------------------------------------------------------
+!||    ebcs_main           ../engine/source/boundary_conditions/ebcs/ebcs_main.F
+!||====================================================================
       module ebcs12_cyclic_mod
         implicit none
       contains
@@ -27,22 +32,20 @@
 !                                                   PROCEDURES
 ! ======================================================================================================================
 !||====================================================================
-!||    ebcs12_cyclic     ../engine/source/boundary_conditions/ebcs/ebcs12_cyclic.F90
+!||    ebcs12_cyclic         ../engine/source/boundary_conditions/ebcs/ebcs12_cyclic.F90
 !||--- called by ------------------------------------------------------
 !||    ebcs_main             ../engine/source/boundary_conditions/ebcs/ebcs_main.F
 !||--- calls      -----------------------------------------------------
-!||    finter                ../engine/source/tools/curve/finter.F
-!||    finter_smooth         ../engine/source/tools/curve/finter_smooth.F
+!||    arret                 ../engine/source/system/arret.F
+!||    ebcs_get_group_info   ../engine/source/boundary_conditions/ebcs/ebcs8_inlet.F90
 !||--- uses       -----------------------------------------------------
 !||    constant_mod          ../common_source/modules/constant_mod.F
+!||    ebcs8_inlet_mod       ../engine/source/boundary_conditions/ebcs/ebcs8_inlet.F90
 !||    ebcs_mod              ../common_source/modules/boundary_conditions/ebcs_mod.F90
 !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
 !||    multimat_param_mod    ../common_source/modules/multimat_param_mod.F90
-!||    output_mod            ../common_source/modules/output/output_mod.F90
 !||    precision_mod         ../common_source/modules/precision_mod.F90
-!||    python_funct_mod      ../common_source/modules/python_mod.F90
 !||    segvar_mod            ../engine/share/modules/segvar_mod.F
-!||    sensor_mod            ../common_source/modules/sensor_mod.F90
 !||    th_surf_mod           ../common_source/modules/interfaces/th_surf_mod.F
 !||====================================================================
         subroutine ebcs12_cyclic(nseg,iseg,segvar, &

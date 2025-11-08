@@ -159,6 +159,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    domdec2                             ../starter/source/spmd/domdec2.F
 !||    dometis                             ../starter/source/spmd/domain_decomposition/grid2mat.F
 !||    dtnoda_stifint                      ../starter/source/interfaces/inter3d1/dtnoda_stifint.F
+!||    ebcs_cyclic_surface_matching_2d     ../starter/source/boundary_conditions/ebcs/ebcs_cyclic_surface_matching_2d.F90
+!||    ebcs_cyclic_surface_matching_3d     ../starter/source/boundary_conditions/ebcs/ebcs_cyclic_surface_matching_3d.F90
 !||    ecran1                              ../starter/source/initial_conditions/detonation/ecran1.F
 !||    ecrsub2                             ../starter/source/model/assembling/hm_read_subset.F
 !||    eigrline                            ../starter/source/general_controls/computation/hm_read_eig.F
@@ -326,6 +328,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_defsolid                    ../starter/source/general_controls/default_values/hm_read_defsolid.F
 !||    hm_read_drape                       ../starter/source/properties/composite_options/drape/hm_read_drape.F
 !||    hm_read_dt                          ../starter/source/general_controls/engine/hm_read_dt.F
+!||    hm_read_ebcs_cyclic                 ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_cyclic.F90
 !||    hm_read_ebcs_fluxout                ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_fluxout.F
 !||    hm_read_ebcs_gradp0                 ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_gradp0.F
 !||    hm_read_ebcs_inip                   ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_inip.F

@@ -97,6 +97,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_defshell                  ../starter/source/general_controls/default_values/hm_read_defshell.F
 !||    hm_read_defsolid                  ../starter/source/general_controls/default_values/hm_read_defsolid.F
 !||    hm_read_drape                     ../starter/source/properties/composite_options/drape/hm_read_drape.F
+!||    hm_read_ebcs_cyclic               ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_cyclic.F90
 !||    hm_read_ebcs_fluxout              ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_fluxout.F
 !||    hm_read_ebcs_gradp0               ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_gradp0.F
 !||    hm_read_ebcs_inip                 ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_inip.F

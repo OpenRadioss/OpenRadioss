@@ -35,6 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_beam                   ../starter/source/elements/reader/hm_read_beam.F
 !||    hm_read_convec                 ../starter/source/loads/thermic/hm_read_convec.F
 !||    hm_read_cyljoint               ../starter/source/constraints/general/cyl_joint/hm_read_cyljoint.F
+!||    hm_read_ebcs_cyclic            ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_cyclic.F90
 !||    hm_read_eig                    ../starter/source/general_controls/computation/hm_read_eig.F
 !||    hm_read_eref                   ../starter/source/loads/reference_state/eref/hm_read_eref.F
 !||    hm_read_frm                    ../starter/source/tools/skew/hm_read_frm.F

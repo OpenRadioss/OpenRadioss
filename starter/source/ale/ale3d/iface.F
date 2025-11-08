@@ -21,15 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    iface       ../starter/source/ale/ale3d/iface.F
+!||    iface                             ../starter/source/ale/ale3d/iface.F
 !||--- called by ------------------------------------------------------
-!||    boxassem4   ../starter/source/model/box/bigbox.F
-!||    c_iebcs     ../starter/source/restart/ddsplit/c_iebcs.F
-!||    ddsplit     ../starter/source/restart/ddsplit/ddsplit.F
-!||    findele     ../starter/source/boundary_conditions/ebcs/findele.F
-!||    fvbric01    ../starter/source/airbag/fvbric01.F
-!||    i12sol3     ../starter/source/interfaces/inter3d1/insol3.F
-!||    iniebcs     ../starter/source/boundary_conditions/ebcs/iniebcs.F
+!||    boxassem4                         ../starter/source/model/box/bigbox.F
+!||    c_iebcs                           ../starter/source/restart/ddsplit/c_iebcs.F
+!||    ddsplit                           ../starter/source/restart/ddsplit/ddsplit.F
+!||    ebcs_cyclic_surface_matching_2d   ../starter/source/boundary_conditions/ebcs/ebcs_cyclic_surface_matching_2d.F90
+!||    findele                           ../starter/source/boundary_conditions/ebcs/findele.F
+!||    fvbric01                          ../starter/source/airbag/fvbric01.F
+!||    i12sol3                           ../starter/source/interfaces/inter3d1/insol3.F
+!||    iniebcs                           ../starter/source/boundary_conditions/ebcs/iniebcs.F
 !||====================================================================
       INTEGER FUNCTION IFACE(IP,N)
 C-----------------------------------------------

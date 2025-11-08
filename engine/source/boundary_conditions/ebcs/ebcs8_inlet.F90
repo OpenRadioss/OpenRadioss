@@ -23,6 +23,7 @@
 !||====================================================================
 !||    ebcs8_inlet_mod   ../engine/source/boundary_conditions/ebcs/ebcs8_inlet.F90
 !||--- called by ------------------------------------------------------
+!||    ebcs12_cyclic     ../engine/source/boundary_conditions/ebcs/ebcs12_cyclic.F90
 !||    ebcs_main         ../engine/source/boundary_conditions/ebcs/ebcs_main.F
 !||====================================================================
       module ebcs8_inlet_mod
@@ -724,6 +725,7 @@
 !||====================================================================
 !||    ebcs_get_group_info   ../engine/source/boundary_conditions/ebcs/ebcs8_inlet.F90
 !||--- called by ------------------------------------------------------
+!||    ebcs12_cyclic         ../engine/source/boundary_conditions/ebcs/ebcs12_cyclic.F90
 !||    ebcs8_inlet           ../engine/source/boundary_conditions/ebcs/ebcs8_inlet.F90
 !||====================================================================
       SUBROUTINE EBCS_GET_GROUP_INFO(NSEG, IELEM, NG, ILOC, NGROUP, NPARG, IPARG, N2D)

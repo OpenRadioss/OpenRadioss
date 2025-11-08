@@ -76,6 +76,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    dtnodams                         ../engine/source/time_step/dtnodams.F
 !||    dyna_ina                         ../engine/source/implicit/imp_dyna.F
 !||    dyna_ini                         ../engine/source/implicit/imp_dyna.F
+!||    ebcs12_cyclic                    ../engine/source/boundary_conditions/ebcs/ebcs12_cyclic.F90
 !||    eig                              ../engine/stub/eig.F
 !||    eigcond                          ../engine/stub/eigcond.F
 !||    enrichc_ini                      ../engine/source/elements/xfem/enrichc_ini.F

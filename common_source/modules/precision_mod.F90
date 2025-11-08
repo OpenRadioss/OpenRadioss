@@ -77,7 +77,11 @@
 !||    double_to_my_real                        ../common_source/modules/cast_mod.F90
 !||    dttherm                                  ../engine/source/time_step/dttherm.F90
 !||    ebcs11_propellant                        ../engine/source/boundary_conditions/ebcs/ebcs11_propellant.F90
+!||    ebcs12_cyclic                            ../engine/source/boundary_conditions/ebcs/ebcs12_cyclic.F90
 !||    ebcs8_inlet                              ../engine/source/boundary_conditions/ebcs/ebcs8_inlet.F90
+!||    ebcs_cyclic_surface_matching             ../starter/source/boundary_conditions/ebcs/ebcs_cyclic_surface_matching.F90
+!||    ebcs_cyclic_surface_matching_2d          ../starter/source/boundary_conditions/ebcs/ebcs_cyclic_surface_matching_2d.F90
+!||    ebcs_cyclic_surface_matching_3d          ../starter/source/boundary_conditions/ebcs/ebcs_cyclic_surface_matching_3d.F90
 !||    ebcs_mod                                 ../common_source/modules/boundary_conditions/ebcs_mod.F90
 !||    eikonal_compute_adjacent                 ../starter/source/initial_conditions/detonation/eikonal_compute_adjacent.F90
 !||    eikonal_fast_marching_method             ../starter/source/initial_conditions/detonation/eikonal_fast_marching_method.F90
@@ -141,6 +145,7 @@
 !||    hm_preread_skw                           ../starter/source/tools/skew/hm_preread_skw.F90
 !||    hm_read_bcs_nrf                          ../starter/source/boundary_conditions/hm_read_bcs_nrf.F90
 !||    hm_read_bcs_wall                         ../starter/source/boundary_conditions/hm_read_bcs_wall.F90
+!||    hm_read_ebcs_cyclic                      ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_cyclic.F90
 !||    hm_read_ebcs_propellant                  ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_propellant.F90
 !||    hm_read_eos_compaction                   ../starter/source/materials/eos/hm_read_eos_compaction.F90
 !||    hm_read_eos_compaction2                  ../starter/source/materials/eos/hm_read_eos_compaction2.F90

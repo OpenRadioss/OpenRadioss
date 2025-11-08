@@ -38,6 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ebcs10_nrf                       ../engine/source/boundary_conditions/ebcs/ebcs10_nrf.F
 !||    ebcs11_propellant                ../engine/source/boundary_conditions/ebcs/ebcs11_propellant.F90
 !||    ebcs123_pres                     ../engine/source/boundary_conditions/ebcs/ebcs123_pres.F
+!||    ebcs12_cyclic                    ../engine/source/boundary_conditions/ebcs/ebcs12_cyclic.F90
 !||    ebcs4_vel                        ../engine/source/boundary_conditions/ebcs/ebcs4_vel.F
 !||    ebcs5_normv                      ../engine/source/boundary_conditions/ebcs/ebcs5_normv.F
 !||    ebcs6_inip                       ../engine/source/boundary_conditions/ebcs/ebcs6_inip.F

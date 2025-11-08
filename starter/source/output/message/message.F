@@ -98,6 +98,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    definter                            ../starter/source/interfaces/interf1/definter.F
 !||    domdec2                             ../starter/source/spmd/domdec2.F
 !||    dometis                             ../starter/source/spmd/domain_decomposition/grid2mat.F
+!||    ebcs_cyclic_surface_matching_2d     ../starter/source/boundary_conditions/ebcs/ebcs_cyclic_surface_matching_2d.F90
+!||    ebcs_cyclic_surface_matching_3d     ../starter/source/boundary_conditions/ebcs/ebcs_cyclic_surface_matching_3d.F90
 !||    ecran1                              ../starter/source/initial_conditions/detonation/ecran1.F
 !||    elstagboxbox                        ../starter/source/model/box/boxbox.F
 !||    eosfun_usr2sys                      ../starter/source/materials/tools/eosfun_usr2sys.F90
@@ -177,6 +179,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_convec                      ../starter/source/loads/thermic/hm_read_convec.F
 !||    hm_read_damp                        ../starter/source/general_controls/damping/hm_read_damp.F
 !||    hm_read_drape                       ../starter/source/properties/composite_options/drape/hm_read_drape.F
+!||    hm_read_ebcs_cyclic                 ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_cyclic.F90
 !||    hm_read_ebcs_fluxout                ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_fluxout.F
 !||    hm_read_ebcs_gradp0                 ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_gradp0.F
 !||    hm_read_ebcs_inip                   ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_inip.F

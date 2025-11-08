@@ -20,6 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    ebcs_cyclic_surface_matching_mod   ../starter/source/boundary_conditions/ebcs/ebcs_cyclic_surface_matching.F90
+!||--- called by ------------------------------------------------------
+!||    iniebcs                            ../starter/source/boundary_conditions/ebcs/iniebcs.F
+!||====================================================================
       module ebcs_cyclic_surface_matching_mod
         implicit none
       contains
@@ -29,6 +34,17 @@
 !! \brief check surface 1 (nseg) and surface 2 (nseg)
 !! \details storing data in linear arrays %elem_list and %node_lide with same order 1:nseg and nseg+1 : nseg+nseg
 !! \details number of segment already match (checked with Reader subroutine)
+!||====================================================================
+!||    ebcs_cyclic_surface_matching          ../starter/source/boundary_conditions/ebcs/ebcs_cyclic_surface_matching.F90
+!||--- called by ------------------------------------------------------
+!||    iniebcs                               ../starter/source/boundary_conditions/ebcs/iniebcs.F
+!||--- calls      -----------------------------------------------------
+!||    ebcs_cyclic_surface_matching_2d       ../starter/source/boundary_conditions/ebcs/ebcs_cyclic_surface_matching_2d.F90
+!||    ebcs_cyclic_surface_matching_3d       ../starter/source/boundary_conditions/ebcs/ebcs_cyclic_surface_matching_3d.F90
+!||--- uses       -----------------------------------------------------
+!||    ebcs_cyclic_surface_matching_2d_mod   ../starter/source/boundary_conditions/ebcs/ebcs_cyclic_surface_matching_2d.F90
+!||    ebcs_cyclic_surface_matching_3d_mod   ../starter/source/boundary_conditions/ebcs/ebcs_cyclic_surface_matching_3d.F90
+!||====================================================================
         subroutine ebcs_cyclic_surface_matching(ebcs_cyclic, ebcs,  n2d, numnod, X)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules

@@ -21,16 +21,18 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    iniebcs                ../starter/source/boundary_conditions/ebcs/iniebcs.F
+!||    iniebcs                            ../starter/source/boundary_conditions/ebcs/iniebcs.F
 !||--- called by ------------------------------------------------------
-!||    lectur                 ../starter/source/starter/lectur.F
+!||    lectur                             ../starter/source/starter/lectur.F
 !||--- calls      -----------------------------------------------------
-!||    ancmsg                 ../starter/source/output/message/message.F
-!||    findele                ../starter/source/boundary_conditions/ebcs/findele.F
-!||    icinvs                 ../starter/source/boundary_conditions/ebcs/iniebcs.F
-!||    iface                  ../starter/source/ale/ale3d/iface.F
+!||    ancmsg                             ../starter/source/output/message/message.F
+!||    ebcs_cyclic_surface_matching       ../starter/source/boundary_conditions/ebcs/ebcs_cyclic_surface_matching.F90
+!||    findele                            ../starter/source/boundary_conditions/ebcs/findele.F
+!||    icinvs                             ../starter/source/boundary_conditions/ebcs/iniebcs.F
+!||    iface                              ../starter/source/ale/ale3d/iface.F
 !||--- uses       -----------------------------------------------------
-!||    message_mod            ../starter/share/message_module/message_mod.F
+!||    ebcs_cyclic_surface_matching_mod   ../starter/source/boundary_conditions/ebcs/ebcs_cyclic_surface_matching.F90
+!||    message_mod                        ../starter/share/message_module/message_mod.F
 !||====================================================================
       SUBROUTINE INIEBCS(ALE_CONNECTIVITY, IFLAG,IGRSURF, IXS, IXQ, IXTG, 
      .     PM, IGEO, X, SENSORS, IVOLU, MULTI_FVM_IS_USED, EBCS_TAB, EBCS_TAG_CELL_SPMD)

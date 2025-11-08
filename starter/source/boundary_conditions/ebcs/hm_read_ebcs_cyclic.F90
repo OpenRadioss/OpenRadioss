@@ -20,12 +20,31 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!||====================================================================
+!||    hm_read_ebcs_cyclic_mod   ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_cyclic.F90
+!||--- called by ------------------------------------------------------
+!||    read_ebcs                 ../starter/source/boundary_conditions/ebcs/read_ebcs.F
+!||====================================================================
       module hm_read_ebcs_cyclic_mod
         implicit none
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
 ! ======================================================================================================================
+!||====================================================================
+!||    hm_read_ebcs_cyclic      ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_cyclic.F90
+!||--- called by ------------------------------------------------------
+!||    read_ebcs                ../starter/source/boundary_conditions/ebcs/read_ebcs.F
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                   ../starter/source/output/message/message.F
+!||    hm_get_intv              ../starter/source/devtools/hm_reader/hm_get_intv.F
+!||    hm_option_is_encrypted   ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
+!||    ngr2usr                  ../starter/source/system/nintrr.F
+!||    usr2sys                  ../starter/source/system/sysfus.F
+!||--- uses       -----------------------------------------------------
+!||    message_mod              ../starter/share/message_module/message_mod.F
+!||    submodel_mod             ../starter/share/modules1/submodel_mod.F
+!||====================================================================
         subroutine hm_read_ebcs_cyclic(igrsurf, multi_fvm, id, titr, lsubmodel,  nsurf, ebcs, n2d, numnod, itab)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules

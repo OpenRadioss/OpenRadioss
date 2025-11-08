@@ -255,6 +255,7 @@ C
 !||    hm_read_alebcs                ../starter/source/constraints/ale/hm_read_alebcs.F
 !||    hm_read_bcs                   ../starter/source/constraints/general/bcs/hm_read_bcs.F
 !||    hm_read_damp                  ../starter/source/general_controls/damping/hm_read_damp.F
+!||    hm_read_ebcs_cyclic           ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_cyclic.F90
 !||    hm_read_ebcs_fluxout          ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_fluxout.F
 !||    hm_read_ebcs_gradp0           ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_gradp0.F
 !||    hm_read_ebcs_inip             ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_inip.F

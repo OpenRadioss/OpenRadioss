@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_get_intv                   ../starter/source/devtools/hm_reader/hm_get_intv.F
 !||    hm_option_read_key            ../starter/source/devtools/hm_reader/hm_option_read_key.F
 !||    hm_option_start               ../starter/source/devtools/hm_reader/hm_option_start.F
+!||    hm_read_ebcs_cyclic           ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_cyclic.F90
 !||    hm_read_ebcs_fluxout          ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_fluxout.F
 !||    hm_read_ebcs_gradp0           ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_gradp0.F
 !||    hm_read_ebcs_inip             ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_inip.F
@@ -46,6 +47,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    front_mod                     ../starter/share/modules1/front_mod.F
 !||    hm_option_read_mod            ../starter/share/modules1/hm_option_read_mod.F
+!||    hm_read_ebcs_cyclic_mod       ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_cyclic.F90
 !||    hm_read_ebcs_propellant_mod   ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_propellant.F90
 !||    message_mod                   ../starter/share/message_module/message_mod.F
 !||    restmod                       ../starter/share/modules1/restart_mod.F

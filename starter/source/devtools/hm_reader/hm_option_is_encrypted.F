@@ -24,6 +24,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_option_is_encrypted       ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
 !||--- called by ------------------------------------------------------
 !||    hm_prop_read21               ../starter/source/properties/thickshell/hm_read_prop21.F
+!||    hm_read_ebcs_cyclic          ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_cyclic.F90
 !||    hm_read_ebcs_fluxout         ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_fluxout.F
 !||    hm_read_ebcs_gradp0          ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_gradp0.F
 !||    hm_read_ebcs_inip            ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_inip.F

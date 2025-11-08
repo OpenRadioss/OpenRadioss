@@ -69,6 +69,7 @@
 !||    hist2                            ../engine/source/output/th/hist2.F
 !||    hm_read_bcs_nrf                  ../starter/source/boundary_conditions/hm_read_bcs_nrf.F90
 !||    hm_read_bcs_wall                 ../starter/source/boundary_conditions/hm_read_bcs_wall.F90
+!||    hm_read_ebcs_cyclic              ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_cyclic.F90
 !||    hm_read_ebcs_fluxout             ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_fluxout.F
 !||    hm_read_ebcs_gradp0              ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_gradp0.F
 !||    hm_read_ebcs_inip                ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_inip.F
