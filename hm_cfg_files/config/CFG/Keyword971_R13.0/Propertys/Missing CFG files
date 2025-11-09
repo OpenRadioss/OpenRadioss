@@ -1,0 +1,18 @@
+According to 
+
+    HIERARCHY {
+         KEYWORD    = CONSTRAINED_JOINT_STIFFNESS;
+         TITLE      = "027  PROP";
+         FILE       = "PROPERTY/constrained_joint_stiffness.cfg";
+         SUBTYPE    = USER;
+         USER_ID    = 2314;
+         ID_POOL    = 25;
+         USER_NAMES = (/*CONSTRAINED_JOINT_STIFFNESS,*/
+                       CONSTRAINED_JOINT_STIFFNESS_GENERALIZED,
+                       /*CONSTRAINED_JOINT_STIFFNESS_FLEXION-TORSION,*/
+                       CONSTRAINED_JOINT_STIFFNESS_TRANSLATIONAL/*,JointStff*/);
+    }
+
+This folder should exist.
+
+Pleade update.
