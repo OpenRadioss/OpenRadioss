@@ -10383,7 +10383,7 @@ C--------------------------------------------
       IF(SIRBE3 > 0) THEN
         CALL INIRBE3(IRBE3  ,LRBE3  ,FRBE3  ,SKEW   ,X     ,
      .               MS     ,IN     ,NOM_OPT(LNOPT1*INOM_OPT(14)+1),
-     .               STIFFN,STIFFN(NUMNOD+1))
+     .               STIFFN,STIFFN(NUMNOD+1),ICODE,ITAB )
       ENDIF
       DEALLOCATE(STIFFN)
       CALL TRACE_OUT1()
