@@ -100,7 +100,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      L                 IGAUP   ,NGAUP     ,ITTYP    ,SIZE_MES    ,
      M                 RTHBUF  ,THKE      ,STACK    ,ISPHIO      ,VSPHIO    ,
      N                 ITHFLAG ,PINCH_DATA,MULTI_FVM,W           ,SITHBUF   ,
-     Q                 FSAVSURF,NEED_TO_REINIT_FSAV ,GLOB_THERM  ,OUTPUT)
+     Q                 FSAVSURF,NEED_TO_REINIT_FSAV ,GLOB_THERM  ,OUTPUT    ,
+     P                 MASS0_START)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -171,6 +172,7 @@ C-----------------------------------------------
      .   RIVOFF(NRIVET), VOLMON(*),
      .   TEMP(*),FTHREAC(*),GRESAV(NPSAV,*), GAUGE(LLGAUGE,NBGAUGE),RTHBUF(*),
      .   VSPHIO(*), W(3,NUMNOD)
+      my_real, INTENT(IN   ) :: MASS0_START
       REAL(KIND=8), INTENT(INOUT) :: THIS0, DTHIS0
       INTEGER, DIMENSION(NIXP,NUMELP) ,INTENT(IN):: IXP
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
@@ -313,8 +315,8 @@ C------------------------
           WA(II+14)= ECONTV ! Contact Frictional Energy
           WA(II+15)= ECONTD ! Damping Frictional Energy
           WA(II+16)= WPLAST ! Plastic Work
-          WA(II+17)= XMASS-MASS0 ! Added mass
-          WA(II+18)= (XMASS - MASS0) / MAX(MASS0,EM20) ! Added mass % (mass error)
+          WA(II+17)= XMASS-MASS0_START ! Added mass
+          WA(II+18)= EP02*(XMASS - MASS0_START) / MAX(MASS0,EM20) ! Added mass % 
           WA(II+19)= OUTPUT%DATA%INOUT%DM_IN    !inlet mass
           WA(II+20)= OUTPUT%DATA%INOUT%DM_OUT   !outlet mass
           WA(II+21)= OUTPUT%DATA%INOUT%DE_IN    !inlet energy
