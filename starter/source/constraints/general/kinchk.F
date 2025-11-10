@@ -366,6 +366,12 @@ C-------  RLINK
         END IF 
        ENDDO
       END IF !(NBCSCYC>0) THEN
+! remove ik of penalty RBE3
+      DO I=1,NRBE3
+        NSL= IRBE3(3,I)
+        IPEN = IRBE3(9,I)  
+        IF (IPEN>0) IKRBE3(IKINE(NSL)) = 0
+      END DO
 C=======================================================================
       IF(IPRI>=6)THEN
         WRITE(IOUT,*)' NODES WITH KINEMATIC CONDITIONS:'

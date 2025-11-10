@@ -385,7 +385,8 @@ C
 !||    message_mod            ../starter/share/message_module/message_mod.F
 !||====================================================================
       SUBROUTINE INIRBE3(IRBE3  ,LRBE3  ,FRBE3  ,SKEW   ,X     ,
-     .                    MS     ,IN     ,NOM_OPT,STIFN ,STIFR)
+     .                    MS     ,IN    ,NOM_OPT,STIFN  ,STIFR ,
+     .                   ICODE  ,ITAB )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------   
@@ -411,6 +412,8 @@ C-----------------------------------------------
      .     SKEW(LSKEW,*), FRBE3(*),X(3,*),MS(*),IN(*)
       my_real , DIMENSION(NUMNOD), INTENT(IN  ) ::STIFN 
       my_real , DIMENSION(NUMNOD), INTENT(IN  ) ::STIFR 
+      INTEGER , DIMENSION(NUMNOD), INTENT(IN  ) ::ICODE 
+      INTEGER , DIMENSION(NUMNOD), INTENT(IN  ) ::ITAB 
       INTEGER NOM_OPT(LNOPT1,*)
 C-----------------------------------------------
 C   F u n c t i o n
@@ -446,6 +449,16 @@ C----- re-ordering by hierrrchy (only 1 level)
         
         ID=NOM_OPT(1,I)
         CALL FRETITL2(TITR,NOM_OPT(LNOPT1-LTITR+1,I),LTITR)
+! Switch to penalty if /BCS of NS
+        IF (ICODE(NS)>0 .AND. IPEN==0) THEN 
+          IRBE3(9,I) = 1 ! add message
+          CALL ANCMSG(MSGID=3115,
+     .                   MSGTYPE=MSGWARNING,
+     .                   ANMODE=ANINFO_BLIND_1,
+     .                   I1=ID,
+     .                   C1=TITR,
+     .                   I2=ITAB(NS))
+        END IF
 C------ check if solid node for all independent
 ! will be switch to pen if arm>0 
         IF (IN(NS)>EM10.AND.MIN(STIFN(NS),STIFR(NS))>EM10.AND.IPEN==0) IPEN = 2 
