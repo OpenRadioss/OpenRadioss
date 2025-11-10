@@ -246,7 +246,7 @@
           write(io, *) "         15 CE_DAMP   DAMPING CONTACT ENERGY"
           write(io, *) "         16 WPLA      PLASTIC WORK"
           write(io, *) "         17 DMASS     ADDED MASS"
-          write(io, *) "         18 EMASS     ADDED MASS"
+          write(io, *) "         18 DMASS%    PERCENTAGE ADDED MASS"
           write(io, *) "         19 M_IN      INLET MASS"
           write(io, *) "         20 M_OUT     OUTLET MASS"
           write(io, *) "         21 E_IN      INLET ENERGY"

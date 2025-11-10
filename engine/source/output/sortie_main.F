@@ -139,7 +139,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      s            LOADP     ,TAGNCONT    ,LOADP_HYD_INTER,FORC  ,DRAPEG,USER_WINDOWS,
      t            OUTPUT    ,DT          ,FSAVSURF    ,TABLE    ,
      u            LOADS     ,SFANI       ,IPARIT      ,X_C      ,
-     v            SZ_NPCONT2,NPCONT2     ,GLOB_THERM  ,PBLAST   ,WFEXT     )
+     v            SZ_NPCONT2,NPCONT2     ,GLOB_THERM  ,PBLAST   ,WFEXT    ,
+     w            MASS0_START)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -270,6 +271,7 @@ C-----------------------------------------------
       INTEGER LLOADP(*),ILOADP(SIZLOADP,*),IBCL(NIBCLD,*)
       INTEGER TAGNCONT(NLOADP_HYD_INTER,NUMNOD),LOADP_HYD_INTER(NLOADP_HYD)
       my_real :: LOADP(LFACCLD,*),FORC(*)
+      my_real, INTENT(IN) :: MASS0_START
 
       INTEGER, DIMENSION(*), INTENT(IN) :: ISKWP
       INTEGER, INTENT(IN) :: SZ_NPCONT2
@@ -1054,7 +1056,7 @@ C         To have double points
      L                 IGAUP  ,NGAUP ,AFORM(1),SIZE_MES,
      M                 RTHBUF ,THKE ,STACK ,ISPHIO  ,VSPHIO,
      N                 ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%SITHBUFA,
-     Q                 FSAVSURF,NEED_TO_REINIT_FSAV,GLOB_THERM,OUTPUT)
+     Q                 FSAVSURF,NEED_TO_REINIT_FSAV,GLOB_THERM,OUTPUT,MASS0_START)
 
             IF (SIZE_MES==1 .AND.AFORM(1)==3 .AND.ISPMD==0 ) 
      *          CALL file_size(MULTITHFILESIZE(1))
@@ -1149,7 +1151,7 @@ C
      L                 IGAUP  ,NGAUP, AFORM(2),SIZE_MES,
      M                 RTHBUF ,THKE ,STACK,ISPHIO  ,VSPHIO,
      N                 ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%SITHBUFB,
-     Q                 FSAVSURF,NEED_TO_REINIT_FSAV,GLOB_THERM,OUTPUT)
+     Q                 FSAVSURF,NEED_TO_REINIT_FSAV,GLOB_THERM,OUTPUT,MASS0_START)
 
             IF (SIZE_MES==1 .AND.AFORM(2)==3 .AND.ISPMD==0 )
      *        CALL file_size(MULTITHFILESIZE(2))
@@ -1244,7 +1246,7 @@ C
      L                 IGAUP  ,NGAUP ,AFORM(3),SIZE_MES,
      M                 RTHBUF ,THKE ,STACK ,ISPHIO  ,VSPHIO,
      n                 ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%SITHBUFC,
-     Q                 FSAVSURF,NEED_TO_REINIT_FSAV,GLOB_THERM,OUTPUT)
+     Q                 FSAVSURF,NEED_TO_REINIT_FSAV,GLOB_THERM,OUTPUT,MASS0_START)
 
         IF(SIZE_MES==1 .AND.
      *     AFORM(3)==3   .AND.
@@ -1335,7 +1337,7 @@ C
      L                 IGAUP  ,NGAUP ,AFORM(4),SIZE_MES,
      M                 RTHBUF ,THKE ,STACK ,ISPHIO  ,VSPHIO,
      N                 ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%SITHBUFD,
-     Q                 FSAVSURF,NEED_TO_REINIT_FSAV,GLOB_THERM,OUTPUT)
+     Q                 FSAVSURF,NEED_TO_REINIT_FSAV,GLOB_THERM,OUTPUT,MASS0_START)
 
          IF(SIZE_MES==1 .AND.
      *     AFORM(4)==3   .AND.
@@ -1427,7 +1429,7 @@ C
      L                IGAUP  ,NGAUP ,AFORM(5),SIZE_MES,
      M                RTHBUF  ,THKE ,STACK  ,ISPHIO  ,VSPHIO,
      N                ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%SITHBUFE,
-     Q                FSAVSURF,NEED_TO_REINIT_FSAV,GLOB_THERM,OUTPUT)
+     Q                FSAVSURF,NEED_TO_REINIT_FSAV,GLOB_THERM,OUTPUT,MASS0_START)
 
         IF(SIZE_MES==1 .AND.
      *     AFORM(5)==3   .AND.
@@ -1518,7 +1520,7 @@ C
      L                IGAUP,NGAUP ,AFORM(6),SIZE_MES,
      M                RTHBUF,THKE ,STACK  ,ISPHIO  ,VSPHIO,
      N                ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%SITHBUFF,
-     Q                FSAVSURF,NEED_TO_REINIT_FSAV,GLOB_THERM,OUTPUT)
+     Q                FSAVSURF,NEED_TO_REINIT_FSAV,GLOB_THERM,OUTPUT,MASS0_START)
 
         IF(SIZE_MES==1 .AND.
      *     AFORM(6)==3   .AND.
@@ -1610,7 +1612,7 @@ C
      L                IGAUP,NGAUP ,AFORM(7),SIZE_MES,
      M                RTHBUF,THKE ,STACK  ,ISPHIO  ,VSPHIO,
      N                ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%SITHBUFG,
-     Q                FSAVSURF,NEED_TO_REINIT_FSAV,GLOB_THERM,OUTPUT)
+     Q                FSAVSURF,NEED_TO_REINIT_FSAV,GLOB_THERM,OUTPUT,MASS0_START)
 
         IF(SIZE_MES==1 .AND.
      *     AFORM(7)==3   .AND.
@@ -1702,7 +1704,7 @@ C
      L                IGAUP  ,NGAUP ,AFORM(8),SIZE_MES,
      M                RTHBUF ,THKE ,STACK ,ISPHIO  ,VSPHIO,
      N                ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%SITHBUFH,
-     Q                FSAVSURF,NEED_TO_REINIT_FSAV,GLOB_THERM,OUTPUT)
+     Q                FSAVSURF,NEED_TO_REINIT_FSAV,GLOB_THERM,OUTPUT,MASS0_START)
 
         IF(SIZE_MES==1 .AND. AFORM(8)==3 .AND.ISPMD==0 ) CALL file_size(MULTITHFILESIZE(8))
 
@@ -1789,7 +1791,7 @@ C
      L                IGAUP,NGAUP ,AFORM(9),SIZE_MES,
      M                RTHBUF ,THKE ,STACK ,ISPHIO  ,VSPHIO,
      N                ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%SITHBUFI,
-     Q                FSAVSURF,NEED_TO_REINIT_FSAV,GLOB_THERM,OUTPUT)
+     Q                FSAVSURF,NEED_TO_REINIT_FSAV,GLOB_THERM,OUTPUT,MASS0_START)
 
         IF(SIZE_MES==1 .AND. AFORM(9)==3 .AND. ISPMD==0 ) CALL file_size(MULTITHFILESIZE(9))
             IF(ABFILE(10) /= 0) THEN
@@ -1876,7 +1878,7 @@ C
      L                IGAUP,NGAUP,ITFORM,SIZE_MES,
      M                RTHBUF ,THKE ,STACK,ISPHIO  ,VSPHIO,
      N                ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%SITHBUF,
-     Q                FSAVSURF,NEED_TO_REINIT_FSAV,GLOB_THERM,OUTPUT)
+     Q                FSAVSURF,NEED_TO_REINIT_FSAV,GLOB_THERM,OUTPUT,MASS0_START)
 
         IF(SIZE_MES==1 .AND. ITFORM==3 .AND. ISPMD==0 )CALL file_size(THFILESIZE)
 
