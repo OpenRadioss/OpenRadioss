@@ -327,14 +327,6 @@ C=======================================================================
              EBCS%has_iface = .TRUE.
              IF(IFLAG==0)ALLOCATE(EBCS%iface(NSEG))
              EBCS%iface(1:NSEG) = 0 
-             !     vold
-             EBCS%has_vold = .TRUE.
-             IF(IFLAG==0)ALLOCATE(EBCS%vold(SIZ))
-             EBCS%vold(1:SIZ) = 0   
-             !     Pold
-             EBCS%has_Pold = .TRUE.
-             IF(IFLAG==0) ALLOCATE(EBCS%Pold(SIZ))
-             EBCS%Pold(1:SIZ) = 0 
              !     la
              EBCS%has_la = .true.
              IF(IFLAG==0)ALLOCATE(EBCS%la(3, EBCS%nb_node))

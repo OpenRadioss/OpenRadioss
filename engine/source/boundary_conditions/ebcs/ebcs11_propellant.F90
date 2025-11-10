@@ -119,7 +119,7 @@
           real(kind=WP) :: npt
           real(kind=WP) :: orient,rho,vol,volg,mass,mass_face
           real(kind=WP) :: x13,y13,z13,x24,y24,z24
-          real(kind=WP) :: xn, yn, zn, vold, padj, eadj, tadj
+          real(kind=WP) :: xn, yn, zn, padj, eadj, tadj
           real(kind=WP) :: pp,ee,tt,ssp,vel_front,fac1,fac2
           real(kind=WP) :: param_a, param_n, param_q, param_t, param_gamma
           real(kind=WP) :: Cp, Cv
@@ -414,12 +414,6 @@
 
             endif
 
-            vold = ebcs%vold(is)
-            ebcs%vold(is) = vel_front
-            if(time == zero) then
-              vold = zero
-            endif
-
             roou = segvar%rho(kseg)
             enou = segvar%eint(kseg)
 
@@ -499,7 +493,6 @@
             face_force = pp*surf                                        !pp for equilibrium
             !mass = mass + dmass_g
             mass_face = mass*(npt*one)/(isolnod*one)
-            !vold = zero
             if(dt1 > zero)face_force = face_force + (vel_front) * mass_face / dt1   !pp= pp+ dp to input corresponding propellant
             !expand pressure loading to segment nodes
             !face_force = pp*surf
