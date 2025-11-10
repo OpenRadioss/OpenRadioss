@@ -1249,6 +1249,16 @@ C Stress in orthotropic skew for mulaw
                 LBUFSP%SIGL(JJ(6)+J)=LBUF%SIGL(II(6)+I)
               END IF
 C-----------
+C Volume fraction
+              IF(ELBUF_TAB(NG)%BUFLY(1)%L_BFRAC > 0)THEN
+                LBUFSP%BFRAC(JJ(1)+J)=LBUF%BFRAC(II(1)+I)
+              END IF
+C-----------
+C Afterburning param
+              IF(ELBUF_TAB(NG)%BUFLY(1)%L_ABURN > 0)THEN
+                LBUFSP%ABURN(JJ(1)+J)=LBUF%ABURN(II(1)+I)
+              END IF
+C-----------
 C User variables (same for SPH and solids)
               IF(ELBUF_TAB(NG)%BUFLY(1)%NVAR_MAT > 0)THEN
                 DO K=1,ELBUF_TAB(NG)%BUFLY(1)%NVAR_MAT
