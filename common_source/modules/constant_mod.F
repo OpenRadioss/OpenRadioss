@@ -179,6 +179,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    inivel_dt2                               ../engine/source/loads/general/inivel/inivel_dt2.F90
 !||    inivel_start                             ../engine/source/loads/general/inivel/inivel_start.F90
 !||    inivol_set                               ../starter/source/initial_conditions/inivol/inivol_set.F
+!||    inter11_duplicate_edge                   ../engine/source/engine/node_spliting/detach_node.F90
 !||    inter7_candidate_pairs                   ../engine/source/interfaces/intsort/inter7_candidate_pairs.F90
 !||    inter7_collision_detection               ../engine/source/interfaces/intsort/inter7_collision_detection.F90
 !||    inter7_filter_cand                       ../engine/source/interfaces/intsort/inter7_filter_cand.F90

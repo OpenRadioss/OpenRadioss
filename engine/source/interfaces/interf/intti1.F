@@ -42,6 +42,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    h3d_mod                 ../engine/share/modules/h3d_mod.F
 !||    intbufdef_mod           ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    my_alloc_mod            ../common_source/tools/memory/my_alloc.F90
+!||    nodal_arrays_mod        ../common_source/modules/nodal_arrays.F90
 !||====================================================================
       SUBROUTINE INTTI1(NODES,
      1   IPARI    ,X        ,V        ,A       ,

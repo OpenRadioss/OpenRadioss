@@ -786,6 +786,7 @@
 !||    intbuf_ini_starter                       ../starter/source/interfaces/intbuf/intbuf_ini_starter.F
 !||    intbuf_tab_c_ini                         ../common_source/interf/copy_intbuf_tab.F
 !||    intcrit                                  ../engine/source/interfaces/intsort/intcrit.F
+!||    inter11_duplicate_edge                   ../engine/source/engine/node_spliting/detach_node.F90
 !||    inter_check_sort                         ../engine/source/interfaces/generic/inter_check_sort.F
 !||    inter_color_coarse_voxel                 ../engine/source/interfaces/generic/inter_color_coarse_voxel.F
 !||    inter_color_voxel                        ../engine/source/interfaces/generic/inter_color_voxel.F

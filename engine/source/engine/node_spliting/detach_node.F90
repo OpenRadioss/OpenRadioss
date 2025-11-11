@@ -78,6 +78,16 @@
         end function find_segment_in_list
 
 
+!||====================================================================
+!||    inter11_duplicate_edge        ../engine/source/engine/node_spliting/detach_node.F90
+!||--- called by ------------------------------------------------------
+!||    detach_node_from_interfaces   ../engine/source/engine/node_spliting/detach_node.F90
+!||--- calls      -----------------------------------------------------
+!||--- uses       -----------------------------------------------------
+!||    constant_mod                  ../common_source/modules/constant_mod.F
+!||    extend_array_mod              ../common_source/tools/memory/extend_array.F90
+!||    intbufdef_mod                 ../common_source/modules/interfaces/intbufdef_mod.F90
+!||====================================================================
         subroutine inter11_duplicate_edge(flag,old_edge_id, new_edge_id, intbuf_tab, ipari,npari)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
@@ -170,6 +180,7 @@
 !||    detach_node                   ../engine/source/engine/node_spliting/detach_node.F90
 !||--- calls      -----------------------------------------------------
 !||    find_segment_in_list          ../engine/source/engine/node_spliting/detach_node.F90
+!||    inter11_duplicate_edge        ../engine/source/engine/node_spliting/detach_node.F90
 !||--- uses       -----------------------------------------------------
 !||    connectivity_mod              ../common_source/modules/connectivity.F90
 !||    constant_mod                  ../common_source/modules/constant_mod.F
