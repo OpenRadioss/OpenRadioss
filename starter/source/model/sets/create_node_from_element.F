@@ -70,10 +70,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,IND,LIMIT
+      INTEGER I,IND,LIMIT,J
       INTEGER, ALLOCATABLE, DIMENSION(:) :: TAGNOD,CLAUSE_NODE
       INTEGER IWORK(70000)
       INTEGER, DIMENSION(:),ALLOCATABLE:: IDX,SORT
+      INTEGER IEXT,ELTYP,NOD
 C=======================================================================
 !
       ALLOCATE(TAGNOD(NUMNOD))
@@ -82,26 +83,84 @@ C=======================================================================
 
       IND=0
 !
+      IEXT = CLAUSE%EXT_ALL
+
       ! SOLID
-      IF ( CLAUSE%NB_SOLID > 0 )
-     . CALL TAG_NODE_FROM_SOLID(
+      IF ( CLAUSE%NB_SOLID > 0 .AND. IEXT /= 2) THEN
+       !! tag all nodes of all solids
+       CALL TAG_NODE_FROM_SOLID(
      .                         IXS   ,IXS10  ,IXS20  ,IXS16   ,CLAUSE%NB_SOLID ,
      .                         CLAUSE%SOLID  ,TAGNOD ,CLAUSE_NODE,IND )
+      ELSE IF (CLAUSE%NB_SOLID > 0 .AND. IEXT == 2) THEN
+        ! IEXT = 2  ( OPT_E = 1 )
+        !! tag all nodes of external surface of solids
+        DO I=1,CLAUSE%NB_SURF_SEG
+          ELTYP = CLAUSE%SURF_ELTYP(I)
+          IF (ELTYP == 1) THEN
+            DO J=1,4
+              NOD = CLAUSE%SURF_NODES(I,J)
+              IF(TAGNOD(NOD) == 0)THEN
+                TAGNOD(NOD) = 1
+                IND = IND+1
+                CLAUSE_NODE(IND) = NOD
+              ENDIF
+            ENDDO
+          ENDIF
+        ENDDO
+      ENDIF
       ! QUAD
       IF ( CLAUSE%NB_QUAD > 0 )
      . CALL TAG_NODE_FROM_1D_2D_ELEM(
      .                         IXQ         ,NIXQ   ,2     ,5    ,CLAUSE%NB_QUAD,
      .                         CLAUSE%QUAD ,TAGNOD,CLAUSE_NODE,IND )
       ! SH4N
-      IF ( CLAUSE%NB_SH4N > 0 )
-     . CALL TAG_NODE_FROM_1D_2D_ELEM(
+      IF ( CLAUSE%NB_SH4N > 0 .AND. IEXT /= 2 ) THEN
+       ! IEXT = 1  ( DEFAULT )
+       ! IEXT = 3  ( OPT_A = 1 )
+       !! tag all nodes shells
+       CALL TAG_NODE_FROM_1D_2D_ELEM(
      .                         IXC         ,NIXC   ,2     ,5    ,CLAUSE%NB_SH4N,
      .                         CLAUSE%SH4N ,TAGNOD,CLAUSE_NODE,IND  )
+      ELSE IF (CLAUSE%NB_SH4N > 0 .AND. IEXT == 2 ) THEN
+        !! tag all nodes of only free edges from the shell elements 
+        DO I=1,CLAUSE%NB_LINE_SEG
+          ELTYP = CLAUSE%LINE_ELTYP(I)
+          IF (ELTYP == 3) THEN
+            DO J=1,2
+              NOD = CLAUSE%LINE_NODES(I,J)
+              IF(TAGNOD(NOD) == 0)THEN
+                TAGNOD(NOD) = 1
+                IND = IND+1
+                CLAUSE_NODE(IND) = NOD
+              ENDIF
+            ENDDO
+          ENDIF
+        ENDDO
+      ENDIF
       ! SH3N
-      IF ( CLAUSE%NB_SH3N > 0 .AND. CLAUSE%NB_TRIA == 0 )
-     . CALL TAG_NODE_FROM_1D_2D_ELEM(
+      IF ( CLAUSE%NB_SH3N > 0 .AND. CLAUSE%NB_TRIA == 0 .AND. IEXT /= 2 ) THEN
+       ! IEXT = 1  ( DEFAULT )
+       ! IEXT = 3  ( OPT_A = 1 )
+       !! tag all nodes shells
+       CALL TAG_NODE_FROM_1D_2D_ELEM(
      .                         IXTG        ,NIXTG  ,2     ,4    ,CLAUSE%NB_SH3N,
      .                         CLAUSE%SH3N ,TAGNOD,CLAUSE_NODE,IND  )
+      ELSE IF (CLAUSE%NB_SH3N > 0 .AND. IEXT == 2 ) THEN
+        !! tag all nodes of only free edges from the sh3n elements 
+        DO I=1,CLAUSE%NB_LINE_SEG
+          ELTYP = CLAUSE%LINE_ELTYP(I)
+          IF (ELTYP == 7) THEN
+            DO J=1,2
+              NOD = CLAUSE%LINE_NODES(I,J)
+              IF(TAGNOD(NOD) == 0)THEN
+                TAGNOD(NOD) = 1
+                IND = IND+1
+                CLAUSE_NODE(IND) = NOD
+              ENDIF
+            ENDDO
+          ENDIF
+        ENDDO
+      ENDIF
       ! TRIA
       IF ( CLAUSE%NB_TRIA > 0 )
      . CALL TAG_NODE_FROM_1D_2D_ELEM(

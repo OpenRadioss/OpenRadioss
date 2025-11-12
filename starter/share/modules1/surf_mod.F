@@ -39,7 +39,7 @@ C-----------------------------------------------
 C   m y _ r e a l
 C-----------------------------------------------
 #include      "my_real.inc"
-        INTEGER, PARAMETER :: EXT_SURF = 1 !< definition of /EXT surface
+        INTEGER, PARAMETER :: EXT_SURF = 1 !< definition of default surface
         INTEGER, PARAMETER :: ALL_SURF = 2 !< definition of /ALL surface
 C-----------------------------------------------
 C   D e r i v e d   T y p e   D e f i n i t i o n s
