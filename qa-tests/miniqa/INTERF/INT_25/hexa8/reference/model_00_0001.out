@@ -12,7 +12,7 @@
 **                      Double Precision Version                      **
 **                                                                    **
 **                                                                    **
-**                                                                    **
+** CommitID: a3e475fffe5a7cac97e1101eb89c7e19cea81543                 **
 ************************************************************************
 ** OpenRadioss Software                                               **
 ** COPYRIGHT (C) 1986-2025 Altair Engineering, Inc.                   **
@@ -20,18 +20,20 @@
 ** See License file.                                                  **
 ************************************************************************
  
- NUMBER OF SPMD DOMAINS           2
- NUMBER OF THREADS PER DOMAIN     1
- NUMBER OF HMPP PROCESSES         2
+ NUMBER OF SPMD DOMAINS           4
+ NUMBER OF THREADS PER DOMAIN     2
+ NUMBER OF HMPP PROCESSES         8
   
  COMPUTATION HARDWARE DESCRIPTION
   
  CPU#  HOSTNAME     CPU TYPE, FREQUENCY AND MEMORY
-   1   FR-LAP327   11th Gen Intel(R) Core(TM) i7-11850H @ 2.50GHz (x86_64), 2495 MHz,  31698 MB RAM,   8192 MB swap
-   2   FR-LAP327   11th Gen Intel(R) Core(TM) i7-11850H @ 2.50GHz (x86_64), 2495 MHz,  31698 MB RAM,   8192 MB swap
+   1   488ff15f409c   Intel(R) Xeon(R) Platinum 8358 CPU @ 2.60GHz (x86_64), 2593 MHz,  16016 MB RAM,      0 MB swap
+   2   488ff15f409c   Intel(R) Xeon(R) Platinum 8358 CPU @ 2.60GHz (x86_64), 2593 MHz,  16016 MB RAM,      0 MB swap
+   3   488ff15f409c   Intel(R) Xeon(R) Platinum 8358 CPU @ 2.60GHz (x86_64), 2593 MHz,  16016 MB RAM,      0 MB swap
+   4   488ff15f409c   Intel(R) Xeon(R) Platinum 8358 CPU @ 2.60GHz (x86_64), 2593 MHz,  16016 MB RAM,      0 MB swap
   
  STACKSIZE  . . . . . . . . . . . . . . . . . . . . 8 MB
- THREAD STACKSIZE . . . . . . . . . . . . . . . . . 400 MB
+ THREAD STACKSIZE . . . . . . . . . . . . . . . . . 400 mB
  
 ************************************************************************
 
@@ -39,7 +41,7 @@
  model_00D01                                                                     
 
 
- FINAL TIME . . . . . . . . . . . . . . . . . . .   10.00000    
+ FINAL TIME . . . . . . . . . . . . . . . . . . .   5.000000    
 
  TIME INTERVAL FOR TIME HISTORY PLOTS . . . . . .  0.1000000E+31
 
@@ -168,89 +170,51 @@
  ----------------
  
  
- 30/10/2025
+ 12/11/2025
    CYCLE    TIME      TIME-STEP  ELEMENT          ERROR  I-ENERGY    K-ENERGY T  K-ENERGY R  EXT-WORK     MAS.ERR     TOTAL MASS  MASS ADDED
-       0   0.000      0.7583E-03 NODE         522   0.0%   0.000       0.000       0.000       0.000       0.000      0.1004       0.000    
+       0   0.000      0.7583E-03 NODE         525   0.0%   0.000       0.000       0.000       0.000       0.000      0.1004       0.000    
     1000  0.6569      0.6367E-03 NODE           5  -2.6%   65.19      0.6277E-01   0.000       66.96       0.000      0.1004       0.000    
-    2000   1.286      0.6181E-03 NODE           5  -9.9%   161.8      0.4226E-01   0.000       179.6       0.000      0.1004       0.000    
+    2000   1.286      0.6181E-03 NODE           5  -9.9%   161.8      0.4352E-01   0.000       179.6       0.000      0.1004       0.000    
  DELETE SOLID ELEMENT NUMBER        239
  DELETE SOLID ELEMENT NUMBER        219
  DELETE SOLID ELEMENT NUMBER         81
+ DELETE SOLID ELEMENT NUMBER         61
  DELETE SOLID ELEMENT NUMBER        273
  DELETE SOLID ELEMENT NUMBER        115
- DELETE SOLID ELEMENT NUMBER         61
  DELETE SOLID ELEMENT NUMBER        231
  DELETE SOLID ELEMENT NUMBER         73
  DELETE SOLID ELEMENT NUMBER        207
- DELETE SOLID ELEMENT NUMBER        140
  DELETE SOLID ELEMENT NUMBER         49
- DELETE SOLID ELEMENT NUMBER         41
+ DELETE SOLID ELEMENT NUMBER        140
  DELETE SOLID ELEMENT NUMBER        160
  DELETE SOLID ELEMENT NUMBER        199
+ DELETE SOLID ELEMENT NUMBER         41
  DELETE SOLID ELEMENT NUMBER        152
  DELETE SOLID ELEMENT NUMBER        194
+ DELETE SOLID ELEMENT NUMBER        237
  DELETE SOLID ELEMENT NUMBER        113
  DELETE SOLID ELEMENT NUMBER         79
  DELETE SOLID ELEMENT NUMBER        271
- DELETE SOLID ELEMENT NUMBER        237
- DELETE SOLID ELEMENT NUMBER        211
  DELETE SOLID ELEMENT NUMBER        267
  DELETE SOLID ELEMENT NUMBER        109
- DELETE SOLID ELEMENT NUMBER        209
  DELETE SOLID ELEMENT NUMBER         53
+ DELETE SOLID ELEMENT NUMBER        211
  DELETE SOLID ELEMENT NUMBER        215
  DELETE SOLID ELEMENT NUMBER         57
  DELETE SOLID ELEMENT NUMBER         51
+ DELETE SOLID ELEMENT NUMBER        209
  DELETE SOLID ELEMENT NUMBER        188
  DELETE SOLID ELEMENT NUMBER        132
-    3000   1.903      0.6178E-03 NODE           5  -7.6%   227.9       1.095       0.000       247.8       0.000      0.1004       0.000    
-    4000   2.517      0.6119E-03 NODE           5  -7.6%   227.9       1.097       0.000       247.8       0.000      0.1004       0.000    
-    5000   3.130      0.6119E-03 NODE           5  -7.6%   227.9       1.086       0.000       247.7       0.000      0.1004       0.000    
+    3000   1.902      0.6175E-03 NODE           5  -7.5%   230.8       1.527       0.000       251.1       0.000      0.1004       0.000    
+    4000   2.519      0.6175E-03 NODE           5  -7.5%   230.8       1.524       0.000       251.1       0.000      0.1004       0.000    
+    5000   3.137      0.6175E-03 NODE           5  -7.5%   230.8       1.525       0.000       251.1       0.000      0.1004       0.000    
  DELETE SOLID ELEMENT NUMBER        136
  DELETE SOLID ELEMENT NUMBER        130
-    6000   3.748      0.6195E-03 NODE         467  -7.7%   229.4       1.291       0.000       250.1       0.000      0.1004       0.000    
-    7000   4.367      0.6195E-03 NODE         467  -7.7%   229.4       1.291       0.000       250.1       0.000      0.1004       0.000    
-    8000   4.987      0.6195E-03 NODE         467  -7.7%   229.5       1.291       0.000       250.1       0.000      0.1004       0.000    
- DELETE SOLID ELEMENT NUMBER        120
- DELETE SOLID ELEMENT NUMBER        128
- DELETE SOLID ELEMENT NUMBER        154
- DELETE SOLID ELEMENT NUMBER        162
- DELETE SOLID ELEMENT NUMBER        233
- DELETE SOLID ELEMENT NUMBER         75
- DELETE SOLID ELEMENT NUMBER        241
- DELETE SOLID ELEMENT NUMBER         83
-    9000   5.617      0.6486E-03 NODE         418 -10.8%   252.9       2.021       0.000       285.8       0.000      0.1004       0.000    
-   10000   6.265      0.6486E-03 NODE         418 -10.8%   252.9       2.020       0.000       285.8       0.000      0.1004       0.000    
-   11000   6.914      0.6485E-03 NODE         418 -10.8%   253.1       2.035       0.000       286.1       0.000      0.1004       0.000    
- DELETE SOLID ELEMENT NUMBER        158
- DELETE SOLID ELEMENT NUMBER        192
- DELETE SOLID ELEMENT NUMBER        235
- DELETE SOLID ELEMENT NUMBER        205
- DELETE SOLID ELEMENT NUMBER         77
- DELETE SOLID ELEMENT NUMBER         47
- DELETE SOLID ELEMENT NUMBER        156
- DELETE SOLID ELEMENT NUMBER        126
-   12000   7.565      0.6604E-03 NODE          39 -12.7%   264.5       3.392       0.000       307.1       0.000      0.1004       0.000    
-   13000   8.226      0.6604E-03 NODE          39 -12.7%   264.6       3.389       0.000       307.1       0.000      0.1004       0.000    
- DELETE SOLID ELEMENT NUMBER         55
-   14000   8.878      0.6102E-03 NODE           5 -16.5%   274.4       3.460       0.000       332.9       0.000      0.1004       0.000    
- DELETE SOLID ELEMENT NUMBER        213
- DELETE SOLID ELEMENT NUMBER        134
- DELETE SOLID ELEMENT NUMBER        251
- DELETE SOLID ELEMENT NUMBER        223
- DELETE SOLID ELEMENT NUMBER        277
- DELETE SOLID ELEMENT NUMBER         89
- DELETE SOLID ELEMENT NUMBER        168
- DELETE SOLID ELEMENT NUMBER        247
- DELETE SOLID ELEMENT NUMBER        243
- DELETE SOLID ELEMENT NUMBER         93
- DELETE SOLID ELEMENT NUMBER        164
- DELETE SOLID ELEMENT NUMBER        172
- DELETE SOLID ELEMENT NUMBER         85
- DELETE SOLID ELEMENT NUMBER        119
-   15000   9.484      0.6087E-03 NODE           5 -16.9%   319.4       4.738       0.000       390.2       0.000      0.1004       0.000    
+    6000   3.754      0.6175E-03 NODE           5  -7.6%   232.5       1.774       0.000       253.4       0.000      0.1004       0.000    
+    7000   4.371      0.6175E-03 NODE           5  -7.6%   232.5       1.773       0.000       253.4       0.000      0.1004       0.000    
+    8000   4.989      0.6175E-03 NODE           5  -7.6%   232.5       1.773       0.000       253.5       0.000      0.1004       0.000    
 
-     RESTART FILES: model_00_0001_[0001-0002].rst WRITTEN
+     RESTART FILES: model_00_0001_[0001-0004].rst WRITTEN
      -------------
 
   
@@ -260,27 +224,31 @@
                         ** SUMMARY **
   
  #PROC  CONTSORT  CONTFOR   ELEMENT   KINCOND   INTEG     IO        T0        ASM       RESOL    
-   1   .3982E+00 .1559E+01 .2953E+01 .1789E+00 .6321E-01 .8078E-01 .2745E+00 .3530E+00 .6561E+01
-   2   .3817E+00 .1450E+01 .2787E+01 .1866E+00 .6526E-01 .8113E-01 .2789E+00 .1705E+00 .6691E+01
+   1   .9153E+00 .2241E+01 .4215E+01 .2714E+01 .1992E+00 .1438E+00 .5394E+00 .5282E+00 .1374E+02
+   2   .9594E+00 .2409E+01 .4226E+01 .2554E+01 .1981E+00 .1577E+00 .5601E+00 .4854E+00 .1386E+02
+   3   .1007E+01 .2149E+01 .4258E+01 .2428E+01 .2034E+00 .1491E+00 .6782E+00 .8437E+00 .1385E+02
+   4   .8826E+00 .2272E+01 .4198E+01 .2756E+01 .1841E+00 .1368E+00 .5435E+00 .7688E+00 .1381E+02
   
                  ** SPMD COM. TIME **
   
  #PROC  FORCES    RBYFOR    RBYVEL    VEL       TOT       %        
-   1   .4623E+00 .4004E-01 .0000E+00 .4842E-01 .5508E+00 .8395E+01
-   2   .1043E+01 .2356E-01 .0000E+00 .6085E-01 .1127E+01 .1685E+02
+   1   .1800E+01 .1115E+00 .0000E+00 .8348E-01 .1995E+01 .1451E+02
+   2   .1933E+01 .1237E+00 .0000E+00 .7696E-01 .2134E+01 .1539E+02
+   3   .1595E+01 .2123E-01 .0000E+00 .1201E+00 .1736E+01 .1253E+02
+   4   .1660E+01 .1439E+00 .0000E+00 .1261E+00 .1930E+01 .1398E+02
   
  
                    ** CUMULATIVE CPU TIME SUMMARY **
   
- CONTACT SORTING.............: .7799E+00     5.88 % 
- CONTACT FORCES..............: .3009E+01    22.70 % 
- .. INCLUDING CONTACT NORMALS: .7244E+00     5.47 % 
- ELEMENT FORCES..............: .5740E+01    43.31 % 
- KINEMATIC COND..............: .3654E+00     2.76 % 
- INTEGRATION.................: .1285E+00     0.97 % 
- ASSEMBLING..................: .5235E+00     3.95 % 
- OTHERS (including I/O)......: .2706E+01    20.42 % 
- TOTAL.......................: .1325E+02   100.00 % 
+ CONTACT SORTING.............: .3764E+01     6.81 % 
+ CONTACT FORCES..............: .9071E+01    16.41 % 
+ .. INCLUDING CONTACT NORMALS: .2402E+01     4.35 % 
+ ELEMENT FORCES..............: .1690E+02    30.58 % 
+ KINEMATIC COND..............: .1045E+02    18.91 % 
+ INTEGRATION.................: .7847E+00     1.42 % 
+ ASSEMBLING..................: .2626E+01     4.75 % 
+ OTHERS (including I/O)......: .1167E+02    21.11 % 
+ TOTAL.......................: .5526E+02   100.00 % 
   
   
                            ** ELAPSED TIME **
@@ -289,37 +257,51 @@
                         ** SUMMARY **
   
  #PROC  CONTSORT  CONTFOR   ELEMENT   KINCOND   INTEG     IO        T0        ASM       RESOL    
-   1   .4395E+00 .1722E+01 .3272E+01 .1993E+00 .7031E-01 .9028E-01 .3064E+00 .3919E+00 .7262E+01
-   2   .4169E+00 .1573E+01 .3030E+01 .2041E+00 .7166E-01 .8891E-01 .3037E+00 .1854E+00 .7262E+01
+   1   .6232E+00 .1449E+01 .2526E+01 .3536E+00 .1628E+00 .1191E+00 .4338E+00 .3082E+00 .7457E+01
+   2   .6394E+00 .1490E+01 .2501E+01 .3535E+00 .1582E+00 .1205E+00 .4356E+00 .2875E+00 .7458E+01
+   3   .6798E+00 .1391E+01 .2530E+01 .2086E+00 .1592E+00 .1236E+00 .4922E+00 .4776E+00 .7458E+01
+   4   .5901E+00 .1485E+01 .2526E+01 .3532E+00 .1553E+00 .1176E+00 .4221E+00 .4487E+00 .7458E+01
+  
+        CONTSORT  CONTFOR   ELEMENT   KINCOND   INTEG     IO        T0        ASM       RESOL    
+ MIN   .5901E+00 .1391E+01 .2501E+01 .2086E+00 .1553E+00 .1176E+00 .4221E+00 .2875E+00 .7457E+01
+ MAX   .6798E+00 .1490E+01 .2530E+01 .3536E+00 .1628E+00 .1236E+00 .4922E+00 .4776E+00 .7458E+01
+ AVG   .6331E+00 .1454E+01 .2521E+01 .3172E+00 .1589E+00 .1202E+00 .4459E+00 .3805E+00 .7458E+01
   
                  ** SPMD COM. TIME **
   
  #PROC  FORCES    RBYFOR    RBYVEL    VEL       TOT       %        
-   1   .5163E+00 .4458E-01 .0000E+00 .5421E-01 .6151E+00 .8470E+01
-   2   .1131E+01 .2562E-01 .0000E+00 .6595E-01 .1222E+01 .1683E+02
+   1   .1118E+01 .8364E-01 .0000E+00 .6964E-01 .1271E+01 .1705E+02
+   2   .1166E+01 .8891E-01 .0000E+00 .5686E-01 .1312E+01 .1760E+02
+   3   .9908E+00 .1363E-01 .0000E+00 .7995E-01 .1084E+01 .1454E+02
+   4   .1020E+01 .1021E+00 .0000E+00 .8917E-01 .1211E+01 .1624E+02
+  
+        FORCES    RBYFOR    RBYVEL    VEL       TOT       %        
+ MIN   .9908E+00 .1363E-01 .0000E+00 .5686E-01 .1084E+01 .1454E+02
+ MAX   .1166E+01 .1021E+00 .0000E+00 .8917E-01 .1312E+01 .1760E+02
+ AVG   .1074E+01 .7207E-01 .0000E+00 .7390E-01 .1220E+01 .1635E+02
   
                    ** MEMORY USAGE STATISTICS **
   
- TOTAL MEMORY USED .........................:      148 MB
- MAXIMUM MEMORY PER PROCESSOR...............:       74 MB
- MINIMUM MEMORY PER PROCESSOR...............:       74 MB
- AVERAGE MEMORY PER PROCESSOR...............:       74 MB
+ TOTAL MEMORY USED .........................:      348 MB
+ MAXIMUM MEMORY PER PROCESSOR...............:        0 MB
+ MINIMUM MEMORY PER PROCESSOR...............:       86 MB
+ AVERAGE MEMORY PER PROCESSOR...............:       87 MB
   
                    ** DISK USAGE STATISTICS **
   
- TOTAL DISK SPACE USED .....................:          1 MB
+ TOTAL DISK SPACE USED .....................:          2 MB
  ANIMATION/H3D/TH/OUTP SIZE ................:          0 MB
- RESTART FILE SIZE .........................:          1 MB
+ RESTART FILE SIZE .........................:          2 MB
   
                    ** COMPUTE TIME INFORMATION **
                         ** CURRENT ENGINE **
   
- EXECUTION STARTED .........................:      2025/10/30  16:45:37
- EXECUTION COMPLETED .......................:      2025/10/30  16:45:44
+ EXECUTION STARTED .........................:      2025/11/12  14:35:09
+ EXECUTION COMPLETED .......................:      2025/11/12  14:35:16
   
- ELAPSED TIME     =          7.29 s
+ ELAPSED TIME     =          7.52 s
                           0:00:07
- ESTIMATED SPEEDUP=          1.82
+ ESTIMATED SPEEDUP=          7.35
 
 
 
@@ -327,13 +309,13 @@
 
 
 
-     TOTAL NUMBER OF CYCLES  :   15848
+     TOTAL NUMBER OF CYCLES  :    8019
 
   
                    ** COMPUTE RUNTIME INFORMATION SUMMARY **
   
-        STARTER RUNTIME =          0.30s (00:00:00)
- # 001   ENGINE RUNTIME =          7.29s (00:00:07)
+        STARTER RUNTIME =          0.51s (00:00:00)
+ # 001   ENGINE RUNTIME =          7.52s (00:00:07)
  ------------------------------ 
- STARTER+ENGINE RUNTIME =          7.59s (00:00:07)
+ STARTER+ENGINE RUNTIME =          8.03s (00:00:08)
   

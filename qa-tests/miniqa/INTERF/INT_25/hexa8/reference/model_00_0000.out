@@ -12,7 +12,7 @@
 **                      Double Precision Version                      **
 **                                                                    **
 **                                                                    **
-**                                                                    **
+** CommitID: a3e475fffe5a7cac97e1101eb89c7e19cea81543                 **
 ************************************************************************
 ** OpenRadioss Software                                               **
 ** COPYRIGHT (C) 1986-2025 Altair Engineering, Inc.                   **
@@ -24,10 +24,10 @@
  COMPUTATION HARDWARE DESCRIPTION
   
  HOSTNAME     CPU TYPE, FREQUENCY AND MEMORY
- FR-LAP327   11th Gen Intel(R) Core(TM) i7-11850H @ 2.50GHz (x86_64), 2495 MHz,  31698 MB RAM,   8192 MB swap
+ 488ff15f409c   Intel(R) Xeon(R) Platinum 8358 CPU @ 2.60GHz (x86_64), 2593 MHz,  16016 MB RAM,      0 MB swap
   
  STACKSIZE  . . . . . . . . . . . . . . . . . . . . 8 MB
- THREAD STACKSIZE . . . . . . . . . . . . . . . . . 400 MB
+ THREAD STACKSIZE . . . . . . . . . . . . . . . . . 400 mB
  
 ************************************************************************
 
@@ -161,9 +161,9 @@
     SPEED PARAMETERS  
     ----------------  
 
-    STARTER RUNNING ON. . . . . . . . . . . . . . . . . .         1 THREAD              
-    NUMBER OF SPMD DOMAINS. . . . . . . . . . . . . . . .         2
-    NUMBER OF THREADS PER DOMAIN. . . . . . . . . . . . .         1
+    STARTER RUNNING ON. . . . . . . . . . . . . . . . . .         2 THREADS             
+    NUMBER OF SPMD DOMAINS. . . . . . . . . . . . . . . .         4
+    NUMBER OF THREADS PER DOMAIN. . . . . . . . . . . . .         2
     ARCHITECTURE OPTIMIZATION . . . . . . . . . . . . . .        18, linux64             
     SIZE OF ELEMENT BUFFER. . . . . . . . . . . . . . . .       128
  
@@ -438,13 +438,15 @@ PART:         5,Shell
   EDGES FOUND    =        632
   
 #PROC    ELEMENT W.    SECND NOD W.   MAST NOD W.    CONT ELT W.        INT2 W.    KIN COND W.
-   1         76608.             0.             0.             0.             0.             0.
-   2         79524.             0.             0.             0.             0.             0.
+   1         39617.             0.             0.             0.             0.             0.
+   2         38843.             0.             0.             0.             0.             0.
+   3         38304.             0.             0.             0.             0.             0.
+   4         39368.             0.             0.             0.             0.             0.
   
  STATISTICS ON DECOMPOSITION WEIGHTS
  -----------------------------------
  METRIC      MINIMUM   MAXIMUM   AVERAGE   STANDARD DEVIATION
- ELEMENTS      76608     79524     78066        1458
+ ELEMENTS      38304     39617     39033         505
 
 MESSAGE ID :   1741
 ** INFO IN PROPERTY DEFINITION
@@ -549,16 +551,18 @@ DESCRIPTION :
   EDGES FOUND    =        846
   
 #PROC    ELEMENT W.    SECND NOD W.   MAST NOD W.    CONT ELT W.        INT2 W.    KIN COND W.
-   1         79884.           203.           203.           931.             0.             0.
-   2         76248.           223.           223.           973.             0.             0.
+   1         39262.           111.           111.           497.             0.             0.
+   2         38885.           111.           111.           486.             0.             0.
+   3         38952.            95.            95.           480.             0.             0.
+   4         39033.           109.           109.           441.             0.             0.
   
  STATISTICS ON DECOMPOSITION WEIGHTS
  -----------------------------------
  METRIC      MINIMUM   MAXIMUM   AVERAGE   STANDARD DEVIATION
- ELEMENTS      76248     79884     78066        1818
- SECO. NODES     203       223       213          10
- MAIN NODES     203       223       213          10
- CONT. CAND.     931       973       952          21
+ ELEMENTS      38885     39262     39033         142
+ SECO. NODES      95       111       107           7
+ MAIN NODES      95       111       107           7
+ CONT. CAND.     441       497       476          21
 
 MESSAGE ID :   1741
 ** INFO IN PROPERTY DEFINITION
@@ -655,8 +659,13 @@ DESCRIPTION :
  BRICK GROUP         2 VECTORIZATION CODE =    0
  BRICK GROUP         3 VECTORIZATION CODE =    0
  BRICK GROUP         4 VECTORIZATION CODE =    0
- SHELL GROUP         5 VECTORIZATION CODE =   14
- SHELL GROUP         6 VECTORIZATION CODE =   10
+ BRICK GROUP         5 VECTORIZATION CODE =    0
+ BRICK GROUP         6 VECTORIZATION CODE =    0
+ BRICK GROUP         7 VECTORIZATION CODE =    0
+ SHELL GROUP         8 VECTORIZATION CODE =    8
+ SHELL GROUP         9 VECTORIZATION CODE =    2
+ SHELL GROUP        10 VECTORIZATION CODE =   14
+ SHELL GROUP        11 VECTORIZATION CODE =   14
 
 
       RIGID BODY INITIALIZATION 
@@ -682,25 +691,25 @@ PART MASS & INERTIA
 
 PART :          1, Solid
             Mass             Ixx             Iyy             Izz             Ixy             Iyz             Izx
-  1.35000000E-02  5.90625000E-01  3.37500000E+00  2.95312500E+00  9.99200722E-16  4.44089210E-16  3.10862447E-15
+  1.35000000E-02  5.90625000E-01  3.37500000E+00  2.95312500E+00  1.22124533E-15  3.33066907E-16  3.99680289E-15
                X               Y               Z     Kin. Energy              Vx              Vy              Vz
   2.50000000E+01  2.50000000E+00  1.00000000E+01  0.00000000E+00  0.00000000E+00  0.00000000E+00  0.00000000E+00
 
 PART :          2, Solid
             Mass             Ixx             Iyy             Izz             Ixy             Iyz             Izx
-  1.35000000E-02  5.90625000E-01  3.37500000E+00  2.95312500E+00  1.33226763E-15  4.44089210E-16  2.66453526E-15
+  1.35000000E-02  5.90625000E-01  3.37500000E+00  2.95312500E+00  8.88178420E-16  4.44089210E-16  3.10862447E-15
                X               Y               Z     Kin. Energy              Vx              Vy              Vz
   2.50000000E+01  7.50000000E+00  1.00000000E+01  0.00000000E+00  0.00000000E+00  0.00000000E+00  0.00000000E+00
 
 PART :          3, Solid
             Mass             Ixx             Iyy             Izz             Ixy             Iyz             Izx
-  1.35000000E-02  5.90625000E-01  3.37500000E+00  2.95312500E+00  4.44089210E-15  2.22044605E-15  2.66453526E-15
+  1.35000000E-02  5.90625000E-01  3.37500000E+00  2.95312500E+00  3.55271368E-15  1.99840144E-15  4.44089210E-15
                X               Y               Z     Kin. Energy              Vx              Vy              Vz
   2.50000000E+01  1.25000000E+01  1.00000000E+01  0.00000000E+00  0.00000000E+00  0.00000000E+00  0.00000000E+00
 
 PART :          5, Shell
             Mass             Ixx             Iyy             Izz             Ixy             Iyz             Izx
-  5.98899000E-02  7.79946191E+00  2.52591903E+01  2.38158163E+01 -3.73034936E-14 -1.15463195E-14 -4.97379915E-14
+  5.98899000E-02  7.79946191E+00  2.52591903E+01  2.38158163E+01 -3.19744231E-14 -6.21724894E-15 -3.19744231E-14
                X               Y               Z     Kin. Energy              Vx              Vy              Vz
   2.67799763E+01  7.50000000E+00  1.00000000E+01  0.00000000E+00  0.00000000E+00  0.00000000E+00  0.00000000E+00
 
@@ -765,51 +774,51 @@ Part id,name:         5 Shell                  Mat type:   2 Elm type: SHELL-4no
          ------------------------
 
       TIME STEP       ELEMENT NUMBER
-  9.3410819017664E-04            136
-  9.3410819017664E-04            101
-  9.3410819017664E-04            162
-  9.3410819017664E-04             81
-  9.3410819017664E-04             57
-  9.3410819017664E-04            160
-  9.3410819017664E-04            241
-  9.3410819017664E-04            235
-  9.3410819017664E-04             83
-  9.3410819017664E-04            239
-  9.3410819017664E-04            215
-  9.3410819017664E-04             53
-  9.3410819017664E-04            132
-  9.3410819017664E-04            156
-  9.3410819017664E-04             77
-  9.3410819017664E-04             75
-  9.3410819017664E-04            188
-  9.3410819017664E-04            192
-  9.3410819017664E-04            199
-  9.3410819017664E-04            205
+  9.3410819017664E-04            117
+  9.3410819017664E-04             51
+  9.3410819017664E-04            265
+  9.3410819017664E-04            277
+  9.3410819017664E-04            251
+  9.3410819017664E-04             59
+  9.3410819017664E-04            144
+  9.3410819017664E-04             65
+  9.3410819017664E-04            259
+  9.3410819017664E-04             45
+  9.3410819017664E-04            124
+  9.3410819017664E-04             67
+  9.3410819017664E-04             71
+  9.3410819017664E-04            257
+  9.3410819017664E-04            243
+  9.3410819017664E-04            249
+  9.3410819017664E-04            164
+  9.3410819017664E-04            225
+  9.3410819017664E-04            223
+  9.3410819017664E-04            203
 
          SHELL ELEMENTS TIME STEP
          ------------------------
 
       TIME STEP       ELEMENT NUMBER
-  8.8328720542607E-04             31
-  8.8328720542607E-04              1
-  8.8328720542607E-04             22
-  8.8328720542607E-04             33
-  8.8328720542607E-04             10
-  8.8328720542607E-04             32
-  8.8328720542607E-04             30
-  8.8328720542607E-04              5
-  8.8328720542607E-04              6
-  8.8328720542607E-04             17
-  8.8328720542607E-04             29
-  8.8328720542607E-04             23
-  8.8328720542607E-04             11
-  8.8328720542607E-04             45
-  8.8328720542607E-04             18
-  8.8328720542607E-04              2
-  8.8328720542607E-04             20
-  8.8328720542607E-04             35
-  8.8328720542607E-04              9
   8.8328720542607E-04             64
+  8.8328720542607E-04             17
+  8.8328720542607E-04             48
+  8.8328720542607E-04             52
+  8.8328720542607E-04             56
+  8.8328720542607E-04             60
+  8.8328720542607E-04             68
+  8.8328720542607E-04             51
+  8.8328720542607E-04              5
+  8.8328720542607E-04             55
+  8.8328720542607E-04             59
+  8.8328720542607E-04             63
+  8.8328720542607E-04             67
+  8.8328720542607E-04             73
+  8.8328720542607E-04             92
+  8.8328720542607E-04             91
+  8.8328720542607E-04             88
+  8.8328720542607E-04             47
+  8.8328720542607E-04             79
+  8.8328720542607E-04             83
 
 
          NODAL TIME STEP (estimation)
@@ -861,61 +870,61 @@ Part id,name:         5 Shell                  Mat type:   2 Elm type: SHELL-4no
   8.4260229136595E-04            594
   8.4260229136595E-04            552
   8.4260229136595E-04            629
-  8.4260229136595E-04            527
+  8.4260229136595E-04            530
   8.4260229136595E-04            549
-  8.4260229136595E-04            550
-  8.4260229136595E-04            539
-  8.4260229136595E-04            538
-  8.4260229136595E-04            537
+  8.4260229136595E-04            522
   8.4260229136595E-04            536
-  8.4260229136595E-04            528
-  8.4260229136595E-04            526
   8.4260229136595E-04            535
   8.4260229136595E-04            534
-  8.4260229136595E-04            529
-  8.4260229136595E-04            530
-  8.4260229136595E-04            540
-  8.4260229136595E-04            541
-  8.4260229136595E-04            543
-  8.4260229136595E-04            525
-  8.4260229136595E-04            548
-  8.4260229136595E-04            547
-  8.4260229136595E-04            545
-  8.4260229136595E-04            544
   8.4260229136595E-04            532
-  8.4260229136595E-04            542
   8.4260229136595E-04            531
-  8.4260229136595E-04            521
-  8.4260229136595E-04            522
-  8.4260229136595E-04            523
+  8.4260229136595E-04            528
+  8.4260229136595E-04            529
+  8.4260229136595E-04            538
+  8.4260229136595E-04            527
+  8.4260229136595E-04            550
+  8.4260229136595E-04            526
+  8.4260229136595E-04            525
   8.4260229136595E-04            524
-  8.4654407929514E-04            513
-  8.4654407929514E-04            568
-  8.4654407929514E-04            569
-  8.4654407929514E-04            510
-  8.4654407929514E-04            559
+  8.4260229136595E-04            521
+  8.4260229136595E-04            537
+  8.4260229136595E-04            523
+  8.4260229136595E-04            545
+  8.4260229136595E-04            539
+  8.4260229136595E-04            542
+  8.4260229136595E-04            543
+  8.4260229136595E-04            544
+  8.4260229136595E-04            547
+  8.4260229136595E-04            541
+  8.4260229136595E-04            548
+  8.4260229136595E-04            540
+  8.4654407929514E-04            567
   8.4654407929514E-04            519
   8.4654407929514E-04            518
-  8.4654407929514E-04            517
-  8.4654407929514E-04            511
-  8.4654407929514E-04            560
+  8.4654407929514E-04            512
   8.4654407929514E-04            516
+  8.4654407929514E-04            566
+  8.4654407929514E-04            510
+  8.4654407929514E-04            505
+  8.4654407929514E-04            514
+  8.4654407929514E-04            511
   8.4654407929514E-04            515
   8.4654407929514E-04            565
-  8.4654407929514E-04            514
+  8.4654407929514E-04            517
   8.4654407929514E-04            509
-  8.4654407929514E-04            561
-  8.4654407929514E-04            512
-  8.4654407929514E-04            562
-  8.4654407929514E-04            563
-  8.4654407929514E-04            567
-  8.4654407929514E-04            505
-  8.4654407929514E-04            566
-  8.4654407929514E-04            564
   8.4654407929514E-04            507
+  8.4654407929514E-04            513
+  8.4654407929514E-04            568
+  8.4654407929514E-04            562
+  8.4654407929514E-04            559
+  8.4654407929514E-04            560
+  8.4654407929514E-04            569
+  8.4654407929514E-04            561
+  8.4654407929514E-04            564
+  8.4654407929514E-04            563
   8.4654407929514E-04            508
-  8.4654407929514E-04            583
-  8.4654407929514E-04            582
+  8.4654407929514E-04            598
+  8.4654407929514E-04            578
 
 
          NODAL TIME STEP DISTRIBUTION 
@@ -1012,39 +1021,41 @@ Part id,name:         5 Shell                  Mat type:   2 Elm type: SHELL-4no
     STARTER STORAGE 
     --------------- 
  
-    STARTER MEMORY USAGE        157 MB
+    STARTER MEMORY USAGE        156 MB
 
 
 
  STATISTICS ON DOMAIN DECOMPOSITION 
  ---------------------------------- 
 
-AVERAGE NB. OF BOUNDARY NODES :    65
-STANDARD DEVIATION            :     0
+AVERAGE NB. OF BOUNDARY NODES :    79
+STANDARD DEVIATION            :     5
 
-AVERAGE NUMBER OF LOCAL NODES :     237
-STANDARD DEVIATION            :       7
+AVERAGE NUMBER OF LOCAL NODES :     145
+STANDARD DEVIATION            :       8
 
-AVERAGE NB. OF CONTACT NODES(SECONDARY/MAIN) :     236 /      236
+AVERAGE NB. OF CONTACT NODES(SECONDARY/MAIN) :     144 /      144
 STANDARD DEVIATION                         :       7 /        7
 
  PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
-    1           142                    65                     1
-    2           158                    65                     1
+    1            78                    83                     3
+    2            80                    77                     3
+    3            68                    71                     3
+    4            74                    85                     3
 
  DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   1
  ----------------------------------------------------
- NUMBER OF NODES................. :         230
- NUMBER OF SOLID ELEMENTS........ :          58
- NUMBER OF 4-N SHELL ELEMENTS.... :          84
- TOTAL NUMBER OF NODES FOR COMM.. :          65
+ NUMBER OF NODES................. :         149
+ NUMBER OF SOLID ELEMENTS........ :          32
+ NUMBER OF 4-N SHELL ELEMENTS.... :          46
+ TOTAL NUMBER OF NODES FOR COMM.. :         103
  NUMBER OF RIGID BODY COMPONENTS. :           1
- NUMBER OF R.B.M. NODES FOR COMM. :           1
- NUMBER OF SECONDARY RIGID BODY NODES :           8
+ NUMBER OF R.B.M. NODES FOR COMM. :           2
+ NUMBER OF SECONDARY RIGID BODY NODES :          25
  NUMBER OF INT2 SECONDARY NODES...... :           0
  NUMBER OF INT2 MAIN NODES..... :           0
- NUMBER OF CONTACT SECONDARY NODES... :         229
- NUMBER OF CONTACT MAIN NODES.. :         229
+ NUMBER OF CONTACT SECONDARY NODES... :         148
+ NUMBER OF CONTACT MAIN NODES.. :         148
 
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     1
@@ -1053,20 +1064,58 @@ STANDARD DEVIATION                         :       7 /        7
 
  DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   2
  ----------------------------------------------------
- NUMBER OF NODES................. :         244
- NUMBER OF SOLID ELEMENTS........ :          62
- NUMBER OF 4-N SHELL ELEMENTS.... :          96
- TOTAL NUMBER OF NODES FOR COMM.. :          65
+ NUMBER OF NODES................. :         148
+ NUMBER OF SOLID ELEMENTS........ :          31
+ NUMBER OF 4-N SHELL ELEMENTS.... :          49
+ TOTAL NUMBER OF NODES FOR COMM.. :          94
  NUMBER OF RIGID BODY COMPONENTS. :           1
- NUMBER OF R.B.M. NODES FOR COMM. :           1
- NUMBER OF SECONDARY RIGID BODY NODES :          39
+ NUMBER OF R.B.M. NODES FOR COMM. :           2
+ NUMBER OF SECONDARY RIGID BODY NODES :          22
  NUMBER OF INT2 SECONDARY NODES...... :           0
  NUMBER OF INT2 MAIN NODES..... :           0
- NUMBER OF CONTACT SECONDARY NODES... :         243
- NUMBER OF CONTACT MAIN NODES.. :         243
+ NUMBER OF CONTACT SECONDARY NODES... :         147
+ NUMBER OF CONTACT MAIN NODES.. :         146
 
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     2
+     --------------------------------------------------------
+        RESTART FILE SIZE         0 MB
+
+ DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   3
+ ----------------------------------------------------
+ NUMBER OF NODES................. :         131
+ NUMBER OF SOLID ELEMENTS........ :          28
+ NUMBER OF 4-N SHELL ELEMENTS.... :          40
+ TOTAL NUMBER OF NODES FOR COMM.. :          86
+ NUMBER OF RIGID BODY COMPONENTS. :           0
+ NUMBER OF R.B.M. NODES FOR COMM. :           0
+ NUMBER OF SECONDARY RIGID BODY NODES :           0
+ NUMBER OF INT2 SECONDARY NODES...... :           0
+ NUMBER OF INT2 MAIN NODES..... :           0
+ NUMBER OF CONTACT SECONDARY NODES... :         131
+ NUMBER OF CONTACT MAIN NODES.. :         131
+
+
+     LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     3
+     --------------------------------------------------------
+        RESTART FILE SIZE         0 MB
+
+ DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   4
+ ----------------------------------------------------
+ NUMBER OF NODES................. :         150
+ NUMBER OF SOLID ELEMENTS........ :          29
+ NUMBER OF 4-N SHELL ELEMENTS.... :          45
+ TOTAL NUMBER OF NODES FOR COMM.. :         101
+ NUMBER OF RIGID BODY COMPONENTS. :           1
+ NUMBER OF R.B.M. NODES FOR COMM. :           2
+ NUMBER OF SECONDARY RIGID BODY NODES :          12
+ NUMBER OF INT2 SECONDARY NODES...... :           0
+ NUMBER OF INT2 MAIN NODES..... :           0
+ NUMBER OF CONTACT SECONDARY NODES... :         149
+ NUMBER OF CONTACT MAIN NODES.. :         149
+
+
+     LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     4
      --------------------------------------------------------
         RESTART FILE SIZE         0 MB
 
@@ -1080,20 +1129,20 @@ STANDARD DEVIATION                         :       7 /        7
  CPU USER TIME
  -------------
  TRANSLATOR  FREEFORM    LECTURE     DDSPLIT     IPARI_L_INI INTBUF_INI  SPL_INTS    W_FI        
-.0000E+00   .1126E+00   .1355E+00   .9219E-02   .2402E-04   .3010E-05   .1105E-02   .1603E-04
+.0000E+00   .2061E+00   .2057E+00   .1970E-01   .7105E-04   .1100E-04   .3934E-02   .7603E-04
   
   
  ELAPSED TIME
  ------------
  TRANSLATOR  FREEFORM    LECTURE     DDSPLIT     IPARI_L_INI INTBUF_INI  SPL_INTS    W_FI        
-.0000E+00   .3019E+05   .1442E+00   .1027E-01   .2937E-04   .3781E-05   .1325E-02   .1814E-04
+.0000E+00   .1021E+08   .2290E+00   .1147E-01   .8488E-04   .1236E-04   .2342E-02   .8310E-04
   
                    ** COMPUTE TIME INFORMATION **
   
- EXECUTION STARTED      :      2025/10/30  16:45:36
- EXECUTION COMPLETED    :      2025/10/30  16:45:36
+ EXECUTION STARTED      :      2025/11/12  14:35:08
+ EXECUTION COMPLETED    :      2025/11/12  14:35:09
   
- ELAPSED TIME...........=          0.30 s
+ ELAPSED TIME...........=          0.51 s
                                00:00:00
   
 ------------------------------------------------------------------------
