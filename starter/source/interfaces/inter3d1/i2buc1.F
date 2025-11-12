@@ -139,7 +139,7 @@ C-----------------------------------------------
       my_real, dimension(:,:), allocatable :: segment_data
 C
 C=======================================================================
-! 1-CALCUL TAILLE DES ZONES INFLUENCES
+! 1-CALCULATION TAILLE DES ZONES INFLUENCES
 c
       allocate(segment_data(nrtm,2))
       segment_data(1:nrtm,1:2) = zero

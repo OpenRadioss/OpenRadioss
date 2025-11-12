@@ -1460,7 +1460,7 @@ C ----------------------------------------
 !||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE SPLIT_NODE_IVAL2(TAB,DIM1,DIM2,TAG_SEGM2,TAG_NODE_2RY)
-c specific type2, need use of 2 TAG arrays (one for main segment, one for secnd node)
+c specific type2, need use of 2 TAG arrays (one for main segment, one for second node)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -2493,11 +2493,10 @@ C       main edge is local
         ID = ID + 1 
         CANDM_E2E(ID) = TAG_EDGE2(INTBUF_TAB%CANDM_E2E(I)) 
         IF(INTBUF_TAB%LEDGE(9+(INTBUF_TAB%CANDS_E2E(I)-1)*NLEDGE) == PROC ) THEN
-C       Secnd is also local
+C       Second is also local
           CANDS_E2E(ID) = TAG_EDGE2(INTBUF_TAB%CANDS_E2E(I))
         ELSE
-C       Remote secnd
-C         ASSERT(.FALSE.)
+C       Remote second C         ASSERT(.FALSE.)
 C         CANDS_E2E(ID) = -INTBUF_TAB%CANDS_E2E(I)
           CANDS_E2E(ID) = ABS(I25_SPLIT_CAND(NIN,PROC+1)%CANDS_E2E(JJ)) + NEDGE_L
 
@@ -2520,12 +2519,11 @@ C       main edge is local
         CANDM_E2S(ID) = SEGLOC(INTBUF_TAB%CANDM_E2S(I)) 
 C       IF(TAG_EDGE2(INTBUF_TAB%CANDS_E2S(I)) > 0) THEN
         IF(INTBUF_TAB%LEDGE(9+(INTBUF_TAB%CANDS_E2S(I)-1)*NLEDGE) == PROC ) THEN
-C       Secnd is also local
+C       Second is also local
           CANDS_E2S(ID) = TAG_EDGE2(INTBUF_TAB%CANDS_E2S(I))
           ASSERT(CANDS_E2S(ID) == I25_SPLIT_CAND(NIN,PROC+1)%CANDS_E2S(JJ))
         ELSE
-C       Remote secnd
-C         ASSERT(.FALSE.)
+C       Remote second C         ASSERT(.FALSE.)
           CANDS_E2S(ID) = ABS(I25_SPLIT_CAND(NIN,PROC+1)%CANDS_E2S(JJ)) + NEDGE_L
 C         CANDS_E2S(ID) = - INTBUF_TAB%CANDS_E2S(I)
         ENDIF
@@ -2672,7 +2670,7 @@ C ----------------------------------------
 
       DEALLOCATE(IBUF1, IBUF2)
 
-C----Tab Main segment removed for each secnd node----
+C----Tab Main segment removed for each second node----
 c   1st : reorganizing the tab : keep only local main segments
 
          ALLOCATE(IBUF1(NSN_L+1),IBUF2(NREMNOR))
@@ -4013,7 +4011,7 @@ C ----------------------------------------
       NSNE   = IPARI(55)
       NMNE   = IPARI(56)
 
-      ! for type20, TAG_NM is used to tag main nodes, secnd nodes,
+      ! for type20, TAG_NM is used to tag main nodes, second nodes,
       ! second line, line main
 
       ! prepare SPLIT_NRTM_R

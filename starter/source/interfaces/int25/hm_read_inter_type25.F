@@ -720,7 +720,7 @@ C FRIGAP(10) is initialized but used only in engine for storing number of couple
         FRIGAP(10)=FLOAT(0)
 
 C       TO STORE THE FLAG FOR DEACTIVATION OF INITIAL PENETRATIONS
-C       (0 = RIEN , 1 = NOEUDS , 2 = FACETTES )
+C       (0 = NOTHING , 1 = NODES , 2 = FACETS )
         MULTIMP = 4
         IPARI(23)=MULTIMP
 

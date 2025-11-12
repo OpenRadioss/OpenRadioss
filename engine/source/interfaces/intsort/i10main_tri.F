@@ -169,7 +169,7 @@ C
         INTBUF_TAB%I_STOK(1)=I_SK_OLD
       ENDIF
 C -------------------------------------------------------------
-C     CALCUL BORNE DOMAINE REMONTE DANS I7XSAVE
+C     CALCULATION BORNE DOMAINE REMONTE IN I7XSAVE
 C -------------------------------------------------------------
 C Backup of XSAV (BUFIN Table (JD (19)))
       CALL I10XSAVE(

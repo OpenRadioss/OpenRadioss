@@ -144,7 +144,7 @@ C---------------------------------------------------------------
         GAPSCALE = ONE
       ENDIF  
 C------------------------------------
-C     GAP NOEUDS SECONDS
+C     GAP NODES SECONDS
 C------------------------------------
       IF(IGAP>=1)THEN
        DO I=1,NUMNOD
@@ -225,7 +225,7 @@ C calculation of the second surface. ---
       ENDIF
 C
 C------------------------------------
-C     STIF NOEUDS SECONDS
+C     STIF NODES SECONDS
 C------------------------------------
       IF(SLSFAC >= ZERO)THEN
        DO I=1,NUMELC
@@ -1441,7 +1441,7 @@ c In input stfa (1: nln) is STFN (1: nsn) Possibly put to zero if pene initial
         STFA(I) = STIF(I)
       ENDDO
 
-c STFA sera recalcule dans I20STIFN /inter3d1/i20stifn.F
+c STFA sera recalcule in I20STIFN /inter3d1/i20stifn.F
       DO I=1,NLN
         DXANC(1,I) = XANEW(1,NLG(I))-X(1,NLG(I))
         DXANC(2,I) = XANEW(2,NLG(I))-X(2,NLG(I))

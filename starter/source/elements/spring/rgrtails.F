@@ -50,15 +50,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C            A R G U M E N T S
 C-----------------------------------------------
-C     IXR(6,NUMELR)      TABLEAU CONECS+PID+NOS RESSORTS            E
-C     IPARG(NPARG,NGROUP)TABLEAU DES CARACTERISTIQUES DES GROUPES   E/S
+C     IXR(6,NUMELR)      CONNECTIVITY+PID+SPRING NUMBERS TABLE      E
+C     IPARG(NPARG,NGROUP)TABLE OF GROUP CHARACTERISTICS             E/S
 C     geo(npropG,numgeo)table of characteristics of pid
-C     EADD(NUMELR)       TABLEAU DES ADRESEES DANS IDAM CHGT DAMIER E
+C     EADD(NUMELR)       TABLE OF ADDRESSES IN IDAM CHGT DAMIER     E
 C     dd_iad table of dd in super groups
-C     INDEX(NUMELR)      TABLEAU DE TRAVAIL                         E/S
-C     INUM (6*NUMELR)      TABLEAU DE TRAVAIL                         E/S
-C     CEP(NUMELR)        TABLEAU DE TRAVAIL                         E/S
-C     ITR1(NUMELR)        TABLEAU DE TRAVAIL                         E/S
+C     INDEX(NUMELR)      WORK TABLE                                 E/S
+C     INUM (6*NUMELR)      WORK TABLE                                 E/S
+C     CEP(NUMELR)        WORK TABLE                                 E/S
+C     ITR1(NUMELR)        WORK TABLE                                 E/S
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

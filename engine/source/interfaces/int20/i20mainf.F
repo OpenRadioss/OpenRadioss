@@ -263,7 +263,7 @@ C----deactive implicit part
       FHEATM   = ZERO
       FHEATS   = ZERO
 C----------------------------------------------------------------------
-C     NOEUDS/SURFACE
+C     NODES/SURFACE
 C----------------------------------------------------------------------
 
 c----------------------------------------------------
@@ -283,7 +283,7 @@ c----------------------------------------------------
               LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
             CALL SPMD_I20EXCH_N(INTBUF_TAB%SOLIDN_NORMAL,IAD_ELEM,FR_ELEM,LENR)
 C Normal supplementary communication on proc remote in SPMD
-C NSNR Size NSNR (NB NOEUDS STEND remote) allowance allowance
+C NSNR Size NSNR (NB NODES STEND remote) allowance allowance
             ALLOCATE(INTBUF_TAB%SOLIDN_NORMAL_F (3,IPARI(24)))
 C EDGE Party allowance on size n line (nb second remote lines)
             ALLOCATE(INTBUF_TAB%SOLIDN_NORMAL_FE(3,2*IPARI(57)))
@@ -458,7 +458,7 @@ c
       DO NFT = 0 , I_STOK - 1 , NVSIZ
 c------------------------------------------------
         JLT = MIN( NVSIZ, I_STOK - NFT )
-C preparation candidats retenus
+C preparation CANDIDATES retenus
         CALL I7CDCOR3(
      1         JLT,INDEX2(NFT+1),INTBUF_TAB%CAND_E,INTBUF_TAB%CAND_N,
      2         CAND_E_N,CAND_N_N)
@@ -636,7 +636,7 @@ C
 C
         DO NFT = 0 , I_STOK - 1 , NVSIZ
           JLT = MIN( NVSIZ, I_STOK - NFT )
-C         preparation candidats retenus
+C         preparation CANDIDATES retenus
       CALL I11CDCOR3(
      1       JLT,INDEX2(NFT+1),INTBUF_TAB%LCAND_N,INTBUF_TAB%LCAND_S,CM_LOC,
      2       CS_LOC)
@@ -714,7 +714,7 @@ C     3- Forces between second node.and anchor node
 C----------------------------------------------------------------------
       CALL MY_BARRIER
 C----------------------------------------------------------------------
-C     NOEUDS secnd,main,edge
+C     NODES second,main,edge
 C----------------------------------------------------------------------
       IF (IMONM > 0 .AND. JTASK == 1) CALL STARTIME(TIMERS,20)
       NLNFT1= (JTASK-1)*NLN/NTHREAD

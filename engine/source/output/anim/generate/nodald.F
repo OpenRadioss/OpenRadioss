@@ -47,7 +47,7 @@ C-----------------------------------------------
 C   This subroutine defines & writes nodal Density requested by Engine keywords /ANIM/NODA/DENS or /H3D/NODA/DENS
 C   /INTER/TYPE22   (nodal Density from polyhedra, specific buffer).
 C   /MONVOL/FVMBAG* (nodal Density from polyhedra, specific buffer).
-C   DEFAULT         (nodal PresDensitysure from adjacent elems)
+C   DEFAULT         (nodal Density from adjacent elems)
 C-----------------------------------------------
 C   P r e - C o n d i t i o n s
 C-----------------------------------------------

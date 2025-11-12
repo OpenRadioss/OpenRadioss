@@ -138,7 +138,7 @@ C                       reference a un groupe non initialise
                   ELSE
 C                       Reference has an initialized group
                     IF (NONTRI == 0) THEN
-C                         sorted group, tag les noeuds
+C                         sorted group, tag the nodes
                       DO L=1,IGRNOD(IGRS)%NENTITY
                         IF (JJ < 0) THEN
 C                             remove nodes from the group if j10 < 0

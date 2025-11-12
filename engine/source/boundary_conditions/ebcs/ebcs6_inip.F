@@ -155,7 +155,7 @@ C
            VMZ=VMZ+V(3,NG4)
         ENDIF
 C
-c bilan masse et energie totale
+c mass and total energy balance
 c
         ROOU = SEGVAR%RHO(KSEG)
         ENOU = SEGVAR%EINT(KSEG)
@@ -178,7 +178,7 @@ C
       ENDDO
 
 C
-C calcul pression initiale nodale
+C compute initial nodal pressure
 C
       IF (TIME == ZERO) THEN
         DO I=1,NOD
@@ -188,7 +188,7 @@ C
 c We memorize the stop pressure
           P0(I)=P0(I)/S
           IF(VN<ZERO)P0(I)=P0(I)+HALF*RHO*VN**2
-c          write(6,*)'P nodale', P0(I) 
+c          write(6,*)'nodal P', P0(I) 
           VO(I)=VN
           PO(I)=P0(I)
         ENDDO
@@ -199,7 +199,7 @@ C
         S=SQRT(LA(1,I)**2+LA(2,I)**2+LA(3,I)**2)
         VN=(V(1,N)*LA(1,I)+V(2,N)*LA(2,I)+V(3,N)*LA(3,I))/S
         DPDV=ROC
-c condition darret
+c stopping condition
         PN=P0(I)
         IF(VN<0)THEN
           PN=P0(I)-HALF*RHO*VN**2
@@ -209,7 +209,7 @@ c silent boundary
         DU=ROC*(VN-VO(I))
         DP=ALP*(PN-PO(I))
         P=PO(I)+DP+DU
-c        write(6,*)'calcul', P,P0(I)
+c        write(6,*)'compute', P,P0(I)
 c
         A(1,N)=A(1,N)-P*LA(1,I)
         A(2,N)=A(2,N)-P*LA(2,I)

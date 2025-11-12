@@ -1468,8 +1468,8 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
        IF(NT_IMP1==0) RETURN
-C------dans NS_IMP1 input: NT_IMP1 , output:d'abord NT_IMP1, + NT_IMP-NT_IMP1
-C------dans NS_IMP input:d'abord NT_IMP1, + NT_IMP-NT_IMP1, output: NT_IMP
+C------in NS_IMP1 input: NT_IMP1 , output:d'abord NT_IMP1, + NT_IMP-NT_IMP1
+C------in NS_IMP input:d'abord NT_IMP1, + NT_IMP-NT_IMP1, output: NT_IMP
        NT_IMP = NT_IMP + NT_IMP1
        IF(NSPMD>1) THEN
         IAD1 = 0

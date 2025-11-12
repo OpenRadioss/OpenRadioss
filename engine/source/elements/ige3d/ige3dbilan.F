@@ -84,7 +84,7 @@ C     REAL
 C-----------------------------------------------
       FLAG = IPARG(80) ! Flag for additional outputs
 C-----------------------------------------------
-C     CALCUL BILAN SORTIES DEF 
+C     CALCULATION BILAN SORTIES DEF 
 C-----------------------------------------------
       DO I=LFT,LLT
         VXA(I) = ZERO
@@ -129,7 +129,7 @@ C
       ENDDO
 C
 C-----------------------------------------------
-C     CALCUL BILAN SORTIES ADDITIONNELLES 
+C     CALCULATION BILAN SORTIES ADDITIONNELLES 
 C-----------------------------------------------
       IF(FLAG==1) THEN
         DO I=LFT,LLT

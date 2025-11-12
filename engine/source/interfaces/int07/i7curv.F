@@ -857,7 +857,7 @@ c   a1 = dr1
 c   a2 = - (dr2 + 2 dr1)/r2
 c   a3 = + (dr2 + dr1  )/r2^2
 c--------------------------------------   
-c calcul tmax
+c calculation tmax
 c
 c   t'r = 3 a3 rr^2 + 2 a2 rr + a1 = 0
 c

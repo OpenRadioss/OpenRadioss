@@ -286,7 +286,7 @@ C
 
           IF(TYPEDGS(I)/=1)CYCLE
 C---------------------------------------
-C         Solid on secnd side !
+C         Solid on second side !
 C---------------------------------------
 
 c          IF(IAS(I)==0 .OR. IBS(I)==0) THEN

@@ -86,7 +86,7 @@ C-----------------------------------------------
         END DO
         DO I=1,NAV
           II = ICBAG(1,I)
-C si pmain
+C if pmain
           IF(FR_MV(NSPMD+2,II)==LOC_PROC)THEN
             NB = NB + 1
             BUFS(L+1)=II
@@ -135,7 +135,7 @@ C
             ICOMRC = 0
             DO I=1,NAV
               II = ICBAG(1,I)
-C si pmain
+C if pmain
               IF(FR_MV(NSPMD+2,II)==P.AND.
      +           FR_MV(LOC_PROC,II)==0)THEN
                 ICOMRC = 1
@@ -185,7 +185,7 @@ C
           DO P = 1, NSPMD
             ICOMSD(P) = 0
           END DO
-C si pmain
+C if pmain
           L = 0
           DO I=1,NAV
             II = ICBAG(1,I)

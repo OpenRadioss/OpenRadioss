@@ -165,7 +165,7 @@ C-----------------------------------------------
      7   Z3,               Z4,               ZI,               XFACE,
      8   LFT,              LLT,              NFT)
           !-----------------------------------------------------------!
-          !   CALCUL COORDONNEES ISOPARAMETRIQUES S & T NOEUD SECONDARY   !
+          !   CALCULATION COORDONNEES ISOPARAMETRIQUES S & T NODE SECONDARY   !
           !-----------------------------------------------------------!
           CALL I3CST3(
      1   X1,      X2,      X3,      X4,
@@ -291,7 +291,7 @@ C-----------------------------------------------
       IF(ITIED==2)CALL IN12R(A,INTBUF_TAB%VARIABLES(1),INTBUF_TAB%NSV,
      .                         NSN,1,INTBUF_TAB%FCOUNT)
       !-----------------------------------------------------------------!     
-      ! CALCUL FORCES COTE MAIN (IDEM TYPE 2)                         !
+      ! CALCULATION FORCES COTE MAIN (IDEM TYPE 2)                         !
       !-----------------------------------------------------------------!
       CALL I12FOR3(
      1 NSN         ,NMN            ,A         ,INTBUF_TAB%IRECTM,INTBUF_TAB%CSTS,

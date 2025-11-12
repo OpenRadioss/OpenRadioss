@@ -1201,7 +1201,7 @@ C
         IF (H4(I)/=ZERO) NISKYL1 = NISKYL1 + 1
       ENDDO
 C
-C Precalcul impact locaux / remote   {Local/remote impact pre-calculation}
+C Precalcul impact local / remote   {Local/remote impact pre-calculation}
 C
       IGP = 0
       IGM = 0
@@ -1532,7 +1532,7 @@ C
         IF (H4(I)/=ZERO) NISKYL1 = NISKYL1 + 1
       ENDDO
 C
-C Precalcul impact locaux / remote  {Local/remote impact pre-calculation}
+C Precalcul impact local / remote  {Local/remote impact pre-calculation}
 C
       IGP = 0
       IGM = 0

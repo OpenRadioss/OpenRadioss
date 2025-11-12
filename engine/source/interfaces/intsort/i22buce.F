@@ -206,7 +206,7 @@ c       stop 678
      A   NBRIC   ,ITAB     ,NSHEL_L ) 
 
 C     I_MEM = 1 ==> PAS ASSEZ DE MEMOIRE PILE
-C     I_MEM = 2 ==> PAS ASSEZ DE MEMOIRE CANDIDATS
+C     I_MEM = 2 ==> PAS ASSEZ DE MEMOIRE CANDIDATES
 C     I_MEM = 3 ==> TROP NIVEAUX PILE 
       IF(I_MEM==1)THEN
         NB_N_B = NB_N_B + 1
@@ -270,14 +270,14 @@ C        Tzinf = three_over_4*tzinf! No otherwise we lose neighboring candidates
 !-----------------debug
 
 !example of candidate list
-!    II_STOK    IXS(11,bufbric(CAND_B(I))) )  CAND_B(I)                  NINT(IRECT_L(1:4,IABS(CAND_E(I)))   CAND_E(I)    OCCURENCE BRIQUE      
+!    II_STOK    IXS(11,bufbric(CAND_B(I))) )  CAND_B(I)                  NINT(IRECT_L(1:4,IABS(CAND_E(I)))   CAND_E(I)    occurrence BRIQUE      
 !          01 39 (3) with- 1176806 1176814 1176859 1176876 (12) <- IFIRST = 01              
 !          02 39 (3) with- 1176941 1176789 1176791 1176934 (11) <- Ilast = 02              
 !          03 40 (5) with- 211 210 1176779 1176777 (02) <- IFIRST = 01              
-!          04                            40         (5)          avec+  1176874  1176777  1176779  1176841        (06)            .                     
-!          05                            40         (5)          avec+  1176874  1176841  1176814  1176806        (14)            .                     
-!          06                            40         (5)          avec+  1176806  1176814  1176859  1176876        (12)            .                     
-!          07                            40         (5)          avec+  1176876  1176859      207      206        (03)            .                     
+!          04                            40         (5)          with+  1176874  1176777  1176779  1176841        (06)            .                     
+!          05                            40         (5)          with+  1176874  1176841  1176814  1176806        (14)            .                     
+!          06                            40         (5)          with+  1176806  1176814  1176859  1176876        (12)            .                     
+!          07                            40         (5)          with+  1176876  1176859      207      206        (03)            .                     
 !          08 40 (5) with- 209 1176772 1176774 208 (01) <- Ilast = 08               
  !
 !                                NCAND  = 8 (II_STOK)
@@ -363,14 +363,14 @@ C        Tzinf = three_over_4*tzinf! No otherwise we lose neighboring candidates
 ! for a given candidate pair (input index IDX1), associate the corresponding position in LIST_E (result index IDX2)
 !      
 !    II_STOK                                              GET_LIST_E_POS_FROM_CAND_E_POS                     CAND_E(I)  
-!          01                                                                   pos   6   DANS LIST_E(:)    <---  (12)    
-!          02                                                                   pos   5   DANS LIST_E(:)    <---  (11)    
-!          03                                                                   pos   2   DANS LIST_E(:)    <---  (02)    
-!          04                                                                   pos   4   DANS LIST_E(:)    <---  (06)    
-!          05                                                                   pos   7   DANS LIST_E(:)    <---  (14)    
-!          06                                                                   pos   6   DANS LIST_E(:)    <---  (12)    
-!          07                                                                   pos   3   DANS LIST_E(:)    <---  (03)    
-!          08                                                                   pos   1   DANS LIST_E(:)    <---  (01)   
+!          01                                                                   pos   6   IN LIST_E(:)    <---  (12)    
+!          02                                                                   pos   5   IN LIST_E(:)    <---  (11)    
+!          03                                                                   pos   2   IN LIST_E(:)    <---  (02)    
+!          04                                                                   pos   4   IN LIST_E(:)    <---  (06)    
+!          05                                                                   pos   7   IN LIST_E(:)    <---  (14)    
+!          06                                                                   pos   6   IN LIST_E(:)    <---  (12)    
+!          07                                                                   pos   3   IN LIST_E(:)    <---  (03)    
+!          08                                                                   pos   1   IN LIST_E(:)    <---  (01)   
 
 !                        CAND_E   12 11 02 06 12 14 03 01
 !                        ITAG_E   01 02 03 04 05 06 07 08 09 10 11 12 13 14
@@ -461,7 +461,7 @@ C -------------------------------------------------------------
 
 
 C -------------------------------------------------------------
-C     CALCUL DES POINTS D'INTERSECTION
+C     CALCULATION DES POINTS D'INTERSECTION
 C  We can take the list of candidates II_Stok as it is
 C and process it in multi-threading
 C -------------------------------------------------------------

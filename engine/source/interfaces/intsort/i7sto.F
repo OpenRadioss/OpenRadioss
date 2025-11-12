@@ -91,7 +91,7 @@ C-----------------------------------------------
      .               YI    ,ZI    ,PENE  ,IX1    ,IX2  ,
      .               IX3   ,IX4   ,IGAP  ,GAP    ,GAPV )
 C-----------------------------------------------
-C SUPPRESSION DES ANCIENS CANDIDATS DEJE STOCKES (PENE INITIALE)
+C SUPPRESSION DES ANCIENS CANDIDATES DEJE STOCKES (PENE INITIALE)
 C-----------------------------------------------
        IF(INACTI==5.OR.INACTI==6.OR.INACTI==7.OR.IFQ>0.OR.
      .    ITIED/=0)THEN

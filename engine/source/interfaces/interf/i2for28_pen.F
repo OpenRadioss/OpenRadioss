@@ -433,7 +433,7 @@ C------------------------------------------------
 C
           IF (IRODDL == 1 .AND. SAV_INER_POFF(I) > ZERO) THEN
 C
-C--   Secnd node shell of  spring 
+C--   Second node shell of  spring 
 C
           IF(SAV_INER_POFF(I)==ZERO.OR.SAV_INER_POFF(IX1(K))==ZERO.OR.
      .                      SAV_INER_POFF(IX2(K))==ZERO.OR.
@@ -483,7 +483,7 @@ C
 C
           ELSE
 C
-C--   Secnd node of solids
+C--   Second node of solids
 C
           MGX = ZERO
           MGY = ZERO
@@ -505,7 +505,7 @@ C
           STR     = (STFR(II)+STFN(II)*LEN2)*(VISC + SQRT(VISC**2 + ONE))**2
 C
 C----------------------------------------------------
-C         Secnd forces/moments -> global coordinates 
+C         Second forces/moments -> global coordinates 
 C----------------------------------------------------
 C
           SAV_FOR_PENA(1,I) = SAV_FOR_PENA(1,I) - FS(1)

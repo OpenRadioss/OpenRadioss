@@ -79,7 +79,7 @@ C-----------------------------------------------------------------
       MARQ2  = 0
       MARQM2 = 0
 C=======================================================================
-C  CORRECTIONS AUTOMATIQUES INTERFACE 1,2,9 OU RBODY AVEC RWALL
+C  AUTOMATIC CORRECTIONS INTERFACE 1,2,9 OR RBODY WITH RWALL
 C=======================================================================
       K=0
       KK=0
@@ -285,7 +285,7 @@ C----------------------------------------------------------
          ENDDO
       ENDDO
 C----------------------------------------------------------
-C - Check des noeuds mains des Rbody SECONDARY d'autres Rbodies
+C - Check main nodes of Rbody SECONDARY to other Rbodies
 C----------------------------------------------------------
        KRB = 0
        DO N=1,NRBYKIN
@@ -391,18 +391,18 @@ C=======================================================================
       ENDIF
 C
 C---------------------------------------------------------------
-C LISTE CONDITIONS INCOMPATIBLES PAR TYPE
+C LIST OF INCOMPATIBLE CONDITIONS BY TYPE
 C LIST OF AFFECTED NODES
 C
-C NKIN(I) >= 2     => POSSIBLE CONDITIONS INCOMPATIBLES SUR LE NOEUD I
+C NKIN(I) >= 2     => POSSIBLE INCOMPATIBLE CONDITIONS ON NODE I
 C FLAG_IKCOND = 1  => INCOMPATIBLE CONDITIONS IN THE MODEL
-C MARQUEURDOUBLE(I) = 1 => CONDITIONS INCOMPATIBLES ENTRE CONDITIONS
+C MARQUEURDOUBLE(I) = 1 => INCOMPATIBLE CONDITIONS BETWEEN CONDITIONS
 C                         OF THE SAME TYPE ON NODE I
-C MARQUEUR(I) != 0 => CONDITIONS INCOMPATIBLES ENTRE CONDITIONS
+C MARQUEUR(I) != 0 => INCOMPATIBLE CONDITIONS BETWEEN CONDITIONS
 C                         OF DIFFERENT TYPES ON NODE I
-C MARQUEUR(I) = 2 => CAS RBODY + RWALL
-C MARQUEUR(I) =-2 => CAS INTERFACES TYPE 1,2,9  + RWALL
-C MARQUEUR(I) = 3 => CAS INTERFACES TYPE 1,2,9 + RBODY + RWALL
+C MARQUEUR(I) = 2 => CASE RBODY + RWALL
+C MARQUEUR(I) =-2 => CASE INTERFACES TYPE 1,2,9  + RWALL
+C MARQUEUR(I) = 3 => CASE INTERFACES TYPE 1,2,9 + RBODY + RWALL
 C---------------------------------------------------------------
       DO I=1,NUMNOD
         NKIN(I) = 0
@@ -943,7 +943,7 @@ c         WRITE(IOUT,FMT=FMW_10I)(IKRW(L),L=1,KWARN)
 c
       ENDIF
 C---------------------------------------------------------------
-C RESUME CONDITIONS INCOMPATIBLES PAR TYPE
+C SUMMARY OF INCOMPATIBLE CONDITIONS BY TYPE
 C---------------------------------------------------------------
       WRITE(IOUT,*)'SUMMARY OF POSSIBLE INCOMPATIBLE KINEMATIC CONDITION
      .S :'
@@ -1246,7 +1246,7 @@ C  Copy to work table
         IKINEW(N)=IKINE(N)
       END DO
 C=======================================================================
-C  CORRECTIONS AUTOMATIQUES INTERFACE 1,2,9 OU RBODY AVEC RWALL
+C  AUTOMATIC CORRECTIONS INTERFACE 1,2,9 OR RBODY WITH RWALL
 C=======================================================================
       K=0
       KK=0
@@ -1319,7 +1319,7 @@ C-----------------------------------------------
      .        IK(10), RBWARN, RB2WARN, KRB, NSLRB,ICDG,ISEN,M
 C-----------------------------------------------------------------
 C=======================================================================
-C  CORRECTIONS AUTOMATIQUES INITIAL VELOCITIES
+C  AUTOMATIC CORRECTIONS FOR INITIAL VELOCITIES
 C=======================================================================
 C should be done in hierarchy order: RBODY,RBE3,RBE2,int2...
 C-----------------------------------------------------------------

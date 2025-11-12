@@ -41,7 +41,7 @@ C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
 C     READING SURFACE AND NUMBERING SEGMENTS
-C           IN :  NRT NOMBRE DE RENSEIGNEMENTS A LIRE
+C           IN :  NRT NUMBER OF ITEMS TO READ
 C           OUT : IRECT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

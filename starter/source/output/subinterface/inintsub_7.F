@@ -248,7 +248,7 @@ C           utilise KAD(1:NSN)
          END DO
 
 C----------------------------------------
-C  Secondary side : After ADRESS STORE SUBINTER in INTBUF_TAB(NI)%LISUBS
+C  Secondary side : After address STORE SUBINTER in INTBUF_TAB(NI)%LISUBS
 C---------------------------------------------
          KSUB=0
          DO JSUB=1,NINTSUB

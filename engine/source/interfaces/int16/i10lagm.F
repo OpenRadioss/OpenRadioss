@@ -100,9 +100,9 @@ C
 C        NC : number of contacts
 C        NK: Number of node for contact (8+1.16+1.8+8.16+16)
 C
-C        IC : numero du contact (1,NC)
-C        IK : numero de noeud local a un contact (1,NK)
-C        I  : numero global du noeud (1,NUMNOD)
+C        IC : contact number (1,NC)
+C        IK : local node number for a contact (1,NK)
+C        I  : global node number (1,NUMNOD)
 C
 C        IADLL(NC)        : IAD = IADLL(IC)
 C        LLL(NC*(7,21))  : I  = LLL(IAD+1,2...IADNEXT-1)
@@ -148,7 +148,7 @@ C       test if inside the box
 C-----------------------------------------------------------------------
         IF(DIST.LE .ZERO)THEN
 c
-c      print *, "dans la boite",XMIN,XMAX,YMIN,YMAX,ZMIN,ZMAX
+c      print *, "in la boite",XMIN,XMAX,YMIN,YMAX,ZMIN,ZMAX
 c
           LLT = LLT+1
           III(LLT,7)=IS
@@ -255,7 +255,7 @@ C-----------------------------------------------
      .   NX(MVSIZ), NY(MVSIZ), NZ(MVSIZ),
      .   NI(MVSIZ,7) 
 C-----------------------------------------------
-C      calcul de r,s,t
+C      calculation de r,s,t
 C-----------------------------------------------
 c
 c      print *, "XX(1,1),XX(1,9)",XX(1,1),XX(1,9)
@@ -576,14 +576,14 @@ C
          TT(I) = ZERO
        ENDDO
 C-----------------------------------------------
-C      calcul de r,s,t   et   Ni(r,s,t)
+C      calculation de r,s,t   et   Ni(r,s,t)
 C-----------------------------------------------
        DO ITER=1,NITERMAX
 c
 c      print *, "iter",iter
 c
 C-----------------------------------------------
-C          calcul de Ni(r,s,t); [J]; [J]-1
+C          calculation de Ni(r,s,t); [J]; [J]-1
 C-----------------------------------------------
            CALL I10DERI(LLT,RR ,SS    ,TT    ,NI    ,
      2            DRDX  ,DRDY  ,DRDZ  ,DSDX  ,DSDY  ,DSDZ  ,
@@ -595,7 +595,7 @@ c
 c      print *, "jter",jter
 c
 C-----------------------------------------------
-C            calcul de r,s,t new
+C            calculation de r,s,t new
 C-----------------------------------------------
              CALL I10RSTN(LLT,RR,SS   ,TT    ,NI    ,CONV  ,
      2            DRDX  ,DRDY  ,DRDZ  ,DSDX  ,DSDY  ,DSDZ  ,
@@ -606,7 +606,7 @@ c      print *, "r,s,t",r(1),s(1),t(1)
 c      print *, "rr,ss,tt",rr(1),ss(1),tt(1)
 c
 C-----------------------------------------------
-C            calcul de Ni(-1<r<1 , -1<s<1 , -1<t<1)
+C            calculation de Ni(-1<r<1 , -1<s<1 , -1<t<1)
 C-----------------------------------------------
              CALL I10NI(LLT,RR ,SS ,TT ,NI  )
 C  parity problem if convergence depends on mvsiz !!!!!!!

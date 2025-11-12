@@ -149,7 +149,7 @@ C
      .          -X(3,IXS(8))-X(3,IXS(9))
 C
 C---------------------------------
-C         CALCUL DISTANCE ET 1/4 SURFACE(SURFFACE NODALE))
+C         CALCULATION DISTANCE ET 1/4 SURFACE(SURFFACE NODALE))
 C---------------------------------
             DIST = ONE_OVER_8*(DX*NX+DY*NY+DZ*NZ) / MAX(EM15,NORM) 
             AREA = ONE_OVER_8*NORM

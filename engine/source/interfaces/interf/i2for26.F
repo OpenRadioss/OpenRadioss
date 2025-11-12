@@ -411,7 +411,7 @@ C----------------------------------------------------
            MRY(IR) = HALF*(ZSM*FX(IR) - XSM*FZ(IR))
            MRZ(IR) = HALF*(XSM*FY(IR) - YSM*FX(IR)) 
 c
-c          secnd node
+c          second node
 c
            SAV_FOR_PENA(1,I) = SAV_FOR_PENA(1,I) - FX(IR) 
            SAV_FOR_PENA(2,I) = SAV_FOR_PENA(2,I) - FY(IR) 

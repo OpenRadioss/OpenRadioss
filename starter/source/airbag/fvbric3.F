@@ -254,7 +254,7 @@ C
         WRITE(IOUT,1000)
         DO I=1,NNA
           IF(NCONA(2,I)/=0) CYCLE
-C Noeud interne
+C Internal node
           N=ITAB(IBUFA(I))
           K=NCONA(1,I)
           WRITE(IOUT,'(15I10)') N,(ITAB(IBUFA(NCONA(L+2,I))),L=1,K)

@@ -51,7 +51,7 @@ C-----------------------------------------------
       my_real, ALLOCATABLE :: SBUF(:), RBUF(:)
 C
       JFORM = IFLOW(4)
-C Accelerations locales SPMD
+C Local SPMD accelerations
       IF (NSPMD == 1) THEN
          DO I=1,NNO
             II=IBUF(I)

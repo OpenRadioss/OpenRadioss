@@ -246,7 +246,7 @@ C     IFIRST + SHIFT is the first element which ID is greater than NFT + NEL
                ILAST = NELEM
             ENDIF
 
-            !IF some elems are targeted in this current group NG, check material law
+            !IF some elements are targeted in this current group NG, check material law
             IF(IFIRST>0 .AND. IFIRST<=ILAST )THEN
               SELECT CASE(MLW)
               CASE (3, 4, 6, 49, 51, 151)

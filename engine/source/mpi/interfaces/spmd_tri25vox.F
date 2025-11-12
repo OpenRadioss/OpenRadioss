@@ -433,7 +433,7 @@ C            First segment is on the other side of the boundary
 
            IF( STF > ZERO .AND. LEDGE(7,I) >= 0)  THEN
 C
-C            GAPE inutile ici (Redondant avec BGAPEMAX cote main) !
+C            GAPE useless here (Redundant with BGAPEMAX on main side) !
              XMINS = MIN(X(1,N1),X(1,N2))!- GAPE(I)      
              YMINS = MIN(X(2,N1),X(2,N2))!- GAPE(I)      
              ZMINS = MIN(X(3,N1),X(3,N2))!- GAPE(I)      
@@ -841,7 +841,7 @@ c INT25
               DO J = 1, NB
                 I = INDEX(J)
                 NOD = NSV(I)
-C               IRTLM(3,NSN) en TYPE25 / IRTLM(3,-) inutile ici 
+C               IRTLM(3,NSN) in TYPE25 / IRTLM(3,-) useless here 
                 IBUF(P)%p(L2+ISHIFT)  =IRTLM(4*(I-1)+1)
                 IBUF(P)%p(L2+ISHIFT+1)=IRTLM(4*(I-1)+2)
 C

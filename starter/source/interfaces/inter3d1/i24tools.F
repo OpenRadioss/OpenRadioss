@@ -520,7 +520,7 @@ C--------only groupe YJ*Ni<0  or no valid one
         END IF
 C ------still no valid one-----------       
         IF (J1==0) then
-c        print *,'***warning** No valid Neighbour Segs of',N,' candidats'
+c        print *,'***warning** No valid Neighbour Segs of',N,' CANDIDATES'
          IRR = 11
          IC(1)=0         
         ELSE
@@ -650,7 +650,7 @@ C--------groupe YJ*Ni<0 :convex keep angle (min_cos) only
         END IF !(J==N) then
 C ------still no valid one-----------       
         IF (J1==0) then
-c        print *,'***warning** No valid Neighbour Segs of',N,' candidats'
+c        print *,'***warning** No valid Neighbour Segs of',N,' CANDIDATES'
          IRR = 11
          IC(1)=0         
         ELSE

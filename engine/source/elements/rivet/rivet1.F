@@ -168,7 +168,7 @@ C
 C
          IF(IROT==0) THEN
 C----------------------------
-C          CALCUL FORCES
+C          FORCE COMPUTATION
 C----------------------------
            AX = (-A(1,N1)+(VX-V(1,N1))*DT12M1)*MS(N1)
            AY = (-A(2,N1)+(VY-V(2,N1))*DT12M1)*MS(N1)
@@ -201,7 +201,7 @@ C
            AY=ALP*AY
            AZ=ALP*AZ
 C----------------------------
-C          CALCUL ACCELERATIONS
+C          ACCELERATION COMPUTATION
 C----------------------------
            A(1,N1)=A(1,N1)+AX/MS(N1)
            A(2,N1)=A(2,N1)+AY/MS(N1)
@@ -239,7 +239,7 @@ C
            VZZ = (VRZ1*IN(N1)+XX1*VMY1-YY1*VMX1
      .         +  VRZ2*IN(N2)+XX2*VMY2-YY2*VMX2)*INM1
 C----------------------------
-C          CALCUL FORCES
+C          FORCE COMPUTATION
 C----------------------------
            VT1(1) = ZZ1*VYY - YY1*VZZ
            VT1(2) = XX1*VZZ - ZZ1*VXX
@@ -284,7 +284,7 @@ C
            AY=ALP*AY
            AZ=ALP*AZ
 C----------------------------
-C          CALCUL ACCELERATIONS
+C          ACCELERATION COMPUTATION
 C----------------------------
            DA1(1) = HALF*DT2*DT12M1*(VYY*VT1(3) - VZZ*VT1(2))
            DA1(2) = HALF*DT2*DT12M1*(VZZ*VT1(1) - VXX*VT1(3))

@@ -121,7 +121,7 @@ C
       ! -> Plastic parameters
       NUPC   = UPARAM(9)  ! Plastic Poisson ratio                      
       ! -> Flags 
-      IQUAD  = NINT(UPARAM(14)) ! Flag for quadratic or non-quatratic yield surface
+      IQUAD  = NINT(UPARAM(14)) ! Flag for quadratic or non-quadratic yield surface
       ASRATE = MIN(ONE,UPARAM(16)*TIMESTEP)
       ICONV  = NINT(UPARAM(15)) ! Flag to ensure convexity
       ICAS   = NINT(UPARAM(17)) ! Flag for tabulated case

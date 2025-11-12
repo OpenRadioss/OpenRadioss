@@ -283,7 +283,7 @@ C
         E2Y    = E3Z * E1X - E3X * E1Z
         E2Z    = E3X * E1Y - E3Y * E1X
 
-C---    projection of V on element plance
+C---    projection of V on element plane
         V  = VX*E3X + VY*E3Y + VZ*E3Z
         VX = VX-V*E3X
         VY = VY-V*E3Y

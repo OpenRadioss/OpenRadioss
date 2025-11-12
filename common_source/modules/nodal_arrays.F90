@@ -147,9 +147,9 @@
           integer, dimension(:), allocatable :: BOUNDARY
           integer, dimension(:,:), allocatable :: BOUNDARY_ADD
         end type nodal_arrays_
-        ! faire la rupture vers checkstfn
+        ! break towards checkstfn
 !       type animation_buffers
-!           ! pas obligatoire si pas de ANIM/VECT :
+!           ! not mandatory if no ANIM/VECT :
 !           integer :: current_numnod
 !           integer :: max_numnod
 !      ! animation SFANI, SANIN, STANI

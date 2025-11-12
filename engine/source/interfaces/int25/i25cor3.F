@@ -1130,7 +1130,7 @@ C----------
         LC(I)  =LCM(IT,INDEX(I))
       ENDDO
 
-C----Friction model : secnd part IDs---------
+C----Friction model : second part IDs---------
       IF(INTFRIC > 0) THEN
          DO I=1,JLT
            NI = CAND_N(I)

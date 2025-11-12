@@ -87,7 +87,7 @@ C---------
           my_real
      .            DW, BRACKET(3)
 C---------
-C         Speed, Deplacement, Force
+C         Speed, Displacement, Force
 C---------
           my_real
      .           V(3), FC(3), STF,

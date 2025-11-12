@@ -542,7 +542,7 @@ C             IREMPGAP - Tagged lines are removed
               PROV_S(J_STOK) = JJ      !edge secnd
               PROV_M(J_STOK) = IEDG    !edge main
                                                             
-c              IF(DEJA==0) NEDG = NEDG + 1     !nombre d edges candidate au calcul de contact (debug)                 
+c              IF(DEJA==0) NEDG = NEDG + 1     !number d edges candidate au calculation de contact (debug)                 
 c              Already = 1! The EDGE Main IEDG is the subject of a candidate writing.We count the main edges being the subject of a candidate couple: we must no longer include NEDG for the other EDGE SOLD TESTEES.
               CHAIN_ADD = LCHAIN_NEXT(CHAIN_ADD)
 C-----------------------------------------------------

@@ -439,7 +439,7 @@ c
         IAD = IAD + 1
 c        
 c---
-C  nb of local variable
+C  Number of local variables
         BUFLY%NVAR_LOC = IAD
 c---
         IAD = 0
@@ -468,7 +468,7 @@ c---
         BUFLY%LY_OFF   = 0
         IAD = IAD + 1
 c---
-C  nb of layer variable
+C  Number of layer variables
         BUFLY%NVAR_LAY = IAD
 c---
       ENDDO 

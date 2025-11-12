@@ -43,10 +43,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE NBADIGEMESH(LSUBMODEL,NUMNUSR)
 C----------------------------------------------------------------------
-C   ROUTINE BASEE SUR NBADMESH MAIS SPECIFIQUE AUX ELEMENTS ISOGEOMETRIQUES
+C   ROUTINE BASED ON NBADMESH BUT SPECIFIC TO ISOGEOMETRIC ELEMENTS
 C   allows reading and construction of all the necessary arrays
-C   AU RAFFINEMENT DES ELEMENTS IGEO
-C   NB : PEUT ETRE ONE PEU REORGANISEE POUR UNE MEILLEURE LECTURE
+C   FOR THE REFINEMENT OF IGEO ELEMENTS
+C   NOTE: CAN BE REORGANIZED FOR BETTER READABILITY
 C----------------------------------------------------------------------
 C-----------------------------------------------
 C   M o d u l e s
@@ -184,7 +184,7 @@ C--------------------------------------
         IREC=IREC+1
         READ(IIN,REC=IREC,ERR=999,FMT='(A)')LINE
         READ(LINE,ERR=999,FMT=FMT_I)PID
-        IPID = NINTRI(PID,IGEO,NPROPGI,NUMGEO,1)   !  ICI REND IPID BIZARRE
+        IPID = NINTRI(PID,IGEO,NPROPGI,NUMGEO,1)   !  HERE MAKES IPID STRANGE
         IPART(2,I)=IPID
         IPART(4,I)=ID
       ENDDO
@@ -454,7 +454,7 @@ c
           ENDDO
           PTABCONPATCH%PID=IDS
          ELSE
-c  ICI ON SAIT DANS QUEL PART IGE ON EST (IDS) NUMGEO MAIS IG3D. ON PEUT DONC POINTER VERS LA BONNE TABCONPATCH_IG3D
+c  HERE WE KNOW IN WHICH IGE PART WE ARE (IDS) NUMGEO BUT IG3D. WE CAN THEREFORE POINT TO THE RIGHT TABCONPATCH_IG3D
 
           I = I + 1
           KXIG3D(1,I) =IPART(1,IDS)  ! ON SE FICHE DU 1 (PM)
@@ -532,7 +532,7 @@ C------
 C   the refinement work starts here, before this it is only reading
 C------
 c
-      SKNOTLOCPC = DEG_MAX*3*(NUMNODIGE0+2*ADDELIG3D*NCTRLMAX)*MAXNUMGEO ! ON PEUT ENCORE AMELIORER
+      SKNOTLOCPC = DEG_MAX*3*(NUMNODIGE0+2*ADDELIG3D*NCTRLMAX)*MAXNUMGEO ! CAN BE FURTHER IMPROVED
       ALLOCATE (KNOTLOCPC(SKNOTLOCPC)    ,STAT=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='KNOTLOCPC')
       KNOTLOCPC(:)=0

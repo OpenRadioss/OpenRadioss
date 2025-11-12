@@ -50,7 +50,7 @@ C-----------------------------------------------
       my_real
      .   S
 C---------------------------------------------
-C     MISE A JOUR DES RIGIDITES NODALES EQUIVALENTES (COTE SECOND)
+C     SET A JOUR DES RIGIDITES NODALES EQUIVALENTES (COTE SECOND)
 C---------------------------------------------
       NSN   =IPARI(5)
       IF (SFAC >ZERO) THEN

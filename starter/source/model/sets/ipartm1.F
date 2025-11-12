@@ -67,7 +67,7 @@ C-----------------------------------------------
 !||====================================================================
       INTEGER FUNCTION PART_USRTOS(IU,IPARTM1,NPART)
 C      IDENTIQUE A USR2SYS, SANS GENERER D'ERREUR
-C      FONCTION DONNE N0 SYSTEME DU NOEUD USER IU
+C      FONCTION DONNE N0 SYSTEME DU NODE USER IU
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

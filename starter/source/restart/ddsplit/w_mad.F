@@ -136,7 +136,7 @@ C
           END IF
         END DO
 C
-C Elem solides
+C Elem solids
 C
         IDEB = IDEB + NMADSH3
         ESHIFT = 0
@@ -149,7 +149,7 @@ C
           END IF
         END DO
 C
-C Noeuds
+C Nodes
 C
         IDEB = IDEB + NMADSOL
         NMAD_L = 0
@@ -165,7 +165,7 @@ C
  100      CONTINUE
         END DO
 C
-C Noeuds MADCL
+C MADCL Nodes
 C
         NMAD_L = 0
         DO I = 1, NMADNOD

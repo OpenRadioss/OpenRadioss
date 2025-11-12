@@ -70,7 +70,7 @@ C-----------------------------------------------
       INTEGER  K,M
 
 C-------------------------------------
-C Traitement rigid material  
+C Processing rigid material
 C-------------------------------------
 
 !$OMP SINGLE
@@ -107,7 +107,7 @@ C
 
         END IF
 C
-C Traitement fin parith/on multi-thread
+C End of parith/on multi-thread processing
 C
 
 !$OMP DO SCHEDULE(DYNAMIC,1)

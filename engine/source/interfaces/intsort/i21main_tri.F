@@ -162,7 +162,7 @@ C -------------------------------------------------------------
        NRTM_T=NRTM/NTHREAD
 C eshift: shift on cand_e
        ESHIFT = ITASK*NRTM_T
-C il faut conserver K11 global
+C must conserver K11 global
 
        K11_T = 1+4*ITASK*NRTM_T
 

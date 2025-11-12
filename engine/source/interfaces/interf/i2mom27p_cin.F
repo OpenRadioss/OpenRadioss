@@ -72,7 +72,7 @@ C     REAL
      .   STF,AI,H(4),H2(4)
 C=======================================================================
       I0BASE = I0
-C     MINER(II) initialise a MS(J) dans resol_init
+C     MINER(II) initialise a MS(J) in resol_init
       IF(ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER >0) THEN
         DO II=1,NMN
           J=MSR(II)

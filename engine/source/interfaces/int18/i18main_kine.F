@@ -239,7 +239,7 @@ c   2: accumulate on secondary 18 boundary nodes
      .                                   H3D_DATA  )
 
 c     need accelerations for the second node
-c     quand on a surface main, noeud second. distant
+c     quand on a surface main, node second. distant
 c     in the same case, return MTF_PENE+MTF_PENEMIN for
 c     calculs suivants.
 
@@ -441,7 +441,7 @@ C -------------------
       ENDDO
 C=======================================================================
 
-C     a faire:
+C     a to perform:
 C     COMM SPMD : MTF(1:6,*)= velocities
 
 c   1: send to proc which contain the fluid node
@@ -532,7 +532,7 @@ C   D u m m y   A r g u m e n t s
 C-------------------------------------------------------------------------------
 C     NOM    DIMENSION               DESCRIPTION                       E/S
 C-------------------------------------------------------------------------------
-C    NIN    1                        NUMERO INTERFACE                   E
+C    NIN    1                        INTERFACE NUMBER                   E
 C   IPARI   NPARI,NINTER             PARAMETRES D'INTERFACE             E
 C     X     3,NUMNOD                 COORDONNEES                        E
 C     V     3,NUMNOD                 VELOCITIES                           E
@@ -607,7 +607,7 @@ C -------------------
 C -------------------
 
 C=======================================================================
-C     calcul des pene,normale,Hi...
+C     calculation des pene,normale,Hi...
 C     and calculation of cumulative penetration for each second. MTF(10,i)
 C=======================================================================
       NBID=0
@@ -756,7 +756,7 @@ C-------------------------------------------------------------------------------
 C     NOM    DIMENSION               DESCRIPTION                       E/S
 C-------------------------------------------------------------------------------
 C
-C    NIN    1                        NUMERO INTERFACE                   E
+C    NIN    1                        INTERFACE NUMBER                   E
 C
 C   IPARI   NPARI,NINTER             PARAMETRES D'INTERFACE             E
 C
@@ -818,7 +818,7 @@ C-----------------------------------------------
       IF(INACTI/=7.or.IPARI(34)==0)RETURN
 C
 C=======================================================================
-C     calcul des pene,normale,Hi...
+C     calculation des pene,normale,Hi...
 C     and calculation of cumulative penetration for each second. MTF(10,i)
 C=======================================================================
       NSN   =IPARI(5)
@@ -983,7 +983,7 @@ C-------------------------------------------------------------------------------
 C     NOM    DIMENSION               DESCRIPTION                       E/S
 C-------------------------------------------------------------------------------
 C
-C    NIN    1                        NUMERO INTERFACE                   E
+C    NIN    1                        INTERFACE NUMBER                   E
 C
 C   IPARI   NPARI,NINTER             PARAMETRES D'INTERFACE             E
 C
@@ -1128,7 +1128,7 @@ C-------------------------------------------------------------------------------
 C     NOM    DIMENSION               DESCRIPTION                       E/S
 C-------------------------------------------------------------------------------
 C
-C    NIN    1                        NUMERO INTERFACE                   E
+C    NIN    1                        INTERFACE NUMBER                   E
 C
 C   IPARI   NPARI,NINTER             PARAMETRES D'INTERFACE             E
 C

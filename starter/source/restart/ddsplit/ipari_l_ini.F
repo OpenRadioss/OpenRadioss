@@ -131,7 +131,7 @@ C-----------------------------------------------
 C Decount nb total main nodes and nodes int 2 boundarys
       NBDDI2M = 0
       I2NSN_L = 0
-C decompte nb total noeuds secnd int 2 penalty
+C count total number of nodes second int 2 penalty
       I2NSN25_L = 0
 C decompte impact interface type 7, 10, 11
       IMAXIMP_L = 0
@@ -139,7 +139,7 @@ C
       NBI18_L = 0
       NSKYI18_L = 0
           
-C tag noeud interface I2
+C tag node interface I2
       DO I = 1, NUMNOD
         TAGI2(I) = 0
       END DO
@@ -155,7 +155,7 @@ C
      .     ITY/=21.AND.ITY/=22.AND.ITY/=23.AND.ITY/=24.AND.
      .     ITY/=25)THEN
 !       *********************************
-C calcul IMAXIMP_L suivant interface
+C calculation IMAXIMP_L according to interface
           IF(ITY==3) THEN
             NSN = IPARI(5,NI)
             NMN = IPARI(6,NI)
@@ -182,7 +182,7 @@ C calcul IMAXIMP_L suivant interface
           DO I = 1, NRTM
             TAGE(I) = 0
           ENDDO
-C calcul nombre de noeuds secnds locaux
+C calculation number of nodes local second
           NSN_L = 0
           DO K=1,NSN
             MY_NODE = INTBUF_TAB(NI)%NSV(K)
@@ -199,7 +199,7 @@ C calcul nombre de noeuds secnds locaux
           END DO
           IPARI_L(5,NI) = NSN_L
           NMN_L = 0
-C calcul nombre total secnd penalty
+C calculation total number second penalty
           IF (ILEV == 25 .or. ILEV == 26 .or. ILEV == 27 .or. ILEV == 28) THEN
             DO K=1,NSN
               MY_NODE = INTBUF_TAB(NI)%NSV(K)
@@ -828,7 +828,7 @@ C
 C -------------------------------
 C IPARI_L Interface type 7, 8,10, 22, 23, 24, 25
 C -------------------------------
-          !for auto-impactant interfaces (secnd nodes=main surface nodes)
+          !for auto-impactant interfaces (second nodes=main surface nodes)
           !IRECTS is used in lecins but no need in engine, set to 0 
           !to save memory consumption at engine 
           IF(INTNITSCHE == 0) IPARI_L(3,NI) = 0
@@ -1080,8 +1080,7 @@ C cote main
 C No offset because solid
             IF(CEP(IE)==PROC) NMN_L = NMN_L + 1
           END DO
-C cote secnd
-          NSN_L = 0
+C cote second           NSN_L = 0
           DO K = 1, NSN
             IE = IGRBRIC(IGN)%ENTITY(K)
 C No offset because solid
@@ -1401,7 +1400,7 @@ C
 C-----------------
 C IPARI_L TYPE 20
 C-----------------
-          !for auto-impactant interfaces (secnd nodes=main surface nodes)
+          !for auto-impactant interfaces (second nodes=main surface nodes)
           !IRECTS is used in lecins but no need in engine, set to 0 
           !to save memory consumption at engine 
           IPARI_L(3,NI) = 0

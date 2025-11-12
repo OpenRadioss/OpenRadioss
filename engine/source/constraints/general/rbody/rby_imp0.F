@@ -185,12 +185,12 @@ C     REAL
      .   XS,YS,ZS,XS1,YS1,ZS1, KDD(6,6),BD(6)
 C-----------------------------------------------
       M    =NBY(1)
-C -------main utilise place de premier secnd node (just like change node number)
+C -------main uses place of first secondary node (just like change node number)
       IF (M<0) RETURN
        NSN  =NBY(2)
        IMD = IDDL(M)+1
         ND = 6
-C--------boucle secnd nodes--
+C--------secondary nodes loop--
        J1=0
        DO I=1,NSN
 C--------block diagonal Kmm--
@@ -229,8 +229,8 @@ C-------  Update ---
          J1=J1+NS(I)
         ENDIF
        ENDDO
-C-------fin -boucle secnd nodes--
-C--------due au coupled block KIJ--
+C-------end of secondary nodes loop--
+C--------due to coupled block KIJ--
        DO I=1,NSC
         NI =ISI(1,I)
         NJ =ISI(2,I)
@@ -729,11 +729,11 @@ C     REAL
      .   XS,YS,ZS,BD(6)
 C-----------------------------------------------
       M    =NBY(1)
-C -------main utilise place de premier secnd node (just like change node number)
+C -------main uses place of first secondary node (just like change node number)
       IF ((M<0).OR.NDOF(M)==0) RETURN
        NSN  =NBY(2)
         ND = 6
-C--------boucle secnd nodes--
+C--------secondary nodes loop--
        J1=0
        DO I=1,NSN
 C--------block diagonal Kmm--
@@ -842,11 +842,11 @@ C     REAL
      .   XS,YS,ZS,BD(6),AC(3,*) ,ACR(3,*)
 C-----------------------------------------------
       M    =NBY(1)
-C -------main utilise place de premier secnd node (just like change node number)
+C -------main uses place of first secondary node (just like change node number)
       IF (M<0) RETURN
        NSN  =NBY(2)
         ND = 6
-C--------boucle secnd nodes--
+C--------secondary nodes loop--
        J1=0
        DO I=1,NSN
 C--------block diagonal Kmm--

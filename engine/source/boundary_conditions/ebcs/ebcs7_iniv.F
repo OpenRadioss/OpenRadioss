@@ -94,7 +94,7 @@ C
           V0(3,I)=V(3,N)
         ENDDO
       ENDIF
-C SURFACE NORMALE NODALES
+C NODAL NORMAL SURFACE
       DO I=1,NOD
          LA(1,I)=ZERO
          LA(2,I)=ZERO
@@ -152,7 +152,7 @@ C
            VMZ=VMZ+V(3,NG4)
         ENDIF
 C
-c bilan masse et energie totale
+c mass and total energy balance
 c
         ROOU = SEGVAR%RHO(KSEG)
         ENOU = SEGVAR%EINT(KSEG)

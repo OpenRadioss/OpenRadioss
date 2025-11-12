@@ -165,7 +165,7 @@ C
         ENDIF
       ENDDO
 C
-C TAGAGE DESACTIVATION SECONDARY INTERF 12 AVEC CONDITION CINEMATIQUE
+C TAGAGE DESACTIVATION SECONDARY INTERF 12 WITH CONDITION CINEMATIQUE
 C
       DO N=1,NINTER
        NTY = IPARI(7,N)
@@ -176,7 +176,7 @@ C
        ENDIF
       ENDDO
 C
-C     SWITCH INTERF 2 AVEC CONDITION CINEMATIQUE => METHODE penalty
+C     SWITCH INTERF 2 WITH CONDITION CINEMATIQUE => METHODE penalty
 C
       CALL ITAGSL2(IPARI ,NOM_OPT,ITAB  ,IKINE  ,INTBUF_TAB,
      .                   ITAGND,ICNDS10,NSTRF ,ITAGCYC,IRBE2     ,
@@ -438,7 +438,7 @@ C
 C-----------------------------------------------------------------------
 C     Reading surfaces and counting segments
 C           ENTREE : 
-C                    NRT NOMBRE DE RENSEIGNEMENTS A LIRE
+C                    NRT NUMBER OF ITEMS TO READ
 C           SORTIE : 
 C                    IRECT 
 C-----------------------------------------------

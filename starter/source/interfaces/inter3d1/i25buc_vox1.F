@@ -128,7 +128,7 @@ C-------use temporarily GAP_N(1,*)=V/A
 C       Not used :: MVOISN(1,*)-> MTYPE(solid),MVOISN(2,*)-> E_id
 C
 C
-C     1-CALCUL TAILLE DES ZONES INFLUENCES
+C     1-CALCULATION TAILLE DES ZONES INFLUENCES
 C     dd is the average element length
 C     dd_st is the max element length
       DD=ZERO
@@ -137,7 +137,7 @@ C     dd_st is the max element length
       D_MOY = ZERO
       N_SOL = 0
       DO 10 L=1,NRTM
-C      CONNECIVITES ELEMENT
+C      ELEMENT CONNECTIVITIES
        N1=IRECT(1,L)
        N2=IRECT(2,L)
        N3=IRECT(3,L)
@@ -201,7 +201,7 @@ C DD + 2*Tzinfo: Size element increased in influence zone
       TZINF0 = TZINF
       MINBOX0 = MINBOX
       MAXBOX0 = MAXBOX
-C     MIS A ZERO POUR FAIRE SEARCH COMPLET CYCLE 0 ENGINE
+C     SET TO ZERO TO PERFORM COMPLETE SEARCH CYCLE 0 ENGINE
       DIST = ZERO     
 
 C--------------------------------

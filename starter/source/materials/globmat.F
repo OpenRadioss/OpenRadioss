@@ -163,7 +163,7 @@ C
         ELSEIF(IGTYP == 52 .OR. 
      .         ((IGTYP == 17 .OR. IGTYP == 51) .AND. IGMAT > 0)) THEN
            DO IS = 1,NS_STACK 
-C initialisation of parameters
+C initialization of parameters
             PIDS = IGEO_STACK(2,IS)
             IF(PIDS == I) THEN
              A11   = ZERO

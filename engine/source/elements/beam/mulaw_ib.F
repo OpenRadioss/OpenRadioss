@@ -158,7 +158,7 @@ c---    Total strain
         ENDIF
 C
 C----------------------------------------------------------------
-C       CONTRAINTES ELASTO-PLASTIQUES (LOIS DE COMPORTEMENT)
+C       ELASTO-PLASTIC STRESSES (CONSTITUTIVE LAWS)
 C------------------------------------------
         SELECT CASE(MTN)
 C---

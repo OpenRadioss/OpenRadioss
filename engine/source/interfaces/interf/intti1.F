@@ -360,7 +360,7 @@ C         version spmd p/on
 C
 C Routine assemblage parith/ON
 C
-C Rare case where type2 interfaces are defined with no more active secnd nodes
+C Rare case where type2 interfaces are defined with no more active second nodes
         IF(I2NSNT > 0)
      *    CALL ASSPARI2(nodes%NUMNOD0,
      1       A    ,AR    ,STIFN ,STIFR  ,MS               ,

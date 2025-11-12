@@ -227,13 +227,13 @@ C----------------
         P(2)=X(2,N3)-X(2,N1)
         P(3)=X(3,N3)-X(3,N1)
 C-----------------
-C       CALCUL DE Y = Z x X'
+C       CALCULATION OF Y = Z x X'
 C-----------------
         P(4)=P(8)*P(3)-P(9)*P(2)
         P(5)=P(9)*P(1)-P(7)*P(3)
         P(6)=P(7)*P(2)-P(8)*P(1)
 C-----------------
-C       CALCUL DE X = Y x Z
+C       CALCULATION OF X = Y x Z
 C-----------------
         P(1)=P(5)*P(9)-P(6)*P(8)
         P(2)=P(6)*P(7)-P(4)*P(9)
@@ -403,7 +403,7 @@ C     calculation of collinearity of vectors n1n2 and n1n3
          ENDIF
        ENDIF
 C-----------------
-C     CALCUL DE Z'(IDIR=1) X'(IDIR=2) Y'(IDIR=3)
+C     CALCULATION OF Z'(IDIR=1) X'(IDIR=2) Y'(IDIR=3)
 C-----------------
         IF (IDIR == 1) THEN
           P(7)=P(2)*P(6)-P(3)*P(5)
@@ -419,7 +419,7 @@ C-----------------
           P(6)=P(7)*P(2)-P(8)*P(1)
         ENDIF
 C-----------------
-C     CALCUL DE Y'(IDIR=1) Z'(IDIR=2) X'(IDIR=3) 
+C     CALCULATION OF Y'(IDIR=1) Z'(IDIR=2) X'(IDIR=3) 
 C-----------------
         IF (IDIR == 1) THEN
           P(4)=P(8)*P(3)-P(9)*P(2)

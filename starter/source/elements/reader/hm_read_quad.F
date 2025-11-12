@@ -66,8 +66,8 @@ C-----------------------------------------------
       USE USER_ID_MOD , ONLY : ID_LIMIT
       use element_mod , only : nixq
 C--------------------------------------------------------
-C     LECTURE DES ELEMENTS QUAD 4 NOEUDS
-C     VERSIION NUMEROTATION DES NOEUDS LIBRE/MARS 90/DIM
+C     READING DES ELEMENTS QUAD 4 NODES
+C     VERSIION NUMEROTATION DES NODES LIBRE/MARS 90/DIM
 C--------------------------------------------------------
 C
 C-----------------------------------------------

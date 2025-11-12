@@ -1302,7 +1302,7 @@ C Writing Additional Tables Frontieres SPH (Real part)
 C--------------------------------------
       CALL SPMD_SAVESPH(2,NUMSPHG)
 C--------------------------------------
-C     ECRITURES FACULTATIVES
+C     OPTIONAL WRITES
 C--------------------------------------
       IF (IRESMD==0.AND.NPSAV>=25) THEN
 C   bring PARTSAV back to the proc and set the others to zero

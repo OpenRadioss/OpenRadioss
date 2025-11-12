@@ -81,7 +81,7 @@ C=======================================================================
 C------------------------------------
       IS_AVAILABLE = .FALSE.
 !-----------------------------------------
-!       pre lecture of FILL for interfaces stiffness computation
+!       pre-reading of FILL for interfaces stiffness computation
 !             ---  /INIBRI/FILL  ---
 !-----------------------------------------
       CALL HM_OPTION_COUNT('/INIBRI', NB_INIBRI)

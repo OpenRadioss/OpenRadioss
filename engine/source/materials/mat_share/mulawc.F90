@@ -714,7 +714,7 @@
                 endif
               endif
 !-----------------------------------------
-!         coordonnees du point d'integration ipt
+!         coordinates of integration point ipt
 !-----------------------------------------
               !zz   => posly(1:nel,ipt)
               !thly => thkly(jpos:jpos+nel-1)

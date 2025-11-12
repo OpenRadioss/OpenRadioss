@@ -147,7 +147,7 @@ C-----------------------------------------------
        IET =IINT
        COEFH = ZEP9999   
        IPLAST = ELBUF_STR%GBUF%G_PLA
-C---- attention : r->eta; s->zeta; t->ksi------------
+C---- note: r->eta; s->zeta; t->ksi------------
 
 C +++ MAT Visco-----
 !      DO I=1,NEL

@@ -188,7 +188,7 @@ C
        BYZ6(I) = -ZNU1*PY3H(I)-ZNU*PYC3(I)
        BZY6(I) = -ZNU1*PZ3H(I)
       ENDDO
-C ----------shear,PX,PY->DXY;PXY,PXZ...pour DYZ,DXZ-------------
+C ----------shear,PX,PY->DXY;PXY,PXZ...for DYZ,DXZ-------------
 C | PY  PX   0 |
 C | PXY PYZ PZY|
 C | PXZ PYX PZX|

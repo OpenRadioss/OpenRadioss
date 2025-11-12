@@ -195,7 +195,7 @@ c      write(iout,*)'i24buce 2'
 c      write(iout,*)'i24buce 3'
 
 C
-C     I_MEM = 2 ==> PAS ASSEZ DE MEMOIRE CANDIDATS
+C     I_MEM = 2 ==> PAS ASSEZ DE MEMOIRE CANDIDATES
 
 c      write(iout,*)'i24buce 4'
 C

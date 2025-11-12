@@ -91,10 +91,10 @@ c
 c TYPE NAME                FUNCTION
 c  I   PM ,GEO             Material and geometrical property data
 c  I   IC(7,NUM_QUAD)      connectivity and mid,pid integer data
-c  I   X(3,NUMNOD)         co-ordinate
+c  I   X(3,NUMNOD)         coordinate
 c  IO  A(3,NUMNOD)         nodal internal force
 c  I   V(3,NUMNOD)         nodal velocity
-c  IO  MS(NUMNOD)          nodal masse
+c  IO  MS(NUMNOD)          nodal mass
 c  I   EV()                internal element(material) data
 c  I   FLUX(4,NEL)         flux at each side used w/ ALE or EULER
 c  I   FLU1  ,VEUL  ,IELVS used w/ ALE or EULER
@@ -109,10 +109,10 @@ c  IO  STIFN(NUMNOD)       nodal stiffness to calcul nodal time step
 c  IO  EANI()              anim output vector
 c  I   IPARTQ()            quad element group data (output)
 c  I   NEL                 nb of quad element in this group
-c  I   IADQ() ,FSKY()      work arrays for special option of internal force assemlage
+c  I   IADQ() ,FSKY()      work arrays for special option of internal force assemblage
 c  IO  XPHI,FPHI,VPHI,MSPHI,PV ,
 c      X0PHI ,EVD : variables for sensibility(opt) no more used
-c  I   BUFVOIS()           work table for fluide w/ SPMD
+c  I   BUFVOIS()           work table for fluid w/ SPMD
 c  I   QMV(8,)             work table used w/ ALE or EULER
 c  I   GRESAV,GRTH,IGRTH   work table used for TH (time history) output
 c  I   TABLE               new alternative Radioss function(table) data

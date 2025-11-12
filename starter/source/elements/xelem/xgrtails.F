@@ -45,15 +45,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C            A R G U M E N T S
 C-----------------------------------------------
-C     KXX(5,NUMELX)      TABLEAU CONECS+PID+NOS RESSORTS            E
-C     IPARG(NPARG,NGROUP)TABLEAU DES CARACTERISTIQUES DES GROUPES   E/S
-C     GEO(NPROPG,NUMGEO) TABLEAU DES CARACS DES PID                 E
-C     EADD(NUMELX)       TABLEAU DES ADRESEES DANS IDAM CHGT DAMIER E
-C     DD_IAD             TABLEAU DE LA DD EN SUPER GROUPES          S
-C     INDEX(NUMELX)      TABLEAU DE TRAVAIL                         E/S
-C     INUM (6*NUMELX)      TABLEAU DE TRAVAIL                         E/S
-C     CEP(NUMELX)        TABLEAU DE TRAVAIL                         E/S
-C     ITR1(NUMELX)        TABLEAU DE TRAVAIL                         E/S
+C     KXX(5,NUMELX)      ARRAY CONECS+PID+SPRING NUMBERS            E
+C     IPARG(NPARG,NGROUP)ARRAY OF GROUP CHARACTERISTICS             E/S
+C     GEO(NPROPG,NUMGEO) ARRAY OF PID CHARACTERISTICS              E
+C     EADD(NUMELX)       ARRAY OF ADDRESSES IN IDAM CHGT DAMIER    E
+C     DD_IAD             ARRAY OF DD IN SUPER GROUPS                S
+C     INDEX(NUMELX)      WORKING ARRAY                              E/S
+C     INUM (6*NUMELX)      WORKING ARRAY                            E/S
+C     CEP(NUMELX)        WORKING ARRAY                              E/S
+C     ITR1(NUMELX)        WORKING ARRAY                             E/S
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -96,7 +96,7 @@ C
       IDX=IDX+ND*(NSPMD+1)
       CALL ZEROIN(1,ND*(NSPMD+1),DD_IAD(1,NSPGROUP+1))
       NFT = 0
-C initialisation dd_iad
+C initialize dd_iad
       DO N=1,ND
         DO P=1,NSPMD+1
           DD_IAD(P,NSPGROUP+N) = 0

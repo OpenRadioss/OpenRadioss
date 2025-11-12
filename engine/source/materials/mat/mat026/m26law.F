@@ -110,7 +110,7 @@ C
       DMU(I)=-DVOL(I)/VOLN(I)
    30 CONTINUE
 C-------------------------------
-C     CONTRAINTES DEVIATORIQUES
+C     DEVIATORIC STRESSES
 C-------------------------------
       DO 40 I=1,NEL
       SIG(I,1)=SIG(I,1)+P(I)+G2(I)*(D1(I)+DAV(I))

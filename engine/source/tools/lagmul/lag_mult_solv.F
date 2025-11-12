@@ -108,9 +108,9 @@ C
 C
 C        NC : number of contacts
 C
-C        IC : numero du contact (1,NC)
-C        IK : index de XLL,LLL,JLL
-C        I  : numero global du noeud (1,NUMNOD)
+C        IC : contact number (1,NC)
+C        IK : index of XLL,LLL,JLL
+C        I  : global node number (1,NUMNOD)
 C        I: direction 1,2.3
 C
 C-----------------------------------------------
@@ -489,9 +489,9 @@ C
 C
 C        NC : number of contacts
 C
-C        IC : numero du contact (1,NC)
-C        IK : index de XLL,LLL,JLL
-C        I  : numero global du noeud (1,NUMNOD)
+C        IC : contact number (1,NC)
+C        IK : index of XLL,LLL,JLL
+C        I  : global node number (1,NUMNOD)
 C        I: direction 1,2.3
 C
 C-----------------------------------------------
@@ -874,9 +874,9 @@ C
 C
 C        NC : number of contacts
 C
-C        IC : numero du contact (1,NC)
-C        IK : index de XLL,LLL,JLL
-C        I  : numero global du noeud (1,NUMNOD)
+C        IC : contact number (1,NC)
+C        IK : index of XLL,LLL,JLL
+C        I  : global node number (1,NUMNOD)
 C        I: direction 1,2.3
 C
 C-----------------------------------------------

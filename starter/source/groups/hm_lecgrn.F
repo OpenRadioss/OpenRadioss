@@ -145,7 +145,7 @@ C-----------------------------------------------
 C    IGRNOD(IGS)%ID : GROUP identifier
 C    IGRNOD(IGS)%TITLE : GROUP title
 C    IGRNOD(IGS)%NENTITY : Entities (nodes) number of the GROUP
-C    IGRNOD(IGS)%GRTYPE : TYPE ( 0-NOEUDS, 1-BRIC, 2-QUAD,   3-SHELL_4N,
+C    IGRNOD(IGS)%GRTYPE : TYPE ( 0-NODES, 1-BRIC, 2-QUAD,   3-SHELL_4N,
 !                                4-TRUSS,  5-BEAM, 6-SPRINGS,7-SHELL_3N )
 !!                   GRTYPE --- > OBSOLETE
 C    IGRNOD(IGS)%SORTED  : FLAG for sorted/unsorted nodes
@@ -374,8 +374,8 @@ C no sorting necessary and dichotomy
                 NN = IGRNOD(I)%ENTITY(NNOD)
                 IGRNOD(I)%ENTITY(NNOD)=USR2SYS(NN,ITABM1,MESS,ID)
                 IGRNOD(I)%NENTITY=1
-C            ELSEIF(NNOD < 10 ou 100 ...)
-C algo avec tri simplifie et dichotomie, nnod limite a definir
+C            ELSEIF(NNOD < 10 or 100 ...)
+C algo with simplified sort and dichotomy, nnod limit to be defined
               ELSE
 C Algo optimized for non -negligeable size group in front of n nod
                 BUFTMP2(1:2*NNOD) = 0

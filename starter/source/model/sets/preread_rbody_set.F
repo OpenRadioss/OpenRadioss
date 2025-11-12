@@ -36,7 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE PREREAD_RBODY_SET(LSUBMODEL,ITABM1,RBY_MSN)
 C-------------------------------------
-C    PRE LECTURE STRUCTURE RIGIDES POUR /SETS
+C    PRE-READ RIGID BODY STRUCTURE FOR /SETS
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------

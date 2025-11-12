@@ -21,8 +21,8 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C  
-C   Node definition for secnd side of Interface Type18.
-C   Input for secnd side is a GRBRIC. Nodes are extracted 
+C   Node definition for second side of Interface Type18.
+C   Input for second side is a GRBRIC. Nodes are extracted 
 C   from it into a sorted list
 !||====================================================================
 !||    ingrbric_nodes   ../starter/source/interfaces/interf1/ingrbric_nodes.F

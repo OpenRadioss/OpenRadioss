@@ -108,7 +108,7 @@ C-----------------------------------------------
                 ENDIF
 
 C=============================================
-C     LES NOEUDS DELETES DEVIENNENT NSN+NSNROLD+1 
+C     LES NODES DELETES DEVIENNENT NSN+NSNROLD+1 
 C=============================================
 C------for travelling nodes detected in imp_solv----- 
                 I_STOK = INTBUF_TAB(NIN)%I_STOK(1)

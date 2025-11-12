@@ -150,10 +150,9 @@ c---------------------------------------
         ENDIF
       ENDIF
 C=======================================================================
-c     NOEUDS
-C=======================================================================
+c     NODES C=======================================================================
 c-----------------------------------------------------------------
-c     tag noeuds surfaces S1 S2
+c     tag nodes surfaces S1 S2
 c-----------------------------------------------------------------
       DO I=1,NUMNOD
         TAG(I)=0 ! initialisation 
@@ -274,7 +273,7 @@ C=======================================================================
         ENDIF
       ENDIF
 c-----------------------------------------------------------------
-c     number of nodes in the interface (secnd+main+edge)
+c     number of nodes in the interface (second+main+edge)
 c-----------------------------------------------------------------
       IF(IALLO == 1)THEN
         DO I=1,NUMNOD
@@ -614,8 +613,7 @@ c       inactive lines
           ENDDO      
         ENDIF
 
-c       noeuds
-        L = 0
+c       nodes         L = 0
         DO I=1,NUMNOD
           IF(TAG(I) == 1)THEN
             TAG(I) = 0 
@@ -734,7 +732,7 @@ c triangle we do nothing
 c ditto previous we do nothing
             BOLD=1
           ELSEIF(I2 == I2M .and. I1 == I1M)THEN
-c idem suivant pas de bord
+c idem according to pas de bord
             BORD=0
             BOLD=0
           ELSE

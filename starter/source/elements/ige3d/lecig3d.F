@@ -45,7 +45,7 @@ C-----------------------------------------------
       USE FORMAT_MOD , ONLY : FMT_10I, FMT_8I, FMT_2I
       USE READER_OLD_MOD , ONLY : KLINE, KCUR, LINE, KIGE3D, KOPTAD, IREC
 C----------------------------------------------------------
-C     LECTURE ELEMENT ISO GEOMETRIQUE
+C     READING ISO GEOMETRIC ELEMENT
 C-----------------------------------------------
 C     KXIG3D(1,*):IMID :   ID DU MATERIAU
 C     kxig3d(2,*):ipid: property id

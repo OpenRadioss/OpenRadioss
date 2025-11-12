@@ -403,7 +403,7 @@ C All processes: write local stiffness coefficients (at MPI domain level) in Mat
 #ifdef MPI
       CALL MPI_BARRIER(SPMD_COMM_WORLD,IERROR)
 #endif
-C Process 0: read stiff. coeff. from all processes, sort (bubble) and write stiffness coefficients in MatrixMarket format         
+C Process 0: read stiffness coefficients from all processes, sort (bubble) and write stiffness coefficients in MatrixMarket format         
       IF (ISPMD == 0) THEN
          ALLOCATE(NENTRIEStmp(NSPMD))
          WRITE(CSPMD,'(I1)') NSPMD
@@ -452,7 +452,7 @@ C Bubble sort in ascending order of ICOLS and then IROWS
              ENDDO 
              I = I - 1
          ENDDO  
-C Write stiff. coeff. in only one file (suppress duplications) 
+C Write stiffness coefficients in only one file (suppress duplications) 
          IND = 1 
          DO WHILE (IND <= NENTRIES)
            tmpK = K(IND)

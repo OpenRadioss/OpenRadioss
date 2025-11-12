@@ -3205,7 +3205,7 @@ C=======================================================================
         ENDDO
       ENDDO
 C=======================================================================
-C print groupe de PART et SUBSET
+C print group of PART and SUBSET
 C=======================================================================
       CALL THPRIN(
      1          'PART      ',IPART ,LIPART1    ,4     ,
@@ -3214,7 +3214,7 @@ C=======================================================================
      1          'SUBSET    ',SUBSET ,ITHFLAG  ,1     ,
      2          NVSUBTH  ,ITHBUF    ,VARPA    ,NSUBS )
 C
-C     LES GROUPES TH PART ET SUBSET NE SONT PLUS UTILISES
+C     TH GROUPS PART AND SUBSET ARE NO LONGER USED
 C
       NTHGRP2=IGS
 C------------------------------------------------

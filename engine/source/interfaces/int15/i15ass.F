@@ -212,7 +212,7 @@ C------------------------------------------------------------
 C---------------------------------
 C     for work of forces on secondary nodes
 C     1ere partie : ici
-C     2eme partie : apres calcul de DT2.
+C     2eme partie : apres calculation de DT2.
 C---------------------------------
        DO 450 I=1,NNC
        IN=KNC(I)

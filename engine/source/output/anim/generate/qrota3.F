@@ -66,7 +66,7 @@ C-----------------------------------------------
         NC3=IXQ(4)
         NC4=IXQ(5)
 C----------------------------
-C     COORDONNEES NODALES
+C     NODE COORDINATES
 C----------------------------
         Y1=X(2,NC1)
         Z1=X(3,NC1)
@@ -98,7 +98,7 @@ C-----------
         SY=SY*SUMA
         SZ=SZ*SUMA
 C-----------
-C       MATRICE DE PASSAGE GLOBAL -> CONVECTE
+C       TRANSFORMATION MATRIX GLOBAL -> CONVECTED
 C-----------
         R22= SY
         R32=-SZ
@@ -112,7 +112,7 @@ c
             G23=GAMA(4)
             G33=GAMA(5)
 C-----------
-c       MATRICE DE PASSAGE GLOBAL -> ORTHOTROPE.
+c       TRANSFORMATION MATRIX GLOBAL -> ORTHOTROPIC.
 C-----------
             T22=R22*G22+R23*G32
             T23=R22*G23+R23*G33
@@ -132,7 +132,7 @@ C-----------
             T32=R32*G22+R33*G32
             T33=R32*G23+R33*G33
 C-----------
-c       MATRICE DE PASSAGE ORTHOTROPE -> GLOBAL
+c       TRANSFORMATION MATRIX ORTHOTROPIC -> GLOBAL
 C-----------
             R22=T22
             R23=T23
@@ -141,7 +141,7 @@ C-----------
           ENDIF             
         END IF
 C-----------
-C       SIZE(TENS)=6 ON STOCKE COMME DES SOLIDES MAIS ON N'UTILISE QUE 1, 2 et 4
+C       SIZE(TENS)=6 STORED AS SOLIDS BUT ONLY USE 1, 2 and 4
 C-----------
         S1=TENS(1)
         S2=TENS(2)

@@ -457,7 +457,7 @@ C
        END DO
 C        
 C------------------------------------
-C     GAP NOEUDS IN WA
+C     GAP NODES IN WA
 C------------------------------------
        DO I=1,NUMELC
          MG=IXC(6,I)

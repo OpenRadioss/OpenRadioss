@@ -36,7 +36,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
-C      Function returns system number from a list of user boxes
+C      FUNCTION RETURNS SYSTEM ID FROM A LIST OF USER BOXES
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

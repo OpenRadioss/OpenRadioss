@@ -1900,7 +1900,7 @@ C
         ENDIF
        ENDDO
       END IF !(NSPMD > 1 .AND.NINTER > 0) THEN
-C-----if m is secnd of rb
+C-----if m is second of rb
       NSRB2=0
       DO N=1,NRBE2
        M=IRBE2(3,N)
@@ -2145,7 +2145,7 @@ C-----------------------------------------------
       INTEGER NKS,NKM
       INTEGER NSN,NMN,I,J,K,N,M,EP,L,NI,NJ,K12,ID,NS,NK,NM,NNOD,N1,L1,NL1,NL,J1,NM1,
      .        JI1,L10,L11,L12,L13,L14,NNOD1,I1,NSN1,M1,NKE,IAD,IC
-C     NROW(NUMNOD) :nombre of connected nodes (non sym)
+C     NROW(NUMNOD) :number of connected nodes (non sym)
 C     Nrow (Kine): Local index <= nnmax (Nrow can possibly exceed nnmax)
 C     INLOC (NUMNOD): Local index of "Kinematic Nodes"
 C-----------------------------------------------
@@ -2231,7 +2231,7 @@ C+++ coupling between int2 ----
           NI=INTBUF_TAB(N)%NSV(I)
           IF (NDOF(NI)>0) THEN
            NKE=INLOC(NI) 
-C------cherche-secnd pairs-entre int2---
+C------search for second pairs-entre int2---
            DO I1=1,NSN1
             NJ=INTBUF_TAB(N1)%NSV(I1)
             IF (NDOF(NJ)>0.AND.
@@ -2679,7 +2679,7 @@ C
            ENDIF         
           ENDIF
          ENDDO 
-C-----create rigid body secnd nodes with Kij block-(i,j have the same M)-----
+C-----create rigid body second nodes with Kij block-(i,j have the same M)-----
          DO N1=J+1,NSN
            NJ=LPBY(K+N1)
           IF (NKS > INK) THEN         
@@ -2721,7 +2721,7 @@ C+++ Coupling between Rigid Bodies ----
              NKS=INLOC(NI) 
              IF (NKS > INK) THEN         
               IF (INTAB(NROWI(NKS),ICOK(1,NKS),M)) THEN
-C------cherche-secnd pairs----
+C------search for second pairs----
               DO N1=1,NS
                N2=LPBY(K+N1)
                IF (NDOF(N2)>0.AND.
@@ -2732,7 +2732,7 @@ C------cherche-secnd pairs----
               ENDIF
              ELSE
               IF (INTAB(NROWI(NKS),ICOKM(1,NKS),M)) THEN
-C------cherche-secnd pairs----
+C------search for second pairs----
               DO N1=1,NS
                N2=LPBY(K+N1)
                IF (NDOF(N2)>0.AND.
@@ -2876,7 +2876,7 @@ C------IRTL(NSN)--main el number---
           ENDIF 
          ENDDO
          NS=NS+NSS2(ID)
-C-----with Kij block-(i,j secnd)-----
+C-----with Kij block-(i,j second)-----
          DO N1=I+1,NSN
           NJ=INTBUF_TAB(N)%NSV(N1)
           L1=INTBUF_TAB(N)%IRTLM(N1)
@@ -3057,7 +3057,7 @@ C-----active rigid body main nodes------
            ENDIF 
           ENDDO 
           NS=NS+NSS(ID)
-C-----create rigid body secnd nodes with Kij block-(i,j have the same M)-----
+C-----create rigid body second nodes with Kij block-(i,j have the same M)-----
           DO N1=I+1,NSN
            NJ=LPBY(K1+N1)
            IF (NKE <= INK) THEN         
@@ -3111,7 +3111,7 @@ C
              IF (NKE <= INK) THEN         
               IF (INTAB(NROWK(NKE),ICOK(1,NKE),M)) THEN
               NJ=0
-C------cherche-secnd pairs----
+C------search for second pairs----
               DO N1=1,NS
                N2=LPBY(K+N1)
                IF (NDOF(N2)>0.AND.
@@ -3129,7 +3129,7 @@ C------cherche-secnd pairs----
              ELSE
               IF (INTAB(NROWK(NKE),ICOKM(1,NKE-INK),M)) THEN
               NJ=0
-C------cherche-secnd pairs----
+C------search for second pairs----
               DO N1=1,NS
                N2=LPBY(K+N1)
                IF (NDOF(N2)>0.AND.
@@ -3234,7 +3234,7 @@ C-----------------------------------------------
       DO N =1,NUMNOD
        INLOC(N)=0
       ENDDO
-c-----2. prepare icol for secnd nodes using ikine;
+c-----2. prepare icol for second nodes using ikine;
       CALL DIM_KINE_P(
      1    IGEO      ,NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,
      2    IRBYAC    ,NINT2     ,IINT2     ,IPARI     ,
@@ -3265,7 +3265,7 @@ C----- pass for IND_GLOB_K, including RBE2 main
        NK=INLOC(N)
        IF (NK > 0) NROW(N) = MAX(NROW(N),NROWI(NK))
       ENDDO
-c-----3. calcul NNMAX,NKMAX and creating INLOC,NKINE;
+c-----3. calculation NNMAX,NKMAX and creating INLOC,NKINE;
       CALL DIM_KINE_S(
      1    NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,IRBYAC    ,
      2    NINT2     ,IINT2     ,IPARI     ,INTBUF_TAB,NDOF      ,
@@ -3314,7 +3314,7 @@ c
      1    NNMAX     ,NKMAX     ,NROWI     ,ICOK(L2)  ,ICOK(L1)  ,
      2    INLOC     ,LNK       ,FR_ELEM   ,IAD_ELEM  )
       ENDIF 
-c-----3. calcul NNMAX,NKMAX and creating INLOC,NKINE;
+c-----3. calculation NNMAX,NKMAX and creating INLOC,NKINE;
       CALL DIM_KINE_T(
      1    NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,IRBYAC    ,
      2    NINT2     ,IINT2     ,IPARI     ,INTBUF_TAB,NDOF      ,
@@ -3520,7 +3520,7 @@ C
      8    NMIJ      ,NSS2      ,NSIJ2     ,NMIJ2     ,FR_ELEM   ,
      9    IAD_ELEM  ,SH4TREE   ,SH3TREE   ,IRBE3     ,LRBE3     ,
      A    NSS3      ,IRBE2     ,LRBE2     ,NSB2      ,ELBUF_TAB )
-c-----4. calcul NNZK,;
+c-----4. calculation NNZK,;
       IF (IRODDL==0) THEN
        NDOFJ=3
       ELSE
@@ -3554,7 +3554,7 @@ c           NNZK = NNZK+NDOFJ*IDDL(N)
        DO N =1,NUMNOD
         IDDL(N)=0
        ENDDO
-C------d'abord frontieres avec precedent procs j<i
+C------d'abord frontieres with precedent procs j<i
        DO IP =1,ISPMD
         DO M=IAD_ELEM(1,IP),IAD_ELEM(1,IP+1)-1
          N=FR_ELEM(M)
@@ -3615,7 +3615,7 @@ C--------- Set INLOC;For Kine.Nodes ---
         ENDDO
        ENDIF 
       ENDIF 
-c-----4. calcul IDDL,;
+c-----4. calculation IDDL,;
       NDDL =0
       DO J=1,NUMNOD
        N=INLOC(J)
@@ -3667,7 +3667,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,L,NL,NJ,NDOFI
-c----- calcul IADK,JDIK,NNZK-----
+c----- calculation IADK,JDIK,NNZK-----
           NDOFI = NDOF(N)
           DO K=1,NDOFI
 C-------termes knn-------
@@ -3789,7 +3789,7 @@ C     Hollow storage: Diagonal + Trangle in lines: Ikpat = 0: Triang_sup Ikpat =
 C        [K](id,jd)     -> DIAG(ND)+LT(IK)(exclue diag)
 C        id = 1..nddl        : ID = IADK(ID)...IADK(ID+1)-1
 C        jd = 1..NNZK        : JD = JDIK(IK)
-C        NDOF(NUMNOD)        : nombre de ddl
+C        NDOF(NUMNOD)        : number de ddl
 C     DIAG(NDDL)
 C     IADK(NDDL+1)
 C     JDIK(NNZK)
@@ -3806,7 +3806,7 @@ C     M: Main, S: send nss (nrbyac): number of J: kjm = sum (kjscsm)
 C     NSC (NRBYAC): Number of "send lines": ISIJ (2, NSC, NRBYAC)-
 C     nrowk(NKINE), icok size: NNMAX*(NKINE-NRBYAC)+NKMAX*NRBYAC:icok,icokm
 C-----
-C-----1. calcul IADK,JDIK,par each NNSIZ using INLOC.
+C-----1. calculation IADK,JDIK,par each NNSIZ using INLOC.
 C-----IRK=0, calculation of kinematic tables is skipped-----
       IF (NSPMD>1) THEN
        DO N = 1 , NUMNOD
@@ -4811,7 +4811,7 @@ C-------termes kn,nj-------
       ENDDO
       NNZK = NNZK/2+1
 c      write(*,*)'int NNMAX,NKMAX,N_IMP=',NNMAX,NKMAX,N_IMP
-c-----3. calcul NDDL,IDDL;
+c-----3. calculation NDDL,IDDL;
       CALL NDDL_LOC(NDDL,IDDL,ILOCI,N_IMP,NDOF1)
 C----6---------------------------------------------------------------7---------8
       RETURN
@@ -5099,7 +5099,7 @@ C-----------------------------------------------
       INTEGER I,J,N,N1,N2,NE,IG
 C-----------------------------------------------
        DO I = 1, JLT
-C--------secnd node-----
+C--------second node-----
         IG = NS_IMP(I)
        IF (IG<=NSN) THEN
         N1 = NSV(IG)
@@ -5163,7 +5163,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C---------ICOL : LOCAL NODE NUMBER--------
        DO I = 1, JLT
-C--------secnd node-----
+C--------second node-----
         IG = NS_IMP(I)
        IF (IG<=NSN) THEN
         N1 = NSV(IG)
@@ -5216,7 +5216,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C---------ICOL : LOCAL NODE NUMBER--------
        DO I = 1, JLT
-C--------secnd node-----
+C--------second node-----
         IG = NS_IMP(I)
        IF (IG<=NSN) THEN
         N1 = NSV(IG)
@@ -5301,7 +5301,7 @@ C-----------------------------------------------
       INTEGER I,J,N,N1,N2,NE,IG
 C-----------------------------------------------
        DO I = 1, JLT
-C--------secnd node-----
+C--------second node-----
         IG = NS_IMP(I)
         N1 = NSV(IG)
         IF (ILOC(N1)==0) THEN
@@ -5361,7 +5361,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C---------ICOL : LOCAL NODE NUMBER--------
        DO I = 1, JLT
-C--------secnd node-----
+C--------second node-----
         IG = NS_IMP(I)
         N1 = NSV(IG)
         NE=NE_IMP(I)
@@ -5412,7 +5412,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C---------ICOL : LOCAL NODE NUMBER--------
        DO I = 1, JLT
-C--------secnd node-----
+C--------second node-----
         IG = NS_IMP(I)
         N1 = NSV(IG)
         NE=NE_IMP(I)
@@ -5496,7 +5496,7 @@ C-----------------------------------------------
       INTEGER I,J,N,N1,N2,NE,IG,IRTLM(4),NEI
 C-----------------------------------------------
        DO I = 1, JLT
-C--------secnd node-----
+C--------second node-----
         IG = NS_IMP(I)
        IF (IG<=NSN) THEN
         N1 = NSV(IG)
@@ -5569,7 +5569,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C---------ICOL : LOCAL NODE NUMBER--------
        DO I = 1, JLT
-C--------secnd node-----
+C--------second node-----
         IG = NS_IMP(I)
        IF (IG<=NSN) THEN
         N1 = NSV(IG)
@@ -5630,7 +5630,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C---------ICOL : LOCAL NODE NUMBER--------
        DO I = 1, JLT
-C--------secnd node-----
+C--------second node-----
         IG = NS_IMP(I)
        IF (IG<=NSN) THEN
         N1 = NSV(IG)
@@ -6448,7 +6448,7 @@ C-----------------------------------------------
       INTEGER I,J,N,N1,N2,NE,IG,M1,M2
 C-----------------------------------------------
        DO I = 1, JLT
-C--------secnd node-----
+C--------second node-----
         IG = NS_IMP(I)
        IF (IG<=NSN) THEN
         N1 = IRECTS(1,IG)
@@ -6512,7 +6512,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C---------ICOL : LOCAL NODE NUMBER--------
        DO I = 1, JLT
-C--------secnd node-----
+C--------second node-----
         IG = NS_IMP(I)
        IF (IG<=NSN) THEN
         N1 = IRECTS(1,IG)
@@ -6566,7 +6566,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C---------ICOL : LOCAL NODE NUMBER--------
        DO I = 1, JLT
-C--------secnd node-----
+C--------second node-----
         IG = NS_IMP(I)
        IF (IG<=NSN) THEN
         N1 = IRECTS(1,IG)
@@ -6669,7 +6669,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NIN,NTY,NSN
       INTEGER I,J,K,L,NDOFI,N,IAD,N_IMP,NRTS,IDEL(NT_IMP),NEW_IAD
-C--------ramener NDOF des secnds remotes-----------------------------------
+C--------ramener NDOF des seconds remotes-----------------------------------
       IF (NSPMD>1) THEN
       ENDIF 
 C
@@ -6776,7 +6776,7 @@ C-----------------------------------------------
       INTEGER I,J,N,N1,N2,NE,IG
 C-----------------------------------------------
        DO I = 1, JLT
-C--------secnd node-----
+C--------second node-----
         IG = NS_IMP(I)
        IF (IG<=NSN) THEN
         N1 = NSV(IG)
@@ -6820,7 +6820,7 @@ C-----------------------------------------------
       INTEGER I,J,N,N1,N2,NE,IG,M1,M2
 C-----------------------------------------------
        DO I = 1, JLT
-C--------secnd node-----
+C--------second node-----
         IG = NS_IMP(I)
        IF (IG<=NSN) THEN
         N1 = IRECTS(1,IG)
@@ -6862,7 +6862,7 @@ C-----------------------------------------------
       INTEGER I,J,N,N1,N2,NE,IG
 C-----------------------------------------------
        DO I = 1, JLT
-C--------secnd node-----
+C--------second node-----
         IG = NS_IMP(I)
         N1 = NSV(IG)
         IDEL_INT(I) = NDOF(N1)
@@ -7141,7 +7141,7 @@ C-----------L->K^2----------
         ENDDO 
         IADL(I+1) = L_NZ+1
        ENDDO
-C-----------K0-> K^2-complet---------
+C-----------K0-> K^2-complete---------
        DEALLOCATE(JDIK0)
        ALLOCATE(JDIK0(2*L_NZ))
        DO I = 1, NDDL
@@ -7361,7 +7361,7 @@ C
         ALLOCATE(IADL(NDDL+1),JDIL(L_NZ))
         CALL CP_INT(NDDL+1,IADM,IADL)
         CALL CP_INT(L_NZ,JDIM,JDIL)
-C-----------K0-> K^2-complet---------
+C-----------K0-> K^2-complete---------
         DEALLOCATE(JDIK0)
         ALLOCATE(JDIK0(2*L_NZ))
         DO I = 1, NDDL
