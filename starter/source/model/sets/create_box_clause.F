@@ -223,7 +223,7 @@ C-----------------------------------------------
      *                KNOD2ELTG ,NOD2ELTG ,IPARTC    ,IPARTG    ,IPARTS    ,
      *                IPART     ,CLAUSE   ,OPT_A     ,OPT_O     ,IXQ       ,
      *                KNOD2ELQ  ,NOD2ELQ  ,X         ,KEYSET    ,DELBUF    ,
-     *                .FALSE.   ,IPARTQ   )
+     *                .FALSE.   ,IPARTQ   ,OPT_E     )
 !
           ! Line from SURFACE
           CALL CREATE_LINE_FROM_SURFACE(CLAUSE ,KEYSET,OPT_A,OPT_E,DELBUF,

@@ -78,7 +78,7 @@ C=======================================================================
      .                            IXS      ,IXS10    ,IXC      ,IXTG      ,CLAUSE   ,
      .                            KNOD2ELS ,NOD2ELS  ,KNOD2ELC ,NOD2ELC   ,KNOD2ELTG,
      .                            NOD2ELTG ,NSEG     ,IEXT     ,BUFTMPSURF,IPARTS   ,
-     .                            IAD_SURF ,KEYSET)
+     .                            IPARTC   ,IPARTG   ,IAD_SURF ,KEYSET)
 !
 !     ---  shell + sh3n ---
 !

@@ -38,7 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                       KNOD2ELTG ,NOD2ELTG ,IPARTC    ,IPARTG    ,IPARTS    ,
      .                       IPART     ,CLAUSE   ,OPT_A     ,OPT_O     ,IXQ       ,
      .                       KNOD2ELQ  ,NOD2ELQ  ,X         ,KEYSET    ,DELBUF    ,
-     .                       GO_IN_ARRAY,IPARTQ)
+     .                       GO_IN_ARRAY,IPARTQ  ,OPT_E     )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -48,7 +48,7 @@ C-----------------------------------------------
       USE SET_SCRATCH_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARFIELD
       USE SURF_MOD , ONLY : EXT_SURF,ALL_SURF
-            use element_mod , only : nixs,nixq,nixc,nixtg
+      use element_mod , only : nixs,nixq,nixc,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -58,7 +58,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER  OPT_A,OPT_O
+      INTEGER, INTENT(IN) :: OPT_A,OPT_O,OPT_E
       INTEGER, INTENT(IN) :: IXS(NIXS,*),IXS10(6,*),IXC(NIXC,*),IXTG(NIXTG,*),
      .  KNOD2ELS(*),KNOD2ELC(*),KNOD2ELTG(*),NOD2ELS(*),NOD2ELC(*),
      .  NOD2ELTG(*),IPARTS(*),IPARTC(*),IPARTG(*),SH4TREE(*),SH3TREE(*),
@@ -94,12 +94,14 @@ C=======================================================================
 !
       IAD_SURF = 1
 !------------------
-      IEXT = EXT_SURF  ! by default (external surface)
-      IF ( OPT_A == 1 )  IEXT = ALL_SURF ! all surfaces (internal + external)
+      ! IEXT = 1 --> (OPT_E = 0 and OPT_A = 0) ! by default
+      ! IEXT = 2 --> (OPT_E = 1)  --> external surfaces only + only edges from shell external surfaces
+      ! IEXT = 3 --> (OPT_A = 1)  --> ALL (external + internal surfaces)
+      IEXT = EXT_SURF  ! by default ( = 1)
+      IF ( OPT_E == 1 ) IEXT = 2 ! external surfaces only + only edges from shell external surfaces
+      IF ( OPT_A == 1 ) IEXT = 3 ! all surfaces (internal + external)
       CLAUSE%EXT_ALL = IEXT
 !------------------
-
-!
 !----
 !     ! temporary surface segments got from elements
       NSEG = 0

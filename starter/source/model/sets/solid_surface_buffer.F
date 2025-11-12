@@ -32,7 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                        IXS      ,IXS10    ,IXC      ,IXTG      ,CLAUSE   ,
      .                        KNOD2ELS ,NOD2ELS  ,KNOD2ELC ,NOD2ELC   ,KNOD2ELTG,
      .                        NOD2ELTG ,NSEG     ,IEXT     ,BUFTMPSURF,IPARTS   ,
-     .                        IAD_SURF ,KEYSET)
+     .                        IPARTC   ,IPARTG   ,IAD_SURF ,KEYSET)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -51,7 +51,8 @@ C-----------------------------------------------
       INTEGER IEXT,NSEG,IAD_SURF
       INTEGER IXS(NIXS,*),IXS10(6,*),IXC(NIXC,*),IXTG(NIXTG,*),
      .        KNOD2ELS(*),NOD2ELS(*),KNOD2ELC(*),NOD2ELC(*),
-     .        KNOD2ELTG(*),NOD2ELTG(*),BUFTMPSURF(*),IPARTS(*)
+     .        KNOD2ELTG(*),NOD2ELTG(*),BUFTMPSURF(*),IPARTS(*),
+     .        IPARTC(*),IPARTG(*)
       CHARACTER(LEN=NCHARFIELD) :: KEYSET
 !
       TYPE (SET_) ::  CLAUSE
@@ -99,7 +100,7 @@ C=======================================================================
 
       FASTAG=0
 C
-      IF (IEXT == 1) THEN
+      IF (IEXT == 1 .OR. IEXT == 2) THEN
 C
         NB_SOLID = CLAUSE%NB_SOLID
         DO IND=1,NB_SOLID
@@ -210,7 +211,7 @@ C                    Factag (JS) Less Face JJ
  300        CONTINUE
           END DO
         END DO ! DO IND=1,NB_SOLID
-      END IF ! IF(IEXT==1)THEN
+      END IF ! IF(IEXT==2)THEN
 C-----------
 
 
@@ -269,8 +270,12 @@ C---   find shells SURF/PART/EXT
                 IF (ISHEL == 3)EXIT
                 KS = 0
               ENDDO
-              !print*,'Surf from solid ...',KS,PART_TAG(IPARTG(KS))
-              IF(KS == 0 .OR. ISHEL == 3)THEN
+
+              IF(KS == 0)THEN
+                NSEG = NSEG + 1
+                CALL SURF_SEGMENT(FACE(1)    ,FACE(2) ,FACE(3) ,FACE(3) ,JS  ,
+     .                         BUFTMPSURF ,IAD_SURF ,1)
+              ELSEIF (PART_TAG(IPARTG(KS)) /= 1)THEN
                 NSEG = NSEG + 1
                 CALL SURF_SEGMENT(FACE(1)    ,FACE(2) ,FACE(3) ,FACE(3) ,JS  ,
      .                         BUFTMPSURF ,IAD_SURF ,1)
@@ -289,7 +294,11 @@ C---   find shells SURF/PART/EXT
                 IF (ISHEL == 4)EXIT
                 KS = 0
               ENDDO
-              IF(KS == 0 .OR. ISHEL == 4)THEN
+              IF(KS == 0)THEN
+               NSEG = NSEG + 1
+                CALL SURF_SEGMENT(FACE(1)    ,FACE(2) ,FACE(3) ,FACE(4) ,JS  ,
+     .                         BUFTMPSURF ,IAD_SURF ,1)
+              ELSEIF (PART_TAG(IPARTC(KS)) /= 1 ) THEN
                NSEG = NSEG + 1
                 CALL SURF_SEGMENT(FACE(1)    ,FACE(2) ,FACE(3) ,FACE(4) ,JS  ,
      .                         BUFTMPSURF ,IAD_SURF ,1)
