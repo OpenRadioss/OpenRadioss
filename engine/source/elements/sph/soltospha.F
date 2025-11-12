@@ -368,38 +368,42 @@ C
                 DO KP=1,SOL2SPH(2,N)-SOL2SPH(1,N)
 C
                   NP=SOL2SPH(1,N)+KP
-                  MG =MOD(-KXSP(2,NP),NGROUP+1)
+                  IF (KXSP(2,NP)/=0) THEN
+C                  
+                    MG =MOD(-KXSP(2,NP),NGROUP+1)
 C
-                  INOD=KXSP(3,NP)
-                  VXI=V(1,INOD)+DT05*A(1,INOD)
-                  VYI=V(2,INOD)+DT05*A(2,INOD)
-                  VZI=V(3,INOD)+DT05*A(3,INOD)
-                  XMASS_T=XMASS_T-MS(INOD)
-                  XMOMT_T=XMOMT_T-MS(INOD)*VXI
-                  YMOMT_T=YMOMT_T-MS(INOD)*VYI
-                  ZMOMT_T=ZMOMT_T-MS(INOD)*VZI
-                  ENCIN_T=ENCIN_T
+                    INOD=KXSP(3,NP)
+                    VXI=V(1,INOD)+DT05*A(1,INOD)
+                    VYI=V(2,INOD)+DT05*A(2,INOD)
+                    VZI=V(3,INOD)+DT05*A(3,INOD)
+                    XMASS_T=XMASS_T-MS(INOD)
+                    XMOMT_T=XMOMT_T-MS(INOD)*VXI
+                    YMOMT_T=YMOMT_T-MS(INOD)*VYI
+                    ZMOMT_T=ZMOMT_T-MS(INOD)*VZI
+                    ENCIN_T=ENCIN_T
      .                   -HALF*MS(INOD)*(VXI*VXI+VYI*VYI+VZI*VZI)
 C
-C                 IPARG(8,MG)==1 <=> group was not computed 
-C                 (there is no cloud active particle within the group)
-                  IF(IPARG(8,MG)==1)CYCLE
+C                   IPARG(8,MG)==1 <=> group was not computed 
+C                   (there is no cloud active particle within the group)
+                    IF(IPARG(8,MG)==1)CYCLE
 C
-                  KFT=IPARG(3,MG)
-                  GBUFSP => ELBUF_TAB(MG)%GBUF
-                  IPRT=IPARTSP(NP)
-                  WPARTSAV(ITASK+1,1,IPRT)=WPARTSAV(ITASK+1,1,IPRT)
-     .              -GBUFSP%VOL(NP-KFT)*GBUFSP%EINT(NP-KFT)
-                  WPARTSAV(ITASK+1,2,IPRT)=WPARTSAV(ITASK+1,2,IPRT)
-     .              -HALF*MS(INOD)*(VXI*VXI+VYI*VYI+VZI*VZI)
-                  WPARTSAV(ITASK+1,3,IPRT)=WPARTSAV(ITASK+1,3,IPRT)
-     .              -MS(INOD)*VXI
-                  WPARTSAV(ITASK+1,4,IPRT)=WPARTSAV(ITASK+1,4,IPRT)
-     .              -MS(INOD)*VYI
-                  WPARTSAV(ITASK+1,5,IPRT)=WPARTSAV(ITASK+1,5,IPRT)
-     .              -MS(INOD)*VZI
-                  WPARTSAV(ITASK+1,6,IPRT)=WPARTSAV(ITASK+1,6,IPRT)
-     .              -MS(INOD)
+                    KFT=IPARG(3,MG)
+                    GBUFSP => ELBUF_TAB(MG)%GBUF
+                    IPRT=IPARTSP(NP)
+                    WPARTSAV(ITASK+1,1,IPRT)=WPARTSAV(ITASK+1,1,IPRT)
+     .                -GBUFSP%VOL(NP-KFT)*GBUFSP%EINT(NP-KFT)
+                    WPARTSAV(ITASK+1,2,IPRT)=WPARTSAV(ITASK+1,2,IPRT)
+     .                -HALF*MS(INOD)*(VXI*VXI+VYI*VYI+VZI*VZI)
+                    WPARTSAV(ITASK+1,3,IPRT)=WPARTSAV(ITASK+1,3,IPRT)
+     .                -MS(INOD)*VXI
+                    WPARTSAV(ITASK+1,4,IPRT)=WPARTSAV(ITASK+1,4,IPRT)
+     .                -MS(INOD)*VYI
+                    WPARTSAV(ITASK+1,5,IPRT)=WPARTSAV(ITASK+1,5,IPRT)
+     .                -MS(INOD)*VZI
+                    WPARTSAV(ITASK+1,6,IPRT)=WPARTSAV(ITASK+1,6,IPRT)
+     .                -MS(INOD)
+C
+                  ENDIF      
 C
                 ENDDO
               END IF

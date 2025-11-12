@@ -1079,177 +1079,179 @@ C           SOL2SPH(1,N)+1<=I<=SOLSPH(2,N) <=> N==SPH2SOL(I)
             DO KP=1,SOL2SPH(2,N)-SOL2SPH(1,N)
 C
               NP=SOL2SPH(1,N)+KP
-              MG =MOD(-KXSP(2,NP),NGROUP+1)
-              NELSP=IPARG(2,MG)
-              KFT=IPARG(3,MG)
-              GBUFSP => ELBUF_TAB(MG)%GBUF
-              LBUFSP => ELBUF_TAB(MG)%BUFLY(1)%LBUF(1,1,1)
-              MBUFSP => ELBUF_TAB(MG)%BUFLY(1)%MAT(1,1,1)
-              J=NP-KFT
-              RHON = GBUF%RHO(I)
-              RHOO = WA(10,NP)
-              DIVV = (RHOO-RHON)/MAX(EM30,RHOO*DT1)
-              WA(13,NP)     = DIVV
-              WA(14,NP)     = ZERO
-              SPBUF(2,NP)   = RHON
-              GBUFSP%RHO(J) = RHON
+              IF (KXSP(2,NP)/=0) THEN
+C              
+                MG =MOD(-KXSP(2,NP),NGROUP+1)
+                NELSP=IPARG(2,MG)
+                KFT=IPARG(3,MG)
+                GBUFSP => ELBUF_TAB(MG)%GBUF
+                LBUFSP => ELBUF_TAB(MG)%BUFLY(1)%LBUF(1,1,1)
+                MBUFSP => ELBUF_TAB(MG)%BUFLY(1)%MAT(1,1,1)
+                J=NP-KFT
+                RHON = GBUF%RHO(I)
+                RHOO = WA(10,NP)
+                DIVV = (RHOO-RHON)/MAX(EM30,RHOO*DT1)
+                WA(13,NP)     = DIVV
+                WA(14,NP)     = ZERO
+                SPBUF(2,NP)   = RHON
+                GBUFSP%RHO(J) = RHON
 C
-C             group was not computed 
-C             (there is no cloud active particle within the group)
-C             IF(IPARG(8,MG)==1)CYCLE
+C               group was not computed 
+C               (there is no cloud active particle within the group)
+C               IF(IPARG(8,MG)==1)CYCLE
 C
-              GBUFSP%EINT(J)        =GBUF%EINT(I)
+                GBUFSP%EINT(J)        =GBUF%EINT(I)
 C
 !
-              DO K=1,6
-                JJ(K) = NELSP*(K-1)
-              ENDDO
-!
-C-----------
-              IF (JHBE==14) THEN
-C HA8 stress
-                IR=IRST(1,NP-FIRST_SPHSOL+1)
-                IS=IRST(2,NP-FIRST_SPHSOL+1)
-                IT=IRST(3,NP-FIRST_SPHSOL+1)
                 DO K=1,6
-                  GBUFSP%SIG(JJ(K)+J)=SIG_HA8(I,IR,IS,IT,K)
+                  JJ(K) = NELSP*(K-1)
                 ENDDO
-              ELSEIF (JHBE==24) THEN
+!
+C-----------
+                IF (JHBE==14) THEN
+C HA8 stress
+                  IR=IRST(1,NP-FIRST_SPHSOL+1)
+                  IS=IRST(2,NP-FIRST_SPHSOL+1)
+                  IT=IRST(3,NP-FIRST_SPHSOL+1)
+                  DO K=1,6
+                    GBUFSP%SIG(JJ(K)+J)=SIG_HA8(I,IR,IS,IT,K)
+                  ENDDO
+                ELSEIF (JHBE==24) THEN
 C Hourglass stress contribution for HEPH
-                IR=IRST(1,NP-FIRST_SPHSOL+1)
-                IS=IRST(2,NP-FIRST_SPHSOL+1)
-                IT=IRST(3,NP-FIRST_SPHSOL+1)
+                  IR=IRST(1,NP-FIRST_SPHSOL+1)
+                  IS=IRST(2,NP-FIRST_SPHSOL+1)
+                  IT=IRST(3,NP-FIRST_SPHSOL+1)
 C--- Permutation (KSI-> ETA;ETA->ZETA;ZETA->KSI) for consistencvy with HEPH convention
-                ETA  = A_GAUSS(IR,NSPHDIR)
-                ZETA = A_GAUSS(IS,NSPHDIR)
-                KSI  = A_GAUSS(IT,NSPHDIR)
+                  ETA  = A_GAUSS(IR,NSPHDIR)
+                  ZETA = A_GAUSS(IS,NSPHDIR)
+                  KSI  = A_GAUSS(IT,NSPHDIR)
 C-----------
-                DO K=1,6
-                  GBUFSP%SIG(JJ(K)+J) = SIG_HEPH_GLO(I,K,1)
-     .                            +ZETA*SIG_HEPH_GLO(I,K,2)
-     .                             +ETA*SIG_HEPH_GLO(I,K,3)
-     .                             +KSI*SIG_HEPH_GLO(I,K,4)
-     .                        +ZETA*ETA*SIG_HEPH_GLO(I,K,5)
-     .                        +ZETA*KSI*SIG_HEPH_GLO(I,K,6)
-     .                         +ETA*KSI*SIG_HEPH_GLO(I,K,7)            
-                END DO
-              ELSE
-                GBUFSP%SIG(JJ(1)+J) = SIGLO(I,1)
-                GBUFSP%SIG(JJ(2)+J) = SIGLO(I,2)
-                GBUFSP%SIG(JJ(3)+J) = SIGLO(I,3)
-                GBUFSP%SIG(JJ(4)+J) = SIGLO(I,4)
-                GBUFSP%SIG(JJ(5)+J) = SIGLO(I,5)
-                GBUFSP%SIG(JJ(6)+J) = SIGLO(I,6)
-              ENDIF
+                  DO K=1,6
+                    GBUFSP%SIG(JJ(K)+J) = SIG_HEPH_GLO(I,K,1)
+     .                              +ZETA*SIG_HEPH_GLO(I,K,2)
+     .                               +ETA*SIG_HEPH_GLO(I,K,3)
+     .                               +KSI*SIG_HEPH_GLO(I,K,4)
+     .                          +ZETA*ETA*SIG_HEPH_GLO(I,K,5)
+     .                          +ZETA*KSI*SIG_HEPH_GLO(I,K,6)
+     .                           +ETA*KSI*SIG_HEPH_GLO(I,K,7)            
+                  END DO
+                ELSE
+                  GBUFSP%SIG(JJ(1)+J) = SIGLO(I,1)
+                  GBUFSP%SIG(JJ(2)+J) = SIGLO(I,2)
+                  GBUFSP%SIG(JJ(3)+J) = SIGLO(I,3)
+                  GBUFSP%SIG(JJ(4)+J) = SIGLO(I,4)
+                  GBUFSP%SIG(JJ(5)+J) = SIGLO(I,5)
+                  GBUFSP%SIG(JJ(6)+J) = SIGLO(I,6)
+                ENDIF
 C-----------
-              WA(1,NP)=GBUFSP%SIG(JJ(1)+J)
-              WA(2,NP)=GBUFSP%SIG(JJ(2)+J)
-              WA(3,NP)=GBUFSP%SIG(JJ(3)+J)
-              WA(4,NP)=GBUFSP%SIG(JJ(4)+J)
-              WA(5,NP)=GBUFSP%SIG(JJ(5)+J)
-              WA(6,NP)=GBUFSP%SIG(JJ(6)+J)
+                WA(1,NP)=GBUFSP%SIG(JJ(1)+J)
+                WA(2,NP)=GBUFSP%SIG(JJ(2)+J)
+                WA(3,NP)=GBUFSP%SIG(JJ(3)+J)
+                WA(4,NP)=GBUFSP%SIG(JJ(4)+J)
+                WA(5,NP)=GBUFSP%SIG(JJ(5)+J)
+                WA(6,NP)=GBUFSP%SIG(JJ(6)+J)
 C
 C               (particles ARE computed with rho_old, Eold...)
 C-----------
-              IF(GBUF%G_PLA > 0) GBUFSP%PLA(J) = GBUF%PLA(I)
-              IF(GBUF%G_EPSD> 0) GBUFSP%EPSD(J)= GBUF%EPSD(I)
-              IF(GBUF%G_EPSQ> 0) GBUFSP%EPSQ(J)= GBUF%EPSQ(I)
+                IF(GBUF%G_PLA > 0) GBUFSP%PLA(J) = GBUF%PLA(I)
+                IF(GBUF%G_EPSD> 0) GBUFSP%EPSD(J)= GBUF%EPSD(I)
+                IF(GBUF%G_EPSQ> 0) GBUFSP%EPSQ(J)= GBUF%EPSQ(I)
 C-----------
-              IF(GBUF%G_GAMA > 0)THEN
+                IF(GBUF%G_GAMA > 0)THEN
 C
 C TIJ stores global to orthotropic system
-                GBUFSP%GAMA(JJ(1)+J)=T11(I)
-                GBUFSP%GAMA(JJ(2)+J)=T21(I)
-                GBUFSP%GAMA(JJ(3)+J)=T31(I)
-                GBUFSP%GAMA(JJ(4)+J)=T12(I)
-                GBUFSP%GAMA(JJ(5)+J)=T22(I)
-                GBUFSP%GAMA(JJ(6)+J)=T32(I)
-              END IF
+                  GBUFSP%GAMA(JJ(1)+J)=T11(I)
+                  GBUFSP%GAMA(JJ(2)+J)=T21(I)
+                  GBUFSP%GAMA(JJ(3)+J)=T31(I)
+                  GBUFSP%GAMA(JJ(4)+J)=T12(I)
+                  GBUFSP%GAMA(JJ(5)+J)=T22(I)
+                  GBUFSP%GAMA(JJ(6)+J)=T32(I)
+                END IF
 C-----------
-              IF(ELBUF_TAB(NG)%BUFLY(1)%L_STRA > 0.AND.
-     .           ELBUF_TAB(MG)%BUFLY(1)%L_STRA > 0)THEN
-                LBUFSP%STRA(JJ(1)+J)=STRAGLO(I,1)
-                LBUFSP%STRA(JJ(2)+J)=STRAGLO(I,2)
-                LBUFSP%STRA(JJ(3)+J)=STRAGLO(I,3)
-                LBUFSP%STRA(JJ(4)+J)=STRAGLO(I,4)
-                LBUFSP%STRA(JJ(5)+J)=STRAGLO(I,5)
-                LBUFSP%STRA(JJ(6)+J)=STRAGLO(I,6)
-              END IF
+                IF(ELBUF_TAB(NG)%BUFLY(1)%L_STRA > 0.AND.
+     .             ELBUF_TAB(MG)%BUFLY(1)%L_STRA > 0)THEN
+                  LBUFSP%STRA(JJ(1)+J)=STRAGLO(I,1)
+                  LBUFSP%STRA(JJ(2)+J)=STRAGLO(I,2)
+                  LBUFSP%STRA(JJ(3)+J)=STRAGLO(I,3)
+                  LBUFSP%STRA(JJ(4)+J)=STRAGLO(I,4)
+                  LBUFSP%STRA(JJ(5)+J)=STRAGLO(I,5)
+                  LBUFSP%STRA(JJ(6)+J)=STRAGLO(I,6)
+                END IF
 C-----------
-              IF(ELBUF_TAB(NG)%BUFLY(1)%L_ANG > 0)THEN
-                LBUFSP%ANG(JJ(1)+J)=ANGL(I,1)
-                LBUFSP%ANG(JJ(2)+J)=ANGL(I,2)
-                LBUFSP%ANG(JJ(3)+J)=ANGL(I,3)
-                LBUFSP%ANG(JJ(4)+J)=ANGL(I,4)
-                LBUFSP%ANG(JJ(5)+J)=ANGL(I,5)
-                LBUFSP%ANG(JJ(6)+J)=ANGL(I,6)
-              END IF
+                IF(ELBUF_TAB(NG)%BUFLY(1)%L_ANG > 0)THEN
+                  LBUFSP%ANG(JJ(1)+J)=ANGL(I,1)
+                  LBUFSP%ANG(JJ(2)+J)=ANGL(I,2)
+                  LBUFSP%ANG(JJ(3)+J)=ANGL(I,3)
+                  LBUFSP%ANG(JJ(4)+J)=ANGL(I,4)
+                  LBUFSP%ANG(JJ(5)+J)=ANGL(I,5)
+                  LBUFSP%ANG(JJ(6)+J)=ANGL(I,6)
+                END IF
 C-----------
-              IF(ELBUF_TAB(NG)%BUFLY(1)%L_SF > 0)THEN
-                LBUFSP%SF(JJ(1)+J)=LBUF%SF(II(1)+I)
-                LBUFSP%SF(JJ(2)+J)=LBUF%SF(II(2)+I)
-                LBUFSP%SF(JJ(3)+J)=LBUF%SF(II(3)+I)
-              END IF
+                IF(ELBUF_TAB(NG)%BUFLY(1)%L_SF > 0)THEN
+                  LBUFSP%SF(JJ(1)+J)=LBUF%SF(II(1)+I)
+                  LBUFSP%SF(JJ(2)+J)=LBUF%SF(II(2)+I)
+                  LBUFSP%SF(JJ(3)+J)=LBUF%SF(II(3)+I)
+                END IF
 C-----------
-              IF(ELBUF_TAB(NG)%BUFLY(1)%L_DAM > 0)THEN
-                DO K=1,ELBUF_TAB(NG)%BUFLY(1)%L_DAM
-                  LBUFSP%DAM(JJ(K)+J)=LBUF%DAM(II(K)+I)
-                ENDDO
-              END IF
+                IF(ELBUF_TAB(NG)%BUFLY(1)%L_DAM > 0)THEN
+                  DO K=1,ELBUF_TAB(NG)%BUFLY(1)%L_DAM
+                    LBUFSP%DAM(JJ(K)+J)=LBUF%DAM(II(K)+I)
+                  ENDDO
+                END IF
 C-----------
-              IF(ELBUF_TAB(NG)%BUFLY(1)%L_DSUM > 0)
-     .          LBUFSP%DSUM(J)=LBUF%DSUM(I)
+                IF(ELBUF_TAB(NG)%BUFLY(1)%L_DSUM > 0)
+     .            LBUFSP%DSUM(J)=LBUF%DSUM(I)
 C-----------
-              IF(ELBUF_TAB(NG)%BUFLY(1)%L_DGLO > 0)THEN
-                LBUFSP%DGLO(JJ(1)+J)=DGLO24(I,1)
-                LBUFSP%DGLO(JJ(2)+J)=DGLO24(I,2)
-                LBUFSP%DGLO(JJ(3)+J)=DGLO24(I,3)
-                LBUFSP%DGLO(JJ(4)+J)=DGLO24(I,4)
-                LBUFSP%DGLO(JJ(5)+J)=DGLO24(I,5)
-                LBUFSP%DGLO(JJ(6)+J)=DGLO24(I,6)
-              END IF
+                IF(ELBUF_TAB(NG)%BUFLY(1)%L_DGLO > 0)THEN
+                  LBUFSP%DGLO(JJ(1)+J)=DGLO24(I,1)
+                  LBUFSP%DGLO(JJ(2)+J)=DGLO24(I,2)
+                  LBUFSP%DGLO(JJ(3)+J)=DGLO24(I,3)
+                  LBUFSP%DGLO(JJ(4)+J)=DGLO24(I,4)
+                  LBUFSP%DGLO(JJ(5)+J)=DGLO24(I,5)
+                  LBUFSP%DGLO(JJ(6)+J)=DGLO24(I,6)
+                END IF
 C-----------
-              IF(ELBUF_TAB(NG)%BUFLY(1)%L_ROB > 0)
-     .          LBUFSP%ROB(J)=LBUF%ROB(I)
+                IF(ELBUF_TAB(NG)%BUFLY(1)%L_ROB > 0)
+     .            LBUFSP%ROB(J)=LBUF%ROB(I)
 C-----------
-              IF(ELBUF_TAB(NG)%BUFLY(1)%L_SIGC > 0)THEN
+                IF(ELBUF_TAB(NG)%BUFLY(1)%L_SIGC > 0)THEN
 C
 C Law24 / Stress in crack frame (same for SPH and solids)
-                LBUFSP%SIGC(JJ(1)+J)=LBUF%SIGC(II(1)+I)
-                LBUFSP%SIGC(JJ(2)+J)=LBUF%SIGC(II(2)+I)
-                LBUFSP%SIGC(JJ(3)+J)=LBUF%SIGC(II(3)+I)
-                LBUFSP%SIGC(JJ(4)+J)=LBUF%SIGC(II(4)+I)
-                LBUFSP%SIGC(JJ(5)+J)=LBUF%SIGC(II(5)+I)
-                LBUFSP%SIGC(JJ(6)+J)=LBUF%SIGC(II(6)+I)
-              END IF
+                  LBUFSP%SIGC(JJ(1)+J)=LBUF%SIGC(II(1)+I)
+                  LBUFSP%SIGC(JJ(2)+J)=LBUF%SIGC(II(2)+I)
+                  LBUFSP%SIGC(JJ(3)+J)=LBUF%SIGC(II(3)+I)
+                  LBUFSP%SIGC(JJ(4)+J)=LBUF%SIGC(II(4)+I)
+                  LBUFSP%SIGC(JJ(5)+J)=LBUF%SIGC(II(5)+I)
+                  LBUFSP%SIGC(JJ(6)+J)=LBUF%SIGC(II(6)+I)
+                END IF
 C-----------
-              IF(ELBUF_TAB(NG)%BUFLY(1)%L_CRAK > 0)THEN
-                LBUFSP%CRAK(JJ(1)+J)=LBUF%CRAK(II(1)+I)
-                LBUFSP%CRAK(JJ(2)+J)=LBUF%CRAK(II(2)+I)
-                LBUFSP%CRAK(JJ(3)+J)=LBUF%CRAK(II(3)+I)
-              END IF
+                IF(ELBUF_TAB(NG)%BUFLY(1)%L_CRAK > 0)THEN
+                  LBUFSP%CRAK(JJ(1)+J)=LBUF%CRAK(II(1)+I)
+                  LBUFSP%CRAK(JJ(2)+J)=LBUF%CRAK(II(2)+I)
+                  LBUFSP%CRAK(JJ(3)+J)=LBUF%CRAK(II(3)+I)
+                END IF
 C-----------
-              IF(ELBUF_TAB(NG)%BUFLY(1)%L_EPSA > 0)THEN
-                LBUFSP%EPSA(JJ(1)+J)=LBUF%EPSA(II(1)+I)
-                LBUFSP%EPSA(JJ(2)+J)=LBUF%EPSA(II(2)+I)
-                LBUFSP%EPSA(JJ(3)+J)=LBUF%EPSA(II(3)+I)
-              END IF
+                IF(ELBUF_TAB(NG)%BUFLY(1)%L_EPSA > 0)THEN
+                  LBUFSP%EPSA(JJ(1)+J)=LBUF%EPSA(II(1)+I)
+                  LBUFSP%EPSA(JJ(2)+J)=LBUF%EPSA(II(2)+I)
+                  LBUFSP%EPSA(JJ(3)+J)=LBUF%EPSA(II(3)+I)
+                END IF
 C-----------
-              IF(ELBUF_TAB(NG)%BUFLY(1)%L_SIGA > 0)THEN
-                LBUFSP%SIGA(JJ(1)+J)=LBUF%SIGA(II(1)+I)
-                LBUFSP%SIGA(JJ(2)+J)=LBUF%SIGA(II(2)+I)
-                LBUFSP%SIGA(JJ(3)+J)=LBUF%SIGA(II(3)+I)
-              END IF
+                IF(ELBUF_TAB(NG)%BUFLY(1)%L_SIGA > 0)THEN
+                  LBUFSP%SIGA(JJ(1)+J)=LBUF%SIGA(II(1)+I)
+                  LBUFSP%SIGA(JJ(2)+J)=LBUF%SIGA(II(2)+I)
+                  LBUFSP%SIGA(JJ(3)+J)=LBUF%SIGA(II(3)+I)
+                END IF
 C-----------
 C Stress in orthotropic skew for mulaw
-              IF(ELBUF_TAB(NG)%BUFLY(1)%L_SIGL > 0)THEN
-                LBUFSP%SIGL(JJ(1)+J)=LBUF%SIGL(II(1)+I)
-                LBUFSP%SIGL(JJ(2)+J)=LBUF%SIGL(II(2)+I)
-                LBUFSP%SIGL(JJ(3)+J)=LBUF%SIGL(II(3)+I)
-                LBUFSP%SIGL(JJ(4)+J)=LBUF%SIGL(II(4)+I)
-                LBUFSP%SIGL(JJ(5)+J)=LBUF%SIGL(II(5)+I)
-                LBUFSP%SIGL(JJ(6)+J)=LBUF%SIGL(II(6)+I)
-              END IF
+                IF(ELBUF_TAB(NG)%BUFLY(1)%L_SIGL > 0)THEN
+                  LBUFSP%SIGL(JJ(1)+J)=LBUF%SIGL(II(1)+I)
+                  LBUFSP%SIGL(JJ(2)+J)=LBUF%SIGL(II(2)+I)
+                  LBUFSP%SIGL(JJ(3)+J)=LBUF%SIGL(II(3)+I)
+                  LBUFSP%SIGL(JJ(4)+J)=LBUF%SIGL(II(4)+I)
+                  LBUFSP%SIGL(JJ(5)+J)=LBUF%SIGL(II(5)+I)
+                  LBUFSP%SIGL(JJ(6)+J)=LBUF%SIGL(II(6)+I)
+                END IF
 C-----------
 C Volume fraction
               IF(ELBUF_TAB(NG)%BUFLY(1)%L_BFRAC > 0)THEN
@@ -1262,11 +1264,13 @@ C Afterburning param
               END IF
 C-----------
 C User variables (same for SPH and solids)
-              IF(ELBUF_TAB(NG)%BUFLY(1)%NVAR_MAT > 0)THEN
-                DO K=1,ELBUF_TAB(NG)%BUFLY(1)%NVAR_MAT
-                  MBUFSP%VAR(NELSP*(K-1)+J) = MBUF%VAR(NEL*(K-1)+I)
-                END DO
-              ENDIF
+                IF(ELBUF_TAB(NG)%BUFLY(1)%NVAR_MAT > 0)THEN
+                  DO K=1,ELBUF_TAB(NG)%BUFLY(1)%NVAR_MAT
+                    MBUFSP%VAR(NELSP*(K-1)+J) = MBUF%VAR(NEL*(K-1)+I)
+                  END DO
+                ENDIF
+C              
+              ENDIF  
 C-----------
             ENDDO
           ENDDO
