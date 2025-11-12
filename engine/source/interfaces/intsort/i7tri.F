@@ -76,49 +76,47 @@ C   D u m m y   A r g u m e n t s
 C
 C     NOM          DESCRIPTION                       E/S
 C
-C     BPE          TABLEAU DES FACETTES A TRIER      => Local
+C     BPE          ARRAY OF FACETTES TO SORT      => Local
 C                  and from the result max side
-C     PE           TABLEAU DES FACETTES              => Local
+C     PE           ARRAY OF FACETTES              => Local
 C                  RESULTAT COTE MIN
-C     BPN          TABLEAU DES NOEUDS A TRIER        => Local
+C     BPN          SORTED NODES ARRAY        => Local
 C                  and from the result max side
-C     PN           TABLEAU DES NOEUDS                => Local
+C     PN           NODES ARRAY => Local
 C                  RESULTAT COTE MIN
-C     ADD(2,*)     TABLEAU DES ADRESSES              E/S 
-C          1.......ADRESSES NOEUDS
-C          2.......ADRESSES ELEMENTS
-C     ZYZM(6,*)     TABLEAU DES XYZMIN               E/S 
+C     ADD(2,*)     ARRAY OF ADRESSES              E/S 
+C          1.......ADRESSES NODES C          2.......ADRESSES ELEMENTS
+C     ZYZM(6,*)     ARRAY OF XYZMIN               E/S 
 C          1.......XMIN BOITE
 C          2.......YMIN BOITE
 C          3.......ZMIN BOITE
 C          4.......XMAX BOITE
 C          5.......YMAX BOITE
 C          6.......ZMAX BOITE
-C     IRECT(4,*)   TABLEAU DES CONEC FACETTES        E
+C     IRECT(4,*)   ARRAY OF CONEC FACETTES        E
 C     X(3,*)       COORDONNEES NODALES               E
-C     NB_NC        NOMBRE DE NOEUDS CANDIDATS        => Local
-C     NB_EC        NOMBRE D'ELTS CANDIDATS           => Local
+C     NB_NC        NUMBER OF CANDIDATE NODES        => Local
+C     NB_EC        NUMBER OF CANDIDATE ELEMENTS           => Local
 C     I_ADD        position in the table of i/o addresses
-C     NSV          NOS SYSTEMES DES NOEUDS           E
+C     NSV          NOS SYSTEMES DES NODES E
 C     Xmax larger abcisse existing e
 C     XMAX largest order.existing E
 C     Xmax larger existing side E
 C     MAXSIZ       TAILLE MEMOIRE MAX POSSIBLE       E
 C     I_STOK       storage level for pairs
-C                                candidats impact    E/S
+C                                CANDIDATES impact    E/S
 C     ADNSTK       current address in the node box
-C     CAND_N       boites resultats noeuds
-C     ADESTK       current address in the element box
+C     CAND_N       boites resultats nodes C     ADESTK       current address in the element box
 C     CAND_E       adresses des boites resultat elements
 C                  MULNSN = MULTIMP*NSN maximum size now allowed for the
-C                  COUPLES NOEUDS,ELT CANDIDATS
-C     NOINT        NUMERO USER DE L'INTERFACE
+C                  COUPLES NODES,ELT CANDIDATES
+C     NOINT        INTERFACE USER NUMBER
 C     TZINF        TAILLE ZONE INFLUENCE
 C     MAXBOX       TAILLE MAX BUCKET
 C     MINBOX       TAILLE MIN BUCKET
 C
 C     Prov_n Provisional Cand_n (static variable in i7tri)
-C     PROV_E       CAND_E provisoire (variable static dans i7tri)
+C     PROV_E       CAND_E provisoire (variable static in i7tri)
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -253,7 +251,7 @@ C
       SPLUS  = XYZM(DIR+3,I_ADD)
       TRHRESHOLD =(SMOINS+SPLUS)*HALF
 C
-C    2- DIVISER LES NOEUDS EN TWO ZONES
+C    2- DIVISER LES NODES EN TWO ZONES
 C
       NB_NCN= 0
       NB_NCN1= 0
@@ -425,7 +423,7 @@ C-----we fill the min of the next box and the max of the current one
 C     (i.e. THRESHOLD is a max for the current one)
 C     We're going to go down and so we define a new box
 C     we fill the max of the new box
-C     initialises dans i7buc1 a 1.E30 comme ca on recupere
+C     initialises in i7buc1 a 1.E30 comme ca on recupere
 C     either XMAX or the max of the box
       XYZM(1,I_ADD+1) = XYZM(1,I_ADD)
       XYZM(2,I_ADD+1) = XYZM(2,I_ADD)
@@ -453,8 +451,7 @@ C
 C
 C    2- TEST ARRET = BOITE VIDE
 C                    BOITE TROP PETITE
-C                    BOITE NE CONTENANT QU'ONE NOEUD
-C                    No More Memory Available
+C                    BOITE NE CONTENANT QU'ONE NODE C                    No More Memory Available
 C
 C-------------------test for memory exceeded------------
 C

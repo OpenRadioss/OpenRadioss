@@ -298,7 +298,7 @@ C
       END DO
       KNOD2SEG(1)=0
 C----------------------------------------------------------------
-c 4 Remplissage LCSEG : List of Connected Segments to secnd nodes
+c 4 Remplissage LCSEG : List of Connected Segments to second nodes
 C----------------------------------------------------------------
       II=0
       DO I=1,NSN

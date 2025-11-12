@@ -43,11 +43,11 @@ C            A R G U M E N T S
 C-----------------------------------------------
 C     KXIG3D(NIXIG3D,NUMELIG3D)  TABLEAU CONECS+PID+No ElEMENTS         E
 C     GEO(NPROPG,NUMGEO) array of the characteristics of the PID
-C     INUM(8,NUMELIG3D)    TABLEAU DE TRAVAIL                         E/S
-C     ITR1(NSELR)       TABLEAU DE TRAVAIL                            E/S
-C     EADD(NUMELIG3D)      TABLEAU DES ADRESSES DANS IDAM CHGT DAMIER   S
-C     INDEX(NUMELIG3D)     TABLEAU DE TRAVAIL                         E/S
-C     ITRI(4,NUMELIG3D)    TABLEAU DE TRAVAIL                         E/S
+C     INUM(8,NUMELIG3D)    WORKING ARRAY                         E/S
+C     ITR1(NSELR)       WORKING ARRAY                            E/S
+C     EADD(NUMELIG3D)      ARRAY OF ADRESSES IN IDAM CHGT DAMIER   S
+C     INDEX(NUMELIG3D)     WORKING ARRAY                         E/S
+C     ITRI(4,NUMELIG3D)    WORKING ARRAY                         E/S
 C     IPARTIG3D(NUMELIG3D)    TABLEAU PART                            E/S
 C     CEP(NUMELIG3D)    TABLEAU PROC                                  E/S
 C     XEP(NUMEX)    TABLEAU PROC                                      E/S

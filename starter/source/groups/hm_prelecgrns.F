@@ -78,7 +78,7 @@ C-----------------------------------------------
 C    IGRNOD(IGS)%ID : GROUP identifier
 C    IGRNOD(IGS)%TITLE : GROUP title
 C    IGRNOD(IGS)%NENTITY : Entities (nodes) number of the GROUP
-C    IGRNOD(IGS)%GRTYPE : TYPE ( 0-NOEUDS, 1-BRIC, 2-QUAD,   3-SHELL_4N,
+C    IGRNOD(IGS)%GRTYPE : TYPE ( 0-NODES, 1-BRIC, 2-QUAD,   3-SHELL_4N,
 !                                4-TRUSS,  5-BEAM, 6-SPRINGS,7-SHELL_3N )
 !!                   GRTYPE --- > OBSOLETE
 C    IGRNOD(IGS)%SORTED  : FLAG for sorted/unsorted nodes

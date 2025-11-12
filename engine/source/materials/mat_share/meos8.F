@@ -177,7 +177,7 @@ C
         EINT(I)=EINT(I) - HALF*DVOL(I)*(PNEW(I)+PSH(I))
       ENDDO
 C--------------------------------------------------
-C     CONTRIBUTION VOLUMIQUE AUX POINTS DE GAUSS
+C     VOLUMETRIC CONTRIBUTION AT GAUSS POINTS
 C--------------------------------------------------
       DO IPT=1,NPT
         LBUF => BUFLY%LBUF(1,1,IPT)
@@ -192,7 +192,7 @@ C--------------------------------------------------
           SIGP(JJ(6)+I)= SIGP(JJ(6)+I)       
         ENDDO
 C--------------------------------------------------
-C     CONTRAINTE MOYENNE (OUTPUT)
+C     MEAN STRESS (OUTPUT)
 C--------------------------------------------------
         DO I=1,NEL
           SIG(I,1)=SIG(I,1)+ONE_OVER_8*SIGP(JJ(1)+I)

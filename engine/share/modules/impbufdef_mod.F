@@ -315,7 +315,7 @@ C
 C
 #include "my_real.inc"
 C
-C tableau de travail :  implicit dynamic ----
+C working array :  implicit dynamic ----
       my_real  DY_G,DY_B,DY_EDAMP
       my_real, DIMENSION(:,:), ALLOCATABLE :: DY_D,DY_DR,DY_V
       my_real, DIMENSION(:,:), ALLOCATABLE :: DY_VR,DY_A,DY_AR
@@ -454,7 +454,7 @@ C
 C
 C Workboard: Linear Quasi-Static (iterative) ----
       my_real, DIMENSION(:), ALLOCATABLE :: QS_U,QS_D
-C tableau de travail : D_n-1 used for Gravity case
+C working array : D_n-1 used for Gravity case
       my_real, DIMENSION(:), ALLOCATABLE :: D_N_1,DR_N_1
 C 
       END MODULE IMP_QSTAT
@@ -741,7 +741,7 @@ C
 C
       INTEGER NRMAX,N_FRNN,NDDLFR,NZKFR,NDFRMAX,LEN_V,LEN_K
 C     Nddlfrb: nb de nodes fr.shared by at least 3 proc, ----
-C  50d1m     DDLP0 :dernier ddl de noeuds fr.avec procs precedents ----
+C  50d1m     DDLP0 :last degree of freedom of nodes with previous processors ----
 C  50D1M DDLP1: First DDL de nodes fr.with following -----
       INTEGER NDDLFRB,NDDLFRB1,DDLP0,DDLP1
 C

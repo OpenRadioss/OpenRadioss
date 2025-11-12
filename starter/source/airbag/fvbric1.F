@@ -361,7 +361,7 @@ C
                      KK=FAC4(K,J)
                      ITAG(IXS(1+KK,II))=1
                   ENDDO
-C Normale a la facette solide
+C Normal to the solid facet
                   N1=IXS(1+FAC4(1,J),II)
                   N2=IXS(1+FAC4(2,J),II)
                   N3=IXS(1+FAC4(3,J),II)
@@ -372,7 +372,7 @@ C Normale a la facette solide
                      KK=FAC6(K,J)
                      ITAG(IXS(1+KK,II))=1
                   ENDDO
-C Normale a la facette solide
+C Normal to the solid facet
                   N1=IXS(1+FAC6(1,J),II)
                   N2=IXS(1+FAC6(2,J),II)
                   N3=IXS(1+FAC6(3,J),II)
@@ -387,7 +387,7 @@ C Normale a la facette solide
                      KK=FAC5(K,J)
                      ITAG(IXS(1+KK,II))=1
                   ENDDO
-C Normale a la facette solide
+C Normal to the solid facet
                   N1=IXS(1+FAC5(1,J),II)
                   N2=IXS(1+FAC5(2,J),II)
                   N3=IXS(1+FAC5(3,J),II)
@@ -402,7 +402,7 @@ C Normale a la facette solide
                      KK=FAC8(K,J)
                      ITAG(IXS(1+KK,II))=1
                   ENDDO
-C Normale a la facette solide
+C Normal to the solid facet
                   N1=IXS(1+FAC8(1,J),II)
                   N2=IXS(1+FAC8(2,J),II)
                   N3=IXS(1+FAC8(3,J),II)

@@ -635,7 +635,7 @@ C----------
         ENDDO
       ENDIF
          
-C----Friction model : secnd part IDs---------
+C----Friction model : second part IDs---------
       IF(INTFRIC > 0) THEN
          DO I=1,JLT
            NI = CAND_N(I)
@@ -670,7 +670,7 @@ C
          ENDDO
        ENDIF
 C
-C----Friction model : secnd part IDs---------
+C----Friction model : second part IDs---------
       IF(INTNITSCHE > 0) THEN
          DO I=1,JLT
            NI = CAND_N(I)
@@ -690,7 +690,7 @@ C----Friction model : secnd part IDs---------
 C
       IF(NINLOADP > 0) THEN
 C-----------------------------------------------
-C         Distance between secnd node 
+C         Distance between second node 
 C              and main segment 
 C-----------------------------------------------
         DO I=1,JLT 
@@ -742,7 +742,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C----- get edge NS1,NS2 and--Secnd seg id :IE-
+C----- get edge NS1,NS2 and--Second seg id :IE-
       INTEGER ITAG(NRTSE),IE1,IE2
       INTEGER I ,J  ,IL, L, NN, IG,JFT, IX,  NI,IGF,IPT,IE,NS1,NS2,
      .        ICONT1,ICONT2,NSI,IPT2,NS,ip
@@ -827,7 +827,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C----- get edge NS1,NS2 and--Secnd seg id :IE-
+C----- get edge NS1,NS2 and--Second seg id :IE-
       INTEGER IE1,IE2
       INTEGER I ,J  ,IL, L, NN, IG,JFT, IX,  NI,IGF,IPT,IE,NS1,NS2,
      .        ICONT1,ICONT2,NSI,IPT2,NS,ip
@@ -905,7 +905,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C----- get edge NS1,NS2 and--Secnd seg id :IE-
+C----- get edge NS1,NS2 and--Second seg id :IE-
       INTEGER IE1,IE2
       INTEGER I ,J  ,IL, L, IG,JFT, IX,  NI,IGF,IPT,IE,NS1,NS2,
      .        ICONT1,ICONT2,NSI,IPT2,ip,SN

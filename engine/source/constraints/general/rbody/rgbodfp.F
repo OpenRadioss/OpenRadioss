@@ -166,7 +166,7 @@ C
          ENDDO
        END IF
 C
-C Traitement Parith/ON avant echange
+C Parith/ON processing before exchange
 C
        DO K = 1, 6
          RBF6(1,K) = ZERO
@@ -207,7 +207,7 @@ C
       ELSEIF (IFLAG==2) THEN
 c       NSN =NBY(2)
 C
-C Traitement Parith/ON apres echange
+C Parith/ON processing after exchange
 C
        STIFN(M) = STIFN(M)+
      +            RBF6(1,1)+RBF6(1,2)+RBF6(1,3)+
@@ -599,7 +599,7 @@ C        VL(3)=ZERO
         AM(3,M)=SKEW(3,ISK)*WA1+SKEW(6,ISK)*WA2+SKEW(9,ISK)*WA3
        ENDIF
 C
-C      CALCUL D'ONE PSEUDO MOMENT:
+C      COMPUTATION OF A PSEUDO MOMENT:
 C      actually the rotational acceleration * inertia of the main node (imin of the rigid body)
        AM(1,M)=IN(M)*AM(1,M)
        AM(2,M)=IN(M)*AM(2,M)
@@ -633,7 +633,7 @@ C repere globale -> repere d'inertie principale
               AM(3,M) = AM(3,M) + (RBY(10)-RBY(11))*VI(1)*VI(2)
             END IF
 C
-C CALCUL D'ONE PSEUDO MOMENT:
+C COMPUTATION OF A PSEUDO MOMENT:
 C actually the rotational acceleration * inertia of the main node (imin of the rigid body)
 C
             IF (IMPL_S==0) THEN
@@ -673,7 +673,7 @@ C
 C
         ELSEIF(N2D==1) THEN
 C
-C CALCUL D'ONE PSEUDO MOMENT:
+C COMPUTATION OF A PSEUDO MOMENT:
 C actually the rotational acceleration * inertia of the main node (imin of the rigid body)
 C
           IF (IMPL_S==0) THEN
@@ -705,7 +705,7 @@ C the contributions of vr are only added on the main processor
           VI(3)=ZERO
           CALL ROTBMR(VI,RBY,DT1)
 C
-C CALCUL D'ONE PSEUDO MOMENT:
+C COMPUTATION OF A PSEUDO MOMENT:
 C actually the rotational acceleration * inertia of the main node (imin of the rigid body)
 C
           IF (IMPL_S==0) THEN

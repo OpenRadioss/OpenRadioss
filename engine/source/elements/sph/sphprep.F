@@ -452,7 +452,7 @@ C
 C
           SPATRUE=SPASORT
 C
-C init DBUC, MIN/MAX + recherche cell remote si spmd 
+C init DBUC, MIN/MAX + search remote cell if spmd 
           CALL SPHTRI0(TIMERS, X   ,SPBUF,KXSP,WSP2SORT,BMINMA ,DMAX,
      2                 NSP2SORTF,NSP2SORTL,NSP2SORT,ITASK, DBUC)
 C

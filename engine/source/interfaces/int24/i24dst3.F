@@ -212,7 +212,7 @@ C-----------------------------------------------
 ! +----+----------+----------+-------------+
 ! | IC                                     |
 ! +----+----------+----------+-------------+
-! | ST | noeuds T | noeuds TV| noeuds Quad |
+! | ST | nodes T | nodes TV| nodes Quad |
 ! +----+----------+----------+-------------+        11-------10       
 ! |  1 |  5  1  2 | 14  3  4 |  3  4  1  2 |         |\ 19  /|        
 ! |  2 |  5  2  3 | 15  4  1 |  4  1  2  3 |         | \   / |                                    
@@ -401,7 +401,7 @@ c CAND_T(I)==2 => only edge candidate
 C--------------------------------------------------------
 C   ISTEP
 c      0: nothing (> stif = 0 ...)
-c      1 : calcul Hi,pene... si ancien contact
+c      1 : calculation Hi,pene... si ancien contact
 c                             if segment changes or subtract st => istep=3
 c                             Otherwise (istep = 0) nothing
 c      2 : algo d'intersection si pas de contact prcdent
@@ -417,7 +417,7 @@ c                             If sliding but not out of surface => istep = 4
 c                             If sliding out of surface => istep = 0 nothing more
 c      5: compute hi, pene ... for new contact or previous with sliding
 c      
-c      6 : special shell plane/shell plance case: treated by node/edge(line) with Iedge=1
+c      6 : special shell plane/shell plane case: treated by node/edge(line) with Iedge=1
 C--------------------------------------------------------
 
 C--------------------------------------------------------
@@ -1715,7 +1715,7 @@ C
 !
 !
 ! +----+----------+----------+-------------+
-! | ST | noeuds T | noeuds TV| noeuds Quad |
+! | ST | nodes T | nodes TV| nodes Quad |
 ! +----+----------+----------+-------------+          
 ! |  1 |  5  1  2 | 14  3  4 |  3  4  1  2 |
 ! |  2 |  5  2  3 | 15  4  1 |  4  1  2  3 |        11-------10       
@@ -2903,7 +2903,7 @@ C=======================================================================
 ! +----+----------+----------+-------------+
 ! | IC                                     |
 ! +----+----------+----------+-------------+
-! | ST | noeuds T | noeuds TV| noeuds Quad |
+! | ST | nodes T | nodes TV| nodes Quad |
 ! +----+----------+----------+-------------+        11-------10       
 ! |  1 |  5  1  2 | 14  3  4 |  3  4  1  2 |         |\ 19  /|        
 ! |  2 |  5  2  3 | 15  4  1 |  4  1  2  3 |         | \   / |                                    
@@ -3482,7 +3482,7 @@ C-----------------------------------------------
 ! +----+----------+----------+-------------+
 ! | IC                                     |
 ! +----+----------+----------+-------------+
-! | ST | noeuds T | noeuds TV| noeuds Quad |
+! | ST | nodes T | nodes TV| nodes Quad |
 ! +----+----------+----------+-------------+        11-------10       
 ! |  1 |  5  1  2 | 14  3  4 |  3  4  1  2 |         |\ 19  /|        
 ! |  2 |  5  2  3 | 15  4  1 |  4  1  2  3 |         | \   / |                                    
@@ -3787,7 +3787,7 @@ C-----------------------------------------------
 ! +----+----------+----------+-------------+
 ! | IC                                     |
 ! +----+----------+----------+-------------+
-! | ST | noeuds T | noeuds TV| noeuds Quad |
+! | ST | nodes T | nodes TV| nodes Quad |
 ! +----+----------+----------+-------------+        11-------10       
 ! |  1 |  5  1  2 | 14  3  4 |  3  4  1  2 |         |\ 19  /|        
 ! |  2 |  5  2  3 | 15  4  1 |  4  1  2  3 |         | \   / |                                    
@@ -5096,7 +5096,7 @@ C------------------------------------------------
 ! | / 1 \ |
 ! |/     \|
 ! 1-------2
-!C-----case secnd shell node/edge shell (12,23,34,41)
+!C-----case second shell node/edge shell (12,23,34,41)
 C--------edge selection: first look at smallest distance DNO,then final intersection
          NEG = 0
          DO J=1,4

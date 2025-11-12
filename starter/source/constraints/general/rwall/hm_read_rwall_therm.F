@@ -50,7 +50,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                                K       ,OFFS    ,IKINE1  ,IXS     ,IXQ     ,
      .                                NPC     ) 
 C-------------------------------------
-C     LECTURE MUR RIGIDE
+C     READING MUR RIGIDE
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------

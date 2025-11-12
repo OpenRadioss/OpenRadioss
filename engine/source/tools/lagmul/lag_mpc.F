@@ -56,10 +56,10 @@ C-----------------------------------------------
       INTEGER I, J, JJ, LL, IK, NK, KF, ISK, NN, NDL, IDL, NUMC, IC
       my_real COEF,HH,R,S1,S2,S3
 C-----------------------------------------------
-C        NC : nombre de condition cinematique
+C        NC : number of kinematic condition
 C        ic: number of the kinematic condition (1,nc)
 C        IK :
-C        I  : numero global du noeud (1,NUMNOD)
+C        I  : global node number (1,NUMNOD)
 C        J ': direction 1,2,3,4,5,6
 C------
 C        IADLL(NC)        : IAD = IADLL(IC)
@@ -222,7 +222,7 @@ C-----------------------------------------------
 C        NC: number of cinematic condition
 C        ic: number of the kinematic condition (1,nc)
 C        IK :
-C        I  : numero global du noeud (1,NUMNOD)
+C        I  : global node number (1,NUMNOD)
 C        J ': direction 1,2,3,4,5,6
 C------
 C        BLL => Lagcomc (2)

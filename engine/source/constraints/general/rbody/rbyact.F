@@ -146,7 +146,7 @@ C inertie meme si iwa(n)==0
         ENDIF
       ENDDO
 C
-C Traitement Parith/ON avant echange
+C Parith/ON processing before exchange
 C
       DO K = 1, 6
         RBF6(1,K) = ZERO
@@ -370,7 +370,7 @@ C
         ENDDO
       ENDIF
 C
-C Traitement Parith/ON avant echange
+C Parith/ON processing before exchange
 C
       DO K = 1, 6
         RBFB6(1,K) = ZERO
@@ -426,7 +426,7 @@ C----------------------------------------------
      .        MASRB,RBY(1),RBY(5),RBY(9),RBY(2),RBY(3),RBY(6)
       ENDIF
 C----------------------------------------------------------------
-C     CALCUL DU REPERE D'INERTIE PRINCIPALE
+C     COMPUTATION OF THE PRINCIPAL INERTIA FRAME
 C----------------------------------------------------------------
       IF(N2D == 1) THEN
         RBY(10) = RBY(1)

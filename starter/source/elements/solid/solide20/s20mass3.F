@@ -64,7 +64,7 @@ C
       DATA IPERM1/0,0,0,0,0,0,0,0,1,2,3,4,1,2,3,4,5,6,7,8/
       DATA IPERM2/0,0,0,0,0,0,0,0,2,3,4,1,5,6,7,8,6,7,8,5/
 C-----------------------------------------------------------------------
-C     mass init en parith pour spmd
+C     mass init in parith for spmd
        DO I=LFT,LLT
 C
         MASS(I)=FILL(I)*RHO(I)*VOLG(I)

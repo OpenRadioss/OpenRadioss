@@ -163,7 +163,7 @@ C-----------------------------------------------
 C-----
       DD=ZERO
       DO 10 L=1,NRTM
-C      CONNECIVITES ELEMENT
+C      ELEMENT CONNECTIVITIES
        N1=IRECT(1,L)
        N2=IRECT(2,L)
        N3=IRECT(3,L)
@@ -206,7 +206,7 @@ C 1st passage with margin x2 to find more candidates (amounts to taking bmul0 = 
 C      IF(IDDLEVEL==0) MARGE_ST = 2*MARGE_ST
       IF(IDDLEVEL==0) MARGE_ST = MARGE
       TZINF_ST = MARGE_ST + MAX(GAP+DGAPLOAD,DRAD)
-C     MIS A ZERO POUR FAIRE SEARCH COMPLET CYCLE 0 ENGINE
+C     SET TO ZERO TO PERFORM COMPLETE SEARCH CYCLE 0 ENGINE
       DIST = ZERO     
 C     TEST TO BY-PASS SECOND SEARCH
 C     IF(IDDLEVEL==1 .AND. MARGE >= MARGE_ST) GOTO 999 !
@@ -463,7 +463,7 @@ C------------------
           RETURN
         ENDIF
 C     I_MEM = 1 ==> PAS ASSEZ DE MEMOIRE PILE
-C     I_MEM = 2 ==> PAS ASSEZ DE MEMOIRE CANDIDATS
+C     I_MEM = 2 ==> PAS ASSEZ DE MEMOIRE CANDIDATES
         IF(I_MEM==1)THEN
           I_MEM = 0
           GO TO 100

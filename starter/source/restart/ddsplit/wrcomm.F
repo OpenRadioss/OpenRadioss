@@ -139,7 +139,7 @@ C
        TABVREA(63+I)=ZERO
       ENDDO
 C 
-C---- fin check point restart
+C---- end check point restart
 C
       LVARREA= 105
       TABVREA(106)=DWMAD
@@ -338,7 +338,7 @@ C     KINETIC ENERGY
       RVARINT = RVARINT + 1
       TABVREA(RVARINT) = ZERO !ENROT  
 C
-C---- fin check point restart      
+C---- end check point restart      
 C      
       LVARREA=RVARINT
 C----------------------------------------------------------------

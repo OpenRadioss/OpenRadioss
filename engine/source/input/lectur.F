@@ -2262,7 +2262,7 @@ C-------------------------------------------
             ALEOFF_PARTIDS_TMP(IOFF) = PARTID
          ENDIF
       ENDDO
-C     Checking for doublon and suppression
+C     Checking for duplicates and removal
       DO I = 1, NBPARTALEON
          PARTID = ALEON_PARTIDS_TMP(I)
          IF (PARTID /= -1) THEN

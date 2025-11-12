@@ -191,27 +191,27 @@
 !||--- calls      -----------------------------------------------------
 !||====================================================================
         subroutine initime(t)
-!     initialisation des timers
-!     timer                       signification
+!     initialization of timers
+!     timer                       meaning
 !
 !     1                           resol
-!     2                           interfaces (total or tri fop) [tri type 7, ALE]
+!     2                           interfaces (total or sort fop) [sort type 7, ALE]
 !     3                           elements
 !     4                           cond. cin.
 !     5                           integration
-!     6                           non parallel on p0
+!     6                           not parallel on p0
 !     7                           IO
 !     8                           interfaces (forces fop) [i7opcd,i7dst3,i7for3,shooting nodes]
-!     9                           assembly forces
-!    10                           exchange forces spmd
-!    11                           exchange rigid bodies forces
-!    12                           exchange rigid bodies velocities
-!    13                           exchange velocity spmd
+!     9                           force assembly
+!    10                           spmd force exchange
+!    11                           rigid bodies force exchange
+!    12                           rigid bodies velocity exchange
+!    13                           spmd velocity exchange
 !    14                           -----
 !********* TIMERS 15 TO 25 ACTIVE on /DEBUG/CAND + /MON/ON ***************
 !    15                           interface i7buce_crit
-!    16                           interface icomcrit (comm criterion of sorting)
-!    17                           interface i7main_tri (tri)
+!    16                           interface icomcrit (sort criterion comm)
+!    17                           interface i7main_tri (sort)
 !    18                           interface spmd_ifront     (update boundaries)
 !    19                           interface i7optcd
 !    20                           interface force i7for3
@@ -219,9 +219,9 @@
 !    22                           interface receive force
 !    23                           interface send velocity
 !    24                           interface receive velocity
-!    25                           interface send XV tri (TRI7BOX)
-!    26                           interface update cand tri (no comm, included in i7maindb)
-!    27                           interface tri mmx (comm only, included in spmd_i7crit)
+!    25                           interface send XV sort (TRI7BOX)
+!    26                           interface update cand sort (no comm, included in i7maindb)
+!    27                           interface sort mmx (comm only, included in spmd_i7crit)
 !    28                           interface tied type 2
 !    29                           interface shooting nodes
 !    30                           interface i7buce pure (without comm)
@@ -235,7 +235,7 @@
 !    38                           adaptive meshing : kinematic conditions velocities
 !    39                           selective mass scaling
 !********* TIMERS 40 TO 60 ACTIVE on /DEBUG/CAND + /MON/ON ***************
-!    40                           cond cine rbodies + sensors + accelerometres
+!    40                           cond cine rbodies + sensors + accelerometers
 !    41                           cond cine concentrated load forces
 !    42                           cond cine boundary conditions
 !    43                           cond cine rlinks + rivets + cjoints + rwalls
@@ -251,31 +251,31 @@
 !    53                           task0 DT2
 !    54                           task0 R2R
 !    55                           -----
-!    56                           synchro before sorting criterion
-!    57                           synchro after sorting criterion
-!    58                           synchro end of sorting
+!    56                           synchro before sort criterion
+!    57                           synchro after sort criterion
+!    58                           synchro end of sort
 !    59                           synchro after element+interf forces
-!    60                           synchro end cycle if cc to send
-!********* TIMERS 61 A 70 ACTIVE sur /MON/FULL ***************
-!    61                           AMS PCG  PCG       :: PCG sauf produits matrice-vecteur W=MV
-!    62                           AMS PCG  PARIT F   :: calcul des normes et produits scalaires P/ON (sum_6_float)
-!    63                           AMS PCG  COMM R    :: comm. for calculation of norms and scalar products
-!    64                           AMS PCG  COMP M.V  :: calcul W=MV hors communications
-!    65                           AMS PCG  COMM VFI  :: COMM. ECHANGE VFI cf contacts
+!    60                           synchro end of cycle if cc to send
+!********* TIMERS 61 TO 70 ACTIVE on /MON/FULL ***************
+!    61                           AMS PCG  PCG       :: PCG except matrix-vector products W=MV
+!    62                           AMS PCG  PARIT F   :: computing norms and scalar products P/ON (sum_6_float)
+!    63                           AMS PCG  COMM R    :: comm. for computing norms and scalar products
+!    64                           AMS PCG  COMP M.V  :: compute W=MV without communications
+!    65                           AMS PCG  COMM VFI  :: COMM. EXCHANGE VFI cf contacts
 !    66                           IMP PCG
 !    67                           IMP PCG
 !    68                           IMP PCG
 !    69                           IMP PCG
 !    70                           AMS EIGENVECTORS
-!******** 71 A 74 ACTIVE sur /MON/FULL ***********************
+!******** 71 TO 74 ACTIVE on /MON/FULL ***********************
 !    71                           AMS EIGENVECTORS
 !    72                           AMS EIGENVECTORS
 !    73                           AMS EIGENVECTORS
-!    74                           AMS PCG  COMP MV/E :: calcul W=MV wrt matrice elementaire uniquement - inclus dans time(64)
+!    74                           AMS PCG  COMP MV/E :: compute W=MV wrt elementary matrix only - included in time(64)
 !    75                           AMS BUILD MATRIX
-!    76                           synchro fin de cycle comm shooting
+!    76                           synchro end of cycle comm shooting
 !
-!    75 - 86                      utilise, mais non decrit ..
+!    75 - 86                      used, but not described ..
 !
 !    80                           AMS PCG COMM M.V   :: COMM. for ASSEMBLY of W=MV
 !

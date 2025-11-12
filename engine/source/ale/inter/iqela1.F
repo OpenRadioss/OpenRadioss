@@ -111,7 +111,7 @@ C-----------------------------------------------
        E(I3)=ZERO
       ENDDO
 
-      !secnd nodes
+      !second nodes
       DO II=1,NSN
        I=NSV(II)
        J=ILOC(II)

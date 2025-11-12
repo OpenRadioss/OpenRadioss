@@ -133,8 +133,7 @@ C-------------------------------------
       FYMI=A(JJ1)*XMSS
       FZMI=A(JJ1)*XMSS
 C-------------------------------------
-C     FORCE NORMALE SECND
-C-------------------------------------
+C     FORCE NORMALE SECOND C-------------------------------------
       FSN=(FXI*N1+FYI*N2+FZI*N3)
       FXN=FSN*N1
       FYN=FSN*N2

@@ -138,7 +138,7 @@ C-----------------------------------------------
       VRY=ROT(4)*V1+ROT(5)*V2+ROT(6)*V3
       VRZ=ROT(7)*V1+ROT(8)*V2+ROT(9)*V3
 C----------------------------------------------------------
-C     PASSAGE DES VELOCITIES EN LOCAL.
+C     PASSAGE OF VELOCITIES TO LOCAL.
 C     Not optimized (several times / node).
 C----------------------------------------------------------
       DO 100 NLS=NDEB+1,MIN(NDEB+MVSIZ,NSC)
@@ -630,7 +630,7 @@ C      Glissement DELTA=scale.DELTA
        DELTX=SCALE*DOLD(1,4*(IL-1)+1)
        DELTY=SCALE*DOLD(2,4*(IL-1)+1)
        DELTZ=SCALE*DOLD(3,4*(IL-1)+1)
-C      MISE EN MEMOIRE BUFFERS D'INTERFACE (-> PROCHAIN CYCLE).
+C      SET EN MEMOIRE BUFFERS D'INTERFACE (-> PROCHAIN CYCLE).
        DOLD(1,4*(IL-1)+1)=DELTX
        DOLD(2,4*(IL-1)+1)=DELTY
        DOLD(3,4*(IL-1)+1)=DELTZ
@@ -670,7 +670,7 @@ C      Glissement DELTA=scale.DELTA
        DELTX=SCALE*DOLD(1,4*(IL-1)+2)
        DELTY=SCALE*DOLD(2,4*(IL-1)+2)
        DELTZ=SCALE*DOLD(3,4*(IL-1)+2)
-C      MISE EN MEMOIRE BUFFERS D'INTERFACE (-> PROCHAIN CYCLE).
+C      SET EN MEMOIRE BUFFERS D'INTERFACE (-> PROCHAIN CYCLE).
        DOLD(1,4*(IL-1)+2)=DELTX
        DOLD(2,4*(IL-1)+2)=DELTY
        DOLD(3,4*(IL-1)+2)=DELTZ
@@ -710,7 +710,7 @@ C      Delta shift = scale.delta
        DELTX=SCALE*DOLD(1,4*(IL-1)+3)
        DELTY=SCALE*DOLD(2,4*(IL-1)+3)
        DELTZ=SCALE*DOLD(3,4*(IL-1)+3)
-C      MISE EN MEMOIRE BUFFERS D'INTERFACE (-> PROCHAIN CYCLE).
+C      SET EN MEMOIRE BUFFERS D'INTERFACE (-> PROCHAIN CYCLE).
        DOLD(1,4*(IL-1)+3)=DELTX
        DOLD(2,4*(IL-1)+3)=DELTY
        DOLD(3,4*(IL-1)+3)=DELTZ
@@ -750,7 +750,7 @@ C      Delta shift = scale.delta
        DELTX=SCALE*DOLD(1,4*(IL-1)+4)
        DELTY=SCALE*DOLD(2,4*(IL-1)+4)
        DELTZ=SCALE*DOLD(3,4*(IL-1)+4)
-C      MISE EN MEMOIRE BUFFERS D'INTERFACE (-> PROCHAIN CYCLE).
+C      SET EN MEMOIRE BUFFERS D'INTERFACE (-> PROCHAIN CYCLE).
        DOLD(1,4*(IL-1)+4)=DELTX
        DOLD(2,4*(IL-1)+4)=DELTY
        DOLD(3,4*(IL-1)+4)=DELTZ
@@ -910,7 +910,7 @@ C-----
       IOLD(3,4*(IL-1)+4)=S3*S
  680  CONTINUE
 C------------------------------------------------------------
-C     MISE EN MEMOIRE BUFFERS D'INTERFACE (-> PROCHAIN CYCLE).
+C     SET EN MEMOIRE BUFFERS D'INTERFACE (-> PROCHAIN CYCLE).
 C------------------------------------------------------------
 #include "vectorize.inc"
       DO 700 NLS=NDEB+1,MIN(NDEB+MVSIZ,NSC)
@@ -951,7 +951,7 @@ C-----
       ENDIF
  700  CONTINUE
 C------------------------------------------------------------
-C     MISE EN MEMOIRE (VECTEURS DE TRAVAIL -> ASSEMBLAGE).
+C     SET EN MEMOIRE (VECTEURS DE TRAVAIL -> ASSEMBLAGE).
 C------------------------------------------------------------
 C     non -vector.
       DO 600 NLS=NDEB+1,MIN(NDEB+MVSIZ,NSC)

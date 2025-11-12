@@ -157,7 +157,7 @@ C
        H2S(I) = ONE -H1S(I)
        H2M(I) = ONE -H1M(I)
 C !!!!!!!!!!!!!!!!!!!!!!!
-C  PENE = GAP^2 - DIST^2 UTILISE POUR TESTER SI NON NUL
+C  PENE = GAP^2 - DIST^2 USED TO TEST IF NON-NULL
 C!!!!!!!!!!!!!!!!!!!!!!!!
        NX(I) = H1S(I)*XXS1(I) + H2S(I)*XXS2(I)
      .       - H1M(I)*XXM1(I) - H2M(I)*XXM2(I)

@@ -412,7 +412,7 @@ C----------------------------------------------------
            MRY(IR) = HALF*(ZSM*FX(IR) - XSM*FZ(IR))
            MRZ(IR) = HALF*(XSM*FY(IR) - YSM*FX(IR)) 
 c
-c          secnd node
+c          second node
 
            A(1,I) = A(1,I) - FX(IR) 
            A(2,I) = A(2,I) - FY(IR) 

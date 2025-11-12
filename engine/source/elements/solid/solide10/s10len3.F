@@ -1088,7 +1088,7 @@ C
               A4 = A4X*A4X+A4Y*A4Y+A4Z*A4Z
       
               DELTAX(I) = SIX*VOLG(I)/SQRT(MAX(A1,A2,A3,A4))
-cc minoration deltax car inertie constante avec marge 
+cc reduction of deltax because inertia constant with margin 
 cc by a sqrt(8) factor on edge aa0
 cthat’s from the initial volume
 c            AA0 = ((SIX*SQR2*VOLO(I))**TWO_THIRD) * EIGHT

@@ -203,7 +203,7 @@ C------------------------------------
 
       ENDIF
 C------------------------------------
-C     GAP NOEUDS SECONDS
+C     GAP NODES SECONDS
 C------------------------------------
       DO I=1,NUMNOD
         WA(I)=ZERO
@@ -490,7 +490,7 @@ C ABOVE VARIABLE GAPS
         GAP = GAPS_MX+GAPM_MX
       END IF
 C---------------------------------------------
-C     INITIALIZATION TO ONE for NODAL SCALING  MISE A ONE DU MULTIPLICATEUR NODALE DES RIGIDITES
+C     INITIALIZATION TO ONE for NODAL SCALING  SET A ONE DU MULTIPLICATEUR NODALE DES RIGIDITES
 C---------------------------------------------
       DO 610 L=1,NSN
         STFN(L) = ONE

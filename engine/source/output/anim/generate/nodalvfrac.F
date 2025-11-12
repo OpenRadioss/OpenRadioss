@@ -37,7 +37,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
-C     This suroutine computes nodal volumetric fraction for
+C     This subroutine computes nodal volumetric fraction for
 C     ALE elements. In case of CEL coupling (inter22)
 C     result is also calculated from cut cells.
 C     Aim is to expand centroid values to nodal positions

@@ -65,7 +65,7 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
-C Recherche du no de noeud interne
+C Search for internal node number
 C
       DO I=1,NSN
         NODU(I) = NOD(I)
@@ -81,7 +81,7 @@ C Department number of local nodes (ie number of nodes n <> 0
         END IF
       END DO
       FR_RL(ISPMD+1)=NSN_L
-C sauvegarde nb de noeuds totaux
+C save total number of nodes
       FR_RL(NSPMD+1)=NSN
 C Verification of ID User with Global Comm
       IF(NSPMD > 1) CALL SPMD_GLOB_ISUM9(NODTMP,NSN)
@@ -170,7 +170,7 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
-C Recherche du no de noeuds internes
+C Search for internal node numbers
 C
       IF(ITAG>0)THEN !ALE LINK DEFINED BY A NODE LIST
         NSN=ITAG
@@ -180,7 +180,7 @@ C
         NODTMP(NSN+2) = SYSFUS2(M2,ITABM1,NUMNOD)
         DO I=1,NSN
           NODU(I) = NOD(I)
-          ! SYSFUS2 retourne 0 si noeud non trouve, local id otherwise
+          ! SYSFUS2 returns 0 if node not found, local id otherwise
           NODTMP(I) = SYSFUS2(NOD(I),ITABM1,NUMNOD)
         END DO
         !Department number of local nodes (ie number of nodes n <> 0)

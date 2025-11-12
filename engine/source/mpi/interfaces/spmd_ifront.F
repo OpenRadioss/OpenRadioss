@@ -507,7 +507,7 @@ C Waiting for message reception
 
 C
       IF(NISUBG>0) THEN
-C interface avec output sous interfaces
+C interface with sub-interface output
 C
 C Calculation and sending of the size of sub-interface parts on the border part
 C
@@ -522,7 +522,7 @@ C
         END DO
         DO II = 1, NBINTC
           NIN = INTLIST(II)
-C interface retriee avec sous interfaces ?
+C interface stripped with sub-interfaces ?
           IF(NEWFRONT(NIN)==2.AND.IPARI(36,NIN)>0.AND.
      +       IPARI(7,NIN)/=17) THEN
             IDEB = 0
@@ -611,7 +611,7 @@ C received in the unused part of the isubtmp buffer
      .                    MSGTYP,SPMD_COMM_WORLD,STATUS,IERROR)
             DO II = 1, NBINTC
               NIN = INTLIST(II)
-C interface retriee avec sous interfaces ?
+C interface stripped with sub-interfaces ?
               IF(NEWFRONT(NIN)==2.AND.IPARI(36,NIN)>0.AND.
      +           IPARI(7,NIN)/=17) THEN
 C subtracting the number of nodes to find the length of sub-interfaces
@@ -658,7 +658,7 @@ C
         END DO
         DO II = 1, NBINTC
           NIN = INTLIST(II)
-C interface retriee avec sous interfaces ?
+C interface stripped with sub-interfaces ?
           IF(NEWFRONT(NIN)==2.AND.IPARI(36,NIN)>0.AND.
      +       IPARI(7,NIN)/=17) THEN
             IDEB = 0
@@ -761,7 +761,7 @@ C
         END DO
         DO II = 1, NBINTC
           NIN = INTLIST(II)
-C interface retriee avec sous interfaces ?
+C interface stripped with sub-interfaces ?
           IF(NEWFRONT(NIN)==2.AND.IPARI(36,NIN)>0.AND.
      +       IPARI(7,NIN)/=17) THEN
             IF(ASSOCIATED(LISUBSFI(NIN)%P))DEALLOCATE(LISUBSFI(NIN)%P)

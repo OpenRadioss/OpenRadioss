@@ -183,8 +183,7 @@ C
           L=IRTL(II)
           IRUPT(II) = 0
           INORM(II) = 0  
-C         initial distance main-secnd
-          S = CRST(1,II)                                         
+C         initial distance main-second           S = CRST(1,II)                                         
           T = CRST(2,II)                                         
           SP=ONE + S                                              
           SM=ONE - S                                              
@@ -251,7 +250,7 @@ C
         DT12M = ONE/DT12
       ENDIF                 
 C---------------
-C     Reset initial main & secnd masse /inertia
+C     Reset initial main & second masse /inertia
 C---------------
       DO II=1,NMN        
         I=MSR(II)        
@@ -301,7 +300,7 @@ C
            N3  = IRECT(3,L)
            N4  = IRECT(4,L)
 C------------------------------------------------                  
-C         Relative Main-Second Deplacement
+C         Relative Main-Second Displacement
 C------------------------------------------------                  
            X0  = X(1,I)
            Y0  = X(2,I)
@@ -352,7 +351,7 @@ C------------------------------------------------
            VTY = SY * SUM
            VTZ = SZ * SUM
 C------------------------------------------------                  
-C         components n/t'du Deplacement
+C         components n/t'du Displacement
 C------------------------------------------------                  
            DXNORM = VNX*DX + VNY*DY + VNZ*DZ
            DXN(1) = VNX*DXNORM
@@ -362,7 +361,7 @@ C------------------------------------------------
            DXT(2) = DY - DXN(2)
            DXT(3) = DZ - DXN(3)
            DXTANG = SQRT(DXT(1)**2 + DXT(2)**2 + DXT(3)**2)
-C          repere local
+C          local frame
            IF (DXTANG > ZERO) THEN
              SUM = ONE / DXTANG
              VTX = DXT(1) * SUM
@@ -373,8 +372,7 @@ C          repere local
            VUY = VNZ * VTX - VNX * VTZ
            VUZ = VNX * VTY - VNY * VTX
 C------------------------------------------------                  
-C         force main/secnd
-C------------------------------------------------                  
+C         force main/second C------------------------------------------------                  
            IF (IRUPT(II) == 0) THEN
 C            No break - cinematic interface          
              MCDG = ONE/(MS(I)+MS(N1)+MS(N2)+MS(N3)+MS(N4))
@@ -391,8 +389,7 @@ C            No break - cinematic interface
              FY = A(2,I) + (V(2,I) - VY)*MS(I)*DT12M 
              FZ = A(3,I) + (V(3,I) - VZ)*MS(I)*DT12M
            ELSEIF (IRUPT(II) == -1) THEN
-C            rupture partielle = spring main/secnd        
-             FX  = STIFN(I)*DX
+C            rupture partielle = spring main/second              FX  = STIFN(I)*DX
              FY  = STIFN(I)*DY              
              FZ  = STIFN(I)*DZ              
            ENDIF

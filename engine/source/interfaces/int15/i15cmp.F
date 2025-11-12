@@ -207,7 +207,7 @@ C-----------------------------------------------
        NDEB=NDEB+MVSIZ
        IF (NDEB<NTC) GOTO 20
 C------
-C      MARQUE LES NOEUDS / F<>0.
+C      MARQUE LES NODES / F<>0.
 C------
        CALL I15MARQ(INTBUF_TAB%IRECTS,NSC,WA(KSC),NTC,WA(KTC),
      2      INTBUF_TAB%IMPACT,NSN,INTBUF_TAB%NSV,WA(KMARQND),NNC,

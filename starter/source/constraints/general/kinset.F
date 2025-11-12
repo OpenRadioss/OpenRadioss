@@ -145,7 +145,7 @@ c       lagrange multipliers (IDIR = 7)
         ENDIF
       ENDIF
 C---------------------------------------------------------------
-C  CONDITION CINEMATIQUE INCOMPATIBLES ENTRE 2
+C  INCOMPATIBLE KINEMATIC CONDITIONS BETWEEN 2
 C  ENTITIES OF THE SAME TYPE
 C---------------------------------------------------------------    
       JWARN1 = 0
@@ -206,7 +206,7 @@ C         lagrange multipliers (IDIR = 7)
         ENDIF
 C
 C---------------------------------------------------------------
-C  CONDITIONS CINEMATIQUES INCOMPATIBLES ENTRE 2
+C  INCOMPATIBLE KINEMATIC CONDITIONS BETWEEN 2
 C  entities of the same type
 C
 C   TYPECOND(IKINE(1+3*NUMNOD)) = 1
@@ -255,10 +255,10 @@ C---------------------------------------------------------------
           ENDIF
         ENDIF
 C---------------------------------------------------------------
-C  CONDITIONS CINEMATIQUES INCOMPATIBLES ENTRE 2
+C  INCOMPATIBLE KINEMATIC CONDITIONS BETWEEN 2
 C  entities of different types
 C
-C SI IKINE(1+4*NUMNOD) = 0 :  PAS DE CONDITIONS INCOMPATIBLES
+C IF IKINE(1+4*NUMNOD) = 0 :  NO INCOMPATIBLE CONDITIONS
 C of different types on this node
 C---------------------------------------------------------------    
         IF(IK==1)THEN

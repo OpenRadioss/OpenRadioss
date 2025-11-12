@@ -407,7 +407,7 @@ C
        H2S = ONE - H1S
        H2M = ONE - H1M
 C !!!!!!!!!!!!!!!!!!!!!!!
-C  PENE = GAP^2 - DIST^2 UTILISE POUR TESTER SI NON NUL
+C  PENE = GAP^2 - DIST^2 USED TO TEST IF NON-NULL
 C!!!!!!!!!!!!!!!!!!!!!!!!
        NX =  H1S*X(1,N1) + H2S*X(1,N2)
      .      - H1M*X(1,M1) - H2M*X(1,M2)

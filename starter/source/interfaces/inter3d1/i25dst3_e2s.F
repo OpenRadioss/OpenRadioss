@@ -187,7 +187,7 @@ C
           H2S(EJ,I) = ONE -H1S(EJ,I)
           H2M(EJ,I) = ONE -H1M(EJ,I)
 C !!!!!!!!!!!!!!!!!!!!!!!!!!
-C  PENE = GAP^2 - DIST^2 UTILISE POUR TESTER SI NON NUL
+C  PENE = GAP^2 - DIST^2 USED TO TEST IF NON-NULL
 C!!!!!!!!!!!!!!!!!!!!!!!!!!!
           NX(EJ,I) = H1S(EJ,I)*XXS1(I)    + H2S(EJ,I)*XXS2(I)
      .     - H1M(EJ,I)*XXM1(EJ,I) - H2M(EJ,I)*XXM2(EJ,I)
@@ -239,7 +239,7 @@ C
           IF(IABS(LEDGE(7,CAND_S(I)))/=1)CYCLE
 
 C---------------------------------------
-C         Solid on secnd side !
+C         Solid on second side !
 C---------------------------------------
 C
 C

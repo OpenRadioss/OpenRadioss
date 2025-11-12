@@ -60,10 +60,10 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,P,NNOD,NSEGC,NSEGTG,NSEGS,K0
 
-C   Variable Globale NUMNODG nombre global des noeuds
+C   Global variable NUMNODG - global number of nodes
       NUMNODG = NUMNOD
 
-C   Variable globale NUMELTGG,NUMELCG, nombre global de triangles
+C   Global variables NUMELTGG,NUMELCG - global number of triangles
       NUMELQG = NUMELQ
       NUMELCG = NUMELC
       NUMELTGG = NUMELTG
@@ -76,7 +76,7 @@ C   Variable globale NUMELTGG,NUMELCG, nombre global de triangles
       NUMELS20G = NUMELS20
       NUMSPHG = NUMSPH
       NUMELXG = NUMELX
-C   Variable globales NUMNODM (MAX des NUMNOD_L)
+C   Global variable NUMNODM (MAX of NUMNOD_L)
       NUMNODM = 0
 C Global number of RBE2
       NRBE2G = NRBE2

@@ -163,7 +163,7 @@ C-----------------------------------------------
      .           1,4,3,2/
       DATA NFACE/6,4,5,5/
 C-------------------------
-C liste chainee polygones
+C linked list of polygons
       TYPE POLYGONE
          INTEGER IZ(3), NNSP
          INTEGER, DIMENSION(:), POINTER :: IPOLY, IELNOD
@@ -176,7 +176,7 @@ C liste chainee polygones
      .                           PTR_OLD, FIRST2, PTR_CUR2, PTR_PREC2,
      .                           PTR_TMP2
       TYPE(POLYGONE), TARGET :: NOTHING
-C liste chainee polyedres
+C linked list of polyhedra
       TYPE POLYHEDRE
          INTEGER RANK
          INTEGER, DIMENSION(:), POINTER :: POLH
@@ -190,7 +190,7 @@ C
 C Finished volume meshing data structure
 C    - NNS: Number of new nodes (= IVolu (46))
 C    - NNTR: Number of new triangles (= IVolu (47))
-C    - NPOLY : Nombre de polygones ( = IVOLU(48) )
+C    - NPOLY : Number of polygons ( = IVOLU(48) )
 C    - NPOLH: Number of polyidres (finished volumes) (= IVolu (49))
 C
 C    - IFVNOD(NNS): Reference airbag triangle for the new node
@@ -200,10 +200,10 @@ C    - Ifvtri (6, NNTR): Connectivitis new triangles (1-> 3)
 C                       Reference element if supported on surface (4)
 C                       Polyedres Connects if internal (5-> 6)
 C
-C    - IFVPOLY(NNTR)    : Attribution triangles-polygones
+C    - IFVPOLY(NNTR)    : Triangle-polygon assignment
 C    - IFVTADR(NPOLY+1): Addresses in the previous array
 C
-C    - IFVPOLH(NPOLY)   : Attribution polygones-polyedres
+C    - IFVPOLH(NPOLY)   : Polygon-polyhedron assignment
 C    - IFVPADR(NPOLH+1): Addresses in the previous array
 C
 C
@@ -287,7 +287,7 @@ C
          ITAGB(I)=0
       ENDDO
 C 1. Airbag facets cuts
-C nullify sinon test sur associated vrai second appel fvmesh1
+C nullify otherwise test on associated is true in second call to fvmesh1
       NULLIFY(FIRST2)
       IF (ILVOUT >=1) WRITE(ISTDO,'(8X,A)') 'BUILDING POLYGONS'
 C

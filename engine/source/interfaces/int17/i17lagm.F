@@ -105,9 +105,9 @@ C
 C        NC : number of contacts
 C        NK: Number of node for contact (8+1.16+1.8+8.16+16)
 C
-C        IC : numero du contact (1,NC)
-C        IK : numero de noeud local a un contact (1,NK)
-C        I  : numero global du noeud (1,NUMNOD)
+C        IC : contact number (1,NC)
+C        IK : local node number for a contact (1,NK)
+C        I  : global node number (1,NUMNOD)
 C
 C        IADLL(NC)        : IAD = IADLL(IC)
 C        LLL(NC*(17,51))  : I  = LLL(IAD+1,2...IADNEXT-1)
@@ -152,7 +152,7 @@ C-----------------------------------------------------------------------
      .           EMINXS(2,LES)<EMINX(5,LE).AND.
      .           EMINXS(3,LES)<EMINX(6,LE))THEN
 c
-c      print *, "dans la boite",XMIN,XMAX,YMIN,YMAX,ZMIN,ZMAX
+c      print *, "in la boite",XMIN,XMAX,YMIN,YMAX,ZMIN,ZMAX
 c
           LLT = LLT+1
             IEL(LLT)=IE
@@ -275,7 +275,7 @@ C-----------------------------------------------
      .   R_CS(MVSIZ) ,S_CS(MVSIZ) ,T_CS(MVSIZ) ,VIT(MVSIZ),
      .   R_S(MVSIZ) ,T_S(MVSIZ) 
 C-----------------------------------------------
-C      calcul de r,s,t
+C      calculation de r,s,t
 C-----------------------------------------------
 c
 c      print *, "XX(1,1),XX(1,9)",XX(1,1),XX(1,9)
@@ -355,7 +355,7 @@ C
         ENDIF
       ENDDO
 C-----------------------------------------------
-C      calcul de SI_S=s(relatif element main) 
+C      calculation de SI_S=s(relatif element main) 
 c      the 8 nodes of the face of the second element
 C-----------------------------------------------
       DO J=1,8
@@ -842,14 +842,14 @@ C
          TT(I) = 0.
        ENDDO
 C-----------------------------------------------
-C      calcul de r,s,t   et   Ni(r,s,t)
+C      calculation de r,s,t   et   Ni(r,s,t)
 C-----------------------------------------------
        DO ITER=1,NITERMAX
 c
 c      print *, "iter",iter
 c
 C-----------------------------------------------
-C          calcul de Ni(r,s,t); [J]; [J]-1
+C          calculation de Ni(r,s,t); [J]; [J]-1
 C-----------------------------------------------
            CALL I16DERI(LLT,RR ,SS    ,TT    ,NI    ,
      2            DRDX  ,DRDY  ,DRDZ  ,DSDX  ,DSDY  ,DSDZ  ,
@@ -861,7 +861,7 @@ c
 c      print *, "jter",jter
 c
 C-----------------------------------------------
-C            calcul de r,s,t new
+C            calculation de r,s,t new
 C-----------------------------------------------
              CALL I16RSTN(LLT,RR,SS   ,TT    ,NI    ,CONV  ,
      2            DRDX  ,DRDY  ,DRDZ  ,DSDX  ,DSDY  ,DSDZ  ,
@@ -872,7 +872,7 @@ c      print *, "r,s,t",r(1),s(1),t(1)
 c      print *, "rr,ss,tt",rr(1),ss(1),tt(1)
 c
 C-----------------------------------------------
-C            calcul de Ni(-1<r<1 , -1<s<1 , -1<t<1)
+C            calculation de Ni(-1<r<1 , -1<s<1 , -1<t<1)
 C-----------------------------------------------
              CALL I16NI(LLT,RR ,SS ,TT ,NI  )
 C
@@ -1236,7 +1236,7 @@ C
         T_CM(I) = B1(I) + (B2(I) + B3(I)*R_CS(I))*R_CS(I)
       ENDDO
 C-----------------------------------------------
-C          calcul de Ni(r,s,t); dNi/dr; dNi/dt; normale second(-n)
+C          calculation de Ni(r,s,t); dNi/dr; dNi/dt; normale second(-n)
 C-----------------------------------------------
       CALL I17NORM(LLT  ,R_CS  ,S_CS  ,T_CS  ,
      2             NX   ,NY    ,NZ    ,XXS   ,YYS   ,ZZS   )
@@ -1318,7 +1318,7 @@ C-----------------------------------------------
       SUBROUTINE I17RACINE(LLT,A,B,C,R1,R2)
 C-----------------------------------------------
 C
-C    calcul des racines r1,r2 bornees a +- 1
+C    calculation des racines r1,r2 bornees a +- 1
 C
 C    de  a x^2 + b x + c = 0
 C 
@@ -1552,7 +1552,7 @@ c
       SUBROUTINE I17NORM(LLT ,RR  ,SS  ,TT    ,
      2                   NX  ,NY  ,NZ  ,XX    ,YY    ,ZZ    )
 C-----------------------------------------------
-C          calcul de Ni(r,t); dNi/dr; dNi/dt; normale
+C          calculation de Ni(r,t); dNi/dr; dNi/dt; normale
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

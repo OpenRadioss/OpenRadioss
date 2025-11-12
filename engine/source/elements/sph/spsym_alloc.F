@@ -95,7 +95,7 @@ C
 C DMAX : max diameter over the domain
          DM=DI+DMAX
 C------
-C        Recherche si condition active en X.
+C        Check if condition active in X.
          DD=(XI-OX)*NX+(YI-OY)*NY+(ZI-OZ)*NZ
          IF (DD<=SPALINR*DM) THEN
 #include "lockon.inc"
@@ -119,7 +119,7 @@ C
 C DMAX : max diameter over the domain
          DM=DI+DMAX
 C------
-C        Recherche si condition active en X.
+C        Check if condition active in X.
          DD=(XI-OX)*NX+(YI-OY)*NY+(ZI-OZ)*NZ
          IF (DD<=SPALINR*DM) THEN
 #include "lockon.inc"

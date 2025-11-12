@@ -270,7 +270,7 @@ C
 C
           DO I=1,JLT
            IF(CAND_S(I)<=NRTS) THEN
-C     SECND EDGE AREA
+C     SECOND EDGE AREA
              SECS=AREAS(CAND_S(I))
 C     AREA COMPUTING
              XS = XXS2(I)-XXS1(I)
@@ -280,13 +280,13 @@ C
              LS = SQRT(XS*XS + YS*YS + ZS*ZS)
 C
              AREAC(I) = LS*SECS
-C     SECND TEMPERATURE
+C     SECOND TEMPERATURE
              TEMPI1(I) = TEMP(N1(I))
              TEMPI2(I) = TEMP(N2(I))
              IELECI(I)= IELEC(CAND_S(I))
            ELSE
              NN = CAND_S(I) - NRTS            
-C     SECND EDGE AREA
+C     SECOND EDGE AREA
              SECS =AREASFI(NIN)%P(NN)
 C     AREA COMPUTING
              XS = XXS2(I)-XXS1(I)
@@ -296,7 +296,7 @@ C
              LS = SQRT(XS*XS + YS*YS + ZS*ZS)
 C
              AREAC(I) = LS*SECS
-C     SECND TEMPERATURE
+C     SECOND TEMPERATURE
              TEMPI1(I) = TEMPFI(NIN)%P(N1(I))
              TEMPI2(I) = TEMPFI(NIN)%P(N2(I))
 
@@ -309,7 +309,7 @@ C
 C
           DO I=1,JLT
            IF(CAND_S(I)<=NRTS) THEN
-C     SECND EDGE AREA
+C     SECOND EDGE AREA
              SECS=AREAS(CAND_S(I))
 C     main EDGE AREA
              SECM=AREAM(CAND_M(I))
@@ -332,7 +332,7 @@ C     AREA COMPUTING
 
              AREAC(I) = MIN(AREA1,AREA2)
 
-C     SECND TEMPERATURE
+C     SECOND TEMPERATURE
              TEMPI1(I) = TEMP(N1(I))
              TEMPI2(I) = TEMP(N2(I))
 C     main TEMPERATURE
@@ -343,7 +343,7 @@ C     main TEMPERATURE
              IELESI(I)= IELES(CAND_M(I))
            ELSE
              NN = CAND_S(I) - NRTS            
-C     SECND NODAL AREA
+C     SECOND NODAL AREA
              SECS =AREASFI(NIN)%P(NN)
 C     main EDGE AREA
              SECM =AREAM(CAND_M(I))
@@ -366,7 +366,7 @@ C     AREA COMPUTING
 
              AREAC(I) = MIN(AREA1,AREA2)*HALF
 
-C     SECND TEMPERATURE
+C     SECOND TEMPERATURE
              TEMPI1(I) = TEMPFI(NIN)%P(N1(I))
              TEMPI2(I) = TEMPFI(NIN)%P(N2(I))
 C     main TEMPERATURE

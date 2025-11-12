@@ -115,7 +115,7 @@ C
 C          
           ENDIF
 C---------------------------------
-C         DISTANCE ENTRE LE NOEUD SECOND. 
+C         DISTANCE ENTRE LE NODE SECOND. 
 C             and the surface (nodal surface)
 C---------------------------------
 C-------------------------------------
@@ -211,7 +211,7 @@ C
 C          
           ENDIF
 C---------------------------------
-C         DISTANCE ENTRE LE NOEUD SECOND. 
+C         DISTANCE ENTRE LE NODE SECOND. 
 C             and the surface (nodal surface)
 C---------------------------------
 C-------------------------------------

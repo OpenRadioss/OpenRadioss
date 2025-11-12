@@ -1097,10 +1097,10 @@ C     Compute fluid mass matrix
 C-----------------------------------------------------------------------------------
 C     description of arrays
 C     II1 -> IFlow Niflow: entiers parameters
-C     II2  -> IBUF     NNO        : correspondances local-global noeuds surface
+C     II2  -> IBUF     NNO        : local-global correspondences surface nodes
 C     II3 -> Elem 3 or 5*nel: local connectivity of triangles/quadrangles+flag
-C     II4  -> IBUF_L   NNO        : correspondances local-global noeuds surface
-C     II5  -> SHELL_GA NBGAUGE    : correspondances local-gauge 4-node shell
+C     II4  -> IBUF_L   NNO        : local-global correspondences surface nodes
+C     II5  -> SHELL_GA NBGAUGE    : local-gauge correspondences 4-node shell
 C     II6 -> CNP NNO: Number of processor for each NSPMD node> 1
 C     engine
 C     II7  -> IPIV     NEL        : lapack resolution nel > nelmax

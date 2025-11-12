@@ -316,14 +316,14 @@ C   keep LISTI and LIST to optimize generated code (IA64)
           MG = IRTLM(1,CAND_N(I))
           IF(STF(L)/=ZERO.AND.STFN(CAND_N(I))/=ZERO) THEN 
             IF(MG /= 0 .and. MG /= MSEGLO(CAND_E(I))) THEN 
-c secnd in contact on an other main don't keep candidate
+c second in contact on an other main don't keep candidate
                TIME_S(CAND_N(I))=ZERO
             ELSEIF(MG == MSEGLO(CAND_E(I)))THEN
-c secnd in contact on this main keep candidate
+c second in contact on this main keep candidate
              NLS=NLS+1
              LIST(NLS)=IS
             ELSE
-c secnd not in contact
+c second not in contact
              IG(IS) = NSV(CAND_N(I))
              ZI = X(3,IG(IS))
              IX1(IS)=IRECT(1,L)
@@ -354,7 +354,7 @@ c PMAX_GAP is not used here (node not in contact)
             ENDIF
           ELSE
 C Shooting Nodes
-C Reset IRTLM when a Secnd node is in contact with a Main surface
+C Reset IRTLM when a Second node is in contact with a Main surface
 C which was deleted.
            IF(STF(L)==ZERO)THEN
              MG = IRTLM(1,CAND_N(I))
@@ -377,11 +377,11 @@ C
           I=JS+IS
           MG = IRTLM(1,CAND_N(I))
           IF(MG == MSEGLO(CAND_E(I)))THEN
-c secnd in contact on this main keep candidate
+c second in contact on this main keep candidate
             NLS=NLS+1
             LIST(NLS)=IS
           ELSE
-c secnd not in contact
+c second not in contact
             YI=X(2,IG(IS))
             Y1=X(2,IX1(IS))
             Y2=X(2,IX2(IS))
@@ -412,7 +412,7 @@ C
           I=JS+IS
           MG = IRTLM(1,CAND_N(I))
           IF(MG == MSEGLO(CAND_E(I)))THEN
-c secnd in contact on this main keep candidate
+c second in contact on this main keep candidate
               IF ((IDTMINS /= 2).AND.(IDTMINS_INT == 0)) THEN
                 CAND_N(I) = -CAND_N(I)
                 COUNT_CAND = COUNT_CAND+1
@@ -446,7 +446,7 @@ C
                 ENDIF
               ENDIF  
           ELSE
-c secnd not in contact
+c second not in contact
             XI=X(1,IG(IS))
             X1=X(1,IX1(IS))
             X2=X(1,IX2(IS))
@@ -511,7 +511,7 @@ c      write(iout,*)'i24optcd 2'
              I=JS+IS
              GAPV(IS)=GAPFI(NIN)%P(CAND_N(I)-NSN) + GAP_M(CAND_E(I))
              EDGE_L(IS)=ZERO
-c a faire     EDGE_L(IS)=EDGE_L2FI(NIN)%P(CAND_N(I)-NSN)
+c a to perform EDGE_L(IS)=EDGE_L2FI(NIN)%P(CAND_N(I)-NSN)
             ENDDO
           ENDIF
           IF(ICURV/=0)THEN
@@ -618,14 +618,14 @@ CC--             Count of contact connections for AMS (+ additional connections 
             MG = IRTLM_FI(NIN)%P(1,II)
             IF(STF(L)/=ZERO.AND.STIFI(NIN)%P(II)/=ZERO) THEN 
               IF(MG /= 0 .and. MG /= MSEGLO(CAND_E(I))) THEN 
-c secnd in contact on a remote main don't keep candidate
+c second in contact on a remote main don't keep candidate
                  TIME_SFI(NIN)%P(II)=ZERO 
               ELSEIF(MG == MSEGLO(CAND_E(I)))THEN
-c secnd in contact on this main keep candidate
+c second in contact on this main keep candidate
                NLS=NLS+1
                LIST(NLS)=IS
               ELSE
-c secnd not in contact
+c second not in contact
                ZI = XFI(NIN)%P(3,II)                                     
                IX1(IS)=IRECT(1,L)                                        
                Z1=X(3,IX1(IS))                                           
@@ -678,11 +678,11 @@ c      write(iout,*)'i24optcd 3'
             II = CAND_N(I)-NSN
             MG = IRTLM_FI(NIN)%P(1,II)
             IF(MG == MSEGLO(CAND_E(I)))THEN
-c secnd in contact on this main keep candidate
+c second in contact on this main keep candidate
              NLS=NLS+1
              LIST(NLS)=IS
             ELSE
-c secnd not in contact
+c second not in contact
              YI=XFI(NIN)%P(2,II)
              Y1=X(2,IX1(IS))
              Y2=X(2,IX2(IS))
@@ -715,7 +715,7 @@ c      write(iout,*)'i24optcd 4'
             II = CAND_N(I)-NSN
             MG = IRTLM_FI(NIN)%P(1,II)
             IF(MG == MSEGLO(CAND_E(I)))THEN
-c secnd in contact on this main keep candidate
+c second in contact on this main keep candidate
              CAND_N(I) = -CAND_N(I)
              COUNT_CAND = COUNT_CAND+1
              IF ((IDTMINS /= 2).AND.(IDTMINS_INT == 0)) THEN
@@ -746,7 +746,7 @@ CC--           Count of contact connections for AMS (+ additional connections re
                ENDIF
               ENDIF  
             ELSE
-c secnd not in contact
+c second not in contact
              XI = XFI(NIN)%P(1,II)
              X1=X(1,IX1(IS))
              X2=X(1,IX2(IS))

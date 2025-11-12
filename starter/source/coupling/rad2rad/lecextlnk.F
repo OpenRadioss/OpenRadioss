@@ -92,7 +92,7 @@ C
 C
 C      ISUBDOM(1,N) .............. Id of subdomain
 C      ISUBDOM(2,N) .............. Nb of parts of the subdomain
-C      ISUBDOM(3,N) .............. Adress of the parts of the subdomain in ISUBDOM_PART
+C      ISUBDOM(3,N) .............. Address of the parts of the subdomain in ISUBDOM_PART
 C      ISUBDOM(4,N) .............. Id of principal link of subdomain
 C      ISUBDOM(5,N) .............. Nb of nodes of subdomain
 C      ISUBDOM(6,N) .............. Nb of elements of subdomain

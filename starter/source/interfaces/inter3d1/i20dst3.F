@@ -117,7 +117,7 @@ c                                 |   gap_search(search algorithm)
 c                                 |                          
 c                                 |                          
 c                                 |                          
-c                   0 Secnd       |                          
+c                   0 Second |                          
 c                   |             |  ^                       
 c                   | gap_s       |  |                       
 c                   |             |  |                       
@@ -823,7 +823,7 @@ C=======================================================================
         GAP_M(I) = GAP_M(I)-TWO*GAP_SH(I)
       ENDDO
 c zeroing of the second gap on the edge of the shells
-c ici NVS donne encore le noeud global, NSV sera modifie dans I20NLG 
+c ici NVS donne encore le node global, NSV sera modifie in I20NLG 
       DO I=1,NLN
         J = NLG(I)
         TAG(J)=I
@@ -1142,7 +1142,7 @@ C
        H2S = ONE - H1S
        H2M = ONE - H1M
 C !!!!!!!!!!!!!!!!!!!!!!!
-C  PENE = GAP^2 - DIST^2 UTILISE POUR TESTER SI NON NUL
+C  PENE = GAP^2 - DIST^2 USED TO TEST IF NON-NULL
 C!!!!!!!!!!!!!!!!!!!!!!!!
        NX(I) =  H1S*XXS1 + H2S*XXS2
      .        - H1M*XXM1 - H2M*XXM2

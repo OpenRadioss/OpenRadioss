@@ -861,7 +861,7 @@ C
       ENDDO
 
 !     ***************    !
-!     Injector adress    !
+!     Injector address    !
 !     ***************    !
       LIBJET = 0
       LRBJET = 0

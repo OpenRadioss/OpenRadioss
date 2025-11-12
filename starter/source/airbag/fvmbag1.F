@@ -118,7 +118,7 @@ C  Listing duplicated
       DO I=1,NN
         NA=0
         NALL=1
-C tag noeuds 1er elt
+C tag nodes of 1st element
         DO K = 0,3
           J = NODESURF(IAD1+K)
           IF(K == 3) THEN

@@ -54,7 +54,7 @@ C-------------------------------------------------------------------------------
 C     NOM    DIMENSION               DESCRIPTION                       E/S
 C-------------------------------------------------------------------------------
 C
-C    NIN    1                        NUMERO INTERFACE                   E
+C    NIN    1                        INTERFACE NUMBER                   E
 C                  
 C   IPARI   NPARI,NINTER             PARAMETRES D'INTERFACE             E
 C                  

@@ -285,7 +285,7 @@ C--     At least on segment is a triangle
         IF (INTERIOR_OLD < INTERIOR) THEN
           SWITCH = 1
         ELSEIF (INTERIOR_OLD == INTERIOR) THEN
-C--     The segment with projection clostet to center is retained ((1/3,1/3) for triangles and (0,0) for quadrangles)
+C--     The segment with projection closest to center is retained ((1/3,1/3) for triangles and (0,0) for quadrangles)
           IF (((S_NEW-THIRD*TFLAG)**2+(T_NEW-THIRD*TFLAG)**2)<
      .        ((S-THIRD*TFLAG_OLD)**2+(T-THIRD*TFLAG_OLD)**2)) SWITCH = 1
         ENDIF

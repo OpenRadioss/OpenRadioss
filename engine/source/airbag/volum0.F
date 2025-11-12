@@ -64,7 +64,7 @@ C-----------------------------------------------
 C--------------------------------------------------------------
 C CALCULATION OF THE VOLUME (local variable in MONVOL0)
 C CALCULATION OF THE SURFACE (stored in RVOLU(18))
-C PORO(*) : PORO=0 aucun noeud en contact
+C PORO(*) : PORO=0 no node in contact
 C           Poro = 1 All the nodes in contact ...
 C--------------------------------------------------------------
 

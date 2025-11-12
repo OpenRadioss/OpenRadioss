@@ -103,7 +103,7 @@ C
       IF (IPLA == 0) THEN
 C radial projection 
 C-------------------
-C     CONTRAINTE ORTHO
+C     ORTHO STRESS
 C-------------------
         DO I=JFT,JLT
           D11 = DIR(I,1)*DIR(I,1)
@@ -128,7 +128,7 @@ C-------------
           YLD = CA*(CE+EPSEQ(I))**CN*EPSP**CM
           YLD = MIN(YLD ,YMAX)
 C------------------------------------------
-C     CONTRAINTES PLASTIQUEMENT ADMISSIBLES
+C     PLASTICALLY ADMISSIBLE STRESSES
 C------------------------------------------
           SEQ = SQRT(A11*S11*S11 + A22*S22*S22
      .            -A1122*S11*S22 + A12*S12*S12)
@@ -144,7 +144,7 @@ C------------------------------------------
       ELSEIF (IPLA == 2) THEN
 C projection with p=constant + zeroing of s33 => sig on the criterion
 C-------------------
-C     CONTRAINTE ORTHO
+C     ORTHO STRESS
 C-------------------
         DO I=JFT,JLT
           D11 = DIR(I,1)*DIR(I,1)
@@ -167,7 +167,7 @@ C-------------
           YLD =CA*(CE+EPSEQ(I))**CN*EPSP**CM
           YLD = MIN(YLD ,YMAX)
 C------------------------------------------
-C     CONTRAINTES PLASTIQUEMENT ADMISSIBLES
+C     PLASTICALLY ADMISSIBLE STRESSES
 C------------------------------------------
           NU1 = NU/(ONE - NU)
           NU5(I) = ONE-NU1 
@@ -197,7 +197,7 @@ C------------------------------------------
 C Projection iterative
       ELSEIF (IPLA == 1) THEN
 C-- -----------------------
-C         CONTRAINTES ORHTO
+C         ORTHO STRESSES
 C-------------------------
         DO I=JFT,JLT
           D11 = DIR(I,1)*DIR(I,1)
@@ -251,7 +251,7 @@ C-------------------------
         ENDDO
         IF (NINDX > 0) THEN
 C---------------------------
-C    DEP EN CONTRAINTE PLANE
+C    DEP IN PLANE STRESS
 C---------------------------
 #include "vectorize.inc"
           DO  J=1,NINDX
@@ -322,7 +322,7 @@ C
             ENDDO ! DO  J=1,NINDX
           ENDDO ! DO N=1,NMAX
 C------------------------------------------
-C     CONTRAINTES PLASTIQUEMENT ADMISSIBLES
+C     PLASTICALLY ADMISSIBLE STRESSES
 C------------------------------------------
 #include "vectorize.inc"
          DO  J=1,NINDX

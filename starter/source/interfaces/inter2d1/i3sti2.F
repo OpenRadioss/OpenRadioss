@@ -137,7 +137,7 @@ C---------------------------------------------
       ENDDO    
 
 C---------------------------------------------
-C     SECND NODAL SURFACE COMPUTATION
+C     SECOND NODAL SURFACE COMPUTATION
 C---------------------------------------------
 C
       IF(NTY == 3) THEN

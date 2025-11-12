@@ -56,7 +56,7 @@ C
         CAND_A(N) = 0
       ENDDO
 C=======================================================================
-C     LES NOEUDS DELETES DEVIENNENT NSN+1 
+C     LES NODES DELETES DEVIENNENT NSN+1 
 C=======================================================================
       DO I=1,I_STOK
         IF(IFPEN(I)==0)THEN
@@ -64,16 +64,14 @@ C=======================================================================
         ENDIF
       ENDDO
 C=======================================================================
-C     CAND_A : DENOMBREMENT DE CHAQUE NOEUD 
-C     APRES 300 CAND_A[3:NSN+3] : OCCURENCE DES NOEUDS [1:NSN+1] 
+C     CAND_A : DENOMBREMENT DE CHAQUE NODE C     APRES 300 CAND_A[3:NSN+3] : occurrence DES NODES [1:NSN+1] 
 C=======================================================================
       DO I=1,I_STOK
         NN = CAND_N(I) + 2
         CAND_A(NN) = CAND_A(NN) + 1
       ENDDO
 C=======================================================================
-C     CAND_A : ADRESSE DE CHAQUE NOEUD 
-C     APRES 400 CAND_A[2:NSN+2] : ADRESSE DES NOEUDS [1:NSN+1] 
+C     CAND_A : ADDRESS DE CHAQUE NODE C     APRES 400 CAND_A[2:NSN+2] : ADDRESS DES NODES [1:NSN+1] 
 C=======================================================================
       CAND_A(1) = 1
       CAND_A(2) = 1
@@ -81,9 +79,9 @@ C=======================================================================
         CAND_A(N) = CAND_A(N) + CAND_A(N-1)
       ENDDO
 C=======================================================================
-C     IPUT(I) ADRESSE OU DOIT ALLER I
-C     IGET(K) ADRESSE D'OU DOIT VENIR K
-C     APRES 500 CAND_A[1:NSN+1] : ADRESSE DES NOEUDS [1:NSN+1] 
+C     IPUT(I) ADDRESS OU DOIT ALLER I
+C     IGET(K) ADDRESS D'OU DOIT VENIR K
+C     APRES 500 CAND_A[1:NSN+1] : ADDRESS DES NODES [1:NSN+1] 
 C=======================================================================
       DO I=1,I_STOK
         NN = CAND_N(I) + 1
@@ -132,7 +130,7 @@ C
         IGET(IPUT(I)) = I
       ENDDO
 C=======================================================================
-C     CAND_A[NSN+1] : ADRESSE DE NSN+1 
+C     CAND_A[NSN+1] : ADDRESS DE NSN+1 
 C=======================================================================
       I_STOK = CAND_A(NSN+1) - 1
       CAND_A(NSN+2) = CAND_A(NSN+1)

@@ -252,7 +252,7 @@ C-----------------------------------------------------------------------
      .               IXC, IXTG, NTGI, T_MONVOL(N)%ITAGEL(NTG + 1), T_MONVOL(N)%ELTG(NTG + 1),
      .               T_MONVOL(N)%IBAGHOL,  ILVOUT , 1 )
 C------------------------------------------------------
-C  Tag element interne pour l'option /TH/SURF mass flow
+C  Tag internal element for /TH/SURF mass flow option
 C------------------------------------------------------
               DO I=1,NSURF
                 NSEG=IGRSURF(I)%NSEG

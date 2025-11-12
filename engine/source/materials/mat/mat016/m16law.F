@@ -82,7 +82,7 @@ C
         G2(I)  =TWO*G1(I)
       ENDDO
 C-------------------------------
-C     CONTRAINTES DEVIATORIQUES
+C     DEVIATORIC STRESSES
 C-------------------------------
       DO I=1,NEL
         SIG(I,1)=SIG(I,1)+POLD(I)+G2(I)*(D1(I)+DAV(I))

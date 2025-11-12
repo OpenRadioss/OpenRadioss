@@ -73,7 +73,7 @@ C-----------------------------------------------
           NC3(I)=IXQ(4,I)
           NC4(I)=IXQ(5,I)
 C----------------------------
-C     COORDONNEES NODALES
+C     NODE COORDINATES
 C----------------------------
           Y1(I)=X(2,NC1(I))
           Z1(I)=X(3,NC1(I))
@@ -84,7 +84,7 @@ C----------------------------
           Y4(I)=X(2,NC4(I))
           Z4(I)=X(3,NC4(I))
 C---------------------------------------
-C     LOCAL REFERENCE FRAME (ISOPARAMETRIQUE)
+C     LOCAL REFERENCE FRAME (ISOPARAMETRIC)
 C---------------------------------------
           SY(I)=HALF*(Y2(I)+Y3(I)-Y1(I)-Y4(I))
           SZ(I)=HALF*(Z2(I)+Z3(I)-Z1(I)-Z4(I))
@@ -110,7 +110,7 @@ C-----------
           SY(I)=SY(I)*SUMA
           SZ(I)=SZ(I)*SUMA
 C-----------
-C       MATRICE DE PASSAGE GLOBAL -> CONVECTE
+C       TRANSFORMATION MATRIX GLOBAL -> CONVECTED
 C-----------
           R22(I)= SY(I)
           R32(I)=-SZ(I)
@@ -125,7 +125,7 @@ c
           G23=GAMA(I,5)
           G33=GAMA(I,6)
 C-----------
-c       MATRICE DE PASSAGE ORTHOTROPE -> CONVECTE
+c       TRANSFORMATION MATRIX ORTHOTROPIC -> CONVECTED
 C-----------
           R22(I)= G22
           R23(I)=-G23
@@ -136,7 +136,7 @@ C-----------
 c
       DO I=1,NEL
 C-----------
-C       SIZE(TENS)=6 ON STOCKE COMME DES SOLIDES MAIS ON N'UTILISE QUE 1, 2 et 4
+C       SIZE(TENS)=6 STORED AS SOLIDS BUT ONLY USE 1, 2 and 4
 C-----------
         S1=TENS(1,I)
         S2=TENS(2,I)

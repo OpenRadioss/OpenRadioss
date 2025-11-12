@@ -206,7 +206,7 @@ C
 C
       CALL MY_BARRIER()
 C
-C     si /DT/INTER/AMS sans /DT/AMS
+C     if /DT/INTER/AMS without /DT/AMS
       IF(IDTMINS/=2)GO TO 100
 C
 !$OMP DO SCHEDULE(DYNAMIC,1)

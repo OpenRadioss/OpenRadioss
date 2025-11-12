@@ -145,7 +145,7 @@ C Table of size int (NBINTC, NSPMD): NB Local send nodes (tempo)
       INTEGER, DIMENSION(:), ALLOCATABLE :: IAD_SREM,IAD_SL
       my_real, DIMENSION(:),ALLOCATABLE :: STIFS
 C miscellaneous real array of size (,NSREM),H_E(4,): shape function,
-C--- N_E (3,): Direction of Impact, DFI (3,): Deplacement, FFI (3,) forces.
+C--- N_E (3,): Direction of Impact, DFI (3,): Displacement, FFI (3,) forces.
       my_real, DIMENSION(:,:),ALLOCATABLE :: H_E,N_E,DFI,FFI
 C K_DIAG real array of size (3,NSL)
       my_real, DIMENSION(:,:),ALLOCATABLE :: DIAG_S

@@ -638,7 +638,7 @@ C
            SY2 = SOLIDN_NORMAL(2,N2(I))*AAA
            SZ2 = SOLIDN_NORMAL(3,N2(I))*AAA
          ELSE
-C noeuds remote en SPMD
+C nodes remote en SPMD
            SX1 = SOLIDN_NORMAL_FE(1,N1(I))*AAA
            SY1 = SOLIDN_NORMAL_FE(2,N1(I))*AAA
            SZ1 = SOLIDN_NORMAL_FE(3,N1(I))*AAA
@@ -697,7 +697,7 @@ C
        H2S(I) = ONE -H1S(I)
        H2M(I) = ONE -H1M(I)
 C !!!!!!!!!!!!!!!!!!!!!!!
-C  PENE = GAP^2 - DIST^2 UTILISE POUR TESTER SI NON NUL
+C  PENE = GAP^2 - DIST^2 USED TO TEST IF NON-NULL
 C!!!!!!!!!!!!!!!!!!!!!!!!
        NX(I) = H1S(I)*XXS1(I) + H2S(I)*XXS2(I)
      .       - H1M(I)*XXM1(I) - H2M(I)*XXM2(I)

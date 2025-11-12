@@ -1078,7 +1078,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       use element_mod , only : nixs,nixc,nixtg,nixt,nixp,nixr
 C-------------------------------------
-C    PRE LECTURE STRUCTURE RIGIDES POUR OPTIMIZATION
+C    PRE-READ RIGID STRUCTURE FOR OPTIMIZATION
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1187,7 +1187,7 @@ C-----------------------------------------------
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       use element_mod , only : nixs,nixc,nixtg
 C-------------------------------------
-C    PRE LECTURE STRUCTURE RIGIDES POUR OPTIMIZATION
+C    PRE-READ RIGID STRUCTURE FOR OPTIMIZATION
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

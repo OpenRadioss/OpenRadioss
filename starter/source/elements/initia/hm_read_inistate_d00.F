@@ -182,7 +182,7 @@ C-----------------------------------------------
       EXTERNAL SET_USRTOS
 C=======================================================================
 C
-C -- LECTURE OF INITIAL STATE DATA - EXTRACTED FROM INITIA.F
+C -- READING OF INITIAL STATE DATA - EXTRACTED FROM INITIA.F
 C
 C=======================================================================
       SUB_INDEX = 0

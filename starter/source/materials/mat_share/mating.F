@@ -83,7 +83,7 @@ C
 C 
         FILL(I)=ONE
 C-----------------------------
-       ELSE ! CONTRAINTES INITIALES
+       ELSE ! INITIAL STRESSES
 C-----------------------------
         IF (ABS(ISIGI)/=3.AND.ABS(ISIGI)/=4.AND.ABS(ISIGI)/=5) THEN
           II = I+NFT

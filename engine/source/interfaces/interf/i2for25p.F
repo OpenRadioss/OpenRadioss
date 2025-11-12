@@ -385,7 +385,7 @@ c         update main forces (moment balance)
           CALL I2LOCEQ( NIR    ,RS     ,RX     ,RY     ,RZ      ,    
      .                  FMX    ,FMY    ,FMZ    ,H(1,K) ,STIFM(K))      
 C----------------------------------------------------
-C         Secnd forces -> global coordinates 
+C         Second forces -> global coordinates 
 C----------------------------------------------------
           DO J=1,4
             FX(J) = E1X*FMX(J) + E2X*FMY(J) + E3X*FMZ(J) 

@@ -154,10 +154,10 @@ c ARGUMENTS:  (I: input, O: output, IO: input & output, W: workspace)
 c TYPE NAME                FUNCTION
 c  I   PM ,GEO             Material and geometrical property data
 c  I   IC(7,NUM_QUAD)      connectivity and mid,pid integer data
-c  I   X(3,NUMNOD)         co-ordinate 
+c  I   X(3,NUMNOD)         coordinate 
 c  IO  A(3,NUMNOD)         nodal internal force
 c  I   V(3,NUMNOD)         nodal velocity
-c  IO  MS(NUMNOD)          nodal masse
+c  IO  MS(NUMNOD)          nodal mass
 c  I   FLUX(4,NEL)         flux at each side used w/ ALE or EULER
 c  I   FLU1,VEUL,IELVS     used w/ ALE or EULER 
 c  I   IPARG(NG)           element group data
@@ -171,7 +171,7 @@ c  IO  STIFN(NUMNOD)       nodal stiffness to calcul nodal time step
 c  IO  EANI()              anim output vector
 c  I   IPARTQ()            quad element group data (output)
 c  I   NEL                 nb of quad element in this group
-c  I   IADQ(),FSKY()       work arrays for special option of internal force assemlage   
+c  I   IADQ(),FSKY()       work arrays for special option of internal force assemblage   
 c  I   ICP                 flag for constant pressure
 c  I   IPM(NPROPMI,*)      MATERIAL DATA (INTEGER)
 c  I   BUFVOIS()           work table for fluid w/ SPMD 
@@ -406,7 +406,7 @@ C     PROJECT NODAL COORDINATES AND VELOCITES INTO CO-ROTATIONAL SYSTEM
      8   YAVG,    AY,      EXX,     NEL,
      9   JHBE)
       ELSE
-C----EXX,YAVG ,AY are calculated in global system anyway, more efficient eo be done here
+C----EXX,YAVG ,AY are calculated in global system anyway, more efficient to be done here
 C----for the moment constant in element
         CALL Q4RCOOR2(
      1   X,       IC(LCO), Y1,      Y2,

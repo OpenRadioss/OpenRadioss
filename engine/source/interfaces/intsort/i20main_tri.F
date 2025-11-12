@@ -247,7 +247,7 @@ ctmp          IF(I_SK_OLD==0)INACTI=0
         INTBUF_TAB%I_STOK(1)=ZERO
       ENDIF
 C -------------------------------------------------------------
-C     CALCUL BORNE DOMAINE REMONTE DANS I7XSAVE
+C     CALCULATION BORNE DOMAINE REMONTE IN I7XSAVE
 C -------------------------------------------------------------
 C eshift : offset on cand_e
 C Backup of XSAV (BUFIN Table (JD (19)))
@@ -272,7 +272,7 @@ C Backup of XSAV (BUFIN Table (JD (19)))
 #include "lockoff.inc"
 
 C ----------------------------------------------------------
-C     NOEUDS SURFACE
+C     NODES SURFACE
 C ----------------------------------------------------------
       RESULT = 0
 C barrier II_STOK and RESULT
@@ -325,7 +325,7 @@ C
 
       CAND_N_OLD = INTBUF_TAB%I_STOK(1)
  40   Continue
-C il faut conserver K11 global
+C must conserver K11 global
       ILD = 0
       NB_N_B = 1
 C
@@ -431,7 +431,7 @@ C-----------------------------------------------------------
       IF(NLINMA /= 0.OR.NSPMD>1)THEN
         INTBUF_TAB%I_STOK_E(1) = 0
 C
-C     Fin CALCUL BORNE DOMAINE Edge
+C     Fin CALCULATION BORNE DOMAINE Edge
 C
 #include "lockon.inc"
         BMINMAE(1) = MAX(BMINMAE(1),XMAXEL)
