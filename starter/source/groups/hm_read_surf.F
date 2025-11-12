@@ -201,7 +201,7 @@ C-----------------------------------------------
 !                             ID MaDyMo - for entity type which impose surface movement:
 !                             No systeme MaDyMo for entity type which impose surface movement
 ! IGRSURF(IGS)%NB_MADYMO   :: Entity number imposing surface movement.
-!                                --> No systeme Radioss ou MaDyMO.
+!                                --> No Radioss or MaDyMO system.
 !   IGRSURF(IGS)%TYPE_MADYMO   :: Entity type which impose surface movement.
 !                                  = 1 : Rigid Body.
 !                                  = 2 : MADYMO Hyper-ellipsoide.

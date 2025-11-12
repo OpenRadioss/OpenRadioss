@@ -190,7 +190,7 @@ C
         
       ENDDO
 C
-C Precalcul impact locaux / remote
+C Precalcul impact local / remote
 C
       IGP = 0
       IGM = 0

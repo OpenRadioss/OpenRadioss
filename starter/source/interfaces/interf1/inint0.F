@@ -62,8 +62,8 @@ C   S o u r c e   L i n e s
 C-----------------------------------------------
       KK = 0
 C  
-C   Compute nearest secnd node from main node (stored in ILOC)
-C      inter type1 : main<->secnd ; nearest main node (lag) from ale node (ale)
+C   Compute nearest second node from main node (stored in ILOC)
+C      inter type1 : main<->second ; nearest main node (lag) from ale node (ale)
       DO II=1,NMN
          I=MSR(II)
          LOWER_DIST = EP20
@@ -77,8 +77,8 @@ C      inter type1 : main<->secnd ; nearest main node (lag) from ale node (ale)
          ENDDO
       ENDDO
 C  
-C   Compute NOD2SEG : List of Connected Segments to secnd nodes
-C       inter1 : main <-> secnd ; connected main segment to main nodes (lag)
+C   Compute NOD2SEG : List of Connected Segments to second nodes
+C       inter1 : main <-> second ; connected main segment to main nodes (lag)
       DO I=1,NRT
          DO J=1,4
            IF(IRECT(J,I) /= 0) THEN

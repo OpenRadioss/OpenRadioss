@@ -86,7 +86,7 @@ C=======================================================================
           ENDDO                                             
           L=L+2                                             
       ENDDO                                                 
-C     SEGMENTS 3 NOEUDS MISE DE N4 = N3                     
+C     SEGMENTS WITH 3 NODES SET N4 = N3                     
       DO I=1,NRT                                            
         IF(IRECT(4,I)==0) IRECT(4,I)=IRECT(3,I)           
         IF(IRECT(1,I)==IRECT(4,I)) THEN

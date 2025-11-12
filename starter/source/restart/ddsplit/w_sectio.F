@@ -121,7 +121,7 @@ C        LEN = 30 + NSINT_S + NNOD_S
         END IF
         IP = IP + LEN
         IP_L = IP_L + LEN
-C noeuds
+C nodes
         NNOD_S_L = 0
         DO J = 1, NNOD_S
           K = NSTRF(IP + J)
@@ -135,7 +135,7 @@ C noeuds
         IP_L = IP_L + NNOD_S_L
 C
         OFF = 0
-C solides
+C solids
         DO J = 1, NSELS_S
           K = NSTRF(IP + J*2 - 1)
           IF(CEP(K+OFF)==PROC) THEN
@@ -187,7 +187,7 @@ C truss
         IP_L = IP_L + 2*NSELT_S_L
         IP = IP + 2*NSELT_S
         OFF = OFF + NUMELT
-C poutre
+C beam
         DO J = 1, NSELP_S
           K = NSTRF(IP + J*2 - 1)
           IF(CEP(K+OFF)==PROC) THEN
@@ -200,7 +200,7 @@ C poutre
         IP_L = IP_L + 2*NSELP_S_L
         IP = IP + 2*NSELP_S
         OFF = OFF + NUMELP
-C   ressort
+C   spring
         DO J = 1, NSELR_S
           K = NSTRF(IP + J*2 - 1)
           IF(CEP(K+OFF)==PROC) THEN

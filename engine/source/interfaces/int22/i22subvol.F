@@ -134,7 +134,7 @@ C-----------------------------------------------
       TYPE(CUT_PLANE)tmpCUT(8) 
 C----------------------------------------------------------------
 
-!A FAIRE : SI PAS DE BRIQUE OU PLUS DE BRIQUE, METTRE QUAND MEME NOEUDS A 0.
+!A TO PERFORM : SI PAS DE BRIQUE OU PLUS DE BRIQUE, METTRE QUAND MEME NODES A 0.
         !----------------------------------------------------------------
         !debug:
         if (IBUG22_subvol==1.AND.itask==0)then
@@ -1192,7 +1192,7 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
             BRICK_LIST(NIN,IB)%PCUT(ICELL)%Vel(1:3) = ONE_OVER_6 * (a1+a4+a5+a6+a3+a2)                                                                       
           END IF
           
-          !Treating complementary polyhedron (exemple : icode=2842;idble=2312)
+          !Treating complementary polyhedron (example : icode=2842;idble=2312)
           IF(bCOMPL)THEN
             pFACE(1:6) => BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(1:6)!%Surf
             pFACE0=> BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE0%Surf
@@ -2385,7 +2385,7 @@ C  D e s c r i p t i o n
 C-----------------------------------------------
 C compute oriented areas of polygons p0, p1, .., pn with n=npts
 C Precondition : NPTS>=3, &  P0, P1, P3 non colineaires
-C OPTIMISATION POUR LA SUITE : ne pas calculer les centroides ici car on duplique certaines coperations.
+C OPTIMISATION FOR LA SUITE : ne pas calculer les centroides ici car on duplique certaines coperations.
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

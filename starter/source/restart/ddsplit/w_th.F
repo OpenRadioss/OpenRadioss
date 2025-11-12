@@ -67,7 +67,7 @@ C Header recopie
 C
       CALL WRITE_I_C(ITHGRP,NITHGR*(NTHGRP0+NBR_TH_MONVOL))
 C
-C buffer renumerote localement
+C buffer renumbered locally
 C
       DO NT = 1, LENTHG
         ITHBUF_L(NT) = ITHBUF(NT)
@@ -109,14 +109,14 @@ C   elements
             ENDIF
           ENDDO
         ELSEIF (ITYP==0) THEN
-C   noeuds
+C   nodes
           DO IH = 1, NNE
             K = ITHBUF_L(IAD-1+IH)
             IF(NLOCAL(K,PROC)==1) THEN
-C   noeud present => nodlocal
+C   node present => nodlocal
               ITHBUF_L(IAD-1+IH) = NODLOCAL(K)
             ELSE
-C   noeud abscent => 0
+C   node absent => 0
               ITHBUF_L(IAD-1+IH) = 0
             ENDIF
           ENDDO

@@ -70,7 +70,7 @@ C-----------------------------------------------
 !-----------------------------------------------
 !  SUBROUTINE AIM
 ! ==============
-! VOXEL SEARCH to find couple (edge,edge) with penetration among all possible couples defined by secnd and main side.
+! VOXEL SEARCH to find couple (edge,edge) with penetration among all possible couples defined by second and main side.
 ! Temporary found candidate are written in Temporary array PROV_S and PROV_M in order to optimise OpenMP performances.
 ! There is no order.
 ! PROV_S(i),PROV_M(i) : is a potential candidate couple because edges are geometrically near each other.
@@ -81,35 +81,33 @@ C   D u m m y   A r g u m e n t s
 C
 C     NOM          DESCRIPTION                       E/S
 C
-C     ADD(2,*)     TABLEAU DES ADRESSES              E/S 
-C          1.........ADRESSES NOEUDS
-C          2.........ADRESSES ELEMENTS
-C     ZYZM(6,*)    TABLEAU DES XYZMIN                E/S 
+C     ADD(2,*)     ARRAY OF ADRESSES              E/S 
+C          1.........ADRESSES NODES C          2.........ADRESSES ELEMENTS
+C     ZYZM(6,*)    ARRAY OF XYZMIN                E/S 
 C          1.........XMIN BOITE
 C          2.........YMIN BOITE
 C          3.........ZMIN BOITE
 C          4.........XMAX BOITE
 C          5.........YMAX BOITE
 C          6.........ZMAX BOITE
-C     IRECTM(2,*)  TABLEAU DES CONEC                 E
+C     IRECTM(2,*)  ARRAY OF CONEC                 E
 C          1.........NODE 1 main EDGE
 C          2.........NODE 2 main EDGE
-C     IRECTS(2,*)  TABLEAU DES CONEC                 E
-C          1.........NODE 1 SECND EDGE
-C          2.........NODE 2 SECND EDGE
+C     IRECTS(2,*)  ARRAY OF CONEC                 E
+C          1.........NODE 1 SECOND EDGE
+C          2.........NODE 2 SECOND EDGE
 C     X(3,*)       COORDONNEES NODALES               E
 C     II_STOK       contact pairs storage level
-C                                candidats impact    E/S
-C     CAND_S       boites resultats noeuds
-C     CAND_M       adresses des boites resultat elements
-C     NOINT        NUMERO USER DE L'INTERFACE
+C                                CANDIDATES impact    E/S
+C     CAND_S       boites resultats nodes C     CAND_M       adresses des boites resultat elements
+C     NOINT        INTERFACE USER NUMBER
 C     TZINF        TAILLE ZONE INFLUENCE
 C     VOXEL(*,*,*) VOXEL PARTIONNEMENT DE l'ESPACE (NBX+2,NBY+2,NBZ+2) 
 C                  stores secondary edges in each voxel
 C                  In practice designe the first stop on a chain list
 C     MAX_ADD      maximum address for chain arrays
 C     NSN4         4*NSN maximum size now allowed for the
-C                  COUPLES NOEUDS,ELT CANDIDATS
+C                  COUPLES NODES,ELT CANDIDATES
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -165,7 +163,7 @@ C
       ENDIF
 C  
       AAA = ZERO 
-      !ATTENTION A POPTIONMISER POUR NE PAS FAIRE ONE RAZ COMPLET SI NRTS ==0
+      !ATTENTION A POPTIONMISER FOR NE PAS TO PERFORM ONE RAZ COMPLETE SI NRTS ==0
       MIN_IX=NBX+2
       MIN_IY=NBY+2
       MIN_IZ=NBZ+2
@@ -345,8 +343,7 @@ C=======================================================================
 C 2   process remote edges. retrieve the 2 nodes of
 C    remote edges that are in the same voxels
 C
-C           a faire
-C
+C           a to perform C
 C=======================================================================
         DO I = NRTS+1,NRTS+NRTSR  !si besoin on peut inverser Main/Secnd       
 c            If (Stfs (i) == Zero) Cycle! We do not retain the destroyed facets, already done in SPMD_Mach :: SPMD_TRI11VOX

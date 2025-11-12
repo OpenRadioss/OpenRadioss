@@ -92,7 +92,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE :: TAB_REMOVE,TAB_STAY,TAB_NEWFCT,
      .                                      TAB_NEWFCTCUT,EL_CONNECT
 C-----------------------------------------------
-C   ARGUMENTS UTILISES NON PAS DANS CONTRL.F, MAIS DANS LECTUR.F
+C   ARGUMENTS USED NOT IN CONTRL.F, BUT IN LECTUR.F
 C-----------------------------------------------
       my_real, DIMENSION(:), ALLOCATABLE :: X_TMP,V_TMP,D_TMP,MS_TMP,WIGE_TMP
 C=======================================================================
@@ -100,7 +100,7 @@ C=======================================================================
 c ------------------------------------------------------------------------------------------
 C  definition of the sizes of the working arrays according to the number of elements
 C  added, the estimated number of functions added at first
-C  PUIS AUX TAILLES EXACTES NECESSAIRES DANS ONE SECOND TEMPS
+C  THEN TO EXACT SIZES REQUIRED IN A SECOND STEP
 c ------------------------------------------------------------------------------------------
 c
       IF(FLAG_PRE==0) THEN
@@ -110,7 +110,7 @@ c
         ALLOCATE (IDFILS(NBFILSMAX,NUMELIG3D0))
         ALLOCATE (TAB_REMOVE(ADDELIG3D*27)) ! should take into account the number of base elements and the number of added elements
         ALLOCATE (TAB_STAY(NINT(ADDELIG3D*27*0.5))) ! should take into account the number of base elements and the number of added elements
-        ALLOCATE (TAB_NEWFCT(NINT(ADDELIG3D*27*1.2))) ! POURRAIENT   TRE MIEUX DIMENSIONNES
+        ALLOCATE (TAB_NEWFCT(NINT(ADDELIG3D*27*1.2))) ! COULD BE BETTER DIMENSIONED
         ALLOCATE (MESHSURF(NBMESHSURF))
         ALLOCATE (GAMA(NUMNODIGE0+2*ADDELIG3D*27))
       ELSE
@@ -149,7 +149,7 @@ c
       ALLOCATE (EL_CONNECT(NUMELIG3D0+ADDELIG3D)) ! array containing a flag for the elements that have been modified
       EL_CONNECT(:)=0
 
-Cso an EL_CONNECT must be made in the TABCONPATCH structure and the connectivity tables must be redone by patch
+C So an EL_CONNECT must be made in the TABCONPATCH structure and the connectivity tables must be redone by patch
 c
 c ------------------------------------------------------------------------------------------
 C  initialization of the actual sizes of the arrays and working variables
@@ -170,7 +170,7 @@ c
 c ------------------------------------------------------------------------------------------
 C construction of local knot spans for each control point, for all patches
 c of the connectivities of the elements, and of the patches
-C NB : OPTIMISER CES STRUCTURES PAR PATCH POUR KNOTLOCP SANS CASES VIDES
+C NB : OPTIMIZE THESE STRUCTURES BY PATCH FOR KNOTLOCP WITHOUT EMPTY CASES
 c ------------------------------------------------------------------------------------------
 c
 c! vectorize possible with some modifications
@@ -526,7 +526,7 @@ C
       ENDDO ! loop over the patches
 c
 CC----------------------------------------------------------------------------------------------
-Cdeallocation of the structures defining the cuts
+C Deallocation of the structures defining the cuts
 CC----------------------------------------------------------------------------------------------
 c
       DO I=1,NBMESHSURF
@@ -539,8 +539,8 @@ c
       DEALLOCATE(MESHSURF)
 c
 CC----------------------------------------------------------------------------------------------
-CC     TEST A POSTERIORI DES FONCTIONS ET DES ELEMENTS. NE TESTE PAS DIRECTEMENT S'IL EXISTE
-Celements with too many functions, but allows to see if there is any issue
+CC     A POSTERIORI TEST OF FUNCTIONS AND ELEMENTS. DOES NOT DIRECTLY TEST IF THERE EXISTS
+C elements with too many functions, but allows to see if there is any issue
 CC----------------------------------------------------------------------------------------------
 c
       IF(FLAG_DEBUG==1) THEN

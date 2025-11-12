@@ -86,7 +86,7 @@ C optimisation spmd
       IF (M<0) RETURN
       NSN  =NBY(2)
 C------------------------------------------------------------
-C      CORRECTION DE L'ENERGIE CINETIQUE time = t
+C      CORRECTION OF KINETIC ENERGY at time = t
 C------------------------------------------------------------
       IF(IMPL_S>0.AND.IDYNA==0)THEN
        IF(ISENS==0)THEN

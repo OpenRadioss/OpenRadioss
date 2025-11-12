@@ -3293,7 +3293,7 @@ C-----------------------------------------------------
                   DO K=1,JLT
                     IF(PENE(K) == ZERO)CYCLE
 C pay attention to the signs for the accumulation of forces
-C a rendre conforme avec CFORC3
+C a rendre conforme with CFORC3
                     IF(SECFCUM(4,IX1(K),I)==1.)THEN
                       SECFCUM(1,IX1(K),I)=SECFCUM(1,IX1(K),I)-FX1(K)
                       SECFCUM(2,IX1(K),I)=SECFCUM(2,IX1(K),I)-FY1(K)

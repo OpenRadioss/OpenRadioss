@@ -790,7 +790,7 @@ C
 C-------------------------
 C ALGORITME V14
 C-------------------------
-C Tableau noeuds-segments
+C Node-segment table
 C-------------------------
         ALLOCATE (NODSEG(NNO,5))
         DO I=1,NNO
@@ -816,8 +816,8 @@ C-------------------------
         ENDDO
 C-------------------------------------------
 C Sorting of nodes
-C     4 segments :  2 internes + 2 externes
-C     3 segments :  3 internes
+C     4 segments:  2 internal + 2 external
+C     3 segments:  3 internal
 C     3 segments: 1 internal + 2 external
 C Testing and moving internal segments to the front
 C-------------------------------------------
@@ -980,7 +980,7 @@ C---------------------------------------------------------------------------
         ENDDO
         ICMAX=0
 C-----------------------------
-C Noeud connecte a 4 segments
+C Node connected to 4 segments
 C-----------------------------
         DO I=1,NNO
            IF(NODSEG(I,1) /= 4) CYCLE
@@ -1209,7 +1209,7 @@ C-------------------------------------
            JSEG(3)=NODSEG(I,4)
            IF(ISEG(5,JSEG(3)) == 0) CYCLE
 C
-C Normale au 1er segment interne
+C Normal to the 1st internal segment
            I1=JSEG(1)
            NN=ELSEG(I1,1)
            NX=NORMT(1,NN)
@@ -1424,7 +1424,7 @@ C
            ENDIF
         ENDDO
 C----------------
-C Order polygones 
+C Order polygons 
 C----------------
         IAD=0
         DO I=1,NPOLY
@@ -1657,7 +1657,7 @@ C Polygon j is a hole in polygon i
                   ENDDO
                ENDIF
                LENPOLY(I)=LENPOLY(I)+LENPOLY(J)
-C Polygone interior j.
+C Interior polygon j.
                VX1=QUAD(1,2)-QUAD(1,1)
                VY1=QUAD(2,2)-QUAD(2,1)
                VZ1=QUAD(3,2)-QUAD(3,1)

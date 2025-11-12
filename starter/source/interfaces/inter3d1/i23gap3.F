@@ -89,7 +89,7 @@ C--------------------------------------------------------------
       GAPMX=EP30
       GAPMN=EP30
 C------------------------------------
-C     GAP VARIABLE NOEUDS SECONDS
+C     GAP VARIABLE NODES SECONDS
 C------------------------------------
       IF(IGAP>=1)THEN
         DO I=1,NUMNOD

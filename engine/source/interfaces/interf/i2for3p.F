@@ -759,7 +759,7 @@ C     REAL
      .   XC0,YC0,ZC0,SP,SM,TP,TM,XC,YC,ZC,
      .   STF,AI,H(4),H2(4)
 C-----------------------------------------------
-C     MINER(II) initialise a MS(J) dans resol_init
+C     MINER(II) initialise a MS(J) in resol_init
       IF(ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER >0) THEN
         DO II=1,NMN
           J=MSR(II)
@@ -1276,7 +1276,7 @@ C     REAL
 C=======================================================================
 C specific processing for dmas
 C
-C MMASS(II) initialise a MS(J) a t=0 dans starter
+C MMASS(II) initialise a MS(J) a t=0 in starter
       IF(ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS >0.AND.ILEV==1) THEN
         DO II=1,NMN
           J=MSR(II)
@@ -1285,11 +1285,11 @@ C MMASS(II) initialise a MS(J) a t=0 dans starter
       ENDIF
 C------------------------------
 C     forces and moments of secondary nodes
-C     TRANSMIS AUX NOEUDS MAINS SOUS
+C     TRANSMIS AUX NODES MAINS SOUS
 C     force shape
 C
 C     masses and inertias of secondary nodes
-C     TRANSMISES AUX NOEUDS MAINS SOUS
+C     TRANSMISES AUX NODES MAINS SOUS
 C     mass shape
 C------------------------------
 C
@@ -1416,7 +1416,7 @@ C
             MR=DET*INX*MAX(MRX,MRY,MRZ)
 C
 C------------------------------------------------------
-C     MASSES & FORCES TRANSMISES AUX NOEUDS MAINS
+C     MASSES & FORCES TRANSMISES AUX NODES MAINS
 C------------------------------------------------------
             IF(ILEV==1)THEN
               XMSI=FOURTH*XMSI+MR

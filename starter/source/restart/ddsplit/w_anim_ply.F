@@ -131,7 +131,7 @@ C Ply shells
         CALL WRITE_I_C(ELNUM     , ELSZ_L)
         CALL WRITE_I_C(ELEMIPT   , ELSZ_L)
         CALL WRITE_I_C(ELEMXFEMID, ELSZ_L)
-C noeuds ply
+C ply nodes
         CALL WRITE_I_C(NDSZ_L    , 1     )
         CALL WRITE_I_C(NODNUM    , NDSZ_L)
         CALL WRITE_I_C(NODEXTN   , NDSZ_L)

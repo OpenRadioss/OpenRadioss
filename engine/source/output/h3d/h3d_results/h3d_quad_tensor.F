@@ -191,7 +191,7 @@ C-----------------------------------------------
 C---------------------------------------------
 C     in 2d the stresses are:
 C     1=YY 2=ZZ 3=TT 4=YZ 5=0 6=0
-C     EN CONTRADICTION AVEC X=T
+C     IN CONTRADICTION WITH X=T
 C---------------------------------------------
 c ILAYER=NULL IR=NULL IS=NULL IT=NULL
               IF( ILAY == -1 .AND. IR == -1 .AND. IS == -1 .AND. IT == -1 )THEN

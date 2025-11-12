@@ -163,12 +163,12 @@ c       FZN=FZN+FNZN*WEIGHT(N)
         FRIC =RWL(13)
         FRIC2=FRIC**2
         IF(FTDFT<=FRIC2*FNDFN.OR.ITIED==1) THEN
-C         POINT SECND TIED
+C         SECONDARY NODE TIED
           V(N1)=VXW
           V(N2)=VYW
           V(N3)=VZW
         ELSE
-C         POINT SECND SLIDING
+C         SECONDARY NODE SLIDING
           FCOE=FRIC*SQRT(FNDFN/FTDFT)
           FNXT=FCOE*FNXT
           FNYT=FCOE*FNYT
@@ -202,7 +202,7 @@ c        FZT=ZERO
        W(N3)=W(N3)-DV*RWL(3)
  20   CONTINUE
 C
-C Traitement Parith/ON
+C Parith/ON processing
 C
       IF (MSR/=0) THEN
         DO K = 1, 6

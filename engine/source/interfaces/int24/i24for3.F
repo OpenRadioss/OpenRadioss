@@ -3688,7 +3688,7 @@ C In SPMD: Treatment to be redone after reception node Remote if JG <0
                         ENDIF
                       ENDIF
                     ELSE
-C Noeud Remote
+C Node Remote
                       JG=-JG
                       IF(ISEDGE_FI(NIN)%P(JG)==1)THEN
                         IF(SECFCUM(4,JG,I)==1.)THEN
@@ -3847,7 +3847,7 @@ C
         IF (H4(I)/=ZERO.OR.TAGIP(I)==1) NISKYL1 = NISKYL1 + 1
       ENDDO
 C
-C Precalcul impact locaux / remote
+C Precalcul impact local / remote
 C
       IGP = 0
       IGM = 0

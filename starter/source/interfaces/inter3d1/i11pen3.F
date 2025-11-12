@@ -130,7 +130,7 @@ C
        ALM=MIN(ONE,MAX(ZERO,ALM))
 
 C !!!!!!!!!!!!!!!!!!!!!!!
-C  PENE = GAP^2 - DIST^2 UTILISE POUR TESTER SI NON NUL
+C  PENE = GAP^2 - DIST^2 USED TO TEST IF NON-NULL
 C!!!!!!!!!!!!!!!!!!!!!!!!
        XX =  ALS*X(1,N1) + (1.-ALS)*X(1,N2)
      .      - ALM*X(1,M1) - (1.-ALM)*X(1,M2)
@@ -240,7 +240,7 @@ C
        ALM=MIN(ONE,MAX(ZERO,ALM))
 
 C !!!!!!!!!!!!!!!!!!!!!!!
-C  PENE = GAP^2 - DIST^2 UTILISE POUR TESTER SI NON NUL
+C  PENE = GAP^2 - DIST^2 USED TO TEST IF NON-NULL
 C!!!!!!!!!!!!!!!!!!!!!!!!
        XX =  ALS*X(1,N1) + (1.-ALS)*X(1,N2)
      .      - ALM*X(1,M1) - (1.-ALM)*X(1,M2)

@@ -75,11 +75,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 c
 c      r=26 (foat_to_6_float): number of bits for the carry
-c         authorizes to make 2^R + ~ = 67,000,000.
+c         allows to make 2^R + ~ = 67,000,000.
 c
-c      m1: masque 1
+c      m1: mask 1
 c      ...
-c      m6: masque 6
+c      m6: mask 6
 c
 c      m2 = m1 - 53 + r
 c      m3 = m2 - 53 + r
@@ -87,7 +87,7 @@ c      m4 = m3 - 53 + r
 c      m5 = m4 - 53 + r
 c      m6 = m5 - 53 + r
 c
-c      si r= 26 : mi = mi-1 - 27
+c      if r= 26 : mi = mi-1 - 27
 c
 c      f1 = (f + 2^m1) - 2^m1
 c       b = f - f1
@@ -97,20 +97,20 @@ c      f3 = (d + 2^m3) - 2^m3
 c      f4 = ((d - f3) + 2^m4) - 2^m4
 c      ...
 c--------- calculation of fmax, fmin
-c      fmax avec r bits  zero = 2^(m1-r)
+c      fmax with r bits  zero = 2^(m1-r)
 c
 c      Fmin with 53 significant bits = 2^m6
 c      Fmin with 1 significant bits = 2^(M6-53)
 c
 c-------- FMAX, fmin after expression
-c      fmax avec r bits  zero ~= 2^(m1-2r)
+c      fmax with r bits  zero ~= 2^(m1-2r)
 c
 c      Fmin with 53 significant bits ~ = 2^(M6-R)
 c      Fmin with 1 significant bits ~ = 2^(M6-53-R)
 c
 c 6 float r=26 m1=89 m6=-46
 c 
-c      fmax avec r bits  zero ~= 2^37 = 
+c      fmax with r bits  zero ~= 2^37 = 
 c      Fmin with 53 significant bits ~ = 2^(M6-R)
 c      Fmin with 1 significant bits ~ = 2^(M6-53-R)
 c-------------------------------------------------------
@@ -237,11 +237,11 @@ C     REAL
 C-----------------------------------------------
 c
 c      r=26 (foat_to_6_float): number of bits for the carry
-c         authorizes to make 2^R + ~ = 67,000,000.
+c         allows to make 2^R + ~ = 67,000,000.
 c
-c      m1: masque 1
+c      m1: mask 1
 c      ...
-c      m6: masque 6
+c      m6: mask 6
 c
 c      m2 = m1 - 53 + r
 c      m3 = m2 - 53 + r
@@ -249,7 +249,7 @@ c      m4 = m3 - 53 + r
 c      m5 = m4 - 53 + r
 c      m6 = m5 - 53 + r
 c
-c      si r= 26 : mi = mi-1 - 27
+c      if r= 26 : mi = mi-1 - 27
 c
 c      f1 = (f + 2^m1) - 2^m1
 c       b = f - f1
@@ -259,20 +259,20 @@ c      f3 = (d + 2^m3) - 2^m3
 c      f4 = ((d - f3) + 2^m4) - 2^m4
 c      ...
 c--------- calculation of fmax, fmin
-c      fmax avec r bits  zero = 2^(m1-r)
+c      fmax with r bits  zero = 2^(m1-r)
 c
 c      Fmin with 53 significant bits = 2^m6
 c      Fmin with 1 significant bits = 2^(M6-53)
 c
 c-------- FMAX, fmin after expression
-c      fmax avec r bits  zero ~= 2^(m1-2r)
+c      fmax with r bits  zero ~= 2^(m1-2r)
 c
 c      Fmin with 53 significant bits ~ = 2^(M6-R)
 c      Fmin with 1 significant bits ~ = 2^(M6-53-R)
 c
 c 6 float r=26 m1=89 m6=-46
 c 
-c      fmax avec r bits  zero ~= 2^37 = 
+c      fmax with r bits  zero ~= 2^37 = 
 c      Fmin with 53 significant bits ~ = 2^(M6-R)
 c      Fmin with 1 significant bits ~ = 2^(M6-53-R)
 c-------------------------------------------------------
@@ -365,11 +365,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 c
 c      r=29 (foat_to_7_float): number of bits for the carry
-c         authorizes to make 2^R + ~ = 537,000,000.
+c         allows to make 2^R + ~ = 537,000,000.
 c
-c      m1: masque 1
+c      m1: mask 1
 c      ...
-c      m6: masque 6
+c      m6: mask 6
 c
 c      m2 = m1 - 53 + r
 c      m3 = m2 - 53 + r
@@ -378,7 +378,7 @@ c      m5 = m4 - 53 + r
 c      m6 = m5 - 53 + r
 c      m7 = m6 - 53 + r
 c
-c      si r= 29 : mi = mi-1 - 24
+c      if r= 29 : mi = mi-1 - 24
 c
 c      f1 = (f + 2^m1) - 2^m1
 c       b = f - f1
@@ -388,15 +388,15 @@ c      f3 = (d + 2^m3) - 2^m3
 c      f4 = ((d - f3) + 2^m4) - 2^m4
 c      ...
 c--------- calculation of fmax, fmin
-c          calcul 
-c      fmax avec 0 bits  zero = 2^m1
-c      fmax avec r bits  zero = 2^(m1-r)
+c          calculation 
+c      fmax with 0 bits  zero = 2^m1
+c      fmax with r bits  zero = 2^(m1-r)
 c
 c      Fmin with 53 significant bits = 2^m7
 c      Fmin with 1 significant bits = 2^(m7+53)
 c
 c      fmax with 0 bits zero = 5. 10^27
-c      fmax avec r bits  zero = 9. 10^18
+c      fmax with r bits  zero = 9. 10^18
 c      Fmin with 53 significant bits ~ = 2.2 10^-16
 c      Fmin with 1 significant bits ~ = 2.4 10^-32
 c-------------------------------------------------------
@@ -555,11 +555,11 @@ C     REAL
 C-----------------------------------------------
 c
 c      r=26 (foat_to_6_float): number of bits for the carry
-c         authorizes to make 2^R + ~ = 67,000,000.
+c         allows to make 2^R + ~ = 67,000,000.
 c
-c      m1: masque 1
+c      m1: mask 1
 c      ...
-c      m6: masque 6
+c      m6: mask 6
 c
 c      m2 = m1 - 53 + r
 c      m3 = m2 - 53 + r
@@ -567,7 +567,7 @@ c      m4 = m3 - 53 + r
 c      m5 = m4 - 53 + r
 c      m6 = m5 - 53 + r
 c
-c      si r= 26 : mi = mi-1 - 27
+c      if r= 26 : mi = mi-1 - 27
 c
 c      f1 = (f + 2^m1) - 2^m1
 c       b = f - f1
@@ -577,20 +577,20 @@ c      f3 = (d + 2^m3) - 2^m3
 c      f4 = ((d - f3) + 2^m4) - 2^m4
 c      ...
 c--------- calculation of fmax, fmin
-c      fmax avec r bits  zero = 2^(m1-r)
+c      fmax with r bits  zero = 2^(m1-r)
 c
 c      Fmin with 53 significant bits = 2^m6
 c      Fmin with 1 significant bits = 2^(M6-53)
 c
 c-------- FMAX, fmin after expression
-c      fmax avec r bits  zero ~= 2^(m1-2r)
+c      fmax with r bits  zero ~= 2^(m1-2r)
 c
 c      Fmin with 53 significant bits ~ = 2^(M6-R)
 c      Fmin with 1 significant bits ~ = 2^(M6-53-R)
 c
 c 6 float r=26 m1=89 m6=-46
 c 
-c      fmax avec r bits  zero ~= 2^37 = 
+c      fmax with r bits  zero ~= 2^37 = 
 c      Fmin with 53 significant bits ~ = 2^(M6-R)
 c      Fmin with 1 significant bits ~ = 2^(M6-53-R)
 c-------------------------------------------------------
@@ -712,11 +712,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 c
 c      r=26 (foat_to_6_float): number of bits for the carry
-c         authorizes to make 2^R + ~ = 67,000,000.
+c         allows to make 2^R + ~ = 67,000,000.
 c
-c      m1: masque 1
+c      m1: mask 1
 c      ...
-c      m6: masque 6
+c      m6: mask 6
 c
 c      m2 = m1 - 53 + r
 c      m3 = m2 - 53 + r
@@ -724,7 +724,7 @@ c      m4 = m3 - 53 + r
 c      m5 = m4 - 53 + r
 c      m6 = m5 - 53 + r
 c
-c      si r= 26 : mi = mi-1 - 27
+c      if r= 26 : mi = mi-1 - 27
 c
 c      f1 = (f + 2^m1) - 2^m1
 c       b = f - f1
@@ -734,20 +734,20 @@ c      f3 = (d + 2^m3) - 2^m3
 c      f4 = ((d - f3) + 2^m4) - 2^m4
 c      ...
 c--------- calculation of fmax, fmin
-c      fmax avec r bits  zero = 2^(m1-r)
+c      fmax with r bits  zero = 2^(m1-r)
 c
 c      Fmin with 53 significant bits = 2^m6
 c      Fmin with 1 significant bits = 2^(M6-53)
 c
 c-------- FMAX, fmin after expression
-c      fmax avec r bits  zero ~= 2^(m1-2r)
+c      fmax with r bits  zero ~= 2^(m1-2r)
 c
 c      Fmin with 53 significant bits ~ = 2^(M6-R)
 c      Fmin with 1 significant bits ~ = 2^(M6-53-R)
 c
 c 6 float r=26 m1=89 m6=-46
 c 
-c      fmax avec r bits  zero ~= 2^37 = 
+c      fmax with r bits  zero ~= 2^37 = 
 c      Fmin with 53 significant bits ~ = 2^(M6-R)
 c      Fmin with 1 significant bits ~ = 2^(M6-53-R)
 c-------------------------------------------------------

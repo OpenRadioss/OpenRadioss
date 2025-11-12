@@ -215,7 +215,7 @@ C barrier in all cases for bminma [and cur_max_max]
 C
       CALL MY_BARRIER
 C -------------------------------------------------------------
-C     CALCUL BORNE DOMAINE REMONTE DANS I7XSAVE
+C     CALCULATION BORNE DOMAINE REMONTE IN I7XSAVE
 C -------------------------------------------------------------
 C eshift: shift on cand_e
       CALL I7XSAVE(

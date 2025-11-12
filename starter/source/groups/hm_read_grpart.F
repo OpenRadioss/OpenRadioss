@@ -87,7 +87,7 @@ C-----------------------------------------------
 C    IGRPART(IGS)%ID : GROUP identifier
 C    IGRPART(IGS)%TITLE : GROUP title
 C    IGRPART(IGS)%NENTITY : Entities (parts) number of the GROUP
-C    IGRPART(IGS)%GRTYPE : TYPE ( 0-NOEUDS, 1-BRIC, 2-QUAD,   3-SHELL_4N,
+C    IGRPART(IGS)%GRTYPE : TYPE ( 0-NODES, 1-BRIC, 2-QUAD,   3-SHELL_4N,
 !                                4-TRUSS,  5-BEAM, 6-SPRINGS,7-SHELL_3N,
 C                               -1 PARTS)
 !!                   GRTYPE --- > OBSOLETE
@@ -178,7 +178,7 @@ C             group of parts in a submodel
                 IGRPART(IGS)%GRPGRP=5
               ENDIF
             ELSEIF(KEY(1:8) == 'GEN_INCR' )THEN
-C            groupe d'elements gen_inc first last offset
+C            group of elements gen_inc first last offset
               IT5=IT5+1
               IF (FLAG == 0) THEN
                 IGRPART(IGS)%NENTITY=0

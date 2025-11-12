@@ -151,7 +151,7 @@ C
         RBYM(28,NR) = RBYM(28,NR) + (STIFR(I + KK) + DD*STIFN(I + KK))
       END DO        
 C----------------------------------------------------------------
-C     CALCUL DU REPERE D'INERTIE PRINCIPALE
+C     COMPUTATION OF THE PRINCIPAL INERTIA FRAME
 C----------------------------------------------------------------
           CALL INEPRI(RBY(10),RBY)
 c          IF(ISPH == 1)THEN

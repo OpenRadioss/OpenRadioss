@@ -738,7 +738,7 @@ C-----------------------------------------------
 !       TYP25_USE : integer, interface typ25 marker --> TYP25_USE = 1 if
 !                   an interface 25 is used, O otherwise!
 !       NBR_INSERT_II : integer, dimension = NRTM , number of inserted nodes for each II segment
-!       ADRESS_II : integer, dimension = NRTM , adress of the first inserted nodes for each II segment
+!       ADRESS_II : integer, dimension = NRTM , address of the first inserted nodes for each II segment
 !       KREMNODE_SAVE : integer, dimension = NRTM+1 , list of old nodes
 !       SIZE_INSERTED_NODE : integer, size of the INSERTED_NODE array ; SIZE_INSERTED_NODE is an upper bound, 
 !                            can be optimized!
@@ -821,9 +821,9 @@ C-------tag int2 nodes------
 !           1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
 !
 !           inserted nodes : 
-!           3 nodes for ii=1 ; adress of the 1st one = 3 ; iad1(1) --> iad1(3)
-!           1 nodes for ii=4 ; adress of the 1st one = 7 ; iad2(1) --> iad2(1)
-!           6 nodes for ii=1 ; adress of the 1st one = 10 ; iad3(1) --> iad3(6)
+!           3 nodes for ii=1 ; address of the 1st one = 3 ; iad1(1) --> iad1(3)
+!           1 nodes for ii=4 ; address of the 1st one = 7 ; iad2(1) --> iad2(1)
+!           6 nodes for ii=1 ; address of the 1st one = 10 ; iad3(1) --> iad3(6)
 !
 !           First insertion iad1 :
 !           1 | 2 | iad1(1) | 3 | 4 | 5 | 6 | 7 | 8 | 9
@@ -1009,7 +1009,7 @@ C extend INSERTED_NODE if needed
                                 NBR_INSERT_II(II) = NNREM - NNREM_SAVE
                                 KREMNODE_SAVE(II) = KREMNODE_SAVE(II+1) - KREMNODE_SAVE(II)
                                 IADA = IADA + KREMNODE_SAVE(II)
-                                !   adress of the first inserted node
+                                !   address of the first inserted node
                                 ADRESS_II(II) = IADA
                                 KREMNODE_SAVE(II) = IADA + NBR_INSERT_II(II) - 1
                                 IADA = IADA + NBR_INSERT_II(II)

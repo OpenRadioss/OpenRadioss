@@ -117,7 +117,7 @@ C    IGRELEM(IGS)%LEVEL  : Hierarchy level
 !                            = 0 ---> not yet initialized
 !                            = 1 ---> done
 C-----------------------------------------------
-C     LECTURE DES GROUPES D'ELEMENTS
+C     READING ELEMENT GROUPS
 C=======================================================================
 C-----------------------------------------------
 C     BRICK

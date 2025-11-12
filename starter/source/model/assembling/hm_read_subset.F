@@ -107,7 +107,7 @@ C  SUBSET(ISU)%ID  ::SUBSET identifier
 C  SUBSET(ISU)%TITLE  : SUBSET title
 C  SUBSET(ISU)%TH_FLAG : TIME HISTORY flag
 C  SUBSET(ISU)%PARENT : SUBSET PARENT
-C  SUBSET(ISU)%NCHILD : SUBSETS number of childs
+C  SUBSET(ISU)%NCHILD : SUBSETS number of children
 C  SUBSET(ISU)%NPART : SUBSET number of part (within one subset)
 C  SUBSET(ISU)%NTPART : Total number of parts (within parent subset)
 C  SUBSET(ISU)%THIAD : IAD for global ITHBUF storage variables

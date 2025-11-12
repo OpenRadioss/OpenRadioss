@@ -314,7 +314,7 @@ c        GMAX = TWO*GMAX
         SDG0(1:NEL,1:6) = UVAR(1:NEL,1:6)
         DO I=1,NEL 
 C 
-C compute SD ---> glabal repere
+C compute SD ---> global frame
 C
            SDG(I,1)   =  DIRPRV(I,1,1)*DIRPRV(I,1,1)*SD(I,1)
      .               + DIRPRV(I,1,2)*DIRPRV(I,1,2)*SD(I,2)

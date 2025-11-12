@@ -1107,7 +1107,7 @@ C--- INterface Friction model
       INTEGER, DIMENSION(:), ALLOCATABLE :: TAG_NM,INDX_NM
       INTEGER, DIMENSION(:), ALLOCATABLE :: TAG_SCRATCH,INDX_SCRT
 C FLEXIBLE BODY
-      INTEGER  FXB_LAST_ADRESS(10)
+      INTEGER  FXB_LAST_ADDRESS(10)
       CHARACTER, DIMENSION(:), ALLOCATABLE :: FXBFILE_TAB*2148
 C
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*
@@ -5613,7 +5613,7 @@ C------------------------------------------------------------------------
 C
 CXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 C
-C 100 return adress for domain decomposition after reading of contact interfaces or AMS element selection
+C 100 return address for domain decomposition after reading of contact interfaces or AMS element selection
 C
 CXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -6029,7 +6029,7 @@ C Buffer Max (super group)
 C
       WRITE(ISTDO,'(A)')TITRE(37)
 C---------------------------------
-C-  PRE TRI + SUPER GROUPES
+C-  PRE-SORTING + SUPER GROUPS
 C---------------------------------
       NGR_SOL = 0
       IF(NUMELS/=0) THEN
@@ -6161,7 +6161,7 @@ C---- COQUES
 C
       IF(NUMELC/=0) THEN
 C---------------------------------
-C-  PRE TRI + SUPER GROUPES
+C-  PRE-SORTING + SUPER GROUPS
 C---------------------------------
        K0 = 1
        K1 = 9*NUMELC
@@ -6395,7 +6395,7 @@ C
 C
       IF(NUMELTG/=0) THEN
 C---------------------------------
-C-  PRE TRI + SUPER GROUPES
+C-  PRE-SORTING + SUPER GROUPS
 C---------------------------------
        K1 = 10*NUMELTG
        K2 = 12*NUMELTG
@@ -7716,7 +7716,7 @@ C read /INIBRI/FILL before interfaces stiffness
 
 C
 C fill interface structure to be used by sorting 
-c set INTERCEP for INT7 only to avoid bug with INT20 dur to renumerotation
+c set INTERCEP for INT7 only to avoid bug with INT20 due to renumbering
 c in I20NLG (other interface types still done in SET_INTERCEP)
         CALL FILL_INTERCEP(IPARI,INTBUF_TAB,INTERCEP)
 C
@@ -8012,7 +8012,7 @@ C---------------------------------
 C---------------------------------
 #ifdef DNC
 C--------------------------------------------
-C     READING and PREPARATION OF FINITE ELEMENTS TO SEND TO MADYMO :
+C     READING AND PREPARATION OF FINITE ELEMENTS TO SEND TO MADYMO:
 C     "EXTENDED COUPLING".
 C--------------------------------------------
       ERR_MSG='MADYMO INTERFACED FEM'
@@ -8165,7 +8165,7 @@ C
 C
          CALL HM_READ_FXB2(FXBIPM,  FXBRPM, FXBNOD, FXBGLM,
      .                FXBCPM,   FXBCPS,  FXBLM,  FXBFLS, FXBDLS,
-     .                FXBMOD, ITAB    , ITABM1 , NOM_OPT(LNOPT1*INOM_OPT(11)+1),FXB_LAST_ADRESS,
+     .                FXBMOD, ITAB    , ITABM1 , NOM_OPT(LNOPT1*INOM_OPT(11)+1),FXB_LAST_ADDRESS,
      .                LSUBMODEL)
 C
 C
@@ -8683,7 +8683,7 @@ C
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
 C
 C----------------------------------
-C   READING OF INITIAL STATE DATA
+C -- READING OF INITIAL STATE DATA
 C----------------------------------
 C
       ALLOCATE(SIGI(NSIGS,LSIGI)                  ,STAT=stat)
@@ -8791,7 +8791,7 @@ C
      &            IGRQUAD    , IGRSH4N        , IGRSH3N          , IGRPART            , TOTMAS   ,
      &            KNOTLOCPC  , KNOTLOCEL      , VNIGE            , BNIGE              , FXBGLM   ,
      &            FXBCPM     , FXBCPS         , FXBLM            , FXBFLS             , FXBDLS   ,
-     &            FXB_MATRIX , FXB_MATRIX_ADD , FXB_LAST_ADRESS  , INOM_OPT(11)       , R_SKEW   ,
+     &            FXB_MATRIX , FXB_MATRIX_ADD , FXB_LAST_ADDRESS  , INOM_OPT(11)       , R_SKEW   ,
      &            KNOD2EL1D  , NOD2EL1D       , EBCS_TAB         , RBY_INIAXIS        , ALEA     ,
      &            KNOD2ELC   , NOD2ELC        , DR               , SLRBODY            , DRAPEG   ,
      &            IPARI      , INTBUF_TAB     , INTERFACES       , MAT_ELEM%MAT_PARAM ,
@@ -9091,13 +9091,13 @@ c-----
         ENDIF
 c-----
 c       local numbering of ghost nodes and elements of xfem parts
-c       IEL_CRKXFEM  : local system numerotation of Xfem shells
-c       INOD_CRKXFEM : local system numerotation of Xfem nodes
+c       IEL_CRKXFEM  : local system numbering of Xfem shells
+c       INOD_CRKXFEM : local system numbering of Xfem nodes
 c--------------------------------------------------
 c       build local Xfem node and element tables
         CALL PRETAG_XFEM(IPARG  ,ITAGE   ,IEL_CRKXFEM,ITAGN   ,INOD_CRKXFEM)
 c
-c       build xfem sky adress table
+c       build xfem sky address table
         CALL PRECRKXFEM(IPARG ,IXC  ,IXTG   ,NCRKXFE ,
      .                  IEL_CRKXFEM ,INOD_CRKXFEM    ,ADDCNE_CRKXFEM)
 c--------------------------------------------------

@@ -119,7 +119,7 @@ C------------------------------------------
         ENDDO
       END IF ! FISOKIN > 0
 C---------------------------
-C     CONTRAINTES ELASTIQUES
+C     ELASTIC STRESSES
 C---------------------------
       DO I = 1,NEL
         SIGNXX(I)=SIGNXX(I)+A1*DEPSXX(I)+A2*DEPSYY(I)
@@ -194,11 +194,11 @@ C-----------------------------------
         YLD(I)= MIN(YLD(I),YMAX(I))
       ENDDO
 C------------------------------------------
-C     CONTRAINTES PLASTIQUEMENT ADMISSIBLES
+C     PLASTICALLY ADMISSIBLE STRESSES
 C------------------------------------------
       IF (IPLA == 0) THEN
 C-------------------
-C     CONTRAINTE VM
+C     VM STRESS
 C-------------------
         DO I = 1,NEL
           SVM(I)=SQRT(SIGNXX(I)*SIGNXX(I)
@@ -266,7 +266,7 @@ C-------------------------
           RETURN
         END IF !(NINDX==0) THEN
 C---------------------------
-C    DEP EN CONTRAINTE PLANE
+C    DEP IN PLANE STRESS
 C---------------------------
 #include "vectorize.inc" 
         DO  J=1,NINDX
@@ -361,7 +361,7 @@ C-----just keep at least old performance--to update H(I) inside iteration for im
           ENDDO ! DO N=1,NMAX
         ENDIF ! FISOKIN > 0
 C------------------------------------------
-C     CONTRAINTES PLASTIQUEMENT ADMISSIBLES
+C     PLASTICALLY ADMISSIBLE STRESSES
 C------------------------------------------
 #include "vectorize.inc" 
         DO J=1,NINDX

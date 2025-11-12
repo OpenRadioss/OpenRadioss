@@ -1840,7 +1840,7 @@ C
         ENDIF
       ENDDO
 
-c     noeuds matre
+c     nodes matre
 
       CALL FOAT_TO_6_FLOAT(1  ,JLT  ,FX1, FX6)
       CALL FOAT_TO_6_FLOAT(1  ,JLT  ,FY1, FY6)
@@ -2332,7 +2332,7 @@ c To be done here or in i20buce_cript if (Penia (5, i) /= zero) nacti = nacti+1
         ENDDO
       ENDIF
 C----------------------------------------------------------------------
-C     NOEUDS MAIN SECONDARY edge
+C     NODES MAIN SECONDARY edge
 C----------------------------------------------------------------------
 
       ECONTT = ZERO
@@ -3133,7 +3133,7 @@ C=======================================================================
 #include "lockoff.inc"
 C=======================================================================
 C     set forces to zero on master and secondary nodes
-C     si PENE (su noeud second) < GAPR (gap reel)
+C     si PENE (su node second) < GAPR (gap reel)
 C=======================================================================
 C=======================================================================
 C     forces on master and secondary nodes

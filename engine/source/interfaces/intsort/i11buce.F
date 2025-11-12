@@ -215,7 +215,7 @@ C Reduction of the number of voxels
 
 C
 C     I_MEM = 1 ==> N/A
-C     I_MEM = 2 ==> PAS ASSEZ DE MEMOIRE CANDIDATS
+C     I_MEM = 2 ==> PAS ASSEZ DE MEMOIRE CANDIDATES
 C     I_MEM = 3 ==> N/A
 
 
@@ -490,7 +490,7 @@ C --- --- ---   100 CONTINUE
 C --- --- --- 
 C --- --- --- C
 C --- --- --- C     I_MEM = 1 ==> N/A
-C --- --- --- C     I_MEM = 2 ==> PAS ASSEZ DE MEMOIRE CANDIDATS
+C --- --- --- C     I_MEM = 2 ==> PAS ASSEZ DE MEMOIRE CANDIDATES
 C --- --- --- C     I_MEM = 3 ==> N/A
 C --- --- --- 
 C --- --- ---       IF (I_MEM == 2) RETURN

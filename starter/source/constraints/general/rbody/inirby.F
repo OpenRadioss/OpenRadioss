@@ -182,7 +182,7 @@ C-----INITIAL COORDINATES ARE STORED FOR INIVEL/AXIS correction
         ENDDO
       ENDIF
 
-C-----CDG DES NOEUDS SECONDS + MAIN
+C-----CDG DES NODES SECONDS + MAIN
       IF(ICDG==1)THEN
         MASRB=MS(M)
         DO J=1,3
@@ -597,7 +597,7 @@ C--------------------------------------
             RBY(9,NRB)=RBY(9,NRB)+RBY(9,I)+YY*RBY(14,I)
            ENDIF !N2D
           ENDIF   
-c         mise a zero des donnees rb SECONDARY
+c         set a zero des donnees rb SECONDARY
           RBY(1:15,I)=ZERO           
           IN(M_I)=ZERO 
           MS(M_I)=ZERO    
@@ -715,7 +715,7 @@ C
         ENDIF
 
 C----------------------------------------------------------------
-C     CALCUL DU REPERE D'INERTIE PRINCIPALE
+C     CALCULATION DU frame D'INERTIE PRINCIPALE
 C----------------------------------------------------------------
         IF(N2D == 1) THEN
           RBY(10,NRB) = RBY(1,NRB)
@@ -841,7 +841,7 @@ C
       DEALLOCATE(IN_LOC)
 c
 C----------------------------------------------------------------
-C     Processing the rigid body without a main node
+C     processing the rigid body without a main node
 C----------------------------------------------------------------
 c
       IF(RBLEVEL == 0) THEN ! IF THIS RIGID BODY IS THE TOP MAIN
@@ -883,7 +883,7 @@ C Rigidity at main node to estimate DT.
             END DO
          END IF !(NS10E>0) THEN
 
-C MATRICE d'inertie -> repere global
+C MATRICE d'inertie -> frame global
          II1=RBY(10,NRB)*RBY(1,NRB)
          II2=RBY(10,NRB)*RBY(2,NRB)
          II3=RBY(10,NRB)*RBY(3,NRB)
@@ -937,7 +937,7 @@ C Rigidity at main node to estimate DT.
             END DO
          END IF !(NS10E>0) THEN
 
-C MATRICE d'inertie -> repere global
+C MATRICE d'inertie -> frame global
          RBY(17,NRB)=RBY(10,NRB)
          RBY(18,NRB)=ZERO
          RBY(19,NRB)=ZERO
@@ -979,7 +979,7 @@ C Rigidity at main node to estimate DT.
            END DO
          END IF !(NS10E>0) THEN
 
-C MATRICE d'inertie -> repere global
+C MATRICE d'inertie -> frame global
          II1=RBY(10,NRB)*RBY(1,NRB)
          II2=ZERO
          II3=ZERO
@@ -1571,7 +1571,7 @@ C--------------------------------------
             RBY(9,NRB)=RBY(9,NRB)+RBY(9,I)+YY*RBY(14,I)
            ENDIF !N2D
           ENDIF   
-c         mise a zero des donnees rb SECONDARY
+c         set a zero des donnees rb SECONDARY
           RBY(1:15,I)=ZERO           
           IN(M_I)=ZERO 
           MS(M_I)=ZERO    
@@ -1598,7 +1598,7 @@ c
      .         RBY(2,NRB),RBY(6,NRB),RBY(3,NRB)
         ENDIF
 C----------------------------------------------------------------
-C     CALCUL DU REPERE D'INERTIE PRINCIPALE
+C     CALCULATION DU frame D'INERTIE PRINCIPALE
 C
         IF(N2D == 1) THEN
           RBY(11,NRB) = RBY(5,NRB)

@@ -82,7 +82,7 @@ C
       GAP =INTBUF_TAB%VARIABLES(2)
 C
 C-----------------------------------------------------------
-C     Filtrage des candidats a l'impact
+C     Filtrage des CANDIDATES a l'impact
 C     (si candidat retenu, cand_n(i) = - cand_n(i))
 C-----------------------------------------------------------
       I_STOK = INTBUF_TAB%I_STOK(1)

@@ -54,7 +54,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      5                         KNOD2ELQ  ,ITAGND  ,ICDNS10 ,LSUBMODEL,ICFIELD  ,
      6                         LCFIELD   )
 C-------------------------------------
-C     LECTURE STRUCTURE RIGIDES 
+C     READING STRUCTURE RIGIDES 
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -563,7 +563,7 @@ C
      3                    KNOD2ELTG,NOD2ELS ,NOD2ELC,NOD2ELTG,IXQ     ,
      4                    IQUAOFF  ,KNOD2ELQ,NOD2ELQ,LSUBMODEL)
 C-------------------------------------
-C    PRE LECTURE STRUCTURE RIGIDES POUR OPTIMIZATION
+C    PRE-READ RIGID STRUCTURE FOR OPTIMIZATION
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -655,9 +655,9 @@ C
 C By default, RBODY is deactivated
           IRBYON=1
         END IF
-C si sensor rbody active
+C if sensor rbody active
         IF(ISENS/=0) IRBYON=0
-C si Imls utilisee rbody active temporairement
+C if Imls used rbody temporarily active
         IF(NDSOLV == 1) IRBYON=0
         IF(IRBYON>=1)THEN
 C
@@ -758,7 +758,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       use element_mod , only : nixs,nixc,nixtg,nixq,nixt,nixp,nixr
 C-------------------------------------
-C    PRE LECTURE STRUCTURE RIGIDES POUR OPTIMIZATION
+C    PRE-READ RIGID STRUCTURE FOR OPTIMIZATION
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -867,7 +867,7 @@ C-----------------------
              ENDIF
            ENDDO
 C----------------------------------------
-C       TEST POUR L'ELIMINATION D'ONE GROUPE
+C       TEST FOR ELIMINATION OF A GROUP
 C----------------------------------------
            IF(IOK == 1)THEN
              IGOF = 1
@@ -892,7 +892,7 @@ C-----------------------
              ENDIF
            ENDDO
 C----------------------------------------
-C       TEST POUR L'ELIMINATION D'ONE GROUPE
+C       TEST FOR ELIMINATION OF A GROUP
 C----------------------------------------
            IF(IOK == 1)THEN
              IGOF = 1
@@ -919,7 +919,7 @@ C-----------------------
              ENDIF
            ENDDO
 C----------------------------------------
-C       TEST POUR L'ELIMINATION D'ONE GROUPE
+C       TEST FOR ELIMINATION OF A GROUP
 C----------------------------------------
            IF(IOK == 1)THEN
              IGOF = 1
@@ -944,7 +944,7 @@ C-----------------------
              ENDIF
            ENDDO
 C----------------------------------------
-C       TEST POUR L'ELIMINATION D'ONE GROUPE
+C       TEST FOR ELIMINATION OF A GROUP
 C----------------------------------------
 C Incompatible with gap option in truss property
 C        IGOF = 1
@@ -967,7 +967,7 @@ C-----------------------
              ENDIF
            ENDDO
 C----------------------------------------
-C       TEST POUR L'ELIMINATION D'ONE GROUPE
+C       TEST FOR ELIMINATION OF A GROUP
 C----------------------------------------
            IF(IOK == 1)THEN
              IGOF = 1
@@ -992,7 +992,7 @@ C             spring is active
              ENDIF
            ENDDO
 C----------------------------------------
-C       TEST POUR L'ELIMINATION D'ONE GROUPE
+C       TEST FOR ELIMINATION OF A GROUP
 C----------------------------------------
            IF(IOK == 1)THEN
              IGOF = 1
@@ -1017,7 +1017,7 @@ C-----------------------
              ENDIF
            ENDDO
 C----------------------------------------
-C       TEST POUR L'ELIMINATION D'ONE GROUPE
+C       TEST FOR ELIMINATION OF A GROUP
 C----------------------------------------
            IF(IOK == 1)THEN
              IGOF = 1

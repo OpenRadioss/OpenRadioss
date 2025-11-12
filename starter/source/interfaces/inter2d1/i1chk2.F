@@ -57,7 +57,7 @@ C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
 C
-      ! LOOP OVER FLUID SEGMENTS (SECND)
+      ! LOOP OVER FLUID SEGMENTS (SECOND)
       DO I=1,NRT
         II=I
         !SEARCH FOR QUAD CONNECTED TO CURRENT FLUID SEGMENT
@@ -73,7 +73,7 @@ C
 C-----------------------------------------------
 C     IRECT <- REPLACE INTERNAL IDENTIFIER 'IG' WITH LOCAL ID 'IL' FROM FLUID NODES : NSV(IL)=IG
 C-----------------------------------------------
-      ! LOOP OVER FLUID SEGMENTS (SECND)
+      ! LOOP OVER FLUID SEGMENTS (SECOND)
       DO I=1,NRT
 
         IG=IRECT(1,I)

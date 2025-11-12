@@ -116,11 +116,11 @@ C
         CB(I) = CB(I)*Q(I)
       ENDDO
 C------------------------------------------
-C     CONTRAINTES PLASTIQUEMENT ADMISSIBLES
+C     PLASTICALLY ADMISSIBLE STRESSES
 C------------------------------------------
       IF (IPLA == 0) THEN
 C-------------------
-C     CONTRAINTE VM
+C     VM STRESS
 C-------------------
         DO I=JFT,JLT
           SVM(I) = SQRT(SIG(I,1)*SIG(I,1)
@@ -170,7 +170,7 @@ C-------------------------
         ENDDO
         IF (NINDX == 0) RETURN
 C---------------------------
-C    DEP EN CONTRAINTE PLANE
+C    DEP IN PLANE STRESS
 C---------------------------
 #include "vectorize.inc" 
         DO  J=1,NINDX
@@ -208,7 +208,7 @@ C
           ENDDO
         ENDDO
 C------------------------------------------
-C     CONTRAINTES PLASTIQUEMENT ADMISSIBLES
+C     PLASTICALLY ADMISSIBLE STRESSES
 C------------------------------------------
 #include "vectorize.inc" 
         DO J=1,NINDX
@@ -224,7 +224,7 @@ C------------------------------------------
 C-------------------------
       ELSEIF (IPLA == 2) THEN
 C-------------------
-C     CONTRAINTE VM
+C     VM STRESS
 C-------------------
         DO I=JFT,JLT
           PP  = -(SIG(I,1)+SIG(I,2))*THIRD

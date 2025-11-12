@@ -76,7 +76,7 @@ C-----------------------------------------------
       GAPMIN = INTBUF_TAB%VARIABLES(13)
 
        !-----------------------------------------------------------
-       !     Filtrage des candidats a l'impact
+       !     Filtrage des CANDIDATES a l'impact
        !     (si candidat retenu, cand_n(i) = - cand_n(i))
        !-----------------------------------------------------------
        I_STOK = INTBUF_TAB%I_STOK(1)

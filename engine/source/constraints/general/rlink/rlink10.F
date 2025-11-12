@@ -58,7 +58,7 @@ C-----------------------------------------------
       INTEGER K, K1, N, ISK, I, KIND(NRLINK)
 C-----------------------------------------------
 C
-C Pre calcul index
+C Pre-computation of index
 C
           K = 1
           DO I = 1, NRLINK
@@ -91,10 +91,10 @@ C parallel loop over SMP threads
           IF(NSPMD > 1) THEN
 !$OMP SINGLE
 
-C routine appelee rlink par rlink a optimiser si besoin
+C routine called rlink by rlink to be optimized if needed
 
             DO N=1,NRLINK
-C routine de calcul Parith/ON de A AR MS IN rigid link
+C routine for Parith/ON computation of A AR MS IN rigid link
               IF(FR_RL(ISPMD+1,N)/=0)
      +          CALL SPMD_EXCH_FR6(FR_RL(1,N),FRL6(1,1,N),15*6)
             END DO
@@ -168,7 +168,7 @@ C-----------------------------------------------
       INTEGER K, K1, N, ISK, I, IPOL, KIND(NLINK)
 C-----------------------------------------------
 C
-C Pre calcul index
+C Pre-computation of index
 C
           K = 1
           DO I = 1, NLINK
@@ -211,10 +211,10 @@ c            ENDDO
           IF(NSPMD > 1) THEN
 !$OMP SINGLE
 
-C routine appelee rlink par rlink a optimiser si besoin
+C routine called rlink by rlink to be optimized if needed
 
             DO N=1,NLINK
-C routine de calcul Parith/ON de A AR MS IN rigid link
+C routine for Parith/ON computation of A AR MS IN rigid link
               IF(FR_LL(ISPMD+1,N)/=0)
      +          CALL SPMD_EXCH_FR6(FR_LL(1,N),FRL6(1,1,N),15*6)
             END DO
@@ -389,7 +389,7 @@ c          ATMR2 = ATMR2 + R*R*MS(N)*A(3,N)
 C
        IF(IC/=0)THEN
 C
-C Traitement Parith/ON avant echange
+C Parith/ON processing before exchange
 C
         CALL SUM_6_FLOAT(1  ,NSN  ,F1, FRL6(1,1), 15)
         CALL SUM_6_FLOAT(1  ,NSN  ,F2, FRL6(2,1), 15)
@@ -420,7 +420,7 @@ C-----------------------------------------------------------------------
           ENDIF
         ENDDO
 C
-C Traitement Parith/ON avant echange
+C Parith/ON processing before exchange
 C
         CALL SUM_6_FLOAT(1  ,NSN  ,F1, FRL6(4,1), 15)
         CALL SUM_6_FLOAT(1  ,NSN  ,F2, FRL6(5,1), 15)
@@ -457,7 +457,7 @@ C
         ENDDO
 C
 C
-C Traitement Parith/ON avant echange
+C Parith/ON processing before exchange
 C
         CALL SUM_6_FLOAT(1  ,NSN  ,F1, FRL6(9,1), 15)
         CALL SUM_6_FLOAT(1  ,NSN  ,F2, FRL6(10,1), 15)

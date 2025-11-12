@@ -57,7 +57,7 @@ C
             VELTMP2(4,J) = ZERO
          ENDDO        
          DO J = 1, NPLYMAX
-C deplacement
+C displacement
             CALL WRITE_DB(VELTMP1,3*NNODPXFE_L)
                LEN_AM = LEN_AM + 3*NNODPXFE_L
 C velocity

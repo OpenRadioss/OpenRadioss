@@ -190,7 +190,7 @@ C--------------------------------------
       IF (GAME == ZERO) GAME = TWO_THIRD
       IF (THET == ZERO) THET = ONE
 !
-!!!      UNIT = ONE * EP05 * ENER_UNIT  !    (1.0 * Mbar * cm**3 en SI)
+!!!      UNIT = ONE * EP05 * ENER_UNIT  !    (1.0 * Mbar * cm**3 in SI)
       UNIT = ONE * (FAC_T_bb * FAC_T_bb)/(FAC_M_bb*FAC_L_bb**2)
       IF (DS == ZERO)   DS = NINEP637EM5 * (FAC_T_bb * FAC_T_bb)/(FAC_L_bb * FAC_L_bb)
       IF (VB == ZERO)   VB=HALF/RHOR

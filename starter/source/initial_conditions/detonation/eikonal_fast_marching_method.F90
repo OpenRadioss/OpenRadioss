@@ -260,7 +260,7 @@
             end if
           end do
 
-          !parith/on requires same order of treatment whatever is the domain decompostion (reneumbered occured in ddsplit)
+          !parith/on requires same order of treatment whatever is the domain decomposition (renumbered occurred in ddsplit)
           ! ensuring same order of treatment
           call eikonal_init_sorting(neldet, numel, elem_list, uelem_list, idx_ng , idx_i, elem_list_bij, xel, vel)
 

@@ -48,8 +48,8 @@ C   D e s c r i p t i o n
 C-----------------------------------------------
 C     TIED/SLIDING INTERFACE TYPE 12
 C     (FLUID/FLUID)
-C     COMPUTATION OF S,T (secnd node coordinates)
-C     check if secnd is facing a main segment
+C     COMPUTATION OF S,T (second node coordinates)
+C     check if second is facing a main segment
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -78,7 +78,7 @@ C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
       DO II=1,NSN
-        !secnd node data
+        !second node data
         I   = NSV(II)  !itab(i) is user node_id
         J   = ILOC(II)
         K   = MSR(J)

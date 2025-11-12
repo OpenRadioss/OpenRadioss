@@ -105,7 +105,7 @@ c---------------------------------
            ! BAINITE  FORMATION 
             X4OLD(I) =  X4(I) !FRAC4(I) = X4(I)
             IF(X4(I) == ZERO) X4(I) = X3(I)  !FRAC3(I)/(ONE-XEQ2) 
-            ! INITIALISE AU TAUX DE PERLITE
+            ! INITIALIZE TO PEARLITE RATE
             FTEMP=EXP(-QR4/TEMPEL(I)) *(TEMPEL(I)-BS)**2
             CONST=FTEMP*FGRAIN*FCBAI
             DO K=1,4

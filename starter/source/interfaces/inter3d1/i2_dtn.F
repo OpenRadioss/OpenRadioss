@@ -527,7 +527,7 @@ C------------------------------------------------
 
 C------------------------------------------------
 C
-C--   Secnd node of solids
+C--   Second node of solids
 C
           STR = ZERO
 c         update main forces (moment balance)  

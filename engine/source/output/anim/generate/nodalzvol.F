@@ -36,7 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
-C     This suroutine display polyhedra volume (old & new)
+C     This subroutine display polyhedra volume (old & new)
 C   using free node as marker (inter22 only, see input card for grnod_id)
 C-----------------------------------------------
 C   P r e - C o n d i t i o n s

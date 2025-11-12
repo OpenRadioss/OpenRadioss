@@ -127,7 +127,7 @@ C
        SSP(I)  =SQRT((ONEP333*G(I)+C1(I))/RHO0(I))
        RHOSP(I)=RHO0(I)
        !-------------------------------
-       !     CONTRAINTES DEVIATORIQUES
+       !     DEVIATORIC STRESSES
        !-------------------------------
        P  =-THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))
        DAV=-THIRD*(D1(I)+D2(I)+D3(I))

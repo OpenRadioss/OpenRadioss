@@ -125,7 +125,7 @@ C
      .          -X(3,IXQ(2))-X(3,IXQ(3))
      .          -X(3,IXQ(4))-X(3,IXQ(5))
 C----------------------------------------------------------
-C         CALCUL DISTANCE ET 1/2 SURFACE(SURFACE NODALE))
+C         CALCULATION DISTANCE ET 1/2 SURFACE(SURFACE NODALE))
 C----------------------------------------------------------
             DIST = FOURTH*(DY*NY+DZ*NZ) / MAX(EM15,NORM) 
             AREA = HALF*NORM

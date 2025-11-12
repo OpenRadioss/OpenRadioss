@@ -74,7 +74,7 @@ C=======================================================================
         YM(JJ)=X(2,J)+ V(2,J)*DT12*HALF                                                
         ZM(JJ)=X(3,J)+ V(3,J)*DT12*HALF                                                
       ENDDO                                                           
-C-----repere local main                                             
+C-----local frame main                                             
       X21 = XM(2) - XM(1)                                             
       X32 = XM(3) - XM(2)                                             
       X34 = XM(3) - XM(4)                                             

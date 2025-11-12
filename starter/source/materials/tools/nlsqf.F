@@ -25,7 +25,7 @@ C IDEBUG=1 -> output debug information into .out file
 C IOCSV=1 -> output fitting to curv.csv
 #define IOCSV 0
 !>    @param[in]   IFUNCS     SUBROUTINE handle/ID for evaluation : 1=OGDEN0/OGDEN1
-!>    @param[out]  A          updated coeeficients
+!>    @param[out]  A          updated coefficients
 !>    @param[out]  IRET       return code 
 !>                            0 : optimization succeeded;
 !>                            1 : optimization failed;

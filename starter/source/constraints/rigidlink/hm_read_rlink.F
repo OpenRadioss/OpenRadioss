@@ -116,7 +116,7 @@ C
 C
       DO N=1,NLINK
 C
-C      LECTURE DES CARTES D'INPUT
+C      READING DES CARTES D'INPUT
 C
        NLK=NLK+1
 C----------Multidomaines --> on ignore les rlink non tages--------

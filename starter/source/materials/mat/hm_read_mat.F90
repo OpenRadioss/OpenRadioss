@@ -1545,11 +1545,11 @@
               pm(190,i)= sqrt(max(zero, pm(21,i)))    ! nusr
             endif
 !
-!---------------  fin boucle sur les lois
+!---------------  end loop over materials
           enddo   ! hm_nummat
 !---------------
 !-------------------------------------
-!     recherche des id doubles
+!     search for duplicate ids
 !-------------------------------------
           i=79
           j=0

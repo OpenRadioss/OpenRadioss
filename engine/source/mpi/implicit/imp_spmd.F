@@ -3471,7 +3471,7 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
       LOC_PROC = ISPMD + 1
-C ------com. de numero nodes SECONDARYs -----
+C ------communication of SECONDARY node numbers -----
 C At the call, rsize = iAd_R (nspmd+1) -1 
 C             SSIZE=IAD_S(NSPMD+1)-1 
 C------recive--
@@ -3586,7 +3586,7 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
       LOC_PROC = ISPMD + 1
-C ------com. de numero nodes SECONDARYs -----
+C ------communication of SECONDARY node numbers -----
 C At the call, rsize = iAd_R (nspmd+1) -1 
 C             SSIZE=IAD_S(NSPMD+1)-1 
 C------recive--

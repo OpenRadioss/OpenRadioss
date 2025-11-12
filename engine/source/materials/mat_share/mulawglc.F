@@ -523,7 +523,7 @@ C----------------------
         THK(I) = MAX(THKN(I),EM30)
       ENDDO
 C-----------------------------------------------
-C     FACTEURS POUR COQUES B.L. (Zeng&Combescure)
+C     FACTORS FOR B.L. SHELLS (Zeng&Combescure)
 C-----------------------------------------------
       DO I=JFT,JLT
         ZCFAC(I,1) = ETSE(I)

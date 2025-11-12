@@ -132,7 +132,7 @@ C
           ZD8(I)=X(3,NC8(I))  
         ENDDO      
       ENDIF
-C   -----attention, format is different to Ismstr=10,11
+C   -----note: format is different to Ismstr=10,11
         DO I=1,NEL
           IF(OFFG(I)/=OFFG0(I).AND.ABS(OFFG(I)) > ONE )THEN
            SAV(I,1)=XD1(I)-XD8(I)

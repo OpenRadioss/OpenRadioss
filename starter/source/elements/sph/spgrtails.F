@@ -350,7 +350,7 @@ C-------------------------------------------------
 C-------------------------------------------------          
           DO IJK = 1, NE1
 C
-C Attention, penser a sauvegarder KXSP(2) si besoin (backtrack spmd si interface)
+C Warning, remember to save KXSP(2) if needed (backtrack spmd if interface)
 C
             KXSP(2,EADD(N)-1+NFT+IJK)=
      .                SIGN(NGROUP,ISLEEP)

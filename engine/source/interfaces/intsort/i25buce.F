@@ -180,7 +180,7 @@ C=============================================================================
      A   IGAP    ,GAP_S_L  ,GAP_M_L  ,ICODT   ,ISKEW    ,
      B   DRAD    ,DGAPLOAD )
 C
-C     I_MEM = 2 ==> PAS ASSEZ DE MEMOIRE CANDIDATS
+C     I_MEM = 2 ==> PAS ASSEZ DE MEMOIRE CANDIDATES
 C
       RETURN
       END

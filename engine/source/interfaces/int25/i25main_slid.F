@@ -157,7 +157,7 @@ C
       CALL MY_BARRIER
 C
 C-----------------------------------------------------------------------
-C       Secnd node leaving its previous impacted segment ...
+C       Second node leaving its previous impacted segment ...
 C-----------------------------------------------------------------------  
 !$OMP SINGLE
       DO NI25=1,NINTER25

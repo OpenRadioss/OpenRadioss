@@ -88,7 +88,7 @@ C-------------------------------------
         IF(LCOD>0)CALL BCS2(A(J1),SKEW(1,ISK),ISK,LCOD)
       ENDDO
 C------------------------------------
-C     ACCELERATION ON SECND NODES
+C     ACCELERATION ON SECOND NODES
 C------------------------------------
       DO II=1,NSN
         I=NSV(II)

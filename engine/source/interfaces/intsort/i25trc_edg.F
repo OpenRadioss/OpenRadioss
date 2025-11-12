@@ -90,8 +90,7 @@ C       ENDIF
       ENDDO
 
 C=======================================================================
-C     CAND_A : DENOMBREMENT DE CHAQUE NOEUD 
-C     APRES 300 CAND_A[3:NEDGE+3] : OCCURENCE DES NOEUDS [1:NEDGE+1] 
+C     CAND_A : DENOMBREMENT DE CHAQUE NODE C     APRES 300 CAND_A[3:NEDGE+3] : occurrence DES NODES [1:NEDGE+1] 
 C=======================================================================
       DO I=1,I_STOK
         NN = CAND_S(I) + 2
@@ -99,8 +98,7 @@ C=======================================================================
       ENDDO
       
 C=======================================================================
-C     CAND_A : ADRESSE DE CHAQUE NOEUD 
-C     APRES 400 CAND_A[2:NEDGE+2] : ADRESSE DES NOEUDS [1:NEDGE+1] 
+C     CAND_A : ADDRESS DE CHAQUE NODE C     APRES 400 CAND_A[2:NEDGE+2] : ADDRESS DES NODES [1:NEDGE+1] 
 C=======================================================================
       CAND_A(1) = 1
       CAND_A(2) = 1
@@ -108,9 +106,9 @@ C=======================================================================
         CAND_A(N) = CAND_A(N) + CAND_A(N-1)
       ENDDO
 C=======================================================================
-C     IPUT(I) ADRESSE OU DOIT ALLER I
-C     IGET(K) ADRESSE D'OU DOIT VENIR K
-C     APRES 500 CAND_A[1:NEDGE+1] : ADRESSE DES NOEUDS [1:NEDGE+1] 
+C     IPUT(I) ADDRESS OU DOIT ALLER I
+C     IGET(K) ADDRESS D'OU DOIT VENIR K
+C     APRES 500 CAND_A[1:NEDGE+1] : ADDRESS DES NODES [1:NEDGE+1] 
 C=======================================================================
       DO I=1,I_STOK
         NN = CAND_S(I) + 1
@@ -166,7 +164,7 @@ C
 
         ENDDO
 C=======================================================================
-C     CAND_A[NEDGE+1] : ADRESSE DE NEDGE+1 
+C     CAND_A[NEDGE+1] : ADDRESS DE NEDGE+1 
 C=======================================================================
       I_STOK = CAND_A(NEDGE+1) - 1
       CAND_A(NEDGE+2) = CAND_A(NEDGE+1)

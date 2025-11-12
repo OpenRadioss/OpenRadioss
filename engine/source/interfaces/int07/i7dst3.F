@@ -415,7 +415,7 @@ c      write(*,*) ' P1(I)  P2(I)  P3(I)  P4(I)   ',P1(I) , P2(I) , P3(I) , P4(I)
 c      PAUSE
 c      ENDIF
 C !!!!!!!!!!!!!!!!!!!!!!!
-C  PENE2 = GAP^2 - DIST^2 UTILISE POUR TESTER SI NON NUL
+C  PENE2 = GAP^2 - DIST^2 USED TO TEST IF NON-NULL
 C!!!!!!!!!!!!!!!!!!!!!!!!
         PENE2(I) = MAX(D1,D2,D3,D4)
 C

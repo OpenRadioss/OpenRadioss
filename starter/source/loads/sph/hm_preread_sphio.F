@@ -95,7 +95,7 @@ C
           NOM_OPT(1,I)=ID
           CALL FRETITL(TITR,NOM_OPT(LNOPT1-LTITR+1,I),LTITR)
 C         
-          ! Reading type dans surface ID
+          ! Reading type in surface ID
           CALL HM_GET_INTV('Itype'   ,ITYPE  ,IS_AVAILABLE,LSUBMODEL)
           CALL HM_GET_INTV('SURF_ID' ,IDSURF ,IS_AVAILABLE,LSUBMODEL)
 C

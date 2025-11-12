@@ -1146,7 +1146,7 @@ C
         IERROR=0
         IF(IALLOCR>0)
      .    ALLOCATE(BBUFR(IALLOCR+NBINTC*2),STAT=IERROR)
-C     .    ALLOCATE(BBUFR(IALLOCR+NBINTC*NSPMD*2),STAT=IERROR) ! si comm non bloquantes reactivees
+C     .    ALLOCATE(BBUFR(IALLOCR+NBINTC*NSPMD*2),STAT=IERROR) ! if non-blocking comm reactivated
 
         IF(IERROR/=0) THEN
           CALL ANCMSG(MSGID=20,ANMODE=ANINFO)

@@ -358,12 +358,12 @@
                     value(i) = lbuf%epsq(i)
                     is_written_value(i) = 1
                   end do
-                else if (mlw == 24) then   ! et autres a ajouter
+                else if (mlw == 24) then   ! and others to add
                   do i=1,nel
                     value(i) = lbuf%vk(i)
                     is_written_value(i) = 1
                   end do
-                else if (mlw == 6 .or. mlw == 17 .or. mlw == 11) then   ! et autres a ajouter
+                else if (mlw == 6 .or. mlw == 17 .or. mlw == 11) then   ! and others to add
                   do i=1,nel
                     value(i) =  lbuf%rk(i)
                     is_written_value(i) = 1

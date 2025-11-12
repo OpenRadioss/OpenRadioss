@@ -575,7 +575,7 @@ c     .                            TAG_NODE_2RY) !JD(31)
      .                            TAG_NODE_2RY) !JD(36)
 
           ELSEIF(IPARI(17,NI)/=0)THEN
-C si Idel2 actif
+C if Idel2 active
 C smas & siner (ZERO)   
 
             CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%SMAS,NSN_L,1,

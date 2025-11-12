@@ -95,8 +95,7 @@ C
           END IF
         ENDIF
 C----------------------
-C     SOLID ELEMS
-C----------------------
+C     SOLID ELEMENTS C----------------------
         CALL INSOL3(X,IRECT,IXS,NINT,NELS,INRT,
      .              AREA,NOINT,KNOD2ELS ,NOD2ELS ,0 ,IXS10,
      .              IXS16,IXS20)

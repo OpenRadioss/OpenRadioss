@@ -361,7 +361,7 @@ C
       DO I=LFT,LLT
 C-----------------------------------------------------------------------
 C          -1 inversion of the Jacobian suite
-C       [J]              et repere local r,s,t
+C       [J]              and local frame r,s,t
 C-----------------------------------------------------------------------
         D = 1./DET(I)
         DRDX(I)=D*DRDX(I)

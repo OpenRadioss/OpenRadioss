@@ -65,49 +65,47 @@ C   D u m m y   A r g u m e n t s
 C
 C     NOM          DESCRIPTION                       E/S
 C
-C     BPE          TABLEAU DES FACETTES A TRIER      => Local
+C     BPE          ARRAY OF FACETTES TO SORT      => Local
 C                  and of the result on the max side
-C     PE           TABLEAU DES FACETTES              => Local
+C     PE           ARRAY OF FACETTES              => Local
 C                  RESULTAT COTE MIN
-C     BPN          TABLEAU DES NOEUDS A TRIER        => Local
+C     BPN          SORTED NODES ARRAY        => Local
 C                  and of the result on the max side
-C     PN           TABLEAU DES NOEUDS                => Local
+C     PN           NODES ARRAY => Local
 C                  RESULTAT COTE MIN
-C     ADD(2,*)     TABLEAU DES ADRESSES              E/S 
-C          1.......ADRESSES NOEUDS
-C          2.......ADRESSES ELEMENTS
-C     ZYZM(6,*)     TABLEAU DES XYZMIN               E/S 
+C     ADD(2,*)     ARRAY OF ADRESSES              E/S 
+C          1.......ADRESSES NODES C          2.......ADRESSES ELEMENTS
+C     ZYZM(6,*)     ARRAY OF XYZMIN               E/S 
 C          1.......XMIN BOITE
 C          2.......YMIN BOITE
 C          3.......ZMIN BOITE
 C          4.......XMAX BOITE
 C          5.......YMAX BOITE
 C          6.......ZMAX BOITE
-C     IRECTM(2,*)   TABLEAU DES CONEC         E
-C     IRECTS(2,*)   TABLEAU DES CONEC         E
+C     IRECTM(2,*)   ARRAY OF CONEC         E
+C     IRECTS(2,*)   ARRAY OF CONEC         E
 C     X(3,*)       COORDONNEES NODALES               E
-C     NB_NC        NOMBRE DE NOEUDS CANDIDATS        => Local
-C     NB_EC        NOMBRE D'ELTS CANDIDATS           => Local
+C     NB_NC        NUMBER OF CANDIDATE NODES        => Local
+C     NB_EC        NUMBER OF CANDIDATE ELEMENTS           => Local
 C     i_add position in the input/output address table
 C     Xmax larger abcisse existing e
 C     XMAX largest order.existing E
 C     Xmax larger existing side E
 C     MAXSIZ       TAILLE MEMOIRE MAX POSSIBLE       E
 C     i_stok storage level of the pairs
-C                                candidats impact    E/S
+C                                CANDIDATES impact    E/S
 C     adnstk current address in the node box
-C     CAND_S       boites resultats noeuds
-C     adestk current address in the element box
+C     CAND_S       boites resultats nodes C     adestk current address in the element box
 C     CAND_M       adresses des boites resultat elements
 C     nsn4 4*nsn current maximum allowed size for
-C                  COUPLES NOEUDS,ELT CANDIDATS
-C     NOINT        NUMERO USER DE L'INTERFACE
+C                  COUPLES NODES,ELT CANDIDATES
+C     NOINT        INTERFACE USER NUMBER
 C     TZINF        TAILLE ZONE INFLUENCE
 C     MAXBOX       TAILLE MAX BUCKET
 C     MINBOX       TAILLE MIN BUCKET
 C
 C     Prov_s Provisional Cand_s (static variable in i7tri)
-C     PROV_M       CAND_M provisoire (variable static dans i7tri)
+C     PROV_M       CAND_M provisoire (variable static in i7tri)
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -196,7 +194,7 @@ C
       ENDDO
 C
 C     GOTO 200:
-C     INTERFACE AVEC 1 SEGMENT ET 1 NOEUD + INITIALISATION DX DY DZ
+C     INTERFACE WITH 1 SEGMENT ET 1 NODE + INITIALISATION DX DY DZ
 C
       J_STOK = 0
       ISTOP = 0
@@ -289,7 +287,7 @@ c            .   Xmin                        Txmax
 c          Txmin
 c
 c       if the box is reduced on the xmin side, one could use:
-c           Txmin = Xmin  avec Xmin = min(Xmain)-Tzinf > Xmin_old
+c           Txmin = Xmin  with Xmin = min(Xmain)-Tzinf > Xmin_old
 c       
 c       But using:
 c           Txmin = Xmin-Tzinf (= min(Xmain) - 2*Tzinf) 
@@ -564,7 +562,7 @@ Cwe fill the min of the next box and the max of the current one
 C     i.e. treshold is a max for the current
 C     We're going to go down and so we define a new box
 C     We fill the max in the new box
-C     initialises dans i7buc1 a 1.E30 comme ca on recupere
+C     initialises in i7buc1 a 1.E30 comme ca on recupere
 c     either xmax or the maximum of the box
       XYZM(1,I_ADD+1) = XYZM(1,I_ADD) 
       XYZM(2,I_ADD+1) = XYZM(2,I_ADD)
@@ -599,8 +597,7 @@ C
 C
 C    2- TEST ARRET = BOITE VIDE
 C                    BOITE TROP PETITE 
-C                    BOITE NE CONTENANT QU'ONE NOEUD
-C                    No More Memory Available
+C                    BOITE NE CONTENANT QU'ONE NODE C                    No More Memory Available
 C                    splitting does not reduce the candidates
 C
 C-------------------test for exceeded memory------------

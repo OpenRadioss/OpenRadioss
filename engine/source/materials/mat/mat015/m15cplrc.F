@@ -155,7 +155,7 @@ C
         A12(I) = NU21(I)*A11(I)*SCALE1
       ENDDO
 C-----------------------------
-C     CONTRAINTES ELASTIQUES
+C     ELASTIC STRESSES
 C-----------------------------
       DO I=1,NEL
         T1(I)   = A11(I)*S1(I)+A12(I)*S2(I)

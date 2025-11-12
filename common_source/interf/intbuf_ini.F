@@ -2184,7 +2184,7 @@ C-----------------------------------------------
             T8%BUFFER(P2)%NBSECND_TOT = NBS_INTERF
             T8%BUFFER(P2)%NBMAIN    = NBM_INTERF
 
-            !nb secnds per main
+            !number of seconds per main
 
             IF(NBM_INTERF > 0) THEN
               ALLOCATE(T8%BUFFER(P2)%NBSECND(NBM_INTERF))

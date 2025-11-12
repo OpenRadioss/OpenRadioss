@@ -746,7 +746,7 @@ C     REAL
      .   XC0,YC0,ZC0,SP,SM,TP,TM,XC,YC,ZC,
      .   STF,AI,H2(4)
 C-----------------------------------------------
-C     NMAS(II) initialise a MS(J) dans resol_init
+C     NMAS(II) initialise a MS(J) in resol_init
       IF(ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER >0) THEN
         DO II=1,NMN
           J=MSR(II)
@@ -1342,11 +1342,11 @@ C
 
 C------------------------------
 C     forces and moments of secondary nodes
-C     TRANSMIS AUX NOEUDS MAINS SOUS
+C     TRANSMIS AUX NODES MAINS SOUS
 C     force shape
 C
 C     masses and inertias of secondary nodes
-C     TRANSMISES AUX NOEUDS MAINS SOUS
+C     TRANSMISES AUX NODES MAINS SOUS
 C     mass shape
 C------------------------------
       IF(IMPL_S>0) THEN
@@ -1449,7 +1449,7 @@ C
             FY0=FS(2)*FACM
             FZ0=FS(3)*FACM
 C------------------------------------------------------
-C     FORCES TRANSMISES AUX NOEUDS MAINS
+C     FORCES TRANSMISES AUX NODES MAINS
 C------------------------------------------------------
             DO JJ=1,NIR
               J=IRECT(JJ,L)
@@ -1471,7 +1471,7 @@ C
             MR=DET*INX*MAX(MRX,MRY,MRZ)
 C
 C------------------------------------------------------
-C     MASSES TRANSMISES AUX NOEUDS MAINS
+C     MASSES TRANSMISES AUX NODES MAINS
 C------------------------------------------------------
             IF(ILEV==1)THEN
               XMSI=MAX(FACM*XMSI,MR)
@@ -1622,7 +1622,7 @@ C
           FY0=FS(2)*FOURTH
           FZ0=FS(3)*FOURTH
 C------------------------------------------------------
-C     FORCES TRANSMISES AUX NOEUDS MAINS
+C     FORCES TRANSMISES AUX NODES MAINS
 C------------------------------------------------------
           FX(1) = FX0 + A2*Z1 - A3*Y1
           FY(1) = FY0 + A3*X1 - A1*Z1
@@ -1659,7 +1659,7 @@ C
           MR=DET*INX*MAX(MRX,MRY,MRZ)
 C
 C------------------------------------------------------
-C     MASSES TRANSMISES AUX NOEUDS MAINS
+C     MASSES TRANSMISES AUX NODES MAINS
 C------------------------------------------------------
           IF(ILEV==1)THEN
             XMSI=FOURTH*XMSI+MR

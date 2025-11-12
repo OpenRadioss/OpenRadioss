@@ -413,7 +413,7 @@ C-----Press-fit
          END IF
        END IF
 C----------------------------------------------------------------------
-C     Secnd node previously impacted & Secnd node is leaving the contact
+C     Second node previously impacted & Second node is leaving the contact
 C----------------------------------------------------------------------
       NSNFT= 1+(JTASK-1)*NSN/ NTHREAD
       NSNLT= JTASK*NSN/NTHREAD
@@ -590,7 +590,7 @@ C     Forces computation
 C-----------------------------------------------------------------------
       DO NFT = 0 , I_STOK - 1 , NVSIZ
           JLT = MIN( NVSIZ, I_STOK - NFT )
-C preparation candidats retenus
+C preparation CANDIDATES retenus
           CALL I25CDCOR3(
      1     JLT,INDEX2(NFT+1),INTBUF_TAB%CAND_OPT_E,INTBUF_TAB%CAND_OPT_N,
      2     CAND_E_N,CAND_N_N )
@@ -862,7 +862,7 @@ C
 C
         DO NFT = 0 , I_STOK - 1 , NVSIZ
           JLT = MIN( NVSIZ, I_STOK - NFT )
-C         preparation candidats retenus
+C         preparation CANDIDATES retenus
           CALL I25CDCOR3(
      1       JLT,INDEX2(NFT+1),INTBUF_TAB%CANDM_E2E,INTBUF_TAB%CANDS_E2E,CM_LOC,
      2       CS_LOC)
@@ -1045,7 +1045,7 @@ C
 C
         DO NFT = 0 , I_STOK - 1 , NVSIZ
           JLT = MIN( NVSIZ, I_STOK - NFT )
-C         preparation candidats retenus
+C         preparation CANDIDATES retenus
           CALL I25CDCOR3_E2S(
      1       JLT,INDEX2(NFT+1),INTBUF_TAB%CANDM_E2S,INTBUF_TAB%CANDS_E2S,
      2       CM_LOC,CS_LOC )

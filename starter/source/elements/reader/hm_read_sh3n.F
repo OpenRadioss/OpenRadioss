@@ -72,7 +72,7 @@ C-----------------------------------------------
       USE USER_ID_MOD , ONLY : ID_LIMIT
       use element_mod , only : nixtg
 C--------------------------------------------------------
-C     LECTURE DES ELEMENTS COQUES TRIANGULAIRE
+C     READING DES ELEMENTS COQUES TRIANGULAIRE
 C--------------------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

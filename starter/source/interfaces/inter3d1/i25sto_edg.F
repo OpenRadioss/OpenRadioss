@@ -78,7 +78,7 @@ C-----------------------------------------------
      .      IGAP   ,X     ,IRECT  ,PENE    ,ADMSR  ,
      .      EDG_BISECTOR,VTX_BISECTOR ,ITAB,DGAPLOAD)
 C-----------------------------------------------
-C SUPPRESSION DES ANCIENS CANDIDATS DEJA STOCKES (PENE INITIALE)
+C SUPPRESSION DES ANCIENS CANDIDATES DEJA STOCKES (PENE INITIALE)
 C-----------------------------------------------
       IF(INACTI==5)THEN
         DO I=1,J_STOK

@@ -402,7 +402,7 @@ C  INDEX VECTOR
 C  If I2S> 0 (Type 2 Connectivitis Interface Connectivitis Interface)
         IF (I2NSNT>0) THEN
            SADDCNI2 = NUMNOD+1
-C Rajout numnod pour index machine vectorielle
+C Add numnod for vector machine index
            IF(IVECTOR==1) SADDCNI2 = SADDCNI2 + NUMNOD
         ELSE
            SADDCNI2 = 0

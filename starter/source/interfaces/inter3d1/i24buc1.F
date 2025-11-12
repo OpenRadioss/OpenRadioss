@@ -172,7 +172,7 @@ C------don't use no more MWA which is not sufficient; I_ADD<=1000
 C-------use temporarily GAP_N(1,*)=V/A; MVOISN(1,*)-> MTYPE(solid),MVOISN(2,*)-> E_id
 C
 C
-C     1-CALCUL TAILLE DES ZONES INFLUENCES
+C     1-CALCULATION TAILLE DES ZONES INFLUENCES
 C     DD IS THE AVERAGE ELEMENT LENGTH
 C     DD_ST IS THE MAX ELEMENT LENGTH
       DD=ZERO
@@ -181,7 +181,7 @@ C     DD_ST IS THE MAX ELEMENT LENGTH
       D_MOY = ZERO
       N_SOL = 0
       DO 10 L=1,NRTM
-C      CONNECIVITES ELEMENT
+C      ELEMENT CONNECTIVITIES
        N1=IRECT(1,L)
        N2=IRECT(2,L)
        N3=IRECT(3,L)
@@ -254,7 +254,7 @@ C--------should also think about shells----
 #endif
        END IF!(PENMAX/=ZERO)
       ELSE
-C-----il faut pas eliminer tiny penetration----      
+C-----must pas eliminer tiny penetration----      
        PENMAX = MAX(PENSOL,GAP)
       END IF
 C 1st pass with margin x2 to find more candidates
@@ -272,7 +272,7 @@ C DD + 2*Tzinfo: Size element increased in influence zone
       TZINF0 = TZINF
       MINBOX0 = MINBOX
       MAXBOX0 = MAXBOX
-C     MIS A ZERO POUR FAIRE SEARCH COMPLET CYCLE 0 ENGINE
+C     SET TO ZERO TO PERFORM COMPLETE SEARCH CYCLE 0 ENGINE
       DIST = ZERO     
 C--------------------------------
 C     CALCULATION OF DOMAIN BOUNDS
@@ -486,7 +486,7 @@ C------------------
         RETURN
       ENDIF
 C     I_MEM = 1 ==> PAS ASSEZ DE MEMOIRE PILE
-C     I_MEM = 2 ==> PAS ASSEZ DE MEMOIRE CANDIDATS
+C     I_MEM = 2 ==> PAS ASSEZ DE MEMOIRE CANDIDATES
       IF(I_MEM==1)THEN
         NB_N_B = NB_N_B + 1
         I_MEM = 0

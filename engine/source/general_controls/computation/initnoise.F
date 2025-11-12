@@ -53,7 +53,7 @@ C-----------------------------------------------
       INTEGER I,J,LENGTH,K
 C-----------------------------------------------
 C
-C ADRESSE DES NOEUDS SAUVES DS NOISE
+C ADDRESS DES NODES SAUVES DS NOISE
 C
       DO I=0,NUMNOD
        IWA(I)=0
@@ -64,7 +64,7 @@ C
       ENDDO
       NOIADD(NNOISE+1)=0
 C
-C STOCKE DANS NOIADD(K) LE NOMBRE d'ELEMENTS CONNECTES AU NOEUD K-1
+C STOCKE IN NOIADD(K) LE NUMBER d'ELEMENTS CONNECTES AU NODE K-1
 C
       IF(N2D==0)THEN
         DO I=1,NUMELS

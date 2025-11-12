@@ -83,7 +83,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
-C      FONCTION DONNE N0 SYSTEME D'UNE LISTE D'ELEMENTS USER
+C      FUNCTION RETURNS SYSTEM ID FROM A LIST OF USER ELEMENTS
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -176,7 +176,7 @@ C
       INTEGER FUNCTION NINTLST2 (LIST,NLIST,INDEXL,IX,NIX,NUMEL,
      .                           MESS,IX1,IX2,INDEX,KK)
       USE MESSAGE_MOD
-C      FONCTION DONNE N0 SYSTEME D'UNE LISTE D'ELEMENTS USER, AUTORISE LES 0.
+C      FUNCTION RETURNS SYSTEM ID FROM A LIST OF USER ELEMENTS, ALLOWS ZEROS.
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -740,7 +740,7 @@ C-----------------------
 !||    nintlstn   ../starter/source/system/nintrr.F
 !||====================================================================
       INTEGER FUNCTION USER2SYS(IU,IXX_S,NIX,CUR,LAST)
-C      FONCTION DONNE N0 SYSTEME D'UNE LISTE D'ELEMENTS USER OR ZERO IF NOT FOUND
+C      FUNCTION RETURNS SYSTEM ID FROM A LIST OF USER ELEMENTS OR ZERO IF NOT FOUND
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -801,7 +801,7 @@ C
      .                          IXX_S_IND,INDEX,TYPE,ID,TITR)
       USE MESSAGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
-C      FONCTION DONNE N0 SYSTEME D'UNE LISTE D'ELEMENTS USER
+C      FUNCTION RETURNS SYSTEM ID FROM A LIST OF USER ELEMENTS
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

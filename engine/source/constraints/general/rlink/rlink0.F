@@ -99,7 +99,7 @@ C
         ENDIF
       ENDDO
 C
-C Traitement Parith/ON avant echange
+C Parith/ON processing before exchange
 C
       DO K = 1, 6
        FRL6(1,K) = ZERO
@@ -170,7 +170,7 @@ C
         ENDIF
       ENDDO
 C
-C Traitement Parith/ON avant echange
+C Parith/ON processing before exchange
 C
       DO K = 1, 6
         FRL6(1,K) = ZERO

@@ -340,7 +340,7 @@ C
         C2=YYY*ZX+XY*YZ
 C
         IF (IRODDL == 0 .OR. IN_SECND == ZERO) THEN
-C--    For solid secnd node VRM=VRS=Velocity rotation main segment
+C--    For solid second node VRM=VRS=Velocity rotation main segment
           MGX = RY(1)*VA(3) + RY(2)*VB(3) + RY(3)*VC(3) + RY(4)*VD(3)
      .        - RZ(1)*VA(2) - RZ(2)*VB(2) - RZ(3)*VC(2) - RZ(4)*VD(2)
           MGY = RZ(1)*VA(1) + RZ(2)*VB(1) + RZ(3)*VC(1) + RZ(4)*VD(1)
@@ -484,7 +484,7 @@ C
         VRM(3)=DET*(MGZ*B3+MGX*C2+MGY*C1)
 C
         IF (IRODDL == 0 .OR. IN_SECND == ZERO) THEN
-C--    For solid secnd node VRM=VRS=velocity main segment
+C--    For solid second node VRM=VRS=velocity main segment
           WX = VRM(1)
           WY = VRM(2)
           WZ = VRM(3)

@@ -50,7 +50,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                               LSUBMODEL,RTRANS  ,NOM_OPT ,ITAGND  ,NCHLAGM , 
      .                                K       ,OFFS    ,IKINE1LAG) 
 C-------------------------------------
-C     LECTURE MUR RIGIDE
+C     READING MUR RIGIDE
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------

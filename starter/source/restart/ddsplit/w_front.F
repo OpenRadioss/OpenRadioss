@@ -733,7 +733,7 @@ C
             ENDDO
           ENDIF
         ELSE
-C cas aucun noeuds de rby
+C case no rby nodes
           DD_RBY2(1,N) = 0
           DD_RBY2(2,N) = 0
           DD_RBY2(3,N) = PMAIN
@@ -838,7 +838,7 @@ C
             ENDDO
           ENDIF
         ELSE
-C cas aucun noeuds rigid material
+C case no rigid material nodes
           DD_RBYM2(1,N) = 0
           DD_RBYM2(2,N) = 0
           DD_RBYM2(3,N) = PMAIN
@@ -853,7 +853,7 @@ C
           ENDIF
         ENDDO
 
-C   tag DD_RBY(3) a negatif pour reperage des r material sans echange.
+C   tag DD_RBY(3) as negative to mark r material without exchange.
         IF(ISLOCAL==0) DD_RBYM2(3,N) = -PMAIN
         K = K + NSL
       ENDDO
@@ -865,7 +865,7 @@ C
       ENDDO
       DO N = 1, NRBYM
         PMAIN = DD_RBYM2(3,N)
-C si rigid material decoupe
+C if rigid material cut
         IF(PMAIN>0) DD_P(PMAIN) = DD_P(PMAIN)+1
       ENDDO
       DO P = 1, NSPMD
@@ -1128,7 +1128,7 @@ C
             ENDDO
           ENDIF
         ELSE
-C cas aucun noeuds de rby
+C case no rby nodes
           DD_RBM2(1,N) = 0
           DD_RBM2(2,N) = 0
           DD_RBM2(3,N) = PMAIN
@@ -1365,7 +1365,7 @@ C
         IAD_SEC(3,P) = 0
         IAD_SEC(4,P) = 0
       ENDDO
-C noeuds N1, N2, N3 NNODE a echanger
+C nodes N1, N2, N3 NNODE to exchange
       DO I = 1, NSECT
         PMAIN = DD_SEC(NSPMD+1,I)
         IF(PROC==PMAIN) THEN
@@ -1586,7 +1586,7 @@ C
             END DO
             DD_MAD(2,P) = NMAD_L
 C
-C Elem solides
+C Elem solids
 C
             IDEB = IDEB + NMADSH3
             ESHIFT = 0
@@ -1599,7 +1599,7 @@ C
             END DO
             DD_MAD(3,P) = NMAD_L
 C
-C Noeuds
+C Nodes
 C
             IDEB = IDEB + NMADSOL
             NMAD_L = 0

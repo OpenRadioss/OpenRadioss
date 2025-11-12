@@ -113,7 +113,7 @@ C-----------------------------------------------
         ENDIF ! IF (FLAG == 0)
       ELSEIF (KEY(1:4) == 'EDGE') THEN
 C-----------------------------------------------
-C SUPPRESSION DES SEGMENTS INTERNES (SAUF BORDS)
+C REMOVAL OF INTERNAL SEGMENTS (EXCEPT BORDERS)
 C-----------------------------------------------
         NSEG=0
         IF (FLAG == 0) THEN

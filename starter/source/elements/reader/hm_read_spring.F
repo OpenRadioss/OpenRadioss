@@ -63,8 +63,8 @@ C-----------------------------------------------
       USE USER_ID_MOD , ONLY : ID_LIMIT
       use element_mod , only : nixr
 C----------------------------------------------------------
-C     LECTURE ELEMENT RESSORT
-C     VERSION NUMEROTATION DES NOEUDS LIBRE/MARS 90/DIM
+C     READING ELEMENT RESSORT
+C     VERSION NUMEROTATION DES NODES LIBRE/MARS 90/DIM
 C----------------------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

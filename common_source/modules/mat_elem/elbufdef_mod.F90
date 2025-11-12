@@ -1105,7 +1105,7 @@
           real(kind=WP), dimension(:)  , pointer ::  var => null()
         end type buf_visc_
 
-        Type buf_xfem_       ! buffer des elements xfem crees par la fissuration
+        Type buf_xfem_       ! buffer of xfem elements created by cracking
 !-------  layer variables
           integer  :: ly_smstr
           integer  :: ly_hourg

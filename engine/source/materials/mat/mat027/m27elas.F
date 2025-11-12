@@ -103,7 +103,7 @@ C----------------------------------------
         EEL5(I) = EEL5(I)+DEPSZX(I)
       ENDDO
 C----------------------------------------
-C     NOUVEAU DOMMAGE DES ELEMENTS CASSES
+C     NEW DAMAGE OF BROKEN ELEMENTS
 C----------------------------------------
       DO I=JFT,JLT
         IF (DAMT(I,1) /= ZERO) THEN
@@ -121,7 +121,7 @@ C
         ENDIF
       ENDDO
 C-----------------------------
-C     CONTRAINTES "ELASTIQUES"
+C     "ELASTIC" STRESSES
 C-----------------------------
       DO I=JFT,JLT
         DE1(I) = ONE - MAX(ZERO,SIGN(DAMT(I,1),SIG(I,1)))

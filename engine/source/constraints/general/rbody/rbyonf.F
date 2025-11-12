@@ -124,7 +124,7 @@ C reduction to find the value of n (n = 0 everywhere except on the main processo
 C broadcast of n to all processors
                 CALL SPMD_IBCAST(N,N,1,1,0,2)
               ENDIF
-C si N = 0, alors le rby n avait ete trouve sur aucun proc
+C if N = 0, then the rby had not been found on any proc
               IF(N==0) GOTO 120
 C
               IF(ONOF==0)THEN
