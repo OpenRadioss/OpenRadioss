@@ -107,8 +107,6 @@ C
 C
         STARTT=INTBUF_TAB(N)%VARIABLES(3)
         STOPT =INTBUF_TAB(N)%VARIABLES(11)
-        IF(STARTT>TT) CYCLE
-        IF(TT>STOPT)  CYCLE
 C
         ISENS = IPARI(64,N)  
         IF (ISENS > 0)  THEN         ! Interface activated by sensor
@@ -116,65 +114,67 @@ C
         ELSE
            TS = TT
         ENDIF
-        IF(TT<TS) CYCLE
-C
-        IF(JTASK == 1) THEN
-
-          SIZE_NODNOR_E2S = 0
-
-         IEDGE  = IPARI(58,N)
-         SOL_EDGE =0
-         IF(IEDGE /= 0) SOL_EDGE =IEDGE/10 ! solids
-
-         IF(SOL_EDGE/=0)THEN
-          DO I = 1, NSPMD
-            IF(IAD_FRNOR(NI25,I+1)-IAD_FRNOR(NI25,I)>0) THEN
-              DO J=IAD_FRNOR(NI25,I),IAD_FRNOR(NI25,I+1)-1
-                NOD = ISHIFT + FR_NOR(J)
-                DO CC = ADDCSRECT(NOD),ADDCSRECT(NOD+1)-1
-                  IF(PROCNOR(CC)==I) THEN
-                     SIZE_NODNOR_E2S = SIZE_NODNOR_E2S + 6
-                  ENDIF
-                END DO
-              END DO
-             ENDIF
-          ENDDO
-         ENDIF
-
-          ALLOCATE(BUFFERS(NI25)%SEND_BUF(   3*(IAD_FREDG(NI25,NSPMD+1)-IAD_FREDG(NI25,1))
-     .                                    +2*3*(IAD_FRNOR(NI25,NSPMD+1)-IAD_FRNOR(NI25,1))
-     .                                    +    (IAD_FRNOR(NI25,NSPMD+1)-IAD_FRNOR(NI25,1))
-     .                                    +     SIZE_NODNOR_E2S))
-          ALLOCATE(BUFFERS(NI25)%RECV_BUF(   3*(IAD_FREDG(NI25,NSPMD+1)-IAD_FREDG(NI25,1))
-     .                                    +2*3*(IAD_FRNOR(NI25,NSPMD+1)-IAD_FRNOR(NI25,1))
-     .                                    +    (IAD_FRNOR(NI25,NSPMD+1)-IAD_FRNOR(NI25,1))
-     .                                    +     SIZE_NODNOR_E2S))
-
-          ALLOCATE(BUFFERS(NI25)%ISINDEX(NSPMD))
-          ALLOCATE(BUFFERS(NI25)%IRINDEX(NSPMD))
-          ALLOCATE(BUFFERS(NI25)%SEND_RQ(NSPMD))
-          ALLOCATE(BUFFERS(NI25)%RECV_RQ(NSPMD))
-          ALLOCATE(BUFFERS(NI25)%IAD_RECV(NSPMD+1))
-          ALLOCATE(BUFFERS(NI25)%IAD_SEND(NSPMD+1))
-        ENDIF
-C
         NADMSR = IPARI(67,N)
-        NRTM   = IPARI(4,N)
-        NSN    = IPARI(5,N)
-        NSNR   = IPARI(24,N)
+
+        IF(TT >= TS.AND.TT >= STARTT.AND.TT <= STOPT) THEN
+C
+          IF(JTASK == 1) THEN
+
+            SIZE_NODNOR_E2S = 0
+
+            IEDGE  = IPARI(58,N)
+            SOL_EDGE =0
+            IF(IEDGE /= 0) SOL_EDGE =IEDGE/10 ! solids
+  
+            IF(SOL_EDGE/=0)THEN
+             DO I = 1, NSPMD
+               IF(IAD_FRNOR(NI25,I+1)-IAD_FRNOR(NI25,I)>0) THEN
+                 DO J=IAD_FRNOR(NI25,I),IAD_FRNOR(NI25,I+1)-1
+                   NOD = ISHIFT + FR_NOR(J)
+                   DO CC = ADDCSRECT(NOD),ADDCSRECT(NOD+1)-1
+                     IF(PROCNOR(CC)==I) THEN
+                       SIZE_NODNOR_E2S = SIZE_NODNOR_E2S + 6
+                     ENDIF
+                   END DO
+                 END DO
+                ENDIF
+             ENDDO
+            ENDIF
+
+
+             ALLOCATE(BUFFERS(NI25)%SEND_BUF(   3*(IAD_FREDG(NI25,NSPMD+1)-IAD_FREDG(NI25,1))
+     .                                    +2*3*(IAD_FRNOR(NI25,NSPMD+1)-IAD_FRNOR(NI25,1))
+     .                                    +    (IAD_FRNOR(NI25,NSPMD+1)-IAD_FRNOR(NI25,1))
+     .                                    +     SIZE_NODNOR_E2S))
+             ALLOCATE(BUFFERS(NI25)%RECV_BUF(   3*(IAD_FREDG(NI25,NSPMD+1)-IAD_FREDG(NI25,1))
+     .                                    +2*3*(IAD_FRNOR(NI25,NSPMD+1)-IAD_FRNOR(NI25,1))
+     .                                    +    (IAD_FRNOR(NI25,NSPMD+1)-IAD_FRNOR(NI25,1))
+     .                                    +     SIZE_NODNOR_E2S))
+
+             ALLOCATE(BUFFERS(NI25)%ISINDEX(NSPMD))
+             ALLOCATE(BUFFERS(NI25)%IRINDEX(NSPMD))
+             ALLOCATE(BUFFERS(NI25)%SEND_RQ(NSPMD))
+             ALLOCATE(BUFFERS(NI25)%RECV_RQ(NSPMD))
+             ALLOCATE(BUFFERS(NI25)%IAD_RECV(NSPMD+1))
+             ALLOCATE(BUFFERS(NI25)%IAD_SEND(NSPMD+1))
+          ENDIF
+C
+          NRTM   = IPARI(4,N)
+          NSN    = IPARI(5,N)
+          NSNR   = IPARI(24,N)
 
         
  
-        NRTM_SH=IPARI(42,N)
-        NRTM0  =NRTM-NRTM_SH
-        FLAGREMN = IPARI(63,N)
+          NRTM_SH=IPARI(42,N)
+          NRTM0  =NRTM-NRTM_SH
+          FLAGREMN = IPARI(63,N)
 
-        IEDGE  = IPARI(58,N)
-        NEDGE  = IPARI(68,N) ! Updated in i25normp
-        SOL_EDGE =0
-        IF(IEDGE /= 0) SOL_EDGE =IEDGE/10 ! solids
+          IEDGE  = IPARI(58,N)
+          NEDGE  = IPARI(68,N) ! Updated in i25normp
+          SOL_EDGE =0
+          IF(IEDGE /= 0) SOL_EDGE =IEDGE/10 ! solids
 
-        CALL I25TAGN(NI25    ,N       ,NRTM     ,NSN         ,NSNR      ,
+          CALL I25TAGN(NI25    ,N       ,NRTM     ,NSN         ,NSNR      ,
      2               JTASK   ,IAD_FRNOR ,FR_NOR  ,INTBUF_TAB(N)%IRTLM,INTBUF_TAB(N)%MSEGTYP24  ,
      3               INTBUF_TAB(N)%I_STOK(2), INTBUF_TAB(N)%I_STOK(3), INTBUF_TAB(N)%CAND_OPT_E, 
      .                           INTBUF_TAB(N)%STFNS, INTBUF_TAB(N)%ACTNOR,INTBUF_TAB(N)%IRECTM,    
@@ -189,36 +189,37 @@ C
 
 
 C
-        NADMSRF6= 1+(JTASK-1)*6*NADMSR/ NTHREAD
-        NADMSRL6= JTASK*6*NADMSR/NTHREAD
-        INTBUF_TAB(N)%VTX_BISECTOR(NADMSRF6:NADMSRL6)=RZERO
+          NADMSRF6= 1+(JTASK-1)*6*NADMSR/ NTHREAD
+          NADMSRL6= JTASK*6*NADMSR/NTHREAD
+          INTBUF_TAB(N)%VTX_BISECTOR(NADMSRF6:NADMSRL6)=RZERO
 C
-        IF(JTASK==1) ALLOCATE(INTBUF_TAB(N)%TAGSEG(4,4*NRTM))
+          IF(JTASK==1) ALLOCATE(INTBUF_TAB(N)%TAGSEG(4,4*NRTM))
 
-        CALL MY_BARRIER()
+          CALL MY_BARRIER()
 C
 
-        CALL I25NORMP(
-     1    NI25,NRTM,NRTM0,INTBUF_TAB(N)%IRECTM,X           ,
-     2    INTBUF_TAB(N)%EDGE_BISECTOR,IPARI(6,N),INTBUF_TAB(N)%MSR   , 
+          CALL I25NORMP(
+     1     NI25,NRTM,NRTM0,INTBUF_TAB(N)%IRECTM,X           ,
+     2     INTBUF_TAB(N)%EDGE_BISECTOR,IPARI(6,N),INTBUF_TAB(N)%MSR   , 
      .                        JTASK,INTBUF_TAB(N)%STFM,INTBUF_TAB(N)%STFE,
-     3    INTBUF_TAB(N)%ACTNOR,INTBUF_TAB(N)%MSEGTYP24,INTBUF_TAB(N)%TAGNOD,
+     3     INTBUF_TAB(N)%ACTNOR,INTBUF_TAB(N)%MSEGTYP24,INTBUF_TAB(N)%TAGNOD,
      .                        INTBUF_TAB(N)%MVOISIN,INTBUF_TAB(N)%EVOISIN,
-     4    IAD_FREDG,FR_EDG,INTBUF_TAB(N)%WNOD_NORMAL,BUFFERS(NI25),IEDGE,IPARI(68,N),
-     5    INTBUF_TAB(N)%LEDGE,INTBUF_TAB(N)%LBOUND,NADMSR,INTBUF_TAB(N)%ADMSR,
-     6    IAD_FRNOR,FR_NOR,INTBUF_TAB(N)%VTX_BISECTOR,1,
-     7    INTBUF_TAB(N)%NB_TAGSEG, INTBUF_TAB(N)%TAGSEG,INTBUF_TAB(N)%TAGE,INTBUF_TAB(N)%FREE_IRECT_ID,INTBUF_TAB(N)%NRTM_FREE,
-     8    FSKYN25(1,NCSHIFT),INTBUF_TAB(N)%IADNOR,ISHIFT,ADDCSRECT,PROCNOR,SOL_EDGE ,
-     9    FSKYN25 )
+     4     IAD_FREDG,FR_EDG,INTBUF_TAB(N)%WNOD_NORMAL,BUFFERS(NI25),IEDGE,IPARI(68,N),
+     5     INTBUF_TAB(N)%LEDGE,INTBUF_TAB(N)%LBOUND,NADMSR,INTBUF_TAB(N)%ADMSR,
+     6     IAD_FRNOR,FR_NOR,INTBUF_TAB(N)%VTX_BISECTOR,1,
+     7     INTBUF_TAB(N)%NB_TAGSEG, INTBUF_TAB(N)%TAGSEG,INTBUF_TAB(N)%TAGE,INTBUF_TAB(N)%FREE_IRECT_ID,INTBUF_TAB(N)%NRTM_FREE,
+     8     FSKYN25(1,NCSHIFT),INTBUF_TAB(N)%IADNOR,ISHIFT,ADDCSRECT,PROCNOR,SOL_EDGE ,
+     9     FSKYN25 )
 
 C
-        CALL MY_BARRIER()
+           CALL MY_BARRIER()
+
+
+           IF(JTASK==1)  DEALLOCATE(INTBUF_TAB(N)%TAGSEG)
+        ENDIF
 
         NCSHIFT=NCSHIFT+INTBUF_TAB(N)%ADSKYN(NADMSR+1)-1
         ISHIFT = ISHIFT + IPARI(67,N)
-
-        IF(JTASK==1)  DEALLOCATE(INTBUF_TAB(N)%TAGSEG)
-
 C
       END DO
 
@@ -232,8 +233,6 @@ C     ALLOCATE(INTBUF_TAB(I)%TAGSEG(1,1))
 C
         STARTT=INTBUF_TAB(N)%VARIABLES(3)
         STOPT =INTBUF_TAB(N)%VARIABLES(11)
-        IF(STARTT>TT) CYCLE
-        IF(TT>STOPT)  CYCLE
 C
         ISENS = IPARI(64,N)  
         IF (ISENS > 0)  THEN         ! Interface activated by sensor
@@ -241,53 +240,57 @@ C
         ELSE
            TS = TT
         ENDIF
-        IF(TT<TS) CYCLE
 
         NADMSR = IPARI(67,N)
-        NRTM   = IPARI(4,N)
-        NSN    = IPARI(5,N)
-        NSNR   = IPARI(24,N)
 
-        NRTM_SH=IPARI(42,N)
-        NRTM0  =NRTM-NRTM_SH
+        IF(TT >= TS.AND.TT >= STARTT.AND.TT <= STOPT) THEN
 
-        IEDGE  = IPARI(58,N)
-C       NEDGE  = IPARI(68,N) ! Updated in i25normp
-        SOL_EDGE =0
-        IF(IEDGE /= 0) SOL_EDGE =IEDGE/10 ! solids
+          NRTM   = IPARI(4,N)
+          NSN    = IPARI(5,N)
+          NSNR   = IPARI(24,N)
 
-        CALL MY_BARRIER()
+          NRTM_SH=IPARI(42,N)
+          NRTM0  =NRTM-NRTM_SH
 
-        CALL I25NORMP(
-     1    NI25,NRTM,NRTM0,INTBUF_TAB(N)%IRECTM,X           ,
-     2    INTBUF_TAB(N)%EDGE_BISECTOR,IPARI(6,N),INTBUF_TAB(N)%MSR   , 
+          IEDGE  = IPARI(58,N)
+C         NEDGE  = IPARI(68,N) ! Updated in i25normp
+          SOL_EDGE =0
+          IF(IEDGE /= 0) SOL_EDGE =IEDGE/10 ! solids
+
+          CALL MY_BARRIER()
+
+          CALL I25NORMP(
+     1     NI25,NRTM,NRTM0,INTBUF_TAB(N)%IRECTM,X           ,
+     2     INTBUF_TAB(N)%EDGE_BISECTOR,IPARI(6,N),INTBUF_TAB(N)%MSR   , 
      .                    JTASK,INTBUF_TAB(N)%STFM,INTBUF_TAB(N)%STFE,
-     3    INTBUF_TAB(N)%ACTNOR,INTBUF_TAB(N)%MSEGTYP24,INTBUF_TAB(N)%TAGNOD,
+     3     INTBUF_TAB(N)%ACTNOR,INTBUF_TAB(N)%MSEGTYP24,INTBUF_TAB(N)%TAGNOD,
      .                    INTBUF_TAB(N)%MVOISIN,INTBUF_TAB(N)%EVOISIN,
-     4    IAD_FREDG,FR_EDG,INTBUF_TAB(N)%WNOD_NORMAL,BUFFERS(NI25),IEDGE,IPARI(68,N),
-     5    INTBUF_TAB(N)%LEDGE,INTBUF_TAB(N)%LBOUND,NADMSR,INTBUF_TAB(N)%ADMSR,
-     6    IAD_FRNOR,FR_NOR,INTBUF_TAB(N)%VTX_BISECTOR,2,
-     7    INTBUF_TAB(N)%NB_TAGSEG,INTBUF_TAB(N)%TAGSEG,INTBUF_TAB(N)%TAGE,INTBUF_TAB(N)%FREE_IRECT_ID,INTBUF_TAB(N)%NRTM_FREE,
-     8    FSKYN25(1,NCSHIFT),INTBUF_TAB(N)%IADNOR,ISHIFT,ADDCSRECT,PROCNOR,SOL_EDGE,
-     9    FSKYN25 )
+     4     IAD_FREDG,FR_EDG,INTBUF_TAB(N)%WNOD_NORMAL,BUFFERS(NI25),IEDGE,IPARI(68,N),
+     5     INTBUF_TAB(N)%LEDGE,INTBUF_TAB(N)%LBOUND,NADMSR,INTBUF_TAB(N)%ADMSR,
+     6     IAD_FRNOR,FR_NOR,INTBUF_TAB(N)%VTX_BISECTOR,2,
+     7     INTBUF_TAB(N)%NB_TAGSEG,INTBUF_TAB(N)%TAGSEG,INTBUF_TAB(N)%TAGE,INTBUF_TAB(N)%FREE_IRECT_ID,INTBUF_TAB(N)%NRTM_FREE,
+     8     FSKYN25(1,NCSHIFT),INTBUF_TAB(N)%IADNOR,ISHIFT,ADDCSRECT,PROCNOR,SOL_EDGE,
+     9     FSKYN25 )
 
 
-        CALL MY_BARRIER()
+           CALL MY_BARRIER()
+
+
+           IF(JTASK == 1) THEN
+             DEALLOCATE(BUFFERS(NI25)%SEND_BUF)
+             DEALLOCATE(BUFFERS(NI25)%RECV_BUF)
+             DEALLOCATE(BUFFERS(NI25)%ISINDEX)
+             DEALLOCATE(BUFFERS(NI25)%IRINDEX)
+             DEALLOCATE(BUFFERS(NI25)%SEND_RQ)
+             DEALLOCATE(BUFFERS(NI25)%RECV_RQ)
+             DEALLOCATE(BUFFERS(NI25)%IAD_RECV)
+             DEALLOCATE(BUFFERS(NI25)%IAD_SEND)
+           ENDIF
+           CALL MY_BARRIER()
+        ENDIF
 
         NCSHIFT=NCSHIFT+INTBUF_TAB(N)%ADSKYN(NADMSR+1)-1
         ISHIFT = ISHIFT + IPARI(67,N)
-
-        IF(JTASK == 1) THEN
-          DEALLOCATE(BUFFERS(NI25)%SEND_BUF)
-          DEALLOCATE(BUFFERS(NI25)%RECV_BUF)
-          DEALLOCATE(BUFFERS(NI25)%ISINDEX)
-          DEALLOCATE(BUFFERS(NI25)%IRINDEX)
-          DEALLOCATE(BUFFERS(NI25)%SEND_RQ)
-          DEALLOCATE(BUFFERS(NI25)%RECV_RQ)
-          DEALLOCATE(BUFFERS(NI25)%IAD_RECV)
-          DEALLOCATE(BUFFERS(NI25)%IAD_SEND)
-        ENDIF
-        CALL MY_BARRIER()
       END DO
 C
 
@@ -311,8 +314,11 @@ C       NEDGE  = IPARI(68,N) ! Updated in i25normp
              TS = TT
           ENDIF
 
+          STARTT=INTBUF_TAB(N)%VARIABLES(3)
+          STOPT =INTBUF_TAB(N)%VARIABLES(11)
+
           NADMSR = IPARI(67,N)
-          IF(TT >= TS) THEN
+          IF(TT >= TS.AND.TT >= STARTT.AND.TT <= STOPT) THEN
             CALL I25ASSNP(
      1        JTASK  ,NADMSR      ,INTBUF_TAB(N)%E2S_NOD_NORMAL,INTBUF_TAB(N)%ADMSR,INTBUF_TAB(N)%ADSKYN,
      2        INTBUF_TAB(N)%IADNOR,INTBUF_TAB(N)%E2S_ACTNOR,FSKYN25(1,NCSHIFT))
