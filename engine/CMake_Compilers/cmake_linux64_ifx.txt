@@ -116,8 +116,8 @@ if ( NOT DEFINED WITH_LINEAR_ALGEBRA)
 set ( wo_linalg "-DWITHOUT_LINALG" )
 endif()
 
-set(opt_flag  "-axCORE-AVX2,COMMON-AVX512 -no-fma -O3 -fp-model precise -fimf-use-svml=true -qopenmp")
-set(optc_flag "-axCORE-AVX2,COMMON-AVX512 -no-fma -O3 -fp-model precise -fimf-use-svml=true -qopenmp")
+set(opt_flag  "-axCORE-AVX2,COMMON-AVX512 -qopt-mem-layout-trans=4 -no-fma -O3 -fp-model precise -fimf-use-svml=true -qopenmp")
+set(optc_flag "-axCORE-AVX2,COMMON-AVX512 -qopt-mem-layout-trans=4 -no-fma -O3 -fp-model precise -fimf-use-svml=true -qopenmp")
 
 set(opt_flag_debug "-g3 -traceback -no-fma -O0 -fp-model precise -qopenmp")
 set(optc_flag_debug "-g3 -no-fma -O0 -fp-model precise -qopenmp")
@@ -133,7 +133,7 @@ if ( debug STREQUAL "1")
 elseif ( debug STREQUAL "chkb" )
 
   # Debug compilation with Fortran check bounds
-  set(fortran_flags "${opt_flag_debug} -check bounds ${linalg_flags} ${precision_flag} ${Fortran} ${mpi_flag} ${mumps_flags} ${cppmach} ${cpprel} ${ADF}")
+  set(fortran_flags "${opt_flag_debug} -check bounds -fpe0 -ftrapuv ${linalg_flags} ${precision_flag} ${Fortran} ${mpi_flag} ${mumps_flags} ${cppmach} ${cpprel} ${ADF}")
   set(c_flags       "${optc_flag_debug} ${linalg_cflags} ${h3d_inc} ${zlib_inc} ${md5_inc} ${precision_flag} ${mpi_flag} ${mumps_flags} ${cppmach} ${cpprel} -O2")
   set(cpp_flags     "${optc_flag_debug} ${linalg_cflags} ${h3d_inc} ${zlib_inc} ${md5_inc} ${precision_flag} ${mpi_flag} ${mumps_flags} ${cppmach} ${cpprel} -O2 -std=c++11")
 
