@@ -855,6 +855,9 @@ C
           CALL HM_GET_INTV('GR_SURF',IGSURF,IS_AVAILABLE,LSUBMODEL)
           
           CALL HM_GET_INTV('skew_ID',ISK0,IS_AVAILABLE,LSUBMODEL)
+
+          IF( ISK0 == 0 .AND. SUB_INDEX /= 0 ) ISK0 = LSUBMODEL(SUB_INDEX)%SKEW
+          
           CALL HM_GET_STRING('Dir',DIR,ncharfield,IS_AVAILABLE)
           DO K = 1,LFIELD
             IF(DIR(K:K) == 'X'.OR.DIR(K:K) == 'x')IDIR = 1
