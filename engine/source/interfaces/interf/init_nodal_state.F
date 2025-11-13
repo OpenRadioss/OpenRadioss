@@ -148,6 +148,8 @@ C-----------------------------------------------
         INTEGER, DIMENSION(NSPMD) :: SIZE_BUFFER_MAIN,SIZE_BUFFER_SECOND
         INTEGER, DIMENSION(NSPMD) :: R_SIZE_BUFFER_MAIN,R_SIZE_BUFFER_SECOND
 
+        integer :: erosion_state
+
 C-----------------------------------------------
         ! --------------------------------
         ! Upper & lower bound, only used by the erosion of solid element + /TYPE25
@@ -853,7 +855,11 @@ C-----------------------------------------------
         call init_hashtable_for_neighbour_segment( npari,ninter,ipari,shoot_struct )
         do nin=1,ninter
           ity = ipari(7,nin) ! get the interface id
-          if(ity==25) call get_hashtable_for_neighbour_segment( nin,npari,ninter,ipari,intbuf_tab,shoot_struct )
+          idel = ipari(17,i) ! get the idel option
+          erosion_state = ipari(100,i) ! get the erosion state          
+          if(ity==25.and.(idel/=0.or.erosion_state/=0)) then
+            call get_hashtable_for_neighbour_segment( nin,npari,ninter,ipari,intbuf_tab,shoot_struct )
+          endif
         enddo
         ! ---------------------------
 
