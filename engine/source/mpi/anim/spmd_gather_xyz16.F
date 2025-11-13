@@ -27,7 +27,7 @@ C            XYZ16                  /anim/genani.F
 !||--- called by ------------------------------------------------------
 !||    xyz16                 ../engine/source/output/anim/generate/monvol_anim.F90
 !||--- calls      -----------------------------------------------------
-!||    write_r_c             ../common_source/tools/input_output/write_routtines.c
+!||    write_r_c             ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
 !||====================================================================

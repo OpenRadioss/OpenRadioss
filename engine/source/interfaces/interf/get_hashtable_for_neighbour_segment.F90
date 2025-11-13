@@ -21,6 +21,10 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
+!||    get_hashtable_for_neighbour_segment_mod   ../engine/source/interfaces/interf/get_hashtable_for_neighbour_segment.F90
+!||--- called by ------------------------------------------------------
+!||    init_nodal_state                          ../engine/source/interfaces/interf/init_nodal_state.F
+!||    update_neighbour_segment                  ../engine/source/interfaces/interf/update_neighbour_segment.F90
 !||====================================================================
       module get_hashtable_for_neighbour_segment_mod
       implicit none
@@ -30,6 +34,19 @@
 ! ======================================================================================================================
 !! \brief This routine initializes a hash table. The hash table is used to remove the neighborhood of a deleted segment
 !||====================================================================
+!||    get_hashtable_for_neighbour_segment   ../engine/source/interfaces/interf/get_hashtable_for_neighbour_segment.F90
+!||--- called by ------------------------------------------------------
+!||    init_nodal_state                      ../engine/source/interfaces/interf/init_nodal_state.F
+!||    update_neighbour_segment              ../engine/source/interfaces/interf/update_neighbour_segment.F90
+!||--- calls      -----------------------------------------------------
+!||    c_delete_hash                         ../common_source/tools/container/c_hash_table.cpp
+!||    c_hash_find                           ../common_source/tools/container/c_hash_table.cpp
+!||    c_hash_insert                         ../common_source/tools/container/c_hash_table.cpp
+!||    c_new_hash                            ../common_source/tools/container/c_hash_table.cpp
+!||--- uses       -----------------------------------------------------
+!||    debug_mod                             ../engine/share/modules/debug_mod.F
+!||    intbufdef_mod                         ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    shooting_node_mod                     ../engine/share/modules/shooting_node_mod.F90
 !||====================================================================
         subroutine get_hashtable_for_neighbour_segment( nin,npari,ninter,ipari,intbuf_tab,shoot_struct )
 ! ----------------------------------------------------------------------------------------------------------------------

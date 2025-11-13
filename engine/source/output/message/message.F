@@ -357,7 +357,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    usermat_solid                ../engine/source/materials/mat_share/usermat_solid.F
 !||    wciusc2                      ../engine/source/input/wciusc2.F
 !||    wriusc2                      ../engine/source/input/wriusc2.F
-!||    xanim28                      ../engine/source/elements/xelem/xanim28.F
 !||    xforc28                      ../engine/source/elements/xelem/xforc28.F
 !||--- uses       -----------------------------------------------------
 !||    message_mod2                 ../engine/share/message_module/message_mod2.F

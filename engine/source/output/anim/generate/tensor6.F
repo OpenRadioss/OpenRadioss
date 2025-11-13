@@ -29,7 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_r4get_partn   ../engine/source/mpi/anim/spmd_r4get_partn.F
 !||    srota6             ../engine/source/output/anim/generate/srota6.F
 !||    srota6_s8s         ../engine/source/output/anim/generate/srota6_s8s.F
-!||    write_r_c          ../common_source/tools/input_output/write_routtines.c
+!||    write_r_c          ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
 !||    initbuf_mod        ../engine/share/resol/initbuf.F

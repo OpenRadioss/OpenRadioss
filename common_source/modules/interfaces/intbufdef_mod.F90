@@ -571,6 +571,7 @@
 !||    fr_matv                                  ../engine/source/mpi/implicit/imp_fri.F
 !||    fr_u2dd                                  ../engine/source/mpi/implicit/imp_fri.F
 !||    fxbtagn                                  ../starter/source/constraints/fxbody/fxbtagn.F
+!||    get_hashtable_for_neighbour_segment      ../engine/source/interfaces/interf/get_hashtable_for_neighbour_segment.F90
 !||    get_list_remnode                         ../starter/source/interfaces/inter3d1/get_list_remnode.F90
 !||    get_neighbour_surface                    ../engine/source/interfaces/interf/get_neighbour_surface.F90
 !||    get_neighbour_surface_from_remote_proc   ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
@@ -881,6 +882,7 @@
 !||    remn_i2op                                ../starter/source/interfaces/inter3d1/i7remnode.F
 !||    remn_i2op_edg25                          ../starter/source/interfaces/int25/i25remlin.F
 !||    remn_self24                              ../starter/source/interfaces/inter3d1/remn_self24.F
+!||    remove_neighbour_segment                 ../engine/source/interfaces/interf/remove_neighbour_segment.F90
 !||    rer02                                    ../engine/source/implicit/upd_glob_k.F
 !||    rer_int_v                                ../engine/source/implicit/upd_glob_k.F
 !||    reset_gap                                ../starter/source/interfaces/interf1/reset_gap.F

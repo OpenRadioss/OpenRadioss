@@ -29,7 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    check_active_elem_edge       ../engine/source/interfaces/interf/check_active_elem_edge.F
 !||--- uses       -----------------------------------------------------
 !||    intbufdef_mod                ../common_source/modules/interfaces/intbufdef_mod.F90
-!||    shooting_node_mod            ../engine/share/modules/shooting_node_mod.F
+!||    shooting_node_mod            ../engine/share/modules/shooting_node_mod.F90
 !||====================================================================
         SUBROUTINE CHECK_EDGE_STATE( ITASK,M_EDGE_NB,S_EDGE_NB,M_EDGE_ID,S_EDGE_ID,
      .                               SHIFT_INTERFACE,INTBUF_TAB,NEWFRONT,IPARI,GEO,

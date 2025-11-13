@@ -28,7 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    rad_spmd_recv   ../engine/source/mpi/generic/rad_spmd_recv.F
 !||    rad_spmd_send   ../engine/source/mpi/generic/rad_spmd_send.F
 !||    spmd_igath      ../engine/source/mpi/anim/spmd_igath.F
-!||    write_i_c       ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c       ../common_source/tools/input_output/write_routines.c
 !||====================================================================
       SUBROUTINE ANISKEWF(GEO,SKEW,IPARG,IXR,DD_IAD,LRBUF)
 C-----------------------------------------------

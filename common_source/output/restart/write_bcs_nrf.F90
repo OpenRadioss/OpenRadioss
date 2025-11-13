@@ -43,7 +43,7 @@
 !||    wrrestp         ../engine/source/output/restart/wrrestp.F
 !||--- calls      -----------------------------------------------------
 !||    write_db        ../common_source/tools/input_output/write_db.F
-!||    write_i_c       ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c       ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    bcs_mod         ../common_source/modules/boundary_conditions/bcs_mod.F90
 !||====================================================================

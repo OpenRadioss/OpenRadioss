@@ -3393,8 +3393,8 @@ C
 !||    ancmsg                       ../engine/source/output/message/message.F
 !||    arret                        ../engine/source/system/arret.F
 !||    read_db                      ../common_source/tools/input_output/read_db.F
-!||    read_i_c                     ../common_source/tools/input_output/write_routtines.c
-!||    read_r_c                     ../common_source/tools/input_output/write_routtines.c
+!||    read_i_c                     ../common_source/tools/input_output/write_routines.c
+!||    read_r_c                     ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    h3d_mod                      ../engine/share/modules/h3d_mod.F
 !||    interface_modification_mod   ../engine/share/modules/interface_modification_mod.F
@@ -5115,8 +5115,8 @@ C
 !||    wrrestp                      ../engine/source/output/restart/wrrestp.F
 !||--- calls      -----------------------------------------------------
 !||    write_db                     ../common_source/tools/input_output/write_db.F
-!||    write_i_c                    ../common_source/tools/input_output/write_routtines.c
-!||    write_r_c                    ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c                    ../common_source/tools/input_output/write_routines.c
+!||    write_r_c                    ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    intbufdef_mod                ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    interface_modification_mod   ../engine/share/modules/interface_modification_mod.F

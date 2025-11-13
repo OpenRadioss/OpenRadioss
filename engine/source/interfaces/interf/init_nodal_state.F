@@ -21,19 +21,23 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    init_nodal_state            ../engine/source/interfaces/interf/init_nodal_state.F
+!||    init_nodal_state                           ../engine/source/interfaces/interf/init_nodal_state.F
 !||--- called by ------------------------------------------------------
-!||    resol                       ../engine/source/engine/resol.F
+!||    resol                                      ../engine/source/engine/resol.F
 !||--- calls      -----------------------------------------------------
-!||    count_nb_elem_edge          ../engine/source/interfaces/interf/count_nb_elem_edge.F
-!||    count_remote_nb_elem_edge   ../engine/source/interfaces/interf/count_remote_nb_elem_edge.F
-!||    myqsort_int                 ../common_source/tools/sort/myqsort_int.F
+!||    count_nb_elem_edge                         ../engine/source/interfaces/interf/count_nb_elem_edge.F
+!||    count_remote_nb_elem_edge                  ../engine/source/interfaces/interf/count_remote_nb_elem_edge.F
+!||    get_hashtable_for_neighbour_segment        ../engine/source/interfaces/interf/get_hashtable_for_neighbour_segment.F90
+!||    init_hashtable_for_neighbour_segment       ../engine/source/interfaces/interf/init_hashtable_for_neighbour_segment.F90
+!||    myqsort_int                                ../common_source/tools/sort/myqsort_int.F
 !||--- uses       -----------------------------------------------------
-!||    array_mod                   ../common_source/modules/array_mod.F
-!||    intbufdef_mod               ../common_source/modules/interfaces/intbufdef_mod.F90
-!||    nodal_arrays_mod            ../common_source/modules/nodal_arrays.F90
-!||    shooting_node_mod           ../engine/share/modules/shooting_node_mod.F
-!||    spmd_comm_world_mod         ../engine/source/mpi/spmd_comm_world.F90
+!||    array_mod                                  ../common_source/modules/array_mod.F
+!||    get_hashtable_for_neighbour_segment_mod    ../engine/source/interfaces/interf/get_hashtable_for_neighbour_segment.F90
+!||    init_hashtable_for_neighbour_segment_mod   ../engine/source/interfaces/interf/init_hashtable_for_neighbour_segment.F90
+!||    intbufdef_mod                              ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    nodal_arrays_mod                           ../common_source/modules/nodal_arrays.F90
+!||    shooting_node_mod                          ../engine/share/modules/shooting_node_mod.F90
+!||    spmd_comm_world_mod                        ../engine/source/mpi/spmd_comm_world.F90
 !||====================================================================
         SUBROUTINE INIT_NODAL_STATE( IPARI,SHOOT_STRUCT,INTBUF_TAB,IAD_ELEM,FR_ELEM,
      .                               ITAB,NODES,GEO,ADDCNEL,CNEL,

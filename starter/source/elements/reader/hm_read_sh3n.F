@@ -28,7 +28,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ancmsg           ../starter/source/output/message/message.F
 !||    anodset          ../starter/source/output/analyse/analyse_node.c
 !||    apartset         ../starter/source/output/analyse/analyse_part.c
-!||    nintrn           ../starter/source/system/nintrn.F
 !||    usr2sys          ../starter/source/system/sysfus.F
 !||    vdouble          ../starter/source/system/sysfus.F
 !||--- uses       -----------------------------------------------------

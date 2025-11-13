@@ -27,9 +27,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- calls      -----------------------------------------------------
 !||    ancmsg                    ../engine/source/output/message/message.F
 !||    arret                     ../engine/source/system/arret.F
-!||    close_c                   ../common_source/tools/input_output/write_routtines.c
-!||    cur_fil_c                 ../common_source/tools/input_output/write_routtines.c
-!||    open_c                    ../common_source/tools/input_output/write_routtines.c
+!||    close_c                   ../common_source/tools/input_output/write_routines.c
+!||    cur_fil_c                 ../common_source/tools/input_output/write_routines.c
+!||    open_c                    ../common_source/tools/input_output/write_routines.c
 !||    spmd_outpitab             ../engine/source/mpi/interfaces/spmd_outp.F
 !||    stat_beam_mp              ../engine/source/output/sta/stat_beam_mp.F
 !||    stat_beam_spmd            ../engine/source/output/sta/stat_beam_spmd.F

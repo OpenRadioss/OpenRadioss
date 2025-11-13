@@ -21,11 +21,9 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    m10law      ../engine/source/materials/mat/mat010/m10law.F
+!||    m10law   ../engine/source/materials/mat/mat010/m10law.F
 !||--- called by ------------------------------------------------------
-!||    mmain       ../engine/source/materials/mat_share/mmain.F90
-!||--- uses       -----------------------------------------------------
-!||    debug_mod   ../engine/share/modules/debug_mod.F
+!||    mmain    ../engine/source/materials/mat_share/mmain.F90
 !||====================================================================
       SUBROUTINE M10LAW(PM      ,OFF     ,SIG    ,EINT    ,RHO       ,
      2                  EPSQ    ,EPXE    ,VOL    ,MAT     ,SSP       ,

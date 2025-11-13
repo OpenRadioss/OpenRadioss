@@ -25,7 +25,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    sortie_main       ../engine/source/output/sortie_main.F
 !||--- calls      -----------------------------------------------------
-!||    cur_fil_c         ../common_source/tools/input_output/write_routtines.c
+!||    cur_fil_c         ../common_source/tools/input_output/write_routines.c
 !||    initnoise         ../engine/source/general_controls/computation/initnoise.F
 !||    initnoise2        ../engine/source/general_controls/computation/initnoise.F
 !||    pnoise            ../engine/source/general_controls/computation/pnoise.F

@@ -34,7 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    write_sensors   ../engine/source/output/restart/write_sensors.F
 !||--- calls      -----------------------------------------------------
-!||    write_i_c       ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c       ../common_source/tools/input_output/write_routines.c
 !||====================================================================
         SUBROUTINE WRITE_INTEGER(A)
 C-----------------------------------------------
@@ -56,7 +56,7 @@ C-----------------------------------------------
 !||====================================================================
 !||    write_integer_1d   ../common_source/comm/write_mod.F
 !||--- calls      -----------------------------------------------------
-!||    write_i_c          ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c          ../common_source/tools/input_output/write_routines.c
 !||====================================================================
         SUBROUTINE WRITE_INTEGER_1D(A,N)
 C-----------------------------------------------
@@ -73,7 +73,7 @@ C-----------------------------------------------
 !||====================================================================
 !||    write_integer_2d   ../common_source/comm/write_mod.F
 !||--- calls      -----------------------------------------------------
-!||    write_i_c          ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c          ../common_source/tools/input_output/write_routines.c
 !||====================================================================
         SUBROUTINE WRITE_INTEGER_2D(A,N,M)
 C-----------------------------------------------
@@ -96,7 +96,7 @@ C-----------------------------------------------
 !||====================================================================
 !||    write_integer_3d   ../common_source/comm/write_mod.F
 !||--- calls      -----------------------------------------------------
-!||    write_i_c          ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c          ../common_source/tools/input_output/write_routines.c
 !||====================================================================
         SUBROUTINE WRITE_INTEGER_3D(A,L,N,M)
 C-----------------------------------------------

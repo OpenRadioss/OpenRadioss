@@ -26,7 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    genani            ../engine/source/output/anim/generate/genani.F
 !||--- calls      -----------------------------------------------------
 !||    spmd_wrt_xyznod   ../engine/source/mpi/anim/spmd_wrt_xyznod.F
-!||    write_r_c         ../common_source/tools/input_output/write_routtines.c
+!||    write_r_c         ../common_source/tools/input_output/write_routines.c
 !||====================================================================
       SUBROUTINE XYZNOD(X,X_TEMP,NODGLOB,WEIGHT)
 C-----------------------------------------------

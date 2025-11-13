@@ -44,7 +44,7 @@
 !||    get_segment_normal_mod    ../engine/source/interfaces/interf/get_segment_normal.F90
 !||    intbufdef_mod             ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    precision_mod             ../common_source/modules/precision_mod.F90
-!||    shooting_node_mod         ../engine/share/modules/shooting_node_mod.F
+!||    shooting_node_mod         ../engine/share/modules/shooting_node_mod.F90
 !||====================================================================
         subroutine get_segment_orientation( segment_id,s_elem_state,nixs,nixc,nixtg, &
           numels,numelc,numeltg,numnod, &

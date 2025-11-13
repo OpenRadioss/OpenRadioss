@@ -26,7 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    genani            ../engine/source/output/anim/generate/genani.F
 !||--- calls      -----------------------------------------------------
 !||    spmd_iget_partn   ../engine/source/mpi/anim/spmd_iget_partn.F
-!||    write_c_c         ../common_source/tools/input_output/write_routtines.c
+!||    write_c_c         ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    crackxfem_mod     ../engine/share/modules/crackxfem_mod.F
 !||    elbufdef_mod      ../common_source/modules/mat_elem/elbufdef_mod.F90

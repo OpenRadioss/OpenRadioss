@@ -37,7 +37,7 @@
 !||    genani              ../engine/source/output/anim/generate/genani.F
 !||--- calls      -----------------------------------------------------
 !||    spmd_gather_xyz16   ../engine/source/mpi/anim/spmd_gather_xyz16.F
-!||    write_r_c           ../common_source/tools/input_output/write_routtines.c
+!||    write_r_c           ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    constant_mod        ../common_source/modules/constant_mod.F
 !||    precision_mod       ../common_source/modules/precision_mod.F90
@@ -148,7 +148,7 @@
 !||--- called by ------------------------------------------------------
 !||    genani         ../engine/source/output/anim/generate/genani.F
 !||--- calls      -----------------------------------------------------
-!||    write_s_c      ../common_source/tools/input_output/write_routtines.c
+!||    write_s_c      ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    constant_mod   ../common_source/modules/constant_mod.F
 !||====================================================================
@@ -494,7 +494,7 @@
 !||    genani             ../engine/source/output/anim/generate/genani.F
 !||--- calls      -----------------------------------------------------
 !||    spmd_r4get_partn   ../engine/source/mpi/anim/spmd_r4get_partn.F
-!||    write_r_c          ../common_source/tools/input_output/write_routtines.c
+!||    write_r_c          ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    constant_mod       ../common_source/modules/constant_mod.F
 !||    precision_mod      ../common_source/modules/precision_mod.F90
@@ -591,7 +591,7 @@
 !||--- called by ------------------------------------------------------
 !||    genani          ../engine/source/output/anim/generate/genani.F
 !||--- calls      -----------------------------------------------------
-!||    write_r_c       ../common_source/tools/input_output/write_routtines.c
+!||    write_r_c       ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    constant_mod    ../common_source/modules/constant_mod.F
 !||    fvbag_mod       ../engine/share/modules/fvbag_mod.F

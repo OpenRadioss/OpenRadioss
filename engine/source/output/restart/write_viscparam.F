@@ -25,9 +25,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    write_matparam         ../engine/source/output/restart/write_matparam.F
 !||--- calls      -----------------------------------------------------
-!||    write_c_c              ../common_source/tools/input_output/write_routtines.c
+!||    write_c_c              ../common_source/tools/input_output/write_routines.c
 !||    write_db               ../common_source/tools/input_output/write_db.F
-!||    write_i_c              ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c              ../common_source/tools/input_output/write_routines.c
 !||    write_mat_table        ../engine/source/materials/tools/write_mat_table.F
 !||--- uses       -----------------------------------------------------
 !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F

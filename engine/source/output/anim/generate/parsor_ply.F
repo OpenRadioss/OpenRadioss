@@ -29,7 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    get_ply_nodid         ../engine/source/output/anim/generate/anin_ply_init.F
 !||    spmd_iget_partn_ply   ../engine/source/mpi/anim/spmd_iget_partn_ply.F
 !||    spmd_iglob_partn      ../engine/source/mpi/anim/spmd_iglob_partn.F
-!||    write_i_c             ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c             ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    my_alloc_mod          ../common_source/tools/memory/my_alloc.F90
 !||    plyxfem_mod           ../engine/share/modules/plyxfem_mod.F

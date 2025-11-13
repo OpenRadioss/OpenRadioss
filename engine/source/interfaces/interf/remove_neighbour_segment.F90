@@ -21,6 +21,9 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
+!||    remove_neighbour_segment_mod   ../engine/source/interfaces/interf/remove_neighbour_segment.F90
+!||--- called by ------------------------------------------------------
+!||    check_remote_surface_state     ../engine/source/interfaces/interf/check_remote_surface_state.F
 !||====================================================================
       module remove_neighbour_segment_mod
       implicit none
@@ -30,6 +33,15 @@
 ! ======================================================================================================================
 !! \brief This routine removes the neighbourhood of a deleted segment
 !||====================================================================
+!||    remove_neighbour_segment     ../engine/source/interfaces/interf/remove_neighbour_segment.F90
+!||--- called by ------------------------------------------------------
+!||    check_remote_surface_state   ../engine/source/interfaces/interf/check_remote_surface_state.F
+!||--- calls      -----------------------------------------------------
+!||    c_hash_find                  ../common_source/tools/container/c_hash_table.cpp
+!||--- uses       -----------------------------------------------------
+!||    debug_mod                    ../engine/share/modules/debug_mod.F
+!||    intbufdef_mod                ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    shooting_node_mod            ../engine/share/modules/shooting_node_mod.F90
 !||====================================================================
         subroutine remove_neighbour_segment( nin,segment_id,intbuf_tab,shoot_struct )
 ! ----------------------------------------------------------------------------------------------------------------------

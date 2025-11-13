@@ -27,7 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- calls      -----------------------------------------------------
 !||    dnwalc      ../engine/source/output/anim/generate/dnwalc.F
 !||    dnwals      ../engine/source/output/anim/generate/dnwals.F
-!||    write_s_c   ../common_source/tools/input_output/write_routtines.c
+!||    write_s_c   ../common_source/tools/input_output/write_routines.c
 !||====================================================================
       SUBROUTINE DSECNOR(X    ,RWBUF,NPRW)
 C-----------------------------------------------

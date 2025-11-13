@@ -25,7 +25,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    genani                ../engine/source/output/anim/generate/genani.F
 !||--- calls      -----------------------------------------------------
-!||    write_i_c             ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c             ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    fvbag_mod             ../engine/share/modules/fvbag_mod.F
 !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90

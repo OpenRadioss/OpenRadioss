@@ -45,10 +45,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    aniskewf                     ../engine/source/output/anim/generate/aniskewf.F
 !||    anivflowp                    ../engine/source/output/anim/generate/monvol_anim.F90
 !||    arret                        ../engine/source/system/arret.F
-!||    close_c                      ../common_source/tools/input_output/write_routtines.c
+!||    close_c                      ../common_source/tools/input_output/write_routines.c
 !||    cntskew                      ../engine/source/output/anim/generate/aniskewf.F
 !||    compute_binary_checksum      ../common_source/output/checksum/checksum.cpp
-!||    cur_fil_c                    ../common_source/tools/input_output/write_routtines.c
+!||    cur_fil_c                    ../common_source/tools/input_output/write_routines.c
 !||    cutcnt                       ../engine/source/tools/sect/cutcnt.F
 !||    cutfunc                      ../engine/source/tools/sect/cutfunc.F
 !||    cutfunce                     ../engine/source/tools/sect/cutfunce.F
@@ -95,7 +95,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    dxyzsect                     ../engine/source/output/anim/generate/dxyzsect.F
 !||    dxyzsph                      ../engine/source/output/anim/generate/dxyzsph.F
 !||    dxyzsrg                      ../engine/source/output/anim/generate/dxyzsrg.F
-!||    file_size                    ../common_source/tools/input_output/write_routtines.c
+!||    file_size                    ../common_source/tools/input_output/write_routines.c
 !||    fretitl2                     ../engine/source/input/freform.F
 !||    nodal_schlieren              ../engine/source/output/anim/generate/nodal_schlieren.F
 !||    nodald                       ../engine/source/output/anim/generate/nodald.F
@@ -105,7 +105,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    nodalvfrac                   ../engine/source/output/anim/generate/nodalvfrac.F
 !||    nodalzvol                    ../engine/source/output/anim/generate/nodalzvol.F
 !||    norcut                       ../engine/source/tools/sect/norcut.F
-!||    open_c                       ../common_source/tools/input_output/write_routtines.c
+!||    open_c                       ../common_source/tools/input_output/write_routines.c
 !||    parcut                       ../engine/source/tools/sect/parcut.F
 !||    parsor0                      ../engine/source/output/anim/generate/parsor0.F
 !||    parsor_crk                   ../engine/source/output/anim/generate/parsor_crk.F
@@ -162,10 +162,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    velvecc22                    ../engine/source/output/anim/generate/velvec.F
 !||    velvecc_max                  ../engine/source/output/anim/generate/velvec.F
 !||    velvecz22                    ../engine/source/output/anim/generate/velvecz22.F
-!||    write_c_c                    ../common_source/tools/input_output/write_routtines.c
-!||    write_i_c                    ../common_source/tools/input_output/write_routtines.c
-!||    write_r_c                    ../common_source/tools/input_output/write_routtines.c
-!||    write_s_c                    ../common_source/tools/input_output/write_routtines.c
+!||    write_c_c                    ../common_source/tools/input_output/write_routines.c
+!||    write_i_c                    ../common_source/tools/input_output/write_routines.c
+!||    write_r_c                    ../common_source/tools/input_output/write_routines.c
+!||    write_s_c                    ../common_source/tools/input_output/write_routines.c
 !||    xfecut                       ../engine/source/output/anim/generate/xfecut.F
 !||    xyz16                        ../engine/source/output/anim/generate/monvol_anim.F90
 !||    xyzcut                       ../engine/source/tools/sect/xyzcut.F

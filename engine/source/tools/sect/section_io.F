@@ -25,8 +25,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    resol             ../engine/source/engine/resol.F
 !||--- calls      -----------------------------------------------------
-!||    cur_fil_c         ../common_source/tools/input_output/write_routtines.c
-!||    flu_fil_c         ../common_source/tools/input_output/write_routtines.c
+!||    cur_fil_c         ../common_source/tools/input_output/write_routines.c
+!||    flu_fil_c         ../common_source/tools/input_output/write_routines.c
 !||    section           ../engine/source/tools/sect/section.F
 !||    section_read      ../engine/source/tools/sect/section_read.F
 !||    section_readp     ../engine/source/tools/sect/section_readp.F
@@ -34,8 +34,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_glob_dsum9   ../engine/source/mpi/interfaces/spmd_th.F
 !||    spmd_wrt_cutd     ../engine/source/mpi/sections/spmd_section.F
 !||    spmd_wrt_cutf     ../engine/source/mpi/sections/spmd_section.F
-!||    write_i_c         ../common_source/tools/input_output/write_routtines.c
-!||    write_r_c         ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c         ../common_source/tools/input_output/write_routines.c
+!||    write_r_c         ../common_source/tools/input_output/write_routines.c
 !||====================================================================
       SUBROUTINE SECTION_IO (
      1    NSTRF  ,D      ,DR    ,V        ,VR      ,FSAV    ,

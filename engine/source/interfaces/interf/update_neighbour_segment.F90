@@ -39,23 +39,25 @@
 !!          * choose a neighbour (neighbour = segment with the lowest criteria)
 !!          to insure the parith/on, the list of new active segment is sorted (ascending order)
 !||====================================================================
-!||    update_neighbour_segment   ../engine/source/interfaces/interf/update_neighbour_segment.F90
+!||    update_neighbour_segment                  ../engine/source/interfaces/interf/update_neighbour_segment.F90
 !||--- called by ------------------------------------------------------
-!||    get_neighbour_surface      ../engine/source/interfaces/interf/get_neighbour_surface.F90
+!||    get_neighbour_surface                     ../engine/source/interfaces/interf/get_neighbour_surface.F90
 !||--- calls      -----------------------------------------------------
-!||    c_delete_hash              ../common_source/tools/container/c_hash_table.cpp
-!||    c_hash_find                ../common_source/tools/container/c_hash_table.cpp
-!||    c_hash_insert              ../common_source/tools/container/c_hash_table.cpp
-!||    c_new_hash                 ../common_source/tools/container/c_hash_table.cpp
-!||    get_segment_criteria       ../engine/source/interfaces/interf/get_segment_criteria.F90
-!||    myqsort_int                ../common_source/tools/sort/myqsort_int.F
+!||    c_delete_hash                             ../common_source/tools/container/c_hash_table.cpp
+!||    c_hash_find                               ../common_source/tools/container/c_hash_table.cpp
+!||    c_hash_insert                             ../common_source/tools/container/c_hash_table.cpp
+!||    c_new_hash                                ../common_source/tools/container/c_hash_table.cpp
+!||    get_hashtable_for_neighbour_segment       ../engine/source/interfaces/interf/get_hashtable_for_neighbour_segment.F90
+!||    get_segment_criteria                      ../engine/source/interfaces/interf/get_segment_criteria.F90
+!||    myqsort_int                               ../common_source/tools/sort/myqsort_int.F
 !||--- uses       -----------------------------------------------------
-!||    array_mod                  ../common_source/modules/array_mod.F
-!||    constant_mod               ../common_source/modules/constant_mod.F
-!||    get_segment_criteria_mod   ../engine/source/interfaces/interf/get_segment_criteria.F90
-!||    intbufdef_mod              ../common_source/modules/interfaces/intbufdef_mod.F90
-!||    precision_mod              ../common_source/modules/precision_mod.F90
-!||    shooting_node_mod          ../engine/share/modules/shooting_node_mod.F
+!||    array_mod                                 ../common_source/modules/array_mod.F
+!||    constant_mod                              ../common_source/modules/constant_mod.F
+!||    get_hashtable_for_neighbour_segment_mod   ../engine/source/interfaces/interf/get_hashtable_for_neighbour_segment.F90
+!||    get_segment_criteria_mod                  ../engine/source/interfaces/interf/get_segment_criteria.F90
+!||    intbufdef_mod                             ../common_source/modules/interfaces/intbufdef_mod.F90
+!||    precision_mod                             ../common_source/modules/precision_mod.F90
+!||    shooting_node_mod                         ../engine/share/modules/shooting_node_mod.F90
 !||====================================================================
         subroutine update_neighbour_segment( ispmd,nspmd,ninter,r_buffer_size,r_buffer_2_size, &
           r_buffer,r_buffer_2,intbuf_tab,shoot_struct,npari,ipari)

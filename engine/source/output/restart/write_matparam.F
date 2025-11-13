@@ -26,11 +26,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    wrrestp                        ../engine/source/output/restart/wrrestp.F
 !||--- calls      -----------------------------------------------------
 !||    write_ale_rezoning_param       ../engine/source/output/restart/write_ale_rezoning_param.F90
-!||    write_c_c                      ../common_source/tools/input_output/write_routtines.c
+!||    write_c_c                      ../common_source/tools/input_output/write_routines.c
 !||    write_db                       ../common_source/tools/input_output/write_db.F
 !||    write_eosparam                 ../engine/source/output/restart/write_eosparam.F90
 !||    write_failparam                ../engine/source/output/restart/write_failparam.F
-!||    write_i_c                      ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c                      ../common_source/tools/input_output/write_routines.c
 !||    write_mat_table                ../engine/source/materials/tools/write_mat_table.F
 !||    write_thermparam               ../engine/source/output/restart/write_thermparam.F90
 !||    write_viscparam                ../engine/source/output/restart/write_viscparam.F

@@ -26,7 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    genani         ../engine/source/output/anim/generate/genani.F
 !||--- calls      -----------------------------------------------------
 !||    initbuf        ../engine/share/resol/initbuf.F
-!||    write_r_c      ../common_source/tools/input_output/write_routtines.c
+!||    write_r_c      ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
 !||    initbuf_mod    ../engine/share/resol/initbuf.F

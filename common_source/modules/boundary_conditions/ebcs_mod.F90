@@ -711,7 +711,7 @@
 !||    write_common_data   ../common_source/modules/boundary_conditions/ebcs_mod.F90
 !||--- calls      -----------------------------------------------------
 !||    write_db            ../common_source/tools/input_output/write_db.F
-!||    write_i_c           ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c           ../common_source/tools/input_output/write_routines.c
 !||====================================================================
         subroutine write_common_data(this, leni, lenr)
           implicit none
@@ -926,7 +926,7 @@
 !||    read_common_data   ../common_source/modules/boundary_conditions/ebcs_mod.F90
 !||--- calls      -----------------------------------------------------
 !||    read_db_array      ../common_source/tools/input_output/read_db.F
-!||    read_i_c           ../common_source/tools/input_output/write_routtines.c
+!||    read_i_c           ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    constant_mod       ../common_source/modules/constant_mod.F
 !||====================================================================
@@ -1643,7 +1643,7 @@
 !||    write_data_inlet   ../common_source/modules/boundary_conditions/ebcs_mod.F90
 !||--- calls      -----------------------------------------------------
 !||    write_db_array     ../common_source/tools/input_output/write_db.F
-!||    write_i_c          ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c          ../common_source/tools/input_output/write_routines.c
 !||====================================================================
         subroutine write_data_inlet(this, leni, lenr)
           implicit none
@@ -1680,7 +1680,7 @@
 !||    read_data_inlet   ../common_source/modules/boundary_conditions/ebcs_mod.F90
 !||--- calls      -----------------------------------------------------
 !||    read_db_array     ../common_source/tools/input_output/read_db.F
-!||    read_i_c          ../common_source/tools/input_output/write_routtines.c
+!||    read_i_c          ../common_source/tools/input_output/write_routines.c
 !||====================================================================
         subroutine read_data_inlet(this)
           implicit none
@@ -1708,7 +1708,7 @@
 !||    write_data_fluxout   ../common_source/modules/boundary_conditions/ebcs_mod.F90
 !||--- calls      -----------------------------------------------------
 !||    write_db_array       ../common_source/tools/input_output/write_db.F
-!||    write_i_c            ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c            ../common_source/tools/input_output/write_routines.c
 !||====================================================================
         subroutine write_data_fluxout(this, leni, lenr)
           implicit none
@@ -1742,7 +1742,7 @@
 !||    read_data_fluxout   ../common_source/modules/boundary_conditions/ebcs_mod.F90
 !||--- calls      -----------------------------------------------------
 !||    read_db_array       ../common_source/tools/input_output/read_db.F
-!||    read_i_c            ../common_source/tools/input_output/write_routtines.c
+!||    read_i_c            ../common_source/tools/input_output/write_routines.c
 !||====================================================================
         subroutine read_data_fluxout(this)
           implicit none
@@ -1769,7 +1769,7 @@
 !||    write_data_nrf    ../common_source/modules/boundary_conditions/ebcs_mod.F90
 !||--- calls      -----------------------------------------------------
 !||    write_db_array    ../common_source/tools/input_output/write_db.F
-!||    write_i_c         ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c         ../common_source/tools/input_output/write_routines.c
 !||====================================================================
         subroutine write_data_nrf(this, leni, lenr)
           implicit none
@@ -1814,7 +1814,7 @@
 !||--- calls      -----------------------------------------------------
 !||    read_db          ../common_source/tools/input_output/read_db.F
 !||    read_db_array    ../common_source/tools/input_output/read_db.F
-!||    read_i_c         ../common_source/tools/input_output/write_routtines.c
+!||    read_i_c         ../common_source/tools/input_output/write_routines.c
 !||====================================================================
         subroutine read_data_nrf(this)
           implicit none
@@ -1848,7 +1848,7 @@
 !||    write_data_propellant   ../common_source/modules/boundary_conditions/ebcs_mod.F90
 !||--- calls      -----------------------------------------------------
 !||    write_db_array          ../common_source/tools/input_output/write_db.F
-!||    write_i_c               ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c               ../common_source/tools/input_output/write_routines.c
 !||====================================================================
         subroutine write_data_propellant(this, leni, lenr)
           implicit none
@@ -1912,7 +1912,7 @@
 !||--- calls      -----------------------------------------------------
 !||    read_db                ../common_source/tools/input_output/read_db.F
 !||    read_db_array          ../common_source/tools/input_output/read_db.F
-!||    read_i_c               ../common_source/tools/input_output/write_routtines.c
+!||    read_i_c               ../common_source/tools/input_output/write_routines.c
 !||====================================================================
         subroutine read_data_propellant(this)
           implicit none
@@ -1978,7 +1978,7 @@
 !||====================================================================
 !||    read_data_cyclic   ../common_source/modules/boundary_conditions/ebcs_mod.F90
 !||--- calls      -----------------------------------------------------
-!||    read_i_c           ../common_source/tools/input_output/write_routtines.c
+!||    read_i_c           ../common_source/tools/input_output/write_routines.c
 !||====================================================================
         subroutine read_data_cyclic(this)
           implicit none

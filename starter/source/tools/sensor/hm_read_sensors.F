@@ -52,7 +52,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    read_sensor_work         ../starter/source/tools/sensor/read_sensor_work.F
 !||    sensor_tab_init          ../starter/source/tools/sensor/sensor_tab_init.F
 !||    udouble                  ../starter/source/system/sysfus.F
-!||    usr2sys                  ../starter/source/system/sysfus.F
 !||--- uses       -----------------------------------------------------
 !||    hm_option_read_mod       ../starter/share/modules1/hm_option_read_mod.F
 !||    message_mod              ../starter/share/message_module/message_mod.F

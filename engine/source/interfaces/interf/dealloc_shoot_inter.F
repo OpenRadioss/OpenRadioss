@@ -25,7 +25,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    resol                 ../engine/source/engine/resol.F
 !||--- uses       -----------------------------------------------------
-!||    shooting_node_mod     ../engine/share/modules/shooting_node_mod.F
+!||    shooting_node_mod     ../engine/share/modules/shooting_node_mod.F90
 !||====================================================================
         SUBROUTINE DEALLOC_SHOOT_INTER( SHOOT_STRUCT )
 !$COMMENT

@@ -529,7 +529,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    seatbelt_mod                                 ../common_source/modules/seatbelt_mod.F
 !||    segvar_mod                                   ../engine/share/modules/segvar_mod.F
 !||    sensor_mod                                   ../common_source/modules/sensor_mod.F90
-!||    shooting_node_mod                            ../engine/share/modules/shooting_node_mod.F
+!||    shooting_node_mod                            ../engine/share/modules/shooting_node_mod.F90
 !||    skew_mod                                     ../common_source/modules/skew_mod.F90
 !||    sms_mod                                      ../engine/share/modules/sms_mod.F
 !||    sms_pcg_proj                                 ../engine/share/modules/sms_mod.F

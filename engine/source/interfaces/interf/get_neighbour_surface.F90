@@ -66,7 +66,7 @@
 !||    intbufdef_mod                     ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    nodal_arrays_mod                  ../common_source/modules/nodal_arrays.F90
 !||    precision_mod                     ../common_source/modules/precision_mod.F90
-!||    shooting_node_mod                 ../engine/share/modules/shooting_node_mod.F
+!||    shooting_node_mod                 ../engine/share/modules/shooting_node_mod.F90
 !||    spmd_arrays_mod                   ../common_source/modules/interfaces/spmd_arrays_mod.F
 !||    spmd_exch_neighbour_segment_mod   ../engine/source/mpi/interfaces/spmd_exch_neighbour_segment.F90
 !||    spmd_update_frontier_int25_mod    ../engine/source/mpi/interfaces/spmd_update_frontier_int25.F90

@@ -27,9 +27,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- calls      -----------------------------------------------------
 !||    ancmsg                 ../engine/source/output/message/message.F
 !||    arret                  ../engine/source/system/arret.F
-!||    cur_fil_c              ../common_source/tools/input_output/write_routtines.c
+!||    cur_fil_c              ../common_source/tools/input_output/write_routines.c
 !||    rdcomi                 ../engine/source/output/restart/rdcomm.F
-!||    read_i_c               ../common_source/tools/input_output/write_routtines.c
+!||    read_i_c               ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    glob_therm_mod         ../common_source/modules/mat_elem/glob_therm_mod.F90
 !||    h3d_mod                ../engine/share/modules/h3d_mod.F

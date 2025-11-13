@@ -32,10 +32,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    cdk6bc3                      ../engine/source/elements/sh3n/coquedk6/cdk6bc3.F
 !||    check_message_definition     ../common_source/modules/check_mod.F
 !||    checksum_option_outfile      ../common_source/modules/output/checksum_mod.F90
-!||    close_c                      ../common_source/tools/input_output/write_routtines.c
+!||    close_c                      ../common_source/tools/input_output/write_routines.c
 !||    condrmat                     ../engine/source/materials/mat/mat013/condrmat.F
 !||    coqini                       ../engine/source/elements/shell/coqini.F
-!||    cur_fil_c                    ../common_source/tools/input_output/write_routtines.c
+!||    cur_fil_c                    ../common_source/tools/input_output/write_routines.c
 !||    fvdeal                       ../engine/source/airbag/fvdeal.F
 !||    get_file_name_info           ../engine/source/system/get_file_name_info.F
 !||    hist1                        ../engine/source/output/th/hist1.F
@@ -54,7 +54,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    my_getpid                    ../engine/source/system/pid.c
 !||    names_and_title_init         ../common_source/modules/names_and_titles_mod.F
 !||    omp_get_thread_num           ../engine/source/engine/openmp_stub.F90
-!||    open_c                       ../common_source/tools/input_output/write_routtines.c
+!||    open_c                       ../common_source/tools/input_output/write_routines.c
 !||    open_f_scratch_file          ../engine/source/system/open_tempfile.F
 !||    printcenter                  ../engine/source/engine/radioss_title.F
 !||    printcpu                     ../engine/source/system/timer.F
@@ -63,7 +63,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    radioss_title                ../engine/source/engine/radioss_title.F
 !||    rdresa                       ../engine/source/output/restart/rdresa.F
 !||    rdresb                       ../engine/source/output/restart/rdresb.F
-!||    read_c_c                     ../common_source/tools/input_output/write_routtines.c
+!||    read_c_c                     ../common_source/tools/input_output/write_routines.c
 !||    resol_head                   ../engine/source/engine/resol_head.F
 !||    restalloc                    ../engine/source/output/restart/arralloc.F
 !||    setignorecore                ../engine/source/system/traceback_handler.c

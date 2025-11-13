@@ -21,6 +21,9 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
+!||    init_hashtable_for_neighbour_segment_mod   ../engine/source/interfaces/interf/init_hashtable_for_neighbour_segment.F90
+!||--- called by ------------------------------------------------------
+!||    init_nodal_state                           ../engine/source/interfaces/interf/init_nodal_state.F
 !||====================================================================
       module init_hashtable_for_neighbour_segment_mod
       implicit none
@@ -31,6 +34,11 @@
 !! \brief This routine initializes the shoot_struct data structure to store the neighbour segment information 
 !!        (only for interface TYPE25 with erosion or deletion)
 !||====================================================================
+!||    init_hashtable_for_neighbour_segment   ../engine/source/interfaces/interf/init_hashtable_for_neighbour_segment.F90
+!||--- called by ------------------------------------------------------
+!||    init_nodal_state                       ../engine/source/interfaces/interf/init_nodal_state.F
+!||--- uses       -----------------------------------------------------
+!||    shooting_node_mod                      ../engine/share/modules/shooting_node_mod.F90
 !||====================================================================
         subroutine init_hashtable_for_neighbour_segment( npari,ninter,ipari,shoot_struct )
 ! ----------------------------------------------------------------------------------------------------------------------

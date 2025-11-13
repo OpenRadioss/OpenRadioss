@@ -277,7 +277,6 @@ C
 !||    hm_read_imptemp        ../starter/source/constraints/thermic/hm_read_imptemp.F
 !||    hm_read_load_centri    ../starter/source/loads/general/load_centri/hm_read_load_centri.F
 !||    hm_read_merge          ../starter/source/constraints/general/merge/hm_read_merge.F
-!||    hm_read_rbe3           ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
 !||    hm_read_xelem          ../starter/source/elements/reader/hm_read_xelem.F
 !||    lecsec42               ../starter/source/tools/sect/hm_read_sect.F
 !||    lecsec4bolt            ../starter/source/tools/sect/lecsec4bolt.F

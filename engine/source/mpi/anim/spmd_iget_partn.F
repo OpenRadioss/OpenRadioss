@@ -41,8 +41,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    parsorf               ../engine/source/output/anim/generate/parsorf.F
 !||    parsors               ../engine/source/output/anim/generate/parsors.F
 !||--- calls      -----------------------------------------------------
-!||    write_c_c             ../common_source/tools/input_output/write_routtines.c
-!||    write_i_c             ../common_source/tools/input_output/write_routtines.c
+!||    write_c_c             ../common_source/tools/input_output/write_routines.c
+!||    write_i_c             ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
 !||====================================================================

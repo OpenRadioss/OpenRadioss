@@ -66,7 +66,7 @@
 !||    intbufdef_mod                                ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    nodal_arrays_mod                             ../common_source/modules/nodal_arrays.F90
 !||    precision_mod                                ../common_source/modules/precision_mod.F90
-!||    shooting_node_mod                            ../engine/share/modules/shooting_node_mod.F
+!||    shooting_node_mod                            ../engine/share/modules/shooting_node_mod.F90
 !||    spmd_mod                                     ../engine/source/mpi/spmd_mod.F90
 !||====================================================================
         subroutine spmd_exch_neighbour_segment(nspmd,ispmd, &

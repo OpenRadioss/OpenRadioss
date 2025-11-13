@@ -21,27 +21,27 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    debug_mod                ../engine/share/modules/debug_mod.F
+!||    debug_mod                             ../engine/share/modules/debug_mod.F
 !||--- called by ------------------------------------------------------
-!||    ebcs8_inlet              ../engine/source/boundary_conditions/ebcs/ebcs8_inlet.F90
-!||    i24ass2                  ../engine/source/interfaces/int24/i24for3.F
-!||    i24cor3                  ../engine/source/interfaces/int24/i24cor3.F
-!||    i24ispt2_ini_opttri      ../engine/source/interfaces/int24/i24cor3.F
-!||    i24optcd                 ../engine/source/interfaces/intsort/i24optcd.F
-!||    i25cor3_e2s              ../engine/source/interfaces/int25/i25cor3_e2s.F
-!||    i25free_bound            ../engine/source/interfaces/int25/i25free_bound.F
-!||    i25normp                 ../engine/source/interfaces/int25/i25norm.F
-!||    i25optcd_e2s             ../engine/source/interfaces/intsort/i25optcd_e2s.F
-!||    i25trivox_edg            ../engine/source/interfaces/intsort/i25trivox_edg.F
-!||    m10law                   ../engine/source/materials/mat/mat010/m10law.F
-!||    prepare_debug            ../engine/share/modules/debug_mod.F
-!||    resol                    ../engine/source/engine/resol.F
-!||    s6zfint3                 ../engine/source/elements/solid/solide6z/s6zfint3.F90
-!||    spmd_collect_multi_fvm   ../engine/source/mpi/output/spmd_collect_multi_fvm.F
-!||    spmd_collect_nlocal      ../engine/source/mpi/output/spmd_collect_nlocal.F
-!||    spmd_fiadd25e_poff       ../engine/source/mpi/interfaces/spmd_fiadd25e_poff.F
-!||    spmd_fiadd25e_pon        ../engine/source/mpi/interfaces/spmd_fiadd25e_pon.F
-!||    update_failwave          ../engine/source/materials/fail/failwave/update_failwave.F
+!||    ebcs8_inlet                           ../engine/source/boundary_conditions/ebcs/ebcs8_inlet.F90
+!||    get_hashtable_for_neighbour_segment   ../engine/source/interfaces/interf/get_hashtable_for_neighbour_segment.F90
+!||    i24ass2                               ../engine/source/interfaces/int24/i24for3.F
+!||    i24cor3                               ../engine/source/interfaces/int24/i24cor3.F
+!||    i24ispt2_ini_opttri                   ../engine/source/interfaces/int24/i24cor3.F
+!||    i24optcd                              ../engine/source/interfaces/intsort/i24optcd.F
+!||    i25cor3_e2s                           ../engine/source/interfaces/int25/i25cor3_e2s.F
+!||    i25free_bound                         ../engine/source/interfaces/int25/i25free_bound.F
+!||    i25normp                              ../engine/source/interfaces/int25/i25norm.F
+!||    i25optcd_e2s                          ../engine/source/interfaces/intsort/i25optcd_e2s.F
+!||    i25trivox_edg                         ../engine/source/interfaces/intsort/i25trivox_edg.F
+!||    prepare_debug                         ../engine/share/modules/debug_mod.F
+!||    remove_neighbour_segment              ../engine/source/interfaces/interf/remove_neighbour_segment.F90
+!||    resol                                 ../engine/source/engine/resol.F
+!||    spmd_collect_multi_fvm                ../engine/source/mpi/output/spmd_collect_multi_fvm.F
+!||    spmd_collect_nlocal                   ../engine/source/mpi/output/spmd_collect_nlocal.F
+!||    spmd_fiadd25e_poff                    ../engine/source/mpi/interfaces/spmd_fiadd25e_poff.F
+!||    spmd_fiadd25e_pon                     ../engine/source/mpi/interfaces/spmd_fiadd25e_pon.F
+!||    update_failwave                       ../engine/source/materials/fail/failwave/update_failwave.F
 !||--- uses       -----------------------------------------------------
 !||====================================================================
       MODULE DEBUG_MOD

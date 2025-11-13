@@ -153,7 +153,7 @@
 !||--- calls      -----------------------------------------------------
 !||    pblast_alloc_error   ../common_source/modules/loads/pblast_mod.F90
 !||    read_db              ../common_source/tools/input_output/read_db.F
-!||    read_i_c             ../common_source/tools/input_output/write_routtines.c
+!||    read_i_c             ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    constant_mod         ../common_source/modules/constant_mod.F
 !||    message_mod          ../engine/share/message_module/message_mod.F
@@ -339,7 +339,7 @@
 !||    ddsplit                ../starter/source/restart/ddsplit/ddsplit.F
 !||--- calls      -----------------------------------------------------
 !||    write_db               ../common_source/tools/input_output/write_db.F
-!||    write_i_c              ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c              ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    glob_therm_mod         ../common_source/modules/mat_elem/glob_therm_mod.F90
 !||    message_mod            ../engine/share/message_module/message_mod.F
@@ -459,7 +459,7 @@
 !||    wrrestp               ../engine/source/output/restart/wrrestp.F
 !||--- calls      -----------------------------------------------------
 !||    write_db              ../common_source/tools/input_output/write_db.F
-!||    write_i_c             ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c             ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    message_mod           ../engine/share/message_module/message_mod.F
 !||    precision_mod         ../common_source/modules/precision_mod.F90

@@ -26,7 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    subset_ini         ../engine/source/groups/subset_ini.F
 !||--- calls      -----------------------------------------------------
 !||    fretitl2           ../engine/source/input/freform.F
-!||    read_i_c           ../common_source/tools/input_output/write_routtines.c
+!||    read_i_c           ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    groupdef_mod       ../common_source/modules/groupdef_mod.F
 !||    message_mod        ../engine/share/message_module/message_mod.F

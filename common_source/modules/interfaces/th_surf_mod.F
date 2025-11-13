@@ -109,7 +109,7 @@ C---------------------------------------------
 !||    ddsplit                ../starter/source/restart/ddsplit/ddsplit.F
 !||    wrrestp                ../engine/source/output/restart/wrrestp.F
 !||--- calls      -----------------------------------------------------
-!||    write_i_c              ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c              ../common_source/tools/input_output/write_routines.c
 !||====================================================================
         SUBROUTINE THSURF_WRITE_RESTART(TH_SURF,IFLAG)
 
@@ -168,7 +168,7 @@ C-----------------------------------------------
 !||--- called by ------------------------------------------------------
 !||    rdresb                ../engine/source/output/restart/rdresb.F
 !||--- calls      -----------------------------------------------------
-!||    read_i_c              ../common_source/tools/input_output/write_routtines.c
+!||    read_i_c              ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    message_mod           ../engine/share/message_module/message_mod.F
 !||====================================================================

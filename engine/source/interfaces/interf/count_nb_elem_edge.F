@@ -25,7 +25,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    init_nodal_state     ../engine/source/interfaces/interf/init_nodal_state.F
 !||--- uses       -----------------------------------------------------
-!||    shooting_node_mod    ../engine/share/modules/shooting_node_mod.F
+!||    shooting_node_mod    ../engine/share/modules/shooting_node_mod.F90
 !||====================================================================
         SUBROUTINE COUNT_NB_ELEM_EDGE( MODE,SIZE_BUFFER,BUFFER,SHOOT_STRUCT,CHUNK)
 !$COMMENT

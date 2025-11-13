@@ -27,7 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- calls      -----------------------------------------------------
 !||    spmd_anim_ply_velvec   ../engine/source/mpi/anim/spmd_anim_ply_velvec.F
 !||    spmd_vgath             ../engine/source/mpi/anim/spmd_vgath.F
-!||    write_r_c              ../common_source/tools/input_output/write_routtines.c
+!||    write_r_c              ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    plyxfem_mod            ../engine/share/modules/plyxfem_mod.F
 !||====================================================================
@@ -231,7 +231,7 @@ C-------------
 !||--- calls      -----------------------------------------------------
 !||    spmd_glob_dsum9   ../engine/source/mpi/interfaces/spmd_th.F
 !||    spmd_velvec2      ../engine/source/mpi/anim/spmd_velvec2.F
-!||    write_r_c         ../common_source/tools/input_output/write_routtines.c
+!||    write_r_c         ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    my_alloc_mod      ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
@@ -481,7 +481,7 @@ C-----------
 !||    genani            ../engine/source/output/anim/generate/genani.F
 !||--- calls      -----------------------------------------------------
 !||    spmd_glob_fsum9   ../engine/source/mpi/interfaces/spmd_th.F
-!||    write_r_c         ../common_source/tools/input_output/write_routtines.c
+!||    write_r_c         ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    my_alloc_mod      ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
@@ -638,7 +638,7 @@ c----------------------------
 !||    genani            ../engine/source/output/anim/generate/genani.F
 !||--- calls      -----------------------------------------------------
 !||    spmd_glob_dsum9   ../engine/source/mpi/interfaces/spmd_th.F
-!||    write_r_c         ../common_source/tools/input_output/write_routtines.c
+!||    write_r_c         ../common_source/tools/input_output/write_routines.c
 !||====================================================================
       SUBROUTINE VELVECC21(V,V_TEMP,IVOIS,AL,NODCUT,NNWL,
      .                  NNSRG,NODGLOB,WEIGHT,NFVNOD,NFNOD_PXFEM,
@@ -794,7 +794,7 @@ C
 !||--- called by ------------------------------------------------------
 !||    genani        ../engine/source/output/anim/generate/genani.F
 !||--- calls      -----------------------------------------------------
-!||    write_r_c     ../common_source/tools/input_output/write_routtines.c
+!||    write_r_c     ../common_source/tools/input_output/write_routines.c
 !||====================================================================
       SUBROUTINE VELVECC_MAX(VMAX,NODCUT,NNWL,NNSRG,NFVNOD,
      .                       NFNOD_PXFEMG,NFNOD_CRKXFEMG)
@@ -918,7 +918,7 @@ c----------------------------
 !||    genani         ../engine/source/output/anim/generate/genani.F
 !||--- calls      -----------------------------------------------------
 !||    spmd_vgath     ../engine/source/mpi/anim/spmd_vgath.F
-!||    write_r_c      ../common_source/tools/input_output/write_routtines.c
+!||    write_r_c      ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    my_alloc_mod   ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
@@ -1054,7 +1054,7 @@ C-------------
 !||--- called by ------------------------------------------------------
 !||    genani           ../engine/source/output/anim/generate/genani.F
 !||--- calls      -----------------------------------------------------
-!||    write_r_c        ../common_source/tools/input_output/write_routtines.c
+!||    write_r_c        ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
 !||    i22bufbric_mod   ../common_source/modules/interfaces/cut-cell-search_mod.F

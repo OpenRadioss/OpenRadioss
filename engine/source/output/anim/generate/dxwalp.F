@@ -27,7 +27,7 @@ C            SPMD_AGETMSR                    /spe/mach_spmd.F
 !||    dxyzsect       ../engine/source/output/anim/generate/dxyzsect.F
 !||--- calls      -----------------------------------------------------
 !||    spmd_agetmsr   ../engine/source/mpi/anim/spmd_agetmsr.F
-!||    write_r_c      ../common_source/tools/input_output/write_routtines.c
+!||    write_r_c      ../common_source/tools/input_output/write_routines.c
 !||====================================================================
       SUBROUTINE DXWALP(X ,RWL ,MSR ,FR_WALL)
 C-----------------------------------------------

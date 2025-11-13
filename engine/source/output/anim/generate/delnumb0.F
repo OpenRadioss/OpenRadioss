@@ -26,7 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    genani            ../engine/source/output/anim/generate/genani.F
 !||--- calls      -----------------------------------------------------
 !||    spmd_iget_partn   ../engine/source/mpi/anim/spmd_iget_partn.F
-!||    write_i_c         ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c         ../common_source/tools/input_output/write_routines.c
 !||====================================================================
       SUBROUTINE DELNUMB0(IPARG   ,EL2FA   ,NBF     ,INUM  ,DD_IAD,
      .                    IADD    ,NBPART  ,IADG    ,KXSP  )

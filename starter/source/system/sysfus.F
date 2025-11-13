@@ -25,7 +25,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    fsdcod                         ../starter/source/system/fsdcod.F
 !||    hm_lecgrn                      ../starter/source/groups/hm_lecgrn.F
-!||    hm_prelce16s                   ../starter/source/elements/reader/hm_read_solid.F
 !||    hm_prelecgrns                  ../starter/source/groups/hm_prelecgrns.F
 !||    hm_preread_skw                 ../starter/source/tools/skew/hm_preread_skw.F90
 !||    hm_read_admas                  ../starter/source/tools/admas/hm_read_admas.F
@@ -51,7 +50,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_inivel                 ../starter/source/initial_conditions/general/inivel/hm_read_inivel.F
 !||    hm_read_inject1                ../starter/source/properties/injector/hm_read_inject1.F
 !||    hm_read_inject2                ../starter/source/properties/injector/hm_read_inject2.F
-!||    hm_read_inter_lagdt_type07     ../starter/source/interfaces/int07/hm_read_inter_lagdt_type07.F
 !||    hm_read_inter_type12           ../starter/source/interfaces/int12/hm_read_inter_type12.F
 !||    hm_read_interfaces             ../starter/source/interfaces/reader/hm_read_interfaces.F
 !||    hm_read_lines                  ../starter/source/groups/hm_read_lines.F
@@ -68,7 +66,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_pblast                 ../starter/source/loads/pblast/hm_read_pblast.F
 !||    hm_read_pload                  ../starter/source/loads/general/pload/hm_read_pload.F
 !||    hm_read_prop15                 ../starter/source/properties/solid/hm_read_prop15.F
-!||    hm_read_properties             ../starter/source/properties/hm_read_properties.F
 !||    hm_read_quad                   ../starter/source/elements/reader/hm_read_quad.F
 !||    hm_read_radiation              ../starter/source/loads/thermic/hm_read_radiation.F
 !||    hm_read_rbe2                   ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
@@ -83,7 +80,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_rwall_plane            ../starter/source/constraints/general/rwall/hm_read_rwall_plane.F
 !||    hm_read_rwall_spher            ../starter/source/constraints/general/rwall/hm_read_rwall_spher.F
 !||    hm_read_rwall_therm            ../starter/source/constraints/general/rwall/hm_read_rwall_therm.F
-!||    hm_read_sensors                ../starter/source/tools/sensor/hm_read_sensors.F
 !||    hm_read_sh3n                   ../starter/source/elements/reader/hm_read_sh3n.F
 !||    hm_read_shell                  ../starter/source/elements/reader/hm_read_shell.F
 !||    hm_read_skw                    ../starter/source/tools/skew/hm_read_skw.F
@@ -109,7 +105,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    insurf                         ../starter/source/interfaces/interf1/insurf.F
 !||    insurfigeo                     ../starter/source/interfaces/interf1/insurfigeo.F
 !||    lce16q3                        ../starter/source/elements/solid_2d/quad/lce16q.F
-!||    lce16s3                        ../starter/source/elements/reader/hm_read_solid.F
 !||    lec_inimap2d_file              ../starter/source/initial_conditions/inimap/lec_inimap2d_file.F
 !||    lecacc                         ../starter/source/tools/accele/lecacc.F
 !||    lecig3d                        ../starter/source/elements/ige3d/lecig3d.F
@@ -242,7 +237,6 @@ C
 !||====================================================================
 !||    usrtos                ../starter/source/system/sysfus.F
 !||--- called by ------------------------------------------------------
-!||    hm_read_initemp       ../starter/source/initial_conditions/thermic/hm_read_initemp.F
 !||    hm_read_node          ../starter/source/elements/reader/hm_read_node.F
 !||    inivel                ../starter/source/initial_conditions/general/inivel/inivel.F
 !||    lecsubmod             ../starter/source/model/submodel/lecsubmod.F

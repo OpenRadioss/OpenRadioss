@@ -28,7 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    write_viscparam   ../engine/source/output/restart/write_viscparam.F
 !||--- calls      -----------------------------------------------------
 !||    write_db          ../common_source/tools/input_output/write_db.F
-!||    write_i_c         ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c         ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    table4d_mod       ../common_source/modules/table4d_mod.F
 !||====================================================================

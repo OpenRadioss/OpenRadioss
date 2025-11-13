@@ -27,7 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- calls      -----------------------------------------------------
 !||    spmd_iget_partn    ../engine/source/mpi/anim/spmd_iget_partn.F
 !||    spmd_iglob_partn   ../engine/source/mpi/anim/spmd_iglob_partn.F
-!||    write_i_c          ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c          ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
 !||====================================================================

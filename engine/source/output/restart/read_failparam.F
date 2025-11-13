@@ -25,9 +25,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    read_matparam          ../engine/source/output/restart/read_matparam.F
 !||--- calls      -----------------------------------------------------
-!||    read_c_c               ../common_source/tools/input_output/write_routtines.c
+!||    read_c_c               ../common_source/tools/input_output/write_routines.c
 !||    read_db                ../common_source/tools/input_output/read_db.F
-!||    read_i_c               ../common_source/tools/input_output/write_routtines.c
+!||    read_i_c               ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    fail_param_mod         ../common_source/modules/mat_elem/fail_param_mod.F90
 !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F

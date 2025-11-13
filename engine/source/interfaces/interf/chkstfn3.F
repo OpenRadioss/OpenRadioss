@@ -559,7 +559,7 @@ C
 !||    nodal_arrays_mod     ../common_source/modules/nodal_arrays.F90
 !||    rad2r_mod            ../engine/share/modules/rad2r.F
 !||    remesh_mod           ../engine/share/modules/remesh_mod.F
-!||    shooting_node_mod    ../engine/share/modules/shooting_node_mod.F
+!||    shooting_node_mod    ../engine/share/modules/shooting_node_mod.F90
 !||====================================================================
       SUBROUTINE TAGOFF3N(NODES,
      1    GEO     ,IXS   ,IXS10   ,IXS20   ,IXS16  ,IXQ    ,

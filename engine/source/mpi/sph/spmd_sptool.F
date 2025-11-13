@@ -28,7 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ancmsg        ../engine/source/output/message/message.F
 !||    arret         ../engine/source/system/arret.F
 !||    read_db       ../common_source/tools/input_output/read_db.F
-!||    read_i_c      ../common_source/tools/input_output/write_routtines.c
+!||    read_i_c      ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    message_mod   ../engine/share/message_module/message_mod.F
 !||    sphbox        ../engine/share/modules/sphbox.F
@@ -123,7 +123,7 @@ C
 !||    wrrestp        ../engine/source/output/restart/wrrestp.F
 !||--- calls      -----------------------------------------------------
 !||    write_db       ../common_source/tools/input_output/write_db.F
-!||    write_i_c      ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c      ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    sphbox         ../engine/share/modules/sphbox.F
 !||====================================================================

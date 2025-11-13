@@ -62,7 +62,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_prop51         ../starter/source/properties/shell/hm_read_prop51.F
 !||    hm_read_prop_generic   ../starter/source/properties/hm_read_prop_generic.F
 !||    ini_prop_vars          ../starter/source/elements/elbuf_init/ini_prop_vars.F
-!||    usr2sys                ../starter/source/system/sysfus.F
 !||    vdouble                ../starter/source/system/sysfus.F
 !||--- uses       -----------------------------------------------------
 !||    defaults_mod           ../starter/source/modules/defaults_mod.F90

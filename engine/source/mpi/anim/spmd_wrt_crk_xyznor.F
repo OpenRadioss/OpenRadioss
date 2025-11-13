@@ -25,7 +25,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    xyznor_crk            ../engine/source/output/anim/generate/xyznor_crk.F
 !||--- calls      -----------------------------------------------------
-!||    write_s_c             ../common_source/tools/input_output/write_routtines.c
+!||    write_s_c             ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    crackxfem_mod         ../engine/share/modules/crackxfem_mod.F
 !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90

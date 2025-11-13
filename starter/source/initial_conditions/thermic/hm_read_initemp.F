@@ -34,7 +34,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_option_start            ../starter/source/devtools/hm_reader/hm_option_start.F
 !||    udouble                    ../starter/source/system/sysfus.F
 !||    usr2sys                    ../starter/source/system/sysfus.F
-!||    usrtos                     ../starter/source/system/sysfus.F
 !||--- uses       -----------------------------------------------------
 !||    hm_option_read_mod         ../starter/share/modules1/hm_option_read_mod.F
 !||    message_mod                ../starter/share/message_module/message_mod.F

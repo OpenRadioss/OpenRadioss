@@ -34,7 +34,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_option_start            ../starter/source/devtools/hm_reader/hm_option_start.F
 !||    hm_sz_r2r                  ../starter/source/coupling/rad2rad/routines_r2r.F
 !||    kinset                     ../starter/source/constraints/general/kinset.F
-!||    nodgrnr5                   ../starter/source/starter/freform.F
 !||    prerbe3fr                  ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
 !||    usr2sys                    ../starter/source/system/sysfus.F
 !||--- uses       -----------------------------------------------------

@@ -25,15 +25,15 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    radioss2               ../engine/source/engine/radioss2.F
 !||--- calls      -----------------------------------------------------
-!||    cur_fil_c              ../common_source/tools/input_output/write_routtines.c
-!||    eor_c                  ../common_source/tools/input_output/write_routtines.c
-!||    flu_fil_c              ../common_source/tools/input_output/write_routtines.c
+!||    cur_fil_c              ../common_source/tools/input_output/write_routines.c
+!||    eor_c                  ../common_source/tools/input_output/write_routines.c
+!||    flu_fil_c              ../common_source/tools/input_output/write_routines.c
 !||    fretitl2               ../engine/source/input/freform.F
 !||    my_ctime               ../engine/source/system/timer_c.c
-!||    open_c                 ../common_source/tools/input_output/write_routtines.c
-!||    write_c_c              ../common_source/tools/input_output/write_routtines.c
-!||    write_i_c              ../common_source/tools/input_output/write_routtines.c
-!||    write_r_c              ../common_source/tools/input_output/write_routtines.c
+!||    open_c                 ../common_source/tools/input_output/write_routines.c
+!||    write_c_c              ../common_source/tools/input_output/write_routines.c
+!||    write_i_c              ../common_source/tools/input_output/write_routines.c
+!||    write_r_c              ../common_source/tools/input_output/write_routines.c
 !||    wrtdes                 ../engine/source/output/th/wrtdes.F
 !||--- uses       -----------------------------------------------------
 !||    groupdef_mod           ../common_source/modules/groupdef_mod.F

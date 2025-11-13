@@ -1169,7 +1169,6 @@ C  -----DEACTIVATED ELEMENTS will done in SETELOFF------
 !||    hm_get_intv            ../starter/source/devtools/hm_reader/hm_get_intv.F
 !||    hm_option_read_key     ../starter/source/devtools/hm_reader/hm_option_read_key.F
 !||    hm_option_start        ../starter/source/devtools/hm_reader/hm_option_start.F
-!||    ngr2usr                ../starter/source/system/nintrr.F
 !||    ngr2usrn               ../starter/source/system/nintrr.F
 !||    usr2sys                ../starter/source/system/sysfus.F
 !||--- uses       -----------------------------------------------------

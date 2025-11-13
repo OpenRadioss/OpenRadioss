@@ -25,7 +25,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    rdresb       ../engine/source/output/restart/rdresb.F
 !||--- calls      -----------------------------------------------------
-!||    read_i_c     ../common_source/tools/input_output/write_routtines.c
+!||    read_i_c     ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    joint_mod    ../engine/share/modules/joint_mod.F
 !||    restmod      ../engine/share/modules/restart_mod.F

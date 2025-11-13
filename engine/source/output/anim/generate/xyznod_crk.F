@@ -61,7 +61,7 @@ c
 !||    genani                ../engine/source/output/anim/generate/genani.F
 !||--- calls      -----------------------------------------------------
 !||    spmd_wrt_crk_xyznod   ../engine/source/mpi/anim/spmd_wrt_crk_xyznod.F
-!||    write_r_c             ../common_source/tools/input_output/write_routtines.c
+!||    write_r_c             ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    crackxfem_mod         ../engine/share/modules/crackxfem_mod.F
 !||====================================================================

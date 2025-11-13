@@ -23,7 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
 !||    compress_c_nnz   ../common_source/comm/compress_nnz.F
 !||--- calls      -----------------------------------------------------
-!||    write_i_c        ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c        ../common_source/tools/input_output/write_routines.c
 !||====================================================================
       SUBROUTINE COMPRESS_C_NNZ(ARRAY,LEN)
         IMPLICIT NONE
@@ -85,7 +85,7 @@ C        WRITE(6,*) LEN,"compressed into ",J, dble(J)/dble(LEN)
 !||    write_intbuf      ../engine/source/output/restart/write_intbuf.F
 !||    wrrestp           ../engine/source/output/restart/wrrestp.F
 !||--- calls      -----------------------------------------------------
-!||    write_i_c         ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c         ../common_source/tools/input_output/write_routines.c
 !||====================================================================
       SUBROUTINE COMPRESS_I_NNZ(ARRAY,LEN)
         IMPLICIT NONE
@@ -148,7 +148,7 @@ C        WRITE(6,*) LEN,"I compressed into ",J, dble(J)/dble(LEN)
 !||    wrrestp                 ../engine/source/output/restart/wrrestp.F
 !||--- calls      -----------------------------------------------------
 !||    write_db                ../common_source/tools/input_output/write_db.F
-!||    write_i_c               ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c               ../common_source/tools/input_output/write_routines.c
 !||====================================================================
       SUBROUTINE COMPRESS_R_NNZ(ARRAY,LEN)
 #include      "implicit_f.inc"

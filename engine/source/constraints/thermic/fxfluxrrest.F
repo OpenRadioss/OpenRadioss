@@ -26,7 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    rdresb           ../engine/source/output/restart/rdresb.F
 !||--- calls      -----------------------------------------------------
 !||    read_db          ../common_source/tools/input_output/read_db.F
-!||    read_i_c         ../common_source/tools/input_output/write_routtines.c
+!||    read_i_c         ../common_source/tools/input_output/write_routines.c
 !||    redsqi           ../engine/source/output/tools/redsqi.F
 !||    redsqr           ../engine/source/output/tools/redsqr.F
 !||--- uses       -----------------------------------------------------

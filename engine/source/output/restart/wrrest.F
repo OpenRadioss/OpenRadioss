@@ -27,7 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    wrrestp           ../engine/source/output/restart/wrrestp.F
 !||--- calls      -----------------------------------------------------
 !||    write_db          ../common_source/tools/input_output/write_db.F
-!||    write_i_c         ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c         ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    fxb_mod           ../engine/share/modules/fxb_mod.F
 !||    scratchfile_mod   ../engine/share/modules/scratchfiles_mod.F
@@ -118,7 +118,7 @@ C
 !||    wrrestp           ../engine/source/output/restart/wrrestp.F
 !||--- calls      -----------------------------------------------------
 !||    write_db          ../common_source/tools/input_output/write_db.F
-!||    write_i_c         ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c         ../common_source/tools/input_output/write_routines.c
 !||    wrtsqi            ../engine/source/output/tools/wrtsqi.F
 !||    wrtsqr            ../engine/source/output/tools/wrtsqr.F
 !||--- uses       -----------------------------------------------------
@@ -194,7 +194,7 @@ C
 !||    dswrest       ../engine/source/output/restart/wrrest.F
 !||--- calls      -----------------------------------------------------
 !||    write_db      ../common_source/tools/input_output/write_db.F
-!||    write_i_c     ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c     ../common_source/tools/input_output/write_routines.c
 !||    wrtsqi        ../engine/source/output/tools/wrtsqi.F
 !||    wrtsqr        ../engine/source/output/tools/wrtsqr.F
 !||--- uses       -----------------------------------------------------
@@ -313,7 +313,7 @@ C
 !||    wrrestp     ../engine/source/output/restart/wrrestp.F
 !||--- calls      -----------------------------------------------------
 !||    write_db    ../common_source/tools/input_output/write_db.F
-!||    write_i_c   ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c   ../common_source/tools/input_output/write_routines.c
 !||====================================================================
       SUBROUTINE NFWREST(IFLOW, RFLOW)
 C-----------------------------------------------
@@ -467,7 +467,7 @@ C
 !||    wrrestp                  ../engine/source/output/restart/wrrestp.F
 !||--- calls      -----------------------------------------------------
 !||    write_db                 ../common_source/tools/input_output/write_db.F
-!||    write_i_c                ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c                ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    fvbag_mod                ../engine/share/modules/fvbag_mod.F
 !||    fvmbag_meshcontrol_mod   ../common_source/modules/airbag/fvmbag_meshcontrol_mod.F
@@ -713,7 +713,7 @@ C convection flow
 !||    wrrestp          ../engine/source/output/restart/wrrestp.F
 !||--- calls      -----------------------------------------------------
 !||    write_db         ../common_source/tools/input_output/write_db.F
-!||    write_i_c        ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c        ../common_source/tools/input_output/write_routines.c
 !||    wrtsqi           ../engine/source/output/tools/wrtsqi.F
 !||    wrtsqr           ../engine/source/output/tools/wrtsqr.F
 !||--- uses       -----------------------------------------------------
@@ -760,7 +760,7 @@ C radiative flux
 !||    wrrestp          ../engine/source/output/restart/wrrestp.F
 !||--- calls      -----------------------------------------------------
 !||    write_db         ../common_source/tools/input_output/write_db.F
-!||    write_i_c        ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c        ../common_source/tools/input_output/write_routines.c
 !||    wrtsqi           ../engine/source/output/tools/wrtsqi.F
 !||    wrtsqr           ../engine/source/output/tools/wrtsqr.F
 !||--- uses       -----------------------------------------------------
@@ -807,7 +807,7 @@ C convection flow
 !||    wrrestp          ../engine/source/output/restart/wrrestp.F
 !||--- calls      -----------------------------------------------------
 !||    write_db         ../common_source/tools/input_output/write_db.F
-!||    write_i_c        ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c        ../common_source/tools/input_output/write_routines.c
 !||    wrtsqi           ../engine/source/output/tools/wrtsqi.F
 !||    wrtsqr           ../engine/source/output/tools/wrtsqr.F
 !||--- uses       -----------------------------------------------------
@@ -854,7 +854,7 @@ C for rigid_ material
 !||    wrrestp       ../engine/source/output/restart/wrrestp.F
 !||--- calls      -----------------------------------------------------
 !||    write_db      ../common_source/tools/input_output/write_db.F
-!||    write_i_c     ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c     ../common_source/tools/input_output/write_routines.c
 !||====================================================================
       SUBROUTINE RIGMATWREST(RBYM  ,IRBYM    ,LCRBYM,WEIGHT_RM)      
 C-----------------------------------------------
@@ -890,7 +890,7 @@ C for shell composite xfem
 !||    wrrestp         ../engine/source/output/restart/wrrestp.F
 !||--- calls      -----------------------------------------------------
 !||    write_db        ../common_source/tools/input_output/write_db.F
-!||    write_i_c       ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c       ../common_source/tools/input_output/write_routines.c
 !||====================================================================
       SUBROUTINE PLYXFEM_WREST(MS_PLY,ZI_PLY,INOD,IEL,ICODE,ISKEW,MSZ2)      
 C-----------------------------------------------
@@ -932,7 +932,7 @@ C for shell composite xfem
 !||--- called by ------------------------------------------------------
 !||    wrrestp             ../engine/source/output/restart/wrrestp.F
 !||--- calls      -----------------------------------------------------
-!||    write_i_c           ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c           ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    plyxfem_mod         ../engine/share/modules/plyxfem_mod.F
 !||====================================================================
@@ -979,7 +979,7 @@ C Writing nodes infos for PLY XFEM
 !||--- called by ------------------------------------------------------
 !||    wrrestp         ../engine/source/output/restart/wrrestp.F
 !||--- calls      -----------------------------------------------------
-!||    write_i_c       ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c       ../common_source/tools/input_output/write_routines.c
 !||====================================================================
       SUBROUTINE CRKXFEM_WREST(INOD,IEL,NODLEVXF)      
 C-----------------------------------------------
@@ -1013,7 +1013,7 @@ C
 !||    wrrestp             ../engine/source/output/restart/wrrestp.F
 !||--- calls      -----------------------------------------------------
 !||    write_db            ../common_source/tools/input_output/write_db.F
-!||    write_i_c           ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c           ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    crackxfem_mod       ../engine/share/modules/crackxfem_mod.F
 !||    restmod             ../engine/share/modules/restart_mod.F
@@ -1235,7 +1235,7 @@ C STACk PART
 !||    wrrestp       ../engine/source/output/restart/wrrestp.F
 !||--- calls      -----------------------------------------------------
 !||    write_db      ../common_source/tools/input_output/write_db.F
-!||    write_i_c     ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c     ../common_source/tools/input_output/write_routines.c
 !||====================================================================
       SUBROUTINE STACK_WREST(IGEO,GEO,PM)
 C-----------------------------------------------
@@ -1271,7 +1271,7 @@ C-----------------------------------------------*
 !||    wrrestp       ../engine/source/output/restart/wrrestp.F
 !||--- calls      -----------------------------------------------------
 !||    write_db      ../common_source/tools/input_output/write_db.F
-!||    write_i_c     ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c     ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    drape_mod     ../engine/share/modules/drape_mod.F
 !||====================================================================
@@ -1411,7 +1411,7 @@ C--------------------------------------
 !||--- called by ------------------------------------------------------
 !||    wrrestp          ../engine/source/output/restart/wrrestp.F
 !||--- calls      -----------------------------------------------------
-!||    write_i_c        ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c        ../common_source/tools/input_output/write_routines.c
 !||====================================================================
       SUBROUTINE PLY_INFO_WREST(PLY_INFO)
 C-----------------------------------------------

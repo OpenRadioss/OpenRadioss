@@ -33,7 +33,7 @@ C            SSPMD_AGET_SECT                 /spe/spmd_anim.F
 !||    dxwals           ../engine/source/output/anim/generate/dxwals.F
 !||    spmd_aget_sect   ../engine/source/mpi/anim/spmd_aget_sect.F
 !||    spmd_agetmsr     ../engine/source/mpi/anim/spmd_agetmsr.F
-!||    write_r_c        ../common_source/tools/input_output/write_routtines.c
+!||    write_r_c        ../common_source/tools/input_output/write_routines.c
 !||====================================================================
       SUBROUTINE DXYZSECT (NSTRF,RWBUF,NPRW  ,X     ,XMIN ,
      2                     YMIN ,ZMIN  ,XMAX ,YMAX  , ZMAX,

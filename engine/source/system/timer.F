@@ -488,13 +488,13 @@ C-----------------------------------------------
 !||--- called by ------------------------------------------------------
 !||    resol             ../engine/source/engine/resol.F
 !||--- calls      -----------------------------------------------------
-!||    close_c           ../common_source/tools/input_output/write_routtines.c
-!||    cur_fil_c         ../common_source/tools/input_output/write_routtines.c
+!||    close_c           ../common_source/tools/input_output/write_routines.c
+!||    cur_fil_c         ../common_source/tools/input_output/write_routines.c
 !||    elapstime         ../engine/source/system/timer.F
-!||    fseek_end_c       ../common_source/tools/input_output/write_routtines.c
+!||    fseek_end_c       ../common_source/tools/input_output/write_routines.c
 !||    get_mem_map_var   ../engine/source/system/timer.F
 !||    map_memory        ../common_source/comm/memory_use_c.c
-!||    open_c            ../common_source/tools/input_output/write_routtines.c
+!||    open_c            ../common_source/tools/input_output/write_routines.c
 !||    print_summary     ../engine/source/system/timer.F
 !||    rad_spmd_recv     ../engine/source/mpi/generic/rad_spmd_recv.F
 !||    rad_spmd_send     ../engine/source/mpi/generic/rad_spmd_send.F
@@ -3058,11 +3058,11 @@ C-----------------------------------------------
 !||--- called by ------------------------------------------------------
 !||    resol                      ../engine/source/engine/resol.F
 !||--- calls      -----------------------------------------------------
-!||    close_c                    ../common_source/tools/input_output/write_routtines.c
-!||    cur_fil_c                  ../common_source/tools/input_output/write_routtines.c
+!||    close_c                    ../common_source/tools/input_output/write_routines.c
+!||    cur_fil_c                  ../common_source/tools/input_output/write_routines.c
 !||    elapstime                  ../engine/source/system/timer.F
-!||    fseek_end_c                ../common_source/tools/input_output/write_routtines.c
-!||    open_c                     ../common_source/tools/input_output/write_routtines.c
+!||    fseek_end_c                ../common_source/tools/input_output/write_routines.c
+!||    open_c                     ../common_source/tools/input_output/write_routines.c
 !||    write_dpdb                 ../common_source/tools/input_output/write_db.F
 !||--- uses       -----------------------------------------------------
 !||    inoutfile_mod              ../common_source/modules/inoutfile_mod.F

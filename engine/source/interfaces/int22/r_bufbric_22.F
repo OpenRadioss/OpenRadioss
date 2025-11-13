@@ -28,7 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    arret                ../engine/source/system/arret.F
 !||    i22datainit          ../engine/source/interfaces/int22/i22datainit.F
 !||    read_db              ../common_source/tools/input_output/read_db.F
-!||    read_i_c             ../common_source/tools/input_output/write_routtines.c
+!||    read_i_c             ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    ale_mod              ../common_source/modules/ale/ale_mod.F
 !||    i22bufbric_mod       ../common_source/modules/interfaces/cut-cell-search_mod.F

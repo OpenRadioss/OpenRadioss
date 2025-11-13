@@ -31,7 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    compress_i_nnz    ../common_source/comm/compress_nnz.F
 !||    compress_r_nnz    ../common_source/comm/compress_nnz.F
 !||    write_db          ../common_source/tools/input_output/write_db.F
-!||    write_i_c         ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c         ../common_source/tools/input_output/write_routines.c
 !||    write_intbuf_t8   ../engine/source/output/restart/write_intbuf.F
 !||--- uses       -----------------------------------------------------
 !||    intbufdef_mod     ../common_source/modules/interfaces/intbufdef_mod.F90
@@ -1381,7 +1381,7 @@ C-----
 !||--- called by ------------------------------------------------------
 !||    write_intbuf      ../engine/source/output/restart/write_intbuf.F
 !||--- calls      -----------------------------------------------------
-!||    write_i_c         ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c         ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    int8_mod          ../common_source/modules/interfaces/int8_mod.F90
 !||====================================================================

@@ -23,16 +23,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
 !||    nintrn                 ../starter/source/system/nintrn.F
 !||--- called by ------------------------------------------------------
-!||    hm_read_beam           ../starter/source/elements/reader/hm_read_beam.F
-!||    hm_read_quad           ../starter/source/elements/reader/hm_read_quad.F
-!||    hm_read_sh3n           ../starter/source/elements/reader/hm_read_sh3n.F
-!||    hm_read_shell          ../starter/source/elements/reader/hm_read_shell.F
-!||    hm_read_spring         ../starter/source/elements/reader/hm_read_spring.F
 !||    hm_read_thgrne         ../starter/source/output/th/hm_read_thgrne.F
 !||    hm_read_thgrns         ../starter/source/output/th/hm_read_thgrns.F
 !||    hm_read_thgrsurf       ../starter/source/output/th/hm_read_thgrsurf.F
-!||    hm_read_tria           ../starter/source/elements/reader/hm_read_tria.F
-!||    hm_read_truss          ../starter/source/elements/reader/hm_read_truss.F
 !||    hm_thgrki_vent         ../starter/source/output/th/hm_thgrki_vent.F
 !||    thprin                 ../starter/source/output/th/thprin.F
 !||    thprin_sub             ../starter/source/output/th/thprin.F

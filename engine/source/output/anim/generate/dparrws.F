@@ -26,7 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    genani           ../engine/source/output/anim/generate/genani.F
 !||--- calls      -----------------------------------------------------
 !||    spmd_gather_wa   ../engine/source/mpi/anim/spmd_gather_wa.F
-!||    write_i_c        ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c        ../common_source/tools/input_output/write_routines.c
 !||====================================================================
       SUBROUTINE DPARRWS(NESBW,NSTRF,IXC   ,
      2                  IXTG ,X ,NODCUT,RWBUF,NPRW,

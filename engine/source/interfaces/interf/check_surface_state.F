@@ -30,7 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    my_barrier                      ../engine/source/system/machine.F
 !||--- uses       -----------------------------------------------------
 !||    intbufdef_mod                   ../common_source/modules/interfaces/intbufdef_mod.F90
-!||    shooting_node_mod               ../engine/share/modules/shooting_node_mod.F
+!||    shooting_node_mod               ../engine/share/modules/shooting_node_mod.F90
 !||====================================================================
         SUBROUTINE CHECK_SURFACE_STATE( ITASK,SURFARCE_NB,SURFACE_ID,SHIFT_INTERFACE,INTBUF_TAB,
      .                                  IPARI,GEO,

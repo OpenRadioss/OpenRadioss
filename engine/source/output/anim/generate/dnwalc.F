@@ -25,7 +25,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    dsecnor     ../engine/source/output/anim/generate/dsecnor.F
 !||--- calls      -----------------------------------------------------
-!||    write_s_c   ../common_source/tools/input_output/write_routtines.c
+!||    write_s_c   ../common_source/tools/input_output/write_routines.c
 !||====================================================================
       SUBROUTINE DNWALC(X ,RWL ,MSR )
 C-----------------------------------------------

@@ -27,7 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    w_group_str            ../engine/source/output/restart/w_group_str.F
 !||--- calls      -----------------------------------------------------
 !||    fretitl                ../engine/source/input/freform.F
-!||    write_i_c              ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c              ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    groupdef_mod           ../common_source/modules/groupdef_mod.F
 !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F

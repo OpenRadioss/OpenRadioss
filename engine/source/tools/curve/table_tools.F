@@ -60,7 +60,7 @@ C--------------------------------------
 !||--- called by ------------------------------------------------------
 !||    wrrestp        ../engine/source/output/restart/wrrestp.F
 !||--- calls      -----------------------------------------------------
-!||    write_i_c      ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c      ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    table_mod      ../engine/share/modules/table_mod.F
 !||====================================================================
@@ -154,7 +154,7 @@ C--------------------------------------
 !||--- calls      -----------------------------------------------------
 !||    ancmsg         ../engine/source/output/message/message.F
 !||    arret          ../engine/source/system/arret.F
-!||    read_i_c       ../common_source/tools/input_output/write_routtines.c
+!||    read_i_c       ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    message_mod    ../engine/share/message_module/message_mod.F
 !||    table_mod      ../engine/share/modules/table_mod.F

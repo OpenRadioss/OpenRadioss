@@ -56,7 +56,7 @@
 !||    intbufdef_mod                            ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    nodal_arrays_mod                         ../common_source/modules/nodal_arrays.F90
 !||    precision_mod                            ../common_source/modules/precision_mod.F90
-!||    shooting_node_mod                        ../engine/share/modules/shooting_node_mod.F
+!||    shooting_node_mod                        ../engine/share/modules/shooting_node_mod.F90
 !||====================================================================
         subroutine get_neighbour_surface_from_remote_proc( ninter,numnod,nspmd,  &
           size_r_buffer,nb_r_segment,s_buffer_2_size, &

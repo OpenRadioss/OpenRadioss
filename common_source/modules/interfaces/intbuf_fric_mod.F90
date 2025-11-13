@@ -107,7 +107,7 @@
 !||    ddsplit           ../starter/source/restart/ddsplit/ddsplit.F
 !||    wrrestp           ../engine/source/output/restart/wrrestp.F
 !||--- calls      -----------------------------------------------------
-!||    write_i_c         ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c         ../common_source/tools/input_output/write_routines.c
 !||====================================================================
         subroutine intfric_wresti(intbuf_fric_tab,ninterfric)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -229,7 +229,7 @@
 !||--- called by ------------------------------------------------------
 !||    rdresb           ../engine/source/output/restart/rdresb.F
 !||--- calls      -----------------------------------------------------
-!||    read_i_c         ../common_source/tools/input_output/write_routtines.c
+!||    read_i_c         ../common_source/tools/input_output/write_routines.c
 !||====================================================================
         subroutine intfric_rresti(intbuf_fric_tab,ninterfric)
 ! ----------------------------------------------------------------------------------------------------------------------

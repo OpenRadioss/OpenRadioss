@@ -26,7 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    radioss                    ../engine/source/engine/radioss.F
 !||--- calls      -----------------------------------------------------
 !||    execargcheck               ../engine/source/engine/execargcheck.F
-!||    file_init                  ../common_source/tools/input_output/write_routtines.c
+!||    file_init                  ../common_source/tools/input_output/write_routines.c
 !||    init_dyn_lib_struc         ../engine/share/modules/dynlib_mod.F
 !||    radioss2                   ../engine/source/engine/radioss2.F
 !||    radioss_set_env_variable   ../common_source/comm/radioss_set_env_variable.c

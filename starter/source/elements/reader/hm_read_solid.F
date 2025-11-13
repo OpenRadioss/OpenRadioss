@@ -521,7 +521,6 @@ C
 !||    lectur         ../starter/source/starter/lectur.F
 !||--- calls      -----------------------------------------------------
 !||    reordr         ../starter/source/elements/solid_2d/quad/reordr.F
-!||    usr2sys        ../starter/source/system/sysfus.F
 !||--- uses       -----------------------------------------------------
 !||====================================================================
       SUBROUTINE LCE16S3(IXS    ,ISEL    ,PM      ,IPOINT  ,ITAB     ,ITABM1 ,
@@ -867,7 +866,6 @@ C
 !||    contrl            ../starter/source/starter/contrl.F
 !||--- calls      -----------------------------------------------------
 !||    ancmsg            ../starter/source/output/message/message.F
-!||    usr2sys           ../starter/source/system/sysfus.F
 !||--- uses       -----------------------------------------------------
 !||    message_mod       ../starter/share/message_module/message_mod.F
 !||    reader_old_mod    ../starter/share/modules1/reader_old_mod.F90

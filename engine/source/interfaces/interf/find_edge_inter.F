@@ -27,7 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
 !||    intbufdef_mod             ../common_source/modules/interfaces/intbufdef_mod.F90
-!||    shooting_node_mod         ../engine/share/modules/shooting_node_mod.F
+!||    shooting_node_mod         ../engine/share/modules/shooting_node_mod.F90
 !||====================================================================
         SUBROUTINE FIND_EDGE_INTER( ITAB,SHOOT_STRUCT,IXS,IXS10,
      1                              IXC,IXTG,IXQ,IXT,IXP,

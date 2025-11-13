@@ -39,7 +39,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    tensors               ../engine/source/output/anim/generate/tensor6.F
 !||    torseur               ../engine/source/output/anim/generate/torseur.F
 !||--- calls      -----------------------------------------------------
-!||    write_r_c             ../common_source/tools/input_output/write_routtines.c
+!||    write_r_c             ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    spmd_comm_world_mod   ../engine/source/mpi/spmd_comm_world.F90
 !||====================================================================

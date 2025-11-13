@@ -135,7 +135,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    write_viscparam           ../engine/source/output/restart/write_viscparam.F
 !||    wrrestp                   ../engine/source/output/restart/wrrestp.F
 !||--- calls      -----------------------------------------------------
-!||    write_db_c                ../common_source/tools/input_output/write_routtines.c
+!||    write_db_c                ../common_source/tools/input_output/write_routines.c
 !||====================================================================
       SUBROUTINE WRITE_DB(A,N)
 C Writing Reel Number: wrapper routine
@@ -213,7 +213,7 @@ C
 !||    write_data_nrf          ../common_source/modules/boundary_conditions/ebcs_mod.F90
 !||    write_data_propellant   ../common_source/modules/boundary_conditions/ebcs_mod.F90
 !||--- calls      -----------------------------------------------------
-!||    write_db_c              ../common_source/tools/input_output/write_routtines.c
+!||    write_db_c              ../common_source/tools/input_output/write_routines.c
 !||====================================================================
       SUBROUTINE WRITE_DB_ARRAY(A,N)
 C Writing Reel Number: wrapper routine
@@ -297,7 +297,7 @@ C
 !||    write_sensors              ../engine/source/output/restart/write_sensors.F
 !||    wrrestp                    ../engine/source/output/restart/wrrestp.F
 !||--- calls      -----------------------------------------------------
-!||    write_db_c                 ../common_source/tools/input_output/write_routtines.c
+!||    write_db_c                 ../common_source/tools/input_output/write_routines.c
 !||====================================================================
       SUBROUTINE WRITE_DPDB(A,N)
 C Writing Reel Number: wrapper routine

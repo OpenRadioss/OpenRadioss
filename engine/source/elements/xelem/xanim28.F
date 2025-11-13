@@ -25,8 +25,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    animx         ../engine/source/output/anim/generate/animx.F
 !||--- calls      -----------------------------------------------------
-!||    ancmsg        ../engine/source/output/message/message.F
-!||    arret         ../engine/source/system/arret.F
 !||    get_u_mid     ../engine/source/user_interface/upidmid.F
 !||    get_u_mnu     ../engine/source/user_interface/upidmid.F
 !||    get_u_pid     ../engine/source/user_interface/upidmid.F

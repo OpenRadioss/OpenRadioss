@@ -35,7 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    fcont2_max_output                ../engine/source/output/h3d/h3d_results/fcont2_max_output.F
 !||    fcont2_min_output                ../engine/source/output/h3d/h3d_results/fcont2_min_output.F
 !||    fcont_max_output                 ../engine/source/output/h3d/h3d_results/fcont_max_output.F
-!||    file_size                        ../common_source/tools/input_output/write_routtines.c
+!||    file_size                        ../common_source/tools/input_output/write_routines.c
 !||    finter                           ../engine/source/tools/curve/finter.F
 !||    fluxsw                           ../engine/source/fluid/fluxsw.F
 !||    fpcont2_max_output               ../engine/source/output/h3d/h3d_results/fpcont2_max_output.F90

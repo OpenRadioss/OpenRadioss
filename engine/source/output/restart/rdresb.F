@@ -33,7 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    convrrest                    ../engine/source/output/restart/rdresb.F
 !||    crkxfem_rrest                ../engine/source/output/restart/rdresb.F
 !||    crkxfem_rrestanim            ../engine/source/output/restart/rdresb.F
-!||    cur_fil_c                    ../common_source/tools/input_output/write_routtines.c
+!||    cur_fil_c                    ../common_source/tools/input_output/write_routines.c
 !||    decompress_i_nnz             ../common_source/comm/decompress_nnz.F
 !||    decompress_r_nnz             ../common_source/comm/decompress_nnz.F
 !||    drape_rrest                  ../engine/source/output/restart/rdresb.F
@@ -79,7 +79,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    read_dpdb                    ../common_source/tools/input_output/read_db.F
 !||    read_elgroup_param           ../engine/source/output/restart/read_elgroup_param.F
 !||    read_failwave                ../engine/source/output/restart/read_failwave.F
-!||    read_i_c                     ../common_source/tools/input_output/write_routtines.c
+!||    read_i_c                     ../common_source/tools/input_output/write_routines.c
 !||    read_inivel                  ../engine/source/output/restart/read_inivel.F90
 !||    read_joint                   ../engine/source/output/restart/read_joint.F
 !||    read_matparam                ../engine/source/output/restart/read_matparam.F
@@ -1667,7 +1667,7 @@ C
 !||--- calls      -----------------------------------------------------
 !||    my_getpid         ../engine/source/system/pid.c
 !||    read_db           ../common_source/tools/input_output/read_db.F
-!||    read_i_c          ../common_source/tools/input_output/write_routtines.c
+!||    read_i_c          ../common_source/tools/input_output/write_routines.c
 !||    redsqi            ../engine/source/output/tools/redsqi.F
 !||    redsqr            ../engine/source/output/tools/redsqr.F
 !||    tmpenvf           ../engine/source/system/tmpenv_c.c
@@ -1805,7 +1805,7 @@ C
 !||--- calls      -----------------------------------------------------
 !||    my_getpid         ../engine/source/system/pid.c
 !||    read_db           ../common_source/tools/input_output/read_db.F
-!||    read_i_c          ../common_source/tools/input_output/write_routtines.c
+!||    read_i_c          ../common_source/tools/input_output/write_routines.c
 !||    redsqi            ../engine/source/output/tools/redsqi.F
 !||    redsqr            ../engine/source/output/tools/redsqr.F
 !||    tmpenvf           ../engine/source/system/tmpenv_c.c
@@ -1895,7 +1895,7 @@ C
 !||    dsrrest       ../engine/source/output/restart/rdresb.F
 !||--- calls      -----------------------------------------------------
 !||    read_db       ../common_source/tools/input_output/read_db.F
-!||    read_i_c      ../common_source/tools/input_output/write_routtines.c
+!||    read_i_c      ../common_source/tools/input_output/write_routines.c
 !||    redsqi        ../engine/source/output/tools/redsqi.F
 !||    redsqr        ../engine/source/output/tools/redsqr.F
 !||--- uses       -----------------------------------------------------
@@ -2051,7 +2051,7 @@ C-----------
 !||    rdresb     ../engine/source/output/restart/rdresb.F
 !||--- calls      -----------------------------------------------------
 !||    read_db    ../common_source/tools/input_output/read_db.F
-!||    read_i_c   ../common_source/tools/input_output/write_routtines.c
+!||    read_i_c   ../common_source/tools/input_output/write_routines.c
 !||    redsqi     ../engine/source/output/tools/redsqi.F
 !||    redsqr     ../engine/source/output/tools/redsqr.F
 !||====================================================================
@@ -2167,7 +2167,7 @@ C
 !||    ancmsg                   ../engine/source/output/message/message.F
 !||    arret                    ../engine/source/system/arret.F
 !||    read_db                  ../common_source/tools/input_output/read_db.F
-!||    read_i_c                 ../common_source/tools/input_output/write_routtines.c
+!||    read_i_c                 ../common_source/tools/input_output/write_routines.c
 !||    spmd_comm_split          ../engine/source/mpi/generic/spmd_comm_split.F
 !||    spmd_fvb_comm_pattern    ../engine/source/mpi/airbags/spmd_fvb_comm_pattern.F
 !||--- uses       -----------------------------------------------------
@@ -2713,7 +2713,7 @@ C convection flow
 !||    rdresb           ../engine/source/output/restart/rdresb.F
 !||--- calls      -----------------------------------------------------
 !||    read_db          ../common_source/tools/input_output/read_db.F
-!||    read_i_c         ../common_source/tools/input_output/write_routtines.c
+!||    read_i_c         ../common_source/tools/input_output/write_routines.c
 !||    redsqi           ../engine/source/output/tools/redsqi.F
 !||    redsqr           ../engine/source/output/tools/redsqr.F
 !||--- uses       -----------------------------------------------------
@@ -2766,7 +2766,7 @@ C radiative flux
 !||    rdresb           ../engine/source/output/restart/rdresb.F
 !||--- calls      -----------------------------------------------------
 !||    read_db          ../common_source/tools/input_output/read_db.F
-!||    read_i_c         ../common_source/tools/input_output/write_routtines.c
+!||    read_i_c         ../common_source/tools/input_output/write_routines.c
 !||    redsqi           ../engine/source/output/tools/redsqi.F
 !||    redsqr           ../engine/source/output/tools/redsqr.F
 !||--- uses       -----------------------------------------------------
@@ -2819,7 +2819,7 @@ C imposed temperature
 !||    rdresb           ../engine/source/output/restart/rdresb.F
 !||--- calls      -----------------------------------------------------
 !||    read_db          ../common_source/tools/input_output/read_db.F
-!||    read_i_c         ../common_source/tools/input_output/write_routtines.c
+!||    read_i_c         ../common_source/tools/input_output/write_routines.c
 !||    redsqi           ../engine/source/output/tools/redsqi.F
 !||    redsqr           ../engine/source/output/tools/redsqr.F
 !||--- uses       -----------------------------------------------------
@@ -2872,7 +2872,7 @@ C rigid material
 !||    rdresb      ../engine/source/output/restart/rdresb.F
 !||--- calls      -----------------------------------------------------
 !||    read_db     ../common_source/tools/input_output/read_db.F
-!||    read_i_c    ../common_source/tools/input_output/write_routtines.c
+!||    read_i_c    ../common_source/tools/input_output/write_routines.c
 !||    redsqi      ../engine/source/output/tools/redsqi.F
 !||    redsqr      ../engine/source/output/tools/redsqr.F
 !||====================================================================
@@ -2924,7 +2924,7 @@ C shell xfem
 !||    rdresb          ../engine/source/output/restart/rdresb.F
 !||--- calls      -----------------------------------------------------
 !||    read_db         ../common_source/tools/input_output/read_db.F
-!||    read_i_c        ../common_source/tools/input_output/write_routtines.c
+!||    read_i_c        ../common_source/tools/input_output/write_routines.c
 !||====================================================================
       SUBROUTINE PLYXFEM_RREST(MS_LAYER,ZI_LAYER,INOD,IEL,ICODE,ISKEW,
      .                         MSZ2)
@@ -2975,7 +2975,7 @@ C shell xfem
 !||--- called by ------------------------------------------------------
 !||    rdresb              ../engine/source/output/restart/rdresb.F
 !||--- calls      -----------------------------------------------------
-!||    read_i_c            ../common_source/tools/input_output/write_routtines.c
+!||    read_i_c            ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    plyxfem_mod         ../engine/share/modules/plyxfem_mod.F
 !||====================================================================
@@ -3131,7 +3131,7 @@ C
 !||--- called by ------------------------------------------------------
 !||    rdresb          ../engine/source/output/restart/rdresb.F
 !||--- calls      -----------------------------------------------------
-!||    read_i_c        ../common_source/tools/input_output/write_routtines.c
+!||    read_i_c        ../common_source/tools/input_output/write_routines.c
 !||====================================================================
       SUBROUTINE CRKXFEM_RREST(INOD_CRKXFEM,IEL_CRKXFEM,NODLEVXF)
 C-----------------------------------------------
@@ -3163,7 +3163,7 @@ C---
 !||    rdresb              ../engine/source/output/restart/rdresb.F
 !||--- calls      -----------------------------------------------------
 !||    read_db             ../common_source/tools/input_output/read_db.F
-!||    read_i_c            ../common_source/tools/input_output/write_routtines.c
+!||    read_i_c            ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    restmod             ../engine/share/modules/restart_mod.F
 !||    xfem2vars_mod       ../engine/share/modules/xfem2vars_mod.F
@@ -3615,7 +3615,7 @@ C STACk PART
 !||    rdresb        ../engine/source/output/restart/rdresb.F
 !||--- calls      -----------------------------------------------------
 !||    read_db       ../common_source/tools/input_output/read_db.F
-!||    read_i_c      ../common_source/tools/input_output/write_routtines.c
+!||    read_i_c      ../common_source/tools/input_output/write_routines.c
 !||====================================================================
       SUBROUTINE STACK_RREST(IGEO,GEO,PM)
 C-----------------------------------------------
@@ -3651,7 +3651,7 @@ C-----------------------------------------------
 !||    rdresb        ../engine/source/output/restart/rdresb.F
 !||--- calls      -----------------------------------------------------
 !||    read_db       ../common_source/tools/input_output/read_db.F
-!||    read_i_c      ../common_source/tools/input_output/write_routtines.c
+!||    read_i_c      ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    drape_mod     ../engine/share/modules/drape_mod.F
 !||====================================================================
@@ -3806,7 +3806,7 @@ C
 !||--- called by ------------------------------------------------------
 !||    rdresb          ../engine/source/output/restart/rdresb.F
 !||--- calls      -----------------------------------------------------
-!||    read_i_c        ../common_source/tools/input_output/write_routtines.c
+!||    read_i_c        ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    message_mod     ../engine/share/message_module/message_mod.F
 !||====================================================================

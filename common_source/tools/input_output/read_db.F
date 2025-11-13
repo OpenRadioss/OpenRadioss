@@ -83,7 +83,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    userwi_read            ../engine/source/user_interface/userwindow_interface_routines.F
 !||    wigerest               ../engine/source/output/restart/rdresb.F
 !||--- calls      -----------------------------------------------------
-!||    read_db_c              ../common_source/tools/input_output/write_routtines.c
+!||    read_db_c              ../common_source/tools/input_output/write_routines.c
 !||====================================================================
       SUBROUTINE READ_DB(A,N)
 C Reading Real Number: wrapper Routine
@@ -246,7 +246,7 @@ C
 !||    rdresb            ../engine/source/output/restart/rdresb.F
 !||    read_sensors      ../engine/source/output/restart/read_sensors.F
 !||--- calls      -----------------------------------------------------
-!||    read_db_c         ../common_source/tools/input_output/write_routtines.c
+!||    read_db_c         ../common_source/tools/input_output/write_routines.c
 !||====================================================================
       SUBROUTINE READ_DPDB(A,N)
 C Reading Real Number: wrapper Routine

@@ -313,7 +313,6 @@ C
 !||    lectrans                      ../starter/source/model/transformation/lectrans.F
 !||    lectranssub                   ../starter/source/model/submodel/lectranssub.F
 !||    printbcs                      ../starter/source/constraints/general/bcs/printbcs.F
-!||    setrb2on                      ../starter/source/constraints/general/rbe2/hm_read_rbe2.F
 !||--- calls      -----------------------------------------------------
 !||    ancmsg                        ../starter/source/output/message/message.F
 !||    hm_get_current_option         ../starter/source/devtools/hm_reader/hm_get_current_option.F

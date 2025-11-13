@@ -28,11 +28,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- calls      -----------------------------------------------------
 !||    ancmsg          ../engine/source/output/message/message.F
 !||    arret           ../engine/source/system/arret.F
-!||    close_c         ../common_source/tools/input_output/write_routtines.c
-!||    cur_fil_c       ../common_source/tools/input_output/write_routtines.c
-!||    open_c          ../common_source/tools/input_output/write_routtines.c
-!||    read_i_c        ../common_source/tools/input_output/write_routtines.c
-!||    read_r_c        ../common_source/tools/input_output/write_routtines.c
+!||    close_c         ../common_source/tools/input_output/write_routines.c
+!||    cur_fil_c       ../common_source/tools/input_output/write_routines.c
+!||    open_c          ../common_source/tools/input_output/write_routines.c
+!||    read_i_c        ../common_source/tools/input_output/write_routines.c
+!||    read_r_c        ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    inoutfile_mod   ../common_source/modules/inoutfile_mod.F
 !||    message_mod     ../engine/share/message_module/message_mod.F

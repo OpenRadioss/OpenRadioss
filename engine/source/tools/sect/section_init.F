@@ -26,10 +26,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    resol_init             ../engine/source/engine/resol_init.F
 !||--- calls      -----------------------------------------------------
 !||    ancmsg                 ../engine/source/output/message/message.F
-!||    close_c                ../common_source/tools/input_output/write_routtines.c
-!||    cur_fil_c              ../common_source/tools/input_output/write_routtines.c
-!||    open_c                 ../common_source/tools/input_output/write_routtines.c
-!||    read_r_c               ../common_source/tools/input_output/write_routtines.c
+!||    close_c                ../common_source/tools/input_output/write_routines.c
+!||    cur_fil_c              ../common_source/tools/input_output/write_routines.c
+!||    open_c                 ../common_source/tools/input_output/write_routines.c
+!||    read_r_c               ../common_source/tools/input_output/write_routines.c
 !||    spmd_rbcast            ../engine/source/mpi/generic/spmd_rbcast.F
 !||--- uses       -----------------------------------------------------
 !||    inoutfile_mod          ../common_source/modules/inoutfile_mod.F

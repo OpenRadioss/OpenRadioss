@@ -30,7 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    schlieren_buffer_gathering   ../engine/source/output/anim/generate/schlieren_buffer_gathering.F
 !||    spmd_r4get_partn             ../engine/source/mpi/anim/spmd_r4get_partn.F
 !||    srotorth                     ../engine/source/elements/solid/srotorth.F
-!||    write_r_c                    ../common_source/tools/input_output/write_routtines.c
+!||    write_r_c                    ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    ale_connectivity_mod         ../common_source/modules/ale/ale_connectivity_mod.F
 !||    aleanim_mod                  ../common_source/modules/aleanim_mod.F

@@ -39,7 +39,7 @@
 !||--- called by ------------------------------------------------------
 !||    write_matparam             ../engine/source/output/restart/write_matparam.F
 !||--- calls      -----------------------------------------------------
-!||    write_i_c                  ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c                  ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    ale_mod                    ../common_source/modules/ale/ale_mod.F
 !||====================================================================

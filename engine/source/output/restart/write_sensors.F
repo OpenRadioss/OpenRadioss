@@ -28,7 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    fretitl                ../engine/source/input/freform.F
 !||    write_db               ../common_source/tools/input_output/write_db.F
 !||    write_dpdb             ../common_source/tools/input_output/write_db.F
-!||    write_i_c              ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c              ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
 !||    sensor_mod             ../common_source/modules/sensor_mod.F90

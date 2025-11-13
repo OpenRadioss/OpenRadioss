@@ -27,7 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    wrrestp       ../engine/source/output/restart/wrrestp.F
 !||--- calls      -----------------------------------------------------
 !||    write_db      ../common_source/tools/input_output/write_db.F
-!||    write_i_c     ../common_source/tools/input_output/write_routtines.c
+!||    write_i_c     ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    unitab_mod    ../common_source/modules/unitab_mod.F
 !||====================================================================
@@ -83,7 +83,7 @@ C-----------------------------------------------
 !||    rdresb        ../engine/source/output/restart/rdresb.F
 !||--- calls      -----------------------------------------------------
 !||    read_db       ../common_source/tools/input_output/read_db.F
-!||    read_i_c      ../common_source/tools/input_output/write_routtines.c
+!||    read_i_c      ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    message_mod   ../engine/share/message_module/message_mod.F
 !||    unitab_mod    ../common_source/modules/unitab_mod.F
