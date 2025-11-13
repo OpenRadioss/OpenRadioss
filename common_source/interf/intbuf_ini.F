@@ -1517,7 +1517,7 @@ C=======================================================================
           ENDIF
 
           SIZ = INTBUF_TAB(NI)%S_GAP_ML
-          ALLOCATE(INTBUF_TAB(NI)%GAP_ML(MAX(1,SIZ)))
+          ALLOCATE(INTBUF_TAB(NI)%GAP_ML(SIZ))
           IF(SIZ>0)THEN
             CALL READ_DB(INTBUF_TAB(NI)%GAP_ML,SIZ)
           ENDIF
