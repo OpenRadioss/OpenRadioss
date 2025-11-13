@@ -109,14 +109,13 @@ void sdiD2R::ConvertInitialStrain::ConvertInitialStrainsShell()
               int Ishellform = 0;  // shell formulation in radioss property
               // radioss part read
               HandleRead partHRead;
-              elementHRead.GetEntityHandle(p_radiossModel, sdiIdentifier("part_ID"), partHRead);
+              elementHRead.GetEntityHandle(p_radiossModel, sdiIdentifier("PART"), partHRead);
 
               // dyna part read
               HandleRead elementdynaHRead;
               p_lsdynaModel->FindById(p_lsdynaModel->GetEntityType("*ELEMENT_SHELL"), eid, elementdynaHRead);
-              HandleRead partdynaHRead;
-              elementdynaHRead.GetEntityHandle(p_lsdynaModel,sdiIdentifier("PID"), partdynaHRead);
-              
+              ElementRead elementdynaRead(p_lsdynaModel, elementdynaHRead);
+              HandleRead partdynaHRead = elementdynaRead.GetOwner();
               EntityRead partdynaRead(p_lsdynaModel, partdynaHRead);
               sdiString partCard = partdynaRead.GetKeyword();
 
@@ -430,14 +429,14 @@ void sdiD2R::ConvertInitialStrain::ConvertInitialStrainsShell()
               int Ishellform = 0;  // shell formulation in radioss property
               // radioss part read
               HandleRead partHRead;
-              elementHRead.GetEntityHandle(p_radiossModel, sdiIdentifier("part_ID"), partHRead);
+              elementHRead.GetEntityHandle(p_radiossModel, sdiIdentifier("PART"), partHRead);
 
               // dyna part read
               HandleRead elementdynaHRead;
               p_lsdynaModel->FindById(p_lsdynaModel->GetEntityType("*ELEMENT_SHELL"), eid, elementdynaHRead);
-              HandleRead partdynaHRead;
-              elementdynaHRead.GetEntityHandle(p_lsdynaModel,sdiIdentifier("PID"), partdynaHRead);
               
+              ElementRead elementdynaRead(p_lsdynaModel, elementdynaHRead);
+              HandleRead partdynaHRead = elementdynaRead.GetOwner();
               EntityRead partdynaRead(p_lsdynaModel, partdynaHRead);
               sdiString partCard = partdynaRead.GetKeyword();
 

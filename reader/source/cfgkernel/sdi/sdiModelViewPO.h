@@ -1886,8 +1886,58 @@ public:
     }
 
     ////////////////////////////////////////////////////////////////////////////////
-    //! Descriptior Values and Hierachy by identifier
+    //! Descriptor Values and Hierachy by identifier
     ////////////////////////////////////////////////////////////////////////////////
+    virtual Status GetValue(const HandleRead&    handle,
+                            const sdiIdentifier& identifier,
+                            sdiValue&            value) const
+    { 
+        EntityType type = handle.GetType();
+        SpecializationType SpecializationType = GetSpecializationType(type);
+        switch(SpecializationType)
+        {
+        case SPECIALIZATION_TYPE_NODE: 
+        {
+            sdiIdentifier newIdentifier(identifier.GetNameKey(), identifier.GetSolverIdx(), handle.GetIndex2());
+            if (handle.GetIndex1() >= p_preobjects[HCDI_OBJ_TYPE_NODES].size()) {
+                return false;
+            }
+            IMECPreObject* pObj = p_preobjects[HCDI_OBJ_TYPE_NODES][handle.GetIndex1()];
+            return GetValueFromPreObject(pObj, newIdentifier, value);
+        }
+        case SPECIALIZATION_TYPE_ELEMENT: 
+        {
+            sdiIdentifier newIdentifier;
+            if(identifier.GetNameKey() == "PART")
+            {
+                newIdentifier = sdiIdentifier(identifier.GetNameKey());
+            }
+            else
+            {
+                newIdentifier = sdiIdentifier(identifier.GetNameKey(), identifier.GetSolverIdx(), handle.GetIndex2());
+            }
+            IMECPreObject* pObj = p_preobjects[HCDI_OBJ_TYPE_ELEMS][handle.GetIndex1()];
+            if (handle.GetIndex1() >= p_preobjects[HCDI_OBJ_TYPE_ELEMS].size()) {
+                return false;
+            }
+            return GetValueFromPreObject(pObj, newIdentifier, value);
+        }
+        default:
+        {
+            if(myTypeInclude == type)
+            { // has a specific GetValue()
+                EntityRead entity(this, HandleRead(type, handle.GetPointer()));
+                return entity.GetValue(identifier, value);
+            }
+            unsigned int CFGType = GetCFGType(type);
+            if(CFGType > p_nbPOTypes) return false;
+            EntityReadPO entityReadPO(static_cast<const IMECPreObject*>(handle.GetPointer()), this);
+            return GetValueFromPreObject(static_cast<const IMECPreObject*>(handle.GetPointer()),
+                identifier, value, &entityReadPO);
+        }
+        }
+    }
+
     virtual Status GetValue(const EntityType                type,
                           const void*                     entityptr,
                           const sdiIdentifier& identifier,
@@ -1910,6 +1960,7 @@ public:
                 identifier, value, &entityReadPO);
         }
     }
+    
     virtual Status SetValue(const HandleEdit&    handle,
                             const sdiIdentifier& identifier,
                             const sdiValue&      value) const
@@ -2717,6 +2768,7 @@ bool ModelViewPO::GetValueFromPreObject(const IMECPreObject            *pObj,
     }
     else
     {
+        
         skwd = identifier.GetNameKey();
         aindex = GetIndexFromPreobject(pObj, skwd, &atype, &vtype);
         if(0 > aindex)
