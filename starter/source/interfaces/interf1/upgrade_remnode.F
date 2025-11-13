@@ -383,22 +383,22 @@ C Set the new NREMNODE parameter for the given Interface
       INTBUF_TAB%KREMNODE_E2S(1:INTBUF_TAB%S_KREMNODE_E2S)=0
 
       OLD_SIZE = INTBUF_TAB%S_REMNODE_E2S
-      ALLOCATE (OLD_TAB(OLD_SIZE))
-      !save values
-      DO I=1,OLD_SIZE
-        OLD_TAB(I)=INTBUF_TAB%REMNODE_E2S(I)
-      ENDDO      
-      DEALLOCATE(INTBUF_TAB%REMNODE_E2S)
-
-      !reallocate with new size and copy saved values
       INTBUF_TAB%S_REMNODE_E2S = NREMNODE
-      ALLOCATE(INTBUF_TAB%REMNODE_E2S(INTBUF_TAB%S_REMNODE_E2S))
-      INTBUF_TAB%REMNODE_E2S(1:INTBUF_TAB%S_REMNODE_E2S)=0
-      DO I=1,OLD_SIZE
-        INTBUF_TAB%REMNODE_E2S(I) = OLD_TAB(I)
-      ENDDO   
-C
-      DEALLOCATE(OLD_TAB)
-C
+      IF(OLD_SIZE < INTBUF_TAB%S_REMNODE_E2S) THEN
+        ALLOCATE (OLD_TAB(OLD_SIZE))
+        !save values
+        DO I=1,OLD_SIZE
+          OLD_TAB(I)=INTBUF_TAB%REMNODE_E2S(I)
+        ENDDO      
+        DEALLOCATE(INTBUF_TAB%REMNODE_E2S)
 
+        !reallocate with new size and copy saved values
+        ALLOCATE(INTBUF_TAB%REMNODE_E2S(INTBUF_TAB%S_REMNODE_E2S))
+        INTBUF_TAB%REMNODE_E2S(1:INTBUF_TAB%S_REMNODE_E2S)=0
+        DO I=1,OLD_SIZE
+          INTBUF_TAB%REMNODE_E2S(I) = OLD_TAB(I)
+        ENDDO   
+C
+        DEALLOCATE(OLD_TAB)
+      ENDIF
       END
