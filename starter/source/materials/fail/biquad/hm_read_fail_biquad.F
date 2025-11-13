@@ -197,6 +197,7 @@ c
       ENDIF
 c
       ! Check if minimum of first parabola is negative 
+      IF(X_1(2) .ne. Zero) then
       XMIN = -X_1(1)/(TWO*X_1(2))
       YMIN = X_1(2)*(XMIN**2) + X_1(1)*XMIN + C2
       IF (YMIN < ZERO) THEN 
@@ -204,8 +205,9 @@ c
      .              I1=MAT_ID,
      .              C1=TITR)          
       ENDIF
+      ENDIF
       ! Check if minimum of second parabola is negative 
-      IF (SFLAG == 1) THEN 
+      IF (SFLAG == 1 .and. X_2(3) .ne. 0) THEN 
         XMIN = -X_2(2)/(TWO*X_2(3))
         YMIN = X_2(3)*(XMIN**2) + X_2(2)*XMIN + X_2(1)
         IF (YMIN < ZERO) THEN 
