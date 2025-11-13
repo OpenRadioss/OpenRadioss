@@ -70,7 +70,11 @@ C-----------------------------------------------
         B=LEDGE(3,I)
         IF(B/=0) STFB=STFM(B)
         IF(STFA/=ZERO.AND.STFB/=ZERO)THEN
-          STFE(I)=TWO*STFA*STFB/MAX(ZERO,STFA+STFB)
+          IF(STFA + STFB < ZERO) THEN
+            STFE(I)= ZERO                                 
+          ELSE
+            STFE(I)=TWO*STFA*STFB/MAX(ZERO,STFA+STFB)
+          END IF
         ELSE
           STFE(I)=MAX(STFA,STFB)
         END IF
