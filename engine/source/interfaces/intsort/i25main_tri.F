@@ -135,7 +135,7 @@ C     REAL
      .   C_MAXL,PMAX_GAP,VMAXDT,MARGE,TZINF,SX,SY,SZ,SX2,SY2,SZ2,DGAPLOAD,
      .   BMINMA_OLD(6),BGAPEMX,BSAV(6)
       my_real, dimension(:), allocatable :: CURV_MAX
-      INTEGER :: NMN,NRTM,NSN,NTY,SSHIFT_ML
+      INTEGER :: NMN,NRTM,NSN,NTY
       logical :: need_computation
 C-----------------------------------------------
       ! --------------
@@ -411,8 +411,6 @@ C
 C     NCONT additional candidates (if all secondary nodes are already impacted, cf i25optcd)
       MULTIMP = IPARI(23,NIN)
       MULNSN  = INTBUF_TAB%S_CAND_N - NCONT
-      SSHIFT_ML = SSHIFT
-      IF(SSHIFT_ML > INTBUF_TAB%S_GAP_ML) SSHIFT_ML = 0 
       CALL I25BUCE(
      1 X      ,V           ,INTBUF_TAB%IRECTM(1+4*SSHIFT),INTBUF_TAB%NSV,
      +                                                 INTBUF_TAB%STFNS,
@@ -424,7 +422,7 @@ C     NCONT additional candidates (if all secondary nodes are already impacted, 
      7 I_MEM  ,INTBUF_TAB%PENE_OLD,ITAB          ,INTBUF_TAB%NBINFLG,INTBUF_TAB%MBINFLG,
      8 ILEV   ,INTBUF_TAB%MSEGTYP24,
      9 FLAGREMN,INTBUF_TAB%KREMNODE(1+2*SSHIFT),INTBUF_TAB%REMNODE,
-     A IGAP   ,INTBUF_TAB%GAP_SL,INTBUF_TAB%GAP_ML(1+SSHIFT_ML),ICODT,ISKEW   ,
+     A IGAP   ,INTBUF_TAB%GAP_SL,INTBUF_TAB%GAP_ML(1+SSHIFT),ICODT,ISKEW   ,
      B DRAD   ,DGAPLOAD    )
 C
 C Upgrade MultiMP
