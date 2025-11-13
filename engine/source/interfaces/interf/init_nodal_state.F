@@ -855,8 +855,8 @@ C-----------------------------------------------
         call init_hashtable_for_neighbour_segment( npari,ninter,ipari,shoot_struct )
         do nin=1,ninter
           ity = ipari(7,nin) ! get the interface id
-          idel = ipari(17,i) ! get the idel option
-          erosion_state = ipari(100,i) ! get the erosion state          
+          idel = ipari(17,nin) ! get the idel option
+          erosion_state = ipari(100,nin) ! get the erosion state          
           if(ity==25.and.(idel/=0.or.erosion_state/=0)) then
             call get_hashtable_for_neighbour_segment( nin,npari,ninter,ipari,intbuf_tab,shoot_struct )
           endif
