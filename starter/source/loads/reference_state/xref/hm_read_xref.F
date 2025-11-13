@@ -87,25 +87,27 @@ C MODIFIED ARGUMENT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  TAGELC(NUMELC),TAGELTG(NUMELTG),TAGELS(NUMELS)
-      INTEGER  TAGNOD(NUMNOD),IFLAGUNIT
+      INTEGER :: IFLAGUNIT
       INTEGER, DIMENSION(:), ALLOCATABLE :: ID
       INTEGER  I,J,IE,IN,IP,IR,NN,NITER,PARTID,UID,ITYP,ICOMPA
       INTEGER  SUB_ID,NNOD,SUB_INDEX,IMID, MAT_ID,MTN,NSOLID,NPT,ISMSTR
-      my_real
-     .  XTMP(3,NUMNOD)
+      my_real, dimension(:,:), allocatable :: xtmp
       my_real, DIMENSION(:), ALLOCATABLE ::
      .  XX,YY,ZZ
       CHARACTER MESS*40
       CHARACTER(LEN=NCHARTITLE) :: TITR,TITR1
       DATA MESS/'XREF'/
       LOGICAL :: IS_AVAILABLE,FOUND      
+      integer, dimension(:), allocatable :: TAGELC,TAGELTG,TAGELS,TAGNOD
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
       INTEGER USR2SYS,R2R_SYS
 C=======================================================================
       IS_AVAILABLE = .FALSE.
+      ALLOCATE(TAGELC(NUMELC),TAGELTG(NUMELTG),TAGELS(NUMELS),TAGNOD(NUMNOD))
+      ALLOCATE(XTMP(3,NUMNOD))
+
 C
       DO IE=1,NUMELC                          
         DO IN = 1,4                           
@@ -327,6 +329,9 @@ C
       IF (ALLOCATED(YY)) DEALLOCATE(YY)
       IF (ALLOCATED(ZZ)) DEALLOCATE(ZZ)
 C-----------
+      DEALLOCATE(TAGELC,TAGELTG,TAGELS,TAGNOD)
+      DEALLOCATE(XTMP)
+
       RETURN
  1000 FORMAT(//
      & 5X,'    REFERENCE STATE (XREF)  ',/
