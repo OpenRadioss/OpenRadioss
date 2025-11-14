@@ -100,7 +100,7 @@ C-------------------------------------------------
       IGEO(44) = IGEO(4) ! Used with drape for OUPT
       IF (GEO(212) == ZERO) THEN
          CALL HM_GET_FLOATV_DIM('orientangle2',FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)
-         GEO(212) = NINTY * FAC_GEN ! default value   
+         GEO(212) = NINETY * FAC_GEN ! default value   
       ENDIF
 
       IF (IS_ENCRYPTED) THEN

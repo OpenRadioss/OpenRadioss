@@ -396,7 +396,7 @@ C
               DA1_DSIGT = -NINE*(SIGS(I)/SIGT(I))**2
               ! -> A2 derivatives
               !   -> With respect to SIGS
-              DA2_DSIGS = -CINQUANTE4*CC
+              DA2_DSIGS = -FIFTY4*CC
               !   -> With respect to SIGC                                         
               DA2_DSIGC = TWENTY7*CC*SIGS(I)/SIGC(I)  
               !   -> With respect to SIGT                       

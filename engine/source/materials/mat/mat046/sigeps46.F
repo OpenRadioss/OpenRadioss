@@ -97,7 +97,7 @@ C   S o u r c e   L i n e s
 C-----------------------------------------------
 C CONSTANT
 C
-      YPM=ONZEP225
+      YPM=ELEVEN_P225
       KAPA=ZEP4187
       E=NINEP793
 C

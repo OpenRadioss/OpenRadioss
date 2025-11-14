@@ -223,7 +223,7 @@ C
         I2 = EXX*EYY + EYY*EZZ + EZZ*EXX - EXY*EXY - EZX*EZX - EYZ*EYZ
         I3 = EXX*EYY*EZZ - EXX*EYZ*EYZ - EYY*EZX*EZX - EZZ*EXY*EXY + TWO*EXY*EZX*EYZ
         Q  = (THREE*I2 - I1*I1)/NINE
-        R  = (TWO*I1*I1*I1-NINE*I1*I2+TWENTY7*I3)/CINQUANTE4
+        R  = (TWO*I1*I1*I1-NINE*I1*I2+TWENTY7*I3)/FIFTY4
         R_INTER = MIN(R/SQRT(MAX(EM20,(-Q**3))),ONE)
         PHI     = ACOS(MAX(R_INTER,-ONE))
         ! Computation of principal strain

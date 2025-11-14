@@ -60,8 +60,7 @@ C Local Variables
 C----------------------------------------------------------
       INTEGER SECT_ID,IDIR,ICRIT,ISECT,IAD,IFLAG
 c
-      my_real :: FMIN,FMAX,FX,FY,FZ,FF,TSTART,TMIN,TDELAY,INFINITY
-      PARAMETER (INFINITY = 1.0E20)
+      my_real :: FMIN,FMAX,FX,FY,FZ,FF,TSTART,TMIN,TDELAY
 C=======================================================================
       IF (SENSOR%STATUS == 1) RETURN   ! already activated
       FF = ZERO

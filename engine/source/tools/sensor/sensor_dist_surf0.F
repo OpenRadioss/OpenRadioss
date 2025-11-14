@@ -72,9 +72,8 @@ C----------------------------------------------------------
        INTEGER I,ISURF,INOD,NP1,NP2,NP3,NP4,NSEG,IJK
        my_real DIST,DMIN,DMAX,TMIN,TDELAY
        my_real XNOD,YNOD,ZNOD,XP1,YP1,ZP1,XP2,YP2,ZP2,XP3,YP3,ZP3,
-     .    XP4,YP4,ZP4,INFINITY
+     .    XP4,YP4,ZP4
       TYPE (SURF_) ,POINTER :: SURFACE
-      PARAMETER (INFINITY = 1.0E20)
       INTEGER :: ISENS
       my_real, DIMENSION(COMM_SENS16%NUM_SENS) :: LOCAL_VALUE,GLOBAL_VALUE
 !     -----------------------------------------------------------

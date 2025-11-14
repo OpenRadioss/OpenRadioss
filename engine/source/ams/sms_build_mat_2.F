@@ -522,7 +522,7 @@ C             Mvertex = Mass/32, Medge=7*Mass/48
 C
 C             A: Supposed lambda(M) > Mvertex+10dm
 C
-             MELE4 = MELE4*SEVEN/FOURTY8
+             MELE4 = MELE4*SEVEN/FORTY8
             END IF
            END IF
 

@@ -69,10 +69,7 @@ C Local Variables
 C----------------------------------------------------------
        INTEGER ISURF, INOD, NP1, NP2, NP3, ICRIT, IFLAG
        my_real DIST,DMIN,DMAX,TDELAY,TMIN
-       my_real XNOD,YNOD,ZNOD,XP1,YP1,ZP1,XP2,YP2,ZP2,XP3,YP3,ZP3,
-     . INFINITY
- 
-      PARAMETER (INFINITY = 1.0E20)
+       my_real XNOD,YNOD,ZNOD,XP1,YP1,ZP1,XP2,YP2,ZP2,XP3,YP3,ZP3
 C=======================================================================
       IF (SENSOR%STATUS == 1) RETURN   ! already activated
 

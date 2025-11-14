@@ -55,8 +55,7 @@ C Local Variables
 C----------------------------------------------------------
       INTEGER I,J,NGAUGE,IGAU,ICRIT
 c
-      my_real :: PMIN,TMIN,TSTART,TDELAY,INFINITY,MAXP
-      PARAMETER (INFINITY = 1.0E20)
+      my_real :: PMIN,TMIN,TSTART,TDELAY,MAXP
 C=======================================================================
       IF (SENSOR%STATUS == 1) RETURN   ! already activated
 c

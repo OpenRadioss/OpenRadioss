@@ -68,9 +68,7 @@ C-----------------------------------------------
       INTEGER IS2,STATUS_IS2
 
       INTEGER ACTI
-      my_real  INFINITY
 C-----------------------------------------------
-      INFINITY = EP20
       ACTI = 0
 c
       IS1        = SENSOR_TAB(SENS)%IPARAM(1)

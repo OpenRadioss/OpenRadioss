@@ -57,8 +57,7 @@ C----------------------------------------------------------
 C Local Variables
 C----------------------------------------------------------
       INTEGER :: RW_ID,IDIR,ICRIT,ISECT,N5,ACTI
-      my_real :: FMIN,FMAX,FF,FX,FY,FZ,TMIN,TDELAY,TSTART,TSTOPS,INFINITY
-      PARAMETER (INFINITY = 1.0E20)
+      my_real :: FMIN,FMAX,FF,FX,FY,FZ,TMIN,TDELAY,TSTART,TSTOPS
 C=======================================================================
       TMIN   = SENSOR%TMIN
       TDELAY = SENSOR%TDELAY

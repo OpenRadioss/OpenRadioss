@@ -319,7 +319,7 @@ C
             A1C = +NINE*(SIGS(I)/SIGC(I))**2
             A1T = -NINE*(SIGS(I)/SIGT(I))**2
 C
-            A2S = -CINQUANTE4*CC                                           
+            A2S = -FIFTY4*CC                                           
             A2C = TWENTY7*CC*SIGS(I)/SIGC(I)                         
             A2T = TWENTY7*CC*SIGS(I)/SIGT(I)                         
 C                                                                   

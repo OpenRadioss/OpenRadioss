@@ -55,8 +55,7 @@ C Local Variables
 C----------------------------------------------------------
       INTEGER NPT,NPH,IADFX,IADFY,IADMX,IADMY,ICRIT
       my_real :: FOR,MOM,DT,TIME,NIJMAX,NIC,ALPHA,BETA,CFC,TMIN,TDELAY,
-     .   WD,WA,WA2,WA3,A0,A1,A2,B1,B2,X0,X1,X2,Y1,Y2,YF,YM,INFINITY
-      PARAMETER (INFINITY = 1.0E20)
+     .   WD,WA,WA2,WA3,A0,A1,A2,B1,B2,X0,X1,X2,Y1,Y2,YF,YM
 c-----------------------------------------------------------------------
 c     Sensor state variables
 c        SENSOR%VAR(1) :  Current non filtered spring force

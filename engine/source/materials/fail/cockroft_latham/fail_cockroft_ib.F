@@ -113,7 +113,7 @@ c-----------------------------
           I2 = -SIGNXY(I)*SIGNXY(I)-SIGNXZ(I)*SIGNXZ(I)
           
           Q  = (THREE*I2 - I1*I1)/NINE
-          R  = (TWO*I1*I1*I1 - NINE*I1*I2 )/CINQUANTE4     
+          R  = (TWO*I1*I1*I1 - NINE*I1*I2 )/FIFTY4     
            
           R_INTER = MIN(R/SQRT(MAX(EM20,(-Q**3))),ONE)
           PHI = ACOS(MAX(R_INTER,-ONE))

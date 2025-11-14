@@ -58,7 +58,6 @@ C    OUTPUT variables:
 C    FX - current filtered variable
 C=======================================================================
       DT2  = DT / TWO                           
-      PI   = ATAN2(ZERO,-ONE)
       WD = SQR2*PI*FREQ*5.0/3.0  
       WA = SIN(WD*DT2) / COS(WD*DT2)                     
       WA2 = WA*WA                                      

@@ -53,9 +53,8 @@ C----------------------------------------------------------
 C   Local Variables
 C----------------------------------------------------------
       INTEGER :: NSENS
-      my_real :: TDELAY,TSTOP,INFINITY
+      my_real :: TDELAY,TSTOP
       DOUBLE PRECISION :: TDELAY_DP,TSTOP_DP,NEXT_CYCLE
-      PARAMETER (INFINITY = 1.0E20)
 C=======================================================================
       NSENS  = SENSOR%SENS_ID
       TDELAY = SENSOR%TDELAY

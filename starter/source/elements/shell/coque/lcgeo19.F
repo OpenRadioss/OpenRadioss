@@ -93,7 +93,7 @@ C-----------------------------------------------
 
       IG = IGEO(1)
       IF (IGEO(4) <= 0) IGEO(4) = 1
-      IF (GEO(212) == ZERO) GEO(212) = NINTY
+      IF (GEO(212) == ZERO) GEO(212) = NINETY
       IF (IS_ENCRYPTED) THEN
          WRITE(IOUT,1000)IG
  1000    FORMAT(

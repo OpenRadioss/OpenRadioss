@@ -97,13 +97,13 @@ C-----------------------------------------------
 
         IF(IDTMINS==0)THEN
           DO I=1,NEL
-            FACEIGV(I)=TRHEE_OVER_14    ! computing eigenvalues of Me-1 Ke
+            FACEIGV(I)=THREE_OVER_14    ! computing eigenvalues of Me-1 Ke
           END DO
         ELSE
 C-------- AMS (possible mix of elements inside the group)
           DO I=1,NEL
             IF(TAGELEM_SMS(I)==0)THEN
-              FACEIGV(I)=TRHEE_OVER_14    ! computing eigenvalues of Me-1 Ke, TRHEE_OVER_14 = (1/32) / (7/48) rapport des masses
+              FACEIGV(I)=THREE_OVER_14    ! computing eigenvalues of Me-1 Ke, THREE_OVER_14 = (1/32) / (7/48) rapport des masses
             ELSE
               FACEIGV(I)=ONE           ! compute here maximum eigenvalue K of Ke 
                                       ! => Retrieve K in mqviscb.F
@@ -960,7 +960,7 @@ C
             BB = MAX(UL(I,5),UL(I,6),UL(I,7),UL(I,8),UL(I,9),UL(I,10))
             DELTAX2(I) = AA/MAX(AA,BB)
             AA = AA*THIRTY2
-            BB = BB*FOURTY8/SEVEN
+            BB = BB*FORTY8/SEVEN
             DELTAX(I) = SQRT(TWO*VOLG(I)/MAX(AA,BB))
           ENDDO
 

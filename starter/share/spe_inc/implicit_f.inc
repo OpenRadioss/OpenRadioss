@@ -20,12 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
+      USE CONSTANT_MOD
 #include "hardware.inc"
 
       IMPLICIT NONE 
 
 #include "my_real.inc" 
-#include "constant.inc"
 
 #ifdef DEBUG_RST
 #define WRITE_I_C(a,b) WRITE_I_C_DEBUG(a,b,#a)
