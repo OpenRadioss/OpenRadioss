@@ -134,6 +134,9 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 
           IF(NCYCLE == 0) CALL EBCS_GET_GROUP_INFO(NSEG, EBCS%IELEM, EBCS%NG, EBCS%ILOC,  NGROUP, NPARG, IPARG, N2D)
+          rho_ = huge(0.0_WP)
+          wf = huge(0.0_WP)
+          vf = huge(0.0_WP)
           surf_iid1 = ebcs%surf_id
           surf_iid2 = ebcs%surf_id2
 
