@@ -86,9 +86,8 @@ C-----------------------------------------------
       INTEGER IS2,STATUS_IS2
 
       INTEGER ACTI,SENS_ID
-      my_real TSTART, TDELAY,TSTART1, TSTOPS, INFINITY
+      my_real TSTART, TDELAY,TSTART1, TSTOPS
 C-----------------------------------------------
-      INFINITY = EP20
       ACTI = 0
 c
       SENS_ID = SENSOR_TAB(SENS)%SENS_ID

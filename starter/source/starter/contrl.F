@@ -456,7 +456,7 @@ C----------------------------------------------
 C-----
       IF(INSH==1)INER_9_12 = TWELVE      
       IF(INSH==2)INER_9_12 = SIXTEEN      
-      IF(INSH==3)INER_9_12 = FOURTY8  
+      IF(INSH==3)INER_9_12 = FORTY8  
       IF(INSH==4)INER_9_12 = THIRTY     
       IF(INSH==5)INER_9_12 = NINE 
 !   default values in def_solid/def_shell      

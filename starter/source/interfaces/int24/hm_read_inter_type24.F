@@ -412,7 +412,7 @@ c          IEDGE=MIN(4,IEDGE)
 
 C--------change default EDG_ANGL=135         
         IF((IEDGE>=3).AND. EDG_ANGL==ZERO) 
-C     +            EDG_ANGL=NINTY+ONE
+C     +            EDG_ANGL=NINETY+ONE
      +            EDG_ANGL=HUNDRED+THIRTY+FIVE
         FRIGAP(26)  = COS((HUNDRED80-EDG_ANGL)*PI/HUNDRED80)
 

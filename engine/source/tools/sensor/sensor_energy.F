@@ -71,8 +71,7 @@ C----------------------------------------------------------
      .           NI,NK,ICRIT,ICRIT1,ICRIT2,ISELECT
       my_real :: TMIN,TDELAY,TSTART,IEMIN,TCRIT,
      .   EINT,EKIN,IEMAX,KEMIN,KEMAX,IETOL,IETIME,KETOL,KETIME,
-     .   AVG_EI,AVG_EK,ALPHAI,ALPHAK,INFINITY
-      PARAMETER (INFINITY = 1.0E20)
+     .   AVG_EI,AVG_EK,ALPHAI,ALPHAK
 c----------------------------------------------------------
 c    SENSOR%VAR(1)   = TCRIT1 
 c    SENSOR%VAR(2)   = TSTART1

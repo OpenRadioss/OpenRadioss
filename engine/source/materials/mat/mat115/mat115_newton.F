@@ -347,7 +347,7 @@ c
      .         SIGNYY(I)*SIGNZX(I)*SIGNZX(I)-SIGNZZ(I)*SIGNXY(I)*SIGNXY(I)+
      .         TWO*SIGNXY(I)*SIGNZX(I)*SIGNYZ(I)
           Q  = (THREE*I2 - I1*I1)/NINE
-          R  = (TWO*I1*I1*I1-NINE*I1*I2+TWENTY7*I3)/CINQUANTE4     ! (2*I3^3-9*I1*I2+27*I3)/54
+          R  = (TWO*I1*I1*I1-NINE*I1*I2+TWENTY7*I3)/FIFTY4     ! (2*I3^3-9*I1*I2+27*I3)/54
           R_INTER = MIN(R/SQRT(MAX(EM20,(-Q**3))),ONE)
           PSI = ACOS(MAX(R_INTER,-ONE))
           S11 = TWO*SQRT(-Q)*COS(PSI/THREE)+THIRD*I1
