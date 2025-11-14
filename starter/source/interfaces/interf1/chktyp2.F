@@ -59,7 +59,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N, NTY
-      INTEGER K10,K11,K12,K13,K14,ILEV,II,J,NMN,NSN,NRTS,NRTM,
+      INTEGER ILEV,II,J,NMN,NSN,NRTS,NRTM,
      .        NLINS,NLINM,IWOUT
       INTEGER, DIMENSION(:),ALLOCATABLE :: TAGHIER
       INTEGER ID

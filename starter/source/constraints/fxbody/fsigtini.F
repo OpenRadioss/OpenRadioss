@@ -61,7 +61,6 @@ C-----------------------------------------------
       INTEGER IG,OFFSET,FIRST,LAST,NFT,I,NG,IEL,
      .        N1,N2,N3,ISM,ITHK,NPT,NFS
       INTEGER MAT(MVSIZ), PROP(MVSIZ)
-      INTEGER II,J
       my_real
      .   VL(3,3,MVSIZ), VRL(3,3,MVSIZ)
       my_real

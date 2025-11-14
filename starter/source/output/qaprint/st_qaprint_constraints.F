@@ -148,7 +148,7 @@ C--------------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, II, MY_ID, MY_RBODY, MY_CONSTRAINT, MY_NODE, MY_RWALL, POSI(NRWALL+1),
-     .        MY_MERGE, TNSL, K, NS, MY_FXBODY
+     .        MY_MERGE, TNSL, NS, MY_FXBODY
       CHARACTER(LEN=NCHARTITLE) :: TITR
       CHARACTER (LEN=255) :: VARNAME
       DOUBLE PRECISION TEMP_DOUBLE

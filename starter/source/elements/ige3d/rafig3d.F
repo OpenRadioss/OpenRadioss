@@ -57,7 +57,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXIG3D(*),KXIG3D(NIXIG3D,*),IAD_KNOT,NKNOT1,NKNOT2,NKNOT3,
-     .        DEG,DEGTANG1,DEGTANG2,IEL,DIR,
+     .        DEG,DEGTANG1,DEGTANG2,DIR,
      .        TAB_REMOVE(*),TAB_STAY(*),TAB_FCTCUT(*),
      .        L_TAB_FCTCUT,DECALGEO,TAB_NEWFCT(*),
      .        FLAG_PRE,NUMPATCH

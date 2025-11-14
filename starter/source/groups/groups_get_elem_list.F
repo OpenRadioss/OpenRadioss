@@ -63,7 +63,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NENTITY_POS,NENTITY_NEG,JJ,KK
-      LOGICAL IS_AVAILABLE, IS_ENCRYPTED
+      LOGICAL IS_AVAILABLE
 C-----------------------------------------------
 C CONSTITUTION OF LIST
 C-----------------------------------------------

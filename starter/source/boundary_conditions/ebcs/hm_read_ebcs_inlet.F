@@ -75,7 +75,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: ISU,SURF,IPRES,IRHO,J,NSEG,IENER,IVX,IVY,IVZ,IALPHA
       INTEGER :: IMAT,IVEL_TYP,U_IALPHA,U_IRHO,U_IPRES,IFLAGUNIT,OFF_DEF
-      INTEGER :: NBMAT, NBMAT_MIN, NBMAT_MAX
+      INTEGER :: NBMAT
       my_real :: CHECK_CUMUL_VF(2)
       my_real :: C,PRES,RHO,LCAR,R1,R2,ENER,VX,VY,VZ, ALPHA
       CHARACTER :: chain*9, chain1*64

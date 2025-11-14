@@ -59,7 +59,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NFLUWA, NBHOLWA, NAIRWA, NINTWA, NXELWA, NSPHWA,
-     .        NASSNMP, NASSMP, NIDELWA, NWASPH, MSPR,
+     .        NASSNMP, NASSMP, NIDELWA, MSPR,
      .        IUN,LENVOISWA
 C-----------------------------------------------
       IUN = 1

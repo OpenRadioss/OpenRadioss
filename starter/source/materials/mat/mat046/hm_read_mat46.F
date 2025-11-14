@@ -86,8 +86,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real SSP,VIS,SMAG,SMAG2,C1,CPS,CA,FAC_M,FAC_L,FAC_T,FAC_C
-      INTEGER I,ISGS
+      my_real SSP,VIS,SMAG,SMAG2,C1,CPS,CA
+      INTEGER ISGS
       my_real :: RHO0, RHOR
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
 C-----------------------------------------------

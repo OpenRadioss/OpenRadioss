@@ -81,7 +81,7 @@ C-----------------------------------------------
       INTEGER NGR1, NG, MT, MLN, I, P, NEL, MODE, NB,
      .        N, IGTYP,JIVF,JHBE,IJK,NE1,
      .        ISSN,IKSNOD,IORDER,IPRT,ISLEEP,IEOS,NEL_PREC,IUN,IG,IFAIL, 
-     .        WORK(70000),NGP(NSPMD+1),K,J,II, MX, NFAIL, IR, IP, STAT,
+     .        WORK(70000),NGP(NSPMD+1),K,J,II, MX, NFAIL, IR,
      .        IPARTR2R, NOD, JALE_FROM_MAT, JALE_FROM_PROP
       INTEGER, DIMENSION(:,:),ALLOCATABLE :: INUM
       INTEGER, DIMENSION(:),ALLOCATABLE :: INDEX     

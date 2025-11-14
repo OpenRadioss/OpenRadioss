@@ -51,7 +51,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,IL,IR,IS,IT,NG,NEL,NPT,P,L_REL,BUFLEN,NUVAR,
      .   ITY,IGTYP,ERR,IFAIL,IDFAIL,DEBUG_PRINT,IAD,
-     .   NFAIL,IXFEM,IVISC,II,NINTLAY,NPG,IPT,NPTT,NPTTOT,INLOC,NONL,
+     .   NFAIL,IXFEM,NPG,NPTT,NPTTOT,INLOC,NONL,
      .   IDAMP_FREQ_RANGE
       INTEGER ! global variables
      .   G_GAMA,G_SIG,G_OFF,G_NOFF,G_EINT,G_EINS,G_TEMP,
@@ -73,7 +73,7 @@ C-----------------------------------------------
      .   G_SH_IOFFSET,G_EINT_DISTOR,G_FOR_G,G_FORPG_G,G_YIELD_IN_COMP,G_XXOLD_IN_COMP
 
       INTEGER  ! layer variables
-     .   LY_DMG,LY_GAMA,LY_DIRA,LY_DIRB,LY_CRKDIR,LY_PLAPT,LY_SIGPT,LY_SMSTR,
+     .   LY_DMG,LY_GAMA,LY_DIRA,LY_DIRB,LY_CRKDIR,LY_PLAPT,LY_SIGPT,
      .   LY_HOURG,LY_UELR,LY_UELR1,Ly_OFFPG,LY_OFF,LEN_PLAPT,LEN_SIGPT
       INTEGER  ! interlayer variables
      .   LY_EINT,LY_COUNT

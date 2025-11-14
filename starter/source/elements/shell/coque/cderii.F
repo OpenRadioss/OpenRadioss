@@ -58,7 +58,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
       my_real, DIMENSION(MVSIZ) :: X21G,Y21G,Z21G,X31G,Y31G,Z31G,X41G,
-     .                             Y41G,Z41G,Z2L,Z3L,Z4L
+     .                             Y41G,Z41G
 C=======================================================================
       DO I=LFT,LLT
         X21G(I) = X2G(I)-X1G(I)

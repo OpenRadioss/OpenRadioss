@@ -69,7 +69,7 @@ C-----------------------------------------------
       CHARACTER CHANIM*3,FILNAM*12
       INTEGER I, NBF, NBPART, MAGIC, J, FILEN,NNSLAG,
      .        IANIM, NBCSPH, N1, N2,
-     .        CTEXT(81),IB,PROC
+     .        CTEXT(81),PROC
       my_real
      .        CDG(3), S3000, SCALE,BUFEL(1)
       REAL R4

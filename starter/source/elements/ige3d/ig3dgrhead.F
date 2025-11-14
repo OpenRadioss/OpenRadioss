@@ -77,8 +77,8 @@ C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER 
-     .        I, K, NG, ISSN, NPN, NN, N, MID, PID ,
-     .        II, J, II2,JJ2,JJ, II3, JJ3, L,NGROU,
+     .        I, K, NN, MID, PID ,
+     .        II, J, II2,JJ2,JJ, II3, JJ3,
      .        MODE, WORK(70000),NCTRL,MLN,JALE_FROM_MAT,JALE_FROM_PROP
       EXTERNAL MY_SHIFTL,MY_SHIFTR,MY_AND
       INTEGER MY_SHIFTL,MY_SHIFTR,MY_AND

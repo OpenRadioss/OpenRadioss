@@ -49,7 +49,7 @@ C-----------------------------------------------
       INTEGER ELCUTC(2,*),NODENR(*),KXFENOD2ELC(*),ENRTAG(NUMNOD,*),
      .        ELCUTC_L(2,*),NODENR_L(*),
      .        KXFENOD2ELC_L(*),ENRTAG_L(NUMNOD_L,*),
-     .        NUMELC_L,NUMELTG_L,NCRKXFE_L,NUMNOD_L,NODGLOB(*),
+     .        NUMELC_L,NUMELTG_L,NUMNOD_L,NODGLOB(*),
      .        INOD_CRKXFEM(*),P,CEP(*),ELCUTTG_L(2,*),INCRKXFEM_L(*),
      .        INDEX_CRKXFEM(*)
 C-----------------------------------------------

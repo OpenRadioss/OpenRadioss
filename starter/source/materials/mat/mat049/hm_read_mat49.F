@@ -88,10 +88,10 @@ C-----------------------------------------------
       my_real
      .    YOUNG,NU,SIG0,CB,CN,SIGM,EPSM,T0,TMELT,PMIN,
      .    SPH,CB1,CB2,CH,CF,G0,BULK,
-     .    FAC_L,FAC_T,FAC_M,FAC_C,
-     .   BID2 ,BID3 ,BID4 ,BID5 ,
-     .   BID2_,BID3_,BID4_,BID5_,
-     .   C0,C1,C2,C3,C4,C5,E0,PSH,RHO0,RHOR
+     .    
+     .   
+     .   
+     .   PSH,RHO0,RHOR
       CHARACTER*32 :: MTL_MSG
 C-----------------------------------------------
 C   S o u r c e   L i n e s

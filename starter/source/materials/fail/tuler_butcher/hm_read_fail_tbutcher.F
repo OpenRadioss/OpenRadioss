@@ -70,7 +70,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: IFAIL_SH,ISOLID,IBRIT
-      my_real :: TBA,TBK,SIGR,FAC_L,FAC_T,FAC_M,FAC_C,BRIT_B,BRIT_C,DADV,PTHKF
+      my_real :: TBA,TBK,SIGR,BRIT_B,BRIT_C,DADV,PTHKF
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
 C-----------------------------------------------
 C   S o u r c e   L i n e s

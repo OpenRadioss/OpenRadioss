@@ -75,7 +75,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
       INTEGER IOUT,IG,NUVAR,IGEO(NPROPGI),ISKN(LISKN,*),
-     .        IGTYP,SUB_ID,IUNIT
+     .        IGTYP,SUB_ID
       my_real   
      .        PARGEO(*)
       TYPE(PROP_TAG_) , DIMENSION(0:MAXPROP) :: PROP_TAG

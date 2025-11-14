@@ -84,7 +84,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,N,N1,N2,NUM0,IFGEO,JPART,NNOD,NOFRAME,
      .   SENS_ID,PART_ID,OPTID,UID,FCT1_ID,FCT2_ID,ILAGM,
-     .   FGEO,IDIS,ICOOR,DISTRIBUTION
+     .   FGEO,IDIS,ICOOR
       INTEGER ,DIMENSION(NUMNOD)   :: NOD1,NOD2
       my_real :: TSTART,XSCALE,YSCALE,FSCAL_T,FSCAL_V,T0,DMIN,DIST,
      .   XI,YI,ZI,XF,YF,ZF

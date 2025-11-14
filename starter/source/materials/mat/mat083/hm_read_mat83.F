@@ -88,10 +88,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,J,NRATE,IFILTR,IDYIELD,IFUNN,IFUNT,
+      INTEGER :: IDYIELD,IFUNN,IFUNT,
      .           RHOFLAG,ICOMP,IPLAS,VP,ILAW
       my_real :: YOUNGT,YOUNGC,G,YOUNG,FCUT,XFAC,YFAC,XSCALE,RN,RS,BETA,ALPHA,
-     .           A1,A2,AA,E0,EMAX,EPSMAX,RHO0,RHOR,YFAC_UNIT,
+     .           RHO0,RHOR,YFAC_UNIT,
      .           XFAC_UNIT,XSCALE_UNIT,RN_UNIT,RS_UNIT
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
 !======================================================================= 

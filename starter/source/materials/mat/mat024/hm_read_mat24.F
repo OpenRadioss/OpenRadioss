@@ -86,7 +86,7 @@ C-----------------------------------------------
       INTEGER :: ICAP,ILAW,ISRATE
       my_real :: RHO0,RHOR,YMC,ANUC,FC,FT,FB,F2D,S0,HT,DSUP1,EPSMAX,VKY,RT,
      .   RC,HBP,ALI,ALF,VMAX,ROK,RO0,HV0,YMS,Y0S,ETS,ARM1,ARM2,ARM3,
-     .   ETC,BULK,EXPO,F2D0,AA,CC,BC,SQ32,BT,AC,EPS0,HVFAC
+     .   ETC,BULK,EXPO,F2D0,AA,CC,BC,BT,AC,EPS0,HVFAC
       CHARACTER*64 :: message
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
 C=======================================================================

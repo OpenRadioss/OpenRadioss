@@ -63,7 +63,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: IELEM, JELEM, KFACE, ELEM_TYPE, KFACE2, IAD, IAD2, LGTH, LGTH2
+      INTEGER :: IELEM, JELEM, KFACE, ELEM_TYPE, KFACE2, IAD, IAD2, LGTH
       INTEGER :: NODELIST(8), FLAGNODE(8), INODE
       INTEGER, DIMENSION(6, 4), TARGET :: HEXA_FACE
       INTEGER, DIMENSION(4, 3), TARGET :: TETRA_FACE

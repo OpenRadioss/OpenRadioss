@@ -69,7 +69,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,NINIEVO,FAILIP,ISHEAR,ILEN,NUPARAM,NUVAR,NTABLE
+      INTEGER J,NINIEVO,FAILIP,ISHEAR,ILEN,NUPARAM,NUVAR,NTABLE
       INTEGER,DIMENSION(:), ALLOCATABLE :: 
      .    INITYPE,EVOTYPE,EVOSHAP,COMPTYP,TAB_ID,TAB_EL
       my_real :: PTHK,LENGTH_UNIT,RATE_UNIT

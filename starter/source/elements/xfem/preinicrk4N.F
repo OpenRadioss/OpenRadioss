@@ -73,7 +73,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,K,II,R,ELCRK,IED,p1,p2,dd(4),d1(4),d2(4),IFI(2),
-     . ICUT,IEDGE,IC1,IC2,ICRK,ILEV(NXEL),IL,ILAY,N(4),ISIGN0(4),
+     . IEDGE,ICRK,ILEV(NXEL),IL,ILAY,N(4),ISIGN0(4),
      . NOD1,NOD2,IXEL,IENR0(4),IENR(4),NTAG(4)
       my_real
      .   FIT(4,MVSIZ),XN(4),YN(4),XMI(2),YMI(2),BETA(2,MVSIZ),

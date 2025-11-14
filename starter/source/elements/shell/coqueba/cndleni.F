@@ -67,14 +67,14 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,N, IMT, IPMAT, IGTYP,IADB,
-     .        I1,I3,IPTHK,IPPOS,I2,MATLY,IPGMAT,IGMAT,IPOS,NIP,MLAWLY
+     .        IPGMAT,IGMAT,IPOS,NIP,MLAWLY
       my_real
      .   AREA(MVSIZ),SSP(MVSIZ), AL1(MVSIZ), 
      .   AL2(MVSIZ),
      .   ALMIN(MVSIZ),LXYZ0(2),COREL(2,4)
       my_real
-     .   VISCMX,A11,A11R,A12,B1,B2,VV,STI,STIR,VISCDEF,RHO,YOUNG,NU,
-     .   X13,X24,Y13,Y24,L13,L24,C1,C2,THKLY,POSLY,
+     .   VISCMX,A11,A11R,VV,STI,STIR,VISCDEF,RHO,YOUNG,NU,
+     .   X13,X24,Y13,Y24,L13,L24,C1,C2,
      .   FAC,VISCE,RX,RY,SX,SY,S1,FAC1,FAC2,FACI,FAC11,GMAX,Z0
        my_real, DIMENSION(MVSIZ) ::   ZOFFSET
 C=======================================================================

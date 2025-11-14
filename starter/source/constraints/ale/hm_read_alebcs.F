@@ -75,10 +75,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IC, NC, N, IS, IC1, IC2,
-     .        NOSYS, J,IGR,IGRS,IBCALE,J6(6),
-     .        IC0, IC01, IC02, IC03, IC04, ID ,ILAGM,
-     .        CHKCOD,NOD,SUB_INDEX
+      INTEGER I, IC, N, IS, IC1, IC2,
+     .        NOSYS, J,IGR,IGRS,J6(6),
+     .             ID ,
+     .        CHKCOD,SUB_INDEX
       INTEGER IUN
       CHARACTER MESS*40,CODE*7
       CHARACTER(LEN=NCHARFIELD) :: STRING
@@ -87,7 +87,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER USR2SYS,MY_OR,CHECK_NEW,NGR2USR
+      INTEGER MY_OR,CHECK_NEW,NGR2USR
       INTEGER, DIMENSION(:), POINTER :: INGR2USR
 C-----------------------------------------------
 C   D a t a

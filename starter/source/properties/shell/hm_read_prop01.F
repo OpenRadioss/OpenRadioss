@@ -67,7 +67,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
       INTEGER IGEO(*)
-      INTEGER IGTYP,IG,UID,SUB_ID
+      INTEGER IGTYP,IG
       my_real
      .   GEO(*)
       CHARACTER(LEN=NCHARTITLE)::IDTITL
@@ -78,13 +78,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,  ISMSTR, NIP, J,
-     .   ISHEAR, IP, ISTRAIN,
-     .   IHBE,IPLAST,ITHK,IBID,IHBEOUTP,K,N,
+      INTEGER   ISMSTR, NIP,
+     .   ISHEAR, ISTRAIN,
+     .   IHBE,IPLAST,ITHK,IHBEOUTP,
      .   NSHELL, NSHSUP, NSHINF,
      .   NSST_D, NSST_DS, NPSH,ISEN,ISORTH,
-     .   IHBE_OLD,  ISH3N,ISROT,IPINCH,I1,I2,IPOS
-      INTEGER     IHBE_D,IPLA_D,ISTR_D,ITHK_D,ISHEA_D,ISST_D,
+     .   IHBE_OLD,  ISH3N,ISROT,IPINCH,IPOS
+      INTEGER     IHBE_D,IPLA_D,ITHK_D,ISHEA_D,ISST_D,
      .           ISH3N_D, ISTRA_D,NPTS_D,IDRIL_D
 
       my_real

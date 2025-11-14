@@ -73,7 +73,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,L,FUNC_ID,NPTS,STAT,N,ISMOOTH
+      INTEGER I,L,FUNC_ID,NPTS,STAT,N,ISMOOTH
       INTEGER :: IPYTHON ! is it a FUNCT_PYTHON
       my_real TIME, FUNCT
       my_real XSCALE,YSCALE,XSHIFT,YSHIFT

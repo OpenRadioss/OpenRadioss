@@ -62,7 +62,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NSN, NMN,NOINT,IDT,INACTI,IGAP0
+      INTEGER NSN, NMN,NOINT,INACTI,IGAP0
       LOGICAL, INTENT(in) :: FLAG_REMOVED_NODE !< flag to remove some S node from the list of candidates
       INTEGER, INTENT(in) :: S_KREMNODE_E2S !< size of KREMNODE_E2S array
       INTEGER, INTENT(in) :: S_REMNODE_E2S !< size of REMNODE_E2S array
@@ -87,8 +87,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, SOL_EDGE, SH_EDGE, 
-     .        N, L, E, IE, I1, I2, N1, N2 
+      INTEGER I, J, 
+     .         L, E 
       my_real
      .        XYZM(6), AAA, TZINF, 
      .        XMIN, YMIN, ZMIN, XMAX, YMAX, ZMAX

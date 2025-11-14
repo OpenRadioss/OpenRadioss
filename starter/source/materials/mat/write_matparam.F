@@ -60,7 +60,7 @@ C-----------------------------------------------
       INTEGER :: IAD,NFIX,NFIXR,LENI,LENR,NMOD,MOD
       INTEGER ,DIMENSION(NCHARTITLE)     :: NAME
       INTEGER ,DIMENSION(:) ,ALLOCATABLE :: IBUF
-      INTEGER :: NBSUBMAT, ISUB, OLDFORMAT
+      INTEGER :: NBSUBMAT, OLDFORMAT
       my_real ,DIMENSION(:) ,ALLOCATABLE :: RBUF
 C=======================================================================
       NFIX = 24

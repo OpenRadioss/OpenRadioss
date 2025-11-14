@@ -54,7 +54,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,NL_L,II,JJ,J,K,NOD,ELTYP,ELEM,
+      INTEGER I,NL_L,J,K,NOD,ELTYP,ELEM,
      .        INOD_CRK,NOD_XFE_G,NELCRK
       INTEGER, DIMENSION(:), ALLOCATABLE :: NODTAG
 C=======================================================================

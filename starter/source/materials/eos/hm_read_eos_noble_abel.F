@@ -71,8 +71,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real :: C0, C1, C2, C3, C4, C5, E0, PSH, RHO0
-      my_real :: BB,GAMMA,AA,PP,DENOM,MU,RHOI,RHOR,DPDMU,DPDE
+      my_real ::       E0, PSH, RHO0
+      my_real :: BB,GAMMA,PP,DENOM,MU,RHOI,RHOR,DPDMU,DPDE
       my_real :: MU0,MU2,DF,SSP0,G0
       LOGICAL :: IS_ENCRYPTED, IS_AVAILABLE, IS_AVAILABLE_RHO0
 C-----------------------------------------------

@@ -45,7 +45,7 @@ C-----------------------------------------------
       INTEGER JLT, NRTM
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ), ETYP(MVSIZ), IBC(MVSIZ)
       my_real
-     .        GAPV(MVSIZ), GAP
+     .        GAPV(MVSIZ)
       my_real
      .     X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
      .     Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
@@ -74,7 +74,7 @@ C-----------------------------------------------
      .     HLB1(MVSIZ), HLC1(MVSIZ), HLB2(MVSIZ),HLC2(MVSIZ),
      .     HLB3(MVSIZ), HLC3(MVSIZ), HLB4(MVSIZ),HLC4(MVSIZ)
       my_real
-     .     DTI, S2,A1,A2,A3,A4,D1,D2,D3,D4,
+     .      S2,D1,D2,D3,D4,
      .     X12,X23,X34,X41,XI0,SX1,SX2,SX3,SX4,SX0,
      .     Y12,Y23,Y34,Y41,YI0,SY1,SY2,SY3,SY4,SY0,
      .     Z12,Z23,Z34,Z41,ZI0,SZ1,SZ2,SZ3,SZ4,SZ0,

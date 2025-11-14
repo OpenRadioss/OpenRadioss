@@ -46,7 +46,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IADI, IADJ, NINOUT, NNO, NEL, NNN, IADL, NNO_L, J,
-     .        JJ, J1, J2, J3, PJ1, PJ2, PJ3, IADMATI, IADMATR, ITYP,
+     .        JJ, IADMATI, IADMATR, ITYP,
      .        NR, NC, NPROW, NPCOL, NNR_P, NNC_P, NNE_P, NBLOC,
      .        NNN_L
       INTEGER JFORM

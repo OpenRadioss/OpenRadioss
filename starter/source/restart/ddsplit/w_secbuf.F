@@ -58,7 +58,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NNOD_S, NNOD_S_L, TYP_S, NSINT_S,
-     .        N, IP, J, K0, K2, KR_L, KR, K
+     .        N, J, K0, K2, KR_L, KR, K
       my_real
      .        SECBUF_L(LSECBUF_L)
 C

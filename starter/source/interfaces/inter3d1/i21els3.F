@@ -92,7 +92,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, INRT, NELS, NELC, NELTG, IE, II, MAT,N,LLT,L,N1,N2,N3,N4
+      INTEGER I, J, INRT, NELS, NELC, NELTG, IE, II, MAT,N1,N2,N3,N4
       INTEGER ITMP(NUMNOD),NLEV, MYLEV,IP,NELEM,STAT,IPG,IPL,IPFMAX,IPFLMAX
       INTEGER, DIMENSION(:),ALLOCATABLE ::INRTIE
 C     REAL

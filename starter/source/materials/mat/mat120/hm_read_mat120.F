@@ -89,7 +89,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
-      INTEGER :: I,ILAW,YTAB_ID,ISRATE,IFORM,ITRX,IDAM,NDIM_YLD
+      INTEGER :: ILAW,YTAB_ID,ISRATE,IFORM,ITRX,IDAM
       my_real :: RHO0,RHOR,E,NU,Y0,Q,B,H,G,BULK,C11,C12,EPSPMIN,EPSPMAX,SSP,
      .           FCUT,A1F,A2F,A1H,A2H,AS,CC,D1C,D2C,D1F,D2F,D_TRX,D_JC,EXP_N,
      .           XSCALE,YSCALE,YSCALE_UNIT,UNIT_L,XSCALE_UNIT,THICK

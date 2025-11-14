@@ -64,7 +64,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,NOD1,NOD2,NOD3,NOD4,NSEGPL,NSEGPLOAD,IAD,
-     .   NS,NL,NLOADPL,N,NN,N1,N2,N3,N4,NLOADPRESS,IS,SIZE_NEW,NSEGLOADP,NSEGLOADFB,ADSEG
+     .   NS,NL,N,NN,N1,N2,N3,N4,NLOADPRESS,IS,SIZE_NEW,NSEGLOADP,ADSEG
       INTEGER, DIMENSION (:), ALLOCATABLE :: OLD_TAB
       INTEGER, DIMENSION (:), ALLOCATABLE :: TAG
 C-----------------------------------------------

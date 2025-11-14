@@ -62,11 +62,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N,J,K,JS,KS,II,JJ,K1,K2,LL,NN,KK,I1,
+      INTEGER J,K,JS,KS,II,JJ,LL,NN,KK,
      .        NI(4),NS(4),MI(4),MI2(4),MS(4),NMIN,MMIN,
-     .        MF,NF,IPERM,N1,N2,I,ISEG
+     .        MF,NF,IPERM
       INTEGER NODTAG(NUMNOD),FACEIGEO(4,6),PWR(7),CROSSFACEIGEO(4,6),
-     .        NNS,NCTRL,IPID,PX,PY,PZ,
+     .        NCTRL,IPID,PX,PY,PZ,
      .        FASTAGIGEO(NUMELIG3D) 
       my_real
      .   KNOTLOCELX(2),KNOTLOCELY(2),KNOTLOCELZ(2)
@@ -324,7 +324,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JJ,IELTYP,NCTRL,DECALIGEO,
-     1      IADPART,IADTABIGE,
+     1      IADTABIGE,
      2      KXIG3D(NIXIG3D,*),JS,IXIG3D(*),IGEO(NPROPGI,*),NIGE(*),
      3      NSEGIGE,PX,PY,PZ
       my_real
@@ -336,8 +336,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER J,K,L,M,N,IAD_KNOT,N1,N2,N3,
-     .        NKNOT1,NKNOT2,NKNOT3,IDX,IDY,IDZ,IPID,ISEG,ITNCTRL,
-     .        IDFRSTLOCKNT, IDPC,IDX2,IDY2,IDZ2
+     .        NKNOT1,NKNOT2,NKNOT3,IDX,IDY,IDZ,IPID,ISEG,
+     .        IDFRSTLOCKNT,IDX2,IDY2,IDZ2
       my_real
      .   X_IGEO(NCTRL),Y_IGEO(NCTRL),Z_IGEO(NCTRL),
      .   VX_IGEO(NCTRL),VY_IGEO(NCTRL),VZ_IGEO(NCTRL),
@@ -830,7 +830,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N,I,J,NUMEL,NUMPT
+      INTEGER N,I,J,NUMEL
       my_real
      .   MASSELIG3D(NUMELIG3D)
 C=======================================================================

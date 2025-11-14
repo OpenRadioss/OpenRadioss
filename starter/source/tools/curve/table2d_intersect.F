@@ -45,7 +45,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,J1,J2,K
+      INTEGER :: J1,J2,K
       my_real :: S1,S2,T1,T2,X1,X2,Y1,Y2,AX,AY,BX,BY,CX,CY,DM,ALPHA,BETA
 c-----------------------------------------------
 c     This routine checks if the functions in a 2 dim table do not intersect 

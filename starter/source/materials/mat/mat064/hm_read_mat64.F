@@ -89,8 +89,8 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real 
      .    E,NU,CP,VMC,D,N,MD,
-     .    C1, G,TEMP,V0,C2,YFAC(2),FAC_L,FAC_T,FAC_M,FAC_C
-      INTEGER I,J
+     .    C1, G,TEMP,V0,YFAC(2)
+      INTEGER J
       my_real :: RHO0, RHOR, YFAC_UNIT
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
 C-----------------------------------------------

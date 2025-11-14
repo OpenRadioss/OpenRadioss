@@ -62,7 +62,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  IGNORE,ILEV,IBUC,IDEL2,IGSTI,IPRINT,IASSIGN
-      CHARACTER(LEN=NCHARKEY) :: OPT,KEY,KEY1
+      CHARACTER(LEN=NCHARKEY) :: KEY1
       LOGICAL IS_AVAILABLE
 C============================================================================
 C       READING DEFAULT VALUES INTERFACE TYPE02 (/DEFAULT/INTER/TYPE02)

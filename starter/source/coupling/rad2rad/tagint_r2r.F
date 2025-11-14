@@ -48,7 +48,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
         INTEGER G1,G2,TAG,TYPE2,VAL,I,
-     .     GRS,GRM,ID_INTER,COMPT,PASSE,NBTOT,FLAG,IGRPP_R2R(2,*)
+     .     GRS,GRM,ID_INTER,COMPT,PASSE,FLAG,IGRPP_R2R(2,*)
 C-----------------------------------------------
         TYPE (GROUP_)  , DIMENSION(NGRNOD)  :: IGRNOD
         TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF

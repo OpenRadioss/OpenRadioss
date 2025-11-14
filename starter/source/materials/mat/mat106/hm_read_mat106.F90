@@ -88,7 +88,7 @@
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
        real(kind=WP) :: e, nu, ca, cb, cm, cn, epsm, sigm, tref, tmelt,fcut,   &
-         rho0, rhor, cs, stifint, bulk, shear, t0
+         rho0, rhor, cs, bulk, shear, t0
        real(kind=WP) :: x1scale,x2scale,x3scale,x4scale,x2vect(3),x3vect(3),   &
          x4vect(3),fscale(3),tol,deps0,cjc,eta
        integer ilaw,ifunc1,ifunc2,ifunc3,nmax,vp

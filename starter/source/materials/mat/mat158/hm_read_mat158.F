@@ -83,7 +83,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
-      INTEGER :: I,ILAW,ISENS
+      INTEGER :: ILAW,ISENS
       my_real :: RHO0,KFLEX,KFLEX1,KFLEX2,EMBC,EMBT,ZEROSTRESS,
      .           LC0,LT0,DC0,DT0,HC0,HT0,STRESS_UNIT
       my_real ,DIMENSION(5) ::  YFAC

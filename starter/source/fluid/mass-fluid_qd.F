@@ -60,9 +60,9 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IFORM, KFORM, ILVOUT, NELMAX
-      INTEGER IN, JN, KN, N1, N2, N3, N4, N5, NN1, NN2, NN3, NN4, NNJ, IEL, JEL, ERR
-      my_real X1, Y1, Z1, X2, Y2, Z2, X3, Y3, Z3, X4, Y4, Z4, XQ, YQ, ZQ, R2,
-     .        XP, YP, ZP, X13, Y13, Z13, X24, Y24, Z24,
+      INTEGER IN, JN, KN, N1, N2, N3, N4, N5, NN1, NN2, NN3, NN4, IEL, JEL, ERR
+      my_real X1, Y1, Z1, X2, Y2, Z2, X3, Y3, Z3, X4, Y4, Z4, XQ, YQ, ZQ,
+     .        XP, YP, ZP,
      .        NRX, NRY, NRZ,  AREA, D2, RVAL, RVLH, RVLG
       my_real MASSX, MASSY, MASSZ, WI(4,2), SUM
       my_real, DIMENSION(:,:), ALLOCATABLE :: BBEM, EBEM

@@ -78,7 +78,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I,J,N1,N2,UID,BOXID,SUB_ID,SKEW_ID,ISK,IUNIT,FLAGUNIT,
      .           SUB_INDEX 
-      my_real :: FAC_L,XP1,YP1,ZP1,XP2,YP2,ZP2
+      my_real :: XP1,YP1,ZP1,XP2,YP2,ZP2
       CHARACTER(LEN=NCHARKEY)    :: KEY
       CHARACTER(LEN=NCHARTITLE)  :: TITR,MESS
       LOGICAL :: IS_AVAILABLE

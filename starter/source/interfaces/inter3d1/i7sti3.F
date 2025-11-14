@@ -115,14 +115,14 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NDX, I, J, INRT, NELS, MT, JJ, JJJ, NELC,
-     .   MG, NUM, NPT, LL, L, NN, NELTG,N1,N2,N3,N4,IE,
+     .   MG, L, NELTG,N1,N2,IE,
      .   IP, NLEV, MYLEV, K, P, R, T,IGTYP,IPGMAT,IGMAT,
-     .   ISUBSTACK,NELIG3D, COIN_IGE(8), IPID, PX, PY, PZ, IAD ,IPFMAX,IPL,
+     .   ISUBSTACK,NELIG3D, COIN_IGE(8), IPID, PX, PY, PZ ,IPFMAX,IPL,
      .   IPFLMAX,IPG,NINV,ICONTR,NIN25
       INTEGER JPERM(4)
       LOGICAL TYPE18
       my_real
-     .   DXM, GAPMX, GAPMN, AREA, VOL, DX, GAPM, DDX, 
+     .   DXM, GAPMX, GAPMN, AREA, VOL, DX, GAPM, 
      .   GAPTMP, GAPSCALE,SX1,SY1,SZ1,SX2,SY2,SZ2,SX3,SY3,SZ3,
      .   SLSFAC,XL,BULK
       my_real, dimension(:), allocatable :: GAP_S_L_TMP

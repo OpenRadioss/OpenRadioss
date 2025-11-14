@@ -73,11 +73,11 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER II,JJ,I,J,K,L,M,IGNORE,ILEV,NUVAR,IDEL7N,
-     .   NSN, NMN,NSNU,NMNU,NRTM,INTTH,IDN,IIB,KK,COMMON_NODES,DOUBLON,IADD,IDIP
+     .   NSN, NMN,NSNU,NMNU,NRTM,INTTH,IIB,KK,COMMON_NODES,DOUBLON,IADD,IDIP
       INTEGER  CPT,N1,N2,N3,N4,FLAG_SOLID,FLAG_SHELL,NNOD,NB_LIST_COMPT,
      .         LIST_COMPT(2,NINTER),FOUND,FOUND_NOD(4)
       my_real
-     .   TT,LB1,LC1,LA1,AAA
+     .   LB1,LC1,LA1,AAA
         INTEGER, DIMENSION(:), ALLOCATABLE :: TAGS,TAGM
 C=======================================================================
       ALLOCATE( TAGS(NUMNOD),TAGM(NUMNOD) )

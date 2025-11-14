@@ -155,7 +155,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IDS,NINDX,LIST_SIZE,IDS_MAX,SUBMM,PARTM,ISUB,IP,SUB_INDEX,
+      INTEGER I,J,IDS,NINDX,IDS_MAX,SUBMM,PARTM,ISUB,IP,SUB_INDEX,
      . LIST_SIZE_S,LIST_SIZE_P,LIST_SIZE_N,NODE
       INTEGER IWORK(70000)
 !
@@ -409,7 +409,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IDS,LIST_SIZE,IDS_MAX,PARTM,GENE_MAX,K,S,S1,
+      INTEGER I,J,LIST_SIZE,PARTM,GENE_MAX,K,S,S1,
      . NINDX,IP,ISUB,SUB_INDEX,NODE
       INTEGER START_GENE,END_GENE,INCR_GENE,SSTART,SSTOP,STACK,STACK_ONE,NB_RESULT
 !-

@@ -69,9 +69,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: IMID, J, DRAPE_ID, ID
-      my_real :: THICKT, FAC_GEN, PUN
-      CHARACTER(LEN = NCHARTITLE) :: TITR, TITR1, IDTITL
+      INTEGER :: IMID, J, DRAPE_ID
+      my_real ::  FAC_GEN, PUN
+      CHARACTER(LEN = NCHARTITLE) :: TITR, IDTITL
       LOGICAL :: IS_AVAILABLE, IS_ENCRYPTED, LFOUND
 C-------------------------------------------------
 C     B e g i n n i n g   o f  S u b r o u t i n e

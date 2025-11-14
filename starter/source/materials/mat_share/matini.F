@@ -138,7 +138,7 @@ C-----------------------------------------------
       my_real, DIMENSION(MVSIZ) :: RHO0,YLDFAC
       my_real, DIMENSION(MVSIZ) ,TARGET :: TMP,EPL,FILLO
       my_real, DIMENSION(:) ,POINTER ::
-     .   OFF,SIG,EINT,RHO,VOL,EPSD,DELTAX,TB,ANG,SF,VK,ROB,UVAR,EPLAS,FILL,DTEL,UPARAM,TEMP
+     .   OFF,SIG,EINT,RHO,VOL,EPSD,DELTAX,TB,ANG,SF,VK,ROB,EPLAS,FILL,DTEL,UPARAM,TEMP
 C=======================================================================
       TMP(1:NEL)=ZERO
       EPL(1:NEL)=ZERO

@@ -71,7 +71,7 @@ C-----------------------------------------------
      .   A1X,A2X,A3X,A4X,A1Y,A2Y,A3Y,A4Y,A1Z,A2Z,A3Z,A4Z,AA0
       my_real
      .   UX(MVSIZ,10), UY(MVSIZ,10), UZ(MVSIZ,10), VX(MVSIZ,10), VY(MVSIZ,10), VZ(MVSIZ,10), 
-     .   NV(MVSIZ), NVOLD(MVSIZ), LL, BU(MVSIZ,6), NINV(MVSIZ)
+     .   NV(MVSIZ), NVOLD(MVSIZ), BU(MVSIZ,6), NINV(MVSIZ)
       my_real
      .   B1(MVSIZ), B2(MVSIZ), B3(MVSIZ), BB4(MVSIZ), 
      .   C1(MVSIZ), C2(MVSIZ), C3(MVSIZ), C4(MVSIZ),

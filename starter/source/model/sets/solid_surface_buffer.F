@@ -58,10 +58,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N,J,K,JS,KS,II,JJ,K1,K2,LL,FACE(4),FC10(3),NN,KK,I1,
+      INTEGER J,K,JS,KS,II,JJ,K1,K2,LL,FACE(4),FC10(3),NN,KK,I1,
      .        NI(4),NS(4),MI(4),MS(4),NMIN,MMIN,NF,MF,IPERM,N1,N2,I
       INTEGER FACES(4,6),PWR(7),
-     .        FACES10(3,6),NNS,ISHEL,ISEG,NB_SOLID,IND
+     .        FACES10(3,6),NNS,ISHEL,NB_SOLID,IND
       INTEGER, DIMENSION(:), ALLOCATABLE:: SOLID_TAG,PART_TAG
       INTEGER, DIMENSION(:), ALLOCATABLE :: NODTAG
       INTEGER, DIMENSION(:), ALLOCATABLE :: FASTAG

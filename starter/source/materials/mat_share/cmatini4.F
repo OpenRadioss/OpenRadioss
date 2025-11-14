@@ -63,8 +63,8 @@ C------------------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       CHARACTER(LEN=NCHARTITLE) :: TITR
-      INTEGER I,II,J,JJ,N,NPTI,I1,I2,PT,NPGI,NU,NUVAR,NVARS,IPT,NPI,
-     .  IPID1,PID1,C1,IPT_ALL,IT,ILAY,NPTT
+      INTEGER I,II,J,JJ,N,PT,NPGI,IPT,NPI,
+     .  IPID1,PID1,IPT_ALL,IT,ILAY,NPTT
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
 C--------------------------------------------------------------
       DO I=JFT,JLT

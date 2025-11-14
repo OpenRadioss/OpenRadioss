@@ -94,7 +94,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I,ITH,FLAGMAT,FLAGUNIT,IUNIT,UID,MAT_ID,IMAT,ILAW,ALE,
-     .           LAG,EUL,JALE,JTUR,IAD_THERM,NTHERM,IFORM,LAW2_FORM
+     .           LAG,EUL,JALE,IAD_THERM,NTHERM,IFORM,LAW2_FORM
       my_real :: TINI,TMELT,RHO_CP,AS,BS,AL,BL,RHO_CPM1,EFRAC
       CHARACTER(LEN=NCHARTITLE) :: TITR
       CHARACTER :: KEY*80

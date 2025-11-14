@@ -84,7 +84,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: J,NORDER,NVISC,FLAG_VISC,IVISC,ILAW,ITAG,
      .           FLAG_RIGIDITY
-      my_real :: RHO0,RHOR,GAMMAINF,NUG,SUM,GS,P,VISCMAX,BULK
+      my_real :: RHO0,RHOR,GAMMAINF,NUG,SUM,GS,VISCMAX,BULK
       my_real, DIMENSION(100) ::  MU,AL,GAMA,TAUX,NU,BETA
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
 C=======================================================================

@@ -66,8 +66,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,L,K,KK,M,N,NSL,NSKEW,IC,
-     .   ISPHER,IDIR,P,IG,ID,ICDG,NSL_XTRA,
+      INTEGER I,J,K,KK,N,NSL,
+     .   ISPHER,IDIR,ID,ICDG,NSL_XTRA,
      .   NRB,NUMSL_TMP
       CHARACTER(LEN=NCHARTITLE)::TITR
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: TABSL

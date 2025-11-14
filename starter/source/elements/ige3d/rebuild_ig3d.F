@@ -68,8 +68,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,L,IAD_IXIG3D,OFFSET_KNOT,DIRTANG1,DIRTANG2,
-     .        INCTRL,IOUT,DECALGEO,ITNCTRL,IEL,JEL,ITFILS
+      INTEGER I,J,K,L,DIRTANG1,DIRTANG2,
+     .        INCTRL,DECALGEO,ITNCTRL,IEL,JEL,ITFILS
       my_real TOL
 C=======================================================================
 c  

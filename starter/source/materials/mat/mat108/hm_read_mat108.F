@@ -75,9 +75,9 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-       INTEGER J, IFUNC1, IFUNC2,IFUNC3, IECROU, IFUNC4, IG,
-     .         IFAIL,IFAIL2,FLGCHK,ILAW,IEQUIL,
-     .         I1,I2,I3,I4,I5,I6,I7,I8,I9,I10,I11,I12,I13,I14,
+       INTEGER  IFUNC1, IFUNC2,IFUNC3, IECROU, IFUNC4, IG,
+     .         IFAIL,IFAIL2,ILAW,IEQUIL,
+     .         I1,I2,I3,I4,I5,I6,I7,I8,I9,I10,I11,I12,I13,
      .         IF1,IF2,IF3,IF4,SIZ_ARRAY_COMP
 C     REAL
       my_real

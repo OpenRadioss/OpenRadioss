@@ -53,7 +53,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER 
-     .   N ,NS ,N1, N2, N3 ,N4 ,I ,NI ,NTY ,NRTM ,NSN ,ISTIF_MSDT ,FLAGDT ,
+     .   N ,NS ,N1, N2, N3 ,N4 ,I  ,NTY ,NRTM ,NSN ,ISTIF_MSDT ,FLAGDT ,
      .   NEDGE
       my_real 
      .   STFACM ,MS1 ,MS2 ,MS3 ,MS4 ,DTSTIF
