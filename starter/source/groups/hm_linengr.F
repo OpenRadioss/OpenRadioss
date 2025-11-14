@@ -61,7 +61,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER J,L,IE,JREC,K,ISU,JJ,LL,N,KK,NENTITY
+      INTEGER K, ISU, JJ, LL, N, KK, NENTITY
       LOGICAL IS_AVAILABLE
 C=======================================================================
       IS_AVAILABLE = .FALSE.

@@ -87,14 +87,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IGS,IGS2,ID1,ID2,IG,I,J,SET_CLAUSE_SIZE,SET_ARRAY_SIZE,NEW_SIZE,IERROR,S,T,ID
-      INTEGER SET_ID,ISET_TYPE,CLAUSES_MAX,ITMP,ICODE,NCOLLECT,SETCOL_ARRAY_SIZE
+      INTEGER IGS, IGS2, ID1, ID2, IG, I, J, SET_CLAUSE_SIZE, SET_ARRAY_SIZE, NEW_SIZE, IERROR, T, ID
+      INTEGER SET_ID, ISET_TYPE, CLAUSES_MAX, SETCOL_ARRAY_SIZE
       INTEGER OPT_D,OPT_O,OPT_G,OPT_B,OPT_A,OPT_E,OPT_I,OPT_C
       INTEGER IDEBUG
       LOGICAL IS_AVAILABLE
       INTEGER, DIMENSION(:),ALLOCATABLE  :: SET_ARRAY,SET_CLAUSE_ARRAY,RESULT,SETCOL_ARRAY
       INTEGER, DIMENSION(:),ALLOCATABLE  :: COLLECT_LIST,IS_COLLECT
-      INTEGER CLAUSE_OPERATOR
       
 C-----------------------------------------------
 C     Characters

@@ -51,7 +51,7 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,II,ILAY,IT,J,IPT,L_DIRA,L_DIRB
+      INTEGER I, II, ILAY, J, L_DIRA, L_DIRB
       my_real 
      .   THKT
       my_real,

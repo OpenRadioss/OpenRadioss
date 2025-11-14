@@ -59,7 +59,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,ID,IGU,IGS,NN,UID,FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP
+      INTEGER I, ID, IGU, IGS, NN
       CHARACTER(LEN=NCHARTITLE) :: TITR
       LOGICAL IS_AVAILABLE
 C-----------------------------------------------

@@ -84,14 +84,13 @@ C-----------------------------------------------
       INTEGER IEL, IGBR, K1, K2
 C
       my_real FCX, FCY, FCX_DIM, FCY_DIM
-      my_real TEMP, TSTART, TSTOP, TSTOP_DIM
+      my_real TSTART, TSTOP, TSTOP_DIM
       CHARACTER MESS*40
       CHARACTER(LEN=NCHARTITLE)::TITR
       LOGICAL IS_AVAILABLE
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER USR2SYS
       DATA MESS/'THERMAL  FLUX  DEFINITION               '/
 C=======================================================================
       IS_AVAILABLE = .FALSE.                                       

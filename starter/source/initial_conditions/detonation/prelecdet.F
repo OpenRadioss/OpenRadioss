@@ -62,8 +62,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER SIZ_ECRAN, SIZ_DETCORD
-      INTEGER I,J,K,ID,USER_ID,INTERNAL_ID,NN,STAT
+      INTEGER K, ID, USER_ID, INTERNAL_ID
       INTEGER NNOD_DETCORD, NNOD_WAV_SHA,NUM
       CHARACTER(LEN=NCHARKEY) :: KEY,KEY2,KEY3
       CHARACTER(LEN=NCHARTITLE) :: TITR

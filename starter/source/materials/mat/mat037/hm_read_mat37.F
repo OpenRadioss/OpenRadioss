@@ -96,8 +96,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
-      my_real C1,C2,P0,VIS,VISV,RHO10,RHO20,A1,PMIN,GAM,VIS2,PSHIFT,VISV2,FAC_M,FAC_L,FAC_T,FAC_C,RHO0,RHOR
-      INTEGER I,ISOLVER,IRHO
+      my_real C1, C2, P0, VIS, VISV, RHO10, RHO20, A1, PMIN, GAM, VIS2, PSHIFT, VISV2, RHO0, RHOR
+      INTEGER ISOLVER, IRHO
       character*63 chain1      
 C-----------------------------------------------
 C   S o u r c e   L i n e s

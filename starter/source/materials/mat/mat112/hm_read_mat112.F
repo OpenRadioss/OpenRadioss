@@ -78,7 +78,7 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-       INTEGER I, J, ILAW, Ires, Itab, Ismooth
+       INTEGER ILAW, Ires, Itab, Ismooth
        INTEGER TAB_YLD1,TAB_YLD2,TAB_YLD3,TAB_YLD4,TAB_YLD5,
      .         TAB_YLDC,TAB_YLDS
 C     REAL

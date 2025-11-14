@@ -55,7 +55,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,PROC,OFFC,OFFTG,NOD,NOD_CRK,IEL_L,NL_L
+      INTEGER I, J, OFFC, OFFTG, NOD, NOD_CRK, IEL_L, NL_L
 C-----------------------------------------------
       OFFC = NUMELS + NUMELQ
       OFFTG = OFFC + NUMELC + NUMELT + NUMELP + NUMELR

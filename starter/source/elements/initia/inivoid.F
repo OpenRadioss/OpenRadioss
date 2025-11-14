@@ -108,7 +108,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NVC, IHBE, ISOLNOD, NDDIM, ILEV,ISUBSTACK
+      INTEGER NVC, IHBE, ISOLNOD, ISUBSTACK
       INTEGER IXC(NIXC,*),IXS(NIXS,*),IXTG(NIXTG,*),
      .        IPARTS(*),IPARTC(*),IPARTT(*),IGEO(NPROPGI,*),
      .        NSHNOD(*), SH4TREE(*), SH3TREE(*),SH3TRIM(*),

@@ -56,8 +56,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER I_MEM, IGAP0, NEDGE, NIN, ITAB(*), INACTI
-      INTEGER J_STOK,MULNSN,NOINT,IFORM,IGAP
+      INTEGER I_MEM, IGAP0, NEDGE, ITAB(*), INACTI
+      INTEGER J_STOK, MULNSN, NOINT, IGAP
       INTEGER IRECT(4,*),LEDGE(NLEDGE,*),ADMSR(4,*),CAND_S(*),CAND_M(*),II_STOK,
      .        CAND_A(*)
       INTEGER PROV_S(MVSIZ),PROV_M(MVSIZ)
@@ -69,8 +69,8 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K_STOK,I_STOK,IAD0,IAD,IADFIN,N,NE,EJ
-      INTEGER I_STOK_FIRST,NINDX,INDEX(MVSIZ) 
+      INTEGER I, J, K_STOK, I_STOK, N, NE
+      INTEGER INDEX(MVSIZ)
 C     REAL
       my_real
      .   PENE(MVSIZ)

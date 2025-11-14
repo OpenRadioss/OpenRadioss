@@ -53,13 +53,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t 
 C-----------------------------------------------
-      INTEGER NV,NVG,IVAR(*),IVARG(18,*),NV0,VARVENT(*),NBVENT_MAX,KK,IDSMAX
+      INTEGER NV, NVG, IVAR(*), IVARG(18,*), NV0, VARVENT(*), NBVENT_MAX, KK
       CHARACTER*10 VARE(NV),VARG(NVG)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s 
 C-----------------------------------------------
       CHARACTER VAR*10
-        INTEGER JREC,TRU,N,L,M,I,J,K,OK
+        INTEGER TRU, N, I, J, OK
       INTEGER ID,NMONV,IMONV,NLABEL
       CHARACTER(LEN=NCHARTITLE) :: TITR
       INTEGER NVAR

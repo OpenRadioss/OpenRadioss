@@ -57,7 +57,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER J,TAG2,NF1,NF2,NF1T,NF2T,W
+        INTEGER J, TAG2, W
         INTEGER N_SURFP,N_SURFT,N_NP,N_NT,N_NS
         INTEGER N_SURFP2,N_SURFT2,I1,I2,N_GRBP,N_GRBT
         INTEGER N_LINP,N_LINT,N_LINP2,N_LINT2

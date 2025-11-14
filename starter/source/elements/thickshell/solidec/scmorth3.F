@@ -72,7 +72,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,IG,IGTYP,ISK,IPNUM,ISKV,IIS,II,J,JJ,N,IFLAGINI,INIORTH(MVSIZ)
+      INTEGER I, IG, IGTYP, IPNUM, ISKV, IIS, II, JJ, IFLAGINI, INIORTH(MVSIZ)
       my_real
      .   VX,VY,VZ,VR,VS,VN,V,PHI,CP,SP,CPN,SPN,
      .   S,D1,D2,U1X,U1Y,U2X,U2Y,DET,W1X,W2X,W1Y,W2Y

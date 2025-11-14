@@ -64,7 +64,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IE,N, IG, IGU1, IGU2, NNI, ID,  NM,M, SUB_INDEX
+      INTEGER I, IE, IG, IGU1, IGU2, NNI, ID, SUB_INDEX
       CHARACTER(LEN=NCHARTITLE)::TITR
       CHARACTER(LEN=NCHARKEY)::KEY
       CHARACTER :: MESS*40

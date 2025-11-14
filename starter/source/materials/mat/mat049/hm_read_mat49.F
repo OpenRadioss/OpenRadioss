@@ -83,8 +83,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
-      INTEGER JTUR, I, IEOS,EMPTY_LINE,COUNT
-      INTEGER JTHE, IFLAGR
+      INTEGER IEOS, COUNT
       my_real
      .    YOUNG,NU,SIG0,CB,CN,SIGM,EPSM,T0,TMELT,PMIN,
      .    SPH,CB1,CB2,CH,CF,G0,BULK,

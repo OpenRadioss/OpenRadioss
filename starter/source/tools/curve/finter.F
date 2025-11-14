@@ -48,7 +48,7 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
       INTEGER IFUNC,NPF(*),I
-      my_real TF(*),ABC,DERI,XX,DX1,DX2
+      my_real TF(*), DERI, XX, DX1, DX2
 
       FINTER = 0
 C

@@ -56,7 +56,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, K, KL, NSNL, NSN, ILP, NN, M, N,IAD,IADS
+      INTEGER I, J, K, NSNL, NSN, NN, N, IADS
       my_real
      .        FBTMP1(6,LLRBE3_L),FBTMP2(2*LLRBE3_L),FBTMP3(10*NRBE3PEN_L)
 C

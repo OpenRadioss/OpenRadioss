@@ -48,7 +48,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,IWAVE,NNOD,NDDL,SIZE,LEN,NNOD_L,IAD,NG,NL,NN
+      INTEGER I, IWAVE, NNOD, NDDL, SIZE, LEN, NNOD_L, NG, NN
       INTEGER, DIMENSION(:), ALLOCATABLE :: INDX_LOC,IDXI_LOC
       INTEGER, DIMENSION(4)  :: HEAD
       INTEGER, DIMENSION(:), ALLOCATABLE :: RBUF

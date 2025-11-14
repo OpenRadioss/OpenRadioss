@@ -68,9 +68,8 @@ C OUTPUT ARGUMENTS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,NB_SPMD,SUB_ID,BID
+      INTEGER I, NB_SPMD, SUB_ID
       LOGICAL IS_AVAILABLE
-      INTEGER NTHREAD1
       CHARACTER (LEN=255) :: STR
 C============================================================================
       IS_AVAILABLE = .FALSE.

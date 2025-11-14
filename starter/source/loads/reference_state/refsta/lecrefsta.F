@@ -70,8 +70,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  I,J,IE,IN,ID,NN,IFLAGUNIT,NNOD
-      my_real XX,YY,ZZ,FAC_L
+      INTEGER  IE, IN, ID, NN, NNOD
+      my_real XX, YY, ZZ
       CHARACTER MESS*40
       DATA MESS/'REFSTA'/      
 C-----------------------------------------------

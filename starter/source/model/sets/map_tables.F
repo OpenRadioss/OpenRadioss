@@ -85,7 +85,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, SET_ID,NSET_G,NSET_COL,OFFSET,NSET1,NSET2
+      INTEGER I, SET_ID, NSET_G, NSET_COL, NSET1, NSET2
       INTEGER, DIMENSION(:),ALLOCATABLE :: ISORT,ISORT2,SAV,SAV2
       INTEGER, DIMENSION(:),ALLOCATABLE :: INDEX_SORT,INDEX_SORT2
       INTEGER, DIMENSION(70000) :: IWORK

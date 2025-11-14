@@ -48,7 +48,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,JDX,IBACKSLASH
+      INTEGER I, J, JDX
       CHARACTER*1, PARAMETER :: BACKSLASH = CHAR(92)
 C-----------------------------------------------
 C   S o u r c e   L i n e s

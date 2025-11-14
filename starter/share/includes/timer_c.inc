@@ -22,7 +22,7 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 C NTHMAX defini dans scr05_c.inc
 C.../TIMERR/
-      INTEGER NTIMAX,LTIMERR
+      INTEGER NTIMAX
       PARAMETER(NTIMAX = 68)
 
 C 68 timers et au plus NTHMAX taches smp

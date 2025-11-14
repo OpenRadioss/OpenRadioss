@@ -59,8 +59,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,NLD,ISEC,NN,ID,UID,NDEB,NFIN,IS,K0  !,ISU,ISS
-      INTEGER FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP
+      INTEGER I, NLD, ISEC, NN, ID, UID, IS, K0  !, ISU, ISS
       CHARACTER(LEN=NCHARTITLE)::TITR
       CHARACTER(LEN=NCHARLINE)::KEY
 C-----------------------------------------------

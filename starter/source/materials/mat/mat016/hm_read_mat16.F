@@ -73,7 +73,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ILAW,J
+      INTEGER ILAW
       my_real
      .   YOUNG, ANU, CA, CB, CN, EPSM, SIGM, C0, C, S, GAM0, A, AW,
      .   PMIN, E0, CC, EPS0, CM, TMELT, TMAX, GAM0M, AM, GAME, GE, DS,

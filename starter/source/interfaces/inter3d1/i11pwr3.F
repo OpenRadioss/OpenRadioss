@@ -61,7 +61,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IS, IM,JWARN
-      my_real PENE(MVSIZ), PENEOLD, S2, D, PPLUS
+      my_real PENE(MVSIZ), S2, PPLUS
 C-----------------------------------------------
 C
       JWARN = 0

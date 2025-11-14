@@ -73,7 +73,7 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,EL,NCOUNT,PART,IND,FIRST,LAST
+      INTEGER I, PART, IND
       INTEGER, DIMENSION (:), ALLOCATABLE :: PART_COUNT
 C-----------------------------------------------
       ! allocation of INV_GROUP% array

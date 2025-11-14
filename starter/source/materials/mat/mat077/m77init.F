@@ -75,7 +75,7 @@ C----------------------------------------------------------------
 C----------------------------------------------------------------
 C  L O C A L  V A R I B L E S
 C----------------------------------------------------------------
-      INTEGER         IADBUF, I, J,IFUNCR,IFUNCK
+      INTEGER         I, J, IFUNCR, IFUNCK
 C     REAL
       my_real
      .        E0,RHO_AIR0,ALPHA,EINT0,KK,MU,DF

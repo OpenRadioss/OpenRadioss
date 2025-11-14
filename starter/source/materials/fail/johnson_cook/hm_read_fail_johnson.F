@@ -71,7 +71,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IFAIL_SH,ISOLID,I,FAILIP 
-      my_real D1,D2,D3,D4,D5,EPSP0,UNIT_T,DADV,PTHKF,EPSF_MIN
+      my_real D1, D2, D3, D4, D5, EPSP0, DADV, PTHKF, EPSF_MIN
       my_real TRIAX,EPSF,DEPSF_DTRIAX
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
 C=======================================================================

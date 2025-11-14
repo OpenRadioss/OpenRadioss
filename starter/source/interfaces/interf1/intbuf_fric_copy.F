@@ -55,7 +55,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NIF , NSET ,I ,J ,K ,N ,IP ,NSETT ,NPARTF ,IORTH ,MFROT ,LENC
+      INTEGER NIF, NSET, I, J, K, N, NSETT, NPARTF, IORTH, MFROT, LENC
       INTEGER, DIMENSION(:)   ,POINTER  :: TABCOUPLEPARTS_FRIC
       INTEGER, DIMENSION(:)   ,POINTER  :: TABPARTS_FRIC
       INTEGER, DIMENSION(:)   ,POINTER  :: ADPART_FRIC

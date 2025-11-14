@@ -83,8 +83,7 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IFR, IFP , IFE , IFT, IFQ, ITYP, INOD, JTHE, ICOMP
-      INTEGER ID
+      INTEGER IFR, IFP, IFE, IFT, IFQ, ITYP, INOD, ICOMP
       my_real
      .   GAM, VCRT2, GAMRP, GAM1, P0, C1, SSP2, EF,
      .   RHO0, PSH, CARL, GAM2, E0, VCRT, RCRT, PCRT, SSP, 

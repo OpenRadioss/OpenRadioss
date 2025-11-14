@@ -49,7 +49,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IPART(*),NDDIM, NCTRL, I, KXIG3D(NIXIG3D,*),IXIG3D(*)
+      INTEGER IPART(*), NCTRL, I, KXIG3D(NIXIG3D,*), IXIG3D(*)
       my_real
      .   RHO(*),MS(*),X(NCTRL,*),
      .   Y(NCTRL,*),Z(NCTRL,*),
@@ -69,8 +69,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER J,IP,I1,I2,I3,I4,I5,I6,I7,I8, ITNCTRL, INCTRL
-      my_real XX,YY,ZZ,XY,YZ,ZX,INER,RCP
+      INTEGER IP, ITNCTRL, INCTRL
+      my_real XX, YY, ZZ, XY, YZ, ZX
       my_real MASS(MVSIZ),MASSF(MVSIZ)
 
 C=======================================================================

@@ -68,7 +68,7 @@ C-----------------------------------------------
       INTEGER,INTENT(INOUT) :: INTHEAT
       INTEGER,INTENT(IN)    :: NOM_OPTFRIC(LNOPT1,NINTERFRIC)
       INTEGER NOM_OPT(LNOPT1,*)
-      INTEGER ISU1,ISU2,ILAGM,NI
+      INTEGER ISU1, ISU2, NI
       INTEGER IPARI(NPARI),NPC1(SNPC1),NPC(SNPC)
       my_real STFAC,XFILTR
       my_real FRIGAP(NPARIR),FRIC_P(10),TF(*)

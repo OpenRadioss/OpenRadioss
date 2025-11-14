@@ -59,8 +59,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K, N,ND,N1,N2,NNEW,ID,IER1,IER2
-      INTEGER IAD,IU,NSL,NS,NN,NNSL
+      INTEGER I, K, N, ND, N1, N2, NNEW, ID, IER1, IER2
+      INTEGER IU, NSL, NS, NN, NNSL
       LOGICAL IS1,IS2
       INTEGER, DIMENSION(:), ALLOCATABLE :: LL_TMP
 C     REAL

@@ -57,7 +57,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER N,NN,K,J,P,I,NUMBER_MAIN_NODE,IS_SMS_AVAILABLE
+        INTEGER N, K, P, I, IS_SMS_AVAILABLE
         INTEGER, DIMENSION(:), ALLOCATABLE :: BUF_W
         INTEGER, DIMENSION(NSPMD) :: NB_NODE_WEIGHT
         INTEGER, DIMENSION(2) :: MAIN_NODE

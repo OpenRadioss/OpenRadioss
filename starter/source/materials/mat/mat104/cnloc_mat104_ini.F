@@ -60,7 +60,7 @@ c
       !=======================================================================
       !      Local Variables
       !=======================================================================
-      INTEGER I,K,II,IGURSON,ITER,NITER,NINDX,INDEX(NEL),NICE
+      INTEGER I, IGURSON, INDEX(NEL), NICE
 c
       my_real 
      .   CDR,KDR,HARD,YLD0,QVOCE,BVOCE,

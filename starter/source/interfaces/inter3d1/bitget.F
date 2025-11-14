@@ -35,7 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       INTEGER FUNCTION BITGET(I,N)
       INTEGER I,N
-      INTEGER B,S,I2P(0:12)
+      INTEGER S, I2P(0:12)
       DATA I2P/1,2,4,8,16,32,64,128,256,512,1024,2048,4096/
 
       S = I/I2P(N)
@@ -64,7 +64,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       INTEGER FUNCTION BITSET(I,N)
       INTEGER I,N
-      INTEGER B,S,I2P(0:12)
+      INTEGER S, I2P(0:12)
       DATA I2P/1,2,4,8,16,32,64,128,256,512,1024,2048,4096/
 
       S = I/I2P(N)
@@ -82,7 +82,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       INTEGER FUNCTION BITUNSET(I,N)
       INTEGER I,N
-      INTEGER B,S,I2P(0:12)
+      INTEGER S, I2P(0:12)
       DATA I2P/1,2,4,8,16,32,64,128,256,512,1024,2048,4096/
 
       S = I/I2P(N)
