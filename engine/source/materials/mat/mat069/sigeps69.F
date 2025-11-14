@@ -203,7 +203,7 @@ C        ET(I) = ZERO
 c--- avoid buckling
       P_FAC(1:NEL) = ONE
       IF (RBULK > 24*GMAX) THEN
-        NU_1 = FOURTY*(HALF-(3*RBULK-GMAX)/(6*RBULK+GMAX))
+        NU_1 = FORTY*(HALF-(3*RBULK-GMAX)/(6*RBULK+GMAX))
         DO I=1,NEL
           AMIN = MIN(EV(I,1),EV(I,2),EV(I,3))
           IF (AMIN<ZEP2) P_FAC(I) = MAX(ONE,NU_1/MAX(EM20,AMIN))

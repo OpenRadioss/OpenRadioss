@@ -143,7 +143,7 @@ C                => STIG == sum( Volp*rho ) *  Omega**2/4 == M * Omega**2/4
 C
 C             cf Assembling respectively Kvertex=Mvertex * Omega**2/2 and Kedge=Medge * Omega**2/2
               STIV(I) = TWO/THIRTY2 * STI(I)
-              STIE(I) = TWO*SEVEN/FOURTY8 * STI(I)
+              STIE(I) = TWO*SEVEN/FORTY8 * STI(I)
             END DO
 
             DO N= 1,4
@@ -474,7 +474,7 @@ C                => STIG == sum( Volp*rho ) *  Omega**2/4 == M * Omega**2/4
 C
 C             cf Assembling respectively Kvertex=Mvertex * Omega**2/2 and Kedge=Medge * Omega**2/2
               STIV(I) = TWO/THIRTY2 * STI(I)
-              STIE(I) = TWO*SEVEN/FOURTY8 * STI(I)
+              STIE(I) = TWO*SEVEN/FORTY8 * STI(I)
             END DO
 
             DO N= 1,4
