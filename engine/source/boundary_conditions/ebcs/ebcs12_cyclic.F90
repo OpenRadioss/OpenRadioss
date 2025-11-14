@@ -134,9 +134,9 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 
           IF(NCYCLE == 0) CALL EBCS_GET_GROUP_INFO(NSEG, EBCS%IELEM, EBCS%NG, EBCS%ILOC,  NGROUP, NPARG, IPARG, N2D)
-          rho_ = huge(0.0_WP)
-          wf = huge(0.0_WP)
-          vf = huge(0.0_WP)
+          rho_ = zero
+          wf = zero
+          vf = zero
           surf_iid1 = ebcs%surf_id
           surf_iid2 = ebcs%surf_id2
 
@@ -189,6 +189,7 @@
                 vf =   v(1,ix(1))*xn + v(1,ix(2))*xn + v(1,ix(3))*xn &
                      + v(2,ix(1))*yn + v(2,ix(2))*yn + v(2,ix(3))*yn &
                      + v(3,ix(1))*zn + v(3,ix(2))*zn + v(3,ix(3))*zn
+                wf = zero
                 if (iale == 1)then
                 wf =   w(1,ix(1))*xn + w(1,ix(2))*xn + w(1,ix(3))*xn &
                      + w(2,ix(1))*yn + w(2,ix(2))*yn + w(2,ix(3))*yn &
@@ -203,7 +204,7 @@
                 vf =   v(1,ix(1))*xn + v(1,ix(2))*xn + v(1,ix(3))*xn + v(1,ix(4))*xn  &
                      + v(2,ix(1))*yn + v(2,ix(2))*yn + v(2,ix(3))*yn + v(2,ix(4))*yn  &
                      + v(3,ix(1))*zn + v(3,ix(2))*zn + v(3,ix(3))*zn + v(3,ix(4))*zn
-
+                wf = zero
                 if (iale == 1)then
                 wf =   w(1,ix(1))*xn + w(1,ix(2))*xn + w(1,ix(3))*xn + w(1,ix(4))*xn &
                      + w(2,ix(1))*yn + w(2,ix(2))*yn + w(2,ix(3))*yn + w(2,ix(4))*yn &
@@ -217,7 +218,8 @@
 
 
 
-            else
+            else !n2d > 0
+
               fac1=half
               npt=two
               jj = iface(is)
@@ -239,7 +241,18 @@
               yn=yn*fac2
               zn=zn*fac2
               surf = one/fac2
+
+                vf =   v(2,ix(1))*yn + v(2,ix(2))*yn  &
+                     + v(3,ix(1))*zn + v(3,ix(2))*zn
+                wf = zero
+                if (iale == 1)then
+                wf =   w(2,ix(1))*yn + w(2,ix(2))*yn  &
+                     + w(3,ix(1))*zn + w(3,ix(2))*zn
+                end if
+                vf=(vf-wf)*fac1
+
             endif
+
             nn1(1:4)=irect(1:4,is)
             nn2(1:4)=nod/2+irect(1:4,is+nseg/2)
             nng1(1:4)=liste(nn1(1:4))
