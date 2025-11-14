@@ -58,8 +58,8 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NGL(*), I,IP,N,M,J,K
-      INTEGER ITER,NITER,INIT_PITER,NITERX,MAXITER
+      INTEGER NGL(*), I, IP, N, J, K
+      INTEGER NITER, NITERX, MAXITER
       INTEGER NINDX, NINDX2, INDEX(MVSIZ)
       my_real
      .   UL(MVSIZ,10),

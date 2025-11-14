@@ -57,7 +57,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, K, NSN, ILP, N,P,M,NS,PROC1,SPLIST,SLMN_L0
+      INTEGER I, J, K, NSN, P, M, NS, PROC1, SPLIST
       INTEGER,DIMENSION(:), ALLOCATABLE :: MAIN_NODES,TAG,PLIST
 
 C-----------------------------------------------

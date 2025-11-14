@@ -56,7 +56,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       CHARACTER MESS*40,MOT*4
-      INTEGER I,J,K,IG,L,IE,IADV
+      INTEGER I, J, IG, L, IE
       CHARACTER(LEN=NCHARTITLE) :: TITR
 C-----------------------------------------------
       ELEGROR=0

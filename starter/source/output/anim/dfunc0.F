@@ -61,7 +61,7 @@ C-----------------------------------------------
       my_real                                                           
      .   EVAR(MVSIZ),                                                   
      .   P, VONM2, VONM, S1, S2, S12, S3, VALUE
-      INTEGER I,II(6),NG,NEL,N,MLW,NN,NN1,JTURB,MT,IALEL,IPRT           
+      INTEGER I, II(6), NG, NEL, N, NN1, JTURB, MT, IALEL, IPRT
       TYPE(G_BUFEL_) ,POINTER :: GBUF
       REAL R4,WA(NBF)                                                   
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--

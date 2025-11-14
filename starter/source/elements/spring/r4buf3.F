@@ -68,7 +68,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, NG, I1, I2, I3, ISK, IALIGN, K, USENS, MID, MTYP, IGTYP
+      INTEGER I, J, NG, I1, I2, I3, ISK, IALIGN, USENS, MTYP, IGTYP
 C     REAL
       my_real
      .   X1, Y1, Z1,

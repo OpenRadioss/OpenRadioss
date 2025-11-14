@@ -80,8 +80,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IOUT,IERROR,NUVAR,NPG,JCVT,ISMSTR
-      INTEGER     IHBE_DS,ISST_DS,IPLA_DS,IFRAME_DS
+      INTEGER IOUT, NUVAR, NPG, JCVT, ISMSTR
+      INTEGER     IHBE_DS, ISST_DS, IFRAME_DS
       my_real
      .   TTHICK
       LOGICAL IS_AVAILABLE, IS_ENCRYPTED

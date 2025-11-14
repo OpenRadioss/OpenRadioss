@@ -67,7 +67,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER J,L,IE,IADV,JREC,K,ISU,NIX2,IPIDT,KK,JJ,NEMAX
+      INTEGER L, IE, K, ISU, NIX2, IPIDT, KK, JJ, NEMAX
       LOGICAL IS_AVAILABLE
 C=======================================================================
       IS_AVAILABLE = .FALSE.

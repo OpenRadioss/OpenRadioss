@@ -92,21 +92,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER KEN,IFN1,IFN2,IFN3,IFN4,IFN5,IFN6,ICASE
+      INTEGER KEN, IFN1, IFN2, ICASE
 
       my_real 
      .  E,A,B,C,P0,PHI,GAMA0,FAC,SIGT_COFF
 
       my_real C1,C2,ET,VMU,VMU0
 
-      my_real AXX,BXX,CXX,AYY,BYY,CYY,AZZ,BZZ,CZZ
-      my_real AXY,BXY,CXY,AYZ,BYZ,CYZ,AZX,BZX,CZX
-      my_real C1XX,C2XX,ETXX,VMUXX
-      my_real C1YY,C2YY,ETYY,VMUYY
-      my_real C1ZZ,C2ZZ,ETZZ,VMUZZ
-      my_real C1XY,C2XY,GTXY,VMUXY
-      my_real C1YZ,C2YZ,GTYZ,VMUYZ
-      my_real C1ZX,C2ZX,GTZX,VMUZX
       my_real FAC_UNIT,RHO0,RHOR,FAC1
       
       LOGICAL :: IS_ENCRYPTED,IS_AVAILABLE

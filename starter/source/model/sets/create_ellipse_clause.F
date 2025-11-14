@@ -79,7 +79,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,DGR1,DGR,ISKEW
+      INTEGER J, DGR1, DGR, ISKEW
 !
       MY_REAL  XG,YG,ZG,S_A,S_B,S_C
       LOGICAL :: lFOUND

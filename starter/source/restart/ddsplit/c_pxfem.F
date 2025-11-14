@@ -45,7 +45,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, NL_L, N,II,NEL_L,NEL1_L,JJ
+      INTEGER I, NL_L, II, NEL_L, NEL1_L, JJ
 C
 ccc      CEL_PXFEM(1:EPLYXFE) = 0
 C

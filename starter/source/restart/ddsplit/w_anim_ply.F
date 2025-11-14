@@ -50,7 +50,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,K,P,ELEM,ND,NDSZ_L,ELSZ_L,ELPL,NCOUNT,EMPL
+      INTEGER I, K, ELEM, ND, NDSZ_L, ELSZ_L, ELPL, NCOUNT, EMPL
       INTEGER, DIMENSION(:), ALLOCATABLE :: ELNUM,ELEMIPT,ELEMXFEMID,
      *                                      NODNUM,NODEXTN,
      .                                      NODTAG,ELEMTAG,PLYSIZNG

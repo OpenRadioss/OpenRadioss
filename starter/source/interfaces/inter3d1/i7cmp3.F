@@ -100,7 +100,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER I_STOK,J_STOK,IFLAG
+      INTEGER I_STOK, IFLAG
       INTEGER CAND_N(*),CAND_E(*)
       INTEGER, DIMENSION(MVSIZ), INTENT(IN) :: PROV_N,PROV_E    
       my_real, DIMENSION(MVSIZ), INTENT(IN) :: PENE

@@ -47,7 +47,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NNE,IAD,IAD2,IADR,ISK,NN,N1,N2,N3,N4,IGS,N,ITYP,K
+      INTEGER NNE, IAD, IAD2, IADR, ISK, NN, N1, N2, N3, N4, N, ITYP, K
 C     REAL
       my_real
      .   X1, X2, X3, X4, Y1, Y2, Y3, Y4, Z1, Z2, Z3, Z4,

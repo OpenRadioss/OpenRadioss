@@ -63,7 +63,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,ID,OK,FCOND,FCOND0,PN1,PN2,JJ
+      INTEGER J, ID, OK, FCOND, FCOND0, PN1, PN2, JJ
       my_real CMAX,CMIN 
       CHARACTER(LEN=NCHARTITLE) :: TITR
 C     DATA IUN/1/

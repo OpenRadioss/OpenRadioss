@@ -69,7 +69,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,N,TH_ID,PART_ID,NVAR,ITYP,NUMOBJ,PART_ID_OBJ1
+      INTEGER J, K, N, TH_ID, PART_ID, NVAR, ITYP, NUMOBJ, PART_ID_OBJ1
       CHARACTER(LEN=NCHARKEY)::KEY
       CHARACTER(LEN=NCHARTITLE)::TITR
       LOGICAL :: IS_AVAILABLE
@@ -214,7 +214,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IAD,IFI,NVARPA,NVARG
-      INTEGER NVPS,TAGS,ITHFLAG
+      INTEGER TAGS, ITHFLAG
       INTEGER ,DIMENSION(*)        :: ITHBUF,PATHID,SUTHID
       INTEGER ,DIMENSION(18,*)     :: IVARPAG
       CHARACTER*10 VARPA(NVARPA),VARG(NVARG)
@@ -224,7 +224,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,N,TH_ID,SUBS_ID,NVAR,ITYP,NUMOBJ,SUBS_ID_OBJ1
+      INTEGER J, K, N, TH_ID, SUBS_ID, NVAR, ITYP, NUMOBJ, SUBS_ID_OBJ1
       CHARACTER(LEN=NCHARTITLE)::TITR
       CHARACTER(LEN=NCHARKEY)::KEY
       LOGICAL :: IS_AVAILABLE

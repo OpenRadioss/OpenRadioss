@@ -84,8 +84,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED,IS_EOS, EOS_EMBEDDED
-      INTEGER JTUR, I, EMPTY_LINE,COUNT,IEOS,LAW6_OPT
-      INTEGER JTHE, IFLAGR
+      INTEGER COUNT, IEOS
       my_real
      .   YOUNG, ANU, CA, CB, CN, EPSM, SIGM, BULK, 
      .   PMIN, CC, EPS0, CM, TMELT, TMAX, CS, T0, SPH,

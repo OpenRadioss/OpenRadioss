@@ -58,7 +58,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,ID_MASS,IPA,IP,NMAS,KAD,II,IMID,ITYPE,IFLAG
+      INTEGER I, ID_MASS, IPA, IP, NMAS, II, ITYPE, IFLAG
       my_real AMAS,MSP,MASST(NODMAS),RATIO,ADDMAS
       CHARACTER(LEN=NCHARTITLE) :: TITR
 C=======================================================================

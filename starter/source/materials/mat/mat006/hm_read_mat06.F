@@ -86,7 +86,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED,IS_EOS
-      INTEGER JTUR, I, EMPTY_LINE,COUNT,IEOS,LAW6_OPT
+      INTEGER COUNT, IEOS, LAW6_OPT
       my_real
      .   RHO0, VIS, PSH, C0, C1, C2, C3, C4, C5, PMIN, E0,
      .     

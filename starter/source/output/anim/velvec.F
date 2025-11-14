@@ -45,7 +45,7 @@ C     REAL
       my_real                                                           
      .   S3000                                                        
       REAL R4                                                           
-      INTEGER I,NNWL,K,P,BUF                                            
+      INTEGER I, NNWL
       INTEGER NNSRG                                                     
 C-----------------------------------------------                        
       S3000 = 3000.                                                     

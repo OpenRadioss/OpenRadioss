@@ -62,7 +62,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,NG, NEL, NFT,N, ITY,JHBE,IGTYP,ICSTR,ISOLNOD
+      INTEGER I, NG, NEL, NFT, N, ITY, JHBE, IGTYP, ICSTR, ISOLNOD
       INTEGER N1,N2,NC(MVSIZ,8),NEDG,IER1,IER2,IKIN
       INTEGER,DIMENSION(:),ALLOCATABLE :: ITAG
       TYPE(G_BUFEL_) ,POINTER :: GBUF     

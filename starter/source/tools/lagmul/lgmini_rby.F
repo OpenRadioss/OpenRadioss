@@ -54,8 +54,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,N,NN,M,IK,IC,MSL,NSL,TNSL,ICDG
-      my_real RX,RY,RZ,MASRB
+      INTEGER I, J, N, NN, M, MSL, NSL, TNSL, ICDG
+      my_real MASRB
       INTEGER ID
       CHARACTER(LEN=NCHARTITLE) :: TITR
 C======================================================================|

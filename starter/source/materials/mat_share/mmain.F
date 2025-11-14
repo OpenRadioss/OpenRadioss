@@ -85,7 +85,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NUVAR,NVARTMP,NUVARR
+      INTEGER NUVAR, NVARTMP
       my_real
      .   TX(MVSIZ), TY(MVSIZ), TZ(MVSIZ),
      .   VIS(MVSIZ), CXX(MVSIZ), OFF(MVSIZ), EPSD(MVSIZ)

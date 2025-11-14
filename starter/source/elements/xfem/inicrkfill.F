@@ -70,7 +70,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  I,K,KR,N,ID,ICRK,NXSEG,NXNOD
+      INTEGER  I, K, N, ID, ICRK, NXSEG, NXNOD
       INTEGER, DIMENSION(:,:) ,ALLOCATABLE :: NODLS
       INTEGER, DIMENSION(:,:) ,ALLOCATABLE :: TAGSKYC,TAGSKYTG
       INTEGER, DIMENSION(:)   ,ALLOCATABLE :: NTAG

@@ -44,7 +44,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NPG, IAD, IAD2, IP, IHG
+      INTEGER NPG, IAD, IAD2, IP
       my_real
      .        PG(50), WPG(25),  R2, 
      .        VAL1, VAL2, VAL3, W, XG, YG, ZG, VALPHI,
@@ -156,7 +156,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NPG, IAD, IAD2, IP, IHG
+      INTEGER NPG, IAD, IAD2, IP
       my_real
      .        PG(50), WPG(25),  R2, 
      .        VAL1, VAL2, VAL3, W, XG, YG, ZG, VALPHI,

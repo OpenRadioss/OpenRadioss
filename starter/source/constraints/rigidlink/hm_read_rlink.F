@@ -91,7 +91,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER USR2SYS, NGR2USR
+      INTEGER NGR2USR
 !
       INTEGER, DIMENSION(:), POINTER :: INGR2USR
 C

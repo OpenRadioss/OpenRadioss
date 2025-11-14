@@ -46,7 +46,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J,IO_ERR1,IFUND,LEN_TMP_NAME
+      INTEGER IO_ERR1, IFUND, LEN_TMP_NAME
       CHARACTER FILNAM*109, KEYA*80, KEYA2*80
       CHARACTER(LEN=NCHARLINE) :: CARTE
       CHARACTER(len=4096) :: TMP_NAME

@@ -78,7 +78,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,II,JJ,KK,N,CLID,UID,ICLUS,IAD,IG,IGR,ISK,IFAIL,IEL,NEL,NNOD,IFLAGUNIT,VAL,NNOD0,ITY,NELMAX
+      INTEGER I, J, K, II, JJ, KK, CLID, UID, IG, IGR, ISK, IFAIL, IEL, NEL, NNOD, IFLAGUNIT, NNOD0, NELMAX
       INTEGER NOD1(2000),NOD2(2000),SUB_INDEX,ISK_L
       my_real BID(1),AX(4),NX(4),FMAX(2),MMAX(2)
       CHARACTER(LEN=NCHARTITLE)::TITR

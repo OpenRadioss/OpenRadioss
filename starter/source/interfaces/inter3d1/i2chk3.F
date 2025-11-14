@@ -75,7 +75,7 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, INRT, NELS, NELC, NELTG, L, JJ, NN
+      INTEGER I, INRT, NELS, NELC, NELTG
       my_real AREA
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s

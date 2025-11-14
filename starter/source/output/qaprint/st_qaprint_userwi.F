@@ -54,7 +54,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: OK_QA
       CHARACTER (LEN=255) :: VARNAME
-      INTEGER I,J,ELEM_ID
+      INTEGER I
       DOUBLE PRECISION TEMP_DOUBLE
 C-----------------------------------------------
 C   S o u r c e   L i n e s

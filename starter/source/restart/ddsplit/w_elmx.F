@@ -46,7 +46,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, NN, IAD, IAD_L, J, NB_L, NNOD, IE_L, OFF
+      INTEGER I, IAD, IAD_L, J, NB_L, NNOD, IE_L, OFF
       INTEGER, DIMENSION(:), ALLOCATABLE :: IXX_L
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: KXX_L
 C-----------------------------------------------

@@ -69,7 +69,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IGTYP,IREP,IXEL,I,II,IT,ILAY,L_DMG
+      INTEGER IGTYP, IREP, IXEL, I, IT, ILAY, L_DMG
       INTEGER MATLY(MVSIZ*100)
       my_real
      .  THKLY(MVSIZ*100),POSLY(MVSIZ,100)

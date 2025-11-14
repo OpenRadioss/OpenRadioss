@@ -58,7 +58,6 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, IK, KF, NK, ISK, NN, NDL, NUMC
-      my_real COEF
       INTEGER ID
       CHARACTER(LEN=NCHARTITLE) :: TITR
 C======================================================================|
