@@ -68,14 +68,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,L,ID,IGS,IGRS,JREC,IADV,NSEG,NSEGV,SRFTYP,
-     .        SKIPFLAG,UID,IAD_TMP,BUFTMP_1,NSEG_TOT,
+      INTEGER I,J,K,L,ID,IGS,IGRS,NSEG,NSEGV,
+     .        SKIPFLAG,UID,IAD_TMP,NSEG_TOT,
      .        IWORK(70000),IERROR, II
       INTEGER, DIMENSION(:,:) , ALLOCATABLE :: ITRI
       INTEGER, DIMENSION(:) , ALLOCATABLE :: INDEX,BUFTMP
 
       CHARACTER(LEN=NCHARTITLE) :: TITR
-      CHARACTER(LEN=NCHARKEY) :: KEY,KEY2,KEY3
+      CHARACTER(LEN=NCHARKEY) :: KEY,KEY2
       INTEGER :: NB_IDS, NB_NEG_IDS
       INTEGER, DIMENSION(:), ALLOCATABLE :: IDS
       LOGICAL :: IS_AVAILABLE

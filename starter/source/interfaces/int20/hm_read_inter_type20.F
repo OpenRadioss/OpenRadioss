@@ -84,7 +84,7 @@ C-----------------------------------------------
      .    IGAP,MULTIMP,MFROT,IFQ,IBAG,MODFR,IVIS2, 
      .    ISYM,NOD1,IDELKEEP,
      .    IFORM,IADM,IEDGE,NRADM,ISU10,ISU20,
-     .    NOD10,NOD20,LINE10,LINE20,IDEL7N,LINE1,
+     .    NOD10,LINE10,LINE20,IDEL7N,LINE1,
      .    LINE2
       my_real
      .   FRIC,GAP,STARTT,BUMULT,STOPT,C1,C2,C3,C4,C5,C6,ALPHA,

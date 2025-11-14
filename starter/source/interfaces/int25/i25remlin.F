@@ -466,8 +466,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER II,J,K,IE,NN, NM,N2,ND,NES,NM2,M,
-     .       NN2,NNOD,NNREM_EDG,KI,KL,JJ,IEDG,IEDGS,ES,
-     .       COMPTEUR,I,L,L1,IS,IIS,NS,IADA,III,JJJ,NNOD_2,
+     .       NNREM_EDG,KI,KL,JJ,IEDGS,ES,
+     .       I,L,IS,IIS,NS,IADA,III,JJJ,NNOD_2,
      .       FIRST,LAST,NNREM_EDG_SAVE,
      .        OFFSET, NBR_INTRA,NBR_EXTRA,TOTAL_INSERTED,
      .        OLDSIZE,

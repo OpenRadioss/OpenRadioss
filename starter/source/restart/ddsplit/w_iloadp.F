@@ -50,7 +50,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, IAD, IADL, NL, N, NLL, NN, IGRTMP(SIZLOADP,NLOADP),
+      INTEGER I, J, IAD, IADL, NL, NLL, IGRTMP(SIZLOADP,NLOADP),
      .        LGRTMP(LLLOADP_L),OFF,N1,N2,N3,N4
 C-----------------------------------------------
 C   S o u r c e   L i n e s

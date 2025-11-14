@@ -62,7 +62,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NSL, I, K, KK, N, NN, N1, N2, N3, N4, IE, NE, ITY, ILW,
+      INTEGER NSL, K, KK, N, NN, N2, N3, N4, IE, NE, ITY,
      .        NSL_L, IFQ, MSR
 C
       NSLAW_L = 0

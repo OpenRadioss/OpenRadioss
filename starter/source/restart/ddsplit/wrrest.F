@@ -446,8 +446,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, TN(7), N, NDDL, DSNDDL, DSLEN, K, NSDEC,
-     .        DSNDDL_GLOB,LEN_IA,LEN_AM
+      INTEGER  J, TN(7), N, NDDL, DSNDDL, DSLEN, K, NSDEC,
+     .        LEN_IA,LEN_AM
       my_real
      .        CUTFREQ
 C--------------------------------------

@@ -68,12 +68,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: IDAM,ISOLID,FT1,FT2,FT12,FC1,FC2,FC12,STRDEF
+      INTEGER :: IDAM,ISOLID,STRDEF
       INTEGER ,PARAMETER :: NFUNC = 13
       INTEGER ,DIMENSION(NFUNC) :: IFUNC
       my_real :: EPSPREF,ET1,ET2,ET12,EC1,EC2,EC12,ET3,EC3,EC23,ET23,EC31,ET31,
      .    ET1M,ET2M,ET12M,EC1M,EC2M,EC12M,ET3M,EC3M,EC23M,ET23M,EC31M,ET31M,
-     .    FAC_M,FAC_L,FAC_T,FAC_E,ALPHA,FSCALE_SIZ,REF_SIZ,PTHKF,
+     .    FSCALE_SIZ,REF_SIZ,PTHKF,
      .    EPSPREF_UNIT,FSCAL_UNIT,REF_SIZ_UNIT,FCUT
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
 C=======================================================================

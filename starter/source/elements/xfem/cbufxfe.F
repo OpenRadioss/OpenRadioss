@@ -163,7 +163,7 @@ C-----------------------------------------------
       PARAMETER (MAX_NPTT = 10)
       my_real
      .   THK_IT(MAX_NPTT),POS_IT(MAX_NPTT),THK_LY,POS_LY,THK_NPTT,
-     .   POS_NPTT,THICKT,POS_0
+     .   POS_NPTT,POS_0
 C-----------------------------------------------
       my_real
      .  A_GAUSS(9,9),W_GAUSS(9,9)

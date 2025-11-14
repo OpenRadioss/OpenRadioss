@@ -92,7 +92,7 @@ C-----------------------------------------------
       INTEGER IXS(NIXS,*), IXS10(6,*), IXS16(8,*), IXS20(12,*),IRTSE(*),IS2SE(*)
 C     REAL
       my_real
-     .   X(3,*),XYZM(6,*),TZINF,DBUC,STF(*),STFN(*),
+     .   X(3,*),XYZM(6,*),TZINF,STF(*),STFN(*),
      .   MAXBOX,MINBOX, XMAX, YMAX, ZMAX,
      .   GAP, GAP_S(*), GAP_M(*),
      .   GAPMIN, GAPMAX, MARGE, GAPSMX, BGAPSMX,
@@ -124,14 +124,14 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NB_NCN,NB_ECN,ADDNN,ADDNE,IPOS,I,IP,J
-      INTEGER INF,SUP,DIR,N1,N2,N3,N4,NN,NE,INS
+      INTEGER NB_NCN,NB_ECN,ADDNN,ADDNE,I,J
+      INTEGER INF,SUP,DIR,N1,N2,N3,N4,NN,NE
       INTEGER SKIP,NS,NS1,NS2,NSE
       INTEGER :: FIRST,LAST
       INTEGER :: IJK
 C     REAL
       my_real
-     .   BID,DX,DY,DZ,DSUP,SEUIL,XMX,XMN,GAPSMAX,
+     .   DX,DY,DZ,DSUP,SEUIL,XMX,XMN,
      .   GAPV(MVSIZ),MARGE_E
 C-----------------------------------------------
 C   ROLE OF THE ROUTINE:

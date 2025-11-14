@@ -55,7 +55,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IBUFBOX(*),
-     .        IAD,FLAGG,ICOUNT,ITER,IADB,FLAG,IBOXMAX
+     .        FLAGG,ICOUNT,ITER,IADB,FLAG,IBOXMAX
       my_real
      .      X(3,*),SKEW(LSKEW,*)
       INTEGER ID
@@ -65,8 +65,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  I,K,L,J,JJ,IB,IBS,IDBS,NBOX,
-     .         SKIPFLAG,IADX,CNT
+      INTEGER  K,J,IB,IBS,IDBS,NBOX,
+     .         SKIPFLAG,CNT
 C-----------------------------------------------
       IF (FLAGG == 0) ICOUNT=0
 C---
@@ -207,7 +207,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  I,K,L,J,JJ,IB,IBS,IDBS,NBOX,
+      INTEGER  K,J,IB,IBS,IDBS,NBOX,
      .         SKIPFLAG,CNT
 C-----------------------------------------------
       IF (FLAGG == 0) ICOUNT=0
@@ -335,7 +335,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IBUFBOX(*),
-     .        IAD,FLAGG,ICOUNT,ITER,BOXTYPE,IADB,NIX,
+     .        FLAGG,ICOUNT,ITER,BOXTYPE,IADB,NIX,
      .        IX(NIX,*),NIX1,NIX2,ISURF0,IELTYP,NUMEL,FLAG,
      .        TAGSHELLBOX(*),IEXT
       my_real
@@ -347,8 +347,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,K,L,J,JJ,IB,IBS,IDBS,NBOX,SKIPFLAG,
-     .        IADX,CNT
+      INTEGER K,J,IB,IBS,IDBS,NBOX,SKIPFLAG,
+     .        CNT
 C-----------------------------------------------
       IF (FLAGG == 0) ICOUNT=0
 C---
@@ -494,8 +494,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  I,K,L,J,JJ,IB,IBS,IDBS,NBOX,
-     .         SKIPFLAG,IADX,CNT
+      INTEGER  K,J,IB,IBS,IDBS,NBOX,
+     .         SKIPFLAG,CNT
 C-----------------------------------------------
       IF(FLAGG == 0)ICOUNT=0
 C---

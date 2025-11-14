@@ -90,7 +90,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real 
      .    E,NU,G,C1,EPSMAX,EPSR1,EPSR2,FISOKIN,RATE(11),YFAC(11),
-     .    PSCALE,FAC_L,FAC_T,FAC_M,FAC_C,ESCALE,EINF,CE,ASRATE
+     .    PSCALE,EINF,CE,ASRATE
       INTEGER NRATE,J,I,IU,IFUNCE,ISRATE_LOC,MFUNC,OPTE,IPFUN
       my_real :: RHO0, RHOR, PSCALE_UNIT
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED

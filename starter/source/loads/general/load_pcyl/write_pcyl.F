@@ -47,7 +47,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,J,N1,N2,N3,N4,NSEG,LINT,IAD,OFF
+      INTEGER :: I,J,N1,N2,N3,N4,NSEG,LINT,IAD
       INTEGER, DIMENSION(:),ALLOCATABLE :: ITMP
       my_real, DIMENSION(3) :: RTMP
 C-----------------------------------------------

@@ -80,7 +80,7 @@ C-----------------------------------------------
       INTEGER NSV(*),CAND_N(*),CAND_E(*), ITAB(*), MSR(*)
 C     REAL
       my_real
-     .   X(3,*),XYZM(6,*),TZINF,DBUC,
+     .   X(3,*),XYZM(6,*),TZINF,
      .   MAXBOX,MINBOX, XMAX, YMAX, ZMAX,
      .   GAP, GAP_S(*), GAP_M(*),
      .   GAPMIN, GAPMAX, MARGE, GAPSMX, BGAPSMX
@@ -108,7 +108,7 @@ C-----------------------------------------------
       INTEGER INF,SUP,DIR,N1,N2,N3,N4,NN,NE
 C     REAL
       my_real
-     .   BID,DX,DY,DZ,DSUP,SEUIL,XMX,XMN,GAPSMAX,
+     .   DX,DY,DZ,DSUP,SEUIL,XMX,XMN,
      .   GAPV(MVSIZ)
 C-----------------------------------------------
 C   Role of the routine:

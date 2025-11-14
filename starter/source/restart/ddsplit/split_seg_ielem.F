@@ -69,7 +69,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,GLOB,IE1,IEL1,IE2,IEL2,N
+      INTEGER I,J,K,IE1,IEL1,IE2,IEL2,N
       INTEGER :: OFFSET_SHELL,OFFSET_SHELL3N
       INTEGER, DIMENSION(:),ALLOCATABLE :: IBUF1,IBUF3
 C ----------------------------------------

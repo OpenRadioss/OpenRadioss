@@ -58,7 +58,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, K, KK, N, NN, IE, NE, ITY, IFQ, N4,
+      INTEGER  J, K, KK, N, NN, IE, NE, IFQ, N4,
      .        ILP, NSL, NSL_L, KSAV, KSAV_L
       my_real    , DIMENSION(:),ALLOCATABLE :: RWSAV_L
       my_real    , DIMENSION(:,:),ALLOCATABLE :: RWL_L

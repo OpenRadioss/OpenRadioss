@@ -46,7 +46,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-       INTEGER  PROC, NSLARB_L, NSKYRB_L, NSKYRBK_L,
+       INTEGER  PROC, NSLARB_L, NSKYRBK_L,
      .          NPBY(NNPBY,*), LPBY(*)
 C-----------------------------------------------
 C   F u n c t i o n

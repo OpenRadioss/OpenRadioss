@@ -62,8 +62,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N,K,ITEST,II,JJ,NSTART,IC1,IC2,NOGD,NDATA,NMULA,IFC
-      my_real E,NU,GS,RBULK,D,YOUNG,ERRTOL,AVE_SLOPE,MU,MU_MAX,MU_MIN,DX,
+      INTEGER K,ITEST,II,JJ,NSTART,IC1,IC2,NOGD,NDATA,NMULA,IFC
+      my_real NU,GS,RBULK,D,YOUNG,ERRTOL,AVE_SLOPE,MU,MU_MAX,MU_MIN,DX,
      .   LAM,BETA,LAM_MAX,LAM_MIN,SCALEFAC,AMULA(2)
       my_real , DIMENSION(:), ALLOCATABLE :: STRESS,STRETCH!      
       LOGICAL  IS_ENCRYPTED         

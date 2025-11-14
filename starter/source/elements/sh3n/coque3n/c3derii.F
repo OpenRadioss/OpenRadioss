@@ -57,7 +57,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JFT, JLT, ILEV,ISUBSTACK,IMAT,IPROP
+      INTEGER JFT, JLT,ISUBSTACK,IMAT,IPROP
       INTEGER IXTG(NIXTG,*), SH3TREE(KSH3TREE,*),IPM(NPROPMI,*),
      .         IGEO(NPROPGI,*)
 C     REAL
@@ -74,13 +74,13 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, N, IADB,I1,I3,IPTHK,IPPOS,IGTYP,I2,
-     .        IPMAT,MATLY,IPGMAT,IGMAT,IPOS
+      INTEGER I, N, IADB,IGTYP,
+     .        IPGMAT,IGMAT
       my_real ALDTV(MVSIZ)
       my_real VISCMX, A11, G, STI,STIR,SHF,VISCDEF,
      .     AL1, AL2, AL3, ALMAX, SSP,YOUNG,NU,RHO,GMAX,
-     .     C1,IZ,THICKT,THKLY,POSLY,A1THK,C1THK,
-     .     GTHK,A11R,FAC,A12,E,ETHK,NUTHK,A12THK,RHOG
+     .     
+     .     A11R,FAC
 C=======================================================================
       SSP = ZERO 
       

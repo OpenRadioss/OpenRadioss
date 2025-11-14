@@ -66,7 +66,7 @@ C-----------------------------------------------
       INTEGER IPRINT, LP,IndexDesign0
 
       my_real 
-     .      STIFF,STIFFC,STIFFT, EMAX_CURVE, EMIN_CURVE,EINI_CURVE,
+     .       EMAX_CURVE, EMIN_CURVE,EINI_CURVE,
      .     STIFFMIN,STIFFMAX,STIFFINI,STFAVG,SCALEFAC,E0,
      .     EPSMAX,EC_MAX,EMAX,G,C1,NU
 

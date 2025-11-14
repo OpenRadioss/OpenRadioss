@@ -91,14 +91,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,NRATE,NPS,IR0,ILAW
+      INTEGER ILAW
        my_real 
      .         E,NU,G,C1,EPSMAX,EPSR1,EPSR2,X2FAC,YFAC,
      .         S11Y,S22Y,S33Y,S12Y,S23Y,S31Y,
-     .         FISOKIN,M,FAC_L,FAC_T,FAC_M,FAC_C,
+     .         FISOKIN,
      .         T0, RHOCP, FF, GG, HH, LL, MM, NN, FCUT,
      .         EINF,CE,FAC_PRES,FAC_STRAIN_RATE
-      INTEGER IFUNCE, OPTE, NUM_FUNC
+      INTEGER IFUNCE, OPTE
       my_real :: RHO0, RHOR
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
 C-----------------------------------------------

@@ -63,7 +63,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER               :: I, ID, NINTERS, IDINT
-      INTEGER               :: ISU, IS, J ,NINTERP,NN, NIP
+      INTEGER               :: ISU, IS, J ,NINTERP, NIP
       CHARACTER(LEN=NCHARTITLE) :: TITR
       LOGICAL IS_AVAILABLE
 C-----------------------------------------------

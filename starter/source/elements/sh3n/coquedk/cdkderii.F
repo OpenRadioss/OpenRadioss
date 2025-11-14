@@ -56,7 +56,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JFT, JLT, ILEV,ISUBSTACK,IMAT,IPROP
+      INTEGER JFT, JLT,ISUBSTACK,IMAT,IPROP
       INTEGER IXTG(NIXTG,*), SH3TREE(KSH3TREE,*),IPM(NPROPMI,*),
      .        IGEO(NPROPGI,*),PM_STACK(20,*)
       my_real
@@ -72,18 +72,18 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, NG, N,IADB,I1,I3,IPTHK,IPPOS,IGTYP,I2,
-     .        MATLY,IGMAT,IPGMAT,IPOS
+      INTEGER I, NG, N,IADB,IGTYP,
+     .        IGMAT,IPGMAT
       my_real
      .   X21G(MVSIZ), Y21G(MVSIZ), Z21G(MVSIZ),
      .   X31G(MVSIZ), Y31G(MVSIZ), Z31G(MVSIZ),
      .   X32G(MVSIZ), Y32G(MVSIZ), Z32G(MVSIZ),
      .   X2(MVSIZ), X3(MVSIZ), Y2(MVSIZ),Y3(MVSIZ),
      .   DT(MVSIZ), AREA(MVSIZ),FAC, ALMIN, 
-     .   VISCMX, A11, G, STI,STIR,SHF,VISCDEF,GMAX,
+     .   VISCMX, A11, G, STI,STIR,VISCDEF,GMAX,
      .   AL1, AL2, AL3, ALMAX, SSP,YOUNG,NU,RHO,AREAI,
-     .   C1,IZ,THICKT,THKLY,POSLY,A1THK,C1THK,
-     .   GTHK,A11R,A12,E,ETHK,NUTHK,A12THK,RHOG
+     .   
+     .   A11R
 C=======================================================================
       DO I=JFT,JLT
         X21G(I) = X2G(I)-X1G(I)

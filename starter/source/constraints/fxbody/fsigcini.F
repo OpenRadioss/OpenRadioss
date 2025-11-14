@@ -61,7 +61,6 @@ C-----------------------------------------------
       INTEGER IG,OFFSET,FIRST,LAST,NFT,I,NG,IEL,
      .        N1,N2,N3,N4,ISM,ITHK,NPT,NFS
       INTEGER MAT(MVSIZ), PROP(MVSIZ)
-      INTEGER II,J
       my_real
      .   D11, D12, D13, D21, D22, D23, D31, D32, D33, D41, D42, D43,
      .   DR11, DR12, DR13, DR21, DR22, DR23, DR31, DR32, DR33,

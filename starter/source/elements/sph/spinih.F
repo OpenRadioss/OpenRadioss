@@ -66,7 +66,7 @@ C-----------------------------------------------
      .        DIST, MP, RHO, VOL, SQ2
 C-----------------------------------------------
       my_real
-     .        GET_U_GEO,H_SCAL,VOL_TOT,RESET_U_GEO
+     .        GET_U_GEO,H_SCAL,VOL_TOT
       my_real
      .        XMIN(NPART),XMAX(NPART),YMIN(NPART),YMAX(NPART),ZMIN(NPART),
      .        ZMAX(NPART),VOLP_PRT(NPART)  

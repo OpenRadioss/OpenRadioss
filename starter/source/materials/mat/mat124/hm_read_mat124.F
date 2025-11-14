@@ -77,7 +77,7 @@ C-----------------------------------------------
       INTEGER I,J,K,ILAW,IRATE,DTYPE,DFLAG,IREG,IDEL
 C     REAL or REAL*8
       my_real
-     .   RHO0,YOUNG,NU,A,G,G2,LAM,BULK,FCUT,FC,FT,GFT,
+     .   RHO0,YOUNG,NU,G,G2,LAM,BULK,FCUT,FC,FT,
      .   AH,BH,CH,DH,HP,AS,QH0,ECC,M0,WF,WF1,FT1,DF,BS,
      .   EFC,EPSI
       my_real

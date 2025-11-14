@@ -165,12 +165,12 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER J, KB, JB, NSBT, IB, IL, MM1, MM2, KM, MM, MG,
-     .   JJL, NFT, LLT, JL, JG, JLO, LL1, LL2, LL, LG, N, NN,
-     .   NVOIS, KL, K, JK, L, NVOIS1, NVOIS2, IERROR , ig
+      INTEGER    IL,
+     .     JG,
+     .   NVOIS, K, JK, NVOIS1, NVOIS2, IERROR 
 C     REAL
       my_real
-     .   XJJ, YJJ, ZJJ,DK, DL   
+     .     DK   
 
 
 C-----------------

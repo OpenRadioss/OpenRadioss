@@ -72,11 +72,11 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I ,NN, J, JRM, K, KRM, I1, J1, I2, J2, EJ, ES,
-     .         IE, JE, SOL_EDGE, SH_EDGE
+      INTEGER I , EJ, ES,
+     .           SOL_EDGE, SH_EDGE
       INTEGER IAM(MVSIZ),JAM(4,MVSIZ),IAS(MVSIZ),JAS(MVSIZ)
       my_real
-     .   AAA, DX, DY, DZ, DD, NNI, NI2, INVCOS, GAPE_M(MVSIZ), GAPE_S(MVSIZ)
+     .        GAPE_M(MVSIZ), GAPE_S(MVSIZ)
 C-----------------------------------------------
       DO I=1,JLT
         IF(CAND_S(I)<=NRTS) THEN

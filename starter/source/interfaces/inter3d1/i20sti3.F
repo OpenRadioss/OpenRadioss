@@ -77,7 +77,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NRT, NINT, NTY, NOINT,NSN,IGAP, NDDIM,
+      INTEGER NRT, NINT, NTY, NOINT,NSN,IGAP,
      .        INACTI,IFS2,NLN      
       INTEGER IRECT(4,*), IXS(NIXS,*), IXC(NIXC,*),
      .   NSV(*), IXTG(NIXTG,*), IXT(NIXT,*), IXP(NIXP,*),
@@ -100,12 +100,12 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NDX, I, J, INRT, NELS,NELS2, MT, JJ, JJJ, NELC,
-     .   MG, NUM, NPT, LL, L, NN, NELTG,N1,N2,N3,N4,IE,IP,NM1,
+      INTEGER NDX, I, J, INRT, NELS, MT, JJ, JJJ, NELC,
+     .   MG, L, NELTG,IE,IP,NM1,
      .  IGTYP,IPGMAT,IGMAT,ISUBSTACK
 C     REAL
       my_real
-     .   DXM, GAPMX, GAPMN, AREA, VOL, DX,GAPS1,GAPS2, GAPM, DDX, 
+     .   DXM, GAPMX, GAPMN, AREA, VOL, DX,GAPS1,GAPS2, GAPM, 
      .   GAPTMP, GAPSCALE,SX1,SY1,SZ1,SX2,SY2,SZ2,SX3,SY3,SZ3,
      .   SLSFAC,GAPINFS,GAPINFM,GAPSUPS,GAPSUPM,ST
       INTEGER TAG(NUMNOD)
@@ -897,13 +897,13 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NDX, I, INRT, NELS, MT, JJ, JJJ, NELC, J,
-     .   MG, NUM, NPT, LL, L, NN, NELTG,NELT,NELP,NELR,
-     .   IGTYP, I1, I2,IP,NELX,IPGMAT,IGMAT,ISUBSTACK
+      INTEGER NDX, I, INRT, NELS, MT, JJ, JJJ, NELC,
+     .   MG, NELTG,NELT,NELP,NELR,
+     .   IGTYP,NELX,IPGMAT,IGMAT,ISUBSTACK
 C     REAL
       my_real
      .   DXM, GAPMX, GAPMN, AREA, VOL, DX,GAP1,GAPS1,GAPTMP,
-     .   GET_U_GEO,ST
+     .   GET_U_GEO
 C-----------------------------------------------
       EXTERNAL GET_U_GEO
 C--------------------------------------------------------------

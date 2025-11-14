@@ -43,7 +43,7 @@ C     REAL
      .   V(3,*)                                                         
 C     REAL                                                    
       my_real                                                           
-     .   S3000,S                                                        
+     .   S3000                                                        
       REAL R4                                                           
       INTEGER I,NNWL,K,P,BUF                                            
       INTEGER NNSRG                                                     

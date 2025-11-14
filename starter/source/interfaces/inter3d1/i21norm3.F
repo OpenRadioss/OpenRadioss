@@ -270,7 +270,7 @@ C-----------------------------------------------
      .   NNZ1, NNZ2, NNZ3, NNZ4,
      .   SURFX, SURFY, SURFZ, 
      .   ERX, ERY, ERZ, DNX, DNY, DNZ, DNT, LL, AAA, RR,
-     .   X13, Y13, Z13, X24, Y24, Z24, NX, NY, NZ, CC
+     .   X13, Y13, Z13, X24, Y24, Z24, CC
 C-----------------------------------------------
       RCURV(1:NRTM) = EP30
       ANGLM(1:NRTM) = EP30

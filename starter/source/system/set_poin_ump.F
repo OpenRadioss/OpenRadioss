@@ -49,7 +49,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER RES,MARQUEUR,MARQUEUR2,TAB_LOCAL(NPART),TAB_LOCAL2(NUMMAT),
+      INTEGER MARQUEUR,MARQUEUR2,TAB_LOCAL(NPART),TAB_LOCAL2(NUMMAT),
      .   K1,K2,I,J,ILAW, IMID
 
 C=======================================================================

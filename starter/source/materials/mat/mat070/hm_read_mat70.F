@@ -100,10 +100,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NRATEN,J,I,NRATEP,IUNLOAD,ITENS,IETANG,NL,ISORT
+      INTEGER NRATEN,J,I,NRATEP,IUNLOAD,ITENS,NL,ISORT
       integer :: i1,i2,sizeh,ierror,ifun
-      my_real E,NU,G,C1,VISC, VISCV,EXPO,HYS,
-     .        RHO0,RHOR,E0,EMAX,EPSMAX,FCUT,A1,A2,AA
+      my_real NU,G,C1,EXPO,HYS,
+     .        RHO0,RHOR,E0,EMAX,EPSMAX,FCUT,AA
       INTEGER ,DIMENSION(MAXFUNC) :: FID,PERM
       my_real ,DIMENSION(MAXFUNC) :: RATE,YFAC,YFAC_UNIT,SCALE,EPSP,RTMP,YTMP
       double precision :: h1,h2

@@ -74,13 +74,13 @@ C-----------------------------------------------
 C--------------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,II,J,IPERT,MY_ID, MY_DAMP, MY_CONSTRAINT,TEMP_INT,
-     .        MY_RAND, MY_UNIT, MY_DEFAULTINTER,LENRNOISE,
+      INTEGER I,II,MY_ID, MY_DAMP,TEMP_INT,
+     .        MY_RAND, MY_UNIT, MY_DEFAULTINTER,
      .        IDS(NPERTURB),IDX(NPERTURB),IDSEIG(NEIG),IDXEIG(NEIG),MY_EIG
       CHARACTER(LEN=NCHARTITLE) :: TITR
-      INTEGER     IHBE_DS,ISST_DS,IPLA_DS,IFRAME_DS,ITET4_D,ITET10_D,ICPRE_D,IMAS_DS,
-     .            IHBE_D,IPLA_D,ISTR_D,ITHK_D,ISHEA_D,ISST_D,
-     .            ISH3N_D, ISTRA_D,NPTS_D,IDRIL_D,IOFFSET,DEF_INTER(100)
+      INTEGER     IHBE_DS,ISST_DS,IFRAME_DS,ITET4_D,ITET10_D,ICPRE_D,IMAS_DS,
+     .            IHBE_D,IPLA_D,ITHK_D,ISHEA_D,ISST_D,
+     .            ISH3N_D, ISTRA_D,NPTS_D,IDRIL_D,DEF_INTER(100)
       CHARACTER (LEN=255) :: VARNAME
       DOUBLE PRECISION TEMP_DOUBLE
       LOGICAL :: OK_QA

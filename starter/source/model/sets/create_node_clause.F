@@ -303,7 +303,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,IDS,LIST_SIZE,IDS_MAX,GENE_MAX,K,N,N1
+      INTEGER GENE_MAX,K,N,N1
       INTEGER START_GENE,END_GENE,INCR_GENE,NSTART,NSTOP,STACK,STACK_ONE,NB_RESULT
 !-
       INTEGER, ALLOCATABLE, DIMENSION(:) :: NODE_READ_TMP,

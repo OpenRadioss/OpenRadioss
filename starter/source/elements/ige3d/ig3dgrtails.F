@@ -80,10 +80,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NGR1, NG, ISSN, MTNN, I, NE1, N, NFIX,
+      INTEGER NGR1, NG, MTNN, I, NE1, N,
      .        PID, NEL_PREC, LB_L, P, NEL,NB,
-     .        MODE, WORK(70000),NN,IAD1,NGROU, J,MID,IETYP,
-     .        MT,IXIG3D(*),NUVAR,NUVARN,NXVIE,NXVIN,INND,II,inno,
+     .        MODE, WORK(70000),NN, J,MID,IETYP,
+     .        IXIG3D(*),NUVAR,NUVARN,NXVIE,NXVIN,INND,II,
      .        NGP(NSPMD+1),JALE_FROM_MAT,JALE_FROM_PROP
       my_real KNOTLOCELINDX(SKNOTLOCEL)
       TYPE(MATPARAM_STRUCT_) , POINTER :: MATPARAM

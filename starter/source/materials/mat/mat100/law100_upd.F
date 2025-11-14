@@ -61,7 +61,7 @@ C-----------------------------------------------
       INTEGER IDFC,IDFD 
  
       my_real 
-     .      CMIN,CMAX,CINI,CAVG,DMIN,DMAX,DINI,DAVG,FAC1,FAC2,SB,RBULK,
+     .      CMAX,DMAX,FAC1,FAC2,SB,RBULK,
      .      NU,G
 C=======================================================================
       !DIRECTION CHAINE
@@ -129,10 +129,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N_NETWORK,N,K,ITEST,ICHECK,II,JJ,NSTART,IC1,IC2,NOGD,NDATA,NMULA,
+      INTEGER N_NETWORK,N,K,ITEST,II,JJ,NSTART,IC1,IC2,NOGD,NDATA,NMULA,
      .        TAB,NMUL,NTEMP,NPLAS,NVISC(10)
       my_real
-     .   E,NU,GS,RBULK, D,YOUNG,SCALEFAC,
+     .   NU,GS,RBULK, D,YOUNG,SCALEFAC,
      .   ERRTOL,AVE_SLOPE,MU,MU_MAX,MU_MIN,DX,LAM,BETA,
      .   LAM_MAX,LAM_MIN,AMULA(2)
       my_real , DIMENSION(:), ALLOCATABLE :: STRESS,STRETCH     
@@ -291,7 +291,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,ID,NP1,NP2,K1,PN1,PN2
+      INTEGER J,PN1,PN2
       my_real DYDX,DX,DY
 C=======================================================================
           ! COMPUTE MAXIMUM SLOPE AND INITIAL SLOPE OF FUNCTION

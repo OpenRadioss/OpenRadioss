@@ -189,7 +189,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IDS,IDS_MAX,GENE_MAX,K,E,E1
+      INTEGER GENE_MAX,K,E,E1
       INTEGER START_GENE,END_GENE,INCR_GENE,ESTART,ESTOP,STACK,STACK_ONE,NB_RESULT
 !-
       INTEGER, ALLOCATABLE, DIMENSION(:) :: ELT_READ_TMP,
@@ -315,7 +315,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       CHARACTER (LEN=20) :: ELEMENT_NAME
-      INTEGER I,IDS,SYSID,NINDX,LIST_SIZE,IDS_MAX,ELTP,ELT
+      INTEGER I,IDS,NINDX,LIST_SIZE,IDS_MAX,ELTP,ELT
       INTEGER IWORK(70000)
 !
       INTEGER, ALLOCATABLE, DIMENSION(:) :: ELT_READ_TMP,SORTED_LIST,IDX

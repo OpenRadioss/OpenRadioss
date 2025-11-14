@@ -46,7 +46,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,IAD,NFIX,LENI,LENR,NUPARAM,NIPARAM,NUMTABL
+      INTEGER :: I,IAD,NFIX,NUPARAM,NIPARAM,NUMTABL
       INTEGER ,DIMENSION(NCHARTITLE) :: NAME
       INTEGER ,DIMENSION(:) ,ALLOCATABLE :: IBUF
 C=======================================================================

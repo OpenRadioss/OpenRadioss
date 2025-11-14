@@ -76,7 +76,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real :: AK, G0, G1, G2, G3, G4, G5, GT, BETA1,
      .     BETA2, BETA3, BETA4, BETA5, NU1, NU2,
-     .     ASTAS, BSTAS, VMISK, FAC_L, FAC_T, FAC_M, FAC_C, 
+     .     ASTAS, BSTAS, VMISK, 
      .     RHO0, RHOR
       LOGICAL :: IS_ENCRYPTED, IS_AVAILABLE
 C-----------------------------------------------

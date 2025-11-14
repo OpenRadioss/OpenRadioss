@@ -79,7 +79,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,INSIDE,ISK,BOX_TYPE,NBOXBOX,IBX,COUNT,IP,
+      INTEGER I,J,K,INSIDE,ISK,BOX_TYPE,IBX,COUNT,IP,
      .    NLEV,MY_LEV
       my_real
      .    XP1,YP1,ZP1,XP2,YP2,ZP2,DIAM,NODINB(3)

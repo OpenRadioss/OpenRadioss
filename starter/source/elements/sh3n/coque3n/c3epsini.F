@@ -469,7 +469,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, II
+      INTEGER I
       my_real AA,BB,
      .   E1X0(MVSIZ), E1Y0(MVSIZ), E1Z0(MVSIZ),
      .   E2X0(MVSIZ), E2Y0(MVSIZ), E2Z0(MVSIZ),
@@ -530,17 +530,17 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JFT, JLT,ISMSTR,NEL
+      INTEGER JFT, JLT,NEL
 C     REAL
       my_real
      .   GSTR(NEL,8),ECOS(MVSIZ),ESIN(MVSIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J
+      INTEGER I
 C     REAL
       my_real
-     .  M2(MVSIZ),N2(MVSIZ),MN(MVSIZ),CM(4),MN2(MVSIZ),T1,T2,T3
+     .  M2(MVSIZ),N2(MVSIZ),MN(MVSIZ),CM(4),MN2(MVSIZ),T1
 C-----------------------------------------------
       DO I=JFT,JLT
        M2(I)= ECOS(I)*ECOS(I)

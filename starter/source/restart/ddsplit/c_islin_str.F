@@ -48,8 +48,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ISU,I,J,K,NSEG,ELTYP,ELEM,
-     .        L_SLIN,ID,TYPE,LEVEL,TH_SURF,NSEG_R2R_ALL,
+      INTEGER ISU,J,K,NSEG,
+     .        L_SLIN,ID,TYPE,LEVEL,NSEG_R2R_ALL,
      .        NSEG_R2R_SHARE,P
 C-----------------------------------------------
 !

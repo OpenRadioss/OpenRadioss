@@ -47,7 +47,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------   
       INTEGER :: I
-      INTEGER :: II, IELEM
+      INTEGER ::  IELEM
       
       IELEM = 0
       DO I = 1, NUMEL

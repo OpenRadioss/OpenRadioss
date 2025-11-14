@@ -60,8 +60,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N,I,K0,K1,K2,K6,IS,NN,IAD,J,ITY,OFFC,OFFTG,NN_L,N1,
-     .        ITYP,NVENT,IV,IADHOL,KIBHOL,KIBJET,NNC,KAD,NAV,IPVENT
+      INTEGER N,I,K0,K1,K2,K6,IS,NN,J,ITY,OFFC,OFFTG,NN_L,N1,
+     .        ITYP,NVENT,IV,IADHOL,KIBHOL,KIBJET,NNC,NAV,IPVENT
 C-----------------------------------------------
 C
 C Local connectivity matrix size

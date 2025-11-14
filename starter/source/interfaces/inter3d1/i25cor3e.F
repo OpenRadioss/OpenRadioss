@@ -74,7 +74,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I ,NN, J, JRM, K, KRM, I1, J1, I2, J2, 
+      INTEGER I , I1, J1, I2, J2, 
      .         IE, JE, SOL_EDGE, SH_EDGE, IM(MVSIZ), IS(MVSIZ)
       my_real
      .   AAA, DX, DY, DZ, DD, NNI, NI2, INVCOS, GAPE_M(MVSIZ), GAPE_S(MVSIZ)

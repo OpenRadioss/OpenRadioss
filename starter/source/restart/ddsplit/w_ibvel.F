@@ -56,7 +56,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, K, KL, NSNL, NSN, ILP, NLL, NN, M, N,
+      INTEGER I, J, K, KL, NSNL, NSN, M, N,
      .        IBVTMP(NBVELP,NIBVEL), LBVTMP(LLBVEL_L)
 C
       K = 0

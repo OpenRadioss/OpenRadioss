@@ -87,9 +87,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,ILAW
+      INTEGER ILAW
       my_real
-     .        YOUNG,YIELD,P12,P22,P33,QVOCE,BVOCE,NU,
+     .        YOUNG,P12,P22,P33,QVOCE,BVOCE,NU,
      .        G12,G22,G33,K0,ALPHA,AN,EPS0,NN,CEPSP,DEPS0,
      .        ETA,CP,TINI,TREF,TMELT,MTEMP,DEPSAD,
      .        AFRAC,BFRAC,GAMA,CFRAC,NFRAC

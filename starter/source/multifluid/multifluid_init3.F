@@ -119,9 +119,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,II,J, NF1, IBID, JHBE, IREP,IGTYP, NUVAR, IDEF,
+      INTEGER I, NF1, IBID, JHBE, IREP,IGTYP, NUVAR, IDEF,
      .     IPT,LVLOC,IPID1,NPTR,NPTS,NPTT,NLAY,
-     .     NSPHDIR, L_PLA
+     .      L_PLA
       INTEGER MAT(MVSIZ), PID(MVSIZ), NGL(MVSIZ),
      .     IX1(MVSIZ),IX2(MVSIZ),IX3(MVSIZ),IX4(MVSIZ),
      .     IX5(MVSIZ),IX6(MVSIZ),IX7(MVSIZ),IX8(MVSIZ)
