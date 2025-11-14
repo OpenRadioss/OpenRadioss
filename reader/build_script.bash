@@ -11,6 +11,10 @@ function my_help()
   echo "          linux64  : X86_64 Linux"
   echo "          linuxa64 : ARM64" 
   echo " " 
+  echo " -debug=[0|1]                        : debug version"
+  echo "                                          0 : no debug flags (default)"
+  echo "                                          1 : debug flags (-g -O0 -DDEBUG)"
+  echo " " 
   echo " Execution control"
   echo " -nt=[threads]      : number of threads for build "
   echo " -verbose           : Verbose build"
@@ -26,6 +30,7 @@ clean=0
 arch=none
 com=0
 cs=""
+debug=0
 
 number_of_arguments=$#
 if [ $number_of_arguments = 0 ]
@@ -58,6 +63,11 @@ else
        then
          com=1
          cs="_c"
+       fi
+
+       if [ "$arg" == "-debug" ]
+       then
+         debug=`echo $var|awk -F '=' '{print $2}'`
        fi
 
        if [ "$arg" == "-clean" ]
@@ -100,9 +110,16 @@ echo " Build OpenReader "
 echo " -----------------"
 echo " Build Arguments :"
 echo " arch =                 : " $arch
+echo " debug =                : " $debug
 echo " " 
 echo " threads =              : " $threads
 echo " " 
+
+# Debug mode check
+if [ "$debug" = "1" ]
+then
+   echo " Debug mode activated - using debug flags"
+fi
 
 # Load external libraries
 echo "Load external libraries"
@@ -117,7 +134,12 @@ fi
 
 cd ${build_directory}
 
-cmake -DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc -Darch=${arch}  -Dcom=${com} ..
+if [ "$debug" = "1" ]
+then
+  cmake -DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc -Darch=${arch} -Dcom=${com} -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS="-g -O0 -DDEBUG" -DCMAKE_C_FLAGS="-g -O0 -DDEBUG" ..
+else
+  cmake -DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc -Darch=${arch} -Dcom=${com} ..
+fi
 return_value=$?
 if [ $return_value -ne 0 ]
 then

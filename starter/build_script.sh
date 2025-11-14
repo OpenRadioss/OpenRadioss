@@ -242,10 +242,10 @@ fi
 if [ $use_openreader == 1 ]
 then
     echo " "
-    echo "Build open_reader: ${built_in_arch} "
+    echo "Build open_reader: ${built_in_arch} " 
     echo "----------------"
     cd ../reader
-    ./build_script.bash -arch=${built_in_arch} -nt=${threads} ${orb}
+    ./build_script.bash -arch=${built_in_arch} -nt=${threads} -debug=${debug} -orb ${orb}
     return_value=$?
     if [ $return_value -ne 0 ]
     then
