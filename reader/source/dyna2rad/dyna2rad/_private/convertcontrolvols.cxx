@@ -735,7 +735,7 @@ void sdiD2R::ConvertControlVolume::ConvertInitialFoamReferenceGeometry()
                 if (elementHRead.IsValid())
                 {
                   HandleRead partHRead;
-                  elementHRead.GetEntityHandle(p_radiossModel, sdiIdentifier("part_ID"), partHRead);
+                  elementHRead.GetEntityHandle(p_radiossModel, sdiIdentifier("PART"), partHRead);
                   if (partHRead.IsValid())
                   {
                     PartIdnodeRef = partHRead.GetId(p_radiossModel);
@@ -758,7 +758,7 @@ void sdiD2R::ConvertControlVolume::ConvertInitialFoamReferenceGeometry()
                 if (elementHRead.IsValid())
                 {
                   HandleRead partHRead;
-                  elementHRead.GetEntityHandle(p_radiossModel, sdiIdentifier("part_ID"), partHRead);
+                  elementHRead.GetEntityHandle(p_radiossModel, sdiIdentifier("PART"), partHRead);
                   if (partHRead.IsValid())
                   {
                     PartIdnodeRef = partHRead.GetId(p_radiossModel);
@@ -782,7 +782,7 @@ void sdiD2R::ConvertControlVolume::ConvertInitialFoamReferenceGeometry()
                 if (elementHRead.IsValid())
                 {
                   HandleRead partHRead;
-                  elementHRead.GetEntityHandle(p_radiossModel, sdiIdentifier("part_ID"), partHRead);
+                  elementHRead.GetEntityHandle(p_radiossModel, sdiIdentifier("PART"), partHRead);
                   if (partHRead.IsValid())
                   {
                     PartIdnodeRef = partHRead.GetId(p_radiossModel);
@@ -920,7 +920,7 @@ void sdiD2R::ConvertControlVolume::ConvertInitialFoamReferenceGeometry()
                 if (elementHRead.IsValid())
                 {
                   HandleRead partHRead;
-                  elementHRead.GetEntityHandle(p_radiossModel, sdiIdentifier("part_ID"), partHRead);
+                  elementHRead.GetEntityHandle(p_radiossModel, sdiIdentifier("PART"), partHRead);
                   if (partHRead.IsValid())
                   {
                     PartIdnodeRef = partHRead.GetId(p_radiossModel);
@@ -954,7 +954,7 @@ void sdiD2R::ConvertControlVolume::ConvertInitialFoamReferenceGeometry()
                   if (elementHRead.IsValid())
                   {
                     HandleRead partHRead;
-                    elementHRead.GetEntityHandle(p_radiossModel, sdiIdentifier("part_ID"), partHRead);
+                    elementHRead.GetEntityHandle(p_radiossModel, sdiIdentifier("PART"), partHRead);
                     if (partHRead.IsValid())
                     {
                       PartIdnodeRef = partHRead.GetId(p_radiossModel);
@@ -988,7 +988,7 @@ void sdiD2R::ConvertControlVolume::ConvertInitialFoamReferenceGeometry()
                   if (elementHRead.IsValid())
                   {
                     HandleRead partHRead;
-                    elementHRead.GetEntityHandle(p_radiossModel, sdiIdentifier("part_ID"), partHRead);
+                    elementHRead.GetEntityHandle(p_radiossModel, sdiIdentifier("PART"), partHRead);
                     if (partHRead.IsValid())
                     {
                       PartIdnodeRef = partHRead.GetId(p_radiossModel);

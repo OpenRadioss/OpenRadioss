@@ -317,7 +317,9 @@ void sdiD2R::ConvertTimeHistory::p_ConvertAllDBHistroy()
             if (elementHRead.IsValid())
             {
                 HandleRead partHRead;
-                elementHRead.GetEntityHandle(p_lsdynaModel, sdiIdentifier("PID"), partHRead);
+                ElementRead elementdynaRead(p_lsdynaModel, elementHRead);
+                HandleRead partdynaHRead = elementdynaRead.GetOwner();
+
                 if (partHRead.IsValid())
                 {
                     HandleRead propHRead;

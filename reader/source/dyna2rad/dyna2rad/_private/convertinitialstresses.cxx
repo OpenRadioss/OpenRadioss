@@ -109,7 +109,7 @@ void sdiD2R::ConvertInitialStress::ConvertInitialStressesShell()
               // get prop_id (p_radiossModel) only for shell 4N  in order to get Ishell formulation
               int Ishellform = 0;
               HandleRead partHRead;
-              elementHRead.GetEntityHandle(p_radiossModel, sdiIdentifier("part_ID"), partHRead);
+              elementHRead.GetEntityHandle(p_radiossModel, sdiIdentifier("PART"), partHRead);
 
               if (partHRead.IsValid())
               {
@@ -504,7 +504,7 @@ void sdiD2R::ConvertInitialStress::ConvertInitialStressesSolid()
               // get prop_id (p_radiossModel) Isolid formulation
               int Isolid = 0;
               HandleRead partHRead;
-              elementHRead.GetEntityHandle(p_radiossModel, sdiIdentifier("part_ID"), partHRead);
+              elementHRead.GetEntityHandle(p_radiossModel, sdiIdentifier("PART"), partHRead);
 
               if (partHRead.IsValid())
               {
