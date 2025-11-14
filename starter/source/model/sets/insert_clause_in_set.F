@@ -107,7 +107,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE :: RESULT
       INTEGER, DIMENSION(:), ALLOCATABLE :: NODES
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: SURF
-      INTEGER NEW_SIZE,NS,ND_SIZE,OPERATOR
+      INTEGER NEW_SIZE, NS
       logical :: empty_condition
 C-----------------------------------------------
 C     NODES 

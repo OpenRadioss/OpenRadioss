@@ -87,7 +87,6 @@ C-----------------------------------------------
       INTEGER  ID_ELEM,NB_INIBRI,NB_INISHE,NB_INISH3,NB_ELEMENTS,
      .      NB_INITRUSS,NB_INIBEAM,NB_INISPRI,NB_INIQUA,IE,KTRIELC,
      .      KTRIELTG,NELT,NB_INISPHCEL
-      my_real THK
       INTEGER, DIMENSION(:), ALLOCATABLE :: KSYSUSRTG ,KSYSUSR,WORK,ITRI,
      .                                      INDEX
 C-----------------------------------------------

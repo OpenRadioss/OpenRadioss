@@ -53,7 +53,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, NG, I1, I2, ISK, K, USENS
+      INTEGER I, J, NG, I1, I2, ISK, USENS
 C     REAL
       my_real
      .   X1, Y1, Z1, EX, EY, EZ

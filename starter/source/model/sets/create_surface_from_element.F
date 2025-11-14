@@ -72,7 +72,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IEXT,J,L,NIX,SZELMAX,IAD_SURF,NSEG,NFACES
+      INTEGER IEXT, L, NIX, SZELMAX, IAD_SURF, NSEG, NFACES
       INTEGER IWORK(70000)
 !
       INTEGER, ALLOCATABLE, DIMENSION(:,:) :: ITRI

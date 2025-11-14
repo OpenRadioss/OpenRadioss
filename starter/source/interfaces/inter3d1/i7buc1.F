@@ -108,7 +108,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, L, N1, N2, N3, N4, I_AMAX,I_MEM
-      INTEGER I_ADD, ADESTK, NB_NC, NB_EC, ADNSTK, IBID
+      INTEGER I_ADD, ADESTK, NB_NC, NB_EC, ADNSTK
       INTEGER IP1, IP2, IP21, IP22, IP31,J_STOK,I_BID,NB_N_B
       my_real
      .   DX1,DY1,DZ1,

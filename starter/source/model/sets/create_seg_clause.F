@@ -77,7 +77,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,NINDX,SEG_MAX,NOD_1,NOD_2,NOD_3,NOD_4,NODSYS_1,NODSYS_2,NODSYS_3,NODSYS_4,SEG_ID,LINE_SEG
+      INTEGER I, NINDX, SEG_MAX, NOD_1, NOD_2, NOD_3, NOD_4, NODSYS_1, NODSYS_2, NODSYS_3, NODSYS_4, SEG_ID, LINE_SEG
       INTEGER, ALLOCATABLE, DIMENSION(:,:) :: BUFSURF
       INTEGER,EXTERNAL :: SET_USRTOS
 C-----------------------------------------------

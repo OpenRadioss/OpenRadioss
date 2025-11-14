@@ -53,7 +53,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, IGL, IG, IROT, K1, K2, IGTYP, IKINE1(3*NUMNOD)
+      INTEGER I, IG, IROT, K1, K2, IGTYP, IKINE1(3*NUMNOD)
 C     REAL
       my_real
      .   XM, XIN

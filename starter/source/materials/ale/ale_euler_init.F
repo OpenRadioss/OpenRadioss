@@ -78,8 +78,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER II,uID1,uID2,MID1,MID2,ILAW1,ILAW2,JALE,JTUR,IMAT,MAT_ID,IGFLU
-      INTEGER JTHE,STAT,CODCONV,CODREZO,IEXPAN
+      INTEGER uID1, uID2, MID1, MID2, ILAW1, ILAW2, JTUR, IMAT, IGFLU
+      INTEGER JTHE, CODCONV, CODREZO, IEXPAN
       INTEGER,EXTERNAL :: NINTRI   
       CHARACTER*5 CHAR_PROP,CHAR_MAT   
 C-----------------------------------------------

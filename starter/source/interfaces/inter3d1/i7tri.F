@@ -109,7 +109,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NB_NCN,NB_ECN,ADDNN,ADDNE,IPOS,I,IP,J
+      INTEGER NB_NCN, NB_ECN, ADDNN, ADDNE, I, J
       INTEGER INF,SUP,DIR,N1,N2,N3,N4,NN,NE
       my_real
      .   DX,DY,DZ,DSUP,SEUIL,XMX,XMN,

@@ -110,7 +110,7 @@ C-----------------------------------------------
      .   
      .   N1,CPT,
      .   NG,NOPRINT,ILEN
-      INTEGER FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP,L0,ISTYP,SUB_ID
+      INTEGER FLAG_FMT, L0, ISTYP, SUB_ID
       INTEGER, DIMENSION(:), ALLOCATABLE :: NODTAG,TAGELEMS
       my_real
      .   DELTAT,ALPHA,FAC_T,A,B,C,D,E,F,R

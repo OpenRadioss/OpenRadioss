@@ -568,7 +568,6 @@ C-----------------------------------------------
      .        VZ1(MVSIZ) , VZ2(MVSIZ) , VZ3(MVSIZ) ,
      .        VX12(MVSIZ), VX13(MVSIZ),
      .        VY12(MVSIZ), VY13(MVSIZ)
-      my_real TMP1, TMP2, FAC1
 C=======================================================================
       DO I=JFT,JLT
         VX1(I)=E1X(I)*VL(1,1,I)+E1Y(I)*VL(2,1,I)+E1Z(I)*VL(3,1,I)

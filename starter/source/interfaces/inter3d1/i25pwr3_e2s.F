@@ -50,7 +50,7 @@ C-----------------------------------------------
       INTEGER ITAB(*),CAND_M(*),CAND_S(*),IRECT(4,*), 
      .        N1(*), N2(*), M1(4,*), M2(4,*),
      .        CAND_M_G(*),CAND_S_G(*)
-      INTEGER LLT,IWPENE,INACTI,NOINT,NTY,NSN,ISTOK
+      INTEGER LLT, IWPENE, INACTI, NOINT, NTY, ISTOK
 C     REAL
       my_real
      .   PENE(4,*), CAND_P(4,*), CAND_P_G(4,*)
@@ -59,8 +59,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, L, IKEEP
-      INTEGER IX1, IX2, IX3, IX4, NSVG
+      INTEGER I, IKEEP
 C     REAL
 C-----------------------------------------------
        DO I=1,LLT

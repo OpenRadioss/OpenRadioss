@@ -51,7 +51,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N, ADRBUF
-      INTEGER INOE, I, J, K, IDG, ITER
+      INTEGER INOE, I, J, K, IDG
       my_real XG,YG,ZG,A,B,C,ROT(9),
      1        DGR,AN,BN,CN,
      2        XLN,YLN,ZLN

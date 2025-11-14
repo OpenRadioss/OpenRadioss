@@ -50,7 +50,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,IFLAGINI,J,II,JJ
+      INTEGER I, IFLAGINI, II, JJ
       my_real
      .  NX,NY,NZ,TSTART,TEND,LOAD,SENS,
      .  L11,L22,L33,L12,L23,L13,T11,T22,T33,T12,T23,T13,

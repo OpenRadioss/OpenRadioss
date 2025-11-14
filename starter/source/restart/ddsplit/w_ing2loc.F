@@ -44,7 +44,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, NI, LEN, IAD1, IAD2
+      INTEGER I, J, LEN, IAD1, IAD2
       INTEGER, DIMENSION(:), ALLOCATABLE :: NB_CONNECT, CONNECTED, IAD_CONNECT, ADSKY
 
       ALLOCATE(IAD_CONNECT(NUMNOD_L + 1), NB_CONNECT(NUMNOD_L), ADSKY(NUMNOD_L))

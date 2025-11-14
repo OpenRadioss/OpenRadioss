@@ -49,7 +49,7 @@ C-----------------------------------------------
 C-----------------------------------------------                        
 C   L o c a l   V a r i a b l e s                                       
 C-----------------------------------------------                        
-      INTEGER I3000,NXX,NYY,NZZ                                         
+      INTEGER I3000
       INTEGER N,ADRBUF                                                  
       INTEGER INOE, I, J, K, DGR                                        
       my_real XG,YG,ZG,A,B,C,ROT(9),                                    

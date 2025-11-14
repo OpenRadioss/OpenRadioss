@@ -48,7 +48,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, N_L, N,II,NEL_L,NEL1_L,JJ
+      INTEGER I, J, JJ
       my_real
      .  VELTMP1(NNODPXFE_L,NPLYMAX), VELTMP2(NNODPXFE_L,NPLYMAX),
      .  VELTMP3(NNODPXFE_L)

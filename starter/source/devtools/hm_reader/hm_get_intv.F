@@ -565,7 +565,7 @@ C OUTPUT ARGUMENTS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,VALUE_TYPE,SUB_ID
+      INTEGER VALUE_TYPE, SUB_ID
       LOGICAL(KIND=C_BOOL) C_IS_AVAILABLE
 C-----------------------------------------------
       VALUE_TYPE = 0

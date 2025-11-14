@@ -62,7 +62,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER I,NUSER,N,RLEN,STAT,DEB,K,FLAG_FMT,ID,NEL
+        INTEGER N, RLEN, DEB, K, FLAG_FMT, ID, NEL
         CHARACTER(LEN=NCHARKEY)::KEY
         CHARACTER(LEN=NCHARTITLE)::LOCNAME,TITR
         LOGICAL IS_AVAILABLE

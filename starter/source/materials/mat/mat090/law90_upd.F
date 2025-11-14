@@ -52,7 +52,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       CHARACTER(LEN=NCHARTITLE)  :: TITR
       INTEGER ,INTENT(IN) :: NFUNCT
-      INTEGER MAT_ID,IOUT,ID_F1,ID_F2
+      INTEGER MAT_ID, IOUT
       INTEGER NPC(*), FUNC_ID(NFUNCT), IPM(NPROPMI)
       my_real 
      .         UPARAM(*),PLD(*),PM(NPROPM)
@@ -62,7 +62,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NFUNC,I,J
+      INTEGER NFUNC, J
       INTEGER IPRINT, LP,IndexDesign0
 
       my_real 

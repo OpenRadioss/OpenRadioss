@@ -84,7 +84,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
-      INTEGER ICC,IFLAG
+      INTEGER ICC
       my_real
      .   N12, N23, N31, E11, E22, E33, G12, G23, G31, SIGT1, SIGT2,
      .   SIGT3, DELTA, CA, CB, CN, FMAX, SIGYT1, SIGYT2, SIGYC1,

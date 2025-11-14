@@ -39,7 +39,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IXR(NIXR,*),NUMELR,IPARTR(*),TAGBUF(*),IAD0,NPART
+      INTEGER IXR(NIXR,*), NUMELR, IPARTR(*), TAGBUF(*), NPART
       MY_REAL
      .      GEO(NPROPG,*)
 C-----------------------------------------------

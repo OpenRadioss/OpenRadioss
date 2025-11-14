@@ -88,7 +88,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,IDS,NINDX,LIST_SIZE,NODSYS,NINDX_B,NOD
+      INTEGER NINDX_B
       INTEGER IDS_MAX, BOXLIST_SIZE,SZ_BOXNDS
       INTEGER IWORK(70000)
 !

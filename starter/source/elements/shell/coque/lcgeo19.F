@@ -64,11 +64,10 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       CHARACTER ISS*3
-      INTEGER IPMAT,IMID,MLAWLY1, IG,J,JREC
+      INTEGER IMID, IG, J
       my_real
      .    THICKT
       INTEGER ISH3N,DRAPE_ID
-      INTEGER ID
       CHARACTER(LEN=NCHARTITLE)::TITR,TITR1
       LOGICAL :: IS_AVAILABLE, IS_ENCRYPTED
       LOGICAL :: FOUND

@@ -98,11 +98,10 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ISKW,IADFUN,IADMAT,IADPID,IADTAB
-      INTEGER I, ILAW,NPG,JCVT,NUVAR(2)
-      my_real PARGEO(100),STIF,TTHICK
+      INTEGER I, NPG, JCVT, NUVAR(2)
+      my_real PARGEO(100), STIF
       my_real QA,QB
       CHARACTER FILNAM*512,CLAW*4
-      INTEGER LEN_FILNAM
       CHARACTER(LEN=NCHARTITLE) :: TITR
 C=======================================================================
 c------------------------------

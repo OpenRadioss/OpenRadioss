@@ -56,7 +56,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IEXT,I,NIX,SZELMAX,IAD_LINE,NSEG,LINE_NENTITY
+      INTEGER I, NIX, SZELMAX, IAD_LINE, NSEG, LINE_NENTITY
       INTEGER IWORK(70000)
 !
       INTEGER, ALLOCATABLE, DIMENSION(:,:) :: ITRI

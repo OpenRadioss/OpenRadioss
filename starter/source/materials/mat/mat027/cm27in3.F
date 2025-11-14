@@ -65,7 +65,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IPTHK,IPMAT,IPPOS,MID,MLN,IMID,IPID,PID
-      INTEGER I,N,I1,I2,I3,J,IGTYP,II,L_DMG,ILAYER,IT,NPTT
+      INTEGER I, N, I1, I2, I3, IGTYP, L_DMG, ILAYER, IT, NPTT
       my_real THKL,POS0,DP
       CHARACTER(LEN=NCHARTITLE) :: TITR,TITR1
       my_real, DIMENSION(:), POINTER :: DIR_DMG

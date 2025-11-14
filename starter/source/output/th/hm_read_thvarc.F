@@ -71,7 +71,7 @@ C-----------------------------------------------
       LOGICAL IS_AVAILABLE
       INTEGER,DIMENSION(:),ALLOCATABLE :: TAG
       CHARACTER VAR*10
-      INTEGER JREC,NVAR,TRU,N,L,M,I,J,K,OK
+      INTEGER NVAR, I, J, K, OK
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------

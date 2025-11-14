@@ -93,7 +93,7 @@ C-----------------------------------------------
      .  IPARTQ(*),IPARTC(*),IPARTG(*),IPARTT(*),IPARTP(*),IPARTR(*),
      .  KNOD2ELS(*),KNOD2ELC(*),KNOD2ELTG(*),NOD2ELS(*),NOD2ELC(*),
      .  NOD2ELTG(*),NOD2ELQ(*),KNOD2ELQ(*)
-      INTEGER  ELTYP,JCLAUSE,OPT_A,OPT_O,OPT_E
+      INTEGER  JCLAUSE, OPT_A, OPT_O, OPT_E
 !
       INTEGER, INTENT(IN), DIMENSION(NUMNOD,2) :: ITABM1
       INTEGER, INTENT(IN), DIMENSION(NRBODY,2) :: IRBODYM
@@ -114,7 +114,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER BOXTYPE,SURF_LIST,LINE_LIST_1D,ELTYP_ALL
+      INTEGER BOXTYPE, SURF_LIST, LINE_LIST_1D
 !
       INTEGER ADMBID
       DATA ADMBID/0/

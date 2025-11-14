@@ -62,7 +62,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, NSEGP, NSEGPL, NL, NS, N4
+      INTEGER I, J, NSEGP, NSEGPL, NS, N4
       INTEGER, DIMENSION(:),ALLOCATABLE :: KSEGS_L, SEGS_L
 C-----------------------------------------------
 C   S o u r c e   L i n e s
