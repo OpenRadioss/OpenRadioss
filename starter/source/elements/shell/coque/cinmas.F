@@ -150,14 +150,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,II,J,K,N,IP,I1,I2,I3,I4,MATLY,IPTHK,IPMAT,IPPOS,ID,   
+      INTEGER I,II,J,N,IP,I1,I2,I3,I4,MATLY,IPTHK,IPMAT,IPPOS,   
      .   ERRM,IDPROP,IPID,IPPID,ISTACK(MVSIZ,NPT),ISLV,IPID_LY,
      .   IPANG,NTHK,IGTYP,IGMAT,ILAY,NPTT,IT,IINT,IPGMAT,MAX_NPTT,
      .   NSLICE,IPOS,IPT,IPT_ALL,IE,NLAY_MAX
       CHARACTER(LEN=NCHARTITLE) :: TITR
       my_real 
-     .   FAC,MST,DMS,THICKT,THKLY,LAYPOS,MSE,INS,MZI,EMS_NPTT,ET,ZJ,
-     .   XX,YY,ZZ,XY,YZ,ZX,MSL,XIL,MS_NPTT,POS_0,THINNING,F_OFFSET,SCALE,
+     .   FAC,MST,DMS,THICKT,THKLY,LAYPOS,INS,MZI,EMS_NPTT,ET,ZJ,
+     .   XX,YY,ZZ,XY,YZ,ZX,MSL,XIL,MS_NPTT,THINNING,F_OFFSET,SCALE,
      .   THICK_DRAPE
       my_real 
      .   EMS_LAYER(MVSIZ,NLAY)

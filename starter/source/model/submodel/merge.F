@@ -55,8 +55,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,M,N,I1,IB,IG,JG,J1,JK,KK,KP,N1,N2,NC,NS,NN,NM,
-     .      IBZ1,IBZ,IBY1,IBY,IBX1,IBX,KS,NUMNOD1,NUMCNOD1,
+      INTEGER I,J,N,IB,IG,JG,KP,NC,NS,NN,NM,
+     .      IBZ,IBY,IBX,KS,NUMNOD1,
      .      NBOX,NBOY,NBOZ,NBX,NBY,NBZ,NBAND,IBOITE
 C 
       INTEGER, DIMENSION(:),POINTER     :: ITABC
@@ -71,7 +71,7 @@ C
       INTEGER,DIMENSION(:), ALLOCATABLE :: LBUF
       INTEGER,DIMENSION(:), ALLOCATABLE :: IADMERGE2TMP
       my_real
-     .        XI, YI, ZI, XJ, YJ, ZJ, DK,
+     .        XI, YI, ZI, XJ, YJ, ZJ,
      .        DIST2,DVOIS,DBUC,EPS,XMIN,XMAX,YMIN,YMAX,ZMIN,
      .        ZMAX,DMX,DMY,DMZ,DMERGE,DDD(NUMCNOD)
 C-----------------------------------------------

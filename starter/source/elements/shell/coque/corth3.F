@@ -74,7 +74,7 @@ C     REAL
      .  E11(MVSIZ),E12(MVSIZ),E13(MVSIZ),
      .  E21(MVSIZ),E22(MVSIZ),E23(MVSIZ)
       my_real
-     .     V1,V2,V3,VR,VS,AA,BB,SUMA,S1,S2
+     .     V1,V2,V3,VR,VS,AA,BB,SUMA
       my_real, 
      .   DIMENSION(:) , POINTER :: DIR1, DIR2
       TYPE(L_BUFEl_DIR_), POINTER :: LBUF_DIR

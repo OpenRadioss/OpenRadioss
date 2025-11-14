@@ -73,13 +73,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER J,NSEG,JREC,IADV,ISU,K,L,IPP,NUMA,JJ,KK,NENTITY_POS, NENTITY_NEG,NENTITY
+      INTEGER ISU,K,L,IPP,NUMA,JJ,KK,NENTITY_POS, NENTITY_NEG,NENTITY
       INTEGER,DIMENSION(:),ALLOCATABLE :: TAG_ENTITY_POS, TAG_ENTITY_NEG,LIST_ENTITY
       INTEGER :: ID_LOCAL
       INTEGER, DIMENSION(:), ALLOCATABLE :: ENTITY_POS,ENTITY_NEG
       CHARACTER MOT*4
       CHARACTER(LEN=NCHARTITLE) :: TITR,TITR1
-      LOGICAL IS_AVAILABLE,IS_ENCRYPTED
+      LOGICAL IS_AVAILABLE
       INTEGER SET_USRTOS
       EXTERNAL SET_USRTOS
 C-----------------------------------------------

@@ -61,8 +61,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I,J,FUNC,FUND,NDIM,NPOINT
-      my_real :: E11,N12,N21,NU,C1,SSP,KMAX,KINI,DX,DY,SLOPE,RHO,
-     .           FSCALE1,FSCALE2,FSCALET,DET,A11,A12,A22,XINT,YINT
+      my_real :: N12,KMAX,KINI,DX,DY,SLOPE,
+     .           FSCALE1,FSCALE2,FSCALET,XINT,YINT
 c=======================================================================
       FUNC = ITABLE(1)
       FUND = ITABLE(2)

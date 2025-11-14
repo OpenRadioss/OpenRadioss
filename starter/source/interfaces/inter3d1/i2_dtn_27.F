@@ -55,7 +55,7 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,NI,NINDXC,NINDXP
+      INTEGER I,NINDXC,NINDXP
 C=======================================================================
       NINDXC = 0
       NINDXP = 0
@@ -107,9 +107,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER II,I,J,JJ,L,IX1,IX2,IX3,IX4,NIR,NRTM,NSN,NMN,K
+      INTEGER II,I,J,JJ,L,IX1,IX2,IX3,IX4,NIR,NRTM,NSN,NMN
       my_real
-     .   BID,BID4(4),BID9(9),X1,X2,X3,X4,Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,XS(3),XM(3),X0,Y0,Z0,BETAX,BETAY,BETAZ,
+     .   BID,BID4(4),BID9(9),X1,X2,X3,X4,Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,XS(3),XM(3),X0,Y0,Z0,BETAX,BETAY,
      .   E1X,E1Y,E1Z,E2X,E2Y,E2Z,E3X,E3Y,E3Z,H(4),H2(4),SS,ST,SP,SM,TP,TM,RS(3),RM(3),RX(4),RY(4),RZ(4),
      .   FAC_TRIANG,STBRK,DWDU,STIFMR,STIFM,INS,STF,AA
 C=======================================================================
@@ -350,15 +350,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NIR,I,J,II,JJ,L,W,NN,KK,LLT,
-     .        IX1, IX2, IX3, IX4,NSVG,NSN
+      INTEGER NIR,I,II,L,
+     .        IX1, IX2, IX3, IX4,NSN
 C     REAL
       my_real
      .   S,T,SP,SM,TP,TM,E1X,E1Y,E1Z,E2X,E2Y,E2Z,E3X,E3Y,E3Z,
      .   XSM,YSM,ZSM,XM,YM,ZM,X1,X2,X3,X4,Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,X0,Y0,Z0,XS,YS,ZS,STIFM,
      .   STF,STR,STBRK,B1,B2,B3,C1,C2,C3,DET
       my_real
-     .   H(4),RX(4),RY(4),RZ(4),RM(3),RS(3),STIF, VIS
+     .   H(4),RX(4),RY(4),RZ(4),RM(3),RS(3)
       my_real
      .   LEN2,FAC_TRIANG,IROT,SKEW(9),TT,BID,BID3(4)
 C=======================================================================

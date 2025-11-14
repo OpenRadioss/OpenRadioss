@@ -109,13 +109,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NF1, IBID, I, IGTYP, IP, NF2,NPTR,NPTS,NPTT,IR,IS,IT,
-     .        NB01,NB02,NB03,NB04,NB05,NB06, NUVAR,IDEF,
+      INTEGER NF1, I, IGTYP, IP, NF2,NPTR,NPTS,NPTT,IR,IS,IT,
+     .         NUVAR,IDEF,
      .        JHBE, IPID1,NLAY,L_PLA,L_SIGB
       INTEGER NC(MVSIZ,20),MAT(MVSIZ), PID(MVSIZ), NGL(MVSIZ), NCC
       CHARACTER(LEN=NCHARTITLE)::TITR1
       my_real
-     .   BID, FV(1),
+     .    FV(1),
      .  MASS(MVSIZ),
      .  STI(MVSIZ),DELTAX(MVSIZ),DELTAX2(MVSIZ),
      .  XX(MVSIZ,20), YY(MVSIZ,20), ZZ(MVSIZ,20),

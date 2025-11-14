@@ -88,11 +88,11 @@ C-----------------------------------------------
       INTEGER JTHE, IFLAGR
       my_real
      .   YOUNG, ANU, CA, CB, CN, EPSM, SIGM, BULK, 
-     .   PMIN, CC, EPS0, CM, TMELT, TMAX, CS, T0, SPH, AS, BS,
-     .   AL, BL, G, TBA, TBK, PCO, FAC_L, FAC_T, FAC_M, FAC_C,
-     .   BID2 ,BID3 ,BID4 ,BID5 ,
-     .   BID2_,BID3_,BID4_,BID5_,
-     .   C0,C1,C2,C3,C4,C5,E0,PSH,TI,RHO0,RHOR
+     .   PMIN, CC, EPS0, CM, TMELT, TMAX, CS, T0, SPH,
+     .     G,
+     .   
+     .   
+     .   C0,C1,C2,C3,C4,C5,E0,PSH,RHO0,RHOR
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------

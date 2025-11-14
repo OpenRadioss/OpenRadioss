@@ -59,7 +59,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
        CHARACTER FILNAM*512
-       INTEGER I,IOUT_1RAD,LEN_FILNAM,CPT,NRUN,NPARITH_ENG,NTH_TITLE_ENG,
+       INTEGER LEN_FILNAM,CPT,NRUN,NPARITH_ENG,NTH_TITLE_ENG,
      .         NSTATE_ENG,NDYNAIN_ENG
 C=======================================================================
 C WRITE /ANIM OPTIONS THAT ARE IN MEMORY(HM MODEL) IN 1.RAD FILE 

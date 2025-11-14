@@ -186,12 +186,12 @@ C-----------------------------------------------
      .         NRTS_L,NSN_L,NRTM_L,NMN_L,II_STOK_L,II_STOK_E_L,II_STOK_S,II_STOK_S_L,
      .         MULTIMP,NCONT,NCONTE,SIZ,MFROT,NISUBS_L,NISUBM_L,
      .         NLN_L,NLINS_L,NLINM_L,NSNE_L,NMNE_L,NME_L,NMNG_l,
-     .         NSN0,NSN0_L,KE,NBT8,P2,NBS_INTERF,NBM_INTERF,NADMSR,
+     .         NSN0,NSN0_L,NBT8,NADMSR,
      .         NADMSR_L,IBID,IEDGE4,
      .         NRTM_IGE,NRTM_IGE_L,NRTS_IGE,NRTS_IGE_L,
      .         NRTM_FE, NRTM_FE_L, NRTS_FE, NRTS_FE_L,NMN_FE_L,
      .         NMN_IGE_L,NSN_FE_L,NSN_IGE_L,NMN_FE,
-     .         NMN_IGE,NSN_FE,NSN_IGE,L,INTFRIC,NREMNOR,IVIS2,
+     .         NMN_IGE,NSN_FE,NSN_IGE,INTFRIC,NREMNOR,IVIS2,
      .         NEDGE,NEDGE_L,INTNITSCHE,II,NISUBE_L,ITHK,FLAGLOADP,
      .         ISTIF_MSDT, IDEL25_SOLID
        INTEGER :: NINDX_NDLOCAL24
@@ -2916,8 +2916,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER 
-     .         I,ITYP,NBS_INTERF,NBM_INTERF,NBT8,
-     .         NI,K,P2
+     .         NBS_INTERF,NBM_INTERF,
+     .         K,P2
 
          CALL WRITE_I_C(T8%S_COMM,1)
 C        WRITE(6,*) __FILE__,__LINE__,"SCOMM=",T8%S_COMM 

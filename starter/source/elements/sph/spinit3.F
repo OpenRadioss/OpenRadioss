@@ -98,13 +98,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IPRT,IMAT,IG,N,I,M,J,INOD,IGTYP,IBID,NF1,NDEPAR,JJ,IP,II(6)
+      INTEGER IPRT,IMAT,IG,N,I,J,INOD,IGTYP,IBID,NF1,NDEPAR,JJ,IP,II(6)
       INTEGER MXT(MVSIZ),NGEO(MVSIZ),NC1(MVSIZ),NGL(MVSIZ)
       my_real
      .        VOL(MVSIZ),MASS(MVSIZ),RHO(MVSIZ),DELTAX(MVSIZ),DTX(MVSIZ),
      .        X1(MVSIZ),Y1(MVSIZ),Z1(MVSIZ),RBID(1), AIRE(MVSIZ)
       my_real
-     .        DIST,STI,FV,MP,BID,RHOCP
+     .        STI,FV,MP,RHOCP
       my_real :: TEMPEL(NEL)
       TYPE(G_BUFEL_) ,POINTER :: GBUF     
       TYPE(L_BUFEL_) ,POINTER :: LBUF     

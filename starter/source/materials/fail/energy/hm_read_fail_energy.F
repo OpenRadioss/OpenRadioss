@@ -69,7 +69,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  :: IRFUN,DMG_FLAG,FAILIP 
-      my_real  :: RF1,RF2,RIEF1,RIEF2,SCALE_EPSP,PTHK
+      my_real  :: RIEF1,RIEF2,SCALE_EPSP,PTHK
 C----------------------------------------
        LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
 C=======================================================================

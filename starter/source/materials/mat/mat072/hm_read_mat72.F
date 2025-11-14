@@ -89,7 +89,7 @@ C-----------------------------------------------
       my_real 
      .     RHO0,RHOR,
      .     E,NU,G,G2,C11,A1,A2,LAMHOOK,
-     .     CP,EPS0,SIGY,EXP,
+     .     EPS0,SIGY,EXP,
      .     FF,GG,HH,NN,LL,MM,
      .     C1,C2,C3,DC,MEXP
       INTEGER ILAW

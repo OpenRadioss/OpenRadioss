@@ -112,7 +112,7 @@ C-----------------------------------------------
       INTEGER NDX, I, INRT, NELS, MT, JJ, JJJ, NELC, J,
      .        MG, NELTG,NELT,NELP,NELR,
      .        IGTYP, IP,N1,N2,K,T,P,R,NELX,IPGMAT,IGMAT,IE,
-     .        JJ1,JJ2,IEC,K1,K2,IPL,IPC,
+     .        JJ1,JJ2,IEC,K1,K2,IPL,
      .        IE1(50,2),IE2(50,2),ISUBSTACK,IPG,N3,N4,N5,N6,N7,N8,ICONTR
       my_real DXM, GAPMX, GAPMN, AREASS, VOL, DX,GAP1,GAPS1,GAPTMP,XL,
      .        SX1,SY1,SZ1,SX2,SY2,SZ2,SX3,SY3,SZ3,

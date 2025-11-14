@@ -88,8 +88,8 @@ C-----------------------------------------------
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED,IS_EOS
       INTEGER JTUR, I, EMPTY_LINE,COUNT,IEOS,LAW6_OPT
       my_real
-     .   RHO0, VIS, BID, PSH, C0, C1, C2, C3, C4, C5, PMIN, E0, RK0,
-     .   SSL, CTM, SK, SE, RPR, CT1, CT2, CT3, AK, E, A, B, YP0, YP1,
+     .   RHO0, VIS, PSH, C0, C1, C2, C3, C4, C5, PMIN, E0,
+     .     
      .   MU,RHOR
 C-----------------------------------------------
 C   S o u r c e   L i n e s

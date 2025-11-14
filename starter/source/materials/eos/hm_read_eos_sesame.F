@@ -68,7 +68,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      INTEGER IIN,IOUT,IUNIT
+      INTEGER IOUT,IUNIT
       INTEGER,INTENT(INOUT) :: MFI, IDF
       INTEGER,INTENT(IN) :: IMID      
       my_real PM(NPROPM),BUFMAT(*)

@@ -66,7 +66,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NE, NG, MT, MLN, I, J, MODE, II0, JJ0, 
      .        II, JJ, II1, JJ1, II2, JJ2, II3, JJ3, II4, JJ4,
-     .        N, IGTYP,IORDER,IPRT,ISLEEP,IUN,IFAIL,IEOS, IKIND, STAT,
+     .        N, IGTYP,IORDER,IPRT,ISLEEP,IUN,IFAIL,IEOS,
      .        JALE_FROM_MAT, JALE_FROM_PROP
       INTEGER WORK(70000)
       INTEGER, DIMENSION(:,:),ALLOCATABLE :: ITRI

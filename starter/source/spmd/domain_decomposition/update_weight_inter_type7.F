@@ -76,7 +76,7 @@ C-----------------------------------------------
         INTEGER :: S_NODE_ID
         INTEGER :: SEGMENT_ID
 
-        INTEGER :: N,I
+        INTEGER :: I
         INTEGER :: IX1,IX2,IX3,IX4
         my_real
      .   XMIN,XMAX,YMIN,YMAX,ZMIN,ZMAX,THRESHOLD,

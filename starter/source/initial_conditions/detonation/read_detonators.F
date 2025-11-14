@@ -80,10 +80,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER              :: ID,K
+      INTEGER              :: K
       INTEGER              :: IUNIT, UID
       INTEGER              :: IFLAGUNIT
-      INTEGER              :: DET_ID,STAT
+      INTEGER              :: DET_ID
       CHARACTER*40         :: MESS
       CHARACTER(LEN=NCHARKEY) :: KEY, KEY2
       INTEGER              :: NDET,NDFS

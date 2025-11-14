@@ -90,12 +90,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,NRATE,NPS,IR0,ILAW
+      INTEGER IR0,ILAW
       MY_REAL 
      .         E,NU,G,C1,EPSMAX,EPSR1,EPSR2,
-     .         R0,R45,R90,R,H,FISOKIN,M,
+     .         R0,R45,R90,R,H,FISOKIN,
      .         EINF,CE,T0, RHOCP,X2FAC,YFAC,FAC_PRES,FAC_FREQ
-      INTEGER IFUNCE, OPTE, NUM_FUNC
+      INTEGER IFUNCE, OPTE
       my_real :: RHO0, RHOR
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
 C-----------------------------------------------

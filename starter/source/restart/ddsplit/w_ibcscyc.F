@@ -54,7 +54,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, K, KL, NSNL, NSN, ILP, NLL, NN, M, N,PROC1,
+      INTEGER I, J, K, KL, NSNL, NSN,PROC1,
      .        IBVTMP(4,NBCSCYC_L), LBVTMP(2,LLCYC_L),IAD,N1,N2
 C-----------------------------------------------
 C

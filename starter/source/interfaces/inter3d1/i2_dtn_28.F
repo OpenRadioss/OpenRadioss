@@ -54,7 +54,7 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,NI,NINDXC,NINDXP
+      INTEGER I,NINDXC,NINDXP
 C=======================================================================
       NINDXC = 0     
       NINDXP = 0     
@@ -103,12 +103,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER II,I,J,JJ,L,J1,J2,J3,J4,NIR,NRTM,NSN,NMN
+      INTEGER II,I,L,J1,J2,J3,J4,NRTM,NSN,NMN
       my_real
      .   X1,X2,X3,X4,Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,XS,YS,ZS,X0,Y0,Z0,
      .   XX,YY,ZZ,XXX,YYY,ZZZ,XY,YZ,ZX,XY2,YZ2,ZX2,
      .   X12,X22,X32,X42,Y12,Y22,Y32,Y42,Z12,Z22,Z32,Z42,
-     .   A1,A2,A3,B1,B2,B3,C1,C2,C3,MR,MRX,MRY,MRZ,INX,INY,INZ,STF,FACT,
+     .   B1,B2,B3,C1,C2,C3,MR,MRX,MRY,MRZ,INX,STF,FACT,
      .   DET,XMSI
 C=======================================================================
       NRTM   = IPARI(4)
@@ -270,16 +270,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NIR,I,J,II,JJ,L,W,NN,KK,
-     .        IX1, IX2, IX3, IX4,NSVG,NSN
+      INTEGER NIR,I,II,L,
+     .        IX1, IX2, IX3, IX4,NSN
       my_real
      .   S,T,SP,SM,TP,TM,E1X,E1Y,E1Z,E2X,E2Y,E2Z,E3X,E3Y,E3Z,
      .   XSM,YSM,ZSM,XM,YM,ZM,X1,X2,X3,X4,Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,X0,Y0,Z0,XS,YS,ZS,STF_MOM,
      .   STF,STR,STBRK
       my_real
-     .   H(4),H2(4),RX(4),RY(4),RZ(4),RM(3),RS(3),STIF,VIS
+     .   H(4),H2(4),RX(4),RY(4),RZ(4),RM(3),RS(3)
       my_real
-     .   LEN2,FAC_TRIANG,IROT,SKEW(9),TT,DERX,DERY,DERZ,DET,B1,B2,B3,C1,C2,C3,BID,BID3(3)  
+     .   LEN2,FAC_TRIANG,SKEW(9),TT,DERX,DERY,DERZ,DET,B1,B2,B3,C1,C2,C3,BID,BID3(3)  
 C=======================================================================
       NSN    = IPARI(5)
 C

@@ -61,7 +61,7 @@ C-----------------------------------------------
       INTEGER I, IP,N1,N2, IPERM1(16),IPERM2(16),N
 C     REAL
       my_real
-     .   AXX,AYY,AZZ,AXY,AYZ,AZX,AM,BM,FAC,MASSCP
+     .   AXX,AYY,AZZ,AXY,AYZ,AZX,AM,BM,MASSCP
 C
       DATA IPERM1/0,0,0,0,0,0,0,0,1,2,3,4,5,6,7,8/
       DATA IPERM2/0,0,0,0,0,0,0,0,2,3,4,1,6,7,8,5/

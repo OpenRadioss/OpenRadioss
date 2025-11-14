@@ -62,10 +62,10 @@ C-----------------------------------------------
 C     REAL                                                    
       my_real                                                           
      .   EVAR(MVSIZ),                                                   
-     .   OFF, P, VONM2, VONM, S1, S2, S12, S3, VALUE         
+     .    P, VONM2, S1, S2, S12, S3, VALUE         
       INTEGER I,II(6), NG, NEL, N, MLW, IUS,MT,IALEL,             
-     .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,              
-     .        OFFSET,IGTYP,JJ                    
+     .        NN1,NN3,NN4,NN5,NN6,NN7,NN8,NN9,              
+     .        OFFSET                    
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
       REAL R4
 C-----------------------------------------------                        

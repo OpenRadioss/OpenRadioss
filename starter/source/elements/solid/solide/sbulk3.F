@@ -66,7 +66,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IP, N1, N2, N11, N22, N,
+      INTEGER I, N1, N2, N11, N22, N,
      .        IPERM101(10),IPERM102(10),IPERM103(10),
      .        IPERM161(16),IPERM162(16),
      .        IPERM201(20),IPERM202(20)

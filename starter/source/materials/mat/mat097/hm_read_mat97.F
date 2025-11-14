@@ -88,8 +88,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real
-     .     W, D, PCJ, E0, P0, C1, VCJ,C,
-     .     EADD, TBEGIN, TEND, PSH,RHOR,RHO0,
+     .     W, D, PCJ, E0, P0, VCJ,C,
+     .        PSH,RHOR,RHO0,
      .     A(5),
      .     R(5),
      .     AL(5),

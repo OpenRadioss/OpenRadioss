@@ -119,11 +119,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C      V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NDDIM,OFFSET,NEL,ITHK,ISIGSH,NSIGSH,IUSER,
+      INTEGER OFFSET,NEL,ITHK,ISIGSH,NSIGSH,IUSER,
      .  CPT_ELTENS,ISUBSTACK,IYLDINI,ISH3N,NG,IDRAPE
       INTEGER IXTG(NIXTG,*),IPART(*),IGEO(NPROPGI,*),IPM(NPROPMI,*),
      .  IPARG(*),NSHNOD(*), PTSH3N(*),NPF(*),
-     .  SH3TREE(*),ITAGE(*),ITAGN(*),IXFEM,IAD0,SH3TRIM(*),
+     .  SH3TREE(*),ITAGE(*),ITAGN(*),IXFEM,SH3TRIM(*),
      .  IGEO_STACK(*),PERTURB(NPERTURB)
       INTEGER ,INTENT(IN) :: IDDLEVEL
 C     REAL
@@ -771,12 +771,12 @@ C-----------------------------------------------
 C------------------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, NIT, NT, I1, I2, I3, I4
+      INTEGER I
       my_real
      .   X1(MVSIZ) , X2(MVSIZ) , X3(MVSIZ) , 
      .   Y1(MVSIZ) , Y2(MVSIZ) , Y3(MVSIZ) , 
      .   Z1(MVSIZ) , Z2(MVSIZ) , Z3(MVSIZ) 
-      my_real SUM,S1,S2
+      my_real SUM
       my_real
      .   E1X(MVSIZ), E1Y(MVSIZ), E1Z(MVSIZ),
      .   E2X(MVSIZ), E2Y(MVSIZ), E2Z(MVSIZ),

@@ -61,14 +61,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  I,K,L,J,ID,IGS,IGRS,JREC,IAD0,IADV,NSEG,NSEGV,
-     .        FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP,SKIPFLAG,UID,NSEG_TOT,
+      INTEGER  K,L,ID,IGS,IGRS,NSEG,NSEGV,
+     .        SKIPFLAG,UID,NSEG_TOT,
      .        NSETS,NENTITY,KK,JJ
       CHARACTER(LEN=NCHARTITLE) :: TITR
       CHARACTER(LEN=NCHARKEY) :: KEY,KEY2
 !
       TYPE (SURF_)   , DIMENSION(NSLIN+NSETS)   :: IGRSLIN
-      LOGICAL IS_AVAILABLE, IS_ENCRYPTED
+      LOGICAL IS_AVAILABLE
 C-----------------------------------------------
 !   IGRSLIN(IGS)%ID   :: LINE identifier
 !   IGRSLIN(IGS)%TITLE   :: LINE title

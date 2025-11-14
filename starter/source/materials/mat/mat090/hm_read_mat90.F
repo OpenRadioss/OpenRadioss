@@ -96,7 +96,7 @@ C-----------------------------------------------
       INTEGER I,J,IFLAG,IDAM ,ISMOOTH ,TFLAG,FAIL 
       my_real E0,NU,FCUT,G,C1,SHAPE,HYS,ALPHA
       my_real RATE(1000),YFAC(1000),YFAC_DIM(1000)
-      my_real :: RHO0, RHOR,FCUT_UNIT,ECONT,TCUT
+      my_real :: RHO0, RHOR,ECONT,TCUT
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
 C-----------------------------------------------
 C   S o u r c e   L i n e s 

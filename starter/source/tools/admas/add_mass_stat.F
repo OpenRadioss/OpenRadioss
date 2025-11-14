@@ -56,7 +56,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,N,COMPT,K,NVAL
+      INTEGER I,K,NVAL
       INTEGER :: IERROR
       INTEGER, DIMENSION(:), ALLOCATABLE :: PERM
       my_real, DIMENSION(:), ALLOCATABLE,TARGET ::

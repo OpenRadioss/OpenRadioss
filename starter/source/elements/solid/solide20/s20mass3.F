@@ -362,7 +362,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPM(NPROPMI,*)
-      INTEGER NIX,N,JPS,JHBE,IGTYP,NSIGI,NUVAR,NEL,IUSER,NSIGS,
+      INTEGER NIX,JPS,JHBE,IGTYP,NSIGI,NUVAR,NEL,IUSER,NSIGS,
      .   IDEF,L_PLA,L_SIGB
       INTEGER IX(NIX,*),STRSGLOB(*),STRAGLOB(*),MAT(NEL),PT(*),SIGB(NEL*L_SIGB)
 C     REAL
@@ -375,7 +375,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IIP,JPT, II, JJ, IPT, IPP,IUS,IPSU,JPS1,MA,IFLAGINI,
+      INTEGER I, II, JJ, IPT, IPP,IUS,IPSU,JPS1,MA,IFLAGINI,
      .   NVAR_TMP,IADB,NRATE
       my_real
      .   GAMA(6),TENS(6)

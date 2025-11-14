@@ -61,7 +61,7 @@ C     REAL
       my_real                                                           
      .   OFF,A0,THK0,RHO0,XX1,XX2,XX3,YY1,YY2,YY3,ZZ1,ZZ2,ZZ3,VALUE                       
       INTEGER I, NG, NEL, NFT, ITY, LFT, IALEL,MT,LLT, 
-     .        N,N1,N2,N3,N4,NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,                 
+     .        N,N1,N2,N3,N4,NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,                 
      .        NFT_FA,N_FA                        
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--

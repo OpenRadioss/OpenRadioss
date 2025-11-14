@@ -66,8 +66,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: II,NPT,PID, IGTYP,IPOS,IPPID,IPMAT,IPANG, IPTHK,
-     .           IPPOS, NTHK,ISUBS,J,I3,I4,ISH3N,IE,NSLICE,K,IINT,IPID,IP
-      my_real :: THINNING, THKLY , POS, DT,TMIN,TMAX,THICKT,THICKC, THK_IT
+     .           IPPOS, NTHK,ISUBS,J,I3,ISH3N,IE,NSLICE,K,IINT,IPID,IP
+      my_real :: THINNING, THKLY ,TMIN,TMAX,THICKT,THICKC, THK_IT
       TYPE (DRAPE_PLY_),  POINTER   :: DRAPE_PLY
 C-----------------------------------------------
 C-----------------------------------------------

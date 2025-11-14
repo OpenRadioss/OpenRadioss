@@ -91,12 +91,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,L,LL,NL,ISU1,ISU2,NOD1,NRTM,NRTS,NSN,NMN,
-     .        NLINSA,NLINMA,ILEV,NLN,ISYM
+      INTEGER I,J,K,L,ISU1,ISU2,NOD1,NRTM,NRTS,NSN,NMN,
+     .        ILEV,NLN
       INTEGER, DIMENSION(:), ALLOCATABLE  ::  TAG,TAGS
-      INTEGER NLINS,NLINM,LINE1,LINE2,STAT,IL,IG,N,II,IJ,IMIN
-      INTEGER NSU1,NLS1,NLS2,NRTM_SH,ETYP,NRTM0,
-     .        IMBIN,IM,IDEB,ISN
+      INTEGER STAT,IJ,IMIN
+      INTEGER NSU1,NLS1,NLS2,NRTM_SH,NRTM0,
+     .        IMBIN,IDEB,ISN
       LOGICAL :: NEED_SOLID_EROSION
       INTEGER :: IDEL,SOLID_SEGMENT,ELEM
 C-----------------------------------------------
@@ -496,7 +496,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, NR, IT, J, ITYPE
+      INTEGER I, NR, IT
       INTEGER, DIMENSION(:), ALLOCATABLE :: ETYP
 C=======================================================================
        ALLOCATE(ETYP(NRTM0))

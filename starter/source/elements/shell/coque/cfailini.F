@@ -60,9 +60,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IIP,JPT, IFL,II, JJ, IPT, IPP,IUS,IPSU,
-     .        IFLAGINI,JPS,IL,IT,NV,NVAR_RUPT,NVMAX,
-     .        NFAIL,N,IMAT,L,IRUP
+      INTEGER I,J, IFL,II, JJ,IUS,
+     .        JPS,IL,IT,NV,NVAR_RUPT,NVMAX,
+     .        NFAIL,IMAT,L,IRUP
       my_real, DIMENSION(:), POINTER :: UVARF,DFMAX
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
       TYPE(BUF_FAIL_),POINTER :: FBUF
@@ -207,8 +207,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IIP,JPT,IFL, II, JJ, IPT, IPP,IUS,IPSU,
-     .        IFLAGINI,JPS,IL,IR,IS,IT,NV,NVAR_RUPT,NVMAX,NFAIL,N,
+      INTEGER I,J,IFL, II, JJ,IUS,
+     .        JPS,IL,IR,IS,IT,NV,NVAR_RUPT,NVMAX,NFAIL,
      .        IMAT,L,IRUP
       my_real ,DIMENSION(:), POINTER  :: UVARF,DFMAX
       my_real :: c1,c2,c3,c4,c5,X_1(2),X_2(3)

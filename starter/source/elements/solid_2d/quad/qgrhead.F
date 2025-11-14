@@ -86,12 +86,12 @@ C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER 
-     .        I,J,K,L, NG, NN, N, MLN, MID, PID ,
+     .        I,J,K, NN, MLN, MID, PID ,
      .        II,JJ, II1,JJ1,II2,JJ2,II3,JJ3,II4,JJ4,
      .        MODE, ML1, ML2, MT1, MT2,IGT, 
      .        MSKMLN,MSKJAL,MSKMID,MSKPID,IEOS,
      .        MSKJEU,MSKJTU,MSKJTH,MSKJPO,
-     .        IPLAST, IALEL, MT,IREP,IINT,ISSN,NGTVX,IFAIL,IRB,
+     .        IPLAST,IREP,IFAIL,IRB,
      .        JALE_FROM_MAT,JALE_FROM_PROP
       INTEGER ID
       CHARACTER(LEN=NCHARTITLE)::TITR

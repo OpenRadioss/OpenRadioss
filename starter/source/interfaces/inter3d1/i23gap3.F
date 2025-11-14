@@ -78,7 +78,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, INRT, NELS, NELC, NELTG, IE, II, MAT, IP, MG, NDX,
+      INTEGER I, INRT, NELS, NELC, NELTG, IP, MG, NDX,
      .        IGTYP
 C     REAL
       my_real

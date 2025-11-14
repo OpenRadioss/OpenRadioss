@@ -68,13 +68,13 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,N, IMT, IPMAT, IGTYP,IPPID,IADB,
-     .        I1,I3,IPTHK,IPPOS,I2,MATLY,IGMAT,IPGMAT,IPOS,NIP,MLAWLY
+     .        IGMAT,IPGMAT,IPOS,NIP,MLAWLY
       my_real
      .   SSP(MVSIZ), AL1(MVSIZ),AL(MVSIZ), ALMIN(MVSIZ),
      .   AL2(MVSIZ), AL3(MVSIZ), AL4(MVSIZ), AL5(MVSIZ), AL6(MVSIZ)
       my_real
-     .   VISCMX,A11,A11R,A12,B1,B2,C1,VV,STI,STIR,VISCDEF,DTDYN,RHO, 
-     .   YOUNG,NU,GMAX,THKLY,POSLY,FAC,Z0
+     .   VISCMX,A11,A11R,B1,B2,VV,STI,STIR,VISCDEF,DTDYN,RHO, 
+     .   YOUNG,NU,GMAX,FAC,Z0
        my_real, DIMENSION(MVSIZ) :: ZOFFSET
 C======================================================================|
       IGTYP = NINT(GEO(12,IPROP))

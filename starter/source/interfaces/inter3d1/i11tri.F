@@ -61,25 +61,25 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NB_SC,NB_MC,I_ADD,MAXSIZ,I_STOK,J_STOK,I_MEM
-      INTEGER I_BID, I_AMAX,NB_N_B, NOINT, NSN,MULTIMP,ISTOP,
+      INTEGER  I_AMAX,NB_N_B, NOINT, NSN,MULTIMP,ISTOP,
      .        IADFIN,II_STOK
       INTEGER ADD(2,0:*),IRECTS(2,*),IRECTM(2,*),BPE(*),PE(*)
       INTEGER CAND_S(*),CAND_M(*),BPN(*),PN(*)
       INTEGER ADDCM(*),CHAINE(*)
       INTEGER PROV_S(2*MVSIZ),PROV_M(2*MVSIZ)
       my_real
-     .   X(3,*),XYZM(6,*),TZINF,DBUC,
+     .   X(3,*),XYZM(6,*),TZINF,
      .   MAXBOX,MINBOX
       INTEGER ID
       CHARACTER(LEN=NCHARTITLE) :: TITR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NB_SCN1,NB_MCN1,NB_SCN,NB_MCN,ADDNN,ADDNE,IPOS,
-     .        I,IP,J,K,L
+      INTEGER NB_SCN1,NB_MCN1,NB_SCN,NB_MCN,ADDNN,ADDNE,
+     .        I,J,K,L
       INTEGER INF,SUP,DIR,N1,N2,NN1,NN2,NN,NE,MEMX,NCAND_PROV
       my_real
-     .   DX,DY,DZ,DSUP,SEUIL,XMX,XMN,XX1,XX2,XMIN, XMAX
+     .   DX,DY,DZ,DSUP,SEUIL,XX1,XX2,XMIN, XMAX
 CC      integer idb1,idb2,idb3,idb4
 CC      save idb1,idb2,idb3,idb4
 C-----------------------------------------------

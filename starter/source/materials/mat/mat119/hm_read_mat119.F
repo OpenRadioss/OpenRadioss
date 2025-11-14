@@ -89,8 +89,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER FUNC1,FUNC2,IRELOAD
-      my_real :: NU,N12,E11,E22,G12,G23,G31,RCOMP,DET,C1,SSP,
-     .   A11,A22,A12,A1C,A2C,GC,RHO0,LMIN,DAMP,FSCALE1,FSCALE2,FSCALET,
+      my_real :: N12,E11,E22,G12,RCOMP,
+     .   A1C,A2C,GC,RHO0,LMIN,DAMP,FSCALE1,FSCALE2,FSCALET,
      .   ECOAT,NUCOAT,TCOAT
       LOGICAL IS_AVAILABLE,IS_ENCRYPTED
 C-----------------------------------------------

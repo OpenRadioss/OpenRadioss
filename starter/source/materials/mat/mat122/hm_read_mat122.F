@@ -78,7 +78,7 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,ILAW,ISH,ITR,IRES,IBUCK,IFUNCD1,IFUNCD2,
+      INTEGER ILAW,ISH,ITR,IRES,IBUCK,IFUNCD1,IFUNCD2,
      .        IFUNCD2C,LTYPE11,LTYPE12,LTYPER0
       my_real
      .   RHO0,E1,E2,E3,G12,G23,G31,NU12,NU23,NU31,NU21,NU32,NU13,

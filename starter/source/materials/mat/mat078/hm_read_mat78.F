@@ -81,10 +81,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,NORDRE,ISMSTR,NMAXW,OPTE,OPTR,FUNCID,ILAW,Iplas
-      my_real :: YOUNG,YIELD,BSAT,MYU,BYU,HYU,CYU,KYU,RSAT,
-     .           NU,SUM,GS,P,VISCMAX,FAC_L,FAC_T,FAC_M,FAC_C,
-     .           RBULK,SHEAR,LAMDA,EINF,COE,YFAC,RHO0,
+      INTEGER :: OPTE,OPTR,FUNCID,ILAW,Iplas
+      my_real :: YOUNG,YIELD,BSAT,MYU,BYU,HYU,CYU,RSAT,
+     .           NU,
+     .           EINF,COE,RHO0,
      .           R00,R45,R90,CST,CSTT,P1,P2,P3,P4,N3,MEXP,C1_KH
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
 c-----------------------------------------------

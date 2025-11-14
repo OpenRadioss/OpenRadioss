@@ -96,7 +96,7 @@ C-----------------------------------------------
 
       my_real
      .   YOUNG, ANU, CA, CE, CN, EPSM, SIGM, CM, EPS0, G, E0, C0, C1,
-     .   E1MN2, EN1N2, SDSP, EPST1, EPSM1, EPST2, EPSM2, DMAX1, DMAX2,
+     .   E1MN2, EN1N2, SDSP,
      .   AMU, R00, R45, R90, R, H, A11, A22, A1122, A12, RHO0, RHOR
       
       LOGICAL :: IS_ENCRYPTED,IS_AVAILABLE

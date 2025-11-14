@@ -93,7 +93,7 @@ C     REAL
      .     HLB1(MVSIZ), HLC1(MVSIZ), HLB2(MVSIZ),HLC2(MVSIZ),
      .     HLB3(MVSIZ), HLC3(MVSIZ), HLB4(MVSIZ),HLC4(MVSIZ)
       my_real
-     .     S2,A1,A2,A3,A4,D1,D2,D3,D4,
+     .     S2,
      .     X12,X23,X34,X41,XI0,SX1,SX2,SX3,SX4,SX0,SXI,
      .     Y12,Y23,Y34,Y41,YI0,SY1,SY2,SY3,SY4,SY0,SYI,
      .     Z12,Z23,Z34,Z41,ZI0,SZ1,SZ2,SZ3,SZ4,SZ0,SZI,
@@ -857,7 +857,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I ,J ,N1,N2,N3,N4
+      INTEGER I  ,N1,N2,N3,N4
       my_real
      .   SURFX,SURFY,SURFZ,X12,Y12,Z12,X23,Y23,Z23,
      .   X34,Y34,Z34,X41,Y41,Z41,AAA,SI,CO
@@ -1016,8 +1016,8 @@ C-----------------------------------------------
       INTEGER I,NLN,NLG(NLN)
       my_real
      .     XS12,YS12,ZS12,XM12,YM12,ZM12,XA,XB,
-     .     XS2,XM2,XSM,XS2M2,YS2,YM2,YSM,YS2M2,ZS2,ZM2,ZSM,ZS2M2,
-     .     XX,YY,ZZ,ALS,ALM,DET,H1S,H2S,H1M,H2M,
+     .     XS2,XM2,XSM,XS2M2,YS2M2,ZS2M2,
+     .     DET,H1S,H2S,H1M,H2M,
      .     GAP2,XXS1,YYS1,ZZS1,XXS2,YYS2,ZZS2,
      .     XXM1,YYM1,ZZM1,XXM2,YYM2,ZZM2,
      .     PENE2(MVSIZ),SOLIDN_NORMAL(3,*),AAA,

@@ -77,7 +77,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER :: I,J,K,L,NG, ISSN, NN,N,MLN,MID,PID ,NGROU
+      INTEGER :: I,J,K, ISSN, NN,MLN,MID,PID 
       INTEGER :: II,JJ,II2,JJ2,II3,JJ3,II4,JJ4,II5,JJ5
       INTEGER :: MSKMLN,MSKISN,MSKPID, MSKMID, MODE
       INTEGER :: WORK(70000),IPRLD

@@ -55,11 +55,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IN, JN, KN, N1, N2, N3, NN1, NN2, NN3, NNJ, IEL, JEL, ERR
-      my_real X1, Y1, Z1, X2, Y2, Z2, X3, Y3, Z3, XQ, YQ, ZQ, R2,
-     .        XP, YP, ZP, X12, Y12, Z12, X13, Y13, Z13,    
+      INTEGER IN, JN, KN, N1, N2, N3, NN1, NN2, NN3, IEL, JEL, ERR
+      my_real X1, Y1, Z1, X2, Y2, Z2, X3, Y3, Z3, XQ, YQ, ZQ,
+     .        XP, YP, ZP,    
      .        NRX, NRY, NRZ, D2, AREA, RVAL, RVLH, RVLG
-      my_real MASSX, MASSY, MASSZ, NORM
+      my_real MASSX, MASSY, MASSZ
       my_real, DIMENSION(:,:), ALLOCATABLE :: BBEM, CBEM, EBEM 
       INTEGER :: AERR
 C-------------------------------------------------------------------

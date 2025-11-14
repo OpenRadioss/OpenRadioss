@@ -56,7 +56,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, K, N, IAD, IS, IEL, ICOQ, ISOL,
+      INTEGER I, K, N, IAD, IS, IEL, ICOQ, ISOL,
      .   N1,N2,N3,N4,N5,N6,N7,N8
 C     REAL
       my_real
@@ -65,7 +65,7 @@ C     REAL
      .   X12,Y12,Z12,X13,Y13,Z13,X24,Y24,Z24,I1,I2,I3,AREA0
       my_real
      .   FACE(6)
-      my_real ::  XX1(4), XX2(4),XX3(4),XS1,YS1,ZS1,XC,YC,ZC
+      my_real ::  XX1(4), XX2(4),XX3(4)
 C=======================================================================
       ICOQ = 1
       ISOL = 1 

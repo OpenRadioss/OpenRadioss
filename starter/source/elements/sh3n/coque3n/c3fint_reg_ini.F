@@ -77,7 +77,7 @@ C-----------------------------------------------
      . DIMENSION(:), POINTER  :: FNL,UNL,VNL,DNL,MNL,THCK
       my_real, DIMENSION(NEL) :: X1,X2,X3,Y1,Y2,Y3,
      .   PX1,PY1,PY2,E1X,E2X,E3X,E1Y,E2Y,E3Y,E1Z,E2Z,E3Z,
-     .   X2L,Y2L,X3L,Y3L,Z1,Z2,Z3,SURF,X31,Y31,Z31,OFFG,
+     .   X2L,X3L,Y3L,Z1,Z2,Z3,SURF,X31,Y31,Z31,OFFG,
      .   VOLS,BTB11,BTB12,BTB13,BTB22,BTB23,BTB33
       TYPE(BUF_NLOC_),POINTER :: BUFNL
       my_real, DIMENSION(:,:), POINTER :: 

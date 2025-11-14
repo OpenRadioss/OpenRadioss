@@ -76,11 +76,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,ILAW,Ires,Ivisc,Ifail,Fct_SIG0,
+      INTEGER ILAW,Ires,Ivisc,Ifail,Fct_SIG0,
      .        Fct_YOUN,Fct_TANG,Fct_FAIL
 C     REAL
       my_real
-     .   RHO0,YOUNG,NU,A,G,G2,LAM,BULK,NNU,NNU1,Fcut,DTMIN,
+     .   RHO0,YOUNG,NU,G,G2,LAM,BULK,NNU,NNU1,Fcut,DTMIN,
      .   Xscale_SIG0,Yscale_SIG0,Xscale_YOUN,Yscale_YOUN,
      .   Xscale_TANG,Xscale_FAIL,Yscale_FAIL,
      .   XSCALE_UNIT,YSCALE_UNIT,A11,A12,TANG

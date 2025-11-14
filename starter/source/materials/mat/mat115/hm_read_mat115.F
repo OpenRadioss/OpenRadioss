@@ -76,8 +76,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, K, ILAW, Ivflag, NANGLE, INFO, Icrit, TAB_YLD, Ismooth,
-     .        TAB_TEMP,ITER,Ires,Istat
+      INTEGER    ILAW,
+     .        Ires,Istat
 C     REAL
       my_real
      .   RHO0,YOUNG,NU,ALPHA,GAMMA,EPSD,ALPHA2,BETA,SIGP,CFAIL,PFAIL,

@@ -77,7 +77,7 @@ C-----------------------------------------------
       my_real
      .   YOUNG, ANU, CA, CB, CN, EPSM, SIGM, C0, C, S, GAM0, A, AW,
      .   PMIN, E0, CC, EPS0, CM, TMELT, TMAX, GAM0M, AM, GAME, GE, DS,
-     .   TM0, VJ, VB, UNIT, E0H, AY, THET, G, RHO, ALPHA, R, XM, RP3,
+     .   TM0, VJ, VB, UNIT, E0H, AY, THET, G, ALPHA, R, XM, RP3,
      .   GP, DSP, ALPHAP, RP, PCC, E00, APY, XJ, X, ZJ, E0J, XP, TMJ,
      .   XLAMJ, D1, D2, D3, E, G0AX, P1J, C1, C2, C3,EPS0_UNIT,ENER_UNIT,DS_UNIT,
      .   FAC_M_bb,FAC_L_bb,FAC_T_bb,RHO0, RHOR

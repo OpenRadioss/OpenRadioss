@@ -73,7 +73,6 @@ C-----------------------------------------------
       INTEGER I,NEL,IAD,NFT,ITY,ISOL,NG,NUMEL,
      .   COMPT_PART(NPART),COMPT_TOT_PART(NPART),COMPT(7),COMPT_TOT,
      .   NUME(7),DT_INDEX(7)
-      CHARACTER FILNAM*109, KEYA*80, KEYA2*80
       CHARACTER*12 :: TYPE_ELEM(7)
       my_real
      .   RATIO

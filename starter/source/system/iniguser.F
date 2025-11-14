@@ -56,8 +56,8 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IGTYP
       INTEGER IADBUF,IADFUN,IADMAT,IADPID,IADTAB
-      INTEGER I,J, II, NJFUNC, ILAW,
-     .        JFUNC, NUPARAM, NUVAR,IINU,JTAB
+      INTEGER I,J, II, NJFUNC,
+     .        JFUNC,JTAB
       INTEGER NJMAT, JMAT,NJPID,JPID,NJTAB
       CHARACTER(LEN=NCHARTITLE) :: TITR
 C=======================================================================

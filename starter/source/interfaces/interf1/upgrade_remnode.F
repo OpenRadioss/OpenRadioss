@@ -42,7 +42,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NI,NREMNODE,IPARI(*)
+      INTEGER NREMNODE,IPARI(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -234,11 +234,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NI,NREMNODE,IPARI(*)
+      INTEGER NREMNODE,IPARI(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,OLD_SIZE ,NTY
+      INTEGER I,OLD_SIZE 
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
       INTEGER, DIMENSION (:), ALLOCATABLE :: OLD_TAB

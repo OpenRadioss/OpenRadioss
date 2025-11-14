@@ -78,15 +78,15 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, IGTYP, NDEPAR, I1,
-     .   NUVAR, NUVARN, NUPARAM, IADBUF, NFUNC, IADFUN,
-     .   NMAT,IADMAT,NJPID,IADPID,
+     .   NUVAR, NUVARN, NUPARAM, IADBUF,
+     .   
      .   IADNOD, IMAT, IPROP, NX, K, UID,
      .   NAX1D, NAX2D, NAX3D,IPID1,KVAR,KVARN
       INTEGER ID
       CHARACTER(LEN=NCHARTITLE)::TITR
 C
       my_real
-     .   DT, DTC, XK, XC, XKR, XCR, XM, XINE, A,
+     .       
      .   DTE, MASSELE
 C
       TYPE(G_BUFEL_),POINTER :: GBUF
@@ -253,7 +253,7 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, K, I1, IADNOD
+      INTEGER  K, I1, IADNOD
 C-----------------------------------------------
       OFF=ONE
 C
@@ -302,7 +302,7 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, K, IP, I1, NX, IADNOD
+      INTEGER  K, IP, I1, NX, IADNOD
 C
       my_real
      .   XX,YY,ZZ,XY,YZ,ZX

@@ -52,12 +52,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,K,OK,FAC,FAC1,FAC2,NULL_DIST,
+      INTEGER K,OK,FAC1,FAC2,NULL_DIST,
      . IPL,IXPL(4),
-     . p,r,p1,p2,dd1(4),dd2(4),ddd1(3),ddd2(3),ITYP,SH_ELEM,ISURF
+     . p,r,p1,p2,dd1(4),dd2(4),ddd1(3),ddd2(3),ITYP,ISURF
       my_real
      . DIST_PL(3),VX_NOD_INOD,VY_NOD_INOD,VZ_NOD_INOD,XSIGN(3),
-     . V1X,V1Y,V1Z,V2X,V2Y,V2Z,V3X,V3Y,V3Z,V12X,V12Y,V12Z,DOT,
+     . V1X,V1Y,V1Z,V2X,V2Y,V2Z,V12X,V12Y,V12Z,DOT,
      . NX,NY,NZ
       DATA dd1/4,1,2,3/,dd2/2,3,4,1/,ddd1/3,1,2/,ddd2/2,3,1/
 C-----------------------------------------------

@@ -85,7 +85,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IL, L, NN, IG,NODE1,NODE2,NODE3,NODE4,II,IAD,JJ,JJJ,
+      INTEGER I, L, NN, IG,NODE1,NODE2,NODE3,NODE4,II,IAD,JJ,JJJ,
      .        IEL,MG,IP,NELS,NELC,NELTG
 C     REAL
       my_real

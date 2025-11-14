@@ -54,7 +54,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,J,ID,NP1,NP2,J1,K,K1,FOUND
+      INTEGER :: J,NP1,NP2,J1,K,K1,FOUND
       my_real :: S1,S2,T1,T2,X1,X2,Y1,Y2,AX,BX,AY,BY,CX,CY,DM,ALPHA,BETA
 C=======================================================================
 c     Check common points between 2 curves => intersection
@@ -156,7 +156,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,ID,NP1,NP2,J1,K,K1
+      INTEGER J,NP1,NP2,J1,K,K1
       my_real 
      .      S1,S2,T1,T2,X1,X2,Y1,Y2,SX,TY,DYDX,DTDS
 C=======================================================================
@@ -296,9 +296,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,ID,NP1,NP2,J1,K,K1
+      INTEGER J,NP1,NP2,J1,K,K1
       my_real 
-     .      S1,S2,T1,T2,X1,X2,Y1,Y2,SX,TY,DYDX,DTDS,DET,B1,B2,X,Y
+     .      S1,S2,T1,T2,X1,X2,Y1,Y2,DYDX,DTDS,DET,B1,B2,X,Y
 C=======================================================================
         !NFUNC =  IPM(10,IMAT)+IPM(6,IMAT)in updmat.f
         !IFUNC => IPM(10+1:10+NFUNC,IMAT) in updmat.f

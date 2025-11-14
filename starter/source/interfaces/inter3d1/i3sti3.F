@@ -84,11 +84,11 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NDX, I, J, INRT, NELS, MT, JJ, JJJ, NELC,
-     .   MG, NUM, NPT, LL, L, NELTG,IGTYP,IPGMAT,IGMAT,
+     .   MG, NUM, NPT, LL, NELTG,IGTYP,IPGMAT,IGMAT,
      .   ISUBSTACK, IG, IL
 C     REAL
       my_real
-     .   DXM, AREA, VOL, DX, GAPTMP,SLOPE,STFMIN
+     .   DXM, AREA, VOL, DX,SLOPE,STFMIN
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------

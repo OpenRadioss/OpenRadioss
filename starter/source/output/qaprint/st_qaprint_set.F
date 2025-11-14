@@ -83,11 +83,11 @@ C-----------------------------------------------
 C--------------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,N,ID,IGS,CLAUSES_MAX,ISET_TYPE,ITMP,ICODE,IDS_MAX,IDS,
-     .        OPT_,OPT_D,OPT_O,OPT_G,OPT_B,OPT_A,OPT_E,OPT_I,OPT_C,
+      INTEGER J,K,N,ID,IGS,CLAUSES_MAX,ISET_TYPE,ITMP,ICODE,IDS_MAX,IDS,
+     .        OPT_D,OPT_O,OPT_G,OPT_B,OPT_A,OPT_E,OPT_I,OPT_C,
      .        IGR,NOD,NB_NODE,NB_PART,IP,IE,NB_SOLID,NB_SH4N,NB_SH3N,
      .        NB_QUAD,NB_TRIA,NB_BEAM,NB_TRUSS,NB_SPRING,NB_SURF_SEG,
-     .        NB_LINE_SEG,ISEG,NB_NODENS
+     .        NB_LINE_SEG,NB_NODENS
       CHARACTER(LEN = nchartitle) :: TITLE
       CHARACTER(LEN = ncharfield) :: KEYSET,SET_TYPE
       CHARACTER(LEN = ncharkey)   :: KEY

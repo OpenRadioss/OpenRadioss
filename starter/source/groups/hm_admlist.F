@@ -72,7 +72,7 @@ C-----------------------------------------------
       INTEGER I, J, NOLD, K, IWORK(70000)
       INTEGER LELT, LELT1, LELT2, NE, KE, IP, LEVEL, NLEV,
      .        LELTMP, NELTMP(NSONTREE**(LEVELMAX+1))
-      LOGICAL IS_AVAILABLE, IS_ENCRYPTED
+      LOGICAL IS_AVAILABLE
 C-----------------------------------------------
 C CONSTITUTION OF LIST
 C-----------------------------------------------

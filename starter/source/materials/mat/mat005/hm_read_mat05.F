@@ -92,7 +92,7 @@ C-----------------------------------------------
      .     EADD, TBEGIN, TEND, 
      .     PSH,REACTION_RATE,REACTION_RATE2,A_MIL,M_MIL,N_MIL,ALPHA_UNIT,
      .     BID, VAL(5), BULK
-      INTEGER :: IBID, IBFRAC, QOPT, I_ERROR, IFLAGUNIT, J
+      INTEGER ::  IBFRAC, QOPT, I_ERROR, IFLAGUNIT, J
       my_real :: RHO0, RHOR
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
 C-----------------------------------------------

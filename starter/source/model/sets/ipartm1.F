@@ -26,7 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE CREATE_IPARTM1 (NPART,IPART,IPARTM1 )
 C-----------------------------------------------
-C   I m p l i c i t   T y p e s
+C    m p l  c  t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
@@ -81,7 +81,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER JINF, JSUP, J,I
+      INTEGER JINF, JSUP, J
       JINF=1
       JSUP=NPART
       J=MAX(1,NPART/2)
@@ -153,7 +153,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER JINF, JSUP, J,I
+      INTEGER JINF, JSUP, J
       JINF=1
       JSUP=NPART
       J=MAX(1,NPART/2)
@@ -224,7 +224,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER JINF, JSUP, J,I
+      INTEGER JINF, JSUP, J
       JINF=1
       JSUP=SZ
 

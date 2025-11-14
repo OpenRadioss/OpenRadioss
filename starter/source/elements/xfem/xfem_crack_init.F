@@ -55,7 +55,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER NG,ITY,LFT,LLT,N,I,J,IPRT,NEL,NFT,IXFEM,ILEV,NCOUNT,
+      INTEGER NG,ITY,LFT,LLT,N,I,J,NEL,NFT,IXFEM,ILEV,NCOUNT,
      .   SHCOUNT,NCOUNTG
       INTEGER TAG_ARRAY(NUMNOD),TAG_SHELLS_C(NUMELC),TAG_SHELLS_TG(NUMELTG),
      .   NLEVXF,NN(4),TYPE_SHELLS_C(NUMELC),TYPE_SHELLS_TG(NUMELTG)
