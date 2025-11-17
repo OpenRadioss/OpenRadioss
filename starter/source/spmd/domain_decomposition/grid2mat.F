@@ -1615,11 +1615,12 @@ C   initialization numg2 for case where facet not found (error)
                 IF(CEP(NUMG1)==0.OR.CEP(NUMG2)==0) THEN
                   number_of_added_edges = number_of_added_edges + 1
 C test to limit number of edges added for contact interfaces
-                  CALL IDDCONNECTPLUS(NUMG1,NUMG2,NELEM)
-                  CALL IDDCONNECTPLUS(NUMG2,NUMG1,NELEM)
-
-                  CEP(NUMG1) = CEP(NUMG1) +  1
-                  CEP(NUMG2) = CEP(NUMG2) +  1
+                  IF(CEP(NUMG1) < 100 .AND. CEP(NUMG2) < 100) THEN
+                    CALL IDDCONNECTPLUS(NUMG1,NUMG2,NELEM)
+                    CALL IDDCONNECTPLUS(NUMG2,NUMG1,NELEM)
+                    CEP(NUMG1) = CEP(NUMG1) +  1
+                    CEP(NUMG2) = CEP(NUMG2) +  1
+                  END IF
                 ELSE 
                   refused_cep0 = refused_cep0 + 1
                 ENDIF
@@ -1658,11 +1659,12 @@ C 5:1 ratio between potential impact and just candidat
                 IF(CEP(NUMG1)==0.OR.CEP(NUMG2)==0) THEN
 C test to limit number of edges added for contact interfaces
                   number_of_added_edges = number_of_added_edges + 1
-
-                  CALL IDDCONNECTPLUS(NUMG1,NUMG2,NELEM)
-                  CALL IDDCONNECTPLUS(NUMG2,NUMG1,NELEM)
-                  CEP(NUMG1) = CEP(NUMG1) +  1
-                  CEP(NUMG2) = CEP(NUMG2) +  1
+                  IF(CEP(NUMG1) < 100 .AND. CEP(NUMG2) < 100) THEN
+                    CALL IDDCONNECTPLUS(NUMG1,NUMG2,NELEM)
+                    CALL IDDCONNECTPLUS(NUMG2,NUMG1,NELEM)
+                    CEP(NUMG1) = CEP(NUMG1) +  1
+                    CEP(NUMG2) = CEP(NUMG2) +  1
+                  END IF
                 ELSE 
                   refused_cep0 = refused_cep0 + 1
                 ENDIF
@@ -1706,11 +1708,12 @@ C load-balancing contact force -- incremental needed for multiple interface
               IF(NUMG1 /= NUMG2 .AND. (NUMG1>0 .AND. NUMG2 > 0)) THEN
                 IF(CEP(NUMG1)==0.OR.CEP(NUMG2)==0) THEN
                   number_of_added_edges = number_of_added_edges + 1
-
-                  CALL IDDCONNECTPLUS(NUMG1,NUMG2,NELEM)
-                  CALL IDDCONNECTPLUS(NUMG2,NUMG1,NELEM)
-                  CEP(NUMG1) = CEP(NUMG1) +  1
-                  CEP(NUMG2) = CEP(NUMG2) +  1
+                  IF(CEP(NUMG1) < 100 .AND. CEP(NUMG2) < 100) THEN
+                    CALL IDDCONNECTPLUS(NUMG1,NUMG2,NELEM)
+                    CALL IDDCONNECTPLUS(NUMG2,NUMG1,NELEM)
+                    CEP(NUMG1) = CEP(NUMG1) +  1
+                    CEP(NUMG2) = CEP(NUMG2) +  1
+                  ENDIF
                 ELSE 
                   refused_cep0 = refused_cep0 + 1
                 ENDIF
