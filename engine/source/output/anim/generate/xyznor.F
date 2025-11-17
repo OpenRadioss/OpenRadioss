@@ -51,7 +51,7 @@ C     REAL
 C     REAL
       my_real
      .   S3000,S
-      INTEGER I,INORM(3),K,P,IXNN
+      INTEGER I,INORM(3),IXNN
 C-----------------------------------------------
       S3000 = THREE1000
       IXNN = S3000

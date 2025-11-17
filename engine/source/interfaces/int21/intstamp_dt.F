@@ -56,7 +56,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER KDIR, NN, K, IROT, MAIN, INTDAMP
+      INTEGER  NN, IROT, MAIN, INTDAMP
 C     REAL
       my_real
      .   MASS, STF, INM, STR, ALPHA, VIS, 

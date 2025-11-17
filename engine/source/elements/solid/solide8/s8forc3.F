@@ -116,7 +116,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,LCO,IFLAG,IPT,IBI
+      INTEGER LCO,IFLAG,IPT,IBI
       INTEGER NC(8,MVSIZ),MXT(MVSIZ),NGL(MVSIZ),PID(MVSIZ)
       my_real
      .  FBI

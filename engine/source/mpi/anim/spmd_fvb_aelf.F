@@ -61,7 +61,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
       INTEGER ELOFF, I, PMAIN, J, K, KK, N, NN, IDP, ITAG, MSGOFF,
-     .        NNTR, LEN, IAD, STAT(MPI_STATUS_SIZE), IERR,MSGOFF2
+     .        NNTR, LEN, STAT(MPI_STATUS_SIZE), IERR,MSGOFF2
       my_real
      .        GAMA, SSP, FAC
       my_real

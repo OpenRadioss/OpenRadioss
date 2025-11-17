@@ -58,7 +58,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, N
+      INTEGER I
       my_real
      .   RX(MVSIZ),RY(MVSIZ),RZ(MVSIZ),SX(MVSIZ),SY(MVSIZ),SZ(MVSIZ),
      .   XN(MVSIZ,4) , YN(MVSIZ,4) , ZN(MVSIZ,4) 

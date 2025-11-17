@@ -82,7 +82,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N,IP,INILEV,MYLEV,KINILEV,NTMP,IERR,
-     .      LEVEL,LE,LELT,NELT(2*(4**LEVELMAX)),LEV,NE,SON,LELT1,LELT2,
+     .      LEVEL,LE,LELT,NELT(2*(4**LEVELMAX)),LEV,NE,LELT1,LELT2,
      .      CND2MAP(2*(4**LEVELMAX))
       INTEGER NN,IB,M,N1,N2,N3,N4,NG1
       INTEGER ITRIM, KTRIM

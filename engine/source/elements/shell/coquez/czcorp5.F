@@ -67,14 +67,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-        INTEGER NNOD,I,J,K,L
+        INTEGER NNOD,I,J,K
         PARAMETER (NNOD = 4)
         my_real :: DETA,
      .   RRXYZ(MVSIZ,3,NNOD),
-     .   Z2(MVSIZ),A_4,SZ,SZ1,SZ2,SL,C1,C2,
+     .   Z2(MVSIZ),A_4,SZ,SZ1,SZ2,SL,C1,
      .   AR(MVSIZ,3),BTB(6),XX(MVSIZ),YY(MVSIZ),ZZ(MVSIZ),XY(MVSIZ),XZ(MVSIZ),YZ(MVSIZ),
      .   ABC,XXYZ2,YYXZ2,ZZXY2,D(MVSIZ,6),DIZ1(MVSIZ,6),DIZ2(MVSIZ,6),
-     .   ALR(3),ALD(NNOD),DBAD(3),BTB_C,ALRZ
+     .   ALR(3),ALD(NNOD),DBAD(3),ALRZ
         my_real, DIMENSION(MVSIZ,NNOD) :: AD
 C----------------------------------
         DO I=1,NEL

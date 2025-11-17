@@ -55,7 +55,7 @@ C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
 #ifdef MPI
       INTEGER STATUS(MPI_STATUS_SIZE),IERROR,MSGOFF
-      INTEGER SIZ,MSGTYP,I,J,K,L,NG,NREC,MSGOFF2,IDOM,IPOS
+      INTEGER SIZ,MSGTYP,I,J,K,L
       INTEGER NCELL, NPTS, NBMAT
 
       DATA MSGOFF/10002/

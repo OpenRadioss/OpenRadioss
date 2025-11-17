@@ -76,10 +76,10 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IFCTL1,IFC2(MVSIZ)
+      INTEGER I,IFC2(MVSIZ)
 C                                                                     12
       my_real
-     .   FX,FY,FZ,FKT(MVSIZ)
+     .   FKT(MVSIZ)
 C----------------------------
         IFC2(1:NEL) = 1
         FKT(1:NEL) = ONE

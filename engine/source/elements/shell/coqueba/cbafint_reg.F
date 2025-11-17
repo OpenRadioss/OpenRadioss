@@ -58,7 +58,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: NFT
       INTEGER                                    :: NEL,IMAT,NDDL,ITASK,NG,
-     .                                              IR ,IS,JFT,JLT
+     .                                              JFT,JLT
       INTEGER, DIMENSION(NEL)                    :: NC1,NC2,NC3,NC4
       my_real, DIMENSION(NEL,NDDL), INTENT(INOUT):: 
      .  VAR_REG
@@ -71,9 +71,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,II,K,N1,N2,N3,N4,L_NLOC,J,EP,NDNOD
+      INTEGER I,II,K,N1,N2,N3,N4,L_NLOC,J,NDNOD
       my_real 
-     . DX, DY, DZ, L2,NTN,NTN_UNL,NTN_VNL,XI,NTVAR,A,ZETA,
+     .    L2,NTN,XI,ZETA,
      . B1,B2,B3,B4,SSPNL,LE_MAX,MAXSTIF,DTNOD,DT2P,
      . NTH1, NTH2, BTH1, BTH2, K1, K2, K12, NTN_UNL1,
      . NTN_UNL2,NTN_UNL3,NTN_UNL4,NTN_VNL1,NTN_VNL2,NTN_VNL3,

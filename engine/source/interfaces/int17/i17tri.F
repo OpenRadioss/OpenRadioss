@@ -75,7 +75,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,I_ADD,I_STOK,L,NB_NC,NB_EC,CONT,NE 
+      INTEGER I,I_ADD,I_STOK,L,NB_NC,NB_EC,CONT 
       INTEGER ADD(2,I_ADD_MAX) ,PROV_N(MVSIZ),PROV_E(MVSIZ),
      .        BPE(MAXSIZ/3), PE(MAXSIZ), BPN(MAXSIZS/3), PN(MAXSIZS)
 C in all rigor maxsiz = nme and maxsizs = nmes+nmesr
@@ -268,10 +268,10 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NB_NCN,NB_NCN1,NB_ECN,ADDNN,ADDNE,I,J,DIR,
-     .        NES,NE,LE,LES,K,L,NCAND_PROV,N16,N20,LESL
+     .        NES,NE,LE,LES,L,NCAND_PROV,LESL
 C     REAL
       my_real
-     .   DX,DY,DZ,DSUP,SEUIL,XX,YY,ZZ
+     .   DX,DY,DZ,DSUP,SEUIL
 C
 C-----------------------------------------------------------
 C

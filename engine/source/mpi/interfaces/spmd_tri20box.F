@@ -80,8 +80,8 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER MSGTYP,INFO,I,NOD, DT_CST, LOC_PROC,P,IDEB,IL,
-     .        SIZ,J, L, BUFSIZ, LEN, NB, IERROR1, IAD,
+      INTEGER MSGTYP,I,NOD, LOC_PROC,P,IDEB,IL,
+     .        SIZ,J, L, LEN, NB, IERROR1, IAD,
      .        STATUS(MPI_STATUS_SIZE),IERROR,REQ_SB(NSPMD),
      .        REQ_RB(NSPMD),KK,NBIRECV,IRINDEXI(NSPMD),
      .        REQ_RD(NSPMD),REQ_SD(NSPMD),REQ_SD2(NSPMD),
@@ -92,7 +92,7 @@ C-----------------------------------------------
       DATA MSGOFF3/134/
 
       my_real
-     .        BMINMA(6,NSPMD), RATIO
+     .        BMINMA(6,NSPMD)
       TYPE(r8_pointer), DIMENSION(NSPMD) :: BUF
 C-----------------------------------------------
 C   S o u r c e  L i n e s

@@ -50,8 +50,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER I_MEM, NSN, IGAP,NIN, ITASK, IXS(NIXS,*), nbric
-      INTEGER J_STOK,MULNSN,NOINT,INACTI,ESHIFT,BUFBRIC(NBRIC)
+      INTEGER I_MEM, ITASK, IXS(NIXS,*), nbric
+      INTEGER J_STOK,MULNSN,NOINT,ESHIFT,BUFBRIC(NBRIC)
       INTEGER IRECT(4,*),CAND_B(*),CAND_E(*),  NC
       INTEGER PROV_B(MVSIZ),PROV_E(MVSIZ),  II_STOK
       LOGICAL IsSTO
@@ -60,7 +60,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,K_STOK,I_STOK,N,NE,J
+      INTEGER I,I_STOK
 C-----------------------------------------------
 
       IF(.NOT.IsSTO)THEN         

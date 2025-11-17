@@ -68,12 +68,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ,DIMENSION(NEL) :: INDX,ICC,ISRATE,VFLAG,IPOS,IAD,ILEN
+      INTEGER ,DIMENSION(NEL) :: INDX,ICC,ISRATE,VFLAG
       INTEGER :: I,J,IPID,NINDX
       my_real :: DMG,FACT,EPIF,FRATE,ALPHA,EPSDOT
       my_real ,DIMENSION(NEL) :: E,G,G3,CA,CB,CN,CP,A1,B1,B2,B3,SHF,
      .   DEGMB,DEGFX,DMPM,DMPF,F1,M1,M2,M3,DEGSH,YEQ,YLD,YMA2,YLDMAX,
-     .   DWPLA,EPMAX,EPST,EPSR1,EPSR2,EPDR,EPSP,RHO,EPMX,DWELM,DWELF,RR,
+     .   DWPLA,EPMAX,EPST,EPSR1,EPSR2,EPDR,EPSP,RHO,DWELM,DWELF,RR,
      .   SH,SH10,SH20,SH0,SH1,SH2,ASRATE,YSCALE,DPLA,DFDPLA
 C=======================================================================
       EPIF = ZERO

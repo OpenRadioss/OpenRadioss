@@ -62,10 +62,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, K, I3, J3, I2, J2, I1, J1, II, L, JJ, W,NIR
+      INTEGER I, J, K, II, L, JJ, W,NIR
 C     REAL
       my_real
-     .   H(4), XMSJ, SS, ST, XMSI, FXI, FYI, FZI, MXI, MYI, MZI,INS,
+     .   H(4), SS, ST, FXI, FYI, FZI, MXI, MYI, MZI,INS,
      .   X0,X1,X2,X3,X4,Y0,Y1,Y2,Y3,Y4,Z0,Z1,Z2,Z3,Z4,AA,
      .   XC0,YC0,ZC0,SP,SM,TP,TM,XC,YC,ZC,
      .   STF,AI,H2(4)

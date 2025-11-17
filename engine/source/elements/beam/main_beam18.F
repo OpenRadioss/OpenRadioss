@@ -101,9 +101,9 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,J,IPT,IPID,IPLA,NPAR,IADBUF,NFUNC,ISRATE,IPY,IPZ,IPA,II(3)
-      my_real :: DTINV,ASRATE,EPSDI,DMPM,DMPF,SPE,SPG,RHO,FACT,AREA,
-     .           DMM,DMPFL,IXX,IYY,IZZ,G,E,DAMAGE_LOC,DFXX,DFXY,DFXZ,
+      INTEGER :: I,J,IPT,IPID,IPLA,ISRATE,IPY,IPZ,IPA,II(3)
+      my_real :: ASRATE,EPSDI,FACT,AREA,
+     .           DAMAGE_LOC,DFXX,DFXY,DFXZ,
      .           SIGNXX,SIGNXY,SIGNXZ,SIGOXX,SIGOXY,SIGOXZ
       my_real ,DIMENSION(NEL ):: DEGMB,DEGSH,DEGFX,YPT,ZPT,APT,OFF_OLD
       my_real ,DIMENSION(:,:) ,ALLOCATABLE :: DPLA,SIGY,VM,VM0

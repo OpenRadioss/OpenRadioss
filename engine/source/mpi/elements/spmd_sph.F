@@ -235,7 +235,7 @@ C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
       INTEGER MSGTYP, LOC_PROC, P,
-     .        IERROR,N,IDEB, 
+     .        N,IDEB, 
      .        REQ_SD(NSPMD), MSGOFF
 
        DATA MSGOFF/2028/
@@ -321,8 +321,8 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER P, I, MSGTYP, LOC_PROC, IERROR,
-     .        IDEB,REQ_SD(NSPMD),MSGOFF,MSGOFF2
+      INTEGER P, MSGTYP, LOC_PROC,
+     .        IDEB,REQ_SD(NSPMD),MSGOFF
       DATA MSGOFF/2006/
 C-----------------------------------------------
 C   S o u r c e  L i n e s
@@ -405,8 +405,8 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER P, I, N, IDEB, MSGTYP, LOC_PROC,
-     .        IERROR, ICELL, INOD,
+      INTEGER P, N, IDEB, MSGTYP, LOC_PROC,
+     .         ICELL, INOD,
      .        REQ_SD(NSPMD), MSGOFF
        my_real
      .        BUFS(6,NSPHS), BUFR(6,NSPHR)
@@ -514,8 +514,8 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER P, I, NN, N, IDEB, MSGTYP, LOC_PROC,
-     .        IERROR, ICELL,
+      INTEGER P, NN, N, IDEB, MSGTYP, LOC_PROC,
+     .         ICELL,
      .        REQ_SD(NSPMD), MSGOFF
        my_real
      .        BUFS(15+6*SPH_IORD1,NSPHS),BUFR(15+6*SPH_IORD1,NSPHR)
@@ -743,8 +743,8 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER P, I, NN, N, IDEB, MSGTYP, LOC_PROC,
-     .        IERROR, ICELL,
+      INTEGER P, NN, N, IDEB, MSGTYP, LOC_PROC,
+     .         ICELL,
      .        REQ_SD(NSPMD), MSGOFF
        my_real
      .        BUFS(NSPHS), BUFR(NSPHR)
@@ -848,8 +848,8 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER P, I, NN, N, IDEB, MSGTYP, LOC_PROC,
-     .        IERROR, ICELL, INOD,MSGOFF,
+      INTEGER P, NN, N, IDEB, MSGTYP, LOC_PROC,
+     .         ICELL, INOD,MSGOFF,
      .        REQ_SD(NSPMD)
        my_real
      .        BUFS(4,NSPHS), BUFR(4,NSPHR)
@@ -961,8 +961,8 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER P, I, NN, N, IDEB, MSGTYP, LOC_PROC,
-     .        IERROR, ICELL, INOD,
+      INTEGER P, NN, N, IDEB, MSGTYP, LOC_PROC,
+     .         ICELL, INOD,
      .        REQ_SD(NSPMD), MSGOFF
        my_real
      .        BUFS(5,NSPHS), BUFR(5,NSPHR)
@@ -1077,8 +1077,8 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER P, I, N, IDEB, MSGTYP, LOC_PROC,
-     .        IERROR, ICELL, INOD,
+      INTEGER P, N, IDEB, MSGTYP, LOC_PROC,
+     .         ICELL, INOD,
      .        REQ_SD(NSPMD), MSGOFF
        my_real
      .        BUFS(NSPHS), BUFR(NSPHR)
@@ -1167,7 +1167,7 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER I, IERROR
+      INTEGER I
       my_real
      .        VTMP(LEN)
 C-----------------------------------------------
@@ -1222,8 +1222,8 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER P, I, NN, N, IDEB, MSGTYP, LOC_PROC,
-     .        IERROR, ICELL,
+      INTEGER P, NN, N, IDEB, MSGTYP, LOC_PROC,
+     .         ICELL,
      .        REQ_SD(NSPMD), MSGOFF
        my_real
      .        BUFS(2,NSPHS), BUFR(2,NSPHR)
@@ -1326,8 +1326,8 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER P, I, NN, N, IDEB, MSGTYP, LOC_PROC,
-     .        IERROR, ICELL,
+      INTEGER P, NN, N, IDEB, MSGTYP, LOC_PROC,
+     .         ICELL,
      .        REQ_SD(NSPMD), MSGOFF
        my_real
      .        BUFS(7+6*SPH_IORD1,NSPHS), BUFR(7+6*SPH_IORD1,NSPHR)
@@ -1526,8 +1526,8 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER P, I, NN, N, IDEB, MSGTYP, LOC_PROC,
-     .        IERROR, ICELL,
+      INTEGER P, NN, N, IDEB, MSGTYP, LOC_PROC,
+     .         ICELL,
      .        REQ_SD(NSPMD), MSGOFF
        my_real
      .        BUFS(10,NSPHS), BUFR(10,NSPHR)
@@ -1654,8 +1654,8 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER P, I, NN, N, IDEB, MSGTYP, LOC_PROC,
-     .        IERROR, ICELL, INOD,
+      INTEGER P, NN, N, IDEB, MSGTYP, LOC_PROC,
+     .         ICELL,
      .        REQ_SD(NSPMD), REQ_SD2(NSPMD),
      .        J,
      .        NVOISS1, NVOISS2,KNOD,K, JK,
@@ -1857,8 +1857,8 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER P, I, N, IDEB, MSGTYP, LOC_PROC,
-     .        IERROR, ICELL, INOD,
+      INTEGER P, N, IDEB, MSGTYP, LOC_PROC,
+     .         ICELL,
      .        REQ_SD(NSPMD), MSGOFF
        INTEGER
      .        BUFS(NSPHS), BUFR(NSPHR)
@@ -1962,7 +1962,7 @@ C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
       INTEGER P, I, NN, N, IDEB, MSGTYP, LOC_PROC,
-     .        IERROR, ICELL, INOD,
+     .         ICELL, INOD,
      .        REQ_SD(NSPMD), REQ_SD2(NSPMD),
      .        REQ_SD3(NSPMD)
 
@@ -1974,25 +1974,25 @@ C-----------------------------------------------
      .                                   REC_IPPV,SEND_IPPV,SEND_IPPV2
 
       INTEGER 
-     .        II,IPT,JJ,NPF,IFVITS,
-     .        NS,IACTIVE,
+     .        
+     .        NS,
      .        IPPV,J,M,JNOD,IMPOSE,JMPOSE,
-     .        NVOIS,IJ,NP,K,JMPOSE2,IPPVR,INDICE
+     .        NP,K,JMPOSE2,IPPVR,INDICE
      .        IDEB2, C, INDICE, IDEB2,N1, SIZ,INDICE1,
      .        NBIS,MSGOFF,MSGOFF2,MSGOFF3
 
        my_real
      .        BUFS(12,NSPHS), BUFR(12,NSPHR)
        my_real
-     .       VX,VY,VZ,VN,VT,UX,UY,UZ,UN1,NX,NY,NZ,
-     .       PS,
+     .       VX,VY,VZ,
+     .       
      .       XI,YI,ZI,XJ,YJ,ZJ,DMIN,DD,
      .       DI,RHOI,DJ,RHOJ,DIJ,
-     .       VXI,VYI,VZI,VXJ,VYJ,VZJ,
+     .       VXJ,VYJ,VZJ,
      .       VJ,VJX,VJY,VJZ,
      .       WGHT,WGRAD(3),WGRDX,WGRDY,WGRDZ,
      .       DXX,DXY,DXZ,DYX,DYY,DYZ,DZX,DZY,DZZ,
-     .       EXX,EXY,EXZ,EYX,EYY,EYZ,EZX,EZY,EZZ,
+     .       
      .       ALPHAI,ALPHAXI,ALPHAYI,ALPHAZI,ALPHAI2,XP,YP,ZP  
        LOGICAL :: CONDITION
        DATA MSGOFF /2020/
@@ -2450,7 +2450,7 @@ C-----------------------------------------------
      .        NBX,NBY,NBZ,NE,
      .        IX1,IY1,IZ1,IX2,IY2,IZ2,IX,IY,IZ,J,NN
       my_real
-     .        RATIO, AAA,ALPHA_MARGE,
+     .         AAA,ALPHA_MARGE,
      .        XMAXB,YMAXB,ZMAXB,XMINB,YMINB,ZMINB
 C-----------------------------------------------
 C   S o u r c e  L i n e s

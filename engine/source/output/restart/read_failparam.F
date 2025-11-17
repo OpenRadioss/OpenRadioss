@@ -49,7 +49,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,J,IAD,NUPARAM,NIPARAM,NFUNC,NUMTABL,NMOD,LENI,LENR
+      INTEGER :: I,J,NUPARAM,NIPARAM,NFUNC,NUMTABL,NMOD,LENI,LENR
       INTEGER ,DIMENSION(NCHARTITLE) :: NAME
       INTEGER ,DIMENSION(:) ,ALLOCATABLE :: IBUF
       my_real ,DIMENSION(:) ,ALLOCATABLE :: RBUF

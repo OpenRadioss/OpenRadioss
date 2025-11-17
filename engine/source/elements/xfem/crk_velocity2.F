@@ -239,7 +239,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,II,K,IG,NG,ILAY,IXEL,ILEV,IL,ICUT,ELEM,ELCRK,ELCRKTG,
+      INTEGER I,II,K,ILAY,IXEL,ILEV,IL,ICUT,ELEM,ELCRK,ELCRKTG,
      .   IAD,ITRI,EN,EN0,EN1
 C=======================================================================
       DO ILAY=1,NXLAY

@@ -90,18 +90,18 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, ITYPE, IVAD,
-     .        II,IPT,JJ(6),NPF,
-     .        IFVITSX,IFVITSY,IFVITSZ,IFDENS,IFPRES,IFENER,
+     .        II,JJ(6),
+     .        
      .        J,N,INOD,IACTIVE,
-     .        ILASTON,NLASTON,I1STOFF,N1STOFF,
+     .        ILASTON,NLASTON,
      .        ISU,NSEG,IN1,IN2,IN3,IN4,
-     .        IMAT,IPROP,IPRT,NEL,KAD,NG,K,
+     .        IPRT,NEL,KAD,NG,K,
      .        KP,NP2SORT,NBAND,
      .        KNSX,KISX,KNSY,KISY,KNSZ,KISZ,
-     .        KNPX,KIPX,KNPY,KIPY,KNPZ,KIPZ,KVNORM,KF,
+     .        KNPX,KIPX,KNPY,KIPY,KNPZ,KIPZ,KVNORM,
      .        IPPV,M,JNOD,KNOD,JK,NVOIS1,NVOIS2,NVOISS1,NVOISS2,
      .        IMPOSE,IUN,KK,I1,IAD2,
-     .        NSEGB,IMPOSE2,INOD0,NN,OFF,TFLAG,NP2SORT_OLD,KOFF,IJ
+     .        NSEGB,IMPOSE2,INOD0,NN,OFF,TFLAG,IJ
 C     REAL
       my_real
      .       WFEXTT,VOLO,

@@ -63,7 +63,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER SH4FT, SH4LT, SH3FT, SH3LT
-      INTEGER N, NN, LEVEL, IP, NLEV, LL, IERR
+      INTEGER N, NN, LEVEL, LL
       INTEGER SON,M(4),MC,N1,N2,N3,N4,J,NA,NB
       integer ,INTENT(IN) :: ITHERM_FE
       my_real :: VV, USDT

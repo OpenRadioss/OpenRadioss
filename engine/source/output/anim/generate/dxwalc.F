@@ -51,7 +51,7 @@ C-----------------------------------------------
       INTEGER I
 C     REAL
       my_real
-     .   XWL, YWL, ZWL,XN,YN,ZN,D,DX,DY,DZ,XL, R, V1, V2, V3, VV1,
+     .   XWL, YWL, ZWL,XN,YN,ZN,DX,DY,DZ,XL, R, V1, V2, V3, VV1,
      .   VV2, VV3, VV, X0, Y0, Z0, ALPHA, S, C
       REAL R4
 C-----------------------------------------------

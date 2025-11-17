@@ -89,7 +89,7 @@ C-----------------------------------------------
       my_real, DIMENSION(:,:), ALLOCATABLE :: 
      .        DMGINI,DMGEVO
       my_real
-     .        LAMBDA,FAC,DF,L0(NEL)     ,TRIAX(NEL)  ,EPSF(NEL)   ,
+     .        L0(NEL)     ,TRIAX(NEL)  ,EPSF(NEL)   ,
      .        DEPSF(NEL)  ,XVEC(NEL,2)  ,SXX,SYY,SZZ ,SIZEFAC(NEL),
      .        EPSMOD(NEL) ,P(NEL)       ,SVM(NEL)    ,DMGMAX(NEL) ,
      .        DMGMUL(NEL) ,SIGTENS(NEL,3,3)          ,SIG_PR(NEL,3),

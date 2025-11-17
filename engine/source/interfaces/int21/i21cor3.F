@@ -105,15 +105,15 @@ C     REAL
      .   STIF(MVSIZ) ,GAPV(MVSIZ),
      .   VXM, VYM, VZM,
      .   VXI(MVSIZ), VYI(MVSIZ), VZI(MVSIZ), MSI(MVSIZ),
-     .   LB(MVSIZ), LC(MVSIZ), LS, ASI(MVSIZ), BSI(MVSIZ),
+     .   LB(MVSIZ), LC(MVSIZ), ASI(MVSIZ), BSI(MVSIZ),
      .   XP(MVSIZ), YP(MVSIZ), ZP(MVSIZ),
      .   PENRAD(*),H1(MVSIZ), H2(MVSIZ),H3(MVSIZ),H4(MVSIZ),
      .   DIST(MVSIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I ,J  ,IL, L, IG,JFT, IX,  NI,
-     .        N1, N2, N3, N4,I1,I2,I3,I4,ND,NG
+      INTEGER I ,J  , L, IG,  NI,
+     .           I1,I2,I3,I4,ND,NG
       my_real
      .   XT1(MVSIZ), XT2(MVSIZ), XT3(MVSIZ),
      .   YT1(MVSIZ), YT2(MVSIZ), YT3(MVSIZ),

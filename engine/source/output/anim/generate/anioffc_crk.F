@@ -60,14 +60,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARG(NPARG,*),EL2FA(*),NBF,IOFF(*),IEL_CRK(*),INDX_CRK(*),
-     .        NBF_L,NBPART, IAD_CRKG(NSPMD,*),
+     .        NBF_L, IAD_CRKG(NSPMD,*),
      .        IPART(LIPART1,*),IPARTC(*),IPARTTG(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP,NXEL), TARGET :: XFEM_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,NG,NEL,NFT,ITY,LFT,LLT,N,ILEV,MLW,N_FA,IXFEM,NI,NLAY,
-     .        ILAY,IXEL,CRKS,NEL_CRK,RBUF,ELCRK
+     .        ILAY,IXEL,CRKS,NEL_CRK,RBUF
       INTEGER IE(NCRKPART),NELCRK(NCRKPART)
       INTEGER,DIMENSION(:),ALLOCATABLE::IOFFBUF
 

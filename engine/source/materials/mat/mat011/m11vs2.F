@@ -76,7 +76,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER                  :: I,II,J,JJ(3),IVOI,ML,N,KTY,KLT,MFT,IS,IX1,IX2,
      .                            INOD,ICF(2,4),MV,MT,K,KK(6),IAD2
-      my_real                  :: YN, ZN, FAC, VN1, VN2, DVY, DVZ, MASSv, Mass
+      my_real                  :: YN, ZN, FAC, VN1, VN2, DVY, DVZ, MASSv
       TYPE(G_BUFEL_)  ,POINTER :: GBUF   
       LOGICAL                  :: bFOUND  
 C-----------------------------------------------

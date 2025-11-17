@@ -66,10 +66,10 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,M1,M2,IG,IGTYP,N1,N2,KAD,ITYP,NG,JFT,JLT,NEL,
-     .        NB8,FLAG,NFT,NUVAR,JNTYP,IRB1,IRB2,FLAG_S,FLAG_PR,NV
-      my_real MASS,INER1,INER2,KM1,KRM1,KM2,KRM2,XX,KX1,KX2,KR1,DTC,ALPHA,
-     .        XL,KXMAX,KRMAX,KXMIN1,KXMIN2,KX,KR,DTCG,SCF,GET_U_GEO,
+      INTEGER I,J,M1,M2,IG,IGTYP,N1,N2,ITYP,NG,JFT,JLT,NEL,
+     .        FLAG,NFT,NUVAR,JNTYP,IRB1,IRB2,FLAG_S,FLAG_PR,NV
+      my_real INER1,INER2,KM1,KRM1,KM2,KRM2,XX,KX1,KX2,KR1,DTC,ALPHA,
+     .        XL,KXMAX,KRMAX,KX,KR,SCF,GET_U_GEO,
      .        XX1,XX2,DTA,MASS1,MASS2     
       CHARACTER(LEN=30) :: INFO_MESSAGE
 C

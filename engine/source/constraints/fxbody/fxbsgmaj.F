@@ -64,7 +64,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NELS, NELC, NELTG, NML, NME, IM, IG, OFFSET, NFT, NFS,
-     .        LAST, IAD1, IAD2, IAD3, I, MX, NFT1, II, OFF, NG,
+     .        LAST, I, MX, NFT1, II, OFF, NG,
      .        IGOF, IFILE, NFS2, J, IAD, NELT, NELP,IEL,JJ(6),NEL,AELM
       my_real
      .   FAC,FAC2,SIGL(MVSIZ,6),SIG(MVSIZ,6),

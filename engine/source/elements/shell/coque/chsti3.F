@@ -90,7 +90,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, MX, J
+      INTEGER I, MX
 C     REAL
       my_real
      .   GAMA1(MVSIZ), GAMA2(MVSIZ), GAMA3(MVSIZ), GAMA4(MVSIZ),
@@ -98,10 +98,10 @@ C     REAL
      .   HG1(MVSIZ), HG2(MVSIZ) ,HP1(MVSIZ), HP2(MVSIZ) , 
      .   G(MVSIZ) ,  B1(MVSIZ),  B2(MVSIZ),  
      .   A11(MVSIZ) ,EHOU(MVSIZ),
-     .   PX1V, PX2V, PY1V, PY2V, SSPHVL,ZZ2,VV, 
-     .   SHFPR3, FAC, BB, HOUR1(MVSIZ), HOUR2(MVSIZ), HOUR3(MVSIZ), 
-     .   EHOURT, PX1VP,PX2VP,PY1VP,PY2VP, FMAX(MVSIZ),
-     .   HOUR1P,HOUR2P,HOUR3P,FMAX1,FMAXP1,FMAX2,FMAXP2,FMAXP,
+     .   PX1V, PX2V, PY1V, PY2V,VV, 
+     .   SHFPR3, FAC, HOUR1(MVSIZ), HOUR2(MVSIZ), HOUR3(MVSIZ), 
+     .   EHOURT, FMAX(MVSIZ),
+     .   
      .   SCALE(MVSIZ)
 C-----------------------------------------------
 C

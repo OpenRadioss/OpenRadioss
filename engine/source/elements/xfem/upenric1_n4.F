@@ -56,7 +56,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,K1,K2,IR,II,ELCRK,ILEV,LAYCUT,IECUT,ILAY,IXEL,NELCRK,
+      INTEGER I,K,K1,K2,IR,II,ELCRK,ILEV,LAYCUT,IECUT,ILAY,IXEL,NELCRK,
      .   IADC1,IADC2,IADC3,IADC4,IE10,IE20,IE1,IE2,NOD1,NOD2,IED,EDGE,
      .   EN1,EN2,EN3,EN4
       INTEGER JCT(MVSIZ),ENR0(4),D(4),NS(4)

@@ -70,20 +70,20 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,II, NAV, K, IDEF, KK, IPVENT, NNC, IAD,
+      INTEGER I,II, NAV, K, IDEF, KK, IPVENT, NNC,
      .   IPORT,IPORP,IPORA,IPORT1,IPORP1,IPORA1,IVDP,
      .   IJ ,IV, RADVOIS,PMAIN,
-     .   IN1,IN2,IN3,IN4,ITTF,IDTPDEF
+     .   ITTF,IDTPDEF
 C     REAL
       my_real
      .   GAMA, CV, CP, PEXT, PDEF, DTPDEFI, DTPDEFC, TVENT, TSTOPE,
      .   APVENT, AVENT, BVENT, 
      .   AMTOT, P, RO, VOL, HSPEC, 
      .   GMTOT, CPA, CPB, CPC, GMI, CPAI, CPBI, CPCI, TBAG,
-     .   U, DEOUT, DMOUT, AREA, PCRIT, PVOIS, TVOIS, AA, VEPS,
+     .   U, DMOUT, AREA, PCRIT, PVOIS, AA, VEPS,
      .   AOUT, AOUT1, AOUTOT, FLOUT, DE, VVOIS, 
      .   DGEOUT, DGMOUT, RNM, RMWI, RNMI, RMWG, RNMG, 
-     .   DERI, TEMP(4),AISENT,ACHEMK,FCHEMK,VMAX,
+     .   DERI(4),AISENT,ACHEMK,FCHEMK,VMAX,
      .   FPORT,FPORP,FPORA,FPORT1,FPORP1,FPORA1,SCALT,SCALP,SCALS,
      .   FVDP, ROEX, UISENT,TT1,
      .   F1(NN), F2(NN),TTF

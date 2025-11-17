@@ -47,7 +47,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NMES,NME_T,ESH_T,NMN,ITASK,
+      INTEGER NMES,NME_T,ESH_T,ITASK,
      .        NELEM(*),NELES(*),IXS(NIXS,*),IXS16(8,*)
       my_real
      .        XMAX, YMAX, ZMAX, XMIN, YMIN, ZMIN,

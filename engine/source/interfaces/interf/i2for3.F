@@ -64,7 +64,7 @@ C-----------------------------------------------
       INTEGER NIR, I, J, I3, J3, I2, J2, I1, J1, II, L, JJ
 C     REAL
       my_real
-     .   H(4),XMSJ, SS, ST, XMSI, FS(3),SP,SM,TP,TM,H2(4),
+     .   H(4), SS, ST, XMSI, FS(3),SP,SM,TP,TM,H2(4),
      .   FX(4),FY(4),FZ(4)
 C-----------------------------------------------
       NIR=2
@@ -338,7 +338,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   H(4),
-     .   XMSJ,SS,ST,XMSI,FS(3),SP,SM,TP,TM,H2(4),
+     .   SS,ST,XMSI,FS(3),SP,SM,TP,TM,H2(4),
      .   FX(4),FY(4),FZ(4) 
 C=======================================================================
       NIR=2
@@ -542,7 +542,7 @@ C-----------------------------------------------
       INTEGER NIR, I, J, I3, J3, I2, J2, I1, J1, II, L, JJ
 C     REAL
       my_real
-     .   H(4),XMSJ, SS, ST, XMSI, FS(3),SP,SM,TP,TM, H2(4),
+     .   H(4), SS, ST, XMSI, FS(3),SP,SM,TP,TM, H2(4),
      .   FX(4),FY(4),FZ(4) 
 C-----------------------------------------------
       NIR=2
@@ -738,10 +738,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, I3, J3, I2, J2, I1, J1, II, L, JJ, W,NIR
+      INTEGER I, J, II, L, JJ, W,NIR
 C     REAL
       my_real
-     .   H(4), XMSJ, SS, ST, XMSI, FS(3), MOMS(3),INS,
+     .   H(4), SS, ST, FS(3), MOMS(3),INS,
      .   X0,X1,X2,X3,X4,Y0,Y1,Y2,Y3,Y4,Z0,Z1,Z2,Z3,Z4,AA,
      .   XC0,YC0,ZC0,SP,SM,TP,TM,XC,YC,ZC,
      .   STF,AI,H2(4)
@@ -1082,10 +1082,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, I3, J3, I2, J2, I1, J1, II, L, JJ, W,NIR
+      INTEGER I, J, II, L, JJ, W,NIR
 C     REAL
       my_real
-     .   H(4), XMSJ, SS, ST, XMSI, FS(3), MOMS(3),INS,
+     .   H(4), SS, ST, FS(3), MOMS(3),INS,
      .   X0,X1,X2,X3,X4,Y0,Y1,Y2,Y3,Y4,Z0,Z1,Z2,Z3,Z4,AA,STF,
      .   XC0,YC0,ZC0,SP,SM,TP,TM,XC,YC,ZC,H2(4)
 C-----------------------------------------------
@@ -1321,12 +1321,12 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   H(4),XM(4),YM(4),ZM(4),
-     .   XMSJ, SS, ST, XMSI, FS(3),SP,SM,TP,TM,FACM,
+     .    XMSI, FS(3),SP,SM,TP,TM,FACM,
      .   MOMS(3),DET,FX0,FY0,FZ0,INS,
      .   X0,X1,X2,X3,X4,XS,Y0,Y1,Y2,Y3,Y4,YS,Z0,Z1,Z2,Z3,Z4,ZS,
      .   X12,X22,X32,X42,Y12,Y22,Y32,Y42,Z12,Z22,Z32,Z42,
      .   XX,YY,ZZ,XXX,YYY,ZZZ,XY,YZ,ZX,XY2,YZ2,ZX2,S,T,
-     .   A1,A2,A3,B1,B2,B3,C1,C2,C3,MR,MRX,MRY,MRZ,INX,INY,INZ,STF,
+     .   A1,A2,A3,B1,B2,B3,C1,C2,C3,MR,MRX,MRY,MRZ,INX,STF,
      .   FX(4),FY(4),FZ(4)
 C=======================================================================
       NIR=4

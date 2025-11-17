@@ -57,7 +57,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J,NC1(MVSIZ),NC2(MVSIZ),ISK
+      INTEGER I,NC1(MVSIZ),NC2(MVSIZ),ISK
 C     REAL
       my_real
      .   X1(MVSIZ), X2(MVSIZ),Y1(MVSIZ), Y2(MVSIZ),

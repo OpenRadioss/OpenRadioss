@@ -47,11 +47,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, N, N3, N2, N1, K, J, M1, M2, M3
+      INTEGER I, N, N3, N2, N1, J, M1, M2, M3
       my_real
      .   RA2, XWL, YWL, ZWL, VXW, VYW, VZW,
      .   VX, VY, VZ, UX, UY, UZ, XC, YC, ZC, DP,
-     .   XX, XN, YN, ZN, DV, DA, DVT, 
+     .      
      .   XWL0, YWL0, ZWL0
 C-----------------------------------------------
       RA2=(HALF*RWL(7))**2
@@ -136,13 +136,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, N, N3, N2, N1, J, K, M1, M2, M3
+      INTEGER I, N, N3, N2, N1, J, M1, M2, M3
       my_real XWL, YWL, ZWL, VXW, VYW, VZW,
      .        XWL0, YWL0, ZWL0,
      .        XC, YC, ZC, XX, XN, YN, ZN,
-     .        DV, DA, DVT, FN,
+     .          FN,
      .        FNXN, FNYN, FNZN, FNXT, FNYT, FNZT, FNDFN, FTDFT, FRIC, FRIC2,
-     .        FCOE, FAC, ALPHA, ALPHI, FXT, FYT, FZT
+     .        FCOE, FAC, FXT, FYT, FZT
 C-----------------------------------------------
 C
       IF(MSR==0)THEN
@@ -262,14 +262,14 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, N, N3, N2, N1, J, K, M1, M2, M3
+      INTEGER I, N, N3, N2, N1, J, M1, M2, M3
 
 C     REAL
       my_real
      .   XWL, YWL, ZWL, VXW, VYW, VZW,
      .   XWL0, YWL0, ZWL0, 
      .   XC, YC, ZC, XX, XN, YN, ZN,
-     .   DV, DA, DVT
+     .   DV, DA
 C-----------------------------------------------
 C
       IF(MSR==0)THEN
@@ -541,12 +541,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, N, N3, N2, N1, J, K, M1, M2, M3
+      INTEGER I, N, N3, N2, N1, J, M1, M2, M3
       my_real
      .   VXW, VYW, VZW, VX, VY, VZ, XWL0, YWL0, ZWL0,
      .   XC, YC, ZC, XX, XN, YN, ZN,
      .   WFEXTT,
-     .   FNXN, FNYN, FNZN, FNXT, FNYT, FNZT, FN,
+     .       FN,
      .   FXN, FYN, FZN, FXT, FYT, FZT,
      .   F1(NSN), F2(NSN), F3(NSN), F4(NSN), F5(NSN), F6(NSN), F7(NSN)
 C-----------------------------------------------

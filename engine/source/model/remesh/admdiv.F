@@ -102,7 +102,7 @@ C-----------------------------------------------
      .   CC,CMAX,PP,RR,MSBIG,INBIG,
      .   MCPM, MCPN
       my_real
-     .   TN1,TN2,TN3,TN4,UNT,ERR
+     .   ERR
 C-----------------------------------------------
       CALL MY_ALLOC(NELT,2*(4**LEVELMAX))
       CALL MY_ALLOC(LNOD,NUMNOD)

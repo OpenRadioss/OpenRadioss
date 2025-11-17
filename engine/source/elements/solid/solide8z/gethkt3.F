@@ -55,7 +55,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,MX,J,K
+      INTEGER I
 C     REAL
 
       TYPE(L_KTBUFEP_)    , POINTER :: LBUF

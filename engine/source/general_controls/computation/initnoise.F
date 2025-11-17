@@ -122,7 +122,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER , DIMENSION (:), ALLOCATABLE :: KN
-      INTEGER I,J,LENGTH,K,II
+      INTEGER I,J,K,II
       INTEGER NG,NEL,ITY,NB2,NFT
 C-----------------------------------------------
       IF(NNOISE>0)THEN

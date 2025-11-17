@@ -56,7 +56,7 @@ C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
       INTEGER MSGTYP,MSGOFF,I,NOD,LOC_PROC,IERROR,
-     .        SIZ,J,L,NB_NOD,K,M,
+     .        SIZ,J,L,K,M,
      .        STATUS(MPI_STATUS_SIZE),
      .        IAD_SEND(NSPMD+1),IAD_RECV(NSPMD+1),
      .        REQ_R(NSPMD),REQ_S(NSPMD)

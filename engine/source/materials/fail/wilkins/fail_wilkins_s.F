@@ -102,8 +102,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IDEL,IDEV,IFLAG,INDX(MVSIZ),IADBUF,NINDX,
-     .        NINDEX,INDEX(MVSIZ),JJ,IFAIL
+      INTEGER I,J,IDEL,IDEV,IFLAG,INDX(MVSIZ),NINDX,
+     .        NINDEX(MVSIZ)
       my_real 
      .  AL,BE,PC,DC,
      .  P,SCALE,S1,S2,S3,SS,E1,E2,E3,E4,E5,E6,

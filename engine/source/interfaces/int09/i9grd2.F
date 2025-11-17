@@ -59,7 +59,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, N1, N2, N3, N4, IE, NG,MAT, IFA
+      INTEGER I, N1, N2, NG,MAT
       my_real
      .  Y1, Y2, Z1, Z2,NY, NZ, DY, DZ,NORM,COND
       INTEGER :: LLT ,NFT ,MTN ,IAD ,ITY ,NPT ,JALE ,ISMSTR ,JEUL ,JTUR ,JTHE ,JLAG ,JMULT ,JHBE

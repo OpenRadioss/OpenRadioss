@@ -62,12 +62,12 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
       INTEGER,ALLOCATABLE,DIMENSION(:) ::  ITAG
-      INTEGER I ,J ,NI ,NIN ,NTY ,NSN ,NRTS ,SN ,IE ,NF ,N1 ,N2 ,N3 ,N4 ,
+      INTEGER I  ,NI ,NIN ,NTY ,NSN ,NRTS ,SN ,IE ,NF ,N1 ,N2 ,N3 ,N4 ,
      .        N ,K1 ,K2 ,K3 ,K4 ,INTNITSCHE ,ADS1 ,ADS2 ,ADS3 ,ADS4 ,IE10,
      .        NS1 ,NS2 ,NS3 ,NS4
       my_real 
      .        SX1 ,SY1 ,SZ1 ,SX2 ,SY2 ,SZ2 ,SX3 ,SY3 ,
-     .       SZ3 ,AREAS ,XNS ,YNS ,ZNS ,FOR ,FORX ,FORY ,FORZ,
+     .       SZ3      ,FORX ,FORY ,FORZ,
      .       SIGNX ,SIGNY ,SIGNZ   
 C-----------------------------------------------
 C Equivalent nodal force computation using element mean stress:

@@ -56,7 +56,7 @@ C-----------------------------------------------
 CC-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,II,K,N1,N2,N3,FOUND,LEVEL,IDN,NINDX,NFAIL,FNOD1,FNOD2,
+      INTEGER I,II,K,N1,N2,N3,FOUND,LEVEL,NINDX,NFAIL,FNOD1,FNOD2,
      .   KNEXT,KPREV,NCURR
       INTEGER ,DIMENSION(NEL) :: INDX
       INTEGER ,DIMENSION(3)   :: NDL,NDR,NOD_ID,NOD_NN

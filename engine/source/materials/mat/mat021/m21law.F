@@ -75,7 +75,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, MX, IFUNC, NPOINT
+      INTEGER I, MX, IFUNC
       my_real :: DPDM(NEL),dpdm0 !< total derivative dP/d(mu)
       my_real :: T1(NEL), T2(NEL), T3(NEL), T4(NEL),T5(NEL), T6(NEL) !< deviatoric stress tensor
       my_real :: POLD(NEL), P(NEL), PNE1, PTOT, PMIN !< pressure and derivated values

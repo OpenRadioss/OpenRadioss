@@ -68,8 +68,8 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER MSGTYP,I,NOD,LOC_PROC,IERROR,INDEX, N, M, E, IS,
-     .        SIZ,J,K,L0,L,CC,II, MSGOFF,
+      INTEGER MSGTYP,I,NOD,LOC_PROC,IERROR,INDEX, M, E, IS,
+     .        SIZ,J,L0,L,CC,II, MSGOFF,
      .        STATUS(MPI_STATUS_SIZE)
       REAL*4 RZERO
       DATA MSGOFF/6014/

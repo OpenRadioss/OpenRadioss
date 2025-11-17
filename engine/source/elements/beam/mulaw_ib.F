@@ -74,7 +74,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IFUNC(100)
-      INTEGER I,K,J1,IADBUF,IPT,JPLA,NFUNC,IPY,IPZ,IPA,NUVAR,NVARTMP,
+      INTEGER I,IADBUF,IPT,NFUNC,IPY,IPZ,IPA,NUVAR,NVARTMP,
      .        IR,IS,II(3),ILAYER,NUPARAM
       my_real 
      .   YPT(NEL),ZPT(NEL),APT(NEL),G(NEL),E(NEL),ETSE(NEL),
@@ -82,8 +82,8 @@ C-----------------------------------------------
      .   SIGOXX(NEL),SIGOXY(NEL),SIGOXZ(NEL),
      .   SIGNXX(NEL),SIGNXY(NEL),SIGNXZ(NEL),
      .   SIGY_IPT(NEL)
-      my_real :: SHFACT,DFXX,DFXY,DFXZ
-      my_real ,DIMENSION(NEL) :: EPSXX,EPSXY,EPSXZ,DPLA
+      my_real :: SHFACT
+      my_real ,DIMENSION(NEL) :: EPSXX,EPSXY,EPSXZ
 C
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
       TYPE(L_BUFEL_) ,POINTER :: LBUF

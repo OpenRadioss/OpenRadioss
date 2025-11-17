@@ -50,9 +50,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J
+      INTEGER I
       my_real
-     .   DTINV,VISC(MVSIZ),GG,GS,FAC,FX,FY,FXY,DV(MVSIZ)
+     .   VISC(MVSIZ),GG,FAC,FX,FY,FXY,DV(MVSIZ)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
 C
         IF (NPT == 1.AND.MTN /= 1) THEN
@@ -119,7 +119,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,MX, IC, II, J, JST(MVSIZ+1)
+      INTEGER I,MX(MVSIZ+1)
         my_real 
      .  C2,HSURA,MX23,MY23,MX34,MY34,MX13R,MY13R,
      .  SC6_V,SC5_V,CXZ_V,CYZ_V,SS3_V,HVL,RX13,RY13,RX24,RY24,

@@ -67,9 +67,9 @@ C-----------------------------------------------
 C----------------------------------------------------------
 C Local Variables
 C----------------------------------------------------------
-      INTEGER :: I,J,IPART,ISUBS,NBR_GROUP,NP,INDX,ITSK,IFLAG,ICONST,
+      INTEGER :: J,IPART,ISUBS,NBR_GROUP,NP,ITSK,IFLAG,ICONST,
      .           NI,NK,ICRIT,ICRIT1,ICRIT2,ISELECT
-      my_real :: TMIN,TDELAY,TSTART,TSTOPS,IEMIN,TCRIT,
+      my_real :: TMIN,TDELAY,TSTART,IEMIN,TCRIT,
      .   EINT,EKIN,IEMAX,KEMIN,KEMAX,IETOL,IETIME,KETOL,KETIME,
      .   AVG_EI,AVG_EK,ALPHAI,ALPHAK,INFINITY
       PARAMETER (INFINITY = 1.0E20)

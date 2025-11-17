@@ -55,7 +55,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: BOOL
       INTEGER II,JJ, I, J, N, IH, NG, 
-     .        K, IST, IP, L, LWA, NEL,KK(6)
+     .        K, IP, NEL,KK(6)
       INTEGER :: J_FIRST,NITER,IADR,NN,IADV,NVAR,ITYP,IJK
       INTEGER, DIMENSION(NTHGRP2) :: INDEX_SPH 
 C-----------------------------------------------

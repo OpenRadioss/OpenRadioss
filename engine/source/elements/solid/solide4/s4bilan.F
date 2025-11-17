@@ -77,7 +77,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, M,FLAG,NXS1,NXS2,NXS3,NXS4
+      INTEGER I, M,FLAG
 C     REAL
       my_real
      .   VXA(MVSIZ), VYA(MVSIZ) , VZA(MVSIZ), 

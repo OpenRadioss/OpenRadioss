@@ -82,7 +82,7 @@ C-----------------------------------------------
       my_real
      .   X13, Y13, Z13, X24, Y24, Z24, XN, YN, ZN, FAC, VN1, VN2,
      .   VN3, VN4, VX1, VX2, VX3, VX4, VY1, VY2, VY3, VY4,
-     .   VZ1, VZ2, VZ3, VZ4, MassV, Mass    
+     .   VZ1, VZ2, VZ3, VZ4, MassV    
       TYPE(G_BUFEL_)  ,POINTER :: GBUF  
       LOGICAL                  :: bFOUND   
 C-----------------------------------------------

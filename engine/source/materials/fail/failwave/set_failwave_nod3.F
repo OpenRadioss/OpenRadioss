@@ -64,8 +64,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,II,K,N1,N2,N3,INTERSECTION,INT1,INT2,INT3,INT4,INT5,INT6,
-     .   LEVEL,NEWCRK1,NEWCRK2,
-     .        NCURR,MAXLEV,FOUND_EXISTING,IDEBUG
+     .   NEWCRK1,NEWCRK2,
+     .        NCURR,MAXLEV,IDEBUG
       INTEGER ,DIMENSION(NEL) :: INDX1,INDX2
       INTEGER ,DIMENSION(3)   :: IDF1,IDF2,NOD_ID,NOD_NN
 C

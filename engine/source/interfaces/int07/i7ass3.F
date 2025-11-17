@@ -88,7 +88,7 @@ C-----------------------------------------------
 
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        NSVG(MVSIZ),ITAB(*), ISKY(*), NSTRF(*),
-     .        NISUB,ISKYI_SMS(*), NSMS(*),
+     .        ISKYI_SMS(*), NSMS(*),
      .        KXIG3D(NIXIG3D,*),IXIG3D(*),IGEO(NPROPGI,*),NIGE(*)
       INTEGER ,INTENT(IN) :: NODADT_THERM
       my_real
@@ -115,7 +115,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,K,JG,K0,NBINTER,K1S,J,IG,IBCM,IBCS,TAGIGEO
+      INTEGER I,K,JG,K0,NBINTER,K1S,J,TAGIGEO
       my_real
      .   DTI
 C-------------------------------------------------------------------------------
@@ -1185,7 +1185,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J1, IG, NISKYL1, NISKYL,IGP,IGM,IDR,NISKYFIL
+      INTEGER I, IG, NISKYL1, NISKYL,IGP,IGM,NISKYFIL
 C
       NISKYL1 = 0
       DO I = 1, JLT
@@ -1516,7 +1516,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J1, IG, NISKYL1, NISKYL,IGP,IGM,IDR,NISKYFIL
+      INTEGER I, IG, NISKYL1, NISKYL,IGP,IGM,NISKYFIL
 C
       NISKYL1 = 0
       DO I = 1, JLT
@@ -1851,8 +1851,8 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, JS, IPID, IAD_KNOT, NKNOT1,
      .        NKNOT2, NKNOT3, IDX, IDY, IDZ, N1, N2, N3,
-     .        NCTRL, IERROR, IG, NUMCP(64), K, IDX2, IDY2, IDZ2,
-     .        IDFRSTLOCKNT,IDPC,PX,PY,PZ, J1
+     .        NCTRL, IG, NUMCP(64), K, IDX2, IDY2, IDZ2,
+     .        IDFRSTLOCKNT,PX,PY,PZ, J1
       my_real
      .   ZR,ZS,ZT
       my_real

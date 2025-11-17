@@ -63,7 +63,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, I1, I2, I3, II, NN, L, J, JJ
+      INTEGER I, I1, I2, I3, II, NN, L
 C     REAL
       my_real
      .   SS, ST, XMSI, FS(3),SP,SM,TP,TM,
@@ -319,7 +319,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, I1, I2, I3, II, JJ, NN, L
+      INTEGER I, J, I1, I2, I3, II, NN, L
 C     REAL
       my_real
      .   H(4),
@@ -558,7 +558,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, I1, I2, I3, II, JJ, NN, L
+      INTEGER I, J, I1, I2, I3, II, NN, L
 C     REAL
       my_real
      .   SS, ST, XMSI, FS(3),SP,SM,TP,TM,
@@ -754,10 +754,10 @@ C-----------------------------------------------
       INTEGER I, J, II, L, NN
 C     REAL
       my_real
-     .   SS, ST, XMSI, FS(3), MOMS(3),INS,
+     .   SS, ST, FS(3), MOMS(3),INS,
      .   X0,X1,X2,X3,X4,Y0,Y1,Y2,Y3,Y4,Z0,Z1,Z2,Z3,Z4,AA,
      .   XC0,YC0,ZC0,SP,SM,TP,TM,XC,YC,ZC,
-     .   STF,AI,INMX,H(4),H2(4)
+     .   STF,AI,H(4),H2(4)
 C-----------------------------------------------
 C     MINER(II) initialise a MS(J) dans resol_init
       IF(ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER >0) THEN
@@ -1063,7 +1063,7 @@ C-----------------------------------------------
       INTEGER I, J, II, L, NN
 C     REAL
       my_real
-     .   SS, ST, XMSI, FS(3), MOMS(3),INS,
+     .   SS, ST, FS(3), MOMS(3),INS,
      .   X0,X1,X2,X3,X4,Y0,Y1,Y2,Y3,Y4,Z0,Z1,Z2,Z3,Z4,AA,INMX,
      .   XC0,YC0,ZC0,SP,SM,TP,TM,XC,YC,ZC,H1, H2,H3,H4,STF,
      .   H21,H22,H23,H24
@@ -1262,16 +1262,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, J1,J2,J3,J4, II, L, JJ, NN,NISKY2
+      INTEGER I, J, J1,J2,J3,J4, II, L, NN
 C     REAL
       my_real
      .   H(4),
-     .   S,T,SS, ST, XMSI, FS(3),SP,SM,TP,TM,
+     .   S,T, XMSI, FS(3),SP,SM,TP,TM,
      .   MOMS(3),DET,FX0,FY0,FZ0,INS,
      .   X0,X1,X2,X3,X4,XS,Y0,Y1,Y2,Y3,Y4,YS,Z0,Z1,Z2,Z3,Z4,ZS,
      .   X12,X22,X32,X42,Y12,Y22,Y32,Y42,Z12,Z22,Z32,Z42,
      .   XX,YY,ZZ,XXX,YYY,ZZZ,XY,YZ,ZX,XY2,YZ2,ZX2,
-     .   A1,A2,A3,B1,B2,B3,C1,C2,C3,MR,MRX,MRY,MRZ,INX,INY,INZ,STF,
+     .   A1,A2,A3,B1,B2,B3,C1,C2,C3,MR,MRX,MRY,MRZ,INX,STF,
      .   FX(4),FY(4),FZ(4)
 C=======================================================================
 C specific processing for dmas

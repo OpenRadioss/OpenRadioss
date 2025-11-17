@@ -48,9 +48,9 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J,ipr
+      INTEGER I
       my_real
-     .   FF,FACG,FACC,FRHO,P,FACMAX,FACD
+     .   FF,FACG,P,FACMAX
 C-----------------------------------------------
 C--- only need for Isolid=18     
         FACMAX=1.5

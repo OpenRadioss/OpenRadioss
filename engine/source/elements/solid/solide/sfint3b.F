@@ -87,14 +87,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J
+      INTEGER I
       my_real
      .   S1, S2, S3,
      .   S4, S5, S6,
      .   SXY, SYZ, SZX,
      .   SYX, SZY, SXZ,
      .   MX(MVSIZ), MY(MVSIZ), MZ(MVSIZ),
-     .   FINT,FINTD,AAA,DXR,DYR,DZR
+     .   FINT,AAA,DXR,DYR,DZR
 C-----------------------------------------------
       DO I=1,NEL
         S1=(SIG(I,1)+SVIS(I,1)-QVIS(I))*VOL(I)

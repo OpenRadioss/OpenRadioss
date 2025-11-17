@@ -55,11 +55,11 @@ C     REAL
      .   Y5, Y6, Y7, Y8,
      .   Z1, Z2, Z3, Z4,
      .   Z5, Z6, Z7, Z8,
-     .   L11,L12,L13,L22,L23,L33,
+     .   
      .   R11,R12,R13,R21,R22,R23,R31,R32,R33,
      .   G11,G22,G33,G12,G21,G23,G32,G13,G31,
      .   T11,T22,T33,T12,T21,T23,T32,T13,T31,
-     .   S11,S12,S21,S13,S31,S22,S23,S32,S33,
+     .   
      .   CP ,SP
       INTEGER NC1, NC2, NC3, NC4, 
      .        NC5, NC6, NC7, NC8

@@ -52,7 +52,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, II, NBX, NBY, NBRIC, NNB, IFV, NNB1, J, K, NV, NALL,
+      INTEGER I, NBX, NBY, NBRIC, NNB, IFV, NNB1, J, K, NV, NALL,
      .        NC, TNC(4), TNV(5,6), KK, L, N1, N2, N3, N4, N5, N6, N7,
      .        N8, I1, I2 
       my_real

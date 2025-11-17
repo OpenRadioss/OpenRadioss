@@ -83,15 +83,15 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  I, J
+      INTEGER  I
 C     REAL
       my_real
      .   VX17(MVSIZ), VY17(MVSIZ), VZ17(MVSIZ),
      .   VX28(MVSIZ), VY28(MVSIZ), VZ28(MVSIZ),
      .   VX35(MVSIZ), VY35(MVSIZ), VZ35(MVSIZ),
-     .   VX46(MVSIZ), VY46(MVSIZ), VZ46(MVSIZ), DT1D2,DT1D1
+     .   VX46(MVSIZ), VY46(MVSIZ), VZ46(MVSIZ)
       my_real 
-     .   PXX2,PYY2,PZZ2,PXX2P,PYY2P,PZZ2P,
+     .   
      .   HGY1(MVSIZ), HGX2(MVSIZ),
      .   H1VX,H1VY,H1VZ,H2VX,H2VY,H2VZ,NU1,
      .   X1VX,X2VX,Y1VY,Y2VY,Y2VY_NU,X1VX_NU

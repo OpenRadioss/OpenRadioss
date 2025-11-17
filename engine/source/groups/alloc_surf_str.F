@@ -56,7 +56,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ISU,I,J,K,L_SURF,ID,NSEG,TYPE,ID_MADYMO,IAD_BUFR,
+      INTEGER ISU,J,K,L_SURF,ID,NSEG,TYPE,ID_MADYMO,IAD_BUFR,
      .        NB_MADYMO,TYPE_MADYMO,LEVEL,TH_SURF,ISH4N3N,NSEG_R2R_ALL,
      .        NSEG_R2R_SHARE,NODE,ELTYP,ELEM,ERR,ITITLE(LTITR),LEN
       CHARACTER(LEN=NCHARTITLE) :: TITR

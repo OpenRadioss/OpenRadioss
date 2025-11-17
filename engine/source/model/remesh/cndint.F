@@ -68,11 +68,11 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER SH4FT, SH4LT, SH3FT, SH3LT
-      INTEGER N, NN, LEVEL, IP, NLEV, LL, IERR
+      INTEGER N, NN, LEVEL, LL
       INTEGER SON,M1,M2,M3,M4,MC,N1,N2,N3,N4,J,NA,NB
       my_real
      .        VV, AX(3,NUMNOD), ARX(3,NUMNOD), FAC,
-     .        DT2P, MAS, INER, DTN
+     .        DT2P, MAS, INER
 C-----------------------------------------------
 C
 C     allocation tag

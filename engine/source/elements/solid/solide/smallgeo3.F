@@ -67,7 +67,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,ICOUNT,LIST(MVSIZ)
       my_real
-     .   TET_COLLA(MVSIZ),COEF,DEF_V,AL,MIN_ASPECT,MIN_DEFV
+     .   TET_COLLA(MVSIZ),COEF,DEF_V,MIN_ASPECT,MIN_DEFV
 C---------------------------------------------
       MIN_ASPECT = DT%BRICK_CST_COL_MIN
       MIN_DEFV = DT%BRICK_CST_DEFV_MIN

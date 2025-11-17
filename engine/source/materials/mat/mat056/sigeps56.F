@@ -157,7 +157,7 @@ C-----------------------------------------------
      .        IPFLAG,IPARAM,NPAR,
      .        NINDX,INDX(MVSIZ),MX
       my_real
-     .        E,NU,P,DAV,VM,R,FAC,EPST,EP1,EP2,EP3,EP4,EP5,EP6,
+     .        E,NU,P,DAV,VM,R,FAC,EPST,
      .        E1,E2,E3,E4,E5,E6,C,CC,D,Y,YP,E42,E52,E62,EPST2,
      .        C1,G,G2,G3,
      .        EPSMAX,RATE(MVSIZ,2),YFAC(MVSIZ,2),

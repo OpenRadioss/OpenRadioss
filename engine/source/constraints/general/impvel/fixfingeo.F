@@ -70,13 +70,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N, I, J, K, L, I1, N1, N2, ISENS,
-     .        ILENC, IPOSC, IADC, ICOOR, ISMOOTH
+      INTEGER N, I, L, I1, N1, N2, ISENS,
+     .        ILENC, IPOSC, IADC, ISMOOTH
       my_real AX, AXI, VV, A0, AA, FAC, FACX, STARTT, STOPT, TS,
-     .        DYDX, DW, DW2, DD,
+     .         DW, DD,
      .        YC, TSC, DYDXC, RW_SMS,
      .        SKEW1, SKEW2, SKEW3,
-     .        XI, YI, ZI, XF, YF, ZF, XA, YA, ZA,
+     .           XF, YF, ZF, XA, YA, ZA,
      .        AOLD0(3),
      .        VX1, VY1, VZ1, VX2, VY2, VZ2
       my_real, DIMENSION(:), ALLOCATABLE :: MASS, VX, VY, VZ      

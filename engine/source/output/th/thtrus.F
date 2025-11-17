@@ -56,7 +56,7 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER II,I,N,IH,NG,ITY,MTE,K,L,LWA,NEL,NFT,J,IP
+      INTEGER II,I,N,IH,NG,ITY,MTE,K,L,NEL,NFT,IP
       INTEGER :: NITER,IAD,NN,IADV,NVAR,ITYP,IJK
 C
       TYPE(G_BUFEL_)  ,POINTER :: GBUF

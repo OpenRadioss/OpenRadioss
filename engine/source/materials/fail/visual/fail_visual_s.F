@@ -80,7 +80,7 @@ C-----------------------------------------------
 C L o c a l V a r i a b l e s
 C-----------------------------------------------
         INTEGER I,J,NINDX,INDX(NEL),TYPE_MAX,F_FLAG,STRDEF,STRFLAG
-        my_real I1,I2,I3,E11,E22,E33,E_EQ,E_EQ1,E_EQ2,Q,R,R_INTER,PHI,
+        my_real I1,I2,I3,E11,E22,E33,Q,R,R_INTER,PHI,
      .    C_MIN,C_MAX,EMA,DAMAGE
         DOUBLE PRECISION :: A0(2),A1(2),A2(2),C0,C1,C2,C3,C4,C5,C6,C7,C8,C9,
      .    X1,X2,X3,Y1,Y2,Y3,Z1,Z2,Z3,F,FF,D,DD,D2,DP,E,G

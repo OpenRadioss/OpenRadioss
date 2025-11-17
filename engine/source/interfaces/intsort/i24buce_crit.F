@@ -55,7 +55,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NSNF,NMNF,NSNL,NMNL,I, J, K, II, N,IAD,NES,JG,DELTA_PMAX_GAP_NODE_L
+      INTEGER NSNF,NMNF,NSNL,NMNL,I, J, K, II,IAD,NES,JG,DELTA_PMAX_GAP_NODE_L
       my_real
      .  XSLV(18),XMSR(12), VSLV(6), VMSR(6),DELTA_PMAX_GAP_L,PMAX_GAP_L,
      .  EDGE_L2_OLD,EDGE_L2_NEW,AAA,DELTA_L

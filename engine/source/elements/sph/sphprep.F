@@ -141,16 +141,16 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,N,NG,JFT,JLT,K,NELEM,NEL,OFFSET,
-     .   ISORTSP,INOD,JNOD,J,NVOIS,M,IREDUCE,NS,
+      INTEGER N,K,
+     .   ISORTSP,INOD,IREDUCE,NS,
      .   KVNORM,IPRT,NSP2SORTF,NSP2SORTL,
      .   ISORTSPG,IERROR,NBK,VOXSIZ
       my_real
      .       DX,DY,DZ,
      .       DXMIN,DXMAX,DYMIN,DYMAX,DZMIN,DZMAX,MAJORD,
      .       DXMINL,DXMAXL,DYMINL,DYMAXL,DZMINL,DZMAXL,
-     .       DSX,DSY,DSZ,MAXDS,MAJORDS,SPALINR,MYSPATRUE,
-     .       XMAX,YMAX,ZMAX, DMAX, BUFTMP(6),DBUC, BMINMA
+     .       SPALINR,MYSPATRUE,
+     .       XMAX,YMAX,ZMAX, DMAX(6),DBUC, BMINMA
       my_real   
      .       XMIN,YMIN,ZMIN,DIAM_MAX,MAJORD_VOX,
      .       XMINL,YMINL,ZMINL,XMAXL,YMAXL,ZMAXL,DIAM_MAXL,

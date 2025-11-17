@@ -42,14 +42,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,II,J,JJ,IK,IC,IAD,INOD(4)
+      INTEGER I,JJ,IK,IAD,INOD(4)
       my_real 
      .        UX(3),UY(3),UZ(3),VX(3),VY(3),VZ(3),WX(3),WY(3),WZ(3),
      .        RX(3),RY(3),RZ(3),
      .        X0,Y0,Z0,X1,Y1,Z1,X2,Y2,Z2,X3,Y3,Z3,XS,YS,ZS,
-     .        X12,X22,X32,X42,Y12,Y22,Y32,Y42,Z12,Z22,Z32,Z42,
+     .        X12,X22,X32,Y12,Y22,Y32,Z12,Z22,Z32,
      .        XX,YY,ZZ,XXX,YYY,ZZZ,XY,YZ,ZX,XY2,YZ2,ZX2,
-     .        LX,LY,LZ,NORM,UNT,DEUT,B1,B2,B3,C1,C2,C3,DET
+     .        NORM,UNT,DEUT,B1,B2,B3,C1,C2,C3,DET
 C-----------------------------------------------
 C        NC: number of cinematic condition 
 C        ic: number of the kinematic condition (1,nc)

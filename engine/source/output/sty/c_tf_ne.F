@@ -74,10 +74,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,IPT,I1,I2,I3,I4,I5,II(12),
-     .        PTF,PTM,PTEP,PTS,NG,IR,IS,LENF,LENM,
+      INTEGER I,J,K,IPT,II(12),
+     .        PTF,PTM,PTS,NG,IR,IS,LENF,LENM,
      .        LENS,MAT_1,PID_1,LAYNPT_MAX,NLAY_MAX,IXLAY,IPT_ALL,
-     .        JPOS,IT,NPTT,ILAY,SHIFT,SEDRAPE,NUMEL_DRAPE
+     .        IT,NPTT,ILAY,SHIFT,SEDRAPE,NUMEL_DRAPE
       INTEGER MAT(MVSIZ),PID(MVSIZ)
       my_real
      .   FUNC(6),QPG(2,4),PG,MPG,

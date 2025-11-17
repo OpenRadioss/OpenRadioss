@@ -73,7 +73,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, N, JJ, IPRT, BUF, IPRT0, K, II
+      INTEGER I, N, JJ, IPRT, K, II
       INTEGER NG, NEL, NFT, LFT, LLT, ITY, LEN, ITHK, MLW,IOFF,IPROP,
      .        ID_PROP, IERR, N4SHELL , N3SHELL ,IGTYP ,IGTYP0
       INTEGER IADD(NPART+1), IADG(NSPMD,NPART)

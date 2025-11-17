@@ -75,7 +75,7 @@ C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
 C
-      INTEGER NEL, NUPARAM,NUVAR
+      INTEGER NEL,NUVAR
       INTEGER NGL(NEL)
       INTEGER, INTENT(IN) :: NFUNC 
       INTEGER, DIMENSION(NFUNC), INTENT(IN) ::  IFUNC    
@@ -102,14 +102,14 @@ C        NPF,TF  : FUNCTION PARAMETER
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER I,II,J,IFAIL,NINDX1,NINDX2,NUM,DEN,
+        INTEGER I,II,J,NINDX1,NINDX2,NUM,DEN,
      .          FAIL_ORT,ORDI,COMP_DIR,NINDXOFF,IDEL
         my_real
      .          VOL_STRAIN_LIMIT,MAX_COMP_STRAIN,RATIO_2,EL_REF,DAMAGE_SP(NEL)
         DOUBLE PRECISION          
      .          I1,I2,I3,E11,E22,E33,EXX,EYY,EZZ,EXY,EZX,EYZ,
      .          Q,R,R_INTER,PHI,RATIO(NEL),DAMAGE(NEL),E00,FAC,
-     .          VOL_STRAIN,NUMERATOR,DENOMINATOR,ORDINATE,
+     .          VOL_STRAIN,NUMERATOR,DENOMINATOR,
      .          LAMBDA,PLAMAX(NEL)
         INTEGER,DIMENSION(NEL) :: INDX1,INDX2,INDX3,INDXOFF
 C-----------------------------------------------

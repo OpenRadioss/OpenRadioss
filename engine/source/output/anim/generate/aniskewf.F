@@ -54,8 +54,8 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J,ISK,NB1,NB2,NB3,NB4,NB5,NB6,NB7,NB8,NB9,
-     .   NB10,NB11,NB12,NB13,NB14,NEL,LFT,LLT,NG,
+      INTEGER I,ISK,
+     .   NEL,LFT,LLT,NG,
      .   ITY,IAD,MLW,NFT,N,II,ISKK,MSGTAG,LEN,IGTYP
       INTEGER SRBUF(LRBUF)
       INTEGER, PARAMETER :: INTSIZE = 4

@@ -67,10 +67,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NL, N1, IFRA, N2, IFUNC, K1, K2, K3, ISENS,K,NN,IAD, J, PROC, IADF, IADL,IDIR,IFLAG,N1FRAM,IUN,JJ,IMOVFRAM
+      INTEGER NL, N1, IFRA, IFUNC, ISENS,NN,IAD, J, IADF, IADL,IDIR,IFLAG,N1FRAM,IUN,IMOVFRAM
       INTEGER :: IS_TABULATED
-      my_real NX, NY, NZ, AXI, A0, AA, VV, FX, FY, FZ, AX, DYDX, TS,
-     .        GAMA, MA, VROT, X0, Y0, Z0, X1, Y1, Z1, X2, Y2, Z2, DWDT,
+      my_real     DYDX, TS,
+     .          VROT, X0, Y0, Z0, X1, Y1, Z1, X2, Y2, Z2, DWDT,
      .        WFEXTT,VMX,VMY,VMZ,VROT2
       my_real DIST(3),AREL(3),VN1FRAM(3),AN1FRAM(3),DW(3)
       my_real FINTER

@@ -261,7 +261,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,NF1,NUVAR,IBID,IPTR,IPTS,IPTT,ILAY,ITET,IFVM_SKIP,NNOD
+      INTEGER I,NF1,IBID,IPTR,IPTS,IPTT,ILAY,ITET,IFVM_SKIP
       INTEGER NBF1,NBF2,NBF3, IALEFVM_MAT
       INTEGER MXT(MVSIZ),NGL(MVSIZ),NGEO(MVSIZ),INOD(8)
       my_real VD2(MVSIZ) , DVOL(MVSIZ),DELTAX(MVSIZ),
@@ -417,7 +417,7 @@ C
       my_real, DIMENSION(:), ALLOCATABLE :: VAR_REG
       my_real :: CONDE(MVSIZ),AMU(MVSIZ),DIVDE(MVSIZ),L_MAX(MVSIZ),
      .           STI_C(MVSIZ),LL(MVSIZ),FLD(MVSIZ),
-     .           CNS2,C1,CAQ,FQMAX
+     .           CNS2,FQMAX
       my_real, DIMENSION(:), POINTER :: EINT
       my_real :: ELEM_MASS
       my_real :: SUM_EPS(9),SUM_M,SUM_VOL

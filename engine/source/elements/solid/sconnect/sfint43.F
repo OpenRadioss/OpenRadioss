@@ -46,7 +46,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-      my_real FZZ,FYZ,FZX,RX,RY
+      my_real FZZ,FYZ,FZX
       my_real, DIMENSION(NEL) :: DFX1,DFX2,DFX3,DFX4,DFX5,DFX6,DFX7,DFX8,
      .                           DFY1,DFY2,DFY3,DFY4,DFY5,DFY6,DFY7,DFY8,
      .                           DFZ1,DFZ2,DFZ3,DFZ4,DFZ5,DFZ6,DFZ7,DFZ8 

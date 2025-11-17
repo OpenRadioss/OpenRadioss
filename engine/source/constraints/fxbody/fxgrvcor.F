@@ -61,7 +61,7 @@ C-----------------------------------------------
       INTEGER NFX, NLG, AGRVI, IADG, IG, NL, NNO, ISK, N2, N1, IFUNC,
      .        I, K1, K2, K3, IAGRV(NUMNOD), J, JJ
       my_real
-     .        FI0, FI, DYDX, WFEXTT, VV
+     .        FI0, FI, WFEXTT, VV
       my_real FINTER
       EXTERNAL FINTER
 C

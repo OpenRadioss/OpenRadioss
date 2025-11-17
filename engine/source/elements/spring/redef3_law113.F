@@ -80,26 +80,26 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER, DIMENSION(MVSIZ) :: JPOS , JLEN,JAD,JPOS2, 
      .                             JLEN2,JPOS3, JLEN3,JAD2,
-     .                             IC1, JLEN4,IC2,IC0,
+     .                              IC2,
      .                             J2POS,J2LEN,
-     .                             J2AD,JPOS4, J3POS, J3LEN,J3AD
+     .                             J2AD, J3POS, J3LEN,J3AD
      
        INTEGER 
-     . JFUNC,JFUNC2,JDMP,JECROU(-1:11),J2DMP,K1,NP1,NP2,
-     . I, J, II, INTERP, K, FUNC,FUND,J1,J2FUNC,J3FUNC,J2K
+     . JFUNC,JFUNC2,JDMP,JECROU(-1:11),J2DMP,K1,NP2,
+     . I, II, INTERP, K,FUND,J2FUNC,J3FUNC,J2K
 c     REAL or REAL*8
-      my_real, DIMENSION(MVSIZ) ::   DDX,FOLD, GX, DXELA, DYD,
+      my_real, DIMENSION(MVSIZ) ::   DDX,FOLD, GX, DXELA,
      .                               XX, XX2, XX3, YY, YY2, YY3,DYDX,
      .                               DYDX2, DYDX3, DYDXV, DPERM,FMAX,
-     .                               DVXS,GF3,DYDXV2,FMIN,GX2,FY0,
-     .                               XFY0,YCUT,XCUT,XN3FY0,
-     .                               UL,FYIELD,DPL,YY22,XFYN1,AN3Y0,DDPX,
-     .                               XFYN33,XFYN11,DPX3,DPX22,XX22,
-     .                               EDECAL2,EDECAL3,ECROU,KX2,DKDX2,
+     .                               DVXS,GF3,DYDXV2,FMIN,GX2,
+     .                               XN3FY0,
+     .                               AN3Y0,
+     .                               
+     .                               KX2,DKDX2,
      .                               TMP1, TMP2
       my_real 
      . DVV, DFAC, DT11, DAMP, DAMM,B1,XI1,XI2,YI1,YI2 ,
-     . S1,S2,T1C,T2C,X1,X2,Y1,Y2
+     . X1,X2,Y1,Y2
        INTEGER :: PYID
        LOGICAL :: ANY_PYTHON_FUNCTION
 C=======================================================================

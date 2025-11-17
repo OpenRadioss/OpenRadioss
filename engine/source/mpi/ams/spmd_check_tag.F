@@ -73,7 +73,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER L,K,SIZE_LOC,IERROR,NI,NSN_LOC
+      INTEGER L,K,IERROR,NI,NSN_LOC
       INTEGER, DIMENSION(:), ALLOCATABLE :: CAND_N_LOC,CAND_E_LOC,IFPEN_LOC
       my_real, 
      .  DIMENSION(:), ALLOCATABLE :: CAND_P_LOC,CAND_FX_LOC,CAND_FY_LOC,CAND_FZ_LOC,

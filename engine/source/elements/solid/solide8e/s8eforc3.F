@@ -203,7 +203,7 @@ C-----------------------------------------------
      .    IOUTPRT
 C          
       INTEGER NELTST,ITYPTST,OFFSET,NEL,ICP, 
-     .        ICSIG, NVC   ,ITASK, ISTRAIN,  IEXPAN,NG,H3D_STRAIN
+     .         NVC   ,ITASK, ISTRAIN,  IEXPAN,NG,H3D_STRAIN
 
       DOUBLE PRECISION
      .        XDP(3,*)
@@ -237,7 +237,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NF1, IFLAG, I, 
-     .     ILAY,IP,IR,IS,IT,MPT,NPTR,NPTS,NPTT,J
+     .     ILAY,IP,IR,IS,IT,NPTR,NPTS,NPTT,J
       INTEGER IBID,IBIDV(1), MX, IFVM22
       INTEGER MXT(MVSIZ),NGL(MVSIZ),NGEO(MVSIZ)
       my_real

@@ -94,7 +94,7 @@ C-----------------------------------------------
      .   VX1(*),VX2(*),VX3(*),VX4(*),VX5(*),VX6(*),VX7(*),VX8(*),
      .   VY1(*),VY2(*),VY3(*),VY4(*),VY5(*),VY6(*),VY7(*),VY8(*),
      .   VZ1(*),VZ2(*),VZ3(*),VZ4(*),VZ5(*),VZ6(*),VZ7(*),VZ8(*)
-      INTEGER IFL, MX
+      INTEGER  MX
       INTEGER MAT(*),IPARG1(*)
       INTEGER,INTENT(IN)::IPM(NPROPMI,NUMMAT)
 C-----------------------------------------------

@@ -64,7 +64,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,N,COMPT,K,NVAL,SIZ,SIZG,SIZ_MAX,ND,IGROUP
+      INTEGER I,N,COMPT,NVAL,SIZ,SIZG,SIZ_MAX,ND,IGROUP
       INTEGER, DIMENSION(:),ALLOCATABLE :: TAGN
       my_real, DIMENSION(:),ALLOCATABLE,TARGET :: 
      .   DT2_L

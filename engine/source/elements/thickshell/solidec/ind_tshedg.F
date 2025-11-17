@@ -54,7 +54,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,NG, NEL, NFT,N, ITY,JHBE,IGTYP,ICSTR,ISOLNOD
+      INTEGER I,NG, NEL, NFT,N, ITY,JHBE,IGTYP,ICSTR,ISOLNOD
       INTEGER ITAG(NUMNOD),N1,N2,NC(8,MVSIZ),NEDG
       TYPE(G_BUFEL_) ,POINTER :: GBUF     
 C     REAL

@@ -127,14 +127,14 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  ::
-     .  I,J,K,L,IADR,NINDX,ISHELL,I_MOD,I_DAM,NF_LOC,
+     .  I,J,IADR,NINDX,ISHELL,I_MOD,I_DAM,
      .  ITAB_EPSF,ITAB_INST,IFUN_EL,IFUN_TEMP,IFUN_DMG,IFUN_FAD
-      INTEGER, DIMENSION(NEL) :: INDX,NRATE,RFLAG,DMG_FLAG_INT
+      INTEGER, DIMENSION(NEL) :: INDX,RFLAG
 C
-      my_real, DIMENSION(NEL) :: EPSF,EPSF_N,DMG_SCALE
+      my_real, DIMENSION(NEL) :: EPSF,EPSF_N
       my_real  ::
-     .  DP,P,SIGM,SIGM_PS,SVM,EF1,EF2,DF,FAC,DEPSF,LAMBDA,
-     .  RATE1,RATE2,YFAC1,YFAC2,CC,BB,CR,ORM,SS1,SS2,YY,YY_N,DADV,
+     .  DP,P,SIGM,SIGM_PS,SVM,DF,FAC,LAMBDA,
+     .  YY,YY_N,DADV,
      .  X1SCALE,X2SCALE,X3SCALE,X4SCALE,P_THINN,ECRIT,FADE_EXPO,
      .  DCRIT,EL_REF,SC_EL,SC_TEMP,DD,DN
       CHARACTER (LEN=3) :: XCHAR

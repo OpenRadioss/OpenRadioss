@@ -73,7 +73,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J
       DOUBLE PRECISION 
-     .   D,A4MB4,A4,B4,BB,AB,B2,
+     .   D,A4MB4,A4,B4,
      .   DXDR,DXDS,DXDT,DYDR,DYDS,DYDT,DZDR,DZDS,DZDT
      
       DOUBLE PRECISION 

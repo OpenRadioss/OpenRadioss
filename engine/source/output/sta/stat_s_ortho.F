@@ -64,7 +64,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER SIZLOC,SIZP0,IGLOB,IDEL
+      INTEGER SIZP0,IGLOB,IDEL
       INTEGER IXS(NIXS,*),
      .        IPARG(NPARG,*),IPM(NPROPMI,*),IGEO(NPROPGI,*),
      .        IPARTS(*), IPART_STATE(*), STAT_INDXS(*),IPART(LIPART1,*)
@@ -75,9 +75,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,N,J,K,II(6),JJ,LEN,ISOLNOD,IUS, NPTR, NPTS, NPTT, NPTG,
-     .        NG, NEL, MLW,ID, IPRT0, IPRT, NPG,IPG,IPT, NUVAR,IE,
-     .        NLAY,IP,IL,IR,IS,IT,PID,ICSIG,IOFF
+      INTEGER I,N,J,K,II(6),JJ,LEN,ISOLNOD, NPTR, NPTS, NPTT,
+     .        NG, NEL, MLW,ID, IPRT0, IPRT,IE,
+     .        NLAY,PID,ICSIG,IOFF
       INTEGER,DIMENSION(:),ALLOCATABLE :: PTWA
       INTEGER,DIMENSION(:),ALLOCATABLE :: PTWA_P0
       my_real

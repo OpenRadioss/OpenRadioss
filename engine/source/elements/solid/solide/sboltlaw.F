@@ -103,7 +103,7 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, MX,IBID !, J
+      INTEGER I, MX !, J
       my_real
      .   REDUC ,REDUC1 , T1, T2 , EE, NU, GGT, TREPS, P, TP 
       my_real
@@ -111,9 +111,9 @@ C-----------------------------------------------
      .   RHO0(MVSIZ), RHO0_1,C1_1 
 C-----------------------------------------------
       my_real
-     .   DF,DPDM,FACQ0,
+     .   FACQ0,
      .   E1, E2, E3, E4, E5, E6, EINC,
-     .   BID1, BID2, BID3, DTA,  YM, DPDMP
+     .   BID1, BID2, BID3, DTA
 C-----------------------------------------------
       FACQ0 = ONE
       REDUC1 = EM04 !EM03 !ONE 

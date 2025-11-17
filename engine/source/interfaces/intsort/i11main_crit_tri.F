@@ -52,11 +52,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NIN,ITASK,NEWFRONT ,NELTST,ITYPTST
+      INTEGER NIN,ITASK 
       INTEGER IPARI(NPARI,NINTER)
 C     REAL
       my_real 
-     .    X(3,*), V(3,*), DT2T,
+     .    X(3,*), V(3,*),
      .    XSLV_L(*), XMSR_L(*), VSLV_L(*) , VMSR_L(*)
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB

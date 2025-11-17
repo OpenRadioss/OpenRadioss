@@ -76,7 +76,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, MX, J,K,IET, MT
+      INTEGER I
       my_real
      .   H11(MVSIZ), H22(MVSIZ), H33(MVSIZ),
      .   H12(MVSIZ), H13(MVSIZ), H23(MVSIZ),
@@ -91,8 +91,8 @@ C-----------------------------------------------
      .   VX35, VY35, VZ35,
      .   VX46, VY46, VZ46, 
      .   JR0(MVSIZ),JS0(MVSIZ),JT0(MVSIZ),NFHOUR(MVSIZ,3,4),
-     .   FHOURT(3,4),DT05,RHO0,ETMAX,NU1,NU2,NU3,NU4,DEINT,
-     .   E_R,E_S,E_T,FAC,FAC1,FAC2,COEFH,HQ13P,HQ13N,HQ24P,HQ24N,FF
+     .   FHOURT(3,4),NU1,NU2,NU3,NU4,
+     .   HQ13P,HQ13N,HQ24P,HQ24N,FF
 C-----------------------------------------------
 C
         NU1 =TWO/(ONE-NU)

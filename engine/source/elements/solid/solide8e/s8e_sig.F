@@ -54,7 +54,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ILAY,IP,IR,IS,IT,NPTR,NPTS,NPTT,I,J
+      INTEGER ILAY,IP,IR,IS,IT,NPTR,NPTS,NPTT,I
       INTEGER EPSIP(NEL)
 c-----------------------------------------------------
       my_real 

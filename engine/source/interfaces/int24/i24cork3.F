@@ -50,7 +50,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IRECT(4,*), NSV(*), CAND_E(*), CAND_N(*),
-     .        JLT,IDT, NOINT ,NDDIM, NSN, ITY, NIN, IGSTI,
+     .        JLT , NSN, ITY, NIN, IGSTI,
      .        NVOISIN(8,*), KINI(*)
       INTEGER IXX(MVSIZ,13), NSVG(MVSIZ), ITRIV(4,MVSIZ)
 C     REAL
@@ -67,7 +67,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I ,J  ,IL, L, NN, IG,JFT, IX,  NI
+      INTEGER I   , L, NN, IG, IX,  NI
 C-----------------------------------------------
 C
 C
@@ -523,7 +523,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I ,J  ,NI, L, NN, NS ,NE,IC(4,4),ITQ
+      INTEGER I   ,NI, L, NN, NS ,NE,IC(4,4),ITQ
       DATA IC / 
      1    3, 4, 1, 2, 
      2    4, 1, 2, 3,
@@ -618,7 +618,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I ,J  ,IL, L, NN, IG,JFT, IX,  NI,IRTLM(4),NE,NEI
+      INTEGER I   , L, NN, IG,  NI,IRTLM(4),NE,NEI
 C-----------------------------------------------
 C
 C
@@ -692,7 +692,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IX,IC(4,20),IXX(13),j
+      INTEGER IX,IC(4,20),IXX(13)
 C-----------------------------------------------
 C        11-------10       
 C         |\ 19  /|        

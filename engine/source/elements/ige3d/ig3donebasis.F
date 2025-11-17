@@ -98,7 +98,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NUMLOC, I, J, K, NA, NB, NC
+      INTEGER NUMLOC, I, J, K
       my_real
      .  SUMTOT, FN(NCTRL), FM(NCTRL), FL(NCTRL),
      .  XI(3)

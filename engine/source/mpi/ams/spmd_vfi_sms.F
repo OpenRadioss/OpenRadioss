@@ -62,7 +62,7 @@ C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
       INTEGER MSGTYP,I,NOD,LOC_PROC,IERROR,MSGOFF,
-     .        SIZ,J,L,NB_NOD,K,M,KK,
+     .        SIZ,J,L,K,M,KK,
      .        STATUS(MPI_STATUS_SIZE)
       DATA MSGOFF/217/
 C-----------------------------------------------

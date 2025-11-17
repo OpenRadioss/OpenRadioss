@@ -110,10 +110,10 @@
 !----------------------------------------------------------------
 !  L o c a l  V a r i a b l e s
 !----------------------------------------------------------------
-      integer i,ii,j,nmax,vp,n,iter,iter_max,nindx,indx(nel)
+      integer i,ii,nmax,vp,iter,nindx,indx(nel)
       real(kind = WP) :: young(nel),nu(nel),shear(nel),bulk(nel),a,b,cm,cn,    &
         tmelt,tref,epsm,sigm,cs,cjc,deps0,eta,tol,t0
-      real(kind = WP) :: ddep,dfdsig2,sig_dfdsig,tempr,dphi_dlam
+      real(kind = WP) :: ddep,dfdsig2,tempr,dphi_dlam
       real(kind=WP), dimension(nel) :: pla0,hardp,dlam,normxx,normyy,normzz,   &
         normxy,normyz,normzx,dpxx,dpyy,dpzz,dpxy,dpyz,dpzx,temp0,sxx,syy,szz,  &
         sxy,syz,szx,thsoft,phi,dpla_dlam,eheat,ecool,nutemp,dedt,dnudt,srdep,  &

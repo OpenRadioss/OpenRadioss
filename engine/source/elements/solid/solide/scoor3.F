@@ -94,7 +94,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J,MXT_1
+      INTEGER I,MXT_1
       my_real, DIMENSION(MVSIZ) ::
      .   RX, RY, RZ, SX, SY, SZ, TX, TY, TZ,
      .   E1X, E1Y, E1Z, E2X, E2Y, E2Z, E3X, E3Y, E3Z

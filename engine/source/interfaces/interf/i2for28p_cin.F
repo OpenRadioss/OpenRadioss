@@ -67,16 +67,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, K,J1,J2,J3,J4, II, L, JJ, NN,NISKY2,I0BASE
+      INTEGER I, J, K,J1,J2,J3,J4, II, L, NN,I0BASE
 C     REAL
       my_real
      .   H(4),
-     .   S,T,SS, ST, XMSI, FS(3),SP,SM,TP,TM,
+     .   S,T, XMSI, FS(3),SP,SM,TP,TM,
      .   MX,MY,MZ,DET,FX0,FY0,FZ0,INS,
      .   X0,X1,X2,X3,X4,XS,Y0,Y1,Y2,Y3,Y4,YS,Z0,Z1,Z2,Z3,Z4,ZS,
      .   X12,X22,X32,X42,Y12,Y22,Y32,Y42,Z12,Z22,Z32,Z42,
      .   XX,YY,ZZ,XXX,YYY,ZZZ,XY,YZ,ZX,XY2,YZ2,ZX2,
-     .   A1,A2,A3,B1,B2,B3,C1,C2,C3,MR,MRX,MRY,MRZ,INX,INY,INZ,STF,FACT,
+     .   A1,A2,A3,B1,B2,B3,C1,C2,C3,MR,MRX,MRY,MRZ,INX,STF,FACT,
      .   FX(4),FY(4),FZ(4)
 C=======================================================================
 C

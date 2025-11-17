@@ -124,12 +124,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,II,J,K,NITER,NINDX
+      INTEGER I,II,K,NITER,NINDX
       INTEGER INDX(NEL)
       my_real
-     .   TOL,LAMDA,RES,DRES,SQR2INV,SEQ,YLDP,DAV,NU,YOUNG,SHEAR,G2,
+     .   TOL,LAMDA,RES,DRES,SQR2INV,YLDP,DAV,NU,YOUNG,SHEAR,G2,
      .   BULK,QVOCE,BVOCE,KSWIFT,KVOCE,KSWIFTP,KVOCEP,EXPV,                      
-     .   K0,ALPHA,AN,EPS0,NN,DEPS0,EPSP0,CEPSP,CEPSPN,
+     .   K0,ALPHA,AN,EPS0,NN,DEPS0,CEPSP,CEPSPN,
      .   ETA,CP,TINI,TREF,TMELT,MTEMP,DEPSAD,SEFF,GEFF,F_EPS,GSS,       
      .   GGSIG,G2GSIG,P12,P22,P33,G12,G22,G33,OMEGA,PLAP0 
       my_real
