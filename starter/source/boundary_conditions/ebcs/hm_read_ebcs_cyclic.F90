@@ -190,7 +190,13 @@
                           C2="NUMBER OF SEGMENT BETWEEN SURFACE 1 AND SURFACE 2 DO NOT MATCH")
           endif
 
-
+          if(igrsurf(surf_iid1)%type /= 0)then
+              CALL ANCMSG(MSGID=1602,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=ID,C1=TRIM(TITR),&
+                          C2="SURFACE 1 MUST BE DEFINED WITH SEGMENTS")
+          elseif(igrsurf(surf_iid2)%type /= 0)then
+              CALL ANCMSG(MSGID=1602,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=ID,C1=TRIM(TITR),&
+                          C2="SURFACE 2 MUST BE DEFINED WITH SEGMENTS")
+           end if
 
           !CHECK NODES
           ! an error message will be automatically displayed if user identifier does not match an existing node.
