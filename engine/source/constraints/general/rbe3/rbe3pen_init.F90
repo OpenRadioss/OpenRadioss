@@ -192,10 +192,7 @@
           rrbe3pen_m(1:3) = zero
           lsm2 = rR(1)*rR(1)+rR(2)*rR(2)+rR(3)*rR(3)
 !-------set up rrbe3pen_stf
-          if (stifn(ns)<=em20) then ! free node w/ spc
-            rrbe3pen_stf(1) = two*stfnm
-            rrbe3pen_stf(2) = four*stfrm
-          elseif (stifn(ns)<=em10) then ! small stif
+          if (stifn(ns)<=em10) then ! zero or small stif
             rrbe3pen_stf(1) = em03*stfnm*min(one,ms(ns)/msbar)
             rrbe3pen_stf(2) = em20 ! only have translation stif
           else
