@@ -194,7 +194,7 @@
         & npropmi  ,npropm   ,npropg   ,imon_mat  ,numgeo    ,          &
         & numstack ,dt1      ,tt       ,nxlaymax  ,idel7nok ,userl_avail, &
         & maxfunc  ,nummat   ,varnl_npttot,sbufmat,sdir_a   ,sdir_b ,nparg,&
-        & idamp_freq_range,damp_buf,ssp_eq)
+        & idamp_freq_range,damp_buf,ssp_eq, ipart ,lipart1 ,ipartc ,npart ) 
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -296,6 +296,11 @@
           integer, intent(inout),dimension(mvsiz*nlay_max) :: indx
           integer, intent(inout),dimension(nel)            :: fwave_el
           integer, intent(inout),dimension(nxlaymax,mvsiz) :: elcrkini
+          !
+          integer, intent(in) :: lipart1
+          integer, intent(in) :: npart
+          integer, dimension(lipart1,npart), intent(in) :: ipart
+          integer, intent(in), dimension(nel) :: ipartc
           !
           real(kind=WP), intent(in) :: dt1
           real(kind=WP), intent(in) :: tt
@@ -2844,7 +2849,8 @@
               &thk_ly   ,thkly    ,off      ,stack    ,&
               &isubstack,igtyp    ,failwave ,fwave_el ,&
               &nlay_max ,laynpt_max,numgeo  ,numstack ,&
-              &igeo     ,print_fail)
+              &igeo     ,print_fail,                   &
+              &ipart    ,lipart1  ,ipartc   ,npart)
             else
               call fail_setoff_npg_c(&
               &elbuf_str,mat_elem ,geo      ,pid(1)   ,&
@@ -2853,7 +2859,8 @@
               &off      ,npg      ,stack    ,isubstack,&
               &igtyp    ,failwave ,fwave_el ,nlay_max ,&
               &laynpt_max,numgeo  ,ipg      ,numstack ,&
-              &igeo     ,print_fail)
+              &igeo     ,print_fail,                   &
+              &ipart    ,lipart1  ,ipartc   ,npart)
             endif
           endif
 !---

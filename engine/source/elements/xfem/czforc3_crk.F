@@ -87,7 +87,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      O            NODEDGE,CRKEDGE, STACK ,DRAPE_SH4N,NLOC_DMG,
      P            INDX_DRAPE, IGRE ,DT, NCYCLE,SNPC,  STF  ,
      P            GLOB_THERM  ,IDEL7NOK ,USERL_AVAIL,
-     Q            MAXFUNC ,SBUFMAT)
+     Q            MAXFUNC ,SBUFMAT,IPART     ,LIPART1)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -140,6 +140,10 @@ C-----------------------------------------------
      .        IPARG(*),IXFEM,INOD_CRK(*),IEL_CRK(*),IADC_CRK(4,*),
      .        ELCUTC(2,*),NODEDGE(2,*),INDX_DRAPE(SCDRAPE)
       INTEGER, INTENT(IN) :: IGRE, NCYCLE
+      integer, intent(in) :: LIPART1
+      !//TODO:no *
+      INTEGER, DIMENSION(LIPART1, NPART), INTENT(IN)     :: IPART
+     
 C     REAL OR REAL*8
       my_real
      .   F11(MVSIZ),F12(MVSIZ),F13(MVSIZ),F14(MVSIZ),
@@ -506,7 +510,8 @@ C-----------------------------
      R       INDX_DRAPE, THKE     ,SEDRAPE     ,NUMEL_DRAPE,DT   ,
      Q       NCYCLE    ,SNPC      ,STF         ,NXLAYMAX  ,IDEL7NOK  ,
      S       USERL_AVAIL ,MAXFUNC ,NPTTOT      ,SBUFMAT   ,SDIR_A    ,
-     T       SDIR_B   ,GBUF%FOR_G ,SSP_EQ )
+     T       SDIR_B   ,GBUF%FOR_G ,SSP_EQ ,
+     X       IPART    ,LIPART1    ,IPARTC  )
 C-----------------------------
         IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STOPTIME(TIMERS,35)
 C--------------------------

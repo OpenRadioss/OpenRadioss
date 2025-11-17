@@ -398,6 +398,7 @@ C-----------
 C GATHER NODAL VARIABLES FOR TOTAL STRAIN CASE.
 C-----------
       IF (ISMSTR >= 10.AND.ISMSTR <= 12) THEN
+      
        CALL SGCOOR10(
      1   XX,        YY,        ZZ,        X,
      2   XDP,       XX0,       YY0,       ZZ0,
@@ -435,9 +436,11 @@ C!!!!!!calcul local rep for ISMSTR 10 to 11 (offg>un)
         DO IP=1,NPT
          LBUF => ELBUF_TAB(NG)%BUFLY(IBID)%LBUF(IP,IBID,IBID)
          CALL S10PIJTO3(PX(1,1,IP),PY(1,1,IP),PZ(1,1,IP),LBUF%PIJ,LLT)
+    
         ENDDO
        END IF !(ISMSTR ==  11) THEN
        DO IP=1,NPT
+
         CALL S10DEFOT3(
      1   PX(1,1,IP),PY(1,1,IP),PZ(1,1,IP),VX0,
      2   VY0,       VZ0,       MFXX(1,IP),MFXY(1,IP),

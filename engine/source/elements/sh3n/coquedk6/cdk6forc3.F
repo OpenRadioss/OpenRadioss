@@ -81,7 +81,7 @@ cc
      M   INDX_DRAPE,  IGRE,        JTUR,        DT,
      N   NCYCLE,      SNPC,        STF ,        GLOB_THERM,
      N   NXLAYMAX,    IDEL7NOK,    USERL_AVAIL, MAXFUNC,
-     O   SBUFMAT  )
+     O   SBUFMAT ,IPART     ,LIPART1 )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -159,6 +159,10 @@ C     REAL
       TYPE (SENSORS_) ,INTENT(INOUT) :: SENSORS
       TYPE (DT_) ,INTENT(IN) :: DT
       type (glob_therm_) ,intent(inout)   :: glob_therm
+      integer, intent(in) :: LIPART1
+     
+      INTEGER, DIMENSION(LIPART1,NPART), INTENT(IN) :: IPART
+
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -434,7 +438,8 @@ c-------------------------------------------
      R   INDX_DRAPE,THKE      ,SEDRAPE     ,NUMEL_DRAPE ,DT      ,
      Q   NCYCLE    ,SNPC      ,STF         ,NXLAYMAX    ,IDEL7NOK  ,
      R   USERL_AVAIL ,MAXFUNC ,NPTTOT      ,SBUFMAT     ,SDIR_A    ,SDIR_B    ,
-     S   GBUF%FOR_G,SSP_EQ )
+     S   GBUF%FOR_G,SSP_EQ,
+     X    IPART     ,LIPART1  ,IPARTTG   )
 C----------------------------------------------------------------------------
 C     FORCES VISCOCITE 
 C----------------------------

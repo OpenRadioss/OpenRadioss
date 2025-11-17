@@ -84,7 +84,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      L   NLOC_DMG,    INDX_DRAPE,  IGRE,        JTUR,
      M   DT,          NCYCLE,      SNPC,        STF,
      M   GLOB_THERM,  NXLAYMAX,    IDEL7NOK,    USERL_AVAIL,
-     N   MAXFUNC,     SBUFMAT)
+     N   MAXFUNC,     SBUFMAT,IPART     ,LIPART1 )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -158,6 +158,9 @@ C     REAL
       TYPE (SENSORS_) ,INTENT(INOUT) :: SENSORS
       TYPE (DT_), INTENT(IN) :: DT
       type (glob_therm_) ,intent(inout) :: glob_therm
+      INTEGER, INTENT(IN)  :: LIPART1
+      INTEGER, DIMENSION(LIPART1, NPART ), INTENT(IN)     :: IPART
+   
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -455,7 +458,8 @@ C----------------------------------------------------------------------------
      R    INDX_DRAPE ,THKE      ,SEDRAPE     ,NUMEL_DRAPE ,DT   ,
      Q    NCYCLE     ,SNPC      ,  STF ,
      S    NXLAYMAX   ,IDEL7NOK  ,USERL_AVAIL ,MAXFUNC     ,NPTTOT,
-     T    SBUFMAT    ,SDIR_A    ,SDIR_B,  GBUF%FORPG_G(PTF),SSP_EQ)
+     T    SBUFMAT    ,SDIR_A    ,SDIR_B,  GBUF%FORPG_G(PTF),SSP_EQ,
+     X    IPART      ,LIPART1   ,IPARTTG   )
 C----------------------------------------------------------------------------
 C     THICKNESS CORRECTION 
 C----------------------------

@@ -109,7 +109,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      P   CRKEDGE,     DRAPE_SH3N,  IPRI,        NLOC_DMG,
      Q   xdp,         INDX_DRAPE,  IGRE,        JTUR,
      R   DT,          SNPC,        STF,         GLOB_THERM,
-     S   IDEL7NOK,    USERL_AVAIL, MAXFUNC,     SBUFMAT)
+     S   IDEL7NOK,    USERL_AVAIL, MAXFUNC,     SBUFMAT ,
+     T   IPART,       LIPART1)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -195,6 +196,8 @@ C-----------------------------------------------
       TYPE (GROUP_PARAM_) :: GROUP_PARAM
       TYPE (DT_), INTENT(IN) :: DT
       type (glob_therm_) ,intent(inout) :: glob_therm
+      INTEGER, INTENT(IN) :: LIPART1
+      INTEGER, DIMENSION(LIPART1,NPART), INTENT(IN)     :: IPART
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -581,7 +584,8 @@ C--------------------------
      Q   INDX_DRAPE,THKE      ,SEDRAPE     ,NUMEL_DRAPE,DT     ,
      R   NCYCLE    ,SNPC     ,STF          ,NXLAYMAX           ,
      S   IDEL7NOK  ,USERL_AVAIL ,MAXFUNC    ,NPTTOT,
-     T   SBUFMAT   ,SDIR_A    , SDIR_B   ,GBUF%FOR_G,SSP_EQ )
+     T   SBUFMAT   ,SDIR_A    , SDIR_B   ,GBUF%FOR_G,SSP_EQ ,
+     X    IPART     ,LIPART1  ,IPARTTG   )
 C--------------------------
       IF ((IMON_MAT==1).AND.ITASK == 0)CALL STOPTIME(TIMERS,35)
 C--------------------------

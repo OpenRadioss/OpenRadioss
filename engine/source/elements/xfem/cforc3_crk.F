@@ -87,7 +87,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      N            ISUBSTACK,UXINT_MEAN,UYINT_MEAN,UZINT_MEAN,NLEVXF,
      O            NODEDGE,CRKEDGE,DRAPE_SH4N,IPRI  ,NLOC_DMG,INDX_DRAPE, IGRE,
      P            DT     ,SNPC      ,  STF   ,GLOB_THERM, 
-     Q            USERL_AVAIL,MAXFUNC,SBUFMAT)
+     Q            USERL_AVAIL,MAXFUNC,SBUFMAT,IPART    )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -169,6 +169,9 @@ C     REAL
       TYPE (SENSORS_) ,INTENT(INOUT) :: SENSORS
       TYPE (DT_), INTENT(IN) :: DT
       type (glob_therm_) ,intent(inout) :: glob_therm
+     
+      INTEGER, DIMENSION(LIPART1, NPART), INTENT(IN)     :: IPART
+     
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -473,7 +476,8 @@ C-----------------------------
      R    INDX_DRAPE ,THKE, SEDRAPE  ,NUMEL_DRAPE,DT   ,
      Q    NCYCLE     ,SNPC      ,  STF,NXLAYMAX ,
      S    IDEL7NOK   ,USERL_AVAIL ,MAXFUNC  ,NPTTOT    ,SBUFMAT,
-     T    SDIR_A     ,SDIR_B   ,GBUF%FOR_G,SSP_EQ )
+     T    SDIR_A     ,SDIR_B   ,GBUF%FOR_G,SSP_EQ,
+     X    IPART      ,LIPART1  ,IPARTC   )
 C-----------------------------
         IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STOPTIME(TIMERS,35)
 C-----------------------------
