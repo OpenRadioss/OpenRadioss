@@ -52,6 +52,7 @@ C-----------------------------------------------
       USE FRONT_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       use intbufdef_mod 
+      use margin_reduction_mod , only : margin_reduction
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -191,6 +192,9 @@ C      LONGUEUR COTE 4
        DD=DD+ (DD1+DD2+DD3+DD4)
   10  CONTINUE
       DD0=DD/NRTM/FOUR
+      IF(NRTM >0 .AND. NRTM <= 3) THEN
+        call margin_reduction(X,NUMNOD,IRECT,NRTM,NSV,NSN,DRAD,GAP,DGAPLOAD,BUMULT,DD0)
+      ENDIF
       DD =DD0
 C      DD = MAX(DD0,ONEP251*GAP)
 C      DD = MAX(DD ,ONEP251*DRAD)

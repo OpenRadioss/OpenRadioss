@@ -54,6 +54,7 @@ C-----------------------------------------------
       USE TRI7BOX
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE INTBUFDEF_MOD 
+      use margin_reduction_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -76,7 +77,7 @@ C-----------------------------------------------
       INTEGER KREMNODE(*),REMNODE(*)
       INTEGER IXS(*), IXS10(*), IXS16(*), IXS20(*)
       LOGICAL, INTENT(in) :: FLAG_REMOVED_NODE !< flag to remove some S node from the list of candidates
-      INTEGER  , INTENT(IN) :: IELEM_M(2,NRTM)
+      INTEGER, INTENT(IN) :: IELEM_M(2,NRTM)
       integer, intent(in) :: nin !< interface index
       integer, intent(in) :: npari !< first dim of ipari
       integer, dimension(npari), intent(inout) :: ipari !< interface data
@@ -93,6 +94,7 @@ C     REAL
 
       INTEGER , INTENT(IN) :: NRTMT
       type(intbuf_struct_), intent(inout) :: intbuf_tab !< interface data 
+      integer :: candidate_count
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -118,6 +120,7 @@ C     REAL
       INTEGER :: NB_LARGE_NODES
       INTEGER (KIND=8) :: NBX8,NBY8,NBZ8,RES8,LVOXEL8
       INTEGER (KIND=8) :: IONE,IHUNDRED !< Integer constants in INTEGER 8 for comparisions
+      my_real :: xmin_base, ymin_base, zmin_base, xmax_base, ymax_base, zmax_base
 C-----------------------------------------------
       IONE=1
       IHUNDRED=100
@@ -178,9 +181,17 @@ C       IF (MSEGTYP(L)==0) DD_ST=MAX(DD_ST,DD1,DD2,DD3,DD4)
 C     TAILLE ZINF = .1*TAILLE MOYENNE ELEMENT DE CHAQUE COTE
 C     TAILLE BUCKET MIN = TZINF  * BUMULT
       DD0=DD/NRTM/FOUR
+      IF(NRTM > 0 .AND. NRTM <= 3) THEN
+        call margin_reduction(X,NUMNOD,IRECT,NRTM,NSV,NSN,DRAD,GAP,DGAPLOAD,BUMULT,DD0)
+! special case for floor and wall with only one element
+! the margin may be too large when a wall is modeled with only one element
+      END IF
+
       DD=DD0
+
 C     TZINF = BUMULT*DD
       MARGE = BUMULT*DD
+
 C calculation of tzinf based on the margin and not the other way around
       TZINF = MARGE + MAX(GAP+DGAPLOAD,DRAD)
 C marge_st: margin independent of bumult as input to find the same initial penalties (delete or coordinate change cases)
