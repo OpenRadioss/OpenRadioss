@@ -190,7 +190,7 @@
              if(.NOT.lFOUND)then
                !error surface soes not match
                  call ancmsg(msgid=1602,msgtype=msgerror,anmode=aninfo,i1=ebcs_uid,c1=trim(title), &
-                 C2="SURFACE NODES DO NOT MATCH")
+                 C2="SURFACE NODES DO NOT MATCH. CHECK IF N1 AND N2 DO BELONG TO SURFACE.")
                  exit
             end if
           END DO

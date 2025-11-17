@@ -33,8 +33,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    format_mod             ../starter/share/modules1/format_mod.F90
 !||    message_mod            ../starter/share/message_module/message_mod.F
 !||====================================================================
-      SUBROUTINE FINDELE(ALE_CONNECTIVITY, NNODE, NIX,  IDSU,ID,NSEG,IX,
-     .                   ISEG,IELE,ITYPE,IFAC,SURF_NODES,IADD,INVC,PM,X,TYPE,IGEO)
+      SUBROUTINE FINDELE(ALE_CONNECTIVITY, NNODE, NIX,  IDSU,ID,NSEG,NUMEL,IX,
+     .                   ISEG,IELE,ITYPE,IFAC,SURF_NODES,IADD,INVC,PM,X,TYPE,IGEO,ITAB)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -58,8 +58,11 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
-      INTEGER NNODE, NIX,  IDSU,ID,NSEG,IX(NIX,*),ISEG(*),IELE(*),ITYPE(*),
+      INTEGER NNODE, NIX,  IDSU,ID,NSEG,ISEG(*),IELE(*),ITYPE(*),
      .        IADD(*),INVC(*),IFAC(*),TYPE,SURF_NODES(NSEG,4)
+      INTEGER,INTENT(IN) :: NUMEL
+      INTEGER,INTENT(IN) :: IX(NIX,NUMEL)
+      INTEGER,INTENT(IN) :: ITAB(NUMNOD)
       INTEGER,INTENT(IN) :: IGEO(NPROPGI,NUMGEO)
       my_real PM(NPROPM,NUMMAT),X(3,SX/3)
 C-----------------------------------------------
@@ -125,10 +128,14 @@ C-----------------------------------------------
 
   230   CONTINUE
 
-        IF (NEL==0) THEN
+        IF (NEL == 0) THEN
           IERR=IERR+1
           NEIGH=NEIGH+1
-          WRITE(IOUT,*)' ** ERROR EBCS ',ID,' CANNOT FIND NEIGHBORING BRICK FOR SEGMENT',J,' OF SURFACE',IDSU
+          IF(N2D == 0)THEN
+            WRITE(ISTDO,*)' ** ERROR EBCS ',ID,' FACE IS NOT FACING A SOLID ELEMENT, FACE :', ITAB(IRECT(1:4))
+          ELSE
+            WRITE(ISTDO,*)' ** ERROR EBCS ',ID,' SEGMENTS IS NOT FACING A SOLID ELEMENT, SEG :', ITAB(IRECT(1:2))
+          ENDIF
           GOTO 500
         ENDIF
 
@@ -216,8 +223,12 @@ C-----------------------------------------------
         WRITE(ISTDO,*)' ** ERROR EBCS ',ID,' TURBULENCE NOT YET SUPPORTED'
         WRITE(IOUT,*)' ** ERROR EBCS ',ID,' TURBULENCE NOT YET SUPPORTED'
       ENDIF
-      IF(NEIGH/=0)THEN
-        WRITE(ISTDO,*)' ** ERROR EBCS ',ID,NEIGH,' SEGMENTS NOT FACING A BRICK '
+      IF(NEIGH /= 0)THEN
+        IF(N2D == 0)THEN
+          WRITE(ISTDO,*)' ** ERROR EBCS ',ID,NEIGH,' FACE IS NOT FACING A SOLID ELEMENT, FACE :', ITAB(IRECT(1:4))
+        ELSE
+          WRITE(ISTDO,*)' ** ERROR EBCS ',ID,NEIGH,' SEGMENTS IS NOT FACING A SOLID ELEMENT, SEG :', ITAB(IRECT(1:2))
+        ENDIF
       ENDIF
 
       RETURN

@@ -35,7 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    message_mod                        ../starter/share/message_module/message_mod.F
 !||====================================================================
       SUBROUTINE INIEBCS(ALE_CONNECTIVITY, IFLAG,IGRSURF, IXS, IXQ, IXTG, 
-     .     PM, IGEO, X, SENSORS, IVOLU, MULTI_FVM_IS_USED, EBCS_TAB, EBCS_TAG_CELL_SPMD)
+     .     PM, IGEO, X, SENSORS, IVOLU, MULTI_FVM_IS_USED, EBCS_TAB, EBCS_TAG_CELL_SPMD,ITAB)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -62,7 +62,8 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
-      INTEGER,INTENT(IN),TARGET :: IXS(NIXS,SIXS/NIXS),IXQ(NIXQ,SIXQ/NIXQ),IXTG(NIXTG,SIXTG/NIXTG)
+      INTEGER,INTENT(IN) :: ITAB(NUMNOD)
+      INTEGER,INTENT(IN),TARGET :: IXS(NIXS,NUMELS),IXQ(NIXQ,NUMELQ),IXTG(NIXTG,NUMELTG)
       INTEGER, INTENT(IN) :: IVOLU(NIMV,*)
       LOGICAL, INTENT(IN) :: MULTI_FVM_IS_USED
       INTEGER, INTENT(INOUT) :: EBCS_TAG_CELL_SPMD(NUMELQ+NUMELTG+NUMELS)
@@ -83,6 +84,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:, :), POINTER :: IX
       INTEGER :: NIX
       INTEGER :: ISU2, IDSU2
+      INTEGER :: NELEM
       integer, target :: nothing(1,1) !< dummy for indirection
 C=======================================================================
       EBCS_TAG_CELL_SPMD(1:NUMELQ+NUMELTG+NUMELS)=0
@@ -98,6 +100,7 @@ C=======================================================================
          CALL ICINVS(8, NUMELS, NIXS, IXS, MWA, MWA(1+(2+NUMNOD)))
           IX => IXS(1:NIXS, 1:NUMELS)
           NIX = NIXS
+          NELEM = NUMELS
       ELSEIF (NUMELQ /= 0) THEN
          LENMWA = NUMNOD + 2 + 4 * NUMELQ
          ALLOCATE(MWA(LENMWA), STAT=ERR)
@@ -107,6 +110,7 @@ C=======================================================================
          CALL ICINVS(4, NUMELQ, NIXQ, IXQ, MWA, MWA(1+(2+NUMNOD)))
          IX => IXQ(1:NIXQ, 1:NUMELQ)
          NIX = NIXQ
+         NELEM = NUMELQ
       ELSEIF (NUMELTG /= 0 .AND. MULTI_FVM_IS_USED) THEN
          LENMWA = NUMNOD + 2 + 3 * NUMELTG
          ALLOCATE(MWA(LENMWA), STAT=ERR)
@@ -116,6 +120,7 @@ C=======================================================================
          CALL ICINVS(3, NUMELTG, NIXTG, IXTG, MWA, MWA(1+(2+NUMNOD)))
          IX => IXTG(1:NIXTG, 1:NUMELTG)
          NIX = NIXTG
+         NELEM = NUMELTG
       ENDIF
 
       DO I = 1, NEBCS
@@ -347,7 +352,6 @@ C=======================================================================
              EBCS%la(1:3, 1:2*EBCS%nb_node) = ZERO
              !     ng
              EBCS%has_ng = .true.
-             print *, "allocate ng with size", 2*EBCS%nb_elem
              IF(IFLAG==0)ALLOCATE(EBCS%ng(2*EBCS%nb_elem))
              EBCS%ng(1:2*EBCS%nb_elem) = 0
              !     iloc
@@ -360,17 +364,17 @@ C=======================================================================
         IF(ISU>0)THEN
           IDSU = IGRSURF(ISU)%ID
           IF (N2D == 0) THEN
-             CALL FINDELE(ALE_CONNECTIVITY, 8, NIXS, IDSU,ID,NSEG,IXS,
+             CALL FINDELE(ALE_CONNECTIVITY, 8, NIXS, IDSU,ID,NSEG,NELEM,IXS,
      .            EBCS%iseg, EBCS%ielem, EBCS%itype,EBCS%iface, 
-     .            IGRSURF(ISU)%NODES,MWA,MWA(1+(2+NUMNOD)),PM,X,TYP,IGEO)
+     .            IGRSURF(ISU)%NODES,MWA,MWA(1+(2+NUMNOD)),PM,X,TYP,IGEO,ITAB)
           ELSEIF (NUMELQ /= 0) THEN
-             CALL FINDELE(ALE_CONNECTIVITY, 4, NIXQ, IDSU,ID,NSEG,IXQ,
+             CALL FINDELE(ALE_CONNECTIVITY, 4, NIXQ, IDSU,ID,NSEG,NELEM,IXQ,
      .            EBCS%iseg, EBCS%ielem,EBCS%itype, EBCS%iface,
-     .            IGRSURF(ISU)%NODES,MWA,MWA(1+(2+NUMNOD)),PM,X,TYP,IGEO)           
+     .            IGRSURF(ISU)%NODES,MWA,MWA(1+(2+NUMNOD)),PM,X,TYP,IGEO,ITAB)
           ELSEIF (NUMELTG /= 0) THEN
-             CALL FINDELE(ALE_CONNECTIVITY, 3, NIXTG, IDSU,ID,NSEG,IXTG,
+             CALL FINDELE(ALE_CONNECTIVITY, 3, NIXTG, IDSU,ID,NSEG,NELEM,IXTG,
      .            EBCS%iseg, EBCS%ielem,EBCS%itype, EBCS%iface,
-     .            IGRSURF(ISU)%NODES,MWA,MWA(1+(2+NUMNOD)),PM,X,TYP,IGEO)                  
+     .            IGRSURF(ISU)%NODES,MWA,MWA(1+(2+NUMNOD)),PM,X,TYP,IGEO,ITAB)
           ENDIF
 
           ! second suface treatment for /EBCS/CYCLIC
@@ -382,17 +386,17 @@ C=======================================================================
                 IF(ISU2>0)THEN
                   IDSU2 = IGRSURF(ISU2)%ID
                   IF (N2D == 0) THEN
-                     CALL FINDELE(ALE_CONNECTIVITY, 8, NIXS, IDSU2,ID,NSEG,IXS,
+                     CALL FINDELE(ALE_CONNECTIVITY, 8, NIXS, IDSU2,ID,NSEG,NELEM,IXS,
      .                     EBCS%iseg(NSEG+1), EBCS%ielem(NSEG+1), EBCS%itype(nseg+1),EBCS%iface(nseg+1),
-     .                     IGRSURF(ISU2)%NODES,MWA,MWA(1+(2+NUMNOD)),PM,X,TYP,IGEO)
+     .                     IGRSURF(ISU2)%NODES,MWA,MWA(1+(2+NUMNOD)),PM,X,TYP,IGEO,ITAB)
                   ELSEIF (NUMELQ /= 0) THEN
-                     CALL FINDELE(ALE_CONNECTIVITY, 4, NIXQ, IDSU2,ID,NSEG,IXQ,
+                     CALL FINDELE(ALE_CONNECTIVITY, 4, NIXQ, IDSU2,ID,NSEG,NELEM,IXQ,
      .                     EBCS%iseg(NSEG+1), EBCS%ielem(NSEG+1),EBCS%itype(NSEG+1), EBCS%iface(NSEG+1),
-     .                     IGRSURF(ISU2)%NODES,MWA,MWA(1+(2+NUMNOD)),PM,X,TYP,IGEO)
+     .                     IGRSURF(ISU2)%NODES,MWA,MWA(1+(2+NUMNOD)),PM,X,TYP,IGEO,ITAB)
                   ELSEIF (NUMELTG /= 0) THEN
-                     CALL FINDELE(ALE_CONNECTIVITY, 3, NIXTG, IDSU2,ID,NSEG,IXTG,
+                     CALL FINDELE(ALE_CONNECTIVITY, 3, NIXTG, IDSU2,ID,NSEG,NELEM,IXTG,
      .                     EBCS%iseg(NSEG+1), EBCS%ielem(NSEG+1),EBCS%itype(NSEG+1), EBCS%iface(NSEG+1),
-     .                     IGRSURF(ISU2)%NODES,MWA,MWA(1+(2+NUMNOD)),PM,X,TYP,IGEO)
+     .                     IGRSURF(ISU2)%NODES,MWA,MWA(1+(2+NUMNOD)),PM,X,TYP,IGEO,ITAB)
                   ENDIF
                   ! check link between two surfaces and order faces consequently
                   CALL EBCS_CYCLIC_SURFACE_MATCHING(TWF, EBCS, N2D, NUMNOD, X)
