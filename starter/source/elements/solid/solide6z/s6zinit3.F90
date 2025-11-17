@@ -54,18 +54,21 @@
 !||    message_mod             ../starter/share/message_module/message_mod.F
 !||    table_mat_vinterp_mod   ../starter/source/materials/tools/table_mat_vinterp.F
 !||====================================================================
-      subroutine s6zinit3(                                                     &                       
-        elbuf_str,mas      ,ixs      ,pm       ,x        ,detonators,          &
-        geo      ,ale_connectivity   ,iparg    ,dtelem   ,sigi      ,          &
-        nel      ,skew     ,igeo     ,stifn    ,partsav  ,v         ,          &
-        iparts   ,mss      ,ipart    ,glob_therm,sigsp   ,nsigi     ,          &
-        ipm      ,iuser    ,nsigs    ,volnod   ,bvolnod  ,vns       ,          &
-        bns      ,ptsol    ,bufmat   ,mcp      ,mcps     ,temp      ,          &
-        npf      ,tf       ,strsglob ,straglob ,mssa     ,fail_ini  ,          &
-        iloadp   ,facload  ,rnoise   ,perturb  ,mat_param,defaults_solid,      &
-        npropm   ,npropg   ,npropgi  ,npropmi  ,lskew    ,sizloadp  ,          &
-        lfacload ,nixs     ,nperturb ,nummat   ,numsol   ,lipart1   ,          &
-        i7stifs  ,isorth   ,istrain  ,jthe     ,mtn      ,nft       )                       
+      subroutine s6zinit3(                                                     & 
+        elbuf_str,nixs     ,numels   ,ixs      ,numnod   ,mas       ,          &      
+        npropm   ,nummat   ,pm       ,x        ,detonators,npropg   ,          &
+        numgeo   ,geo      ,ale_connectivity   ,nparg    ,                     &
+        iparg    ,nel      ,dtelem   ,nsigs    ,lsigi    ,sigi      ,          &
+        lskew    ,numskw   ,skew     ,npropgi  ,igeo     ,stifn     ,          &
+        npsav    ,npart    ,partsav  ,v        ,iparts   ,mss       ,          &
+        lipart1  ,ipart    ,glob_therm,nsigi   ,lsigsp   ,sigsp     ,          &
+        npropmi  ,ipm      ,iuser    ,volnod   ,bvolnod  ,vns       ,          &
+        bns      ,ptsol    ,sbufmat  ,bufmat   ,mcp      ,mcps      ,          &
+        temp     ,snpc     ,npf      ,stf      ,tf       ,strsglob  ,          &
+        straglob ,mssa     ,fail_ini ,sizloadp ,nloadp   ,iloadp    ,          &
+        lfacload ,facload  ,nperturb ,srnoise  ,rnoise   ,perturb   ,          &
+        mat_param,defaults_solid     ,numsol   ,i7stifs  ,isorth    ,          &   
+        istrain  ,jthe     ,mtn      ,nft      )                       
 !-------------------------------------------------------------------------------
 !   M o d u l e s
 !-------------------------------------------------------------------------------
@@ -90,75 +93,85 @@
 !-------------------------------------------------------------------------------
 !    D u m m y   a r g u m e n t s
 ! ------------------------------------------------------------------------------
-!< Integer type arguments
-      integer, dimension(nixs, nel),    intent(inout) :: ixs
-      integer, dimension(lipart1, nel), intent(inout) :: ipart
-      integer, dimension(npropmi, nel), intent(inout) :: ipm
-      integer, dimension(nel),          intent(inout) :: iparg
-      integer, dimension(nel),          intent(inout) :: iparts
-      integer, intent(in) :: nel
-      integer, intent(in) :: nsigi
-      integer, intent(in) :: iuser
-      integer, intent(in) :: nsigs
-      integer, dimension(nel), intent(in) :: npf
-      integer, intent(in) :: sizloadp     !< Size of load parameter
-      integer, dimension(sizloadp, nel), intent(in)    :: iloadp
-      integer, dimension(npropgi, nel),  intent(inout) :: igeo
-      integer, dimension(nel), intent(inout) :: strsglob
-      integer, dimension(nel), intent(inout) :: straglob
-      integer, dimension(nel), intent(inout) :: fail_ini
-      integer, dimension(nperturb), intent(in) :: perturb
-      integer, dimension(*), intent(in) :: ptsol
-!< Real type arguments
-      real(kind=wp), dimension(nel), intent(inout) :: mas
-      real(kind=wp), dimension(npropm, nel), intent(inout) :: pm
-      real(kind=wp), dimension(nel), intent(inout) :: x
-      real(kind=wp), dimension(npropg, nel), intent(inout) :: geo
-      real(kind=wp), dimension(nel), intent(inout) :: dtelem
-      real(kind=wp), dimension(nsigs, nel), intent(inout) :: sigi
-      real(kind=wp), dimension(lskew, nel), intent(inout) :: skew
-      real(kind=wp), dimension(nel), intent(inout) :: stifn
-      real(kind=wp), dimension(20, nel), intent(inout) :: partsav
-      real(kind=wp), dimension(nel), intent(inout) :: v
-      real(kind=wp), dimension(8, nel), intent(inout) :: mss
-      real(kind=wp), dimension(nsigi, nel), intent(inout) :: sigsp
-      real(kind=wp), dimension(nel), intent(inout) :: volnod
-      real(kind=wp), dimension(nel), intent(inout) :: bvolnod
-      real(kind=wp), dimension(8, nel), intent(inout) :: vns
-      real(kind=wp), dimension(8, nel), intent(inout) :: bns
-      real(kind=wp), dimension(nel), intent(inout) :: bufmat
-      real(kind=wp), dimension(nel), intent(inout) :: mcp
-      real(kind=wp), dimension(8, nel), intent(inout) :: mcps
-      real(kind=wp), dimension(nel), intent(inout) :: temp
-      real(kind=wp), dimension(nel), intent(inout) :: tf
-      real(kind=wp), dimension(nel), intent(inout) :: mssa
-      real(kind=wp), dimension(nperturb, nel), intent(inout) :: rnoise
-      real(kind=wp), dimension(lfacload, nel), intent(in) :: facload        ! Logical flag for shell elements
-!< Derived type arguments
-      type(elbuf_struct_), target, intent(inout) :: elbuf_str
-      type(detonators_struct_), intent(inout) :: detonators
-      type(t_ale_connectivity), intent(inout) :: ale_connectivity
-      type(matparam_struct_), dimension(nummat), intent(inout) :: mat_param
-      type(solid_defaults_), intent(in) :: defaults_solid
-      type(glob_therm_), intent(in) :: glob_therm
-!< New arguments
-      integer, intent(in) :: npropm       !< Number of material properties
-      integer, intent(in) :: npropg       !< Number of geometric properties
-      integer, intent(in) :: npropgi      !< Number of geometric integration properties
-      integer, intent(in) :: npropmi      !< Number of material integration properties
-      integer, intent(in) :: lskew        !< Logical flag for skew
-      integer, intent(in) :: lfacload     !< Load factor
-      integer, intent(in) :: nixs         !< Number of integration points
-      integer, intent(in) :: nperturb     !< Number of perturbations
-      integer, intent(in) :: nummat       !< Number of materials
-      integer, intent(in) :: numsol       !< Number of solutions
-      integer, intent(in) :: lipart1      !< Logical flag for part 1
-      integer, intent(inout) :: i7stifs   !< Stiffness matrix index
-      integer, intent(inout) :: isorth    !< Orthogonality index
-      integer, intent(inout) :: istrain   !< Strain index
-      integer, intent(inout) :: jthe      !< Thermal index
-      integer, intent(inout) :: mtn       !< Material type number
-      integer, intent(inout) :: nft       !< Number of failure types
+      type(elbuf_struct_), target,                intent(inout) :: elbuf_str  !< Element buffer structure
+      integer,                                    intent(in)    :: nixs       !< Element connectivity array size
+      integer,                                    intent(in)    :: numels     !< Number of 3D solid elements
+      integer,       dimension(nixs,numels),      intent(inout) :: ixs        !< Element connectivity array
+      integer,                                    intent(in)    :: numnod     !< Total number of nodes
+      real(kind=wp), dimension(numnod),           intent(inout) :: mas        !< Element mass array
+      integer,                                    intent(in)    :: npropm     !< Number of material properties
+      integer,                                    intent(in)    :: nummat     !< Number of materials
+      real(kind=wp), dimension(npropm,nummat),    intent(inout) :: pm         !< Material property array
+      real(kind=wp), dimension(3,numnod),         intent(inout) :: x          !< Global coordinate array
+      type(detonators_struct_),                   intent(inout) :: detonators
+      integer,                                    intent(in)    :: npropg     !< Number of properties per geometric property
+      integer,                                    intent(in)    :: numgeo     !< Number of geometric properties
+      real(kind=wp), dimension(npropg,numgeo),    intent(inout) :: geo        !< Geometric properties array
+      type(t_ale_connectivity),                   intent(inout) :: ale_connectivity
+      integer,                                    intent(in)    :: nparg      !< Number of parameters per group
+      integer,       dimension(nparg),            intent(inout) :: iparg      !< Element group parameters
+      integer,                                    intent(inout) :: nel        !< Number of elements
+      real(kind=wp), dimension(nel),              intent(inout) :: dtelem     !< Element time step array
+      integer,                                    intent(in)    :: nsigs    
+      integer,                                    intent(in)    :: lsigi     
+      real(kind=wp), dimension(nsigs,lsigi),      intent(inout) :: sigi
+      integer,                                    intent(in)    :: lskew
+      integer,                                    intent(in)    :: numskw
+      real(kind=wp), dimension(lskew,numskw+1),   intent(inout) :: skew
+      integer,                                    intent(in)    :: npropgi    !< Number of geometric integer parameter
+      integer,       dimension(npropgi,numgeo),   intent(inout) :: igeo       !< Geometric property integer parameter
+      real(kind=wp), dimension(numnod),           intent(inout) :: stifn      !< Nodal stiffness array
+      integer,                                    intent(in)    :: npsav      !< Size of the part save array
+      integer,                                    intent(in)    :: npart      !< Number of parts
+      real(kind=wp), dimension(npsav,npart),      intent(inout) :: partsav    !< Part save array
+      real(kind=wp), dimension(3,numnod),         intent(inout) :: v          !< Nodal velocity array
+      integer,       dimension(nel),              intent(inout) :: iparts     !< Part array
+      real(kind=wp), dimension(8,numels),         intent(inout) :: mss        !< Element mass array
+      integer,                                    intent(in)    :: lipart1    !< Logical flag for part 1
+      integer,       dimension(lipart1, npart),   intent(inout) :: ipart
+      type(glob_therm_),                          intent(in)    :: glob_therm
+      integer,                                    intent(in)    :: nsigi
+      integer,                                    intent(in)    :: lsigsp
+      real(kind=wp), dimension(nsigi,lsigsp),     intent(inout) :: sigsp
+      integer,                                    intent(in)    :: npropmi    !< Number of material integer parameter
+      integer,       dimension(npropmi,nummat),   intent(inout) :: ipm        !< Material property indices
+      integer,                                    intent(in)    :: iuser
+      real(kind=wp), dimension(numnod),           intent(inout) :: volnod
+      real(kind=wp), dimension(numnod),           intent(inout) :: bvolnod
+      real(kind=wp), dimension(8,numels),         intent(inout) :: vns
+      real(kind=wp), dimension(8,numels),         intent(inout) :: bns
+      integer,       dimension(numels),           intent(in)    :: ptsol
+      integer,                                    intent(in)    :: sbufmat
+      real(kind=wp), dimension(sbufmat),          intent(inout) :: bufmat
+      real(kind=wp), dimension(numnod),           intent(inout) :: mcp
+      real(kind=wp), dimension(8,numels),         intent(inout) :: mcps
+      real(kind=wp), dimension(numnod),           intent(inout) :: temp
+      integer,                                    intent(in)    :: snpc       !< Size of the function pointer array
+      integer,       dimension(snpc),             intent(inout) :: npf        !< Function pointer array
+      integer,                                    intent(in)    :: stf        !< Size of the time function array
+      real(kind=wp), dimension(stf),              intent(inout) :: tf         !< Time function array
+      integer,       dimension(numels),           intent(inout) :: strsglob
+      integer,       dimension(numels),           intent(inout) :: straglob
+      real(kind=wp), dimension(numels),           intent(inout) :: mssa
+      integer,       dimension(5),                intent(inout) :: fail_ini
+      integer,                                    intent(in)    :: sizloadp   !< Size of load parameter
+      integer,                                    intent(in)    :: nloadp     !< Number of load parameters
+      integer,       dimension(sizloadp,nloadp),  intent(in)    :: iloadp
+      integer,                                    intent(in)    :: lfacload      
+      real(kind=wp), dimension(lfacload, nloadp), intent(in)    :: facload    !< Logical flag for shell elements
+      integer,                                    intent(in)    :: nperturb   !< Number of perturbations
+      integer,                                    intent(in)    :: srnoise    !< Size of the random noise array
+      real(kind=wp), dimension(nperturb,srnoise), intent(inout) :: rnoise
+      integer,       dimension(nperturb),         intent(in)    :: perturb
+      type(matparam_struct_), dimension(nummat),  intent(inout) :: mat_param
+      type(solid_defaults_),                      intent(in)    :: defaults_solid
+      integer,                                    intent(in)    :: numsol     !< Number of solutions
+      integer,                                    intent(inout) :: i7stifs    !< Stiffness matrix index
+      integer,                                    intent(inout) :: isorth     !< Orthogonality index
+      integer,                                    intent(inout) :: istrain    !< Strain index
+      integer,                                    intent(inout) :: jthe       !< Thermal index
+      integer,                                    intent(inout) :: mtn        !< Material type number
+      integer,                                    intent(inout) :: nft        !< Number of failure types
 !------------------------------------------------
 !    L o c a l   V a r i a b l e s
 !------------------------------------------------
