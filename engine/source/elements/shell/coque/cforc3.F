@@ -109,7 +109,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      R   XFEM_STR, IG,  CRKEDGE,     DRAPE_SH4N,  IPRI,
      S   NLOC_DMG,    INDX_DRAPE,  IGRE,        JTUR,
      T   OUTPUT,      DT,          SNPC,        STF  ,
-     T   GLOB_THERM,  USERL_AVAIL, MAXFUNC,     SBUFMAT )
+     T   GLOB_THERM,  USERL_AVAIL, MAXFUNC,     SBUFMAT ,IPART   )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -195,6 +195,8 @@ C
       TYPE (GROUP_PARAM_),INTENT(IN)    :: GROUP_PARAM
       TYPE (DT_), INTENT(IN) :: DT
       type (glob_therm_) ,intent(inout) :: glob_therm
+    
+      INTEGER, DIMENSION(LIPART1,NPART), INTENT(IN)     :: IPART
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -574,8 +576,9 @@ C-----------------------------
      P  F_DEF       ,ITASK       ,DRAPE_SH4N  ,VAR_REG    ,NLOC_DMG   ,
      R  INDX_DRAPE  ,THKE        ,SEDRAPE     ,NUMEL_DRAPE  ,DT        ,
      Q  NCYCLE      ,SNPC        ,STF         ,NXLAYMAX    ,IDEL7NOK   , 
-     S  USERL_AVAIL ,MAXFUNC    ,NPTTOT       ,SBUFMAT     ,SDIR_A     ,
-     T  SDIR_B      ,GBUF%FOR_G  ,SSP_EQ )
+     S  USERL_AVAIL ,MAXFUNC     ,NPTTOT      ,SBUFMAT     ,SDIR_A     ,
+     T  SDIR_B      ,GBUF%FOR_G  ,SSP_EQ ,
+     X    IPART     ,LIPART1     ,IPARTC     )
 C-----------------------------
       IF ((IMON_MAT==1).AND. ITASK == 0)CALL STOPTIME(TIMERS,35)
 C-----------------------------

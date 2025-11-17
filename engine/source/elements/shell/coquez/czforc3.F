@@ -112,7 +112,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      S   DRAPE_SH4N,  NEL,         NLOC_DMG,    INDX_DRAPE,
      T   IGRE,        JTUR,        DT,          NCYCLE,
      U   SNPC,        STF,         GLOB_THERM,  IDEL7NOK,
-     U   USERL_AVAIL, MAXFUNC,     SBUFMAT)
+     U   USERL_AVAIL, MAXFUNC,     SBUFMAT,IPART     ,LIPART1)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -196,6 +196,10 @@ C     real or real*8
       TYPE (MAT_ELEM_)   ,INTENT(INOUT) :: MAT_ELEM
       TYPE (DT_)         ,INTENT(IN)    :: DT
       type (glob_therm_) ,intent(inout) :: glob_therm
+      integer, intent(in) :: LIPART1
+ 
+      INTEGER, DIMENSION(LIPART1,NPART), INTENT(IN)     :: IPART
+
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
 C   L O C A L   V A R I A B L E S
 C--------------------------------
@@ -617,7 +621,8 @@ C-----------------------------------------------
      R      INDX_DRAPE,THKE      ,SEDRAPE     ,NUMEL_DRAPE,DT    ,
      Q      NCYCLE    ,SNPC      ,STF         ,NXLAYMAX  ,IDEL7NOK  ,
      S      USERL_AVAIL ,MAXFUNC ,NPTTOT      ,SBUFMAT   ,SDIR_A    ,
-     T      SDIR_B   ,GBUF%FOR_G ,SSP_EQ      )
+     T      SDIR_B   ,GBUF%FOR_G ,SSP_EQ    ,
+     X    IPART      ,LIPART1   ,IPARTC   )
 
 C-----------------------------------------------
 c        

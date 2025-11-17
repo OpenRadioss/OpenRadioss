@@ -127,7 +127,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      S   FPINCH,      STIFPINCH,   INDX_DRAPE,  IGRE,
      T   JTUR,        DT       ,    NCYCLE,     SNPC,
      Y   STF ,        GLOB_THERM ,  NXLAYMAX,   IDEL7NOK,
-     U   USERL_AVAIL, MAXFUNC,     SBUFMAT)
+     U   USERL_AVAIL, MAXFUNC,     SBUFMAT,IPART     ,LIPART1  )
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -211,6 +211,10 @@ C     real or real*8
       TYPE (SENSORS_) ,INTENT(INOUT) :: SENSORS
       TYPE (DT_) ,INTENT(IN) :: DT
       type (glob_therm_) ,intent(inout)   :: glob_therm
+      integer, intent(in) :: LIPART1
+      !//TODO:no *
+      INTEGER, DIMENSION(LIPART1, NPART), INTENT(IN)     :: IPART
+
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
@@ -837,7 +841,8 @@ C-----------------
      R    INDX_DRAPE ,THKE     ,SEDRAPE   ,NUMEL_DRAPE  ,DT   ,
      Q    NCYCLE     ,SNPC     ,STF       ,NXLAYMAX,    IDEL7NOK    ,
      S    USERL_AVAIL ,MAXFUNC ,NPTTOT    ,SBUFMAT,     SDIR_A      ,
-     T    SDIR_B     ,GBUF%FORPG_G(PTF)   ,SSP_EQ)        
+     T    SDIR_B     ,GBUF%FORPG_G(PTF)   ,SSP_EQ,
+     X    IPART      ,LIPART1  ,IPARTC     )   
         ENDIF
         SSP_MAX(JFT:JLT) = MAX(SSP_MAX(JFT:JLT),SSP_EQ(JFT:JLT))
 C-----------------

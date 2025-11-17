@@ -109,7 +109,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      D       DIR1_CRK ,DIR2_CRK ,IPARG    ,JHBE      ,ISMSTR   ,JTHE     ,                        
      E       TENSX    ,IR       ,IS       ,NLAY      ,NPT      ,IXLAY    ,             
      F       IXEL     ,F_DEF    ,ITASK    ,PM_STACK ,ISUBSTACK ,STACK    ,
-     G       VARNL    ,NLOC_DMG ,NLAY_MAX ,LAYNPT_MAX,DT       ,SSP_EQ )
+     G       VARNL    ,NLOC_DMG ,NLAY_MAX ,LAYNPT_MAX,DT       ,SSP_EQ  ,
+     J       IPART    ,IPARTC ) 
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -181,6 +182,8 @@ C-----------------------------------------------
       TYPE (NLOCAL_STR_) :: NLOC_DMG 
       TYPE (MAT_ELEM_) ,INTENT(INOUT) ,TARGET :: MAT_ELEM
       TYPE (DT_) ,INTENT(IN) :: DT
+      INTEGER, DIMENSION(LIPART1,NPART), INTENT(IN)     :: IPART
+      integer, intent(in),dimension(NEL) ::  IPARTC
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1985,7 +1988,8 @@ c--------------------------------------------------
      .                       THK_LY   ,THKLY    ,OFF      ,STACK    ,
      .                       ISUBSTACK,IGTYP    ,FAILWAVE ,FWAVE_EL ,
      .                       NLAY_MAX ,LAYNPT_MAX,NUMGEO  ,NUMSTACK ,
-     .                       IGEO     ,PRINT_FAIL)
+     .                       IGEO     ,PRINT_FAIL,                
+     .                       IPART    ,LIPART1  ,IPARTC   ,NPART)
         ELSE
           CALL FAIL_SETOFF_NPG_C(
      .                       ELBUF_STR,MAT_ELEM ,GEO      ,PID(1)   ,
@@ -1994,7 +1998,8 @@ c--------------------------------------------------
      .                       OFF      ,NPG      ,STACK    ,ISUBSTACK, 
      .                       IGTYP    ,FAILWAVE ,FWAVE_EL ,NLAY_MAX ,
      .                       LAYNPT_MAX,NUMGEO  ,IPG      ,NUMSTACK ,
-     .                       IGEO     ,PRINT_FAIL)
+     .                       IGEO     ,PRINT_FAIL,                
+     .                       IPART    ,LIPART1  ,IPARTC   ,NPART)
         ENDIF
       ENDIF  
 c---

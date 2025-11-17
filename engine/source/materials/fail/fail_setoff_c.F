@@ -36,7 +36,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                         THK_LY   ,THKLY    ,OFF      ,STACK    ,
      .                         ISUBSTACK,IGTYP    ,FAILWAVE ,FWAVE_EL ,
      .                         NLAY_MAX ,LAYNPT_MAX,NUMGEO  ,NUMSTACK ,
-     .                         IGEO     ,PRINT_FAIL)
+     .                         IGEO     ,PRINT_FAIL,
+     .                         IPART    ,LIPART1  ,IPARTC   ,NPART)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -63,8 +64,10 @@ C-----------------------------------------------
       my_real, DIMENSION(NPROPG,NUMGEO), INTENT(IN) :: GEO
       INTEGER, DIMENSION(NPROPGI,NUMGEO),INTENT(IN) :: IGEO
       INTEGER,INTENT(IN) :: PID,NEL,NLAY,NPTTOT,IGTYP,ISUBSTACK,
-     .                      NLAY_MAX,LAYNPT_MAX,NUMGEO,NUMSTACK
-      INTEGER, DIMENSION(NEL), INTENT(IN)           :: NGL
+     .                      NLAY_MAX,LAYNPT_MAX,NUMGEO,NUMSTACK,LIPART1,
+     .                      NPART
+      INTEGER, DIMENSION(LIPART1,NPART), INTENT(IN)     :: IPART
+      INTEGER, DIMENSION(NEL), INTENT(IN)           :: NGL,IPARTC
       my_real, DIMENSION(NEL,NLAY_MAX*LAYNPT_MAX), INTENT(IN) :: THK_LY
       my_real, DIMENSION(NPTTOT*NEL), INTENT(IN)    :: THKLY
       my_real, DIMENSION(NEL), INTENT(INOUT)        :: OFF
@@ -73,6 +76,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(NEL), INTENT(INOUT)        :: FWAVE_EL
       TYPE (MAT_ELEM_) ,INTENT(INOUT)               :: MAT_ELEM
       LOGICAL, DIMENSION(NEL), INTENT(INOUT)        :: PRINT_FAIL
+         
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -114,6 +118,8 @@ c
           PTHKF(IL,IFL) = MAT_ELEM%MAT_PARAM(IMAT)%FAIL(IFL)%PTHK
         END DO
       END DO
+      
+      
       !=================================================================
       ! 1 LAYER PROPERTIES - TYPE1/TYPE9
       !=================================================================                                              
@@ -217,16 +223,16 @@ c
               ENDIF   
               DO I = 1,NINDXLY
 #include      "lockon.inc"                           
-                WRITE(IOUT, 3000) TRIM(FAIL_NAME(INDXLY(I))),ID_PLY,NGL(INDXLY(I))    
-                WRITE(ISTDO,3100) TRIM(FAIL_NAME(INDXLY(I))),ID_PLY,NGL(INDXLY(I)),TT 
+                WRITE(IOUT, 3000) TRIM(FAIL_NAME(INDXLY(I))),ID_PLY,NGL(INDXLY(I)),IPART(4,IPARTC(INDXLY(I)))    
+                WRITE(ISTDO,3100) TRIM(FAIL_NAME(INDXLY(I))),ID_PLY,NGL(INDXLY(I)),IPART(4,IPARTC(INDXLY(I))),TT 
 #include      "lockoff.inc"                          
               ENDDO ! |-> I
             ! -> Print out layer failure
             ELSE 
               DO I = 1,NINDXLY
 #include      "lockon.inc"                           
-                WRITE(IOUT, 2000) TRIM(FAIL_NAME(INDXLY(I))),IL,NGL(INDXLY(I))    
-                WRITE(ISTDO,2100) TRIM(FAIL_NAME(INDXLY(I))),IL,NGL(INDXLY(I)),TT 
+                WRITE(IOUT, 2000) TRIM(FAIL_NAME(INDXLY(I))),IL,NGL(INDXLY(I)),IPART(4,IPARTC(INDXLY(I)))    
+                WRITE(ISTDO,2100) TRIM(FAIL_NAME(INDXLY(I))),IL,NGL(INDXLY(I)),IPART(4,IPARTC(INDXLY(I))),TT 
 #include      "lockoff.inc"                          
               ENDDO ! |-> I
             ENDIF
@@ -346,8 +352,8 @@ c
             ENDIF                                   
             DO I = 1,NINDXLY                                          
 #include     "lockon.inc"                                             
-              WRITE(IOUT, 3000) TRIM(FAIL_NAME(INDXLY(I))),ID_PLY,NGL(INDXLY(I))                   
-              WRITE(ISTDO,3100) TRIM(FAIL_NAME(INDXLY(I))),ID_PLY,NGL(INDXLY(I)),TT                
+              WRITE(IOUT, 3000) TRIM(FAIL_NAME(INDXLY(I))),ID_PLY,NGL(INDXLY(I)),IPART(4,IPARTC(INDXLY(I)))                   
+              WRITE(ISTDO,3100) TRIM(FAIL_NAME(INDXLY(I))),ID_PLY,NGL(INDXLY(I)),IPART(4,IPARTC(INDXLY(I))),TT                
 #include     "lockoff.inc"                                            
             ENDDO ! |-> I                                                  
           ENDIF
@@ -393,10 +399,12 @@ c
       !=======================================================================
  1000 FORMAT(1X,'-- RUPTURE (',A,') OF SHELL ELEMENT NUMBER ',I10)
  1100 FORMAT(1X,'-- RUPTURE (',A,') OF SHELL ELEMENT :',I10,' AT TIME :',G11.4)
- 2000 FORMAT(1X,'-- FAILURE (',A,') OF LAYER',I3, ' ,SHELL ELEMENT NUMBER ',I10)
+ 2000 FORMAT(1X,'-- FAILURE (',A,') OF LAYER',I3, ' ,SHELL ELEMENT NUMBER ',I10,
+     .       1X,' BELONGING TO PART ID :', I5)
  2100 FORMAT(1X,'-- FAILURE (',A,') OF LAYER',I3, ' ,SHELL ELEMENT NUMBER ',I10,
-     .       1X,'AT TIME :',G11.4)
- 3000 FORMAT(1X,'-- FAILURE (',A,') OF PLY ID ',I10, ' ,SHELL ELEMENT NUMBER ',I10)
+     .       1X,' BELONGING TO PART ID :', I5,' AT TIME :',G11.4)
+ 3000 FORMAT(1X,'-- FAILURE (',A,') OF PLY ID ',I10, ' ,SHELL ELEMENT NUMBER ',I10,
+     .       1X,' BELONGING TO PART ID :', I5)
  3100 FORMAT(1X,'-- FAILURE (',A,') OF PLY ID ',I10, ' ,SHELL ELEMENT NUMBER ',I10,
-     .       1X,'AT TIME :',G11.4)
+     .       1X,' BELONGING TO PART ID :', I5,' AT TIME :',G11.4)
       END

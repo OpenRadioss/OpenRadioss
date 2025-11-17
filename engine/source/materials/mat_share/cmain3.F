@@ -83,7 +83,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      R           INDX_DRAPE,THKE      ,SEDRAPE   ,NUMEL_DRAPE,DT        ,
      Q           NCYCLE    , SNPC     ,STF       ,NXLAYMAX  ,IDEL7NOK   ,
      S           USERL_AVAIL, MAXFUNC ,VARNL_NPTTOT, SBUFMAT   ,SDIR_A    ,
-     T          SDIR_B    ,FOR_G      ,SSP_EQ   )
+     T           SDIR_B    ,FOR_G      ,SSP_EQ   ,IPART     ,LIPART1,
+     T           IPARTC    )
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -170,6 +171,10 @@ C-----------------------------------------------
       TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
       TYPE (DT_), INTENT(IN) :: DT
       my_real, dimension(nel,5), intent(inout) :: FOR_G
+      integer, intent(in) :: LIPART1
+      
+      INTEGER, DIMENSION(LIPART1,NPART), INTENT(IN)     :: IPART
+      INTEGER, DIMENSION(NEL), INTENT(IN)           :: IPARTC
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -298,7 +303,8 @@ c
      D       DIR1_CRK,DIR2_CRK,IPARG   ,JHBE    ,ISMSTR  ,JTHE    ,
      E       TENS    ,IR      ,IS      ,NLAY    ,NPT     ,IXLAY   ,
      F       IXEL    ,F_DEF   ,ITASK   ,STACK%PM ,ISUBSTACK,STACK ,
-     G       VARNL   ,NLOC_DMG,NLAY_MAX,LAYNPT_MAX,DT    ,SSP_EQ  )
+     G       VARNL   ,NLOC_DMG,NLAY_MAX,LAYNPT_MAX,DT    ,SSP_EQ  ,
+     J       IPART   ,IPARTC  ) 
 cc----------------------------
       ELSE   ! Radioss material laws , NPT > 0
 c----------------------------
@@ -334,7 +340,8 @@ c
      *       NPROPMI ,NPROPM  ,NPROPG,IMON_MAT,NUMGEO  ,
      *       NUMSTACK, DT1    ,TT  ,NXLAYMAX ,IDEL7NOK,USERL_AVAIL,
      *       MAXFUNC,NUMMAT,VARNL_NPTTOT,    SBUFMAT ,SDIR_A  ,SDIR_B  ,NPARG,
-     *       IDAMP_FREQ_RANGE,DAMP_BUF ,SSP_EQ  )
+     *       IDAMP_FREQ_RANGE,DAMP_BUF ,SSP_EQ  ,IPART  ,LIPART1,
+     T       IPARTC  ,NPART)
       ENDIF ! IF (NPT == 0) 
 C----------------------------------------------------------------------
       IF (IEXPAN > 0 .AND. JTHE > 0. AND. IDT_THERM==0) THEN

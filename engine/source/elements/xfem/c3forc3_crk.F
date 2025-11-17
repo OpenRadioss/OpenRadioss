@@ -92,7 +92,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      O   CRKEDGE,     DRAPE_SH3N,  IPRI,        NLOC_DMG,
      P   INDX_DRAPE,  IGRE,        DT,          NCYCLE ,
      R   SNPC,        STF,         GLOB_THERM,  IDEL7NOK,
-     Q   USERL_AVAIL, MAXFUNC,     SBUFMAT)
+     Q   USERL_AVAIL, MAXFUNC,     SBUFMAT,IPART     ,LIPART1 )
 C-----------------------------------------------
       USE TIMER_MOD
       USE TABLE_MOD
@@ -171,6 +171,10 @@ C-----------------------------------------------
       TYPE (SENSORS_) ,INTENT(INOUT) :: SENSORS
       TYPE (DT_), INTENT(IN) :: DT
       type (glob_therm_) ,intent(inout)   :: glob_therm
+      integer, intent(in) :: LIPART1
+      !//TODO:no *
+      INTEGER, DIMENSION(LIPART1,NPART), INTENT(IN)     :: IPART
+    
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -481,7 +485,8 @@ C--------------------------
      R   INDX_DRAPE , THKE    ,SEDRAPE   ,NUMEL_DRAPE,     DT  ,
      Q   NCYCLE     ,SNPC      ,  STF    ,NXLAYMAX   ,IDEL7NOK ,
      S   USERL_AVAIL, MAXFUNC,      NPTTOT,BUFMAT     ,SDIR_A   ,
-     T   SDIR_B     ,GBUF%FOR_G,SSP_EQ )
+     T   SDIR_B     ,GBUF%FOR_G,SSP_EQ,
+     X    IPART     ,LIPART1 ,IPARTTG   )
 
 C--------------------------
         IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STOPTIME(TIMERS,35)
