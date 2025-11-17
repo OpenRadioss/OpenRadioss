@@ -93,6 +93,7 @@ C     REAL
 
       INTEGER , INTENT(IN) :: NRTMT
       type(intbuf_struct_), intent(inout) :: intbuf_tab !< interface data 
+      integer :: candidate_count
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -118,6 +119,7 @@ C     REAL
       INTEGER :: NB_LARGE_NODES
       INTEGER (KIND=8) :: NBX8,NBY8,NBZ8,RES8,LVOXEL8
       INTEGER (KIND=8) :: IONE,IHUNDRED !< Integer constants in INTEGER 8 for comparisions
+      my_real :: xmin_base, ymin_base, zmin_base, xmax_base, ymax_base, zmax_base
 C-----------------------------------------------
       IONE=1
       IHUNDRED=100
@@ -178,9 +180,55 @@ C       IF (MSEGTYP(L)==0) DD_ST=MAX(DD_ST,DD1,DD2,DD3,DD4)
 C     TAILLE ZINF = .1*TAILLE MOYENNE ELEMENT DE CHAQUE COTE
 C     TAILLE BUCKET MIN = TZINF  * BUMULT
       DD0=DD/NRTM/FOUR
+      write(6,*) ' AVERAGE ELEMENT LENGTH DD ',DD0,NRTM
+      IF(NRTM <= 3) THEN
+! special case for floor and wall with only one element
+! the margin may be too large when a wall is modeled with only one element
+
+        DO i = 1, NRTM
+          XMIN_BASE = MIN(X(1,IRECT(1,i)),X(1,IRECT(2,i)))
+          XMIN_BASE = MIN(XMIN_BASE,MIN(X(1,IRECT(3,i)),X(1,IRECT(4,i))))
+          YMIN_BASE = MIN(X(2,IRECT(1,i)),X(2,IRECT(2,i)))
+          YMIN_BASE = MIN(YMIN_BASE,MIN(X(2,IRECT(3,i)),X(2,IRECT(4,i))))
+          ZMIN_BASE = MIN(X(3,IRECT(1,i)),X(3,IRECT(2,i)))
+          ZMIN_BASE = MIN(ZMIN_BASE,MIN(X(3,IRECT(3,i)),X(3,IRECT(4,i))))
+          XMAX_BASE = MAX(X(1,IRECT(1,i)),X(1,IRECT(2,i))) 
+          XMAX_BASE = MAX(XMAX_BASE,MAX(X(1,IRECT(3,i)),X(1,IRECT(4,i))))
+          YMAX_BASE = MAX(X(2,IRECT(1,i)),X(2,IRECT(2,i)))
+          YMAX_BASE = MAX(YMAX_BASE,MAX(X(2,IRECT(3,i)),X(2,IRECT(4,i)))) 
+          ZMAX_BASE = MAX(X(3,IRECT(1,i)),X(3,IRECT(2,i))) 
+          ZMAX_BASE = MAX(ZMAX_BASE,MAX(X(3,IRECT(3,i)),X(3,IRECT(4,i))))
+        enddo
+        candidate_count = nsn
+        do while(candidate_count > MAX(1000, nsn/100))
+          XMAX = XMAX_BASE + BUMULT*DD0
+          YMAX = YMAX_BASE + BUMULT*DD0
+          ZMAX = ZMAX_BASE + BUMULT*DD0
+          XMIN = XMIN_BASE - BUMULT*DD0  
+          YMIN = YMIN_BASE - BUMULT*DD0
+          ZMIN = ZMIN_BASE - BUMULT*DD0
+          candidate_count = 0
+          DO  I=1,NSN
+            J=NSV(I)
+            ! count the number of NSN within the box defined by XMIN, XMAX, YMIN, YMAX, ZMIN, ZMAX
+            IF( X(1,J) >= XMIN .AND. X(1,J) <= XMAX 
+     .    .AND. X(2,J) >= YMIN .AND. X(2,J) <= YMAX 
+     .    .AND. X(3,J) >= ZMIN .AND. X(3,J) <= ZMAX ) THEN
+               candidate_count = candidate_count + 1
+            END IF
+          ENDDO
+          IF(CANDIDATE_COUNT <= MAX(1000, nsn/100)) EXIT
+          DD0 = DD0 * 0.75
+          write(6,*) "reduction of margin for single element interface, new margin size: ", BUMULT*DD0, candidate_count,nsn
+          if(DD0 < (DD/NRTM/FOUR)*0.001) exit ! avoid too small margin 
+        enddo
+      END IF
+
       DD=DD0
+
 C     TZINF = BUMULT*DD
       MARGE = BUMULT*DD
+
 C calculation of tzinf based on the margin and not the other way around
       TZINF = MARGE + MAX(GAP+DGAPLOAD,DRAD)
 C marge_st: margin independent of bumult as input to find the same initial penalties (delete or coordinate change cases)
