@@ -60,9 +60,9 @@ C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       LOGICAL :: COMPUTATION_NEEDED
-      INTEGER IE,NG, ITY, LFT, LLT, NPT, N, I, J,
-     .        IPRT, NEL, IAD, NPAR, NFT, IMID,IALEL,MTN,
-     .        JJ, K, SH_IH, IHBE,BUF,ISHPLYXFEM,IPID,IPT,
+      INTEGER IE,NG, ITY, LFT, LLT, NPT, N, I,
+     .        IPRT, NEL, IAD, NFT,MTN,
+     .         K, IHBE,ISHPLYXFEM,IPID,IPT,
      .        IPLY,IPPID,JPID,
      .        NCOUNT,SHCOUNT,MATER(NPART),ISUBSTACK
       INTEGER, DIMENSION(:), ALLOCATABLE :: TAG_ARRAY,TAG_SHELLS

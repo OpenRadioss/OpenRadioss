@@ -70,7 +70,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: IFAIL_SH,IMODEL,ISOLID,DMG_FLAG,TMOD
-      my_real :: SIGT1,SIGT2,SIGT3,SIGT12,SIGC1,SIGC2,SOFT1,SOFT2,SOFT3,
+      my_real :: SIGT1,SIGT2,SIGT3,SIGC1,SIGC2,SOFT1,SOFT2,SOFT3,
      .    FSIG12,MSIG12,MSIG23,MSIG13,ANGLE,SDELAM,CSIG,PTHKF,
      .    TMAX,RATIO,TCUT,EPSP_REF,EPSP_MIN
       LOGICAL  :: IS_AVAILABLE,IS_ENCRYPTED

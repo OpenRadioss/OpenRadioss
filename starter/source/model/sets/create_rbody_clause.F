@@ -167,7 +167,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,IDS,NINDX,LIST_SIZE,IDS_MAX,NODSYS,RBYM
+      INTEGER I,IDS,NINDX,LIST_SIZE,IDS_MAX,RBYM
       INTEGER IWORK(70000)
 !
       INTEGER, ALLOCATABLE, DIMENSION(:) :: RBYM_READ_TMP,INDEX,SORT
@@ -308,7 +308,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,IDS,LIST_SIZE,IDS_MAX,GENE_MAX,K,R,R1
+      INTEGER GENE_MAX,K,R,R1
       INTEGER START_GENE,END_GENE,INCR_GENE,RSTART,RSTOP,STACK,STACK_ONE,NB_RESULT
 !-
       INTEGER, ALLOCATABLE, DIMENSION(:) :: RBYM_READ_TMP,

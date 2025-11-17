@@ -60,7 +60,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      INTEGER IIN,IOUT,IUNIT
+      INTEGER IOUT,IUNIT
       my_real PM(NPROPM)
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
       TYPE(MATPARAM_STRUCT_),INTENT(INOUT) :: MAT_PARAM
@@ -73,7 +73,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real :: C, S1, S2, S3, GAMA0, A, E0, RHO0,RHOI,RHOR
-      my_real :: MU,MU2,FAC1,DPDMU,PP,BB,AA
+      my_real :: MU2,FAC1,DPDMU,PP,BB,AA
       my_real :: MU0, DF, SSP0, G0, FAC, FF, FG, XX, DFF, DFG
       my_real :: PSH !< pressure shift
       my_real :: P0  !< initial pressure

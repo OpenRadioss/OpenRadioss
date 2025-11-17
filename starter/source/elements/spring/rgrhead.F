@@ -83,7 +83,7 @@ C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER 
-     .        I,J,K,L, NG, ISSN, NPN, NN, N, MID, PID ,IGTYP,
+     .        I,J,K, ISSN, NN, MID, PID ,IGTYP,
      .        II,JJ,II2,JJ2,II3,JJ3,II4,JJ4,II5,JJ5,
      .        IFLAG_GTYP,IPRLD,
      .        MSKMTN,MSKISN,MSKPID, MODE, WORK(70000)

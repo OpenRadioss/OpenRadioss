@@ -80,7 +80,7 @@ C-----------------------------------------------
       my_real :: XX,YY,ZZ
       my_real :: XX2,YY2,ZZ2
       my_real :: DX,DY,DZ
-      my_real :: DIAG, DIAG_MAX , MAX_RATIO, LEN_EDGE(12), LMAX, LMIN, RATIO2
+      my_real :: DIAG, DIAG_MAX , LEN_EDGE(12), LMAX, LMIN, RATIO2
       my_real :: RHO_MAX, RHO0
       LOGICAL :: CHECK_ASPECT 
       CHARACTER(LEN=NCHARTITLE) :: MSGTITL

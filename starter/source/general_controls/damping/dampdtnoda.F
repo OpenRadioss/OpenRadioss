@@ -57,10 +57,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N,I,J,ISK,IGR,ND,K,L,LL,FL_FREQ_RANGE
-      my_real FACTB,DAMPBR,DAMPAR,D_TSTART,D_TSTOP,DAMPT,
-     .   DT2N(NUMNOD),BB,COEFF,DTN,DTN2,DAMPAI,DAMPBI,DT0,DAMPA3,
-     .   ALPHA05,BETA1,DTMAX,FAC,DTMI1,FAC0    
+      INTEGER I,J,IGR,ND,FL_FREQ_RANGE
+      my_real DAMPT,
+     .   DT2N(NUMNOD),BB,COEFF,DTN,DTN2,DAMPAI,DAMPBI,DT0,
+     .   DTMAX,FAC,DTMI1    
 C----------------------------------------------------------
         CALL READ_ENGINE_DTMIN(DTMI1)
         DTMAX = EP04

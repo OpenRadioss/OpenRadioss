@@ -417,7 +417,7 @@ C-----------------------------------------------
       INTEGER I
       my_real S1,S2,SUMA
       my_real, DIMENSION(MVSIZ) :: X21,Y21,Z21,X31,Y31,Z31,X41,Y41,Z41,
-     .   X42,Y42,Z42,E1X,E2X,E3X,E1Y,E2Y,E3Y,E1Z,E2Z,E3Z,SUM
+     .   X42,Y42,Z42,E1X,E2X,E3X,E1Y,E2Y,E3Y,E1Z,E2Z,E3Z
 C=======================================================================
       DO I=LFT,LLT
         X21(I) = X2(I)-X1(I)

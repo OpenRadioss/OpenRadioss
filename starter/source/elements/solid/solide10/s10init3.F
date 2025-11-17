@@ -116,14 +116,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IP,NF1,NF2,IBID,IGTYP,NUVAR,IREP,NCC,IDEF,JHBE,IPID
+      INTEGER I,J,IP,NF1,NF2,IGTYP,NUVAR,IREP,NCC,IDEF,JHBE,IPID
       INTEGER ID,NPTR,NPTS,NPTT,NLAY,L_PLA,L_SIGB,IBOLTP,IINT,IMAS_DS
       CHARACTER(LEN=NCHARTITLE)::TITR
       INTEGER NC(MVSIZ,10),MAT(MVSIZ), PID(MVSIZ), NGL(MVSIZ)
       DOUBLE PRECISION
      .   XX(MVSIZ,10), YY(MVSIZ,10), ZZ(MVSIZ,10) 
       my_real
-     .   BID, FV,
+     .    FV,
      .   VOLU(MVSIZ), MASS(MVSIZ),VOLG(MVSIZ),
      .   VOLP(MVSIZ,5), STI(MVSIZ),DELTAX(MVSIZ),DELTAX2(MVSIZ),
      .   VX(MVSIZ,10), VY(MVSIZ,10), VZ(MVSIZ,10),

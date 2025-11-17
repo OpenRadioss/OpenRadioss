@@ -44,8 +44,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,K,J1,J2,SIZEMAX,NSEG,IEXT,NSEG_EDGE_EXT,
-     .        NSEG_EDGE_ALL,NSEG_SURF,LINE_NENTITY
+      INTEGER I,K,J1,J2,SIZEMAX,NSEG,NSEG_EDGE_EXT,
+     .        NSEG_SURF,LINE_NENTITY
       INTEGER IWORK(70000),IPERM(4)
 !
       DATA IPERM /2,3,4,1/

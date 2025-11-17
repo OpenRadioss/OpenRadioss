@@ -83,7 +83,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,II, N, JHBE, IMAT,IGTYP, ITRS, ISTRA, IPID, IBID,
+      INTEGER I, N, JHBE, IMAT,IGTYP, ITRS, ISTRA, IPID, IBID,
      .        NITSAV,JJ(6)
       INTEGER ID
       CHARACTER(LEN=NCHARTITLE)::TITR

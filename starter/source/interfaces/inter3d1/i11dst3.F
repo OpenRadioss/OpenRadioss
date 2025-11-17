@@ -55,8 +55,8 @@ C-----------------------------------------------
       INTEGER I
       my_real
      .     XS12,YS12,ZS12,XM12,YM12,ZM12,XA,XB,
-     .     XS2,XM2,XSM,XS2M2,YS2,YM2,YSM,YS2M2,ZS2,ZM2,ZSM,ZS2M2,
-     .     XX,YY,ZZ,ALS,ALM,DET,H1S,H2S,H1M,H2M,
+     .     XS2,XM2,XSM,XS2M2,YS2M2,ZS2M2,
+     .     DET,H1S,H2S,H1M,H2M,
      .     GAP2,DRAD2,
      .     PENE2(MVSIZ)
 C-----------------------------------------------

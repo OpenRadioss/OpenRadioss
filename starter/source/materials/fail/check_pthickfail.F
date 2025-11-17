@@ -57,7 +57,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: NG,ITY,IGTYP,PID,NLAY,IFL,NFAIL,NPTTOT,IL,
+      INTEGER :: NG,IGTYP,PID,NLAY,IFL,NFAIL,NPTTOT,IL,
      .           IMAT,ISUBSTACK,IPTHKLY,PROP_ID,MAT_ID
       my_real :: P_THICKG,P_THICKFAIL,PTHKLY
 c

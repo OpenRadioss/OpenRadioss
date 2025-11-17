@@ -92,7 +92,7 @@ C-----------------------------------------------
       my_real :: BULK,YOUNG
       my_real :: G0,GI,BETA
       my_real :: P0,PHI,GAMA0 
-      my_real :: RHOR,RHO0,NU   
+      my_real :: RHOR,RHO0   
       LOGICAL :: IS_ENCRYPTED,IS_AVAILABLE
 C-----------------------------------------------
 C   S o u r c e   L i n e s

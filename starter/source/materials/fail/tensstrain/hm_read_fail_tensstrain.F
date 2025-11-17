@@ -70,7 +70,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER    ::  ISHELL,ISOLID,IRFUN,FUNC_ID,FUNC_ID2,S_FLAG,STRDEF,FAILIP
+      INTEGER    ::  IRFUN,FUNC_ID,FUNC_ID2,S_FLAG,STRDEF,FAILIP
       my_real    ::  RF1,RF2,EPSP1,EPSP2,SCALE_EL,PTHKF,
      .               EL_REF,SCALE_TEMP,FSCAL_UNIT,UNIT_T
       LOGICAL    ::  IS_AVAILABLE,IS_ENCRYPTED

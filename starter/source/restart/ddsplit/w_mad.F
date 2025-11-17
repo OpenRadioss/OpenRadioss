@@ -97,7 +97,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IDEB, K, ESHIFT, NMAD_L, P
       INTEGER, DIMENSION(:),ALLOCATABLE :: MADCL_TMPNOD,TMPSH3,TMPSH4,TMPSOL,
-     .        TMPNOD,FAILSH4,FAILSH3,FAILSOL,ICONX_L
+     .        TMPNOD,ICONX_L
 C-----------------------------------------------
 !     allocate 1d arrays
       ALLOCATE(MADCL_TMPNOD(MADCL_NMADNOD_L))

@@ -75,8 +75,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,ID, IC, N, IS, IC1, IC2, IC3, IC4,
-     .        NOSYS, J,IGR,IGRS,K,
+      INTEGER I,ID, IC, IS,
+     .        NOSYS, J,IGR,IGRS,
      .        NCELL,
      .        ILEV, NY
       CHARACTER MESS*40

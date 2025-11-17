@@ -80,7 +80,7 @@ C----------------------------------------------------------------
       INTEGER          I, J
 C     REAL
       my_real
-     .   DECAY,TENSIONCUT,TOLERANCE,LAMDA,EFINAL,EPSFIN,
+     .   TENSIONCUT,TOLERANCE,LAMDA,EFINAL,EPSFIN,
      .   E0,VT,VC,RV,BETA,HYSTER,
      .   RATEDAMP,THETA,P0,RELAXP,MAXPRES,PHI,
      .   GAMMA,VISCOSITY,EXPONAS,EXPONBS,FUNLOAD,RUNLOAD,

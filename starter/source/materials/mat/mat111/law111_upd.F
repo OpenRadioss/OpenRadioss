@@ -60,9 +60,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N,K,ITEST,II,JJ,NSTART,IC1,IC2,NOGD,NDATA,NMULA,IFC,ICRYPT,
+      INTEGER JJ,NSTART,IC1,IC2,NOGD,NDATA,IFC,ICRYPT,
      .        ICHECK,NCOMP
-      my_real E,NU,GS,RBULK,D,YOUNG,ERRTOL,AVE_SLOPE,MU,MU_MAX,MU_MIN,DX,
+      my_real NU,GS,RBULK,YOUNG,ERRTOL,AVE_SLOPE,MU,
      .   SCALEFAC,STIFFMIN,STIFFMAX,STIFFINI,STFAVG
       my_real , DIMENSION(:), ALLOCATABLE :: STRESS,STRETCH
 C==================================================================== 

@@ -74,7 +74,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real
      .   C0, C1, C2, C3, C4, C5, E0, PSH, RHO0,RHOR,MU0,
-     .   FAC_L,FAC_T,FAC_M,FAC_C,RHOI, G0, SSP0, DF, DPDMU
+     .   RHOI, G0, SSP0, DF, DPDMU
       LOGICAL :: IS_ENCRYPTED, IS_AVAILABLE, IS_AVAILABLE_RHO0     
 C-----------------------------------------------
 C   S o u r c e   L i n e s

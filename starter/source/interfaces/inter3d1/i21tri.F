@@ -96,7 +96,7 @@ C-----------------------------------------------
       my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: LC1,LC2,LC3,LC4
 C     REAL
       my_real
-     .   X(3,*),XYZM(6,*),TZINF,DBUC,
+     .   X(3,*),XYZM(6,*),TZINF,
      .   MAXBOX,MINBOX, XMAX, YMAX, ZMAX,
      .   GAP, GAP_S(*),
      .   GAPMIN, GAPMAX, MARGE, GAPSMX, BGAPSMX, DEPTH, XM0(3,*), DRAD
@@ -110,7 +110,7 @@ C-----------------------------------------------
       INTEGER INF,SUP,DIR,N1,N2,N3,N4,NN,NE
 C     REAL
       my_real
-     .   BID,DX,DY,DZ,DSUP,SEUIL,XMX,XMN,GAPSMAX,
+     .   DX,DY,DZ,DSUP,SEUIL,XMX,XMN,
      .   GAPV(MVSIZ)
 C-----------------------------------------------
 C   ROLE OF THE ROUTINE:

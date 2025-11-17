@@ -65,11 +65,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real              :: FI, ALPHA,CHALEUR,DAR,TSCALE,XK0,RDK,HNUK,TIMESCAL
+      my_real              :: FI, ALPHA,CHALEUR,DAR,XK0,RDK,HNUK,TIMESCAL
       my_real              :: FAC_M, FAC_L, FAC_T
       INTEGER              :: K1, K2, I, J, MFK, IFK, NL, NC, IFUNC, IAFUNC, K, ID, ITYP
       INTEGER              :: UID, IFLAGUNIT, STAT
-      CHARACTER(LEN=NCHARKEY) :: KEY,KEY2
+      CHARACTER(LEN=NCHARKEY) :: KEY
       CHARACTER(LEN=NCHARTITLE) :: TITR
       LOGICAL IS_AVAILABLE
 C-----------------------------------------------

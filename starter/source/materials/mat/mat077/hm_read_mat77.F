@@ -89,10 +89,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,J,ILAW,NRATEN,NRATEP,LFUNC,IUNLOAD,IFUNCR,IFUNCK,
-     .       IFLAG,NPAR_FOAM,ICLOS,INCGAS
-      my_real :: E,NU,G,RHOA,RHO0,RHOR,VISC,VISCV,EXPO,HYS,FRAC,
-     .    FCUT, A1,A2,E0,EMAX,EPSMAX,P0,AA,BB,KK,TAUX,BULK,EINT0,
+      INTEGER :: I,J,ILAW,NRATEN,NRATEP,IUNLOAD,IFUNCR,IFUNCK,
+     .       NPAR_FOAM,ICLOS,INCGAS
+      my_real :: NU,G,RHOA,RHO0,RHOR,EXPO,HYS,FRAC,
+     .    FCUT, A1,E0,EMAX,EPSMAX,P0,AA,BB,KK,TAUX,BULK,EINT0,
      .    GAMMA,PEXT,FP_INI,RHOEXT,EINT_EXT,FSCAL_UNIT
       INTEGER ,DIMENSION(15) :: FLOAD,FUNLOAD
       my_real ,DIMENSION(30) :: RATE,YFAC,RLOAD,SLOAD,RUNLOAD,SUNLOAD

@@ -94,10 +94,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER :: I,J,II,NN
+        INTEGER :: I,J,II
         INTEGER :: NUMBER_SKEW_SP,SPRING_TYPE
         INTEGER :: N1,N2,N3,IMAIN,SUM_NI,SIZE_SKEW,MAT_TYPE
-        INTEGER :: NL, ISKEW, NB
+        INTEGER ::  NB
         INTEGER, DIMENSION(:), ALLOCATABLE :: SKEW_PER_SP,LOCAL_P,P_SKEW
         INTEGER, DIMENSION(NSPMD) :: PROC_SKEW
 C-----------------------------------------------

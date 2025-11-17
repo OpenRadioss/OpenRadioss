@@ -432,9 +432,9 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER, INTENT(IN) ::  IMAS_DS
-      INTEGER I,J,K,N,IP,I1,I2,I3,I4
+      INTEGER I,J
       my_real
-     .   XX,YY,ZZ,XY,YZ,ZX,P1,P2,P3,P4,S
+     .   S
       my_real
      .   A1(MVSIZ), A2(MVSIZ), A3(MVSIZ),A4(MVSIZ)
 C=======================================================================

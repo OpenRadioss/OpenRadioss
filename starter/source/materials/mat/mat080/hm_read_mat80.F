@@ -83,19 +83,19 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER MATS,IFLAG1,IFLAG2,ITEMAX,j,FLAGEPS,ISRATE, I,
+      INTEGER j,ISRATE, I,
      .        HEATFLAG,FLAG_HEAT_ID,FLAG_LOC,
      .        FLAG_TR_STRAIN,FLAG_TR_KINETICS,NDIM(5)
 
       my_real
      .      YSCALE1,YSCALE2,YSCALE3,YSCALE4,YSCALE5,XSCALE(5),RSCALE_UNIT(5),
-     .      XSCALE2,XSCALE3,XSCALE4,XSCALE5,EFAC,UNITT,RSCALE(5),
+     .      EFAC,UNITT,RSCALE(5),
      .      TETA2, TETA3,TETA4, TETA5,QR2,QR3,QR4,ALPHA2, TREF,  
      .      AE1, AE3,BS,MS,GSIZE,B, MO,MN,W,AL,C,CR,SI,CU,AS,
      .      CO,NI,V,P,TI,E,NU,CEPS, PEPS, BULK,CE,HFP,HB,HM,TINI,
-     .      ALFA1, ALFA2,KF,KP,LAT1,LAT2,AC1,AC3,TAU1,TAU3,
+     .      ALFA1, ALFA2,KF,KP,LAT1,LAT2,TAU1,TAU3,
      .      FCFER,FCPER,FCBAI,FGRAIN,KPER,KBAIN,T1,T2,XEQ2,CEUT,
-     .      FLAGFILTRE, ALPHAEPS,xeqtest, RHO0, RHOR, FCUT,
+     .       RHO0, RHOR, FCUT,
      .      GFAC_F,PHI_F,PSI_F,CR_F,CF,GFAC_P,PHI_P,PSI_P,CR_P,CP,
      .      GFAC_B,PHI_B,PSI_B,CR_B,CB,PHI_M,PSI_M,N_M,FGFER,FGPER,FGBAI
 

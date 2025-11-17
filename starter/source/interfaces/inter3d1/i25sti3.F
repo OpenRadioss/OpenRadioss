@@ -115,18 +115,18 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NDX, I, J, INRT, NELS, MT, JJ, JJJ, NELC,
-     .   MG, NUM, NPT, LL, L, NN, NELTG,N1,N2,N3,N4,IE,
-     .   IP, NLEV, MYLEV, K, P, R, T,IAD,
-     .   NS,IGTYP,NRTT,NNOD,ISUBSTACK,IPFMAX,IPL,
+      INTEGER NDX, I, J, INRT, NELS,
+     .   MG, L, NN,N1,N2,N3,N4,IE,
+     .   IP, NLEV, MYLEV,
+     .   NS,IGTYP,NRTT,NNOD,IPFMAX,IPL,
      .   IPFLMAX,IPG,NELEM,STAT
       INTEGER, DIMENSION(:), ALLOCATABLE :: TAGB
       INTEGER JPERM(4)
 C     REAL
       my_real
-     .   DXM, GAPMX, GAPMN, AREA, VOL, DX, GAPM, DDX,
-     .   GAPTMP, SX1,SY1,SZ1,SX2,SY2,SZ2,SX3,SY3,SZ3,
-     .   SLSFAC,XL,GAPS_MN, STV
+     .   DXM, GAPMX, GAPMN, AREA, DX,
+     .    SX1,SY1,SZ1,SX2,SY2,SZ2,SX3,SY3,SZ3,
+     .   SLSFAC,XL,GAPS_MN
       DATA JPERM/2,3,4,1/
       INTEGER, DIMENSION(:),ALLOCATABLE ::INRTIE
 C--------------------------------------------------------------
@@ -804,18 +804,18 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, INRT, NELS, MT, JJ, JJJ, NELC,
-     .   MG, NUM, NPT, LL, L, NN, NELTG,N1,N2,N3,N4,IE,
-     .   IP, NLEV, MYLEV, K, P, R, T,IAD,NREV,IGTYP,IPGMAT,IGMAT,
+      INTEGER I, J, NELS, MT, JJ, JJJ, NELC,
+     .   MG, NELTG,
+     .   IP,NREV,IGTYP,IPGMAT,IGMAT,
      .   ISUBSTACK,IPL,IPG,ISOL,NINV,NSOL_INT,NELS2,MT2,OFC,OFTG,ICONTR
       INTEGER, DIMENSION(:),ALLOCATABLE  :: TAGELEMS,INDEXE
       LOGICAL :: PRINT_ERROR
       INTEGER, DIMENSION(4) :: NODE_ID
 C     REAL
       my_real
-     .   AREA, VOL, DX, GAPM, DDX,
-     .   GAPTMP, SX1,SY1,SZ1,SX2,SY2,SZ2,SX3,SY3,SZ3,
-     .   XL,STIFC, STV, STC,STF2,STF1,VOL2,BULK
+     .   AREA, VOL, DX, GAPM,
+     .    
+     .    STC,STF2,STF1,VOL2,BULK
 C----------------------
       ISOL = 0
       NREV=0
@@ -1248,8 +1248,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,L,NLMAX,STAT,LL,I1,I2,I3,I4,I5,I1M,I2M,IS,BORD,BOLD
-      INTEGER NEXTK(4),IWORK(70000),NL
+      INTEGER J,K,L,NLMAX,STAT,LL,I1,I2,I3,I4,I1M,I2M,IS,BORD,BOLD
+      INTEGER NEXTK(4),IWORK(70000)
       INTEGER, DIMENSION(:,:), ALLOCATABLE ::
      .   LINEIX
       INTEGER, DIMENSION(:), ALLOCATABLE ::

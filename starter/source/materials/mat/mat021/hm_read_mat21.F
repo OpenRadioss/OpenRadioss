@@ -83,7 +83,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
-      INTEGER :: I,ILAW,IFUNC
+      INTEGER :: ILAW,IFUNC
       my_real :: RHO0,RHOR,E,NU,A0,A1,A2,AMX,C1,FAC_Y,PMIN,PEXT,BUNL,XMUMX,E0,G,PSTAR,DELTA,FSCAL_UNIT
       CHARACTER*64 :: chain      
 C=======================================================================

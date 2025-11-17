@@ -89,7 +89,7 @@ C-----------------------------------------------
      .   GAM, VCRT2, GAMRP, GAM1, P0, C1, SSP2, EF,
      .   RHO0, PSH, CARL, GAM2, E0, VCRT, RCRT, PCRT, SSP, 
      .   T0, DC, ALP0, RHOC,
-     .   TSCAL, TREF,GAMA,RHOR,
+     .   TSCAL,RHOR,
      .   FAC_LENGTH_, FAC_TIME_
       LOGICAL :: IS_ENCRYPTED, IS_AVAILABLE
 C-----------------------------------------------

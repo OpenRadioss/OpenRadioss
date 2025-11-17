@@ -86,7 +86,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER I, MX
+        INTEGER I
         my_real :: E0,AA,BB,DVV,PP
         my_real :: XSCALE_A,XSCALE_B,FSCALE_A,FSCALE_B
         INTEGER :: A_fun_id, B_fun_id

@@ -71,7 +71,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,NUPARAM,NIPARAM,NPRONY,NUVAR,IFLAG,IMOD,ITAB,ISHAPE,
+      INTEGER :: I,NUPARAM,NIPARAM,NPRONY,NUVAR,IMOD,ITAB,ISHAPE,
      .   FctID_G,FctID_K,FctID_Gs,FctID_Ks,FctID_Gl,FctID_Kl
       my_real :: G(100),BETA(100),K(100),BETAK(100)
       my_real :: KV,COSTFG,COSTFK,DERIVG,DERIVK,GINFINI,KINFINI,
@@ -426,7 +426,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE :: IPIV
       DOUBLE PRECISION :: 
      .        RI2,RI2_OLD,MXVALT,MXVALY,LAMBDA,
-     .        JACTDY_N2,RHO,NU,DENOM,XI_N2
+     .        JACTDY_N2,RHO,NU,DENOM
       DOUBLE PRECISION, PARAMETER :: EPS1   = 1.0D-8
       DOUBLE PRECISION, PARAMETER :: EPS2   = 1.0D-10
       DOUBLE PRECISION, PARAMETER :: ALPHA  = 0.5D0
@@ -683,7 +683,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE :: IPIV,IDX
       DOUBLE PRECISION ::
      .        RI2,RI2_OLD,LAMBDA,JACTDY_N2,
-     .        RHO,NU,DENOM,XI_N2,MXFREQ,MXNORM
+     .        RHO,NU,DENOM,MXFREQ,MXNORM
       DOUBLE PRECISION, PARAMETER :: EPS1   = 1.0D-8
       DOUBLE PRECISION, PARAMETER :: EPS2   = 1.0D-10
       DOUBLE PRECISION, PARAMETER :: ALPHA  = 0.5D0
@@ -1055,7 +1055,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       DOUBLE PRECISION ::
      .           X, T
-      INTEGER :: I, J, I1, I2
+      INTEGER :: I, J, I1
 C-----------------------------------------------
 C   P r e - C o n d i t i o n
 C-----------------------------------------------

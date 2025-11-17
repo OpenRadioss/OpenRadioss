@@ -176,17 +176,16 @@
 !    L o c a l   V a r i a b l e s
 !------------------------------------------------
       integer :: i, nf1, ibid, igtyp, irep, ip, ilay, nlay, nuvar, ncc, jhbe
-      integer :: nuvarr, idef, ipang, ipthk, ippos, ipmat, ig, im, mtn0, nlymax
-      integer :: ipid1, nptr, npts, nptt, l_pla, l_sigb, imas_ds
-      integer, dimension(nel) :: mat, pid, ngl, mat0
+      integer ::  idef
+      integer ::  nptr, npts, nptt, l_pla, l_sigb, imas_ds
+      integer, dimension(nel) :: mat, pid, ngl
       integer, dimension(nel) :: ix1, ix2, ix3, ix4, ix5, ix6
       real(kind=wp) :: bid, fv, sti, zi, wi
-      real(kind=wp), dimension(nel) :: volu, dtx, vzl, vzq, rx, ry, rz
+      real(kind=wp), dimension(nel) :: volu, dtx, vzl, rx, ry, rz
       real(kind=wp), dimension(nel) :: sx, sy, sz, tx, ty, tz
       real(kind=wp), dimension(nel) :: e1x, e1y, e1z, e2x, e2y, e2z, e3x, e3y, e3z
       real(kind=wp), dimension(nel) :: f1x, f1y, f1z, f2x, f2y, f2z
       real(kind=wp), dimension(nel) :: rhocp, temp0, deltax, aire
-      real(kind=wp), dimension(51, nel) :: v8loc
       real(kind=wp), dimension(nel) :: tempel
       real(kind=wp), dimension(nel) :: x1, x2, x3, x4, x5, x6
       real(kind=wp), dimension(nel) :: y1, y2, y3, y4, y5, y6
@@ -195,7 +194,6 @@
       type(buf_lay_), pointer :: bufly
       type(l_bufel_), pointer :: lbuf
       type(buf_mat_), pointer :: mbuf
-      real(kind=wp), dimension(nel) :: angle, dtx0
 !===============================================================================
 !     S o u r c e  l i n e s
 !===============================================================================

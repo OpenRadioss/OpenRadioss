@@ -87,14 +87,14 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I,J,K,KK,M1,ISHELL,ISH3N,ISMSTR,ISROT,ISTRAIN,IINT,ITHK,
-     .   IORTH,IPOS,IGMAT,ISHEAR,IPLAST,NPLY,NP,NSUB,NISUB,IGTYP,IMID,
-     .   ISK,IDSK,PLY_ID,IPID0,IDSUB,INTER,IS,LAMIN,IPID1,IPID2,NPT_SUB,
-     .   IRP,IG
-      INTEGER     IHBE_D,IPLA_D,ISTR_D,ITHK_D,ISHEA_D,ISST_D,
+     .   IORTH,IPOS,IGMAT,ISHEAR,IPLAST,NPLY,NSUB,NISUB,IGTYP,IMID,
+     .   ISK,IDSK,PLY_ID,IPID0,IDSUB,IS,LAMIN,IPID1,IPID2,NPT_SUB,
+     .   IRP
+      INTEGER     IHBE_D,IPLA_D,ITHK_D,ISHEA_D,ISST_D,
      .           ISH3N_D, ISTRA_D,NPTS_D,IDRIL_D
       my_real :: PTHK,ZSHIFT,HM,HF,HR,DM,DN,ASHEAR,VX,VY,VZ,FAILEXP,CVIS,
      .           NORM,ANG,POS,PTHKLY,WEIGHT
-      LOGICAL :: IS_AVAILABLE, IS_ENCRYPTED, LFOUND
+      LOGICAL :: IS_AVAILABLE, IS_ENCRYPTED
 C=======================================================================
       IS_AVAILABLE = .FALSE.
       IS_ENCRYPTED = .FALSE.

@@ -63,7 +63,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,N,ID,IFIX_TMP,CPT
+      INTEGER I,J,N,ID,CPT
       my_real SCX,SCY,SHX,SHY
       my_real, DIMENSION(:),ALLOCATABLE :: PLD_TMP
       INTEGER :: NMOVE_FUNCT

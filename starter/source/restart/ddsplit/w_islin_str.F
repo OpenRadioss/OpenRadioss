@@ -53,7 +53,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ISU,I,J,K,ERR,NSEG,ELTYP,ELEM,P,
+      INTEGER ISU,J,K,ERR,NSEG,ELTYP,ELEM,P,
      .        L_SLIN,ID,TYPE,LEVEL,NSEG_R2R_ALL,
      .        NSEG_R2R_SHARE,NOD,ITITLE(LTITR),NSEG_L(NSLIN)
       CHARACTER(LEN=NCHARTITLE) :: TITR

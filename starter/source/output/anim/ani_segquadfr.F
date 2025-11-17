@@ -49,7 +49,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER JQ,JJ,K,NQQ,N1,N2,ISEG,KK,KQ,N,L1,L2,L, TRUEAXE, NQQ1,NQQ2
+      INTEGER JQ,K,N1,N2,KK,KQ,L1,L2,L, TRUEAXE, NQQ1,NQQ2
       INTEGER NODTAG(4),LINES(2,4),NQ(4)
       DATA LINES/1,2,
      .           2,3,
@@ -123,7 +123,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N,JJ,LL
+      INTEGER N,JJ
 C     REAL
 C-----------------------------------------------
 C

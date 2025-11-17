@@ -82,8 +82,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER J,K,L,N,NR,MM,ID,IGU,IGS,
-     .        NSKEW,NSL,MSL,SUB_INDEX,NRB,NRB_R2R
+      INTEGER J,K,NR,MM,ID,IGU,IGS,
+     .        NSL,MSL,SUB_INDEX,NRB,NRB_R2R
       CHARACTER MESS*40
       CHARACTER(LEN=NCHARTITLE) :: TITR
       CHARACTER(LEN=NCHARKEY) :: KEY

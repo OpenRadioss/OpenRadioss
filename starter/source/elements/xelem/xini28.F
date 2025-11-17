@@ -157,7 +157,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real 
-     .       MS,XK,XC,EPSTOT,F,DFDX,RHO,STIF,DEPS,G,DGDX,L0,
+     .       XK,XC,EPSTOT,F,DFDX,RHO,STIF,DEPS,G,DGDX,L0,
      .       LPREV, LNEXT,
      .       XM, XKM, XCM, FACT, XN, DTC, DTK
       INTEGER I,K,NB1,NB2,NB3,MB1,MB2,MB3,MB4,MB5,IFUNCT,IFV

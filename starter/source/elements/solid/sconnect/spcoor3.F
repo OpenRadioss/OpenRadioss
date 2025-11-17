@@ -70,8 +70,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,J,IREP
-      my_real :: XL,YL,ZL,SUM,H1,H2,H3,H4
+      INTEGER :: I,IREP
+      my_real :: XL,YL,ZL,H1,H2,H3,H4
       my_real ::
      .   P1X(MVSIZ), P2X(MVSIZ), P3X(MVSIZ), P4X(MVSIZ),
      .   P1Y(MVSIZ), P2Y(MVSIZ), P3Y(MVSIZ), P4Y(MVSIZ),

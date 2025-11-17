@@ -60,7 +60,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER INOD(5), N,  II, JJ, IK, L, 
-     .        ILAGM, NRTS, NRTM, NSN, NMN,IRECT ,NSV ,IRTL, IADDB,
+     .        ILAGM, NRTS, NRTM, NSN, NMN  ,
      .        NIR, NTY, NDL, IAD, I, J, NN0, NM0
       INTEGER ID
       CHARACTER(LEN=NCHARTITLE) :: TITR

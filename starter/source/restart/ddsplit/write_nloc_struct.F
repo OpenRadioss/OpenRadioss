@@ -58,9 +58,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,ILOC,NNOD,NNOD_L,NG,NL,NN, LNLOC_L,ND,NP,NM,N1,
-     .        N2,NNO,CC,CC_L,NUMG,NUML,PROC_L,K,SHFT,TESTVAL,
-     .        L_NLOC,NDDMAX_L,OFF,LENBIS,LCNENL_L,MATSIZE
+      INTEGER I,ILOC,NNOD,NNOD_L,NG,NL,NN, LNLOC_L,ND,NP,N1,
+     .        N2,CC,CC_L,NUMG,NUML,PROC_L,K,SHFT,TESTVAL,
+     .        L_NLOC,NDDMAX_L,LCNENL_L,MATSIZE
       INTEGER, DIMENSION(:),ALLOCATABLE  :: INDX_L, NDDL, IDXI_L
       INTEGER, DIMENSION(:),ALLOCATABLE  :: POSI
       my_real, DIMENSION(NLOC_DMG%L_NLOC) :: MASS,UNL,MASS0

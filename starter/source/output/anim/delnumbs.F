@@ -47,7 +47,7 @@ C-----------------------------------------------
       INTEGER IPARG(NPARG,*),                                           
      .        IXS(NIXS,*),EL2FA(*),INUM(*),                             
      .        NBF,KXSP(NISP,*)                                    
-      INTEGER ISPH3D ,NG, ITY, LFT, LLT, N, I, J, NEL, IAD, NFT,                
+      INTEGER ISPH3D ,NG, ITY, LFT, LLT, N, I, NEL, IAD, NFT,                
      .        NN1,NN2,NN3,ISOLNOD         
 C=======================================================================                       
       NN1 = 1                                                           

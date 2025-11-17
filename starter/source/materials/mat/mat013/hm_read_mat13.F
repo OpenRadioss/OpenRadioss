@@ -69,7 +69,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real
-     .     YOUNG, ANU, G, C0, C1, E0, E1MN2, EN1N2, SDSP, 
+     .     YOUNG, ANU, G, C1, E1MN2, EN1N2, SDSP, 
      .     RHO0, RHOR
       LOGICAL :: IS_ENCRYPTED, IS_AVAILABLE
 C-----------------------------------------------

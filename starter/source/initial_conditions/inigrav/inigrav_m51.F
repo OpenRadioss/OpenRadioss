@@ -59,13 +59,13 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I, K1, K2, K3, K4, NUVAR,K,J,IFORM,IFORMv,NV46,IV,IADBUF,ML,NGv,KTY,KLT,N,MFT,IS,NELGv
-      my_real ::  PGRAV, RHO, GAM, RHO0, 
+      my_real ::  PGRAV, RHO0, 
      .     ALPHA1, ALPHA2, ALPHA3, ALPHA4, 
      .     C01, C11, C21, C31, C41, C51, 
      .     C02, C12, C22, C32, C42, C52, 
      .     C03, C13, C23, C33, C43, C53, 
      .     C04, PEXT,
-     .     RHO10, RHO20, RHO30, RHO40, RHO1, RHO2, RHO3, RHO4, MU, 
+     .     RHO10, RHO20, RHO30, RHO40, RHO1, RHO2, RHO3, MU, 
      .     EINT1, EINT2, EINT3, EINT4, VOL, VOL1, VOL2, VOL3,
      .     EINT10, EINT20, EINT30, EINT40
       TYPE(G_BUFEL_), POINTER :: GBUF
@@ -294,7 +294,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real :: TOL, ERROR, FUNC, DFUNC, INCR, VOL, VOL_prev,PP
+      my_real :: TOL, ERROR, FUNC, DFUNC, INCR, VOL, VOL_prev
       INTEGER :: ITER, MAX_ITER
       LOGICAL :: CONT
 C-----------------------------------------------

@@ -71,8 +71,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I,J,K,L,M,NG,NEL,ITY,IAD,LFT,LLT,NFT,MTN,NODE,NODE_NEXT,
-     .           ELEM_NEXT,N1,N2,NTOOL,KK,NOT_USED,FLAG,ELEM_CUR,NN,ID,NNOD,
-     .           MID,MTYP,P,NB_SHELL,NFRAM,N3,N4,NODES,ISEATBELT,N1SP,N2SP,ELEM
+     .           ELEM_NEXT,N1,N2,NTOOL,NOT_USED,FLAG,ELEM_CUR,NN,ID,NNOD,
+     .           MID,MTYP,P,NB_SHELL,NFRAM,N3,N4,ISEATBELT,N1SP,N2SP,ELEM
       my_real :: DIST1,DIST2,ALEA_MAX,TOLE_2
       INTEGER, DIMENSION(:), ALLOCATABLE:: TAG_RETRACTOR,TAGN_RETRACTOR,TAG_RES
       TYPE(G_BUFEL_),POINTER :: GBUF

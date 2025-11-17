@@ -48,7 +48,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: OK_QA
       CHARACTER (LEN=255) :: VARNAME
-      INTEGER K,J,DET_IID
+      INTEGER K
       DOUBLE PRECISION TEMP_DOUBLE
       INTEGER TEMP_INTEGER
       INTEGER :: NDETPS,NDETSG,NECRAN,NDETPL,NDETCORD

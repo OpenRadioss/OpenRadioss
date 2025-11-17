@@ -107,7 +107,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,NF1,IBID,JHBE,IGTYP,IREP,NCC,NUVAR,IP,NREFSTA,
+      INTEGER I,J,NF1,JHBE,IGTYP,IREP,NCC,NUVAR,IP,NREFSTA,
      .        IPID1,NPTR,NPTS,NPTT,NLAY,IADB,MLW,II(6)
       INTEGER MAT(MVSIZ), PID(MVSIZ), NGL(MVSIZ),
      .        IPROP(MVSIZ) ,IMAT(MVSIZ) ,SID(MVSIZ),
@@ -440,7 +440,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IP,I1,I2,I3,I4,I5,I6,I7,I8, J
+      INTEGER I, IP,I1,I2,I3,I4,I5,I6,I7,I8
 C     REAL
       my_real
      .   XX,YY,ZZ,XY,YZ,ZX,

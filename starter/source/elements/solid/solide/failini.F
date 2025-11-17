@@ -69,9 +69,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,L,N,IIP,JPT, II, JJ, IPT, IPP,IUS,IPSU,
-     .        IFLAGINI,JPS,IL,IR,IS,IT,NV,NVAR_RUPT,NVMAX,NFAIL,
-     .        IP,IMAT,IRUP
+      INTEGER I,J,L, II, JJ,IUS,
+     .        JPS,IL,IR,IS,IT,NV,NVAR_RUPT,NVMAX,NFAIL,
+     .        IMAT,IRUP
       my_real,
      .  DIMENSION(:), POINTER  :: UVARF,DFMAX
       TYPE(BUF_FAIL_),POINTER :: FBUF

@@ -64,7 +64,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER  :: NRTM, IRECT(4,*), NOINT, ITAB(*), NBRIC, IXS(NIXS,*),  BRICS(*)
+      INTEGER  :: NRTM, IRECT(4,*), ITAB(*), NBRIC, IXS(NIXS,*),  BRICS(*)
       my_real  :: X(3,*), PM(NPROPM,*)
       INTEGER  :: ID, IMESG
       CHARACTER(LEN=NCHARTITLE) :: TITR
@@ -81,7 +81,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, IDEB, ILAW, MID, IBRIC, JALE, JEUL, I22LAW06
+      INTEGER I, J, IDEB, ILAW, MID, IBRIC, I22LAW06
       my_real :: AN
       my_real, DIMENSION(MVSIZ) :: XX1,YY1,ZZ1
       my_real, DIMENSION(MVSIZ) :: XX2,YY2,ZZ2

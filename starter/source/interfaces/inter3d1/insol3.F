@@ -209,7 +209,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NINT, NEL, I, NOINT,IR,J,NINV
+      INTEGER NINT, NEL, I, NOINT,IR,NINV
       my_real
      .   AREA
       INTEGER IRECT(4,*), IXS(NIXS,*), KNOD2ELS(*), NOD2ELS(*), 
@@ -479,7 +479,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NINT, NEL, I, NOINT,IR, ITAB(*), KNOD2ELS(*), NOD2ELS(*)
+      INTEGER NINT, NEL, I, NOINT, ITAB(*), KNOD2ELS(*), NOD2ELS(*)
       my_real
      .   AREA
       INTEGER IRECT(4,*), IXS(NIXS,*), IADD(*), INVC(*),NF,NTY

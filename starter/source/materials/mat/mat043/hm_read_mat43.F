@@ -94,7 +94,7 @@ C-----------------------------------------------
       INTEGER I,J,NRATE,NPS,IR0
       MY_REAL 
      .         E,NU,G,C1,EPSMAX,EPSR1,EPSR2,RATE(11),YFAC(11),
-     .         R0,R45,R90,R,H,FISOKIN,M,
+     .         R0,R45,R90,R,H,FISOKIN,
      .         EINF,CE,FAC_PRES
       INTEGER IFUNCE, OPTE, NUM_FUNC,NUMCURVES
       my_real :: RHO0, RHOR, ASRATE

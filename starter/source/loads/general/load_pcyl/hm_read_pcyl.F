@@ -82,7 +82,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
         INTEGER I,J,LOAD_ID,TABLE_ID,SURF_ID,SENS_ID,FRAME_ID,UID,ISENS,ISS,
-     .          NOFRA,SUB_INDX,NSEG,ITABLE,STAT,NLOAD_CYL,IMOV
+     .          NOFRA,SUB_INDX,NSEG,ITABLE,NLOAD_CYL,IMOV
         my_real :: X_R,X_T,YFAC,FAC_R,FAC_T,FAC_P
         CHARACTER MESS*40
         CHARACTER(LEN=NCHARTITLE) :: TITR

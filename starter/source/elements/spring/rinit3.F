@@ -121,8 +121,8 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,I2, IGTYP, NDEPAR, 
      .   K,KK,KK1,ITMP,
-     .   I1, I0, I3,NEL3,NUVAR,NUPARAM,NFUNC,IADFUN,
-     .   NMAT,IADMAT,NJPID,ILENG,NFUND,
+     .   I1, I0, I3,NUVAR,NUPARAM,NFUNC,IADFUN,
+     .   ILENG,NFUND,
      3   UIX(4,MVSIZ),
      .   IMAT,K1,K11,K14,K12,K13,IADBUF,IMASS,SLIP,FRA,IH,NKIN,
      .   KCOND1,KCOND2
@@ -1966,7 +1966,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NSIGI,NUVAR,IGTYP
+      INTEGER NSIGI,IGTYP
       INTEGER IXR(NIXR,*),PTSPRI(*)
 C     REAL
       my_real
@@ -2043,7 +2043,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 
-      INTEGER IXR(NIXR,*),NSIGI,NUVAR,NEL,IGTYP,PTSPRI(*)
+      INTEGER IXR(NIXR,*),NSIGI,NEL,IGTYP,PTSPRI(*)
 C     REAL
       my_real
      .   FX(*),FY(*),FZ(*),EINT(*),SIGRS(NSIGI,*),

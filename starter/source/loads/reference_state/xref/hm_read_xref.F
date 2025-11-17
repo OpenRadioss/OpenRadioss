@@ -97,7 +97,7 @@ C-----------------------------------------------
       CHARACTER MESS*40
       CHARACTER(LEN=NCHARTITLE) :: TITR,TITR1
       DATA MESS/'XREF'/
-      LOGICAL :: IS_AVAILABLE,FOUND      
+      LOGICAL :: IS_AVAILABLE      
       integer, dimension(:), allocatable :: TAGELC,TAGELTG,TAGELS,TAGNOD
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s

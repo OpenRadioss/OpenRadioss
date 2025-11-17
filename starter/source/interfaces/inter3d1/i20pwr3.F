@@ -59,11 +59,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IS, IM
+      INTEGER I
 C     REAL
       my_real
      .     PENE(MVSIZ), 
-     .     PENEOLD, S2, D, PPLUS,PS2, PENMAX
+     .     PENEOLD, S2,PS2, PENMAX
 C-----------------------------------------------
 C
 
@@ -212,9 +212,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,IS,IM
+      INTEGER I
 C     REAL
-      my_real ::PENEOLD,PPLUS,PS2,PENMAX
+      my_real ::PENEOLD,PS2,PENMAX
       my_real
      .  DN
 C-----------------------------------------------
@@ -442,7 +442,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,IS,IM,JWARN
-      my_real PENEOLD,PPLUS,AAA
+      my_real PPLUS
       my_real DN
 C-----------------------------------------------
       JWARN = 0
@@ -577,7 +577,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .     PENE(MVSIZ), 
-     .     PENEOLD, S2, D, PPLUS
+     .      S2, PPLUS
 C-----------------------------------------------
 C
       JWARN = 0
