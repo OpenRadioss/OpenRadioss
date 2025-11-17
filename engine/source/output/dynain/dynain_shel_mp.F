@@ -69,7 +69,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, N, JJ, IPRT0, IPRT, K, II
+      INTEGER I, N, JJ, IPRT, K, II
       INTEGER NG, NEL, NFT, LFT, LLT, ITY, MLW, ITHK,IOFF,
      .        IPROP,ID_PROP,IERR , N4SHELL, N3SHELL, IGTYP, IGTYP0
       INTEGER WORK(70000)

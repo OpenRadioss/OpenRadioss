@@ -84,15 +84,15 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER SH4FT, SH4LT, SH3FT, SH3LT, IERROR, MLW
+      INTEGER SH4FT, SH4LT, SH3FT, SH3LT, MLW
       INTEGER N1,N2,N3,N4,
      .        I,N,NG,NEL,LENR,PRT,IADM
 C     REAL
        my_real
-     .     AREA, A, AT, THK, 
+     .     AREA, AT, 
      .     X1,Y1,Z1,X2,Y2,Z2,X3,Y3,Z3,X4,Y4,Z4,
      .     X31,Y31,Z31,X42,Y42,Z42,X32,Y32,Z32,E3X,E3Y,E3Z,
-     .     TN1,TN2,TN3,TN4,TPG1,TPG2,TPG3,TPG4,UNT
+     .     TN1,TN2,TN3,TN4,UNT
       TYPE(G_BUFEL_) ,POINTER :: GBUF
 C-----------------------------------------------
 C

@@ -69,7 +69,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, I1, I2, I3, II, NN, L, J,K, JJ, I0BASE,
+      INTEGER I, I1, I2, I3, II, NN, L, J,K, I0BASE,
      .        IX1,IX2,IX3,IX4,NIRL
 C     REAL
       my_real

@@ -70,8 +70,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER 
-     .   I,II,J,NITER,ITER,NINDX,INDEX(NEL),
-     .   ISH,ITR,IRES,IBUCK,ICOMP,LTYPE11,LTYPE12,
+     .   I,II,NINDX,INDEX(NEL),
+     .   ISH,ITR,IRES,IBUCK,LTYPE11,LTYPE12,
      .   LTYPER0,IPOS(NEL),ILEN(NEL),IAD(NEL)
       my_real
      .   E10,E20,E30,NU12,NU21,NU23,NU32,NU13,NU31,

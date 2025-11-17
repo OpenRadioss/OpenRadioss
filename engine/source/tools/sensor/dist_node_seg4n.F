@@ -46,12 +46,12 @@ C----------------------------------------------------------
 C Local Variables
 C----------------------------------------------------------
       INTEGER :: OK
-      my_real :: ABX,ABY,ABZ,ACX,ACY,ACZ,BCX,BCY,BCZ,CDX,CDY,CDZ,DAX,DAY,DAZ,
-     .   UX,UY,UZ,VX,VY,VZ,WX,WY,WZ,QX,QY,QZ,QA_X,QA_Y,QA_Z,QB_X,QB_Y,QB_Z,
-     .   QC_X,QC_Y,QC_Z,MX,MY,MZ,MPX,MPY,MPZ,
+      my_real :: ABX,ABY,ABZ,BCX,BCY,BCZ,CDX,CDY,CDZ,DAX,DAY,DAZ,
+     .   QX,QY,QZ,
+     .   MX,MY,MZ,MPX,MPY,MPZ,
      .   AMX,AMY,AMZ,BMX,BMY,BMZ,CMX,CMY,CMZ,DMX,DMY,DMZ, 
      .   N1X,N1Y,N1Z,N2X,N2Y,N2Z,N3X,N3Y,N3Z,N4X,N4Y,N4Z,
-     .   SX,SY,SZ,D,D1,D2,D3,D4,NORM1,A1,A2,NORM2,NORM3,NORM4
+     .   SX,SY,SZ,D1,D2,D3,D4,NORM1,A1,A2,NORM2,NORM3,NORM4
 C=======================================================================
 c     segment barycenter
       MX = FOURTH*(AX + BX + CX + DX)

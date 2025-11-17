@@ -52,7 +52,7 @@ C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
 #ifdef MPI
       INTEGER STATUS(MPI_STATUS_SIZE),IERROR,MS_LOFF,ID_G
-      INTEGER SIZ,MS_LTYP,I,K,NG,NREC,MS_LOFF2
+      INTEGER SIZ,MS_LTYP,I,K,NREC
 
       DATA MS_LOFF/7014/
        my_real, DIMENSION(:) , ALLOCATABLE :: BUFSR

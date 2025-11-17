@@ -89,7 +89,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,II,K,NNOD,N1,N2,N3,N4,N5,N6,N7,N8,L_NLOC
+      INTEGER I,II,K,N1,N2,N3,N4,N5,N6,N7,N8,L_NLOC
       INTEGER, DIMENSION(:), ALLOCATABLE   ::
      .   POS1,POS2,POS3,POS4,POS5,POS6,POS7,POS8
       my_real 

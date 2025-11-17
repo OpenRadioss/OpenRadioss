@@ -136,12 +136,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, K, KN, IKN, JJ, KK, II, IJ, IK, N, M, NN, P, LOC_PROC
+      INTEGER I, J, K, JJ, KK, II, IJ, IK, N, M, NN, P, LOC_PROC
       INTEGER NG, ITY, NEL, NFT, ISOLNOD,MLW,LFT, LLT,
      .        KAD, NPT, IHBE, ICNOD, ISTRA, IEXPAN, IE, J1,
      .        ILOC4(4), IG, IGTYP, IERROR, IPERM1(6), IPERM2(6),IPENTA6(6)
-      INTEGER MSR, NSN, KI, KJ, KL, NSR
-      INTEGER SIZE, LENR, IAD, L, JI
+      INTEGER MSR, NSN, KI, KJ
+      INTEGER  IAD, L, JI
       INTEGER,DIMENSION(:),ALLOCATABLE :: TAGA
       INTEGER,DIMENSION(:),ALLOCATABLE :: NAD_SMS
       INTEGER,DIMENSION(:),ALLOCATABLE :: KADI_SMS
@@ -149,11 +149,11 @@ C-----------------------------------------------
       INTEGER,DIMENSION(:),ALLOCATABLE :: TAG8
       INTEGER,DIMENSION(:),ALLOCATABLE :: NAD_SMS_0
       INTEGER NTY, ILAGM, N1, N2, N3, N4,
-     .        NMN,ILEV, KSN, KMULT
+     .        ILEV, KSN, KMULT
       my_real
-     .        MELE4, MELE12, XN, LTIJ, MSLV,
-     .        IXX, IYY, IZZ, XX, YY, ZZ, MAS, 
-     .        VRX, VRY, VRZ, V1, V2, V3, GX, GY, GZ, XNOD,
+     .        MELE4, MELE12, LTIJ,
+     .              
+     .           XNOD,
      .        FAC_SCAL_I,FAC_SCAL_J
       my_real, dimension(:,:),ALLOCATABLE ::  AWORK
 C-----

@@ -73,9 +73,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,K,IG,NG,JFT,JLT,NEL,NF1,IXFEM,NLEV,N,ITG1,ITG2,FLAG,
-     . SIZE,LSDRC,ICUT,IEDGE,ELCRK,ELCRKTG,ELCUT,ILEV,ILAY,NXLAY,PP1
-      INTEGER ITSK,NODFTSK,NODLTSK,OMP_GET_THREAD_NUM
+      INTEGER I,K,IG,NG,JFT,JLT,NEL,IXFEM,N,ITG1,ITG2,FLAG,
+     . SIZE,LSDRC,ICUT,IEDGE,ELCRK,ELCRKTG,ELCUT,ILAY,NXLAY,PP1
+      INTEGER NODFTSK,NODLTSK
       my_real OFF
 C=======================================================================
       NUMELCRK2 = NUMELCRK    ! to check if crack advances in the cycle (animation)

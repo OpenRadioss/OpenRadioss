@@ -59,10 +59,10 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER KK, I, INACTI, I_STOK, NSN
+      INTEGER  INACTI, I_STOK, NSN
 C     REAL
       my_real
-     .   STARTT,GAP,STOPT, DX, DY, DZ, GAPMIN
+     .   STARTT,GAP,STOPT, GAPMIN
 C-----------------------------------------------
 C
       NSN    =IPARI(5,NIN)

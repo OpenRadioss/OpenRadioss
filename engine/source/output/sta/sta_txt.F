@@ -138,7 +138,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       CHARACTER*100 LINE
-      INTEGER I,K,K1
+      INTEGER K,K1
       INTEGER J1
 C
       J1 = J

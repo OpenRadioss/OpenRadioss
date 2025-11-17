@@ -49,14 +49,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, N, N3, N2, N1, K, J, M1, M2, M3
+      INTEGER I, N, N3, N2, N1, J, M1, M2, M3
       my_real XWL, YWL, ZWL, VXW, VYW, VZW,
      .        XL1, YL1, ZL1, XL2, YL2, ZL2, SX12, SY12, SZ12, S12,
-     .        VX, VY, VZ, UX, UY, UZ, XC, YC, ZC, DP, DN, XCP, YCP, ZCP,
-     .        SX1M, SY1M, SZ1M, PS, SM1, SXM2, SYM2, SZM2, SM2, DV, DA, DVT,
+     .        VX, VY, VZ, UX, UY, UZ, XC, YC, ZC, DP, XCP, YCP, ZCP,
+     .        SX1M, SY1M, SZ1M, PS, SM1, SXM2, SYM2, SZM2, SM2,
      .        AX,
      .        XWL0, YWL0, ZWL0, DP0, XC0, YC0, ZC0, TOL, VN, VNOLD,
-     .        DP0DT, DVX, DVY, DVZ, PREC, XPREC
+     .            PREC, XPREC
 C-----------------------------------------------
       IF(IRESP==1)THEN
         PREC=EM07
@@ -209,16 +209,16 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, N, N3, N2, N1, J, K, M1, M2, M3
+      INTEGER I, N, N3, N2, N1, J, M1, M2, M3
 
 C     REAL
       my_real
      .   XWL, YWL, ZWL, VXW, VYW, VZW,
-     .   XWL0, YWL0, ZWL0, XC0, YC0, ZC0, DP0,
-     .   DP0DT, DVX, DVY, DVZ,
-     .   DV, DA, DVT, FN,
+     .   XWL0, YWL0, ZWL0,
+     .      
+     .     FN,
      .   FNXN, FNYN, FNZN, FNXT, FNYT, FNZT, FNDFN, FTDFT, FRIC, FRIC2,
-     .   FCOE, FAC, ALPHA, ALPHI,
+     .   FCOE, FAC,
      .   FXN, FYN, FZN, FXT, FYT, FZT
 C-----------------------------------------------
 C
@@ -332,13 +332,13 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, N, N3, N2, N1, J, K, M1, M2, M3
+      INTEGER I, N, N3, N2, N1, J, M1, M2, M3
 
 C     REAL
       my_real
      .   XWL, YWL, ZWL, VXW, VYW, VZW,
      .   XWL0, YWL0, ZWL0, XC0, YC0, ZC0, DP0,
-     .   DV, DA, DVT, DP0DT, DVX, DVY, DVZ
+     .   DV, DA, DP0DT, DVX, DVY, DVZ
 C-----------------------------------------------
 C
       IF(MSR==0)THEN
@@ -477,7 +477,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, N, N3, N2, N1, J, M1, M2, M3
+      INTEGER I, N, N3, N2, N1, J
 
 C     REAL
       my_real
@@ -576,11 +576,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, N, N3, N2, N1, J, K, M1, M2, M3
+      INTEGER I, N, N3, N2, N1, J, M1, M2, M3
       my_real
      .   VXW, VYW, VZW, VX, VY, VZ,
      .   WFEXTT,
-     .   FNXN, FNYN, FNZN, FNXT, FNYT, FNZT, FN,
+     .       FN,
      .   FXN, FYN, FZN, FXT, FYT, FZT,
      .   F1(NSN), F2(NSN), F3(NSN), F4(NSN), F5(NSN), F6(NSN), F7(NSN)
 C-----------------------------------------------

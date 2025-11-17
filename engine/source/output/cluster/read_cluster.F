@@ -50,7 +50,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IL,RL,ITY,NEL,NNOD,IFAIL
+      INTEGER I,J,IL,RL,NEL,NNOD,IFAIL
       INTEGER ILCLUSTER_MAX, RLCLUSTER_MAX
       my_real, DIMENSION(:), ALLOCATABLE :: RCLTAB
       INTEGER, DIMENSION(:), ALLOCATABLE :: ICLTAB

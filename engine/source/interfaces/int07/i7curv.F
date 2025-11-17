@@ -41,7 +41,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I ,J ,N1,N2,N3,N4
+      INTEGER I  ,N1,N2,N3,N4
       my_real
      .   SURFX,SURFY,SURFZ,X13,Y13,Z13,X24,Y24,Z24
 C-----------------------------------------------
@@ -229,7 +229,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I ,J ,N1, N2, N3, N4
+      INTEGER I  ,N1, N2, N3, N4
 C-----------------------------------------------
 C
       DO N1=1,NUMNOD
@@ -487,7 +487,7 @@ C-----------------------------------------------
      .   CRX(MVSIZ),CRY(MVSIZ),CRZ(MVSIZ),
      .   R(MVSIZ),S(MVSIZ),TT(MVSIZ),TA(MVSIZ),TB(MVSIZ),AAA,
      .   BBB,CCC,DDD,EEE,RM,RP,SM,SP,RPMM,SPMM,RPPM,SPPM,
-     .   NX,NY,NZ,DIST,EPS,XP,YP,ZP,XX,YY,ZZ,XXP,YYP,ZZP,A,B
+     .   NX,NY,NZ,DIST,EPS,XP,YP,ZP,XX,YY,ZZ,XXP,YYP,ZZP
 C-----------------------------------------------
 C     Bicubic interpolation
 c     with continuity of coordinates
@@ -698,9 +698,9 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K
+      INTEGER I
       my_real 
-     .    AAA,A1,A2,A3,RR,DTDR,DTDR1,DTDR2,NR,NS,NT,NX,NY,NZ,R2,
+     .    AAA,A1,RR,DTDR,DTDR1,DTDR2,NX,NY,NZ,R2,
      .    UPR2,UMR2,A3RR2,A2RR,
      .    ERX,ERY,ERZ,ESX,ESY,ESZ,ETX,ETY,ETZ
 c---------------------------------------------------

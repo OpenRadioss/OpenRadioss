@@ -68,7 +68,7 @@ C-----------------------------------------------
       INTEGER IS2,STATUS_IS2
 
       INTEGER ACTI
-      my_real TSTART, INFINITY
+      my_real  INFINITY
 C-----------------------------------------------
       INFINITY = EP20
       ACTI = 0

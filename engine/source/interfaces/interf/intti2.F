@@ -61,7 +61,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N, NTY, JI, JB, NMN, NINT,K,ITIED,ILAGM
+      INTEGER N, NTY, JI, JB, NMN, NINT,ILAGM
       INTEGER :: ILEV,II,J
 C-----------------------------------------------
 C wa are no longer used!!!

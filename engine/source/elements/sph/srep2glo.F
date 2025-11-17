@@ -87,7 +87,7 @@ C     REAL
      .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
      .   Z5(MVSIZ), Z6(MVSIZ), Z7(MVSIZ), Z8(MVSIZ),
      .   G11,G22,G33,G12,G21,G23,G32,G13,G31,
-     .   S11,S22,S33,S12,S21,S23,S32,S13,S31,RR,XL,YL,ZL
+     .   RR,XL,YL,ZL
       INTEGER NC1, NC2, NC3, NC4, 
      .        NC5, NC6, NC7, NC8, I
 C-----------------------------------------------

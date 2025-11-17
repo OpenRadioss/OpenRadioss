@@ -60,7 +60,7 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER MSGOFF,MSGTYP,INFO,K,N,NB_TMP
+      INTEGER MSGOFF,MSGTYP,K,N,NB_TMP
       INTEGER, DIMENSION(:),ALLOCATABLE :: RECBUF
       INTEGER STATUS(MPI_STATUS_SIZE),IERROR
 

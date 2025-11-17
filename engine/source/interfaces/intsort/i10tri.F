@@ -140,7 +140,7 @@ C BPE: Use on nrtm and not nrtm + 100 rigorously (here maxsiz = nrtm + 100)
      .        BPE(MAXSIZ/3),PE(MAXSIZ),BPN(NSN+NSNR),PN(NSN+NSNR)
 C     REAL
       my_real
-     .   DX,DY,DZ,DSUP,SEUIL,SEUILS,SEUILI, XX1, XX2, XX3, XX4,
+     .   DX,DY,DZ,DSUP,SEUIL, XX1, XX2, XX3, XX4,
      .   XMIN,XMAX,YMIN,YMAX,ZMIN,ZMAX, TZ, GAPSMX, BGAPSMX
 C-----------------------------------------------
 C

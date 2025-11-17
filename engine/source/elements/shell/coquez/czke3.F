@@ -132,7 +132,7 @@ C   L O C A L   V A R I A B L E S
 C--------------------------------
       INTEGER 
      .   I, J,J1,J2, NEL, NPLAT,IPLAT(MVSIZ), NLAY,L_DIRA,L_DIRB,
-     .   IREP,IBID,EP,IDRIL,IBID1
+     .   IREP,EP,IDRIL
       INTEGER  MAT(MVSIZ), PID(MVSIZ), NGL(MVSIZ),IORTH,IGTYP,IUN
       my_real 
      .  X13(MVSIZ),  X24(MVSIZ),  Y13(MVSIZ),  Y24(MVSIZ),
@@ -451,7 +451,7 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
 C   L O C A L   V A R I A B L E S
 C--------------------------------
       INTEGER 
-     .   I, J, M ,EP,ITRAN0,ITRAN1
+     .   I, J ,EP,ITRAN0,ITRAN1
       my_real    
      .   FJ(3),MJ(3),UJ(3),RJ(3)
 C
@@ -622,7 +622,7 @@ C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER 
-     .   I, J, M  
+     .   I, J  
 C
         DO I=1,3
          FI(I)=ZERO

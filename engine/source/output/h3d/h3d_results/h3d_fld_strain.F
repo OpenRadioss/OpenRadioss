@@ -63,7 +63,7 @@ C   L o c a l   V a r i a b l e s
 C----------------------------------------------- 
       my_real
      .   DIR(MVSIZ,2),DIRB(MVSIZ,2)
-      INTEGER I,I1,II,J,IR,IS,IT,IL,JJ(4)
+      INTEGER I,IR,IS,IT,JJ(4)
 
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
       TYPE(L_BUFEL_)  ,POINTER :: LBUF     

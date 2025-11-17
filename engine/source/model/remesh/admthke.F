@@ -75,14 +75,14 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N1,N2,N3,N4,
      .        I,N,NG,NEL,LENR,
-     .        NN,LEVEL,MY_LEVEL,M,SON,LL,M1,M2,M3,M4,MC
+     .        NN,LEVEL,SON,M1,M2,M3,M4,MC
 C     REAL
        my_real
-     .     AREA, A, AT, THK, 
+     .     AREA, AT, THK, 
      .     X1,Y1,Z1,X2,Y2,Z2,X3,Y3,Z3,X4,Y4,Z4,
      .     X31,Y31,Z31,X42,Y42,Z42,X32,Y32,Z32,E3X,E3Y,E3Z
        my_real
-     .     TN1,TN2,TN3,TN4,TPG1,TPG2,TPG3,TPG4,UNT
+     .     TN1,TN2,TN3,TN4,UNT
       TYPE(G_BUFEL_) ,POINTER :: GBUF
 C-----------------------------------------------
 C     Retrieve Thickness on active and secnd levels

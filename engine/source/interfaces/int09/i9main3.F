@@ -86,7 +86,7 @@ C-----------------------------------------------
       my_real, DIMENSION(MVSIZ) :: ZN1,ZN2,ZN3,ZN4
       my_real, DIMENSION(MVSIZ) :: XP,YP,ZP
       my_real, DIMENSION(MVSIZ) :: H1,H2,H3,H4
-      my_real STARTT, FRIC, GAP, STOPT,DIST
+      my_real  FRIC, GAP,DIST
       INTEGER :: NMN,NSN,NTY
       INTEGER :: LFT,LLT,NFT
 C-----------------------------------------------

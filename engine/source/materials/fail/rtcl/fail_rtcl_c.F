@@ -51,7 +51,7 @@ C!   L o c a l   V a r i a b l e s
 C!-----------------------------------------------
       INTEGER I,J,INDX(NEL),NINDX,CONDITION(NEL),INST
       my_real 
-     .        NHARD,EPSCAL,P,triaxs,vmises,hydros,EPS_CR,F_RTCL
+     .        NHARD,EPSCAL,triaxs,vmises,hydros,EPS_CR,F_RTCL
 C!--------------------------------------------------------------
       !=======================================================================
       ! - INITIALISATION OF COMPUTATION ON TIME STEP

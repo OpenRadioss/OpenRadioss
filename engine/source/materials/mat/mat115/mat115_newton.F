@@ -77,14 +77,14 @@ c
 c
       real(kind=8) :: LDAV
       my_real 
-     .   H,TRDEP,DLAM,DDEP,DPHI_DSIGVM,DPHI_DSIGM,
+     .   TRDEP,DLAM,DDEP,DPHI_DSIGVM,DPHI_DSIGM,
      .   DPXX,DPYY,DPZZ,DPXY,DPYZ,DPZX,TRDFDS,
      .   NORMXX,NORMYY,NORMZZ,NORMXY,NORMYZ,NORMZX,
-     .   DPHI,SIG_DFDSIG,DFDSIG2,DPHI_DPLA,
+     .   SIG_DFDSIG,DFDSIG2,DPHI_DPLA,
      .   I1,I2,I3,Q,R,R_INTER,PSI,S11,S22,S33
 c     
       my_real, DIMENSION(NEL) ::
-     .   SIGVM,SIGEQ,DSIGXX,DSIGYY,DSIGZZ,DSIGXY,DSIGYZ,DSIGZX,TRSIG,
+     .   SIGVM,SIGEQ,TRSIG,
      .   SXX,SYY,SZZ,SXY,SYZ,SZX,SIGM,J2,YLD,HARDP,PHI,DPLA_DLAM,DPHI_DLAM,
      .   DEFVP
       !=======================================================================

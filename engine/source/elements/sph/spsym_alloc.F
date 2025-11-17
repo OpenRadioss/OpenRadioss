@@ -61,11 +61,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER K,N,IS,IC,NC,NS,INOD,NSPHSYM_L,IERROR
+      INTEGER N,IS,IC,NC,NS,INOD,NSPHSYM_L,IERROR
       my_real
      .       XI,YI,ZI,DI,
      .       OX,OY,OZ,NX,NY,NZ,
-     .       DD,DM,DK,DL,SPALINR
+     .       DD,DM,SPALINR
 C-----------------------------------------------
 C new construction of ghost particles is necessary.
        SPALINR=SQRT(ONE + MYSPATRUE)

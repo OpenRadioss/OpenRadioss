@@ -67,8 +67,8 @@ C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
       INTEGER :: LOC_PROC,P 
-      INTEGER, DIMENSION(:), ALLOCATABLE :: IAUX,INDEX
-      INTEGER :: N,NN,I,J,NNP
+      INTEGER, DIMENSION(:), ALLOCATABLE :: INDEX
+      INTEGER :: N,NN,I,NNP
       INTEGER :: N1,N2
       INTEGER :: NEDGE_KEPT ! number of kept remote edges
       INTEGER :: IDEB

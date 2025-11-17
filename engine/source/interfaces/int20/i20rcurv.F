@@ -44,7 +44,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I ,J ,N1,N2,N3,N4
+      INTEGER I  ,N1,N2,N3,N4
       my_real
      .   SURFX,SURFY,SURFZ,X13,Y13,Z13,X24,Y24,Z24,AAA
 C-----------------------------------------------
@@ -312,7 +312,7 @@ C-----------------------------------------------
      .   NNZ1, NNZ2, NNZ3, NNZ4,
      .   SURFX, SURFY, SURFZ, 
      .   ERX, ERY, ERZ, DNX, DNY, DNZ, DNT, LL, AAA, RR,
-     .   X13, Y13, Z13, X24, Y24, Z24, NX, NY, NZ, CC
+     .   X13, Y13, Z13, X24, Y24, Z24, CC
 C-----------------------------------------------
       RCURV(NRTMFT:NRTMLT) = EP30
       ANGLM(NRTMFT:NRTMLT) = EP30

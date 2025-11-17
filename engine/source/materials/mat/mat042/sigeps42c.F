@@ -67,15 +67,15 @@ C----------------------------------------------------------------
 C----------------------------------------------------------------
 C  L O C A L  V A R I B L E S
 C----------------------------------------------------------------
-      INTEGER :: I,J,II,NPRONY,NORDER,ITER,JNV,NITER
-      my_real :: SUM,FAC,FSCAL,TENSCUT,SUMDWDL,SUMDDWDDL,PARTP,AMAX
-      my_real :: E11,E22,E12,EMAX,GMAX,GVMAX,NU,RBULK,A11,PUI11,PUI22,ALMA1,ALMA2,ALMA3
-      my_real ,DIMENSION(3)       :: DDWDDL,DWDL,LAM_AL
+      INTEGER :: I,II,NPRONY,NORDER,ITER,JNV,NITER
+      my_real :: SUM,FAC,FSCAL,TENSCUT,SUMDWDL,PARTP,AMAX
+      my_real :: EMAX,GMAX,GVMAX,NU,RBULK,A11
+      my_real ,DIMENSION(3)       :: LAM_AL
       my_real ,DIMENSION(10)      :: MU,AL    
       my_real ,DIMENSION(NEL)     :: RVT,GTMAX,DLAM3
-      my_real ,DIMENSION(NEL)     :: INVRV,INVV3,DEZZ,RV,TRAV,ROOTV
-      my_real ,DIMENSION(NEL)     :: S2,CS,KT3,RHO,KIR3
-      my_real ,DIMENSION(NEL,3)   :: T,SV,SIGPRV,EVV,EV,EVM,CII,S_LDWDL      
+      my_real ,DIMENSION(NEL)     :: INVRV,DEZZ,RV,TRAV,ROOTV
+      my_real ,DIMENSION(NEL)     :: KT3,RHO,KIR3
+      my_real ,DIMENSION(NEL,3)   :: T,SV,EVV,EV,EVM,CII,S_LDWDL      
       my_real ,DIMENSION(NEL,3,2) :: EIGV(NEL,3,2)      
       my_real :: DAV,H0(4),DEPSZZ,TAUX
       my_real ,DIMENSION(NEL)     :: A1,A2

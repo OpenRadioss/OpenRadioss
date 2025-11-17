@@ -57,7 +57,7 @@ C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
       INTEGER IERROR, LENG,ITABL(4) 
-      INTEGER II, I, ITAG, LEN, ITAB(3,NSPMD-1),REQ(2*(NSPMD-1)),
+      INTEGER II, I, ITAG, LEN(3,NSPMD-1),REQ(2*(NSPMD-1)),
      .        STAT(MPI_STATUS_SIZE,2*(NSPMD-1)), IERR, 
      .        MSGOFF
       DATA MSGOFF/238/

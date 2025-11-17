@@ -56,7 +56,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (OUTPUT_) :: OUTPUT
-      INTEGER NIN,ITASK,I,
+      INTEGER NIN,ITASK,
      .        IPARI(NPARI,NINTER), IKINE(NUMNOD)
 C     REAL
       my_real 

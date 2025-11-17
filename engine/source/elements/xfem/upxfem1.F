@@ -70,7 +70,7 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IG,NG,JFT,JLT,NEL,NF1,ITG1,ITG2,NXLAY,OFF,IXFEM
+      INTEGER IG,NG,JFT,JLT,NEL,ITG1,ITG2,NXLAY,OFF,IXFEM
 C=======================================================================
 C     check cracks connections
 c---------------------------

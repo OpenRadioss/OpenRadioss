@@ -79,7 +79,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,II,JPT,IPT,MX,JJ(6)
+      INTEGER I,J,JPT,IPT,MX,JJ(6)
 C     REAL
       my_real
      .   AMU(MVSIZ), AMU2(MVSIZ), ESPE(MVSIZ),

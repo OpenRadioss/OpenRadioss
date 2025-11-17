@@ -99,14 +99,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  I, J, IDX
+      INTEGER  I
       my_real
      .   VX17, VY17, VZ17,
      .   VX28, VY28, VZ28,
      .   VX35, VY35, VZ35,
      .   VX46, VY46, VZ46, DT1D2, DT1D
       my_real 
-     .   PXX2,PYY2,PZZ2,PXX2P,PYY2P,PZZ2P,AAA,BBB,FAC,
+     .   PXX2,PYY2,PZZ2,AAA,BBB,FAC,
      .   EXX,EXY,EXZ,EYX,EYY,EYZ,EZX,EZY,EZZ
 C-----------------------------------------------
 C   S o u r c e   L i n e s

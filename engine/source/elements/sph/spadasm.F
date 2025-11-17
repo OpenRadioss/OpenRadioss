@@ -57,12 +57,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER K,N,INOD,JS,
+      INTEGER N,INOD,JS,
      .        IS,IC,NC,NS
       my_real
      .       XI,YI,ZI,
      .       OX,OY,OZ,NX,NY,NZ,
-     .       XS,YS,ZS,VXS,VYS,VZS,VN,DD
+     .       XS,YS,ZS,DD
 C-----------------------------------------------
        DO NC=1,NSPCOND
         IS=ISPCOND(3,NC)
@@ -152,7 +152,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER K,N,INOD,JS,
+      INTEGER N,INOD,JS,
      .        IS,IC,NC,ISLIDE,NS
       my_real
      .       VXI,VYI,VZI,

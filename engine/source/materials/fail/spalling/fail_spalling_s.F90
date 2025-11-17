@@ -89,9 +89,9 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: i,j,idel,idev,iflag,indx(nel),iadbuf,nindx,nindex,index(nel), &
-            ifail,jj,ispall
-          real(kind=WP) :: d1,d2,d3,d4,d5,epsp0,p,pmin,epsf,svm,scale,sxx,syy,szz,       &
+          integer :: i,j,idel,idev,iflag,indx(nel),nindx,nindex,index(nel), &
+            ispall
+          real(kind=WP) :: d1,d2,d3,d4,d5,epsp0,p,pmin,epsf,svm,sxx,syy,szz,       &
             sig(mvsiz,6),valp(mvsiz,3),vec(mvsiz,9),sigp_max(nel)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                 body

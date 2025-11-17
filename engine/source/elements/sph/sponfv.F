@@ -69,20 +69,20 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, ITYPE,
      .        II,IPT,JJ,NPF,IFVITS,
-     .        NS,N,INOD,IACTIVE,
+     .        NS,N,INOD,
      .        IPPV,J,M,JNOD,IMPOSE,JMPOSE,
-     .        NVOIS,IJ,NP,K,JMPOSE2,NN
+     .        NP,K,JMPOSE2,NN
       my_real
      .       WFEXTT,T05,
      .       PENTV,VX,VY,VZ,VN,VT,UX,UY,UZ,UN1,NX,NY,NZ,
      .       PS,
      .       XI,YI,ZI,XJ,YJ,ZJ,DMIN,DD,DTINV,
      .       DI,RHOI,DJ,RHOJ,DIJ,
-     .       VXI,VYI,VZI,VXJ,VYJ,VZJ,
+     .       VXJ,VYJ,VZJ,
      .       VJ,VJX,VJY,VJZ,
      .       WGHT,WGRAD(3),WGRDX,WGRDY,WGRDZ,
-     .       DXX,DXY,DXZ,DYX,DYY,DYZ,DZX,DZY,DZZ,DT1D2,
-     .       EXX,EXY,EXZ,EYX,EYY,EYZ,EZX,EZY,EZZ,
+     .       DXX,DXY,DXZ,DYX,DYY,DYZ,DZX,DZY,DZZ,
+     .       
      .       ALPHAI,ALPHAXI,ALPHAYI,ALPHAZI,ALPHAI2,XP,YP,ZP
      
       LOGICAL lBOOL

@@ -59,9 +59,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,M1,M2,IG,IGTYP,KAD,ITYP,NG,JFT,JLT,NEL,
-     .        NB8,NFT,NUVAR,IRB,NV
-      my_real DTN,DTR,DTRB1,DTRB2,DT
+      INTEGER I,J,M1,M2,IG,IGTYP,ITYP,NG,JFT,JLT,NEL,
+     .        NFT,NUVAR,IRB,NV
+      my_real DTRB1,DTRB2,DT
       TYPE(G_BUFEL_),POINTER :: GBUF
 C----------------------------------------------------------      
       

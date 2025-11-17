@@ -72,7 +72,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,II,K,N1,N2,N3,N4,L_NLOC,J,NDNOD
       my_real 
-     . DX, DY, DZ, L2,NTN,NTN_UNL,NTN_VNL,XI,NTVAR,A,ZETA,
+     .    L2,NTN,NTN_UNL,NTN_VNL,XI,NTVAR,A,ZETA,
      . B1,B2,B3,B4,SSPNL,NTH1,NTH2,BTH1,BTH2,K1,K2,K12,
      . DTNL_TH,DTNL,LE_MAX,MAXSTIF,DTNOD,DT2P
       my_real, DIMENSION(:,:), ALLOCATABLE :: 

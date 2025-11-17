@@ -100,13 +100,13 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real 
-     .  E1,E2,E3,E4,E5,E6,P2,BID1,BID2,BID3,C1(MVSIZ),
+     .  E1,E2,E3,E4,E5,E6,P2,BID1,BID2,BID3(MVSIZ),
      .  EP1(MVSIZ),EP2(MVSIZ),EP3(MVSIZ),EP4(MVSIZ),EP5(MVSIZ),EP6(MVSIZ),
      .  S1(MVSIZ) ,S2(MVSIZ) ,S3(MVSIZ) ,S4(MVSIZ) ,S5(MVSIZ) ,S6(MVSIZ),
      .  DE1(MVSIZ),DE2(MVSIZ),DE3(MVSIZ),DE4(MVSIZ),DE5(MVSIZ),DE6(MVSIZ),
      .  SV1(MVSIZ),SV2(MVSIZ),SV3(MVSIZ),SV4(MVSIZ),SV5(MVSIZ),SV6(MVSIZ),
      .  SO1(MVSIZ),SO2(MVSIZ),SO3(MVSIZ),SO4(MVSIZ),SO5(MVSIZ),SO6(MVSIZ)
-      INTEGER NPAR,IADBUF,I,IBID,MX
+      INTEGER NPAR,IADBUF,I,MX
       my_real  FACQ0
 C-----------------------------------------------
 C   S o u r c e   L i n e s

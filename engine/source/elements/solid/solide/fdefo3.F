@@ -80,7 +80,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  I, J
+      INTEGER  I
       my_real
      .   VX17(MVSIZ), VY17(MVSIZ), VZ17(MVSIZ),
      .   VX28(MVSIZ), VY28(MVSIZ), VZ28(MVSIZ),
@@ -88,7 +88,7 @@ C-----------------------------------------------
      .   VX46(MVSIZ), VY46(MVSIZ), VZ46(MVSIZ), 
      .    DT1D2, DT1D
       my_real 
-     .   PXX2,PYY2,PZZ2,PXX2P,PYY2P,PZZ2P
+     .   PXX2,PYY2,PZZ2
       my_real
      .   AAA,BBB
 C-----------------------------------------------   

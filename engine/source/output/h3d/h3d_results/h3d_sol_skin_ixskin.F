@@ -60,7 +60,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C----------------------------------------------- 
-      INTEGER I,ISOLNOD,ICS,NG,N,J,K
+      INTEGER I,ISOLNOD,ICS,NG,N,J
       INTEGER 
      .        MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,    
      .        NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,    
@@ -68,9 +68,9 @@ C-----------------------------------------------
      .        NVAUX   ,JPOR    ,KCVT    ,JCLOSE  ,JPLASOL ,    
      .        IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,    
      .        ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    , 
-     .        NN,NN1,N1,IDB
-      INTEGER NC(10,MVSIZ),NMIN,PWR(7),LL
-      INTEGER FACES(4,6),NS(4),JJ,II,K1,K2,NF,N2,T3(3),T6(6),TIA4S(3,4)
+     .        NN,NN1,N1
+      INTEGER NC(10,MVSIZ),PWR(7),LL
+      INTEGER FACES(4,6),NS(4),JJ,II,K1,K2,T3(3),T6(6),TIA4S(3,4)
       DATA PWR/1,2,4,8,16,32,64/
       DATA FACES/4,3,2,1,
      .           5,6,7,8,

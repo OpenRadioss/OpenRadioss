@@ -55,7 +55,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NME, NMES, NOINT,IDT,ITASK,MX_CAND,
+      INTEGER NME, NMES, NOINT,ITASK,MX_CAND,
      .        ESH_T, I_STOK_GLOB, NIN, NMESR, NB_N_B 
       INTEGER CAND_E(*),CAND_N(*),IXS(NIXS,*),IXS16(8,*),
      .        LWAT,NELEM(*),NELES(*),IXS20(12,*)
@@ -71,8 +71,8 @@ C-----------------------------------------------
 C
       INTEGER I_ADD_MAX
       PARAMETER (I_ADD_MAX = 1001)
-      INTEGER I, J, K, L, CONT,I_STOK   ,
-     .        IP0, IP1, IP2, IP21, IP22, IP31, MAXSIZ,
+      INTEGER     CONT   ,
+     .              MAXSIZ,
      .        NMES_F,NMES_L, MAXSIZS, I_ADD
       INTEGER IERR1,IERR2
       my_real
@@ -203,7 +203,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NME, NMES, NOINT,IDT,ITASK,MX_CAND,
+      INTEGER NME, NMES, NOINT,ITASK,MX_CAND,
      .        ESH_T, I_STOK_GLOB, NIN, NMESR 
       INTEGER CAND_E(*),CAND_N(*),IXS(NIXS,*),IXS16(8,*),
      .        LWAT,NELEM(*),NELES(*),IXS20(12,*),
@@ -220,8 +220,8 @@ C-----------------------------------------------
 C
       INTEGER I_ADD_MAX
       PARAMETER (I_ADD_MAX = 1001)
-      INTEGER I, J, K, L, CONT,NB_N_B,I_STOK   ,
-     .        IP0, IP1, IP2, IP21, IP22, IP31, MAXSIZ,
+      INTEGER I, J, K, L, CONT,NB_N_B   ,
+     .              MAXSIZ,
      .        NMES_F,NMES_L, MAXSIZS, I_ADD
       INTEGER IERR1,IERR2
       my_real

@@ -90,8 +90,8 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER LCO, NF1, IFLAG, NB3S, I,IS,IAD0,IBID,NBGAMA,IBID1
-      INTEGER MXT(MVSIZ),NGL(MVSIZ),NGEO(MVSIZ),PID,IADBUF,IKORTH
+      INTEGER  NF1, I,IBID,IBID1
+      INTEGER MXT(MVSIZ),NGL(MVSIZ),NGEO(MVSIZ),IADBUF,IKORTH
       my_real
      . RX(MVSIZ) , RY(MVSIZ) , RZ(MVSIZ) ,
      . SX(MVSIZ) , SY(MVSIZ) , SZ(MVSIZ) ,

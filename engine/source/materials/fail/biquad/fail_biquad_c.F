@@ -112,7 +112,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
        my_real hydros, vmises, triaxs,REF_EL_LEN
        INTEGER I,J,L,NINDX1,NINDX2,FLAG_PERTURB,SEL
-       INTEGER FAIL_COUNT,IT,ICOUP
+       INTEGER ICOUP
        INTEGER, DIMENSION(MVSIZ) :: INDX1,INDX2
 
        my_real  X_1(3) , X_2(3),c3,DYDX,DC(NEL)

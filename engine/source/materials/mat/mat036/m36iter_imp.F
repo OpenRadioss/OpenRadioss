@@ -141,7 +141,7 @@ CC
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, II, ITER, NITER, I_BILIN, IPOS
+      INTEGER I, ITER, NITER, I_BILIN, IPOS
 C
 C     REAL
       MY_REAL

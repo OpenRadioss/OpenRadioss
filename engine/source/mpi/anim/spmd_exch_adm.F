@@ -48,14 +48,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER  IAD_ELEM(2,*),FR_ELEM(*), SIZE, LENR,WEIGHT_MD(*)
+      INTEGER  IAD_ELEM(2,*),FR_ELEM(*), LENR,WEIGHT_MD(*)
       my_real ADM(*)
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
       INTEGER MSGTYP,I,NOD,LOC_PROC,IERROR,
-     .        SIZ,J,K,L,NB_NOD,
+     .        SIZ,J,L,NB_NOD,
      .        STATUS(MPI_STATUS_SIZE),
      .        IAD_SEND(NSPMD+1),IAD_RECV(NSPMD+1),
      .        REQ_R(NSPMD),REQ_S(NSPMD),MSGOFF

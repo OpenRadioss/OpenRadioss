@@ -77,13 +77,13 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J
+      INTEGER I
 C     REAL
       my_real
-     .     THETAPHI, R1PHI, R2PHI, SINT(MVSIZ),
+     .      SINT(MVSIZ),
      .     SUM(MVSIZ) ,SUM2(MVSIZ), SUM3(MVSIZ) ,THETA(MVSIZ),
-     .     COST(MVSIZ), SUM1PHI, SUM2PHI, SUM3PHI, COPHI, SIPHI, COSPHI,
-     .     SINPHI,SUMPHI,
+     .     COST(MVSIZ),
+     .     
      .     DT05,COST2(MVSIZ),SINT2(MVSIZ),CC,SS
       DOUBLE PRECISION EXXDP(MVSIZ),EYXDP(MVSIZ),EZXDP(MVSIZ),
      .     EXX2DP(MVSIZ),EYX2DP(MVSIZ),EZX2DP(MVSIZ),

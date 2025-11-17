@@ -48,7 +48,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NIR,I,J,L,II,JJ,IS
+      INTEGER NIR,J,L,II,JJ,IS
       INTEGER INOD(4)
 C     REAL
       my_real

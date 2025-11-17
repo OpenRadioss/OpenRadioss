@@ -78,7 +78,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,II,K,NNOD,N1,N2,N3,N4,N5,N6,N7,N8,L_NLOC
       my_real 
-     . DX, DY, DZ, L2,XI,NTVAR,A,
+     .    L2,XI,
      . B1,B2,B3,B4,B5,B6,B7,B8,
      . A1,A2,A3,A4,A5,A6,A7,A8,C1,C2,C3,C4,C5,C6,C7,C8,
      . ZETA,SSPNL,DTNL,LE_MAX,MAXSTIF,MINMASSCAL

@@ -47,9 +47,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J
+      INTEGER I
       my_real 
-     .   S11, S12, S13, S21, S22, S31,S32,S1,S2
+     .   S11, S12, S21, S22, S31,S32
 C-----gama -> orthotropic system [{a}{b}{c}]---
         DO I=LFT,LLT
           S11 = GAMA(I,1)*E1X(I)+GAMA(I,2)*E2X(I)+GAMA(I,3)*E3X(I)

@@ -79,10 +79,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,  N, IP, KP, NG, MG, J, NP, KFT, IG, NELEM,
-     .        NEL, OFFSET, NVOIS, M, INOD, JNOD, NN, IPRT, IMAT,
+      INTEGER I,  N, KP, NG, MG, NP, KFT, IG, NELEM,
+     .        NEL, OFFSET, INOD, IMAT,
      .        N1, N2, N3, N4, N5, N6, N7, N8,
-     .        K1, K2, K3, K4, K5, K6, K7, K8, IERROR,
+     .        K1, K2, K3, K4, K5, K6, K7, K8,
      .        NODFT, NODLT
       my_real
      .        DM, RHO0, EHOURT, EK, VI2, VXI, VYI, VZI,
@@ -469,8 +469,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,  N, IP, KP, NG, MG, J, NP, KFT, IG, NELEM,
-     .        NEL, OFFSET, NVOIS, M, INOD, JNOD, NN, IPRT, IMAT
+      INTEGER I,  N, KP, NG, J, NP, IG, NELEM,
+     .        NEL, OFFSET, NVOIS, M, INOD, JNOD, NN
 C                                                                    
 C-----
       TYPE(G_BUFEL_) ,POINTER :: GBUF

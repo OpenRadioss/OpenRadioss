@@ -65,7 +65,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,N,JJ,IPRT,BUF,IPRT0,K,II
+      INTEGER I,N,JJ,IPRT,IPRT0,K,II
       INTEGER NG,NEL,NFT,LFT,LLT,ITY,IOFF
       INTEGER WORK(70000)
       INTEGER,DIMENSION(:),ALLOCATABLE :: IADD

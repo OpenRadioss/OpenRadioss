@@ -52,7 +52,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IKEY, II, I, FVID, NSTEP, N1, N2, JJ, NBC, IV2(10), J, N3
+      INTEGER IKEY, II, FVID, NSTEP, N1, N2, NBC(10), N3
       my_real
      .        VAL1, VAL2, VAL3
       CHARACTER KEY2*5

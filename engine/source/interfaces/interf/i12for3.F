@@ -54,7 +54,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NIR, I, J, I3, J3, I2, J2, I1, J1, II, L, JJ,JL
       my_real
-     .   H(4), XMSJ, SS, TT, XMSI, FXI, FYI, FZI,SP,SM,TP,TM,
+     .   H(4), SS, TT, XMSI, FXI, FYI, FZI,SP,SM,TP,TM,
      .   P(9),CST,SST,FXR, FYR, FZR
 C-----------------------------------------------
       NIR=2

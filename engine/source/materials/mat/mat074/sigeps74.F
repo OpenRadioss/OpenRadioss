@@ -158,18 +158,18 @@ C        NPF,TF  : FUNCTION PARAMETER
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IADBUF,J1,J2,ITABLE,
-     .        IPARAM,NPAR,OPTE,IFUNCE,
+      INTEGER I,J,IADBUF,ITABLE,
+     .        OPTE,IFUNCE,
      .        NINDX,INDX(MVSIZ)
       my_real
-     .        E,NU,P,DAV,R,FAC,EPST,EP1,EP2,EP3,EP4,EP5,EP6,
+     .        E,NU,P,DAV,R,EPST,
      .        E1,E2,E3,E4,E5,E6,C,CC,D,Y,YP,E42,E52,E62,EPST2,
-     .        C1,G,G2,G3,FF,GG,HH,NN,LL,MM,VOL0, RHOCP,
+     .        C1,G,G2,G3,FF,GG,HH,NN,LL,MM, RHOCP,
      .        EPSMAX,H(MVSIZ),CRI(MVSIZ),
      .        FAIL(MVSIZ),EPSR1,EPSR2,P0(MVSIZ),HKIN,
      .       FISOKIN,SIGEXX(MVSIZ),SIGEYY(MVSIZ),SIGEZZ(MVSIZ),
      .       SIGEXY(MVSIZ),SIGEYZ(MVSIZ),SIGEZX(MVSIZ),
-     .       DEXX,DEYY,DEXY,DEZZ,DEYZ,DEZX,DSXX,DSYY,DSZZ,DSXY,DSYZ,
+     .       DSXX,DSYY,DSZZ,DSXY,DSYZ,
      .       DSZX,SIGPXX,SIGPYY,SIGPXY,SIGPYZ,SIGPZX,SIGPZZ,ALPHA,
      .       XFAC, YFAC,E0(MVSIZ), G1(MVSIZ), G21(MVSIZ), G31(MVSIZ), 
      .       C11(MVSIZ),ESCALE(MVSIZ),EINF,DYDXE(MVSIZ),CE

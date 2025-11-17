@@ -53,14 +53,14 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: NPT,NSENSOR,NEL,IP,FUN_ID,SENS_ID
       my_real
-     .   TT, DT1
+     .   TT
       my_real
      .   BPRELD(NEL,*),SIG(NEL,6)
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,K,ISENS 
+      INTEGER I,ISENS 
       my_real
      .   TS,TE,SFAC
 C-----------------------------------------------

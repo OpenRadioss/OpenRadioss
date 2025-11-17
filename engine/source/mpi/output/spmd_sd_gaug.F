@@ -57,7 +57,7 @@ C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
       INTEGER MSGTYP,MSGOFF,IERROR,LOC_PROC,NN,L,I,K,N,II,J,
-     .        IDEB,SIZ,A_AR,NBIRECV,INDEX,
+     .        IDEB,SIZ,NBIRECV,INDEX,
      .        IRINDEX(NSPMD),REQ_R(NSPMD),IAD_RECV(NSPMD),
      .        STATUS(MPI_STATUS_SIZE)
       my_real

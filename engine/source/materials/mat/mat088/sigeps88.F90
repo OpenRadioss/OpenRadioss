@@ -135,12 +135,12 @@
         integer, dimension(nel,6) :: ipos
         integer, parameter :: niter = 6 !< Number of recursive iterations
         !< Real working variables
-        real(kind=WP) :: ldav,scale,lam_r,denom,lam_tg,prev,taper,     &
+        real(kind=WP) :: ldav,scale,lam_r,denom,lam_tg,prev,     &
           xhat,xmag,amax,dlam_eff,gdir,lamj,       &
-          dlam_tg,Rblend
+          Rblend
         real(kind=WP), dimension(nel) :: deint0,deint,p,epseq,emax,loadflg,    &
           sigdxx,sigdyy,sigdzz,sigdxy,sigdyz,sigdzx,sigdeff,erate,rv,rv_mth,   &
-          gmax,ecurent,unl,dunldlam,loadflg_old,gunl,dgunldlam,ratioR,fcrit,   &
+          gmax,ecurent,loadflg_old,gunl,dgunldlam,ratioR,fcrit,   &
           i1,i2,fJ,dfJdx,gJ,dgJdlam,dgJsqrdlam,gJsqr,xhat_dom,xfoam
         real(kind=WP), dimension(3,3) :: epsp
         real(kind=WP), dimension(nel,3) :: lam,evvp,ee,eep,f,dfdlam,t,g,gsqr,  &

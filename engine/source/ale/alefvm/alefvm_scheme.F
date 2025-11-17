@@ -82,7 +82,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I, II, J, IMAT, ILAW, NIN, IB
+      INTEGER :: I, II, IMAT, ILAW, NIN, IB
       my_real :: DMOM(3,MVSIZ)
       LOGICAL :: debug_outp
       INTEGER :: idbf,idbl

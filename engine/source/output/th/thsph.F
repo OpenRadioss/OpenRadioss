@@ -64,8 +64,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER II,JJ, I, J, N, IH, NG, MTE, 
-     .        K, IST, IP, L, LWA, NEL,KK(6)
+      INTEGER II,JJ, I, N, IH, NG, MTE, 
+     .        K, IP, L, NEL,KK(6)
       INTEGER :: NITER,IADR,NN,IADV,NVAR,ITYP,IJK
 
       my_real

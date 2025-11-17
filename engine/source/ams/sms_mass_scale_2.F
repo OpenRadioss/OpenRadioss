@@ -139,7 +139,7 @@ C-----------------------------------------------
      .         LNLINK(*), FR_LL(NSPMD+2,*), TAG_LNK_SMS(*), ITAB(*),
      .         LJOINT(*), FR_CJ(*), IADCJ(*),
      .         NPRW(*), LPRW(*), FR_WALL(*), NRWL_SMS(*),
-     .         KK, MAIN, KINET(*),
+     .         KINET(*),
      .         IXC(NIXC,*), IXTG(NIXTG,*),
      .         SH4TREE(KSH4TREE,*), SH3TREE(KSH3TREE,*), DIM,
      .         TAGMSR_RBY_SMS(*), JSM_SMS(*),
@@ -179,22 +179,20 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, N, ISP, IT, IX, IERROR
-      INTEGER ICOUNT, J, K, L, NSN, IMOV, ITYP, ILAGM, IFLAG,
-     .        N2, N3, N4, N5, N6, N7, ND, IGR, ISK,
-     .        M, IAD, MSR, KAD, KI, KJ, JI, NSR,
-     .        LOC_PROC, P, NN, LENR, SIZE, NRBDIM
+      INTEGER I, N, ISP, IT, IERROR
+      INTEGER  J, K,
+     .              ND, IGR, ISK,
+     .        M, MSR,
+     .           NRBDIM
       INTEGER NODFT1_SMS, NODLT1_SMS
       INTEGER NODFT2_SMS, NODLT2_SMS,NGR2USR
       my_real
-     .   VX,VY,VZ, MVX, MVY, MVZ,
-     .   VXJ, VYJ, VZJ, MAS,WFEXTT, ERRTET, DW, DT15, DT25, RBID,
-     .   OMEGA, BETASDT, DAMPT, FACTB, D_TSTART, D_TSTOP, DA, ADT,
-     .   P1, P2, P3, UOMEGA, DOMEGA
+     .      DW,
+     .   OMEGA, BETASDT, DAMPT, FACTB, D_TSTART, D_TSTOP, DA,
+     .      UOMEGA, DOMEGA
 C-----
       INTEGER, DIMENSION(:), ALLOCATABLE :: IMV
-      my_real
-     .       , DIMENSION(:), ALLOCATABLE :: MV
+      my_real, DIMENSION(:), ALLOCATABLE :: MV
       my_real, DIMENSION(:,:), ALLOCATABLE :: MVSKW
       my_real, DIMENSION(:,:), ALLOCATABLE :: VSKW
       my_real, DIMENSION(:,:), ALLOCATABLE :: RSKW

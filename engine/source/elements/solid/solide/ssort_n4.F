@@ -54,11 +54,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K
+      INTEGER I
 C                                                                     12
       my_real
      .   RX, RY, RZ, SX, SY, SZ,NX,NY,NZ,BBB,
-     .   DX,DY,DZ,DD,PENE(MVSIZ),NORM,DMIN,DMIN1
+     .   DX,DY,DZ,PENE(MVSIZ),NORM,DMIN,DMIN1
 C----------------------------
          DO I=1,NEL
            IF (IFC1(I)>0) CYCLE

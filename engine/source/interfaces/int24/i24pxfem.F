@@ -114,13 +114,13 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NRTM, IRECT(4,*),MSEGTYP(*), NVOISIN(8,*)
       my_real
-     .        XMAX, YMAX, ZMAX, XMIN, YMIN, ZMIN, C_MAX,
+     .           
      .        GAP_MN(12,*),WAGAP(2,*),GAP_M(*),GAPMAX,DGAP_MN(4,*),
      .        DGAP_M(*),DGAPMAX,STFM(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  II,M1,M2,M3,M4,NE,L
+      INTEGER  M1,M2,M3,M4,NE,L
       my_real
      .    GAPN_OLD(4),GAP_MMAX
 C-----------------------------------------------
