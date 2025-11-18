@@ -646,7 +646,6 @@
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i
-          integer :: new_uid
           integer :: old_uid
           integer :: new_local_id
           integer :: numnod
@@ -736,10 +735,9 @@
           real(kind=wp), dimension(:), allocatable :: detach_shell
           integer :: ig,ng,numnod0,i,j,k,l,n,n1,n2,n3,n4,nel,nft,p
           integer, dimension(20) :: crack !< id of the noodes that are part of the crack
-          integer :: ncrack
           integer, dimension(:), allocatable :: shell_list
           integer :: shells_to_detach
-          double precision :: normal(3),  vec(3), distance
+          double precision :: distance
           double precision, dimension(:), allocatable :: nodal_damage
           double precision :: v(3)
           double precision, parameter :: treshold = 1.75D0

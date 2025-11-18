@@ -62,8 +62,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER I,N,NI,SIZ,L_INTBUF_SIZE
-        INTEGER VAL_TEST
+        INTEGER N,NI,SIZ,L_INTBUF_SIZE
 C=======================================================================
         ALLOCATE(INTBUF_SIZE(L_INTBUF_SIZE_MAX))
         INTBUF_SIZE(1:L_INTBUF_SIZE_MAX) = 0

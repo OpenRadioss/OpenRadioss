@@ -74,17 +74,16 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, NG, NEL, NFT, IAD, ITY, LFT, NPT,
-     .        N, J, LLT, MLW,  IP,  NN, K1, K2,MT,JALE, IMID, 
-     .        N1,N2,N3,N4, NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,
-     .        N_FA, IHBE, SH_IH, ISTRAIN, IEXPAN,ISHPLYXFEM,NELXFE,IE,
+     . N, J, LLT, MLW, IP,
+     . NN90,
+     . N_FA, IHBE, ISTRAIN, IEXPAN,ISHPLYXFEM,NELXFE,IE,
      .        PLYELEMS(NUMELC),IPT,ELC,MPT,NGL(MVSIZ),ISUBSTACK,IPMAT_IPLY,
      .        IPMAT, IPPID
      
-      INTEGER RBUF,NEL3,NEL5,NEL8,NPTM,NN12,NN13,NN14,
-     .         NN15,NN16,NN16A,NPG,PID(MVSIZ),MATLY,NUVARR,NUVARD,NBM_S,
+      INTEGER RBUF,NEL3,NEL5,NEL8,NPTM,
+     . NPG,PID(MVSIZ),MATLY,NUVARR,NUVARD,NBM_S,
      .         IFAILURE,NPTR,NPTS,IS,IR,OFFIPLY
       INTEGER,DIMENSION(:),ALLOCATABLE::IOFFBUF
-      REAL R4
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
       TYPE(BUF_LAY_)  ,POINTER :: BUFLY
       TYPE(L_BUFEL_) ,POINTER :: LBUF

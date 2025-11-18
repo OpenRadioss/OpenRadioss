@@ -45,7 +45,7 @@ C-----------------------------------------------
 C----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,NKC,ID,ND,M,N
+      INTEGER I,J,K,NKC,ID,ND,N
 C---- NOT DDL Actual-> IDDL (NUMNOD)+J (1-6) -NKC -------
       NKC=0
       DO N = 1,NUMNOD
@@ -135,7 +135,6 @@ C-----------------------------------------------
 C----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K
 C-------pendant iteration dU_d=0------------
 C-------local FV-BCS coupling might modify global dirs due to unconsisting
       IF(NFVBCL > 0 ) THEN
@@ -199,7 +198,7 @@ C-----------------------------------------------
 C----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,NKC,ID,ND,N
+      INTEGER I,J,NKC,ID,ND,N
 C---- NOT DDL Actual-> IDDL (NUMNOD)+J (1-6) -NKC -------
       NN=0
       NKC=0
@@ -244,7 +243,7 @@ C-----------------------------------------------
 C----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,NKC,ID,ND,M,N
+      INTEGER I,J,NKC,ID,ND,N
 C---- NOT DDL Actual-> IDDL (NUMNOD)+J (1-6) -NKC -------
       NKC=0
       DO N = 1,NUMNOD

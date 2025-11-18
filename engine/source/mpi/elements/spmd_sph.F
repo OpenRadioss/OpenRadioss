@@ -1977,7 +1977,7 @@ C-----------------------------------------------
      .        
      .        NS,
      .        IPPV,J,M,JNOD,IMPOSE,JMPOSE,
-     .        NP,K,JMPOSE2,IPPVR,INDICE
+     . NP,K,JMPOSE2,IPPVR,INDICE
      .        IDEB2, C, INDICE, IDEB2,N1, SIZ,INDICE1,
      .        NBIS,MSGOFF,MSGOFF2,MSGOFF3
 

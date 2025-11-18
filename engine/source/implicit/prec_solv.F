@@ -296,7 +296,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER  NDDL  ,NNZ   ,IADM(*)  ,JDIM(*),IPREC
+      INTEGER NDDL ,NNZ ,IADM(*) ,JDIM(*)
 C     REAL
       my_real
      .  DIAG_M(*), Z(*), LT_M(*)  ,V(*) 
@@ -352,7 +352,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER  NDDL  ,NNZ   ,IADM(*)  ,JDIM(*),IPREC
+      INTEGER NDDL ,NNZ ,IADM(*) ,JDIM(*)
 C     REAL
       my_real
      .  DIAG_M(*), Z(*), LT_M(*)  ,V(*) 

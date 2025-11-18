@@ -3447,7 +3447,7 @@ C     REAL
       INTEGER I, NG, NEL,KCVT,
      .         N, J, MLW,  
      .        
-     .        NN1,K,INC,
+     . NN1,K,
      .         ISOLNOD,
      .          NC(20,MVSIZ),NNOD,IHBE,
      .        IVISC,JJ(6)
@@ -3692,7 +3692,7 @@ C     REAL
       INTEGER I, NG, NEL,KCVT,
      .         N, J, MLW,  
      .        
-     .        NN1,K,INC,
+     . NN1,K,
      .         ISOLNOD,
      .          NC(20,MVSIZ),NNOD,IHBE,
      .        IVISC,JJ(6)
@@ -3956,7 +3956,7 @@ C     REAL
       INTEGER I, NG, NEL,KCVT,
      .         N, J, MLW,  
      .        
-     .        NN1,K,INC,
+     . NN1,K,
      .         ISOLNOD, NPTR, NPTS, NPTT,
      .        IS, IR, IT,NC(20,MVSIZ),NNOD,ILAY,
      .        ICSIG,IVISC,JJ(6),MAT(MVSIZ)
@@ -4795,7 +4795,7 @@ C-----------------------------------------------
       INTEGER I, NG, NEL,KCVT,
      .         N, J, MLW,  
      .        
-     .        NN1,K,INC,
+     . NN1,K,
      .         ISOLNOD, NPTR, NPTS, NPTT,
      .        IS, IR, IT,NC(20,MVSIZ),NNOD,ILAY,
      .        ICSIG,IVISC,JJ(6),MAT(MVSIZ),ISKIN(MVSIZ)

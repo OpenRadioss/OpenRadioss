@@ -66,8 +66,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER INDXOF(MVSIZ),
-     .        I, J, II, NINDX,IDT,ITYEL
-      my_real DT(MVSIZ),FAC,MAS,DIVM,MMIN  ,IZ   
+     . I, J, NINDX,IDT,ITYEL
+      my_real DT(MVSIZ),FAC,DIVM,MMIN
 C=======================================================================
       DO I=JFT,JLT
         VISCMX(I) = MAX(VISCMX(I), AMU(I))

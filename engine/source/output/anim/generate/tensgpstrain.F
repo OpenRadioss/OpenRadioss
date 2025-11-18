@@ -82,7 +82,7 @@ C-----------------------------------------------
       INTEGER I,II, NG, NEL,KCVT,
      .         N, J, MLW,  
      .        
-     .        NN1,K,INC,
+     . NN1,K,
      .         ISOLNOD, NPTR, NPTS, NPTT,
      .        IS, IR, IT,NC(20,MVSIZ),NNOD,ILAY,
      .        ICSIG,IVISC,JJ(6),IP
@@ -643,7 +643,7 @@ C-----------------------------------------------
       INTEGER I,II, NG, NEL,KCVT,
      .         N, J, MLW,  
      .        
-     .        NN1,K,INC,
+     . NN1,K,
      .         ISOLNOD, NPTR, NPTS, NPTT,
      .        IS, IR, IT,NC(20,MVSIZ),NNOD,ILAY,
      .        ICSIG,IVISC,JJ(6),IP,ITSH

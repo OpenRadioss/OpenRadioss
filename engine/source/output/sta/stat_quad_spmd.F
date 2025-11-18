@@ -57,14 +57,13 @@ C-----------------------------------------------
      .        IGEO(NPROPGI,*), IXQ(NIXQ,*),
      .        IPARTQ(*), IPART_STATE(*),
      .        NODTAG(*), STAT_INDXQ(*),
-     .        IPARG(NPARG,*),LENGQ,IDEL
+     . IPARG(NPARG,*),LENGQ
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, N, JJ, IPRT, BUF, IPRT0, K, STAT_NUMELQ_1
-      INTEGER NG, NEL, NFT, LFT, LLT, ITY, ISOLNOD, IOFF
-      INTEGER WORK(70000)
+      INTEGER I, N, JJ, IPRT
+      INTEGER NG, NEL, NFT, LFT, LLT, ITY, ISOLNOD
       INTEGER,DIMENSION(:),ALLOCATABLE::IADD
       INTEGER,DIMENSION(:,:),ALLOCATABLE::IADG
       INTEGER,DIMENSION(:),ALLOCATABLE::NP

@@ -84,15 +84,14 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
         INTEGER :: I,J
-        INTEGER :: N,NN,II,JJ,MY_SIZE
+        INTEGER :: N,NN,II,JJ
         INTEGER :: NFT,GROUP_ID,ILOC,NEL
-        INTEGER :: ISU1,NBRIC,NSN,NTY,INACTI,NODE_ID,IBRIC
+        INTEGER :: ISU1,NBRIC,NSN,NODE_ID,IBRIC
         INTEGER :: NODF,NODL,NSNF,NSNL
         my_real :: MASS
         my_real, DIMENSION(3) :: LOCAL_FORCE_INT
         REAL(kind=8), DIMENSION(3) :: LOCAL_FORCE_INT_DP
         !   parith/on array
-        INTEGER :: SIZE_VEL
         INTEGER, DIMENSION(NTHREAD) :: INDEX_THREADS
         my_real, DIMENSION(:), ALLOCATABLE, SAVE :: VEL
         REAL(kind=8), DIMENSION(:,:), ALLOCATABLE, SAVE :: VEL_DP

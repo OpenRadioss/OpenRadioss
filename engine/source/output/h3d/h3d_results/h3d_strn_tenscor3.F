@@ -71,7 +71,7 @@ C     REAL
       INTEGER I,II,
      .         N, J,  
      .        
-     .        NN1,K,INC,
+     . NN1,K,
      .         ISOLNOD, NPTR, NPTS, NPTT,
      .        IS, IR, IT,NC(10,MVSIZ),NNOD,ILAY,
      .        IVISC,JJ(6),IP

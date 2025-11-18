@@ -61,7 +61,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER MBUFFER, NPARTL
       INTEGER IPARG(NPARG,*),IGEO(NPROPGI,*),IXR(NIXR,*)
       INTEGER, DIMENSION(NUMNOD), INTENT(in) :: WEIGHT
 C     REAL
@@ -74,7 +73,7 @@ C-----------------------------------------------
       INTEGER :: ID,LOCAL_ID      
       INTEGER, POINTER :: ITHGR,ITHB
       INTEGER, DIMENSION(10) :: ALREADY_DONE
-      INTEGER :: SITHBUF,SITHGRP
+      INTEGER :: SITHBUF
 
 C=======================================================================
 

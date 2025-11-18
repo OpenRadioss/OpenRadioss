@@ -67,7 +67,7 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NB1, NB2, NB3, NB4, NB5, NB6, NB10, NB11, LCO
+      INTEGER NB601
       INTEGER MAT(MVSIZ),NGL(MVSIZ)
       my_real 
      .  AL(MVSIZ),KX(MVSIZ),EX(MVSIZ),EY(MVSIZ),EZ(MVSIZ)

@@ -44,7 +44,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,K
+      INTEGER I
       my_real
      .  DTI
 C------- integrateur ---------- 
@@ -98,7 +98,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,K
+      INTEGER I
       my_real
      .  DTI
 C------- integrateur ---------- 
@@ -187,7 +187,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,K
+      INTEGER I
 C------- basic integrator --------
            DO I=NODFT,NODLT
             X(1,I)=X(1,I)+D(1,I)
@@ -361,7 +361,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NODFT,NODLT,ITSK
-      INTEGER I,K
+      INTEGER I
       my_real
      .  DTI
 C------- integrateur ---------- 
@@ -423,7 +423,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NODFT,NODLT,ITSK
-      INTEGER I,K
+      INTEGER I
       my_real
      .  DTI
 C------- integrateur ---------- 
@@ -488,7 +488,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NODFT,NODLT ,ITSK
-      INTEGER I,K
+      INTEGER I
 C------- basic integrator --------
 !$OMP PARALLEL PRIVATE(ITSK,NODFT ,NODLT,I)
       CALL IMP_SMPINI(ITSK   ,NODFT ,NODLT ,NUMNOD )

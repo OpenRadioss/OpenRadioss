@@ -48,7 +48,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER   J
       my_real
      .   COEF,NU1,NU2,NU3,SXX,SYY,SZZ,SXY,SXZ,SYZ
 C---JR0=-X1+X2+X3-X4-X5+X6+X7-X8 (local coordinates)     

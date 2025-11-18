@@ -54,7 +54,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IADC(4,*),IADC_CRK(4,*),IXC(NIXC,*),IEL_CRK(*),
      .  ELCUTC(2,*),INOD_CRK(*),IPARTC(*)
-      INTEGER JFT,JLT,NFT,IXFEM,ILEV,ILAY
+      INTEGER JFT,JLT,NFT,ILEV,ILAY
       my_real
      .  FSKY(8,LSKY),OFF(*),OFFG(*),
      .  F11(*),F21(*),F31(*),F12(*),F22(*),F32(*),
@@ -294,7 +294,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT,JLT,NFT,IADC(4,*),IADC_CRK(4,*),IXC(NIXC,*),
      . IEL_CRK(*),ILEV,ELCUTC(2,*),INOD_CRK(*),IPARTC(*),
-     . IXFEM,ILAY
+     . ILAY
       my_real
      .  FSKY(8,LSKY),OFF(*),
      .  F11(*),F21(*),F31(*),F12(*),F22(*),F32(*),
@@ -531,7 +531,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT,JLT,NFT,IADC(3,*),IAD_CRKTG(3,*),IXTG(NIXTG,*),
-     . IEL_CRKTG(*),ILEV,ELCUTC(2,*),IXFEM,ILAY
+     . IEL_CRKTG(*),ILEV,ELCUTC(2,*),ILAY
 C     REAL
       my_real
      .  FSKY(8,LSKY),OFF(*),OFFG(*),
@@ -545,7 +545,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,K,KK,ELCUT,ELCRK,ELCRKTG,ENR,IOFF
-      INTEGER IAD(3),IADXFE(3),UNENR0(3,JLT)
+      INTEGER XFE(3)
       my_real OFF_L,AREAP
 C=======================================================================
       IOFF=0

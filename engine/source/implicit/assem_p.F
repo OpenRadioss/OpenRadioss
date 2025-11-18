@@ -62,7 +62,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER K,EP,N1(MVSIZ),N2(MVSIZ)
+      INTEGER EP,N1(MVSIZ),N2(MVSIZ)
 C
        DO EP = 1,NEL
         N1(EP)=IXP(2,EP)

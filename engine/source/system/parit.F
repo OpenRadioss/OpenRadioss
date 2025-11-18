@@ -432,7 +432,6 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-       DOUBLE PRECISION PE,PS
        DOUBLE PRECISION DEUXP92,DEUXP68,DEUXP44 ,DEUXP20,DEUXPM4,
      .          DEUXPM28,DEUXPM52
        DATA DEUXP92 /'45B0000000000000'X/
@@ -784,7 +783,7 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K
+      INTEGER I,J
       DOUBLE PRECISION R8DEUXP89,R8DEUXP62,R8DEUXP35,R8TWOP8
       DOUBLE PRECISION R8DEUXPM19,R8DEUXPM46
       DATA R8DEUXP89 /'4580000000000000'x/

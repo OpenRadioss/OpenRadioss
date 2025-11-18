@@ -69,12 +69,12 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C----------------------------------------------- 
 #ifdef MPI        
-        INTEGER :: I,J,KK,IJK,KJI
+        INTEGER :: KKJK
         INTEGER :: P,P_LOC
-        INTEGER IERROR1,STATUS(MPI_STATUS_SIZE),IERROR
+        INTEGER IERROR
         INTEGER :: LOC_PROC
         INTEGER :: MSGOFF, MSGOFF2, MSGOFF3, MSGOFF4, MSGOFF5
-        INTEGER :: MSGTYP,INFO
+        INTEGER :: MSGTYP
         LOGICAL :: NEED_TO_RCV
 !   --------------------------------------------------------------------     
         DATA MSGOFF/6021/

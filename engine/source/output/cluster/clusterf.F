@@ -66,14 +66,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,IL,IEL,NG,NFT,NNOD,ISKN,N,N1,N2,N3,N4,NINDX,IFAIL,IPID
-      INTEGER CLUSTERNOD(NCLUSTER),LCLUSTER(NCLUSTER),LCL(NCLUSTER),
-     .        IAD(NCLUSTER)
+      INTEGER I,J,IEL,NG,NFT,NNOD,ISKN,N,N1,N2,N3,N4,NINDX,IFAIL,IPID
+     .
       INTEGER INDX(NCLUSTER)
       my_real, DIMENSION(NPROPG,*) :: GEO
-      my_real, DIMENSION(3) :: FBOT,FTOP,MBOT,MTOP,M1,XG,X1,X2
+      my_real, DIMENSION(3) :: FBOT,FTOP,MBOT,MTOP,M1,X1
       my_real, DIMENSION(3,NCLUSTER) :: VN,VX,VY
-      my_real :: FN,FT,MR,MB,DMG,XM,YM,ZM,DX1,DY1,DZ1,DX2,DY2,DZ2,
+      my_real :: FN,FT,MR,MB,DMG,XM,YM,ZM,
      .      FX,FY,FZ,MOMX,MOMY,MOMZ,NORM,CRITF,CRITM,DRX,DRY,DRZ,
      .      SX,SY,SZ,TX,TY,TZ
       my_real, DIMENSION(NCLUSTER) :: TTHICK

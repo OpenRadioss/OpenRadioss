@@ -81,16 +81,15 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
      
-      INTEGER :: POS, IAD, IADE, IB ,IBG    , NBF, NBL
+      INTEGER :: POSE, IB , NBF, NBL
       
-      INTEGER                        ::  IE, N_CUT_EDGE
+      INTEGER :: IE
      
       INTEGER :: TAG_INDEX(NBRIC), TAG_INDEX_OLD(NBRIC), I8(9,NBRIC)
-      my_real :: R9(9,NBRIC), R49(4,9,NBRIC), R84(9,4,NBRIC)
+      my_real :: R9(9,NBRIC)
       
       INTEGER :: I,J,IDX,IBold,NUM
       
-      LOGICAL :: bFOUND
 C-----------------------------------------------
 C   P r e - C o n d i t i o n s
 C-----------------------------------------------

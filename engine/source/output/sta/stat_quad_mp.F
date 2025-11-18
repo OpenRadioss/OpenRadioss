@@ -60,11 +60,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, N, JJ, IPRT0, IPRT, K, STAT_NUMELQ_1,N10,N20,N16
-      INTEGER NG, NEL, NFT, LFT, LLT, ITY, ISOLNOD, IOFF
+      INTEGER I, N, JJ, IPRT
+      INTEGER NG, NEL, NFT, LFT, LLT, ITY
       INTEGER,DIMENSION(:),ALLOCATABLE::NP
       INTEGER,DIMENSION(:,:),ALLOCATABLE:: CLEF
-      INTEGER WORK(70000)
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
 C-----------------------------------------------
 C     QUAD

@@ -73,7 +73,7 @@ C-----------------------------------------------
       INTEGER NDDL0, NNZK0, NDDL, NNZK, NNMAX, NODGLOB(*), IDDL(*),
      .        NDOF(*), INLOC(*), IKC(*), IADK(*), JDIK(*),
      .        IAD_ELEM(2,*), FR_ELEM(*), CDDLP(*), IADI(*), JDII(*),
-     .        ITOK(*), NDDLI, NNZI,IMPRINT,TLEN, IT
+     . ITOK(*), NDDLI, NNZI,IMPRINT, IT
       my_real
      .        DIAG_K(*), LT_K(*), DIAG_I(*), LT_I(*)
 #ifdef MUMPS5

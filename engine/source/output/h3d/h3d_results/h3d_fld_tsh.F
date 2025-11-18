@@ -63,8 +63,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C----------------------------------------------- 
-      INTEGER I,I1,II,J,IL
-      INTEGER NPAR,NFUNC,IPG,NVARF,NIPAR,LF_DAMMX
+      INTEGER I1IL
+      INTEGER NPAR,NFUNC,NVARF,NIPAR,LF_DAMMX
       INTEGER, DIMENSION(:) ,POINTER   :: FLD_IDX,FOFF
       my_real, DIMENSION(:), POINTER   :: UVARF,DFMAX,TDEL,DAM
       my_real, DIMENSION(NEL) :: ES1,ES2,ES4,ES5,ES6

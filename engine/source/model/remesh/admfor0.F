@@ -65,9 +65,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER KN, KN1, KN2, KN3, KN4
-      INTEGER N, NN, LEVEL, IP, NLEV
-      INTEGER SON,M1,M2,M3,M4,MC,N1,N2,N3,N4,J,K
+      INTEGER KN1234
+      INTEGER N, NN, LEVEL
+      INTEGER SON,M1,M2,M3,M4,MC,N1,N2,N3,N4,J
       INTEGER I,LLNOD,
      .        LE,LELT,LEV,NE,LELT1,LELT2,
      .        NI,LL
@@ -76,7 +76,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE :: LKINNOD
       my_real
      .        A1,A2,A3,A4,AC,
-     .        PHI,FACM,FACI,R,S
+     . PHI,R,S
       my_real, DIMENSION(:), ALLOCATABLE :: RNOD
       my_real, DIMENSION(:), ALLOCATABLE :: SNOD
 C-----------------------------------------------

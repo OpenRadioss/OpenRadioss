@@ -99,7 +99,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
         integer, dimension(nspmd+1), intent(inout) :: list_process
         integer, intent(in) :: current_process_pid
 
-        integer :: i
         integer :: ierror
 
         list_process(1:nspmd+1 ) = 0
