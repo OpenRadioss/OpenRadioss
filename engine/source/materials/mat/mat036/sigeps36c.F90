@@ -51,10 +51,11 @@
                sigoxx  ,sigoyy  ,sigoxy ,sigoyz  ,sigozx  ,           &
                signxx  ,signyy  ,signxy ,signyz  ,signzx  ,           &
                soundsp ,thk     ,pla    ,impl_s  ,ikt     ,           &
-               off     ,etse    ,gs     ,yld     ,                    &
+               off     ,etse    ,gs     ,yld     ,l_dmg   ,           &
                dpla    ,gama_imp,signor ,shf     ,hardm   ,           &
                yldfac  ,inloc   ,dplanl ,dmg     ,planl   ,           &
-               l_planl ,sigbxx  ,sigbyy ,sigbxy  ,loff    )
+               l_sigb  ,l_planl ,sigbxx  ,sigbyy ,sigbxy  ,           &
+               loff    )
 ! -----------------------------------------------------------------------------------------------
 !       modules
 ! -----------------------------------------------------------------------------------------------
@@ -80,6 +81,8 @@
           integer ,intent(in) :: nvartmp
           integer ,intent(in) :: inloc
           integer ,intent(in) :: iplas
+          integer ,intent(in) :: l_sigb
+          integer ,intent(in) :: l_dmg
           integer ,intent(in) :: l_planl
           integer ,intent(in) :: impl_s
           integer ,intent(in) :: ikt
@@ -98,14 +101,14 @@
           real(kind=wp) ,dimension(nel)   ,intent(inout) :: epsd     ! lbuf%epsd
           real(kind=wp) ,dimension(nel)   ,intent(inout) :: pla
           real(kind=wp) ,dimension(nel)   ,intent(inout) :: dplanl
-          real(kind=wp) ,dimension(nel)   ,intent(inout) :: dmg
           real(kind=wp), dimension(nel),   intent(inout) :: off,thk,yld,hardm
           real(kind=wp) ,dimension(nel)   ,intent(out)   :: soundsp,etse,dpla,gama_imp
-          real(kind=wp), dimension(nel),   intent(inout) :: sigbxx,sigbyy,sigbxy
           real(kind=wp) ,dimension(nel)   ,intent(out)   :: signxx,signyy,signxy,signyz,signzx
-          real(kind=wp) ,dimension(nel*l_planl) ,intent(in)  :: planl
-          real(kind=wp) ,dimension(mvsiz,5)     ,intent(out) :: signor
-          real(kind=wp) ,dimension(nel,nuvar)   ,intent(out) :: uvar
+          real(kind=wp), dimension(nel*l_sigb)  ,intent(inout) :: sigbxx,sigbyy,sigbxy
+          real(kind=wp) ,dimension(nel*l_dmg)   ,intent(inout) :: dmg
+          real(kind=wp) ,dimension(nel*l_planl) ,intent(in)    :: planl
+          real(kind=wp) ,dimension(mvsiz,5)     ,intent(out)   :: signor
+          real(kind=wp) ,dimension(nel,nuvar)   ,intent(out)   :: uvar
 !-----------------------------------------------
 !       l o c a l   v a r i a b l e s
 !-----------------------------------------------
@@ -212,7 +215,6 @@
         dmg(1:nel)  = one - fail(1:nel)
       else
         fail(1:nel) = one
-        dmg(1:nel)  = zero
       endif
 !-----------------------------------------------------------------------------------------
         ! trial elastic stress

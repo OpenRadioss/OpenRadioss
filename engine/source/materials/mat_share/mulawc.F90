@@ -382,10 +382,10 @@
                      iptx,ilayer,irot,dmg_flag,lf_dammx,nipar,&
                      igmat,ipgmat,nptt,ipt_all,npttot,nuvarv,ilaw,&
                      ply_id,iseq,progressive_crack,&
-                     orth_damage,l_dmg,iprony,israte,nvartmp,inloc,idrape,nvar_damp,flag_incr
+                     orth_damage,iprony,israte,nvartmp,inloc,idrape,nvar_damp,flag_incr
           integer :: ij1,ij2,ij3,ij4,ij5
           integer :: ij(5),iflag(1)
-          integer :: l_sigb
+          integer :: l_sigb,l_dmg,l_planl
           integer ,dimension(maxfunc) :: ifunc
           integer ,dimension(mvsiz)   :: ioff_duct,nfis1,nfis2,nfis3
 !
@@ -611,6 +611,8 @@
             nuvarv = bufly%nvar_visc
             iseq   = bufly%l_seq
             l_sigb = bufly%l_sigb
+            l_dmg  = bufly%l_dmg
+            l_planl= bufly%l_planl
             iadbuf = max(1,ipm(7,imat))
             nuparam0=  ipm(9,imat)                      ! old uparam stored in bufmat
             uparam0 => bufmat(iadbuf:iadbuf+nuparam0-1) ! old uparam stored in bufmat
@@ -1236,10 +1238,11 @@
                   sigoxx  ,sigoyy  ,sigoxy  ,sigoyz  ,sigozx  ,      &
                   signxx  ,signyy  ,signxy  ,signyz  ,signzx  ,      &
                   ssp     ,thkn    ,lbuf%pla,impl_s  ,ikt     ,      &
-                  off     ,etse    ,gs      ,sigy    ,               &
+                  off     ,etse    ,gs      ,sigy    ,l_dmg   ,      &
                   dpla    ,g_imp   ,sigksi  ,shf     ,hardm   ,      &
                   yldfac  ,inloc   ,varnl(1,it),lbuf%dmg,lbuf%planl, &
-                  bufly%l_planl,sigbxx,sigbyy,sigbxy,lbuf%off)
+                  l_sigb  ,l_planl ,sigbxx  ,sigbyy  ,sigbxy  ,      &
+                  lbuf%off)
 !
               elseif (ilaw == 42) then
                 call sigeps42c(&

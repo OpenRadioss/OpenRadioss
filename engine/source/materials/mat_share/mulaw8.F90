@@ -669,7 +669,7 @@
                  sspp   ,uvar   ,vartmp ,off    ,ngl    ,0     ,            &
                  epsd   ,ipla   ,sigy   ,defp   ,inloc  ,lbuf%planl,        &
                  dpla   ,et     ,bidv   ,bidv6  ,amu    ,bidv  ,            &
-                 yldfac ,lbuf%dmg)          
+                 yldfac ,lbuf%dmg,bufly%l_sigb,bufly%l_dmg,bufly%l_planl)          
 
 !              call sigeps36(&
 !               llt      ,nuvar    ,nfunc    ,ifunc    ,npf      ,tf       ,&
