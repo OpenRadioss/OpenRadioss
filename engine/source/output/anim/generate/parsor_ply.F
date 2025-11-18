@@ -71,7 +71,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     REAL
       my_real OFF
-      INTEGER II(4),IE,NG, ITY, LFT, LLT, N, I, J, 
+      INTEGER II(4), IE, NG, ITY, LFT, LLT, N, I, 
      .        IPRT, NEL, IAD, NPAR, NFT, IMID,IALEL,MTN,
      .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,
      .        JJ, K, SH_IH,BUF,ISHPLYXFEM,

@@ -77,14 +77,14 @@ C   L o c a l   V a r i a b l e s
 C----------------------------------------------- 
       my_real
      .   EVAR(3,MVSIZ)
-      INTEGER I,I1,II,J,LENR,NEL,NFT,N
-      INTEGER IOK_PART(MVSIZ),IS_WRITTEN_TENSOR(MVSIZ),TAG_SKIN_ND(NUMNOD)
+      INTEGER I, II, J, LENR, NEL, NFT, N
+      INTEGER IOK_PART(MVSIZ), TAG_SKIN_ND(NUMNOD)
 
-      INTEGER IXSKIN(7,NUMSKIN),ISKIN(MVSIZ),IXSK(5,MVSIZ),IDEB,ie
-      INTEGER JJ,N1,N2
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
-      TYPE(L_BUFEL_)  ,POINTER :: LBUF     
-      TYPE(BUF_LAY_)  ,POINTER :: BUFLY     
+      INTEGER IXSKIN(7, NUMSKIN), IXSK(5, MVSIZ), IDEB
+      INTEGER JJ
+ 
+ 
+ 
       INTEGER, DIMENSION(:), ALLOCATABLE :: ITAGPS    
       my_real
      .       , DIMENSION(:,:), ALLOCATABLE :: AFLU, VFLU,VALUE

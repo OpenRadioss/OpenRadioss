@@ -94,7 +94,7 @@ C-----------------------------------------------
      .   SP1,SP2,SP3,GEORED,CR_FOIL,CR_AIR,CR_CORE,CR_EDGE,ALPHA,ALPHAI,EXP_N,EXP_M
       my_real, DIMENSION(NEL) :: DADV,TPROPG,AI,FORMF,SIGP_AKT,DMG_SCALE,
      .   SIGP1,SIGP2,SIGDT1,SIGDT2,SIG_DTF1,SIG_DTF2,SIGP_MIN,SIGP_MAX
-      my_real, DIMENSION(:), POINTER :: DIR1,DIR2
+ 
       CHARACTER (LEN=3) :: XCHAR
 c--------------------------------------------------------------------
 c!  cm(6):  initial crack depth in contact to foil

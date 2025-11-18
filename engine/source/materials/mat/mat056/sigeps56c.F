@@ -168,7 +168,7 @@ C-----------------------------------------------
      .        JJ(MVSIZ),INDEX(MVSIZ),IFUNC(MVSIZ,100),NRATEM,
      .        NRATE1,IFUNC1(100),NFUNCV(MVSIZ),
      .        NFUNCM,IPERF
-      INTEGER JST(MVSIZ+1),IC,MNRATE
+      INTEGER JST(MVSIZ+1), IC
       my_real
      .      MX,MX2,MX3,MX4,ME,MA1,MA2,MG,MNU,
      .        MEPSMAX,MEPSR1,MEPSR2,MFISOKIN
@@ -197,7 +197,7 @@ C -- Added variables for NEC grouping
      .     NG_IPOS1,NG_IPOS2,NG_IAD1,NG_IAD2,NG_ILEN1,NG_ILEN2,
      .     NG_EPS1,NG_EPS2,NG_Y11,NG_Y12,NG_EPSMAX,
      .     Y11(MVSIZ),Y12(MVSIZ)
-      INTEGER NG_NRATE, NG_CRVVAL,EPSMAX0LIST(MVSIZ)
+ 
       INTEGER
      .     K,L,M,JJS(MVSIZ+1,100+1),JCNT,
      .     ISQRT,ISQRTLIST(MVSIZ),

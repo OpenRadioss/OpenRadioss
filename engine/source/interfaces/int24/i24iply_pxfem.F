@@ -58,7 +58,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J1,J2,J3,J4,NN,ILY,ISEGTYP(MVSIZ),ITAG(MVSIZ),
+      INTEGER I, J1, NN, ILY, ISEGTYP(MVSIZ), 
      .        ISEG(MVSIZ),J5,J6,J7,J8,J9,J10,J11,J12
       my_real
      .     XO16, XO17, XO15, XO14, X163, X153, X152, X142, X141, 

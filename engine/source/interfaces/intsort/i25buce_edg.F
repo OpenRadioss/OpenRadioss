@@ -65,7 +65,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NSN, NMN,NOINT,IDT,INACTI,IGAP0,IFQ
+      INTEGER NSN, NMN, NOINT, INACTI, IGAP0, IFQ
       INTEGER IRECT(4,*),ITASK,ILEV, IGAP, IEDGE, NEDGE, ESHIFT,NEDGE_T,SSHIFT,NRTM_T 
       INTEGER CANDM_E2E(*),CANDS_E2E(*),CAND_A(*),CANDM_E2S(*),CANDS_E2S(*),CAND_B(*),
      .        IFPEN_E(*), IFPEN_E2S(*)
@@ -90,7 +90,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, IP0, IP1, MAXSIZ,  NSNF, NSNL,
+      INTEGER 
      .        LOC_PROC, N, IEDG, I1, I2
 C     REAL
       my_real

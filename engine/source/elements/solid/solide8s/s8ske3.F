@@ -91,10 +91,10 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER LCO,NF1,IFLAG,NB3S,I,J,IKSUP,IKORTH,IADBUF,IPREDU,
+      INTEGER NF1, I, J, IKORTH, 
      .  IR, IS, IT,IL,IP,ICR,ICS,ICT,ICPG,NPTR,NPTS,NPTT,NLAY,NPPT,
      .  IAD0,PID  , L, M, N,IJ,JJ,K
-      INTEGER MXT(MVSIZ),NGL(MVSIZ),NGEO(MVSIZ),IDEG(MVSIZ)
+      INTEGER MXT(MVSIZ), NGL(MVSIZ), NGEO(MVSIZ)
       my_real
      . VOLN(MVSIZ), DELTAX(MVSIZ),
      . AJC1(MVSIZ) , AJC2(MVSIZ) , AJC3(MVSIZ) ,

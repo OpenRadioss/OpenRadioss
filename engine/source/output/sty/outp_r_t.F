@@ -54,7 +54,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       CHARACTER*8 KEY
       CHARACTER*40 TEXT
-      INTEGER NBX
+ 
       INTEGER IPARG(NPARG,*), DD_IAD(NSPMD+1,*),
      .  IXR(NIXR,*),IGEO(NPROPGI,*),SIZLOC,SIZP0,SIZ_WR
       my_real
@@ -65,7 +65,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,JJ,ICAS_OLD,K
-      INTEGER NG, NEL, NFT, ITY, LFT,IADD, LLT,N,MLW,
+      INTEGER NG, NEL, NFT, ITY, 
      .        JJ_OLD, NGF, NGL, NN, LEN, NUVAR,
      .        LIAD, IUS, MLW2,NAD,
      .        MT,IPROP,IGTYP,COMPTEUR,L,II(6),IV

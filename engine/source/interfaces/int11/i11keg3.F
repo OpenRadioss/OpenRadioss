@@ -80,7 +80,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J1, J , K0,K1S,K, NI,ISF,NN,NS,JLTF,NE,NN1,NN2
+      INTEGER I, J, K, NI, ISF, NN, NS, JLTF, NE, NN1, NN2
       my_real
      .   VX(MVSIZ), VY(MVSIZ), VZ(MVSIZ), VN(MVSIZ),PENE(MVSIZ),
      .   VNX, VNY, VNZ, AA, VMAX,S2,DIST,RDIST,
@@ -455,7 +455,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J1, J, K,IG,ISF,NN,NS,NI,NJ
+      INTEGER I, ISF, NI, NJ
       my_real
      .   VX(MVSIZ), VY(MVSIZ), VZ(MVSIZ), VN(MVSIZ), 
      .   DX(MVSIZ), DY(MVSIZ), DZ(MVSIZ), DN(MVSIZ), 
@@ -618,7 +618,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JLT,INACTI,NRTS,NIN,LREM,IDESAC
+      INTEGER JLT, INACTI, NRTS, NIN, IDESAC
       INTEGER CS_LOC(MVSIZ), CM_LOC(MVSIZ),N1(MVSIZ), N2(MVSIZ),
      .        M1(MVSIZ), M2(MVSIZ) 
       my_real
@@ -636,7 +636,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J1, J , K0,K1S,K, NI,NN,NS,JLTF,NE,NN1,NN2,NM1,NM2
+      INTEGER I, NI, NN, NS, NN1, NN2, NM1, NM2
       my_real
      .   DXM1(MVSIZ),DYM1(MVSIZ),DZM1(MVSIZ),DXM2(MVSIZ),
      .   DYM2(MVSIZ),DZM2(MVSIZ),

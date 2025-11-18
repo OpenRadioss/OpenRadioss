@@ -50,7 +50,7 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER INFO,BUFSIZMAX,ADD,LEN,SIZ_I,
+      INTEGER BUFSIZMAX, ADD, LEN, SIZ_I, 
      .        ATID,ATAG,ALEN
       INTEGER STATUS(MPI_STATUS_SIZE),IERROR
 C shared memory segment must be superior to 10 Mb

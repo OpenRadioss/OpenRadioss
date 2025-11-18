@@ -68,7 +68,7 @@ C
       my_real
      .        AREA,AREAPT,SX,SXY,SZX,IDX     
       TYPE(G_BUFEL_)  ,POINTER :: GBUF
-      TYPE(BUF_LAY_)  ,POINTER :: BUFLY
+ 
       TYPE(L_BUFEL_)  ,POINTER :: LBUF
 C-----------------------------------------------
          AREA = -HUGE(AREA)

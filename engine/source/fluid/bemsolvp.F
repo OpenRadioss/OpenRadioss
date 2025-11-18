@@ -64,7 +64,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IEL, N1, N2, N3, NL1, NL2, NL3, I, J, JN, IR, IC, JJ,
+      INTEGER 
      .        ICTXT, DESC_H(9), DESC_G(9), DESC_Q(9), DESC_P(9),
      .        INFO, IBID, NC1, NC2, NC3, OFFNR(3), OFFNC(3)
       my_real
@@ -400,7 +400,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NPG, IAD, JBID, NBID, IDEG, IAD2, IP, IEL, NN1, NN2, NN3,
+      INTEGER NPG, IAD, IAD2, IP, IEL, NN1, NN2, NN3, 
      .        NL1, NL2, NL3, IELL, OFFNR2(3), OFFEL
       my_real 
      .        PG(50), WPG(25), W, KSIP, ETAP, VAL1, VAL2, VAL3, XP,

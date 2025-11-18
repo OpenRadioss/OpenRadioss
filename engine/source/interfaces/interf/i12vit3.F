@@ -51,7 +51,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NIR, I, J, I3, J3, I2, J2, I1, J1, ISK, ICOD, II, L, JJ,
+      INTEGER NIR, I, J, I3, J3, I2, J2, I1, J1, II, L, JJ, 
      .   NN,JL
       my_real
      .   H(4), SS, TT, AMX, AMY, AMZ, VMX, VMY, VMZ,SP,SM,TP,TM,MAS,

@@ -64,13 +64,13 @@ C-----------------------------------------------
      . ELCUTC(2,*),NODEDGE(2,*),CRKNODIAD(*),KNOD2ELC(*),XEDGE4N(4,*)
       my_real DIR1(NLAY,NEL),DIR2(NLAY,NEL),A_I(NEL),
      .  XL2(NEL),YL2(NEL),XL3(NEL),YL3(NEL),XL4(NEL),YL4(NEL)
-      TYPE (ELBUF_STRUCT_), TARGET          :: ELBUF_STR
+ 
       TYPE (ELBUF_STRUCT_), DIMENSION(NXEL) :: XFEM_STR
       TYPE (XFEM_EDGE_)   , DIMENSION(*)    :: CRKEDGE
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,II,R,IR,P1,P2,PP1,PP2,PP3,NEWCRK,IED,OK,
+      INTEGER I, K, II, R, IR, P1, P2, PP1, PP2, PP3, NEWCRK, IED, OK, 
      . ICRK,IELCRK,ELCRK,NX1,NX2,NX3,NX4,NM,NP,FAC,IFI1,IFI2,IEDGE,
      . ICUT,SIGBETA,NOD1,NOD2,IE1,IE2,IE10,IE20,ITRI,IAD1,IAD2,IAD3,IAD4
 c

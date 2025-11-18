@@ -162,7 +162,7 @@ C-----------------------------------------------
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG 
       DOUBLE PRECISION SPHG_F6(4,6,NBGAUGE)
-      TYPE(MATPARAM_STRUCT_)  , DIMENSION(NUMMAT) :: MATPARAM_TAB
+ 
       TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT !< output structure
       TYPE (MAT_ELEM_) ,INTENT(INOUT) :: MAT_ELEM
       TYPE (DT_), INTENT(IN) :: DT
@@ -174,7 +174,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NDSVOID
-      INTEGER I,N, IG, NG, NVC, MLW, JFT, JLT, K, ISTRA,
+      INTEGER I, N, NG, NVC, K, ISTRA, 
      .   KAD,IAD2,NF1,IPRI,NGLOC, NELEM, NEL, OFFSET, NSG,
      .   INOD,MX,NS,KSMCOMP,KVNORM,MYADRN,ADRN, NISKY_L,
      .   IPRTSPH, NSOL, NSKI, N1, N2, N3, N4, N5, N6, N7, N8,

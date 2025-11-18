@@ -60,7 +60,7 @@ C-----------------------------------------------
 #ifdef MPI
       INTEGER STATUS(MPI_STATUS_SIZE),
      *        REQ_SI(NSPMD),REQ_RI(NSPMD)
-      INTEGER P,LENSD,LENRV,IADS(NSPMD+1),IADR(NSPMD+1),IERROR,
+      INTEGER P, LENRV, IADS(NSPMD+1), IADR(NSPMD+1), IERROR, 
      *        SIZ,LOC_PROC,MSGTYP,J,L,NOD,PTR,NNOD,NB,ITNOD,MSGOFF
       my_real
      *        TESTVAL

@@ -188,7 +188,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J1, IG, J, JG , K0,NBINTER,K1S,K,IL,IE, NN, NI,
+      INTEGER I, J1, IG, J, JG, K0, NBINTER, K1S, K, IE, NN, 
      .        NA1,NA2,N,IMS2,ITAG,NN1,NN2,NN3,
      .        NN4,ii,IFIT,PP,PPL,ITYPSUB,ISS1,ISS2,IMS1,IX,IGRN
       my_real
@@ -233,14 +233,14 @@ C-----------------------------------------------
      .   DTMINI,STIF0_IMP(MVSIZ),PENN,TINY,PENDR,
      .   FNNIT1,FNNIT2,FNNIT3,FNNITSCHE,T3,FNITXT(MVSIZ),FNITYT(MVSIZ),FNITZT(MVSIZ),
      .   XMU2(MVSIZ),FACN,FNON,STIFKT(MVSIZ),FACKT,AREAN_FIC
-      INTEGER JSUB,KSUB,JJ,KK,IN,NSUB,ibug,ip,NCFIT
-      INTEGER  ISEGTYP(MVSIZ),IXSS(4),NOD1,NOD2,NS
+      INTEGER JSUB, KSUB, JJ, KK, IN, NSUB, NCFIT
+ 
       my_real
      .   FSAVSUB1(25,NISUB),IMPX,IMPY,IMPZ,VNM(MVSIZ),SFAC,STMIN,
      .   FXS(4),FYS(4),FZS(4),HH,FINC,FA,FB,DDP,PREC1
 
-      DOUBLE PRECISION RP1,RP2,STIF_N
-      INTEGER TAGIP(MVSIZ),ISPDO
+      DOUBLE PRECISION RP1, RP2
+      INTEGER TAGIP(MVSIZ)
 C
       INTEGER BITGET
       EXTERNAL BITGET
@@ -3840,9 +3840,9 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real
      .    HH(MVSIZ),FICI(5),FICS(4,4),FICSTH(4,5)
-      INTEGER I, J1, IG, NISKYL1, NISKYL,IGP,IGM,IDR,NISKYFIL,J
-      INTEGER ITG,NN,ILY,JG,IXSS(4),NFIC
-      INTEGER se
+      INTEGER I, J1, IG, NISKYL1, NISKYL, IGP, IGM, NISKYFIL, J
+      INTEGER JG, IXSS(4), NFIC
+ 
 C
       NISKYL1 = 0
       TAGIP(1:JLT) = 0
@@ -4788,7 +4788,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IG, NISKYL1, NISKYL, NN,JG,IXSS(4),NFIC,J,NS,NL, K,KK,IE
+      INTEGER I, IG, NISKYL1, NISKYL, NN, IXSS(4), J, NS, NL, K, KK
       my_real
      .        HH(MVSIZ),MAS, DTS,DTM_INT,FICI,FICS(4),FAC
 

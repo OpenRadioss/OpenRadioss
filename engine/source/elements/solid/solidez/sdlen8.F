@@ -64,7 +64,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  I, J, IPT, IDEGE(MVSIZ)
+      INTEGER I, IPT, IDEGE(MVSIZ)
 C     REAL
       my_real
      .   AJ11, AJ12, AJ13, AJ21,

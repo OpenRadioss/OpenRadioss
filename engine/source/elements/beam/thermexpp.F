@@ -61,8 +61,8 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ICC(MVSIZ),IRTY(MVSIZ),INDX(MVSIZ)
-      INTEGER I, J, J1, J2, NPIF, MX, IPT, IPY,IPZ,IPA,NINDX,
+ 
+      INTEGER I, MX, IPT, IPA, 
      .        IR,IS,ILAYER,II(3)
 C     REAL
       my_real
@@ -146,7 +146,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J
+      INTEGER I
 C     REAL
       my_real
      .   YM,A1

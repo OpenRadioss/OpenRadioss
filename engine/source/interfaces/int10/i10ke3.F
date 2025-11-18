@@ -71,7 +71,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, I_STOK, JLT_NEW, JLT , NFT, IVIS2,
+      INTEGER I_STOK, JLT, NFT, 
      .        IBC, NOINT, NSEG, ISECIN, IBAG,
      .        IGAP, ITIED, IFQ, MFROT, IGSTI,IDUM
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
@@ -222,7 +222,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, I_STOK, JLT_NEW, JLT , NFT, 
+      INTEGER I_STOK, JLT_NEW, JLT, NFT, 
      .        INACTI, NSN,NTY,L
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), 
      .        IX4(MVSIZ),NSVG(MVSIZ)
@@ -321,7 +321,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, I_STOK, JLT_NEW, JLT , NFT, IVIS2,
+      INTEGER I_STOK, JLT, NFT, 
      .        IBC, NOINT, NSEG, ISECIN, IBAG,
      .        IGAP, ITIED, IFQ, MFROT, IGSTI,IDUM
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
@@ -463,7 +463,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, I_STOK, JLT_NEW, JLT , NFT, IVIS2,
+      INTEGER I, I_STOK, JLT_NEW, JLT, NFT, 
      .        IBC, NOINT, NSEG, ISECIN, IBAG,
      .        IGAP, ITIED, IFQ, MFROT, IGSTI,IDUM,
      .        NB_LOC,I_STOK_LOC,DEBUT

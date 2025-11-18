@@ -59,7 +59,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NMN, NRTM, NSN, NOINT,IDT,NIN, NSNR
+      INTEGER NMN, NRTM, NSN, NOINT, NIN, NSNR
       INTEGER IRECT(4,*),NSV(*),ITASK,ILEV, IGAP
       INTEGER CAND_E(*),CAND_N(*),MSEGTYP(*)
       INTEGER MULNSN,ESHIFT,NCONT,I_MEM,
@@ -76,7 +76,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, IP0, IP1, MAXSIZ,
+      INTEGER I, 
      .        LOC_PROC, N, ISZNSNR,
      .        NSNFIOLD(NSPMD)
 C     REAL
@@ -84,7 +84,7 @@ C     REAL
      .        XYZM(6), AAA
       INTEGER NBX,NBY,NBZ
       INTEGER (KIND=8) :: NBX8,NBY8,NBZ8,RES8,LVOXEL8   
-      INTEGER :: INIVOXEL_L
+ 
 
 C-----------------------------------------------
 C   S o u r c e  L i n e s

@@ -159,22 +159,22 @@
 !    L o c a l   v a r i a b l e s
 !-------------------------------------------------------------------------------
       integer :: i, j, mx, mt,iplast, iet
-      integer :: nindx, ninievo, ilen
-      integer, dimension(nel) :: indx
-      integer, dimension(nel, 2) :: ipos
-      integer, dimension(:), allocatable :: initype, evotype, evoshap, comptyp
-      integer, dimension(:), allocatable :: tab_id, tab_el, fcrit
+ 
+ 
+ 
+ 
+ 
       real(kind=WP) :: dett,fac,fac1,fac2,smo
       real(kind=WP) :: jaci1, jaci2, jaci3, jaci4, jaci5, jaci6, jaci7, jaci8, jaci9
       real(kind=WP) :: jaci12, jaci45, jaci78
       real(kind=WP) :: x_17_46, x_28_35, y_17_46, y_28_35, z_17_46, z_28_35
       real(kind=WP) :: hx, hy, hz, h1x, h1y, h1z, h2x, h2y, h2z, h3x, h3y, h3z, h4x, h4y, h4z
-      real(kind=WP) :: cc, rho0, g0, c1, nuu
+      real(kind=WP) :: rho0, g0, c1, nuu
       real(kind=WP) :: vx3478, vx2358, vx1467, vx1256
       real(kind=WP) :: vy3478, vy2358, vy1467, vy1256
       real(kind=WP) :: vz3478, vz2358, vz1467, vz1256
       real(kind=WP) :: vx17, vy17, vx28, vy28, vx35, vy35, vx46, vy46
-      real(kind=WP) :: vz17, vz28, vz35, vz46, h1vz, h2vz
+      real(kind=WP) :: vz17, vz28, vz35, vz46
       real(kind=WP) :: e_r, e_s, e_t
       real(kind=WP) :: hq13p, hq13n, hq24p, hq24n, ff
       real(kind=WP) :: dama_g(mvsiz,6)
@@ -196,8 +196,8 @@
       real(kind=WP), dimension(nel) :: px1h3, px2h3, px3h3, px4h3
       real(kind=WP), dimension(nel) :: px1h4, px2h4, px3h4, px4h4
       real(kind=WP), dimension(nel) :: jac1, jac2, jac3, jac4, jac5, jac6, jac7, jac8, jac9, det
-      real(kind=WP), dimension(nel) :: fcl, nfhz1, nfhz2, hgz1, hgz2
-      real(kind=WP), dimension(nel) :: gg, e_dt
+      real(kind=WP), dimension(nel) :: fcl, hgz1, hgz2
+      real(kind=WP), dimension(nel) :: gg
       real(kind=WP), dimension(nel) :: cxx, caq
       real(kind=WP), dimension(nel) :: g_3dt, e0
       real(kind=WP), dimension(nel) :: nu1, nu2, nu3, nu4
@@ -208,9 +208,9 @@
       real(kind=WP), dimension(nel) :: jr0, js0, jt0
       real(kind=WP), dimension(nel) :: h11, h22, h33, h12, h13, h23
       real(kind=WP), dimension(3,4) :: fhourt
-      real(kind=WP), dimension(nel) :: nfhx1, nfhx2, nfhx3, nfhx4
-      real(kind=WP), dimension(nel) :: nfhy1, nfhy2, nfhy3, nfhy4
-      real(kind=WP), dimension(nel) :: nfhz3, nfhz4
+ 
+ 
+ 
       real(kind=WP), dimension(nel) :: f11_hgl, f12_hgl, f13_hgl, f14_hgl, f15_hgl, f16_hgl
       real(kind=WP), dimension(nel) :: f17_hgl, f18_hgl
       real(kind=WP), dimension(nel) :: f21_hgl, f22_hgl, f23_hgl, f24_hgl, f25_hgl, f26_hgl
@@ -218,9 +218,9 @@
       real(kind=WP), dimension(nel) :: f31_hgl, f32_hgl, f33_hgl, f34_hgl, f35_hgl, f36_hgl
       real(kind=WP), dimension(nel) :: f37_hgl, f38_hgl
       real(kind=WP), dimension(nel) :: deint,sm1,sm2,smo1,smo2
-      real(kind=WP), dimension(nel,3,4) :: fhour2, dfhour, nfhour
+      real(kind=WP), dimension(nel,3,4) :: dfhour, nfhour
 !
-      integer(kind=8) :: ibits
+ 
 !===============================================================================
 !     S o u r c e  l i n e s
 !===============================================================================

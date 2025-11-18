@@ -101,14 +101,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  N, I, J,NG,ITY,NEL,IVISC,NFT,IFLU,MX,TSHELL,
+      INTEGER N, I, NG, ITY, NEL, IVISC, NFT, IFLU, MX, TSHELL, 
      .         IGTYP,ISOLNOD,ISROT,NPTR,NPTS,NPTT,NLAY,NPT,
      .         JHBE,IMAT,IPID,MATLY(MVSIZ*100),IPMAT,IADR,
      .         ISUBSTACK,MTN
       INTEGER  NODFTSK,NODLTSK,NGFTSK,NGLTSK
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
       TYPE(L_BUFEL_)  ,POINTER :: LBUF  
-      TYPE(BUF_LAY_)  ,POINTER :: BUFLY     
+ 
       my_real
      .  NORM,S(3),VALUE(MVSIZ),RHO,TEN1(MVSIZ,6),TEN3(MVSIZ,6),
      .  TP2(MVSIZ,2),T2D1(MVSIZ,3),T2D3(MVSIZ,3),MASS(MVSIZ)

@@ -102,8 +102,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J1, J , K0,NBINTER,K1S,K, NI
-      INTEGER NISKYL,NISKYL1,IDTM
+      INTEGER I, J, K0, NBINTER, K1S, K
+ 
       my_real
      .   DTMI(MVSIZ)
 
@@ -770,7 +770,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J1, NISKYL1, NISKYL,IGP,IGM,NISKYFIL
+      INTEGER I, NISKYL1, NISKYL, IGP, IGM, NISKYFIL
 C
       NISKYL1 = 0
       DO I = 1, JLT
@@ -1048,7 +1048,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J1, NISKYL1, NISKYL,IGP,IGM,NISKYFIL
+      INTEGER I, NISKYL1, NISKYL, IGP, IGM, NISKYFIL
 C
       NISKYL1 = 0
       DO I = 1, JLT

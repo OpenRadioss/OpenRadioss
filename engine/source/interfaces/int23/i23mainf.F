@@ -87,7 +87,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       type(output_), intent(inout) :: output
       TYPE(TIMER_), INTENT(inout) :: TIMERS
-      INTEGER NELTST, ITYPTST, NIN, NSTRF(*), NRTMDIM, NEWFRONT,
+      INTEGER NIN, NSTRF(*), NRTMDIM, NEWFRONT, 
      .        NISKYFI
       INTEGER IPARI(NPARI,NINTER), ICODT(*),ICONTACT(*),
      .        ITAB(*), ISKY(*), KINET(*), ISKYI_SMS(*), NODNX_SMS(*),
@@ -150,8 +150,8 @@ C     REAL
      .    VXM(MVSIZ), VYM(MVSIZ), VZM(MVSIZ), 
      .    H1(MVSIZ), H2(MVSIZ), H3(MVSIZ), H4(MVSIZ),
      .    FX, FY, FZ, STF
-      INTEGER ICURV, IP0, IP1, IP2, IS, SFSAVPARIT
-      INTEGER, DIMENSION(:), ALLOCATABLE :: ITAGP
+      INTEGER ICURV, SFSAVPARIT
+ 
       my_real, DIMENSION(:,:,:), ALLOCATABLE :: FSAVPARIT
       INTEGER :: NSN                 
       INTEGER :: NMN                

@@ -110,7 +110,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,N, NG, NVC, MLW, JFT, JLT,ISOLNOD,ITHK ,IPLA ,
+      INTEGER I, NG, NVC, MLW, JFT, JLT, ISOLNOD, ITHK, IPLA, 
      .   K1, K2, KAD,IAD2,NF1,IPRI, NELEM, OFFSET, NSGRP, K,
      .   K0, K3, K5, K6, K7, K8, K9, NSG, NEL, KFTS,IOFC, ISTRA,
      .   JJ19,NPE,NIPMAX,ICNOD,NFT1,NF2,MPT,
@@ -118,7 +118,7 @@ C-----------------------------------------------
      .   L17,L18,L19,L20,L21,L22,L23,L24,L25,L26,L27,L28,L29,L30,
      .   SEDRAPE,NUMEL_DRAPE
       INTEGER INDXOF(MVSIZ),ISH3N,IPRMES_EL(50)
-      INTEGER ICP,ICS,IEXPAN,IETY,IG,ISUBSTACK
+      INTEGER ICP, ICS, IEXPAN, IETY, ISUBSTACK
       SAVE
      .     IPRMES_EL
       my_real
@@ -730,7 +730,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,EP,ID,JD,JDL,L,JJ
+      INTEGER I, J, K, ID, JD, JDL, L, JJ
 C----6---------------------------------------------------------------7---------8
       IERR = 0
       I = IDDL(NI)
@@ -827,7 +827,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,EP,ID,JD,JDL,L,JJ
+      INTEGER I, J, K, ID, JD, JDL, L, JJ
 C----6---------------------------------------------------------------7---------8
       IERR = 0
       I = IDDL(NI)
@@ -904,7 +904,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I
+ 
 C-----------------------------------------------
       IF (IFLAG==1) THEN
           WRITE(IOUT,1001)NI,NJ
@@ -1203,7 +1203,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER K,IK,JD,L,IDM
+      INTEGER K, IK, JD, L
 C----6----------KII is always triag_sup whatever IKPAT------------------------
       IF (IKPAT==0) THEN
           DO K=1,ND
@@ -1255,7 +1255,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,EP,ID,JD,JDL,L,JJ
+      INTEGER I, J, K, ID, JD, JDL, L, JJ
 C----6---------------------------------------------------------------7---------8
       IERR = 0
       I = INI
@@ -1338,7 +1338,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,N,NT,IG(MVSIZ)
+      INTEGER N, NT, IG(MVSIZ)
 C=======================================================================
 C     SOLID
 C=======================================================================
@@ -1453,7 +1453,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,N,NT,IG(MVSIZ)
+      INTEGER N, NT, IG(MVSIZ)
 C=======================================================================
 C     SHELL
 C=======================================================================
@@ -1538,7 +1538,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,N,NT,IG(MVSIZ)
+      INTEGER N, IG(MVSIZ)
 C=======================================================================
 C     SHELL
 C=======================================================================
@@ -1615,7 +1615,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,N,NT,IG(MVSIZ)
+      INTEGER N, IG(MVSIZ)
 C=======================================================================
 C     SHELL
 C=======================================================================
@@ -2005,7 +2005,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NL, N1, ISK, N2, N3, N4, N5, K1, K2, K3, ISENS,K,LL,
+      INTEGER NL, N1, N2, N3, N4, N5, ISENS, K, 
      .        ICODE,IAD,N_OLD,IPRES4,IERR,ND,I,J
 C     REAL
       my_real
@@ -2173,7 +2173,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J  ,K,NP
+      INTEGER J, K, NP
       MY_REAL
      .    PG,J0,J1,J2,DETA(4),X1,Y1,S1,PG2,
      .    KSIX,KSIY,KSIZ,ETAX,ETAY,ETAZ,HX,HY,HZ,
@@ -2383,7 +2383,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I
+ 
 C     REAL
 C                                                                     12
       MY_REAL
@@ -2416,7 +2416,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J  ,K
+      INTEGER I
       MY_REAL
      .    PG,PG2
       DATA   PG/.577350269189626/
@@ -2503,7 +2503,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J  ,K
+      INTEGER K
       MY_REAL
      .    X21,Y21,Z21,X31,Y31,Z31,S1,G1X,G1Y,G1Z,G2X,G2Y,G2Z
 C
@@ -3126,7 +3126,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,N, NG, NVC, MLW, JFT, JLT,ISOLNOD,ITHK ,IPLA ,
+      INTEGER NG, NVC, MLW, JFT, JLT, ISOLNOD, ITHK, IPLA, 
      .   K1, K2, KAD,IAD2,NF1,IPRI, NELEM, OFFSET, NSGRP, K,
      .   K0, K3, K5, K6, K7, K8, K9, NSG, NEL, KFTS,IOFC, ISTRA,
      .   JJ19,NPE,NIPMAX,ICNOD,NFT1,LIAD,INPT,NF2,MPT,

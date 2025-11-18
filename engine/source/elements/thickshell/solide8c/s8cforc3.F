@@ -203,7 +203,7 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  I,J,N,LCO,NF1,IFLAG,IAD0,NLAY,L_PLA,L_EPSD,
+      INTEGER I, J, NF1, IFLAG, IAD0, NLAY, L_PLA, L_EPSD, 
      .   IP,IR,IS,IT,IL,NPTR,NPTS,NPTT,ICR,ICS,ICT,PID,MTN0,IPTHK,
      .   IPPOS,IPMAT,NLYMAX,MID,IPANG,IOR_TSH,NPTR0,NPTS0,NPTT0,IBID,MX,
      .   II(6),CURRENT_LAYER
@@ -342,8 +342,6 @@ C variables used only in solid routines (as arguments).
      .   SX(MVSIZ), SY(MVSIZ), SZ(MVSIZ),
      .   TX(MVSIZ), TY(MVSIZ), TZ(MVSIZ)
       my_real, DIMENSION(MVSIZ,NNPT) :: SMTT
-      my_real, 
-     .  DIMENSION(:), POINTER :: EINT
       my_real, dimension(mvsiz) :: fheat
 C-----
       my_real,

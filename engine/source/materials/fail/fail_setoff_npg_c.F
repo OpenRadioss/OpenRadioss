@@ -79,7 +79,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,II,IEL,IPOS,IL,IFL,IP,IPT,IG,JPG,NPTR,NPTS,NPTT,
+      INTEGER I, IEL, IPOS, IL, IFL, IP, IPT, IG, JPG, NPTR, NPTS, NPTT, 
      .   COUNTPG,NINDXLY,IPT_ALL,NFAIL,IPWEIGHT,IPTHKLY,
      .   IPS,IPR,ID_PLY,IMAT
       my_real :: P_THICKG,FAIL_EXP,THFACT,NORM,DFAIL,NPFAIL
@@ -87,7 +87,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(NEL)        :: INDXLY,FAIL_NUM
       INTEGER, DIMENSION(:), POINTER :: FOFF,LAY_OFF,OFFPG
       my_real, DIMENSION(NLAY)       :: WEIGHT,P_THKLY
-      TYPE(L_BUFEL_) ,POINTER        :: LBUF 
+ 
       CHARACTER(LEN=NCHARTITLE)      :: FAIL_NAME    
 c-----------------------------------------------------------------------
 c     NPTT       NUMBER OF INTEGRATION POINTS IN CURRENT LAYER

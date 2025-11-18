@@ -104,7 +104,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IDEL,IDEV,IFLAG,INDX(MVSIZ),IADBUF,NINDX,
+      INTEGER I, J, IDEL, IDEV, IFLAG, INDX(MVSIZ), NINDX, 
      .        NINDEX,INDEX(MVSIZ),IFAIL,IR,JJ
       my_real
      .    TBA,TBK,SIGR,SVM,SCALE,SXX,SYY,SZZ,

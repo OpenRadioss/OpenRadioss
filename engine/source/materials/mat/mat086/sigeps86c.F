@@ -157,7 +157,7 @@ C        NPF,TF  : FUNCTION PARAMETER
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,NRATE(MVSIZ),J1,J2,N,NINDX,NMAX,
+      INTEGER I, J, J1, J2, N, NINDX, NMAX, 
      .        IAD1(MVSIZ),IPOS1(MVSIZ),ILEN1(MVSIZ),
      .        IAD2(MVSIZ),IPOS2(MVSIZ),ILEN2(MVSIZ),
      .        JJ(MVSIZ),INDEX(MVSIZ),NRATEM,
@@ -184,7 +184,7 @@ C-----------------------------------------------
       my_real
      .        Y11(MVSIZ),Y21(MVSIZ), ME, MA1, MA2, MG, MNU,
      .        MEPSMAX,MEPSR1,MEPSR2,MFISOKIN
-      INTEGER JST(MVSIZ+1), IC, MNRATE
+ 
 C
       DATA NMAX/3/
 C-----------------------------------------------

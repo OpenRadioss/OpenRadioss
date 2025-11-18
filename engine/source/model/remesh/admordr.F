@@ -57,7 +57,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N,NN,LEVEL,IP,NLEV,PTR,SON,
+      INTEGER N, NN, LEVEL, PTR, SON, 
      .        J,NI,IERR
       INTEGER,DIMENSION(:),ALLOCATABLE :: LTMP4
       INTEGER,DIMENSION(:),ALLOCATABLE :: LTMP3

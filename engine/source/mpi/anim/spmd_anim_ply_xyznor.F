@@ -54,16 +54,16 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NODGLOB(*)
-      INTEGER IPLY,IDPLY,EMPSIZPL
+      INTEGER IPLY, EMPSIZPL
       my_real
      .   XNORM(3,*)
-      REAL R4
+ 
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
 #ifdef MPI
       INTEGER MSGOFF,MSGOFF2,STAT(MPI_STATUS_SIZE,NSPMD-1), IERR
-      INTEGER I,N,ND,EMPL,P,ITAG,INORM(3),K,IXNN
+      INTEGER I, ND, EMPL, P, ITAG, INORM(3), IXNN
 
       INTEGER PLYSIZ
       my_real

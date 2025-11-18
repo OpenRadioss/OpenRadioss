@@ -127,7 +127,7 @@ C-----------------------------------------------
      .        IDUM1(1), ITHK
 
       INTEGER NEDGE_TOTAL,NEDGE_LOCAL
-      INTEGER :: ISENS
+ 
 C     REAL
       my_real
      .   GAP,

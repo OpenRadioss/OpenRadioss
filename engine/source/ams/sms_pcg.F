@@ -170,7 +170,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER I, IT, TOTIT, NLIM, N, L, K, LLT, IDOWN, J, IFLAG, IACT,
+        INTEGER I, IT, TOTIT, NLIM, N, L, K, LLT, IDOWN, IFLAG, IACT, 
      .          NCPRIA, M, MSR, IAD, NSN, KI, NRBDIM
         my_real
      .     ALPHA, BETA, TOLN,
@@ -1743,7 +1743,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
         INTEGER I,J,K,I3,I2,I1,K3,K2,K1,N, LOC_PROC, M, KK,
      .          KMV,KMV3,KMV2,KMV1
-        INTEGER SIZE, LENR, JAD, DIR, L, LLT,
+        INTEGER SIZE, LENR, L, 
      .          IAD_SEND(NSPMD+1),IAD_RECV(NSPMD+1),
      .          REQ_R(NSPMD),REQ_S(NSPMD)
         my_real
@@ -2561,7 +2561,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
         INTEGER I,J,K,N, LOC_PROC, M, KK, KMV
-        INTEGER SIZE, LENR, JAD, DIR, L, LLT
+        INTEGER SIZE, LENR, L
         my_real
      .     L_K
 C-----------------------------

@@ -143,7 +143,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, II, IINJ, ISU, IEL, N1, N2, N3, JEL,
+      INTEGER I, II, IINJ, IEL, N1, N2, N3, JEL, 
      .        NN1, NN2, NN3, J, JJ, K, KK, IMASS, IFLU, ISENS, IVEL,
      .        ITEMP, NV, ILVOUT, NPOLYG,NTRIA, IPRI,
      .        IVENT, IDEF, IPORT, IPORP, IPORA, IPORT1, IPORP1, IPORA1,
@@ -151,7 +151,7 @@ C-----------------------------------------------
      .        IDTPDEF,PMAIN,N21,N22,ITYPL,
      .        PREPARE_ANIM,IVENTYP,IMETHOD_LC, IEL1, IEL2, IDT_FVMBAG
       INTEGER TITREVENT(20)
-      INTEGER, DIMENSION(:,:), ALLOCATABLE :: SURF_INT,SURF_EXT
+ 
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: TAGSURF
       INTEGER, DIMENSION(:), ALLOCATABLE   :: ICONT
       INTEGER, DIMENSION(:), ALLOCATABLE   :: ITAGP
@@ -233,7 +233,7 @@ C
       EXTERNAL  GET_U_FUNC
       CHARACTER*20 VENTTITLE
       MY_REAL :: DTOLD, PARAM_LAMBDA
-      INTEGER :: PARAM_L_TYPE, NNODES,nodeID
+      INTEGER :: PARAM_L_TYPE
 
 C-----------------------------------------------
 C   C o m m e n t s

@@ -107,9 +107,9 @@
       integer :: i                                                         !< Loop counter
       real(kind=wp), dimension(nel) :: s1, s2, s3, s4, s5, s6              !< Stress components
       real(kind=wp), dimension(nel) :: fac                                 !< Volume factor
-      real(kind=wp) :: fint, fintx, finty, fintz                           !< Internal force components
-      real(kind=wp) :: fxc, fyc, finsx, finsy, finsz                       !< Force components
-      real(kind=wp) :: nu1                                                 !< Modified Poisson's ratio
+ 
+ 
+ 
 !
 !===============================================================================
 !     S o u r c e  l i n e s

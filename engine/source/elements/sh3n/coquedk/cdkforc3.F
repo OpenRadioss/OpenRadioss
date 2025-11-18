@@ -216,9 +216,9 @@ C--- Variables for non-local
       INTEGER SDIR_A    ! Size of DIR_A
       INTEGER SDIR_B    ! Size of DIR_B
 C-----
-      TYPE(BUF_LAY_) ,POINTER :: BUFLY
+ 
       TYPE(G_BUFEL_) ,POINTER :: GBUF
-      TYPE(L_BUFEL_) ,POINTER :: LBUF1,LBUF2,LBUF3 ,LBUF
+ 
       TYPE(L_BUFEL_DIR_) ,POINTER :: LBUF_DIR    
 C-----------------------------------------------
       DATA A_HAMMER / 

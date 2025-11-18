@@ -72,7 +72,7 @@ C-----------------------------------------------
 C----------------------------------------------------------------
 C  I N P U T   A R G U M E N T S
 C----------------------------------------------------------------
-      INTEGER       NEL,  NVARF,   NUPARAM, NUVAR,ISMSTR,NGL(*),IHET,IEXPAN
+      INTEGER NEL, NUPARAM, NUVAR, ISMSTR, NGL(*), IHET, IEXPAN
       my_real
      .      TIME       , TIMESTEP   , UPARAM(NUPARAM),UPARAMF(NUPARAM),
      .      RHO   (NEL), RHO0  (NEL), VOLUME(NEL), EINT(NEL),
@@ -113,8 +113,8 @@ C----------------------------------------------------------------
 C----------------------------------------------------------------
 C  L O C A L  V A R I B L E S
 C----------------------------------------------------------------
-      INTEGER    I,J,KK,LL,N
-      INTEGER IE,NROT,IER,NDI,NSHR,NTENS,SIGN
+      INTEGER I, J
+      INTEGER IE, NROT, IER, NDI, SIGN
  
       my_real
      .   ET1,ET2,ET3,G,RBULK,AA,CC,SB, 
@@ -1973,7 +1973,7 @@ C
       SUBROUTINE COMPEE_TPU(F, FV, ROT, EE, NDI)
 
 #include "implicit_f.inc"
-      INTEGER I, J, NDI
+      INTEGER NDI
       my_real FVM(3,3), FVM_INV(3,3)
       my_real FE(3,3), CE(3,3), UE(3,3), F(3,3)
       my_real UE_INV(3,3), EE(3,3), XMA(3,3), ROT(3,3)

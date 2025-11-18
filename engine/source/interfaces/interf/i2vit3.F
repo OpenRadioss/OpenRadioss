@@ -48,7 +48,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NIR, I, J, I3, J3, I2, J2, I1, J1, ISK, ICOD, II, L, JJ,
+      INTEGER NIR, I, J, I3, J3, I2, J2, I1, J1, II, L, JJ, 
      .   NN
 C     REAL
       my_real
@@ -135,7 +135,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NIR, I, J, I3, J3, I2, J2, I1, J1, ISK, ICOD, II, L, JJ,
+      INTEGER NIR, I, J, I3, J3, I2, J2, I1, J1, II, L, JJ, 
      .   NN
 C     REAL
       my_real
@@ -230,7 +230,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, I3, J3, I2, J2, I1, J1, ISK, ICOD, II, L, JJ,
+      INTEGER I, J, II, L, JJ, 
      .   NN,NIR
       my_real
      .   H(4), SS, TT, AMX, AMY, AMZ, VMX, VMY, VMZ,INM,
@@ -336,7 +336,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NIR, I, J, J1, J2, J3, J4, ISK, ICOD, II, L, JJ,
+      INTEGER NIR, I, J1, J2, J3, J4, II, L, 
      .   NN,I1
 C     REAL
       my_real
@@ -546,7 +546,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, I3, J3, I2, J2, I1, J1, ISK, ICOD, II, L, JJ,
+      INTEGER I, J, J3, J2, J1, II, L, JJ, 
      .   NN,J4
       my_real
      .   H(4), SS, TT, AMX, AMY, AMZ, VMX, VMY, VMZ,INM,
@@ -756,7 +756,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NIR, I, J, I3, J3, I2, J2, I1, J1, ISK, ICOD, II, L, JJ,
+      INTEGER NIR, I, J, I3, J3, I2, J2, I1, J1, II, L, JJ, 
      .   NN
 C     REAL
       my_real

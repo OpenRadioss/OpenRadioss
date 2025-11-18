@@ -52,7 +52,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IL,IR,IS,IT,ITY,K,NG,NUVAR,NVARTMP,NFAIL,NLAY,NPTR,NPTS,NPTT,NPT,
+      INTEGER NG, 
      .   NPG,NEL,IGTYP,LEN1,LEN2,NPTTOT,I,NONL,INLOC
       INTEGER ! global variables 
      .   G_GAMA,G_SIG,G_OFF,G_NOFF,G_EINT,G_EINS,G_TEMP,
@@ -78,13 +78,13 @@ C-----------------------------------------------
      .   L_DAM,L_DSUM,L_DGLO,L_EPE,L_EPC,L_XST,L_SSP,L_Z,L_FRAC,L_VISC,
      .   L_THK,L_FOR,L_MOM,L_SMSTR,L_BFRAC,L_DMG,LF_DAM,LF_DAMMX,LF_TDEL,
      .   LF_INDX,LF_OFF,L_FORTH,L_EINTTH,L_SEQ,L_SIGPLY,L_FAC_YLD,L_ABURN,L_MU
-      TYPE(BUF_LAY_)  , POINTER :: BUFLY
-      TYPE(L_BUFEL_)  , POINTER :: LBUF
-      TYPE(G_BUFEL_)  , POINTER :: GBUFS,GBUFT
-      TYPE(L_BUFEL_)  , POINTER :: LBUFS,LBUFT
-      TYPE(FAIL_LOC_) , POINTER :: FLOCS,FLOCT
-      TYPE(BUF_VISC_) , POINTER :: VISCS,VISCT
-      TYPE(BUF_NLOC_) , POINTER :: BUFNLS,BUFNLT
+ 
+ 
+ 
+ 
+ 
+ 
+ 
 c-------------------------------------------------
 c      copy the element buffer : ELBUF_SRC -> ELBUF_TGT
 c      target must be allocated

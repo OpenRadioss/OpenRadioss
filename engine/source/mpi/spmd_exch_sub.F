@@ -255,19 +255,19 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER I,J,K,L,M,ND
+      INTEGER I, J, K, L
       INTEGER NDDL,NSIZESUB,NN,NPOS,SIZEA
 
 C MPI  VARIABLES
 
-      INTEGER MSGTYP,NOD,LOC_PROC, SIZ,NB_NOD,NB,MAXLEV,VALUE
+      INTEGER MSGTYP, SIZ
 
       INTEGER STATUS(MPI_STATUS_SIZE),IERROR
 
       INTEGER MSGOFF1
       INTEGER IAD_SEND(NSPMD+1),IAD_RECV(NSPMD+1)
-      INTEGER SEND_SIZ(NSPMD),RECV_SIZ(NSPMD)
-      INTEGER SIZ_SEND,SIZ_RECV
+ 
+ 
 
       INTEGER REQ_S(NSPMD)
       INTEGER REQ_R(NSPMD)
@@ -429,19 +429,19 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER I,J,K,L,M,ND,IJK
+      INTEGER I, J, K, L, IJK
       INTEGER NDDL,NSIZESUB,NN,NPOS,SIZEA
 
 C MPI  VARIABLES
 
-      INTEGER MSGTYP,NOD,LOC_PROC, SIZ,NB_NOD,NB,MAXLEV,VALUE
+      INTEGER MSGTYP, SIZ
 
       INTEGER STATUS(MPI_STATUS_SIZE),IERROR
 
       INTEGER MSGOFF1
       INTEGER IAD_SEND(NSPMD+1),IAD_RECV(NSPMD+1)
-      INTEGER SEND_SIZ(NSPMD),RECV_SIZ(NSPMD)
-      INTEGER SIZ_SEND,SIZ_RECV
+ 
+ 
 
       INTEGER :: SIZ_S,SIZ_R
       INTEGER REQ_S(NSPMD)

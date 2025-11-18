@@ -168,7 +168,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J1, IG, J, JG , K0,NBINTER,K1S,K,IL,IE, NN, NI,
+      INTEGER I, J1, IG, J, JG, K0, NBINTER, K1S, K, IE, NN, 
      .        NA1,NA2,N,ITAG,NN1,NN2,NN3,NN4,
      .        IGRN,ISS1,ISS2,IMS1,IMS2,PP,PPL,ITYPSUB
       my_real
@@ -206,7 +206,7 @@ C-----------------------------------------------
      .   CX,CY,CFI,AUX, FX6(6,MVSIZ), FY6(6,MVSIZ), FZ6(6,MVSIZ),
      .   DTMINI,STIF0_IMP(MVSIZ),PENN,TINY,XMU2(MVSIZ)
       INTEGER JSUB,KSUB,JJ,KK,IN,NSUB
-      INTEGER  ISEGTYP(MVSIZ),IXSS(4),NOD1,NOD2,NS
+ 
       my_real
      .   FSAVSUB1(25,NISUB),IMPX,IMPY,IMPZ,VNM(MVSIZ),SFAC,STMIN,
      .   FXS(4),FYS(4),FZS(4)
@@ -3442,7 +3442,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IG, NISKYL1, NISKYL, NN,JG,IXSS(4),NFIC,J,NS
+      INTEGER I, IG, NISKYL1, NISKYL, NN
       my_real
      .        HH(MVSIZ),MAS, DTS,DTM_INT,FICI,FICS(4)
 C

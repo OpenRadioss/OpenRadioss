@@ -50,7 +50,7 @@ cc        TYPE(LAYER_DATA), DIMENSION(:), ALLOCATABLE :: PLY
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  I,J,K,N,NN
+      INTEGER J
       my_real
      .   VDT
 C
@@ -81,14 +81,14 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NODFT,NODLT,NDDIM,INOD(*)
+      INTEGER NODFT, NODLT, INOD(*)
 C     REAL
       my_real
      .  A(4,*), V(3,*),U(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  I,J,K,N,NN
+      INTEGER N, NN
       my_real
      .   VDT
 C

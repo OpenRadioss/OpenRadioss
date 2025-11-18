@@ -44,7 +44,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NIR, I, J, II,JJ,L,NN, ISK, ICOD
+      INTEGER NIR, I, J, II, JJ, L
 C     REAL
       my_real
      .   H(4), SS, TT, AMX, AMY, AMZ, VMX, VMY, VMZ,SP,SM,TP,TM,MAS,
@@ -119,7 +119,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NIR, I, J, II,JJ,L,NN, ISK, ICOD
+      INTEGER NIR, I, J, II, JJ, L
 C     REAL
       my_real
      .   H(4), SS, TT, AMX, AMY, AMZ, VMX, VMY, VMZ,SP,SM,TP,TM,MAS,

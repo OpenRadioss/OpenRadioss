@@ -267,7 +267,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,NVAR,M16STAK,NPE,NIPMAX,NPSAV_OLD
+      INTEGER NVAR, M16STAK, NPE, NIPMAX, NPSAV_OLD
       my_real PROBINT
 C-----------------------------------------------
 C

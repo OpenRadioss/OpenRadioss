@@ -176,7 +176,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J1, IG, J, JG , K0,NBINTER,K1S,K,IL,IE, NN, NI, II,
+      INTEGER I, J1, IG, J, JG, K, IE, NN, NI, II, 
      .        NA1,NA2,IPROJ,IDTM,PP,PPL,ITYPSUB,ISS1,ISS2,IMS1,IMS2
       INTEGER JSUB,KSUB,JJ,KK,IN,NSUB
       my_real

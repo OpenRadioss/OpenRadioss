@@ -65,7 +65,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IK,IC,JC,IH,IP,ITER,NITER,ITERMAX,NIN,LENH
+      INTEGER I, J, IK, IC, JC, IH, IP, ITER, NITER, ITERMAX, LENH
       my_real
      .   AS,ASMAX,ALPHA,BETA,R2,R2NEW,RNORM,PQ,HIJ,SCALE,DD
 C-----------------------------------------------
@@ -445,7 +445,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IK,IC,JC,IH,IP,ITER,NITER,ITERMAX,NIN,LENH,
+      INTEGER I, J, IK, IC, JC, IH, IP, ITER, NITER, ITERMAX, LENH, 
      .        NZ
       my_real
      .   AS,ASMAX,ALPHA,BETA,R2,R2NEW,RNORM,PQ,HIJ,SCALE,DD
@@ -828,7 +828,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IK,IC,JC,IH,IP,ITER,NITER,ITERMAX,NIN,LENH,NZ
+ 
       my_real
      .   AS,ASMAX,ALPHA,BETA,R2,R2NEW,RNORM,PQ,HIJ,SCALE,DD
 #ifdef MUMPS5

@@ -238,7 +238,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N, KK,LL, RETRI, NBLIST,NSENSOR,
+      INTEGER N, KK, RETRI, NSENSOR, 
      .        IAD17, IGN, IGE, NME, NMES,I,J,K,
      .        IDUM, IADI, ISTAMP, NRTM_T, NME_T, NEDGE_T, ESHIFT, SSHIFT, MULTIMP,
      .        ISENS,NBF,NBL,IB, NIN,NSNE_MAX,NFIC,L_FIC,NNOD3,NSNE3,
@@ -251,10 +251,10 @@ C-----------------------------------------------
       my_real, DIMENSION(:),ALLOCATABLE, TARGET :: X_IGE,V_IGE
       my_real, DIMENSION(:),POINTER :: PTR_X,PTR_V,PTR_MS
       INTEGER, DIMENSION(:),POINTER :: PTR_KINET
-      my_real :: BID
-      INTEGER :: IBRIC, NBRIC, II, INOD, NODEID, ISU1, IAD, INACTI
-      LOGICAL :: M151_ALLOC, TYPE18
-      SAVE XE,VE,M151_ALLOC
+ 
+      INTEGER :: INACTI
+      LOGICAL :: TYPE18
+      SAVE XE,VE
       SAVE X_IGE,V_IGE,MAX_IGE,SIZE_X_IGE
       INTEGER :: MAX_IGE,SIZE_X_IGE
       INTEGER :: NB_INTER_SORTED        !   number of interfaces that need to be sorted

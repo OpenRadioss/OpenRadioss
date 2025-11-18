@@ -78,20 +78,20 @@ C-----------------------------------------------
      .   EVAR(3,MVSIZ),DIR(MVSIZ,2),DIRB(MVSIZ,2)
       my_real
      .   F_EXP,F_STR,F_GAUSS(9)
-      INTEGER I,I1,II,J,NEL,NPTR,NPTS,NPTT,NLAY,L,IFAIL,ILAY,
+      INTEGER I, NEL, NPTR, NPTS, NPTT, NLAY, ILAY, 
      .        IR,IS,IT,IL,MLW, NUVAR,IUS,LENF,PTF,PTM,PTS,NFAIL,
      .        N,NN,K,K1,K2,JTURB,MT,IMID,IALEL,IPID,ISH3N,NNI,
      .        NN1,NN2,NN3,NN4,NN5,NN6,NN9,NF,BUF,NVARF,
      .        IHBE,NPTM,NPG, MPT,IPT,IADD,IADR,IPMAT,IFAILT,
      .        IIGEO,IADI,ISUBSTACK,ITHK,
      .        ID_PLY,NB_PLYOFF,NG,NSKIN,ICSTR
-      INTEGER NPT_ALL,IPLY,ISOLNOD,IVISC,NPTG,TSHELL,TSH_ORT,
+      INTEGER ISOLNOD, IVISC, 
      .        ISTRAIN,KCVT,IOR_TSH,MT1,ICSIG,PTI,IOK,IPRT,IOK_PART(MVSIZ),
      .        JJ(6),IS_WRITTEN_TENSOR(MVSIZ),MLWI,MID,PID
 
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
       TYPE(L_BUFEL_)  ,POINTER :: LBUF     
-      TYPE(BUF_LAY_)  ,POINTER :: BUFLY     
+ 
 C----- facter of extrapolation
       DATA F_GAUSS / 
      9 1.000000000000000,1.732050807568877,1.290994448735806,
@@ -626,7 +626,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, N
+      INTEGER I
       INTEGER 
      .   IX1(MVSIZ),IX2(MVSIZ),IX3(MVSIZ),IX4(MVSIZ),IX5(MVSIZ),
      .   IX6(MVSIZ),IX7(MVSIZ),IX8(MVSIZ)        
@@ -836,7 +836,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, N , K
+      INTEGER I, K
       INTEGER 
      .   IX1(MVSIZ),IX2(MVSIZ),IX3(MVSIZ),IX4(MVSIZ)
 C     REAL

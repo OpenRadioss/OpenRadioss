@@ -87,10 +87,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  N, I, J,NG,ITY,NEL
+      INTEGER NG, ITY, NEL
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
-      TYPE(L_BUFEL_)  ,POINTER :: LBUF  
-      TYPE(BUF_LAY_)  ,POINTER :: BUFLY     
+ 
+ 
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------     

@@ -58,7 +58,7 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER LOC_PROC,IERROR,I_LEN,myop,
+      INTEGER LOC_PROC, IERROR, I_LEN, 
      .        KK, L, J, NIN, REQ,
      .        STATUS(MPI_STATUS_SIZE),type_reduc
       PARAMETER (I_LEN = 46)
@@ -66,7 +66,7 @@ C-----------------------------------------------
      .        SBUF(NINTC*I_LEN), RBUF(NINTC*I_LEN)
       INTEGER :: MESSAGE_LEN
       my_real SBUF3(NINTC), RBUF3(NINTC) 
-      INTEGER SBUF2(NINTC), RBUF2(NINTC) 
+      INTEGER SBUF2(NINTC)
 
       INTEGER :: I17 !Number of TYPE17 interface 
 

@@ -65,7 +65,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NIN, INACTI, IGAP, NRTM,
+      INTEGER NIN, NRTM, 
      .        IRECTM(4,NRTM), NSHELR,
      .        ISENDTO(NINTER+1,*), IRCVFROM(NINTER+1,*),
      .        IAD_ELEM(2,*), FR_ELEM(*), ITAB(*) , ITASK
@@ -77,7 +77,7 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER MSGTYP,INFO,I, LOC_PROC,P,IDEB,
+      INTEGER MSGTYP, I, LOC_PROC, P, IDEB, 
      .        MSGOFF, MSGOFF2, MSGOFF3, MSGOFF4,
      .        J, L, LEN, NB_, NRTMR, IERROR1, IAD,
      .        STATUS(MPI_STATUS_SIZE),IERROR,REQ_SB(NSPMD),

@@ -150,7 +150,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER JD(50),KD(50), JFI, KFI,IEDGE,
+      INTEGER IEDGE, 
      .        I, J, H, I_STOK, JLT_NEW, JLT , NFT, IVIS2,
      .        IBC, NOINT, NSEG, ISECIN, IBAG, IADM,
      .        IGAP, INACTI, IFQ, MFROT, IGSTI, NISUB,
@@ -199,17 +199,11 @@ C     REAL
      .   VX(MVSIZ,17),VY(MVSIZ,17),VZ(MVSIZ,17),
      .   GAPS(MVSIZ),FORNEQSI(MVSIZ,3),DIST(MVSIZ)
       INTEGER ::   SUBTRIA(MVSIZ)
-
-      my_real
-     .     , DIMENSION(:,:),ALLOCATABLE :: SURF
-      my_real
-     .     , DIMENSION(:), ALLOCATABLE ::  PRES
       my_real
      .     , DIMENSION(:,:,:), ALLOCATABLE :: FSAVPARIT
-      SAVE SURF,PRES
       my_real
      .     RCURVI(MVSIZ), ANGLMI(MVSIZ), ANGLT, PADM,PENMIN,MARGE
-      INTEGER NRTMFT, NRTMLT, NMNFT, NMNLT, NRADM,NCY_PFIT
+      INTEGER NRADM, NCY_PFIT
       my_real
      .     T_PFIT,FA,FB,F_PFIT,TNCY,FINC,DTSTIF
       INTEGER ICURV,ILEV,NREBOU,NPT ,NRTSE,IEDG4,SFSAVPARIT,NINLOADP
@@ -688,7 +682,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,NS,NE,ITQ,NEG,J
+      INTEGER I, NS, NE, ITQ
 C----------------------------------------------------
             DO I = 1 ,JLT
              IF(PENE(I)/=ZERO.AND.STIF(I)/=ZERO)THEN             
@@ -739,7 +733,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,NS,NE,ITQ
+      INTEGER I, NS
 C----------------------------------------------------
             DO I = 1 ,JLT
               NS=CAND_N(I)
@@ -824,7 +818,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,NS,NE,ITQ,NEG,J,K_STOK,J_STOK,IC(4,4)
+      INTEGER I, NS, NE, ITQ, K_STOK, J_STOK, IC(4, 4)
       DATA IC / 
      1    3, 4, 1, 2, 
      2    4, 1, 2, 3,

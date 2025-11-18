@@ -185,9 +185,9 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER LCO, NF1, IFLAG, I, 
+      INTEGER NF1, IFLAG, I, 
      .     ILAY,IP,IR,IS,IT,MPT,NPTR,NPTS,NPTT,ICR,ICS,ICT,j
-      INTEGER IBID,IBIDV(1), MX, IFVM22
+      INTEGER IBID, IBIDV(1), IFVM22
       INTEGER MXT(MVSIZ),NGL(MVSIZ),NGEO(MVSIZ)
       my_real
      . VD2(MVSIZ) , DVOL(MVSIZ),DELTAX(MVSIZ),
@@ -216,7 +216,7 @@ C   variables used as arguments by the materials.
 C   Variables used in argument by materials if SPH only.
       my_real
      .   MUVOID(MVSIZ)
-      INTEGER IOFFS, N,ITET
+      INTEGER IOFFS
       my_real
      .   OFFS(MVSIZ),DSV(MVSIZ),SDV(MVSIZ)
       INTEGER SZ_R1_FREE
@@ -312,7 +312,7 @@ c-----------------------------------------------------
      .   BZZ1(MVSIZ),BZZ2(MVSIZ),BZZ3(MVSIZ),BZZ4(MVSIZ),
      .   BZZ5(MVSIZ),BZZ6(MVSIZ),BZZ7(MVSIZ),BZZ8(MVSIZ)
 C
-      INTEGER NNEGA,INDEX(MVSIZ),ISELECT,iel,ipr
+      INTEGER NNEGA, INDEX(MVSIZ), ISELECT
       my_real
      .   PXY1(MVSIZ),PXY2(MVSIZ),PXY3(MVSIZ),PXY4(MVSIZ),
      .   PXY5(MVSIZ),PXY6(MVSIZ),PXY7(MVSIZ),PXY8(MVSIZ),

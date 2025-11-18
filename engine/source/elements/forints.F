@@ -87,10 +87,10 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,N, NG, NVC, MLW, JFT, JLT ,K ,
+      INTEGER NG, NVC, 
      .   K1, K2, KAD,IAD2,NF1,IPRI,NGLOC, NELEM, OFFSET,
      .   NSG, NEL,ISOLNOD
-      INTEGER IADUIX,IADUX ,IADUV ,IADUVR,IADUMS,
+      INTEGER 
      .        IADUIN,IADUSM,IADUSR,IADUMV,IADURV,
      .        IADUF ,IADUTQ
 C-----------------------------------------------

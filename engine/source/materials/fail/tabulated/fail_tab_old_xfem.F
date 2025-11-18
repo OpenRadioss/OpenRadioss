@@ -68,7 +68,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
-      my_real, DIMENSION(2) :: XX0
+ 
       my_real 
      .  UVAR(NEL,NUVAR),OFF(NEL),OFFL(NEL),
      .  SIGNXX(NEL),SIGNYY(NEL),SIGNXY(NEL),SIGNYZ(NEL),SIGNZX(NEL),
@@ -82,15 +82,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  :: I,J,J1,J2,K,L,NINDX,ISHELL,LAYXFEM,NRATE,DMG_FLAG,
+      INTEGER  :: I, J, J1, J2, K, NINDX, ISHELL, LAYXFEM, NRATE, DMG_FLAG, 
      .   IFUN_EL,IFUN_TEMP,NF_LOC
       INTEGER, DIMENSION(NEL)   :: INDX,RFLAG
       INTEGER ,DIMENSION(NFUNC) :: IFUN_STR
 C
-      my_real  :: DP,P,SIGM,SIGM_PS,SVM,EF1,EF2,DF,FAC,DEPSF,LAMBDA,
+      my_real  :: DP, P, SIGM, SIGM_PS, SVM, EF1, EF2, DF, FAC, LAMBDA, 
      .  CC,BB,CR,ORM,SS1,SS2,YY,YY_N,DADV,
      .  DCRIT,EL_REF,SC_EL,SC_TEMP,DD,DN
-      my_real, DIMENSION(NEL)   :: EPSF,DMG_SCALE
+      my_real, DIMENSION(NEL)   :: EPSF
       my_real, DIMENSION(NFUNC) :: YFAC,RATE
       CHARACTER (LEN=3) :: XCHAR
 C-----------------------------------------------

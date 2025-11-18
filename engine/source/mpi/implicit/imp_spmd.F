@@ -1793,7 +1793,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
-      INTEGER MSGOFF,MSGTYP,I,NOD,LOC_PROC,IERROR,
+      INTEGER MSGOFF, MSGTYP, I, LOC_PROC, IERROR, 
      .        SIZ,J,K,L,ND,ID,
      .        STATUS(MPI_STATUS_SIZE),
      .        REQ_R(NSPMD),REQ_S(NSPMD)
@@ -1888,7 +1888,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
-      INTEGER MSGOFF,MSGTYP,I,NOD,LOC_PROC,IERROR,
+      INTEGER MSGOFF, MSGTYP, I, LOC_PROC, IERROR, 
      .        SIZ(NSPMD),J,K,L,ND,ID,JD,
      .        STATUS(MPI_STATUS_SIZE),IAD,JAD,IAD2,
      .        REQ_R(NSPMD),REQ_S(NSPMD)
@@ -2022,7 +2022,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
-      INTEGER MSGOFF,MSGTYP,I,NOD,LOC_PROC,IERROR,
+      INTEGER MSGOFF, MSGTYP, I, LOC_PROC, IERROR, 
      .        STATUS(MPI_STATUS_SIZE),
      .        REQ_R(NSPMD),REQ_S(NSPMD)
       INTEGER
@@ -4752,7 +4752,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, N, MSGOFF, MSGOFF2, MSGTYP, IERROR, LOC_PROC,
+      INTEGER MSGOFF, MSGOFF2, 
      .        INDEX, SIZ,
      .        STATUS(MPI_STATUS_SIZE), REQ_R(NSPMD)
       INTEGER
@@ -4829,7 +4829,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
-      INTEGER MSGOFF,MSGTYP,NOD,LOC_PROC,IERROR,
+      INTEGER MSGOFF, MSGTYP, LOC_PROC, IERROR, 
      .        STATUS(MPI_STATUS_SIZE),SIZ,
      .        REQ_R(NSPMD),REQ_S(NSPMD),
      .        I,J,K,L

@@ -149,7 +149,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IADBUFV,J1,J2,JJ(MVSIZ),NFUNC,
+      INTEGER I, J, IADBUFV, 
      .        NRATE(MVSIZ),IPOS1(MVSIZ),IPOS2(MVSIZ),IAD1(MVSIZ),
      .        ILEN1(MVSIZ),IAD2(MVSIZ),ILEN2(MVSIZ),
      .         NFUNCV(MVSIZ),PFUN(MVSIZ),

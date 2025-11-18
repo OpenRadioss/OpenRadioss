@@ -82,7 +82,7 @@ c
       !=======================================================================
       !      Local Variables
       !=======================================================================
-      INTEGER I,K,II,NINDX,INDEX(NEL),NINDX2,INDEX2(NEL),NINDX3,INDEX3(NEL),
+      INTEGER I, II, NINDX, INDEX(NEL), NINDX2, INDEX2(NEL), NINDX3, INDEX3(NEL), 
      .        ITAB,ISMOOTH,IPOS(NEL,2)
 c
       my_real 

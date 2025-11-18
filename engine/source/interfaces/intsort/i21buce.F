@@ -66,7 +66,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NRTM, NSN, NOINT,IDT,INACTI,NIN,NRTM_L,NMN, IFORM
+      INTEGER NRTM, NSN, NOINT, INACTI, NIN, NRTM_L, NMN, IFORM
       INTEGER IRECT(4,*), NSV(*), NUM_IMP,MSR_L(*),MNDD(*)
       INTEGER CAND_E(*),CAND_N(*)
       INTEGER NCONTACT,ESHIFT,ILD,INIT,NB_N_B, IGAP,ICURV,
@@ -87,7 +87,7 @@ C-----------------------------------------------
       INTEGER I_ADD_MAX
       PARAMETER (I_ADD_MAX = 1001)
 C
-      INTEGER I, J, I_MEM, I_ADD, IP0, IP1, MAXSIZ,II,
+      INTEGER I, J, I_MEM, I_ADD, IP0, IP1, MAXSIZ, 
      .        ADD(2,I_ADD_MAX), N,L,PP,J_STOK,IAD(NSPMD),
      .        TAG(NMN),NM(4), IERROR1,NODFI,PTR, IERROR2, IERROR3,
      .        IERROR4,LSKYFI

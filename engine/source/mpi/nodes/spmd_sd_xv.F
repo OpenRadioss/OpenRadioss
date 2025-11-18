@@ -82,7 +82,7 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER MSGTYP,INFO,I,REM_PROC,NOD,LOC_PROC,NB_NOD,DT_CST,
+      INTEGER MSGTYP, I, NOD, LOC_PROC, DT_CST, 
      .        SIZ,J,K,L, BUFSIZ, LSEND,E_LEN, IDEB,
      .        INB, II, NEW_D, IERROR, MSGOFF,MSGOFF2,
      .        STATUS(MPI_STATUS_SIZE), REQ_S(NSPMD),

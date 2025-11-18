@@ -54,7 +54,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IN, JN, IQ, N1, N2, N3, NN1, NN2, NN3, NNJ, INFO, IEL
+ 
       my_real
      .        X1, Y1, Z1, X2, Y2, Z2, X3, Y3, Z3, X0, Y0, Z0, D2, 
      .        NRX, NRY, NRZ, AREA2, RVAL(3), RSUM, S(NN)
@@ -328,7 +328,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NPG, IAD, IAD2, IP, IHG
+      INTEGER NPG, IAD, IAD2, IP
       my_real
      .        PG(50), WPG(25), XS, YS, ZS, R2, 
      .        VAL1, VAL2, VAL3, W, XG, YG, ZG, VALPHI,
@@ -455,7 +455,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NPG, IAD, IAD2, IP, NNS, IHG
+      INTEGER NPG, IAD, IAD2, IP
       my_real
      .        PG(50), WPG(25), XS, YS, ZS, R2, 
      .        VAL, VAL1, VAL2, VAL3, W, XG, YG, ZG, VALPHI,
@@ -602,7 +602,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NPG, IAD, JBID, NBID, IDEG, IAD2, IP, IEL, NN1, NN2, NN3
+      INTEGER NPG, IAD, IAD2, IP, IEL, NN1, NN2, NN3
       my_real 
      .        PG(50), WPG(25), W, KSIP, ETAP, VAL1, VAL2, VAL3, XP,
      .        YP, ZP, CP, XX1, YY1, ZZ1, XX2, YY2, ZZ2, XX3, YY3, ZZ3, 

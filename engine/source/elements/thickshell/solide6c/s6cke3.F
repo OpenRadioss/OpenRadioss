@@ -74,7 +74,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: JHBE
       INTEGER, INTENT(IN) :: ISORTH
       INTEGER, INTENT(INOUT) :: ISORTHG
-      INTEGER  ICP, ICSIG,IKGEO,NEL ,NPG
+      INTEGER ICP, ICSIG, IKGEO, NEL
       INTEGER ETAG(*),IDDL(*)  ,NDOF(*)  ,IADK(*) ,JDIK(*),
      .   IXS(NIXS,*),IPM(NPROPMI,*),IGEO(NPROPGI,*)
 C
@@ -89,9 +89,9 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER LCO, NF1, IFLAG, NB3S, I,IS,IAD0
-      INTEGER IADBUF,IKORTH,IBID,IUN,IP,NLAY
-      INTEGER MXT(MVSIZ),NGL(MVSIZ),NGEO(MVSIZ),PID
+      INTEGER NF1, I, IS, IAD0
+      INTEGER IADBUF, IKORTH, IBID, IUN, NLAY
+      INTEGER MXT(MVSIZ), NGL(MVSIZ), NGEO(MVSIZ)
       my_real
      . VOLN(MVSIZ), DELTAX(MVSIZ),
      . AJ1(MVSIZ) , AJ2(MVSIZ) , AJ3(MVSIZ) ,

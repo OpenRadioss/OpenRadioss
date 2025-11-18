@@ -1512,7 +1512,7 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER MSGTYP,INFO,I,K,ATID,ATAG,ALEN
+      INTEGER I
       my_real VTMP(LEN)
 C-----------------------------------------------
 C   S o u r c e  L i n e s
@@ -1564,7 +1564,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IAD_ELEM(2,*), FR_ELEM(*), SIZE, LENR, NTAG(*)
+      INTEGER IAD_ELEM(2, *), FR_ELEM(*), LENR, NTAG(*)
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
@@ -2058,7 +2058,7 @@ C-----------------------------------------------
 
       DATA MSGOFF/3014/
       
-      my_real                  :: WA(M51_IFLG6_SIZE*LENCOM), ELBUF(10000)   !necessary size : M51_IFLG6_SIZE
+      my_real                  :: WA(M51_IFLG6_SIZE*LENCOM) !necessary size : M51_IFLG6_SIZE
 
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
       TYPE(L_BUFEL_)  ,POINTER :: LBUF  

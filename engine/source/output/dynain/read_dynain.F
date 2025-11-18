@@ -62,7 +62,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,IDPRT,K_STAT,J,IP
+      INTEGER I, IDPRT, J, IP
       INTEGER N ,NELC , NELTG , NELCG , NELTGG , 
      .   FLG_CHK , IS_CHECK , JWARN, NELMIN , NELMAX,
      .   MY_SIZEC ,MY_SIZETG ,IERR ,

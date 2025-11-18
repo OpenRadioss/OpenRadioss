@@ -100,7 +100,7 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER MSGTYP,INFO,I,NOD, DT_CST, LOC_PROC,P,IDEB,
+      INTEGER MSGTYP, LOC_PROC, P, IDEB, 
      .        SIZ,J, L, BUFSIZ, LEN, NB, IERROR1, IAD,
      .        STATUS(MPI_STATUS_SIZE),IERROR,REQ_SB(NSPMD),
      .        REQ_RB(NSPMD),KK,NBIRECV,IRINDEXI(NSPMD),
@@ -111,8 +111,8 @@ C-----------------------------------------------
      .        RSIZ, ISIZ, L2, REQ_RD2(NSPMD),
      .        LEN2, RSHIFT, ISHIFT, ND, JDEB, Q, NBB
 
-      INTEGER :: P_LOC
-      INTEGER :: KEY,CODE
+ 
+ 
      
       DATA MSGOFF4/6026/ 
       DATA MSGOFF5/6027/ 
@@ -120,9 +120,9 @@ C-----------------------------------------------
       my_real
      .        XMAXB,YMAXB,ZMAXB,XMINB,YMINB,ZMINB
       
-      INTEGER, DIMENSION(:), ALLOCATABLE :: ITAGNSNFI  
-      my_real, DIMENSION(:,:), ALLOCATABLE :: XTMP
-      INTEGER :: ADRESS, LOCAL_RANK
+ 
+ 
+ 
       INTEGER :: SIZE_S
       INTEGER :: OFFSET(NSPMD)
       INTEGER :: DUMMY(1)

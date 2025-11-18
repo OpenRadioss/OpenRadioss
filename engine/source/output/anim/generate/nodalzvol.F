@@ -73,15 +73,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER                            :: IADI, IADR, I, ITYP, NINOUT, NNO, NEL, II1, II2,K1,K,
+      INTEGER                            :: I, ITYP, NEL, 
      .                                      IR1, IR2, J, JJ, NNO_L, NNI_L, II3, II4, JJJ, NNI,
      .                                      IALEL,NNOD,IPOS,IV,NGv,J1,J2,IBV, MLW,NumNodCell,
      .                                      NG, KCVT, II, NBF, NBL, IB, ICELL, NIN, MCELL,NCELL,
      .                                      IPHASE,NODE_ID,INEW
-      TYPE(G_BUFEL_)  ,POINTER           :: GBUF,GBUFv     
-      my_real, ALLOCATABLE, DIMENSION(:) :: COUNT_VOL    
-      my_real                            :: P,VF,D,V
-      INTEGER,DIMENSION(:,:), POINTER    :: pAdjBRICK      
+      TYPE(G_BUFEL_)  ,POINTER           :: GBUF
+ 
+ 
+ 
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------

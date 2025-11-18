@@ -56,8 +56,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: BOOL,CONDITION
-      INTEGER :: N, I, J, ISK, II, L, K, IUN, IFRA, N1,IPLY,IDIR
-      INTEGER :: NN,IAD,IADV,NVAR,ITYP,NITER,J_FIRST
+      INTEGER :: N, I, J, ISK, II, IUN
+      INTEGER :: NN, IAD, IADV, NVAR, ITYP, J_FIRST
       INTEGER, DIMENSION(NTHGRP2) :: INDEX_NOD
 
       my_real

@@ -127,8 +127,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J1, J , K0,NBINTER,K1S,K, NI, IL, IE, IG, PP, PPL
-      INTEGER NISKYL,NISKYL1,ISIGN
+      INTEGER I, J, K0, NBINTER, K1S, K, NI, IL, IE, PP, PPL
+ 
       INTEGER JSUB,KSUB,NSUB,JJ,KK,ISS1,ISS2,IMS1,IMS2,ITYPSUB
       INTEGER TAGIP(MVSIZ)
       my_real
@@ -158,7 +158,7 @@ C-----------------------------------------------
      .   CX,CY,CFI,AUX,AAA,GAPP
       DOUBLE PRECISION
      .   FX6(6,MVSIZ), FY6(6,MVSIZ), FZ6(6,MVSIZ)
-      INTEGER :: S_ADDSUBFIE,S_LISUBSFIE,P
+ 
 C
       INTEGER BITGET
       EXTERNAL BITGET

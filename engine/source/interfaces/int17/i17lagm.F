@@ -63,7 +63,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,IK,IE,IS,IC,NK,III(MVSIZ,17),LLT,NFT,LE,FIRST,LAST,
+      INTEGER I, K, IE, IC, III(MVSIZ, 17), LLT, NFT, LE, FIRST, LAST, 
      .        I16,LES,IES,IIIS(MVSIZ,16),NC_SAV,IEL(MVSIZ),IESL(MVSIZ),
      .        IE_MIN,IES_MIN
       my_real
@@ -258,7 +258,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IK,NK,I1,I2,I3,I4,IAD,ICON,
+      INTEGER I, J, ICON, 
      +        ICONT(MVSIZ,4)
       my_real
      .   VX,VY,VZ,VN,AA,VV,PENE
@@ -514,7 +514,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IK,NK,I1,I2,I3,I4
+      INTEGER I, IK
       my_real
      .   VX,VY,VZ,VN,AA
       my_real
@@ -626,7 +626,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IK,NK,I1,I2,I3,I4,IAD,NN
+      INTEGER I, IK, NK, IAD, NN
       my_real
      .   VX,VY,VZ,VN,AA
 C-----------------------------------------------
@@ -790,7 +790,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IK,NK,ITER,NITERMAX,JTER,NJTERMAX,CONV
+      INTEGER I, ITER, NITERMAX, JTER, NJTERMAX, CONV
       my_real
      .   VX,VY,VZ,VN
       my_real
@@ -1571,7 +1571,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,N
+      INTEGER I
       my_real
      .   DXDR(MVSIZ), DYDR(MVSIZ), DZDR(MVSIZ),
      .   DXDT(MVSIZ), DYDT(MVSIZ), DZDT(MVSIZ),

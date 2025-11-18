@@ -80,8 +80,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,JJ,K,IR,IADBUF,NINDX,IFAIL
-      INTEGER, DIMENSION(NEL) :: INDX
+      INTEGER I
+ 
       my_real 
      .    COEFR, BETAF ,COEFM,SXX,SYY,SZZ,TRACE,ETA(NEL)
 C=======================================================================
@@ -172,12 +172,12 @@ C   VARIABLES FOR FUNCTION INTERPOLATION
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,JJ,K,IR,IADBUF,NINDX,IFAIL
+      INTEGER I
       INTEGER, DIMENSION(NEL) :: 
      .   INDX
 C
       my_real, DIMENSION(NEL)  ::  WMAX
-      my_real :: DF12, DF23, DF13,TERM
+      my_real :: TERM
 C=======================================================================
       DO I = 1, NEL 
        WMAX(I)  = MAX (UVAR(I,1),WW(I))

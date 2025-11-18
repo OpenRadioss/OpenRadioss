@@ -77,14 +77,14 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER JD(50),KD(50), JFI, KFI,
+      INTEGER 
      .        I, J, L, H, I_STOK, JLT_NEW, JLT , NFT, 
      .         NSEG,  IADM,
      .        IGAP, INACTI,  
      .        NB_LOC, I_STOK_LOC,DEBUT,
      .        ILAGM, LENR, INTTH,
      .        I_STOK_GLO, MGLOB, MG, N, NN, IERROR
-      INTEGER  LENT, MAXCC
+ 
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        NSVG(MVSIZ), ISHEL(MVSIZ),
      .        CAND_N_N(MVSIZ),CAND_E_N(MVSIZ),SUBTRIA(MVSIZ),
@@ -115,7 +115,7 @@ C     REAL
      .   DIST(MVSIZ), GAPMXL(MVSIZ)
       my_real
      .     RCURVI(MVSIZ), ANGLMI(MVSIZ),  PENMIN,MARGE,DRAD,DGAPLOAD
-      INTEGER NRTMFT, NRTMLT, NMNFT, NMNLT
+ 
       INTEGER ILEV,NRTM,NSN
 C-----------------------------------------------
 C

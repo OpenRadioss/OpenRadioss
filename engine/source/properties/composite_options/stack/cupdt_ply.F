@@ -75,7 +75,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NVC1, NVC2, NVC3, NVC4, I, J, MX,IOFF,IP,I1,I2,I3,I4,N,
+      INTEGER NVC1, NVC2, NVC3, NVC4, I, J, IP, I1, I2, I3, I4, N, 
      .        IN1,IN2,IN3,IN4
       my_real
      .   OFF_L,  

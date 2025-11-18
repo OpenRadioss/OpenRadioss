@@ -141,15 +141,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real :: P,Qa,QB,QAL,QBL, POLD,VOLD,EINC,PNEW
-      my_real :: BULK, D, EG, Gr, C, ALPHA,BETA, C1, C2,FSCALE_G,FSCALE_B,FSCALE_P,FSCALE_RHO
-      my_real :: P0,XL, DD, VOLO, ESPE, E0, TOTAL_BFRAC, DELTA_BF, BRATE
-      my_real :: PG,PG_,PS, MU_G, MU_P, MU, RHO_G,RHO_G_, RHO_S, RHOG, RHO_Si
+      my_real :: POLD, EINC, PNEW
+      my_real :: BULK, D, EG, Gr, C, ALPHA, C1, C2, FSCALE_G, FSCALE_B, FSCALE_P, FSCALE_RHO
+      my_real :: P0, XL, ESPE, E0, TOTAL_BFRAC, DELTA_BF, BRATE
+      my_real :: PG, PG_, PS, RHO_G, RHO_S, RHO_Si
       INTEGER :: funcb, funcg
-      INTEGER :: IBID, IBFRAC, I , K     
-      my_real :: MASS, DF, TB, DIFF, G_RHOC2, P_RHOC2, RHOC2, SSP_G, SSP_S, MASS_G, MASS_S, VS
-      my_real :: VOL_G, VOL_S, fac,compac,INVrhog
-      my_real :: m0,rho_s0,F,Y_old,Y,FUNC_DOT,FUNC,V0,TMP
+      INTEGER :: I
+      my_real :: MASS, TB, DIFF, SSP_G, SSP_S, MASS_G, MASS_S
+      my_real :: compac
+ 
       
       TYPE(G_BUFEL_)  ,POINTER :: GBUF
       TYPE(L_BUFEL_)  ,POINTER :: LBUF      

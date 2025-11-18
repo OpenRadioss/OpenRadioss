@@ -574,7 +574,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,I_STOK_GLOB,NSN,
+      INTEGER I, NSN, 
      .        NOINT,NTY,IVIS2,
      .        IGAP,INACTI,IBAG,I_STOK, I_STOK_LOC, JLT_NEW,NMNF,NMNL,
      .        JLT, NFT,DEBUT,NBID,NB_LOC, I3N,IGSTI,ICURV,IADM
@@ -795,7 +795,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I_STOK_GLOB,NSN,
+      INTEGER NSN, 
      .        NME_T,ESH_T,IGN,IGE,MULTIMP,NOINT,I,MX_CAND,NTY,IVIS2,
      .        IGAP,INACTI,IBAG,I_STOK, I_STOK_LOC, JLT_NEW,
      .        JLT, NFT,DEBUT,NB_LOC, I3N,IGSTI,ICURV,IADM
@@ -906,7 +906,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NMNF,NMNL,I, J,ISK
+      INTEGER NMNF, NMNL, I, J
       my_real
      .    A11,A12,A13,A22,A23,A33,B11,B12,B13,B22,B23,B33,
      .    USDET,FX   ,FY   ,FZ
@@ -1025,7 +1025,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I_STOK_GLOB,NSN,NME,
+      INTEGER NSN, 
      .        NME_T,ESH_T,IGN,IGE,MULTIMP,NOINT,I,MX_CAND,NTY,IVIS2,
      .        IGAP,INACTI,IBAG,I_STOK, I_STOK_LOC, JLT_NEW,DEBUT,
      .        JLT, NFT,NBID,NB_LOC, I3N,IADM
@@ -1310,7 +1310,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IG, J,  K, NN
+      INTEGER I, IG, NN
       my_real
      .   N1(MVSIZ), N2(MVSIZ), N3(MVSIZ), PENE(MVSIZ),
      .   H1(MVSIZ), H2(MVSIZ), H3(MVSIZ), H4(MVSIZ),
@@ -1322,7 +1322,7 @@ C-----------------------------------------------
      .   AAA
       my_real
      .   PREC
-      INTEGER JJ,IBID
+      INTEGER IBID
       my_real
      .   PP1,PP2,PP3,PP4,BID
 C
@@ -1525,7 +1525,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IG, J, K, NN, NI,
+      INTEGER I, IG, NN, NI, 
      .        L
       INTEGER IX1(MVSIZ),IX2(MVSIZ),IX3(MVSIZ),IX4(MVSIZ),NSVG(MVSIZ)
       my_real
@@ -1548,7 +1548,7 @@ C-----------------------------------------------
      .   AAA
       my_real
      .   PREC
-      INTEGER JJ,IBID
+ 
       my_real
      .   PP1,PP2,PP3,PP4,BID,
      .   MTXX,MTXY,MTXZ,MTYY,MTYZ,MTZZ
@@ -1802,7 +1802,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IG, J, K, NN, NI,
+      INTEGER I, IG, NN, NI, 
      .        L
       INTEGER IX1(MVSIZ),IX2(MVSIZ),IX3(MVSIZ),IX4(MVSIZ),NSVG(MVSIZ)
       my_real
@@ -1813,7 +1813,7 @@ C-----------------------------------------------
      .   AAA 
       my_real
      .   PREC
-      INTEGER JSUB,KSUB,JJ,NSUB,IBID
+ 
       my_real
      .   PP1,PP2,PP3,PP4,BID,
      .   V1,V2,V3,V4,VSX,VSY,VSZ
@@ -1978,7 +1978,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IG, J, JG , K, NN, NI,
+      INTEGER I, IG, JG, NN, NI, 
      .        L
       INTEGER IX1(MVSIZ),IX2(MVSIZ),IX3(MVSIZ),IX4(MVSIZ),NSVG(MVSIZ)
       my_real FXI(MVSIZ), FYI(MVSIZ), FZI(MVSIZ), FNI(MVSIZ),
@@ -1993,7 +1993,7 @@ C-----------------------------------------------
      .        P, 
      .        AAA
       my_real PREC
-      INTEGER JSUB,KSUB,JJ,NSUB
+ 
       my_real IMPX,IMPY,IMPZ,PP1,PP2,PP3,PP4,BBB,
      .        V1,V2,V3,V4,VSX,VSY,VSZ,DVSX,DVSY,DVSZ,VSXP,VSYP,VSZP
 C

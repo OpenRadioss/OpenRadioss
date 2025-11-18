@@ -52,7 +52,7 @@ C----------------------------------------------------------------
 C----------------------------------------------------------------
 C  L O C A L  V A R I B L E S
 C----------------------------------------------------------------
-      INTEGER    I,J,K,IJK,IFAST(MVSIZ),NPRIN,INDEX(MVSIZ),NFAST
+      INTEGER I, K, IJK, IFAST(MVSIZ), NPRIN, INDEX(MVSIZ)
       INTEGER :: IFAST1
       INTEGER, DIMENSION(MVSIZ) :: IFAST1_INDEX
       my_real

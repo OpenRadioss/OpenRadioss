@@ -125,7 +125,7 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER IERR, ISTAT(MPI_STATUS_SIZE), LEN_STR, IERR_STR
+      INTEGER IERR, ISTAT(MPI_STATUS_SIZE)
       CHARACTER STR_ERROR*(MPI_MAX_ERROR_STRING)
 C
       CALL MPI_RECV(BUF, SIZE, MPI_INTEGER, IT_SPMD(IPROV), ITAG,

@@ -65,10 +65,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER K0,IDEFKZ,IER1,IER2,IFSTRUN
+      INTEGER IDEFKZ, IFSTRUN
       my_real
      .    TREST,CS1(2)
-      REAL FLMIN
+ 
 C----------------------------------------------------------
 C   INIT IMPLICIT 
 C----------------------------------------------------------
@@ -196,13 +196,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,IFA,IR,IS,IT,NG,BUFLEN,ERR,
+      INTEGER IR, IS, IT, NG, ERR, 
      .   NEL,NPT,NPG,MLW,ISORTH,ISRATE,ISROT,IREP,ISIGV,IGTYP,
      .   ISTRA,IFAIL,NFAIL,IEOS,IXFEM,NLAY,NPTR,NPTS,NPTT,NVAR,
      .   NFT,NFT0,KFTS,ITY,JALE,OFF,ISS,ICPRE,NSG,ICNOD,ISNOD,JEUL,
      .   JHBE,JIVF,JPOR,IPLA,L_ETFAC,L_SIGE,L_A_KT,L_SUBKT,LENF,
      .   IGROUC(NGROUP),IG
-      TYPE(KTBUF_STRUCT_) , POINTER :: KTBUF
+ 
       TYPE(L_KTBUFEP_)    , POINTER :: LBUF
       TYPE(MLAW_TAG_)     , POINTER :: MTAG
       TYPE(ELBUF_STRUCT_) , DIMENSION(NGROUP) :: ELBUF_TAB
@@ -407,7 +407,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,IFA,IR,IS,IT,NG,NEL,MLW,JHBE,L_ETFAC,ISNOD,
+      INTEGER I, NG, NEL, MLW, JHBE, L_ETFAC, ISNOD, 
      .        ITY,OFF,IGROUC(NGROUP),IG
 C=======================================================================
       IF (IKT == 0) RETURN

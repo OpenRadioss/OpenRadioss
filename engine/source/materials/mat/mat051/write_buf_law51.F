@@ -54,7 +54,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER :: NEL, NUPARAM, NUVAR,IXS(NIXS,*)
+      INTEGER :: NEL, NUVAR, IXS(NIXS, *)
       INTEGER :: NFT, UNEPHASE
       my_real :: UVAR(NEL,NUVAR), DD, dbVOLD(4),dbVOLD_f(4),TAG22(MVSIZ),VOLUME(MVSIZ),VOLD, VAR
       my_real :: EPSPXX(MVSIZ), EPSPYY(MVSIZ), EPSPZZ(MVSIZ),BFRAC
@@ -64,7 +64,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I,II, ITRIMAT, IPRESENT(4), Q, KK
-      my_real :: P
+ 
 C-----------------------------------------------
 C   S o u r c e L i n e s
 C-----------------------------------------------

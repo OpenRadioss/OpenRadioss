@@ -60,7 +60,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     REAL
       my_real OFF
-      INTEGER IE,NG,ITY,LFT,LLT,N,I,J,NEL,NFT,JJ,K,BUF,IXFEM,
+      INTEGER IE, NG, ITY, LFT, LLT, N, I, NEL, NFT, JJ, BUF, IXFEM, 
      .        IPT,ELC,CRKS,ICRK,IE_EL2FA,NEL_CRK,EMPL,NLEVXF
       INTEGER II(4)
       INTEGER,DIMENSION(:),ALLOCATABLE::NP

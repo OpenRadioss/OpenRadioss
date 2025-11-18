@@ -102,7 +102,7 @@ C----------resol [K]{X}={F}------
      .         NDDLI  ,IADI(*),JDII(*),ITOK(*),ICPREC,INLOC(*),
      .         NDOF(*),IDDL(*),IKC(*),IDIV  ,INPRINT,ISTOP,
      .         IT,ITC,NDDL0,ITAB(*),FR_ELEM(*),IAD_ELEM(*),W_DDL(*)
-      INTEGER  NE_IMP(*),NSREM ,NSL,ICONT,ISIGN,IMP1,
+      INTEGER NE_IMP(*), NSREM, NSL, ICONT, ISIGN, 
      .         IPARI(*) ,NUM_IMP(*),NS_IMP(*), IPIV_K(*), NK 
       INTEGER NMONV,IMONV(*),MONVOL(*),FR_MV(*),
      .        IBFV(*),IND_IMP(*),IRBE3(*) ,LRBE3(*),NDIV ,ICONT0,
@@ -910,7 +910,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I
+ 
       my_real
      .  S1,DR,R
 C-----------------------------------------------
@@ -1017,7 +1017,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,IM
+      INTEGER IM
       my_real
      .  SOLD,STMP,S2,TOL,EOLD
 C-------min e=r.du-----------------E1-> already relative /E0-----------------------
@@ -1135,7 +1135,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I
+ 
       my_real
      .  A,B,C,UI2,UIUD,UIUT,UT2,LAM1,LAM2,S,TH1,TH2,FAC
 C-----------------------------------------------
@@ -1205,7 +1205,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I
+ 
       my_real
      .  GI,UI2,UIUD,UIUT,S
 C-----------------------------------------------
@@ -1304,7 +1304,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I
+ 
       my_real
      .  A,B,C,UI2,UIUD,UIUT,UT2,LAM1,LAM2,S,TH1,TH2,FAC
 C-----------------------------------------------
@@ -1392,7 +1392,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I
+ 
       my_real
      .  GI,UI2,UIUD,UIUT,S
 C-----------------------------------------------
@@ -1476,7 +1476,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I
+ 
       my_real
      .  A,B,C,UI2,UIUD,UIUT,UT2,LAM1,LAM2,S,TH1,TH2,FAC
 C-----------------------------------------------
@@ -1553,7 +1553,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I
+ 
       my_real
      .  GI,UI2,UIUD,UIUT,S
 C-----------------------------------------------

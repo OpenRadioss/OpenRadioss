@@ -2066,7 +2066,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER NLIM,NID,NN,NKC,NFT,II,IDI,ND,ID,ISTOP
+        INTEGER NLIM, NID, NN, NKC, NFT, IDI, ND, ID, ISTOP
         PARAMETER (NLIM=6)
         INTEGER I,J,K,N,INOD(NLIM),IDL(6*NLIM),NFIX(NDDL0)
 C------------------------------------------
@@ -2160,7 +2160,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER NDDLG0,NNZKG0,NDDLG,NNZKG,NNMAXG,NNMAX0
+        INTEGER NDDLG0, NNZKG0, NDDLG, NNZKG, NNMAXG
         INTEGER NDDL0P(NSPMD),NNZK0P(NSPMD),NDDLP(NSPMD) ,
      .          NNZKP(NSPMD),NNMAXP(NSPMD),I
 C------------------------------------------
@@ -2301,7 +2301,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER I,J,JD,JM(NDMAX+1),NC,NNZ
+        INTEGER I, JM(NDMAX+1), NC, NNZ
 C------------------------------------------
         DO I=1,NDDL
           CALL SP_STAT0(I  ,IADK  ,JDIK  ,NC    ,JM    )
@@ -2376,7 +2376,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER NLIM,NID,NN,NKC,NFT,II,IDI,ND,ID
+        INTEGER NLIM, NID, NN, NKC, NFT, IDI, ND, ID
         PARAMETER (NLIM=6)
         INTEGER I,J,K,N,INOD(NLIM),IDL(6*NLIM),NFIX(NDDL0)
 C------------------------------------------
@@ -2529,7 +2529,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
         INTEGER IADCP(NDDLIF+1),JDICP(NZIF),ITOCP(NDDLIF)
-        INTEGER NDDLI0,NZI0,NZK,IERR1,IERR2,ITAG(NDDLG),
+        INTEGER NDDLI0, NZI0, IERR1, IERR2, ITAG(NDDLG), 
      .          I,J,II,NL,NR,ITON(NDDL)
         my_real
      .    DIAG_CP(NDDLIF),LT_CP(NZIF)
@@ -2724,7 +2724,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER LI1,LI2,LI3,LI4,LI5
+        INTEGER LI1, LI2, LI3, LI4
 C--------------Iflag= 1->copy; 2 ->restore---------------
         CALL BUF_DIM(LI1,LI2,LI3,LI4)
         IF (IFLAG==1) THEN
@@ -2784,8 +2784,8 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER NLIM,NN,NKC,NFT,II,IDI,ND,ID,NID,NDMAX
-        INTEGER I,J,K,N,IDDLM(NUMNOD)
+        INTEGER NN, NKC, II, IDI, ND, ID, NID, NDMAX
+        INTEGER I, J, N, IDDLM(NUMNOD)
         CHARACTER  DIR(3)
         DATA DIR/'X','Y','Z'/
         my_real
@@ -2935,8 +2935,8 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER NLIM,NID,NN,NKC,NFT,II,IDI,ND,ID,IW,IR,NDMAX
-        INTEGER I,J,K,N,IDDLM(NUMNOD),IDLFT0,IDLFT1
+        INTEGER NID, NN, NKC, II, IDI, ND, ID, IR, NDMAX
+        INTEGER I, J, N, IDDLM(NUMNOD), IDLFT0, IDLFT1
         CHARACTER  DIR(3)
         DATA DIR/'X','Y','Z'/
         my_real
@@ -3219,13 +3219,13 @@ C-----------------------------------------------
 C----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER  NNMAX,NKMAX,N_IMPN,N_IMPM,LNSS,LNSS2,NDT,NDS,NT_RW
-        INTEGER I,J,NTMP,L1,L2,L3,NNDL,INPRINT,ISTOP,LI10,LI11,
+        INTEGER NNMAX, NKMAX, N_IMPN, N_IMPM, LNSS, LNSS2, NT_RW
+        INTEGER I, J, NTMP, L1, L2, L3, NNDL, ISTOP, LI10, LI11, 
      .          LI1,LI2,LI3,LI4,LI5,LI6,LI7,LI8,LI9,LIF,IC,ISETP,
      .          LI12,LNSS3,LI13,LI14,LI15,LNSB2,LNSRB2
         INTEGER, DIMENSION(:),ALLOCATABLE :: NSS,ISS,NSS2,ISS2,NSS3,ISS3
         INTEGER, DIMENSION(:),ALLOCATABLE :: NSB2,ISB2,IAINT2
-        INTEGER  NNOD,IFDIS,N1,N2,N3
+        INTEGER IFDIS, N1, N2, N3
         INTEGER LBAND,NCL_MAX,IRFLAG,IBID
         my_real TFEXC,TMP,TMP1,TMP2,R2,BFAC,FACI,R02,GAP,RBID,WE_IMP,LAMDA,DUMMY_FEXT(3,1)
         INTEGER, POINTER     :: NDDL,NNZK,NRBYAC,NINT2,NMC,NMC2,NMONV
@@ -3236,7 +3236,7 @@ C-----------------------------------------------
         my_real, DIMENSION(:) ,POINTER     :: DIAG_K,LT_K,DIAG_M,LT_M,LB,
      .                                        LB0,BKUD,D_IMP,ELBUF_C,BUFMAT_C,
      .                                        DR_IMP,X_C,DD,DDR,X_A,R_IMP
-        my_real, DIMENSION(:) ,POINTER     :: FEXT,DG,DGR,DG0,DGR0,BUFIN_C,AC,ACR
+        my_real, DIMENSION(:) ,POINTER     :: FEXT, DG, DGR, DG0, DGR0, AC, ACR
         TYPE(PRGRAPH) :: GRAPHE(1)
 #ifdef MUMPS5
         TYPE(DMUMPS_STRUC) MUMPS_PAR
@@ -4706,7 +4706,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER N,I,J,K,ND
+        INTEGER I, J, ND
         INTEGER, DIMENSION(:) ,POINTER     :: IDDL,NDOF,IKC
 C-------------mis  zero Fint des noeuds dependants------------
         IDDL => IMPBUF_TAB%IDDL
@@ -4765,7 +4765,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER N,I,J,K,ND
+        INTEGER N
 C---
         IF(ANIM_V(5)+OUTP_V(5)+H3D_DATA%N_VECT_FINT>0) THEN
 #include      "vectorize.inc"
@@ -4815,7 +4815,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER N,I,J,K,ND
+        INTEGER N
 C---
         IF(ANIM_V(5)+OUTP_V(5)+H3D_DATA%N_VECT_FINT>0) THEN
 #include      "vectorize.inc"
@@ -5045,7 +5045,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER I,J,JD,NP
+        INTEGER NP
         my_real
      .    PFAC,CRITL,S1,S2
 C------compute auto seclect solver by L_LIM--------------
@@ -5169,7 +5169,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER  I,J,K,JD,ICOL(NDDL),NRI,NR0
+        INTEGER I, J, K, JD, ICOL(NDDL)
 C----6--K0:matrice complete(non triang)
         DO I = 1, NDDL
           ICOL(I) = IADK(I+1) - IADK(I)
@@ -5228,7 +5228,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER I,J
+        INTEGER I
         my_real
      .    BFAC,NTMP
 C-----------------------------------------------
@@ -5283,7 +5283,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
-        INTEGER I,J,K,L,N,IAD,IAD1,IADT,ITY,L_CP,L_CPJ,NIMPJ,
+        INTEGER I, J, N, IAD, IAD1, IADT, ITY, L_CP, L_CPJ, NIMPJ, 
      .          IADN(NTHREAD)
         INTEGER, DIMENSION(:),ALLOCATABLE :: NS_CP,NE_CP
         INTEGER IER1
@@ -5380,7 +5380,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
-        INTEGER I,J,K,L,N,IAD,IAD1,IADT,ITY,IAD0,L_CP,L_CPJ,NIMPJ,
+        INTEGER I, J, N, IAD, IAD1, IADT, ITY, IAD0, L_CP, L_CPJ, NIMPJ, 
      .          NT_IMP7,IADN(NTHREAD)
         INTEGER, DIMENSION(:),ALLOCATABLE :: NS_CP,NE_CP,IND_CP
         INTEGER IER1
@@ -5483,7 +5483,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER I,J,IRES
+        INTEGER I, IRES
         my_real
      .    BFAC,BDT
 C--------------Dn,0=Dn-1--------
@@ -5613,7 +5613,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 Ctmp +3
-        INTEGER i,j,N,ID,ND,IDDLM(NUMNOD),NKC,IDF,nnod,nk,iad,iad2,id2,
+        INTEGER i, j, N, ID, ND, IDDLM(NUMNOD), NKC, IDF, nk, iad, iad2, id2, 
      .          IDDL_FRONT(NDDL),ID2N(NUMNOD),NKFRONT,INOD,K,NN,II,
      .          IDDL_FRONT1(NSPMD,NDDL),ITAG(2,NSPMD),INDEX,ILOC,JJ,KK
         CHARACTER CHIF
@@ -5842,7 +5842,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 Ctmp +3
-        INTEGER i,j,N,ID,ND,IDDLM(NUMNOD),NKC,IDF,nnod,nk,iad,iad2,id2,
+        INTEGER i, j, N, ID, ND, IDDLM(NUMNOD), NKC, IDF, nk, iad, iad2, id2, 
      .          NKFRONT,INOD,K,NN,II,INDEX,ILOC,JJ,KK
         CHARACTER CHIF
         CHARACTER*9 FILNAME
@@ -5990,7 +5990,7 @@ c FUNCTION: print-out solver info such as maximum residual, relative residuals, 
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER I,J,N,ID,ND,IDDLM(NUMNOD),NKC,IDF,NNOD,NK,IAD,IAD2,
+        INTEGER I, J, N, ID, ND, IDDLM(NUMNOD), NKC, 
      .          IDDL_FRONT(NDDL),ID2N(NUMNOD),NKFRONT,INOD,ID2,CUMUL_IT,
      .          IDDL_FRONT1(NSPMD,NDDL),ITAG(2,NSPMD),INDEX,ILOC,JJ,KK,
      .          K,K2,K3,KR,K2R,K3R,NN,NN2,NN3,NNR,NN2R,NN3R,II,IIR,II2,
@@ -5998,7 +5998,7 @@ C-----------------------------------------------
         my_real
      .    F_MAX,FR_MAX,D_MAX,DR_MAX,DD_MAX,DDR_MAX,
      .    FMAX,FRMAX,DMAX,DRMAX,DDMAX,DDRMAX,TOLE,TOLF,TOLU
-        CHARACTER NODEID*10,FILNAM*100
+        CHARACTER NODEID*10, FILNAM*100
 c       if (IMCONV==-1.and.(NSREM +NSL)==0) then
 c         return
 c       end if
@@ -6373,7 +6373,7 @@ c FUNCTION: print-out tcp file
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER I,J
+ 
         my_real
      .    F_MAX
 C-----------------------------------------------
@@ -6867,7 +6867,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER I,ND
+ 
 C------------------------------------------
         IF (IFLAG ==0 ) THEN
           CALL CP_REAL(N,D, D_N_1)
@@ -6970,7 +6970,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
         INTEGER NODFT ,NODLT,ITSK
-        INTEGER I,J,IRES
+        INTEGER I, IRES
         my_real
      .    BFAC,BDT
 C--------------Dn,0=Dn-1--------
@@ -7062,7 +7062,7 @@ C-----------------------------------------------
         INTEGER IPARI(NPARI,NINTER)
         INTEGER IFLAG, NN     ,JG
         INTEGER LENS, LENR,P,N
-        INTEGER IEDGE,NSN
+        INTEGER NSN
 
         TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
 C------------------------------------------
@@ -7128,7 +7128,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
-        INTEGER I,J,K,L,N,IAD,N_MAX(NINTER),IFLAG,P,
+        INTEGER N, N_MAX(NINTER), IFLAG, 
      .         ITY,NSN,IGSTI,IBIT,RID,INTTH,
      .         IGAP,INACTI,IN1CON,NCONT0,NREBOU
 C-----------------------------------------------
@@ -7247,7 +7247,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER I,J,K,N,JI,JB,K1,IFLAG
+        INTEGER I, N, K1
 C-------R02 correction due the fact that IMP_FRI is done after [K],{LB}condensation----------
 C-------only Fext is re-computed, others don't change-------
 C-------int2,RBE3,rby speciale (Fext seulement)----------
@@ -7512,7 +7512,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER  N4,N3,I,II,J,N, NG,MLW, NF1,NKC,ND,IP4,IP3,IG,
+        INTEGER N4, N3, I, J, N, NG, MLW, NF1, NKC, ND, 
      +           JFT,JLT,NBC,ITY,NEL,NFT,NBCS,E_ID,N1,N2,K
         INTEGER, DIMENSION(:),ALLOCATABLE :: ITAG
 C     REAL
@@ -8003,7 +8003,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER  N,I,J,ND,NN,IE,IEM,NKC,K,ILOC,ISK,IKCL(6)
+        INTEGER I, J, ND, NN, NKC, K, ISK, IKCL(6)
         my_real
      .         DMIN,D,XC,YC,ZC,DTRA(3),DROT(3),DRS(3),LSM(3),
      .         X0,Y0,Z0,DTRAL(3),DROTL(3),LSML(3),DRS1(3),DROT1(3),DROTL1(3)
@@ -8212,7 +8212,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER  N,I,J,ND,NN,IE,IEM,K
+        INTEGER N, I, J, ND, IE, K
         my_real
      .         D(3),DD,DMINT
 C------remove rigid motion of springback (incremental)
@@ -8342,7 +8342,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER  I, J, II, L, JJ,NJ,K,NIR
+        INTEGER I, J, NIR
 C     REAL
         my_real
      .     XX,YY,ZZ,XXX,YYY,ZZZ,XY,YZ,ZX,XY2,YZ2,ZX2,
@@ -8471,7 +8471,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER  N,I,J,ND,NN,IE,IEM,K,NSAVE(4)
+        INTEGER N, I, J, IE, K, NSAVE(4)
         my_real
      .         D(3),DD,DR(3),DDR,DMINT
 C----- find reference element: around element center))
@@ -8587,7 +8587,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER I,N,NI,SIZ,I_CONT
+        INTEGER NI, I_CONT
 C=======================================================================
 
         DO NI= 1, NINTER
@@ -8722,7 +8722,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER I,K,J,IK,ID,JD,L,N,NN,JJ,IDT
+        INTEGER I, K, J, IK, ID, JD, N, JJ
         my_real
      .     KE(ND,ND) ,EV(ND,ND),EW(ND),LA,TOL,MSD(ND),MSIJ,TOL1
 C----6----------------------------------
@@ -8815,7 +8815,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER I,K,J,IK,ID,JD,L,N,NN,N1,N2,II,JJ,JK
+        INTEGER I, K, J, IK, ID, NN, N1, N2, II, JJ, JK
         my_real
      .     EV(ND,ND),EW(ND),
      .     LA,MSD(ND),MSIJ,LAMDA,ME(ND,ND),MSND,MSII
@@ -8992,7 +8992,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER J
+ 
 C----------------------------------------
         VL(1)=SKEW(1)*VG(1)+SKEW(2)*VG(2)+SKEW(3)*VG(3)
         VL(2)=SKEW(4)*VG(1)+SKEW(5)*VG(2)+SKEW(6)*VG(3)
@@ -9018,7 +9018,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER J
+ 
 C----------------------------------------
         VG(1)=SKEW(1)*VL(1)+SKEW(4)*VL(2)+SKEW(7)*VL(3)
         VG(2)=SKEW(2)*VL(1)+SKEW(5)*VL(2)+SKEW(8)*VL(3)
@@ -9061,7 +9061,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER  N,I,J,ND,NN,IE,IEM,K,ISK
+        INTEGER N, J, NN, ISK
         my_real
      .         D(3),DD,DMINT
 C------case input 3 ref_nodes

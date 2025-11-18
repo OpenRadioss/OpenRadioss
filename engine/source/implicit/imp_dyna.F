@@ -202,14 +202,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NODFT,NODLT,NDT
+      INTEGER NODFT, NODLT
 C     REAL
       my_real
      . D(3,*),DR(3,*),V(3,*),VR(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,K
+      INTEGER I
       my_real
      .  ADT,ADT1,BDT,BDTI,DT3
 C------- integrateur ----------
@@ -414,7 +414,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K
+      INTEGER I
       my_real
      .  BETASDT
 C-------  ----------
@@ -471,14 +471,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NDDL,IFLAG
+      INTEGER NDDL
 C     REAL
       my_real
      .  LB(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K
+      INTEGER I
       my_real
      .  A,B
 C-------LB() =((ONE+HHT_A)LB(t+dt)-HHT_A*LB(t))/(ONE+HHT_A)
@@ -524,7 +524,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I
+ 
 C------------------------------------------
       IF (HHT_A==ZERO) RETURN
       CALL CP_REAL(NDDL,DY_R1,DY_R0)
@@ -1046,7 +1046,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N,IBID,IW ,I,J,ND,J1
+      INTEGER I, J, ND, J1
       my_real  WFEXC,DUMMY_FEXT(3,1)
 C--------------------------------
        DUMMY_FEXT=ZERO
@@ -1231,7 +1231,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER M, NSN, I, N, J, K, LCOD, ISK
+      INTEGER M, NSN, I, K, LCOD, ISK
       my_real WA1, WA2, WA3, DD, VI(3),II1,II2,II3,II4,II5,II6,II7,II8,II9,
      .        VID(3),RBYD(9),VJ(3),RBZ(9),
      .        DET, IL1,IL2,IL3,IL4,IL5,IL6,IL7,IL8,IL9,
@@ -1535,13 +1535,13 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C     REAL
-      INTEGER NODFT,NODLT,IDIV
+      INTEGER NODFT, NODLT
       my_real
      .   D(3,*),DR(3,*),MS(*) ,IN(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N,I
+      INTEGER I
       my_real
      .   ADT,BDT,TMP,TMP1
 C------------------------------------------
@@ -1718,7 +1718,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I
+ 
 C------------------------------------------
        IF (ISMDISP>0.AND.(NCYCLE>1.OR.INCONV/=1)) RETURN
 C
@@ -1787,7 +1787,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,ND,NNZ,NKC,N,ID,JR,JI,JB,K1
+      INTEGER I, J, ND, NNZ, N, ID, JR, K1
       my_real
      .  U(NDDL),W(NDDL),ADT1,MKF,MKM,TMP
 C------- using v,than v(t+dt) is more stable-especially at beginning-----
@@ -1992,7 +1992,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,ND,NNZ,NKC,N,ID,JR,JI,JB,K1
+      INTEGER I, J, ND, NNZ, N, ID, JR, JI, JB, K1
       my_real
      .  U(NDDL),W(NDDL),ADT1,MKF,MKM,TMP
 C------- estimation of A(t+dt) w/ initial velocity------
@@ -2123,7 +2123,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K
+      INTEGER I
       my_real
      .  DB(NDDL0)
 C-----  db in lb-;du to SPMD version---------

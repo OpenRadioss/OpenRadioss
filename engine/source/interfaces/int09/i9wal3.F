@@ -92,7 +92,7 @@ C     REAL
      .   T3X, T3Y, T3Z, STENSX, STENSY, STENSZ,
      .   COMAREA(ISIZEM+ISIZES),COMSTF(ISIZEM+ISIZES),
      .   COMT(ISIZEM+ISIZES),COMVOL(ISIZEM+ISIZES),COMBUF(ISIZEM+ISIZES)
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
+ 
 c
       DATA IPERM/ 4, 1, 2, 3, 4, 1/
 C-----------------------------------------------

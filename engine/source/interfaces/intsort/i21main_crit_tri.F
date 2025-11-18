@@ -60,13 +60,13 @@ C     REAL
      .   X(3,*), V(3,*),
      .   XSLV_L(*), XMSR_L(*), VSLV_L(*), VMSR_L(*),
      .   X21MSR(3), V21MSR(3)
-      my_real, DIMENSION(:),ALLOCATABLE :: XSAV0
+ 
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER J, K , ADXLOC
+      INTEGER ADXLOC
 C     REAL
       my_real
      .   STARTT, STOPT

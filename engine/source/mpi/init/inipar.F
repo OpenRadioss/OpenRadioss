@@ -62,7 +62,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
-      INTEGER STATUS(MPI_STATUS_SIZE),IERROR,ICODE
+      INTEGER IERROR, ICODE
       INTEGER MYRANK, JRANK, I, J, NTHREAD1, LOCAL, RLEN
       CHARACTER (LEN=255) :: STR      
       CHARACTER (LEN=MPI_MAX_PROCESSOR_NAME) :: HSTNAM,HOST
@@ -75,7 +75,7 @@ C-----------------------------------------------
       INTEGER :: VALID
       CHARACTER FILNAM*100
 #if defined(_OPENMP)
-      INTEGER OMP_GET_MAX_THREADS
+ 
 #endif
 C--------------------------------------------------
 C     CONVENTIONS:

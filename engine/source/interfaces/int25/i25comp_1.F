@@ -78,7 +78,7 @@ C-----------------------------------------------
      .        I, J, L, H, I_STOK_RTLM, I_STOK, JLT , NFT,
      .        INACTI, NADMSR, NB_LOC, DEBUT, IGAP,
      .        MG, N, NSN, NSNR, IVIS2, ISENS
-      INTEGER  LENT, MAXCC
+ 
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        NSVG(MVSIZ), FAR(MVSIZ,4), SUBTRIA(MVSIZ), 
      .        MVOISN(MVSIZ,4), IBOUND(4,MVSIZ)

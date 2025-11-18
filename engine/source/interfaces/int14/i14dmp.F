@@ -67,7 +67,7 @@ C-----------------------------------------------
       INTEGER ADRBUF, I, IL, IN
       INTEGER NDEB, NREST
       INTEGER DGR
-      INTEGER IPT,NPT,II,JJ
+ 
       my_real
      .   A, B, C, AN, BN, CN, ROT(9),
      .   X1, X2, X3, N1, N2, N3, N,

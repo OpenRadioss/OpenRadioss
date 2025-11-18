@@ -100,8 +100,8 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER LCO,NF1,IFLAG,NB3S,I,J,IKSUP,IKORTH,IADBUF,IPREDU
-      INTEGER IR, IS, IT,IL,IP,ICR,ICS,ICT,ICPG,PID,
+      INTEGER NF1, I, IKORTH, IADBUF, IPREDU
+      INTEGER IR, IS, IT, IL, IP, ICPG, PID, 
      .     NPTR,NPTS,NPTT,NLAY,IAD0,NPPT,MX
       INTEGER MXT(MVSIZ),NGL(MVSIZ),NGEO(MVSIZ),IDEG(MVSIZ)
       my_real

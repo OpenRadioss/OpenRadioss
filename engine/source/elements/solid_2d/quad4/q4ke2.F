@@ -113,7 +113,7 @@ c  I   BUFMAT()            buffer for material constitution computation
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,II,J,EP
+      INTEGER I, J, EP
 C
       INTEGER IKORTH,IADBUF,ICPG,IPREDU
 C

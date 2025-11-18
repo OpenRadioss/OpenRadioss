@@ -128,7 +128,7 @@ C-----------------------------------------------
 C-------------------------------------
       INTEGER, DIMENSION(:), POINTER :: VARTMP
       TYPE(L_BUFEL_) ,POINTER :: LBUF
-      type(matparam_struct_) , pointer :: matparam
+ 
 C-----------------------------------------------
 C   S o u r c e   L i n es
 C-----------------------------------------------

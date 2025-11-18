@@ -353,7 +353,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER I, P, N, L(6), IERROR, MSGOFF,LOC_PROC, MSGTYP, BUFSIZ,
+      INTEGER I, P, N, L(6), IERROR, MSGOFF, LOC_PROC, MSGTYP, 
      .        STATUS(MPI_STATUS_SIZE),NB(6),OFFSET1
       DATA  MSGOFF/5004/
 C-----------------------------------------------
@@ -535,7 +535,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER I, P, N, L, IERROR, MSGOFF,LOC_PROC, MSGTYP, BUFSIZ,
+      INTEGER I, P, L, IERROR, MSGOFF, LOC_PROC, MSGTYP, BUFSIZ, 
      .        STATUS(MPI_STATUS_SIZE)
       DATA  MSGOFF/5006/
 C-----------------------------------------------
@@ -719,7 +719,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER I, P, N, IERROR, MSGOFF,LOC_PROC, MSGTYP,
+      INTEGER P, IERROR, MSGOFF, LOC_PROC, MSGTYP, 
      .        STATUS(MPI_STATUS_SIZE),BUFSIZ,BUFA,TOTO
       DATA  MSGOFF/5008/
 C-----------------------------------------------
@@ -792,7 +792,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER I, J, P, N, L, IERROR, MSGOFF, ISHIFT,
+      INTEGER I, P, N, L, IERROR, MSGOFF, 
      .        LOC_PROC, MSGTYP, BUFSIZ, SIZ, INB, NB_NOD, NOD, LSEND,
      .        REQ_R(NSPMD), REQ_S(NSPMD),IAD_SEND(NSPMD+1),DBL,
      .        IAD_RECV(NSPMD+1), STATUS(MPI_STATUS_SIZE), ITAG(NUMNOD)
@@ -879,7 +879,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER I, J, P, N, L, IERROR, MSGOFF, ISHIFT,
+      INTEGER I, P, N, L, IERROR, MSGOFF, 
      .        LOC_PROC, MSGTYP, BUFSIZ, SIZ, INB, NB_NOD, NOD, LSEND,
      .        REQ_R(NSPMD), REQ_S(NSPMD),IAD_SEND(NSPMD+1),
      .        IAD_RECV(NSPMD+1), STATUS(MPI_STATUS_SIZE), ITAG(NUMNOD)
@@ -969,7 +969,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER I, J, P, N, L, IERROR, MSGOFF, ISHIFT,DBL,
+      INTEGER I, P, N, L, IERROR, MSGOFF, DBL, 
      .        LOC_PROC, MSGTYP, BUFSIZ, SIZ, INB, NB_NOD, NOD, LSEND,
      .        REQ_R(NSPMD), REQ_S(NSPMD),IAD_SEND(NSPMD+1),
      .        IAD_RECV(NSPMD+1), STATUS(MPI_STATUS_SIZE), ITAG(NUMNOD)
@@ -1067,7 +1067,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER I, J, P, N, L, IERROR, MSGOFF, MSGOFF2, ISHIFT,DBL,
+      INTEGER I, P, N, L, IERROR, MSGOFF, MSGOFF2, DBL, 
      .        LOC_PROC, MSGTYP, BUFSIZ, SIZ, INB, NB_NOD, NOD, LSEND,
      .        REQ_R(NSPMD), REQ_S(NSPMD),IAD_SEND(NSPMD+1),
      .        IAD_RECV(NSPMD+1), STATUS(MPI_STATUS_SIZE), ITAG(NUMNOD)    
@@ -1830,7 +1830,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER I, P, N, L, IERROR, MSGOFF,LOC_PROC, MSGTYP, BUFSIZ,
+      INTEGER I, P, L, IERROR, MSGOFF, LOC_PROC, MSGTYP, 
      .        STATUS(MPI_STATUS_SIZE)
       DATA  MSGOFF/5018/
 C-----------------------------------------------

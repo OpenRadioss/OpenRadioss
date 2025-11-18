@@ -60,7 +60,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,IK,IE,IS,IC,NK,III(MVSIZ,9),LLT,NFT,LE,FIRST,LAST,
+      INTEGER I, K, IE, IS, IC, III(MVSIZ, 9), LLT, NFT, LE, FIRST, LAST, 
      .        I8
       my_real
      .   XX(MVSIZ,9),YY(MVSIZ,9),ZZ(MVSIZ,9),
@@ -239,7 +239,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IK,NK,I1,I2,I3,I4,IAD,NN
+      INTEGER I, IK, NK, IAD, NN
       my_real
      .   VX,VY,VZ,VN,AA
       my_real
@@ -523,7 +523,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IK,NK,ITER,NITERMAX,JTER,NJTERMAX,CONV
+      INTEGER I, ITER, NITERMAX, JTER, NJTERMAX, CONV
       my_real
      .   VX,VY,VZ,VN
       my_real
@@ -803,7 +803,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,N
+      INTEGER I
       my_real
      .   DXDS(MVSIZ), DYDS(MVSIZ), DZDS(MVSIZ),
      .   DNIDR(8),DNIDS(8),DNIDT(8),

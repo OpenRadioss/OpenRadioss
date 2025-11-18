@@ -47,7 +47,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, N, K, ISK, LCOD, NINDX,
+      INTEGER I, N, NINDX, 
      .        INDX(1024),L,J
       my_real
      .   XDUM
@@ -99,7 +99,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N, K, L, ISK, LCOD,J,LG,IBC,ISUP,IINF
+      INTEGER K, L, ISK, LCOD, J, LG, IBC, ISUP, IINF
 C     REAL
       my_real
      .   AA, VV,A1,A2,A3,V1,V2,V3

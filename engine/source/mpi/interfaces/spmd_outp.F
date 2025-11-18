@@ -59,11 +59,11 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER NN,NG,SZP0(2*NSPGROUP+2),RSZP0(2*NSPGROUP+2),NGF,NGL,JJ,
+      INTEGER SZP0(2*NSPGROUP+2), RSZP0(2*NSPGROUP+2), 
      .        WASZ26,P0ARS26,MLW,NEL,NPT,JHBE,ISOLNOD, 
      .        NUVAR,I,LFT,LLT,NFT,ITY
 
-      INTEGER IERROR,STATUS(MPI_STATUS_SIZE)
+      INTEGER IERROR
 C-----------------------------------------------
       P0ARS = 0
       WASZ = 0
@@ -139,10 +139,10 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER JJ,NGF,NGL,NN,ITY,IAD,NFT,LFT,LLT,NPT,
+      INTEGER 
      .        IHBE,IGTYP,NUVAR,MLW,NG,NEL,NBX,I,NPG,MPT,
      .        SZP0(2*NSPGROUP+2),RSZP0(2*NSPGROUP+2),P0ARSZ26
-      INTEGER IERROR,STATUS(MPI_STATUS_SIZE)
+      INTEGER IERROR
 
 
       P0ARS = 0
@@ -224,10 +224,10 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER NGL,ITY,NRL,KHBE,MLW,NPT,ISOLNOD,NGF,NN,NEL,
+      INTEGER 
      .        NG,NLAY,NPTR,NPTS,NPTT,NPTG,JJ,I,
      .        SZP0(3*NSPGROUP+3),RSZP0(3*NSPGROUP+3)
-      INTEGER IERROR,STATUS(MPI_STATUS_SIZE)
+      INTEGER IERROR
 C=======================================================================
       WASZ = 0
       P0ARS = 0
@@ -297,12 +297,12 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-        INTEGER NGF,NGL,NN,ITY,MLW,NEL,NPT,IHBE,NPG,MPT,NG,JJ,COUNT,I,
+        INTEGER COUNT, I, 
      .          SZP0(3*NSPGROUP+3),RSZP0(3*NSPGROUP+3),
      .          IL,NLAY,IGTYP,NPT_ALL,
      .          NPTR,NPTS
 C-----------------------------------------------
-      INTEGER IERROR,STATUS(MPI_STATUS_SIZE)
+      INTEGER IERROR
 
       WASZ = 0
       WASZP = 0
@@ -409,10 +409,10 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER NGF,NGL,NN,ITY,NEL,NG,JJ,SZP0(NSPGROUP+1),RSZP0(NSPGROUP+1),
+      INTEGER SZP0(NSPGROUP+1), RSZP0(NSPGROUP+1), 
      .        P0ARSZ2,WASZ2,I
 
-      INTEGER IERROR,STATUS(MPI_STATUS_SIZE)
+      INTEGER IERROR
 C-----------------------------------------------
 
       WASZP = 0
@@ -478,10 +478,10 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER NGF,NGL,NN,ITY,NEL,NG,JJ,SZP0(NSPGROUP+1),RSZP0(NSPGROUP+1),
+      INTEGER SZP0(NSPGROUP+1), RSZP0(NSPGROUP+1), 
      .        P0ARSZ2,WASZ2,IPROP,NUVAR,IGTYP,NFT,I
 
-      INTEGER IERROR,STATUS(MPI_STATUS_SIZE)
+      INTEGER IERROR
 C-----------------------------------------------
 
       WASZP = 0
@@ -542,10 +542,10 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER NGF,NGL,NN,ITY,NEL,NG,JJ,SZP0(NSPGROUP+1),RSZP0(NSPGROUP+1),
+      INTEGER SZP0(NSPGROUP+1), RSZP0(NSPGROUP+1), 
      .        P0ARSZ2,WASZ2,I
 
-      INTEGER IERROR,STATUS(MPI_STATUS_SIZE)
+      INTEGER IERROR
 C-----------------------------------------------
       WASZP = 0
       WASZ = 0
@@ -613,10 +613,10 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER NGF,NGL,NN,ITY,NEL,NG,JJ,SZP0(NSPGROUP+1),RSZP0(NSPGROUP+1),
+      INTEGER SZP0(NSPGROUP+1), RSZP0(NSPGROUP+1), 
      .        P0ARSZ2,WASZ2,I
 
-      INTEGER IERROR,STATUS(MPI_STATUS_SIZE)
+      INTEGER IERROR
 C-----------------------------------------------
       WASZP = 0
       WASZ = 0
@@ -676,10 +676,10 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER NGF,NGL,NN,ITY,NEL,NG,JJ,SZP0(NSPGROUP+1),RSZP0(NSPGROUP+1),
+      INTEGER SZP0(NSPGROUP+1), RSZP0(NSPGROUP+1), 
      .        P0ARSZ2,WASZ2,I
 
-      INTEGER IERROR,STATUS(MPI_STATUS_SIZE)
+      INTEGER IERROR
 C-----------------------------------------------
       WASZP = 0
       WASZ = 0
@@ -732,7 +732,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
        my_real
      .   V(3,*),VGATH(3,*)
-       INTEGER WEIGHT(*),NODGLOB(*),NUM,SRECBUF
+       INTEGER WEIGHT(*), NODGLOB(*)
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
@@ -846,7 +846,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
        my_real
      .   V(*),VGATH(*)
-       INTEGER WEIGHT(*),NODGLOB(*),NUM,SRECBUF
+       INTEGER WEIGHT(*), NODGLOB(*)
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
@@ -955,7 +955,7 @@ C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER STATUS(MPI_STATUS_SIZE),IERROR,
+      INTEGER IERROR, 
      .        MSGTYP,I,SIZ,LENP(NSPMD),DISP(NSPMD)
 
 C=======================================================================
@@ -1037,7 +1037,7 @@ C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER STATUS(MPI_STATUS_SIZE),IERROR,
+      INTEGER IERROR, 
      .        MSGTYP,I,SIZ,LENP(NSPMD),DISP(NSPMD)
 
 
@@ -1096,7 +1096,7 @@ C-----------------------------------------------
        INTEGER
      .   VGLOB(*),V(*)
 
-       INTEGER WEIGHT(*),NODGLOB(*),NUM,SRECBUF
+       INTEGER WEIGHT(*), NODGLOB(*)
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
@@ -1199,10 +1199,10 @@ C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER STATUS(MPI_STATUS_SIZE),IERROR,
+      INTEGER IERROR, 
      .        MSGTYP,I,SIZ,DISP(NSPMD),
      .        LENP(NSPMD*NSPGROUP),LENP_LOC(NSPMD)
-      INTEGER IAD,J,LEN_LOC
+      INTEGER IAD, J
 C=======================================================================
         CALL MPI_GATHER(
      S    LEN           ,NSPGROUP ,MPI_INTEGER,

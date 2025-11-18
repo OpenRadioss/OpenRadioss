@@ -79,7 +79,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, N, IADR, IPTHK, IPMAT, IPPOS ,IPPID, IPID,
+      INTEGER I, J, N, IADR, IPTHK, IPMAT, IPPOS, IPPID, 
      .  IPANG,MAT_LY(MVSIZ),IT,ITL,ILAY,NPTT,MAX_NPTT,IPT,JMLY,IINT,
      .  IPID_LY,IPT_ALL,MAT_LAY,IDX,IE,NSLICE,IP,IDRAPE,IPOS
       my_real
@@ -88,7 +88,7 @@ C-----------------------------------------------
       my_real , DIMENSION(:,:),ALLOCATABLE ::  THK_IT
 C-----------------------------------------------
       TYPE (DRAPE_PLY_), POINTER  :: DRAPE_PLY
-      TYPE(L_BUFEL_) ,POINTER :: LBUF 
+ 
       
       my_real
      .  A_GAUSS(9,9),W_GAUSS(9,9)

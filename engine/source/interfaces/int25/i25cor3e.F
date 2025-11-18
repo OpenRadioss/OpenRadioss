@@ -106,13 +106,13 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I ,NN, J, JRM, K, KRM, I1, J1, I2, J2, 
+      INTEGER I, NN, I1, I2, 
      .        EM, IE, ES, JE, SOL_EDGE, SH_EDGE, 
      .        TYPEDGS(MVSIZ), IM(MVSIZ), IS(MVSIZ)
       INTEGER ::  NOD1S(MVSIZ),NOD2S(MVSIZ)
       INTEGER ::  NOD1M(MVSIZ),NOD2M(MVSIZ)
 
-      INTEGER :: ISR ! orientation SECONDARY edge
+ 
       my_real
      .   AAA, DX, DY, DZ, DD, NNI, NI2, INVCOS,DTS
       my_real

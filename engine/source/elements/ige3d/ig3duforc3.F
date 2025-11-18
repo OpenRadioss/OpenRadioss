@@ -167,13 +167,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,NF1,IFLAG,IG,IGT,NUPARAM,
+      INTEGER I, J, NF1, IFLAG, NUPARAM, 
      .   NUVAR,NUVARP,IMAT,IPID,N1,N2,N3,NKNOT1,NKNOT2,NKNOT3,
      .   IDX(MVSIZ),IDY(MVSIZ),IDZ(MVSIZ),IFUNC(MAXFUNC),NFUNC,IADBUF,
      .   IBID,ISTRAIN,IBIDV(1),IP,ILAY,IERROR,IAD_KNOT,IDFRSTLOCKNT, IDPC,
      .   IDX2(MVSIZ),IDY2(MVSIZ),IDZ2(MVSIZ)
 C-----
-      INTEGER SID(MVSIZ),IPROP,NC(MVSIZ,8),
+      INTEGER IPROP, 
      .   MAT(MVSIZ)
       my_real
      . MX(NEL,NCTRL),MY(NEL,NCTRL) , MZ(NEL,NCTRL),
@@ -189,7 +189,7 @@ C-----
 
       TYPE(G_BUFEL_) ,POINTER :: GBUF 
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
-      TYPE(BUF_MAT_) ,POINTER :: MBUF    
+ 
       my_real,
      .   DIMENSION(:),POINTER :: UVAR
       INTEGER MXT(MVSIZ),NGL(MVSIZ),NGEO(MVSIZ)
@@ -220,7 +220,7 @@ C
      .   DXY(MVSIZ), DXZ(MVSIZ), DYX(MVSIZ), 
      .   DYZ(MVSIZ), DZX(MVSIZ), DZY(MVSIZ),DIVDE(MVSIZ)
 
-      INTEGER ITEL, ITNCTRL, K, N, JJ, INCTRL, L, IFACE
+      INTEGER ITEL, ITNCTRL, K, N, INCTRL
       my_real,
      .  DIMENSION(NCTRL) :: R 
       my_real,

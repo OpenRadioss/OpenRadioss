@@ -84,15 +84,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IADI, IADR, I, ITYP, NINOUT, NNO, NEL, II1, II2,
+      INTEGER I, ITYP, NEL, 
      .        IR1, IR2, J, JJ, NNO_L, NNI_L, II3, II4, JJJ, NNI,
      .        IALEL,NNOD,IPOS,NGv,IDLOCv,K, IAD2
       INTEGER IV(6), IE
-      INTEGER MLW, NG, KCVT, II, NBF, NBL, IB, ICELL, NIN, MCELL
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF,GBUFv     
+      INTEGER NG
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
       my_real, ALLOCATABLE, DIMENSION(:) :: COUNT_VOL    
       my_real D,V, DPHI(MVSIZ)
-      INTEGER,DIMENSION(:,:), POINTER   :: pAdjBRICK 
+ 
       my_real :: GRAD(6,MVSIZ)     
 C-----------------------------------------------
 C   D e s c r i p t i o n

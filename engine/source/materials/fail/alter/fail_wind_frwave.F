@@ -98,7 +98,7 @@ c
       my_real ,DIMENSION(NEL) :: TPROPG,AI,FORMF,SIGP_AKT,DAM1,DAM2,
      .   SIGP1,SIGP2,SIGDT1,SIGDT2,SIG_DTF1,SIG_DTF2,SIGP_MIN,SIGP_MAX,
      .   SP1,SP2,SP3,SIN2,COS2,COSI,TFACT1,TFACT2,CR_LEN,CR_DEPTH,CR_ANG   
-      my_real, DIMENSION(:), POINTER :: DIR1,DIR2
+ 
 c--------------------------------------------------------------------
 c---  state variables for Ch.Alter model
 c     UVAR(1)  = SIGP1       ! principal stress DIR1               

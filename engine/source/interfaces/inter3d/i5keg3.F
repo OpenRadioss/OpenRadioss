@@ -53,7 +53,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J1, J, K,IG,ISF,NN,NS,JLTF,NE,L
+      INTEGER I, J, K
       my_real
      .   S2,FAC,FACF, H0, LA1, LA2, LA3, LA4,FACT(MVSIZ),
      .   D1,D2,D3,D4,A1,A2,A3,A4,KN(4,MVSIZ),Q(3,3,MVSIZ)
@@ -192,7 +192,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IPARI(*),LFT, LLT, NFT,I_N(*),I_E(*)
+      INTEGER IPARI(*), LFT, LLT, I_N(*), I_E(*)
 C     REAL
       my_real
      .   FRIC
@@ -206,9 +206,9 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IL, LOLD, JJ, NN, J3,
+      INTEGER I, IL, LOLD, JJ, NN, 
      .   J2, J1, IG, I3, I2, I1, K, IFQ, MFROT,L
-      INTEGER NISKYL
+ 
 C     REAL
       my_real
      .   H(4), XX1(4), XX2(4), XX3(4),

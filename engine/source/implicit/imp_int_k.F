@@ -96,7 +96,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,N, IAD,NTY,I_INT7,NUM_IMP0,
+      INTEGER N, IAD, NTY, I_INT7, NUM_IMP0, 
      .        LREM(NINTER), ISENS
       my_real TS
 C     REAL
@@ -422,7 +422,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N, KK,LL, RETRI, NBLIST, IFQ,
+      INTEGER N, 
      .        INACTI, NSNROLD, IAD17, IGN, IGE, NME, NMES,
      .        NELTST ,ITYPTST ,I,NTY, ISENS, INTERACT
 C     REAL
@@ -590,7 +590,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IAD,K,IADD, NBNEW, LISTNEW(1),
+      INTEGER I, J, NBNEW, LISTNEW(1), 
      .        INTERACT,ISENS
       my_real
      .        XX,XY,XZ,DIST0,VX,VY,VZ,GAPINF,VV,DTI,
@@ -790,7 +790,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N, KK,LL, RETRI, NBLIST, IFQ,
+      INTEGER N, RETRI, 
      .        INACTI, NSNROLD, IAD17, IGN, IGE, NME, NMES,
      .        NB ,ILIST(1) ,I,NTY,KD(50), KFI,IAD,NSN,NMN,
      .        JFI,JD(50),IDNS,IDNM,IDSTIF,NTHR_CP,ISENS ,
@@ -1169,7 +1169,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER KK,LL, RETRI, NBLIST, IFQ,
+      INTEGER RETRI, 
      .        INACTI, NSNROLD, IAD17, IGN, IGE, NME, NMES,
      .        I,L1,L2,L3,JTASK,LINDMAX,IBID ,IBIDLEN,NRTM_T,
      .        ESHIFT,RENUM(NUMNOD), NSNFIOLD(NSPMD), ISENS
@@ -1403,7 +1403,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,L,N,IAD,IAD1,IADT
+      INTEGER N, IAD1
       INTEGER IERROR1,IERROR2,IERROR3,IERROR4
 C-----------------------------------------------
 C   S o u r c e  L i n e s
@@ -1461,8 +1461,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,L,N,IAD,IAD1,IADT
-      INTEGER IERROR1,IERROR2,IERROR3,IERROR4
+      INTEGER I, N, IAD, IAD1, IADT
+      INTEGER IERROR1, IERROR2, IERROR3
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
@@ -1629,7 +1629,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N,I,J,ID,NTHR_CP
+      INTEGER I, NTHR_CP
 C     REAL
       my_real
      .        DTK(NINTER),DTI,DT_MIN
@@ -1730,7 +1730,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,N, IAD,NTY,NDOFII(NUMNOD),NKC,
+      INTEGER I, J, N, IAD, NDOFII(NUMNOD), NKC, 
      .        IERR1,IERR2,IERR3,IERR4,IERR5,IERR6,ND,NMT,IROT,NUMN
 C-----------------------------------------------
        DO N=1,NUMNOD
@@ -2216,9 +2216,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,ID,N,J,NDD,I1
+      INTEGER I, ID, N, J, NDD
       INTEGER M,NSN,JI,K10,K11,K12,K13,K14,L,NNOD,NJ,NL,NI,IAD
-      INTEGER IERROR1,IERROR2,IERROR3,IERROR4,IERROR5,IERROR6
+ 
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
@@ -2363,8 +2363,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,ID,N,J,NDD,I1,IAD,NMT,IROTG,IADS
-      INTEGER M,NNOD,NJ,NL,NI
+      INTEGER I, N, IAD, NMT, IROTG, IADS
+      INTEGER NNOD, NI
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
@@ -2434,7 +2434,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J,N,K,K1,KK1,N1,N2,N3,N4,ID,IAD,IS,NN,NTY
+ 
       my_real
      .   D(3,NUMNOD)
 C----------------actualise D,X_IMP---------------------
@@ -2532,7 +2532,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J,N,K,K1,KK1,N1,N2,N3,N4,ID,IAD,IS,NN,NTY
+ 
       my_real
      .   D(3,NUMNOD)
 C----------------actualise D,X_IMP---------------------       
@@ -2624,7 +2624,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J,N,K,K1,ID,IAD,IS,NN,NTY,I_INT7
+      INTEGER N, IAD, NTY
 C 
       IAD = 1     
 C-----------int5 first-------------       
@@ -2676,7 +2676,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 Ctmp +3
-      INTEGER i,j,N,ID,ND,NKC,IDF,nnod,nk,iad,iad2,id2
+      INTEGER i, j, IDF
       CHARACTER CHIF
       CHARACTER*10 FILNAME
 C------

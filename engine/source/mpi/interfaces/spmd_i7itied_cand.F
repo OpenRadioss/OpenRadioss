@@ -78,7 +78,7 @@ C-----------------------------------------------
      *        SIZ,LOC_PROC,MSGTYP,IDEB(NINTER),PROC,MSGOFF
         INTEGER :: ITIED
 
-        INTEGER :: I,J,L,NB,NL,NN,K,N,NOD,LEN,ND,NIN,NTY,
+        INTEGER :: L, NB, NN, K, NIN, NTY, 
      *        NSN,SN,NBI,NSI,
      *        I_STOK,IT,LEN_NSNSI,MS,NSNR,
      *        NI,NII,LL,ILEN,RLEN,LI,NUMERO,P2
@@ -89,7 +89,7 @@ C-----------------------------------------------
         DATA MSGOFF/9000/
 
         SAVE IADS,IADR,BBUFS,BBUFR,REQ_S,
-     *     REQ_R,ILEN,RLEN,LEN,LENSD,LENRV 
+     *     REQ_R,ILEN,RLEN,LENSD,LENRV 
 !       ----------------------------------------------     
 !       FI proc send to SI proc the ITIED+CAND_F/=0 
 !       nodes

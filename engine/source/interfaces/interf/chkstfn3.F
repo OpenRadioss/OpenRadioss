@@ -94,7 +94,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, NSNF, NSNL,ND,SE
 C     REAL
-      INTEGER IK1(4),IK2(4),IE1,IE2,IED,NS1,NS2
+      INTEGER IK1(4), IK2(4), IED, NS1, NS2
       DATA IK1 /1,2,3,4/
       DATA IK2 /2,3,4,1/
 C-----------------------------------------------
@@ -1314,7 +1314,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, NG, K, ITY, MLW, NEL, NFT, ISOLNOD,
+      INTEGER I, NG, 
      .        KAD, NPT, IHBE, JD(50), KD(50), JFI, KFI, NRTM, NRTS,
      .        NTY, NSN, ISTRA, N, IDEL, NMN,ILEV,
      .        N1, N2, N3, N4, SIZE, LENR, IDB, IDBS, INC, IDELKEEP,
@@ -1324,7 +1324,7 @@ C-----------------------------------------------
      .        IPARTR2R,NTAGEL_R2R_RECV,NTAGEL_R2R_SEND,NTAGEL_R2R_SENDG,
      .        TAGEL_SIZE,LEVEL
       INTEGER, DIMENSION(:),ALLOCATABLE ::IBUFSEGLO_SAV,INDSEGLO_sav
-      TYPE(G_BUFEL_) ,POINTER :: GBUF
+ 
 C
       OFQ=NUMELS
       OFC=OFQ+NUMELQ
@@ -2656,7 +2656,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, NMNF, NMNL, NRTF, NRTL, N1, N2, N3, N4, 
+      INTEGER I, NMNF, NMNL, NRTF, NRTL, 
      .        NN, II, IX, K, NIND, N, NIND2, NINDL(NRTM)
 C     REAL
 C-----------------------------------------------
@@ -2728,7 +2728,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, NMNF, NMNL, NRTF, NRTL, N1, N2, N3, N4, 
+      INTEGER I, NMNF, NMNL, NRTF, NRTL, 
      .        NN, II, IX, K, NIND, NIND2, N, NINDL(NRTM)
 C     REAL
 C-----------------------------------------------

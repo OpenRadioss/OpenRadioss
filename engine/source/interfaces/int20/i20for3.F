@@ -2471,8 +2471,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J1, J , K0,NBINTER,K1S,K, NI, IL, IG
-      INTEGER NISKYL,NISKYL1,ISIGN
+      INTEGER I, J, K0, NBINTER, K1S, K, NI, IL
+      INTEGER ISIGN
       my_real
      .   VX(MVSIZ), VY(MVSIZ), VZ(MVSIZ), VN(MVSIZ),
      .   FXI(MVSIZ), FYI(MVSIZ), FZI(MVSIZ), FNI(MVSIZ),
@@ -3584,7 +3584,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J1, NISKYL1, NISKYL,IGP,IGM, NISKYFIEL
+      INTEGER I, NISKYL1, NISKYL, IGP, IGM, NISKYFIEL
 C
       NISKYL1 = 0
       DO I = 1, JLT
@@ -3727,7 +3727,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J1, NISKYL1, NISKYL,IGP,IGM, NISKYFIEL
+      INTEGER I, NISKYL1, NISKYL, IGP, IGM, NISKYFIEL
 C
       NISKYL1 = 0
       DO I = 1, JLT

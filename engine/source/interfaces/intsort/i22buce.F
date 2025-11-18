@@ -83,8 +83,8 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARI(NPARI), ISKIP
-      INTEGER NMN,  NSN, NOINT,IDT,INACTI,IFQ, NIN, NSNR,NSNROLD
-      INTEGER N_CAND_B
+      INTEGER NMN, NSN, NOINT, INACTI, IFQ, NIN, NSNROLD
+ 
       INTEGER IRECT(4,*),NSV(*),MWAG(*), RENUM(*),NUM_IMP, ITASK
       INTEGER CAND_E(*),CAND_B(*),IFPEN(*), IXS(NIXS,*), BUFBRIC(NBRIC)
       INTEGER NCONTACT,ESHIFT,ILD,NB_N_B,IGAP,NCONT,INTTH,I_MEM,NBRIC
@@ -95,29 +95,29 @@ C-----------------------------------------------
       my_real
      .   X(3,*),  STFN(*),
      .   STF(*)
-      INTEGER :: CANDB, CANDE, NB_SHORT, IPOS_, IREF,ILEN,IVAL
+ 
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECTIVITY
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      TYPE(BRICK_ENTITY),  DIMENSION(:),ALLOCATABLE :: BRICK_GRID
-      TYPE(EDGE_ENTITY),   DIMENSION(:),ALLOCATABLE ::  EDGE_GRID
+ 
+ 
             
-      INTEGER I_ADD_MAX,ICUR
+      INTEGER I_ADD_MAX
       PARAMETER (I_ADD_MAX = 1001)
 
-      INTEGER I, J,  I_ADD, IP0, IP1, MAXSIZ,
+      INTEGER I, J, IP0, 
      .        ADD(2,I_ADD_MAX), LOC_PROC, N, ISZNSNR,
      .        NSNFIOLD(NSPMD)
      
       my_real MARGE, AAA, BID
 
-      CHARACTER*8 KEY
+ 
 
-      INTEGER                            :: NCAND, NBF, NBL, SOMB, SOME, IPA
-      INTEGER                            :: TMP1, TMP2, IPOS
+      INTEGER                            :: NCAND
+      INTEGER                            :: IPOS
       INTEGER, ALLOCATABLE, DIMENSION(:) :: IFIRST, ILAST
-      CHARACTER*12 ::filename    
+ 
       
       INTEGER, ALLOCATABLE, DIMENSION(:) :: order, VALUE
       

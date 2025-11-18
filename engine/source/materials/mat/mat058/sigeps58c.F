@@ -144,7 +144,7 @@ C   I N P U T   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
       my_real UVAR(NEL0,NUVAR), OFF(NEL0),THK(NEL0),YLD(NEL0)
       TYPE(TTABLE) TABLE(*)
-      my_real, DIMENSION(1) :: XX
+ 
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
 C-----------------------------------------------
 C   VARIABLES FOR FUNCTION INTERPOLATION 

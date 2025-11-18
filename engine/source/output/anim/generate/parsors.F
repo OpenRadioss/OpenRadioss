@@ -66,12 +66,12 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   OFF
-      INTEGER II(8),IE,NG, ITY, LFT, LLT, KPT, N, I, J, 
+      INTEGER II(8), IE, NG, ITY, LFT, LLT, N, I, J, 
      .        IPID, NEL, IAD, NPAR, NFT, IPRT,IALEL,MTN,
      .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,
      .        JJ, K, INOD, ISOLNOD ,NNN,IE1,IDBRICK,
      .        N9,N10,N11,N12,N13,N14,N15,N16,IPROP,PX,PY,PZ
-      INTEGER BUF,BUFP,FIRST_NODE,L,M
+      INTEGER BUF, BUFP, L, M
       INTEGER, DIMENSION(:), ALLOCATABLE :: NP
 C-----------------------------------------------
 C

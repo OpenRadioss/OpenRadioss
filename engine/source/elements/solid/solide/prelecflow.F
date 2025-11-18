@@ -72,8 +72,8 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER INDXOF(MVSIZ)
-      INTEGER I,II,J,N, NG, NVC, MLW, JFT, JLT,ISOLNOD,ITHK,IPLA,
+ 
+      INTEGER NG, MLW, JFT, JLT, ISOLNOD, IPLA, 
      .        LENCOM,KAD,NEL,NF1,IG
       my_real,
      .   DIMENSION(:), POINTER :: UVAR

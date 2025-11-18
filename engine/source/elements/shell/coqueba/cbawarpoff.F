@@ -55,7 +55,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER I,NG,ILAY,J,K,L,M,IR,IS,IT,NPTR,NPTS,JJ,ie,ipr
+      INTEGER I, NG, ILAY, IR, IS, IT, NPTR, NPTS
       MY_REAL 
      .   XX(4),YY(4),ZZ(4),HIX(MVSIZ),HIY(MVSIZ),HIZ(MVSIZ)
       my_real 
@@ -67,7 +67,7 @@ C-----------------------------------------------
      .   RX(MVSIZ), RY(MVSIZ), RZ(MVSIZ),
      .   SX(MVSIZ),SY(MVSIZ),SZ(MVSIZ),CC,PMAX(MVSIZ),PCOS(MVSIZ,4)
       my_real, DIMENSION(:) ,POINTER  :: UVAR
-      TYPE(BUF_LAY_) ,POINTER :: BUFLY
+ 
 C
        PARAMETER (PG=.577350269189626)
        PARAMETER (PG1=-.577350269189626)

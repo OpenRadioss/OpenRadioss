@@ -87,7 +87,7 @@ C-----------------------------------------------
       my_real,DIMENSION(20) :: TITLE
       INTEGER :: LEN_TMP_NAME
       CHARACTER(len=2148) :: TMP_NAME
-      INTEGER, DIMENSION(20) :: TEXT
+ 
       INTEGER  NGLV, NMTV, NINV, NRWV, NRBV, NNODV, NSCV, NELQV, NELSV, NELCV, NELTV, NELPV, NELRV, NELTGV, NELURV
       INTEGER, dimension(:), allocatable :: IWA
 C-----------------------------------------------

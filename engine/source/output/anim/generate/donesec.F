@@ -46,11 +46,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER J, I, KK, K0, K1, K5, K9, NSEG, NSEGC, NSEGTG
+      INTEGER J, KK, K0, K5, K9, NSEGC, NSEGTG
       INTEGER NSEGS, POWER2(8),IPACK,
      .         II(8), N1, N2, N3, N4, N5, N6, N7, N8, K3, N
       DATA POWER2/1,2,4,8,16,32,64,128/
-      SAVE K1
       SAVE K0
 C-----------------------------------------------
         IF (ISECT==1) K0 = NSTRF(25)

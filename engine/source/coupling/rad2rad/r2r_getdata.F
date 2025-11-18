@@ -82,8 +82,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER I, IEX, IDP, IDG, NNG, NB,NGLOB,LENR,SIZE,BID
-        INTEGER NBD,NL_FLAG,SBUF_SIZE,RBUF_SIZE,PSP
+        INTEGER IEX, IDP, IDG, NNG, NB, NGLOB, LENR, SIZE
+        INTEGER NBD, NL_FLAG, SBUF_SIZE, RBUF_SIZE
         my_real WF, WM, WF2, WM2, WFB, WMB, WF2B, WM2B,ANN,VNN,ARN,VRN
         INTEGER, DIMENSION(:), POINTER :: GRNOD
         my_real, POINTER, DIMENSION(:) :: MSNL,FNL
@@ -235,11 +235,11 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER LRBUF,i
+        INTEGER LRBUF
         my_real
      .          BUFR1(3,NGLOB),BUFR2(3,NGLOB),
      .          BUFR3(3,NGLOB),BUFR4(3,NGLOB),WTMP(4)
-        INTEGER POP0,POP1,RATE
+ 
         my_real
      .     POP2,POP3,SECS
 C
@@ -363,7 +363,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER I, IEX, IDP, IDG, NNG, OFF
+        INTEGER IEX, IDP, IDG, NNG, OFF
 C
         INTEGER, DIMENSION(:), POINTER :: GRNOD
 C=======================================================================

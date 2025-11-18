@@ -161,7 +161,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER JD(50),KD(50), JFI, KFI, IEDGE, ISHARP, NEDGE, 
+      INTEGER IEDGE, ISHARP, NEDGE, 
      .        I, J, L, H, I_STOK, JLT_NEW, JLT , NFT, IVIS2,
      .        IBC, NOINT, NSEG, ISECIN, IBAG, IADM,
      .        IGAP, INACTI, IFQ, MFROT, IGSTI, NISUB, IGAP0,
@@ -170,7 +170,7 @@ C-----------------------------------------------
      .        NADMSR, I_STOK_GLO, MGLOB, MG, N, NSNR, NN, IERROR,
      .        IE, I1, I2, IORTHFRIC ,NFORTH ,NFISOT ,JJ,FCOND,IKTHE,IFRIC,
      .        INTCAREA
-      INTEGER  LENT, MAXCC
+ 
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        NSVG(MVSIZ), CN_LOC(MVSIZ),CE_LOC(MVSIZ),
      .        CAND_N_N(MVSIZ),CAND_E_N(MVSIZ),
@@ -201,7 +201,7 @@ C     REAL
      .   VISCFLUID, SIGMAXADH, VISCADHFACT,
      .   FHEATS,FHEATM,XTHE,FRAD,DRAD,DCOND
 C debug
-      integer :: eidm,eids
+ 
 C 
 C-----------------------------------------------
 C     REAL
@@ -248,8 +248,8 @@ C     REAL
      .     , DIMENSION(:,:,:), ALLOCATABLE :: FSAVPARIT
       my_real
      .     RCURVI(MVSIZ), ANGLMI(MVSIZ), ANGLT, PADM,PENMIN,MARGE
-      INTEGER NRTMFT, NRTMLT, NMNFT, NMNLT, NRADM, IS, IM, ISTIF_MSDT,IKNON(MVSIZ)
-      INTEGER ICURV,ILEV,NREBOU,NPT ,NRTSE,IEDG4,SFSAVPARIT,NCY_PFIT,NINLOADP
+      INTEGER NRADM, ISTIF_MSDT, IKNON(MVSIZ)
+      INTEGER ICURV, ILEV, NRTSE, SFSAVPARIT, NCY_PFIT, NINLOADP
       my_real
      .    XFILTR_FRIC,FRIC_COEFS(MVSIZ,10),VISCFFRIC(MVSIZ),FRICC(MVSIZ),
      .    FRIC_COEFS2(MVSIZ,10),VISCFFRIC2(MVSIZ),FRICC2(MVSIZ),

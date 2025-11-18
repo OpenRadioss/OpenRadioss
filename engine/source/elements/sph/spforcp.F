@@ -75,7 +75,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N,INOD,JNOD,J,NVOIS,M,IPRT,IPROP,IMAT,I,
+      INTEGER N, INOD, JNOD, J, NVOIS, M, IPRT, IPROP, I, 
      .        NVOISS,IC,NC,IS,SM,JS,ISLIDE,SS,NSTAB,NN,KS,NR, 
      .        K,JPERM(KVOISPH),IERROR
       my_real

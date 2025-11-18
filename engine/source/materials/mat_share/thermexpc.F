@@ -56,7 +56,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JFT, JLT,NPT,MTN,NSG,IR,IS,NLAY,
+      INTEGER JFT, JLT, NPT, MTN, IR, IS, NLAY, 
      .     MAT(MVSIZ),NEL,MATLY(*),IPM(NPROPMI,*),IGTYP,
      .     NPF(*)
 C     REAL
@@ -72,7 +72,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  I, MX, J,IORTH,IPT,ILAY,II(5),NPTT,IT,
+      INTEGER I, MX, IORTH, IPT, ILAY, II(5), NPTT, IT, 
      .         IORTH_LAY,IFUNC_ALPHA,J1,J2,J3,JJ,IPT_ALL
 C     REAL
       my_real
@@ -84,7 +84,7 @@ C     REAL
      .   B3(MVSIZ), DEGMB(MVSIZ), DEGFX(MVSIZ),DEGMBTH(MVSIZ),
      .   EZZ(MVSIZ),EINF(MVSIZ),P(MVSIZ),DEGFXTH(MVSIZ),
      .   P1(MVSIZ),P2(MVSIZ),ETHKE(MVSIZ),ZI2(MVSIZ),SUMALZ(MVSIZ)
-      TYPE(BUF_LAY_) ,POINTER :: BUFLY
+ 
       TYPE(L_BUFEL_) ,POINTER :: LBUF
 C-----------------------------------------------    
       my_real FINTER 

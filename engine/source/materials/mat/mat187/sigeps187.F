@@ -150,7 +150,7 @@ c     NPF,TF  : FUNCTION PARAMETER
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,II,J,K,NRATE,JJ(NEL),J1,J2,N,NINDX,IFLAG,IFLAGSR,EXPA,EXPAM2,
+      INTEGER I, II, J, K, NRATE, JJ(NEL), J1, J2, NINDX, IFLAG, IFLAGSR, EXPA, EXPAM2, 
      .        NMAX,INDX(NEL), IPOS1(NEL),ILEN1(NEL),IAD1(NEL),
      .       IPOS2(NEL),ILEN2(NEL),IAD2(NEL)
       my_real

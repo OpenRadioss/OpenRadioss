@@ -72,7 +72,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C----------------------------------------------- 
-      INTEGER I,NSKIN,ISOLNOD,ICS,NG,N,J
+      INTEGER I, NSKIN, ISOLNOD, ICS, NG, N
       INTEGER 
      .        MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,    
      .        NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,    
@@ -297,7 +297,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C----------------------------------------------- 
-      INTEGER I, LEN ,N0  ,NUMSKIN0
+      INTEGER LEN, N0, NUMSKIN0
 
 C-----------------------------------------------
        NUMSKIN = 0
@@ -355,7 +355,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C----------------------------------------------- 
-      INTEGER I,NG,
+      INTEGER NG, 
      .        MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,    
      .        NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,    
      .        JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,    
@@ -413,7 +413,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C----------------------------------------------- 
-      INTEGER I,NG,N,J,N1,N2,
+      INTEGER I, NG, N, 
      .        MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,    
      .        NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,    
      .        JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,    
@@ -421,7 +421,7 @@ C-----------------------------------------------
      .        IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,    
      .        ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS   ,
      .        NN,ICS,ISOLNOD,NN1,JJ,II,K1,K2,NF(3),NSKIN2,IDB
-      INTEGER FACES(4,6),NS(4),PWR(7),LL
+      INTEGER FACES(4, 6), PWR(7), LL
       DATA PWR/1,2,4,8,16,32,64/
       DATA FACES/4,3,2,1,
      .           5,6,7,8,
@@ -527,7 +527,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NL, N1, ISK, N2, N3, N4, N5, J,
+      INTEGER NL, N1, N2, N3, N4, J, 
      .        IAD ,NP ,IFUNC ,NPRES ,N,NSKIN_I,NSKINP0,IERR,IXST,SHIFT
       INTEGER, DIMENSION(:), ALLOCATABLE  :: ITAGN
       INTEGER, DIMENSION(:,:), ALLOCATABLE  :: IRECT
@@ -781,7 +781,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NL, N1, ISK, N2, N3, N4, N5, 
+      INTEGER NL, N1, N2, N3, N4, 
      .        IAD ,NP ,IFUNC ,NPRES,NSKIN0,NSKIN1,N,I,PID0,SHIFT
 C=======================================================================
 C-----IXSKIN(1,*):ipart;IXSKIN(2:5,*):N1-4,IXSKIN(6,*):pid;IXSKIN(7,*):usr_id
@@ -955,7 +955,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C----------------------------------------------- 
-      INTEGER I,NSKIN,ISOLNOD,ICS,NG,N,J,NJ
+      INTEGER I, ISOLNOD, NG, N, J, NJ
       INTEGER 
      .        MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,    
      .        NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,    

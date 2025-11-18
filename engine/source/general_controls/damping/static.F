@@ -229,7 +229,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER J, I , IDF
+ 
 C     REAL
       my_real
      .   ENCINT, EINT,VV1,VV2,FV1,FV2,FV,FF
@@ -332,7 +332,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER J, I,FREQ,IDF,IPI,IPC,NC_ACT,IFIRST
+      INTEGER IDF, IPI, IPC, NC_ACT, IFIRST
       PARAMETER (NC_ACT = 200)
 C     REAL
       my_real

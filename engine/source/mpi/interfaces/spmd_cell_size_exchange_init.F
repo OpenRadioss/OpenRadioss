@@ -65,7 +65,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C----------------------------------------------- 
 #ifdef MPI        
-        INTEGER :: NOD2JK
+ 
         INTEGER :: P
         INTEGER :: ISIZ,RSIZ
         INTEGER :: NSN,NMN,IGAP,INTTH,INTFRIC,ITYP,ITIED

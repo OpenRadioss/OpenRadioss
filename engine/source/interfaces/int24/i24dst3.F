@@ -105,7 +105,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IG, J, K, L, INTERSECT,MG,N,II,NSLID,ITR,ITS,ITT,ITQ,NS
+      INTEGER I, K, L, INTERSECT, N, II, NSLID, ITR, ITS, ITT, ITQ, NS
       my_real
      .     X5(MVSIZ), Y5(MVSIZ), Z5(MVSIZ),
      .     VX5(MVSIZ), VY5(MVSIZ), VZ5(MVSIZ),
@@ -3472,7 +3472,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, K,ITQ
+      INTEGER K, ITQ
       my_real
      .     AAA,BBB,VOL,XA,YA,ZA,XB,YB,ZB,XC,YC,ZC,XD,YD,ZD,
      .     XAB,YAB,ZAB,XBC,YBC,ZBC,XCA,YCA,ZCA,XBD,YBD,ZBD,
@@ -3777,7 +3777,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, K,ITQ
+      INTEGER K, ITQ
       my_real
      .     AAA,BBB,VOL,XA,YA,ZA,XB,YB,ZB,XC,YC,ZC,XD,YD,ZD,
      .     XAB,YAB,ZAB,XBC,YBC,ZBC,XCA,YCA,ZCA,XBD,YBD,ZBD,
@@ -5066,7 +5066,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IEG,I,J,ipr,NEG,SUBTRIA
+      INTEGER IEG, J, NEG, SUBTRIA
       my_real
      .     X51,  X52,  X53, X54,
      .     Y51,  Y52,  Y53, Y54,
@@ -5317,7 +5317,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER I
+ 
       my_real
      .     XMIJ(3),NIJ(3),DI(3),AA,NORM
 C-----------------------------------------------

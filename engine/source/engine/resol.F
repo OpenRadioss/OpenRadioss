@@ -989,7 +989,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
               LOGICAL LOUT
               CHARACTER FILNAM*100
-              INTEGER NODFT, NODLT,  I,J, N,
+              INTEGER NODFT, NODLT, I, N, 
      .           K1, K2, K3, K4, K5, K6, K7, K8, K9, K10, K11, K, ISK, KK1,
      .           N0, N1, N2, NN,  NNOD, NSENSOR,
      .           ISYNC, TWO_INTS(2),
@@ -1006,8 +1006,8 @@ C-----------------------------------------------
               INTEGER :: I15ATH,I35ATH
               INTEGER :: I87A,I87B,I87C,I87D,I87E,I87F,I87G,I87H,I87I,I87J,I87K,
      .                I87L,I87M,I87N,IMSCH,IAD1B,IAD1,IAD2,I2MSCH, ISMSCH, ONOFP
-              INTEGER CPLXIT,  ADRNOD, ONOF, ONFELT, ICH,IFLGADM, MADENDREQUEST
-              CHARACTER*13 CDUM
+              INTEGER CPLXIT, ADRNOD, ONOF, ONFELT, ICH, IFLGADM
+ 
               INTEGER IDUM1, DIM6, DIM_EXCH
 
               my_real
@@ -1069,7 +1069,7 @@ C----
      .                NNDL,IT,NMC2,LI13,DIRUL(NFXVEL),NUM_IMP1(NINTER),
      .                FR_RBE2M(SFR_RBE2),R2SIZE,
      .                NUM_IMPL(NINTER,NTHREAD), I_OPT_STOK(NINTER),IT_T,NTMP
-              INTEGER IER1,NDS,IBUCK,NMRBE2,NTHOLD
+              INTEGER IBUCK, NMRBE2, NTHOLD
               SAVE NMRBE2,R2SIZE,NINT7
               INTEGER, DIMENSION(:),POINTER :: NS_IMP,NE_IMP,IND_IMP
               TYPE (IMPBUF_STRUCT_), TARGET :: IMPBUF_TAB
@@ -1080,22 +1080,22 @@ C----
               INTEGER, DIMENSION(:), ALLOCATABLE :: WIBEM
               my_real, DIMENSION(:), ALLOCATABLE :: WRBEM
               SAVE LWIBEM, LWRBEM, WIBEM, WRBEM
-              INTEGER NKCOND, NDDLG, NRP, NCP, NKCOND_INI, NT_IMP_OLD
+              INTEGER NT_IMP_OLD
               INTEGER LWIFLOW, LWRFLOW
               INTEGER, DIMENSION(:), ALLOCATABLE :: WIFLOW
               my_real, DIMENSION(:), ALLOCATABLE :: WRFLOW
               SAVE LWIFLOW, LWRFLOW, WIFLOW, WRFLOW
               INTEGER SIZ, R2R_ON
-              INTEGER, DIMENSION(:), ALLOCATABLE :: CDDLP
+ 
 #if defined(MUMPS5)
               TYPE(DMUMPS_STRUC) MUMPS_PAR
 #endif
               INTEGER IFVMESH
 C
-              my_real, DIMENSION(:,:), ALLOCATABLE :: MADCLFRECV,PARTSAV2
+              my_real, DIMENSION(:,:), ALLOCATABLE :: PARTSAV2
 C
-              INTEGER MADYMO_DEL,MADYMO_DEL_GLOBAL
-              INTEGER, DIMENSION(:),  ALLOCATABLE ::MAD_TAG_SOL, MAD_TAG_SH,MAD_TAG_TG,MAD_FAIL_ELEMENTS
+ 
+ 
 C
 C OpenMP specific
               INTEGER ITSK, NODFTSK, NODLTSK, NUMNTSK, NDTSK, NDTSKR, IPMTSK,
@@ -1130,7 +1130,7 @@ C End Parith/ON specific
               INTEGER FR_SMS(NSPMD+1), FR_RMS(NSPMD+1)
               INTEGER, POINTER, DIMENSION(:) :: PTR_SMS
               INTEGER NMT0
-              INTEGER, DIMENSION(:), ALLOCATABLE :: IKINE
+ 
               my_real, DIMENSION(:), ALLOCATABLE :: STK_SN,STK_SR,FCLUSTER,MCLUSTER
               my_real, DIMENSION(:), ALLOCATABLE :: NODA_FEXT
               INTEGER LNZM
@@ -1234,7 +1234,7 @@ C---Nitsche Method----
      .                 DTNOD_NLOCAL,T_KIN
               INTEGER, DIMENSION(:),ALLOCATABLE ::IBUFPDEL, NINDEXPDEL
 
-              DOUBLE PRECISION :: argin,argout
+ 
               DOUBLE PRECISION, DIMENSION(:,:,:),ALLOCATABLE :: RBY6_C
 C----------------------------------------------------------------------------------
 C IMPVEL/FGEO
@@ -1326,8 +1326,8 @@ C-------------------------------------------------------------------------------
               DATA IUN/1/
               INTEGER MAXFUNC
               PARAMETER (MAXFUNC  = 100)
-              integer :: numnod_old,numnodm_old
-              integer :: new_crack
+ 
+ 
 C-----------------------------------------------------------------------------------
 C Err THK
 C-----------------------------------------------------------------------------------

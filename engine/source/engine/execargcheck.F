@@ -705,9 +705,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        CHARACTER*256 RFLEXNAM,GPUTITLE,ARCHTIT*66
-        INTEGER LEN,LBT
-        INTEGER RDFLEXCOMP
+        CHARACTER*256 ARCHTIT*66
+        INTEGER LBT
+ 
         INTEGER IDUM
 C-----------------------------------------------
 #include "machine.inc"
@@ -757,12 +757,12 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ERRN,SMSG
-      CHARACTER*256 ARGP,EMSG*256
+      CHARACTER*256 EMSG*256
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER STATUS(MPI_STATUS_SIZE),IERROR
+      INTEGER IERROR
       INTEGER MYRANK, NNODES
       INTEGER KEY, IERR
 #endif

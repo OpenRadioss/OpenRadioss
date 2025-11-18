@@ -56,7 +56,7 @@ C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
 #ifdef MPI
       INTEGER STATUS(MPI_STATUS_SIZE),IERROR,MSGOFF
-      INTEGER SIZ,MSGTYP,I,J,K,NG,NREC,MSGOFF2
+      INTEGER SIZ, MSGTYP, I, J, K, MSGOFF2
       my_real
      .     R1,R2,R3
 

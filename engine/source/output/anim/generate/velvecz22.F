@@ -75,9 +75,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   A r g u m e n t s
 C----------------------------------------------- 
-      INTEGER :: ICELLM,NCELL,NBF,NBL,ICELL,NIN,NODE_ID,IB,NG,I
-      INTEGER :: IAD0, NNODES, II, NFACE, J, K, IE,IGR
-      my_real :: rho_cell, RHO(4)
+      INTEGER :: NCELL, NBF, NBL, ICELL, NIN, NODE_ID, IB, I
+      INTEGER :: NNODES, II, J, IE, IGR
+ 
       REAL,DIMENSION(:,:),ALLOCATABLE :: BUFFER
       LOGICAL :: lStillNode
 C-----------------------------------------------

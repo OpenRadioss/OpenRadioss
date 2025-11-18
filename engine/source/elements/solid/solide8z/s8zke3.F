@@ -100,7 +100,7 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER LCO,NF1,IFLAG,NB3S,I,J,IKSUP,IKORTH,IADBUF,IPREDU,
+      INTEGER NF1, I, IKORTH, IADBUF, IPREDU, 
      .  IR, IS, IT,IL,IP,ICR,ICS,ICT,ICPG,NPTR,NPTS,NPTT,NLAY,NPPT,
      .  IAD0,PID
       INTEGER MXT(MVSIZ),NGL(MVSIZ),NGEO(MVSIZ),IDEG(MVSIZ)

@@ -71,9 +71,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, NBC, L, KCUR, N1, N2, N3, ITYP,IADG, J,NTITLE,IUS,
+      INTEGER I, NBC, L, KCUR, J, 
      .        NH3D,IREC,NBSENS
-      CHARACTER  TITLE*72,TITLE2*80,LINE*120
+      CHARACTER TITLE*72, TITLE2*80, LINE*120
       CHARACTER(LEN=NCHARKEY)::KEY2
       CHARACTER(LEN=NCHARKEY)::KEY3
       CHARACTER(LEN=NCHARKEY)::KEY4

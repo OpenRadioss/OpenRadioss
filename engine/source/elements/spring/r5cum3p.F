@@ -71,7 +71,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, II, N, J
+      INTEGER I, II, N
 CC     REAL
       my_real
      .   F11(MVSIZ), F21(MVSIZ), F31(MVSIZ), 

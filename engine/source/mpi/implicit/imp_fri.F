@@ -171,7 +171,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,L
+      INTEGER I, L
       my_real
      .       LX(NDDL)
       my_real,
@@ -287,7 +287,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NIN,NTY,ILOCP(NUMNOD),IDDLM(NUMNOD),LNS,LNS2,N_KINE
-      INTEGER I,J,K,L,NDOFI,N,IAD,NRTS,
+      INTEGER I, J, N, IAD, NRTS, 
      .        NSN,NKC,J1,ND,N_KINE_M,LNSS ,LNSS2,LNS3,LNSS3,
      .        LRS2,LRSS2
       my_real
@@ -403,7 +403,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,L,N,NN,IAD,NSN,NIN,NUM,NTY,II,NB
+      INTEGER I, J, L, N, NIN, NTY, II, NB
       INTEGER N0,N1,N2
 C-----------------------------------------------
 C   S o u r c e  L i n e s
@@ -529,7 +529,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,L,N,NN,IAD,NSN,NIN,NUM,NTY,II,NB
+      INTEGER I, L, N, NN, IAD, NSN, NIN, NUM, NTY, II, NB
       INTEGER IERROR1,IERROR2,NRTS,NSREM11,NCONT,
      .        IERROR3,IERROR4,IERROR5,IERROR6,IERROR7
       INTEGER DEBUT(NINTER),DEBUTI(NINTER),L1,
@@ -786,7 +786,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,N,N1,N2,NE,IG
+      INTEGER I, J, N, NE, IG
 C-----------------------------------------------
        DO I = 1, JLT
 C--------secnd node-----
@@ -838,7 +838,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,N,N1,N2,NE,IG
+      INTEGER I, N
 C-----------------------------------------------
       IF (INTP_D>0) THEN
        DO I = 1, NSL
@@ -1220,7 +1220,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,N,IERROR1
+      INTEGER I, N, IERROR1
 C-----------------------------------------------
 C
       NML=N_IMPN-N_IMPS
@@ -1639,7 +1639,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,ID,N,J,NDD,I1,IAD,NMT,IROTG,IADS
+      INTEGER I, ID, N, J, NDD, IAD, NMT, IROTG, IADS
       INTEGER M,NSN,L,NNOD,NJ,NL,NI,JI
       INTEGER IERROR1,IERROR2,IERROR3,IERROR4,IERROR5
 C-----------------------------------------------
@@ -1863,8 +1863,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,ID,N,J,NDD,I1,IS,NS,ILEV,JT(3),JR(3)
-      INTEGER M,NSN,JI,L,NNOD,NJ,NL,NI,IROT,IRAD
+      INTEGER I, ID, N, J, I1, IS, NS, ILEV, JT(3), JR(3)
+      INTEGER M, NSN, JI, NNOD, NI, IROT, IRAD
       INTEGER IERROR1,IERROR2,J1,ISK,IFM,K1,K2,K3,ICT,NN,IAD,IADS,K
       my_real
      .  XS,YS,ZS,KII(3,3),KJJ(6),EJ(3),S,KDD(6,6),KMM(6)
@@ -2443,7 +2443,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,IDF
+ 
 C-----------------------------------------------
       IF ((NSREM+NSL)==0) RETURN
 C
@@ -2508,7 +2508,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I
+ 
 C-----------------------------------------------
       IF ((NSREM+NSL)==0) RETURN
 C
@@ -2550,7 +2550,7 @@ C-----------------------------------------------
 C----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,ID,ND,M,N
+      INTEGER I, J, ND, N
 C----independent nodes first-----
       DO I = 1,NSREM
        FFI(1,I)=ZERO
@@ -2966,7 +2966,7 @@ C-----------------------------------------------
 C----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,ID,ND,M,N
+      INTEGER I, J, ND, N
 C---------
       DO I = 1,NSL
        N=ISLM(I)
@@ -3021,7 +3021,7 @@ C-----------------------------------------------
 C----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,N,M,NS,NI,NSN,
+      INTEGER I, J, N, M, NI, NSN, 
      .        L,NNOD,NJ,ND,NL,IAD,JI
 C------------------------------------
 C------Rigid bodies-------
@@ -3179,7 +3179,7 @@ C-----------------------------------------------
 C----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,N,NL,NR,K,NN
+      INTEGER I, J, N, NL, K, NN
 C------------------------------------
       IF (N_FRNN==0) RETURN
 C
@@ -3236,7 +3236,7 @@ C-----------------------------------------------
 C----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,N,NL,NR,K,NK,NN
+      INTEGER I, J, N, NL, K, NK, NN
 C------------------------------------
       IF (N_FRNN==0) RETURN
 C
@@ -3287,7 +3287,7 @@ C-----------------------------------------------
 C----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,N,M,JLT,JLT1,NK,NFT1,ISH,L,NPP
+      INTEGER I, J, N, JLT, JLT1, NK, NFT1, ISH, NPP
 C------------------------------------
        IF (N_FRNN==0) RETURN
        JLT=NEL+NFT
@@ -3373,7 +3373,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,N,NK,ICOL(NNMAX,N_FR),NROW(N_FR),IP,JLT,NFT,
+      INTEGER J, N, NK, ICOL(NNMAX, N_FR), NROW(N_FR), IP, JLT, NFT, 
      .        FR_NROW(N_FR),L,IAD_S(NSPMD+1),IAD_R(NSPMD+1),NF1,
      .        IERROR1,IERROR2,IERROR3,LS,LR,SSIZE,RSIZE,J0,NN,NR,NL,NRN
 C   ----  creer NROW,ICOL aux front.---------
@@ -3568,7 +3568,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,N,NK,ICOL(NNMAX,N_FR),NROW(N_FR),IP,JLT,NFT,
+      INTEGER J, N, NK, ICOL(NNMAX, N_FR), NROW(N_FR), IP, JLT, NFT, 
      .        IERROR1,IERROR2,IERROR3,LS,LR,SSIZE,RSIZE,J0,L,NF1
 C   ----  creer NROW,ICOL aux front.---------
       IF (N_FR>0) THEN
@@ -3652,7 +3652,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,N,NK,NROWK(N_FR),IP,
+      INTEGER J, N, NK, NROWK(N_FR), IP, 
      .        L,IAD_R(N_FR+1),FR_ICOL1(N_FRNN+1),LR,J0,NN,N_FRN
 C------- Recipation fr_nrow and goes through global (by rap)-
       IF (NNMAX <=0 ) RETURN
@@ -3749,7 +3749,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,N,NK,IP,L,NDDL0,NZZK0,NN,IAD,NB,
+      INTEGER J, N, NK, IP, L, NDDL0, NZZK0, NN, IAD, NB, 
      .        NNZ(NSPMD),NDOFJ,K,NDDL,NZZK,NJ,NK0,NJN,NL,NZZ,
      .        IERROR0,IERROR1,IERROR2,IERROR3,IERROR4,IERROR5
       INTEGER, DIMENSION(:),ALLOCATABLE :: ITAG
@@ -3932,7 +3932,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,N,NK,ICOL(NNMAX,N_FR),NROW(N_FR),IP,JLT,NFT,
+      INTEGER J, N, NK, ICOL(NNMAX, N_FR), NROW(N_FR), IP, JLT, NFT, 
      .        FR_NROW(N_FR),L,IAD_S(NSPMD+1),IAD_R(NSPMD+1),
      .        IERROR1,IERROR2,IERROR3,LS,LR,SSIZE,RSIZE,J0,NN,NR,NL,NRN,
      .        NR2,NF1
@@ -4121,7 +4121,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,N,NK,IP,L,IFIX,II,IAD2,IJ,IND,N_FR,NB,
+      INTEGER I, J, N, NK, IP, IFIX, II, IAD2, IJ, IND, N_FR, NB, 
      .        K,ND,NZZK,NJ,NZZ,IAD,JAD,ID,JD,IDK,NC,IDF,IKCFR(NDDLFR)
       INTEGER IIC(NDFRMAX),IDDLM(NUMNOD),NDN(NSPMD),NZN(NSPMD)
       INTEGER, DIMENSION(:),ALLOCATABLE :: ITAG
@@ -4365,7 +4365,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER L,IP,J
+ 
 C
 C
        IDLFT0 = DDLP0
@@ -4473,7 +4473,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NKINE,ILOC(*),INK
+      INTEGER NKINE, ILOC(*)
 C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -4520,7 +4520,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,N,K,NL,NK,NJ,NRB
+      INTEGER J, NK, NJ, NRB
 c----------------------
       NRB=NKINE-INK
       IF (IKPAT==0) THEN
@@ -4568,7 +4568,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,N,N1,N2,NE,IG,M1,M2
+      INTEGER I, NE, IG, M1, M2
 C-----------------------------------------------
        DO I = 1, JLT
 C--------secnd node-----
@@ -4746,7 +4746,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NIN,NTY,NROW(NSREM)
-      INTEGER I,J,K,L,NDOFI,N,IAD,INSV11,NRTS,
+      INTEGER N, IAD, NRTS, 
      .        INSV,NSN,NKC,J1,ND,IER1,NNMAX
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: ICOL
 C------------------------------------------------------------
@@ -5151,7 +5151,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,L,N,NL,NJ,NDOFI,NZ
+      INTEGER J, K, L, N, NL, NJ, NDOFI, NZ
       INTEGER IER1,IER2,IER3,IER4,IER5,IER6
 c----------
        NDOFI = 3
@@ -5369,7 +5369,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER LSI,LSL,IDDLM(NUMNOD),ILOCP(NUMNOD)
-      INTEGER I,J,K,L,N,NKC,J1,ND,LSG,
+      INTEGER I, J, N, NKC, ND, LSG, 
      .        NF_SL(NSL),NF_SI(NSREM),N_KINE,
      .        IAD_SLD(NSPMD+1),IAD_MLD(NSPMD+1),
      .        ISI ,ISL,NFV,LVSI,LVSL,LFSI,LFSL,NZ,
@@ -5647,7 +5647,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,ID
+      INTEGER I
 C--------------------------------------------
 C   ----- Returns KSL, KSM and receives KSS, KSLM A CONDENSER
         SSIZE = 0
@@ -6373,7 +6373,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, JLT , NFT ,ND ,J,N0,JLT_NEW,IS
+      INTEGER I, JLT, NFT, ND, J, JLT_NEW, IS
       my_real
      .     K11(3,3,MVSIZ),OFF(MVSIZ)
 C------------------------------------
@@ -6423,7 +6423,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,JDL,L,JJ
+      INTEGER K, JDL, L, JJ
 C----6---------------------------------------------------------------7---------8
          DO K=1,ND
           JDL= -1
@@ -6471,7 +6471,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,JDL,L,JJ
+      INTEGER K, JDL, L, JJ
 C----6---------------------------------------------------------------7---------8
          DO K=1,NK
           JDL=-1
@@ -6514,7 +6514,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,JDL,L,JJ
+      INTEGER K, JDL, L, JJ
 C----6---------------------------------------------------------------7---------8
          DO K=1,NK
           JDL=0
@@ -6582,7 +6582,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER LNS,LNS2,NNMAX,NZ,LNS3,LNS4
-      INTEGER I,J,K,L,N_KINE,IA2(NINT2),IA(NRBYAC),NRS(NSL)
+      INTEGER I, J, N_KINE, IA2(NINT2), IA(NRBYAC), NRS(NSL)
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: ICOL
 C------------------------------------------------------------
       DO I =1,NUMNOD
@@ -7140,12 +7140,12 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IAD_M(*),IAD_S(*),JDI_S(*),NM ,NS,J,IAD,NRJ ,NDOF(*)
+      INTEGER IAD_M(*), IAD_S(*), JDI_S(*), NM, J, IAD, NRJ, NDOF(*)
 C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,K,NR,L,IS,NK,NZ,NJ,I0,ID
+      INTEGER I, NR, L, IS, NK, NZ, NJ, I0, ID
 C----6---------------------------------------------------------------7---------8
         NR =IAD_S(IS+1)-IAD_S(IS)
         L = IAD_M(IS)
@@ -7323,7 +7323,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,N,ID,IADI,IADL,SIZE,NJ,NB,IDM,NKC
+      INTEGER I, J, K, N, ID, IADI, IADL, SIZE, NJ, NB
       LOGICAL NODOF
 C-------------------------------------
         SIZE = 9
@@ -7465,7 +7465,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER LNS,LNS2,NNMAX,NZ,LNS3,LNS4
-      INTEGER I,J,K,L,N_KINE,IA2(NINT2),IA(NRBYAC)
+      INTEGER I, J, IA2(NINT2), IA(NRBYAC)
       INTEGER, DIMENSION(:), ALLOCATABLE :: ICOL,NRS
 C------------------------------------------------------------
       ALLOCATE(NRS(NML))
@@ -8402,8 +8402,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,N,K,P,L,NL,NJ,NDOFI,NZ,NDS,NKC,IAD,J1,K1,ID,NS,NM
-      INTEGER IDDL_CP(NDDL_SI),IAD_CP(NDDL_SI+1),JDI_CP(NZ_SI),
+      INTEGER I, J, N, K, P, L, NL, NJ, NDOFI, NZ, NKC, IAD, J1, K1, ID, NS, NM
+      INTEGER IAD_CP(NDDL_SI+1), JDI_CP(NZ_SI), 
      .        IAD_M1(NSREM+1),NR,IDM,JD,IADI,
      .        IER1,IER2,IER3,IER4,IER5,IER6
       my_real
@@ -9220,7 +9220,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,N,K,M,NS,IAD_M1(NSREM+1),IS,JD,
+      INTEGER I, J, N, K, NS, IAD_M1(NSREM+1), IS, JD, 
      .        NJ,ND,NL,J1,NSS,NM,ID,IAD,NF,NR,IADI
       my_real
      .     KSM(3,3),UD(3,NFV)
@@ -9320,7 +9320,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,N,K,NL,NDOFI,IAD,IADI
+      INTEGER I, J, K, NL, NDOFI, IAD, IADI
 C
        DO I=1,NDDL_SI
         FSI(I) = ZERO
@@ -9418,7 +9418,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,N,P,ID,NJ,NB,NL,NZ,J1,K1,NK,NN,IAD,
+      INTEGER I, J, K, N, ID, NJ, NB, NL, NZ, J1, K1, NK, NN, IAD, 
      .        IER1,IER2,IER3,IER4,IER5,IER6,ND
       my_real
      .     KII(6,6)
@@ -9867,7 +9867,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,N,NK,IP,L,IFRE,II,IAD2,IJ,IND,N_FR,NB,
+      INTEGER J, N, NK, IP, IFRE, N_FR, NB, 
      .        K,ND,NZZK,NJ,NZZ,IAD,JAD,ID,JD,IDK,NC
       INTEGER, DIMENSION(:),ALLOCATABLE :: ITAG,ICONT
       my_real
@@ -9945,7 +9945,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C------- Updated ndofi for nsl ----
-      INTEGER I,J,N,IDK,NC,NDOFII
+      INTEGER I, N, NDOFII
        NDOFII = 3
       IF (NDDLI==0) THEN
        DO N =1,NUMNOD
@@ -10178,7 +10178,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,N,NK,IP,L,IFIX,II,IAD2,IJ,IND,N_FR,NB,
+      INTEGER I, J, N, NK, IP, II, IAD2, IJ, 
      .        K,ND,NZZK,NJ,NZZ,IAD,JAD,ID,JD,IDK,NC
 C
       IF (NDDLFR<=0) RETURN

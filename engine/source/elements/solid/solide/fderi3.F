@@ -74,7 +74,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NGL(*), I, J
+      INTEGER NGL(*), I
       my_real
      .   DETT(MVSIZ) ,  AJ7(MVSIZ), AJ8(MVSIZ) , AJ9(MVSIZ),
      .   AJI1(MVSIZ), AJI2(MVSIZ), AJI3(MVSIZ),

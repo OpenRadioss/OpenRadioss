@@ -356,12 +356,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IMUEL, I, J, K, NG, NINT7,NNOD,K2S,K0,IAD1,IDUM,LLL,
+      INTEGER I, J, NG, NNOD, K2S, K0, IAD1, IDUM, 
      .        LRBUF, LIBUF, ITY, IAD, NNBEM, ITYP,IROTG,NS,LF,LT,LL,L,
      .        L1,L2,ISECTR,NFR,IC,ICR,NISUB, NI25,NBR,NSENSOR,INLOC
-      INTEGER JD(50),KD(50),JFI,KFI,NMN,II,NINOUT,NNO,NEL,IFLGADM,
+      INTEGER NMN, II, IFLGADM, 
      .        N,JJ,KK, NFT, ISOLNOD,NBS
-      INTEGER, DIMENSION(SENSORS%NSENSOR) :: INDEX_SENSOR
+ 
       INTEGER, DIMENSION(:), ALLOCATABLE :: ISEND,IRECV
       INTEGER :: ITIED,NINIVELTG
       my_real :: RDUM
@@ -1261,9 +1261,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NG, ITY, N_SHELL, N_SOL(7),N_TRI,MARQUEUR,MARQUEUR_2,MARQUEUR_3
-      INTEGER I,J,II,JJ,K,INDI
-      INTEGER COMPTEUR_MAT_PROP_SHELL,COMPTEUR_MAT_PROP_SOL,COMPTEUR_MAT_PROP_TRI,
+      INTEGER NG, ITY, N_SHELL, N_SOL(7), N_TRI
+      INTEGER I, J, II, JJ, INDI
+      INTEGER COMPTEUR_MAT_PROP_SHELL, 
      .        MID,PID,MTN,NEL,NFT,FIRST,LAST,SHIFT,ISOL,GR_ID,GR_ID2
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: TAB_SHELL_LOC,TAB_TRI_LOC
       INTEGER, DIMENSION(:,:,:), ALLOCATABLE :: TAB_SOL_LOC

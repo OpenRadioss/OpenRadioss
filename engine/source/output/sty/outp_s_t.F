@@ -62,8 +62,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,NBB(20),RESP0,WRTLEN,RES
-      INTEGER NG, NEL, IADD, N,ISOLNOD,MLW,
+      INTEGER I, J, RESP0, WRTLEN, RES
+      INTEGER NG, NEL, 
      .        II,JJ,JJ_OLD, NGF, NGL, NN, LEN,FWAP0,LENWAP0,
      .        COMPTEUR,L,K,KK(6)
       INTEGER, DIMENSION(NSPGROUP) :: JJ_LOC
@@ -224,7 +224,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,N,II,JJ,NLAY,NPTR,NPTS,NPTT,IL,IR,IS,IT,IPT,
+      INTEGER I, J, K, JJ, NLAY, NPTR, NPTS, NPTT, IL, IR, IS, IT, IPT, 
      .        NG, NEL, IADD, MLW,JJ_OLD, NGF, NGL, NN, LEN, ICAS_OLD,
      .        ISOLNOD,KHBE,ITENS,TSHELL,COMPTEUR,L,KK(6)
       my_real
@@ -1036,7 +1036,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NGL,ITY,NRL,KHBE,MLW,NPT,ISOLNOD,NGF,NN,NEL,
+      INTEGER NGL, ITY, KHBE, MLW, NPT, ISOLNOD, NGF, NN, NEL, 
      .        NG,NLAY,NPTR,NPTS,NPTT,NPTG,JJ,
      .        SZP0(3*NSPGROUP+3)
 C=======================================================================

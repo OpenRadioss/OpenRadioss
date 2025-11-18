@@ -375,26 +375,24 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER NSNR_OLD,NSNR_NEW,NODFI,NNP,LSKYFI,
+      INTEGER NSNR_OLD, NSNR_NEW, NODFI, LSKYFI, 
      .        NOD, LOC_PROC, I, N, NN, P, IDEB, J, K,L,JJ, I_STOK, IX, II
       INTEGER NSNR_TOT
       INTEGER, DIMENSION(:), ALLOCATABLE :: INDEX ! renumbering cand_n
-      INTEGER  NN2,RSHIFT,ISHIFT, IOLDNSNFI, ND, JDEB, Q
+      INTEGER RSHIFT, ISHIFT, JDEB
       INTEGER, DIMENSION(:), ALLOCATABLE :: IAUX,IAUX_LOCAL,IAUX_REV,IAUX_K,IAUX_L
       INTEGER IDEB_NEW  ! shift for resulting *FI 
       INTEGER IDEB_OLD  ! shift for old *FI
       INTEGER IDEB_SLID ! shift for new sliding nodes
       INTEGER PNEW,POLD,ID_OLD,ID_NEW 
-      INTEGER SNEW,SOLD,PMAIN,NB_SLID_TOT
-      my_real,
-     .    DIMENSION(:), ALLOCATABLE :: PENEFI_OLD, STIFFI_OLD
-      INTEGER MARGIN,N_NEW_SECND,UID
+      INTEGER NB_SLID_TOT
+      INTEGER UID
       TYPE(I25_TMP_STRUCT) :: TMP
       TYPE(int_pointer) , DIMENSION(NSPMD) :: INDX_FOR_P,UID_FOR_P
       INTEGER, ALLOCATABLE, DIMENSION(:) :: PERMUTATIONS, PROC_ORIG
       INTEGER SINDEX(NSPMD), SIZE_PERM_MAX, PROC_FROM
       INTEGER WORK(70000)
-      INTEGER PLOCAL, NBLOCAL, PM, KK, KM, KI, LL, SIZREMNORFI, SIZ, NE
+      INTEGER PLOCAL, NBLOCAL, KK, KM, KI, LL, SIZREMNORFI, SIZ, NE
       INTEGER, DIMENSION(:), ALLOCATABLE :: REMNOR_FI_TMP
 C-----------------------------------------------
 C   S o u r c e  L i n e s

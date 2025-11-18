@@ -77,13 +77,13 @@ C-----------------------------------------------
       INTEGER :: NNODES    !< number of centroids
       INTEGER :: IFV       !< FVMBAG identifier in [1, NFVBAG] where NFVBAG <= NVOLU
       INTEGER :: NPOLH     !< number of polyhedra for a given airbag
-      my_real :: VALUE_X   !< polyhedron centroid X-value
-      my_real :: VALUE_Y   !< polyhedron centroid Y-value
-      my_real :: VALUE_Z   !< polyhedron centroid Z-value            
+ 
+ 
+ 
       INTEGER :: ILEN      !< loop upper bound
       
       INTEGER, ALLOCATABLE,DIMENSION(:) :: ITAB_FVMBAG
-      my_real, ALLOCATABLE,DIMENSION(:,:) :: XYZ_FVMBAG,DISP_FVMBAG
+      my_real, ALLOCATABLE,DIMENSION(:,:) :: DISP_FVMBAG
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------    

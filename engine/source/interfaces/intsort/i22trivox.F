@@ -141,7 +141,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NB_NCN,NB_NCN1,NB_ECN,I,J,K,L,DIR,NB_NC,NB_EC,
+      INTEGER I, J, K, 
      .        N1,N2,N3,N4,NN,NE,NS,NCAND_PROV,J_STOK,II,JJ,TT,
      .        OLDNUM(ISZNSNR), NSNF, NSNL,
      .        PROV_B(2*MVSIZ), PROV_E(2*MVSIZ), LAST_NE,
@@ -153,13 +153,13 @@ C-----------------------------------------------
      .   D1X,D1Y,D1Z,D2X,D2Y,D2Z,DD1,DD2,D2,A2,GS, POINT(3),
      .   ON1(3),N1N2(3)
 
-      INTEGER  IX,IY,IZ,NEXT,M1,M2,M3,M4,M5,M6,M7,M8,
+      INTEGER IX, IY, IZ, 
      .         IX1,IY1,IZ1,IX2,IY2,IZ2,IBUG,IBUG2,I_LOC,
      .         BIX1(NBRIC),BIY1(NBRIC),BIZ1(NBRIC),
      .         BIX2(NBRIC),BIY2(NBRIC),BIZ2(NBRIC),
      .         FIRST_ADD, PREV_ADD, LCHAIN_ADD, I_STOK
 
-      INTEGER :: NC, I_STOK_BAK, IPA,IPB
+      INTEGER :: NC
       my_real
      .   XMINB,YMINB,ZMINB,XMAXB,YMAXB,ZMAXB,
      .   DXB,DYB,DZB,
@@ -168,23 +168,23 @@ C-----------------------------------------------
       LOGICAL, DIMENSION(NBRIC) :: TAGB
 !      Logical, dimension (12*nbric) :: ledge
       LOGICAL :: BOOL(NIRECT_L)
-      INTEGER NBCUT, DEJA, ISONSHELL, ISONSH3N
-      INTEGER :: COUNTER, NEDGE, NFACE, NODES8(8), COUNTER_BRICK(NBRIC)
+ 
+ 
 
 c      INTEGER, DIMENSION(2,24)  :: iEDGE  !12 without diagonals, 24 with diagonals
 c      INTEGER, DIMENSION(2,2,6) :: iFACE
-      INTEGER :: iN1, iN2, iN1a, iN2a, iN1b, iN2b , iN3, iN4
-      INTEGER :: POS, IAD, IB     , NBF, NBL
-      INTEGER :: I_12bits, nbits, npqts, pqts(4), SUM, SECTION
-      INTEGER :: I_bits(12), MAX_ADD, IMIN_LOC, IMAX_LOC
+ 
+      INTEGER :: NBF, NBL
+ 
+      INTEGER :: MAX_ADD
 
       my_real ::
      .           AERADIAG,XX(8),YY(8),ZZ(8),DIAG(4)
 
-      CHARACTER*12 :: sectype
-      LOGICAL      :: IsSecDouble, IsSTO
+ 
+      LOGICAL      :: IsSTO
 
-      CHARACTER(LEN=1) filenum
+ 
 
       INTEGER ::
      .        MIN_IX_LOC, MIN_IY_LOC, MIN_IZ_LOC,            !indice voxel min utilise

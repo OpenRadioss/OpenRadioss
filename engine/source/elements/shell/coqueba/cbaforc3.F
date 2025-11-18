@@ -297,7 +297,7 @@ C-----------------------------------------------
 !
 C-----------------------------------------------
       INTEGER, DIMENSION(NEL) :: OFFLY
-      my_real, DIMENSION(:) ,POINTER     :: DIR_A, DIR_B,CRKDIR,DADV
+      my_real, DIMENSION(:) ,POINTER     :: DIR_A, DIR_B, DADV
       my_real, ALLOCATABLE, DIMENSION(:) :: DIR1_CRK,DIR2_CRK,DIRA,DIRB
       my_real
      .   EZZPG(MVSIZ,4)
@@ -307,10 +307,10 @@ C-----------------------------------------------
       my_real, 
      .   DIMENSION(:,:), ALLOCATABLE :: VAR_REG
 C-------------------------------------
-      TYPE(BUF_LAY_) ,POINTER :: BUFLY
-      TYPE(L_BUFEL_) ,POINTER :: LBUF1,LBUF2,LBUF3,LBUF4     
+ 
+ 
       TYPE(G_BUFEL_) ,POINTER :: GBUF 
-      TYPE(L_BUFEL_) ,POINTER :: LBUF
+ 
       TYPE(L_BUFEL_DIR_) ,POINTER :: LBUF_DIR
       TYPE(PINCH_LOCAL_STRUCT_) :: PINCH_LOCAL
       INTEGER SDIR_A    ! Size of DIR_A

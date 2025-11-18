@@ -149,7 +149,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J1, IG, J, JG , K0,NBINTER,K1S,K,IL,IE, NN, NI,
+      INTEGER I, J, JG, K0, NBINTER, K1S, K, IE, NN, NI, 
      .        NA1,NA2
       my_real
      .   FXI(MVSIZ), FYI(MVSIZ), FZI(MVSIZ), FNI(MVSIZ),
@@ -184,7 +184,7 @@ C-----------------------------------------------
      .   CS(MVSIZ),C1(MVSIZ),C2(MVSIZ),C3(MVSIZ),C4(MVSIZ),
      .   CX,CY,CFI,AUX,PHI1(MVSIZ), PHI2(MVSIZ), PHI3(MVSIZ),
      .   PHI4(MVSIZ),DX, DTI
-      INTEGER JSUB,KSUB,JJ,KK,IN,NSUB,IBID,ITASK,NELFT,NELLT
+      INTEGER JSUB, KSUB, JJ, KK, IN, NSUB, IBID, ITASK
       my_real FSAVSUB1(15,NISUB),IMPX,IMPY,IMPZ,PP1,PP2,PP3,PP4,BID
 C-----------------------------------------------
 C   S o u r c e   L i n e s

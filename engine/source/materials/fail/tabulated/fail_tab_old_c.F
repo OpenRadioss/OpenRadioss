@@ -76,13 +76,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  :: I,J,J1,J2,K,IP_THICK,NINDX,NINDXF,IFAIL_SH,NRATE,
+      INTEGER  :: I, J, J1, J2, K, NINDX, NINDXF, IFAIL_SH, NRATE, 
      .  IFUN_EL,IFUN_TEMP
       INTEGER, DIMENSION(NEL) :: INDX,INDXF,IPOSV,IADP,ILENP
-      INTEGER IPOST(NEL,2)
       INTEGER ,DIMENSION(NFUNC) :: IFUN_STR
 C
-      my_real  :: P,SVM,DF,FAC,LAMBDA,DCRIT,EL_REF,SC_EL,SC_TEMP,P_THICK,
+      my_real  :: P, SVM, DF, FAC, DCRIT, EL_REF, SC_EL, SC_TEMP, P_THICK, 
      .   DP,DD,DN,YY,YY_N,EF1,EF2
       my_real, DIMENSION(NFUNC) :: YFAC,RATE
       my_real, DIMENSION(NEL)   :: EPSF,EPSF_N,SIGM,YYV,DXDYV,LAMBDAV

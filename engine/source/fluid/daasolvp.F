@@ -71,11 +71,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  I, J, K, L, I1, I2, I3, I4, I5, N1, N2, N3, N4, II, JJ, KK
-      INTEGER  IFPRES, JFORM, KFORM, IPRES, IWAVE, INTEGR, FREESURF, AFTERFLOW
-      INTEGER  GRAV_ID, IFUNC, ISENS, LENBUF, NNO_L, NEL_L, NELMAX, INFO,ISMOOTH
-      INTEGER  NEBUF(NEL)
-      INTEGER  NBLOC, NPROW, NPCOL, ICTXT, DESCA(9), DESCB(9), MYROW, MYCOL, MXLLDM, NUMROC
+ 
+ 
+ 
+ 
+      INTEGER NUMROC
       EXTERNAL NUMROC
       my_real  X1,  Y1,  Z1,  X2,  Y2,  Z2,  X3,  Y3,  Z3,  X4,  Y4,  Z4,
      .         X0,  Y0,  Z0,  X12, Y12, Z12, X13, Y13, Z13, X24, Y24, Z24,    
@@ -91,7 +91,7 @@ C-----------------------------------------------
       EXTERNAL FINTER,FINTER_SMOOTH
       my_real  VECT(NEL), VECT1(NEL), VEL(NEL)
       my_real  XL(3,NNO), VL(3,NNO)
-      my_real, ALLOCATABLE :: SBUF(:), RBUF(:)
+ 
 
 #if defined(MPI) && defined(MYREAL8) && !defined(WITHOUT_LINALG)
 C SPMD contact details and velocities

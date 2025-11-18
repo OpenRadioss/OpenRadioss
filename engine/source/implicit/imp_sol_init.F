@@ -110,14 +110,14 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s 
 C-----------------------------------------------
-      INTEGER I,J,K,N,M,L,NDOFI,NDOFJ,NKINE,NMIJ2,IP,NPN,NPP,IER1,
+      INTEGER I, J, NKINE, NMIJ2, NPN, NPP, IER1, 
      .        LI1,LI2,LI3,LI4,LI5,LI6,LI7,LI8,LI9,LI10,LI11,LI12,
      .        LIF,LI13,LI14,LI15,LI16,LI17,IER2
-      INTEGER NTMP,L1,NNDLNKINE,NNMAX,NKMAX,NNDL
+      INTEGER NTMP, L1, NNMAX, NKMAX, NNDL
       INTEGER, POINTER     :: NDDL,NNZK,NRBYAC,NINT2,NMC,NMC2,NMONV
       INTEGER, DIMENSION(:) ,POINTER     :: IADK,JDIK,IDDL,NDOF,INLOC,LSIZE,I_IMP,
      .                                      IRBYAC,NSC,IINT2,NKUD,IMONV,IKINW
-      my_real, DIMENSION(:) ,POINTER     :: DIAG_K,LT_K,DIAG_M,LT_M,LB,
+      my_real, DIMENSION(:) ,POINTER     :: 
      .                                      LB0,BKUD,D_IMP,ELBUF_C,BUFMAT_C,
      .                                      X_C,DD,DDR
 C=======================================================================
@@ -532,7 +532,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s 
 C-----------------------------------------------
-      INTEGER I,J,NNDL
+      INTEGER NNDL
 C-----------------------------------------------
           IF (IDYNA==0) THEN
             CALL ZEROR(V,NUMNOD)

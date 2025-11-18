@@ -75,7 +75,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I_ADD_MAX
       PARAMETER (I_ADD_MAX = 1001)
-      INTEGER I, J,I_ADD, IP0, IP1, MAXSIZ,
+      INTEGER I_ADD, IP0, IP1, MAXSIZ, 
      .        ADD(2,I_ADD_MAX), LOC_PROC, N,
      .        NSNFIOLD(NSPMD)
 C     REAL

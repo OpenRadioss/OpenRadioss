@@ -66,14 +66,14 @@ C     REAL
       my_real
      .   OFF, P, VONM2, VONM, S1, S2, S12, S3, VALUE,THK0,A0,AL0,
      .   RHO0,XX1,XX2,XX3,YY1,YY2,YY3,ZZ1,ZZ2,ZZ3
-      INTEGER I, NG, NEL, NFT, IAD, ITY, LFT, NPT, ISS, ISC,
+      INTEGER I, NG, NEL, NFT, IAD, ITY, LFT, NPT, 
      .        IADD, N, J, LLT, MLW, 
      .        ISTRAIN,NN, K1, K2,JTURB,MT,JALE, IMID, IALEL,IPID,
      .        N1,N2,N3,N4,
      .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,
      .        OFFSET,NEL_OLD,ITY_OLD,NFT_FA,N_FA
-      INTEGER ISUBSTACK,NTHK,IADR,IIGEO,IGTYP
-      REAL R4
+      INTEGER ISUBSTACK, IGTYP
+ 
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
       NN1 = 1

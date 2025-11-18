@@ -217,7 +217,7 @@ c  O   X(3,NUMNOD)       - X0
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-       INTEGER I,J,M,NPV, I3, I2, I1
+       INTEGER I, NPV, I3, I2, I1
        my_real
      .         RSAV(3,NUMNOD), UNS
 C----------------------
@@ -334,7 +334,7 @@ c  IO  P(3,NUMNOD)       - PCG p vector
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-       INTEGER I,J,NPV, I3, I2, I1
+       INTEGER I, NPV, I3, I2, I1
        my_real
      .        S, UNS
 C----------------------
@@ -455,8 +455,8 @@ c  O   Proj_T(NUMNOD,M_VS)   - [T] =[K][S]
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-       CHARACTER          JOBZ, UPLO
-       INTEGER I,J,N,IT,IP,NLIM,ND,IUPD,IPRI,IERROR,NNZI,M,
+ 
+       INTEGER N, 
      .         INFO,LW,M_VS1,INORM,NP
        my_real
      .  WORK(3*M_VS_SMS+9), W(M_VS_SMS+3), S
@@ -545,7 +545,7 @@ c  O   Proj_S(NUMNOD,M_VS)   - [S] reduced small Eigenvectors
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-       INTEGER I,J,IT,IP,NLIM,ND,IUPD,IPRI,IERROR,NNZI,M,
+       INTEGER I, J, IUPD, 
      .         INFO,LW,INORM,NPV,ITP,SIZE,LENR,N
 C---------------------
       NPV=MIN(NUMNOD-3,M_VS_SMS)
@@ -631,7 +631,7 @@ c  I   KINET()           -
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,N
+      INTEGER J, N
       my_real
      .       ALEAT
       EXTERNAL ALEAT
@@ -683,7 +683,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I , N, J, K, L, LLT
+      INTEGER I, N, J, K, LLT
       my_real RTMP(MVSIZ), RL, RBUF
       DOUBLE PRECISION R6T(6), DBUF(6)
 C-----------------------------
@@ -971,7 +971,7 @@ c  O   C(3,MD)                       - left-hand vector
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K
+      INTEGER I
 C-----------------------------
       DO I=1,MD
        CALL SMS_PRODUT3(NODFT ,NODLT ,A(1,I) ,B ,WEIGHT ,C(1,I),ITASK)
@@ -1012,7 +1012,7 @@ c  O   C(NM,MD)          - left-hand vector
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K
+      INTEGER I, J
 C-----------------------------
       DO I=1,MD
        DO J=1,MD
@@ -1057,7 +1057,7 @@ c  IO  A(NUMNOD,MD)       - A(NDDL,MD) orthonormalized for output
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,F_DDL,L_DDL
+      INTEGER I, J
       my_real
      .  SII,SIJ,S,SJJ
 C-----------------------------
@@ -1114,7 +1114,7 @@ c  O   C(3,ND)           - left-hand vector
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K
+      INTEGER I, J
       my_real
      .  W(MD) 
 C-----------------------------

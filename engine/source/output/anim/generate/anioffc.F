@@ -71,9 +71,9 @@ C     REAL
      .        N1,N2,N3,N4,
      .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,
      .        N_FA, IHBE, SH_IH, ISTRAIN, IEXPAN, ISEATBELT
-      INTEGER RBUF,ISROT
+      INTEGER RBUF
       INTEGER,DIMENSION(:),ALLOCATABLE :: IOFFBUF
-      REAL R4
+ 
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
       CALL MY_ALLOC(IOFFBUF,NBF_L)

@@ -76,16 +76,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,J,NINDX,NINDXD,ICOUP,SEL,FAILIP
-      INTEGER ,DIMENSION(NEL) :: INDX,INDXD
-      my_real :: DCRIT, EXP,D1,DF,TRIAX,SCALE,SXX,SYY,SZZ
+      INTEGER :: I, J, NINDX, ICOUP, SEL, FAILIP
+      INTEGER ,DIMENSION(NEL) :: INDX
+      my_real :: DCRIT, EXP, DF
       
       my_real P1X,P1Y,S1X,S1Y,S2Y, A1, B1, C1, REF_EL_LEN, LAMBDA,FAC ,
      .        P , SVM,TRIAXS
       my_real X_1(3) , X_2(3)
       EXTERNAL FINTER
       my_real EPS_FAIL,FINTER
-      my_real ,DIMENSION(NEL) :: DAMAGE
+ 
 C=======================================================================
       EPS_FAIL = ZERO
       X_1(1) = UPARAM(1)

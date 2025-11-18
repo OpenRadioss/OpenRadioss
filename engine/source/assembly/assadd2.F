@@ -85,7 +85,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, N, K, L, NC1, NC, LOC_PROC, NOD, CC, lsd, lrc,
+      INTEGER I, J, N, K, NC1, NC, LOC_PROC, NOD, CC, lsd, lrc, 
      .        WORK(70000), LSD1,LRC1,NOD1,XFEM_REM_COUNT
       INTEGER,DIMENSION(:),ALLOCATABLE :: INDEX
 C-----------------------------------------------

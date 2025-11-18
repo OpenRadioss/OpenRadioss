@@ -98,9 +98,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      CHARACTER CHSTAT*4,FILNAM*100,T10*10,MES*40
-      INTEGER FILEN,I,INNODA,IERR,J,N
-      INTEGER LENR,SIZLOC,SIZP0
+      CHARACTER CHSTAT*4, FILNAM*100, T10*10, MES*40
+      INTEGER FILEN, I, IERR, J, N
+      INTEGER SIZLOC, SIZP0
       INTEGER ,  DIMENSION(:),ALLOCATABLE :: ITABG, NODTAG ,DYNAIN_INDXC ,
      .             DYNAIN_INDXTG
       INTEGER CTEXT(2149)
@@ -109,7 +109,7 @@ C-----------------------------------------------
 
       INTEGER :: LEN_TMP_NAME
       CHARACTER(len=2148) :: TMP_NAME
-      LOGICAL IS_FILE_TO_BE_WRITTEN
+ 
       CHARACTER*100 LINE
 C-----------------------------------------------
 C   S o u r c e   L i n e s

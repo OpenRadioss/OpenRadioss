@@ -53,7 +53,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N,NN, P, Q, PP, kk
+      INTEGER N, NN, P
       INTEGER,DIMENSION(:,:),ALLOCATABLE ::  I2SORT
       INTEGER LP(NSPMD+1), NP(NSPMD+1)
       my_real, DIMENSION(:), ALLOCATABLE :: M2SORT
@@ -203,7 +203,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
-      INTEGER MSGTYP,I,LOC_PROC,IERROR,
+      INTEGER I, LOC_PROC, IERROR, 
      .        SIZ,J,L,
      .        STATUS(MPI_STATUS_SIZE),
      .        IAD_SEND(NSPMD+1),IAD_RECV(NSPMD+1),
@@ -708,7 +708,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
-      INTEGER MSGTYP,I,LOC_PROC,IERROR,
+      INTEGER I, LOC_PROC, 
      .        SIZ,J,L,M,NOD,
      .        ITAG(NUMNOD),NNDFT(NSPMD),MNDFT(NSPMD),KSORT,
      .        STATUS(MPI_STATUS_SIZE),
@@ -805,7 +805,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
-      INTEGER MSGTYP,I,LOC_PROC,IERROR,
+      INTEGER MSGTYP, LOC_PROC, IERROR, 
      .        SIZ,J,L,M,NOD,P,
      .        NNZP(NSPMD),MNZP(NSPMD),
      .        STATUS(MPI_STATUS_SIZE),

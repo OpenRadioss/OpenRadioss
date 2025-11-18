@@ -59,7 +59,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IB,M,N1,N2,N3,N4,IR,IS,IT,IL,NPTR,NPTS,NPTT,NLAY,
+      INTEGER IB, M, N1, N2, N3, IR, IS, IT, IL, NPTR, NPTS, NPTT, NLAY, 
      .   I,J,K,II,JJ,I1,NG,NG1,NEL1,NFT1,MLW,NEL,
      .   MATLY,NUVAR,IVAR,ISTRA,IEXPAN,NPTM,KK(8),KK1(8)
       my_real
@@ -67,7 +67,7 @@ C-----------------------------------------------
      .   STOT,X12,Y12,Z12,X13,Y13,Z13,S2WAKE(4)
       TYPE(G_BUFEL_) ,POINTER :: GBUFS,GBUFT     
       TYPE(L_BUFEL_) ,POINTER :: LBUFS,LBUFT    
-      TYPE(BUF_LAY_) ,POINTER :: BUFLY     
+ 
 C-----------------------------------------------
       STOT=ZERO
 c

@@ -114,7 +114,7 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NGL(MVSIZ),PID(MVSIZ),NC1(MVSIZ),NC2(MVSIZ),NC3(MVSIZ),
+      INTEGER NGL(MVSIZ), PID(MVSIZ), NC1(MVSIZ), NC2(MVSIZ), 
      .        MID(MVSIZ),IEQUIL(MVSIZ)
 C     REAL
       my_real 

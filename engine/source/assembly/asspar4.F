@@ -99,10 +99,10 @@ C-----------------------------------------------
         INTEGER VSIZE, NBCC, NUM7, KM,IL,IPLY,ND
         PARAMETER (VSIZE = 8192)
         PARAMETER (NBCC = 20)
-        INTEGER I,J,L,K,N,NC,KK,JJ,JJ1,JJ2,NN,NFSKYFT_INTPLY,NFSKYLT_INTPLY,
+        INTEGER I, J, L, K, N, NC, KK, JJ1, JJ2, NN, NFSKYFT_INTPLY, NFSKYLT_INTPLY, 
      .          NISKYFT,NISKYLT,NFSKYFT,NFSKYLT,K1,K2,K3,IJK,NF,
      .          NCT,DIFFADD,NDLT,NDFT,LJ,KKEND,NSTART,KKSTART,KMAX,KSPLIT
-        INTEGER IC(NBCC+1),NN_A(VSIZE),IARRAY(VSIZE)
+ 
         my_real FF, FSKYT(NISKY)
         INTEGER :: VIND_SIZE
         INTEGER, DIMENSION(:), ALLOCATABLE :: VIND1,VIND2,VIND3
@@ -1044,7 +1044,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER K,N,NC,NCT,IDEB,LB,KK,K1,K2
+        INTEGER K, N, NC, NCT
 C-----------------------------------------------
 C Interface type2
 C-----------------------------------------------

@@ -50,7 +50,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NSNF,NMNF,NSNL,NMNL,I, J, K, II, N,IAD,NES,JG,
+      INTEGER NSNF, NMNF, NSNL, NMNL, I, J, II, 
      .        IE, I1, I2, N1, N2 
       my_real
      .  XSLV(18),XMSR(12), VSLV(6), VMSR(6)

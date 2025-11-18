@@ -138,8 +138,8 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,IFLAG,IGTYP,NUVAR,NFUNC,IFUNC_ALPHA,IMAT
-      INTEGER MAT(MVSIZ),PID(MVSIZ),NGL(MVSIZ),IFUNC(100),
+      INTEGER I, IFLAG, IGTYP, NUVAR, IFUNC_ALPHA, IMAT
+      INTEGER MAT(MVSIZ), PID(MVSIZ), NGL(MVSIZ), 
      .   NC1(MVSIZ),NC2(MVSIZ),NC3(MVSIZ),IPT
       my_real 
      .   STI(MVSIZ),STIR(MVSIZ),OFF(MVSIZ),AL(MVSIZ),EXX(MVSIZ),
@@ -162,7 +162,7 @@ C
       my_real ,DIMENSION(:) ,POINTER :: UVAR
       my_real ,DIMENSION(:) ,POINTER :: EL_TEMP
       TYPE(G_BUFEL_) ,POINTER :: GBUF
-      TYPE(BUF_LAY_) ,POINTER :: BUFLY
+ 
       TARGET :: TEMPEL,VECNUL
 C-----------------------------------------------      
        my_real FINTER 

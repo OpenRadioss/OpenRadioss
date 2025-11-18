@@ -54,7 +54,7 @@ C-----------------------------------------------
      .   INDX_CRK(*),INUM(*)
       INTEGER NBF_L,NBF
 C-----------------------------------------------
-      INTEGER I,N,II,IE,NG,ITY,NEL,NFT,IXFEM,IDCMAX,CRKS,RBUF,ELEM,ICRK,
+      INTEGER I, N, II, NG, ITY, NEL, NFT, IXFEM, IDCMAX, CRKS, RBUF, ELEM, ICRK, 
      .   NEL_CRK,NLEVXF
       my_real OFF
 C=======================================================================

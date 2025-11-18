@@ -89,7 +89,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,IK,IE,IS,IC,NK,III(MVSIZ,17),LLT,NFT,LE,FIRST,LAST,
+      INTEGER I, K, IE, IC, III(MVSIZ, 17), LLT, NFT, LE, FIRST, LAST, 
      .        I16,LES,IES,IIIS(MVSIZ,16),LEL(MVSIZ),LESL(MVSIZ),
      .        IE_MIN,IES_MIN, IERR1, IERR2
       my_real
@@ -319,7 +319,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IK,NK,I1,I2,I3,I4,IAD,ICON,
+      INTEGER I, J, 
      +        ICONT(MVSIZ,4)
       my_real
      .   VX,VY,VZ,VN,AA,VV,PENE
@@ -1435,7 +1435,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IK,NK,I1,I2,I3,I4,IES,IIS
+      INTEGER I, IK, IES, IIS
       my_real
      .   VX,VY,VZ,VN,AA
 C-----------------------------------------------------------------------
@@ -1559,7 +1559,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IK,NK,I1,I2,I3,I4,IAD,NN,LEM,J1,J2,NISKYL,IES,IIS,
+      INTEGER I, IK, LEM, J1, J2, NISKYL, IES, IIS, 
      .        NISKYFIL
       my_real
      .   VX,VY,VZ,VN,AA,SURF,EP2,XE,YE,ZE,XA,YA,ZA,XB,YB,ZB,XC,YC,ZC,

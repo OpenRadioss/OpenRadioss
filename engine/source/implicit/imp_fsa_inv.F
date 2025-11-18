@@ -44,7 +44,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  I,J,K
+      INTEGER K
 C-----------------------------------------------
       NC=0
       DO K =IADK(IL),IADK(IL+1)-1
@@ -83,7 +83,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  I,J,N,K,I1,IFSAI,IOPT
+      INTEGER I, J, K, IFSAI, IOPT
       my_real
      .  PSR
 C-----------------------------------------------
@@ -517,7 +517,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J
+      INTEGER I
 C---- 6 ----- IC is already in an increasing order ----------------------------------- 7 -------- 8
       INTAB0=0
       IF (N<IC(1).OR.N>IC(NIC)) RETURN
@@ -564,7 +564,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J
+      INTEGER I
 C----6-----ICi est deja en ordre croissante--return indice dans IC1--7---------8
       INTAB2=0
       IF (IC1(NIC1)<IC2(1).OR.IC2(NIC2)<IC1(1)) RETURN
@@ -612,7 +612,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C--- M->A^-1 LT_M  strictly lower in m.c.r.s. format
-      INTEGER I,J,K,M,N,NC,IADA(MAXC+1),JDIA(MAX_A),JM(MAXC+1)
+      INTEGER I, J, K, M, NC, IADA(MAXC+1), JDIA(MAX_A), JM(MAXC+1)
       INTEGER MAX_L,IERR,I_CHK
       my_real
      .   DIAG_A(MAXC),MJ(MAXC),
@@ -709,7 +709,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IT,IP,NLIM,ND,IPRE,NNZM,ISTOP,ITOL,ISP
+      INTEGER I, J, IT, NLIM, ND, IPRE, NNZM, ISTOP, ITOL, ISP
       my_real
      .   S , R2, R02,ALPHA,BETA,G0,G1,RR,TOLS,TOLN,TOLS2
       my_real
@@ -939,7 +939,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C--- M->A^-1 LT_M  strictly lower in m.c.r.s. format
-      INTEGER I,J,K,M,N,NC,IERR
+      INTEGER I, J, K, M, NC, IERR
       INTEGER MAX_L,I_CHK
       INTEGER, DIMENSION(:),ALLOCATABLE :: IADA,JDIA,JM
       my_real, DIMENSION(:),ALLOCATABLE :: DIAG_A,LT_A,MJ
@@ -1031,7 +1031,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER  NDDL ,NNZ ,IADK(*),JDIK(*),MAXC ,MAX_A ,NNE,
+      INTEGER NDDL, IADK(*), JDIK(*), MAXC, MAX_A, NNE, 
      .         IDLFT0 ,IDLFT1,MAX_D,IADM(*),JDIM(*)
 C     REAL
       my_real
@@ -1040,7 +1040,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C--- M->A^-1 LT_M  strictly lower in m.c.r.s. format
-      INTEGER I,J,K,M,N,NC,IADA(MAXC+1),JDIA(MAX_A),JM(MAXC+1)
+      INTEGER I, J, K, M, NC, IADA(MAXC+1), JDIA(MAX_A), JM(MAXC+1)
       INTEGER MAX_L,IERR,I_CHK
       my_real
      .   DIAG_A(MAXC),MJ(MAXC),
@@ -1141,7 +1141,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  I,J,K,NZ,IERR,MNZ,INORM
+      INTEGER I, J, NZ, IERR, MNZ, INORM
       INTEGER, DIMENSION(:),ALLOCATABLE :: IADL,JDIL
       my_real
      .   MIN_D,MAX_D,MTOL,DD,TAUX
@@ -1293,7 +1293,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  IADM(NDDL+1),JDIM(MAXL),ICOL(NDDL)
-      INTEGER  I,JD,J,K,N,NM
+      INTEGER I, JD, J, K
       my_real
      .  LT_M(MAXL)
 C-----------------------------------------------
@@ -1365,7 +1365,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C--- M->A^-1 LT_M  strictly lower in m.c.r.s. format
-      INTEGER I,J,K,M,N,NC,MAX_L,IERR,I_CHK,IER1,
+      INTEGER I, J, K, M, NC, MAX_L, IERR, I_CHK, IER1, 
      .        JM(MAXC+1)
       my_real
      .   DIAG_C(NDDL-IDLFT1+1),LT_C(MAX_D+1)
@@ -1479,7 +1479,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER  NDDL ,NNZ ,IADK(*),JDIK(*),MAXC ,MAX_A ,NNE,
+      INTEGER NDDL, IADK(*), JDIK(*), MAXC, MAX_A, NNE, 
      .         IDLFT0 ,IDLFT1,MAX_D,IADM(*),JDIM(*),ITASK
 C     REAL
       my_real
@@ -1488,7 +1488,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C--- M->A^-1 LT_M  strictly lower in m.c.r.s. format
-      INTEGER I,J,K,M,N,NC,MAX_L,IERR,I_CHK,IER1,
+      INTEGER I, J, K, M, NC, MAX_L, IERR, I_CHK, IER1, 
      .        JM(MAXC+1)
       my_real
      .   DIAG_C(NDDL-IDLFT1+1),LT_C(MAX_D+1)
@@ -1592,7 +1592,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  I,J,K
+      INTEGER K
 C-----------------------------------------------
       NC=0
       DO K =IADK(IL),IADK(IL+1)-1
@@ -1639,7 +1639,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C--- M->A^-1 LT_M  strictly lower in m.c.r.s. format
-      INTEGER J,K,M,N,MAX_L,IERR,IER1,IADA(NC+1),JM(NC)
+      INTEGER J, K, M, MAX_L, IERR, IER1, IADA(NC+1), JM(NC)
 c     .        IADA(NC+1),JDIA(MAX_A),JM(NC)
 c      my_real
 c     .      DIAG_A(NC),LT_A(MAX_A),MJ(NC)
@@ -1739,7 +1739,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C--- M->A^-1 LT_M  strictly lower in m.c.r.s. format
-      INTEGER I,J,K,M,N,NC,MAX_L,IERR,I_CHK,IER1,
+      INTEGER I, J, K, NC, MAX_L, I_CHK, 
      .        ITSK,F_DDL,L_DDL,N1
       my_real
      .   DIAG_C(NDDL-IDLFT1+1),LT_C(MAX_D+1)
@@ -1821,7 +1821,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER  NDDL ,NNZ ,IADK(*),JDIK(*),MAXC ,MAX_A ,NNE,
+      INTEGER NDDL, IADK(*), JDIK(*), MAXC, MAX_A, NNE, 
      .         IDLFT0 ,IDLFT1,MAX_D,IADM(*),JDIM(*)
 C     REAL
       my_real
@@ -1830,7 +1830,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C--- M->A^-1 LT_M  strictly lower in m.c.r.s. format
-      INTEGER I,J,K,M,N,NC,MAX_L,IERR,I_CHK,IER1,
+      INTEGER I, J, K, NC, MAX_L, I_CHK, 
      .        ITSK,F_DDL,L_DDL,N1
       my_real
      .   DIAG_C(NDDL-IDLFT1+1),LT_C(MAX_D+1)

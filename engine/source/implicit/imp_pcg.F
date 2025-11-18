@@ -2423,7 +2423,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  I,NLIM
+      INTEGER NLIM
 C-----------------------------
 C      
       IT_PCG = IT_PCG + ITN
@@ -2463,7 +2463,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  I
+ 
 C-----------------------------
        IF (ISOLV/=5.AND.ISOLV/=6) RETURN
        IF (IPUPD>0) THEN
@@ -2492,7 +2492,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J
+ 
 C-----------------------------------------------
        MIXEDSOL=.FALSE.
        IF ((ISOLV==5.OR.ISOLV==6).AND.IT_PCG<0) MIXEDSOL=.TRUE.
@@ -2546,7 +2546,7 @@ c  O   X(NDDL)           - X0
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-       INTEGER I,J,M,NPV
+       INTEGER I, NPV
 C----------------------
        IF (NPCGPV == 0) RETURN
         NPV = NPCGPV
@@ -2618,7 +2618,7 @@ c  IO  P(NDDL)           - PCG p vector
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-       INTEGER I,J,NPV
+       INTEGER I, NPV
        my_real
      .  P1(NDDL)
 C----------------------
@@ -2680,7 +2680,7 @@ c  I   S(ND,NPV)         - S-Matrix
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-       INTEGER I,J,M,INORM
+       INTEGER I, J
 C---------------------
        DO J=NPF,NPL
        DO I=F_ND ,L_ND
@@ -3832,8 +3832,8 @@ c  I   W1,W2             - work arrays
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-       CHARACTER          JOBZ, UPLO
-       INTEGER I,J,IT,IP,NLIM,ND,IUPD,IPRI,IERROR,NNZI,M,
+ 
+       INTEGER I, 
      .         INFO,LW,M_VS1,INORM,NP
        my_real
      .  WORK(3*M_VS+3),W(M_VS+1)
@@ -3965,7 +3965,7 @@ c  IO   P,Y,X,R(NDDL)      -work vectors
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-       INTEGER I,J,IT,IP,NLIM,ND,IUPD,IPRI,IERROR,NNZI,M,
+       INTEGER I, IUPD, 
      .         F_DDLI,L_DDLI,INFO,LW,INORM,NPV,ITP
         my_real
      .     ALPHA,BETA, G0,G1,S

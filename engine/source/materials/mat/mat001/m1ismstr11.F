@@ -52,7 +52,7 @@ C----------------------------------------------------------------
 C----------------------------------------------------------------
 C  L O C A L  V A R I B L E S
 C----------------------------------------------------------------
-      INTEGER    I,J,K,IFAST(MVSIZ),NPRIN,INDEX(MVSIZ),NFAST
+      INTEGER I, K, IFAST(MVSIZ), NPRIN, INDEX(MVSIZ)
       my_real
      .    SV(3),EV(MVSIZ,3),DIRPRV(MVSIZ,3,3),EKK,DAV,P3,
      .    ESPIN1(MVSIZ), ESPIN2(MVSIZ), ESPIN3(MVSIZ), 

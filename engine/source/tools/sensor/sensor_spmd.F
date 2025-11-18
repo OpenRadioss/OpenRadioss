@@ -75,13 +75,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER K, TYP, LEN, IN, N5, ISENSUSR, I, LEN1,LOC_PROC,
+      INTEGER K, TYP, LEN, IN, N5, ISENSUSR, LOC_PROC, 
      .        ISENST1, ISENST2, KK, N1, N2,M,
      .        IBUF(NSENSOR), ISENST10,ISENST13,J
       my_real RBUF(NSENSOR*LSENBUF), RXBUF(5,2*NSENSOR)
 
       INTEGER :: MY_SIZE
-      CHARACTER(len=4) :: MY_OPERATION
+ 
       REAL(kind=8), DIMENSION(:), ALLOCATABLE :: SBUF_DOUBLE,RBUF_DOUBLE
       INTEGER :: I2,I3,I4,IDX
      

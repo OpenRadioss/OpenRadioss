@@ -75,8 +75,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, K, L, JJ, INTERSECT, N, ITQ, N4N, IT, IKEEP, MGLOB, NINDX, ITOLD
-      INTEGER I4N(MVSIZ), INDX(MVSIZ), I1, I2, II,
+      INTEGER I, J, K, JJ, N, N4N, IT, ITOLD
+      INTEGER I4N(MVSIZ), I1, I2, 
      .        ITRIA(2,4), INEIGH(3,4), MARQUE(4,MVSIZ),
      .        SUBTRIA_N(MVSIZ), IT1, IB1, IB2, IB3, IBX, IX, IY, IZ
       my_real
@@ -113,7 +113,7 @@ C-----------------------------------------------
      .     N1X,N1Y,N1Z,N1N,
      .     N2X,N2Y,N2Z,N2N,
      .     LX, LAX, LBX, LCX, LD(MVSIZ), DMIN
-      INTEGER ISHEL(MVSIZ)
+ 
       DATA ITRIA/1,2,2,3,3,4,4,1/,
      .     INEIGH/4,3,2,1,4,3,2,1,4,3,2,1/
 C-----------------------------------------------------------------------
@@ -932,7 +932,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IT, I, J, L, N, MGLOB
+      INTEGER IT, I, J
 C--------------------------------------------------------
 C      Back to global arrays
 C--------------------------------------------------------

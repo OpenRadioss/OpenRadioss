@@ -98,7 +98,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER INDX0(MVSIZ),IFLAG,INDX(MVSIZ)
-      INTEGER I,J,JJ,IADBUF,NINDX,NINDX0,
+      INTEGER I, J, NINDX, NINDX0, 
      .        IFAIL,IMATLY
       my_real 
      .   K1,K2,K3,K,

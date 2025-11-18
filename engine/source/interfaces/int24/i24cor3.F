@@ -108,7 +108,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I ,J  ,IL, L, NN, IG,JFT, IX,  NI,IGF,IPT,IE,NS1,NS2,
+      INTEGER I, J, L, NN, IG, IX, NI, IGF, IE, NS1, NS2, 
      .        ICONT1,ICONT2,NSI,IPT2,NS
       my_real
      .        SX1, SY1, SZ1, SX2, SY2, SZ2, NORM, DTS
@@ -744,7 +744,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C----- get edge NS1,NS2 and--Secnd seg id :IE-
       INTEGER ITAG(NRTSE),IE1,IE2
-      INTEGER I ,J  ,IL, L, NN, IG,JFT, IX,  NI,IGF,IPT,IE,NS1,NS2,
+      INTEGER I, NN, NI, IE, 
      .        ICONT1,ICONT2,NSI,IPT2,NS,ip
 C=======================================================================
 C----IRTSE(5,*) -> id of edge  
@@ -828,8 +828,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C----- get edge NS1,NS2 and--Secnd seg id :IE-
-      INTEGER IE1,IE2
-      INTEGER I ,J  ,IL, L, NN, IG,JFT, IX,  NI,IGF,IPT,IE,NS1,NS2,
+ 
+      INTEGER I, NN, NI, 
      .        ICONT1,ICONT2,NSI,IPT2,NS,ip
 C=======================================================================
 C----IRTSE(5,*) -> id of edge  
@@ -906,8 +906,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C----- get edge NS1,NS2 and--Secnd seg id :IE-
-      INTEGER IE1,IE2
-      INTEGER I ,J  ,IL, L, IG,JFT, IX,  NI,IGF,IPT,IE,NS1,NS2,
+ 
+      INTEGER JFT, NI, 
      .        ICONT1,ICONT2,NSI,IPT2,ip,SN
 C=======================================================================
 C----IRTSE(5,*) -> id of edge  
@@ -976,7 +976,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I ,J  ,L, NN, IG,JFT, IX,  NI
+      INTEGER I, L, NN, NI
       my_real
      .   STIF_S,STIF_R(MVSIZ),F_PFIT,FA,FB,FAB
 C-----------------------------------------------
@@ -1081,7 +1081,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I ,J  ,EM,ES, NN, IG,JFT, IX,  NI
+      INTEGER I, EM, ES, NN, NI
       my_real
      .   STIF_S,STIF_R(MVSIZ),F_PFIT,FA,FB,FAB
 C-----------------------------------------------

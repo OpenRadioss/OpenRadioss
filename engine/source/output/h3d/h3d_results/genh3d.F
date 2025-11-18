@@ -320,7 +320,7 @@ C-----------------------------------------------
      .          NODGLOB(*),IAD_ELEM(2,*),FR_ELEM(*),FR_WALL(*), IFLOW(*),
      .          IPARI(NPARI,*),IRBE2(NRBE2L,*),IRBE3(NRBE3L,*),
      .          WEIGHT_MD(*),NODGLOBXFE(*),IPARTIG3D(*)
-        INTEGER CTEXT(111), IB
+ 
         INTEGER DD_IAD(NSPMD+1,*)
         INTEGER FR_SEC(NSPMD+1,*),FR_RBY2(3,*),IAD_RBY2(4,*),
      .          NERBE2T(NRBE2G),
@@ -357,24 +357,22 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER iterator
+ 
         my_real, DIMENSION(:), ALLOCATABLE :: WAFT  , MAS   
-        INTEGER IAD(SIAD),INVERT(SINVERT),EL2FA(SEL2FA),IADG(NSPMD,SIADG),FIRST_NODE_IG3D
-        my_real ,DIMENSION (:), ALLOCATABLE :: CBUF
-        INTEGER ,DIMENSION (:), ALLOCATABLE :: ICBUF
-        SAVE CBUF,ICBUF
-        CHARACTER*80 STR,H3DTITLE
+        INTEGER IAD(SIAD), INVERT(SINVERT), EL2FA(SEL2FA), IADG(NSPMD, SIADG)
+ 
+        CHARACTER*80 H3DTITLE
         CHARACTER(LEN=NCHARLINE100):: KEYWORD
         CHARACTER CH_H3D*4,FILNAM*100
-        INTEGER I, NBF, NBPART, J, IFUNC, FILEN, NSENSOR,NELCUT,N,K,NERBY,ISK(6),LAYER,IPT,GAUSS,ID_PLY,IUVAR
-        INTEGER II,II_L,INC,NDMA2,NB1D,NBONED_T, NBF_L, LEN
-        INTEGER NERBE2,NERBE3,ALL_SUB_CHILDS,IDMDS,IMDSVAR,ID
+        INTEGER I, NBF, NBPART, J, IFUNC, FILEN, NSENSOR, NELCUT, K, NERBY, LAYER, IPT, GAUSS, ID_PLY, IUVAR
+        INTEGER II, INC, NDMA2, NBF_L
+        INTEGER NERBE2, NERBE3, ALL_SUB_CHILDS, IDMDS, IMDSVAR
         INTEGER I161,I16A,I16B,I16C,I16D,I16E,I16F,I16G,I16H,I16I,I16J,I16K,I16L,I16M,I16N
         INTEGER NNN
         INTEGER ISPH3D
         INTEGER SBUFSPM,SBUFRECVM,SBUFSPO,SPORBY,N_OUTP_DATA,LEN_H3DTITLE,N_H3D_PART_LIST
         my_real CDG(3),XMIN,YMIN,ZMIN,XMAX,YMAX,ZMAX, SCALE
-        INTEGER JJ, SUBG,IR,IS,IT,INTER_INPUT,INTERSKID,NI,ITYSKID,INTERFRIC
+        INTEGER IR, IS, IT, INTER_INPUT, INTERSKID, NI, ITYSKID, INTERFRIC
         INTEGER, DIMENSION(:), ALLOCATABLE :: SHELL_ID,SHELL_ID_P,
      .                                        SHELL_ITY,SHELL_ITY_P,ONED_ID,ONED_ID_P,
      .                                        ONED_ITY,ONED_ITY_P,SOLID_ID,SOLID_ID_P,
@@ -433,7 +431,7 @@ c to be made allocatable
      .           IMAPSKP
         my_real, DIMENSION(:), ALLOCATABLE :: X_P,D_P
         INTEGER, DIMENSION(:), ALLOCATABLE :: ITAB_P
-        INTEGER :: IAD_H3DPART,IAD_P,NUMNODG0,IP0 ,NIXSKIN
+        INTEGER :: NUMNODG0, IP0, NIXSKIN
         INTEGER :: NUMNOD_P(NSPMD)
         INTEGER MAX_NOD_ID,MAX_NCORN
         REAL(KIND=4), DIMENSION(:), ALLOCATABLE :: SHELL_STACK
@@ -481,7 +479,7 @@ c to be made allocatable
         CHARACTER(len=2148) :: TMP_NAME
         CHARACTER RADVERS*68
         TYPE(FVBAG_DATA), DIMENSION(:), ALLOCATABLE :: FVDATA_P
-        my_real, DIMENSION(:), ALLOCATABLE :: FVDATA_1D_ARRAY,FVDATA_1D_ARRAY_P
+        my_real, DIMENSION(:), ALLOCATABLE :: FVDATA_1D_ARRAY
         INTEGER ITMP,MODE
         TYPE USER_NOD_ID_
           !VIRTUAL NODES MANAGEMENT
@@ -508,7 +506,7 @@ c to be made allocatable
         INTEGER :: MAX_SHELL_STACKSIZE          ! Maximum number of shell scalar to write
         INTEGER :: SHELL_STACKSIZE              ! Number of shell scalar to write
         INTEGER :: SHELL_STACKSIZE_P0           ! total shell scalar to write after gather
-        integer elem
+ 
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------

@@ -54,7 +54,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IOPT, IBID, NDDLG, IPRI, IWKLI, LTITR1, NDDLC
+ 
       my_real
      .        RBID
       CHARACTER TITRE*80
@@ -99,7 +99,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IOPT, NDDLG, IPRI, IBID, IWKLI, LTITR1, NDDLC, NR
+ 
       my_real
      .        RBID
       CHARACTER TITRE*80

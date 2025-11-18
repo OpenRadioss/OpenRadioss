@@ -95,7 +95,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,II,J,K,L,N1,N2,N3,N4,N5,N6,N7,N8,
+      INTEGER I, II, J, K, N1, N2, N3, N4, N5, N6, N7, N8, 
      .        L_NLOC,NDDL,NDNOD,NINDX6,INDX6(NEL),
      .        NINDX8,INDX8(NEL)
       INTEGER :: NODA_DT

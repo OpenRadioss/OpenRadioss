@@ -176,8 +176,8 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real
      .    HH(MVSIZ),FICI(5),FICS(4,4),FICSTH(4,5)
-      INTEGER I, J1, IG, NISKYL1, NISKYL,IGP,IGM,IDR,NISKYFIL,J
-      INTEGER ITG,NN,ILY,JG,IXSS(4)
+      INTEGER I, IG, NISKYL1, NISKYL, IGP, IGM, NISKYFIL
+ 
 C
       NISKYL1 = 0
       DO I = 1, JLT
@@ -419,7 +419,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real
      .    HH(MVSIZ),FICI(5),FICS(4,4),FICSTH(4,5),FACT
-      INTEGER I, J1, IG,ILY,NN,JG,IXSS(4),NFIC,J,ISHIFT,NODFI
+      INTEGER I, J1, IG, ISHIFT, NODFI
 
 C      
       IF(INTTH == 0) THEN

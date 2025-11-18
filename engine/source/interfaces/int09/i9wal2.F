@@ -75,7 +75,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER II, N, L, JJ, NN, LL, LL1, LL2, LG, KK, KKK, K1, K2,
+      INTEGER II, N, L, JJ, NN, LL, LL1, LL2, LG, KK, KKK, K1, 
      .   I1, I2, IERR, IGROU, IELN,
      .   IXX(4), IPERM(2), JPERM(2),
      .   ITEMP(2), IS, IM, ILEN,
@@ -90,7 +90,7 @@ C     REAL
      .   TSTIFT, PHI, AREAS, AREAM, VN, WN, STENSY, STENSZ,
      .   COMAREA(ISIZEM+ISIZES),COMSTF(ISIZEM+ISIZES),
      .   COMT(ISIZEM+ISIZES),COMVOL(ISIZEM+ISIZES),COMBUF(ISIZEM+ISIZES)
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
+ 
 c
       DATA IPERM/ 2, 1/,JPERM/ 1, -1/
 C-----------------------------------------------

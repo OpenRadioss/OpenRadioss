@@ -57,7 +57,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,II,J,K,N,I1,NLAY,NPTR,NPTS,NPG,IR,IS,JJ(5),DIM,IDRAPE,IGTYP
+      INTEGER I, J, N, NLAY, NPTR, NPTS, NPG, IR, IS, JJ(5), IDRAPE, IGTYP
       my_real
      .   X1(NEL),  X2(NEL),  X3(NEL), X4(NEL),
      .   Y1(NEL),  Y2(NEL),  Y3(NEL), Y4(NEL),
@@ -75,9 +75,9 @@ C-----------------------------------------------
      .   V1,V2,V3,VR,VS,AA,BB,SUMA
       my_real, 
      .   DIMENSION(:) , POINTER :: DIR1
-      TYPE(G_BUFEL_)  , POINTER :: GBUF   
+ 
       TYPE(L_BUFEL_)  , POINTER :: LBUF   
-      TYPE(L_BUFEL_DIR_)  , POINTER :: LBUF_DIR   
+ 
 C=======================================================================
       NPTR = ELBUF_STR%NPTR
       NPTS = ELBUF_STR%NPTS

@@ -533,7 +533,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      integer iter,i1
+ 
       my_real delta,fc1,etac,guess,pmax,
      .        trans,transr,transp,trans1,trans2,dbdeta,detar,detap,
      .        dedr,dedp,bth,dbdt,detrdt,detpdt,dpdt,dbdf,detrdf,

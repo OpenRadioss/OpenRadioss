@@ -64,7 +64,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IDX, N1, N2, N3, ITYP,IADG, J,NTITLE,IUS,ILAY,IPT
+      INTEGER IDX, N1, N2, IADG, ILAY, IPT
       my_real X0,Y0,Z0,VNX,VNY,VNZ,V0
       LOGICAL :: LAW51_PHASE1, LAW51_PHASE2, LAW51_PHASE3, LAW51_PHASE4
 C-----------------------------------------------

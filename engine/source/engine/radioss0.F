@@ -51,20 +51,20 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER MRDATA, MIDATA,IO_ERR,FVERS
+      INTEGER MRDATA, MIDATA
       PARAMETER(MRDATA=3,MIDATA=9)
       INTEGER, DIMENSION(:),ALLOCATABLE :: IDATA
       my_real
      +       , DIMENSION(:),ALLOCATABLE :: RDATA
       INTEGER I
-      CHARACTER FNAME*2048 
-      INTEGER LFNAME
-      INTEGER DUM_IERR
+      CHARACTER FNAME*2048
+ 
+ 
       INTEGER :: DYN_LIB_MODE
 C     Reading the D01 file to detect the /MADYMO/ON option
 C     is not allowed in SPMD.
 C     => A modify if this option should be supported in SPMD ../ ..
-      INTEGER ISTDI
+ 
       CHARACTER KEYA*80
 C----------------------------------------------
 C Run argument parameters

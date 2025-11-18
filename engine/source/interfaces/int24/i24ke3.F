@@ -78,7 +78,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J,I_STOK, JLT_NEW, JLT , NFT, IVIS2,
+      INTEGER I, J, I_STOK, JLT, NFT, 
      .        IBC, NOINT, NSEG, ISECIN, IBAG, IADM,
      .        IGAP, INACTI, IFQ, MFROT, IGSTI, NISUB,
      .        NB_LOC, I_STOK_LOC,DEBUT,
@@ -114,7 +114,7 @@ C     REAL
      .    KK11(9,MVSIZ),KL11(9,MVSIZ),KI12(9,MVSIZ),
      .    KJ12(9,MVSIZ),KK12(9,MVSIZ),KL12(9,MVSIZ),
      .    LL_SL(MVSIZ),LL_ML(MVSIZ)
-      INTEGER NRTMFT, NRTMLT, NMNFT, NMNLT, NRADM
+ 
       INTEGER ICURV,INTKG1
       INTEGER, DIMENSION(:),ALLOCATABLE :: TAG_S,TAG_M
       INTEGER :: NSN, NMN
@@ -318,7 +318,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J1, J, K,IG,ISF,NN,NS,JLTF,NE,JG,N,ip
+      INTEGER I, J, K, ISF, NN, NS, JLTF, NE, JG, N, ip
       my_real
      .   VX(MVSIZ), VY(MVSIZ), VZ(MVSIZ), VN(MVSIZ), 
      .   S2,FAC,FACF, H0, LA1, LA2, LA3, LA4,FACT(MVSIZ),
@@ -326,7 +326,7 @@ C-----------------------------------------------
       my_real
      .   PREC,Q11,Q12,Q13,Q22,Q23,Q33,H00,VTX,VTY,VTZ,VT,
      .   KT1,KT2,KT3,KT4,Q1,Q2,DPENE(MVSIZ),VNM(MVSIZ)
-      INTEGER NA1,NA2
+ 
       my_real
      .   A0X,A0Y,A0Z,RX,RY,RZ,
      .   ANX,ANY,ANZ,AAN,AAX,AAY,AAZ ,RR,RS,AAA ,TM,TS
@@ -587,7 +587,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J1, J, K,IG,ISF,NN,NS,JLTF,NE,NM
+      INTEGER I, J, NS, NM
       my_real
      .   S2,FAC,FACF, H0, LA1, LA2, LA3, LA4,
      .   D1,D2,D3,D4,A1,A2,A3,A4,KN(4,MVSIZ),LNS,LNS1

@@ -69,11 +69,11 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER , DIMENSION(:), ALLOCATABLE :: ELNOI,ELG,NOIADD
       my_real,DIMENSION(:),ALLOCATABLE ::  C
-      INTEGER IPELNOI,IPNOIADD,IPTC
+ 
       INTEGER IFIRST,I,K,L,NE,NC,KK,IAD, LEN
       my_real PI1,PI2,TOL,TE,TC,FNE,FAC,DEC,TO,TRANS,XI,W,CC,TTN
       INTEGER LENGTH, ITAG(0:NUMNOD)
-      SAVE IFIRST,TE,IPTC,C,NC,TO,IPELNOI,ELNOI,ELG,IPNOIADD,NOIADD
+      SAVE IFIRST,TE,C,NC,TO,ELG,NOIADD
       DATA IFIRST/0/
       my_real WA(NNOISE)
 C-----------------------------------------------

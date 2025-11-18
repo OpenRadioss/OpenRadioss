@@ -95,7 +95,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       REAL R4
-      INTEGER ITITLE(100), IFILNAM(100), ICODE, I, NJOINV, NRBAGV,
+      INTEGER ITITLE(100), IFILNAM(100), ICODE, I, 
      .   NG, II, N, IH, ITY, NEL, NFT, K, MTN, NACCELV,
      .   IRUNR,NVAR,MID,PID,IAD1,IAD2,J,IAD,LTITL,NRECORD,
      .   SEEK_LOC,IPART1,IPART2    
@@ -107,7 +107,7 @@ C     REAL
       CHARACTER (LEN=LTITLE) :: CARD
       CHARACTER CH80*80,TITL*100,VAR*10
       INTEGER :: LEN_TMP_NAME, TITLSUM
-      INTEGER, DIMENSION(20) :: TEXT
+ 
       CHARACTER(len=2148) :: TMP_NAME
       INTEGER, dimension(:), allocatable :: IWA
 C-----------------------------------------------

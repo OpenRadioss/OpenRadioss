@@ -70,7 +70,7 @@ C-----------------------------------------------
      .   SHK(2),SHT(2),Z01(11,11)
       TYPE(G_BUFEL_) ,POINTER :: GBUFS,GBUFT     
       TYPE(L_BUFEL_) ,POINTER :: LBUFS,LBUFT    
-      TYPE(BUF_LAY_) ,POINTER :: BUFLY     
+ 
 C---------------------------
       DATA QPG/-0.5,-0.5,
      .          0.5,-0.5,

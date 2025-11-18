@@ -165,7 +165,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I
+ 
       my_real
      .  X(NDDL0)
 C-----------------------------
@@ -198,7 +198,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I
+ 
       my_real
      .  X(NDDL)
 C-----------------------------
@@ -235,7 +235,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I
+ 
       my_real
      .  X(NDDL0)
 C-----------------------------
@@ -273,7 +273,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I
+ 
       my_real
      .  X(NDDL0),Y(NDDL0)
 C-----------------------------
@@ -598,7 +598,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,II,KK,IBID
+      INTEGER I, J, K, II, KK
       my_real
      .   L_K
 C-----------------------------
@@ -988,7 +988,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  L2,L3,L4,L5,L6
+      INTEGER L2, L3, L4, L5
 C----length of ELBUF,BUFMAT--------
       L1=SELBUF
       L2=SBUFMAT
@@ -1058,7 +1058,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  LI1,LI2,LI3,LI4,LI5,LI6,LL,N,IAD,JD(50),JFI,
+      INTEGER LI1, LI2, LI3, LI4, LI5, LL, N, 
      .         ITY,IGSTI,NREBOU
 C--------------Iflag= 1->copy; 2 ->restore---------------
       LI1=SELBUF
@@ -1166,7 +1166,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,N
+      INTEGER I, J, K
       my_real
      .   L_K,W_TMP(NDDL)
 C----------------------------
@@ -1649,7 +1649,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I
+ 
 C-----------------------------
        IF (ITASK == 0 ) THEN
         ALLOCATE(TMP_W1(NDDL))
@@ -1703,7 +1703,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I
+ 
 C-----------------------------
        IF (ITASK == 0 ) THEN
         ALLOCATE(TMP_W1(NDDL0))
@@ -1757,7 +1757,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I
+ 
 C-----------------------------
        IF (ITASK == 0 ) THEN
         ALLOCATE(TMP_W1(NDDL0),TMP_W2(NDDL0))
@@ -1807,7 +1807,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,N
+      INTEGER I, J, K
       my_real
      .   L_K
 C----------------------------
@@ -1883,7 +1883,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  N, LENS,LENR,INACTI,NSN,NMN,IERR,IID,RID,I,P,
+      INTEGER LENS, LENR, INACTI, IERR, IID, RID, I, P, 
      .         IGAP,ITYP,LENS0,LENR0,INTTH,J,JFI,JD(50),ITY,IGSTI,
      .         NREBOU
 C--------------------------------------------
@@ -2498,7 +2498,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J
+ 
 C-----------------------------
             CALL MAV_LU_H(NDDL   ,
      1                    F_DDL  ,L_DDL   ,IADL  ,JDIL   ,DIAG_K ,   
@@ -2772,7 +2772,7 @@ c  O   C(NM)             - left-hand vector
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K
+      INTEGER I
 C-----------------------------
       DO I=1,MD
        CALL PRODUT_H( F_ND ,L_ND ,A(1,I)  ,B  ,WDDL ,C(I),ITASK)
@@ -2814,7 +2814,7 @@ c  O   C(ND)             - left-hand vector
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K
+      INTEGER I, J
       my_real
      .  W(MD) 
 C-----------------------------
@@ -2863,7 +2863,7 @@ c  O   C(NM,MD)             - left-hand vector
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K
+      INTEGER I, J
 C-----------------------------
       DO I=1,MD
        DO J=1,MD
@@ -2996,7 +2996,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C------Hybrid----produit {w}=[K']{v}=Lm[K]Lm^t{v} (Lm=L_M*sqrt(Diag_M))--DIAG_M->sqrt()--
 C--------------if M=Lm*D*Lm^t, should be -> [K']=sqrt(D)*Lm^t[K]Lm*sqrt(D)
-      INTEGER I,J,K
+      INTEGER I
       my_real
      .  ZW1(NDDL) 
 C--------------------------------------------
@@ -3201,7 +3201,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,N,II,KK
+      INTEGER I, J, K, II, KK
       my_real
      .   L_K
 C----------------------------
@@ -3270,7 +3270,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  F_DDL  ,L_DDL ,ITSK
-      INTEGER I ,N,J
+      INTEGER J
       my_real
      .  RL
 C-----------------------------
@@ -3371,7 +3371,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I
+ 
       my_real
      .  TMP_W1(NDDL0)
 C----------to // IMP_SETB,CONDENS_B-------------------
@@ -3409,7 +3409,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I
+ 
       my_real
      .  TMP_W1(NDDL0),TMP_W2(NDDL0)
 C-----------------------------

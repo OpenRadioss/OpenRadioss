@@ -64,7 +64,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: BOOL
-      INTEGER :: II,I,N,IH,NG,ITY,MTE,K,IP,L,
+      INTEGER :: II, I, N, IH, NG, ITY, MTE, K, IP, 
      .   LWA,NEL,NFT,IPROP,IGTYP,J,JJ(6)
       INTEGER :: NN,IAD,IADV,NVAR,ITYP,NITER,J_FIRST
       INTEGER, DIMENSION(NTHGRP2) :: INDEX_RESSORT

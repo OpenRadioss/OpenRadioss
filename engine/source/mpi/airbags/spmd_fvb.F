@@ -251,7 +251,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER II, I, ITAG, LEN, ITAB(3,NSPMD-1),
+      INTEGER II, I, ITAB(3, NSPMD-1), 
      .        STAT(MPI_STATUS_SIZE,2*(NSPMD-1)), IERR, LENI, LENR,
      .        IAD, I1, I2, IAD1, IAD2,
      .        J, J1, ITABL(3), PMAIN, MSGOFF

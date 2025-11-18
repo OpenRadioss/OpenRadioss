@@ -157,10 +157,10 @@ C     REAL
      .     RYAV, RZAV,DEN, C, CP, EXYP,
      .     X21PHI, Y21PHI, Z21PHI, VX21PHI, VY21PHI, VZ21PHI,
      .     RYAV1, RZAV1, RYAV1P, RZAV1P,ASRATE,NOT_USED(2)
-      my_real :: MAX_SLOPE(MVSIZ)
+ 
       DOUBLE PRECISION X0DP(MVSIZ)
       my_real ,DIMENSION(:), POINTER :: COORD_OLD
-      LOGICAL :: ANY_PYTHON_FUNCTION
+ 
       TARGET :: NOT_USED 
 C-----------------------------------------------
 C

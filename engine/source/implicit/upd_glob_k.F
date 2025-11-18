@@ -102,7 +102,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K
+      INTEGER I
       my_real,
      .         DIMENSION(:),ALLOCATABLE :: DOFSPC
 C----IKC(NDDL) : 1->fix_global,2->Ud_global,3,4->fv_rw,5->Int2_0,6->Int2_1,7->RB-
@@ -236,7 +236,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,NL,ND,IFIX(NDDL),NFT,JLT,NZF,NZL
+      INTEGER J, K, NL, ND, IFIX(NDDL), NFT, JLT, NZF, NZL
 C -----update---condense-IKC>=1------------------------------------
       ND = NDDL
       NDDL=0
@@ -285,7 +285,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IADK1(NDL+1),JDIK1(NZL)
-      INTEGER I,J,K,I1,J1,ND,NI,JI
+      INTEGER I, J, K, NI, JI
       my_real
      .  LT_K1(NZL)
 C -----update---condense-IKC>=1------------------------------------
@@ -339,7 +339,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IADK1(NDDL+1),JDIK1(NNZ),IFIX(NDDL)
-      INTEGER I,J,K,I1,J1,ND,NI,JI,NL
+      INTEGER I, J, K, ND, NI, NL
 C -----update---condense-IKC>=1------------------------------------
        IF (NDDL==0) RETURN
         DO I = 1,NDDL+1
@@ -498,8 +498,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER LUJI(NFXVEL),IBID
-      INTEGER I,J,N, IAD,NTY,NDDL0,IIC(NDDLI),ND,
+      INTEGER LUJI(NFXVEL)
+      INTEGER I, N, IAD, NDDL0, IIC(NDDLI), ND, 
      .        ITOK1(NDDLI),IDEN(NDDL),NNZK0,L1,L2,K,IKP,NN
 C     REAL
       my_real
@@ -693,7 +693,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,N,JI,JB,K1,IFLAG
+      INTEGER I, N, K1, IFLAG
       my_real,
      .         DIMENSION(:,:),ALLOCATABLE :: MA,INA
       my_real,
@@ -882,7 +882,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,N,JI,JB,K1,IFLAG,ND
+      INTEGER IFLAG
       my_real
      .  LB(NDDL0) ,REXT
 C------------------------------------------
@@ -976,7 +976,7 @@ C-----------------------------------------------
 C----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,N,ND,NNZ
+      INTEGER I, J, N, ND
       my_real
      .  U(NDDL),F(NDDL),R2
 C-------D=0 for free dof------------
@@ -1096,7 +1096,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NIN,NTY,NSN
-      INTEGER I,J,K,L,NDOFI,N,IAD,
+      INTEGER IAD, 
      .        IDREC,INSV,INS11,NRTS
 C-----------------------------------------------
       IAD=1
@@ -1167,7 +1167,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,N,N1,N2,NE,IG,M(4)
+      INTEGER I, J, N1, NE, IG, M(4)
       my_real
      .  H(4),US(3)
 C-------Missed SPMD----------------------------------------
@@ -1232,7 +1232,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,N,N1,N2,NE,IG,M1,M2,NS(2),NM(2)
+      INTEGER I, J, NE, IG, NS(2), NM(2)
       my_real
      .  HS(2) ,HM(2),US(3,2),VM
 C-----------------------------------------------
@@ -1568,7 +1568,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,IGAP, INACTI, IFQ, MFROT, IGSTI,INTY
+      INTEGER INTY
       INTEGER JX1(MVSIZ), JX2(MVSIZ), JX3(MVSIZ), JX4(MVSIZ),
      .        NSVG(MVSIZ), I3N ,IGIMP
       INTEGER, DIMENSION(MVSIZ) :: IX1,IX2,IX3,IX4
@@ -1674,7 +1674,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IL, IG, L, NN,M(4),J,NS
+      INTEGER I, M(4), J, NS
       my_real
      .   H(4),US(3)
 C-----------------------------------------------
@@ -1745,7 +1745,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NMN,JI,K10,K11,K12,K13,K14,J,K
-      INTEGER I,N,M,L,NS,ID,NM,NSN,IAD,ICOL,N1,N2,N3
+      INTEGER I, N, M, NS, NM, NSN, IAD, ICOL, N1, N2, N3
 C-----------------------------------------------
        DO I=1,NUMNOD
         DOFSPC(I)=NDOF(I)
@@ -1892,7 +1892,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J  ,K
+ 
       MY_REAL
      .    X21,Y21,Z21,X31,Y31,Z31,PR
 C
