@@ -1139,7 +1139,7 @@
                  ssp    ,uvar   ,vartmp ,off    ,ngl    ,impl_s ,             &
                  epsd   ,ipla   ,sigy   ,defp   ,inloc  ,lbuf%planl,          &
                  dpla   ,et     ,al_imp ,signor ,amu    ,dpdm  ,              &
-                 yldfac ,lbuf%dmg)          
+                 yldfac ,lbuf%dmg,l_sigb,l_dmg,l_planl)          
 !
           else if (mtn == 37) then
             if (n2d == 0) then

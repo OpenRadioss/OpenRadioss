@@ -56,7 +56,7 @@
                  soundsp ,uvar    ,vartmp  ,off     ,ngl     ,impl_s ,          &
                  epsd    ,ipla    ,yld     ,pla     ,inloc   ,planl  ,          &
                  dpla1   ,etse    ,al_imp  ,signor  ,amu     ,dpdm   ,          &
-                 yldfac  ,dmg     )
+                 yldfac  ,dmg     ,l_sigb  ,l_dmg   ,l_planl )
 ! ------------------------------------------------------------------------------
 !       modules
 ! ------------------------------------------------------------------------------
@@ -82,21 +82,26 @@
         integer, intent(in) :: ipla
         integer, intent(in) :: inloc
         integer, intent(in) :: impl_s
+        integer ,intent(in) :: l_sigb
+        integer ,intent(in) :: l_dmg
+        integer ,intent(in) :: l_planl
         integer ,dimension(nel), intent(in) :: ngl
-        integer ,dimension(nel,nvartmp)   ,intent(inout) :: vartmp
-        real(kind=wp)                     ,intent(in)    :: timestep,time
-        type(matparam_struct_)            ,intent(in)    :: mat_param
-        real(kind=wp), dimension(mvsiz)   ,intent(in)    :: dpdm
-        real(kind=wp) ,dimension(nel)     ,intent(in)    :: epsxx,epsyy,epszz,epsxy,epsyz,epszx
-        real(kind=wp) ,dimension(nel)     ,intent(in)    :: depsxx,depsyy,depszz,depsxy,depsyz,depszx
-        real(kind=wp) ,dimension(nel)     ,intent(inout) :: sigoxx,sigoyy,sigozz,sigoxy,sigoyz,sigozx
-        real(kind=wp) ,dimension(nel)     ,intent(inout) :: epsd,etse,amu,yldfac,dmg,planl
-        real(kind=wp) ,dimension(nel)     ,intent(inout) :: signxx,signyy,signzz, signxy,signyz,signzx
-        real(kind=wp), dimension(nel)     ,intent(inout) :: sigbxx,sigbyy,sigbzz,sigbxy,sigbyz,sigbzx
-        real(kind=wp) ,dimension(nel)     ,intent(inout) :: soundsp,dpla1,al_imp
-        real(kind=wp) ,dimension(nel)     ,intent(inout) :: off,yld,pla
-        real(kind=wp) ,dimension(mvsiz,6) ,intent(inout) :: signor
-        real(kind=wp) ,dimension(nel,nuvar),intent(inout):: uvar
+        integer ,dimension(nel,nvartmp)      ,intent(inout) :: vartmp
+        real(kind=wp)                        ,intent(in)    :: timestep,time
+        type(matparam_struct_)               ,intent(in)    :: mat_param
+        real(kind=wp), dimension(mvsiz)      ,intent(in)    :: dpdm
+        real(kind=wp) ,dimension(nel)        ,intent(in)    :: epsxx,epsyy,epszz,epsxy,epsyz,epszx
+        real(kind=wp) ,dimension(nel)        ,intent(in)    :: depsxx,depsyy,depszz,depsxy,depsyz,depszx
+        real(kind=wp) ,dimension(nel)        ,intent(inout) :: sigoxx,sigoyy,sigozz,sigoxy,sigoyz,sigozx
+        real(kind=wp) ,dimension(nel)        ,intent(inout) :: epsd,etse,amu,yldfac
+        real(kind=wp) ,dimension(nel)        ,intent(inout) :: signxx,signyy,signzz, signxy,signyz,signzx
+        real(kind=wp), dimension(nel*l_sigb) ,intent(inout) :: sigbxx,sigbyy,sigbzz,sigbxy,sigbyz,sigbzx
+        real(kind=wp) ,dimension(nel)        ,intent(inout) :: soundsp,dpla1,al_imp
+        real(kind=wp) ,dimension(nel)        ,intent(inout) :: off,yld,pla
+        real(kind=wp) ,dimension(mvsiz,6)    ,intent(inout) :: signor
+        real(kind=wp) ,dimension(nel*l_dmg)  ,intent(inout) :: dmg
+        real(kind=wp) ,dimension(nel*l_planl),intent(inout) :: planl
+        real(kind=wp) ,dimension(nel,nuvar)  ,intent(inout) :: uvar
 !-----------------------------------------------
 !   l o c a l   v a r i a b l e s
 !-----------------------------------------------
