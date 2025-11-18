@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_iget_partn   ../engine/source/mpi/anim/spmd_iget_partn.F
 !||    write_i_c         ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
+!||    element_mod       ../common_source/modules/elements/element_mod.F90
 !||    my_alloc_mod      ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
       SUBROUTINE DELNUMBF(IPARG  ,IXT   ,IXP      ,IXR  ,EL2FA ,

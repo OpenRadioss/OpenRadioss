@@ -1447,6 +1447,8 @@ C
 !||    printtet10       ../engine/source/system/timer.F
 !||    printtet4        ../engine/source/system/timer.F
 !||    printtriangles   ../engine/source/system/timer.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod      ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE PRINTIMEG(IPARG,PM,IPM,IXC,IXTG,IXS)        
 C     timers display routine
@@ -1847,6 +1849,8 @@ C
 !||    printimeg     ../engine/source/system/timer.F
 !||--- calls      -----------------------------------------------------
 !||    my_fsort      ../engine/source/system/timer.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE PRINTCOQUES(IPARG,IXC,IPM,THEOGP,NUMSHG)
 C-----------------------------------------------
@@ -1972,6 +1976,8 @@ c     .                '         TIMETHEO             DIFF      PCT'
 !||    printimeg      ../engine/source/system/timer.F
 !||--- calls      -----------------------------------------------------
 !||    my_fsort       ../engine/source/system/timer.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE PRINTSOLIDES(IPARG,THEOGP,NUMSOLG,IPM,IXS)
 C-----------------------------------------------
@@ -2079,11 +2085,13 @@ C-----------------------------------------------
 
       END
 !||====================================================================
-!||    printtet4   ../engine/source/system/timer.F
+!||    printtet4     ../engine/source/system/timer.F
 !||--- called by ------------------------------------------------------
-!||    printimeg   ../engine/source/system/timer.F
+!||    printimeg     ../engine/source/system/timer.F
 !||--- calls      -----------------------------------------------------
-!||    my_fsort    ../engine/source/system/timer.F
+!||    my_fsort      ../engine/source/system/timer.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE PRINTTET4(IPARG,THEOGP,NUMSOLG,IPM,IXS)
 C-----------------------------------------------
@@ -2598,6 +2606,8 @@ C
 !||--- calls      -----------------------------------------------------
 !||    printime_mp       ../engine/source/system/timer.F
 !||    spmd_ex_cputime   ../engine/source/mpi/output/spmd_ex_cputime.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod       ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE CUMULTIME_MP(
      1          TAILLE,IPARG,

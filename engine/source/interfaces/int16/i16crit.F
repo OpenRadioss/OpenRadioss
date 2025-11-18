@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    i20box          ../engine/source/interfaces/int16/i16crit.F
 !||    i8box           ../engine/source/interfaces/int16/i16crit.F
 !||--- uses       -----------------------------------------------------
+!||    element_mod     ../common_source/modules/elements/element_mod.F90
 !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
 !||====================================================================
        SUBROUTINE I16CRIT(
@@ -216,10 +217,12 @@ C
       RETURN
       END
 !||====================================================================
-!||    i16box    ../engine/source/interfaces/int16/i16crit.F
+!||    i16box        ../engine/source/interfaces/int16/i16crit.F
 !||--- called by ------------------------------------------------------
-!||    i16crit   ../engine/source/interfaces/int16/i16crit.F
-!||    i17crit   ../engine/source/interfaces/int17/i17crit.F
+!||    i16crit       ../engine/source/interfaces/int16/i16crit.F
+!||    i17crit       ../engine/source/interfaces/int17/i17crit.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE I16BOX(LFT ,LLT  ,NELEM,EMINX,NMEF,NMEL,
      2                  X   ,V    ,A    ,IXS ,IXS16,SIZE,
@@ -522,10 +525,12 @@ C
       RETURN
       END
 !||====================================================================
-!||    i20box    ../engine/source/interfaces/int16/i16crit.F
+!||    i20box        ../engine/source/interfaces/int16/i16crit.F
 !||--- called by ------------------------------------------------------
-!||    i16crit   ../engine/source/interfaces/int16/i16crit.F
-!||    i17crit   ../engine/source/interfaces/int17/i17crit.F
+!||    i16crit       ../engine/source/interfaces/int16/i16crit.F
+!||    i17crit       ../engine/source/interfaces/int17/i17crit.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE I20BOX(LFT ,LLT  ,NELEM,EMINX,NMEF,NMEL,
      2                  X   ,V    ,A    ,IXS ,IXS20,SIZE,
@@ -851,9 +856,11 @@ C
       RETURN
       END
 !||====================================================================
-!||    i10box    ../engine/source/interfaces/int16/i16crit.F
+!||    i10box        ../engine/source/interfaces/int16/i16crit.F
 !||--- called by ------------------------------------------------------
-!||    i16crit   ../engine/source/interfaces/int16/i16crit.F
+!||    i16crit       ../engine/source/interfaces/int16/i16crit.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE I10BOX(LFT ,LLT  ,NELEM,EMINX,NMEF,NMEL,
      2                  X   ,V    ,A    ,IXS ,IXS10,SIZE,
@@ -973,9 +980,11 @@ C
       RETURN
       END
 !||====================================================================
-!||    i8box     ../engine/source/interfaces/int16/i16crit.F
+!||    i8box         ../engine/source/interfaces/int16/i16crit.F
 !||--- called by ------------------------------------------------------
-!||    i16crit   ../engine/source/interfaces/int16/i16crit.F
+!||    i16crit       ../engine/source/interfaces/int16/i16crit.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE I8BOX(LFT ,LLT  ,NELEM,EMINX,NMEF,NMEL,
      2                  X   ,V    ,A    ,IXS ,SIZE,

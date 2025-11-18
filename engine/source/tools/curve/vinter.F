@@ -40,10 +40,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sigeps127          ../engine/source/materials/mat/mat127/sigeps127.F90
 !||    sigeps127c         ../engine/source/materials/mat/mat127/sigeps127c.F90
 !||    sigeps187          ../engine/source/materials/mat/mat187/sigeps187.F
-!||    sigeps36           ../engine/source/materials/mat/mat036/sigeps36.F
-!||    sigeps36c          ../engine/source/materials/mat/mat036/sigeps36c.F
-!||    sigeps36g          ../engine/source/materials/mat/mat036/sigeps36g.F
-!||    sigeps36pi         ../engine/source/materials/mat/mat036/sigeps36pi.F
 !||    sigeps43c          ../engine/source/materials/mat/mat043/sigeps43c.F
 !||    sigeps43g          ../engine/source/materials/mat/mat043/sigeps43g.F
 !||    sigeps44           ../engine/source/materials/mat/mat044/sigeps44.F
@@ -117,7 +113,6 @@ C
 !||    fail_tab2_ib        ../engine/source/materials/fail/tabulated/fail_tab2_ib.F90
 !||    fail_tab2_s         ../engine/source/materials/fail/tabulated/fail_tab2_s.F
 !||    fail_tab_c          ../engine/source/materials/fail/tabulated/fail_tab_c.F
-!||    m36iter_imp         ../engine/source/materials/mat/mat036/m36iter_imp.F
 !||    mat121_newton       ../engine/source/materials/mat/mat121/mat121_newton.F
 !||    mat121_nice         ../engine/source/materials/mat/mat121/mat121_nice.F
 !||    mat121c_newton      ../engine/source/materials/mat/mat121/mat121c_newton.F
@@ -130,8 +125,6 @@ C
 !||    sigeps121c          ../engine/source/materials/mat/mat121/sigeps121c.F
 !||    sigeps158c          ../engine/source/materials/mat/mat158/sigeps158c.F
 !||    sigeps28            ../engine/source/materials/mat/mat028/sigeps28.F
-!||    sigeps36            ../engine/source/materials/mat/mat036/sigeps36.F
-!||    sigeps36c           ../engine/source/materials/mat/mat036/sigeps36c.F
 !||    sigeps56            ../engine/source/materials/mat/mat056/sigeps56.F
 !||    sigeps60            ../engine/source/materials/mat/mat060/sigeps60.F
 !||    sigeps68            ../engine/source/materials/mat/mat068/sigeps68.F
@@ -204,7 +197,6 @@ C
 !||====================================================================
 !||    vinter2dp       ../engine/source/tools/curve/vinter.F
 !||--- called by ------------------------------------------------------
-!||    m36iter_imp     ../engine/source/materials/mat/mat036/m36iter_imp.F
 !||    redef3          ../engine/source/elements/spring/redef3.F90
 !||    redef3_law113   ../engine/source/elements/spring/redef3_law113.F
 !||    rkenonl         ../engine/source/elements/spring/r4mat3.F
@@ -265,18 +257,17 @@ C
       END
 
 !||====================================================================
-!||    finter2       ../engine/source/tools/curve/vinter.F
+!||    finter2     ../engine/source/tools/curve/vinter.F
 !||--- called by ------------------------------------------------------
-!||    fixfingeo     ../engine/source/constraints/general/impvel/fixfingeo.F
-!||    m36iter_imp   ../engine/source/materials/mat/mat036/m36iter_imp.F
-!||    sigeps52      ../engine/source/materials/mat/mat052/sigeps52.F
-!||    sigeps53      ../engine/source/materials/mat/mat053/sigeps53.F
-!||    sigeps56      ../engine/source/materials/mat/mat056/sigeps56.F
-!||    sigeps60      ../engine/source/materials/mat/mat060/sigeps60.F
-!||    sigeps65      ../engine/source/materials/mat/mat065/sigeps65.F
-!||    sigeps66      ../engine/source/materials/mat/mat066/sigeps66.F
-!||    sigeps66c     ../engine/source/materials/mat/mat066/sigeps66c.F
-!||    sigeps74      ../engine/source/materials/mat/mat074/sigeps74.F
+!||    fixfingeo   ../engine/source/constraints/general/impvel/fixfingeo.F
+!||    sigeps52    ../engine/source/materials/mat/mat052/sigeps52.F
+!||    sigeps53    ../engine/source/materials/mat/mat053/sigeps53.F
+!||    sigeps56    ../engine/source/materials/mat/mat056/sigeps56.F
+!||    sigeps60    ../engine/source/materials/mat/mat060/sigeps60.F
+!||    sigeps65    ../engine/source/materials/mat/mat065/sigeps65.F
+!||    sigeps66    ../engine/source/materials/mat/mat066/sigeps66.F
+!||    sigeps66c   ../engine/source/materials/mat/mat066/sigeps66c.F
+!||    sigeps74    ../engine/source/materials/mat/mat074/sigeps74.F
 !||====================================================================
       my_real FUNCTION FINTER2(TF,IAD,IPOS,ILEN,XX,DYDX)
 C-----------------------------------------------

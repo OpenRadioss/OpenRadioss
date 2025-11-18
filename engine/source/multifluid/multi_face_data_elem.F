@@ -35,6 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    snorm3                 ../engine/source/multifluid/snorm3.F
 !||    snorm3t                ../engine/source/multifluid/snorm3t.F
 !||--- uses       -----------------------------------------------------
+!||    element_mod            ../common_source/modules/elements/element_mod.F90
 !||    multi_fvm_mod          ../common_source/modules/ale/multi_fvm_mod.F90
 !||====================================================================
       SUBROUTINE MULTI_FACE_ELEM_DATA(ITASK, IPARG, IXS, IXQ, IXTG, XGRID, WGRID, MULTI_FVM)

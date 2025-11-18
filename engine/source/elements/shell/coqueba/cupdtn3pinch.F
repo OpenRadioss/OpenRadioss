@@ -24,6 +24,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    cupdtn3pinch   ../engine/source/elements/shell/coqueba/cupdtn3pinch.F
 !||--- called by ------------------------------------------------------
 !||    cbaforc3       ../engine/source/elements/shell/coqueba/cbaforc3.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE CUPDTN3PINCH(
      1                        JFT  ,JLT    ,NVC  ,IXC       , 

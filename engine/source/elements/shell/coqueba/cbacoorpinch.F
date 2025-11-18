@@ -24,6 +24,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    cbacoorpinch   ../engine/source/elements/shell/coqueba/cbacoorpinch.F
 !||--- called by ------------------------------------------------------
 !||    cbaforc3       ../engine/source/elements/shell/coqueba/cbaforc3.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||====================================================================
        SUBROUTINE CBACOORPINCH( 
      1                         TNPG    ,VPINCHXYZ ,VPINCH ,

@@ -24,6 +24,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    qrota_group       ../engine/source/output/anim/generate/qrota_group.F
 !||--- called by ------------------------------------------------------
 !||    h3d_quad_tensor   ../engine/source/output/h3d/h3d_results/h3d_quad_tensor.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod       ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE QROTA_GROUP(
      1   X,       IXQ,     KCVT,    TENS,

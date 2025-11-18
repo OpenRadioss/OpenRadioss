@@ -36,6 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    t4_tstrain                ../engine/source/output/h3d/h3d_results/h3d_solid_tensor_1.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod              ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod               ../common_source/modules/elements/element_mod.F90
 !||    initbuf_mod               ../engine/share/resol/initbuf.F
 !||    names_and_titles_mod      ../common_source/modules/names_and_titles_mod.F
 !||    schlieren_mod             ../engine/share/modules/schlieren_mod.F

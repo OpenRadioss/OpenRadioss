@@ -32,6 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    upd_tmax       ../engine/source/output/upd_outmax.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||    outmax_mod     ../common_source/modules/outmax_mod.F
 !||    stack_mod      ../engine/share/modules/stack_mod.F
 !||====================================================================

@@ -21,15 +21,17 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    assem_s10    ../engine/source/implicit/assem_s10.F
+!||    assem_s10     ../engine/source/implicit/assem_s10.F
 !||--- called by ------------------------------------------------------
-!||    s10ke3       ../engine/source/elements/solid/solide10/s10ke3.F
+!||    s10ke3        ../engine/source/elements/solid/solide10/s10ke3.F
 !||--- calls      -----------------------------------------------------
-!||    ass10_kkii   ../engine/source/implicit/assem_s10.F
-!||    ass10_kkij   ../engine/source/implicit/assem_s10.F
-!||    ass10_kkji   ../engine/source/implicit/assem_s10.F
-!||    assem_kii    ../engine/source/implicit/imp_glob_k.F
-!||    assem_kij    ../engine/source/implicit/imp_glob_k.F
+!||    ass10_kkii    ../engine/source/implicit/assem_s10.F
+!||    ass10_kkij    ../engine/source/implicit/assem_s10.F
+!||    ass10_kkji    ../engine/source/implicit/assem_s10.F
+!||    assem_kii     ../engine/source/implicit/imp_glob_k.F
+!||    assem_kij     ../engine/source/implicit/imp_glob_k.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE ASSEM_S10(
      1                   IXS   ,IXS10 ,NEL   ,IDDL  ,NDOF  ,

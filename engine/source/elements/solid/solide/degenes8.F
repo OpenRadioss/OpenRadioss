@@ -21,16 +21,18 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    degenes8     ../engine/source/elements/solid/solide/degenes8.F
+!||    degenes8      ../engine/source/elements/solid/solide/degenes8.F
 !||--- called by ------------------------------------------------------
-!||    s8cforc3     ../engine/source/elements/thickshell/solide8c/s8cforc3.F
-!||    s8eforc3     ../engine/source/elements/solid/solide8e/s8eforc3.F
-!||    s8sforc3     ../engine/source/elements/solid/solide8s/s8sforc3.F
-!||    s8zforc3     ../engine/source/elements/solid/solide8z/s8zforc3.F
-!||    sdlen_dege   ../engine/source/elements/solid/solide/sdlen_dege.F
-!||    sdlen_sms    ../engine/source/elements/solid/solidez/sdlen_sms.F
+!||    s8cforc3      ../engine/source/elements/thickshell/solide8c/s8cforc3.F
+!||    s8eforc3      ../engine/source/elements/solid/solide8e/s8eforc3.F
+!||    s8sforc3      ../engine/source/elements/solid/solide8s/s8sforc3.F
+!||    s8zforc3      ../engine/source/elements/solid/solide8z/s8zforc3.F
+!||    sdlen_dege    ../engine/source/elements/solid/solide/sdlen_dege.F
+!||    sdlen_sms     ../engine/source/elements/solid/solidez/sdlen_sms.F
 !||--- calls      -----------------------------------------------------
-!||    intab        ../engine/source/implicit/ind_glob_k.F
+!||    intab         ../engine/source/implicit/ind_glob_k.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE DEGENES8(
      1   IXS,     IDEGE,   NEL)

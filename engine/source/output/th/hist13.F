@@ -32,6 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    write_i_c              ../common_source/tools/input_output/write_routines.c
 !||    wrtdes                 ../engine/source/output/th/wrtdes.F
 !||--- uses       -----------------------------------------------------
+!||    element_mod            ../common_source/modules/elements/element_mod.F90
 !||    inoutfile_mod          ../common_source/modules/inoutfile_mod.F
 !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
 !||====================================================================

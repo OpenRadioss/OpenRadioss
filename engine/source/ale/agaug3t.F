@@ -26,6 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    agauge                 ../engine/source/ale/agauge.F
 !||--- uses       -----------------------------------------------------
 !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+!||    element_mod            ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE AGAUG3T(LGAUGE,GAUGE,PHI,IXTG  ,X    ,ALE_CONNECT )
       USE ALE_CONNECTIVITY_MOD

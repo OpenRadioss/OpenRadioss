@@ -32,6 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    write_r_c          ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod        ../common_source/modules/elements/element_mod.F90
 !||    initbuf_mod        ../engine/share/resol/initbuf.F
 !||    my_alloc_mod       ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
@@ -3401,6 +3402,7 @@ C-----------
 !||    srota6             ../engine/source/output/anim/generate/srota6.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod        ../common_source/modules/elements/element_mod.F90
 !||    initbuf_mod        ../engine/share/resol/initbuf.F
 !||====================================================================
       SUBROUTINE TENSGPS1(FUNC1   ,FUNC2   ,IPARG   ,GEO     ,
@@ -3646,6 +3648,7 @@ C-----------------------------------------------
 !||    srota6             ../engine/source/output/anim/generate/srota6.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod        ../common_source/modules/elements/element_mod.F90
 !||    initbuf_mod        ../engine/share/resol/initbuf.F
 !||====================================================================
       SUBROUTINE TENSGPS2(FUNC1   ,FUNC2   ,IPARG   ,GEO     ,
@@ -3901,6 +3904,7 @@ C-----------
 !||    szsigpara          ../engine/source/elements/solid/solidez/szsigpara.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod        ../common_source/modules/elements/element_mod.F90
 !||    initbuf_mod        ../engine/share/resol/initbuf.F
 !||    my_alloc_mod       ../common_source/tools/memory/my_alloc.F90
 !||    outmax_mod         ../common_source/modules/outmax_mod.F
@@ -4628,14 +4632,16 @@ C-----------------------------------------------
       RETURN
       END SUBROUTINE TENSGPS3
 !||====================================================================
-!||    shlrotg    ../engine/source/output/anim/generate/tensor6.F
+!||    shlrotg       ../engine/source/output/anim/generate/tensor6.F
 !||--- called by ------------------------------------------------------
-!||    tencgps1   ../engine/source/output/anim/generate/tensorc.F
-!||    tencgps2   ../engine/source/output/anim/generate/tensorc.F
-!||    tensgps1   ../engine/source/output/anim/generate/tensor6.F
-!||    tensgps2   ../engine/source/output/anim/generate/tensor6.F
+!||    tencgps1      ../engine/source/output/anim/generate/tensorc.F
+!||    tencgps2      ../engine/source/output/anim/generate/tensorc.F
+!||    tensgps1      ../engine/source/output/anim/generate/tensor6.F
+!||    tensgps2      ../engine/source/output/anim/generate/tensor6.F
 !||--- calls      -----------------------------------------------------
-!||    clskew3    ../engine/source/elements/sh3n/coquedk/cdkcoor3.F
+!||    clskew3       ../engine/source/elements/sh3n/coquedk/cdkcoor3.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE SHLROTG(JFT     ,JLT     ,NFT     ,X       ,TENS    ,
      1                   ITY     ,IXC     ,IXTG    ,IHBE    ,AREA    )
@@ -4746,6 +4752,7 @@ C-----------------------------------------------
 !||    szsigpara             ../engine/source/elements/solid/solidez/szsigpara.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod           ../common_source/modules/elements/element_mod.F90
 !||    initbuf_mod           ../engine/share/resol/initbuf.F
 !||    my_alloc_mod          ../common_source/tools/memory/my_alloc.F90
 !||====================================================================
@@ -5451,6 +5458,8 @@ C-----------------------------------------------
 !||--- calls      -----------------------------------------------------
 !||    sortho3         ../engine/source/elements/solid/solide/sortho3.F
 !||    srepisot3       ../engine/source/elements/solid/solide/srepisot3.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod     ../common_source/modules/elements/element_mod.F90
 !||====================================================================
         SUBROUTINE PRE_HEPH(X,IXS,JR0,JS0,JT0,PM,MAT,NU,NFT,NEL)
         use element_mod , only : nixs

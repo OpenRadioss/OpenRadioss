@@ -27,6 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- calls      -----------------------------------------------------
 !||    spmd_exch_nodarea   ../engine/source/mpi/anim/spmd_exch_nodarea.F
 !||--- uses       -----------------------------------------------------
+!||    element_mod         ../common_source/modules/elements/element_mod.F90
 !||    h3d_mod             ../engine/share/modules/h3d_mod.F
 !||    output_mod          ../common_source/modules/output/output_mod.F90
 !||====================================================================
@@ -883,6 +884,7 @@ C
 !||    spmd_exch_nodarea   ../engine/source/mpi/anim/spmd_exch_nodarea.F
 !||    spmd_glob_dsum9     ../engine/source/mpi/interfaces/spmd_th.F
 !||--- uses       -----------------------------------------------------
+!||    element_mod         ../common_source/modules/elements/element_mod.F90
 !||    h3d_mod             ../engine/share/modules/h3d_mod.F
 !||    output_mod          ../common_source/modules/output/output_mod.F90
 !||====================================================================

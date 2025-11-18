@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    lsint4           ../engine/source/elements/xfem/crklayer4n_adv.F
 !||--- uses       -----------------------------------------------------
 !||    crackxfem_mod    ../engine/share/modules/crackxfem_mod.F
+!||    element_mod      ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE CRKLAYER3N_ADV(
      .           NEL      ,NFT      ,ILAY     ,NLAY     ,IXTG     ,

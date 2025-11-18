@@ -22,12 +22,14 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
 !||====================================================================
-!||    i7therm    ../engine/source/interfaces/int07/i7therm.F
+!||    i7therm       ../engine/source/interfaces/int07/i7therm.F
 !||--- called by ------------------------------------------------------
-!||    i20mainf   ../engine/source/interfaces/int20/i20mainf.F
-!||    i7mainf    ../engine/source/interfaces/int07/i7mainf.F
+!||    i20mainf      ../engine/source/interfaces/int20/i20mainf.F
+!||    i7mainf       ../engine/source/interfaces/int07/i7mainf.F
 !||--- calls      -----------------------------------------------------
-!||    finter     ../engine/source/tools/curve/finter.F
+!||    finter        ../engine/source/tools/curve/finter.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE I7THERM(JLT  ,IPARG ,PM    ,IXS   ,IFORM  ,X     ,
      1                   XI   ,YI    ,ZI    , X1    ,Y1    ,Z1    ,

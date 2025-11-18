@@ -25,6 +25,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    resol          ../engine/source/engine/resol.F
 !||--- uses       -----------------------------------------------------
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||    groupdef_mod   ../common_source/modules/groupdef_mod.F
 !||====================================================================
       SUBROUTINE DTNODAMP(ITAB           ,MS       ,IN    ,STIFN ,STIFR ,DT2T,

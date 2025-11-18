@@ -46,6 +46,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    alemuscl_mod                     ../common_source/modules/ale/alemuscl_mod.F
 !||    arezon_mod                       ../engine/source/ale/arezon.F
 !||    elbufdef_mod                     ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod                      ../common_source/modules/elements/element_mod.F90
 !||    glob_therm_mod                   ../common_source/modules/mat_elem/glob_therm_mod.F90
 !||    i22tri_mod                       ../common_source/modules/interfaces/cut-cell-search_mod.F
 !||    matparam_def_mod                 ../common_source/modules/mat_elem/matparam_def_mod.F90

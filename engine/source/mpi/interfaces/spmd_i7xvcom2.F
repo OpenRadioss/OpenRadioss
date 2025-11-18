@@ -34,6 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    putdpdaanc            ../engine/source/mpi/interfaces/spmd_i7tool.F
 !||    putdpzero             ../engine/source/mpi/interfaces/spmd_i7tool.F
 !||--- uses       -----------------------------------------------------
+!||    element_mod           ../common_source/modules/elements/element_mod.F90
 !||    groupdef_mod          ../common_source/modules/groupdef_mod.F
 !||    intbufdef_mod         ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    interfaces_mod        ../common_source/modules/interfaces/interfaces_mod.F90

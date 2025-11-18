@@ -21,9 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    bhol2    ../engine/source/ale/ale2d/bhol2.F
+!||    bhol2         ../engine/source/ale/ale2d/bhol2.F
 !||--- called by ------------------------------------------------------
-!||    alethe   ../engine/source/ale/alethe.F
+!||    alethe        ../engine/source/ale/alethe.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE BHOL2(ITASK ,IPARG ,PM ,BHOLE ,IXQ   )
 C-----------------------------------------------

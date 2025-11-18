@@ -28,6 +28,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    section_skew       ../engine/source/tools/sect/section_skew.F
 !||    section_skewp      ../engine/source/tools/sect/section_skewp.F
 !||    sum_6_float_sect   ../engine/source/system/parit.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod        ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE SECTION_C(LFT,LLT,NFT,NSEG,N1,
      2                     N2,N3,NSTRF,X,V,VR,FSAV,

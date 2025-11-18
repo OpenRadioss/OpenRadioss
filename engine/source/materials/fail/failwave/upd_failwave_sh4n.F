@@ -27,6 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    cforc3              ../engine/source/elements/shell/coque/cforc3.F
 !||    czforc3             ../engine/source/elements/shell/coquez/czforc3.F
 !||--- uses       -----------------------------------------------------
+!||    element_mod         ../common_source/modules/elements/element_mod.F90
 !||    failwave_mod        ../common_source/modules/failwave_mod.F
 !||====================================================================
       SUBROUTINE SET_FAILWAVE_SH4N(FAILWAVE    ,FWAVE_EL  ,DADV     ,

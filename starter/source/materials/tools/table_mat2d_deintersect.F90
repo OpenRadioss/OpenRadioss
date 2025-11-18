@@ -21,8 +21,9 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    table_mat2d_deintersect   ../starter/source/materials/mat/tools/table_mat2d_deintersect.F90
+!||    table_mat2d_deintersect_mod   ../starter/source/materials/tools/table_mat2d_deintersect.F90
 !||--- called by ------------------------------------------------------
+!||    hm_read_mat36                 ../starter/source/materials/mat/mat036/hm_read_mat36.F90
 !||====================================================================
       module table_mat2d_deintersect_mod
       contains
@@ -31,9 +32,13 @@
 !!         New values are calculated in case of intersection warning message is written 
 
 !||====================================================================
-!||    table_mat2d_deintersect   ../starter/source/materials/mat/tools/table_mat2d_deintersect.F90
+!||    table_mat2d_deintersect   ../starter/source/materials/tools/table_mat2d_deintersect.F90
 !||--- called by ------------------------------------------------------
+!||    hm_read_mat36             ../starter/source/materials/mat/mat036/hm_read_mat36.F90
+!||--- calls      -----------------------------------------------------
+!||    ancmsg                    ../starter/source/output/message/message.F
 !||--- uses       -----------------------------------------------------
+!||    message_mod               ../starter/share/message_module/message_mod.F
 !||====================================================================
       subroutine table_mat2d_deintersect(table  ,mat_title ,mat_id )
 !-----------------------------------------------

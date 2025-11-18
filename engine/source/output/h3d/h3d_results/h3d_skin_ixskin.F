@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    initbuf               ../engine/share/resol/initbuf.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod           ../common_source/modules/elements/element_mod.F90
 !||    h3d_inc_mod           ../engine/share/modules/h3d_inc_mod.F
 !||    initbuf_mod           ../engine/share/resol/initbuf.F
 !||    loads_mod             ../common_source/modules/loads/loads_mod.F90
@@ -742,6 +743,7 @@ C
 !||--- called by ------------------------------------------------------
 !||    h3d_skin_ixskin       ../engine/source/output/h3d/h3d_results/h3d_skin_ixskin.F
 !||--- uses       -----------------------------------------------------
+!||    element_mod           ../common_source/modules/elements/element_mod.F90
 !||    h3d_inc_mod           ../engine/share/modules/h3d_inc_mod.F
 !||    loads_mod             ../common_source/modules/loads/loads_mod.F90
 !||    pblast_mod            ../common_source/modules/loads/pblast_mod.F90
@@ -923,6 +925,7 @@ C
 !||    initbuf           ../engine/share/resol/initbuf.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod      ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod       ../common_source/modules/elements/element_mod.F90
 !||    initbuf_mod       ../engine/share/resol/initbuf.F
 !||====================================================================
       SUBROUTINE GET_NODAL_IPART(ELBUF_TAB,IPARG,IPARTC,IPARTTG,IPARTS,

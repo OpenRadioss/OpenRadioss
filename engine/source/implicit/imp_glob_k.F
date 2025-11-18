@@ -46,6 +46,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    drape_mod      ../engine/share/modules/drape_mod.F
 !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||    initbuf_mod    ../engine/share/resol/initbuf.F
 !||    stack_mod      ../engine/share/modules/stack_mod.F
 !||====================================================================
@@ -1301,9 +1302,11 @@ C----6---------------------------------------------------------------7---------8
       RETURN
       END
 !||====================================================================
-!||    impksout   ../engine/source/implicit/imp_glob_k.F
+!||    impksout      ../engine/source/implicit/imp_glob_k.F
 !||--- calls      -----------------------------------------------------
-!||    writeks    ../engine/source/implicit/imp_glob_k.F
+!||    writeks       ../engine/source/implicit/imp_glob_k.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE IMPKSOUT( IXS,NFT,NEL,IUGEO,
      1                   K11   ,K12   ,K13    ,K14    ,K15   ,
@@ -1427,9 +1430,11 @@ C-----------------------------------------------
 C
 C  | --- new routine -----
 !||====================================================================
-!||    impkcout   ../engine/source/implicit/imp_glob_k.F
+!||    impkcout      ../engine/source/implicit/imp_glob_k.F
 !||--- calls      -----------------------------------------------------
-!||    writekc    ../engine/source/implicit/imp_glob_k.F
+!||    writekc       ../engine/source/implicit/imp_glob_k.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE IMPKCOUT( IXC,NFT,NEL,IUGEO,
      1                    KE11   ,KE12   ,KE13   ,KE14   ,KE22 ,
@@ -2854,6 +2859,7 @@ C
 !||--- uses       -----------------------------------------------------
 !||    drape_mod            ../engine/share/modules/drape_mod.F
 !||    elbufdef_mod         ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod          ../common_source/modules/elements/element_mod.F90
 !||    initbuf_mod          ../engine/share/resol/initbuf.F
 !||    stack_mod            ../engine/share/modules/stack_mod.F
 !||====================================================================
@@ -3061,6 +3067,7 @@ C----6---------------------------------------------------------------7---------8
 !||--- uses       -----------------------------------------------------
 !||    drape_mod      ../engine/share/modules/drape_mod.F
 !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||    initbuf_mod    ../engine/share/resol/initbuf.F
 !||    stack_mod      ../engine/share/modules/stack_mod.F
 !||====================================================================

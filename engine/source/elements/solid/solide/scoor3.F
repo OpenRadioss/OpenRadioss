@@ -21,16 +21,18 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    scoor3      ../engine/source/elements/solid/solide/scoor3.F
+!||    scoor3        ../engine/source/elements/solid/solide/scoor3.F
 !||--- called by ------------------------------------------------------
-!||    s8cforc3    ../engine/source/elements/thickshell/solide8c/s8cforc3.F
-!||    s8eforc3    ../engine/source/elements/solid/solide8e/s8eforc3.F
-!||    s8zforc3    ../engine/source/elements/solid/solide8z/s8zforc3.F
-!||    sforc3      ../engine/source/elements/solid/solide/sforc3.F
+!||    s8cforc3      ../engine/source/elements/thickshell/solide8c/s8cforc3.F
+!||    s8eforc3      ../engine/source/elements/solid/solide8e/s8eforc3.F
+!||    s8zforc3      ../engine/source/elements/solid/solide8z/s8zforc3.F
+!||    sforc3        ../engine/source/elements/solid/solide/sforc3.F
 !||--- calls      -----------------------------------------------------
-!||    sorthdir3   ../engine/source/elements/solid/solide/sorthdir3.F
-!||    srepiso3    ../engine/source/elements/solid/solide/srepiso3.F
-!||    sreploc3    ../engine/source/elements/solid/solide/sreploc3.F
+!||    sorthdir3     ../engine/source/elements/solid/solide/sorthdir3.F
+!||    srepiso3      ../engine/source/elements/solid/solide/srepiso3.F
+!||    sreploc3      ../engine/source/elements/solid/solide/sreploc3.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE SCOOR3(X,IXS,V,W,GAMA0,GAMA,
      .   X1, X2, X3, X4, X5, X6, X7, X8,

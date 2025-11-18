@@ -36,6 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    drape_mod           ../engine/share/modules/drape_mod.F
 !||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod         ../common_source/modules/elements/element_mod.F90
 !||    my_alloc_mod        ../common_source/tools/memory/my_alloc.F90
 !||    stack_mod           ../engine/share/modules/stack_mod.F
 !||====================================================================
@@ -755,6 +756,8 @@ c-----------
 !||    stat_c_strafg    ../engine/source/output/sta/stat_c_strafg.F
 !||--- calls      -----------------------------------------------------
 !||    clskew3          ../engine/source/elements/sh3n/coquedk/cdkcoor3.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod      ../common_source/modules/elements/element_mod.F90
 !||====================================================================
         SUBROUTINE GET_Q4L(JFT    ,JLT    ,IXC    ,X    ,OFFG   ,
      .                     IREL   ,VQ     )
@@ -823,6 +826,8 @@ C
 !||    stat_c_strafg    ../engine/source/output/sta/stat_c_strafg.F
 !||--- calls      -----------------------------------------------------
 !||    clskew3          ../engine/source/elements/sh3n/coquedk/cdkcoor3.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod      ../common_source/modules/elements/element_mod.F90
 !||====================================================================
         SUBROUTINE GET_T3L(JFT    ,JLT    ,IXTG    ,X    ,OFFG   ,
      .                     IREL   ,VQ     )

@@ -21,9 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    s10eoff   ../engine/source/elements/solid/solide10/s10eoff.F
+!||    s10eoff       ../engine/source/elements/solid/solide10/s10eoff.F
 !||--- called by ------------------------------------------------------
-!||    s10ke3    ../engine/source/elements/solid/solide10/s10ke3.F
+!||    s10ke3        ../engine/source/elements/solid/solide10/s10ke3.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE S10EOFF(JFT , JLT , IXS ,IXS10, ETAG, OFF)
       use element_mod , only : nixs

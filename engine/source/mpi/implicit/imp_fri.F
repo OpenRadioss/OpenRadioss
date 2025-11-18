@@ -3328,6 +3328,7 @@ C
 !||    spmd_nrow      ../engine/source/mpi/implicit/imp_spmd.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||    imp_frk        ../engine/share/modules/impbufdef_mod.F
 !||====================================================================
       SUBROUTINE DIM_FR_K(
@@ -3529,6 +3530,7 @@ C
 !||    reorder_a      ../engine/source/implicit/ind_glob_k.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||    imp_frk        ../engine/share/modules/impbufdef_mod.F
 !||====================================================================
       SUBROUTINE IND_FR_K(
@@ -3887,6 +3889,7 @@ C
 !||    spmd_nrow      ../engine/source/mpi/implicit/imp_spmd.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||    imp_frk        ../engine/share/modules/impbufdef_mod.F
 !||====================================================================
       SUBROUTINE INI_FR_K(

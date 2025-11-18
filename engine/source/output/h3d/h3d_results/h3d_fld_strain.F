@@ -30,6 +30,7 @@ C
 !||    tsh_dir2          ../engine/source/output/h3d/h3d_results/h3d_skin_tensor.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod      ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod       ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE H3D_FLD_STRAIN(ELBUF_TAB,X  ,IXS   ,
      .                          JHBE,MLWI,ILAY,KCVT,IOR_TSH,

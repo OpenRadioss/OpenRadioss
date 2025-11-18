@@ -39,6 +39,7 @@
 !||    write_r_c           ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    constant_mod        ../common_source/modules/constant_mod.F
+!||    element_mod         ../common_source/modules/elements/element_mod.F90
 !||    precision_mod       ../common_source/modules/precision_mod.F90
 !||====================================================================
         SUBROUTINE XYZ16(IXS,IXS16,X,ISPMD,NSPMD,NUMELS16,NUMELS8,NUMELS10,&

@@ -26,6 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    resol                     ../engine/source/engine/resol.F
 !||--- calls      -----------------------------------------------------
 !||--- uses       -----------------------------------------------------
+!||    element_mod               ../common_source/modules/elements/element_mod.F90
 !||    intbufdef_mod             ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    shooting_node_mod         ../engine/share/modules/shooting_node_mod.F90
 !||====================================================================

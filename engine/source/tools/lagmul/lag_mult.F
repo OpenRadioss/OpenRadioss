@@ -48,6 +48,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    my_barrier         ../engine/source/system/machine.F
 !||    rby_decond         ../engine/source/tools/lagmul/lag_rby_cond.F
 !||--- uses       -----------------------------------------------------
+!||    element_mod        ../common_source/modules/elements/element_mod.F90
 !||    extend_array_mod   ../common_source/tools/memory/extend_array.F90
 !||    groupdef_mod       ../common_source/modules/groupdef_mod.F
 !||    h3d_mod            ../engine/share/modules/h3d_mod.F
@@ -428,6 +429,7 @@ C
 !||    spmd_gg_mult       ../engine/source/mpi/lag_multipliers/spmd_lag.F
 !||    spmd_sg_mult       ../engine/source/mpi/lag_multipliers/spmd_lag.F
 !||--- uses       -----------------------------------------------------
+!||    element_mod        ../common_source/modules/elements/element_mod.F90
 !||    extend_array_mod   ../common_source/tools/memory/extend_array.F90
 !||    h3d_mod            ../engine/share/modules/h3d_mod.F
 !||    intbufdef_mod      ../common_source/modules/interfaces/intbufdef_mod.F90

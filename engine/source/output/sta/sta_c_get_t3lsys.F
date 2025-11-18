@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    cortdir3        ../engine/source/elements/shell/coque/cortdir3.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod     ../common_source/modules/elements/element_mod.F90
 !||====================================================================
         SUBROUTINE GET_T3LSYS(JFT    ,JLT    ,IXTG    ,X    ,OFFG   ,
      .                        IREL   ,VQ     ,NLAY   ,IREP  ,NEL    ,

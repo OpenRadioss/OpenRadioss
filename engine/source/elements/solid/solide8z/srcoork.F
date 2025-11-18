@@ -21,16 +21,18 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    srcoork      ../engine/source/elements/solid/solide8z/srcoork.F
+!||    srcoork       ../engine/source/elements/solid/solide8z/srcoork.F
 !||--- called by ------------------------------------------------------
-!||    s8cke3       ../engine/source/elements/thickshell/solide8c/s8cke3.F
-!||    s8zke3       ../engine/source/elements/solid/solide8z/s8zke3.F
+!||    s8cke3        ../engine/source/elements/thickshell/solide8c/s8cke3.F
+!||    s8zke3        ../engine/source/elements/solid/solide8z/s8zke3.F
 !||--- calls      -----------------------------------------------------
-!||    scortho3     ../engine/source/elements/thickshell/solidec/scortho3.F
-!||    sorthdir17   ../engine/source/elements/solid/solide8z/sorthdir17.F
-!||    sorthdir3    ../engine/source/elements/solid/solide/sorthdir3.F
-!||    sortho3      ../engine/source/elements/solid/solide/sortho3.F
-!||    srepisot3    ../engine/source/elements/solid/solide/srepisot3.F
+!||    scortho3      ../engine/source/elements/thickshell/solidec/scortho3.F
+!||    sorthdir17    ../engine/source/elements/solid/solide8z/sorthdir17.F
+!||    sorthdir3     ../engine/source/elements/solid/solide/sorthdir3.F
+!||    sortho3       ../engine/source/elements/solid/solide/sortho3.F
+!||    srepisot3     ../engine/source/elements/solid/solide/srepisot3.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE SRCOORK(
      1   X,       IXS,     X1,      X2,

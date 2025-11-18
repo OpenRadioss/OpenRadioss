@@ -35,6 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    crackxfem_mod        ../engine/share/modules/crackxfem_mod.F
 !||    elbufdef_mod         ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod          ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE INIXFEM(ELBUF_TAB,XFEM_TAB ,
      .                   IPARG    ,IXC      ,IXTG     ,NGROUC   ,IGROUC    ,

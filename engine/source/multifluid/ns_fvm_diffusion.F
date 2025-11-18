@@ -31,6 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    diffusion_mod          ../engine/share/modules/diffusion_mod.F
 !||    ebcs_mod               ../common_source/modules/boundary_conditions/ebcs_mod.F90
 !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod            ../common_source/modules/elements/element_mod.F90
 !||    multi_fvm_mod          ../common_source/modules/ale/multi_fvm_mod.F90
 !||====================================================================
       subroutine ns_fvm_diffusion(ale_connect, multi_fvm, time_step, ebcs_tab, 

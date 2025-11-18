@@ -26,6 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    outp_c_s       ../engine/source/output/sty/outp_c_s.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE S_USER(NBX,IMX,IHBE,NEL,NPT,MLW,IPM,IGEO, IXC,
      .                  ITY,JJ,ELBUF_TAB,WA,NFT, FUNC,

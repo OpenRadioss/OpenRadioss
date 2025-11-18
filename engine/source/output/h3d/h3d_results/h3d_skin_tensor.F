@@ -31,6 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    tsh_dir2               ../engine/source/output/h3d/h3d_results/h3d_skin_tensor.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod            ../common_source/modules/elements/element_mod.F90
 !||    initbuf_mod            ../engine/share/resol/initbuf.F
 !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
 !||====================================================================
@@ -602,6 +603,8 @@ C-----------
 !||--- calls      -----------------------------------------------------
 !||    scortho3          ../engine/source/elements/thickshell/solidec/scortho3.F
 !||    srepisot3         ../engine/source/elements/solid/solide/srepisot3.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod       ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE TSH_DIR2(X,IXS,DIR,DIRB,ICSTR,NEL)
       use element_mod , only : nixs

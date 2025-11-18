@@ -21,13 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    sfint3       ../engine/source/elements/solid/solide/sfint3.F
+!||    sfint3        ../engine/source/elements/solid/solide/sfint3.F
 !||--- called by ------------------------------------------------------
-!||    sforc3       ../engine/source/elements/solid/solide/sforc3.F
-!||    szforc3      ../engine/source/elements/solid/solidez/szforc3.F
+!||    sforc3        ../engine/source/elements/solid/solide/sforc3.F
+!||    szforc3       ../engine/source/elements/solid/solidez/szforc3.F
 !||--- uses       -----------------------------------------------------
-!||    ale_mod      ../common_source/modules/ale/ale_mod.F
-!||    alefvm_mod   ../common_source/modules/ale/alefvm_mod.F
+!||    ale_mod       ../common_source/modules/ale/ale_mod.F
+!||    alefvm_mod    ../common_source/modules/ale/alefvm_mod.F
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE SFINT3(
      1   SIG,     PX1,     PX2,     PX3,

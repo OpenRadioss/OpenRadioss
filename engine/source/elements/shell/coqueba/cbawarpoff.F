@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    setuvarw       ../engine/source/elements/shell/coqueba/cbawarpoff.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||====================================================================
        SUBROUTINE CBAL58WARP(ELBUF_STR,NEL,
      1                       X,IXC,E3X   ,E3Y   ,E3Z  ,OFFG ,ZLLC2 )

@@ -35,6 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    upenritg_last      ../engine/source/elements/xfem/upenritg_last.F
 !||--- uses       -----------------------------------------------------
 !||    crackxfem_mod      ../engine/share/modules/crackxfem_mod.F
+!||    element_mod        ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE UPXFEM2(IPARG    ,IXC    ,NGROUC  ,IGROUC ,IADC_CRK ,
      .                   IEL_CRK  ,ELCUTC ,IXTG    ,ENRTAG ,INOD_CRK ,

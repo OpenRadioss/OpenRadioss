@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    admregul       ../engine/source/model/remesh/admregul.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||    remesh_mod     ../engine/share/modules/remesh_mod.F
 !||====================================================================
       SUBROUTINE ADMMAP4(N      ,IXC    ,X      ,IPARG  ,ELBUF_TAB,

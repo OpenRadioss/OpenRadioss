@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_glob_isum9   ../engine/source/mpi/interfaces/spmd_th.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod      ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod       ../common_source/modules/elements/element_mod.F90
 !||    output_mod        ../common_source/modules/output/output_mod.F90
 !||====================================================================
       SUBROUTINE STAT_SIZE_C(IPARG ,IXC  ,IXTG ,IGEO ,IPM      ,

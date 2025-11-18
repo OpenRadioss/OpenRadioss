@@ -1086,6 +1086,7 @@ C
 !||    spmd_ifront       ../engine/source/mpi/interfaces/spmd_ifront.F
 !||    spmd_sd_xv        ../engine/source/mpi/nodes/spmd_sd_xv.F
 !||--- uses       -----------------------------------------------------
+!||    element_mod       ../common_source/modules/elements/element_mod.F90
 !||    glob_therm_mod    ../common_source/modules/mat_elem/glob_therm_mod.F90
 !||    groupdef_mod      ../common_source/modules/groupdef_mod.F
 !||    h3d_mod           ../engine/share/modules/h3d_mod.F

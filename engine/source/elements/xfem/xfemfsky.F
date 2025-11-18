@@ -26,6 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    cforc3_crk      ../engine/source/elements/xfem/cforc3_crk.F
 !||--- uses       -----------------------------------------------------
 !||    crackxfem_mod   ../engine/share/modules/crackxfem_mod.F
+!||    element_mod     ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE CUPDT3_CRK(
      .           JFT     ,JLT     ,NFT   ,IXC    ,OFF     ,IADC    ,
@@ -266,6 +267,7 @@ C-----------
 !||    czforc3_crk     ../engine/source/elements/xfem/czforc3_crk.F
 !||--- uses       -----------------------------------------------------
 !||    crackxfem_mod   ../engine/share/modules/crackxfem_mod.F
+!||    element_mod     ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE CUPDTN3_CRK(
      .          JFT   ,JLT  ,NFT  ,IXC   ,OFF     ,IADC   ,
@@ -506,6 +508,7 @@ C-------------
 !||    c3forc3_crk     ../engine/source/elements/xfem/c3forc3_crk.F
 !||--- uses       -----------------------------------------------------
 !||    crackxfem_mod   ../engine/share/modules/crackxfem_mod.F
+!||    element_mod     ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE C3UPDT3_CRK(
      .          JFT  ,JLT  ,NFT  ,IXTG  ,OFF     ,IADC   ,

@@ -27,6 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    ale_connectivity_mod             ../common_source/modules/ale/ale_connectivity_mod.F
 !||    alemuscl_mod                     ../common_source/modules/ale/alemuscl_mod.F
+!||    element_mod                      ../common_source/modules/elements/element_mod.F90
 !||    segvar_mod                       ../engine/share/modules/segvar_mod.F
 !||====================================================================
       SUBROUTINE GRADIENT_RECONSTRUCTION2(IXQ, X, ALE_CONNECT, NV46, ITRIMAT, SEGVAR)

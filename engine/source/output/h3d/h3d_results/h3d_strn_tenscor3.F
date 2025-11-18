@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    szstraingps          ../engine/source/elements/solid/solidez/szstraingps.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod         ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod          ../common_source/modules/elements/element_mod.F90
 !||    initbuf_mod          ../engine/share/resol/initbuf.F
 !||====================================================================
       SUBROUTINE STRN_TENSCOR3(ELBUF_TAB,IPARG   ,IXS      ,IXS10   ,X        ,

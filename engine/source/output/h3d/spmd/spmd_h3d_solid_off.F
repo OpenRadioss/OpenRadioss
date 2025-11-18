@@ -26,6 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    genh3d          ../engine/source/output/h3d/h3d_results/genh3d.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod     ../common_source/modules/elements/element_mod.F90
 !||====================================================================
        SUBROUTINE H3D_SOLID_OFF(ELBUF_TAB, IPARG, IXS, SOLID_SCALAR, ID_ELEM, ITY_ELEM, ISOLNOD)
 C----------------------------------------------

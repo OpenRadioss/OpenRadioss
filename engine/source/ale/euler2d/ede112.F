@@ -26,6 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    qforc2                 ../engine/source/elements/solid_2d/quad/qforc2.F
 !||--- uses       -----------------------------------------------------
 !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+!||    element_mod            ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE EDE112(PM  ,V   ,X   ,IXQ ,ALE_CONNECT ,
      .                  WYZ ,DYZ ,DZY  ,EYY ,EZZ )

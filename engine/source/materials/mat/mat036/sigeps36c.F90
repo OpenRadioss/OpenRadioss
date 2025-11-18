@@ -25,13 +25,13 @@
 !||====================================================================
 !||    sigeps36c_mod   ../engine/source/materials/mat/mat036/sigeps36c.F90
 !||--- called by ------------------------------------------------------
-!||    mulaw            ../engine/source/materials/mat_share/mulawc.F90
+!||    mulawc          ../engine/source/materials/mat_share/mulawc.F90
 !||====================================================================
       module sigeps36c_mod
       contains
 
 !||====================================================================
-!||    sigeps36c              ../engine/source/materials/mat/mat036/sigeps36c.F90
+!||    sigeps36c               ../engine/source/materials/mat/mat036/sigeps36c.F90
 !||--- called by ------------------------------------------------------
 !||    mulawc                  ../engine/source/materials/mat_share/mulawc.F90
 !||--- calls      -----------------------------------------------------

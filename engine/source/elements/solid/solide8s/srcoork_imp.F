@@ -26,6 +26,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    s8ske3         ../engine/source/elements/solid/solide8s/s8ske3.F
 !||--- calls      -----------------------------------------------------
 !||    crtrans_imp    ../engine/source/elements/solid/solide8s/crtrans_imp.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE S8SCOORK_IMP(X,IXS,
      .   X1, X2, X3, X4, X5, X6, X7, X8,

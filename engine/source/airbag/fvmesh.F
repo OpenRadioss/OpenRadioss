@@ -39,6 +39,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    tribox3         ../engine/stub/fvmbags_stub.F
 !||    tritri3         ../engine/stub/fvmbags_stub.F
 !||--- uses       -----------------------------------------------------
+!||    element_mod     ../common_source/modules/elements/element_mod.F90
 !||    fvbag_mod       ../engine/share/modules/fvbag_mod.F
 !||====================================================================
       SUBROUTINE FVMESH1(IBUF , ELEM  , X     , IVOLU, BRIC ,

@@ -26,6 +26,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    multi_face_elem_data   ../engine/source/multifluid/multi_face_data_elem.F
 !||--- calls      -----------------------------------------------------
 !||    arret                  ../engine/source/system/arret.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod            ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE QNORM2T (NEL, NFT, JALE, SYM, IXTG, XGRID, WGRID, 
      .     NORM, WFAC, SURF)

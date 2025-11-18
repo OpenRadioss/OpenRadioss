@@ -28,6 +28,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    czforc3            ../engine/source/elements/shell/coquez/czforc3.F
 !||--- calls      -----------------------------------------------------
 !||    double_flot_ieee   ../engine/source/system/parit.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod        ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE CUPDT3F(JFT   ,JLT  ,I8F   ,I8M   ,NVC    ,
      2                  OFFG   ,OFF  ,STI   ,STIR  ,I8STIFN,
@@ -502,9 +504,11 @@ C
       END
 C
 !||====================================================================
-!||    cupdt3   ../engine/source/elements/shell/coque/cupdt3.F
+!||    cupdt3        ../engine/source/elements/shell/coque/cupdt3.F
 !||--- called by ------------------------------------------------------
-!||    cforc3   ../engine/source/elements/shell/coque/cforc3.F
+!||    cforc3        ../engine/source/elements/shell/coque/cforc3.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE CUPDT3(JFT  ,JLT  ,F      ,M    ,NVC  ,
      2                  OFFG ,OFF  ,STI    ,STIR ,STIFN,
@@ -953,9 +957,11 @@ C
       END
 C
 !||====================================================================
-!||    cupdt3p   ../engine/source/elements/shell/coque/cupdt3.F
+!||    cupdt3p       ../engine/source/elements/shell/coque/cupdt3.F
 !||--- called by ------------------------------------------------------
-!||    cforc3    ../engine/source/elements/shell/coque/cforc3.F
+!||    cforc3        ../engine/source/elements/shell/coque/cforc3.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE CUPDT3P(JFT  ,JLT    ,OFFG   ,OFF   ,STI  ,
      2                   STIR ,FSKY   ,FSKYV  ,IADC  ,IXC  ,

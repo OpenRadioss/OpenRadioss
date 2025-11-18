@@ -29,6 +29,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- calls      -----------------------------------------------------
 !||    scortho31            ../engine/source/elements/thickshell/solidec/scortho31.F
 !||    sortho31             ../engine/source/elements/solid/solide/sortho31.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod          ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE SROTORTH(X     ,IXS   ,GAMA  , KHBE  ,ITYP  ,
      .                    ICSIG )

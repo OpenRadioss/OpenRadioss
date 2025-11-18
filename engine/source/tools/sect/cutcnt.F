@@ -21,11 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    cutcnt       ../engine/source/tools/sect/cutcnt.F
+!||    cutcnt        ../engine/source/tools/sect/cutcnt.F
 !||--- called by ------------------------------------------------------
-!||    genani       ../engine/source/output/anim/generate/genani.F
+!||    genani        ../engine/source/output/anim/generate/genani.F
 !||--- uses       -----------------------------------------------------
-!||    output_mod   ../common_source/modules/output/output_mod.F90
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
+!||    output_mod    ../common_source/modules/output/output_mod.F90
 !||====================================================================
       SUBROUTINE CUTCNT(OUTPUT,ICUT,XCUT,IXS,XYZ0,D,LEN)
 C-----------------------------------------------

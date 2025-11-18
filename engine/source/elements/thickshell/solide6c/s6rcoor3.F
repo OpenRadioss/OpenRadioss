@@ -21,13 +21,15 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    s6rcoor3    ../engine/source/elements/thickshell/solide6c/s6rcoor3.F
+!||    s6rcoor3      ../engine/source/elements/thickshell/solide6c/s6rcoor3.F
 !||--- called by ------------------------------------------------------
-!||    s6cforc3    ../engine/source/elements/thickshell/solide6c/s6cforc3.F
+!||    s6cforc3      ../engine/source/elements/thickshell/solide6c/s6cforc3.F
 !||--- calls      -----------------------------------------------------
-!||    s6cortho3   ../engine/source/elements/thickshell/solide6c/s6cortho3.F
-!||    s6proj3     ../engine/source/elements/thickshell/solide6c/s6proj3.F
-!||    vrrota3     ../engine/source/elements/thickshell/solide6c/vrrota3.F
+!||    s6cortho3     ../engine/source/elements/thickshell/solide6c/s6cortho3.F
+!||    s6proj3       ../engine/source/elements/thickshell/solide6c/s6proj3.F
+!||    vrrota3       ../engine/source/elements/thickshell/solide6c/vrrota3.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE S6RCOOR3(
      .   X  ,IXS , V  , W  ,GAMA0,GAMA,

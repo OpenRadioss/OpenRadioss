@@ -26,6 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ale51_gradient_reconstruction2   ../engine/source/ale/alemuscl/ale51_gradient_reconstruction2.F
 !||--- uses       -----------------------------------------------------
 !||    alemuscl_mod                     ../common_source/modules/ale/alemuscl_mod.F
+!||    element_mod                      ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE GRADIENT_LIMITATION2(IXQ, X, TRIMAT)
 C-----------------------------------------------

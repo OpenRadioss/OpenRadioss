@@ -21,16 +21,18 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    mulaw_ib       ../engine/source/elements/beam/mulaw_ib.F
+!||    mulaw_ib           ../engine/source/elements/beam/mulaw_ib.F
 !||--- called by ------------------------------------------------------
-!||    main_beam18    ../engine/source/elements/beam/main_beam18.F
+!||    main_beam18        ../engine/source/elements/beam/main_beam18.F
 !||--- calls      -----------------------------------------------------
-!||    sigeps34pi     ../engine/source/materials/mat/mat034/sigeps34pi.F
-!||    sigeps36pi     ../engine/source/materials/mat/mat036/sigeps36pi.F
-!||    sigeps44pi     ../engine/source/materials/mat/mat044/sigeps44pi.F
-!||    sigeps71pi     ../engine/source/materials/mat/mat071/sigeps71pi.F
+!||    sigeps34pi         ../engine/source/materials/mat/mat034/sigeps34pi.F
+!||    sigeps36pi         ../engine/source/materials/mat/mat036/sigeps36pi.F90
+!||    sigeps44pi         ../engine/source/materials/mat/mat044/sigeps44pi.F
+!||    sigeps71pi         ../engine/source/materials/mat/mat071/sigeps71pi.F
 !||--- uses       -----------------------------------------------------
-!||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||    sigeps36pi_mod     ../engine/source/materials/mat/mat036/sigeps36pi.F90
 !||====================================================================
       SUBROUTINE MULAW_IB(ELBUF_STR,MAT_PARAM,
      1                    NEL     ,NPT     ,MTN     ,IMAT    ,

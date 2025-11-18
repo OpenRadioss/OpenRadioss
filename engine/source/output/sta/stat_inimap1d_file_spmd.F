@@ -36,6 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    write_i_c                       ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod                    ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod                     ../common_source/modules/elements/element_mod.F90
 !||    inoutfile_mod                   ../common_source/modules/inoutfile_mod.F
 !||    matparam_def_mod                ../common_source/modules/mat_elem/matparam_def_mod.F90
 !||    message_mod                     ../engine/share/message_module/message_mod.F

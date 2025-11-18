@@ -21,13 +21,15 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    sdlen8       ../engine/source/elements/solid/solidez/sdlen8.F
+!||    sdlen8        ../engine/source/elements/solid/solidez/sdlen8.F
 !||--- called by ------------------------------------------------------
-!||    s20forc3     ../engine/source/elements/solid/solide20/s20forc3.F
-!||    szforc3      ../engine/source/elements/solid/solidez/szforc3.F
+!||    s20forc3      ../engine/source/elements/solid/solide20/s20forc3.F
+!||    szforc3       ../engine/source/elements/solid/solidez/szforc3.F
 !||--- calls      -----------------------------------------------------
-!||    basisf       ../engine/source/elements/solid/solide8/basisf.F
-!||    sdlen_dege   ../engine/source/elements/solid/solide/sdlen_dege.F
+!||    basisf        ../engine/source/elements/solid/solide8/basisf.F
+!||    sdlen_dege    ../engine/source/elements/solid/solide/sdlen_dege.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE SDLEN8(
      1   DELTAX,  VOLG,    IXS,     X1,

@@ -26,6 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    xfecut          ../engine/source/output/anim/generate/xfecut.F
 !||--- uses       -----------------------------------------------------
 !||    crackxfem_mod   ../engine/share/modules/crackxfem_mod.F
+!||    element_mod     ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE XFECONNEC4N(JFT     ,JLT     ,NFT   ,IXC    ,ELCUTC ,
      .                       IEL_CRK ,IADC_CRK,ILEV  ,NODEDGE,CRKEDGE,

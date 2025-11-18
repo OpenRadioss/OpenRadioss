@@ -49,6 +49,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    stoptime           ../engine/source/system/timer_mod.F90
 !||--- uses       -----------------------------------------------------
 !||    ams_work_mod       ../engine/source/modules/ams_work_mod.F90
+!||    element_mod        ../common_source/modules/elements/element_mod.F90
 !||    groupdef_mod       ../common_source/modules/groupdef_mod.F
 !||    intstamp_mod       ../engine/share/modules/intstamp_mod.F
 !||    message_mod        ../engine/share/message_module/message_mod.F

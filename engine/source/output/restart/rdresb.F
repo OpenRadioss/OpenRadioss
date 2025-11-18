@@ -114,6 +114,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    drape_mod                    ../engine/share/modules/drape_mod.F
 !||    ebcs_mod                     ../common_source/modules/boundary_conditions/ebcs_mod.F90
 !||    ecnd_mod                     ../engine/share/modules/ecdn_mod.F
+!||    element_mod                  ../common_source/modules/elements/element_mod.F90
 !||    glob_therm_mod               ../common_source/modules/mat_elem/glob_therm_mod.F90
 !||    h3d_mod                      ../engine/share/modules/h3d_mod.F
 !||    interfaces_mod               ../common_source/modules/interfaces/interfaces_mod.F90

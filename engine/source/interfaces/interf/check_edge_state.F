@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- calls      -----------------------------------------------------
 !||    check_active_elem_edge       ../engine/source/interfaces/interf/check_active_elem_edge.F
 !||--- uses       -----------------------------------------------------
+!||    element_mod                  ../common_source/modules/elements/element_mod.F90
 !||    intbufdef_mod                ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    shooting_node_mod            ../engine/share/modules/shooting_node_mod.F90
 !||====================================================================

@@ -21,9 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    c3coor3   ../engine/source/elements/sh3n/coque3n/c3coor3.F
+!||    c3coor3       ../engine/source/elements/sh3n/coque3n/c3coor3.F
 !||--- called by ------------------------------------------------------
-!||    c3forc3   ../engine/source/elements/sh3n/coque3n/c3forc3.F
+!||    c3forc3       ../engine/source/elements/sh3n/coque3n/c3forc3.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE C3COOR3(JFT      ,JLT      ,X       ,IXTG     ,
      .                   OFFG     ,OFF      ,DT1C    ,
@@ -176,9 +178,11 @@ C-----------
       RETURN
       END
 !||====================================================================
-!||    c3coort3   ../engine/source/elements/sh3n/coque3n/c3coor3.F
+!||    c3coort3      ../engine/source/elements/sh3n/coque3n/c3coor3.F
 !||--- called by ------------------------------------------------------
-!||    c3forc3    ../engine/source/elements/sh3n/coque3n/c3forc3.F
+!||    c3forc3       ../engine/source/elements/sh3n/coque3n/c3forc3.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE C3COORT3(JFT    ,JLT    ,X     ,IXTG   ,OFFG   ,
      1                    DR     ,XL2    ,XL3   ,YL2    ,YL3    ,

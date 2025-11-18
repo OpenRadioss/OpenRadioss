@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    write_c_c         ../common_source/tools/input_output/write_routines.c
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod      ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod       ../common_source/modules/elements/element_mod.F90
 !||    my_alloc_mod      ../common_source/tools/memory/my_alloc.F90
 !||    plyxfem_mod       ../engine/share/modules/plyxfem_mod.F
 !||    stack_mod         ../engine/share/modules/stack_mod.F

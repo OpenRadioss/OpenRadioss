@@ -21,11 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    sgparav3   ../engine/source/elements/solid/solide/sgparav3.F
+!||    sgparav3      ../engine/source/elements/solid/solide/sgparav3.F
 !||--- called by ------------------------------------------------------
-!||    s6cforc3   ../engine/source/elements/thickshell/solide6c/s6cforc3.F
-!||    s8cforc3   ../engine/source/elements/thickshell/solide8c/s8cforc3.F
-!||    scforc3    ../engine/source/elements/thickshell/solidec/scforc3.F
+!||    s6cforc3      ../engine/source/elements/thickshell/solide6c/s6cforc3.F
+!||    s8cforc3      ../engine/source/elements/thickshell/solide8c/s8cforc3.F
+!||    scforc3       ../engine/source/elements/thickshell/solidec/scforc3.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE SGPARAV3(
      1   NPE,     X,       IXS,     RX,

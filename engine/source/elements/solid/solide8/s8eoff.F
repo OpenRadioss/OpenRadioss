@@ -21,13 +21,15 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    s8eoff   ../engine/source/elements/solid/solide8/s8eoff.F
+!||    s8eoff        ../engine/source/elements/solid/solide8/s8eoff.F
 !||--- called by ------------------------------------------------------
-!||    s4ke3    ../engine/source/elements/solid/solide4/s4ke3.F
-!||    s6cke3   ../engine/source/elements/thickshell/solide6c/s6cke3.F
-!||    s8cke3   ../engine/source/elements/thickshell/solide8c/s8cke3.F
-!||    s8ske3   ../engine/source/elements/solid/solide8s/s8ske3.F
-!||    s8zke3   ../engine/source/elements/solid/solide8z/s8zke3.F
+!||    s4ke3         ../engine/source/elements/solid/solide4/s4ke3.F
+!||    s6cke3        ../engine/source/elements/thickshell/solide6c/s6cke3.F
+!||    s8cke3        ../engine/source/elements/thickshell/solide8c/s8cke3.F
+!||    s8ske3        ../engine/source/elements/solid/solide8s/s8ske3.F
+!||    s8zke3        ../engine/source/elements/solid/solide8z/s8zke3.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE S8EOFF(JFT, JLT, IXS, ETAG, OFF)
       use element_mod , only : nixs

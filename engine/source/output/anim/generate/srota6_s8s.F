@@ -21,9 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    srota6_s8s   ../engine/source/output/anim/generate/srota6_s8s.F
+!||    srota6_s8s    ../engine/source/output/anim/generate/srota6_s8s.F
 !||--- called by ------------------------------------------------------
-!||    tensors      ../engine/source/output/anim/generate/tensor6.F
+!||    tensors       ../engine/source/output/anim/generate/tensor6.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE SROTA6_S8S(
      1   KCVT,    TENS,    GAMA,    KHBE,

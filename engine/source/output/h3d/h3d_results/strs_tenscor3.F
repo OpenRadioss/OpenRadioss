@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    szsigpara            ../engine/source/elements/solid/solidez/szsigpara.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod         ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod          ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE STRS_TENSCOR3(ELBUF_TAB,IPARG   ,IXS      ,IXS10   ,X        ,
      .                        PM        ,KCVT    ,NEL      ,EVAR    )

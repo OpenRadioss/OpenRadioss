@@ -161,7 +161,7 @@
 !||    hm_read_mat33                       ../starter/source/materials/mat/mat033/hm_read_mat33.F
 !||    hm_read_mat34                       ../starter/source/materials/mat/mat034/hm_read_mat34.F
 !||    hm_read_mat35                       ../starter/source/materials/mat/mat035/hm_read_mat35.F
-!||    hm_read_mat36                       ../starter/source/materials/mat/mat036/hm_read_mat36.F
+!||    hm_read_mat36                       ../starter/source/materials/mat/mat036/hm_read_mat36.F90
 !||    hm_read_mat37                       ../starter/source/materials/mat/mat037/hm_read_mat37.F
 !||    hm_read_mat38                       ../starter/source/materials/mat/mat038/hm_read_mat38.F
 !||    hm_read_mat40                       ../starter/source/materials/mat/mat040/hm_read_mat40.F
@@ -277,6 +277,7 @@
 !||    mmain                               ../engine/source/materials/mat_share/mmain.F90
 !||    mmodul                              ../engine/source/elements/solid/solidez/mmodul.F
 !||    mulaw                               ../engine/source/materials/mat_share/mulaw.F90
+!||    mulaw_ib                            ../engine/source/elements/beam/mulaw_ib.F
 !||    mulawc                              ../engine/source/materials/mat_share/mulawc.F90
 !||    multi_ebcs                          ../engine/source/multifluid/multi_ebcs.F
 !||    multi_inlet_ebcs                    ../engine/source/multifluid/multi_inlet_ebcs.F
@@ -292,6 +293,7 @@
 !||    multifluid_init3                    ../starter/source/multifluid/multifluid_init3.F
 !||    multifluid_init3t                   ../starter/source/multifluid/multifluid_init3t.F
 !||    nloc_dmg_init                       ../starter/source/materials/fail/nloc_dmg_init.F
+!||    pdlen3                              ../engine/source/elements/beam/pdlen3.F
 !||    pgrtails                            ../starter/source/elements/beam/pgrtails.F
 !||    powder_burn                         ../common_source/eos/powder_burn.F
 !||    prelech3d                           ../engine/source/output/h3d/h3d_build_fortran/prelech3d.F90
@@ -335,6 +337,10 @@
 !||    sigeps190                           ../engine/source/materials/mat/mat190/sigeps190.F
 !||    sigeps25c                           ../engine/source/materials/mat/mat025/sigeps25c.F
 !||    sigeps25cp                          ../engine/source/materials/mat/mat025/sigeps25cp.F
+!||    sigeps36c                           ../engine/source/materials/mat/mat036/sigeps36c.F90
+!||    sigeps36g                           ../engine/source/materials/mat/mat036/sigeps36g.F
+!||    sigeps36pi                          ../engine/source/materials/mat/mat036/sigeps36pi.F90
+!||    sigeps36s                           ../engine/source/materials/mat/mat036/sigeps36s.F90
 !||    sigeps42                            ../engine/source/materials/mat/mat042/sigeps42.F
 !||    sigeps50s                           ../engine/source/materials/mat/mat050/sigeps50s.F90
 !||    sigeps51                            ../engine/source/materials/mat/mat051/sigeps51.F90

@@ -27,6 +27,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- calls      -----------------------------------------------------
 !||    spmd_gather_wa   ../engine/source/mpi/anim/spmd_gather_wa.F
 !||    write_i_c        ../common_source/tools/input_output/write_routines.c
+!||--- uses       -----------------------------------------------------
+!||    element_mod      ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE DPARRWS(NESBW,NSTRF,IXC   ,
      2                  IXTG ,X ,NODCUT,RWBUF,NPRW,

@@ -34,6 +34,7 @@ C add CLUSTER(ILOC)%ID_GLOB in the cluster (*)
 !||--- uses       -----------------------------------------------------
 !||    cluster_mod       ../engine/share/modules/cluster_mod.F
 !||    elbufdef_mod      ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod       ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE THCLUSTER(WA   ,IAD   ,IADV   ,NN      ,NVAR     ,
      .                     ITTYP,ITHBUF,CLUSTER,SKEW    ,X        ,

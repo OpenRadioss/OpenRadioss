@@ -189,6 +189,7 @@ c-----------
 !||    spmd_rgather9_1comm   ../engine/source/mpi/interfaces/spmd_outp.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod           ../common_source/modules/elements/element_mod.F90
 !||    initbuf_mod           ../engine/share/resol/initbuf.F
 !||====================================================================
       SUBROUTINE OUTP_S_TT(NBX   ,KEY ,TEXT,ELBUF_TAB,IPARG,

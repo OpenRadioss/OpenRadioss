@@ -79,6 +79,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    drape_mod                 ../engine/share/modules/drape_mod.F
 !||    elbufdef_mod              ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod               ../common_source/modules/elements/element_mod.F90
 !||    inoutfile_mod             ../common_source/modules/inoutfile_mod.F
 !||    mat_elem_mod              ../common_source/modules/mat_elem/mat_elem_mod.F90
 !||    message_mod               ../engine/share/message_module/message_mod.F

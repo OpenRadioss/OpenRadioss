@@ -21,14 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    assem_s8    ../engine/source/implicit/assem_s8.F
+!||    assem_s8      ../engine/source/implicit/assem_s8.F
 !||--- called by ------------------------------------------------------
-!||    s8cke3      ../engine/source/elements/thickshell/solide8c/s8cke3.F
-!||    s8ske3      ../engine/source/elements/solid/solide8s/s8ske3.F
-!||    s8zke3      ../engine/source/elements/solid/solide8z/s8zke3.F
+!||    s8cke3        ../engine/source/elements/thickshell/solide8c/s8cke3.F
+!||    s8ske3        ../engine/source/elements/solid/solide8s/s8ske3.F
+!||    s8zke3        ../engine/source/elements/solid/solide8z/s8zke3.F
 !||--- calls      -----------------------------------------------------
-!||    assem_kii   ../engine/source/implicit/imp_glob_k.F
-!||    assem_kij   ../engine/source/implicit/imp_glob_k.F
+!||    assem_kii     ../engine/source/implicit/imp_glob_k.F
+!||    assem_kij     ../engine/source/implicit/imp_glob_k.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE ASSEM_S8(
      1                   IXS   ,NEL   ,IDDL  ,NDOF  ,K_DIAG,

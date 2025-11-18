@@ -24,6 +24,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    qrota_vect        ../engine/source/output/anim/generate/qrota_vect.F
 !||--- called by ------------------------------------------------------
 !||    h3d_quad_vector   ../engine/source/output/h3d/h3d_results/h3d_quad_vector.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod       ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE QROTA_VECT(X, IXQ, KCVT, VECT, GAMA, NEL)
       use element_mod , only : nixq

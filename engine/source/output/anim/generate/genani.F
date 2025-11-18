@@ -186,6 +186,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    crackxfem_mod                ../engine/share/modules/crackxfem_mod.F
 !||    drape_mod                    ../engine/share/modules/drape_mod.F
 !||    elbufdef_mod                 ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod                  ../common_source/modules/elements/element_mod.F90
 !||    fvbag_mod                    ../engine/share/modules/fvbag_mod.F
 !||    glob_therm_mod               ../common_source/modules/mat_elem/glob_therm_mod.F90
 !||    groupdef_mod                 ../common_source/modules/groupdef_mod.F

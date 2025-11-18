@@ -27,6 +27,7 @@ c
 !||    upxfem1         ../engine/source/elements/xfem/upxfem1.F
 !||--- uses       -----------------------------------------------------
 !||    crackxfem_mod   ../engine/share/modules/crackxfem_mod.F
+!||    element_mod     ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE UPENRIC1_N3(IPARG  ,IXTG     ,NFT       ,JFT     ,JLT   ,
      .                       ELCUTC ,IAD_CRKTG,IEL_CRKTG ,INOD_CRK,NXLAY ,

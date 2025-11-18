@@ -26,6 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    resol_init      ../engine/source/engine/resol_init.F
 !||--- uses       -----------------------------------------------------
 !||    crackxfem_mod   ../engine/share/modules/crackxfem_mod.F
+!||    element_mod     ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE ANIM_XFE_INIT(IXC,IXTG,INOD_CRK,IEL_CRK,
      .                         IADC_CRK,IADTG_CRK)

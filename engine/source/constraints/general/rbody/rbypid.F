@@ -36,6 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    sum_6_float       ../engine/source/system/parit.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod      ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod       ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE RBYPID(IPARG   ,IPARI       ,MS    ,IN     ,
      .                  IXS     ,IXQ  ,IXC   ,IXT   ,IXP    ,

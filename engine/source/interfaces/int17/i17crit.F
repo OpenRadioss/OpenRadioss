@@ -29,6 +29,8 @@ Cas|         I17MAIN_PENA            /int17/i17main_pena.F
 !||--- calls      -----------------------------------------------------
 !||    i16box             ../engine/source/interfaces/int16/i16crit.F
 !||    i20box             ../engine/source/interfaces/int16/i16crit.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod        ../common_source/modules/elements/element_mod.F90
 !||====================================================================
        SUBROUTINE I17CRIT(
      1       X      ,V      ,A       ,NELEM ,EMINX  ,

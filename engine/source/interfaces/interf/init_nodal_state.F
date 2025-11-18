@@ -32,6 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    myqsort_int                                ../common_source/tools/sort/myqsort_int.F
 !||--- uses       -----------------------------------------------------
 !||    array_mod                                  ../common_source/modules/array_mod.F
+!||    element_mod                                ../common_source/modules/elements/element_mod.F90
 !||    get_hashtable_for_neighbour_segment_mod    ../engine/source/interfaces/interf/get_hashtable_for_neighbour_segment.F90
 !||    init_hashtable_for_neighbour_segment_mod   ../engine/source/interfaces/interf/init_hashtable_for_neighbour_segment.F90
 !||    intbufdef_mod                              ../common_source/modules/interfaces/intbufdef_mod.F90

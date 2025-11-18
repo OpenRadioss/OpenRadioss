@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    cortdir3       ../engine/source/elements/shell/coque/cortdir3.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||    plyxfem_mod    ../engine/share/modules/plyxfem_mod.F
 !||====================================================================
        SUBROUTINE CBACOOR(ELBUF_STR,JFT,JLT,X,V,
@@ -1171,6 +1172,7 @@ C-------------
 !||    clskew3        ../engine/source/elements/sh3n/coquedk/cdkcoor3.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||====================================================================
        SUBROUTINE CBACOORT(ELBUF_STR,JFT,JLT,X,V,
      .            VR,DR,IXC,PM,OFFG,AREA,

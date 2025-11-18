@@ -34,6 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_rbcast       ../engine/source/mpi/generic/spmd_rbcast.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod      ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod       ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE I9WAL3(X    ,V         ,W         ,A     ,CRST     ,
      2          NSV      ,ILOC      ,IRTL      ,ICODE     ,ISKEW    ,

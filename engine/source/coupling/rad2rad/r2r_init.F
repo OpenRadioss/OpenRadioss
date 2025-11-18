@@ -56,6 +56,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_ibcast          ../engine/source/mpi/generic/spmd_ibcast.F
 !||    spmd_r2r_sync        ../engine/source/mpi/r2r/spmd_r2r.F
 !||--- uses       -----------------------------------------------------
+!||    element_mod          ../common_source/modules/elements/element_mod.F90
 !||    groupdef_mod         ../common_source/modules/groupdef_mod.F
 !||    message_mod          ../engine/share/message_module/message_mod.F
 !||    nlocal_reg_mod       ../common_source/modules/nlocal_reg_mod.F
@@ -542,6 +543,7 @@ C-----------------------------------------------------------------
 !||    spmd_r2r_iget4     ../engine/source/mpi/r2r/spmd_r2r.F
 !||    spmd_r2r_rget3     ../engine/source/mpi/r2r/spmd_r2r.F
 !||--- uses       -----------------------------------------------------
+!||    element_mod        ../common_source/modules/elements/element_mod.F90
 !||    rad2r_mod          ../engine/share/modules/rad2r.F
 !||====================================================================
       SUBROUTINE INIT_LINK_SPMD(

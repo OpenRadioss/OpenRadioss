@@ -123,6 +123,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    drape_mod          ../engine/share/modules/drape_mod.F
 !||    dsgraph_mod        ../engine/share/modules/dsgraph_mod.F
 !||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod        ../common_source/modules/elements/element_mod.F90
 !||    glob_therm_mod     ../common_source/modules/mat_elem/glob_therm_mod.F90
 !||    groupdef_mod       ../common_source/modules/groupdef_mod.F
 !||    h3d_mod            ../engine/share/modules/h3d_mod.F
@@ -3100,6 +3101,7 @@ C------------------------------------------
 !||    drape_mod          ../engine/share/modules/drape_mod.F
 !||    dsgraph_mod        ../engine/share/modules/dsgraph_mod.F
 !||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod        ../common_source/modules/elements/element_mod.F90
 !||    groupdef_mod       ../common_source/modules/groupdef_mod.F
 !||    h3d_mod            ../engine/share/modules/h3d_mod.F
 !||    imp_worki          ../engine/share/modules/impbufdef_mod.F
@@ -7477,6 +7479,7 @@ C------------------------------------------
 !||    spmd_sum_s     ../engine/source/mpi/implicit/imp_spmd.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||    imp_spbrm      ../engine/share/modules/impbufdef_mod.F
 !||====================================================================
       SUBROUTINE SPBRM_PRE(ITAB ,
@@ -7757,6 +7760,8 @@ C
 !||    spb_refsh4id   ../engine/source/implicit/imp_solv.F
 !||--- called by ------------------------------------------------------
 !||    spbrm_pre      ../engine/source/implicit/imp_solv.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE SPB_REFSH4ID(JFT,JLT,NEL,IXC,X,XC,YC,ZC,IE,
      +                        XMIN0,YMIN0,ZMIN0,DMIN)
@@ -7856,6 +7861,8 @@ C
 !||    spb_refsh3id   ../engine/source/implicit/imp_solv.F
 !||--- called by ------------------------------------------------------
 !||    spbrm_pre      ../engine/source/implicit/imp_solv.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE SPB_REFSH3ID(JFT,JLT,NEL,IXTG,X,XC,YC,ZC,IE,
      +                        XMIN0,YMIN0,ZMIN0,DMIN)
@@ -7967,6 +7974,7 @@ C
 !||    transvl2g      ../engine/source/implicit/imp_solv.F
 !||    velrot         ../engine/source/constraints/general/rbe2/rbe2v.F
 !||--- uses       -----------------------------------------------------
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||    imp_spbrm      ../engine/share/modules/impbufdef_mod.F
 !||====================================================================
       SUBROUTINE SPB_RM_RIG(
@@ -8183,6 +8191,7 @@ C------------------------------------------
 !||--- calls      -----------------------------------------------------
 !||    spmd_min_s     ../engine/source/mpi/implicit/imp_spmd.F
 !||--- uses       -----------------------------------------------------
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||    imp_spbrm      ../engine/share/modules/impbufdef_mod.F
 !||====================================================================
       SUBROUTINE SPB_IEREF_BC(
@@ -8436,13 +8445,14 @@ C
         RETURN
       END
 !||====================================================================
-!||    spb_ieref3   ../engine/source/implicit/imp_solv.F
+!||    spb_ieref3    ../engine/source/implicit/imp_solv.F
 !||--- called by ------------------------------------------------------
-!||    spb_rm_rig   ../engine/source/implicit/imp_solv.F
+!||    spb_rm_rig    ../engine/source/implicit/imp_solv.F
 !||--- calls      -----------------------------------------------------
-!||    spmd_min_s   ../engine/source/mpi/implicit/imp_spmd.F
+!||    spmd_min_s    ../engine/source/mpi/implicit/imp_spmd.F
 !||--- uses       -----------------------------------------------------
-!||    imp_spbrm    ../engine/share/modules/impbufdef_mod.F
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
+!||    imp_spbrm     ../engine/share/modules/impbufdef_mod.F
 !||====================================================================
       SUBROUTINE SPB_IEREF3(
      1    X         ,IXC       ,IXTG      ,NDOF      ,IDDL      ,

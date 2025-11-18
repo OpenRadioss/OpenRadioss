@@ -31,6 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    upxvit_t2       ../engine/source/elements/xfem/crk_velocity2.F
 !||--- uses       -----------------------------------------------------
 !||    crackxfem_mod   ../engine/share/modules/crackxfem_mod.F
+!||    element_mod     ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE CRK_VELOCITY2(IPARG    ,NGROUC   ,IGROUC   ,ELCUTC   ,CRKEDGE  ,
      .                        NODEDGE  ,IXC      ,IXTG     ,XEDGE4N  ,XEDGE3N  ,
@@ -312,6 +313,7 @@ c-----------
 !||    crk_velocity2   ../engine/source/elements/xfem/crk_velocity2.F
 !||--- uses       -----------------------------------------------------
 !||    crackxfem_mod   ../engine/share/modules/crackxfem_mod.F
+!||    element_mod     ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE UPXVIT_C2(NEL      ,NFT      ,NXLAY    ,IXC      ,XEDGE4N  ,
      .                     CRKEDGE  ,NODEDGE  ,IEL_CRK  ,IADC_CRK ,INOD_CRK ,
@@ -414,6 +416,7 @@ c
 !||    crk_velocity2   ../engine/source/elements/xfem/crk_velocity2.F
 !||--- uses       -----------------------------------------------------
 !||    crackxfem_mod   ../engine/share/modules/crackxfem_mod.F
+!||    element_mod     ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE UPXVIT_T2(NEL      ,NFT      ,NXLAY    ,IXTG     ,XEDGE3N  ,
      .                     CRKEDGE  ,NODEDGE  ,IEL_XTG  ,IADC_XTG ,INOD_CRK ,

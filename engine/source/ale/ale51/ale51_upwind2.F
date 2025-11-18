@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ale51_init             ../engine/source/ale/ale51/ale51_init.F
 !||--- uses       -----------------------------------------------------
 !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+!||    element_mod            ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE ALE51_UPWIND2(PM,X,IXQ,FLUX,FLU1,ALE_CONNECT,
      .               ITRIMAT,DDVOL,QMV,IFLG)

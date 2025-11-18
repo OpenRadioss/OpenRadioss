@@ -21,9 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    s4coor3   ../engine/source/elements/solid/solide4/s4coor3.F
+!||    s4coor3       ../engine/source/elements/solid/solide4/s4coor3.F
 !||--- called by ------------------------------------------------------
-!||    s4forc3   ../engine/source/elements/solid/solide4/s4forc3.F
+!||    s4forc3       ../engine/source/elements/solid/solide4/s4forc3.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE S4COOR3(
      1   X,       IXS,     V,       W,

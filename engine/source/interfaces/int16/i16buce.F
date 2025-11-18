@@ -21,11 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    i16buce   ../engine/source/interfaces/int16/i16buce.F
+!||    i16buce       ../engine/source/interfaces/int16/i16buce.F
 !||--- called by ------------------------------------------------------
-!||    i16main   ../engine/source/interfaces/int16/i16main.F
+!||    i16main       ../engine/source/interfaces/int16/i16main.F
 !||--- calls      -----------------------------------------------------
-!||    i16tri    ../engine/source/interfaces/int16/i16tri.F
+!||    i16tri        ../engine/source/interfaces/int16/i16tri.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
        SUBROUTINE I16BUCE(
      1   NSV        ,IXS      ,IXS16    ,IXS20    ,NELEM    ,

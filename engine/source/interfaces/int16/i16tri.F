@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    i16cut        ../engine/source/interfaces/int16/i16tri.F
 !||    i16sto        ../engine/source/interfaces/int16/i16tri.F
 !||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||    message_mod   ../engine/share/message_module/message_mod.F
 !||====================================================================
       SUBROUTINE I16TRI(
@@ -199,11 +200,13 @@ C
       RETURN
       END
 !||====================================================================
-!||    i16cut   ../engine/source/interfaces/int16/i16tri.F
+!||    i16cut        ../engine/source/interfaces/int16/i16tri.F
 !||--- called by ------------------------------------------------------
-!||    i16tri   ../engine/source/interfaces/int16/i16tri.F
+!||    i16tri        ../engine/source/interfaces/int16/i16tri.F
 !||--- calls      -----------------------------------------------------
-!||    i16sto   ../engine/source/interfaces/int16/i16tri.F
+!||    i16sto        ../engine/source/interfaces/int16/i16tri.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE I16CUT(
      1      BPE        ,PE      ,BPN      ,PN       ,ADD      ,

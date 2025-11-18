@@ -26,6 +26,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    update_slipring   ../engine/source/tools/seatbelts/update_slipring.F
 !||--- calls      -----------------------------------------------------
 !||    clskew3           ../engine/source/elements/sh3n/coquedk/cdkcoor3.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod       ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE SHELL_LOC_COR(X,IXC,J,XL2,YL2,XL3,YL3,XL4,YL4,IREP,NN1,NN2,N_DIR2)
       use element_mod , only : nixc

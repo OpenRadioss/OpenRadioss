@@ -27,6 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    cluster_mod    ../engine/share/modules/cluster_mod.F
 !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||    h3d_mod        ../engine/share/modules/h3d_mod.F
 !||====================================================================
       SUBROUTINE CLUSTERF(CLUSTER  ,ELBUF_TAB,X       ,A       ,AR       ,

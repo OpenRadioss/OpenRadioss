@@ -25,6 +25,8 @@ C  |         I17MAIN_TRI                       /int17/i17main_lag.F
 !||    i17xsave      ../engine/source/interfaces/int17/i17xsave.F
 !||--- called by ------------------------------------------------------
 !||    i17main_tri   ../engine/source/interfaces/int17/i17main_pena.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE I17XSAVE(
      1       X     ,V     ,A     ,IXS   ,IXS16 ,

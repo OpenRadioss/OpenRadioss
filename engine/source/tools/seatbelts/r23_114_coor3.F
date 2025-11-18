@@ -24,6 +24,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    r23_114_coor3   ../engine/source/tools/seatbelts/r23_114_coor3.F
 !||--- called by ------------------------------------------------------
 !||    r23law114       ../engine/source/elements/spring/r23law114.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod     ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE R23_114_COOR3(
      1   X,       V,       IXR,     XDP,

@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    urotov         ../engine/source/airbag/uroto.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE SIGROTA(JFT     ,JLT     ,NFT     ,IPT      ,NEL      ,
      2                   NS1     ,X       ,IXC     ,ELBUF_STR,

@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    arret         ../engine/source/system/arret.F
 !||    nintrn        ../engine/source/fluid/nintrn.F
 !||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||    message_mod   ../engine/share/message_module/message_mod.F
 !||====================================================================
       SUBROUTINE LECFLSW (NSFLSW,NTFLSW,NEFLSW,NNFLSW,CRFLSW,

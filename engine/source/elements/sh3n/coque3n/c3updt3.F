@@ -21,10 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    c3updt3    ../engine/source/elements/sh3n/coque3n/c3updt3.F
+!||    c3updt3       ../engine/source/elements/sh3n/coque3n/c3updt3.F
 !||--- called by ------------------------------------------------------
-!||    c3forc3    ../engine/source/elements/sh3n/coque3n/c3forc3.F
-!||    cdkforc3   ../engine/source/elements/sh3n/coquedk/cdkforc3.F
+!||    c3forc3       ../engine/source/elements/sh3n/coque3n/c3forc3.F
+!||    cdkforc3      ../engine/source/elements/sh3n/coquedk/cdkforc3.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE C3UPDT3(JFT  ,JLT ,F   ,M   ,NVC  ,
      2                   OFFG ,OFF ,STI ,STIR,STIFN,

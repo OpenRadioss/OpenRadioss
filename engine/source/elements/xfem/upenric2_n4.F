@@ -26,6 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    upxfem1         ../engine/source/elements/xfem/upxfem1.F
 !||--- uses       -----------------------------------------------------
 !||    crackxfem_mod   ../engine/share/modules/crackxfem_mod.F
+!||    element_mod     ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE UPENRIC2_N4(IPARG  ,IXC     ,NFT    ,JFT     ,JLT   ,
      .                       ELCUTC ,IADC_CRK,IEL_CRK,INOD_CRK,ENRTAG,

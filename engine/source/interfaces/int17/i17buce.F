@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    i17tri         ../engine/source/interfaces/int17/i17tri.F
 !||    my_barrier     ../engine/source/system/machine.F
 !||--- uses       -----------------------------------------------------
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||    icontact_mod   ../engine/share/modules/icontact_mod.F
 !||====================================================================
        SUBROUTINE I17BUCE_PENA(
@@ -171,6 +172,7 @@ C
 !||    my_barrier      ../engine/source/system/machine.F
 !||    spmd_tri17box   ../engine/source/mpi/interfaces/spmd_tri17box.F
 !||--- uses       -----------------------------------------------------
+!||    element_mod     ../common_source/modules/elements/element_mod.F90
 !||    icontact_mod    ../engine/share/modules/icontact_mod.F
 !||    message_mod     ../engine/share/message_module/message_mod.F
 !||====================================================================

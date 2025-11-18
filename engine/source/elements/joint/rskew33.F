@@ -21,16 +21,17 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    rskew33      ../engine/source/elements/joint/rskew33.F
+!||    rskew33       ../engine/source/elements/joint/rskew33.F
 !||--- called by ------------------------------------------------------
-!||    rgjoint      ../engine/source/elements/joint/rgjoint.F
+!||    rgjoint       ../engine/source/elements/joint/rgjoint.F
 !||--- calls      -----------------------------------------------------
-!||    get_u_skew   ../engine/source/user_interface/uaccess.F
-!||    inv3         ../engine/source/elements/joint/rskew33.F
-!||    prod_ab      ../engine/source/elements/joint/rskew33.F
-!||    qrot33       ../engine/source/elements/joint/rskew33.F
+!||    get_u_skew    ../engine/source/user_interface/uaccess.F
+!||    inv3          ../engine/source/elements/joint/rskew33.F
+!||    prod_ab       ../engine/source/elements/joint/rskew33.F
+!||    qrot33        ../engine/source/elements/joint/rskew33.F
 !||--- uses       -----------------------------------------------------
-!||    sensor_mod   ../common_source/modules/sensor_mod.F90
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
+!||    sensor_mod    ../common_source/modules/sensor_mod.F90
 !||====================================================================
       SUBROUTINE RSKEW33(JFT    ,JLT     ,IXR   ,IOUT  ,IPROP,
      .                   NUVAR  ,UVAR    ,RBY   ,X     ,XL   ,

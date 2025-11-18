@@ -21,13 +21,15 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    srep2glo    ../engine/source/elements/sph/srep2glo.F
+!||    srep2glo      ../engine/source/elements/sph/srep2glo.F
 !||--- called by ------------------------------------------------------
-!||    soltosphp   ../engine/source/elements/sph/soltosph.F
+!||    soltosphp     ../engine/source/elements/sph/soltosph.F
 !||--- calls      -----------------------------------------------------
-!||    scortho3    ../engine/source/elements/thickshell/solidec/scortho3.F
-!||    sortho3     ../engine/source/elements/solid/solide/sortho3.F
-!||    srepisot3   ../engine/source/elements/solid/solide/srepisot3.F
+!||    scortho3      ../engine/source/elements/thickshell/solidec/scortho3.F
+!||    sortho3       ../engine/source/elements/solid/solide/sortho3.F
+!||    srepisot3     ../engine/source/elements/solid/solide/srepisot3.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE SREP2GLO(
      1   X,       IXS,     GAMA,    RX,

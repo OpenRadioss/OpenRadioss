@@ -26,6 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spbrm_pre      ../engine/source/implicit/imp_solv.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE CGSHELL4(ELBUF_STR,JFT,JLT ,PM   ,IXC ,
      +                    X   ,MAS,XC ,YC ,ZC )
@@ -98,6 +99,7 @@ C
 !||    spbrm_pre      ../engine/source/implicit/imp_solv.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE CGSHELL3(ELBUF_STR,JFT,JLT ,PM   ,IXTG ,
      +                    X   ,MAS,XC ,YC ,ZC )

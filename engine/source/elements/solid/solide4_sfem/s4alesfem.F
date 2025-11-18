@@ -31,6 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_exch_vol     ../engine/source/mpi/nodes/spmd_exch_vol.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod      ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod       ../common_source/modules/elements/element_mod.F90
 !||    initbuf_mod       ../engine/share/resol/initbuf.F
 !||====================================================================
       SUBROUTINE S4ALESFEM(IPARG,IXS,X,ELBUF_TAB,SFEM_NODVAR, S_SFEM_NODVAR,PM,

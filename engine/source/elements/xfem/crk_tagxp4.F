@@ -27,6 +27,7 @@ c
 !||    upxfem_tagxp    ../engine/source/elements/xfem/upxfem_tagxp.F
 !||--- uses       -----------------------------------------------------
 !||    crackxfem_mod   ../engine/share/modules/crackxfem_mod.F
+!||    element_mod     ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE CRK_TAGXP4(IPARG  ,IXC     ,NFT    ,JFT     ,JLT   ,
      .                       ELCUTC ,IADC_CRK,IEL_CRK,INOD_CRK,ENRTAG,

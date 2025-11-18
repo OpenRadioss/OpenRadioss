@@ -34,6 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    suser43             ../engine/source/elements/solid/sconnect/suser43.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod         ../common_source/modules/elements/element_mod.F90
 !||    mat_elem_mod        ../common_source/modules/mat_elem/mat_elem_mod.F90
 !||    message_mod         ../engine/share/message_module/message_mod.F
 !||    table_mod           ../engine/share/modules/table_mod.F
@@ -602,9 +603,11 @@ c-----------
       RETURN
       END
 !||====================================================================
-!||    sucoor3   ../engine/source/user_interface/suforc3.F
+!||    sucoor3       ../engine/source/user_interface/suforc3.F
 !||--- called by ------------------------------------------------------
-!||    suforc3   ../engine/source/user_interface/suforc3.F
+!||    suforc3       ../engine/source/user_interface/suforc3.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE SUCOOR3(IXS,X  ,V,VR,W,D,FR_WAVE ,FR_W_E  ,
      .                   XX , YY, ZZ, UX, UY, UZ, 

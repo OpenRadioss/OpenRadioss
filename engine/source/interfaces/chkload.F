@@ -30,6 +30,7 @@ C
 !||    spmd_exchseg_idel   ../engine/source/mpi/kinematic_conditions/spmd_exchseg_idel.F
 !||    spmd_init_idel      ../engine/source/mpi/interfaces/spmd_init_idel.F
 !||--- uses       -----------------------------------------------------
+!||    element_mod         ../common_source/modules/elements/element_mod.F90
 !||    nodal_arrays_mod    ../common_source/modules/nodal_arrays.F90
 !||====================================================================
       SUBROUTINE CHKLOAD(

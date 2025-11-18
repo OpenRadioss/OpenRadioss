@@ -21,10 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    c4eoff   ../engine/source/elements/shell/coque/c4eoff.F
+!||    c4eoff        ../engine/source/elements/shell/coque/c4eoff.F
 !||--- called by ------------------------------------------------------
-!||    cbake3   ../engine/source/elements/shell/coqueba/cbake3.F
-!||    czke3    ../engine/source/elements/shell/coquez/czke3.F
+!||    cbake3        ../engine/source/elements/shell/coqueba/cbake3.F
+!||    czke3         ../engine/source/elements/shell/coquez/czke3.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE C4EOFF(JFT , JLT , IXC , ETAG, OFF)
       use element_mod , only : nixc

@@ -26,6 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    alefvm_scheme        ../engine/source/ale/alefvm/alefvm_scheme.F
 !||--- uses       -----------------------------------------------------
 !||    alefvm_mod           ../common_source/modules/ale/alefvm_mod.F
+!||    element_mod          ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE ALEFVM_EXPAND_MOM2 ( IXS, MOM, NEL )
 C-----------------------------------------------

@@ -26,6 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    forintc                     ../engine/source/elements/forintc.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod                ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod                 ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE SEATBELT_REDUCTION_FACTOR(ELBUF_STR,JFT,JLT,IXC,NEL,X,NFT)
 C-----------------------------------------------

@@ -699,6 +699,8 @@ C
 !||    set_spring_elnum   ../engine/source/user_interface/uaccess.F
 !||--- called by ------------------------------------------------------
 !||    rforc3             ../engine/source/elements/spring/rforc3.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod        ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE SET_SPRING_ELNUM(JFT,JLT,IXR)
       use element_mod , only : nixr
@@ -764,6 +766,7 @@ C-----------------------------------------------
 !||====================================================================
 !||    mat_solid_get_nod_x   ../engine/source/user_interface/uaccess.F
 !||--- uses       -----------------------------------------------------
+!||    element_mod           ../common_source/modules/elements/element_mod.F90
 !||    restmod               ../engine/share/modules/restart_mod.F
 !||    user_interface_mod    ../engine/source/modules/user_interface_mod.F90
 !||====================================================================
@@ -890,6 +893,7 @@ C-----------------------------------------------
 !||====================================================================
 !||    mat_solid_get_nod_v   ../engine/source/user_interface/uaccess.F
 !||--- uses       -----------------------------------------------------
+!||    element_mod           ../common_source/modules/elements/element_mod.F90
 !||    restmod               ../engine/share/modules/restart_mod.F
 !||    user_interface_mod    ../engine/source/modules/user_interface_mod.F90
 !||====================================================================

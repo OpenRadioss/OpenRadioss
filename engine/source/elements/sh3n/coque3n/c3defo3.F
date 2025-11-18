@@ -25,6 +25,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    c3forc3       ../engine/source/elements/sh3n/coque3n/c3forc3.F
 !||    c3forc3_crk   ../engine/source/elements/xfem/c3forc3_crk.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE C3DEFO3(JFT,JLT,VL1,VL2,VL3,
      .                   IXTG,ISH3N,PX1  ,PY1    ,PY2   ,

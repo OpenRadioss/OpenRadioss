@@ -22,21 +22,26 @@
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !===================================================================================================
 
-!||=============================================================================
+!||====================================================================
 !||    sigeps36pi_mod   ../engine/source/materials/mat/mat036/sigeps36pi.F90
 !||--- called by ------------------------------------------------------
-!||    mulaw_ib     ../engine/source/elements/beam/mulaw_ib.F
-!||=============================================================================
+!||    mulaw_ib         ../engine/source/elements/beam/mulaw_ib.F
+!||====================================================================
       module sigeps36pi_mod
       contains
 
 !||====================================================================
-!||    sigeps36pi   ../engine/source/materials/mat/mat036/sigeps36pi.F90
+!||    sigeps36pi              ../engine/source/materials/mat/mat036/sigeps36pi.F90
 !||--- called by ------------------------------------------------------
-!||    mulaw_ib     ../engine/source/elements/beam/mulaw_ib.F
+!||    mulaw_ib                ../engine/source/elements/beam/mulaw_ib.F
 !||--- calls      -----------------------------------------------------
-!||    finter       ../engine/source/tools/curve/finter.F
-!||    vinter       ../engine/source/tools/curve/vinter.F
+!||    table_mat_vinterp       ../engine/source/materials/tools/table_mat_vinterp.F
+!||--- uses       -----------------------------------------------------
+!||    constant_mod            ../common_source/modules/constant_mod.F
+!||    file_descriptor_mod     ../engine/source/modules/file_descriptor_mod.F90
+!||    matparam_def_mod        ../common_source/modules/mat_elem/matparam_def_mod.F90
+!||    precision_mod           ../common_source/modules/precision_mod.F90
+!||    table_mat_vinterp_mod   ../engine/source/materials/tools/table_mat_vinterp.F
 !||====================================================================
       subroutine sigeps36pi(mat_param,                               &
                  nel     ,ipt     ,ngl     ,nvartmp ,vartmp  ,       &

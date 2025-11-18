@@ -36,6 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    multi_solve_eint       ../engine/source/multifluid/multi_solve_eint.F90
 !||    multi_submatlaw        ../engine/source/multifluid/multi_submatlaw.F
 !||--- uses       -----------------------------------------------------
+!||    element_mod            ../common_source/modules/elements/element_mod.F90
 !||    matparam_def_mod       ../common_source/modules/mat_elem/matparam_def_mod.F90
 !||    multi_fvm_mod          ../common_source/modules/ale/multi_fvm_mod.F90
 !||    multi_solve_eint_mod   ../engine/source/multifluid/multi_solve_eint.F90

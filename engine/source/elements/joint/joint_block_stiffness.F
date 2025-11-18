@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    arret                   ../engine/source/system/arret.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod            ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod             ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE JOINT_BLOCK_STIFFNESS(ITAB,MS,IN,STIFN,STIFR,
      1                    WEIGHT ,IXR,IPART,X,

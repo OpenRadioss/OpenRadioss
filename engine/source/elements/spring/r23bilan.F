@@ -21,13 +21,15 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    r23bilan     ../engine/source/elements/spring/r23bilan.F
+!||    r23bilan      ../engine/source/elements/spring/r23bilan.F
 !||--- called by ------------------------------------------------------
-!||    r23law108    ../engine/source/elements/spring/r23law108.F
-!||    r23law113    ../engine/source/elements/spring/r23law113.F
-!||    r23law114    ../engine/source/elements/spring/r23law114.F
+!||    r23law108     ../engine/source/elements/spring/r23law108.F
+!||    r23law113     ../engine/source/elements/spring/r23law113.F
+!||    r23law114     ../engine/source/elements/spring/r23law114.F
 !||--- calls      -----------------------------------------------------
-!||    grelem_sav   ../engine/source/output/th/grelem_sav.F
+!||    grelem_sav    ../engine/source/output/th/grelem_sav.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE R23BILAN(
      1   EINT,    PARTSAV, IXR,     GEO,

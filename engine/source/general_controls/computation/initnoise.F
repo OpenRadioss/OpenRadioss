@@ -21,9 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    initnoise   ../engine/source/general_controls/computation/initnoise.F
+!||    initnoise     ../engine/source/general_controls/computation/initnoise.F
 !||--- called by ------------------------------------------------------
-!||    noise       ../engine/source/general_controls/computation/noise.F
+!||    noise         ../engine/source/general_controls/computation/noise.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE INITNOISE(IN,NOIADD,IXS,IWA,LENGTH,IXQ)
 C-----------------------------------------------
@@ -94,9 +96,11 @@ c-----------
       END
 
 !||====================================================================
-!||    initnoise2   ../engine/source/general_controls/computation/initnoise.F
+!||    initnoise2    ../engine/source/general_controls/computation/initnoise.F
 !||--- called by ------------------------------------------------------
-!||    noise        ../engine/source/general_controls/computation/noise.F
+!||    noise         ../engine/source/general_controls/computation/noise.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE INITNOISE2(IN,ELNOI,ELG,NOIADD,IXS,IWA,IPARG,IXQ)
 C-----------------------------------------------

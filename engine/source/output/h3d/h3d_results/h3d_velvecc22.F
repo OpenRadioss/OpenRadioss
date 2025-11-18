@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    h3d_write_vector   ../engine/source/output/h3d/h3d_results/h3d_write_vector.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod        ../common_source/modules/elements/element_mod.F90
 !||    i22bufbric_mod     ../common_source/modules/interfaces/cut-cell-search_mod.F
 !||    i22edge_mod        ../common_source/modules/interfaces/cut-cell-buffer_mod.F
 !||    i22tri_mod         ../common_source/modules/interfaces/cut-cell-search_mod.F

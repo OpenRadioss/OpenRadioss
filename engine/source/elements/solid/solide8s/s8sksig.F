@@ -21,9 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    s8sksig   ../engine/source/elements/solid/solide8s/s8sksig.F
+!||    s8sksig       ../engine/source/elements/solid/solide8s/s8sksig.F
 !||--- called by ------------------------------------------------------
-!||    s8ske3    ../engine/source/elements/solid/solide8s/s8ske3.F
+!||    s8ske3        ../engine/source/elements/solid/solide8s/s8ske3.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE S8SKSIG(X,IXS,NEL,QF,KS,V1,V2,V3,V4,V5,V6,V7,V8,
      .                   NC1,NC2,NC3,NC4,NC5,NC6,NC7,NC8)

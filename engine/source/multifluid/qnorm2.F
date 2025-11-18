@@ -24,6 +24,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    qnorm2                 ../engine/source/multifluid/qnorm2.F
 !||--- called by ------------------------------------------------------
 !||    multi_face_elem_data   ../engine/source/multifluid/multi_face_data_elem.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod            ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE QNORM2 (NEL, NFT, JALE, SYM, IXQ, XGRID, WGRID, 
      .     NORM, WFAC, SURF)

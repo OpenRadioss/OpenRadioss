@@ -21,9 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    s20eoff   ../engine/source/elements/solid/solide20/s20eoff.F
+!||    s20eoff       ../engine/source/elements/solid/solide20/s20eoff.F
 !||--- called by ------------------------------------------------------
-!||    s20ke3    ../engine/source/elements/solid/solide20/s20ke3.F
+!||    s20ke3        ../engine/source/elements/solid/solide20/s20ke3.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE S20EOFF(JFT , JLT , IXS ,IXS20, ETAG, OFF)
       use element_mod , only : nixs

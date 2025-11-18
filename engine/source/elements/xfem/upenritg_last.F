@@ -26,6 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    upxfem2         ../engine/source/elements/xfem/upxfem2.F
 !||--- uses       -----------------------------------------------------
 !||    crackxfem_mod   ../engine/share/modules/crackxfem_mod.F
+!||    element_mod     ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE UPENRITG_LAST(
      .      IXTG     ,NFT   ,JFT   ,JLT     ,IAD_CRKTG, 

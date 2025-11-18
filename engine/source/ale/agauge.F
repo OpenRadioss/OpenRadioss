@@ -37,6 +37,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
 !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod            ../common_source/modules/elements/element_mod.F90
 !||    initbuf_mod            ../engine/share/resol/initbuf.F
 !||====================================================================
       SUBROUTINE AGAUGE(
@@ -461,6 +462,7 @@ c in case of multiple solutions do not need to choose the best one : AGAUG3 will
 !||    agauge                 ../engine/source/ale/agauge.F
 !||--- uses       -----------------------------------------------------
 !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
+!||    element_mod            ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE AGAUG3(LGAUGE,GAUGE,PHI,IXS  ,X    ,ALE_CONNECT )
       USE ALE_CONNECTIVITY_MOD
@@ -557,6 +559,8 @@ c element associated to the gauge
 !||--- calls      -----------------------------------------------------
 !||    spmd_rbcast   ../engine/source/mpi/generic/spmd_rbcast.F
 !||    spmd_sd_gau   ../engine/source/mpi/output/spmd_sd_gau.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE AGAUGE0(LGAUGE ,GAUGE,X ,IXC,IGAUP,NGAUP)
       use element_mod , only : nixc

@@ -26,6 +26,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    resol               ../engine/source/engine/resol.F
 !||--- calls      -----------------------------------------------------
 !||    spmd_exch_nodarea   ../engine/source/mpi/anim/spmd_exch_nodarea.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod         ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE INTER_NODAL_AREAS(IXS     ,IXC     ,IXTG    ,FASOLFR  ,X       ,
      .                             IAD_ELEM,FR_ELEM ,WEIGHT  ,IXQ     ,SEGQUADFR,

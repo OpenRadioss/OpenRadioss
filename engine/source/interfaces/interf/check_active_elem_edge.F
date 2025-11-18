@@ -25,6 +25,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    check_edge_state         ../engine/source/interfaces/interf/check_edge_state.F
 !||    check_surface_state      ../engine/source/interfaces/interf/check_surface_state.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod              ../common_source/modules/elements/element_mod.F90
 !||====================================================================
         SUBROUTINE CHECK_ACTIVE_ELEM_EDGE( NUMBER_NODE, N1,N2,N3,N4,
      .                                     DEACTIVATION,GEO,IXS,IXC,

@@ -50,6 +50,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    hm_read_mat133               ../starter/source/materials/mat/mat133/hm_read_mat133.F90
 !||    hm_read_mat163               ../starter/source/materials/mat/mat163/hm_read_mat163.F90
 !||    hm_read_mat190               ../starter/source/materials/mat/mat190/hm_read_mat190.F
+!||    hm_read_mat36                ../starter/source/materials/mat/mat036/hm_read_mat36.F90
 !||    hm_read_mat50                ../starter/source/materials/mat/mat050/hm_read_mat50.F90
 !||    hm_read_mat57                ../starter/source/materials/mat/mat057/hm_read_mat57.F90
 !||    hm_read_mat76                ../starter/source/materials/mat/mat076/hm_read_mat76.F
@@ -78,7 +79,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    law119_upd                   ../starter/source/materials/mat/mat119/law119_upd.F
 !||    law120_upd                   ../starter/source/materials/mat/mat120/law120_upd.F
 !||    law158_upd                   ../starter/source/materials/mat/mat158/law158_upd.F
-!||    law36_upd                    ../starter/source/materials/mat/mat036/law36_upd.F
 !||    law42_upd                    ../starter/source/materials/mat/mat042/law42_upd.F
 !||    law58_upd                    ../starter/source/materials/mat/mat058/law58_upd.F
 !||    law62_upd                    ../starter/source/materials/mat/mat062/law62_upd.F

@@ -469,6 +469,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ebcs_mod                                     ../common_source/modules/boundary_conditions/ebcs_mod.F90
 !||    ecnd_mod                                     ../engine/share/modules/ecdn_mod.F
 !||    elbufdef_mod                                 ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod                                  ../common_source/modules/elements/element_mod.F90
 !||    error_mod                                    ../engine/share/modules/error_mod.F
 !||    failwave_mod                                 ../common_source/modules/failwave_mod.F
 !||    force_mod                                    ../engine/source/loads/general/force.F90

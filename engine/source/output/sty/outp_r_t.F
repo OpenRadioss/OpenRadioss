@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_rgather9_1comm   ../engine/source/mpi/interfaces/spmd_outp.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod           ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE OUTP_R_T(KEY   ,TEXT ,ELBUF_TAB,IPARG ,DD_IAD,
      2                    IXR   ,IGEO ,GEO      ,SIZLOC,SIZP0 ,
@@ -474,6 +475,8 @@ C---
 !||--- called by ------------------------------------------------------
 !||    genoutp         ../engine/source/output/sty/genoutp.F
 !||    outp_arsz_rt    ../engine/source/mpi/interfaces/spmd_outp.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod     ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE COUNT_ARSZ_RT(IPARG,IGEO,GEO,IXR,DD_IAD,WASZ,SIZ_WRITE_LOC)
       use element_mod , only : nixr

@@ -21,9 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    r4coor3   ../engine/source/elements/spring/r4coor3.F
+!||    r4coor3       ../engine/source/elements/spring/r4coor3.F
 !||--- called by ------------------------------------------------------
-!||    rforc3    ../engine/source/elements/spring/rforc3.F
+!||    rforc3        ../engine/source/elements/spring/rforc3.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE R4COOR3(
      1   X,       VR,      IXR,     RLOC,

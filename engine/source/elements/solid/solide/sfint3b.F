@@ -23,9 +23,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
     
 
 !||====================================================================
-!||    sfint3b   ../engine/source/elements/solid/solide/sfint3b.F
+!||    sfint3b       ../engine/source/elements/solid/solide/sfint3b.F
 !||--- called by ------------------------------------------------------
-!||    sforc3    ../engine/source/elements/solid/solide/sforc3.F
+!||    sforc3        ../engine/source/elements/solid/solide/sforc3.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE SFINT3B(
      1   SIG,     SIGD,    X,       NC1,

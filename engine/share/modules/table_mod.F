@@ -77,7 +77,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    mulaw                      ../engine/source/materials/mat_share/mulaw.F90
 !||    mulaw8                     ../engine/source/materials/mat_share/mulaw8.F90
 !||    mulawc                     ../engine/source/materials/mat_share/mulawc.F90
-!||    mulawglc                   ../engine/source/materials/mat_share/mulawglc.F
 !||    mulawglcpinch              ../engine/source/elements/shell/coqueba/mulawglcpinch.F
 !||    press_seg3                 ../engine/source/loads/general/load_pcyl/press_seg3.F
 !||    pressure_cyl               ../engine/source/loads/general/load_pcyl/pressure_cyl.F

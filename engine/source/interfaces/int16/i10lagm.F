@@ -21,11 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    i10lagm   ../engine/source/interfaces/int16/i10lagm.F
+!||    i10lagm       ../engine/source/interfaces/int16/i10lagm.F
 !||--- called by ------------------------------------------------------
-!||    i16main   ../engine/source/interfaces/int16/i16main.F
+!||    i16main       ../engine/source/interfaces/int16/i16main.F
 !||--- calls      -----------------------------------------------------
-!||    i10lll    ../engine/source/interfaces/int16/i10lagm.F
+!||    i10lll        ../engine/source/interfaces/int16/i10lagm.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE I10LAGM(X    ,V      ,LLL     ,JLL   ,SLL   ,
      2                  XLL   ,CANDN  ,CANDE   ,I_STOK,IXS   ,

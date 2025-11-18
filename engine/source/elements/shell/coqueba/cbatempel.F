@@ -21,9 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    cbatempel   ../engine/source/elements/shell/coqueba/cbatempel.F
+!||    cbatempel     ../engine/source/elements/shell/coqueba/cbatempel.F
 !||--- called by ------------------------------------------------------
-!||    cbaforc3    ../engine/source/elements/shell/coqueba/cbaforc3.F
+!||    cbaforc3      ../engine/source/elements/shell/coqueba/cbaforc3.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE CBATEMPEL(JFT ,JLT   ,NG  ,IXC   ,TEMP ,
      3                  TEMPEL)

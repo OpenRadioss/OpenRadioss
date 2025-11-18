@@ -75,6 +75,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    set_spring_elnum    ../engine/source/user_interface/uaccess.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod         ../common_source/modules/elements/element_mod.F90
 !||    h3d_mod             ../engine/share/modules/h3d_mod.F
 !||    message_mod         ../engine/share/message_module/message_mod.F
 !||    preload_axial_mod   ../engine/source/elements/spring/preload_axial.F90

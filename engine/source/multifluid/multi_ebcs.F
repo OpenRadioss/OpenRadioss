@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    multi_nrf_ebcs         ../engine/source/multifluid/multi_nrf_ebcs.F
 !||--- uses       -----------------------------------------------------
 !||    ebcs_mod               ../common_source/modules/boundary_conditions/ebcs_mod.F90
+!||    element_mod            ../common_source/modules/elements/element_mod.F90
 !||    matparam_def_mod       ../common_source/modules/mat_elem/matparam_def_mod.F90
 !||    multi_fvm_mod          ../common_source/modules/ale/multi_fvm_mod.F90
 !||    multi_inlet_ebcs_mod   ../engine/source/multifluid/multi_inlet_ebcs.F

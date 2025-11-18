@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    xfeconnec4n     ../engine/source/output/anim/generate/xfeconnec4n.F
 !||--- uses       -----------------------------------------------------
 !||    crackxfem_mod   ../engine/share/modules/crackxfem_mod.F
+!||    element_mod     ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE XFECUT(IPARG      ,IXC     ,IXTG     ,ILEV   ,ELCUTC  ,
      .                  IEL_CRK    ,IADC_CRK,NODEDGE  ,CRKEDGE,XEDGE4N ,

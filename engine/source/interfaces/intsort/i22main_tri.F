@@ -44,6 +44,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    ale_connectivity_mod         ../common_source/modules/ale/ale_connectivity_mod.F
 !||    check_sorting_criteria_mod   ../engine/source/interfaces/intsort/check_sorting_criteria.F90
+!||    element_mod                  ../common_source/modules/elements/element_mod.F90
 !||    groupdef_mod                 ../common_source/modules/groupdef_mod.F
 !||    h3d_mod                      ../engine/share/modules/h3d_mod.F
 !||    i22bufbric_mod               ../common_source/modules/interfaces/cut-cell-search_mod.F
@@ -721,6 +722,7 @@ C--------------------------------------------------------------
 !||--- called by ------------------------------------------------------
 !||    i22main_tri          ../engine/source/interfaces/intsort/i22main_tri.F
 !||--- uses       -----------------------------------------------------
+!||    element_mod          ../common_source/modules/elements/element_mod.F90
 !||    i22bufbric_mod       ../common_source/modules/interfaces/cut-cell-search_mod.F
 !||    i22tri_mod           ../common_source/modules/interfaces/cut-cell-search_mod.F
 !||====================================================================

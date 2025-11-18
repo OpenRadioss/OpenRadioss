@@ -26,6 +26,7 @@ C
 !||--- called by ------------------------------------------------------
 !||    i22main_tri      ../engine/source/interfaces/intsort/i22main_tri.F
 !||--- uses       -----------------------------------------------------
+!||    element_mod      ../common_source/modules/elements/element_mod.F90
 !||    tri7box          ../engine/share/modules/tri7box.F
 !||====================================================================
       SUBROUTINE SPMD_TRI22VOX0(

@@ -25,6 +25,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    multi_face_elem_data   ../engine/source/multifluid/multi_face_data_elem.F
 !||    multi_fvm2fem          ../engine/source/multifluid/multi_fvm2fem.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod            ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE SNORM3 (NEL, NFT, JALE, IXS, XGRID, WGRID, 
      .     NORM, WFAC, SURF)

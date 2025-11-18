@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    find_surface_from_remote_proc   ../engine/source/interfaces/interf/find_surface_from_remote_proc.F
 !||--- uses       -----------------------------------------------------
 !||    array_mod                       ../common_source/modules/array_mod.F
+!||    element_mod                     ../common_source/modules/elements/element_mod.F90
 !||    intbufdef_mod                   ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    nodal_arrays_mod                ../common_source/modules/nodal_arrays.F90
 !||    shooting_node_mod               ../engine/share/modules/shooting_node_mod.F90

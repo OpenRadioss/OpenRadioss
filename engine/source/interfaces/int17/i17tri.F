@@ -31,6 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    i17cut         ../engine/source/interfaces/int17/i17tri.F
 !||    i17sto         ../engine/source/interfaces/int17/i17tri.F
 !||--- uses       -----------------------------------------------------
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||    message_mod    ../engine/share/message_module/message_mod.F
 !||====================================================================
       SUBROUTINE I17TRI(
@@ -173,13 +174,14 @@ C
       RETURN
       END
 !||====================================================================
-!||    i17cut    ../engine/source/interfaces/int17/i17tri.F
+!||    i17cut        ../engine/source/interfaces/int17/i17tri.F
 !||--- called by ------------------------------------------------------
-!||    i17tri    ../engine/source/interfaces/int17/i17tri.F
+!||    i17tri        ../engine/source/interfaces/int17/i17tri.F
 !||--- calls      -----------------------------------------------------
-!||    i17sto    ../engine/source/interfaces/int17/i17tri.F
+!||    i17sto        ../engine/source/interfaces/int17/i17tri.F
 !||--- uses       -----------------------------------------------------
-!||    tri7box   ../engine/share/modules/tri7box.F
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
+!||    tri7box       ../engine/share/modules/tri7box.F
 !||====================================================================
       SUBROUTINE I17CUT(
      1      BPE        ,PE      ,BPN      ,PN       ,ADD      ,

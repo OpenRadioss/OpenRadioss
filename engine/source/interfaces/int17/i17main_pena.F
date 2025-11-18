@@ -28,6 +28,7 @@ C I17MAIN_LAG split in 3 routines for SPMD reorganization
 !||--- calls      -----------------------------------------------------
 !||    i17crit            ../engine/source/interfaces/int17/i17crit.F
 !||--- uses       -----------------------------------------------------
+!||    element_mod        ../common_source/modules/elements/element_mod.F90
 !||    groupdef_mod       ../common_source/modules/groupdef_mod.F
 !||    intbufdef_mod      ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    output_mod         ../common_source/modules/output/output_mod.F90
@@ -148,6 +149,7 @@ C
 !||    startime        ../engine/source/system/timer_mod.F90
 !||    stoptime        ../engine/source/system/timer_mod.F90
 !||--- uses       -----------------------------------------------------
+!||    element_mod     ../common_source/modules/elements/element_mod.F90
 !||    groupdef_mod    ../common_source/modules/groupdef_mod.F
 !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90
 !||    message_mod     ../engine/share/message_module/message_mod.F
@@ -365,6 +367,7 @@ C
 !||    i17for3         ../engine/source/interfaces/int17/i17for3.F
 !||    my_barrier      ../engine/source/system/machine.F
 !||--- uses       -----------------------------------------------------
+!||    element_mod     ../common_source/modules/elements/element_mod.F90
 !||    groupdef_mod    ../common_source/modules/groupdef_mod.F
 !||    h3d_mod         ../engine/share/modules/h3d_mod.F
 !||    intbufdef_mod   ../common_source/modules/interfaces/intbufdef_mod.F90

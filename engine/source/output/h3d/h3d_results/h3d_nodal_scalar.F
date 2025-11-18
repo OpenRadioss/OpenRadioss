@@ -38,6 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
 !||    anim_monvol_mod        ../engine/source/output/anim/generate/monvol_anim.F90
 !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod            ../common_source/modules/elements/element_mod.F90
 !||    fvbag_mod              ../engine/share/modules/fvbag_mod.F
 !||    groupdef_mod           ../common_source/modules/groupdef_mod.F
 !||    h3d_mod                ../engine/share/modules/h3d_mod.F

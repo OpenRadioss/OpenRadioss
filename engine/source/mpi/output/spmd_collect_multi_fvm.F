@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- uses       -----------------------------------------------------
 !||    checksum_mod             ../engine/source/mpi/output/node_checksum.F
 !||    debug_mod                ../engine/share/modules/debug_mod.F
+!||    element_mod              ../common_source/modules/elements/element_mod.F90
 !||    inoutfile_mod            ../common_source/modules/inoutfile_mod.F
 !||    multi_fvm_mod            ../common_source/modules/ale/multi_fvm_mod.F90
 !||    spmd_comm_world_mod      ../engine/source/mpi/spmd_comm_world.F90

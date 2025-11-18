@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    rgwath                ../engine/source/interfaces/int09/rgwath.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod           ../common_source/modules/elements/element_mod.F90
 !||    python_funct_mod      ../common_source/modules/python_mod.F90
 !||====================================================================
       SUBROUTINE RGWAL1(X       ,A       ,V        ,W      ,

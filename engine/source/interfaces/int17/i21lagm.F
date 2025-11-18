@@ -21,11 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    i21lagm   ../engine/source/interfaces/int17/i21lagm.F
+!||    i21lagm       ../engine/source/interfaces/int17/i21lagm.F
 !||--- called by ------------------------------------------------------
-!||    i17main   ../engine/source/interfaces/int17/i17main.F
+!||    i17main       ../engine/source/interfaces/int17/i17main.F
 !||--- calls      -----------------------------------------------------
-!||    i21lll    ../engine/source/interfaces/int17/i21lagm.F
+!||    i21lll        ../engine/source/interfaces/int17/i21lagm.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE I21LAGM(X    ,V     ,LLL     ,JLL   ,SLL   ,
      2                  XLL   ,CANDN ,CANDE   ,I_STOK,IXS   ,

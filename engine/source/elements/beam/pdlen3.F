@@ -21,9 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    pdlen3   ../engine/source/elements/beam/pdlen3.F
+!||    pdlen3             ../engine/source/elements/beam/pdlen3.F
 !||--- called by ------------------------------------------------------
-!||    pforc3   ../engine/source/elements/beam/pforc3.F
+!||    pforc3             ../engine/source/elements/beam/pforc3.F
+!||--- uses       -----------------------------------------------------
+!||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
 !||====================================================================
       SUBROUTINE PDLEN3(MAT_PARAM,
      1   NEL,     GEO,

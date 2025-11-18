@@ -21,12 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !||====================================================================
-!||    assem_c3     ../engine/source/implicit/assem_c3.F
+!||    assem_c3      ../engine/source/implicit/assem_c3.F
 !||--- called by ------------------------------------------------------
-!||    c3ke3        ../engine/source/elements/sh3n/coque3n/c3ke3.F
+!||    c3ke3         ../engine/source/elements/sh3n/coque3n/c3ke3.F
 !||--- calls      -----------------------------------------------------
-!||    assemc_kii   ../engine/source/implicit/imp_glob_k.F
-!||    assemc_kij   ../engine/source/implicit/imp_glob_k.F
+!||    assemc_kii    ../engine/source/implicit/imp_glob_k.F
+!||    assemc_kij    ../engine/source/implicit/imp_glob_k.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod   ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE ASSEM_C3(
      1         IXTG     ,NEL       ,IDDL      ,NDOF      ,K_DIAG    ,

@@ -25,6 +25,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    alew6                  ../engine/source/ale/grid/alew6.F
 !||    multi_face_elem_data   ../engine/source/multifluid/multi_face_data_elem.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod            ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE CENTROID3(NEL, LENGTH, NFT, IXS, XGRID, 
      .     ELEM_CENTROID, FACE_CENTROID)
@@ -99,6 +101,8 @@ C     Face 6
 !||    multi_face_elem_data   ../engine/source/multifluid/multi_face_data_elem.F
 !||--- calls      -----------------------------------------------------
 !||    geom                   ../engine/source/ale/alemuscl/geom.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod            ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE CENTROID3T(NEL, LENGTH, NFT, IXS, XGRID, 
      .     ELEM_CENTROID, FACE_CENTROID)
@@ -185,6 +189,8 @@ C     Face 4
 !||--- called by ------------------------------------------------------
 !||    alew6                  ../engine/source/ale/grid/alew6.F
 !||    multi_face_elem_data   ../engine/source/multifluid/multi_face_data_elem.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod            ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE CENTROID2(NEL, LENGTH, NFT, IXQ, XGRID, 
      .     ELEM_CENTROID, FACE_CENTROID)
@@ -244,6 +250,8 @@ C     Face 4
 !||    centroid2t             ../engine/source/multifluid/centroid.F
 !||--- called by ------------------------------------------------------
 !||    multi_face_elem_data   ../engine/source/multifluid/multi_face_data_elem.F
+!||--- uses       -----------------------------------------------------
+!||    element_mod            ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE CENTROID2T(NEL, LENGTH, NFT, IXTG, XGRID, 
      .     ELEM_CENTROID, FACE_CENTROID)

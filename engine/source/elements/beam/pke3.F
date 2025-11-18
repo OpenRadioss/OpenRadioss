@@ -34,6 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    psumg3         ../engine/source/elements/beam/psumg3.F
 !||--- uses       -----------------------------------------------------
 !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+!||    element_mod    ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE PKE3(JFT   ,JLT    ,NEL  ,MTN      ,ISMSTR,
      1                 PM   ,NCC    ,X    ,ELBUF_TAB,GEO   ,

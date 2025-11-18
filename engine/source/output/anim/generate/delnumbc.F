@@ -28,6 +28,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    spmd_fvb_amax     ../engine/source/mpi/anim/spmd_fvb_amax.F
 !||    spmd_iget_partn   ../engine/source/mpi/anim/spmd_iget_partn.F
 !||    write_i_c         ../common_source/tools/input_output/write_routines.c
+!||--- uses       -----------------------------------------------------
+!||    element_mod       ../common_source/modules/elements/element_mod.F90
 !||====================================================================
       SUBROUTINE DELNUMBC(IPARG,IXQ  ,IXC   ,IXTG ,INVERT,
      2                    EL2FA,NBF  ,INUM ,NELCUT,
