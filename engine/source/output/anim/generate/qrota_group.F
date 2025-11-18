@@ -56,13 +56,13 @@ C     REAL
      .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
      .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
      .   R22(MVSIZ),R23(MVSIZ),R32(MVSIZ),R33(MVSIZ),
-     .   T22(MVSIZ),T33(MVSIZ),T23(MVSIZ),T32(MVSIZ),
+     .   
      .   SY(MVSIZ),SZ(MVSIZ),TY(MVSIZ),TZ(MVSIZ),
      .   G22,G33,G23,G32,
      .   CT,CS,SUMA,
-     .   T1,T2,T3,T4,S1,S2,S3,S4
+     .   T1,T2,T3,T4,S1,S2,S4
       INTEGER NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ),
-     .   N, I
+     .    I
 C-----------------------------------------------
       IF (KCVT == 0) THEN
         DO I=1,NEL

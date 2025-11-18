@@ -57,9 +57,9 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER P, I, MSGTYP, LOC_PROC, IERROR,
-     .        STATUS(MPI_STATUS_SIZE),MSGOFF
-      INTEGER :: type_reduc,myop,I_LEN
+      INTEGER  LOC_PROC, IERROR,
+     .        MSGOFF
+      INTEGER :: I_LEN
 
        my_real, DIMENSION(2) :: SBUF,RBUF
        DATA MSGOFF/2007/

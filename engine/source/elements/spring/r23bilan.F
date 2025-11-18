@@ -64,17 +64,17 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,MX,J, ILENG, FLAG
+      INTEGER I,MX, FLAG
       my_real
      .   X1(MVSIZ), Y1(MVSIZ), Z1(MVSIZ),
      .   X2(MVSIZ), Y2(MVSIZ), Z2(MVSIZ),
      .   V1(MVSIZ,3),V2(MVSIZ,3),
      .   VR1(MVSIZ,3),VR2(MVSIZ,3),
      .   XMAS2(MVSIZ), REINTT,
-     .   XMAS(MVSIZ), RHO(MVSIZ), INEL,
+     .   XMAS(MVSIZ), INEL,
      .   EK(MVSIZ), XM(MVSIZ), YM(MVSIZ), ZM(MVSIZ),
-     .   VA1,XM1PHI,XM2PHI,RBIDON(1),OFF(MVSIZ),
-     .   IN2, EI(MVSIZ),REK(MVSIZ),
+     .   RBIDON(1),OFF(MVSIZ),
+     .   IN2,REK(MVSIZ),
      .   XXM(MVSIZ), YYM(MVSIZ), ZZM(MVSIZ), 
      .   XCG(MVSIZ), YCG(MVSIZ), ZCG(MVSIZ),
      .   IXX(MVSIZ), IYY(MVSIZ), IZZ(MVSIZ),

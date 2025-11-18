@@ -71,14 +71,14 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,IGAP, INACTI, IFQ, MFROT, IGSTI
+      INTEGER   IFQ, MFROT
       INTEGER JX1(MVSIZ), JX2(MVSIZ), JX3(MVSIZ), JX4(MVSIZ),
-     .        NSVG(MVSIZ), I3N ,IGIMP
+     .        NSVG(MVSIZ) ,IGIMP
       INTEGER, DIMENSION(MVSIZ) :: IX1,IX2,IX3,IX4
 C     REAL
       my_real
-     .   STARTT, FRIC, GAP, STOPT,STIGLO,GAPMIN,
-     .   KMIN, KMAX, GAPMAX,GAP_IMP
+     .   STARTT, FRIC, GAP, STOPT,
+     .   GAP_IMP
 C-----------------------------------------------
 C     REAL
       my_real

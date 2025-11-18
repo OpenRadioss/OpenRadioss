@@ -73,8 +73,8 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J ,ITEMP(10),K, K0, N,NSL,NN,IAD,ONOF1,ISENS,IACTI,
-     .        ONFELT,K1,K2,K3,K4,K5,K6,K7,K8,K9
+      INTEGER I, J ,ITEMP(10),K, N,NSL,NN,IAD,ONOF1,ISENS,IACTI,
+     .        ONFELT,K1,K2,K3,K4,K5,K6,K7
 C======================================================================|
 C     modification of the rigid bodies
 C-------------------------------------------
@@ -271,10 +271,10 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J ,ITEMP(10),K, K0, N,NSL,NN,IAD,ONOF,ONOF1,ISENS,IACTI,
-     .        N2, ISU,ADRSRF,IM, IDEB, IGET,IMAXNSN, IMAXP,
-     .        NSN, NSNP, PROC, ND, PP, II, NSLARB_L, P,
-     .        ONFELT,K1,K2,K3,K4,K5,K6,K7,K8,K9,IFAIL,ELT_ACTIV,PRI_OFF
+      INTEGER I ,K, N,NSL,NN,IAD,ONOF,ONOF1,ISENS,IACTI,
+     .        
+     .          
+     .        ONFELT,K1,K2,K3,K4,K5,K6,K7,IFAIL,ELT_ACTIV,PRI_OFF
       my_real
      .        CRIT
 C======================================================================|

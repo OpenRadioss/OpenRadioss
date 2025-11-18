@@ -44,7 +44,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   TENS(6),GAMA(6),FRAME(3,3)
-      INTEGER IXS(NIXS), KCVT, KHBE, ITYP
+      INTEGER  KCVT, KHBE, ITYP
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

@@ -70,23 +70,23 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IFCTL1,ie
+      INTEGER I,IFCTL1
 C                                                                     12
       my_real NX(MVSIZ),NY(MVSIZ),NZ(MVSIZ),FN(MVSIZ),
-     .        XSC(MVSIZ),YSC(MVSIZ),ZSC(MVSIZ),PENE(MVSIZ),
+     .        PENE(MVSIZ),
      .        XA(MVSIZ),YA(MVSIZ),ZA(MVSIZ),AREA(MVSIZ),
      .        XB(MVSIZ),YB(MVSIZ),ZB(MVSIZ),
      .        XC(MVSIZ),YC(MVSIZ),ZC(MVSIZ),
-     .        LA(MVSIZ),LB(MVSIZ),LC(MVSIZ),STIFKT(MVSIZ),
-     .        RX, RY, RZ, SX, SY, SZ,VXC,VYC,VZC,
-     .        X42,Y42, Z42, X31, Y31, Z31,FX,FY,FZ,
-     .        SAX,SAY,SAZ,SBX,SBY,SBZ,SCX,SCY,SCZ,
-     .        TRX,TRY,TRZ,TSX,TSY,TSZ,TTX,TTY,TTZ,
-     .        TR2,TS2,TT2,AAA,BBB,VR,VS,VT,NNX,NNY,NNZ,
+     .        LA(MVSIZ),LB(MVSIZ),LC(MVSIZ),
+     .        RX, RY, RZ, SX, SY, SZ,
+     .         FX,FY,FZ,
+     .        SAX,SAY,SAZ,SBX,SBY,SBZ,
+     .        
+     .        AAA,BBB,
      .        XAB,XBC,XCA,YAB,YBC,YCA,ZAB,ZBC,ZCA,
      .        XIA,  XIB,  XIC, YIA,  YIB,  YIC,
-     .        ZIA,  ZIB,  ZIC, H0,NORM,S2,FAC,S2MIN,LJ,
-     .        F_Q,F_C,KTS,ZEROM,TX,TY,TZ,PENDR,DX,DY,DZ,DN
+     .        ZIA,  ZIB,  ZIC,NORM,S2,FAC,LJ,
+     .        F_Q,ZEROM,PENDR,DX,DY,DZ,DN
 C----------------------------
         IFCTL = 0
         IFCTL1 = 0

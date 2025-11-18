@@ -84,19 +84,19 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NC1, NC2, NC3, NC4(MVSIZ), NC5(MVSIZ), NC6(MVSIZ),
-     .        I,II(13), J,I1, I2, I3, N ,SVS,JVS(MVSIZ),EP, MAT_1
+     .        I,II(13),I1 ,SVS,JVS(MVSIZ),EP, MAT_1
 C     REAL
       my_real
      .   VX1(MVSIZ), VX2(MVSIZ), VX3(MVSIZ),
      .   VY1(MVSIZ), VY2(MVSIZ), VY3(MVSIZ), 
      .   VZ1(MVSIZ), VZ2(MVSIZ), VZ3(MVSIZ),
-     .   VLX1(MVSIZ), VLX2(MVSIZ), VLX3(MVSIZ),
-     .   VLY1(MVSIZ), VLY2(MVSIZ), VLY3(MVSIZ), 
+     .     
+     .      
      .   VX4(MVSIZ), VY4(MVSIZ), VZ4(MVSIZ),
      .   VX5(MVSIZ), VY5(MVSIZ), VZ5(MVSIZ),
      .   VX6(MVSIZ), VY6(MVSIZ), VZ6(MVSIZ),
-     .   RX1(MVSIZ), RX2(MVSIZ), RX3(MVSIZ), RY1(MVSIZ),
-     .   RY2(MVSIZ), RY3(MVSIZ), RZ1(MVSIZ), RZ2(MVSIZ),RZ3(MVSIZ),
+     .      
+     .      
      .   X1(MVSIZ),X2(MVSIZ),X3(MVSIZ),X4(MVSIZ),X5(MVSIZ),X6(MVSIZ), 
      .   Y1(MVSIZ),Y2(MVSIZ),Y3(MVSIZ),Y4(MVSIZ),Y5(MVSIZ),Y6(MVSIZ),
      .   Z1(MVSIZ),Z2(MVSIZ),Z3(MVSIZ),Z4(MVSIZ),Z5(MVSIZ),Z6(MVSIZ), 

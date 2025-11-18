@@ -175,8 +175,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,N,LCO, NF1, IFLAG, IL, IR, IS, IT, NF2,L_PLA,IMAT,
-     .        IP,NLAY,NPTT,NPTS,NPTR,ICO,IBID,IBIDON(1),MX,II(6),PID,CURRENT_LAYER
+      INTEGER I,N, NF1, IFLAG, IL, IR, IS, IT, NF2,L_PLA,IMAT,
+     .        IP,NLAY,NPTT,NPTS,NPTR,IBID,IBIDON(1),II(6),PID,CURRENT_LAYER
 
       INTEGER MXT(MVSIZ),NGL(MVSIZ),NGEO(MVSIZ),IPERM1(NPE),IPERM2(NPE)
       my_real
@@ -199,7 +199,7 @@ C-----------------------------------------------
       !  Variables void MMAIN 
       my_real
      . SIGY(MVSIZ),ET(MVSIZ),GAMA(MVSIZ,6),
-     . R1_FREE(MVSIZ),R3_FREE(MVSIZ),R4_FREE(MVSIZ),
+     . R1_FREE(MVSIZ),R3_FREE(MVSIZ),
      . TEMPEL(MVSIZ),DIE(MVSIZ),THEM(MVSIZ,NPE),AREA(MVSIZ),LLSH(MVSIZ)
       my_real, dimension(mvsiz) :: fheat
      

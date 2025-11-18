@@ -44,7 +44,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   QC(MVSIZ,3,3),QCG(MVSIZ,3,3),QGC(MVSIZ,3,3),QG(MVSIZ,3,3),
-     .   G3(MVSIZ,3),C33(MVSIZ,3),CC(MVSIZ,3,3),CG(MVSIZ,3,3),G33(MVSIZ,3,3)
+     .   C33(MVSIZ,3),CC(MVSIZ,3,3),CG(MVSIZ,3,3),G33(MVSIZ,3,3)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

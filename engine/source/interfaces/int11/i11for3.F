@@ -86,7 +86,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT
-      INTEGER NELTST,ITYPTST,JLT,IBC,IVIS2,INACTI,NRTS,NIN,INTTH
+      INTEGER NELTST,ITYPTST,JLT,IVIS2,INACTI,NRTS,NIN,INTTH
       INTEGER ITAB(*),
      .        NOINT,NEWFRONT,NISUB,NFT
       INTEGER N1(MVSIZ), N2(MVSIZ), M1(MVSIZ), M2(MVSIZ),
@@ -124,8 +124,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J1, J , K0,NBINTER,K1S,K, NI
-      INTEGER NISKYL,NISKYL1,IDTM,IM,IS,JSUB,KSUB,JJ,KK,NSUB,PP,PPL,
+      INTEGER I ,K, NI
+      INTEGER IDTM,IM,IS,JSUB,KSUB,JJ,KK,NSUB,PP,PPL,
      .   ITYPSUB,ISS1,ISS2,IMS1,IMS2
       my_real
      .   VX(MVSIZ), VY(MVSIZ), VZ(MVSIZ), VN(MVSIZ),

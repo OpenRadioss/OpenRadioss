@@ -176,7 +176,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NIPMAX,NPE, NF1, NF2, IADBUF,IBID,
-     . J,I,N,K
+     . I,N
       PARAMETER (NIPMAX=81)
       PARAMETER (NPE=20)
       
@@ -193,7 +193,7 @@ C-----------------------------------------------
      .  E1Y (MVSIZ,NIPMAX) ,E2Y (MVSIZ,NIPMAX) ,E3Y (MVSIZ,NIPMAX) ,
      .  E1Z (MVSIZ,NIPMAX) ,E2Z (MVSIZ,NIPMAX) ,E3Z (MVSIZ,NIPMAX) , 
      .  PX(MVSIZ,NPE,NIPMAX),PY(MVSIZ,NPE,NIPMAX),PZ(MVSIZ,NPE,NIPMAX),
-     .  OFF(MVSIZ), WI, VOLNP(MVSIZ,NIPMAX),STIN(MVSIZ,NPE),
+     .   WI, VOLNP(MVSIZ,NIPMAX),STIN(MVSIZ,NPE),
      .  NI(NPE,NIPMAX), VOLG(MVSIZ),UL(MVSIZ,NPE),GAMA(MVSIZ,6),
      .  DM(9,MVSIZ), DGM(9,MVSIZ),GM(9,MVSIZ), DELTAX(MVSIZ),BID(1),
      .  DD(9,MVSIZ),GG(MVSIZ),DG(9,MVSIZ),G33(9,MVSIZ),OFFG(MVSIZ)          

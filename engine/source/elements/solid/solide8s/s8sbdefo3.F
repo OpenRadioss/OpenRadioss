@@ -75,7 +75,7 @@ C     REAL
      .   DZX(*), DZY(*), DZZ(*), D4(*), D5(*), D6(*),
      .   WXX(*), WYY(*), WZZ(*), OFFS(*),DSV(*),
      .   VOLO(*),OFF(*),EINT(*),FAC(*),SDV(*),
-     .   DN_X(MVSIZ,8),DN_Y(MVSIZ,8),DN_Z(MVSIZ,8),
+     .   
      .   DN_R(8), DN_S(8), DN_T(8), INVJ(9,MVSIZ),
      .   ULX1(MVSIZ), ULX2(MVSIZ), ULX3(MVSIZ), ULX4(MVSIZ),
      .   ULX5(MVSIZ), ULX6(MVSIZ), ULX7(MVSIZ), ULX8(MVSIZ),
@@ -108,7 +108,7 @@ C     REAL
      .   CA11,CA21,CA31,CA12,CA22,CA32,CA13,CA23,CA33,
      .   D11,D22,D33,D12,D13,D23
       DOUBLE PRECISION
-     .   DVP,DV,DV1
+     .   DV,DV1
 C
       TOL = ONE-EM20
 C-----------------------------------------------

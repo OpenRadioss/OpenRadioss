@@ -61,7 +61,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IRECT(4,*), NSV(*), CAND_E(*), CAND_N(*),KINET(*),KINI(*),
      .        MSR(*), NODNX_SMS(*), INDEX(*),
-     .        JLT, NOINT, IGAP , NSN, NIN, IGSTI
+     .        JLT, IGAP , NSN, NIN, IGSTI
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        NSVG(MVSIZ), NSMS(MVSIZ)
 C     REAL
@@ -78,12 +78,12 @@ C     REAL
      .   NX1(MVSIZ), NX2(MVSIZ), NX3(MVSIZ), NX4(MVSIZ),
      .   NY1(MVSIZ), NY2(MVSIZ), NY3(MVSIZ), NY4(MVSIZ),
      .   NZ1(MVSIZ), NZ2(MVSIZ), NZ3(MVSIZ), NZ4(MVSIZ),
-     .   PENE(MVSIZ),STIF(MVSIZ) ,GAPV(MVSIZ),
+     .   STIF(MVSIZ) ,GAPV(MVSIZ),
      .   VXI(MVSIZ), VYI(MVSIZ), VZI(MVSIZ), MSI(MVSIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I ,J ,IL, L, IG, ITMP, NN, NI
+      INTEGER I  , L, IG, NN, NI
 C-----------------------------------------------
       IF(IGAP==0)THEN
        DO I=1,JLT

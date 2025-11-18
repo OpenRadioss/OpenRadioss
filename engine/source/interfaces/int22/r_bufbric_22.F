@@ -66,7 +66,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
          INTEGER          :: NIN, I, J, K, IERR1, TRIMATL, M51_N0PHASL, M51_NVPHASL,ib
-         INTEGER          :: Isectype(14)  , ISIZ, IASC
+         INTEGER          ::  ISIZ, IASC
          INTEGER, DIMENSION(I22LEN) :: READ_ITAB
          my_real, DIMENSION(I22LEN) :: READ_RTAB
 

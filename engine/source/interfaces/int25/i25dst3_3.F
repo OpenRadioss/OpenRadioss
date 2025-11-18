@@ -77,7 +77,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, K, L, N, I1, I2, JG, IT, ITRIA(2,4), I3, I4,
+      INTEGER I, K, N, I1, I2, JG, IT, ITRIA(2,4),
      .        IB1, IB2, IB3, IBX, IX, IY, IZ, NBORD, KBORD(MVSIZ)
       my_real
      .        AAA, NNI, NI2, H0, PENE_SHFT,
@@ -87,11 +87,11 @@ C-----------------------------------------------
      .        NX(MVSIZ), NY(MVSIZ), NZ(MVSIZ),
      .        NN1(MVSIZ), NN2(MVSIZ), NN3(MVSIZ), DD, S,
      .        EPSEG, AX, BX, CX, GAP_MM(MVSIZ),
-     .        LBS(MVSIZ), LCS(MVSIZ), XP(MVSIZ), YP(MVSIZ), ZP(MVSIZ), 
+     .          XP(MVSIZ), YP(MVSIZ), ZP(MVSIZ), 
      .        X0N(MVSIZ,4), Y0N(MVSIZ,4), Z0N(MVSIZ,4), 
-     .        N1X,N1Y,N1Z,N1N,
-     .        N2X,N2Y,N2Z,N2N,
-     .        LINTERP, LBM, LCM, LAM, XL, YL, ZL,
+     .        
+     .        
+     .           
      .        PN, VX, VY, VZ,
      .        NNE1,NNE2,NNE4
       DATA ITRIA/1,2,2,3,3,4,4,1/

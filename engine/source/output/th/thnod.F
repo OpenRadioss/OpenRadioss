@@ -82,10 +82,10 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: CONDITION
-      INTEGER I, J, ISK, II, L, K, IUN, IFRA, N1,IPLY,IDIR,N
+      INTEGER I, J, ISK, II, L, K, IUN, IFRA,IPLY,IDIR,N
       INTEGER :: II_SAVE,IJK, ITYP
       INTEGER :: IAD,NN,IADV,NVAR
-      my_real :: XL(3),DL(3),VL(3),AL(3),VRL(3),ARL(3),OD(3),VO(3),AO(3),VRG(3),ARG(3)
+      my_real :: XL(3),DL(3),VL(3),AL(3),VRL(3),ARL(3),VRG(3),ARG(3)
       DATA IUN/1/
 C-------------------------
 C     NODES

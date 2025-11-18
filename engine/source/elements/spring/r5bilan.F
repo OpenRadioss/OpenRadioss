@@ -80,7 +80,7 @@ C-----------------------------------------------
      .   X2(MVSIZ), Y2(MVSIZ), Z2(MVSIZ),
      .   V1(MVSIZ,3),V2(MVSIZ,3),
      .   VR1(MVSIZ,3),VR2(MVSIZ,3),
-     .   IN2,EI(MVSIZ),REK(MVSIZ),
+     .   IN2,REK(MVSIZ),
      .   EK(MVSIZ), XM(MVSIZ), YM(MVSIZ), ZM(MVSIZ), XMAS2(MVSIZ),
      .   XXM(MVSIZ), YYM(MVSIZ), ZZM(MVSIZ), 
      .   XCG(MVSIZ), YCG(MVSIZ), ZCG(MVSIZ),

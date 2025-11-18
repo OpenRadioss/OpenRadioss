@@ -124,7 +124,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I, II, NODE1, NODE2, NODE3, NODE4, NODE5, NODE6, NODE7, NODE8
+      INTEGER :: I, II, NODE1, NODE2, NODE3, NODE4
       my_real
      .     X1(3), X2(3), X3(3), X4(3), VOL
       my_real 
@@ -269,9 +269,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I, II, NODE1, NODE2, NODE3, NODE4, NODE5, NODE6, NODE7, NODE8
+      INTEGER :: I, II, NODE1, NODE2, NODE3
       my_real
-     .     X1(3), X2(3), X3(3), X4(3), X5(3), X6(3), X7(3), X8(3)
+     .     X1(3), X2(3), X3(3)
       DO II = 1, NEL
          I = II + NFT
 C     Nodes of the element locally stored in NODE* for memory access

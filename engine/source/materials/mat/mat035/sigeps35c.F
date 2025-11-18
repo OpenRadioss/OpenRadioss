@@ -91,15 +91,15 @@ C----------------------------------------------------------------
 C----------------------------------------------------------------
 C  L O C A L  V A R I B L E S
 C----------------------------------------------------------------
-      INTEGER I,J,KF,IFLAG,ICORRECT
+      INTEGER I,KF,IFLAG,ICORRECT
 
       my_real
-     .        POISSON,E,E1,E2,G02,BULK0,
-     .        GT2,BULKT,LAMDA,LAMDAT,RELVEXP,
-     .        VMU2,VLAMDA,VBULK,FAC,
+     .        POISSON,E,E1,E2,G02,
+     .        GT2,BULKT,RELVEXP,
+     .        VMU2,VBULK,FAC,
      .        C1,C2,C3,PMIN,DPDMU,EPSPC,
      .        P0,PHI,GAMA0, VAR,EPSP,
-     .        DPDGAMA(MVSIZ),GAMA(MVSIZ),AMU(MVSIZ),
+     .        GAMA(MVSIZ),AMU(MVSIZ),
      .        SM(MVSIZ),EM(MVSIZ),DEDTM(MVSIZ),
      .        G2(MVSIZ),BULK(MVSIZ),
      .        DSXX(MVSIZ),DSYY(MVSIZ),DSXY(MVSIZ),
@@ -113,7 +113,7 @@ C----------------------------------------------------------------
      .        RHO(MVSIZ)
 
       my_real
-     .       SSM,EPSM,EPSPM,EPIN,SMALL,CSHEAR,MIDSTEP,DT05
+     .       SSM,EPSM,EPSPM,SMALL,CSHEAR,MIDSTEP,DT05
 C=======================================================================
       SMALL = EM3
       CSHEAR= ZEP426667

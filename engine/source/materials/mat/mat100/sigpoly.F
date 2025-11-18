@@ -68,8 +68,8 @@ C----------------------------------------------------------------
       INTEGER    I
 
       my_real     
-     .   Wmax,LPCHAIN(NEL), TRACE(NEL),TRACEB(NEL),J2THIRD(NEL),
-     .   SB1(NEL), SB2(NEL),SB3(NEL),TBNORM(NEL),DGAMMA(NEL),I1(NEL),
+     .   Wmax,J2THIRD(NEL),
+     .    I1(NEL),
      .   AA,BB,CC,TRB2,TRB22,RBULK,
      .   I2(NEL),JTHIRD(NEL),J4THIRD(NEL),ETA(NEL),WW(NEL) ,
      .   DPHIDI1(NEL) ,DPHIDI2(NEL) , DPHIDJ(NEL) ,INV2J(NEL), 
@@ -230,8 +230,8 @@ C----------------------------------------------------------------
       INTEGER    I
 
       my_real     
-     .   Wmax,LPCHAIN(NEL), TRACE(NEL),TRACEB(NEL),J2THIRD(NEL),MATB2(NEL,3,3),
-     .   SB1(NEL), SB2(NEL),SB3(NEL),TBNORM(NEL),DGAMMA(NEL),I1(NEL),
+     .   Wmax,J2THIRD(NEL),MATB2(NEL,3,3),
+     .    I1(NEL),
      .   AA,BB,CC,TRB2,TRB22,
      .   I2(NEL),JTHIRD(NEL),J4THIRD(NEL),ETA(NEL),WW(NEL) ,
      .   DPHIDI1(NEL) ,DPHIDI2(NEL) , DPHIDJ(NEL) ,INV2J(NEL), 
@@ -408,9 +408,9 @@ C----------------------------------------------------------------
       INTEGER    I
 
       my_real     
-     .   LPCHAIN(NEL), TRACE(NEL),TRACEB(NEL),JDET(NEL),STIFF(NEL),
-     .   SB1(NEL), SB2(NEL),SB3(NEL),TBNORM(NEL),DGAMMA(NEL),
-     .   EVPN(NEL,3),EVEL(NEL,3),EVB(NEL,3),
+     .    JDET(NEL),STIFF(NEL),
+     .    
+     .   EVB(NEL,3),
      .   AA,BB,CC,C10,C01,C20,C11,C02,C30,C21,C12,C03,D1,D2,D3,
      .   I2(NEL),JTHIRD(NEL),J4THIRD(NEL),BI1(NEL),
      .   BI2(NEL),DPHIDI1(NEL) ,DPHIDI2(NEL) , DPHIDJ(NEL) ,INV2J(NEL) 

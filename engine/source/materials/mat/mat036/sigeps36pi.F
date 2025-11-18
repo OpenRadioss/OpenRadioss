@@ -79,7 +79,7 @@ C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,INTENT(IN) :: IMAT
-      INTEGER NEL,NUPARAM,IPT,NVARTMP
+      INTEGER NEL,IPT,NVARTMP
       INTEGER NGL(NEL),NPF(*),IPM(NPROPMI,*),KFUNC(*)
       my_real
      . TIME,TIMESTEP,UPARAM(*),PLA(NEL),EPSP(NEL),
@@ -103,19 +103,19 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,J1,J2,N,NINDX,IADBUF,NFUNC,IPLAS,IFAIL,MFUNCE,ISMOOTH
+      INTEGER I,J,J1,J2,IADBUF,NFUNC,IPLAS,IFAIL,MFUNCE,ISMOOTH
       INTEGER NRATE(NEL),IAD1(NEL),IPOS1(NEL),ILEN1(NEL),
      .        IAD2(NEL),IPOS2(NEL),ILEN2(NEL),JJ(NEL),
      .        IFUNC(NEL,100),OPTE(NEL)
       my_real :: G3(NEL),DYDX1(NEL),DYDX2(NEL),RATE(NEL,2),
-     .        Y1(NEL),Y2(NEL),DR(NEL),YFAC(NEL,2),
-     .        PP(NEL),QQ(NEL),FAIL(NEL),SVM(NEL),H(NEL),
-     .        EPSMAX(NEL),EPSR1(NEL),EPSR2(NEL),
-     .        SIGEXX(NEL),SIGEYY(NEL),SIGEXY(NEL),
-     .        HK(NEL),NU(NEL),NU1(NEL),EPSF(NEL),YLD(NEL),
-     .        AA(NEL),BB(NEL),CC(NEL),EINF(NEL),CE(NEL),
+     .        Y1(NEL),Y2(NEL),YFAC(NEL,2),
+     .        FAIL(NEL),H(NEL),
+     .        EPSMAX(NEL),
+     .        
+     .        NU(NEL),YLD(NEL),
+     .        EINF(NEL),CE(NEL),
      .        ESCALE(NEL),DYDXE(NEL)
-      my_real :: R,UMR,FAC,GS,SVM1,SHFACT,EPSP1,EPSP2,RFAC
+      my_real :: R,UMR,FAC,GS,SVM1,SHFACT,EPSP1,EPSP2
 C=======================================================================
       IPLAS  = 1                        
       SHFACT = FIVE_OVER_6

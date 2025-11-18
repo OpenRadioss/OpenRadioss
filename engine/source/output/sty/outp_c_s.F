@@ -65,11 +65,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,II,JJ,IGTYP,NUVAT,NBB(100),RESP0,WRTLEN,RES
-      INTEGER NG, NEL, NFT, IAD, ITY, LFT, NPT,NLAY,NPTR,NPTS,NPTT,
-     .        LLT, MLW, ISTRAIN,N, K1, K2,IL,IR,IS,IT,
-     .        IHBE, JJ_OLD, NGF, NGL, NN, LEN, IMX,NUVAR,L,
-     .        NBX,NPG,MPT,IPT,I1,NU,KK,NS,NVAR,ITHK,I5,COMPTEUR,
+      INTEGER I,J,K,JJ,RESP0,WRTLEN,RES
+      INTEGER NG, NEL, NFT, ITY, LFT, NPT,NLAY,NPTR,NPTS,NPTT,
+     .        LLT, MLW, ISTRAIN,N,IL,IR,IS,IT,
+     .        IHBE, JJ_OLD, NGF, NGL, NN, IMX,NUVAR,L,
+     .        NBX,NPG,MPT,IPT,I1,NU,KK,NVAR,ITHK,COMPTEUR,
      .        IJ(3)
       INTEGER, DIMENSION(NSPGROUP) :: JJ_LOC
       INTEGER, DIMENSION(NSPGROUP+1,NSPMD) :: ADRESS 
@@ -77,9 +77,9 @@ C-----------------------------------------------
      .   WA(SIZLOC),WAP0(SIZ_WR),WAP0_LOC(SIZP0)
 
       my_real   
-     .   FAC,S1, S2, S12, VONM2,AA,MEAN_GAUSS
+     .   FAC,S1, S2, S12, VONM2,MEAN_GAUSS
       my_real   
-     .   FUNC(6),FUNC1(100)
+     .   FUNC(6)
       TYPE(BUF_LAY_) ,POINTER :: BUFLY     
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
       TYPE(G_BUFEL_) ,POINTER :: GBUF     
@@ -681,8 +681,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER JJ,NGF,NGL,NN,ITY,IAD,NFT,LFT,LLT,NPT,
-     .        IHBE,IGTYP,NUVAR,MLW,NG,NEL,NBX,I,NPG,MPT,
+      INTEGER JJ,NGF,NGL,NN,ITY,NFT,LFT,LLT,NPT,
+     .        IHBE,IGTYP,NUVAR,MLW,NG,NEL,I,NPG,MPT,
      .        WASZ1,WASZ26,J
 C-----------------------------------------------
       WASZ1 = 0

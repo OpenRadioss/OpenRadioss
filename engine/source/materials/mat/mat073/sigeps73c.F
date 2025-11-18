@@ -107,22 +107,22 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER I,J,NXK,J1,J2,N,NINDX,NMAX,
+      INTEGER I,J,N,NINDX,NMAX,
      .        INDEX(MVSIZ),OPTE,IFUNCE,FUNC_TAB
       my_real 
-     .        A,B,S12,FAC,DEZZ,SIGZ,S1,S2,S3,DPLA,VM2,EPST,
+     .        A,B,S12,DEZZ,S1,S2,S3,EPST,
      .        A_1,A_2,A_3,P_1,P_2,P_3,PP1,PP2,PP3,DR,DR0,
      .        E,A1,A2,G,G3,
      .        A01,A02,A03,A12,
      .        AXX(MVSIZ),AYY(MVSIZ),AXY(MVSIZ),A_XY(MVSIZ),
      .        DYDX(MVSIZ),SVM(MVSIZ),
-     .        SVM0(MVSIZ),YLD(MVSIZ),YK(MVSIZ),
+     .        YLD(MVSIZ),YK(MVSIZ),
      .        NNU1,NU,NU2,NU3,NU4,NU5,
      .        JQ(MVSIZ),JQ2(MVSIZ),
      .        EPSMAX,DPLA_I(MVSIZ),DPLA_J(MVSIZ),FAIL(MVSIZ),
      .        EPSR1,EPSR2,S11(MVSIZ),S22(MVSIZ),
      .        B_1(MVSIZ),B_2(MVSIZ),B_3(MVSIZ),Q12(MVSIZ),Q21(MVSIZ),
-     .        ERR,F,DF,PLA_I,YLD_I,H(MVSIZ),
+     .        F,DF,YLD_I,H(MVSIZ),
      .        FISOKIN,HK(MVSIZ),FHK,FA01,FA02,FA03,NU1,XFAC,YFAC,CE,
      .        E1(MVSIZ), A11(MVSIZ),A21(MVSIZ),G1(MVSIZ),G31(MVSIZ),
      .        DYDXE(MVSIZ),ESCALE(MVSIZ),EINF,NORMXX,NORMYY

@@ -59,7 +59,7 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER EP,I,J,L,K,I1,J1,IN(2),NF
+      INTEGER EP,I
       MY_REAL 
      .    DM(2,2,MVSIZ),DF(2,2,MVSIZ),DCX(MVSIZ),DCY(MVSIZ),
      .    PX1PX1(MVSIZ),PX1PY1(MVSIZ),PX1PY2(MVSIZ),PX1PY3(MVSIZ),
@@ -72,7 +72,7 @@ C-----------------------------------------------
      .    H11(MVSIZ),H12(MVSIZ),H22(MVSIZ),H13(MVSIZ),H23(MVSIZ),
      .    DM5(MVSIZ),DM6(MVSIZ),DF5(MVSIZ),DF6(MVSIZ),DM5_2(MVSIZ),
      .    DM6_2(MVSIZ),DF5_2(MVSIZ),DF6_2(MVSIZ),
-     .    DMF(3,3,MVSIZ),MFIJ(2,2,MVSIZ)
+     .    DMF(3,3,MVSIZ)
 C----------- CAPTE Matrix Sym KII only calculates half ---------- 72
        DO EP=JFT,JLT 
         C2=VOL(EP)
@@ -624,7 +624,7 @@ C-----------------------------------------------
      .    PX1PX1(MVSIZ),PX1PY1(MVSIZ),PX1PY2(MVSIZ),PX1PY3(MVSIZ),
      .    PY1PY1(MVSIZ),PY1PY2(MVSIZ),PY1PY3(MVSIZ),PY3(MVSIZ),
      .    PY2PY2(MVSIZ),PY2PY3(MVSIZ),PY3PY3(MVSIZ),
-     .    C1,C2,DHZ(MVSIZ),C3,
+     .    C2,DHZ(MVSIZ),
      .    KZ11(2,2,MVSIZ),KZ12(2,2,MVSIZ),KZ22(2,2,MVSIZ),
      .    KZ13(2,2,MVSIZ),KZ23(2,2,MVSIZ),KZ33(2,2,MVSIZ)
        PARAMETER (NPG = 3)

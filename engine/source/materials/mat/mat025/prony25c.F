@@ -70,7 +70,7 @@ C-----------------------------------------------
 C
       INTEGER NEL ,NPRONY,IGTYP
       my_real
-     .   TIME,TIMESTEP,KV,GV(NPRONY),BETA(NPRONY),
+     .   TIMESTEP,KV,GV(NPRONY),BETA(NPRONY),
      .   RHO0(*),EPSPXX(*),EPSPYY(*),
      .   EPSPXY(*),EPSPYZ(*),EPSPZX(*),SIGV(NEL,5),DIR(NEL,2)
 C-----------------------------------------------
@@ -101,9 +101,9 @@ C-----------------------------------------------
       INTEGER
      . I,J,II,LL
       my_real 
-     .  CC,G1,DAV,EPXX(MVSIZ),EPYY(MVSIZ),EPZZ(MVSIZ),SVXX,
-     .  SVYY,SVZZ,P(MVSIZ),
-     .  AA(MVSIZ,NPRONY),BB(MVSIZ,NPRONY),H0(6),EPSPZZ(MVSIZ),
+     .  G1,DAV,EPXX(MVSIZ),EPYY(MVSIZ),EPZZ(MVSIZ),
+     .  P(MVSIZ),
+     .  AA(MVSIZ,NPRONY),BB(MVSIZ,NPRONY),EPSPZZ(MVSIZ),
      .  H(MVSIZ,6,NPRONY),S(MVSIZ,6),A1(MVSIZ),A2(MVSIZ),FAC,H01,H02,H03,H04,
      .  H05,H06
 C-----------------------------------------------

@@ -143,7 +143,7 @@ C-----------------------------------------------
       INTEGER NB_NCN,NB_NCN1,NB_ECN,ADDNN,ADDNE,I,J,DIR,NB_NC,NB_EC,
      .        N1,N2,N3,N4,NN,NE,K,L,NCAND_PROV,J_STOK,II,JJ,
      .        PROV_N(2*MVSIZ),PROV_E(2*MVSIZ),
-     .        TN1(NVECSZ),TN2(NVECSZ),TN3(NVECSZ),TN4(NVECSZ),
+     .        
 C BPE: Use on nrtm and not nrtm + 100 rigorously (here maxsiz = nrtm + 100)
      .        BPE(MAXSIZ/3),PE(MAXSIZ),BPN(NSN+NSNR),PN(NSN+NSNR),
      .        OLDNUM(ISZNSNR),IADD
@@ -151,10 +151,10 @@ C     REAL
       my_real
      .   AAA,
      .   DX,DY,DZ,DSUP,TRHRESHOLD, XX1, XX2, XX3, XX4,
-     .   XMIN, XMAX,YMIN, YMAX,ZMIN, ZMAX, TZ, GAPSMX, BGAPSMX, GAPL,
-     .   TXX1(3,NVECSZ), TXX2(3,NVECSZ), TXX3(3,NVECSZ), TXX4(3,NVECSZ),
-     .   TXMAX(NVECSZ),TXMIN(NVECSZ),TYMAX(NVECSZ),
-     .   TYMIN(NVECSZ),TZMAX(NVECSZ),TZMIN(NVECSZ),SMOINS,SPLUS,XX
+     .   XMIN, XMAX,YMIN, YMAX,ZMIN, ZMAX, TZ, GAPSMX, BGAPSMX,
+     .      
+     .   
+     .   SMOINS,SPLUS,XX
 C REMNODE
       INTEGER, DIMENSION(:), ALLOCATABLE :: TAGREMNODE
       INTEGER DELNOD,M

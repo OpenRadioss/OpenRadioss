@@ -57,7 +57,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, ID, NBX, NBY, K1, K2, KIBJET, KIBHOL, KIBALE, KK1, N,
-     .        ITYP, NN, KI1, J, JJ, NSTEP, IV(10), IFVI, NBZ, IFV
+     .        ITYP, NN, KI1, J, NSTEP, IFVI, NBZ, IFV
       my_real
      .        VX3, VY3, VZ3, VX1, VY1, VZ1, DX0, DY0, DZ0, LX, LY, NORM,
      .        VVX3, VVY3, VVZ3, NORM2, SS, VVX1, VVY1, VVZ1, VVX2,

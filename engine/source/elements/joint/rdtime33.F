@@ -64,8 +64,8 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
 C     REAL
-      my_real DX(3),THETA(3),E0(MVSIZ),TH1,TH2,TH3,
-     .   DT(JLT-JFT+1), DTC(1), DTINV,  A, MASS2, IN2, DTA, DTB, MX2,
+      my_real 
+     .   DT(JLT-JFT+1), DTA, DTB, MX2,
      .   MS, IN   
 C=======================================================================
 C     nodal time step

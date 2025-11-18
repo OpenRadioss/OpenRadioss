@@ -57,9 +57,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,K,IR,ELCRK,ELCRKTG,ILEV,ILAY,IXEL,ELCUT,IECUT,NELCRK,NSX,
+      INTEGER I,K,IR,ELCRK,ELCRKTG,ILEV,ILAY,IXEL,ELCUT,IECUT,NELCRK,
      .  IED,EDGE,FAC,IBOUNDEDGE,LAYCUT,ENR,ITRI,ITIP,IAD,COUNT
-      INTEGER JCT(MVSIZ),IADC(3),ENR0(3),IENR(3),NTAG(3),d(3),NS(3)
+      INTEGER JCT(MVSIZ),IADC(3),NTAG(3),d(3),NS(3)
       DATA D/2,3,1/
 C=======================================================================
       NELCRK = 0

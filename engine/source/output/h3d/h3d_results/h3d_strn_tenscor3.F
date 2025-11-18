@@ -63,19 +63,19 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C     REAL
       my_real
-     .   GAMA(6),OFF, P, VONM2, VONM, S1, S2, S12, S3, VALUE,
-     .   A1,B1,B2,B3,YEQ,F1,M1,M2,M3,FOR,AREA(MVSIZ),
+     .   GAMA(6),
+     .   
      .   A_GAUSS_R,A_GAUSS_S,A_GAUSS_T,N1,
      .   A_GAUSS_R1,A_GAUSS_S1,A_GAUSS_T1,
      .   A_GAUSS_P_R,A_GAUSS_P_S,A_GAUSS_P_T
-      INTEGER I,II, ISS, ISC,NBGAMA,
-     .        IADD, N, J, MLW,  
-     .        ISTRAIN,NN, JTURB,MT, IMID, IALEL,IPID,
-     .        NN1,NF,OFFSET,K,INC,KK, IUS, NUVAR,
-     .        INOD, ISOLNOD, IPRT, LIAD, NPTR, NPTS, NPTT, IPT,
-     .        IS, IR, IT, NPTG,NC(10,MVSIZ),NNOD,IEXPAN,IHBE,MPT,ILAY,
-     .        ICSIG,DIR,IVISC,JJ(6),IP
-      INTEGER MLW2,NLAY
+      INTEGER I,II,
+     .         N, J,  
+     .        
+     .        NN1,K,INC,
+     .         ISOLNOD, NPTR, NPTS, NPTT,
+     .        IS, IR, IT,NC(10,MVSIZ),NNOD,ILAY,
+     .        IVISC,JJ(6),IP
+      INTEGER NLAY
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
       TYPE(L_BUFEL_)  ,POINTER :: LBUF   
       my_real

@@ -83,15 +83,15 @@ C-----------------------------------------------
       INTEGER IDX(MVSIZ),IDY(MVSIZ),IDZ(MVSIZ),
      .        IDX2(MVSIZ),IDY2(MVSIZ),IDZ2(MVSIZ),
      .        N1, N2, N3,NKNOT1,NKNOT2,NKNOT3, I, J,K, JJ, L, M, N,
-     .        O, P, Q, BID, COUNT, PROJEC,
+     .           BID, COUNT,
      .        ITENS, IDBRICK, INCTRL,IERROR,
-     .        IPROP, NELIG3D,IAD_KNOT,
+     .        IPROP,IAD_KNOT,
      .        IR, IS, IT, ING, DECAL, COUNT2, COUNT3, NEL,
-     .        IDFRSTLOCKNT,IDPC
+     .        IDFRSTLOCKNT
       my_real
      .   XX(NCTRL,MVSIZ),YY(NCTRL,MVSIZ),ZZ(NCTRL,MVSIZ),
      .   DX(NCTRL,MVSIZ),DY(NCTRL,MVSIZ),DZ(NCTRL,MVSIZ), 
-     .   UX(NCTRL,MVSIZ),UY(NCTRL,MVSIZ),UZ(NCTRL,MVSIZ),
+     .   
      .   VX(NCTRL,MVSIZ),VY(NCTRL,MVSIZ),VZ(NCTRL,MVSIZ),
      .   AX(NCTRL,MVSIZ),AY(NCTRL,MVSIZ),AZ(NCTRL,MVSIZ),
      .   CONTX(NCTRL,MVSIZ),CONTY(NCTRL,MVSIZ),CONTZ(NCTRL,MVSIZ),
@@ -111,7 +111,7 @@ C-----------------------------------------------
       my_real,
      .  ALLOCATABLE, DIMENSION(:,:) :: RI,FI
       my_real
-     .   RBID,TBID(NCTRL,3)
+     .   TBID(NCTRL,3)
 C----------------------------------------------------------
       DOUBLE PRECISION
      .  W_GAUSS(9,9),A_GAUSS(9,9)
