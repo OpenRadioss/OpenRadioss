@@ -451,13 +451,13 @@
             write(iout,*)' '
             ! output yield table after modifications
             npt   = size(mat_param%table(1)%x(1)%values)
-            nrate = size(mat_param%table(1)%x(2)%values)
             if (mat_param%table(1)%ndim == 1) then
               write(iout,2000) id_funcy(1)
               do i=1,npt
                 write(iout,3000) mat_param%table(1)%x(1)%values(i),mat_param%table(1)%y1d(i)
               end do
             else
+              nrate = size(mat_param%table(1)%x(2)%values)
               do j=1,nrate
                 write(iout,2500) id_funcy(j), mat_param%table(1)%x(2)%values(j)
                 do i=1,npt

@@ -134,7 +134,7 @@ C-----------------------------------------------
       CHARACTER(LEN=NCHARTITLE)::TITR
       INTEGER I,IADBUF,NPAR,NFUNC,NUVAR,IFORM,NUMEL
       INTEGER IFUNC(MAXFUNC)
-      INTEGER ID
+      INTEGER ID,IMAT
       my_real, DIMENSION(MVSIZ) :: RHO0,YLDFAC
       my_real, DIMENSION(MVSIZ) ,TARGET :: TMP,EPL,FILLO
       my_real, DIMENSION(:) ,POINTER ::
@@ -305,6 +305,7 @@ C=======================================================================
           IPARG(16)=1
         END IF
 
+        IMAT = MAT(1)
         NUVAR  = IPM(8,MAT(1))
         NPAR   = IPM(9,MAT(1))
         IADBUF = IPM(7,MAT(1))
@@ -327,8 +328,7 @@ C=======================================================================
             yldfac(1:nel) = one
           end if
           
-          CALL M36INIT(NEL   ,NPAR  ,NUVAR ,NFUNC ,IFUNC  ,YLDFAC  ,
-     .                 SNPC  ,STF   ,NPF   ,TF    ,UPARAM ,MBUF%VAR)
+          CALL M36INIT(MAT_PARAM(IMAT),NEL ,NUVAR ,MBUF%VAR,YLDFAC)
 
         ELSEIF (MTN == 37) THEN
           IPARG(63) = 1 !Loi fluide
