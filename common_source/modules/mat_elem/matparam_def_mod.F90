@@ -262,6 +262,7 @@
 !||    m2lawp                              ../engine/source/materials/mat/mat002/m2lawp.F
 !||    m2lawpi                             ../engine/source/materials/mat/mat002/m2lawpi.F
 !||    m2lawt                              ../engine/source/materials/mat/mat002/m2lawt.F
+!||    m36init                             ../starter/source/materials/mat/mat036/m36init.F90
 !||    m51init                             ../starter/source/materials/mat/mat051/m51init.F
 !||    mat25_crasurv_c                     ../engine/source/materials/mat/mat025/mat25_crasurv_c.F90
 !||    mat25_crasurv_s                     ../engine/source/materials/mat/mat025/mat25_crasurv_s.F90
