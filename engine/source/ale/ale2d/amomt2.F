@@ -37,7 +37,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .   VY1, VY2   , VY3,  VY4, VZ1  , VZ2, VZ3 , VZ4,
      .   DYY, DZZ   , DYZ,  DZY,
      .   NC1, NC2   , NC3,  NC4, MAT  , OFF,
-     .   QMV, BUFMAT, DELTAX, VIS, IPM)
+     .   QMV, BUFMAT, DELTAX, VIS, IPM,
+     .   first,s_qmv,nv46)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -66,6 +67,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      integer, intent(in) :: first !< first element of the group
+      integer, intent(in) :: s_qmv !< first dimension of qmv array
+      integer, intent(in) :: nv46 !< second dimension of qmv array
       my_real
      .   PM(NPROPM,NUMMAT), W(3,NUMNOD), RHO(*),
      .   Y1(*), Y2(*), Y3(*), Y4(*), Z1(*), Z2(*), Z3(*), Z4(*),
@@ -73,13 +77,13 @@ C-----------------------------------------------
      .   PY1(*), PY2(*), PZ1(*), PZ2(*), AIREM(*),
      .   VY1(*), VY2(*), VY3(*), VY4(*), 
      .   VZ1(*), VZ2(*), VZ3(*), VZ4(*),
-     .   DYY(*), DZZ(*), DYZ(*), DZY(*), OFF(*),QMV(8,*),BUFMAT(*), DELTAX(*), VIS(*)
+     .   DYY(*), DZZ(*), DYZ(*), DZY(*), OFF(*),QMV(s_qmv,2*nv46),BUFMAT(*), DELTAX(*), VIS(*)
       INTEGER MAT(*), NC1(*), NC2(*), NC3(*), NC4(*)
       INTEGER,INTENT(IN) :: IPM(NPROPMI,NUMMAT)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,IADBUF,IFLG
+      INTEGER :: I,IADBUF,IFLG,ii
       my_real :: F1(MVSIZ), F2(MVSIZ),A1(MVSIZ), A2(MVSIZ), XMS(MVSIZ), GAMMA(MVSIZ),VDY(MVSIZ), VDZ(MVSIZ)
       my_real :: FAC,AAA,DM,DMY,DMZ
       my_real :: FVY1(MVSIZ), FVZ1(MVSIZ), FVY2(MVSIZ), FVZ2(MVSIZ), FVY3(MVSIZ), FVZ3(MVSIZ), FVY4(MVSIZ), FVZ4(MVSIZ)
@@ -155,24 +159,25 @@ C-----------------------------------------------
          ENDDO
         ENDIF
         DO I=LFT,LLT
-          AAA      = QMV(1,I)+QMV(2,I)+QMV(3,I)+QMV(4,I)
+          ii = i+first
+          AAA      = QMV(ii,1)+QMV(ii,2)+QMV(ii,3)+QMV(ii,4)
           AAA      = FOURTH * AAA
-          QMV(1,I) = FOURTH * (QMV(1,I) - AAA)   
-          QMV(2,I) = FOURTH * (QMV(2,I) - AAA)   
-          QMV(3,I) = FOURTH * (QMV(3,I) - AAA)   
-          QMV(4,I) = FOURTH * (QMV(4,I) - AAA)   
+          QMV(ii,1) = FOURTH * (QMV(ii,1) - AAA)   
+          QMV(ii,2) = FOURTH * (QMV(ii,2) - AAA)   
+          QMV(ii,3) = FOURTH * (QMV(ii,3) - AAA)   
+          QMV(ii,4) = FOURTH * (QMV(ii,4) - AAA)   
           DMY      = ZERO
           DMZ      = ZERO
-          DM       = QMV(4,I)+QMV(1,I)
+          DM       = QMV(ii,4)+QMV(ii,1)
           DMY      = DMY + VY1(I)*DM
           DMZ      = DMZ + VZ1(I)*DM
-          DM       = QMV(1,I)+QMV(2,I)
+          DM       = QMV(ii,1)+QMV(ii,2)
           DMY      = DMY + VY2(I)*DM
           DMZ      = DMZ + VZ2(I)*DM
-          DM       = QMV(2,I)+QMV(3,I)
+          DM       = QMV(ii,2)+QMV(ii,3)
           DMY      = DMY + VY3(I)*DM
           DMZ      = DMZ + VZ3(I)*DM
-          DM       = QMV(3,I)+QMV(4,I)
+          DM       = QMV(ii,3)+QMV(ii,4)
           DMY      = DMY + VY4(I)*DM
           DMZ      = DMZ + VZ4(I)*DM
           DMY      = -FOURTH * DMY

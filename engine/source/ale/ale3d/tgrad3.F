@@ -25,7 +25,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||--- called by ------------------------------------------------------
 !||    agrad0   ../engine/source/ale/agrad0.F
 !||====================================================================
-      SUBROUTINE TGRAD3(GRD,GRAD,NEL)
+      SUBROUTINE TGRAD3(GRD,GRAD,NEL,s_flux,offset)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -33,8 +33,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      integer, intent(in) :: s_flux !< first dimension of flux array
+      integer, intent(in) :: offset !< address of the first element of the current group
       INTEGER  NEL
-      my_real GRD(NEL,6), GRAD(6,*)
+      my_real GRD(NEL,6), GRAD(s_flux,6)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -42,17 +44,18 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I
+      INTEGER I,ii
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
       DO I=1,NEL
-        GRAD(1,I)= GRD(I,1)
-        GRAD(2,I)= GRD(I,2)
-        GRAD(3,I)= GRD(I,3)
-        GRAD(4,I)= GRD(I,4)
-        GRAD(5,I)= GRD(I,5)
-        GRAD(6,I)= GRD(I,6)
+        ii = i + offset
+        GRAD(ii,1)= GRD(I,1)
+        GRAD(ii,2)= GRD(I,2)
+        GRAD(ii,3)= GRD(I,3)
+        GRAD(ii,4)= GRD(I,4)
+        GRAD(ii,5)= GRD(I,5)
+        GRAD(ii,6)= GRD(I,6)
       ENDDO! next I
 C----------------------------------------------- 
       RETURN

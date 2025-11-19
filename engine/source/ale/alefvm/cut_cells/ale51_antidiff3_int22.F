@@ -33,7 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE ALE51_ANTIDIFF3_INT22(FLUX   , ITRIMAT, IXS  ,
      .                                 NV46   , ELBUF_TAB,
-     .                                 ITASK  , VFRAC)
+     .                                 ITASK  , VFRAC,s_flux)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -68,9 +68,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      integer, intent(in) :: s_flux !< first dimension of FLUX array
       INTEGER IXS(NIXS,*),NV46,ITRIMAT,ITASK
       my_real
-     .    FLUX(NV46,*),VFRAC(*)
+     .    FLUX(s_flux,NV46),VFRAC(*)
       TYPE(ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB     
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -291,8 +292,8 @@ C-----------------------------------------------
                     BRICK_LIST(NIN,IBv)%POLY(ICELLv)%FACE(IFv)%Adjacent_UpwFLUX(IADJv) = -FF(K,IADJ)
                   ELSE
                     !--NOT IN CUT CELL BUFFER
-                    debug_tmp = FLUX(IFV,IEV)                  
-                    FLUX(IFV,IEV) = -FF(K,IADJ)
+                    debug_tmp = FLUX(IEV,IFV)                  
+                    FLUX(IEV,IFV) = -FF(K,IADJ)
                   ENDIF
                   
                   !INTERFACE 22 ONLY------------------------!

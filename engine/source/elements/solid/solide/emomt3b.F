@@ -52,7 +52,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      L   VY7,     VY8,     VZ1,     VZ2,
      M   VZ3,     VZ4,     VZ5,     VZ6,
      N   VZ7,     VZ8,     IPARG1,  NEL,
-     O   MTN,     IPM)
+     O   MTN,     IPM,s_qmv,nv46,first_elm)
 C-----------------------------------------------
 C   M o d u l e  s
 C-----------------------------------------------
@@ -73,6 +73,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      integer, intent(in) :: s_qmv !< first dimension of QMV array
+      integer, intent(in) :: nv46  !< second dimension of QMV array
+      integer, intent(in) :: first_elm !< address of the first element of the current group
       INTEGER, INTENT(IN) :: NEL
       INTEGER, INTENT(IN) :: MTN
       my_real
@@ -90,7 +93,7 @@ C-----------------------------------------------
      .   DXX(*),DXY(*),DXZ(*),DYX(*),DYY(*),DYZ(*),DZX(*),DZY(*),DZZ(*),
      .   VDX(*),VDY(*),VDZ(*)
       my_real
-     .   QMV(12,*),BUFMAT(*),
+     .   QMV(s_qmv,2*nv46),BUFMAT(*),
      .   VX1(*),VX2(*),VX3(*),VX4(*),VX5(*),VX6(*),VX7(*),VX8(*),
      .   VY1(*),VY2(*),VY3(*),VY4(*),VY5(*),VY6(*),VY7(*),VY8(*),
      .   VZ1(*),VZ2(*),VZ3(*),VZ4(*),VZ5(*),VZ6(*),VZ7(*),VZ8(*)
@@ -106,7 +109,7 @@ C-----------------------------------------------
      .   A5(MVSIZ),A6(MVSIZ),A7(MVSIZ),A8(MVSIZ),FAC
       my_real AAA,DM,DMX,DMY,DMZ
       INTEGER IFLG,IADBUF
-      INTEGER I
+      INTEGER I,ii
        
 C-----------------------------------------------
 C   P r e - C o n d i t i o n s
@@ -135,47 +138,48 @@ C
         ENDIF
 C
         DO I=1,NEL
-          AAA = QMV(1,I)+QMV(2,I)+QMV(3,I)+QMV(4,I)+QMV(5,I)+QMV(6,I)
+          ii = i+first_elm
+          AAA = QMV(ii,1)+QMV(ii,2)+QMV(ii,3)+QMV(ii,4)+QMV(ii,5)+QMV(ii,6)
           AAA = ONE_OVER_6 * AAA
 
-          QMV(1,I) = ONE_OVER_8 * (QMV(1,I) - AAA)   
-          QMV(2,I) = ONE_OVER_8 * (QMV(2,I) - AAA)   
-          QMV(3,I) = ONE_OVER_8 * (QMV(3,I) - AAA)   
-          QMV(4,I) = ONE_OVER_8 * (QMV(4,I) - AAA)   
-          QMV(5,I) = ONE_OVER_8 * (QMV(5,I) - AAA)   
-          QMV(6,I) = ONE_OVER_8 * (QMV(6,I) - AAA)   
+          QMV(ii,1) = ONE_OVER_8 * (QMV(ii,1) - AAA)   
+          QMV(ii,2) = ONE_OVER_8 * (QMV(ii,2) - AAA)   
+          QMV(ii,3) = ONE_OVER_8 * (QMV(ii,3) - AAA)   
+          QMV(ii,4) = ONE_OVER_8 * (QMV(ii,4) - AAA)   
+          QMV(ii,5) = ONE_OVER_8 * (QMV(ii,5) - AAA)   
+          QMV(ii,6) = ONE_OVER_8 * (QMV(ii,6) - AAA)   
           DMX = ZERO
           DMY = ZERO
           DMZ = ZERO
-          DM = QMV(1,I)+QMV(6,I)+QMV(4,I)
+          DM = QMV(ii,1)+QMV(ii,6)+QMV(ii,4)
           DMX = DMX + VX1(I)*DM
           DMY = DMY + VY1(I)*DM
           DMZ = DMZ + VZ1(I)*DM
-          DM = QMV(1,I)+QMV(4,I)+QMV(5,I)
+          DM = QMV(ii,1)+QMV(ii,4)+QMV(ii,5)
           DMX = DMX + VX2(I)*DM
           DMY = DMY + VY2(I)*DM
           DMZ = DMZ + VZ2(I)*DM
-          DM = QMV(1,I)+QMV(5,I)+QMV(2,I)
+          DM = QMV(ii,1)+QMV(ii,5)+QMV(ii,2)
           DMX = DMX + VX3(I)*DM
           DMY = DMY + VY3(I)*DM
           DMZ = DMZ + VZ3(I)*DM
-          DM = QMV(1,I)+QMV(2,I)+QMV(6,I)
+          DM = QMV(ii,1)+QMV(ii,2)+QMV(ii,6)
           DMX = DMX + VX4(I)*DM
           DMY = DMY + VY4(I)*DM
           DMZ = DMZ + VZ4(I)*DM
-          DM = QMV(3,I)+QMV(6,I)+QMV(4,I)
+          DM = QMV(ii,3)+QMV(ii,6)+QMV(ii,4)
           DMX = DMX + VX5(I)*DM
           DMY = DMY + VY5(I)*DM
           DMZ = DMZ + VZ5(I)*DM
-          DM = QMV(3,I)+QMV(4,I)+QMV(5,I)
+          DM = QMV(ii,3)+QMV(ii,4)+QMV(ii,5)
           DMX = DMX + VX6(I)*DM
           DMY = DMY + VY6(I)*DM
           DMZ = DMZ + VZ6(I)*DM
-          DM = QMV(3,I)+QMV(5,I)+QMV(2,I)
+          DM = QMV(ii,3)+QMV(ii,5)+QMV(ii,2)
           DMX = DMX + VX7(I)*DM
           DMY = DMY + VY7(I)*DM
           DMZ = DMZ + VZ7(I)*DM
-          DM = QMV(3,I)+QMV(2,I)+QMV(6,I)
+          DM = QMV(ii,3)+QMV(ii,2)+QMV(ii,6)
           DMX = DMX + VX8(I)*DM
           DMY = DMY + VY8(I)*DM
           DMZ = DMZ + VZ8(I)*DM

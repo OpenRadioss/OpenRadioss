@@ -50,7 +50,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      1  IPARG   ,ELBUF_STR,FLUX    ,PHI     ,ALE_CONNECT   ,
      2  NVAR    ,NV       ,ITASK   ,NERCVOIS,
      3  NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM,BHOLE   ,
-     4  ITRIMAT ,OPT_FLAG_MAT_EOS)
+     4  ITRIMAT ,timers   ,s_flux  ,nv46, 
+     5  OPT_FLAG_MAT_EOS  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -60,6 +61,7 @@ C-----------------------------------------------
       USE MULTIMAT_PARAM_MOD , ONLY : M51_N0PHAS, M51_NVPHAS
       USE AREZO3_MOD , ONLY : AREZO3
       USE AREZO2_MOD , ONLY : AREZO2
+      use timer_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -75,7 +77,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real FLUX(*), PHI(*)
+      integer, intent(in) :: s_flux !< first dimension of flux array
+      integer, intent(in) :: nv46 !< second dimension of flux array
+      my_real FLUX(s_flux,nv46), PHI(*)
       INTEGER NVAR, ITASK, LENCOM,ITRIMAT,NV,
      .        IPARG(NPARG,NGROUP), 
      .        NERCVOIS(*),NESDVOIS(*),LERCVOIS(*),LESDVOIS(*),
@@ -83,12 +87,14 @@ C-----------------------------------------------
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_STR
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
       INTEGER,INTENT(IN),OPTIONAL :: OPT_FLAG_MAT_EOS
+      type(timer_), intent(inout) :: timers
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: NG, IRS, IRE, I, J, K, NM, NMN, NFX, ADD, ADD0,IDX,INDX,NEL
+      INTEGER :: NG, IRS, IRE, I, J, K, NM, NMN, ADD, ADD0,IDX,INDX,NEL
       INTEGER :: NUVAR_MAT !< number of user variable (MATERIAL) to rezon
       INTEGER :: NUVAR_EOS !< number of user variable (EOS) to rezon
+      integer :: offset ! offset for flux array (2d case)
       my_real, DIMENSION(:), POINTER :: VAR,SIG,VOL, TAG22,TEMP
       INTEGER :: FLAG_MAT_EOS
 C-----------------------------------------------
@@ -257,9 +263,11 @@ C---------------------
        ! SPMD EXCHANGES                     !
        !------------------------------------!
        IF (NSPMD > 1)THEN
+        if(itask==0) call startime(timers,timer_spmdcfd)        
 !$OMP SINGLE
          CALL SPMD_E1VOIS(PHI,NERCVOIS,NESDVOIS,LERCVOIS,LESDVOIS,LENCOM  )
 !$OMP  END SINGLE
+        if(itask==0) call stoptime(timers,timer_spmdcfd)         
        END IF
 
 
@@ -324,13 +332,13 @@ C     ALE ON / OFF
           ENDIF
           IF (N2D == 0) THEN
             TAG22  => ELBUF_STR(NG)%GBUF%TAG22(1:) !inter22 only (cut cell)
-            CALL AREZO3(ALE_CONNECT,SIG,PHI,FLUX(6*NFT+1),VOL,TAG22)
+            CALL AREZO3(ALE_CONNECT,SIG,PHI,FLUX,VOL,TAG22,s_flux)
           ELSE
-            NFX = NFT+(NM-1)*NUMELQ
+            offset = (nm-1)*numelq 
             IF (NMULT == 0) THEN
-              CALL AREZO2(ALE_CONNECT,SIG,PHI,FLUX(4*NFX+1),VOL)
+              CALL AREZO2(ALE_CONNECT,SIG,PHI,FLUX,VOL,s_flux,offset)
             ELSE
-              CALL BREZO2(ALE_CONNECT,SIG ,PHI,FLUX(4*NFX+1),VOL,BHOLE,NM)
+              CALL BREZO2(ALE_CONNECT,SIG ,PHI,FLUX,VOL,BHOLE,NM,s_flux,offset)
             ENDIF
           ENDIF
         !----------------------------!
@@ -365,13 +373,13 @@ C     ALE ON / OFF
           ENDIF        
           IF (N2D == 0) THEN 
             TAG22  => ELBUF_STR(NG)%GBUF%TAG22(1:) !inter22 only
-            CALL AREZO3(ALE_CONNECT,VAR,PHI,FLUX(6*NFT+1),VOL,TAG22)
+            CALL AREZO3(ALE_CONNECT,VAR,PHI,FLUX,VOL,TAG22,s_flux)
           ELSE                                                        
-            NFX=NFT+(NM-1)*NUMELQ                                     
+            offset = (nm-1)*numelq  
             IF(NMULT == 0)THEN                                        
-              CALL AREZO2(ALE_CONNECT,VAR,PHI,FLUX(4*NFX+1),VOL)
+              CALL AREZO2(ALE_CONNECT,VAR,PHI,FLUX,VOL,s_flux,offset)
             ELSE                                                      
-              CALL BREZO2(ALE_CONNECT,VAR,PHI,FLUX(4*NFX+1),VOL,BHOLE,NM)
+              CALL BREZO2(ALE_CONNECT,VAR,PHI,FLUX,VOL,BHOLE,NM,s_flux,offset)
             ENDIF                                                     
           ENDIF                                                       
         !----------------------------!
@@ -409,13 +417,13 @@ C     ALE ON / OFF
           ENDDO  
           IF (N2D == 0) THEN                                   
             TAG22  => ELBUF_STR(NG)%GBUF%TAG22(1:LLT) !inter22 only
-            CALL AREZO3(ALE_CONNECT,VAR,PHI,FLUX(6*NFT+1),VOL,TAG22)
+            CALL AREZO3(ALE_CONNECT,VAR,PHI,FLUX,VOL,TAG22,s_flux)
           ELSE                                                        
-            NFX=NFT+(NM-1)*NUMELQ                                     
+            offset = (nm-1)*numelq                                
             IF(NMULT == 0)THEN
-              CALL AREZO2(ALE_CONNECT,VAR,PHI,FLUX(4*NFX+1),VOL)
+              CALL AREZO2(ALE_CONNECT,VAR,PHI,FLUX,VOL,s_flux,offset)
             ELSE                                                      
-              CALL BREZO2(ALE_CONNECT,VAR,PHI,FLUX(4*NFX+1),VOL,BHOLE,NM)
+              CALL BREZO2(ALE_CONNECT,VAR,PHI,FLUX,VOL,BHOLE,NM,s_flux,offset)
             ENDIF                                                     
           ENDIF
 
@@ -442,13 +450,13 @@ C     ALE ON / OFF
           ENDIF
           IF (N2D == 0) THEN
             TAG22  => ELBUF_STR(NG)%GBUF%TAG22(1:)
-            CALL AREZO3(ALE_CONNECT,TEMP,PHI,FLUX(6*NFT+1),VOL,TAG22)
+            CALL AREZO3(ALE_CONNECT,TEMP,PHI,FLUX,VOL,TAG22,s_flux)
           ELSE
-            NFX=NFT+(NM-1)*NUMELQ
+           offset = (nm-1)*numelq 
             IF(NMULT == 0)THEN
-              CALL AREZO2(ALE_CONNECT,TEMP,PHI,FLUX(4*NFX+1),VOL)
+              CALL AREZO2(ALE_CONNECT,TEMP,PHI,FLUX,VOL,s_flux,offset)
             ELSE
-              CALL BREZO2(ALE_CONNECT,TEMP,PHI,FLUX(4*NFX+1),VOL,BHOLE,NM)
+              CALL BREZO2(ALE_CONNECT,TEMP,PHI,FLUX,VOL,BHOLE,NM,s_flux,offset)
             ENDIF
           ENDIF
 

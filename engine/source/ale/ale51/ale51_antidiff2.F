@@ -32,7 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||====================================================================
       SUBROUTINE ALE51_ANTIDIFF2(FLUX,ALE_CONNECT,ALPH,VOL,IXQ,FLUX_VOIS,
      .                   N4_VOIS,ITAB,ITRIMAT,
-     .                   SEGVAR)
+     .                   SEGVAR,s_flux)
 C-----------------------------------------------
 C   D e c r i p t i o n
 C-----------------------------------------------
@@ -61,9 +61,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      integer, intent(in) :: s_flux !< first dimension of FLUX array
       INTEGER IXQ(NIXQ,NUMELQ),N4_VOIS(NUMELQ+NQVOIS,4),ITAB(NUMNOD)
       INTEGER,INTENT(IN) :: ITRIMAT
-      my_real FLUX(4,*),ALPH(*),VOL(*),FLUX_VOIS(NUMELQ+NQVOIS,6)
+      my_real FLUX(s_flux,4),ALPH(*),VOL(*),FLUX_VOIS(NUMELQ+NQVOIS,6)
       TYPE(t_segvar),INTENT(IN) :: SEGVAR     
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
@@ -100,30 +101,30 @@ C-----------------------------------------------
 C       adjacent face & total outgoing volume flux 
 C-----------------------------------------------
         DO K=1,4
-          IF(FLUX(K,II) > ZERO)THEN
+          IF(FLUX(II,K) > ZERO)THEN
             JV(K) = ALE_CONNECT%ee_connect%connected(IAD2 + K - 1)
             KV(K) = K
             IF(JV(K) == 0)THEN
               JV(K)  = II
-              FF(K)  = ALPH(II)*FLUX(K,II)
+              FF(K)  = ALPH(II)*FLUX(II,K)
             ELSEIF(JV(K) < 0)THEN
               !case <0 : ebcs (-IVOIS is then segment identifier)               
-              FF(K)  = SEGVAR%PHASE_ALPHA(ITRIMAT,-JV(K))  *FLUX(K,II)         
+              FF(K)  = SEGVAR%PHASE_ALPHA(ITRIMAT,-JV(K))  *FLUX(II,K)         
             ELSEIF(JV(K) <= NUMELQ)THEN
                IAD3 = ALE_CONNECT%ee_connect%iad_connect(JV(K))
               IF(ALE_CONNECT%ee_connect%connected(IAD3 + 1 - 1) == II) KV(K) = 1
               IF(ALE_CONNECT%ee_connect%connected(IAD3 + 2 - 1) == II) KV(K) = 2
               IF(ALE_CONNECT%ee_connect%connected(IAD3 + 3 - 1) == II) KV(K) = 3
               IF(ALE_CONNECT%ee_connect%connected(IAD3 + 4 - 1) == II) KV(K) = 4
-              FF(K)  = ALPH(JV(K))*FLUX(K,II)
+              FF(K)  = ALPH(JV(K))*FLUX(II,K)
             ELSE
               !spmd
-              FF(K)  = ALPH(JV(K))*FLUX(K,II)              
+              FF(K)  = ALPH(JV(K))*FLUX(II,K)              
             ENDIF
 c           outgoing volume flux (estimation)
             ALPHI  = ALPHI  + FF(K)
 c           initial outgoing flux
-            PHI0 = PHI0 + FLUX(K,II) 
+            PHI0 = PHI0 + FLUX(II,K) 
           ENDIF
         ENDDO
 c       outgoing rest
@@ -137,7 +138,7 @@ C         outgoing volume flux > volume
 C-----------------------------------------------
           AAA = AV0 / ALPHI
           DO K=1,4
-            IF(FLUX(K,II) > ZERO)THEN
+            IF(FLUX(II,K) > ZERO)THEN
               FF(K) = FF(K) * AAA
             ENDIF
           ENDDO
@@ -148,8 +149,8 @@ C         outgoing rest > available volume
 C-----------------------------------------------
           AAA = UAV0/UALPHI
           DO K=1,4
-            IF(FLUX(K,II) > ZERO)THEN
-              FF(K) = FLUX(K,II) + (FF(K)-FLUX(K,II))*AAA
+            IF(FLUX(II,K) > ZERO)THEN
+              FF(K) = FLUX(II,K) + (FF(K)-FLUX(II,K))*AAA
             ENDIF
           ENDDO
 c        ELSE
@@ -158,16 +159,16 @@ C-----------------------------------------------
 C         outgoing flux
 C-----------------------------------------------
           DO K=1,4
-            IF(FLUX(K,II) > ZERO)THEN
+            IF(FLUX(II,K) > ZERO)THEN
               FF(K) = 0.5* (FF(K)*(1.-ALE%UPWIND%UPWSM)
-     .                    + ALPH(II)*FLUX(K,II)*(1.+ALE%UPWIND%UPWSM))
-              FLUX(K,II) = FF(K)
+     .                    + ALPH(II)*FLUX(II,K)*(1.+ALE%UPWIND%UPWSM))
+              FLUX(II,K) = FF(K)
               IF(JV(K) < 0)THEN
                 !nothing to do
               ELSEIF(JV(K) <= NUMELQ)THEN
-                FLUX(KV(K),JV(K)) = -FLUX(K,II)
+                FLUX(JV(K),KV(K)) = -FLUX(II,K)
               ELSE
-                FLUX_VOIS(II,K) = FLUX(K,II)
+                FLUX_VOIS(II,K) = FLUX(ii,K)
                 N4_VOIS(II,1) = ITAB(IXQ(2,II))
                 N4_VOIS(II,2) = ITAB(IXQ(3,II))
                 N4_VOIS(II,3) = ITAB(IXQ(4,II))
@@ -181,8 +182,8 @@ C-----------------------------------------------
           IF(NSEGFLU > 0)THEN
              IAD2 = ALE_CONNECT%ee_connect%iad_connect(II)
             DO K=1,4
-              IF(FLUX(K,II) < ZERO .AND. ALE_CONNECT%ee_connect%connected(IAD2 + K - 1) < 0)THEN
-                FLUX(K,II) = SEGVAR%PHASE_ALPHA(ITRIMAT,-ALE_CONNECT%ee_connect%connected(IAD2 + K - 1))*FLUX(K,II)
+              IF(FLUX(II,K) < ZERO .AND. ALE_CONNECT%ee_connect%connected(IAD2 + K - 1) < 0)THEN
+                FLUX(II,K) = SEGVAR%PHASE_ALPHA(ITRIMAT,-ALE_CONNECT%ee_connect%connected(IAD2 + K - 1))*FLUX(II,K)
               ENDIF
             ENDDO       
           ENDIF   

@@ -41,7 +41,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      1  IPARG       ,ELBUF_TAB ,FLUX     ,VAL2     ,XK     ,
      2  ALE_CONNECT ,IXS       ,IXQ      ,PM       ,ITASK  ,
      3  NERCVOIS    ,NESDVOIS  ,LERCVOIS ,LESDVOIS ,LENCOM ,
-     4  MATPARAM)
+     4  MATPARAM,s_flux,nv46)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -65,10 +65,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      integer, intent(in) :: s_flux !< first dimension of flux array
+      integer, intent(in) :: nv46 !< second dimension of flux array
       INTEGER IPARG(NPARG,NGROUP), IXS(NIXS,NUMELS), IXQ(7,NUMELQ),
      .        NERCVOIS(*),NESDVOIS(*),LERCVOIS(*),LESDVOIS(*),
      .        LENCOM
-      my_real FLUX(*), VAL2(*), XK(*), PM(NPROPM,NUMMAT)
+      my_real FLUX(s_flux,nv46), VAL2(*), XK(*), PM(NPROPM,NUMMAT)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
       TYPE(MATPARAM_STRUCT_),DIMENSION(NUMMAT),INTENT(IN) :: MATPARAM !< material buffer
@@ -172,9 +174,9 @@ c
           rhocp = pm(89,mid)*matparam(MID)%eos%cp
         end if
         IF(N2D == 0)THEN
-         CALL ADIFF3(GBUF%RK,XK,FLUX(6*NFT+1),VAL2,ALE_CONNECT,GBUF%VOL,GBUF%TEMP,RHOCP,NEL)
+         CALL ADIFF3(GBUF%RK,XK,FLUX,VAL2,ALE_CONNECT,GBUF%VOL,GBUF%TEMP,RHOCP,NEL,s_flux,nv46)
         ELSE
-         CALL ADIFF2(GBUF%RK,XK,FLUX(4*NFT+1),VAL2,ALE_CONNECT,GBUF%VOL,GBUF%TEMP,RHOCP,NEL)
+         CALL ADIFF2(GBUF%RK,XK,FLUX,VAL2,ALE_CONNECT,GBUF%VOL,GBUF%TEMP,RHOCP,NEL,s_flux,nv46)
         ENDIF
       ENDDO
 C

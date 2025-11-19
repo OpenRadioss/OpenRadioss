@@ -261,6 +261,7 @@ C-----------------------------------------------
       my_real, ALLOCATABLE, DIMENSION(:,:) :: FX,FY,FZ,MX,MY,MZ,JFAC
       my_real, DIMENSION(MVSIZ,6) :: SVIS
       TYPE(G_BUFEL_) ,POINTER :: GBUF
+      integer :: fake_size = 0
 C======================================================================|
        ALLOCATE(FX(MVSIZ,64),FY(MVSIZ,64),FZ(MVSIZ,64),STAT=IERROR)
        ALLOCATE(MX(MVSIZ,4),MY(MVSIZ,4),MZ(MVSIZ,4),STAT=IERROR)
@@ -300,6 +301,8 @@ C  IOUTPRT for assembly synthesis, not need for spring which call *bilan each cy
 C
        OFF_IGRTH = 0
        IBID = 0
+       nv46 = 6
+       if(n2d/=0) nv46 = 4
 C
         IF (IALELAG > 0) THEN   ! law 77
          DO I=NODFT,NODLT
@@ -416,7 +419,7 @@ C---------
      I   MAT_ELEM,   IBID,            DT,         IDEL7NOK,NSVOIS,IBID,
      *   SNPC,       STF,             SBUFMAT,    SVIS,IDTMINS,IRESP,
      *   IDEL7NG,    MAXFUNC,         USERL_AVAIL, GLOB_THERM,
-     V   impl_s,     idyna,           S_SFEM_NODVAR)
+     V   impl_s,     idyna,           S_SFEM_NODVAR,fake_size,nv46)
 C
             IF (NSECT > 0) THEN 
               K0=NSTRF(25)                                             
@@ -449,7 +452,7 @@ c---------
             CALL S10FORC3(TIMERS, OUTPUT,
      1   ELBUF_TAB,           NG,                  PM,                  GEO,
      2   IXS,                 X,                   A,                   V,
-     3   MS,                  W,                   WA,                  VAL2,
+     3   MS,                  W,                   VAL2,
      4   VEUL,                FV,                  ALE_CONNECT,         IPARG,
      5   TF,                  NPC,                 BUFMAT,              PARTSAV,
      6   NLOC_DMG,            DT2T,                NELTST,              ITYPTST,
@@ -536,7 +539,7 @@ c
               CALL S20FORC3(TIMERS, OUTPUT,
      1   ELBUF_TAB,           NG,                  PM,                  GEO,
      2   IXS,                 X,                   A,                   V,
-     3   MS,                  W,                   WA,                  VAL2,
+     3   MS,                  W,                   VAL2,
      4   VEUL,                FV,                  ALE_CONNECT,         IPARG,
      5   TF,                  NPC,                 BUFMAT,              PARTSAV,
      6   NLOC_DMG,            DT2T,                NELTST,              ITYPTST,
@@ -626,7 +629,7 @@ C-------------------------
 
               CALL S16FORC3(TIMERS, OUTPUT,ELBUF_TAB,NG     ,
      1         PM       ,GEO      ,IXS      ,X          ,
-     2         A        ,V        ,MS       ,W          ,WA         ,
+     2         A        ,V        ,MS       ,W          ,
      3         VAL2     ,VEUL     ,FV       ,ALE_CONNECT      ,IPARG      ,
      4         TF       ,NPC      ,BUFMAT   ,PARTSAV    ,NLOC_DMG   ,
      5         DT2T     ,NELTST   ,ITYPTST  ,STIFN      ,FSKY       ,
@@ -682,7 +685,7 @@ C-------------------------
      .        TIMERS   ,OUTPUT   ,NGROUP   ,ELBUF_TAB,NPROPM   ,NUMMAT   ,PM       , 
      .        NG       ,NPROPG   ,NUMGEO   ,GEO      ,NIXS     ,NUMELS   ,NUMELQ   ,
      .        NSVOIS   ,IXS      ,NUMNOD   ,X        ,A        ,V        ,
-     .        W        ,WA       ,VAL2     ,ALE_CONNECT,NPARG  ,IPARG    ,
+     .        W        ,VAL2     ,ALE_CONNECT,NPARG  ,IPARG    ,
      .        STF      ,TF       ,SNPC     ,NPC      ,SBUFMAT  ,BUFMAT   ,NPSAV    ,
      .        NPART    ,PARTSAV  ,DT2T     ,NELTST   ,ITYPTST  ,STIFN    ,LSKY     ,
      .        FSKY     ,IADS     ,OFFSET   ,NEL      ,IPARTS(NF1),
@@ -736,7 +739,7 @@ C-------------------------
 C              6 node penta
               CALL S6CFORC3(TIMERS, OUTPUT, ELBUF_TAB,NG         ,
      1         PM   ,GEO   ,IXS    ,X            ,
-     2         A           ,V    ,MS    ,W      ,WA          ,
+     2         A           ,V    ,MS    ,W      ,
      3         VAL2 ,VEUL  ,FV     ,ALE_CONNECT        ,IPARG       ,
      4         TF    ,NPC    ,BUFMAT       ,PARTSAV     ,
      5         DT2T ,NELTST,ITYPTST,STIFN        ,FSKY        ,
@@ -786,7 +789,7 @@ c---------
 C              8 node hexa
               CALL SCFORC3(TIMERS, OUTPUT, ELBUF_TAB,NG          ,
      1         PM       ,GEO      ,IXS     ,X           ,
-     2         A        ,V        ,MS      ,W           ,WA      ,
+     2         A        ,V        ,MS      ,W           ,
      3         VAL2     ,VEUL     ,FV      ,ALE_CONNECT       ,IPARG     ,
      4         TF       ,NPC      ,BUFMAT  ,PARTSAV     ,NLOC_DMG  ,
      5         DT2T     ,NELTST   ,ITYPTST ,STIFN       ,FSKY    ,
@@ -838,7 +841,7 @@ C------------------------- Isolid=19 for Salim
 !            IF (IMPL_S /= 0) THEN
              CALL S8SFORC3(TIMERS,OUTPUT, ELBUF_TAB,NG   ,
      1         PM         ,GEO      ,IXS      ,X          ,
-     2         A          ,V        ,MS       ,W          ,WA        ,
+     2         A          ,V        ,MS       ,W          ,
      3         VAL2       ,VEUL     ,FV       ,ALE_CONNECT      ,IPARG     ,
      4         TF         ,NPC      ,BUFMAT   ,PARTSAV    ,NLOC_DMG  ,
      5         DT2T       ,NELTST   ,ITYPTST  ,STIFN      ,FSKY      ,
@@ -862,7 +865,7 @@ C-------------------------
             CALL S8EFORC3(TIMERS, OUTPUT,
      1   ELBUF_TAB,  NG,         PM,         GEO,
      2   IXS,        X,          A,          V,
-     3   MS,         W,          WA,         VAL2,
+     3   MS,         W,          VAL2,
      4   VEUL,       FV,         ALE_CONNECT,IPARG,
      5   TF,         NPC,        BUFMAT,     PARTSAV,
      6   NLOC_DMG,   DT2T,       NELTST,     ITYPTST,
@@ -932,7 +935,7 @@ C-------------------------
 c
             CALL S8CFORC3(TIMERS, OUTPUT, ELBUF_TAB,NG    ,
      1         PM    ,GEO   ,IXS    ,X            ,
-     2         A            ,V     ,MS    ,W      ,WA          ,
+     2         A            ,V     ,MS    ,W      ,
      3         VAL2    ,VEUL    ,FV      ,ALE_CONNECT   ,IPARG       ,
      4         TF      ,NPC     ,BUFMAT  ,PARTSAV ,NLOC_DMG    ,
      5         DT2T ,NELTST ,ITYPTST,STIFN        ,FSKY        ,
@@ -1011,7 +1014,7 @@ c            IF (NPTR==0) NPTR=IINT
             
             CALL S8ZFORC3(TIMERS, OUTPUT, ELBUF_TAB,NG     ,
      1         PM         ,GEO       ,IXS      ,X          ,        
-     2         A          ,V         ,MS       ,W          ,WA         , 
+     2         A          ,V         ,MS       ,W          ,
      3         VAL2       ,VEUL      ,FV       ,ALE_CONNECT      ,IPARG      , 
      4         TF         ,NPC       ,BUFMAT   ,PARTSAV    ,NLOC_DMG   , 
      5         DT2T       ,NELTST    ,ITYPTST  ,STIFN      ,FSKY       ,
@@ -1089,7 +1092,7 @@ C-------------------------
 C
                CALL SZFORC3(TIMERS,ELBUF_TAB,NG    ,
      1         PM      ,GEO    ,IXS    ,X            ,
-     2         A       ,V     ,MS     ,W      ,WA          ,
+     2         A       ,V     ,MS     ,W      ,
      3         VAL2      ,VEUL      ,FV         ,ALE_CONNECT      ,IPARG     ,  
      4         TF      ,NPC    ,BUFMAT       ,PARTSAV     ,
      5         DT2T    ,NELTST,ITYPTST,STIFN        ,FSKY        ,
@@ -1113,8 +1116,6 @@ C
 C-------------------------
 C             STANDARD 8 NODE SOLID ELEMENT (JHBE = 1,2,101,102)
 C-------------------------
-              NV46   = 6
-              IF(N2D /= 0) NV46 = 4
               !
               CALL SFORC3(TIMERS, OUTPUT,
      1   ELBUF_TAB,  NG,         PM,         GEO,
@@ -1147,7 +1148,7 @@ C-------------------------
      S   MAT_ELEM,   IBID,       DT,         IDEL7NOK,NSVOIS,
      T   IBID,       SNPC,       STF,        SBUFMAT,SVIS,IDTMINS,
      U   IRESP,      IDEL7NG,    MAXFUNC,    USERL_AVAIL, GLOB_THERM, 
-     V   impl_s,     idyna,      OUTPUT%TH%WFEXT)
+     V   impl_s,     idyna,      OUTPUT%TH%WFEXT,fake_size,fake_size)
 
             ENDIF
 
@@ -1230,13 +1231,13 @@ C----6---------------------------------------------------------------7---------8
           
             CALL Q4FORC2(TIMERS,OUTPUT,
      1        PM   ,GEO   ,IXQ    ,X         ,A           ,
-     2        V    ,MS    ,W      ,WA        ,VAL2 ,
+     2        V    ,MS    ,W      ,VAL2 ,
      3        VEUL  ,FV     ,ALE_CONNECT     ,IPARG     ,NLOC_DMG,
      4        ELBUF_TAB,TF    ,NPC    ,BUFMAT    ,PARTSAV     ,
      5        DT2T ,NELTST,ITYPTST,STIFN     ,OFFSET      ,
      6        EANI ,IPARTQ(NF1),NEL,IADQ     ,FSKY        ,
      7        IPARG(10,NG),NG    ,
-     8        IPM         ,BID   ,QMVBID  ,GRESAV   ,GRTH        ,
+     8        IPM         ,BID   ,GRESAV   ,GRTH        ,
      9        IGRTH(OFF_IGRTH+NF1),TABLE     ,IGEO      ,ITASK   ,IEXPAN,
      A        MS_2D      ,FSKYM   ,IPRI      ,MAT_ELEM  ,IBID,IBID,SNPC,
      B        STF,SBUFMAT,SVIS,NSVOIS,IDTMINS,IRESP,TT,DT1,      
@@ -1259,7 +1260,7 @@ C----6---------------------------------------------------------------7---------8
      D        SVIS,NSVOIS,IRESP,TT,DT1,      
      .        IDEL7NOK,    IDTMIN,     MAXFUNC,  
      .        IMON_MAT,USERL_AVAIL, impl_s,     idyna,
-     .        DT      ,GLOB_THERM,SENSORS)
+     .        DT      ,GLOB_THERM,SENSORS,fake_size,fake_size,nv46)
 
           ENDIF
 C----6---------------------------------------------------------------7---------8
@@ -1506,7 +1507,7 @@ c              K = 1+2*(NSECT+NRBODY+NRWALL)
      A   IFAILURE,            MTN,                 IGTYP,               NPT,
      B   JSMS,                MSSA(NF1),           DMELS(NF1),          KXIG3D,
      C   IXIG3D,              KNOT,                NCTRL,               WIGE,
-     D   WA,                  VAL2,                DT2T,                NELTST,
+     D   VAL2,                DT2T,                NELTST,
      E   ITYPTST,             OFFSET,              TABLE,               IEXPAN,
      F   ALE_CONNECT,         FV,                  ITASK,               IPRI,
      G   PX,                  PY,                  PZ,                  KNOTLOCPC,

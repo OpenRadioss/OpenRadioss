@@ -28,7 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
 !||    element_mod            ../common_source/modules/elements/element_mod.F90
 !||====================================================================
-      SUBROUTINE AGRAD2(IXQ,X,ALE_CONNECT,GRAD)
+      SUBROUTINE AGRAD2(IXQ,X,ALE_CONNECT,GRAD,s_flux)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -59,9 +59,10 @@ C-----------------------------------------------
 ! X(1:3,1:NUMNOD) : local nodes
 !  (1:3, NUMNOD+1:) additional nodes (also on adjacent domains but connected to the boundary of the current domain)
 C-----------------------------------------------
+      integer, intent(in) :: s_flux !< first dimension of flux array
       INTEGER,INTENT(IN) :: IXQ(7,SIXQ/NIXQ)
       my_real,INTENT(IN) :: X(3,SX/3)
-      my_real,INTENT(INOUT) :: GRAD(4,*)
+      my_real,INTENT(INOUT) :: GRAD(s_flux,4)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -152,10 +153,11 @@ C---------------------------------
 C     GRADIENT * SURFACE
 C---------------------------------
       DO I=LFT,LLT
-        GRAD(1,I) = FOUR * (D1Y(I)*N1Y(I)+D1Z(I)*N1Z(I)) / MAX(EM15,DD1(I))
-        GRAD(2,I) = FOUR * (D2Y(I)*N2Y(I)+D2Z(I)*N2Z(I)) / MAX(EM15,DD2(I))
-        GRAD(3,I) = FOUR * (D3Y(I)*N3Y(I)+D3Z(I)*N3Z(I)) / MAX(EM15,DD3(I))
-        GRAD(4,I) = FOUR * (D4Y(I)*N4Y(I)+D4Z(I)*N4Z(I)) / MAX(EM15,DD4(I))
+        ii = i + nft
+        GRAD(ii,1) = FOUR * (D1Y(I)*N1Y(I)+D1Z(I)*N1Z(I)) / MAX(EM15,DD1(I))
+        GRAD(ii,2) = FOUR * (D2Y(I)*N2Y(I)+D2Z(I)*N2Z(I)) / MAX(EM15,DD2(I))
+        GRAD(ii,3) = FOUR * (D3Y(I)*N3Y(I)+D3Z(I)*N3Z(I)) / MAX(EM15,DD3(I))
+        GRAD(ii,4) = FOUR * (D4Y(I)*N4Y(I)+D4Z(I)*N4Z(I)) / MAX(EM15,DD4(I))
       ENDDO
 C-----------------------------------------------
       RETURN

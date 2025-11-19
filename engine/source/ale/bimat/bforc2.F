@@ -83,7 +83,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      C                   NSVOIS     , IRESP    ,IDEL7NOK   ,
      D                   IDTMIN     , MAXFUNC  ,IMON_MAT   ,
      E                   USERL_AVAIL, impl_s     ,idyna  ,DT       ,
-     F                   GLOB_THERM,SENSORS)
+     F                   GLOB_THERM,SENSORS,s_flux,nv46)
 C-----------------------------------------------
 C   M o d u l e s 
 C-----------------------------------------------
@@ -135,10 +135,12 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: IDYNA
       INTEGER, INTENT(IN) :: USERL_AVAIL
       INTEGER, INTENT(IN) :: IMON_MAT
+      integer, intent(in) :: s_flux !< first dimension of flux array
+      integer, intent(in) :: nv46 !< second dimension of flux array        
       INTEGER IC(*), IPARG(NPARG,NGROUP), JPARG(*), IMS(*), NPF(*),IPARTQ(NUMELQ),IPM(*),IGEO(*),ITASK,H3D_STRAIN
       INTEGER NELTST,ITYPTST, IADQ(4,*),GRTH(*),IGRTH(*)
       my_real DT2T
-      my_real PM(*), GEO(*), X(*), A(*), V(*), MS(*), W(*), FLUX(4,*),
+      my_real PM(*), GEO(*), X(*), A(*), V(*), MS(*), W(*), FLUX(s_flux,nv46),
      .        FLU1(*), VEUL(*),FILL(NUMNOD,*),EANI(*),FSKY(*),
      .        DFILL(NUMNOD,*), TF(*), BUFMAT(*), PARTSAV(*), STIFN(*),
      .        BUFVOIS(6,*),GRESAV(*),VOLN(MVSIZ),MS_2D(*),FSKYM(*)
@@ -159,6 +161,7 @@ C-----------------------------------------------
       INTEGER MAT(MVSIZ),NC1(MVSIZ),NC2(MVSIZ),NC3(MVSIZ),NC4(MVSIZ),
      .        NGL(MVSIZ),NGEO(MVSIZ), IBIDV(1) ,L_TEMP, L_PLA, L_BFRAC,L_BULK,SZ_IX
       INTEGER :: ILAY
+      integer :: offset_flux
       my_real Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
      .        Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
      .        AIRE(MVSIZ),AIRES(MVSIZ),AIREM(MVSIZ),VD2(MVSIZ),DVOL(MVSIZ),
@@ -225,6 +228,7 @@ C------------
 C------------
 C      A.L.E.
 C------------
+      offset_flux = NUMELQ
       IF (JALE /= 0) THEN
        CALL QVOLU2(
      1   GBUF%OFF,AIRE,    VOLN,    NGL,
@@ -248,9 +252,9 @@ C------------
      C   NC2,     NC3,     NC4,     NEL)
        CALL BALPH2(PM,LBUF1%FRAC,LBUF2%FRAC,GBUF%VOL,FILL,
      .             LBUF1%SIG,LBUF1%EINT,LBUF1%VOL,LBUF1%RHO,
-     .             FLUX(1,NF1),FLU1(NF1),LBUF1%OFF,
+     .             FLUX,FLU1(NF1),LBUF1%OFF,
      .             LBUF2%SIG,LBUF2%EINT,LBUF2%VOL,LBUF2%RHO,
-     .             FLUX(1,NF2),FLU1(NF2),LBUF2%OFF,
+     .             FLU1(NF2),LBUF2%OFF,
      .             GBUF%SIG,GBUF%EINT,GBUF%RHO,GBUF%TEMP,
      .             GBUF%G_TEMP,GBUF%BFRAC,GBUF%G_BFRAC,
      .             GBUF%PLA,GBUF%G_PLA,VOLN,GBUF%QVIS,GBUF%G_QVIS,NEL, 
@@ -258,7 +262,7 @@ C------------
      .             EYY, EZZ, ETT, EYZ, EYT, EZT,
      .             EYYS, EZZS, ETTS, EYZS, EYTS, EZTS, 
      .             MAT, NC1, NC2, NC3, NC4, 
-     .             DALPH1, DALPH2)
+     .             DALPH1, DALPH2,s_flux,nv46,offset_flux)
        CALL BAFIL2(V,W,FILL,DFILL,IMS,X, DALPH1, DALPH2, NC1, NC2, NC3, NC4)
 C-----------
 C      EULER
@@ -273,9 +277,9 @@ C-----------
      .                  NC1,NC2,NC3,NC4)
        CALL BALPH2(PM,LBUF1%FRAC,LBUF2%FRAC,GBUF%VOL,FILL,
      .             LBUF1%SIG,LBUF1%EINT,LBUF1%VOL,LBUF1%RHO,
-     .             FLUX(1,NF1),FLU1(NF1),LBUF1%OFF,
+     .             FLUX,FLU1(NF1),LBUF1%OFF,
      .             LBUF2%SIG,LBUF2%EINT,LBUF2%VOL,LBUF2%RHO,
-     .             FLUX(1,NF2),FLU1(NF2),LBUF2%OFF,
+     .             FLU1(NF2),LBUF2%OFF,
      .             GBUF%SIG,GBUF%EINT,GBUF%RHO,GBUF%TEMP,
      .             GBUF%G_TEMP,GBUF%BFRAC,GBUF%G_BFRAC,
      .             GBUF%PLA,GBUF%G_PLA,VOLN,GBUF%QVIS,GBUF%G_QVIS,NEL, 
@@ -283,7 +287,7 @@ C-----------
      .             EYY, EZZ, ETT, EYZ, EYT, EZT,
      .             EYYS, EZZS, ETTS, EYZS, EYTS, EZTS, 
      .             MAT, NC1, NC2, NC3, NC4, 
-     .             DALPH1, DALPH2)
+     .             DALPH1, DALPH2,s_flux,nv46,offset_flux)
        CALL BEFIL2(V,FILL,DFILL,IMS,X,
      .      DALPH1, DALPH2,
      .      NC1, NC2, NC3, NC4)
@@ -306,12 +310,13 @@ C-----------------------------------------------------
      .            EYY, EZZ, ETT, EYZ, EYT, EZT,
      .            EYYS, EZZS, ETTS, EYZS, EYTS, EZTS,
      .            MAT,MAT_ELEM%MAT_PARAM, NUMMAT)
+      offset_flux = 0
       CALL BLERO2(LBUF1%FRAC,LBUF1%VOL,LBUF1%RHO,
-     .            FLUX(1,NF1),FLU1(NF1),LBUF1%OFF,PM,NGL,VOLN,
+     .            FLUX,FLU1(NF1),LBUF1%OFF,PM,NGL,VOLN,
      .            AIRE, EYY, EZZ, ETT, EYZ, EYT, EZT, VD2, DVOL,
      .            VY1, VY2, VY3, VY4, 
      .            VZ1, VZ2, VZ3, VZ4,
-     .            MAT)
+     .            MAT,s_flux,nv46,offset_flux)
       CALL QROTA2( LBUF1%SIG,S1,       S2,       S3,
      2             S4,       S5,       S6,       WYZ,
      3             NEL,      JCVT)
@@ -523,12 +528,13 @@ C-----------------------------------------------------
      .            EYY, EZZ, ETT, EYZ, EYT, EZT,
      .            EYYS, EZZS, ETTS, EYZS, EYTS, EZTS,
      .            MAT, MAT_ELEM%MAT_PARAM, NUMMAT)
+      offset_flux = numelq
       CALL BLERO2(LBUF2%FRAC,LBUF%VOL,LBUF%RHO,
-     .            FLUX(1,NF2),FLU1(NF2),LBUF%OFF,PM,NGL,VOLN, 
+     .            FLUX,FLU1(NF2),LBUF%OFF,PM,NGL,VOLN, 
      .            AIRE, EYY, EZZ, ETT, EYZ, EYT, EZT, VD2, DVOL, 
      .            VY1, VY2, VY3, VY4, 
      .            VZ1, VZ2, VZ3, VZ4,
-     .            MAT)
+     .            MAT,s_flux,nv46,offset_flux)
       CALL QROTA2(
      1   LBUF%SIG,S1,      S2,      S3,
      2   S4,      S5,      S6,      WYZ,
