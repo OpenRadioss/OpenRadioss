@@ -354,7 +354,7 @@
             if (func_e(1) > 0) then
               npt = size(mat_param%table(3)%x(1)%values)
               do i = 2,npt
-                if (mat_param%table(3)%y1d(i-1) > mat_param%table(3)%y1d(i)) then   
+                if (mat_param%table(3)%y1d(i-1) < mat_param%table(3)%y1d(i)) then   
                   call ancmsg(MSGID=975, MSGTYPE=MSGERROR, ANMODE=ANINFO,    &
                               i1 = mat_id, c1 =title )                                             
                   exit

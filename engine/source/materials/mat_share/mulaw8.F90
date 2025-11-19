@@ -659,7 +659,7 @@
                 sigbzx => vecnul(1:nel)
               endif
 
-            call sigeps36s(mat_param(imat),                                 &
+              call sigeps36s(mat_param(imat),                                 &
                  nel    ,nuvar  ,nvartmp,dt1    ,tt     ,                   &
                  de1    ,de2    ,de3    ,de4    ,de5    ,de6   ,            &
                  es1    ,es2    ,es3    ,es4    ,es5    ,es6   ,            &
@@ -667,22 +667,9 @@
                  s1     ,s2     ,s3     ,s4     ,s5     ,s6    ,            &
                  sigbxx ,sigbyy ,sigbzz ,sigbxy ,sigbyz ,sigbzx,            &
                  sspp   ,uvar   ,vartmp ,off    ,ngl    ,0     ,            &
-                 epsd   ,ipla   ,sigy   ,defp   ,inloc  ,lbuf%planl,        &
+                 epsd   ,ipla   ,sigy   ,lbuf%pla,inloc ,lbuf%planl,        &
                  dpla   ,et     ,bidv   ,bidv6  ,amu    ,bidv  ,            &
                  yldfac ,lbuf%dmg,bufly%l_sigb,bufly%l_dmg,bufly%l_planl)          
-
-!              call sigeps36(&
-!               llt      ,nuvar    ,nfunc    ,ifunc    ,npf      ,tf       ,&
-!               dt1      ,uparam0  ,rho0     ,&
-!               de1      ,de2      ,de3      ,de4      ,de5      ,de6   ,&
-!               es1      ,es2      ,es3      ,es4      ,es5      ,es6   ,&
-!               so1      ,so2      ,so3      ,so4      ,so5      ,so6   ,&
-!               s1       ,s2       ,s3       ,s4       ,s5       ,s6    ,&
-!               sspp     ,vis      ,uvar     ,off      ,ngl      ,ieos  ,&
-!               ipm      ,mat      ,epsd     ,ipla     ,sigy     ,lbuf%pla,&
-!               dpla     ,et       ,bidon    ,bidon    ,amu      ,bidv      ,&
-!               yldfac     ,nvartmp  ,vartmp   ,lbuf%dmg ,inloc    ,lbuf%planl,&
-!               sigbxx,sigbyy,sigbzz,sigbxy,sigbyz,sigbzx )
 !
               defp(1:llt)   =  lbuf%pla(1:llt)
 !
