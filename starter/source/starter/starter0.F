@@ -595,7 +595,7 @@ c 2 new values for ISPHIO, NSEG and IAS for inlet outlet in spmd
       LKJNR = 19
       NFRBYM = 28
       NIRBYM = 2
-      NNPRW = 8
+      NNPRW = 8 + 1
       SEGINDX=0
       NHIN2 =0
       NIFV = 16

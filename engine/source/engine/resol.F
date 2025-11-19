@@ -559,7 +559,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      4        IMS    ,NPC    ,IBCL    ,
      5        IBFV   ,IDUM   ,LAS     ,LACCELM,NNLINK ,LNLINK ,
      6        IPARG  ,DD_IAD  ,IGRV   ,IEXLNK ,
-     7        IPARI  ,        NPRW    ,ICONX  ,NPBY   ,
+     7        IPARI  ,ICONX   ,NPBY   ,
      8        LPBY   ,LRIVET ,NSTRF   ,LJOINT ,NODPOR ,MONVOL ,
      9        ILINK  ,
      A        LLINK  ,LINALE ,NEFLSW  ,NNFLSW ,ICUT   ,CLUSTER,
@@ -569,8 +569,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      E        W      ,VEUL   ,FILL    ,DFILL  ,ALPH   ,WB     ,DSAVE  ,ASAVE  ,
      .        MSNF   ,
      F        TF     ,FORC   ,VEL     ,FSAV   ,FZERO  ,XLAS   ,ACCELM ,
-     G        AGRV   ,FR_WAVE,FAILWAVE,PARTS0 ,ELBUF  ,RWBUF  ,SENSORS,
-     H        RWSAV  ,RBY     ,RIVET  ,SECBUF ,VOLMON ,LAMBDA ,
+     G        AGRV   ,FR_WAVE,FAILWAVE,PARTS0 ,ELBUF  ,SENSORS,
+     H        RBY    ,RIVET  ,SECBUF ,VOLMON ,LAMBDA ,
      I        WA     ,FV     ,PARTSAV
      J               ,UWA    ,VAL2    ,PHI    ,SEGVAR ,R      ,CRFLSW ,
      K        FLSW   ,XCUT    ,TANI   ,SECFCUM,BUFNOIS,
@@ -584,7 +584,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      U        LESDVOIS,NPSEGCOM,LSEGCOM ,NPORGEO ,
      V        IXTG1   ,NPBYL   ,LPBYL   ,RBYL    ,IGEO    ,IPM     ,
      W        MADPRT  ,MADSH4  ,MADSH3  ,MADSOL  ,MADNOD  ,MADFAIL ,
-     X        IAD_RBY ,FR_RBY  ,FR_WALL ,IAD_RBY2,
+     X        IAD_RBY ,FR_RBY  ,IAD_RBY2,
      Y        FR_RBY2 ,IAD_I2M ,FR_I2M  ,ADDCNI2 ,PROCNI2 ,IADI2   ,FR_MV   ,
      Z        IADMV2  ,FR_LL   ,FR_RL   ,IADCJ   ,
      a        FR_CJ   ,FR_SEC  ,
@@ -595,7 +595,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      f        LNODPOR ,
      g        FR_I18  ,GRAPHE  ,IFLOW   ,RFLOW   ,
      h        LGRAV   ,DD_R2R  ,FASOLFR ,FR_LAGF ,
-     j        LLAGF   ,LPRW    ,ICONTACT,RCONTACT,SH4TREE ,SH3TREE ,
+     j        LLAGF   ,ICONTACT,RCONTACT,SH4TREE ,SH3TREE ,
      k        IPADMESH,PADMESH ,MSC     ,MSTG    ,INC     ,INTG    ,PTG     ,
      l        ISKWP   ,NSKWP   ,ISENSP  ,NSENSP  ,IACCP   ,NACCP,IPART_STATE,
      m        ACONTACT,PCONTACT,FACTIV
@@ -634,7 +634,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      N        KLOADPINTER,LOADPINTER,DGAPLOADINT,DRAPEG,USER_WINDOWS,OUTPUT,INTERFACES,
      O        DT        ,LOADS     , PYTHON, DPL0CLD,VEL0CLD,
      P        NDAMP_VREL,ID_DAMP_VREL,FR_DAMP_VREL,NDAMP_VREL_RBYG,NAMES_AND_TITLES,UNITAB,LIFLOW,LRFLOW ,
-     R        GLOB_THERM ,PBLAST,RBE3)
+     R        GLOB_THERM ,PBLAST,RBE3,RWALL)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -750,6 +750,8 @@ C-----------------------------------------------
               use damping_funct_ini_mod    , only : damping_funct_ini
               USE VIPER_MOD
               USE BCS_NRF_MOD , ONLY : BCS_NRF
+              USE rwall_mod
+              USE rwall_pen_mod, only : rgwal0_pen
               use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -821,7 +823,7 @@ C-----------------------------------------------
      .           IXR(NIXR,*),IXTG(NIXTG,*), IXTG1(4,*),
      .           IFILL(NUMNOD,*), IMS(*), NPC(*), IBCL(*), IBFV(*),
      .           IDUM(*), LAS(*),IPARG(NPARG,*),
-     .           NPRW(*), LPRW(*), ICONX(*), NPBY(NNPBY,*),
+     .           ICONX(*), NPBY(NNPBY,*),
      .           LPBY(*),
      .           LRIVET(*), NSTRF(*), LJOINT(*),  ILINK(*),
      .           LLINK(*), LINALE(*), NEFLSW(*), NNFLSW(*),
@@ -839,7 +841,7 @@ C-----------------------------------------------
      .           NPSEGCOM(*), LSEGCOM(*), IGEO(NPROPGI,*),
      .           IPM(NPROPMI,*),MADPRT(*), MADSH4(*), MADSH3(*), MADSOL(*),
      .           MADNOD(*),MADFAIL(*),
-     .           FR_WALL(*),IAD_RBY2(*),
+     .           IAD_RBY2(*),
      .           FR_RBY2(*),IAD_I2M(*),FR_I2M(*),ADDCNI2(*),PROCNI2(*),IADI2(*),
      .           FR_MV(*), IADMV2(*),  FR_LL(*),  FR_RL(*),
      .           IADCJ(*), FR_CJ(*),
@@ -881,7 +883,7 @@ C-----------------------------------------------
      .           BUFMAT(*) ,W(3,*)    ,VEUL(*),FILL(NUMNOD,*),DFILL(NUMNOD,*),
      .           ALPH(*)   ,WB(3,*)   ,TF(*)       ,FORC(*)  ,VEL(*),
      .           FSAV(NTHVKI,*) ,FZERO(3,*),XLAS(*)     ,ELBUF(*) ,
-     .           RWBUF(NRWLP,*),RWSAV(*),RBY(NRBY,*),RIVET(*),WA(*),
+     .           RBY(NRBY,*),RIVET(*),WA(*),
      .           FV(*)      ,VAL2(*)  ,PHI(*),
      .           R(3,*)    ,CRFLSW(*),FLSW(*),
      .           UWA(*)    ,PARTSAV(*)   ,
@@ -979,6 +981,7 @@ c
               type (glob_therm_) ,intent(inout)                  :: glob_therm
               type (PBLAST_) ,intent(inout)                      :: PBLAST
               type (rbe3_) ,intent(inout)                        :: RBE3
+              type (rwall_) ,intent(inout)                       :: RWALL
 C
               INTEGER ,INTENT(IN) :: NDAMP_VREL,NDAMP_VREL_RBYG
               INTEGER ,INTENT(IN) :: ID_DAMP_VREL(NDAMP_VREL),FR_DAMP_VREL(NSPMD+2,NDAMP_VREL)
@@ -1328,7 +1331,7 @@ C-------------------------------------------------------------------------------
               INTEGER MAXFUNC
               PARAMETER (MAXFUNC  = 100)
               integer :: numnod_old,numnodm_old
-              integer :: new_crack
+              integer :: new_crack,nsect_offset
 C-----------------------------------------------------------------------------------
 C Err THK
 C-----------------------------------------------------------------------------------
@@ -2210,7 +2213,6 @@ C===============================================================================
 
               NEED_COMM_INT25_SOLID_EROSION(1:NSPMD) = .FALSE.
               COMM_INT25_SOLID_EROSION = 0
-
               CALL PYTHON_BEGIN_OPENMP(PYTHON)
 !$OMP PARALLEL
 !$OMP+ PRIVATE(ITSK,NODFTSK,NODLTSK,NUMNTSK,NDTSK,IPMTSK,IGMTSK)
@@ -2266,7 +2268,7 @@ C
      h         NODREAC  ,IGROUC   ,NGROUC   ,IGROUNC  ,NGROUNC  ,
      i         FR_RBY   ,FR_RBY6  ,NPBY     ,
      j         NOM_SECT ,MCPC     ,MCPTG    ,GRTH     ,IGRTH     ,
-     k         NELEM    ,LAG_SEC  ,NPRW     ,DIAG_SMS ,DMELC     ,
+     k         NELEM    ,LAG_SEC  ,RWALL%NPRW     ,DIAG_SMS ,DMELC     ,
      l         DMELTG   ,NGRTH    ,NFT2     ,DMELS    ,DMELTR    ,
      m         DMELP    ,DMELRT   ,RES_SMS  ,I87L     ,IRBE2     ,
      n         LRBE2    ,NMRBE2   ,IAD_RBE2 ,FR_RBE2  ,FR_RBE2M  ,
@@ -2695,7 +2697,7 @@ C----------------------------------------------------------
               IF(IDTMINS_INT /= 0)THEN
 C
 C           /DT/INTER/AMS
-                CALL SMS_INI_ERR(NPRW ,LPRW ,NODES%KINET )
+                CALL SMS_INI_ERR(RWALL%NPRW ,RWALL%LPRW ,NODES%KINET )
 C
               END IF
 C----------------------------------------------------------
@@ -2711,7 +2713,7 @@ C
 
                 IF(IDTMINS_INT==0)
      .          CALL SMS_INI_RBY(
-     1          NODES%KINET   ,NPRW     ,LPRW    ,NPBY    , LPBY     ,
+     1          NODES%KINET   ,RWALL%NPRW ,RWALL%LPRW ,NPBY    , LPBY     ,
      2          TAGMSR_RBY_SMS,TAGSLV_RBY_SMS)
 
                 CALL SMS_INI_KAD(
@@ -2723,7 +2725,7 @@ C
      6          IPART(I15C),IPART(I15D),IPART(I15E),IPART(I15F),IPART(I15G),
      7          IPART(I15H),IPART(I15I),TAGPRT_SMS ,TAGREL_SMS ,NODES%ITAB       ,
      8          NODES%WEIGHT     ,IRBE2      ,RBE3%IRBE3      ,LRBE2      ,RBE3%LRBE3      ,
-     9          NODES%BOUNDARY_ADD   ,NODES%BOUNDARY    ,NPRW       ,LPRW       ,IPART      ,
+     9          NODES%BOUNDARY_ADD   ,NODES%BOUNDARY    ,RWALL%NPRW       ,RWALL%LPRW       ,IPART      ,
      A          IGEO       ,NATIV_SMS  )
 
                 ALLOCATE(KDI_SMS(KNZ_SMS),PK_SMS(KNZ_SMS),STAT=IERROR)
@@ -2786,7 +2788,7 @@ C
      7          IPART(I15E),IPART(I15F),IPART(I15G),IPART(I15H),IPART(I15I),
      8                 NODES%BOUNDARY_ADD  ,NODES%BOUNDARY,NPBY     ,LPBY     ,NODES%KINET    ,
      9                 TAGSLV_RBY_SMS,IPARI  ,INTERFACES%INTBUF_TAB,IADI2    ,
-     A                 LAD_SMS   ,NPRW ,LPRW,TAGMSR_RBY_SMS,
+     A                 LAD_SMS   ,RWALL%NPRW ,RWALL%LPRW,TAGMSR_RBY_SMS,
      B             TAGSLV_I21_SMS ,TAGMSR_I21_SMS, JADI21_SMS,INTSTAMP  ,
      .                                                        IPART     ,
      C             IGEO    ,NODES%WEIGHT  ,NATIV_SMS,IRBE2      ,LRBE2     ,
@@ -2843,14 +2845,14 @@ C             Obsolete
                   CALL SMS_INI_KIN_2(
      1            ILINK     ,LLINK    ,NNLINK    ,LNLINK    ,TAG_LNK_SMS,
      2            FR_LL     ,FR_RL    ,NODES%WEIGHT    ,NODES%ITAB      ,LJOINT     ,
-     3            IADCJ     ,FR_CJ    ,NPRW      ,LPRW      ,FR_WALL    ,
+     3            IADCJ     ,FR_CJ    ,RWALL%NPRW      ,RWALL%LPRW      ,RWALL%FR_WALL    ,
      4            NRWL_SMS  ,NODES%BOUNDARY_ADD ,NODES%BOUNDARY   )
                 END IF
 
                 IF(IDTMINS_INT/=0)THEN
 C re-tag rigid bodies (all nodes)
                   CALL SMS_INI_RBY(
-     1            NODES%KINET   ,NPRW     ,LPRW    ,NPBY    , LPBY     ,
+     1            NODES%KINET   ,RWALL%NPRW     ,RWALL%LPRW    ,NPBY    , LPBY     ,
      2            TAGMSR_RBY_SMS,TAGSLV_RBY_SMS)
                 END IF
 
@@ -2877,11 +2879,11 @@ C           /DT/INTER/AMS
                 CALL SMS_INI_KIN_2(
      1          ILINK     ,LLINK    ,NNLINK    ,LNLINK    ,TAG_LNK_SMS,
      2          FR_LL     ,FR_RL    ,NODES%WEIGHT    ,NODES%ITAB      ,LJOINT     ,
-     3          IADCJ     ,FR_CJ    ,NPRW      ,LPRW      ,FR_WALL    ,
+     3          IADCJ     ,FR_CJ    ,RWALL%NPRW      ,RWALL%LPRW      ,RWALL%FR_WALL    ,
      4          NRWL_SMS  ,NODES%BOUNDARY_ADD ,NODES%BOUNDARY   )
 
                 CALL SMS_INI_RBY(
-     1          NODES%KINET   ,NPRW     ,LPRW    ,NPBY    , LPBY     ,
+     1          NODES%KINET   ,RWALL%NPRW     ,RWALL%LPRW    ,NPBY    , LPBY     ,
      2          TAGMSR_RBY_SMS,TAGSLV_RBY_SMS)
 
                 CALL SMS_INI_INT(
@@ -3026,7 +3028,7 @@ C----------------------------------
      5          IXS(L2)   ,IXS(L3)   ,IPARG     ,
      6          ELBUF     ,NINT7     ,NBINTC    ,NODES%X         ,DMCP      ,
      7          NODES%BOUNDARY   ,NODES%BOUNDARY_ADD  ,FR_I2M    ,IAD_I2M   ,
-     8          NPRW      ,NUM_IMP1  ,NUM_IMPL  ,MONVOL    ,IGRSURF   ,
+     8          RWALL%NPRW      ,NUM_IMP1  ,NUM_IMPL  ,MONVOL    ,IGRSURF   ,
      9          FR_MV     ,IPM       ,IGEO      ,IAD_RBY   ,
      A          FR_RBY    ,SH4TREE   ,SH3TREE   ,RBE3%IRBE3     ,RBE3%LRBE3     ,
      B          RBE3%mpi%FR_RBE3  ,RBE3%mpi%IAD_RBE3 ,IRBE2     ,LRBE2     ,IBFV      ,
@@ -3068,8 +3070,8 @@ C------ one routine for EIG
      5                            ELEMENT%SHELL%IXC         , IXT         , IXP      , IXR       , IXTG    ,
      6                            PM          , GEO         ,OUTPUT%DATA%VECT_CONT     , ICUT      , SKEWS%SKEW    ,
      7                            XCUT        ,OUTPUT%DATA%VECT_FINT, NODES%ITAB    ,OUTPUT%DATA%VECT_FEXT,OUTPUT%DATA%FOPT,
-     8                            OUTPUT%DATA%SCAL_DT, LPBY        , NPBY     , NSTRF     , RWBUF   ,
-     9                            NPRW        , TANI        , ELBUF_TAB ,MAT_ELEM%MAT_PARAM, DD_IAD  ,
+     8                            OUTPUT%DATA%SCAL_DT, LPBY        , NPBY     , NSTRF     , RWALL%RWBUF   ,
+     9                            RWALL%NPRW        , TANI        , ELBUF_TAB ,MAT_ELEM%MAT_PARAM, DD_IAD  ,
      A                            NODES%BOUNDARY_ADD    , NODES%BOUNDARY     , NODES%WEIGHT   , EANI      , IPART   ,
      B                            RBY         , NOM_OPT     , IGRSURF  ,
      C                            BUFSF       , IDATA       , RDATA    , BUFMAT    , BUFGEO  ,
@@ -3077,7 +3079,7 @@ C------ one routine for EIG
      E                            SPBUF       , IXS(L1)     , IXS(L2)  , IXS(L3)   , NODES%VR      ,
      F                            MONVOL      , VOLMON      , IPM      , IGEO      , IPARG   ,
      G                            NODES%NODGLOB     , NODES%BOUNDARY_ADD    , NODES%BOUNDARY  , FR_SEC    , FR_RBY2 ,
-     H                            IAD_RBY2    , FR_WALL     ,  IPARI   ,
+     H                            IAD_RBY2    , RWALL%FR_WALL     ,  IPARI   ,
      I                            INTERFACES%INTBUF_TAB  , NODES%D           ,PARTSAV   ,
      J                            FSAV(1,NFNCA+1),FSAV(1,NFTCA+1), NODES%TEMP      , THKE    ,
      K                            ERR_THK_SH4 , ERR_THK_SH3 , IRBE2    , RBE3%IRBE3     ,LRBE2    ,
@@ -6234,7 +6236,20 @@ C===============================================================================
 C----------------------------------------------------------
 C     Rigid wall - Force node (moving RWALL)
 C----------------------------------------------------------
-              IF(NRWALL>0)CALL RGWALF(NODES%A ,RWBUF ,NPRW ,NODES%MS )
+              IF (NRWALL>0) THEN 
+                CALL RGWALF(NODES%A ,RWALL%RWBUF ,RWALL%NPRW ,NODES%MS )
+                IF (RWALL%nrwall_pen>0 .AND. IMPL_S==0) THEN 
+                   nsect_offset = nsect + nintsub + ninter 
+!$OMP PARALLEL
+                  CALL RGWAL0_PEN(
+     1            NODES%X           ,NODES%A        ,NODES%V      ,NODES%MS       ,NUMNOD            ,
+     2            FSAV(1,NINTER+1)  ,NTHVKI         ,FRWL6        ,NODES%WEIGHT_MD,NCYCLE            ,
+     3            OUTPUT%DATA%FOPT(1,1+(NSECT+NRBODY)),SENSORS%SFSAV,SENSORS%FSAV ,SENSORS%STABSEN   ,
+     4            SENSORS%TABSENSOR,nsect_offset,NODES%STIFN   ,DT1               ,NSPMD             , 
+     5            RWALL%NRWALL,RWALL        )
+!$OMP END PARALLEL
+                END IF 
+              END IF 
 
 C-----------------------------------------------
 C     SELECTIVE MASS SCALING
@@ -6305,7 +6320,7 @@ C
      F                     IXS(L1),JADS10_SMS,ILINK     ,LLINK      ,NNLINK   ,
      G                     LNLINK   ,TAG_LNK_SMS,LJOINT ,IADCJ      ,FR_CJ    ,
      H                     NODES%ITAB  ,NODES%WEIGHT  ,DMINT2    ,ELBUF_TAB,TAGMSR_RBY_SMS,
-     I                     NPRW  ,LPRW    ,FR_WALL   ,NRWL_SMS      ,RBY      ,
+     I                     RWALL%NPRW  ,RWALL%LPRW    ,RWALL%FR_WALL   ,NRWL_SMS      ,RBY      ,
      J                     NODES%X     ,NODES%A       ,NODES%AR        ,NODES%IN            ,NODES%V        ,
      K                     NODES%VR    ,IRBE2   ,LRBE2     ,RBE3%IRBE3         ,RBE3%LRBE3    ,
      L                     RBE3%mpi%IAD_RBE3 ,RBE3%mpi%FR_RBE3 ,NATIV_SMS,T2MAIN_SMS,T2FAC_SMS,
@@ -7015,8 +7030,8 @@ C===============================================================================
      D                NNLINK   ,LNLINK   ,FR_LL    ,FNL6      ,TAG_LNK_SMS,
      E                NODES%ITAB     ,FSAV     ,LJOINT   ,IADCJ     ,FR_CJ      ,
      F                NODES%AR       ,NODES%VR       ,NODES%IN       ,FRL       ,FNL        ,
-     G                NPRW     ,LPRW     ,RWBUF    ,RWSAV     ,
-     H                OUTPUT%DATA%FOPT(1,1+(NSECT+NRBODY)),FR_WALL ,NRWL_SMS   ,
+     G                RWALL%NPRW     ,RWALL%LPRW     ,RWALL%RWBUF    ,RWALL%RWSAV     ,
+     H                OUTPUT%DATA%FOPT(1,1+(NSECT+NRBODY)),RWALL%FR_WALL ,NRWL_SMS   ,
      I                INTSTAMP ,NODES%KINET    ,ELEMENT%SHELL%IXC      ,IXTG      ,SH4TREE    ,
      J                SH3TREE  ,CPTREAC  ,NODREAC  ,FTHREAC   ,
      K                FRWL6    ,3+IRODDL*3,NODES%TAG_S_RBY,DAMPR   , DAMP      ,
@@ -7184,7 +7199,7 @@ c
                   ENDIF
                   ! -------------------------------
                   IF (NSPMD > 1) THEN
-                    CALL SENSOR_SPMD(SENSORS%SENSOR_TAB,IPARI   ,NPRW     ,ISENSP  ,NSENSP  ,
+                    CALL SENSOR_SPMD(SENSORS%SENSOR_TAB,IPARI   ,RWALL%NPRW     ,ISENSP  ,NSENSP  ,
      .                           XSENS     ,NODES%X       ,ACCELM   ,IACCP   ,NACCP   ,
      .                           GAUGE     ,IGAUP   ,NGAUP    ,PARTSAV2,NSENSOR,
      .                           SENSORS%COMM_SENS14,SENSORS%SENSOR_STRUCT)
@@ -7193,7 +7208,7 @@ c
                   ! check activation condition of base sensors
                   CALL SENSOR_BASE(SENSORS  ,NSENSOR   ,TT        ,DT2       ,
      .                 XSENS     ,IPARI     ,PARTSAV2  ,GAUGE     ,FSAV      ,
-     .                 NODES%X         ,NODES%V         ,NODES%A         ,ACCELM    ,NPRW      ,
+     .                 NODES%X         ,NODES%V         ,NODES%A         ,ACCELM    ,RWALL%NPRW      ,
      .                 SUBSETS   ,IGRSURF   ,IGRNOD    , PYTHON)
 c
                   ! check activation condition of logical sensors hierarchy
@@ -8101,17 +8116,17 @@ C
 C         Obsolete
               ELSEIF(NRWALL>0.AND.(IDTMINS==2.OR.IDTMINS_INT/=0))THEN
                 CALL RGWAL0(
-     1          NODES%X           ,NODES%A        ,NODES%V      ,RWBUF   ,LPRW,
-     2          NPRW        ,NODES%MS       ,FSAV(1,NINTER+1),FR_WALL ,
+     1          NODES%X           ,NODES%A        ,NODES%V      ,RWALL%RWBUF   ,RWALL%LPRW,
+     2          RWALL%NPRW        ,NODES%MS       ,FSAV(1,NINTER+1),RWALL%FR_WALL ,
      3          OUTPUT%DATA%FOPT(1,1+(NSECT+NRBODY)),
-     4          RWSAV       ,NODES%WEIGHT   ,FRWL6   ,NODXI_SMS, NODES%WEIGHT_MD,
+     4          RWALL%RWSAV       ,NODES%WEIGHT   ,FRWL6   ,NODXI_SMS, NODES%WEIGHT_MD,
      5          SENSORS%SFSAV,SENSORS%FSAV,SENSORS%STABSEN,SENSORS%TABSENSOR, OUTPUT%TH%WFEXT, OUTPUT%TH%WFEXT_MD)
               ELSE
                 CALL RGWAL0(
-     1          NODES%X           ,NODES%A        ,NODES%V      ,RWBUF   ,LPRW,
-     2          NPRW        ,NODES%MS       ,FSAV(1,NINTER+1),FR_WALL ,
+     1          NODES%X           ,NODES%A        ,NODES%V      ,RWALL%RWBUF   ,RWALL%LPRW,
+     2          RWALL%NPRW        ,NODES%MS       ,FSAV(1,NINTER+1),RWALL%FR_WALL ,
      3          OUTPUT%DATA%FOPT(1,1+(NSECT+NRBODY)),
-     4          RWSAV       ,NODES%WEIGHT   ,FRWL6   ,NATIV_SMS, NODES%WEIGHT_MD,
+     4          RWALL%RWSAV       ,NODES%WEIGHT   ,FRWL6   ,NATIV_SMS, NODES%WEIGHT_MD,
      5          SENSORS%SFSAV,SENSORS%FSAV,SENSORS%STABSEN,SENSORS%TABSENSOR, OUTPUT%TH%WFEXT, OUTPUT%TH%WFEXT_MD)
               ENDIF
 
@@ -8540,7 +8555,7 @@ c
                 ENDIF
 
                 IF (NSPMD > 1) THEN
-                  CALL SENSOR_SPMD(SENSORS%SENSOR_TAB,IPARI ,NPRW      ,ISENSP    ,NSENSP    ,
+                  CALL SENSOR_SPMD(SENSORS%SENSOR_TAB,IPARI ,RWALL%NPRW      ,ISENSP    ,NSENSP    ,
      .                         XSENS     ,NODES%X       ,ACCELM   ,IACCP     ,NACCP     ,
      .                         GAUGE     ,IGAUP   ,NGAUP    ,PARTSAV2  ,NSENSOR,
      .                         SENSORS%COMM_SENS14,SENSORS%SENSOR_STRUCT  )
@@ -8549,7 +8564,7 @@ c
                 ! check activation condition of base sensors
                 CALL SENSOR_BASE(SENSORS  ,NSENSOR   ,TT        ,DT2       ,
      .               XSENS     ,IPARI     ,PARTSAV2  ,GAUGE     ,FSAV      ,
-     .               NODES%X         ,NODES%V         ,NODES%A         ,ACCELM    ,NPRW      ,
+     .               NODES%X         ,NODES%V         ,NODES%A         ,ACCELM    ,RWALL%NPRW      ,
      .               SUBSETS   ,IGRSURF   ,IGRNOD    ,PYTHON)
 c
                 ! check activation condition of logical sensor hierarchy
@@ -8593,8 +8608,8 @@ C Init var parallel SMP
      5               SKEWS%SKEW     ,NODES%AR       ,LAMBDA   ,LAGBUF   ,IBCSLAG  ,
      6               IXS(L1)  ,GJBUFI   ,GJBUFR   ,IBMPC    ,RBMPC    ,
      7               NPBYL    ,LPBYL    ,IBFV     ,VEL      ,NPC      ,
-     8               TF         ,NEWFRONT ,ICONTACT ,RWBUF    ,LPRW     ,
-     9               NPRW     ,RBYL     ,NODES%D        ,NODES%DR       ,NODES%KINET    ,
+     8               TF         ,NEWFRONT ,ICONTACT ,RWALL%RWBUF    ,RWALL%LPRW     ,
+     9               RWALL%NPRW     ,RBYL     ,NODES%D        ,NODES%DR       ,NODES%KINET    ,
      A               NSENSOR  ,SENSORS%SENSOR_TAB,INTERFACES%INTBUF_TAB, H3D_DATA ,IGRBRIC,
      B               PYTHON,NODES)
 
@@ -8625,8 +8640,8 @@ C===============================================================================
      5               SKEWS%SKEW     ,NODES%AR       ,LAMBDA   ,LAGBUF   ,IBCSLAG  ,
      6               IXS(L1)  ,GJBUFI   ,GJBUFR   ,IBMPC    ,RBMPC    ,
      7               NPBYL    ,LPBYL    ,IBFV     ,VEL      ,NPC      ,
-     8               TF       ,NEWFRONT ,ICONTACT ,RWBUF    ,LPRW     ,
-     9               NPRW     ,RBYL     ,NODES%D        ,NODES%DR       ,NODES%KINET    ,
+     8               TF       ,NEWFRONT ,ICONTACT ,RWALL%RWBUF    ,RWALL%LPRW     ,
+     9               RWALL%NPRW     ,RBYL     ,NODES%D        ,NODES%DR       ,NODES%KINET    ,
      A               NODES%NODGLOB  ,NODES%WEIGHT   ,NBNCL    ,NBIKL    ,NBNODL   ,
      B               NBNODLR  ,FR_LAGF  ,LLAGF    ,NODES%BOUNDARY_ADD ,NODES%BOUNDARY  ,
      C               INTERFACES%INTBUF_TAB ,H3D_DATA, PYTHON, NODES)
@@ -8925,7 +8940,7 @@ C Regular animation
      4          NODES%ITAB    ,ptrX           ,GEO            ,NODES%MS           ,NODES%A          ,
      5          PARTSAV        ,ICUT           ,XCUT               ,
      6          LPBY             ,
-     7          NPBY          ,NSTRF          ,RWBUF          ,NPRW               ,EBCS_TAB         ,
+     7          NPBY          ,NSTRF          ,RWALL%RWBUF          ,RWALL%NPRW               ,EBCS_TAB         ,
      8          TANI          ,INOISE         ,BUFNOIS        ,RBY                ,NEFLSW           ,
      9          NNFLSW        ,CRFLSW         ,FLSW           ,LOUT               ,NODES            ,
      B          FSAV          ,SKEWS%SKEW     ,ELBUF_TAB      ,CLUSTER            ,
@@ -8940,7 +8955,7 @@ C Regular animation
      M          XFRAME        ,IXS(L1)        ,IXS(L2)        ,IXS(L3)            ,NDMA             ,
      N          MONVOL        ,VOLMON         ,IPM            ,IGEO               ,NODES%NODGLOB       ,
      .          NODES%BOUNDARY_ADD      ,NODES%BOUNDARY        ,
-     U          FR_RBY2       ,IAD_RBY2       ,FR_WALL        ,FR_SEC             ,FXBIPM        ,FXBRPM   ,
+     U          FR_RBY2       ,IAD_RBY2       ,RWALL%FR_WALL        ,FR_SEC             ,FXBIPM        ,FXBRPM   ,
      V          NDIN          ,FXBDEP         ,FXBVIT         ,FXBACC             ,IFLOW         ,
      W          RFLOW         ,IPARTL         ,NPARTL         ,IACCP              ,NACCP         ,
      X          FASOLFR       ,IPART(I15ATH)      ,
@@ -9116,7 +9131,7 @@ C===============================================================================
      1     NODES%ICODE      ,NODES%ISKEW          ,ISKWN       ,IPART             ,IXTG       ,IXS              ,IXQ         ,
      2     ELEMENT%SHELL%IXC,IXT                  ,IXP         ,IXR               ,IXTG1      ,NODES%ITAB       ,NODES%ITABM1,
      3     NPC              ,IBCL                 ,IBFV        ,SENSORS%SENSOR_TAB,NNLINK     ,LNLINK      ,IPARG       ,IGRV,
-     4     IPARI            ,INTERFACES%INTBUF_TAB,NPRW        ,ICONX             ,NPBY       ,LPBY             ,LRIVET      ,
+     4     IPARI            ,INTERFACES%INTBUF_TAB,RWALL%NPRW        ,ICONX             ,NPBY       ,LPBY             ,LRIVET      ,
      5     NSTRF            ,LJOINT,NODES%ICODT ,NODES%ICODR,INTERFACES%PON%ISKY,ELEMENT%PON%ADSKY,ELEMENT%PON%IAD_CONLD,
      6     ILINK            ,LLINK                ,NODES%WEIGHT,ITASK             ,IBVEL      ,LBVEL            ,FBVEL,
      7     NODES%X          ,NODES%D              ,NODES%V     ,NODES%VR          ,NODES%DR   ,THKE     ,DAMP        ,NODES%MS,
@@ -9126,8 +9141,8 @@ C===============================================================================
      B     WA               ,NODES%A              ,NODES%AR    ,NODES%STIFN       ,NODES%STIFR,PARTSAV,ELEMENT%PON%FSKY,
      C     INTERFACES%PON%FSKYI,IFRAME            ,XFRAME      ,W16               ,IACTIV     ,ELEMENT%PON%FSKYM,IGEO,IPM     ,
      D     OUTPUT%TH%WFEXT     ,NODFT                ,NODLT       ,NT_IMP            ,NUM_IMP    ,NS_IMP           ,NE_IMP,IND_IMP,
-     L     IT               ,RWBUF                ,LPRW        ,FR_WALL           ,NBINTC     ,INTLIST          ,
-     M     OUTPUT%DATA%FOPT(1,1+(NSECT+NRBODY)),RWSAV  ,FSAVD       ,
+     L     IT               ,RWALL%RWBUF                ,RWALL%LPRW        ,RWALL%FR_WALL           ,NBINTC     ,INTLIST          ,
+     M     OUTPUT%DATA%FOPT(1,1+(NSECT+NRBODY)),RWALL%RWSAV  ,FSAVD       ,
      N     DIRUL            ,LGRAV                ,RBE3%IRBE3  ,RBE3%LRBE3        ,RBE3%FRBE3 ,
      O     FRWL6            ,IRBE2                ,LRBE2       ,ICFIELD           ,LCFIELD    ,CFIELD           ,ELBUF_TAB,
      P     NODES%WEIGHT_MD  ,STACK,SENSORS%SFSAV  ,SENSORS%FSAV,SENSORS%STABSEN   ,SENSORS%TABSENSOR            ,DRAPE_SH4N  ,
@@ -9143,7 +9158,7 @@ C----       10,11,12:ELBUF_C,BUFMAT_C,X_C,13,14:DD,DDR,15,16:X_ac,V_zero,23,24:A
      1            NODES%ICODE  ,NODES%ISKEW  ,ISKWN  ,IPART  ,IXTG   ,IXS    ,IXQ    ,
      2            ELEMENT%SHELL%IXC    ,IXT    ,IXP    ,IXR    ,IXTG1          ,NODES%ITAB   ,NODES%ITABM1 ,
      3            NPC    ,IBCL   ,IBFV   ,SENSORS%SENSOR_TAB,NNLINK ,LNLINK ,IPARG  ,IGRV   ,
-     4            IPARI  ,INTERFACES%INTBUF_TAB,NPRW   ,ICONX  ,NPBY,LPBY   ,LRIVET ,
+     4            IPARI  ,INTERFACES%INTBUF_TAB,RWALL%NPRW   ,ICONX  ,NPBY,LPBY   ,LRIVET ,
      5            NSTRF  ,LJOINT ,NODES%ICODT  ,NODES%ICODR  ,INTERFACES%PON%ISKY  ,ELEMENT%PON%ADSKY,ELEMENT%PON%IAD_CONLD,
      6            ILINK  ,LLINK  ,NODES%WEIGHT         ,ITASK ,IBVEL  ,LBVEL  ,FBVEL  ,
      7            NODES%X      ,NODES%D      ,NODES%V      ,NODES%VR     ,NODES%DR     ,THKE   ,DAMP   ,NODES%MS     ,
@@ -9153,8 +9168,8 @@ C----       10,11,12:ELBUF_C,BUFMAT_C,X_C,13,14:DD,DDR,15,16:X_ac,V_zero,23,24:A
      B            WA     ,NODES%A      ,NODES%AR     ,NODES%STIFN  ,NODES%STIFR  ,PARTSAV,ELEMENT%PON%FSKY   ,
      C            INTERFACES%PON%FSKYI  ,IFRAME ,XFRAME ,W16    ,IACTIV ,ELEMENT%PON%FSKYM  ,IGEO   ,IPM    ,
      D            OUTPUT%TH%WFEXT  ,NODFT  ,NODLT  ,NT_IMP ,NUM_IMP,NS_IMP ,NE_IMP ,IND_IMP,
-     L            IT     ,RWBUF  ,LPRW   ,FR_WALL,NBINTC ,INTLIST,
-     M            OUTPUT%DATA%FOPT(1,1+(NSECT+NRBODY)) ,RWSAV  ,FSAVD ,
+     L            IT     ,RWALL%RWBUF  ,RWALL%LPRW   ,RWALL%FR_WALL,NBINTC ,INTLIST,
+     M            OUTPUT%DATA%FOPT(1,1+(NSECT+NRBODY)) ,RWALL%RWSAV  ,FSAVD ,
      N            GRAPHE , FAC_K  ,IPIV_K ,NKCOND,NSENSOR,
      O            MONVOL ,IGRSURF,FR_MV  ,VOLMON ,DIRUL,
      P            NODES%NODGLOB,MUMPS_PAR,CDDLP ,ISENDTO,IRCVFROM,NEWFRONT,IMSCH  ,
@@ -9195,18 +9210,18 @@ C
      A            NODES%WEIGHT,         NODES%MS,       NODES%IN,        IPARI,    INTERFACES%INTBUF_TAB,
      B            ptrX, ITSK ,
      E            OUTPUT%DATA%VECT_CONT           ICUT,            XCUT,      OUTPUT%DATA%VECT_FINT, OUTPUT%DATA%VECT_FEXT,
-     F            OUTPUT%DATA%FOPT, OUTPUT%DATA%SCAL_DT,            NSTRF,     RWBUF,          NPRW,
+     F            OUTPUT%DATA%FOPT, OUTPUT%DATA%SCAL_DT,            NSTRF,     RWALL%RWBUF,          RWALL%NPRW,
      G            TANI,           DD_IAD,          EANI,      IPART,
      H            NOM_OPT,        IGRSURF,         BUFSF,     IDATA,
      I            RDATA,          KXX,             IXX,       KXSP,           IXSP,
      J            NOD2SP,         SPBUF,           IXS(L1),   IXS(L2),        IXS(L3),
      K            NODES%VR,             MONVOL,          VOLMON,    NODES%NODGLOB,  NODES%BOUNDARY_ADD,
-     L            NODES%BOUNDARY,        FR_SEC,          FR_RBY2,   IAD_RBY2,       FR_WALL,
+     L            NODES%BOUNDARY,        FR_SEC,          FR_RBY2,   IAD_RBY2,       RWALL%FR_WALL,
      M            NODES%V,              NODES%A,               GRAPHE,    PARTSAV ,       XFRAME  ,
      N            DIRUL,
      O            FSAV(1,NFNCA+1), FSAV(1,NFTCA+1),NODES%TEMP      ,SH4TREE,        SH3TREE,
-     P            ERR_THK_SH4,    ERR_THK_SH3    , IFRAME    ,LPRW      ,     ELBUF_TAB,
-     Q            FSAV           ,FSAVD          , RWSAV     ,NODES%AR        ,   RBE3%IRBE3   ,
+     P            ERR_THK_SH4,    ERR_THK_SH3    , IFRAME    ,RWALL%LPRW      ,     ELBUF_TAB,
+     Q            FSAV           ,FSAVD          , RWALL%RWSAV     ,NODES%AR        ,   RBE3%IRBE3   ,
      R            RBE3%LRBE3     ,RBE3%FRBE3     , FR_I2M    ,IAD_I2M   ,     RBE3%mpi%FR_RBE3,
      S            RBE3%mpi%IAD_RBE3,FRWL6          , IBCL      ,FORC      ,     IRBE2   ,
      T            LRBE2          ,IAD_RBE2       , FR_RBE2   ,NODES%WEIGHT_MD,
@@ -9462,15 +9477,15 @@ C===============================================================================
      1              GEO             ,NODES%X               ,NODES%D     ,NODES%V     ,NODES%VR   ,
      2              W               ,WA                    ,WB          ,SKEWS%SKEW  ,
      3              PM              ,XLAS                  ,NODES%MS    ,FSAV        ,
-     4              NODES%A         ,TF                    ,RWBUF       ,
+     4              NODES%A         ,TF                    ,RWALL%RWBUF       ,
      5              DT2SAVE         ,PYTHON                ,
      6              IPARG           ,IXS                   ,IXQ         ,NODPOR      ,
      7              NODES%ISKEW     ,NODES%ICODT           ,ELBUF_TAB   ,
-     8              NPC             ,LINALE                ,NPRW        ,LAS         ,
+     8              NPC             ,LINALE                ,RWALL%NPRW        ,LAS         ,
      9              IPARI           ,NODFTSK               ,NODLTSK     ,ITSK        ,
      A              NODES%BOUNDARY_ADD ,NODES%BOUNDARY               ,NBRCVOIS    ,NBSDVOIS    ,LNRCVOIS   ,
      B              LNSDVOIS        ,NODES%WEIGHT          ,ELEMENT%PON%ADSKY,ELEMENT%PON%FSKY,ELEMENT%PON%IADS,
-     C              FR_WALL         ,NPORGEO               ,ELEMENT%PON%PROCNE      ,
+     C              RWALL%FR_WALL         ,NPORGEO               ,ELEMENT%PON%PROCNE      ,
      D              FR_NBCC         ,ELEMENT%PON%IADQ      ,NODES%XDP   ,IGRNOD      ,
      E              NODES%DR        ,INTERFACES%INTBUF_TAB ,MULTI_FVM   ,
      F              ALE_CONNECTIVITY,NODES%DDP             ,NE_NERCVOIS ,NE_NESDVOIS ,
@@ -9898,7 +9913,7 @@ C--- //0 ----------------
      .                       IMPBUF_TAB ,IMPL_S          ,IMPL_S0        ,NODES%MCP             ,NODES%TEMP             ,
      .                       FORNEQS    ,UNITAB          ,STACK          ,NDRAPE          ,DRAPE_SH3N       ,
      .                       DRAPE_SH4N ,DRAPEG          ,RESTSIZE       ,SKEWS           ,GLOB_THERM       ,
-     .                       PBLAST     ,RBE3)
+     .                       PBLAST     ,RBE3            ,RWALL )
 
                 ! Restart file size
                 IF (MULTIREST >0)THEN
