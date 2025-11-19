@@ -191,7 +191,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      M                  IPARI      ,INTBUF_TAB    ,INTERFACES       ,MAT_PARAM      ,NPRELOAD_A,
      N                  PRELOAD_A  ,FAIL_FRACTAL  ,FAIL_BROKMANN    ,DEFAULTS       ,NDAMP_FREQ_RANGE,
      O                  DAMPR      ,IBEAM_VECTOR  ,RBEAM_VECTOR     ,IKINE          ,LSIGI     ,
-     P                  LSIGSP     ,SRNOISE       )
+     P                  LSIGSP     ,SRNOISE       ,NPRW             ,LPRW           , RWSTIF_PEN,
+     M                  SLN_PEN )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------                     
@@ -234,6 +235,7 @@ C-----------------------------------------------
       USE INIT_BCS_NRF_MOD , ONLY : INIT_BCS_NRF
       use init_inivol_mod , only : INIT_INIVOL
       use element_mod , only : nixs,nixq,nixc,nixt,nixp,nixr,nixtg
+      use init_rwall_penalty_mod , only : init_rwall_penalty
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -342,6 +344,11 @@ C
       INTEGER,INTENT(IN) :: LSIGI
       INTEGER,INTENT(IN) :: LSIGSP
       INTEGER,INTENT(IN) :: SRNOISE
+!
+      INTEGER,INTENT(IN) :: SLN_PEN
+      INTEGER, DIMENSION(NNPRW*NRWALL),INTENT(IN) :: NPRW
+      INTEGER, DIMENSION(SLPRW),INTENT(IN)        :: LPRW
+      my_real, DIMENSION(SLN_PEN), INTENT(INOUT)  :: RWSTIF_PEN
 C
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP,NXEL) :: XFEM_TAB
@@ -1724,6 +1731,19 @@ C---------------------------------------------------------------
         IF(INTERFACES%PARAMETERS%ISTIF_DT > 0) THEN
           CALL DTNODA_STIFINT( MS   ,STIFN ,INTERFACES%PARAMETERS%DT_STIFINT)
         ENDIF
+!--------------------------------------------
+! RWALL penalty stiffness initialization
+!--------------------------------------------
+        IF (SLN_PEN>0) THEN
+           CALL INIT_RWALL_PENALTY(ELBUF_TAB,                                              
+     1             numnod,  nparg,  ngroup,  iparg,   nummat,                    
+     2             nrwall,  nnprw,    nprw,   lprw,    slprw,                    
+     3             numelc,numeltg,  numels,numels8, numels10,                    
+     4           numels16,numels20,    ixc,   ixtg,      ixs,                    
+     5              ixs10,   ixs16,  ixs20,    ixt,      ixp,                    
+     6                ixr,  numelt, numelp, numelr,    stifn,
+     7                mat_param,SLN_PEN,RWSTIF_PEN)
+        END IF
 C--------------------------------------------
 C Laser impact
 C--------------------------------------------

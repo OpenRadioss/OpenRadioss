@@ -333,7 +333,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      D   KLOADPINTER  , LOADPINTER ,DGAPLOADINT     ,S_LOADPINTER, LEN_CEP ,DYNAIN_DATA,
      E   DRAPEG       ,USER_WINDOWS,OUTPUT          ,INTERFACES  ,NUMBER_LOAD_CYL,
      F   LOADS_PER_PROC, PYTHON    ,DPL0CLD         ,VEL0CLD     ,NAMES_AND_TITLES,
-     G   BCS_PER_PROC,constraint_struct,glob_therm  ,PBLAST)
+     G   BCS_PER_PROC,constraint_struct,glob_therm  ,PBLAST      ,RWSTIF_PEN,SLN_PEN )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -575,6 +575,8 @@ C-----------------------------------------------
       TYPE (SURF_)   , DIMENSION(NSLIN)   :: IGRSLIN
       TYPE (PINCH) :: PINCH_DATA
 
+      INTEGER,INTENT(IN) :: SLN_PEN
+      my_real, DIMENSION(SLN_PEN), INTENT(IN   )  :: RWSTIF_PEN
       LOGICAL, INTENT(IN) :: FLAG_24_25
       INTEGER, INTENT(IN) :: NUMNOD_L
       INTEGER, INTENT(INOUT) :: NINDX_NM,NINDX_SCRT
@@ -698,7 +700,7 @@ C-----------------------------------------------
      .        LENIGRSH3N_L,LENISURF_L,LENISLIN_L,NBCSCYC_L,LLBCSCYC_L,NS_DIFF,
      .        N_SLIPRING_L,N_RETRACTOR_L,N_ANCHOR_REMOTE_L,N_ANCHOR_REMOTE_SEND_L,
      .        N_SEATBELT_L,N_SEATBELT_2D_L,NUMSH4N_L,NUMSH3N_L,NCLOAD_L,NPLOAD_L,
-     .        NDAMP_VREL_L,IDAMP_VREL_L(NDAMP),NINIVELT_L
+     .        NDAMP_VREL_L,IDAMP_VREL_L(NDAMP),NINIVELT_L,LRW_PEN_L,NRW_PEN_L
       INTEGER LWAMP_L  !< Size of Working area in Engine. Need for SPH
       INTEGER LWANMP_L !< Size of Working area in Engine. Need for SPH
       INTEGER NCONV_L,NFXTEMP_L,NRADIA_L,NFXFLUX_L
@@ -1181,10 +1183,11 @@ C--------------------------------------------
       NESLAW_L = 0
       LWSAV_L  = 0
       NSKYRW_L = 0
+      LRW_PEN_L= 0
       IF(NRWALL > 0)
      1  CALL C_RWALL(NPRW    ,LPRW   ,RWL     ,
      2               CEP    ,P-1     ,NSLAW_L ,NESLAW_L,
-     3               LWSAV_L,NSKYRW_L)
+     3               LWSAV_L,NSKYRW_L,LRW_PEN_L,NRW_PEN_L)
 C--------------------------------------------
 C count Madymo storage
 C--------------------------------------------
@@ -2412,7 +2415,7 @@ C--------------------------------------
       IF(NRWALL > 0)
      +  CALL W_RWALL(NPRW    ,LPRW    ,RWL   ,
      +               CEP     ,CEL     ,NODLOCAL,P-1   ,
-     +               NSLAW_L,NESLAW_L,NUMNOD_L,LEN_IA)
+     +               NSLAW_L,NESLAW_L ,NUMNOD_L,LEN_IA)
 C--------------------------------------------
 C Madymo
 C--------------------------------------------
@@ -3068,7 +3071,8 @@ C--------------------------------------------
 C RWALL and RWALL ALE
 C--------------------------------------------
       CALL W_RWAR(NPRW,LPRW ,RWL, RWSAV,
-     +            LWSAV_L,CEP,P-1,LEN_AM)
+     +            LWSAV_L,LRW_PEN_L,NRW_PEN_L,
+     +            RWSTIF_PEN,SLN_PEN,CEP,P-1,LEN_AM)
 C--------------------------------------------
 C RBY
 C--------------------------------------------

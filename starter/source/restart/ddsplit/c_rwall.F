@@ -30,7 +30,7 @@ C
 !||====================================================================
       SUBROUTINE C_RWALL(NPRW    ,LPRW   ,RWL     ,
      2                   CEP    ,PROC    ,NSLAW_L ,NESLAW_L,
-     3                   LWSAV_L,NSKYRW_L)
+     3                   LWSAV_L,NSKYRW_L,LRW_PEN_L,NRW_PEN_L)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------  
@@ -52,6 +52,7 @@ C-----------------------------------------------
      .          NSKYRW_L, 
      .          LPRW(*), NPRW(*), 
      .          CEP(*)
+       INTEGER,  INTENT(INOUT) :: LRW_PEN_L, NRW_PEN_L
        my_real
      .          RWL(NRWLP,*)
 C-----------------------------------------------
@@ -63,12 +64,14 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NSL, K, KK, N, NN, N2, N3, N4, IE, NE, ITY,
-     .        NSL_L, IFQ, MSR
+     .        NSL_L, IFQ, MSR,IPEN
 C
       NSLAW_L = 0
       NSKYRW_L= 0
       NESLAW_L= 0
       LWSAV_L = 0
+      LRW_PEN_L = 0
+      NRW_PEN_L = 0
       K = 0
       DO N = 1, NRWALL
         N2=N +NRWALL
@@ -77,6 +80,7 @@ C
         NSL=NPRW(N)
         MSR = NPRW(N3)
         ITY=NPRW(N4)
+        IPEN = NPRW(N + 8*NRWALL)
         NSL_L=0
         DO KK = 1, NSL
           NN = LPRW(K+KK)
@@ -85,6 +89,10 @@ C
           ENDIF
         ENDDO
         NSLAW_L = NSLAW_L + NSL_L
+        IF (IPEN/=0) THEN 
+           LRW_PEN_L = LRW_PEN_L + NSL_L
+           IF (NSL_L>0) NRW_PEN_L = NRW_PEN_L + 1
+        ENDIF
 C memory space p/we
         IF(IPARI0/=0.AND.MSR/=0) NSKYRW_L = NSKYRW_L + NSL_L
         K = K + NSL

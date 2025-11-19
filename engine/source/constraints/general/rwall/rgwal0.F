@@ -64,7 +64,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER K,N,N2,N3,N4,N5,N6, ITYP, ISL, IFQ, ILAGM, IMP, PMAIN,IPARSENS,ISECT
+      INTEGER K,N,N2,N3,N4,N5,N6, ITYP, ISL, IFQ, ILAGM, IMP, PMAIN,IPARSENS,ISECT,IPEN
 C-----------------------------------------------
           RBID = ZERO
 C Init global result to 0
@@ -86,7 +86,6 @@ C Init global result to 0
           ISL = 1
           K=1
           IMP=0
-
           DO N=1,NRWALL
             N2=N +NRWALL
             N3=N2+NRWALL
@@ -96,33 +95,36 @@ C Init global result to 0
 C
             ITYP= NPRW(N4)
             ILAGM= 0
+            IPEN= NPRW(N+8*NRWALL)
             IF (NPRW(N6) == 1) ILAGM=1
-            IF(ITYP == 1.AND.ILAGM == 0)THEN
-              CALL RGWALL(
-     +          X       ,A         ,V           ,RWBUF(1,N),LPRW(K),
-     +          NPRW(N) ,NPRW(N2)  ,NPRW(N3)    ,MS        ,WEIGHT ,
-     +          NPRW(N5),RWSAV(ISL),FRWL6(1,1,N),IMP       ,IBID   ,
-     +          IBID    ,IBID      ,IBID        ,NODNX_SMS ,WEIGHT_MD, WFEXT, WFEXT_MD)
-            ELSEIF(ITYP == 2)THEN
-              CALL RGWALC(
-     +          X       ,A           ,V       ,RWBUF(1,N) ,LPRW(K),
-     +          NPRW(N) ,NPRW(N2)    ,NPRW(N3),MS         ,WEIGHT ,
-     +          NPRW(N5),FRWL6(1,1,N),IMP     ,IBID       ,IBID   ,
-     +          IBID    ,IBID        ,NODNX_SMS , WEIGHT_MD,WFEXT, WFEXT_MD)
-C
-            ELSEIF(ITYP == 3)THEN
-              CALL RGWALS(
-     +          X       ,A           ,V       ,RWBUF(1,N),LPRW(K),
-     +          NPRW(N) ,NPRW(N2)    ,NPRW(N3),MS        ,WEIGHT ,
-     +          NPRW(N5),FRWL6(1,1,N),IMP     ,IBID      ,IBID   ,
-     +          IBID    ,IBID        ,NODNX_SMS ,WEIGHT_MD,WFEXT, WFEXT_MD)
-            ELSEIF(ITYP == 4)THEN
-              CALL RGWALP(
-     +          X       ,A           ,V       ,RWBUF(1,N),LPRW(K),
-     +          NPRW(N) ,NPRW(N2)    ,NPRW(N3),MS        ,WEIGHT ,
-     +          NPRW(N5),FRWL6(1,1,N),IMP     ,IBID      ,IBID   ,
-     +          IBID    ,IBID        ,NODNX_SMS ,WEIGHT_MD,WFEXT,WFEXT_MD)
-            ENDIF
+            IF (IPEN == 0.OR.IMPL_S>0) THEN
+              IF(ITYP == 1.AND.ILAGM == 0)THEN
+                CALL RGWALL(
+     +            X       ,A         ,V           ,RWBUF(1,N),LPRW(K),
+     +            NPRW(N) ,NPRW(N2)  ,NPRW(N3)    ,MS        ,WEIGHT ,
+     +            NPRW(N5),RWSAV(ISL),FRWL6(1,1,N),IMP       ,IBID   ,
+     +            IBID    ,IBID      ,IBID        ,NODNX_SMS ,WEIGHT_MD, WFEXT, WFEXT_MD)
+              ELSEIF(ITYP == 2)THEN
+                CALL RGWALC(
+     +            X       ,A           ,V       ,RWBUF(1,N) ,LPRW(K),
+     +            NPRW(N) ,NPRW(N2)    ,NPRW(N3),MS         ,WEIGHT ,
+     +            NPRW(N5),FRWL6(1,1,N),IMP     ,IBID       ,IBID   ,
+     +            IBID    ,IBID        ,NODNX_SMS , WEIGHT_MD,WFEXT, WFEXT_MD)
+C  
+              ELSEIF(ITYP == 3)THEN
+                CALL RGWALS(
+     +            X       ,A           ,V       ,RWBUF(1,N),LPRW(K),
+     +            NPRW(N) ,NPRW(N2)    ,NPRW(N3),MS        ,WEIGHT ,
+     +            NPRW(N5),FRWL6(1,1,N),IMP     ,IBID      ,IBID   ,
+     +            IBID    ,IBID        ,NODNX_SMS ,WEIGHT_MD,WFEXT, WFEXT_MD)
+              ELSEIF(ITYP == 4)THEN
+                CALL RGWALP(
+     +            X       ,A           ,V       ,RWBUF(1,N),LPRW(K),
+     +            NPRW(N) ,NPRW(N2)    ,NPRW(N3),MS        ,WEIGHT ,
+     +            NPRW(N5),FRWL6(1,1,N),IMP     ,IBID      ,IBID   ,
+     +            IBID    ,IBID        ,NODNX_SMS ,WEIGHT_MD,WFEXT,WFEXT_MD)
+              ENDIF
+            END IF !(IPEN == 0.OR.IMPL_S>0) THEN
             K=K+NPRW(N)
             IFQ = NINT(RWBUF(15,N))
             IF (SMINVER < 9.OR.IFQ > 0) THEN
@@ -388,12 +390,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NPRW(*)
+      INTEGER NPRW(NRWALL,NNPRW)
       my_real A(3,NUMNOD),RWBUF(NRWLP,*),MS(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N,N2,N3,N4,N5,N6, MSR, ITYP, ILAGM
+      INTEGER N, MSR, ITYP, ILAGM,IPEN
       my_real DM
 C-----------------------------------------------
 C
@@ -403,16 +405,12 @@ C RWL(19) = Fz
 C RWL(20) = Somme (Xslv)
 C
       DO N=1,NRWALL
-        N2=N +NRWALL
-        N3=N2+NRWALL
-        N4=N3+NRWALL
-        N5=N4+NRWALL
-        N6=N5+NRWALL
-        ITYP= NPRW(N4)
+        ITYP= NPRW(N,4)
         ILAGM= 0
-        IF (NPRW(N6) == 1) ILAGM=1
-        IF(ITYP >= 1.AND.ITYP <= 4.AND.ILAGM == 0)THEN
-          MSR = NPRW(N3)
+        IF (NPRW(N,6) == 1) ILAGM=1
+        IPEN = NPRW(N,9)
+        IF(ITYP >= 1.AND.ITYP <= 4.AND.ILAGM == 0.AND.IPEN == 0)THEN
+          MSR = NPRW(N,3)
           IF(MSR /= 0)THEN
             DM = MS(MSR)+ RWBUF(20,N)
             IF(DM /= ZERO) THEN

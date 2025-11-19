@@ -68,7 +68,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !||    trimat_mod              ../engine/share/modules/trimat.F
 !||====================================================================
       SUBROUTINE RESTALLOC(OUTPUT,ELEMENT, NODES,MULTI_FVM,H3D_DATA,PINCH_DATA,ALE_CONNECTIVITY,SEGVAR,INTERFACES,SKEWS,
-     .                     GLOB_THERM,RBE3)
+     .                     GLOB_THERM,RBE3,RWALL)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -103,6 +103,7 @@ C-----------------------------------------------
       USE connectivity_mod
       USE nodal_arrays_mod
       use rbe3_mod
+      use rwall_mod
       use element_mod , only : nixs,nixq,nixc,nixt,nixr,nixp,nixtg
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -146,6 +147,7 @@ C-----------------------------------------------
       TYPE(SKEW_) , INTENT(INOUT)       :: SKEWS
       type(glob_therm_) ,intent(inout) :: GLOB_THERM
       type(rbe3_) ,intent(inout) :: RBE3
+      type(rwall_),intent(inout) :: RWALL
 C----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -412,14 +414,8 @@ C     allocations structures Interface friction
 C        ALLOCATE (T8(NINTER),STAT=IERR)
 C        IF (IERR/=0) GOTO 1000
 
+        call allocate_rwall(RWALL, NSPMD)
 
-        ALLOCATE (NPRW(SNPRW),STAT=IERR)
-        IF (IERR/=0) GOTO 1000
-        NPRW = 0  
-
-        ALLOCATE (LPRW(SLPRW),STAT=IERR)
-        IF (IERR/=0) GOTO 1000
-        LPRW = 0  
 
         ALLOCATE (ICONX(SICONX),STAT=IERR)
         IF (IERR/=0) GOTO 1000
@@ -586,10 +582,6 @@ C
         ALLOCATE (FR_RBY(SFR_RBY),STAT=IERR)
         IF (IERR/=0) GOTO 1000
         FR_RBY = 0  
-
-        ALLOCATE (FR_WALL(SFR_WALL),STAT=IERR)
-        IF (IERR/=0) GOTO 1000
-        FR_WALL = 0 
 
         ALLOCATE (FR_RBY2(SFR_RBY2),STAT=IERR)
         IF (IERR/=0) GOTO 1000
@@ -1219,13 +1211,6 @@ C
         IF (IERR/=0) GOTO 1000
         ELBUF = 0   
 
-        ALLOCATE (RWBUF(SRWBUF),STAT=IERR)
-        IF (IERR/=0) GOTO 1000
-        RWBUF = 0 
-
-        ALLOCATE (RWSAV(SRWSAV),STAT=IERR)
-        IF (IERR/=0) GOTO 1000
-        RWSAV = 0 
 
         ALLOCATE (RBY(SRBY),STAT=IERR)
         IF (IERR/=0) GOTO 1000
